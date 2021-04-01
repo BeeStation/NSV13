@@ -218,7 +218,7 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	name = "\proper the executive officer's headset"
 	desc = "The headset of the guy who will one day be captain."
 	icon_state = "com_headset"
-	keyslot = new /obj/item/encryptionkey/heads/xo
+	keyslot = new /obj/item/encryptionkey/heads/captain //NSV13 - inserted captain key for better communication facilitation
 
 /obj/item/radio/headset/headset_cargo
 	name = "supply radio headset"

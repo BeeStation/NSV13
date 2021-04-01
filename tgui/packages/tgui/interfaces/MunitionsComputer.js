@@ -13,7 +13,6 @@ export const MunitionsComputer = (props, context) => {
     ammo,
     max_ammo,
     isgaussgun,
-    pdc_mode,
     maint_req,
     max_maint_req,
     sudo_mode,
@@ -52,10 +51,10 @@ export const MunitionsComputer = (props, context) => {
             {!!isgaussgun && (
               <Button
                 fluid
-                icon={pdc_mode ? "power-off" : "square-o"}
-                selected={pdc_mode}
-                content="I4 - PDC mode"
-                onClick={() => act('toggle_pdc_mode')}
+                icon={data.canReload ? "power-off" : "square-o"}
+                color={data.canReload ? "green" : "red"}
+                content="I4 - Reload Rack"
+                onClick={() => act('load')}
               />
             )}
             <Section title="Statistics:">

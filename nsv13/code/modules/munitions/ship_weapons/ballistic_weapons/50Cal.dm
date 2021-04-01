@@ -138,29 +138,6 @@
 		return
 	turret.start_gunning(user)
 
-/obj/item/circuitboard/machine/fiftycal
-	name = ".50 cal turret (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 20,
-		/obj/item/stack/sheet/mineral/copper = 10,
-		/obj/item/stack/sheet/iron = 30,
-		/obj/item/stack/cable_coil = 5)
-	build_path = /obj/machinery/ship_weapon/fiftycal
-
-/obj/item/circuitboard/machine/fiftycal/super
-	name = "super .50 cal turret (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 40,
-		/obj/item/stack/sheet/mineral/copper = 40,
-		/obj/item/stack/sheet/mineral/diamond = 5,
-		/obj/item/stack/sheet/iron = 20,
-		/obj/item/stack/cable_coil = 5)
-	build_path = /obj/machinery/ship_weapon/fiftycal
-
-/obj/item/circuitboard/computer/fiftycal
-	name = ".50 cal turret console (circuit)"
-	build_path = /obj/machinery/computer/fiftycal
-
 /obj/item/ammo_box/magazine/pdc/fiftycal
 	name = "50 caliber rounds"
 	ammo_type = /obj/item/ammo_casing/fiftycal
@@ -185,30 +162,3 @@
 	damage = 15
 	flag = "overmap_heavy"
 	speed = 2
-
-/datum/design/board/fiftycal
-	name = "Machine Design (.50 cal deck turret)"
-	desc = "Allows for the construction of a crew served, 50 cal deck turret."
-	id = "fiftycal"
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
-	build_path = /obj/item/circuitboard/machine/fiftycal
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
-
-/datum/design/board/fiftycal/super
-	name = "Machine Design (.50 cal deck turret)"
-	desc = "Allows for the construction of a crew served, super 50 cal pompom turret."
-	id = "fiftycal_super"
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
-	build_path = /obj/item/circuitboard/machine/fiftycal/super
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
-
-/datum/design/board/fiftycalcomp
-	name = "Machine Design (.50 cal deck turret control console)"
-	desc = "Allows for the construction of a control console for .50 cal deck guns."
-	id = "fiftycalcomp"
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
-	build_path = /obj/item/circuitboard/computer/fiftycal
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS

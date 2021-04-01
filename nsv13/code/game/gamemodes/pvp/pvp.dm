@@ -39,7 +39,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	var/list/jobs = list()
 	var/overflow_role = CONQUEST_ROLE_GRUNT
 	var/time_limit = 2 HOURS + 30 MINUTES //How long do you want the mode to run for? This is capped to keep it from dragging on or OOMing
-	var/list/maps = list("SpaceSHIP.dmm") //Basic list of maps. Tell me (Kmc) to improve this if you decide you want to add more than 1 PVP map and i'll make it use JSON instead.
+	var/list/maps = list("babylonPVP.json") //Basic list of maps. Tell me (Kmc) to improve this if you decide you want to add more than 1 PVP map and i'll make it use JSON instead. ~Kmc 23/02/2021 I got called a lazy hack so I went and did this properly :(
 	var/obj/structure/overmap/syndiship = null
 	var/end_on_team_death = FALSE //Should the round end when the syndies die?
 
@@ -81,12 +81,14 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 
 
 /datum/game_mode/pvp/pre_setup()
-	var/map_file = pick(maps)
-	var/ship_type = /obj/structure/overmap/syndicate/pvp
 	var/n_agents = antag_candidates.len
 	if(!syndiship)
 		//syndiship = instance_overmap(_path=ship_type, folder= "map_files/Instanced/map_files" ,interior_map_files = map_file, midround=TRUE)
-		syndiship = instance_overmap(ship_type, "map_files/Instanced/map_files", map_file, null, ZTRAITS_BOARDABLE_SHIP, TRUE)
+		var/ship_file = file("_maps/map_files/Instanced/[pick(maps)]")
+		if(!isfile(ship_file)) //Why would this ever happen? Who knows, I sure don't.
+			message_admins("ERROR SETTING UP PVP: Invalid json file [ship_file]. Tell a coder to fix this.")
+			return
+		syndiship = instance_ship_from_json(ship_file)
 
 	if(n_agents > 0)
 		//Registers two signals to check either ship as being destroyed.

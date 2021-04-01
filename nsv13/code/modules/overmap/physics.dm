@@ -108,22 +108,6 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		var/obj/effect/overmap_hitbox_marker/H = new(src, point.x, point.y, abs(pixel_z), abs(pixel_w))
 		vis_contents += H
 
-/obj/structure/overmap/Initialize()
-	. = ..()
-	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
-	pixel_collision_size_x = I.Width()
-	pixel_collision_size_y = I.Height()
-	offset = new /datum/vector2d()
-	last_offset = new /datum/vector2d()
-	position = new /datum/vector2d(x*32,y*32)
-	velocity = new /datum/vector2d(0, 0)
-	overlap = new /datum/vector2d(0, 0)
-	if(collision_positions.len)
-		physics2d = AddComponent(/datum/component/physics2d)
-		physics2d.setup(collision_positions, angle)
-//	else //It pains me to comment this out...but we no longer use qwer2d, F.
-	//	message_admins("[src] does not have collision points set! It will float through everything.")
-
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
 
@@ -202,7 +186,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	var/velocity_mag = velocity.ln() // magnitude
 	if(velocity_mag  && velocity_mag > 0 && !SSmapping.level_trait(src.z, ZTRAIT_OVERMAP))
 		var/drag = 0
-		var/has_gravity = get_center().has_gravity()
+		var/has_gravity = get_center()?.has_gravity()
 		for(var/turf/T in locs)
 			if(isspaceturf(T))
 				continue

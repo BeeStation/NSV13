@@ -1,4 +1,4 @@
-
+//Handles camera stuff for all generic overmap interaction
 /client
 	perspective = EYE_PERSPECTIVE //Use this perspective or else shit will break! (sometimes screen will turn black)
 

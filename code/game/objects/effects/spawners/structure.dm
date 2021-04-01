@@ -93,7 +93,7 @@ again.
 /obj/effect/spawner/structure/window/reinforced
 	name = "reinforced window spawner"
 	icon_state = "rwindow_spawner"
-	spawn_list = list(/obj/structure/grille, /obj/structure/window/reinforced/fulltile) //NSV13, adds window firedoors to window spawners
+	spawn_list = list(/obj/machinery/door/firedoor/window, /obj/structure/grille, /obj/structure/window/reinforced/fulltile) //NSV13, adds window firedoors to window spawners
 	FASTDMM_PROP(\
 		pipe_astar_cost = 2\
 	)
@@ -323,7 +323,7 @@ again.
 /obj/effect/spawner/structure/window/plasma/reinforced
 	name = "reinforced plasma window spawner"
 	icon_state = "prwindow_spawner"
-	spawn_list = list(/obj/structure/grille, /obj/structure/window/plasma/reinforced/fulltile)
+	spawn_list = list(/obj/machinery/door/firedoor/window, /obj/structure/grille, /obj/structure/window/plasma/reinforced/fulltile) //NSV13, adds window firedoors to window spawners
 
 /obj/effect/spawner/structure/window/hollow/plasma/reinforced
 	name = "hollow reinforced plasma window spawner"
@@ -384,4 +384,4 @@ again.
 /obj/effect/spawner/structure/window/plasma/reinforced/shutter
 	name = "reinforced plasma shutter window spawner"
 	icon_state = "shprwindow_spawner"
-	spawn_list = list(/obj/machinery/door/firedoor/window, /obj/structure/grille, /obj/structure/window/plasma/reinforced/fulltile)
+	spawn_list = list(/obj/machinery/door/firedoor/window, /obj/structure/grille, /obj/structure/window/plasma/reinforced/fulltile) //NSV13, adds window firedoors to window spawners

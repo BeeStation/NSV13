@@ -1,25 +1,9 @@
-
 /obj/machinery/computer/ship/fighter_launcher
 	name = "Mag-cat control console"
 	desc = "A computer which is capable of remotely activating fighter launch / arrestor systems."
-	req_access = list()
-	req_one_access_txt = "69"
 	circuit = /obj/item/circuitboard/computer/ship/fighter_launcher
 	var/next_message = 0 //Stops spam messaging
 	var/list/launchers = list()
-
-/obj/item/circuitboard/computer/ship/fighter_launcher
-	name = "circuit board (Mag-cat control console)"
-	build_path = /obj/machinery/computer/ship/fighter_launcher
-
-/datum/design/board/fighter_launcher
-	name = "Computer Design (Mag-cat control console)"
-	desc = "Allows for the construction of a Mag-cat control console."
-	id = "fighter_launcher_circuit"
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
-	build_path = /obj/item/circuitboard/computer/ship/fighter_launcher
-	category = list("Computer Boards")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
 /obj/machinery/computer/ship/fighter_launcher/proc/get_launchers()
 	launchers = list()
@@ -78,14 +62,6 @@
 			next_message = world.time + 5 SECONDS
 			what = "<span class='boldnotice'>Air Traffic Controller: [what]</span>"
 			to_chat(pilot, what)
-
-/obj/machinery/computer/ship/fighter_launcher/attack_hand(mob/user)
-	if(!allowed(user))
-		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-		playsound(src, sound, 100, 1)
-		to_chat(user, "<span class='warning'>Access denied</span>")
-		return
-	ui_interact(user)
 
 /obj/structure/fighter_launcher //Fighter launch track! This is both an arrestor and an assisted launch system for ease of use.
 	name = "electromagnetic catapult"
@@ -296,6 +272,9 @@
 			to_chat(pilot, "<span class='notice'>Docking mode disabled. Use the 'Ship' verbs tab to re-enable docking mode, then fly into an allied ship to complete docking proceedures.</span>")
 			DC.docking_mode = FALSE
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE) //Let dradis comps update their status too
+		current_system = OM.current_system
+		if(current_system)
+			LAZYADD(current_system.system_contents, src)
 		return TRUE
 
 /obj/structure/overmap/fighter/proc/update_overmap()
@@ -328,6 +307,9 @@
 			weapon_safety = TRUE
 			to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
+		if(current_system)
+			LAZYREMOVE(current_system.system_contents, src)
+			current_system = null
 		return TRUE
 	else
 		to_chat(pilot, "<span class='notice'>Warning: Target ship has no docking points. </span>")

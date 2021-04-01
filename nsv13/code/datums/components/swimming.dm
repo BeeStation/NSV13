@@ -134,3 +134,103 @@
 //Essentially the same as remove component, but easier for overiding
 /datum/component/swimming/proc/exit_pool()
 	return
+
+//dissolving
+/datum/component/swimming/disolve
+	var/start_alpha = 0
+
+/datum/component/swimming/disolve/enter_pool()
+	var/mob/living/L = parent
+	start_alpha = L.alpha
+	to_chat(parent, "<span class='userdanger'>You begin disolving into the pool, get out fast!</span>")
+
+/datum/component/swimming/disolve/process()
+	..()
+	var/mob/living/L = parent
+	var/mob/living/carbon/human/H = L
+	if(istype(H))
+		if(H.wear_suit && istype(H.wear_suit, /obj/item/clothing))
+			var/obj/item/clothing/CH = H.wear_suit
+			if (CH.clothing_flags & THICKMATERIAL)
+				return
+	L.adjustCloneLoss(1)
+	L.alpha = ((L.health-HEALTH_THRESHOLD_DEAD) / (L.maxHealth - HEALTH_THRESHOLD_DEAD)) * 255
+	if(L.stat == DEAD)
+		L.visible_message("<span class='warning'>[L] dissolves into the pool!</span>")
+		var/obj/item/organ/brain = L.getorgan(/obj/item/organ/brain)
+		brain.Remove(L)	//Maybe making them completely unrecoverable is too far
+		brain.forceMove(get_turf(L))
+		qdel(L)
+
+/datum/component/swimming/disolve/exit_pool()
+	animate(parent, alpha=start_alpha, time=20)
+
+//Ethereals
+/datum/component/swimming/ethereal
+	var/obj/machinery/pool_filter/linked_filter
+
+/datum/component/swimming/ethereal/enter_pool()
+	var/mob/living/L = parent
+	L.visible_message("<span class='warning'>Sparks of energy being coursing around the pool!</span>")
+	var/turf/open/indestructible/sound/pool/water = get_turf(parent)
+	for(var/obj/machinery/pool_filter/PF in GLOB.pool_filters)
+		if(PF.id == water.id)
+			linked_filter = PF
+			break
+
+/datum/component/swimming/ethereal/process()
+	..()
+	if(!linked_filter)
+		return
+	var/mob/living/L = parent
+	if(prob(2) && L.nutrition > NUTRITION_LEVEL_FED)
+		L.adjust_nutrition(-50)
+		linked_filter.reagents.add_reagent_list(list(/datum/reagent/teslium = 5, /datum/reagent/water = 5))	//Creates a tesla spawn
+
+//Felenids
+/datum/component/swimming/felinid/enter_pool()
+	var/mob/living/L = parent
+	L.emote("scream")
+	to_chat(parent, "<span class='userdanger'>You get covered in water and start panicking!</span>")
+
+/datum/component/swimming/felinid/process()
+	..()
+	var/mob/living/L = parent
+	var/obj/item/helditem = L.get_active_held_item()
+	if(helditem && helditem.check_float())
+		return
+	switch(rand(1, 100))
+		if(1 to 4)
+			to_chat(parent, "<span class='userdanger'>You can't touch the bottom!</span>")
+			L.emote("scream")
+		if(5 to 11)
+			if(L.confused < 5)
+				L.confused += 1
+		if(12 to 16)
+			L.shake_animation()
+		if(17 to 22)
+			shake_camera(L, 15, 1)
+			L.emote("whimper")
+			L.Paralyze(10)
+			to_chat(parent, "<span class='userdanger'>You feel like you are never going to get out...</span>")
+
+//Golems
+/datum/component/swimming/golem/enter_pool()
+	var/mob/living/M = parent
+	M.Paralyze(60)
+	M.visible_message("<span class='warning'>[M] crashed violently into the ground!</span>",
+		"<span class='warning'>You sink like a rock!</span>")
+	playsound(get_turf(M), 'sound/effects/picaxe1.ogg')
+
+/datum/component/swimming/golem/is_drowning()
+	return FALSE
+
+//Squids
+/datum/component/swimming/squid
+	slowdown = 0.8
+
+/datum/component/swimming/squid/enter_pool()
+	to_chat(parent, "<span class='notice'>You feel at ease in your natural habitat!</span>")
+
+/datum/component/swimming/squid/is_drowning(mob/living/victim)
+	return FALSE

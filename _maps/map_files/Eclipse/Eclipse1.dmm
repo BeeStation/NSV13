@@ -606,14 +606,11 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/dorms)
 "di" = (
-/obj/machinery/power/port_gen/pacman{
-	anchored = 1
-	},
-/obj/item/stack/sheet/mineral/plasma{
-	amount = 20
-	},
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
+	},
+/obj/machinery/power/port_gen/pacman/super{
+	anchored = 1
 	},
 /turf/open/floor/plasteel/dark/side,
 /area/engine/engine_room)
@@ -831,6 +828,9 @@
 	},
 /obj/structure/closet/crate/solarpanel_small,
 /obj/item/construction/rcd,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/engine_smes)
 "ea" = (
@@ -1360,7 +1360,7 @@
 	dir = 10
 	},
 /turf/open/floor/plasteel/dark/side{
-	dir = 8
+	dir = 10
 	},
 /area/hallway/primary/aft)
 "gb" = (
@@ -1799,10 +1799,11 @@
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/dorms/nsv/dorms_2)
 "hV" = (
+/obj/machinery/computer/ship/viewscreen,
 /obj/structure/fluff/support_beam{
+	color = "#5e5e5c";
 	dir = 1
 	},
-/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/bar)
 "hY" = (
@@ -2461,6 +2462,15 @@
 "kw" = (
 /turf/closed/wall/r_wall,
 /area/space/nearstation)
+"kx" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/arrows{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/fore)
 "kz" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -2686,6 +2696,18 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
+"ln" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/port_gen/pacman{
+	anchored = 1
+	},
+/obj/item/stack/sheet/mineral/plasma{
+	amount = 20
+	},
+/turf/open/floor/plasteel/dark/side,
+/area/engine/engine_room)
 "lo" = (
 /turf/closed/wall/r_wall,
 /area/crew_quarters/kitchen)
@@ -2759,10 +2781,13 @@
 /area/construction)
 "lH" = (
 /obj/structure/cable/yellow,
-/obj/machinery/power/port_gen/pacman{
+/obj/machinery/airalarm/directional/south,
+/obj/machinery/power/port_gen/pacman/super{
 	anchored = 1
 	},
-/obj/machinery/airalarm/directional/south,
+/obj/item/stack/sheet/mineral/uranium{
+	amount = 13
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -2991,7 +3016,10 @@
 /area/bridge)
 "mn" = (
 /obj/structure/cable/yellow,
-/obj/machinery/power/port_gen/pacman/super{
+/obj/item/stack/sheet/mineral/diamond{
+	amount = 25
+	},
+/obj/machinery/power/port_gen/pacman/mrs{
 	anchored = 1
 	},
 /turf/open/floor/plasteel/dark/side{
@@ -3988,6 +4016,9 @@
 /area/space/nearstation)
 "qz" = (
 /obj/effect/landmark/start/station_engineer,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/engine_smes)
 "qB" = (
@@ -4415,8 +4446,11 @@
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
 	},
-/obj/machinery/power/port_gen/pacman/super{
+/obj/machinery/power/port_gen/pacman/mrs{
 	anchored = 1
+	},
+/obj/item/stack/sheet/mineral/diamond{
+	amount = 50
 	},
 /turf/open/floor/plasteel/dark/side,
 /area/engine/engine_room)
@@ -4552,6 +4586,7 @@
 /area/bridge)
 "tm" = (
 /obj/structure/fluff/support_beam{
+	color = "#5e5e5c";
 	dir = 4
 	},
 /obj/machinery/light{
@@ -5023,6 +5058,10 @@
 	name = "Asteroid DRADIS Console";
 	req_one_access_txt = "0"
 	},
+/obj/item/paper{
+	info = "<p>NOTE: There are no miners on this vessel, you are ALL miners. Use the mining dradis to see asteroids, move towards them, and then coordinate with your team on the mining rig (whoever you so choose to assign), and they can draw in the asteroid. This is the only way to acquire materials steadily outside of doing xenobio. -JT</p>";
+	name = "READ ME."
+	},
 /turf/open/floor/monotile,
 /area/bridge)
 "va" = (
@@ -5201,6 +5240,9 @@
 	department = "Engine Room";
 	name = "Engine Room RC";
 	pixel_y = -30
+	},
+/obj/item/stack/sheet/mineral/uranium{
+	amount = 40
 	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
@@ -5604,11 +5646,8 @@
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
 "xC" = (
-/obj/item/stack/sheet/mineral/uranium{
-	amount = 40
-	},
 /obj/structure/cable/yellow,
-/obj/machinery/power/port_gen/pacman/super{
+/obj/machinery/power/port_gen/pacman/mrs{
 	anchored = 1
 	},
 /turf/open/floor/plasteel/dark/side{
@@ -5678,10 +5717,11 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/fore)
 "xN" = (
+/obj/machinery/light,
 /obj/structure/fluff/support_beam{
+	color = "#5e5e5c";
 	dir = 1
 	},
-/obj/machinery/light,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/bar)
 "xO" = (
@@ -5747,6 +5787,13 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plating,
 /area/maintenance/aft)
+"yg" = (
+/obj/machinery/power/deck_relay,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/engine_smes)
 "yl" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -6257,6 +6304,9 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/effect/turf_decal/arrows{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "Al" = (
@@ -6360,6 +6410,9 @@
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/engine_smes)
 "AN" = (
@@ -6771,11 +6824,12 @@
 /turf/closed/wall/steel,
 /area/engine/atmos)
 "CP" = (
-/obj/structure/fluff/support_beam{
-	dir = 1
-	},
 /obj/machinery/camera/autoname{
 	dir = 10
+	},
+/obj/structure/fluff/support_beam{
+	color = "#5e5e5c";
+	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/bar)
@@ -7331,6 +7385,19 @@
 "Fc" = (
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/fore)
+"Fd" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/port_gen/pacman/mrs{
+	anchored = 1
+	},
+/obj/item/paper{
+	info = "<p>Reminder: Pacman generators can be interacted with to boost their power output, can be upgraded with stock parts to increase cooling and power production even further, and can fully power this ship. Conserve your usage of the Mrs. Pacmans for combat where you need to power the armor pumps. -JT</p>";
+	name = "READ ME."
+	},
+/turf/open/floor/plasteel/dark/side,
+/area/engine/engine_room)
 "Fe" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -7590,13 +7657,17 @@
 	icon_state = "1-2"
 	},
 /obj/effect/turf_decal/stripes/corner,
+/obj/structure/fluff/support_beam{
+	color = "#5e5e5c"
+	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "Gi" = (
+/obj/machinery/firealarm/directional/east,
 /obj/structure/fluff/support_beam{
+	color = "#5e5e5c";
 	dir = 4
 	},
-/obj/machinery/firealarm/directional/east,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/bar)
 "Gm" = (
@@ -9916,6 +9987,8 @@
 /area/maintenance/aft)
 "PX" = (
 /obj/machinery/camera/autoname,
+/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
+/obj/item/extinguisher/advanced/hull_repair_juice,
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/aft)
 "PZ" = (
@@ -10513,6 +10586,7 @@
 /area/medical/surgery)
 "SC" = (
 /obj/structure/fluff/support_beam{
+	color = "#5e5e5c";
 	dir = 1
 	},
 /obj/machinery/light{
@@ -10584,9 +10658,6 @@
 "SN" = (
 /obj/structure/mopbucket,
 /obj/item/mop,
-/obj/structure/fluff/support_beam{
-	dir = 4
-	},
 /obj/item/reagent_containers/glass/bucket,
 /obj/machinery/camera/autoname,
 /obj/item/storage/bag/trash,
@@ -10596,6 +10667,10 @@
 	departmentType = 2;
 	pixel_y = 30;
 	receive_ore_updates = 1
+	},
+/obj/structure/fluff/support_beam{
+	color = "#5e5e5c";
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/bar)
@@ -11888,10 +11963,11 @@
 	},
 /area/crew_quarters/bar)
 "Ys" = (
+/obj/machinery/light,
 /obj/structure/fluff/support_beam{
+	color = "#5e5e5c";
 	dir = 4
 	},
-/obj/machinery/light,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/bar)
 "Yu" = (
@@ -31956,7 +32032,7 @@ PX
 NF
 tO
 ZT
-sF
+Fd
 qW
 xC
 hN
@@ -32976,7 +33052,7 @@ vB
 fC
 gr
 Za
-ho
+yg
 qz
 or
 oB
@@ -32984,7 +33060,7 @@ Zh
 Ea
 Sa
 ZT
-vb
+ln
 aq
 bh
 hN
@@ -36066,7 +36142,7 @@ Xv
 Ig
 ga
 Er
-Ig
+VA
 Ig
 Ig
 Ig
@@ -44051,11 +44127,11 @@ Uw
 rX
 Ak
 gN
+kx
 gN
-gN
-gN
+kx
 uS
-gN
+kx
 zZ
 rX
 gY

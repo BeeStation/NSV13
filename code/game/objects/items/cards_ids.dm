@@ -451,7 +451,7 @@ update_label("John Doe", "Clowny")
 
 /obj/item/card/id/syndicate/nuke_leader
 	name = "lead agent card"
-	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_LEADER)
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_ENGINEERING, ACCESS_SYNDICATE_MARINE_ARMOURY, ACCESS_SYNDICATE_REQUISITIONS, ACCESS_SYNDICATE_LEADER)
 
 /obj/item/card/id/syndicate/ratvar
 	name = "servant ID card"

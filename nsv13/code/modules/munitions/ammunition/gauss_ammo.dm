@@ -23,10 +23,11 @@
 	req_one_access = ACCESS_MUNITIONS
 	circuit = /obj/item/circuitboard/machine/gauss_dispenser
 	pixel_y = 26
+	var/dispense_amount = 12 //Fully fills one gauss gun.
 	var/active = TRUE
 	var/progress = 0 SECONDS
 	var/progress_rate = 1 SECONDS
-	var/goal = 1 MINUTES
+	var/goal = 45 SECONDS
 	var/ready = FALSE
 
 /obj/machinery/gauss_dispenser/Initialize()
@@ -80,7 +81,7 @@
 				return FALSE
 			flick("gauss_dispenser_dispense", src)
 			playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-			for(var/I = 0, I < 6, I++)
+			for(var/I = 0, I < dispense_amount, I++)
 				new /obj/item/ship_weapon/ammunition/gauss(get_turf(src))
 			cut_overlays()
 			ready = FALSE

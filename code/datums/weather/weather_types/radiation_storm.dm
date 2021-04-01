@@ -33,7 +33,7 @@
 	if(prob(40))
 		if(ishuman(L))
 			var/mob/living/carbon/human/H = L
-			if(H.dna && !HAS_TRAIT(H, TRAIT_RADIMMUNE))
+			if(H.dna && !(HAS_TRAIT(H, TRAIT_RADIMMUNE) || HAS_TRAIT(H, TRAIT_MUTATEIMMUNE))) // NSV13 Don't add mutations for species that are trait immune, IPCs
 				if(prob(max(0,100-resist)))
 					H.randmuti()
 					if(prob(50))
@@ -42,6 +42,30 @@
 						else
 							H.easy_randmut(POSITIVE)
 						H.domutcheck()
+			if( HAS_TRAIT( H, TRAIT_IPCRADBRAINDAMAGE ) ) // NSV13 IPCs will gain brain damage instead of mutations when exposed to radiation
+				if(prob(max(0,100-resist)))
+					if(prob(50))
+						var/trauma_type = pickweight( list(
+							BRAIN_TRAUMA_MILD = 65,
+							BRAIN_TRAUMA_SEVERE = 30,
+							BRAIN_TRAUMA_SPECIAL = 5
+						) )
+						var/resistance = pick(
+							95;TRAUMA_RESILIENCE_BASIC,
+							// 30;TRAUMA_RESILIENCE_SURGERY,
+							// 15;TRAUMA_RESILIENCE_LOBOTOMY,
+							5;TRAUMA_RESILIENCE_MAGIC
+						)
+						H.gain_trauma_type( trauma_type, resistance )
+
+						var/emote_type = pickweight( list(
+							"beep" = 34,
+							"buzz" = 34,
+							"buzz2" = 34,
+						) )
+						H.emote( emote_type )
+			// NSV13 end code segment
+
 		L.rad_act(20)
 
 /datum/weather/rad_storm/end()
