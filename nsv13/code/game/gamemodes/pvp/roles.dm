@@ -382,12 +382,15 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
 
 //Allows you to see faction statuses
-/mob/Stat()
-	..()
-	if(statpanel("Faction"))
-		stat(null, "Faction influence:")
-		for(var/datum/faction/F in SSstar_system.factions)
-			stat(null, "[F.name]: [F.tickets]")
+/mob/proc/get_stat_tab_faction()
+	var/list/tab_data = list()
+	for(var/datum/faction/F in SSstar_system.factions)
+		if (F) //No nulls!
+			tab_data["[F?.name]"] = list(
+				text = "[F?.tickets]",
+				type = STAT_TEXT
+			)
+	return tab_data
 
 /datum/team/nuclear/roundend_report()
 	if(istype(SSticker.mode, /datum/game_mode/pvp))

@@ -28,6 +28,11 @@
 			client.stat_update_mode = STAT_FAST_UPDATE
 			requires_holder = TRUE
 			tab_data = get_stat_tab_master_controller()				// ~ 0.037 CPU Time [33 CALLS]
+		//NSV13 faction tab
+		if("Faction")
+			client.stat_update_mode = STAT_SLOW_UPDATE
+			tab_data = get_stat_tab_faction()
+		//NSV13 end
 		// ===== ADMIN TICKETS =====
 		if("Tickets")
 			client.stat_update_mode = STAT_MEDIUM_UPDATE
@@ -188,6 +193,7 @@
 	//Standard
 	var/list/tabs = list(
 		"Status",
+		"Faction", //NSV13 faction tab
 	)
 	//Get Tickets
 	if(client.current_ticket)
