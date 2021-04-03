@@ -810,7 +810,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 /datum/action/bloodling/ground_pound/action(mob/living/user)
 	if(!..())
 		return
-
+	add_cooldown(cooldown)
 	user.visible_message("<span class='warning'>[user] leaps up high into the air!</span>")
 	user.Paralyze(1 SECONDS)
 	animate(user, pixel_y = 100, 1 SECONDS)
@@ -831,7 +831,6 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 		if(isliving(X))
 			var/mob/living/L = X
 			L.Paralyze(stun_time)
-	add_cooldown(cooldown)
 
 //The COOLER stun
 /datum/action/bloodling/whiplash
