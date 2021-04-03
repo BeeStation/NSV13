@@ -798,7 +798,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	button_icon_state = "ground_pound"
 	biomass_cost = 0
 	var/base_stun_time = 2 SECONDS
-	var/cooldown = 30 SECONDS
+	var/cooldown = 40 SECONDS
 
 /obj/effect/temp_visual/bloodling_target
 	icon = 'icons/mob/actions/actions_items.dmi'
@@ -840,7 +840,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	button_icon_state = "tailsweep"
 	biomass_cost = 25
 	var/base_stun_time = 5 SECONDS
-	var/cooldown = 45 SECONDS
+	var/cooldown = 65 SECONDS
 
 /datum/action/bloodling/whiplash/action(mob/living/user)
 	if(!..())
@@ -885,6 +885,8 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	health = 100
 	maxHealth = 100
 	speed = 0 //Rapid
+	melee_damage = 8
+	obj_damage = 15
 	attacktext = "glomps"
 	attack_sound = 'sound/effects/blobattack.ogg'
 	wander = FALSE
@@ -920,6 +922,8 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	maxHealth = 200
 	speed = 2 //bloody 'ell what an absolute unit mate
 	ventcrawler = FALSE
+	melee_damage = 12
+	obj_damage = 15
 
 /mob/living/simple_animal/bloodling_minion/Life(seconds, times_fired)
 	. = ..()
