@@ -1,6 +1,7 @@
 //IT CAME....from outer space!
 
 #define MOVESPEED_ID_BLOODLING_BIOMASS "bloodling_biomass_penalty"
+#define BLOODLING_ASCENSION_MODIFIER "bloodling_ascension_penalty"
 
 /mob/living/simple_animal/bloodling
 	name = "fleshy entity"
@@ -74,6 +75,8 @@
 	. = ..()
 	health = biomass.biomass
 	maxHealth = biomass.final_form_biomass
+	if(health <= 0 && stat != DEAD)
+		death()
 
 /mob/living/simple_animal/bloodling/lingcheck()
 	return LINGHIVE_LING //We are the king of the lings.
@@ -103,7 +106,7 @@
 		environment_smash = ENVIRONMENT_SMASH_RWALLS
 /datum/component/bloodling
 	var/biomass = 20 //How much biomass have we absorbed? We start off with a tiiiiny bit.
-	var/final_form_biomass = 1000
+	var/final_form_biomass = 1500
 	var/mob/living/ling = null
 	var/evolution_step = 1 //What evolution level are we currently at?
 	var/last_evolution = 1 //So we can animate the little critter when it grows up.
@@ -123,7 +126,8 @@
 		list("unlockTier"=3, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/transfer_biomass)),
 		list("unlockTier"=3, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/ground_pound)),
 		list("unlockTier"=4, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/give_life)),
-		list("unlockTier"=4, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/whiplash))
+		list("unlockTier"=4, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/whiplash)),
+		list("unlockTier"=6, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/ascend))
 	)
 	//Generated list of abilities, created at init.
 	var/list/ability_tiers = list()
@@ -238,7 +242,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	var/antag_hud_name = "bloodling_thrall"
 
 /datum/antagonist/bloodling
-	name = "The Master"
+	name = "Bloodling Master"
 	roundend_category  = "Bloodling Thralls"
 	antagpanel_category = "Bloodling Thralls"
 	give_objectives = TRUE
@@ -325,8 +329,8 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 /datum/objective/bloodling_ascend/check_completion()
 	. = ..()
 	if(owner)
-		var/datum/component/bloodling/B = owner.current.GetComponent(/datum/component/bloodling)
-		return B?.biomass >= B?.final_form_biomass
+		return (owner.current && owner.current.health > 0 && istype(owner.current, /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended))
+
 
 /datum/antagonist/changeling/bloodling_thrall/forge_objectives()
 	var/datum/objective/bloodling_serve/serve = new
@@ -562,7 +566,8 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	. = ..()
 
 /datum/action/bloodling/absorb/action(mob/living/user)
-	. = ..()
+	if(!..())
+		return
 	var/list/mobs = list()
 	for(var/mob/living/M in view(user, 1))
 		if(M == user || issilicon(M) || !isliving(M) || M.invisibility > 0 || !M.alpha || is_bloodling(M))
@@ -677,7 +682,9 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	return FALSE
 
 /datum/action/bloodling/infest/action(mob/living/user)
-	. = ..()
+	if(!..())
+		return
+
 	var/list/mobs = list()
 	for(var/atom/movable/M in view(user, 2))
 		if(ask_special_absorb(user, M))
@@ -720,7 +727,9 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	biomass_cost = 75
 
 /datum/action/bloodling/give_life/action(mob/living/user)
-	. = ..()
+	if(!..())
+		return
+
 	var/list/mobs = list()
 	for(var/atom/movable/M in view(user, 2))
 		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha)
@@ -758,7 +767,9 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	biomass_cost = 0
 
 /datum/action/bloodling/transfer_biomass/action(mob/living/user)
-	. = ..()
+	if(!..())
+		return
+
 	var/list/mobs = list()
 	for(var/atom/movable/M in view(user, 2))
 		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha | !is_bloodling(M))
@@ -787,6 +798,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	button_icon_state = "ground_pound"
 	biomass_cost = 0
 	var/base_stun_time = 2 SECONDS
+	var/cooldown = 30 SECONDS
 
 /obj/effect/temp_visual/bloodling_target
 	icon = 'icons/mob/actions/actions_items.dmi'
@@ -796,7 +808,9 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	duration = 1 SECONDS
 
 /datum/action/bloodling/ground_pound/action(mob/living/user)
-	. = ..()
+	if(!..())
+		return
+
 	user.visible_message("<span class='warning'>[user] leaps up high into the air!</span>")
 	user.Paralyze(1 SECONDS)
 	animate(user, pixel_y = 100, 1 SECONDS)
@@ -817,7 +831,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 		if(isliving(X))
 			var/mob/living/L = X
 			L.Paralyze(stun_time)
-	add_cooldown(30 SECONDS)
+	add_cooldown(cooldown)
 
 //The COOLER stun
 /datum/action/bloodling/whiplash
@@ -826,9 +840,12 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	button_icon_state = "tailsweep"
 	biomass_cost = 25
 	var/base_stun_time = 5 SECONDS
+	var/cooldown = 45 SECONDS
 
 /datum/action/bloodling/whiplash/action(mob/living/user)
-	. = ..()
+	if(!..())
+		return
+
 	user.visible_message("<span class='warning'>[user] lashes out with a legion of tentacles!</span>")
 	user.shake_animation()
 	playsound(user, 'sound/magic/tail_swing.ogg', 100, TRUE)
@@ -852,7 +869,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 			M.Paralyze(stun_time)
 			M.adjustBruteLoss(stun_time / 10)
 			M.safe_throw_at(throwtarget, ((CLAMP((5 - (CLAMP(distfromcaster - 2, 0, distfromcaster))), 3, 5))), 1,user, force = MOVE_FORCE_EXTREMELY_STRONG)//So stuff gets tossed around at the same time.
-	add_cooldown(45 SECONDS)
+	add_cooldown(cooldown)
 
 /mob/living/simple_animal/bloodling_minion
 	name = "necrotic harvester"
@@ -909,6 +926,8 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	var/datum/component/bloodling/biomass = GetComponent(/datum/component/bloodling)
 	health = biomass.biomass
 	maxHealth = biomass.final_form_biomass
+	if(health <= 0 && stat != DEAD)
+		death()
 
 /obj/structure/ratwarren
 	name = "Rat Warren"
@@ -943,7 +962,9 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	biomass_cost = 0
 
 /datum/action/bloodling/build/action(mob/living/user)
-	. = ..()
+	if(!..())
+		return
+
 	var/list/options = list()
 	for(var/option in list("ratwarren", "harvester", "tank"))
 		options[option] = image(icon = 'nsv13/icons/mob/bloodling.dmi', icon_state = option)
@@ -974,3 +995,133 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 		to_chat(user, "<span class='warning'>We have created a new shell... It will need life.</span>")
 		new buildPath(get_turf(user))
 
+/datum/action/bloodling/ascend
+	name = "Ascend"
+	desc = "We shed our mortal coil and ascend into a greater being."
+	button_icon_state = "ascend"
+	biomass_cost = 100
+
+/datum/action/bloodling/ascend/action(mob/living/user)
+	if(!..() || istype(user, /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended)) //Hard cockblock to prevent re-ascension.
+		return
+
+	if(alert(user, "Are you sure you wish to attempt an ascension? You will be left vulnerable, and lesser beings will be made aware of your location...",name,"Yes","No") == "Yes")
+		user.get_overmap().relay_to_nearby('nsv13/sound/effects/bloodling_awaken.ogg', "<span class='userdanger'>Hideous images creep into your mind!</span>", FALSE)
+		add_cooldown(15 MINUTES)
+		//Wall the master in
+		for(var/cdir in GLOB.cardinals)
+			new /obj/structure/alien/resin/wall(get_turf(get_step(user, cdir)))
+		to_chat(user, "<span class='userdanger'>We start to channel our mental energy... We will be unable to move while we attempt our ascension.</span>")
+		//No moving for you.
+		user.anchored = TRUE
+		user.add_movespeed_modifier(BLOODLING_ASCENSION_MODIFIER, TRUE, 100, multiplicative_slowdown = INFINITY, override = TRUE)
+
+		user.get_overmap().relay_to_nearby('nsv13/sound/effects/bloodling_awaken.ogg', "<span class='userdanger'>You can feel your consciousness being drawn to something terrible...</span>", FALSE)
+		sleep(5 SECONDS)
+		var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
+		priority_announce("Attention all hands, possible Patmos-Omega 'end-of-the-world' class event detected. An extra-dimensional consciousness grid is forming in: [get_area(user)]. All forces must attempt to contain the event.","Central Command Higher Dimensional Affairs", 'sound/misc/airraid.ogg')
+		B.begin_the_beginning_of_the_end()
+
+	else
+		//They backed out.
+		refund_biomass(user, biomass_cost)
+
+/datum/component/bloodling/proc/begin_the_beginning_of_the_end(mob/living/user)
+	user = parent
+	if(!user || QDELETED(user) || user.health <= 0)
+		SSticker.mode.check_win()
+		return FALSE //Well! he dead...
+	priority_announce("Simulations indicate that a christ-consciousness grid will be formed in [get_area(user)] in T-5 minutes.","Central Command Higher Dimensional Affairs")
+	set_security_level("delta")
+	sleep(5 SECONDS)
+	//No escape
+	SSshuttle.registerHostileEnvironment(user)
+	SSshuttle.lockdown = TRUE
+	addtimer(CALLBACK(src, .proc/begin_the_end), 5 MINUTES)
+
+/datum/component/bloodling/proc/begin_the_end(mob/living/user)
+	user = parent
+	if(!user || QDELETED(user) || user.health <= 0)
+		SSticker.mode.check_win()
+		return FALSE //Well! he dead...
+	user.get_overmap().relay_to_nearby('nsv13/sound/effects/bloodling_awaken.ogg', "<span class='userdanger'>Something horrible has awoken!</span>", FALSE)
+	//Give them a chance to resolve it.
+	priority_announce("WARNING: AN EXTRA-DIMENSIONAL CONSCIOUSNESS GRID HAS BEEN ESTABLISHED ABOARD [station_name()]... Eliminate the focal entity at all costs. Reports estimate total reality failure in T-10 minutes.","Central Command Higher Dimensional Affairs")
+
+	addtimer(CALLBACK(GLOBAL_PROC, .proc/bloodling_win), 10 MINUTES)
+
+	var/mob/last_user = user
+	var/mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/theMaster = new(user.loc)
+	user.mind.transfer_to(theMaster)
+	//theMaster.mind.add_antag_datum(/datum/antagonist/bloodling)
+	if(istype(SSticker.mode, /datum/game_mode/bloodling))
+		var/datum/game_mode/bloodling/GM = SSticker.mode
+		GM.master = theMaster
+
+	QDEL_IN(last_user, 1 SECONDS)
+
+
+/proc/bloodling_win(mob/living/user)
+	if(istype(SSticker.mode, /datum/game_mode/bloodling))
+		var/datum/game_mode/bloodling/GM = SSticker.mode
+		user = GM.master
+		if(!user || QDELETED(user) || user.health <= 0)
+			SSticker.mode.check_win()
+			return FALSE //Well! he dead..
+	sound_to_playing_players('sound/machines/alarm.ogg')
+	Cinematic(CINEMATIC_CULT,world,CALLBACK(GLOBAL_PROC,/proc/ending_helper))
+
+/mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended
+	name = "Fleshy Entity"
+	real_name = "The Master"
+	desc = "Your mind screams as it tries to comprehend what stands before you..."
+	icon = 'nsv13/icons/mob/bloodling.dmi'
+	health = 3000
+	maxHealth = 3000
+	hud_type = /datum/hud/bloodling
+	var/datum/component/bloodling/biomass = null
+
+//Join his cause.
+/mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/attack_ghost(mob/dead/observer/user as mob)
+	var/mob/living/simple_animal/bloodling_minion/habibi
+	habibi = (prob(50)) ? new /mob/living/simple_animal/bloodling_minion/tank(src.loc) : new /mob/living/simple_animal/bloodling_minion(src.loc)
+	habibi.ckey = user.ckey
+	biomass.infest(habibi) //Free infest!
+
+/mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/Initialize(mapload, spawn_more, len)
+	. = ..()
+	addtimer(CALLBACK(src, .proc/update_biomass), 1 SECONDS)
+	var/area/A = get_area(src)
+	if(A)
+		var/mutable_appearance/alert_overlay = mutable_appearance('nsv13/icons/mob/actions/actions_bloodling.dmi', "ascend")
+		notify_ghosts("The master calls to you. Reach out to him to be given life.", source = src, alert_overlay = alert_overlay, action=NOTIFY_ATTACK)
+
+/mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/proc/update_biomass()
+	biomass = GetComponent(/datum/component/bloodling)
+	biomass.final_form_biomass = INFINITY
+	biomass.set_biomass(INFINITY)
+
+/mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/update_health_hud(shown_health_amount)
+	if(!client || !hud_used)
+		return
+	if(hud_used.healths)
+		if(stat != DEAD)
+			. = 1
+			if(shown_health_amount == null)
+				shown_health_amount = health
+			if(shown_health_amount >= maxHealth)
+				hud_used.healths.icon_state = "health0"
+			else if(shown_health_amount > maxHealth*0.8)
+				hud_used.healths.icon_state = "health1"
+			else if(shown_health_amount > maxHealth*0.6)
+				hud_used.healths.icon_state = "health2"
+			else if(shown_health_amount > maxHealth*0.4)
+				hud_used.healths.icon_state = "health3"
+			else if(shown_health_amount > maxHealth*0.2)
+				hud_used.healths.icon_state = "health4"
+			else if(shown_health_amount > 0)
+				hud_used.healths.icon_state = "health5"
+			else
+				hud_used.healths.icon_state = "health6"
+		else
+			hud_used.healths.icon_state = "health7"

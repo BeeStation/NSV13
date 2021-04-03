@@ -6,8 +6,8 @@
 	false_report_weight = 10
 	restricted_jobs = list("AI", "Cyborg")
 	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Brig Physician")
-	required_players = 12
-	required_enemies = 2
+	required_players = 0
+	required_enemies = 1
 	recommended_enemies = 2
 	reroll_friendly = 1
 
@@ -74,7 +74,7 @@
 /datum/game_mode/bloodling/check_win()
 	. = ..()
 	var/datum/component/bloodling/B = master?.GetComponent(/datum/component/bloodling)
-	return (master && master.health > 0) && B?.biomass >= B?.final_form_biomass
+	return (master && master.health > 0 && istype(master, /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended)) && B?.biomass >= B?.final_form_biomass
 
 /**
 Helper proc to spawn the lil' blood alien creature in a vent! Adapted from alien_infestation.dm

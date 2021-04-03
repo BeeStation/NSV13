@@ -156,6 +156,7 @@
 			current = new type(drop_location(),FALSE)
 			current.icon_state = "armsy_mid"
 			current.icon_living = "armsy_mid"
+			current.icon = icon
 			current.front = src
 			current.AIStatus = AI_OFF
 			back = current
@@ -164,11 +165,13 @@
 			prev.back = current
 			prev.icon_state = "armsy_mid"
 			prev.icon_living = "armsy_mid"
+			prev.icon = icon
 			prev.front = next
 			prev.AIStatus = AI_OFF
 		else
 			prev.icon_state = "armsy_end"
 			prev.icon_living = "armsy_end"
+			prev.icon = icon
 			prev.front = next
 			prev.AIStatus = AI_OFF
 		next = prev
