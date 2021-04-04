@@ -125,8 +125,10 @@
 		list("unlockTier"=2, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/build)),
 		list("unlockTier"=3, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/transfer_biomass)),
 		list("unlockTier"=3, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/ground_pound)),
+		list("unlockTier"=3, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/dissonant_shriek)),
 		list("unlockTier"=4, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/give_life)),
 		list("unlockTier"=4, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/whiplash)),
+		list("unlockTier"=4, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/heal)),
 		list("unlockTier"=6, "lockAtTier"=0, "abilities"=list(/datum/action/bloodling/ascend))
 	)
 	//Generated list of abilities, created at init.
@@ -195,7 +197,9 @@ To be called whenever biomass is gained or lost.
 	speed /= 2 //Shifting the movement slightly up so it can outrun better.
 	speed = CLAMP(speed, 0.5, max_evolution)
 	ling.remove_movespeed_modifier(MOVESPEED_ID_BLOODLING_BIOMASS, TRUE)
-	ling.add_movespeed_modifier(MOVESPEED_ID_BLOODLING_BIOMASS, TRUE, 100, multiplicative_slowdown = speed, override = TRUE)
+	//WORM STUCK, WORM STUCK PLEASE, I BEG OF YOU.
+	if(!istype(ling, /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended))
+		ling.add_movespeed_modifier(MOVESPEED_ID_BLOODLING_BIOMASS, TRUE, 100, multiplicative_slowdown = speed, override = TRUE)
 	SSticker.mode.check_win()
 	if(istype(ling, /mob/living/simple_animal/bloodling))
 		var/mob/living/simple_animal/bloodling/B = ling
@@ -238,6 +242,36 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	roundend_category  = "Bloodling Thralls"
 	antagpanel_category = "Bloodling Thralls"
 	tips = 'html/antagtips/bloodling_thrall.html'
+	//Gimped changeling powers! Notably missing major healing abilities...
+	powers_override = list(
+		/datum/action/changeling/absorbDNA,
+		/datum/action/changeling/adrenaline,
+		/datum/action/changeling/augmented_eyesight,
+		/datum/action/changeling/biodegrade,
+		/datum/action/changeling/chameleon_skin,
+		/datum/action/changeling/digitalcamo,
+		/datum/action/changeling/fleshmend,
+		/datum/action/changeling/headcrab,
+		/datum/action/changeling/hivemind_comms,
+		/datum/action/changeling/humanform,
+		/datum/action/changeling/lesserform,
+		/datum/action/changeling/mimicvoice,
+		/datum/action/changeling/weapon/arm_blade,
+		/datum/action/changeling/weapon/tentacle,
+		/datum/action/changeling/suit/organic_space_suit,
+		/datum/action/changeling/suit/armor,
+		/datum/action/changeling/panacea,
+		/datum/action/changeling/strained_muscles,
+		/datum/action/changeling/sting/transformation,
+		/datum/action/changeling/sting/false_armblade,
+		/datum/action/changeling/sting/extract_dna,
+		/datum/action/changeling/sting/mute,
+		/datum/action/changeling/sting/blind,
+		/datum/action/changeling/sting/LSD,
+		/datum/action/changeling/sting/cryo,
+		/datum/action/changeling/transform
+	)
+	geneticpoints = 5 //Very gimped abilities.
 	var/antag_hud_type = ANTAG_HUD_BLOODLING
 	var/antag_hud_name = "bloodling_thrall"
 
@@ -580,6 +614,14 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	var/absorb_cooldown = 40 SECONDS - B.last_evolution SECONDS //Bigger boys absorb better
 	add_cooldown(absorb_cooldown)
 	soundloop.start(user)
+
+	//You lose your cloak..
+	var/datum/action/bloodling/hide/cloak = (locate(/datum/action/bloodling/hide) in user.actions)
+	if(cloak)
+		cloak.add_cooldown(10 SECONDS)
+	user.layer = MOB_LAYER
+	animate(user, alpha = 255, time = 2 SECONDS)
+
 	var/datum/beam/current_beam = new(user,M,time=absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
 	INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
 	M.visible_message("<span class='warning'>[user] plunges a tendril deep into [M]'s carotid artery!</span>", "<span class='userdanger'>You feel a stabbing pain in your carotid artery!</span>")
@@ -603,7 +645,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	name = "Infest Creature"
 	desc = "We infest a creature with our consciousness, forcing its servitude and upgrading its physical form with some of our biomass."
 	button_icon_state = "infest"
-	biomass_cost = 35
+	biomass_cost = 75
 	var/absorb_time = 10 SECONDS//30 SECONDS //This is a lengthy process, and will require assistance to complete.
 	var/datum/looping_sound/bloodling_absorb/soundloop = null
 
@@ -786,8 +828,10 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	var/datum/component/bloodling/ours = user.GetComponent(/datum/component/bloodling)
 	var/datum/component/bloodling/theirs = M.GetComponent(/datum/component/bloodling)
 
-	amount = CLAMP(amount, 0, ours.biomass) //Can't transfer what you don't own...
-
+	amount = CLAMP(amount, 0, ours.biomass - 10) //Can't transfer what you don't own...
+	if(amount <= 0)
+		to_chat(user, "<span class='warning'>We do not have enough biomass to transfer!</span>")
+		return
 	ours.remove_biomass(amount)
 	theirs.add_biomass(amount)
 
@@ -998,11 +1042,77 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 		to_chat(user, "<span class='warning'>We have created a new shell... It will need life.</span>")
 		new buildPath(get_turf(user))
 
+/datum/action/bloodling/dissonant_shriek
+	name = "Dissonant Shriek"
+	desc = "We cry out, disabling nearby electronics."
+	button_icon_state = "dissonant_shriek"
+	biomass_cost = 30
+
+/datum/action/bloodling/dissonant_shriek/action(mob/living/user)
+	if(!..())
+		return
+	playsound(user, 'sound/effects/screech.ogg', 100, 1)
+	for(var/obj/machinery/light/L in range(5, user))
+		L.on = 1
+		L.break_light_tube()
+	empulse(get_turf(user), 2, 5, 1)
+	add_cooldown(1 MINUTES)
+
+/datum/action/bloodling/heal
+	name = "Heal"
+	desc = "We use some of our biomass to restore a changeling thrall, restoring their limbs and purging toxins. To heal lesser slaves, transfer them some biomass."
+	button_icon_state = "heal"
+	biomass_cost = 50
+
+/datum/action/bloodling/heal/action(mob/living/user)
+	if(!..())
+		return
+	var/list/mobs = list()
+	for(var/mob/living/M in view(user, 3))
+		if(M == user || !is_bloodling(M) || !iscarbon(M))
+			continue
+		mobs += M
+	var/mob/living/M = input(user, "Which servant shall we heal?", "[src]", null) as null|anything in mobs
+	if(!M)
+		return FALSE
+	add_cooldown(1 MINUTES)
+	user.emote("scream")
+	var/heal_time = 20 SECONDS
+	var/datum/beam/current_beam = new(user,M,time=heal_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
+	INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+	M.visible_message("<span class='warning'>[user] plunges a tendril deep into [M]'s neck!</span>", "<span class='userdanger'>You feel a stabbing pain in your neck as your wounds knit back together...</span>")
+	M.emote("scream")
+	playsound(M, 'nsv13/sound/effects/bloodling_squelch.ogg', 70, FALSE)
+	if(do_after(user, heal_time, target=M))
+		M.visible_message("<span class='warning'>[user] retracts their tendril!</span>", "<span class='userdanger'>Your wounds have been healed!</span>")
+		var/mob/living/carbon/C = M
+		var/list/missing = C.get_missing_limbs()
+		if(missing.len)
+			playsound(C, 'sound/magic/demon_consume.ogg', 50, 1)
+			C.visible_message("<span class='warning'>[C]'s missing limbs \
+					reform, making a loud, grotesque sound!</span>",
+					"<span class='userdanger'>Your limbs regrow, making a \
+					loud, crunchy sound and giving you great pain!</span>",
+					"<span class='italics'>You hear organic matter ripping \
+					and tearing!</span>")
+			C.emote("scream")
+			C.regenerate_limbs(1)
+
+		C.revive(full_heal = TRUE)
+		C.regenerate_organs()
+		return TRUE
+
 /datum/action/bloodling/ascend
 	name = "Ascend"
-	desc = "We shed our mortal coil and ascend into a greater being."
+	desc = "We shed our mortal coil and ascend into a greater being. This will consume 500 biomass..."
 	button_icon_state = "ascend"
-	biomass_cost = 100
+	biomass_cost = 500
+
+/obj/structure/fluff/bloodling_tendril
+	name = "bloody tendril"
+	desc = "A vile tendril of corruption, channeling power from the mighty spaceship below."
+	icon = 'icons/mob/nest.dmi'
+	icon_state = "tendril"
 
 /datum/action/bloodling/ascend/action(mob/living/user)
 	if(!..() || istype(user, /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended)) //Hard cockblock to prevent re-ascension.
@@ -1012,8 +1122,11 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 		user.get_overmap().relay_to_nearby('nsv13/sound/effects/bloodling_awaken.ogg', "<span class='userdanger'>Hideous images creep into your mind!</span>", FALSE)
 		add_cooldown(15 MINUTES)
 		//Wall the master in
-		for(var/cdir in GLOB.cardinals)
+		new /obj/structure/fluff/bloodling_tendril(get_turf(user))
+		for(var/cdir in GLOB.alldirs)
+			new /obj/structure/alien/flesh(get_turf(get_step(user, cdir)))
 			new /obj/structure/alien/resin/wall(get_turf(get_step(user, cdir)))
+
 		to_chat(user, "<span class='userdanger'>We start to channel our mental energy... We will be unable to move while we attempt our ascension.</span>")
 		//No moving for you.
 		user.anchored = TRUE
@@ -1082,6 +1195,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	health = 3000
 	maxHealth = 3000
 	hud_type = /datum/hud/bloodling
+	obj_damage = 100
 	var/datum/component/bloodling/biomass = null
 
 //Join his cause.
@@ -1089,7 +1203,9 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	var/mob/living/simple_animal/bloodling_minion/habibi
 	habibi = (prob(50)) ? new /mob/living/simple_animal/bloodling_minion/tank(src.loc) : new /mob/living/simple_animal/bloodling_minion(src.loc)
 	habibi.ckey = user.ckey
-	biomass.infest(habibi) //Free infest!
+	sleep(1)
+	habibi.mind.enslave_mind_to_creator(src)
+	habibi.mind.add_antag_datum(/datum/antagonist/bloodling/minion)
 
 /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/Initialize(mapload, spawn_more, len)
 	. = ..()

@@ -40,6 +40,7 @@
 	var/datum/action/innate/cellular_emporium/emporium_action
 
 	var/static/list/all_powers = typecacheof(/datum/action/changeling,TRUE)
+	var/list/powers_override = list() //Nsv13 - Used for bloodling, lets you override that static list right there...
 
 /datum/antagonist/changeling/New()
 	. = ..()
@@ -129,7 +130,8 @@
 	if(purchasedpowers)
 		remove_changeling_powers()
 	//Repurchase free powers.
-	for(var/path in all_powers)
+	var/list/all_the_powers = (powers_override?.len >= 1) ? powers_override : all_powers //Nsv13 - Allows bloodling to override ling powers.
+	for(var/path in all_the_powers)
 		var/datum/action/changeling/S = new path
 		if(!S.dna_cost)
 			if(!has_sting(S))
@@ -153,8 +155,8 @@
 
 /datum/antagonist/changeling/proc/purchase_power(sting_name)
 	var/datum/action/changeling/thepower
-
-	for(var/path in all_powers)
+	var/list/all_the_powers = (powers_override?.len >= 1) ? powers_override : all_powers //Nsv13 - Allows bloodling to override ling powers.
+	for(var/path in all_the_powers)
 		var/datum/action/changeling/S = path
 		if(initial(S.name) == sting_name)
 			thepower = new path
