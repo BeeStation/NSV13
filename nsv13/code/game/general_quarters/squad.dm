@@ -228,14 +228,31 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 //Show relevent squad info on status panel.
 
-/mob/living/carbon/human/Stat()
-	..()
+/mob/living/carbon/human/proc/get_stat_tab_squad()
+	var/list/tab_data = list()
 
-	if(statpanel("Squad"))
-		if(!squad)
-			stat(null, "You have not been assigned to a squad.")
-			return
-		stat(null, "Assigned Squad: [squad.name || "Unassigned"]")
-		stat(null, "Squad Leader: [squad.leader || "None"]")
-		stat(null, "Squad Type: [squad.squad_type || "Standard"]")
-		stat(null, "Standing Orders: [squad.orders || "None"]")
+	if(!squad)
+		tab_data["Assigned Squad"] = list(
+			text = "None",
+			type = STAT_TEXT
+		)
+		return tab_data
+
+	tab_data["Assigned Squad"] = list(
+			text = "[squad.name || "Unassigned"]",
+			type = STAT_TEXT
+		)
+	tab_data["Squad Leader"] = list(
+			text = "[squad.leader || "None"]",
+			type = STAT_TEXT
+		)
+	tab_data["Squad Type"] = list(
+			text = "[squad.squad_type || "Standard"]",
+			type = STAT_TEXT
+		)
+	tab_data["Standing Orders"] = list(
+			text = "[squad.orders || "None"]",
+			type = STAT_TEXT
+		)
+
+	return tab_data
