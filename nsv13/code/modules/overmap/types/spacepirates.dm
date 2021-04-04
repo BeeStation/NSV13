@@ -13,8 +13,8 @@
 	max_integrity = 400
 	integrity_failure = 400
 	armor = list("overmap_light" = 30, "overmap_heavy" = 10)
-	bound_height = 48
-	bound_width = 48
+	bound_height = 64
+	bound_width = 64
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
 	ai_trait = AI_TRAIT_ANTI_FIGHTER //You didn't expect identical tactics, did you?
