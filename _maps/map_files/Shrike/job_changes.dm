@@ -22,6 +22,24 @@ MAP_REMOVE_JOB(flight_leader)
 MAP_REMOVE_JOB(fighter_pilot)
 MAP_REMOVE_JOB(air_traffic_controller)
 
+/datum/design/board/ore_silo/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	build_path = /obj/item/paper/fab_error
+
+/datum/design/board/ore_redemption/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	build_path = /obj/item/paper/fab_error
+
+/datum/design/board/chem_dispenser/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	build_path = /obj/item/paper/fab_error
+
 /datum/job/bridge/New()
 	..()
 	MAP_JOB_CHECK

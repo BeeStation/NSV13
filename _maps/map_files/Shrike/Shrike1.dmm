@@ -86,6 +86,12 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/starboard)
+"ap" = (
+/obj/machinery/lazylift_button{
+	dir = 1
+	},
+/turf/closed/wall/r_wall/ship,
+/area/shuttle/turbolift/shaft)
 "aq" = (
 /obj/machinery/light{
 	dir = 4
@@ -509,20 +515,12 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "cq" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
 /obj/machinery/light/small{
 	dir = 8
-	},
-/obj/machinery/button/door{
-	id = "cargo_starboard_shutters";
-	name = "cargo shuttle shutters";
-	pixel_x = 5;
-	pixel_y = 30
-	},
-/obj/machinery/button/door{
-	id = "cargo_lift_shutters";
-	name = "cargo lift shutters";
-	pixel_x = -5;
-	pixel_y = 30
 	},
 /turf/open/floor/monotile,
 /area/maintenance/department/cargo)
@@ -551,14 +549,22 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/starboard)
 "cw" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
+/obj/machinery/button/door{
+	id = "cargo_starboard_shutters";
+	name = "cargo shuttle shutters";
+	pixel_x = 5;
+	pixel_y = 30
+	},
+/obj/machinery/button/door{
+	id = "cargo_lift_shutters";
+	name = "cargo lift shutters";
+	pixel_x = -5;
+	pixel_y = 30
 	},
 /obj/machinery/camera/autoname{
-	dir = 8
+	dir = 1
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "cy" = (
 /obj/effect/turf_decal/stripes/red/corner{
@@ -782,11 +788,9 @@
 /turf/closed/wall/r_wall/ship,
 /area/shuttle/turbolift/shaft)
 "dz" = (
-/obj/machinery/lazylift_button{
-	dir = 1
-	},
-/turf/closed/wall/r_wall/ship,
-/area/shuttle/turbolift/shaft)
+/obj/structure/grille/wall,
+/turf/open/floor/plating,
+/area/maintenance/department/cargo)
 "dA" = (
 /obj/structure/closet/crate/wooden/toy,
 /obj/machinery/firealarm/directional/south,
@@ -1047,7 +1051,7 @@
 	dir = 4
 	},
 /turf/open/floor/plating,
-/area/quartermaster/miningdock)
+/area/maintenance/department/cargo)
 "eK" = (
 /obj/structure/closet/radiation{
 	anchored = 1
@@ -1115,7 +1119,7 @@
 	},
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
-/area/quartermaster/miningdock)
+/area/maintenance/department/cargo)
 "fb" = (
 /obj/structure/cable/green{
 	icon_state = "1-4"
@@ -1363,7 +1367,7 @@
 "gl" = (
 /obj/structure/ore_box,
 /turf/open/floor/plating,
-/area/quartermaster/miningdock)
+/area/maintenance/department/cargo)
 "gp" = (
 /obj/structure/cable/green{
 	icon_state = "4-8"
@@ -1423,7 +1427,7 @@
 	},
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
-/area/quartermaster/miningdock)
+/area/maintenance/department/cargo)
 "gH" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
 	dir = 8
@@ -1690,8 +1694,11 @@
 	},
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/ship/rust,
+/obj/machinery/light/small{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
-/area/quartermaster/miningdock)
+/area/maintenance/department/cargo)
 "hV" = (
 /turf/open/floor/plasteel/grid/mono,
 /area/engine/storage)
@@ -3262,18 +3269,10 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/starboard)
 "qi" = (
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 9
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 9
-	},
-/obj/effect/turf_decal/ship/rust,
-/turf/open/floor/plating/rusty_techgrid,
-/area/quartermaster/miningdock)
+/obj/structure/rack,
+/obj/item/tank/internals/oxygen/empty,
+/turf/open/floor/plating,
+/area/maintenance/department/cargo)
 "qj" = (
 /obj/machinery/light/small{
 	dir = 8
@@ -3910,7 +3909,7 @@
 	},
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
-/area/quartermaster/miningdock)
+/area/maintenance/department/cargo)
 "tw" = (
 /obj/structure/window/reinforced/spawner/north,
 /obj/machinery/conveyor_switch/oneway{
@@ -4821,9 +4820,9 @@
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "xb" = (
-/obj/machinery/squad_vendor{
-	density = 0;
-	pixel_y = 26
+/obj/machinery/computer/ship/viewscreen,
+/obj/machinery/computer/ship/navigation/public{
+	dir = 4
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/nsv/deck1/frame1/central{
@@ -7241,6 +7240,11 @@
 "IH" = (
 /turf/open/space/basic,
 /area/space)
+"IM" = (
+/obj/structure/grille/wall,
+/obj/structure/barricade/wooden/crude,
+/turf/open/floor/plating,
+/area/maintenance/department/cargo)
 "IN" = (
 /obj/structure/rack,
 /obj/item/shield/riot{
@@ -8557,7 +8561,9 @@
 /turf/open/openspace,
 /area/engine/stormdrive/monitor)
 "OQ" = (
-/obj/machinery/computer/ship/viewscreen,
+/obj/machinery/squad_vendor{
+	pixel_x = -20
+	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
@@ -8802,8 +8808,8 @@
 /turf/open/openspace,
 /area/engine/stormdrive/monitor)
 "PE" = (
-/obj/machinery/computer/ship/navigation/public{
-	dir = 4
+/obj/machinery/squad_vendor{
+	pixel_x = -20
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/nsv/deck1/frame1/central{
@@ -9695,7 +9701,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating/rusty_techgrid,
-/area/quartermaster/miningdock)
+/area/maintenance/department/cargo)
 "TA" = (
 /obj/structure/lattice/catwalk,
 /turf/open/floor/engine/airless,
@@ -9709,8 +9715,7 @@
 	},
 /obj/machinery/door/airlock/ship/public{
 	dir = 4;
-	name = "Dormitory";
-	req_access_txt = "12"
+	name = "Dormitory"
 	},
 /obj/effect/turf_decal/ship/rust,
 /obj/machinery/door/firedoor/border_only/directional/east,
@@ -10607,7 +10612,7 @@
 	dir = 4
 	},
 /turf/open/floor/plating,
-/area/quartermaster/miningdock)
+/area/maintenance/department/cargo)
 "WT" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -41332,9 +41337,9 @@ IH
 IH
 IH
 IH
-Rz
-Rz
-Rz
+li
+li
+li
 li
 li
 Rx
@@ -41590,8 +41595,8 @@ IH
 IH
 IH
 Rz
-cq
-dz
+Rz
+dx
 dx
 dx
 dx
@@ -41847,7 +41852,7 @@ IH
 IH
 ba
 bZ
-cu
+cq
 dF
 ex
 eF
@@ -43132,7 +43137,7 @@ IH
 IH
 IH
 bZ
-cw
+cu
 dF
 ex
 gk
@@ -43389,8 +43394,8 @@ IH
 IH
 li
 Rz
-Rz
-dx
+cw
+ap
 dx
 dx
 dx
@@ -43645,9 +43650,9 @@ IH
 IH
 IH
 li
-li
-ir
-YJ
+Rx
+dz
+Rx
 eJ
 gl
 WQ
@@ -43902,13 +43907,13 @@ IH
 IH
 IH
 li
-li
-ir
-YJ
+Rx
+in
+IM
 eY
 gF
 hS
-qi
+ze
 YJ
 Sy
 Sy
@@ -44159,8 +44164,8 @@ IH
 IH
 li
 li
-li
-ir
+Rx
+qi
 YJ
 YJ
 gH
