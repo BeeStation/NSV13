@@ -355,9 +355,14 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 		removed = new()
 
 	damage_archived = damage
-	if(!removed || !removed.total_moles() || isspaceturf(T)) //we're in space or there is no gas to process
+
+	//NSV13 - airless areas don't cause damage
+	if(isspaceturf(T)) //we're in space
 		if(takes_damage)
 			damage += max((power / 1000) * DAMAGE_INCREASE_MULTIPLIER, 0.1) // always does at least some damage
+	else if(!removed || !removed.total_moles()) // we're in a vacuum
+		continue
+	//NSV13 end
 	else
 		if(takes_damage)
 			//causing damage
