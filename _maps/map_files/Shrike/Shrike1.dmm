@@ -1910,10 +1910,8 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/miningdock)
 "ja" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
 /obj/effect/turf_decal/delivery,
+/obj/structure/closet/crate,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/miningdock)
 "jd" = (
@@ -2874,7 +2872,16 @@
 	pixel_x = 5;
 	pixel_y = 5
 	},
-/obj/item/reagent_containers/dropper,
+/obj/item/reagent_containers/dropper{
+	pixel_x = 5
+	},
+/obj/item/reagent_containers/glass/bottle/atropine{
+	pixel_x = -6;
+	pixel_y = 6
+	},
+/obj/item/reagent_containers/glass/bottle/potass_iodide{
+	pixel_x = -7
+	},
 /turf/open/floor/plasteel/white/corner,
 /area/medical/storage)
 "os" = (
@@ -4099,11 +4106,9 @@
 /turf/closed/wall/ship,
 /area/maintenance/department/crew_quarters/dorms)
 "ul" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
 /obj/effect/turf_decal/delivery,
 /obj/effect/spawner/lootdrop/maintenance/three,
+/obj/structure/closet/crate,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "uq" = (
@@ -7157,6 +7162,7 @@
 /obj/machinery/door/window{
 	req_one_access_txt = "30"
 	},
+/obj/item/stamp/rd,
 /turf/open/floor/plasteel/ridged/steel,
 /area/crew_quarters/locker{
 	lighting_colour_bulb = "#c1e1ff";
@@ -9457,6 +9463,7 @@
 /obj/machinery/door/window{
 	req_one_access_txt = "58"
 	},
+/obj/item/stamp/hos,
 /turf/open/floor/plasteel/ridged/steel,
 /area/crew_quarters/locker{
 	lighting_colour_bulb = "#c1e1ff";
@@ -9472,6 +9479,7 @@
 /obj/machinery/door/window{
 	req_one_access_txt = "56"
 	},
+/obj/item/stamp/ce,
 /turf/open/floor/plasteel/ridged/steel,
 /area/crew_quarters/locker{
 	lighting_colour_bulb = "#c1e1ff";
@@ -9487,6 +9495,7 @@
 /obj/machinery/door/window{
 	req_one_access_txt = "57"
 	},
+/obj/item/stamp/hop,
 /turf/open/floor/plasteel/ridged/steel,
 /area/crew_quarters/locker{
 	lighting_colour_bulb = "#c1e1ff";
@@ -10324,6 +10333,7 @@
 /obj/structure/lattice/catwalk,
 /obj/structure/table,
 /obj/item/book/manual/wiki/sop/engineering,
+/obj/machinery/recharger,
 /turf/open/openspace,
 /area/engine/stormdrive/monitor)
 "VP" = (
@@ -10786,6 +10796,7 @@
 /obj/machinery/door/window{
 	req_one_access_txt = "40"
 	},
+/obj/item/stamp/cmo,
 /turf/open/floor/plasteel/ridged/steel,
 /area/crew_quarters/locker{
 	lighting_colour_bulb = "#c1e1ff";
@@ -40321,8 +40332,8 @@ li
 li
 li
 kS
-nG
 pf
+oZ
 sz
 tw
 tH

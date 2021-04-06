@@ -20,6 +20,8 @@
 	circuit = /obj/item/circuitboard/computer/ship/navigation
 
 /obj/machinery/computer/ship/navigation/public
+	name = "Starmap Console"
+	desc = "A computer which shows the current position of the ship in the universe."
 	can_control_ship = FALSE
 
 /obj/machinery/computer/ship/navigation/attack_hand(mob/user)
