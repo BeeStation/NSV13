@@ -1168,6 +1168,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 
 	var/mob/last_user = user
 	var/mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/theMaster = new(user.loc)
+	last_user.remove_movespeed_modifier(BLOODLING_ASCENSION_MODIFIER, TRUE)
 	user.mind.transfer_to(theMaster)
 	//theMaster.mind.add_antag_datum(/datum/antagonist/bloodling)
 	if(istype(SSticker.mode, /datum/game_mode/bloodling))
