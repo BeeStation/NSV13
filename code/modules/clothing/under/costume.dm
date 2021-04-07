@@ -72,6 +72,7 @@
 	icon_state = "pirate"
 	item_state = "pirate"
 	item_color = "pirate"
+	random_sensor = FALSE //NSV13 disabled by default
 	can_adjust = FALSE
 
 /obj/item/clothing/under/costume/soviet

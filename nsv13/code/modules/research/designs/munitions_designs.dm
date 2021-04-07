@@ -154,7 +154,7 @@
 	name = "Torpedo IFF Card"
 	desc = "The stock standard IFF card design for torpedos"
 	id = "iff_card"
-	build_type = IMPRINTER
+	build_type = PROTOLATHE
 	materials = list(/datum/material/glass = 20000, /datum/material/copper = 5000, /datum/material/gold = 5000)
 	build_path = /obj/item/ship_weapon/parts/missile/iff_card
 	category = list("Advanced Munitions")
