@@ -132,7 +132,6 @@
 	circuit = /obj/item/circuitboard/computer/ship/ordnance_computer
 
 /obj/machinery/computer/ship/ordnance/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state)
-	ui_interact(user)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
 		ui = new(user, src, ui_key, "OrdnanceConsole", name, 560, 600, master_ui, state)
