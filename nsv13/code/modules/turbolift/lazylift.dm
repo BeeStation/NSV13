@@ -38,8 +38,7 @@ That's it, ok bye!
 //Mappers, DON'T USE ME! Use the other one.
 
 /area/shuttle/turbolift
-	ambient_effects = list()
-	looping_ambience = 'nsv13/sound/effects/lift/elevatormusic.ogg' //Mandatory.
+	ambient_buzz = 'nsv13/sound/effects/lift/elevatormusic.ogg' //Mandatory.
 
 /obj/machinery/lazylift_button
 	name = "Turbolift call button"
@@ -267,7 +266,7 @@ That's it, ok bye!
 	var/area/ours = get_area(src)
 	for(var/area/affected in GLOB.sortedAreas)
 		if(istype(affected, ours.type))
-			affected.looping_ambience = what
+			affected.ambient_buzz = what
 
 //Emag the lift to let it crush people. Otherwise, its built in safeties will kick in.
 /obj/machinery/lazylift/emag_act(mob/user)

@@ -72,9 +72,9 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 //Helper proc to set a new looping ambience, and play it to any mobs already inside of that area.
 
 /area/proc/set_looping_ambience(sound)
-	if(looping_ambience == sound)
+	if(ambient_buzz == sound)
 		return FALSE
-	looping_ambience = sound
+	ambient_buzz = sound
 	var/list/affecting = list() //Which mobs are we about to transmit to?
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(OM.linked_areas?.len)
@@ -86,10 +86,10 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 				continue
 			affecting += L
 	for(var/mob/L in affecting)
-		if(L.client && L.client.prefs.toggles & SOUND_SHIP_AMBIENCE && L.client?.last_ambience != looping_ambience)
-			L.client.ambient_buzz_playing = looping_ambience
-			SEND_SOUND(L, sound(looping_ambience, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_BUZZ))
-			L.client.last_ambience = looping_ambience
+		if(L.client && L.client.prefs.toggles & SOUND_SHIP_AMBIENCE && L.client?.last_ambience != ambient_buzz)
+			L.client.ambient_buzz_playing = ambient_buzz
+			SEND_SOUND(L, sound(ambient_buzz, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_BUZZ))
+			L.client.last_ambience = ambient_buzz
 	return TRUE
 
 /obj/item/book/manual/wiki/rbmk

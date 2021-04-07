@@ -455,7 +455,7 @@ Control Rods
 		state = REACTOR_STATE_IDLE //Force reactor restart.
 	set_light(0)
 	var/area/AR = get_area(src)
-	AR.looping_ambience = 'nsv13/sound/ambience/shipambience.ogg'
+	AR.ambient_buzz = 'nsv13/sound/ambience/shipambience.ogg'
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/Initialize()
 	. = ..()
@@ -506,7 +506,7 @@ Control Rods
 		playsound(loc, startup_sound, 100)
 		send_alert("Fission reaction initiated. Reactor now on-line.", override=TRUE)
 		var/area/AR = get_area(src)
-		AR.looping_ambience = 'nsv13/sound/ambience/engineering.ogg'
+		AR.ambient_buzz = 'nsv13/sound/ambience/engineering.ogg'
 		if(reaction_rate <= 0)
 			reaction_rate = 5
 		return TRUE

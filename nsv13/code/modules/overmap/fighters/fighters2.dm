@@ -529,7 +529,7 @@ Repair
 /obj/structure/overmap/fighter/proc/enter(mob/user)
 	user.forceMove(src)
 	mobs_in_ship += user
-	if(user?.client?.prefs.toggles & SOUND_AMBIENCE && engines_active()) //Disable ambient sounds to shut up the noises.
+	if((user.client?.prefs.toggles & SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
 		SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
 
 /obj/structure/overmap/fighter/stop_piloting(mob/living/M, force=FALSE)
