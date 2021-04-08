@@ -188,7 +188,7 @@
 
 /obj/machinery/ship_weapon/hybrid_rail/multitool_act(mob/living/user, obj/item/I)
 	if(maint_state < 2)
-		to_chat(user, "<span class='notice'>You must first open the maintenance panel befiore realigning the magnetic coils.</span>")
+		to_chat(user, "<span class='notice'>You must first open the maintenance panel before realigning the magnetic coils.</span>")
 	else
 		to_chat(user, "<span class='notice'>You being realigning the magnetic coils.</span>")
 		while(alignment < 100)
