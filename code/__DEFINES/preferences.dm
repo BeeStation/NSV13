@@ -53,6 +53,7 @@
 #define PIXEL_SCALING_1_2X 1.5
 #define PIXEL_SCALING_2X 2
 #define PIXEL_SCALING_3X 3
+#define PIXEL_SCALING_4X 4
 
 #define SCALING_METHOD_NORMAL "normal"
 #define SCALING_METHOD_DISTORT "distort"
@@ -81,6 +82,7 @@
 #define EXP_TYPE_SILICON		"Silicon"
 #define EXP_TYPE_SERVICE		"Service"
 #define EXP_TYPE_MUNITIONS		"Munitions" //NSV13 -  Munitions added
+#define EXP_TYPE_GIMMICK		"Gimmick"
 #define EXP_TYPE_ANTAG			"Antag"
 #define EXP_TYPE_SPECIAL		"Special"
 #define EXP_TYPE_GHOST			"Ghost"

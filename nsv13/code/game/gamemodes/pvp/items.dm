@@ -249,10 +249,13 @@
 		return
 	ui_interact(user)
 
-/obj/item/ship_loadout_selector/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.always_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/item/ship_loadout_selector/ui_state(mob/user)
+	return GLOB.always_state
+
+/obj/item/ship_loadout_selector/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "ShipLoadout", "Ship Loadout Selection", 500, 500, master_ui, state)
+		ui = new(user, src, "ShipLoadout")
 		ui.open()
 
 /obj/item/ship_loadout_selector/ui_data(mob/user)

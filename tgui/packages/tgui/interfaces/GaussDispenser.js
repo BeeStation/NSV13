@@ -6,7 +6,10 @@ import { Window } from '../layouts';
 export const GaussDispenser = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable>
+    <Window
+      resizable
+      width={560}
+      height={600}>
       <Window.Content scrollable>
         <Section>
           <Section title="Controls:">
