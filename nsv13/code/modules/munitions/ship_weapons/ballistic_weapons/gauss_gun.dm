@@ -19,7 +19,7 @@
 	ammo_type = /obj/item/ship_weapon/ammunition/gauss
 
 	semi_auto = TRUE
-	max_ammo = 6 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
+	max_ammo = 12 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
 
 	fire_animation_length = 1 SECONDS
 	maintainable = FALSE //Due to the amount of rounds that this thing fires, this would just get suuuper irritating.
@@ -171,11 +171,11 @@
 	ui_interact(user)
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
+	get_overmap().stop_piloting(gunner)
 	if(gunner_chair)
 		lower_chair()
-		return FALSE
-	gunner.unfuck_overmap() //Just in case they didn't cancel camera view or whatever.
-	gunner.forceMove(get_turf(src))
+	else
+		gunner.forceMove(get_turf(src))
 	gunner = null
 
 //Directional subtypes
@@ -189,24 +189,17 @@
 /obj/machinery/ship_weapon/gauss_gun/west
 	dir = WEST
 
-/obj/machinery/ship_weapon/gauss_gun/proc/GunnerLoad()
-	if(BeingLoaded)
-		to_chat(gunner, "<span class='notice'>[src]'s loading systems are on cooldown!</span>")
-		return
-	to_chat(gunner, "<span class='notice'>Loading ammunition</span>")
-	BeingLoaded = 1
-	src.raise_rack()
-	sleep(5 SECONDS)
-	BeingLoaded = 0
-
 /obj/machinery/ship_weapon/gauss_gun/proc/onClick(atom/target)
-	if(ammo.len<1)
-		src.GunnerLoad()
 	if(pdc_mode && world.time >= last_pdc_fire + 2 SECONDS)
 		linked.fire_weapon(target=target, mode=FIRE_MODE_PDC)
 		last_pdc_fire = world.time
 		return
 	fire(target)
+
+/obj/machinery/ship_weapon/gauss_gun/after_fire()
+	. = ..()
+	if(!ammo || ammo.len <= 0)
+		to_chat(gunner, "<span class='warning'>Ammunition expended. Reload required. </span>")
 
 /obj/machinery/ship_weapon/gauss_gun/overmap_fire(atom/target)
 	if(world.time >= next_sound) //Prevents ear destruction from soundspam
@@ -288,11 +281,52 @@
 	density = TRUE
 	layer = 3
 	var/capacity = 0
-	var/max_capacity = 6//Maximum number of munitions we can load at once
+	var/max_capacity = 12//Maximum number of munitions we can load at once
 	var/loading = FALSE //stop you loading the same torp over and over
 	var/obj/machinery/ship_weapon/gauss_gun/gun
+	var/autoload = FALSE //Allows for AMBER compatability with Gauss.
+
+/obj/item/circuitboard/gauss_rack_upgrade
+	name = "Gauss Rack Autoload Module (Circuit)"
+	build_path = null
+
+/datum/design/board/gauss_rack_upgrade
+	name = "Gauss Rack Autoload Module (Circuit)"
+	desc = "An upgrade which allows you to load gauss racks using conveyors."
+	id = "gauss_rack_upgrade"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
+	build_path = /obj/item/circuitboard/computer/ams
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+//If your map is gamer.
+/obj/structure/gauss_rack/autoload
+	autoload = TRUE
+
+/obj/structure/gauss_rack/vv_edit_var(vname, vval)
+	. = ..()
+	update_icon()
+
+/obj/structure/gauss_rack/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/structure/gauss_rack/update_icon()
+	if(autoload)
+		icon_state = "loading_rack_autoload"
+	else
+		icon_state = initial(icon_state)
 
 /obj/structure/gauss_rack/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/circuitboard/gauss_rack_upgrade))
+		if(autoload)
+			to_chat(user, "<span class='warning'>This gauss rack is already upgraded.</span>")
+			return FALSE
+		playsound(src, 'sound/machines/terminal_insert_disc.ogg', 100, 0)
+		to_chat(user, "<span class='notice'>You slot [I] into [src], allowing it to be loaded from conveyors.</span>")
+		I.forceMove(src)
+		autoload = TRUE
+		update_icon()
 	if(istype(I, gun.ammo_type))
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading something onto [src]!.</span>")
@@ -300,7 +334,7 @@
 		if(capacity < max_capacity)
 			to_chat(user, "<span class='notice'>You start to load [I] onto [src]...</span>")
 			loading = TRUE
-			if(do_after(user,10, target = src))
+			if(do_after(user,0.5 SECONDS, target = src))
 				load(I, src)
 				to_chat(user, "<span class='notice'>You load [I] onto [src].</span>")
 				loading = FALSE
@@ -317,22 +351,30 @@
 			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
 			return FALSE
 		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
-		if(do_after(user, 6 SECONDS , target = src))
+		if(do_after(user, 4 SECONDS , target = src))
 			for(var/obj/item/ship_weapon/ammunition/gauss/G in A)
 				if(load(G, user))
 					continue
 				else
 					break
+//I'll probably live to regret this...
+/obj/structure/gauss_rack/Bumped(atom/movable/AM)
+	. = ..()
+	if(autoload)
+		if(istype(AM, gun.ammo_type))
+			loading = TRUE
+			load(AM)
 
 /obj/structure/gauss_rack/proc/load(atom/movable/A, mob/user)
-	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	if(capacity >= max_capacity)
-		to_chat(user, "<span class='warning'>[src] is full!</span>")
+		if(user)
+			to_chat(user, "<span class='warning'>[src] is full!</span>")
 		loading = FALSE
 		return FALSE
+	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	if(istype(A, gun.ammo_type))
 		A.forceMove(src)
-		A.pixel_y = 10+(capacity*10)
+		A.pixel_y = 5+(capacity*5)
 		vis_contents += A
 		capacity ++
 		A.layer = ABOVE_MOB_LAYER
@@ -486,11 +528,11 @@ Chair + rack handling
 	gunner_chair.locked = TRUE //No escape.
 	playsound(gunner_chair.loc, 'nsv13/sound/effects/ship/freespace2/crane_2.wav', 100, FALSE)
 	gunner_chair.visible_message("<span class='notice'>[gunner_chair] starts to raise into the ceiling!</span>")
-	animate(gunner_chair, pixel_y = 60, time = 4 SECONDS)
-	animate(M, pixel_y = 60, time = 4 SECONDS)
-	sleep(2 SECONDS)
+	animate(gunner_chair, pixel_y = 60, time = 2.5 SECONDS)
+	animate(M, pixel_y = 60, time = 2.5 SECONDS)
+	sleep(1.25 SECONDS)
 	gunner_chair.animate_swivel(NORTH)
-	sleep(2 SECONDS)
+	sleep(1.25 SECONDS)
 	gunner_chair.pixel_y = 0
 	M.pixel_y = 0
 	if(M.loc != gunner_chair.loc) //They got out of the chair somehow. Probably admin fuckery.
@@ -501,13 +543,13 @@ Chair + rack handling
 /obj/machinery/ship_weapon/gauss_gun/proc/lower_chair()
 	if(!gunner_chair || gunner_chair.loc != src)
 		return FALSE
-	gunner.unfuck_overmap() //Just in case they didn't cancel camera view or whatever.
 	var/mob/M = gunner
+	gunner = null
 	var/turf/below = SSmapping.get_turf_below(src)
 	gunner_chair.forceMove(below)
 	gunner_chair.locked = TRUE
-	gunner.forceMove(below)
-	gunner_chair.buckle_mob(gunner)
+	M.forceMove(below)
+	gunner_chair.buckle_mob(M)
 	playsound(below, 'nsv13/sound/effects/ship/freespace2/crane_2.wav', 100, FALSE)
 	below.visible_message("<span class='notice'>[gunner_chair] starts to descend!</span>")
 	M.pixel_y = 60
@@ -516,15 +558,14 @@ Chair + rack handling
 	gunner_chair.alpha = 0
 	animate(M, alpha = 255, time = 2 SECONDS, easing = EASE_OUT)
 	animate(gunner_chair, alpha = 255, time = 2 SECONDS, easing = EASE_OUT)
-	animate(M, pixel_y = 0, time = 4 SECONDS)
-	animate(gunner_chair, pixel_y = 0, time = 4 SECONDS)
-	sleep(3 SECONDS)
+	animate(M, pixel_y = 0, time = 2.5 SECONDS)
+	animate(gunner_chair, pixel_y = 0, time = 2.5 SECONDS)
+	sleep(1.25 SECONDS)
 	gunner_chair.animate_swivel(SOUTH)
-	sleep(1 SECONDS)
+	sleep(1.25 SECONDS)
 	gunner_chair.locked = FALSE //Ok. Feel free to move again.
 	gunner_chair.visible_message("<span class='notice'>[gunner_chair] clunks into place!</span>")
 	playsound(gunner_chair, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-	gunner = null
 
 /obj/machinery/ship_weapon/gauss_gun/proc/raise_rack()
 	if(!ammo_rack || ammo?.len >= max_ammo)
@@ -602,8 +643,9 @@ Chair + rack handling
 			chamber()
 		if("toggle_safety")
 			safety = !safety
-		if("toggle_pdc_mode")
-			cycle_firemode()
+		if("load")
+			raise_rack()
+
 
 /obj/machinery/ship_weapon/gauss_gun/ui_data(mob/user)
 	var/list/data = list()
@@ -616,6 +658,7 @@ Chair + rack handling
 	data["maint_req"] = (maintainable) ? maint_req : 25
 	data["max_maint_req"] = 25
 	data["pdc_mode"] = pdc_mode
+	data["canReload"] = ammo_rack && (ammo_rack.contents?.len >= 2)
 	return data
 
 #undef STATE_NOTLOADED

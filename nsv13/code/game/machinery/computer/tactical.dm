@@ -7,18 +7,20 @@
 	circuit = /obj/item/circuitboard/computer/ship/tactical_computer
 
 /obj/machinery/computer/ship/tactical/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+	if(isobserver(user))
+		return
 	if(!has_overmap())
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate armament parameters, no registered ship stored in microprocessor.</span>")
 		return
-	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
-	if(linked.gunner && !linked.gunner.client)
-		linked.stop_piloting(linked.gunner)
-	if(!linked.gunner && isliving(user))
-		return linked.start_piloting(user, position)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
+		if(linked.gunner && !linked.gunner.client)
+			linked.stop_piloting(linked.gunner)
+		if(!linked.gunner && isliving(user))
+			playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
+			linked.start_piloting(user, position)
 		ui = new(user, src, ui_key, "TacticalConsole", name, 560, 600, master_ui, state)
 		ui.open()
 

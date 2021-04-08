@@ -75,25 +75,27 @@
 		qdel(src)
 
 /obj/structure/ladder/proc/travel(going_up, mob/user, is_ghost, obj/structure/ladder/ladder)
-	if(!is_ghost)
-		show_fluff_message(going_up, user)
-		ladder.add_fingerprint(user)
-
 	var/turf/T = get_turf(ladder)
 	var/atom/movable/AM
 	if(user.pulling)
 		AM = user.pulling
-		playsound(loc, 'nsv13/sound/effects/footstep/ladder2.ogg')
-		if(!do_after(user, 5 SECONDS, target=src))
-			return FALSE
+		if(!is_ghost)
+			playsound(src, 'nsv13/sound/effects/footstep/ladder2.ogg')
+			if(!do_after(user, 5 SECONDS, target=src))
+				return FALSE
 		AM.forceMove(T)
 		user.forceMove(T)
 		user.start_pulling(AM)
 	else
-		playsound(loc, 'nsv13/sound/effects/footstep/ladder1.ogg')
-		if(!do_after(user, 2 SECONDS, target=src))
-			return FALSE
+		if(!is_ghost)
+			playsound(src, 'nsv13/sound/effects/footstep/ladder1.ogg')
+			if(!do_after(user, 1 SECONDS, target=src))
+				return FALSE
 		user.forceMove(T)
+	if(!is_ghost)
+		show_fluff_message(going_up, user)
+		ladder.add_fingerprint(user)
+
 
 /obj/structure/ladder/proc/use(mob/user, is_ghost=FALSE)
 	if (!is_ghost && !in_range(src, user))
