@@ -20,12 +20,12 @@
 	outfit = /datum/outfit/job/hos
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
-	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_ARMORY, ACCESS_COURT, ACCESS_WEAPONS, ACCESS_MECH_SECURITY,
-			            ACCESS_FORENSICS_LOCKERS, ACCESS_MORGUE, ACCESS_MAINT_TUNNELS, ACCESS_ALL_PERSONAL_LOCKERS,
+	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_BRIG, ACCESS_BRIGPHYS, ACCESS_ARMORY, ACCESS_COURT, ACCESS_WEAPONS, ACCESS_MECH_SECURITY,
+			            ACCESS_FORENSICS_LOCKERS, ACCESS_MORGUE, ACCESS_MAINT_TUNNELS, ACCESS_ALL_PERSONAL_LOCKERS, ACCESS_AUX_BASE,
 			            ACCESS_RESEARCH, ACCESS_ENGINE, ACCESS_MINING, ACCESS_MEDICAL, ACCESS_CONSTRUCTION, ACCESS_MAILSORTING,
 			            ACCESS_HEADS, ACCESS_HOS, ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH, ACCESS_GATEWAY, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM)
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_ARMORY, ACCESS_COURT, ACCESS_WEAPONS, ACCESS_MECH_SECURITY,
-			            ACCESS_FORENSICS_LOCKERS, ACCESS_MORGUE, ACCESS_MAINT_TUNNELS, ACCESS_ALL_PERSONAL_LOCKERS,
+	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_BRIG, ACCESS_BRIGPHYS, ACCESS_ARMORY, ACCESS_COURT, ACCESS_WEAPONS, ACCESS_MECH_SECURITY,
+			            ACCESS_FORENSICS_LOCKERS, ACCESS_MORGUE, ACCESS_MAINT_TUNNELS, ACCESS_ALL_PERSONAL_LOCKERS, ACCESS_AUX_BASE,
 			            ACCESS_RESEARCH, ACCESS_ENGINE, ACCESS_MINING, ACCESS_MEDICAL, ACCESS_CONSTRUCTION, ACCESS_MAILSORTING,
 			            ACCESS_HEADS, ACCESS_HOS, ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH, ACCESS_GATEWAY, ACCESS_MAINT_TUNNELS, ACCESS_MINERAL_STOREROOM)
 	paycheck = PAYCHECK_COMMAND
@@ -48,7 +48,8 @@
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	r_pocket = /obj/item/assembly/flash/handheld
 	l_pocket = /obj/item/restraints/handcuffs
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/ammo_box/magazine/pistolm9mm/glock, /obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1, /obj/item/book/granter/martial/jujitsu, /obj/item/club=1)
+	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/ammo_box/magazine/pistolm9mm/glock,
+		/obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1, /obj/item/book/granter/martial/jujitsu, /obj/item/club=1) //NSV13 this line
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
@@ -65,4 +66,5 @@
 	mask = /obj/item/clothing/mask/gas/sechailer
 	suit = /obj/item/clothing/suit/space/hardsuit/security/hos
 	suit_store = /obj/item/tank/internals/oxygen
+	backpack_contents = list(/obj/item/melee/baton/loaded=1)
 

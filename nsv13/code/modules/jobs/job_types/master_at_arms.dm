@@ -50,7 +50,7 @@
 	duffelbag = /obj/item/storage/backpack/duffelbag/munitions
 	box = /obj/item/storage/box/security
 
-	pda_slot = SLOT_L_STORE
+	pda_slot = ITEM_SLOT_LPOCKET
 
 /obj/effect/landmark/start/master_at_arms
 	name = "Master At Arms"

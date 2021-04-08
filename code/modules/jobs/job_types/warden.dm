@@ -17,8 +17,8 @@
 
 	outfit = /datum/outfit/job/warden
 
-	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_ARMORY, ACCESS_COURT, ACCESS_MECH_SECURITY, ACCESS_MAINT_TUNNELS, ACCESS_MORGUE, ACCESS_WEAPONS, ACCESS_FORENSICS_LOCKERS, ACCESS_MINERAL_STOREROOM, ACCESS_KEYCARD_AUTH)
-	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_BRIG, ACCESS_ARMORY, ACCESS_MECH_SECURITY, ACCESS_COURT, ACCESS_WEAPONS, ACCESS_MINERAL_STOREROOM, ACCESS_KEYCARD_AUTH) // See /datum/job/warden/get_access()
+	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_BRIG, ACCESS_BRIGPHYS, ACCESS_ARMORY,ACCESS_COURT, ACCESS_MECH_SECURITY, ACCESS_MAINT_TUNNELS, ACCESS_MORGUE, ACCESS_WEAPONS, ACCESS_FORENSICS_LOCKERS, ACCESS_MINERAL_STOREROOM, ACCESS_KEYCARD_AUTH)
+	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_BRIG, ACCESS_BRIGPHYS, ACCESS_ARMORY, ACCESS_MECH_SECURITY, ACCESS_COURT, ACCESS_WEAPONS, ACCESS_MINERAL_STOREROOM, ACCESS_KEYCARD_AUTH) // See /datum/job/warden/get_access()
 	paycheck = PAYCHECK_HARD
 	paycheck_department = ACCOUNT_SEC
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
@@ -45,8 +45,9 @@
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	r_pocket = /obj/item/assembly/flash/handheld
 	l_pocket = /obj/item/restraints/handcuffs
-	suit_store = /obj/item/gun/ballistic/automatic/pistol/glock
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/gun/ballistic/tazer, /obj/item/ammo_box/magazine/tazer_cartridge_storage, /obj/item/ammo_box/magazine/pistolm9mm/glock, /obj/item/club=1)
+	suit_store = /obj/item/gun/ballistic/automatic/pistol/glock //NSV13
+	backpack_contents = list(/obj/item/melee/baton/loaded=1,
+							/obj/item/gun/ballistic/tazer, /obj/item/ammo_box/magazine/tazer_cartridge_storage, /obj/item/ammo_box/magazine/pistolm9mm/glock, /obj/item/club=1) //NSV13
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec

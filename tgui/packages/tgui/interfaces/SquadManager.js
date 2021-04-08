@@ -6,7 +6,11 @@ import { Window } from '../layouts';
 export const SquadManager = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable theme="retro">
+    <Window
+      resizable
+      theme="retro"
+      width={600}
+      height={800}>
       <Window.Content scrollable>
         <Section title="Item Squad Re-assignment">
           {Object.keys(data.items_info).map(key => {

@@ -14,7 +14,7 @@
 		autofire_target = over_object
 
 /obj/structure/overmap/proc/onMouseDown(object, location, params, mob/M)
-	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
+	if(istype(object, /atom/movable/screen) && !istype(object, /atom/movable/screen/click_catcher))
 		return
 	if((object in M.contents) || (object == M))
 		return
@@ -28,7 +28,7 @@
 		autofire_target = object
 
 /obj/structure/overmap/proc/onMouseUp(object, location, params, mob/M)
-	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
+	if(istype(object, /atom/movable/screen) && !istype(object, /atom/movable/screen/click_catcher))
 		return
 	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
 	if(user_gun)

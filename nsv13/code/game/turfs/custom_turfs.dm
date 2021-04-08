@@ -31,6 +31,7 @@
 
 /obj/structure/falsewall/duranium
 	icon = 'nsv13/icons/turf/reinforced_wall.dmi'
+	icon_state = "solid"
 	name = "Duranium hull"
 	desc = "A large hull segment designed to create vessels and structures capable of supporting life in even the most hazardous places."
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
@@ -309,8 +310,6 @@
 	turf_type = /turf/open/floor/plasteel/ship/techfloor/alt
 
 /turf/open/floor/circuit/orange
-	icon_state = "gscircuit"
-	icon_normal = "gscircuit"
 	color = "#FF8C00"
 	light_color = LIGHT_COLOR_ORANGE
 

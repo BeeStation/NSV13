@@ -10,7 +10,11 @@ export const ArmourPlatingNanorepairPump = (props, context) => {
   const armourData = repair_records.armour.map((value, i) => [i, value]);
   const structureData = repair_records.structure.map((value, i) => [i, value]);
   return (
-    <Window resizable theme="ntos">
+    <Window
+      resizable
+      theme="ntos"
+      width={500}
+      height={380}>
       <Window.Content scrollable>
         <Section title={data.quadrant}>
           <Section title="Repair Rates:">
