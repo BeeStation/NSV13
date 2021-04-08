@@ -72,9 +72,9 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 //Helper proc to set a new looping ambience, and play it to any mobs already inside of that area.
 
 /area/proc/set_looping_ambience(sound)
-	if(looping_ambience == sound)
+	if(ambient_buzz == sound)
 		return FALSE
-	looping_ambience = sound
+	ambient_buzz = sound
 	var/list/affecting = list() //Which mobs are we about to transmit to?
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(OM.linked_areas?.len)
@@ -86,10 +86,10 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 				continue
 			affecting += L
 	for(var/mob/L in affecting)
-		if(L.client && L.client.prefs.toggles & SOUND_SHIP_AMBIENCE && L.client?.last_ambience != looping_ambience)
-			L.client.ambience_playing = 1
-			SEND_SOUND(L, sound(looping_ambience, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_BUZZ))
-			L.client.last_ambience = looping_ambience
+		if(L.client && L.client.prefs.toggles & SOUND_SHIP_AMBIENCE && L.client?.last_ambience != ambient_buzz)
+			L.client.ambient_buzz_playing = ambient_buzz
+			SEND_SOUND(L, sound(ambient_buzz, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_BUZZ))
+			L.client.last_ambience = ambient_buzz
 	return TRUE
 
 /obj/item/book/manual/wiki/rbmk
@@ -599,10 +599,10 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	. = ..()
 	ui_interact(user)
 
-/obj/machinery/computer/reactor/control_rods/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/reactor/control_rods/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "RbmkControlRods", name, 300, 300, master_ui, state)
+		ui = new(user, src, "RbmkControlRods")
 		ui.open()
 
 /obj/machinery/computer/reactor/control_rods/ui_act(action, params)
@@ -639,10 +639,10 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	. = ..()
 	ui_interact(user)
 
-/obj/machinery/computer/reactor/stats/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/reactor/stats/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "RbmkStats", name, 350, 500, master_ui, state)
+		ui = new(user, src, "RbmkStats")
 		ui.open()
 
 /obj/machinery/computer/reactor/stats/process()
@@ -788,7 +788,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 
 /turf/open/indestructible/sound/pool/spentfuel
 	name = "Spent fuel pool"
-	desc = "A dumping ground for spent nuclear fuel, can you touch the bottom?."
+	desc = "A dumping ground for spent nuclear fuel, can you touch the bottom?"
+	icon = 'nsv13/icons/obj/pool.dmi'
 	icon_state = "spentfuelpool"
 
 /turf/open/indestructible/sound/pool/spentfuel/wall
@@ -806,8 +807,6 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	network_destination = "rbmk monitoring system"
 	size = 2
 	tgui_id = "NtosRbmkStats"
-	ui_x = 350
-	ui_y = 550
 	var/active = TRUE //Easy process throttle
 	var/next_stat_interval = 0
 	var/list/psiData = list()

@@ -160,7 +160,8 @@
 		var/datum/species/ethereal/E = H.dna.species
 		if(E.drain_time > world.time)
 			return
-		if(charge < CELL_POWER_DRAIN)
+
+		if(charge < 100)
 			to_chat(H, "<span class='warning'>The [src] doesn't have enough power!</span>")
 			return
 		var/obj/item/organ/stomach/ethereal/stomach = H.getorganslot(ORGAN_SLOT_STOMACH)
@@ -182,9 +183,8 @@
 			to_chat(H, "<span class='warning'>You fail to receive charge from the [src]!</span>")
 	return
 
-
 /obj/item/stock_parts/cell/blob_act(obj/structure/blob/B)
-	ex_act(EXPLODE_DEVASTATE)
+	SSexplosions.high_mov_atom += src
 
 /obj/item/stock_parts/cell/proc/get_electrocute_damage()
 	if(charge >= 1000)

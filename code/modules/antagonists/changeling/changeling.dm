@@ -194,6 +194,9 @@
 	if(!ishuman(owner.current))
 		to_chat(owner.current, "<span class='danger'>We can't remove our evolutions in this form!</span>")
 		return
+	if(isabsorbing)
+		to_chat(owner.current, "<span class='danger'>We cannot readapt right now!</span>")
+		return
 	if(canrespec)
 		to_chat(owner.current, "<span class='notice'>We have removed our evolutions from this form, and are now ready to readapt.</span>")
 		reset_powers()
@@ -229,7 +232,7 @@
 
 /datum/antagonist/changeling/proc/can_absorb_dna(mob/living/carbon/human/target, var/verbose=1)
 	var/mob/living/carbon/user = owner.current
-	if(isIPC(target))
+	if(isipc(target))
 		to_chat(user, "<span class='warning'>We cannot absorb mechanical entities!</span>")
 		return
 	if(!istype(user))
@@ -276,6 +279,9 @@
 	prof.underwear = H.underwear
 	prof.undershirt = H.undershirt
 	prof.socks = H.socks
+
+	if(H.wear_id?.GetID())
+		prof.id_icon = "hud[ckey(H.wear_id.GetJobName())]"
 
 	var/list/slots = list("head", "wear_mask", "back", "wear_suit", "w_uniform", "shoes", "belt", "gloves", "glasses", "ears", "wear_id", "s_store")
 	for(var/slot in slots)
@@ -329,7 +335,7 @@
 
 /datum/antagonist/changeling/proc/create_initial_profile()
 	var/mob/living/carbon/C = owner.current	//only carbons have dna now, so we have to typecaste
-	if(isIPC(C))
+	if(isipc(C))
 		C.set_species(/datum/species/human)
 		var/replacementName = random_unique_name(C.gender)
 		if(C.client.prefs.custom_names["human"])
@@ -363,6 +369,8 @@
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ling_aler.ogg', 100, FALSE, pressure_affected = FALSE)
 
 	owner.announce_objectives()
+	owner.current.client?.tgui_panel?.give_antagonist_popup("Changeling",
+		"You have absorbed the form of [owner.current] and have infiltrated the station. Use your changeling powers to complete your objectives.")
 
 /datum/antagonist/changeling/farewell()
 	to_chat(owner.current, "<span class='userdanger'>You grow weak and lose your powers! You are no longer a changeling and are stuck in your current form!</span>")
@@ -373,7 +381,7 @@
 	//If it seems like they'd be able to do it in play, add a 10% chance to have to escape alone
 
 	var/escape_objective_possible = TRUE
-	switch(competitive_objectives ? (team_mode ? rand(1,2) : rand(1,3)) : 1)
+	switch(competitive_objectives ? rand(1,2) : 1)
 		if(1)
 			var/datum/objective/absorb/absorb_objective = new
 			absorb_objective.owner = owner
@@ -382,11 +390,6 @@
 			log_objective(owner, absorb_objective.explanation_text)
 		if(2)
 			var/datum/objective/absorb_most/ac = new
-			ac.owner = owner
-			objectives += ac
-			log_objective(owner, ac.explanation_text)
-		if(3) //only give the murder other changelings goal if they're not in a team.
-			var/datum/objective/absorb_changeling/ac = new
 			ac.owner = owner
 			objectives += ac
 			log_objective(owner, ac.explanation_text)
@@ -506,6 +509,9 @@
 	var/undershirt
 	var/socks
 
+	/// ID HUD icon associated with the profile
+	var/id_icon
+
 /datum/changelingprofile/Destroy()
 	qdel(dna)
 	. = ..()
@@ -524,7 +530,7 @@
 	newprofile.underwear = underwear
 	newprofile.undershirt = undershirt
 	newprofile.socks = socks
-
+	newprofile.id_icon = id_icon
 
 /datum/antagonist/changeling/xenobio
 	name = "Xenobio Changeling"

@@ -6,12 +6,14 @@
 	item_state = "stunsword"
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/melee_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/melee_righthand.dmi'
+	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_BULKY
 	force = 10
 	on_stun_sound = 'nsv13/sound/effects/saberhit.ogg'
 	attack_verb = list("immolated", "slashed")
 	hitsound = 'sound/weapons/rapierhit.ogg'
+	materials = list(/datum/material/iron = 1000)
 	var/stunforce_on = 60
 	var/stunforce_off = 0
 	var/stunforce = 60
@@ -36,7 +38,6 @@
 	return BRUTELOSS
 
 /obj/item/melee/classic_baton/telescopic/stunsword/attack_self(mob/user)
-	on = !on
 	SEND_SIGNAL(src, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_WEAK)
 	if(on)
 		flick("stunsword_ignite",src)
@@ -50,6 +51,8 @@
 		attack_verb = list("sliced", "cut", "striken", "immobilized")
 		hitsound = 'nsv13/sound/effects/saberhit.ogg'
 		set_light(3)
+		on = FALSE
+		sharpness = IS_BLUNT
 	else
 		flick("stunsword_extinguish",src)
 		visible_message("<span class='warning'>[user] swings [src] around, extinguishing it in the process.</span>")
@@ -64,6 +67,8 @@
 		attack_verb = list("immolated", "slashed")
 		hitsound = 'sound/weapons/rapierhit.ogg'
 		set_light(0)
+		on = TRUE
+		sharpness = IS_SHARP
 
 	add_fingerprint(user)
 
@@ -80,6 +85,8 @@
 								"<span class='userdanger'>[user] has [pick(attack_verb)] you with [src]!</span>")
 		log_combat(user, target, "stunned")
 		return
+	else
+		.=..()
 
 /obj/item/reagent_containers/food/drinks/solgovcup //Credit to baystation for this sprite!
 	name = "solgov branded drinks cup"

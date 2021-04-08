@@ -5,7 +5,7 @@
 
 /datum/map_config //NSV EDITED START
 	// Metadata
-	var/config_filename = "_maps/hammerhead.json"
+	var/config_filename = "_maps/gladius.json"
 	var/defaulted = TRUE  // set to FALSE by LoadConfig() succeeding
 	// Config from maps.txt
 	var/config_max_users = 0
@@ -14,29 +14,39 @@
 	var/votable = FALSE
 
 	// Config actually from the JSON - should default to Hammerhead //NSV EDITS
-	var/map_name = "NSV Hammerhead - DEFAULTED"
+	var/map_name = "NSV Gladius - DEFAULTED"
 	var/map_link = null //This is intentionally wrong, this will make it not link to webmap.
-	var/map_path = "map_files/Hammerhead"
-	var/map_file = "Hammerhead.dmm"
-	var/ship_type = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
-	var/mining_ship_type = /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
+	var/map_path = "map_files/Gladius"
+	var/map_file = list("Gladius2.dmm", "Gladius1.dmm")
+	var/ship_type = /obj/structure/overmap/nanotrasen/battlecruiser/starter
+	var/mining_ship_type = /obj/structure/overmap/nanotrasen/mining_cruiser/rocinante
 	var/mine_disable = FALSE //NSV13 - Allow disabling of mineship loading.
-	var/mine_file = "nostromo.dmm" //Nsv13. Heavy changes to this file
+	var/mine_file = "Rocinante.dmm" //Nsv13. Heavy changes to this file
 	var/mine_path = "map_files/Mining/nsv13"
 	var/faction = "nanotrasen" //Nsv13 - To what faction does the NSV belong?
 	var/patrol_type = "standard" //Nsv13 - Lets you set the patrol type per map. Sometimes we just wanna space cruise y'dig?
 	var/mine_traits = null
 
-	var/traits = null
+	var/traits = list(
+		list(
+			"Up" = 1,
+			"Linkage" = "Cross",
+			"Station" = 1,
+			"Boardable Ship" = 1),
+		list(
+			"Down" = -1,
+			"Linkage" = "Cross",
+			"Station" = 1,
+			"Boardable Ship" = 1)
+		)
 	var/space_ruin_levels = -1
 	var/space_empty_levels = 1
 
 	var/allow_custom_shuttles = TRUE
 	var/shuttles = list(
-		"cargo" = "cargo_box",
-		"ferry" = "ferry_fancy",
-		"whiteship" = "whiteship_box",
-		"emergency" = "emergency_box")
+		"cargo" = "cargo_gladius",
+		"ferry" = "ferry_kilo",
+		"emergency" = "emergency_donut")
 
 //NSV EDITED END
 
@@ -47,6 +57,7 @@
 	if (!config.LoadConfig(filename, error_if_missing))
 		qdel(config)
 		config = new /datum/map_config  // Fall back to Box
+		//config.LoadConfig(config.config_filename)
 	if (delete_after)
 		fdel(filename)
 	return config
