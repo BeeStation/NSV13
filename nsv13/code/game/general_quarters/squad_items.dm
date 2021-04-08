@@ -39,17 +39,17 @@
 /datum/gear/squad/headband
 	display_name = "Squad headband"
 	path = /obj/item/clothing/head/ship/squad/colouronly/headband
-	slot = SLOT_HEAD
+	slot = ITEM_SLOT_HEAD
 
 /datum/gear/squad/jacket
 	display_name = "Squad jacket"
 	path = /obj/item/clothing/suit/ship/squad/bomber
-	slot = SLOT_WEAR_SUIT
+	slot = ITEM_SLOT_OCLOTHING
 
 /datum/gear/squad/cap
 	display_name = "Squad cap"
 	path = /obj/item/clothing/head/ship/squad/colouronly/cap
-	slot = SLOT_HEAD
+	slot = ITEM_SLOT_HEAD
 
 /obj/item/squad_pager
 	name = "squad pager"
