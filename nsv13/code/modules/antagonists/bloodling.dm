@@ -391,25 +391,25 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 
 /datum/hud/bloodling/New(mob/owner)
 	..()
-	var/obj/screen/using
+	var/atom/movable/screen/using
 
-	healths = new /obj/screen/healths/alien()
+	healths = new /atom/movable/screen/healths/alien()
 	healths.hud = src
 	infodisplay += healths
 
-	pull_icon = new /obj/screen/pull()
+	pull_icon = new /atom/movable/screen/pull()
 	pull_icon.icon = 'icons/mob/screen_alien.dmi'
 	pull_icon.update_icon()
 	pull_icon.screen_loc = ui_above_movement
 	pull_icon.hud = src
 	hotkeybuttons += pull_icon
 
-	using = new/obj/screen/language_menu
+	using = new/atom/movable/screen/language_menu
 	using.screen_loc = ui_alien_language_menu
 	using.hud = src
 	static_inventory += using
 
-	lingchemdisplay = new /obj/screen/ling/chems()
+	lingchemdisplay = new /atom/movable/screen/ling/chems()
 	lingchemdisplay.hud = src
 	infodisplay += lingchemdisplay
 
@@ -1124,7 +1124,6 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 		//Wall the master in
 		new /obj/structure/fluff/bloodling_tendril(get_turf(user))
 		for(var/cdir in GLOB.alldirs)
-			new /obj/structure/alien/flesh(get_turf(get_step(user, cdir)))
 			new /obj/structure/alien/resin/wall(get_turf(get_step(user, cdir)))
 
 		to_chat(user, "<span class='userdanger'>We start to channel our mental energy... We will be unable to move while we attempt our ascension.</span>")

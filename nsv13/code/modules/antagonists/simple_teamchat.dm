@@ -89,7 +89,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 //For "radios". You keep
 /datum/component/simple_teamchat/proc/on_equip(datum/source, mob/equipper, slot)
 	//Nope :)
-	if(slot && slot == SLOT_IN_BACKPACK)
+	if(slot && slot == ITEM_SLOT_BACKPACK)
 		on_drop(source, equipper)
 		return
 	chatAction.Grant(equipper)
