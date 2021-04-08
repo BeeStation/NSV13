@@ -328,8 +328,7 @@
 	layer = 30
 
 /atom/movable/screen/parallax_layer/planet/update_status(mob/M)
-	var/turf/T = get_turf(M)
-	if(is_station_level(T.z))
+	if(!M.get_overmap()) //Nsv13 - Removes floyd's stupid lava planet from where it doesn't belong >:(
 		invisibility = 0
 	else
 		invisibility = INVISIBILITY_ABSTRACT
