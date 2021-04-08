@@ -7,8 +7,11 @@ import { toFixed } from 'common/math';
 export const HybridWeapons = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable theme="ntos">
-      <Window.Content>
+    <Window resizable
+      theme="ntos"
+      width={560}
+      height={600}>
+      <Window.Content scrollable>
         <Section title="Weapon system controls:">
           <Button
             fluid
