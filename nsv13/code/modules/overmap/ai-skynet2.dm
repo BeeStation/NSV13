@@ -305,8 +305,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		for(var/mob/M in OOM.mobs_in_ship)
 			if(M.client)
 				var/client/C = M.client
-				if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
-					C.chatOutput.stopMusic()
+				C.tgui_panel?.stop_music()
 	if(player_caused)	//Only modify influence if players caused this, otherwise someone else claimed the kill and it doesn't modify influence for the purpose of Patrol completion.
 		faction = SSstar_system.faction_by_id(faction_id)
 		faction?.lose_influence(reward)
@@ -422,9 +421,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		for(var/mob/M in mobs_in_ship)
 			if(M.client)
 				var/client/C = M.client
-				if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
-					C.chatOutput.stopMusic()
-					C.chatOutput.sendMusic(web_sound_url, music_extra_data)
+				C.tgui_panel?.stop_music()
+				C.tgui_panel?.play_music(web_sound_url, music_extra_data)
 
 //Syndicate Fleets
 
@@ -1438,10 +1436,13 @@ Seek a ship thich we'll station ourselves around
 		holder = M.client //if its a mob, assign the mob's client to holder
 	. = ..()
 
-/datum/starsystem_manager/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.admin_state)//ui_interact is called when the client verb is called.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/datum/starsystem_manager/ui_state(mob/user)
+        return GLOB.admin_state
+
+/datum/starsystem_manager/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "SystemManager", "Starsystem Manager", 400, 400, master_ui, state)
+		ui = new(user, src, "SystemManager")
 		ui.open()
 
 /datum/starsystem_manager/ui_data(mob/user)

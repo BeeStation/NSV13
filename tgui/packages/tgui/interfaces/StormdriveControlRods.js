@@ -6,7 +6,11 @@ import { Window } from '../layouts';
 export const StormdriveControlRods = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable theme="hackerman">
+    <Window
+      resizable
+      theme="hackerman"
+      width={560}
+      height={600}>
       <Window.Content scrollable>
         <Section>
           <Section title="Installed Control Rods:">
