@@ -458,14 +458,14 @@
 	contains = list(/obj/item/vending_refill/wardrobe/muni_wardrobe)
 	crate_name = "munidrobe supply crate"
 
-datum/supply_pack/medical/chemical_supply
+/datum/supply_pack/medical/chemical_supply
 	name = "Chemical Supply Crate"
 	desc = "This crate contains 10 bottles of chemical elements"
 	cost = 2000
 	contains = list()
 	crate_name = "Chemical Supply Crate"
 
-datum/supply_pack/medical/chemical_supply/fill(obj/structure/closet/crate/C)
+/datum/supply_pack/medical/chemical_supply/fill(obj/structure/closet/crate/C)
 	var/s_pool = list(/obj/item/reagent_containers/glass/bottle/aluminium,
 					/obj/item/reagent_containers/glass/bottle/bromine,
 					/obj/item/reagent_containers/glass/bottle/carbon,
