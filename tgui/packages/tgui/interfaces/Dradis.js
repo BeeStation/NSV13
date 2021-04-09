@@ -18,7 +18,11 @@ export const Dradis = (props, context) => {
   let multiplier = 562.5*zoom_factor;
   let rangeStyle = "left:"+focus_x*scale_factor+"px;bottom:"+focus_y*scale_factor+"px; width:"+width_mod*multiplier+"px; height:"+width_mod*multiplier+"px;margin-bottom:"+(-1)*((width_mod*multiplier)/2)+"px;margin-left:"+(-1)*((width_mod*multiplier)/2)+"px;";
   return (
-    <Window resizable theme="hackerman">
+    <Window
+      resizable
+      theme="hackerman"
+      width={700}
+      height={750}>
       <Window.Content scrollable>
         <Section
           title="Settings:"

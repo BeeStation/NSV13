@@ -33,6 +33,7 @@
 	var/pdc_mode = FALSE
 	var/last_pdc_fire = 0 //Pdc cooldown
 	var/BeingLoaded //Used for gunner load
+	var/list/gauss_verbs = list(.verb/show_computer, .verb/show_view, .verb/swap_firemode)
 
 #define VV_HK_REMOVE_GAUSS_GUNNER "getOutOfMyGunIdiot"
 
@@ -120,6 +121,10 @@
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
 	ammo_rack = new /obj/structure/gauss_rack(src)
 	ammo_rack.gun = src
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/ship_weapon/gauss_gun/LateInitialize()
+	// Required components should actually exist
 	START_PROCESSING(SSobj, src)
 	lower_rack()
 
@@ -168,6 +173,7 @@
 	user.forceMove(src)
 	gunner = user
 	gunner.AddComponent(/datum/component/overmap_gunning, src)
+	gunner.add_verb(gauss_verbs)
 	ui_interact(user)
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
@@ -176,6 +182,7 @@
 		lower_chair()
 	else
 		gunner.forceMove(get_turf(src))
+	gunner.remove_verb(gauss_verbs)
 	gunner = null
 
 //Directional subtypes
@@ -295,7 +302,7 @@
 	desc = "An upgrade which allows you to load gauss racks using conveyors."
 	id = "gauss_rack_upgrade"
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
-	build_path = /obj/item/circuitboard/computer/ams
+	build_path = /obj/item/circuitboard/gauss_rack_upgrade
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
@@ -406,10 +413,10 @@
 	. = ..()
 	ui_interact(user)
 
-/obj/structure/gauss_rack/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/structure/gauss_rack/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "GaussRack", name, 560, 600, master_ui, state)
+		ui = new(user, src, "GaussRack")
 		ui.open()
 
 /obj/structure/gauss_rack/ui_act(action, params, datum/tgui/ui)
@@ -596,7 +603,12 @@ Chair + rack handling
 	if(!ammo_rack)
 		return
 	ammo_rack.loading = FALSE
-	var/turf/below = get_turf(get_step(SSmapping.get_turf_below(src), gunner_chair.feed_direction))
+	var/turf/below
+	if(gunner_chair)
+		below = get_turf(get_step(SSmapping.get_turf_below(src), gunner_chair.feed_direction))
+	else
+		// Default is south
+		below = get_turf(get_step(SSmapping.get_turf_below(src), SOUTH))
 	playsound(below, 'nsv13/sound/effects/ship/freespace2/crane_2.wav', 100, FALSE)
 	ammo_rack.forceMove(below)
 	ammo_rack.pixel_y = 60
@@ -623,11 +635,14 @@ Chair + rack handling
 //Gauss overrides
 //The gaussgun is its own computer here because it needs to be interactible by people who are inside it, and I'm done with arsing around getting that to work ~Kmc after 3 hours of debugging TGUI
 
-/obj/machinery/ship_weapon/gauss_gun/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.contained_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/ship_weapon/gauss_gun/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "MunitionsComputer", name, 560, 600, master_ui, state)
+		ui = new(user, src, "MunitionsComputer")
 		ui.open()
+
+/obj/machinery/ship_weapon/gauss_gun/ui_state(mob/user)
+	return GLOB.contained_state
 
 /obj/machinery/ship_weapon/gauss_gun/ui_act(action, params, datum/tgui/ui)
 	if(..())

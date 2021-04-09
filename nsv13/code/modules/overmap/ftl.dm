@@ -435,10 +435,10 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		return
 	ui_interact(user)
 
-/obj/machinery/computer/ship/ftl_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ship/ftl_computer/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "FTLComputer", name, 560, 350, master_ui, state)
+		ui = new(user, src, "FTLComputer")
 		ui.open()
 
 /obj/machinery/computer/ship/ftl_computer/ui_act(action, params, datum/tgui/ui)
