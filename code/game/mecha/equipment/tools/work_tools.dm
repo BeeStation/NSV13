@@ -193,7 +193,7 @@
 	if(istype(target, ext_tank_type) && get_dist(chassis,target) <= 1)
 		var/obj/structure/reagent_dispensers/R = target
 		R.reagents.trans_to(src, 1000)
-		occupant_message("<span class='notice'>[src] refilled.</span>")
+		occupant_message("<span class='notice'>[src] has been refilled.</span>")
 		playsound(chassis, 'sound/effects/refill.ogg', 50, 1, -6)
 	else
 		if(reagents.total_volume > 0)
