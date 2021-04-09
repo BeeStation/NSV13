@@ -1205,11 +1205,8 @@
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat)
 "gi" = (
-/obj/machinery/hydroponics/constructable,
-/obj/effect/turf_decal/tile/ship/half/green{
-	dir = 1
-	},
-/turf/open/floor/monotile/steel,
+/obj/structure/reagent_dispensers/cooking_oil,
+/turf/open/floor/plasteel/freezer,
 /area/hydroponics)
 "gl" = (
 /obj/machinery/firealarm/directional/south,
@@ -2167,10 +2164,8 @@
 /area/maintenance/nsv/deck1/starboard)
 "lp" = (
 /obj/machinery/processor,
-/obj/machinery/light,
-/obj/machinery/light_switch/south,
-/turf/open/floor/monotile/light,
-/area/crew_quarters/kitchen)
+/turf/open/floor/plasteel/freezer,
+/area/hydroponics)
 "lr" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -2376,9 +2371,7 @@
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/bar/mess_hall)
 "mz" = (
-/obj/machinery/vending/wardrobe/chef_wardrobe,
-/obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/plasteel/freezer,
+/turf/closed/wall/r_wall,
 /area/crew_quarters/kitchen)
 "mA" = (
 /obj/structure/lattice/catwalk,
@@ -2640,6 +2633,10 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck1/hallway)
+"oc" = (
+/obj/structure/sign/barsign,
+/turf/closed/wall/steel,
+/area/crew_quarters/kitchen)
 "od" = (
 /obj/machinery/squad_vendor,
 /turf/closed/wall/r_wall,
@@ -3257,6 +3254,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
+"ra" = (
+/obj/structure/sign/ship/deck,
+/turf/closed/wall/steel,
+/area/crew_quarters/kitchen)
 "rb" = (
 /obj/effect/turf_decal/tile/ship/half/green{
 	dir = 1
@@ -3565,10 +3566,11 @@
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck1/hallway)
 "sx" = (
-/obj/structure/closet/secure_closet/freezer/fridge,
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/machinery/light_switch/east,
+/obj/machinery/vending/dinnerware,
 /turf/open/floor/monotile/light,
 /area/crew_quarters/kitchen)
 "sz" = (
@@ -4662,6 +4664,7 @@
 /mob/living/simple_animal/hostile/retaliate/goat{
 	name = "Pegasus"
 	},
+/obj/structure/kitchenspike,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen)
 "xw" = (
@@ -5916,7 +5919,13 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "DS" = (
-/obj/structure/kitchenspike,
+/obj/machinery/light_switch/east,
+/obj/machinery/vending/wardrobe/bar_wardrobe{
+	pixel_x = -14
+	},
+/obj/machinery/vending/wardrobe/chef_wardrobe{
+	pixel_x = 5
+	},
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen)
 "DU" = (
@@ -6788,7 +6797,8 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/hor)
 "Io" = (
-/obj/machinery/vending/dinnerware,
+/obj/machinery/light,
+/obj/structure/closet/secure_closet/freezer/fridge,
 /turf/open/floor/monotile/light,
 /area/crew_quarters/kitchen)
 "Ir" = (
@@ -7453,8 +7463,13 @@
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "Ll" = (
-/obj/structure/sign/ship/deck,
-/turf/closed/wall/steel,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only,
+/obj/structure/table/wood,
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/wood,
 /area/crew_quarters/kitchen)
 "Lo" = (
 /obj/machinery/light/small,
@@ -7623,7 +7638,6 @@
 	},
 /obj/item/storage/box/donkpockets,
 /obj/machinery/airalarm/directional/north,
-/obj/machinery/firealarm/directional/west,
 /turf/open/floor/monotile/light,
 /area/crew_quarters/kitchen)
 "Ma" = (
@@ -8246,8 +8260,8 @@
 /area/hydroponics)
 "OP" = (
 /obj/machinery/deepfryer,
-/obj/machinery/airalarm/directional/west,
 /obj/structure/extinguisher_cabinet/south,
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/monotile/light,
 /area/crew_quarters/kitchen)
 "OQ" = (
@@ -8599,15 +8613,11 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
 "QK" = (
-/obj/machinery/chem_master/condimaster{
-	name = "CondiMaster Neo";
-	pixel_x = -4
-	},
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/machinery/light_switch/east,
+/obj/machinery/chem_master/condimaster,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen)
 "QS" = (
@@ -9179,8 +9189,10 @@
 /turf/open/floor/plasteel/grid/lino,
 /area/ai_monitored/nuke_storage)
 "Uc" = (
-/obj/structure/reagent_dispensers/cooking_oil,
-/obj/machinery/firealarm/directional/north,
+/obj/machinery/firealarm/directional/west,
+/obj/structure/closet/secure_closet/bar,
+/obj/item/gun/ballistic/shotgun/doublebarrel,
+/obj/item/clothing/under/rank/civilian/bartender,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen)
 "Ue" = (
@@ -9359,10 +9371,6 @@
 	},
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 1
-	},
-/obj/structure/sign/barsign{
-	pixel_y = 32;
-	req_access = null
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 10
@@ -10005,8 +10013,29 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/hor)
 "YB" = (
-/obj/machinery/vending/boozeomat/all_access,
-/turf/closed/wall/steel,
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/structure/table/reinforced,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/structure/window/reinforced/spawner/west,
+/obj/structure/window/reinforced/spawner,
+/obj/machinery/chem_dispenser/drinks/fullupgrade{
+	pixel_x = 2;
+	pixel_y = 24
+	},
+/obj/machinery/chem_dispenser/drinks/beer{
+	dir = 4;
+	pixel_x = -5
+	},
+/obj/item/storage/box/drinkingglasses{
+	pixel_x = 4
+	},
+/obj/item/reagent_containers/food/drinks/shaker,
+/turf/open/floor/monotile/light,
 /area/crew_quarters/kitchen)
 "YC" = (
 /obj/effect/turf_decal/tile/ship/half/green,
@@ -41464,9 +41493,9 @@ HI
 HI
 HI
 HI
-HG
-HG
-HG
+HI
+HI
+HI
 SX
 oj
 hk
@@ -41723,7 +41752,7 @@ mK
 mK
 mK
 mK
-HG
+HI
 SX
 Pp
 Re
@@ -41980,7 +42009,7 @@ mK
 vW
 mK
 mK
-HG
+HI
 SX
 Ku
 HG
@@ -42237,7 +42266,7 @@ mK
 vW
 mK
 mK
-HG
+HI
 SX
 vu
 HG
@@ -42494,7 +42523,7 @@ mK
 vW
 mK
 mK
-HG
+HI
 SX
 vu
 HG
@@ -42751,7 +42780,7 @@ HI
 vW
 mK
 mK
-HG
+HI
 ZR
 BJ
 HG
@@ -43008,7 +43037,7 @@ BH
 YR
 mK
 mK
-HG
+HI
 cm
 LL
 HG
@@ -43264,8 +43293,8 @@ HI
 HI
 KS
 KS
-uG
-uG
+mz
+mz
 iA
 uG
 uG
@@ -43520,7 +43549,7 @@ DB
 FI
 pG
 KS
-KS
+gi
 Uc
 xv
 ii
@@ -43776,9 +43805,9 @@ NK
 Bi
 Bi
 NK
-gi
 KS
-mz
+lp
+qu
 qu
 Ir
 FL
@@ -44033,13 +44062,13 @@ NK
 Yj
 Yj
 NK
-gi
+KS
 KS
 QK
 xw
 lM
 DS
-uG
+ra
 MU
 wu
 Sc
@@ -44809,7 +44838,7 @@ KS
 oo
 vZ
 aB
-lp
+vZ
 Ll
 yY
 jW
@@ -45067,7 +45096,7 @@ aq
 Qz
 qU
 Io
-uG
+oc
 UP
 Hj
 Du
