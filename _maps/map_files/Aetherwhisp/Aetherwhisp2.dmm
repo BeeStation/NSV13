@@ -3916,9 +3916,9 @@
 /area/ai_monitored/nuke_storage)
 "cDL" = (
 /obj/effect/spawner/lootdrop/maintenance/two,
-/obj/effect/spawner/lootdrop/armory_contraband/metastation,
 /obj/structure/closet/crate,
 /obj/item/disk/design_disk/overmap_shields,
+/obj/effect/spawner/lootdrop/armory_contraband,
 /turf/open/floor/circuit,
 /area/ai_monitored/nuke_storage)
 "cDN" = (
@@ -5121,7 +5121,7 @@
 	},
 /obj/effect/spawner/lootdrop/maintenance,
 /obj/structure/closet/crate{
-	icon_state = "crateopen"
+	opened = 1
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
@@ -5587,7 +5587,7 @@
 	name = "server vent";
 	pressure_checks = 0
 	},
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
+/turf/open/floor/plasteel/freezer,
 /area/science/xenobiology)
 "dYW" = (
 /obj/structure/disposalpipe/segment{
@@ -8653,6 +8653,9 @@
 /obj/machinery/recharger{
 	pixel_x = 7
 	},
+/obj/item/storage/secure/safe/caps_spare{
+	pixel_x = 32
+	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -11547,7 +11550,7 @@
 /obj/machinery/atmospherics/pipe/simple/cyan/visible{
 	dir = 4
 	},
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
+/turf/open/floor/plasteel/freezer,
 /area/science/xenobiology)
 "iow" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -14363,10 +14366,10 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-10"
 	},
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
 /obj/item/radio/off,
+/obj/structure/closet/crate{
+	opened = 1
+	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -15277,10 +15280,6 @@
 /area/science/research)
 "llG" = (
 /obj/item/storage/fancy/donut_box,
-/obj/item/reagent_containers/food/drinks/mug/coco{
-	pixel_x = -7;
-	pixel_y = 1
-	},
 /obj/structure/table,
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -15297,6 +15296,10 @@
 	pixel_y = 4
 	},
 /obj/item/key/fighter_tug,
+/obj/item/reagent_containers/food/drinks/coffee{
+	pixel_x = -8;
+	pixel_y = 1
+	},
 /turf/open/floor/carpet/ship,
 /area/nsv/atc)
 "llI" = (
@@ -23885,7 +23888,7 @@
 /obj/item/lipstick/random,
 /obj/item/lipstick/random,
 /obj/structure/closet/crate{
-	icon_state = "crateopen"
+	opened = 1
 	},
 /turf/open/floor/plating,
 /area/quartermaster/warehouse)
@@ -26272,7 +26275,7 @@
 /area/bridge/meeting_room/council)
 "sDi" = (
 /obj/machinery/atmospherics/pipe/manifold/cyan/visible,
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
+/turf/open/floor/plasteel/freezer,
 /area/science/xenobiology)
 "sDy" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
@@ -30601,7 +30604,7 @@
 	external_pressure_bound = 120;
 	name = "server vent"
 	},
-/turf/open/floor/plasteel/kitchen_coldroom/freezerfloor,
+/turf/open/floor/plasteel/freezer,
 /area/science/xenobiology)
 "wll" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
@@ -31978,7 +31981,7 @@
 /area/nsv/weapons/starboard)
 "xkc" = (
 /obj/structure/closet/crate{
-	icon_state = "crateopen"
+	opened = 1
 	},
 /obj/effect/spawner/lootdrop/maintenance/eight,
 /obj/effect/spawner/lootdrop/costume,

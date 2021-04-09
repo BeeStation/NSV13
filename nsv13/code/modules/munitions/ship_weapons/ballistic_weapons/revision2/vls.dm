@@ -234,10 +234,10 @@
 	data["categories"] = categories
 	return data
 
-/obj/machinery/computer/ams/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.always_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ams/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "AMS", "AMS Access", 500, 500, master_ui, state)
+		ui = new(user, src, "AMS")
 		ui.open()
 
 /datum/ams_mode/countermeasures/acquire_targets(obj/structure/overmap/OM)

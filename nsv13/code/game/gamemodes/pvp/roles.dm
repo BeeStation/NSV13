@@ -18,10 +18,13 @@
 	else
 		return FALSE
 
-/datum/syndicate_job_menu/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.always_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/datum/syndicate_job_menu/ui_state(mob/user)
+	return GLOB.always_state
+
+/datum/syndicate_job_menu/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "SyndieJobSelect", "Syndicate Job Selection", 500, 500, master_ui, state)
+		ui = new(user, src, "SyndieJobSelect")
 		ui.open()
 
 /datum/syndicate_job_menu/ui_data(mob/user)
@@ -379,12 +382,15 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
 
 //Allows you to see faction statuses
-/mob/Stat()
-	..()
-	if(statpanel("Faction"))
-		stat(null, "Faction influence:")
-		for(var/datum/faction/F in SSstar_system.factions)
-			stat(null, "[F.name]: [F.tickets]")
+/mob/proc/get_stat_tab_faction()
+	var/list/tab_data = list()
+	for(var/datum/faction/F in SSstar_system.factions)
+		if (F) //No nulls!
+			tab_data["[F?.name]"] = list(
+				text = "[F?.tickets]",
+				type = STAT_TEXT
+			)
+	return tab_data
 
 /datum/team/nuclear/roundend_report()
 	if(istype(SSticker.mode, /datum/game_mode/pvp))
@@ -463,3 +469,109 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 		final.Insert(icon('icons/mob/screen_gen.dmi', "x[x_number == 1 ? "" : x_number]"), "x[x_number == 1 ? "" : x_number]")
 	*/
 	fcopy(final, "nsv13/icons/mob/syndicate_roles.dmi")
+
+#define DEPT_SYNDICATE 6
+
+//Ultra stripped down ID console for assigning secondary ship accesses.
+/obj/machinery/computer/secondary_ship_id_console
+	name = "Secondary Ship ID console"
+	circuit = /obj/item/circuitboard/computer/card/secondary_ship
+	icon_screen = "idhos"
+	light_color = LIGHT_COLOR_RED
+	req_one_access = null //If this
+	var/list/target_accesses = list() //Format: K = Title to display this access as, V = the access itself, as an assoc list.
+	var/obj/item/card/id/modifying = null
+	var/theme = "ntos"
+
+/obj/machinery/computer/secondary_ship_id_console/attackby(obj/item/I, mob/living/user, params)
+	. = ..()
+	if(istype(I, /obj/item/card/id))
+		if(!do_after(user, 0.5 SECONDS, target=src))
+			return FALSE
+		if(modifying)
+			eject()
+		modifying = I
+		I.forceMove(src)
+		playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, 0)
+		return TRUE
+
+/obj/machinery/computer/secondary_ship_id_console/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "SecondaryID")
+		ui.open()
+
+/obj/machinery/computer/secondary_ship_id_console/ui_data(mob/user)
+	var/list/data = list()
+	var/list/accessData = list()
+	for(var/title in target_accesses)
+		var/access = target_accesses[title]
+		accessData[++accessData.len] = list("title"=title, "access"=access, "hasAccess"=modifying && (access in modifying.access))
+	data["theme"] = theme
+	data["accessList"] = accessData
+	data["modifying"] = (modifying) ? TRUE : FALSE
+	return data
+
+/obj/machinery/computer/secondary_ship_id_console/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	switch(action)
+		if("eject")
+			eject()
+		if("accessMod")
+			if(!allowed(usr))
+				to_chat(usr, "<span class='warning'>You are not authorised to use this console.</span>")
+				return FALSE
+			var/access = text2num(params["access"])
+			if(access in modifying.access)
+				modifying.access -= access
+			else
+				modifying.access += access
+			playsound(src, "terminal_type", 50, 0)
+		if("modifyName")
+			if(!allowed(usr))
+				to_chat(usr, "<span class='warning'>You are not authorised to use this console.</span>")
+				return FALSE
+			if(!modifying)
+				return FALSE
+			var/newName = stripped_input(usr, "Enter a new assigned name for this ID.", "[src]", null)
+			if(!newName)
+				return FALSE
+			modifying.registered_name = newName
+			modifying.update_label()
+		if("modifyAssignment")
+			if(!allowed(usr))
+				to_chat(usr, "<span class='warning'>You are not authorised to use this console.</span>")
+				return FALSE
+			if(!modifying)
+				return FALSE
+			var/newOccupation = stripped_input(usr, "Enter a new assigned job for this ID.", "[src]", null)
+			if(!newOccupation)
+				return FALSE
+			modifying.assignment = newOccupation
+			modifying.update_label()
+
+
+/obj/machinery/computer/secondary_ship_id_console/proc/eject()
+	if(!modifying)
+		return FALSE
+	playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, 0)
+	modifying.forceMove(get_turf(src))
+	modifying = null
+
+/obj/machinery/computer/secondary_ship_id_console/syndicate
+	name = "Syndicate Navy ID console"
+	target_accesses = list("General Syndicate Access" = ACCESS_SYNDICATE, "Syndicate Engineering" = ACCESS_SYNDICATE_ENGINEERING, "Syndicate Captain" = ACCESS_SYNDICATE_LEADER, "Syndicate Armoury" = ACCESS_SYNDICATE_MARINE_ARMOURY, "Syndicate Requisitions" = ACCESS_SYNDICATE_REQUISITIONS)
+	req_one_access = list(ACCESS_SYNDICATE_LEADER) //Syndicate captain does the XO's job.
+	theme = "syndicate"
+/obj/item/circuitboard/computer/card/secondary_ship
+	build_path = /obj/machinery/computer/secondary_ship_id_console
+
+/obj/machinery/computer/security/syndicate
+	name = "Syndicate Camera Console"
+	network = list("syndicate") //I hate all of you
+	circuit = /obj/item/circuitboard/computer/security/syndicate
+
+/obj/item/circuitboard/computer/security/syndicate
+	name = "Syndicate Camera Console (Circuit)"
+	build_path = /obj/machinery/computer/security/syndicate

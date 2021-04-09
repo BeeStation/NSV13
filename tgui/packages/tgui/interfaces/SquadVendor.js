@@ -6,7 +6,11 @@ import { Window } from '../layouts';
 export const SquadVendor = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable theme="ntos">
+    <Window
+      resizable
+      theme="ntos"
+      width={600}
+      height={800}>
       <Window.Content scrollable>
         { !!data.debug && (
           <Section title="Equipment Loans:">
@@ -27,7 +31,7 @@ export const SquadVendor = (props, context) => {
                     fluid
                     content="Release loan"
                     icon="times"
-                    onClick={() => act('releaseLoan', { member_id: value.id })} 
+                    onClick={() => act('releaseLoan', { member_id: value.id })}
                     tooltip="Cancel this loan and allow this person to retrieve another kit." />
                 </Section>
               );

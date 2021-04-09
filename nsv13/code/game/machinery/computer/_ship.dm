@@ -43,6 +43,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	return
 
 /obj/machinery/computer/ship/ui_interact(mob/user)
+	if(isobserver(user))
+		return FALSE
 	if(!has_overmap())
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
@@ -78,7 +80,6 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	linked.start_piloting(user, "observer")
 
 /obj/machinery/computer/ship/viewscreen/ui_interact(mob/user)
-	. = ..()
 	if(!has_overmap())
 		return
 	if(isobserver(user))
