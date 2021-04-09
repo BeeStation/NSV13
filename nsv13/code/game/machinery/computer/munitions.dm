@@ -55,10 +55,10 @@
 	attack_hand(user)
 	return TRUE
 
-/obj/machinery/computer/ship/munitions_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ship/munitions_computer/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "MunitionsComputer", name, 560, 600, master_ui, state)
+		ui = new(user, src, "MunitionsComputer")
 		ui.open()
 
 /obj/machinery/computer/ship/munitions_computer/ui_act(action, params, datum/tgui/ui)
@@ -131,10 +131,10 @@
 	icon_screen = "tactical"
 	circuit = /obj/item/circuitboard/computer/ship/ordnance_computer
 
-/obj/machinery/computer/ship/ordnance/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ship/ordnance/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "OrdnanceConsole", name, 560, 600, master_ui, state)
+		ui = new(user, src, "OrdnanceConsole")
 		ui.open()
 
 /obj/machinery/computer/ship/ordnance/ui_data(mob/user)

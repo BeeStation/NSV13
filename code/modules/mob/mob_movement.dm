@@ -194,9 +194,11 @@
   * * INCORPOREAL_MOVE_BASIC - forceMoved to the next tile with no stop
   * * INCORPOREAL_MOVE_SHADOW  - the same but leaves a cool effect path
   * * INCORPOREAL_MOVE_JAUNT - the same but blocked by holy tiles
+  * * INCORPOREAL_MOVE_EMINCENCE - was invented so that only Eminence can pass through clockwalls
   *
   * You'll note this is another mob living level proc living at the client level
   */
+
 /client/proc/Process_Incorpmove(direct)
 	var/turf/mobloc = get_turf(mob)
 	if(!isliving(mob))
@@ -263,14 +265,29 @@
 				if(stepTurf.flags_1 & NOJAUNT_1)
 					to_chat(L, "<span class='warning'>Some strange aura is blocking the way.</span>")
 					return
-				if (locate(/obj/effect/blessing, stepTurf))
+				if(locate(/obj/effect/blessing, stepTurf))
 					to_chat(L, "<span class='warning'>Holy energies block your path!</span>")
 					return
+				L.forceMove(stepTurf)
+			L.setDir(direct)
 
+		if(INCORPOREAL_MOVE_EMINENCE) //Incorporeal move for emincence. Blocks move like Jaunt but lets it pass through clockwalls
+			var/turf/open/floor/stepTurf = get_step(L, direct)
+			var/turf/loccheck = get_turf(stepTurf)
+			if(stepTurf)
+				for(var/obj/effect/decal/cleanable/food/salt/S in stepTurf)
+					to_chat(L, "<span class='warning'>[S] bars your passage!</span>")
+					return
+				if(stepTurf.flags_1 & NOJAUNT_1)
+					if(!is_reebe(loccheck.z))
+						to_chat(L, "<span class='warning'>Some strange aura is blocking the way.</span>")
+						return
+				if(locate(/obj/effect/blessing, stepTurf))
+					to_chat(L, "<span class='warning'>Holy energies block your path!</span>")
+					return
 				L.forceMove(stepTurf)
 			L.setDir(direct)
 	return TRUE
-
 
 /**
   * Handles mob/living movement in space (or no gravity)
@@ -301,9 +318,7 @@
 			continue
 		else if(isturf(A))
 			var/turf/turf = A
-			if(isspaceturf(turf))
-				continue
-			if(!turf.density && !mob_negates_gravity())
+			if(!turf.density)
 				continue
 			return A
 		else
@@ -320,14 +335,6 @@
 				if(pulling == AM)
 					continue
 				. = AM
-
-/**
-  * Returns true if a mob has gravity
-  *
-  * I hate that this exists
-  */
-/mob/proc/mob_has_gravity()
-	return has_gravity()
 
 /**
   * Does this mob ignore gravity
@@ -350,7 +357,7 @@
 
 ///Validate the client's mob has a valid zone selected
 /client/proc/check_has_body_select()
-	return mob && mob.hud_used && mob.hud_used.zone_select && istype(mob.hud_used.zone_select, /obj/screen/zone_sel)
+	return mob && mob.hud_used && mob.hud_used.zone_select && istype(mob.hud_used.zone_select, /atom/movable/screen/zone_sel)
 
 /**
   * Hidden verb to set the target zone of a mob to the head
@@ -373,7 +380,7 @@
 		else
 			next_in_line = BODY_ZONE_HEAD
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(next_in_line, mob)
 
 ///Hidden verb to target the right arm, bound to 4
@@ -384,7 +391,7 @@
 	if(!check_has_body_select())
 		return
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(BODY_ZONE_R_ARM, mob)
 
 ///Hidden verb to target the chest, bound to 5
@@ -395,7 +402,7 @@
 	if(!check_has_body_select())
 		return
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(BODY_ZONE_CHEST, mob)
 
 ///Hidden verb to target the left arm, bound to 6
@@ -406,7 +413,7 @@
 	if(!check_has_body_select())
 		return
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(BODY_ZONE_L_ARM, mob)
 
 ///Hidden verb to target the right leg, bound to 1
@@ -417,7 +424,7 @@
 	if(!check_has_body_select())
 		return
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(BODY_ZONE_R_LEG, mob)
 
 ///Hidden verb to target the groin, bound to 2
@@ -428,7 +435,7 @@
 	if(!check_has_body_select())
 		return
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(BODY_ZONE_PRECISE_GROIN, mob)
 
 ///Hidden verb to target the left leg, bound to 3
@@ -439,7 +446,7 @@
 	if(!check_has_body_select())
 		return
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(BODY_ZONE_L_LEG, mob)
 
 ///Verb to toggle the walk or run status
@@ -461,7 +468,7 @@
 	else
 		m_intent = MOVE_INTENT_RUN
 	if(hud_used && hud_used.static_inventory)
-		for(var/obj/screen/mov_intent/selector in hud_used.static_inventory)
+		for(var/atom/movable/screen/mov_intent/selector in hud_used.static_inventory)
 			selector.update_icon()
 
 ///Moves a mob upwards in z level

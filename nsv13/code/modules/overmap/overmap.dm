@@ -486,7 +486,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 
 /obj/structure/overmap/proc/update_gunner_cam(atom/target)
-	var/mob/camera/aiEye/remote/overmap_observer/cam = gunner.remote_control
+	var/mob/camera/ai_eye/remote/overmap_observer/cam = gunner.remote_control
 	cam.track_target(target)
 
 /obj/structure/overmap/onMouseMove(object,location,control,params)
@@ -601,7 +601,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 					continue
 			ship.relay(sound,message)
 
-/obj/structure/overmap/proc/verb_check(require_pilot = TRUE, mob/user = null)
+/obj/structure/overmap/proc/verb_check(mob/user, require_pilot = TRUE)
 	if(!user)
 		user = usr
 	if(user != pilot)

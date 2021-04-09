@@ -8,7 +8,11 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
   const { act, data } = useBackend(context);
   const availablePower = data.available_power;
   return (
-    <Window resizable theme="ntos">
+    <Window
+      resizable
+      theme="ntos"
+      width={560}
+      height={600}>
       <Window.Content scrollable>
         <Section title="Ship Status:">
           Hull Structural Integrity:
