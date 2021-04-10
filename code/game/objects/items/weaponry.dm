@@ -414,10 +414,12 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	hitsound = 'sound/weapons/ring.ogg'
 
 /obj/item/phone/suicide_act(mob/user)
+	//NSV13 - nooses are for whiners
+	/*
 	if(locate(/obj/structure/chair/stool) in user.loc)
 		user.visible_message("<span class='suicide'>[user] begins to tie a noose with [src]'s cord! It looks like [user.p_theyre()] trying to commit suicide!</span>")
-	else
-		user.visible_message("<span class='suicide'>[user] is strangling [user.p_them()]self with [src]'s cord! It looks like [user.p_theyre()] trying to commit suicide!</span>")
+	else */
+	user.visible_message("<span class='suicide'>[user] is strangling [user.p_them()]self with [src]'s cord! It looks like [user.p_theyre()] trying to commit suicide!</span>")
 	return(OXYLOSS)
 
 /obj/item/cane

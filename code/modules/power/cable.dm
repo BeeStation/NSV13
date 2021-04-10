@@ -462,7 +462,7 @@ By design, d1 is the smallest direction and d2 is the highest
 // Definitions
 ////////////////////////////////
 
-GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restraints", /obj/item/restraints/handcuffs/cable, 15), new/datum/stack_recipe("noose", /obj/structure/chair/noose, 30, time = 80, one_per_turf = 1, on_floor = 1)))
+GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restraints", /obj/item/restraints/handcuffs/cable, 15)))
 
 /obj/item/stack/cable_coil
 	name = "cable coil"
@@ -503,10 +503,13 @@ GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restrai
 	update_icon()
 
 /obj/item/stack/cable_coil/suicide_act(mob/user)
+	//NSV13 - nooses are for whiners
+	/*
 	if(locate(/obj/structure/chair/stool) in get_turf(user))
 		user.visible_message("<span class='suicide'>[user] is making a noose with [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
 	else
-		user.visible_message("<span class='suicide'>[user] is strangling [user.p_them()]self with [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
+	*/
+	user.visible_message("<span class='suicide'>[user] is strangling [user.p_them()]self with [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
 	return(OXYLOSS)
 
 /obj/item/stack/cable_coil/Initialize(mapload, new_amount = null, param_color = null)
