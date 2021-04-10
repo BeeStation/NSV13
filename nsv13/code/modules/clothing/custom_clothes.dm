@@ -264,11 +264,10 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
-	var/mob/listeningTo
 	var/stomp_cooldown_time = 0.3 SECONDS
 	var/current_cooldown = 0
 
-/obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper/proc/on_mob_move()
+/obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper/on_mob_move()
 	var/mob/living/carbon/human/H = loc
 	if(!istype(H) || H.wear_suit != src)
 		return
@@ -279,7 +278,7 @@
 
 /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper/equipped(mob/user, slot)
 	. = ..()
-	if(slot != SLOT_WEAR_SUIT)
+	if(slot != ITEM_SLOT_OCLOTHING)
 		if(listeningTo)
 			UnregisterSignal(listeningTo, COMSIG_MOVABLE_MOVED)
 		return
@@ -480,6 +479,33 @@
 	desc = "The Master-At-Arm's authorative hat."
 	icon_state = "maa_hat"
 	item_state = "maa_hat"
+
+/obj/item/clothing/head/helmet/space/hardsuit/master_at_arms
+	name = "Master-At-Arm's Bombsuit Helmet"
+	desc = "Use in case of bomb."
+	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
+	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	icon_state = "hardsuit0_maa_bombsuit"
+	item_state = "maa_bombsuit"
+	item_color = "maa_bombsuit"
+	armor = list("melee" = 25, "bullet" = 15, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 85, "acid" = 50)
+	min_cold_protection_temperature = EMERGENCY_HELM_MIN_TEMP_PROTECT
+
+/obj/item/clothing/suit/space/hardsuit/master_at_arms
+	name = "Master-At-Arm's Bombsuit"
+	desc = "An advanced suit designed for safety when handling explosives."
+	icon = 'nsv13/icons/obj/clothing/suits.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	icon_state = "maa_bombsuit"
+	item_state = "maa_bombsuit"
+	armor = list("melee" = 25, "bullet" = 15, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 85, "acid" = 50)
+	min_cold_protection_temperature = EMERGENCY_SUIT_MIN_TEMP_PROTECT
+	slowdown = 2
+	permeability_coefficient = 0.01
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/master_at_arms
+
+
+
 
 /obj/item/clothing/under/ship/syndicate_tech
 	name = "Syndicate technician jumpsuit"

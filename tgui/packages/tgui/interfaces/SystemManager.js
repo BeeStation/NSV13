@@ -6,7 +6,11 @@ import { Window } from '../layouts';
 export const SystemManager = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable theme="ntos">
+    <Window
+      resizable
+      theme="ntos"
+      width={400}
+      height={400}>
       <Window.Content scrollable>
         {Object.keys(data.systems_info).map(key => {
           let value = data.systems_info[key];

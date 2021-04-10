@@ -10,7 +10,11 @@ export const Trader = (props, context) => {
     max_height: "300px",
   };
   return (
-    <Window resizable theme={data.theme}>
+    <Window
+      resizable
+      theme={data.theme}
+      width={750}
+      height={750}>
       <Window.Content scrollable>
         <Section title={data.desc}>
           <img style={imgStyle} src={data.image} />

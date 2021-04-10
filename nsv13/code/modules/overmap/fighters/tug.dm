@@ -41,10 +41,13 @@
 	abort_launch()
 	. = ..()
 
-/obj/vehicle/sealed/car/realistic/fighter_tug/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.contained_state) // Remember to use the appropriate state.
-  ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/vehicle/sealed/car/realistic/fighter_tug/ui_state(mob/user)
+	return GLOB.contained_state
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/ui_interact(mob/user, datum/tgui/ui)
+  ui = SStgui.try_update_ui(user, src, ui)
   if(!ui)
-    ui = new(user, src, ui_key, "FighterTug", name, 400, 400, master_ui, state)
+    ui = new(user, src, "FighterTug")
     ui.open()
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_data(mob/user)
@@ -118,7 +121,7 @@
 		target.desired_angle = 0
 		target.angle = 0
 		for(var/mob/living/M in target.operators)
-			var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
+			var/mob/camera/ai_eye/remote/overmap_observer/eyeobj = M.remote_control
 			eyeobj.forceMove(get_turf(src))
 			if(M.client)
 				M.client.pixel_x = pixel_x
