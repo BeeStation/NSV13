@@ -265,6 +265,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
+"aK" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/nsv/hanger/notkmcstupidhanger)
 "aL" = (
 /obj/machinery/conveyor/slow{
 	dir = 1;
@@ -631,6 +638,9 @@
 /area/engine/atmos)
 "ca" = (
 /obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/conveyor_switch/oneway{
+	id = "garbage"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "cb" = (
@@ -1586,10 +1596,6 @@
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
 "fo" = (
-/obj/machinery/door/airlock/highsecurity/ship{
-	name = "Munitions Projects";
-	req_one_access_txt = "3;69"
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
@@ -1601,6 +1607,10 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
+	},
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Hangar";
+	req_one_access_txt = "3;69"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
@@ -3372,6 +3382,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/structure/closet/l3closet,
 /turf/open/floor/monotile/steel,
 /area/science)
 "kW" = (
@@ -4511,6 +4522,18 @@
 "oI" = (
 /turf/closed/wall/r_wall,
 /area/chapel/main)
+"oL" = (
+/obj/effect/turf_decal/ship/shutoff{
+	dir = 8
+	},
+/obj/effect/turf_decal/box,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/turf/open/floor/plasteel/techmaint{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/nsv/hanger/notkmcstupidhanger)
 "oM" = (
 /obj/structure/disposaloutlet,
 /obj/structure/disposalpipe/trunk,
@@ -5686,6 +5709,21 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/science)
+"so" = (
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/turf_decal/box,
+/obj/effect/turf_decal/ship/shutoff{
+	dir = 8
+	},
+/turf/open/floor/plasteel/techmaint{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/nsv/hanger/notkmcstupidhanger)
 "sp" = (
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 1
@@ -7114,6 +7152,9 @@
 	pixel_y = 32;
 	req_one_access_txt = "69"
 	},
+/obj/machinery/camera/autoname{
+	dir = 9
+	},
 /turf/open/floor/carpet/ship,
 /area/nsv/weapons)
 "xE" = (
@@ -7256,9 +7297,8 @@
 /turf/open/floor/engine,
 /area/nsv/weapons)
 "ye" = (
-/obj/structure/lattice/catwalk,
 /obj/structure/grille,
-/turf/open/space/basic,
+/turf/open/floor/engine/airless,
 /area/space/nearstation)
 "yk" = (
 /obj/structure/chair/pew/right{
@@ -8163,13 +8203,13 @@
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck2/primary)
 "BZ" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Pressurization Chamber";
-	req_one_access_txt = "69"
-	},
 /obj/structure/fans/tiny,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Hangar Maintenance";
+	req_one_access_txt = "69"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
@@ -8427,14 +8467,11 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "Dc" = (
-/obj/machinery/camera/autoname{
-	dir = 9
-	},
 /obj/machinery/computer/ship/fighter_launcher{
 	dir = 8
 	},
 /turf/open/floor/carpet/ship,
-/area/nsv/weapons)
+/area/nsv/hanger/notkmcstupidhanger)
 "Dd" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/nitrous_input,
 /obj/machinery/camera/autoname,
@@ -8979,6 +9016,21 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Abandoned Bar"
 	})
+"FS" = (
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/effect/turf_decal/box,
+/obj/effect/turf_decal/ship/shutoff{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/techmaint{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/nsv/hanger/notkmcstupidhanger)
 "FT" = (
 /obj/effect/turf_decal/tile/ship/half/red{
 	dir = 1
@@ -10038,10 +10090,8 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "JZ" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
 /obj/machinery/power/floodlight,
+/obj/effect/turf_decal/box,
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/hanger/notkmcstupidhanger)
 "Ka" = (
@@ -10074,6 +10124,14 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Abandoned Bar"
 	})
+"Ke" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/nsv/hanger/notkmcstupidhanger)
 "Kg" = (
 /obj/effect/decal/cleanable/glass,
 /obj/structure/grille/broken,
@@ -10150,6 +10208,19 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
+"Kz" = (
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/structure/cable,
+/obj/effect/turf_decal/box,
+/obj/effect/turf_decal/ship/shutoff{
+	dir = 8
+	},
+/turf/open/floor/plasteel/techmaint{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/nsv/hanger/notkmcstupidhanger)
 "KB" = (
 /obj/structure/ladder,
 /turf/open/floor/plating,
@@ -11339,10 +11410,6 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "OI" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Pressurization Chamber";
-	req_one_access_txt = "69"
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
@@ -11351,6 +11418,10 @@
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Hangar Maintenance";
+	req_one_access_txt = "69"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/science)
@@ -11641,6 +11712,9 @@
 	dir = 4;
 	network = list("ss13","hangar_atlas")
 	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
 /turf/open/floor/monotile/steel{
 	initial_gas_mix = "TEMP=2.7"
 	},
@@ -11858,6 +11932,14 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Abandoned Bar"
 	})
+"QF" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/techmaint{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/nsv/hanger/notkmcstupidhanger)
 "QG" = (
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 1
@@ -12078,7 +12160,7 @@
 /area/engine/engine_room)
 "Rq" = (
 /obj/machinery/door/airlock/highsecurity/ship{
-	name = "Munitions Projects";
+	name = "Hangar";
 	req_one_access_txt = "3;69"
 	},
 /obj/structure/cable{
@@ -12765,12 +12847,12 @@
 /turf/open/floor/plasteel/grid/lino,
 /area/chapel/main)
 "TE" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Pressurization Chamber";
-	req_one_access_txt = "69"
-	},
 /obj/structure/fans/tiny,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Hangar Maintenance";
+	req_one_access_txt = "69"
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "TF" = (
@@ -13571,6 +13653,9 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
 /turf/open/floor/monotile/steel{
 	initial_gas_mix = "TEMP=2.7"
 	},
@@ -13650,6 +13735,10 @@
 	},
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck2/primary)
+"Xa" = (
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/nsv/hanger/notkmcstupidhanger)
 "Xc" = (
 /obj/structure/cable{
 	icon_state = "2-8";
@@ -14069,7 +14158,7 @@
 /area/hallway/nsv/deck2/primary)
 "YH" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "Pressurization Chamber";
+	name = "Hangar Maintenance";
 	req_one_access_txt = "69"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -47493,7 +47582,7 @@ sg
 wy
 oI
 oI
-Nh
+ye
 Nh
 Nh
 Nh
@@ -47750,7 +47839,7 @@ BS
 In
 ew
 ye
-Nh
+ye
 Nh
 Nh
 Nh
@@ -48007,7 +48096,7 @@ ND
 Cc
 ew
 ye
-Nh
+ye
 Nh
 Nh
 Nh
@@ -55177,9 +55266,9 @@ eY
 JF
 eY
 eY
-rq
-rq
-rq
+Xa
+Xa
+Xa
 eY
 eY
 wT
@@ -55434,9 +55523,9 @@ eY
 LC
 zk
 eY
-rq
-rq
-rq
+Xa
+Xa
+Xa
 eY
 gq
 Iz
@@ -56460,10 +56549,10 @@ iV
 jp
 lA
 WD
-UB
-BN
-Jc
-Jc
+aK
+Ke
+lA
+Kz
 Jc
 BN
 US
@@ -56720,7 +56809,7 @@ BN
 UB
 BN
 Jc
-Jc
+QF
 Jc
 BN
 US
@@ -56977,7 +57066,7 @@ BN
 UB
 BN
 Jc
-Jc
+so
 Jc
 BN
 US
@@ -57234,7 +57323,7 @@ BN
 UB
 ja
 Jc
-Jc
+QF
 Jc
 hy
 US
@@ -57491,7 +57580,7 @@ BN
 UB
 BN
 Jc
-Jc
+so
 Jc
 BN
 US
@@ -57748,7 +57837,7 @@ BN
 UB
 BN
 Jc
-Jc
+QF
 Jc
 BN
 US
@@ -58005,7 +58094,7 @@ BN
 UB
 BN
 Jc
-Jc
+FS
 Jc
 BN
 US
@@ -58262,7 +58351,7 @@ BN
 UB
 BN
 Jc
-Jc
+QF
 Jc
 BN
 US
@@ -58519,7 +58608,7 @@ BN
 UB
 BN
 Jc
-Jc
+oL
 Jc
 BN
 US

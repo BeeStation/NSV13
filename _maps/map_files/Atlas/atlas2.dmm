@@ -96,6 +96,7 @@
 "av" = (
 /obj/machinery/light/small,
 /obj/effect/decal/cleanable/vomit/old,
+/obj/structure/closet/l3closet,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "aw" = (
@@ -1635,7 +1636,7 @@
 /area/bridge/cic)
 "iH" = (
 /obj/structure/sign/poster/contraband/communist_state,
-/turf/closed/wall/steel,
+/turf/closed/wall/r_wall,
 /area/medical/medbay)
 "iI" = (
 /obj/structure/railing/corner{
@@ -1896,6 +1897,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "0-8"
 	},
+/obj/machinery/firealarm/directional/east,
 /turf/open/floor/plasteel/grid/techfloor,
 /area/ai_monitored/turret_protected/aisat)
 "ka" = (
@@ -2832,7 +2834,7 @@
 /turf/open/openspace,
 /area/maintenance/nsv/deck2/starboard)
 "oV" = (
-/turf/closed/wall/steel,
+/turf/closed/wall/r_wall,
 /area/crew_quarters/heads/chief)
 "oX" = (
 /obj/machinery/computer/robotics{
@@ -3397,6 +3399,7 @@
 	dir = 1
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/structure/closet/l3closet,
 /turf/open/floor/monotile/steel,
 /area/maintenance/nsv/deck1/starboard)
 "rN" = (
@@ -4051,6 +4054,13 @@
 /obj/effect/spawner/lootdrop/maintenance/two,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
+"uz" = (
+/obj/structure/sign/directions/evac,
+/obj/structure/sign/directions/supply{
+	pixel_y = -6
+	},
+/turf/closed/wall/r_wall,
+/area/hallway/nsv/deck1/hallway)
 "uA" = (
 /obj/structure/disposalpipe/trunk,
 /obj/machinery/disposal/bin,
@@ -4164,6 +4174,9 @@
 	},
 /obj/machinery/light/small{
 	dir = 1
+	},
+/obj/machinery/camera/autoname{
+	dir = 4
 	},
 /turf/open/floor/plasteel/grid/techfloor,
 /area/ai_monitored/turret_protected/aisat)
@@ -4358,6 +4371,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
 	},
+/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
 "vQ" = (
@@ -4761,6 +4775,14 @@
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/hos)
+"xR" = (
+/obj/effect/turf_decal/tile/ship/green,
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 8
+	},
+/obj/machinery/newscaster/directional/south,
+/turf/open/floor/plasteel/grid/mono,
+/area/hallway/nsv/deck1/hallway)
 "xT" = (
 /obj/machinery/atmospherics/components/unary/thermomachine/freezer/on,
 /obj/effect/turf_decal/stripes/line{
@@ -5407,6 +5429,7 @@
 "Bt" = (
 /obj/machinery/power/deck_relay,
 /obj/structure/cable,
+/obj/structure/closet/l3closet,
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
@@ -5565,7 +5588,7 @@
 /obj/structure/sign/ship/deck{
 	dir = 4
 	},
-/turf/closed/wall/steel,
+/turf/closed/wall/r_wall,
 /area/crew_quarters/heads/chief)
 "Cr" = (
 /obj/structure/disposalpipe/segment{
@@ -5587,7 +5610,7 @@
 /turf/open/space/basic,
 /area/space)
 "Cx" = (
-/turf/closed/wall/steel,
+/turf/closed/wall/r_wall,
 /area/crew_quarters/heads/hor)
 "CC" = (
 /obj/structure/cable{
@@ -6155,7 +6178,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/requests_console{
 	announcementConsole = 1;
-	department = "Bridge";
+	department = "CIC";
 	departmentType = 5;
 	name = "Bridge RC";
 	pixel_x = 32
@@ -6394,6 +6417,9 @@
 /obj/structure/closet/crate,
 /obj/effect/spawner/lootdrop/maintenance/five,
 /obj/effect/spawner/lootdrop/glowstick,
+/obj/structure/fluff/bleepypanel{
+	pixel_y = 32
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "Gg" = (
@@ -6461,9 +6487,7 @@
 /obj/structure/cable{
 	icon_state = "1-10"
 	},
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/plasteel/grid/techfloor,
 /area/ai_monitored/turret_protected/aisat)
 "Gz" = (
@@ -6516,7 +6540,7 @@
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "GM" = (
-/turf/closed/wall/steel,
+/turf/closed/wall/r_wall,
 /area/crew_quarters/heads/cmo)
 "GN" = (
 /obj/machinery/computer/ship/viewscreen,
@@ -7329,7 +7353,7 @@
 "Kq" = (
 /obj/machinery/requests_console{
 	announcementConsole = 1;
-	department = "Bridge";
+	department = "Briefing";
 	departmentType = 5;
 	name = "Briefing Room RC";
 	pixel_x = -32
@@ -7370,6 +7394,7 @@
 /obj/item/storage/box/masks,
 /obj/item/defibrillator/loaded,
 /obj/item/storage/firstaid/advanced,
+/obj/item/clothing/neck/stethoscope,
 /turf/open/floor/plasteel/grid/lino,
 /area/medical/medbay)
 "Ku" = (
@@ -7527,7 +7552,6 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "Lt" = (
-/obj/machinery/computer/ship/viewscreen,
 /obj/structure/ladder,
 /obj/machinery/door/window{
 	req_one_access_txt = "69"
@@ -8206,9 +8230,6 @@
 /turf/closed/wall/r_wall,
 /area/crew_quarters/bar/mess_hall)
 "Om" = (
-/obj/structure/fluff/bleepypanel{
-	pixel_y = 32
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
@@ -8341,7 +8362,7 @@
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
 "OU" = (
-/turf/closed/wall/steel,
+/turf/closed/wall/r_wall,
 /area/crew_quarters/heads/hos)
 "OV" = (
 /obj/effect/landmark/event_spawn,
@@ -8660,7 +8681,7 @@
 /obj/structure/sign/directions/security{
 	pixel_y = -6
 	},
-/turf/closed/wall/steel,
+/turf/closed/wall/r_wall,
 /area/crew_quarters/heads/hos)
 "QJ" = (
 /obj/machinery/porta_turret/ai,
@@ -8924,10 +8945,13 @@
 /turf/open/floor/monotile/steel,
 /area/medical/medbay)
 "Sk" = (
-/obj/structure/lattice,
-/obj/effect/landmark/carpspawn,
-/turf/open/space/basic,
-/area/space/nearstation)
+/obj/structure/sign/directions/science,
+/obj/structure/sign/directions/command{
+	dir = 4;
+	pixel_y = -6
+	},
+/turf/closed/wall/r_wall,
+/area/hallway/nsv/deck1/hallway)
 "Sl" = (
 /turf/closed/wall/r_wall,
 /area/security/detectives_office)
@@ -9143,6 +9167,7 @@
 /obj/machinery/vending/wallmed{
 	pixel_x = 32
 	},
+/obj/item/clothing/neck/stethoscope,
 /turf/open/floor/plasteel/grid/lino,
 /area/medical/medbay)
 "Tv" = (
@@ -9379,7 +9404,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
-/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
 "Uy" = (
@@ -9576,7 +9600,7 @@
 /obj/structure/sign/directions/security{
 	pixel_y = -6
 	},
-/turf/closed/wall/steel,
+/turf/closed/wall/r_wall,
 /area/hallway/nsv/deck1/hallway)
 "VD" = (
 /obj/machinery/light/small{
@@ -10057,7 +10081,7 @@
 /obj/effect/landmark/zebra_interlock_point,
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
-/area/hallway/nsv/deck1/hallway)
+/area/maintenance/nsv/deck2/frame1/port)
 "Yr" = (
 /obj/item/twohanded/required/pool/rubber_ring,
 /turf/open/indestructible/sound/pool,
@@ -32089,7 +32113,7 @@ Ns
 Ax
 Cf
 Cf
-Sk
+Cf
 hE
 Cf
 Cf
@@ -33615,7 +33639,7 @@ cL
 cL
 cL
 cL
-cL
+Cw
 cL
 xK
 xK
@@ -36692,10 +36716,10 @@ cL
 cL
 cL
 cL
-cL
-cL
-cL
-cL
+Zp
+gn
+Zp
+Cf
 cL
 cL
 cL
@@ -36948,10 +36972,10 @@ cL
 cL
 cL
 cL
+Cf
+Zp
 cL
-cL
-cL
-cL
+Cf
 cL
 cL
 cL
@@ -37205,10 +37229,10 @@ cL
 cL
 cL
 cL
+Cf
+Zp
 cL
-cL
-cL
-bA
+Cf
 bA
 gy
 bA
@@ -37462,11 +37486,11 @@ cL
 cL
 cL
 cL
-cL
-cL
-cL
-bA
-bA
+gn
+Zp
+Cf
+Cf
+Cf
 bA
 bA
 bA
@@ -37719,11 +37743,11 @@ cL
 cL
 cL
 cL
-cL
-cL
+Cf
+Cf
 cL
 bA
-bA
+Cf
 bA
 bA
 bA
@@ -37738,17 +37762,17 @@ MD
 YF
 Ld
 YX
-HG
-HG
-HG
-HG
-HG
+HI
+HI
+HI
+HI
+HI
 AE
-pB
-pB
-pB
-pB
-pB
+MS
+MS
+MS
+MS
+MS
 JX
 Aa
 rV
@@ -37995,7 +38019,7 @@ HG
 HG
 wi
 rh
-HG
+HI
 Zt
 mh
 RM
@@ -38005,7 +38029,7 @@ KC
 uH
 ms
 JA
-Pk
+Am
 FR
 uX
 Pk
@@ -38262,7 +38286,7 @@ KC
 Xf
 qh
 CN
-Hi
+Sk
 Vn
 Ds
 yx
@@ -38519,7 +38543,7 @@ KC
 qx
 zv
 Ny
-MR
+uz
 yx
 wZ
 yx
@@ -38780,7 +38804,7 @@ VB
 yx
 wZ
 yx
-Pk
+Am
 Cx
 Cx
 Cx
@@ -39787,10 +39811,10 @@ Sl
 Sr
 tI
 OU
-Pk
-Pk
-Pk
-Pk
+OU
+OU
+OU
+OU
 cD
 sf
 Jv
@@ -39808,7 +39832,7 @@ gq
 eu
 sf
 cD
-Pk
+Am
 rs
 oX
 Cx
@@ -40044,7 +40068,7 @@ HI
 vJ
 bV
 vM
-Pk
+HI
 Wf
 sd
 Pk
@@ -40065,10 +40089,10 @@ gq
 WV
 wu
 Sc
-Pk
-Pk
-Pk
-Pk
+Am
+Am
+Am
+Am
 Pk
 Pk
 Up
@@ -40558,7 +40582,7 @@ HI
 ye
 IF
 Uw
-Pk
+HI
 OX
 Ch
 jb
@@ -40815,7 +40839,7 @@ HI
 LL
 fX
 Bt
-Pk
+HI
 Fq
 vR
 Pk
@@ -41059,7 +41083,7 @@ cL
 cL
 cL
 cL
-cL
+Cf
 cL
 lx
 HI
@@ -41071,8 +41095,8 @@ Rd
 Ji
 LL
 LL
-HG
-HG
+HI
+HI
 HG
 HG
 VA
@@ -41316,8 +41340,8 @@ cL
 cL
 cL
 cL
-cL
-cL
+SP
+Cf
 lx
 HI
 qO
@@ -41573,7 +41597,7 @@ cL
 cL
 cL
 cL
-cL
+SP
 cL
 lx
 HI
@@ -41830,8 +41854,8 @@ cL
 cL
 cL
 cL
-cL
-cL
+gn
+Cf
 lx
 HI
 qO
@@ -41868,7 +41892,7 @@ LQ
 Ya
 rO
 MS
-mK
+lx
 mK
 mK
 mK
@@ -42087,7 +42111,7 @@ cL
 cL
 cL
 cL
-cL
+Cf
 cL
 lx
 HI
@@ -42891,7 +42915,7 @@ xV
 Tc
 MQ
 wu
-Sc
+xR
 Pk
 Om
 bU
@@ -43153,7 +43177,7 @@ Pk
 Ge
 lh
 MS
-mK
+lx
 mK
 mK
 mK
@@ -43411,8 +43435,8 @@ pB
 ta
 MS
 MS
-MS
-MS
+lx
+lx
 MS
 MS
 MS
@@ -44178,9 +44202,9 @@ MU
 wu
 Sc
 cH
-cH
-cH
-cH
+WJ
+WJ
+WJ
 WJ
 WJ
 WJ
@@ -45723,7 +45747,7 @@ cH
 DQ
 vD
 DQ
-cH
+WJ
 NC
 Cu
 WJ
@@ -46249,7 +46273,7 @@ Ja
 dQ
 lx
 cL
-cL
+Cf
 cL
 cL
 cL
@@ -46506,7 +46530,7 @@ in
 dQ
 lx
 cL
-cL
+Zp
 cL
 cL
 cL
@@ -46713,7 +46737,7 @@ cL
 cL
 cL
 cL
-cL
+Cf
 cL
 lx
 HI
@@ -46762,8 +46786,8 @@ KI
 dQ
 dQ
 lx
-cL
-cL
+Cf
+Zp
 cL
 cL
 cL
@@ -46970,7 +46994,7 @@ cL
 cL
 cL
 cL
-cL
+Zp
 cL
 lx
 HI
@@ -47020,7 +47044,7 @@ dQ
 dQ
 cL
 cL
-cL
+gn
 cL
 cL
 cL
@@ -47227,8 +47251,8 @@ cL
 cL
 cL
 cL
-cL
-cL
+Zp
+Cf
 lx
 HI
 qf
@@ -47276,8 +47300,8 @@ cL
 Cf
 cL
 cL
-cL
-cL
+gn
+SP
 cL
 cL
 cL
@@ -47484,7 +47508,7 @@ cL
 cL
 cL
 cL
-cL
+Zp
 cL
 lx
 HI
@@ -47532,8 +47556,8 @@ SP
 gn
 SP
 Cf
-cL
-cL
+SP
+SP
 cL
 cL
 cL
@@ -47741,7 +47765,7 @@ cL
 cL
 cL
 cL
-cL
+gn
 cL
 lx
 HI
@@ -47998,7 +48022,7 @@ cL
 cL
 cL
 cL
-cL
+gn
 cL
 lx
 HI
@@ -48255,8 +48279,8 @@ cL
 cL
 cL
 cL
-cL
-cL
+Zp
+Cf
 lx
 HI
 qz
@@ -48512,7 +48536,7 @@ cL
 cL
 cL
 cL
-cL
+Zp
 cL
 lx
 HI
@@ -48769,7 +48793,7 @@ Cw
 cL
 cL
 cL
-cL
+Cf
 cL
 lx
 HI
