@@ -165,7 +165,6 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
-/obj/machinery/recharge_station,
 /turf/open/floor/monotile/steel,
 /area/science)
 "ay" = (
@@ -2349,7 +2348,7 @@
 /turf/open/floor/monotile/steel{
 	initial_gas_mix = "TEMP=2.7"
 	},
-/area/nsv/weapons)
+/area/nsv/hanger/notkmcstupidhanger)
 "hA" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -2732,7 +2731,7 @@
 /turf/open/floor/monotile/steel{
 	initial_gas_mix = "TEMP=2.7"
 	},
-/area/nsv/weapons)
+/area/nsv/hanger/notkmcstupidhanger)
 "jb" = (
 /obj/structure/cable{
 	icon_state = "2-8";
@@ -3148,8 +3147,8 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "kr" = (
-/turf/closed/wall/steel,
-/area/chapel/main)
+/turf/closed/wall/r_wall,
+/area/nsv/weapons/gauss/battery/deck2/starboard)
 "ks" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
 	name = "Smoking lounge access";
@@ -4341,9 +4340,6 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/plating,
 /area/engine/atmos)
-"ob" = (
-/turf/closed/wall/steel,
-/area/maintenance/nsv/deck2/starboard)
 "oc" = (
 /obj/machinery/atmospherics/components/trinary/mixer/airmix/flipped/inverse{
 	dir = 8;
@@ -5731,8 +5727,11 @@
 /obj/effect/turf_decal/tile/yellow,
 /obj/machinery/light,
 /obj/structure/rack,
-/obj/item/stack/sheet/duranium/twenty,
-/obj/item/stack/sheet/duranium/twenty,
+/obj/item/stack/sheet/mineral/titanium/twenty,
+/obj/item/stack/sheet/iron{
+	amount = 20
+	},
+/obj/item/stack/sheet/mineral/plasma/five,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "ss" = (
@@ -7732,7 +7731,7 @@
 	dir = 1;
 	pixel_y = -6
 	},
-/turf/closed/wall/steel,
+/turf/closed/wall/r_wall,
 /area/engine/engine_room)
 "zQ" = (
 /obj/structure/cable{
@@ -8865,7 +8864,7 @@
 	req_one_access_txt = "69"
 	},
 /turf/open/space/basic,
-/area/space/nearstation)
+/area/nsv/hanger/notkmcstupidhanger)
 "Fm" = (
 /obj/machinery/camera{
 	c_tag = "Xenobiology Lab - Pen #3";
@@ -41897,7 +41896,7 @@ AU
 jN
 jN
 Jo
-oF
+MO
 cB
 lK
 mH
@@ -41908,7 +41907,7 @@ ul
 mp
 Um
 Vi
-oF
+MO
 NP
 DG
 ho
@@ -42154,7 +42153,7 @@ Jh
 wd
 wd
 yI
-qI
+YQ
 fP
 lK
 mH
@@ -42165,8 +42164,8 @@ ul
 By
 RJ
 NI
-oF
-qI
+MO
+YQ
 pk
 qI
 qI
@@ -42411,7 +42410,7 @@ aI
 qI
 rR
 qK
-qI
+YQ
 oF
 oC
 mH
@@ -42422,8 +42421,8 @@ JD
 lL
 oz
 cD
-oF
-qI
+MO
+YQ
 xA
 Zu
 qI
@@ -42686,7 +42685,7 @@ Pl
 qI
 dx
 Ie
-ob
+mL
 vX
 Ie
 Ie
@@ -42943,7 +42942,7 @@ NZ
 qI
 qI
 qI
-qI
+YQ
 YQ
 kC
 ca
@@ -45259,7 +45258,7 @@ Bh
 uw
 Bh
 sE
-qI
+YQ
 Ie
 zy
 yC
@@ -45513,10 +45512,10 @@ ql
 qI
 qI
 qI
-qI
-qI
-qI
-qI
+YQ
+YQ
+YQ
+YQ
 cp
 vr
 mE
@@ -46027,11 +46026,11 @@ qo
 qi
 hP
 rL
-qT
-qT
-qT
-qT
-qT
+kr
+kr
+kr
+kr
+kr
 JE
 dy
 mL
@@ -46288,7 +46287,7 @@ qT
 Bv
 br
 lG
-qT
+kr
 qL
 cT
 Tj
@@ -46545,8 +46544,8 @@ qT
 Jw
 sC
 RS
-kr
-kr
+oI
+oI
 DZ
 oI
 oI
@@ -46802,7 +46801,7 @@ qT
 Op
 sC
 DU
-kr
+oI
 xR
 Qh
 MX
@@ -47059,7 +47058,7 @@ Eo
 Qk
 rW
 lG
-kr
+oI
 TB
 Qh
 kz
@@ -47316,7 +47315,7 @@ xE
 XU
 OO
 vC
-kr
+oI
 Ff
 cv
 Uo
@@ -47573,8 +47572,8 @@ IW
 IW
 qT
 qT
-kr
-kr
+oI
+oI
 ud
 oI
 ap
@@ -52183,7 +52182,7 @@ dH
 fx
 ig
 uG
-Te
+xT
 fx
 rX
 uG

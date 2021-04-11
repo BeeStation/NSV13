@@ -910,7 +910,7 @@
 /obj/structure/closet/crate/secure/loot,
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plating,
-/area/medical/medbay)
+/area/maintenance/nsv/deck1/starboard)
 "eG" = (
 /obj/effect/spawner/room/fivexthree,
 /turf/template_noop,
@@ -2213,6 +2213,7 @@
 	dir = 4
 	},
 /obj/machinery/squad_vendor{
+	density = 0;
 	pixel_x = -32
 	},
 /turf/open/floor/monotile/steel,
@@ -2280,6 +2281,7 @@
 	dir = 8
 	},
 /obj/machinery/disposal/bin,
+/obj/machinery/firealarm/directional/north,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/xo)
 "lO" = (
@@ -2742,6 +2744,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 10
 	},
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
 /turf/open/floor/plasteel/ship/riveted,
 /area/maintenance/nsv/deck2/frame1/port)
 "ov" = (
@@ -2832,7 +2837,7 @@
 	dir = 8
 	},
 /turf/open/openspace,
-/area/maintenance/nsv/deck2/starboard)
+/area/maintenance/nsv/deck1/starboard)
 "oV" = (
 /turf/closed/wall/r_wall,
 /area/crew_quarters/heads/chief)
@@ -3794,7 +3799,7 @@
 	dir = 8
 	},
 /turf/open/floor/plating,
-/area/maintenance/nsv/deck2/starboard)
+/area/maintenance/nsv/deck1/starboard)
 "tp" = (
 /turf/closed/wall/r_wall,
 /area/ai_monitored/turret_protected/aisat)
@@ -3932,7 +3937,7 @@
 "tW" = (
 /obj/effect/decal/cleanable/oil/slippery,
 /turf/open/floor/plating,
-/area/medical/medbay)
+/area/maintenance/nsv/deck1/starboard)
 "tY" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor/border_only{
@@ -4060,7 +4065,7 @@
 	pixel_y = -6
 	},
 /turf/closed/wall/r_wall,
-/area/hallway/nsv/deck1/hallway)
+/area/crew_quarters/heads/cmo)
 "uA" = (
 /obj/structure/disposalpipe/trunk,
 /obj/machinery/disposal/bin,
@@ -4263,6 +4268,7 @@
 /area/crew_quarters/bar/mess_hall)
 "vr" = (
 /obj/machinery/computer/ship/viewscreen{
+	density = 1;
 	desc = "A large computer which shows an exterior view of the ship.";
 	dir = 4;
 	icon = 'icons/obj/computer.dmi';
@@ -4898,6 +4904,13 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/carpet/green,
 /area/hallway/nsv/deck1/hallway)
+"ys" = (
+/obj/structure/shuttle/engine/huge{
+	dir = 8
+	},
+/obj/structure/lattice,
+/turf/open/space/basic,
+/area/space/nearstation)
 "yu" = (
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/openspace,
@@ -5200,7 +5213,6 @@
 	dir = 1;
 	icon_state = "computer"
 	},
-/obj/machinery/firealarm/directional/south,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/xo)
 "Af" = (
@@ -6105,6 +6117,10 @@
 	},
 /obj/structure/cable{
 	icon_state = "1-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "atlas_xo"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/xo)
@@ -7206,7 +7222,7 @@
 	dir = 8
 	},
 /turf/open/openspace,
-/area/maintenance/nsv/deck2/starboard)
+/area/maintenance/nsv/deck1/starboard)
 "JP" = (
 /obj/machinery/door/airlock/ship/maintenance,
 /obj/machinery/door/firedoor/border_only{
@@ -8152,7 +8168,7 @@
 /obj/structure/sign/ship/smoking{
 	dir = 8
 	},
-/turf/closed/wall/steel,
+/turf/closed/wall/r_wall,
 /area/hallway/nsv/deck1/hallway)
 "NP" = (
 /obj/machinery/door/firedoor/border_only{
@@ -8951,7 +8967,7 @@
 	pixel_y = -6
 	},
 /turf/closed/wall/r_wall,
-/area/hallway/nsv/deck1/hallway)
+/area/crew_quarters/heads/cmo)
 "Sl" = (
 /turf/closed/wall/r_wall,
 /area/security/detectives_office)
@@ -9601,7 +9617,7 @@
 	pixel_y = -6
 	},
 /turf/closed/wall/r_wall,
-/area/hallway/nsv/deck1/hallway)
+/area/crew_quarters/heads/cmo)
 "VD" = (
 /obj/machinery/light/small{
 	dir = 8
@@ -9860,6 +9876,10 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "atlas_xo"
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/xo)
 "Xm" = (
@@ -10022,7 +10042,7 @@
 /obj/structure/sign/ship/nosmoking{
 	dir = 1
 	},
-/turf/closed/wall/steel,
+/turf/closed/wall/r_wall,
 /area/hallway/nsv/deck1/hallway)
 "Ya" = (
 /obj/structure/railing,
@@ -36465,9 +36485,9 @@ cL
 cL
 cL
 cL
-cL
-cL
-cL
+SP
+Cf
+Cf
 jv
 mK
 mK
@@ -36720,9 +36740,9 @@ Zp
 gn
 Zp
 Cf
-cL
-cL
-cL
+SP
+SP
+Cf
 cL
 cL
 jv
@@ -36979,7 +36999,7 @@ Cf
 cL
 cL
 cL
-cL
+Cf
 cL
 HI
 HI
@@ -37234,10 +37254,10 @@ Zp
 cL
 Cf
 bA
-gy
-bA
-bA
-gy
+ys
+Cf
+Cf
+ys
 HI
 qO
 qO
@@ -37491,9 +37511,9 @@ Zp
 Cf
 Cf
 Cf
+Cf
 bA
-bA
-bA
+Cf
 bA
 HI
 qO
@@ -37750,7 +37770,7 @@ bA
 Cf
 bA
 bA
-bA
+Cf
 bA
 HI
 qO
@@ -37762,17 +37782,17 @@ MD
 YF
 Ld
 YX
-HI
-HI
-HI
-HI
-HI
+oV
+oV
+oV
+oV
+oV
 AE
-MS
-MS
-MS
-MS
-MS
+GM
+GM
+GM
+GM
+GM
 JX
 Aa
 rV
@@ -38019,7 +38039,7 @@ HG
 HG
 wi
 rh
-HI
+oV
 Zt
 mh
 RM
@@ -38029,7 +38049,7 @@ KC
 uH
 ms
 JA
-Am
+GM
 FR
 uX
 Pk
@@ -39837,7 +39857,7 @@ rs
 oX
 Cx
 Cx
-pB
+MS
 LU
 RD
 MS
@@ -40093,8 +40113,8 @@ Am
 Am
 Am
 Am
-Pk
-Pk
+Am
+Am
 Up
 Ng
 MS
@@ -40608,7 +40628,7 @@ DK
 lA
 DM
 WE
-Pk
+Am
 rV
 Od
 MS
@@ -40865,7 +40885,7 @@ Qw
 En
 cV
 aJ
-Pk
+Am
 yl
 ux
 MS
@@ -41117,12 +41137,12 @@ gq
 MQ
 wu
 Sc
-Pk
-Pk
+Am
+Am
 NN
-Pk
-Pk
-Pk
+Am
+Am
+Am
 Ej
 zS
 MS
@@ -41631,7 +41651,7 @@ jx
 HT
 zV
 Sc
-Pk
+Am
 GJ
 rO
 MS
@@ -42145,7 +42165,7 @@ Tc
 BP
 wu
 Sc
-Pk
+Am
 Va
 rO
 MS
@@ -42402,7 +42422,7 @@ Tc
 MQ
 wu
 Sc
-Pk
+Am
 wX
 db
 MS
@@ -42659,7 +42679,7 @@ Tc
 IY
 wu
 Sc
-Pk
+Am
 dH
 rV
 MS
@@ -42916,7 +42936,7 @@ Tc
 MQ
 wu
 xR
-Pk
+Am
 Om
 bU
 MS
@@ -43173,7 +43193,7 @@ Tc
 rb
 wu
 YC
-Pk
+Am
 Ge
 lh
 MS
@@ -43430,8 +43450,8 @@ Tc
 cX
 wu
 Sc
-pB
-pB
+MS
+MS
 ta
 MS
 MS
@@ -44206,9 +44226,9 @@ WJ
 WJ
 WJ
 WJ
-WJ
-WJ
-WJ
+MS
+MS
+MS
 Te
 kR
 bP
@@ -44981,7 +45001,7 @@ dM
 bi
 AJ
 WJ
-WJ
+MS
 Ed
 Mf
 av
@@ -45238,7 +45258,7 @@ VE
 xm
 pJ
 WJ
-WJ
+MS
 Ed
 Nj
 eI
@@ -45495,7 +45515,7 @@ AY
 bi
 rX
 WJ
-WJ
+MS
 MS
 EX
 Nm
@@ -47041,7 +47061,7 @@ dQ
 dQ
 dQ
 dQ
-dQ
+lx
 cL
 cL
 gn
@@ -48556,7 +48576,7 @@ SE
 ji
 lJ
 xf
-mK
+lx
 mK
 mK
 Bp
@@ -48813,7 +48833,7 @@ Tk
 hr
 Tz
 xf
-mK
+lx
 mK
 mK
 Bp
@@ -49070,7 +49090,7 @@ Ar
 LR
 eb
 xf
-mK
+lx
 mK
 mK
 mK
