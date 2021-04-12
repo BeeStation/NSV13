@@ -297,7 +297,7 @@
 	var/ftl_startup_time = 30 SECONDS
 	var/auto_spool = FALSE //For lazy admins
 
-//Overrides parent proc - indestructible anyways, shouldn't be affected by explosions but lets be safe because stuff totally never will break :)
+//No please do not delete the FTLs radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
 /obj/machinery/computer/ship/ftl_computer/prevent_content_explosion()
 	return TRUE
 
