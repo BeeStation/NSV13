@@ -14,7 +14,11 @@ export const EnergyWeapons = (props, context) => {
   const powerAlloc = data.powerAlloc;
   const maxPower = data.maxPower;
   return (
-    <Window resizable theme="ntos">
+    <Window
+      resizable
+      theme="ntos"
+      width={600}
+      height={350}>
       <Window.Content scrollable>
         <Section title="Charge Status:"buttons={<Button
           fluid

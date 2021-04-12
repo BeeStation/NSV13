@@ -7,7 +7,11 @@ export const TacticalConsole = (props, context) => {
   const { act, data } = useBackend(context);
   const tabIndex = 1;
   return (
-    <Window resizable theme="retro">
+    <Window
+      resizable
+      theme="retro"
+      width={560}
+      height={600}>
       <Window.Content scrollable>
         <Section>
           <Section title="Ship status">
@@ -97,7 +101,7 @@ export const TacticalConsole = (props, context) => {
                         fluid
                         content={`Target ${value.name}`}
                         icon="bullseye"
-                        onClick={() => 
+                        onClick={() =>
                           act('target_ship', { target: value.name })} />
                     </Section>
                   )}

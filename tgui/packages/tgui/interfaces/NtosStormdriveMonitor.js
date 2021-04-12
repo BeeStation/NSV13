@@ -10,7 +10,10 @@ import { useBackend, useLocalState } from '../backend';
 export const NtosStormdriveMonitor = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <NtosWindow resizable>
+    <NtosWindow
+      resizable
+      width={440}
+      height={650}>
       <NtosWindow.Content>
 
         <Section title="Legend:" buttons={
