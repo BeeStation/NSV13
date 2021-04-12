@@ -122,6 +122,22 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg' //Sound effect provided by: "All Sounds" https://www.youtube.com/watch?v=EpaCJ75T3fo under creative commons. Trimmed by Kmc2000
 	screen_shake = 1
 
+/datum/ship_weapon/bsa
+	name = "Bluespace Artillery"
+	default_projectile_type = /obj/item/projectile/beam/laser/heavylaser/bsa
+	burst_size = 1
+	fire_delay = 20 SECONDS
+	range_modifier = 255
+	select_alert = "<span class='notice'>Bluespace artillery ready.</span>"
+	failure_alert = "<span class='warning'>Unable to comply. Bluespace artillery recharging...</span>"
+	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
+	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
+	screen_shake = 5
+	//Pilot operated :))
+	selectable = FALSE
+	lateral = FALSE
+	firing_arc = 45 //Yeah have fun turning the galactica to shoot this thing :)
+
 //End Energy Weapons
 
 /datum/ship_weapon/missile_launcher

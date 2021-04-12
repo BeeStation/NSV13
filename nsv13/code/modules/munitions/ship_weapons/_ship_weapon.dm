@@ -497,7 +497,10 @@
  * Animates an overmap projectile matching whatever we're shooting.
  */
 /obj/machinery/ship_weapon/proc/animate_projectile(atom/target)
-	linked.fire_lateral_projectile(weapon_type.default_projectile_type, target)
+	if(weapon_type.lateral)
+		return linked.fire_lateral_projectile(weapon_type.default_projectile_type, target)
+	else
+		return linked.fire_projectile(weapon_type.default_projectile_type, target)
 
 /**
  * Updates maintenance counter after firing if applicable.
