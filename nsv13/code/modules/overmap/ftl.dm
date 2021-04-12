@@ -297,6 +297,13 @@
 	var/ftl_startup_time = 30 SECONDS
 	var/auto_spool = FALSE //For lazy admins
 
+//Overrides parent proc - indestructible anyways, shouldn't be affected by explosions but lets be safe because stuff totally never will break :)
+/obj/machinery/computer/ship/ftl_computer/ex_act(severity, target)
+	return 	//Cease.
+
+/obj/machinery/computer/ship/ftl_computer/contents_explosion(severity, target)
+	return 	//Stop.
+
 /obj/machinery/computer/ship/ftl_computer/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
 	if(istype(I, /obj/item/ftl_slipstream_chip))
