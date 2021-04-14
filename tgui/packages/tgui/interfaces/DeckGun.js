@@ -1,6 +1,6 @@
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Button, Section } from '../components';
+import { Button, Section, ProgressBar } from '../components';
 import { Window } from '../layouts';
 
 export const DeckGun = (props, context) => {
@@ -9,18 +9,33 @@ export const DeckGun = (props, context) => {
     <Window
       resizable
       theme="hackerman"
-      width={300}
-      height={300}>
+      width={500}
+      height={400}>
       <Window.Content scrollable>
-        <Section title="Payload:">
+        <Section title={`Loaded: ${data.loaded}`} buttons={
           <Button content="Feed Shell"
             icon="exclamation-triangle"
-            onClick={() => act('feed')}
-          />
-          <Button content="Load Shell"
-            icon="truck-loading"
+            disabled={!data.can_load}
             onClick={() => act('load')}
           />
+        }>
+          Shell powder content (dT):
+          <ProgressBar
+            value={(data.speed / data.max_speed * 100) * 0.01}
+            ranges={{
+              good: [0.4, Infinity],
+              average: [0.15, 0.4],
+              bad: [-Infinity, 0.4],
+            }} />
+          <br />
+          Turret Ammunition:
+          <ProgressBar
+            value={(data.ammo / data.max_ammo * 100) * 0.01}
+            ranges={{
+              good: [0.4, Infinity],
+              average: [0.15, 0.4],
+              bad: [-Infinity, 0.4],
+            }} />
         </Section>
         <Section title="Powder Loaders:">
           {Object.keys(data.parts).map(key => {

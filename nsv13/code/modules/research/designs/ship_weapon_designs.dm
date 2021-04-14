@@ -98,6 +98,16 @@
 	build_type = PROTOLATHE | AUTOLATHE
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
+/datum/design/naval_artillery_triple
+	name = "Machine Design (Triple Deck Gun Frame)"
+	desc = "Allows for the construction of a triple barreled naval cannon frame."
+	id = "deck_gun"
+	materials = list(/datum/material/titanium = 30000,/datum/material/iron = 25000, /datum/material/diamond = 15000, /datum/material/copper = 35000)
+	build_path = /obj/structure/ship_weapon/mac_assembly/artillery_frame/mega
+	category = list("Advanced Munitions")
+	build_type = PROTOLATHE | AUTOLATHE
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
 /datum/design/board/naval_artillery_comp
 	name = "Machine Design (Deck Gun Computer)"
 	desc = "Allows for the construction of a naval artillery control console."

@@ -19,6 +19,38 @@
 					/obj/item/ship_weapon/ammunition/naval_artillery)
 	crate_name = "Naval Artillery Shells"
 
+/datum/supply_pack/munitions/railgun_ap
+	name = "Naval Artillery Shells (Armour Piercing) (x10)"
+	desc = "A set of diamond tipped naval artillery shells, these shells specialise in taking out heavily armoured targets."
+	cost = 2500
+	contains = list(/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+					/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+					/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+					/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+					/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+					/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+					/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+					/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+					/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+					/obj/item/ship_weapon/ammunition/naval_artillery/ap)
+	crate_name = "Naval Artillery Shells (AP)"
+
+/datum/supply_pack/munitions/railgun_ap
+	name = "Naval Artillery Shells (Homing) (x10)"
+	desc = "A set of naval artillery shells, equipped with advanced homing electronics to assist the gunner's aim."
+	cost = 3500
+	contains = list(/obj/item/ship_weapon/ammunition/naval_artillery/homing,
+					/obj/item/ship_weapon/ammunition/naval_artillery/homing,
+					/obj/item/ship_weapon/ammunition/naval_artillery/homing,
+					/obj/item/ship_weapon/ammunition/naval_artillery/homing,
+					/obj/item/ship_weapon/ammunition/naval_artillery/homing,
+					/obj/item/ship_weapon/ammunition/naval_artillery/homing,
+					/obj/item/ship_weapon/ammunition/naval_artillery/homing,
+					/obj/item/ship_weapon/ammunition/naval_artillery/homing,
+					/obj/item/ship_weapon/ammunition/naval_artillery/homing,
+					/obj/item/ship_weapon/ammunition/naval_artillery/homing)
+	crate_name = "Naval Artillery Shells (Homing)"
+
 /datum/supply_pack/munitions/cannonshot
 	name = "Cannonballs (x10)"
 	desc = "For munitions teams on a budget, cannonballs serve as a cheap but still somewhat effective ammunition for Naval Artillery. Made from the finest cutlery the NT fleet has to offer."
