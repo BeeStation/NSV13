@@ -114,21 +114,27 @@
 	contains = list(/obj/structure/munitions_trolley)
 	crate_name = "Munitions trolley crate"
 
-/datum/supply_pack/munitions/torpedo_construction
-	name = "Torpedo construction kit"
-	desc = "Due to the volatility of torpedoes, we are unable to offer pre-built munitions, however this kit contains common torpedo parts and some casings to put them in. Included: 2x standard warhead, 1x decoy warhead, 3x torpedo casings (trolley sold separately), 3x guidance system modules, 3x propulsion modules, 3x IFF cards."
-	cost = 2500
+/datum/supply_pack/munitions/guided_munition_construction
+	name = "Guided munition construction kit"
+	desc = "Due to the volatility of torpedoes and missiles, we are unable to offer pre-built munitions. This kit will let you build 5 guided torpedoes or missiles (warheads sold separately)."
+	cost = 2000
 	contains = list(/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
-					/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/warhead,
+					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+					/obj/item/ship_weapon/parts/missile/guidance_system,
+					/obj/item/ship_weapon/parts/missile/guidance_system,
 					/obj/item/ship_weapon/parts/missile/guidance_system,
 					/obj/item/ship_weapon/parts/missile/guidance_system,
 					/obj/item/ship_weapon/parts/missile/guidance_system,
 					/obj/item/ship_weapon/parts/missile/propulsion_system,
 					/obj/item/ship_weapon/parts/missile/propulsion_system,
 					/obj/item/ship_weapon/parts/missile/propulsion_system,
+					/obj/item/ship_weapon/parts/missile/propulsion_system,
+					/obj/item/ship_weapon/parts/missile/propulsion_system,
+					/obj/item/ship_weapon/parts/missile/iff_card,
+					/obj/item/ship_weapon/parts/missile/iff_card,
 					/obj/item/ship_weapon/parts/missile/iff_card,
 					/obj/item/ship_weapon/parts/missile/iff_card,
 					/obj/item/ship_weapon/parts/missile/iff_card)
@@ -145,36 +151,21 @@
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing)
 	crate_name = "Blank torpedo casings"
 
-/datum/supply_pack/munitions/torpedo_construction
-	name = "Torpedo components"
-	desc = "A set of torpedo guidance modules, propulsion units and IFF cards. Warheads sold separately!"
-	cost = 1500
-	contains = list(/obj/item/ship_weapon/parts/missile/guidance_system,
-					/obj/item/ship_weapon/parts/missile/guidance_system,
-					/obj/item/ship_weapon/parts/missile/guidance_system,
-					/obj/item/ship_weapon/parts/missile/propulsion_system,
-					/obj/item/ship_weapon/parts/missile/propulsion_system,
-					/obj/item/ship_weapon/parts/missile/propulsion_system,
-					/obj/item/ship_weapon/parts/missile/iff_card,
-					/obj/item/ship_weapon/parts/missile/iff_card,
-					/obj/item/ship_weapon/parts/missile/iff_card)
-	crate_name = "Torpedo components"
-
 /datum/supply_pack/munitions/standard_warheads
 	name = "Torpedo warheads (standard)"
-	desc = "A pack of 5 standard torpedo warheads with a 40 isotonne yield, ideal for general usage."
-	cost = 850
-	contains = list(/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/warhead)
+	desc = "A pack of 5 standard torpedo warheads with a 40 isotonne yield, ideal for taking out heavy targets."
+	cost = 1500
+	contains = list(/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo)
 	crate_name = "Standard torpedo warheads"
 
 /datum/supply_pack/munitions/bb_warheads
 	name = "Torpedo warheads (armour piercing)"
 	desc = "A pack of 5 armour piercing torpedo warheads with a 80 isotonne combined yield, these warheads excel at dealing massive damage to a target."
-	cost = 1000
+	cost = 1750
 	contains = list(/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
 					/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
 					/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
@@ -185,7 +176,7 @@
 /datum/supply_pack/munitions/decoy_warheads
 	name = "ECM Missile Warheads"
 	desc = "A pack of 10 electronic countermeasure warheads which excel at distracting the enemy's autonomous targeting system."
-	cost = 700
+	cost = 750
 	contains = list(/obj/item/ship_weapon/parts/missile/warhead/decoy,
 					/obj/item/ship_weapon/parts/missile/warhead/decoy,
 					/obj/item/ship_weapon/parts/missile/warhead/decoy,
@@ -222,27 +213,6 @@
 					/obj/item/ship_weapon/parts/missile/warhead,
 					/obj/item/ship_weapon/parts/missile/warhead)
 	crate_name = "Standard missile warheads"
-
-/datum/supply_pack/munitions/missile_construction
-	name = "Missile construction kit"
-	desc = "Due to the volatility of missiles, we are unable to offer pre-built munitions, however this kit contains common missile parts and some casings to put them in. Included: 3x standard warhead, 3x missile casings (trolley sold separately), 3x guidance system modules, 3x propulsion modules, 3x IFF cards."
-	cost = 2500
-	contains = list(/obj/item/ship_weapon/ammunition/missile/missile_casing,
-					/obj/item/ship_weapon/ammunition/missile/missile_casing,
-					/obj/item/ship_weapon/ammunition/missile/missile_casing,
-					/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/guidance_system,
-					/obj/item/ship_weapon/parts/missile/guidance_system,
-					/obj/item/ship_weapon/parts/missile/guidance_system,
-					/obj/item/ship_weapon/parts/missile/propulsion_system,
-					/obj/item/ship_weapon/parts/missile/propulsion_system,
-					/obj/item/ship_weapon/parts/missile/propulsion_system,
-					/obj/item/ship_weapon/parts/missile/iff_card,
-					/obj/item/ship_weapon/parts/missile/iff_card,
-					/obj/item/ship_weapon/parts/missile/iff_card)
-	crate_name = "Basic missile construction kit"
 
 /datum/supply_pack/munitions/countermeasure_charges
 	name = "Fighter countermeasure tri-charges (x5)"

@@ -11,7 +11,7 @@
 
 	firing_sound = 'nsv13/sound/effects/ship/plasma.ogg'
 	load_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
-	fire_mode = FIRE_MODE_TORPEDO
+	fire_mode = FIRE_MODE_AMS
 	ammo_type = /obj/item/ship_weapon/ammunition/torpedo
 
 /obj/machinery/ship_weapon/torpedo_launcher/north

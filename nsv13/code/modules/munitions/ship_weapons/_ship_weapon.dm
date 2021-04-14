@@ -138,6 +138,11 @@
 /obj/machinery/ship_weapon/attackby(obj/item/I, mob/user)
 	if(!linked)
 		get_ship()
+	if(islist(ammo_type))
+		for(var/at in ammo_type)
+			if(istype(I, at))
+				load(I, user)
+				return TRUE
 
 	if(ammo_type && istype(I, ammo_type))
 		load(I, user)
@@ -176,6 +181,11 @@
  */
 /obj/machinery/ship_weapon/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()
+	if(islist(ammo_type))
+		for(var/at in ammo_type)
+			if(istype(A, at))
+				load(A, user)
+				return TRUE
 	if(ammo_type && istype(A, ammo_type))
 		load(A, user)
 
@@ -186,7 +196,7 @@
  * Returns true if loaded successfully, false otherwise.
  */
 /obj/machinery/ship_weapon/proc/load(obj/A, mob/user)
-	if(ammo_type && istype(A, ammo_type))
+	if(ammo_type && !islist(ammo_type) && istype(A, ammo_type))
 		if(ammo?.len < max_ammo) //Room for one more?
 			if(!loading) //Not already loading a round?
 				if(user)
@@ -366,8 +376,9 @@
 		magazine = new magazine_type(src)
 		ammo = magazine.stored_ammo //Lets us handle magazines and single rounds the same way
 	else
+		var/ammoType = (islist(ammo_type)) ? ammo_type[1] : ammo_type
 		for(var/I = 0; I < max_ammo; I++)
-			var/atom/BB = new ammo_type(src)
+			var/atom/BB = new ammoType(src)
 			ammo += BB
 	safety = FALSE
 	chambered = ammo[1]

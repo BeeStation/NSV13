@@ -49,6 +49,7 @@
 	lateral = FALSE
 	firing_arc = 45 //Broad side of a barn...
 
+//Deprecated by AMS. Still kept around for AI ships
 /datum/ship_weapon/torpedo_launcher
 	name = "Torpedo tubes"
 	default_projectile_type = /obj/item/projectile/guided_munition/torpedo

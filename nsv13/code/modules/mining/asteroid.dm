@@ -72,6 +72,9 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	var/required_tier = 1
 	armor = list("overmap_light" = 99, "overmap_heavy" = 25)
 
+/obj/structure/overmap/asteroid/apply_weapons()
+	return FALSE //Lol, no.
+
 /obj/structure/overmap/asteroid/medium
 	name = "Asteroid (Non Ferrous)"
 	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/icefield/asteroid_ice_96x.dmi'

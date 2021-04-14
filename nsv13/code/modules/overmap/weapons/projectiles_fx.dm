@@ -109,7 +109,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "plasma torpedo"
 	speed = 2.75
 	valid_angle = 200
-	homing_turn_speed = 20
+	homing_turn_speed = 30
 	damage = 200
 	range = 250
 	obj_integrity = 200
