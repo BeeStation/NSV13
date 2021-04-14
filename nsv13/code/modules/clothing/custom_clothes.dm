@@ -453,10 +453,12 @@
 	icon_state = "decktech_helmet"
 	item_state = "decktech_helmet"
 	actions_types = list(/datum/action/item_action/toggle)
-	visor_flags_inv = HIDEEARS|HIDEEYES
-	visor_flags_cover = HEADCOVERSEYES
-	flash_protect = 2
 	tint = 2
+	flash_protect = 2
+	flags_inv = HIDEHAIR|HIDEEYES
+	flags_cover = HEADCOVERSEYES
+	visor_flags_inv = HIDEEYES
+	visor_vars_to_toggle = VISOR_FLASHPROTECT | VISOR_TINT
 
 /obj/item/clothing/head/helmet/decktech/attack_self(mob/user)
 	weldingvisortoggle(user)
