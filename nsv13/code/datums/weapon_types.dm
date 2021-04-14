@@ -251,7 +251,7 @@
 
 /datum/ship_weapon/flak
 	name = "Flak cannon"
-	default_projectile_type = /obj/item/projectile/bullet/gauss_slug
+	default_projectile_type = /obj/item/projectile/bullet/flak
 	burst_size = 1
 	fire_delay = 0
 	range_modifier = 1
@@ -259,5 +259,6 @@
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/flak/flakhit1.ogg','nsv13/sound/effects/ship/flak/flakhit2.ogg','nsv13/sound/effects/ship/flak/flakhit3.ogg')
 	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual flak control.</span>"
 	failure_alert = "<span class='warning'>DANGER: flak guns unable to fire due to lack of ammunition.</span>"
-	special_fire_proc = /obj/structure/overmap/proc/fire_flak
+//	special_fire_proc = /obj/structure/overmap/proc/fire_flak
 	selectable = FALSE
+	lateral = TRUE

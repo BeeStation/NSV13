@@ -18,16 +18,19 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/bullet/mac_round
 	icon_state = "railgun"
-	name = "hyper accelerated tungsten slug"
+	name = "artillery round"
 	damage = 350
 	speed = 1.85
+	//Not easily stopped.
+	obj_integrity = 300
+	max_integrity = 300
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 /obj/item/projectile/bullet/mac_round/ap
 	damage = 200
-	armour_penetration = 50
-	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
+	armour_penetration = 70
 	icon_state = "railgun_ap"
+	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
 
 //Improvised ammunition, does terrible damage but is cheap to produce
 /obj/item/projectile/bullet/mac_round/cannonshot
@@ -110,7 +113,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/missile
 	name = "triton cruise missile"
 	icon_state = "conventional_missile"
-	speed = 1.5
+	speed = 1
 	damage = 150
 	valid_angle = 120
 	homing_turn_speed = 5

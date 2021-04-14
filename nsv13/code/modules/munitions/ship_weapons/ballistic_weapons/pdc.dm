@@ -113,12 +113,7 @@
 	return
 
 /obj/machinery/ship_weapon/pdc_mount/animate_projectile(atom/target, lateral=TRUE)
-	sleep(1)
-	var/datum/ship_weapon/firemode = linked.weapon_types[FIRE_MODE_PDC]
-	if(lateral)
-		linked.fire_lateral_projectile(firemode.default_projectile_type, target)
-	else
-		linked.fire_projectiles(firemode.default_projectile_type, target)
+	. = ..()
 
 /obj/machinery/ship_weapon/pdc_mount/examine()
 	. = ..()

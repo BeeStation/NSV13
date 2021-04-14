@@ -62,7 +62,18 @@
 					/obj/item/ammo_box/magazine/pdc/fiftycal,
 					/obj/item/ammo_box/magazine/pdc/fiftycal,
 					/obj/item/ammo_box/magazine/pdc/fiftycal)
-	crate_name = "PDC ammunition crate"
+	crate_name = ".50cal ammunition crate"
+
+/datum/supply_pack/munitions/flak
+	name = "40mm flak rounds (x5)"
+	desc = "5 boxes of flak ammunition (WARNING: Not compatible with smaller ship classes!)."
+	cost = 1250
+	contains = list(/obj/item/ammo_box/magazine/pdc/flak,
+					/obj/item/ammo_box/magazine/pdc/flak,
+					/obj/item/ammo_box/magazine/pdc/flak,
+					/obj/item/ammo_box/magazine/pdc/flak,
+					/obj/item/ammo_box/magazine/pdc/flak)
+	crate_name = "Flak ammunition crate"
 
 /datum/supply_pack/munitions/trolley
 	name = "Replacement munitions trolley (x1)"

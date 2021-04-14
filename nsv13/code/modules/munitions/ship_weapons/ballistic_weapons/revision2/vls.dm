@@ -72,7 +72,7 @@
 	// We have different sprites and behaviors for each torpedo
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered
 	if(T)
-		var/obj/item/projectile/P = linked.fire_lateral_projectile(T.projectile_type, target, homing = TRUE)
+		var/obj/item/projectile/P = linked.fire_projectile(T.projectile_type, target, homing = TRUE, lateral = weapon_type.lateral)
 		if(T.contents.len)
 			for(var/atom/movable/AM in T.contents)
 				to_chat(AM, "<span class='warning'>You feel slightly nauseous as you're shot out into space...</span>")
@@ -261,11 +261,11 @@
 	return targets
 
 
-/obj/structure/overmap/handle_flak()
+/obj/structure/overmap/proc/handle_flak()
 	if(fire_mode == FIRE_MODE_FLAK) //If theyre aiming the flak manually.
 		return
-	if(mass < MASS_SMALL) //Sub-capital ships don't get to use flak
-		return
+	if(!weapon_types[FIRE_MODE_FLAK] || flak_battery_amount <= 0)
+		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_FLAK]
 	var/flak_left = flak_battery_amount //Multi-flak batteries!
 	if(!ai_controlled)

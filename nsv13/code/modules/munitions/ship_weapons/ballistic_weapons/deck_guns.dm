@@ -35,7 +35,7 @@
 /obj/machinery/ship_weapon/deck_turret/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/naval_artillery/T = chambered
 	if(T)
-		linked.fire_lateral_projectile(T.projectile_type, target,speed=T.speed)
+		linked.fire_projectile(T.projectile_type, target,speed=T.speed, lateral=weapon_type.lateral)
 
 /obj/machinery/ship_weapon/deck_turret/proc/rack_load(atom/movable/A)
 	if(ammo?.len < max_ammo && istype(A, ammo_type))

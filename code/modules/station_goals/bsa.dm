@@ -21,7 +21,7 @@
 	if(..())
 		return TRUE
 	//var/obj/machinery/bsa/full/B = locate() Nsv13 - Galactica moment
-	var/obj/machinery/ship_weapon/energy/beam/bsa/B = locate()
+	var/obj/machinery/ship_weapon/energy/beam/bsa/built/B = locate()
 	if(B && !B.stat)
 		return TRUE
 	return FALSE
@@ -332,7 +332,7 @@
 	s.set_up(4,get_turf(centerpiece))
 	s.start()
 	//Nsv13 - Galactica moment
-	var/obj/machinery/ship_weapon/energy/beam/bsa/cannon = new(get_turf(centerpiece),centerpiece.get_cannon_direction())
+	var/obj/machinery/ship_weapon/energy/beam/bsa/built/cannon = new(get_turf(centerpiece),centerpiece.get_cannon_direction())
 	qdel(centerpiece.front)
 	qdel(centerpiece.back)
 	qdel(centerpiece)

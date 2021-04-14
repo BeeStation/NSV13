@@ -6,8 +6,8 @@
 
 	charge_rate = 1000000//1 MW / tick base.
 	charge_per_shot = 7.5e+7 //75 MW to fire once.
-	max_charge = 1e+8 //This thing chews through power.
-	power_modifier_cap = 2 //Can go up to 40MW for a oneshot instadeath beam.
+	max_charge = 7.5e+7 //This thing chews through power.
+	power_modifier_cap = 3 //Can go up to 225 MW for a oneshot instadeath beam.
 	energy_weapon_type = /datum/ship_weapon/bsa
 	obj_integrity = 2000
 	max_integrity = 2000
@@ -21,12 +21,16 @@
 	dir = EAST //Default.
 	var/id = null
 	fire_mode = FIRE_MODE_RAILGUN
+	var/built = FALSE //Station goal fuckery
 	//circuit =
 
 //Note to mappers. If you REALLY need a north/south facing one go get a spriter to sprite it and I'll add support...
 /obj/machinery/ship_weapon/energy/beam/bsa/west
 	pixel_x = -192
 	dir = WEST
+
+/obj/machinery/ship_weapon/energy/beam/bsa/built
+	built = TRUE
 
 /obj/machinery/ship_weapon/energy/beam/bsa/wrench_act(mob/living/user, obj/item/I)
 	return FALSE
@@ -47,13 +51,18 @@
 
 //Ship-to-ship BSA control...
 /obj/machinery/computer/sts_bsa_control
-	name = "Ship-to-ship bluespace artillery control"
+	name = "Superliminal Bluespace Artillery Control"
 	desc = "A computer which lets you interface with anti-capital super weapons."
 	icon = 'nsv13/goonstation/icons/obj/computer.dmi'
 	icon_state = "computer"
 	icon_screen = "bsa"
+	circuit = /obj/item/circuitboard/computer/sts_bsa_control
 	var/obj/machinery/ship_weapon/energy/beam/bsa/cannon = null
 	var/id = null
+
+/obj/item/circuitboard/computer/sts_bsa_control
+	name = "Superliminal Bluespace Artillery Control (circuit)"
+	build_path = /obj/machinery/computer/sts_bsa_control
 
 /obj/machinery/computer/sts_bsa_control/Initialize(mapload, obj/item/circuitboard/C)
 	. = ..()

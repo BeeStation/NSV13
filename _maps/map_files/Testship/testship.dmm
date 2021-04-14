@@ -189,6 +189,7 @@
 /obj/item/stack/sheet/mineral/plasma,
 /obj/item/stack/sheet/mineral/plasma,
 /obj/item/stack/sheet/mineral/plasma,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
 "aK" = (
@@ -205,6 +206,7 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plating,
 /area/centcom)
 "aM" = (
@@ -644,6 +646,9 @@
 	dir = 1
 	},
 /obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "bV" = (
@@ -677,6 +682,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/carpet/black,
 /area/centcom)
 "ca" = (
@@ -762,6 +768,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/ship/techfloor,
 /area/ai_monitored/turret_protected/ai)
 "cn" = (
@@ -846,6 +853,7 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/white,
 /area/medical)
 "cz" = (
@@ -1233,7 +1241,9 @@
 /area/engine/gravity_generator)
 "dt" = (
 /obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
 /turf/open/floor/pod,
 /area/engine/gravity_generator)
 "du" = (
@@ -1333,12 +1343,15 @@
 /obj/machinery/light,
 /turf/open/floor/pod,
 /area/engine/gravity_generator)
-"dO" = (
-/obj/structure/chair/office/light{
+"dU" = (
+/obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
 /turf/open/floor/monotile/dark,
-/area/space)
+/area/centcom)
 "ee" = (
 /turf/closed/wall/r_wall/ship,
 /area/engine/gravity_generator)
@@ -1418,18 +1431,6 @@
 	},
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"fr" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "23"
-	},
-/turf/open/floor/engine/airless,
-/area/space)
-"fy" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "24"
-	},
-/turf/open/floor/engine/airless,
-/area/space)
 "fE" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -1456,10 +1457,47 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/centcom)
+"gg" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/half/orange{
+	dir = 1
+	},
+/obj/structure/artilleryplaceholder/decorative{
+	icon_state = "27"
+	},
+/obj/machinery/computer/ship/dradis/minor/console,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/window/plasma/reinforced/spawner/north,
+/turf/open/floor/monotile/dark,
+/area/space)
+"gS" = (
+/obj/machinery/light,
+/turf/open/floor/monotile/dark,
+/area/centcom)
+"gT" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/plating,
+/area/space)
 "hf" = (
 /obj/structure/frame/computer,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
+"hn" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "17"
+	},
+/turf/open/floor/engine/airless,
+/area/space)
 "hx" = (
 /obj/item/ammo_box/magazine/pdc/fiftycal,
 /turf/open/floor/plasteel/ship/padded,
@@ -1468,15 +1506,63 @@
 /obj/machinery/missile_builder/wirer,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"il" = (
+"hW" = (
+/obj/machinery/computer/console_placholder/end{
+	dir = 10;
+	name = "secondary alignment matrix"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/monotile/dark,
+/area/space)
+"hX" = (
+/obj/structure/table/reinforced,
+/obj/machinery/button/door{
+	id = "bsashutter";
+	name = "Gun Doors";
+	req_one_access_txt = "69"
+	},
+/turf/open/floor/monotile/dark,
+/area/space)
+"hZ" = (
+/obj/effect/turf_decal/tile/ship/half/orange{
+	dir = 1
+	},
+/obj/machinery/computer/ship/helm,
+/turf/open/floor/monotile/steel,
+/area/centcom)
+"ir" = (
+/obj/machinery/bsa/middle{
+	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/structure/lattice/catwalk/over/ship,
-/turf/open/floor/plating,
-/area/space)
+/turf/open/floor/engine,
+/area/centcom)
 "iz" = (
 /turf/closed/wall/r_wall,
+/area/space)
+"ja" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/structure/table/reinforced,
+/turf/open/floor/monotile/dark,
+/area/centcom)
+"jp" = (
+/obj/machinery/power/smes,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/turf/open/floor/monotile/dark,
 /area/space)
 "jq" = (
 /obj/machinery/missile_builder,
@@ -1489,35 +1575,19 @@
 /obj/item/ship_weapon/ammunition/naval_artillery,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"jt" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "35"
+"jx" = (
+/obj/machinery/power/terminal{
+	dir = 8
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
 	},
-/obj/structure/window/plasma/reinforced/spawner/north,
 /turf/open/floor/monotile/dark,
 /area/space)
-"jM" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/turf/open/floor/monotile/dark,
-/area/centcom)
 "jT" = (
 /obj/machinery/deck_turret/autoelevator,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"kh" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "4"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/engine/airless,
-/area/space)
 "ki" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -1528,10 +1598,23 @@
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/engine,
 /area/centcom)
+"kB" = (
+/obj/machinery/computer/console_placholder{
+	dir = 5;
+	name = "bluespace matrix inverter"
+	},
+/turf/open/floor/monotile/dark,
+/area/space)
 "kK" = (
 /obj/item/ship_weapon/ammunition/naval_artillery,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
+"kO" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "14"
+	},
+/turf/open/floor/engine/airless,
+/area/space)
 "kU" = (
 /obj/machinery/computer/deckgun,
 /turf/open/floor/plasteel/ship/riveted,
@@ -1546,42 +1629,37 @@
 /obj/item/ammo_box/magazine/pdc/fiftycal,
 /turf/open/floor/plasteel/ship/padded,
 /area/space)
-"lj" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "6"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/engine/airless,
-/area/space)
-"lX" = (
-/obj/structure/lattice/catwalk/over/ship,
-/turf/open/floor/plating,
-/area/space)
 "mk" = (
 /obj/machinery/light{
 	dir = 4
 	},
 /turf/open/floor/engine,
 /area/centcom)
-"mF" = (
-/obj/machinery/power/smes,
-/obj/structure/cable{
-	icon_state = "0-4"
-	},
-/obj/structure/window/plasma/reinforced/spawner/north,
-/turf/open/floor/monotile/dark,
-/area/space)
-"mT" = (
+"mp" = (
+/obj/machinery/computer/ship/viewscreen,
 /obj/structure/table/reinforced,
-/obj/machinery/button/door{
-	id = "bsashutter";
-	name = "Gun Doors";
-	req_one_access_txt = "69"
+/turf/open/floor/monotile/dark,
+/area/centcom)
+"mE" = (
+/obj/structure/artilleryplaceholder/decorative{
+	icon_state = "32"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/structure/lattice/catwalk/over/ship,
+/obj/structure/window/plasma/reinforced/spawner/north,
+/turf/open/floor/plating,
+/area/space)
+"nc" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
 	},
 /turf/open/floor/monotile/dark,
-/area/space)
+/area/centcom)
 "nw" = (
 /obj/structure/fans/tiny,
 /obj/effect/turf_decal/loading_area{
@@ -1599,15 +1677,23 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/centcom)
+"nJ" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "22"
+	},
+/turf/open/floor/engine/airless,
+/area/space)
+"nN" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "12"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine/airless,
+/area/space)
 "oa" = (
 /obj/structure/fans/tiny,
-/turf/open/floor/engine,
-/area/centcom)
-"oh" = (
-/obj/structure/lattice/catwalk/over/ship,
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
 /turf/open/floor/engine,
 /area/centcom)
 "oi" = (
@@ -1618,15 +1704,6 @@
 	},
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"or" = (
-/obj/machinery/bsa/back{
-	dir = 8
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/turf/open/floor/engine,
-/area/centcom)
 "ov" = (
 /obj/structure/frame/machine,
 /obj/item/circuitboard/machine/deck_gun,
@@ -1636,30 +1713,24 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/closed/wall/ship,
 /area/space)
-"oG" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/computer/monitor/console,
-/obj/structure/cable{
+"oI" = (
+/obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/structure/cable{
-	icon_state = "0-4"
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/door/airlock/ship{
+	name = "Heavy Weapons Bay";
+	req_one_access_txt = "69"
 	},
-/obj/structure/window/plasma/reinforced/spawner/north,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/plating,
 /area/space)
-"oK" = (
-/obj/machinery/light,
-/turf/open/floor/monotile/dark,
+"pr" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile/steel,
 /area/centcom)
-"oP" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "19"
-	},
-/turf/open/floor/engine/airless,
-/area/space)
 "pI" = (
 /obj/structure/chair/office/light{
 	dir = 1
@@ -1669,14 +1740,7 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/centcom)
-"pK" = (
-/obj/structure/lattice/catwalk/over/ship,
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
-	},
-/turf/open/floor/monotile/dark,
-/area/centcom)
-"pN" = (
+"pP" = (
 /obj/machinery/computer/console_placholder/end{
 	dir = 4;
 	name = "Targeting Mainframe"
@@ -1690,20 +1754,29 @@
 /obj/machinery/ship_weapon/vls,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
+"pZ" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/power/terminal{
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/turf/open/floor/plating,
+/area/space)
 "qf" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
 /turf/open/floor/engine,
 /area/centcom)
-"qj" = (
-/obj/machinery/computer/bsa_control,
-/turf/open/floor/engine,
-/area/centcom)
-"qk" = (
-/obj/structure/lattice/catwalk/over/ship,
+"qi" = (
+/obj/machinery/computer/console_placholder/end{
+	dir = 10;
+	name = "secondary alignment matrix"
+	},
 /turf/open/floor/monotile/dark,
-/area/centcom)
+/area/space)
 "qm" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -1714,17 +1787,6 @@
 /obj/machinery/missile_builder/welder,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"rk" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/door/airlock/ship{
-	name = "Heavy Weapons Bay";
-	req_one_access_txt = "69"
-	},
-/turf/open/floor/plating,
-/area/space)
 "rG" = (
 /obj/machinery/deck_turret,
 /turf/open/floor/plasteel/ship/riveted,
@@ -1742,34 +1804,23 @@
 /obj/structure/fluff/vls_hatch,
 /turf/open/openspace,
 /area/space)
-"sb" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "20"
-	},
-/turf/open/floor/engine/airless,
-/area/space)
-"sv" = (
-/obj/machinery/bsa/front{
-	dir = 8
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/turf/open/floor/engine,
+"rY" = (
+/obj/machinery/ship_weapon/pdc_mount/flak,
+/obj/machinery/computer/ship/tactical,
+/turf/open/floor/monotile/dark,
 /area/centcom)
+"sn" = (
+/obj/structure/chair/office/light{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/space)
 "sC" = (
 /obj/machinery/ship_weapon/vls{
 	dir = 1
 	},
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"sG" = (
-/obj/machinery/computer/console_placholder/end{
-	dir = 10;
-	name = "secondary alignment matrix"
-	},
-/turf/open/floor/monotile/dark,
-/area/space)
 "sK" = (
 /obj/structure/cable,
 /obj/structure/cable{
@@ -1790,9 +1841,12 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/centcom)
-"tc" = (
+"sV" = (
 /obj/structure/artilleryplaceholder{
-	icon_state = "18"
+	icon_state = "7"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
 /turf/open/floor/engine/airless,
 /area/space)
@@ -1803,6 +1857,25 @@
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/engine,
 /area/centcom)
+"tp" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/engine/airless,
+/area/space)
+"ts" = (
+/obj/structure/chair/office/light{
+	dir = 1
+	},
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/plating,
+/area/space)
+"tA" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "18"
+	},
+/turf/open/floor/engine/airless,
+/area/space)
 "tB" = (
 /obj/machinery/deck_turret/payload_gate,
 /turf/open/floor/plasteel/ship/riveted,
@@ -1822,15 +1895,6 @@
 /obj/item/multitool,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"ux" = (
-/obj/machinery/power/terminal{
-	dir = 8
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/turf/open/floor/monotile/dark,
-/area/space)
 "uM" = (
 /obj/machinery/conveyor/slow{
 	dir = 4;
@@ -1856,6 +1920,38 @@
 /obj/effect/landmark/start/captain,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
+"vy" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "15"
+	},
+/turf/open/floor/engine/airless,
+/area/space)
+"vz" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "24"
+	},
+/turf/open/floor/engine/airless,
+/area/space)
+"vB" = (
+/obj/machinery/computer/console_placholder{
+	icon_screen = "tactical"
+	},
+/obj/structure/artilleryplaceholder/decorative{
+	icon_state = "28"
+	},
+/obj/machinery/artillerycontrol{
+	icon = 'nsv13/goonstation/icons/obj/computer.dmi';
+	icon_state = "computer"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/obj/structure/window/plasma/reinforced/spawner/north,
+/turf/open/floor/monotile/dark,
+/area/space)
 "vH" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -1868,19 +1964,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/centcom)
-"vN" = (
-/obj/machinery/button/door{
-	id = "bsashutter";
-	name = "Firing Shutters";
-	pixel_x = 32;
-	req_one_access_txt = "69"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/structure/window/plasma/reinforced/spawner/north,
-/turf/open/floor/monotile/dark,
-/area/space)
 "vV" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
@@ -1891,14 +1974,12 @@
 /obj/machinery/missile_builder/screwdriver,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"vX" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "3"
+"wu" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/engine/airless,
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/plating,
 /area/space)
 "wB" = (
 /obj/structure/cable{
@@ -1906,16 +1987,6 @@
 	},
 /turf/open/floor/engine,
 /area/centcom)
-"wJ" = (
-/obj/item/multitool,
-/turf/open/floor/engine,
-/area/centcom)
-"xb" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "21"
-	},
-/turf/open/floor/engine/airless,
-/area/space)
 "xe" = (
 /obj/item/ship_weapon/parts/missile/guidance_system,
 /obj/item/ship_weapon/parts/missile/guidance_system,
@@ -1926,13 +1997,6 @@
 /obj/item/ship_weapon/parts/missile/guidance_system,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"xf" = (
-/obj/structure/lattice/catwalk/over/ship,
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/turf/open/floor/monotile/steel,
-/area/centcom)
 "xl" = (
 /obj/machinery/deck_turret/calibrator,
 /turf/open/floor/plasteel/ship/riveted,
@@ -1941,334 +2005,26 @@
 /obj/item/powder_bag/plasma,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
+"xH" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/structure/window/plasma/reinforced/spawner/north,
+/turf/open/floor/monotile/dark,
+/area/space)
+"xX" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/engine/airless,
+/area/space)
 "yi" = (
 /obj/machinery/ship_weapon/vls{
 	dir = 8
 	},
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"yk" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "8"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/engine/airless,
-/area/space)
-"yp" = (
-/obj/effect/turf_decal/ship/delivery/yellow,
-/turf/open/floor/monotile/steel,
-/area/space)
-"yq" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
-	},
-/obj/structure/lattice/catwalk/over/ship,
-/turf/open/floor/engine,
-/area/centcom)
-"yw" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/carpet/ship,
-/area/centcom)
-"yG" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/computer/console_placholder{
-	dir = 4;
-	name = "Targeting Mainframe"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
-/obj/structure/window/plasma/reinforced/spawner/north,
-/turf/open/floor/monotile/dark,
-/area/space)
-"zk" = (
-/obj/machinery/power/smes,
-/obj/structure/cable{
-	icon_state = "0-4"
-	},
-/turf/open/floor/monotile/dark,
-/area/centcom)
-"zq" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "10"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/engine/airless,
-/area/space)
-"zA" = (
-/obj/structure/chair/office/light{
-	dir = 1
-	},
-/obj/structure/artilleryplaceholder/decorative{
-	icon_state = "29"
-	},
-/turf/open/floor/monotile/dark,
-/area/centcom)
-"zC" = (
-/obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/engine,
-/area/centcom)
-"zG" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "1"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/engine/airless,
-/area/space)
-"zL" = (
-/obj/effect/turf_decal/tile/ship/half/orange{
-	dir = 1
-	},
-/obj/machinery/light,
-/turf/open/floor/monotile/steel,
-/area/centcom)
-"zS" = (
-/obj/effect/turf_decal/tile/ship/half/orange{
-	dir = 1
-	},
-/obj/machinery/computer/ship/tactical,
-/turf/open/floor/monotile/steel,
-/area/centcom)
-"Ak" = (
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/plasteel/ship/riveted,
-/area/centcom)
-"Av" = (
-/obj/structure/cable,
-/obj/structure/cable{
-	icon_state = "2-8"
-	},
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating,
-/area/maintenance/fore)
-"AG" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/engine/airless,
-/area/space)
-"AS" = (
-/obj/structure/cable,
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
-/turf/open/floor/plasteel/ship/techfloor,
-/area/ai_monitored/turret_protected/ai)
-"AT" = (
-/obj/machinery/computer/console_placholder/end{
-	dir = 4;
-	name = "Targeting Mainframe"
-	},
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
-/turf/open/floor/monotile/dark,
-/area/centcom)
-"Bp" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
-/obj/machinery/ship_weapon/energy/beam/bsa/west{
-	dir = 8
-	},
-/turf/open/floor/engine,
-/area/centcom)
-"Bx" = (
-/obj/machinery/deck_turret/powder_gate,
-/turf/open/floor/plasteel/ship/riveted,
-/area/centcom)
-"Bz" = (
-/turf/open/floor/monotile/dark,
-/area/space)
-"BS" = (
-/obj/machinery/ship_weapon/vls{
-	dir = 3
-	},
-/turf/open/floor/plasteel/ship/riveted,
-/area/centcom)
-"Cd" = (
-/obj/machinery/computer/fiftycal,
-/turf/open/floor/plasteel/ship/riveted,
-/area/centcom)
-"Cr" = (
-/obj/machinery/power/smes,
-/obj/structure/cable{
-	icon_state = "0-4"
-	},
-/turf/open/floor/monotile/dark,
-/area/space)
-"CG" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/ship/half/orange{
-	dir = 1
-	},
-/obj/machinery/computer/ship/dradis/minor/console,
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/monotile/dark,
-/area/centcom)
-"CQ" = (
-/obj/structure/frame/machine,
-/obj/item/circuitboard/machine/deck_gun/payload,
-/obj/item/stack/sheet/mineral/titanium/fifty,
-/obj/item/stack/cable_coil/random,
-/turf/open/floor/plasteel/ship/riveted,
-/area/centcom)
-"De" = (
-/obj/structure/chair/comfy/gauss,
-/turf/open/floor/plasteel/ship/riveted,
-/area/centcom)
-"Di" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/machinery/power/terminal{
-	dir = 4
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
-	},
-/turf/open/floor/plating,
-/area/space)
-"Dn" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "2"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/engine/airless,
-/area/space)
-"Do" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/computer/monitor/console,
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	icon_state = "0-4"
-	},
-/turf/open/floor/monotile/dark,
-/area/centcom)
-"DM" = (
-/obj/machinery/computer/console_placholder/end{
-	dir = 10;
-	name = "secondary alignment matrix"
-	},
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
-/turf/open/floor/monotile/dark,
-/area/space)
-"En" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/engine/airless,
-/area/space)
-"EJ" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "11"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/engine/airless,
-/area/space)
-"EN" = (
-/obj/machinery/power/terminal{
-	dir = 4
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/turf/open/floor/monotile/dark,
-/area/centcom)
-"Fc" = (
-/obj/structure/fans/tiny,
-/turf/open/floor/plasteel/ship/padded,
-/area/centcom)
-"Fn" = (
-/obj/structure/cable,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating,
-/area/centcom)
-"Ft" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "2-8"
-	},
-/obj/structure/lattice/catwalk/over/ship,
-/turf/open/floor/plating,
-/area/space)
-"Fx" = (
-/obj/structure/ship_weapon/mac_assembly/artillery_frame,
-/turf/open/floor/plasteel/ship/padded,
-/area/space)
-"FK" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/structure/window/plasma/reinforced/spawner/north,
-/turf/open/floor/monotile/dark,
-/area/space)
-"FM" = (
-/obj/effect/turf_decal/tile/ship/half/orange{
-	dir = 1
-	},
-/turf/open/floor/monotile/steel,
-/area/centcom)
-"Gm" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "22"
-	},
-/turf/open/floor/engine/airless,
-/area/space)
-"GD" = (
-/obj/structure/cable,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/carpet/ship,
-/area/centcom)
-"GM" = (
+"yj" = (
 /obj/structure/artilleryplaceholder/decorative{
 	icon_state = "30"
 	},
@@ -2291,19 +2047,340 @@
 /obj/structure/window/plasma/reinforced/spawner/north,
 /turf/open/floor/monotile/dark,
 /area/space)
-"Hw" = (
+"yq" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/engine,
+/area/centcom)
+"yw" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"yN" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "19"
+	},
+/turf/open/floor/engine/airless,
+/area/space)
+"yP" = (
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/plating,
+/area/space)
+"yV" = (
+/obj/machinery/computer/bsa_control,
+/turf/open/floor/engine,
+/area/centcom)
+"yY" = (
 /obj/structure/artilleryplaceholder/decorative{
-	icon_state = "32"
+	icon_state = "34"
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/structure/window/plasma/reinforced/spawner/north,
+/turf/open/floor/monotile/dark,
+/area/space)
+"yZ" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "1"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine/airless,
+/area/space)
+"zk" = (
+/obj/machinery/power/smes,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/turf/open/floor/monotile/dark,
+/area/centcom)
+"zA" = (
+/obj/structure/chair/office/light{
+	dir = 1
+	},
+/obj/structure/artilleryplaceholder/decorative{
+	icon_state = "29"
+	},
+/turf/open/floor/monotile/dark,
+/area/centcom)
+"zC" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/centcom)
+"zL" = (
+/obj/effect/turf_decal/tile/ship/half/orange{
+	dir = 1
+	},
+/obj/machinery/light,
+/turf/open/floor/monotile/steel,
+/area/centcom)
+"zN" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/computer/console_placholder{
+	dir = 4;
+	name = "Targeting Mainframe"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/structure/window/plasma/reinforced/spawner/north,
+/turf/open/floor/monotile/dark,
+/area/space)
+"zS" = (
+/obj/effect/turf_decal/tile/ship/half/orange{
+	dir = 1
+	},
+/obj/machinery/computer/ship/tactical,
+/turf/open/floor/monotile/steel,
+/area/centcom)
+"Aj" = (
+/obj/machinery/button/door{
+	id = "bsashutter";
+	name = "Firing Shutters";
+	pixel_x = 32;
+	req_one_access_txt = "69"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/structure/window/plasma/reinforced/spawner/north,
+/turf/open/floor/monotile/dark,
+/area/space)
+"Ak" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plasteel/ship/riveted,
+/area/centcom)
+"Av" = (
+/obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/maintenance/fore)
+"AS" = (
+/obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/plasteel/ship/techfloor,
+/area/ai_monitored/turret_protected/ai)
+"AT" = (
+/obj/machinery/computer/console_placholder/end{
+	dir = 4;
+	name = "Targeting Mainframe"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/monotile/dark,
+/area/centcom)
+"AY" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "3"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine/airless,
+/area/space)
+"Bo" = (
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
 	},
-/obj/structure/lattice/catwalk/over/ship,
-/obj/structure/window/plasma/reinforced/spawner/north,
+/turf/open/floor/engine,
+/area/centcom)
+"Bp" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/machinery/ship_weapon/energy/beam/bsa/west{
+	charge = 1;
+	charge_per_shot = 0;
+	charge_rate = 1;
+	dir = 8;
+	max_charge = 1;
+	name = "Jank ass admin BSA"
+	},
+/turf/open/floor/engine,
+/area/centcom)
+"Bx" = (
+/obj/machinery/deck_turret/powder_gate,
+/turf/open/floor/plasteel/ship/riveted,
+/area/centcom)
+"BS" = (
+/obj/machinery/ship_weapon/vls{
+	dir = 3
+	},
+/turf/open/floor/plasteel/ship/riveted,
+/area/centcom)
+"Cd" = (
+/obj/machinery/computer/fiftycal,
+/turf/open/floor/plasteel/ship/riveted,
+/area/centcom)
+"CG" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/half/orange{
+	dir = 1
+	},
+/obj/machinery/computer/ship/dradis/minor/console,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/monotile/dark,
+/area/centcom)
+"CQ" = (
+/obj/structure/frame/machine,
+/obj/item/circuitboard/machine/deck_gun/payload,
+/obj/item/stack/sheet/mineral/titanium/fifty,
+/obj/item/stack/cable_coil/random,
+/turf/open/floor/plasteel/ship/riveted,
+/area/centcom)
+"Dc" = (
+/obj/machinery/computer/ship/dradis/minor/console,
+/turf/open/floor/monotile/dark,
+/area/space)
+"De" = (
+/obj/structure/chair/comfy/gauss,
+/turf/open/floor/plasteel/ship/riveted,
+/area/centcom)
+"Do" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/computer/monitor/console,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/turf/open/floor/monotile/dark,
+/area/centcom)
+"DV" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/centcom)
+"EN" = (
+/obj/machinery/power/terminal{
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile/dark,
+/area/centcom)
+"EU" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine/airless,
+/area/space)
+"Fa" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "8"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine/airless,
+/area/space)
+"Fc" = (
+/obj/structure/fans/tiny,
+/turf/open/floor/plasteel/ship/padded,
+/area/centcom)
+"Fn" = (
+/obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
+/area/centcom)
+"Fu" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile/dark,
+/area/centcom)
+"Fx" = (
+/obj/structure/ship_weapon/mac_assembly/artillery_frame,
+/turf/open/floor/plasteel/ship/padded,
+/area/space)
+"Fz" = (
+/obj/effect/turf_decal/loading_area{
+	dir = 4
+	},
+/turf/open/floor/engine/airless,
+/area/space)
+"FM" = (
+/obj/effect/turf_decal/tile/ship/half/orange{
+	dir = 1
+	},
+/turf/open/floor/monotile/steel,
+/area/centcom)
+"Gn" = (
+/obj/effect/turf_decal/ship/delivery/yellow,
+/turf/open/floor/monotile/steel,
+/area/space)
+"GD" = (
+/obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/carpet/ship,
+/area/centcom)
+"GI" = (
+/obj/machinery/bsa/back{
+	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/turf/open/floor/engine,
+/area/centcom)
+"Hh" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/power/smes,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/window/plasma/reinforced/spawner/north,
+/turf/open/floor/monotile/dark,
 /area/space)
 "HH" = (
 /obj/machinery/ship_weapon/vls{
@@ -2330,54 +2407,57 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/centcom)
-"In" = (
-/obj/structure/artilleryplaceholder/decorative{
-	icon_state = "33"
+"Iy" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "9"
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/structure/window/plasma/reinforced/spawner/north,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/engine/airless,
 /area/space)
-"Iy" = (
-/obj/effect/turf_decal/tile/ship/half/orange{
+"IJ" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "6"
+	},
+/obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/computer/ship/helm,
-/turf/open/floor/monotile/steel,
-/area/centcom)
+/turf/open/floor/engine/airless,
+/area/space)
 "IU" = (
 /obj/machinery/missile_builder/assembler,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"IX" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/power/terminal{
-	dir = 8
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/obj/structure/window/plasma/reinforced/spawner/north,
-/turf/open/floor/monotile/dark,
-/area/space)
-"Jd" = (
+"Jl" = (
 /obj/structure/artilleryplaceholder{
-	icon_state = "15"
+	icon_state = "23"
 	},
 /turf/open/floor/engine/airless,
 /area/space)
-"Jv" = (
-/obj/machinery/computer/ship/dradis/minor/console,
-/turf/open/floor/monotile/dark,
+"Jm" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "4"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine/airless,
+/area/space)
+"Jz" = (
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
 /area/space)
 "JF" = (
 /obj/machinery/computer/ship/ordnance,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
+"JG" = (
+/obj/effect/turf_decal/tile/ship/half/orange{
+	dir = 1
+	},
+/turf/open/floor/monotile/steel,
+/area/space)
 "JP" = (
 /obj/item/ship_weapon/parts/missile/iff_card,
 /obj/item/ship_weapon/parts/missile/iff_card,
@@ -2392,13 +2472,17 @@
 /obj/item/ship_weapon/parts/missile/iff_card,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"KH" = (
-/obj/machinery/bsa/middle{
-	dir = 8
+"Kr" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "35"
 	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
+/obj/structure/window/plasma/reinforced/spawner/north,
+/turf/open/floor/monotile/dark,
+/area/space)
+"KF" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
@@ -2419,19 +2503,6 @@
 /obj/item/ship_weapon/parts/missile/warhead,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"Ll" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
-	},
-/obj/structure/lattice/catwalk/over/ship,
-/turf/open/floor/plating,
-/area/space)
-"Ln" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "14"
-	},
-/turf/open/floor/engine/airless,
-/area/space)
 "Lo" = (
 /obj/item/ship_weapon/ammunition/missile/missile_casing,
 /obj/item/ship_weapon/ammunition/missile/missile_casing,
@@ -2448,6 +2519,29 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/centcom)
+"Lv" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "16"
+	},
+/turf/open/floor/engine/airless,
+/area/space)
+"Lx" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "2"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine/airless,
+/area/space)
+"LM" = (
+/obj/machinery/power/smes,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/obj/structure/window/plasma/reinforced/spawner/north,
+/turf/open/floor/monotile/dark,
+/area/space)
 "Ma" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -2458,8 +2552,15 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
 	},
-/turf/open/floor/engine,
+/turf/open/floor/monotile/dark,
 /area/centcom)
+"Md" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/plating,
+/area/space)
 "Me" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -2472,9 +2573,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/centcom)
-"Mj" = (
-/turf/open/floor/engine/airless,
-/area/space)
 "Mo" = (
 /obj/structure/fluff/support_beam,
 /obj/structure/cable,
@@ -2483,22 +2581,46 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/fore)
+"Mx" = (
+/obj/machinery/ship_weapon/pdc_mount/flak,
+/obj/machinery/computer/ship/helm,
+/turf/open/floor/monotile/dark,
+/area/centcom)
 "MK" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/computer/ship/ftl_computer,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"Nk" = (
+"MW" = (
+/obj/machinery/bsa/front{
+	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/turf/open/floor/engine,
+/area/centcom)
+"Nc" = (
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/engine,
+/area/centcom)
+"Nx" = (
+/obj/structure/artilleryplaceholder/decorative{
+	icon_state = "33"
+	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
-	},
-/obj/machinery/power/smes,
-/obj/structure/cable{
-	icon_state = "0-8"
 	},
 /obj/structure/window/plasma/reinforced/spawner/north,
 /turf/open/floor/monotile/dark,
 /area/space)
+"NI" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/engine,
+/area/centcom)
 "NR" = (
 /turf/open/floor/plasteel/ship/padded,
 /area/space)
@@ -2520,12 +2642,10 @@
 	},
 /turf/open/floor/plating,
 /area/centcom)
-"NX" = (
-/obj/effect/turf_decal/loading_area{
-	dir = 4
-	},
-/turf/open/floor/engine/airless,
-/area/space)
+"Oh" = (
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plasteel/ship/riveted,
+/area/centcom)
 "Oi" = (
 /obj/machinery/door/airlock/ship,
 /obj/structure/cable,
@@ -2549,23 +2669,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/centcom)
-"Pn" = (
-/obj/machinery/computer/console_placholder{
-	dir = 5;
-	name = "bluespace matrix inverter"
+"OQ" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
 	},
-/turf/open/floor/monotile/dark,
-/area/space)
-"Pu" = (
-/obj/structure/artilleryplaceholder/decorative{
-	icon_state = "34"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/structure/window/plasma/reinforced/spawner/north,
-/turf/open/floor/monotile/dark,
-/area/space)
+/turf/open/floor/engine,
+/area/centcom)
 "Pv" = (
 /obj/structure/cable,
 /obj/structure/cable{
@@ -2591,36 +2701,23 @@
 /obj/structure/munitions_trolley,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"PZ" = (
+"PR" = (
 /obj/structure/artilleryplaceholder{
-	icon_state = "7"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
+	icon_state = "13"
 	},
 /turf/open/floor/engine/airless,
-/area/space)
-"Qb" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/ship/half/orange{
-	dir = 1
-	},
-/obj/structure/artilleryplaceholder/decorative{
-	icon_state = "27"
-	},
-/obj/machinery/computer/ship/dradis/minor/console,
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/window/plasma/reinforced/spawner/north,
-/turf/open/floor/monotile/dark,
 /area/space)
 "Qz" = (
 /obj/structure/frame/machine,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
+"QF" = (
+/obj/machinery/door/poddoor/ship{
+	dir = 4;
+	id = "bsashutter"
+	},
+/turf/open/floor/engine/airless,
+/area/space)
 "QG" = (
 /obj/structure/cable,
 /obj/structure/cable{
@@ -2628,6 +2725,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/fore)
+"QI" = (
+/obj/item/multitool,
+/turf/open/floor/engine,
+/area/centcom)
 "QZ" = (
 /obj/structure/artilleryplaceholder{
 	icon_state = "35"
@@ -2638,11 +2739,14 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/turf/open/floor/engine,
+/turf/open/floor/monotile/dark,
 /area/centcom)
-"Rh" = (
+"Ra" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "10"
+	},
 /obj/effect/turf_decal/stripes/line{
-	dir = 4
+	dir = 1
 	},
 /turf/open/floor/engine/airless,
 /area/space)
@@ -2650,11 +2754,12 @@
 /obj/machinery/computer/ams,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"RZ" = (
-/obj/effect/turf_decal/tile/ship/half/orange{
-	dir = 1
+"RY" = (
+/obj/machinery/power/smes,
+/obj/structure/cable{
+	icon_state = "0-4"
 	},
-/turf/open/floor/monotile/steel,
+/turf/open/floor/monotile/dark,
 /area/space)
 "Sa" = (
 /obj/structure/cable{
@@ -2662,6 +2767,12 @@
 	},
 /turf/open/floor/engine,
 /area/centcom)
+"Sc" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "20"
+	},
+/turf/open/floor/engine/airless,
+/area/space)
 "Sw" = (
 /obj/machinery/computer/console_placholder/end{
 	dir = 10;
@@ -2686,28 +2797,21 @@
 "SR" = (
 /turf/open/floor/engine,
 /area/centcom)
-"Te" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "12"
+"Ti" = (
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/monotile/dark,
+/area/centcom)
+"Tr" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/engine/airless,
-/area/space)
+/turf/open/floor/monotile/dark,
+/area/centcom)
 "TA" = (
 /obj/machinery/computer/ship/tactical,
 /turf/open/floor/carpet/ship,
 /area/bridge)
-"TG" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "5"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/engine/airless,
-/area/space)
 "TO" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -2715,8 +2819,14 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/turf/open/floor/engine,
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/turf/open/floor/monotile/dark,
 /area/centcom)
+"Uq" = (
+/turf/open/floor/engine/airless,
+/area/space)
 "Uv" = (
 /obj/machinery/power/terminal{
 	dir = 4
@@ -2726,17 +2836,20 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/centcom)
-"UB" = (
-/obj/machinery/computer/console_placholder{
-	icon_screen = "tactical"
+"Vx" = (
+/obj/structure/artilleryplaceholder{
+	icon_state = "5"
 	},
-/obj/structure/artilleryplaceholder/decorative{
-	icon_state = "28"
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
-/obj/machinery/artillerycontrol{
-	icon = 'nsv13/goonstation/icons/obj/computer.dmi';
-	icon_state = "computer"
+/turf/open/floor/engine/airless,
+/area/space)
+"VL" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
+/obj/machinery/computer/monitor/console,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -2746,63 +2859,40 @@
 /obj/structure/window/plasma/reinforced/spawner/north,
 /turf/open/floor/monotile/dark,
 /area/space)
-"UX" = (
+"Wn" = (
 /obj/structure/artilleryplaceholder{
-	icon_state = "9"
+	icon_state = "11"
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
 /turf/open/floor/engine/airless,
 /area/space)
-"Ve" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "13"
-	},
-/turf/open/floor/engine/airless,
-/area/space)
-"VR" = (
-/obj/structure/artilleryplaceholder{
-	icon_state = "16"
-	},
-/turf/open/floor/engine/airless,
-/area/space)
-"WT" = (
-/obj/structure/chair/office/light{
-	dir = 1
-	},
-/obj/structure/lattice/catwalk/over/ship,
-/turf/open/floor/plating,
-/area/space)
-"Xe" = (
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating,
-/area/space)
-"Xn" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/turf/open/floor/engine,
-/area/centcom)
-"XB" = (
+"WS" = (
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/pdc/flak,
+/obj/structure/table/reinforced,
 /turf/open/floor/monotile/dark,
 /area/centcom)
-"XI" = (
-/obj/structure/lattice/catwalk/over/ship,
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
+"Xz" = (
+/turf/open/floor/monotile/dark,
+/area/space)
+"XB" = (
 /turf/open/floor/monotile/dark,
 /area/centcom)
 "XL" = (
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
 /turf/open/floor/engine,
 /area/centcom)
-"Yj" = (
+"XO" = (
 /obj/structure/artilleryplaceholder{
-	icon_state = "17"
+	icon_state = "21"
 	},
 /turf/open/floor/engine/airless,
 /area/space)
@@ -2812,17 +2902,23 @@
 /obj/item/powder_bag,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
+"Yx" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/power/terminal{
+	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/obj/structure/window/plasma/reinforced/spawner/north,
+/turf/open/floor/monotile/dark,
+/area/space)
 "YD" = (
 /obj/machinery/light,
 /turf/open/floor/plasteel/ship/riveted,
 /area/centcom)
-"YG" = (
-/obj/machinery/power/smes,
-/obj/structure/cable{
-	icon_state = "0-8"
-	},
-/turf/open/floor/monotile/dark,
-/area/space)
 "YL" = (
 /obj/structure/artilleryplaceholder/decorative{
 	icon_state = "32"
@@ -2864,13 +2960,6 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/centcom)
-"ZX" = (
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "bsashutter"
-	},
-/turf/open/floor/engine/airless,
-/area/space)
 
 (1,1,1) = {"
 aa
@@ -17156,9 +17245,9 @@ iz
 iz
 iz
 iz
-aa
-aa
 iz
+aa
+aa
 iz
 iz
 iz
@@ -17413,9 +17502,9 @@ iz
 iz
 iz
 iz
-aa
-aa
 iz
+aa
+aa
 iz
 iz
 iz
@@ -17670,9 +17759,9 @@ iz
 iz
 iz
 iz
-aa
-aa
 iz
+aa
+aa
 iz
 iz
 iz
@@ -17927,9 +18016,9 @@ iz
 iz
 iz
 iz
-aa
-aa
 iz
+aa
+aa
 iz
 iz
 iz
@@ -18713,11 +18802,11 @@ aa
 iz
 iz
 iz
-Xe
-Di
-Di
-rk
-Xe
+Jz
+pZ
+pZ
+oI
+Jz
 iz
 iz
 aa
@@ -18969,12 +19058,12 @@ aa
 aa
 iz
 iz
-zG
-Ve
-mF
-Cr
-il
-RZ
+yZ
+PR
+LM
+RY
+Md
+JG
 iz
 iz
 aa
@@ -19226,12 +19315,12 @@ aa
 aa
 iz
 iz
-Dn
-Ln
-yG
-pN
-il
-RZ
+Lx
+kO
+zN
+pP
+Md
+JG
 iz
 iz
 aa
@@ -19483,12 +19572,12 @@ aa
 aa
 iz
 iz
-vX
-Jd
-oG
-dO
-il
-RZ
+AY
+vy
+VL
+sn
+Md
+JG
 iz
 iz
 aa
@@ -19731,7 +19820,7 @@ SR
 SR
 XB
 XB
-oK
+gS
 ab
 aa
 aa
@@ -19740,12 +19829,12 @@ aa
 aa
 iz
 iz
-kh
-VR
-Qb
-Bz
-il
-RZ
+Jm
+Lv
+gg
+Xz
+Md
+JG
 iz
 iz
 aa
@@ -19981,7 +20070,7 @@ SR
 Do
 pI
 td
-Iy
+hZ
 ab
 SR
 SR
@@ -19997,12 +20086,12 @@ aa
 aa
 iz
 iz
-TG
-Yj
-UB
-dO
-il
-RZ
+Vx
+hn
+vB
+sn
+Md
+JG
 iz
 iz
 aa
@@ -20254,12 +20343,12 @@ aa
 aa
 iz
 iz
-lj
-tc
-GM
-DM
-il
-RZ
+IJ
+tA
+yj
+hW
+Md
+JG
 iz
 iz
 aa
@@ -20511,12 +20600,12 @@ aa
 aa
 iz
 iz
-PZ
-oP
-Nk
-YG
-il
-RZ
+sV
+yN
+Hh
+jp
+Md
+JG
 iz
 iz
 aa
@@ -20755,7 +20844,7 @@ td
 FM
 ab
 SR
-sv
+MW
 SR
 XB
 XB
@@ -20768,12 +20857,12 @@ aa
 aa
 iz
 iz
-yk
-sb
-IX
-ux
-il
-RZ
+Fa
+Sc
+Yx
+jx
+Md
+JG
 iz
 iz
 aa
@@ -21012,9 +21101,9 @@ td
 FM
 ab
 SR
-KH
-qj
-qk
+ir
+yV
+Ti
 XB
 XB
 ab
@@ -21025,12 +21114,12 @@ aa
 aa
 iz
 iz
-UX
-xb
-Hw
-Ft
-Ll
-RZ
+Iy
+XO
+mE
+gT
+wu
+JG
 iz
 iz
 aa
@@ -21262,16 +21351,16 @@ uM
 aS
 ab
 qf
-SR
+KF
 Me
 rN
 td
 FM
 ab
 SR
-or
-wJ
-qk
+GI
+QI
+Ti
 XB
 XB
 ab
@@ -21282,12 +21371,12 @@ aa
 aa
 iz
 iz
-zq
-Gm
-In
-Bz
-lX
-RZ
+Ra
+nJ
+Nx
+Xz
+yP
+JG
 iz
 iz
 aa
@@ -21519,16 +21608,16 @@ uM
 aS
 ab
 qf
-SR
+KF
 YL
 ki
 yq
 FM
 ab
 SR
-Xn
+KF
 SR
-qk
+Ti
 XB
 XB
 ab
@@ -21539,12 +21628,12 @@ aa
 aa
 iz
 iz
-EJ
-fr
-Pu
-Bz
-lX
-RZ
+Wn
+Jl
+yY
+Xz
+yP
+JG
 iz
 iz
 aa
@@ -21776,16 +21865,16 @@ uM
 aS
 ab
 qf
-SR
-TO
+KF
+dU
 XB
 um
 FM
 ab
 SR
-Xn
+KF
 SR
-qk
+Ti
 XB
 XB
 ab
@@ -21796,12 +21885,12 @@ aa
 aa
 iz
 iz
-Te
-fy
-jt
-Bz
-lX
-RZ
+nN
+vz
+Kr
+Xz
+yP
+JG
 iz
 iz
 aa
@@ -22033,16 +22122,16 @@ uM
 aS
 ab
 qf
-SR
+KF
 Ma
-jM
-oh
-xf
-xf
-XI
-pK
-qk
-qk
+nc
+OQ
+pr
+pr
+Fu
+Tr
+Ti
+Ti
 XB
 XB
 ab
@@ -22053,12 +22142,12 @@ aa
 aa
 iz
 iz
-AG
-NX
-FK
-Bz
-lX
-RZ
+EU
+Fz
+xH
+Xz
+yP
+JG
 iz
 iz
 aa
@@ -22289,19 +22378,19 @@ qt
 uM
 YD
 ab
-qf
-SR
+NI
+KF
 QZ
 XB
 um
 zL
 ab
+Nc
 SR
-SR
 XB
 XB
 XB
-oK
+gS
 ab
 aa
 aa
@@ -22310,12 +22399,12 @@ aa
 aa
 iz
 iz
-AG
-Mj
-vN
-Bz
-lX
-RZ
+EU
+Uq
+Aj
+Xz
+yP
+JG
 iz
 iz
 aa
@@ -22547,7 +22636,7 @@ aS
 aS
 NU
 qf
-SR
+Bo
 TO
 XB
 um
@@ -22567,11 +22656,11 @@ aa
 aa
 iz
 iz
-ZX
-ZX
+QF
+QF
 iz
-yp
-yp
+Gn
+Gn
 iz
 iz
 iz
@@ -22824,11 +22913,11 @@ aa
 aa
 iz
 iz
-En
-En
-Xe
-lX
-lX
+tp
+tp
+Jz
+yP
+yP
 iz
 iz
 iz
@@ -23063,7 +23152,7 @@ ab
 ab
 ab
 ab
-ab
+XB
 ab
 ab
 ab
@@ -23081,11 +23170,11 @@ aa
 aa
 iz
 iz
-Mj
-Mj
-Xe
-mT
-lX
+Uq
+Uq
+Jz
+hX
+yP
 iz
 aa
 iz
@@ -23299,7 +23388,7 @@ aa
 aa
 aC
 ab
-aS
+Oh
 aS
 sC
 aS
@@ -23317,13 +23406,13 @@ aq
 aq
 aq
 ab
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+Mx
+XB
+XB
+XB
+XB
+XB
+ab
 aa
 aa
 aa
@@ -23338,11 +23427,11 @@ aa
 aa
 iz
 iz
-Mj
-Mj
-Xe
-Jv
-WT
+Uq
+Uq
+Jz
+Dc
+ts
 iz
 aa
 iz
@@ -23574,13 +23663,13 @@ ci
 bt
 aq
 ab
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+rY
+XB
+XB
+XB
+XB
+XB
+ab
 aa
 aa
 aa
@@ -23595,11 +23684,11 @@ aa
 aa
 iz
 iz
-Mj
-Mj
-Xe
-Pn
-sG
+Uq
+Uq
+Jz
+kB
+qi
 iz
 aa
 iz
@@ -23831,13 +23920,13 @@ cY
 bN
 bA
 ab
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+mp
+XB
+XB
+XB
+XB
+XB
+ab
 aa
 aa
 aa
@@ -23852,8 +23941,8 @@ aa
 aa
 iz
 iz
-Rh
-Rh
+xX
+xX
 iz
 iz
 iz
@@ -24088,13 +24177,13 @@ bu
 bN
 dw
 ab
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+WS
+XB
+XB
+XB
+XB
+XB
+ab
 aa
 aa
 aa
@@ -24109,8 +24198,8 @@ aa
 aa
 iz
 iz
-ZX
-ZX
+QF
+QF
 iz
 iz
 aa
@@ -24345,13 +24434,13 @@ by
 bO
 bX
 ab
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+ja
+XB
+XB
+DV
+XB
+DV
+ab
 aa
 aa
 aa
@@ -24604,11 +24693,11 @@ ab
 ab
 ab
 ab
-aa
-aa
-aa
-aa
-aa
+ab
+ab
+ab
+ab
+ab
 aa
 aa
 aa

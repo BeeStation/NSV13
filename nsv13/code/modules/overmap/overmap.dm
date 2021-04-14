@@ -299,42 +299,49 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			cabin_air.set_volume(200)
 			cabin_air.set_moles(/datum/gas/oxygen, O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 			cabin_air.set_moles(/datum/gas/nitrogen, N2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
+			bounce_factor = 0.2 //Stops dead in its tracks
 			move_by_mouse = TRUE //You'll want this. Trust.
 			inertial_dampeners = FALSE
 
+		//Very easy to kite. Super balanced movement. Strong thrusters on all sides...
 		if(MASS_SMALL)
-			forward_maxthrust = 0.5
-			backward_maxthrust = 0.5
-			side_maxthrust = 0.5
-			max_angular_acceleration = 7
-			bounce_factor = 0.4
-			lateral_bounce_factor = 0.4
-
-		if(MASS_MEDIUM)
-			forward_maxthrust = 0.35
-			backward_maxthrust = 0.35
-			side_maxthrust = 0.35
-			max_angular_acceleration = 5
+			forward_maxthrust = 0.75
+			backward_maxthrust = 0.75
+			side_maxthrust = 0.75
+			max_angular_acceleration = 12
 			bounce_factor = 0.5
-			lateral_bounce_factor = 0.8
+			lateral_bounce_factor = 0.4
+		//Similar to small, but you'll notice a detriment to movement here. Movement is no longer equally balanced, you'll have to fight the controls more.
+		if(MASS_MEDIUM)
+			forward_maxthrust = 0.75
+			backward_maxthrust = 0.5
+			side_maxthrust = 0.45
+			max_angular_acceleration = 10
+			bounce_factor = 0.65 //Throw your weight around more, though!
+			lateral_bounce_factor = 0.5
 
+		//Weightey ships, much harder to steer, generally less responsive. You'll need to use boost tactically.
 		if(MASS_LARGE)
-			forward_maxthrust = 0.1
-			backward_maxthrust = 0.1
-			side_maxthrust = 0.1
-			max_angular_acceleration = 2.5
-			bounce_factor = 0.45
-			lateral_bounce_factor = 0.8
-			flak_battery_amount = 0
-
+			forward_maxthrust = 0.45
+			backward_maxthrust = 0.3
+			side_maxthrust = 0.25
+			max_angular_acceleration = 5.5
+			bounce_factor = 0.75 //But you can plow through enemy ships with ease.
+			lateral_bounce_factor = 0.65
+			//If we've not already got a special flak battery amount set.
+			if(flak_battery_amount <= 0)
+				flak_battery_amount = 1
+		//Supercapitals are EXTREMELY hard to move, you'll find that they fight your every command, it's a side-effect of their immense power.
 		if(MASS_TITAN)
-			forward_maxthrust = 0.05
-			backward_maxthrust = 0.05
-			side_maxthrust = 0.05
-			max_angular_acceleration = 0.75
-			bounce_factor = 0.35
-			lateral_bounce_factor = 0.6
-			flak_battery_amount = 0
+			forward_maxthrust = 0.25
+			backward_maxthrust = 0.15
+			side_maxthrust = 0.15
+			max_angular_acceleration = 3
+			bounce_factor = 0.85 // But nothing can really stop you in your tracks.
+			lateral_bounce_factor = 0.85
+			//If we've not already got a special flak battery amount set.
+			if(flak_battery_amount <= 0)
+				flak_battery_amount = 2
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
