@@ -18,9 +18,9 @@
 	}
 	..()
 
-/datum/chemical_reaction/dopamine
-	name = "dopamine"
-	id = /datum/reagent/medicine/dopamine
-	results = list(/datum/reagent/medicine/dopamine = 3)
-	required_reagents = list(/datum/reagent/consumable/sugar = 1, /datum/reagent/silicon = 1, /datum/reagent/water = 1)
-	mix_message = "The solution slightly bubbles, becoming thicker."
+// /datum/chemical_reaction/dopamine
+// 	name = "dopamine"
+// 	id = /datum/reagent/medicine/dopamine
+// 	results = list(/datum/reagent/medicine/dopamine = 3)
+// 	required_reagents = list(/datum/reagent/consumable/sugar = 1, /datum/reagent/silicon = 1, /datum/reagent/water = 1)
+// 	mix_message = "The solution slightly bubbles, becoming thicker."
