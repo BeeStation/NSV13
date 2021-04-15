@@ -25,7 +25,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	id = "round_end_belt"
 
 
-/obj/machinery/conveyor/inverted //Directions inverted so you can use different corner peices.
+/obj/machinery/conveyor/inverted //Directions inverted so you can use different corner pieces.
 	icon_state = "conveyor_map_inverted"
 	verted = -1
 
@@ -386,7 +386,8 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	max_amount = 30
 	singular_name = "conveyor belt"
 	w_class = WEIGHT_CLASS_BULKY
-	var/conveyor_type = /obj/machinery/conveyor
+	var/conveyor_type = /obj/machinery/conveyor //NSV13 - allow for fast and slow conveyors
+	merge_type = /obj/item/stack/conveyor
 	///id for linking
 	var/id = ""
 

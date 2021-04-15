@@ -6,7 +6,11 @@ import { Window } from '../layouts';
 export const DeckGun = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable theme="hackerman">
+    <Window
+      resizable
+      theme="hackerman"
+      width={300}
+      height={300}>
       <Window.Content scrollable>
         <Section title="Payload:">
           <Button content="Feed Shell"

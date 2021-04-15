@@ -212,10 +212,10 @@
 			linked_sorters += W
 	sortList(linked_sorters) //Alphabetise the list initially...
 
-/obj/machinery/computer/ammo_sorter/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ammo_sorter/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "AmmoSorter", name, 560, 600, master_ui, state)
+		ui = new(user, src, "AmmoSorter")
 		ui.open()
 
 /obj/machinery/computer/ammo_sorter/ui_act(action, params, datum/tgui/ui)
@@ -254,8 +254,10 @@
 	var/list/data = list()
 	var/list/racks_info = list()
 	for(var/obj/machinery/ammo_sorter/AS in linked_sorters)
-		var/atom/what = AS.loaded[AS.loaded.len]
-		racks_info[++racks_info.len] = list("name"=AS.name, "has_loaded"=AS.loaded?.len > 0, "id"="\ref[AS]", "top"=(AS.loaded.len ? what.name : "Nothing"))
+		var/atom/what = null
+		if(AS.loaded.len)
+			what = AS.loaded[AS.loaded.len]
+		racks_info[++racks_info.len] = list("name"=AS.name, "has_loaded"=AS.loaded?.len > 0, "id"="\ref[AS]", "top"=(what ? what.name : "Nothing"))
 	data["racks_info"] = racks_info
 	return data
 
