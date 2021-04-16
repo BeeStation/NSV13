@@ -362,13 +362,14 @@
 /obj/item/clothing/shoes/clown_shoes/delinquent
 	name = "Delinquent's shoes"
 	icon = 'nsv13/icons/obj/clothing/shoes.dmi'
+	icon_state = "clown_shoes"
 	alternate_worn_icon = 'nsv13/icons/mob/feet.dmi'
 	desc = "A set of pristine white sneakers. Good grief."
 
 /obj/item/clothing/suit/ship/delinquent
 	name = "Delinquent's jacket"
 	desc = "A modified and probably stolen Nanotrasen academy jacket, adorned with countless badges and references. Good grief."
-	icon_state = "clown"
+	icon_state = "clown_suit"
 	actions_types = list(/datum/action/item_action/menacing_pose)
 
 /datum/action/item_action/menacing_pose
@@ -411,8 +412,8 @@
 /obj/item/clothing/under/ship/delinquent
 	name = "Delinquent's uniform"
 	desc = "An extremely smart looking uniform consisting of a shirt, jumper and pants. Good grief."
-	icon_state = "clown"
-	item_color = "clown"
+	icon_state = "clown_uniform"
+	item_color = "clown_uniform"
 	item_state = "bl_suit"
 
 /obj/effect/temp_visual/menacing
