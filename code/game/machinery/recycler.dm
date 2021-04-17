@@ -129,7 +129,7 @@
 		playsound(src, item_recycle_sound, 50, 1)
 
 /obj/machinery/recycler/proc/recycle_item(obj/item/I)
-	if(resistance_flags & INDESTRUCTIBLE) //NSV13 start - indestructible item check
+	if(I.resistance_flags & INDESTRUCTIBLE) //NSV13 start - indestructible item check
 		playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
 		I.forceMove(loc)
 		return //NSV13 end
