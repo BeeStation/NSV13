@@ -14,7 +14,11 @@ export const RbmkStats = (props, context) => {
   const tempInputData = data.tempInputData.map((value, i) => [i, value]);
   const tempOutputdata = data.tempOutputdata.map((value, i) => [i, value]);
   return (
-    <Window resizable theme="ntos">
+    <Window
+      resizable
+      theme="ntos"
+      width={350}
+      height={500}>
       <Window.Content>
         <Section title="Legend:">
           Reactor Power (%):

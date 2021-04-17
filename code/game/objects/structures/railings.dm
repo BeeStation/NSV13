@@ -66,21 +66,22 @@
 	return TRUE
 
 /obj/structure/railing/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover) && (mover.pass_flags & PASSTABLE))
-		return TRUE
-	if(mover.throwing)
-		return TRUE
+	. = ..()
 	if(get_dir(loc, target) & dir)
-		return !density
+		var/checking = FLYING | FLOATING
+		return . || mover.movement_type & checking
 	return TRUE
 
 /obj/structure/railing/corner/CanPass()
 	..()
 	return TRUE
 
-/obj/structure/railing/CheckExit(atom/movable/O, turf/target)
+/obj/structure/railing/CheckExit(atom/movable/mover, turf/target)
 	..()
-	return CanPass(O, target)
+	if(get_dir(loc, target) & dir)
+		var/checking = UNSTOPPABLE | FLYING | FLOATING
+		return !density || mover.movement_type & checking || mover.move_force >= MOVE_FORCE_EXTREMELY_STRONG
+	return TRUE
 
 /obj/structure/railing/corner/CheckExit()
 	return 1

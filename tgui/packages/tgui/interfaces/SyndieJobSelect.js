@@ -6,7 +6,11 @@ import { Window } from '../layouts';
 export const SyndieJobSelect = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Window resizable theme="syndicate">
+    <Window
+      resizable
+      theme="syndicate"
+      width={500}
+      height={500}>
       <Window.Content scrollable>
         <Section title="Selected role:">
           <p>{data.selected_role}</p>

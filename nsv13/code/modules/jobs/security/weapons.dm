@@ -61,7 +61,7 @@
 	desc = "A handgun that's never let its owner down before. It's got a pleasant wooden grip with plenty of detailing etched into it. A nice, all round weapon to defend yourself with."
 
 /datum/design/rubbershot
-	name = "9mm Glock Round"
+	name = "9mm rubber Glock round"
 	id = "glock_ammo"
 	build_type = AUTOLATHE
 	materials = list(/datum/material/iron = 500)
@@ -69,7 +69,7 @@
 	category = list("initial", "Security")
 
 /datum/design/tazer
-	name = "Tazer Round"
+	name = "3mm electro-shock tazer round"
 	id = "tazer_ammo"
 	build_type = AUTOLATHE
 	materials = list(/datum/material/iron = 800)
@@ -77,12 +77,12 @@
 	category = list("initial", "Security")
 
 /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal
-	name = "9mm pistol magazine"
+	name = "9mm pistol magazine (lethal)"
 	icon = 'nsv13/icons/obj/ammo.dmi'
 	ammo_type = /obj/item/ammo_casing/c9mm
 
 /obj/item/ammo_box/magazine/pistolm9mm/glock
-	name = "9mm pistol magazine"
+	name = "9mm pistol magazine (non-lethal)"
 	icon = 'nsv13/icons/obj/ammo.dmi'
 	ammo_type = /obj/item/ammo_casing/c9mm/rubber
 
@@ -133,7 +133,7 @@
 	icon_state = "taserrack-[ammo_count()]"
 
 /obj/item/ammo_casing/tazer
-	name =  "3mm electro-shock round"
+	name =  "3mm electro-shock tazer round"
 	desc = "A tazer cartridge."
 	caliber = "3mm"
 	icon = 'nsv13/icons/obj/ammo.dmi'
