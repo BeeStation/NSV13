@@ -301,11 +301,13 @@
 	static_inventory += using
 
 //NSV13 - Add Z up action
-	using = new /obj/screen/ai/zup()
+	using = new /atom/movable/screen/ai/zup()
 	using.screen_loc = ui_ai_zup
+	using.hud = src
 	static_inventory += using
 
 //NSV13 - Add Z down action
-	using = new /obj/screen/ai/zdown()
+	using = new /atom/movable/screen/ai/zdown()
 	using.screen_loc = ui_ai_zdown
+	using.hud = src
 	static_inventory += using
