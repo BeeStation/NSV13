@@ -41,7 +41,6 @@
 	var/syndie = FALSE //If true, can hear and talk over Syndicate channel on any Z level
 	var/list/channels = list()  // Map from name (see communications.dm) to on/off. First entry is current department (:h).
 	var/list/secure_radio_connections
-	var/list/radio_sounds = list('nsv13/sound/effects/radio1.ogg','nsv13/sound/effects/radio2.ogg') //nsv13 - Radios make small static noises now
 	var/radio_silent = FALSE // If true, radio doesn't make sound effects (ie for Syndicate internal radio implants)
 
 /obj/item/radio/suicide_act(mob/living/user)
@@ -232,9 +231,6 @@
 		return
 	if(!M.IsVocal())
 		return
-	if(radio_sounds.len) //nsv13 - Radios make small static sounds now.
-		var/sound/radio_sound = pick(radio_sounds)
-		playsound(M.loc, radio_sound, 50, 1)
 
 	if(!radio_silent)//Radios make small static noises now
 		var/mob/sender = loc
