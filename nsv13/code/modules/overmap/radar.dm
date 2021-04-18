@@ -5,7 +5,7 @@
 #define SENSOR_MODE_SONAR 2
 
 /obj/machinery/computer/ship/dradis
-	name = "DRADIS computer"
+	name = "\improper DRADIS computer"
 	desc = "The DRADIS system is a series of highly sensitive detection, identification, navigation and tracking systems used to determine the range and speed of objects. This forms the most central component of a spaceship's navigational systems, as it can project the whereabouts of enemies that are out of visual sensor range by tracking their engine signatures."
 	icon_screen = "teleport"
 	req_access = list()
@@ -120,17 +120,17 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	return FALSE
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
-	name = "Air traffic control console"
+	name = "\improper Air traffic control console"
 
 /obj/machinery/computer/ship/dradis/mining
-	name = "Mining DRADIS computer"
+	name = "mining DRADIS computer"
 	desc = "A modified dradis console which links to the mining ship's mineral scanners, able to pick up asteroids that can be mined."
 	req_one_access_txt = "31;48"
 	circuit = /obj/item/circuitboard/computer/ship/dradis/mining
 	show_asteroids = TRUE
 
 /obj/machinery/computer/ship/dradis/internal
-	name = "Integrated dradis console"
+	name = "integrated dradis console"
 	use_power = 0
 	start_with_sound = FALSE
 	sensor_range = SENSOR_RANGE_FIGHTER

@@ -31,7 +31,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 //Improvised ammunition, does terrible damage but is cheap to produce
 /obj/item/projectile/bullet/mac_round/cannonshot
-	name = "Cannonball"
+	name = "cannonball"
 	damage = 75
 	icon_state = "cannonshot"
 
