@@ -324,4 +324,4 @@
 	results = list(/datum/reagent/consumable/liquidelectricity = 5)
 	required_reagents = list(/datum/reagent/consumable/ethanol = 3, /datum/reagent/silver = 1)
 	required_catalysts = list(/datum/reagent/toxin/plasma = 1)
-	
+	mix_message = "The mixture sparks and then subsides."
