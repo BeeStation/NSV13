@@ -44,7 +44,7 @@ Starting Materials
 #define RR_MAX 5000
 
 /obj/machinery/armour_plating_nanorepair_well
-	name = "Armour Plating Nano-repair Well"
+	name = "\improper Armour Plating Nano-repair Well"
 	desc = "Central Well for the AP thingies"
 	icon = 'nsv13/icons/obj/machinery/armour_well.dmi'
 	icon_state = "well"

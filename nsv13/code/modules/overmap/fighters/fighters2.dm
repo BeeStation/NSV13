@@ -374,7 +374,7 @@ Repair
 	speed_limit = 6
 //	ftl_goal = 45 SECONDS //Raptors can, by default, initiate relative FTL jumps to other ships.
 	loadout_type = LOADOUT_UTILITY_ONLY
-	dradis_type = /obj/machinery/computer/ship/dradis/internal/awacs //Sabres can send sonar pulses
+	dradis_type = /obj/machinery/computer/ship/dradis/internal/awacs //Sabres can send radar pulses
 	components = list(/obj/item/fighter_component/fuel_tank/tier2,
 						/obj/item/fighter_component/avionics,
 						/obj/item/fighter_component/apu,

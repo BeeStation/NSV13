@@ -353,8 +353,6 @@
 		forceMove(get_turf(OM))
 		alpha = 255;
 
-
-
 /obj/machinery/shield_generator/ui_act(action, params)
 	if(..())
 		return

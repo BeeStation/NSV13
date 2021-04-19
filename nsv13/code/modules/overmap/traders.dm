@@ -237,12 +237,13 @@
 	if(!current_location.z || dist >= 30)
 		to_chat(user, "<span class='warning'>Out of bi-directional comms range.</span>")
 		return FALSE
-	if(action == "purchase")
-		if(!target)
-			return
-		attempt_purchase(target, usr)
-	if(action == "mission")
-		give_mission(usr)
+	switch(action)
+		if("purchase")
+			if(!target)
+				return
+			attempt_purchase(target, usr)
+		if("mission")
+			give_mission(usr)
 
 /datum/trader/proc/give_mission(mob/living/user)
 	if(!isliving(user))
@@ -292,8 +293,9 @@
 
 /datum/trader/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
-		assets.send(user)
-		ui = new(user, src, "Trader")
-		ui.open()
+	if(ui)
+		return
+	var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
+	assets.send(user)
+	ui = new(user, src, "Trader")
+	ui.open()
