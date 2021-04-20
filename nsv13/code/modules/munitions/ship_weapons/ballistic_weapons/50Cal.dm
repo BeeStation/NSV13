@@ -68,7 +68,6 @@
 	if(!OM)
 		RemoveComponent() //Uh...OK?
 		CRASH("Overmap gunning component created with no attached overmap.")
-		return
 	OM.gauss_gunners.Add(holder)
 	OM.start_piloting(holder, "secondary_gunner")
 	START_PROCESSING(SSfastprocess, src)

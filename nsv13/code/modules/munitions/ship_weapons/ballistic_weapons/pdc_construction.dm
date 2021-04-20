@@ -61,7 +61,7 @@
 
 /obj/structure/frame/machine/ship_weapon/pdc_mount/attack_hand(mob/user)
 	. = ..()
-	switch
+	switch(state)
 		if(1)
 			if(!do_after(user, 2 SECONDS, target=src))
 				return TRUE
