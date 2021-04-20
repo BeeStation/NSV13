@@ -3,6 +3,9 @@
 // I had no part in writing this movement engine, that's his work      //
 /////////////////////////////////////////////////////////////////////////
 
+// Time to wait inbetween each slow_process fire in deciseconds
+#define SLOWPROCESS_DELAY 7
+
 /obj/vector_overlay
 	name = "Vector overlay for overmap ships"
 	desc = "Report this to a coder"
@@ -153,7 +156,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	var/time = min(world.time - last_process, 10)
 	time /= 10 // fuck off deciseconds - I don't even know what you were thinking here Monster, but okay.
 	last_process = world.time
-	if(world.time > last_slowprocess + 0.7 SECONDS)
+	if(world.time > last_slowprocess + SLOWPROCESS_DELAY)
 		last_slowprocess = world.time
 		slowprocess()
 	last_offset.copy(offset)
