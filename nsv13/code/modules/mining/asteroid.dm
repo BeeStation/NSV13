@@ -189,6 +189,13 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 			qdel(DU)
 			icon_state = "magnet-[tier]"
 
+
+/obj/machinery/computer/ship/mineral_magnet/attack_ai(mob/user)
+	attack_hand(user)
+
+/obj/machinery/computer/ship/mineral_magnet/attack_robot(mob/user)
+	attack_hand(user)
+
 /obj/machinery/computer/ship/mineral_magnet/attack_hand(mob/user)
 	if(!allowed(user))
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
