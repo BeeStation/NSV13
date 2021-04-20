@@ -169,6 +169,10 @@ GLOBAL_DATUM_INIT(cameranet, /datum/cameranet, new)
 
 
 /datum/cameranet/proc/checkTurfVis(turf/position)
+	if((istype(position, /turf/open/ai_visible)) || istype(position.loc, /area/ai_multicam_room)) //NSV13 - fix AI multicam static
+		return TRUE
+	if(SSmapping.level_trait(position.z, ZTRAIT_OVERMAP)) //NSV13 - AI can see overmap
+		return TRUE
 	var/datum/camerachunk/chunk = getCameraChunk(position.x, position.y, position.z)
 	if(chunk)
 		if(chunk.changed)
