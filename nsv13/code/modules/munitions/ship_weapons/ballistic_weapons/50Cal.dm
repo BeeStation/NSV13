@@ -67,7 +67,7 @@
 	var/obj/structure/overmap/OM = holder.loc.get_overmap()
 	if(!OM)
 		RemoveComponent() //Uh...OK?
-		message_admins("Overmap gunning component created with no attached overmap.")
+		CRASH("Overmap gunning component created with no attached overmap.")
 		return
 	OM.gauss_gunners.Add(holder)
 	OM.start_piloting(holder, "secondary_gunner")

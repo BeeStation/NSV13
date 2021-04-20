@@ -177,7 +177,6 @@
 	icon_state = initial(icon_state)
 
 /obj/machinery/deck_turret/powder_gate/attackby(obj/item/I, mob/living/user, params)
-	. = ..()
 	if(get_dist(I, src) > 1)
 		return FALSE
 	if(bag)
@@ -188,6 +187,8 @@
 		return FALSE
 	if(ammo_type && istype(I, ammo_type))
 		load(I, user)
+		return TRUE
+	return ..()
 
 /obj/machinery/deck_turret/powder_gate/proc/unload()
 	if(!bag)
