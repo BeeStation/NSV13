@@ -1632,11 +1632,11 @@ Control Rods
 	else
 		radiation_pulse(src, 125)
 		var/turf/open/L = get_turf(src)
-		if(!istype(L) || !(L.air))
+		if(!istype(L) || !L.air)
 			return
 		var/datum/gas_mixture/env = L.return_air()
 		var/temperature = env.return_temperature() + 25 //Not super spicy
-		src.atmos_spawn_air("nucleium=15;TEMP=[temperature]")
+		atmos_spawn_air("nucleium=15;TEMP=[temperature]")
 
 /obj/effect/anomaly/stormdrive/sheer/Crossed(mob/living/M)
 	radiation_pulse(src, 125)
