@@ -117,6 +117,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	armor = list("overmap_light" = 60, "overmap_heavy" = 10)
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	spread = 5 //Helps them not get insta-bonked when launching
 
 /obj/item/projectile/guided_munition/Initialize()
 	. = ..()
@@ -140,6 +141,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	range = 250
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	spread = 5 //Helps them not get insta-bonked when launching
 
 /obj/effect/temp_visual/overmap_explosion
 	icon = 'nsv13/goonstation/icons/hugeexplosion.dmi'

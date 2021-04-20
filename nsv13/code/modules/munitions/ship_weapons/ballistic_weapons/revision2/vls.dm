@@ -201,6 +201,7 @@
 	name = "Anti-ship"
 	desc = "Allows the AMS to automatically acquire and fire at any and all painted targets. Imprecise, but effective."
 	max_range = 85
+	enabled = TRUE //By default, so that AIs can use it.
 
 /datum/ams_mode/countermeasures
 	name = "Anti-missile countermeasures"
