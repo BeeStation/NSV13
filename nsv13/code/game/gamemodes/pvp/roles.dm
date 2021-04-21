@@ -54,7 +54,7 @@
 	name = "Syndicate crew"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew
 	job_rank = ROLE_SYNDI_CREW
-	tips = 'html/antagtips/galactic_conquest.html'
+	tips = "galactic_conquest"
 	give_objectives = FALSE //Their objective is to win the game
 
 /datum/antagonist/nukeop/syndi_crew/greet()
@@ -120,7 +120,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /datum/antagonist/nukeop/leader/syndi_crew
 	name = "Syndicate captain"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew/leader
-	tips = 'html/antagtips/galactic_conquest.html'
+	tips = "galactic_conquest"
 
 /datum/outfit/syndicate/no_crystals/syndi_crew/leader
 	name = "Syndicate Captain"
