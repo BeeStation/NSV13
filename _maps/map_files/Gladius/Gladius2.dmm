@@ -2883,6 +2883,15 @@
 /obj/effect/turf_decal/stripes/corner,
 /turf/open/floor/monotile/steel,
 /area/hallway/secondary/entry)
+"cbI" = (
+/obj/machinery/atmospherics/components/trinary/mixer{
+	dir = 4;
+	name = "Plasma/Constricted Plasma Selector";
+	node1_concentration = 1.0;
+	node2_concentration = 0.0
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "ccl" = (
 /obj/structure/disposalpipe/segment{
 	dir = 10
@@ -11114,19 +11123,6 @@
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
-"gKU" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer3,
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 6
-	},
-/turf/open/floor/monotile/steel,
-/area/engine/atmos)
 "gLj" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -17081,6 +17077,13 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/space/nearstation)
+"kiA" = (
+/obj/machinery/atmospherics/pipe/simple/purple/visible,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "kiF" = (
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/monotile/steel,
@@ -18355,6 +18358,19 @@
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/crew_quarters/heads/chief)
+"lcy" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer3,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 6
+	},
+/turf/open/floor/monotile/steel,
+/area/engine/atmos)
 "lcN" = (
 /obj/machinery/power/apc/auto_name/east,
 /obj/effect/turf_decal/tile/neutral{
@@ -21803,13 +21819,6 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "mWM" = (
-/obj/machinery/door/airlock/glass_large/ship{
-	bound_height = 64;
-	bound_width = 32;
-	dir = 4;
-	name = "Engineering Lobby";
-	pixel_x = -32
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
@@ -21819,6 +21828,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/door/airlock/ship/engineering/glass,
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
 "mWV" = (
@@ -22255,6 +22265,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/machinery/door/airlock/ship/engineering/glass,
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
 "njg" = (
@@ -33520,13 +33531,6 @@
 	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/engine/engineering/reactor_core)
-"txj" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible,
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 4
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "tyf" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/cable{
@@ -34787,15 +34791,6 @@
 	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/engine/engineering/reactor_core)
-"uqt" = (
-/obj/machinery/atmospherics/components/trinary/mixer{
-	dir = 4;
-	name = "Plasma/Constricted Plasma Selector";
-	node1_concentration = 1.0;
-	node2_concentration = 0.0
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "uqv" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -37013,19 +37008,14 @@
 /turf/open/floor/plasteel/chapel,
 /area/chapel/main)
 "vJV" = (
-/obj/machinery/door/airlock/glass_large/ship{
-	bound_height = 64;
-	bound_width = 32;
-	dir = 4;
-	name = "Engineering";
-	pixel_x = -32;
-	req_one_access_txt = "32;19"
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/engineering/glass{
+	req_one_access_txt = "32,19"
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
@@ -39239,6 +39229,9 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/engineering/glass{
+	req_one_access_txt = "32,19"
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
@@ -60892,7 +60885,7 @@ giB
 giB
 sYe
 giB
-gKU
+lcy
 tpD
 fQx
 sex
@@ -61406,7 +61399,7 @@ nNo
 cFl
 dyu
 tIs
-uqt
+cbI
 sMg
 dyu
 nNo
@@ -61663,7 +61656,7 @@ rBF
 fTX
 hXE
 mWA
-txj
+kiA
 rBF
 uYx
 eii
