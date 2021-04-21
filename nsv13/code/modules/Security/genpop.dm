@@ -125,7 +125,7 @@
 //Officer interface.
 /obj/machinery/genpop_interface
 	name = "Prisoner Management Interface"
-	icon = 'icons/obj/status_display.dmi'
+	icon = 'nsv13/icons/obj/status_display.dmi'
 	icon_state = "frame"
 	desc = "An all-in-one interface for officers to manage prisoners!"
 	req_access = list(ACCESS_SECURITY)
@@ -137,7 +137,15 @@
 	var/desired_sentence = 60 //What sentence do you want to give them?
 	var/desired_crime = null //What is their crime?
 	var/desired_name = null
+	var/obj/item/radio/Radio //needed to send messages to sec radio
 
+/obj/machinery/genpop_interface/Initialize()
+	. = ..()
+	update_icon()
+
+	Radio = new/obj/item/radio(src)
+	Radio.listening = 0
+	Radio.set_frequency(FREQ_SECURITY)
 
 /obj/machinery/genpop_interface/update_icon()
 	if(stat & (NOPOWER))
@@ -147,6 +155,7 @@
 	if(stat & (BROKEN))
 		set_picture("ai_bsod")
 		return
+	set_picture("genpop")
 
 
 /obj/machinery/genpop_interface/proc/set_picture(state)
@@ -201,7 +210,8 @@
 			say("Criminal record for [R.fields["name"]] successfully updated with inputted crime.")
 			playsound(loc, 'sound/machines/ping.ogg', 50, 1)
 
-	new /obj/item/card/id/prisoner(get_turf(src), desired_sentence, desired_crime, desired_name)
+	var/obj/item/card/id/id = new /obj/item/card/id/prisoner(get_turf(src), desired_sentence, desired_crime, desired_name)
+	Radio.talk_into(src, "Prisoner [id.registered_name] has been incarcerated for [desired_sentence] minutes.", FREQ_SECURITY)
 	var/obj/item/paper/paperwork = new /obj/item/paper(get_turf(src))
 	paperwork.info = "<h1 id='record-of-incarceration'>Record Of Incarceration:</h1> <hr> <h2 id='name'>Name: </h2> <p>[desired_name]</p> <h2 id='crime'>Crime: </h2> <p>[desired_crime]</p> <h2 id='sentence-min'>Sentence (Min)</h2> <p>[desired_sentence/60]</p> <p>WhiteRapids Military Council, disciplinary authority</p>"
 	desired_sentence = 60
@@ -257,6 +267,9 @@
 			var/obj/item/card/id/prisoner/id = locate(params["id"])
 			if(!istype(id))
 				return
+			if(alert("Are you sure you want to release [id.registered_name]", "Prisoner Release", "Yes", "No") != "Yes")
+				return
+			Radio.talk_into(src, "Prisoner [id.registered_name] has been discharged.", FREQ_SECURITY)
 			investigate_log("[key_name(usr)] has early-released [id] ([id.loc])", INVESTIGATE_RECORDS)
 			usr.log_message("[key_name(usr)] has early-released [id] ([id.loc])", LOG_ATTACK)
 			id.served_time = id.sentence
