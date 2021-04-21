@@ -15,7 +15,7 @@
 	obj_integrity = 100
 	max_integrity = 100
 	//Robust! It'll be tough to break...
-	armor = list("melee" = 50, "bullet" = 20, "laser" = 0, "energy" = 100, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 90, "acid" = 50, "stamina" = 0)
+	armor = list("melee" = 50, "bullet" = 20, "laser" = 0, "energy" = 80, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 90, "acid" = 50, "stamina" = 0)
 	anchored = TRUE
 	use_power = FALSE
 	idle_power_usage = 2
@@ -235,12 +235,12 @@
 				desired_sentence += value
 				desired_sentence = clamp(desired_sentence,0,MAX_TIMER)
 		if("crime")
-			var/crimes = stripped_input(usr, "Input prisoner's crimes...", "Crimes", desired_crime) as text|null
+			var/crimes = stripped_input(usr, "Input prisoner's crimes...", "Crimes", desired_crime)
 			if(crimes == null | !Adjacent(usr))
 				return FALSE
 			desired_crime = crimes
 		if("prisoner_name")
-			var/prisoner_name = stripped_input(usr, "Input prisoner's name...", "Crimes", desired_name) as text|null
+			var/prisoner_name = stripped_input(usr, "Input prisoner's name...", "Crimes", desired_name)
 			if(prisoner_name == null | !Adjacent(usr))
 				return FALSE
 			desired_name = prisoner_name
