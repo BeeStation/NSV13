@@ -24,6 +24,11 @@
 	//Seccies and brig phys may always pass, either way.
 	req_one_access = list(ACCESS_BRIG, ACCESS_BRIGPHYS, ACCESS_PRISONER)
 
+//Executive officer's line variant. For rule of cool.
+/obj/machinery/turnstile/xo
+	name = "XO line turnstile"
+	req_one_access = list(ACCESS_BRIG, ACCESS_HEADS)
+
 /obj/structure/closet/secure_closet/genpop
 	name = "genpop locker"
 	desc = "A locker to store a prisoner's valuables, that they can collect at a later date."
@@ -133,11 +138,27 @@
 	maptext_height = 26
 	maptext_width = 32
 	maptext_y = -1
+	circuit = /obj/item/circuitboard/machine/genpop_interface
 	var/next_print = 0
 	var/desired_sentence = 60 //What sentence do you want to give them?
 	var/desired_crime = null //What is their crime?
 	var/desired_name = null
 	var/obj/item/radio/Radio //needed to send messages to sec radio
+	//Preset crimes that you can set, without having to remember times
+	var/static/list/crimes = list(
+		list(name="Resisting Arrest", tooltip="Resisting Arrest.", colour="good",icon="car-crash",sentence="2"),
+		list(name="Assault", tooltip="Grievous Bodily Harm.", colour="average",icon="first-aid",sentence="3"),
+		list(name="Sabotage", tooltip="Sabotage (minor)",colour="average",icon="bomb",sentence="5"),
+		list(name="Sedition", tooltip="Sedition (rebellion).", colour="average",icon="fist-raised",sentence="5"),
+		list(name="EOC", tooltip="Enemy Of The Corp.", colour="bad",icon="gavel",sentence="[MAX_TIMER / 600]"),
+		list(name="Murder", tooltip="Murder.", colour="bad",icon="hammer",sentence="[MAX_TIMER / 600]"),
+		list(name="Grand Sabotage", tooltip="Grand Sabotage.", colour="bad",icon="bomb",sentence="[MAX_TIMER / 600]"),
+		list(name="Mutiny", tooltip="Mutiny.", colour="bad",icon="skull-crossbones",sentence="[MAX_TIMER / 600]")
+	)
+
+/obj/item/circuitboard/machine/genpop_interface
+	name = "Prisoner Management Interface (circuit)"
+	build_path = /obj/machinery/genpop_interface
 
 /obj/machinery/genpop_interface/Initialize()
 	. = ..()
@@ -164,7 +185,6 @@
 	cut_overlays()
 	add_overlay(mutable_appearance(icon, state))
 
-
 /obj/machinery/genpop_interface/ui_state(mob/user)
 	return GLOB.default_state
 
@@ -181,6 +201,7 @@
 	data["desired_crime"] = desired_crime
 	data["sentence"] = desired_sentence
 	data["canPrint"] = world.time >= next_print
+	data["allCrimes"] = crimes
 	var/list/L = data["allPrisoners"]
 	for(var/obj/item/card/id/prisoner/ID in GLOB.prisoner_ids)
 		var/list/id_info = list()
@@ -262,6 +283,12 @@
 
 			desired_sentence = preset_time
 			desired_sentence /= 10
+		if("presetCrime")
+			var/preset_time = text2num(params["preset"])
+			var/preset_crime = params["crime"]
+			desired_sentence = preset_time MINUTES
+			desired_sentence /= 10
+			desired_crime = preset_crime
 
 		if("release")
 			var/obj/item/card/id/prisoner/id = locate(params["id"])

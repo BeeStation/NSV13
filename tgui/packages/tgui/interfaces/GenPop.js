@@ -9,8 +9,8 @@ export const GenPop = (props, context) => {
   return (
     <Window
       resizable
-      width={585}
-      height={300}>
+      width={625}
+      height={400}>
       <Window.Content scrollable>
         <Section
           title="Prisoner ID Printer:"
@@ -66,6 +66,20 @@ export const GenPop = (props, context) => {
             content="PERMA"
             color="bad"
             onClick={() => act('preset', { preset: 'perma' })} />
+          <br />
+          {Object.keys(data.allCrimes).map(key => {
+            let value = data.allCrimes[key];
+            return (
+              <Button
+                key={key}
+                content={value.name}
+                color={value.colour}
+                icon={value.icon}
+                tooltip={value.tooltip}
+                onClick={() => act('presetCrime', { preset: value.sentence, crime: value.tooltip })}
+              />
+            );
+          })}
         </Section>
         <Section title="Prison Management:">
           {Object.keys(data.allPrisoners).map(key => {
