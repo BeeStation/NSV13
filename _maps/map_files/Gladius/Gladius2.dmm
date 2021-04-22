@@ -1075,6 +1075,19 @@
 "aMW" = (
 /turf/open/floor/monotile/dark,
 /area/security/checkpoint/engineering)
+"aNk" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer3,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 6
+	},
+/turf/open/floor/monotile/steel,
+/area/engine/atmos)
 "aNw" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/wood,
@@ -2937,13 +2950,6 @@
 /obj/structure/window/reinforced/spawner/west,
 /turf/open/floor/carpet/orange,
 /area/engine/break_room)
-"ceC" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible,
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 4
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "ceH" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -15501,15 +15507,6 @@
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/kitchen/coldroom)
-"jkV" = (
-/obj/machinery/atmospherics/components/trinary/mixer{
-	dir = 4;
-	name = "Plasma/Constricted Plasma Selector";
-	node1_concentration = 1.0;
-	node2_concentration = 0.0
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "jlg" = (
 /obj/structure/table,
 /obj/item/stack/sheet/iron/fifty,
@@ -18335,6 +18332,13 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/locker)
+"laW" = (
+/obj/machinery/atmospherics/pipe/simple/purple/visible,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "lbq" = (
 /obj/item/cigbutt,
 /obj/structure/cable{
@@ -23759,6 +23763,15 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/crew_quarters/cryopods)
+"oaI" = (
+/obj/machinery/atmospherics/components/trinary/mixer{
+	dir = 4;
+	name = "Plasma/Constricted Plasma Selector";
+	node1_concentration = 1.0;
+	node2_concentration = 0.0
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "oaN" = (
 /obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 4;
@@ -35636,19 +35649,6 @@
 	},
 /turf/open/floor/monotile/light,
 /area/crew_quarters/cryopods)
-"uOp" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer3,
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 6
-	},
-/turf/open/floor/monotile/steel,
-/area/engine/atmos)
 "uOv" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -39027,7 +39027,7 @@
 	dir = 2;
 	dwidth = 4;
 	height = 7;
-	id = "supply";
+	id = "supply_home";
 	width = 16
 	},
 /turf/open/space/basic,
@@ -60884,7 +60884,7 @@ giB
 giB
 sYe
 giB
-uOp
+aNk
 tpD
 fQx
 sex
@@ -61398,7 +61398,7 @@ nNo
 cFl
 dyu
 tIs
-jkV
+oaI
 sMg
 dyu
 nNo
@@ -61655,7 +61655,7 @@ rBF
 fTX
 hXE
 mWA
-ceC
+laW
 rBF
 uYx
 eii
