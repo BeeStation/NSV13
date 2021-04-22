@@ -2937,6 +2937,13 @@
 /obj/structure/window/reinforced/spawner/west,
 /turf/open/floor/carpet/orange,
 /area/engine/break_room)
+"ceC" = (
+/obj/machinery/atmospherics/pipe/simple/purple/visible,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "ceH" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -6805,13 +6812,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/quartermaster/sorting)
-"exB" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible,
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 4
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "exC" = (
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/engine/engineering/hangar)
@@ -13440,15 +13440,6 @@
 	},
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_control)
-"ida" = (
-/obj/machinery/atmospherics/components/trinary/mixer{
-	dir = 4;
-	name = "Plasma/Constricted Plasma Selector";
-	node1_concentration = 1.0;
-	node2_concentration = 0.0
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "idn" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
@@ -15510,6 +15501,15 @@
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/kitchen/coldroom)
+"jkV" = (
+/obj/machinery/atmospherics/components/trinary/mixer{
+	dir = 4;
+	name = "Plasma/Constricted Plasma Selector";
+	node1_concentration = 1.0;
+	node2_concentration = 0.0
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "jlg" = (
 /obj/structure/table,
 /obj/item/stack/sheet/iron/fifty,
@@ -17097,19 +17097,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard/aft)
-"kiK" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer3,
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 6
-	},
-/turf/open/floor/monotile/steel,
-/area/engine/atmos)
 "kje" = (
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer1,
@@ -23778,7 +23765,7 @@
 	piping_layer = 1
 	},
 /turf/open/floor/plasteel/grid/steel,
-/area)
+/area/engine/atmos)
 "ocl" = (
 /obj/structure/chair/stool,
 /obj/structure/disposalpipe/segment{
@@ -35649,6 +35636,19 @@
 	},
 /turf/open/floor/monotile/light,
 /area/crew_quarters/cryopods)
+"uOp" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer3,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 6
+	},
+/turf/open/floor/monotile/steel,
+/area/engine/atmos)
 "uOv" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -39025,9 +39025,9 @@
 "wVA" = (
 /obj/docking_port/stationary{
 	dir = 2;
+	dwidth = 4;
 	height = 7;
-	id = "supply_home";
-	name = "Supply Dock";
+	id = "supply";
 	width = 16
 	},
 /turf/open/space/basic,
@@ -60884,7 +60884,7 @@ giB
 giB
 sYe
 giB
-kiK
+uOp
 tpD
 fQx
 sex
@@ -61398,7 +61398,7 @@ nNo
 cFl
 dyu
 tIs
-ida
+jkV
 sMg
 dyu
 nNo
@@ -61655,7 +61655,7 @@ rBF
 fTX
 hXE
 mWA
-exB
+ceC
 rBF
 uYx
 eii
