@@ -1806,13 +1806,6 @@
 /obj/machinery/power/smes/engineering,
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engine_smes)
-"bpA" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible,
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 4
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "bpQ" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/structure/lattice/catwalk/over/ship,
@@ -10389,19 +10382,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
-"gmV" = (
-/obj/effect/turf_decal/tile/yellow{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer3,
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 6
-	},
-/turf/open/floor/monotile/steel,
-/area/engine/atmos)
 "gnk" = (
 /obj/structure/table/wood/fancy/black,
 /obj/item/reagent_containers/food/condiment/peppermill{
@@ -25224,6 +25204,15 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/locker)
+"oYc" = (
+/obj/machinery/atmospherics/components/trinary/mixer{
+	dir = 4;
+	name = "Plasma/Constricted Plasma Selector";
+	node1_concentration = 1.0;
+	node2_concentration = 0.0
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "oYo" = (
 /obj/structure/cable{
 	icon_state = "0-2"
@@ -28018,6 +28007,13 @@
 /obj/machinery/atmospherics/pipe/simple/yellow/visible,
 /turf/open/space/basic,
 /area/space/nearstation)
+"qyc" = (
+/obj/machinery/atmospherics/pipe/simple/purple/visible,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "qyg" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 1
@@ -38853,6 +38849,19 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/locker)
+"wOI" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer3,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 6
+	},
+/turf/open/floor/monotile/steel,
+/area/engine/atmos)
 "wPb" = (
 /obj/structure/lattice/catwalk/over/ship/dark,
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layer3,
@@ -39017,7 +39026,7 @@
 /obj/docking_port/stationary{
 	dir = 2;
 	dwidth = 4;
-	height = 6;
+	height = 7;
 	id = "supply_home";
 	width = 16
 	},
@@ -40290,15 +40299,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
-"xGC" = (
-/obj/machinery/atmospherics/components/trinary/mixer{
-	dir = 4;
-	name = "Plasma/Constricted Plasma Selector";
-	node1_concentration = 1.0;
-	node2_concentration = 0.0
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/engine/atmos)
 "xGD" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -60884,7 +60884,7 @@ giB
 giB
 sYe
 giB
-gmV
+wOI
 tpD
 fQx
 sex
@@ -61398,7 +61398,7 @@ nNo
 cFl
 dyu
 tIs
-xGC
+oYc
 sMg
 dyu
 nNo
@@ -61655,7 +61655,7 @@ rBF
 fTX
 hXE
 mWA
-bpA
+qyc
 rBF
 uYx
 eii
