@@ -1109,6 +1109,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 8
+	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "aCt" = (
@@ -8476,6 +8479,14 @@
 	},
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
+	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 8
+	},
+/obj/machinery/door/airlock/ship/public/glass{
+	id_tag = "MedbayFoyer";
+	name = "Infirmary";
+	req_one_access_txt = "5"
 	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
@@ -21671,14 +21682,6 @@
 /turf/open/floor/monotile/light,
 /area/medical/medbay/central)
 "ksM" = (
-/obj/machinery/door/airlock/glass_large/ship{
-	bound_height = 64;
-	bound_width = 32;
-	dir = 4;
-	name = "Infirmary Exit";
-	pixel_x = -32;
-	req_one_access_txt = "5"
-	},
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 8
 	},
@@ -21689,6 +21692,11 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/blue,
+/obj/machinery/door/airlock/ship/public/glass{
+	id_tag = "MedbayFoyer";
+	name = "Infirmary";
+	req_one_access_txt = "5"
+	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "ksS" = (
@@ -41440,6 +41448,9 @@
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
+	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 8
 	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
