@@ -84,6 +84,7 @@
 	fuel_power = og_fuel_power * 0.5**((world.time - time_created) / half_life SECONDS) // halves the fuel power every half life (33 minutes)
 
 /obj/item/fuel_rod/depleted
+	fuel_power = 0.05
 	name = "depleted fuel rod"
 	desc = "A highly radioactive fuel rod which has expended most of it's useful energy."
 	icon_state = "normal"
