@@ -711,7 +711,7 @@
 		var/mob/living/carbon/human/H = M
 		var/datum/species/ethereal/E = H.dna?.species
 		E.adjust_charge(5*REM)
-	else if(prob(90)) //scp13 optimization
+	else if(prob(3)) //scp13 optimization
 		M.electrocute_act(rand(1,3), "Liquid Electricity in their body", 1) //lmao at the newbs who eat energy bars
 		playsound(M, "sparks", 50, 1)
 	return ..()
