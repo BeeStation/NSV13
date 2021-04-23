@@ -324,4 +324,3 @@
 	results = list(/datum/reagent/consumable/liquidelectricity = 3)
 	required_reagents = list(/datum/reagent/consumable/ethanol = 3, /datum/reagent/consumable/liquidelectricity = 1, /datum/reagent/toxin/plasma = 1)
 	mix_message = "The mixture sparks and then subsides."
-	playsound(M, "sparks", 50, 1)
