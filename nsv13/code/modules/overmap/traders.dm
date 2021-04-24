@@ -242,7 +242,18 @@
 			return
 		attempt_purchase(target, usr)
 	if(action == "mission")
-		give_mission(usr)
+		if ( SSstar_system.all_missions.len < 3 ) // Max number of missions
+			give_mission(usr)
+		else
+			to_chat(user, "<span class='boldnotice'>" + pick(
+				"Why don't you complete the mission we just gave you first.",
+				"Please complete the mission we gave you first, then come back and ask again.",
+				"Stop pressing the button.",
+				"*static*",
+				"We appreciate your enthusiasm, but we want to make sure this mission gets completed first.",
+				"What are the chances you'll actually get this mission done? Go complete it before we trust you with another one.",
+				"Our superiors have asked us to stop stacking critical missions on one courier.",
+			) + "</span>")
 
 /datum/trader/proc/give_mission(mob/living/user)
 	if(!isliving(user))
