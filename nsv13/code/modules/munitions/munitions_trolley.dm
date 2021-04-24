@@ -6,7 +6,10 @@
 	anchored = FALSE
 	density = TRUE
 	layer = 3
-	var/capacity = 0 //Current number of munitions we have loaded
+	var/static/list/allowed = typecacheof(list(
+		/obj/item/ship_weapon/ammunition,
+		/obj/item/powder_bag))
+	var/amount = 0 //Current number of munitions we have loaded
 	var/max_capacity = 6//Maximum number of munitions we can load at once
 	var/loading = FALSE //stop you loading the same torp over and over
 
@@ -38,9 +41,9 @@
 
 /obj/structure/munitions_trolley/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
-	if(istype(A, /obj/item/ship_weapon/ammunition))
+	if(allowed[A.type])
 		if(loading)
-			to_chat(user, "<span class='notice'>You're already loading something onto [src]!.</span>")
+			to_chat(user, "<span class='notice'>You're already loading something onto [src]!</span>")
 			return
 		to_chat(user, "<span class='notice'>You start to load [A] onto [src]...</span>")
 		loading = TRUE
@@ -50,16 +53,16 @@
 		loading = FALSE
 
 /obj/structure/munitions_trolley/proc/load_trolley(atom/movable/A, mob/user)
-	if(capacity >= max_capacity)
+	if(amount >= max_capacity)
 		if(user)
 			to_chat(user, "<span class='warning'>[src] is fully loaded!</span>")
 		return FALSE
-	if(istype(A, /obj/item/ship_weapon/ammunition))
+	if(allowed[A.type])
 		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 		A.forceMove(src)
-		A.pixel_y = 5+(capacity*5)
+		A.pixel_y = 5+(amount*5)
 		vis_contents += A
-		capacity ++
+		amount++
 		A.layer = ABOVE_MOB_LAYER
 		return
 
@@ -100,11 +103,11 @@
 		to_chat(usr, "<span class='notice'>You unload [A] from [src].</span>")
 	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	if(istype(A, /obj/item/ship_weapon/ammunition)) //If a munition, allow them to load other munitions onto us.
-		capacity --
+		amount--
 	if(contents.len)
-		var/count = capacity
+		var/count = amount
 		for(var/X in contents)
 			var/atom/movable/AM = X
 			if(istype(AM, /obj/item/ship_weapon/ammunition))
 				AM.pixel_y = count*5
-				count --
+				count--

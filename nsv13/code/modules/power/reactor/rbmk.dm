@@ -535,26 +535,6 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	temperature = 0
 	update_icon()
 
-/obj/item/fuel_rod
-	name = "\improper Uranium-235 Fuel Rod"
-	desc = "A titanium sheathed rod containing a measure of enriched uranium-dioxide powder, used to kick off a fission reaction."
-	icon = 'nsv13/icons/obj/control_rod.dmi'
-	icon_state = "irradiated"
-	w_class = WEIGHT_CLASS_BULKY
-	var/depletion = 0 //Each fuel rod will deplete in around 30 minutes.
-	var/fuel_power = 0.10
-
-/obj/item/fuel_rod/proc/deplete(amount=0.015)
-	depletion += amount
-	if(depletion >= 100)
-		fuel_power = 0.20
-		name = "\improper Plutonium-239 Fuel Rod"
-		desc = "A highly energetic titanium sheathed rod containing a sizeable measure of weapons grade plutonium, it's highly efficient as nuclear fuel, but will cause the reaction to get out of control if not properly utilised."
-		icon_state = "inferior"
-		AddComponent(/datum/component/radioactive, 1500 , src)
-	else
-		fuel_power = 0.10
-
 /obj/item/fuel_rod/Initialize()
 	. = ..()
 	AddComponent(/datum/component/twohanded/required)
