@@ -1,6 +1,3 @@
-/datum/space_level
-	var/obj/structure/overmap/linked_overmap = null
-
 /atom/proc/get_overmap() //Helper proc to get the overmap ship representing a given area.
 	RETURN_TYPE(/obj/structure/overmap)
 	if(!z || loc == null)
@@ -17,18 +14,6 @@
 		return TRUE
 	else
 		return FALSE
-
-/mob //I don't like overriding this. This should be more performant than searching a long list of mobs every move though
-	var/obj/structure/overmap/last_overmap = null
-
-
-/mob/dead/observer/Move(NewLoc, direct)
-	. = ..()
-	find_overmap()
-
-/mob/Move(atom/newloc, direct=0)
-	. = ..()
-	find_overmap()
 
 /**
 Helper method to get what ship an observer belongs to for stuff like parallax.
