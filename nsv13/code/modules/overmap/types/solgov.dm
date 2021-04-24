@@ -24,7 +24,7 @@
 	desc = "A mid range SolGov exploratory cruiser. These ships are geared for peaceful missions, but can defend themselves if they must."
 	icon = 'nsv13/icons/overmap/nanotrasen/aetherwhisp.dmi'
 	icon_state = "cruiser"
-	mass = MASS_LARGE
+	mass = MASS_MEDIUM_LARGE // A solgov ship has greater maneuverability but not much more than a LARGE NT ship
 	sprite_size = 48
 	damage_states = FALSE
 	bound_height = 128
@@ -44,3 +44,4 @@
 /obj/structure/overmap/nanotrasen/solgov/ai
 	ai_controlled = TRUE
 	ai_trait = AI_TRAIT_DESTROYER
+	combat_dice_type = /datum/combat_dice/destroyer

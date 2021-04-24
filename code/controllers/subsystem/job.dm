@@ -16,6 +16,19 @@ SUBSYSTEM_DEF(job)
 
 	var/list/level_order = list(JP_HIGH,JP_MEDIUM,JP_LOW)
 
+	var/spare_id_safe_code = ""
+
+	//NSV13 - rearranged CoC, renamed HoP to XO, added MAA
+	// Cap > XO > HoS > MAA > CE > CMO > RD
+	var/list/chain_of_command = list(
+		"Captain" = 1,				//Not used yet but captain is first in chain_of_command
+		"Executive Officer" = 2,	//NSV13 - renamed HoP to XO
+		"Head of Security" = 3,
+		"Master At Arms" = 4,
+		"Chief Engineer" = 5,
+		"Chief Medical Officer" = 6,
+		"Research Director" = 7)
+
 /datum/controller/subsystem/job/Initialize(timeofday)
 	SSmapping.HACK_LoadMapConfig()
 	if(!occupations.len)
@@ -26,6 +39,9 @@ SUBSYSTEM_DEF(job)
 		LoadRanks("[global.config.directory]/ranks/[CONFIG_GET(string/rank_file)]")
 	generate_selectable_species()
 	set_overflow_role(CONFIG_GET(string/overflow_job))
+
+	spare_id_safe_code = "[rand(0,9)][rand(0,9)][rand(0,9)][rand(0,9)][rand(0,9)]"
+
 	return ..()
 
 /datum/controller/subsystem/job/proc/set_overflow_role(new_overflow_role)
@@ -46,7 +62,7 @@ SUBSYSTEM_DEF(job)
 	occupations = list()
 	var/list/all_jobs = subtypesof(/datum/job)
 	if(!all_jobs.len)
-		to_chat(world, "<span class='boldannounce'>Error setting up jobs, no job datums found</span>")
+		to_chat(world, "<span class='boldannounce'>Error setting up jobs, no job datums found.</span>")
 		return 0
 
 	for(var/J in all_jobs)
@@ -240,7 +256,7 @@ SUBSYSTEM_DEF(job)
  *  fills var "assigned_role" for all ready players.
  *  This proc must not have any side effect besides of modifying "assigned_role".
  **/
-/datum/controller/subsystem/job/proc/DivideOccupations()
+/datum/controller/subsystem/job/proc/DivideOccupations(list/required_jobs)
 	//Setup new player list and get the jobs list
 	JobDebug("Running DO")
 
@@ -253,14 +269,14 @@ SUBSYSTEM_DEF(job)
 
 	//Get the players who are ready
 	for(var/mob/dead/new_player/player in GLOB.player_list)
-		if(player.ready == PLAYER_READY_TO_PLAY && player.mind && !player.mind.assigned_role)
+		if(player.ready == PLAYER_READY_TO_PLAY && player.has_valid_preferences() && player.mind && !player.mind.assigned_role)
 			unassigned += player
 
 	initial_players_to_assign = unassigned.len
 
 	JobDebug("DO, Len: [unassigned.len]")
 	if(unassigned.len == 0)
-		return TRUE
+		return validate_required_jobs(required_jobs)
 
 	//Scale number of open security officer slots to population
 	setup_officer_positions()
@@ -365,7 +381,26 @@ SUBSYSTEM_DEF(job)
 		if(!GiveRandomJob(player))
 			if(!AssignRole(player, SSjob.overflow_role)) //If everything is already filled, make them an assistant
 				return FALSE //Living on the edge, the forced antagonist couldn't be assigned to overflow role (bans, client age) - just reroll
-	return TRUE
+
+	return validate_required_jobs(required_jobs)
+
+/datum/controller/subsystem/job/proc/validate_required_jobs(list/required_jobs)
+	if(!required_jobs.len)
+		return TRUE
+	for(var/required_group in required_jobs)
+		var/group_ok = TRUE
+		for(var/rank in required_group)
+			var/datum/job/J = GetJob(rank)
+			if(!J)
+				SSticker.mode.setup_error = "Invalid job [rank] in gamemode required jobs."
+				return FALSE
+			if(J.current_positions < required_group[rank])
+				group_ok = FALSE
+				break
+		if(group_ok)
+			return TRUE
+	SSticker.mode.setup_error = "Required jobs not present."
+	return FALSE
 
 //We couldn't find a job from prefs for this guy.
 /datum/controller/subsystem/job/proc/HandleUnassigned(mob/dead/new_player/player)
@@ -450,6 +485,7 @@ SUBSYSTEM_DEF(job)
 			to_chat(M, "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>")
 		if(CONFIG_GET(number/minimal_access_threshold))
 			to_chat(M, "<span class='notice'><B>As this station was initially staffed with a [CONFIG_GET(flag/jobs_have_minimal_access) ? "full crew, only your job's necessities" : "skeleton crew, additional access may"] have been added to your ID card.</B></span>")
+		to_chat(M, "<b>New to your job? Visit the <a href='https://nsv.beestation13.com/mediawiki2/index.php?search=[rank]'>[rank] wiki page</a> for more info!")
 	if(ishuman(living_mob))
 		var/mob/living/carbon/human/wageslave = living_mob
 		living_mob.add_memory("Your account ID is [wageslave.account_id].")
@@ -508,9 +544,11 @@ SUBSYSTEM_DEF(job)
 		if(J.flag == GIMMICK || J.gimmick) //gimmick job slots are dependant on random maint
 			continue
 		var/regex/jobs = new("[J.title]=(-1|\\d+),(-1|\\d+)")
-		jobs.Find(jobstext)
-		J.total_positions = text2num(jobs.group[1])
-		J.spawn_positions = text2num(jobs.group[2])
+		if(jobs.Find(jobstext))
+			J.total_positions = text2num(jobs.group[1])
+			J.spawn_positions = text2num(jobs.group[2])
+		else
+			log_runtime("Error in /datum/controller/subsystem/job/proc/LoadJobs: Failed to locate job of title [J.title] in jobs.txt")
 
 /datum/controller/subsystem/job/proc/HandleFeedbackGathering()
 	for(var/datum/job/job in occupations)
@@ -680,3 +718,40 @@ SUBSYSTEM_DEF(job)
 
 /datum/controller/subsystem/job/proc/JobDebug(message)
 	log_job_debug(message)
+
+/obj/item/paper/fluff/spare_id_safe_code
+	name = "Nanotrasen-Approved Spare ID Safe Code"
+	desc = "Proof that you have been approved for Captaincy, with all its glory and all its horror."
+
+/obj/item/paper/fluff/spare_id_safe_code/Initialize()
+	. = ..()
+	var/id_safe_code = SSjob.spare_id_safe_code
+	info = "Captain's Spare ID safe code combination: [id_safe_code ? id_safe_code : "\[REDACTED\]"]<br><br>The spare ID can be found in its dedicated safe on the bridge."
+
+/datum/controller/subsystem/job/proc/promote_to_captain(var/mob/dead/new_player/new_captain, acting_captain = FALSE)
+	var/mob/living/carbon/human/H = new_captain.new_character
+	if(!new_captain)
+		CRASH("Cannot promote [new_captain.ckey], there is no new_character attached to him.")
+
+	if(!spare_id_safe_code)
+		CRASH("Cannot promote [H.real_name] to Captain, there is no spare_id_safe_code.")
+
+	var/paper = new /obj/item/paper/fluff/spare_id_safe_code(H.loc)
+	var/list/slots = list(
+		"in your left pocket" = ITEM_SLOT_LPOCKET,
+		"in your right pocket" = ITEM_SLOT_RPOCKET,
+		"in your backpack" = ITEM_SLOT_BACKPACK,
+		"in your hands" = ITEM_SLOT_HANDS
+	)
+	var/where = H.equip_in_one_of_slots(paper, slots, FALSE) || "at your feet"
+
+	if(acting_captain)
+		to_chat(new_captain, "<span class='notice'>Due to your position in the chain of command, you have been granted access to captain's spare ID. You can find in important note about this [where].</span>")
+	else
+		to_chat(new_captain, "<span class='notice'>You can find the code to obtain your spare ID from the secure safe on the Bridge [where].</span>")
+
+	// Force-give their ID card bridge access.
+	if(H.wear_id?.GetID())
+		var/obj/item/card/id/id_card = H.wear_id
+		if(!(ACCESS_HEADS in id_card.access))
+			LAZYADD(id_card.access, ACCESS_HEADS)

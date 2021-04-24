@@ -297,6 +297,10 @@
 	var/ftl_startup_time = 30 SECONDS
 	var/auto_spool = FALSE //For lazy admins
 
+//No please do not delete the FTL's radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
+/obj/machinery/computer/ship/ftl_computer/prevent_content_explosion()
+	return TRUE
+
 /obj/machinery/computer/ship/ftl_computer/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
 	if(istype(I, /obj/item/ftl_slipstream_chip))
@@ -435,10 +439,10 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		return
 	ui_interact(user)
 
-/obj/machinery/computer/ship/ftl_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ship/ftl_computer/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "FTLComputer", name, 560, 350, master_ui, state)
+		ui = new(user, src, "FTLComputer")
 		ui.open()
 
 /obj/machinery/computer/ship/ftl_computer/ui_act(action, params, datum/tgui/ui)

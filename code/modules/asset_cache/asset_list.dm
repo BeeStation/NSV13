@@ -9,6 +9,9 @@ GLOBAL_LIST_EMPTY(asset_datums)
 /proc/get_asset_datum(type)
 	return GLOB.asset_datums[type] || new type()
 
+/datum/asset
+	var/_abstract = /datum/asset
+
 /datum/asset/New()
 	GLOB.asset_datums[type] = src
 	register()
@@ -29,9 +32,10 @@ GLOBAL_LIST_EMPTY(asset_datums)
 	/// list of assets for this datum in the form of:
 	/// asset_filename = asset_file. At runtime the asset_file will be
 	/// converted into a asset_cache datum.
+	var/assets = list()
 	/// Set to true to have this asset also be sent via the legacy browse_rsc
 	/// system when cdn transports are enabled?
-	var/legacy = FALSE//FALSE
+	var/legacy = FALSE
 	/// TRUE for keeping local asset names when browse_rsc backend is used
 	var/keep_local_name = FALSE
 
@@ -59,6 +63,7 @@ GLOBAL_LIST_EMPTY(asset_datums)
 // For registering or sending multiple others at once
 /datum/asset/group
 	_abstract = /datum/asset/group
+	var/list/children
 
 /datum/asset/group/register()
 	for(var/type in children)
@@ -221,6 +226,7 @@ GLOBAL_LIST_EMPTY(asset_datums)
 
 /datum/asset/spritesheet/simple
 	_abstract = /datum/asset/spritesheet/simple
+	var/list/assets
 
 /datum/asset/spritesheet/simple/register()
 	for (var/key in assets)
@@ -230,6 +236,13 @@ GLOBAL_LIST_EMPTY(asset_datums)
 //Generates assets based on iconstates of a single icon
 /datum/asset/simple/icon_states
 	_abstract = /datum/asset/simple/icon_states
+	var/icon
+	var/list/directions = list(SOUTH)
+	var/frame = 1
+	var/movement_states = FALSE
+
+	var/prefix = "default" //asset_name = "[prefix].[icon_state_name].png"
+	var/generic_icon_names = FALSE //generate icon filenames using generate_asset_name() instead the above format
 
 /datum/asset/simple/icon_states/register(_icon = icon)
 	for(var/icon_state_name in icon_states(_icon))
@@ -247,6 +260,7 @@ GLOBAL_LIST_EMPTY(asset_datums)
 
 /datum/asset/simple/icon_states/multiple_icons
 	_abstract = /datum/asset/simple/icon_states/multiple_icons
+	var/list/icons
 
 /datum/asset/simple/icon_states/multiple_icons/register()
 	for(var/i in icons)
@@ -300,3 +314,4 @@ GLOBAL_LIST_EMPTY(asset_datums)
 /// Needed because byond doesn't allow you to browse() to a url.
 /datum/asset/simple/namespaced/proc/get_htmlloader(filename)
 	return url2htmlloader(SSassets.transport.get_asset_url(filename, assets[filename]))
+

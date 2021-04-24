@@ -149,6 +149,10 @@
 
 	var/last_sonar_pulse = 0
 
+	//NPC combat
+	var/datum/combat_dice/npc_combat_dice
+	var/combat_dice_type = /datum/combat_dice
+
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
@@ -248,6 +252,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		message_admins("Failsafe triggered: [src] Initialized with integrity of [obj_integrity], but max integrity of [max_integrity]. Setting integrity to max integrity to prevent issues.")
 		obj_integrity = max_integrity	//Failsafe
 
+	if(!combat_dice_type)
+		message_admins("[src] didn't get any combat dice! This may lead to problems in npc fleet combat and shouldn't happen.")
+	else
+		npc_combat_dice = new combat_dice_type()
+
+
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/overmap/LateInitialize()
@@ -307,6 +317,15 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			max_angular_acceleration = 5
 			bounce_factor = 0.5
 			lateral_bounce_factor = 0.8
+
+		if(MASS_MEDIUM_LARGE)
+			forward_maxthrust = 0.2
+			backward_maxthrust = 0.2
+			side_maxthrust = 0.2
+			max_angular_acceleration = 3.75
+			bounce_factor = 0.45
+			lateral_bounce_factor = 0.8
+			flak_battery_amount = 0
 
 		if(MASS_LARGE)
 			forward_maxthrust = 0.1
@@ -401,6 +420,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(physics2d)
 		qdel(physics2d)
 		physics2d = null
+	if(npc_combat_dice)
+		qdel(npc_combat_dice)
 	return ..()
 
 /obj/structure/overmap/proc/find_area()
@@ -418,7 +439,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(weapon_safety)
 		return FALSE
-	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["shift"])
+	if(target == src || istype(target, /atom/movable/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["shift"])
 		return FALSE
 	if(locate(user) in gauss_gunners) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
 		var/datum/component/overmap_gunning/user_gun = user.GetComponent(/datum/component/overmap_gunning)
@@ -474,7 +495,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 
 /obj/structure/overmap/proc/update_gunner_cam(atom/target)
-	var/mob/camera/aiEye/remote/overmap_observer/cam = gunner.remote_control
+	var/mob/camera/ai_eye/remote/overmap_observer/cam = gunner.remote_control
 	cam.track_target(target)
 
 /obj/structure/overmap/onMouseMove(object,location,control,params)
@@ -589,7 +610,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 					continue
 			ship.relay(sound,message)
 
-/obj/structure/overmap/proc/verb_check(require_pilot = TRUE, mob/user = null)
+/obj/structure/overmap/proc/verb_check(mob/user, require_pilot = TRUE)
 	if(!user)
 		user = usr
 	if(user != pilot)

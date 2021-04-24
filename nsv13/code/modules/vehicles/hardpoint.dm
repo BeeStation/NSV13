@@ -69,7 +69,6 @@
 			update_icon()
 			return TRUE
 	to_chat(user, "<span class='notice'>Nothing happens...</span>")
-	return
 
 /obj/item/vehicle_hardpoint/update_icon()
 	owner.update_icon()
@@ -79,7 +78,6 @@
 /obj/item/vehicle_hardpoint/proc/on_insertion(obj/vehicle/sealed/car/realistic/target)
 	owner = target //For whatever reason, if you need to reference the car.
 	forceMove(owner)
-	return
 
 /obj/item/vehicle_hardpoint/proc/on_removal(obj/vehicle/sealed/car/realistic/target)
 	for(var/atom/movable/X in contents)
@@ -179,12 +177,14 @@
 			add_overlay(HP.overlay_state()) //Make sure to include overlays in your vehicle file for any hardpoints you want to attach!
 
 //Hardpoint UI.
+/obj/vehicle/sealed/car/realistic/ui_state(mob/user)
+	return GLOB.contained_state
 
-/obj/vehicle/sealed/car/realistic/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.contained_state) // Remember to use the appropriate state.
-  ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
-  if(!ui)
-    ui = new(user, src, ui_key, "CarHardpoints", name, 400, 400, master_ui, state)
-    ui.open()
+/obj/vehicle/sealed/car/realistic/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "CarHardpoints")
+		ui.open()
 
 /obj/vehicle/sealed/car/realistic/ui_data(mob/user)
 	var/list/data = list()

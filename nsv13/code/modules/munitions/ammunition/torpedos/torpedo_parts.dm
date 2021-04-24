@@ -5,6 +5,7 @@
 	desc = "An extremely heavy warhead designed to be fitted to a torpedo. This one has an inbuilt plasma charge to amplify its damage."
 	fits_type = /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
 	build_path = /obj/item/ship_weapon/ammunition/torpedo
+
 /obj/item/ship_weapon/parts/missile/warhead/bunker_buster
 	name = "NTP-4 'BNKR' guided munition payload"
 	desc = "a bunker buster torpedo warhead"
@@ -22,7 +23,7 @@
 /obj/item/ship_weapon/parts/missile/warhead/freight
 	name = "NTP-F 530mm freight torpedo"
 	desc = "A hollowed out nosecone that allows torpedoes to carry freight instead of an actual payload."
-	icon_state = "warhead_freight"
+	//icon_state = "warhead_freight"
 	fits_type = /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
 	build_path = /obj/item/ship_weapon/ammunition/torpedo/freight
 

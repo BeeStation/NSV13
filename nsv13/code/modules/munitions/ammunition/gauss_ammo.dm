@@ -23,10 +23,11 @@
 	req_one_access = ACCESS_MUNITIONS
 	circuit = /obj/item/circuitboard/machine/gauss_dispenser
 	pixel_y = 26
+	var/dispense_amount = 12 //Fully fills one gauss gun.
 	var/active = TRUE
 	var/progress = 0 SECONDS
 	var/progress_rate = 1 SECONDS
-	var/goal = 1 MINUTES
+	var/goal = 45 SECONDS
 	var/ready = FALSE
 
 /obj/machinery/gauss_dispenser/Initialize()
@@ -60,10 +61,10 @@
 		return
 	ui_interact(user)
 
-/obj/machinery/gauss_dispenser/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/gauss_dispenser/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "GaussDispenser", name, 560, 600, master_ui, state)
+		ui = new(user, src, "GaussDispenser")
 		ui.open()
 
 /obj/machinery/gauss_dispenser/ui_act(action, params, datum/tgui/ui)
@@ -80,7 +81,7 @@
 				return FALSE
 			flick("gauss_dispenser_dispense", src)
 			playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-			for(var/I = 0, I < 6, I++)
+			for(var/I = 0, I < dispense_amount, I++)
 				new /obj/item/ship_weapon/ammunition/gauss(get_turf(src))
 			cut_overlays()
 			ready = FALSE

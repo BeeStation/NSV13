@@ -18,10 +18,13 @@
 	else
 		return FALSE
 
-/datum/syndicate_job_menu/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.always_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/datum/syndicate_job_menu/ui_state(mob/user)
+	return GLOB.always_state
+
+/datum/syndicate_job_menu/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "SyndieJobSelect", "Syndicate Job Selection", 500, 500, master_ui, state)
+		ui = new(user, src, "SyndieJobSelect")
 		ui.open()
 
 /datum/syndicate_job_menu/ui_data(mob/user)
@@ -51,7 +54,7 @@
 	name = "Syndicate crew"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew
 	job_rank = ROLE_SYNDI_CREW
-	tips = 'html/antagtips/galactic_conquest.html'
+	tips = "galactic_conquest"
 	give_objectives = FALSE //Their objective is to win the game
 
 /datum/antagonist/nukeop/syndi_crew/greet()
@@ -117,7 +120,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /datum/antagonist/nukeop/leader/syndi_crew
 	name = "Syndicate captain"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew/leader
-	tips = 'html/antagtips/galactic_conquest.html'
+	tips = "galactic_conquest"
 
 /datum/outfit/syndicate/no_crystals/syndi_crew/leader
 	name = "Syndicate Captain"
@@ -379,12 +382,15 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
 
 //Allows you to see faction statuses
-/mob/Stat()
-	..()
-	if(statpanel("Faction"))
-		stat(null, "Faction influence:")
-		for(var/datum/faction/F in SSstar_system.factions)
-			stat(null, "[F.name]: [F.tickets]")
+/mob/proc/get_stat_tab_faction()
+	var/list/tab_data = list()
+	for(var/datum/faction/F in SSstar_system.factions)
+		if (F) //No nulls!
+			tab_data["[F?.name]"] = list(
+				text = "[F?.tickets]",
+				type = STAT_TEXT
+			)
+	return tab_data
 
 /datum/team/nuclear/roundend_report()
 	if(istype(SSticker.mode, /datum/game_mode/pvp))
@@ -489,10 +495,10 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 		playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, 0)
 		return TRUE
 
-/obj/machinery/computer/secondary_ship_id_console/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/secondary_ship_id_console/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "SecondaryID", "[name]", 580, 400, master_ui, state)
+		ui = new(user, src, "SecondaryID")
 		ui.open()
 
 /obj/machinery/computer/secondary_ship_id_console/ui_data(mob/user)

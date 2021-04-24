@@ -207,6 +207,10 @@
 	icon_state = "black"
 
 /turf/open/floor/monotile
+	icon_state = "monotile"
+	floor_tile = /obj/item/stack/tile/mono
+
+/turf/open/floor/monotile/steel
 	icon_state = "steel_monotile"
 	floor_tile = /obj/item/stack/tile/mono/steel
 

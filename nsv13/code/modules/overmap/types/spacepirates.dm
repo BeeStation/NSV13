@@ -13,9 +13,12 @@
 	max_integrity = 400
 	integrity_failure = 400
 	armor = list("overmap_light" = 30, "overmap_heavy" = 10)
+	bound_height = 64
+	bound_width = 64
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
 	ai_trait = AI_TRAIT_ANTI_FIGHTER //You didn't expect identical tactics, did you?
+	combat_dice_type = /datum/combat_dice/frigate
 
 /obj/structure/overmap/spacepirate/ai/Initialize()
 	. = ..()
@@ -80,6 +83,8 @@
 	mass = MASS_SMALL
 	sprite_size = 48
 	damage_states = FALSE
+	bound_height = 96
+	bound_width = 96
 	max_integrity = 1000
 	integrity_failure = 1000
 	armor = list("overmap_light" = 60, "overmap_heavy" = 10)
@@ -99,13 +104,14 @@
 	mass = MASS_MEDIUM
 	sprite_size = 96
 	damage_states = FALSE
-	bound_height = 96
-	bound_width = 96
+	bound_height = 128
+	bound_width = 128
 	max_integrity = 750
 	integrity_failure = 750
 	shots_left = 20
 	armor = list("overmap_light" = 50, "overmap_heavy" = 20)
 	ai_trait = AI_TRAIT_BATTLESHIP
+	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/spacepirate/ai/syndie_gunboat/apply_weapons() //Dakka+
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
@@ -125,8 +131,8 @@
 	mass = MASS_LARGE
 	sprite_size = 128
 	damage_states = FALSE
-	bound_width = 128
-	bound_height = 128
+	bound_width = 160
+	bound_height = 160
 	max_integrity = 10000
 	integrity_failure = 10000
 	shots_left = 35
@@ -134,6 +140,7 @@
 	armor = list("overmap_light" = 90, "overmap_heavy" = 50)
 	can_resupply = TRUE
 	ai_trait = AI_TRAIT_SUPPLY
+	combat_dice_type = /datum/combat_dice/flagship
 
 /obj/structure/overmap/spacepirate/ai/dreadnought/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)

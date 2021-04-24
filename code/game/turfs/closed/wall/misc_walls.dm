@@ -54,6 +54,7 @@
 	name = "rusted wall"
 	desc = "A rusted metal wall."
 	icon = 'icons/turf/walls/rusty_wall.dmi'
+	icon_state = "wall" //NSV13 this was broken
 	hardness = 45
 
 /turf/closed/wall/rust/rust_heretic_act()
@@ -65,6 +66,7 @@
 	name = "rusted reinforced wall"
 	desc = "A huge chunk of rusted reinforced metal."
 	icon = 'icons/turf/walls/rusty_reinforced_wall.dmi'
+	icon_state = "r_wall" //NSV13 this was broken
 	hardness = 15
 
 /turf/closed/wall/r_wall/rust/rust_heretic_act()
@@ -83,3 +85,25 @@
 	sheet_amount = 2
 	girder_type = /obj/structure/girder/bronze
 
+
+/turf/closed/indestructible/cordon
+	name = "cordon"
+	desc = "The final word in problem solving."
+	icon_state = "cordon"
+
+//Will this look good? No. Will it work? Probably.
+
+/turf/closed/indestructible/cordon/Entered(atom/movable/AM)
+	. = ..()
+	if(isobserver(AM))
+		return
+	if(ismob(AM))
+		var/mob/interloper = AM
+		interloper.death()
+	if(ismecha(AM))
+		var/obj/mecha/fuckphazons = AM
+		var/mob/living/carbon/interloper = fuckphazons.occupant
+		interloper?.death()
+		qdel(interloper)
+
+	qdel(AM)

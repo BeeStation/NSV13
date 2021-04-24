@@ -328,10 +328,10 @@ Control Rods
 		return
 	ui_interact(user)
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "StormdriveControlRods", name, 560, 600, master_ui, state)
+		ui = new(user, src, "StormdriveControlRods")
 		ui.open()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/ui_act(action, params, datum/tgui/ui)
@@ -455,7 +455,7 @@ Control Rods
 		state = REACTOR_STATE_IDLE //Force reactor restart.
 	set_light(0)
 	var/area/AR = get_area(src)
-	AR.looping_ambience = 'nsv13/sound/ambience/shipambience.ogg'
+	AR.ambient_buzz = 'nsv13/sound/ambience/shipambience.ogg'
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/Initialize()
 	. = ..()
@@ -506,7 +506,7 @@ Control Rods
 		playsound(loc, startup_sound, 100)
 		send_alert("Fission reaction initiated. Reactor now on-line.", override=TRUE)
 		var/area/AR = get_area(src)
-		AR.looping_ambience = 'nsv13/sound/ambience/engineering.ogg'
+		AR.ambient_buzz = 'nsv13/sound/ambience/engineering.ogg'
 		if(reaction_rate <= 0)
 			reaction_rate = 5
 		return TRUE
@@ -1275,10 +1275,10 @@ Control Rods
 		if("pipe") //change my words
 			reactor.dumping_fuel = !reactor.dumping_fuel
 
-/obj/machinery/computer/ship/reactor_control_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ship/reactor_control_computer/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "StormdriveConsole", name, 560, 600, master_ui, state)
+		ui = new(user, src, "StormdriveConsole")
 		ui.open()
 
 /obj/machinery/computer/ship/reactor_control_computer/ui_data(mob/user)
@@ -1632,11 +1632,11 @@ Control Rods
 	else
 		radiation_pulse(src, 125)
 		var/turf/open/L = get_turf(src)
-		if(!istype(L) || !(L.air))
+		if(!istype(L) || !L.air)
 			return
 		var/datum/gas_mixture/env = L.return_air()
 		var/temperature = env.return_temperature() + 25 //Not super spicy
-		src.atmos_spawn_air("nucleium=15;TEMP=[temperature]")
+		atmos_spawn_air("nucleium=15;TEMP=[temperature]")
 
 /obj/effect/anomaly/stormdrive/sheer/Crossed(mob/living/M)
 	radiation_pulse(src, 125)
@@ -1736,8 +1736,6 @@ Control Rods
 	network_destination = "storm drive monitoring system"
 	size = 2
 	tgui_id = "NtosStormdriveMonitor"
-	ui_x = 350
-	ui_y = 450
 	var/active = TRUE //Easy process throttle
 	var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/reactor //Our reactor.
 

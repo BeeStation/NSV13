@@ -34,8 +34,7 @@ Adding tasks is easy! Just define a datum for it.
 
 #define FLEET_DIFFICULTY_EASY 2 //if things end up being too hard, this is a safe number for a fight you _should_ always win.
 #define FLEET_DIFFICULTY_MEDIUM 5
-#define FLEET_DIFFICULTY_HARD 6
-#define FLEET_DIFFICULTY_SPECIAL 10 //Special difficulties for some boss fleets. These will never scale down to be easier to fight.
+#define FLEET_DIFFICULTY_HARD 8
 #define FLEET_DIFFICULTY_VERY_HARD 10
 #define FLEET_DIFFICULTY_INSANE 15 //If you try to take on the rubicon ;)
 #define FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING 25
@@ -69,6 +68,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	var/list/all_ships = list()
 	var/list/lances = list()
 	var/size = FLEET_DIFFICULTY_MEDIUM //How big is this fleet anyway?
+	var/allow_difficulty_scaling = TRUE	//Set this to false if the fleet is supposed to have a constant difficulty as opposed to scaling with pop.
 	var/list/audio_cues = list() //Does this fight come with a theme tune? Takes youtube / media links so that we don't have to store a bunch of copyrighted music on the box.
 	var/instantiated = FALSE //If we're not instantiated, moving all the ships is a piece of cake, if we are however, we do some extra steps to FTL them all.
 	var/datum/star_system/current_system = null //Where are we?
@@ -244,6 +244,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		if(OM.mobs_in_ship?.len)
 			encounter(OM)
 	}
+	if(current_system.check_conflict_status())
+		if(!SSstar_system.contested_systems.Find(current_system))
+			SSstar_system.contested_systems.Add(current_system)
 	if(course_picked_target)
 		plotted_course -= target
 	else if(plotted_course && plotted_course.len)	//We jumped. but didn't follow our course! Recalculate!
@@ -282,7 +285,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		defeat()
 
 /datum/fleet/proc/defeat()
-	minor_announce("[name] has been defeated in battle", "White Rapids Fleet Command")
+	minor_announce("[name] has been defeated [(current_system && !current_system.hidden) ? "during combat in the [current_system.name] system" : "in battle"].", "White Rapids Fleet Command")
 	current_system.fleets -= src
 	if(current_system.fleets && current_system.fleets.len)
 		var/datum/fleet/F = pick(current_system.fleets)
@@ -302,8 +305,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		for(var/mob/M in OOM.mobs_in_ship)
 			if(M.client)
 				var/client/C = M.client
-				if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
-					C.chatOutput.stopMusic()
+				C.tgui_panel?.stop_music()
 	if(player_caused)	//Only modify influence if players caused this, otherwise someone else claimed the kill and it doesn't modify influence for the purpose of Patrol completion.
 		faction = SSstar_system.faction_by_id(faction_id)
 		faction?.lose_influence(reward)
@@ -419,9 +421,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		for(var/mob/M in mobs_in_ship)
 			if(M.client)
 				var/client/C = M.client
-				if(C.chatOutput && !C.chatOutput.broken && C.chatOutput.loaded)
-					C.chatOutput.stopMusic()
-					C.chatOutput.sendMusic(web_sound_url, music_extra_data)
+				C.tgui_panel?.stop_music()
+				C.tgui_panel?.play_music(web_sound_url, music_extra_data)
 
 //Syndicate Fleets
 
@@ -501,7 +502,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 
 /datum/fleet/rubicon //Crossing the rubicon, are we?
 	name = "Rubicon Crossing"
-	size = FLEET_DIFFICULTY_SPECIAL
+	size = FLEET_DIFFICULTY_VERY_HARD
+	allow_difficulty_scaling = FALSE
 	audio_cues = list("https://www.youtube.com/watch?v=mhXuYp0n88g", "https://www.youtube.com/watch?v=l1J-2nIovYw", "https://www.youtube.com/watch?v=M_MdmLWmDHs")
 	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
@@ -510,6 +512,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	name = "Syndicate Armada" //Fleet spawned if the players are too inactive. Set course...FOR EARTH.
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	size = FLEET_DIFFICULTY_VERY_HARD
+	allow_difficulty_scaling = FALSE
 	taunts = list("We're coming for Sol, and you can't stop us. All batteries fire at will.", "Lay down your arms now, you're outnumbered.", "All hands, assume assault formation. Begin bombardment.")
 	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
 
@@ -538,6 +541,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/dolos
 	name = "Dolos Welcoming Party" //Don't do it czanek, don't fucking do it!
 	size = FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING
+	allow_difficulty_scaling = FALSE
 	audio_cues = list("https://www.youtube.com/watch?v=UPHmazxB38g") //FTL13 ;(
 	taunts = list("Don't think we didn't learn from your last attempt.", "We shall not fail again", "Your outdated MAC weapons are no match for us. Prepare to be destroyed.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
@@ -548,6 +552,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/remnant
 	name = "The Remnant"
 	size = FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING
+	allow_difficulty_scaling = FALSE
 	audio_cues = list("https://www.youtube.com/watch?v=ALn-7v9BxNg")
 	taunts = list("<pre>\[DECRYPTION FAILURE]</pre>")
 	fleet_trait = FLEET_TRAIT_DEFENSE
@@ -558,6 +563,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/unknown_ship
 	name = "Unknown Ship Class"
 	size = 1
+	allow_difficulty_scaling = FALSE
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/battleship)
 	audio_cues = list("https://www.youtube.com/watch?v=zyPSAkz84vM")
 	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
@@ -595,13 +601,14 @@ GLOBAL_LIST_EMPTY(ai_goals)
 /datum/fleet/nanotrasen/earth
 	name = "Earth Defense Force"
 	taunts = list("You're foolish to venture this deep into Solgov space! Main batteries stand ready.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "We shall protect our homeland!")
-	size = FLEET_DIFFICULTY_SPECIAL
+	size = FLEET_DIFFICULTY_HARD
+	allow_difficulty_scaling = FALSE
 	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/New()
 	. = ..()
-	if(size < FLEET_DIFFICULTY_SPECIAL)
+	if(allow_difficulty_scaling)
 		//Account for pre-round spawned fleets.
 		var/num_players = (SSticker?.mode) ? SSticker.mode.num_players() : 0
 		if(num_players <= 15) //You get an easier time of it on lowpop
@@ -705,6 +712,9 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				if(member.physics2d)
 					STOP_PROCESSING(SSphysics_processing, member.physics2d)
 		}
+	if(SS.check_conflict_status())
+		if(!SSstar_system.contested_systems.Find(SS))
+			SSstar_system.contested_systems.Add(SS)
 	return TRUE
 
 /*
@@ -1214,6 +1224,11 @@ Seek a ship thich we'll station ourselves around
 	SSstar_system.update_pos(src)
 	if(!ai_controlled)
 		return
+	if(!z)	//Lets only fully stop processing on AI ships that get to nullspace with their processing still running, to not accidentally fuck up stuff.
+		STOP_PROCESSING(SSphysics_processing, src)
+		if(physics2d)
+			STOP_PROCESSING(SSphysics_processing, physics2d)
+		return
 	choose_goal()
 	if(!pilot) //AI ships need a pilot so that they aren't hit by their own bullets. Projectiles.dm's can_hit needs a mob to be the firer, so here we are.
 		pilot = new /mob/living(get_turf(src))
@@ -1294,11 +1309,13 @@ Seek a ship thich we'll station ourselves around
 	last_target = target
 	if(ai_can_launch_fighters) //Found a new enemy? Release the hounds
 		ai_can_launch_fighters = FALSE
+		var/cancelled = FALSE
 		if(ai_fighter_type.len)
 			for(var/i = 0, i < rand(2,3), i++)
 				var/ai_fighter = pick(ai_fighter_type)
 				var/turf/launch_turf = get_turf(pick(orange(3, src)))
 				if(!launch_turf)
+					cancelled = TRUE
 					if(!i)
 						ai_can_launch_fighters = TRUE
 					else
@@ -1316,7 +1333,8 @@ Seek a ship thich we'll station ourselves around
 					fleet.RegisterSignal(newFighter, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, newFighter)
 
 				relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
-		addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
+		if(!cancelled)
+			addtimer(VARSET_CALLBACK(src, ai_can_launch_fighters, TRUE), 3 MINUTES)
 	if(OM in enemies) //If target's in enemies, return
 		return
 	enemies += target
@@ -1424,10 +1442,13 @@ Seek a ship thich we'll station ourselves around
 		holder = M.client //if its a mob, assign the mob's client to holder
 	. = ..()
 
-/datum/starsystem_manager/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.admin_state)//ui_interact is called when the client verb is called.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/datum/starsystem_manager/ui_state(mob/user)
+        return GLOB.admin_state
+
+/datum/starsystem_manager/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "SystemManager", "Starsystem Manager", 400, 400, master_ui, state)
+		ui = new(user, src, "SystemManager")
 		ui.open()
 
 /datum/starsystem_manager/ui_data(mob/user)

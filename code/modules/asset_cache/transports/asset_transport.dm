@@ -10,8 +10,6 @@
 	/// If turning this on fixes asset issues, something isn't using get_asset_url and the asset isn't marked legacy, fix one of those.
 	var/dont_mutate_filenames = FALSE
 
-
-
 /// Called when the transport is loaded by the config controller, not called on the default transport unless it gets loaded by a config change.
 /datum/asset_transport/proc/Load()
 	if (CONFIG_GET(flag/asset_simple_preload))
