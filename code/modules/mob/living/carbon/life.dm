@@ -395,7 +395,7 @@
 				dna.remove_mutation(HM.type)
 
 	radiation -= min(radiation, RAD_LOSS_PER_TICK)
-	if(!( TRAIT_TOXIMMUNE in dna.species.inherent_traits ) && radiation > RAD_MOB_SAFE) // NSV13 don't deal toxin damage if they're immune 
+	if(!( TRAIT_TOXIMMUNE in dna.species.inherent_traits ) && radiation > RAD_MOB_SAFE) // NSV13 don't deal toxin damage if they're immune
 		adjustToxLoss(log(radiation-RAD_MOB_SAFE)*RAD_TOX_COEFFICIENT)
 
 
