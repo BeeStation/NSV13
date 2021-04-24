@@ -242,7 +242,11 @@
 			return
 		attempt_purchase(target, usr)
 	if(action == "mission")
-		if ( SSstar_system.all_missions.len < 3 ) // Max number of missions
+		var/list/currentMissions = list()
+		for ( var/datum/nsv_mission/M in SSstar_system.all_missions )
+			if ( M.stage != MISSION_COMPLETE )
+				currentMissions += M
+		if ( currentMissions.len < 3 ) // Max number of missions
 			give_mission(usr)
 		else
 			to_chat(user, "<span class='boldnotice'>" + pick(
