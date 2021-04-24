@@ -18,6 +18,10 @@
 	var/datum/beam/current_beam
 	var/allow_refuel = FALSE
 
+/obj/structure/reagent_dispensers/Initialize()
+	. = ..()
+	reagents?.chem_temp = 40
+
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
