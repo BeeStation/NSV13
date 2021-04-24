@@ -150,7 +150,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	if(receipt_sound_override && isatom(user))
 		playsound(user.loc, pick(receipt_sound_override), 100, 1)
 	if(telepathic)
-		to_chat(user, style_message(sender, text))
+		to_chat(user, text)
 	else
 		//You can hear the sound coming out the radio...
 		user.visible_message(text, \

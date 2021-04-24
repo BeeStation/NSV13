@@ -229,7 +229,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 */
 /datum/component/bloodling/proc/infest(mob/living/user)
 	user.mind.enslave_mind_to_creator(ling)
-	if(isovermind(user) || isAI(user))
+	if(isovermind(user) || isAI(user) || HAS_TRAIT(user, TRAIT_MINDSHIELD))
 		ling.get_overmap().relay_to_nearby('nsv13/sound/effects/bloodling_awaken.ogg', "<span class='userdanger'>Hideous images creep into your mind!</span>", FALSE)
 	if(ishuman(user))
 		user.mind.add_antag_datum(/datum/antagonist/changeling/bloodling_thrall) //Alright! you caught a human, THRALL TIME
@@ -241,7 +241,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	name = "Enthralled Changeling"
 	roundend_category  = "Bloodling Thralls"
 	antagpanel_category = "Bloodling Thralls"
-	tips = 'html/antagtips/bloodling_thrall.html'
+	tips = "bloodling_thrall"
 	//Gimped changeling powers! Notably missing major healing abilities...
 	powers_override = list(
 		/datum/action/changeling/absorbDNA,
@@ -280,7 +280,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	roundend_category  = "Bloodling Thralls"
 	antagpanel_category = "Bloodling Thralls"
 	give_objectives = TRUE
-	tips = 'html/antagtips/bloodling.html'
+	tips = "bloodling"
 	var/antag_hud_type = ANTAG_HUD_BLOODLING
 	var/antag_hud_name = "bloodling_thrall"
 	var/component_type = /datum/component/bloodling
@@ -359,12 +359,25 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 /datum/objective/bloodling_ascend
 	name = "Ascend"
 	explanation_text = "Ascend to your final form."
+	var/list/summon_spots = list() //Where can we ascend?
 
 /datum/objective/bloodling_ascend/check_completion()
 	. = ..()
 	if(owner)
 		return (owner.current && owner.current.health > 0 && istype(owner.current, /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended))
 
+/datum/objective/bloodling_ascend/New()
+	..()
+	var/sanity = 0
+	while(summon_spots.len < SUMMON_POSSIBILITIES && sanity < 100)
+		var/area/summon = pick(GLOB.sortedAreas - summon_spots)
+		if(summon && is_station_level(summon.z) && summon.valid_territory)
+			summon_spots += summon
+		sanity++
+	update_explanation_text()
+
+/datum/objective/bloodling_ascend/update_explanation_text()
+	explanation_text = "Ascend to your final form. <b>We can only ascend in [english_list(summon_spots)] - where the consciousness grid is naturally susceptible to our influence.</b>"
 
 /datum/antagonist/changeling/bloodling_thrall/forge_objectives()
 	var/datum/objective/bloodling_serve/serve = new
@@ -374,9 +387,6 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	. = ..()
 
 /datum/antagonist/changeling/bloodling_thrall/greet()
-	//For admin spawned thralls...
-	if(!owner.current.GetComponent(/datum/component/simple_teamchat/bloodling))
-		owner.current.AddComponent(/datum/component/simple_teamchat/bloodling) //Give them the teamchat ability...
 	to_chat(owner.current, "<span class='boldannounce'>You are reborn as [changelingID]! We remade you in our image.</span>")
 	to_chat(owner.current, "<span class='boldannounce'>You can communicate with other ascended changelings with \"[MODE_TOKEN_CHANGELING]\". Our greater hivemind can be heard by all of the master's servants.</span>")
 	to_chat(owner.current, "<span class='boldannounce'>You must serve the master above all else, failure to do so may lead to our generous gift to you being revoked, along with your life...</span>")
@@ -384,6 +394,18 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ling_aler.ogg', 100, FALSE, pressure_affected = FALSE)
 	owner.announce_objectives()
 
+/datum/antagonist/changeling/bloodling_thrall/apply_innate_effects()
+	. = ..()
+	//For admin spawned thralls...
+	if(!owner.current.GetComponent(/datum/component/simple_teamchat/bloodling))
+		owner.current.AddComponent(/datum/component/simple_teamchat/bloodling) //Give them the teamchat ability...
+
+/datum/antagonist/changeling/bloodling_thrall/remove_innate_effects(mob/living/mob_override)
+	. = ..()
+	//For admin spawned thralls etc...
+	var/datum/component/simple_teamchat/bloodling/B = owner.current.GetComponent(/datum/component/simple_teamchat/bloodling)
+	if(B)
+		B.RemoveComponent()
 
 //Very similar to larva, for now.
 /datum/hud/bloodling
@@ -679,10 +701,13 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
 	if(!B)
 		return FALSE
+	var/can_absorb_normally = TRUE //Have we found a use case where this thing could be absorbed normally?
+	var/new_absorb_time = absorb_time * 3
 	//Handle your pre-req checks here, then set the targets accordingly.
 	if(isAI(special_target))
 		var/mob/living/silicon/ai/ai = special_target
 		if(!ai.mind)
+			to_chat(user, "<span class='warning'>We can sense the remnants of a powerful entity here, but its mind is no longer here.</span>")
 			return FALSE
 		if(B.last_evolution < 4) //You have to be STRONG to do this.
 			to_chat(user, "<span class='warning'>We can sense the essence of a powerful entity inhabiting [special_target], but we are not yet strong enough to infest it.</span>")
@@ -693,6 +718,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	if(istype(special_target, /obj/structure/blob)) //I'm probably gonna fucking regret this.
 		var/obj/structure/blob/blob = special_target
 		if(!blob.overmind)
+			to_chat(user, "<span class='warning'>We can sense the remnants of a powerful entity here, but its mind is no longer here.</span>")
 			return FALSE
 		if(B.last_evolution < 4) //You have to be STRONG to do this.
 			to_chat(user, "<span class='warning'>We can sense the essence of a powerful entity inhabiting [special_target], but we are not yet strong enough to infest it.</span>")
@@ -700,17 +726,23 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 		absorb_mob = blob.overmind
 		physical_target = blob
 
+	if(HAS_TRAIT(special_target, TRAIT_MINDSHIELD))
+		to_chat(user, "<span class='warning'>This one tries to resist our influence with mental walls... But it cannot resist forever.</span>")
+		physical_target = special_target
+		absorb_mob = special_target
+
 	if(absorb_mob && physical_target)
 		to_chat(user, "<span class='userdanger'>WE HAVE DETECTED A POWERFUL ENTITY'S PRESENCE HERE...</span>")
-		if(alert(user, "Absorb the powerful entity?",name,"Yes","No") == "Yes")
+		can_absorb_normally = FALSE
+		if(alert(user, "Absorb the powerful entity (LOUD)?",name,"Yes","No") == "Yes")
 			to_chat(absorb_mob, "<span class='userdanger'>A strange consciousness starts to intertwine with yours...</span>")
 			var/absorb_cooldown = 1 MINUTES - B.last_evolution SECONDS //It'll take everything you have to pull this off...
 			soundloop.start(user)
-			var/datum/beam/current_beam = new(user,physical_target,time=absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
+			var/datum/beam/current_beam = new(user,physical_target,time=new_absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
 			INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
 			add_cooldown(absorb_cooldown*2)
 			user.emote("scream")
-			if(do_after(user, absorb_time, target=physical_target))
+			if(do_after(user, new_absorb_time, target=physical_target))
 				user.visible_message("<span class='warning'>[user] retracts their tendril!</span>", "<span class='userdanger'>That consciousness was strong, but not strong enough.</span>")
 				to_chat(user, "<span class='aliennotice'>We have infested the creature. If they do not do our bidding, we may absorb them for biomass.</span>")
 				to_chat(absorb_mob, "<span class='userdanger'>Your mind has been overtaken by [user]! You must serve them at all costs...</span>")
@@ -721,7 +753,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 				refund_biomass(user, biomass_cost/1.5) //You get most of your biomass back if interrupted, but not _all_
 			soundloop.stop(user)
 			return TRUE
-	return FALSE
+	return !(can_absorb_normally) //So you can't bypass this check..
 
 /datum/action/bloodling/infest/action(mob/living/user)
 	if(!..())
@@ -841,8 +873,8 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	desc = "We jump into the air and slam into the ground at high velocity, stunning nearby victims."
 	button_icon_state = "ground_pound"
 	biomass_cost = 0
-	var/base_stun_time = 2 SECONDS
-	var/cooldown = 40 SECONDS
+	var/base_stun_time = 3.5 SECONDS
+	var/cooldown = 50 SECONDS
 
 /obj/effect/temp_visual/bloodling_target
 	icon = 'icons/mob/actions/actions_items.dmi'
@@ -864,7 +896,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	user.visible_message("<span class='warning'>[user] slams into the ground!</span>")
 	playsound(user, 'sound/effects/gravhit.ogg', 100, TRUE)
 	var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
-	var/stun_time = base_stun_time + B.last_evolution SECONDS //Bigger boys absorb better
+	var/stun_time = base_stun_time + max(B.last_evolution / 2, 0) SECONDS //Bigger bloodling = hit harder
 	for(var/atom/X in view(user, 3))
 		if(X == src)
 			continue
@@ -882,8 +914,8 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	desc = "We lash out our tentacles to stun nearby enemies."
 	button_icon_state = "tailsweep"
 	biomass_cost = 25
-	var/base_stun_time = 5 SECONDS
-	var/cooldown = 65 SECONDS
+	var/base_stun_time = 1.5 SECONDS
+	var/cooldown = 40 SECONDS
 
 /datum/action/bloodling/whiplash/action(mob/living/user)
 	if(!..())
@@ -893,7 +925,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	user.shake_animation()
 	playsound(user, 'sound/magic/tail_swing.ogg', 100, TRUE)
 	var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
-	var/stun_time = base_stun_time + B.last_evolution SECONDS //Bigger boys absorb better
+	var/stun_time = base_stun_time + max(B.last_evolution / 2, 0) SECONDS //Bigger bloodling = hit harder
 	for(var/mob/living/M in view(user, 5))
 		if(M == user)
 			continue
@@ -1116,6 +1148,16 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 
 /datum/action/bloodling/ascend/action(mob/living/user)
 	if(!..() || istype(user, /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended)) //Hard cockblock to prevent re-ascension.
+		return
+	var/datum/antagonist/bloodling/user_antag = user.mind.has_antag_datum(/datum/antagonist/bloodling)
+	if(!user_antag)
+		refund_biomass(user, biomass_cost)
+		return
+	var/area/A = get_area(user)
+	var/datum/objective/bloodling_ascend/ascend_objective = locate() in user_antag.objectives
+	if(!(A in ascend_objective.summon_spots))
+		to_chat(user, "<span class='cultlarge'>The consciousness grid here is not receptive to our presence, we may however try to ascend in [english_list(ascend_objective.summon_spots)]!</span>")
+		refund_biomass(user, biomass_cost)
 		return
 
 	if(alert(user, "Are you sure you wish to attempt an ascension? You will be left vulnerable, and lesser beings will be made aware of your location...",name,"Yes","No") == "Yes")
