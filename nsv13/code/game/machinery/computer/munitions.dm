@@ -132,12 +132,6 @@
 	circuit = /obj/item/circuitboard/computer/ship/ordnance_computer
 
 /obj/machinery/computer/ship/ordnance/ui_interact(mob/user, datum/tgui/ui)
-	if(!has_overmap())
-		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-		playsound(src, sound, 100, 1)
-		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate thrust parameters, no registered ship stored in microprocessor.</span>")
-		return
-	//ui_interact(user)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "OrdnanceConsole")

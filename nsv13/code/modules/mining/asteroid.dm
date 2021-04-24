@@ -179,7 +179,6 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 			return
 
 /obj/machinery/computer/ship/mineral_magnet/attackby(obj/item/I, mob/user)
-	. = ..()
 	if(istype(I, /obj/item/deepcore_upgrade))
 		var/obj/item/deepcore_upgrade/DU = I
 		if(DU.tier > tier)
@@ -188,6 +187,15 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 			tier = DU.tier
 			qdel(DU)
 			icon_state = "magnet-[tier]"
+			return TRUE
+	return ..()
+
+
+/obj/machinery/computer/ship/mineral_magnet/attack_ai(mob/user)
+	attack_hand(user)
+
+/obj/machinery/computer/ship/mineral_magnet/attack_robot(mob/user)
+	attack_hand(user)
 
 /obj/machinery/computer/ship/mineral_magnet/attack_hand(mob/user)
 	if(!allowed(user))

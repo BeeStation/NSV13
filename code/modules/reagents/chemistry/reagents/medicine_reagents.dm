@@ -613,7 +613,7 @@
 
 /datum/reagent/medicine/perfluorodecalin
 	name = "Perfluorodecalin"
-	description = "Extremely rapidly restores oxygen deprivation, but causes minor toxin damage. Overdose causes significant damage to the lungs."
+	description = "Extremely rapidly restores oxygen deprivation, but causes minor toxin damage. Overdose causes significant damage to the heart." //NSV13 - fixed OD to say heart instead of lungs
 	reagent_state = LIQUID
 	color = "#FF6464"
 	overdose_threshold = 30

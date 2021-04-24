@@ -9,6 +9,7 @@
 	spawn_positions = 2
 	supervisors = "The executive officer"
 	selection_color = "#ddddff"
+	chat_color = "#2681a5"
 	req_admin_notify = 1
 	minimal_player_age = 2
 	exp_requirements = 60

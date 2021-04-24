@@ -25,13 +25,16 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 			var/list/recent_collisions = list() //So we don't collide two things together twice.
 			for(var/datum/component/physics2d/neighbour in za_warudo) //Now we check the collisions of every other physics body with this one. I hate that I have to do this, but I can't think of a better way just yet.
 				//Precondition: body and neighbour both exist, and are attached to something.
-				if(!neighbour || QDELETED(neighbour) || !neighbour.holder)
+				if(!neighbour?.holder || QDELETED(neighbour))
 					za_warudo -= neighbour
 					continue
-				if(neighbour.holder.z == null  || neighbour.holder.z == 0)
+				if(!neighbour.holder.z)
 					continue //If we're in nullspace.
 				//Precondition: body and neighbour are different entities.
 				if(body == neighbour)
+					continue
+				//Precondition: we're not checking collisions that we already ran.
+				if(neighbour in recent_collisions)
 					continue
 				//Precondition: neighbour has a collider2d (IE, hitboxes set up for it)
 				if(!neighbour.collider2d)
@@ -40,9 +43,6 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 				if(get_dist(body.holder, neighbour.holder) > MAXIMUM_COLLISION_RANGE) //Too far away to even bother with this calculation.
 					continue
 				if(neighbour.holder.z != body.holder.z) //Just in case some freak accident happened
-					continue
-				//Let's not bother checking collisions that we already ran.
-				if(neighbour in recent_collisions)
 					continue
 				//OK, now we get into the expensive calculation. This is our absolute last resort because it's REALLY expensive.
 				if(isovermap(body.holder) && isovermap(neighbour.holder)) //Dirty, but necessary. I want to minimize in-depth collision calc wherever I possibly can, so only overmap prototypes use it.
@@ -89,7 +89,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	collider2d = null
 	position = null
 	velocity = null
-	. = ..()
+	return ..()
 
 /datum/component/physics2d/proc/setup(list/hitbox, angle)
 	position = new /datum/vector2d(holder.x*32,holder.y*32)
@@ -102,7 +102,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	collider2d?._set(x, y)
 
 /datum/component/physics2d/process()
-	if(QDELETED(holder) || !holder)
+	if(!holder || QDELETED(holder))
 		RemoveComponent()
 		qdel(src)
 		return PROCESS_KILL

@@ -318,6 +318,15 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			bounce_factor = 0.5
 			lateral_bounce_factor = 0.8
 
+		if(MASS_MEDIUM_LARGE)
+			forward_maxthrust = 0.2
+			backward_maxthrust = 0.2
+			side_maxthrust = 0.2
+			max_angular_acceleration = 3.75
+			bounce_factor = 0.45
+			lateral_bounce_factor = 0.8
+			flak_battery_amount = 0
+
 		if(MASS_LARGE)
 			forward_maxthrust = 0.1
 			backward_maxthrust = 0.1
@@ -430,7 +439,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(weapon_safety)
 		return FALSE
-	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["shift"])
+	if(target == src || istype(target, /atom/movable/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["shift"])
 		return FALSE
 	if(locate(user) in gauss_gunners) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
 		var/datum/component/overmap_gunning/user_gun = user.GetComponent(/datum/component/overmap_gunning)
