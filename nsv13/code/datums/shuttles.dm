@@ -39,3 +39,7 @@
 	name = "Danube Class Yacht"
 	description = "A small, luxurious shuttle capable of ferrying small - medium crews in comfort and style."
 	credit_cost = 4000
+
+/datum/map_template/shuttle/mining/hammurabi //This is definitely an elevator trust me.
+	mappath = "_maps/shuttles/turbolifts/hammurabinolift.dmm"
+	name = "Hammurabi mining elevator"

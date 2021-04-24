@@ -23,9 +23,11 @@
 	build_path = /obj/machinery/computer/ship/navigation
 
 //Syndie comms console
+/*
 /obj/item/circuitboard/computer/syndiecommunications
 	name = "circuit board (Syndicate communications console)"
 	build_path = /obj/machinery/computer/syndiecommunications
+*/
 
 //Secondary ID console
 /obj/item/circuitboard/computer/card/secondary_ship_id_console

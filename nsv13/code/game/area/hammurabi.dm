@@ -3,7 +3,6 @@
 /area/hammurabi
 	name = "SSV Hammurabi"
 	ambient_effects = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
-	noteleport = TRUE
 	icon_state = "syndie-ship"
 	has_gravity = TRUE
 
@@ -50,3 +49,6 @@
 /area/hammurabi/maintenance/exterior
 	name = "Hammurabi exterior"
 	icon_state = "space_near"
+
+/area/shuttle/syndicate/hammurabi
+	name = "Hammurabi elevator"

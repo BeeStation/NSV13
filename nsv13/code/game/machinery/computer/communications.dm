@@ -14,7 +14,7 @@ Keep in mind you'll have to change all typepaths to use computer/communications 
 
 	var/list/comm_message/messages = list() //CC messages to us
 	var/datum/comm_message/currmsg //Currently viewed message
-	var/datum/comm_message/aicurrmsg 
+	var/datum/comm_message/aicurrmsg
 
 	var/message_cooldown = 0 //Time since last announcement
 	var/ai_message_cooldown = 0
@@ -22,12 +22,14 @@ Keep in mind you'll have to change all typepaths to use computer/communications 
 	var/tmp_alertlevel = 0 //Alert level
 
 	var/stat_msg1 //Custom status display
-	var/stat_msg2 
+	var/stat_msg2
 
 	var/authenticated = null //Who is logged in
 
 	var/syndie = 0
 */
+
+/* the world is not ready yet
 
 //Syndicate communications console
 /obj/machinery/computer/syndiecommunications
@@ -72,23 +74,9 @@ Keep in mind you'll have to change all typepaths to use computer/communications 
 
 /obj/machinery/computer/syndiecommunications/ui_static_data(mob/user)
 	var/list/data = list()
-	
+
 
 /obj/machinery/computer/syndiecommunications/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	switch(action)
-		if("login")
-			var/mob/M = usr
-			var/obj/item/card/id/I = M.get_idcard(TRUE)
-
-			if(I && istype(I))
-				if(check_access(I))
-					authenticated = 1
-					auth_id = "[I.registered_name] ([I.assignment])"
-					if((20 in I.access))
-						authenticated = 2
-					playsound(src, 'sound/machines/terminal_on.ogg', 50, 0)
-		if("logout")
-			authenticated = 0
-			playsound(src, 'sound/machines/terminal_off.ogg', 50, 0)
+*/
