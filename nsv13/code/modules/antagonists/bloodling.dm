@@ -1170,8 +1170,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 
 		to_chat(user, "<span class='userdanger'>We start to channel our mental energy... We will be unable to move while we attempt our ascension.</span>")
 		//No moving for you.
-		user.anchored = TRUE
-		user.add_movespeed_modifier(BLOODLING_ASCENSION_MODIFIER, TRUE, 100, multiplicative_slowdown = INFINITY, override = TRUE)
+		//user.add_movespeed_modifier(BLOODLING_ASCENSION_MODIFIER, TRUE, 100, multiplicative_slowdown = INFINITY, override = TRUE)
 
 		user.get_overmap().relay_to_nearby('nsv13/sound/effects/bloodling_awaken.ogg', "<span class='userdanger'>You can feel your consciousness being drawn to something terrible...</span>", FALSE)
 		sleep(5 SECONDS)
@@ -1209,9 +1208,8 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 
 	var/mob/last_user = user
 	var/mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/theMaster = new(user.loc)
-	last_user.remove_movespeed_modifier(BLOODLING_ASCENSION_MODIFIER, TRUE)
+	//last_user.remove_movespeed_modifier(BLOODLING_ASCENSION_MODIFIER, TRUE)
 	user.mind.transfer_to(theMaster)
-	user.remove_movespeed_modifier(BLOODLING_ASCENSION_MODIFIER, TRUE)
 	//theMaster.mind.add_antag_datum(/datum/antagonist/bloodling)
 	if(istype(SSticker.mode, /datum/game_mode/bloodling))
 		var/datum/game_mode/bloodling/GM = SSticker.mode
@@ -1260,8 +1258,8 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 
 /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/proc/update_biomass()
 	biomass = GetComponent(/datum/component/bloodling)
-	biomass.final_form_biomass = INFINITY
-	biomass.set_biomass(INFINITY)
+	biomass?.final_form_biomass = INFINITY
+	biomass?.set_biomass(INFINITY)
 
 /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/update_health_hud(shown_health_amount)
 	if(!client || !hud_used)
