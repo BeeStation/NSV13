@@ -69,9 +69,9 @@ NOTE:
 
 /datum/nsv_mission/proc/payout()
   var/ownerFaction = owner.faction
-  for(var/datum/faction/NT in SSstar_system.factions)
-    if( ownerFaction == lowertext( NT.name ) )
-      NT.gain_influence(ticket_bounty)
+  for(var/datum/faction/F in SSstar_system.factions)
+    if( ownerFaction == lowertext( F.name ) )
+      F.gain_influence(ticket_bounty)
   var/obj/item/holochip/money = owner.send_supplypod(/obj/item/holochip)
   money.credits = payout
   if(LAZYLEN(rewards))

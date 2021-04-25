@@ -244,8 +244,9 @@
 	if(action == "mission")
 		var/list/currentMissions = list()
 		for ( var/datum/nsv_mission/M in SSstar_system.all_missions )
-			if ( M.stage != MISSION_COMPLETE )
-				currentMissions += M
+			if ( M.owner == user.get_overmap() )
+				if ( M.stage != MISSION_COMPLETE )
+					currentMissions += M
 		if ( currentMissions.len < 3 ) // Max number of missions
 			give_mission(usr)
 		else
