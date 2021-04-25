@@ -209,6 +209,7 @@
 	var/maxHealthPriority = 50; //50/50 split
 	var/max_power_input = 1.5e+7; //15 MW theoretical maximum. This much power means your shield is going to be insanely good.
 	var/active = FALSE; //Are we projecting out our shields? This lets you offline the shields for a recharge period so that they become useful again.
+	var/obj/structure/cable/C = null //Connected cable
 }
 
 /obj/machinery/shield_generator/proc/absorb_hit(damage){
@@ -283,16 +284,10 @@
 
 /obj/machinery/shield_generator/proc/try_use_power(amount) // Although the machine may physically be powered, it may not have enough power to sustain a shield.
 	var/turf/T = get_turf(src)
-	var/obj/structure/cable/C = T.get_cable_node()
-	if(C)
-		if(!C.powernet)
-			return FALSE
-		var/power_in_net = C.powernet.avail-C.powernet.load
-
-		if(power_in_net && power_in_net > amount)
-			C.powernet.load += amount
-			return TRUE
-		return FALSE
+	C = T.get_cable_node()
+	if(C?.surplus() > amount)
+		C.powernet.load += amount
+		return TRUE
 	return FALSE
 
 //Every tick, the shield generator updates its stats based on the amount of power it's being allowed to chug.
@@ -349,7 +344,7 @@
 	data["active"] = active;
 	data["available_power"] = 0;
 	var/turf/T = get_turf(src)
-	var/obj/structure/cable/C = T.get_cable_node()
+	C = T.get_cable_node()
 	if(C)
 		if(C.powernet)
 			data["available_power"] = C.powernet.avail-C.powernet.load

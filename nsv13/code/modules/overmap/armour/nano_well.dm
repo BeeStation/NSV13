@@ -57,6 +57,7 @@ Starting Materials
 	layer = ABOVE_MOB_LAYER
 	obj_integrity = 500
 	var/obj/structure/overmap/OM //our parent ship
+	var/obj/structure/cable/C = null //Connected cable
 	var/list/apnp = list() //our child pumps
 	var/resourcing_system = FALSE //System for generating additional RR
 	var/repair_resources = 0 //Pool of liquid metal ready to be pumped out for repairs
@@ -123,16 +124,10 @@ Starting Materials
 
 /obj/machinery/armour_plating_nanorepair_well/proc/try_use_power(amount) //checking to see if we have a cable
 	var/turf/T = get_turf(src)
-	var/obj/structure/cable/C = T.get_cable_node()
-	if(C)
-		if(!C.powernet)
-			return FALSE
-		var/power_in_net = C.powernet.avail-C.powernet.load
-
-		if(power_in_net && power_in_net >= amount)
-			C.powernet.load += amount
-			return TRUE
-		return FALSE
+	C = T.get_cable_node()
+	if(C?.surplus() > amount)
+		C.powernet.load += amount
+		return TRUE
 	return FALSE
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Sigmoidal Curve
@@ -472,7 +467,7 @@ Starting Materials
 
 	data["available_power"] = 0
 	var/turf/T = get_turf(src)
-	var/obj/structure/cable/C = T.get_cable_node()
+	C = T.get_cable_node()
 	if(C)
 		if(C.powernet)
 			data["available_power"] = C.powernet.avail-C.powernet.load
