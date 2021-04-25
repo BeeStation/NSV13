@@ -1023,8 +1023,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	return (E?.active() && get_fuel() > 0)
 
 /obj/structure/overmap/fighter/proc/set_master_caution(state)
-	var/master_caution_switch = state
-	if(master_caution_switch)
+	if(state)
 		relay('nsv13/sound/effects/fighters/master_caution.ogg', null, loop=TRUE, channel=CHANNEL_HEARTBEAT)
 		master_caution = TRUE
 	else

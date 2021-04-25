@@ -23,7 +23,7 @@
 	name = "Cryogenic Tyrosene"
 	id = /datum/reagent/cryogenic_fuel
 	results = list(/datum/reagent/cryogenic_fuel = 5)
-	required_reagents = list(/datum/reagent/fuel = 1, /datum/reagent/hydrocarbon=5)
+	required_reagents = list(/datum/reagent/fuel = 1, /datum/reagent/hydrocarbon = 5)
 	is_cold_recipe = TRUE
 	required_temp = 40
 
