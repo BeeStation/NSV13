@@ -21,9 +21,7 @@
 		C.parallax_layers_cached = list()
 		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_1(null, C.view, viewmob)//Nsv13 - FTL parallax
 		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_2(null, C.view, viewmob)//Nsv13 - FTL parallax
-		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/planet(null, C.view, viewmob)//Nsv13 - FTL parallax
-		if(SSparallax.random_layer)
-			C.parallax_layers_cached += new SSparallax.random_layer
+		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/ftl_parallax //Nsv13 - We also snapped the planet layer.
 		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_3(null, C.view, viewmob)//Nsv13 - FTL parallax
 
 	C.parallax_layers = C.parallax_layers_cached.Copy()
@@ -319,19 +317,3 @@
 
 /atom/movable/screen/parallax_layer/random/asteroids
 	icon_state = "random_layer2"
-
-/atom/movable/screen/parallax_layer/planet
-	icon_state = "planet"
-	blend_mode = BLEND_OVERLAY
-	absolute = TRUE //Status of seperation
-	speed = 3
-	layer = 30
-
-/atom/movable/screen/parallax_layer/planet/update_status(mob/M)
-	if(!M.get_overmap()) //Nsv13 - Removes floyd's stupid lava planet from where it doesn't belong >:(
-		invisibility = 0
-	else
-		invisibility = INVISIBILITY_ABSTRACT
-
-/atom/movable/screen/parallax_layer/planet/update_o()
-	return //Shit wont move
