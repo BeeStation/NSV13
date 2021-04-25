@@ -1764,21 +1764,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/security/brig)
-"fY" = (
-/obj/machinery/turnstile{
-	dir = 4
-	},
-/obj/effect/turf_decal/loading_area{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/turf/open/floor/plasteel/grid/mono,
-/area/hallway/nsv/deck2/primary)
 "fZ" = (
 /obj/structure/table/glass,
 /obj/item/stack/sheet/mineral/plasma{
@@ -2037,7 +2022,8 @@
 /obj/structure/table/reinforced,
 /obj/machinery/door/window/eastleft{
 	dir = 8;
-	name = "Brig Desk"
+	name = "Brig Desk";
+	req_one_access_txt = "2"
 	},
 /obj/item/poster/random_official,
 /obj/item/poster/random_official,
@@ -7047,9 +7033,20 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "xr" = (
-/obj/structure/chair/stool,
-/turf/open/floor/plasteel/grid/techfloor/grid,
-/area/security/prison)
+/obj/machinery/turnstile{
+	dir = 4
+	},
+/obj/effect/turf_decal/loading_area{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/turf/open/floor/plasteel/grid/mono,
+/area/hallway/nsv/deck2/primary)
 "xt" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -8701,7 +8698,8 @@
 /obj/structure/table/reinforced,
 /obj/machinery/door/window/eastleft{
 	dir = 2;
-	name = "Brig Desk"
+	name = "Brig Desk";
+	req_one_access_txt = "2"
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/effect/landmark/zebra_interlock_point,
@@ -12781,10 +12779,11 @@
 /area/maintenance/nsv/deck2/starboard)
 "Tu" = (
 /obj/structure/table,
-/obj/item/toy/beach_ball/holoball,
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/item/clothing/mask/bandana/skull,
+/obj/item/toy/beach_ball/holoball,
 /turf/open/floor/plasteel/techmaint,
 /area/security/prison)
 "Tw" = (
@@ -48326,7 +48325,7 @@ wl
 bA
 WN
 YQ
-fY
+xr
 fU
 fU
 YQ
@@ -49347,8 +49346,8 @@ bh
 bh
 wl
 kM
-xr
-xr
+Kw
+Kw
 Kw
 ym
 NV

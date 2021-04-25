@@ -1011,10 +1011,11 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "eY" = (
-/obj/structure/bed,
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 1
 	},
+/obj/machinery/computer/arcade,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel,
 /area/security/prison)
 "eZ" = (
@@ -2334,6 +2335,21 @@
 /obj/structure/sign/departments/minsky/research/xenobiology,
 /turf/closed/wall/r_wall,
 /area/science/xenobiology)
+"jS" = (
+/obj/structure/window/reinforced{
+	dir = 8;
+	layer = 2.9
+	},
+/obj/structure/closet/secure_closet/genpop,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/structure/window/reinforced{
+	dir = 1;
+	pixel_y = 1
+	},
+/obj/item/clothing/under/rank/prisoner,
+/obj/item/clothing/shoes/sneakers/orange,
+/turf/open/floor/plating/airless,
+/area/security/prison)
 "jT" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/box/monkeycubes{
@@ -3994,7 +4010,14 @@
 	},
 /area/hallway/primary/central)
 "qs" = (
-/obj/effect/spawner/structure/window/plasma/reinforced,
+/obj/structure/window/reinforced{
+	dir = 8;
+	layer = 2.9
+	},
+/obj/structure/closet/secure_closet/genpop,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/item/clothing/under/rank/prisoner,
+/obj/item/clothing/shoes/sneakers/orange,
 /turf/open/floor/plating/airless,
 /area/security/prison)
 "qu" = (
@@ -4091,8 +4114,8 @@
 /turf/closed/wall/r_wall,
 /area/maintenance/aft)
 "qQ" = (
-/obj/structure/bed,
 /obj/effect/turf_decal/ship/techfloor,
+/obj/machinery/cryopod,
 /turf/open/floor/plasteel,
 /area/security/prison)
 "qR" = (
@@ -4189,6 +4212,16 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 5
 	},
+/obj/machinery/hydroponics/constructable,
+/obj/item/reagent_containers/glass/bucket,
+/obj/item/seeds/ambrosia,
+/obj/item/seeds/glowshroom,
+/obj/item/seeds/carrot,
+/obj/item/cultivator,
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/machinery/light_switch/north,
 /turf/open/floor/plasteel,
 /area/security/prison)
 "rt" = (
@@ -5370,6 +5403,10 @@
 /obj/machinery/airalarm/directional/south,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/captain/private)
+"wo" = (
+/obj/structure/sign/departments/minsky/security/security,
+/turf/closed/wall/r_wall,
+/area/security/prison)
 "wp" = (
 /obj/item/radio/intercom/directional/north,
 /obj/machinery/camera/autoname,
@@ -5812,14 +5849,20 @@
 /obj/structure/munitions_trolley,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
+"yw" = (
+/obj/effect/turf_decal/ship/techfloor{
+	dir = 1
+	},
+/obj/machinery/biogenerator,
+/obj/item/radio/intercom/directional/north,
+/turf/open/floor/plasteel,
+/area/security/prison)
 "yx" = (
-/obj/machinery/button/door{
-	id = "Brig";
-	name = "Door Bolt Control";
-	normaldoorcontrol = 1;
-	pixel_x = -25;
-	req_one_access_txt = "19";
-	specialfunctions = 4
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/machinery/genpop_interface{
+	pixel_x = -32
 	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
@@ -6369,6 +6412,14 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
+"Ay" = (
+/obj/effect/turf_decal/ship/techfloor,
+/obj/structure/table,
+/obj/item/paper_bin,
+/obj/item/pen,
+/obj/item/clothing/mask/bandana/skull,
+/turf/open/floor/plasteel,
+/area/security/prison)
 "Az" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/plasteel/dark/side,
@@ -7292,6 +7343,10 @@
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
+/obj/machinery/flasher{
+	id = "perma";
+	pixel_x = -32
+	},
 /turf/open/floor/plasteel,
 /area/security/prison)
 "EN" = (
@@ -7574,6 +7629,9 @@
 /obj/effect/turf_decal/ship/techfloor/grid{
 	dir = 4
 	},
+/obj/structure/window/reinforced{
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/security/prison)
 "FT" = (
@@ -7706,7 +7764,6 @@
 	},
 /area/security/prison)
 "Gu" = (
-/obj/machinery/cryopod,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5
 	},
@@ -8053,12 +8110,13 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/vault/ship{
-	dir = 4;
-	id_tag = "Brig";
-	name = "Holding Cell";
-	req_one_access = list(12)
+/obj/machinery/turnstile{
+	dir = 4
 	},
+/obj/effect/turf_decal/loading_area{
+	dir = 8
+	},
+/obj/machinery/door/window/brigdoor/eastleft,
 /turf/open/floor/plasteel,
 /area/security/prison)
 "HC" = (
@@ -8928,6 +8986,10 @@
 /obj/effect/turf_decal/ship/techfloor/grid{
 	dir = 8
 	},
+/obj/machinery/shower{
+	dir = 4;
+	layer = 3.5
+	},
 /turf/open/floor/plasteel,
 /area/security/prison)
 "LX" = (
@@ -9549,6 +9611,11 @@
 "NV" = (
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 6
+	},
+/obj/structure/table,
+/obj/item/toy/beach_ball/holoball,
+/obj/structure/window/reinforced{
+	dir = 4
 	},
 /turf/open/floor/plasteel,
 /area/security/prison)
@@ -10649,7 +10716,10 @@
 	dir = 1
 	},
 /obj/machinery/airalarm/directional/north,
-/obj/structure/bookcase/random,
+/obj/machinery/seed_extractor,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/plasteel,
 /area/security/prison)
 "SN" = (
@@ -11273,6 +11343,11 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 9
 	},
+/obj/machinery/vending/sustenance{
+	desc = "A vending machine normally reserved for work camps.";
+	name = "\improper sustenance vendor";
+	product_slogans = "Enjoy your meal.;Enough calories to support any worker."
+	},
 /turf/open/floor/plasteel,
 /area/security/prison)
 "Ve" = (
@@ -11298,8 +11373,7 @@
 /area/crew_quarters/bar)
 "Vj" = (
 /obj/effect/turf_decal/ship/techfloor/grid,
-/obj/machinery/light{
-	brightness = 5;
+/obj/structure/window/reinforced{
 	dir = 4
 	},
 /turf/open/floor/plasteel,
@@ -11715,8 +11789,16 @@
 	},
 /area/hallway/primary/aft)
 "WY" = (
-/obj/structure/sign/departments/minsky/security/security,
-/turf/closed/wall/r_wall,
+/obj/structure/window/reinforced{
+	dir = 8;
+	layer = 2.9
+	},
+/obj/structure/closet/secure_closet/genpop,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/structure/window/reinforced,
+/obj/item/clothing/under/rank/prisoner,
+/obj/item/clothing/shoes/sneakers/orange,
+/turf/open/floor/plating/airless,
 /area/security/prison)
 "Xa" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -34858,11 +34940,11 @@ ac
 Jt
 SZ
 lQ
-eY
+yw
 Gt
 Xa
 QK
-qQ
+Ay
 lQ
 aw
 DQ
@@ -35375,9 +35457,9 @@ lQ
 qs
 WY
 HB
-lQ
+jS
 qs
-lQ
+wo
 JD
 DQ
 RC
@@ -35628,11 +35710,11 @@ NF
 WX
 Hy
 KM
-Iw
+yx
 us
 vx
 au
-yx
+us
 us
 BW
 ke
