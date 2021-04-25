@@ -174,7 +174,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	. = ..()
 	//Find our ship's asteroid marker. This allows multi-ship mining.
 	for(var/obj/effect/landmark/L in GLOB.asteroid_spawn_markers)
-		if(shares_overmap(src, L))
+		if(SHARES_OVERMAP(src, L))
 			target_location = get_turf(L)
 			return
 

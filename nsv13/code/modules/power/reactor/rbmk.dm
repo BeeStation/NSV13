@@ -350,7 +350,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	if(power >= 90 && world.time >= next_flicker) //You're overloading the reactor. Give a more subtle warning that power is getting out of control.
 		next_flicker = world.time + 1.5 MINUTES
 		for(var/obj/machinery/light/L in GLOB.machines)
-			if(prob(25) && shares_overmap(src, L)) //If youre running the reactor cold though, no need to flicker the lights.
+			if(prob(25) && SHARES_OVERMAP(src, L)) //If youre running the reactor cold though, no need to flicker the lights.
 				L.flicker()
 	for(var/atom/movable/I in get_turf(src))
 		if(isliving(I))
@@ -456,7 +456,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	NSW.fire() //This will take out engineering for a decent amount of time as they have to clean up the sludge.
 	for(var/a in GLOB.apcs_list)
 		var/obj/machinery/power/apc/A = a
-		if(shares_overmap(src, a) && prob(70))
+		if(SHARES_OVERMAP(src, a) && prob(70))
 			A.overload_lighting()
 	var/datum/gas_mixture/coolant_input = COOLANT_INPUT_GATE
 	var/datum/gas_mixture/moderator_input = MODERATOR_INPUT_GATE
@@ -483,7 +483,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	for(var/X in GLOB.landmarks_list)
 		if(istype(X, /obj/effect/landmark/nuclear_waste_spawner))
 			var/obj/effect/landmark/nuclear_waste_spawner/WS = X
-			if(shares_overmap(src, WS)) //Begin the SLUDGING
+			if(SHARES_OVERMAP(src, WS)) //Begin the SLUDGING
 				WS.fire()
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/fail_meltdown_objective()
@@ -834,7 +834,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	//No reactor? Go find one then.
 	if(!reactor)
 		for(var/obj/machinery/atmospherics/components/trinary/nuclear_reactor/R in GLOB.machines)
-			if(shares_overmap(user, R))
+			if(SHARES_OVERMAP(user, R))
 				reactor = R
 				break
 	active = TRUE
@@ -863,7 +863,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 		if("swap_reactor")
 			var/list/choices = list()
 			for(var/obj/machinery/atmospherics/components/trinary/nuclear_reactor/R in GLOB.machines)
-				if(!shares_overmap(usr, R))
+				if(!SHARES_OVERMAP(usr, R))
 					continue
 				choices += R
 			reactor = input(usr, "What reactor do you wish to monitor?", "[src]", null) as null|anything in choices

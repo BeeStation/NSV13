@@ -976,7 +976,7 @@ Control Rods
 		if(10000000 to INFINITY) //10MW+
 			if(prob(1))
 				for(var/obj/machinery/light/L in GLOB.machines)
-					if(prob(50) && shares_overmap(src, L))
+					if(prob(50) && SHARES_OVERMAP(src, L))
 						L.flicker()
 			if(prob(5))
 				for(var/obj/machinery/light/L in orange(12, src))
@@ -1127,7 +1127,7 @@ Control Rods
 	src.atmos_spawn_air("o2=750;plasma=200;nucleium=100;TEMP=5000")
 
 	for(var/mob/living/M in GLOB.alive_mob_list)
-		if(shares_overmap(src, M))
+		if(SHARES_OVERMAP(src, M))
 			shake_camera(M, 3, 2)
 			if(!M.mob_negates_gravity())
 				M.Knockdown(50)
@@ -1136,7 +1136,7 @@ Control Rods
 	for(var/X in GLOB.landmarks_list)
 		if(istype(X, /obj/effect/landmark/nuclear_waste_spawner))
 			var/obj/effect/landmark/nuclear_waste_spawner/WS = X
-			if(shares_overmap(src, WS))
+			if(SHARES_OVERMAP(src, WS))
 				var/epi = get_turf(WS)
 				if(WS.range < 10) //small spawner
 					empulse(epi, 5, 15)
@@ -1770,7 +1770,7 @@ Control Rods
 	//No reactor? Go find one then.
 	if(!reactor)
 		for(var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/R in GLOB.machines)
-			if(shares_overmap(user, R))
+			if(SHARES_OVERMAP(user, R))
 				reactor = R
 				break
 	active = TRUE
@@ -1811,7 +1811,7 @@ Control Rods
 		if("swap_reactor")
 			var/list/choices = list()
 			for(var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/R in GLOB.machines)
-				if(!shares_overmap(usr, R))
+				if(!SHARES_OVERMAP(usr, R))
 					continue
 				choices += R
 			reactor = input(usr, "What stormdrive reactor do you wish to monitor?", "[src]", null) as null|anything in choices
