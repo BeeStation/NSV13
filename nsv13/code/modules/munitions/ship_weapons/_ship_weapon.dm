@@ -148,7 +148,7 @@
 	else if(istype(I, /obj/item/reagent_containers))
 		oil(I, user)
 		return TRUE
-	..()
+	return ..()
 
 /**
  * Store ID in multitool buffer for linking to munitions consoles

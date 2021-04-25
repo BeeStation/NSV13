@@ -112,7 +112,7 @@ NOTE:
   var/ships_to_kill
   var/ships_remaining
   var/list/target_faction = list("syndicate")
-  var/list/target_size = list(MASS_SMALL, MASS_MEDIUM, MASS_LARGE, MASS_TITAN) // Prevents fighters from counting towards the objective
+  var/list/target_size = list(MASS_SMALL, MASS_MEDIUM, MASS_MEDIUM_LARGE, MASS_LARGE, MASS_TITAN) // Prevents fighters from counting towards the objective
   var/max_threat_level = THREAT_LEVEL_UNSAFE  // If we assign systems, give them a break by not giving them objectives in dangerous systems
   var/list/target_factions = list(FACTION_ID_SYNDICATE, FACTION_ID_PIRATES)
 
@@ -585,4 +585,3 @@ kill station
 /datum/nsv_mission/custom/
   desc = "A mission missing the correct paperwork to define what is required. Contact NT if you see this!"
   var/admin_hints = "SET 'the_client' TO THE OVERMAP STATION! Set stage to different things to mark progress. -1 is failed. 0 is idle and 2 is complete."
-

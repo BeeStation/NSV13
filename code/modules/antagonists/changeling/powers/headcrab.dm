@@ -4,7 +4,7 @@
 	helptext = "We will be placed in control of a small, fragile creature. We may attack a corpse like this to plant an egg which will slowly mature into a new form for us."
 	button_icon_state = "last_resort"
 	chemical_cost = 20
-	dna_cost = 0
+	dna_cost = 2 //Nsv13 - bloodling rebalance of lings
 	req_human = 1
 	req_stat = DEAD
 	ignores_fakedeath = TRUE
@@ -32,7 +32,7 @@
 		else if(issilicon(A))
 			var/mob/living/silicon/S = A
 			to_chat(S, "<span class='userdanger'>Your sensors are disabled by a shower of blood!</span>")
-			S.Paralyze(60)	
+			S.Paralyze(60)
 	var/turf = get_turf(user)
 	// Headcrab transformation is *very* unique; origin mob death happens *before* resulting mob's creation. Action removal should happen beforehand.
 	for(var/datum/action/cp in user.actions)

@@ -13,12 +13,13 @@ export const DeckGun = (props, context) => {
       height={300}>
       <Window.Content scrollable>
         <Section title="Payload:">
-          <Button content="Feed Shell"
+          <Button content={data.loaded ? "Eject Shell" : "Feed Shell"}
             icon="exclamation-triangle"
             onClick={() => act('feed')}
           />
           <Button content="Load Shell"
             icon="truck-loading"
+            disabled={!(data.loaded)}
             onClick={() => act('load')}
           />
         </Section>

@@ -653,6 +653,10 @@
 	},
 /turf/open/floor/plasteel/grid/lino,
 /area/janitor)
+"cl" = (
+/obj/effect/landmark/xeno_spawn,
+/turf/template_noop,
+/area/maintenance/nsv/deck2/port)
 "cp" = (
 /obj/structure/cable{
 	icon_state = "0-4"
@@ -2649,6 +2653,7 @@
 /area/science)
 "iR" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plating,
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Abandoned Bar"
@@ -5253,6 +5258,7 @@
 /obj/structure/table/wood/poker,
 /obj/effect/spawner/lootdrop/gambling,
 /obj/item/stack/spacecash/c200,
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/wood,
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Abandoned Bar"
@@ -5295,9 +5301,7 @@
 /area/hallway/nsv/deck2/primary)
 "rh" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/oxygen_output{
-	id_tag = "o2_out_alt"
-	},
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/oxygen_output,
 /turf/open/floor/engine/o2,
 /area/engine/atmos)
 "ri" = (
@@ -6268,8 +6272,7 @@
 /obj/item/clothing/suit/radiation,
 /obj/item/clothing/head/radiation,
 /obj/machinery/light/small{
-	brightness = 3;
-	dir = 1
+	brightness = 3
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/engine_room)
@@ -7446,14 +7449,12 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/hallway/nsv/deck2/primary)
 "yZ" = (
-/obj/machinery/air_sensor/atmos/oxygen_tank{
-	id_tag = "o2_sensor_alt"
-	},
 /obj/machinery/atmospherics/miner/oxygen,
 /obj/machinery/light/small{
 	brightness = 3;
 	dir = 1
 	},
+/obj/machinery/air_sensor/atmos/oxygen_tank,
 /turf/open/floor/engine/o2,
 /area/engine/atmos)
 "za" = (
@@ -14287,9 +14288,7 @@
 /area/science)
 "ZF" = (
 /obj/machinery/portable_atmospherics/canister/nitrogen,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/nitrogen_output{
-	id_tag = "n2_out_alt"
-	},
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/nitrogen_output,
 /turf/open/floor/engine/n2,
 /area/engine/atmos)
 "ZH" = (
@@ -41247,7 +41246,7 @@ bh
 rE
 kH
 xS
-oD
+cl
 oD
 oD
 kH
