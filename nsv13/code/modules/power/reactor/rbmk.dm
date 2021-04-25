@@ -454,9 +454,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	OM.relay('nsv13/sound/effects/rbmk/meltdown.ogg', "<span class='userdanger'>You hear a horrible metallic hissing.</span>")
 	OM?.stop_relay(CHANNEL_REACTOR_ALERT)
 	NSW.fire() //This will take out engineering for a decent amount of time as they have to clean up the sludge.
-	for(var/a in GLOB.apcs_list)
-		var/obj/machinery/power/apc/A = a
-		if(SHARES_OVERMAP(src, a) && prob(70))
+	for(var/obj/machinery/power/apc/A in GLOB.apcs_list)
+		if(SHARES_OVERMAP(src, A) && prob(70))
 			A.overload_lighting()
 	var/datum/gas_mixture/coolant_input = COOLANT_INPUT_GATE
 	var/datum/gas_mixture/moderator_input = MODERATOR_INPUT_GATE
