@@ -10,6 +10,7 @@
 	icon = 'nsv13/icons/obj/objects.dmi'
 	icon_state = "cryofuel" //NSV13 - Modified objects.dmi to include a cryo fuel container
 	reagent_id = /datum/reagent/cryogenic_fuel
+	reagent_temp = 40
 	tank_volume = 3500
 	var/obj/item/cryofuel_nozzle/nozzle = null
 	var/obj/structure/overmap/fighter/fuel_target
@@ -17,10 +18,6 @@
 	var/max_range = 2
 	var/datum/beam/current_beam
 	var/allow_refuel = FALSE
-
-/obj/structure/reagent_dispensers/Initialize()
-	. = ..()
-	reagents?.chem_temp = 40
 
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/ui_act(action, params, datum/tgui/ui)
 	if(..())
