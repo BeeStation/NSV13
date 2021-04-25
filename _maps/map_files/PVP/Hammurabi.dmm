@@ -116,6 +116,7 @@
 "aM" = (
 /obj/structure/rack,
 /obj/item/megaphone/cargo,
+/obj/item/card/id/departmental_budget/syndicate,
 /turf/open/floor/carpet/red,
 /area/quartermaster/pvp)
 "aN" = (
@@ -258,7 +259,7 @@
 /area/hammurabi)
 "bN" = (
 /obj/machinery/computer/cryopod,
-/turf/closed/wall/ship,
+/turf/closed/wall/steel,
 /area/hammurabi)
 "bP" = (
 /obj/machinery/airalarm/directional/north,
@@ -1281,9 +1282,6 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/light{
-	dir = 8
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -1369,6 +1367,11 @@
 "hw" = (
 /turf/closed/wall/r_wall,
 /area/crew_quarters/bar/pvp)
+"hx" = (
+/obj/structure/closet/crate,
+/obj/effect/spawner/lootdrop/maintenance/six,
+/turf/open/floor/plating,
+/area/hammurabi/maintenance)
 "hy" = (
 /obj/structure/ladder,
 /turf/open/floor/mineral/plastitanium,
@@ -1646,6 +1649,12 @@
 /obj/item/wrench/medical,
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/medbay)
+"iH" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/quartermaster/pvp)
 "iI" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -1960,6 +1969,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
 	},
+/obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/hammurabi/maintenance)
 "ke" = (
@@ -2339,6 +2349,12 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi)
+"nH" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 6
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi/medbay)
 "nJ" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 5
@@ -2455,6 +2471,13 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi)
+"oD" = (
+/obj/structure/displaycase{
+	req_access = list(151);
+	start_showpiece_type = /obj/item/gun/ballistic/automatic/pistol/deagle/gold
+	},
+/turf/open/floor/carpet/red,
+/area/crew_quarters/heads/captain/pvp/admiral)
 "oH" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -2497,9 +2520,14 @@
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/captain/pvp)
 "oV" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden{
+	dir = 8
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/medbay)
@@ -2532,10 +2560,14 @@
 /area/hammurabi)
 "pj" = (
 /obj/structure/table/wood,
+/obj/item/paper_bin,
+/obj/item/pen/fountain,
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/captain/pvp/admiral)
 "po" = (
-/obj/machinery/armour_plating_nanorepair_pump/forward_port,
+/obj/machinery/armour_plating_nanorepair_pump/forward_port{
+	apnw_id = "hammurabi"
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/engine/engineering/pvp)
 "pp" = (
@@ -2596,6 +2628,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
+/obj/machinery/light,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi)
 "pI" = (
@@ -2851,6 +2884,10 @@
 	frequency = 1213;
 	syndie = 1
 	},
+/obj/machinery/light/small{
+	brightness = 3;
+	dir = 8
+	},
 /turf/open/floor/carpet/red,
 /area/quartermaster/pvp)
 "rx" = (
@@ -2913,6 +2950,8 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/medbay)
 "rZ" = (
@@ -3061,8 +3100,18 @@
 /obj/machinery/firealarm/directional/north,
 /turf/open/floor/mineral/plastitanium,
 /area/ai_monitored/nuke_storage/pvp)
+"sT" = (
+/obj/structure/stairs{
+	dir = 1
+	},
+/obj/machinery/light/small{
+	dir = 4
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/hammurabi)
 "sX" = (
 /obj/machinery/door/airlock/ship/external/glass{
+	name = "Mining Elevator";
 	req_one_access_txt = "150"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -3231,6 +3280,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
 	},
+/obj/machinery/light,
 /turf/open/floor/engine,
 /area/quartermaster/pvp)
 "uh" = (
@@ -3273,6 +3323,16 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi)
+"uq" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on{
+	dir = 8;
+	icon_state = "vent_map_on-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi/medbay)
 "ur" = (
 /obj/machinery/power/port_gen/pacman,
 /obj/item/stack/sheet/mineral/plasma{
@@ -3434,6 +3494,9 @@
 /area/engine/engineering/pvp)
 "vv" = (
 /obj/machinery/computer/cloning,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi/medbay)
 "vI" = (
@@ -3537,6 +3600,10 @@
 	},
 /turf/open/floor/carpet/red,
 /area/crew_quarters/bar/pvp)
+"wE" = (
+/obj/machinery/suit_storage_unit/syndicate/odst,
+/turf/open/floor/plasteel/tech/grid,
+/area/quartermaster/pvp)
 "wI" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -3589,7 +3656,9 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi/medbay)
 "wX" = (
-/obj/machinery/armour_plating_nanorepair_pump/forward_starboard,
+/obj/machinery/armour_plating_nanorepair_pump/forward_starboard{
+	apnw_id = "hammurabi"
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/engine/engineering/pvp)
 "wY" = (
@@ -3886,6 +3955,15 @@
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/captain/pvp/admiral)
+"yP" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 8
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi/medbay)
 "yR" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -3939,6 +4017,15 @@
 /obj/structure/extinguisher_cabinet/north,
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi)
+"zl" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi/medbay)
 "zr" = (
 /obj/machinery/atmospherics/pipe/simple/multiz{
 	dir = 4
@@ -4142,12 +4229,10 @@
 /area/engine/engineering/pvp)
 "AE" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 6
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/medbay)
 "AJ" = (
@@ -4168,7 +4253,9 @@
 /turf/open/floor/plating,
 /area/hammurabi/maintenance)
 "AV" = (
-/obj/machinery/armour_plating_nanorepair_pump/aft_port,
+/obj/machinery/armour_plating_nanorepair_pump/aft_port{
+	apnw_id = "hammurabi"
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/engine/engineering/pvp)
 "AW" = (
@@ -4799,7 +4886,7 @@
 /turf/open/floor/plating,
 /area/engine/engineering/pvp)
 "FG" = (
-/turf/open/floor/mineral/plastitanium,
+/turf/open/floor/plating,
 /area/hammurabi/maintenance/exterior)
 "FH" = (
 /mob/living/simple_animal/pet/cat/space{
@@ -4909,6 +4996,10 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
+/obj/machinery/light/small{
+	brightness = 3;
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/hammurabi/maintenance)
 "GN" = (
@@ -4946,11 +5037,14 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/crew_quarters/heads/captain/pvp)
 "Hf" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+/obj/machinery/light/small{
+	brightness = 3;
 	dir = 8
 	},
-/turf/open/floor/mineral/plastitanium/red,
-/area/hammurabi/medbay)
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/maintenance/two,
+/turf/open/floor/plating,
+/area/hammurabi/maintenance)
 "Hs" = (
 /obj/structure/closet/secure_closet/freezer/kitchen/maintenance{
 	req_access = null
@@ -5199,6 +5293,13 @@
 	broken = 1
 	},
 /area/hammurabi/maintenance)
+"JE" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi/medbay)
 "JF" = (
 /obj/structure/chair{
 	dir = 4
@@ -5280,6 +5381,14 @@
 /obj/machinery/iv_drip,
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi/medbay)
+"Kz" = (
+/obj/machinery/light/small{
+	dir = 1
+	},
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/maintenance/two,
+/turf/open/floor/plating,
+/area/hammurabi/maintenance)
 "KJ" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -5452,7 +5561,9 @@
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/medbay)
 "LX" = (
-/obj/machinery/armour_plating_nanorepair_pump/aft_starboard,
+/obj/machinery/armour_plating_nanorepair_pump/aft_starboard{
+	apnw_id = "hammurabi"
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/engine/engineering/pvp)
 "LY" = (
@@ -5510,6 +5621,12 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plating,
 /area/hammurabi/maintenance)
+"Mv" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 8
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi/medbay)
 "Mw" = (
 /obj/structure/table/reinforced,
 /obj/machinery/reagentgrinder,
@@ -5582,6 +5699,7 @@
 /obj/structure/mirror{
 	pixel_y = 32
 	},
+/obj/effect/turf_decal/stripes/white/line,
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi/medbay)
 "Nd" = (
@@ -5794,7 +5912,9 @@
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/captain/pvp)
 "OA" = (
-/obj/machinery/armour_plating_nanorepair_well,
+/obj/machinery/armour_plating_nanorepair_well{
+	apnw_id = "hammurabi"
+	},
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
 	},
@@ -6375,6 +6495,9 @@
 /obj/machinery/clonepod,
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/west,
+/obj/effect/turf_decal/stripes/white/line{
+	dir = 5
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi/medbay)
 "Tx" = (
@@ -6387,7 +6510,7 @@
 	roundstart_template = /datum/map_template/shuttle/mining/hammurabi;
 	width = 3
 	},
-/turf/open/floor/mineral/plastitanium,
+/turf/open/floor/plating,
 /area/hammurabi/maintenance/exterior)
 "TC" = (
 /obj/machinery/missile_builder/assembler{
@@ -6416,6 +6539,15 @@
 "TU" = (
 /turf/closed/wall/r_wall,
 /area/bridge/pvp)
+"TZ" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/hammurabi/medbay)
 "Ue" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
@@ -6502,6 +6634,10 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
+	},
+/obj/machinery/light/small{
+	brightness = 3;
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/hammurabi/maintenance)
@@ -6607,6 +6743,13 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi)
+"Vs" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on{
+	dir = 4;
+	icon_state = "vent_map_on-2"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi/medbay)
 "Vt" = (
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/captain/pvp/admiral)
@@ -6761,6 +6904,12 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi)
+"Wt" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/engine/engineering/pvp)
 "Wu" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -6881,6 +7030,12 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/medbay)
 "XG" = (
@@ -29448,7 +29603,7 @@ jD
 LY
 FA
 km
-FA
+Wt
 FA
 OZ
 LY
@@ -30708,7 +30863,7 @@ ab
 ab
 ab
 ab
-aK
+ab
 vj
 ab
 ab
@@ -31742,7 +31897,7 @@ kz
 fX
 td
 td
-td
+Vs
 ME
 td
 td
@@ -31998,8 +32153,8 @@ Zx
 Ql
 fX
 td
-td
-td
+nH
+JE
 rX
 oV
 AE
@@ -32255,11 +32410,11 @@ bw
 fX
 fX
 td
+Mv
 td
 td
+zl
 td
-td
-Hf
 td
 aY
 jk
@@ -32515,7 +32670,7 @@ bv
 bv
 cN
 fX
-fX
+TZ
 wV
 aq
 RI
@@ -33029,7 +33184,7 @@ td
 td
 wv
 td
-td
+zl
 GG
 xG
 bk
@@ -33286,7 +33441,7 @@ xG
 xG
 xG
 xc
-td
+uq
 Qp
 xG
 zw
@@ -33536,14 +33691,14 @@ aK
 cC
 aK
 aK
+Hf
+pA
 aK
 aK
-aK
-aK
-aK
+hx
 xG
 jV
-td
+yP
 Pu
 xG
 bo
@@ -33789,15 +33944,15 @@ aa
 aa
 aa
 ab
-aK
+yu
 cC
 EV
 aK
 aK
 aK
 aK
-aK
-aK
+ii
+ii
 xG
 xG
 xG
@@ -34313,7 +34468,7 @@ Xr
 Xr
 Xr
 Xr
-aK
+pA
 aK
 aK
 ab
@@ -34570,11 +34725,11 @@ FG
 FG
 FG
 Xr
-aK
+Kz
 aK
 aK
 ab
-CV
+sT
 CV
 zu
 Rx
@@ -34829,7 +34984,7 @@ FG
 Xr
 lm
 aK
-aK
+hx
 ab
 an
 an
@@ -35086,7 +35241,7 @@ FG
 Xr
 rb
 aK
-aK
+hx
 ab
 aa
 aa
@@ -35594,10 +35749,10 @@ Xr
 aE
 aM
 Xr
-Zb
+wE
 RH
 TN
-Zb
+iH
 Zb
 Zb
 Xr
@@ -35851,7 +36006,7 @@ rw
 Wh
 Cr
 hd
-Zb
+wE
 ta
 UD
 UD
@@ -41265,7 +41420,7 @@ FM
 uK
 sI
 wx
-Vt
+oD
 mU
 wM
 Vt
