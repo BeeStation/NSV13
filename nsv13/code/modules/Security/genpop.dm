@@ -12,8 +12,8 @@
 	icon_state = "turnstile_map"
 	power_channel = AREA_USAGE_ENVIRON
 	density = TRUE
-	obj_integrity = 100
-	max_integrity = 100
+	obj_integrity = 250
+	max_integrity = 250
 	//Robust! It'll be tough to break...
 	armor = list("melee" = 50, "bullet" = 20, "laser" = 0, "energy" = 80, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 90, "acid" = 50, "stamina" = 0)
 	anchored = TRUE
