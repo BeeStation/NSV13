@@ -76,7 +76,7 @@
 		if("unload")
 			if(!target)
 				return
-			unload_munition(A)
+			unload_munition(target)
 		if("unload_all")
 			for(var/atom/movable/AM in contents)
 				unload_munition(AM)
