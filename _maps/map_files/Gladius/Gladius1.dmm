@@ -1109,6 +1109,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 8
+	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "aCt" = (
@@ -2639,9 +2642,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
-/obj/structure/cable{
-	icon_state = "2-8"
-	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
 "bpS" = (
@@ -3890,7 +3890,9 @@
 /turf/open/floor/monotile/light,
 /area/science/mixing)
 "bXz" = (
-/obj/machinery/atmospherics/pipe/simple/multiz,
+/obj/machinery/atmospherics/components/unary/portables_connector{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/aft)
 "bXB" = (
@@ -8478,6 +8480,14 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 8
+	},
+/obj/machinery/door/airlock/ship/public/glass{
+	id_tag = "MedbayFoyer";
+	name = "Infirmary";
+	req_one_access_txt = "5"
+	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "eiR" = (
@@ -9431,6 +9441,13 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/hatch{
+	name = "Hangar Bay";
+	req_access_txt = "69"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/plasteel/ship,
 /area/nsv/hanger)
@@ -12424,6 +12441,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/machinery/door/airlock/ship/glass{
+	req_access_txt = "69"
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "fWD" = (
@@ -12533,11 +12553,9 @@
 /turf/open/floor/monotile/steel,
 /area/science/robotics/lab)
 "fYL" = (
-/obj/machinery/atmospherics/components/unary/portables_connector{
-	dir = 1
-	},
-/turf/closed/wall/ship,
-/area/medical/medbay/central)
+/obj/machinery/atmospherics/pipe/simple/multiz,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/port/aft)
 "fYR" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -16444,26 +16462,6 @@
 	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
-"hRN" = (
-/obj/machinery/door/airlock/glass_large/ship{
-	bound_height = 64;
-	bound_width = 32;
-	dir = 4;
-	name = "Hangar Bay";
-	pixel_x = -32;
-	req_access_txt = "69"
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plasteel/ship,
-/area/nsv/hanger)
 "hSr" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5
@@ -21684,14 +21682,6 @@
 /turf/open/floor/monotile/light,
 /area/medical/medbay/central)
 "ksM" = (
-/obj/machinery/door/airlock/glass_large/ship{
-	bound_height = 64;
-	bound_width = 32;
-	dir = 4;
-	name = "Infirmary Exit";
-	pixel_x = -32;
-	req_one_access_txt = "5"
-	},
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 8
 	},
@@ -21702,6 +21692,11 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/blue,
+/obj/machinery/door/airlock/ship/public/glass{
+	id_tag = "MedbayFoyer";
+	name = "Infirmary";
+	req_one_access_txt = "5"
+	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "ksS" = (
@@ -22020,6 +22015,10 @@
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
+	},
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "Bridge";
+	req_access_txt = "19"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
@@ -24559,9 +24558,6 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
 /obj/machinery/light,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
@@ -24600,14 +24596,14 @@
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5
 	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
 	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger)
@@ -26960,9 +26956,6 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
@@ -26971,6 +26964,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
@@ -31433,6 +31429,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
 "oYF" = (
@@ -32004,16 +32003,6 @@
 	},
 /turf/open/floor/monotile/light,
 /area/medical/surgery)
-"pko" = (
-/obj/effect/turf_decal/ship/delivery/yellow,
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark,
-/area/nsv/briefingroom)
 "pkp" = (
 /obj/machinery/door/window/eastright{
 	name = "Brig Infirmary"
@@ -32151,19 +32140,15 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/obj/machinery/door/airlock/glass_large/ship{
-	bound_height = 64;
-	bound_width = 32;
-	dir = 4;
-	name = "Bridge";
-	pixel_x = -32;
-	req_one_access_txt = "19"
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
+	},
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "Bridge";
+	req_access_txt = "19"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
@@ -38148,19 +38133,15 @@
 /area/medical/nsv/psychology)
 "srF" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/machinery/door/airlock/glass_large/ship{
-	bound_height = 64;
-	bound_width = 32;
-	dir = 4;
-	name = "Bridge";
-	pixel_x = -32;
-	req_one_access_txt = "19"
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
+	},
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "Bridge";
+	req_access_txt = "19"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
@@ -39463,14 +39444,6 @@
 /area/nsv/weapons/ordnance)
 "sTL" = (
 /obj/effect/turf_decal/stripes/line,
-/obj/machinery/door/airlock/glass_large/ship{
-	bound_height = 64;
-	bound_width = 32;
-	dir = 4;
-	name = "Pilot Ready Room";
-	pixel_x = -32;
-	req_access_txt = "69"
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
@@ -39479,6 +39452,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/glass{
+	req_access_txt = "69"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
@@ -41473,6 +41449,9 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 8
+	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "tWA" = (
@@ -42933,19 +42912,14 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/nsv/officerquarters)
 "uHH" = (
-/obj/machinery/door/airlock/glass_large/ship{
-	bound_height = 64;
-	bound_width = 32;
-	dir = 4;
-	name = "Pilot Lounge";
-	pixel_x = -32;
-	req_access_txt = "69"
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/glass{
+	req_access_txt = "69"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
@@ -44766,6 +44740,9 @@
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment,
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame1/starboard)
 "vvQ" = (
@@ -45704,6 +45681,9 @@
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame1/starboard)
 "vVh" = (
@@ -46517,6 +46497,9 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard/aft)
 "wpl" = (
@@ -46763,9 +46746,6 @@
 /turf/open/floor/plating,
 /area/maintenance/department/security/brig)
 "wtO" = (
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/nsv/hanger)
@@ -49753,6 +49733,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/glass{
+	req_access_txt = "69"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
@@ -73534,9 +73517,9 @@ lNe
 wKy
 xLA
 qai
-xLA
-bXz
 fYL
+bXz
+eUG
 vqn
 pEI
 hGl
@@ -80521,7 +80504,7 @@ pHS
 xMZ
 rDb
 eDB
-hRN
+efk
 xMZ
 xMZ
 kLp
@@ -95902,7 +95885,7 @@ kgN
 qBa
 eEY
 ohM
-pko
+srF
 pnr
 xHD
 qjw
