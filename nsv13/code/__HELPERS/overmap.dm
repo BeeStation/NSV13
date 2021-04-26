@@ -7,7 +7,7 @@
 			return SL.linked_overmap
 	return FALSE
 
-/atom/proc/shares_overmap(atom/A, atom/B)
+/proc/shares_overmap(atom/A, atom/B)
 	return A.get_overmap() == B.get_overmap()
 
 /**
