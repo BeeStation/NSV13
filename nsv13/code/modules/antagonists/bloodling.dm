@@ -976,6 +976,10 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	maxbodytemp = 1500
 	ventcrawler = TRUE
 
+/mob/living/simple_animal/bloodling_minion/Initialize()
+	. = ..()
+	name = "[name] ([rand(0,1000)])"
+
 /mob/living/simple_animal/bloodling_minion/UnarmedAttack(atom/A)
 	if(istype(A, /obj/structure/ladder))
 		return A.attack_paw(src)
