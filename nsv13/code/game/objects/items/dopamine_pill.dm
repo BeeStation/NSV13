@@ -11,11 +11,10 @@
 	color = "#DCDCFF"
 
 /datum/reagent/medicine/dopamine/on_mob_life(mob/living/carbon/C)
-	if ( !GLOB.crew_transfer_risa ) {
+	if (!GLOB.crew_transfer_risa)
 		priority_announce("[station_name()] has successfully returned to Outpost 45 for resupply and crew transfer, excellent work crew.", "Naval Command")
 		GLOB.crew_transfer_risa = TRUE
 		SSticker.mode.check_finished()
-	}
 	..()
 
 // /datum/chemical_reaction/dopamine
