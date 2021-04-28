@@ -18,13 +18,16 @@ SUBSYSTEM_DEF(job)
 
 	var/spare_id_safe_code = ""
 
+	//NSV13 - rearranged CoC, renamed HoP to XO, added MAA
+	// Cap > XO > HoS > MAA > CE > CMO > RD
 	var/list/chain_of_command = list(
 		"Captain" = 1,				//Not used yet but captain is first in chain_of_command
-		"Head of Personnel" = 2,
-		"Research Director" = 3,
-		"Chief Engineer" = 4,
-		"Chief Medical Officer" = 5,
-		"Head of Security" = 6)
+		"Executive Officer" = 2,	//NSV13 - renamed HoP to XO
+		"Head of Security" = 3,
+		"Master At Arms" = 4,
+		"Chief Engineer" = 5,
+		"Chief Medical Officer" = 6,
+		"Research Director" = 7)
 
 /datum/controller/subsystem/job/Initialize(timeofday)
 	SSmapping.HACK_LoadMapConfig()
@@ -482,6 +485,7 @@ SUBSYSTEM_DEF(job)
 			to_chat(M, "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>")
 		if(CONFIG_GET(number/minimal_access_threshold))
 			to_chat(M, "<span class='notice'><B>As this station was initially staffed with a [CONFIG_GET(flag/jobs_have_minimal_access) ? "full crew, only your job's necessities" : "skeleton crew, additional access may"] have been added to your ID card.</B></span>")
+		to_chat(M, "<b>New to your job? Visit the <a href='https://nsv.beestation13.com/mediawiki2/index.php?search=[rank]'>[rank] wiki page</a> for more info!")
 	if(ishuman(living_mob))
 		var/mob/living/carbon/human/wageslave = living_mob
 		living_mob.add_memory("Your account ID is [wageslave.account_id].")

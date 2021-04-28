@@ -51,9 +51,9 @@ Repair
 	sprite_size = 32
 	damage_states = TRUE
 	faction = "nanotrasen"
-	max_integrity = 200 //Really really squishy!
-	forward_maxthrust = 5
-	backward_maxthrust = 5
+	max_integrity = 250 //Really really squishy!
+	forward_maxthrust = 3.5
+	backward_maxthrust = 3.5
 	side_maxthrust = 4
 	max_angular_acceleration = 180
 	torpedoes = 0

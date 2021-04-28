@@ -5,39 +5,24 @@
 	name = "bluespace artillery generator (Machine Board)"
 	icon_state = "command"
 	build_path = /obj/machinery/bsa/back //No freebies!
-	//Nsv13 - Buffed the hell out of these costs, as BSA is actually useful now.
 	req_components = list(
-		/obj/item/stock_parts/capacitor/quadratic = 10,
-		/obj/item/stack/sheet/mineral/copper = 20,
-		/obj/item/stack/sheet/mineral/gold = 10,
-		/obj/item/stock_parts/cell/bluespace = 10,
+		/obj/item/stock_parts/capacitor/quadratic = 5,
 		/obj/item/stack/cable_coil = 2)
 
 /obj/item/circuitboard/machine/bsa/middle
 	name = "bluespace artillery fusor (Machine Board)"
 	icon_state = "command"
 	build_path = /obj/machinery/bsa/middle
-	//Nsv13 - Buffed the hell out of these costs, as BSA is actually useful now.
 	req_components = list(
-		/obj/item/stack/ore/bluespace_crystal = 40,
-		/obj/item/stock_parts/capacitor/quadratic = 15,
-		/obj/item/stack/sheet/mineral/copper = 20,
-		/obj/item/stack/sheet/mineral/gold = 10,
-		/obj/item/ship_weapon/parts/loading_tray = 1,
+		/obj/item/stack/ore/bluespace_crystal = 20,
 		/obj/item/stack/cable_coil = 2)
 
 /obj/item/circuitboard/machine/bsa/front
 	name = "bluespace artillery bore (Machine Board)"
 	icon_state = "command"
 	build_path = /obj/machinery/bsa/front
-	//Nsv13 - Buffed the hell out of these costs, as BSA is actually useful now.
 	req_components = list(
-		/obj/item/stock_parts/manipulator/femto = 10,
-		/obj/item/stack/sheet/mineral/copper = 20,
-		/obj/item/stack/sheet/mineral/gold = 10,
-		/obj/item/ship_weapon/parts/railgun_rail = 1,
-		/obj/item/ship_weapon/parts/mac_barrel = 1,
-		/obj/item/ship_weapon/parts/firing_electronics = 1,
+		/obj/item/stock_parts/manipulator/femto = 5,
 		/obj/item/stack/cable_coil = 2)
 
 /obj/item/circuitboard/machine/dna_vault

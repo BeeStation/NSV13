@@ -64,7 +64,7 @@
 	var/desired_angle = null // set by pilot moving his mouse
 	var/angular_velocity = 0 // degrees per second
 	var/max_angular_acceleration = 180 // in degrees per second per second
-	var/speed_limit = 2.5 //Stops ships from going too damn fast. This can be overridden by things like fighters launching from tubes, so it's not a const.
+	var/speed_limit = 3.5 //Stops ships from going too damn fast. This can be overridden by things like fighters launching from tubes, so it's not a const.
 	var/last_thrust_forward = 0
 	var/last_thrust_right = 0
 	var/last_rotate = 0
@@ -320,6 +320,14 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			bounce_factor = 0.65 //Throw your weight around more, though!
 			lateral_bounce_factor = 0.5
 
+		if(MASS_MEDIUM_LARGE)
+			forward_maxthrust = 0.65
+			backward_maxthrust = 0.45
+			side_maxthrust = 0.35
+			max_angular_acceleration = 7.5
+			bounce_factor = 0.65 //Throw your weight around more, though!
+			lateral_bounce_factor = 0.5
+
 		//Weightey ships, much harder to steer, generally less responsive. You'll need to use boost tactically.
 		if(MASS_LARGE)
 			forward_maxthrust = 0.45
@@ -334,11 +342,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		//Supercapitals are EXTREMELY hard to move, you'll find that they fight your every command, it's a side-effect of their immense power.
 		if(MASS_TITAN)
 			forward_maxthrust = 0.25
-			backward_maxthrust = 0.15
-			side_maxthrust = 0.15
-			max_angular_acceleration = 3
-			bounce_factor = 0.85 // But nothing can really stop you in your tracks.
-			lateral_bounce_factor = 0.85
+			backward_maxthrust = 0.10
+			side_maxthrust = 0.10
+			max_angular_acceleration = 2.75
+			bounce_factor = 0.95 // But nothing can really stop you in your tracks.
+			lateral_bounce_factor = 0.95
 			//If we've not already got a special flak battery amount set.
 			if(flak_battery_amount <= 0)
 				flak_battery_amount = 2
@@ -437,7 +445,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(weapon_safety)
 		return FALSE
-	if(target == src || istype(target, /obj/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["shift"])
+	if(target == src || istype(target, /atom/movable/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["shift"])
 		return FALSE
 	if(locate(user) in gauss_gunners) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
 		var/datum/component/overmap_gunning/user_gun = user.GetComponent(/datum/component/overmap_gunning)

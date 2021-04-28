@@ -72,8 +72,8 @@
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
 	mass = MASS_SMALL
-	bound_height = 64
-	bound_width = 64
+	bound_height = 96
+	bound_width = 96
 	sprite_size = 48
 	damage_states = FALSE
 	obj_integrity = 500
@@ -103,8 +103,8 @@
 	name = "Thermonuclear destroyer"
 	icon = 'nsv13/icons/overmap/new/syndicate/nuke_frigate.dmi'
 	icon_state = "megamouth"
-	bound_height = 128
-	bound_width = 128
+	bound_height = 160
+	bound_width = 160
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
 	obj_integrity = 1500
 	max_integrity = 1500 //Max health
@@ -130,8 +130,8 @@
 	name = "Hammerhead class missile destroyer"
 	icon = 'nsv13/icons/overmap/new/syndicate/destroyer.dmi'
 	icon_state = "hammerhead_flak"
-	bound_height = 64
-	bound_width = 64
+	bound_height = 96
+	bound_width = 96
 	mass = MASS_MEDIUM
 	obj_integrity = 700
 	max_integrity = 700
@@ -166,8 +166,8 @@
 	name = "Barracuda class tactical cruiser"
 	icon = 'nsv13/icons/overmap/new/syndicate/cruiser.dmi'
 	icon_state = "barracuda_flak"
-	bound_height = 96
-	bound_width = 96
+	bound_height = 128
+	bound_width = 128
 	mass = MASS_LARGE
 	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
 	obj_integrity = 1250
@@ -196,8 +196,8 @@
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter)
 	sprite_size = 48
 	damage_states = FALSE
-	bound_height = 96
-	bound_width = 96
+	bound_height = 128
+	bound_width = 128
 	obj_integrity = 1500
 	max_integrity = 1500 //Tanky so that it can survive to deploy multiple fighter waves.
 	integrity_failure = 1500
@@ -280,8 +280,8 @@
 	missiles = 5 //It's able to do basic anti-air when not able to find a good boarding target.
 	ai_trait = list(AI_TRAIT_ANTI_FIGHTER, AI_TRAIT_BOARDER) //It likes to go after fighters really
 	speed_limit = 4 //So we have at least a chance of getting within boarding range.
-	bound_height = 64
-	bound_width = 64
+	bound_height = 96
+	bound_width = 96
 	damage_states = FALSE
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher	//Cruiser subtype, called frigate? Guess it gets the combat dice inbetween both.
 
@@ -301,8 +301,8 @@
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = TRUE
-	bound_width = 128
-	bound_height = 128
+	bound_width = 160
+	bound_height = 160
 	obj_integrity = 700
 	max_integrity = 700 //Max health
 	integrity_failure = 700
@@ -331,8 +331,8 @@
 	sprite_size = 48
 	obj_integrity = 700
 	max_integrity = 700 //Max health
-	bound_height = 96
-	bound_width = 96
+	bound_height = 128
+	bound_width = 128
 	integrity_failure = 700
 	missiles = 10
 	torpedoes = 10 //Torp boat!

@@ -111,6 +111,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
 
+#define RELEASE_PRESSURE ONE_ATMOSPHERE
+
 /obj/structure/overmap/proc/slowprocess()
 	set waitfor = FALSE
 	//SS Crit Timer
@@ -125,9 +127,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
 	if(internal_tank && cabin_air)
 		var/datum/gas_mixture/tank_air = internal_tank.return_air()
-		var/release_pressure = ONE_ATMOSPHERE
 		var/cabin_pressure = cabin_air.return_pressure()
-		var/pressure_delta = min(release_pressure - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
+		var/pressure_delta = min(RELEASE_PRESSURE - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
 		var/transfer_moles = 0
 		if(pressure_delta > 0) //cabin pressure lower than release pressure
 			if(tank_air.return_temperature() > 0)
@@ -137,7 +138,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		else if(pressure_delta < 0) //cabin pressure higher than release pressure
 			var/turf/T = get_center()
 			var/datum/gas_mixture/t_air = T.return_air()
-			pressure_delta = cabin_pressure - release_pressure
+			pressure_delta = cabin_pressure - RELEASE_PRESSURE
 			if(t_air)
 				pressure_delta = min(cabin_pressure - t_air.return_pressure(), pressure_delta)
 			if(pressure_delta > 0) //if location pressure is lower than cabin pressure
@@ -147,6 +148,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 					T.assume_air(removed)
 				else //just delete the cabin gas, we're in space or some shit
 					qdel(removed)
+
+#undef RELEASE_PRESSURE
 
 /obj/structure/overmap/process()
 	set waitfor = FALSE
@@ -255,8 +258,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 				last_thrust_right = -side_maxthrust
 
 	//Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
-	velocity.x = max(min(velocity.x, speed_limit), -speed_limit)
-	velocity.y = max(min(velocity.y, speed_limit), -speed_limit)
+	velocity.x = clamp(velocity.x, -speed_limit, speed_limit)
+	velocity.y = clamp(velocity.y, -speed_limit, speed_limit)
 
 	velocity.x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
 	velocity.y += thrust_y * time
@@ -444,15 +447,12 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		src.velocity._set(new_src_vel_x, new_src_vel_y)
 		other.velocity._set(new_other_vel_x, new_other_vel_y)
 
-		var/bonk = velocity.ln() //How much we got bonked
-		var/bonk2 = other.velocity.ln() //Vs how much they got bonked
+		var/bonk = src_vel_mag//How much we got bonked
+		var/bonk2 = other_vel_mag //Vs how much they got bonked
 		//Prevent ultra spam.
 		if(!impact_sound_cooldown && (bonk > 2 || bonk2 > 2))
-			bonk *= 7 //The rammer gets an innate penalty, to discourage ramming metas.
+			bonk *= 5 //The rammer gets an innate penalty, to discourage ramming metas.
 			bonk2 *= 5
-			//message_admins("Us: [bonk], Them: [bonk2]")
-			//take_damage(bonk, BRUTE, "melee", TRUE)
-			//other.take_damage(bonk2, BRUTE, "melee", TRUE)
 			take_quadrant_hit(bonk, projectile_quadrant_impact(other)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
 			other.take_quadrant_hit(bonk2, projectile_quadrant_impact(src)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
 

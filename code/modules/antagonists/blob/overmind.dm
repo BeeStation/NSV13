@@ -238,9 +238,9 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 
 	var/message_a = say_quote(message)
 	var/rendered = "<span class='big'><font color=\"#EE4000\"><b>\[Blob Telepathy\] [name](<font color=\"[blobstrain.color]\">[blobstrain.name]</font>)</b> [message_a]</font></span>"
-
 	for(var/mob/M in GLOB.mob_list)
-		if(isovermind(M) || istype(M, /mob/living/simple_animal/hostile/blob))
+		var/datum/component/bloodling/B = M.GetComponent(/datum/component/bloodling) //NSV13: Allows the bloodling to hear blob-comms...
+		if((B && B.can_blob_talk) || isovermind(M) || istype(M, /mob/living/simple_animal/hostile/blob))
 			to_chat(M, rendered)
 		if(isobserver(M))
 			var/link = FOLLOW_LINK(M, src)

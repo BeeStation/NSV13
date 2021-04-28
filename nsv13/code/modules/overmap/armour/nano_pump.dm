@@ -226,7 +226,7 @@
 /obj/machinery/armour_plating_nanorepair_pump/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	if(!in_range(src, usr))
+	if(!(in_range(src, usr) | IsAdminGhost(usr)))
 		return
 	var/adjust = text2num(params["adjust"])
 	if(action == "armour_allocation")
