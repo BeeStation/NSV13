@@ -175,6 +175,15 @@ GLOBAL_LIST_INIT(hardcoded_gases, list(/datum/gas/oxygen, /datum/gas/nitrogen, /
 	dangerous = TRUE
 	rarity = 2000
 
+/datum/gas/frameshifted_plasma //NSV13
+	id = "frameshifted_plasma"
+	specific_heat = 1
+	name = "Frameshifted plasma"
+	gas_overlay = "frameshited_plasma"
+	moles_visible = MOLES_GAS_VISIBLE
+	dangerous = TRUE
+	rarity = 2500
+
 /obj/effect/overlay/gas
 	icon = 'icons/effects/atmospherics.dmi'
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
