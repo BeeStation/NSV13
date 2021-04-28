@@ -397,10 +397,7 @@ That's it, ok bye!
 					playsound(karmics_victim.loc, 'nsv13/sound/effects/lift/bonk.ogg', 100)
 				if(HAS_TRAIT(karmics_victim, TRAIT_SEASICK)) //oh my god you poor soul
 					to_chat(karmics_victim, "<span class='warning'>You can feel your head start to swim...</span>")
-					if(prob(40))
-						karmics_victim.adjust_disgust(20)
-					else
-						karmics_victim.adjust_disgust(10)
+					karmics_victim.adjust_disgust(100)
 		sleep(start_delay) //Sound time!
 		for(var/mob/M in get_area(src))
 			SEND_SOUND(M, sound(turbolift_loop_sound, repeat = TRUE, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))
