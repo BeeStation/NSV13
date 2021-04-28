@@ -117,6 +117,66 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 		theGame.nuke_team = L.nuke_team
 	return TRUE
 
+//Syndicate ID card that isn't the agent card for the crew
+/obj/item/card/id/syndi_crew
+	name = "Syndicate ID Card"
+	icon_state = "syndicate"
+	item_state = "syndicate_id"
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE)
+	assignment = "Crew"
+
+/obj/item/card/id/syndi_crew/captain
+	name = "Captain's ID"
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_LEADER, ACCESS_SYNDICATE_ENGINEERING, ACCESS_SYNDICATE_REQUISITIONS, ACCESS_SYNDICATE_MARINE_ARMOURY)
+	assignment = "Captain"
+
+/obj/item/card/id/syndi_crew/admiral
+	name = "Strategist's ID"
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_LEADER, ACCESS_SYNDICATE_ENGINEERING, ACCESS_SYNDICATE_REQUISITIONS, ACCESS_SYNDICATE_MARINE_ARMOURY)
+	assignment = "Strategist"
+
+/obj/item/card/id/syndi_crew/requisitions_officer
+	name = "Requisitions Officer's ID"
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_REQUISITIONS)
+	assignment = "Requisitions Officer"
+
+/obj/item/card/id/syndi_crew/bridge
+	name = "Bridge Crew's ID"
+	assignment = "Bridge Crew"
+
+/obj/item/card/id/syndi_crew/technician
+	name = "Ship Technician's ID"
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_ENGINEERING)
+	assignment = "Ship Technician"
+
+/obj/item/card/id/syndi_crew/cag
+	name = "Commander Air Group's ID"
+	assignment = "Commander Air Group"
+
+/obj/item/card/id/syndi_crew/pilot
+	name = "Pilot's ID"
+	assignment = "Pilot"
+
+/obj/item/card/id/syndi_crew/marine_sergeant
+	name = "Marine Sergeant's ID"
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_MARINE_ARMOURY)
+
+/obj/item/card/id/syndi_crew/chef
+	name = "Line Cook's ID"
+	assignment = "Line Cook"
+
+/obj/item/card/id/syndi_crew/marine
+	name = "Marine's ID"
+	assignment = "Marine"
+
+//Syndicate crew outfits
+
+/datum/outfit/syndicate/no_crystals/syndi_crew/post_equip(mob/living/carbon/human/H)
+	H.faction += "Syndicate"
+	var/obj/item/card/id/W = H.wear_id
+	W.registered_name = H.real_name
+	W.update_label()
+
 /datum/antagonist/nukeop/leader/syndi_crew
 	name = "Syndicate captain"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew/leader
@@ -124,7 +184,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 /datum/outfit/syndicate/no_crystals/syndi_crew/leader
 	name = "Syndicate Captain"
-	id = /obj/item/card/id/syndicate/nuke_leader
+	id = /obj/item/card/id/syndi_crew/captain
 	r_hand = /obj/item/ship_loadout_selector
 	gloves = /obj/item/clothing/gloves/krav_maga/combatglovesplus
 	neck = /obj/item/clothing/neck/cloak/syndcap
@@ -178,7 +238,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	shoes = /obj/item/clothing/shoes/combat/swat
 	backpack_contents = list(/obj/item/storage/box/survival=1,/obj/item/clipboard=1,/obj/item/ammo_box/shotgun_lethal=3)
 	command_radio = TRUE
-	id = /obj/item/card/id/syndicate/nuke_leader
+	id = /obj/item/card/id/syndi_crew/admiral
 
 /datum/antagonist/nukeop/syndi_crew/strategist/greet()
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
@@ -210,13 +270,8 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	gloves = /obj/item/clothing/gloves/combat
 	belt = /obj/item/storage/belt/utility/full/engi
 	uniform = /obj/item/clothing/under/ship/syndicate_tech
-	id = /obj/item/card/id/syndicate/requisitions_officer
+	id = /obj/item/card/id/syndi_crew/requisitions_officer
 	l_pocket = /obj/item/card/id/departmental_budget/syndicate
-
-//Keeps the plebs outta req
-/obj/item/card/id/syndicate/requisitions_officer/Initialize()
-	access += ACCESS_SYNDICATE_REQUISITIONS
-	. = ..()
 
 /datum/syndicate_crew_role/bridge
 	name = "Syndicate Bridge Staff"
@@ -235,6 +290,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	suit = /obj/item/clothing/suit/ship/syndicate_crew
 	uniform = /obj/item/clothing/under/suit/black
 	shoes = /obj/item/clothing/shoes/laceup
+	id = /obj/item/card/id/syndi_crew/bridge
 
 /datum/syndicate_crew_role/technician
 	name = "Syndicate Technician"
@@ -254,11 +310,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	gloves = /obj/item/clothing/gloves/combat
 	belt = /obj/item/storage/belt/utility/full/engi
 	uniform = /obj/item/clothing/under/ship/syndicate_tech
-	id = /obj/item/card/id/syndicate/technician
-//Keeps the plebs outta engi
-/obj/item/card/id/syndicate/technician/Initialize()
-	access += ACCESS_SYNDICATE_ENGINEERING
-	. = ..()
+	id = /obj/item/card/id/syndi_crew/technician
 
 /datum/syndicate_crew_role/cag
 	name = "Syndicate CAG"
@@ -276,6 +328,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	glasses = /obj/item/clothing/glasses/sunglasses
 	suit = /obj/item/clothing/suit/ship/syndicate_crew
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
+	id = /obj/item/card/id/syndi_crew/cag
 
 /datum/syndicate_crew_role/pilot
 	name = "Syndicate Fighter Pilot"
@@ -293,6 +346,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	head = /obj/item/clothing/head/HoS/beret/syndicate
 	suit = /obj/item/clothing/suit/ship/syndicate_crew
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
+	id = /obj/item/card/id/syndi_crew/pilot
 
 /datum/syndicate_crew_role/sergeant
 	name = "Syndicate Marine Sergeant"
@@ -310,11 +364,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	mask = /obj/item/clothing/mask/gas/syndicate
 	suit = /obj/item/clothing/suit/space/hardsuit/syndi/elite
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
-	id = /obj/item/card/id/syndicate/marine_sergeant
-
-/obj/item/card/id/syndicate/marine_sergeant/Initialize()
-	access += ACCESS_SYNDICATE_MARINE_ARMOURY
-	. = ..()
+	id = /obj/item/card/id/syndi_crew/marine_sergeant
 
 /datum/syndicate_crew_role/clown
 	name = "Syndicate Clown"
@@ -352,6 +402,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	head = /obj/item/clothing/head/chefhat
 	suit = /obj/item/clothing/suit/ship/syndicate_crew
 	uniform = /obj/item/clothing/under/rank/civilian/chef
+	id = /obj/item/card/id/syndi_crew/chef
 
 /datum/syndicate_crew_role/marine
 	name = "Autofill"
@@ -380,6 +431,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	mask = /obj/item/clothing/mask/gas/syndicate
 	suit = /obj/item/clothing/head/helmet/space/syndicate/odst/marine
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
+	id = /obj/item/card/id/syndi_crew/marine
 
 //Allows you to see faction statuses
 /mob/proc/get_stat_tab_faction()
