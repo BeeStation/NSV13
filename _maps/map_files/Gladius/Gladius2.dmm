@@ -2697,7 +2697,7 @@
 	pixel_x = 32
 	},
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "bWV" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
@@ -5122,7 +5122,7 @@
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer3{
 	dir = 9
 	},
-/obj/machinery/atmospherics/pipe/simple/yellow/visible,
+/obj/machinery/atmospherics/components/binary/valve/digital,
 /turf/open/floor/monotile/steel,
 /area/engine/atmos)
 "dxJ" = (
@@ -5521,6 +5521,19 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/gauss)
+"dIL" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer3,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 6
+	},
+/turf/open/floor/monotile/steel,
+/area/engine/atmos)
 "dIR" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -15256,6 +15269,15 @@
 	},
 /turf/open/floor/monotile/light,
 /area/crew_quarters/cryopods)
+"jcf" = (
+/obj/machinery/atmospherics/components/trinary/mixer{
+	dir = 4;
+	name = "Plasma/Constricted Plasma Selector";
+	node1_concentration = 1.0;
+	node2_concentration = 0.0
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "jcy" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
@@ -16181,7 +16203,7 @@
 	pixel_y = 32
 	},
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "jEX" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
@@ -18411,8 +18433,8 @@
 /turf/open/floor/monotile/steel,
 /area/quartermaster/office)
 "leQ" = (
-/obj/machinery/atmospherics/components/binary/valve/digital{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/yellow/visible{
+	dir = 1
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
@@ -19151,7 +19173,11 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible,
+/obj/machinery/atmospherics/components/trinary/mixer{
+	name = "Moderator and Fuel to RMBK";
+	node1_concentration = 0.8;
+	node2_concentration = 0.2
+	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "lAC" = (
@@ -21786,13 +21812,6 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "mWM" = (
-/obj/machinery/door/airlock/glass_large/ship{
-	bound_height = 64;
-	bound_width = 32;
-	dir = 4;
-	name = "Engineering Lobby";
-	pixel_x = -32
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
@@ -21802,6 +21821,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/door/airlock/ship/engineering/glass,
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
 "mWV" = (
@@ -22238,6 +22258,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/machinery/door/airlock/ship/engineering/glass,
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
 "njg" = (
@@ -23750,7 +23771,7 @@
 	piping_layer = 1
 	},
 /turf/open/floor/plasteel/grid/steel,
-/area)
+/area/engine/atmos)
 "ocl" = (
 /obj/structure/chair/stool,
 /obj/structure/disposalpipe/segment{
@@ -24965,12 +24986,7 @@
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/central)
 "oPa" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/components/trinary/mixer{
-	name = "Compressed Plastma to RMBK gas mixer"
-	},
+/obj/machinery/atmospherics/pipe/simple/multiz,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "oPK" = (
@@ -27684,7 +27700,7 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/secondary/exit/departure_lounge)
 "qnF" = (
-/obj/machinery/atmospherics/pipe/simple/yellow/visible,
+/obj/machinery/atmospherics/components/binary/valve/digital,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "qnS" = (
@@ -32193,7 +32209,7 @@
 /area/engine/atmos)
 "sMg" = (
 /obj/machinery/atmospherics/pipe/manifold/purple/visible{
-	dir = 1
+	dir = 4
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
@@ -33276,10 +33292,10 @@
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 6
-	},
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer3,
+/obj/machinery/atmospherics/pipe/manifold/purple/visible{
+	dir = 8
+	},
 /turf/open/floor/monotile/steel,
 /area/engine/atmos)
 "tpE" = (
@@ -36985,19 +37001,14 @@
 /turf/open/floor/plasteel/chapel,
 /area/chapel/main)
 "vJV" = (
-/obj/machinery/door/airlock/glass_large/ship{
-	bound_height = 64;
-	bound_width = 32;
-	dir = 4;
-	name = "Engineering";
-	pixel_x = -32;
-	req_one_access_txt = "32;19"
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/engineering/glass{
+	req_one_access_txt = "32,19"
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
@@ -39008,9 +39019,8 @@
 /obj/docking_port/stationary{
 	dir = 2;
 	dwidth = 4;
-	height = 9;
+	height = 7;
 	id = "supply_home";
-	name = "Supply Dock";
 	width = 16
 	},
 /turf/open/space/basic,
@@ -39211,6 +39221,9 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/engineering/glass{
+	req_one_access_txt = "32,19"
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
@@ -40893,6 +40906,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
+"xZD" = (
+/obj/machinery/atmospherics/pipe/simple/purple/visible,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "xZR" = (
 /turf/closed/wall/ship,
 /area/maintenance/department/cargo)
@@ -60864,7 +60884,7 @@ giB
 giB
 sYe
 giB
-giB
+dIL
 tpD
 fQx
 sex
@@ -61121,7 +61141,7 @@ nNo
 nNo
 sAK
 nNo
-nNo
+sAK
 ujx
 ujx
 nNo
@@ -61378,7 +61398,7 @@ nNo
 cFl
 dyu
 tIs
-nNo
+jcf
 sMg
 dyu
 nNo
@@ -61635,8 +61655,8 @@ rBF
 fTX
 hXE
 mWA
+xZD
 rBF
-fTX
 uYx
 eii
 cpv
@@ -61893,7 +61913,7 @@ uDh
 rBF
 mWA
 lAh
-oPa
+bRS
 bRS
 rZC
 xJc
@@ -63724,14 +63744,14 @@ pWy
 nPj
 dox
 gdU
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 gdU
 tra
 oZg
@@ -63981,14 +64001,14 @@ pWy
 fwO
 bFD
 gdU
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 gdU
 tra
 wlc
@@ -64197,7 +64217,7 @@ mSN
 fbN
 fYw
 leQ
-nNo
+oPa
 tLk
 pue
 qvI
@@ -64238,14 +64258,14 @@ unq
 lnQ
 iCW
 gdU
-aaa
+fiL
 bVV
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 aid
 tra
 wlc
@@ -64497,12 +64517,12 @@ iwq
 iwq
 iwq
 iwq
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 aid
 mkO
 orS
@@ -64755,11 +64775,11 @@ maD
 nTz
 lgO
 vgx
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
 aid
 qBT
 jhN
@@ -65011,12 +65031,12 @@ fnC
 jPo
 vIH
 cEa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 gdU
 dkt
 jhN
@@ -65268,12 +65288,12 @@ nJt
 pRK
 oxG
 cEa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 gdU
 tpd
 lJf
@@ -65525,12 +65545,12 @@ iwq
 hYK
 iwq
 iwq
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 gdU
 gdU
 cal
@@ -65784,11 +65804,11 @@ tIq
 iwq
 iwq
 iwq
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
 gdU
 jhN
 mqc
@@ -66041,11 +66061,11 @@ rkM
 wag
 kfM
 iwq
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
 gdU
 vgz
 piC
@@ -66298,11 +66318,11 @@ tbY
 kfj
 jCq
 iwq
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
 gdU
 iCW
 iCW
@@ -66556,10 +66576,10 @@ nOM
 rZw
 iwq
 iwq
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
 gdU
 gdU
 gdU
@@ -66813,17 +66833,17 @@ sRf
 kfj
 ghM
 iwq
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 gdU
 cyb
 kWz
@@ -67070,17 +67090,17 @@ hdY
 kfj
 fsU
 cEa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 gdU
 ifP
 gdU
@@ -67327,17 +67347,17 @@ uVM
 kfj
 cLK
 iwq
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 aGm
 tEm
@@ -67584,17 +67604,17 @@ nRj
 nRj
 iwq
 iwq
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 jhN
 tEm
@@ -67840,18 +67860,18 @@ keX
 qYe
 vhu
 bde
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 jhN
 tEm
@@ -68099,16 +68119,16 @@ qLH
 bde
 evA
 bde
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 jhN
 tEm
@@ -68356,16 +68376,16 @@ bdC
 vNu
 fnB
 vNu
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 dRe
 tEm
@@ -68613,16 +68633,16 @@ xFv
 bPY
 cCi
 wsA
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 jhN
 tEm
@@ -68870,16 +68890,16 @@ vhS
 bde
 bde
 bde
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 jhN
 tEm
@@ -69125,18 +69145,18 @@ jCS
 tjt
 ldV
 evA
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 jhN
 tEm
@@ -69382,18 +69402,18 @@ lVL
 tjt
 vkf
 evA
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 jhN
 tEm
@@ -69639,18 +69659,18 @@ iOf
 tjt
 uDa
 evA
-aaa
+fiL
 bVV
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 jhN
 tEm
@@ -69898,16 +69918,16 @@ cwM
 bde
 bde
 bde
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 jhN
 qBT
@@ -70156,15 +70176,15 @@ bPY
 wmF
 wsA
 wVA
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 jhN
 tEm
@@ -70412,16 +70432,16 @@ dXg
 vRV
 pqY
 vRV
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 jhN
 tEm
@@ -70669,16 +70689,16 @@ vni
 bde
 evA
 bde
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 jhN
 tEm
@@ -70924,18 +70944,18 @@ kgv
 fVI
 vqG
 bde
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 jhN
 tEm
@@ -71183,16 +71203,16 @@ lDZ
 lDZ
 lDZ
 lDZ
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 iEw
 cyb
 tEm
@@ -71440,16 +71460,16 @@ dDS
 hPm
 wmQ
 wsJ
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 gdU
 ifP
 gdU
@@ -73498,19 +73518,19 @@ smz
 kVP
 cJj
 rMC
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
 rMC
 vVj
 qQs
-aaa
-aaa
+fiL
+fiL
 qQs
 xCA
 rMC
-aaa
-aaa
+fiL
+fiL
 lDZ
 xRa
 jFg
@@ -73755,19 +73775,19 @@ rMC
 wti
 ioA
 qQs
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
 rMC
 miY
 rMC
-aaa
-aaa
+fiL
+fiL
 rMC
 miY
 rMC
 jEQ
-aaa
+fiL
 lDZ
 lDZ
 ncx
@@ -74012,20 +74032,20 @@ rMC
 mWX
 ioA
 qQs
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 rly
 tiU
 rly
@@ -74269,20 +74289,20 @@ rMC
 aEZ
 ioA
 qQs
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 lTn
 fli
 lTn
@@ -74526,20 +74546,20 @@ wOf
 wtU
 ioA
 qQs
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 lTn
 fli
 lTn
@@ -74784,19 +74804,19 @@ gJw
 iCo
 qQs
 xlz
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 lTn
 fli
 lTn
@@ -75040,20 +75060,20 @@ nWP
 wuk
 ioA
 qQs
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 lTn
 fli
 lTn
@@ -75297,20 +75317,20 @@ rMC
 wvN
 ioA
 qQs
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 lTn
 fli
 lTn
@@ -75554,20 +75574,20 @@ bAs
 spV
 ioA
 qQs
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
+fiL
 lTn
 jFg
 lTn
@@ -75811,19 +75831,19 @@ rMC
 eMI
 ioA
 qQs
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
 rMC
 hvu
 rMC
-aaa
-aaa
+fiL
+fiL
 rMC
 hvu
 rMC
 jEQ
-aaa
+fiL
 lDZ
 lDZ
 oue
@@ -76068,19 +76088,19 @@ rMC
 bJJ
 ioA
 rMC
-aaa
-aaa
-aaa
+fiL
+fiL
+fiL
 rMC
 rhj
 qQs
-aaa
-aaa
+fiL
+fiL
 qQs
 jfe
 rMC
-aaa
-aaa
+fiL
+fiL
 lDZ
 fli
 tiU
