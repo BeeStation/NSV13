@@ -108,6 +108,9 @@
 	name = "Deck 1 Starboard Aft Maintenance"
 	icon_state = "smaint"
 
+/area/maintenance/nsv/deck1/starboard/fore
+	name = "Deck 1 Starboard Fore Maintenance"
+
 /area/maintenance/nsv/deck1/aft
 	name = "Deck 1 Aft Maintenance"
 	icon_state = "amaint"
@@ -164,6 +167,10 @@
 	name = "Deck 2 Frame 2 Starboard Maintenance"
 	icon_state = "smaint"
 
+/area/maintenance/nsv/deck2/frame2/central
+	name = "Deck 2 Frame 2 Central Maintenance"
+	icon_state = "maintcentral"
+
 /area/maintenance/nsv/deck2/frame3/port
 	name = "Deck 2 Frame 3 Port Maintenence"
 	icon_state = "pmaint"
@@ -171,6 +178,10 @@
 /area/maintenance/nsv/deck2/frame3/starboard
 	name = "Deck 2 Frame 3 Starboard Maintenance"
 	icon_state = "smaint"
+
+/area/maintenance/nsv/deck2/frame3/central
+	name = "Deck 2 Frame 3 Central Maintenance"
+	icon_state = "maintcentral"
 
 /area/maintenance/nsv/deck2/frame4/port
 	name = "Deck 2 Frame 4 Port Maintenance"
@@ -180,6 +191,10 @@
 	name = "Deck 2 Frame 4 Starboard Maintenance"
 	icon_state = "smaint"
 
+/area/maintenance/nsv/deck2/frame4/central
+	name = "Deck 2 Frame 4 Central Maintenance"
+	icon_state = "maintcentral"
+
 /area/maintenance/nsv/deck2/frame5/port
 	name = "Deck 2 Frame 5 Port Maintenance"
 	icon_state = "pmaint"
@@ -187,6 +202,10 @@
 /area/maintenance/nsv/deck2/frame5/starboard
 	name = "Deck 2 Frame 5 Starboard Maintenance"
 	icon_state = "smaint"
+
+/area/maintenance/nsv/deck2/frame5/central
+	name = "Deck 2 Frame 5 Central Maintenance"
+	icon_state = "maintcentral"
 
 /area/maintenance/nsv/deck3/frame1/port
 	name = "Deck 3 Frame 1 Port Maintenance"
