@@ -165,6 +165,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		_path = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	RETURN_TYPE(/obj/structure/overmap)
 	SSmapping.add_new_zlevel("Overmap ship level [++world.maxz]", ZTRAITS_OVERMAP)
+
 	repopulate_sorted_areas()
 	smooth_zlevel(world.maxz)
 	log_game("Z-level [world.maxz] loaded for overmap treadmills.")
@@ -202,6 +203,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		if(midround)
 			overmap_lighting_force(OM)
 	}
+	SSmapping.add_new_zlevel("[OM.name] boarding reservation [++world.maxz]", ZTRAITS_BOARDABLE_SHIP)
+	OM.boarding_reservation_z = world.maxz
+	smooth_zlevel(world.maxz)
+
 	return OM
 
 /obj/weapon_overlay
