@@ -15,10 +15,14 @@
 #define PYLON_EFFICIENCY_BASE 0.05
 /// Lowest possible pylon efficiency
 #define PYLON_EFFICIENCY_MIN 65
+/// Multiplies power draw by this value every tick it remains active. Higher values will make power use increase faster
+#define PYLON_ACTIVE_EXPONENT 1.02
+
+/// how many ticks of being active are required before we start to overheat
+#define ACTIVE_TIME_WARNING 90
 
 ///FTL DRIVE PYLON///
-
-/obj/machinery/atmospherics/components/unary/ftl_drive_pylon
+/obj/machinery/atmospherics/components/binary/ftl/drive_pylon
 	name = "\improper FTL Drive Pylon"
 	desc = "Words about the spinny boy"
 	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
@@ -27,34 +31,36 @@
 	pixel_y = -16
 	density = TRUE
 	anchored = TRUE
-//	idle_power_usage = 250
-//	active_power_usage = 5000 // peak usage - this gets changed per state
-	var/shutdown_timer = null // shutdown timer, if any
-	var/targ_power_draw = 0
-	var/current_power_draw = 0
-	var/min_power_draw = 0
-	var/obj/structure/cable/C // connected cable
-	var/burn_limit = 5 // max amount of moles that can be used per tick
+	idle_power_usage = 500
+
+	var/shielded = TRUE // is the shield down?
+	var/animation_timer = null
+	var/active_time = 0 // how many ticks have we been fully active for
+	var/active_time_warning = 60
 	var/pylon_state = PYLON_STATE_OFFLINE
 	var/capacitor = 0
-	var/req_capacitor = 5 // amount of capacitor charges needed to fully spool up the pylon
-	var/debug = FALSE // disables power requirements
+	var/mol_per_capacitor = 10
+	var/max_charge_rate = 1 // amount of capacitors that can be charged per tick
+	var/req_capacitor = 5 // amount of capacitors charged
 
 
-/obj/machinery/atmospherics/components/unary/ftl_drive_pylon/process()
+/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/process()
 	if(!on)
-		pylon_state = PYLON_STATE_OFFLINE
 		return
+	if(pylon_state != PYLON_STATE_ACTIVE && capacitor >= req_capacitor)
+		pylon_state = PYLON_STATE_ACTIVE
+		update_icon()
+
 	switch(pylon_state)
 		if(PYLON_STATE_ACTIVE)
-			min_power_draw = 70000 // 70KW
-			consume_fuel()
-
-		if(PYLON_STATE_OFFLINE) //here we begin the startup proceedure
-			min_power_draw = 250
+			min_power_draw = round(min_power_draw * PYLON_ACTIVE_EXPONENT + 300) // Active pylons slowly but exponentially require more charge to stay stable. Don't leave them on when you don't need to
+			active_time++
+		if(PYLON_STATE_OFFLINE)
+			min_power_draw = 200
 
 		if(PYLON_STATE_STARTING) //pop the lid
-			min_power_draw = 500
+			min_power_draw = 5000
+			update_icon()
 
 		if(PYLON_STATE_WARMUP) //start the spin
 			var/datum/gas_mixture/air1 = airs[1]
@@ -70,75 +76,72 @@
 				var/datum/effect_system/spark_spread/S = new /datum/effect_system/spark_spread
 				S.set_up(6, 0, src)
 				S.start()
-			update_icon()
-			min_power_draw = 2000
+			min_power_draw = 20000
 
 		if(PYLON_STATE_SPOOLING) //spinning intensifies
 			var/datum/gas_mixture/air1 = airs[1]
 			var/ftl_fuel = air1.get_moles(/datum/gas/frameshifted_plasma)
 			if(ftl_fuel < 0.25)
 				if(capacitor > 0)
-					capacitor--
+					capacitor -= min((1 / rand(2, 5)), capacitor)
 				else
 					pylon_state = PYLON_STATE_STARTING
 					update_icon()
 				continue
-			air1.adjust_moles(/datum/gas/frameshifted_plasma, -0.25)
-			update_icon()
 			min_power_draw = 50000 // 50KW
-			if(capacitor < req_capacitor)
-				capacitor ++
-				if(prob(30))
-					tesla_zap(src, 2,  1000)
-				update_icon()
-			else
-				pylon_state = PYLON_STATE_ACTIVE
+			air1.adjust_moles(/datum/gas/frameshifted_plasma, -0.25)
+			consume_fuel()
 
 		if(PYLON_STATE_SHUTDOWN) //halt the spinning, close the lid
 			min_power_draw = 500
-			shutdown_timer = addtimer(VARSET_CALLBACK(src, on, FALSE), 10 SECONDS)
+			active_time = 0
+			shutdown_timer = addtimer(VARSET_CALLBACK(src, pylon_state, PYLON_STATE_OFFLINE), 10 SECONDS)
 			return PROCESS_KILL
+
 	power_drain()
 
-/obj/machinery/atmospherics/components/unary/ftl_drive_pylon/proc/try_enable()
-	var/turf/T = get_turf(src)
-	C = T.get_cable_node()
-	if(!C)
-		return ENABLE_FAIL_POWER
-	on = TRUE
-	if(shutdown_timer)
-		return ENABLE_FAIL_COOLDOWN
-	START_PROCESSING(SSmachines, src)
-	return ENABLE_SUCCESS
-
-/obj/machinery/atmospherics/components/unary/ftl_drive_pylon/proc/consume_fuel()
+/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/proc/consume_fuel()
 	var/datum/gas_mixture/air1 = airs[1] // FTL fuel
-	var/input_fuel = min(air1.get_moles(/datum/gas/frameshifted_plasma), burn_limit)
 	var/grid_power = min(C.surplus(), current_power_draw)
-	if(input_fuel < 0.1 || grid_power < min_power_draw)
+	if(grid_power < min_power_draw)
 		return FALSE
-	air2.adjust_moles(/datum/gas/frameshifted_plasma, input_fuel / get_efficiency(grid_power))
-	air2.set_temperature(air1.return_temperature())
-	air1.adjust_moles(/datum/gas/nucleium, -input_fuel)
+	if(prob(30))
+		tesla_zap(src, 2,  1000)
+	var/input_fuel = min(air1.get_moles(/datum/gas/frameshifted_plasma), max_charge_rate * mol_per_capacitor)
+	capacitor += (input_fuel * get_efficiency(current_power_draw)) / mol_per_capacitor
+	air1.adjust_moles(/datum/gas/frameshifted_plasma, -input_fuel)
 	return TRUE
 
-/obj/machinery/atmospherics/components/unary/ftl_silo/proc/get_efficiency(power)
-	return max((power ** PYLON_EFFICIENCY_BASE - 1) * 100, PYLON_EFFICIENCY_MIN)
+/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/proc/toggle_shield()
+	if(timeleft(animation_timer))
+		return
+	shielded = !shielded
+	if(shielded)
+		update_icon("pylon_shield_closing")
+	else
+		update_icon("pylon_shield_opening")
 
-/obj/machinery/atmospherics/components/unary/ftl_drive_pylon/proc/power_drain()
-	if(debug)
-		return TRUE
-	var/turf/T = get_turf(src)
-	C = T.get_cable_node()
-	if(!C)
-		pylon_state = PYLON_STATE_SHUTDOWN
-		return
-	current_power_draw = max(targ_power_draw, min_power_draw)
-	if(current_power_draw > C.surplus())
-		visible_message("<span class='warning'>\The [src] lets out ghostly metallic hum as it's power light flickers.</span>")
-		pylon_state = PYLON_STATE_SHUTDOWN
-		return
-	C.add_load(current_power_draw)
+
+/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/update_icon(anim_stat)
+	cut_overlays()
+	. = list()
+	if(anim_stat)
+		. += anim_stat
+	else if(shielded) // the last frame of the shield animation is static (doesn't loop) so we only need to do this if we didn't update with an animation
+		. += "pylon_shield"
+	switch(pylon_state)
+		if(PYLON_STATE_OFFLINE)
+			. += "pylon_gyro"
+		if(PYLON_STATE_STARTING)
+			. += "pylon_gyro_on"
+		if(PYLON_STATE_SPOOLING)
+			. += "pylon_gyro_on_medium"
+		if(PYLON_STATE_ACTIVE)
+			. += "pylon_gyro_on_fast"
+			. += "pylon_arcing"
+	if(active_time > ACTIVE_TIME_WARNING)
+		. += "pylon_overheat"
+	add_overlay(.)
 
 #undef PYLON_STATE_OFFLINE
 #undef PYLON_STATE_STARTING
@@ -153,3 +156,5 @@
 
 #undef PYLON_EFFICIENCY_BASE
 #undef PYLON_EFFICIENCY_MIN
+
+#undef PYLON_ACTIVE_EXPONENT
