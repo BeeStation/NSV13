@@ -1,8 +1,10 @@
-#define AMBIENT_EFFECT_COOLDOWN 600	// The minimum amount to wait between playing ambient effects (deciseconds)
+#define AMBIENT_EFFECT_COOLDOWN 2 MINUTES	// Nsv13 - This was really just pissing me off - The minimum amount to wait between playing ambient effects. In what does it bloody look like, MINUTES.
 
 #define AMBIENT_BUZZ_VOLUME 40
 #define AMBIENT_MUSIC_VOLUME 75
 #define AMBIENT_EFFECTS_VOLUME 45
+
+#define MUSIC_THROTTLE_DELAY 7 MINUTES //Nsv13- Look, beestation, I really like robocop.ogg, but I don't want to hear it EVERY BLOODY MINUTE
 
 // Ambient sounds: buzz, effects, music
 SUBSYSTEM_DEF(ambience)
@@ -63,7 +65,8 @@ SUBSYSTEM_DEF(ambience)
 /datum/controller/subsystem/ambience/proc/update_music(mob/M) // Background music, the more OOC ambience, like eerie space music
 	var/area/A = get_area(M)
 
-	if(A.ambient_music && (M.client?.prefs.toggles & SOUND_AMBIENCE) && prob(1.25) && !M.client?.channel_in_use(CHANNEL_AMBIENT_MUSIC)) // 1/80 chance to play every second, only play while another one is not playing
+	if(A.ambient_music && (world.time >= (M.client?.music_last_played + MUSIC_THROTTLE_DELAY)) && (M.client?.prefs.toggles & SOUND_AMBIENCE) && prob(1.25) && !M.client?.channel_in_use(CHANNEL_AMBIENT_MUSIC)) // 1/80 chance to play every second, only play while another one is not playing
+		M.client.music_last_played = world.time
 		SEND_SOUND(M, sound(pick(A.ambient_music), repeat = 0, wait = 0, volume = AMBIENT_MUSIC_VOLUME, channel = CHANNEL_AMBIENT_MUSIC))
 
 

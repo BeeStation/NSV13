@@ -164,6 +164,13 @@
 /obj/machinery/light/small,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
+"aO" = (
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/turf/open/floor/plasteel/grid/techfloor,
+/area/engine/gravity_generator)
 "aS" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/machinery/door/firedoor/border_only,
@@ -1967,6 +1974,10 @@
 /obj/effect/spawner/lootdrop/glowstick,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
+"kB" = (
+/obj/effect/turf_decal/box/corners,
+/turf/open/floor/monotile/dark,
+/area/engine/gravity_generator)
 "kE" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /obj/machinery/atmospherics/components/unary/portables_connector/visible,
@@ -3167,8 +3178,10 @@
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "qC" = (
-/obj/machinery/gravity_generator/main/station,
-/turf/open/floor/monotile/dark,
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/open/floor/plasteel/grid/techfloor,
 /area/engine/gravity_generator)
 "qD" = (
 /obj/machinery/power/tracker,
@@ -3840,7 +3853,7 @@
 /area/maintenance/nsv/deck2/frame1/port)
 "tB" = (
 /obj/structure/cable{
-	icon_state = "2-4"
+	icon_state = "1-2"
 	},
 /turf/open/floor/plasteel/grid/techfloor,
 /area/engine/gravity_generator)
@@ -3862,6 +3875,12 @@
 	},
 /turf/open/floor/carpet/blue,
 /area/bridge/cic)
+"tH" = (
+/obj/machinery/airalarm/directional/west,
+/obj/machinery/teleport/hub,
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/monotile/dark,
+/area/engine/gravity_generator)
 "tI" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
@@ -4239,11 +4258,8 @@
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck1/hallway)
 "vm" = (
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable{
-	icon_state = "0-8"
-	},
-/turf/open/floor/plasteel/grid/techfloor,
+/obj/structure/fluff/bleepypanel,
+/turf/closed/wall/r_wall,
 /area/engine/gravity_generator)
 "vo" = (
 /obj/effect/turf_decal/box/red/corners{
@@ -5231,8 +5247,10 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "Ag" = (
-/obj/structure/fluff/bleepypanel,
-/turf/closed/wall/r_wall,
+/obj/effect/turf_decal/box/corners{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
 /area/engine/gravity_generator)
 "Ah" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -5701,8 +5719,10 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/hos)
 "CP" = (
-/obj/effect/turf_decal/box/corners,
-/turf/open/floor/monotile/dark,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plasteel/grid/techfloor,
 /area/engine/gravity_generator)
 "CT" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
@@ -6132,10 +6152,10 @@
 /turf/open/floor/monotile/steel,
 /area/medical/medbay)
 "EB" = (
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/effect/turf_decal/box/corners{
+	dir = 4
 	},
-/turf/open/floor/plasteel/grid/techfloor,
+/turf/open/floor/monotile/dark,
 /area/engine/gravity_generator)
 "EC" = (
 /obj/effect/landmark/start/clown,
@@ -6806,12 +6826,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
-"Ia" = (
-/obj/effect/turf_decal/box/corners{
-	dir = 4
-	},
-/turf/open/floor/monotile/dark,
-/area/engine/gravity_generator)
 "Ic" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -6942,6 +6956,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
 "IJ" = (
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/monotile/dark,
 /area/engine/gravity_generator)
 "IL" = (
@@ -7322,7 +7337,11 @@
 /area/hallway/nsv/deck1/hallway)
 "Ke" = (
 /obj/machinery/firealarm/directional/south,
-/turf/open/floor/plasteel/grid/techfloor,
+/obj/machinery/computer/teleporter{
+	dir = 4
+	},
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/monotile/dark,
 /area/engine/gravity_generator)
 "Kj" = (
 /obj/structure/cable{
@@ -7799,8 +7818,9 @@
 /turf/open/floor/plasteel/grid/techfloor,
 /area/engine/gravity_generator)
 "Mr" = (
-/obj/machinery/airalarm/directional/west,
-/turf/open/floor/plasteel/grid/techfloor,
+/obj/machinery/teleport/station,
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/monotile/dark,
 /area/engine/gravity_generator)
 "Mv" = (
 /obj/effect/turf_decal/tile/ship/green,
@@ -9675,7 +9695,7 @@
 /turf/open/floor/plasteel/grid/mono,
 /area/medical/medbay)
 "VP" = (
-/obj/effect/landmark/event_spawn,
+/obj/machinery/gravity_generator/main/station,
 /turf/open/floor/monotile/dark,
 /area/engine/gravity_generator)
 "VS" = (
@@ -9768,9 +9788,6 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "WN" = (
-/obj/effect/turf_decal/box/corners{
-	dir = 1
-	},
 /turf/open/floor/monotile/dark,
 /area/engine/gravity_generator)
 "WP" = (
@@ -35463,7 +35480,7 @@ cL
 xK
 xK
 xK
-xK
+yE
 yE
 yE
 yE
@@ -35720,12 +35737,12 @@ cL
 jv
 mK
 rS
-mK
 yE
 yE
 IP
 IP
-Ag
+vm
+tH
 Mr
 Ke
 yE
@@ -35977,12 +35994,12 @@ cL
 jv
 mK
 mK
-mK
 yE
+vm
 Ag
 WN
-IJ
 Vi
+aj
 aj
 Mq
 yE
@@ -36234,9 +36251,9 @@ cL
 jv
 mK
 mK
-mK
 yE
-Ag
+vm
+WN
 IJ
 VP
 qC
@@ -36491,13 +36508,13 @@ Cf
 jv
 mK
 mK
-mK
 yE
-Ag
-Ia
-IJ
-CP
+vm
 EB
+WN
+kB
+CP
+aj
 yz
 yE
 QJ
@@ -36748,13 +36765,13 @@ cL
 jv
 mK
 mK
-mK
 yE
 yE
 CV
 CV
 yE
-vm
+aO
+aj
 aj
 yE
 GW

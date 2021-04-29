@@ -23,17 +23,13 @@
 	if(!in_range(src, usr))
 		return
 	add_fingerprint(user)
-	if(!anchored)
-		to_chat(user, "<span class='notice'>You toggle the brakes on [src], fixing it in place.</span>")
-		anchored = TRUE
-	else
-		to_chat(user, "<span class='notice'>You toggle the brakes on [src], allowing it to move freely.</span>")
-		anchored = FALSE
+	anchored = !anchored
+	to_chat(user, "<span class='notice'>You toggle the brakes on [src], [anchored ? "fixing it in place" : "allowing it to move freely"].</span>")
 
 /obj/structure/munitions_trolley/examine(mob/user)
 	. = ..()
 	if(anchored)
-		. += "<span class='notice'>[src]'s brakes are enabled!</span>"
+		. += "<span class='notice'>\The [src]'s brakes are enabled!</span>"
 
 /obj/structure/munitions_trolley/Bumped(atom/movable/AM)
 	. = ..()
@@ -55,7 +51,7 @@
 /obj/structure/munitions_trolley/proc/load_trolley(atom/movable/A, mob/user)
 	if(amount >= max_capacity)
 		if(user)
-			to_chat(user, "<span class='warning'>[src] is fully loaded!</span>")
+			to_chat(user, "<span class='warning'>\The [src] is fully loaded!</span>")
 		return FALSE
 	if(allowed[A.type])
 		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
@@ -75,12 +71,12 @@
 /obj/structure/munitions_trolley/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	var/obj/item/ship_weapon/ammunition/A = locate(params["id"])
+	var/atom/movable/target = locate(params["id"])
 	switch(action)
 		if("unload")
-			if(!A)
+			if(!target)
 				return
-			unload_munition(A)
+			unload_munition(target)
 		if("unload_all")
 			for(var/atom/movable/AM in contents)
 				unload_munition(AM)
@@ -102,12 +98,11 @@
 	if(usr)
 		to_chat(usr, "<span class='notice'>You unload [A] from [src].</span>")
 	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-	if(istype(A, /obj/item/ship_weapon/ammunition)) //If a munition, allow them to load other munitions onto us.
+	if(allowed[A]) //If a munition, allow them to load other munitions onto us.
 		amount--
 	if(contents.len)
 		var/count = amount
-		for(var/X in contents)
-			var/atom/movable/AM = X
-			if(istype(AM, /obj/item/ship_weapon/ammunition))
+		for(var/atom/movable/AM in contents)
+			if(allowed[AM])
 				AM.pixel_y = count*5
 				count--

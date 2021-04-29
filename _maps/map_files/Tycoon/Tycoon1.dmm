@@ -6165,11 +6165,6 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "vC" = (
-/obj/effect/mapping_helpers/airlock/unres,
-/obj/machinery/door/airlock/ship/public/glass{
-	name = "Executive Officer Queue Line";
-	req_one_access_txt = "57"
-	},
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "hopqueue";
 	name = "HoP Queue Shutters"
@@ -6180,6 +6175,10 @@
 	dir = 1
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/turnstile/xo,
+/obj/effect/turf_decal/loading_area{
+	dir = 1
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "vF" = (
@@ -6902,9 +6901,6 @@
 	name = "Air traffic control pod"
 	})
 "PT" = (
-/obj/machinery/door/airlock/ship/public/glass{
-	name = "Executive Officer Queue Line"
-	},
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "hopqueue";
 	name = "HoP Queue Shutters"
@@ -6915,6 +6911,10 @@
 	dir = 1
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/turnstile/xo{
+	dir = 1
+	},
+/obj/effect/turf_decal/loading_area,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "Qx" = (

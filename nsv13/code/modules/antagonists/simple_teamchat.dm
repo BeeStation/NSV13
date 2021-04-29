@@ -160,7 +160,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 
 /datum/component/simple_teamchat/radio_dependent
 	telepathic = FALSE
-	sound_on_receipt = list('nsv13/sound/effects/radio1.ogg','nsv13/sound/effects/radio2.ogg')
+	sound_on_receipt = list('sound/effects/radio1.ogg','sound/effects/radio2.ogg')
 
 /datum/component/simple_teamchat/radio_dependent/can_message()
 	var/obj/machinery/telecomms/relay/ourBroadcaster = null
