@@ -1761,16 +1761,21 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	// Leak air if the canopy is missing or broken
 	// and air is in the cabin
 	// and the fighter's environment isn't pressurized
-	if(( (!C || (C.obj_integrity <= 0)) && ( cabin_air && (cabin_air?.total_moles() > 0) && (cabin_air.return_pressure() > loc?.return_air()?.return_pressure()) ) ))
-		var/datum/gas_mixture/removed = cabin_air.remove(5)
-		qdel(removed)
+
+	if((!C || (C.obj_integrity <= 0)) && (cabin_air && (cabin_air?.total_moles() > 0)))
+		var/datum/gas_mixture/outside_air = loc?.return_air()
+		var/outside_pressure = outside_air ? outside_air.return_pressure() : 0
+		if(outside_pressure && (cabin_air.return_pressure() > outside_pressure))
+			var/datum/gas_mixture/removed = cabin_air.remove(min(cabin_air.total_moles(), 5))
+			qdel(removed)
 	update_icon()
 
 /obj/structure/overmap/fighter/return_air()
 	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
 	if(canopy_open || !C || (C.obj_integrity <= 0))
-		return loc.return_air()
-	return cabin_air
+		. = loc.return_air()
+	else
+		. = cabin_air
 
 /obj/structure/overmap/fighter/remove_air(amount)
 	return return_air()?.remove(amount)
