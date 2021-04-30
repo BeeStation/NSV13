@@ -1764,12 +1764,12 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 /obj/structure/overmap/fighter/return_air()
 	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
-	if(canopy_open || !C)
+	if(canopy_open || !C || (C.obj_integrity <= 0))
 		return loc.return_air()
 	return cabin_air
 
 /obj/structure/overmap/fighter/remove_air(amount)
-	return cabin_air?.remove(amount)
+	return return_air()?.remove(amount)
 
 /obj/structure/overmap/fighter/return_analyzable_air()
 	return cabin_air
