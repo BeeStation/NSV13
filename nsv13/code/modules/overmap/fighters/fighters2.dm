@@ -1778,7 +1778,8 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		. = cabin_air
 
 /obj/structure/overmap/fighter/remove_air(amount)
-	return return_air()?.remove(amount)
+	var/datum/gas_mixture/air
+	. = air?.remove(amount)
 
 /obj/structure/overmap/fighter/return_analyzable_air()
 	return cabin_air
