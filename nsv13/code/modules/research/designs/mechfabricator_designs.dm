@@ -23,3 +23,12 @@
 	materials = list(/datum/material/iron=10000)
 	construction_time = 100
 	category = list("Exosuit Equipment")
+
+/datum/design/smart_foam_launcher
+	name = "Exosuit Engineering Equipment (Smart Metal Foam Launcher)"
+	id = "mech_smart_foam_launcher"
+	build_type = MECHFAB
+	build_path = /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/launcher/smart_foam
+	materials = list(/datum/material/iron=25000, datum/material/glass=5000)
+	construction_time = 200
+	category = list("Exosuit Equipment")
