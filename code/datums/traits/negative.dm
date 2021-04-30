@@ -133,7 +133,7 @@
 				heirloom_type = pick(/obj/item/pen/fountain, /obj/item/storage/pill_bottle/dice)
 			if("Chaplain")
 				heirloom_type = pick(/obj/item/toy/windupToolbox, /obj/item/reagent_containers/food/drinks/bottle/holywater)
-			if("Assistant")
+			if("Marine") //Nsv13 - Crayon eaters
 				heirloom_type = /obj/item/storage/toolbox/mechanical/old/heirloom
 			if("Barber")
 				heirloom_type = /obj/item/handmirror
@@ -146,7 +146,7 @@
 				heirloom_type = /obj/item/book/manual/wiki/security_space_law
 			if("Warden")
 				heirloom_type = /obj/item/book/manual/wiki/security_space_law
-			if("Security Officer")
+			if("Military Police") //Nsv13 - Crayon eaters & MPs
 				heirloom_type = pick(/obj/item/book/manual/wiki/security_space_law, /obj/item/clothing/head/beret/sec)
 			if("Detective")
 				heirloom_type = /obj/item/reagent_containers/food/drinks/bottle/whiskey

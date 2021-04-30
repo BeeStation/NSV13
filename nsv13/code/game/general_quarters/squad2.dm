@@ -1,0 +1,289 @@
+#define SQUAD_LEAD "Squad Leader"
+#define SQUAD_SERGEANT "Squad Sergeant"
+#define SQUAD_MARINE "Marine"
+#define SQUAD_MEDIC "Squad Medic"
+#define SQUAD_ENGI "Squad Engineer"
+#define ALL_SQUAD_ROLES list(SQUAD_LEAD, SQUAD_MEDIC, SQUAD_ENGI, SQUAD_MARINE)
+
+#define ABLE_SQUAD "Able"
+#define BAKER_SQUAD "Baker"
+#define CHARLIE_SQUAD "Charlie"
+#define DUFF_SQUAD "Duff"
+
+/**
+
+Squads, revision 2!
+
+Partial code used from TerraGov marine corps
+
+*/
+
+GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
+
+/datum/squad_manager
+	var/name = "Squad Manager"
+	var/list/squads = list()
+	var/list/specialisations = ALL_SQUAD_ROLES
+
+/datum/squad_manager/proc/get_joinable_squad(datum/job/J)
+	var/list/joinable = list()
+	for(var/datum/squad/squad in squads)
+		if(!squad.hidden)
+			if(squad.disallowed_jobs && LAZYFIND(squad.disallowed_jobs, J.type))
+				continue
+			if(squad.allowed_jobs && !LAZYFIND(squad.allowed_jobs, J.type))
+				continue
+			joinable += squad
+	return pick(joinable)
+
+/datum/squad_manager/New()
+	. = ..()
+	for(var/_type in subtypesof(/datum/squad))
+		squads += new _type()
+
+/mob/living/carbon/human
+	var/datum/squad/squad = null
+	var/squad_role = null
+	var/squad_rank = null
+
+/datum/squad
+	var/name = ""
+	var/desc = "nope"
+	var/id = null
+	var/tracking_id = null // for use with SSdirection
+	var/colour = null //colour for helmets, etc.
+	var/list/access = list() //Which special access do we grant them during GQ
+	var/hidden = FALSE //Can you join this squad by default?
+
+	//Positions...
+
+	var/mob/living/carbon/human/leader
+
+	var/list/engineers = list()
+	var/max_engineers = 1
+
+	var/list/medics = list()
+	var/max_medics = 2
+
+	var/list/sergeants = list()
+	var/max_sergeants = 2
+
+	var/list/grunts = list()
+
+	var/primary_objective = null //Text strings
+	var/secondary_objective = null
+	var/list/disallowed_jobs = list(/datum/job/captain, /datum/job/hop, /datum/job/ai, /datum/job/cyborg, /datum/job/munitions_tech, /datum/job/fighter_pilot, /datum/job/air_traffic_controller, /datum/job/warden, /datum/job/hos, /datum/job/bridge, /datum/job/flight_leader, /datum/job/military_police, /datum/job/marine)
+	var/list/allowed_jobs = null //Do you want this squad to be locked to one role?
+	var/datum/component/simple_teamchat/radio_dependent/squad/squad_channel = null
+	var/squad_channel_type
+
+/datum/squad/proc/broadcast(mob/living/carbon/human/sender, message, list/sounds)
+	squad_channel.send_message(sender, message, sounds)
+
+/datum/squad/proc/generate_channel()
+	var/stripped = replacetext(name, " Squad", "")
+	squad_channel_type = text2path("/datum/component/simple_teamchat/radio_dependent/squad/[stripped]") //This is OOP sin.
+	squad_channel = AddComponent(squad_channel_type)
+	squad_channel.squad = src
+
+//Joining squads, registering people to squads.
+
+/datum/squad/New()
+	. = ..()
+	generate_channel()
+
+/datum/squad/proc/remove_member(mob/living/carbon/human/H)
+	var/datum/atom_hud/HUD = GLOB.huds[DATA_HUD_SECURITY_BASIC]
+	HUD.remove_hud_from(H)
+	if(H == leader)
+		leader = null
+	if(LAZYFIND(engineers, H))
+		engineers -= H
+	if(LAZYFIND(medics, H))
+		medics -= H
+	if(LAZYFIND(sergeants, H))
+		sergeants -= H
+	if(LAZYFIND(grunts, H))
+		grunts -= H
+	//If we're changing into a new squad.
+	if(H.squad == src)
+		H.squad_rank = null
+		H.squad = null
+	broadcast(src,"[H.name] has been reassigned from your squad.", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
+
+/datum/squad/proc/apply_squad_rank(mob/living/carbon/human/H, rank)
+	var/Hrank = H.compose_rank(H)
+	Hrank = replacetext(Hrank, " ", "")
+	if(!check_rank_pecking_order(Hrank, rank))
+		return FALSE
+	H.squad_rank = rank //Promotion! Congrats.
+
+/datum/squad/proc/add_member(mob/living/carbon/human/H)
+	if(!ishuman(H))
+		return FALSE
+	//Check for our specialisations...
+	var/pref = H.client?.prefs?.squad_specialisation || SQUAD_MARINE
+
+	switch(pref)
+		if(SQUAD_LEAD)
+			if(!leader)
+				leader = H
+				H.squad_role = SQUAD_LEAD
+				apply_squad_rank(H, "LT") //Leftenant
+		if(SQUAD_MEDIC)
+			if(medics.len < max_medics)
+				medics += H
+				H.squad_role = SQUAD_MEDIC
+				apply_squad_rank(H, "CPL") //Corporal
+		if(SQUAD_ENGI)
+			if(engineers.len < max_engineers)
+				engineers += H
+				H.squad_role = SQUAD_ENGI
+				apply_squad_rank(H, "CPL") //Corporal
+	//They didn't get their pref :(
+	if(!H.squad_role)
+		var/my_exp = H.client?.calc_exp_type(EXP_TYPE_CREW) || 0
+		message_admins("[my_exp]")
+		if(my_exp > 1200)
+			if(sergeants.len < max_sergeants)
+				sergeants += H
+				H.squad_role = SQUAD_SERGEANT
+				apply_squad_rank(H, "SGT") //Sergeant
+		//They didn't make SGT.
+		if(!H.squad_role)
+			grunts += H
+			H.squad_role = SQUAD_MARINE
+			apply_squad_rank(H, "PVT")
+	equip(H)
+	var/blurb = "As a <b>Squad Marine</b> you are the most Junior member of any squad and are expected only to follow the orders of your superiors... \n <i>Sergeants</i>, <i>Specialists (Corporals)</i> and the <i>Squad Leader</i> all outrank you and you are expected to follow their orders."
+	switch(H.squad_role)
+		if(SQUAD_LEAD)
+			blurb = "As a <b>Squad Leader</b> you hold the rank of Lieutenant. You have authority over your squad, and are responsible for organising the squad to complete objectives set by your superiors. <i>You answer to the XO and HoS directly, and must carry out their orders.</i>"
+		if(SQUAD_MEDIC)
+			blurb = "As a <b>Squad Medic</b> you are the Squad's frontline medic and are responsible for treating the wounds of your squadmates. You answer to the <i>Squad Sergeants</i>, failing them, the <i>Squad Leader</i> directly."
+		if(SQUAD_ENGI)
+			blurb = "As a <b>Squad Engineer</b> you are responsible for breaching enemy ships during boarding, or repairing your own ship during GQ. You answer to the <i>Squad Sergeants</i>, failing them, the <i>Squad Leader</i> directly."
+		if(SQUAD_SERGEANT)
+			blurb = "As a <b>Squad Sergeant</b>, you are a seasoned veteran with command experience and thus are outranked only by the squad leader. Your experience comes with the added duty of guiding and mentoring the PFCs, however in general your duties are the same as theirs. You answer to the <i>Squad Leader</i> directly."
+
+
+	to_chat(H, "<span class='sciradio'>You are a [H.squad_role] in [name] squad! \n[desc] \n[blurb]</span>")
+
+	broadcast(src,"[H.name] has been assigned to your squad as [H.squad_role].", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
+
+/mob/living/carbon/human/proc/set_squad_hud()
+	if(squad && squad_role)
+		var/image/holder = hud_list[ID_HUD] //Todo: separate HUD layer, under job?
+		var/icon/I = icon(icon, icon_state, dir)
+		holder.pixel_y = I.Height() - world.icon_size
+		holder.icon_state = "squad_[squad.name]_[squad_role]"
+
+/datum/squad/proc/equip(mob/living/carbon/human/H)
+	var/datum/squad/oldSquad = H.squad
+	H.squad = src
+	oldSquad?.remove_member(H)
+
+	var/datum/atom_hud/HUD = GLOB.huds[DATA_HUD_SECURITY_BASIC]
+	HUD.add_hud_to(H)
+	H.set_squad_hud()
+
+	//If they're a new-spawn, give them their gear.
+	if(!oldSquad)
+		var/obj/item/storage/backpack/bag = H.get_item_by_slot(ITEM_SLOT_BACK)
+		new /obj/item/squad_pager(bag, src)
+		switch(H.squad_role)
+			if(SQUAD_LEAD)
+				new /obj/item/clothing/head/ship/squad/leader(bag, src)
+				new /obj/item/clothing/suit/ship/squad(bag, src)
+				return TRUE
+			if(SQUAD_MEDIC)
+				new /obj/item/clothing/under/ship/marine/medic(bag, src)
+			if(SQUAD_ENGI)
+				new /obj/item/clothing/under/ship/marine/engineer(bag, src)
+		new /obj/item/clothing/suit/ship/squad(bag, src)
+
+		if(prob(75))
+			new /obj/item/clothing/head/ship/squad(bag, src)
+			return TRUE
+		if(prob(25))
+			new /obj/item/clothing/head/ship/squad/colouronly/cap(bag, src)
+			return TRUE
+		new /obj/item/clothing/head/ship/squad/colouronly/headband(bag, src)
+		return TRUE
+
+/datum/job/after_spawn(mob/living/H, mob/M, latejoin = FALSE)
+	. = ..()
+	addtimer(CALLBACK(src, .proc/register_squad, H), 5 SECONDS)
+
+/datum/job/proc/register_squad(mob/living/H)
+	if(!ishuman(H))
+		return //No
+	var/datum/squad/squad = GLOB.squad_manager.get_joinable_squad(src)
+	squad?.add_member(H)
+
+
+/datum/squad/able
+	name = ABLE_SQUAD
+	desc = "Able squad is the ship's marine squad. Specialising in boarding and counter-boarding operations, Able squad marines are highly trained specialists in combat and ship operations and are expected to board + commandeer enemy ships."
+	id = ABLE_SQUAD
+	colour = "#e61919"
+	access = list(ACCESS_MUNITIONS, ACCESS_FIGHTER, ACCESS_BRIG)
+	allowed_jobs = list(/datum/job/marine)
+	disallowed_jobs = list()
+
+/datum/squad/baker
+	name = BAKER_SQUAD
+	desc = "Baker squad is the ship's reservist squad. They specialise in damage control and medical care, comprised mostly of engineering and medical specialists."
+	id = BAKER_SQUAD
+	colour = "#4148c8"
+	access = list(ACCESS_MEDICAL, ACCESS_MAINT_TUNNELS)
+	max_engineers = 4
+	max_medics = 4
+
+//Backup squads for the XO to use.
+
+/datum/squad/charlie
+	name = CHARLIE_SQUAD
+	desc = "Charlie squad is the ship's secondary marine squad. They are usually activated during highly complex boarding operations when Able becomes overcrowded."
+	id = CHARLIE_SQUAD
+	colour = "#ffc32d"
+	access = list()
+	hidden = TRUE
+
+/datum/squad/duff
+	name = DUFF_SQUAD
+	desc = "Duff squad is comprised of conscripts and deserters. While they're a band of rogues, they can be useful when munitions is understaffed."
+	id = DUFF_SQUAD
+	colour = "#c864c8"
+	access = list()
+	hidden = TRUE
+
+//Show relevent squad info on status panel.
+
+/mob/living/carbon/human/proc/get_stat_tab_squad()
+	var/list/tab_data = list()
+
+	if(!squad)
+		tab_data["Assigned Squad"] = list(
+			text = "None",
+			type = STAT_TEXT
+		)
+		return tab_data
+
+	tab_data["Assigned Squad"] = list(
+			text = "[squad.name || "Unassigned"]",
+			type = STAT_TEXT
+		)
+	tab_data["Squad Leader"] = list(
+			text = "[squad.leader || "None"]",
+			type = STAT_TEXT
+		)
+	tab_data["Primary Objective"] = list(
+			text = "[squad.primary_objective || "None"]",
+			type = STAT_TEXT
+		)
+	tab_data["Secondary Objective"] = list(
+			text = "[squad.secondary_objective || "None"]",
+			type = STAT_TEXT
+		)
+	return tab_data

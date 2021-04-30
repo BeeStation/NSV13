@@ -1,6 +1,4 @@
- //Nsv13 - Deprecated, see "military_police.dm"
-
-/datum/job/officer
+/datum/job/military_police
 	title = "Military Police"
 	flag = OFFICER
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
@@ -16,7 +14,7 @@
 	exp_requirements = 840
 	exp_type = EXP_TYPE_CREW
 
-	outfit = /datum/outfit/job/security
+	outfit = /datum/outfit/job/military_police
 
 	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_BRIG, ACCESS_COURT, ACCESS_MAINT_TUNNELS,
 					ACCESS_MECH_SECURITY, ACCESS_MORGUE, ACCESS_WEAPONS, ACCESS_FORENSICS_LOCKERS,
@@ -29,14 +27,14 @@
 
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
 
-/datum/job/officer/get_access()
+/datum/job/military_police/get_access()
 	var/list/L = list()
 	L |= ..() | check_config_for_sec_maint()
 	return L
 
 GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY))
 
-/datum/job/officer/after_spawn(mob/living/carbon/human/H, mob/M)
+/datum/job/military_police/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
 	// Assign department security
 	var/department
@@ -113,19 +111,19 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	else
 		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
 
-/datum/outfit/job/security
-	name = "Military Police"
-	jobtype = /datum/job/officer
+/datum/outfit/job/military_police
+	name = "Military Police Officer"
+	jobtype = /datum/job/military_police
 
 	belt = /obj/item/storage/belt/security/full
 	ears = /obj/item/radio/headset/headset_sec/alt
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
-	uniform = /obj/item/clothing/under/ship/peacekeeper
+	uniform = /obj/item/clothing/under/ship/military_police
 	neck = /obj/item/clothing/neck/tie/black
-	suit = /obj/item/clothing/suit/armor/vest
+	suit = /obj/item/clothing/suit/ship/squad/military_police
 	suit_store = /obj/item/gun/ballistic/automatic/pistol/glock
 	gloves = /obj/item/clothing/gloves/color/black
-	head = /obj/item/clothing/head/beret/sec/navyofficer
+	head = /obj/item/clothing/head/beret/sec
 	shoes = /obj/item/clothing/shoes/jackboots
 	l_pocket = /obj/item/restraints/handcuffs
 	r_pocket = /obj/item/assembly/flash/handheld
@@ -163,3 +161,28 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 /obj/item/radio/headset/headset_sec/alt/department/sci
 	keyslot = new /obj/item/encryptionkey/headset_sec
 	keyslot2 = new /obj/item/encryptionkey/headset_sci
+
+//Sprites courtesy of TGMC!
+/obj/item/clothing/under/ship/military_police
+	name = "military police uniform"
+	desc = "A durable uniform worn by military police officers, who enforce ship-law."
+	icon_state = "military_police"
+	item_color = "military_police"
+	item_state = "bl_suit"
+	armor = list("melee" = 20, "bullet" = 20, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
+	can_adjust = TRUE
+
+/obj/item/clothing/suit/ship/squad/military_police
+	name = "Military Police Armour"
+	desc = "A heavy-duty chestplate and shinpad combo which denotes that the user is a military police officer."
+	icon_state = "military_police"
+	item_color = "military_police"
+	w_class = 2
+	armor = list("melee" = 40, "bullet" = 50, "laser" = 15, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 35, "acid" = 50)
+	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
+	body_parts_covered = CHEST|GROIN|LEGS|FEET
+
+/obj/item/clothing/suit/ship/squad/military_police/Initialize(mapload, datum/squad/squad)
+	. = ..()
+
+	allowed = GLOB.security_vest_allowed

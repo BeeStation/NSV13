@@ -85,6 +85,15 @@
 		return
 	apply_squad(squad)
 
+/obj/item/squad_pager/equipped(mob/equipper, slot)
+	. = ..()
+	if(global_access)
+		return FALSE
+	if(ishuman(equipper))
+		var/mob/living/carbon/human/H = equipper
+		if(H.squad && H.squad != squad)
+			apply_squad(H.squad)
+
 /obj/item/squad_pager/proc/apply_squad(datum/squad/squad)
 	squad_channel?.RemoveComponent()
 	qdel(squad_channel)
@@ -111,6 +120,7 @@
 	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 	body_parts_covered = CHEST|GROIN|LEGS|FEET
+	var/datum/squad/squad = null
 
 /obj/item/clothing/head/ship/squad
 	name = "Helmet"
@@ -122,6 +132,12 @@
 	w_class = 1
 	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
+	var/datum/squad/squad = null
+
+/obj/item/clothing/head/ship/squad/leader
+	name = "Squad Lead Helmet"
+	desc = "A helmet which denotes the leader of a squad. The modern version of dead man's shoes."
+	icon_state = "squad_leader"
 
 /obj/item/clothing/neck/squad
 	name = "Lanyard"
@@ -146,27 +162,6 @@
 		new /obj/item/clothing/neck/squad(src)
 	}
 
-/obj/item/clothing/neck/squad/attack_self(mob/living/user)
-	. = ..()
-	if(!ishuman(user))
-		return
-	if(world.time < next_squad_change)
-		to_chat(user, "<span class='sciradio'>[src]'s holographics circuits are recharging.</span>")
-		return
-	var/mob/living/carbon/human/H = user
-	if(src.squad)
-		if(src.squad != H.squad)
-			var/answer = alert(usr, "Join [src.squad]?",name,"Yes","No")
-			if(answer == "Yes")
-				if(H.squad)
-					H.squad -= H
-				H.squad = squad
-				H.squad += H
-	if(H.squad)
-		apply_squad(H.squad)
-		next_squad_change = world.time + 10 SECONDS
-		to_chat(user, "<span class='notice'>Squad insignia updated. Holographic circuits recharging.</span>")
-		return
 
 //When initialized, if passed a squad already, apply its reskin.
 
@@ -177,6 +172,13 @@
 		return
 	apply_squad(squad)
 
+/obj/item/clothing/suit/ship/squad/equipped(mob/equipper, slot)
+	. = ..()
+	if(ishuman(equipper))
+		var/mob/living/carbon/human/H = equipper
+		if(H.squad && H.squad != squad)
+			apply_squad(H.squad)
+
 /obj/item/clothing/head/ship/squad/Initialize(mapload, datum/squad/squad)
 	. = ..()
 	if(!squad)
@@ -184,12 +186,12 @@
 		return
 	apply_squad(squad)
 
-/obj/item/clothing/neck/squad/Initialize(mapload, datum/squad/squad)
+/obj/item/clothing/head/ship/squad/equipped(mob/equipper, slot)
 	. = ..()
-	if(!squad)
-		addtimer(CALLBACK(src, .proc/apply_squad), 5 SECONDS)
-		return
-	apply_squad(squad)
+	if(ishuman(equipper))
+		var/mob/living/carbon/human/H = equipper
+		if(H.squad && H.squad != squad)
+			apply_squad(H.squad)
 
 //Methods to let you reskin a piece of squad clothing to whatever squad's colours you wish.
 
@@ -200,6 +202,7 @@
 			return
 		squad = user.squad
 	name = "[squad] [initial(name)]"
+	src.squad = squad
 	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)
 
 /obj/item/clothing/head/ship/squad/proc/apply_squad(datum/squad/squad)
@@ -209,6 +212,7 @@
 			return
 		squad = user.squad
 	name = "[squad] [initial(name)]"
+	src.squad = squad
 	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)
 
 /obj/item/clothing/neck/squad/proc/apply_squad(datum/squad/squad)
@@ -239,6 +243,7 @@
 			return
 		squad = user.squad
 	color = squad.colour
+	src.squad = squad
 	name = "[squad.name] [initial(name)]"
 
 //Credit to CM / TGMC for this sprite!

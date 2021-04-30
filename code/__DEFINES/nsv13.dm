@@ -2,6 +2,7 @@
 
 #define TRAIT_NODIGEST			"no_digest"
 #define TRAIT_SEASICK			"seasick"
+#define TRAIT_MARINE_METABOLISM "marine-metabolism"
 #define TRAIT_BINARY_SPEAKER	"speaks_binary"
 #define TRAIT_MUNITIONS_METABOLISM    "munitions-metabolism" //NSV13
 #define TRAIT_MUTATEIMMUNE             "mutate_immune" //NSV13 - IPCs do not get human mutations
