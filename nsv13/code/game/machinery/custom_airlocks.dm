@@ -42,7 +42,7 @@
 /obj/structure/door_assembly/ship
 	name = "airlock assembly"
 	icon = 'nsv13/icons/obj/machinery/doors/standard.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_glass.dmi'
 	icon_state = "closed"
 	glass_type = /obj/machinery/door/airlock/ship/public/glass
 	airlock_type = /obj/machinery/door/airlock/public
@@ -143,8 +143,20 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 	name = "Mining airlock"
 	color = "#b88a3d"
 
+/obj/machinery/door/airlock/ship/station/mining/glass
+	icon = 'nsv13/icons/obj/machinery/doors/station_glass.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_glass.dmi'
+	opacity = 0
+	glass = TRUE
+
 /obj/machinery/door/airlock/ship/station/research
 	name = "Research airlock"
+
+/obj/machinery/door/airlock/ship/station/research/glass
+	icon = 'nsv13/icons/obj/machinery/doors/station_glass.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_glass.dmi'
+	opacity = 0
+	glass = TRUE
 
 /obj/machinery/door/airlock/ship/hatch
 	name = "airtight hatch"
@@ -202,6 +214,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/vault/ship
 	icon = 'nsv13/icons/obj/machinery/doors/vault.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
 	desc = "A durasteel bulkhead which opens and closes. Hope you're good at hatch hopping"
 	icon_state = "closed"
 	anim_parts = "left=-10,0;right=10,0"
@@ -243,6 +256,10 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 	icon = 'nsv13/goonstation/icons/maintenance.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 
+/obj/machinery/door/airlock/ship/maintenance/glass
+	opacity = 0
+	glass = TRUE
+
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess //Default maint door if you don't want to set up departmental maint access.
 	req_one_access_txt = "12"
 
@@ -268,6 +285,10 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 	icon = 'nsv13/goonstation/icons/medical.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 
+/obj/machinery/door/airlock/ship/medical/glass
+	opacity = 0
+	glass = TRUE
+
 /obj/machinery/door/airlock/ship/security
 	name = "Brig"
 	icon = 'nsv13/goonstation/icons/security.dmi'
@@ -279,3 +300,8 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/ship/cargo
 	name = "Cargo bay"
+
+
+/obj/machinery/door/airlock/ship/cargo/glass
+	opacity = 0
+	glass = TRUE
