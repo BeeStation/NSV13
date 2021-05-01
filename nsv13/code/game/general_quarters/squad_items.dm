@@ -132,7 +132,64 @@
 	w_class = 1
 	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
+	var/has_headcam = TRUE
 	var/datum/squad/squad = null
+	var/obj/machinery/camera/builtInCamera = null
+	var/updating = FALSE //Updating the camera view? Copypasted verbatim from silicon_movement.dm
+
+/obj/item/clothing/head/ship/squad/equipped(mob/equipper, slot)
+	. = ..()
+	if(ishuman(equipper))
+		var/mob/living/carbon/human/H = equipper
+
+		if(slot && slot == ITEM_SLOT_BACKPACK)
+			on_drop(equipper)
+			return
+		if(builtInCamera && H)
+			if(H.squad)
+				builtInCamera.c_tag = "[squad.name] Squad - [H.name]"
+			else
+				builtInCamera.c_tag = "Helmet Cam - [H.name]"
+			builtInCamera.forceMove(equipper) //I hate this. But, it's necessary.
+			RegisterSignal(equipper, COMSIG_MOVABLE_MOVED, .proc/update_camera_location)
+
+		if(H.squad)
+			if(H.squad != squad)
+				apply_squad(H.squad)
+
+/obj/item/clothing/head/ship/squad/dropped(mob/user)
+	. = ..()
+	on_drop(user)
+
+/obj/item/clothing/head/ship/squad/proc/on_drop(mob/user)
+	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
+	update_camera_location(get_turf(src))
+	builtInCamera.forceMove(src) //Snap the camera back into us.
+
+/obj/item/clothing/head/ship/squad/Initialize(mapload, datum/squad/squad)
+	. = ..()
+
+	if(!builtInCamera && has_headcam)
+		builtInCamera = new (src)
+		builtInCamera.c_tag = "Helmet Cam #[rand(0,999)]"
+		builtInCamera.network = list("squad_headcam")
+		builtInCamera.internal_light = FALSE
+
+/obj/item/clothing/head/ship/squad/proc/do_camera_update(oldLoc)
+	if(!QDELETED(builtInCamera) && oldLoc != get_turf(loc))
+		GLOB.cameranet.updatePortableCamera(builtInCamera)
+	updating = FALSE
+
+#define SILICON_CAMERA_BUFFER 10
+/obj/item/clothing/head/ship/squad/proc/update_camera_location(oldLoc)
+	if(!oldLoc)
+		oldLoc = get_turf(loc)
+	oldLoc = get_turf(oldLoc)
+	if(!QDELETED(builtInCamera) && !updating)
+		updating = TRUE
+		addtimer(CALLBACK(src, .proc/do_camera_update, oldLoc), SILICON_CAMERA_BUFFER)
+#undef SILICON_CAMERA_BUFFER
+
 
 /obj/item/clothing/head/ship/squad/leader
 	name = "Squad Lead Helmet"
@@ -186,13 +243,6 @@
 		return
 	apply_squad(squad)
 
-/obj/item/clothing/head/ship/squad/equipped(mob/equipper, slot)
-	. = ..()
-	if(ishuman(equipper))
-		var/mob/living/carbon/human/H = equipper
-		if(H.squad && H.squad != squad)
-			apply_squad(H.squad)
-
 //Methods to let you reskin a piece of squad clothing to whatever squad's colours you wish.
 
 /obj/item/clothing/suit/ship/squad/proc/apply_squad(datum/squad/squad)
@@ -206,8 +256,9 @@
 	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)
 
 /obj/item/clothing/head/ship/squad/proc/apply_squad(datum/squad/squad)
+	var/mob/living/carbon/human/user = null
 	if(!squad || !istype(squad))
-		var/mob/living/carbon/human/user = (ishuman(loc)) ? loc : loc.loc //Two layers of recursion should suffice in most cases. If this fails, go see the XO to get it resprayed.
+		user = (ishuman(loc)) ? loc : loc.loc //Two layers of recursion should suffice in most cases. If this fails, go see the XO to get it resprayed.
 		if(!ishuman(user) || !user.client || !user.squad)
 			return
 		squad = user.squad
@@ -235,6 +286,7 @@
 
 //If your squad hat doesnt get stripes, but merely gets recoloured.
 /obj/item/clothing/head/ship/squad/colouronly
+	has_headcam = FALSE
 
 /obj/item/clothing/head/ship/squad/colouronly/apply_squad(datum/squad/squad)
 	if(!squad || !istype(squad))

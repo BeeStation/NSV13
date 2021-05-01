@@ -92,9 +92,74 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	. = ..()
 	generate_channel()
 
-/datum/squad/proc/remove_member(mob/living/carbon/human/H)
+/datum/hud/human
+	var/atom/movable/screen/squad_lead_finder/squad_lead_finder = null
+
+/atom/movable/screen/squad_lead_finder
+	icon = 'nsv13/icons/mob/screen_squad.dmi'
+	icon_state = "leadfinder"
+	name = "Squad Lead Locator"
+	desc = "Allows you to track your squad leader anywhere in the world!"
+	screen_loc = "EAST-1:28,CENTER-4:10"
+	var/datum/squad/squad = null
+	var/mob/user = null
+
+
+/atom/movable/screen/squad_lead_finder/examine(mob/user)
+	. = ..()
+	if(squad && squad.leader)
+		. += "<span class='warning'>Your squad leader is: [squad.leader.real_name]</span>"
+
+/atom/movable/screen/squad_lead_finder/proc/set_squad(datum/squad/squad, mob/living/user)
+	src.squad = squad
+	src.user = user
+	START_PROCESSING(SSobj, src)
+
+/atom/movable/screen/squad_lead_finder/Destroy()
+	STOP_PROCESSING(SSobj, src)
+	. = ..()
+
+/atom/movable/screen/squad_lead_finder/process()
+	cut_overlays()
+	var/mob/SL = squad?.leader || null
+	if(!SL)
+		return
+	var/turf/Q = get_turf(SL)
+	var/turf/A = get_turf(user)
+	if(Q.z != A.z) //Different Z-level.
+		return
+	var/Qdir = get_dir(user, Q)
+	var/finder_icon = "arrow" //Overlay showed when adjacent to or on top of the queen!
+	if(squad.leader == user)
+		finder_icon = "youaretheleader"
+	var/image/pointyBoi = image(src.icon, finder_icon, dir = Qdir)
+	add_overlay(pointyBoi)
+
+/datum/squad/proc/handle_hud(mob/living/carbon/human/H, add=TRUE)
 	var/datum/atom_hud/HUD = GLOB.huds[DATA_HUD_SECURITY_BASIC]
-	HUD.remove_hud_from(H)
+	var/datum/hud/human/hud_used = H.hud_used
+
+	if(add)
+		HUD.add_hud_to(H)
+		if(hud_used && !hud_used.squad_lead_finder)
+			hud_used.squad_lead_finder = new /atom/movable/screen/squad_lead_finder()
+		hud_used.squad_lead_finder.hud = hud_used
+		hud_used.squad_lead_finder.set_squad(src, H)
+		hud_used.infodisplay += hud_used.squad_lead_finder
+
+	else
+		HUD.remove_hud_from(H)
+		if(hud_used && hud_used.squad_lead_finder)
+			hud_used.infodisplay += hud_used.squad_lead_finder
+			qdel(hud_used.squad_lead_finder)
+	hud_used?.show_hud(hud_used?.hud_version)
+	H.set_squad_hud()
+
+
+
+/datum/squad/proc/remove_member(mob/living/carbon/human/H)
+	handle_hud(H, FALSE)
+
 	if(H == leader)
 		leader = null
 	if(LAZYFIND(engineers, H))
@@ -123,7 +188,6 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 		return FALSE
 	//Check for our specialisations...
 	var/pref = H.client?.prefs?.squad_specialisation || SQUAD_MARINE
-
 	switch(pref)
 		if(SQUAD_LEAD)
 			if(!leader)
@@ -155,6 +219,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			H.squad_role = SQUAD_MARINE
 			apply_squad_rank(H, "PVT")
 	equip(H)
+	handle_hud(H, TRUE)
 	var/blurb = "As a <b>Squad Marine</b> you are the most Junior member of any squad and are expected only to follow the orders of your superiors... \n <i>Sergeants</i>, <i>Specialists (Corporals)</i> and the <i>Squad Leader</i> all outrank you and you are expected to follow their orders."
 	switch(H.squad_role)
 		if(SQUAD_LEAD)
@@ -177,15 +242,19 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 		var/icon/I = icon(icon, icon_state, dir)
 		holder.pixel_y = I.Height() - world.icon_size
 		holder.icon_state = "squad_[squad.name]_[squad_role]"
+	else
+		var/image/holder = hud_list[ID_HUD]
+		var/icon/I = icon(icon, icon_state, dir)
+		holder.pixel_y = I.Height() - world.icon_size
+		holder.icon_state = "hudno_id"
+		if(wear_id?.GetID())
+			holder.icon_state = "hud[ckey(wear_id.GetJobName())]"
+		sec_hud_set_security_status()
 
 /datum/squad/proc/equip(mob/living/carbon/human/H)
 	var/datum/squad/oldSquad = H.squad
 	H.squad = src
 	oldSquad?.remove_member(H)
-
-	var/datum/atom_hud/HUD = GLOB.huds[DATA_HUD_SECURITY_BASIC]
-	HUD.add_hud_to(H)
-	H.set_squad_hud()
 
 	//If they're a new-spawn, give them their gear.
 	if(!oldSquad)
@@ -287,3 +356,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			type = STAT_TEXT
 		)
 	return tab_data
+
+/obj/machinery/computer/security/telescreen/squadcam
+	name = "Squad Helmet Cam Monitor"
+	network = list("squad_headcam")
