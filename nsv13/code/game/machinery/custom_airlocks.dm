@@ -210,6 +210,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/wood
 	icon = 'nsv13/goonstation/icons/airlock_wood.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
 	LEGACY_OVERLAYS = TRUE
 	anim_parts=""
 
