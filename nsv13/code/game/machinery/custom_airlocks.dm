@@ -269,10 +269,12 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/public
 	name = "Public airlock"
 	icon = 'nsv13/goonstation/icons/public.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 
 /obj/machinery/door/airlock/ship/public/glass
 	icon = 'nsv13/goonstation/icons/airlock_glass.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
 	opacity = 0
 	glass = TRUE
 	anim_parts = "bg=0,0;down=0,-30;fg=0,0"
@@ -286,6 +288,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/medical
 	name = "Infirmary"
 	icon = 'nsv13/goonstation/icons/medical.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 
 /obj/machinery/door/airlock/ship/medical/glass
@@ -295,6 +298,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/security
 	name = "Brig"
 	icon = 'nsv13/goonstation/icons/security.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 
 /obj/machinery/door/airlock/ship/security/glass
