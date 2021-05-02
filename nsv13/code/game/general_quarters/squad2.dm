@@ -53,6 +53,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/tracking_id = null // for use with SSdirection
 	var/colour = null //colour for helmets, etc.
 	var/list/access = list() //Which special access do we grant them during GQ
+	var/access_enabled = TRUE //Is this squad's access enabled or not?
 	var/hidden = FALSE //Can you join this squad by default?
 
 	//Positions...
@@ -77,6 +78,12 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/datum/component/simple_teamchat/radio_dependent/squad/squad_channel = null
 	var/squad_channel_type
 
+/**
+	Checks your access.
+*/
+/datum/squad/proc/GetAccess()
+	return (access_enabled) ? access : list()
+
 /datum/squad/proc/broadcast(mob/living/carbon/human/sender, message, list/sounds)
 	squad_channel.send_message(sender, message, sounds)
 
@@ -94,6 +101,12 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 /datum/hud/human
 	var/atom/movable/screen/squad_lead_finder/squad_lead_finder = null
+
+/datum/hud/human/New(mob/living/carbon/human/owner)
+	. = ..()
+	squad_lead_finder = new /atom/movable/screen/squad_lead_finder()
+	squad_lead_finder.hud = src
+	infodisplay += squad_lead_finder
 
 /atom/movable/screen/squad_lead_finder
 	icon = 'nsv13/icons/mob/screen_squad.dmi'
@@ -141,35 +154,23 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 	if(add)
 		HUD.add_hud_to(H)
-		if(hud_used && !hud_used.squad_lead_finder)
-			hud_used.squad_lead_finder = new /atom/movable/screen/squad_lead_finder()
-		hud_used.squad_lead_finder.hud = hud_used
-		hud_used.squad_lead_finder.set_squad(src, H)
-		hud_used.infodisplay += hud_used.squad_lead_finder
+
+		if(hud_used && hud_used.squad_lead_finder)
+			hud_used.squad_lead_finder.invisibility = FALSE
+			hud_used.squad_lead_finder.alpha = 255
+			hud_used.squad_lead_finder.set_squad(src, H)
 
 	else
 		HUD.remove_hud_from(H)
 		if(hud_used && hud_used.squad_lead_finder)
-			hud_used.infodisplay += hud_used.squad_lead_finder
-			qdel(hud_used.squad_lead_finder)
-	hud_used?.show_hud(hud_used?.hud_version)
+			hud_used.squad_lead_finder.invisibility = INVISIBILITY_ABSTRACT
+			hud_used.squad_lead_finder.alpha = 0
+	//hud_used?.show_hud(hud_used?.hud_version)
 	H.set_squad_hud()
-
-
 
 /datum/squad/proc/remove_member(mob/living/carbon/human/H)
 	handle_hud(H, FALSE)
-
-	if(H == leader)
-		leader = null
-	if(LAZYFIND(engineers, H))
-		engineers -= H
-	if(LAZYFIND(medics, H))
-		medics -= H
-	if(LAZYFIND(sergeants, H))
-		sergeants -= H
-	if(LAZYFIND(grunts, H))
-		grunts -= H
+	strip_role(H)
 	//If we're changing into a new squad.
 	if(H.squad == src)
 		H.squad_rank = null
@@ -183,7 +184,58 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 		return FALSE
 	H.squad_rank = rank //Promotion! Congrats.
 
-/datum/squad/proc/add_member(mob/living/carbon/human/H)
+/**
+	Strips a role from the target, if it finds them in any squad subsections, removes them.
+*/
+/datum/squad/proc/strip_role(mob/living/carbon/human/H)
+	H.squad_role = null
+	H.squad_rank = null
+	if(H == leader)
+		leader = null
+	if(LAZYFIND(engineers, H))
+		engineers -= H
+	if(LAZYFIND(medics, H))
+		medics -= H
+	if(LAZYFIND(sergeants, H))
+		sergeants -= H
+	if(LAZYFIND(grunts, H))
+		grunts -= H
+
+/datum/squad/proc/set_role(mob/living/carbon/human/H, role)
+	switch(role)
+		if(SQUAD_LEAD)
+			if(leader)
+				return FALSE
+			strip_role(H)
+			leader = H
+			H.squad_role = SQUAD_LEAD
+			apply_squad_rank(H, "LT") //Leftenant
+		if(SQUAD_MEDIC)
+			if(medics.len >= max_medics || LAZYFIND(medics, H))
+				return FALSE
+			strip_role(H)
+			medics += H
+			H.squad_role = SQUAD_MEDIC
+			apply_squad_rank(H, "CPL") //Corporal
+		if(SQUAD_ENGI)
+			if(engineers.len >= max_engineers || LAZYFIND(engineers, H))
+				return FALSE
+			strip_role(H)
+			engineers += H
+			H.squad_role = SQUAD_ENGI
+			apply_squad_rank(H, "CPL") //Corporal
+		if(SQUAD_MARINE)
+			if(LAZYFIND(grunts, H))
+				return FALSE
+			strip_role(H)
+			grunts += H
+			H.squad_role = SQUAD_MARINE
+			apply_squad_rank(H, "PVT")
+	H.set_squad_hud()
+	broadcast(src,"[H.name] has been re-assigned to [H.squad_role].", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
+
+
+/datum/squad/proc/add_member(mob/living/carbon/human/H, give_items=FALSE)
 	if(!ishuman(H))
 		return FALSE
 	//Check for our specialisations...
@@ -218,7 +270,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			grunts += H
 			H.squad_role = SQUAD_MARINE
 			apply_squad_rank(H, "PVT")
-	equip(H)
+	equip(H, give_items)
 	handle_hud(H, TRUE)
 	var/blurb = "As a <b>Squad Marine</b> you are the most Junior member of any squad and are expected only to follow the orders of your superiors... \n <i>Sergeants</i>, <i>Specialists (Corporals)</i> and the <i>Squad Leader</i> all outrank you and you are expected to follow their orders."
 	switch(H.squad_role)
@@ -251,13 +303,13 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			holder.icon_state = "hud[ckey(wear_id.GetJobName())]"
 		sec_hud_set_security_status()
 
-/datum/squad/proc/equip(mob/living/carbon/human/H)
+/datum/squad/proc/equip(mob/living/carbon/human/H, give_items)
 	var/datum/squad/oldSquad = H.squad
 	H.squad = src
 	oldSquad?.remove_member(H)
 
 	//If they're a new-spawn, give them their gear.
-	if(!oldSquad)
+	if(give_items)
 		var/obj/item/storage/backpack/bag = H.get_item_by_slot(ITEM_SLOT_BACK)
 		new /obj/item/squad_pager(bag, src)
 		switch(H.squad_role)
@@ -288,7 +340,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	if(!ishuman(H))
 		return //No
 	var/datum/squad/squad = GLOB.squad_manager.get_joinable_squad(src)
-	squad?.add_member(H)
+	squad?.add_member(H, give_items=TRUE)
 
 
 /datum/squad/able
@@ -305,7 +357,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	desc = "Baker squad is the ship's reservist squad. They specialise in damage control and medical care, comprised mostly of engineering and medical specialists."
 	id = BAKER_SQUAD
 	colour = "#4148c8"
-	access = list(ACCESS_MEDICAL, ACCESS_MAINT_TUNNELS)
+	access = list(ACCESS_MUNITIONS, ACCESS_MEDICAL, ACCESS_MAINT_TUNNELS, ACCESS_ENGINE)
 	max_engineers = 4
 	max_medics = 4
 
@@ -316,7 +368,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	desc = "Charlie squad is the ship's secondary marine squad. They are usually activated during highly complex boarding operations when Able becomes overcrowded."
 	id = CHARLIE_SQUAD
 	colour = "#ffc32d"
-	access = list()
+	access = list(ACCESS_MUNITIONS, ACCESS_FIGHTER, ACCESS_BRIG)
 	hidden = TRUE
 
 /datum/squad/duff
@@ -324,7 +376,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	desc = "Duff squad is comprised of conscripts and deserters. While they're a band of rogues, they can be useful when munitions is understaffed."
 	id = DUFF_SQUAD
 	colour = "#c864c8"
-	access = list()
+	access = list(ACCESS_MUNITIONS, ACCESS_MEDICAL, ACCESS_MAINT_TUNNELS, ACCESS_ENGINE)
 	hidden = TRUE
 
 //Show relevent squad info on status panel.

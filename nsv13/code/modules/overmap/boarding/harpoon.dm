@@ -24,7 +24,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	var/boarding_reservation_z = null //Do we have a reserved Z-level for boarding? This is set up on instance_overmap. Ships being boarded copy this value from the boarder.
 
 /obj/structure/overmap/Destroy()
-	if(boarding_interior)
+	if(boarding_interior && boarding_reservation_z)
 		var/datum/space_level/SL = SSmapping.get_level(boarding_reservation_z)
 		if(SL)
 			SL.linked_overmap = null //Free that level up.
@@ -146,7 +146,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	name = "syndicate fighter / raptor / frame spawner"
 	loot = list(
 		/obj/structure/overmap/fighter/light/syndicate = 2,
-		/obj/structure/overmap/fighter/utility/syndicate = 1,
+		/obj/structure/overmap/fighter/dropship/sabre/syndicate = 1,
 		/obj/structure/fighter_frame = 1
 )
 	lootcount = 1
@@ -155,7 +155,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	name = "nanotrasen fighter / raptor / frame spawner"
 	loot = list(
 		/obj/structure/overmap/fighter/light = 2,
-		/obj/structure/overmap/fighter/utility = 1,
+		/obj/structure/overmap/fighter/dropship/sabre = 1,
 		/obj/structure/overmap/fighter/heavy = 1,
 		/obj/structure/fighter_frame = 1
 )

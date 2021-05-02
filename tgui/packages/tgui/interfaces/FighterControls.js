@@ -94,6 +94,32 @@ export const FighterControls = (props, context) => {
               bad: [-Infinity, 0.15],
             }} />
         </Section>
+        {!!data.ftl_capable && (
+          <Section title="FTL Drive:" buttons={
+            <Fragment>
+              <Button
+                content={data.ftl_active ? "Stop Spooling" : "Begin Spooling"}
+                icon="server"
+                onClick={() => act('toggle_ftl')} />
+              <Button
+                content="Jump"
+                disabled={!data.jump_ready}
+                icon="arrow-right"
+                onClick={() => act('jump')} />
+            </Fragment>
+
+
+          }>
+            <ProgressBar
+              value={(data.ftl_spool_progress / data.ftl_spool_time * 100) * 0.01}
+              ranges={{
+                good: [0.9, Infinity],
+                average: [0.15, 0.9],
+                bad: [-Infinity, 0.15],
+              }} />
+          </Section>
+
+        )}
         <Section title="Controls:">
           <Button
             width="150px"

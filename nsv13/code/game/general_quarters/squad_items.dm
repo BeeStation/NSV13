@@ -129,7 +129,7 @@
 	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "squad"
 	item_color = null
-	w_class = 1
+	w_class = WEIGHT_CLASS_NORMAL
 	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	var/has_headcam = TRUE
@@ -147,7 +147,7 @@
 			return
 		if(builtInCamera && H)
 			if(H.squad)
-				builtInCamera.c_tag = "[squad.name] Squad - [H.name]"
+				builtInCamera.c_tag = "[squad.name] Squad - [H.name] #[rand(0,999)]"
 			else
 				builtInCamera.c_tag = "Helmet Cam - [H.name]"
 			builtInCamera.forceMove(equipper) //I hate this. But, it's necessary.

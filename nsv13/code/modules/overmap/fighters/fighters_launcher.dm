@@ -263,9 +263,9 @@
 		var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 		DC.docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(DC, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
-		resize = 1 //Scale down!
-		pixel_w = -30
-		pixel_z = -32
+		resize = resize_factor //Scale down!
+		pixel_w = flight_pixel_w
+		pixel_z = flight_pixel_z
 		bound_width = 32
 		bound_height = 32
 		if(pilot)

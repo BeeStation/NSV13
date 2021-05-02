@@ -8,66 +8,121 @@ export const SquadManager = (props, context) => {
   return (
     <Window
       resizable
-      theme="retro"
-      width={600}
+      theme="ntos"
+      width={700}
       height={800}>
       <Window.Content scrollable>
-        <Section title="Item Squad Re-assignment">
-          {Object.keys(data.items_info).map(key => {
-            let value = data.items_info[key];
-            return (
-              <Section key={key} title={value.name}>
+        {Object.keys(data.squads_info).map(key => {
+          let value = data.squads_info[key];
+          return (
+            <Section title={`${value.name}`} key={key} buttons={
+              <Fragment>
                 <Button
-                  fluid
-                  content="Eject"
-                  icon="eject"
-                  onClick={() => act('eject', { item_id: value.id })} />
+                  content="Message"
+                  icon="reply"
+                  onClick={() => act('message', { squad_id: value.id })} />
                 <Button
-                  fluid
-                  content="Repaint"
-                  icon="paint-brush"
-                  onClick={() => act('repaint', { item_id: value.id })} />
+                  content={value.primary_objective}
+                  icon="bullseye"
+                  onClick={() => act('primary_objective', { squad_id: value.id })} />
+                <Button
+                  content={value.secondary_objective}
+                  icon="dot-circle"
+                  onClick={() => act('secondary_objective', { squad_id: value.id })} />
+                <Button
+                  content={value.access_enabled ? "Rescind Bonus Access" : "Grant Bonus Access"}
+                  color={value.access_enabled ? "good" : "average"}
+                  icon="id-card"
+                  onClick={() => act('toggle_access', { squad_id: value.id })} />
+              </Fragment>
+            }>
+              <p>{value.desc}</p>
+              <Section key={key} title={value.squad_leader_name + " (SL)"} buttons={
+                <Fragment>
+                  <Button
+                    content="Reassign"
+                    icon={"user-cog"}
+                    onClick={() => act('reassign', { id: value.squad_leader_id })} />
+                  <Button
+                    content="Transfer"
+                    icon={"arrows-alt"}
+                    onClick={() => act('transfer', { id: value.squad_leader_id })} />
+                </Fragment>
+              } />
+              <Section title="Sergeants:">
+                {Object.keys(value.sergeants).map(key => {
+                  let member = value.sergeants[key];
+                  return (
+                    <Section key={key} title={member.name} buttons={
+                      <Fragment>
+                        <Button
+                          content="Reassign"
+                          icon={"user-cog"}
+                          onClick={() => act('reassign', { id: member.id })} />
+                        <Button
+                          content="Transfer"
+                          icon={"arrows-alt"}
+                          onClick={() => act('transfer', { id: member.id })} />
+                      </Fragment>
+                    } />);
+                })}
               </Section>
-            );
-          })}
-        </Section>
-        <Section title="Active Squads:">
-          {Object.keys(data.squads_info).map(key => {
-            let value = data.squads_info[key];
-            return (
-              <Fragment key={key}>
-                <Section title={`${value.name}`}>
-                  <Fragment>
-                    <Button
-                      fluid
-                      content="Message Squad"
-                      icon="reply"
-                      onClick={() => act('message', { id: value.id })} />
-                    <Button
-                      fluid
-                      content={value.squad_type}
-                      icon="tasks"
-                      onClick={() => act('retask', { id: value.id })} />
-                    <Button
-                      fluid
-                      content={value.orders}
-                      icon="bullseye"
-                      onClick={() => act('standingorders', { id: value.id })} />
-                    {Object.keys(value.members_info).map(key => {
-                      let member = value.members_info[key];
-                      return (
-                        <Fragment key={key}>
-                          <Button
-                            content={member.isLead ? member.name+" (SL)" : member.name}
-                            icon={member.isLead ? "star" : "user-cog"}
-                            onClick={() => act('reassign', { member_id: member.id })} />
-                        </Fragment>);
-                    })}
-                  </Fragment>
-                </Section>
-              </Fragment>);
-          })}
-        </Section>
+              <Section title="Engineers:">
+                {Object.keys(value.engineers).map(key => {
+                  let member = value.engineers[key];
+                  return (
+                    <Section key={key} title={member.name} buttons={
+                      <Fragment>
+                        <Button
+                          content="Reassign"
+                          icon={"user-cog"}
+                          onClick={() => act('reassign', { id: member.id })} />
+                        <Button
+                          content="Transfer"
+                          icon={"arrows-alt"}
+                          onClick={() => act('transfer', { id: member.id })} />
+                      </Fragment>
+                    } />);
+                })}
+              </Section>
+              <Section title="Medics:">
+                {Object.keys(value.medics).map(key => {
+                  let member = value.medics[key];
+                  return (
+                    <Section key={key} title={member.name} buttons={
+                      <Fragment>
+                        <Button
+                          content="Reassign"
+                          icon={"user-cog"}
+                          onClick={() => act('reassign', { id: member.id })} />
+                        <Button
+                          content="Transfer"
+                          icon={"arrows-alt"}
+                          onClick={() => act('transfer', { id: member.id })} />
+                      </Fragment>
+                    } />);
+                })}
+              </Section>
+              <Section title="Grunts:">
+                {Object.keys(value.grunts).map(key => {
+                  let member = value.grunts[key];
+                  return (
+                    <Section key={key} title={member.name} buttons={
+                      <Fragment>
+                        <Button
+                          content="Reassign"
+                          icon={"user-cog"}
+                          onClick={() => act('reassign', { id: member.id })} />
+                        <Button
+                          content="Transfer"
+                          icon={"arrows-alt"}
+                          onClick={() => act('transfer', { id: member.id })} />
+                      </Fragment>
+                    } />);
+                })}
+              </Section>
+            </Section>);
+        })}
       </Window.Content>
     </Window>
   );
