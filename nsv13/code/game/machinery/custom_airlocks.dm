@@ -1,5 +1,6 @@
 //NSV NOTE TO SELF: Ensure _all_ ship airlocks have a glass type!
 
+//TODO: gap underneath door
 /obj/machinery/door/airlock/ship
 	name = "Airtight hatch"
 	icon = 'nsv13/icons/obj/machinery/doors/standard.dmi'
@@ -12,13 +13,16 @@
 	// Coordinates are x,y movement. -x = left, +x = right, -y = down, +y = up
 
 //Failsafe for the common door type..
+//TODO: sprites
 /obj/machinery/door/airlock/ship/glass
+	icon = 'nsv13/icons/obj/machinery/doors/standard_glass.dmi'
 	icon = 'nsv13/goonstation/icons/airlock_glass.dmi'
 	opacity = 0
 	glass = TRUE
 	anim_parts = "bg=0,0;down=0,-30;fg=0,0"
 
 //So we don't have to code in specific door assemblies...
+//TODO: kill with fire
 /obj/structure/door_assembly/proc/nsv_ify(obj/machinery/door/airlock/ship/target)
 	if(!istype(target) && !istype(target, /obj/machinery/door/airlock/highsecurity/ship))
 		return
@@ -186,10 +190,12 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/command
 	name = "Command"
 	icon = 'nsv13/goonstation/icons/command.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 
 /obj/machinery/door/airlock/ship/command/glass
 	icon = 'nsv13/goonstation/icons/command_glass.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
 	opacity = 0
 	glass = TRUE
 	anim_parts = "bg=0,0;down=0,-30;fg=0,0"
@@ -233,10 +239,12 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/engineering
 	name = "Engineering wing"
 	icon = 'nsv13/goonstation/icons/engineering.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 
 /obj/machinery/door/airlock/ship/engineering/glass
 	icon = 'nsv13/goonstation/icons/engineering_glass.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
 	opacity = 0
 	glass = TRUE
 	anim_parts = "bg=0,0;down=0,-30;fg=0,0"
