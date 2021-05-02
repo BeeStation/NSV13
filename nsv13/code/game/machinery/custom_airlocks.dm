@@ -254,11 +254,13 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 
 /obj/machinery/door/airlock/ship/maintenance
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon.dmi'
 	name = "Maintenance tunnels"
 	icon = 'nsv13/goonstation/icons/maintenance.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 
 /obj/machinery/door/airlock/ship/maintenance/glass
+	icon = 'nsv13/goonstation/icons/maintenance_glass.dmi'
 	opacity = 0
 	glass = TRUE
 
