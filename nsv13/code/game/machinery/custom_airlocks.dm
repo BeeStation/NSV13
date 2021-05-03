@@ -15,7 +15,6 @@
 	// Coordinates are x,y movement. -x = left, +x = right, -y = down, +y = up
 
 //Failsafe for the common door type..
-//TODO: sprites
 /obj/machinery/door/airlock/ship/glass
 	opacity = 0
 	glass = TRUE
@@ -46,7 +45,6 @@
 	name = "airlock assembly"
 	icon = 'nsv13/icons/obj/machinery/doors/standard.dmi'
 	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_standard.dmi'
-	icon_state = "closed"
 	glass_type = /obj/machinery/door/airlock/ship/glass
 	airlock_type = /obj/machinery/door/airlock/ship
 
