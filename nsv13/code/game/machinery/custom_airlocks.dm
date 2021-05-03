@@ -139,7 +139,6 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/station/glass
 	name = "Standard airlock"
 	icon = 'nsv13/icons/obj/machinery/doors/station_glass.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_glass.dmi'
 	opacity = 0
 	glass = TRUE
 
@@ -149,7 +148,6 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/ship/station/mining/glass
 	icon = 'nsv13/icons/obj/machinery/doors/station_glass.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_glass.dmi'
 	opacity = 0
 	glass = TRUE
 
@@ -158,7 +156,6 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/ship/station/research/glass
 	icon = 'nsv13/icons/obj/machinery/doors/station_glass.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_glass.dmi'
 	opacity = 0
 	glass = TRUE
 
