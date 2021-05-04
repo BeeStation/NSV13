@@ -104,7 +104,7 @@
 		if(prob(5))
 			M.visible_message("<span class='warning'>[M] [pick("dry heaves!","coughs!","splutters!")]</span>")
 		if(prob(10))
-			var/sick_message = pick("You feel nauseous.", "You're nya't feeling so good.","You feel like your insides are melting.","You feel illsies.")
+			var/sick_message = pick("You feel nauseous.", "You're not feeling so good.","You feel like your insides are melting.","You feel ill.") //NSV13
 			to_chat(M, "<span class='notice'>[sick_message]</span>")
 		if(prob(15))
 			var/obj/item/organ/guts = pick(M.internal_organs)

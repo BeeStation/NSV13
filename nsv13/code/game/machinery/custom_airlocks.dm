@@ -1,13 +1,51 @@
+//NSV NOTE TO SELF: Ensure _all_ ship airlocks have a glass type!
+
 /obj/machinery/door/airlock/ship
 	name = "Airtight hatch"
 	icon = 'nsv13/icons/obj/machinery/doors/standard.dmi'
 	desc = "A durasteel bulkhead which opens and closes. Hope you're good at hatch hopping"
 	icon_state = "closed"
 	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
-	assemblytype = /obj/machinery/door/airlock/ship
+	assemblytype = /obj/structure/door_assembly/ship
 	anim_parts = "up=0,28;fg=0,0"
 	// These icon_states stack from bottom to top.
 	// Coordinates are x,y movement. -x = left, +x = right, -y = down, +y = up
+
+//Failsafe for the common door type..
+/obj/machinery/door/airlock/ship/glass
+	icon = 'nsv13/goonstation/icons/airlock_glass.dmi'
+	opacity = 0
+	glass = TRUE
+	anim_parts = "bg=0,0;down=0,-30;fg=0,0"
+
+//So we don't have to code in specific door assemblies...
+/obj/structure/door_assembly/proc/nsv_ify(obj/machinery/door/airlock/ship/target)
+	if(!istype(target) && !istype(target, /obj/machinery/door/airlock/highsecurity/ship))
+		return
+	icon = target.icon
+	dir = target.dir
+	if(target.icon_state)
+		icon_state = target.icon_state
+	overlays_file = target.overlays_file
+	airlock_type = target.type
+	//Lazy way of assigning glass airlocks :)
+	try
+		glass_type = text2path("[target.type]/glass")
+		//Douuuuble check that one chief.
+		if(!glass_type)
+			glass_type = /obj/structure/door_assembly/ship
+	catch(var/exception/e) //Fallback.
+		glass_type = /obj/machinery/door/airlock/ship/glass
+		pass(e)	//suppress unused warning
+		return
+
+/obj/structure/door_assembly/ship
+	name = "airlock assembly"
+	icon = 'nsv13/icons/obj/machinery/doors/standard.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
+	icon_state = "closed"
+	glass_type = /obj/machinery/door/airlock/ship/public/glass
+	airlock_type = /obj/machinery/door/airlock/public
 
 /obj/machinery/door/airlock/ship/Initialize()
 	. = ..()

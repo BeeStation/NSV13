@@ -358,10 +358,13 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 		removed = new()
 
 	damage_archived = damage
-	if(!removed || !removed.total_moles() || isspaceturf(T)) //we're in space or there is no gas to process
+
+	//NSV13 - airless areas don't cause damage
+	if(isspaceturf(T)) //we're in space
 		if(takes_damage)
 			damage += max((power / 1000) * DAMAGE_INCREASE_MULTIPLIER, 0.1) // always does at least some damage
-	else
+	else if(removed && removed.total_moles())
+	//NSV13 end
 		if(takes_damage)
 			//causing damage
 			damage = max(damage + (max(CLAMP(removed.total_moles() / 200, 0.5, 1) * removed.return_temperature() - ((T0C + HEAT_PENALTY_THRESHOLD)*dynamic_heat_resistance), 0) * mole_heat_penalty / 150 ) * DAMAGE_INCREASE_MULTIPLIER, 0)
@@ -466,7 +469,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 
 	//Transitions between one function and another, one we use for the fast inital startup, the other is used to prevent errors with fusion temperatures.
 	//Use of the second function improves the power gain imparted by using co2
-	power =  max(power - min(((power/500)**3) * powerloss_inhibitor, power * 0.83 * powerloss_inhibitor),1)
+	power =  max(power - min(((power/500)**3) * powerloss_inhibitor, power * 0.83 * powerloss_inhibitor),0) //NSV13 - changed last value from 1 to 0 to prevent unattended delam
 
 	if(power > POWER_PENALTY_THRESHOLD || damage > damage_penalty_point)
 

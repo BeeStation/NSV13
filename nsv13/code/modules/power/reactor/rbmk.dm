@@ -165,7 +165,6 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			. += msg
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/attackby(obj/item/W, mob/user, params)
-	..()
 	if(istype(W, /obj/item/fuel_rod))
 		if(power >= 20)
 			to_chat(user, "<span class='notice'>You cannot insert fuel into [src] when it has been raised above 20% power.</span>")
@@ -201,6 +200,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			vessel_integrity += 10
 			vessel_integrity = CLAMP(vessel_integrity, 0, initial(vessel_integrity))
 		return TRUE
+	return ..()
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/welder_act(mob/living/user, obj/item/I)
 	if(power >= 20)
@@ -220,15 +220,13 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 //Admin procs to mess with the reaction environment.
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/lazy_startup()
-	for(var/I=0;I<5;I++){
+	for(var/I=0;I<5;I++)
 		fuel_rods += new /obj/item/fuel_rod(src)
-	}
 	start_up()
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/deplete()
-	for(var/obj/item/fuel_rod/FR in fuel_rods){
+	for(var/obj/item/fuel_rod/FR in fuel_rods)
 		FR.depletion = 100
-	}
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/Initialize()
 	. = ..()
@@ -300,7 +298,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			if(power >= 20)
 				coolant_output.adjust_moles(/datum/gas/nucleium, total_fuel_moles/50) //Shove out nucleium into the air when it's fuelled. You need to filter this off, or you're gonna have a bad time.
 			var/obj/structure/cable/C = T.get_cable_node()
-			if(!C || !C.powernet)
+			if(!C?.powernet)
 				return
 			else
 				C.powernet.newavail += last_power_produced
@@ -424,7 +422,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 		return
 	if(warning)
 		if(!alert) //Congrats! You stopped the meltdown / blowout.
-			OM?.stop_relay(CHANNEL_REACTOR_ALERT)
+			OM.stop_relay(CHANNEL_REACTOR_ALERT)
 			warning = FALSE
 			set_light(0)
 			light_color = LIGHT_COLOR_CYAN
@@ -436,7 +434,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			return
 		next_warning = world.time + 30 SECONDS //To avoid engis pissing people off when reaaaally trying to stop the meltdown or whatever.
 		warning = TRUE //Start warning the crew of the imminent danger.
-		OM?.relay('nsv13/sound/effects/rbmk/alarm.ogg', null, loop=TRUE, channel = CHANNEL_REACTOR_ALERT)
+		OM.relay('nsv13/sound/effects/rbmk/alarm.ogg', null, loop=TRUE, channel = CHANNEL_REACTOR_ALERT)
 		set_light(0)
 		light_color = LIGHT_COLOR_RED
 		set_light(10)
@@ -490,12 +488,11 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/fail_meltdown_objective()
 	for(var/client/C in GLOB.clients)
-		if(C)
-			if(CONFIG_GET(flag/allow_crew_objectives))
-				var/mob/M = C.mob
-				if(M?.mind?.current && LAZYLEN(M.mind.crew_objectives) && (M.job == "Station Engineer" || M.job == "Chief Engineer" || M.job == "Atmospheric Technician"))
-					for(var/datum/objective/crew/meltdown/MO in M.mind.crew_objectives)
-						MO.meltdown = TRUE
+		if(CONFIG_GET(flag/allow_crew_objectives))
+			var/mob/M = C.mob
+			if(M?.mind?.current && LAZYLEN(M.mind.crew_objectives) && (M.job == "Station Engineer" || M.job == "Chief Engineer" || M.job == "Atmospheric Technician"))
+				for(var/datum/objective/crew/meltdown/MO in M.mind.crew_objectives)
+					MO.meltdown = TRUE
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/update_icon()
 	icon_state = "reactor_off"
@@ -537,26 +534,6 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	desired_k = 0
 	temperature = 0
 	update_icon()
-
-/obj/item/fuel_rod
-	name = "Uranium-238 Fuel Rod"
-	desc = "A titanium sheathed rod containing a measure of enriched uranium-dioxide powder, used to kick off a fission reaction."
-	icon = 'nsv13/icons/obj/control_rod.dmi'
-	icon_state = "irradiated"
-	w_class = WEIGHT_CLASS_BULKY
-	var/depletion = 0 //Each fuel rod will deplete in around 30 minutes.
-	var/fuel_power = 0.10
-
-/obj/item/fuel_rod/proc/deplete(amount=0.015)
-	depletion += amount
-	if(depletion >= 100)
-		fuel_power = 0.20
-		name = "Plutonium-239 Fuel Rod"
-		desc = "A highly energetic titanium sheathed rod containing a sizeable measure of weapons grade uranium, it's highly efficient as nuclear fuel, but will cause the reaction to get out of control if not properly utilised."
-		icon_state = "inferior"
-		AddComponent(/datum/component/radioactive, 1500 , src)
-	else
-		fuel_power = 0.10
 
 /obj/item/fuel_rod/Initialize()
 	.=..()
