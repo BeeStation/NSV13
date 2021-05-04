@@ -109,7 +109,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -152,18 +152,10 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/light{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/turf/open/floor/monotile/dark,
-/area/nsv/hanger/deck3{
-	name = "Air traffic control pod"
-	})
-"aw" = (
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -415,7 +407,7 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 1
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -623,7 +615,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
-/turf/open/floor/monotile,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -672,6 +667,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
 	},
+/obj/effect/landmark/start/fighter_pilot,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -730,14 +726,6 @@
 "cc" = (
 /turf/closed/wall/r_wall/ship,
 /area/shuttle/turbolift/secondary)
-"cd" = (
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
-/turf/open/floor/monotile,
-/area/nsv/hanger/deck3{
-	name = "Air traffic control pod"
-	})
 "ce" = (
 /turf/closed/wall/r_wall/ship,
 /area/ai_monitored/turret_protected/aisat)
@@ -981,7 +969,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -991,14 +979,6 @@
 	},
 /turf/open/openspace,
 /area/shuttle/turbolift/secondary)
-"cO" = (
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/monotile,
-/area/nsv/hanger/deck3{
-	name = "Air traffic control pod"
-	})
 "cP" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -1084,7 +1064,7 @@
 	name = "air traffic control"
 	},
 /obj/effect/landmark/start/air_traffic_controller,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -1161,6 +1141,10 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
+"dk" = (
+/obj/machinery/camera/autoname,
+/turf/open/floor/monotile/dark/airless,
+/area/space/nearstation)
 "dl" = (
 /obj/structure/railing{
 	dir = 8
@@ -1176,6 +1160,8 @@
 	icon_state = "tube"
 	},
 /obj/machinery/computer/ship/viewscreen,
+/obj/structure/table/reinforced,
+/obj/item/extinguisher/advanced/hull_repair_juice,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "dn" = (
@@ -2165,7 +2151,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/effect/landmark/start/assistant,
+/obj/effect/landmark/start/lawyer,
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
 "fH" = (
@@ -2357,10 +2343,6 @@
 /turf/closed/wall/ship,
 /area/hallway/nsv/deck1/hallway)
 "fZ" = (
-/obj/machinery/squad_vendor{
-	density = 0;
-	pixel_y = 26
-	},
 /obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
@@ -2450,6 +2432,19 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/ai_upload_foyer)
+"gl" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/chair/stool,
+/mob/living/simple_animal/hostile/retaliate/goose,
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "go" = (
 /obj/machinery/door/airlock/ship/hatch{
 	name = "Teleporter Room";
@@ -2679,7 +2674,7 @@
 	dir = 4;
 	name = "briefing room chair"
 	},
-/obj/effect/landmark/start/assistant,
+/obj/effect/landmark/start/lawyer,
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
 "gK" = (
@@ -2717,9 +2712,10 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "gO" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 10
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -2840,12 +2836,17 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "gY" = (
-/obj/effect/turf_decal/tile/ship/half/red{
-	dir = 1;
-	icon_state = "borderhalf"
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
 	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "gZ" = (
 /obj/machinery/door/poddoor/preopen{
 	id = "xoshutters";
@@ -2869,19 +2870,34 @@
 	name = "Executive officer's Office"
 	})
 "hb" = (
-/obj/effect/turf_decal/tile/ship/half/yellow{
-	dir = 1;
-	icon_state = "borderhalf"
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
 	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/item/twohanded/required/kirbyplants{
+	icon_state = "plant-10"
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "hc" = (
-/obj/effect/turf_decal/tile/ship/half/blue{
-	dir = 1;
-	icon_state = "borderhalf"
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
 	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/chair/stool,
+/mob/living/simple_animal/hostile/retaliate/goose{
+	name = "Maverick"
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "hd" = (
 /obj/machinery/door/airlock/ship{
 	name = "Deck 2 Access"
@@ -2939,7 +2955,7 @@
 /obj/machinery/computer/ship/dradis/minor{
 	dir = 1
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -2966,13 +2982,14 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+/obj/effect/landmark/start/fighter_pilot,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
 "hl" = (
 /obj/machinery/suit_storage_unit/pilot,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -2998,6 +3015,9 @@
 "ho" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -3006,8 +3026,8 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 6
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
@@ -3094,12 +3114,12 @@
 	pixel_x = -3;
 	pixel_y = 3
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
 "hC" = (
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -3117,20 +3137,28 @@
 /area/space/nearstation)
 "hE" = (
 /obj/structure/ladder,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
 "hG" = (
-/obj/effect/turf_decal/tile/ship/half/purple{
-	dir = 1;
-	icon_state = "borderhalf"
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
 	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/structure/chair/stool,
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "hH" = (
 /obj/structure/table/reinforced,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -3138,7 +3166,7 @@
 /obj/machinery/computer/ship/fighter_launcher{
 	dir = 1
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -3158,9 +3186,22 @@
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "hL" = (
-/obj/machinery/camera/autoname,
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/chair/stool,
+/obj/structure/mirror{
+	desc = "For those who think the world of themselves";
+	name = "vanity mirror";
+	pixel_y = 26
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "hM" = (
 /obj/structure/extinguisher_cabinet{
 	pixel_y = 26
@@ -4154,6 +4195,7 @@
 	name = "briefing room chair"
 	},
 /obj/effect/landmark/start/head_of_personnel{
+	icon_state = "Executive Officer";
 	name = "Executive Officer"
 	},
 /turf/open/floor/carpet/blue,
@@ -4728,7 +4770,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
-/obj/effect/landmark/start/assistant,
+/obj/effect/landmark/start/lawyer,
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
 "la" = (
@@ -4740,7 +4782,6 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
-/obj/effect/landmark/start/bridge,
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
 "lb" = (
@@ -4752,7 +4793,6 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
-/obj/effect/landmark/start/bridge,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
@@ -4814,7 +4854,7 @@
 "lj" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/security/telescreen/atc,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -4911,11 +4951,8 @@
 "lu" = (
 /obj/structure/rack,
 /obj/item/storage/toolbox/emergency,
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
 /obj/item/storage/toolbox/emergency,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -5297,6 +5334,20 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/storage/eva)
+"mm" = (
+/obj/structure/fluff/support_beam{
+	dir = 1;
+	icon_state = "support_beam"
+	},
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "mn" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 9
@@ -5313,7 +5364,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -5325,7 +5376,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -5333,7 +5384,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 10
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -5354,7 +5405,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -5379,7 +5430,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -5937,6 +5988,15 @@
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
+"pv" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/effect/landmark/start/flight_leader,
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "pw" = (
 /obj/item/fighter_component/targeting_sensor,
 /turf/open/floor/engine/airless,
@@ -5993,16 +6053,15 @@
 /turf/open/floor/engine/airless,
 /area/nsv/weapons/gauss)
 "qS" = (
-/obj/machinery/light{
-	dir = 1
-	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
 "qX" = (
 /obj/structure/closet/secure_closet/atc,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -6046,6 +6105,15 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
+"rz" = (
+/obj/structure/closet/secure_closet/fighter_pilot,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/monotile/steel,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "rA" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
@@ -6113,6 +6181,18 @@
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
+"tU" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Flight deck access";
+	req_one_access_txt = "69;13"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "uo" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/poddoor/ship/preopen{
@@ -6151,6 +6231,10 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
+"vf" = (
+/obj/structure/table/reinforced,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck1/hallway)
 "vi" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -6164,6 +6248,14 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
+"vu" = (
+/obj/machinery/advanced_airlock_controller/directional/east{
+	pixel_y = 24
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "vC" = (
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "hopqueue";
@@ -6229,7 +6321,6 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
 "wm" = (
-/obj/machinery/light,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -6376,6 +6467,11 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/ai_monitored/nuke_storage)
+"zK" = (
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/structure/rack,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck1/hallway)
 "zM" = (
 /obj/machinery/camera/autoname{
 	dir = 4
@@ -6406,7 +6502,7 @@
 "Ba" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -6480,6 +6576,20 @@
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
+"EY" = (
+/obj/structure/table/reinforced,
+/obj/item/extinguisher/advanced/hull_repair_juice,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck1/hallway)
+"Fi" = (
+/obj/machinery/suit_storage_unit/pilot,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/monotile/steel,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "Fm" = (
 /obj/machinery/suit_storage_unit/standard_unit,
 /obj/machinery/light,
@@ -6567,6 +6677,13 @@
 /obj/item/fighter_component/canopy,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
+"GS" = (
+/obj/structure/table/reinforced,
+/obj/item/clothing/suit/ship/squad/bomber,
+/turf/open/floor/carpet/blue,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "Hb" = (
 /obj/machinery/bluespace_beacon,
 /turf/open/floor/monotile/steel,
@@ -6619,6 +6736,18 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
+"Io" = (
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "IC" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "13"
@@ -6674,6 +6803,19 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/teleporter)
+"JY" = (
+/obj/structure/table/reinforced,
+/obj/item/paint/anycolor,
+/obj/item/paint/anycolor,
+/obj/item/paint/anycolor,
+/obj/item/paint/anycolor,
+/obj/item/paint/anycolor,
+/obj/item/paint/anycolor,
+/obj/item/paint/anycolor,
+/turf/open/floor/carpet/blue,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "Kn" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -6694,6 +6836,12 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/briefingroom)
+"Ks" = (
+/obj/structure/chair/stool,
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "Kz" = (
 /obj/structure/fighter_frame,
 /obj/effect/turf_decal/ship/delivery/yellow,
@@ -6897,7 +7045,7 @@
 /area/shuttle/turbolift/secondary)
 "PN" = (
 /obj/structure/closet/secure_closet/fighter_pilot,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
@@ -6918,6 +7066,16 @@
 /obj/effect/turf_decal/loading_area,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
+"Qq" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Flight deck access";
+	req_one_access_txt = "69;13"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/turf/open/floor/monotile/steel,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "Qx" = (
 /obj/structure/table,
 /obj/item/stack/packageWrap,
@@ -6949,6 +7107,12 @@
 /obj/item/pen/fourcolor,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
+"QT" = (
+/obj/structure/table/reinforced,
+/turf/open/floor/carpet/blue,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "QV" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -6993,6 +7157,15 @@
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
+"Rv" = (
+/obj/structure/chair/stool,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 8
+	},
+/turf/open/floor/monotile/steel,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "Rx" = (
 /obj/machinery/power/apc/auto_name/north{
 	pixel_y = 24
@@ -7007,6 +7180,14 @@
 "Ry" = (
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/weapons/gauss)
+"Rz" = (
+/obj/structure/chair/comfy/shuttle{
+	dir = 4;
+	name = "briefing room chair"
+	},
+/obj/effect/landmark/start/bridge,
+/turf/open/floor/monotile/dark,
+/area/nsv/briefingroom)
 "RE" = (
 /obj/structure/window/reinforced/spawner/north,
 /obj/machinery/door/window/brigdoor/eastright{
@@ -7074,6 +7255,18 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
+"Sx" = (
+/obj/structure/chair/stool,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 10
+	},
+/turf/open/floor/monotile/steel,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "SD" = (
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile/dark,
@@ -7118,16 +7311,13 @@
 "TQ" = (
 /obj/machinery/suit_storage_unit/pilot,
 /obj/machinery/airalarm/directional/east,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
 "TY" = (
 /obj/machinery/atmospherics/components/binary/dp_vent_pump/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/advanced_airlock_controller/directional/east{
-	pixel_y = 24
-	},
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -7205,6 +7395,24 @@
 "VB" = (
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/deck1/aft)
+"VY" = (
+/obj/structure/chair/stool,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
+"Wd" = (
+/obj/structure/chair/stool,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 4
+	},
+/turf/open/floor/monotile/steel,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "Wi" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /turf/open/floor/plating,
@@ -7218,6 +7426,14 @@
 /obj/item/beacon,
 /turf/open/floor/monotile/dark,
 /area/teleporter)
+"WI" = (
+/obj/structure/table/reinforced,
+/obj/item/paper_bin,
+/obj/item/pen/fountain,
+/turf/open/floor/carpet/blue,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "WV" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 10
@@ -7234,6 +7450,12 @@
 /obj/structure/grille,
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
+"XE" = (
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/structure/rack,
+/obj/item/storage/toolbox/mechanical,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck1/hallway)
 "XJ" = (
 /obj/structure/rack,
 /obj/item/fighter_component/apu,
@@ -7267,6 +7489,26 @@
 /obj/machinery/lazylift_button,
 /turf/closed/wall/r_wall/ship,
 /area/shuttle/turbolift/shaft)
+"YJ" = (
+/obj/structure/fluff/support_beam{
+	dir = 4;
+	icon_state = "support_beam"
+	},
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
+"YZ" = (
+/obj/structure/chair/stool,
+/turf/open/floor/monotile/steel,
+/area/nsv/hanger/deck3{
+	name = "Air traffic control pod"
+	})
 "Zb" = (
 /obj/machinery/computer/teleporter{
 	dir = 1
@@ -36186,12 +36428,12 @@ dC
 bQ
 dC
 bO
-cd
+hC
 cL
-cO
-aC
-aC
-aC
+hC
+Qq
+vu
+tU
 ax
 ax
 ax
@@ -36435,11 +36677,11 @@ ac
 ac
 ac
 ac
-ac
-an
-ac
-af
-Xd
+aC
+gY
+aC
+aC
+aC
 Xd
 yF
 aC
@@ -36447,9 +36689,9 @@ hn
 Gj
 hn
 aC
-ax
-Mt
-ax
+aC
+aC
+dk
 ax
 ax
 Mt
@@ -36692,19 +36934,19 @@ ac
 ad
 ad
 ad
-ac
-an
-ac
-af
+aC
+hb
+VY
+wm
 aC
 PN
 PN
-PN
+rz
 lu
 OF
 hq
 aC
-hL
+ax
 Mt
 ax
 ax
@@ -36949,11 +37191,11 @@ ac
 ad
 ad
 lw
-ac
-an
-ac
-af
-hn
+aC
+hc
+JY
+Wd
+mm
 Mb
 as
 bU
@@ -37206,13 +37448,13 @@ ac
 ad
 ad
 ad
-ac
-an
-ac
-af
-hn
+aC
+hG
+WI
+Sx
+Io
 qS
-aw
+qS
 gO
 hp
 mn
@@ -37463,19 +37705,19 @@ ac
 ac
 ac
 ac
-ac
-an
-ac
-af
-hn
+aC
+hL
+GS
+Rv
+YJ
 hk
 hk
-hk
+pv
 bV
 hk
 hk
 hn
-hL
+ax
 Mt
 ax
 ax
@@ -37720,14 +37962,14 @@ ac
 ad
 ad
 ad
-ac
-an
-ac
-af
+aC
+gl
+QT
+YZ
 aC
 hl
 hl
-hl
+Fi
 TQ
 hl
 hl
@@ -37977,10 +38219,10 @@ ac
 ad
 ad
 lw
-ac
-an
-au
-ba
+aC
+hb
+Ks
+wm
 aC
 aC
 aC
@@ -37989,7 +38231,7 @@ aC
 aC
 aC
 aC
-ax
+dk
 Mt
 ax
 ax
@@ -38234,16 +38476,16 @@ ac
 ad
 ad
 ad
-ac
-ao
-bR
-bR
-bR
-bR
-bR
-bR
-bR
-bR
+aC
+gY
+aC
+aC
+aC
+aC
+aC
+aC
+aC
+aC
 hm
 hz
 hz
@@ -40073,7 +40315,7 @@ dK
 es
 bN
 fZ
-gY
+cb
 iT
 mP
 mR
@@ -40329,7 +40571,7 @@ Wi
 dJ
 es
 bN
-cb
+EY
 cb
 iT
 cb
@@ -40586,8 +40828,8 @@ Wi
 dJ
 es
 bN
-fZ
-hb
+zK
+cb
 iT
 cb
 ke
@@ -41100,8 +41342,8 @@ Wi
 dJ
 es
 bN
-fZ
-hc
+XE
+cb
 iT
 cb
 kf
@@ -41357,7 +41599,7 @@ Wi
 dJ
 es
 bN
-cb
+vf
 cb
 iT
 cb
@@ -41615,7 +41857,7 @@ dJ
 es
 bN
 fZ
-hG
+cb
 iT
 dZ
 mR
@@ -45211,13 +45453,13 @@ hA
 iy
 dT
 eE
-fG
-gJ
-gJ
-gJ
-gJ
-gJ
-kZ
+fB
+gC
+gC
+gC
+gC
+gC
+kP
 eE
 dT
 no
@@ -45470,9 +45712,9 @@ dT
 eE
 fG
 gJ
-gJ
-gJ
-gJ
+Rz
+Rz
+Rz
 gJ
 kZ
 eE

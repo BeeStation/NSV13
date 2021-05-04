@@ -432,6 +432,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(dradis_type)
 		dradis = new dradis_type(src) //Fighters need a way to find their way home.
 		dradis.linked = src
+	set_light(4)
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
 	add_overlay(image(icon = icon, icon_state = "canopy_open", dir = SOUTH))

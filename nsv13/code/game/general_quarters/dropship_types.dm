@@ -10,9 +10,9 @@
 	max_integrity = 1000 //*slaps roof of dropship. This badboy can fit at least 20 alien references in it.
 	max_passengers = 0 //Overridden. Trust me on this
 	bound_width = 128
-	bound_height = 224
-	pixel_w = 0
-	pixel_z = 0
+	bound_height = 160
+	pixel_w = 10
+	pixel_z = -32
 	flight_pixel_w = -40
 	flight_pixel_z = -75
 	//pixel_w = -16

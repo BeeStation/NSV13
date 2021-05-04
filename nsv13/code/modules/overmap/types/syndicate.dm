@@ -7,7 +7,6 @@
 	icon = 'nsv13/icons/overmap/default.dmi'
 	icon_state = "default"
 	faction = "syndicate"
-	interior_maps = list("Corvette.dmm")
 
 //Player Versions
 
@@ -84,6 +83,7 @@
 	armor = list("overmap_light" = 50, "overmap_heavy" = 15)
 	ai_trait = AI_TRAIT_DESTROYER
 	combat_dice_type = /datum/combat_dice/frigate
+	possible_interior_maps = list('_maps/templates/boarding/syndicate/mako.dmm')
 
 /obj/structure/overmap/syndicate/ai/mako_carrier
 	name = "Sturgeon class escort carrier"
@@ -91,6 +91,7 @@
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter)
 	combat_dice_type = /datum/combat_dice/carrier
+	possible_interior_maps = list('_maps/templates/boarding/syndicate/mako_carrier.dmm')
 
 /obj/structure/overmap/syndicate/ai/mako_flak
 	name = "Mauler class flak frigate"

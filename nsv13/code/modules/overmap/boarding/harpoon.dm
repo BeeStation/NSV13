@@ -1,4 +1,6 @@
 /obj/machinery/boarding_harpoon
+	name = "boarding harpoon"
+	desc = "a huge harpoon used for ship to ship boarding."
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "harpoon"
 
@@ -132,13 +134,11 @@ If someone hacks it, you can always rebuild it.
 /obj/structure/overmap
 	var/datum/map_template/overmap_boarding/boarding_interior = null
 	var/list/possible_interior_maps = null
+	var/ftl_dragalong = FALSE
 
 /datum/map_template/overmap_boarding
     name = "Overmap boarding level"
     mappath = null
-
-/obj/structure/overmap/syndicate/ai
-	possible_interior_maps = list('_maps/templates/boarding/boarding_test.dmm')
 
 /**
 Attempt to "board" an AI ship. You can only do this when they're low on health though!
@@ -163,9 +163,9 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 			SL.linked_overmap = null //Free that level up.
 		occupying_levels = list()
 		qdel(boarding_interior)
-		boarding_reservation_z = null
 		docking_points = list()
 		var/turf/TT = get_turf(locate(1,1,boarding_reservation_z))
+		boarding_reservation_z = null
 		//Yeet the crew
 		TT.ChangeTurf(/turf/open/space/transit)
 		for(var/mob/living/L in mobs_in_ship)
@@ -198,6 +198,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	if(!boarding_interior || !boarding_interior.mappath)
 		message_admins("Error parsing boarding interior map for [src]")
 		return FALSE
+	ftl_dragalong = TRUE //Tag us along with the ship that captured us!
 	boarding_reservation_z = boarder.boarding_reservation_z
 	var/done = boarding_interior.load(get_turf(locate(1, 1, boarder.boarding_reservation_z)), FALSE)
 	if(!done)

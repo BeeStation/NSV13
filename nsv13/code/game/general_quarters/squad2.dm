@@ -109,6 +109,8 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	. = ..()
 	squad_lead_finder = new /atom/movable/screen/squad_lead_finder()
 	squad_lead_finder.hud = src
+	squad_lead_finder.alpha = 0
+	squad_lead_finder.invisibility = INVISIBILITY_ABSTRACT
 	infodisplay += squad_lead_finder
 
 /atom/movable/screen/squad_lead_finder
@@ -353,7 +355,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	desc = "Able squad is the ship's marine squad. Specialising in boarding and counter-boarding operations, Able squad marines are highly trained specialists in combat and ship operations and are expected to board + commandeer enemy ships."
 	id = ABLE_SQUAD
 	colour = "#e61919"
-	access = list(ACCESS_MUNITIONS, ACCESS_FIGHTER, ACCESS_BRIG)
+	access = list(ACCESS_MUNITIONS, ACCESS_FIGHTER, ACCESS_BRIG, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MAINT_TUNNELS)
 	allowed_jobs = list(/datum/job/marine)
 	disallowed_jobs = list()
 
@@ -362,7 +364,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	desc = "Baker squad is the ship's reservist squad. They specialise in damage control and medical care, comprised mostly of engineering and medical specialists."
 	id = BAKER_SQUAD
 	colour = "#4148c8"
-	access = list(ACCESS_MUNITIONS, ACCESS_MEDICAL, ACCESS_MAINT_TUNNELS, ACCESS_ENGINE)
+	access = list(ACCESS_MUNITIONS, ACCESS_MEDICAL, ACCESS_MAINT_TUNNELS, ACCESS_ENGINE, ACCESS_EXTERNAL_AIRLOCKS)
 	max_engineers = 4
 	max_medics = 4
 
@@ -373,7 +375,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	desc = "Charlie squad is the ship's secondary marine squad. They are usually activated during highly complex boarding operations when Able becomes overcrowded."
 	id = CHARLIE_SQUAD
 	colour = "#ffc32d"
-	access = list(ACCESS_MUNITIONS, ACCESS_FIGHTER, ACCESS_BRIG)
+	access = list(ACCESS_MUNITIONS, ACCESS_FIGHTER, ACCESS_BRIG, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MAINT_TUNNELS)
 	hidden = TRUE
 
 /datum/squad/duff
@@ -381,7 +383,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	desc = "Duff squad is comprised of conscripts and deserters. While they're a band of rogues, they can be useful when munitions is understaffed. Give them access to weapons at your own risk."
 	id = DUFF_SQUAD
 	colour = "#c864c8"
-	access = list(ACCESS_MUNITIONS, ACCESS_MEDICAL, ACCESS_MAINT_TUNNELS, ACCESS_ENGINE)
+	access = list(ACCESS_MUNITIONS, ACCESS_MEDICAL, ACCESS_MAINT_TUNNELS, ACCESS_ENGINE, ACCESS_EXTERNAL_AIRLOCKS)
 	hidden = TRUE
 
 //Show relevent squad info on status panel.
