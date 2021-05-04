@@ -3412,36 +3412,24 @@
 /area/maintenance/nsv/deck1/port/aft)
 "bMr" = (
 /obj/structure/rack,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 3;
-	pixel_y = 3
-	},
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
 /turf/open/floor/plasteel/grid/steel,
 /area/ai_monitored/security/armory)
 "bMI" = (
@@ -5836,6 +5824,7 @@
 	dir = 8
 	},
 /obj/machinery/computer/ship/viewscreen,
+/obj/machinery/computer/iff_console,
 /turf/open/floor/monotile/steel,
 /area/security/nuke_storage)
 "cTJ" = (
@@ -10774,17 +10763,19 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/fore)
 "fhB" = (
-/obj/structure/guncase/shotgun{
-	gun_category = /obj/item/gun/ballistic/shotgun/riot;
-	name = "riot shotgun locker"
-	},
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
+	},
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/structure/guncase{
+	capacity = 12;
+	name = "military police weapons"
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
@@ -13031,7 +13022,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/computer/crew{
+/obj/machinery/computer/ship/salvage{
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -16251,6 +16242,10 @@
 /obj/item/gun/ballistic/shotgun/riot,
 /obj/item/gun/ballistic/shotgun/riot,
 /obj/effect/turf_decal/tile/neutral,
+/obj/item/gun/ballistic/shotgun/riot,
+/obj/item/gun/ballistic/shotgun/riot,
+/obj/item/gun/ballistic/shotgun/riot,
+/obj/item/gun/ballistic/shotgun/riot,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "hNR" = (
@@ -29810,6 +29805,8 @@
 /obj/item/storage/box/rubbershot,
 /obj/item/storage/box/rubbershot,
 /obj/item/storage/box/rubbershot,
+/obj/item/ammo_box/c9mm,
+/obj/item/ammo_box/c9mm,
 /turf/open/floor/plasteel/grid/steel,
 /area/ai_monitored/security/armory)
 "ono" = (
@@ -31946,7 +31943,7 @@
 /area/hallway/nsv/deck1/frame1/central)
 "pjd" = (
 /obj/structure/table,
-/obj/item/storage/box/squad_kit/dc,
+/obj/item/storage/box/damage_control,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
@@ -40010,6 +40007,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 6
 	},
+/obj/structure/closet/secure_closet/lethalshots,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "tei" = (
@@ -45765,11 +45763,24 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/aft)
 "vXo" = (
-/obj/structure/closet/secure_closet/lethalshots,
 /obj/machinery/airalarm/directional/north,
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
+	},
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/structure/guncase{
+	capacity = 12;
+	name = "assault weapons"
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)

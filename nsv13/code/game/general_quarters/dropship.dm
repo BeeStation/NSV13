@@ -63,6 +63,11 @@
 	name = "dropship"
 	unique = FALSE //So this var lets you instance new areas...wish I'd known about this 4 years ago haha
 
+/area/dropship/generic/syndicate
+	name = "dropship"
+	unique = FALSE //So this var lets you instance new areas...wish I'd known about this 4 years ago haha
+	lighting_colour_tube = "#d34330"
+	lighting_colour_bulb = "#d34330"
 /obj/item/fighter_component/fuel_tank/tier2/dropship
 	name = "Dropship Fuel Tank"
 	desc = "A fuel tank large enough for troop transports."
@@ -80,7 +85,7 @@
 	. = ..()
 	//Init template.
 	boarding_interior = new interior_type()
-	addtimer(CALLBACK(src, .proc/instance_cockpit), 10 SECONDS)//Just in case we're not done initializing
+	addtimer(CALLBACK(src, .proc/instance_cockpit), 1 SECONDS)//Just in case we're not done initializing
 
 /area
 	var/obj/structure/overmap/overmap_fallback = null //Used for dropships. Allows you to define an overmap to "fallback" to if get_overmap() fails to find a space level with a linked overmap.
@@ -179,8 +184,10 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	else
 		to_chat(user, "<span class='warning'>Access denied.</span>")
 
-/obj/structure/overmap/fighter/dropship/Destroy()
-	. = ..()
+/**
+	Override, as we're using the turf reservation system instead of the maploader (this was done for lag reasons, turf reservation REALLY lags with big maps!)
+*/
+/obj/structure/overmap/fighter/dropship/kill_boarding_level()
 	if(boarding_interior && roomReservation)
 		var/turf/target = get_turf(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
 		for(var/turf/T in boarding_interior.get_affected_turfs(target, FALSE)) //nuke

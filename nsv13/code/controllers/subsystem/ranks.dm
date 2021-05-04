@@ -34,12 +34,16 @@ GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"
 		return
 	var/myRank = us.compose_rank(us)
 	var/myClout = 0
+	if(!myRank || myRank == "")
+		myClout = -100
 	var/theirClout = 0
 	var/theirRank = them.compose_rank(them)
+	if(!theirRank || theirRank == "")
+		theirClout = -100
 	theirRank = replacetext(theirRank, " ", "")
 	myRank = replacetext(myRank, " ", "")
 	//Unsupported ranks.
-	if(!LAZYFIND(GLOB.pecking_order, myRank) || !LAZYFIND(GLOB.pecking_order, theirRank))
+	if(!(LAZYFIND(GLOB.pecking_order, myRank)) || !(LAZYFIND(GLOB.pecking_order, theirRank)))
 		return FALSE
 	for(var/I = 1; I <= GLOB.pecking_order.len; I++)
 		var/theRank = GLOB.pecking_order[I]

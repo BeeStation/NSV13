@@ -6,6 +6,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/fighter/Destroy()
 	throw_pilot()
+	kill_boarding_level()
 	. = ..()
 
 /obj/structure/overmap/fighter

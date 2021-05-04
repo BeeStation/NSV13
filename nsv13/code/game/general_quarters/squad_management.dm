@@ -10,21 +10,6 @@
 	circuit = /obj/item/circuitboard/computer/squad_manager
 	var/next_major_action = 0 //To stop the infinite BOOOP spam.
 
-/obj/machinery/computer/squad_manager/attackby(obj/item/W, mob/user, params)
-	if(istype(W , /obj/item/clothing/suit/ship/squad))
-		W.forceMove(src)
-		playsound(src, 'sound/machines/terminal_insert_disc.ogg', 100, 0)
-		return FALSE
-	if(istype(W, /obj/item/squad_pager))
-		W.forceMove(src)
-		playsound(src, 'sound/machines/terminal_insert_disc.ogg', 100, 0)
-		return FALSE
-	if(istype(W, /obj/item/clothing/neck/squad))
-		W.forceMove(src)
-		playsound(src, 'sound/machines/terminal_insert_disc.ogg', 100, 0)
-		return FALSE
-	. = ..()
-
 /obj/machinery/computer/squad_manager/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -38,6 +23,8 @@
 		var/list/squad_info = list()
 		squad_info["squad_leader_name"] = (S.leader) ? compose_rank(S.leader)+S.leader?.name : "Unassigned"
 		squad_info["squad_leader_id"] = S.leader ? "\ref[S.leader]" : null
+		squad_info["hidden"] = S.hidden
+		squad_info["weapons_clearance"] = S.weapons_clearance
 		squad_info["desc"] = S.desc
 		squad_info["name"] = S.name
 		squad_info["primary_objective"] = S.primary_objective
@@ -134,16 +121,18 @@
 			if(newRole)
 				log_game("[M.squad]: [usr] reassigned [M] to [newRole]")
 				M.squad.set_role(M, newRole)
-
-/obj/machinery/squad_vendor
-	name = "Squad Vendor"
-	desc = "A machine which can dispense equipment to squads. <i>Kits taken from this machine must be returned before you can get a new one.</i>"
-	icon = 'nsv13/icons/obj/computers.dmi'
-	icon_state = "squadvend"
-	anchored = TRUE
-	density = TRUE
-	obj_integrity = 500
-	max_integrity = 500 //Tough nut to crack, due to how it'll spit out a crap load of squad gear like a goddamned pinata.
-	resistance_flags = ACID_PROOF | FIRE_PROOF
-	req_one_access = list(ACCESS_HOP, ACCESS_HOS)
-	var/list/loaned = list() //List of mobs who have taken a kit without returning it. To get a new kit, you have to return the old one.
+		if("toggle_hidden")
+			if(!S)
+				return FALSE
+			S.hidden = !S.hidden
+		//WE HAVE YOU SURROUNDED, SURRENDER YOUR NERF GUNS
+		if("toggle_beararms")
+			if(!S)
+				return FALSE
+			S.weapons_clearance = !S.weapons_clearance
+		if("print_pass")
+			if(!S || world.time < next_major_action)
+				return FALSE
+			next_major_action = world.time + 5 SECONDS //Lower the spam a bit...
+			new /obj/item/clothing/neck/squad(get_turf(src), S)
+			playsound(src, 'sound/machines/terminal_insert_disc.ogg', 100, 0)

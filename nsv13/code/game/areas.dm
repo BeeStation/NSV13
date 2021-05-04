@@ -591,18 +591,6 @@
 	name = "Mining Shuttle Lounge"
 	icon_state = "hallP"
 
-/area/ruin/powered/nsv13/prisonship
-	name = "Syndicate prison ship"
-
-/area/ruin/powered/nsv13/trooptransport
-	name = "Syndicate troop transport"
-
-/area/ruin/powered/nsv13/gunship
-	name = "Syndicate corvette"
-
-/area/ruin/powered/nsv13/yacht
-	name = "Luxury yacht"
-
 /area/nostromo
 	name = "DMC Rocinante"
 	ambient_effects = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')

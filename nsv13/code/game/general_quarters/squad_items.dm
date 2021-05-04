@@ -122,6 +122,27 @@
 	body_parts_covered = CHEST|GROIN|LEGS|FEET
 	var/datum/squad/squad = null
 
+/obj/item/clothing/suit/ship/squad/space
+	name = "Armoured Skinsuit"
+	icon_state = "skinsuit_squad"
+	item_color = "skinsuit_squad"
+	w_class = WEIGHT_CLASS_NORMAL
+	gas_transfer_coefficient = 0.01
+	permeability_coefficient = 0.02
+	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | SHOWEROKAY
+	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	allowed = list(/obj/item/flashlight, /obj/item/tank/internals)
+	slowdown = 1
+	armor = list("melee" = 20, "bullet" = 30, "laser" = 5,"energy" = 0, "bomb" = 10, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 70, "stamina" = 10)
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	cold_protection = CHEST | GROIN | LEGS | FEET | ARMS | HANDS
+	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
+	strip_delay = 80
+	equip_delay_other = 80
+	resistance_flags = NONE
+
 /obj/item/clothing/head/ship/squad
 	name = "Helmet"
 	desc = "A bulky helmet that's designed to keep your head in-tact while you perform essential repairs on the ship."
@@ -130,12 +151,34 @@
 	icon_state = "squad"
 	item_color = null
 	w_class = WEIGHT_CLASS_NORMAL
-	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
+	armor = list("melee" = 30, "bullet" = 20, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	var/has_headcam = TRUE
 	var/datum/squad/squad = null
 	var/obj/machinery/camera/builtInCamera = null
 	var/updating = FALSE //Updating the camera view? Copypasted verbatim from silicon_movement.dm
+
+/obj/item/clothing/head/ship/squad/space
+	name = "Space Helmet"
+	icon_state = "skinsuit_squad"
+	item_state = "spaceold"
+	desc = "A special helmet with solar UV shielding to protect your eyes from harmful rays. It bears a squad's insignia."
+	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | SHOWEROKAY | SNUG_FIT
+	permeability_coefficient = 0.01
+	armor = list("melee" = 15, "bullet" = 10, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 70, "stamina" = 10)
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
+	dynamic_hair_suffix = ""
+	dynamic_fhair_suffix = ""
+	cold_protection = HEAD
+	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
+	heat_protection = HEAD
+	max_heat_protection_temperature = SPACE_HELM_MAX_TEMP_PROTECT
+	flash_protect = 2
+	strip_delay = 50
+	equip_delay_other = 50
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	resistance_flags = NONE
+	dog_fashion = null
 
 /obj/item/clothing/head/ship/squad/equipped(mob/equipper, slot)
 	. = ..()
@@ -145,17 +188,16 @@
 		if(slot && slot == ITEM_SLOT_BACKPACK)
 			on_drop(equipper)
 			return
-		if(builtInCamera && H)
-			if(H.squad)
-				builtInCamera.c_tag = "[squad.name] Squad - [H.name] #[rand(0,999)]"
-			else
-				builtInCamera.c_tag = "Helmet Cam - [H.name]"
-			builtInCamera.forceMove(equipper) //I hate this. But, it's necessary.
-			RegisterSignal(equipper, COMSIG_MOVABLE_MOVED, .proc/update_camera_location)
-
 		if(H.squad)
 			if(H.squad != squad)
 				apply_squad(H.squad)
+		if(builtInCamera && H)
+			if(H.squad)
+				builtInCamera.c_tag = "[squad.name] Squad - [H.real_name] #[rand(0,999)]"
+			else
+				builtInCamera.c_tag = "Helmet Cam - [H.real_name]"
+			builtInCamera.forceMove(equipper) //I hate this. But, it's necessary.
+			RegisterSignal(equipper, COMSIG_MOVABLE_MOVED, .proc/update_camera_location)
 
 /obj/item/clothing/head/ship/squad/dropped(mob/user)
 	. = ..()
@@ -174,6 +216,11 @@
 		builtInCamera.c_tag = "Helmet Cam #[rand(0,999)]"
 		builtInCamera.network = list("squad_headcam")
 		builtInCamera.internal_light = FALSE
+
+/obj/item/clothing/head/ship/squad/Destroy()
+	if(builtInCamera)
+		qdel(builtInCamera)
+	. = ..()
 
 /obj/item/clothing/head/ship/squad/proc/do_camera_update(oldLoc)
 	if(!QDELETED(builtInCamera) && oldLoc != get_turf(loc))
@@ -198,17 +245,33 @@
 
 /obj/item/clothing/neck/squad
 	name = "Lanyard"
-	desc = "A lanyard which can clearly identify someone as a member of a given squad. <i>Click it while it's in your hand to update its registered squad.</i>"
+	desc = "A holographic lanyard which, when passed to someone who isn't in a squad, will allow them to join the squad registered to it!"
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
 	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "hudsquad"
 	item_color = "hudsquad"
 	w_class = 1
-	var/next_squad_change = 0
 	var/datum/squad/squad = null
 
-/obj/item/clothing/neck/squad/GetAccess()
-	return (GLOB.security_level >= SEC_LEVEL_RED) ? squad?.access : list()
+/obj/item/clothing/neck/squad/attack_self(mob/living/carbon/human/user)
+	. = ..()
+	if(!ishuman(user) || user.stat || user.restrained())
+		return
+	if(!squad)
+		to_chat(user, "<span class='warning'>This lanyard hasn't got a registered squad on it...</span>")
+		return FALSE
+	if(user.squad && user.squad == squad)
+		to_chat(user, "<span class='warning'>You're already in [squad]!</span>")
+		return FALSE
+	if(alert(user, "Join [squad] Squad?",name,"Yes","No") == "Yes")
+		if(user.squad)
+			user.squad.remove_member(user)
+		squad.add_member(user)
+		qdel(src)
+
+/obj/item/clothing/neck/squad/Initialize(mapload, datum/squad/squad)
+	. = ..()
+	apply_squad(squad)
 
 /obj/item/storage/box/squad_lanyards
 	name = "Spare squad lanyards"

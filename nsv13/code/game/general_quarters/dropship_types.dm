@@ -57,6 +57,20 @@
     name = "NSV Sephora (Dropship)"
     mappath = "_maps/templates/boarding/dropship_main.dmm"
 
+/obj/structure/overmap/fighter/dropship/syndicate
+	name = "Syndicate Dropship"
+	icon = 'nsv13/icons/overmap/new/syndicate/dropship.dmi'
+	icon_state = "dropship_syndie"
+	interior_type = /datum/map_template/dropship/syndicate
+	faction = "syndicate"
+	req_one_access = list(ACCESS_SYNDICATE)
+
+/obj/structure/overmap/fighter/dropship/syndicate/main
+	name = "SSV Thunderbird"
+
+/datum/map_template/dropship/syndicate
+    name = "Syndicate Dropship"
+    mappath = "_maps/templates/boarding/dropship_syndicate.dmm"
 
 /obj/structure/overmap/fighter/dropship/sabre
 	name = "Su-437 Sabre"

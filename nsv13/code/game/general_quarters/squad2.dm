@@ -29,12 +29,14 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/list/joinable = list()
 	for(var/datum/squad/squad in squads)
 		if(!squad.hidden)
-			if(squad.disallowed_jobs && LAZYFIND(squad.disallowed_jobs, J.type))
-				continue
-			if(squad.allowed_jobs && !LAZYFIND(squad.allowed_jobs, J.type))
-				continue
+			if(squad.disallowed_jobs)
+				if(LAZYFIND(squad.disallowed_jobs, J.type))
+					continue
+			if(squad.allowed_jobs)
+				if(!(LAZYFIND(squad.allowed_jobs, J.type)))
+					continue
 			joinable += squad
-	return pick(joinable)
+	return (joinable?.len) ? pick(joinable) : null
 
 /datum/squad_manager/New()
 	. = ..()
@@ -53,7 +55,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/tracking_id = null // for use with SSdirection
 	var/colour = null //colour for helmets, etc.
 	var/list/access = list() //Which special access do we grant them during GQ
-	var/access_enabled = TRUE //Is this squad's access enabled or not?
+	var/access_enabled = FALSE //Is this squad's access enabled or not?
 	var/hidden = FALSE //Can you join this squad by default?
 
 	//Positions...
@@ -77,6 +79,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/list/allowed_jobs = null //Do you want this squad to be locked to one role?
 	var/datum/component/simple_teamchat/radio_dependent/squad/squad_channel = null
 	var/squad_channel_type
+	var/weapons_clearance = FALSE //Are they cleared for firearms?
 
 /**
 	Checks your access.
@@ -312,6 +315,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	if(give_items)
 		var/obj/item/storage/backpack/bag = H.get_item_by_slot(ITEM_SLOT_BACK)
 		new /obj/item/squad_pager(bag, src)
+		/*
 		switch(H.squad_role)
 			if(SQUAD_LEAD)
 				new /obj/item/clothing/head/ship/squad/leader(bag, src)
@@ -331,6 +335,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			return TRUE
 		new /obj/item/clothing/head/ship/squad/colouronly/headband(bag, src)
 		return TRUE
+		*/
 
 /datum/job/after_spawn(mob/living/H, mob/M, latejoin = FALSE)
 	. = ..()
@@ -373,7 +378,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 /datum/squad/duff
 	name = DUFF_SQUAD
-	desc = "Duff squad is comprised of conscripts and deserters. While they're a band of rogues, they can be useful when munitions is understaffed."
+	desc = "Duff squad is comprised of conscripts and deserters. While they're a band of rogues, they can be useful when munitions is understaffed. Give them access to weapons at your own risk."
 	id = DUFF_SQUAD
 	colour = "#c864c8"
 	access = list(ACCESS_MUNITIONS, ACCESS_MEDICAL, ACCESS_MAINT_TUNNELS, ACCESS_ENGINE)
