@@ -27,7 +27,8 @@ SUBSYSTEM_DEF(job)
 		"Master At Arms" = 4,
 		"Chief Engineer" = 5,
 		"Chief Medical Officer" = 6,
-		"Research Director" = 7)
+		"Research Director" = 7,
+		"Bridge Staff" = 8)
 
 /datum/controller/subsystem/job/Initialize(timeofday)
 	SSmapping.HACK_LoadMapConfig()
