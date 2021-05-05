@@ -178,7 +178,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 
 /obj/structure/overmap/proc/board_test()
 	var/turf/aaa = locate(x, y-10, z)
-	var/obj/structure/overmap/syndicate/ai/foo = new(aaa)
+	var/obj/structure/overmap/syndicate/ai/destroyer/foo = new(aaa)
 	foo.obj_integrity = foo.max_integrity / 3
 	foo.ai_controlled = FALSE
 	foo.brakes = TRUE

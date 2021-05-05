@@ -17,6 +17,7 @@
 	maintainable = FALSE //This just makes them brick.
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
 	var/obj/machinery/deck_turret/core
+	var/id = null //N.B. This is NOT intended to allow them to manual link deck guns. This is for certain boarding maps and is thus a UNIQUE CONSTRAINT for this one case. ~KMC
 
 /obj/machinery/ship_weapon/deck_turret/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -128,6 +129,7 @@
 	density = TRUE
 	anchored = TRUE
 	circuit = /obj/item/circuitboard/machine/deck_gun
+	var/id = null
 	var/obj/machinery/ship_weapon/deck_turret/turret = null
 	var/list/powder_gates = list()
 	var/obj/machinery/deck_turret/payload_gate/payload_gate
@@ -424,6 +426,16 @@
 		return
 	core.turret = src
 	core.update_parts()
+	if(id)
+		addtimer(CALLBACK(src, .proc/link_via_id), 10 SECONDS)
+
+/obj/machinery/ship_weapon/deck_turret/proc/link_via_id()
+	for(var/obj/machinery/deck_turret/core in GLOB.machines)
+		if(!istype(core))
+			continue
+		if(core.id && core.id == id)
+			core.turret = src
+			core.update_parts()
 
 //The actual gun assembly.
 /obj/structure/ship_weapon/mac_assembly/artillery_frame

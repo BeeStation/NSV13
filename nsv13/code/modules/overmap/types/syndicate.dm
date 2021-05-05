@@ -141,6 +141,7 @@
 	missiles = 6
 	bounty = 1000
 	combat_dice_type = /datum/combat_dice/destroyer
+	possible_interior_maps = list('_maps/templates/boarding/syndicate/destroyer.dmm')
 
 /obj/structure/overmap/syndicate/ai/destroyer/elite
 	name = "Special Ops Torpedo Destroyer"
