@@ -114,7 +114,7 @@
 	torpedoes = 5
 	missiles = 10
 	combat_dice_type = /datum/combat_dice/destroyer/nuclear
-	possible_interior_maps = list()
+	possible_interior_maps = list('_maps/templates/boarding/syndicate/nukefrigate.dmm')
 
 /obj/structure/overmap/syndicate/ai/nuclear/elite
 	name = "Nightmare class thermonuclear deterrent"
