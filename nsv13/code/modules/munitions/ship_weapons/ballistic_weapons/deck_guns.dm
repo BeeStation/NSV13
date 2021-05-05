@@ -23,6 +23,8 @@
 	. = ..()
 	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
 	if(!core)
+		link_via_id()
+	if(!core)
 		to_chat(user, "<span class='warning'>No gun core detected to link to. Ensure one is placed directly below the turret. </span>")
 		return
 	core.turret = src
@@ -156,6 +158,7 @@
 	powder_gates = list()
 	computer = locate(/obj/machinery/computer/deckgun) in orange(1, src)
 	computer.core = src
+	turret.get_ship()
 	for(var/turf/T in orange(1, src))
 		var/obj/machinery/deck_turret/powder_gate/powder_gate = locate(/obj/machinery/deck_turret/powder_gate) in T
 		if(powder_gate && istype(powder_gate))
@@ -435,6 +438,7 @@
 			continue
 		if(core.id && core.id == id)
 			core.turret = src
+			src.core = core
 			core.update_parts()
 
 //The actual gun assembly.

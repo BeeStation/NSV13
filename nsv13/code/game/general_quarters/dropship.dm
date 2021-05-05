@@ -178,7 +178,11 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		if(FC?.load(src, target))
 			return FALSE
 	if(allowed(user))
-		to_chat(target, "[(user == target) ? "You start to climb into [src]'s passenger compartment" : "[user] starts to lift you into [src]'s passenger compartment"]")
+		if(ismecha(user.loc))
+			enter(user.loc)
+			return
+		else
+			to_chat(target, "[(user == target) ? "You start to climb into [src]'s passenger compartment" : "[user] starts to lift you into [src]'s passenger compartment"]")
 		if(do_after(user, 2 SECONDS, target=src))
 			enter(user)
 	else

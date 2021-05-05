@@ -34101,7 +34101,11 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
-/turf/open/floor/monotile/steel,
+/obj/mecha/working/ripley{
+	name = "Munitions Power Loader";
+	operation_req_access = list(69)
+	},
+/turf/open/floor/mech_bay_recharge_floor,
 /area/nsv/hanger/deck2)
 "bBy" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -34118,6 +34122,9 @@
 	},
 /obj/effect/turf_decal/tile/orange{
 	dir = 8
+	},
+/obj/machinery/computer/mech_bay_power_console{
+	dir = 1
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
@@ -35289,6 +35296,7 @@
 /obj/effect/turf_decal/tile/orange{
 	dir = 8
 	},
+/obj/structure/closet/crate/large,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "bDN" = (
@@ -42083,10 +42091,8 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/machinery/requests_console{
-	department = "Pilot lounge";
-	departmentType = 2;
-	pixel_y = 28
+/obj/machinery/airalarm{
+	pixel_y = 26
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
@@ -47333,6 +47339,20 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/weapons)
+"nwU" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/mech_bay_recharge_port,
+/obj/item/mecha_parts/mecha_equipment/hydraulic_clamp,
+/turf/open/floor/monotile/steel,
+/area/nsv/hanger/deck2)
 "nxI" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
@@ -87765,7 +87785,7 @@ abA
 aTc
 aav
 afd
-bBw
+nwU
 abz
 jtK
 bJX

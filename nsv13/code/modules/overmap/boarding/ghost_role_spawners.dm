@@ -21,6 +21,7 @@
 	important_info = "If you're stuck for what to do, ahelp!. The ship will need engineers, munitions techs, sometimes even pilots. You can even conduct counter boarding..."
 	outfit = /datum/outfit/syndicate_empty/boarding
 	id_access_list = list(ACCESS_SYNDICATE, ACCESS_SYNDICATE_ENGINEERING, ACCESS_SYNDICATE_MARINE_ARMOURY)
+	assignedrole = "Syndicate Crew"
 
 
 /obj/effect/mob_spawn/human/syndicate/boarding/Initialize()
