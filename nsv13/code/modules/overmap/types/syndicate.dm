@@ -291,7 +291,7 @@
 	bound_width = 96
 	damage_states = FALSE
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher	//Cruiser subtype, called frigate? Guess it gets the combat dice inbetween both.
-	possible_interior_maps = list()
+	possible_interior_maps = list('_maps/template/boarding/syndicate/marine_frigate.dmm')
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
