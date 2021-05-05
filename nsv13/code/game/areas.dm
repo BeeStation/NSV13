@@ -715,27 +715,6 @@
 	name = "Hammurabi exterior"
 	icon_state = "space_near"
 
-/area/Entered(atom/movable/A)
-	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
-	set waitfor = FALSE
-	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, A)
-	SEND_SIGNAL(A, COMSIG_ENTER_AREA, src) //The atom that enters the area
-
-	var/atom/foo = pick(contents) //We need something with a z-level attached to it.
-	var/obj/structure/linked_overmap = foo.get_overmap()
-
-	var/mob/M = A
-	if(linked_overmap && istype(M))
-		var/progress = linked_overmap.obj_integrity
-		var/goal = linked_overmap.max_integrity
-		progress = CLAMP(progress, 0, goal)
-		progress = round(((progress / goal) * 100), 50)//If the ship goes below 50% health, we start creaking like mad.
-		if((progress <= 50) && (M.client?.prefs.toggles & SOUND_AMBIENCE) && M.can_hear_ambience())
-			var/list/creaks = list('nsv13/sound/ambience/ship_damage/creak1.ogg','nsv13/sound/ambience/ship_damage/creak2.ogg','nsv13/sound/ambience/ship_damage/creak3.ogg','nsv13/sound/ambience/ship_damage/creak4.ogg','nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg','nsv13/sound/ambience/ship_damage/creak7.ogg')
-			var/creak = pick(creaks)
-			SEND_SOUND(M, sound(creak, repeat = 0, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))
-			return
-
 /area/Exited(atom/movable/M)
 	SEND_SIGNAL(src, COMSIG_AREA_EXITED, M)
 	SEND_SIGNAL(M, COMSIG_EXIT_AREA, src) //The atom that exits the area
