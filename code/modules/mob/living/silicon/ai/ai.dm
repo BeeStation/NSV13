@@ -164,6 +164,11 @@
 
 	builtInCamera = new (src)
 	builtInCamera.network = list("ss13")
+	//Nsv13
+	for(var/stype in subtypesof(/datum/component/simple_teamchat/radio_dependent/squad))
+		AddComponent(stype)
+
+	//Nsv13 end
 
 /mob/living/silicon/ai/key_down(_key, client/user)
 	if(findtext(_key, "numpad")) //if it's a numpad number, we can convert it to just the number

@@ -53,7 +53,7 @@
 
 /obj/item/squad_pager
 	name = "squad pager"
-	desc = "A small device that allows you to listen to and broadcast over squad comms. Use :f to page your squad with a message."
+	desc = "A small device that allows you to listen to and broadcast over squad comms."
 	icon = 'nsv13/icons/obj/squad.dmi'
 	icon_state = "squadpager"
 	w_class = 1

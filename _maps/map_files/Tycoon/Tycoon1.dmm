@@ -1896,13 +1896,15 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "fb" = (
-/obj/machinery/airalarm/directional/north,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
 	})
 "fc" = (
-/obj/machinery/computer/ship/viewscreen,
+/obj/machinery/computer/security/telescreen/squadcam{
+	pixel_y = 26
+	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -4877,11 +4879,9 @@
 /area/ai_monitored/turret_protected/aisat)
 "lm" = (
 /obj/structure/bed/dogbed/ian,
-/obj/machinery/firealarm{
-	pixel_y = 24
-	},
 /obj/machinery/camera/autoname,
 /mob/living/simple_animal/pet/dog/corgi/Ian,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -6049,6 +6049,14 @@
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat)
+"qO" = (
+/obj/machinery/firealarm{
+	pixel_y = 24
+	},
+/turf/open/floor/monotile/steel,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's Office"
+	})
 "qR" = (
 /turf/open/floor/engine/airless,
 /area/nsv/weapons/gauss)
@@ -6576,6 +6584,14 @@
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
+"EV" = (
+/obj/machinery/computer/security/telescreen/squadcam{
+	pixel_x = 32
+	},
+/turf/open/floor/carpet/blue,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's Office"
+	})
 "EY" = (
 /obj/structure/table/reinforced,
 /obj/item/extinguisher/advanced/hull_repair_juice,
@@ -36985,7 +37001,7 @@ eG
 eU
 lo
 kn
-fj
+EV
 jP
 gZ
 iC
@@ -38010,7 +38026,7 @@ kJ
 kM
 ck
 eG
-eY
+qO
 fj
 fr
 fC

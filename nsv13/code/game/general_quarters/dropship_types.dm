@@ -20,7 +20,7 @@ Credit to TGMC for the interior sprites for all these!
 	//pixel_w = -16
 	//pixel_z = -20
 	//Security personnel & marines can access this.
-	req_one_access = list(ACCESS_MUNITIONS, ACCESS_BRIG, ACCESS_FIGHTER)
+	req_one_access = list(ACCESS_MUNITIONS, ACCESS_BRIG, ACCESS_SEC_DOORS, ACCESS_FIGHTER)
 	canopy_open = FALSE
 	//HELLA slow.
 	forward_maxthrust = 3
