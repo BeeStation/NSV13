@@ -37,7 +37,7 @@
 			var/list/sergeant_info = list()
 			sergeant_info["name"] = compose_rank(M)+M.real_name
 			sergeant_info["id"] = "\ref[M]"
-			sergeants_info[++sergeant_info.len] = sergeant_info
+			sergeants_info[++sergeants_info.len] = sergeant_info
 		squad_info["sergeants"] = sergeants_info
 		//Get info about engis...
 		var/list/engineers = list()

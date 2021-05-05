@@ -1,4 +1,6 @@
-
+/**
+Credit to TGMC for the interior sprites for all these!
+*/
 /obj/structure/overmap/fighter/dropship
 	name = "Su-624 'Trafalgar' Utility Dropship"
 	desc = "An all-purpose troop carrier which can carry a unit of marines into the heart of darkness."
