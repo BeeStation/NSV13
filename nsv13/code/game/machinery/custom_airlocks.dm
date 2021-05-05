@@ -163,8 +163,13 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/hatch
 	name = "airtight hatch"
 	icon = 'nsv13/icons/obj/machinery/doors/hatch.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_hatch.dmi'
 	anim_parts = "down_left=-9,-9;down_right=9,-9;up_left=-9,9;up_right=9,9;fg=0,0"
+
+/obj/machinery/door/airlock/ship/hatch/glass
+	name = "airtight hatch"
+	opacity = 0
+	glass = TRUE
 
 /obj/machinery/door/poddoor/ship
 	name = "Double reinforced durasteel blast door"
