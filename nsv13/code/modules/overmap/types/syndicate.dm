@@ -375,6 +375,7 @@
 	armor = list("overmap_light" = 5, "overmap_heavy" = 5)
 	ai_trait = AI_TRAIT_SWARMER
 	combat_dice_type = /datum/combat_dice/fighter
+	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon(src)

@@ -162,10 +162,8 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 		if(SL)
 			SL.linked_overmap = null //Free that level up.
 		occupying_levels = list()
-		qdel(boarding_interior)
 		docking_points = list()
 		var/turf/TT = get_turf(locate(1,1,boarding_reservation_z))
-		boarding_reservation_z = null
 		//Yeet the crew
 		TT.ChangeTurf(/turf/open/space/transit)
 		for(var/mob/living/L in mobs_in_ship)
@@ -175,6 +173,8 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 		for(var/turf/T in boarding_interior.get_affected_turfs(get_turf(locate(1, 1, boarding_reservation_z)), FALSE)) //nuke
 			CHECK_TICK
 			T.empty()
+		boarding_reservation_z = null
+		qdel(boarding_interior)
 
 /obj/structure/overmap/proc/board_test()
 	var/turf/aaa = locate(x, y-10, z)
