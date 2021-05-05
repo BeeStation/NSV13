@@ -264,7 +264,6 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	//They didn't get their pref :(
 	if(!H.squad_role)
 		var/my_exp = H.client?.calc_exp_type(EXP_TYPE_CREW) || 0
-		message_admins("[my_exp]")
 		if(my_exp > 1200)
 			if(sergeants.len < max_sergeants)
 				sergeants += H
