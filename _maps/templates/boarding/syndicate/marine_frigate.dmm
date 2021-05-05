@@ -261,6 +261,11 @@
 	},
 /turf/closed/wall/r_wall,
 /area/ruin/powered/nsv13/boarding_interior)
+"gN" = (
+/obj/structure/overmap/fighter/dropship/sabre/syndicate,
+/obj/structure/overmap/fighter/dropship/sabre/syndicate,
+/turf/open/floor/mineral/plastitanium/red/airless,
+/area/ruin/powered/nsv13/boarding_interior)
 "hh" = (
 /obj/structure/fluff/empty_cryostasis_sleeper,
 /mob/living/simple_animal/hostile/syndicate/ranged{
@@ -614,9 +619,6 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "oo" = (
 /obj/structure/overmap/fighter/dropship/sabre/syndicate,
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "op" = (
@@ -679,9 +681,11 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "pt" = (
 /obj/structure/table/reinforced,
-/obj/item/folder/syndicate,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/item/folder/syndicate{
+	name = "folder"
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "pJ" = (
@@ -1736,9 +1740,6 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "Qd" = (
 /obj/structure/overmap/fighter/light/syndicate,
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "Qq" = (
@@ -1975,11 +1976,10 @@
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "WE" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	req_access_txt = "150"
+/mob/living/simple_animal/pet/cat/breadcat{
+	faction = list("neutral","Syndicate")
 	},
-/obj/machinery/door/firedoor/border_only/directional/north,
-/turf/open/floor/plating,
+/turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "WG" = (
 /obj/item/twohanded/required/kirbyplants{
@@ -2029,6 +2029,7 @@
 	req_access_txt = "150"
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "XA" = (
@@ -37021,7 +37022,7 @@ jS
 zE
 cq
 cq
-oo
+dg
 jS
 zR
 mr
@@ -37276,7 +37277,7 @@ jS
 jS
 PZ
 BC
-BC
+oo
 fy
 jS
 zR
@@ -38301,7 +38302,7 @@ jS
 zE
 cq
 Sm
-Qd
+dg
 jS
 zR
 pJ
@@ -38316,7 +38317,7 @@ jS
 zE
 KJ
 KJ
-oo
+dg
 jS
 jS
 jS
@@ -38556,7 +38557,7 @@ jS
 jS
 PZ
 BC
-BC
+Qd
 fy
 lI
 zR
@@ -38571,7 +38572,7 @@ zR
 EQ
 PZ
 BC
-BC
+gN
 fy
 jS
 jS
@@ -43169,11 +43170,11 @@ AR
 mr
 mr
 mr
-WE
+kS
 bd
 ma
 bd
-WE
+kS
 mr
 mr
 mr
@@ -47007,7 +47008,7 @@ mH
 bn
 nY
 hG
-CP
+kN
 ma
 ma
 ma
@@ -47530,7 +47531,7 @@ bd
 Ig
 DS
 hG
-hG
+WE
 zR
 zR
 aM
