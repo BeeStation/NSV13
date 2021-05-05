@@ -557,8 +557,8 @@ GLOBAL_LIST_EMPTY(teleportlocs)
   */
 /area/Entered(atom/movable/A)
 	set waitfor = FALSE
-	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, M)
-	SEND_SIGNAL(M, COMSIG_ENTER_AREA, src) //The atom that enters the area
+	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, A)
+	SEND_SIGNAL(A, COMSIG_ENTER_AREA, src) //The atom that enters the area
 
 	var/mob/M = A
 	var/obj/structure/linked_overmap = M.get_overmap()
