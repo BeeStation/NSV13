@@ -264,16 +264,16 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 	name = "External airlock"
 	icon = 'nsv13/goonstation/icons/external.dmi'
 	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
-	anim_parts = "bg=0,0;left=-12,0;right=12,0"
+	anim_parts = "bg=0,0;left=-12,0;right=15,0"
 	panel_attachment = "right"
 	note_attachment = "left"
 
 /obj/machinery/door/airlock/ship/external/glass
 	name = "External airlock"
-	icon = 'nsv13/goonstation/icons/external.dmi'
+	icon = 'nsv13/goonstation/icons/external_glass.dmi'
 	opacity = 0
 	glass = TRUE
-	anim_parts = "bg=0,0;left=-12,0;right=12,0"
+	anim_parts = "bg=0,0;left=-12,0;right=15,0"
 
 /obj/machinery/door/airlock/ship/maintenance
 	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon.dmi'
