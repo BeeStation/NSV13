@@ -200,7 +200,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/ship/command/glass
 	icon = 'nsv13/goonstation/icons/command_glass.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon_glass.dmi'
 	opacity = 0
 	glass = TRUE
 	anim_parts = "bg=0,0;down=0,-30;fg=0,0"
@@ -253,7 +253,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/ship/engineering/glass
 	icon = 'nsv13/goonstation/icons/engineering_glass.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon_glass.dmi'
 	opacity = 0
 	glass = TRUE
 	anim_parts = "bg=0,0;down=0,-30;fg=0,0"
@@ -300,7 +300,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/ship/public/glass
 	icon = 'nsv13/goonstation/icons/airlock_glass.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon_glass.dmi'
 	opacity = 0
 	glass = TRUE
 	anim_parts = "bg=0,0;down=0,-30;fg=0,0"
