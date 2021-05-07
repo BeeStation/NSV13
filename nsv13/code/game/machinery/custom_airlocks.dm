@@ -1,6 +1,5 @@
 //NSV NOTE TO SELF: Ensure _all_ ship airlocks have a glass type!
 
-//TODO: gap underneath door
 /obj/machinery/door/airlock/ship
 	name = "Airtight hatch"
 	icon = 'nsv13/icons/obj/machinery/doors/standard.dmi'
@@ -18,30 +17,6 @@
 /obj/machinery/door/airlock/ship/glass
 	opacity = 0
 	glass = TRUE
-
-//So we don't have to code in specific door assemblies...
-/obj/structure/door_assembly/proc/nsv_ify(obj/machinery/door/airlock/ship/target)
-	if(!istype(target) && !istype(target, /obj/machinery/door/airlock/highsecurity/ship))
-		return
-	icon = target.icon
-	dir = target.dir
-	if(target.icon_state)
-		icon_state = target.icon_state
-	overlays_file = target.overlays_file
-	airlock_type = target.type
-	if(target.glass)
-		glass_type = target.type
-	else
-		//Lazy way of assigning glass airlocks :)
-		try
-			glass_type = text2path("[target.type]/glass")
-			//Douuuuble check that one chief.
-			if(!glass_type)
-				glass_type = /obj/machinery/door/airlock/ship/glass
-		catch(var/exception/e) //Fallback.
-			glass_type = /obj/machinery/door/airlock/ship/glass
-			pass(e)	//suppress unused warning
-			return
 
 /obj/structure/door_assembly/ship
 	name = "airlock assembly"
