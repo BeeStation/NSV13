@@ -642,7 +642,11 @@
 
 	for (var/obj/machinery/camera/C in GLOB.cameranet.cameras)
 		var/list/tempnetwork = C.network
-		if(!(is_station_level(C.z) || is_mining_level(C.z) || ("ss13" in tempnetwork)))
+		//Nsv13 - AIs need to see the Rocinante.
+		//if(!(is_station_level(C.z) || is_mining_level(C.z) || ("ss13" in tempnetwork)))
+		//	continue
+		//Nsv13 end.
+		if(!shares_overmap(C, src, faction_check=TRUE) || ("ss13" in tempnetwork))
 			continue
 		if(!C.can_use())
 			continue
