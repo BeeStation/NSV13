@@ -15,24 +15,25 @@
 
 	outfit = /datum/outfit/job/pilot
 
-	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_COMBAT_PILOT, ACCESS_TRANSPORT_PILOT)
-	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS)
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_COMBAT_PILOT, ACCESS_TRANSPORT_PILOT, ACCESS_HANGAR)
+	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_HANGAR)
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_MUN
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_PILOT
 
-/datum/job/pilot/get_access()
+/datum/job/officer/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
 
 	if(H && H.client && H.client.prefs)
 		var/role = H.client.prefs.preferred_pilot_role
+		var/obj/item/card/id/W = H.wear_id
 		switch(role)
 			if(PILOT_COMBAT)
-				. |= list(ACCESS_COMBAT_PILOT)
+				W.access |= list(ACCESS_COMBAT_PILOT)
 			if(PILOT_TRANSPORT)
-				. |= list(ACCESS_TRANSPORT_PILOT)
+				W.access |= list(ACCESS_TRANSPORT_PILOT)
 
 /datum/outfit/job/pilot
 	name = "Pilot"
@@ -57,7 +58,7 @@
 				gloves = /obj/item/clothing/gloves/color/black
 
 			if(PILOT_TRANSPORT)
-				head =
+				head = /obj/item/clothing/head/helmet/transport_pilot
 				uniform = /obj/item/clothing/under/ship/pilot/transport
 				gloves = /obj/item/clothing/gloves/color/brown
 

@@ -244,6 +244,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Custom Job Preferences:</b><BR>"
 			dat += "<a href='?_src_=prefs;preference=ai_core_icon;task=input'><b>Preferred AI Core Display:</b> [preferred_ai_core_display]</a><br>"
 			dat += "<a href='?_src_=prefs;preference=sec_dept;task=input'><b>Preferred Security Department:</b> [prefered_security_department]</a><br>"
+			dat += "<a href='?_src_=prefs;preference=pilot_role;task=input'><b>Preferred Pilot Role:</b> [preferred_pilot_role]</a><br>"
 
 			dat += "<b>Syndicate Crew Preferences:</b><BR>"//Nsv13
 			dat += "<a href='?_src_=prefs;preference=syndiecrew;task=input'><b>Preferred Syndicate Role:</b> [preferred_syndie_role]</a><br>" //Nsv13
@@ -1639,6 +1640,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/department = input(user, "Choose your preferred security department:", "Security Departments") as null|anything in GLOB.security_depts_prefs
 					if(department)
 						prefered_security_department = department
+
+				if("pilot_role") //NSV13
+					var/p_role = input(user, "Choose your preferred pilot role:", "Pilot Roles") as null|anything in GLOB.pilot_role_prefs
+					if(p_role)
+						preferred_pilot_role = p_role
+
 //Nsv13 squads - we CM now
 				if("squad")
 					var/new_spec = input(user, "Choose your preferred squad specialisation:", "Squad Setup") as null|anything in GLOB.squad_manager.specialisations

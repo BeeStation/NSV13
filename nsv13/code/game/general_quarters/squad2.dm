@@ -75,7 +75,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 	var/primary_objective = null //Text strings
 	var/secondary_objective = null
-	var/list/disallowed_jobs = list(/datum/job/captain, /datum/job/hop, /datum/job/ai, /datum/job/cyborg, /datum/job/munitions_tech, /datum/job/master_at_arms, /datum/job/fighter_pilot, /datum/job/air_traffic_controller, /datum/job/warden, /datum/job/hos, /datum/job/bridge, /datum/job/flight_leader, /datum/job/military_police, /datum/job/marine, /datum/job/doctor, /datum/job/engineer, /datum/job/chief_engineer)
+	var/list/disallowed_jobs = list(/datum/job/captain, /datum/job/hop, /datum/job/ai, /datum/job/cyborg, /datum/job/munitions_tech, /datum/job/master_at_arms, /datum/job/pilot, /datum/job/air_traffic_controller, /datum/job/warden, /datum/job/hos, /datum/job/bridge, /datum/job/military_police, /datum/job/marine, /datum/job/doctor, /datum/job/engineer, /datum/job/chief_engineer)
 	var/list/allowed_jobs = null //Do you want this squad to be locked to one role?
 	var/datum/component/simple_teamchat/radio_dependent/squad/squad_channel = null
 	var/squad_channel_type
@@ -354,7 +354,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	desc = "Able squad is the ship's marine squad. Specialising in boarding and counter-boarding operations, Able squad marines are highly trained specialists in combat and ship operations and are expected to board + commandeer enemy ships."
 	id = ABLE_SQUAD
 	colour = "#e61919"
-	access = list(ACCESS_MUNITIONS, ACCESS_FIGHTER, ACCESS_BRIG, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MAINT_TUNNELS)
+	access = list(ACCESS_HANGAR, ACCESS_BRIG, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MAINT_TUNNELS)
 	allowed_jobs = list(/datum/job/marine)
 	disallowed_jobs = list()
 
@@ -374,7 +374,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	desc = "Charlie squad is the ship's secondary marine squad. They are usually activated during highly complex boarding operations when Able becomes overcrowded."
 	id = CHARLIE_SQUAD
 	colour = "#ffc32d"
-	access = list(ACCESS_MUNITIONS, ACCESS_FIGHTER, ACCESS_BRIG, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MAINT_TUNNELS)
+	access = list(ACCESS_HANGAR, ACCESS_BRIG, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MAINT_TUNNELS)
 	hidden = TRUE
 
 /datum/squad/duff
