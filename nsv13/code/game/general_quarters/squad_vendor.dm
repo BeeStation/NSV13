@@ -167,10 +167,10 @@
 /datum/squad_loadout/medic
 	name = "Squad Medic (Standard)"
 	desc = "A kit containing battlefield medical equipment and light squad armour."
-	items = list(/obj/item/clothing/under/ship/marine/medic, /obj/item/storage/firstaid/regular, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/ship/squad, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
+	items = list(/obj/item/clothing/under/ship/marine/medic, /obj/item/storage/firstaid/regular, /obj/item/reagent_containers/medspray/sterilizine, /obj/item/reagent_containers/medspray/styptic, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/ship/squad, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
 	allowed_ranks = list(SQUAD_MEDIC)
 
 /datum/squad_loadout/medic/space
 	name = "Squad Medic (Hazardous Environment)"
 	desc = "For hazardous, low pressure environments. This kit contains specialist equipment for treating common battlefield injuries."
-	items = list(/obj/item/clothing/under/ship/marine/medic, /obj/item/storage/firstaid/regular, /obj/item/storage/firstaid/o2, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/ship/squad, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
+	items = list(/obj/item/clothing/under/ship/marine/medic, /obj/item/storage/firstaid/regular, /obj/item/reagent_containers/medspray/sterilizine, /obj/item/reagent_containers/medspray/styptic, /obj/item/storage/firstaid/o2, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/ship/squad, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)

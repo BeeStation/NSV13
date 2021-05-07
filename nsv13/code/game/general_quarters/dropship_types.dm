@@ -20,7 +20,7 @@ Credit to TGMC for the interior sprites for all these!
 	//pixel_w = -16
 	//pixel_z = -20
 	//Security personnel & marines can access this.
-	req_one_access = list(ACCESS_MUNITIONS, ACCESS_BRIG, ACCESS_SEC_DOORS, ACCESS_FIGHTER)
+	req_one_access = list()
 	canopy_open = FALSE
 	//HELLA slow.
 	forward_maxthrust = 3
@@ -73,6 +73,37 @@ Credit to TGMC for the interior sprites for all these!
 /datum/map_template/dropship/syndicate
     name = "Syndicate Dropship"
     mappath = "_maps/templates/boarding/dropship_syndicate.dmm"
+
+/obj/structure/overmap/fighter/dropship/gunship
+	name = "SC-130 'Halberd' gunship"
+	desc = "A horrible, cramped death trap armed to the teeth with more guns than most small nations, all of which are under investigation for their carcinogenic properties."
+	interior_type = /datum/map_template/dropship/gunship
+	components = list(/obj/item/fighter_component/fuel_tank/tier2,
+						/obj/item/fighter_component/avionics,
+						/obj/item/fighter_component/apu,
+						/obj/item/fighter_component/armour_plating,
+						/obj/item/fighter_component/targeting_sensor,
+						/obj/item/fighter_component/engine,
+						/obj/item/fighter_component/docking_computer,
+						/obj/item/fighter_component/battery,
+						/obj/item/fighter_component/ftl,
+						/obj/item/fighter_component/countermeasure_dispenser)
+
+/datum/map_template/dropship/gunship
+    name = "SC-130 Halberd Gunship"
+    mappath = "_maps/templates/boarding/gunship.dmm"
+
+/obj/structure/overmap/fighter/dropship/gunship/apply_weapons()
+	if(!weapon_types[FIRE_MODE_PDC])
+		weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/fighter_primary(src)
+	if(!weapon_types[FIRE_MODE_TORPEDO])
+		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	if(!weapon_types[FIRE_MODE_AMS])
+		weapon_types[FIRE_MODE_AMS] = new/datum/ship_weapon/vls(src)
+	if(!weapon_types[FIRE_MODE_GAUSS])
+		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	if(!weapon_types[FIRE_MODE_50CAL])
+		weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
 
 /obj/structure/overmap/fighter/dropship/sabre
 	name = "Su-437 Sabre"

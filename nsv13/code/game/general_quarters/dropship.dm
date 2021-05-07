@@ -1,3 +1,5 @@
+//FULL CREDIT FOR THE DROPSHIP INTERIORS GOES TO CM.
+
 /turf/closed/wall/indestructible/dropship
 	name = "dropship"
 	desc = "A piece of a mighty spaceship."
