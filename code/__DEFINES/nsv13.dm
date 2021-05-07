@@ -62,3 +62,5 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define LOADOUT_UTILITY_ONLY /datum/component/ship_loadout/utility
 
 #define ENGINE_RPM_SPUN 8000
+
+#define COMSIG_SHIP_BOARDED "ship_boarded"
