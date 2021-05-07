@@ -209,7 +209,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/highsecurity/ship
 	icon = 'nsv13/icons/obj/machinery/doors/vault.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_vault.dmi'
 	anim_parts = "left=-10,0;right=10,0"
 
 /obj/machinery/door/airlock/highsecurity/ship/Initialize()
@@ -223,13 +223,13 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/wood
 	icon = 'nsv13/goonstation/icons/airlock_wood.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
+	overlays_file = 'nsv13/goonstation/icons/airlock_wood.dmi'
 	LEGACY_OVERLAYS = TRUE
 	anim_parts=""
 
 /obj/machinery/door/airlock/vault/ship
 	icon = 'nsv13/icons/obj/machinery/doors/vault.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_vault.dmi'
 	desc = "A durasteel bulkhead which opens and closes. Hope you're good at hatch hopping"
 	icon_state = "closed"
 	anim_parts = "left=-10,0;right=10,0"
@@ -263,7 +263,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/external
 	name = "External airlock"
 	icon = 'nsv13/goonstation/icons/external.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_external.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=15,0"
 	panel_attachment = "right"
 	note_attachment = "left"
