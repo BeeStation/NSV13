@@ -6,7 +6,7 @@
 	icon = 'nsv13/icons/obj/machinery/doors/standard.dmi'
 	desc = "A durasteel bulkhead which opens and closes. Hope you're good at hatch hopping"
 	icon_state = "closed"
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_standard.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_standard.dmi'
 	assemblytype = /obj/structure/door_assembly/ship
 	anim_parts = "up=0,28;fg=0,0"
 	panel_attachment = "up"
@@ -46,7 +46,7 @@
 /obj/structure/door_assembly/ship
 	name = "airlock assembly"
 	icon = 'nsv13/icons/obj/machinery/doors/standard.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_standard.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_standard.dmi'
 	glass_type = /obj/machinery/door/airlock/ship/glass
 	airlock_type = /obj/machinery/door/airlock/ship
 
@@ -133,7 +133,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/station
 	name = "Standard airlock"
 	icon = 'nsv13/icons/obj/machinery/doors/station.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays.dmi'
 	anim_parts = "left=-12,0;right=12,0"
 	panel_attachment = "right"
 	note_attachment = "left"
@@ -148,7 +148,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/structure/door_assembly/ship/station
 	name = "Standard airlock assembly"
 	icon = 'nsv13/icons/obj/machinery/doors/station.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays.dmi'
 	glass_type = /obj/machinery/door/airlock/ship/station/glass
 	airlock_type = /obj/machinery/door/airlock/ship/station
 
@@ -189,7 +189,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/hatch
 	name = "airtight hatch"
 	icon = 'nsv13/icons/obj/machinery/doors/hatch.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_hatch.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_hatch.dmi'
 	anim_parts = "down_left=-9,-9;down_right=9,-9;up_left=-9,9;up_right=9,9;fg=0,0"
 	panel_attachment = "down_right"
 	note_attachment = "up_left"
@@ -230,7 +230,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/command
 	name = "Command"
 	icon = 'nsv13/goonstation/icons/command.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_goon.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 	panel_attachment = "right"
 	note_attachment = "left"
@@ -238,7 +238,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/ship/command/glass
 	icon = 'nsv13/goonstation/icons/command_glass.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon_glass.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_goon_glass.dmi'
 	opacity = 0
 	glass = TRUE
 	anim_parts = "bg=0,0;down=0,-30;fg=0,0"
@@ -309,7 +309,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/engineering
 	name = "Engineering wing"
 	icon = 'nsv13/goonstation/icons/engineering.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_goon.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 	panel_attachment = "right"
 	note_attachment = "left"
@@ -317,7 +317,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/ship/engineering/glass
 	icon = 'nsv13/goonstation/icons/engineering_glass.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon_glass.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_goon_glass.dmi'
 	opacity = 0
 	glass = TRUE
 	anim_parts = "bg=0,0;down=0,-30;fg=0,0"
@@ -355,7 +355,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 
 /obj/machinery/door/airlock/ship/maintenance
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_goon.dmi'
 	name = "Maintenance tunnels"
 	icon = 'nsv13/goonstation/icons/maintenance.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
@@ -380,7 +380,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/public
 	name = "Public airlock"
 	icon = 'nsv13/goonstation/icons/public.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_goon.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 	panel_attachment = "right"
 	note_attachment = "left"
@@ -388,7 +388,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/ship/public/glass
 	icon = 'nsv13/goonstation/icons/airlock_glass.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon_glass.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_goon_glass.dmi'
 	opacity = 0
 	glass = TRUE
 	anim_parts = "bg=0,0;down=0,-30;fg=0,0"
@@ -404,7 +404,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 
 /obj/machinery/door/airlock/glass_large/ship
 	icon = 'nsv13/icons/obj/machinery/doors/double.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_large.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_large.dmi'
 	anim_parts=""
 	LEGACY_OVERLAYS = TRUE
 
@@ -413,7 +413,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/medical
 	name = "Infirmary"
 	icon = 'nsv13/goonstation/icons/medical.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_goon.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 	panel_attachment = "right"
 	note_attachment = "left"
@@ -433,7 +433,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/ship/security
 	name = "Brig"
 	icon = 'nsv13/goonstation/icons/security.dmi'
-	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays_goon.dmi'
+	overlays_file = 'nsv13/icons/obj/machinery/doors/overlays/overlays_goon.dmi'
 	anim_parts = "bg=0,0;left=-12,0;right=12,0"
 	panel_attachment = "right"
 	note_attachment = "left"
