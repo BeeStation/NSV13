@@ -71,6 +71,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		S.dir.Remove("overhead_chat")
 	if(current_version < 32)
 		squad_specialisation = "Marine"
+		preferred_pilot_role = PILOT_COMBAT
+
 
 	return
 
@@ -188,6 +190,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Nsv13 squads - we CM now
 	READ_FILE(S["squad_specialisation"], squad_specialisation)
 	READ_FILE(S["preferred_syndie_role"], preferred_syndie_role)
+	READ_FILE(S["preferred_pilot_role"], preferred_pilot_role)
 
 	READ_FILE(S["default_slot"], default_slot)
 	READ_FILE(S["chat_toggles"], chat_toggles)
@@ -324,6 +327,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Nsv13 squads - we CM now
 	WRITE_FILE(S["squad_specialisation"], squad_specialisation)
 	WRITE_FILE(S["preferred_syndie_role"], preferred_syndie_role)
+	WRITE_FILE(S["preferred_pilot_role"], preferred_pilot_role)
 
 	if (!key_bindings)
 		key_bindings = deepCopyList(GLOB.keybinding_list_by_key)

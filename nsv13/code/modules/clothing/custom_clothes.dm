@@ -229,6 +229,13 @@
 	item_color = "pilot"
 	item_state = "bl_suit"
 
+/obj/item/clothing/under/ship/pilot/transport
+	name = "Pilot's transport jumpsuit"
+	desc = "A comfortable lightweight jumpsuit for non-combat positions."
+	icon_state = "pilot"
+	item_color = "pilot"
+	item_state = "bl_suit"
+
 /obj/item/clothing/head/beret/ship/pilot
 	name = "pilot's beret"
 	desc = "In parts a fashion statement and a hard hat, this beret has been specially reinforced to protect its wearer against workplace accidents."

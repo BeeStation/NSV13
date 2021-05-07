@@ -136,6 +136,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	//Nsv13 - Syndicate role select
 	var/preferred_syndie_role = CONQUEST_ROLE_GRUNT
 
+	//NSV13 - Pilots
+	var/preferred_pilot_role = PILOT_COMBAT
+
 /datum/preferences/New(client/C)
 	parent = C
 
