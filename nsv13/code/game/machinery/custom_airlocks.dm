@@ -277,9 +277,9 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 /obj/machinery/door/airlock/wood
 	icon = 'nsv13/goonstation/icons/airlock_wood.dmi'
 	overlays_file = 'nsv13/goonstation/icons/airlock_wood.dmi'
+	protected_door = TRUE
 	LEGACY_OVERLAYS = TRUE
 	anim_parts=""
-
 
 
 /obj/machinery/door/airlock/vault/ship
