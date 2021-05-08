@@ -132,11 +132,6 @@ If someone hacks it, you can always rebuild it.
 	name = "IFF Console (circuit)"
 	build_path = /obj/machinery/computer/iff_console
 
-/obj/structure/overmap
-	var/datum/map_template/overmap_boarding/boarding_interior = null
-	var/list/possible_interior_maps = null
-	var/ftl_dragalong = FALSE
-
 /datum/map_template/overmap_boarding
     name = "Overmap boarding level"
     mappath = null
@@ -158,24 +153,34 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 
 /obj/structure/overmap/proc/kill_boarding_level()
 	set waitfor = FALSE
-	if(boarding_interior && boarding_reservation_z)
-		var/datum/space_level/SL = SSmapping.get_level(boarding_reservation_z)
-		if(SL)
-			SL.linked_overmap = null //Free that level up.
-		occupying_levels = list()
-		docking_points = list()
-		var/turf/TT = get_turf(locate(1,1,boarding_reservation_z))
-		//Yeet the crew
-		TT.ChangeTurf(/turf/open/space/transit)
-		for(var/mob/living/L in mobs_in_ship)
-			L.forceMove(TT)
-			L.death()
-		TT.ChangeTurf(/turf/open/space/basic)
-		for(var/turf/T in boarding_interior.get_affected_turfs(get_turf(locate(1, 1, boarding_reservation_z)), FALSE)) //nuke
-			CHECK_TICK
-			T.empty()
-		boarding_reservation_z = null
-		qdel(boarding_interior)
+	switch(interior_mode)
+		if(INTERIOR_EXCLUSIVE)
+			if(boarding_interior && boarding_reservation_z)
+				var/datum/space_level/SL = SSmapping.get_level(boarding_reservation_z)
+				if(SL)
+					SL.linked_overmap = null //Free that level up.
+				occupying_levels = list()
+				docking_points = list()
+				var/turf/TT = get_turf(locate(1,1,boarding_reservation_z))
+				//Yeet the crew
+				TT.ChangeTurf(/turf/open/space/transit)
+				for(var/mob/living/L in mobs_in_ship)
+					L.forceMove(TT)
+					L.death()
+				TT.ChangeTurf(/turf/open/space/basic)
+				for(var/turf/T in boarding_interior.get_affected_turfs(get_turf(locate(1, 1, boarding_reservation_z)), FALSE)) //nuke
+					CHECK_TICK
+					T.empty()
+				boarding_reservation_z = null
+				qdel(boarding_interior)
+		if(INTERIOR_DYNAMIC)
+			if(boarding_interior)
+				var/turf/target = get_turf(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
+				for(var/turf/T in boarding_interior.get_affected_turfs(target, FALSE)) //nuke
+					T.empty()
+			//Free the reservation.
+			QDEL_NULL(roomReservation)
+			boarding_interior = null
 
 /obj/structure/overmap/proc/board_test()
 	var/turf/aaa = locate(x, y-10, z)
@@ -189,8 +194,11 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	//You can't harpoon a ship with no supported interior, or that already has an interior defined. Your ship must also have an interior to load this, so we can link the z-levels.
 
 	// -----------------------------
-	if(!boarder.boarding_reservation_z || !possible_interior_maps?.len || occupying_levels?.len || !boarder.occupying_levels?.len || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
+	if(interior_mode == NO_INTERIOR || interior_mode == INTERIOR_DYNAMIC)
 	//	message_admins("1[boarding_reservation_z]2[possible_interior_maps?.len]3[occupying_levels?.len]4[boarder.occupying_levels?.len]5[(boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target))]")
+		message_admins("[src] attempted to be boarded by [boarder], but it has an incompatible interior_mode.")
+		return FALSE
+	if(!boarder.boarding_reservation_z || !possible_interior_maps?.len || occupying_levels?.len || !boarder.occupying_levels?.len || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
 		return FALSE
 	//Prepare the boarding interior map. Admins may also force-load this with a path if they want.
 	var/chosen = (map_path_override) ? map_path_override : pick(possible_interior_maps)
@@ -321,3 +329,57 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 		/obj/structure/fighter_frame = 1
 )
 	lootcount = 1
+
+
+/**
+The meat of this file. This will instance the dropship's interior in reserved space land. I HIGHLY recommend you keep these maps small, reserved space code is shitcode.
+*/
+/obj/structure/overmap/proc/instance_interior(tries=5)
+	//Init the template.
+	var/interior_type = pick(possible_interior_maps)
+	boarding_interior = GLOB.boarding_interior_maps[interior_type]
+	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
+	if(!roomReservation)
+		message_admins("Dropship failed to reserve an interior!")
+		return FALSE
+	if(tries <= 0)
+		message_admins("Something went hideously wrong with loading [boarding_interior] for [src]. Contact a coder.")
+		qdel(src)
+		return FALSE
+	try
+		boarding_interior.load(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
+	catch(var/exception/e) //We ran into an error. Let's try that one again..
+		message_admins("Dropship interior bugged out for [src] in [get_area(src)]. Trying to load it again...")
+		kill_boarding_level(TRUE)
+		addtimer(CALLBACK(src, .proc/instance_interior, tries - 1), rand(1 SECONDS, 2.25 SECONDS))//Just in case we're not done initializing
+		pass(e) //Stops linters from whining.
+		return FALSE
+
+	var/turf/center = get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2]+boarding_interior.height/2, roomReservation.bottom_left_coords[3]))
+	var/area/target_area
+	//Now, set up the interior for loading...
+	if(center)
+		target_area = get_area(center)
+
+	if(!target_area)
+		message_admins("WARNING: DROPSHIP FAILED TO FIND AREA TO LINK TO. ENSURE THAT THE MIDDLE TILE OF THE MAP HAS AN AREA!")
+		return FALSE
+	if(istype(target_area, /area/dropship/generic))
+		//Avoid naming conflicts.
+		target_area.name = "[src.name] interior #[rand(0,999)]"
+	else
+		target_area.name = src.name
+	target_area.overmap_fallback = src //Set up the fallback...
+	for(var/obj/effect/landmark/dropship_entry/entryway in GLOB.landmarks_list)
+		if(get_area(entryway) == target_area && !entryway.linked)
+			interior_entry_points += entryway
+			entryway.linked = src
+	/*
+	//And finally, set up the area contents...
+	for(var/atom/movable/AM in target_area)
+
+		if(istype(AM, /obj/machinery/computer/ship))
+			var/obj/machinery/computer/ship/S = AM
+			S.linked = src //Link 'em up!
+			S.set_position(src)
+	*/

@@ -44,9 +44,7 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/ftl,
 						/obj/item/fighter_component/secondary/utility/resupply,
 						/obj/item/fighter_component/countermeasure_dispenser)
-	var/interior_type = /datum/map_template/dropship
-	var/datum/turf_reservation/roomReservation = null
-	var/list/entry_points = list()
+	interior_mode = INTERIOR_DYNAMIC
 
 /datum/map_template/dropship
     name = "Marine Dropship"
@@ -54,7 +52,7 @@ Credit to TGMC for the interior sprites for all these!
 
 /obj/structure/overmap/fighter/dropship/starter
 	name = "NSV Sephora"
-	interior_type = /datum/map_template/dropship/main
+	possible_interior_maps = list(/datum/map_template/dropship/main)
 
 /datum/map_template/dropship/main
     name = "NSV Sephora (Dropship)"
@@ -64,7 +62,7 @@ Credit to TGMC for the interior sprites for all these!
 	name = "Syndicate Dropship"
 	icon = 'nsv13/icons/overmap/new/syndicate/dropship.dmi'
 	icon_state = "dropship_syndie"
-	interior_type = /datum/map_template/dropship/syndicate
+	possible_interior_maps = list(/datum/map_template/dropship/syndicate)
 	faction = "syndicate"
 	req_one_access = list(ACCESS_SYNDICATE)
 
@@ -78,7 +76,7 @@ Credit to TGMC for the interior sprites for all these!
 /obj/structure/overmap/fighter/dropship/gunship
 	name = "SC-130 'Halberd' gunship"
 	desc = "A horrible, cramped death trap armed to the teeth with more guns than most small nations, all of which are under investigation for their carcinogenic properties."
-	interior_type = /datum/map_template/dropship/gunship
+	possible_interior_maps = list(/datum/map_template/dropship/gunship)
 	components = list(/obj/item/fighter_component/fuel_tank/tier2,
 						/obj/item/fighter_component/avionics,
 						/obj/item/fighter_component/apu,
@@ -130,7 +128,7 @@ Credit to TGMC for the interior sprites for all these!
 	max_angular_acceleration = 100
 	speed_limit = 6
 	loadout_type = LOADOUT_UTILITY_ONLY
-	interior_type = /datum/map_template/dropship/sabre
+	possible_interior_maps = list(/datum/map_template/dropship/sabre)
 	components = list(/obj/item/fighter_component/fuel_tank/tier2,
 						/obj/item/fighter_component/avionics,
 						/obj/item/fighter_component/apu,
@@ -151,7 +149,7 @@ Credit to TGMC for the interior sprites for all these!
 /obj/structure/overmap/fighter/dropship/sabre/mining
 	icon = 'nsv13/icons/overmap/nanotrasen/carrier_mining.dmi'
 	req_one_access = list(ACCESS_CARGO, ACCESS_MINING, ACCESS_TRANSPORT_PILOT)
-	interior_type = /datum/map_template/dropship/sabre/mining
+	possible_interior_maps = list(/datum/map_template/dropship/sabre/mining)
 
 /datum/map_template/dropship/sabre/mining
     name = "SU-437 Sabre Interior (Mining)"
@@ -164,7 +162,7 @@ Credit to TGMC for the interior sprites for all these!
 	req_one_access = list(ACCESS_SYNDICATE)
 	faction = "syndicate"
 	start_emagged = TRUE
-	interior_type = /datum/map_template/dropship/sabre/syndicate
+	possible_interior_maps = list(/datum/map_template/dropship/sabre/syndicate)
 
 /datum/map_template/dropship/sabre/syndicate
     name = "SU-437 Sabre Interior (Syndicate)"

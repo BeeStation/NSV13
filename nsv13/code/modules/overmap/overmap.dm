@@ -153,6 +153,13 @@
 	var/datum/combat_dice/npc_combat_dice
 	var/combat_dice_type = /datum/combat_dice
 
+	//Boarding
+	var/datum/turf_reservation/roomReservation = null
+	var/datum/map_template/overmap_boarding/boarding_interior = null
+	var/list/possible_interior_maps = null
+	var/ftl_dragalong = FALSE
+	var/interior_mode = NO_INTERIOR
+	var/list/interior_entry_points = list()
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
@@ -247,8 +254,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(collision_positions.len)
 		physics2d = AddComponent(/datum/component/physics2d)
 		physics2d.setup(collision_positions, angle)
-//	else //It pains me to comment this out...but we no longer use qwer2d, F.
-//		message_admins("[src] does not have collision points set! It will float through everything.")
 
 	for(var/atype in subtypesof(/datum/ams_mode))
 		ams_modes.Add(new atype)
@@ -357,6 +362,29 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		current_system = sys
 	addtimer(CALLBACK(src, .proc/force_parallax_update), 20 SECONDS)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
+
+	//Boarding / Interior bits...
+	switch(interior_mode)
+		//If we didn't get it preset, Ie, we're not a dropship
+		if(NO_INTERIOR)
+			interior_mode = (possible_interior_maps?.len) ? INTERIOR_EXCLUSIVE : NO_INTERIOR
+		//Allows small ships to have a small interior.
+		if(INTERIOR_DYNAMIC)
+			//Fuck this entire code block. Why we had to do this is fucking byond me, but it works. So we don't ask any fucking questions
+			//I havent written code this shit since erlang, looking at you SMK....
+			//JESUS CHRIST FUCK OFF THIS WORKS
+			//OOP GO BRRRRRRRR
+			var/interior_type = pick(possible_interior_maps) //fuck
+			if(isnum(GLOB.boarding_interior_maps[interior_type]))
+				//based based based based based based based based based based based based based based based based ~Francinum
+				UNTIL(!isnum(GLOB.boarding_interior_maps[interior_type])) //Wait until the object has finished instantiation and turns from a NUMBER into an OBJECT. FUCKING HELL
+
+				//code by franc and kmc age 5
+			if(interior_type && !GLOB.boarding_interior_maps[interior_type])
+				//Mark it as "awaiting initialisation" using the gamer number. Fuck.
+				GLOB.boarding_interior_maps[interior_type] = 69
+				GLOB.boarding_interior_maps[interior_type] = new interior_type()
+			instance_interior()
 
 	apply_weapons()
 

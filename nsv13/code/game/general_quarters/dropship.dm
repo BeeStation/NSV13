@@ -78,76 +78,14 @@
 	tier = 2
 	weight = 2
 
-/obj/structure/overmap/fighter/dropship/Initialize(mapload, list/build_components)
-	. = ..()
-	return INITIALIZE_HINT_LATELOAD
-
-//After init, try instance the cockpit.
-/obj/structure/overmap/fighter/dropship/LateInitialize()
-	. = ..()
-	addtimer(CALLBACK(src, .proc/instance_cockpit), rand(1 SECONDS, 2.25 SECONDS))//Just in case we're not done initializing
-
 /area
 	var/obj/structure/overmap/overmap_fallback = null //Used for dropships. Allows you to define an overmap to "fallback" to if get_overmap() fails to find a space level with a linked overmap.
 
-/**
-The meat of this file. This will instance the dropship's interior in reserved space land. I HIGHLY recommend you keep these maps small, reserved space code is shitcode.
-*/
-/obj/structure/overmap/fighter/dropship/proc/instance_cockpit(tries=5)
-	//Init the template.
-	if(!boarding_interior)
-		boarding_interior = new interior_type()
-	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
-	if(!roomReservation)
-		message_admins("Dropship failed to reserve an interior!")
-		return FALSE
-	if(tries <= 0)
-		message_admins("Something went hideously wrong with loading [boarding_interior] for [src]. Contact a coder.")
-		qdel(src)
-		return FALSE
-	try
-		boarding_interior.load(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
-	catch(var/exception/e) //We ran into an error. Let's try that one again..
-		message_admins("Dropship interior bugged out for [src] in [get_area(src)]. Trying to load it again...")
-		kill_boarding_level()
-		addtimer(CALLBACK(src, .proc/instance_cockpit, tries - 1), rand(1 SECONDS, 2.25 SECONDS))//Just in case we're not done initializing
-		pass(e) //Stops linters from whining.
-		return FALSE
-
-	var/turf/center = get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2]+boarding_interior.height/2, roomReservation.bottom_left_coords[3]))
-	var/area/target_area
-	//Now, set up the interior for loading...
-	if(center)
-		target_area = get_area(center)
-
-	if(!target_area)
-		message_admins("WARNING: DROPSHIP FAILED TO FIND AREA TO LINK TO. ENSURE THAT THE MIDDLE TILE OF THE MAP HAS AN AREA!")
-		return FALSE
-	if(istype(target_area, /area/dropship/generic))
-		//Avoid naming conflicts.
-		target_area.name = "[src.name] interior #[rand(0,999)]"
-	else
-		target_area.name = src.name
-	target_area.overmap_fallback = src //Set up the fallback...
-	for(var/obj/effect/landmark/dropship_entry/entryway in GLOB.landmarks_list)
-		if(get_area(entryway) == target_area && !entryway.linked)
-			entry_points += entryway
-			entryway.linked = src
-	/*
-	//And finally, set up the area contents...
-	for(var/atom/movable/AM in target_area)
-
-		if(istype(AM, /obj/machinery/computer/ship))
-			var/obj/machinery/computer/ship/S = AM
-			S.linked = src //Link 'em up!
-			S.set_position(src)
-	*/
-
 /obj/structure/overmap/fighter/dropship/enter(mob/user)
-	if(!entry_points?.len)
+	if(!interior_entry_points?.len)
 		message_admins("[src] has no interior or entry points and [user] tried to board it.")
 		return FALSE
-	var/turf/T = get_turf(pick(entry_points))
+	var/turf/T = get_turf(pick(interior_entry_points))
 	var/atom/movable/AM
 	if(user.pulling)
 		AM = user.pulling
@@ -206,14 +144,6 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 /**
 	Override, as we're using the turf reservation system instead of the maploader (this was done for lag reasons, turf reservation REALLY lags with big maps!)
 */
-/obj/structure/overmap/fighter/dropship/kill_boarding_level()
-	if(boarding_interior)
-		var/turf/target = get_turf(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
-		for(var/turf/T in boarding_interior.get_affected_turfs(target, FALSE)) //nuke
-			T.empty()
-	//Free the reservation.
-	QDEL_NULL(roomReservation)
-	QDEL_NULL(boarding_interior)
 
 /atom/get_overmap() //Here I go again on my own, walkin' down the only road I've ever known
 	RETURN_TYPE(/obj/structure/overmap)
