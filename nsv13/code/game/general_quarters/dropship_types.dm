@@ -22,6 +22,7 @@ Credit to TGMC for the interior sprites for all these!
 	//Security personnel & marines can access this.
 	req_one_access = list()
 	canopy_open = FALSE
+	movement_type = FLYING
 	//HELLA slow.
 	forward_maxthrust = 3
 	backward_maxthrust = 3

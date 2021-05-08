@@ -35,12 +35,28 @@
 	icon_state = "34"
 	},
 /area/dropship/generic)
+"cr" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/conveyor_switch{
+	id = "ihatetheantichrist_dropship_comedy_gunship";
+	name = "VLS"
+	},
+/turf/open/indestructible/dropship{
+	icon_state = "rasputin15"
+	},
+/area/dropship/generic)
 "cs" = (
 /obj/machinery/computer/ship/viewscreen{
 	pixel_y = 29
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
+	},
+/obj/machinery/computer/ship/munitions_computer{
+	icon = 'icons/obj/computer.dmi';
+	icon_state = "computer"
 	},
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin15"
@@ -81,6 +97,18 @@
 	icon_state = "22"
 	},
 /area/dropship/generic)
+"eS" = (
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/structure/rack,
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
+/turf/open/indestructible/dropship{
+	icon_state = "rasputin15"
+	},
+/area/dropship/generic)
 "eU" = (
 /turf/closed/wall/indestructible/dropship{
 	icon_state = "blue_wing_rb"
@@ -119,12 +147,15 @@
 	},
 /area/dropship/generic)
 "iy" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
 /obj/machinery/conveyor_switch{
 	id = "ihatetheantichrist_dropship_comedy_gunship";
 	name = "VLS"
 	},
 /turf/open/indestructible/dropship{
-	icon_state = "rasputin3"
+	icon_state = "rasputin15"
 	},
 /area/dropship/generic)
 "iE" = (
@@ -406,7 +437,7 @@
 "xg" = (
 /obj/structure/sign/ship/securearea{
 	dir = 4;
-	name = "CAUTION: FASTEN YOUR SEATBELT"
+	name = "CAUTION: EAR PROTECTION MANDATORY"
 	},
 /turf/closed/wall/indestructible/dropship{
 	icon_state = "18"
@@ -528,7 +559,7 @@
 "Dw" = (
 /obj/structure/sign/ship/securearea{
 	dir = 8;
-	name = "CAUTION: FASTEN YOUR SEATBELT"
+	name = "CAUTION: EAR PROTECTION MANDATORY"
 	},
 /turf/closed/wall/indestructible/dropship{
 	icon_state = "19"
@@ -668,6 +699,9 @@
 /area/dropship/generic)
 "Mc" = (
 /obj/effect/turf_decal/loading_area,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin3"
 	},
@@ -680,10 +714,23 @@
 	icon_state = "18"
 	},
 /area/dropship/generic)
+"MJ" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/computer/ship/munitions_computer{
+	dir = 1;
+	icon = 'icons/obj/computer.dmi';
+	icon_state = "computer"
+	},
+/turf/open/indestructible/dropship{
+	icon_state = "rasputin15"
+	},
+/area/dropship/generic)
 "Ni" = (
 /obj/machinery/door/airlock/ship/hatch{
 	name = "cockpit";
-	req_one_access_txt = "71;72;58;69"
+	req_one_access_txt = "69;72;73"
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
@@ -731,6 +778,7 @@
 /obj/machinery/conveyor{
 	id = "ihatetheantichrist_dropship_comedy_gunship"
 	},
+/obj/machinery/ship_weapon/vls,
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin15"
 	},
@@ -777,6 +825,9 @@
 /obj/structure/window/reinforced{
 	dir = 1;
 	pixel_y = 1
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
 	},
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin15"
@@ -1005,6 +1056,9 @@
 "Zy" = (
 /obj/structure/munitions_trolley,
 /obj/effect/turf_decal/box,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin15"
 	},
@@ -1152,7 +1206,7 @@ CL
 Jf
 Vv
 Vk
-ix
+iy
 Vk
 oj
 ix
@@ -1162,7 +1216,7 @@ OA
 Vd
 rH
 WO
-WO
+eS
 vC
 XT
 cf
@@ -1181,7 +1235,7 @@ Ue
 Ue
 Ue
 Ue
-iy
+Ue
 Vj
 Mc
 Ue
@@ -1256,9 +1310,9 @@ Zq
 iK
 cs
 fR
-ja
+cr
 fR
-ja
+MJ
 ja
 ja
 RK
@@ -1266,7 +1320,7 @@ OA
 Hq
 tD
 WO
-WO
+eS
 vC
 Fj
 SY

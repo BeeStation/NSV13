@@ -85,9 +85,7 @@
 //After init, try instance the cockpit.
 /obj/structure/overmap/fighter/dropship/LateInitialize()
 	. = ..()
-	//Init template.
-	boarding_interior = new interior_type()
-	addtimer(CALLBACK(src, .proc/instance_cockpit), 1 SECONDS)//Just in case we're not done initializing
+	addtimer(CALLBACK(src, .proc/instance_cockpit), rand(1 SECONDS, 2.25 SECONDS))//Just in case we're not done initializing
 
 /area
 	var/obj/structure/overmap/overmap_fallback = null //Used for dropships. Allows you to define an overmap to "fallback" to if get_overmap() fails to find a space level with a linked overmap.
@@ -95,15 +93,27 @@
 /**
 The meat of this file. This will instance the dropship's interior in reserved space land. I HIGHLY recommend you keep these maps small, reserved space code is shitcode.
 */
-/obj/structure/overmap/fighter/dropship/proc/instance_cockpit()
-	set waitfor = FALSE
-	//There are potential concurency problems here for reservations. Let's add some randomness....
-	sleep(rand(0, 1.25 SECONDS))
+/obj/structure/overmap/fighter/dropship/proc/instance_cockpit(tries=3)
+	//Init the template.
+	if(!boarding_interior)
+		boarding_interior = new interior_type()
 	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
 	if(!roomReservation)
 		message_admins("Dropship failed to reserve an interior!")
 		return FALSE
-	boarding_interior.load(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
+	if(tries <= 0)
+		message_admins("Something went hideously wrong with loading [boarding_interior] for [src]. Contact a coder.")
+		qdel(src)
+		return FALSE
+	try
+		boarding_interior.load(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
+	catch(var/exception/e) //We ran into an error. Let's try that one again..
+		message_admins("Dropship interior bugged out for [src] in [get_area(src)]. Trying to load it again...")
+		kill_boarding_level()
+		addtimer(CALLBACK(src, .proc/instance_cockpit, --tries), rand(1 SECONDS, 2.25 SECONDS))//Just in case we're not done initializing
+		pass(e) //Stops linters from whining.
+		return FALSE
+
 	var/turf/center = get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2]+boarding_interior.height/2, roomReservation.bottom_left_coords[3]))
 	var/area/target_area
 	//Now, set up the interior for loading...
@@ -200,6 +210,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 			T.empty()
 		//Free the reservation.
 		qdel(roomReservation)
+		qdel(boarding_interior)
 
 /atom/get_overmap() //Here I go again on my own, walkin' down the only road I've ever known
 	RETURN_TYPE(/obj/structure/overmap)

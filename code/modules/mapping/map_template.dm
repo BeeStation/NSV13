@@ -78,13 +78,10 @@
 	if(centered)
 		T = locate(T.x - round(width/2) , T.y - round(height/2) , T.z)
 	if(!T)
-		message_admins("no T")
 		return
 	if(T.x+width > world.maxx)
-		message_admins("too big")
 		return
 	if(T.y+height > world.maxy)
-		message_admins("too high")
 		return
 
 	// Accept cached maps, but don't save them automatically - we don't want

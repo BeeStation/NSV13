@@ -72,7 +72,8 @@
 	name = "combat pilot's locker"
 	req_access = list(ACCESS_COMBAT_PILOT)
 	icon = 'nsv13/icons/obj/custom_closets.dmi'
-	icon_state = "cpilot"
+	icon_state = "pilot"
+	icon_door = "cpilot"
 	anchored = TRUE
 
 /obj/structure/closet/secure_closet/combat_pilot/PopulateContents()
@@ -86,7 +87,8 @@
 	name = "transport pilot's locker"
 	req_access = list(ACCESS_TRANSPORT_PILOT)
 	icon = 'nsv13/icons/obj/custom_closets.dmi'
-	icon_state = "tpilot"
+	icon_door = "tpilot"
+	icon_state = "pilot"
 	anchored = TRUE
 
 /obj/structure/closet/secure_closet/transport_pilot/PopulateContents()
