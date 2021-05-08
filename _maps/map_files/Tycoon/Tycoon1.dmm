@@ -667,7 +667,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
 	},
-/obj/effect/landmark/start/fighter_pilot,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -2980,15 +2980,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
-"hk" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/effect/landmark/start/fighter_pilot,
-/turf/open/floor/monotile/dark,
-/area/nsv/hanger/deck3{
-	name = "Air traffic control pod"
-	})
 "hl" = (
 /obj/machinery/suit_storage_unit/pilot,
 /turf/open/floor/monotile/steel,
@@ -3353,7 +3344,7 @@
 "im" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Flight deck access";
-	req_one_access_txt = "69;13"
+	req_one_access_txt = "79;13"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -4949,9 +4940,7 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "lu" = (
-/obj/structure/rack,
-/obj/item/storage/toolbox/emergency,
-/obj/item/storage/toolbox/emergency,
+/obj/structure/closet/secure_closet/transport_pilot,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -5144,7 +5133,7 @@
 "lQ" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Flight deck access";
-	req_one_access_txt = "69;13"
+	req_one_access_txt = "79;13"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -5992,7 +5981,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/effect/landmark/start/flight_leader,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -6114,10 +6103,10 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "rz" = (
-/obj/structure/closet/secure_closet/fighter_pilot,
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
+/obj/structure/closet/secure_closet/transport_pilot,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -6192,7 +6181,7 @@
 "tU" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Flight deck access";
-	req_one_access_txt = "69;13"
+	req_one_access_txt = "79;13"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
@@ -6378,10 +6367,6 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/nsv/briefingroom)
-"wT" = (
-/obj/structure/overmap/fighter/light/flight_leader,
-/turf/open/floor/engine/airless,
-/area/space/nearstation)
 "wV" = (
 /obj/structure/munitions_trolley,
 /obj/effect/turf_decal/ship/delivery/yellow,
@@ -6660,7 +6645,7 @@
 /obj/machinery/door/airlock/ship{
 	dir = 4;
 	name = "Spare Suit Storage";
-	req_access_txt = "69"
+	req_one_access_txt = "72, 73"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 8
@@ -6870,7 +6855,7 @@
 "KQ" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Flight deck access";
-	req_one_access_txt = "69;13"
+	req_one_access_txt = "79;13"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -7060,7 +7045,9 @@
 /turf/open/floor/monotile,
 /area/shuttle/turbolift/secondary)
 "PN" = (
-/obj/structure/closet/secure_closet/fighter_pilot,
+/obj/structure/closet/secure_closet/combat_pilot{
+	 = 
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -7085,7 +7072,7 @@
 "Qq" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Flight deck access";
-	req_one_access_txt = "69;13"
+	req_one_access_txt = "79;13"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/monotile/steel,
@@ -7125,6 +7112,7 @@
 /area/ai_monitored/turret_protected/aisat)
 "QT" = (
 /obj/structure/table/reinforced,
+/obj/item/storage/toolbox/emergency,
 /turf/open/floor/carpet/blue,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -7139,7 +7127,7 @@
 "Rc" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Flight deck access";
-	req_one_access_txt = "69;13"
+	req_one_access_txt = "79;13"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
@@ -37726,12 +37714,12 @@ hL
 GS
 Rv
 YJ
-hk
-hk
+pv
+pv
 pv
 bV
-hk
-hk
+pv
+pv
 hn
 ax
 Mt
@@ -48012,7 +48000,7 @@ ac
 ac
 hA
 ac
-wT
+ac
 hA
 ax
 ax

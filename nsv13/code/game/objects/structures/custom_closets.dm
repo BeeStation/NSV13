@@ -83,7 +83,7 @@
 	new /obj/item/clothing/gloves/color/black(src)
 
 /obj/structure/closet/secure_closet/transport_pilot
-	name = "transpor pilot's locker"
+	name = "transport pilot's locker"
 	req_access = list(ACCESS_TRANSPORT_PILOT)
 	icon = 'nsv13/icons/obj/custom_closets.dmi'
 	icon_state = "pilot"
