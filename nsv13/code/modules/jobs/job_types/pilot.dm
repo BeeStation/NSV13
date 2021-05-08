@@ -39,6 +39,10 @@
 	name = "Pilot"
 	jobtype = /datum/job/pilot
 
+	head = null
+	glasses = null
+	gloves = null
+	uniform = /obj/item/clothing/under/ship/marine
 	ears = /obj/item/radio/headset/munitions/pilot
 	shoes = /obj/item/clothing/shoes/jackboots
 
@@ -48,19 +52,30 @@
 
 /datum/outfit/job/pilot/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
+	if(visualsOnly)
+		head = /obj/item/clothing/head/helmet/transport_pilot
+		glasses = /obj/item/clothing/glasses/sunglasses
+		uniform = /obj/item/clothing/under/ship/pilot/transport
+		gloves = /obj/item/clothing/gloves/color/brown
 
-	if(H && H.client && H.client.prefs)
-		var/role = H.client.prefs.preferred_pilot_role
+/datum/job/pilot/after_spawn(mob/living/carbon/human/H, mob/M, latejoin)
+	. = ..()
+
+	if(M && M.client && M.client.prefs)
+		var/role = M.client.prefs.preferred_pilot_role
 		switch(role)
 			if(PILOT_COMBAT)
-				head = /obj/item/clothing/head/beret/ship/pilot
-				uniform = /obj/item/clothing/under/ship/pilot
-				gloves = /obj/item/clothing/gloves/color/black
+				H.equip_to_slot_or_del(new /obj/item/clothing/head/beret/ship/pilot(H), ITEM_SLOT_HEAD)
+				H.equip_to_slot_or_del(new /obj/item/clothing/gloves/color/black(H), ITEM_SLOT_GLOVES)
+				var/obj/item/storage/backpack/bag = H.get_item_by_slot(ITEM_SLOT_BACK)
+				new /obj/item/clothing/under/ship/pilot(bag, src)
 
 			if(PILOT_TRANSPORT)
-				head = /obj/item/clothing/head/helmet/transport_pilot
-				uniform = /obj/item/clothing/under/ship/pilot/transport
-				gloves = /obj/item/clothing/gloves/color/brown
+				H.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(H), ITEM_SLOT_EYES)
+				H.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/transport_pilot(H), ITEM_SLOT_HEAD)
+				H.equip_to_slot_or_del(new /obj/item/clothing/gloves/color/brown(H), ITEM_SLOT_GLOVES)
+				var/obj/item/storage/backpack/bag = H.get_item_by_slot(ITEM_SLOT_BACK)
+				new /obj/item/clothing/under/ship/pilot/transport(bag, src)
 
 /obj/effect/landmark/start/pilot
 	name = "Pilot"
