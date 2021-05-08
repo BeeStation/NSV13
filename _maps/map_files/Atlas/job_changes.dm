@@ -60,7 +60,7 @@ MAP_REMOVE_JOB(brig_phys)
 	total_positions = 4
 	spawn_positions = 4
 
-/datum/job/fighter_pilot/New()
+/datum/job/pilot/New()
     ..()
     MAP_JOB_CHECK
     total_positions = 1

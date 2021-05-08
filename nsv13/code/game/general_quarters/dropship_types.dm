@@ -121,7 +121,7 @@ Credit to TGMC for the interior sprites for all these!
 	bound_width = 64 //Change this on a per ship basis
 	bound_height = 64
 	resize_factor = 1
-	req_one_access = list(ACCESS_MUNITIONS, ACCESS_ENGINE, ACCESS_FIGHTER)
+	req_one_access = list(ACCESS_TRANSPORT_PILOT)
 
 	forward_maxthrust = 5
 	backward_maxthrust = 5
@@ -149,7 +149,7 @@ Credit to TGMC for the interior sprites for all these!
 
 /obj/structure/overmap/fighter/dropship/sabre/mining
 	icon = 'nsv13/icons/overmap/nanotrasen/carrier_mining.dmi'
-	req_one_access = list(ACCESS_CARGO, ACCESS_MINING, ACCESS_MUNITIONS, ACCESS_ENGINE, ACCESS_FIGHTER)
+	req_one_access = list(ACCESS_CARGO, ACCESS_MINING, ACCESS_TRANSPORT_PILOT)
 	interior_type = /datum/map_template/dropship/sabre/mining
 
 /datum/map_template/dropship/sabre/mining

@@ -43,8 +43,7 @@ MAP_REMOVE_JOB(brig_phys)
 //Special
 MAP_REMOVE_JOB(cyborg)
 //Munitions
-MAP_REMOVE_JOB(flight_leader)
-MAP_REMOVE_JOB(fighter_pilot)
+MAP_REMOVE_JOB(pilot)
 MAP_REMOVE_JOB(air_traffic_controller)
 
 /datum/uplink_item/explosives/syndicate_bomb/New()

@@ -772,13 +772,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/security/brig)
-"cG" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
-	},
-/obj/effect/turf_decal/tile/ship/orange,
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "cH" = (
 /obj/machinery/light{
 	dir = 8
@@ -1523,7 +1516,7 @@
 "fo" = (
 /obj/machinery/door/airlock/highsecurity/ship{
 	name = "Munitions Projects";
-	req_one_access_txt = "3;69"
+	req_one_access_txt = "79;69"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
@@ -1589,7 +1582,6 @@
 /turf/open/floor/circuit/telecomms,
 /area/science)
 "fx" = (
-/obj/machinery/deck_turret/powder_gate,
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
 	},
@@ -2354,6 +2346,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/ship/orange,
+/obj/machinery/deck_turret/powder_gate,
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "hK" = (
@@ -2458,7 +2451,6 @@
 /turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "ig" = (
-/obj/machinery/deck_turret/powder_gate,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
@@ -5487,7 +5479,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "rO" = (
-/obj/structure/closet/secure_closet/flight_leader,
+/obj/structure/closet/secure_closet/transport_pilot,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "rP" = (
@@ -5562,7 +5554,6 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/starboard)
 "rX" = (
-/obj/machinery/deck_turret/powder_gate,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
@@ -5678,15 +5669,6 @@
 /obj/item/stack/sheet/duranium/twenty,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
-"ss" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/obj/effect/turf_decal/tile/ship/orange{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "sz" = (
 /obj/machinery/shieldgen,
 /turf/open/floor/plating,
@@ -6298,13 +6280,13 @@
 	name = "Abandoned Bar"
 	})
 "uG" = (
-/obj/machinery/deck_turret/powder_gate,
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
 	},
 /obj/effect/turf_decal/tile/ship/orange{
 	dir = 1
 	},
+/obj/machinery/deck_turret/payload_gate,
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "uI" = (
@@ -6927,7 +6909,7 @@
 	},
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Pressurization Chamber";
-	req_one_access_txt = "69"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nsv/weapons)
@@ -8158,7 +8140,7 @@
 "BZ" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Pressurization Chamber";
-	req_one_access_txt = "69"
+	req_one_access_txt = "79"
 	},
 /obj/structure/fans/tiny,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -9575,13 +9557,13 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "HR" = (
-/obj/machinery/deck_turret/payload_gate,
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
 /obj/effect/turf_decal/tile/ship/orange{
 	dir = 4
 	},
+/obj/machinery/deck_turret/powder_gate,
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "HW" = (
@@ -9615,11 +9597,15 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "If" = (
-/obj/structure/overmap/fighter/light/flight_leader,
-/turf/open/floor/plasteel/techmaint{
-	initial_gas_mix = "TEMP=2.7"
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
 	},
-/area/nsv/hanger/notkmcstupidhanger)
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 8
+	},
+/obj/machinery/deck_turret/payload_gate,
+/turf/open/floor/plating,
+/area/nsv/weapons)
 "Ii" = (
 /obj/machinery/computer/prisoner{
 	dir = 8;
@@ -9999,7 +9985,7 @@
 	},
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Pressurization Chamber";
-	req_one_access_txt = "69"
+	req_one_access_txt = "79"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -10974,7 +10960,9 @@
 /turf/open/floor/plasteel/airless/solarpanel,
 /area/space/nearstation)
 "Nd" = (
-/obj/structure/closet/secure_closet/fighter_pilot,
+/obj/structure/closet/secure_closet/combat_pilot{
+	 = 
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Nf" = (
@@ -11093,11 +11081,11 @@
 /turf/open/floor/monotile/dark,
 /area/engine/engine_room)
 "NO" = (
-/obj/machinery/deck_turret/payload_gate,
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
 /obj/effect/turf_decal/tile/ship/orange,
+/obj/machinery/deck_turret/powder_gate,
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "NP" = (
@@ -11117,7 +11105,7 @@
 	},
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Pressurization Chamber";
-	req_one_access_txt = "69"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nsv/weapons)
@@ -11433,7 +11421,7 @@
 "OI" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Pressurization Chamber";
-	req_one_access_txt = "69"
+	req_one_access_txt = "79"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -12189,7 +12177,7 @@
 "Rq" = (
 /obj/machinery/door/airlock/highsecurity/ship{
 	name = "Munitions Projects";
-	req_one_access_txt = "3;69"
+	req_one_access_txt = "79;69"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -12364,7 +12352,7 @@
 	},
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Pressurization Chamber";
-	req_one_access_txt = "69"
+	req_one_access_txt = "79"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -12855,7 +12843,7 @@
 "TE" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Pressurization Chamber";
-	req_one_access_txt = "69"
+	req_one_access_txt = "79"
 	},
 /obj/structure/fans/tiny,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
@@ -12949,6 +12937,15 @@
 /obj/machinery/light,
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck2/primary)
+"TX" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons)
 "TY" = (
 /obj/effect/turf_decal/tile/ship/red{
 	dir = 8
@@ -14181,7 +14178,7 @@
 "YH" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Pressurization Chamber";
-	req_one_access_txt = "69"
+	req_one_access_txt = "79"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -51689,13 +51686,13 @@ hi
 eY
 Zn
 Dk
-cG
+NO
 hI
 HR
 Te
 NO
 hI
-ss
+HR
 nw
 mP
 mP
@@ -52207,9 +52204,9 @@ fx
 ig
 uG
 Te
-fx
+If
 rX
-uG
+TX
 nw
 mP
 Sn
@@ -56581,7 +56578,7 @@ BN
 US
 Ok
 Jc
-If
+UK
 fI
 et
 fI

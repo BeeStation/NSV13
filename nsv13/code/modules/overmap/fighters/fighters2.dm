@@ -37,7 +37,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/flight_pixel_z = -32
 	pixel_collision_size_x = 32
 	pixel_collision_size_y = 32 //Avoid center tile viewport jank
-	req_one_access = list(ACCESS_FIGHTER)
+	req_one_access = list(ACCESS_COMBAT_PILOT)
 	var/start_emagged = FALSE
 	var/max_passengers = 0 //Change this per fighter.
 	//Component to handle the fighter's loadout, weapons, parts, the works.
@@ -335,24 +335,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 						/obj/item/fighter_component/armour_plating,
 						/obj/item/fighter_component/targeting_sensor,
 						/obj/item/fighter_component/engine,
-						/obj/item/fighter_component/countermeasure_dispenser,
-						/obj/item/fighter_component/secondary/ordnance_launcher,
-						/obj/item/fighter_component/oxygenator,
-						/obj/item/fighter_component/canopy,
-						/obj/item/fighter_component/docking_computer,
-						/obj/item/fighter_component/battery,
-						/obj/item/fighter_component/primary/cannon)
-
-//FL gets a hotrod
-/obj/structure/overmap/fighter/light/flight_leader
-	req_one_access = list(ACCESS_FL)
-	icon_state = "ace"
-	components = list(/obj/item/fighter_component/fuel_tank/tier2,
-						/obj/item/fighter_component/avionics,
-						/obj/item/fighter_component/apu,
-						/obj/item/fighter_component/armour_plating/tier2,
-						/obj/item/fighter_component/targeting_sensor,
-						/obj/item/fighter_component/engine/tier2,
 						/obj/item/fighter_component/countermeasure_dispenser,
 						/obj/item/fighter_component/secondary/ordnance_launcher,
 						/obj/item/fighter_component/oxygenator,

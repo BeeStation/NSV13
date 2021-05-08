@@ -79,8 +79,7 @@ GLOBAL_LIST_INIT(munitions_positions, list(
 	"Master At Arms",
 	"Munitions Technician",
 	"Deck Technician",
-	"Flight Leader",
-	"Fighter Pilot",
+	"Pilot",
 	"Air Traffic Controller",
 	"Bridge Staff"))
 
