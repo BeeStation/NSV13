@@ -93,7 +93,7 @@
 /**
 The meat of this file. This will instance the dropship's interior in reserved space land. I HIGHLY recommend you keep these maps small, reserved space code is shitcode.
 */
-/obj/structure/overmap/fighter/dropship/proc/instance_cockpit(tries=3)
+/obj/structure/overmap/fighter/dropship/proc/instance_cockpit(tries=5)
 	//Init the template.
 	if(!boarding_interior)
 		boarding_interior = new interior_type()
@@ -110,7 +110,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	catch(var/exception/e) //We ran into an error. Let's try that one again..
 		message_admins("Dropship interior bugged out for [src] in [get_area(src)]. Trying to load it again...")
 		kill_boarding_level()
-		addtimer(CALLBACK(src, .proc/instance_cockpit, --tries), rand(1 SECONDS, 2.25 SECONDS))//Just in case we're not done initializing
+		addtimer(CALLBACK(src, .proc/instance_cockpit, tries - 1), rand(1 SECONDS, 2.25 SECONDS))//Just in case we're not done initializing
 		pass(e) //Stops linters from whining.
 		return FALSE
 
@@ -144,6 +144,9 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	*/
 
 /obj/structure/overmap/fighter/dropship/enter(mob/user)
+	if(!entry_points?.len)
+		message_admins("[src] has no interior or entry points and [user] tried to board it.")
+		return FALSE
 	var/turf/T = get_turf(pick(entry_points))
 	var/atom/movable/AM
 	if(user.pulling)
@@ -204,13 +207,13 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	Override, as we're using the turf reservation system instead of the maploader (this was done for lag reasons, turf reservation REALLY lags with big maps!)
 */
 /obj/structure/overmap/fighter/dropship/kill_boarding_level()
-	if(boarding_interior && roomReservation)
+	if(boarding_interior)
 		var/turf/target = get_turf(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
 		for(var/turf/T in boarding_interior.get_affected_turfs(target, FALSE)) //nuke
 			T.empty()
-		//Free the reservation.
-		qdel(roomReservation)
-		qdel(boarding_interior)
+	//Free the reservation.
+	QDEL_NULL(roomReservation)
+	QDEL_NULL(boarding_interior)
 
 /atom/get_overmap() //Here I go again on my own, walkin' down the only road I've ever known
 	RETURN_TYPE(/obj/structure/overmap)
