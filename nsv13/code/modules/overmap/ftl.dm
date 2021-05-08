@@ -133,7 +133,7 @@
 		if(!istype(AM, /obj/structure/overmap))
 			continue
 		var/obj/structure/overmap/OM = AM
-		if(!OM.operators.len || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
+		if(!OM.occupying_levels?.len)	//AI ships / ships without a pilot just get put in stasis.
 			continue
 		if(same_faction_only && jumping.faction != OM.faction)	//We don't pull all small craft in the system unless we were the last ship here.
 			continue
@@ -141,7 +141,6 @@
 		SEND_SIGNAL(OM, COMSIG_FTL_STATE_CHANGE)
 		OM.forceMove(locate(OM.x, OM.y, jumping.reserved_z))
 		system_contents -= OM
-
 
 /obj/structure/overmap/proc/begin_jump(datum/star_system/target_system)
 	relay(ftl_drive.ftl_start, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
