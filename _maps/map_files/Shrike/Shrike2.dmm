@@ -31,7 +31,6 @@
 /turf/open/floor/plasteel/white,
 /area/medical/nsv)
 "ad" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "af" = (
@@ -286,6 +285,8 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/starboard{
 	lighting_colour_bulb = "#c1e1ff";
@@ -316,19 +317,8 @@
 /turf/open/floor/plating,
 /area/janitor)
 "bd" = (
-/obj/structure/cable/white{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/manifold/supply/visible/layer1{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer3,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/effect/turf_decal/ship/rust,
-/obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/plating/rusty_techgrid,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "bf" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -408,12 +398,10 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/toilet/restrooms)
 "bn" = (
-/obj/machinery/power/apc/auto_name/west,
-/obj/effect/turf_decal/ship/rust,
-/obj/structure/cable/white{
-	icon_state = "0-4"
+/obj/structure/closet/secure_closet/munitions_technician,
+/turf/open/floor/plasteel/dark/side{
+	dir = 4
 	},
-/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "bo" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
@@ -434,32 +422,13 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "bp" = (
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/machinery/ammo_sorter{
-	max_capacity = 20;
-	name = "Railgun Slug Rack"
+/obj/effect/turf_decal/tile/orange,
+/obj/machinery/conveyor{
+	dir = 8;
+	id = "railgun_conveyor"
 	},
-/turf/open/floor/plasteel/dark/side{
-	dir = 8
+/turf/open/floor/plasteel/dark/corner{
+	dir = 1
 	},
 /area/nsv/weapons/fore)
 "bs" = (
@@ -585,7 +554,7 @@
 	pixel_x = 30;
 	pixel_y = 1
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/shuttle/turbolift/primary{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
@@ -860,7 +829,7 @@
 	amount = 5
 	},
 /obj/structure/closet/crate/large,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "ct" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -1403,11 +1372,6 @@
 /turf/closed/wall/ship,
 /area/security/main)
 "ey" = (
-/obj/machinery/computer/ship/navigation/public{
-	density = 0;
-	dir = 1;
-	pixel_y = -12
-	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/nsv/deck2/frame1/starboard{
 	lighting_colour_bulb = "#c1e1ff";
@@ -1811,7 +1775,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/crew_quarters/bar)
 "fU" = (
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/shuttle/turbolift/shaft)
 "fW" = (
 /obj/effect/turf_decal/ship/rust,
@@ -1885,6 +1849,12 @@
 "gi" = (
 /turf/open/space/basic,
 /area/space)
+"gj" = (
+/obj/machinery/airalarm/directional/east,
+/turf/open/floor/plasteel/dark/side{
+	dir = 8
+	},
+/area/nsv/weapons/fore)
 "gn" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -1957,9 +1927,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
 	},
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
@@ -2011,7 +1978,7 @@
 	pixel_y = -20;
 	req_one_access_txt = "31"
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "gR" = (
 /obj/machinery/door/airlock/ship/public{
@@ -2713,25 +2680,20 @@
 "jT" = (
 /obj/effect/turf_decal/box,
 /obj/structure/closet/cardboard,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "jV" = (
-/obj/effect/turf_decal/tile/orange,
-/obj/machinery/camera/autoname{
-	dir = 1
+/obj/structure/table/reinforced,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/poddoor/shutters/ship{
+	id = "galley_shutters"
 	},
-/obj/machinery/conveyor{
-	dir = 8;
-	id = "railgun_conveyor"
-	},
-/turf/open/floor/plasteel/dark/side{
-	dir = 1
-	},
-/area/nsv/weapons/fore)
+/turf/open/floor/plasteel/ship,
+/area/crew_quarters/kitchen)
 "jW" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/poddoor/shutters/ship{
-	id = "gallery_shutters"
+	id = "galley_shutters"
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plasteel/ship,
@@ -2764,10 +2726,10 @@
 	pixel_x = 3;
 	pixel_y = 11
 	},
-/obj/machinery/door/poddoor/shutters/ship{
-	id = "gallery_shutters"
-	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/poddoor/shutters/ship{
+	id = "galley_shutters"
+	},
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/kitchen)
 "ka" = (
@@ -2797,6 +2759,8 @@
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Port Escape Pod"
 	},
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/plating,
 /area/crew_quarters/bar/mess_hall)
 "kl" = (
@@ -3579,7 +3543,7 @@
 /obj/effect/turf_decal/box,
 /obj/structure/closet/crate/large,
 /obj/effect/spawner/lootdrop/maintenance/four,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "mY" = (
 /obj/effect/turf_decal/stripes/red/line{
@@ -4067,9 +4031,30 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "oM" = (
-/obj/effect/turf_decal/loading_area{
-	color = "#ff7f00"
+/obj/machinery/ammo_sorter{
+	max_capacity = 20;
+	name = "Railgun Slug Rack I"
 	},
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/fore)
 "oN" = (
@@ -4088,12 +4073,12 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "oR" = (
 /obj/effect/turf_decal/box,
 /obj/structure/closet/crate,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "oT" = (
 /obj/structure/cable/yellow{
@@ -4169,7 +4154,7 @@
 /obj/effect/turf_decal/box,
 /obj/structure/closet/crate/freezer,
 /obj/effect/spawner/lootdrop/organ_spawner,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "pk" = (
 /obj/structure/cable{
@@ -4192,6 +4177,11 @@
 /obj/effect/turf_decal/trimline/blue/line,
 /obj/effect/turf_decal/trimline/yellow/arrow_ccw{
 	dir = 1
+	},
+/obj/structure/sign/directions/science{
+	dir = 4;
+	pixel_x = 30;
+	pixel_y = 30
 	},
 /turf/open/floor/monofloor/corner{
 	dir = 5
@@ -4271,7 +4261,7 @@
 	})
 "pv" = (
 /obj/effect/landmark/nuclear_waste_spawner,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "pz" = (
 /obj/machinery/disposal/bin,
@@ -4292,7 +4282,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "pC" = (
 /obj/effect/turf_decal/tile/orange,
@@ -4344,7 +4334,7 @@
 	dir = 1
 	},
 /obj/effect/landmark/start/quartermaster,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "pM" = (
 /obj/structure/cable/white{
@@ -4766,6 +4756,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/ship/rust,
+/obj/structure/cable/white{
+	icon_state = "2-8"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "qT" = (
@@ -5513,7 +5506,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/nsv)
 "tt" = (
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/shuttle/turbolift/primary{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
@@ -5535,10 +5528,6 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "tv" = (
-/obj/machinery/door/airlock/ship/security/glass{
-	dir = 4;
-	req_one_access_txt = "1"
-	},
 /obj/effect/turf_decal/trimline/red/line,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
@@ -5548,6 +5537,11 @@
 /obj/structure/railing{
 	dir = 1;
 	pixel_y = 10
+	},
+/obj/machinery/door/airlock/ship/security/glass{
+	dir = 8;
+	name = "Security";
+	req_one_access_txt = "1"
 	},
 /turf/open/floor/monofloor,
 /area/security)
@@ -5646,8 +5640,29 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "tM" = (
-/obj/effect/turf_decal/loading_area{
-	color = "#ff7f00"
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/machinery/ammo_sorter{
+	max_capacity = 20;
+	name = "Railgun Slug Rack III"
 	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 8
@@ -6165,6 +6180,18 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/port)
+"vH" = (
+/obj/machinery/door/airlock/ship/hatch{
+	dir = 4;
+	name = "Fore Weapons Bay";
+	req_one_access_txt = "69"
+	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/turf/open/floor/plasteel/dark/side{
+	dir = 1
+	},
+/area/nsv/weapons/fore)
 "vI" = (
 /obj/structure/window/reinforced/spawner/north,
 /obj/structure/window/reinforced/spawner/west,
@@ -6223,7 +6250,7 @@
 /obj/effect/turf_decal/box,
 /obj/structure/closet/crate,
 /obj/effect/spawner/lootdrop/maintenance/three,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "vP" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/visible/layer1{
@@ -6741,7 +6768,7 @@
 /obj/item/stack/sheet/cardboard,
 /obj/item/stack/sheet/cardboard,
 /obj/item/stack/sheet/cardboard,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "xA" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -7253,6 +7280,18 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"yO" = (
+/obj/structure/cable/white{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/effect/turf_decal/ship/rust,
+/obj/structure/cable/white{
+	icon_state = "1-8"
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/nsv/weapons/fore)
 "yQ" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -8169,10 +8208,14 @@
 	})
 "BS" = (
 /obj/structure/cable/white{
-	icon_state = "1-2"
+	icon_state = "2-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 10
+	},
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/fore)
@@ -8393,7 +8436,7 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Medical Maintenance";
-	req_access_txt = "5;12"
+	req_access_txt = "5"
 	},
 /obj/effect/turf_decal/ship/rust,
 /obj/machinery/door/firedoor/border_only/directional/north,
@@ -8490,7 +8533,10 @@
 /obj/effect/turf_decal/tile/orange{
 	dir = 4
 	},
-/obj/machinery/vending/wardrobe/muni_wardrobe,
+/obj/machinery/conveyor/slow{
+	dir = 4;
+	id = "magazine_conveyor"
+	},
 /turf/open/floor/plasteel/dark/corner{
 	dir = 8
 	},
@@ -8562,7 +8608,7 @@
 /turf/open/floor/plating/rusty_techgrid{
 	initial_gas_mix = "TEMP=2.7"
 	},
-/area/space/nearstation)
+/area/maintenance/nsv/deck2/port)
 "Dr" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -8851,6 +8897,7 @@
 /obj/item/radio/intercom{
 	pixel_x = -27
 	},
+/obj/structure/closet/secure_closet/munitions_technician,
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
@@ -9234,13 +9281,16 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/port_substation)
 "Fq" = (
-/obj/machinery/requests_console{
-	department = "Munitions";
-	departmentType = 2;
-	pixel_y = 28
+/obj/machinery/light{
+	color = "#FF3232";
+	dir = 1
 	},
-/obj/effect/turf_decal/tile/orange{
-	dir = 4
+/obj/machinery/conveyor/slow{
+	id = "loader_1"
+	},
+/obj/machinery/conveyor/slow{
+	dir = 4;
+	id = "magazine_conveyor"
 	},
 /turf/open/floor/plasteel/dark/side,
 /area/nsv/weapons/fore)
@@ -9295,7 +9345,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/security{
 	name = "Security";
-	req_access_txt = "2;12"
+	req_access_txt = "2"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/surgery/aux)
@@ -9585,7 +9635,10 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/port_substation)
 "GF" = (
-/obj/structure/closet/secure_closet/munitions_technician,
+/obj/machinery/light,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -9764,8 +9817,17 @@
 /obj/effect/turf_decal/tile/orange{
 	dir = 4
 	},
-/obj/structure/closet/crate/large,
-/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+/obj/machinery/light{
+	color = "#FF3232";
+	dir = 1
+	},
+/obj/machinery/conveyor/slow{
+	id = "loader_4"
+	},
+/obj/machinery/conveyor/slow{
+	dir = 4;
+	id = "magazine_conveyor"
+	},
 /turf/open/floor/plasteel/dark/side,
 /area/nsv/weapons/fore)
 "Hq" = (
@@ -9797,7 +9859,7 @@
 /obj/item/stack/sheet/glass{
 	amount = 10
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "Hu" = (
 /obj/structure/cable/green{
@@ -9820,6 +9882,15 @@
 	lighting_colour_tube = "#FF3232"
 	})
 "Hv" = (
+/obj/machinery/ammo_sorter{
+	name = "Railgun Shell Rack"
+	},
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/fore)
 "Hx" = (
@@ -9838,7 +9909,7 @@
 /obj/effect/turf_decal/box,
 /obj/structure/closet/crate/large,
 /obj/effect/spawner/lootdrop/costume,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "HB" = (
 /obj/effect/turf_decal/trimline/blue/arrow_cw{
@@ -10041,14 +10112,13 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Ik" = (
-/obj/effect/turf_decal/tile/orange,
-/obj/machinery/conveyor{
-	dir = 8;
-	id = "railgun_conveyor"
+/obj/effect/turf_decal/ship/rust,
+/obj/machinery/conveyor/slow{
+	dir = 4;
+	id = "magazine_conveyor"
 	},
-/turf/open/floor/plasteel/dark/corner{
-	dir = 1
-	},
+/obj/structure/plasticflaps,
+/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/fore)
 "Il" = (
 /obj/structure/disposalpipe/segment{
@@ -10253,7 +10323,7 @@
 /obj/structure/closet/crate,
 /obj/effect/spawner/lootdrop/glowstick,
 /obj/effect/spawner/lootdrop/glowstick,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "IZ" = (
 /obj/machinery/door/airlock/ship/maintenance{
@@ -10290,9 +10360,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/ship/rust,
-/obj/structure/cable/white{
-	icon_state = "2-8"
-	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "Je" = (
@@ -10302,7 +10369,7 @@
 /obj/machinery/door/airlock/ship/maintenance{
 	dir = 4;
 	name = "Morgue";
-	req_access_txt = "6;12"
+	req_access_txt = "6"
 	},
 /obj/effect/turf_decal/ship/rust,
 /obj/machinery/door/firedoor/border_only/directional/east,
@@ -10326,15 +10393,48 @@
 /turf/open/floor/monofloor/corner,
 /area/nsv/weapons)
 "Jg" = (
-/obj/machinery/airalarm/directional/east,
+/obj/machinery/conveyor_switch/oneway{
+	id = "loader_1";
+	name = "Railgun Aux Rack Loader";
+	pixel_x = -8;
+	pixel_y = 18
+	},
+/obj/machinery/conveyor_switch/oneway{
+	id = "loader_2";
+	name = "Railgun Shell Rack Loader";
+	pixel_x = 8;
+	pixel_y = 18
+	},
+/obj/machinery/conveyor_switch{
+	id = "magazine_conveyor";
+	name = "magazine feed";
+	pixel_y = 58
+	},
+/obj/machinery/conveyor_switch/oneway{
+	id = "loader_3";
+	name = "Railgun Slug Rack I Loader";
+	pixel_y = 9
+	},
+/obj/machinery/conveyor_switch/oneway{
+	id = "loader_5";
+	name = "Railgun Slug Rack III Loader";
+	pixel_x = 8
+	},
+/obj/machinery/conveyor_switch/oneway{
+	id = "loader_4";
+	name = "Railgun Slug Rack II Loader";
+	pixel_x = -8
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 8
 	},
 /area/nsv/weapons)
 "Jh" = (
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk,
 /obj/effect/turf_decal/ship/rust,
+/obj/machinery/conveyor/slow{
+	dir = 4;
+	id = "magazine_conveyor"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/fore)
 "Ji" = (
@@ -10366,17 +10466,26 @@
 /obj/effect/turf_decal/tile/orange{
 	dir = 4
 	},
-/obj/structure/munitions_trolley,
+/obj/machinery/conveyor/slow{
+	id = "loader_3"
+	},
+/obj/machinery/conveyor/slow{
+	dir = 4;
+	id = "magazine_conveyor"
+	},
 /turf/open/floor/plasteel/dark/side,
 /area/nsv/weapons/fore)
 "Jo" = (
 /obj/effect/turf_decal/tile/orange{
 	dir = 4
 	},
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/structure/closet/crate/large,
+/obj/machinery/conveyor/slow{
+	id = "loader_5"
+	},
+/obj/machinery/conveyor/slow{
+	dir = 4;
+	id = "magazine_conveyor"
+	},
 /turf/open/floor/plasteel/dark/corner{
 	dir = 8
 	},
@@ -10788,32 +10897,26 @@
 /turf/open/floor/plating,
 /area/engine/stormdrive)
 "KF" = (
-/obj/effect/turf_decal/tile/orange{
-	dir = 1
-	},
 /obj/item/book/manual/wiki/sop/munitions,
 /obj/structure/table,
 /obj/machinery/computer/ship/viewscreen,
-/obj/machinery/camera/autoname{
-	dir = 4
+/obj/effect/turf_decal/ship/rust,
+/obj/structure/cable/white{
+	icon_state = "0-4"
 	},
-/turf/open/floor/plasteel/dark/corner,
+/obj/machinery/power/apc/auto_name/west,
+/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "KG" = (
-/obj/structure/disposalpipe/segment,
-/obj/machinery/power/apc/auto_name/west,
-/obj/structure/cable/white{
-	icon_state = "0-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
-	dir = 6
-	},
 /obj/effect/turf_decal/ship/rust,
+/obj/machinery/conveyor/slow{
+	dir = 1
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/fore)
 "KH" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 8
+/obj/machinery/ammo_sorter{
+	name = "Railgun Aux Rack"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/fore)
@@ -11120,16 +11223,6 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "Lv" = (
-/obj/structure/disposalpipe/segment,
-/obj/structure/cable/white{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 6
-	},
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/fore)
@@ -11188,64 +11281,34 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "LH" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "railgun_conveyor"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/fore)
 "LJ" = (
-/obj/machinery/ammo_sorter{
-	max_capacity = 20;
-	name = "Railgun Slug Rack"
+/obj/effect/turf_decal/tile/orange,
+/obj/machinery/camera/autoname{
+	dir = 1
 	},
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/turf/open/floor/plasteel/dark,
+/obj/machinery/conveyor{
+	dir = 8;
+	id = "railgun_conveyor"
+	},
+/turf/open/floor/plasteel/dark/side{
+	dir = 1
+	},
 /area/nsv/weapons/fore)
 "LL" = (
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/item/ship_weapon/ammunition/railgun_ammo,
-/obj/machinery/ammo_sorter{
-	max_capacity = 20;
-	name = "Railgun Slug Rack"
+/obj/effect/turf_decal/tile/orange,
+/obj/machinery/conveyor{
+	dir = 8;
+	id = "railgun_conveyor"
 	},
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plasteel/dark/side{
+	dir = 1
+	},
 /area/nsv/weapons/fore)
 "LM" = (
 /obj/effect/turf_decal/trimline/brown/line{
@@ -11270,7 +11333,7 @@
 /area/space/nearstation)
 "LP" = (
 /obj/effect/landmark/start/cargo_technician,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "LQ" = (
 /obj/structure/cable/green{
@@ -11526,18 +11589,13 @@
 /area/medical/surgery/aux)
 "MQ" = (
 /obj/structure/cable/white{
-	icon_state = "1-4"
+	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
-	dir = 5
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 5
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 5
-	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/ship/rust,
+/obj/effect/landmark/start/munitions_tech,
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "MR" = (
@@ -11638,27 +11696,31 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/engine/engine_room/auxiliary)
 "Ni" = (
-/obj/structure/cable/white{
-	icon_state = "4-8"
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/item/ship_weapon/ammunition/railgun_ammo,
+/obj/machinery/ammo_sorter{
+	max_capacity = 20;
+	name = "Railgun Slug Rack II"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/effect/turf_decal/ship/rust,
-/obj/machinery/door/airlock/ship/hatch{
-	dir = 4;
-	name = "Fore Weapons Bay";
-	req_one_access_txt = "69"
-	},
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/firedoor/border_only/directional/west,
-/turf/open/floor/plating/rusty_techgrid,
+/turf/open/floor/plasteel/dark,
 /area/nsv/weapons/fore)
 "Nj" = (
 /obj/structure/cable/white{
@@ -11714,18 +11776,13 @@
 /turf/open/floor/monotile,
 /area/shuttle/turbolift/shaft)
 "Nw" = (
-/obj/structure/cable/white{
-	icon_state = "4-8"
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer3,
-/obj/machinery/atmospherics/pipe/manifold/supply/visible/layer1,
-/obj/structure/cable/white{
-	icon_state = "1-4"
-	},
 /obj/effect/turf_decal/ship/rust,
+/obj/machinery/door/airlock/ship/hatch{
+	name = "Magazine";
+	req_one_access_txt = "70"
+	},
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/fore)
 "Nx" = (
@@ -11773,22 +11830,15 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/gravity_generator)
 "NB" = (
-/obj/structure/cable/white{
-	icon_state = "2-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
-	dir = 10
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 10
-	},
-/obj/effect/turf_decal/ship/rust,
-/turf/open/floor/plating/rusty_techgrid,
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "NE" = (
 /obj/machinery/conveyor{
 	id = "railgun_conveyor"
 	},
+/obj/structure/plasticflaps,
 /turf/open/floor/plasteel/dark/side{
 	dir = 9
 	},
@@ -11809,14 +11859,10 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/medical)
 "NI" = (
-/obj/effect/turf_decal/tile/orange,
 /obj/machinery/conveyor{
-	dir = 8;
 	id = "railgun_conveyor"
 	},
-/turf/open/floor/plasteel/dark/side{
-	dir = 1
-	},
+/turf/open/floor/plasteel/dark,
 /area/nsv/weapons/fore)
 "NJ" = (
 /obj/structure/lattice/catwalk,
@@ -11919,20 +11965,10 @@
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "NV" = (
-/obj/structure/cable/white{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
+/obj/machinery/vending/wardrobe/muni_wardrobe,
+/turf/open/floor/plasteel/dark/side{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/effect/turf_decal/ship/rust,
-/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "NW" = (
 /obj/effect/turf_decal/trimline/yellow/warning{
@@ -11980,7 +12016,7 @@
 	rod_effectiveness = 0.1;
 	rod_integrity = 5
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "NZ" = (
 /obj/structure/cable/green{
@@ -12318,9 +12354,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "Pl" = (
-/obj/machinery/light{
-	dir = 8
-	},
+/obj/structure/closet/bombcloset,
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
@@ -12367,8 +12401,21 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/security)
 "Pt" = (
+/obj/structure/cable/white{
+	icon_state = "1-4"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 5
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/obj/effect/turf_decal/ship/rust,
 /obj/effect/landmark/start/munitions_tech,
-/turf/open/floor/plasteel/dark,
+/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "Pu" = (
 /obj/machinery/door/airlock/ship/medical{
@@ -12435,16 +12482,35 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/central_substation)
 "PB" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+/obj/structure/cable/white{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/visible/layer1{
 	dir = 1
 	},
-/obj/effect/landmark/start/munitions_tech,
-/turf/open/floor/plasteel/dark,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer3,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/ship/rust,
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "PC" = (
-/turf/open/floor/plasteel/dark/side{
-	dir = 9
+/obj/structure/cable/white{
+	icon_state = "4-8"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/ship/rust,
+/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "PF" = (
 /turf/open/floor/plasteel/dark/side,
@@ -12453,6 +12519,19 @@
 /turf/closed/wall/ship,
 /area/engine/atmos/port_atmos)
 "PH" = (
+/obj/structure/cable/white{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/ship/rust,
 /obj/machinery/door/airlock/ship/hatch{
 	dir = 4;
 	name = "Fore Weapons Bay";
@@ -12460,14 +12539,23 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
-/turf/open/floor/plasteel/dark/side{
-	dir = 1
-	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/fore)
 "PI" = (
-/turf/open/floor/plasteel/dark/side{
-	dir = 5
+/obj/structure/cable/white{
+	icon_state = "4-8"
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
+/obj/effect/turf_decal/ship/rust,
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/fore)
 "PJ" = (
 /obj/effect/turf_decal/trimline/blue/arrow_cw{
@@ -12799,7 +12887,7 @@
 /obj/structure/closet/crate/medical,
 /obj/item/reagent_containers/pill/patch/styptic,
 /obj/item/reagent_containers/pill/patch/silver_sulf,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "QP" = (
 /obj/structure/cable/yellow{
@@ -12887,7 +12975,10 @@
 /turf/closed/wall/ship,
 /area/janitor)
 "Rh" = (
-/obj/structure/closet/bombcloset,
+/obj/machinery/airalarm/directional/south,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -12908,26 +12999,22 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Rj" = (
-/obj/structure/closet/secure_closet/munitions_technician,
 /obj/effect/turf_decal/tile/orange,
-/turf/open/floor/plasteel/dark/corner{
+/turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
 /area/nsv/weapons)
 "Rk" = (
-/obj/effect/turf_decal/tile/orange{
-	dir = 4
+/obj/machinery/conveyor/slow{
+	id = "loader_2"
 	},
-/obj/machinery/light{
-	dir = 1
+/obj/machinery/conveyor/slow{
+	dir = 4;
+	id = "magazine_conveyor"
 	},
 /turf/open/floor/plasteel/dark/side,
 /area/nsv/weapons/fore)
 "Rl" = (
-/obj/machinery/computer/ship/navigation/public{
-	density = 0;
-	pixel_y = 12
-	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
@@ -13025,6 +13112,12 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Ry" = (
+/obj/machinery/camera/autoname,
+/obj/machinery/requests_console{
+	department = "Munitions";
+	departmentType = 2;
+	pixel_y = 28
+	},
 /turf/open/floor/plasteel/dark/corner,
 /area/nsv/weapons/fore)
 "Rz" = (
@@ -13059,7 +13152,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 4;
 	filter_types = list(/datum/gas/oxygen,/datum/gas/nitrogen,/datum/gas/plasma,/datum/gas/nitrous_oxide,/datum/gas/bz,/datum/gas/hypernoblium,/datum/gas/water_vapor,/datum/gas/tritium,/datum/gas/stimulum,/datum/gas/nitryl,/datum/gas/pluoxium,/datum/gas/constricted_plasma,/datum/gas/nucleium);
-	on = 0;
 	widenet = 1
 	},
 /obj/machinery/button/door{
@@ -13137,7 +13229,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 8;
 	filter_types = list(/datum/gas/oxygen,/datum/gas/nitrogen,/datum/gas/plasma,/datum/gas/nitrous_oxide,/datum/gas/bz,/datum/gas/hypernoblium,/datum/gas/water_vapor,/datum/gas/tritium,/datum/gas/stimulum,/datum/gas/nitryl,/datum/gas/pluoxium,/datum/gas/constricted_plasma,/datum/gas/nucleium);
-	on = 0;
 	widenet = 1
 	},
 /turf/open/floor/engine/vacuum{
@@ -13226,7 +13317,7 @@
 /obj/structure/closet/crate/medical,
 /obj/item/reagent_containers/blood/random,
 /obj/item/reagent_containers/blood/random,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "Sf" = (
 /obj/structure/closet/emcloset{
@@ -13478,6 +13569,7 @@
 "ST" = (
 /obj/machinery/firealarm/directional/west,
 /obj/machinery/holopad,
+/obj/structure/munitions_trolley,
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
@@ -14047,6 +14139,19 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/structure/rack,
+/obj/item/reagent_containers/glass/bottle{
+	list_reagents = list(/datum/reagent/ammonia = 30);
+	name = "oil bottle";
+	pixel_x = 1;
+	pixel_y = 4
+	},
+/obj/item/reagent_containers/glass/bottle{
+	list_reagents = list(/datum/reagent/ammonia = 30);
+	name = "oil bottle";
+	pixel_x = -3;
+	pixel_y = -2
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
@@ -14106,7 +14211,7 @@
 	})
 "UP" = (
 /obj/effect/turf_decal/box,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "US" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/manifold/layer1{
@@ -14141,8 +14246,8 @@
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/components/binary/valve,
 /obj/effect/turf_decal/ship/rust,
+/obj/machinery/atmospherics/components/binary/valve/on,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/supermatter)
 "UW" = (
@@ -14186,9 +14291,6 @@
 	icon_state = "tube"
 	},
 /obj/item/book/manual/wiki/supermatter_guide,
-/obj/item/paper{
-	info = "<p>Start Directions: Enable Scrubbers. Open black valve. Connect moderator canister to coolant port.</p>"
-	},
 /turf/open/floor/monofloor/corner,
 /area/engine/supermatter)
 "Vb" = (
@@ -14396,20 +14498,17 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "VA" = (
-/obj/machinery/airalarm/directional/west,
 /obj/structure/table/reinforced,
-/obj/item/paper{
-	pixel_x = -5;
-	pixel_y = -2;
-	text = "<p> 'Sturm' railgun. Features: Switchable munitions - Slugs: Rapid fire fast projectiles & Shells: Slower heavier explosive shells. NOTE: Due to the firing mechanism, the magnetic coils will need periodic realignment with a multitool. This will require the maintenance hatch to be fully open before proceeding. DANGER: Firing the railgun while the maintenance hatch is open can significantly reduce morality.</p>"
-	},
 /obj/item/disk/design_disk/hybrid_rail_slugs{
 	pixel_x = 5;
 	pixel_y = 2
 	},
-/turf/open/floor/plasteel/dark/side{
-	dir = 4
+/obj/machinery/power/apc/auto_name/west,
+/obj/effect/turf_decal/ship/rust,
+/obj/structure/cable/white{
+	icon_state = "0-4"
 	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/fore)
 "VD" = (
 /obj/structure/cable/green{
@@ -14527,7 +14626,7 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/shuttle/turbolift/primary{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
@@ -14557,6 +14656,7 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 1
 	},
+/obj/machinery/camera/autoname,
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/access_corridor{
 	lighting_colour_bulb = "#c1e1ff";
@@ -14567,7 +14667,7 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/shuttle/turbolift/secondary{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
@@ -14632,7 +14732,6 @@
 "Wl" = (
 /obj/structure/table,
 /obj/effect/spawner/lootdrop/glowstick,
-/obj/item/storage/pill_bottle/antirad,
 /turf/open/floor/plating,
 /area/maintenance/nsv/port_substation)
 "Wp" = (
@@ -15142,7 +15241,7 @@
 /obj/effect/turf_decal/box,
 /obj/structure/closet/crate,
 /obj/effect/spawner/lootdrop/maintenance/two,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "XX" = (
 /turf/closed/wall/ship,
@@ -15273,7 +15372,7 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Yr" = (
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/shuttle/turbolift/secondary{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
@@ -15494,7 +15593,7 @@
 	pixel_x = 30;
 	pixel_y = 1
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/shuttle/turbolift/secondary{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
@@ -15586,6 +15685,7 @@
 	icon_state = "1-2"
 	},
 /obj/effect/turf_decal/ship/rust,
+/obj/item/storage/pill_bottle/antirad,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/port_substation)
 "Zu" = (
@@ -15753,7 +15853,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/medical)
 "ZR" = (
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "ZS" = (
 /obj/machinery/atmospherics/components/unary/portables_connector/visible,
@@ -50834,7 +50934,7 @@ Pz
 zX
 CY
 Dj
-jW
+jV
 RJ
 lC
 lC
@@ -51889,11 +51989,11 @@ YG
 YG
 vz
 vz
+Ik
+NB
 vz
-vz
-Ni
 PH
-vz
+vH
 vz
 vz
 vz
@@ -52405,12 +52505,12 @@ vz
 Fq
 KH
 LH
-NB
+vz
 BS
 uy
 PL
 UG
-BS
+yO
 Dy
 PL
 Oc
@@ -52661,7 +52761,7 @@ gi
 vz
 Rk
 Hv
-Hv
+NI
 NE
 kA
 kA
@@ -52919,7 +53019,7 @@ vz
 Jn
 oM
 LJ
-jV
+vz
 vz
 Ry
 uu
@@ -53174,9 +53274,9 @@ gi
 gi
 vz
 Hn
-oM
+Ni
 LL
-NI
+vz
 vz
 PF
 Tb
@@ -53433,7 +53533,7 @@ vz
 Jo
 tM
 bp
-Ik
+vz
 vz
 PF
 pM
@@ -54466,7 +54566,7 @@ vz
 Rz
 vg
 vg
-vg
+gj
 XE
 vg
 Fs
