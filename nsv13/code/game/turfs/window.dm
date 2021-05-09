@@ -46,7 +46,9 @@
 	//this way it will only update full-tile ones
 	. = ..()
 	if(!can_visually_connect())
+		icon_state = initial(icon_state)
 		return
+	icon_state = ""
 	update_connections()
 	var/basestate = initial(icon_state)
 	overlays.Cut()
