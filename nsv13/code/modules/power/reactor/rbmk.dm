@@ -20,7 +20,6 @@
 //Math. Lame.
 #define KPA_TO_PSI(A) (A/6.895)
 #define PSI_TO_KPA(A) (A*6.895)
-#define KELVIN_TO_CELSIUS(A) (A-273.15)
 #define MEGAWATTS /1e+6
 
 //Reference: Heaters go up to 500K.
