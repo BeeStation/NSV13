@@ -1278,7 +1278,7 @@ Seek a ship thich we'll station ourselves around
 	if(torpStock > 0)
 		resupply_target.torpedoes = torpStock
 	resupply_target.shots_left = initial(resupply_target.shots_left)
-	resupply_target.obj_integrity = resupply_target.max_integrity
+	resupply_target.try_repair(resupply_target.max_integrity - resupply_target.obj_integrity)
 	resupply_target = null
 
 /obj/structure/overmap/proc/can_board(obj/structure/overmap/ship)
