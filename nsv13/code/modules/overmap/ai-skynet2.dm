@@ -1261,7 +1261,7 @@ Seek a ship thich we'll station ourselves around
 			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left)) //No need to resupply this ship at all.
 				continue
 			resupply_target = OM
-			addtimer(CALLBACK(src, .proc/resupply), (30 + (100 - (OM.obj_integrity / OM.max_integrity) * 100 )))	//Resupply comperatively fast, but not instant. Repairs take longer.
+			addtimer(CALLBACK(src, .proc/resupply), 5 SECONDS)	//Resupply comperatively fast, but not instant. Repairs take longer.
 			resupplying++
 			break
 //Method to allow a supply ship to resupply other AIs.
@@ -1278,7 +1278,7 @@ Seek a ship thich we'll station ourselves around
 	if(torpStock > 0)
 		resupply_target.torpedoes = torpStock
 	resupply_target.shots_left = initial(resupply_target.shots_left)
-	resupply_target.try_repair(resupply_target.max_integrity - resupply_target.obj_integrity)
+	resupply_target.try_repair(resupply_target.max_integrity  * 0.1)
 	resupply_target = null
 
 /obj/structure/overmap/proc/can_board(obj/structure/overmap/ship)
