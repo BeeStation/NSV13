@@ -242,7 +242,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 		minor_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	for(var/obj/structure/overmap/OM in current_system.system_contents){
 		//Boarding ships don't want to go to brasil
-		if(OM.mobs_in_ship?.len && !OM.boarding_interior)
+		if(OM.mobs_in_ship?.len && OM.reserved_z)
 			encounter(OM)
 	}
 	if(current_system.check_conflict_status())
