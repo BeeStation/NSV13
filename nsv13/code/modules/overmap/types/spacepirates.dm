@@ -28,7 +28,7 @@
 	var/random_weapons = pick(1, 2, 3, 4, 5)
 	switch(random_weapons) //Dakkagang
 		if(1)
-			weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+			weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount(src)
 			weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
 			weapon_types[FIRE_MODE_RAILGUN] = null
 			weapon_types[FIRE_MODE_FLAK] = null
@@ -37,7 +37,7 @@
 			weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
 			torpedoes = 10
 		if(2)
-			weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+			weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount(src)
 			weapon_types[FIRE_MODE_TORPEDO] = null
 			weapon_types[FIRE_MODE_RAILGUN] = new /datum/ship_weapon/railgun(src)
 			weapon_types[FIRE_MODE_FLAK] = null
@@ -46,7 +46,7 @@
 			weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
 			shots_left = 10
 		if(3)
-			weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+			weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount(src)
 			weapon_types[FIRE_MODE_TORPEDO] = null
 			weapon_types[FIRE_MODE_RAILGUN] = null
 			weapon_types[FIRE_MODE_FLAK] = null
@@ -54,7 +54,7 @@
 			weapon_types[FIRE_MODE_MISSILE] = null
 			weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
 		if(4)
-			weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+			weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount(src)
 			weapon_types[FIRE_MODE_TORPEDO] = null
 			weapon_types[FIRE_MODE_RAILGUN] = null
 			weapon_types[FIRE_MODE_FLAK] = null
@@ -63,7 +63,7 @@
 			weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
 			missiles = 10
 		if(5)
-			weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+			weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount(src)
 			weapon_types[FIRE_MODE_TORPEDO] = null
 			weapon_types[FIRE_MODE_RAILGUN] = null
 			weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
@@ -114,7 +114,7 @@
 	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/spacepirate/ai/syndie_gunboat/apply_weapons() //Dakka+
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
 	weapon_types[FIRE_MODE_AMS] = null
 	weapon_types[FIRE_MODE_TORPEDO] = null
 	weapon_types[FIRE_MODE_RAILGUN] = null
@@ -143,7 +143,7 @@
 	combat_dice_type = /datum/combat_dice/flagship
 
 /obj/structure/overmap/spacepirate/ai/dreadnought/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
 	weapon_types[FIRE_MODE_MISSILE] = null
 	weapon_types[FIRE_MODE_RAILGUN] = new /datum/ship_weapon/railgun(src)
