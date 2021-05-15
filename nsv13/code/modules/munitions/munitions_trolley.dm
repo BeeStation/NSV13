@@ -98,11 +98,11 @@
 	if(usr)
 		to_chat(usr, "<span class='notice'>You unload [A] from [src].</span>")
 	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-	if(allowed[A]) //If a munition, allow them to load other munitions onto us.
+	if(allowed[A.type]) //If a munition, allow them to load other munitions onto us.
 		amount--
 	if(contents.len)
 		var/count = amount
 		for(var/atom/movable/AM in contents)
-			if(allowed[AM])
+			if(allowed[AM.type])
 				AM.pixel_y = count*5
 				count--
