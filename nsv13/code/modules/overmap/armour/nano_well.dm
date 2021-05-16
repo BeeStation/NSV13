@@ -57,7 +57,7 @@ Starting Materials
 	layer = ABOVE_MOB_LAYER
 	obj_integrity = 500
 	var/obj/structure/overmap/OM //our parent ship
-	var/obj/structure/cable/C = null //Connected cable
+	var/obj/structure/cable/cable = null //Connected cable
 	var/list/apnp = list() //our child pumps
 	var/resourcing_system = FALSE //System for generating additional RR
 	var/repair_resources = 0 //Pool of liquid metal ready to be pumped out for repairs
@@ -124,9 +124,9 @@ Starting Materials
 
 /obj/machinery/armour_plating_nanorepair_well/proc/try_use_power(amount) //checking to see if we have a cable
 	var/turf/T = get_turf(src)
-	C = T.get_cable_node()
-	if(C?.surplus() > amount)
-		C.powernet.load += amount
+	cable = T.get_cable_node()
+	if(cable?.surplus() > amount)
+		cable.powernet.load += amount
 		return TRUE
 	return FALSE
 
@@ -467,10 +467,10 @@ Starting Materials
 
 	data["available_power"] = 0
 	var/turf/T = get_turf(src)
-	C = T.get_cable_node()
-	if(C)
-		if(C.powernet)
-			data["available_power"] = C.powernet.avail-C.powernet.load
+	cable = T.get_cable_node()
+	if(cable)
+		if(cable.powernet)
+			data["available_power"] = cable.surplus()
 
 	switch(material_tier)
 		if(0)
