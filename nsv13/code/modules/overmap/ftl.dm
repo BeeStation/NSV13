@@ -133,7 +133,7 @@
 		if(!istype(AM, /obj/structure/overmap))
 			continue
 		var/obj/structure/overmap/OM = AM
-		if(!OM.occupying_levels?.len)	//AI ships / ships without a pilot just get put in stasis.
+		if(!(OM.operators?.len || OM.occupying_levels?.len) || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
 			continue
 		if(same_faction_only && jumping.faction != OM.faction)	//We don't pull all small craft in the system unless we were the last ship here.
 			continue
