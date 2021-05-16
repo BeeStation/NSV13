@@ -384,7 +384,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				//Mark it as "awaiting initialisation" using the gamer number. Fuck.
 				GLOB.boarding_interior_maps[interior_type] = 69
 				GLOB.boarding_interior_maps[interior_type] = new interior_type()
-			instance_interior()
+			//When the comedy is done, so must be the work done also.
+			addtimer(CALLBACK(src, .proc/instance_interior), rand(2.5 SECONDS, 5.25 SECONDS))//Just in case we're not done initializing
 
 	apply_weapons()
 

@@ -334,7 +334,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 /**
 The meat of this file. This will instance the dropship's interior in reserved space land. I HIGHLY recommend you keep these maps small, reserved space code is shitcode.
 */
-/obj/structure/overmap/proc/instance_interior(tries=5)
+/obj/structure/overmap/proc/instance_interior(tries=2)
 	//Init the template.
 	var/interior_type = pick(possible_interior_maps)
 	boarding_interior = GLOB.boarding_interior_maps[interior_type]

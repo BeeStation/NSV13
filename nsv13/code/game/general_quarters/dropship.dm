@@ -154,9 +154,6 @@
 
 //Jank ass override, because this is actually necessary... but eughhhh
 
-/obj/structure/overmap/fighter/dropship/start_piloting(mob/living/carbon/user, position)
-	. = ..()
-
 /obj/structure/overmap/fighter/dropship/stop_piloting(mob/living/M, force=FALSE)
 	LAZYREMOVE(operators,M)
 	M.overmap_ship = null
