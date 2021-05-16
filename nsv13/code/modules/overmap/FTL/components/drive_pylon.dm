@@ -10,6 +10,7 @@
 #define ENABLE_FAIL_COOLDOWN 3
 
 #define MAX_WASTE_PRESSURE 7500
+#define MAX_WASTE_STORAGE_PRESSURE
 
 /// Multiplies power draw by this value every tick it remains active. Higher values will make power use increase faster
 #define PYLON_ACTIVE_EXPONENT 1.02
@@ -106,6 +107,20 @@
 	if(!power_drain() || pylon_shield?.closed)
 		set_state(PYLON_STATE_SHUTDOWN)
 
+/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/process_atmos()
+	var/i_pressure = air_contents.return_pressure()
+	if(!i_pressure)
+		return
+	if(i_pressure > MAX_WASTE_STORAGE_PRESSURE)
+		var/turf/T = get_turf(src)
+		T.assume_air(air_contents)
+		explosion(T, 0, 1, 3)
+	var/datum/gas_mixture/output = airs[2]
+	//TODO: NOT DONE NOT  DOONE DNOTNADA
+	if(output.return_pressure() <= MAX_OUTPUT_PRESSURE)
+		if(air_contents.pump_gas_to(output, MAX_OUTPUT_PRESSURE))
+			update_parents()
+
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/try_enable()
 	if(pylon_state = PYLON_STATE_SHUTDOWN)
 		return ENABLE_FAIL_COOLDOWN
@@ -139,7 +154,7 @@
 	internal_heat += delta
 	capacitor += (input_fuel * get_efficiency(current_power_draw)) / mol_per_capacitor
 	air1.adjust_moles(/datum/gas/frameshifted_plasma, -input_fuel)
-	var/output = air2
+	var/datum/gas_mixture/output = airs[2]
 	if(output.return_pressure() < MAX_WASTE_PRESSURE)
 		var/turf/T = get_turf(src)
 		output = T.air_contents
@@ -189,6 +204,9 @@
 #undef PYLON_STATE_ACTIVE
 #undef PYLON_STATE_SHUTDOWN
 
+#undef MAX_WASTE_PRESSURE
+#undef MAX_WASTE_STORAGE_PRESSURE
+
 #undef ENABLE_SUCCESS
 #undef ENABLE_FAIL_POWER
 #undef ENABLE_FAIL_COOLDOWN
@@ -217,14 +235,13 @@
 		qdel(src)
 		return
 	src.pylon = pylon
+	START_PROCESSING(SSobj, src)
 
 /obj/structure/pylon_shield/proc/toggle()
 	closed = !closed
 	if(closed)
 		icon_state = "pylon_shield"
 		flick("pylon_shield_closing", src)
-		if(pylon?.pylon_state != PYLON_STATE_OFFLINE)
-			START_PROCESSING(SSobj, src)
 	else
 		icon_state = "pylon_shield_open"
 		flick("pylon_shield_opening", src)
@@ -233,13 +250,14 @@
 /obj/structure/pylon_shield/process()
 	if(!pylon || pylon.pylon_state == PYLON_STATE_OFFLINE || pylon.pylon_state == PYLON_STATE_SHUTDOWN)
 		return PROCESS_KILL
-	pylon.internal_temp *= temp_factor
+	if(closed)
+		pylon.internal_temp *= temp_factor
 	if(pylon.internal_temp > max_temp)
 		obj_integrity -= rand(5, 15)
 
 /obj/structure/pylon_shield/Destroy()
 	STOP_PROCESSING(SSobj, src)
-	if(pylon?.internal_temp > max_temp)
-		visible_message("<span class ='danger'>\The [src] melts away from the extreme heat, exposing \the [pylon]'s sensitive internals!")
+	if(!QDELETED(pylon) && pylon.internal_temp > max_temp)
+		visible_message("<span class ='danger'>\The [src] melts away from the extreme heat, exposing \the [pylon]'s internals!")
 		playsound(src, 'sound/items/welder.ogg', 100, 1)
 	return ..()
