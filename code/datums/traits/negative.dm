@@ -197,9 +197,7 @@
 				heirloom_type = pick(/obj/item/wrench, /obj/item/screwdriver, /obj/item/multitool)
 			if("Air Traffic Controller")
 				heirloom_type = pick(/obj/item/clothing/head/beret/ship/pilot, /obj/item/reagent_containers/food/drinks/mug)
-			if("Flight Leader")
-				heirloom_type = pick(/obj/item/clothing/head/beret/ship/pilot, /obj/item/clothing/accessory/medal/bronze_heart)
-			if("Fighter Pilot")
+			if("Pilot")
 				heirloom_type = pick(/obj/item/clothing/head/beret/ship/pilot, /obj/item/clothing/accessory/medal/bronze_heart)
 			if("Bridge Staff")
 				heirloom_type = /obj/item/reagent_containers/food/drinks/mug

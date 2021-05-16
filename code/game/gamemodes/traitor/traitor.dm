@@ -12,7 +12,7 @@
 	antag_flag = ROLE_TRAITOR
 	false_report_weight = 20 //Reports of traitors are pretty common.
 	restricted_jobs = list("Cyborg")//They are part of the AI if he is traitor so are they, they use to get double chances
-	protected_jobs = list("Military Police", "Warden", "Detective", "Head of Security", "Captain", "Master At Arms", "Brig Physician", "Flight Leader", "Fighter Pilot") //NSV13 - no tator pilots)  //Nsv13 - Crayon eaters & MPs
+	protected_jobs = list("Military Police", "Warden", "Detective", "Head of Security", "Captain", "Master At Arms", "Brig Physician", "Pilot") //NSV13 - no tator pilots)  //Nsv13 - Crayon eaters & MPs
 	required_players = 0
 	required_enemies = 1
 	recommended_enemies = 4
