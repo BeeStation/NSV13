@@ -1,10 +1,3 @@
-#define PYLON_STATE_OFFLINE 0
-#define PYLON_STATE_STARTING 1
-#define PYLON_STATE_WARMUP 2
-#define PYLON_STATE_SPOOLING 3
-#define PYLON_STATE_SHUTDOWN 4
-#define PYLON_STATE_ACTIVE 5
-
 #define ENABLE_SUCCESS 1
 #define ENABLE_FAIL_POWER 2
 #define ENABLE_FAIL_COOLDOWN 3
@@ -29,6 +22,7 @@
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 500
+	var/link_id = "default"
 	var/gyro_speed = 0
 	var/obj/structure/pylon_shield = null
 	var/active_time = 0 // how many ticks have we been fully active for
@@ -115,8 +109,8 @@
 		var/turf/T = get_turf(src)
 		T.assume_air(air_contents)
 		explosion(T, 0, 1, 3)
+		return
 	var/datum/gas_mixture/output = airs[2]
-	//TODO: NOT DONE NOT  DOONE DNOTNADA
 	if(output.return_pressure() <= MAX_OUTPUT_PRESSURE)
 		if(air_contents.pump_gas_to(output, MAX_OUTPUT_PRESSURE))
 			update_parents()

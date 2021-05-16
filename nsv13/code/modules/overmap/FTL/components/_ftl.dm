@@ -1,3 +1,10 @@
+#define PYLON_STATE_OFFLINE 0
+#define PYLON_STATE_STARTING 1
+#define PYLON_STATE_WARMUP 2
+#define PYLON_STATE_SPOOLING 3
+#define PYLON_STATE_SHUTDOWN 4
+#define PYLON_STATE_ACTIVE 5
+
 /obj/machinery/atmospherics/components/binary/ftl
 	name = "atmospheric FTL component"
 	desc = "yell at mappers."

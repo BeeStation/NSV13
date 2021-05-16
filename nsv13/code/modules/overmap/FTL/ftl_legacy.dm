@@ -58,7 +58,7 @@
 		if(1)
 			return
 		if(2)
-			name = "Quantum slipstream drive computer"
+			name = "quantum slipstream drive computer"
 			desc = "A supercomputer using absolutely cutting edge wormhole research. It is able to project a streamlined field of constrained wormhole particles to cut through bluespace cleanly. This drive eliminates the lengthy FTL charge up process, and can see a ship jump almost instantaneously, after it generates a suitable wormhole."
 			ftl_loop = 'nsv13/sound/effects/ship/slipstream.ogg'
 			ftl_start = 'nsv13/sound/effects/ship/slipstream_start.ogg'
@@ -67,7 +67,7 @@
 			jump_speed_factor = 5
 
 		if(3) //Admin only so I can test things more easily, or maybe dropped from an EXTREMELY RARE, copyright free ruin.
-			name = "Warp drive computer"
+			name = "warp drive computer"
 			desc = "A computer that is impossibly advanced for this time period. It uses unknown technology harvested by unknown means to accelerate a starship to unheard of speeds. Ardata operatives have as yet been unable to ascertain how it functions, but field testing shows that this eliminates the need for spooling entirely in favour of distorting space."
 			ftl_loop = 'nsv13/sound/effects/ship/warp_loop.ogg'
 			ftl_start = 'nsv13/sound/effects/ship/warp.ogg'
