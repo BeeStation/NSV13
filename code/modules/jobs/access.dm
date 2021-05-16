@@ -383,7 +383,7 @@
 				"Shaft Miner", "Clown", "Mime", "Janitor", "Curator", "Lawyer", "Chaplain", "Chief Engineer", "Station Engineer",
 				"Atmospheric Technician", "Chief Medical Officer", "Medical Doctor", "Chemist", "Geneticist", "Virologist", "Paramedic",
 				"Research Director", "Scientist", "Roboticist", "Head of Security", "Warden", "Detective", "Military Police", "Brig Physician",
-				"Deputy", "Air Traffic Controller", "Flight Leader","Fighter Pilot", "Munitions Technician", "Deck Technician", "Master At Arms",
+				"Deputy", "Air Traffic Controller", "Pilot", "Munitions Technician", "Deck Technician", "Master At Arms",
 				"Bridge Staff", "Psychologist", "Barber")
 
 /proc/get_all_job_icons() //For all existing HUD icons
