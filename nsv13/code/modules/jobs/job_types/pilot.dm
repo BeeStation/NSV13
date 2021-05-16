@@ -23,7 +23,7 @@
 
 	display_order = JOB_DISPLAY_ORDER_PILOT
 
-/datum/job/officer/after_spawn(mob/living/carbon/human/H, mob/M)
+/datum/job/pilot/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
 
 	if(H && H.client && H.client.prefs)
