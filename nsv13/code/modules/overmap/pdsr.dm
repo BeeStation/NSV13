@@ -792,7 +792,7 @@
 		/obj/item/stock_parts/capacitor = 20,
 		/obj/item/stock_parts/micro_laser = 12)
 
-/obj/machinery/defnece_screen_relay/process()
+/obj/machinery/defence_screen_relay/process()
 	. = ..()
 	update_icon()
 
