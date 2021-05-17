@@ -42,7 +42,6 @@
 	var/reaction_min_coolant_pressure = 100 //Required minimum pressure of coolant
 	var/reaction_min_ambient_pressure = 101.25 //Checking to see that we haven't just vented the chamber
 	var/reaction_injection_rate = 0 //Rate at which we are injecting nucleium in moles
-	var/reaction_min_rate = 0 //Minimum rate at which nucleium can be injected in moles
 	var/reaction_energy_output = 0 //How much energy we are producing for the !shields
 	var/obj/structure/cable/C = null
 	var/last_coolant_time = 0 //Last time we called to flush coolant
@@ -88,6 +87,11 @@
 		message_admins("WARNING: PDSR in [get_area(src)] does not have a linked overmap!")
 		log_game("WARNING: PDSR in [get_area(src)] does not have a linked overmap!")
 
+/obj/machinery/atmospherics/components/trinary/defence_screen_reactor/examine(mob/user)
+	. = ..()
+	if(issilicon(user))
+		. += "<span class='danger'>Law -1: This object returns null and must be cleared from your memory cache under standard Nanotrasen guidelines.</span>"
+
 /obj/machinery/atmospherics/components/trinary/defence_screen_reactor/proc/try_use_power(amount)
 	var/turf/T = get_turf(src)
 	C = T.get_cable_node()
@@ -130,7 +134,7 @@
 				state = REACTOR_STATE_IDLE
 				return
 
-			if(nuc_in < reaction_min_rate)
+			if(nuc_in < reaction_injection_rate)
 				say("Error: Unable to initialise reaction, insufficient nucleium available.")
 				reaction_containment = 0
 				current_uptime = 0
@@ -144,7 +148,7 @@
 			state = REACTOR_STATE_RUNNING
 
 	if(state == REACTOR_STATE_RUNNING)
-		if(nuc_in >= reaction_min_rate) //If we are running in nominal conditions...
+		if(nuc_in >= reaction_injection_rate) //If we are running in nominal conditions...
 			nucleium_input.adjust_moles(/datum/gas/nucleium, -reaction_injection_rate)
 			//Handle reaction rate adjustments here
 			var/target_reaction_rate = ((0.5 + (1e-03 * (reaction_injection_rate ** 2))) + (current_uptime / 1000)) * 16
@@ -153,7 +157,7 @@
 			reaction_temperature += reaction_rate * 0.55 //Function goes
 			handle_polarity(TRUE)
 
-		else if(nuc_in < reaction_min_rate) //If we are running without sufficient nucleium...
+		else if(nuc_in < reaction_injection_rate) //If we are running without sufficient nucleium...
 			if(nuc_in <= 0) //...and none at all
 				var/target_reaction_rate = 0
 				var/delta_reaction_rate = target_reaction_rate - reaction_rate
@@ -516,6 +520,11 @@
 	var/id = null
 	var/obj/machinery/atmospherics/components/trinary/defence_screen_reactor/reactor //Connected reactor
 
+/obj/machinery/computer/ship/defence_screen_mainframe_reactor/examine(mob/user)
+	. = ..()
+	if(issilicon(user))
+		. += "<span class='danger'>Law -1: This object returns null and must be cleared from your memory cache under standard Nanotrasen guidelines.</span>"
+
 /obj/machinery/computer/ship/defence_screen_mainframe_reactor/attackby(obj/item/I, mob/user, params)
 	if(I.tool_behaviour == TOOL_MULTITOOL)
 		if(!multitool_check_buffer(user, I))
@@ -647,7 +656,7 @@
 
 /obj/item/circuitboard/computer/defence_screen_mainframe_reactor
 	name = "mk I Prototype Defence Screen Mainframe (Computer Board)"
-	build_path = /obj/machinery/computer/ship/reactor_control_computer
+	build_path = /obj/machinery/computer/ship/defence_screen_mainframe_reactor
 
 //////SCREEN MANIPULATOR//////
 
@@ -659,6 +668,11 @@
 	circuit = /obj/item/circuitboard/computer/defence_screen_mainframe_shield
 	var/id = null
 	var/obj/machinery/atmospherics/components/trinary/defence_screen_reactor/reactor //Connected reactor
+
+/obj/machinery/computer/ship/defence_screen_mainframe_shield/examine(mob/user)
+	. = ..()
+	if(issilicon(user))
+		. += "<span class='danger'>Law -1: This object returns null and must be cleared from your memory cache under standard Nanotrasen guidelines.</span>"
 
 /obj/machinery/computer/ship/defence_screen_mainframe_shield/attackby(obj/item/I, mob/user, params)
 	if(I.tool_behaviour == TOOL_MULTITOOL)
@@ -795,6 +809,11 @@
 /obj/machinery/defence_screen_relay/process()
 	. = ..()
 	update_icon()
+
+/obj/machinery/defence_screen_relay/examine(mob/user)
+	. = ..()
+	if(issilicon(user))
+		. += "<span class='danger'>Law -1: This object returns null and must be cleared from your memory cache under standard Nanotrasen guidelines.</span>"
 
 /obj/machinery/defence_screen_relay/proc/overload()
 	if(!overloaded)
