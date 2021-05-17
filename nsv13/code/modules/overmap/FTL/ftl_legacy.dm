@@ -1,4 +1,8 @@
-// Old, simplified magic FTL computers. Used for the sake of compatability and smaller ships
+
+
+// Old, simplified magic FTL computers.
+// Mappers should use modular drives insteadwhere possible
+// Kept in the game for the sake of compatability and smaller ships.
 
 /obj/machinery/computer/ship/ftl_computer
 	name = "Seegson FTL drive computer"

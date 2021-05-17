@@ -1,8 +1,3 @@
-#define FTL_STATE_IDLE 1
-#define FTL_STATE_SPOOLING 2
-#define FTL_STATE_READY 3
-#define FTL_STATE_JUMPING 4
-
 /datum/star_system/proc/add_ship(obj/structure/overmap/OM)
 	if(!system_contents.Find(OM))
 		system_contents += OM	//Lets be safe while I cast some black magic.

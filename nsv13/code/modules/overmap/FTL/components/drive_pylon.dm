@@ -1,7 +1,3 @@
-#define ENABLE_SUCCESS 1
-#define ENABLE_FAIL_POWER 2
-#define ENABLE_FAIL_COOLDOWN 3
-
 #define MAX_WASTE_PRESSURE 7500
 #define MAX_WASTE_STORAGE_PRESSURE
 
@@ -27,6 +23,7 @@
 	var/obj/structure/pylon_shield = null
 	var/active_time = 0 // how many ticks have we been fully active for
 	var/active_time_safe = 60
+
 	var/internal_temp = 20 // celsius
 	var/pylon_state = PYLON_STATE_OFFLINE
 	var/capacitor = 0 // capacitors charged
