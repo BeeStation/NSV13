@@ -25,8 +25,7 @@
 	smooth = TRUE
 	color = null
 	sheet_type = /obj/item/stack/sheet/duranium
-	sheet_amount = 2
-	girder_type = /obj/structure/girder
+	sheet_amount = 1
 	hardness = 5
 
 /obj/structure/falsewall/duranium
