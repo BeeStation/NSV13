@@ -41,16 +41,32 @@
 /obj/structure/girder/proc/try_nsv_walls(obj/item/stack/sheet/S, mob/user)
 	if(!S.turf_type) //Let the girder code handle it. It's not one of ours.
 		return FALSE
-
 	if(state != GIRDER_DISPLACED) //Build regular wall
+		if(istype(S, /obj/item/stack/sheet/duranium)) //Duranium wall building
+			if(state == GIRDER_REINF)
+				if(S.get_amount() < 1)
+					return FALSE
+				to_chat(user, "<span class='notice'>You start finalizing the duranium wall...</span>")
+				if(do_after(user, 50, target = src))
+					if(S.get_amount() < 1)
+						return FALSE
+					S.use(1)
+					to_chat(user, "<span class='notice'>You finish constructing the wall.</span>")
+					var/turf/T = get_turf(src)
+					T.PlaceOnTop(/turf/closed/wall/r_wall/ship)
+					transfer_fingerprints_to(T)
+					qdel(src)
+				return TRUE
+			else
+				to_chat(user, "<span class='warning'>The girder is too weak to support the Duranium plating!")
+				return TRUE
 		if(S.get_amount() < 2)
 			to_chat(user, "<span class='warning'>You need two sheets of [S] to finish a wall!</span>")
 			return FALSE
-
 		to_chat(user, "<span class='notice'>You start plating the wall with [S]...</span>")
 		if (do_after(user, 40, target = src))
 			if(S.get_amount() < 2)
-				to_chat(user, "<span class='warning'>You need two sheets of [S] to create a false wall!</span>")
+				to_chat(user, "<span class='warning'>You need two sheets of [S] to finish a wall!</span>")
 				return FALSE
 			S.use(2)
 			to_chat(user, "<span class='notice'>You add the hull plating.</span>")
