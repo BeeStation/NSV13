@@ -18,6 +18,9 @@
 			if((D.spread_flags & DISEASE_SPREAD_SPECIAL) || (D.spread_flags & DISEASE_SPREAD_NON_CONTAGIOUS))
 				continue
 
+			if ( ( data[ "donor" ] && istype( data[ "donor" ], /mob/living/simple_animal/mouse ) ) && islizard( L ) ) // NSV13 - Lizards do not get rat viruses
+				continue
+
 			if((method == TOUCH || method == VAPOR) && (D.spread_flags & DISEASE_SPREAD_CONTACT_FLUIDS))
 				L.ContactContractDisease(D)
 			else //ingest, patch or inject
@@ -626,7 +629,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/squid
 	taste_description = "fish"
-	
+
 /datum/reagent/mutationtoxin/oozeling
 	name = "Oozeling Mutation Toxin"
 	description = "An oozing toxin"
