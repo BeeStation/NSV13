@@ -95,7 +95,7 @@
 			if(gyro_speed <= 0)
 				finalalize_shutdown()
 
-	if(!power_drain() || pylon_shield?.closed)
+	if(!power_drain())
 		set_state(PYLON_STATE_SHUTDOWN)
 
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/process_atmos()
@@ -115,6 +115,7 @@
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/try_enable()
 	if(pylon_state = PYLON_STATE_SHUTDOWN)
 		return ENABLE_FAIL_COOLDOWN
+	pylon_state = PYLON_STATE_STARTUP
 	return ..()
 
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1)

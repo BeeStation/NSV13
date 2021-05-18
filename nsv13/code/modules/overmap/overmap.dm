@@ -136,7 +136,12 @@
 
 	var/uid = 0 //Unique identification code
 	var/starting_system = null //Where do we start in the world?
-	var/obj/machinery/computer/ship/ftl_computer/ftl_drive
+
+	// Large/Modern ships will use the modular FTL core. But the proc names and args are aligned so BYOND lets us use either object as just one object path
+	// It's terrible I know, but until we decide/are bothered enough to throw out the legacy drive (or subtype it), this'll have to do
+	var/obj/machinery/computer/ship/ftl_core/ftl_drive
+
+
 	var/reserved_z = 0 //The Z level we were spawned on, and thus inhabit. This can be changed if we "swap" positions with another ship.
 	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
 	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo

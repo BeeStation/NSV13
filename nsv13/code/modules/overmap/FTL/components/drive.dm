@@ -1,10 +1,3 @@
-// Startup responses
-#define CORE_BROKEN 0 // broken/no power
-#define CORE_COOLDOWN 1 // we're on cooldown
-#define CORE_ACTIVE 2 // we're already active
-#define CORE_PYLON_ERROR 3 // No connected pylons
-#define CORE_SUCCESS 4
-
 /obj/machinery/computer/ship/ftl_core
 	name = "\improper FTL framewarp core"
 	desc = "A highly advanced system capable of using exotic energy to bend space around it, exotic energy must be supplied by drive pylons"
@@ -16,6 +9,7 @@
 	icon_screen = null
 	icon_keyboard = null
 	req_access = list(ACCESS_ENGINE_EQUIP)
+	var/jumping = FALSE // are we already jumping?
 	var/tier = 1 // increased tiers increase jump range
 	var/link_id = "default"
 	var/list/pylons = list() //connected pylons
@@ -28,6 +22,7 @@
 	var/radio_key = /obj/item/encryptionkey/headset_eng
 	var/radio_channel = "Engineering"
 	var/max_range = 30000
+	var/engaged = FALSE //Are we fully ready?
 
 /obj/machinery/computer/ship/ftl_core/Initialize()
 	. = ..()
@@ -51,32 +46,43 @@
 
 /obj/machinery/computer/ship/ftl_core/proc/begin_charge()
 	if(!is_operational() || !anchored)
-		return CORE_BROKEN
+		visible_message("<span class='warning'>FTL core damaged or without power, startup procedure cancelled.</span>")
+		return
 	if(cooldown)
-		return CORE_COOLDOWN
+		visible_message("<span class='warning'>FTL core temperature beyond safety limits, please wait for cooldown cycle to complete.</span>")
+		return
 	if(charge)
-		return CORE_ACTIVE
+		visible_message("<span class='warning'>FTL maifold is already active.</span>")
+		return
 	if(!check_pylons())
-		return CORE_PYLON_ERROR
+		visible_message("<span class='warning'>Insufficient connected drive pylons.</span>")
+		return
+
+	visible_message("<span class='info'>Core fuel cycle starting.</span>")
 	enabled = TRUE
-	return CORE_SUCCESS
+	playsound(src, 'nsv13/sound/effects/computer/hum3.ogg', 100, 1)
+	playsound(src, 'nsv13/sound/voice/ftl_spoolup.wav', 100, FALSE)
+	radio.talk_into(src, "FTL spoolup initiated.", radio_channel)
+	icon_state = "core_active"
+	use_power = 500
 
 /obj/machinery/computer/ship/ftl_core/process()
 	if(!enabled || !is_operational() || !anchored)
 		depower()
 		return
-	if(ftl_state == FTL_STATE_JUMPING)
+	if(jumping)
 		return
+	var/active_charge = FALSE
 	for(var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P in pylons)
 		if(P.pylon_state == PYLON_STATE_ACTIVE)
-			charge = min(charge + charge_rate, 100)
-	if(charge >= req_charge)
+			charge = min(charge + charge_rate, req_charge)
+			active_charge = TRUE
+	if(!active_charge && charge > 0)
+		charge--
+		if(charge < req_charge && engaged)
+			cancel_ftl()
+	if(!engaged && charge >= req_charge)
 		ready_ftl()
-
-
-// TODO: Adapt everything below into new core
-
-
 
 //No please do not delete the FTL's radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
 /obj/machinery/computer/ship/ftl_core/prevent_content_explosion()
@@ -197,7 +203,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(ui)
 		return
-	ui = new(user, src, "FTLComputer")
+	ui = new(user, src, "FTLComputer_M")
 	ui.open()
 
 /obj/machinery/computer/ship/ftl_core/ui_act(action, params, datum/tgui/ui)
@@ -207,15 +213,18 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	playsound(src, 'nsv13/sound/effects/computer/scroll_start.ogg', 100, 1)
 	switch(action)
 		if("toggle_power")
-			enabled = !enabled
-			charge = 0
+			if(enabled)
+				depower()
+			else
+				begin_charge()
+
 		if("show_tracking")
 			screen = 2
 		if("go_back")
 			screen = 1
 		if("jump")
-			if(ftl_state != FTL_STATE_READY)
-				visible_message("<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. FTL vector calculation and/or refueling is still in progress. 'Blind' FTL jumps are prohibited by the system administrative policy.</span>")
+			if(!engaged)
+				visible_message("<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. Insufficient fuel. Micro FTL jumps are prohibited by the system administrative policy.</span>")
 				return
 			for(var/datum/star_system/S in SSstar_system.systems)
 				if(S.visitable && S.name == params["target"])
@@ -227,8 +236,9 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	data["powered"] = enabled
 	data["progress"] = charge
 	data["goal"] = req_charge
-	data["ready"] = charge >= req_charge
+	data["ready"] = engaged
 	data["mode"] = screen
+	data["jumping"] = jumping
 	data["systems"] = list()
 	var/list/ships = list()
 	for(var/X in tracking)
@@ -244,41 +254,34 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	return data
 
 /obj/machinery/computer/ship/ftl_core/proc/jump(datum/star_system/target_system)
+	jumping = TRUE
 	if(!target_system)
-		radio.talk_into(src, "ERROR. Specified star_system no longer exists.", engineering_channel)
+		radio.talk_into(src, "ERROR. Specified star_system no longer exists.", radio_channel)
 		return
 	linked?.begin_jump(target_system)
 	playsound(src, 'nsv13/sound/voice/ftl_start.wav', 100, FALSE)
-	radio.talk_into(src, "Initiating FTL translation.", engineering_channel)
+	radio.talk_into(src, "Initiating FTL translation.", radio_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
-	ftl_state = FTL_STATE_JUMPING
 	addtimer(CALLBACK(src, .proc/depower), ftl_startup_time)
 
 /obj/machinery/computer/ship/ftl_core/proc/ready_ftl()
 	playsound(src, 'nsv13/sound/voice/ftl_ready.wav', 100, FALSE)
-	radio.talk_into(src, "FTL vectors calculated. Ready to commence FTL translation.", engineering_channel)
+	radio.talk_into(src, "FTL fuel cycle complete. Ready to commence FTL translation.", radio_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
-
-/obj/machinery/computer/ship/ftl_core/proc/spoolup()
-	if(!enabled)
-		playsound(src, 'nsv13/sound/effects/computer/hum3.ogg', 100, 1)
-		playsound(src, 'nsv13/sound/voice/ftl_spoolup.wav', 100, FALSE)
-		radio.talk_into(src, "FTL spoolup initiated.", engineering_channel)
-		icon_state = "core_active"
+	engaged = TRUE
 
 /obj/machinery/computer/ship/ftl_core/proc/cancel_ftl()
-	if(depower())
-		playsound(src, 'nsv13/sound/voice/ftl_cancelled.wav', 100, FALSE)
-		radio.talk_into(src, "FTL translation cancelled.", engineering_channel)
-		return TRUE
-	return FALSE
+	engaged = FALSE
+	playsound(src, 'nsv13/sound/voice/ftl_cancelled.wav', 100, FALSE)
+	radio.talk_into(src, "FTL translation cancelled.", radio_channel)
 
 /obj/machinery/computer/ship/ftl_core/update_icon()
 	return //Override computer updates
 
 /obj/machinery/computer/ship/ftl_core/proc/depower()
 	if(charge >= 0)
+		jumping = FALSE
 		var/list/timers = active_timers
 		active_timers = null
 		for(var/thing in timers)
@@ -287,6 +290,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 				continue
 			qdel(timer)
 		enabled = FALSE
+		engaged = FALSE
 		icon_state = "core_idle"
 		charge = 0
 		use_power = 50
