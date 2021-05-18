@@ -636,7 +636,7 @@
 	color = "#611e80" //RGB: 97, 30, 128
 	race = /datum/species/oozeling
 	taste_description = "burning ooze"
-
+	
 //BLACKLISTED RACES
 /datum/reagent/mutationtoxin/skeleton
 	name = "Skeleton Mutation Toxin"
