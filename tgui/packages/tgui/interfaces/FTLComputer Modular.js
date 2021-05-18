@@ -1,6 +1,6 @@
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Section, ProgressBar} from '../components';
+import { Box, Button, Section, ProgressBar } from '../components';
 import { Window } from '../layouts';
 
 export const FTLComputer_M = (props, context) => {
@@ -17,7 +17,7 @@ export const FTLComputer_M = (props, context) => {
             title="Actions:">
             <Button
               color={!!data.powered && 'green'}
-              disabled={!jumping}
+              disabled={!data.jumping}
               content="Toggle Power"
               onClick={() => act('toggle_power')} />
           </Section>
