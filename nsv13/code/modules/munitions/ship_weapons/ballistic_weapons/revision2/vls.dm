@@ -84,6 +84,8 @@
 	if(!T)
 		return
 	hatch = locate(/obj/structure/fluff/vls_hatch) in T
+	if(!hatch)
+		return
 	var/matrix/ntransform = new()
 	if(dir & NORTH)
 		ntransform.Turn(90)
