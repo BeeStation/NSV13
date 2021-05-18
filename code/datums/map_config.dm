@@ -17,7 +17,7 @@
 	var/map_name = "NSV Atlas - DEFAULTED"
 	var/map_link = null //This is intentionally wrong, this will make it not link to webmap.
 	var/map_path = "map_files/Atlas"
-	var/map_file = list("Atlas.dmm", "Atlas2.dmm")
+	var/map_file = list("atlas.dmm", "atlas2.dmm")
 	var/ship_type = /obj/structure/overmap/nanotrasen/battlecruiser/starter
 	var/mining_ship_type = /obj/structure/overmap/nanotrasen/mining_cruiser/rocinante
 	var/mine_disable = FALSE //NSV13 - Allow disabling of mineship loading.
