@@ -48,3 +48,9 @@
 /datum/map_template/shuttle/mining/ez049st
 	suffix = "ez-049st"
 	name = "mining shuttle (EZ-049ST)"
+
+
+//Escape
+/datum/map_template/shuttle/escape_pod/shrike
+	suffix = "shrike"
+	name = "escape pod (Shrike)"
