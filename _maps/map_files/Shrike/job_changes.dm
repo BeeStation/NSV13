@@ -50,6 +50,56 @@ MAP_REMOVE_JOB(air_traffic_controller)
 		return
 	build_path = null
 
+//Bottle Chemistry Packs
+
+/datum/supply_pack/medical/chemical_supply_compounds/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	hidden = FALSE
+
+/datum/supply_pack/medical/chemical_supply_metals/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	hidden = FALSE
+
+/datum/supply_pack/medical/chemical_supply_alkali_metals/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	hidden = FALSE
+
+/datum/supply_pack/medical/chemical_supply_pnictogens/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	hidden = FALSE
+
+/datum/supply_pack/medical/chemical_supply_tetrels/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	hidden = FALSE
+
+/datum/supply_pack/medical/chemical_supply_alkaline_earth_metals_triels/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	hidden = FALSE
+
+/datum/supply_pack/medical/chemical_supply_halogens/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	hidden = FALSE
+
+/datum/supply_pack/medical/chemical_supply_chalcogens/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	hidden = FALSE
+
 //Job Changes
 
 /datum/job/bridge/New()

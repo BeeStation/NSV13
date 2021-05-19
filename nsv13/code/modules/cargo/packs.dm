@@ -458,39 +458,134 @@
 	contains = list(/obj/item/vending_refill/wardrobe/muni_wardrobe)
 	crate_name = "munidrobe supply crate"
 
-/datum/supply_pack/medical/chemical_supply
-	name = "Chemical Supply Crate"
-	desc = "This crate contains 10 bottles of chemical elements"
-	cost = 2000
-	contains = list()
-	crate_name = "Chemical Supply Crate"
-
-/datum/supply_pack/medical/chemical_supply/fill(obj/structure/closet/crate/C)
-	var/s_pool = list(/obj/item/reagent_containers/glass/bottle/aluminium,
-					/obj/item/reagent_containers/glass/bottle/bromine,
-					/obj/item/reagent_containers/glass/bottle/carbon,
-					/obj/item/reagent_containers/glass/bottle/chlorine,
-					/obj/item/reagent_containers/glass/bottle/copper,
+//Bottle chem packs - yes I have taken some liberties
+/datum/supply_pack/medical/chemical_supply_compounds
+	name = "Chemical Supply Crate - Compounds"
+	desc = "This crate contains 3x bottles of ethanol, sugar and welding fuel"
+	cost = 1000
+	hidden = TRUE
+	contains = list(/obj/item/reagent_containers/glass/bottle/ethanol,
 					/obj/item/reagent_containers/glass/bottle/ethanol,
-					/obj/item/reagent_containers/glass/bottle/fluorine,
-					/obj/item/reagent_containers/glass/bottle/hydrogen,
-					/obj/item/reagent_containers/glass/bottle/iodine,
-					/obj/item/reagent_containers/glass/bottle/iron,
-					/obj/item/reagent_containers/glass/bottle/lithium,
-					/obj/item/reagent_containers/glass/bottle/mercury,
-					/obj/item/reagent_containers/glass/bottle/nitrogen,
-					/obj/item/reagent_containers/glass/bottle/oxygen,
-					/obj/item/reagent_containers/glass/bottle/phosphorus,
-					/obj/item/reagent_containers/glass/bottle/potassium,
-					/obj/item/reagent_containers/glass/bottle/radium,
-					/obj/item/reagent_containers/glass/bottle/silicon,
-					/obj/item/reagent_containers/glass/bottle/silver,
-					/obj/item/reagent_containers/glass/bottle/sodium,
-					/obj/item/reagent_containers/glass/bottle/plasma,
+					/obj/item/reagent_containers/glass/bottle/ethanol,
 					/obj/item/reagent_containers/glass/bottle/sugar,
+					/obj/item/reagent_containers/glass/bottle/sugar,
+					/obj/item/reagent_containers/glass/bottle/sugar,
+					/obj/item/reagent_containers/glass/bottle/welding_fuel,
+					/obj/item/reagent_containers/glass/bottle/welding_fuel,
+					/obj/item/reagent_containers/glass/bottle/welding_fuel)
+	crate_name = "Chemical Supply Crate - Compounds"
+
+/datum/supply_pack/medical/chemical_supply_metals
+	name = "Chemical Supply Crate - Metals"
+	desc = "This crate contains 3x bottles of copper, iron, silver and mercury"
+	cost = 1000
+	hidden = TRUE
+	contains = list(/obj/item/reagent_containers/glass/bottle/copper,
+					/obj/item/reagent_containers/glass/bottle/copper,
+					/obj/item/reagent_containers/glass/bottle/copper,
+					/obj/item/reagent_containers/glass/bottle/iron,
+					/obj/item/reagent_containers/glass/bottle/iron,
+					/obj/item/reagent_containers/glass/bottle/iron,
+					/obj/item/reagent_containers/glass/bottle/silver,
+					/obj/item/reagent_containers/glass/bottle/silver,
+					/obj/item/reagent_containers/glass/bottle/silver,
+					/obj/item/reagent_containers/glass/bottle/mercury,
+					/obj/item/reagent_containers/glass/bottle/mercury,
+					/obj/item/reagent_containers/glass/bottle/mercury)
+	crate_name = "Chemical Supply Crate - Metals"
+
+/datum/supply_pack/medical/chemical_supply_alkali_metals
+	name = "Chemical Supply Crate - Alkali Metals"
+	desc = "This crate contains 3x bottles of hydrogen, lithium, sodium and potassium"
+	cost = 1000
+	hidden = TRUE
+	contains = list(/obj/item/reagent_containers/glass/bottle/hydrogen,
+					/obj/item/reagent_containers/glass/bottle/hydrogen,
+					/obj/item/reagent_containers/glass/bottle/hydrogen,
+					/obj/item/reagent_containers/glass/bottle/lithium,
+					/obj/item/reagent_containers/glass/bottle/lithium,
+					/obj/item/reagent_containers/glass/bottle/lithium,
+					/obj/item/reagent_containers/glass/bottle/sodium,
+					/obj/item/reagent_containers/glass/bottle/sodium,
+					/obj/item/reagent_containers/glass/bottle/sodium,
+					/obj/item/reagent_containers/glass/bottle/potassium,
+					/obj/item/reagent_containers/glass/bottle/potassium,
+					/obj/item/reagent_containers/glass/bottle/potassium)
+	crate_name = "Chemical Supply Crate - Alkali Metals"
+
+/datum/supply_pack/medical/chemical_supply_pnictogens
+	name = "Chemical Supply Crate - Pnictogens"
+	desc = "This crate contains 3x bottles of nitrogen and phosphorus"
+	cost = 1000
+	hidden = TRUE
+	contains = list(/obj/item/reagent_containers/glass/bottle/nitrogen,
+					/obj/item/reagent_containers/glass/bottle/nitrogen,
+					/obj/item/reagent_containers/glass/bottle/nitrogen,
+					/obj/item/reagent_containers/glass/bottle/phosphorus,
+					/obj/item/reagent_containers/glass/bottle/phosphorus,
+					/obj/item/reagent_containers/glass/bottle/phosphorus)
+	crate_name = "Chemical Supply Crate - Pnictogens"
+
+/datum/supply_pack/medical/chemical_supply_tetrels
+	name = "Chemical Supply Crate - Tetrels"
+	desc = "This crate contains 3x bottles of carbon, silicon and plasma"
+	cost = 1000
+	hidden = TRUE
+	contains = list(/obj/item/reagent_containers/glass/bottle/carbon,
+					/obj/item/reagent_containers/glass/bottle/carbon,
+					/obj/item/reagent_containers/glass/bottle/carbon,
+					/obj/item/reagent_containers/glass/bottle/silicon,
+					/obj/item/reagent_containers/glass/bottle/silicon,
+					/obj/item/reagent_containers/glass/bottle/silicon,
+					/obj/item/reagent_containers/glass/bottle/plasma,
+					/obj/item/reagent_containers/glass/bottle/plasma,
+					/obj/item/reagent_containers/glass/bottle/plasma)
+	crate_name = "Chemical Supply Crate - Tetrels"
+
+/datum/supply_pack/medical/chemical_supply_alkaline_earth_metals_triels
+	name = "Chemical Supply Crate - Alkaline Earth Metals & Triels"
+	desc = "This crate contains 3x bottles of radium and aluminium"
+	cost = 1000
+	hidden = TRUE
+	contains = list(/obj/item/reagent_containers/glass/bottle/radium,
+					/obj/item/reagent_containers/glass/bottle/radium,
+					/obj/item/reagent_containers/glass/bottle/radium,
+					/obj/item/reagent_containers/glass/bottle/aluminium,
+					/obj/item/reagent_containers/glass/bottle/aluminium,
+					/obj/item/reagent_containers/glass/bottle/aluminium)
+	crate_name = "Chemical Supply Crate - Alkaline Earth Metals & Triels"
+
+/datum/supply_pack/medical/chemical_supply_halogens
+	name = "Chemical Supply Crate - Halogens"
+	desc = "This crate contains 3x bottles of fluorine, chlorine, bromine and iodine"
+	cost = 1000
+	hidden = TRUE
+	contains = list(/obj/item/reagent_containers/glass/bottle/fluorine,
+					/obj/item/reagent_containers/glass/bottle/fluorine,
+					/obj/item/reagent_containers/glass/bottle/fluorine,
+					/obj/item/reagent_containers/glass/bottle/chlorine,
+					/obj/item/reagent_containers/glass/bottle/chlorine,
+					/obj/item/reagent_containers/glass/bottle/chlorine,
+					/obj/item/reagent_containers/glass/bottle/bromine,
+					/obj/item/reagent_containers/glass/bottle/bromine,
+					/obj/item/reagent_containers/glass/bottle/bromine,
+					/obj/item/reagent_containers/glass/bottle/iodine,
+					/obj/item/reagent_containers/glass/bottle/iodine,
+					/obj/item/reagent_containers/glass/bottle/iodine)
+	crate_name = "Chemical Supply Crate - Halogens"
+
+/datum/supply_pack/medical/chemical_supply_chalcogens
+	name = "Chemical Supply Crate - Chalcogens"
+	desc = "This crate contains 3x bottles of oxygen, sulfur and sulfuric acid"
+	cost = 1000
+	hidden = TRUE
+	contains = list(/obj/item/reagent_containers/glass/bottle/oxygen,
+					/obj/item/reagent_containers/glass/bottle/oxygen,
+					/obj/item/reagent_containers/glass/bottle/oxygen,
+					/obj/item/reagent_containers/glass/bottle/sulfur,
+					/obj/item/reagent_containers/glass/bottle/sulfur,
 					/obj/item/reagent_containers/glass/bottle/sulfur,
 					/obj/item/reagent_containers/glass/bottle/sacid,
-					/obj/item/reagent_containers/glass/bottle/welding_fuel)
-	for(var/i = 0, i < 10, i++)
-		var/item = pick(s_pool)
-		new item(C)
+					/obj/item/reagent_containers/glass/bottle/sacid,
+					/obj/item/reagent_containers/glass/bottle/sacid)
+	crate_name = "Chemical Supply Crate - Chalcogens"
