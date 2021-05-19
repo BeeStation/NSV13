@@ -22,23 +22,35 @@ MAP_REMOVE_JOB(flight_leader)
 MAP_REMOVE_JOB(fighter_pilot)
 MAP_REMOVE_JOB(air_traffic_controller)
 
-/datum/design/board/ore_silo/New()
-	.=..()
-	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
-		return
-	build_path = /obj/item/paper/fab_error
+//Shuttles Disabled - All
 
-/datum/design/board/ore_redemption/New()
+/datum/map_template/shuttle/New()
 	.=..()
 	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
 		return
-	build_path = /obj/item/paper/fab_error
+	can_be_bought = FALSE
 
-/datum/design/board/chem_dispenser/New()
+//Disabled objects
+
+/obj/item/circuitboard/machine/ore_silo/New()
 	.=..()
 	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
 		return
-	build_path = /obj/item/paper/fab_error
+	build_path = null
+
+/obj/item/circuitboard/machine/ore_redemption/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	build_path = null
+
+/obj/item/circuitboard/machine/chem_dispenser/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	build_path = null
+
+//Job Changes
 
 /datum/job/bridge/New()
 	..()

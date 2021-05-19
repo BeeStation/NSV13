@@ -54,3 +54,11 @@
 /datum/map_template/shuttle/escape_pod/shrike
 	suffix = "shrike"
 	name = "escape pod (Shrike)"
+
+/datum/map_template/shuttle/emergency/void
+	suffix = "void"
+	name = "Void Emergency Shuttle"
+	description = "Not even a shuttle."
+	admin_notes = "Used for escape pod only maps"
+	credit_cost = 0
+	can_be_bought = FALSE
