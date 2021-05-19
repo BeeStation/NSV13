@@ -52,10 +52,6 @@
 /obj/machinery/atmospherics/components/binary/ftl/silo/process_atmos()
 
 	// PRESSURE! Pushing down on me
-	// Pressing down on you, no man ask for
-	// OVERPRESSURE! That burns a station down
-	// Splits a station in two, puts people in sheets
-
 	var/i_pressure = air_contents.return_pressure() // internal pressure
 	if(i_pressure > SILO_EXPLODE_PRESSURE)
 		if(prob(explosion_chance))
@@ -76,11 +72,11 @@
 		if(prob(40))
 			switch(rand(1, 3))
 				if(1)
-					audible_message("<span class='danger'>\The [src] resonates an ominous creak.")
+					audible_message("<span class='danger'>\The [src] resonates an ominous creak.</span>")
 				if(2)
-					visible_message("<span class ='danger>\The [src] shakes violently!")
+					visible_message("<span class ='danger>\The [src] shakes violently!</span>")
 				if(3)
-					visible_message("<span class ='danger>\The [src]'s chassis begins to bulge.")
+					visible_message("<span class ='danger>\The [src]'s chassis begins to bulge.</span>")
 		else
 			if(prob(20))
 				playsound(src, 'nsv13/sound/effects/rbmk/alarm.ogg', 100, TRUE)

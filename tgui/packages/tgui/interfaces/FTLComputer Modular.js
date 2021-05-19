@@ -10,9 +10,31 @@ export const FTLComputer_M = (props, context) => {
       resizable
       theme="retro"
       width={560}
-      height={350}>
+      height={400}>
       <Window.Content scrollable>
         <Section>
+          <Section title="Pylons:">
+            {Object.keys(data.pylons).map(key => {
+            let value = data.pylons[key];
+            return (
+              <Fragment key={key}>
+                <Section title={`Pylon ${value.number}`}>
+                  <Button
+                    fluid
+                    content="Toggle Power"
+                    icon={value.enabled ? "sqaure-o" : "power-off"}
+                    color={value.shutdown ? "average" : value.enabled ? "good" : "bad"}
+                    disabled={value.shutdown}
+                    onClick={() => act('pylon_power', {id: value.id})} />
+                </Section>
+              </Fragment>);
+            })}
+            <Button
+              content="Find Pylons"
+              icon="search"
+              onClick={() => act('find_pylons')} />
+
+          </Section>
           <Section
             title="Actions:">
             <Button

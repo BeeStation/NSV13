@@ -1,6 +1,7 @@
+// parent handler for drives and silos, saves some copy paste
 /obj/machinery/atmospherics/components/binary/ftl
 	name = "atmospheric FTL component"
-	desc = "yell at mappers."
+	desc = "Yell at mappers if you see this."
 	var/obj/structure/cable/C // connected cable
 	var/power_warning_sound = "an eerie clang"
 	var/targ_power_draw = 0
@@ -19,10 +20,10 @@
 	var/turf/T = get_turf(src)
 	C = T.get_cable_node()
 	if(!C)
-		return ENABLE_FAIL_POWER
+		return FALSE
 	on = TRUE
 	START_PROCESSING(SSmachines, src)
-	return ENABLE_SUCCESS
+	return TRUE
 
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/proc/power_drain()
 	if(min_power_draw <= 0)

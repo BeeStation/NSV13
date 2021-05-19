@@ -1,11 +1,12 @@
+// in kPa
 #define MAX_WASTE_PRESSURE 7500
-#define MAX_WASTE_STORAGE_PRESSURE
+#define MAX_WASTE_STORAGE_PRESSURE 10000
 
 /// Multiplies power draw by this value every tick it remains active. Higher values will make power use increase faster
 #define PYLON_ACTIVE_EXPONENT 1.02
 
 /// how many ticks of being active are required before we start to overheat
-#define active_time_safe 90
+#define ACTIVE_TIME_SAFE 90
 
 ///FTL DRIVE PYLON///
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon
@@ -22,8 +23,6 @@
 	var/gyro_speed = 0
 	var/obj/structure/pylon_shield = null
 	var/active_time = 0 // how many ticks have we been fully active for
-	var/active_time_safe = 60
-
 	var/internal_temp = 20 // celsius
 	var/pylon_state = PYLON_STATE_OFFLINE
 	var/capacitor = 0 // capacitors charged
@@ -114,7 +113,7 @@
 
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/try_enable()
 	if(pylon_state = PYLON_STATE_SHUTDOWN)
-		return ENABLE_FAIL_COOLDOWN
+		return FALSE
 	pylon_state = PYLON_STATE_STARTUP
 	return ..()
 
@@ -185,7 +184,7 @@
 		if(PYLON_STATE_ACTIVE)
 			ov += "pylon_gyro_on_fast"
 			ov += "pylon_arcing"
-	if(active_time > active_time_safe)
+	if(active_time > ACTIVE_TIME_SAFE)
 		ov += "pylon_overheat"
 	add_overlay(ov)
 
@@ -198,13 +197,6 @@
 
 #undef MAX_WASTE_PRESSURE
 #undef MAX_WASTE_STORAGE_PRESSURE
-
-#undef ENABLE_SUCCESS
-#undef ENABLE_FAIL_POWER
-#undef ENABLE_FAIL_COOLDOWN
-
-#undef PYLON_EFFICIENCY_BASE
-#undef PYLON_EFFICIENCY_MIN
 
 #undef PYLON_ACTIVE_EXPONENT
 

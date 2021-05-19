@@ -34,8 +34,11 @@
 	radio.recalculateChannels()
 
 /obj/machinery/computer/ship/ftl_core/proc/get_pylons()
+	pylons.len = 0
 	for(var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P in GLOB.machines)
-		if(link_id == P.link_id && P.get_overmap() == get_overmap())
+		if(pylons.len >= 4)
+			break
+		if(link_id == P.link_id && P.get_overmap() == get_overmap() && P.is_operational())
 			pylons += P
 
 /obj/machinery/computer/ship/ftl_core/proc/check_pylons()
@@ -173,7 +176,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 */
 
 /obj/machinery/computer/ship/ftl_core/proc/announce_jump()
-	radio.talk_into(src, "TRACKING: FTL signature detected. Tracking information updated.",engineering_channel)
+	radio.talk_into(src, "TRACKING: FTL signature detected. Tracking information updated.", radio_channel)
 	for(var/list/L in tracking)
 		var/obj/structure/overmap/target = L["ship"]
 		var/datum/star_system/target_system = SSstar_system.ships[target]["target_system"]
@@ -195,7 +198,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	if(!allowed(user))
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
-		to_chat(user, "<span class='warning'>Access denied</span>")
+		to_chat(user, "<span class='warning'>Access denied.</span>")
 		return
 	ui_interact(user)
 
@@ -211,20 +214,37 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	if(. || !has_overmap())
 		return
 	playsound(src, 'nsv13/sound/effects/computer/scroll_start.ogg', 100, 1)
+
+	var/atom/movable/target = locate(params["id"])
 	switch(action)
+		if("pylon_power")
+			var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P = target
+			switch(P.pylon_state)
+				if(PYLON_STATE_OFFLINE)
+					if(P.try_enable()) // enables it if it passes
+						visible_message("<span class='notice'>Pylon power cycle starting.</span>")
+					else
+						visible_message("<span class='warning'>Pylon missing power connection.</span>")
+
+				if(PYLON_STATE_SHUTDOWN)
+					visible_message("<span class='warning'>Please wait for pylon power cycle to complete before re-activating.</span>")
+				else
+					P.set_state(PYLON_STATE_SHUTDOWN)
+		if("find_pylons")
+			get_pylons()
+
 		if("toggle_power")
 			if(enabled)
 				depower()
 			else
 				begin_charge()
-
 		if("show_tracking")
 			screen = 2
 		if("go_back")
 			screen = 1
 		if("jump")
 			if(!engaged)
-				visible_message("<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. Insufficient fuel. Micro FTL jumps are prohibited by the system administrative policy.</span>")
+				visible_message("<span class='warning'>Unable to comply. Insufficient fuel. 'Blind' FTL jumps are prohibited by the system administrative policy.</span>")
 				return
 			for(var/datum/star_system/S in SSstar_system.systems)
 				if(S.visitable && S.name == params["target"])
@@ -240,13 +260,26 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	data["mode"] = screen
 	data["jumping"] = jumping
 	data["systems"] = list()
+
+	var/list/pylons_info = list()
+	var/count = 0
+	for(var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P in pylons)
+		count++
+		var/list/pylon_info = list()
+		pylon_info["number"] = count
+		pylon_info["id"] = "\ref[P]"
+		pylon_info["enabled"] = P.pylon_state != PYLON_STATE_OFFLINE
+		pylon_info["shutdown"] = P.pylon_state == PYLON_STATE_SHUTDOWN
+		pylons_info += pylon_info // there's a plural I promise
+	data["pylons"] = pylons_info
+
 	var/list/ships = list()
 	for(var/X in tracking)
 		var/list/ship_info = list()
 		ship_info["name"] = tracking[X]["name"]
 		ship_info["current_system"] = tracking[X]["current_system"]
 		ship_info["target_system"] = tracking[X]["target_system"]
-		ships[++ships.len] = ship_info
+		ships += ship_info
 	data["tracking"] = ships
 	for(var/datum/star_system/S in SSstar_system.systems)
 		if(S.visitable && S != linked.current_system)

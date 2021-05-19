@@ -1,8 +1,3 @@
-// Drive responses
-#define ENABLE_SUCCESS 1
-#define ENABLE_FAIL_POWER 2
-#define ENABLE_FAIL_COOLDOWN 3
-
 // Drive pylon states
 #define PYLON_STATE_OFFLINE 0
 #define PYLON_STATE_STARTING 1
