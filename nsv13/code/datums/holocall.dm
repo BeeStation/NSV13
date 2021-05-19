@@ -201,3 +201,84 @@
 	SAY This is me, Joe Speedwagon, Signing off.
 	SAY END OF SERIES.
 "}
+
+//Nsv galactica 3 log files!
+/obj/item/disk/holodisk/nsv_history
+	name = "VICKER educational chronicles issue #1 - The fall of Dolos"
+	desc = "An informational holodisk carrying information about the history of the SGV Solaria."
+	preset_image_type = /datum/preset_holoimage/curator
+	preset_record_text = {"
+	SAY LOADING INFORMATIONAL HOLOTAPE #1
+	SAY WELCOME TO THE NSV GALACTICA.
+	NAME David 'Record Keeper' Bregg
+	SAY Welcome to VICKER media educational chronicles! Throughout this series, you will learn all about crucial historical events as they happened.
+	DELAY 20
+	SAY Edit me!
+	DELAY 30
+	SAY We start our journey 30 years ago, when this ship was first built. She was designed as a battleship to head the SolGov fleet in a response to Nanotrasen's aggressive military expansion in the 2210s, and boasted an impressive amount of firepower.
+	DELAY 30
+	SAY Estimates put this ship's firepower on par with three Nanotrasen Aegis class light cruisers, however it has since been decommissioned and turned into a museum due to its historical significance!
+	DELAY 30
+	SAY In the next installment, you can find out about the Solaria's importance in several key conflicts. But for now, goodbye! And please, enjoy the museum...
+	DELAY 30
+	SAY END OF RECORDING. PLEASE INSERT NEXT FLOPPY DISK.
+"}
+
+/obj/item/disk/holodisk/nsv_history/galactica
+	name = "NSV Galactica History #1 - Introduction!"
+	desc = "An informational holodisk carrying information about the history of the NSV Galactica."
+	preset_image_type = /datum/preset_holoimage/engineer
+	preset_record_text = {"
+	SAY LOADING INFORMATIONAL HOLOTAPE #1
+	SAY WELCOME TO THE NSV GALACTICA.
+	NAME Senior Fleetyard Engineer Beck
+	SAY The NSV Galactica, initially developed under the title 'Iowa' is the current Nanotrasen flagship.
+	DELAY 20
+	SAY Third in the line of great ships to bear the name Galactica, this iteration is by far the most destructive of its lineage.
+	DELAY 30
+	SAY Coming from the SGV Solaria, SolGov flagship of yore, the original Galactica sailed briefly a few years ago, culminating in the battle of Tartarus, where heroic engineer Patel blew up a planet in the name of the corporation.
+	DELAY 30
+	SAY Patel sacrificed himself to destroy a Syndicate sleeper agent programming facility, however the original Galactica's voyage ended soon after as it was caught in the wake of the explosion.
+	DELAY 30
+	SAY After the destruction of the Galactica, CaracalCorp scavengers immediately began salvage operations. Entire departments had been torn asunder and left relatively in-tact...
+	DELAY 30
+	SAY END OF RECORDING. PLEASE INSERT NEXT FLOPPY DISK.
+"}
+
+/obj/item/disk/holodisk/nsv_history/galactica/two
+	name = "NSV Galactica History #2 - Breakthroughs"
+	preset_image_type = /datum/preset_holoimage/engineer
+	preset_record_text = {"
+	SAY LOADING INFORMATIONAL HOLOTAPE #2
+	SAY WELCOME TO THE NSV GALACTICA.
+	NAME Senior Fleetyard Engineer Beck
+	SAY After salvage operations came to a close due to Syndicate interference, the remaining pieces of the former Solaria were shipped back to fleetyard.
+	DELAY 20
+	SAY TitanWerks engineers have been studying the wrecks for several years now, but an important discovery was made... Before handing the Solaria over to us to become the Galactica, SolGov stripped it of all their signature tech.
+	DELAY 30
+	SAY As it turns out, the ship still had all the necessary focal points for shield generation in-tact, despite being stripped of all shield projection aparatus.
+	DELAY 30
+	SAY While I can't physically record the technical specs of the ship in too much detail, what I can say is this: the Galactica is one of a kind.
+	DELAY 30
+	SAY END OF RECORDING. PLEASE INSERT NEXT FLOPPY DISK.
+"}
+
+/obj/item/disk/holodisk/nsv_history/galactica/three
+	name = "NSV Galactica History #3 - Firepower"
+	preset_image_type = /datum/preset_holoimage/engineer
+	preset_record_text = {"
+	SAY LOADING INFORMATIONAL HOLOTAPE #2
+	SAY WELCOME TO THE NSV GALACTICA.
+	NAME Senior Fleetyard Engineer Beck
+	SAY The NSV Galactica is a ship of war. You are unlikely to find luxury amenities here, it's built for one purpose, at which it excels.
+	DELAY 20
+	SAY The NSV Galactica is equipped with 4 main batteries, featuring 8 NT-BSG gauss guns, 6 NT-HOOD naval artillery cannon and an experimental Bluespace Artillery.
+	DELAY 30
+	SAY Alongside its impressive physical artillery, the bluespace artillery beam is a new breakthrough in bluespace technology, and does not in-fact violate any SolGov sanctions!
+	DELAY 30
+	SAY The Galactica was built in direct response to Syndicate aggression and is equipped to level colonies and entire fleets alike.
+	DELAY 30
+	SAY WIP
+	DELAY 30
+	SAY END OF RECORDING. PLEASE INSERT NEXT FLOPPY DISK.
+"}

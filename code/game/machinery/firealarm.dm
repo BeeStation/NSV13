@@ -259,7 +259,7 @@
 
 /obj/machinery/firealarm/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	if((buildstage == 0) && (the_rcd.upgrade & RCD_UPGRADE_SIMPLE_CIRCUITS))
-		return list("mode" = RCD_UPGRADE_SIMPLE_CIRCUITS, "delay" = 20, "cost" = 1)	
+		return list("mode" = RCD_UPGRADE_SIMPLE_CIRCUITS, "delay" = 20, "cost" = 1)
 	return FALSE
 
 /obj/machinery/firealarm/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, passed_mode)
@@ -320,6 +320,16 @@
 	desc = "Cuban Pete is in the house!"
 	var/static/party_overlay
 
+/obj/machinery/firealarm/partyalarm/attack_hand(mob/user)
+	if(buildstage != 2)
+		return ..()
+	add_fingerprint(user)
+	var/area/A = get_area(src)
+	if(A.party)
+		reset(user)
+	else
+		alarm(user)
+
 /obj/machinery/firealarm/partyalarm/reset()
 	if (stat & (NOPOWER|BROKEN))
 		return
@@ -343,15 +353,15 @@
 /obj/machinery/firealarm/directional/north //NSV13 Start - Directional fire alarms for mapping
 	dir = NORTH
 	pixel_y = 24
-	
+
 /obj/machinery/firealarm/directional/south
 	dir = SOUTH
 	pixel_y = -24
-	
+
 /obj/machinery/firealarm/directional/west
 	dir = WEST
 	pixel_x = -24
-	
+
 /obj/machinery/firealarm/directional/east
 	dir = EAST
 	pixel_x = 24 //NSV13 End

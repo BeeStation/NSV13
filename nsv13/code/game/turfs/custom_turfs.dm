@@ -338,7 +338,7 @@
 /turf/open/floor/monotile/dark/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
-/turf/open/floor/monotile/steel/airless 
+/turf/open/floor/monotile/steel/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
 /turf/open/floor/monotile/airless
@@ -693,7 +693,7 @@
 
 /obj/structure/sign/ship/plaque
 	name = "Dedication plaque"
-	desc = "A plaque with several things written on it."
+	desc = "A plaque dedicating the ship you're on. It to celebrate the ship's heritage. You can see a small inscription on it, it reads: 'kilroy was here'."
 	icon_state = "lightplaque"
 
 /obj/structure/sign/ship/plaque/dark
@@ -704,8 +704,7 @@
 
 /obj/structure/sign/ship/plaque/examine(mob/user)
 	. = ..()
-	var/obj/structure/overmap/scream = get_overmap()
-	to_chat(user, "<span class='notice'>This plaque records those who attended the launching ceremony of the ship you're on. <br> This plaque names the ship as: <b>[scream?.name]</b> </span>")
+	. += "<span class='notice'>The plaque records those who attended the launching ceremony of the ship you're on. <br> The plaque names the ship as: <b>[get_overmap()?.name]</b> </span>"
 
 /obj/structure/sign/ship/pods
 	name = "Escape pods"
@@ -739,3 +738,12 @@
 /obj/structure/sign/ship/deck/five
 	name = "Deck 5"
 	icon_state = "deck-5"
+
+/obj/effect/turf_decal/ship/nt_floor_logo //Credit to TetraZeta for this sprite!
+	icon = 'nsv13/icons/obj/nt_floor_logo.dmi'
+	icon_state = "1,1"
+
+/obj/effect/turf_decal/ship/letter
+	name = "stenciled letter"
+	icon = 'nsv13/icons/effects/stencil.dmi'
+	icon_state = "A"
