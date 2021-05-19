@@ -8,6 +8,7 @@
 	spawn_positions = 4
 	supervisors = "the Flight Leader"
 	selection_color = "#ff9e3e"
+	chat_color = "#2681a5"
 	exp_requirements = 60
 	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_MUNITIONS

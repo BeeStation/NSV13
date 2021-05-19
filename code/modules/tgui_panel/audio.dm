@@ -28,6 +28,9 @@
 	if(length(extra_data) > 0)
 		for(var/key in extra_data)
 			payload[key] = extra_data[key]
+	if(client) //Nsv13 - Dunno why bee didn't think of this one themselves...
+		client.music_last_played = world.time //Nsv13 - Fucks off SSambience's music spam for the sake of me bloody ears.
+		client.mob?.stop_sound_channel(CHANNEL_AMBIENT_MUSIC)
 	payload["url"] = url
 	window.send_message("audio/playMusic", payload)
 

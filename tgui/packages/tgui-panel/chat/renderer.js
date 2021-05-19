@@ -107,6 +107,13 @@ const formatHighContrast = inputHtml => {
     "debtor",
     "psychiatrist",
     "vip",
+    // NSV13 - munitions and fighters
+    "munitionstechnician",
+    "fighterpilot",
+    "masteratarms",
+    "flightleader",
+    "airtrafficcontroller",
+    "bridgestaff",
   ];
   const spanRegex = new RegExp('(<span[\\w| |\t|=]*[\'|"][\\w| ]*)(?:' + replacementNodes.join('|') + ')([\'|"]>)', 'gi');
   return inputHtml.replace(spanRegex, '$1$2');

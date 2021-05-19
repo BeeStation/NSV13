@@ -8,6 +8,7 @@
 	spawn_positions = 2
 	supervisors = "the Master At Arms"
 	selection_color = "#ffd1a2"
+	chat_color = "#2681a5"
 	exp_type_department = EXP_TYPE_MUNITIONS
 
 	outfit = /datum/outfit/job/deck_tech

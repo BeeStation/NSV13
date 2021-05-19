@@ -18,13 +18,16 @@ SUBSYSTEM_DEF(job)
 
 	var/spare_id_safe_code = ""
 
+	//NSV13 - rearranged CoC, renamed HoP to XO, added MAA
+	// Cap > XO > HoS > MAA > CE > CMO > RD
 	var/list/chain_of_command = list(
 		"Captain" = 1,				//Not used yet but captain is first in chain_of_command
-		"Head of Personnel" = 2,
-		"Research Director" = 3,
-		"Chief Engineer" = 4,
-		"Chief Medical Officer" = 5,
-		"Head of Security" = 6)
+		"Executive Officer" = 2,	//NSV13 - renamed HoP to XO
+		"Head of Security" = 3,
+		"Master At Arms" = 4,
+		"Chief Engineer" = 5,
+		"Chief Medical Officer" = 6,
+		"Research Director" = 7)
 
 /datum/controller/subsystem/job/Initialize(timeofday)
 	SSmapping.HACK_LoadMapConfig()

@@ -1,4 +1,4 @@
-GLOBAL_LIST_INIT(squad_styling, list(list("Apples","#C73232", 5), list("Butter" , "#CFB52B", 5), list("Charlie" , "#AE4CCD", 5), list("Duff" , "#5998FF", INFINITY)))
+GLOBAL_LIST_INIT(squad_styling, list(list("Apples Squad","#C73232", 5), list("Butter Squad" , "#CFB52B", 5), list("Charlie Squad" , "#AE4CCD", 5), list("Duff Squad" , "#5998FF", INFINITY)))
 GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 //"Enum" that lets you define squads. Format: Name, colour theming.
 
@@ -22,10 +22,11 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	. = ..()
 	for(var/I = 1; I <= GLOB.squad_styling.len; I++){
 		var/datum/squad/S = new /datum/squad()
-		S.name = "[GLOB.squad_styling[I][1]] Squad"
+		S.name = "[GLOB.squad_styling[I][1]]"
 		S.colour = GLOB.squad_styling[I][2]
 		S.max_members = GLOB.squad_styling[I][3]
 		squads += S
+		S.generate_channel()
 	}
 	addtimer(CALLBACK(src, .proc/check_squad_assignments), 5 MINUTES) //Kick off a timer to check if we're on nightmare world lowpop and need to finagle some people into jobs. Ensure people have a chance to join.
 
@@ -87,22 +88,21 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/datum/radio_frequency/radio_connection
 	var/static/list/blacklist = list(/datum/job/captain, /datum/job/hop, /datum/job/chief_engineer, /datum/job/cargo_tech,/datum/job/mining, /datum/job/qm, /datum/job/ai, /datum/job/cyborg, /datum/job/munitions_tech, /datum/job/fighter_pilot, /datum/job/master_at_arms, /datum/job/rd, /datum/job/air_traffic_controller, /datum/job/warden, /datum/job/hos, /datum/job/officer, /datum/job/chief_engineer, /datum/job/bridge, /datum/job/flight_leader)
 	var/list/access = list()
+	var/datum/component/simple_teamchat/radio_dependent/squad/squad_channel = null
+	var/squad_channel_type
 
-/datum/squad/proc/broadcast(msg, mob/living/carbon/human/sender, sound=pick('nsv13/sound/effects/radio1.ogg','nsv13/sound/effects/radio2.ogg'), isOverwatch=FALSE)
-	var/isLead = sender == leader ? "Lead" : null
-	if(isOverwatch)
-		isLead = "Overwatch"
-	var/isBold = isOverwatch || isLead
-	var/display_name = "Overwatch"
-	if(sender)
-		display_name = "[sender.compose_rank(sender)] " + sender.name
-	msg = "<span style=\"color:[colour];[isBold ? ";font-size:13pt" : ""]\"><b>\[[name][isLead ? " [isLead]\]" : "\]"] [display_name]</b> says, \"[msg]\"</span>"
+/datum/squad/proc/generate_channel()
+	var/stripped = replacetext(name, " Squad", "")
+	squad_channel_type = text2path("/datum/component/simple_teamchat/radio_dependent/squad/[stripped]") //This is OOP sin.
+	squad_channel = AddComponent(squad_channel_type)
+	squad_channel.squad = src
 
-	var/datum/signal/signal = new(list("message" = msg, "squad"=src.name, "sound"=sound))
-	for(var/mob/M in GLOB.dead_mob_list)
-		var/link = FOLLOW_LINK(M, sender)
-		to_chat(M, "[link] [msg]")
-	radio_connection.post_signal(src, signal, filter = RADIO_SQUAD)
+/datum/squad/proc/get_squad_channel()
+	return squad_channel_type
+
+/datum/squad/proc/broadcast(mob/living/carbon/human/sender, message, list/sounds)
+	squad_channel.send_message(sender, message, sounds)
+	//msg = "<span style=\"color:[colour];[isBold ? ";font-size:13pt" : ""]\"><b>\[[name][isLead ? " [isLead]\]" : "\]"] [display_name]</b> says, \"[msg]\"</span>"
 
 /mob/living/carbon/human
 	var/datum/squad/squad = null
@@ -110,7 +110,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 /datum/squad/proc/set_leader(mob/living/carbon/human/H)
 	leader = H
 	to_chat(H, "<span class='sciradio'>You are the squad leader of [name]!. You have authority over the members of this squadron, and may direct them as you see fit. In general, you should use your squad members to help you repair damaged areas during general quarters</span>")
-	broadcast("[leader.name] has been assigned to your squad as leader.", null, 'nsv13/sound/effects/notice2.ogg') //Change order of this when done testing.
+	broadcast(src,"[leader.name] has been assigned to your squad as leader.", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
 	for(var/mob/M in members)
 		if(M == H)
 			return
@@ -122,18 +122,18 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	if(!H && leader)
 		H = leader
 	to_chat(H, "<span class='warning'>You have been demoted from your position as [name] Lead.</span>")
-	broadcast("[H] has been demoted from squad lead.", null, 'nsv13/sound/effects/notice2.ogg')
+	broadcast(src,"[H] has been demoted from squad lead.", list('nsv13/sound/effects/notice2.ogg'))
 	leader = null
 
 /datum/squad/proc/set_orders(orders)
-	broadcast("New standing orders received: [orders]", null, 'nsv13/sound/effects/notice2.ogg')
+	broadcast(src,"New standing orders received: [orders].", list('nsv13/sound/effects/notice2.ogg'))
 	src.orders = orders
 
 /datum/squad/proc/retask(task)
 	if(squad_type == task)
 		return
 	squad_type = task
-	broadcast("ATTENTION: Your squad has been re-assigned as a [squad_type]. Report to squad vendors to obtain your new equipment.", null, 'nsv13/sound/effects/notice2.ogg')
+	broadcast(src, "ATTENTION: Your squad has been re-assigned as a [squad_type]. Report to squad vendors to obtain your new equipment.", list('nsv13/sound/effects/notice2.ogg'))
 	switch(squad_type)
 		if(DC_SQUAD)
 			blurb = "<span class='warning'><br/>During <b>General Quarters</b> you must find a squad vendor, gear up, then report to your squad leader for orders.<br/> \
@@ -212,19 +212,6 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 					S.set_leader(H)
 					return
 	squad += H
-
-/datum/saymode/squad
-	key = MODE_KEY_SQUAD
-	mode = MODE_SQUAD
-
-/datum/saymode/squad/handle_message(mob/living/carbon/human/user, message, datum/language/language)
-	if(!ishuman(user))
-		return
-	var/obj/item/squad_pager/page = locate(/obj/item/squad_pager) in user.get_contents()
-	if(!page || !page.squad)
-		return
-	user.say("[message]")
-	page.squad.broadcast(message, user)
 
 //Show relevent squad info on status panel.
 

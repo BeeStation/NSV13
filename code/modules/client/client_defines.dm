@@ -48,6 +48,7 @@
 	var/ambient_buzz_playing = null // What buzz ambience is currently playing
 	var/ambient_buzz = null
 	var/ambient_effect_last_played = 0 // What was the last time we played an ambient effect noise?
+	var/music_last_played = 0 // Nsv13 - What was the last time we played an ambient music track?
 		////////////
 		//SECURITY//
 		////////////
