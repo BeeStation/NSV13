@@ -35,6 +35,25 @@
 	var/BeingLoaded //Used for gunner load
 	var/list/gauss_verbs = list(.verb/show_computer, .verb/show_view, .verb/swap_firemode)
 
+/obj/machinery/ship_weapon/gauss_gun/MouseDrop_T(obj/structure/A, mob/user)
+	. = ..()
+	if(istype(A, /obj/structure/closet))
+		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/ammunition/gauss))
+			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
+			return FALSE
+		if(ammo?.len >= max_ammo)
+			return FALSE
+		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
+		if(do_after(user, 4 SECONDS , target = src))
+			for(var/obj/item/ship_weapon/ammunition/gauss/G in A)
+				if(ammo?.len < max_ammo)
+					G.forceMove(src)
+					ammo += G
+			if(load_sound)
+				playsound(src, load_sound, 100, 1)
+			state = 2
+			loading = FALSE
+
 #define VV_HK_REMOVE_GAUSS_GUNNER "getOutOfMyGunIdiot"
 
 /obj/machinery/ship_weapon/gauss_gun/vv_get_dropdown()
