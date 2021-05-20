@@ -196,44 +196,35 @@
  * Returns true if loaded successfully, false otherwise.
  */
 /obj/machinery/ship_weapon/proc/load(obj/A, mob/user)
-	if(ammo_type && !islist(ammo_type) && istype(A, ammo_type))
-		if(ammo?.len < max_ammo) //Room for one more?
-			if(!loading) //Not already loading a round?
-				if(user)
-					to_chat(user, "<span class='notice'>You start to load [A] into [src]...</span>")
-				loading = TRUE
-
-				if(!user || do_after(user, load_delay, target = src))
-					if(!isturf(A.loc) && !ismob(A.loc)) //Fix double-loading torpedos
-						if(user)
-							loading = FALSE
-							to_chat(user, "<span class='warning'>The ammunition has to be next to the weapon!</span>")
-						return FALSE
-					loading = FALSE
-					A.forceMove(src)
-					ammo += A
-					if(load_sound)
-						playsound(src, load_sound, 100, 1)
-					state = STATE_LOADED
+	if(ammo?.len < max_ammo) //Room for one more?
+		if(!loading) //Not already loading a round?
+			if(user)
+				to_chat(user, "<span class='notice'>You start to load [A] into [src]...</span>")
+			loading = TRUE
+			if(!user || do_after(user, load_delay, target = src))
+				if(!isturf(A.loc) && !ismob(A.loc)) //Fix double-loading torpedos
 					if(user)
-						to_chat(user, "<span class='notice'>You load [A] into [src].</span>")
-
-					if(auto_load) //If we're automatic, get ready to fire
-						feed()
-						chamber()
-					loading = FALSE
-					return TRUE
-				//end if(!user || do_after(user, load_delay, target = src))
+						loading = FALSE
+						to_chat(user, "<span class='warning'>The ammunition has to be next to the weapon!</span>")
+					return FALSE
 				loading = FALSE
-			//end if(!loading)
-			else if(user)
-				to_chat(user, "<span class='notice'>You're already loading a round into [src]!.</span>")
-		//end if(ammo?.len < max_ammo)
+				A.forceMove(src)
+				ammo += A
+				if(load_sound)
+					playsound(src, load_sound, 100, 1)
+				state = STATE_LOADED
+				if(user)
+					to_chat(user, "<span class='notice'>You load [A] into [src].</span>")
+				if(auto_load) //If we're automatic, get ready to fire
+					feed()
+					chamber()
+				loading = FALSE
+				return TRUE
+			loading = FALSE
 		else if(user)
-			to_chat(user, "<span class='warning'>[src] is already fully loaded!</span>")
-	//end if(ammo_type && istype(I, ammo_type))
+			to_chat(user, "<span class='notice'>You're already loading a round into [src]!.</span>")
 	else if(user)
-		to_chat(user, "<span class='warning'>You can't load [A] into [src]!</span>")
+		to_chat(user, "<span class='warning'>[src] is already fully loaded!</span>")
 
 	return FALSE
 
