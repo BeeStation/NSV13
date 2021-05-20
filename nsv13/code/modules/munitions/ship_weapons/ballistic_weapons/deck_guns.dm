@@ -18,6 +18,12 @@
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
 	var/obj/machinery/deck_turret/core
 
+/obj/machinery/ship_weapon/deck_turret/lazyload()
+	. = ..()
+	//Ensure that the lazyloaded shells come pre-packed
+	for(var/obj/item/ship_weapon/ammunition/naval_artillery/shell in ammo)
+		shell.speed = 2
+
 /obj/machinery/ship_weapon/deck_turret/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
 	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)

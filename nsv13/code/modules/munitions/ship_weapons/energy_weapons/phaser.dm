@@ -20,6 +20,13 @@
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
 	var/energy_weapon_type = /datum/ship_weapon/pdc_mount/burst_phaser
 
+/obj/machinery/ship_weapon/energy/lazyload()
+	. = ..()
+	//Comedy.
+	active = TRUE
+	power_modifier = 1
+	charge = max_charge
+
 //Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
 /obj/item/projectile/beam/laser/phaser
 	damage = 10

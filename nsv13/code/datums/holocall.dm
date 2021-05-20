@@ -232,7 +232,7 @@
 	SAY LOADING INFORMATIONAL HOLOTAPE #1
 	SAY WELCOME TO THE NSV GALACTICA.
 	NAME Senior Fleetyard Engineer Beck
-	SAY The NSV Galactica, initially developed under the title 'Iowa' is the current Nanotrasen flagship.
+	SAY The NSV Galactica, initially developed under the title 'Iowa' is the current Nanotrasen flagship. Weighing in at 500,000 tonnes it's the largest ship in active service to date!
 	DELAY 20
 	SAY Third in the line of great ships to bear the name Galactica, this iteration is by far the most destructive of its lineage.
 	DELAY 30
@@ -278,7 +278,7 @@
 	DELAY 30
 	SAY The Galactica was built in direct response to Syndicate aggression and is equipped to level colonies and entire fleets alike.
 	DELAY 30
-	SAY WIP
+	SAY That concludes our miniseries on technical specs, enjoy the rest of the museum!
 	DELAY 30
 	SAY END OF RECORDING. PLEASE INSERT NEXT FLOPPY DISK.
 "}

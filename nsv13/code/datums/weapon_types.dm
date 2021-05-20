@@ -245,7 +245,7 @@
 	range_modifier = 10
 	select_alert = "<span class='notice'>Activating .50 cals...</span>"
 	failure_alert = "<span class='warning'>DANGER: 50 cal gun systems not loaded.</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/50cal.ogg')
+	overmap_firing_sounds = list('nsv13/sound/weapons/pdc_single.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	selectable = FALSE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
