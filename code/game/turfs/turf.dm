@@ -189,8 +189,11 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(ismob(A))
 		var/mob/M = A
 		if(M.pulling)
-			M.pulling.Move(target)
-			target.zImpact(M.pulling, levels, src)
+			var/atom/movable/AM = M.pulling
+			message_admins("Will move [AM]")
+			if(!AM.Move(target))
+				AM.forceMove(target)
+			target.zImpact(AM, levels, src)
 	A.forceMove(target)
 	A.zfalling = FALSE
 	target.zImpact(A, levels, src)

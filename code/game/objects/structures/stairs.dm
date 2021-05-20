@@ -70,9 +70,9 @@
 	if(istype(target) && !target.can_zFall(AM, null, get_step_multiz(target, DOWN)))			//Don't throw them into a tile that will just dump them back down.
 		if(isliving(AM))
 			var/mob/living/L = AM
-			var/pulling = L.pulling
-			if(pulling)
-				L.pulling.Move(target)
+			var/atom/movable/pulling = L.pulling
+			if(pulling && !pulling.Move(target))
+				pulling.forceMove(target)
 			L.forceMove(target)
 			L.start_pulling(pulling)
 		else
