@@ -373,12 +373,3 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		if(get_area(entryway) == target_area && !entryway.linked)
 			interior_entry_points += entryway
 			entryway.linked = src
-	/*
-	//And finally, set up the area contents...
-	for(var/atom/movable/AM in target_area)
-
-		if(istype(AM, /obj/machinery/computer/ship))
-			var/obj/machinery/computer/ship/S = AM
-			S.linked = src //Link 'em up!
-			S.set_position(src)
-	*/
