@@ -186,6 +186,11 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(!force && (!can_zFall(A, levels, target) || !A.can_zFall(src, levels, target, DOWN)))
 		return FALSE
 	A.zfalling = TRUE
+	if(ismob(A))
+		var/mob/M = A
+		if(M.pulling)
+			M.pulling.Move(target)
+			target.zImpact(M.pulling, levels, src)
 	A.forceMove(target)
 	A.zfalling = FALSE
 	target.zImpact(A, levels, src)

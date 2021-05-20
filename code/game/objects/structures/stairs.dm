@@ -72,7 +72,7 @@
 			var/mob/living/L = AM
 			var/pulling = L.pulling
 			if(pulling)
-				L.pulling.forceMove(target)
+				L.pulling.Move(target)
 			L.forceMove(target)
 			L.start_pulling(pulling)
 		else
