@@ -194,7 +194,8 @@ GLOBAL_LIST_EMPTY(station_turfs)
 			if(!AM.Move(target))
 				AM.forceMove(target)
 			target.zImpact(AM, levels, src)
-	A.forceMove(target)
+	if(!A.Move(target))
+		A.forceMove(target)
 	A.zfalling = FALSE
 	target.zImpact(A, levels, src)
 	return TRUE
