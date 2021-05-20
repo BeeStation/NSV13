@@ -132,7 +132,7 @@ If someone hacks it, you can always rebuild it.
 	name = "IFF Console (circuit)"
 	build_path = /obj/machinery/computer/iff_console
 
-/datum/map_template/overmap_boarding
+/datum/map_template/dropship
     name = "Overmap boarding level"
     mappath = null
 
@@ -337,7 +337,13 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 /obj/structure/overmap/proc/instance_interior(tries=2)
 	//Init the template.
 	var/interior_type = pick(possible_interior_maps)
-	boarding_interior = GLOB.boarding_interior_maps[interior_type]
+	message_admins("interior type: [interior_type]")
+	boarding_interior = SSmapping.boarding_templates[interior_type]
+	if(!boarding_interior)
+		message_admins("no interior")
+		message_admins(english_list(SSmapping.boarding_templates))
+		return
+
 	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
 	if(!roomReservation)
 		message_admins("Dropship failed to reserve an interior!")
@@ -346,6 +352,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		message_admins("Something went hideously wrong with loading [boarding_interior] for [src]. Contact a coder.")
 		qdel(src)
 		return FALSE
+	/*
 	try
 		boarding_interior.load(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
 	catch(var/exception/e) //We ran into an error. Let's try that one again..
@@ -354,8 +361,9 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		addtimer(CALLBACK(src, .proc/instance_interior, tries - 1), rand(1 SECONDS, 2.25 SECONDS))//Just in case we're not done initializing
 		pass(e) //Stops linters from whining.
 		return FALSE
-
+	*/
 	var/turf/center = get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2]+boarding_interior.height/2, roomReservation.bottom_left_coords[3]))
+	boarding_interior.load(center, centered = TRUE)
 	var/area/target_area
 	//Now, set up the interior for loading...
 	if(center)

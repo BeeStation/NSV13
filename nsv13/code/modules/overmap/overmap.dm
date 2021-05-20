@@ -155,7 +155,7 @@
 
 	//Boarding
 	var/datum/turf_reservation/roomReservation = null
-	var/datum/map_template/overmap_boarding/boarding_interior = null
+	var/datum/map_template/dropship/boarding_interior = null
 	var/list/possible_interior_maps = null
 	var/ftl_dragalong = FALSE
 	var/interior_mode = NO_INTERIOR
@@ -374,6 +374,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			//I havent written code this shit since erlang, looking at you SMK....
 			//JESUS CHRIST FUCK OFF THIS WORKS
 			//OOP GO BRRRRRRRR
+			/*
 			var/interior_type = pick(possible_interior_maps) //fuck
 			if(isnum(GLOB.boarding_interior_maps[interior_type]))
 				//based based based based based based based based based based based based based based based based ~Francinum
@@ -385,7 +386,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				GLOB.boarding_interior_maps[interior_type] = 69
 				GLOB.boarding_interior_maps[interior_type] = new interior_type()
 			//When the comedy is done, so must be the work done also.
-			addtimer(CALLBACK(src, .proc/instance_interior), rand(2.5 SECONDS, 5.25 SECONDS))//Just in case we're not done initializing
+			*/
+			addtimer(CALLBACK(src, .proc/instance_interior), 5 SECONDS)//Just in case we're not done initializing
 
 	apply_weapons()
 
