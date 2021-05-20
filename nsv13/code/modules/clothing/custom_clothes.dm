@@ -324,11 +324,6 @@
 	item_state = "syndicate-space"
 	item_color = "syndicate-space"
 
-/obj/machinery/suit_storage_unit/syndicate/odst
-	suit_type = /obj/item/clothing/suit/space/syndicate/odst
-	mask_type = /obj/item/clothing/mask/gas/sechailer
-	helmet_type = /obj/item/clothing/head/helmet/space/syndicate/odst
-
 /obj/item/storage/belt/utility/syndicate
 	name = "syndicate utility belt"
 	desc = "A large, black belt which facilitates tool storage."
