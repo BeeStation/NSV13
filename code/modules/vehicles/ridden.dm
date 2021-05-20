@@ -98,6 +98,7 @@
 	return ..()
 
 /obj/vehicle/ridden/onZImpact(turf/newloc, levels)
-	for(var/mob/M in occupants)
-		unbuckle_mob(M)
-		M.onZImpact(newloc, levels)
+	if(levels > 1)
+		for(var/mob/M in occupants)
+			unbuckle_mob(M)
+			M.onZImpact(newloc, levels)
