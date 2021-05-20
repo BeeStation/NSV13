@@ -337,11 +337,9 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 /obj/structure/overmap/proc/instance_interior(tries=2)
 	//Init the template.
 	var/interior_type = pick(possible_interior_maps)
-	message_admins("interior type: [interior_type]")
 	boarding_interior = SSmapping.boarding_templates[interior_type]
 	if(!boarding_interior)
-		message_admins("no interior")
-		message_admins(english_list(SSmapping.boarding_templates))
+		message_admins("Mapping subsystem failed to load [interior_type])
 		return
 
 	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
