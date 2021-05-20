@@ -370,24 +370,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			interior_mode = (possible_interior_maps?.len) ? INTERIOR_EXCLUSIVE : NO_INTERIOR
 		//Allows small ships to have a small interior.
 		if(INTERIOR_DYNAMIC)
-			//Fuck this entire code block. Why we had to do this is fucking byond me, but it works. So we don't ask any fucking questions
-			//I havent written code this shit since erlang, looking at you SMK....
-			//JESUS CHRIST FUCK OFF THIS WORKS
-			//OOP GO BRRRRRRRR
-			/*
-			var/interior_type = pick(possible_interior_maps) //fuck
-			if(isnum(GLOB.boarding_interior_maps[interior_type]))
-				//based based based based based based based based based based based based based based based based ~Francinum
-				UNTIL(!isnum(GLOB.boarding_interior_maps[interior_type])) //Wait until the object has finished instantiation and turns from a NUMBER into an OBJECT. FUCKING HELL
-
-				//code by franc and kmc age 5
-			if(interior_type && !GLOB.boarding_interior_maps[interior_type])
-				//Mark it as "awaiting initialisation" using the gamer number. Fuck.
-				GLOB.boarding_interior_maps[interior_type] = 69
-				GLOB.boarding_interior_maps[interior_type] = new interior_type()
-			//When the comedy is done, so must be the work done also.
-			*/
-			addtimer(CALLBACK(src, .proc/instance_interior), 5 SECONDS)//Just in case we're not done initializing
+			instance_interior()
 
 	apply_weapons()
 

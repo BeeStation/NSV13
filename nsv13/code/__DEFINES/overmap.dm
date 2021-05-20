@@ -81,5 +81,3 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 #define NO_INTERIOR 0
 #define INTERIOR_EXCLUSIVE 1
 #define INTERIOR_DYNAMIC 2
-
-GLOBAL_LIST_EMPTY(boarding_interior_maps)

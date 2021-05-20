@@ -352,16 +352,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		message_admins("Something went hideously wrong with loading [boarding_interior] for [src]. Contact a coder.")
 		qdel(src)
 		return FALSE
-	/*
-	try
-		boarding_interior.load(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
-	catch(var/exception/e) //We ran into an error. Let's try that one again..
-		message_admins("Dropship interior bugged out for [src] in [get_area(src)]. Trying to load it again...")
-		kill_boarding_level(TRUE)
-		addtimer(CALLBACK(src, .proc/instance_interior, tries - 1), rand(1 SECONDS, 2.25 SECONDS))//Just in case we're not done initializing
-		pass(e) //Stops linters from whining.
-		return FALSE
-	*/
+
 	var/turf/center = get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2]+boarding_interior.height/2, roomReservation.bottom_left_coords[3]))
 	boarding_interior.load(center, centered = TRUE)
 	var/area/target_area
