@@ -21,10 +21,11 @@
 	var/energy_weapon_type = /datum/ship_weapon/pdc_mount/burst_phaser
 
 /obj/machinery/ship_weapon/energy/lazyload()
-	. = ..()
-	//Comedy.
 	active = TRUE
 	power_modifier = 1
+	. = ..()
+	//Comedy.
+	sleep(10)
 	charge = max_charge
 
 //Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.

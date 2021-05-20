@@ -54,7 +54,7 @@
 
 /area/science/nsv/astronomy
 	name = "Astrometrics Lab"
-	icon_state = "toxmisc"
+	icon_state = "astrometrics"
 
 /area/nsv/engine/corridor
 	name = "Engineering Corridor"
@@ -62,7 +62,7 @@
 
 /area/nsv/engine/engine_room/core
 	name = "Engine Core"
-	icon_state = "engine_foyer"
+	icon_state = "engine_core"
 
 /area/nsv/engine/engine_room/auxiliary
 	name = "Engine Auxiliary Equipment"
@@ -70,7 +70,7 @@
 
 /area/maintenance/nsv/ftlroom
 	name = "FTL Control Room"
-	icon_state = "maint_bridge"
+	icon_state = "ftl_room"
 
 /area/maintenance/nsv/turbolift/abandonedshaft
 	name = "Abandoned Elevator Shaft"
@@ -495,39 +495,43 @@
 
 /area/nsv/weapons
 	name = "Weapons Bay"
-	icon_state = "hallC"
+	icon_state = "weapons_bay"
 
 /area/nsv/weapons/ordnance
 	name = "Ordnance Handling Bay"
-	icon_state = "hallC"
+	icon_state = "magazine"
 
 /area/nsv/weapons/gauss
 	name = "Gauss Bay"
-	icon_state = "hallC"
+	icon_state = "gauss"
 
 /area/nsv/weapons/port
 	name = "Port Weapons Bay"
-	icon_state = "hallP"
+	icon_state = "weapons_bay"
 
 /area/nsv/weapons/starboard
 	name = "Starboard Weapons Bay"
-	icon_state = "hallS"
+	icon_state = "weapons_bay"
 
 /area/nsv/weapons/fore
 	name = "Fore Weapons Bay"
-	icon_state = "hallF"
+	icon_state = "weapons_bay"
+
+/area/nsv/weapons/artillery
+	name = "Artillery Bay"
+	icon_state = "artillery"
 
 /area/nsv/magazine
 	name = "Ship's Magazine"
-	icon_state = "hallC"
+	icon_state = "magazine"
 
 /area/nsv/magazine/port
 	name = "Port Magazine"
-	icon_state = "hallP"
+	icon_state = "magazine"
 
 /area/nsv/magazine/starboard
 	name = "Starboard Magazine"
-	icon_state = "hallS"
+	icon_state = "magazine"
 
 /area/nsv/briefingroom
 	name = "Briefing Room"
@@ -729,6 +733,8 @@
 
 /area/engine/engineering/reactor_core
 	name = "Nuclear Reactor Core"
+	icon_state = "engine_core"
 
 /area/engine/engineering/reactor_control
 	name = "Reactor Control Room"
+	icon_state = "reactor_control"
