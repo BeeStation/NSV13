@@ -15,3 +15,13 @@
 /obj/structure/fluff/bleepypanel/Initialize()
 	. = ..()
 	set_light(1)
+
+//Drop trooper space suit storage units.
+/obj/machinery/suit_storage_unit/syndicate/odst
+	suit_type = /obj/item/clothing/suit/space/syndicate/odst
+	mask_type = /obj/item/clothing/mask/gas/syndicate
+	helmet_type = /obj/item/clothing/head/helmet/space/syndicate/odst
+
+/obj/machinery/suit_storage_unit/syndicate/odst/marine
+	suit_type = /obj/item/clothing/suit/space/syndicate/odst/marine
+	helmet_type = /obj/item/clothing/head/helmet/space/syndicate/odst/marine

@@ -43,6 +43,11 @@
 	suffix = "ez-049st"
 	name = "arrival shuttle (EZ-049ST)"
 
+/datum/map_template/shuttle/hammurabi //This is definitely an elevator trust me.
+	prefix = "_maps/shuttles/turbolifts/"
+	port_id = "elevator"
+	suffix = "hammurabi"
+	name = "Hammurabi mining elevator"
 //Mining
 
 /datum/map_template/shuttle/mining/ez049st
