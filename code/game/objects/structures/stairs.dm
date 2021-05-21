@@ -50,7 +50,7 @@
 	return ..()
 
 /obj/structure/stairs/Cross(atom/movable/AM)
-	if(isTerminator() && (get_dir(src, AM) == dir))
+	if(isTerminator() && (get_dir(src, AM) == dir) && (AM.z <= z))
 		return FALSE
 	return ..()
 

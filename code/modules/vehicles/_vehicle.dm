@@ -115,11 +115,13 @@
 /obj/vehicle/proc/after_remove_occupant(mob/M)
 
 /obj/vehicle/relaymove(mob/user, direction)
+	message_admins("[src] relaymove dir=[direction]")
 	if(is_driver(user))
 		return driver_move(user, direction)
 	return FALSE
 
 /obj/vehicle/proc/driver_move(mob/user, direction)
+	message_admins("[src] driver_move dir=[direction]")
 	if(key_type && !is_key(inserted_key))
 		to_chat(user, "<span class='warning'>[src] has no key inserted!</span>")
 		return FALSE
@@ -142,6 +144,7 @@
 		return did_move
 	else
 		after_move(direction)
+		message_admins("vehicle stepping")
 		return step(src, direction)
 
 /obj/vehicle/proc/after_move(direction)
@@ -173,7 +176,9 @@
 				M.Bumped(m)
 
 /obj/vehicle/Move(newloc, dir)
+	message_admins("Moving vehicle to [newloc]")
 	. = ..()
+	//CRASH("why is this happening")
 	if(trailer && .)
 		var/dir_to_move = get_dir(trailer.loc, newloc)
 		step(trailer, dir_to_move)
