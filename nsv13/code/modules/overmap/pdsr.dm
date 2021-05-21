@@ -38,7 +38,6 @@
 	var/reaction_polarity_timer = 0 //Timer for tracking trends
 	var/reaction_polarity_injection = 1 //How we are polarising our nucleium - Starts positive
 	var/reaction_rate = 0 //Rate at which the reaction is occuring
-	var/reaction_min_coolant_moles = 20 //Required number of coolant moles
 	var/reaction_min_coolant_pressure = 100 //Required minimum pressure of coolant
 	var/reaction_min_ambient_pressure = 101.25 //Checking to see that we haven't just vented the chamber
 	var/reaction_injection_rate = 0 //Rate at which we are injecting nucleium in moles
@@ -154,7 +153,7 @@
 			var/target_reaction_rate = ((0.5 + (1e-03 * (reaction_injection_rate ** 2))) + (current_uptime / 1000)) * 16
 			var/delta_reaction_rate = target_reaction_rate - reaction_rate
 			reaction_rate += delta_reaction_rate / 2 //Function goes here
-			reaction_temperature += reaction_rate * 0.55 //Function goes
+			reaction_temperature += reaction_rate * 0.35 //Function goes
 			handle_polarity(TRUE)
 
 		else if(nuc_in < reaction_injection_rate) //If we are running without sufficient nucleium...
@@ -162,7 +161,7 @@
 				var/target_reaction_rate = 0
 				var/delta_reaction_rate = target_reaction_rate - reaction_rate
 				reaction_rate += delta_reaction_rate / 2 //Function goes here
-				reaction_temperature += reaction_rate * 0.75
+				reaction_temperature += reaction_rate * 0.55
 				handle_polarity(FALSE)
 
 			else //...and has some nucleium but not sufficient nucleium for a stable reaction
@@ -171,7 +170,7 @@
 				var/target_reaction_rate = (0.5 + (1e-03 * (reaction_injection_rate ** 2))) + (current_uptime / 500) *  5
 				var/delta_reaction_rate = target_reaction_rate - reaction_rate
 				reaction_rate += delta_reaction_rate / 2 //Function goes here
-				reaction_temperature += reaction_rate * 0.65 //Heat Penalty
+				reaction_temperature += reaction_rate * 0.45 //Heat Penalty
 				//Handle polarity here
 				handle_polarity(TRUE)
 
@@ -182,8 +181,8 @@
 		else
 			reaction_energy_output = 0
 
-		if(coolant_input.total_moles() >= reaction_min_coolant_moles)
-			var/delta_coolant = (coolant_input.return_temperature() - 273.15) / 30
+		if(coolant_input.total_moles() >= (reaction_rate * 3))
+			var/delta_coolant = ((coolant_input.return_temperature() - 273.15) / 100) * 0.5 //whole sale stolen for now
 			reaction_temperature += delta_coolant
 			coolant_output.merge(coolant_input)
 			coolant_output.set_temperature(reaction_temperature + 273.15)
@@ -192,7 +191,7 @@
 			if(flushing_coolant)
 				if(world.time <= (last_coolant_time + 20 SECONDS))
 					src.atmos_spawn_air("water_vapor=5;TEMP=[reaction_temperature]")
-					reaction_temperature -= 12 //200C total
+					reaction_temperature -= 15 //300C total
 					current_uptime += 5 //This is costly, you really don't want to attempt to manage your temperature this way
 
 				else if(world.time >= (last_coolant_time + 60 SECONDS))
@@ -200,7 +199,7 @@
 
 			if(reaction_temperature <= 0)
 				reaction_temperature = 0
-				if(min_power_input <= 0)
+				if(min_power_input <= 1e+6)
 					say("Reaction Terminated - Dumping screen caches and cycling containment generators.")
 					state = REACTOR_STATE_SHUTTING_DOWN
 				else
@@ -300,12 +299,6 @@
 			var/loss_function = ((382 * NUM_E **(0.0764 * reaction_containment)) / ((50 + NUM_E ** (0.0764 * reaction_containment)) ** 2)) * 4
 			reaction_containment += loss_function * (power_input / max_power_input)
 
-		else //Insufficient Power for Containment - Rapid Contaiment Failure
-			reaction_containment -= 3
-
-	else //Insufficient Power for Containment - Rapid Contaiment Failure
-		reaction_containment -= 3 //Check this
-
 	if(reaction_containment > 100)
 		reaction_containment = 100
 
@@ -317,7 +310,7 @@
 		state = REACTOR_STATE_EMISSION //Whoops
 
 /obj/machinery/atmospherics/components/trinary/defence_screen_reactor/proc/handle_power_reqs() //How much power is required
-	min_power_input = max(0, (-1e+6 + (reaction_temperature * (reaction_rate ** 2)) * 225))
+	min_power_input = max(1e+6, (reaction_temperature * (reaction_rate ** 2) * 225))
 	max_power_input = 10e+6 + (2e+6 * connected_relays)
 	if(min_power_input > max_power_input)
 		min_power_input = max_power_input
@@ -430,6 +423,7 @@
 	switch(state)
 		if(REACTOR_STATE_EMISSION)
 			icon_state = "emission"
+			set_light(4)
 			return
 		if(REACTOR_STATE_SHUTTING_DOWN)
 			icon_state = "shutdown"
@@ -442,6 +436,7 @@
 			return
 		if(REACTOR_STATE_IDLE)
 			icon_state = "idle"
+			set_light(0)
 			return
 
 //////Shield Procs//////
@@ -800,7 +795,7 @@
 
 /obj/item/circuitboard/machine/defence_screen_relay
 	name = "mk I Prototype Defence Screen Relay (Machine Board)"
-	build_path = /obj/machinery/armour_plating_nanorepair_pump
+	build_path = /obj/machinery/defence_screen_relay
 	req_components = list(
 		/obj/item/stock_parts/scanning_module = 2,
 		/obj/item/stock_parts/capacitor = 20,
@@ -854,6 +849,16 @@
 			C.use(5)
 			to_chat(user, "<span class='notice'>You rewire the [src].</span>")
 			overloaded = FALSE
+
+/obj/machinery/defence_screen_relay/welder_act(mob/living/user, obj/item/I)
+	. = ..()
+	while(obj_integrity < max_integrity)
+		if(!do_after(user, 5, target = src))
+			return
+		obj_integrity += rand(1,2)
+		if(obj_integrity >= max_integrity)
+			obj_integrity = max_integrity
+			break
 
 #undef REACTOR_STATE_IDLE
 #undef REACTOR_STATE_INITIALIZING
