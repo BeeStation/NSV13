@@ -20,9 +20,9 @@
 	var/turf/T = get_turf(src)
 	var/obj/machinery/atmospherics/pipe/simple/multiz/above = locate(/obj/machinery/atmospherics/pipe/simple/multiz) in(SSmapping.get_turf_above(T))
 	var/obj/machinery/atmospherics/pipe/simple/multiz/below = locate(/obj/machinery/atmospherics/pipe/simple/multiz) in(SSmapping.get_turf_below(T))
-	if(below)
+	if(below && (below.piping_layer == piping_layer))
 		below.pipeline_expansion() //If we've got one below us, force it to add us on facebook
-	if(above)
+	if(above && (above.piping_layer == piping_layer))
 		nodes += above
 		above.nodes += src //Two way travel :)
 		return ..()
