@@ -183,4 +183,3 @@
 	for(var/atom/movable/m in occupants)
 		if(m?.z != z)
 			m.forceMove(loc)
-			add_occupant(m)
