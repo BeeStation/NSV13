@@ -1,7 +1,7 @@
 
 
 // Old, simplified magic FTL computers.
-// Mappers should use modular drives insteadwhere possible
+// Mappers should use modular drives instead where possible
 // Kept in the game for the sake of compatability and smaller ships.
 
 /obj/machinery/computer/ship/ftl_computer
