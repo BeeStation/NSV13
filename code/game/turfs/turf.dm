@@ -186,18 +186,20 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(!force && (!can_zFall(A, levels, target) || !A.can_zFall(src, levels, target, DOWN)))
 		return FALSE
 	A.zfalling = TRUE
-	if(ismob(A))
-		var/mob/M = A
-		if(M.pulling)
-			var/atom/movable/AM = M.pulling
-			message_admins("Will move [AM]")
-			if(!AM.Move(target))
-				AM.forceMove(target)
-			target.zImpact(AM, levels, src)
+	var/atom/movable/pulled = null
+	var/mob/living/L = null
+	if(isliving(A))
+		L = A
+		pulled = L.pulling
 	if(!A.Move(target))
 		A.forceMove(target)
 	A.zfalling = FALSE
 	target.zImpact(A, levels, src)
+	if(L && pulled)
+		pulled.forceMove(target)
+		target.zImpact(pulled, levels, force)
+		if(levels < 2)
+			L.start_pulling(pulled)
 	return TRUE
 
 /turf/attackby(obj/item/C, mob/user, params)
