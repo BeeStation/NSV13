@@ -157,7 +157,7 @@
 	name = "Hammerhead class flak destroyer"
 	icon_state = "hammerhead"
 	mass = MASS_LARGE
-	flak_battery_amount = 1
+	flak_battery_amount = 2
 	missiles = 0
 	torpedoes = 0
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
