@@ -9,17 +9,19 @@ GLOBAL_LIST_EMPTY(human_ais)
 	var/static/list/ai_goals = null
 	var/datum/ai_goal/current_goal = null
 	var/view_range = 15 //How good is this mob's "eyes"?
-	var/move_delay = 2 //How quickly do the boys travel?
+	var/move_delay = 3 //How quickly do the boys travel?
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Syndicate")
+	var/nukeop_outfit = /datum/outfit/syndicate/no_crystals
 
 /mob/living/carbon/human/ai_boarder/Initialize()
 	. = ..()
+	var/datum/outfit/O = new nukeop_outfit
+	O.equip(D)
 	AddComponent(/datum/component/human_ai)
 
-/datum/component/human_ai/Initialize(...)
-	. = ..()
+/datum/component/human_ai/Initialize()
 	if(!iscarbon(parent))
 		return COMPONENT_INCOMPATIBLE
 	if(!ai_goals)
