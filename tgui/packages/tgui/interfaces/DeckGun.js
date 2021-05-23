@@ -37,18 +37,20 @@ export const DeckGun = (props, context) => {
               bad: [-Infinity, 0.4],
             }} />
         </Section>
-        <Section title="Powder Loaders:">
-          {Object.keys(data.parts).map(key => {
-            let value = data.parts[key];
-            return (
-              <Button key={key} content="Pack from loader"
-                icon="box"
-                disabled={!(value.loaded)}
-                onClick={() => act('load_powder', { target: value.id })}
-              />
-            );
-          })}
-        </Section>
+        {!!data.parts && (
+          <Section title="Powder Loaders:">
+            {Object.keys(data.parts).map(key => {
+              let value = data.parts[key];
+              return (
+                <Button key={key} content="Pack from loader"
+                  icon="box"
+                  disabled={!(value.loaded)}
+                  onClick={() => act('load_powder', { target: value.id })}
+                />
+              );
+            })}
+          </Section>
+        )}
       </Window.Content>
     </Window>
   );

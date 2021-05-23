@@ -76,6 +76,9 @@
 	pixel_y = -32
 	var/flak_range = 2 //AOE where flak hits torpedoes. May need to buff this a bit.
 
+/obj/item/projectile/bullet
+	obj_integrity = 500 //Flak doesn't shoot this down....
+
 /obj/item/projectile/bullet/flak
 	icon_state = "bolter"
 	name = "flak round"
@@ -103,11 +106,12 @@
 				faction = OM.faction
 	alpha = 0 //We can keep going, who cares.
 	exploded = TRUE
-	var/turf/cached = get_turf(src)
-	for(var/I = 0, I < rand(2,5), I++)
-		var/edir = pick(GLOB.alldirs)
-		new /obj/effect/temp_visual/flak(get_turf(get_step(cached, edir)), faction, src)
-		sleep(rand(0, 2))
+	spawn(0)
+		var/turf/cached = get_turf(src)
+		for(var/I = 0, I < rand(2,5), I++)
+			var/edir = pick(GLOB.alldirs)
+			new /obj/effect/temp_visual/flak(get_turf(get_step(cached, edir)), faction, src)
+			sleep(rand(0, 2))
 
 /obj/effect/temp_visual/flak/Initialize(mapload, faction, obj/item/projectile/bullet/flak/F)
 	//We do a little randomization...

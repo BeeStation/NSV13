@@ -82,6 +82,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "gaussgun"
 	name = "tungsten round"
 	damage = 35
+	obj_integrity = 500 //Flak doesn't shoot this down....
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
