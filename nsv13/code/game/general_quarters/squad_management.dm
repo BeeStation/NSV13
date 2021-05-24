@@ -29,10 +29,10 @@
 		return FALSE
 	. = ..()
 
-/obj/machinery/computer/squad_manager/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/squad_manager/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "SquadManager", name, 600, 800, master_ui, state)
+		ui = new(user, src, "SquadManager")
 		ui.open()
 
 /obj/machinery/computer/squad_manager/ui_act(action, params, datum/tgui/ui)
@@ -46,7 +46,7 @@
 			var/orders = stripped_input(usr, message="Send a squad-wide message to [S].", max_length=MAX_BROADCAST_LEN)
 			if(!orders || length(orders) <= 0)
 				return
-			S.broadcast(orders, usr, null, pick('nsv13/sound/effects/radio1.ogg','nsv13/sound/effects/radio2.ogg'), TRUE)
+			S.broadcast(S,orders)
 		if("retask")
 			if(world.time < next_major_action)
 				to_chat(usr, "<span class='warning'>Comms circuits recharging.</span>")
@@ -311,13 +311,13 @@
 	}
 	return FALSE
 
-/obj/machinery/squad_vendor/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+/obj/machinery/squad_vendor/ui_interact(mob/user, datum/tgui/ui)
 	if(GLOB.security_level < SEC_LEVEL_RED && ishuman(user))
 		say("Error. Squad equipment only unlocks during general quarters or above.")
 		return
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "SquadVendor", name, 600, 800, master_ui, state)
+		ui = new(user, src, "SquadVendor")
 		ui.open()
 
 /obj/machinery/squad_vendor/ui_act(action, params, datum/tgui/ui)

@@ -1,6 +1,7 @@
 GLOBAL_VAR_INIT(crew_transfer_risa, FALSE)
 
 #define FACTION_VICTORY_TICKETS 1000
+#define COMBAT_CYCLE_INTERVAL 180 SECONDS	//Time between each 'combat cycle' of starsystems. Every combat cycle, every system that has opposing fleets in it gets iterated through, with the fleets firing at eachother.
 
 //Subsystem to control overmap events and the greater gameworld
 SUBSYSTEM_DEF(star_system)
@@ -25,6 +26,10 @@ SUBSYSTEM_DEF(star_system)
 	var/admin_boarding_override = FALSE //Used by admins to force disable boarders
 	var/time_limit = FALSE //Do we want to end the round after a specific time? Mostly used for galconquest.
 
+	var/enable_npc_combat = TRUE	//If you are running an event and don't want fleets to shoot eachother, set this to false.
+	var/next_combat_cycle = 0
+	var/list/contested_systems = list()	//A maintained list containing all systems that have fleets of opposing factions in them. Fleets add a system to it if they arrive in a system with a hostile fleet, handle_combat removes a system if there is no more conflict.
+
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(time_limit && world.time >= time_limit)
 		var/datum/faction/winner = get_winner()
@@ -35,6 +40,13 @@ SUBSYSTEM_DEF(star_system)
 		else
 			SSticker.force_ending = 1
 		return
+
+	if(enable_npc_combat)
+		if(world.time >= next_combat_cycle)
+			for(var/datum/star_system/SS in contested_systems)
+				SS.handle_combat()
+			next_combat_cycle = world.time + COMBAT_CYCLE_INTERVAL
+
 	if(SSmapping.config.patrol_type == "passive")
 		priority_announce("[station_name()], you have been assigned to reconnaissance and exploration this shift. Scans indicate that besides a decent number of straggling Syndicate vessels, there will be little threat to your operations. You are granted permission to proceed at your own pace.", "[capitalize(SSmapping.config.faction)] Naval Command")
 		for(var/datum/star_system/SS in systems)
@@ -352,11 +364,13 @@ Returns a faction datum by its name (case insensitive!)
 		var/datum/fleet/fleet = new fleet_type(src)
 		fleet.current_system = src
 		fleets += fleet
+		fleet.assemble(src)
 	if(preset_trader)
 		trader = new preset_trader
 		//We need to instantiate the trader's shop now and give it info, so unfortunately these'll always load in.
 		var/obj/structure/overmap/trader/station13 = SSstar_system.spawn_anomaly(trader.station_type, src, TRUE)
 		station13.starting_system = name
+		station13.current_system = src
 		station13.set_trader(trader)
 		trader.generate_missions()
 	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
@@ -391,7 +405,9 @@ Returns a faction datum by its name (case insensitive!)
 			anomalies[++anomalies.len] = anomaly_info
 	return anomalies
 
+//Inheritance man, inheritance.
 /datum/round_event_control/radiation_storm/deadly
+	weight = 0
 	max_occurrences = 1000
 
 /obj/effect/overmap_anomaly
@@ -536,8 +552,10 @@ Returns a faction datum by its name (case insensitive!)
 			event_chance = 70 //Highly unstable region of space.
 			create_wormhole()
 			return
+		/* Handled with boarders - replace me with something else
 		if("pirate")
 			possible_events = list(/datum/round_event_control/pirates) //Well what did you think was gonna happen when you jumped into a pirate system?
+		*/
 		if("radioactive")
 			parallax_property = "radiation_cloud" //All credit goes to https://www.filterforge.com/filters/11427.html
 			possible_events = list(/datum/round_event_control/radiation_storm/deadly)
@@ -629,6 +647,8 @@ Returns a faction datum by its name (case insensitive!)
 	alignment = "nanotrasen"
 	system_type = "planet_earth"
 	adjacency_list = list("Alpha Centauri", "Outpost 45", "Ross 154")
+	var/solar_siege_cycles_needed = 10	//See the starsystem controller for how many minutes is one cycle. Currently 3 minutes.
+	var/solar_siege_cycles_left = 10
 
 /datum/star_system/ross
 	name = "Ross 154" //Hi mate my name's ross how's it going
@@ -800,7 +820,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	threat_level = THREAT_LEVEL_UNSAFE
 	wormhole_connections = list("Feliciana")
 	adjacency_list = list()
-	fleet_type = /datum/fleet/pirate
+	fleet_type = /datum/fleet/pirate/tortuga
 
 /datum/star_system/sector2/rubicon
 	name = "Rubicon"
@@ -810,11 +830,12 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	system_type = "demonstar"
 	is_hypergate = TRUE
 	threat_level = THREAT_LEVEL_UNSAFE
+	fleet_type = /datum/fleet/rubicon
 	adjacency_list = list("Romulus")
 	desc = "Many have attempted to cross the Rubicon, many have failed. This system bridges many different sectors together, and is an inroad for the largely unknown Abassi ridge nebula."
 
 /datum/star_system/random
-	name = "Randy random"
+	name = "Unknown Sector"
 	x = 0
 	y = 0
 	hidden = TRUE
@@ -888,18 +909,20 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 			var/datum/trader/randytrader = new x
 			var/obj/structure/overmap/trader/randystation = SSstar_system.spawn_anomaly(randytrader.station_type, randy)
 			randystation.starting_system = randy.name
+			randystation.current_system = randy
 			randystation.set_trader(randytrader)
 			randy.trader = randytrader
 			randytrader.generate_missions()
 
 
 		else if(prob(10))
-			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)
+			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate/raiding, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)
 			var/datum/fleet/randyfleet = new x
 			randyfleet.current_system = randy
 			randyfleet.hide_movements = TRUE //Prevent the shot of spam this caused to R1497.
 			randy.fleets += randyfleet
 			randy.alignment = randyfleet.alignment
+			randyfleet.assemble(randy)
 
 
 

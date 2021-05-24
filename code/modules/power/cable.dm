@@ -46,7 +46,6 @@ By design, d1 is the smallest direction and d2 is the highest
 	var/d1 = 0   // cable direction 1 (see above)
 	var/d2 = 1   // cable direction 2 (see above)
 	var/datum/powernet/powernet
-	var/obj/item/stack/cable_coil/stored
 
 	FASTDMM_PROP(\
 		pipe_type = PIPE_TYPE_CABLE,\
@@ -99,11 +98,6 @@ By design, d1 is the smallest direction and d2 is the highest
 		hide(T.intact)
 	GLOB.cable_list += src //add it to the global cable list
 
-	if(d1)
-		stored = new/obj/item/stack/cable_coil(null,2,cable_color)
-	else
-		stored = new/obj/item/stack/cable_coil(null,1,cable_color)
-
 	var/list/cable_colors = GLOB.cable_colors
 	cable_color = param_color || cable_color || pick(cable_colors)
 	if(cable_colors[cable_color])
@@ -114,22 +108,15 @@ By design, d1 is the smallest direction and d2 is the highest
 	if(powernet)
 		cut_cable_from_powernet()				// update the powernets
 	GLOB.cable_list -= src							//remove it from global cable list
-
-	//If we have a stored item at this point, lets just delete it, since that should be
-	//handled by deconstruction
-	if(stored)
-		QDEL_NULL(stored)
 	return ..()									// then go ahead and delete the cable
 
 /obj/structure/cable/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
 		var/turf/T = get_turf(loc)
 		if(T)
-			stored.forceMove(T)
-			stored = null
-		else
-			qdel(stored)
-	qdel(src)
+			var/obj/item/stack/cable_coil/temp_item = new /obj/item/stack/cable_coil(T, d1 ? 2 : 1, cable_color)
+			transfer_fingerprints_to(temp_item)
+	..()
 
 ///////////////////////////////////
 // General procedures
@@ -155,7 +142,6 @@ By design, d1 is the smallest direction and d2 is the highest
 		if (shock(user, 50))
 			return
 		user.visible_message("[user] cuts the cable.", "<span class='notice'>You cut the cable.</span>")
-		stored.add_fingerprint(user)
 		investigate_log("was cut by [key_name(usr)] in [AREACOORD(src)]", INVESTIGATE_WIRES)
 		deconstruct()
 		return
@@ -167,8 +153,8 @@ By design, d1 is the smallest direction and d2 is the highest
 			return
 		coil.cable_join(src, user)
 
-	else if(istype(W, /obj/item/twohanded/rcl))
-		var/obj/item/twohanded/rcl/R = W
+	else if(istype(W, /obj/item/rcl))
+		var/obj/item/rcl/R = W
 		if(R.loaded)
 			R.loaded.cable_join(src, user)
 			R.is_empty(user)
@@ -205,11 +191,6 @@ By design, d1 is the smallest direction and d2 is the highest
 	..()
 	if(current_size >= STAGE_FIVE)
 		deconstruct()
-
-/obj/structure/cable/proc/update_stored(length = 1, colorC = "red")
-	stored.amount = length
-	stored.item_color = colorC
-	stored.update_icon()
 
 ////////////////////////////////////////////
 // Power related
@@ -655,6 +636,61 @@ GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restrai
 
 	return C
 
+// called when cable_coil is clicked on a turf
+/obj/item/stack/cable_coil/proc/place_turf_dir(turf/T, mob/user, dir2, dir1)
+	if(!isturf(user.loc))
+		return
+
+	if(!isturf(T) || T.intact || !T.can_have_cabling())
+		to_chat(user, "<span class='warning'>You can only lay cables on top of exterior catwalks and plating!</span>")
+		return
+
+	if(get_amount() < 1) // Out of cable
+		to_chat(user, "<span class='warning'>There is no cable left!</span>")
+		return
+
+	if(get_dist(T,user) > 1) // Out of range
+		to_chat(user, "<span class='warning'>You can't lay cable at a place that far away!</span>")
+		return
+
+	if(!dir1 || !dir2) //If we weren't given a direction, cant do it.
+		return
+
+	for(var/obj/structure/cable/LC in T)
+		if(LC.d2 == dir2 && LC.d1 == dir1)
+			to_chat(user, "<span class='warning'>There's already a cable at that position!</span>")
+			return
+
+	var/obj/structure/cable/C = get_new_cable(T)
+
+	//set up the new cable
+	C.d1 = dir1 //it's a O-X node cable
+	C.d2 = dir2
+	C.add_fingerprint(user)
+	C.update_icon()
+
+	//create a new powernet with the cable, if needed it will be merged later
+	var/datum/powernet/PN = new()
+	PN.add_cable(C)
+
+	C.mergeConnectedNetworks(C.d1) //merge the powernet with adjacents powernets
+	C.mergeConnectedNetworks(C.d2)
+	C.mergeConnectedNetworksOnTurf() //merge the powernet with on turf powernets
+
+	if(C.d1 & (C.d1 - 1))// if the cable is layed diagonally, check the others 2 possible directions
+		C.mergeDiagonalsNetworks(C.d1)
+	if(C.d2 & (C.d2 - 1))// if the cable is layed diagonally, check the others 2 possible directions
+		C.mergeDiagonalsNetworks(C.d2)
+
+	use(1)
+
+	if(C.shock(user, 50))
+		if(prob(50)) //fail
+			new /obj/item/stack/cable_coil(get_turf(C), 1, C.color)
+			C.deconstruct()
+
+	return C
+
 // called when cable_coil is click on an installed obj/cable
 // or click on a turf that already contains a "node" cable
 /obj/item/stack/cable_coil/proc/cable_join(obj/structure/cable/C, mob/user, var/showerror = TRUE, forceddir)
@@ -752,9 +788,6 @@ GLOBAL_LIST_INIT(cable_coil_recipes, list (new/datum/stack_recipe("cable restrai
 
 		C.d1 = nd1
 		C.d2 = nd2
-
-		//updates the stored cable coil
-		C.update_stored(2, item_color)
 
 		C.add_fingerprint(user)
 		C.update_icon()

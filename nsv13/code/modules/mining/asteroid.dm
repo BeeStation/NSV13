@@ -160,6 +160,11 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	var/turf/target_location = null //Where to load the asteroid
 	var/cooldown = FALSE
 	var/tier = 1 //Upgrade via science
+	var/turf_type = /turf/open/space/basic
+
+//Hoc modo operatur. Do not question.
+/obj/machinery/computer/ship/mineral_magnet/stupidfuckingbabyaetherwhispmagnetvariantfortoproofdeckbecauseFUCKYOU
+	turf_type = /turf/open/floor/plating/airless
 
 /obj/machinery/computer/ship/mineral_magnet/Initialize()
 	. = ..()
@@ -174,7 +179,6 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 			return
 
 /obj/machinery/computer/ship/mineral_magnet/attackby(obj/item/I, mob/user)
-	. = ..()
 	if(istype(I, /obj/item/deepcore_upgrade))
 		var/obj/item/deepcore_upgrade/DU = I
 		if(DU.tier > tier)
@@ -183,6 +187,15 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 			tier = DU.tier
 			qdel(DU)
 			icon_state = "magnet-[tier]"
+			return TRUE
+	return ..()
+
+
+/obj/machinery/computer/ship/mineral_magnet/attack_ai(mob/user)
+	attack_hand(user)
+
+/obj/machinery/computer/ship/mineral_magnet/attack_robot(mob/user)
+	attack_hand(user)
 
 /obj/machinery/computer/ship/mineral_magnet/attack_hand(mob/user)
 	if(!allowed(user))
@@ -273,5 +286,5 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 		for(var/atom/A in T.contents)
 			if(!ismob(A) && !istype(A, /obj/effect/landmark/asteroid_spawn))
 				qdel(A)
-		T.ChangeTurf(/turf/open/space/basic)
+		T.ChangeTurf(turf_type)
 	QDEL_NULL(current_asteroid)

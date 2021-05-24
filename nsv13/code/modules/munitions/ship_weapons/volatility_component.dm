@@ -1,4 +1,3 @@
-
 /**Volatile substances.
 
 Add this component to an atom to mark it as volatile, if it takes fire damage, is struck by something that's ignited, or optionally, when it's destroyed, it'll explode violently.
@@ -19,7 +18,8 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 		return FALSE
 	//Explosion! This can lead to a chain reaction if you're not careful... WATCH THOSE SHELLS MAA!
 	log_game("Volatile substance caused an explosion at [get_area(parent)].")
-	explosion(parent, round(volatility), round(volatility * 2), round(volatility * 2.5), round(volatility * 3), TRUE, FALSE, round(volatility), FALSE, FALSE)
+	//explosion(parent, round(volatility), round(volatility * 2), round(volatility * 2.5), round(volatility * 3), TRUE, FALSE, round(volatility), FALSE, FALSE)
+	explosion(parent, 0, round(volatility * 0.75), round(volatility * 1.5), round(volatility * 2), TRUE, FALSE, round(volatility * 1.5), FALSE, FALSE)
 
 /datum/component/volatile/proc/burn_act()
 	if(prob(CLAMP(volatility * 10, 0, 100))) //How likely we are to blow up

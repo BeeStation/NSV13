@@ -76,6 +76,8 @@ Repair
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
 	var/maintenance_mode = FALSE //Munitions level IDs can change this.
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
+	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode, \
+								.verb/show_control_panel, .verb/change_name)
 
 /obj/structure/overmap/fighter/verb/show_control_panel()
 	set name = "Show control panel"
@@ -101,6 +103,10 @@ Repair
 	message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
 	name = new_name
 
+/obj/structure/overmap/fighter/start_piloting(mob/living/carbon/user, position)
+	user.add_verb(fighter_verbs)
+	..()
+
 /obj/structure/overmap/fighter/key_down(key, client/user)
 	. = ..()
 	var/mob/themob = user.mob
@@ -113,10 +119,13 @@ Repair
 				playsound(helm, sound, 100, 1)
 			return TRUE
 
-/obj/structure/overmap/fighter/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.contained_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/structure/overmap/fighter/ui_state(mob/user)
+	return GLOB.contained_state
+
+/obj/structure/overmap/fighter/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "FighterControls", name, 497, 450, master_ui, state)
+		ui = new(user, src, "FighterControls")
 		ui.open()
 
 /obj/structure/overmap/fighter/ui_data(mob/user)
@@ -296,7 +305,7 @@ Repair
 			set_master_caution(FALSE)
 			return
 		if("show_dradis")
-			dradis.attack_hand(usr)
+			dradis.ui_interact(usr)
 			return
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 
@@ -481,6 +490,9 @@ Repair
 		obj_flags ^= EMAGGED
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)
+	if(operators && LAZYFIND(operators, user))
+		to_chat(user, "<span class='warning'>You can't reach [src]'s exterior from in here..</span>")
+		return FALSE
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/FC = loadout.get_slot(slot)
 		if(FC?.load(src, W))
@@ -517,7 +529,7 @@ Repair
 /obj/structure/overmap/fighter/proc/enter(mob/user)
 	user.forceMove(src)
 	mobs_in_ship += user
-	if(user?.client?.prefs.toggles & SOUND_AMBIENCE && engines_active()) //Disable ambient sounds to shut up the noises.
+	if((user.client?.prefs.toggles & SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
 		SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
 
 /obj/structure/overmap/fighter/stop_piloting(mob/living/M, force=FALSE)
@@ -535,6 +547,7 @@ Repair
 	. = ..()
 	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
 	M.forceMove(get_turf(src))
+	M.remove_verb(fighter_verbs)
 	return TRUE
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)
@@ -1050,7 +1063,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/fuel_tank
 	name = "Fighter Fuel Tank"
 	desc = "The fuel tank of a fighter, upgrading this lets your fighter hold more fuel."
-	icon_state = "fueltank"
+	icon_state = "fueltank_tier1"
 	var/fuel_capacity = 1000
 	slot = HARDPOINT_SLOT_FUEL
 
@@ -1061,12 +1074,14 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/fuel_tank/tier2
 	name = "Fighter Extended Fuel Tank"
 	desc = "A larger fuel tank which allows fighters to stay in combat for much longer"
+	icon_state = "fueltank_tier2"
 	fuel_capacity = 2500
 	tier = 2
 
 /obj/item/fighter_component/fuel_tank/tier3
 	name = "Massive Fighter Fuel Tank"
 	desc = "A super extended capacity fuel tank, allowing fighters to stay in a warzone for hours on end."
+	icon_state = "fueltank_tier3"
 	fuel_capacity = 4000
 	tier = 3
 
@@ -1775,3 +1790,5 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/structure/overmap/fighter/proc/toggle_canopy()
 	canopy_open = !canopy_open
 	playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
+
+/obj/structure/overmap/fighter/utility/prebuilt/carrier //This needs to be resolved properly later

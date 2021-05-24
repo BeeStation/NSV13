@@ -1,4 +1,4 @@
-
+//Handles camera stuff for all generic overmap interaction
 /client
 	perspective = EYE_PERSPECTIVE //Use this perspective or else shit will break! (sometimes screen will turn black)
 
@@ -70,7 +70,7 @@
 	if(M.client)
 		M.client.view_size.resetToDefault()
 		M.client.overmap_zoomout = 0
-	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
+	var/mob/camera/ai_eye/remote/overmap_observer/eyeobj = M.remote_control
 	M.cancel_camera()
 	if(M.client) //Reset px, y
 		M.client.pixel_x = 0
@@ -100,7 +100,7 @@
 		var/mob/living/silicon/ai/hal = user
 		hal.view_core()
 	user.update_sight()
-	var/mob/camera/aiEye/remote/overmap_observer/eyeobj = new(get_center())
+	var/mob/camera/ai_eye/remote/overmap_observer/eyeobj = new(get_center())
 	eyeobj.origin = src
 	eyeobj.off_action = new
 	eyeobj.off_action.remote_eye = eyeobj
@@ -116,7 +116,7 @@
 	user.remote_control = eyeobj
 
 //Now it's time to handle people observing the ship.
-/mob/camera/aiEye/remote/overmap_observer
+/mob/camera/ai_eye/remote/overmap_observer
 	name = "Inactive Camera Eye"
 	var/datum/action/innate/camera_off/overmap/off_action
 	animate_movement = 0 //Stops glitching with overmap movement
@@ -127,7 +127,7 @@
 	name = "Stop observing"
 	icon_icon = 'icons/mob/actions/actions_silicon.dmi'
 	button_icon_state = "camera_off"
-	var/mob/camera/aiEye/remote/overmap_observer/remote_eye
+	var/mob/camera/ai_eye/remote/overmap_observer/remote_eye
 	var/mob/living/user
 	var/obj/structure/overmap/ship = null
 
@@ -143,14 +143,14 @@
 
 /obj/structure/overmap/proc/remove_eye_control(mob/living/user)
 
-/mob/camera/aiEye/remote/overmap_observer/relaymove(mob/user,direct)
+/mob/camera/ai_eye/remote/overmap_observer/relaymove(mob/user,direct)
 	origin?.relaymove(user,direct) //Move the ship. Means our pilots don't fucking suffocate because space is C O L D
 	return
 
-/mob/camera/aiEye/remote/overmap_observer/proc/add_relay() //Add a signal to move us
+/mob/camera/ai_eye/remote/overmap_observer/proc/add_relay() //Add a signal to move us
 	RegisterSignal(origin, COMSIG_MOVABLE_MOVED, .proc/update, origin)
 
-/mob/camera/aiEye/remote/overmap_observer/proc/set_override(state, obj/structure/overmap/override)
+/mob/camera/ai_eye/remote/overmap_observer/proc/set_override(state, obj/structure/overmap/override)
 	if(state)
 		track_target(override)
 	else
@@ -160,7 +160,7 @@
 		QDEL_NULL(off_action)
 		QDEL_NULL(src)
 
-/mob/camera/aiEye/remote/overmap_observer/proc/update(obj/structure/overmap/target)
+/mob/camera/ai_eye/remote/overmap_observer/proc/update(obj/structure/overmap/target)
 	if(!target)
 		target = origin
 	last_target = target
@@ -170,7 +170,7 @@
 		eye_user.client.pixel_y = origin.pixel_y
 	return TRUE
 
-/mob/camera/aiEye/remote/overmap_observer/proc/track_target(obj/structure/overmap/target)
+/mob/camera/ai_eye/remote/overmap_observer/proc/track_target(obj/structure/overmap/target)
 	UnregisterSignal(last_target, COMSIG_MOVABLE_MOVED)
 	RegisterSignal(target, COMSIG_MOVABLE_MOVED, .proc/update, target)
 	update()

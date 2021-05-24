@@ -14,11 +14,12 @@
 	new /obj/item/clothing/suit/hazardvest(src)
 	new /obj/item/clothing/head/bomb_hood(src)
 	new /obj/item/clothing/suit/bomb_suit(src)
-	new /obj/item/clothing/head/hardhat/red(src)
+	new /obj/item/clothing/head/hardhat/orange(src)
 	new /obj/item/clothing/head/ship/maa_hat(src)
 	new /obj/item/pet_carrier(src)
 	new /obj/item/clothing/neck/petcollar(src)
 	new /obj/item/storage/box/spare_munitions_keys(src)
+	new /obj/item/circuitboard/machine/techfab/department/munitions(src)
 
 /obj/structure/closet/secure_closet/munitions_technician
 	name = "munitions technician's locker"
@@ -31,11 +32,9 @@
 	..()
 	new /obj/item/radio/headset/munitions/munitions_tech(src)
 	new /obj/item/clothing/under/rank/munitions_tech(src)
+	new /obj/item/clothing/under/ship/decktech(src)
 	new /obj/item/clothing/suit/ship/munitions_jacket(src)
-	new /obj/item/clothing/head/bomb_hood(src)
-	new /obj/item/clothing/suit/bomb_suit(src)
-	new /obj/item/clothing/head/welding(src)
-	new /obj/item/clothing/head/soft/yellow(src)
+	new /obj/item/clothing/head/helmet/decktech(src)
 	new /obj/item/storage/belt/utility/full/engi(src)
 
 /obj/structure/closet/secure_closet/deck_technician

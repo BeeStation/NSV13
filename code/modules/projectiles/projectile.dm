@@ -108,6 +108,7 @@
 	var/faction = null //NSV13 - bullets need factions for collision checks
 	var/next_homing_process = 0 //Nsv13 - performance enhancements
 	var/homing_delay = 0.7 SECONDS //Nsv13 - performance enhancements. 1 second delay is noticeably slow
+	var/martial_arts_no_deflect = FALSE
 
 	var/temporary_unstoppable_movement = FALSE
 
@@ -177,14 +178,15 @@
 			if(isalien(L))
 				new /obj/effect/temp_visual/dir_setting/bloodsplatter/xenosplatter(target_loca, splatter_dir)
 			var/obj/item/bodypart/B = L.get_bodypart(def_zone)
-			if(B.status == BODYPART_ROBOTIC) // So if you hit a robotic, it sparks instead of bloodspatters
-				do_sparks(2, FALSE, target.loc)
-				if(prob(25))
-					new /obj/effect/decal/cleanable/oil(target_loca)
-			else
-				new /obj/effect/temp_visual/dir_setting/bloodsplatter(target_loca, splatter_dir)
-			if(prob(33))
-				L.add_splatter_floor(target_loca)
+			if(B)
+				if(B.status == BODYPART_ROBOTIC) // So if you hit a robotic, it sparks instead of bloodspatters
+					do_sparks(2, FALSE, target.loc)
+					if(prob(25))
+						new /obj/effect/decal/cleanable/oil(target_loca)
+				else
+					new /obj/effect/temp_visual/dir_setting/bloodsplatter(target_loca, splatter_dir)
+				if(prob(33))
+					L.add_splatter_floor(target_loca)
 		else if(impact_effect_type && !hitscan)
 			new impact_effect_type(target_loca, hitx, hity)
 
@@ -204,11 +206,16 @@
 		L.on_hit(src)
 
 	var/reagent_note
-	if(reagents?.reagent_list)
+	if(length(reagents?.reagent_list) > 0)
 		reagent_note = " REAGENTS:"
 		for(var/datum/reagent/R in reagents.reagent_list)
 			reagent_note += "[R.name] ([num2text(R.volume)])"
-
+	if(istype(src, /obj/item/projectile/bullet/dart))
+		var/obj/item/projectile/bullet/dart/D = src
+		if(length(D.syringe?.reagents?.reagent_list) > 0)
+			reagent_note = " REAGENTS:"
+			for(var/datum/reagent/R in D.syringe.reagents.reagent_list)
+				reagent_note += "[R.name] ([num2text(R.volume)])"
 	if(ismob(firer))
 		log_combat(firer, L, "shot", src, reagent_note)
 	else

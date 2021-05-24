@@ -8,7 +8,11 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
   const { act, data } = useBackend(context);
   const availablePower = data.available_power;
   return (
-    <Window resizable theme="ntos">
+    <Window
+      resizable
+      theme="ntos"
+      width={560}
+      height={600}>
       <Window.Content scrollable>
         <Section title="Ship Status:">
           Hull Structural Integrity:
@@ -184,7 +188,7 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
             minValue={0}
             maxValue={data.maximum_power_allocation}
             step={1}
-            stepPixelSize={0.0005}
+            stepPixelSize={0.0002}
             onDrag={(e, value) => act('power_allocation', {
               adjust: value,
             })} />

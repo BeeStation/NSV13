@@ -63,7 +63,7 @@ Starting Materials
 	var/repair_resources_processing = FALSE
 	var/repair_efficiency = 0 //modifier for how much repairs we get per cycle
 	var/power_allocation = 0 //how much power we are pumping into the system
-	var/maximum_power_allocation = 1000000 //1MW
+	var/maximum_power_allocation = 3000000 //3MW
 	var/system_allocation = 0 //the load on the system
 	var/system_stress = 0 //how overloaded the system has been over time
 	var/system_stress_threshold = 100 //Threshold at which stress beings to build up
@@ -136,9 +136,9 @@ Starting Materials
 	return FALSE
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Sigmoidal Curve
-	repair_efficiency = ((1 / (0.01 + (NUM_E ** (-0.00001 * power_allocation)))) * material_modifier) / 100
-	if(power_allocation > 1e6) //If overclocking
-		repair_efficiency += ((power_allocation - 1e6) / 1e7) / 2
+	repair_efficiency = ((1 / (0.01 + (NUM_E ** (-0.000003334 * power_allocation)))) * material_modifier) / 100
+	if(power_allocation > 3e6) //If overclocking
+		repair_efficiency += ((power_allocation - 3e6) / 3e7) / 2
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_system_stress()
 	system_allocation = 0
@@ -165,7 +165,7 @@ Starting Materials
 			return
 		var/datum/gas_mixture/env = L.return_air()
 		var/current_temp = env.return_temperature()
-		env.set_temperature(current_temp + 1)
+		env.set_temperature(current_temp + 3)
 		air_update_turf()
 		if(prob(system_stress - system_stress_threshold))
 			var/list/overload_candidate = list()
@@ -179,14 +179,14 @@ Starting Materials
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_power_allocation()
 	active_power_usage = power_allocation
-	if(power_allocation >= 1e6) //If overlocking
+	if(power_allocation >= 3e6) //If overlocking
 		var/turf/open/L = get_turf(src)
 		if(!istype(L) || !(L.air))
 			return
 		var/datum/gas_mixture/env = L.return_air()
 		var/current_temp = env.return_temperature()
 		if(current_temp < 398) //Spicy but not too spicy
-			env.set_temperature(current_temp + (power_allocation / 1e7)) //Heat the air
+			env.set_temperature(current_temp + (power_allocation / 3e7)) //Heat the air
 			air_update_turf()
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_resources()
@@ -273,7 +273,7 @@ Starting Materials
 			to_chat(user, "<span class='notice'>You install the [I.name] into the [src.name]")
 			playsound(src.loc, "sparks", 50, 1)
 			I.forceMove(src)
-			maximum_power_allocation = 10000000 //10MW
+			maximum_power_allocation = 12000000 //12MW
 
 	if(istype(I, /obj/item/apnw_oc_module/load))
 		if(locate(/obj/item/apnw_oc_module/load) in contents)
@@ -347,16 +347,16 @@ Starting Materials
 	else
 		ui_interact(user)
 
-/obj/machinery/armour_plating_nanorepair_well/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/armour_plating_nanorepair_well/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "ArmourPlatingNanorepairWell", name, 560, 600, master_ui, state)
+		ui = new(user, src, "ArmourPlatingNanorepairWell")
 		ui.open()
 
 /obj/machinery/armour_plating_nanorepair_well/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	if(!in_range(src, usr))
+	if(!(in_range(src, usr) | IsAdminGhost(usr)))
 		return
 	var/adjust = text2num(params["adjust"])
 	if(action == "power_allocation")

@@ -5,7 +5,6 @@
 	Starmap code largely copied from FT13's starmap, so credit to them! (And monster860...again)
 */
 
-
 /datum/asset/simple/starmap
 	assets = list(
 		"space.png" = 'nsv13/icons/assets/space.png')
@@ -18,6 +17,7 @@
 	var/screen = STARMAP
 	var/can_control_ship = TRUE
 	var/current_sector = 2
+	circuit = /obj/item/circuitboard/computer/ship/navigation
 
 /obj/machinery/computer/ship/navigation/public
 	can_control_ship = FALSE
@@ -25,15 +25,16 @@
 /obj/machinery/computer/ship/navigation/attack_hand(mob/user)
 	ui_interact(user)
 
-/obj/machinery/computer/ship/navigation/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ship/navigation/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
 		assets.send(user)
-		ui = new(user, src, ui_key, "Starmap", name, 800, 660, master_ui, state)
+		ui = new(user, src, "Starmap")
 		ui.open()
 
 /obj/machinery/computer/ship/navigation/ui_act(action, params, datum/tgui/ui)
+	.=..()
 	if(..())
 		return
 	if(!has_overmap())

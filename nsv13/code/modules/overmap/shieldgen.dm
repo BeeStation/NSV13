@@ -25,79 +25,6 @@
 	var/componentsDone = FALSE;
 }
 
-/datum/techweb_node/ship_shield_tech
-{
-	id = "ship_shield_tech";
-	display_name = "Experimental Shield Technology";
-	description = "Highly experimental shield technology to vastly increase survivability in ships. Although Nanotrasen researchers have had access to this technology for quite some time, the incredible amount of power required to maintain shields has proven to be the greatest challenge in implementing them.";
-	prereq_ids = list("");
-	design_ids = list("shield_fan", "shield_capacitor", "shield_modulator", "shield_interface", "shield_frame");
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000);
-	export_price = 5000;
-	hidden = TRUE
-}
-
-/datum/design/shield_fan
-{
-	name = "Shield cooling fan";
-	desc = "A component required for producing a shield generator.";
-	id = "shield_fan";
-	build_type = PROTOLATHE;
-	materials = list(/datum/material/iron = 4000, /datum/material/titanium = 4000, /datum/material/glass = 1000);
-	build_path = /obj/item/shield_component/fan;
-	category = list("Experimental Technology");
-	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
-}
-
-/datum/design/shield_capacitor
-{
-	name = "Flux Capacitor";
-	desc = "A component required for producing a shield generator.";
-	id = "shield_capacitor";
-	build_type = PROTOLATHE;
-	materials = list(/datum/material/iron = 10000, /datum/material/uranium = 5000, /datum/material/diamond = 5000);
-	build_path = /obj/item/shield_component/capacitor;
-	category = list("Experimental Technology");
-	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
-}
-
-
-/datum/design/shield_modulator
-{
-	name = "Shield Modulator";
-	desc = "A component required for producing a shield generator.";
-	id = "shield_modulator";
-	build_type = PROTOLATHE;
-	materials = list(/datum/material/iron = 10000, /datum/material/uranium = 10000, /datum/material/diamond = 10000);
-	build_path = /obj/item/shield_component/modulator;
-	category = list("Experimental Technology");
-	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
-}
-
-/datum/design/shield_interface
-{
-	name = "Bluespace Crystal Interface";
-	desc = "A component required for producing a shield generator.";
-	id = "shield_interface";
-	build_type = PROTOLATHE;
-	materials = list(/datum/material/titanium = 10000, /datum/material/bluespace = MINERAL_MATERIAL_AMOUNT, /datum/material/diamond = 10000);
-	build_path = /obj/item/shield_component/interface;
-	category = list("Experimental Technology");
-	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
-}
-
-/datum/design/shield_frame
-{
-	name = "Shield Generator Frame";
-	desc = "The basic frame of a shield generator. Assembly required, parts sold separately.";
-	id = "shield_frame";
-	build_type = PROTOLATHE;
-	materials = list(/datum/material/titanium = 20000, /datum/material/iron = 20000);
-	build_path = /obj/structure/shieldgen_frame;
-	category = list("Experimental Technology");
-	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE;
-}
-
 /obj/item/disk/design_disk/overmap_shields
 	name = "SolGov Experimental Shielding Technology Disk"
 	desc = "This disk is the property of SolGov, unlawful use of the data contained on this disk is prohibited."
@@ -395,12 +322,11 @@
 	}
 }
 
-/obj/machinery/shield_generator/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
-										datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
+/obj/machinery/shield_generator/ui_interact(mob/user, datum/tgui/ui)
 {
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open);
+	ui = SStgui.try_update_ui(user, src, ui);
 	if(!ui){
-		ui = new(user, src, ui_key, "ShieldGenerator", name, 600, 660, master_ui, state);
+		ui = new(user, src, "ShieldGenerator")
 		ui.open();
 	}
 }

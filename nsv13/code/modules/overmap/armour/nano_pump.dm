@@ -68,7 +68,7 @@
 				var/armour_integrity = (OM.armour_quadrants[quadrant]["current_armour"] / OM.armour_quadrants[quadrant]["max_armour"]) * 100
 				if(armour_integrity < 15)
 					armour_integrity = 15
-				armour_repair_amount = ((382 * NUM_E **(0.0764 * armour_integrity))/(50 + NUM_E ** (0.0764 * armour_integrity)) ** 2 ) * (apnw.repair_efficiency * (armour_allocation / 100)) * 4 //Don't ask
+				armour_repair_amount = ((382 * NUM_E **(0.0764 * armour_integrity))/(50 + NUM_E ** (0.0764 * armour_integrity)) ** 2 ) * (apnw.repair_efficiency * (armour_allocation / 100)) * 6 //Don't ask
 				if(apnw.repair_resources >= (armour_repair_amount * OM.mass))
 					OM.armour_quadrants[quadrant]["current_armour"] += armour_repair_amount
 					if(OM.armour_quadrants[quadrant]["current_armour"] > OM.armour_quadrants[quadrant]["max_armour"])
@@ -79,7 +79,7 @@
 			if(OM.obj_integrity < OM.max_integrity) //Structure Check
 				if(OM.structure_crit_no_return) //If we have crossed the point of no return, halt repairs
 					return
-				structure_repair_amount = ((1 + (OM.mass / 10)) * apnw.repair_efficiency * structure_allocation) / 100
+				structure_repair_amount = ((2 + (OM.mass / 10)) * apnw.repair_efficiency * structure_allocation) / 100
 				if(apnw.repair_resources >= (structure_repair_amount * OM.mass) * 2)
 					OM.obj_integrity += structure_repair_amount
 					if(OM.obj_integrity > OM.max_integrity)
@@ -217,16 +217,16 @@
 		return
 	ui_interact(user)
 
-/obj/machinery/armour_plating_nanorepair_pump/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/armour_plating_nanorepair_pump/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "ArmourPlatingNanorepairPump", name, 500, 380, master_ui, state)
+		ui = new(user, src, "ArmourPlatingNanorepairPump")
 		ui.open()
 
 /obj/machinery/armour_plating_nanorepair_pump/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	if(!in_range(src, usr))
+	if(!(in_range(src, usr) | IsAdminGhost(usr)))
 		return
 	var/adjust = text2num(params["adjust"])
 	if(action == "armour_allocation")

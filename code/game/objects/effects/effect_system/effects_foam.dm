@@ -119,7 +119,7 @@
 	STOP_PROCESSING(SSfastprocess, src)
 	if(metal)
 		var/turf/T = get_turf(src)
-		if(isspaceturf(T)) //Block up any exposed space
+		if(isspaceturf(T) || istype(T, /turf/open/openspace)) //Block up any exposed space - NSV13 change: Also accounts for openspace.
 			T.PlaceOnTop(/turf/open/floor/plating/foam, flags = CHANGETURF_INHERIT_AIR)
 		for(var/direction in GLOB.cardinals)
 			var/turf/cardinal_turf = get_step(T, direction)
@@ -146,7 +146,7 @@
 		if(lifetime % reagent_divisor)
 			reagents.reaction(O, VAPOR, fraction)
 	var/hit = 0
-	for(var/mob/living/L in range(0,src))
+	for(var/mob/living/L in get_turf(src))
 		hit += foam_mob(L)
 	if(hit)
 		lifetime++ //this is so the decrease from mobs hit and the natural decrease don't cumulate.

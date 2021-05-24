@@ -1,29 +1,3 @@
-/obj/item/circuitboard/computer/ship/dradis
-	name = "circuit board (dradis computer)"
-	build_path = /obj/machinery/computer/ship/dradis
-
-/datum/design/board/dradis_circuit
-	name = "Computer Design (Dradis Computer)"
-	desc = "Allows for the construction of a dradis console."
-	id = "dradis_circuit"
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 500)
-	build_path = /obj/item/circuitboard/computer/ship/dradis
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
-
-/obj/item/circuitboard/computer/ship/dradis/mining
-	name = "circuit board (minig dradis computer)"
-	build_path = /obj/machinery/computer/ship/dradis/mining
-
-/datum/design/board/mining_dradis_circuit
-	name = "Computer Design (Mining dradis Computer)"
-	desc = "Allows for the construction of a dradis console."
-	id = "mining_dradis_circuit"
-	materials = list(/datum/material/glass = 5000, /datum/material/copper = 1000)
-	build_path = /obj/item/circuitboard/computer/ship/dradis/mining
-	category = list("Ship Components")
-	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
-
 #define MIN_SONAR_DELAY 5 SECONDS
 #define MAX_SONAR_DELAY 60 SECONDS
 #define SONAR_VISIBILITY_PENALTY 5 SECONDS
@@ -75,9 +49,30 @@
 	var/next_pulse = OM.last_sonar_pulse + sonar_delay
 	if(world.time >= next_pulse)
 		return TRUE
-
+f
 /obj/machinery/computer/ship/dradis/minor/can_sonar_pulse()
 	return FALSE
+
+
+/*
+Adds a penalty to from how far away you can be detected.
+This is completely independant from normal tracking, you get detected either if you are within their sensor range, or if your sensor profile is big enough to be detected by them
+args:
+penalty: The amount of additional sensor profile
+remove_in: Optional arg, if > 0: Will remove the effect in that amount of ticks
+*/
+/obj/structure/overmap/proc/add_sensor_profile_penalty(var/penalty, var/remove_in = -1)
+	sensor_profile += penalty
+	if(remove_in < 1)
+		return
+	addtimer(CALLBACK(src, .proc/remove_sensor_profile_penalty, penalty), remove_in)
+
+/*
+Reduces sensor profile by the amount given as arg.
+Called by add_sensor_profile_penalty if remove_in is used.
+*/
+/obj/structure/overmap/proc/remove_sensor_profile_penalty(var/amount)
+	sensor_profile -= amount
 
 /obj/structure/overmap/proc/send_sonar_pulse()
 	var/next_pulse = last_sonar_pulse + SONAR_VISIBILITY_PENALTY
@@ -88,6 +83,7 @@
 	last_sonar_pulse = world.time
 	addtimer(VARSET_CALLBACK(src, max_tracking_range, max_tracking_range), SONAR_VISIBILITY_PENALTY)
 	max_tracking_range *= 2
+	add_sensor_profile_penalty(max_tracking_range, SONAR_VISIBILITY_PENALTY)
 
 /obj/machinery/computer/ship/dradis/proc/send_sonar_pulse()
 	var/obj/structure/overmap/OM = get_overmap()
@@ -97,6 +93,7 @@
 	var/stored = sensor_range
 	addtimer(VARSET_CALLBACK(src, sensor_range, stored), SONAR_VISIBILITY_PENALTY)
 	sensor_range = world.maxx
+	OM?.add_sensor_profile_penalty(sensor_range, SONAR_VISIBILITY_PENALTY)
 
 /obj/machinery/computer/ship/dradis/examine(mob/user)
 	. = ..()
@@ -183,12 +180,16 @@
 		return FALSE
 	return TRUE
 
-/obj/machinery/computer/ship/dradis/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
+/obj/machinery/computer/ship/dradis/ui_state(mob/user)
+	return  GLOB.always_state
+
+
+/obj/machinery/computer/ship/dradis/ui_interact(mob/user, datum/tgui/ui)
 	if(!has_overmap())
 		return
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "Dradis", name, 700, 750, master_ui, state)
+		ui = new(user, src, "Dradis")
 		ui.open()
 
 /obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui)
@@ -318,9 +319,9 @@
 		if(OA && istype(OA) && OA.z == linked?.z)
 			blips.Add(list(list("x" = OA.x, "y" = OA.y, "colour" = "#eb9534", "name" = "[(OA.scanned) ? OA.name : "anomaly"]", opacity=showAnomalies*0.01, alignment = "uncharted")))
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Iterate through overmaps in the world!
-		var/sensor_visible = (OM != linked || OM.faction != linked.faction) ? OM.is_sensor_visible(linked) : SENSOR_VISIBILITY_FULL //You can always see your own ship, or allied, cloaked ships.
+		var/sensor_visible = (OM != linked && OM.faction != linked.faction) ? ((get_dist(linked, OM) > max(sensor_range * 2, OM.sensor_profile)) ? 0 : OM.is_sensor_visible(linked)) : SENSOR_VISIBILITY_FULL //You can always see your own ship, or allied, cloaked ships.
 		if(OM.z == linked.z && sensor_visible >= SENSOR_VISIBILITY_FAINT)
-			var/inRange = get_dist(linked, OM) <= sensor_range
+			var/inRange = (get_dist(linked, OM) <= max(sensor_range,OM.sensor_profile)) || OM.faction == linked.faction	//Allies broadcast encrypted IFF so we can see them anywhere.
 			var/thecolour = "#FFFFFF"
 			var/filterType = showEnemies
 			if(istype(OM, /obj/structure/overmap/asteroid))

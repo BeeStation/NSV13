@@ -10,7 +10,7 @@
 	alignment_list_type: How the alignments list is handled. Use ALIGNMENT_BLACKLIST for blacklisting allegiances, and ALIGNMENT_WHITELIST for whitelisting them.
 	wormholes_allowed: If the pathfinding is allowed to use wormholes. Defaults to TRUE.
 */
-/proc/find_route(datum/star_system/target_system, datum/star_system/current_system, list/alignments = list(), alignment_list_type = ALIGNMENT_BLACKLIST, wormholes_allowed = TRUE)
+/proc/find_route(datum/star_system/target_system, datum/star_system/current_system, list/alignments = list(), alignment_list_type = ALIGNMENT_BLACKLIST, wormholes_allowed = TRUE, allow_hidden_systems = FALSE)
 	var/list/route = list()
 	if(!target_system || !current_system)
 		return FALSE	//This do be invalid
@@ -70,6 +70,8 @@
 						CRASH("Navigation attempted to run with invalid alignment_list_type parameter. Parameter was [alignment_list_type]. Allowed parameters are [ALIGNMENT_BLACKLIST] and [ALIGNMENT_WHITELIST].")
 			if(!wormholes_allowed && cur_sys.wormhole_connections.Find(adj))
 				continue	//No using wormholes if they're forbidden to you, bad!
+			if(adj_sys.hidden && !allow_hidden_systems)
+				continue
 
 			if(distances[cur_key] + cur_sys.dist(adj_sys) < distances[adj_key])
 				distances[adj_key] = distances[cur_key] + cur_sys.dist(adj_sys)
@@ -88,5 +90,5 @@
 	return route
 
 /datum/fleet/proc/navigate_to(datum/star_system/target)
-	. = find_route(target, current_system, navigation_spec_alignments, navigation_spec_alignment_type, navigation_uses_wormholes)
+	. = find_route(target, current_system, navigation_spec_alignments, navigation_spec_alignment_type, navigation_uses_wormholes, allow_hidden_systems)
 	plotted_course = .

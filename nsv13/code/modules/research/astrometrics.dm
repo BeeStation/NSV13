@@ -8,22 +8,11 @@ you build.
 
 */
 
-/datum/design/board/astrometrics
-	name = "Computer Design (Astrometrics computer)"
-	desc = "Allows for the construction of circuit boards used to build a new astrometrics computer."
-	id = "astrometrics_console"
-	build_path = /obj/item/circuitboard/computer/astrometrics
-	category = list("Computer Boards")
-	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL | DEPARTMENTAL_FLAG_SCIENCE
-
-/obj/item/circuitboard/computer/astrometrics
-	name = "Astrometrics Computer (Computer Board)"
-	build_path = /obj/machinery/computer/ship/navigation/astrometrics
-
 /obj/machinery/computer/ship/navigation/astrometrics
 	name = "Astrometrics computer"
 	desc = "A computer which is capable of interfacing with subspace sensor arrays to gather intel on starsystems. It is capable of performing rudimentary, long range analysis on anomalies, however a probe torpedo will need to be constructed and fired at the anomaly to fully collect its available research."
 	req_access = list(ACCESS_RESEARCH)
+	circuit = /obj/item/circuitboard/computer/astrometrics
 	var/max_range = 40 //In light years, the range at which we can scan systems for data. This is quite short.
 	var/scan_progress = 0
 	var/scan_goal = 2 MINUTES
@@ -42,12 +31,12 @@ you build.
 	radio.recalculateChannels()
 	linked_techweb = SSresearch.science_tech
 
-/obj/machinery/computer/ship/navigation/astrometrics/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ship/navigation/astrometrics/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
 		assets.send(user)
-		ui = new(user, src, ui_key, "Astrometrics", name, 800, 660, master_ui, state)
+		ui = new(user, src, "Astrometrics")
 		ui.open()
 
 /**

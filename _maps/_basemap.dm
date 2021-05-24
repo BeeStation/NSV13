@@ -24,6 +24,10 @@
 		#include "map_files\Jeppison\Jeppison1.dmm"
 		#include "map_files\Jeppison\Jeppison2.dmm"
 
+		//Eclipse
+		#include "map_files\Eclipse\Eclipse1.dmm"
+		#include "map_files\Eclipse\Eclipse2.dmm"
+
 		#ifdef CIBUILDING
 			#include "templates.dm"
 		#endif

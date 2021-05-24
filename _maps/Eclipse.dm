@@ -1,1 +1,1 @@
-#define FORCE_MAP "_maps/Eclipse.json"
+#define FORCE_MAP "_maps/eclipse.json"

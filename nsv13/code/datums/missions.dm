@@ -18,6 +18,7 @@ NOTE:
   var/list/valid_factions = list("nanotrasen")
 
   var/payout = 4000
+  var/ticket_bounty = 100
   var/list/rewards // List of items to be offered as a reward
 
   var/obj/structure/overmap/owner // Which ship owns this mission
@@ -67,6 +68,10 @@ NOTE:
     return FALSE // If the mission is not active, it can not be completed
 
 /datum/nsv_mission/proc/payout()
+  var/ownerFaction = owner.faction
+  for(var/datum/faction/F in SSstar_system.factions)
+    if( ownerFaction == lowertext( F.name ) )
+      F.gain_influence(ticket_bounty)
   var/obj/item/holochip/money = owner.send_supplypod(/obj/item/holochip)
   money.credits = payout
   if(LAZYLEN(rewards))
@@ -112,7 +117,7 @@ NOTE:
   var/ships_to_kill
   var/ships_remaining
   var/list/target_faction = list("syndicate")
-  var/list/target_size = list(MASS_SMALL, MASS_MEDIUM, MASS_LARGE, MASS_TITAN) // Prevents fighters from counting towards the objective
+  var/list/target_size = list(MASS_SMALL, MASS_MEDIUM, MASS_MEDIUM_LARGE, MASS_LARGE, MASS_TITAN) // Prevents fighters from counting towards the objective
   var/max_threat_level = THREAT_LEVEL_UNSAFE  // If we assign systems, give them a break by not giving them objectives in dangerous systems
   var/list/target_factions = list(FACTION_ID_SYNDICATE, FACTION_ID_PIRATES)
 
@@ -516,7 +521,7 @@ kill station
 /datum/nsv_mission/cargo/nuke/proc/third_warning()
   if(stage != MISSION_ACTIVE) // Only report the crate is suspect if the mission is ongoing
     return
-  owner.hail("The person who tampered with the job listing revealed they are a Syndicate agent after a breif 'talking' too. You need to destroy or dispose of that crate as they intended to have you destroy [delivery_target.name].", the_client.name)
+  owner.hail("The person who tampered with the job listing revealed they are a Syndicate agent after a brief 'talking' too. You need to destroy or dispose of that crate as they intended to have you destroy [delivery_target.name].", the_client.name)
 
 /datum/nsv_mission/cargo/nuke/payout()
   if(delivered_cargo)
@@ -585,4 +590,3 @@ kill station
 /datum/nsv_mission/custom/
   desc = "A mission missing the correct paperwork to define what is required. Contact NT if you see this!"
   var/admin_hints = "SET 'the_client' TO THE OVERMAP STATION! Set stage to different things to mark progress. -1 is failed. 0 is idle and 2 is complete."
-

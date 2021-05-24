@@ -10,10 +10,15 @@
 	semi_auto = TRUE
 	maintainable = FALSE
 	fire_mode = FIRE_MODE_50CAL
-	max_ammo = 100
+	max_ammo = 200
 	circuit = /obj/item/circuitboard/machine/fiftycal
 	var/gunning_component_type = /datum/component/overmap_gunning/fiftycal
 	var/mob/living/gunner
+
+/obj/machinery/ship_weapon/fiftycal/examine(mob/user)
+	. = ..()
+	. += "<span class ='notice'>It has [get_ammo()]/[get_max_ammo()] rounds loaded.</span>"
+
 
 /obj/machinery/ship_weapon/fiftycal/super
 	name = ".50 cal super pom pom turret"
@@ -62,8 +67,7 @@
 	var/obj/structure/overmap/OM = holder.loc.get_overmap()
 	if(!OM)
 		RemoveComponent() //Uh...OK?
-		message_admins("Overmap gunning component created with no attached overmap.")
-		return
+		CRASH("Overmap gunning component created with no attached overmap.")
 	OM.gauss_gunners.Add(holder)
 	OM.start_piloting(holder, "secondary_gunner")
 	START_PROCESSING(SSfastprocess, src)
@@ -94,6 +98,7 @@
 	autofire_target = over_object
 
 /datum/component/overmap_gunning/proc/end_gunning()
+	autofire_target = null
 	var/obj/structure/overmap/OM = holder.loc.get_overmap()
 	OM.gauss_gunners.Remove(holder)
 	STOP_PROCESSING(SSfastprocess, src)
@@ -109,6 +114,10 @@
 	icon_screen = "50cal"
 	circuit = /obj/item/circuitboard/computer/fiftycal
 	var/obj/machinery/ship_weapon/fiftycal/turret
+
+/obj/machinery/computer/fiftycal/examine(mob/user)
+	. = ..()
+	. += "<span class ='notice'>Its ammo counter reads [turret.get_ammo()]/[turret.get_max_ammo()]. </span>"
 
 /obj/machinery/computer/fiftycal/Initialize()
 	. = ..()
@@ -138,34 +147,15 @@
 		return
 	turret.start_gunning(user)
 
-/obj/item/circuitboard/machine/fiftycal
-	name = ".50 cal turret (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 20,
-		/obj/item/stack/sheet/mineral/copper = 10,
-		/obj/item/stack/sheet/iron = 30,
-		/obj/item/stack/cable_coil = 5)
-	build_path = /obj/machinery/ship_weapon/fiftycal
-
-/obj/item/circuitboard/machine/fiftycal/super
-	name = "super .50 cal turret (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 40,
-		/obj/item/stack/sheet/mineral/copper = 40,
-		/obj/item/stack/sheet/mineral/diamond = 5,
-		/obj/item/stack/sheet/iron = 20,
-		/obj/item/stack/cable_coil = 5)
-	build_path = /obj/machinery/ship_weapon/fiftycal
-
-/obj/item/circuitboard/computer/fiftycal
-	name = ".50 cal turret console (circuit)"
-	build_path = /obj/machinery/computer/fiftycal
-
 /obj/item/ammo_box/magazine/pdc/fiftycal
 	name = "50 caliber rounds"
 	ammo_type = /obj/item/ammo_casing/fiftycal
 	caliber = "mm50pdc"
 	max_ammo = 200
+
+/obj/item/ammo_box/magazine/pdc/fiftycal/examine(mob/user)
+	. = ..()
+	. += "<span class ='notice'>It has [ammo_count()] bullets left.</span>"
 
 /obj/item/ammo_box/magazine/pdc/fiftycal/update_icon()
 	if(ammo_count() > 10)
@@ -185,30 +175,3 @@
 	damage = 15
 	flag = "overmap_heavy"
 	speed = 2
-
-/datum/design/board/fiftycal
-	name = "Machine Design (.50 cal deck turret)"
-	desc = "Allows for the construction of a crew served, 50 cal deck turret."
-	id = "fiftycal"
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
-	build_path = /obj/item/circuitboard/machine/fiftycal
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
-
-/datum/design/board/fiftycal/super
-	name = "Machine Design (.50 cal deck turret)"
-	desc = "Allows for the construction of a crew served, super 50 cal pompom turret."
-	id = "fiftycal_super"
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
-	build_path = /obj/item/circuitboard/machine/fiftycal/super
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
-
-/datum/design/board/fiftycalcomp
-	name = "Machine Design (.50 cal deck turret control console)"
-	desc = "Allows for the construction of a control console for .50 cal deck guns."
-	id = "fiftycalcomp"
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
-	build_path = /obj/item/circuitboard/computer/fiftycal
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE

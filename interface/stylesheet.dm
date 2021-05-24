@@ -55,6 +55,7 @@ em						{font-style: normal;	font-weight: bold;}
 .redteamradio           {color: #ff0000;}
 .blueteamradio          {color: #0000ff;}
 .muniradio				{color: #ff7f00;}
+.pirateradio			{color: #8f3aff;}
 
 .yell					{					font-weight: bold;}
 

@@ -108,24 +108,10 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		var/obj/effect/overmap_hitbox_marker/H = new(src, point.x, point.y, abs(pixel_z), abs(pixel_w))
 		vis_contents += H
 
-/obj/structure/overmap/Initialize()
-	. = ..()
-	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
-	pixel_collision_size_x = I.Width()
-	pixel_collision_size_y = I.Height()
-	offset = new /datum/vector2d()
-	last_offset = new /datum/vector2d()
-	position = new /datum/vector2d(x*32,y*32)
-	velocity = new /datum/vector2d(0, 0)
-	overlap = new /datum/vector2d(0, 0)
-	if(collision_positions.len)
-		physics2d = AddComponent(/datum/component/physics2d)
-		physics2d.setup(collision_positions, angle)
-//	else //It pains me to comment this out...but we no longer use qwer2d, F.
-	//	message_admins("[src] does not have collision points set! It will float through everything.")
-
 /obj/structure/overmap/proc/can_move()
 	return TRUE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
+
+#define RELEASE_PRESSURE ONE_ATMOSPHERE
 
 /obj/structure/overmap/proc/slowprocess()
 	set waitfor = FALSE
@@ -141,9 +127,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
 	if(internal_tank && cabin_air)
 		var/datum/gas_mixture/tank_air = internal_tank.return_air()
-		var/release_pressure = ONE_ATMOSPHERE
 		var/cabin_pressure = cabin_air.return_pressure()
-		var/pressure_delta = min(release_pressure - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
+		var/pressure_delta = min(RELEASE_PRESSURE - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
 		var/transfer_moles = 0
 		if(pressure_delta > 0) //cabin pressure lower than release pressure
 			if(tank_air.return_temperature() > 0)
@@ -153,7 +138,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		else if(pressure_delta < 0) //cabin pressure higher than release pressure
 			var/turf/T = get_center()
 			var/datum/gas_mixture/t_air = T.return_air()
-			pressure_delta = cabin_pressure - release_pressure
+			pressure_delta = cabin_pressure - RELEASE_PRESSURE
 			if(t_air)
 				pressure_delta = min(cabin_pressure - t_air.return_pressure(), pressure_delta)
 			if(pressure_delta > 0) //if location pressure is lower than cabin pressure
@@ -163,6 +148,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 					T.assume_air(removed)
 				else //just delete the cabin gas, we're in space or some shit
 					qdel(removed)
+
+#undef RELEASE_PRESSURE
 
 /obj/structure/overmap/process()
 	set waitfor = FALSE
@@ -202,7 +189,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	var/velocity_mag = velocity.ln() // magnitude
 	if(velocity_mag  && velocity_mag > 0 && !SSmapping.level_trait(src.z, ZTRAIT_OVERMAP))
 		var/drag = 0
-		var/has_gravity = get_center().has_gravity()
+		var/has_gravity = get_center()?.has_gravity()
 		for(var/turf/T in locs)
 			if(isspaceturf(T))
 				continue
@@ -271,8 +258,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 				last_thrust_right = -side_maxthrust
 
 	//Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
-	velocity.x = max(min(velocity.x, speed_limit), -speed_limit)
-	velocity.y = max(min(velocity.y, speed_limit), -speed_limit)
+	velocity.x = clamp(velocity.x, -speed_limit, speed_limit)
+	velocity.y = clamp(velocity.y, -speed_limit, speed_limit)
 
 	velocity.x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
 	velocity.y += thrust_y * time

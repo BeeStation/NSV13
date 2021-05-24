@@ -30,7 +30,7 @@
 #define ROLE_BRAINWASHED		"Brainwashed Victim"
 #define ROLE_OVERTHROW			"Syndicate Mutineer"
 #define ROLE_HIVE				"Hivemind Host"
-#define ROLE_OBSESSED				"Obsessed"
+#define ROLE_OBSESSED			"Obsessed"
 #define ROLE_SENTIENCE			"Sentience Potion Spawn"
 #define ROLE_MIND_TRANSFER		"Mind Transfer Potion"
 #define ROLE_POSIBRAIN			"Posibrain"
@@ -40,8 +40,10 @@
 #define ROLE_INTERNAL_AFFAIRS	"Internal Affairs Agent"
 #define ROLE_GANG				"Gangster"
 #define ROLE_HOLOPARASITE		"Holoparasite"
+#define ROLE_TERATOMA			"Teratoma"
 
 #define ROLE_SYNDI_CREW			"Syndicate crew" //Nsv13 - added pvp role
+#define ROLE_BLOODLING			"Bloodling" //Nsv13 - Bloodling
 
 //Missing assignment means it's not a gamemode specific role, IT'S NOT A BUG OR ERROR.
 //The gamemode specific ones are just so the gamemodes can query whether a player is old enough
@@ -73,9 +75,12 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_GANG = /datum/game_mode/gang,
 	ROLE_HOLOPARASITE,
 	ROLE_HERETIC = /datum/game_mode/heretics,
-	ROLE_SYNDI_CREW = /datum/game_mode/pvp
+	ROLE_SYNDI_CREW = /datum/game_mode/pvp, //NSV13
+	ROLE_TERATOMA,
+	ROLE_SYNDI_CREW = /datum/game_mode/pvp, //NSV13
+	ROLE_BLOODLING = /datum/game_mode/bloodling //NSV13
 ))
-
+//nsv13 - pvp + bloodling modes added here
 
 
 //Job defines for what happens when you fail to qualify for any job during job selection

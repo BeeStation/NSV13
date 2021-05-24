@@ -157,9 +157,14 @@
 
 /obj/item/projectile/guided_munition/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
 	. = ..()
+
+	if(!isprojectile(AM))
+		return
+
 	var/obj/item/projectile/P = AM //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
 	if(P.damage <= 0)
 		return
+
 	if(isprojectile(AM) && P.faction != faction) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
 		if(obj_integrity <= P.damage) //Tank the hit, take some damage
 			qdel(P)
@@ -174,8 +179,13 @@
 
 /obj/item/projectile/guided_munition/proc/explode()
 	if(firer)
-		var/mob/checking = firer
-		var/obj/structure/overmap/OM = checking.overmap_ship
+		var/obj/structure/overmap/OM
+		if(ismob(firer))
+			var/mob/checking = firer
+			OM = checking.overmap_ship
+		else
+			OM = firer
+
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo_detonate.ogg','nsv13/sound/effects/ship/freespace2/impacts/boom_2.wav','nsv13/sound/effects/ship/freespace2/impacts/boom_3.wav','nsv13/sound/effects/ship/freespace2/impacts/subhit.wav','nsv13/sound/effects/ship/freespace2/impacts/subhit2.wav','nsv13/sound/effects/ship/freespace2/impacts/m_hit.wav','nsv13/sound/effects/ship/freespace2/impacts/hit_1.wav')
 		OM.relay_to_nearby(chosen)
 	new shotdown_effect_type(get_turf(src)) //Exploding effect

@@ -69,27 +69,9 @@
 	cinematic_sound(sound('sound/effects/explosion_distant.ogg'))
 	special()
 
-
-/obj/structure/overmap/Destroy()
-	STOP_PROCESSING(SSphysics_processing, src)
-	GLOB.overmap_objects -= src
-	relay('nsv13/sound/effects/ship/damage/ship_explode.ogg')
-	relay_to_nearby('nsv13/sound/effects/ship/damage/disable.ogg') //Kaboom.
-	new /obj/effect/temp_visual/fading_overmap(get_turf(src), name, icon, icon_state)
-	for(var/obj/structure/overmap/OM in enemies) //If target's in enemies, return
-		var/sound = pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_2.ogg')
-		var/message = "<span class='warning'>ATTENTION: [src]'s reactor is going supercritical. Destruction imminent.</span>"
-		OM?.tactical?.relay_sound(sound, message)
-		OM.enemies -= src //Stops AI from spamming ships that are already dead
-	overmap_explode(linked_areas)
-	if(role == MAIN_OVERMAP)
-		priority_announce("WARNING: ([rand(10,100)]) Attempts to establish DRADIS uplink with [station_name()] have failed. Unable to ascertain operational status. Presumed status: TERMINATED","Central Intelligence Unit", 'nsv13/sound/effects/ship/reactor/explode.ogg')
-		Cinematic(CINEMATIC_NSV_SHIP_KABOOM,world)
-		SSticker.mode.check_finished(TRUE)
-		SSticker.force_ending = 1
-	. = ..()
-
 /proc/overmap_explode(list/areas)
+	if(!areas)
+		return
 	for(var/area/AR in areas)
 		var/turf/T = pick(get_area_turfs(AR))
 		explosion(T,30,30,30)
@@ -123,5 +105,5 @@
 	desc = "A large pod which is used to launch syndicate drop troopers at enemy vessels. It's rare to see one of these and survive the encounter."
 	style = STYLE_SYNDICATE
 	explosionSize = list(0,0,0,5)
-	landingDelay = 25 //Slower than usual so you have time to react
+	delays = list(POD_TRANSIT = 30, POD_FALLING = 25, POD_OPENING = 30, POD_LEAVING = 30) //Slower than usual so you have time to react
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF

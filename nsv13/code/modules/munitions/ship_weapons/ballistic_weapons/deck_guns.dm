@@ -10,11 +10,11 @@
 	bound_width = 64
 	bound_height = 128
 	semi_auto = FALSE
-	max_ammo = 1
+	max_ammo = 2
 	obj_integrity = 500
 	max_integrity = 500
 	safety = FALSE
-	maintainable = TRUE
+	maintainable = FALSE //This just makes them brick.
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
 	var/obj/machinery/deck_turret/core
 
@@ -64,14 +64,10 @@
 	if(!core)
 		core = locate(/obj/machinery/deck_turret) in orange(1, src)
 
-/obj/item/circuitboard/computer/deckgun
-	name = "Deck gun loading computer (circuit)"
-	build_path = /obj/machinery/computer/deckgun
-
-/obj/machinery/computer/deckgun/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/deckgun/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "DeckGun", name, 300, 300, master_ui, state)
+		ui = new(user, src, "DeckGun")
 		ui.open()
 
 /obj/machinery/computer/deckgun/ui_data(mob/user)
@@ -94,7 +90,7 @@
 		part["id"] = "\ref[MOREPOWDER]"
 		parts[++parts.len] = part
 	data["parts"] = parts
-	data["can_pack"] = core.payload_gate && core.payload_gate.loaded
+
 	return data
 
 /obj/machinery/computer/deckgun/ui_act(action, params)
@@ -102,24 +98,27 @@
 	if(.)
 		return
 	var/obj/machinery/deck_turret/powder_gate/target = locate(params["target"])
+	var/obj/machinery/deck_turret/payload_gate/gate = core.payload_gate
+	if(!gate)
+		return
 	switch(action)
 		if("feed")
-			if(core.payload_gate.loaded)
-				core.payload_gate.unload()
+			if(gate.loaded)
+				gate.unload()
 				return
-			core.payload_gate.feed()
+			gate.feed()
 		if("load")
-			if(!core.turret.rack_load(core.payload_gate.shell))
+			if(!core.turret.rack_load(gate.shell))
 				return
-			core.payload_gate.shell = null
-			core.payload_gate.loaded = FALSE
-			core.payload_gate.unload()
+			gate.shell = null
+			gate.loaded = FALSE
+			gate.unload()
 			if(locate(/obj/machinery/deck_turret/autorepair) in orange(1, core))
 				core.turret.maint_req ++
 				core.turret.maint_req = CLAMP(core.turret.maint_req, 0, 25)
 				new /obj/effect/temp_visual/heal(get_turf(core), "#375637")
 		if("load_powder")
-			core.payload_gate.chamber(target)
+			gate.chamber(target)
 
 /obj/machinery/deck_turret
 	name = "Deck Turret Core"
@@ -144,7 +143,7 @@
 	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))
 		update_icon()
 		return
-	. = ..()
+	return ..()
 
 /obj/machinery/deck_turret/crowbar_act(mob/living/user, obj/item/I)
 	if(default_deconstruction_crowbar(I))
@@ -180,7 +179,6 @@
 	icon_state = initial(icon_state)
 
 /obj/machinery/deck_turret/powder_gate/attackby(obj/item/I, mob/living/user, params)
-	. = ..()
 	if(get_dist(I, src) > 1)
 		return FALSE
 	if(bag)
@@ -191,6 +189,8 @@
 		return FALSE
 	if(ammo_type && istype(I, ammo_type))
 		load(I, user)
+		return TRUE
+	return ..()
 
 /obj/machinery/deck_turret/powder_gate/proc/unload()
 	if(!bag)
@@ -312,6 +312,11 @@
 	var/loading = FALSE
 	var/load_delay = 15 SECONDS
 
+/obj/machinery/deck_turret/payload_gate/examine()
+	. = ..()
+	. += (shell) ? "<span class='notice'>Packed strength: [shell.speed]dT.</span>" : "<span class='notice'>Shell not loaded.</span>"
+	. += (shell) ? "<span class='notice'>[shell.name]</span>" : null
+
 /obj/machinery/deck_turret/payload_gate/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()
 	if(get_dist(A, src) > 1)
@@ -330,6 +335,7 @@
 	var/obj/item/ship_weapon/ammunition/naval_artillery/NA = A
 	if(!NA.armed)
 		to_chat(user, "<span class='warning'>[A] is not armed!</span>")
+		playsound(src, 'sound/machines/buzz-sigh.ogg', 35, 0)
 		return FALSE
 	loading = TRUE
 	if(locate(/obj/machinery/deck_turret/autoelevator) in orange(2, src))
@@ -413,56 +419,11 @@
 /obj/machinery/ship_weapon/deck_turret/Initialize()
 	. = ..()
 	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
-	core.turret = src
 	if(!core)
 		message_admins("Deck turret has no gun core! [src.x], [src.y], [src.z])")
 		return
+	core.turret = src
 	core.update_parts()
-
-/obj/item/circuitboard/machine/deck_gun
-	name = "Deck gun core (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 20,
-		/obj/item/stack/cable_coil = 5)
-	build_path = /obj/machinery/deck_turret
-
-/obj/item/circuitboard/machine/deck_gun/powder
-	name = "Deck gun powder gate (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 20,
-		/obj/item/stack/sheet/mineral/copper = 20,
-		/obj/item/stack/cable_coil = 5)
-	build_path = /obj/machinery/deck_turret/powder_gate
-
-/obj/item/circuitboard/machine/deck_gun/payload
-	name = "Deck gun payload gate (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 40,
-		/obj/item/stack/sheet/mineral/copper = 10,
-		/obj/item/ship_weapon/parts/railgun_rail = 1,
-		/obj/item/ship_weapon/parts/loading_tray=1,
-		/obj/item/stack/cable_coil = 10)
-	build_path = /obj/machinery/deck_turret/payload_gate
-
-//Upgrades
-/obj/item/circuitboard/machine/deck_gun/autoelevator
-	name = "Deck gun auto-elevator (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 40,
-		/obj/item/stack/sheet/mineral/copper = 20,
-		/obj/item/stack/sheet/mineral/diamond = 5,
-		/obj/item/stack/cable_coil = 10)
-	build_path = /obj/machinery/deck_turret/autoelevator
-
-/obj/item/circuitboard/machine/deck_gun/autorepair
-	name = "Deck gun auto-repair module (circuitboard)"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 40,
-		/obj/item/stack/sheet/mineral/copper = 20,
-		/obj/item/stack/sheet/mineral/diamond = 2,
-		/obj/item/stack/sheet/mineral/uranium = 10,
-		/obj/item/stack/cable_coil = 10)
-	build_path = /obj/machinery/deck_turret/autorepair
 
 //The actual gun assembly.
 /obj/structure/ship_weapon/mac_assembly/artillery_frame

@@ -18,10 +18,13 @@
 	else
 		return FALSE
 
-/datum/syndicate_job_menu/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.always_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/datum/syndicate_job_menu/ui_state(mob/user)
+	return GLOB.always_state
+
+/datum/syndicate_job_menu/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "SyndieJobSelect", "Syndicate Job Selection", 500, 500, master_ui, state)
+		ui = new(user, src, "SyndieJobSelect")
 		ui.open()
 
 /datum/syndicate_job_menu/ui_data(mob/user)
@@ -51,7 +54,7 @@
 	name = "Syndicate crew"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew
 	job_rank = ROLE_SYNDI_CREW
-	tips = 'html/antagtips/galactic_conquest.html'
+	tips = "galactic_conquest"
 	give_objectives = FALSE //Their objective is to win the game
 
 /datum/antagonist/nukeop/syndi_crew/greet()
@@ -114,14 +117,74 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 		theGame.nuke_team = L.nuke_team
 	return TRUE
 
+//Syndicate ID card that isn't the agent card for the crew
+/obj/item/card/id/syndi_crew
+	name = "Syndicate ID Card"
+	icon_state = "syndicate"
+	item_state = "syndicate_id"
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE)
+	assignment = "Crew"
+
+/obj/item/card/id/syndi_crew/captain
+	name = "Captain's ID"
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_LEADER, ACCESS_SYNDICATE_ENGINEERING, ACCESS_SYNDICATE_REQUISITIONS, ACCESS_SYNDICATE_MARINE_ARMOURY)
+	assignment = "Captain"
+
+/obj/item/card/id/syndi_crew/admiral
+	name = "Strategist's ID"
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_LEADER, ACCESS_SYNDICATE_ENGINEERING, ACCESS_SYNDICATE_REQUISITIONS, ACCESS_SYNDICATE_MARINE_ARMOURY)
+	assignment = "Strategist"
+
+/obj/item/card/id/syndi_crew/requisitions_officer
+	name = "Requisitions Officer's ID"
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_REQUISITIONS)
+	assignment = "Requisitions Officer"
+
+/obj/item/card/id/syndi_crew/bridge
+	name = "Bridge Crew's ID"
+	assignment = "Bridge Crew"
+
+/obj/item/card/id/syndi_crew/technician
+	name = "Ship Technician's ID"
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_ENGINEERING)
+	assignment = "Ship Technician"
+
+/obj/item/card/id/syndi_crew/cag
+	name = "Commander Air Group's ID"
+	assignment = "Commander Air Group"
+
+/obj/item/card/id/syndi_crew/pilot
+	name = "Pilot's ID"
+	assignment = "Pilot"
+
+/obj/item/card/id/syndi_crew/marine_sergeant
+	name = "Marine Sergeant's ID"
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_MARINE_ARMOURY)
+
+/obj/item/card/id/syndi_crew/chef
+	name = "Line Cook's ID"
+	assignment = "Line Cook"
+
+/obj/item/card/id/syndi_crew/marine
+	name = "Marine's ID"
+	assignment = "Marine"
+
+//Syndicate crew outfits
+
+/datum/outfit/syndicate/no_crystals/syndi_crew/post_equip(mob/living/carbon/human/H)
+	H.faction += "Syndicate"
+	var/obj/item/card/id/W = H.wear_id
+	W.registered_name = H.real_name
+	W.update_label()
+
 /datum/antagonist/nukeop/leader/syndi_crew
 	name = "Syndicate captain"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew/leader
-	tips = 'html/antagtips/galactic_conquest.html'
+	tips = "galactic_conquest"
 
 /datum/outfit/syndicate/no_crystals/syndi_crew/leader
 	name = "Syndicate Captain"
-	id = /obj/item/card/id/syndicate/nuke_leader
+	id = /obj/item/card/id/syndi_crew/captain
 	r_hand = /obj/item/ship_loadout_selector
 	gloves = /obj/item/clothing/gloves/krav_maga/combatglovesplus
 	neck = /obj/item/clothing/neck/cloak/syndcap
@@ -175,7 +238,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	shoes = /obj/item/clothing/shoes/combat/swat
 	backpack_contents = list(/obj/item/storage/box/survival=1,/obj/item/clipboard=1,/obj/item/ammo_box/shotgun_lethal=3)
 	command_radio = TRUE
-	id = /obj/item/card/id/syndicate/nuke_leader
+	id = /obj/item/card/id/syndi_crew/admiral
 
 /datum/antagonist/nukeop/syndi_crew/strategist/greet()
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
@@ -207,13 +270,8 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	gloves = /obj/item/clothing/gloves/combat
 	belt = /obj/item/storage/belt/utility/full/engi
 	uniform = /obj/item/clothing/under/ship/syndicate_tech
-	id = /obj/item/card/id/syndicate/requisitions_officer
+	id = /obj/item/card/id/syndi_crew/requisitions_officer
 	l_pocket = /obj/item/card/id/departmental_budget/syndicate
-
-//Keeps the plebs outta req
-/obj/item/card/id/syndicate/requisitions_officer/Initialize()
-	access += ACCESS_SYNDICATE_REQUISITIONS
-	. = ..()
 
 /datum/syndicate_crew_role/bridge
 	name = "Syndicate Bridge Staff"
@@ -232,6 +290,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	suit = /obj/item/clothing/suit/ship/syndicate_crew
 	uniform = /obj/item/clothing/under/suit/black
 	shoes = /obj/item/clothing/shoes/laceup
+	id = /obj/item/card/id/syndi_crew/bridge
 
 /datum/syndicate_crew_role/technician
 	name = "Syndicate Technician"
@@ -251,11 +310,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	gloves = /obj/item/clothing/gloves/combat
 	belt = /obj/item/storage/belt/utility/full/engi
 	uniform = /obj/item/clothing/under/ship/syndicate_tech
-	id = /obj/item/card/id/syndicate/technician
-//Keeps the plebs outta engi
-/obj/item/card/id/syndicate/technician/Initialize()
-	access += ACCESS_SYNDICATE_ENGINEERING
-	. = ..()
+	id = /obj/item/card/id/syndi_crew/technician
 
 /datum/syndicate_crew_role/cag
 	name = "Syndicate CAG"
@@ -273,6 +328,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	glasses = /obj/item/clothing/glasses/sunglasses
 	suit = /obj/item/clothing/suit/ship/syndicate_crew
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
+	id = /obj/item/card/id/syndi_crew/cag
 
 /datum/syndicate_crew_role/pilot
 	name = "Syndicate Fighter Pilot"
@@ -290,6 +346,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	head = /obj/item/clothing/head/HoS/beret/syndicate
 	suit = /obj/item/clothing/suit/ship/syndicate_crew
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
+	id = /obj/item/card/id/syndi_crew/pilot
 
 /datum/syndicate_crew_role/sergeant
 	name = "Syndicate Marine Sergeant"
@@ -307,11 +364,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	mask = /obj/item/clothing/mask/gas/syndicate
 	suit = /obj/item/clothing/suit/space/hardsuit/syndi/elite
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
-	id = /obj/item/card/id/syndicate/marine_sergeant
-
-/obj/item/card/id/syndicate/marine_sergeant/Initialize()
-	access += ACCESS_SYNDICATE_MARINE_ARMOURY
-	. = ..()
+	id = /obj/item/card/id/syndi_crew/marine_sergeant
 
 /datum/syndicate_crew_role/clown
 	name = "Syndicate Clown"
@@ -349,6 +402,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	head = /obj/item/clothing/head/chefhat
 	suit = /obj/item/clothing/suit/ship/syndicate_crew
 	uniform = /obj/item/clothing/under/rank/civilian/chef
+	id = /obj/item/card/id/syndi_crew/chef
 
 /datum/syndicate_crew_role/marine
 	name = "Autofill"
@@ -377,14 +431,18 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	mask = /obj/item/clothing/mask/gas/syndicate
 	suit = /obj/item/clothing/head/helmet/space/syndicate/odst/marine
 	uniform = /obj/item/clothing/under/ship/pilot/syndicate
+	id = /obj/item/card/id/syndi_crew/marine
 
 //Allows you to see faction statuses
-/mob/Stat()
-	..()
-	if(statpanel("Faction"))
-		stat(null, "Faction influence:")
-		for(var/datum/faction/F in SSstar_system.factions)
-			stat(null, "[F.name]: [F.tickets]")
+/mob/proc/get_stat_tab_faction()
+	var/list/tab_data = list()
+	for(var/datum/faction/F in SSstar_system.factions)
+		if (F) //No nulls!
+			tab_data["[F?.name]"] = list(
+				text = "[F?.tickets]",
+				type = STAT_TEXT
+			)
+	return tab_data
 
 /datum/team/nuclear/roundend_report()
 	if(istype(SSticker.mode, /datum/game_mode/pvp))
@@ -463,3 +521,104 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 		final.Insert(icon('icons/mob/screen_gen.dmi', "x[x_number == 1 ? "" : x_number]"), "x[x_number == 1 ? "" : x_number]")
 	*/
 	fcopy(final, "nsv13/icons/mob/syndicate_roles.dmi")
+
+#define DEPT_SYNDICATE 6
+
+//Ultra stripped down ID console for assigning secondary ship accesses.
+/obj/machinery/computer/secondary_ship_id_console
+	name = "Secondary Ship ID console"
+	circuit = /obj/item/circuitboard/computer/card/secondary_ship_id_console
+	icon_screen = "idhos"
+	light_color = LIGHT_COLOR_RED
+	req_one_access = null //If this
+	var/list/target_accesses = list() //Format: K = Title to display this access as, V = the access itself, as an assoc list.
+	var/obj/item/card/id/modifying = null
+	var/theme = "ntos"
+
+/obj/machinery/computer/secondary_ship_id_console/attackby(obj/item/I, mob/living/user, params)
+	. = ..()
+	if(istype(I, /obj/item/card/id))
+		if(!do_after(user, 0.5 SECONDS, target=src))
+			return FALSE
+		if(modifying)
+			eject()
+		modifying = I
+		I.forceMove(src)
+		playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, 0)
+		return TRUE
+
+/obj/machinery/computer/secondary_ship_id_console/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "SecondaryID")
+		ui.open()
+
+/obj/machinery/computer/secondary_ship_id_console/ui_data(mob/user)
+	var/list/data = list()
+	var/list/accessData = list()
+	for(var/title in target_accesses)
+		var/access = target_accesses[title]
+		accessData[++accessData.len] = list("title"=title, "access"=access, "hasAccess"=modifying && (access in modifying.access))
+	data["theme"] = theme
+	data["accessList"] = accessData
+	data["modifying"] = (modifying) ? TRUE : FALSE
+	return data
+
+/obj/machinery/computer/secondary_ship_id_console/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	switch(action)
+		if("eject")
+			eject()
+		if("accessMod")
+			if(!allowed(usr))
+				to_chat(usr, "<span class='warning'>You are not authorised to use this console.</span>")
+				return FALSE
+			var/access = text2num(params["access"])
+			if(access in modifying.access)
+				modifying.access -= access
+			else
+				modifying.access += access
+			playsound(src, "terminal_type", 50, 0)
+		if("modifyName")
+			if(!allowed(usr))
+				to_chat(usr, "<span class='warning'>You are not authorised to use this console.</span>")
+				return FALSE
+			if(!modifying)
+				return FALSE
+			var/newName = stripped_input(usr, "Enter a new assigned name for this ID.", "[src]", null)
+			if(!newName)
+				return FALSE
+			modifying.registered_name = newName
+			modifying.update_label()
+		if("modifyAssignment")
+			if(!allowed(usr))
+				to_chat(usr, "<span class='warning'>You are not authorised to use this console.</span>")
+				return FALSE
+			if(!modifying)
+				return FALSE
+			var/newOccupation = stripped_input(usr, "Enter a new assigned job for this ID.", "[src]", null)
+			if(!newOccupation)
+				return FALSE
+			modifying.assignment = newOccupation
+			modifying.update_label()
+
+
+/obj/machinery/computer/secondary_ship_id_console/proc/eject()
+	if(!modifying)
+		return FALSE
+	playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, 0)
+	modifying.forceMove(get_turf(src))
+	modifying = null
+
+/obj/machinery/computer/secondary_ship_id_console/syndicate
+	name = "Syndicate Navy ID console"
+	target_accesses = list("General Syndicate Access" = ACCESS_SYNDICATE, "Syndicate Engineering" = ACCESS_SYNDICATE_ENGINEERING, "Syndicate Captain" = ACCESS_SYNDICATE_LEADER, "Syndicate Armoury" = ACCESS_SYNDICATE_MARINE_ARMOURY, "Syndicate Requisitions" = ACCESS_SYNDICATE_REQUISITIONS)
+	req_one_access = list(ACCESS_SYNDICATE_LEADER) //Syndicate captain does the XO's job.
+	theme = "syndicate"
+	circuit = /obj/item/circuitboard/computer/card/secondary_ship_id_console/syndicate
+
+/obj/machinery/computer/security/syndicate
+	name = "Syndicate Camera Console"
+	network = list("syndicate") //I hate all of you
+	circuit = /obj/item/circuitboard/computer/security/syndicate

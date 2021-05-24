@@ -11,8 +11,6 @@
   usage_flags = PROGRAM_ALL
   size = 4
   tgui_id = "NtosHailLogs"
-  ui_x = 550
-  ui_y = 650
   var/obj/var/obj/structure/overmap/ship //Our ship
 
 /datum/computer_file/program/ship_hail_logger/run_program(mob/living/user)
@@ -21,7 +19,7 @@
 
 /datum/computer_file/program/ship_hail_logger/process_tick()
 	..()
-  
+
 /datum/computer_file/program/ship_hail_logger/proc/prep_missions()
   var/list/results = list()
   if(!ship)

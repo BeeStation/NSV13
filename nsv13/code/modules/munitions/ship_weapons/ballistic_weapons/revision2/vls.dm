@@ -48,15 +48,6 @@
 	circuit = /obj/item/circuitboard/machine/vls
 	var/obj/structure/fluff/vls_hatch/hatch = null
 
-/obj/item/circuitboard/machine/vls
-	name = "M14 VLS Tube (Circuitboard)"
-	build_path = /obj/machinery/ship_weapon/vls
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 20,
-		/obj/item/stack/sheet/mineral/copper = 20,
-		/obj/item/stack/sheet/iron = 30,
-		/obj/item/stack/cable_coil = 10)
-
 /obj/machinery/ship_weapon/vls/Crossed(atom/movable/AM, oldloc)
 	. = ..()
 	if(istype(AM, ammo_type))
@@ -159,11 +150,6 @@
 	var/list/target_painted = list()
 	var/list/ams_modes = list()
 
-/obj/structure/overmap/Initialize()
-	. = ..()
-	for(var/atype in subtypesof(/datum/ams_mode))
-		ams_modes.Add(new atype)
-
 /datum/ams_mode
 	var/name = "Example"
 	var/desc = "Nothing"
@@ -248,15 +234,11 @@
 	data["categories"] = categories
 	return data
 
-/obj/machinery/computer/ams/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.always_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ams/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "AMS", "AMS Access", 500, 500, master_ui, state)
+		ui = new(user, src, "AMS")
 		ui.open()
-
-/obj/item/circuitboard/computer/ams
-	name = "AMS control console (computer)"
-	build_path = /obj/machinery/computer/ams
 
 /datum/ams_mode/countermeasures/acquire_targets(obj/structure/overmap/OM)
 	var/list/targets = list()

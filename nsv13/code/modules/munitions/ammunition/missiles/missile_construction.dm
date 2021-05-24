@@ -214,6 +214,7 @@
 			to_chat(user, "<span class='notice'>You start sealing the casing on [src]...</span>")
 			if(tool.use_tool(src, user, 40, amount=1, volume=100))
 				to_chat(user, "<span class='notice'You seal the casing on [src].</span>")
+				state = 11
 				check_completion()
 			return TRUE
 	. = ..()

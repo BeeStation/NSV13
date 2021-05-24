@@ -12,19 +12,6 @@
 	. = ..()
 	current_filters = valid_filters.Copy()
 
-/obj/item/circuitboard/computer/ship/fighter_controller
-	name = "circuit board (fighter control computer)"
-	build_path = /obj/machinery/computer/ship/fighter_controller
-
-/datum/design/board/fighter_controller
-	name = "Computer Design (Fighter Control Console)"
-	desc = "Allows for the construction of a fighter control console."
-	id = "fighter_computer_circuit"
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
-	build_path = /obj/item/circuitboard/computer/ship/fighter_controller
-	category = list("Computer Boards")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
-
 /obj/machinery/computer/ship/fighter_controller/emag_act(mob/user)
 	if(obj_flags & EMAGGED)
 		return
@@ -102,8 +89,8 @@
 					log_game("\<span class='notice'>[key_name(ui.user)] forcefully [(OM.weapon_safety) ? "Enabled" : "Disabled"] [OM]'s weapon safeties from a [name] in [get_area(src)]!</span>")
 					break
 
-/obj/machinery/computer/ship/fighter_controller/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ship/fighter_controller/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "FighterController", name, 560, 600, master_ui, state)
+		ui = new(user, src, "FighterController")
 		ui.open()
