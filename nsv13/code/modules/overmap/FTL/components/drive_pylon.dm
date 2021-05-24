@@ -114,7 +114,7 @@
 			update_parents()
 
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/try_enable()
-	if(pylon_state = PYLON_STATE_SHUTDOWN)
+	if(pylon_state == PYLON_STATE_SHUTDOWN)
 		return FALSE
 	pylon_state = PYLON_STATE_STARTUP
 	return ..()
