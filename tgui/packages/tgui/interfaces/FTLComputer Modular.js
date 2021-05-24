@@ -15,19 +15,19 @@ export const FTLComputer_M = (props, context) => {
         <Section>
           <Section title="Pylons:">
             {Object.keys(data.pylons).map(key => {
-            let value = data.pylons[key];
-            return (
-              <Fragment key={key}>
-                <Section title={`Pylon ${value.number}`}>
-                  <Button
-                    fluid
-                    content="Toggle Power"
-                    icon={value.enabled ? "sqaure-o" : "power-off"}
-                    color={value.shutdown ? "average" : value.enabled ? "good" : "bad"}
-                    disabled={value.shutdown}
-                    onClick={() => act('pylon_power', {id: value.id})} />
-                </Section>
-              </Fragment>);
+              let value = data.pylons[key];
+              return (
+                <Fragment key={key}>
+                  <Section title={`Pylon ${value.number}`}>
+                    <Button
+                      fluid
+                      content="Toggle Power"
+                      icon={value.enabled ? "sqaure-o" : "power-off"}
+                      color={value.shutdown ? "average" : value.enabled ? "good" : "bad"}
+                      disabled={value.shutdown}
+                      onClick={() => act('pylon_power', { id: value.id })} />
+                  </Section>
+                </Fragment>);
             })}
             <Button
               content="Find Pylons"
