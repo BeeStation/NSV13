@@ -11,10 +11,12 @@
 	req_access = list(ACCESS_ENGINE_EQUIP)
 	var/jumping = FALSE // are we already jumping?
 	var/tier = 1 // increased tiers increase jump range
+	var/faction = "nanotrasen"
+	var/screen = 1
 	var/link_id = "default"
 	var/list/pylons = list() //connected pylons
-	var/enabled = FALSE // Whether or not we should be charging
-	var/charge = 0 // charge progress, 0-req_charge
+	var/active = FALSE // Whether or not we should be charging
+	var/progress = 0 // charge progress, 0-req_charge
 	var/req_charge = 100
 	var/cooldown = 0 // cooldown in process ticks
 	var/charge_rate = 0.5 // how much charge is given per pylon
@@ -22,6 +24,10 @@
 	var/radio_key = /obj/item/encryptionkey/headset_eng
 	var/radio_channel = "Engineering"
 	var/max_range = 30000
+	var/jump_speed_factor = 3.5 //How quickly do we jump? Larger is faster.
+	var/list/tracking = list()
+	var/ftl_startup_time = 30 SECONDS // How long does it take to iniate the jump
+	var/auto_spool = FALSE
 	var/engaged = FALSE //Are we fully ready?
 
 /obj/machinery/computer/ship/ftl_core/Initialize()
@@ -47,14 +53,14 @@
 	return TRUE
 
 
-/obj/machinery/computer/ship/ftl_core/proc/begin_charge()
+/obj/machinery/computer/ship/ftl_core/proc/spoolup()
 	if(!is_operational() || !anchored)
 		visible_message("<span class='warning'>FTL core damaged or without power, startup procedure cancelled.</span>")
 		return
 	if(cooldown)
 		visible_message("<span class='warning'>FTL core temperature beyond safety limits, please wait for cooldown cycle to complete.</span>")
 		return
-	if(charge)
+	if(progress)
 		visible_message("<span class='warning'>FTL maifold is already active.</span>")
 		return
 	if(!check_pylons())
@@ -62,7 +68,7 @@
 		return
 
 	visible_message("<span class='info'>Core fuel cycle starting.</span>")
-	enabled = TRUE
+	active = TRUE
 	playsound(src, 'nsv13/sound/effects/computer/hum3.ogg', 100, 1)
 	playsound(src, 'nsv13/sound/voice/ftl_spoolup.wav', 100, FALSE)
 	radio.talk_into(src, "FTL spoolup initiated.", radio_channel)
@@ -70,7 +76,7 @@
 	use_power = 500
 
 /obj/machinery/computer/ship/ftl_core/process()
-	if(!enabled || !is_operational() || !anchored)
+	if(!active || !is_operational() || !anchored)
 		depower()
 		return
 	if(jumping)
@@ -78,13 +84,13 @@
 	var/active_charge = FALSE
 	for(var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P in pylons)
 		if(P.pylon_state == PYLON_STATE_ACTIVE)
-			charge = min(charge + charge_rate, req_charge)
+			progress = min(progress + charge_rate, req_charge)
 			active_charge = TRUE
-	if(!active_charge && charge > 0)
-		charge--
-		if(charge < req_charge && engaged)
+	if(!active_charge && progress > 0)
+		progress--
+		if(progress < req_charge && engaged)
 			cancel_ftl()
-	if(!engaged && charge >= req_charge)
+	if(!engaged && progress >= req_charge)
 		ready_ftl()
 
 //No please do not delete the FTL's radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
@@ -234,10 +240,10 @@ A way for syndies to track where the player ship is going in advance, so they ca
 			get_pylons()
 
 		if("toggle_power")
-			if(enabled)
+			if(active)
 				depower()
 			else
-				begin_charge()
+				spoolup()
 		if("show_tracking")
 			screen = 2
 		if("go_back")
@@ -253,8 +259,8 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_core/ui_data(mob/user)
 	var/list/data = list()
-	data["powered"] = enabled
-	data["progress"] = charge
+	data["powered"] = active
+	data["progress"] = progress
 	data["goal"] = req_charge
 	data["ready"] = engaged
 	data["mode"] = screen
@@ -268,7 +274,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		var/list/pylon_info = list()
 		pylon_info["number"] = count
 		pylon_info["id"] = "\ref[P]"
-		pylon_info["enabled"] = P.pylon_state != PYLON_STATE_OFFLINE
+		pylon_info["active"] = P.pylon_state != PYLON_STATE_OFFLINE
 		pylon_info["shutdown"] = P.pylon_state == PYLON_STATE_SHUTDOWN
 		pylons_info += pylon_info // there's a plural I promise
 	data["pylons"] = pylons_info
@@ -313,7 +319,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	return //Override computer updates
 
 /obj/machinery/computer/ship/ftl_core/proc/depower()
-	if(charge >= 0)
+	if(progress >= 0)
 		jumping = FALSE
 		var/list/timers = active_timers
 		active_timers = null
@@ -322,14 +328,16 @@ A way for syndies to track where the player ship is going in advance, so they ca
 			if(timer.spent)
 				continue
 			qdel(timer)
-		enabled = FALSE
+		active = FALSE
 		engaged = FALSE
 		icon_state = "core_idle"
-		charge = 0
+		progress = 0
 		use_power = 50
 		if(auto_spool)
 			active = TRUE
 			spoolup()
 			START_PROCESSING(SSmachines, src)
+			return TRUE
+		STOP_PROCESSING(SSmachines, src)
 		return TRUE
 	return FALSE

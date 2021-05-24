@@ -24,7 +24,8 @@
 	var/shielded = FALSE
 	var/mutable_appearance/pylon_shield
 	var/active_time = 0 // how many ticks have we been fully active for
-	var/internal_temp = 20 // celsius
+	var/internal_heat = 20 // celsius
+	var/datum/gas_mixture/air_contents
 	var/pylon_state = PYLON_STATE_OFFLINE
 	var/capacitor = 0 // capacitors charged
 	var/mol_per_capacitor = 10
@@ -35,6 +36,8 @@
 	. = ..()
 	pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open")
 	add_overlay(pylon_shield)
+	air_contents = new(3000)
+	air_contents.set_temperature(T20C)
 
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/process()
 	if(!on)
@@ -116,7 +119,7 @@
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/try_enable()
 	if(pylon_state == PYLON_STATE_SHUTDOWN)
 		return FALSE
-	pylon_state = PYLON_STATE_STARTUP
+	pylon_state = PYLON_STATE_STARTING
 	return ..()
 
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1)
@@ -175,6 +178,10 @@
 
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/Destroy()
 	QDEL_NULL(pylon_shield)
+	var/turf/T = get_turf(src)
+	if(T)
+		T.assume_air(air_contents)
+	QDEL_NULL(air_contents)
 	return ..()
 
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/update_icon()

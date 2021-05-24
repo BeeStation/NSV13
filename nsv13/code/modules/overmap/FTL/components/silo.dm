@@ -7,7 +7,6 @@
 	icon = 'nsv13/icons/obj/machinery/FTL_silo.dmi'
 	icon_state = "silo"
 	max_integrity = 600
-	var/obj/structure/cable/C
 	var/datum/gas_mixture/air_contents
 	var/max_pressure = 30 * ONE_ATMOSPHERE
 	var/outputting = FALSE
@@ -23,8 +22,7 @@
 
 /obj/machinery/atmospherics/components/binary/ftl/silo/New()
 	..()
-	var/datum/gas_mixture/air_contents = New(volume)
-	air_contents.volume = volume
+	air_contents = new(volume)
 	air_contents.set_temperature(T20C)
 	update_parents()
 
@@ -36,15 +34,15 @@
 	return ..()
 
 /obj/machinery/atmospherics/components/binary/ftl/silo/proc/transmute_fuel()
-	if(!C)
+	if(!cable)
 		return FALSE
 	var/datum/gas_mixture/air1 = airs[1] // nucleium
 
 	var/input_fuel = min(air1.get_moles(/datum/gas/nucleium), conversion_limit)
-	var/grid_power = min(C.surplus(), current_power_draw)
+	var/grid_power = min(cable.surplus(), current_power_draw)
 	if(input_fuel < 0.1 || grid_power < min_power_draw)
 		return FALSE
-	air_contents.adjust_moles(/datum/gas/frameshifted_plasma, input_fuel * (conversion_ratio * get_efficiency(grid_power))
+	air_contents.adjust_moles(/datum/gas/frameshifted_plasma, input_fuel * (conversion_ratio * get_efficiency(grid_power)))
 	air_contents.set_temperature(air_contents.temperature_share(air1))
 	air1.adjust_moles(/datum/gas/nucleium, -input_fuel)
 	return TRUE
@@ -91,7 +89,7 @@
 	if(!on || !is_operational())
 		return
 	if(target_conversion)
-		transmutate_fuel()
+		transmute_fuel()
 	if(outputting)
 		var/datum/gas_mixture/OP = airs[2]
 		var/o_pressure = OP.return_pressure() // output pressure
