@@ -863,6 +863,32 @@
 			obj_integrity = max_integrity
 			break
 
+/obj/machinery/syndicatebomb/self_destruct/pdsr
+	name = "NT-7624 'scorched earth' localised self-destruct terminal"
+	desc = "A terminal which contains a powerful explosive device capable of destroying all evidence in a room around it. In times of dire need, do not forget your duty."
+	icon = 'nsv13/icons/obj/machines/nuke_terminal.dmi'
+	icon_state = "syndicate-bomb"
+	anchored = TRUE
+	can_be_unanchored = FALSE
+	density = TRUE
+	can_unanchor = FALSE
+	//Only the CE can make this call...
+	req_one_access = list(ACCESS_CE)
+
+/obj/machinery/syndicatebomb/self_destruct/pdsr/interact(mob/user)
+	wires.interact(user)
+	//Anti Jeff mechanism
+	if(!allowed(user))
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		visible_message("<span class='warning'>[icon2html(src, viewers(src.loc))] ACCESS DENIED.</span>")
+		return FALSE
+	if(!open_panel)
+		if(!active)
+			settings(user)
+		else if(anchored)
+			to_chat(user, "<span class='warning'>The bomb is bolted to the floor!</span>")
+
 #undef REACTOR_STATE_IDLE
 #undef REACTOR_STATE_INITIALIZING
 #undef REACTOR_STATE_RUNNING

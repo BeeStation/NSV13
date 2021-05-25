@@ -742,3 +742,9 @@
 /area/engine/engineering/ftl_room
 	name = "FTL Drive Core"
 	icon_state = "ftl_room"
+
+/area/maintenance/nsv/bunker
+	name = "Nuclear Bunker"
+	icon_state = "bunker"
+	ambient_effects = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/ship_damage/creak1.ogg','nsv13/sound/ambience/ship_damage/creak2.ogg','nsv13/sound/ambience/ship_damage/creak3.ogg','nsv13/sound/ambience/ship_damage/creak4.ogg','nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg','nsv13/sound/ambience/ship_damage/creak7.ogg')
+	light_color = "#e69602"

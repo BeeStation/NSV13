@@ -282,3 +282,56 @@
 	DELAY 30
 	SAY END OF RECORDING. PLEASE INSERT NEXT FLOPPY DISK.
 "}
+
+/obj/item/disk/holodisk/pdsr
+	name = "Project 'Zelbinion' Operational Notes (CLASSIFIED)"
+	desc = "A holodisk plastered with 'classified' labels, the name has been somewhat redacted."
+	preset_image_type = /datum/preset_holoimage/engineer
+	preset_record_text = {"
+	NAME Almayer Gervais
+	DELAY 10
+	SAY This holotape and its contents are classified under ARD-level C8 clearance.
+	DELAY 20
+	SAY Before continuing, ensure that this room is sealed. No officers except the flag officer of Engineering should be present.
+	DELAY 20
+	SAY You have 15 seconds to comply.
+	DELAY 150
+	SAY Project Zelbinion is a defensive screen reactor. It works by projecting hardened particles around the ship.
+	DELAY 50
+	SAY The reactor runs off of Nucleium, a byproduct of plasma enriched nuclear fission.
+	DELAY 50
+	SAY Once activated, the reactor must be run constantly until termination. The particle stream cannot be interrupted, or you risk an emission.
+	DELAY 50
+	SAY Project Zelbinion is equipped with automated shutdown measures which should prevent causality failure, however your ship will NOT be unscathed.
+	DELAY 50
+	SAY The reactor runs off of two consoles. Use them in tandem to control the reaction.
+	DELAY 50
+	SAY The first stat you have control over is input power. Ensure you do not exceed the stated maximum power, or be below the minimum. This will lead to emission.
+	DELAY 50
+	SAY As you raise your input power, you also raise the ability for the PDSR to project particles around the ship, leading to a stronger particle screen.
+	DELAY 50
+	SAY The next reaction variable you can control is Nucleium injection rate. A higher rate, like power, leads to a more powerful shield.
+	DELAY 50
+	SAY Nucleium injection can be spiked for a quick combat boost, but be warned that this will destabilise the reactor.
+	DELAY 50
+	SAY The shield variables themselves can be controlled separately. Use them to your advantage.
+	DELAY 50
+	SAY The reactor's stability is affected by the reaction polarity. Flip the injection polarity from negative to positive as needed to keep the polarity as close to 0 as possible.
+	DELAY 50
+	SAY If you need to shut down the reactor, lower the nucleium injection rate slowly. You can cycle coolant in an emergency for a quick cooling boost.
+	DELAY 50
+	SAY The reaction can be terminated when the reactor core is under 100 Celsius. Ensure cooling is adequate to achieve this.
+	DELAY 50
+	SAY Finally. If your minimum input power ever starts to converge on the maximum, you are heading towards an emission. Rectify this immediately, or shut down the reactor safely.
+	DELAY 50
+	SAY In the event that the Iowa is lost, the Chief Engineer is authorised to destroy the PDSR using the included evidence removal terminal.
+	DELAY 50
+	SAY Do your duty. This tape should be destroyed after use. Shield technology does not exist. Glory to Nanotrasen.
+	NAME Burst Data
+	LANGUAGE /datum/language/eal
+	DELAY 20
+	SAY START METADATA
+	SAY RECORDED 5-25-0000
+	SAY SECURITY CLASS: ARD-C8 CLASSIFIED
+	SAY END METADATA
+"}
