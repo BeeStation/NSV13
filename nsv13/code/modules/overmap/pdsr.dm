@@ -63,6 +63,8 @@
 	var/records_length = 120
 	var/records_interval = 10
 	var/records_next_interval = 0
+	//Debug.
+	var/last_delta_coolant = 0
 
 //////General Procs///////
 
@@ -175,17 +177,18 @@
 				handle_polarity(TRUE)
 
 		if(reaction_rate > 5) //TEMP USE FUNCTIONS
-			reaction_energy_output = reaction_rate * (2 - (current_uptime / 10000)) //FUNCTIONS
+			reaction_energy_output = (reaction_rate + reaction_injection_rate) * (2 - (current_uptime / 10000)) //FUNCTIONS
 			radiation_pulse(src, reaction_energy_output)
 
 		else
 			reaction_energy_output = 0
 
 		if(coolant_input.total_moles() >= (reaction_rate * 3))
-			var/delta_coolant = ((coolant_input.return_temperature() - 273.15) / 100) * 0.5 //whole sale stolen for now
+			var/delta_coolant = (KELVIN_TO_CELSIUS(coolant_input.return_temperature()) / 40)  //no longer whole sale stolen :)
 			reaction_temperature += delta_coolant
+			last_delta_coolant = delta_coolant
 			coolant_output.merge(coolant_input)
-			coolant_output.set_temperature(reaction_temperature + 273.15)
+			coolant_output.set_temperature(CELSIUS_TO_KELVIN(reaction_temperature))
 			coolant_input.clear()
 
 			if(flushing_coolant)

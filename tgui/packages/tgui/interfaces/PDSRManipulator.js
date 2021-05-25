@@ -117,7 +117,7 @@ export const PDSRManipulator = (props, context) => {
             </Flex>
           </Section>
           <Section title="Screen Manipulation">
-            Screen Strength: {data.s_hardening}
+            Screen Strength: {data.s_integrity}
             <br />
             Screen Integrity:
             <ProgressBar

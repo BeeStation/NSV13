@@ -738,3 +738,7 @@
 /area/engine/engineering/reactor_control
 	name = "Reactor Control Room"
 	icon_state = "reactor_control"
+
+/area/engine/engineering/ftl_room
+	name = "FTL Drive Core"
+	icon_state = "ftl_room"
