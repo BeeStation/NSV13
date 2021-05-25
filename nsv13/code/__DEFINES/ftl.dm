@@ -1,9 +1,9 @@
 // Drive pylon states
 #define PYLON_STATE_OFFLINE 0
-#define PYLON_STATE_STARTING 1
-#define PYLON_STATE_WARMUP 2
-#define PYLON_STATE_SPOOLING 3
-#define PYLON_STATE_SHUTDOWN 4
+#define PYLON_STATE_SHUTDOWN 1
+#define PYLON_STATE_STARTING 2
+#define PYLON_STATE_WARMUP 3
+#define PYLON_STATE_SPOOLING 4
 #define PYLON_STATE_ACTIVE 5
 
 // FTL Drive Computer States. (Legacy only)

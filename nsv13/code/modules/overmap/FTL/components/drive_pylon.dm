@@ -42,6 +42,9 @@
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/process()
 	if(!on)
 		return
+	if(!power_drain() && pylon_state > PYLON_STATE_SHUTDOWN)
+		set_state(PYLON_STATE_SHUTDOWN)
+		return
 	if(pylon_state != PYLON_STATE_ACTIVE && capacitor >= req_capacitor)
 		set_state(PYLON_STATE_ACTIVE)
 	switch(pylon_state)
@@ -62,7 +65,7 @@
 
 			if(ftl_fuel < 0.01)
 				set_state(PYLON_STATE_STARTING)
-				continue
+				return
 
 			air1.adjust_moles(/datum/gas/frameshifted_plasma, -0.01)
 			if(prob(20))
@@ -83,7 +86,7 @@
 					capacitor -= min((1 / rand(2, 5)), capacitor)
 				else
 					set_state(PYLON_STATE_STARTING)
-				continue
+				return
 			min_power_draw = 50000 // 50KW
 			consume_fuel()
 			if(gyro_speed < 25)
@@ -98,9 +101,6 @@
 			gyro_speed--
 			if(gyro_speed <= 0)
 				finalalize_shutdown()
-
-	if(!power_drain())
-		set_state(PYLON_STATE_SHUTDOWN)
 
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/process_atmos()
 	var/i_pressure = air_contents.return_pressure()

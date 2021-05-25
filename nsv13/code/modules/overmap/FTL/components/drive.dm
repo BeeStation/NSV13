@@ -3,8 +3,8 @@
 	desc = "A highly advanced system capable of using exotic energy to bend space around it, exotic energy must be supplied by drive pylons"
 	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
 	icon_state = "core_idle"
-	bound_height = 64
-	bound_width = 64
+	bound_height = 128
+	bound_width = 128
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	icon_screen = null
 	icon_keyboard = null
