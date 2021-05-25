@@ -59,14 +59,60 @@
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS
 
-//Torp parts
+//Parts that fit Torps and Missiles
+
+/datum/design/guidance_system
+	name = "Guided Munition Guidance System"
+	desc = "The stock standard guidance system design for guided munitions"
+	id = "guidance_system"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 1000, /datum/material/glass = 2500, /datum/material/gold = 3000, /datum/material/copper = 2500)
+	build_path = /obj/item/ship_weapon/parts/missile/guidance_system
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/propulsion_system
+	name = "Guided Munition Propulsion System"
+	desc = "The stock standard propulsion system design for guided munitions"
+	id = "propulsion_system"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 5000, /datum/material/titanium = 2500, /datum/material/plasma = 2500)
+	build_path = /obj/item/ship_weapon/parts/missile/propulsion_system
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/iff_card
+	name = "Guided Munition IFF Card"
+	desc = "The stock standard IFF card design for guided munitions"
+	id = "iff_card"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/glass = 20000, /datum/material/copper = 5000, /datum/material/gold = 5000)
+	build_path = /obj/item/ship_weapon/parts/missile/iff_card
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+//Missile Parts
+
+/datum/design/missile_warhead
+	name = "Standard Missile Warhead"
+	desc = "The stock standard warhead design for missiles"
+	id = "missile_warhead"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/copper = 2500)
+	build_path = /obj/item/ship_weapon/parts/missile/warhead
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS	
+
+
+//Torp Parts
+
 /datum/design/warhead
 	name = "Torpedo Warhead"
 	desc = "The stock standard warhead design for torpedos"
 	id = "warhead"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
-	build_path = /obj/item/ship_weapon/parts/missile/warhead
+	build_path = /obj/item/ship_weapon/parts/missile/warhead/torpedo
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
@@ -87,16 +133,6 @@
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/copper = 2500)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead/decoy
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
-
-/datum/design/missile_warhead
-	name = "Standard Missile Warhead"
-	desc = "A decoy warhead design for torpedos"
-	id = "missile_warhead"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/copper = 2500)
-	build_path = /obj/item/ship_weapon/parts/missile/warhead
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
@@ -129,36 +165,6 @@
 	build_path = /obj/item/ship_weapon/parts/missile/warhead/probe
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
-
-/datum/design/guidance_system
-	name = "Torpedo Guidance System"
-	desc = "The stock standard guidance system design for torpedos"
-	id = "guidance_system"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 1000, /datum/material/glass = 2500, /datum/material/gold = 3000, /datum/material/copper = 2500)
-	build_path = /obj/item/ship_weapon/parts/missile/guidance_system
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
-
-/datum/design/propulsion_system
-	name = "Torpedo Propulsion System"
-	desc = "The stock standard propulsion system design for torpedos"
-	id = "propulsion_system"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000, /datum/material/glass = 5000, /datum/material/titanium = 2500, /datum/material/plasma = 2500)
-	build_path = /obj/item/ship_weapon/parts/missile/propulsion_system
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
-
-/datum/design/iff_card
-	name = "Torpedo IFF Card"
-	desc = "The stock standard IFF card design for torpedos"
-	id = "iff_card"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/glass = 20000, /datum/material/copper = 5000, /datum/material/gold = 5000)
-	build_path = /obj/item/ship_weapon/parts/missile/iff_card
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 //Naval Cannons
 /datum/design/naval_shell
