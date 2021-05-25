@@ -1,5 +1,5 @@
 /obj/machinery/computer/ship/ftl_core
-	name = "\improper FTL framewarp core"
+	name = "\improper FTL frameshift core"
 	desc = "A highly advanced system capable of using exotic energy to bend space around it, exotic energy must be supplied by drive pylons"
 	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
 	icon_state = "core_idle"
@@ -9,7 +9,6 @@
 	icon_screen = null
 	icon_keyboard = null
 	req_access = list(ACCESS_ENGINE_EQUIP)
-	var/jumping = FALSE // are we already jumping?
 	var/tier = 1 // increased tiers increase jump range
 	var/faction = "nanotrasen"
 	var/screen = 1
@@ -17,6 +16,7 @@
 	var/list/pylons = list() //connected pylons
 	var/active = FALSE // Whether or not we should be charging
 	var/progress = 0 // charge progress, 0-req_charge
+	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/req_charge = 100
 	var/cooldown = 0 // cooldown in process ticks
 	var/charge_rate = 0.5 // how much charge is given per pylon
@@ -27,8 +27,12 @@
 	var/jump_speed_factor = 3.5 //How quickly do we jump? Larger is faster.
 	var/list/tracking = list()
 	var/ftl_startup_time = 30 SECONDS // How long does it take to iniate the jump
+	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
+	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long.ogg'
+	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
 	var/auto_spool = FALSE
-	var/engaged = FALSE //Are we fully ready?
+
+	var/ftl_state = FTL_STATE_IDLE
 
 /obj/machinery/computer/ship/ftl_core/Initialize()
 	. = ..()
@@ -79,7 +83,7 @@
 	if(!active || !is_operational() || !anchored)
 		depower()
 		return
-	if(jumping)
+	if(ftl_state == FTL_STATE_JUMPING)
 		return
 	var/active_charge = FALSE
 	for(var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P in pylons)
@@ -88,9 +92,9 @@
 			active_charge = TRUE
 	if(!active_charge && progress > 0)
 		progress--
-		if(progress < req_charge && engaged)
+		if(progress < req_charge && ftl_state == FTL_STATE_READY)
 			cancel_ftl()
-	if(!engaged && progress >= req_charge)
+	if(ftl_state != FTL_STATE_READY && progress >= req_charge)
 		ready_ftl()
 
 //No please do not delete the FTL's radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
@@ -249,7 +253,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		if("go_back")
 			screen = 1
 		if("jump")
-			if(!engaged)
+			if(ftl_state != FTL_STATE_READY)
 				visible_message("<span class='warning'>Unable to comply. Insufficient fuel. 'Blind' FTL jumps are prohibited by the system administrative policy.</span>")
 				return
 			for(var/datum/star_system/S in SSstar_system.systems)
@@ -259,12 +263,12 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_core/ui_data(mob/user)
 	var/list/data = list()
-	data["powered"] = active
+	data["powered"] = ftl_state != FTL_STATE_IDLE
 	data["progress"] = progress
 	data["goal"] = req_charge
-	data["ready"] = engaged
+	data["ready"] = ftl_state == FTL_STATE_READY
 	data["mode"] = screen
-	data["jumping"] = jumping
+	data["jumping"] = ftl_state == FTL_STATE_JUMPING
 	data["systems"] = list()
 
 	var/list/pylons_info = list()
@@ -293,7 +297,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	return data
 
 /obj/machinery/computer/ship/ftl_core/proc/jump(datum/star_system/target_system)
-	jumping = TRUE
+	ftl_state = FTL_STATE_JUMPING
 	if(!target_system)
 		radio.talk_into(src, "ERROR. Specified star_system no longer exists.", radio_channel)
 		return
@@ -308,10 +312,10 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	playsound(src, 'nsv13/sound/voice/ftl_ready.wav', 100, FALSE)
 	radio.talk_into(src, "FTL fuel cycle complete. Ready to commence FTL translation.", radio_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
-	engaged = TRUE
+	ftl_state = FTL_STATE_READY
 
 /obj/machinery/computer/ship/ftl_core/proc/cancel_ftl()
-	engaged = FALSE
+	ftl_state = FTL_STATE_SPOOLING
 	playsound(src, 'nsv13/sound/voice/ftl_cancelled.wav', 100, FALSE)
 	radio.talk_into(src, "FTL translation cancelled.", radio_channel)
 
@@ -320,7 +324,6 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_core/proc/depower()
 	if(progress >= 0)
-		jumping = FALSE
 		var/list/timers = active_timers
 		active_timers = null
 		for(var/thing in timers)
@@ -329,7 +332,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 				continue
 			qdel(timer)
 		active = FALSE
-		engaged = FALSE
+		ftl_state = FTL_STATE_IDLE
 		icon_state = "core_idle"
 		progress = 0
 		use_power = 50

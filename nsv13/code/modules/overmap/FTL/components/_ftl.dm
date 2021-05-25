@@ -30,11 +30,11 @@
 		return TRUE
 	var/turf/T = get_turf(src)
 	cable = T.get_cable_node()
-	if(!C)
+	if(!cable)
 		return FALSE
 	current_power_draw = max(targ_power_draw, min_power_draw)
-	if(current_power_draw > C.surplus())
+	if(current_power_draw > cable.surplus())
 		visible_message("<span class='warning'>\The [src] lets out [power_warning_sound] as it's power light flickers.</span>")
 		return FALSE
-	C.add_load(current_power_draw)
+	cable.add_load(current_power_draw)
 	return TRUE

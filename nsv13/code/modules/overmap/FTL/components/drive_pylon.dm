@@ -149,8 +149,7 @@
 	air1.adjust_moles(/datum/gas/frameshifted_plasma, -input_fuel)
 	var/datum/gas_mixture/output = airs[2]
 	if(output.return_pressure() < MAX_WASTE_PRESSURE)
-		var/turf/T = get_turf(src)
-		output = T.air_contents
+		output = air_contents
 	output.adjust_moles(/datum/gas/plasma, input_fuel / 3)
 	output.adjust_moles(/datum/gas/nucleium, input_fuel / 10)
 	output.set_temperature(CELSIUS_TO_KELVIN(internal_heat))

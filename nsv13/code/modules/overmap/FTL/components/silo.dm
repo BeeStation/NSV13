@@ -13,8 +13,6 @@
 	var/volume = 1000
 	var/conversion_limit = 10 // max amount of moles that can be converted (input) per tick
 	var/conversion_ratio = 0.5 // base input/output ratio. Effected by power efficiency
-	var/min_power_draw = 0
-	var/current_power_draw = 0
 	var/target_power_draw = 0
 	var/target_conversion = 0 // 0-100, refining capacity percentage
 	var/pressure_integrity = 4

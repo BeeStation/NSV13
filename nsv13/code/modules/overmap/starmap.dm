@@ -74,10 +74,17 @@
 	var/datum/star_system/current_system = info["current_system"]
 	SSstar_system.update_pos(linked)
 	if(linked.ftl_drive)
-		data["ftl_progress"] = linked.ftl_drive.progress
-		if(linked.ftl_drive.ftl_state == FTL_STATE_READY)
-			data["ftl_progress"] = linked.ftl_drive.spoolup_time
-		data["ftl_goal"] = linked.ftl_drive.spoolup_time //TODO
+		if(istype(linked.ftl_drive))
+			data["ftl_progress"] = linked.ftl_drive.progress
+			if(linked.ftl_drive.ftl_state == FTL_STATE_READY)
+				data["ftl_progress"] =linked.ftl_drive.ftl_startup_time
+			data["ftl_goal"] = linked.ftl_drive.req_charge
+		else // yes this is so bad I know but I don't want to rework a legacy system that is probably EoL, so this'll do for now
+			var/obj/machinery/computer/ship/ftl_computer/bodge = linked.ftl_drive
+			data["ftl_progress"] = bodge.progress
+			if(bodge.ftl_state == FTL_STATE_READY)
+				data["ftl_progress"] = bodge.spoolup_time
+			data["ftl_goal"] = bodge.spoolup_time
 	data["travelling"] = FALSE
 	if(screen == 0) // ship information
 		var/datum/star_system/target_system = info["target_system"]
