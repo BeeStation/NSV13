@@ -465,7 +465,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		if(target_mag)
 			//Dump that old mag
 			H.put_in_inactive_hand(target_mag)
-			B?.magazine.forceMove(get_turf(H))
+			B?.magazine?.forceMove(get_turf(H))
 			B.attackby(target_mag, H)
 			B.attack_self(H) //Rack the bolt.
 		else
@@ -729,3 +729,22 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		if(!C.internal && istype(C.back, /obj/item/tank))
 			C.internal = C.back
 
+/datum/ai_goal/human/stop_drop_n_roll
+	name = "Stop drop & roll"
+	score = AI_SCORE_CRITICAL //The lads need to be able to breathe.
+	required_trait = null
+
+/datum/ai_goal/human/stop_drop_n_roll/check_score(datum/component/knpc/HA)
+	if(!..())
+		return 0
+	var/mob/living/carbon/human/H = HA.parent
+	//We need to breathe....
+	if(H.fire_stacks > 0)
+		return score
+	return 0
+
+/datum/ai_goal/human/stop_drop_n_roll/action(datum/component/knpc/HA)
+	var/mob/living/carbon/human/H = HA.parent
+	if(!can_action(HA))
+		return
+	H.resist() //Stop drop and roll!
