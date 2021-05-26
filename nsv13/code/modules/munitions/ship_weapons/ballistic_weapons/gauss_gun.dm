@@ -1,9 +1,3 @@
-#define STATE_NOTLOADED 1
-#define STATE_LOADED 2
-#define STATE_FED 3
-#define STATE_CHAMBERED 4
-#define STATE_FIRING 5
-
 /obj/machinery/ship_weapon/gauss_gun
 	name = "NT-BSG Gauss Turret"
 	desc = "A large ship to ship weapon designed to provide a constant barrage of fire over a long distance. It has a small cockpit for a gunner to control it manually."
