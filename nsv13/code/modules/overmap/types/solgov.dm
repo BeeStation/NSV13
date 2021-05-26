@@ -83,7 +83,7 @@
 
 //These little bastards are feckin horrible
 /obj/structure/overmap/nanotrasen/solgov/ai/fighter //need custom AI behaviour to escort bombers if applicable
-	name = "peregine class attack fighter"
+	name = "peregrine class attack fighter"
 	desc = "A formidable light fighter with a small shield generator and 'stinger' class laser weapons."
 	icon = 'nsv13/icons/overmap/new/solgov/fighter.dmi'
 	icon_state = "fighter"
