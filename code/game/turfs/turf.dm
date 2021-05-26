@@ -186,20 +186,35 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(!force && (!can_zFall(A, levels, target) || !A.can_zFall(src, levels, target, DOWN)))
 		return FALSE
 	A.zfalling = TRUE
+
 	var/atom/movable/pulled = null
-	var/mob/living/L = null
-	if(isliving(A))
+	var/atom/movable/buckled = null
+	var/mob/L = null
+	var/list/was_buckled = null
+	if(ismob(A))
 		L = A
 		pulled = L.pulling
+		buckled = L.buckled
+	was_buckled = A.buckled_mobs
 	if(!A.Move(target))
 		A.forceMove(target)
+
+	. = target.zImpact(A, levels, src)
 	A.zfalling = FALSE
-	target.zImpact(A, levels, src)
+
 	if(L && pulled)
-		pulled.forceMove(target)
-		target.zImpact(pulled, levels, force)
+		pulled.Move(src)
 		if(levels < 2)
 			L.start_pulling(pulled)
+	if(was_buckled && was_buckled.len)
+		for(var/mob/M in was_buckled)
+			if(levels < 2)
+				M.forceMove(src)
+				A.buckle_mob(M, TRUE, TRUE, 90, 1, 0)
+	if(L && buckled)
+		buckled.forceMove(src)
+		if(levels < 2)
+			buckled.buckle_mob(L, TRUE, FALSE)
 	return TRUE
 
 /turf/attackby(obj/item/C, mob/user, params)

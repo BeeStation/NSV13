@@ -38,7 +38,6 @@
 	autogrant_actions_controller = list()
 	occupant_actions = list()
 	generate_actions()
-	RegisterSignal(src, COMSIG_MOVABLE_Z_CHANGED, .proc/z_movement_failsafe)
 
 /obj/vehicle/examine(mob/user)
 	. = ..()
@@ -178,8 +177,3 @@
 	if(trailer && .)
 		var/dir_to_move = get_dir(trailer.loc, newloc)
 		step(trailer, dir_to_move)
-
-/obj/vehicle/proc/z_movement_failsafe(old_z, new_z)
-	for(var/atom/movable/m in occupants)
-		if(m?.z != z)
-			m.forceMove(loc)

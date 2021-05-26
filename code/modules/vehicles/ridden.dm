@@ -102,9 +102,3 @@
 		for(var/mob/M in occupants)
 			unbuckle_mob(M)
 			M.onZImpact(newloc, levels)
-
-/obj/vehicle/ridden/z_movement_failsafe(old_z, new_z)
-	var/list/oldoccupants = occupants
-	..()
-	for(var/mob/M in oldoccupants)
-		buckle_mob(M)
