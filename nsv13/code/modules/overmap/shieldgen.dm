@@ -403,3 +403,51 @@
 			active = !active;
 	return;
 }
+
+/**
+Component that allows AI ships to model shields. Will continuously recharge over time.
+*/
+/datum/component/overmap_shields
+	var/list/shield = list(
+		"integrity"=0,
+		"max_integrity"=100
+	)
+	//How good are these shields anyway?
+	var/max_integrity = 500
+	var/recharge_rate = 20
+	var/active = TRUE //This is really for adminbuse, or if we ever add EMP damage....
+
+/datum/component/overmap_shields/New(datum/P, start_integrity=0, max_integrity=100, recharge_rate=20)
+	. = ..()
+	if(!isovermap(parent))
+		return COMPONENT_INCOMPATIBLE
+	var/obj/structure/overmap/OM = parent
+	//That ship's already got shields simulated. Nope.
+	if(OM.shields && !QDELETED(OM.shields))
+		return COMPONENT_INCOMPATIBLE
+	//Alright! Link up. We'll now protect that ship.
+	OM.shields = src
+	set_stats(start_integrity, max_integrity)
+	START_PROCESSING(SSdcs, src)
+
+/datum/component/overmap_shields/process()
+	shield["integrity"] += recharge_rate
+	if(shield["integrity"] > max_integrity)
+		shield["integrity"] = max_integrity
+
+/datum/component/overmap_shields/proc/set_stats(integrity=0, max_integrity=100, recharge_rate=20)
+	src.max_integrity = max_integrity
+	src.recharge_rate = recharge_rate
+	shield["integrity"] = integrity
+	shield["max_integrity"] = max_integrity
+
+/datum/component/overmap_shields/proc/absorb_hit(damage){
+	if(!active){
+		return FALSE; //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
+	}
+	if(shield["integrity"] >= damage){
+		shield["integrity"] -= damage;
+		return TRUE;
+	}
+	return FALSE;
+}
