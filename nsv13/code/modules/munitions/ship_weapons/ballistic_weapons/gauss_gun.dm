@@ -688,9 +688,3 @@ Chair + rack handling
 	data["pdc_mode"] = pdc_mode
 	data["canReload"] = ammo_rack && (ammo_rack.contents?.len >= 2)
 	return data
-
-#undef STATE_NOTLOADED
-#undef STATE_LOADED
-#undef STATE_FED
-#undef STATE_CHAMBERED
-#undef STATE_FIRING
