@@ -71,10 +71,32 @@
 /obj/effect/temp_visual/flak
 	icon = 'nsv13/goonstation/icons/effects/explosions/80x80.dmi'
 	icon_state = "explosion"
-	duration = 2 SECONDS
-	pixel_x = -32
-	pixel_y = -32
+	duration = 2.5 SECONDS
+	bound_height = 96
+	bound_width = 96
+	alpha = 10
+	var/faction = null
 	var/flak_range = 2 //AOE where flak hits torpedoes. May need to buff this a bit.
+
+/obj/effect/temp_visual/flak/Initialize(mapload, faction)
+	. = ..()
+	if(prob(50))
+		icon = 'nsv13/goonstation/icons/effects/explosions/96x96.dmi'
+	src.faction = faction
+	animate(src, alpha = 255, time = rand(0, 2 SECONDS))
+
+/obj/effect/temp_visual/flak/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
+	. = ..()
+	if(!isprojectile(AM) && !istype(AM, /obj/structure/overmap))
+		return
+	//Distance from the "center" of the flak effect.
+	var/severity = 1/get_dist(locs[1], AM)
+	var/obj/item/projectile/P = AM
+	if(P.faction != faction) //Stops flak from FFing
+		if(istype(AM, /obj/item/projectile/guided_munition))
+			P.take_damage(severity*50, BRUTE, "overmap_light")
+		if(isovermap(AM))
+			P.take_damage(severity*20, BRUTE, "overmap_light")
 
 /obj/item/projectile/bullet
 	obj_integrity = 500 //Flak doesn't shoot this down....
@@ -106,27 +128,10 @@
 				faction = OM.faction
 	alpha = 0 //We can keep going, who cares.
 	exploded = TRUE
-	spawn(0)
-		var/turf/cached = get_turf(src)
-		for(var/I = 0, I < rand(2,5), I++)
-			var/edir = pick(GLOB.alldirs)
-			new /obj/effect/temp_visual/flak(get_turf(get_step(cached, edir)), faction, src)
-			sleep(rand(0, 2))
-
-/obj/effect/temp_visual/flak/Initialize(mapload, faction, obj/item/projectile/bullet/flak/F)
-	//We do a little randomization...
-	if(prob(50))
-		icon = 'nsv13/goonstation/icons/effects/explosions/96x96.dmi'
-	for(var/obj/X in view(flak_range, src))
-		//yoinked the parent's faction check...
-		if(!F.check_faction(X))
-			continue
-		var/severity = flak_range-get_dist(X, src)
-		if(isprojectile(X))
-			X.take_damage(severity*10, BRUTE, "overmap_light")
-		else
-			X.take_damage(severity*2, BRUTE, "overmap_light")
-	. = ..()
+	var/turf/cached = get_turf(src)
+	for(var/I = 0, I < rand(2,5), I++)
+		var/edir = pick(GLOB.alldirs)
+		new /obj/effect/temp_visual/flak(get_turf(get_step(cached, edir)), faction)
 
 /obj/item/projectile/bullet/flak/on_hit(atom/target, blocked = 0)
 	explode()
