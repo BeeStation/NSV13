@@ -216,7 +216,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(ui)
 		return
-	ui = new(user, src, "FTLComputer_M")
+	ui = new(user, src, "FTLComputerModular")
 	ui.open()
 
 /obj/machinery/computer/ship/ftl_core/ui_act(action, params, datum/tgui/ui)
