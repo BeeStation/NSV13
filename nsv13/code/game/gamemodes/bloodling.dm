@@ -6,8 +6,8 @@
 	false_report_weight = 10
 	restricted_jobs = list("AI", "Cyborg")
 	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Brig Physician")
-	required_players = 0//15
-	required_enemies = 1//2 //Requires at LEAST 1 to play the master. Anything over 1 means how many thralls it should start with.
+	required_players = 20
+	required_enemies = 2 //Requires at LEAST 1 to play the master. Anything over 1 means how many thralls it should start with.
 	recommended_enemies = 2
 	reroll_friendly = 1
 

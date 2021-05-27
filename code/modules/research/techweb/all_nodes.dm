@@ -37,12 +37,13 @@
 	design_ids = list("mecha_tracking", "mechacontrol", "mechapower", "mech_recharger", "ripley_chassis", "firefighter_chassis", "ripley_torso", "ripley_left_arm", "ripley_right_arm", "ripley_left_leg", "ripley_right_leg",
 	"ripley_main", "ripley_peri", "ripleyupgrade", "mech_hydraulic_clamp")
 
+//Has NSV-related change
 /datum/techweb_node/mech_tools
 	id = "mech_tools"
 	starting_node = TRUE
 	display_name = "Basic Exosuit Equipment"
 	description = "Various tools fit for basic mech units"
-	design_ids = list("mech_drill", "mech_mscanner", "mech_extinguisher")
+	design_ids = list("mech_drill", "mech_mscanner", "mech_extinguisher", "mech_foam_extinguisher")
 
 /datum/techweb_node/basic_tools
 	id = "basic_tools"
