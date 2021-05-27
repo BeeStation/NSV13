@@ -302,8 +302,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			cabin_air = new
 			cabin_air.set_temperature(T20C)
 			cabin_air.set_volume(200)
-			cabin_air.set_moles(/datum/gas/oxygen, O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
-			cabin_air.set_moles(/datum/gas/nitrogen, N2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
+			//101 kPa =
+			// PV=nRT
+			// PV/RT = n
+			cabin_air.set_moles(/datum/gas/oxygen, O2STANDARD*cabin_air.return_volume()*ONE_ATMOSPHERE/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
+			cabin_air.set_moles(/datum/gas/nitrogen, N2STANDARD*cabin_air.return_volume()*ONE_ATMOSPHERE/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 			move_by_mouse = TRUE //You'll want this. Trust.
 			inertial_dampeners = FALSE
 
