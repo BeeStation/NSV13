@@ -4,7 +4,7 @@
 	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
 	icon_state = "core_idle"
 	bound_height = 128
-	bound_width = 128
+	bound_width = 160
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	icon_screen = null
 	icon_keyboard = null
