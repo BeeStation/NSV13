@@ -188,7 +188,7 @@
 	desc = "A massively powerful device which is able to project energy shields around ships. This technology is highly experimental and requires a huge amount of power."
 	icon = 'nsv13/icons/obj/machinery/shieldgen.dmi'
 	icon_state = "shieldgen"
-	idle_power_usage = IDLE_POWER_USE //This will change to match the requirements for projecting a shield.
+	idle_power_usage = IDLE_POWER_USE; //This will change to match the requirements for projecting a shield.
 	pixel_x = -32
 	bound_height = 128
 	bound_width = 96
@@ -200,14 +200,18 @@
 	var/regenPriority = 50
 	var/maxHealthPriority = 50 //50/50 split
 	var/max_power_input = 1.5e+7 //15 MW theoretical maximum. This much power means your shield is going to be insanely good.
-	var/active = FALSE //Are we projecting out our shields? This lets you offline the shields for a recharge period so that they become useful again.
+	var/active = FALSE; //Are we projecting out our shields? This lets you offline the shields for a recharge period so that they become useful again.
+	var/obj/structure/cable/cable = null //Connected cable
+
 
 /obj/machinery/shield_generator/proc/absorb_hit(damage)
 	if(!active)
 		return FALSE //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
+
 	if(shield["integrity"] >= damage)
 		shield["integrity"] -= damage
 		return TRUE
+
 	return FALSE
 
 
@@ -262,16 +266,10 @@
 
 /obj/machinery/shield_generator/proc/try_use_power(amount) // Although the machine may physically be powered, it may not have enough power to sustain a shield.
 	var/turf/T = get_turf(src)
-	var/obj/structure/cable/C = T.get_cable_node()
-	if(C)
-		if(!C.powernet)
-			return FALSE
-		var/power_in_net = C.powernet.avail-C.powernet.load
-
-		if(power_in_net && power_in_net > amount)
-			C.powernet.load += amount
-			return TRUE
-		return FALSE
+	cable = T.get_cable_node()
+	if(cable?.surplus() > amount)
+		cable.powernet.load += amount
+		return TRUE
 	return FALSE
 
 //Every tick, the shield generator updates its stats based on the amount of power it's being allowed to chug.
@@ -318,11 +316,11 @@
 	data["active"] = active
 	data["available_power"] = 0
 	var/turf/T = get_turf(src)
-	var/obj/structure/cable/C = T.get_cable_node()
-	if(C)
-		if(C.powernet)
-			data["available_power"] = C.powernet.avail-C.powernet.load
+	cable = T.get_cable_node()
+	if(cable?.powernet)
+		data["available_power"] = cable.surplus()
 	return data
+
 
 /obj/effect/temp_visual/overmap_shield_hit
 	name = "Shield hit"
