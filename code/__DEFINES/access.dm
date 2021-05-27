@@ -71,6 +71,7 @@
 #define ACCESS_MINING_ENGINEERING 74
 #define ACCESS_MINING_BRIDGE 75
 #define ACCESS_SEC_RECORDS 77 //! Update security records //NSV13 - changed from 69
+#define ACCESS_PRISONER 78 //! Nsv13 - Genpop. This access is added to prisoner IDs that have served their time.
 
 /// Room and launching.
 #define ACCESS_AUX_BASE 76 //NSV13 - changed from 72 to 76 to deconflict

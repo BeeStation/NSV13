@@ -81,6 +81,8 @@ SUBSYSTEM_DEF(tgui)
 			window_found = TRUE
 			break
 	if(!window_found)
+		if(issilicon(user))
+			to_chat(user, "<span class='warning'>Warning: Processor limit reached. Close some windows before opening more.</span>") //NSV13 - tell silicons when they've got too many windows
 		log_tgui(user, "Error: Pool exhausted")
 		return null
 	return window

@@ -69,7 +69,6 @@
 			update_icon()
 			return TRUE
 	to_chat(user, "<span class='notice'>Nothing happens...</span>")
-	return
 
 /obj/item/vehicle_hardpoint/update_icon()
 	owner.update_icon()
@@ -79,7 +78,6 @@
 /obj/item/vehicle_hardpoint/proc/on_insertion(obj/vehicle/sealed/car/realistic/target)
 	owner = target //For whatever reason, if you need to reference the car.
 	forceMove(owner)
-	return
 
 /obj/item/vehicle_hardpoint/proc/on_removal(obj/vehicle/sealed/car/realistic/target)
 	for(var/atom/movable/X in contents)
@@ -183,10 +181,10 @@
 	return GLOB.contained_state
 
 /obj/vehicle/sealed/car/realistic/ui_interact(mob/user, datum/tgui/ui)
-  ui = SStgui.try_update_ui(user, src, ui)
-  if(!ui)
-    ui = new(user, src, "CarHardpoints")
-    ui.open()
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "CarHardpoints")
+		ui.open()
 
 /obj/vehicle/sealed/car/realistic/ui_data(mob/user)
 	var/list/data = list()

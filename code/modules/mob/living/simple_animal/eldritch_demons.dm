@@ -157,6 +157,7 @@
 			current = new type(drop_location(),FALSE)
 			current.icon_state = "armsy_mid"
 			current.icon_living = "armsy_mid"
+			current.icon = icon
 			current.front = src
 			current.toggle_ai(AI_OFF)
 			back = current
@@ -165,11 +166,13 @@
 			prev.back = current
 			prev.icon_state = "armsy_mid"
 			prev.icon_living = "armsy_mid"
+			prev.icon = icon
 			prev.front = next
 			prev.toggle_ai(AI_OFF)
 		else
 			prev.icon_state = "armsy_end"
 			prev.icon_living = "armsy_end"
+			prev.icon = icon
 			prev.front = next
 			prev.toggle_ai(AI_OFF)
 		next = prev
@@ -239,7 +242,7 @@
 
 
 /mob/living/simple_animal/hostile/eldritch/armsy/Shoot(atom/targeted_atom)
-	target = targeted_atom
+	GiveTarget(targeted_atom)
 	AttackingTarget()
 
 
@@ -251,7 +254,7 @@
 	if(target == back || target == front)
 		return
 	if(back)
-		back.target = target
+		back.GiveTarget(target)
 		back.AttackingTarget()
 	if(!Adjacent(target))
 		return
