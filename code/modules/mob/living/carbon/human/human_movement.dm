@@ -76,3 +76,9 @@
 	if(dna.species.space_move(src))
 		return TRUE
 	return ..()
+
+/mob/living/carbon/human/forceMove(atom/destination)
+	var/riding_hand = is_holding_item_of_type(/obj/item/riding_offhand)
+	if(riding_hand)
+		dropItemToGround(riding_hand)
+	return ..()
