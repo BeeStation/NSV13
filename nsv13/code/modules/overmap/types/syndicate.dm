@@ -375,6 +375,41 @@
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
+/obj/structure/overmap/syndicate/ai/kadesh	//I sure wonder what this one does....
+	name = "Kadesh Class Advanced Cruiser"
+	desc = "A experimental Syndicate cruiser able to generate energy bursts powerful enough to disrupt certain equipment relying on precise calculations of local parameters."
+	obj_integrity = 2250	//Pretty thick hull due to it being a priority target
+	max_integrity = 2250
+	integrity_failure = 2250
+	//Just fill these in once you get the icon
+	//!icon = TEMP
+	//!icon_state = TEMP
+	//!sprite size = TEMP
+	//!bound_height = TEMP
+	//!bound_width = TEMP
+	armor = list("overmap_light" = 75, "overmap_heavy" = 10)	//Armor plating with intent to dissuade fighter harassment, alot of high tech vulnerable to heavier ordnance though
+	ai_trait = list(AI_TRAIT_BATTLESHIP, AI_TRAIT_DESTROYER)
+	max_tracking_range = 80	//Big sensors, they gotta be useful
+	flak_battery_amount = 2
+	mass = MASS_LARGE
+	missiles = 15
+	combat_dice_type = /datum/combat_dice/cruiser
+
+/obj/structure/overmap/syndicate/ai/kadesh/Initialize()
+	. = ..()
+	AddComponent(/datum/component/interdiction)
+
+/obj/structure/overmap/syndicate/ai/kadesh/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_TORPEDO] = null
+	weapon_types[FIRE_MODE_RAILGUN] = null
+	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
+
+/obj/structure/overmap/syndicate/ai/kadesh/on_interdict()
+	add_sensor_profile_penalty(150, 10 SECONDS)
+
 /obj/structure/overmap/syndicate/ai/fighter //need custom AI behaviour to escort bombers if applicable
 	name = "Syndicate interceptor"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/fighter_overmap.dmi'
