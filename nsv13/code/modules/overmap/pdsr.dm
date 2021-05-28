@@ -57,14 +57,13 @@
 	var/last_hit = 0 //Last time our !shield was hit
 	var/active = FALSE //If projecting !shields or not
 	var/connected_relays = 0 //Number of relays we have connected
+	var/adjust_tracker = 0 //Used to track fiddling with settings
 
 	//TGUI Vars
 	var/list/records = list()
 	var/records_length = 120
 	var/records_interval = 10
 	var/records_next_interval = 0
-	//Debug.
-	var/last_delta_coolant = 0
 
 //////General Procs///////
 
@@ -177,7 +176,7 @@
 				handle_polarity(TRUE)
 
 		if(reaction_rate > 5) //TEMP USE FUNCTIONS
-			reaction_energy_output = (reaction_rate + reaction_injection_rate) * (2 - (current_uptime / 10000)) //FUNCTIONS
+			reaction_energy_output = (reaction_rate + (reaction_injection_rate / 2)) * (2 - (current_uptime / 10000)) //FUNCTIONS
 			radiation_pulse(src, reaction_energy_output)
 
 		else
@@ -186,7 +185,6 @@
 		if(coolant_input.total_moles() >= (reaction_rate * 3))
 			var/delta_coolant = (KELVIN_TO_CELSIUS(coolant_input.return_temperature()) / 40)  //no longer whole sale stolen :)
 			reaction_temperature += delta_coolant
-			last_delta_coolant = delta_coolant
 			coolant_output.merge(coolant_input)
 			coolant_output.set_temperature(CELSIUS_TO_KELVIN(reaction_temperature))
 			coolant_input.clear()
@@ -197,7 +195,7 @@
 					reaction_temperature -= 15 //300C total
 					current_uptime += 5 //This is costly, you really don't want to attempt to manage your temperature this way
 
-				else if(world.time >= (last_coolant_time + 60 SECONDS))
+				else if(world.time >= (last_coolant_time + 120 SECONDS))
 					flushing_coolant = FALSE //Reset our cooldown here
 
 			if(reaction_temperature <= 0)
@@ -458,22 +456,24 @@
 			shield["stability"] -= rand((damage / 50), (damage / 25)) //Reduce !shield stability
 
 		last_hit = current_hit //Set our last hit
-		if(shield["stability"] <= 0)
-			shield["stability"] = 0
-			active = FALSE //Collapse !shield
-			var/sound = 'nsv13/sound/effects/ship/ship_hit_shields_down.ogg'
-			var/obj/structure/overmap/OM = get_overmap()
-			OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_SHIP_FX)
-			current_uptime += 5
-			var/list/overload_candidate = list()
-			for(var/obj/machinery/defence_screen_relay/DSR in GLOB.machines)
-				if(DSR.powered() && DSR.overloaded == FALSE)
-					overload_candidate += DSR
-					if(overload_candidate.len > 0)
-						var/obj/machinery/defence_screen_relay/DSRC = pick(overload_candidate)
-						DSRC.overload()
-
+		check_stability()
 		return TRUE
+
+/obj/machinery/atmospherics/components/trinary/defence_screen_reactor/proc/check_stability()
+	if(shield["stability"] <= 0)
+		shield["stability"] = 0
+		active = FALSE //Collapse !shield
+		var/sound = 'nsv13/sound/effects/ship/ship_hit_shields_down.ogg'
+		var/obj/structure/overmap/OM = get_overmap()
+		OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_SHIP_FX)
+		current_uptime += 5
+		var/list/overload_candidate = list()
+		for(var/obj/machinery/defence_screen_relay/DSR in GLOB.machines)
+			if(DSR.powered() && DSR.overloaded == FALSE)
+				overload_candidate += DSR
+				if(overload_candidate.len > 0)
+					var/obj/machinery/defence_screen_relay/DSRC = pick(overload_candidate)
+					DSRC.overload()
 
 /obj/machinery/atmospherics/components/trinary/defence_screen_reactor/proc/handle_screens()
 	if(!active)
@@ -613,7 +613,7 @@
 
 		if("cooling")
 			if(reactor.state == REACTOR_STATE_RUNNING)
-				if(world.time > (reactor.last_coolant_time + 60 SECONDS))
+				if(world.time > (reactor.last_coolant_time + 120 SECONDS))
 					reactor.say("Initiating Coolant Flush")
 					reactor.flushing_coolant = TRUE
 					reactor.last_coolant_time = world.time
@@ -743,9 +743,23 @@
 			reactor.screen_regen = adjust
 			reactor.screen_hardening = 100 - reactor.screen_regen
 
+			if(reactor.state == REACTOR_STATE_RUNNING && reactor.active)
+				if(world.time >= (reactor.adjust_tracker + 1 SECONDS))
+					reactor.shield["stability"] -= rand(3, 5)
+					reactor.check_stability()
+
+			reactor.adjust_tracker = world.time //Prevent spamming the effect when sliding the bars around
+
 		if("hardening")
 			reactor.screen_hardening = adjust
 			reactor.screen_regen = 100 - reactor.screen_hardening
+
+			if(reactor.state == REACTOR_STATE_RUNNING && reactor.active)
+				if(world.time >= (reactor.adjust_tracker + 1 SECONDS))
+					reactor.shield["stability"] -= rand(3, 5)
+					reactor.check_stability()
+
+			reactor.adjust_tracker = world.time
 
 		if("power_allocation")
 			reactor.power_input = adjust
@@ -754,6 +768,13 @@
 
 			if(reactor.power_input < 0)
 				reactor.power_input = 0
+
+			if(reactor.state == REACTOR_STATE_RUNNING && reactor.active)
+				if(world.time >= (reactor.adjust_tracker + 1 SECONDS))
+					reactor.shield["stability"] -= rand(3, 5)
+					reactor.check_stability()
+
+			reactor.adjust_tracker = world.time
 
 /obj/machinery/computer/ship/defence_screen_mainframe_shield/ui_data(mob/user)
 	var/list/data = list()
