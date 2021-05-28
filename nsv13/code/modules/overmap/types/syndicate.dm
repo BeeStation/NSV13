@@ -377,7 +377,7 @@
 
 /obj/structure/overmap/syndicate/ai/kadesh	//I sure wonder what this one does....
 	name = "Kadesh Class Advanced Cruiser"
-	desc = "A experimental Syndicate cruiser able to generate energy bursts powerful enough to disrupt certain equipment relying on precise calculations of local parameters."
+	desc = "A experimental Syndicate cruiser capable of projecting energy bursts powerful enough to disrupt drive systems."
 	obj_integrity = 2250	//Pretty thick hull due to it being a priority target
 	max_integrity = 2250
 	integrity_failure = 2250
@@ -389,7 +389,7 @@
 	//!bound_width = TEMP
 	armor = list("overmap_light" = 75, "overmap_heavy" = 10)	//Armor plating with intent to dissuade fighter harassment, alot of high tech vulnerable to heavier ordnance though
 	ai_trait = list(AI_TRAIT_BATTLESHIP, AI_TRAIT_DESTROYER)
-	max_tracking_range = 80	//Big sensors, they gotta be useful
+	max_tracking_range = 70	//Big sensors, they gotta be useful
 	flak_battery_amount = 2
 	mass = MASS_LARGE
 	missiles = 15
