@@ -234,12 +234,6 @@
 		for(var/atom/A in (newlocs - locs))
 			if(!A.Enter(src, bothturfs ? locate(A.x-dx,A.y-dy,A.z+dz) : loc))
 				return
-	else
-		if(!loc.Exit(src, newloc))
-			return
-
-		if(!newloc.Enter(src, src.loc))
-			return
 	//nsv13 end
 	if(!loc.Exit(src, newloc))
 		return
