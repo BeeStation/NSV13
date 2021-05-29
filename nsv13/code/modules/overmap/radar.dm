@@ -23,7 +23,8 @@
 	var/showEnemies= 100
 	var/showAsteroids = 100 //add planets to this eventually.
 	var/showAnomalies = 100
-	var/sensor_range = SENSOR_RANGE_DEFAULT //In tiles. How far your sensors can pick up precise info about ships.
+	var/sensor_range = 0 //Automatically set to equal base sensor range on init.
+	var/base_sensor_range = SENSOR_RANGE_DEFAULT //In tiles. How far your sensors can pick up precise info about ships.
 	var/zoom_factor = 0.5 //Lets you zoom in / out on the DRADIS for more precision, or for better info.
 	var/next_hail = 0
 	var/hail_range = 50 //Decent distance.
@@ -90,8 +91,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	if(!can_sonar_pulse())
 		return FALSE
 	OM?.send_sonar_pulse()
-	var/stored = sensor_range
-	addtimer(VARSET_CALLBACK(src, sensor_range, stored), SONAR_VISIBILITY_PENALTY)
+	addtimer(VARSET_CALLBACK(src, sensor_range, base_sensor_range), SONAR_VISIBILITY_PENALTY)
 	sensor_range = world.maxx
 	OM?.add_sensor_profile_penalty(sensor_range, SONAR_VISIBILITY_PENALTY)
 
@@ -133,7 +133,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	name = "Integrated dradis console"
 	use_power = 0
 	start_with_sound = FALSE
-	sensor_range = SENSOR_RANGE_FIGHTER
+	base_sensor_range = SENSOR_RANGE_FIGHTER
 	hail_range = 30
 
 /obj/machinery/computer/ship/dradis/internal/has_overmap()
@@ -162,6 +162,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/Initialize()
 	. = ..()
+	sensor_range = base_sensor_range
 
 /obj/machinery/computer/ship/dradis/attack_hand(mob/user)
 	. = ..()
