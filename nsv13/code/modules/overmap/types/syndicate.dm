@@ -376,7 +376,7 @@
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/kadesh	//I sure wonder what this one does....
-	name = "Kadesh Class Advanced Cruiser"
+	name = "Kadesh class advanced cruiser"
 	desc = "A experimental Syndicate cruiser capable of projecting energy bursts powerful enough to disrupt drive systems."
 	obj_integrity = 2250	//Pretty thick hull due to it being a priority target
 	max_integrity = 2250

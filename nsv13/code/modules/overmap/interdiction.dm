@@ -1,5 +1,5 @@
 /*
-This component, when added to a overmap object (e.g. asteroid or ship) will allow said object to prevent anything of a different faction from jumping out of its own system.area
+This component, when added to a overmap object (e.g. asteroid or ship) will allow said object to prevent anything of a different faction from jumping out of its own system.
 Welcome to the gardens of kadesh. You shall never leave.
 */
 
