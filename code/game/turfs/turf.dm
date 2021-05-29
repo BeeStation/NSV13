@@ -185,38 +185,21 @@ GLOBAL_LIST_EMPTY(station_turfs)
 		return FALSE
 	if(!force && (!can_zFall(A, levels, target) || !A.can_zFall(src, levels, target, DOWN)))
 		return FALSE
-	A.zfalling = TRUE
+	message_admins("[A] trying to zFall")
+	if(!A.zfalling)
+		A.zfalling = TRUE
+		A.movement_type |= UNSTOPPABLE
+		if(A.buckled_mobs)
+			for(var/mob/M in A.buckled_mobs)
+				M.movement_type |= UNSTOPPABLE
+		A.Move(target)
+		. = target.zImpact(A, levels, src)
 
-	var/atom/movable/mypulled = null
-	var/atom/movable/mybuckled = null
-	var/mob/L = null
-	var/list/was_buckled = null
-	if(ismob(A))
-		L = A
-		mypulled = L.pulling
-		mybuckled = L.buckled
-	was_buckled = A.buckled_mobs
-	if(!A.Move(target))
-		A.forceMove(target)
-
-	. = target.zImpact(A, levels, src)
-	A.zfalling = FALSE
-
-	if(L && mypulled)
-		mypulled.Move(src)
-		if(levels < 2)
-			L.start_pulling(mypulled)
-	if(was_buckled && was_buckled.len)
-		for(var/mob/M in was_buckled)
-			if(levels < 2)
-				A.unbuckle_mob(M)
-				M.forceMove(src)
-				A.buckle_mob(M, TRUE, FALSE, 90, 1, 0)
-	if(L && mybuckled)
-		mybuckled.forceMove(src)
-		if(levels < 2)
-			buckled.buckle_mob(L, TRUE, FALSE)
-			mybuckled.buckle_mob(L, TRUE, FALSE)
+		A.movement_type &= ~UNSTOPPABLE
+		if(A.buckled_mobs)
+			for(var/mob/M in A.buckled_mobs)
+				M.movement_type &= ~UNSTOPPABLE
+		A.zfalling = FALSE
 	return TRUE
 
 /turf/attackby(obj/item/C, mob/user, params)
@@ -267,6 +250,8 @@ GLOBAL_LIST_EMPTY(station_turfs)
 				else
 					if(!firstbump || ((thing.layer > firstbump.layer || thing.flags_1 & ON_BORDER_1) && !(firstbump.flags_1 & ON_BORDER_1)))
 						firstbump = thing
+						if(mover.zfalling)
+							message_admins("[thing] blocks the way of [mover]!")
 	if(QDELETED(mover))					//Mover deleted from Cross/CanPass/Bump, do not proceed.
 		return FALSE
 	if(!canPassSelf)	//Even if mover is unstoppable they need to bump us.
