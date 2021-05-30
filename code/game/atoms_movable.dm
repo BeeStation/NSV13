@@ -642,6 +642,7 @@
 		var/mob/living/buckled_mob = m
 		if(!buckled_mob.Move(newloc, direct))
 			forceMove(buckled_mob.loc)
+			forceMove(buckled_mob.loc, break_pulls_and_buckles=FALSE)
 			last_move = buckled_mob.last_move
 			inertia_dir = last_move
 			buckled_mob.inertia_dir = last_move
