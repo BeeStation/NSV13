@@ -90,7 +90,9 @@
 	if(!isprojectile(AM) && !istype(AM, /obj/structure/overmap))
 		return
 	//Distance from the "center" of the flak effect.
-	var/severity = 1/get_dist(locs[1], AM)
+	var/dist = get_dist(locs[1], AM)
+	dist = CLAMP(dist, 1, dist)
+	var/severity = 1/dist
 	var/obj/item/projectile/P = AM
 	if(P.faction != faction) //Stops flak from FFing
 		if(istype(AM, /obj/item/projectile/guided_munition))

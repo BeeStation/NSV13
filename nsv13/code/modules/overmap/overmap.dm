@@ -302,7 +302,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			// PV/RT = n
 			cabin_air.set_moles(/datum/gas/oxygen, O2STANDARD*cabin_air.return_volume()*ONE_ATMOSPHERE/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 			cabin_air.set_moles(/datum/gas/nitrogen, N2STANDARD*cabin_air.return_volume()*ONE_ATMOSPHERE/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
-			bounce_factor = 0.2 //Stops dead in its tracks
+			bounce_factor = 1 //Stops dead in its tracks
+			lateral_bounce_factor = 1
 			move_by_mouse = TRUE //You'll want this. Trust.
 			inertial_dampeners = FALSE
 
@@ -312,24 +313,24 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			backward_maxthrust = 0.75
 			side_maxthrust = 0.75
 			max_angular_acceleration = 12
-			bounce_factor = 0.5
-			lateral_bounce_factor = 0.4
+			bounce_factor = 0.75
+			lateral_bounce_factor = 0.75
 		//Similar to small, but you'll notice a detriment to movement here. Movement is no longer equally balanced, you'll have to fight the controls more.
 		if(MASS_MEDIUM)
 			forward_maxthrust = 0.75
 			backward_maxthrust = 0.5
 			side_maxthrust = 0.45
 			max_angular_acceleration = 10
-			bounce_factor = 0.65 //Throw your weight around more, though!
-			lateral_bounce_factor = 0.5
+			bounce_factor = 0.55 //Throw your weight around more, though!
+			lateral_bounce_factor = 0.55
 
 		if(MASS_MEDIUM_LARGE)
 			forward_maxthrust = 0.65
 			backward_maxthrust = 0.45
 			side_maxthrust = 0.35
 			max_angular_acceleration = 7.5
-			bounce_factor = 0.65 //Throw your weight around more, though!
-			lateral_bounce_factor = 0.5
+			bounce_factor = 0.40 //Throw your weight around more, though!
+			lateral_bounce_factor = 0.40
 
 		//Weightey ships, much harder to steer, generally less responsive. You'll need to use boost tactically.
 		if(MASS_LARGE)
@@ -337,19 +338,19 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			backward_maxthrust = 0.3
 			side_maxthrust = 0.25
 			max_angular_acceleration = 5.5
-			bounce_factor = 0.75 //But you can plow through enemy ships with ease.
-			lateral_bounce_factor = 0.65
+			bounce_factor = 0.20 //But you can plow through enemy ships with ease.
+			lateral_bounce_factor = 0.20
 			//If we've not already got a special flak battery amount set.
 			if(flak_battery_amount <= 0)
 				flak_battery_amount = 1
 		//Supercapitals are EXTREMELY hard to move, you'll find that they fight your every command, it's a side-effect of their immense power.
 		if(MASS_TITAN)
-			forward_maxthrust = 0.25
+			forward_maxthrust = 0.35
 			backward_maxthrust = 0.10
 			side_maxthrust = 0.10
 			max_angular_acceleration = 2.75
-			bounce_factor = 0.95 // But nothing can really stop you in your tracks.
-			lateral_bounce_factor = 0.95
+			bounce_factor = 0.10// But nothing can really stop you in your tracks.
+			lateral_bounce_factor = 0.10
 			//If we've not already got a special flak battery amount set.
 			if(flak_battery_amount <= 0)
 				flak_battery_amount = 2

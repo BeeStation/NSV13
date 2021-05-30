@@ -251,7 +251,7 @@
 	name = "Inquisitior class assault cruiser"
 	desc = "A heavily armoured cruiser designed for close quarters engagement."
 	icon_state = "assault"
-	mass = MASS_LARGE
+	mass = MASS_MEDIUM_LARGE
 	sprite_size = 48
 	damage_states = FALSE
 	obj_integrity = 1200

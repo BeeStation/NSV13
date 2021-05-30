@@ -91,7 +91,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	required_tier = 3
 	bound_height = 128
 	bound_width = 128
-	mass = MASS_LARGE
+	mass = MASS_MEDIUM_LARGE
 
 /obj/structure/overmap/asteroid/Initialize()
 	. = ..()
