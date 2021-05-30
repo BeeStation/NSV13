@@ -101,20 +101,18 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy" //This really needs a dual armour flag and more tuning
 
 /obj/item/projectile/guided_munition
-	obj_integrity = 150
-	max_integrity = 150
-	armor = list("overmap_light" = 50, "overmap_heavy" = 0)
+	obj_integrity = 100
+	max_integrity = 100
+	armor = list("overmap_light" = 25, "overmap_heavy" = 0)
 
 /obj/item/projectile/guided_munition/torpedo
 	icon_state = "torpedo"
 	name = "plasma torpedo"
 	speed = 2.75
-	valid_angle = 200
+	valid_angle = 150
 	homing_turn_speed = 30
 	damage = 200
 	range = 250
-	obj_integrity = 200
-	max_integrity = 200
 	armor = list("overmap_light" = 60, "overmap_heavy" = 10)
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
