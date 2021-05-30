@@ -1249,13 +1249,12 @@
 		return LINGHIVE_LINK
 	return LINGHIVE_NONE
 
-/mob/living/forceMove(atom/destination, break_pulls_and_buckles=TRUE)
-	if(break_pulls_and_buckles)
-		stop_pulling()
-		if(buckled)
-			buckled.unbuckle_mob(src, force = TRUE)
-		if(has_buckled_mobs())
-			unbuckle_all_mobs(force = TRUE)
+/mob/living/forceMove(atom/destination)
+	stop_pulling()
+	if(buckled)
+		buckled.unbuckle_mob(src, force = TRUE)
+	if(has_buckled_mobs())
+		unbuckle_all_mobs(force = TRUE)
 	. = ..()
 	if(.)
 		if(client)
