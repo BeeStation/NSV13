@@ -185,7 +185,6 @@ GLOBAL_LIST_EMPTY(station_turfs)
 		return FALSE
 	if(!force && (!can_zFall(A, levels, target) || !A.can_zFall(src, levels, target, DOWN)))
 		return FALSE
-	message_admins("[A] trying to zFall")
 	if(!A.zfalling)
 		A.zfalling = TRUE
 		A.movement_type |= UNSTOPPABLE
