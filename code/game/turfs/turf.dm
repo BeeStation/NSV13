@@ -191,17 +191,9 @@ GLOBAL_LIST_EMPTY(station_turfs)
 			A.pulling.moving_from_pull = A
 			A.pulling.Move(oldloc)
 			A.pulling.moving_from_pull = null
-		A.movement_type |= UNSTOPPABLE
-		if(A.buckled_mobs)
-			for(var/mob/M in A.buckled_mobs)
-				M.movement_type |= UNSTOPPABLE
-		A.Move(target)
+		if(!A.Move(target))
+			A.doMove(target)
 		. = target.zImpact(A, levels, src)
-
-		A.movement_type &= ~UNSTOPPABLE
-		if(A.buckled_mobs)
-			for(var/mob/M in A.buckled_mobs)
-				M.movement_type &= ~UNSTOPPABLE
 		A.zfalling = FALSE
 	return TRUE
 
