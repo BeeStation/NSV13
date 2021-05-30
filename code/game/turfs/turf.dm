@@ -249,8 +249,6 @@ GLOBAL_LIST_EMPTY(station_turfs)
 				else
 					if(!firstbump || ((thing.layer > firstbump.layer || thing.flags_1 & ON_BORDER_1) && !(firstbump.flags_1 & ON_BORDER_1)))
 						firstbump = thing
-						if(mover.zfalling)
-							message_admins("[thing] blocks the way of [mover]!")
 	if(QDELETED(mover))					//Mover deleted from Cross/CanPass/Bump, do not proceed.
 		return FALSE
 	if(!canPassSelf)	//Even if mover is unstoppable they need to bump us.
