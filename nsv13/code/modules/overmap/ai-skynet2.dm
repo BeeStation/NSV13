@@ -399,20 +399,23 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(OM.faction == alignment)
 		OM.hail(pick(greetings), name)
 	assemble(current_system)
+	if(!audio_cues || !audio_cues.len)
+		return FALSE
+	var/list/result = get_internet_sound(pick(audio_cues))
 	if(OM.faction != alignment)
 		if(OM.alpha >= 150) //Sensor cloaks my boy, sensor cloaks
 			OM.hail(pick(taunts), name)
 			last_encounter_time = world.time
 			if(audio_cues?.len)
-				OM.play_music(pick(audio_cues))
-
+				OM.play_music(result)
 
 ///Pass in a youtube link, have it played ONLY on that overmap. This should be called by code or admins only.
-/obj/structure/overmap/proc/play_music(url)
+/obj/structure/overmap/proc/play_music(list/result, url)
 	set waitfor = FALSE //Don't hold up the jump
-	if(!istext(url))
-		return FALSE
-	var/list/result = get_internet_sound(url)
+	if(url) //In case admins ever feel like using this....
+		if(!istext(url))
+			return FALSE
+		result = get_internet_sound(url)
 	if(!result || !islist(result))
 		return
 	var/web_sound_url = result[1] //this is cringe but it works
