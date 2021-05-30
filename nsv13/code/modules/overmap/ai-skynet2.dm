@@ -399,14 +399,14 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(OM.faction == alignment)
 		OM.hail(pick(greetings), name)
 	assemble(current_system)
-	if(!audio_cues || !audio_cues.len)
-		return FALSE
-	var/list/result = get_internet_sound(pick(audio_cues))
+	var/list/result = null
+	if(audio_cues?.len)
+		result = get_internet_sound(pick(audio_cues))
 	if(OM.faction != alignment)
 		if(OM.alpha >= 150) //Sensor cloaks my boy, sensor cloaks
 			OM.hail(pick(taunts), name)
 			last_encounter_time = world.time
-			if(audio_cues?.len)
+			if(result)
 				OM.play_music(result)
 
 ///Pass in a youtube link, have it played ONLY on that overmap. This should be called by code or admins only.
