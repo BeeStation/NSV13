@@ -1407,8 +1407,6 @@
 		A.previous_assembly = previous_airlock
 		A.update_name()
 		A.update_icon()
-		//NSV13 - I'm lazy okay?
-		A.nsv_ify(src)
 
 		if(!disassembled)
 			if(A)

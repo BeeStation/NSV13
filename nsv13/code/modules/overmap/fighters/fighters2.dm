@@ -22,9 +22,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 	sprite_size = 32
 	damage_states = TRUE
 	faction = "nanotrasen"
-	max_integrity = 200 //Really really squishy!
-	forward_maxthrust = 5
-	backward_maxthrust = 5
+	max_integrity = 250 //Really really squishy!
+	forward_maxthrust = 3.5
+	backward_maxthrust = 3.5
 	side_maxthrust = 4
 	max_angular_acceleration = 180
 	torpedoes = 0
@@ -1009,7 +1009,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/fuel_tank
 	name = "Fighter Fuel Tank"
 	desc = "The fuel tank of a fighter, upgrading this lets your fighter hold more fuel."
-	icon_state = "fueltank_tier1"
+	icon_state = "fueltank"
 	var/fuel_capacity = 1000
 	slot = HARDPOINT_SLOT_FUEL
 
@@ -1020,14 +1020,12 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/fuel_tank/tier2
 	name = "Fighter Extended Fuel Tank"
 	desc = "A larger fuel tank which allows fighters to stay in combat for much longer"
-	icon_state = "fueltank_tier2"
 	fuel_capacity = 2500
 	tier = 2
 
 /obj/item/fighter_component/fuel_tank/tier3
 	name = "Massive Fighter Fuel Tank"
 	desc = "A super extended capacity fuel tank, allowing fighters to stay in a warzone for hours on end."
-	icon_state = "fueltank_tier3"
 	fuel_capacity = 4000
 	tier = 3
 
@@ -1492,9 +1490,9 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		F.relay_to_nearby(chosen)
 		if(proj_type == /obj/item/projectile/guided_munition/missile/dud) //Refactor this to something less trash sometime I guess
-			F.fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, explosive = TRUE)
+			F.fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, lateral = FALSE)
 		else
-			F.fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
+			F.fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, lateral = FALSE)
 	return TRUE
 
 //Utility modules.
@@ -1703,19 +1701,29 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		loadout.process()
 
 	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
-	if(!C || (C.obj_integrity <= 0)) //Leak air if the canopy is breached.
-		var/datum/gas_mixture/removed = cabin_air.remove(5)
-		qdel(removed)
+
+	// Leak air if the canopy is missing or broken
+	// and air is in the cabin
+	// and the fighter's environment isn't pressurized
+
+	if((!C || (C.obj_integrity <= 0)) && (cabin_air && (cabin_air?.total_moles() > 0)))
+		var/datum/gas_mixture/outside_air = loc?.return_air()
+		var/outside_pressure = outside_air ? outside_air.return_pressure() : 0
+		if(outside_pressure && (cabin_air.return_pressure() > outside_pressure))
+			var/datum/gas_mixture/removed = cabin_air.remove(min(cabin_air.total_moles(), 5))
+			qdel(removed)
 	update_icon()
 
 /obj/structure/overmap/fighter/return_air()
 	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
-	if(canopy_open || !C)
-		return loc.return_air()
-	return cabin_air
+	if(canopy_open || !C || (C.obj_integrity <= 0))
+		. = loc.return_air()
+	else
+		. = cabin_air
 
 /obj/structure/overmap/fighter/remove_air(amount)
-	return cabin_air?.remove(amount)
+	var/datum/gas_mixture/air
+	. = air?.remove(amount)
 
 /obj/structure/overmap/fighter/return_analyzable_air()
 	return cabin_air

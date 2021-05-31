@@ -13,9 +13,9 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	config_tag = "pvp"
 	report_type = "pvp"
 	false_report_weight = 10
-	required_players = 40//40 // 40 to make 20 v 20
-	required_enemies = 14//20
-	recommended_enemies = 20
+	required_players = 24 //40 // 40 to make 20 v 20
+	required_enemies = 12 //20
+	recommended_enemies = 15
 	antag_flag = ROLE_SYNDI_CREW
 	enemy_minimum_age = 0
 
@@ -39,7 +39,11 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	var/list/jobs = list()
 	var/overflow_role = CONQUEST_ROLE_GRUNT
 	var/time_limit = 2 HOURS + 30 MINUTES //How long do you want the mode to run for? This is capped to keep it from dragging on or OOMing
-	var/list/maps = list("babylonPVP.json") //Basic list of maps. Tell me (Kmc) to improve this if you decide you want to add more than 1 PVP map and i'll make it use JSON instead. ~Kmc 23/02/2021 I got called a lazy hack so I went and did this properly :(
+	var/list/maps = list(
+		list(path="hammurabiPVP.json", pop=list(0, 30)),
+		list(path="astraeusPVP.json", pop=list(31, 39)),
+		list(path="babylonPVP.json", pop=list(40, INFINITY))
+		) //Basic list of maps. Tell me (Kmc) to improve this if you decide you want to add more than 1 PVP map and i'll make it use JSON instead. ~Kmc 23/02/2021 I got called a lazy hack so I went and did this properly :(
 	var/obj/structure/overmap/syndiship = null
 	var/end_on_team_death = FALSE //Should the round end when the syndies die?
 
@@ -84,7 +88,16 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	var/n_agents = antag_candidates.len
 	if(!syndiship)
 		//syndiship = instance_overmap(_path=ship_type, folder= "map_files/Instanced/map_files" ,interior_map_files = map_file, midround=TRUE)
-		var/ship_file = file("_maps/map_files/Instanced/[pick(maps)]")
+		//Pick a map! any map... (based on pop)
+		var/list/possible = list()
+		for(var/list/data in maps)
+			var/list/pop = data["pop"] //Linters :vomit:
+			//Check the bounds of the map.
+			if(num_players() < pop[1] || num_players() > pop[2])
+				continue
+			possible += data["path"]
+
+		var/ship_file = file("_maps/map_files/Instanced/[pick(possible)]")
 		if(!isfile(ship_file)) //Why would this ever happen? Who knows, I sure don't.
 			message_admins("ERROR SETTING UP PVP: Invalid json file [ship_file]. Tell a coder to fix this.")
 			return

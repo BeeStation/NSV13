@@ -9,8 +9,8 @@
 	pixel_y = -63
 	bound_width = 64
 	bound_height = 128
-	semi_auto = FALSE
-	max_ammo = 2
+	semi_auto = TRUE
+	max_ammo = 1
 	obj_integrity = 500
 	max_integrity = 500
 	safety = FALSE
@@ -18,6 +18,12 @@
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
 	var/obj/machinery/deck_turret/core
 	var/id = null //N.B. This is NOT intended to allow them to manual link deck guns. This is for certain boarding maps and is thus a UNIQUE CONSTRAINT for this one case. ~KMC
+
+/obj/machinery/ship_weapon/deck_turret/lazyload()
+	. = ..()
+	//Ensure that the lazyloaded shells come pre-packed
+	for(var/obj/item/ship_weapon/ammunition/naval_artillery/shell in ammo)
+		shell.speed = 2
 
 /obj/machinery/ship_weapon/deck_turret/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -38,7 +44,7 @@
 /obj/machinery/ship_weapon/deck_turret/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/naval_artillery/T = chambered
 	if(T)
-		linked.fire_lateral_projectile(T.projectile_type, target,speed=T.speed)
+		linked.fire_projectile(T.projectile_type, target,speed=T.speed, homing=TRUE, lateral=weapon_type.lateral)
 
 /obj/machinery/ship_weapon/deck_turret/proc/rack_load(atom/movable/A)
 	if(ammo?.len < max_ammo && istype(A, ammo_type))
@@ -48,9 +54,11 @@
 		playsound(A.loc, 'sound/machines/click.ogg', 50, 1)
 		A.forceMove(src)
 		ammo += A
-		state = 2
-		feed()
-		chamber()
+		if(state < STATE_LOADED)
+			state = STATE_LOADED
+		if(state < STATE_FED)
+			feed()
+			chamber()
 		return TRUE
 	loading = FALSE
 	return FALSE
@@ -80,7 +88,6 @@
 		return data
 	if(get_dist(core.payload_gate, core) > 1)
 		core.update_parts()
-	data["loaded"] = core.payload_gate && core.payload_gate.loaded
 	data["id"] = (core.payload_gate) ? "\ref[core.payload_gate]" : null
 	if(!core.powder_gates?.len)
 		core.update_parts()
@@ -93,7 +100,13 @@
 		part["id"] = "\ref[MOREPOWDER]"
 		parts[++parts.len] = part
 	data["parts"] = parts
-
+	data["can_pack"] = core.payload_gate.shell ? TRUE : FALSE
+	data["can_load"] = core.turret?.ammo?.len < core.turret?.max_ammo || FALSE
+	data["ammo"] = core.turret?.ammo?.len || 0
+	data["max_ammo"] = core.turret?.max_ammo || 0
+	data["loaded"] = core.payload_gate?.shell?.name || "Nothing"
+	data["speed"] = core.payload_gate?.shell?.speed || 0
+	data["max_speed"] = 2
 	return data
 
 /obj/machinery/computer/deckgun/ui_act(action, params)
@@ -101,27 +114,18 @@
 	if(.)
 		return
 	var/obj/machinery/deck_turret/powder_gate/target = locate(params["target"])
-	var/obj/machinery/deck_turret/payload_gate/gate = core.payload_gate
-	if(!gate)
-		return
 	switch(action)
-		if("feed")
-			if(gate.loaded)
-				gate.unload()
-				return
-			gate.feed()
 		if("load")
-			if(!core.turret.rack_load(gate.shell))
+			if(!core.turret.rack_load(core.payload_gate.shell))
 				return
-			gate.shell = null
-			gate.loaded = FALSE
-			gate.unload()
+			core.payload_gate.shell = null
+			core.payload_gate.unload()
 			if(locate(/obj/machinery/deck_turret/autorepair) in orange(1, core))
 				core.turret.maint_req ++
 				core.turret.maint_req = CLAMP(core.turret.maint_req, 0, 25)
 				new /obj/effect/temp_visual/heal(get_turf(core), "#375637")
 		if("load_powder")
-			gate.chamber(target)
+			core.payload_gate.chamber(target)
 
 /obj/machinery/deck_turret
 	name = "Deck Turret Core"
@@ -147,7 +151,7 @@
 	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))
 		update_icon()
 		return
-	return ..()
+	. = ..()
 
 /obj/machinery/deck_turret/crowbar_act(mob/living/user, obj/item/I)
 	if(default_deconstruction_crowbar(I))
@@ -172,7 +176,7 @@
 	var/obj/item/powder_bag/bag = null
 	var/ammo_type = /obj/item/powder_bag
 	var/loading = FALSE
-	var/load_delay = 10 SECONDS
+	var/load_delay = 8 SECONDS
 
 /obj/machinery/deck_turret/powder_gate/proc/pack()
 	set waitfor = FALSE
@@ -184,6 +188,7 @@
 	icon_state = initial(icon_state)
 
 /obj/machinery/deck_turret/powder_gate/attackby(obj/item/I, mob/living/user, params)
+	. = ..()
 	if(get_dist(I, src) > 1)
 		return FALSE
 	if(bag)
@@ -194,8 +199,6 @@
 		return FALSE
 	if(ammo_type && istype(I, ammo_type))
 		load(I, user)
-		return TRUE
-	return ..()
 
 /obj/machinery/deck_turret/powder_gate/proc/unload()
 	if(!bag)
@@ -236,8 +239,8 @@
 	AddComponent(/datum/component/volatile, volatility)
 
 /obj/item/powder_bag/plasma
-	name = "Plasma based projectile accelerant"
-	desc = "An extremely powerful 'bomb waiting to happen' which can propel naval artillery shells to extreme speeds with half the amount of regular powder!"
+	name = "Plasma-based projectile accelerant"
+	desc = "An extremely powerful 'bomb waiting to happen' which can propel naval artillery shells to high speeds with half the amount of regular powder!"
 	icon_state = "spicypowder"
 	power = 1
 	volatility = 3 //DANGEROUSLY VOLATILE. Can send the entire magazine up in smoke.
@@ -267,6 +270,7 @@
 
 /obj/item/ship_weapon/ammunition/missile/attack_hand(mob/user)
 	return FALSE
+
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "Cannon ball"
 	desc = "The QM blew the cargo budget on corgis, the clown stole all our ammo, we've got half a tank of plasma and are halfway to Dolos. Hit it."
@@ -287,6 +291,12 @@
 	desc = "A massive diamond-tipped round which can slice through armour plating with ease to deliver a lethal impact. Best suited for targets with heavy armour such as destroyers and up."
 	icon_state = "torpedo_ap"
 	projectile_type = /obj/item/projectile/bullet/mac_round/ap
+
+/obj/item/ship_weapon/ammunition/naval_artillery/homing
+	name = "FTL-1301 Magneton Naval Artillery Round"
+	desc = "A specialist artillery shell which can home in on a target using its hull's innate magnetism, while less accurate than torpedoes, these shells are still a very viable option."
+	icon_state = "torpedo_homing"
+	projectile_type = /obj/item/projectile/bullet/mac_round/magneton
 
 /obj/item/ship_weapon/ammunition/naval_artillery/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -315,16 +325,11 @@
 	var/obj/item/ship_weapon/ammunition/naval_artillery/shell = null
 	var/ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
 	var/loading = FALSE
-	var/load_delay = 15 SECONDS
-
-/obj/machinery/deck_turret/payload_gate/examine()
-	. = ..()
-	. += (shell) ? "<span class='notice'>Packed strength: [shell.speed]dT.</span>" : "<span class='notice'>Shell not loaded.</span>"
-	. += (shell) ? "<span class='notice'>[shell.name]</span>" : null
+	var/load_delay = 10 SECONDS
 
 /obj/machinery/deck_turret/payload_gate/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()
-	if(get_dist(A, src) > 1)
+	if(get_dist(user, src) > 1)
 		return FALSE
 	if(shell)
 		to_chat(user, "<span class='notice'>[src] is already loaded with [shell].</span>")
@@ -333,14 +338,16 @@
 		to_chat(user, "<span class='notice'>[src] is already being loaded...</span>")
 		return FALSE
 	if(ammo_type && istype(A, ammo_type))
+		if(get_dist(A, src) > 1)
+			load_delay = 13 SECONDS
 		load(A, user)
+		load_delay = 9 SECONDS
 
 /obj/machinery/deck_turret/payload_gate/proc/load(obj/item/A, mob/user)
 	var/temp = load_delay
 	var/obj/item/ship_weapon/ammunition/naval_artillery/NA = A
 	if(!NA.armed)
 		to_chat(user, "<span class='warning'>[A] is not armed!</span>")
-		playsound(src, 'sound/machines/buzz-sigh.ogg', 35, 0)
 		return FALSE
 	loading = TRUE
 	if(locate(/obj/machinery/deck_turret/autoelevator) in orange(2, src))
@@ -421,6 +428,40 @@
 	bound_width = 128
 	bound_height = 64
 
+//MEGADETH TURRET
+/obj/machinery/ship_weapon/deck_turret/mega
+	name = "M4-16 'Yamato' Triple Barrel Deck Gun"
+	desc = "This is perhaps a bit excessive..."
+	icon_state = "deck_turret_dual"
+	max_ammo = 3
+
+/obj/machinery/ship_weapon/deck_turret/mega/north
+	dir = NORTH
+	pixel_x = -43
+	pixel_y = -32
+
+/obj/machinery/ship_weapon/deck_turret/mega/east
+	dir = EAST
+	pixel_x = -30
+	pixel_y = -42
+	bound_width = 128
+	bound_height = 64
+
+/obj/machinery/ship_weapon/deck_turret/mega/west
+	dir = WEST
+	pixel_x = -63
+	pixel_y = -42
+	bound_width = 128
+	bound_height = 64
+
+/obj/structure/ship_weapon/mac_assembly/artillery_frame/mega
+	name = "M4-16 'Yamato' Triple Barrel Naval Artillery Frame"
+	desc = "The beginnings of a huge deck gun, internals notwithstanding."
+	icon = 'nsv13/icons/obj/munitions/deck_turret.dmi'
+	icon_state = "platform_dual"
+	output_path = /obj/machinery/ship_weapon/deck_turret/mega
+
+
 /obj/machinery/ship_weapon/deck_turret/Initialize()
 	. = ..()
 	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
@@ -459,25 +500,25 @@
 	setDir(turn(dir, 90))
 	switch(dir)
 		if(NORTH)
-			output_path = /obj/machinery/ship_weapon/deck_turret/north
+			output_path = text2path("[initial(output_path)]/north")
 			pixel_x = -43
 			pixel_y = -32
 			bound_width = 64
 			bound_height = 128
 		if(SOUTH)
-			output_path = /obj/machinery/ship_weapon/deck_turret
+			output_path = initial(output_path)
 			pixel_y = -64
 			pixel_x = 0
 			bound_width = 64
 			bound_height = 128
 		if(EAST)
-			output_path = /obj/machinery/ship_weapon/deck_turret/east
+			output_path = text2path("[initial(output_path)]/east")
 			pixel_x = -30
 			pixel_y = -42
 			bound_width = 128
 			bound_height = 64
 		if(WEST)
-			output_path = /obj/machinery/ship_weapon/deck_turret/west
+			output_path = text2path("[initial(output_path)]/west")
 			pixel_x = -63
 			pixel_y = -42
 			bound_width = 128

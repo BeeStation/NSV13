@@ -1,9 +1,3 @@
-#define STATE_NOTLOADED 1
-#define STATE_LOADED 2
-#define STATE_FED 3
-#define STATE_CHAMBERED 4
-#define STATE_FIRING 5
-
 /obj/machinery/ship_weapon/gauss_gun
 	name = "NT-BSG Gauss Turret"
 	desc = "A large ship to ship weapon designed to provide a constant barrage of fire over a long distance. It has a small cockpit for a gunner to control it manually."
@@ -34,6 +28,25 @@
 	var/last_pdc_fire = 0 //Pdc cooldown
 	var/BeingLoaded //Used for gunner load
 	var/list/gauss_verbs = list(.verb/show_computer, .verb/show_view, .verb/swap_firemode)
+
+/obj/machinery/ship_weapon/gauss_gun/MouseDrop_T(obj/structure/A, mob/user)
+	. = ..()
+	if(istype(A, /obj/structure/closet))
+		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/ammunition/gauss))
+			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
+			return FALSE
+		if(ammo?.len >= max_ammo)
+			return FALSE
+		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
+		if(do_after(user, 4 SECONDS , target = src))
+			for(var/obj/item/ship_weapon/ammunition/gauss/G in A)
+				if(ammo?.len < max_ammo)
+					G.forceMove(src)
+					ammo += G
+			if(load_sound)
+				playsound(src, load_sound, 100, 1)
+			state = 2
+			loading = FALSE
 
 #define VV_HK_REMOVE_GAUSS_GUNNER "getOutOfMyGunIdiot"
 
@@ -221,7 +234,7 @@
  * Animates an overmap projectile matching whatever we're shooting.
  */
 /obj/machinery/ship_weapon/gauss_gun/animate_projectile(atom/target)
-	linked.fire_lateral_projectile(weapon_type.default_projectile_type, target, user_override=gunner)
+	linked.fire_projectile(weapon_type.default_projectile_type, target, user_override=gunner, lateral=weapon_type.lateral)
 
 //Atmos handling
 
@@ -675,9 +688,3 @@ Chair + rack handling
 	data["pdc_mode"] = pdc_mode
 	data["canReload"] = ammo_rack && (ammo_rack.contents?.len >= 2)
 	return data
-
-#undef STATE_NOTLOADED
-#undef STATE_LOADED
-#undef STATE_FED
-#undef STATE_CHAMBERED
-#undef STATE_FIRING

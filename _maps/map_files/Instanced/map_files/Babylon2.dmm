@@ -30,11 +30,11 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
 "abX" = (
-/obj/machinery/conveyor{
-	id = "babylon_naval"
+/obj/machinery/computer/ammo_sorter{
+	id = "comedy2"
 	},
 /turf/open/floor/plating,
-/area/nsv/weapons/pvp)
+/area/maintenance/pvp)
 "ack" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -45,14 +45,17 @@
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/pvp)
 "acW" = (
-/obj/machinery/conveyor/slow{
-	dir = 8;
-	id = "aether_torp"
-	},
 /obj/machinery/light{
 	dir = 1
 	},
-/turf/open/floor/plating,
+/obj/structure/ladder,
+/obj/structure/sign/ship/space{
+	pixel_y = 32
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "aeb" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
@@ -164,6 +167,10 @@
 /obj/item/clothing/suit/apron/surgical,
 /turf/open/floor/plasteel/white,
 /area/science/pvp)
+"anE" = (
+/obj/structure/chair/comfy/gauss/west,
+/turf/open/floor/plasteel/tech/grid,
+/area/maintenance/pvp)
 "anU" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -187,6 +194,11 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
+"aoL" = (
+/obj/machinery/deck_turret/powder_gate,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plasteel/tech/grid,
+/area/nsv/weapons/pvp)
 "aoN" = (
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -327,24 +339,6 @@
 /obj/structure/closet/firecloset/full,
 /turf/open/floor/plating,
 /area/maintenance/pvp)
-"avj" = (
-/obj/structure/cable{
-	icon_state = "0-4"
-	},
-/obj/machinery/nuclearbomb/syndicate,
-/obj/item/pvp_nuke_spawner,
-/obj/machinery/power/apc/auto_name/west{
-	req_access = list(150)
-	},
-/obj/machinery/camera/syndicate{
-	c_tag = "Vault";
-	dir = 4
-	},
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
-/area/ai_monitored/nuke_storage/pvp)
 "avF" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 1
@@ -985,11 +979,7 @@
 "bda" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/conveyor/slow{
-	dir = 8;
-	id = "aether_torp"
-	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "bdj" = (
 /obj/item/radio/intercom/directional/south,
@@ -1057,9 +1047,12 @@
 /turf/open/floor/plating,
 /area/crew_quarters/heads/captain/pvp)
 "bgW" = (
-/obj/machinery/ship_weapon/torpedo_launcher/west,
-/turf/open/floor/engine,
-/area/nsv/weapons/pvp)
+/obj/structure/lattice/catwalk/over/ship,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "bhm" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible,
 /obj/machinery/atmospherics/components/trinary/filter/flipped/layer3{
@@ -1486,13 +1479,9 @@
 /turf/open/floor/plating/airless,
 /area/engine/engine_room/pvp)
 "bCB" = (
-/obj/machinery/light,
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "babylon_naval"
-	},
-/turf/open/floor/engine,
-/area/nsv/weapons/pvp)
+/obj/machinery/computer/ship/ordnance,
+/turf/open/floor/plating,
+/area/maintenance/pvp)
 "bDU" = (
 /obj/machinery/computer/card/minor/ce,
 /turf/open/floor/plasteel/dark,
@@ -1566,10 +1555,6 @@
 	},
 /turf/open/floor/carpet,
 /area/security/brig/pvp)
-"bHr" = (
-/obj/machinery/computer/ship/munitions_computer/west,
-/turf/open/floor/plasteel/tech/grid,
-/area/nsv/weapons/pvp)
 "bHs" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
@@ -1708,6 +1693,14 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
+"bNQ" = (
+/obj/machinery/light,
+/obj/machinery/conveyor/slow{
+	dir = 4;
+	id = "babylon_naval"
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "bOw" = (
 /obj/machinery/mech_bay_recharge_port{
 	dir = 2
@@ -1756,6 +1749,18 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
+"bQN" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/missile_builder/assembler{
+	dir = 4
+	},
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/turf/open/floor/engine,
+/area/bridge/meeting_room/pvp)
 "bRO" = (
 /obj/structure/closet/emcloset,
 /turf/open/floor/plating,
@@ -2018,12 +2023,6 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/pvp)
-"cdz" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 1
-	},
-/turf/open/floor/plasteel/dark,
-/area/ai_monitored/nuke_storage/pvp)
 "cdL" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
@@ -2037,10 +2036,13 @@
 /turf/open/floor/plating,
 /area/crew_quarters/toilet/pvp)
 "cel" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 8
 	},
-/turf/open/floor/plasteel/tech/grid,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "cem" = (
 /obj/machinery/firealarm/directional/south,
@@ -2080,7 +2082,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/hallway/pvp)
 "cfw" = (
 /obj/structure/window/reinforced{
@@ -2204,7 +2206,7 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/plasteel,
+/turf/open/floor/plasteel/freezer,
 /area/hallway/pvp)
 "chK" = (
 /obj/machinery/computer/arcade,
@@ -2555,7 +2557,7 @@
 	},
 /obj/effect/spawner/lootdrop/costume,
 /obj/machinery/light/small,
-/turf/open/floor/plasteel,
+/turf/open/floor/plasteel/freezer,
 /area/hallway/pvp)
 "cwR" = (
 /obj/structure/shuttle/engine/large{
@@ -2644,10 +2646,7 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/hallway/pvp)
 "cAY" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "babylon_naval"
-	},
+/obj/machinery/computer/ship/munitions_computer/east,
 /turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "cBH" = (
@@ -2790,16 +2789,11 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel/tech/grid,
 /area/hallway/pvp)
-"cJs" = (
-/obj/structure/closet/crate,
-/obj/effect/spawner/lootdrop/gambling,
-/turf/open/floor/plasteel/dark,
-/area/ai_monitored/nuke_storage/pvp)
 "cJE" = (
 /obj/effect/turf_decal/pool{
 	dir = 4
 	},
-/turf/open/floor/monotile/light,
+/turf/open/floor/monotile/steel,
 /area/hallway/pvp)
 "cJH" = (
 /obj/machinery/computer/security/syndicate{
@@ -2959,6 +2953,7 @@
 /area/security/brig/pvp)
 "cPX" = (
 /obj/machinery/photocopier,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/tech/grid,
 /area/bridge/meeting_room/pvp)
 "cRc" = (
@@ -2966,14 +2961,6 @@
 /obj/machinery/cryopod,
 /turf/open/floor/plasteel/tech/grid,
 /area/crew_quarters/toilet/pvp)
-"cRo" = (
-/obj/machinery/computer/ship/munitions_computer/east,
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/engine,
-/area/nsv/weapons/pvp)
 "cRt" = (
 /mob/living/simple_animal/bot/floorbot,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -3062,11 +3049,7 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engine_room/pvp)
 "cSQ" = (
-/obj/machinery/missile_builder/assembler{
-	dir = 4
-	},
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/item/ship_weapon/parts/missile/warhead,
+/obj/machinery/deck_turret/powder_gate,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "cTa" = (
@@ -3266,11 +3249,7 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engine_room/pvp)
 "ddH" = (
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "babylon_naval"
-	},
+/obj/structure/grille/wall,
 /turf/open/floor/plating,
 /area/maintenance/pvp)
 "ddW" = (
@@ -3308,13 +3287,46 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
+"deQ" = (
+/obj/machinery/conveyor/slow{
+	dir = 1;
+	id = "babylon_naval"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "dfl" = (
 /obj/structure/closet/firecloset/full,
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
+"dft" = (
+/obj/structure/rack,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/turf/open/floor/plasteel/tech/grid,
+/area/nsv/weapons/pvp)
 "dgq" = (
 /turf/closed/wall/mineral/titanium,
 /area/quartermaster/pvp)
@@ -3604,12 +3616,11 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos/pvp)
 "dwb" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "babylon_naval"
+/obj/structure/extinguisher_cabinet/west,
+/obj/structure/chair/office{
+	dir = 1
 	},
-/obj/structure/plasticflaps,
-/turf/open/floor/plasteel/tech/grid,
+/turf/open/floor/plating,
 /area/maintenance/pvp)
 "dwg" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -3635,12 +3646,12 @@
 /turf/closed/wall/r_wall,
 /area/crew_quarters/heads/captain/pvp)
 "dwR" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/structure/cable{
-	icon_state = "1-8"
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/missile_builder{
+	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ai_monitored/nuke_storage/pvp)
+/turf/open/floor/engine,
+/area/bridge/meeting_room/pvp)
 "dwU" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -3657,6 +3668,9 @@
 	},
 /turf/open/floor/circuit/red,
 /area/crew_quarters/heads/captain/pvp)
+"dxf" = (
+/turf/open/floor/mineral/plastitanium/red,
+/area/maintenance/pvp)
 "dxi" = (
 /obj/structure/chair,
 /turf/open/floor/plasteel/dark,
@@ -3687,6 +3701,15 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/hallway/pvp)
+"dys" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/missile_builder/welder,
+/turf/open/floor/engine,
+/area/bridge/meeting_room/pvp)
 "dAg" = (
 /obj/structure/table/reinforced,
 /obj/item/radio/intercom,
@@ -3708,8 +3731,14 @@
 	dir = 1
 	},
 /obj/machinery/light/small,
-/turf/open/floor/plasteel,
+/turf/open/floor/plasteel/freezer,
 /area/hallway/pvp)
+"dAZ" = (
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nsv/weapons/pvp)
 "dBa" = (
 /obj/structure/table,
 /obj/structure/window/reinforced{
@@ -3900,6 +3929,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
+/obj/item/storage/fancy/egg_box,
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/cafeteria/pvp)
 "dLr" = (
@@ -4012,6 +4042,16 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig/pvp)
+"dPi" = (
+/obj/structure/rack,
+/obj/item/radio/headset/syndicate/alt,
+/obj/item/radio/headset/syndicate/alt,
+/obj/item/radio/headset/syndicate/alt,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/maintenance/pvp)
 "dPE" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -4169,6 +4209,13 @@
 /obj/machinery/space_heater,
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
+"dXv" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/missile_builder,
+/turf/open/floor/engine,
+/area/bridge/meeting_room/pvp)
 "dXx" = (
 /obj/machinery/atmospherics/pipe/manifold4w/general/visible,
 /obj/machinery/atmospherics/pipe/simple/orange/visible/layer3{
@@ -4193,11 +4240,11 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
 "dXN" = (
-/obj/machinery/ship_weapon/vls,
 /obj/machinery/light{
 	dir = 4
 	},
-/turf/open/floor/plasteel/tech/grid,
+/obj/machinery/computer/ship/munitions_computer/east,
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "dYC" = (
 /obj/structure/cable{
@@ -4803,10 +4850,6 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/bridge/pvp)
-"ezg" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor/engine,
-/area/nsv/weapons/pvp)
 "eAs" = (
 /obj/structure/rack,
 /obj/item/storage/toolbox/electrical{
@@ -4872,7 +4915,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/airlock/ship/public,
-/turf/open/floor/plasteel,
+/turf/open/floor/plasteel/freezer,
 /area/hallway/pvp)
 "eDh" = (
 /obj/effect/turf_decal/stripes/red/line{
@@ -4986,14 +5029,10 @@
 /turf/open/floor/plating,
 /area/maintenance/pvp)
 "eLi" = (
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/structure/rack,
-/turf/open/floor/plasteel/tech/grid,
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "eLr" = (
 /obj/structure/chair{
@@ -5126,17 +5165,10 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/science/pvp)
-"eRg" = (
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/engine,
-/area/nsv/weapons/pvp)
 "eRi" = (
-/obj/machinery/missile_builder/wirer{
-	dir = 4
-	},
-/turf/open/floor/plating,
+/obj/machinery/computer/deckgun,
+/obj/item/multitool,
+/turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "eSe" = (
 /obj/structure/window/reinforced{
@@ -5150,7 +5182,7 @@
 /turf/open/floor/engine/co2,
 /area/engine/engineering/pvp)
 "eSf" = (
-/obj/machinery/missile_builder{
+/obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /turf/open/floor/plasteel/tech/grid,
@@ -5334,10 +5366,9 @@
 	c_tag = "Munitions #1";
 	dir = 4
 	},
-/obj/machinery/conveyor{
-	id = "babylon_naval"
-	},
-/turf/open/floor/plasteel/tech/grid,
+/obj/machinery/computer/ship/munitions_computer/west,
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "fai" = (
 /obj/machinery/firealarm/directional/south,
@@ -5620,14 +5651,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hallway/pvp)
-"flp" = (
-/obj/structure/chair/comfy/shuttle{
-	color = "#696969";
-	dir = 1;
-	name = "weapon officer"
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons/pvp)
 "flL" = (
 /obj/machinery/airalarm/syndicate{
 	pixel_y = 24
@@ -5643,11 +5666,12 @@
 /turf/open/floor/plating,
 /area/hallway/pvp)
 "flV" = (
-/obj/structure/chair/comfy/shuttle{
-	color = "#696969";
-	name = "weapon officer"
+/obj/machinery/deck_turret/powder_gate,
+/obj/structure/disposalpipe/segment,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
-/turf/open/floor/plasteel/tech/grid,
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "fmH" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -5847,6 +5871,16 @@
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/pvp/admiral)
+"fwA" = (
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/obj/machinery/conveyor/slow{
+	dir = 1;
+	id = "babylon_naval"
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "fwJ" = (
 /obj/machinery/button/door{
 	id = "aether_qm_warehouse";
@@ -5971,6 +6005,13 @@
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/hydroponics/pvp)
+"fAE" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment{
+	dir = 8
+	},
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "fAP" = (
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -5979,6 +6020,10 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/pvp)
+"fAQ" = (
+/obj/machinery/deck_turret/autoelevator,
+/turf/open/floor/plasteel/tech/grid,
+/area/nsv/weapons/pvp)
 "fBf" = (
 /obj/machinery/computer/ship/dradis,
 /obj/machinery/newscaster/security_unit/north,
@@ -6040,10 +6085,7 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig/pvp)
 "fEY" = (
-/obj/machinery/conveyor_switch{
-	id = "babylon_naval";
-	name = "Primary Assembly Line"
-	},
+/obj/machinery/computer/ship/munitions_computer/west,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "fFo" = (
@@ -6080,7 +6122,7 @@
 	id = "aether_bridgewindows"
 	},
 /turf/open/floor/plating,
-/area/nsv/weapons/pvp)
+/area/bridge/meeting_room/pvp)
 "fHe" = (
 /obj/structure/disposalpipe/segment{
 	dir = 1
@@ -6342,17 +6384,9 @@
 /turf/open/floor/plating,
 /area/maintenance/pvp)
 "fXA" = (
-/obj/structure/rack,
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/obj/item/ship_weapon/parts/missile/guidance_system,
-/obj/item/ship_weapon/parts/missile/guidance_system,
-/obj/item/ship_weapon/parts/missile/guidance_system,
-/obj/item/ship_weapon/parts/missile/guidance_system,
-/turf/open/floor/plasteel/tech/grid,
-/area/nsv/weapons/pvp)
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/turf/open/floor/plasteel/freezer,
+/area/hallway/pvp)
 "fYd" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 4
@@ -6626,9 +6660,14 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig/pvp)
 "gjU" = (
-/obj/machinery/ship_weapon/vls,
-/obj/item/ship_weapon/ammunition/missile,
-/turf/open/floor/plasteel/tech/grid,
+/obj/structure/ladder,
+/obj/structure/sign/ship/space{
+	pixel_y = 32
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "gkb" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -7234,10 +7273,21 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/hallway/pvp)
 "gIi" = (
-/obj/structure/sign/poster/random{
-	pixel_x = -32
+/obj/machinery/ammo_sorter{
+	dir = 1;
+	id = "comedy2";
+	name = "Standard Shells #1"
 	},
-/obj/effect/turf_decal/stripes/line,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
 /turf/open/floor/plating,
 /area/maintenance/pvp)
 "gIP" = (
@@ -7254,12 +7304,18 @@
 /obj/machinery/portable_atmospherics/canister/nitrogen,
 /turf/open/floor/plating,
 /area/engine/engineering/pvp)
+"gKz" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 1
+	},
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "gLV" = (
 /turf/open/indestructible/sound/pool/end,
 /area/hallway/pvp)
 "gMf" = (
-/obj/machinery/conveyor/inverted{
-	dir = 9;
+/obj/machinery/conveyor/slow{
+	dir = 8;
 	id = "babylon_naval"
 	},
 /turf/open/floor/engine,
@@ -7409,13 +7465,12 @@
 /turf/open/floor/plating,
 /area/hallway/pvp)
 "gSp" = (
-/obj/machinery/missile_builder/assembler{
-	dir = 1
+/obj/structure/sign/poster/random{
+	pixel_x = -32
 	},
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/turf/open/floor/plasteel/tech/grid,
-/area/nsv/weapons/pvp)
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plating,
+/area/maintenance/pvp)
 "gSP" = (
 /obj/structure/extinguisher_cabinet{
 	pixel_x = 25
@@ -7706,20 +7761,29 @@
 /turf/open/floor/plating,
 /area/engine/engineering/pvp)
 "hgL" = (
-/obj/machinery/conveyor/slow{
-	dir = 1;
-	id = "aether_torp"
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
-/turf/open/floor/plating,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plasteel/tech/grid,
+/area/nsv/weapons/pvp)
+"hhv" = (
+/obj/structure/chair/comfy/shuttle{
+	color = "#696969";
+	dir = 1;
+	name = "weapon officer"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "hhT" = (
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/machinery/conveyor{
-	id = "babylon_naval"
-	},
-/turf/open/floor/plasteel/tech/grid,
+/obj/machinery/computer/ship/munitions_computer/west,
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "hih" = (
 /obj/structure/window/reinforced{
@@ -8141,6 +8205,12 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig/pvp)
+"hDG" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/hallway/pvp)
 "hEj" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -8252,10 +8322,38 @@
 /turf/open/floor/plasteel/dark,
 /area/hallway/pvp)
 "hGZ" = (
-/obj/machinery/conveyor_switch{
-	id = "babylon_naval";
-	name = "Primary Assembly Line"
+/obj/machinery/ammo_sorter{
+	dir = 1;
+	id = "comedy2";
+	max_capacity = 30;
+	name = "Gunpowder #2"
 	},
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
 /turf/open/floor/plating,
 /area/maintenance/pvp)
 "hHc" = (
@@ -8313,9 +8411,22 @@
 /turf/open/floor/plating,
 /area/hydroponics/pvp)
 "hIC" = (
-/obj/structure/lattice,
-/turf/open/space/basic,
-/area/bridge/pvp)
+/obj/machinery/conveyor_switch/oneway{
+	id = "babylon_shell";
+	name = "Load Standard Shells";
+	pixel_x = 8
+	},
+/obj/machinery/conveyor_switch/oneway{
+	id = "babylon_ammostore";
+	name = "Feed Into Gun Room"
+	},
+/obj/machinery/conveyor_switch/oneway{
+	id = "babylon_powder";
+	name = "Load Gunpowder";
+	pixel_x = -8
+	},
+/turf/open/floor/plating,
+/area/maintenance/pvp)
 "hIX" = (
 /obj/machinery/light{
 	dir = 8
@@ -8393,9 +8504,30 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/pvp)
 "hOS" = (
-/obj/machinery/conveyor{
-	id = "babylon_naval"
-	},
+/obj/structure/rack,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "hPj" = (
@@ -8419,6 +8551,12 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/pvp)
+"hRq" = (
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/turf/open/floor/mineral/plastitanium/red,
+/area/maintenance/pvp)
 "hRN" = (
 /obj/structure/table,
 /obj/item/reagent_containers/food/condiment/saltshaker{
@@ -8489,10 +8627,10 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
 	},
-/obj/machinery/conveyor{
-	id = "babylon_naval"
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
-/turf/open/floor/plasteel/tech/grid,
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "hWr" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -8533,10 +8671,12 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos/pvp)
 "hXs" = (
-/obj/structure/filingcabinet,
-/obj/structure/extinguisher_cabinet/west,
-/turf/open/floor/plasteel/dark,
-/area/ai_monitored/nuke_storage/pvp)
+/obj/machinery/firealarm/directional/west,
+/obj/machinery/conveyor/slow{
+	id = "babylon_naval"
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "hYE" = (
 /obj/machinery/suit_storage_unit/syndicate,
 /turf/open/floor/plating,
@@ -8547,7 +8687,7 @@
 	icon_state = "4-8"
 	},
 /turf/open/space/basic,
-/area/bridge/pvp)
+/area/space)
 "hZp" = (
 /obj/structure/tank_dispenser,
 /obj/effect/turf_decal/delivery,
@@ -8693,6 +8833,27 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
+"iei" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/ammo_sorter{
+	dir = 1;
+	id = "comedy3";
+	name = "Warheads"
+	},
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/machinery/conveyor/slow{
+	dir = 1;
+	id = "aether_torp"
+	},
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "ieq" = (
 /obj/machinery/atmospherics/pipe/simple/orange/visible/layer3,
 /turf/open/floor/mineral/plastitanium/red,
@@ -8746,16 +8907,15 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/bridge/pvp/secondary)
 "ieP" = (
-/obj/structure/chair/comfy/shuttle{
-	color = "#696969";
-	dir = 1;
-	name = "weapon officer"
-	},
 /obj/machinery/firealarm/directional/east,
 /obj/machinery/light{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/obj/machinery/ship_weapon/vls,
+/obj/machinery/conveyor{
+	id = "babylon_naval"
+	},
+/turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "ifc" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
@@ -8866,17 +9026,16 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/item/powder_bag{
-	pixel_y = -10
+/obj/machinery/disposal/deliveryChute{
+	name = "Missile Factory Output"
 	},
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = 8
+/obj/structure/disposalpipe/trunk{
+	dir = 1
 	},
-/obj/machinery/light{
-	dir = 8
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
-/turf/open/floor/plasteel/tech/grid,
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "ilt" = (
 /obj/structure/closet/firecloset/full,
@@ -9049,6 +9208,7 @@
 /area/quartermaster/pvp)
 "irV" = (
 /obj/machinery/vending/boozeomat{
+	density = 0;
 	pixel_x = 32;
 	req_access = null;
 	req_one_access_txt = "150"
@@ -9071,13 +9231,40 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
 "itS" = (
-/obj/machinery/missile_builder/assembler{
-	dir = 1
+/obj/machinery/ammo_sorter{
+	dir = 1;
+	id = "comedy2";
+	max_capacity = 30;
+	name = "Gunpowder"
 	},
-/obj/item/ship_weapon/parts/missile/guidance_system,
-/obj/item/ship_weapon/parts/missile/guidance_system,
-/turf/open/floor/plasteel/tech/grid,
-/area/nsv/weapons/pvp)
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/turf/open/floor/plating,
+/area/maintenance/pvp)
 "itZ" = (
 /obj/structure/cable{
 	icon_state = "0-4"
@@ -9116,7 +9303,7 @@
 	icon_state = "0-8"
 	},
 /turf/open/floor/plating/airless,
-/area/bridge/pvp)
+/area/space)
 "iuR" = (
 /turf/open/floor/engine,
 /area/engine/engineering/pvp)
@@ -9266,6 +9453,13 @@
 /obj/effect/decal/cleanable/blood/footprints,
 /turf/open/floor/plating,
 /area/maintenance/pvp)
+"iBe" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plasteel/tech/grid,
+/area/hallway/pvp)
 "iBp" = (
 /obj/structure/table/wood,
 /obj/item/modular_computer/laptop/preset/civillian,
@@ -9296,6 +9490,13 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
+"iBP" = (
+/obj/machinery/computer/fiftycal{
+	dir = 8
+	},
+/obj/item/ammo_box/magazine/pdc/fiftycal,
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "iCd" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /obj/structure/cable{
@@ -9402,13 +9603,21 @@
 /turf/open/floor/plating,
 /area/maintenance/pvp)
 "iFU" = (
-/obj/item/powder_bag{
-	pixel_y = -10
+/obj/machinery/ammo_sorter{
+	dir = 1;
+	id = "comedy2";
+	name = "Standard Shells #2"
 	},
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/naval_artillery,
 /turf/open/floor/plating,
 /area/maintenance/pvp)
 "iGa" = (
@@ -10057,14 +10266,8 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engine_room/pvp)
 "jdu" = (
-/obj/machinery/missile_builder/screwdriver{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 1
-	},
-/turf/open/floor/plasteel/tech/grid,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "jeo" = (
 /obj/structure/cable{
@@ -10084,6 +10287,12 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig/pvp)
+"jfh" = (
+/obj/machinery/gauss_dispenser{
+	pixel_y = -26
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/maintenance/pvp)
 "jfi" = (
 /obj/structure/disposalpipe/trunk,
 /obj/machinery/disposal/bin,
@@ -10283,11 +10492,8 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/hallway/pvp)
 "jpp" = (
-/obj/machinery/conveyor{
-	dir = 6;
-	id = "babylon_naval"
-	},
-/turf/open/floor/plasteel/tech/grid,
+/obj/machinery/computer/ship/munitions_computer/west,
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "jpq" = (
 /obj/machinery/door/firedoor/border_only/directional/north,
@@ -10438,9 +10644,11 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/engine/engineering/pvp)
 "jyG" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /obj/structure/disposalpipe/segment,
-/turf/open/floor/plating,
+/obj/machinery/door/airlock/ship/maintenance{
+	req_one_access_txt = "150"
+	},
+/turf/open/floor/mineral/plastitanium/red,
 /area/maintenance/pvp)
 "jzF" = (
 /obj/machinery/computer/operating{
@@ -10497,7 +10705,7 @@
 	pixel_y = 5
 	},
 /obj/item/encryptionkey/headset_eng,
-/obj/item/reagent_containers/food/drinks/mug/coco,
+/obj/item/reagent_containers/food/drinks/mug,
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering/pvp)
 "jCx" = (
@@ -10702,6 +10910,13 @@
 /obj/machinery/portable_atmospherics/canister/air,
 /turf/open/floor/plasteel,
 /area/engine/engineering/pvp)
+"jMP" = (
+/obj/machinery/conveyor/slow{
+	dir = 4;
+	id = "babylon_naval"
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "jMZ" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -10717,7 +10932,7 @@
 	dir = 4;
 	pixel_x = 11
 	},
-/turf/open/floor/plasteel,
+/turf/open/floor/plasteel/freezer,
 /area/hallway/pvp)
 "jQk" = (
 /obj/structure/cable{
@@ -10788,6 +11003,17 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/pvp)
+"jSW" = (
+/obj/structure/chair/comfy/shuttle{
+	color = "#696969";
+	dir = 4;
+	name = "weapon officer"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "jTk" = (
 /obj/machinery/light,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -10950,6 +11176,10 @@
 /obj/structure/table/wood,
 /turf/open/floor/plating,
 /area/maintenance/pvp)
+"jZE" = (
+/obj/machinery/deck_turret/payload_gate,
+/turf/open/floor/plasteel/tech/grid,
+/area/nsv/weapons/pvp)
 "jZP" = (
 /obj/structure/toilet{
 	dir = 8
@@ -10998,11 +11228,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
-/obj/machinery/door/airlock/ship/maintenance{
-	req_one_access_txt = "150"
-	},
 /obj/structure/disposalpipe/segment,
-/turf/open/floor/plating,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/turf/open/floor/mineral/plastitanium/red,
 /area/maintenance/pvp)
 "kdi" = (
 /obj/structure/disposalpipe/segment,
@@ -11173,6 +11401,10 @@
 	dir = 8;
 	pixel_x = 24
 	},
+/obj/machinery/computer/fiftycal{
+	dir = 8
+	},
+/obj/item/ammo_box/magazine/pdc/fiftycal,
 /turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "kjI" = (
@@ -11396,6 +11628,18 @@
 	},
 /turf/open/floor/plating,
 /area/security/brig/pvp)
+"krL" = (
+/obj/structure/disposaloutlet{
+	dir = 1
+	},
+/obj/structure/grille/wall{
+	layer = 2.4
+	},
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/pvp)
 "krR" = (
 /obj/structure/window/reinforced{
 	dir = 1;
@@ -11525,7 +11769,7 @@
 /obj/effect/turf_decal/tile/ship/half/green{
 	dir = 8
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/hallway/pvp)
 "kxW" = (
 /turf/open/floor/plasteel,
@@ -12049,7 +12293,13 @@
 /turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "kXE" = (
-/obj/structure/extinguisher_cabinet/west,
+/obj/machinery/conveyor{
+	id = "babylon_shell"
+	},
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "babylon_ammostore"
+	},
 /turf/open/floor/plating,
 /area/maintenance/pvp)
 "kXP" = (
@@ -12190,16 +12440,15 @@
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/hydroponics/pvp)
-"liw" = (
-/obj/machinery/conveyor/slow{
-	dir = 1;
-	id = "aether_torp"
-	},
-/obj/item/ship_weapon/ammunition/missile,
-/turf/open/floor/plating,
-/area/nsv/weapons/pvp)
 "liO" = (
-/obj/structure/table/reinforced,
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "aether_bridgewindows"
+	},
+/obj/machinery/door/airlock/ship/command{
+	req_one_access_txt = "150"
+	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating,
 /area/maintenance/pvp)
 "ljh" = (
@@ -12380,12 +12629,12 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/bridge/pvp/secondary)
 "lpO" = (
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/machinery/conveyor/slow{
+	dir = 1;
+	id = "babylon_naval"
 	},
-/turf/open/floor/engine,
-/area/nsv/weapons/pvp)
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "lpP" = (
 /obj/machinery/computer/cargo/request,
 /obj/machinery/camera/syndicate/autoname,
@@ -12399,6 +12648,8 @@
 	dir = 4;
 	pixel_x = -24
 	},
+/obj/machinery/nuclearbomb/syndicate,
+/obj/item/pvp_nuke_spawner,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/pvp)
 "lro" = (
@@ -13022,6 +13273,10 @@
 	},
 /turf/open/floor/engine/air,
 /area/engine/engineering/pvp)
+"lTj" = (
+/obj/machinery/gauss_dispenser,
+/turf/open/floor/plasteel/tech/grid,
+/area/maintenance/pvp)
 "lUl" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -13046,6 +13301,10 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/mineral/plastitanium/red,
 /area/crew_quarters/bar/pvp)
+"lUA" = (
+/obj/structure/chair/comfy/gauss/east,
+/turf/open/floor/plasteel/tech/grid,
+/area/maintenance/pvp)
 "lUK" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 1
@@ -13375,19 +13634,15 @@
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/engine/engineering/pvp)
-"mmj" = (
-/turf/closed/wall/r_wall,
-/area/ai_monitored/nuke_storage/pvp)
 "mmC" = (
-/turf/open/space/basic,
-/area/bridge/pvp)
+/obj/machinery/ship_weapon/vls,
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "mmH" = (
 /obj/machinery/firealarm/directional/west,
 /obj/machinery/light{
 	dir = 8
-	},
-/obj/machinery/conveyor{
-	id = "babylon_naval"
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
@@ -13528,6 +13783,13 @@
 /obj/item/book/random,
 /turf/open/floor/plasteel,
 /area/hallway/pvp)
+"mtG" = (
+/obj/machinery/conveyor{
+	dir = 8;
+	id = "babylon_ammostore"
+	},
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "mtJ" = (
 /obj/structure/sign/warning/radiation{
 	pixel_x = -32
@@ -13566,9 +13828,7 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engine_room/pvp)
 "mvB" = (
-/obj/machinery/missile_builder{
-	dir = 1
-	},
+/obj/structure/munitions_trolley,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "mvH" = (
@@ -13640,14 +13900,9 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
 "myS" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/chair/comfy/shuttle{
-	color = "#696969";
-	dir = 1;
-	name = "weapon officer"
-	},
-/turf/open/floor/plating,
+/obj/machinery/computer/ship/munitions_computer/east,
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "myV" = (
 /obj/structure/table/wood,
@@ -13661,7 +13916,7 @@
 /area/crew_quarters/heads/captain/pvp/admiral)
 "myY" = (
 /obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/plasteel,
+/turf/open/floor/plasteel/freezer,
 /area/hallway/pvp)
 "mzz" = (
 /obj/structure/window/reinforced{
@@ -13690,6 +13945,7 @@
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "150"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plating,
 /area/bridge/pvp)
 "mAP" = (
@@ -13697,6 +13953,16 @@
 /obj/structure/sign/barsign,
 /turf/open/floor/plating,
 /area/crew_quarters/bar/pvp)
+"mBq" = (
+/obj/effect/turf_decal/ship/outline,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/missile_builder{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/bridge/meeting_room/pvp)
 "mBA" = (
 /obj/machinery/atmospherics/pipe/simple/orange/visible,
 /obj/machinery/meter,
@@ -14000,7 +14266,7 @@
 /obj/item/clothing/under/shorts/purple,
 /obj/item/clothing/under/shorts/red,
 /obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/monotile/light,
+/turf/open/floor/monotile/steel,
 /area/hallway/pvp)
 "mMJ" = (
 /obj/structure/cable{
@@ -14167,7 +14433,6 @@
 /area/bridge/pvp)
 "mWd" = (
 /obj/structure/table/wood,
-/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/tech/grid,
 /area/bridge/meeting_room/pvp)
 "mWl" = (
@@ -14425,12 +14690,9 @@
 /turf/open/floor/wood,
 /area/hallway/pvp)
 "nhq" = (
-/obj/machinery/missile_builder/assembler{
-	dir = 1
-	},
-/obj/item/ship_weapon/parts/missile/iff_card,
-/obj/item/ship_weapon/parts/missile/iff_card,
-/turf/open/floor/plasteel/tech/grid,
+/obj/structure/disposalpipe/segment,
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "nim" = (
 /obj/machinery/camera/syndicate{
@@ -14701,7 +14963,7 @@
 /area/quartermaster/pvp)
 "nvV" = (
 /obj/machinery/ship_weapon/vls,
-/turf/open/floor/plasteel/tech/grid,
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "nwc" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -14919,6 +15181,14 @@
 	},
 /turf/open/floor/engine,
 /area/engine/engineering/pvp)
+"nDR" = (
+/obj/structure/chair/comfy/shuttle{
+	color = "#696969";
+	dir = 4;
+	name = "weapon officer"
+	},
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "nDX" = (
 /obj/machinery/door/poddoor/shutters{
 	id = "aether_qm_warehouse";
@@ -15231,9 +15501,9 @@
 /turf/open/floor/plating,
 /area/crew_quarters/bar/pvp)
 "nVG" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/disposalpipe/segment,
-/turf/open/floor/plating,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/turf/open/floor/mineral/plastitanium/red,
 /area/maintenance/pvp)
 "nXa" = (
 /obj/machinery/status_display/ai/east,
@@ -15262,7 +15532,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
 	},
-/turf/open/floor/monotile/light,
+/turf/open/floor/monotile/steel,
 /area/hallway/pvp)
 "nXH" = (
 /obj/structure/closet/secure_closet/freezer/kitchen/maintenance{
@@ -16152,6 +16422,12 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/crew_quarters/bar/pvp)
+"oNX" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/maintenance/pvp)
 "oNZ" = (
 /obj/machinery/firealarm{
 	dir = 1;
@@ -16551,8 +16827,12 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
 "paO" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/machinery/conveyor{
+	id = "babylon_powder"
+	},
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "babylon_ammostore"
 	},
 /turf/open/floor/plating,
 /area/maintenance/pvp)
@@ -16749,6 +17029,13 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
+"pnM" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/missile_builder/wirer,
+/turf/open/floor/engine,
+/area/bridge/meeting_room/pvp)
 "pnV" = (
 /obj/machinery/atmospherics/pipe/layer_manifold/visible{
 	dir = 4
@@ -16859,6 +17146,12 @@
 	},
 /turf/open/floor/engine,
 /area/engine/engineering/pvp)
+"psO" = (
+/obj/machinery/conveyor{
+	id = "babylon_naval"
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nsv/weapons/pvp)
 "ptp" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -17046,7 +17339,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/hallway/pvp)
 "pEg" = (
 /obj/machinery/computer/camera_advanced/xenobio{
@@ -17054,6 +17347,11 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/pvp)
+"pET" = (
+/obj/machinery/deck_turret,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plasteel/tech/grid,
+/area/nsv/weapons/pvp)
 "pEV" = (
 /obj/structure/chair/office{
 	dir = 8
@@ -17061,9 +17359,17 @@
 /turf/open/floor/plasteel/white,
 /area/science/pvp)
 "pFH" = (
-/obj/item/ship_weapon/ammunition/torpedo,
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
+	},
+/obj/machinery/missile_builder/assembler{
+	dir = 1
+	},
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
 /turf/open/floor/engine,
-/area/nsv/weapons/pvp)
+/area/bridge/meeting_room/pvp)
 "pFL" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
@@ -17213,6 +17519,10 @@
 /obj/machinery/reagentgrinder/constructed,
 /turf/open/floor/plating,
 /area/maintenance/pvp)
+"pNJ" = (
+/obj/structure/munitions_trolley,
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "pNY" = (
 /obj/structure/sign/departments/minsky/engineering/engineering,
 /turf/closed/wall/steel,
@@ -17833,7 +18143,8 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
 "qtx" = (
-/obj/machinery/deck_turret/powder_gate,
+/obj/machinery/computer/deckgun,
+/obj/item/multitool,
 /turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "qtK" = (
@@ -17858,7 +18169,7 @@
 	pixel_y = 26
 	},
 /obj/machinery/firealarm/directional/west,
-/turf/open/floor/monotile,
+/turf/open/floor/monotile/steel,
 /area/hallway/pvp)
 "qug" = (
 /obj/effect/turf_decal/stripes/line{
@@ -17897,9 +18208,12 @@
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/pvp)
 "qvq" = (
-/obj/machinery/conveyor/inverted{
-	dir = 9;
-	id = "babylon_naval"
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/conveyor_switch{
+	id = "babylon_naval";
+	name = "Primary Assembly Line"
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
@@ -17960,12 +18274,10 @@
 /turf/open/floor/plating,
 /area/hallway/pvp)
 "qzs" = (
-/obj/structure/sign/ship/space{
-	dir = 8;
-	name = "WARNING: SPACE LADDER"
-	},
-/turf/closed/wall/r_wall,
-/area/bridge/pvp)
+/obj/machinery/computer/ship/munitions_computer/west,
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "qAd" = (
 /obj/structure/sink{
 	dir = 4;
@@ -18079,18 +18391,17 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = 8
+/obj/machinery/conveyor/slow{
+	dir = 1;
+	id = "babylon_naval"
 	},
 /turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "qGt" = (
-/obj/machinery/computer/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/machinery/computer/ship/munitions_computer/west,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "qHC" = (
@@ -18199,7 +18510,12 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/science/pvp)
 "qMD" = (
-/obj/structure/plasticflaps,
+/obj/structure/disposalpipe/segment{
+	dir = 8
+	},
+/obj/structure/grille/wall{
+	layer = 2.4
+	},
 /turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "qME" = (
@@ -18232,16 +18548,16 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
 /obj/machinery/camera/syndicate{
 	c_tag = "Munitions #3";
 	dir = 4
+	},
+/obj/machinery/computer/ammo_sorter{
+	dir = 4;
+	id = "comedy3"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 10
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
@@ -18380,7 +18696,7 @@
 	},
 /obj/structure/curtain,
 /obj/machinery/firealarm/directional/west,
-/turf/open/floor/plasteel,
+/turf/open/floor/plasteel/freezer,
 /area/hallway/pvp)
 "qVs" = (
 /obj/machinery/vending/coffee,
@@ -18466,6 +18782,16 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/science/pvp)
+"qYP" = (
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
+/obj/machinery/conveyor/slow{
+	dir = 1;
+	id = "babylon_naval"
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "qZQ" = (
 /obj/structure/chair/office/light{
 	dir = 8
@@ -18752,12 +19078,11 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering/pvp)
 "rni" = (
-/obj/structure/closet/secure_closet/freezer/money{
-	req_access = null
+/obj/machinery/conveyor/slow{
+	id = "babylon_naval"
 	},
-/obj/machinery/firealarm/directional/west,
-/turf/open/floor/plasteel/dark,
-/area/ai_monitored/nuke_storage/pvp)
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "rnl" = (
 /obj/structure/chair/office{
 	dir = 8
@@ -19034,16 +19359,6 @@
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layer3,
 /turf/open/floor/mineral/plastitanium/red,
 /area/engine/engineering/pvp)
-"rzG" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 1
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plasteel/dark,
-/area/ai_monitored/nuke_storage/pvp)
 "rzL" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/window/brigdoor{
@@ -19066,6 +19381,12 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/bridge/pvp)
+"rzP" = (
+/obj/structure/disposalpipe/segment{
+	dir = 8
+	},
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "rAe" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -19137,13 +19458,15 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
 "rBx" = (
-/obj/machinery/computer/bank_machine,
-/obj/machinery/airalarm/syndicate{
-	dir = 8;
-	pixel_x = 24
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/missile_builder/assembler{
+	dir = 1
 	},
-/turf/open/floor/plasteel/dark,
-/area/ai_monitored/nuke_storage/pvp)
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead,
+/turf/open/floor/engine,
+/area/bridge/meeting_room/pvp)
 "rBR" = (
 /obj/machinery/computer/secure_data{
 	dir = 4
@@ -19356,8 +19679,9 @@
 "rKJ" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/computer/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "rLv" = (
@@ -19626,11 +19950,14 @@
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/pvp/admiral)
 "sac" = (
-/obj/machinery/conveyor_switch{
-	id = "babylon_naval";
-	name = "Primary Assembly Line"
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
-/turf/open/floor/engine,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "sbd" = (
 /obj/machinery/firealarm/directional/north,
@@ -20338,13 +20665,6 @@
 /obj/machinery/atmospherics/components/trinary/mixer/flipped/layer3,
 /turf/open/floor/mineral/plastitanium/red,
 /area/engine/engineering/pvp)
-"sFH" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 1
-	},
-/obj/machinery/ship_weapon/torpedo_launcher/west,
-/turf/open/floor/engine,
-/area/nsv/weapons/pvp)
 "sFS" = (
 /obj/structure/rack,
 /turf/open/floor/plasteel,
@@ -20455,7 +20775,7 @@
 	dir = 4;
 	pixel_x = -24
 	},
-/turf/open/floor/plasteel,
+/turf/open/floor/plasteel/freezer,
 /area/hallway/pvp)
 "sJY" = (
 /obj/structure/table/wood,
@@ -20534,8 +20854,9 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig/pvp)
 "sPb" = (
-/obj/machinery/conveyor{
-	id = "babylon_naval"
+/obj/machinery/conveyor_switch{
+	id = "babylon_naval";
+	name = "Primary Assembly Line"
 	},
 /turf/open/floor/engine,
 /area/nsv/weapons/pvp)
@@ -20568,12 +20889,6 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
-"sPV" = (
-/obj/machinery/missile_builder/screwdriver{
-	dir = 1
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/nsv/weapons/pvp)
 "sPZ" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -20694,11 +21009,15 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
 "sRS" = (
-/obj/machinery/missile_builder/welder{
-	dir = 4
+/obj/machinery/light{
+	dir = 1
 	},
-/turf/open/floor/plasteel/tech/grid,
-/area/nsv/weapons/pvp)
+/obj/machinery/conveyor/slow{
+	dir = 8;
+	id = "babylon_naval"
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "sRY" = (
 /obj/structure/rack,
 /obj/effect/turf_decal/stripes/line{
@@ -21103,6 +21422,11 @@
 /obj/item/flashlight/lamp,
 /turf/open/floor/plasteel/dark,
 /area/security/brig/pvp)
+"tja" = (
+/obj/machinery/computer/ship/viewscreen,
+/obj/structure/chair/comfy/gauss/east,
+/turf/open/floor/plasteel/tech/grid,
+/area/maintenance/pvp)
 "tjh" = (
 /obj/structure/toilet{
 	dir = 8
@@ -21260,8 +21584,11 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig/pvp)
 "tnR" = (
-/turf/open/floor/plating/airless,
-/area/bridge/pvp)
+/obj/structure/disposalpipe/segment{
+	dir = 6
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/nsv/weapons/pvp)
 "tql" = (
 /obj/machinery/computer/operating{
 	dir = 8
@@ -21294,7 +21621,10 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 9
 	},
-/turf/open/floor/plasteel/tech/grid,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "tsK" = (
 /obj/structure/window/reinforced{
@@ -21319,6 +21649,10 @@
 /area/hallway/pvp)
 "tuK" = (
 /obj/item/radio/intercom/directional/east,
+/obj/machinery/ship_weapon/vls,
+/obj/machinery/conveyor{
+	id = "babylon_naval"
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "tuP" = (
@@ -21393,6 +21727,15 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
+"tzB" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/conveyor/slow{
+	dir = 4;
+	id = "babylon_naval"
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "tAc" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 4
@@ -21517,6 +21860,13 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/hallway/pvp)
+"tFy" = (
+/obj/structure/disposalpipe/segment{
+	dir = 8
+	},
+/obj/structure/munitions_trolley,
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "tFJ" = (
 /obj/structure/closet/secure_closet/brig{
 	id = "aether_Cell 1";
@@ -21526,19 +21876,14 @@
 /turf/open/floor/plasteel,
 /area/security/brig/pvp)
 "tHt" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
+/obj/structure/filingcabinet/chestdrawer/wheeled,
 /turf/open/floor/plasteel/tech/grid,
 /area/bridge/meeting_room/pvp)
 "tHK" = (
-/obj/machinery/conveyor{
-	id = "babylon_naval"
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/plasteel/tech/grid,
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "tIt" = (
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -21548,12 +21893,12 @@
 /turf/open/floor/plasteel,
 /area/science/pvp)
 "tJo" = (
-/obj/item/powder_bag{
-	pixel_y = -10
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = 8
+/obj/machinery/ship_weapon/vls,
+/obj/machinery/conveyor{
+	id = "babylon_naval"
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
@@ -21736,9 +22081,17 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/hallway/pvp)
 "tSF" = (
-/obj/item/trash/waffles,
-/turf/open/floor/plating,
-/area/maintenance/pvp)
+/obj/structure/disposaloutlet{
+	dir = 8
+	},
+/obj/structure/disposalpipe/trunk{
+	dir = 8
+	},
+/obj/structure/grille/wall{
+	layer = 2.4
+	},
+/turf/closed/wall/r_wall,
+/area/bridge/pvp)
 "tSO" = (
 /obj/effect/turf_decal/stripes/corner,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
@@ -22444,23 +22797,13 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
 "uEi" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 8
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/missile_builder/screwdriver{
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 8
-	},
-/obj/machinery/conveyor{
-	id = "babylon_naval"
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/nsv/weapons/pvp)
+/turf/open/floor/engine,
+/area/bridge/meeting_room/pvp)
 "uEv" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/mineral/plastitanium/red,
@@ -22534,6 +22877,7 @@
 /area/maintenance/pvp)
 "uGe" = (
 /obj/machinery/deck_turret,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "uGH" = (
@@ -22590,10 +22934,14 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig/pvp)
 "uKz" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/turf/open/floor/plating,
-/area/nsv/weapons/pvp)
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/missile_builder/screwdriver{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/bridge/meeting_room/pvp)
 "uKF" = (
 /obj/machinery/particle_accelerator/control_box,
 /obj/item/stack/cable_coil/red,
@@ -22700,6 +23048,19 @@
 /obj/machinery/pipedispenser,
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
+"uOv" = (
+/obj/effect/turf_decal/ship/outline,
+/obj/machinery/missile_builder/assembler{
+	dir = 4
+	},
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/bridge/meeting_room/pvp)
 "uON" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -22707,9 +23068,11 @@
 /turf/open/floor/engine,
 /area/engine/engine_room/pvp)
 "uPe" = (
-/obj/machinery/computer/deckgun,
-/obj/item/multitool,
-/turf/open/floor/plasteel/tech/grid,
+/obj/machinery/deck_turret/powder_gate,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "uPf" = (
 /obj/structure/cable{
@@ -22739,7 +23102,7 @@
 	dir = 4
 	},
 /turf/open/space/basic,
-/area/bridge/pvp)
+/area/space)
 "uPM" = (
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 9
@@ -22750,9 +23113,9 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engine_room/pvp)
 "uQT" = (
-/obj/structure/safe,
-/turf/open/floor/plasteel/dark,
-/area/ai_monitored/nuke_storage/pvp)
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "uRa" = (
 /obj/structure/table/wood,
 /obj/item/storage/secure/briefcase,
@@ -22994,7 +23357,7 @@
 /area/security/brig/pvp)
 "vap" = (
 /obj/item/twohanded/required/kirbyplants/random,
-/turf/open/floor/plasteel,
+/turf/open/floor/plasteel/freezer,
 /area/hallway/pvp)
 "vaq" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -23183,12 +23546,13 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
 "vgO" = (
-/obj/machinery/ship_weapon/vls,
 /obj/machinery/camera/syndicate{
 	c_tag = "Munitions #2";
 	dir = 8
 	},
-/turf/open/floor/plasteel/tech/grid,
+/obj/machinery/computer/ship/munitions_computer/east,
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "vhc" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -23234,7 +23598,7 @@
 	layer = 3.5
 	},
 /obj/structure/curtain,
-/turf/open/floor/plasteel,
+/turf/open/floor/plasteel/freezer,
 /area/hallway/pvp)
 "vjz" = (
 /obj/structure/cable{
@@ -23275,13 +23639,12 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/bridge/pvp)
 "vlX" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 1
+/obj/machinery/conveyor/slow{
+	dir = 8;
+	id = "babylon_naval"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/ship_weapon/torpedo_launcher/west,
-/turf/open/floor/engine,
-/area/nsv/weapons/pvp)
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "vmq" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -23479,13 +23842,9 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/firedoor/border_only/directional/north,
-/obj/machinery/door/firedoor/border_only/directional/south,
-/obj/machinery/door/airlock/vault/ship{
-	req_one_access_txt = "151"
-	},
-/turf/open/floor/plasteel/dark,
-/area/ai_monitored/nuke_storage/pvp)
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/bridge/meeting_room/pvp)
 "vxL" = (
 /obj/structure/disposalpipe/junction{
 	dir = 1
@@ -23597,11 +23956,11 @@
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/pvp)
 "vCD" = (
-/obj/machinery/conveyor/slow{
-	dir = 8;
-	id = "aether_torp"
+/obj/machinery/conveyor_switch{
+	id = "babylon_naval";
+	name = "Missile Conveyor"
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "vCE" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
@@ -24166,7 +24525,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/segment,
-/turf/open/floor/plating,
+/turf/open/floor/mineral/plastitanium/red,
 /area/maintenance/pvp)
 "waY" = (
 /obj/machinery/atmospherics/components/binary/dp_vent_pump,
@@ -24410,13 +24769,10 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
 "wjG" = (
-/obj/item/powder_bag{
-	pixel_y = -10
+/obj/structure/disposalpipe/trunk{
+	dir = 8
 	},
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
+/obj/structure/disposaloutlet,
 /turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "wlF" = (
@@ -24545,15 +24901,20 @@
 /turf/open/space/basic,
 /area/space)
 "wtK" = (
-/obj/machinery/door/poddoor/ship/preopen{
-	dir = 4;
-	id = "aether_bridgewindows"
+/obj/machinery/disposal/deliveryChute{
+	dir = 8;
+	name = "NAC"
 	},
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/airlock/ship/command{
-	req_one_access_txt = "150"
+/obj/structure/disposalpipe/trunk{
+	dir = 4
 	},
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/structure/window/reinforced{
+	dir = 1
+	},
+/obj/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/maintenance/pvp)
 "wvh" = (
@@ -24738,15 +25099,11 @@
 /turf/open/floor/plating,
 /area/maintenance/pvp)
 "wGz" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
+/obj/structure/chair/comfy/shuttle{
+	color = "#696969";
+	name = "weapon officer"
 	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/conveyor{
-	id = "babylon_naval"
-	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "wGB" = (
@@ -24797,7 +25154,11 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5
 	},
-/turf/open/floor/plasteel/tech/grid,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine,
 /area/nsv/weapons/pvp)
 "wJB" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
@@ -24812,7 +25173,9 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/quartermaster/pvp)
 "wKf" = (
-/obj/structure/filingcabinet/chestdrawer/wheeled,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/bridge/meeting_room/pvp)
 "wKw" = (
@@ -24825,6 +25188,12 @@
 	},
 /turf/open/floor/plating,
 /area/hallway/pvp)
+"wKR" = (
+/obj/structure/closet/secure_closet/freezer/money{
+	req_access = null
+	},
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/captain/pvp)
 "wLo" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -24970,6 +25339,10 @@
 "wSo" = (
 /turf/open/floor/plating/airless,
 /area/quartermaster/pvp)
+"wSs" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "wTx" = (
 /obj/structure/closet/firecloset/full,
 /obj/structure/cable{
@@ -25104,6 +25477,20 @@
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/pvp)
+"xaj" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 8
+	},
+/obj/structure/chair/comfy/shuttle{
+	color = "#696969";
+	dir = 4;
+	name = "weapon officer"
+	},
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
+	},
+/turf/open/floor/engine,
+/area/nsv/weapons/pvp)
 "xbe" = (
 /obj/structure/table,
 /obj/structure/window/reinforced{
@@ -25192,7 +25579,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /obj/structure/disposalpipe/segment,
-/turf/open/floor/plating,
+/turf/open/floor/mineral/plastitanium/red,
 /area/maintenance/pvp)
 "xgB" = (
 /turf/closed/wall/steel,
@@ -25209,6 +25596,16 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
+"xhH" = (
+/obj/machinery/disposal/deliveryChute{
+	name = "Missile Factory Output"
+	},
+/obj/structure/disposalpipe/trunk,
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
+	},
+/turf/open/floor/engine,
+/area/bridge/meeting_room/pvp)
 "xhI" = (
 /obj/structure/table/wood,
 /obj/machinery/newscaster/directional/west,
@@ -25269,17 +25666,10 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/bridge/pvp)
 "xkL" = (
-/obj/structure/rack,
-/obj/item/ship_weapon/parts/missile/iff_card,
-/obj/item/ship_weapon/parts/missile/iff_card,
-/obj/item/ship_weapon/parts/missile/iff_card,
-/obj/item/ship_weapon/parts/missile/iff_card,
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/item/ship_weapon/parts/missile/warhead,
-/turf/open/floor/plasteel/tech/grid,
-/area/nsv/weapons/pvp)
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/turf/open/floor/monotile/dark,
+/area/bridge/meeting_room/pvp)
 "xla" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -25690,8 +26080,11 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/pvp)
 "xGJ" = (
-/obj/structure/closet/athletic_mixed,
-/turf/open/floor/plating,
+/obj/structure/rack,
+/obj/item/radio/headset/syndicate/alt,
+/obj/item/radio/headset/syndicate/alt,
+/obj/item/radio/headset/syndicate/alt,
+/turf/open/floor/plasteel/tech/grid,
 /area/maintenance/pvp)
 "xGK" = (
 /obj/structure/cable/yellow{
@@ -25861,7 +26254,7 @@
 	dir = 8
 	},
 /obj/machinery/light/small,
-/turf/open/floor/plasteel,
+/turf/open/floor/plasteel/freezer,
 /area/hallway/pvp)
 "xPa" = (
 /obj/structure/closet/crate/internals,
@@ -26046,7 +26439,8 @@
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/pvp)
 "xZP" = (
-/turf/open/floor/plating,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "yat" = (
 /obj/machinery/firealarm/directional/east,
@@ -26179,7 +26573,10 @@
 	c_tag = "Munitions #4";
 	dir = 8
 	},
-/obj/structure/ladder,
+/obj/machinery/ship_weapon/vls,
+/obj/machinery/conveyor{
+	id = "babylon_naval"
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "yhY" = (
@@ -54672,7 +55069,7 @@ dwt
 ymi
 dwt
 eng
-iJx
+wKR
 dwt
 dWw
 iIO
@@ -55913,8 +56310,8 @@ xgB
 omq
 uIX
 oSX
-bKP
-xDi
+iIO
+hSF
 dsO
 amV
 tjh
@@ -55922,12 +56319,12 @@ dsO
 cAb
 qcK
 ovq
-mmj
-mmj
-mmj
-mmj
-mmj
-xDi
+jwg
+jwg
+jwg
+jwg
+jwg
+jwg
 iIO
 jZb
 enS
@@ -56170,8 +56567,8 @@ xgB
 omq
 uIX
 hkI
-bKP
-xDi
+iIO
+iIO
 dsO
 dsO
 dsO
@@ -56179,12 +56576,12 @@ dsO
 cAb
 qLH
 kNq
-mmj
+jwg
 rni
-avj
+rni
 hXs
-mmj
-xDi
+rni
+jMP
 iIO
 nro
 enS
@@ -56427,21 +56824,21 @@ xgB
 atz
 uIX
 oSX
-bKP
-xDi
-xDi
-xDi
-jwg
+iIO
+abX
+dwb
+gSp
+liO
 wKf
 cAb
 qLH
 eHo
 vxH
-rzG
+vlX
 dwR
-cdz
-mmj
-xDi
+uQT
+pnM
+jMP
 iIO
 nro
 enS
@@ -56685,20 +57082,20 @@ ndJ
 eOl
 syQ
 iIO
-iIO
-iIO
-iIO
+bCB
+hSF
+hIC
 iIO
 cPX
 cAb
 qLH
 hBr
-mmj
-cJs
+jwg
+vlX
 rBx
 uQT
-mmj
-xDi
+dXv
+bNQ
 iIO
 nro
 enS
@@ -56942,20 +57339,20 @@ mVF
 iFo
 oSX
 iIO
-ddH
+iIO
 kXE
 gIi
-wEW
+iIO
 tHt
 cAb
 qLH
 kNq
-mmj
-mmj
-mmj
-mmj
-mmj
-izi
+jwg
+vlX
+uEi
+xkL
+dys
+tzB
 iIO
 nro
 enS
@@ -57200,19 +57597,19 @@ uIX
 oSX
 iIO
 ddH
-hSF
+kXE
 iFU
 iIO
 mWd
 cAb
 ifc
 aUi
-izi
-pzG
+jwg
+sRS
 pFH
-eRg
-pFH
-pzG
+uQT
+xhH
+fwA
 iIO
 nro
 enS
@@ -57456,9 +57853,9 @@ iJg
 uIX
 oSX
 iIO
-ddH
-hSF
-iFU
+iIO
+paO
+itS
 iIO
 bLW
 cAb
@@ -57466,9 +57863,9 @@ qLH
 lGx
 fGU
 vlX
-ezg
-sFH
-pzG
+uQT
+uQT
+uQT
 bgW
 iIO
 nro
@@ -57721,12 +58118,12 @@ gSf
 cAb
 phr
 kNq
-izi
-pzG
-pzG
-pzG
-pzG
-pzG
+jwg
+vlX
+uKz
+bQN
+mBq
+uOv
 iIO
 tdO
 nYX
@@ -57970,21 +58367,21 @@ mCD
 oZV
 xTe
 iIO
-dwb
+iIO
 wtK
-liO
+iIO
 iIO
 izi
 iAz
 izi
 cRy
-izi
-cRo
+jwg
+vlX
 lpO
-cRo
+qYP
 lpO
-cRo
-iIO
+deQ
+krL
 iIO
 iIO
 iIO
@@ -58230,21 +58627,21 @@ izi
 jpp
 tHK
 hhT
-hOS
+pzG
 eZn
-wGz
+sCj
 mmH
-uEi
+fmH
+nnJ
+nnJ
+nnJ
 hOS
-hOS
-abX
-hOS
-hOS
+dft
 qvq
 qOe
 ikX
 qFi
-qFi
+iei
 qFi
 iIO
 nro
@@ -58484,23 +58881,23 @@ vTk
 uIX
 oSX
 izi
-bHr
-nnJ
-bHr
-nnJ
-bHr
+nvV
+tHK
+nvV
+pzG
+mmC
 sCj
 nnJ
 fmH
 nnJ
-nnJ
+tnR
 xZP
+xZP
+xZP
+dAZ
 nnJ
-nnJ
-jpp
-hOS
 hWc
-sPb
+pzG
 sPb
 gMf
 iIO
@@ -58742,24 +59139,24 @@ iFo
 oSX
 izi
 nvV
-nnJ
+tHK
 nvV
-nnJ
-nvV
+pzG
+mmC
 sCj
 nnJ
 fHp
 xyR
+rKJ
 xyR
-uKz
 xyR
 xyR
 xyR
 eQc
 tsw
 pzG
-sac
-cAY
+pzG
+pzG
 iIO
 nro
 enS
@@ -58998,25 +59395,25 @@ oQX
 eOl
 oSX
 izi
-bHr
-nnJ
-bHr
-nnJ
-bHr
+cAY
+tHK
+cAY
+pzG
+myS
 dky
 fGa
 bMn
-sRS
+nnJ
 eSf
 eRi
-eSf
+fAQ
 cSQ
-fXA
-xkL
+nnJ
+nnJ
 uPe
 kXs
 qtx
-cAY
+pzG
 iIO
 nro
 enS
@@ -59256,24 +59653,24 @@ uIX
 hkI
 izi
 gjU
-nnJ
-nvV
-nnJ
-gjU
-sCj
-nnJ
+eLi
+jdu
+jdu
+nhq
+sac
+xZP
 deI
-liw
+xZP
 hgL
-hgL
-hgL
-hgL
-hgL
-sPV
+wGz
+pET
+aoL
+xZP
+xZP
 flV
 uGe
-qtx
-bCB
+hhv
+oGC
 iIO
 nro
 enS
@@ -59512,25 +59909,25 @@ xJe
 uIX
 oSX
 izi
-bHr
-nnJ
-bHr
-nnJ
-bHr
+jpp
+pzG
+jpp
+pzG
+qzs
 aPq
 roJ
 eTb
 nnJ
+eSf
 nnJ
-xZP
+jZE
+cSQ
 nnJ
 nnJ
-vCD
-nhq
-nnJ
+uPe
 rnw
-qtx
-cAY
+rzP
+pzG
 iIO
 nro
 iWD
@@ -59770,24 +60167,24 @@ uIX
 oSX
 izi
 nvV
-nnJ
-gjU
-nnJ
+pzG
 nvV
+pzG
+mmC
 sCj
 nnJ
 fHp
 xyR
 rKJ
-myS
+xyR
 xyR
 xyR
 bda
-jdu
+xyR
 wID
-pzG
-pzG
-pzG
+wSs
+fAE
+gKz
 iIO
 nro
 enS
@@ -60026,24 +60423,24 @@ vTk
 uIX
 oSX
 izi
-bHr
-nnJ
-bHr
-nnJ
-bHr
+nvV
+pzG
+nvV
+pzG
+mmC
 sCj
 nnJ
 fmH
 nnJ
 qGt
-flp
-nnJ
+fEY
+fEY
 fEY
 vCD
-itS
+nnJ
 cel
-rnw
-qtx
+pzG
+rzP
 pzG
 iIO
 nro
@@ -60283,24 +60680,24 @@ vTk
 uIX
 gZc
 izi
-nvV
-nnJ
+cAY
+pzG
 dXN
-nnJ
+pzG
 vgO
 omT
 mgm
 gHZ
 gbx
-qGt
+tJo
 ieP
 tuK
 yhR
-vCD
+psO
 mvB
-flV
-uGe
-qtx
+cel
+pzG
+rzP
 pzG
 iIO
 nro
@@ -60549,15 +60946,15 @@ iIO
 wUW
 fid
 chm
+tSF
 fid
 fid
 fid
-qzs
 acW
-gSp
-uPe
-kXs
-qtx
+nnJ
+cel
+pzG
+rzP
 pzG
 iIO
 nro
@@ -60810,11 +61207,11 @@ kpb
 rht
 oUp
 uXf
-nnJ
-nnJ
-nnJ
-pzG
-pzG
+jSW
+jSW
+xaj
+nDR
+rzP
 oGC
 iIO
 tdO
@@ -61067,11 +61464,11 @@ rvQ
 jUq
 eeZ
 uXf
-nnJ
-nnJ
-nnJ
+iBP
+iBP
+iBP
 kjl
-pzG
+tFy
 pzG
 iIO
 hSF
@@ -61324,12 +61721,12 @@ rvJ
 oUp
 xlt
 uXf
-eLi
-tJo
-tJo
+izi
+izi
+izi
 izi
 qMD
-qMD
+pNJ
 iIO
 hSF
 nro
@@ -61586,7 +61983,7 @@ fid
 fid
 fid
 wjG
-wjG
+mtG
 iIO
 vIT
 nro
@@ -63625,7 +64022,7 @@ rbW
 sMr
 dKm
 cht
-qEY
+fXA
 dAH
 fid
 vlb
@@ -65168,7 +65565,7 @@ cAL
 cAL
 cAL
 cAL
-iSz
+cAL
 mAb
 iYr
 vdC
@@ -65194,7 +65591,7 @@ iIO
 iIO
 iIO
 iIO
-iJZ
+iBe
 uIX
 lmU
 uzk
@@ -65446,11 +65843,11 @@ rzO
 iIO
 nro
 hSF
-hSF
+iIO
 xGJ
-rcY
-mGO
-enS
+dPi
+xGJ
+fxc
 iJZ
 uIX
 lmU
@@ -65684,11 +66081,11 @@ kLS
 qVs
 wxB
 bKP
-mmC
+xDi
 hYU
-mmC
+xDi
 uPw
-rzO
+bZu
 xDi
 xDi
 xDi
@@ -65703,11 +66100,11 @@ rzO
 iIO
 nro
 hSF
-hSF
-hSF
-hSF
-hSF
-enS
+iIO
+dxf
+dxf
+dxf
+hRq
 iJZ
 uIX
 lmU
@@ -65941,11 +66338,11 @@ bKP
 bKP
 bKP
 bKP
-hIC
+dWw
 hYU
-rzO
-rzO
-hIC
+bZu
+bZu
+dWw
 xDi
 xDi
 xDi
@@ -66198,11 +66595,11 @@ eAs
 flR
 rsn
 bKP
-mmC
+xDi
 iuJ
-mmC
-tnR
-mmC
+xDi
+hen
+xDi
 xDi
 xDi
 xDi
@@ -66217,10 +66614,10 @@ rzO
 fxc
 hSF
 hSF
-hSF
-hSF
-hSF
-fKH
+iIO
+tja
+dxf
+lUA
 enS
 oSX
 uIX
@@ -66455,11 +66852,11 @@ tev
 wKP
 mQL
 bKP
-hIC
-tnR
-mmC
-tnR
-mmC
+dWw
+hen
+xDi
+hen
+xDi
 xDi
 xDi
 xDi
@@ -66474,12 +66871,12 @@ rzO
 iIO
 hSF
 rGL
-tSF
-hSF
-hSF
-vWF
+iIO
+lTj
+dxf
+jfh
 enS
-nwT
+hDG
 uIX
 lmU
 nUC
@@ -66712,11 +67109,11 @@ ijx
 otp
 jhW
 bKP
-rzO
-hIC
-mmC
-hIC
-mmC
+bZu
+dWw
+xDi
+dWw
+xDi
 xDi
 xDi
 xDi
@@ -66732,9 +67129,9 @@ iIO
 fxc
 fxc
 iIO
-hSF
-hSF
-elF
+lTj
+dxf
+jfh
 enS
 oSX
 kwu
@@ -66989,9 +67386,9 @@ bZu
 bZu
 bZu
 iIO
-hSF
-hSF
-hSF
+anE
+dxf
+anE
 enS
 oSX
 bSb
@@ -67246,9 +67643,9 @@ xDi
 xDi
 bZu
 iIO
-hSF
-hSF
-hSF
+dxf
+oNX
+dxf
 enS
 oSX
 uIX
@@ -67505,7 +67902,7 @@ bZu
 iIO
 fxc
 fxc
-iIO
+fxc
 enS
 oSX
 uIX

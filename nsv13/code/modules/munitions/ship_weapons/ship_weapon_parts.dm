@@ -1,5 +1,11 @@
+/obj/item/ship_weapon/parts //Base item
+	name = "Weapon electronics"
+	desc = "This piece of equipment is a figment of your imagination, let the coders know how you got it!"
+	icon = 'icons/obj/module.dmi'
+	icon_state = "mcontroller"
+
 /**
- * Firing electronics - used for pdcs, torp tubes, and railguns
+ * Firing electronics - used in construction of <s>new</s> old munitions machinery
  */
 /obj/item/ship_weapon/parts/firing_electronics
 	name = "firing electronics"

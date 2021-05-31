@@ -242,6 +242,13 @@
 	icon_state = "pilot"
 	armor = list("melee" = 15, "bullet" = 0, "laser" = 0, "energy" = 5, "bomb" = 10, "bio" = 0, "rad" = 5, "fire" = 30, "acid" = 5)
 
+/obj/item/clothing/head/ship/rising_sun
+	name = "headband of the rising sun"
+	desc = "DEATH BEFORE DISHONOR! BANZAAAAAI!"
+	icon_state = "sun"
+	item_state = "sun"
+	dynamic_hair_suffix = ""
+
 /obj/item/clothing/head/helmet/transport_pilot
 	name = "Transport Pilot's Helmet"
 	desc = "A large helmet made for protecting the head and ears."
@@ -341,11 +348,6 @@
 	icon_state = "syndicate-space"
 	item_state = "syndicate-space"
 	item_color = "syndicate-space"
-
-/obj/machinery/suit_storage_unit/syndicate/odst
-	suit_type = /obj/item/clothing/suit/space/syndicate/odst
-	mask_type = /obj/item/clothing/mask/gas/sechailer
-	helmet_type = /obj/item/clothing/head/helmet/space/syndicate/odst
 
 /obj/item/storage/belt/utility/syndicate
 	name = "syndicate utility belt"

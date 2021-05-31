@@ -10,6 +10,7 @@
 	var/obj/item/ship_weapon/parts/missile/propulsion_system/ps = null
 	var/obj/item/ship_weapon/parts/missile/iff_card/iff = null
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/dud //Forget to finish your torpedo? You get a dud torpedo that doesn't do anything
+	claimable_gulag_points = 0
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/examine(mob/user) //No better guide than an in-game play-by-play guide
 	. = ..()
@@ -210,10 +211,16 @@
 			to_chat(user, "<span class='notice'>You start sealing the casing on [src]...</span>")
 			if(tool.use_tool(src, user, 40, amount=1, volume=100))
 				to_chat(user, "<span class='notice'You seal the casing on [src].</span>")
-				new_torpedo(wh, gs, ps, iff)
-				qdel(src)
+				state = 11
+				check_completion()
 			return TRUE
 	. = ..()
+
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/proc/check_completion()
+	update_icon()
+	if(state >= 11)
+		new_torpedo(wh, gs, ps, iff)
+		return TRUE
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/crowbar_act(mob/user, obj/item/tool)
 	switch(state)
