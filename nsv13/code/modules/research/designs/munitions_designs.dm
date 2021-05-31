@@ -66,7 +66,7 @@
 	desc = "The stock standard guidance system design for guided munitions"
 	id = "guidance_system"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 1000, /datum/material/glass = 2500, /datum/material/gold = 3000, /datum/material/copper = 2500)
+	materials = list(/datum/material/iron = 500, /datum/material/glass = 250, /datum/material/gold = 300, /datum/material/copper = 250)
 	build_path = /obj/item/ship_weapon/parts/missile/guidance_system
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
@@ -76,7 +76,7 @@
 	desc = "The stock standard propulsion system design for guided munitions"
 	id = "propulsion_system"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000, /datum/material/glass = 5000, /datum/material/titanium = 2500, /datum/material/plasma = 2500)
+	materials = list(/datum/material/iron = 1000, /datum/material/glass = 500, /datum/material/titanium = 250, /datum/material/plasma = 250)
 	build_path = /obj/item/ship_weapon/parts/missile/propulsion_system
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
@@ -86,7 +86,7 @@
 	desc = "The stock standard IFF card design for guided munitions"
 	id = "iff_card"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/glass = 20000, /datum/material/copper = 5000, /datum/material/gold = 5000)
+	materials = list(/datum/material/glass = 1000, /datum/material/copper = 500, /datum/material/gold = 500)
 	build_path = /obj/item/ship_weapon/parts/missile/iff_card
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
@@ -98,7 +98,7 @@
 	desc = "The stock standard warhead design for missiles"
 	id = "missile_warhead"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/copper = 2500)
+	materials = list(/datum/material/iron = 2500, /datum/material/glass = 500, /datum/material/copper = 500)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS	
@@ -111,7 +111,7 @@
 	desc = "The stock standard warhead design for torpedos"
 	id = "warhead"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 10000)
+	materials = list(/datum/material/iron = 4000, /datum/material/glass = 500, /datum/material/copper = 500, /datum/material/plasma = 4000)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead/torpedo
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
@@ -121,7 +121,7 @@
 	desc = "A bunker buster warhead design for torpedos"
 	id = "bb_warhead"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2500, /datum/material/copper = 2500, /datum/material/plasma = 20000, /datum/material/gold = 2500)
+	materials = list(/datum/material/iron = 3000, /datum/material/glass = 500, /datum/material/copper = 500, /datum/material/plasma = 5000, /datum/material/gold = 2000)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead/bunker_buster
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
@@ -131,7 +131,7 @@
 	desc = "A decoy warhead design for torpedos"
 	id = "decoy_warhead"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/copper = 2500)
+	materials = list(/datum/material/iron = 2500, /datum/material/glass = 500, /datum/material/copper = 1000)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead/decoy
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
@@ -141,7 +141,7 @@
 	desc = "A hollowed out nosecone that allows torpedoes to carry freight."
 	id = "freight_warhead"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 5000, /datum/material/glass = 2500, /datum/material/copper = 2500)
+	materials = list(/datum/material/iron = 5000, /datum/material/glass = 1000, /datum/material/copper = 500)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead/freight
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
@@ -151,7 +151,7 @@
 	desc = "A nuclear warhead design for torpedos"
 	id = "nuke_warhead"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 20000, /datum/material/glass = 5000, /datum/material/copper = 5000, /datum/material/plasma = 20000, /datum/material/gold = 5000, /datum/material/uranium = 10000)
+	materials = list(/datum/material/iron = 4000, /datum/material/glass = 1000, /datum/material/copper = 1000, /datum/material/plasma = 7500, /datum/material/gold = 1500, /datum/material/uranium = 10000)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead/nuclear
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
@@ -161,7 +161,7 @@
 	desc = "A sensor suite that can turn a torpedo casing into an advanced probe for use in astrometrics research."
 	id = "probe_warhead"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 20000, /datum/material/glass = 5000, /datum/material/titanium=10000, /datum/material/gold=1000)
+	materials = list(/datum/material/iron = 3000, /datum/material/glass = 1000, /datum/material/copper = 1500, /datum/material/titanium= 1000, /datum/material/gold=1000)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead/probe
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
@@ -181,7 +181,7 @@
 	name = "Naval Artillery Round (Armour Piercing)"
 	desc = "A diamond tipped AP round that can be fired out of a deck gun. (WARNING: Requires a trolley to move!)"
 	id = "naval_shell_ap"
-	materials = list(/datum/material/iron = 10000, /datum/material/titanium=5000, /datum/material/diamond=2000)
+	materials = list(/datum/material/iron = 10000, /datum/material/titanium=1000, /datum/material/diamond=2000)
 	build_path = /obj/item/ship_weapon/ammunition/naval_artillery/ap
 	category = list("Advanced Munitions")
 	build_type = PROTOLATHE
@@ -201,7 +201,7 @@
 	name = "Plasma-Based Kinetic Accelerant"
 	desc = "A powerful powder charge for use in deck guns, which can propel a round to insane speeds."
 	id = "plasma_accelerant"
-	materials = list(/datum/material/iron = 1000, /datum/material/plasma = 1500)
+	materials = list(/datum/material/iron = 500, /datum/material/plasma = 1500)
 	build_path = /obj/item/powder_bag/plasma
 	category = list("Advanced Munitions")
 	build_type = PROTOLATHE

@@ -6,7 +6,7 @@
 	icon_state = "combust"
 	damage_states = FALSE //Not yet implemented
 	faction = "nanotrasen"//Placeholder, set by trader.
-	mass = MASS_TITAN
+	mass = MASS_IMMOBILE
 	brakes = TRUE
 	obj_integrity = 3000 //Really robust, but not invincible.
 	max_integrity = 3000
