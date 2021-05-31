@@ -234,8 +234,8 @@
 	AddComponent(/datum/component/volatile, volatility)
 
 /obj/item/powder_bag/plasma
-	name = "Plasma based projectile accelerant"
-	desc = "An extremely powerful 'bomb waiting to happen' which can propel naval artillery shells to extreme speeds with half the amount of regular powder!"
+	name = "Plasma-based projectile accelerant"
+	desc = "An extremely powerful 'bomb waiting to happen' which can propel naval artillery shells to high speeds with half the amount of regular powder!"
 	icon_state = "spicypowder"
 	power = 1
 	volatility = 3 //DANGEROUSLY VOLATILE. Can send the entire magazine up in smoke.
@@ -265,6 +265,7 @@
 
 /obj/item/ship_weapon/ammunition/missile/attack_hand(mob/user)
 	return FALSE
+
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "Cannon ball"
 	desc = "The QM blew the cargo budget on corgis, the clown stole all our ammo, we've got half a tank of plasma and are halfway to Dolos. Hit it."
@@ -319,11 +320,11 @@
 	var/obj/item/ship_weapon/ammunition/naval_artillery/shell = null
 	var/ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
 	var/loading = FALSE
-	var/load_delay = 12.5 SECONDS
+	var/load_delay = 10 SECONDS
 
 /obj/machinery/deck_turret/payload_gate/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()
-	if(get_dist(A, src) > 1)
+	if(get_dist(user, src) > 1)
 		return FALSE
 	if(shell)
 		to_chat(user, "<span class='notice'>[src] is already loaded with [shell].</span>")
@@ -332,7 +333,10 @@
 		to_chat(user, "<span class='notice'>[src] is already being loaded...</span>")
 		return FALSE
 	if(ammo_type && istype(A, ammo_type))
+		if(get_dist(A, src) > 1)
+			load_delay = 13 SECONDS
 		load(A, user)
+		load_delay = 9 SECONDS
 
 /obj/machinery/deck_turret/payload_gate/proc/load(obj/item/A, mob/user)
 	var/temp = load_delay
