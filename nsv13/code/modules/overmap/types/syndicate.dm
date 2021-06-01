@@ -157,7 +157,7 @@
 	name = "Hammerhead class flak destroyer"
 	icon_state = "hammerhead"
 	mass = MASS_LARGE
-	flak_battery_amount = 1
+	flak_battery_amount = 2
 	missiles = 0
 	torpedoes = 0
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
@@ -251,7 +251,7 @@
 	name = "Inquisitior class assault cruiser"
 	desc = "A heavily armoured cruiser designed for close quarters engagement."
 	icon_state = "assault"
-	mass = MASS_LARGE
+	mass = MASS_MEDIUM_LARGE
 	sprite_size = 48
 	damage_states = FALSE
 	obj_integrity = 1200

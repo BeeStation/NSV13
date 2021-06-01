@@ -8,10 +8,10 @@
 	density = TRUE
 
 /datum/ship_weapon/vls
-	name = "Autonomous Missile System"
+	name = "STS Missile System"
 	default_projectile_type = /obj/item/projectile/guided_munition/missile
 	burst_size = 1
-	fire_delay = 5
+	fire_delay = 0.35 SECONDS
 	range_modifier = 30
 	select_alert = "<span class='notice'>Missile target acquisition systems: online.</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Missile tubes are not loaded.</span>"
@@ -22,7 +22,7 @@
 		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
-	selectable = FALSE
+	selectable = TRUE
 
 /datum/ship_weapon/vls/valid_target(obj/structure/overmap/source, obj/structure/overmap/target)
 	if(!istype(source) || !istype(target))
@@ -39,7 +39,7 @@
 	firing_sound = 'nsv13/sound/effects/ship/plasma.ogg'
 	load_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
 	fire_mode = FIRE_MODE_AMS
-	ammo_type = /obj/item/ship_weapon/ammunition/missile
+	ammo_type = list(/obj/item/ship_weapon/ammunition/missile, /obj/item/ship_weapon/ammunition/torpedo)
 	CanAtmosPass = FALSE
 	CanAtmosPassVertical = FALSE
 	semi_auto = TRUE
@@ -50,7 +50,13 @@
 
 /obj/machinery/ship_weapon/vls/Crossed(atom/movable/AM, oldloc)
 	. = ..()
-	if(istype(AM, ammo_type))
+	var/can_shoot_this = FALSE
+	for(var/_ammo_type in ammo_type)
+		if(istype(AM, _ammo_type))
+			can_shoot_this = TRUE
+			break
+
+	if(can_shoot_this)
 		if(ammo?.len >= max_ammo)
 			return FALSE
 		if(loading)
@@ -72,7 +78,7 @@
 	// We have different sprites and behaviors for each torpedo
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered
 	if(T)
-		var/obj/item/projectile/P = linked.fire_lateral_projectile(T.projectile_type, target, homing = TRUE)
+		var/obj/item/projectile/P = linked.fire_projectile(T.projectile_type, target, homing = TRUE, lateral = weapon_type.lateral)
 		if(T.contents.len)
 			for(var/atom/movable/AM in T.contents)
 				to_chat(AM, "<span class='warning'>You feel slightly nauseous as you're shot out into space...</span>")
@@ -153,7 +159,7 @@
 /datum/ams_mode
 	var/name = "Example"
 	var/desc = "Nothing"
-	var/enabled = TRUE
+	var/enabled = FALSE
 	var/max_range = 255
 	var/max_targets = 10 //To save resources.
 
@@ -195,6 +201,7 @@
 	name = "Anti-ship"
 	desc = "Allows the AMS to automatically acquire and fire at any and all painted targets. Imprecise, but effective."
 	max_range = 85
+	enabled = TRUE //By default, so that AIs can use it.
 
 /datum/ams_mode/countermeasures
 	name = "Anti-missile countermeasures"
@@ -261,11 +268,11 @@
 	return targets
 
 
-/obj/structure/overmap/handle_flak()
+/obj/structure/overmap/proc/handle_flak()
 	if(fire_mode == FIRE_MODE_FLAK) //If theyre aiming the flak manually.
 		return
-	if(mass < MASS_SMALL) //Sub-capital ships don't get to use flak
-		return
+	if(!weapon_types[FIRE_MODE_FLAK] || flak_battery_amount <= 0)
+		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_FLAK]
 	var/flak_left = flak_battery_amount //Multi-flak batteries!
 	if(!ai_controlled)
