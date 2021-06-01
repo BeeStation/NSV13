@@ -52,6 +52,7 @@
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 //Naval artillery
+/*
 /datum/design/board/naval_artillery
 	name = "Machine Design (Deck Gun Frame)"
 	desc = "Allows for the construction of a naval artillery gun frame."
@@ -61,7 +62,8 @@
 	build_path = /obj/structure/ship_weapon/mac_assembly/artillery_frame
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
-
+*/
+/*don't need this no more
 /datum/design/naval_artillery_triple
 	name = "Machine Design (Triple Deck Gun Frame)"
 	desc = "Allows for the construction of a triple barreled naval cannon frame."
@@ -71,6 +73,7 @@
 	category = list("Advanced Munitions")
 	build_type = PROTOLATHE | AUTOLATHE
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+*/
 
 /datum/design/board/naval_artillery_comp
 	name = "Machine Design (Deck Gun Computer)"

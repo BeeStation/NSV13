@@ -1,3 +1,8 @@
+#define MSTATE_CLOSED 0// Gonna need these again
+#define MSTATE_UNSCREWED 1
+#define MSTATE_UNBOLTED 2
+#define MSTATE_PRIEDOUT 3
+
 /obj/machinery/ship_weapon/deck_turret
 	name = "\improper M4-15 'Hood' deck turret"
 	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
@@ -18,8 +23,60 @@
 	safety = FALSE
 	maintainable = FALSE //This just makes them brick.
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
+	interaction_flags_machine = INTERACT_MACHINE_OPEN | INTERACT_MACHINE_OFFLINE | INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON | INTERACT_MACHINE_SET_MACHINE
 	var/obj/machinery/deck_turret/core
 	var/id = null //N.B. This is NOT intended to allow them to manual link deck guns. This is for certain boarding maps and is thus a UNIQUE CONSTRAINT for this one case. ~KMC
+
+/obj/machinery/ship_weapon/deck_turret/Topic(href, href_list)
+	. = ..() //Sanity checks.
+	if(.)
+		return .
+	
+	if(href_list["fire_button"])
+		if(maint_state == MSTATE_UNSCREWED)
+			fire()
+
+/obj/machinery/ship_weapon/deck_turret/examine()
+	. = ..()
+	if(maint_state == MSTATE_UNSCREWED)
+		. += "There is a button labelled \"<A href='?src=[REF(src)];fire_button=1'>Force Eject Shell</A>\"."
+	if(maint_state == MSTATE_PRIEDOUT)
+		. += "The loading tray can be <b>removed by hand</b>."//deconstruction hint
+
+/obj/machinery/ship_weapon/deck_turret/attack_robot(mob/user)
+	. = ..()
+	attack_hand(user)
+
+/obj/machinery/ship_weapon/deck_turret/attack_hand(mob/user)
+	. = ..()
+	if(maint_state == MSTATE_PRIEDOUT)
+		to_chat(user, "<span class='notice'>You start removing the loading tray from the [src].</span>")
+		if(!do_after(user, 4 SECONDS, target=src))
+			return
+		var/obj/W = (locate(/obj/item/ship_weapon/parts/loading_tray) in component_parts)
+		if(W)
+			W.forceMove(user.loc)
+			component_parts -= W
+		spawn_frame(TRUE)
+		qdel(src)
+	
+/obj/machinery/ship_weapon/deck_turret/spawn_frame(disassembled)
+	var/obj/structure/ship_weapon/artillery_frame/M = new /obj/structure/ship_weapon/artillery_frame(loc)
+
+	for(var/obj/O in component_parts)
+		O.forceMove(M)
+	component_parts = list()
+
+	. = M
+	M.setAnchored(anchored)
+	M.setDir(dir)
+	M.set_final_state()
+	M.max_barrels = max_ammo
+	M.lazy_icon()
+	if(!disassembled)
+		M.obj_integrity = M.max_integrity * 0.5 //the frame is already half broken
+	transfer_fingerprints_to(M)
+
 
 /obj/machinery/ship_weapon/deck_turret/lazyload()
 	. = ..()
@@ -118,6 +175,9 @@
 	var/obj/machinery/deck_turret/powder_gate/target = locate(params["target"])
 	switch(action)
 		if("load")
+			if(core.turret.maint_state > MSTATE_UNSCREWED)//Can't load a shell if we're doing maintenance 
+				to_chat(usr, "<span class='notice'>Cannot feed shell while undergoing maintenance!</span>")
+				return
 			if(!core.turret.rack_load(core.payload_gate.shell))
 				return
 			core.payload_gate.shell = null
@@ -437,20 +497,20 @@
 	bound_y = -32
 
 //MEGADETH TURRET
-/obj/machinery/ship_weapon/deck_turret/mega
+/obj/machinery/ship_weapon/deck_turret/_3
 	name = "M4-16 'Yamato' Triple Barrel Deck Gun"
 	desc = "This is perhaps a bit excessive..."
 	icon_state = "deck_turret_dual"
 	max_ammo = 3
 
-/obj/machinery/ship_weapon/deck_turret/mega/north
+/obj/machinery/ship_weapon/deck_turret/_3/north
 	dir = NORTH
 	pixel_x = -43
 	pixel_y = -32
 	bound_x = -32
 	bound_y = -32
 
-/obj/machinery/ship_weapon/deck_turret/mega/east
+/obj/machinery/ship_weapon/deck_turret/_3/east
 	dir = EAST
 	pixel_x = -30
 	pixel_y = -42
@@ -459,7 +519,7 @@
 	bound_x = -32
 	bound_y = -32
 
-/obj/machinery/ship_weapon/deck_turret/mega/west
+/obj/machinery/ship_weapon/deck_turret/_3/west
 	dir = WEST
 	pixel_x = -63
 	pixel_y = -42
@@ -467,14 +527,6 @@
 	bound_height = 96
 	bound_x = -64
 	bound_y = -32
-
-/obj/structure/ship_weapon/mac_assembly/artillery_frame/mega
-	name = "M4-16 'Yamato' Triple Barrel Naval Artillery Frame"
-	desc = "The beginnings of a huge deck gun, internals notwithstanding."
-	icon = 'nsv13/icons/obj/munitions/deck_turret.dmi'
-	icon_state = "platform_dual"
-	output_path = /obj/machinery/ship_weapon/deck_turret/mega
-
 
 /obj/machinery/ship_weapon/deck_turret/Initialize()
 	. = ..()
@@ -487,6 +539,22 @@
 	if(id)
 		addtimer(CALLBACK(src, .proc/link_via_id), 10 SECONDS)
 
+	component_parts = list()
+	component_parts += new/obj/item/ship_weapon/parts/firing_electronics
+	component_parts += new/obj/item/ship_weapon/parts/loading_tray
+	if (max_ammo > 1)
+		if(ispath(text2path("/obj/item/circuitboard/multibarrel_upgrade/_[max_ammo]")))
+			component_parts += text2path("new/obj/item/circuitboard/multibarrel_upgrade/_[max_ammo]")
+		else//this should really never happen unless some major tomfoolery goes on
+			var/obj/item/circuitboard/multibarrel_upgrade/M = new/obj/item/circuitboard/multibarrel_upgrade
+			M.barrels = max_ammo
+			M.desc = "An upgrade that allows you to add [max_ammo] barrels to a Naval Artillery Cannon. You must partially deconstruct the cannon to install this."
+			component_parts += M
+	var/i
+	for(i=0, i<max_ammo, i++)
+		component_parts += new/obj/item/ship_weapon/parts/mac_barrel
+		component_parts += new/obj/item/assembly/igniter
+
 /obj/machinery/ship_weapon/deck_turret/proc/link_via_id()
 	for(var/obj/machinery/deck_turret/core in GLOB.machines)
 		if(!istype(core))
@@ -496,28 +564,10 @@
 			src.core = core
 			core.update_parts()
 
-//The actual gun assembly.
-/obj/structure/ship_weapon/mac_assembly/artillery_frame
-	name = "naval artillery frame"
-	desc = "The beginnings of a huge deck gun, internals notwithstanding."
-	icon = 'nsv13/icons/obj/munitions/deck_turret.dmi'
-	icon_state = "platform"
-	num_sheets_frame = 20
-	anchored = TRUE
-	density = TRUE
-	output_path = /obj/machinery/ship_weapon/deck_turret
-	pixel_x = -43
-	pixel_y = -64
-	bound_width = 96
-	bound_height = 128
-	bound_x = -32
-	bound_y = -64
-
-/obj/structure/ship_weapon/mac_assembly/artillery_frame/setDir()
+/obj/machinery/ship_weapon/deck_turret/setDir()
 	. = ..()
 	switch(dir)
 		if(NORTH)
-			output_path = text2path("[initial(output_path)]/north")
 			pixel_x = -43
 			pixel_y = -32
 			bound_width = 96
@@ -525,7 +575,6 @@
 			bound_x = -32
 			bound_y = -32
 		if(SOUTH)
-			output_path = initial(output_path)
 			pixel_x = -43
 			pixel_y = -64
 			bound_width = 96
@@ -533,7 +582,6 @@
 			bound_x = -32
 			bound_y = -64
 		if(EAST)
-			output_path = text2path("[initial(output_path)]/east")
 			pixel_x = -30
 			pixel_y = -42
 			bound_width = 128
@@ -541,20 +589,14 @@
 			bound_x = -32
 			bound_y = -32
 		if(WEST)
-			output_path = text2path("[initial(output_path)]/west")
 			pixel_x = -63
 			pixel_y = -42
 			bound_width = 128
 			bound_height = 96
 			bound_x = -64
 			bound_y = -32
-
-//let me leave please
-/obj/structure/ship_weapon/mac_assembly/artillery_frame/CanPass(atom/movable/mover, turf/target)
-	if(get_turf(mover) in src.locs)
-		return 1
-	. = ..()
-
-/obj/structure/ship_weapon/mac_assembly/artillery_frame/AltClick(mob/user)
-	. = ..()
-	setDir(turn(dir, 90))
+			
+#undef MSTATE_CLOSED
+#undef MSTATE_UNSCREWED
+#undef MSTATE_UNBOLTED
+#undef MSTATE_PRIEDOUT
