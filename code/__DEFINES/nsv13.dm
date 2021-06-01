@@ -3,11 +3,11 @@
 #define TRAIT_NODIGEST			"no_digest"
 #define TRAIT_SEASICK			"seasick"
 #define TRAIT_BINARY_SPEAKER	"speaks_binary"
+#define TRAIT_MUNITIONS_METABOLISM    "munitions-metabolism" //NSV13
+#define TRAIT_MUTATEIMMUNE             "mutate_immune" //NSV13 - IPCs do not get human mutations
+#define TRAIT_IPCRADBRAINDAMAGE        "rad_brain_damage" //NSV13 - IPCs take brain damage when exposed to radiation
 
 #define COMSIG_AI_UPDATE_LAWS 	"ai_law_update"
-#define COMSIG_MOB_ATTACK_HAND_TURF "mob_attack_hand_turf"	//Called on mob, params: turf
-
-#define MOVESPEED_ID_SWIMMING "SWIMMING_SPEED_MOD"
 
 //Lazy cables
 #define CABLE_LAYER_1 "l1"
@@ -34,3 +34,11 @@
 GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 
 #define COMSIG_ATOM_DAMAGE_ACT "comsig_atom_damage_act" //Used when an atom takes damage.
+
+#define PASSDOOR (1<<7) //Can you pass doors?
+
+//Math. Lame.
+#define KPA_TO_PSI(A) (A/6.895)
+#define PSI_TO_KPA(A) (A*6.895)
+#define KELVIN_TO_CELSIUS(A) (A-273.15)
+#define MEGAWATTS /1e+6

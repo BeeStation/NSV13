@@ -6,7 +6,10 @@
 	anchored = FALSE
 	density = TRUE
 	layer = 3
-	var/capacity = 0 //Current number of munitions we have loaded
+	var/static/list/allowed = typecacheof(list(
+		/obj/item/ship_weapon/ammunition,
+		/obj/item/powder_bag))
+	var/amount = 0 //Current number of munitions we have loaded
 	var/max_capacity = 6//Maximum number of munitions we can load at once
 	var/loading = FALSE //stop you loading the same torp over and over
 
@@ -20,17 +23,13 @@
 	if(!in_range(src, usr))
 		return
 	add_fingerprint(user)
-	if(!anchored)
-		to_chat(user, "<span class='notice'>You toggle the brakes on [src], fixing it in place.</span>")
-		anchored = TRUE
-	else
-		to_chat(user, "<span class='notice'>You toggle the brakes on [src], allowing it to move freely.</span>")
-		anchored = FALSE
+	anchored = !anchored
+	to_chat(user, "<span class='notice'>You toggle the brakes on [src], [anchored ? "fixing it in place" : "allowing it to move freely"].</span>")
 
 /obj/structure/munitions_trolley/examine(mob/user)
 	. = ..()
 	if(anchored)
-		. += "<span class='notice'>[src]'s brakes are enabled!</span>"
+		. += "<span class='notice'>\The [src]'s brakes are enabled!</span>"
 
 /obj/structure/munitions_trolley/Bumped(atom/movable/AM)
 	. = ..()
@@ -38,9 +37,9 @@
 
 /obj/structure/munitions_trolley/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
-	if(istype(A, /obj/item/ship_weapon/ammunition))
+	if(allowed[A.type])
 		if(loading)
-			to_chat(user, "<span class='notice'>You're already loading something onto [src]!.</span>")
+			to_chat(user, "<span class='notice'>You're already loading something onto [src]!</span>")
 			return
 		to_chat(user, "<span class='notice'>You start to load [A] onto [src]...</span>")
 		loading = TRUE
@@ -50,34 +49,34 @@
 		loading = FALSE
 
 /obj/structure/munitions_trolley/proc/load_trolley(atom/movable/A, mob/user)
-	if(capacity >= max_capacity)
+	if(amount >= max_capacity)
 		if(user)
-			to_chat(user, "<span class='warning'>[src] is fully loaded!</span>")
+			to_chat(user, "<span class='warning'>\The [src] is fully loaded!</span>")
 		return FALSE
-	if(istype(A, /obj/item/ship_weapon/ammunition))
+	if(allowed[A.type])
 		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 		A.forceMove(src)
-		A.pixel_y = 5+(capacity*5)
+		A.pixel_y = 5+(amount*5)
 		vis_contents += A
-		capacity ++
+		amount++
 		A.layer = ABOVE_MOB_LAYER
 		return
 
-/obj/structure/munitions_trolley/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/structure/munitions_trolley/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "MunitionsTrolley", name, 400, 400, master_ui, state)
+		ui = new(user, src, "MunitionsTrolley")
 		ui.open()
 
 /obj/structure/munitions_trolley/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	var/obj/item/ship_weapon/ammunition/A = locate(params["id"])
+	var/atom/movable/target = locate(params["id"])
 	switch(action)
 		if("unload")
-			if(!A)
+			if(!target)
 				return
-			unload_munition(A)
+			unload_munition(target)
 		if("unload_all")
 			for(var/atom/movable/AM in contents)
 				unload_munition(AM)
@@ -93,18 +92,19 @@
 
 /obj/structure/munitions_trolley/proc/unload_munition(atom/movable/A)
 	vis_contents -= A
-	A.forceMove(get_turf(src))
+	//This is a super weird edgecase where TGUI doesn't update quickly enough in laggy situations. Prevents the shell from being unloaded when it's not supposed to.
+	if(A.loc == src)
+		A.forceMove(get_turf(src))
+		if(usr)
+			to_chat(usr, "<span class='notice'>You unload [A] from [src].</span>")
+		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	A.pixel_y = initial(A.pixel_y) //Remove our offset
 	A.layer = initial(A.layer)
-	if(usr)
-		to_chat(usr, "<span class='notice'>You unload [A] from [src].</span>")
-	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-	if(istype(A, /obj/item/ship_weapon/ammunition)) //If a munition, allow them to load other munitions onto us.
-		capacity --
+	if(allowed[A.type]) //If a munition, allow them to load other munitions onto us.
+		amount--
 	if(contents.len)
-		var/count = capacity
-		for(var/X in contents)
-			var/atom/movable/AM = X
-			if(istype(AM, /obj/item/ship_weapon/ammunition))
+		var/count = amount
+		for(var/atom/movable/AM in contents)
+			if(allowed[AM.type])
 				AM.pixel_y = count*5
-				count --
+				count--

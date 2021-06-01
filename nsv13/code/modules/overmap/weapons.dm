@@ -78,10 +78,7 @@
 				return FALSE
 			var/obj/proj_type = weapon_type.default_projectile_type
 			for(var/i; i < weapon_type.burst_size; i++)
-				if(lateral)
-					fire_lateral_projectile(proj_type, target)
-				else
-					fire_projectile(proj_type, target)
+				fire_projectile(proj_type, target, lateral=weapon_type.lateral)
 				sleep(1)
 			return TRUE
 	else if(weapons[mode] && weapons[mode].len) //It's the main ship, see if any part of our battery can fire
@@ -223,7 +220,7 @@
 	. = ..()
 	set_light(4)
 	for(var/mob/M in orange(src, 3))
-		if(isliving(M))
+		if(isliving(M) && M.client?.prefs.toggles & SOUND_AMBIENCE) && M.can_hear_ambience())
 			to_chat(M, "<span class='userdanger'>You hear a loud creak coming from above you. Take cover!</span>")
 			SEND_SOUND(M, pick('nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg'))
 

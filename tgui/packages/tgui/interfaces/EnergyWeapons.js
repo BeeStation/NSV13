@@ -14,7 +14,11 @@ export const EnergyWeapons = (props, context) => {
   const powerAlloc = data.powerAlloc;
   const maxPower = data.maxPower;
   return (
-    <Window resizable theme="ntos">
+    <Window
+      resizable
+      theme="ntos"
+      width={600}
+      height={350}>
       <Window.Content scrollable>
         <Section title="Charge Status:"buttons={<Button
           fluid
@@ -31,7 +35,7 @@ export const EnergyWeapons = (props, context) => {
               average: [0.30, 0.50],
               bad: [0.50, Infinity],
             }}>
-            {(chargeRate / 1000) + ' kW'}
+            {(chargeRate / 1e+6) + ' mW'}
           </ProgressBar>
           <br />
           Charge:

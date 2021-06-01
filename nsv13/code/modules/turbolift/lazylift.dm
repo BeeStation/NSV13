@@ -38,8 +38,7 @@ That's it, ok bye!
 //Mappers, DON'T USE ME! Use the other one.
 
 /area/shuttle/turbolift
-	ambientsounds = list()
-	looping_ambience = 'nsv13/sound/effects/lift/elevatormusic.ogg' //Mandatory.
+	ambient_buzz = 'nsv13/sound/effects/lift/elevatormusic.ogg' //Mandatory.
 
 /obj/machinery/lazylift_button
 	name = "Turbolift call button"
@@ -267,7 +266,7 @@ That's it, ok bye!
 	var/area/ours = get_area(src)
 	for(var/area/affected in GLOB.sortedAreas)
 		if(istype(affected, ours.type))
-			affected.looping_ambience = what
+			affected.ambient_buzz = what
 
 //Emag the lift to let it crush people. Otherwise, its built in safeties will kick in.
 /obj/machinery/lazylift/emag_act(mob/user)
@@ -398,20 +397,17 @@ That's it, ok bye!
 					playsound(karmics_victim.loc, 'nsv13/sound/effects/lift/bonk.ogg', 100)
 				if(HAS_TRAIT(karmics_victim, TRAIT_SEASICK)) //oh my god you poor soul
 					to_chat(karmics_victim, "<span class='warning'>You can feel your head start to swim...</span>")
-					if(prob(40))
-						karmics_victim.adjust_disgust(20)
-					else
-						karmics_victim.adjust_disgust(10)
+					karmics_victim.adjust_disgust(100)
 		sleep(start_delay) //Sound time!
 		for(var/mob/M in get_area(src))
-			SEND_SOUND(M, sound(turbolift_loop_sound, repeat = TRUE, wait = 0, volume = 100, channel = CHANNEL_AMBIENCE))
+			SEND_SOUND(M, sound(turbolift_loop_sound, repeat = TRUE, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))
 		return
 	else
 		if(play_voice_lines)
 			playsound(platform_location, 'nsv13/sound/effects/lift/mindthegap.ogg', 100, FALSE)
 			platform_location.say("Please mind the gap.")
 		for(var/mob/M in get_area(src))
-			SEND_SOUND(M, sound(turbolift_end_sound, repeat = FALSE, wait = 0, volume = 100, channel = CHANNEL_AMBIENCE))
+			SEND_SOUND(M, sound(turbolift_end_sound, repeat = FALSE, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))
 		sleep(end_delay)
 		return
 

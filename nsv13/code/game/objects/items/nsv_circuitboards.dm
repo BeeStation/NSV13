@@ -22,6 +22,21 @@
 	name = "circuit board (FTL Navigation console)"
 	build_path = /obj/machinery/computer/ship/navigation
 
+//Secondary ID console
+/obj/item/circuitboard/computer/card/secondary_ship_id_console
+	name = "circuit board (secondary ID console)"
+	build_path = /obj/machinery/computer/secondary_ship_id_console
+
+/obj/item/circuitboard/computer/card/secondary_ship_id_console/syndicate
+	name = "circiut board (Syndicate ID console)"
+	build_path = /obj/machinery/computer/secondary_ship_id_console/syndicate
+
+////Security////
+
+/obj/item/circuitboard/computer/security/syndicate
+	name = "circuit board (Syndicate camera console)"
+	build_path = /obj/machinery/computer/security/syndicate
+
 ////Science////
 
 /obj/item/circuitboard/computer/astrometrics
@@ -137,14 +152,14 @@
 /obj/item/circuitboard/machine/deck_gun
 	name = "Deck gun core (circuitboard)"
 	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 20,
+		/obj/item/stack/sheet/mineral/titanium = 10,
 		/obj/item/stack/cable_coil = 5)
 	build_path = /obj/machinery/deck_turret
 
 /obj/item/circuitboard/machine/deck_gun/powder
 	name = "Deck gun powder gate (circuitboard)"
 	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 20,
+		/obj/item/stack/sheet/iron = 20,
 		/obj/item/stack/sheet/mineral/copper = 20,
 		/obj/item/stack/cable_coil = 5)
 	build_path = /obj/machinery/deck_turret/powder_gate
@@ -152,7 +167,8 @@
 /obj/item/circuitboard/machine/deck_gun/payload
 	name = "Deck gun payload gate (circuitboard)"
 	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 40,
+		/obj/item/stack/sheet/iron = 20,
+		/obj/item/stack/sheet/mineral/titanium = 5,
 		/obj/item/stack/sheet/mineral/copper = 10,
 		/obj/item/ship_weapon/parts/railgun_rail = 1,
 		/obj/item/ship_weapon/parts/loading_tray=1,

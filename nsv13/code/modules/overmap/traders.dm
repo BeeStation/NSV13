@@ -94,11 +94,11 @@
 	if(!LZ)
 		LZ = pick(landingzone.contents) //If we couldn't find an open floor, just throw it somewhere
 	var/obj/structure/closet/supplypod/centcompod/toLaunch = new /obj/structure/closet/supplypod/centcompod
-	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/flyMeToTheMoon]
+	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
 	var/atom/movable/theItem = new unlock_path
 	theItem.forceMove(toLaunch)
-	new /obj/effect/DPtarget(LZ, toLaunch)
+	new /obj/effect/pod_landingzone(LZ, toLaunch)
 	return theItem
 
 /datum/trader/proc/generate_missions()
@@ -242,7 +242,23 @@
 			return
 		attempt_purchase(target, usr)
 	if(action == "mission")
-		give_mission(usr)
+		var/list/currentMissions = list()
+		for ( var/datum/nsv_mission/M in SSstar_system.all_missions )
+			if ( M.owner == user.get_overmap() )
+				if ( M.stage != MISSION_COMPLETE )
+					currentMissions += M
+		if ( currentMissions.len < 3 ) // Max number of missions
+			give_mission(usr)
+		else
+			to_chat(user, "<span class='boldnotice'>" + pick(
+				"Why don't you complete the mission we just gave you first.",
+				"Please complete the mission we gave you first, then come back and ask again.",
+				"Stop pressing the button.",
+				"*static*",
+				"We appreciate your enthusiasm, but we want to make sure this mission gets completed first.",
+				"What are the chances you'll actually get this mission done? Go complete it before we trust you with another one.",
+				"Our superiors have asked us to stop stacking critical missions on one courier.",
+			) + "</span>")
 
 /datum/trader/proc/give_mission(mob/living/user)
 	if(!isliving(user))
@@ -287,10 +303,13 @@
 		stonks -= item
 		qdel(item)
 
-/datum/trader/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.not_incapacitated_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/datum/trader/ui_state(mob/user)
+	return GLOB.not_incapacitated_state
+
+/datum/trader/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
 		assets.send(user)
-		ui = new(user, src, ui_key, "Trader", name, 750, 750, master_ui, state)
+		ui = new(user, src, "Trader")
 		ui.open()

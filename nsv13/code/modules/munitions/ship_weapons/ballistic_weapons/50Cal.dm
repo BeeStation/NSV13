@@ -1,6 +1,6 @@
 //The .50 cal! A neat crew served weapon which replaces PDC.
 /obj/machinery/ship_weapon/fiftycal
-	name = ".50 cal deck turret"
+	name = ".50 cal autocannon"
 	desc = "A formidable weapon operated by a gunner below deck, extremely effective at point defense though they struggle to damage larger targets."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "deck_gun"
@@ -10,10 +10,15 @@
 	semi_auto = TRUE
 	maintainable = FALSE
 	fire_mode = FIRE_MODE_50CAL
-	max_ammo = 100
+	max_ammo = 200
 	circuit = /obj/item/circuitboard/machine/fiftycal
 	var/gunning_component_type = /datum/component/overmap_gunning/fiftycal
 	var/mob/living/gunner
+
+/obj/machinery/ship_weapon/fiftycal/examine(mob/user)
+	. = ..()
+	. += "<span class ='notice'>It has [get_ammo()]/[get_max_ammo()] rounds loaded.</span>"
+
 
 /obj/machinery/ship_weapon/fiftycal/super
 	name = ".50 cal super pom pom turret"
@@ -62,8 +67,7 @@
 	var/obj/structure/overmap/OM = holder.loc.get_overmap()
 	if(!OM)
 		RemoveComponent() //Uh...OK?
-		message_admins("Overmap gunning component created with no attached overmap.")
-		return
+		CRASH("Overmap gunning component created with no attached overmap.")
 	OM.gauss_gunners.Add(holder)
 	OM.start_piloting(holder, "secondary_gunner")
 	START_PROCESSING(SSfastprocess, src)
@@ -94,6 +98,7 @@
 	autofire_target = over_object
 
 /datum/component/overmap_gunning/proc/end_gunning()
+	autofire_target = null
 	var/obj/structure/overmap/OM = holder.loc.get_overmap()
 	OM.gauss_gunners.Remove(holder)
 	STOP_PROCESSING(SSfastprocess, src)
@@ -104,11 +109,15 @@
 	return
 
 /obj/machinery/computer/fiftycal
-	name = ".50 cal turret console"
+	name = ".50 cal autocannon console"
 	desc = "A computer that allows you to control a .50 cal deck gun, when paired with a turret above deck."
 	icon_screen = "50cal"
 	circuit = /obj/item/circuitboard/computer/fiftycal
 	var/obj/machinery/ship_weapon/fiftycal/turret
+
+/obj/machinery/computer/fiftycal/examine(mob/user)
+	. = ..()
+	. += "<span class ='notice'>Its ammo counter reads [turret.get_ammo()]/[turret.get_max_ammo()]. </span>"
 
 /obj/machinery/computer/fiftycal/Initialize()
 	. = ..()
@@ -144,6 +153,10 @@
 	caliber = "mm50pdc"
 	max_ammo = 200
 
+/obj/item/ammo_box/magazine/pdc/fiftycal/examine(mob/user)
+	. = ..()
+	. += "<span class ='notice'>It has [ammo_count()] bullets left.</span>"
+
 /obj/item/ammo_box/magazine/pdc/fiftycal/update_icon()
 	if(ammo_count() > 10)
 		icon_state = initial(icon_state)
@@ -159,6 +172,6 @@
 /obj/item/projectile/bullet/fiftycal
 	icon_state = "50cal"
 	name = ".50 cal round"
-	damage = 15
-	flag = "overmap_heavy"
+	damage = 17
+	flag = "overmap_light"
 	speed = 2

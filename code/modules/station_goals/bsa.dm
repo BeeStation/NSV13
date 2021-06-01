@@ -20,7 +20,8 @@
 /datum/station_goal/bluespace_cannon/check_completion()
 	if(..())
 		return TRUE
-	var/obj/machinery/bsa/full/B = locate()
+	//var/obj/machinery/bsa/full/B = locate() Nsv13 - Galactica moment
+	var/obj/machinery/ship_weapon/energy/beam/bsa/built/B = locate()
 	if(B && !B.stat)
 		return TRUE
 	return FALSE
@@ -197,7 +198,7 @@
 			target = tile
 			break
 		else
-			tile.ex_act(EXPLODE_DEVASTATE) //also fucks everything else on the turf
+			SSexplosions.highturf += tile
 
 	point.Beam(target, icon_state = "bsa_beam", time = 50, maxdistance = world.maxx) //ZZZAP
 	new /obj/effect/temp_visual/bsa_splash(point, dir)
@@ -235,19 +236,22 @@
 	circuit = /obj/item/circuitboard/computer/bsa_control
 	icon = 'icons/obj/machines/particle_accelerator.dmi'
 	icon_state = "control_boxp"
-	ui_x = 400
-	ui_y = 220
+
+
 
 	var/obj/machinery/bsa/full/cannon
 	var/notice
 	var/target
 	var/area_aim = FALSE //should also show areas for targeting
 
-/obj/machinery/computer/bsa_control/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
-										datum/tgui/master_ui = null, datum/ui_state/state = GLOB.physical_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+
+/obj/machinery/computer/bsa_control/ui_state(mob/user)
+	return GLOB.physical_state
+
+/obj/machinery/computer/bsa_control/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "BluespaceArtillery", name, ui_x, ui_y, master_ui, state)
+		ui = new(user, src, "BluespaceArtillery")
 		ui.open()
 
 /obj/machinery/computer/bsa_control/ui_data()
@@ -327,8 +331,12 @@
 	var/datum/effect_system/smoke_spread/s = new
 	s.set_up(4,get_turf(centerpiece))
 	s.start()
-	var/obj/machinery/bsa/full/cannon = new(get_turf(centerpiece),centerpiece.get_cannon_direction())
+	//Nsv13 - Galactica moment
+	var/obj/machinery/ship_weapon/energy/beam/bsa/built/cannon = new(get_turf(centerpiece),centerpiece.get_cannon_direction())
 	qdel(centerpiece.front)
 	qdel(centerpiece.back)
 	qdel(centerpiece)
+	new /obj/machinery/computer/sts_bsa_control(get_turf(src))
+	qdel(src)
+	// /Nsv13
 	return cannon

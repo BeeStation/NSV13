@@ -51,7 +51,7 @@
 					/obj/item/powder_bag,
 					/obj/item/powder_bag)
 	crate_type = /obj/structure/closet/crate/wooden
-	crate_name = "Captain Plasmasalt's finest cannonshot"
+	crate_name = "Captain Plasmasalt's finest gunpowder"
 
 /datum/supply_pack/munitions/fiftycal
 	name = ".50 cal deck gun rounds (x5)"
@@ -73,8 +73,8 @@
 
 /datum/supply_pack/munitions/torpedo_construction
 	name = "Torpedo construction kit"
-	desc = "Due to the volatility of torpedoes, we are unable to offer pre-built munitions, however this kit contains common torpedo parts and some casings to put them in. Included: 2x standard warhead, 1x decoy warhead, 3x torpedo casings (trolley sold separately), 3x guidance system modules, 3x propulsion modules, 3x IFF cards."
-	cost = 2500
+	desc = "Due to the volatility of torpedoes, we are unable to offer pre-built munitions, however this kit contains common torpedo parts and some casings to put them in. Included: 3x standard warhead, 3x torpedo casings (trolley sold separately), 3x guidance system modules, 3x propulsion modules, 3x IFF cards."
+	cost = 3000
 	contains = list(/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
@@ -121,17 +121,17 @@
 	name = "Torpedo warheads (standard)"
 	desc = "A pack of 5 standard torpedo warheads with a 40 isotonne yield, ideal for general usage."
 	cost = 850
-	contains = list(/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/warhead)
+	contains = list(/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo)
 	crate_name = "Standard torpedo warheads"
 
 /datum/supply_pack/munitions/bb_warheads
 	name = "Torpedo warheads (armour piercing)"
 	desc = "A pack of 5 armour piercing torpedo warheads with a 80 isotonne combined yield, these warheads excel at dealing massive damage to a target."
-	cost = 1000
+	cost = 1250
 	contains = list(/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
 					/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
 					/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
@@ -157,7 +157,7 @@
 /datum/supply_pack/munitions/pilot_outfitting
 	name = "Pilot Outfitting Crate"
 	desc = "A full set of of gear for a new pilot"
-	cost = 1500
+	cost = 1200
 	contains = list(/obj/item/clothing/under/ship/pilot,
 					/obj/item/clothing/shoes/jackboots,
 					/obj/item/clothing/gloves/color/black,

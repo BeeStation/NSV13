@@ -57,6 +57,7 @@ Starting Materials
 	layer = ABOVE_MOB_LAYER
 	obj_integrity = 500
 	var/obj/structure/overmap/OM //our parent ship
+	var/obj/structure/cable/cable = null //Connected cable
 	var/list/apnp = list() //our child pumps
 	var/resourcing_system = FALSE //System for generating additional RR
 	var/repair_resources = 0 //Pool of liquid metal ready to be pumped out for repairs
@@ -123,16 +124,10 @@ Starting Materials
 
 /obj/machinery/armour_plating_nanorepair_well/proc/try_use_power(amount) //checking to see if we have a cable
 	var/turf/T = get_turf(src)
-	var/obj/structure/cable/C = T.get_cable_node()
-	if(C)
-		if(!C.powernet)
-			return FALSE
-		var/power_in_net = C.powernet.avail-C.powernet.load
-
-		if(power_in_net && power_in_net >= amount)
-			C.powernet.load += amount
-			return TRUE
-		return FALSE
+	cable = T.get_cable_node()
+	if(cable?.surplus() > amount)
+		cable.powernet.load += amount
+		return TRUE
 	return FALSE
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Sigmoidal Curve
@@ -347,16 +342,16 @@ Starting Materials
 	else
 		ui_interact(user)
 
-/obj/machinery/armour_plating_nanorepair_well/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/armour_plating_nanorepair_well/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "ArmourPlatingNanorepairWell", name, 560, 600, master_ui, state)
+		ui = new(user, src, "ArmourPlatingNanorepairWell")
 		ui.open()
 
 /obj/machinery/armour_plating_nanorepair_well/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	if(!in_range(src, usr))
+	if(!(in_range(src, usr) | IsAdminGhost(usr)))
 		return
 	var/adjust = text2num(params["adjust"])
 	if(action == "power_allocation")
@@ -472,10 +467,10 @@ Starting Materials
 
 	data["available_power"] = 0
 	var/turf/T = get_turf(src)
-	var/obj/structure/cable/C = T.get_cable_node()
-	if(C)
-		if(C.powernet)
-			data["available_power"] = C.powernet.avail-C.powernet.load
+	cable = T.get_cable_node()
+	if(cable)
+		if(cable.powernet)
+			data["available_power"] = cable.surplus()
 
 	switch(material_tier)
 		if(0)

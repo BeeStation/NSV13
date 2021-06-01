@@ -20,16 +20,23 @@
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
 	var/energy_weapon_type = /datum/ship_weapon/pdc_mount/burst_phaser
 
+/obj/machinery/ship_weapon/energy/lazyload()
+	active = TRUE
+	power_modifier = 1
+	. = ..()
+	//Comedy.
+	sleep(10)
+	charge = max_charge
+
 //Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
 /obj/item/projectile/beam/laser/phaser
 	damage = 10
 	flag = "overmap_light"
 
-/obj/machinery/ship_weapon/energy/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
-										datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/ship_weapon/energy/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "EnergyWeapons", name, 600, 350, master_ui, state)
+		ui = new(user, src, "EnergyWeapons")
 		ui.open()
 
 /obj/machinery/ship_weapon/energy/ui_act(action, params)
@@ -117,11 +124,6 @@
 /obj/machinery/ship_weapon/energy/get_ammo()
 	return charge
 
-/obj/machinery/ship_weapon/energy/animate_projectile(atom/target)
-	var/list/what_we_fired = linked.fire_lateral_projectile(weapon_type.default_projectile_type, target)
-	for(var/obj/item/projectile/P in what_we_fired)
-		P.damage *= power_modifier
-
 /obj/item/projectile/beam/laser/heavylaser/phaser
 	name = "phaser beam"
 	damage = 200
@@ -146,7 +148,7 @@
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
 
 /obj/machinery/ship_weapon/energy/beam/animate_projectile(atom/target)
-	var/obj/item/projectile/P = linked.fire_lateral_projectile(weapon_type.default_projectile_type, target)
+	var/obj/item/projectile/P = ..()
 	P.damage *= power_modifier
 
 /obj/machinery/ship_weapon/energy/process()
@@ -161,10 +163,27 @@
 		idle_power_usage = 0
 		return
 	else
-		idle_power_usage = charge_rate
-	if(!powered() || idle_power_usage <= 0)
+		idle_power_usage = 1000
+	if(idle_power_usage <= 0 || !try_use_power(charge_rate))
 		return
 	charge += charge_rate
+
+//Well hey! here's this piece of code again...
+/obj/machinery/ship_weapon/energy/proc/try_use_power(amount) // Although the machine may physically be powered, it may not have enough power to sustain a shield.
+	if(!powered())
+		return FALSE
+	var/turf/T = get_turf(src)
+	var/obj/structure/cable/C = T.get_cable_node()
+	if(C)
+		if(!C.powernet)
+			return FALSE
+		var/power_in_net = C.powernet.avail-C.powernet.load
+
+		if(power_in_net && power_in_net >= amount)
+			C.powernet.load += amount
+			return TRUE
+		return FALSE
+	return FALSE
 
 
 /obj/machinery/ship_weapon/energy/beam/admin //ez weapon for quickly testing.

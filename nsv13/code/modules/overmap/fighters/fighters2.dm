@@ -51,9 +51,9 @@ Repair
 	sprite_size = 32
 	damage_states = TRUE
 	faction = "nanotrasen"
-	max_integrity = 200 //Really really squishy!
-	forward_maxthrust = 5
-	backward_maxthrust = 5
+	max_integrity = 250 //Really really squishy!
+	forward_maxthrust = 3.5
+	backward_maxthrust = 3.5
 	side_maxthrust = 4
 	max_angular_acceleration = 180
 	torpedoes = 0
@@ -76,6 +76,8 @@ Repair
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
 	var/maintenance_mode = FALSE //Munitions level IDs can change this.
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
+	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode, \
+								.verb/show_control_panel, .verb/change_name)
 
 /obj/structure/overmap/fighter/verb/show_control_panel()
 	set name = "Show control panel"
@@ -101,6 +103,10 @@ Repair
 	message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
 	name = new_name
 
+/obj/structure/overmap/fighter/start_piloting(mob/living/carbon/user, position)
+	user.add_verb(fighter_verbs)
+	..()
+
 /obj/structure/overmap/fighter/key_down(key, client/user)
 	. = ..()
 	var/mob/themob = user.mob
@@ -113,10 +119,13 @@ Repair
 				playsound(helm, sound, 100, 1)
 			return TRUE
 
-/obj/structure/overmap/fighter/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state=GLOB.contained_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/structure/overmap/fighter/ui_state(mob/user)
+	return GLOB.contained_state
+
+/obj/structure/overmap/fighter/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "FighterControls", name, 497, 450, master_ui, state)
+		ui = new(user, src, "FighterControls")
 		ui.open()
 
 /obj/structure/overmap/fighter/ui_data(mob/user)
@@ -520,7 +529,7 @@ Repair
 /obj/structure/overmap/fighter/proc/enter(mob/user)
 	user.forceMove(src)
 	mobs_in_ship += user
-	if(user?.client?.prefs.toggles & SOUND_AMBIENCE && engines_active()) //Disable ambient sounds to shut up the noises.
+	if((user.client?.prefs.toggles & SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
 		SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
 
 /obj/structure/overmap/fighter/stop_piloting(mob/living/M, force=FALSE)
@@ -538,6 +547,7 @@ Repair
 	. = ..()
 	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
 	M.forceMove(get_turf(src))
+	M.remove_verb(fighter_verbs)
 	return TRUE
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)
@@ -1534,9 +1544,9 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		F.relay_to_nearby(chosen)
 		if(proj_type == /obj/item/projectile/guided_munition/missile/dud) //Refactor this to something less trash sometime I guess
-			F.fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, explosive = TRUE)
+			F.fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, lateral = FALSE)
 		else
-			F.fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, explosive = TRUE)
+			F.fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, lateral = FALSE)
 	return TRUE
 
 //Utility modules.
@@ -1745,19 +1755,29 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		loadout.process()
 
 	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
-	if(!C || (C.obj_integrity <= 0)) //Leak air if the canopy is breached.
-		var/datum/gas_mixture/removed = cabin_air.remove(5)
-		qdel(removed)
+
+	// Leak air if the canopy is missing or broken
+	// and air is in the cabin
+	// and the fighter's environment isn't pressurized
+
+	if((!C || (C.obj_integrity <= 0)) && (cabin_air && (cabin_air?.total_moles() > 0)))
+		var/datum/gas_mixture/outside_air = loc?.return_air()
+		var/outside_pressure = outside_air ? outside_air.return_pressure() : 0
+		if(outside_pressure && (cabin_air.return_pressure() > outside_pressure))
+			var/datum/gas_mixture/removed = cabin_air.remove(min(cabin_air.total_moles(), 5))
+			qdel(removed)
 	update_icon()
 
 /obj/structure/overmap/fighter/return_air()
 	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
-	if(canopy_open || !C)
-		return loc.return_air()
-	return cabin_air
+	if(canopy_open || !C || (C.obj_integrity <= 0))
+		. = loc.return_air()
+	else
+		. = cabin_air
 
 /obj/structure/overmap/fighter/remove_air(amount)
-	return cabin_air?.remove(amount)
+	var/datum/gas_mixture/air
+	. = air?.remove(amount)
 
 /obj/structure/overmap/fighter/return_analyzable_air()
 	return cabin_air

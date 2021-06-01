@@ -113,12 +113,7 @@
 	return
 
 /obj/machinery/ship_weapon/pdc_mount/animate_projectile(atom/target, lateral=TRUE)
-	sleep(1)
-	var/datum/ship_weapon/firemode = linked.weapon_types[FIRE_MODE_PDC]
-	if(lateral)
-		linked.fire_lateral_projectile(firemode.default_projectile_type, target)
-	else
-		linked.fire_projectiles(firemode.default_projectile_type, target)
+	. = ..()
 
 /obj/machinery/ship_weapon/pdc_mount/examine()
 	. = ..()
@@ -153,13 +148,13 @@
 	else
 		var/progress = calculate_progress()
 		icon_state_closed = "[initial(icon_state)]_[progress]"
-	. = default_deconstruction_screwdriver(user, icon_state_open, icon_state_closed, tool)
+	return default_deconstruction_screwdriver(user, icon_state_open, icon_state_closed, tool)
 
 /obj/machinery/ship_weapon/pdc_mount/crowbar_act(mob/user, obj/item/tool)
 	if(panel_open)
 		tool.play_tool_sound(src, 50)
 		deconstruct(TRUE)
 		return TRUE
-	. = default_deconstruction_crowbar(user, tool)
+	return default_deconstruction_crowbar(user, tool)
 
 #undef MSTATE_PRIEDOUT

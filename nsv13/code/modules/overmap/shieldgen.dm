@@ -209,6 +209,7 @@
 	var/maxHealthPriority = 50; //50/50 split
 	var/max_power_input = 1.5e+7; //15 MW theoretical maximum. This much power means your shield is going to be insanely good.
 	var/active = FALSE; //Are we projecting out our shields? This lets you offline the shields for a recharge period so that they become useful again.
+	var/obj/structure/cable/cable = null //Connected cable
 }
 
 /obj/machinery/shield_generator/proc/absorb_hit(damage){
@@ -283,16 +284,10 @@
 
 /obj/machinery/shield_generator/proc/try_use_power(amount) // Although the machine may physically be powered, it may not have enough power to sustain a shield.
 	var/turf/T = get_turf(src)
-	var/obj/structure/cable/C = T.get_cable_node()
-	if(C)
-		if(!C.powernet)
-			return FALSE
-		var/power_in_net = C.powernet.avail-C.powernet.load
-
-		if(power_in_net && power_in_net > amount)
-			C.powernet.load += amount
-			return TRUE
-		return FALSE
+	cable = T.get_cable_node()
+	if(cable?.surplus() > amount)
+		cable.powernet.load += amount
+		return TRUE
 	return FALSE
 
 //Every tick, the shield generator updates its stats based on the amount of power it's being allowed to chug.
@@ -322,12 +317,11 @@
 	}
 }
 
-/obj/machinery/shield_generator/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
-										datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
+/obj/machinery/shield_generator/ui_interact(mob/user, datum/tgui/ui)
 {
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open);
+	ui = SStgui.try_update_ui(user, src, ui);
 	if(!ui){
-		ui = new(user, src, ui_key, "ShieldGenerator", name, 600, 660, master_ui, state);
+		ui = new(user, src, "ShieldGenerator")
 		ui.open();
 	}
 }
@@ -350,10 +344,9 @@
 	data["active"] = active;
 	data["available_power"] = 0;
 	var/turf/T = get_turf(src)
-	var/obj/structure/cable/C = T.get_cable_node()
-	if(C)
-		if(C.powernet)
-			data["available_power"] = C.powernet.avail-C.powernet.load
+	cable = T.get_cable_node()
+	if(cable?.powernet)
+		data["available_power"] = cable.surplus()
 	return data;
 }
 
@@ -409,4 +402,52 @@
 		if("activeToggle")
 			active = !active;
 	return;
+}
+
+/**
+Component that allows AI ships to model shields. Will continuously recharge over time.
+*/
+/datum/component/overmap_shields
+	var/list/shield = list(
+		"integrity"=0,
+		"max_integrity"=100
+	)
+	//How good are these shields anyway?
+	var/max_integrity = 500
+	var/recharge_rate = 20
+	var/active = TRUE //This is really for adminbuse, or if we ever add EMP damage....
+
+/datum/component/overmap_shields/New(datum/P, start_integrity=0, max_integrity=100, recharge_rate=20)
+	. = ..()
+	if(!isovermap(parent))
+		return COMPONENT_INCOMPATIBLE
+	var/obj/structure/overmap/OM = parent
+	//That ship's already got shields simulated. Nope.
+	if(OM.shields && !QDELETED(OM.shields))
+		return COMPONENT_INCOMPATIBLE
+	//Alright! Link up. We'll now protect that ship.
+	OM.shields = src
+	set_stats(start_integrity, max_integrity)
+	START_PROCESSING(SSdcs, src)
+
+/datum/component/overmap_shields/process()
+	shield["integrity"] += recharge_rate
+	if(shield["integrity"] > max_integrity)
+		shield["integrity"] = max_integrity
+
+/datum/component/overmap_shields/proc/set_stats(integrity=0, max_integrity=100, recharge_rate=20)
+	src.max_integrity = max_integrity
+	src.recharge_rate = recharge_rate
+	shield["integrity"] = integrity
+	shield["max_integrity"] = max_integrity
+
+/datum/component/overmap_shields/proc/absorb_hit(damage){
+	if(!active){
+		return FALSE; //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
+	}
+	if(shield["integrity"] >= damage){
+		shield["integrity"] -= damage;
+		return TRUE;
+	}
+	return FALSE;
 }

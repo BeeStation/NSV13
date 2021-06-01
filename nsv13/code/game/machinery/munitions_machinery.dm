@@ -14,6 +14,11 @@
 	mask_type = /obj/item/clothing/mask/breath
 	storage_type = /obj/item/tank/internals/emergency_oxygen/double
 
+/obj/machinery/suit_storage_unit/maa
+	suit_type = /obj/item/clothing/suit/space/hardsuit/master_at_arms
+	mask_type = /obj/item/clothing/mask/breath
+	storage_type = /obj/item/tank/internals/emergency_oxygen/double
+
 ///////WARDROBE///////
 
 /obj/machinery/vending/wardrobe/muni_wardrobe //Missing so many icons
@@ -34,6 +39,7 @@
 					/obj/item/clothing/suit/ship/munitions_jacket = 3,
 					/obj/item/clothing/shoes/jackboots = 5,
 					/obj/item/clothing/gloves/color/black = 5)
+	contraband = list(/obj/item/clothing/head/ship/rising_sun = 5)
 	premium = list(/obj/item/clothing/head/helmet/decktech = 3,
 					/obj/item/clothing/head/beret/ship/pilot = 3,
 					/obj/item/clothing/ears/earmuffs = 3)

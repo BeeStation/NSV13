@@ -16,7 +16,7 @@
 	var/list/held_components = list() //All the missile construction components that they've put into the arm.
 	var/obj/item/arm = null
 	var/obj/item/ship_weapon/ammunition/missile/missile_casing/target
-	var/munition_type = /obj/item/ship_weapon/ammunition/missile/missile_casing
+	var/munition_types = list(/obj/item/ship_weapon/ammunition/missile/missile_casing, /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing)
 	var/list/target_states = list(1, 7, 9) //The target construction state of the missile
 
 /obj/machinery/missile_builder/examine(mob/user)
@@ -92,9 +92,13 @@
 		playsound(src, 'sound/items/welder.ogg', 100, 1)
 		target = null
 		return
-	target = locate(munition_type) in input_turf
-	if(!target || !istype(target, munition_type))
+	for(var/munition_type in munition_types)
+		target = locate(munition_type) in input_turf
+		if(target)
+			break
+	if(!target)
 		target = null
+		arm.icon_state = arm_icon_state
 		return
 	var/found = FALSE
 	for(var/target_state in target_states)
@@ -109,7 +113,7 @@
 		return FALSE
 	src.visible_message("<span class='notice'>[src] whirrs into life!</span>")
 	arm.icon_state = "[arm_icon_state]_anim"
-	playsound(src, 'sound/items/drill_use.ogg', 100, 1)
+	playsound(src, 'sound/items/drill_use.ogg', 70, 1)
 
 /obj/machinery/missile_builder/assembler
 	name = "Robotic Missile Part Applicator"
@@ -160,13 +164,17 @@
 		target = null
 		arm.icon_state = arm_icon_state
 		return
-	target = locate(munition_type) in input_turf
-	if(!target || !istype(target, munition_type) || !held_components.len)
+	for(var/munition_type in munition_types)
+		target = locate(munition_type) in input_turf
+		if(target)
+			break
+	if(!target || !held_components.len)
 		target = null
+		arm.icon_state = arm_icon_state
 		return
 	src.visible_message("<span class='notice'>[src] whirrs into life!</span>")
 	arm.icon_state = "[arm_icon_state]_anim"
-	playsound(src, 'sound/items/drill_use.ogg', 100, 1)
+	playsound(src, 'sound/items/drill_use.ogg', 70, 1)
 
 /datum/design/board/ammo_sorter_computer
 	name = "Ammo sorter console (circuitboard)"
@@ -212,10 +220,10 @@
 			linked_sorters += W
 	sortList(linked_sorters) //Alphabetise the list initially...
 
-/obj/machinery/computer/ammo_sorter/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ammo_sorter/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "AmmoSorter", name, 560, 600, master_ui, state)
+		ui = new(user, src, "AmmoSorter")
 		ui.open()
 
 /obj/machinery/computer/ammo_sorter/ui_act(action, params, datum/tgui/ui)

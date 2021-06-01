@@ -1,53 +1,128 @@
 /datum/gear/donator
 	subtype_path = /datum/gear/donator
-	unlocktype = GEAR_DONATOR
 	sort_category = "Donator"
-	cost = null //Unused in this category
+	cost = 3500
 
-/datum/gear/purchase(client/C)
-	//This can be used to explain the code function of the item or otherwise cover ass.
-	to_chat(C, "<span class='boldwarning'>Your donator item has been added to your account. It will be removed automatically if your donation lapses.</span>")
+//BACKPACKS
 
-/datum/gear/donator/example
-	display_name = "Example Donator Item"
-	description = "Example Donator Description"
-	ckey = "jimthefish" //ckey should be in canonical format.
-	path = /obj/item/toy/plush/carpplushie
+/datum/gear/donator/backpack
+	subtype_path = /datum/gear/donator/backpack
+	slot = ITEM_SLOT_BACK
 
-/**
-Donator item reskin devices!
-requisite_type should be the typepath of the "thing" that these reskin. If you need to change more than icon, you'll have to implement specific behaviour for each item on apply_reskin.
-*/
+/datum/gear/donator/backpack/ian
+	display_name = "ian backpack"
+	path = /obj/item/storage/backpack/ian
 
-/obj/item/donator_reskin
-	name = "Donator reskin device"
-	desc = "Apply your donator skin to things!"
-	icon = 'nsv13/icons/obj/donator.dmi'
-	icon_state = "painter"
-	var/requisite_type = null
-	var/ckey = null //Who owns this? Prevents random people from using it.
-	var/reskin_icon = 'nsv13/icons/obj/donator.dmi' //This can be any icon. Lets you hotswap out icons
+/datum/gear/donator/backpack/lisa
+	display_name = "lisa backpack"
+	path = /obj/item/storage/backpack/lisa
 
-/obj/item/donator_reskin/afterattack(atom/A, mob/user)
-	if(requisite_type && istype(A, requisite_type))
-#ifndef TESTING
-		if(user.client?.ckey != ckey)
-			to_chat(user, "<span class='sciradio'>Nothing happens! (These items are usable only by the donator who it belongs to, consider donating to get one of these for yourself!)</span>")
-			return
-#else
-		if(user.client?.ckey != ckey)
-			to_chat(user, "<span class='boldwarning'>This donator item is owned by [ckey]! <code>TESTING</code> Has bypassed this check.</span>")
-#endif
-		apply_reskin(A)
-		return
-	. = ..()
-/*
-Override this method to apply the unique reskin for your item if you want to change more than icon.
-*/
-/obj/item/donator_reskin/proc/apply_reskin(atom/movable/A)
-	if(!istype(A))
-		return
-	A.icon = reskin_icon
-	A.AddComponent(/datum/component/donator, ckey)
-	playsound(src, 'sound/effects/spray.ogg', 5, 1, 5)
-	qdel(src)
+/datum/gear/donator/backpack/renault
+	display_name = "renault backpack"
+	path = /obj/item/storage/backpack/renault
+
+/datum/gear/donator/backpack/cak
+	display_name = "cak catpack"
+	path = /obj/item/storage/backpack/cak
+
+/datum/gear/donator/backpack/runtime
+	display_name = "runtime catpack"
+	path = /obj/item/storage/backpack/runtime
+
+//SUIT
+
+/datum/gear/donator/suit
+	subtype_path = /datum/gear/donator/suit
+	slot = ITEM_SLOT_OCLOTHING
+
+/datum/gear/donator/suit/delinquent
+	display_name = "deliquent jacket"
+	path = /obj/item/clothing/suit/delinquent
+
+/datum/gear/donator/suit/madsci
+	display_name = "mad scientist labcoat"
+	path = /obj/item/clothing/suit/madsci
+
+/datum/gear/donator/suit/renault_costume
+	display_name = "renault costume"
+	path = /obj/item/clothing/suit/hooded/renault_costume
+
+//UNIFORM/UNDER
+/datum/gear/donator/uniform
+	subtype_path = /datum/gear/donator/uniform
+	slot = ITEM_SLOT_ICLOTHING
+
+/datum/gear/donator/uniform/wine_gown
+	display_name = "wine gown"
+	path = /obj/item/clothing/under/dress/gown
+
+/datum/gear/donator/uniform/teal_gown
+	display_name = "teal gown"
+	path = /obj/item/clothing/under/dress/gown/teal
+
+/datum/gear/donator/uniform/midnight_gown
+	display_name = "midnight gown"
+	path = /obj/item/clothing/under/dress/gown/midnight
+
+/datum/gear/donator/uniform/gangster
+	display_name = "gangster suit"
+	path = /obj/item/clothing/under/gangster
+
+/datum/gear/donator/uniform/gangster_purple
+	display_name = "purple gangster suit"
+	path = /obj/item/clothing/under/gangster/purple
+
+//HEAD
+
+/datum/gear/donator/head
+	subtype_path = /datum/gear/donator/head
+	slot = ITEM_SLOT_HEAD
+
+/datum/gear/donator/head/gangster_wig
+	display_name = "gangster wig"
+	path = /obj/item/clothing/head/gangsterwig
+
+/datum/gear/donator/head/oldhat
+	display_name = "old man hat"
+	path = /obj/item/clothing/head/oldhat
+
+/datum/gear/donator/head/marine
+	display_name = "mariner hat"
+	path = /obj/item/clothing/head/marine
+
+//NECK
+/datum/gear/donator/neck
+	subtype_path = /datum/gear/donator/neck
+	slot = ITEM_SLOT_NECK
+
+/datum/gear/donator/neck/bizzare
+	display_name = "bizzare scarf"
+	path = /obj/item/clothing/neck/bizzarescarf
+
+/datum/gear/donator/neck/conductive
+	display_name = "conductive scarf"
+	path = /obj/item/clothing/neck/conductivescarf
+
+//ITEMS
+
+/datum/gear/donator/item
+	subtype_path = /datum/gear/donator/item
+	slot = ITEM_SLOT_BACKPACK
+	cost = 5000
+
+/datum/gear/donator/item/plush_ian
+	display_name = "ian plushie"
+	path = /obj/item/toy/plush/ian
+
+/datum/gear/donator/item/plush_lisa
+	display_name = "lisa plushie"
+	path = /obj/item/toy/plush/lisa
+
+/datum/gear/donator/item/plush_renault
+	display_name  = "renault plushie"
+	path = /obj/item/toy/plush/renault
+
+/datum/gear/donator/item/plush_opa
+	display_name = "metal opa plushie"
+	path = /obj/item/toy/plush/opa
+

@@ -75,14 +75,9 @@
 			CallAsync(source=holder, proctype=special_fire_proc, arguments=list(target=target)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
 		else
 			weapon_sound()
-			if(lateral)
-				for(var/I = 0; I < burst_size; I++)
-					sleep(1) //Prevents space shotgun
-					holder.fire_lateral_projectile(default_projectile_type, target)
-			else
-				for(var/I = 0; I < burst_size; I++)
-					sleep(1)
-					holder.fire_projectile(default_projectile_type, target)
+			for(var/I = 0; I < burst_size; I++)
+				sleep(1) //Prevents space shotgun
+				holder.fire_projectile(default_projectile_type, target, lateral=src.lateral)
 		return FIRE_INTERCEPTED
 	return FALSE
 

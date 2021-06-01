@@ -8,7 +8,6 @@
 /obj/effect/proc_holder/alien/hide/fire(mob/living/carbon/alien/user)
 	if(user.stat != CONSCIOUS)
 		return
-
 	if (user.layer != ABOVE_NORMAL_TURF_LAYER)
 		user.layer = ABOVE_NORMAL_TURF_LAYER
 		user.visible_message("<span class='name'>[user] scurries to the ground!</span>", \

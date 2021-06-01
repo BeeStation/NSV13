@@ -10,6 +10,7 @@
 	spawn_positions = 1
 	supervisors = "the Captain"
 	selection_color = "#cc8899"
+	chat_color = "#ff7f00"
 	minimal_player_age = 7
 	exp_requirements = 180
 	exp_type = EXP_TYPE_CREW
@@ -50,7 +51,7 @@
 	duffelbag = /obj/item/storage/backpack/duffelbag/munitions
 	box = /obj/item/storage/box/security
 
-	pda_slot = SLOT_L_STORE
+	pda_slot = ITEM_SLOT_LPOCKET
 
 /obj/effect/landmark/start/master_at_arms
 	name = "Master At Arms"

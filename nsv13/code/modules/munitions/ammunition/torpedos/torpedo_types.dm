@@ -14,6 +14,23 @@
 	pixel_x = -17
 	volatility = 3 //Very volatile.
 	explode_when_hit = TRUE //Yeah, this can't ever end well for you.
+	var/claimable_gulag_points = 75
+
+/obj/item/ship_weapon/ammunition/torpedo/examine(mob/user)
+	. = ..()
+	if(claimable_gulag_points)
+		. += "<span class='notice'>It has [claimable_gulag_points] unclaimed gulag reward points!</span>"
+
+/obj/item/ship_weapon/ammunition/torpedo/attackby(obj/item/I, mob/living/user, params)
+	. = ..()
+	if(istype(I, /obj/item/card/id/prisoner))
+		var/obj/item/card/id/prisoner/P = I
+		P.points += claimable_gulag_points
+		to_chat(user, "<span class='boldnotice'>You claim [claimable_gulag_points] from [src]... Your balance is now: [P.points]</span>")
+		//This one's been claimed!
+		claimable_gulag_points = 0
+
+/obj/item/card/id/prisoner
 
 /obj/item/ship_weapon/ammunition/torpedo/can_be_pulled(mob/user)
 	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
@@ -183,7 +200,7 @@
 /obj/item/projectile/guided_munition/torpedo/post/proc/deliver_freight(obj/structure/overmap/OM)
 	var/area/landingzone = null
 	for(var/atom/a in GetAllContents()) //Send the cargo signal to our contents
-		SEND_SIGNAL(a, COMSIG_CARGO_DELIVERED, OM)
+		SEND_SIGNAL(OM, COMSIG_CARGO_DELIVERED, a)
 	if(OM.role == MAIN_OVERMAP)
 		landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 	else
@@ -201,11 +218,11 @@
 	if(empty_turfs?.len)
 		LZ = pick(empty_turfs)
 	var/obj/structure/closet/supplypod/freight_pod/toLaunch = new /obj/structure/closet/supplypod/freight_pod
-	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/flyMeToTheMoon]
+	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
 	for (var/atom/movable/O in contents)
 		O.forceMove(toLaunch) //forceMove any atom/moveable into the supplypod
-		new /obj/effect/DPtarget(LZ, toLaunch)
+		new /obj/effect/pod_landingzone(LZ, toLaunch)
 	qdel(src)
 
 /obj/item/projectile/guided_munition/torpedo/post/Destroy()

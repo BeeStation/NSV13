@@ -227,10 +227,7 @@
 			var/mob/living/carbon/L = M
 			if(HAS_TRAIT(L, TRAIT_SEASICK))
 				to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
-				if(prob(40)) //Take a roll! First option makes you puke and feel terrible. Second one makes you feel iffy.
-					L.adjust_disgust(20)
-				else
-					L.adjust_disgust(10)
+				L.adjust_disgust(pick(70, 100))
 		shake_camera(M, 4, 1)
 	force_parallax_update(ftl_start)
 
@@ -296,6 +293,10 @@
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
 	var/ftl_startup_time = 30 SECONDS
 	var/auto_spool = FALSE //For lazy admins
+
+//No please do not delete the FTL's radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
+/obj/machinery/computer/ship/ftl_computer/prevent_content_explosion()
+	return TRUE
 
 /obj/machinery/computer/ship/ftl_computer/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
@@ -435,10 +436,10 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		return
 	ui_interact(user)
 
-/obj/machinery/computer/ship/ftl_computer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ship/ftl_computer/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "FTLComputer", name, 560, 350, master_ui, state)
+		ui = new(user, src, "FTLComputer")
 		ui.open()
 
 /obj/machinery/computer/ship/ftl_computer/ui_act(action, params, datum/tgui/ui)
