@@ -173,7 +173,7 @@
 	uniform = /obj/item/clothing/under/plasmaman/rd
 
 /datum/outfit/plasmaman/hop
-	name = Hop" plasmaman"
+	name = "XO plasmaman"//NSV13
 
 	head = /obj/item/clothing/head/helmet/space/plasmaman/hop
 	uniform = /obj/item/clothing/under/plasmaman/hop

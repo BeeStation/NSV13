@@ -302,7 +302,7 @@
 		if(ACCESS_XENOBIOLOGY)
 			return "Xenobiology Lab"
 		if(ACCESS_HOP)
-			return "XO Office"
+			return "XO Office"//NSV13
 		if(ACCESS_HOS)
 			return "HoS Office"
 		if(ACCESS_CE)

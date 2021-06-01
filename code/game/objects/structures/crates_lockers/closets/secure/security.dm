@@ -37,7 +37,7 @@
 	new /obj/item/card/id/departmental_budget/civ(src)
 
 /obj/structure/closet/secure_closet/hop
-	name = "\proper executive officer's locker"
+	name = "\proper executive officer's locker"//NSV13
 	req_access = list(ACCESS_HOP)
 	icon_state = "hop"
 

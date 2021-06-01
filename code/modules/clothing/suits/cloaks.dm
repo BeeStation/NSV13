@@ -46,8 +46,8 @@
 	icon_state = "capcloak"
 
 /obj/item/clothing/neck/cloak/hop
-	name = "executive officer's cloak"
-	desc = "Worn by the Executive Offier. It smells faintly of bureaucracy."
+	name = "executive officer's cloak"//NSV13
+	desc = "Worn by the Executive Offier. It smells faintly of bureaucracy."//NSV13
 	icon_state = "hopcloak"
 
 /obj/item/clothing/suit/hooded/cloak/goliath

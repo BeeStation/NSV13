@@ -106,7 +106,7 @@
 	icon_state = "pda-hop"
 
 /obj/item/pda/heads/hop
-	name = "executive officer PDA"
+	name = "executive officer PDA"//NSV13
 	default_cartridge = /obj/item/cartridge/hop
 	icon_state = "pda-hop"
 

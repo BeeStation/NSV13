@@ -157,7 +157,7 @@
 	icon_state = "hos"
 
 /obj/structure/statue/gold/hop
-	name = "statue of the executive officer"
+	name = "statue of the executive officer"//NSV13
 	icon_state = "hop"
 
 /obj/structure/statue/gold/cmo

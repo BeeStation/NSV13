@@ -17,7 +17,7 @@
 		"Assistant",
 		"Cyborg",
 		"Captain",
-		"Executive Officer",
+		"Executive Officer",//NSV13
 		"Head of Security",
 		"Chief Engineer",
 		"Research Director",

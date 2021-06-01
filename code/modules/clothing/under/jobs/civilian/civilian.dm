@@ -39,15 +39,15 @@
 	alt_covers_chest = TRUE
 
 /obj/item/clothing/under/rank/civilian/head_of_personnel
-	desc = "It's a jumpsuit worn by someone who works in the position of \"Executive Officer\"."
-	name = "executive officer's jumpsuit"
+	desc = "It's a jumpsuit worn by someone who works in the position of \"Executive Officer\"."//NSV13
+	name = "executive officer's jumpsuit"//NSV13
 	icon_state = "hop"
 	item_state = "b_suit"
 	item_color = "hop"
 	can_adjust = FALSE
 
 /obj/item/clothing/under/rank/civilian/head_of_personnel/suit
-	name = "executive officer's suit"
+	name = "executive officer's suit"//NSV13
 	desc = "A teal suit and yellow necktie. An authoritative yet tacky ensemble."
 	icon_state = "teal_suit"
 	item_state = "g_suit"

@@ -46,7 +46,7 @@
 
 //Head of Personnel
 /obj/item/clothing/head/hopcap
-	name = "executive officer's cap"
+	name = "executive officer's cap"//NSV13
 	icon_state = "hopcap"
 	desc = "The symbol of true bureaucratic micromanagement."
 	armor = list("melee" = 25, "bullet" = 15, "laser" = 25, "energy" = 30, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 30)

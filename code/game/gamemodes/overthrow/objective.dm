@@ -91,7 +91,7 @@
 			switch(role)
 				if("Captain")
 					target_points = CAPPTS
-				if("Executive Officer")
+				if("Executive Officer")//NSV13
 					target_points = HOPPTS
 				if("Head of Security")
 					target_points = HOSPTS

@@ -323,8 +323,8 @@
 	item_state = "rd_envirohelm"
 
 /obj/item/clothing/head/helmet/space/plasmaman/hop
-	name = "executive officer's envirosuit helmet"
-	desc = "An envirosuit helmet made for the Executive Officer. Some corgi hair is stuck to it."
+	name = "executive officer's envirosuit helmet"//NSV13
+	desc = "An envirosuit helmet made for the Executive Officer. Some corgi hair is stuck to it."//NSV13
 	icon_state = "hop_envirohelm"
 	item_state = "hop_envirohelm"
 
