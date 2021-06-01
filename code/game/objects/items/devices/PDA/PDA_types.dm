@@ -106,7 +106,7 @@
 	icon_state = "pda-hop"
 
 /obj/item/pda/heads/hop
-	name = "head of personnel PDA"
+	name = "executive officer PDA"
 	default_cartridge = /obj/item/cartridge/hop
 	icon_state = "pda-hop"
 

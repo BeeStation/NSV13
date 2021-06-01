@@ -80,7 +80,7 @@
 
 		if("Stage Magician")
 			O = new /datum/outfit/plasmaman/magic
-		
+
 		if("VIP")
 			O = new /datum/outfit/plasmaman/vip
 
@@ -153,7 +153,7 @@
 		if("Research Director")
 			O = new /datum/outfit/plasmaman/rd
 
-		if("Head of Personnel")
+		if("Executive Officer")
 			O = new /datum/outfit/plasmaman/hop
 
 		if("Clown")

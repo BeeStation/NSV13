@@ -17,7 +17,7 @@
 		"Assistant",
 		"Cyborg",
 		"Captain",
-		"Head of Personnel",
+		"Executive Officer",
 		"Head of Security",
 		"Chief Engineer",
 		"Research Director",

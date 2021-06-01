@@ -1318,7 +1318,7 @@
 	toysay = "Smash!"
 
 /obj/item/toy/figure/hop
-	name = "Head of Personnel action figure"
+	name = "Executive Officer action figure"
 	icon_state = "hop"
 	toysay = "Giving out all access!"
 

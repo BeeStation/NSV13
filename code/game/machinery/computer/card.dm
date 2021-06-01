@@ -36,7 +36,7 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 		"Assistant",
 		"Cyborg",
 		"Captain",
-		"Head of Personnel",
+		"Executive Officeer",
 		"Head of Security",
 		"Chief Engineer",
 		"Research Director",
@@ -425,7 +425,7 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 						if((ACCESS_HOP in scan.access) && ((target_dept==DEPT_GEN) || !target_dept))
 							region_access |= DEPT_GEN
 							region_access |= DEPT_SUP //Currently no seperation between service/civillian and supply
-							get_subordinates("Head of Personnel")
+							get_subordinates("Executive Officer")
 						if((ACCESS_HOS in scan.access) && ((target_dept==DEPT_SEC) || !target_dept))
 							region_access |= DEPT_SEC
 							get_subordinates("Head of Security")
