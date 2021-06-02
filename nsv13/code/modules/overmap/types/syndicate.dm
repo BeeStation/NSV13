@@ -27,7 +27,6 @@
 	bound_width = 128
 	bound_height = 128
 	role = PVP_SHIP
-	starting_system = "The Badlands" //Relatively safe start, fleets won't hotdrop you here.
 	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
 
 /obj/structure/overmap/syndicate/pvp/apply_weapons()

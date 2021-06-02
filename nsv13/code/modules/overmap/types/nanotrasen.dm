@@ -134,7 +134,6 @@
 	armor = list("overmap_light" = 75, "overmap_heavy" = 35)
 	bound_height = 320
 	bound_width = 320
-	starting_system = "Argo"
 	role = INSTANCED_MIDROUND_SHIP
 
 /obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
@@ -149,48 +148,41 @@
 	obj_integrity = 1500
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
-	starting_system = "Argo"
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Vago
 	role = MAIN_OVERMAP
 	obj_integrity = 1000
 	max_integrity = 1000
 	integrity_failure = 1000
-	starting_system = "Argo"
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to Jolly Sausage
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
-	starting_system = "Argo"
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
 	role = MAIN_OVERMAP
 	obj_integrity = 1500
 	max_integrity = 1500
 	integrity_failure = 1500
-	starting_system = "Argo"
 
 /obj/structure/overmap/nanotrasen/carrier/starter //NOT CURRENTLY ASSIGNED
 	role = MAIN_OVERMAP
 	obj_integrity = 2000
 	max_integrity = 2000
 	integrity_failure = 2000
-	starting_system = "Argo"
 
 /obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon
 	role = MAIN_OVERMAP
 	obj_integrity = 1500
 	max_integrity = 1500
 	integrity_failure = 1500
-	starting_system = "Argo"
 
 /obj/structure/overmap/nanotrasen/battleship/starter //Pegasus
 	role = MAIN_OVERMAP //Player controlled variant
 	obj_integrity = 2250
 	max_integrity = 2250
 	integrity_failure = 2250
-	starting_system = "Argo"
 
 //AI Versions
 

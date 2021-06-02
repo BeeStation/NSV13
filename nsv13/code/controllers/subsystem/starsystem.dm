@@ -19,9 +19,9 @@ SUBSYSTEM_DEF(star_system)
 	//Starmap 2
 	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
 	var/list/neutral_zone_systems = list()
-	var/next_nag_time = 0
-	var/nag_interval = 30 MINUTES //Get off your asses and do some work idiots
-	var/nag_stacks = 0 //How many times have we told you to get a move on?
+	//var/next_nag_time = 0
+	//var/nag_interval = 30 MINUTES //Get off your asses and do some work idiots
+	//var/nag_stacks = 0 //How many times have we told you to get a move on?
 	var/list/all_missions = list()
 	var/admin_boarding_override = FALSE //Used by admins to force disable boarders
 	var/time_limit = FALSE //Do we want to end the round after a specific time? Mostly used for galconquest.
@@ -47,6 +47,7 @@ SUBSYSTEM_DEF(star_system)
 				SS.handle_combat()
 			next_combat_cycle = world.time + COMBAT_CYCLE_INTERVAL
 
+	/* We aren't doing this anymore
 	if(SSmapping.config.patrol_type == "passive")
 		priority_announce("[station_name()], you have been assigned to reconnaissance and exploration this shift. Scans indicate that besides a decent number of straggling Syndicate vessels, there will be little threat to your operations. You are granted permission to proceed at your own pace.", "[capitalize(SSmapping.config.faction)] Naval Command")
 		for(var/datum/star_system/SS in systems)
@@ -54,8 +55,10 @@ SUBSYSTEM_DEF(star_system)
 				SS.hidden = FALSE
 		can_fire = FALSE //And leave it at that.
 		return FALSE //Don't karmic people if this roundtype is set to passive mode.
+	*/
 	for(var/datum/faction/F in factions)
 		F.send_fleet() //Try send a fleet out from each faction.
+	/* Moved already
 	if(world.time >= next_nag_time)
 		nag_stacks ++
 		nag_interval /= 2
@@ -102,10 +105,11 @@ SUBSYSTEM_DEF(star_system)
 				if(!lost_influence)
 					var/datum/faction/F = faction_by_id(FACTION_ID_NT)
 					F.lose_influence(100)
+	*/
 
 /datum/controller/subsystem/star_system/New()
 	. = ..()
-	next_nag_time = world.time + nag_interval
+	//next_nag_time = world.time + nag_interval
 	instantiate_systems()
 	enemy_types = subtypesof(/obj/structure/overmap/syndicate/ai)
 	for(var/type in enemy_blacklist)
@@ -180,7 +184,7 @@ Returns a faction datum by its name (case insensitive!)
 /datum/controller/subsystem/star_system/proc/find_system(obj/structure/overmap/OM) //Used to determine what system a ship is currently in. Famously used to determine the starter system that you've put the ship in.
 	if(!ships[OM])
 		return
-	var/datum/star_system/system = system_by_id(OM.starting_system)
+	var/datum/star_system/system = system_by_id(SSovermap_mode.mode.starting_system)
 	ships[OM]["current_system"] = system
 	return system
 
@@ -244,42 +248,6 @@ Returns a faction datum by its name (case insensitive!)
 			winner = F
 			highestTickets = F.tickets
 	return winner
-
-	/* Deprecated.
-	if(patrols_left <= 0 && systems_cleared >= initial(patrols_left))
-		var/medal_type = null //Reward good players.
-		switch(times_cleared)
-			if(0)
-				priority_announce("Attention [station_name()]. You have completed your assigned patrol and are now eligible for a crew transfer. \
-				Your navigational computers have been programmed with the coordinates of the nearest starbase where you may claim your allotted shore leave. \
-				You are under no obligation to remain in this sector, and you have been taken off of active patrol status. If you wish to continue with exploratory missions or other activities you are free to do so.", "Naval Command")
-				medal_type = MEDAL_CREW_COMPETENT
-			if(1)
-				priority_announce("Crew of [station_name()]. Your dedication to your mission is admirable, we commend you for your continued participation in combat.\
-				We remind you that you are still free to return to Outpost 45 for a crew transfer, and that your continued combat is not necessary.", "Naval Command")
-				medal_type = MEDAL_CREW_VERYCOMPETENT
-			if(2) //Ok..this is kinda impressive
-				priority_announce("Attention [station_name()]. You have proven yourselves extremely competant in the battlefield, and you are all to be commended for this.\
-				Your efforts have severely weakened the Syndicate's presence in this sector and we are mobilising strike force tsunami to clear the rest of the sector. \
-				You can leave the rest to us. Enjoy your shore leave, you've earned it.", "White Rapids Security Council")
-				medal_type = MEDAL_CREW_EXTREMELYCOMPETENT
-			if(3) //By now they've cleared. 20(!) systems.
-				priority_announce("[station_name()]... We are...not quite sure how you're still alive. However, the Syndicate are struggling to mobilise any more ships and we're presented with a unique opportunity to strike at their heartland.\
-				You are ordered to return to home base immediately for re-arming, repair and a crew briefing", "The assembled Nanotrasen Admiralty")
-				medal_type = MEDAL_CREW_HYPERCOMPETENT
-		for(var/client/C in GLOB.clients)
-			if(!C.mob || !SSmapping.level_trait(C.mob.z, ZTRAIT_BOARDABLE))
-				continue
-			SSmedals.UnlockMedal(medal_type,C)
-		last_combat_enter = world.time
-		for(var/datum/star_system/SS in systems)
-			if(SS.name == "Outpost 45")
-				SS.hidden = FALSE
-			SS.difficulty_budget *= 2 //Double the difficulty if the crew choose to stay.
-		times_cleared ++
-		addtimer(CALLBACK(src, .proc/reset_gameplay_loop), rand(15 MINUTES, 20 MINUTES)) //Give them plenty of time to go home before we give them any more missions.
-		return TRUE
-	*/
 
 /datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM)
 	ships[OM] = list("ship" = OM, "x" = 0, "y" = 0, "current_system" = system_by_id(OM.starting_system), "last_system" = system_by_id(OM.starting_system), "target_system" = null, "from_time" = 0, "to_time" = 0, "occupying_z" = OM.z)
