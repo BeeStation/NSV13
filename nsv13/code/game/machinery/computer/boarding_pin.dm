@@ -1,4 +1,4 @@
-GLOBAL_VAR_INIT(boarding_guns_z_locked, TRUE) // Around the time I wanted to make it both a PDA program and a computer and it needed to be mirrored to all the guns
+GLOBAL_VAR_INIT(boarding_guns_z_locked, TRUE)
 
 // Computer controlled
 // Can work either on non-player-ship Z levels, or as a regular firing pin
@@ -30,7 +30,7 @@ GLOBAL_VAR_INIT(boarding_guns_z_locked, TRUE) // Around the time I wanted to mak
         illustration = "id"
 
 /obj/item/storage/box/boardingpins/PopulateContents()
-	for(var/i in 1 to 15)
+	for(var/i in 1 to 10)
 		new /obj/item/firing_pin/boarding(src)
 
 // The control computer
@@ -38,8 +38,6 @@ GLOBAL_VAR_INIT(boarding_guns_z_locked, TRUE) // Around the time I wanted to mak
 /obj/machinery/computer/boarding_guns
 	name = "boarding weapons control console"
 	desc = "Used to remotely lockdown or authorize weapons with boarding firing pins installed."
-	icon_screen = "robot"
-	icon_keyboard = "rd_key"
 	req_access = list(ACCESS_ARMORY)
 	circuit = null //obj/item/circuitboard/computer/boarding_guns
 	light_color = LIGHT_COLOR_RED
