@@ -14,6 +14,10 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/next_objective_reminder = 0 //Next time we automatically remind the crew to proceed with objectives
 	var/objective_reminder_interval = 30 MINUTES //Interval between objective reminders
 	var/objective_reminder_stacks = 0 //How many times has the crew been automatically reminded of objectives without any progress
+	var/combat_resets_reminder = FALSE //Does combat in the overmap reset the reminder?
+	var/combat_delays_reminder = FALSE //Does combat in the overmap delay the reminder?
+	var/combat_delay_amount = 0 //How much the reminder is delayed by combat
+
 
 	var/list/mode_cache
 	var/list/modes
@@ -95,9 +99,13 @@ SUBSYSTEM_DEF(overmap_mode)
 		mode = pick(mode_select)
 		message_admins("[mode.name] has been selected as the overmap gamemode")
 
-	//Assign a starting system to the mainship i guess
+	switch(mode.objective_reminder_setting) //Load the reminder settings
+		if(1)
+			combat_resets_reminder = TRUE
+		if(2)
+			combat_delays_reminder = TRUE
+			combat_delay_amount = mode.combat_delay
 
-	mainshop = mode.starting_system
 
 	//configuration.dm line 341 /datum/controller/configuration/proc/get_runnable_modes()
 
@@ -138,6 +146,28 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/controller/subsystem/overmap_mode/proc/check_completion()
 
+
+/datum/controller/subsystem/overmap_mode/proc/update_reminder(var/objective = FALSE)
+	if(objective) //Is objective? Full Reset
+		last_objective_interaction = world.time
+		objective_reminder_stacks = 0
+		objective_reminder_interval = initial(objective_reminder_interval)
+		next_objective_reminder = world.time + objective_reminder_interval
+		return
+
+	if(combat_resets_reminder) //Set for full reset on combat
+		objective_reminder_stacks = 0
+		objective_reminder_interval = initial(objective_reminder_interval)
+		next_objective_reminder = world.time + objective_reminder_interval
+		return
+
+	if(combat_delays_reminder) //Set for time extension on combat
+		next_objective_reminder += combat_delay_amount
+		return
+
+
+
+
 /datum/overmap_mission
 	var/name = null						//Name of the mission type
 	var/desc = null						//Description of the mission
@@ -147,6 +177,8 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/difficulty = null				//Difficulty of the mission as determined by player count / abus abuse
 	var/starting_system = null			//Here we define where our player ships will start
 	var/starting_faction = null 		//Here we define which faction our player ships belong
+	var/objective_reminder_setting = 0	//0 - Objectives reset remind. 1 - Combat resets reminder. 2 - Combat delays reminder.
+	var/combat_delay = 0				//How much time is added to the reminder timer
 	var/list/objectives = list()		//The actual mission objectives go here
 	var/whitelist_only = FALSE			//Can only be selected through map bound whitelists
 

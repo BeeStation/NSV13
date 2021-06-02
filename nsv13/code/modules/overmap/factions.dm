@@ -155,8 +155,8 @@ Set up relationships.
 		if(SS.name == "Outpost 45")
 			SS.hidden = FALSE
 	tickets = 0
-	SSstar_system.nag_stacks = 0
-	SSstar_system.next_nag_time = world.time + 10 HOURS
+	SSovermap_mode.objective_reminder_stacks = 0
+	SSovermap_mode.next_objective_reminder = world.time + 10 HOURS
 
 /datum/faction/pirate
 	name = "Tortuga Raiders"

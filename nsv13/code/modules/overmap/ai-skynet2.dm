@@ -1341,12 +1341,7 @@ Seek a ship thich we'll station ourselves around
 	if(OM.role == MAIN_OVERMAP)
 		if(GLOB.security_level < SEC_LEVEL_RED)	//Lets not pull them out of Zebra / Delta
 			set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
-		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS
-		SSstar_system.nag_stacks = 0 //Reset overmap spawn modifier
-		SSstar_system.nag_interval = initial(SSstar_system.nag_interval)
-		SSstar_system.next_nag_time = world.time + SSstar_system.nag_interval
-		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
-		OEH.weight = 0 //Reset controller weighting
+		SSovermap_mode.update_reminder()
 	if(OM.tactical)
 		var/sound = pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_3.ogg','nsv13/sound/effects/computer/alarm_4.ogg')
 		var/message = "<span class='warning'>DANGER: [src] is now targeting [OM].</span>"
