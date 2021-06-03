@@ -355,7 +355,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	var/interior_type = pick(possible_interior_maps)
 	boarding_interior = SSmapping.boarding_templates[interior_type]
 	if(!boarding_interior)
-		message_admins("Mapping subsystem failed to load [interior_type]")
+		message_admins("Mapping subsystem failed to load [interior_type])")
 		return
 
 	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
