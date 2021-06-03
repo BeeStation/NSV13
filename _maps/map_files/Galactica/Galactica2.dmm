@@ -867,8 +867,12 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "azp" = (
-/obj/structure/rack,
-/turf/open/floor/monotile/steel,
+/obj/mecha/working/ripley{
+	name = "Munitions Power Loader";
+	operation_req_access = list(69)
+	},
+/obj/effect/turf_decal/tile/ship/half/orange,
+/turf/open/floor/monotile/dark,
 /area/nsv/hanger{
 	name = "Dropship Bay"
 	})
@@ -1068,6 +1072,27 @@
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/monotile/steel,
 /area/science/nsv/astronomy)
+"aFh" = (
+/obj/structure/rack,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/turf/open/floor/monotile/dark,
+/area/ai_monitored/security/armory/lockup)
 "aFA" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -1078,7 +1103,7 @@
 /obj/effect/turf_decal/tile/ship/half/orange{
 	dir = 4
 	},
-/obj/effect/landmark/start/fighter_pilot,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger)
 "aFJ" = (
@@ -1713,7 +1738,7 @@
 	icon_state = "1-2"
 	},
 /obj/item/radio/intercom/directional/west,
-/obj/effect/landmark/start/fighter_pilot,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger)
 "aVC" = (
@@ -1777,7 +1802,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/structure/closet/secure_closet/fighter_pilot,
+/obj/structure/closet/secure_closet/transport_pilot,
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/hanger/notkmcstupidhanger)
 "aWZ" = (
@@ -3955,16 +3980,16 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/magazine/starboard)
 "chQ" = (
-/obj/structure/guncase/shotgun{
-	gun_category = /obj/item/gun/ballistic/automatic/peacekeeper;
-	name = "assault rifle cabinet";
-	req_one_access_txt = "2"
-	},
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
 /obj/machinery/computer/ship/viewscreen,
+/obj/structure/guncase{
+	capacity = 12;
+	name = "military police weapons"
+	},
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/item/gun/ballistic/automatic/mp_smg,
 /turf/open/floor/monotile/steel,
 /area/ai_monitored/security/armory/lockup)
 "cik" = (
@@ -4464,7 +4489,7 @@
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/machinery/squad_vendor{
 	density = 0;
-	name = "Apple Squad Vendor";
+	name = "Able Squad Vendor";
 	pixel_y = 26
 	},
 /turf/open/floor/monotile/dark,
@@ -4529,7 +4554,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/ship/orange,
-/obj/effect/landmark/start/fighter_pilot,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger)
 "cAl" = (
@@ -5961,7 +5986,7 @@
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/engine/atmos)
 "dov" = (
-/obj/structure/closet/secure_closet/fighter_pilot,
+/obj/structure/closet/secure_closet/transport_pilot,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/notkmcstupidhanger)
 "dpD" = (
@@ -7215,6 +7240,15 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
+"ecW" = (
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/squad_vendor{
+	density = 0;
+	name = "Baker Squad Vendor";
+	pixel_y = -26
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/briefingroom)
 "edg" = (
 /obj/structure/chair/office{
 	dir = 1;
@@ -9387,6 +9421,15 @@
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
+"flX" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/structure/overmap/fighter/dropship/starter{
+	angle = 90
+	},
+/turf/open/floor/engine,
+/area/nsv/hanger{
+	name = "Dropship Bay"
+	})
 "flZ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -12083,7 +12126,7 @@
 	pixel_y = 26
 	},
 /obj/effect/turf_decal/stripes/line,
-/obj/structure/closet/secure_closet/fighter_pilot,
+/obj/structure/closet/secure_closet/transport_pilot,
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/hanger/notkmcstupidhanger)
 "gCG" = (
@@ -13722,6 +13765,18 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmospherics_engine)
+"hxR" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/light/runway,
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger{
+	name = "Dropship Bay"
+	})
 "hye" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -13954,6 +14009,14 @@
 /obj/machinery/light,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
+"hFn" = (
+/obj/machinery/mech_bay_recharge_port,
+/obj/item/mecha_parts/mecha_equipment/hydraulic_clamp,
+/obj/effect/turf_decal/tile/ship/half/orange,
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger{
+	name = "Dropship Bay"
+	})
 "hFI" = (
 /obj/structure/grille,
 /turf/open/floor/plating,
@@ -14811,6 +14874,7 @@
 	dir = 1
 	},
 /obj/effect/landmark/start/head_of_personnel{
+	icon_state = "Executive Officer";
 	name = "Executive Officer"
 	},
 /turf/open/floor/carpet/blue,
@@ -17566,6 +17630,28 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/maintenance/nsv/deck2/frame4/starboard)
+"jKm" = (
+/obj/structure/rack,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/obj/item/ammo_box/magazine/m556,
+/turf/open/floor/monotile/dark,
+/area/ai_monitored/security/armory/lockup)
 "jKt" = (
 /turf/closed/wall/r_wall,
 /area/engine/atmos)
@@ -18411,15 +18497,15 @@
 	name = "Night Club"
 	})
 "kiV" = (
-/obj/structure/guncase/shotgun{
-	gun_category = /obj/item/gun/ballistic/automatic/peacekeeper;
-	name = "assault rifle cabinet";
-	req_one_access_txt = "2"
+/obj/structure/guncase{
+	capacity = 12;
+	name = "military police weapons"
 	},
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/item/gun/ballistic/automatic/mp_smg,
+/obj/item/gun/ballistic/automatic/mp_smg,
 /turf/open/floor/monotile/steel,
 /area/ai_monitored/security/armory/lockup)
 "kjp" = (
@@ -19389,7 +19475,7 @@
 /area/hallway/nsv/deck2/primary)
 "kLa" = (
 /obj/effect/turf_decal/tile/ship/half/orange,
-/obj/effect/landmark/start/fighter_pilot,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger)
 "kLg" = (
@@ -19493,8 +19579,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame5/port)
 "kND" = (
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel,
-/turf/open/floor/monotile/steel,
+/obj/machinery/computer/mech_bay_power_console,
+/obj/effect/turf_decal/tile/ship/half/orange,
+/turf/open/floor/monotile/dark,
 /area/nsv/hanger{
 	name = "Dropship Bay"
 	})
@@ -21109,13 +21196,13 @@
 /area/engine/atmos)
 "lHQ" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/machinery/squad_vendor{
-	density = 0;
-	name = "Apple Squad Vendor";
-	pixel_y = 26
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 10
+	},
+/obj/machinery/squad_vendor{
+	density = 0;
+	name = "Able Squad Vendor";
+	pixel_y = 26
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
@@ -22194,7 +22281,7 @@
 /obj/structure/fighter_launcher/launch_only{
 	name = "Parking Arrestor"
 	},
-/obj/structure/overmap/fighter/utility/prebuilt,
+/obj/structure/overmap/fighter/dropship/sabre,
 /turf/open/floor/engine/airless,
 /area/nsv/hanger/notkmcstupidhanger)
 "mpa" = (
@@ -25868,14 +25955,10 @@
 /area/crew_quarters/theatre)
 "ouP" = (
 /obj/structure/rack,
-/obj/item/clothing/suit/ship/squad,
-/obj/item/clothing/suit/ship/squad,
-/obj/item/clothing/suit/ship/squad,
-/obj/item/clothing/suit/ship/squad,
-/obj/item/clothing/head/ship/squad,
-/obj/item/clothing/head/ship/squad,
-/obj/item/clothing/head/ship/squad,
-/obj/item/clothing/head/ship/squad,
+/obj/item/storage/box/boardingpins,
+/obj/item/storage/box/boardingpins{
+	pixel_y = 8
+	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory/lockup)
 "ouY" = (
@@ -29441,7 +29524,7 @@
 /obj/effect/turf_decal/tile/ship/half/orange{
 	dir = 1
 	},
-/obj/effect/landmark/start/fighter_pilot,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger)
 "quf" = (
@@ -29848,7 +29931,7 @@
 /obj/effect/turf_decal/tile/ship/orange{
 	dir = 4
 	},
-/obj/effect/landmark/start/fighter_pilot,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger)
 "qEd" = (
@@ -29959,6 +30042,18 @@
 	},
 /turf/open/floor/engine/air,
 /area/engine/atmos)
+"qGF" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/light/runway/delay2,
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger{
+	name = "Dropship Bay"
+	})
 "qGI" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -30894,6 +30989,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
 	},
+/obj/machinery/light/runway/delay5,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger{
 	name = "Dropship Bay"
@@ -31336,6 +31432,8 @@
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
+/obj/item/ammo_box/c9mm,
+/obj/item/ammo_box/c9mm,
 /turf/open/floor/monotile/steel,
 /area/ai_monitored/security/armory/lockup)
 "rBQ" = (
@@ -31889,13 +31987,13 @@
 /area/hallway/nsv/deck2/primary)
 "rRB" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/machinery/squad_vendor{
-	density = 0;
-	name = "Butter Squad Vendor";
-	pixel_y = 26
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 6
+	},
+/obj/machinery/squad_vendor{
+	density = 0;
+	name = "Charlie Squad Vendor";
+	pixel_y = 26
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
@@ -33110,12 +33208,22 @@
 	name = "Night Club"
 	})
 "szW" = (
-/obj/machinery/squad_vendor{
-	density = 0;
-	name = "Charlie Squad Vendor"
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/structure/guncase{
+	capacity = 12;
+	name = "assault weapons"
 	},
-/turf/closed/wall/steel,
-/area/nsv/briefingroom)
+/turf/open/floor/monotile/steel,
+/area/ai_monitored/security/armory/lockup)
 "sAo" = (
 /obj/machinery/light{
 	dir = 1
@@ -33676,7 +33784,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/effect/landmark/start/fighter_pilot,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger)
 "sPr" = (
@@ -33921,6 +34029,11 @@
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 9
+	},
+/obj/machinery/squad_vendor{
+	density = 0;
+	name = "Baker Squad Vendor";
+	pixel_y = -26
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
@@ -35575,6 +35688,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
 	},
+/obj/machinery/light/runway/delay3,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger{
 	name = "Dropship Bay"
@@ -37848,17 +37962,21 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame4/starboard)
 "vdv" = (
-/obj/structure/guncase/shotgun{
-	gun_category = /obj/item/gun/ballistic/automatic/peacekeeper;
-	name = "assault rifle cabinet";
-	req_one_access_txt = "2"
-	},
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
 /obj/structure/sign/nanotrasen{
 	pixel_y = 26
+	},
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/item/gun/ballistic/automatic/marine_rifle,
+/obj/structure/guncase{
+	capacity = 12;
+	name = "assault weapons"
 	},
 /turf/open/floor/monotile/steel,
 /area/ai_monitored/security/armory/lockup)
@@ -38191,7 +38309,7 @@
 /turf/open/floor/engine/vacuum,
 /area/engine/engineering/reactor_core)
 "vok" = (
-/obj/structure/closet/secure_closet/fighter_pilot,
+/obj/structure/closet/secure_closet/transport_pilot,
 /obj/machinery/light{
 	dir = 4
 	},
@@ -39354,6 +39472,12 @@
 /obj/structure/reagent_dispensers/cooking_oil,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen/coldroom)
+"vVO" = (
+/obj/structure/reagent_dispensers/fueltank/aviation_fuel,
+/turf/open/floor/monotile/steel,
+/area/nsv/hanger{
+	name = "Dropship Bay"
+	})
 "vWl" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -42338,7 +42462,7 @@
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/machinery/squad_vendor{
 	density = 0;
-	name = "Butter Squad Vendor";
+	name = "Charlie Squad Vendor";
 	pixel_y = 26
 	},
 /turf/open/floor/monotile/dark,
@@ -42872,16 +42996,17 @@
 /turf/closed/wall/steel,
 /area/medical/medbay)
 "ybR" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/obj/structure/fighter_launcher/launch_only{
-	dir = 1;
-	name = "Parking Arrestor"
-	},
-/obj/structure/overmap/fighter/light/flight_leader,
-/turf/open/floor/engine/airless,
-/area/nsv/hanger/notkmcstupidhanger)
+/obj/structure/rack,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/smgm9mm,
+/turf/open/floor/monotile/dark,
+/area/ai_monitored/security/armory/lockup)
 "ybY" = (
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 6
@@ -86047,7 +86172,7 @@ xEu
 chQ
 eao
 sZc
-ouP
+ybR
 nEx
 msI
 gTW
@@ -86304,7 +86429,7 @@ xEu
 vdv
 eao
 sZc
-ouP
+jKm
 nEx
 qwz
 gTW
@@ -86558,10 +86683,10 @@ dWH
 xUX
 srp
 xEu
-kiV
+szW
 rxB
 rbL
-ouP
+aFh
 nEx
 qwz
 gTW
@@ -90963,7 +91088,7 @@ xVG
 mus
 fiC
 sWU
-szW
+lPs
 eCa
 jaQ
 kIT
@@ -91219,8 +91344,8 @@ dwq
 txL
 vdk
 oQw
-bcU
-szW
+ecW
+lPs
 ayR
 nOA
 lPs
@@ -99930,7 +100055,7 @@ iII
 wAV
 jer
 aDd
-bTv
+vVO
 bTv
 bTv
 oLC
@@ -100447,7 +100572,7 @@ aDd
 bTv
 afu
 oEF
-tgD
+flX
 bCO
 gqC
 jHy
@@ -100965,7 +101090,7 @@ tgD
 bCO
 gqC
 gqC
-rPd
+hxR
 gqC
 aDd
 lUo
@@ -101993,7 +102118,7 @@ tgD
 bCO
 gqC
 gqC
-rPd
+qGF
 gqC
 aDd
 rIa
@@ -102502,7 +102627,7 @@ srp
 srp
 aDd
 aDd
-bTv
+hFn
 bTv
 bCO
 gqC
@@ -104325,7 +104450,7 @@ msz
 dZC
 dDc
 pRr
-ybR
+sWP
 dwi
 rIa
 eEK

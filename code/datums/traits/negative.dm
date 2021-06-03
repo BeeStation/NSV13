@@ -133,7 +133,7 @@
 				heirloom_type = pick(/obj/item/pen/fountain, /obj/item/storage/pill_bottle/dice)
 			if("Chaplain")
 				heirloom_type = pick(/obj/item/toy/windupToolbox, /obj/item/reagent_containers/food/drinks/bottle/holywater)
-			if("Marine") //Nsv13 - Crayon eaters
+			if("Midshipman") //Nsv13 - Crayon eaters
 				heirloom_type = /obj/item/storage/toolbox/mechanical/old/heirloom
 			if("Barber")
 				heirloom_type = /obj/item/handmirror

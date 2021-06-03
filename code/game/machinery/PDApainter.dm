@@ -10,7 +10,7 @@
 	var/obj/item/card/id/storedid = null
 	//Nsv13 - Crayon eaters & MPs
 	var/pda_icons = list(
-		"Marine" = "pda",
+		"Midshipman" = "pda",
 		"Atmospheric Technician" = "pda-atmos",
 		"Bartender" = "pda-bartender",
 		"Botanist" = "pda-hydro",
@@ -41,7 +41,7 @@
 		"Virologist" = "pda-virology",
 		"Warden" = "pda-warden")
 	var/id_icons = list(
-		"Marine" = "id",
+		"Midshipman" = "id",
 		"Atmospheric Technician" = "atmos",
 		"Captain" = "gold",
 		"Cargo" = "cargo",

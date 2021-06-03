@@ -39,7 +39,6 @@
 /area/dropship)
 "ej" = (
 /obj/machinery/computer/ship/helm/console/dropship,
-/obj/item/radio/intercom/directional/west,
 /obj/machinery/camera{
 	c_tag = "NSV Sephora - Cockpit";
 	network = list("ss13","squad_headcam")
@@ -178,6 +177,19 @@
 	dir = 1
 	},
 /obj/structure/lattice/catwalk/over/ship/dark,
+/obj/machinery/computer/ship/navigation/console{
+	density = 0;
+	dir = 4;
+	pixel_x = -32;
+	pixel_y = 32
+	},
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "NSV Sephora Overwatch";
+	departmentType = 5;
+	name = "NSV Sephora Overwatch RC";
+	pixel_y = -32
+	},
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin14"
 	},
@@ -193,16 +205,15 @@
 	name = "overwatch command centre"
 	},
 /obj/structure/lattice/catwalk/over/ship/dark,
+/obj/machinery/computer/squad_manager{
+	density = 0;
+	dir = 8;
+	icon = 'nsv13/goonstation/icons/obj/computer.dmi';
+	pixel_x = 32;
+	pixel_y = 32
+	},
 /obj/machinery/computer/security/telescreen/squadcam{
 	pixel_y = -24
-	},
-/obj/machinery/requests_console{
-	announcementConsole = 1;
-	department = "NSV Sephora Overwatch";
-	departmentType = 5;
-	name = "NSV Sephora Overwatch RC";
-	pixel_x = 32;
-	pixel_y = 26
 	},
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin14"
@@ -410,7 +421,7 @@
 	},
 /area/dropship)
 "Ax" = (
-/obj/machinery/computer/ship/navigation/console,
+/obj/machinery/computer/ship/tactical/console,
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin14"
 	},
@@ -454,6 +465,9 @@
 	},
 /area/dropship)
 "CL" = (
+/obj/machinery/computer/ship/dradis/console{
+	dir = 4
+	},
 /turf/closed/wall/indestructible/dropship{
 	icon_state = "86"
 	},
@@ -911,6 +925,9 @@
 	},
 /area/dropship)
 "Zq" = (
+/obj/machinery/computer/ship/salvage/console{
+	dir = 8
+	},
 /turf/closed/wall/indestructible/dropship{
 	icon_state = "89"
 	},

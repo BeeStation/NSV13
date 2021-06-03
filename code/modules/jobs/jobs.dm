@@ -50,7 +50,7 @@ GLOBAL_LIST_INIT(civilian_positions, list(
 	"Chaplain",
 	"Clown",
 	"Mime",
-	"Marine"))
+	"Midshipman"))
 
 GLOBAL_LIST_INIT(gimmick_positions, list(
 	"Gimmick",

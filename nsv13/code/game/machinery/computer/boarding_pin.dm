@@ -8,10 +8,13 @@ GLOBAL_VAR_INIT(boarding_guns_z_locked, TRUE)
 	fail_message = "<span class='warning'>USE NOT AUTHORIZED.</span>"
 	pin_removeable = TRUE
 	force_replace = TRUE
+	req_one_access = list(ACCESS_ARMORY)
 
 /obj/item/firing_pin/boarding/pin_auth(mob/living/user)
 	if(!istype(user))
 		return FALSE
+	if(allowed(user))
+		return TRUE
 	if(GLOB.boarding_guns_z_locked)
 		// Check if we're on a friendly ship
 		var/obj/structure/overmap/OM = get_overmap()
@@ -21,7 +24,6 @@ GLOBAL_VAR_INIT(boarding_guns_z_locked, TRUE)
 			return TRUE
 	else
 		return (GLOB.security_level >= SEC_LEVEL_RED)
-	return FALSE
 
 // A box
 /obj/item/storage/box/boardingpins
@@ -39,9 +41,13 @@ GLOBAL_VAR_INIT(boarding_guns_z_locked, TRUE)
 	name = "boarding weapons control console"
 	desc = "Used to remotely lockdown or authorize weapons with boarding firing pins installed."
 	req_access = list(ACCESS_ARMORY)
-	circuit = null //obj/item/circuitboard/computer/boarding_guns
+	circuit = /obj/item/circuitboard/computer/boarding_guns
 	light_color = LIGHT_COLOR_RED
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
+
+/obj/item/circuitboard/computer/boarding_guns
+	name = "boarding pin authorisation console (computer)"
+	build_path = /obj/machinery/computer/boarding_guns
 
 /obj/machinery/computer/boarding_guns/ui_interact(mob/user)
 	. = ..()
@@ -78,6 +84,3 @@ GLOBAL_VAR_INIT(boarding_guns_z_locked, TRUE)
 		say("Boarding pins set to General Quarters.")
 
 	updateUsrDialog()
-
-/obj/machinery/computer/boarding_guns/screwdriver_act(mob/living/user, obj/item/I)
-	return FALSE

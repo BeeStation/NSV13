@@ -210,7 +210,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 
 /datum/component/simple_teamchat/radio_dependent/squad/style_message(atom/movable/sender, msg)
 	if(isatom(sender))
-		return "<span class='[text_span_style]'><b>([key]) [sender.compose_rank(sender)][sender]</b> ([sender == squad?.leader ? "<b>SL</b>" : "Marine"]) says,  \"[msg]\"</span>"
+		return "<span class='[text_span_style]'><b>([key]) [sender.compose_rank(sender)][sender]</b> ([sender == squad?.leader ? "<b>SL</b>" : "Midshipman"]) says,  \"[msg]\"</span>"
 	return "<span class='[text_span_style]'><b>([key]) [sender] (Overwatch)</b>: [msg]</span>"
 
 //datum/component/simple_teamchat/radio_dependent/squad/style_message(atom/movable/sender, msg)

@@ -281,6 +281,17 @@
 			else
 				var/_z = pick_n_take(free_treadmills)
 				reserved_z = _z
+
+			if(!free_boarding_levels?.len)
+				//Now for boarding reservation....
+				//Boarding level....
+				SSmapping.add_new_zlevel("Dropship boarding level [++world.maxz]", ZTRAITS_BOARDABLE_SHIP)
+				boarding_reservation_z = world.maxz
+			else
+				var/_z = pick_n_take(free_boarding_levels)
+				boarding_reservation_z = _z
+
+
 			starting_system = current_system.name //Just fuck off it works alright?
 			SSstar_system.add_ship(src)
 
@@ -323,4 +334,7 @@
 	if(reserved_z)
 		free_treadmills += reserved_z
 		reserved_z = null
+	if(boarding_reservation_z)
+		free_boarding_levels += boarding_reservation_z
+		boarding_reservation_z = null
 	return TRUE

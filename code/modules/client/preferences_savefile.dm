@@ -70,7 +70,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		see_rc_emotes = TRUE
 		S.dir.Remove("overhead_chat")
 	if(current_version < 32)
-		squad_specialisation = "Marine"
+		squad_specialisation = "Midshipman"
 		preferred_pilot_role = PILOT_COMBAT
 
 

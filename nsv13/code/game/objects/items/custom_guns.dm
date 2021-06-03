@@ -123,3 +123,4 @@
 	recoil = 0.5 //BANG
 	full_auto = TRUE
 	pixel_x = -4
+	pin = /obj/item/firing_pin/boarding

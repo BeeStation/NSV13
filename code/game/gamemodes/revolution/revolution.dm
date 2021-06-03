@@ -49,7 +49,7 @@
 		restricted_jobs += protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Marine" //Nsv13 - Crayon eaters
+		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
 
 	for (var/i=1 to max_headrevs)
 		if (antag_candidates.len==0)

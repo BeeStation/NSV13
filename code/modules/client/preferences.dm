@@ -132,7 +132,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	var/action_buttons_screen_locs = list()
 	//Nsv13 squads - we CM now
-	var/squad_specialisation = "Marine"
+	var/squad_specialisation = "Midshipman"
 	//Nsv13 - Syndicate role select
 	var/preferred_syndie_role = CONQUEST_ROLE_GRUNT
 

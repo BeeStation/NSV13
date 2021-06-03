@@ -201,7 +201,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	//	message_admins("1[boarding_reservation_z]2[possible_interior_maps?.len]3[occupying_levels?.len]4[boarder.occupying_levels?.len]5[(boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target))]")
 		message_admins("[src] attempted to be boarded by [boarder], but it has an incompatible interior_mode.")
 		return FALSE
-	if(!boarder.boarding_reservation_z || !possible_interior_maps?.len || occupying_levels?.len || !boarder.occupying_levels?.len || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
+	if(!boarder.boarding_reservation_z || !possible_interior_maps?.len || occupying_levels?.len || !boarder.reserved_z || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
 		return FALSE
 	//Prepare the boarding interior map. Admins may also force-load this with a path if they want.
 	var/chosen = (map_path_override) ? map_path_override : pick(possible_interior_maps)
@@ -355,7 +355,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	var/interior_type = pick(possible_interior_maps)
 	boarding_interior = SSmapping.boarding_templates[interior_type]
 	if(!boarding_interior)
-		message_admins("Mapping subsystem failed to load [interior_type])")
+		message_admins("Mapping subsystem failed to load [interior_type]")
 		return
 
 	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)

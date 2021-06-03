@@ -136,6 +136,7 @@
 
 	var/uid = 0 //Unique identification code
 	var/static/list/free_treadmills = list()
+	var/static/list/free_boarding_levels = list()
 	var/starting_system = null //Where do we start in the world?
 	var/obj/machinery/computer/ship/ftl_computer/ftl_drive
 	var/reserved_z = 0 //The Z level we were spawned on, and thus inhabit. This can be changed if we "swap" positions with another ship.

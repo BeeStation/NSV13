@@ -64,7 +64,6 @@
 /area/dropship/generic)
 "ej" = (
 /obj/machinery/computer/ship/helm/console/dropship,
-/obj/item/radio/intercom/directional/west,
 /obj/machinery/camera{
 	c_tag = "NSV Sephora - Cockpit";
 	network = list("ss13","squad_headcam")
@@ -74,15 +73,15 @@
 	},
 /area/dropship/generic)
 "eo" = (
-/obj/structure/sign/ship/smoking{
-	dir = 4
-	},
 /turf/closed/wall/indestructible/dropship{
 	icon_state = "67";
 	opacity = 0
 	},
 /area/dropship/generic)
 "eu" = (
+/obj/structure/sign/ship/smoking{
+	dir = 4
+	},
 /turf/closed/wall/indestructible/dropship{
 	icon_state = "72";
 	opacity = 0
@@ -236,6 +235,7 @@
 /obj/item/clothing/ears/earmuffs,
 /obj/item/clothing/ears/earmuffs,
 /obj/item/multitool,
+/obj/item/radio/intercom/directional/west,
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin15"
 	},
@@ -265,6 +265,12 @@
 	dir = 1
 	},
 /obj/structure/lattice/catwalk/over/ship/dark,
+/obj/machinery/computer/ship/navigation/console{
+	density = 0;
+	dir = 4;
+	pixel_x = -32;
+	pixel_y = 32
+	},
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin14"
 	},
@@ -293,13 +299,12 @@
 	name = "overwatch command centre"
 	},
 /obj/structure/lattice/catwalk/over/ship/dark,
-/obj/machinery/requests_console{
-	announcementConsole = 1;
-	department = "NSV Sephora Overwatch";
-	departmentType = 5;
-	name = "NSV Sephora Overwatch RC";
+/obj/machinery/computer/squad_manager{
+	density = 0;
+	dir = 8;
+	icon = 'nsv13/goonstation/icons/obj/computer.dmi';
 	pixel_x = 32;
-	pixel_y = 26
+	pixel_y = 32
 	},
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin14"
@@ -552,6 +557,9 @@
 	},
 /area/dropship/generic)
 "CL" = (
+/obj/machinery/computer/ship/dradis/console{
+	dir = 4
+	},
 /turf/closed/wall/indestructible/dropship{
 	icon_state = "86"
 	},
@@ -1005,7 +1013,7 @@
 	dir = 1
 	},
 /obj/machinery/computer/ship/viewscreen,
-/obj/machinery/computer/ship/navigation/console,
+/obj/machinery/computer/ship/dradis/console,
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin14"
 	},
@@ -1049,6 +1057,9 @@
 	},
 /area/dropship/generic)
 "Zq" = (
+/obj/machinery/computer/ship/salvage/console{
+	dir = 8
+	},
 /turf/closed/wall/indestructible/dropship{
 	icon_state = "89"
 	},

@@ -214,28 +214,28 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			strip_role(H)
 			leader = H
 			H.squad_role = SQUAD_LEAD
-			apply_squad_rank(H, "LT") //Leftenant
+			apply_squad_rank(H, "LT")
 		if(SQUAD_MEDIC)
 			if(medics.len >= max_medics || LAZYFIND(medics, H))
 				return FALSE
 			strip_role(H)
 			medics += H
 			H.squad_role = SQUAD_MEDIC
-			apply_squad_rank(H, "CPL") //Corporal
+			apply_squad_rank(H, "SLT")
 		if(SQUAD_ENGI)
 			if(engineers.len >= max_engineers || LAZYFIND(engineers, H))
 				return FALSE
 			strip_role(H)
 			engineers += H
 			H.squad_role = SQUAD_ENGI
-			apply_squad_rank(H, "CPL") //Corporal
+			apply_squad_rank(H, "SLT")
 		if(SQUAD_MARINE)
 			if(LAZYFIND(grunts, H))
 				return FALSE
 			strip_role(H)
 			grunts += H
 			H.squad_role = SQUAD_MARINE
-			apply_squad_rank(H, "PVT")
+			apply_squad_rank(H, "PFC")
 	H.set_squad_hud()
 	broadcast(src,"[H.name] has been re-assigned to [H.squad_role].", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
 
@@ -255,12 +255,12 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			if(medics.len < max_medics)
 				medics += H
 				H.squad_role = SQUAD_MEDIC
-				apply_squad_rank(H, "CPL") //Corporal
+				apply_squad_rank(H, "SLT") //Second LT
 		if(SQUAD_ENGI)
 			if(engineers.len < max_engineers)
 				engineers += H
 				H.squad_role = SQUAD_ENGI
-				apply_squad_rank(H, "CPL") //Corporal
+				apply_squad_rank(H, "SLT") //Second LT
 	//They didn't get their pref :(
 	if(!H.squad_role)
 		var/my_exp = H.client?.calc_exp_type(EXP_TYPE_CREW) || 0
@@ -273,10 +273,10 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 		if(!H.squad_role)
 			grunts += H
 			H.squad_role = SQUAD_MARINE
-			apply_squad_rank(H, "PVT")
+			apply_squad_rank(H, "PFC") //Private first class
 	equip(H, give_items)
 	handle_hud(H, TRUE)
-	var/blurb = "As a <b>Squad Marine</b> you are the most Junior member of any squad and are expected only to follow the orders of your superiors... \n <i>Sergeants</i>, <i>Specialists (Corporals)</i> and the <i>Squad Leader</i> all outrank you and you are expected to follow their orders."
+	var/blurb = "As a <b>Squad Marine</b> you are the most Junior member of any squad and are expected only to follow the orders of your superiors... \n <i>Sergeants</i>, <i>Specialists</i> and the <i>Squad Leader</i> all outrank you and you are expected to follow their orders."
 	switch(H.squad_role)
 		if(SQUAD_LEAD)
 			blurb = "As a <b>Squad Leader</b> you hold the rank of Lieutenant. You have authority over your squad, and are responsible for organising the squad to complete objectives set by your superiors. <i>You answer to the XO and HoS directly, and must carry out their orders.</i>"
@@ -351,7 +351,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 /datum/squad/able
 	name = ABLE_SQUAD
-	desc = "Able squad is the ship's marine squad. Specialising in boarding and counter-boarding operations, Able squad marines are highly trained specialists in combat and ship operations and are expected to board + commandeer enemy ships."
+	desc = "Able squad is the ship's marine squad. Able Squad can be activated to commandeer / loot enemy vessels, though by default they are expected to help munitions with wartime ship operation."
 	id = ABLE_SQUAD
 	colour = "#e61919"
 	access = list(ACCESS_HANGAR, ACCESS_BRIG, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MAINT_TUNNELS)

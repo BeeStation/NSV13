@@ -8,7 +8,7 @@
 	resistance_flags = FLAMMABLE
 	// Possible restyles for the cutout;
 	// add an entry in change_appearance() if you add to here
-	var/list/possible_appearances = list("Marine", "Clown", "Mime",
+	var/list/possible_appearances = list("Midshipman", "Clown", "Mime",
 		"Traitor", "Nuke Op", "Cultist", "Clockwork Cultist",
 		"Revolutionary", "Wizard", "Shadowling", "Xenomorph", "Xenomorph Maid", "Swarmer",
 		"Ash Walker", "Deathsquad Officer", "Ian", "Slaughter Demon",
@@ -98,7 +98,7 @@
 	if(!deceptive)
 		add_atom_colour("#FFD7A7", FIXED_COLOUR_PRIORITY)
 	switch(new_appearance)
-		if("Marine") //Nsv13 - Crayon eaters
+		if("Midshipman") //Nsv13 - Crayon eaters
 			name = "[pick(GLOB.first_names_male)] [pick(GLOB.last_names)]"
 			desc = "A cardboat cutout of an assistant."
 			icon_state = "cutout_greytide"

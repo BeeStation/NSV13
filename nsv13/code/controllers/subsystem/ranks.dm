@@ -1,7 +1,7 @@
 GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"))
 
 //For code/controllers/subsystem/job.dm
-/datum/controller/subsystem/job/proc/LoadRanks(rankfile="config/ranks/sharpe.txt")
+/datum/controller/subsystem/job/proc/LoadRanks(rankfile="config/ranks/royal_navy.txt")
 	if (fexists("[rankfile]"))
 		var/rankstext = file2text("[rankfile]")
 
@@ -88,7 +88,7 @@ Checks two text ranks, see which one outranks the other. Used for squad rank ass
 
 /datum/controller/subsystem/job/proc/select_substitute_rank()
 	//Try assistant first
-	var/datum/job/A = SSjob.GetJob("Marine")
+	var/datum/job/A = SSjob.GetJob("Midshipman")
 	if(A && A.display_rank)
 		return A
 

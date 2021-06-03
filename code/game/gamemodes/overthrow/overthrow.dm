@@ -21,7 +21,7 @@
 		restricted_jobs += protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Marine" //Nsv13 - Crayon eaters
+		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
 
 	var/sleeping_agents = required_enemies + round(num_players()*0.05) // At 100 players, it'd be 2 + 5 = 7 teams existing.
 
