@@ -135,6 +135,7 @@
 	var/mob/listeningTo
 
 	var/uid = 0 //Unique identification code
+	var/static/list/free_treadmills = list()
 	var/starting_system = null //Where do we start in the world?
 	var/obj/machinery/computer/ship/ftl_computer/ftl_drive
 	var/reserved_z = 0 //The Z level we were spawned on, and thus inhabit. This can be changed if we "swap" positions with another ship.
@@ -157,7 +158,6 @@
 	var/datum/turf_reservation/roomReservation = null
 	var/datum/map_template/dropship/boarding_interior = null
 	var/list/possible_interior_maps = null
-	var/ftl_dragalong = FALSE
 	var/interior_mode = NO_INTERIOR
 	var/list/interior_entry_points = list()
 /**
