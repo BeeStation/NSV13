@@ -171,6 +171,9 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 				for(var/turf/T in boarding_interior.get_affected_turfs(get_turf(locate(1, 1, boarding_reservation_z)), FALSE)) //nuke
 					CHECK_TICK
 					T.empty()
+				if(reserved_z)
+					free_treadmills += reserved_z
+					reserved_z = null
 				boarding_reservation_z = null
 				qdel(boarding_interior)
 		if(INTERIOR_DYNAMIC)
@@ -207,16 +210,30 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	if(!boarding_interior || !boarding_interior.mappath)
 		message_admins("Error parsing boarding interior map for [src]")
 		return FALSE
-	ftl_dragalong = TRUE //Tag us along with the ship that captured us!
+	current_system = boarder.current_system
+	//Add a treadmill for this ship as and when needed.
+	if(!reserved_z)
+		if(!free_treadmills?.len)
+			SSmapping.add_new_zlevel("Captured ship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
+			reserved_z = world.maxz
+		else
+			var/_z = pick_n_take(free_treadmills)
+			reserved_z = _z
+		starting_system = current_system.name //Just fuck off it works alright?
+		SSstar_system.add_ship(src)
 	boarding_reservation_z = boarder.boarding_reservation_z
+	//Fuck right off. Stops monstermos events while loading the ship.
+	SSair.pause()
 	var/done = boarding_interior.load(get_turf(locate(1, 1, boarder.boarding_reservation_z)), FALSE)
 	if(!done)
+		SSair.enqueue()
 		message_admins("[src] failed to load a boarding map. Server is probably on fire :)")
 		return FALSE
+	//You can exist again :)
+	SSair.enqueue()
 	var/datum/space_level/SL = SSmapping.get_level(boarding_reservation_z)
 	SL.linked_overmap = src
 	occupying_levels += SL
-	current_system = boarder.current_system
 	//Just in case...
 	if(!docking_points.len)
 		docking_points += get_turf(locate(20, world.maxy/2, boarding_reservation_z))
@@ -330,7 +347,6 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 )
 	lootcount = 1
 
-
 /**
 The meat of this file. This will instance the dropship's interior in reserved space land. I HIGHLY recommend you keep these maps small, reserved space code is shitcode.
 */
@@ -339,7 +355,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	var/interior_type = pick(possible_interior_maps)
 	boarding_interior = SSmapping.boarding_templates[interior_type]
 	if(!boarding_interior)
-		message_admins("Mapping subsystem failed to load [interior_type])
+		message_admins("Mapping subsystem failed to load [interior_type]")
 		return
 
 	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
@@ -366,6 +382,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		target_area.name = "[src.name] interior #[rand(0,999)]"
 	else
 		target_area.name = src.name
+	linked_areas += target_area
 	target_area.overmap_fallback = src //Set up the fallback...
 	for(var/obj/effect/landmark/dropship_entry/entryway in GLOB.landmarks_list)
 		if(get_area(entryway) == target_area && !entryway.linked)

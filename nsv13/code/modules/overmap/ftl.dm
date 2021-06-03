@@ -85,7 +85,7 @@
 	for(var/atom/X in system_contents)
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/ship = X
-			if(ship.occupying_levels.len && ship != OM && !OM.ftl_dragalong)
+			if(ship.reserved_z && ship != OM)
 				other_player_ships += ship
 	if(OM.reserved_z == occupying_z && other_player_ships.len) //Alright, this is our Z-level but we're jumping out of it and there are still people here.
 		var/obj/structure/overmap/ship = pick(other_player_ships)
@@ -102,7 +102,7 @@
 	OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 	system_contents -= OM
 
-	if(!OM.occupying_levels.len && !OM.ftl_dragalong)	//If this isn't actually a big ship with its own interior, do not pull ships, as only those get their own reserved z.
+	if(!OM.reserved_z)	//If this isn't actually a big ship with its own interior, do not pull ships, as only those get their own reserved z.
 		return
 	if(other_player_ships.len)	//There's still other ships here, only pull ships of our own faction.
 		ftl_pull_small_craft(OM)
@@ -110,7 +110,7 @@
 	for(var/atom/movable/X in system_contents)	//Do a last check for safety so we don't stasis a player ship that slid by our other checks somehow.
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/ship = X
-			if(ship != OM && ship.occupying_levels.len && !ship.ftl_dragalong) //If there's somehow a player ship in the system that is somehow not in other_player_ships, emergency return.
+			if(ship != OM && ship.reserved_z) //If there's somehow a player ship in the system that is somehow not in other_player_ships, emergency return.
 				message_admins("Somehow [ship] got by the initial checks for system exits. This probably shouldn't happen, yell at a coder and / or check ftl.dm")
 				ftl_pull_small_craft(OM)
 				return
@@ -133,7 +133,10 @@
 		if(!istype(AM, /obj/structure/overmap))
 			continue
 		var/obj/structure/overmap/OM = AM
-		if(!(OM.operators?.len || OM.occupying_levels?.len) || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
+		//Ships that have a Z reserved are on the active FTL plane.
+		if(OM.reserved_z)
+			continue
+		if(!OM.operators.len || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
 			continue
 		if(same_faction_only && jumping.faction != OM.faction)	//We don't pull all small craft in the system unless we were the last ship here.
 			continue

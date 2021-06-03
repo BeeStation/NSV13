@@ -636,8 +636,11 @@
 /turf/open/floor/monotile/dark,
 /area/ruin/unpowered/boarding_interior)
 "qb" = (
-/turf/open/floor/engine/airless/light,
-/area/space)
+/obj/machinery/computer/ship/navigation{
+	dir = 8
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/ruin/unpowered/boarding_interior)
 "qh" = (
 /obj/machinery/power/smes/engineering,
 /obj/structure/cable{
@@ -871,10 +874,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ruin/unpowered/boarding_interior)
-"uT" = (
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
-/area/space)
 "uY" = (
 /obj/structure/chair{
 	dir = 4
@@ -926,7 +925,7 @@
 	name = "Starboard Solar Array"
 	},
 /turf/open/floor/plasteel/airless/solarpanel,
-/area/space)
+/area/ruin/unpowered/boarding_interior)
 "wn" = (
 /obj/item/ship_weapon/ammunition/missile,
 /obj/item/ship_weapon/ammunition/missile{
@@ -959,10 +958,6 @@
 	},
 /turf/open/floor/carpet/red,
 /area/ruin/unpowered/boarding_interior)
-"wI" = (
-/obj/structure/grille/wall,
-/turf/open/space/basic,
-/area/space)
 "wS" = (
 /obj/structure/table/reinforced,
 /obj/item/paper_bin,
@@ -1032,7 +1027,6 @@
 /turf/open/floor/engine,
 /area/ruin/unpowered/boarding_interior)
 "zg" = (
-/obj/structure/table/reinforced,
 /obj/machinery/light{
 	dir = 8
 	},
@@ -1397,7 +1391,7 @@
 	},
 /obj/machinery/power/tracker,
 /turf/open/floor/plasteel/airless/solarpanel,
-/area/space)
+/area/ruin/unpowered/boarding_interior)
 "FY" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/visible,
 /obj/effect/spawner/structure/window/plasma/reinforced,
@@ -1611,24 +1605,13 @@
 	},
 /turf/open/floor/engine,
 /area/ruin/unpowered/boarding_interior)
-"MB" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/power/solar{
-	id = "starboardsolar";
-	name = "Starboard Solar Array"
-	},
-/turf/open/floor/plasteel/airless/solarpanel,
-/area/space)
 "MG" = (
 /turf/open/floor/engine/o2,
 /area/ruin/unpowered/boarding_interior)
 "Nd" = (
-/obj/structure/table/reinforced,
+/obj/machinery/computer/ship/ftl_computer/syndicate{
+	req_access = list()
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/unpowered/boarding_interior)
 "Nh" = (
@@ -1838,7 +1821,7 @@
 	icon_state = "4-8"
 	},
 /turf/open/space/basic,
-/area/space)
+/area/ruin/unpowered/boarding_interior)
 "TI" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
@@ -1989,19 +1972,6 @@
 /obj/structure/fluff/bleepypanel,
 /turf/closed/wall/r_wall,
 /area/ruin/unpowered/boarding_interior)
-"YT" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/obj/machinery/power/solar{
-	id = "starboardsolar";
-	name = "Starboard Solar Array"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plasteel/airless/solarpanel,
-/area/space)
 "YX" = (
 /obj/effect/mob_spawn/human/syndicate/boarding{
 	dir = 8
@@ -30848,9 +30818,9 @@ Pu
 Pu
 Pu
 Pu
-uT
-uT
-uT
+Mk
+Mk
+Mk
 Hk
 Yn
 AG
@@ -31105,8 +31075,8 @@ Pu
 Pu
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Hk
 Lx
 Yn
@@ -31361,8 +31331,8 @@ Pu
 Pu
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Hk
 WP
 nq
@@ -31616,9 +31586,9 @@ Pu
 Pu
 Pu
 Pu
-uT
-uT
-uT
+Mk
+Mk
+Mk
 Hk
 ID
 Aq
@@ -35448,8 +35418,8 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
@@ -35475,12 +35445,12 @@ an
 Hk
 Hk
 ba
-qb
+ba
 FM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -35704,14 +35674,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
 Tv
-uT
-uT
+Mk
+Mk
 ba
 Hk
 Hk
@@ -35731,12 +35701,12 @@ dP
 Hk
 Hk
 Mk
-uT
+Mk
 Tv
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -35960,13 +35930,13 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-YT
-uT
+hg
+Mk
 vM
 ba
 Hk
@@ -35987,12 +35957,12 @@ an
 Pf
 Hk
 hg
-uT
-YT
+Mk
+hg
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -36216,14 +36186,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 ba
 Hk
 Pf
@@ -36243,12 +36213,12 @@ an
 Pf
 Hk
 XM
-uT
-MB
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -36472,14 +36442,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 ba
 Hk
 Zj
@@ -36499,12 +36469,12 @@ an
 Pf
 Hk
 XM
-uT
-MB
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -36728,14 +36698,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 ba
 Hk
 eA
@@ -36755,12 +36725,12 @@ an
 Gd
 Hk
 XM
-uT
-MB
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -36984,14 +36954,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 yZ
 xB
 SD
@@ -37011,12 +36981,12 @@ IY
 GL
 xB
 ZJ
-uT
-MB
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -37240,14 +37210,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 Xk
 Hk
 Eq
@@ -37267,12 +37237,12 @@ Pf
 QI
 Hk
 XM
-uT
-MB
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -37496,14 +37466,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 Xk
 Hk
 Hk
@@ -37523,12 +37493,12 @@ Pf
 Hk
 Hk
 XM
-uT
-MB
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -37752,14 +37722,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 Xk
 ba
 Hk
@@ -37778,13 +37748,13 @@ Pf
 Pf
 Hk
 ba
-MB
-uT
-MB
+XM
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -38008,14 +37978,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 Xk
 Hk
 Hk
@@ -38034,13 +38004,13 @@ Pf
 Pf
 Hk
 ba
-MB
-uT
-MB
+XM
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -38264,14 +38234,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 Xk
 Hk
 eE
@@ -38290,13 +38260,13 @@ Pf
 Pf
 Hk
 ba
-MB
-uT
-MB
+XM
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -38520,14 +38490,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 Xk
 Hk
 eG
@@ -38546,13 +38516,13 @@ Pf
 Hk
 Hk
 ba
-MB
-uT
-MB
+XM
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -38776,14 +38746,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 Xk
 Hk
 fi
@@ -38802,13 +38772,13 @@ Pf
 Hk
 ba
 ba
-MB
-uT
-MB
+XM
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -39032,14 +39002,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 Xk
 Hk
 Hk
@@ -39058,13 +39028,13 @@ Pf
 Hk
 Hk
 ba
-MB
-uT
-MB
+XM
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -39288,14 +39258,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 Xk
 hU
 qC
@@ -39314,13 +39284,13 @@ Pf
 Pf
 Hk
 ba
-MB
-uT
-MB
+XM
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -39544,14 +39514,14 @@ Pu
 Pu
 Pu
 Pu
-uT
-wI
+Mk
+Pv
 Pu
 Pu
 Pu
-MB
-uT
-MB
+XM
+Mk
+XM
 Xk
 hU
 qC
@@ -39560,7 +39530,7 @@ mA
 YA
 kc
 bu
-Nd
+kc
 zg
 Nd
 bu
@@ -39570,13 +39540,13 @@ Pf
 Pf
 Hk
 ba
-MB
-uT
-MB
+XM
+Mk
+XM
 Pu
 Pu
-wI
-uT
+Pv
+Mk
 Pu
 Pu
 Pu
@@ -39797,13 +39767,13 @@ Pu
 Pu
 Pu
 Pu
-uT
-uT
-uT
-uT
-uT
-uT
-uT
+Mk
+Mk
+Mk
+Mk
+Mk
+Mk
+Mk
 ba
 Km
 Vw
@@ -39831,13 +39801,13 @@ Vw
 pA
 ba
 ba
-uT
-uT
-uT
-uT
-uT
-uT
-uT
+Mk
+Mk
+Mk
+Mk
+Mk
+Mk
+Mk
 Pu
 Pu
 Pu
@@ -41097,7 +41067,7 @@ Hk
 Uh
 tK
 lV
-kc
+qb
 lV
 Vm
 Uh

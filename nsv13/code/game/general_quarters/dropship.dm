@@ -58,6 +58,7 @@
 	//unique = FALSE
 	lighting_colour_tube = "#e6af68"
 	lighting_colour_bulb = "#e6af68"
+	teleport_restriction = TELEPORT_ALLOW_NONE
 	//ambient_buzz = 'nsv13/sound/effects/fighters/cockpit.ogg'
 
 //If we ever want to let them build these things..
@@ -151,6 +152,15 @@
 		return ..()
 	var/area/AR = get_area(src)
 	return AR?.overmap_fallback
+
+//Bit jank but w/e
+
+/obj/structure/overmap/fighter/dropship/force_parallax_update(ftl_start)
+	for(var/area/AR in linked_areas)
+		AR.parallax_movedir = (ftl_start ? EAST : null)
+	for(var/mob/M in mobs_in_ship)
+		if(M && M.client && M.hud_used && length(M.client.parallax_layers))
+			M.hud_used.update_parallax(force=TRUE)
 
 //Jank ass override, because this is actually necessary... but eughhhh
 
@@ -321,25 +331,6 @@
 		if("show_dradis")
 			OM.dradis.ui_interact(usr)
 			return
-		if("jump")
-			var/dangerous = FALSE
-			if(!SSmapping.level_trait(OM.z, ZTRAIT_OVERMAP))
-				dangerous = TRUE
-				//Emag your ship to perform dangerous jumps and become a bomb? Cool!
-				if(!(OM.obj_flags & EMAGGED))
-					to_chat(usr, "<span class='warning'>FTL translations while inside of another ship could cause catastrophic results. FTL translation sequence terminated.</span>")
-					return
-			var/obj/item/fighter_component/ftl/ftl = OM.loadout.get_slot(HARDPOINT_SLOT_FTL)
-			var/list/ships = list()
-			for(var/obj/structure/overmap/OMM in GLOB.overmap_objects)
-				//Only big ships count as FTL beacons. Can't re-jump to your current ship.
-				if(OM.faction != OMM.faction || !OMM.occupying_levels?.len || OMM == OM.last_overmap)
-					continue
-				ships += OMM
-			var/obj/structure/overmap/ship_target = input(usr, "Select a beacon to jump to:","Fleet Management", null) as null|anything in ships
-			if(!ship_target || !istype(ship_target) || ftl.ftl_spool_progress < ftl.ftl_spool_time)
-				return
-			ftl.jump(OM, ship_target, dangerous)
 		if("toggle_ftl")
 			var/obj/item/fighter_component/ftl/ftl = OM.loadout.get_slot(HARDPOINT_SLOT_FTL)
 			if(!ftl)

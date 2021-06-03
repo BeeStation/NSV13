@@ -143,9 +143,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 	var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
 	data["ftl_capable"] = ftl ? TRUE : FALSE
-	data["ftl_spool_progress"] = ftl ? ftl.ftl_spool_progress : FALSE
-	data["ftl_spool_time"] = ftl ? ftl.ftl_spool_time : FALSE
-	data["jump_ready"] = (ftl?.ftl_spool_progress >= ftl?.ftl_spool_time)
+	data["ftl_spool_progress"] = ftl ? ftl.progress : FALSE
+	data["ftl_spool_time"] = ftl ? ftl.spoolup_time : FALSE
+	data["jump_ready"] = (ftl?.progress >= ftl?.spoolup_time)
 	data["ftl_active"] = (ftl?.active)
 
 	for(var/slot in loadout.equippable_slots)
@@ -288,25 +288,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 		if("show_dradis")
 			dradis.ui_interact(usr)
 			return
-		if("jump")
-			var/dangerous = FALSE
-			if(!SSmapping.level_trait(z, ZTRAIT_OVERMAP))
-				dangerous = TRUE
-				//Emag your ship to perform dangerous jumps and become a bomb? Cool!
-				if(!obj_flags & EMAGGED)
-					to_chat(usr, "<span class='warning'>FTL translations while inside of another ship could cause catastrophic results. FTL translation sequence terminated.</span>")
-					return
-			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
-			var/list/ships = list()
-			for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-				//Only big ships count as FTL beacons. Can't re-jump to your current ship.
-				if(OM.faction != faction || !OM.occupying_levels?.len || OM == last_overmap)
-					continue
-				ships += OM
-			var/obj/structure/overmap/ship_target = input(usr, "Select a beacon to jump to:","Fleet Management", null) as null|anything in ships
-			if(!ship_target || !istype(ship_target) || ftl.ftl_spool_progress < ftl.ftl_spool_time)
-				return
-			ftl.jump(src, ship_target, dangerous)
 		if("toggle_ftl")
 			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
 			if(!ftl)
@@ -534,7 +515,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	E.rpm = ENGINE_RPM_SPUN
 	E.try_start()
 	toggle_canopy()
-	forceMove(get_turf(locate(world.maxx, y, z)))
+	forceMove(get_turf(locate(250, y, z)))
+	//check_overmap_elegibility(TRUE)
 
 /obj/structure/overmap/fighter/proc/throw_pilot() //Used when yeeting a pilot out of an exploding ship
 	if(SSmapping.level_trait(z, ZTRAIT_OVERMAP)) //Check if we're on the overmap
