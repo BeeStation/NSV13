@@ -211,9 +211,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		if(midround)
 			overmap_lighting_force(OM)
 	}
-	SSmapping.add_new_zlevel("[OM.name] boarding reservation [++world.maxz]", ZTRAITS_BOARDABLE_SHIP)
-	OM.boarding_reservation_z = world.maxz
-	smooth_zlevel(world.maxz)
 
 	return OM
 

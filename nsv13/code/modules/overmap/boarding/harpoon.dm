@@ -151,8 +151,11 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	kill_boarding_level()
 	. = ..()
 
-/obj/structure/overmap/proc/kill_boarding_level()
+/obj/structure/overmap/proc/kill_boarding_level(obj/structure/overmap/boarder)
 	set waitfor = FALSE
+	//Free up the boarding level....
+	if(boarder)
+		boarder.boarding_reservation_z = null
 	switch(interior_mode)
 		if(INTERIOR_EXCLUSIVE)
 			if(boarding_interior && boarding_reservation_z)
@@ -174,6 +177,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 				if(reserved_z)
 					free_treadmills += reserved_z
 					reserved_z = null
+				free_boarding_levels += boarding_reservation_z
 				boarding_reservation_z = null
 				qdel(boarding_interior)
 		if(INTERIOR_DYNAMIC)
@@ -193,6 +197,17 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	foo.brakes = TRUE
 	foo.ai_load_interior(src)
 
+/obj/structure/overmap/proc/get_boarding_level()
+	if(boarding_reservation_z)
+		return FALSE
+	if(free_boarding_levels?.len)
+		var/_z = pick_n_take(free_boarding_levels)
+		boarding_reservation_z = _z
+		return TRUE
+	SSmapping.add_new_zlevel("Overmap boarding reservation", ZTRAITS_BOARDABLE_SHIP)
+	boarding_reservation_z = world.maxz
+	return TRUE
+
 /obj/structure/overmap/proc/ai_load_interior(obj/structure/overmap/boarder, map_path_override)
 	//You can't harpoon a ship with no supported interior, or that already has an interior defined. Your ship must also have an interior to load this, so we can link the z-levels.
 
@@ -201,6 +216,9 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	//	message_admins("1[boarding_reservation_z]2[possible_interior_maps?.len]3[occupying_levels?.len]4[boarder.occupying_levels?.len]5[(boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target))]")
 		message_admins("[src] attempted to be boarded by [boarder], but it has an incompatible interior_mode.")
 		return FALSE
+	if(!boarder.boarding_reservation_z)
+		boarder.get_boarding_level()
+		sleep(5)
 	if(!boarder.boarding_reservation_z || !possible_interior_maps?.len || occupying_levels?.len || !boarder.reserved_z || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
 		return FALSE
 	//Prepare the boarding interior map. Admins may also force-load this with a path if they want.
@@ -223,14 +241,14 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 		SSstar_system.add_ship(src)
 	boarding_reservation_z = boarder.boarding_reservation_z
 	//Fuck right off. Stops monstermos events while loading the ship.
-	SSair.pause()
+	SSair.can_fire = FALSE
 	var/done = boarding_interior.load(get_turf(locate(1, 1, boarder.boarding_reservation_z)), FALSE)
 	if(!done)
 		SSair.enqueue()
 		message_admins("[src] failed to load a boarding map. Server is probably on fire :)")
 		return FALSE
 	//You can exist again :)
-	SSair.enqueue()
+	SSair.can_fire = TRUE
 	var/datum/space_level/SL = SSmapping.get_level(boarding_reservation_z)
 	SL.linked_overmap = src
 	occupying_levels += SL

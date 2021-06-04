@@ -48,7 +48,7 @@
 	data["salvage_target_max_integrity"] = (linked.active_boarding_target) ? linked.active_boarding_target.max_integrity  : 100
 	var/list/ships = list()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(OM.z != linked?.z || OM.interior_mode != INTERIOR_EXCLUSIVE || OM.is_sensor_visible(linked) <= SENSOR_VISIBILITY_FAINT)
+		if(OM.z != linked?.z || OM.interior_mode != INTERIOR_EXCLUSIVE || OM.is_sensor_visible(linked) <= SENSOR_VISIBILITY_FAINT || OM.boarding_reservation_z)
 			continue
 		ships[++ships.len] = list("name"=OM.name, "desc"=OM.desc, "id"="\ref[OM]")
 	data["ships"] = ships
@@ -59,6 +59,9 @@
 		return
 	if(!linked)
 		linked = get_overmap()
+	//So you can't brasil yourselves if boarding with the DS.
+	if(!linked || !(SSmapping.level_trait(linked.z, ZTRAIT_OVERMAP)))
+		return FALSE
 	switch(action)
 		if("salvage")
 			var/obj/structure/overmap/OM = locate(params["target"])
@@ -82,7 +85,10 @@
 			if(alert("Are you sure? (ALL BOARDERS WILL BE KILLED)",name,"Release Hammerlock","Cancel") == "Cancel")
 				return FALSE
 			radio.talk_into(src, "EWAR scrambling on [linked.active_boarding_target] cancelled.", radio_channel)
-			linked.active_boarding_target.kill_boarding_level()
+			linked.active_boarding_target.kill_boarding_level(linked)
 			linked.active_boarding_target = null
+			//They REALLY NEED TO NOT SPAM THIS
+			can_salvage = FALSE
+			addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown/2)
 
 
