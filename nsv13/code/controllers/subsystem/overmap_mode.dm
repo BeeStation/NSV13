@@ -8,7 +8,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	var/escalation = null
 	var/player_check = 0 //Number of players connected when the check is made for gamemode
-	var/mode = datum/overmap_mission
+	var/datum/overmap_mission/mode //The assigned mode
 
 	var/last_objective_interaction = 0 //Last time the crew interacted with one of our objectives
 	var/next_objective_reminder = 0 //Next time we automatically remind the crew to proceed with objectives
@@ -44,7 +44,7 @@ SUBSYSTEM_DEF(overmap_mode)
 //	modes = list()
 //	mode_names = list()
 
-/*
+/* What am i even doing here, how do I get the vars and store them?
 	var/list/weights = Get(/datum/config_entry/keyed_list/weight)
 	var/list/req_players = Get(/datum/config_entry/keyed_list/req_players)
 	for(var/C in mode_cache)
@@ -64,17 +64,17 @@ SUBSYSTEM_DEF(overmap_mode)
 		if(M.whitelist_only) //Remove all of our only whitelisted modes
 			mode_pool -= M
 
-	if(config.omode_blacklist.len > 0)
-		if(locate("all") in config.omode_blacklist)
+	if(SSmapping.config.omode_blacklist.len > 0)
+		if(locate("all") in SSmapping.config.omode_blacklist)
 			mode_pool = list() //Clear the list
 		else
-			for(var/S in config.omode_blacklist) //Grab the string to be the path - is there a proc for this?
-				var/datum/overmap_mission/B = text2path(/datum/overmap_mission/["S"])
+			for(var/S in SSmapping.config.omode_blacklist) //Grab the string to be the path - is there a proc for this?
+				var/datum/overmap_mission/B = text2path("/datum/overmap_mission/[S]")
 				mode_pool -= B
 
-	if(config.omode_whitelist.len > 0)
-		for(var/S in config.omode_whitelist) //Grab the string to be the path - is there a proc for this?
-			var/datum/overmap_mission/W = text2path(/datum/overmap_mission/["S"])
+	if(SSmapping.config.omode_whitelist.len > 0)
+		for(var/S in SSmapping.config.omode_whitelist) //Grab the string to be the path - is there a proc for this?
+			var/datum/overmap_mission/W = text2path("/datum/overmap_mission/[S]")
 			mode_pool += W
 
 	for(var/mob/dead/new_player/P in GLOB.player_list) //Count the number of connected players
@@ -86,7 +86,7 @@ SUBSYSTEM_DEF(overmap_mode)
 			mode_pool -= M
 
 	if(mode_pool.len <= 0) //If the pool is empty, we set the default
-		mode = /datum/overmap_mode/patrol //Holding that as the default for now - REPLACE ME LATER
+		mode = /datum/overmap_mission/patrol //Holding that as the default for now - REPLACE ME LATER
 		message_admins("Error: mode section pool empty - defaulting to PATROL")
 
 	else //Here we need to generate a ticket system that pulls from the config - aka: AAAAAAAAAAAAAAAAAAAA
@@ -194,4 +194,4 @@ SUBSYSTEM_DEF(overmap_mode)
 	value_mode = VALUE_MODE_NUM
 
 /datum/config_entry/keyed_list/overmap_req_players/ValidateListEntry(key_name)
-	return key_name in SSovermap_mode.modes
+	return key_name in SSovermap_mode.modes //ditto

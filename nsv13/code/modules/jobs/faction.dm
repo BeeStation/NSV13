@@ -1,8 +1,8 @@
 //I love how this actually fucking works. Untyped languages are BASED
 /datum/job/New()
 	. = ..()
-	if(SSmapping.config.faction != "nanotrasen")
-		var/newLook = text2path("[outfit]/[SSmapping.config.faction]")
+	if(SSovermap_mode.mode.starting_faction != "nanotrasen")
+		var/newLook = text2path("[outfit]/[SSovermap_mode.mode.starting_faction]")
 		if(newLook)
 			outfit = newLook
 
