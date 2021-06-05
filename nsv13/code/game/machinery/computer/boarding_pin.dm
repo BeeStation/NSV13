@@ -11,19 +11,26 @@ GLOBAL_VAR_INIT(boarding_guns_z_locked, TRUE)
 	req_one_access = list(ACCESS_ARMORY)
 
 /obj/item/firing_pin/boarding/pin_auth(mob/living/user)
-	if(!istype(user))
+	if(!istype(user)) // Not a mob
 		return FALSE
-	if(allowed(user))
+	if(allowed(user)) // The person has a weapons permit
 		return TRUE
-	if(GLOB.boarding_guns_z_locked)
-		// Check if we're on a friendly ship
-		var/obj/structure/overmap/OM = get_overmap()
-		if((OM.role == MAIN_OVERMAP) || (OM.role == MAIN_MINING_SHIP))
+	if(on_friendly_overmap(user)) // On one of the NT ships
+		// If they're locked don't fire
+		if(GLOB.boarding_guns_z_locked)
 			return FALSE
-		else
-			return TRUE
-	else
-		return (GLOB.security_level >= SEC_LEVEL_RED)
+		else // Otherwise check the alert level
+			return (GLOB.security_level >= SEC_LEVEL_RED)
+	else // We're on a boarding level, fire away
+		return TRUE
+
+/obj/item/firing_pin/boarding/proc/on_friendly_overmap(mob/living/user)
+	var/obj/structure/overmap/OM = user.get_overmap()
+	if(!OM) // No overmap
+		return FALSE
+	if((OM.role == MAIN_OVERMAP) || (OM.role == MAIN_MINING_SHIP))
+		return TRUE
+	return FALSE
 
 // A box
 /obj/item/storage/box/boardingpins
