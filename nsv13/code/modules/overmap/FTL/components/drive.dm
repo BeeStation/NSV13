@@ -46,7 +46,7 @@
 /obj/machinery/computer/ship/ftl_core/proc/get_pylons()
 	pylons.len = 0
 	for(var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P in GLOB.machines)
-		if(pylons.len >= 4)
+		if(pylons.len == 4)
 			break
 		if(link_id == P.link_id && P.get_overmap() == get_overmap() && P.is_operational())
 			pylons += P
@@ -225,10 +225,12 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		return
 	playsound(src, 'nsv13/sound/effects/computer/scroll_start.ogg', 100, 1)
 
-	var/atom/movable/target = locate(params["id"])
+	var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P = locate(params["id"])
 	switch(action)
 		if("pylon_power")
-			var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P = target
+			if(!P)
+				visible_message("<span class='warning'>DOOR STUCK. Yell at coders.</span>")
+				return
 			switch(P.pylon_state)
 				if(PYLON_STATE_OFFLINE)
 					if(P.try_enable()) // enables it if it passes
@@ -269,31 +271,18 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	data["ready"] = ftl_state == FTL_STATE_READY
 	data["mode"] = screen
 	data["jumping"] = ftl_state == FTL_STATE_JUMPING
-	data["systems"] = list()
-
 	var/list/pylons_info = list()
 	var/count = 0
 	for(var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P in pylons)
 		count++
 		var/list/pylon_info = list()
-		pylon_info["number"] = count
+		pylon_info["name"] = "Pylon [count]"
 		pylon_info["id"] = "\ref[P]"
-		pylon_info["active"] = P.pylon_state != PYLON_STATE_OFFLINE
-		pylon_info["shutdown"] = P.pylon_state == PYLON_STATE_SHUTDOWN
-		pylons_info += pylon_info // there's a plural I promise
+		pylon_info["status"] = P.pylon_state
+//		pylon_info["active"] = P.pylon_state != PYLON_STATE_OFFLINE
+//		pylon_info["shutdown"] = P.pylon_state == PYLON_STATE_SHUTDOWN
+		pylons_info[++pylons_info.len] = pylon_info // probably could have a better var name for this one
 	data["pylons"] = pylons_info
-
-	var/list/ships = list()
-	for(var/X in tracking)
-		var/list/ship_info = list()
-		ship_info["name"] = tracking[X]["name"]
-		ship_info["current_system"] = tracking[X]["current_system"]
-		ship_info["target_system"] = tracking[X]["target_system"]
-		ships += ship_info
-	data["tracking"] = ships
-	for(var/datum/star_system/S in SSstar_system.systems)
-		if(S.visitable && S != linked.current_system)
-			data["systems"] += list(list("name" = S.name, "distance" = "2 minutes"))
 	return data
 
 /obj/machinery/computer/ship/ftl_core/proc/jump(datum/star_system/target_system)

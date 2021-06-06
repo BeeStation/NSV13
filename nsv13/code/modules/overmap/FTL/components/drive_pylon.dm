@@ -11,11 +11,11 @@
 ///FTL DRIVE PYLON///
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon
 	name = "\improper FTL Drive Pylon"
-	desc = "Words about the spinny boy"
+	desc = "Used to power the main FTL manifold. Consumes frameshifted plasma and large amounts of electricity to spool up, do not touch gyros during operation."
 	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
 	icon_state = "pylon"
-	pixel_x = -16
-	pixel_y = -16
+	bound_width = 64
+	bound_height = 64
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 500
@@ -35,7 +35,7 @@
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/Initialize()
 	. = ..()
 	pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open")
-	add_overlay(pylon_shield)
+	update_icon()
 	air_contents = new(3000)
 	air_contents.set_temperature(T20C)
 
@@ -170,7 +170,7 @@
 
 /// Use this when changing pylon states to avoid icon CBT
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/proc/set_state(nstate)
-	if(pylon_state == nstate)
+	if(pylon_state == nstate) // to avoid needless icon updates
 		return
 	pylon_state = nstate
 	update_icon()
@@ -191,11 +191,15 @@
 			ov += "pylon_gyro"
 		if(PYLON_STATE_STARTING)
 			ov += "pylon_gyro_on"
+		if(PYLON_STATE_WARMUP)
+			ov += "pylon_gyro_on"
 		if(PYLON_STATE_SPOOLING)
 			ov += "pylon_gyro_on_medium"
 		if(PYLON_STATE_ACTIVE)
 			ov += "pylon_gyro_on_fast"
 			ov += "pylon_arcing"
+		if(PYLON_STATE_SHUTDOWN)
+			ov += "pylon_gyro_on_medium"
 	if(active_time > ACTIVE_TIME_SAFE)
 		ov += "pylon_overheat"
 	ov += pylon_shield

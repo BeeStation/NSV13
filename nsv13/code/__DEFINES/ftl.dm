@@ -1,10 +1,13 @@
-// Drive pylon states
-#define PYLON_STATE_OFFLINE 0
-#define PYLON_STATE_SHUTDOWN 1
-#define PYLON_STATE_STARTING 2
-#define PYLON_STATE_WARMUP 3
-#define PYLON_STATE_SPOOLING 4
-#define PYLON_STATE_ACTIVE 5
+/* Drive pylon states.
+ * defined as strings for tgui use
+ * Make sure to change drive tgui accordingly if you ever need to change these
+*/
+#define PYLON_STATE_OFFLINE "offline"
+#define PYLON_STATE_SHUTDOWN "shutdown"
+#define PYLON_STATE_STARTING "starting"
+#define PYLON_STATE_WARMUP "warmup"
+#define PYLON_STATE_SPOOLING "spooling"
+#define PYLON_STATE_ACTIVE "active"
 
 // FTL Drive Computer States. (Legacy only)
 #define FTL_STATE_IDLE 1

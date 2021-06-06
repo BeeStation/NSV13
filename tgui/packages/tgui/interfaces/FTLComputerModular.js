@@ -18,15 +18,16 @@ export const FTLComputerModular = (props, context) => {
               let value = data.pylons[key];
               return (
                 <Fragment key={key}>
-                  <Section title={`Pylon ${value.number}`}>
+                  <Section title={`${value.name}`}>
                     <Button
                       fluid
                       content="Toggle Power"
-                      icon={value.enabled ? "sqaure-o" : "power-off"}
-                      color={value.shutdown ? "average" : value.enabled ? "good" : "bad"}
-                      disabled={value.shutdown}
+                      icon={value.status != "offline" ? "sqaure-o" : "power-off"}
+                      color={value.status == "shutdown" ? "average" : value.status == "offline" ? "bad" : "good"}
+                      disabled={value.status == "shutdown"}
                       onClick={() => act('pylon_power', { id: value.id })} />
                   </Section>
+                  cycle status: {value.status}
                 </Fragment>);
             })}
             <Button
@@ -51,20 +52,6 @@ export const FTLComputerModular = (props, context) => {
                 average: [0.15, 0.9],
                 bad: [-Infinity, 0.15],
               }} />
-          </Section>
-          <Section title="Tracking:">
-            {Object.keys(data.tracking).map(key => {
-              let value = data.tracking[key];
-              return (
-                <Fragment key={key}>
-                  <Section title={`${value.name}`}>
-                    <Button
-                      fluid
-                      content={`Current location: ${value.current_system}`}
-                      icon="target" />
-                  </Section>
-                </Fragment>);
-            })}
           </Section>
         </Section>
       </Window.Content>
