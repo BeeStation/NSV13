@@ -304,7 +304,7 @@
 	},
 /obj/item/clothing/under/rank/prisoner,
 /turf/open/floor/plasteel/techmaint,
-/area/security/prison)
+/area/security/brig)
 "aY" = (
 /obj/effect/turf_decal/tile/ship/half/green{
 	dir = 8
@@ -1498,6 +1498,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
+/obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "ff" = (
@@ -2782,7 +2783,7 @@
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck2/primary)
+/area/maintenance/nsv/deck2/port)
 "js" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/machinery/door/firedoor/border_only{
@@ -2875,7 +2876,7 @@
 "jE" = (
 /obj/structure/sign/ship/nosmoking,
 /turf/closed/wall/steel,
-/area/hallway/nsv/deck2/primary)
+/area/maintenance/nsv/deck2/port)
 "jF" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
@@ -3504,10 +3505,6 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "lw" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	name = "Engineering wing maintenance";
-	req_one_access_txt = "10"
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -3516,6 +3513,10 @@
 	dir = 1
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Engineering wing maintenance";
+	req_one_access_txt = "10;24"
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "lx" = (
@@ -4154,7 +4155,11 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "nF" = (
-/obj/machinery/conveyor{
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/conveyor/inverted{
+	dir = 5;
 	id = "atlas_naval"
 	},
 /turf/open/floor/monotile/dark,
@@ -4401,7 +4406,7 @@
 	},
 /obj/item/clothing/under/rank/prisoner,
 /turf/open/floor/plasteel/techmaint,
-/area/security/prison)
+/area/security/brig)
 "ot" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/computer/shuttle/mining{
@@ -4726,6 +4731,8 @@
 /obj/item/gps,
 /obj/structure/closet/crate/coffin,
 /obj/item/reagent_containers/food/snacks/grown/harebell,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/dark,
 /area/chapel/main)
 "pp" = (
@@ -5485,7 +5492,11 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "rP" = (
-/obj/machinery/light,
+/obj/machinery/conveyor/slow{
+	dir = 5;
+	id = "atlas_torp";
+	verted = -1
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "rQ" = (
@@ -7408,6 +7419,21 @@
 	},
 /turf/closed/wall/r_wall,
 /area/quartermaster/storage)
+"yU" = (
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Engineering wing maintenance";
+	req_one_access_txt = "10;24"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "yW" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5
@@ -8215,10 +8241,10 @@
 /turf/open/floor/plasteel/techmaint,
 /area/science)
 "Cl" = (
-/obj/machinery/light{
-	dir = 8
-	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "Cm" = (
@@ -8603,7 +8629,7 @@
 	dir = 4
 	},
 /turf/open/floor/plating,
-/area/chapel/main)
+/area/maintenance/nsv/deck2/starboard)
 "Ec" = (
 /obj/machinery/light{
 	dir = 8
@@ -8904,7 +8930,7 @@
 	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
-/area/nsv/weapons)
+/area/maintenance/nsv/deck2/port/fore)
 "Fy" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/conveyor/slow{
@@ -9129,6 +9155,10 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"Gm" = (
+/obj/machinery/light,
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
 "Gp" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/effect/landmark/zebra_interlock_point,
@@ -9158,6 +9188,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
+"Gu" = (
+/obj/machinery/conveyor/inverted{
+	dir = 9;
+	id = "atlas_naval"
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
 "Gw" = (
 /obj/machinery/airalarm/directional/north,
 /obj/machinery/light_switch/west,
@@ -9481,9 +9518,13 @@
 	},
 /area/maintenance/nsv/deck2/port)
 "HH" = (
-/obj/structure/sign/ship/deck/two,
-/turf/closed/wall/steel,
-/area/hallway/nsv/deck2/primary)
+/obj/machinery/conveyor/slow{
+	dir = 6;
+	id = "atlas_torp";
+	verted = -1
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
 "HI" = (
 /obj/structure/sign/ship/nosmoking{
 	dir = 1
@@ -9497,14 +9538,14 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
-/obj/machinery/door/airlock/ship/maintenance{
-	name = "Engineering wing maintenance";
-	req_one_access_txt = "10"
-	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Engineering wing maintenance";
+	req_one_access_txt = "10;24"
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "HK" = (
@@ -9797,8 +9838,9 @@
 /area/hallway/nsv/deck2/primary)
 "Jg" = (
 /obj/machinery/conveyor/slow{
-	dir = 1;
-	id = "atlas_torp"
+	dir = 10;
+	id = "atlas_torp";
+	verted = -1
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/dark,
@@ -10945,6 +10987,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
 	},
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plasteel/grid/lino,
 /area/chapel/main)
 "MZ" = (
@@ -13018,7 +13061,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/item/clothing/under/rank/prisoner,
 /turf/open/floor/plasteel/techmaint,
-/area/security/prison)
+/area/security/brig)
 "Um" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
@@ -13680,6 +13723,14 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/nsv/hanger/notkmcstupidhanger)
+"WE" = (
+/obj/machinery/conveyor/slow{
+	dir = 9;
+	id = "atlas_torp";
+	verted = -1
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
 "WH" = (
 /obj/effect/turf_decal/tile/ship/half/green{
 	dir = 1
@@ -14339,6 +14390,7 @@
 /obj/structure/closet/crate{
 	opened = 1
 	},
+/obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/engine,
 /area/quartermaster/storage)
 "Zl" = (
@@ -14363,7 +14415,6 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "Zn" = (
-/obj/machinery/camera/autoname,
 /obj/machinery/gauss_dispenser,
 /obj/structure/closet/crate{
 	opened = 1
@@ -45013,7 +45064,7 @@ SK
 RN
 gm
 oG
-lw
+yU
 WY
 lx
 Dv
@@ -45254,8 +45305,8 @@ bh
 iC
 wd
 wd
-qI
-qI
+wd
+wd
 jE
 rf
 un
@@ -45513,7 +45564,7 @@ gF
 eS
 eS
 iT
-qI
+wd
 QG
 lx
 TU
@@ -45770,7 +45821,7 @@ hL
 hL
 IS
 iU
-HH
+WB
 rf
 un
 BP
@@ -46052,7 +46103,7 @@ qT
 qT
 qT
 qT
-qT
+ob
 JE
 dy
 mL
@@ -46284,7 +46335,7 @@ Om
 hL
 in
 ir
-qI
+wd
 Sz
 SF
 Ef
@@ -46309,7 +46360,7 @@ qT
 Bv
 br
 lG
-qT
+ob
 qL
 cT
 Tj
@@ -46541,7 +46592,7 @@ gW
 hL
 Oo
 ir
-qI
+wd
 rf
 wv
 Ef
@@ -46798,7 +46849,7 @@ VZ
 hL
 sV
 ir
-qI
+wd
 Oe
 wv
 Ef
@@ -47055,7 +47106,7 @@ pO
 hL
 ir
 ir
-qI
+wd
 ef
 wv
 Ef
@@ -47312,7 +47363,7 @@ pO
 hL
 mO
 ir
-qI
+wd
 WH
 wv
 ny
@@ -48330,7 +48381,7 @@ wl
 wl
 wl
 wl
-wl
+WN
 bA
 WN
 YQ
@@ -49893,7 +49944,7 @@ nF
 BI
 BI
 xk
-WT
+Gu
 eY
 eY
 eY
@@ -50639,7 +50690,7 @@ kD
 iV
 iV
 vo
-kH
+iV
 WN
 WN
 Eh
@@ -50896,7 +50947,7 @@ kD
 iV
 iM
 sh
-kH
+iV
 VI
 VI
 VI
@@ -50905,11 +50956,11 @@ hK
 rK
 VI
 eY
-qc
+rP
 qc
 FY
 qc
-CO
+WE
 eY
 nJ
 kF
@@ -51153,7 +51204,7 @@ kD
 iV
 iP
 sh
-kH
+iV
 VI
 xB
 Wn
@@ -51410,7 +51461,7 @@ kD
 iV
 iP
 sh
-kH
+iV
 VI
 kb
 za
@@ -51667,7 +51718,7 @@ kD
 iV
 rz
 sh
-kH
+iV
 VI
 TY
 HC
@@ -51924,7 +51975,7 @@ kD
 iV
 rN
 sh
-kH
+iV
 VI
 VI
 VI
@@ -52437,7 +52488,7 @@ Nh
 kD
 iV
 iV
-iV
+sh
 sh
 SS
 sh
@@ -52693,7 +52744,7 @@ Nh
 Nh
 Nh
 kD
-kD
+iV
 iV
 sz
 iV
@@ -52704,7 +52755,7 @@ fd
 iV
 eY
 eY
-Oj
+HH
 aL
 Px
 aL
@@ -52723,7 +52774,7 @@ kQ
 kQ
 mP
 ct
-rP
+mP
 Mi
 tp
 tp
@@ -53237,7 +53288,7 @@ qq
 qq
 mP
 ct
-mP
+Gm
 Mi
 oM
 LF
