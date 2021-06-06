@@ -1490,7 +1490,7 @@ Control Rods
 /obj/machinery/portable_atmospherics/canister/nucleium
 	name = "nucleium canister"
 	desc = "A waste plasma biproduct produced in the Stormdrive, used in quantum waveform generation."
-	icon_state = "orange"
+	icon_state = "miasma"
 	gas_type = /datum/gas/nucleium
 
 

@@ -152,14 +152,14 @@
 /obj/item/circuitboard/machine/deck_gun
 	name = "Deck gun core (circuitboard)"
 	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 20,
+		/obj/item/stack/sheet/mineral/titanium = 10,
 		/obj/item/stack/cable_coil = 5)
 	build_path = /obj/machinery/deck_turret
 
 /obj/item/circuitboard/machine/deck_gun/powder
 	name = "Deck gun powder gate (circuitboard)"
 	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 20,
+		/obj/item/stack/sheet/iron = 20,
 		/obj/item/stack/sheet/mineral/copper = 20,
 		/obj/item/stack/cable_coil = 5)
 	build_path = /obj/machinery/deck_turret/powder_gate
@@ -167,7 +167,8 @@
 /obj/item/circuitboard/machine/deck_gun/payload
 	name = "Deck gun payload gate (circuitboard)"
 	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 40,
+		/obj/item/stack/sheet/iron = 20,
+		/obj/item/stack/sheet/mineral/titanium = 5,
 		/obj/item/stack/sheet/mineral/copper = 10,
 		/obj/item/ship_weapon/parts/railgun_rail = 1,
 		/obj/item/ship_weapon/parts/loading_tray=1,

@@ -168,7 +168,7 @@ GLOBAL_LIST_INIT(hardcoded_gases, list(/datum/gas/oxygen, /datum/gas/nitrogen, /
 
 /datum/gas/nucleium //NSV13
 	id = "nucleium"
-	specific_heat = 850
+	specific_heat = 450 //jesus god why
 	name = "Nucleium"
 	gas_overlay = "nucleium"
 	moles_visible = MOLES_GAS_VISIBLE
