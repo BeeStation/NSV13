@@ -201,3 +201,12 @@
 	alpha = 230
 	icon = 'nsv13/icons/obj/solgov_floor.dmi'
 	icon_state = "center"
+
+/obj/effect/turf_decal/ship/nt_floor_logo //Credit to TetraZeta for this sprite!
+	icon = 'nsv13/icons/obj/nt_floor_logo.dmi'
+	icon_state = "1,1"
+
+/obj/effect/turf_decal/ship/letter
+	name = "stenciled letter"
+	icon = 'nsv13/icons/effects/stencil.dmi'
+	icon_state = "A"

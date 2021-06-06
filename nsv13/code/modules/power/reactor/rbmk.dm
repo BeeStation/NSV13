@@ -17,11 +17,6 @@
 
 #define RBMK_POWER_FLAVOURISER 8000 //To turn those KWs into something usable
 
-//Math. Lame.
-#define KPA_TO_PSI(A) (A/6.895)
-#define PSI_TO_KPA(A) (A*6.895)
-#define MEGAWATTS /1e+6
-
 //Reference: Heaters go up to 500K.
 //Hot plasmaburn: 14164.95 C.
 
@@ -295,7 +290,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			radioactivity_spice_multiplier += moderator_input.get_moles(/datum/gas/tritium) / 5 //Chernobyl 2.
 			var/turf/T = get_turf(src)
 			if(power >= 20)
-				coolant_output.adjust_moles(/datum/gas/nucleium, total_fuel_moles/50) //Shove out nucleium into the air when it's fuelled. You need to filter this off, or you're gonna have a bad time.
+				coolant_output.adjust_moles(/datum/gas/nucleium, total_fuel_moles/20) //Shove out nucleium into the air when it's fuelled. You need to filter this off, or you're gonna have a bad time.
 			var/obj/structure/cable/C = T.get_cable_node()
 			if(!C?.powernet)
 				return

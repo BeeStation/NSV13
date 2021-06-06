@@ -64,7 +64,7 @@
 	var/desired_angle = null // set by pilot moving his mouse
 	var/angular_velocity = 0 // degrees per second
 	var/max_angular_acceleration = 180 // in degrees per second per second
-	var/speed_limit = 2.5 //Stops ships from going too damn fast. This can be overridden by things like fighters launching from tubes, so it's not a const.
+	var/speed_limit = 3.5 //Stops ships from going too damn fast. This can be overridden by things like fighters launching from tubes, so it's not a const.
 	var/last_thrust_forward = 0
 	var/last_thrust_right = 0
 	var/last_rotate = 0
@@ -307,51 +307,58 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			// PV/RT = n
 			cabin_air.set_moles(/datum/gas/oxygen, O2STANDARD*cabin_air.return_volume()*ONE_ATMOSPHERE/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 			cabin_air.set_moles(/datum/gas/nitrogen, N2STANDARD*cabin_air.return_volume()*ONE_ATMOSPHERE/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
+			bounce_factor = 1 //Stops dead in its tracks
+			lateral_bounce_factor = 1
 			move_by_mouse = TRUE //You'll want this. Trust.
 			inertial_dampeners = FALSE
 
+		//Very easy to kite. Super balanced movement. Strong thrusters on all sides...
 		if(MASS_SMALL)
-			forward_maxthrust = 0.5
-			backward_maxthrust = 0.5
-			side_maxthrust = 0.5
-			max_angular_acceleration = 7
-			bounce_factor = 0.4
-			lateral_bounce_factor = 0.4
-
+			forward_maxthrust = 0.75
+			backward_maxthrust = 0.75
+			side_maxthrust = 0.75
+			max_angular_acceleration = 12
+			bounce_factor = 0.75
+			lateral_bounce_factor = 0.75
+		//Similar to small, but you'll notice a detriment to movement here. Movement is no longer equally balanced, you'll have to fight the controls more.
 		if(MASS_MEDIUM)
-			forward_maxthrust = 0.35
-			backward_maxthrust = 0.35
-			side_maxthrust = 0.35
-			max_angular_acceleration = 5
-			bounce_factor = 0.5
-			lateral_bounce_factor = 0.8
+			forward_maxthrust = 0.75
+			backward_maxthrust = 0.5
+			side_maxthrust = 0.45
+			max_angular_acceleration = 10
+			bounce_factor = 0.55 //Throw your weight around more, though!
+			lateral_bounce_factor = 0.55
 
 		if(MASS_MEDIUM_LARGE)
-			forward_maxthrust = 0.2
-			backward_maxthrust = 0.2
-			side_maxthrust = 0.2
-			max_angular_acceleration = 3.75
-			bounce_factor = 0.45
-			lateral_bounce_factor = 0.8
-			flak_battery_amount = 0
+			forward_maxthrust = 0.65
+			backward_maxthrust = 0.45
+			side_maxthrust = 0.35
+			max_angular_acceleration = 7.5
+			bounce_factor = 0.40 //Throw your weight around more, though!
+			lateral_bounce_factor = 0.40
 
+		//Weightey ships, much harder to steer, generally less responsive. You'll need to use boost tactically.
 		if(MASS_LARGE)
-			forward_maxthrust = 0.1
-			backward_maxthrust = 0.1
-			side_maxthrust = 0.1
-			max_angular_acceleration = 2.5
-			bounce_factor = 0.45
-			lateral_bounce_factor = 0.8
-			flak_battery_amount = 0
-
+			forward_maxthrust = 0.45
+			backward_maxthrust = 0.3
+			side_maxthrust = 0.25
+			max_angular_acceleration = 5.5
+			bounce_factor = 0.20 //But you can plow through enemy ships with ease.
+			lateral_bounce_factor = 0.20
+			//If we've not already got a special flak battery amount set.
+			if(flak_battery_amount <= 0)
+				flak_battery_amount = 1
+		//Supercapitals are EXTREMELY hard to move, you'll find that they fight your every command, it's a side-effect of their immense power.
 		if(MASS_TITAN)
-			forward_maxthrust = 0.05
-			backward_maxthrust = 0.05
-			side_maxthrust = 0.05
-			max_angular_acceleration = 0.75
-			bounce_factor = 0.35
-			lateral_bounce_factor = 0.6
-			flak_battery_amount = 0
+			forward_maxthrust = 0.35
+			backward_maxthrust = 0.10
+			side_maxthrust = 0.10
+			max_angular_acceleration = 2.75
+			bounce_factor = 0.10// But nothing can really stop you in your tracks.
+			lateral_bounce_factor = 0.10
+			//If we've not already got a special flak battery amount set.
+			if(flak_battery_amount <= 0)
+				flak_battery_amount = 2
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
@@ -365,7 +372,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 //Method to apply weapon types to a ship. Override to your liking, this just handles generic rules and behaviours
 /obj/structure/overmap/proc/apply_weapons()
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
 	//Prevent fighters from getting access to the AMS.
 	if(mass <= MASS_TINY)
 		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon(src)
@@ -381,6 +387,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
 	if(ai_controlled)
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
 	/*
 	if(mass > MASS_TINY || occupying_levels.len)
 		weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)

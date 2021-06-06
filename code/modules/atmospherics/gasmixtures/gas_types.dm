@@ -155,6 +155,24 @@ GLOBAL_LIST_INIT(hardcoded_gases, list(/datum/gas/oxygen, /datum/gas/nitrogen, /
 	moles_visible = MOLES_GAS_VISIBLE * 60
 	rarity = 250
 
+/datum/gas/constricted_plasma //NSV13 - words C++ monstermos expects 14 gas types to exist, we only had 13
+	id = "constricted_plasma"
+	specific_heat = 250
+	name = "Constricted plasma"
+	gas_overlay = "constricted_plasma"
+	moles_visible = MOLES_GAS_VISIBLE
+	dangerous = TRUE
+	rarity = 1000
+
+/datum/gas/nucleium //NSV13
+	id = "nucleium"
+	specific_heat = 450 //jesus god why
+	name = "Nucleium"
+	gas_overlay = "nucleium"
+	moles_visible = MOLES_GAS_VISIBLE
+	dangerous = TRUE
+	rarity = 2000
+
 /obj/effect/overlay/gas
 	icon = 'icons/effects/atmospherics.dmi'
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
