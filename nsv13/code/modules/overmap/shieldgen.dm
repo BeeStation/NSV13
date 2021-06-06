@@ -349,7 +349,7 @@
 	while(!QDELETED(src))
 		stoplag()
 		forceMove(get_turf(OM))
-		alpha = 255;
+		alpha = 255
 
 /obj/machinery/shield_generator/ui_act(action, params)
 	if(..())
@@ -368,9 +368,9 @@
 		if("power")
 			power_input = value*1e+6
 		if("activeToggle")
-			active = !active;
+			active = !active
 	return
-}
+
 
 /**
 Component that allows AI ships to model shields. Will continuously recharge over time.
@@ -409,7 +409,7 @@ Component that allows AI ships to model shields. Will continuously recharge over
 	shield["integrity"] = integrity
 	shield["max_integrity"] = max_integrity
 
-/datum/component/overmap_shields/proc/absorb_hit(damage){
+/datum/component/overmap_shields/proc/absorb_hit(damage)
 	if(!active)
 		return FALSE //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
 	if(shield["integrity"] >= damage)
