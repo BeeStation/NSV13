@@ -578,7 +578,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 ///FTL DRIVE PYLON///
 /obj/machinery/atmospherics/components/unary/ftl_drive_pylon
-	name = "FTL Drive Pylon"
+	name = "\improper FTL Drive Pylon"
 	desc = "Words about the spinny boy"
 	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
 	icon_state = "pylon"
@@ -657,7 +657,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 //FTL DRIVE CORE - zappy core where the FTL charge builds
 /obj/machinery/power/ftl_drive_core
-	name = "FTL Drive Core"
+	name = "\improper FTL Drive Core"
 	desc = "Words about the core"
 	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
 	icon_state = "core_idle"
@@ -675,7 +675,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 //FTL DRIVE SILO - reinforced storage tank for FTL fuel
 /obj/machinery/atmospherics/components/binary/ftl_drive_silo
-	name = "FTL Drive Silo"
+	name = "\improper FTL Drive Silo"
 	desc = "Words about the vat"
 	icon = 'nsv13/icons/obj/machinery/FTL_silo.dmi'
 	icon_state = "silo"
@@ -695,7 +695,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 //FTL DRIVE MANIFOLD - required for normal use - TRAITOR TARGET - should not be touched unless in epsilon protocol - starts in the floor
 /obj/machinery/ftl_drive_manifold
-	name = "FTL Drive Manifold"
+	name = "\improper FTL Drive Manifold"
 	desc = "Words about the manifold"
 	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
 	icon_state = "pylon"

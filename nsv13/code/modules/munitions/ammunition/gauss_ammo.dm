@@ -1,5 +1,5 @@
 /obj/item/ship_weapon/ammunition/gauss //Medium sized slugs to be loaded into a gauss gun.
-	name = "M4 NTRS 300mm teflon coated tungsten round"
+	name = "\improper M4 NTRS 300mm teflon coated tungsten round"
 	desc = "A large slug designed to be magnetically accelerated via a gauss gun. These rounds are lighter than those fired out of railguns, but are still extremely heavy duty."
 	icon_state = "gauss"
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
@@ -16,7 +16,7 @@
 		/obj/item/ship_weapon/parts/loading_tray = 1)
 
 /obj/machinery/gauss_dispenser
-	name = "Gauss ammunition dispenser"
+	name = "\improper Gauss ammunition dispenser"
 	desc = "A machine which can delve deep into the ship's ammunition stores and dispense whatever it finds."
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "gauss_dispenser"

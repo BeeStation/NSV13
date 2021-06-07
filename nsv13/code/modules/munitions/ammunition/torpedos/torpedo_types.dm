@@ -1,5 +1,5 @@
 /obj/item/ship_weapon/ammunition/torpedo //CREDIT TO CM FOR THIS SPRITE
-	name = "NTP-2 530mm torpedo"
+	name = "\improper NTP-2 530mm torpedo"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "standard"
 	desc = "A fairly standard torpedo which is designed to cause massive structural damage to a target. It is fitted with a basic homing mechanism to ensure it always hits the mark."
@@ -42,7 +42,7 @@
 
 //High damage torp. Use this when youve exhausted their flak.
 /obj/item/ship_weapon/ammunition/torpedo/hull_shredder
-	name = "NTP-4 'BNKR' 430mm Armour Pentetrating Torpedo"
+	name = "\improper NTP-4 'BNKR' 430mm Armour Pentetrating Torpedo"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "hull_shredder"
 	desc = "A heavy torpedo which is enriched with depleted uranium, allowing it to penetrate heavy armour plates."
@@ -56,7 +56,7 @@
 
 //A dud missile designed to exhaust flak
 /obj/item/ship_weapon/ammunition/torpedo/decoy
-	name = "NTP-0x 'DCY' 530mm electronic countermeasure"
+	name = "\improper NTP-0x 'DCY' 530mm electronic countermeasure"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "decoy"
 	desc = "A simple electronic countermeasure packed inside a standard torpedo casing. This model excels at diverting enemy PDC emplacements away from friendly ships, or even another barrage of missiles."
@@ -70,10 +70,10 @@
 
 //The alpha torpedo
 /obj/item/ship_weapon/ammunition/torpedo/nuke
-	name = "NTNK 'Oncoming Storm' 700mm thermonuclear warhead"
+	name = "\improper NTNK 'Oncoming Storm' 700mm thermonuclear warhead"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "nuke"
-	desc = "The NTX-class IV nuclear torpedo carries a radiological payload which is capable of inflicting catastrophic damage against enemy ships, stations or dense population centers. These weapons are utterly without mercy and will annihilate indiscriminately, use with EXTREME caution."
+	desc = "The NTX-class IV nuclear torpedo carries a fissionable payload which is capable of inflicting catastrophic damage against enemy ships, stations or dense population centers. These weapons are utterly without mercy and will annihilate indiscriminately, use with EXTREME caution."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/nuclear
 	volatility = 5
 
@@ -105,7 +105,7 @@
 	. += "<span class='notice'> This is Fabio, Antonio's Evil Brother.</span>"
 
 /obj/item/ship_weapon/ammunition/torpedo/freight
-	name = "NTP-F 530mm freight torpedo"
+	name = "\improper NTP-F 530mm freight torpedo"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "post_pod"
 	desc = "A letterbox with engines strapped to it and plenty of space inside. Designed as a quick and lazy way to deliver supplies to an allied ship."
@@ -220,7 +220,7 @@
 	var/obj/structure/closet/supplypod/freight_pod/toLaunch = new /obj/structure/closet/supplypod/freight_pod
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
-	for (var/atom/movable/O in contents)
+	for(var/atom/movable/O in contents)
 		O.forceMove(toLaunch) //forceMove any atom/moveable into the supplypod
 		new /obj/effect/pod_landingzone(LZ, toLaunch)
 	qdel(src)
@@ -233,7 +233,7 @@
 
 //A probe that science builds to scan anomalies. This is a chad move.
 /obj/item/ship_weapon/ammunition/torpedo/probe
-	name = "NTX 'Voyager' astrological probe"
+	name = "\improper NTX 'Voyager' astrological probe"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "probe"
 	desc = "A chemically propelled probe with a highly sensitive avionics and sensor package at its nosecone. These probes are able to scan astrological phenomena and relay data back to a remote location."

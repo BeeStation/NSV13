@@ -3,7 +3,7 @@ import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Knob } from '../components';
 import { Window } from '../layouts';
 
-export const AviationFuel = (props, context) => {
+export const CryogenicFuel = (props, context) => {
   const { act, data } = useBackend(context);
   return (
     <Window
