@@ -1,4 +1,4 @@
-/datum/gas/constricted_plasma //NSV13
+/datum/gas/constricted_plasma
 	id = "constricted_plasma"
 	specific_heat = 250
 	name = "Constricted plasma"
@@ -7,7 +7,7 @@
 	dangerous = TRUE
 	rarity = 1000
 
-/datum/gas/nucleium //NSV13
+/datum/gas/nucleium
 	id = "nucleium"
 	specific_heat = 850
 	name = "Nucleium"
@@ -16,7 +16,7 @@
 	dangerous = TRUE
 	rarity = 2000
 
-/datum/gas/frameshifted_plasma //NSV13
+/datum/gas/frameshifted_plasma
 	id = "frameshifted_plasma"
 	specific_heat = 1000
 	name = "Frameshifted plasma"
