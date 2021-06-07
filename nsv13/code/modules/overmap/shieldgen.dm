@@ -4,26 +4,23 @@
 */
 
 /obj/structure/overmap
-{
 	var/obj/machinery/shield_generator/shields
-}
 
 /obj/structure/shieldgen_frame
-{
-	name = "Shield Generator Frame";
+	name = "shield generator frame"
 	desc = "The beginnings of a shield generator. It requires 2 cooling fans, 4 flux, 1 crystal interface, and 4 modulators."
-	icon = 'nsv13/icons/obj/machinery/shieldgen.dmi';
-	icon_state = "shieldgen_build1";
-	pixel_x = -32;
-	density = TRUE;
-	layer = HIGH_OBJ_LAYER;
-	var/state = 1;
-	var/fanCount = 0;
-	var/capacitorCount = 0;
-	var/modulatorCount = 0;
-	var/hasInterface = FALSE;
-	var/componentsDone = FALSE;
-}
+	icon = 'nsv13/icons/obj/machinery/shieldgen.dmi'
+	icon_state = "shieldgen_build1"
+	pixel_x = -32
+	density = TRUE
+	layer = HIGH_OBJ_LAYER
+	var/state = 1
+	var/fanCount = 0
+	var/capacitorCount = 0
+	var/modulatorCount = 0
+	var/hasInterface = FALSE
+	var/componentsDone = FALSE
+
 
 /obj/item/disk/design_disk/overmap_shields
 	name = "SolGov Experimental Shielding Technology Disk"
@@ -45,55 +42,55 @@
 	blueprints[5] = E
 
 /obj/structure/shieldgen_frame/attackby(obj/item/I, mob/living/user, params)
-	if(state != 11){
-		return FALSE;
-	}
+	if(state != 11)
+		return FALSE
+
 	switch(I.type)
 		if(/obj/item/shield_component/fan)
-			if(fanCount >= 2){
-				return FALSE;
-			}
-			to_chat(user, "<span class='notice'>You add [I] to [src].</span>");
-			I.forceMove(src);
-			fanCount ++;
+			if(fanCount >= 2)
+				return FALSE
+
+			to_chat(user, "<span class='notice'>You add [I] to [src].</span>")
+			I.forceMove(src)
+			fanCount ++
 		if(/obj/item/shield_component/capacitor)
-			if(capacitorCount >= 4){
-				return FALSE;
-			}
+			if(capacitorCount >= 4)
+				return FALSE
+
 			to_chat(user, "<span class='notice'>You add [I] to [src].</span>");
-			I.forceMove(src);
-			capacitorCount ++;
+			I.forceMove(src)
+			capacitorCount ++
 		if(/obj/item/shield_component/modulator)
-			if(modulatorCount >= 4){
-				return FALSE;
-			}
+			if(modulatorCount >= 4)
+				return FALSE
+
 			to_chat(user, "<span class='notice'>You add [I] to [src].</span>");
-			I.forceMove(src);
-			modulatorCount ++;
+			I.forceMove(src)
+			modulatorCount ++
 		if(/obj/item/shield_component/interface)
-			if(hasInterface){
-				return FALSE;
-			}
-			to_chat(user, "<span class='notice'>You add [I] to [src].</span>");
-			I.forceMove(src);
-			hasInterface = TRUE;
-	componentsDone = check_finished();
-	if(componentsDone){
-		state = 12;
-	}
-	return FALSE;
+			if(hasInterface)
+				return FALSE
 
-/obj/structure/shieldgen_frame/proc/check_finished(){
-	return (fanCount >= 2 && capacitorCount >= 4 && modulatorCount >= 4 && hasInterface);
-}
+			to_chat(user, "<span class='notice'>You add [I] to [src].</span>")
+			I.forceMove(src)
+			hasInterface = TRUE
+	componentsDone = check_finished()
+	if(componentsDone)
+		state = 12
 
-/obj/structure/shieldgen_frame/proc/finish(){
-	for(var/atom/movable/AM in contents){
-		qdel(AM);
-	}
+	return FALSE
+
+/obj/structure/shieldgen_frame/proc/check_finished()
+	return (fanCount >= 2 && capacitorCount >= 4 && modulatorCount >= 4 && hasInterface)
+
+
+/obj/structure/shieldgen_frame/proc/finish()
+	for(var/atom/movable/AM in contents)
+		qdel(AM)
+
 	new /obj/machinery/shield_generator(get_turf(src));
-	qdel(src);
-}
+	qdel(src)
+
 
 /obj/structure/shieldgen_frame/wrench_act(mob/living/user, obj/item/I)
 	switch(state)
@@ -133,154 +130,139 @@
 	return FALSE
 
 /obj/structure/shieldgen_frame/screwdriver_act(mob/living/user, obj/item/I)
-{
 	. = FALSE
 	switch(state)
 		if(7)
-			to_chat(user, "<span class='notice'>You start to screw in [src]'s primary generator coverings...</span>");
-			if(do_after(user, 5 SECONDS, target=src)){
-				state = 8;
-				update_icon();
-			}
-			return FALSE;
+			to_chat(user, "<span class='notice'>You start to screw in [src]'s primary generator coverings...</span>")
+			if(do_after(user, 5 SECONDS, target=src))
+				state = 8
+				update_icon()
+
+			return FALSE
 		if(12)
-			if(!anchored){
-				to_chat(user, "<span class='notice'>[src] must be anchored with a wrench before you can complete it!</span>");
-				return FALSE;
-			}
+			if(!anchored)
+				to_chat(user, "<span class='notice'>[src] must be anchored with a wrench before you can complete it!</span>")
+				return FALSE
+
 			to_chat(user, "<span class='notice'>You start to screw in [src]'s components...</span>");
-			if(do_after(user, 5 SECONDS, target=src)){
-				finish();
-			}
-			return FALSE;
-}
+			if(do_after(user, 5 SECONDS, target=src))
+				finish()
+
+			return FALSE
 
 /obj/structure/shieldgen_frame/welder_act(mob/living/user, obj/item/I)
-{
 	. = FALSE
 	switch(state)
 		if(1)
-			to_chat(user, "<span class='notice'>You start to weld the chassis together...</span>");
-			if(do_after(user, 5 SECONDS, target=src)){
-				state = 2;
-				update_icon();
-			}
-		if(3)
-			to_chat(user, "<span class='notice'>You start to weld [src]'s connecting struts into its frame.</span>");
-			if(do_after(user, 5 SECONDS, target=src)){
-				state = 4;
-				update_icon();
-			}
-		if(5)
-			to_chat(user, "<span class='notice'>You start to weld [src]'s housings to the frame.</span>");
-			if(do_after(user, 5 SECONDS, target=src)){
-				state = 6;
-				update_icon();
-			}
-		if(9)
-			to_chat(user, "<span class='notice'>You start to weld [src]'s primary generator coverings...</span>");
-			if(do_after(user, 5 SECONDS, target=src)){
-				state = 10;
-				update_icon();
-				return FALSE;
-			}
-}
+			to_chat(user, "<span class='notice'>You start to weld the chassis together...</span>")
+			if(do_after(user, 5 SECONDS, target=src))
+				state = 2
+				update_icon()
 
-/obj/structure/shieldgen_frame/update_icon(){
+		if(3)
+			to_chat(user, "<span class='notice'>You start to weld [src]'s connecting struts into its frame.</span>")
+			if(do_after(user, 5 SECONDS, target=src))
+				state = 4
+				update_icon()
+
+		if(5)
+			to_chat(user, "<span class='notice'>You start to weld [src]'s housings to the frame.</span>")
+			if(do_after(user, 5 SECONDS, target=src))
+				state = 6
+				update_icon()
+
+		if(9)
+			to_chat(user, "<span class='notice'>You start to weld [src]'s primary generator coverings...</span>")
+			if(do_after(user, 5 SECONDS, target=src))
+				state = 10
+				update_icon()
+				return FALSE
+
+
+
+/obj/structure/shieldgen_frame/update_icon()
 	icon_state = "shieldgen_build[state]"
-}
 
 /obj/machinery/shield_generator
-{
-	name = "Shield Generator";
-	desc = "A massively powerful device which is able to project energy shields around ships. This technology is highly experimental and requires a huge amount of power.";
-	icon = 'nsv13/icons/obj/machinery/shieldgen.dmi';
-	icon_state = "shieldgen";
+	name = "shield Generator"
+	desc = "A massively powerful device which is able to project energy shields around ships. This technology is highly experimental and requires a huge amount of power."
+	icon = 'nsv13/icons/obj/machinery/shieldgen.dmi'
+	icon_state = "shieldgen"
 	idle_power_usage = IDLE_POWER_USE; //This will change to match the requirements for projecting a shield.
-	pixel_x = -32;
-	bound_height = 128;
-	bound_width = 96;
-	density = TRUE;
-	layer = HIGH_OBJ_LAYER;
-	var/flux_rate = 0; //Flux that this shield generator is producing based on power usage.
-	var/power_input = 0; //Inputted power setting. Allows you to throttle the shieldgen to not eat all of your power at once.
-	var/list/shield = list("integrity"=0, "max_integrity"=0);
-	var/regenPriority = 50;
-	var/maxHealthPriority = 50; //50/50 split
-	var/max_power_input = 1.5e+7; //15 MW theoretical maximum. This much power means your shield is going to be insanely good.
+	pixel_x = -32
+	bound_height = 128
+	bound_width = 96
+	density = TRUE
+	layer = HIGH_OBJ_LAYER
+	var/flux_rate = 0 //Flux that this shield generator is producing based on power usage.
+	var/power_input = 0 //Inputted power setting. Allows you to throttle the shieldgen to not eat all of your power at once.
+	var/list/shield = list("integrity"=0, "max_integrity"=0)
+	var/regenPriority = 50
+	var/maxHealthPriority = 50 //50/50 split
+	var/max_power_input = 1.5e+7 //15 MW theoretical maximum. This much power means your shield is going to be insanely good.
 	var/active = FALSE; //Are we projecting out our shields? This lets you offline the shields for a recharge period so that they become useful again.
 	var/obj/structure/cable/cable = null //Connected cable
-}
 
-/obj/machinery/shield_generator/proc/absorb_hit(damage){
-	if(!active){
-		return FALSE; //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
-	}
-	if(shield["integrity"] >= damage){
-		shield["integrity"] -= damage;
-		return TRUE;
-	}
-	return FALSE;
-}
+
+/obj/machinery/shield_generator/proc/absorb_hit(damage)
+	if(!active)
+		return FALSE //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
+
+	if(shield["integrity"] >= damage)
+		shield["integrity"] -= damage
+		return TRUE
+
+	return FALSE
+
 
 /obj/item/shield_component
-{
-	name = "Shield component";
-	icon = 'nsv13/icons/obj/shield_components.dmi';
-}
+	name = "shield component"
+	icon = 'nsv13/icons/obj/shield_components.dmi'
 
 /obj/item/shield_component/fan
-{
-	name = "Shield Generator Cooling Fan";
-	desc = "A small fan which aids in cooling down a shield generator.";
-	icon_state = "cooling_fan";
-}
+	name = "shield generator cooling fan"
+	desc = "A small fan which aids in cooling down a shield generator."
+	icon_state = "cooling_fan"
 
 /obj/item/shield_component/capacitor
-{
-	name = "Flux Capacitor";
-	desc = "A small capacitor which can generate shield flux.";
-	icon_state = "capacitor";
-}
+	name = "Flux Capacitor"
+	desc = "A small capacitor which can generate shield flux."
+	icon_state = "capacitor"
 
 /obj/item/shield_component/modulator
-{
-	name = "Shield Modulator";
-	desc = "A control circuit for shield systems to allow them to project energy screens around the ship.";
-	icon_state = "modulator";
-}
+	name = "Shield Modulator"
+	desc = "A control circuit for shield systems to allow them to project energy screens around the ship."
+	icon_state = "modulator"
 
 /obj/item/shield_component/interface
-{
-	name = "Bluespace Crystal Interface";
-	desc = "A housing to hold a bluespace crystal which extends the generated shield around an entire ship via subspace.";
-	icon_state = "crystal_interface";
-}
+	name = "Bluespace Crystal Interface"
+	desc = "A housing to hold a bluespace crystal which extends the generated shield around an entire ship via subspace."
+	icon_state = "crystal_interface"
+
 
 //Constructor of objects of class shield_generator. No params
 /obj/machinery/shield_generator/Initialize()
-{
-	. = ..();
-	var/obj/structure/overmap/ours = get_overmap();
-	ours?.shields = src;
-	if(!ours){
-		addtimer(CALLBACK(src, .proc/try_find_overmap), 20 SECONDS);
-	}
-}
+	. = ..()
+	var/obj/structure/overmap/ours = get_overmap()
+	ours?.shields = src
+	if(!ours)
+		addtimer(CALLBACK(src, .proc/try_find_overmap), 20 SECONDS)
 
-/obj/machinery/shield_generator/proc/try_find_overmap(){
-	var/obj/structure/overmap/ours = get_overmap();
-	ours?.shields = src;
-	if(!ours){
+
+
+/obj/machinery/shield_generator/proc/try_find_overmap()
+	var/obj/structure/overmap/ours = get_overmap()
+	ours?.shields = src
+	if(!ours)
 		message_admins("WARNING: Shield generator in [get_area(src)] does not have a linked overmap!");
 		log_game("WARNING: Shield generator in [get_area(src)] does not have a linked overmap!");
-	}
-}
 
-/obj/machinery/shield_generator/proc/depower_shield(){
-	shield["integrity"] = 0;
-	shield["max_integrity"] = 0;
-}
+
+
+/obj/machinery/shield_generator/proc/depower_shield()
+	shield["integrity"] = 0
+	shield["max_integrity"] = 0
+
 
 /obj/machinery/shield_generator/proc/try_use_power(amount) // Although the machine may physically be powered, it may not have enough power to sustain a shield.
 	var/turf/T = get_turf(src)
@@ -292,125 +274,111 @@
 
 //Every tick, the shield generator updates its stats based on the amount of power it's being allowed to chug.
 /obj/machinery/shield_generator/process()
-{
-	cut_overlays();
-	if(!powered() || power_input <= 0 || !try_use_power(power_input)){
-		depower_shield();
-		return FALSE;
-	}
-	var/megawatts = power_input / 1e+6; //I'm lazy.
-	flux_rate = round(megawatts*2.5); //Round down them megawatts. Multiplier'd this to make shields actually useful
-	add_overlay("screen_on");
+	cut_overlays()
+	if(!powered() || power_input <= 0 || !try_use_power(power_input))
+		depower_shield()
+		return FALSE
+	var/megawatts = power_input / 1e+6 //I'm lazy.
+	flux_rate = round(megawatts*2.5) //Round down them megawatts. Multiplier'd this to make shields actually useful
+	add_overlay("screen_on")
 
 	//Firstly, set the max health of the shield based off of the available input power, and the priority that the user set for generating a shield.
-	var/projectRate = max(((maxHealthPriority / 100) * flux_rate), 0);
-	flux_rate -= projectRate;
-	shield["max_integrity"] = projectRate * 100; //1 flux/s => 100max HP for this tick.
+	var/projectRate = max(((maxHealthPriority / 100) * flux_rate), 0)
+	flux_rate -= projectRate
+	shield["max_integrity"] = projectRate * 100 //1 flux/s => 100max HP for this tick.
 
 	//Now we handle whatever's left of the power allocation for regenerating the shield
 
 	var/regenRate = max(((regenPriority / 100) * flux_rate),0) //Times also works as of. Soo we're going, for example, 50% of flux_rate
-	flux_rate -= regenRate;
-	shield["integrity"] += regenRate;
-	if(shield["integrity"] > shield["max_integrity"]){
-		shield["integrity"] = shield["max_integrity"];
-	}
-}
+	flux_rate -= regenRate
+	shield["integrity"] += regenRate
+	if(shield["integrity"] > shield["max_integrity"])
+		shield["integrity"] = shield["max_integrity"]
 
 /obj/machinery/shield_generator/ui_interact(mob/user, datum/tgui/ui)
-{
 	ui = SStgui.try_update_ui(user, src, ui);
-	if(!ui){
+	if(!ui)
 		ui = new(user, src, "ShieldGenerator")
-		ui.open();
-	}
-}
+		ui.open()
 
 /obj/machinery/shield_generator/attack_hand(mob/user)
-{
-	ui_interact(user);
-}
+	ui_interact(user)
 
 /obj/machinery/shield_generator/ui_data(mob/user)
-{
-	. = ..();
-	var/list/data = list();
-	data["maxHealthPriority"] = maxHealthPriority;
-	data["regenPriority"] = regenPriority;
-	data["progress"] = shield["integrity"];
-	data["goal"] = shield["max_integrity"];
-	data["powerAlloc"] = power_input/1e+6;
-	data["maxPower"] = max_power_input/1e+6;
-	data["active"] = active;
-	data["available_power"] = 0;
+	. = ..()
+	var/list/data = list()
+	data["maxHealthPriority"] = maxHealthPriority
+	data["regenPriority"] = regenPriority
+	data["progress"] = shield["integrity"]
+	data["goal"] = shield["max_integrity"]
+	data["powerAlloc"] = power_input/1e+6
+	data["maxPower"] = max_power_input/1e+6
+	data["active"] = active
+	data["available_power"] = 0
 	var/turf/T = get_turf(src)
 	cable = T.get_cable_node()
 	if(cable?.powernet)
 		data["available_power"] = cable.surplus()
-	return data;
-}
+	return data
+
 
 /obj/effect/temp_visual/overmap_shield_hit
-{
-	name = "Shield hit";
+	name = "Shield hit"
 	icon = 'nsv13/icons/overmap/shieldhit.dmi';
-	icon_state = "shieldhit";
-	duration = 0.75 SECONDS;
-	layer = ABOVE_MOB_LAYER+0.1;
-	animate_movement = NO_STEPS; // Override the inbuilt movement engine to avoid bouncing
-	appearance_flags = TILE_BOUND | PIXEL_SCALE;
-}
-/obj/effect/temp_visual/overmap_shield_hit/Initialize(mapload, obj/structure/overmap/OM){
+	icon_state = "shieldhit"
+	duration = 0.75 SECONDS
+	layer = ABOVE_MOB_LAYER+0.1
+	animate_movement = NO_STEPS // Override the inbuilt movement engine to avoid bouncing
+	appearance_flags = TILE_BOUND | PIXEL_SCALE
+
+/obj/effect/temp_visual/overmap_shield_hit/Initialize(mapload, obj/structure/overmap/OM)
 	. = ..()
-	alpha = 0;
+	alpha = 0
 	//Scale up the shield hit icon to roughly fit the overmap ship that owns us.
-	var/matrix/desired = new();
-	var/icon/I = icon(OM.icon);
-	var/resize_x = I.Width()/96;
-	var/resize_y = I.Height()/96;
-	desired.Scale(resize_x,resize_y);
-	desired.Turn(OM.angle);
-	transform = desired;
-	track(OM);
-}
-/obj/effect/temp_visual/overmap_shield_hit/proc/track(obj/structure/overmap/OM){
-	set waitfor = FALSE;
-	while(!QDELETED(src)){
-		stoplag();
-		forceMove(get_turf(OM));
-		alpha = 255;
-	}
-}
+	var/matrix/desired = new()
+	var/icon/I = icon(OM.icon)
+	var/resize_x = I.Width()/96
+	var/resize_y = I.Height()/96
+	desired.Scale(resize_x,resize_y)
+	desired.Turn(OM.angle)
+	transform = desired
+	track(OM)
+
+/obj/effect/temp_visual/overmap_shield_hit/proc/track(obj/structure/overmap/OM)
+	set waitfor = FALSE
+	while(!QDELETED(src))
+		stoplag()
+		forceMove(get_turf(OM))
+		alpha = 255
 
 /obj/machinery/shield_generator/ui_act(action, params)
-{
-	if(..()){
-		return;
-	}
-	var/value = text2num(params["input"]);
+	if(..())
+		return
+
+	var/value = text2num(params["input"])
 	switch(action)
 		if("maxHealth")
-			maxHealthPriority = value;
-			regenPriority = 100-maxHealthPriority;
+			maxHealthPriority = value
+			regenPriority = 100-maxHealthPriority
 
 		if("regen")
-			regenPriority = value;
-			maxHealthPriority = 100-regenPriority;
+			regenPriority = value
+			maxHealthPriority = 100-regenPriority
 
 		if("power")
-			power_input = value*1e+6;
+			power_input = value*1e+6
 		if("activeToggle")
-			active = !active;
-	return;
-}
+			active = !active
+	return
+
 
 /**
 Component that allows AI ships to model shields. Will continuously recharge over time.
 */
 /datum/component/overmap_shields
 	var/list/shield = list(
-		"integrity"=0,
-		"max_integrity"=100
+		"integrity" = 0,
+		"max_integrity" = 100
 	)
 	//How good are these shields anyway?
 	var/max_integrity = 500
@@ -423,7 +391,7 @@ Component that allows AI ships to model shields. Will continuously recharge over
 		return COMPONENT_INCOMPATIBLE
 	var/obj/structure/overmap/OM = parent
 	//That ship's already got shields simulated. Nope.
-	if(OM.shields && !QDELETED(OM.shields))
+	if(!QDELETED(OM.shields))
 		return COMPONENT_INCOMPATIBLE
 	//Alright! Link up. We'll now protect that ship.
 	OM.shields = src
@@ -441,13 +409,11 @@ Component that allows AI ships to model shields. Will continuously recharge over
 	shield["integrity"] = integrity
 	shield["max_integrity"] = max_integrity
 
-/datum/component/overmap_shields/proc/absorb_hit(damage){
-	if(!active){
-		return FALSE; //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
-	}
-	if(shield["integrity"] >= damage){
-		shield["integrity"] -= damage;
-		return TRUE;
-	}
-	return FALSE;
-}
+/datum/component/overmap_shields/proc/absorb_hit(damage)
+	if(!active)
+		return FALSE //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
+	if(shield["integrity"] >= damage)
+		shield["integrity"] -= damage
+		return TRUE
+	return FALSE
+
