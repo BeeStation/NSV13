@@ -1,6 +1,6 @@
 //The .50 cal! A neat crew served weapon which replaces PDC.
 /obj/machinery/ship_weapon/fiftycal
-	name = ".50 cal deck turret"
+	name = ".50 cal autocannon"
 	desc = "A formidable weapon operated by a gunner below deck, extremely effective at point defense though they struggle to damage larger targets."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "deck_gun"
@@ -109,7 +109,7 @@
 	return
 
 /obj/machinery/computer/fiftycal
-	name = ".50 cal turret console"
+	name = ".50 cal autocannon console"
 	desc = "A computer that allows you to control a .50 cal deck gun, when paired with a turret above deck."
 	icon_screen = "50cal"
 	circuit = /obj/item/circuitboard/computer/fiftycal
@@ -172,6 +172,6 @@
 /obj/item/projectile/bullet/fiftycal
 	icon_state = "50cal"
 	name = ".50 cal round"
-	damage = 15
-	flag = "overmap_heavy"
+	damage = 17
+	flag = "overmap_light"
 	speed = 2

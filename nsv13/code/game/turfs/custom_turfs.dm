@@ -146,3 +146,6 @@
 	icon_state = "support_beam"
 	density = FALSE
 	anchored = TRUE
+
+/turf/open/openspace/airless
+	initial_gas_mix = AIRLESS_ATMOS

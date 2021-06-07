@@ -73,15 +73,15 @@
 	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
 
 /obj/structure/overmap/nanotrasen/battleship
-	name = "judgement class battlestar"
-	desc = "A gigantic battleship capable of pummelling entire enemy fleets into the ground with its advanced firepower. Ships like these are extremely expensive to produce, and are thus rarely seen in actual combat these days."
-	icon = 'nsv13/icons/overmap/nanotrasen/battleship.dmi'
-	icon_state = "battleship"
+	name = "jupiter class battlestar"
+	desc = "A flying fortress specialising in levelling large, stationary targets such as space stations or planetside colonies."
+	icon = 'nsv13/icons/overmap/new/nanotrasen/titan.dmi'
+	icon_state = "titan"
 	mass = MASS_TITAN
 	sprite_size = 48
 	damage_states = FALSE
-	bound_width = 640
-	bound_height = 640
+	bound_width = 192
+	bound_height = 192
 	obj_integrity = 3000
 	max_integrity = 3000 //Max health
 	integrity_failure = 3000
@@ -185,7 +185,7 @@
 	integrity_failure = 1500
 	starting_system = "Argo"
 
-/obj/structure/overmap/nanotrasen/battleship/starter //Pegasus
+/obj/structure/overmap/nanotrasen/battleship/starter //Galactica
 	role = MAIN_OVERMAP //Player controlled variant
 	obj_integrity = 2250
 	max_integrity = 2250

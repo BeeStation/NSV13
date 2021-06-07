@@ -1,5 +1,5 @@
 /obj/structure/munitions_trolley
-	name = "Munitions trolley"
+	name = "munitions trolley"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "trolley"
 	desc = "A large trolley designed for ferrying munitions around. It has slots for traditional ammo magazines as well as a rack for loading torpedoes. To load it, click and drag the desired munition onto the rack."
@@ -92,12 +92,14 @@
 
 /obj/structure/munitions_trolley/proc/unload_munition(atom/movable/A)
 	vis_contents -= A
-	A.forceMove(get_turf(src))
+	//This is a super weird edgecase where TGUI doesn't update quickly enough in laggy situations. Prevents the shell from being unloaded when it's not supposed to.
+	if(A.loc == src)
+		A.forceMove(get_turf(src))
+		if(usr)
+			to_chat(usr, "<span class='notice'>You unload [A] from [src].</span>")
+		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	A.pixel_y = initial(A.pixel_y) //Remove our offset
 	A.layer = initial(A.layer)
-	if(usr)
-		to_chat(usr, "<span class='notice'>You unload [A] from [src].</span>")
-	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	if(allowed[A.type]) //If a munition, allow them to load other munitions onto us.
 		amount--
 	if(contents.len)

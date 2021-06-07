@@ -18,20 +18,49 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/bullet/mac_round
 	icon_state = "railgun"
-	name = "hyper accelerated tungsten slug"
+	name = "artillery round"
 	damage = 350
 	speed = 1.85
+	//Not easily stopped.
+	obj_integrity = 300
+	max_integrity = 300
+	homing_turn_speed = 2.5
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	var/homing_benefit_time = 0 SECONDS //NAC shells have a very slight homing effect.
+
+/obj/item/projectile/bullet/mac_round/prehit(atom/target)
+	if(isovermap(target))
+		var/obj/structure/overmap/OM = target
+		var/cache_move_type = movement_type
+		if(OM.mass <= MASS_TINY)
+			movement_type = FLYING | UNSTOPPABLE //Small things don't stop us.
+		else
+			movement_type = cache_move_type //But large things do.
+	. = ..()
+
+/obj/item/projectile/bullet/mac_round/Initialize()
+	. = ..()
+	if(homing_benefit_time)
+		spawn(0)
+			sleep(homing_benefit_time)
+			set_homing_target(null)
+
 /obj/item/projectile/bullet/mac_round/ap
 	damage = 200
-	armour_penetration = 50
-	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
+	armour_penetration = 70
 	icon_state = "railgun_ap"
+	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
+
+/obj/item/projectile/bullet/mac_round/magneton
+	speed = 1.5
+	damage = 275
+	homing_benefit_time = 2.5 SECONDS
+	homing_turn_speed = 30
 
 //Improvised ammunition, does terrible damage but is cheap to produce
 /obj/item/projectile/bullet/mac_round/cannonshot
-	name = "Cannonball"
+	name = "cannonball"
 	damage = 75
 	icon_state = "cannonshot"
 
@@ -53,6 +82,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "gaussgun"
 	name = "tungsten round"
 	damage = 35
+	obj_integrity = 500 //Flak doesn't shoot this down....
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
@@ -71,23 +101,22 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy" //This really needs a dual armour flag and more tuning
 
 /obj/item/projectile/guided_munition
-	obj_integrity = 150
-	max_integrity = 150
-	armor = list("overmap_light" = 50, "overmap_heavy" = 0)
+	obj_integrity = 100
+	max_integrity = 100
+	armor = list("overmap_light" = 25, "overmap_heavy" = 0)
 
 /obj/item/projectile/guided_munition/torpedo
 	icon_state = "torpedo"
 	name = "plasma torpedo"
-	speed = 3
-	valid_angle = 120
-	homing_turn_speed = 5
+	speed = 2.75
+	valid_angle = 150
+	homing_turn_speed = 30
 	damage = 200
 	range = 250
-	obj_integrity = 200
-	max_integrity = 200
 	armor = list("overmap_light" = 60, "overmap_heavy" = 10)
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	spread = 5 //Helps them not get insta-bonked when launching
 
 /obj/item/projectile/guided_munition/Initialize()
 	. = ..()
@@ -95,14 +124,8 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/proc/windup()
 	valid_angle = 360 //Torpedoes "wind up" to hit their target
-	homing_turn_speed = 120
-	sleep(0.7 SECONDS) //Let it get clear of the sender.
-	valid_angle = initial(valid_angle)
-	homing_turn_speed = initial(homing_turn_speed)
-
-/obj/item/projectile/guided_munition/torpedo/windup()
-	valid_angle = 360 //Torpedoes "wind up" to hit their target
-	homing_turn_speed = 360
+	homing_turn_speed *= 5
+	homing_turn_speed = CLAMP(homing_turn_speed, 0, 360)
 	sleep(0.7 SECONDS) //Let it get clear of the sender.
 	valid_angle = initial(valid_angle)
 	homing_turn_speed = initial(homing_turn_speed)
@@ -110,13 +133,14 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/missile
 	name = "triton cruise missile"
 	icon_state = "conventional_missile"
-	speed = 1.5
+	speed = 1
 	damage = 150
 	valid_angle = 120
-	homing_turn_speed = 5
+	homing_turn_speed = 25
 	range = 250
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	spread = 5 //Helps them not get insta-bonked when launching
 
 /obj/effect/temp_visual/overmap_explosion
 	icon = 'nsv13/goonstation/icons/hugeexplosion.dmi'

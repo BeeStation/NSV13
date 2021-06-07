@@ -17,12 +17,6 @@
 
 #define RBMK_POWER_FLAVOURISER 8000 //To turn those KWs into something usable
 
-//Math. Lame.
-#define KPA_TO_PSI(A) (A/6.895)
-#define PSI_TO_KPA(A) (A*6.895)
-#define KELVIN_TO_CELSIUS(A) (A-273.15)
-#define MEGAWATTS /1e+6
-
 //Reference: Heaters go up to 500K.
 //Hot plasmaburn: 14164.95 C.
 
@@ -93,14 +87,14 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	return TRUE
 
 /obj/item/book/manual/wiki/rbmk
-	name = "Haynes nuclear reactor owner's manual"
+	name = "\improper Haynes nuclear reactor owner's manual"
 	icon_state ="bookEngineering2"
 	author = "CogWerk Engineering Reactor Design Department"
 	title = "Haynes nuclear reactor owner's manual"
 	page_link = "Guide_to_the_Nuclear_Reactor"
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor
-	name = "Advanced Gas-Cooled Nuclear Reactor"
+	name = "\improper Advanced Gas-Cooled Nuclear Reactor"
 	desc = "A tried and tested design which can output stable power at an acceptably low risk. The moderator can be changed to provide different effects."
 	icon = 'nsv13/icons/obj/machinery/rbmk.dmi'
 	icon_state = "reactor_map"
@@ -296,7 +290,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			radioactivity_spice_multiplier += moderator_input.get_moles(/datum/gas/tritium) / 5 //Chernobyl 2.
 			var/turf/T = get_turf(src)
 			if(power >= 20)
-				coolant_output.adjust_moles(/datum/gas/nucleium, total_fuel_moles/50) //Shove out nucleium into the air when it's fuelled. You need to filter this off, or you're gonna have a bad time.
+				coolant_output.adjust_moles(/datum/gas/nucleium, total_fuel_moles/20) //Shove out nucleium into the air when it's fuelled. You need to filter this off, or you're gonna have a bad time.
 			var/obj/structure/cable/C = T.get_cable_node()
 			if(!C?.powernet)
 				return
@@ -536,14 +530,14 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	update_icon()
 
 /obj/item/fuel_rod/Initialize()
-	.=..()
+	. = ..()
 	AddComponent(/datum/component/twohanded/required)
 	AddComponent(/datum/component/radioactive, 350 , src)
 
 //Controlling the reactor.
 
 /obj/machinery/computer/reactor
-	name = "Reactor control console"
+	name = "reactor control console"
 	desc = "Scream"
 	light_color = "#55BA55"
 	light_power = 1
@@ -568,7 +562,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 #define FREQ_RBMK_CONTROL 1439.69
 
 /obj/machinery/computer/reactor/control_rods
-	name = "Control rod management computer"
+	name = "control rod management computer"
 	desc = "A computer which can remotely raise / lower the control rods of a reactor."
 	icon_screen = "rbmk_rods"
 
@@ -603,7 +597,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	return data
 
 /obj/machinery/computer/reactor/stats
-	name = "Reactor Statistics Console"
+	name = "reactor statistics console"
 	desc = "A console for monitoring the statistics of a nuclear reactor."
 	icon_screen = "rbmk_stats"
 	var/next_stat_interval = 0
@@ -687,7 +681,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	frequency = FREQ_RBMK_CONTROL
 
 /obj/machinery/computer/reactor/pump
-	name = "Reactor inlet valve computer"
+	name = "reactor inlet valve computer"
 	desc = "A computer which controls valve settings on an advanced gas cooled reactor. Alt click it to remotely set pump pressure."
 	icon_screen = "rbmk_input"
 	id = "rbmk_input"

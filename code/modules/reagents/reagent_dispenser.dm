@@ -9,6 +9,7 @@
 	max_integrity = 300
 	var/tank_volume = 1000 //In units, how much the dispenser can hold
 	var/reagent_id = /datum/reagent/water //The ID of the reagent that the dispenser uses
+	var/reagent_temp = 300 // NSV -- reagent spawn temps to avoid cryo explosions
 
 /obj/structure/reagent_dispensers/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
 	. = ..()
@@ -25,7 +26,7 @@
 /obj/structure/reagent_dispensers/Initialize()
 	create_reagents(tank_volume, DRAINABLE | AMOUNT_VISIBLE)
 	if(reagent_id)
-		reagents.add_reagent(reagent_id, tank_volume)
+		reagents.add_reagent(reagent_id, tank_volume, reagtemp = reagent_temp) // NSV -- reagent spawn temps to avoid cryo explosions
 	. = ..()
 
 /obj/structure/reagent_dispensers/proc/boom()

@@ -1,5 +1,5 @@
 /obj/vehicle/sealed/car/realistic/fighter_tug
-	name = "M575 Aircraft Tug"
+	name = "\improper M575 Aircraft Tug"
 	desc = "A variant of an armoured personnel carrier which is able to tow fighters around. <b>Ctrl</b> click it to grab the hitch"
 	icon = 'nsv13/icons/obj/vehicles.dmi'
 	icon_state = "tug"

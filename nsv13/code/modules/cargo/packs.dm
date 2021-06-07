@@ -397,11 +397,11 @@
 					/obj/item/gun/energy/laser)
 	crate_name = "laser crate"
 
-/datum/supply_pack/munitions/aviation_fuel
-	name = "Aviation fuel"
-	desc = "One Tyrosene fuel pump, capable of fully refuelling 3 fighters."
+/datum/supply_pack/munitions/fighter_fuel
+	name = "Fighter fuel"
+	desc = "One cryogenic Tyrosene fuel pump, capable of fully refuelling 3 fighters. Handle with care."
 	cost = 1500
-	contains = list(/obj/structure/reagent_dispensers/fueltank/aviation_fuel)
+	contains = list(/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel)
 
 /datum/supply_pack/engineering/control_rods
 	name = "Nanocarbon Reactor Control Rods (x5)"
