@@ -1,7 +1,7 @@
 //Torpedo construction//
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
-	name = "NTB-M4A1-IB prebuilt torpedo-casing"
+	name = "\improper NTB-M4A1-IB prebuilt torpedo-casing"
 	icon_state = "case"
 	desc = "The outer casing of a 30mm torpedo."
 	var/state = 0
@@ -195,8 +195,8 @@
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/welder_act(mob/user, obj/item/tool)
 	//Fixes #620 (https://github.com/BeeStation/NSV13/issues/620)
-	if(istype(src.loc, /obj/structure))
-		to_chat(user, "<span class='notice'>[src] is loaded in [src.loc]. Unload it first.</span>")
+	if(istype(loc, /obj/structure))
+		to_chat(user, "<span class='notice'>[src] is loaded in [loc]. Unload it first.</span>")
 		return
 	switch(state)
 		if(0)
@@ -286,13 +286,7 @@
 		if(10)
 			icon_state = "case_warhead_complete"
 
-/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/proc/new_torpedo(
-			obj/item/ship_weapon/parts/missile/warhead,
-			obj/item/ship_weapon/parts/missile/guidance_system,
-			obj/item/ship_weapon/parts/missile/propulsion_system,
-			obj/item/ship_weapon/parts/missile/iff_card)
-
-
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/proc/new_torpedo()
 	wh = locate(/obj/item/ship_weapon/parts/missile/warhead) in src
 	new wh.build_path(get_turf(src))
 	for(var/I in contents)

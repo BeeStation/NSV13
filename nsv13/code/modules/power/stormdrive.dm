@@ -158,7 +158,7 @@ Control Rods
 	engineering_channel = "Syndicate"
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/solgov
-	name = "Class V ionic storm drive"
+	name = "class V ionic storm drive"
 	desc = "A highly advanced ionic drive used by SolGov to power their space vessels. Through the application of inverse-ions to the endostorm, more efficient matter to energy conversion is achieved."
 	base_power = 85000 //26% more power than class 4
 	icon = 'nsv13/goonstation/icons/reactor_solgov.dmi'
@@ -1050,12 +1050,13 @@ Control Rods
 	. = ..()
 	if(icon_state == "broken")
 		. += "<span class='notice'>The reactor pit is full of plutonium sludge.</span>"
-	if(state == REACTOR_STATE_REPAIR)
-		. += "<span class='notice'>The duranium lining of the reactor pit is severly degraded.</span>"
-	if(state == REACTOR_STATE_REINFORCE)
-		. += "<span class='notice'>The lining requires reinforcing and welding in place.</span>"
-	if(state == REACTOR_STATE_REFIT)
-		. += "<span class='notice'>It is missing a reactor core.</span>"
+	switch(state)
+		if(REACTOR_STATE_REPAIR)
+			. += "<span class='notice'>The duranium lining of the reactor pit is severly degraded.</span>"
+		if(REACTOR_STATE_REINFORCE)
+			. += "<span class='notice'>The lining requires reinforcing and welding in place.</span>"
+		if(REACTOR_STATE_REFIT)
+			. += "<span class='notice'>It is missing a reactor core.</span>"
 
 /obj/effect/countdown/stormdrive
 	name = "stormdrive stability"
@@ -1500,7 +1501,7 @@ Control Rods
 /////// NUCLEAR WASTE////////
 
 /obj/effect/decal/nuclear_waste
-	name = "Plutonium sludge"
+	name = "plutonium sludge"
 	desc = "A writhing pool of heavily irradiated, spent reactor fuel. You probably shouldn't step through this..."
 	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
 	icon_state = "nuclearwaste"
@@ -1513,10 +1514,10 @@ Control Rods
 	set_light(3)
 
 /obj/effect/decal/nuclear_waste/epicenter //The one that actually does the irradiating. This is to avoid every bit of sludge PROCESSING
-	name = "Dense nuclear sludge"
+	name = "dense nuclear sludge"
 
 /obj/effect/landmark/nuclear_waste_spawner //Clean way of spawning nuclear gunk after a reactor core meltdown.
-	name = "Nuclear waste spawner"
+	name = "nuclear waste spawner"
 	var/range = 5 //5 tile radius to spawn goop
 
 /obj/effect/landmark/nuclear_waste_spawner/strong
@@ -1602,7 +1603,7 @@ Control Rods
 /////// ANOMALIES ///////
 
 /obj/effect/anomaly/stormdrive //PARENT
-	name = "Stormdrive Anomaly - PARENT "
+	name = "\improper Stormdrive Anomaly - PARENT "
 	desc = "A mysterious anomaly, unknown in origin."
 	var/freq_shift = null
 	var/code_shift = null
@@ -1710,14 +1711,14 @@ Control Rods
 //////// MISC ///////
 
 /obj/item/book/manual/wiki/stormdrive
-	name = "Stormdrive Class IV SOP"
+	name = "\improper Stormdrive Class IV SOP"
 	icon_state ="bookEngineering2"
 	author = "CogWerk Engineering Reactor Design Department"
 	title = "Stormdrive Class IV SOP"
 	page_link = "Guide_to_the_Stormdrive_Engine"
 
 /obj/item/stormdrive_core
-	name = "Class IV Nuclear Storm Drive Reactor Core"
+	name = "\improper Class IV Nuclear Storm Drive Reactor Core"
 	desc = "This crate contains a live reactor core for a class IV nuclear storm drive."
 	icon = 'icons/obj/crates.dmi'
 	icon_state = "crate"
