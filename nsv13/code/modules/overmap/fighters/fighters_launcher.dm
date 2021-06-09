@@ -1,5 +1,5 @@
 /obj/machinery/computer/ship/fighter_launcher
-	name = "Mag-cat control console"
+	name = "\improper Mag-cat control console"
 	desc = "A computer which is capable of remotely activating fighter launch / arrestor systems."
 	circuit = /obj/item/circuitboard/computer/ship/fighter_launcher
 	var/next_message = 0 //Stops spam messaging
@@ -65,7 +65,7 @@
 
 /obj/structure/fighter_launcher //Fighter launch track! This is both an arrestor and an assisted launch system for ease of use.
 	name = "electromagnetic catapult"
-	desc = "A large rail which uses a electromagnetic technology to accelerate fighters to extreme speeds. This state of the art piece of machinery acts as both an arrestor and an assisted fighter launch system."
+	desc = "A large rail which uses an electromagnetic field to accelerate fighters to extreme speeds. This state of the art piece of machinery acts as both an arrestor and an assisted fighter launch system."
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
 	icon_state = "launcher_map" //Icon to show which way theyre pointing
 	bound_width = 96

@@ -37,10 +37,10 @@ export const Dradis = (props, context) => {
                 icon="search-minus"
                 onClick={() => act('zoomout')} />
               <Button
-                content="Sonar Pulse"
+                content="Radar Pulse"
                 icon="bullseye"
-                disabled={!data.can_sonar_pulse}
-                onClick={() => act('sonar_pulse')} />
+                disabled={!data.can_radar_pulse}
+                onClick={() => act('radar_pulse')} />
               <Button
                 content={data.sensor_mode}
                 icon="project-diagram"
@@ -48,7 +48,7 @@ export const Dradis = (props, context) => {
               <Button
                 content={data.pulse_delay}
                 icon="stopwatch"
-                onClick={() => act('sonar_delay')} />
+                onClick={() => act('radar_delay')} />
               <Button
                 content="Re-focus"
                 icon="camera"
