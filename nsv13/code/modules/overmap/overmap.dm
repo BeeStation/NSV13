@@ -149,7 +149,7 @@
 
 	var/list/missions = list()
 
-	var/last_sonar_pulse = 0
+	var/last_radar_pulse = 0
 
 	//NPC combat
 	var/datum/combat_dice/npc_combat_dice

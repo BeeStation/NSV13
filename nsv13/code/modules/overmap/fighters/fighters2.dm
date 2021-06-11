@@ -929,7 +929,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/structure/overmap/fighter/proc/get_fuel()
 	var/obj/item/fighter_component/fuel_tank/ft = loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	. = 0
-	for(var/datum/reagent/aviation_fuel/F in ft?.reagents.reagent_list)
+	for(var/datum/reagent/cryogenic_fuel/F in ft?.reagents.reagent_list)
 		if(!istype(F))
 			continue
 		. += F.volume
@@ -939,8 +939,8 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	var/obj/item/fighter_component/fuel_tank/ft = loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	if(!ft)
 		return FALSE
-	ft.reagents.add_reagent(/datum/reagent/aviation_fuel, 1) //Assert that we have this reagent in the tank.
-	for(var/datum/reagent/aviation_fuel/F in ft?.reagents.reagent_list)
+	ft.reagents.add_reagent(/datum/reagent/cryogenic_fuel, 1) //Assert that we have this reagent in the tank.
+	for(var/datum/reagent/cryogenic_fuel/F in ft?.reagents.reagent_list)
 		if(!istype(F))
 			continue
 		F.volume = amount
@@ -967,7 +967,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	var/obj/item/fighter_component/fuel_tank/ft = loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	if(!ft)
 		return FALSE
-	ft.reagents.remove_reagent(/datum/reagent/aviation_fuel, amount)
+	ft.reagents.remove_reagent(/datum/reagent/cryogenic_fuel, amount)
 	if(get_fuel() >= amount)
 		return TRUE
 	set_master_caution(TRUE)

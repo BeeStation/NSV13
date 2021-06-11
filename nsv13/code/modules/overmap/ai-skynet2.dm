@@ -886,7 +886,7 @@ Has potential to return incorrect results if you give a list with at least one d
 		else
 			OM.move_toward(OM.last_target)
 	else
-		OM.send_sonar_pulse() //Send a pong when we're actively hunting.
+		OM.send_radar_pulse() //Send a pong when we're actively hunting.
 		OM.seek_new_target()
 		OM.move_toward(null) //Just fly around in a straight line, I guess.
 
@@ -923,7 +923,7 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 
 	var/datum/lance/L = OM.current_lance
 	if(!OM.last_target)
-		OM.send_sonar_pulse()
+		OM.send_radar_pulse()
 		OM.seek_new_target()
 
 	if(!OM.last_target)	//We didn't find a target
@@ -1028,7 +1028,7 @@ Seek a ship thich we'll station ourselves around
 /datum/ai_goal/defend/action(obj/structure/overmap/OM)
 	..()
 	if(prob(5))	//Sometimes ping, but not that often.
-		OM.send_sonar_pulse()
+		OM.send_radar_pulse()
 	if(!OM.defense_target || QDELETED(OM.defense_target))
 		var/list/supplyline = OM.fleet.taskforces["supply"]
 		OM.defense_target = supplyline?.len ? pick(OM.fleet.taskforces["supply"]) : OM
@@ -1107,7 +1107,7 @@ Seek a ship thich we'll station ourselves around
 /datum/ai_goal/patrol/action(obj/structure/overmap/OM)
 	..()
 	if(prob(8))	//Ping every now and then, so things can't sneak up on you.
-		OM.send_sonar_pulse()
+		OM.send_radar_pulse()
 	if(OM.patrol_target && get_dist(OM, OM.patrol_target) <= 8)
 		OM.patrol_target = null	//You have arrived at your destination.
 	if(!OM.patrol_target || OM.patrol_target.z != OM.z)

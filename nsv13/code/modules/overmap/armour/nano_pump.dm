@@ -1,6 +1,6 @@
 //PUMP GOES HERE
 /obj/machinery/armour_plating_nanorepair_pump
-	name = "Armour Plating Nano-repair Pump"
+	name = "\improper Armour Plating Nano-repair Pump"
 	desc = "AP thingies that link to the Well"
 	icon = 'nsv13/icons/obj/machinery/armour_pump.dmi'
 	icon_state = "pump"

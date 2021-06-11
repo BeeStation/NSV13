@@ -1,5 +1,5 @@
 /obj/machinery/ship_weapon/deck_turret
-	name = "M4-15 'Hood' deck turret"
+	name = "\improper M4-15 'Hood' deck turret"
 	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
 	icon = 'nsv13/icons/obj/munitions/deck_turret.dmi'
 	icon_state = "deck_turret"
@@ -128,7 +128,7 @@
 			core.payload_gate.chamber(target)
 
 /obj/machinery/deck_turret
-	name = "Deck Turret Core"
+	name = "deck turret core"
 	desc = "The central mounting core for naval guns. Use a multitool on it to rescan parts."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "core"
@@ -169,7 +169,7 @@
 			powder_gates += powder_gate
 
 /obj/machinery/deck_turret/powder_gate
-	name = "Powder loading gate"
+	name = "powder loading gate"
 	desc = "One of three gates which pack a shell with powder as they enter the gun core. Ensure that each one is secured before attempting to fire!"
 	icon_state = "powdergate"
 	circuit = /obj/item/circuitboard/machine/deck_gun/powder
@@ -224,7 +224,7 @@
 	loading = FALSE
 
 /obj/item/powder_bag
-	name = "Gunpowder Bag"
+	name = "gunpowder bag"
 	desc = "A highly flammable bag of gunpowder which is used in naval artillery systems."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "powder"
@@ -239,14 +239,14 @@
 	AddComponent(/datum/component/volatile, volatility)
 
 /obj/item/powder_bag/plasma
-	name = "Plasma-based projectile accelerant"
+	name = "plasma-based projectile accelerant"
 	desc = "An extremely powerful 'bomb waiting to happen' which can propel naval artillery shells to high speeds with half the amount of regular powder!"
 	icon_state = "spicypowder"
 	power = 1
 	volatility = 3 //DANGEROUSLY VOLATILE. Can send the entire magazine up in smoke.
 
 /obj/item/ship_weapon/ammunition/naval_artillery //Huh gee this sure looks familiar don't it...
-	name = "FTL-13 Naval Artillery Round"
+	name = "\improper FTL-13 Naval Artillery Round"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "torpedo"
 	desc = "A large shell designed to deliver a high-yield warhead upon high-speed impact with solid objects. You need to arm it with a multitool before firing."
@@ -272,7 +272,7 @@
 	return FALSE
 
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
-	name = "Cannon ball"
+	name = "cannon ball"
 	desc = "The QM blew the cargo budget on corgis, the clown stole all our ammo, we've got half a tank of plasma and are halfway to Dolos. Hit it."
 	icon_state = "torpedo_ball"
 	projectile_type = /obj/item/projectile/bullet/mac_round/cannonshot
@@ -287,7 +287,7 @@
 	explode_when_hit = FALSE //Literally just iron
 
 /obj/item/ship_weapon/ammunition/naval_artillery/ap
-	name = "TX-101 Armour Penetrating Naval Artillery Round"
+	name = "\improper TX-101 Armour Penetrating Naval Artillery Round"
 	desc = "A massive diamond-tipped round which can slice through armour plating with ease to deliver a lethal impact. Best suited for targets with heavy armour such as destroyers and up."
 	icon_state = "torpedo_ap"
 	projectile_type = /obj/item/projectile/bullet/mac_round/ap
@@ -317,7 +317,7 @@
 	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
 
 /obj/machinery/deck_turret/payload_gate
-	name = "Payload loading gate"
+	name = "payload loading gate"
 	desc = "A chamber for loading a gun shell to be packed with gunpowder, ensure the payload is securely loaded before attempting to chamber!"
 	icon_state = "payloadgate"
 	circuit = /obj/item/circuitboard/machine/deck_gun/payload
@@ -386,18 +386,18 @@
 	return TRUE
 
 /obj/machinery/deck_turret/calibrator
-	name = "Deck gun calibration module"
+	name = "deck gun calibration module"
 	desc = "A module which allows you to calibrate deck guns. Required to ensure an accurate shot."
 	icon_state = "autocalibrator"
 
 /obj/machinery/deck_turret/autoelevator
-	name = "Auto elevator module"
+	name = "auto elevator module"
 	desc = "A module which greatly decreases load times on deck guns."
 	icon_state = "autoelevator"
 	circuit = /obj/item/circuitboard/machine/deck_gun/autoelevator
 
 /obj/machinery/deck_turret/autorepair
-	name = "Deck gun auto-repair module"
+	name = "deck gun auto-repair module"
 	desc = "A module which periodically injects repair nanites into a linked deck turret above it, removing the need for maintenance entirely."
 	icon_state = "autorepair"
 	circuit = /obj/item/circuitboard/machine/deck_gun/autorepair
@@ -484,7 +484,7 @@
 
 //The actual gun assembly.
 /obj/structure/ship_weapon/mac_assembly/artillery_frame
-	name = "Naval Artillery Frame"
+	name = "naval artillery frame"
 	desc = "The beginnings of a huge deck gun, internals notwithstanding."
 	icon = 'nsv13/icons/obj/munitions/deck_turret.dmi'
 	icon_state = "platform"
