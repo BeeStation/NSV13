@@ -84,6 +84,18 @@ SUBSYSTEM_DEF(air)
 /datum/controller/subsystem/air/fire(resumed = 0)
 	var/timer = TICK_USAGE_REAL
 
+	var/TiDi = round((Master.tickdrift/(world.time/world.tick_lag))*100,0.1)
+	switch(TiDi)
+		if(0 to 15)
+			wait = 5 //This isn't an initial() call because that could get nasty with how much this thing runs.
+		//Fuck you I want my ships to fly
+		if(15 to 20)
+			wait = 2 SECONDS
+		if(20 to 30)
+			wait = 5 SECONDS
+		if(30 to INFINITY)
+			wait = 30 SECONDS
+
 	if(currentpart == SSAIR_REBUILD_PIPENETS)
 		var/list/pipenet_rebuilds = pipenets_needing_rebuilt
 		for(var/obj/machinery/atmospherics/AT as() in pipenet_rebuilds)
