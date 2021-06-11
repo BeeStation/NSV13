@@ -569,7 +569,7 @@ Control Rods
 		return
 
 	var/datum/gas_mixture/air1 = airs[1]
-	if(prob(air1.get_moles(/datum/gas/frameshifted_plasma) / 2)
+	if(prob(air1.get_moles(/datum/gas/frameshifted_plasma) / 2))
 		for(var/mob/living/L in range(rand(7, 15), get_turf(src))) // Is there anyone near us?
 			var/datum/effect_system/spark_spread/sparks = new
 			sparks.set_up(5, 1, get_turf(L))
@@ -735,7 +735,7 @@ Control Rods
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_misc_contents()
 	for(var/mob/living/L in contents)
 		if(heat > 50)
-			L.adjustFireloss(min(heat / 10, 25))
+			L.adjustFireLoss(min(heat / 10, 25))
 			if(prob(30))
 				to_chat(L, "<span class='danger'>The [src]'s internals sears your skin!</span>")
 

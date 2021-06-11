@@ -272,8 +272,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 				color = "[COLOR_RED]"
 	if(prob(moderator_input.get_moles(/datum/gas/frameshifted_plasma)) && has_fuel())
 		var/FP_amt = moderator_input.get_moles(/datum/gas/frameshifted_plasma)
-		var/atom/movable/lucky_winner = pick(fuel_rods)
-		do_teleport(lucky_winner, get_turf(src), min(FP_amt, 25))
+		var/atom/movable/luckywinner = pick(fuel_rods)
+		do_teleport(luckywinner, get_turf(src), min(FP_amt, 25))
 		var/turf/TFP = get_turf(luckywinner)
 		moderator_input.adjust_moles(/datum/gas/frameshifted_plasma, -(FP_amt * 0.5))
 		TFP.assume_air(moderator_input)
