@@ -22,12 +22,12 @@ export const FTLComputerModular = (props, context) => {
                     <Button
                       fluid
                       content="Toggle Power"
-                      icon={value.status != "offline" ? "sqaure-o" : "power-off"}
-                      color={value.status == "shutdown" ? "average" : value.status == "offline" ? "bad" : "good"}
-                      disabled={value.status == "shutdown"}
+                      icon={value.status !== "offline" ? "sqaure-o" : "power-off"}
+                      color={value.status === "shutdown" ? "average" : value.status === "offline" ? "bad" : "good"}
+                      disabled={value.status === "shutdown"}
                       onClick={() => act('pylon_power', { id: value.id })} />
+                    cycle status: {value.status}
                   </Section>
-                  cycle status: {value.status}
                 </Fragment>);
             })}
             <Button
