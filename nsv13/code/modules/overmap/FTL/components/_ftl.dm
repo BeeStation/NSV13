@@ -3,6 +3,7 @@
 	name = "atmospheric FTL component"
 	desc = "Yell at mappers if you see this."
 	var/obj/structure/cable/cable // connected cable
+	var/datum/gas_mixture/air_contents
 	var/power_warning_sound = "an eerie clang"
 	var/targ_power_draw = 0
 	var/current_power_draw = 0

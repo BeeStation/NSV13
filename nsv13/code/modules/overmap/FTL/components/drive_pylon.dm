@@ -1,6 +1,9 @@
 // in kPa
-#define MAX_WASTE_PRESSURE 7500
+#define MAX_OUTPUT_PRESSURE 7500
 #define MAX_WASTE_STORAGE_PRESSURE 10000
+
+// How much to heat waste gas by, celcius
+#define WASTE_GAS_HEAT 50
 
 /// Multiplies power draw by this value every tick it remains active. Higher values will make power use increase faster
 #define PYLON_ACTIVE_EXPONENT 1.02
@@ -24,16 +27,16 @@
 	var/shielded = FALSE
 	var/mutable_appearance/pylon_shield
 	var/active_time = 0 // how many ticks have we been fully active for
-	var/internal_heat = 20 // celsius
-	var/datum/gas_mixture/air_contents
 	var/pylon_state = PYLON_STATE_OFFLINE
 	var/capacitor = 0 // capacitors charged
 	var/mol_per_capacitor = 10
 	var/max_charge_rate = 1 // amount of capacitors that can be charged per tick
 	var/req_capacitor = 5 // amount of capacitors required to be charged for the pylon to be active
+	var/datum/gas_mixture/output
 
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/Initialize()
 	. = ..()
+	output = airs[2]
 	pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open")
 	update_icon()
 	air_contents = new(3000)
@@ -51,7 +54,6 @@
 		if(PYLON_STATE_ACTIVE)
 			min_power_draw = round(min_power_draw * PYLON_ACTIVE_EXPONENT + 300) // Active pylons slowly but exponentially require more charge to stay stable. Don't leave them on when you don't need to
 			active_time++
-			internal_heat += rand(2, 4)
 
 		if(PYLON_STATE_STARTING) //pop the lid
 			min_power_draw = 5000
@@ -74,7 +76,6 @@
 				S.start()
 			min_power_draw = 20000
 			gyro_speed++
-			internal_heat += 5
 			if(gyro_speed >= 25)
 				set_state(PYLON_STATE_SPOOLING)
 
@@ -96,15 +97,13 @@
 			min_power_draw = 0
 			active_time -= active_time / gyro_speed
 			capacitor -= round(capacitor / gyro_speed, 0.1)
-			if(internal_heat > initial(internal_heat))
-				internal_heat -= round(internal_heat / gyro_speed)
 			gyro_speed--
 			if(gyro_speed <= 0)
 				finalalize_shutdown()
 
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/process_atmos()
 	var/i_pressure = air_contents.return_pressure()
-	if(!i_pressure)
+	if(!i_pressure) // no point running other checks if we're pushing directly into output
 		return
 	if(i_pressure > MAX_WASTE_STORAGE_PRESSURE)
 		var/turf/T = get_turf(src)
@@ -143,17 +142,22 @@
 	if(prob(30))
 		tesla_zap(src, 2,  1000)
 	var/input_fuel = min(air1.get_moles(/datum/gas/frameshifted_plasma), max_charge_rate * mol_per_capacitor)
-	var/delta = KELVIN_TO_CELSIUS(air1.return_temperature()) - internal_heat
-	internal_heat += delta
 	capacitor += (input_fuel * get_efficiency(current_power_draw)) / mol_per_capacitor
 	air1.adjust_moles(/datum/gas/frameshifted_plasma, -input_fuel)
-	var/datum/gas_mixture/output = airs[2]
-	if(output.return_pressure() < MAX_WASTE_PRESSURE)
-		output = air_contents
-	output.adjust_moles(/datum/gas/plasma, input_fuel / 3)
-	output.adjust_moles(/datum/gas/nucleium, input_fuel / 10)
-	output.set_temperature(CELSIUS_TO_KELVIN(internal_heat))
-	return TRUE
+
+	var/datum/gas_mixture/waste = new
+	waste.adjust_moles(/datum/gas/plasma, input_fuel / 3)
+	waste.adjust_moles(/datum/gas/nucleium, input_fuel / 10)
+	var/heat_increase = WASTE_GAS_HEAT
+	if(shielded)
+		heat_increase *= 1.5
+	waste.set_temperature(air1.return_temperature() + heat_increase)
+
+	if(output.return_pressure() < MAX_OUTPUT_PRESSURE)
+		air_contents.merge(waste)
+	else
+		output.merge(waste)
+	qdel(waste) // merging doesn't delete the original merged gasmix
 
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/proc/toggle_shield()
 	if(!pylon_shield) //somehow...

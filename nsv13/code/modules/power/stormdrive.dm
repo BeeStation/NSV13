@@ -569,8 +569,16 @@ Control Rods
 		return
 
 	var/datum/gas_mixture/air1 = airs[1]
+	if(prob(air1.get_moles(/datum/gas/frameshifted_plasma) / 2)
+		for(var/mob/living/L in range(rand(7, 15), get_turf(src))) // Is there anyone near us?
+			var/datum/effect_system/spark_spread/sparks = new
+			sparks.set_up(5, 1, get_turf(L))
+			L.forceMove(src) // And we have a winner! Teleports them inside of us
+			playsound(src, 'sound/magic/wand_teleport.ogg', 100, 1)
+			if(prob(80))
+				shake_animation()
+				break
 	var/nucleium_power_reduction = 0
-
 	var/fuel_check = ((air1.get_moles(/datum/gas/plasma) + air1.get_moles(/datum/gas/constricted_plasma) + air1.get_moles(/datum/gas/tritium)) / air1.total_moles()) * 100
 	if(air1.total_moles() >= reaction_rate && fuel_check >= 12.5) //1:8 ratio
 		var/datum/gas_mixture/reaction_chamber_gases = air1.remove(reaction_rate)
@@ -654,6 +662,8 @@ Control Rods
 	radiation_pulse(src, (heat * radiation_modifier), 2)
 	ambient_temp_bleed()
 
+	handle_misc_contents()
+
 	if(last_power_produced > 2000000) //2MW
 		handle_overload()
 
@@ -721,6 +731,13 @@ Control Rods
 		if(can_cool())
 			if(control_rod_percent > 0)
 				heat -= cooling_power * cooling_power_modifier
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_misc_contents()
+	for(var/mob/living/L in contents)
+		if(heat > 50)
+			L.adjustFireloss(min(heat / 10, 25))
+			if(prob(30))
+				to_chat(L, "<span class='danger'>The [src]'s internals sears your skin!</span>")
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_reaction_rate()
 	target_reaction_rate = (0.5+(1e-03*((100-control_rod_percent) * control_rod_modifier)**2) * reaction_rate_modifier) + 1e-05*(heat**2)  //let the train derail!
@@ -915,6 +932,14 @@ Control Rods
 		if(!M.mob_negates_gravity())
 			step_towards(M,src)
 			M.Knockdown(40)
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/relaymove(mob/user)
+	if(user.incapacitated())
+		return
+	if(prob(40))
+		audible_message("<span class='danger'>CLANG, clang!</span>")
+	shake_animation(3)
+	playsound(src, 'sound/effects/clang.ogg', 45, 1)
 
 //////// OTHER PROCS ////////
 

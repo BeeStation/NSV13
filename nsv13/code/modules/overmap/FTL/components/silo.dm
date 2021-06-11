@@ -7,7 +7,6 @@
 	icon = 'nsv13/icons/obj/machinery/FTL_silo.dmi'
 	icon_state = "silo"
 	max_integrity = 600
-	var/datum/gas_mixture/air_contents
 	var/max_pressure = 30 * ONE_ATMOSPHERE
 	var/outputting = FALSE
 	var/volume = 1000

@@ -46,7 +46,7 @@
 /obj/machinery/computer/ship/ftl_core/proc/get_pylons()
 	pylons.len = 0
 	for(var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P in GLOB.machines)
-		if(pylons.len == 4)
+		if(pylons.len == 4) // No more than 4 pylons for the sake of the UI
 			break
 		if(link_id == P.link_id && P.get_overmap() == get_overmap() && P.is_operational())
 			pylons += P
