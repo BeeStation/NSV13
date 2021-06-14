@@ -24,17 +24,17 @@
 	update_parents()
 
 /obj/machinery/atmospherics/components/binary/ftl/silo/Destroy()
-	var/turf/T = get_turf(src)
-	T.assume_air(air_contents)
-	T.air_update_turf()
-	QDEL_NULL(air_contents)
+	if(air_contents?.total_moles())
+		var/turf/T = get_turf(src)
+		T.assume_air(air_contents)
+		T.air_update_turf()
+		QDEL_NULL(air_contents)
 	return ..()
 
 /obj/machinery/atmospherics/components/binary/ftl/silo/proc/transmute_fuel()
 	if(!cable)
 		return FALSE
-	var/datum/gas_mixture/air1 = airs[1] // nucleium
-
+	var/datum/gas_mixture/air1 = airs[1] // nucleium, hopefully
 	var/input_fuel = min(air1.get_moles(/datum/gas/nucleium), conversion_limit)
 	var/grid_power = min(cable.surplus(), current_power_draw)
 	if(input_fuel < 0.1 || grid_power < min_power_draw)
@@ -55,6 +55,7 @@
 			if(air_contents.get_moles(/datum/gas/frameshifted_plasma) > 400) // something something rapid spacetime expansion creating a frame drag effect
 				multiplier = 1.5
 			T.assume_air(air_contents)
+			air_contents.clear()
 			var/V2 = round(2 + (i_pressure - SILO_EXPLODE_PRESSURE) / 300) * multiplier // Every 300 kpa over the threshold will increase the range by one
 			explosion(T, V2/4, V2/2, V2, V2*1.5, ignorecap = TRUE) // >:)
 			qdel(src)
@@ -78,6 +79,7 @@
 			var/turf/T = get_turf(src)
 			var/datum/gas_mixture/leak = air_contents.remove_ratio(rand(0.05, 0.15))
 			T.assume_air(leak)
+			qdel(leak)
 			playsound(src, 'sound/effects/spray.ogg', 100, TRUE)
 			if(pressure_integrity)
 				pressure_integrity--

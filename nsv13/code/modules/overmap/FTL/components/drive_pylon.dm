@@ -17,13 +17,14 @@
 	desc = "Used to power the main FTL manifold. Consumes frameshifted plasma and large amounts of electricity to spool up, do not touch gyros during operation."
 	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
 	icon_state = "pylon"
-	bound_width = 64
-	bound_height = 64
+	pixel_x = -32
+	pixel_y = -32
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 500
 	var/link_id = "default"
 	var/gyro_speed = 0
+	var/req_gyro_speed = 25
 	var/shielded = FALSE
 	var/mutable_appearance/pylon_shield
 	var/active_time = 0 // how many ticks have we been fully active for
@@ -45,10 +46,10 @@
 /obj/machinery/atmospherics/components/binary/ftl/drive_pylon/process()
 	if(!on)
 		return
-	if(!power_drain() && pylon_state > PYLON_STATE_SHUTDOWN)
+	if(!power_drain() && pylon_state != PYLON_STATE_SHUTDOWN)
 		set_state(PYLON_STATE_SHUTDOWN)
 		return
-	if(pylon_state != PYLON_STATE_ACTIVE && capacitor >= req_capacitor)
+	if(pylon_state != PYLON_STATE_SHUTDOWN && capacitor >= req_capacitor)
 		set_state(PYLON_STATE_ACTIVE)
 	switch(pylon_state)
 		if(PYLON_STATE_ACTIVE)
@@ -76,7 +77,7 @@
 				S.start()
 			min_power_draw = 20000
 			gyro_speed++
-			if(gyro_speed >= 25)
+			if(gyro_speed >= req_gyro_speed)
 				set_state(PYLON_STATE_SPOOLING)
 
 		if(PYLON_STATE_SPOOLING) //spinning intensifies
@@ -84,13 +85,13 @@
 			var/ftl_fuel = air1.get_moles(/datum/gas/frameshifted_plasma)
 			if(ftl_fuel < 0.25)
 				if(capacitor > 0)
-					capacitor -= min((1 / rand(2, 5)), capacitor)
+					capacitor -= min(rand(0.25, 0.5)), capacitor)
 				else
 					set_state(PYLON_STATE_STARTING)
 				return
 			min_power_draw = 50000 // 50KW
 			consume_fuel()
-			if(gyro_speed < 25)
+			if(gyro_speed < req_gyro_speed)
 				set_state(PYLON_STATE_SHUTDOWN)
 
 		if(PYLON_STATE_SHUTDOWN) //halt the spinning, close the lid
@@ -109,6 +110,7 @@
 		var/turf/T = get_turf(src)
 		T.assume_air(air_contents)
 		explosion(T, 0, 1, 3)
+		QDEL_NULL(air_contents)
 		return
 	var/datum/gas_mixture/output = airs[2]
 	if(output.return_pressure() <= MAX_OUTPUT_PRESSURE)
@@ -142,9 +144,8 @@
 	if(prob(30))
 		tesla_zap(src, 2,  1000)
 	var/input_fuel = min(air1.get_moles(/datum/gas/frameshifted_plasma), max_charge_rate * mol_per_capacitor)
-	capacitor += (input_fuel * get_efficiency(current_power_draw)) / mol_per_capacitor
+	capacitor += min((input_fuel * get_efficiency(current_power_draw)) / mol_per_capacitor, req_capacitor - capacitor)
 	air1.adjust_moles(/datum/gas/frameshifted_plasma, -input_fuel)
-
 	var/datum/gas_mixture/waste = new
 	waste.adjust_moles(/datum/gas/plasma, input_fuel / 3)
 	waste.adjust_moles(/datum/gas/nucleium, input_fuel / 10)

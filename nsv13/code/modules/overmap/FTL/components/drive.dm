@@ -3,15 +3,16 @@
 	desc = "A highly advanced system capable of using exotic energy to bend space around it, exotic energy must be supplied by drive pylons"
 	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
 	icon_state = "core_idle"
-	bound_height = 128
-	bound_width = 160
+	pixel_x = -80
+	pixel_y = -64
+//	bound_height = 128
+//	bound_width = 160
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	icon_screen = null
 	icon_keyboard = null
 	req_access = list(ACCESS_ENGINE_EQUIP)
 	var/tier = 1 // increased tiers increase jump range
 	var/faction = "nanotrasen"
-//	var/screen = 1
 	var/link_id = "default"
 	var/list/pylons = list() //connected pylons
 	var/active = FALSE // Whether or not we should be charging
@@ -73,6 +74,7 @@
 
 	visible_message("<span class='info'>Core fuel cycle starting.</span>")
 	active = TRUE
+	START_PROCESSING(SSmachines, src)
 	playsound(src, 'nsv13/sound/effects/computer/hum3.ogg', 100, 1)
 	playsound(src, 'nsv13/sound/voice/ftl_spoolup.wav', 100, FALSE)
 	radio.talk_into(src, "FTL spoolup initiated.", radio_channel)
@@ -90,6 +92,9 @@
 		if(P.pylon_state == PYLON_STATE_ACTIVE)
 			progress = min(progress + charge_rate, req_charge)
 			active_charge = TRUE
+			if(prob(30))
+				P.Beam(src, icon_state = "lightning[rand(1, 12)]", time = 10, maxdistance = 10)
+				playsound(P, 'sound/magic/lightningshock.ogg', 50, 1, extrarange = 5)
 	if(!active_charge && progress > 0)
 		progress--
 		if(progress < req_charge && ftl_state == FTL_STATE_READY)
@@ -250,16 +255,6 @@ A way for syndies to track where the player ship is going in advance, so they ca
 			else
 				spoolup()
 			. = TRUE
-/*
-		if("jump")
-			if(ftl_state != FTL_STATE_READY)
-				visible_message("<span class='warning'>Unable to comply. Insufficient fuel. 'Blind' FTL jumps are prohibited by the system administrative policy.</span>")
-				return
-			for(var/datum/star_system/S in SSstar_system.systems)
-				if(S.visitable && S.name == params["target"])
-					jump(S)
-					break
-*/
 
 /obj/machinery/computer/ship/ftl_core/ui_data(mob/user)
 	var/list/data = list()
@@ -267,7 +262,6 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	data["progress"] = progress
 	data["goal"] = req_charge
 	data["ready"] = ftl_state == FTL_STATE_READY
-//	data["mode"] = screen
 	data["jumping"] = ftl_state == FTL_STATE_JUMPING
 	var/list/pylons_info = list()
 	var/count = 0
@@ -277,8 +271,9 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		pylon_info["name"] = "Pylon [count]"
 		pylon_info["id"] = "\ref[P]"
 		pylon_info["status"] = P.pylon_state
-//		pylon_info["active"] = P.pylon_state != PYLON_STATE_OFFLINE
-//		pylon_info["shutdown"] = P.pylon_state == PYLON_STATE_SHUTDOWN
+		pylon_info["gyro"] = round(P.gyro_speed / P.req_gyro_speed)
+		pylon_info["capacitor"] = round(P.capacitor / P.req_capacitor)
+		pylon_info["draw"] = DisplayPower(P.min_power_draw)
 		pylons_info[++pylons_info.len] = pylon_info // probably could have a better var name for this one
 	data["pylons"] = pylons_info
 	return data
