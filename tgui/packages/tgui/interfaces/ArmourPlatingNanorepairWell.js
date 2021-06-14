@@ -144,29 +144,35 @@ export const ArmourPlatingNanorepairWell = (props, context) => {
             color={!!data.alloy_t1 && "white"}
             onClick={() => act('iron')} />
           <Button
+            content="Plasteel"
+            icon="cog"
+            tooltip="Iron: 50%, Plasma: 50%"
+            color={!!data.alloy_t2 && "white"}
+            onClick={() => act('plasteel')} />
+          <Button
             content="Ferrotitanium"
             icon="cog"
             tooltip="Iron: 25%, Titanium: 75%"
-            color={!!data.alloy_t2 && "white"}
+            color={!!data.alloy_t3 && "white"}
             onClick={() => act('ferrotitanium')} />
           <Button
             content="Durasteel"
             icon="cog"
             tooltip="Iron: 20%, Titanium: 65%, Silver: 15%"
-            color={!!data.alloy_t3 && "white"}
+            color={!!data.alloy_t4 && "white"}
             onClick={() => act('durasteel')} />
           <Button
             content="Duranium"
             icon="cog"
             tooltip="Iron: 17.5%, Titanium: 62.5%, Silver: 15%, Plasma: 5%"
-            color={!!data.alloy_t4 && "white"}
+            color={!!data.alloy_t5 && "white"}
             onClick={() => act('duranium')} />
           <br />
           <br />
           Repair Resources:
           <br />
           <ProgressBar
-            value={data.repair_resources/data.repair_resources_max}
+            value={data.repair_resources / data.repair_resources_max}
             ranges={{
               good: [0.66, Infinity],
               average: [0.33, 0.66],

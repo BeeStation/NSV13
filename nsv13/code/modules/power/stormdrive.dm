@@ -911,12 +911,12 @@ Control Rods
 	if(reactor_stability < 75)
 		if(prob((100 - reactor_stability) / 4)) //Destabilize the balance a little
 			if(prob(50))
-				heat += reaction_rate * rand(3,5)
+				heat += reaction_rate * rand(5,8)
 			else
-				reaction_rate += reaction_rate / rand(1,3)
+				reaction_rate += reaction_rate / rand(3,5)
 
 	if(reactor_stability < 15)
-		if(prob(0.001))
+		if(prob(1))
 			if(prob(50))
 				new /obj/effect/anomaly/stormdrive/surge(src, rand(2000, 5000))
 			else
@@ -997,6 +997,8 @@ Control Rods
 					else
 						L.flicker()
 			if(prob(0.01))
+				for(var/obj/machinery/power/grounding_rod/R in orange(5, src))
+					R.take_damage(rand(25, 50))
 				tesla_zap(src, 5, 1000)
 		if(10000000 to INFINITY) //10MW+
 			if(prob(1))
@@ -1007,6 +1009,8 @@ Control Rods
 				for(var/obj/machinery/light/L in orange(12, src))
 					L.burn_out() //If there are even any left by this stage
 			if(prob(0.1))
+				for(var/obj/machinery/power/grounding_rod/R in orange(8, src))
+					R.take_damage(rand(25, 75))
 				tesla_zap(src, 8, 2000)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/update_icon() //include overlays for radiation output levels and power output levels (ALSO 1k+ levels)
@@ -1167,7 +1171,7 @@ Control Rods
 				if(WS.range < 10) //small spawner
 					empulse(epi, 5, 15)
 					radiation_pulse(epi, 100)
-					if(prob(15))
+					if(prob(35))
 						if(prob(50))
 							new /obj/effect/anomaly/stormdrive/surge(epi, rand(2000, 5000))
 						else

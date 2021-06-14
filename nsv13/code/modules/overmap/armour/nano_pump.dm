@@ -63,28 +63,31 @@
 		OM = get_overmap()
 	if(online && is_operational() && !stress_shutdown)
 		idle_power_usage = 0 //reset power use
+		var/weight_class = OM.mass
+		if(weight_class >= MASS_TITAN)
+			weight_class = 10 //Because someone changed how mass classes work
 		if(armour_allocation)
 			if(OM.armour_quadrants[quadrant]["current_armour"] < OM.armour_quadrants[quadrant]["max_armour"]) //Armour Check
 				var/armour_integrity = (OM.armour_quadrants[quadrant]["current_armour"] / OM.armour_quadrants[quadrant]["max_armour"]) * 100
 				if(armour_integrity < 15)
 					armour_integrity = 15
 				armour_repair_amount = ((382 * NUM_E **(0.0764 * armour_integrity))/(50 + NUM_E ** (0.0764 * armour_integrity)) ** 2 ) * (apnw.repair_efficiency * (armour_allocation / 100)) * 6 //Don't ask
-				if(apnw.repair_resources >= (armour_repair_amount * OM.mass))
+				if(apnw.repair_resources >= (armour_repair_amount * weight_class))
 					OM.armour_quadrants[quadrant]["current_armour"] += armour_repair_amount
 					if(OM.armour_quadrants[quadrant]["current_armour"] > OM.armour_quadrants[quadrant]["max_armour"])
 						OM.armour_quadrants[quadrant]["current_armour"] = OM.armour_quadrants[quadrant]["max_armour"]
-					apnw.repair_resources -= (armour_repair_amount * OM.mass)
+					apnw.repair_resources -= (armour_repair_amount * weight_class)
 					idle_power_usage += armour_repair_amount * 100
 		if(structure_allocation)
 			if(OM.obj_integrity < OM.max_integrity) //Structure Check
 				if(OM.structure_crit_no_return) //If we have crossed the point of no return, halt repairs
 					return
-				structure_repair_amount = ((2 + (OM.mass / 10)) * apnw.repair_efficiency * structure_allocation) / 100
-				if(apnw.repair_resources >= (structure_repair_amount * OM.mass) * 2)
+				structure_repair_amount = ((2 + (weight_class / 10)) * apnw.repair_efficiency * structure_allocation) / 100
+				if(apnw.repair_resources >= (structure_repair_amount * weight_class) * 1.5)
 					OM.obj_integrity += structure_repair_amount
 					if(OM.obj_integrity > OM.max_integrity)
 						OM.obj_integrity = OM.max_integrity
-					apnw.repair_resources -= (structure_repair_amount * OM.mass) * 2
+					apnw.repair_resources -= (structure_repair_amount * weight_class) * 1.5
 					idle_power_usage += structure_repair_amount * 100
 
 					if(OM.structure_crit) //Checking to see if we can exist SS Crit
