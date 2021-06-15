@@ -18,7 +18,7 @@
 			if((D.spread_flags & DISEASE_SPREAD_SPECIAL) || (D.spread_flags & DISEASE_SPREAD_NON_CONTAGIOUS))
 				continue
 
-			if ( ( data[ "donor" ] && istype( data[ "donor" ], /mob/living/simple_animal/mouse ) ) && islizard( L ) ) // NSV13 - Lizards do not get rat viruses
+			if ( ( data[ "donor" ] && istype( data[ "donor" ], /mob/living/simple_animal/mouse ) ) && ( islizard( L ) || iscatperson( L ) ) ) // NSV13 - Lizards do not get rat viruses
 				continue
 
 			if((method == TOUCH || method == VAPOR) && (D.spread_flags & DISEASE_SPREAD_CONTACT_FLUIDS))
