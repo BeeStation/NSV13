@@ -383,13 +383,13 @@ That's it, ok bye!
 	if(start)
 		for(var/mob/M in get_area(src))
 			SEND_SOUND(M, turbolift_start_sound)
-			shake_camera(M, 2, 1)
+			shake_with_inertia(M, 2, 1)
 			if(!isliving(M))
 				continue
 			if(obj_flags & EMAGGED)
 				var/mob/living/karmics_victim = M
 				karmics_victim.Knockdown(5 SECONDS)
-				shake_camera(karmics_victim, 10, 1)
+				shake_with_inertia(karmics_victim, 10, 1)
 				to_chat(karmics_victim, "<span class='warning'>You're pressed into the floor as the lift rapidly accelerates!</span>")
 				if(prob(50)) //Unlucky fucker
 					to_chat(karmics_victim, "<span class='warning'>You hit your head as you're thrown about wildly!</span>")

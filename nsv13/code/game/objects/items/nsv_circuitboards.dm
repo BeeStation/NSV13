@@ -175,6 +175,17 @@
 		/obj/item/stack/cable_coil = 10)
 	build_path = /obj/machinery/deck_turret/payload_gate
 
+// Inertial dampeners 
+
+/obj/item/circuitboard/machine/inertial_dampener 
+	name = "inertial dampener (circuitboard)"
+	req_components = list(
+		/obj/item/stock_parts/manipulator = 4,
+		/obj/item/stock_parts/capacitor = 2,
+		/obj/item/stock_parts/matter_bin = 3,
+	)
+	build_path = /obj/machinery/inertial_dampener
+
 //Upgrades
 /obj/item/circuitboard/machine/deck_gun/autoelevator
 	name = "Deck gun auto-elevator (circuitboard)"

@@ -129,7 +129,7 @@
 /obj/structure/overmap/proc/shake_everyone(severity)
 	for(var/mob/M in mobs_in_ship)
 		if(M.client)
-			shake_camera(M, severity, 1)
+			shake_with_inertia(M, severity, 1)
 
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)
 	if(istype(P, /obj/item/projectile/beam/overmap/aiming_beam))

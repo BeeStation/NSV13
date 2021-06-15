@@ -228,7 +228,7 @@
 			if(HAS_TRAIT(L, TRAIT_SEASICK))
 				to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
 				L.adjust_disgust(pick(70, 100))
-		shake_camera(M, 4, 1)
+		shake_with_inertia(M, 4, 1)
 	force_parallax_update(ftl_start)
 
 /obj/item/ftl_slipstream_chip
