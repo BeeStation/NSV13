@@ -29,11 +29,48 @@
 	var/num_sheets_door = 2
 	var/num_sheets_barrel = 4
 	var/num_sheets_frame = 4
+	var/output_path = /obj/machinery/ship_weapon/torpedo_launcher
 
 /obj/structure/ship_weapon/torpedo_launcher_assembly/Initialize()
 	..()
 	if(!contents)
 		contents = list()
+
+/obj/structure/ship_weapon/torpedo_launcher_assembly/setDir()
+	. = ..()
+	switch(dir)
+		if(NORTH)
+			output_path = text2path("[initial(output_path)]/north")
+			pixel_x = -16
+			pixel_y = -32
+			bound_height = 96
+			bound_width = 32
+			bound_x = 0
+			bound_y = 0
+		if(SOUTH)
+			output_path = text2path("[initial(output_path)]/south")
+			pixel_x = -16
+			pixel_y = -64
+			bound_height = 96
+			bound_width = 32
+			bound_x = 0
+			bound_y = -64
+		if(EAST)
+			output_path = text2path("[initial(output_path)]/east")
+			pixel_y = -72
+			pixel_x = -32
+			bound_height = 32
+			bound_width = 96
+			bound_x = 0
+			bound_y = 0
+		if(WEST)
+			output_path = text2path("[initial(output_path)]/west")
+			pixel_x = -64
+			pixel_y = -72
+			bound_height = 32
+			bound_width = 96
+			bound_x = -64
+			bound_y = 0
 
 /obj/structure/ship_weapon/torpedo_launcher_assembly/examine(mob/user)
 	. = ..()
@@ -144,7 +181,7 @@
 		if(BS_DOOR_BOLTED)
 			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
 				to_chat(user, "<span class='notice'>You finish the torpedo launcher.</span>")
-				var/obj/machinery/ship_weapon/torpedo_launcher/TL = new(loc)
+				var/obj/machinery/ship_weapon/TL = new output_path(loc)
 				TL.dir = dir
 				TL.setAnchored(anchored)
 				TL.on_construction()
