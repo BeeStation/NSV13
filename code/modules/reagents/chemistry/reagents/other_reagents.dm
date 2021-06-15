@@ -24,7 +24,7 @@
 
 				if ( istype( L, /mob/living/carbon ) ) 
 					var/mob/living/carbon/C = L 
-					if( iscatperson( C ) ) 
+					if( iscatperson(C) ) 
 						continue 
 			// NSV13 end species check 
 
