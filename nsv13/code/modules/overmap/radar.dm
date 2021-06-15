@@ -191,8 +191,10 @@ Called by add_sensor_profile_penalty if remove_in is used.
 		ui = new(user, src, "Dradis")
 		ui.open()
 
-/obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui)
+/obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui, mob/user)
 	. = ..()
+	if(isobserver(user))
+		return
 	if(.)
 		return
 	if(!has_overmap())
