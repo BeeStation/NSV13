@@ -41,22 +41,19 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	mode_cache = typecacheof(/datum/overmap_mission, TRUE)
 
-//	modes = list()
-//	mode_names = list()
 
-/* What am i even doing here, how do I get the vars and store them?
-	var/list/weights = Get(/datum/config_entry/keyed_list/weight)
-	var/list/req_players = Get(/datum/config_entry/keyed_list/req_players)
-	for(var/C in mode_cache)
-		var/datum/overmap_mission/M = new C()
+	//All the possible modes we can select fro,
+	var/list/possible = list()
 
-		if(M.config_tag)
-			if(!(M.config_tag in modes))
-				modes += M.config_tag
-				mode_names[M.config_tag] = M.name
-				weights[M.config_tag] = M.selection_weight
-				req_players[M.config_tag] = M.req_players
-*/
+	//Run throughthe subtypes, try instance them
+	for(var/dtype in subtypesof(/datum/overmap_mission))
+		var/datum/overmap_mission/candidate = new dtype()
+		if(candidate.is_selectable())
+			possible += (candidate=candidate.weight)
+	//Pick using pickweight to account for weight.
+	mode = pickweight(possible) || new /datum/overmap_mission/patrol
+
+
 
 	var/list/mode_pool = mode_cache
 
@@ -182,16 +179,9 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/list/objectives = list()		//The actual mission objectives go here
 	var/whitelist_only = FALSE			//Can only be selected through map bound whitelists
 
-/datum/config_entry/keyed_list/overmap_weight
-	key_mode = KEY_MODE_TEXT
-	value_mode = VALUE_MODE_NUM
 
-/datum/config_entry/keyed_list/overmap_weight/ValidateListEntry(key_name)
-	return key_name in SSovermap_mode.modes //plug this is at some point
+/datum/overmap_objective
+	var/name
+	var/desc
+	var/stage
 
-/datum/config_entry/keyed_list/overmap_req_players
-	key_mode = KEY_MODE_TEXT
-	value_mode = VALUE_MODE_NUM
-
-/datum/config_entry/keyed_list/overmap_req_players/ValidateListEntry(key_name)
-	return key_name in SSovermap_mode.modes //ditto
