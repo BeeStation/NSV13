@@ -10,7 +10,7 @@
 			 We have a prototype shielding system you must deploy to reduce collision-related accidents.
 
 			 You can order the satellites and control systems at cargo.
-			 "}
+			 "} //NSV13
 
 
 /datum/station_goal/station_shield/on_report()
