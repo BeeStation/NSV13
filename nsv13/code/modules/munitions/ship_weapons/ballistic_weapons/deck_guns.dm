@@ -5,10 +5,12 @@
 	icon_state = "deck_turret"
 	fire_mode = FIRE_MODE_MAC
 	ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
-	pixel_x = -45
-	pixel_y = -63
-	bound_width = 64
+	pixel_x = -43
+	pixel_y = -64
+	bound_width = 96
 	bound_height = 128
+	bound_x = -32
+	bound_y = -64
 	semi_auto = TRUE
 	max_ammo = 1
 	obj_integrity = 500
@@ -413,20 +415,26 @@
 	dir = NORTH
 	pixel_x = -43
 	pixel_y = -32
+	bound_x = -32
+	bound_y = -32
 
 /obj/machinery/ship_weapon/deck_turret/east
 	dir = EAST
 	pixel_x = -30
 	pixel_y = -42
 	bound_width = 128
-	bound_height = 64
+	bound_height = 96
+	bound_x = -32
+	bound_y = -32
 
 /obj/machinery/ship_weapon/deck_turret/west
 	dir = WEST
 	pixel_x = -63
 	pixel_y = -42
 	bound_width = 128
-	bound_height = 64
+	bound_height = 96
+	bound_x = -64
+	bound_y = -32
 
 //MEGADETH TURRET
 /obj/machinery/ship_weapon/deck_turret/mega
@@ -439,20 +447,26 @@
 	dir = NORTH
 	pixel_x = -43
 	pixel_y = -32
+	bound_x = -32
+	bound_y = -32
 
 /obj/machinery/ship_weapon/deck_turret/mega/east
 	dir = EAST
 	pixel_x = -30
 	pixel_y = -42
 	bound_width = 128
-	bound_height = 64
+	bound_height = 96
+	bound_x = -32
+	bound_y = -32
 
 /obj/machinery/ship_weapon/deck_turret/mega/west
 	dir = WEST
 	pixel_x = -63
 	pixel_y = -42
 	bound_width = 128
-	bound_height = 64
+	bound_height = 96
+	bound_x = -64
+	bound_y = -32
 
 /obj/structure/ship_weapon/mac_assembly/artillery_frame/mega
 	name = "M4-16 'Yamato' Triple Barrel Naval Artillery Frame"
@@ -488,38 +502,59 @@
 	desc = "The beginnings of a huge deck gun, internals notwithstanding."
 	icon = 'nsv13/icons/obj/munitions/deck_turret.dmi'
 	icon_state = "platform"
-	bound_width = 128
-	bound_height = 64
-	pixel_y = -64
+	num_sheets_frame = 20
 	anchored = TRUE
 	density = TRUE
 	output_path = /obj/machinery/ship_weapon/deck_turret
+	pixel_x = -43
+	pixel_y = -64
+	bound_width = 96
+	bound_height = 128
+	bound_x = -32
+	bound_y = -64
 
-/obj/structure/ship_weapon/mac_assembly/artillery_frame/AltClick(mob/user)
+/obj/structure/ship_weapon/mac_assembly/artillery_frame/setDir()
 	. = ..()
-	setDir(turn(dir, 90))
 	switch(dir)
 		if(NORTH)
 			output_path = text2path("[initial(output_path)]/north")
 			pixel_x = -43
 			pixel_y = -32
-			bound_width = 64
+			bound_width = 96
 			bound_height = 128
+			bound_x = -32
+			bound_y = -32
 		if(SOUTH)
 			output_path = initial(output_path)
+			pixel_x = -43
 			pixel_y = -64
-			pixel_x = 0
-			bound_width = 64
+			bound_width = 96
 			bound_height = 128
+			bound_x = -32
+			bound_y = -64
 		if(EAST)
 			output_path = text2path("[initial(output_path)]/east")
 			pixel_x = -30
 			pixel_y = -42
 			bound_width = 128
-			bound_height = 64
+			bound_height = 96
+			bound_x = -32
+			bound_y = -32
 		if(WEST)
 			output_path = text2path("[initial(output_path)]/west")
 			pixel_x = -63
 			pixel_y = -42
 			bound_width = 128
-			bound_height = 64
+			bound_height = 96
+			bound_x = -64
+			bound_y = -32
+
+//let me leave please
+/obj/structure/ship_weapon/mac_assembly/artillery_frame/CanPass(atom/movable/mover, turf/target)
+	if(get_turf(mover) in src.locs)
+		return 1
+	. = ..()
+
+/obj/structure/ship_weapon/mac_assembly/artillery_frame/AltClick(mob/user)
+	. = ..()
+	setDir(turn(dir, 90))

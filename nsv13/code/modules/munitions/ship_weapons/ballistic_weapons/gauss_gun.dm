@@ -5,6 +5,8 @@
 	icon_state = "gauss"
 	bound_width = 96
 	bound_height = 96
+	bound_x = -32
+	bound_y = -32
 	pixel_x = -44
 	obj_integrity = 500
 	max_integrity = 500
