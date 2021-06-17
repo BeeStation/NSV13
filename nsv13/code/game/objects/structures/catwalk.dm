@@ -29,13 +29,6 @@
 		update_icon()
 	return TRUE
 
-/obj/structure/lattice/catwalk/over/ship/attackby(obj/item/C, mob/user, params)
-	message_admins("Attacking catwalk with [C]")
-	if(hatch_open && !(C.tool_behaviour == TOOL_CROWBAR))
-		var/turf/T = get_turf(src)
-		return T.attackby(C, user, params)
-	return ..()
-
 /obj/structure/lattice/catwalk/over/ship/update_icon()
 	. = ..()
 	if(hatch_open)
