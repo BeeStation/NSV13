@@ -42,3 +42,7 @@
 	for(var/obj/structure/cable/C in T)
 		C.deconstruct()
 	..()
+
+// NSV13 - allow cable laying on open plated catwalk
+/obj/structure/lattice/catwalk/proc/can_lay_cable()
+	return FALSE
