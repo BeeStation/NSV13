@@ -663,7 +663,7 @@
 		//if(!(is_station_level(C.z) || is_mining_level(C.z) || ("ss13" in tempnetwork)))
 		//	continue
 		//Nsv13 end.
-		if(!shares_overmap(C, src, faction_check=TRUE) || ("ss13" in tempnetwork))
+		if(!SHARES_OVERMAP_ALLIED(C, src) || ("ss13" in tempnetwork))
 			continue
 		if(!C.can_use())
 			continue

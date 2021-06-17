@@ -70,3 +70,7 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define ENGINE_RPM_SPUN 8000
 
 #define COMSIG_SHIP_BOARDED "ship_boarded"
+
+//Gaming
+#define shares_overmap(A, B) (A.get_overmap() == B.get_overmap())
+#define SHARES_OVERMAP_ALLIED(A,B) (A.get_overmap()?.faction == B.get_overmap()?.faction)
