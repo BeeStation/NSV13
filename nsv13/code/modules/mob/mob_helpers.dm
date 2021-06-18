@@ -17,6 +17,6 @@
 					nearestMachine = machine
 
 		if ( nearestMachine ) 
-			strength = nearestMachine.reduceStrength( nearestDistance, strength )
+			strength = nearestMachine.reduceStrength( nearestDistance, strength ) 
 
 	shake_camera( M, duration, strength )
