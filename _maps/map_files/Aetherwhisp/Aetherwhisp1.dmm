@@ -4154,6 +4154,10 @@
 /obj/structure/cable/white{
 	icon_state = "4-8"
 	},
+/obj/effect/landmark/patrol_node{
+	id = "deck1_stairs";
+	next_id = "deck1_bar"
+	},
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/central/hallway)
 "cEr" = (
@@ -6613,6 +6617,16 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/medical/morgue)
+"elz" = (
+/obj/structure/cable/white{
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/patrol_node{
+	id = "deck1_bar";
+	next_id = "deck1_medical"
+	},
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/cafeteria)
 "elD" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
@@ -32057,6 +32071,19 @@
 	},
 /turf/open/floor/grass,
 /area/hydroponics)
+"vDx" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/purple/hidden,
+/obj/effect/landmark/patrol_node{
+	id = "deck1_medical";
+	next_id = "deck1_stairs"
+	},
+/turf/open/floor/carpet/royalblack,
+/area/chapel/main)
 "vDE" = (
 /obj/machinery/computer/crew,
 /obj/machinery/airalarm/directional/east,
@@ -62376,7 +62403,7 @@ vth
 eaL
 jrV
 alP
-liO
+elz
 tfi
 tuR
 olz
@@ -68309,7 +68336,7 @@ cRV
 cet
 cet
 nMh
-nMh
+vDx
 nMh
 nMh
 cwU

@@ -205,7 +205,8 @@
 	ai_behaviour = AI_AGGRESSIVE
 	mass = MASS_MEDIUM
 	sprite_size = 48
-	ai_trait = AI_TRAIT_DESTROYER
+	//Joker emoji.
+	ai_trait = list(AI_TRAIT_DESTROYER, AI_TRAIT_BOARDER) //It likes to go after fighters really
 	combat_dice_type = /datum/combat_dice/frigate
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai

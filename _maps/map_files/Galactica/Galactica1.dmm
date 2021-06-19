@@ -2225,6 +2225,10 @@
 	dir = 4
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/effect/landmark/patrol_node{
+	id = "deck1_engi";
+	next_id = "deck1_cic"
+	},
 /turf/open/floor/engine,
 /area/hallway/nsv/deck1/frame1/central)
 "gw" = (
@@ -5413,6 +5417,10 @@
 /obj/effect/landmark/event_spawn,
 /obj/structure/disposalpipe/junction,
 /obj/structure/lattice/catwalk/over/ship,
+/obj/effect/landmark/patrol_node{
+	id = "deck1_cic";
+	next_id = "deck1_ladder"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/frame1/central)
 "pk" = (
@@ -8456,6 +8464,14 @@
 	icon_state = "4-8"
 	},
 /turf/open/floor/plasteel/ship,
+/area/hallway/nsv/deck1/frame1/central)
+"xW" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/effect/landmark/patrol_node{
+	id = "deck1_ladder_up";
+	next_id = "deck1_engi"
+	},
+/turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/frame1/central)
 "xX" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
@@ -15613,6 +15629,10 @@
 "QW" = (
 /obj/effect/landmark/nuclear_waste_spawner,
 /obj/structure/lattice/catwalk/over/ship,
+/obj/effect/landmark/patrol_node{
+	id = "deck1_ladder";
+	next_id = "deck2_ladder"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/frame1/central)
 "QX" = (
@@ -52454,7 +52474,7 @@ bQ
 nv
 iB
 oH
-ip
+xW
 QW
 ip
 iw

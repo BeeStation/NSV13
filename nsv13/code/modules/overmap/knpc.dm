@@ -150,8 +150,9 @@ GLOBAL_LIST_EMPTY(knpcs)
 	dest = null
 	var/obj/item/card/id/access_card = H.wear_id
 	if(target)
-		path = get_path_to(H, target, /turf/proc/Distance_cardinal, 0, 120, id=access_card, exclude=avoid, simulated_only=!(H.wear_suit?.clothing_flags & STOPSPRESSUREDAMAGE && H.head?.clothing_flags & STOPSPRESSUREDAMAGE))
 		dest = get_turf(target)
+		path = get_path_to(H, dest, /turf/proc/Distance_cardinal, 0, 120, id=access_card, exclude=avoid, simulated_only=!(H.wear_suit?.clothing_flags & STOPSPRESSUREDAMAGE && H.head?.clothing_flags & STOPSPRESSUREDAMAGE))
+
 		var/obj/structure/dense_object = locate(/obj/structure) in get_turf(get_step(H, H.dir)) //If we're stuck
 		if(istype(dense_object, /obj/structure/table) || istype(dense_object, /obj/structure/railing))
 			H.forceMove(get_turf(dense_object))
@@ -162,7 +163,8 @@ GLOBAL_LIST_EMPTY(knpcs)
 			fuckingMonsterMos.open()
 	//There's no valid path, try run against the wall.
 	if(!path?.len && !H.incapacitated() && !H.stat != DEAD)
-		walk_to(H, target, 1, move_delay)
+		//walk_to(H, target, 1, move_delay)
+		return FALSE
 	return TRUE
 
 /datum/component/knpc/proc/next_path_step()
@@ -171,8 +173,13 @@ GLOBAL_LIST_EMPTY(knpcs)
 		return FALSE
 	if(!path)
 		return FALSE
-	if(tries > 3)
-		H.lay_down()
+	if(tries > 5)
+		//Add a bit of randomness to their movement to reduce "traffic jams"
+		H.Move(get_step(H,pick(GLOB.cardinals)))
+		if(prob(10))
+			H.lay_down()
+			return FALSE
+
 	if(tries >= max_tries)
 		tries = 0
 		if(last_node?.next) //Skip this one.
@@ -296,7 +303,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 /datum/ai_goal/human/assume(datum/component/knpc/HA)
 	if(istype(HA, /obj/structure/overmap))
 		return ..()
-	message_admins("Goal [src] chosen!")
+	//message_admins("Goal [src] chosen!")
 	HA.current_goal = src
 
 ///Method that gets all the potential aggressors for this target.
@@ -454,14 +461,14 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 			//Not dealing with this. They'll just ditch the revolver when they're done with it.
 			B.forceMove(get_turf(H))
 			return FALSE
-		message_admins("Issa gun")
+		///message_admins("Issa gun")
 		var/obj/item/storage/S = H.back
 		//Okay first off, is the gun already on our person?
 		var/list/expanded_contents = H.contents
 		if(S)
 			expanded_contents = S.contents + H.contents
 		var/obj/item/ammo_box/magazine/target_mag = locate(B.mag_type) in expanded_contents
-		message_admins("Found [target_mag]")
+		//message_admins("Found [target_mag]")
 		if(target_mag)
 			//Dump that old mag
 			H.put_in_inactive_hand(target_mag)
@@ -659,7 +666,9 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 
 	var/obj/effect/landmark/patrol_node/next_node = HA.last_node.next
 	if(HA.last_node.z != next_node.z)
-		var/obj/structure/ladder/L = locate(/obj/structure/ladder) in orange(1, get_turf(HA.last_node))
+		var/obj/structure/ladder/L = locate(/obj/structure/ladder) in get_turf(HA.last_node)
+		if(!L)
+			L = locate(/obj/structure/ladder) in orange(1, get_turf(HA.last_node))
 		if(L)
 			//Use the ladder....
 			if(next_node.z > HA.last_node.z)
