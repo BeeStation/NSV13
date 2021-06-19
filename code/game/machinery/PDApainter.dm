@@ -8,8 +8,9 @@
 	anchored = TRUE
 	var/obj/item/pda/storedpda = null
 	var/obj/item/card/id/storedid = null
+	//Nsv13 - Crayon eaters & MPs
 	var/pda_icons = list(
-		"Assistant" = "pda",
+		"Midshipman" = "pda",
 		"Atmospheric Technician" = "pda-atmos",
 		"Bartender" = "pda-bartender",
 		"Botanist" = "pda-hydro",
@@ -35,12 +36,12 @@
 		"Research Director" = "pda-rd",
 		"Roboticist" = "pda-roboticist",
 		"Scienctist" = "pda-science",
-		"Security Officer" = "pda-security",
+		"Military Police" = "pda-security",
 		"Shaft Miner" = "pda-miner",
 		"Virologist" = "pda-virology",
 		"Warden" = "pda-warden")
 	var/id_icons = list(
-		"Assistant" = "id",
+		"Midshipman" = "id",
 		"Atmospheric Technician" = "atmos",
 		"Captain" = "gold",
 		"Cargo" = "cargo",
