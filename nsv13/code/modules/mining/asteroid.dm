@@ -67,10 +67,12 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	icon_state = "1"
 	obj_integrity = 100
 	max_integrity = 100
-	wrecked = TRUE //Stops it from shooting at you. Disables spawning wreck maps too.
 	var/list/core_composition = list(/turf/closed/mineral/iron, /turf/closed/mineral/titanium)
 	var/required_tier = 1
 	armor = list("overmap_light" = 99, "overmap_heavy" = 25)
+
+/obj/structure/overmap/asteroid/apply_weapons()
+	return FALSE //Lol, no.
 
 /obj/structure/overmap/asteroid/medium
 	name = "Asteroid (Non Ferrous)"
@@ -79,6 +81,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	required_tier = 2
 	bound_height = 96
 	bound_width = 96
+	mass = MASS_MEDIUM
 
 /obj/structure/overmap/asteroid/large
 	name = "Asteroid (Exotic Composition)"
@@ -87,6 +90,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	required_tier = 3
 	bound_height = 128
 	bound_width = 128
+	mass = MASS_MEDIUM_LARGE
 
 /obj/structure/overmap/asteroid/Initialize()
 	. = ..()

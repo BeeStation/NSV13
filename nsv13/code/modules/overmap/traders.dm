@@ -72,7 +72,7 @@
 		else
 			if(!OM.linked_areas.len)
 				OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
-				if(OM.linked_areas.len)
+				if(OM.linked_areas && OM.linked_areas.len)
 					goto foundareas
 				return FALSE
 			foundareas:
@@ -237,28 +237,29 @@
 	if(!current_location.z || dist >= 30)
 		to_chat(user, "<span class='warning'>Out of bi-directional comms range.</span>")
 		return FALSE
-	if(action == "purchase")
-		if(!target)
-			return
-		attempt_purchase(target, usr)
-	if(action == "mission")
-		var/list/currentMissions = list()
-		for ( var/datum/nsv_mission/M in SSstar_system.all_missions )
-			if ( M.owner == user.get_overmap() )
-				if ( M.stage != MISSION_COMPLETE )
-					currentMissions += M
-		if ( currentMissions.len < 3 ) // Max number of missions
-			give_mission(usr)
-		else
-			to_chat(user, "<span class='boldnotice'>" + pick(
-				"Why don't you complete the mission we just gave you first.",
-				"Please complete the mission we gave you first, then come back and ask again.",
-				"Stop pressing the button.",
-				"*static*",
-				"We appreciate your enthusiasm, but we want to make sure this mission gets completed first.",
-				"What are the chances you'll actually get this mission done? Go complete it before we trust you with another one.",
-				"Our superiors have asked us to stop stacking critical missions on one courier.",
-			) + "</span>")
+	switch(action)
+		if("purchase")
+			if(!target)
+				return
+			attempt_purchase(target, usr)
+		if("mission")
+			var/list/currentMissions = list()
+			for(var/datum/nsv_mission/M in SSstar_system.all_missions)
+				if(M.owner == user.get_overmap())
+					if(M.stage != MISSION_COMPLETE)
+						currentMissions += M
+			if(currentMissions.len < 3) // Max number of missions
+				give_mission(usr)
+			else
+				to_chat(user, "<span class='boldnotice'>" + pick(
+					"Why don't you complete the mission we just gave you first.",
+					"Please complete the mission we gave you first, then come back and ask again.",
+					"Stop pressing the button.",
+					"*static*",
+					"We appreciate your enthusiasm, but we want to make sure this mission gets completed first.",
+					"What are the chances you'll actually get this mission done? Go complete it before we trust you with another one.",
+					"Our superiors have asked us to stop stacking critical missions on one courier.",
+				) + "</span>")
 
 /datum/trader/proc/give_mission(mob/living/user)
 	if(!isliving(user))
@@ -308,8 +309,9 @@
 
 /datum/trader/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
-		assets.send(user)
-		ui = new(user, src, "Trader")
-		ui.open()
+	if(ui)
+		return
+	var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
+	assets.send(user)
+	ui = new(user, src, "Trader")
+	ui.open()

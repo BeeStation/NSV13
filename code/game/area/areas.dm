@@ -373,6 +373,18 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 		var/datum/computer_file/program/alarm_monitor/p = item
 		p.cancelAlarm("Fire", src, source)
 
+///Get rid of any dangling camera refs
+/area/proc/clear_camera(obj/machinery/camera/cam)
+	LAZYREMOVE(cameras, cam)
+	for (var/mob/living/silicon/aiPlayer as anything in GLOB.silicon_mobs)
+		aiPlayer.freeCamera(src, cam)
+	for (var/obj/machinery/computer/station_alert/comp as anything in GLOB.alert_consoles)
+		comp.freeCamera(src, cam)
+	for (var/mob/living/simple_animal/drone/drone_on as anything in GLOB.drones_list)
+		drone_on.freeCamera(src, cam)
+	for(var/datum/computer_file/program/alarm_monitor/monitor as anything in GLOB.alarmdisplay)
+		monitor.freeCamera(src, cam)
+
 /**
   * If 100 ticks has elapsed, toggle all the firedoors closed again
   */
@@ -555,10 +567,23 @@ GLOBAL_LIST_EMPTY(teleportlocs)
   *
   * If the area has ambience, then it plays some ambience music to the ambience channel
   */
-/area/Entered(atom/movable/M)
+/area/Entered(atom/movable/A)
 	set waitfor = FALSE
-	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, M)
-	SEND_SIGNAL(M, COMSIG_ENTER_AREA, src) //The atom that enters the area
+	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, A)
+	SEND_SIGNAL(A, COMSIG_ENTER_AREA, src) //The atom that enters the area
+
+	var/mob/M = A
+	var/obj/structure/linked_overmap = M.get_overmap()
+	if(linked_overmap && istype(M))
+		var/progress = linked_overmap.obj_integrity
+		var/goal = linked_overmap.max_integrity
+		progress = CLAMP(progress, 0, goal)
+		progress = round(((progress / goal) * 100), 50)//If the ship goes below 50% health, we start creaking like mad.
+		if((progress <= 50) && (M.client?.prefs.toggles & SOUND_AMBIENCE) && M.can_hear_ambience())
+			var/list/creaks = list('nsv13/sound/ambience/ship_damage/creak1.ogg','nsv13/sound/ambience/ship_damage/creak2.ogg','nsv13/sound/ambience/ship_damage/creak3.ogg','nsv13/sound/ambience/ship_damage/creak4.ogg','nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg','nsv13/sound/ambience/ship_damage/creak7.ogg')
+			var/creak = pick(creaks)
+			SEND_SOUND(M, sound(creak, repeat = 0, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))
+			return
 
 /**
   * Called when an atom exits an area

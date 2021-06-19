@@ -241,7 +241,8 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(!hide_movements)
 		minor_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	for(var/obj/structure/overmap/OM in current_system.system_contents){
-		if(OM.mobs_in_ship?.len)
+		//Boarding ships don't want to go to brasil
+		if(OM.mobs_in_ship?.len && OM.reserved_z)
 			encounter(OM)
 	}
 	if(current_system.check_conflict_status())
@@ -606,6 +607,45 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
+//Solgov
+
+/datum/fleet/solgov
+	name = "Solgov light exploratory fleet"
+	fighter_types = list(/obj/structure/overmap/nanotrasen/solgov/ai/fighter)
+	destroyer_types = list(/obj/structure/overmap/nanotrasen/solgov/ai)
+	battleship_types = list(/obj/structure/overmap/nanotrasen/solgov/aetherwhisp/ai)
+	supply_types = list(/obj/structure/overmap/nanotrasen/solgov/carrier/ai)
+	alignment = "nanotrasen"
+	hide_movements = TRUE //They're "friendly" alright....
+	faction_id = FACTION_ID_NT
+	taunts = list("You are encroaching on our airspace, prepare to be destroyed", "You have entered SolGov secure airspace. Prepare to be destroyed", "You are in violation of the SolGov non-aggression agreement. Leave this airspace immediately.")
+	size = FLEET_DIFFICULTY_EASY
+	greetings = list("Allied vessel. You will be scanned for compliance with the peacekeeper act in 30 seconds. We thank you for your compliance.")
+	var/scan_delay = 30 SECONDS
+	var/scanning = FALSE
+
+/datum/fleet/solgov/assemble(datum/star_system/SS, difficulty)
+	. = ..()
+	if(!scanning)
+		addtimer(CALLBACK(src, .proc/scan), scan_delay)
+		scanning = TRUE
+
+/datum/fleet/solgov/proc/scan()
+	scanning = FALSE
+	if(!current_system)
+		return FALSE
+	for(var/obj/structure/overmap/OM in current_system.system_contents)
+		OM.relay('nsv13/sound/effects/ship/solgov_scan.ogg')
+	sleep(5 SECONDS)
+	for(var/obj/structure/overmap/shield_scan_target in current_system.system_contents)
+		if(istype(shield_scan_target, /obj/structure/overmap/nanotrasen/solgov))
+			continue //We don't scan our own boys.
+		//Ruh roh.... (Persona non gratas do not need to be scanned again.)
+		if((shield_scan_target.faction != shield_scan_target.name) && shield_scan_target.shields && shield_scan_target.shields.active && shield_scan_target.occupying_levels?.len)
+			shield_scan_target.hail("Scans have detected that you are in posession of prohibited technology. \n Your IFF signature has been marked as 'persona non grata'. \n In accordance with SGC-reg #10124, your ship and lives are now forfeit. Evacuate all civilian personnel immediately and surrender yourselves.", name)
+			shield_scan_target.relay_to_nearby('nsv13/sound/effects/ship/solgov_scan_alert.ogg', ignore_self=FALSE)
+			shield_scan_target.faction = shield_scan_target.name
+
 /datum/fleet/New()
 	. = ..()
 	if(allow_difficulty_scaling)
@@ -663,6 +703,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				current_system.enemies_in_system += member
 			all_ships += member
 			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
+			RegisterSignal(member, COMSIG_SHIP_BOARDED , /datum/fleet/proc/remove_ship, member)
 			if(SS.occupying_z)
 				SS.add_ship(member)
 			else
@@ -845,7 +886,7 @@ Has potential to return incorrect results if you give a list with at least one d
 		else
 			OM.move_toward(OM.last_target)
 	else
-		OM.send_sonar_pulse() //Send a pong when we're actively hunting.
+		OM.send_radar_pulse() //Send a pong when we're actively hunting.
 		OM.seek_new_target()
 		OM.move_toward(null) //Just fly around in a straight line, I guess.
 
@@ -882,7 +923,7 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 
 	var/datum/lance/L = OM.current_lance
 	if(!OM.last_target)
-		OM.send_sonar_pulse()
+		OM.send_radar_pulse()
 		OM.seek_new_target()
 
 	if(!OM.last_target)	//We didn't find a target
@@ -987,7 +1028,7 @@ Seek a ship thich we'll station ourselves around
 /datum/ai_goal/defend/action(obj/structure/overmap/OM)
 	..()
 	if(prob(5))	//Sometimes ping, but not that often.
-		OM.send_sonar_pulse()
+		OM.send_radar_pulse()
 	if(!OM.defense_target || QDELETED(OM.defense_target))
 		var/list/supplyline = OM.fleet.taskforces["supply"]
 		OM.defense_target = supplyline?.len ? pick(OM.fleet.taskforces["supply"]) : OM
@@ -1066,7 +1107,7 @@ Seek a ship thich we'll station ourselves around
 /datum/ai_goal/patrol/action(obj/structure/overmap/OM)
 	..()
 	if(prob(8))	//Ping every now and then, so things can't sneak up on you.
-		OM.send_sonar_pulse()
+		OM.send_radar_pulse()
 	if(OM.patrol_target && get_dist(OM, OM.patrol_target) <= 8)
 		OM.patrol_target = null	//You have arrived at your destination.
 	if(!OM.patrol_target || OM.patrol_target.z != OM.z)
@@ -1266,7 +1307,7 @@ Seek a ship thich we'll station ourselves around
 			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left)) //No need to resupply this ship at all.
 				continue
 			resupply_target = OM
-			addtimer(CALLBACK(src, .proc/resupply), (30 + (100 - (OM.obj_integrity / OM.max_integrity) * 100 )))	//Resupply comperatively fast, but not instant. Repairs take longer.
+			addtimer(CALLBACK(src, .proc/resupply), 5 SECONDS)	//Resupply comperatively fast, but not instant. Repairs take longer.
 			resupplying++
 			break
 //Method to allow a supply ship to resupply other AIs.
@@ -1283,11 +1324,11 @@ Seek a ship thich we'll station ourselves around
 	if(torpStock > 0)
 		resupply_target.torpedoes = torpStock
 	resupply_target.shots_left = initial(resupply_target.shots_left)
-	resupply_target.obj_integrity = resupply_target.max_integrity
+	resupply_target.try_repair(resupply_target.max_integrity  * 0.1)
 	resupply_target = null
 
 /obj/structure/overmap/proc/can_board(obj/structure/overmap/ship)
-	if(!ship.linked_areas.len)
+	if(!ship.occupying_levels?.len)
 		return FALSE
 	if(get_dist(ship, src) > 8)
 		return FALSE
@@ -1420,7 +1461,7 @@ Seek a ship thich we'll station ourselves around
 			continue
 		if(min_weight_class && ship.mass < min_weight_class)
 			continue
-		if(interior_check && !ship.linked_areas.len) //So that boarders don't waste their time and try commit to boarding other AIs...yet.
+		if(interior_check && !ship.occupying_levels?.len) //So that boarders don't waste their time and try commit to boarding other AIs...yet.
 			continue
 		add_enemy(ship)
 		last_target = ship

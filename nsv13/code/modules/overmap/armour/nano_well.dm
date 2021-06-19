@@ -44,7 +44,7 @@ Starting Materials
 #define RR_MAX 5000
 
 /obj/machinery/armour_plating_nanorepair_well
-	name = "Armour Plating Nano-repair Well"
+	name = "\improper Armour Plating Nano-repair Well"
 	desc = "Central Well for the AP thingies"
 	icon = 'nsv13/icons/obj/machinery/armour_well.dmi'
 	icon_state = "well"
@@ -57,6 +57,7 @@ Starting Materials
 	layer = ABOVE_MOB_LAYER
 	obj_integrity = 500
 	var/obj/structure/overmap/OM //our parent ship
+	var/obj/structure/cable/cable = null //Connected cable
 	var/list/apnp = list() //our child pumps
 	var/resourcing_system = FALSE //System for generating additional RR
 	var/repair_resources = 0 //Pool of liquid metal ready to be pumped out for repairs
@@ -123,16 +124,10 @@ Starting Materials
 
 /obj/machinery/armour_plating_nanorepair_well/proc/try_use_power(amount) //checking to see if we have a cable
 	var/turf/T = get_turf(src)
-	var/obj/structure/cable/C = T.get_cable_node()
-	if(C)
-		if(!C.powernet)
-			return FALSE
-		var/power_in_net = C.powernet.avail-C.powernet.load
-
-		if(power_in_net && power_in_net >= amount)
-			C.powernet.load += amount
-			return TRUE
-		return FALSE
+	cable = T.get_cable_node()
+	if(cable?.surplus() > amount)
+		cable.powernet.load += amount
+		return TRUE
 	return FALSE
 
 /obj/machinery/armour_plating_nanorepair_well/proc/handle_repair_efficiency() //Sigmoidal Curve
@@ -204,9 +199,19 @@ Starting Materials
 					if(materials.has_enough_of_material(/datum/material/iron, iron_amount))
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						repair_resources += iron_amount / 8
-						material_modifier = 0.125 //Very Low modifier
+						material_modifier = 0.33 //Very Low modifier
 						repair_resources_processing = TRUE
-				if(2) //Ferrotitanium
+				if(2) //Plasteel
+					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+					var/iron_amount = (min(50, (RR_MAX - repair_resources) * 0.5)) * 10
+					var/plasma_amount = (min(50, (RR_MAX - repair_resources) * 0.5)) * 10
+					if(materials.has_enough_of_material(/datum/material/iron, iron_amount) && materials.has_enough_of_material(/datum/material/plasma, plasma_amount))
+						materials.use_amount_mat(iron_amount, /datum/material/iron)
+						materials.use_amount_mat(plasma_amount, /datum/material/plasma)
+						repair_resources += (iron_amount + plasma_amount) / 8
+						material_modifier = 0.50 //Low Modifier
+						repair_resources_processing = TRUE
+				if(3) //Ferrotitanium
 					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 					var/iron_amount = (min(25, (RR_MAX - repair_resources) * 0.25)) * 10
 					var/titanium_amount = (min(75, (RR_MAX - repair_resources) * 0.75)) * 10
@@ -214,9 +219,9 @@ Starting Materials
 						materials.use_amount_mat(iron_amount, /datum/material/iron)
 						materials.use_amount_mat(titanium_amount, /datum/material/titanium)
 						repair_resources += (iron_amount + titanium_amount) / 8
-						material_modifier = 0.33 //Low Modifier
+						material_modifier = 0.50 //Low Modifier
 						repair_resources_processing = TRUE
-				if(3) //Durasteel
+				if(4) //Durasteel
 					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 					var/iron_amount = (min(20, (RR_MAX - repair_resources) * 0.20)) * 10
 					var/silver_amount = (min(15, (RR_MAX -  repair_resources) * 0.15)) * 10
@@ -226,9 +231,9 @@ Starting Materials
 						materials.use_amount_mat(silver_amount, /datum/material/silver)
 						materials.use_amount_mat(titanium_amount, /datum/material/titanium)
 						repair_resources += (iron_amount + silver_amount + titanium_amount) / 8
-						material_modifier = 0.66 //Moderate Modifier
+						material_modifier = 0.75 //Moderate Modifier
 						repair_resources_processing = TRUE
-				if(4) //Duranium
+				if(5) //Duranium
 					var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 					var/iron_amount = (min(17.5, (RR_MAX - repair_resources) * 0.175)) * 10
 					var/silver_amount = (min(15, (RR_MAX -  repair_resources) * 0.15)) * 10
@@ -378,7 +383,7 @@ Starting Materials
 			else
 				material_tier = 1
 
-		if("ferrotitanium")
+		if("plasteel")
 			if(material_tier != 0)
 				to_chat(usr, "<span class='notice'>Error: Resources must be purged from the Well before selecting a different alloy</span>")
 				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
@@ -387,7 +392,7 @@ Starting Materials
 			else
 				material_tier = 2
 
-		if("durasteel")
+		if("ferrotitanium")
 			if(material_tier != 0)
 				to_chat(usr, "<span class='notice'>Error: Resources must be purged from the Well before selecting a different alloy</span>")
 				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
@@ -396,7 +401,7 @@ Starting Materials
 			else
 				material_tier = 3
 
-		if("duranium")
+		if("durasteel")
 			if(material_tier != 0)
 				to_chat(usr, "<span class='notice'>Error: Resources must be purged from the Well before selecting a different alloy</span>")
 				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
@@ -404,6 +409,15 @@ Starting Materials
 				return
 			else
 				material_tier = 4
+
+		if("duranium")
+			if(material_tier != 0)
+				to_chat(usr, "<span class='notice'>Error: Resources must be purged from the Well before selecting a different alloy</span>")
+				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+				playsound(src, sound, 100, 1)
+				return
+			else
+				material_tier = 5
 
 		if("purge")
 			if(resourcing_system)
@@ -472,10 +486,10 @@ Starting Materials
 
 	data["available_power"] = 0
 	var/turf/T = get_turf(src)
-	var/obj/structure/cable/C = T.get_cable_node()
-	if(C)
-		if(C.powernet)
-			data["available_power"] = C.powernet.avail-C.powernet.load
+	cable = T.get_cable_node()
+	if(cable)
+		if(cable.powernet)
+			data["available_power"] = cable.surplus()
 
 	switch(material_tier)
 		if(0)
@@ -483,26 +497,37 @@ Starting Materials
 			data["alloy_t2"] = FALSE
 			data["alloy_t3"] = FALSE
 			data["alloy_t4"] = FALSE
+			data["alloy_t5"] = FALSE
 		if(1)
 			data["alloy_t1"] = TRUE
 			data["alloy_t2"] = FALSE
 			data["alloy_t3"] = FALSE
 			data["alloy_t4"] = FALSE
+			data["alloy_t5"] = FALSE
 		if(2)
 			data["alloy_t1"] = FALSE
 			data["alloy_t2"] = TRUE
 			data["alloy_t3"] = FALSE
 			data["alloy_t4"] = FALSE
+			data["alloy_t5"] = FALSE
 		if(3)
 			data["alloy_t1"] = FALSE
 			data["alloy_t2"] = FALSE
 			data["alloy_t3"] = TRUE
 			data["alloy_t4"] = FALSE
+			data["alloy_t5"] = FALSE
 		if(4)
 			data["alloy_t1"] = FALSE
 			data["alloy_t2"] = FALSE
 			data["alloy_t3"] = FALSE
 			data["alloy_t4"] = TRUE
+			data["alloy_t5"] = FALSE
+		if(5)
+			data["alloy_t1"] = FALSE
+			data["alloy_t2"] = FALSE
+			data["alloy_t3"] = FALSE
+			data["alloy_t4"] = FALSE
+			data["alloy_t5"] = TRUE
 	return data
 
 /obj/item/circuitboard/machine/armour_plating_nanorepair_well

@@ -6,7 +6,7 @@
 	icon_state = "combust"
 	damage_states = FALSE //Not yet implemented
 	faction = "nanotrasen"//Placeholder, set by trader.
-	mass = MASS_TITAN
+	mass = MASS_IMMOBILE
 	brakes = TRUE
 	obj_integrity = 3000 //Really robust, but not invincible.
 	max_integrity = 3000
@@ -176,7 +176,7 @@
 	desc = "A pre-assembled utility craft, capable of restocking and repairing other fighters."
 	price = 9000
 	stock = 5
-	unlock_path = /obj/structure/overmap/fighter/utility
+	unlock_path = /obj/structure/overmap/fighter/dropship/sabre
 
 /datum/trader_item/fighter/heavy
 	name = "Heavy Fighter"

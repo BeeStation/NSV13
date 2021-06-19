@@ -51,7 +51,7 @@
 	weapons["loaded"] = list() //Weapons that are armed and ready.
 	weapons["all"] = list() //All weapons, regardless of ammo state
 	if(istype(holder, /obj/structure/overmap))
-		requires_physical_guns = (holder.linked_areas?.len && !holder.ai_controlled) //AIs don't have physical guns, but anything with linked areas is very likely to.
+		requires_physical_guns = (holder.occupying_levels?.len && !holder.ai_controlled) //AIs don't have physical guns, but anything with linked areas is very likely to.
 
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner) //"Lateral" means that your ship doesnt have to face the target
 	var/datum/ship_weapon/SW = weapon_types[mode]
@@ -75,14 +75,9 @@
 			CallAsync(source=holder, proctype=special_fire_proc, arguments=list(target=target)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
 		else
 			weapon_sound()
-			if(lateral)
-				for(var/I = 0; I < burst_size; I++)
-					sleep(1) //Prevents space shotgun
-					holder.fire_lateral_projectile(default_projectile_type, target)
-			else
-				for(var/I = 0; I < burst_size; I++)
-					sleep(1)
-					holder.fire_projectile(default_projectile_type, target)
+			for(var/I = 0; I < burst_size; I++)
+				sleep(1) //Prevents space shotgun
+				holder.fire_projectile(default_projectile_type, target, lateral=src.lateral)
 		return FIRE_INTERCEPTED
 	return FALSE
 

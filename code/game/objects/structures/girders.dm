@@ -106,7 +106,7 @@
 						return
 					S.use(2)
 					to_chat(user, "<span class='notice'>You create a false wall. Push on it to open or close the passage.</span>")
-					var/obj/structure/falsewall/F = new (loc)
+					var/obj/structure/falsewall/iron/F = new (loc) //NSV13 - iron falsewall
 					transfer_fingerprints_to(F)
 					qdel(src)
 			else
