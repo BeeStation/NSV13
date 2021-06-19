@@ -139,7 +139,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		message_admins("Failed to spawn boarders for [name] due to admin boarding override.")
 		return FALSE //Allows the admins to disable boarders for event rounds
 	var/list/candidates = list()
-	if(player_check < 0)//8)
+	if(player_check < 8)
 		message_admins("KNPC boarder spawning aborted due to insufficient playercounts.")
 		return FALSE //No... just no. I'm not that mean
 
