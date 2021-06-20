@@ -10,8 +10,8 @@
 //Format: /path/to/job/outfit/nameOfYourFaction.
 //Ok congrats, youre done.
 
-/datum/outfit/job/pilot/solgov
-	name = "Pilot (SolGov)"
+/datum/outfit/job/fighter_pilot/solgov
+	name = "Fighter Pilot (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/pilot
 	accessory = /obj/item/clothing/accessory/solgov_jacket
 

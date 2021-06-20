@@ -5,8 +5,8 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 //Define your teamchat keys here. Used to index each teamchat.
 #define TEAMCHAT_KEY_DEFAULT "Default Teamchat"
 #define TEAMCHAT_KEY_BLOODLING "Alien Hivemind"
-#define TEAMCHAT_KEY_ABLE "Able"
-#define TEAMCHAT_KEY_BAKER "Baker"
+#define TEAMCHAT_KEY_APPLES "Apples"
+#define TEAMCHAT_KEY_BUTTER "Butter"
 #define TEAMCHAT_KEY_CHARLIE "Charlie"
 #define TEAMCHAT_KEY_DUFF "Duff"
 
@@ -46,7 +46,6 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	var/list/sound_on_send = null //Play a sound when they're messaging this channel?
 	var/list/sound_on_receipt = null //Play a sound when a message is received by someone? (WARNING: MAY GET ANNOYING)
 	var/telepathic = TRUE //Should the user speak their message when they enter it? Or if youre mimicking radio, can it be heard "in your head" or over a comm.
-	var/text_span_style = "boldnotice"
 
 /datum/component/simple_teamchat/proc/get_user()
 	RETURN_TYPE(/mob/living)
@@ -110,8 +109,8 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 
 /datum/component/simple_teamchat/proc/style_message(atom/movable/sender, msg)
 	if(isatom(sender))
-		return "<span class='[text_span_style]'>([key]) [sender.compose_rank(sender)] [sender]: </span><span class='warning'>[msg]</span>"
-	return "<span class='[text_span_style]'>([key]) [sender]: </span><span class='warning'>[msg]</span>"
+		return "<span class='boldnotice'>([key]) [sender.compose_rank(sender)] [sender]: </span><span class='warning'>[msg]</span>"
+	return "<span class='boldnotice'>([key]) [sender]: </span><span class='warning'>[msg]</span>"
 
 //Overloadable method, see the radio dependent teamchat.
 /datum/component/simple_teamchat/proc/can_message()
@@ -184,34 +183,30 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	var/datum/squad/squad = null
 	dupe_mode = COMPONENT_DUPE_ALLOWED //For the global squad pager.
 
-/datum/component/simple_teamchat/radio_dependent/squad/Able
-	name = "Able Squad"
-	button_icon_state = "Able"
-	key = TEAMCHAT_KEY_ABLE
-	text_span_style = "ableradio"
+/datum/component/simple_teamchat/radio_dependent/squad/Apples
+	name = "Apples Squad"
+	button_icon_state = "Apples"
+	key = TEAMCHAT_KEY_APPLES
 
-/datum/component/simple_teamchat/radio_dependent/squad/Baker
-	name = "Baker Squad"
-	button_icon_state = "Baker"
-	key = TEAMCHAT_KEY_BAKER
-	text_span_style = "bakerradio"
+/datum/component/simple_teamchat/radio_dependent/squad/Butter
+	name = "Butter Squad"
+	button_icon_state = "Butter"
+	key = TEAMCHAT_KEY_BUTTER
 
 /datum/component/simple_teamchat/radio_dependent/squad/Charlie
 	name = "Charlie Squad"
 	button_icon_state = "Charlie"
 	key = TEAMCHAT_KEY_CHARLIE
-	text_span_style = "charlieradio"
 
 /datum/component/simple_teamchat/radio_dependent/squad/Duff
 	name = "Duff Squad"
 	button_icon_state = "Duff"
 	key = TEAMCHAT_KEY_DUFF
-	text_span_style = "duffradio"
 
 /datum/component/simple_teamchat/radio_dependent/squad/style_message(atom/movable/sender, msg)
 	if(isatom(sender))
-		return "<span class='[text_span_style]'><b>([key]) [sender.compose_rank(sender)][sender]</b> ([sender == squad?.leader ? "<b>SL</b>" : "Midshipman"]) says,  \"[msg]\"</span>"
-	return "<span class='[text_span_style]'><b>([key]) [sender] (Overwatch)</b>: [msg]</span>"
+		return "<span class='boldnotice'>([key]) [sender.compose_rank(sender)] [sender] ([sender == squad?.leader ? "SL" : "M"]): </span><span class='warning'>[msg]</span>"
+	return "<span class='boldnotice'>([key]) [sender] (Overwatch): </span><span class='warning'>[msg]</span>"
 
 //datum/component/simple_teamchat/radio_dependent/squad/style_message(atom/movable/sender, msg)
 	//return "<span style=\"color:[squad.colour]><b>([key]) [sender.compose_rank(sender)][sender == squad.leader ? " (SL) " : ""]:</b> <i>[msg]</i></span>"

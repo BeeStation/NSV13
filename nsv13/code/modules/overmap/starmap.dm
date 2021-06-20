@@ -71,9 +71,6 @@
 	var/list/data = list()
 	var/list/info = SSstar_system.ships[linked]
 	var/list/lines = list()
-	if(!info?.len)
-		return data
-
 	var/datum/star_system/current_system = info["current_system"]
 	SSstar_system.update_pos(linked)
 	if(linked.ftl_drive)

@@ -72,7 +72,7 @@
 		else
 			if(!OM.linked_areas.len)
 				OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
-				if(OM.linked_areas && OM.linked_areas.len)
+				if(OM.linked_areas.len)
 					goto foundareas
 				return FALSE
 			foundareas:

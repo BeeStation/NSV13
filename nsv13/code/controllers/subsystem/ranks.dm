@@ -1,7 +1,5 @@
-GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"))
-
 //For code/controllers/subsystem/job.dm
-/datum/controller/subsystem/job/proc/LoadRanks(rankfile="config/ranks/royal_navy.txt")
+/datum/controller/subsystem/job/proc/LoadRanks(rankfile="config/ranks/military.txt")
 	if (fexists("[rankfile]"))
 		var/rankstext = file2text("[rankfile]")
 
@@ -17,6 +15,7 @@ GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"
 				message_admins("No rank found for: [J.title]")
 				missed += J
 				J.display_rank = ""
+
 		if(missed.len == 0)
 			return
 		else if(missed.len < occupations.len)
@@ -29,66 +28,9 @@ GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"
 		else
 			message_admins("No rank information found.")
 
-/proc/check_outranks(atom/movable/us, atom/movable/them)
-	if (!CONFIG_GET(flag/show_ranks) || !GLOB.pecking_order?.len || them == us)
-		return
-	var/myRank = us.compose_rank(us)
-	var/myClout = 0
-	if(!myRank || myRank == "")
-		myClout = -100
-	var/theirClout = 0
-	var/theirRank = them.compose_rank(them)
-	if(!theirRank || theirRank == "")
-		theirClout = -100
-	theirRank = replacetext(theirRank, " ", "")
-	myRank = replacetext(myRank, " ", "")
-	//Unsupported ranks.
-	if(!(LAZYFIND(GLOB.pecking_order, myRank)) || !(LAZYFIND(GLOB.pecking_order, theirRank)))
-		return FALSE
-	for(var/I = 1; I <= GLOB.pecking_order.len; I++)
-		var/theRank = GLOB.pecking_order[I]
-		if(theRank == myRank)
-			myClout = I
-			continue
-		if(theRank == theirRank)
-			theirClout = I
-	//We live in a clout based society :(
-	if(myClout == theirClout)
-		return "<span class='notice'>You are the same rank as them.</span>"
-	if(myClout > theirClout)
-		return "<span class='boldnotice'>You outrank them as a [theirRank].</span>"
-	if(myClout < theirClout)
-		return "<span class='boldwarning'>They outrank you as a [myRank]</span>"
-	return "<span class='warning'>You've forgotten how ranks work.</span>"
-
-/**
-Checks two text ranks, see which one outranks the other. Used for squad rank assignment (to avoid accidental demotions)
-*/
-/proc/check_rank_pecking_order(myRank, theirRank)
-	if(!LAZYFIND(GLOB.pecking_order, myRank) || !LAZYFIND(GLOB.pecking_order, theirRank))
-		return FALSE
-	var/myClout = 0
-	var/theirClout = 0
-	for(var/I = 1; I <= GLOB.pecking_order.len; I++)
-		var/theRank = GLOB.pecking_order[I]
-		if(theRank == myRank)
-			myClout = I
-			continue
-		if(theRank == theirRank)
-			theirClout = I
-	return myClout > theirClout
-
-/mob/living/carbon/human/examine(mob/user)
-	. = ..()
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		var/outranks = check_outranks(src, H)
-		if(outranks)
-			. += outranks
-
 /datum/controller/subsystem/job/proc/select_substitute_rank()
 	//Try assistant first
-	var/datum/job/A = SSjob.GetJob("Midshipman")
+	var/datum/job/A = SSjob.GetJob("Assistant")
 	if(A && A.display_rank)
 		return A
 
@@ -109,19 +51,12 @@ Checks two text ranks, see which one outranks the other. Used for squad rank ass
 
 	var/job
 	var/rank = ""
-	//Otherwise if we're composing for someone else...
+
 	if (istype(speaker, /mob/living/carbon/human))
 		var/mob/living/carbon/human/speakerMob = speaker
-		//Squads can override our ranks to be beyond our station.
-		if(speakerMob.squad_rank)
-			rank = "[speakerMob.squad_rank] "
-		else
-			job = speakerMob.get_assignment("", "")
-	//Or it's radiocode jank shitcode.
+		job = speakerMob.get_assignment("", "")
 	else if (istype(speaker, /atom/movable/virtualspeaker))
 		var/atom/movable/virtualspeaker/VS = speaker
-		if(VS.squad_rank)
-			return "[VS.squad_rank] "
 		job = VS.GetJob()
 
 	if (job)

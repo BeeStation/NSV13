@@ -34,10 +34,6 @@
 		return
 	if(!cargo_holder)
 		return
-	//Nsv13 - No, just no :)
-	if(istype(target, /obj/structure/overmap) || istype(target, /obj/vehicle) || istype(target, /obj/mecha))
-		return
-
 	if(isobj(target))
 		var/obj/O = target
 		if(istype(O, /obj/machinery/door/firedoor))

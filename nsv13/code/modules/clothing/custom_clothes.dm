@@ -229,13 +229,6 @@
 	item_color = "pilot"
 	item_state = "bl_suit"
 
-/obj/item/clothing/under/ship/pilot/transport
-	name = "Pilot's transport jumpsuit"
-	desc = "A comfortable lightweight jumpsuit for non-combat positions."
-	icon_state = "transport_pilot"
-	item_color = "transport_pilot"
-	item_state = "transport_pilot"
-
 /obj/item/clothing/head/beret/ship/pilot
 	name = "pilot's beret"
 	desc = "In parts a fashion statement and a hard hat, this beret has been specially reinforced to protect its wearer against workplace accidents."
@@ -248,17 +241,6 @@
 	icon_state = "sun"
 	item_state = "sun"
 	dynamic_hair_suffix = ""
-
-/obj/item/clothing/head/helmet/transport_pilot
-	name = "Transport Pilot's Helmet"
-	desc = "A large helmet made for protecting the head and ears."
-	icon = 'nsv13/icons/obj/clothing/hats.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
-	icon_state = "transport_pilot"
-	item_color = null
-	flags_inv = HIDEEARS|HIDEHAIR
-	bang_protect = 1
-	armor = list("melee" = 20, "bullet" = 20, "laser" = 10,"energy" = 5, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50)
 
 /obj/item/clothing/head/helmet/space/hardsuit/syndi/peacekeeper //Ironic type path. We're inheriting the "dual mode" behaviour from the syndie hardsuit.
 	name = "SG-1 Mjolnir Helmet"

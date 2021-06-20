@@ -612,7 +612,7 @@
 "apN" = (
 /obj/machinery/door/airlock/ship{
 	name = "Air Traffic Control";
-	req_access_txt = "79"
+	req_access_txt = "69"
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
@@ -659,8 +659,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
 	},
-/obj/effect/turf_decal/stripes/full,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/ship,
 /area/nsv/hanger)
 "ary" = (
 /obj/structure/chair{
@@ -1702,7 +1701,7 @@
 	dir = 1;
 	name = "briefing room chair"
 	},
-/obj/effect/landmark/start/pilot,
+/obj/effect/landmark/start/fighter_pilot,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/carpet/blue,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
@@ -3413,24 +3412,36 @@
 /area/maintenance/nsv/deck1/port/aft)
 "bMr" = (
 /obj/structure/rack,
-/obj/item/ammo_box/magazine/m556,
-/obj/item/ammo_box/magazine/m556,
-/obj/item/ammo_box/magazine/m556,
-/obj/item/ammo_box/magazine/m556,
-/obj/item/ammo_box/magazine/m556,
-/obj/item/ammo_box/magazine/m556,
-/obj/item/ammo_box/magazine/m556,
-/obj/item/ammo_box/magazine/m556,
-/obj/item/ammo_box/magazine/m556,
-/obj/item/ammo_box/magazine/m556,
-/obj/item/ammo_box/magazine/smgm9mm,
-/obj/item/ammo_box/magazine/smgm9mm,
-/obj/item/ammo_box/magazine/smgm9mm,
-/obj/item/ammo_box/magazine/smgm9mm,
-/obj/item/ammo_box/magazine/smgm9mm,
-/obj/item/ammo_box/magazine/smgm9mm,
-/obj/item/ammo_box/magazine/smgm9mm,
-/obj/item/ammo_box/magazine/smgm9mm,
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/peacekeeper/lethal,
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/ammo_box/magazine/peacekeeper{
+	pixel_x = 3;
+	pixel_y = 3
+	},
 /turf/open/floor/plasteel/grid/steel,
 /area/ai_monitored/security/armory)
 "bMI" = (
@@ -3712,6 +3723,9 @@
 /turf/open/floor/monotile/light,
 /area/science/mixing)
 "bTF" = (
+/obj/machinery/light{
+	dir = 8
+	},
 /obj/structure/rack,
 /obj/item/storage/toolbox/mechanical{
 	pixel_x = 4;
@@ -3726,7 +3740,6 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/machinery/firealarm/directional/west,
 /obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
@@ -4329,7 +4342,6 @@
 	dir = 1
 	},
 /obj/machinery/airalarm/directional/south,
-/obj/structure/closet/secure_closet/transport_pilot,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "ciB" = (
@@ -5824,7 +5836,6 @@
 	dir = 8
 	},
 /obj/machinery/computer/ship/viewscreen,
-/obj/machinery/computer/iff_console,
 /turf/open/floor/monotile/steel,
 /area/security/nuke_storage)
 "cTJ" = (
@@ -6570,10 +6581,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/aft)
 "djM" = (
-/obj/effect/turf_decal/box/red/corners{
-	dir = 1
-	},
-/obj/effect/turf_decal/stripes/full,
+/obj/structure/fighter_frame/heavy,
 /turf/open/floor/plating,
 /area/nsv/hanger)
 "djN" = (
@@ -6723,7 +6731,7 @@
 "doN" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
 	name = "Hangar Bay Atmospherics Substation";
-	req_one_access_txt = "24;79"
+	req_one_access_txt = "24;69"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -7408,10 +7416,13 @@
 /turf/open/floor/monotile/dark,
 /area/science/research)
 "dGz" = (
+/obj/effect/turf_decal/box/red/corners{
+	dir = 8
+	},
 /obj/machinery/light{
 	dir = 8
 	},
-/turf/open/floor/plasteel/ship,
+/turf/open/floor/plating,
 /area/nsv/hanger)
 "dGG" = (
 /obj/structure/table,
@@ -7534,8 +7545,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
 	},
-/obj/effect/turf_decal/stripes/full,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/ship,
 /area/nsv/hanger)
 "dKW" = (
 /obj/effect/turf_decal/tile/yellow{
@@ -7834,7 +7844,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/effect/landmark/start/pilot,
+/obj/effect/landmark/start/fighter_pilot,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
@@ -9421,7 +9431,7 @@
 	},
 /obj/machinery/door/airlock/ship/hatch{
 	name = "Hangar Bay";
-	req_one_access_txt = "79"
+	req_access_txt = "69"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -10401,6 +10411,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/science/research)
+"fah" = (
+/obj/effect/turf_decal/box/red/corners{
+	dir = 1
+	},
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/plating,
+/area/nsv/hanger)
 "faq" = (
 /obj/machinery/computer/ship/tactical{
 	dir = 8
@@ -10459,6 +10476,16 @@
 "fbo" = (
 /turf/closed/wall/ship,
 /area/vacant_room/commissary)
+"fbr" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	frequency = 1449;
+	id_tag = "hangar_airlock_exterior_left";
+	name = "Launch Platform Airlock #1";
+	req_one_access_txt = "69"
+	},
+/obj/effect/mapping_helpers/airlock/locked,
+/turf/open/floor/pod/dark,
+/area/nsv/hanger/notkmcstupidhanger/launchtube/left/airlock)
 "fbu" = (
 /obj/structure/table,
 /obj/item/book/manual/wiki/plumbing,
@@ -10747,19 +10774,17 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/fore)
 "fhB" = (
+/obj/structure/guncase/shotgun{
+	gun_category = /obj/item/gun/ballistic/shotgun/riot;
+	name = "riot shotgun locker"
+	},
+/obj/item/gun/ballistic/shotgun/riot,
+/obj/item/gun/ballistic/shotgun/riot,
+/obj/item/gun/ballistic/shotgun/riot,
+/obj/item/gun/ballistic/shotgun/riot,
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
-	},
-/obj/item/gun/ballistic/automatic/mp_smg,
-/obj/item/gun/ballistic/automatic/mp_smg,
-/obj/item/gun/ballistic/automatic/mp_smg,
-/obj/item/gun/ballistic/automatic/mp_smg,
-/obj/item/gun/ballistic/automatic/mp_smg,
-/obj/item/gun/ballistic/automatic/mp_smg,
-/obj/structure/guncase{
-	capacity = 12;
-	name = "military police weapons"
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
@@ -11804,8 +11829,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
 	},
-/obj/effect/turf_decal/stripes/full,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/ship,
 /area/nsv/hanger)
 "fHd" = (
 /obj/machinery/airalarm/directional/south,
@@ -11974,10 +11998,20 @@
 /turf/open/floor/monotile/dark,
 /area/science/research)
 "fLL" = (
+/obj/structure/rack,
+/obj/item/storage/toolbox/mechanical{
+	pixel_x = 4;
+	pixel_y = 8
+	},
+/obj/item/airlock_painter,
+/obj/item/storage/belt/utility,
+/obj/item/clothing/head/welding{
+	pixel_x = -3;
+	pixel_y = 5
+	},
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/structure/tank_dispenser/oxygen,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "fLM" = (
@@ -12349,12 +12383,9 @@
 "fVJ" = (
 /obj/machinery/button/door{
 	id = "fighterstorage";
-	name = "Dropship Hangar";
+	name = "Fighter storage";
 	pixel_x = -28;
 	pixel_y = -24
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger)
@@ -12411,7 +12442,7 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/glass{
-	req_one_access_txt = "72, 73"
+	req_access_txt = "69"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
@@ -12759,7 +12790,7 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/ai_upload)
 "ggC" = (
-/obj/structure/overmap/fighter/dropship/sabre{
+/obj/structure/overmap/fighter/utility/prebuilt/carrier{
 	angle = 270
 	},
 /turf/open/floor/monotile/dark/airless,
@@ -13000,7 +13031,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/computer/ship/salvage{
+/obj/machinery/computer/crew{
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -13776,15 +13807,10 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/nsv/officerquarters)
 "gHb" = (
-/obj/effect/mapping_helpers/airlock/locked,
-/obj/machinery/door/airlock/ship/external/glass{
-	frequency = 1449;
-	id_tag = "hangar_airlock_interior_right";
-	name = "Launch Platform Airlock #2";
-	req_one_access_txt = "79"
-	},
+/obj/structure/lattice/catwalk/over/ship,
+/obj/effect/landmark/start/flight_leader,
 /turf/open/floor/plating,
-/area/nsv/hanger/notkmcstupidhanger/launchtube/right/airlock)
+/area/nsv/hanger/notkmcstupidhanger/pilot)
 "gHG" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
@@ -14047,7 +14073,7 @@
 /turf/open/floor/wood,
 /area/security/detectives_office)
 "gNY" = (
-/obj/structure/closet/secure_closet/combat_pilot,
+/obj/structure/closet/secure_closet/fighter_pilot,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
@@ -14297,7 +14323,7 @@
 "gVj" = (
 /obj/machinery/door/airlock/vault/ship{
 	name = "Hangar Storage";
-	req_one_access_txt = "71"
+	req_one_access_txt = "72"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -15113,14 +15139,14 @@
 	icon_state = "1-2"
 	},
 /obj/effect/mapping_helpers/airlock/locked,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/airlock/ship/external/glass{
 	frequency = 1449;
 	id_tag = "hangar_airlock_interior_left";
 	name = "Launch Platform Airlock #1";
-	req_one_access_txt = "79"
+	req_one_access_txt = "69"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/left/airlock)
 "hlS" = (
@@ -15760,7 +15786,7 @@
 "hzY" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Maintenance Access Fighter Storage";
-	req_one_access_txt = "79"
+	req_one_access_txt = "69"
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
@@ -16225,10 +16251,6 @@
 /obj/item/gun/ballistic/shotgun/riot,
 /obj/item/gun/ballistic/shotgun/riot,
 /obj/effect/turf_decal/tile/neutral,
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "hNR" = (
@@ -17011,7 +17033,7 @@
 	frequency = 1449;
 	id_tag = "hangar_airlock_interior_right";
 	name = "Launch Platform Airlock #2";
-	req_one_access_txt = "79"
+	req_one_access_txt = "69"
 	},
 /obj/effect/mapping_helpers/airlock/locked,
 /turf/open/floor/plating,
@@ -17177,7 +17199,7 @@
 "ijF" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Launch Platform Access";
-	req_one_access_txt = "79"
+	req_one_access_txt = "69"
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger)
@@ -18797,7 +18819,7 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/briefingroom)
 "iWR" = (
-/obj/structure/closet/secure_closet/combat_pilot,
+/obj/structure/closet/secure_closet/fighter_pilot,
 /obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
@@ -18850,7 +18872,7 @@
 /turf/open/floor/monotile/light,
 /area/medical/storage)
 "iYt" = (
-/obj/effect/landmark/start/pilot,
+/obj/effect/landmark/start/fighter_pilot,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
@@ -19497,7 +19519,7 @@
 "jnZ" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Maintenance Access Hangar Bay";
-	req_one_access_txt = "79"
+	req_one_access_txt = "69"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -20370,7 +20392,7 @@
 "jKh" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Maintenance Access Hangar Bay";
-	req_one_access_txt = "79"
+	req_one_access_txt = "69"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
@@ -21386,7 +21408,7 @@
 "kmH" = (
 /obj/machinery/door/airlock/ship{
 	name = "Pilot Briefing";
-	req_access_txt = "79"
+	req_access_txt = "69"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -22186,7 +22208,7 @@
 	frequency = 1449;
 	id_tag = "hangar_airlock_exterior_left";
 	name = "Launch Platform Airlock #1";
-	req_one_access_txt = "79"
+	req_one_access_txt = "69"
 	},
 /turf/open/floor/pod/dark,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/left/airlock)
@@ -25200,7 +25222,7 @@
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 8
 	},
-/obj/structure/overmap/fighter/dropship/sabre,
+/obj/structure/overmap/fighter/utility/prebuilt/carrier,
 /turf/open/floor/plating,
 /area/nsv/hanger)
 "meH" = (
@@ -29788,8 +29810,6 @@
 /obj/item/storage/box/rubbershot,
 /obj/item/storage/box/rubbershot,
 /obj/item/storage/box/rubbershot,
-/obj/item/ammo_box/c9mm,
-/obj/item/ammo_box/c9mm,
 /turf/open/floor/plasteel/grid/steel,
 /area/ai_monitored/security/armory)
 "ono" = (
@@ -30189,7 +30209,7 @@
 "oxP" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Maintenance Access Pilot Lounge";
-	req_one_access_txt = "79"
+	req_one_access_txt = "69"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
@@ -31218,10 +31238,13 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/ordnance)
 "oUn" = (
+/obj/effect/turf_decal/box/red/corners{
+	dir = 1
+	},
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
-/turf/open/floor/plasteel/ship,
+/turf/open/floor/plating,
 /area/nsv/hanger)
 "oUo" = (
 /obj/machinery/rnd/server,
@@ -31923,7 +31946,7 @@
 /area/hallway/nsv/deck1/frame1/central)
 "pjd" = (
 /obj/structure/table,
-/obj/item/storage/box/damage_control,
+/obj/item/storage/box/squad_kit/dc,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
@@ -32054,14 +32077,14 @@
 /turf/open/floor/monotile/light,
 /area/medical/surgery)
 "pkS" = (
+/obj/machinery/door/airlock/glass_large/ship{
+	name = "Spares Bay";
+	req_one_access_txt = "69"
+	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
 	},
 /obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/airlock/vault/ship{
-	name = "Spares Bay";
-	req_one_access_txt = "71"
-	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/hanger)
 "plr" = (
@@ -32854,6 +32877,9 @@
 /turf/open/floor/monotile/steel,
 /area/science/storage)
 "pFp" = (
+/obj/effect/turf_decal/box/red/corners{
+	dir = 4
+	},
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plating,
 /area/nsv/hanger)
@@ -33647,16 +33673,6 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
-"qcq" = (
-/obj/effect/mapping_helpers/airlock/locked,
-/obj/machinery/door/airlock/ship/external/glass{
-	frequency = 1449;
-	id_tag = "hangar_airlock_exterior_right";
-	name = "Launch Platform Airlock #2";
-	req_one_access_txt = "79"
-	},
-/turf/open/floor/pod/dark,
-/area/nsv/hanger/notkmcstupidhanger/launchtube/right/airlock)
 "qcA" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/ship/preopen{
@@ -34592,10 +34608,6 @@
 "qAa" = (
 /turf/open/floor/monotile/steel,
 /area/ai_monitored/security/armory)
-"qAh" = (
-/obj/structure/overmap/fighter/dropship/starter,
-/turf/open/floor/plating,
-/area/nsv/hanger)
 "qAl" = (
 /obj/machinery/atmospherics/components/unary/portables_connector{
 	dir = 1
@@ -35071,7 +35083,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/turf/open/floor/plasteel/ship,
+/turf/open/floor/plating,
 /area/nsv/hanger)
 "qKi" = (
 /obj/structure/cable{
@@ -35242,7 +35254,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
-/obj/structure/closet/secure_closet/combat_pilot,
+/obj/structure/closet/secure_closet/fighter_pilot,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "qND" = (
@@ -36731,7 +36743,7 @@
 	dir = 1;
 	name = "briefing room chair"
 	},
-/obj/effect/landmark/start/pilot,
+/obj/effect/landmark/start/fighter_pilot,
 /turf/open/floor/carpet/blue,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "rCZ" = (
@@ -36812,8 +36824,7 @@
 "rEw" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/effect/turf_decal/stripes/full,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/ship,
 /area/nsv/hanger)
 "rEH" = (
 /obj/structure/closet,
@@ -36834,8 +36845,10 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/central)
 "rFq" = (
+/obj/effect/turf_decal/box/red/corners{
+	dir = 8
+	},
 /obj/effect/decal/cleanable/oil,
-/obj/effect/turf_decal/stripes/full,
 /turf/open/floor/plating,
 /area/nsv/hanger)
 "rFX" = (
@@ -36861,15 +36874,12 @@
 /turf/open/floor/noslip/dark,
 /area/maintenance/department/bridge)
 "rGV" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
+/obj/effect/turf_decal/stripes/red/line{
+	dir = 8
 	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/structure/closet/secure_closet/transport_pilot,
-/turf/open/floor/monotile/steel,
-/area/nsv/hanger/notkmcstupidhanger/pilot)
+/obj/structure/overmap/fighter/light/flight_leader,
+/turf/open/floor/plating,
+/area/nsv/hanger)
 "rHb" = (
 /obj/machinery/light{
 	dir = 8
@@ -37323,10 +37333,6 @@
 	pixel_x = -25;
 	pixel_y = -6
 	},
-/obj/machinery/computer/boarding_guns{
-	dir = 4
-	},
-/obj/item/storage/box/boardingpins,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/hos)
 "rXh" = (
@@ -39457,7 +39463,7 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/glass{
-	req_one_access_txt = "72,73"
+	req_access_txt = "69"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
@@ -39813,7 +39819,7 @@
 	frequency = 1449;
 	id_tag = "hangar_airlock_exterior_right";
 	name = "Launch Platform Airlock #2";
-	req_one_access_txt = "79"
+	req_one_access_txt = "69"
 	},
 /obj/effect/mapping_helpers/airlock/locked,
 /turf/open/floor/pod/dark,
@@ -40004,7 +40010,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 6
 	},
-/obj/structure/closet/secure_closet/lethalshots,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "tei" = (
@@ -40587,7 +40592,7 @@
 /area/hallway/nsv/deck1/frame1/central)
 "txD" = (
 /obj/machinery/firealarm/directional/west,
-/turf/open/floor/plasteel/ship,
+/turf/open/floor/plating,
 /area/nsv/hanger)
 "txJ" = (
 /obj/machinery/nanite_programmer,
@@ -42154,7 +42159,7 @@
 "upj" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Launch Platform Access";
-	req_one_access_txt = "79"
+	req_one_access_txt = "69"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -42923,7 +42928,7 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/glass{
-	req_one_access_txt = "72, 73"
+	req_access_txt = "69"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
@@ -43909,7 +43914,7 @@
 "vcD" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
 	name = "Hangar Bay Atmospherics Substation";
-	req_one_access_txt = "79"
+	req_one_access_txt = "69"
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
@@ -44370,9 +44375,6 @@
 /area/hallway/secondary/command)
 "vmp" = (
 /obj/effect/decal/cleanable/oil,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
 /turf/open/floor/plating,
 /area/nsv/hanger)
 "vmU" = (
@@ -44698,7 +44700,7 @@
 "vvz" = (
 /obj/machinery/door/airlock/ship{
 	name = "Pilot Briefing";
-	req_access_txt = "79"
+	req_access_txt = "69"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -44736,7 +44738,7 @@
 	frequency = 1449;
 	id_tag = "hangar_airlock_interior_left";
 	name = "Launch Platform Airlock #1";
-	req_one_access_txt = "79"
+	req_one_access_txt = "69"
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/left/airlock)
@@ -45574,10 +45576,6 @@
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/door/airlock/vault/ship{
-	name = "Spares Bay";
-	req_one_access_txt = "71"
-	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/hanger)
 "vTg" = (
@@ -45767,24 +45765,11 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/aft)
 "vXo" = (
+/obj/structure/closet/secure_closet/lethalshots,
 /obj/machinery/airalarm/directional/north,
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
-	},
-/obj/item/gun/ballistic/automatic/marine_rifle,
-/obj/item/gun/ballistic/automatic/marine_rifle,
-/obj/item/gun/ballistic/automatic/marine_rifle,
-/obj/item/gun/ballistic/automatic/marine_rifle,
-/obj/item/gun/ballistic/automatic/marine_rifle,
-/obj/item/gun/ballistic/automatic/marine_rifle,
-/obj/item/gun/ballistic/automatic/marine_rifle,
-/obj/item/gun/ballistic/automatic/marine_rifle,
-/obj/item/gun/ballistic/automatic/marine_rifle,
-/obj/item/gun/ballistic/automatic/marine_rifle,
-/obj/structure/guncase{
-	capacity = 12;
-	name = "assault weapons"
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
@@ -46674,7 +46659,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
-/obj/structure/closet/secure_closet/combat_pilot,
+/obj/structure/closet/secure_closet/fighter_pilot,
 /obj/machinery/camera/autoname,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
@@ -47220,15 +47205,15 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/effect/mapping_helpers/airlock/locked,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/door/airlock/ship/external/glass{
 	frequency = 1449;
 	id_tag = "hangar_airlock_interior_right";
 	name = "Launch Platform Airlock #2";
-	req_one_access_txt = "79"
+	req_one_access_txt = "69"
 	},
+/obj/effect/mapping_helpers/airlock/locked,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/right/airlock)
 "wGX" = (
@@ -48332,7 +48317,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
-/obj/structure/closet/secure_closet/transport_pilot,
+/obj/structure/tank_dispenser/oxygen,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "xiA" = (
@@ -49057,7 +49042,7 @@
 "xCd" = (
 /obj/machinery/button/door{
 	id = "fighterstorage";
-	name = "Dropship Hangar";
+	name = "Fighter storage";
 	pixel_x = -28;
 	pixel_y = 24
 	},
@@ -49747,7 +49732,7 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/glass{
-	req_one_access_txt = "72,73"
+	req_access_txt = "69"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
@@ -50197,7 +50182,7 @@
 /area/maintenance/nsv/weapons)
 "ydg" = (
 /obj/machinery/airalarm/directional/north,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/ship,
 /area/nsv/hanger)
 "ydL" = (
 /obj/structure/bodycontainer/morgue{
@@ -50496,24 +50481,12 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/aft)
 "ykL" = (
-/obj/machinery/light{
-	dir = 8
-	},
-/obj/structure/rack,
-/obj/item/storage/toolbox/mechanical{
-	pixel_x = 4;
-	pixel_y = 8
-	},
-/obj/item/airlock_painter,
-/obj/item/storage/belt/utility,
-/obj/item/clothing/head/welding{
-	pixel_x = -3;
-	pixel_y = 5
-	},
+/obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/neutral,
+/obj/machinery/firealarm/directional/west,
+/obj/structure/closet/secure_closet/flight_leader,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "ykO" = (
@@ -69234,7 +69207,7 @@ pJj
 hiN
 iZQ
 hBP
-rGV
+rEp
 pJj
 rLN
 dRc
@@ -70513,7 +70486,7 @@ rHb
 xJu
 vqx
 efk
-hsR
+gHb
 ixx
 tKa
 cbL
@@ -73839,13 +73812,13 @@ vCF
 myT
 mxN
 xMZ
-doL
+pOy
 txD
 dGz
 bAA
 oUn
-doL
-doL
+bBA
+iMB
 xMZ
 wuV
 uJn
@@ -74096,11 +74069,11 @@ eCT
 myT
 juY
 hzY
-xxN
-xxN
-xxN
-xxN
-xxN
+bBA
+bBA
+bBA
+doL
+bBA
 vmp
 fVJ
 pVY
@@ -74354,12 +74327,12 @@ eyp
 cog
 xMZ
 pFp
-cMU
-cMU
+bBA
+iBn
 arw
-cMU
-cMU
-qAh
+ljn
+bBA
+iBn
 pVY
 lFL
 xxN
@@ -74611,12 +74584,12 @@ myT
 cog
 xMZ
 ydg
-cMU
-cMU
+doL
+doL
 dKA
 rEw
 rEw
-cgU
+rEw
 xdP
 enL
 cgU
@@ -74867,13 +74840,13 @@ myT
 myT
 asI
 xMZ
-pFp
-cMU
+fah
+bBA
 rFq
 fGK
-djM
-cMU
+pOy
 bBA
+iMB
 pVY
 pbc
 pWl
@@ -75124,13 +75097,13 @@ pYN
 ghb
 cog
 xMZ
-pWl
-pWl
-pWl
-pWl
-pWl
-pWl
-pWl
+bBA
+djM
+bBA
+doL
+bBA
+bBA
+bBA
 pVY
 wuV
 pKJ
@@ -75381,18 +75354,18 @@ mhs
 ghb
 cog
 xMZ
-doL
-doL
-doL
+ljn
+bBA
+iBn
 eMx
-doL
+ljn
 qJU
-doL
+iBn
 xMZ
 euV
 hVJ
 qDv
-qDv
+rGV
 gzS
 jwB
 mLV
@@ -76175,7 +76148,7 @@ hlK
 rRT
 qYa
 wFC
-kHv
+fbr
 wIB
 nBB
 wcI
@@ -79259,7 +79232,7 @@ wGB
 fFy
 xMR
 rIO
-qcq
+taZ
 wIB
 eDL
 wcI
@@ -79512,11 +79485,11 @@ pWl
 pWl
 nyl
 pWl
-gHb
+igi
 uZt
 jyf
 blC
-qcq
+taZ
 wIB
 eDL
 wcI

@@ -42,6 +42,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 //if your savefile is 3 months out of date, then 'tough shit'.
 
 /datum/preferences/proc/update_preferences(current_version, savefile/S)
+	if(current_version < 30)
+		preferred_squad = "Apples Squad"
 	if(current_version < 31)
 		outline_enabled = TRUE
 		outline_color = COLOR_BLUE_GRAY
@@ -69,11 +71,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		see_chat_non_mob = TRUE
 		see_rc_emotes = TRUE
 		S.dir.Remove("overhead_chat")
-	if(current_version < 32)
-		squad_specialisation = "Midshipman"
-		preferred_pilot_role = PILOT_COMBAT
-
-
 	return
 
 /datum/preferences/proc/update_character(current_version, savefile/S)
@@ -188,9 +185,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	READ_FILE(S["crew_objectives"], crew_objectives)
 
 	//Nsv13 squads - we CM now
-	READ_FILE(S["squad_specialisation"], squad_specialisation)
+	READ_FILE(S["preferred_squad"], preferred_squad)
+	READ_FILE(S["be_leader"], be_leader)
 	READ_FILE(S["preferred_syndie_role"], preferred_syndie_role)
-	READ_FILE(S["preferred_pilot_role"], preferred_pilot_role)
 
 	READ_FILE(S["default_slot"], default_slot)
 	READ_FILE(S["chat_toggles"], chat_toggles)
@@ -325,9 +322,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["purchased_gear"], purchased_gear)
 	WRITE_FILE(S["equipped_gear"], equipped_gear)
 	//Nsv13 squads - we CM now
-	WRITE_FILE(S["squad_specialisation"], squad_specialisation)
+	WRITE_FILE(S["preferred_squad"], preferred_squad)
+	WRITE_FILE(S["be_leader"], be_leader)
 	WRITE_FILE(S["preferred_syndie_role"], preferred_syndie_role)
-	WRITE_FILE(S["preferred_pilot_role"], preferred_pilot_role)
 
 	if (!key_bindings)
 		key_bindings = deepCopyList(GLOB.keybinding_list_by_key)

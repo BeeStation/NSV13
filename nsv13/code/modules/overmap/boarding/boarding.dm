@@ -116,7 +116,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	. = locate(startx, starty, Z)
 
 /obj/structure/overmap/proc/spawn_boarders(amount, faction_selection)
-	if(!occupying_levels?.len)
+	if(!linked_areas.len)
 		return FALSE
 	if(!amount)
 		amount = rand(2,4)

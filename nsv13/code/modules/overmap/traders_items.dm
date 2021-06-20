@@ -176,7 +176,7 @@
 	desc = "A pre-assembled utility craft, capable of restocking and repairing other fighters."
 	price = 9000
 	stock = 5
-	unlock_path = /obj/structure/overmap/fighter/dropship/sabre
+	unlock_path = /obj/structure/overmap/fighter/utility
 
 /datum/trader_item/fighter/heavy
 	name = "Heavy Fighter"

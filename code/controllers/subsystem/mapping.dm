@@ -20,7 +20,6 @@ SUBSYSTEM_DEF(mapping)
 	var/list/shuttle_templates = list()
 	var/list/shelter_templates = list()
 	var/list/random_room_templates = list()
-	var/list/boarding_templates = list() //NSV13 - boarding maps
 
 	var/list/areas_in_z = list()
 
@@ -165,7 +164,6 @@ SUBSYSTEM_DEF(mapping)
 	shuttle_templates = SSmapping.shuttle_templates
 	random_room_templates = SSmapping.random_room_templates
 	shelter_templates = SSmapping.shelter_templates
-	boarding_templates = SSmapping.boarding_templates //NSV13 - boarding maps
 	unused_turfs = SSmapping.unused_turfs
 	turf_reservations = SSmapping.turf_reservations
 	used_turfs = SSmapping.used_turfs
@@ -356,7 +354,6 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 	preloadRuinTemplates()
 	preloadShuttleTemplates()
 	preloadShelterTemplates()
-	preloadBoardingTemplates() //NSV13 - boarding maps
 	preloadRandomRoomTemplates()
 
 /datum/controller/subsystem/mapping/proc/preloadRandomRoomTemplates()
@@ -418,16 +415,6 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 
 		shelter_templates[S.shelter_id] = S
 		map_templates[S.shelter_id] = S
-
-/datum/controller/subsystem/mapping/proc/preloadBoardingTemplates() //NSV13 - boarding maps
-	for(var/item in subtypesof(/datum/map_template/dropship))
-		var/datum/map_template/dropship/dropship_type = item
-		if(!(initial(dropship_type.mappath)))
-			continue
-		var/datum/map_template/dropship/D = new dropship_type()
-
-		boarding_templates[item] = D
-		map_templates[item] = D
 
 //Manual loading of away missions.
 /client/proc/admin_away()

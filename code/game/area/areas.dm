@@ -567,23 +567,10 @@ GLOBAL_LIST_EMPTY(teleportlocs)
   *
   * If the area has ambience, then it plays some ambience music to the ambience channel
   */
-/area/Entered(atom/movable/A)
+/area/Entered(atom/movable/M)
 	set waitfor = FALSE
-	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, A)
-	SEND_SIGNAL(A, COMSIG_ENTER_AREA, src) //The atom that enters the area
-
-	var/mob/M = A
-	var/obj/structure/linked_overmap = M.get_overmap()
-	if(linked_overmap && istype(M))
-		var/progress = linked_overmap.obj_integrity
-		var/goal = linked_overmap.max_integrity
-		progress = CLAMP(progress, 0, goal)
-		progress = round(((progress / goal) * 100), 50)//If the ship goes below 50% health, we start creaking like mad.
-		if((progress <= 50) && (M.client?.prefs.toggles & SOUND_AMBIENCE) && M.can_hear_ambience())
-			var/list/creaks = list('nsv13/sound/ambience/ship_damage/creak1.ogg','nsv13/sound/ambience/ship_damage/creak2.ogg','nsv13/sound/ambience/ship_damage/creak3.ogg','nsv13/sound/ambience/ship_damage/creak4.ogg','nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg','nsv13/sound/ambience/ship_damage/creak7.ogg')
-			var/creak = pick(creaks)
-			SEND_SOUND(M, sound(creak, repeat = 0, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))
-			return
+	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, M)
+	SEND_SIGNAL(M, COMSIG_ENTER_AREA, src) //The atom that enters the area
 
 /**
   * Called when an atom exits an area

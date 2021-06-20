@@ -4,7 +4,7 @@
 	report_type = "heresy"
 	antag_flag = ROLE_HERETIC
 	false_report_weight = 5
-	protected_jobs = list("Military Police", "Warden", "Detective", "Head of Security", "Captain") //Nsv13 - Crayon eaters & MPs
+	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain")
 	restricted_jobs = list("AI", "Cyborg")
 	required_players = 0
 	required_enemies = 1
@@ -29,7 +29,7 @@
 		restricted_jobs += protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		restricted_jobs += "Assistant"
 
 	if(CONFIG_GET(flag/protect_heads_from_antagonist))
 		restricted_jobs += GLOB.command_positions

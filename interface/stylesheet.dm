@@ -55,10 +55,6 @@ em						{font-style: normal;	font-weight: bold;}
 .redteamradio           {color: #ff0000;}
 .blueteamradio          {color: #0000ff;}
 .muniradio				{color: #ff7f00;}
-.ableradio				{color: #e61919;}
-.bakerradio				{color: #4148c8;}
-.charlieradio			{color: #ffc32d;}
-.duffradio				{color: #c864c8;}
 .pirateradio			{color: #8f3aff;}
 
 .yell					{					font-weight: bold;}

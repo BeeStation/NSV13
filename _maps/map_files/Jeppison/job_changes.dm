@@ -1,4 +1,4 @@
-/datum/job/pilot/New()
+/datum/job/fighter_pilot/New()
 	..()
 	MAP_JOB_CHECK
 	total_positions = 2
@@ -9,5 +9,5 @@
 	MAP_JOB_CHECK
 	total_positions = 2
 	spawn_positions = 2
-
+  
 #undef JOB_MODIFICATION_MAP_NAME

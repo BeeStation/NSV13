@@ -31,10 +31,9 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 	//if set to 0: Not able to close "original" positions. You can only close positions that you have opened before
 	var/change_position_cooldown = 30
 	//Jobs you cannot open new positions for
-	 //Nsv13 - Crayon eaters
 	var/list/blacklisted = list(
 		"AI",
-		"Midshipman",
+		"Assistant",
 		"Cyborg",
 		"Captain",
 		"Head of Personnel",
@@ -498,7 +497,7 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 					modify.assignment = t1
 					playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, 0)
 		if ("demote")
-			if(modify.assignment in head_subordinates || modify.assignment == "Midshipman")
+			if(modify.assignment in head_subordinates || modify.assignment == "Assistant")
 				modify.assignment = "Unassigned"
 				log_id("[key_name(usr)] demoted [modify], unassigning the card without affecting access, using [scan] at [AREACOORD(usr)].")
 				playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, 0)

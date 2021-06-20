@@ -1,7 +1,5 @@
- //Nsv13 - Deprecated, see "military_police.dm"
-
 /datum/job/officer
-	title = "Military Police"
+	title = "Security Officer"
 	flag = OFFICER
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
 	department_head = list("Head of Security")
@@ -114,7 +112,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
 
 /datum/outfit/job/security
-	name = "Military Police"
+	name = "Security Officer"
 	jobtype = /datum/job/officer
 
 	belt = /obj/item/storage/belt/security/full

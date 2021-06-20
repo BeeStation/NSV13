@@ -6,7 +6,7 @@
 	name = "incursion"
 	config_tag = "incursion"
 	restricted_jobs = list("AI", "Cyborg")
-	protected_jobs = list("Military Police", "Warden", "Detective","Captain", "Executive Officer", "Head of Security", "Chief Engineer", "Research Director", "Chief Medical Officer", "Master At Arms") //NSV13 - renamed HoP to XO, added MAA  //Nsv13 - Crayon eaters & MPs
+	protected_jobs = list("Security Officer", "Warden", "Detective","Captain", "Executive Officer", "Head of Security", "Chief Engineer", "Research Director", "Chief Medical Officer", "Master At Arms") //NSV13 - renamed HoP to XO, added MAA
 	antag_flag = ROLE_INCURSION
 	false_report_weight = 10
 	enemy_minimum_age = 0
@@ -28,7 +28,7 @@
 	if(CONFIG_GET(flag/protect_roles_from_antagonist))
 		restricted_jobs += protected_jobs
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		restricted_jobs += "Assistant"
 
 	var/list/datum/mind/possible_traitors = get_players_for_role(ROLE_INCURSION)
 

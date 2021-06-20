@@ -189,7 +189,6 @@ GLOBAL_LIST_INIT(freqtospan, list(
 //VIRTUALSPEAKERS
 /atom/movable/virtualspeaker
 	var/job
-	var/squad_rank
 	var/atom/movable/source
 	var/obj/item/radio/radio
 
@@ -209,8 +208,6 @@ INITIALIZE_IMMEDIATE(/atom/movable/virtualspeaker)
 	if(ishuman(M))
 		// Humans use their job as seen on the crew manifest. This is so the AI
 		// can know their job even if they don't carry an ID.
-		var/mob/living/carbon/human/H = M
-		squad_rank = H.squad_rank
 		var/datum/data/record/findjob = find_record("name", name, GLOB.data_core.general)
 		if(findjob)
 			job = findjob.fields["rank"]

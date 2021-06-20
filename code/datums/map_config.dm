@@ -14,10 +14,10 @@
 	var/votable = FALSE
 
 	// Config actually from the JSON - should default to Hammerhead //NSV EDITS
-	var/map_name = "NSV Atlas - DEFAULTED"
+	var/map_name = "NSV Gladius - DEFAULTED"
 	var/map_link = null //This is intentionally wrong, this will make it not link to webmap.
-	var/map_path = "map_files/Atlas"
-	var/map_file = list("atlas.dmm", "atlas2.dmm")
+	var/map_path = "map_files/Gladius"
+	var/map_file = list("Gladius2.dmm", "Gladius1.dmm")
 	var/ship_type = /obj/structure/overmap/nanotrasen/battlecruiser/starter
 	var/mining_ship_type = /obj/structure/overmap/nanotrasen/mining_cruiser/rocinante
 	var/mine_disable = FALSE //NSV13 - Allow disabling of mineship loading.
@@ -30,12 +30,12 @@
 	var/traits = list(
 		list(
 			"Up" = 1,
-			"Linkage" = "Self",
+			"Linkage" = "Cross",
 			"Station" = 1,
 			"Boardable Ship" = 1),
 		list(
 			"Down" = -1,
-			"Linkage" = "Self",
+			"Linkage" = "Cross",
 			"Station" = 1,
 			"Boardable Ship" = 1)
 		)

@@ -1,3 +1,41 @@
+/obj/structure/overmap
+	var/list/interior_maps = list() //Set this for AI ships. This allows them to be boarded. A random interior is picked on a per-ship basis.
+	var/wrecked = FALSE //This tells you whether an AI controlled ship has been defeated, and is in the process of exploding.
+	var/obj/effect/landmark/ship_interior_spawn/interior_spawn = null //Where to spawn the ship spawner after our boarding map is deleted.
+
+/obj/effect/landmark/ship_interior_spawn
+	name = "Ship interior spawn"
+	desc = "A spawner which will spawn a ship on demand. Use with caution."
+	var/interior_map = null
+	var/used = FALSE //Are we available to spawn with?
+
+/obj/effect/landmark/ship_interior_spawn/proc/load(templatename, obj/structure/overmap/OM)
+	if(used)
+		return
+	var/datum/map_template/template = SSmapping.map_templates[templatename]
+	OM.interior_spawn = src //This has to go before the "load" in-case the loading deletes us.
+	if(template?.load(get_turf(src), centered = FALSE))
+		used = TRUE
+		return TRUE
+	else
+		OM.interior_spawn = null
+		return FALSE
+
+/datum/map_template/corvette
+	name = "Corvette"
+	mappath = "_maps/templates/Corvette.dmm"
+
+/obj/structure/overmap/proc/load_interior()
+	if(!interior_maps?.len)
+		return FALSE
+	var/interior_map = pick(interior_maps)
+	for(var/obj/effect/landmark/ship_interior_spawn/SI in GLOB.landmarks_list)
+		if(!SI.used)
+			if(SI.load(interior_map, src))
+				priority_announce("Salvage armatures have pulled [src] to a stable nearside position of: [SI.name].","Automated announcement") //TEMP! Remove this shit when we move ruin spawns off-z
+				find_area()
+				return TRUE
+
 /obj/effect/temp_visual/fading_overmap
 	name = "Foo"
 	duration = 3 SECONDS

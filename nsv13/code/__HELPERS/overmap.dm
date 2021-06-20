@@ -7,6 +7,8 @@
 			return SL.linked_overmap
 	return FALSE
 
+#define shares_overmap(A, B) (A.get_overmap() == B.get_overmap())
+
 /**
 Helper method to get what ship an observer belongs to for stuff like parallax.
 */

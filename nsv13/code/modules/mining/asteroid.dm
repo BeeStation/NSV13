@@ -67,6 +67,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	icon_state = "1"
 	obj_integrity = 100
 	max_integrity = 100
+	wrecked = TRUE //Stops it from shooting at you. Disables spawning wreck maps too.
 	var/list/core_composition = list(/turf/closed/mineral/iron, /turf/closed/mineral/titanium)
 	var/required_tier = 1
 	armor = list("overmap_light" = 99, "overmap_heavy" = 25)

@@ -1895,7 +1895,7 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	desc = "A tattered old jumpsuit that will provide absolutely no benefit to you. It fills the wearer with a strange compulsion to blurt out 'glorf'."
 	item = /obj/item/clothing/under/color/grey/glorf
 	cost = 20
-	restricted_roles = list("Midshipman")
+	restricted_roles = list("Assistant")
 	surplus = 1
 
 /datum/uplink_item/role_restricted/oldtoolboxclean
@@ -1903,7 +1903,7 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	desc = "An iconic toolbox design notorious with Assistants everywhere, this design was especially made to become more robust the more telecrystals it has inside it! Tools and insulated gloves included."
 	item = /obj/item/storage/toolbox/mechanical/old/clean
 	cost = 2
-	restricted_roles = list("Midshipman")
+	restricted_roles = list("Assistant")
 	surplus = 0
 
 /datum/uplink_item/role_restricted/pie_cannon

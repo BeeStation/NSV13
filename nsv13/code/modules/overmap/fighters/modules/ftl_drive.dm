@@ -1,116 +1,61 @@
-/obj/item/fighter_component/ftl
-	name = "class II torch drive"
-	desc = "The torch drive is a far faster and more safe alternative to traditional FTL travel methods, however it requires either a star to jump to, or a phyically placed jump beacon."
-	icon_state = "ftl_drive"
-	slot = HARDPOINT_SLOT_FTL
-	active = FALSE
-	power_usage = 200
-	weight = 0.5
-	var/progress = 0
-	var/spoolup_time = 2 MINUTES
-	var/ftl_startup_time = 6 SECONDS
-	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
-	var/ftl_start = 'nsv13/sound/effects/ship/FTL_torchdrive.ogg'
-	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
-
-	var/jump_speed_factor = 5.5 //How quickly do we jump? Larger is faster.
-	var/ftl_state = FTL_STATE_IDLE //Mr Gaeta, spool up the FTLs.
-
-	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
-	var/max_range = 50 //Short range drive
-
-/obj/item/fighter_component/ftl/tier2
-	name = "class III torch drive"
-	desc = "A micro jump drive with an expanded range."
-	max_range = 200
-
-/obj/item/fighter_component/ftl/proc/jump(datum/star_system/target_system)
-	if(!target_system || !SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP))
-		return
-	var/obj/structure/overmap/linked = loc
-	if(!linked)
-		return FALSE
-	ftl_state = FTL_STATE_JUMPING
-	linked?.begin_jump(target_system)
-	linked.relay('nsv13/sound/effects/ship/freespace2/computer/escape.wav')
-	progress = 0
-	addtimer(CALLBACK(src, .proc/depower), ftl_startup_time)
-
-/obj/item/fighter_component/ftl/proc/cancel_ftl()
-	depower()
-
-/obj/item/fighter_component/ftl/proc/depower()
-	progress = 0
-	ftl_state = FTL_STATE_IDLE
-
-/*
-/obj/item/fighter_component/ftl/proc/jump(obj/structure/overmap/OM, obj/structure/overmap/target, dangerous=FALSE)
-	set waitfor = FALSE
-	ftl_spool_progress = 0
-	OM.relay('nsv13/sound/effects/ship/FTL_torchdrive.ogg')
-	sleep(6 SECONDS)
-	if(dangerous)
-		for(var/mob/living/karmics_victim in OM.mobs_in_ship)
-			if(karmics_victim.stat == DEAD)	//They're dead!
-				continue
-			if(istype(karmics_victim.loc, /obj/structure/closet/secure_closet/freezer)) //Indiana Jones reference go brrr.
-				shake_camera(karmics_victim, 2, 1)
-				continue
-			shake_camera(karmics_victim, 4, 1)
-			karmics_victim.soundbang_act(1, 0, 10, 15)
-			karmics_victim.flash_act(affect_silicon = TRUE)
-		var/turf/T = get_turf(OM)
-		radiation_pulse(T, 1000, 10)
-		OM.take_damage(obj_integrity/2)
-		T.atmos_spawn_air("o2=1500;plasma=1000;TEMP=5000")
-		playsound(OM, 'nsv13/sound/effects/ship/FTL.ogg', 100, FALSE)//"Crack"
-		return FALSE
-
-	for(var/mob/M in OM.mobs_in_ship)
-		if(iscarbon(M))
-			var/mob/living/carbon/L = M
-			if(HAS_TRAIT(L, TRAIT_SEASICK))
-				to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
-				//BUCKLE YOUR SEATBELT
-				var/sick_chance = L.buckled ? 20 : 100
-				if(prob(sick_chance)) //Take a roll! First option makes you puke and feel terrible. Second one makes you feel iffy.
-					L.adjust_disgust(40)
-				else
-					L.adjust_disgust(10)
-		shake_camera(M, 8, 1)
-
-	OM.relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//"Crack"
-	ftl_spool_progress = 0
-	OM.alpha = 0
-	new /obj/effect/temp_visual/overmap_ftl(get_turf(OM))
-	OM.forceMove(get_turf(pick(orange(10, target))))
-	new /obj/effect/temp_visual/overmap_ftl(get_turf(OM))
-	sleep(1 SECONDS)
-	OM.alpha = 255
-	OM.relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//"Crack"
-	OM.last_overmap = target
-	OM.dradis?.reset_dradis_contacts()
-	return TRUE
-*/
-
-/obj/item/fighter_component/ftl/process()
-	//No need to use power here. We're already spooled.
-	var/obj/structure/overmap/OM = loc
-	if(OM)
-		OM.ftl_drive = src
-	if(ftl_state == FTL_STATE_JUMPING)
-		return
-	ftl_state = FTL_STATE_SPOOLING
-	if(progress >= spoolup_time)
-		ftl_state = FTL_STATE_READY
-		return FALSE
-	if(!powered())
-		return FALSE
-	progress += 1 SECONDS
-	progress = CLAMP(progress, 0, spoolup_time)
+/obj/structure/overmap/fighter/ui_data(mob/user)
+	var/list/data = ..()
+	data["ftl_capable"] = (ftl_goal > 0)
+	data["ftl_progress"] = ftl_progress
+	data["ftl_goal"] = ftl_goal
+	var/list/ships = list()
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		if(OM != last_overmap && last_overmap.current_system && OM.current_system && OM.faction == faction && OM.reserved_z) //Capital ships only. AKA any ship that's in our faction, and is holding an FTL z-level. We also cannot jump mid-FTL translation for our host vessel.
+			var/list/ship_info = list()
+			ship_info["name"] = OM.name
+			ship_info["distance"] = last_overmap?.current_system?.dist(OM.current_system)
+			ship_info["can_jump"] = (ship_info["distance"] <= max_ftl_range) && (ftl_progress >= ftl_goal)
+			ship_info["ship_id"] = "\ref[OM]"
+			ships[++ships.len] = ship_info
+	data["ships"] = ships
+	return data
 
 /obj/effect/temp_visual/overmap_ftl
 	icon = 'nsv13/icons/overmap/effects.dmi'
 	icon_state = "warp"
 	duration = 1 SECONDS
 	randomdir = FALSE
+
+/obj/structure/overmap/fighter/proc/foo()
+	flight_state = 6
+	toggle_canopy()
+	forceMove(get_turf(locate(255, y, z)))
+
+/obj/structure/overmap/fighter/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	switch(action)
+		if("jump")
+			if(!SSmapping.level_trait(z, ZTRAIT_OVERMAP))
+				to_chat(usr, "<span class='warning'>FTL translations while inside of another ship could cause catastrophic results. FTL translation sequence terminated.</span>")
+				return
+			var/obj/structure/overmap/target = locate(params["ship_id"])
+			if(!istype(target) || ftl_progress < ftl_goal)
+				return
+			relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=FALSE)//"Crack"
+			use_fuel(50)
+			ftl_progress = 0
+			alpha = 0
+			new /obj/effect/temp_visual/overmap_ftl(get_turf(src))
+			forceMove(get_turf(pick(orange(10, target))))
+			new /obj/effect/temp_visual/overmap_ftl(get_turf(src))
+			sleep(1 SECONDS)
+			alpha = 255
+			relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=FALSE)//"Crack"
+			last_overmap = target
+			dradis?.reset_dradis_contacts()
+
+/obj/structure/overmap/fighter/slowprocess()
+	. = ..()
+	if(flight_state < 6)
+		ftl_progress = 0 //No charge for you. Makes you have to spend a while spooling so you can't insta-evade attack.
+		return
+	if(ftl_goal > 0 && ftl_progress < ftl_goal)
+		ftl_progress += 1 SECONDS
+		if(ftl_progress > ftl_goal)
+			ftl_progress = ftl_goal

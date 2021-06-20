@@ -13,7 +13,7 @@
 	report_type = "revolution"
 	antag_flag = ROLE_REV
 	false_report_weight = 10
-	restricted_jobs = list("Military Police", "Warden", "Detective", "AI", "Cyborg","Captain", "Head of Security", "Chief Engineer", "Research Director", "Chief Medical Officer", "Executive Officer", "Master At Arms") //NSV13 - renamed HoP to XO, added MAA. Next line too  //Nsv13 - Crayon eaters & MPs
+	restricted_jobs = list("Security Officer", "Warden", "Detective", "AI", "Cyborg","Captain", "Head of Security", "Chief Engineer", "Research Director", "Chief Medical Officer", "Executive Officer", "Master At Arms") //NSV13 - renamed HoP to XO, added MAA. Next line too
 	required_jobs = list(list("Captain"=1),list("Executive Officer"=1),list("Head of Security"=1),list("Chief Engineer"=1),list("Research Director"=1),list("Chief Medical Officer"=1),list("Master At Arms"=1)) //Any head present
 	required_players = 30
 	required_enemies = 2
@@ -49,7 +49,7 @@
 		restricted_jobs += protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		restricted_jobs += "Assistant"
 
 	for (var/i=1 to max_headrevs)
 		if (antag_candidates.len==0)

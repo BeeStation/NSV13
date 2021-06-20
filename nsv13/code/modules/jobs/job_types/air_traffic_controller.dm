@@ -15,8 +15,8 @@
 
 	outfit = /datum/outfit/job/air_traffic_controller
 
-	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_HANGAR)
-	minimal_access = list(ACCESS_MUNITIONS, ACCESS_HANGAR)
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_FIGHTER) //temp
+	minimal_access = list(ACCESS_MUNITIONS) //temp
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_MUN
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)

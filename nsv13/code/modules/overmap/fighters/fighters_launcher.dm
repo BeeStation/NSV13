@@ -263,9 +263,9 @@
 		var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 		DC.docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(DC, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
-		resize = resize_factor //Scale down!
-		pixel_w = flight_pixel_w
-		pixel_z = flight_pixel_z
+		resize = 1 //Scale down!
+		pixel_w = -30
+		pixel_z = -32
 		bound_width = 32
 		bound_height = 32
 		if(pilot)
@@ -273,18 +273,7 @@
 			DC.docking_mode = FALSE
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE) //Let dradis comps update their status too
 		current_system = OM.current_system
-		//Add a treadmill for this ship as and when needed.
-		if(!reserved_z && ftl_drive)
-			if(!free_treadmills?.len)
-				SSmapping.add_new_zlevel("Dropship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-				reserved_z = world.maxz
-			else
-				var/_z = pick_n_take(free_treadmills)
-				reserved_z = _z
-			starting_system = current_system.name //Just fuck off it works alright?
-			SSstar_system.add_ship(src)
-
-		if(current_system && !LAZYFIND(current_system.system_contents, src))
+		if(current_system)
 			LAZYADD(current_system.system_contents, src)
 		return TRUE
 
@@ -299,28 +288,29 @@
 
 /obj/structure/overmap/fighter/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
-	if(!DC || DC.docking_cooldown ||!DC.docking_mode|| !OM.docking_points?.len)
+	if(!DC || DC.docking_cooldown ||!DC.docking_mode|| !OM.occupying_levels?.len)
 		return FALSE
-	enemies = list() //Reset RWR warning.
-	last_overmap = OM
-	DC.docking_cooldown = TRUE
-	addtimer(VARSET_CALLBACK(DC, docking_cooldown, FALSE), 20 SECONDS) //Prevents jank.
-	resize = 0 //Scale up!
-	pixel_w = initial(pixel_w)
-	pixel_z = initial(pixel_z)
-	var/turf/T = get_turf(pick(OM.docking_points))
-	forceMove(T)
-	bound_width = initial(bound_width)
-	bound_height = initial(bound_height)
-	DC.docking_mode = FALSE
-	if(pilot && faction == OM.faction)
-		weapon_safety = TRUE
-		to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
-	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
-	if(current_system && LAZYFIND(current_system.system_contents, src))
-		current_system.system_contents -= src
-		current_system = null
-	if(reserved_z)
-		free_treadmills += reserved_z
-		reserved_z = null
-	return TRUE
+	if(OM.docking_points?.len)
+		enemies = list() //Reset RWR warning.
+		last_overmap = OM
+		DC.docking_cooldown = TRUE
+		addtimer(VARSET_CALLBACK(DC, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
+		resize = 0 //Scale up!
+		pixel_w = initial(pixel_w)
+		pixel_z = initial(pixel_z)
+		var/turf/T = get_turf(pick(OM.docking_points))
+		forceMove(T)
+		bound_width = initial(bound_width)
+		bound_height = initial(bound_height)
+		DC.docking_mode = FALSE
+		if(pilot && faction == OM.faction)
+			weapon_safety = TRUE
+			to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
+		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
+		if(current_system)
+			LAZYREMOVE(current_system.system_contents, src)
+			current_system = null
+		return TRUE
+	else
+		to_chat(pilot, "<span class='notice'>Warning: Target ship has no docking points. </span>")
+	return FALSE

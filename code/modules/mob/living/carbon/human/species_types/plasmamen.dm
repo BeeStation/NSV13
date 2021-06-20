@@ -80,7 +80,7 @@
 
 		if("Stage Magician")
 			O = new /datum/outfit/plasmaman/magic
-
+		
 		if("VIP")
 			O = new /datum/outfit/plasmaman/vip
 
@@ -90,7 +90,7 @@
 		if("Cook")
 			O = new /datum/outfit/plasmaman/chef
 
-		if("Military Police") //Nsv13 - Crayon eaters & MPs
+		if("Security Officer")
 			O = new /datum/outfit/plasmaman/security
 
 		if("Deputy")

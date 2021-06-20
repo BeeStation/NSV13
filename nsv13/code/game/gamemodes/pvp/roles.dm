@@ -167,7 +167,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 /obj/item/card/id/syndi_crew/marine
 	name = "Marine's ID"
-	assignment = "Midshipman"
+	assignment = "Marine"
 
 //Syndicate crew outfits
 

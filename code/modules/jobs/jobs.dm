@@ -50,7 +50,7 @@ GLOBAL_LIST_INIT(civilian_positions, list(
 	"Chaplain",
 	"Clown",
 	"Mime",
-	"Midshipman"))
+	"Assistant"))
 
 GLOBAL_LIST_INIT(gimmick_positions, list(
 	"Gimmick",
@@ -59,12 +59,12 @@ GLOBAL_LIST_INIT(gimmick_positions, list(
 	"Debtor",
 	"Psychiatrist",
 	"VIP"))
- //Nsv13 - Crayon eaters & MPs
+
 GLOBAL_LIST_INIT(security_positions, list(
 	"Head of Security",
 	"Warden",
 	"Detective",
-	"Military Police",
+	"Security Officer",
 	"Deputy"))
 
 
@@ -79,7 +79,8 @@ GLOBAL_LIST_INIT(munitions_positions, list(
 	"Master At Arms",
 	"Munitions Technician",
 	"Deck Technician",
-	"Pilot",
+	"Flight Leader",
+	"Fighter Pilot",
 	"Air Traffic Controller",
 	"Bridge Staff"))
 

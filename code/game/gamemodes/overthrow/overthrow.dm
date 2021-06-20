@@ -4,7 +4,7 @@
 	config_tag = "overthrow"
 	report_type = "overthrow"
 	antag_flag = ROLE_OVERTHROW
-	restricted_jobs = list("Military Police", "Warden", "Detective", "AI", "Cyborg","Captain", "Executive Officer", "Head of Security", "Chief Engineer", "Research Director", "Chief Medical Officer", "Master At Arms") //NSV13 - renamed HoP to XO, added MAA  //Nsv13 - Crayon eaters & MPs
+	restricted_jobs = list("Security Officer", "Warden", "Detective", "AI", "Cyborg","Captain", "Executive Officer", "Head of Security", "Chief Engineer", "Research Director", "Chief Medical Officer", "Master At Arms") //NSV13 - renamed HoP to XO, added MAA
 	required_players = 20 // the core idea is of a swift, bloodless coup, so it shouldn't be as chaotic as revs.
 	required_enemies = 2 // minimum two teams, otherwise it's just nerfed revs.
 	recommended_enemies = 4
@@ -21,7 +21,7 @@
 		restricted_jobs += protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		restricted_jobs += "Assistant"
 
 	var/sleeping_agents = required_enemies + round(num_players()*0.05) // At 100 players, it'd be 2 + 5 = 7 teams existing.
 

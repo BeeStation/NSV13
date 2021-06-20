@@ -231,7 +231,7 @@ GLOBAL_VAR(clockcult_eminence)
 					prefix = "Calculator"
 				else if(role in GLOB.supply_positions)
 					prefix = "Pathfinder"
-				else if(role in "Midshipman") //Nsv13 - Crayon eaters
+				else if(role in "Assistant")
 					prefix = "Helper"
 				else if(role in "Mime")
 					prefix = "Cogwatcher"

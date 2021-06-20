@@ -118,7 +118,7 @@
 /obj/machinery/armour_plating_nanorepair_pump/proc/handle_linking()
 	if(apnw_id) //If mappers set an ID)
 		for(var/obj/machinery/armour_plating_nanorepair_well/W in GLOB.machines)
-			if(W.apnw_id == apnw_id && W.z == z)
+			if(W.apnw_id == apnw_id)
 				apnw = W
 
 /obj/machinery/armour_plating_nanorepair_pump/multitool_act(mob/user, obj/item/tool)

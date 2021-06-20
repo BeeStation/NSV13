@@ -35,7 +35,6 @@
 					/obj/item/clothing/under/ship/decktech = 3,
 					/obj/item/clothing/under/rank/munitions_tech = 3,
 					/obj/item/clothing/under/ship/pilot = 3,
-					/obj/item/clothing/under/ship/pilot/transport = 3,
 					/obj/item/clothing/suit/hazardvest = 3,
 					/obj/item/clothing/suit/ship/munitions_jacket = 3,
 					/obj/item/clothing/shoes/jackboots = 5,

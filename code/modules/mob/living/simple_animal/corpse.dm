@@ -167,7 +167,7 @@
 /obj/effect/mob_spawn/human/corpse/nanotrasensoldier
 	name = "\improper Nanotrasen Private Security Officer"
 	id_job = "Private Security Force"
-	id_access = "Military Police" //Nsv13 - Crayon eaters & MPs
+	id_access = "Security Officer"
 	outfit = /datum/outfit/nanotrasensoldiercorpse2
 	hair_style = "Bald"
 	facial_hair_style = "Shaved"

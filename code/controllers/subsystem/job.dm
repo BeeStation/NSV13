@@ -12,7 +12,7 @@ SUBSYSTEM_DEF(job)
 	var/list/prioritized_jobs = list()
 	var/list/latejoin_trackers = list()	//Don't read this list, use GetLateJoinTurfs() instead
 
-	var/overflow_role = "Midshipman" //Nsv13 - Crayon eaters
+	var/overflow_role = "Assistant"
 
 	var/list/level_order = list(JP_HIGH,JP_MEDIUM,JP_LOW)
 
@@ -27,8 +27,7 @@ SUBSYSTEM_DEF(job)
 		"Master At Arms" = 4,
 		"Chief Engineer" = 5,
 		"Chief Medical Officer" = 6,
-		"Research Director" = 7,
-		"Bridge Staff" = 8)
+		"Research Director" = 7)
 
 /datum/controller/subsystem/job/Initialize(timeofday)
 	SSmapping.HACK_LoadMapConfig()
@@ -514,7 +513,7 @@ SUBSYSTEM_DEF(job)
 		return C.holder.auto_deadmin()
 
 /datum/controller/subsystem/job/proc/setup_officer_positions()
-	var/datum/job/J = SSjob.GetJob("Military Police") //Nsv13 - Crayon eaters & MPs
+	var/datum/job/J = SSjob.GetJob("Security Officer")
 	if(!J)
 		CRASH("setup_officer_positions(): Security officer job is missing")
 

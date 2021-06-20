@@ -194,7 +194,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			if(isspaceturf(T))
 				continue
 			drag += 0.001
-			var/floating = (movement_type & FLYING)
+			var/floating = FALSE
 			if(has_gravity && velocity_mag >= 4)
 				floating = TRUE // Count them as "flying" if theyre going fast enough indoors. If you slow down, you start to scrape due to no lift or something
 			var/datum/gas_mixture/env = T.return_air()

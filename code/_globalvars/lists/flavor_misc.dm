@@ -95,9 +95,6 @@ GLOBAL_LIST_INIT(ai_core_display_screens, sortList(list(
 
 GLOBAL_LIST_INIT(security_depts_prefs, sortList(list(SEC_DEPT_RANDOM, SEC_DEPT_NONE, SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY)))
 
-	//NSV13 Pilots
-GLOBAL_LIST_INIT(pilot_role_prefs, sortList(list(PILOT_COMBAT, PILOT_TRANSPORT)))
-
 	//Backpacks
 #define GBACKPACK "Grey Backpack"
 #define GSATCHEL "Grey Satchel"

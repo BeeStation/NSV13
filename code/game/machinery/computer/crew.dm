@@ -28,13 +28,13 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 
 /datum/crewmonitor/New()
 	. = ..()
- 	//Nsv13 - Crayon eaters & MPs
+
 	var/list/jobs = new/list()
 	jobs["Captain"] = 00
 	jobs["Head of Personnel"] = 50
 	jobs["Head of Security"] = 10
 	jobs["Warden"] = 11
-	jobs["Military Police"] = 12
+	jobs["Security Officer"] = 12
 	jobs["Detective"] = 13
 	jobs["Brig Physician"] = 14
 	jobs["Deputy"] = 16
@@ -75,7 +75,7 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 	jobs["Security Response Officer"] = 221
 	jobs["Engineer Response Officer"] = 222
 	jobs["Medical Response Officer"] = 223
-	jobs["Midshipman"] = 999 //Unknowns/custom jobs should appear after civilians, and before assistants  //Nsv13 - Crayon eaters
+	jobs["Assistant"] = 999 //Unknowns/custom jobs should appear after civilians, and before assistants
 
 	src.jobs = jobs
 

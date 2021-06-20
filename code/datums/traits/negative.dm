@@ -133,7 +133,7 @@
 				heirloom_type = pick(/obj/item/pen/fountain, /obj/item/storage/pill_bottle/dice)
 			if("Chaplain")
 				heirloom_type = pick(/obj/item/toy/windupToolbox, /obj/item/reagent_containers/food/drinks/bottle/holywater)
-			if("Midshipman") //Nsv13 - Crayon eaters
+			if("Assistant")
 				heirloom_type = /obj/item/storage/toolbox/mechanical/old/heirloom
 			if("Barber")
 				heirloom_type = /obj/item/handmirror
@@ -146,7 +146,7 @@
 				heirloom_type = /obj/item/book/manual/wiki/security_space_law
 			if("Warden")
 				heirloom_type = /obj/item/book/manual/wiki/security_space_law
-			if("Military Police") //Nsv13 - Crayon eaters & MPs
+			if("Security Officer")
 				heirloom_type = pick(/obj/item/book/manual/wiki/security_space_law, /obj/item/clothing/head/beret/sec)
 			if("Detective")
 				heirloom_type = /obj/item/reagent_containers/food/drinks/bottle/whiskey
@@ -197,7 +197,9 @@
 				heirloom_type = pick(/obj/item/wrench, /obj/item/screwdriver, /obj/item/multitool)
 			if("Air Traffic Controller")
 				heirloom_type = pick(/obj/item/clothing/head/beret/ship/pilot, /obj/item/reagent_containers/food/drinks/mug)
-			if("Pilot")
+			if("Flight Leader")
+				heirloom_type = pick(/obj/item/clothing/head/beret/ship/pilot, /obj/item/clothing/accessory/medal/bronze_heart)
+			if("Fighter Pilot")
 				heirloom_type = pick(/obj/item/clothing/head/beret/ship/pilot, /obj/item/clothing/accessory/medal/bronze_heart)
 			if("Bridge Staff")
 				heirloom_type = /obj/item/reagent_containers/food/drinks/mug

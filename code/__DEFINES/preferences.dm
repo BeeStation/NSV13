@@ -70,10 +70,6 @@
 #define SEC_DEPT_SCIENCE "Science"
 #define SEC_DEPT_SUPPLY "Supply"
 
-//NSV13 Pilot Roles
-#define PILOT_COMBAT "Combat"
-#define PILOT_TRANSPORT "Transport"
-
 // Playtime tracking system, see jobs_exp.dm
 #define EXP_TYPE_LIVING			"Living"
 #define EXP_TYPE_CREW			"Crew"

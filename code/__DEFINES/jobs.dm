@@ -49,19 +49,20 @@
 #define BRIDGE_OFFICER		(1<<14) //NSV13
 #define MUNITIONS_TECHNICIAN	(1<<15) //NSV13
 #define DECK_TECHNICIAN			(1<<16) //NSV13
-#define PILOT					(1<<17) //NSV13
-#define AIR_TRAFFIC_CONTROLLER	(1<<18) //NSV13
-#define MASTER_AT_ARMS			(1<<19) //NSV13
+#define FIGHTER_PILOT			(1<<17) //NSV13
+#define FLIGHT_LEADER			(1<<18) //NSV13
+#define AIR_TRAFFIC_CONTROLLER	(1<<19) //NSV13
+#define MASTER_AT_ARMS			(1<<20) //NSV13
 
-#define GIMMICK 		(1<<20)
-#define BARBER		    (1<<21)
-#define MAGICIAN        (1<<22)
+#define GIMMICK 		(1<<21)
+#define BARBER		    (1<<22)
+#define MAGICIAN        (1<<23)
 
 //Bitshifts beyond this point are nonfunctional. if Gimmick gets above here we're going to have a problem.
 
-#define HOBO            (1<<23)
-#define SHRINK          (1<<24)
-#define CELEBRITY       (1<<25)
+#define HOBO            (1<<24)
+#define SHRINK          (1<<25)
+#define CELEBRITY       (1<<26)
 
 //NSV END
 
@@ -116,4 +117,5 @@
 #define JOB_DISPLAY_ORDER_MUNITIONS_TECHNICIAN 37 //NSV13
 #define JOB_DISPLAY_ORDER_DECK_TECHNICIAN 38 //NSV13
 #define JOB_DISPLAY_ORDER_AIR_TRAFFIC_CONTROLLER 39 //NSV13
-#define JOB_DISPLAY_ORDER_PILOT 40 //NSV13
+#define JOB_DISPLAY_ORDER_FLIGHT_LEADER 40 //NSV13
+#define JOB_DISPLAY_ORDER_FIGHTER_PILOT 41 //NSV13

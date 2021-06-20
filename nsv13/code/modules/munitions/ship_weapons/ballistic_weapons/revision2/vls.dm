@@ -90,8 +90,6 @@
 	if(!T)
 		return
 	hatch = locate(/obj/structure/fluff/vls_hatch) in T
-	if(!hatch)
-		return
 	var/matrix/ntransform = new()
 	if(dir & NORTH)
 		ntransform.Turn(90)
@@ -288,7 +286,7 @@
 	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 		if(!ship || !istype(ship))
 			continue
-		if(ship == src || ship == last_target || ship.faction == faction || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
+		if(ship == src || ship == last_target || ship.faction == faction || wrecked || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
 			continue
 		var/target_range = get_dist(ship,src)
 		if(target_range > 30 || target_range <= 0) //Random pulled from the aether
@@ -328,7 +326,7 @@
 		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 			if(!ship || !istype(ship))
 				continue
-			if(ship == src || ship == last_target || ship.faction == faction || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
+			if(ship == src || ship == last_target || ship.faction == faction || wrecked || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
 				continue
 			var/target_range = get_dist(ship,src)
 			if(target_range > 30 || target_range <= 0) //Random pulled from the aether

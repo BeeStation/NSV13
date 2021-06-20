@@ -11,7 +11,7 @@
 	antag_flag = ROLE_TRAITOR
 	antag_datum = /datum/antagonist/traitor
 	minimum_required_age = 0
-	protected_roles = list("Military Police", "Warden", "Detective", "Head of Security", "Captain") //Nsv13 - Crayon eaters & MPs
+	protected_roles = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain")
 	restricted_roles = list("Cyborg")
 	required_candidates = 1
 	weight = 5
@@ -49,7 +49,7 @@
 	name = "Blood Brothers"
 	antag_flag = ROLE_BROTHER
 	antag_datum = /datum/antagonist/brother/
-	protected_roles = list("Military Police", "Warden", "Detective", "Head of Security", "Captain") //Nsv13 - Crayon eaters & MPs
+	protected_roles = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain")
 	restricted_roles = list("Cyborg", "AI")
 	required_candidates = 2
 	weight = 4
@@ -97,7 +97,7 @@
 	name = "Changelings"
 	antag_flag = ROLE_CHANGELING
 	antag_datum = /datum/antagonist/changeling
-	protected_roles = list("Military Police", "Warden", "Detective", "Head of Security", "Captain") //Nsv13 - Crayon eaters & MPs
+	protected_roles = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain")
 	restricted_roles = list("AI", "Cyborg")
 	required_candidates = 1
 	weight = 3
@@ -132,7 +132,7 @@
 	name = "Heretics"
 	antag_flag = ROLE_HERETIC
 	antag_datum = /datum/antagonist/heretic
-	protected_roles = list("Military Police", "Warden", "Detective", "Head of Security", "Captain") //Nsv13 - Crayon eaters & MPs
+	protected_roles = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain")
 	restricted_roles = list("AI", "Cyborg")
 	required_candidates = 1
 	weight = 3
@@ -219,7 +219,7 @@
 	antag_flag = ROLE_CULTIST
 	antag_datum = /datum/antagonist/cult
 	minimum_required_age = 14
-	restricted_roles = list("AI", "Cyborg", "Military Police", "Warden", "Detective", "Head of Security", "Captain", "Chaplain", "Executive Officer", "Master At Arms") //NSV13 - renamed HoP to XO, added MAA  //Nsv13 - Crayon eaters & MPs
+	restricted_roles = list("AI", "Cyborg", "Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Chaplain", "Executive Officer", "Master At Arms") //NSV13 - renamed HoP to XO, added MAA
 	required_candidates = 2
 	weight = 3
 	cost = 20
@@ -360,7 +360,7 @@
 	antag_flag_override = ROLE_REV
 	antag_datum = /datum/antagonist/rev/head
 	minimum_required_age = 14
-	restricted_roles = list("AI", "Cyborg", "Military Police", "Warden", "Detective", "Head of Security", "Captain", "Chief Engineer", "Chief Medical Officer", "Research Director", "Executive Officer", "Master At Arms") //NSV13 - renamed HoP to XO, added MAA  //Nsv13 - Crayon eaters & MPs
+	restricted_roles = list("AI", "Cyborg", "Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Chief Engineer", "Chief Medical Officer", "Research Director", "Executive Officer", "Master At Arms") //NSV13 - renamed HoP to XO, added MAA
 	required_candidates = 3
 	weight = 3
 	delay = 7 MINUTES
@@ -532,7 +532,7 @@
 	name = "Devil"
 	antag_flag = ROLE_DEVIL
 	antag_datum = /datum/antagonist/devil
-	restricted_roles = list("Lawyer", "Curator", "Chaplain", "Head of Security", "Captain", "AI", "Cyborg", "Military Police", "Warden", "Detective") //Nsv13 - Crayon eaters & MPs
+	restricted_roles = list("Lawyer", "Curator", "Chaplain", "Head of Security", "Captain", "AI", "Cyborg", "Security Officer", "Warden", "Detective")
 	required_candidates = 1
 	weight = 3
 	cost = 0
@@ -682,7 +682,7 @@
 	name = "Clockwork Cult"
 	antag_flag = ROLE_SERVANT_OF_RATVAR
 	antag_datum = /datum/antagonist/servant_of_ratvar
-	restricted_roles = list("AI", "Cyborg", "Military Police", "Warden", "Detective","Head of Security", "Captain", "Chaplain", "Executive Officer") //NSV13 - Renamed HoP to XO  //Nsv13 - Crayon eaters & MPs
+	restricted_roles = list("AI", "Cyborg", "Security Officer", "Warden", "Detective","Head of Security", "Captain", "Chaplain", "Executive Officer") //NSV13 - Renamed HoP to XO
 	required_candidates = 4
 	weight = 3
 	cost = 35

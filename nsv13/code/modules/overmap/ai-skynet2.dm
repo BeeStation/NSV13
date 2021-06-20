@@ -241,8 +241,7 @@ GLOBAL_LIST_EMPTY(ai_goals)
 	if(!hide_movements)
 		minor_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	for(var/obj/structure/overmap/OM in current_system.system_contents){
-		//Boarding ships don't want to go to brasil
-		if(OM.mobs_in_ship?.len && OM.reserved_z)
+		if(OM.mobs_in_ship?.len)
 			encounter(OM)
 	}
 	if(current_system.check_conflict_status())
@@ -703,7 +702,6 @@ GLOBAL_LIST_EMPTY(ai_goals)
 				current_system.enemies_in_system += member
 			all_ships += member
 			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-			RegisterSignal(member, COMSIG_SHIP_BOARDED , /datum/fleet/proc/remove_ship, member)
 			if(SS.occupying_z)
 				SS.add_ship(member)
 			else
@@ -1323,7 +1321,7 @@ Seek a ship thich we'll station ourselves around
 	resupply_target = null
 
 /obj/structure/overmap/proc/can_board(obj/structure/overmap/ship)
-	if(!ship.occupying_levels?.len)
+	if(!ship.linked_areas.len)
 		return FALSE
 	if(get_dist(ship, src) > 8)
 		return FALSE
@@ -1456,7 +1454,7 @@ Seek a ship thich we'll station ourselves around
 			continue
 		if(min_weight_class && ship.mass < min_weight_class)
 			continue
-		if(interior_check && !ship.occupying_levels?.len) //So that boarders don't waste their time and try commit to boarding other AIs...yet.
+		if(interior_check && !ship.linked_areas.len) //So that boarders don't waste their time and try commit to boarding other AIs...yet.
 			continue
 		add_enemy(ship)
 		last_target = ship

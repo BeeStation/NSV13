@@ -7,6 +7,7 @@
 	icon = 'nsv13/icons/overmap/default.dmi'
 	icon_state = "default"
 	faction = "syndicate"
+	interior_maps = list("Corvette.dmm")
 
 //Player Versions
 
@@ -83,7 +84,6 @@
 	armor = list("overmap_light" = 50, "overmap_heavy" = 15)
 	ai_trait = AI_TRAIT_DESTROYER
 	combat_dice_type = /datum/combat_dice/frigate
-	possible_interior_maps = list('_maps/templates/boarding/syndicate/mako.dmm')
 
 /obj/structure/overmap/syndicate/ai/mako_carrier
 	name = "Sturgeon class escort carrier"
@@ -91,7 +91,6 @@
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter)
 	combat_dice_type = /datum/combat_dice/carrier
-	possible_interior_maps = list('_maps/templates/boarding/syndicate/mako_carrier.dmm')
 
 /obj/structure/overmap/syndicate/ai/mako_flak
 	name = "Mauler class flak frigate"
@@ -114,7 +113,6 @@
 	torpedoes = 5
 	missiles = 10
 	combat_dice_type = /datum/combat_dice/destroyer/nuclear
-	possible_interior_maps = list('_maps/templates/boarding/syndicate/nukefrigate.dmm')
 
 /obj/structure/overmap/syndicate/ai/nuclear/elite
 	name = "Nightmare class thermonuclear deterrent"
@@ -142,7 +140,6 @@
 	missiles = 6
 	bounty = 1000
 	combat_dice_type = /datum/combat_dice/destroyer
-	possible_interior_maps = list('_maps/templates/boarding/syndicate/destroyer.dmm')
 
 /obj/structure/overmap/syndicate/ai/destroyer/elite
 	name = "Special Ops Torpedo Destroyer"
@@ -179,7 +176,6 @@
 	bounty = 3000
 	ai_trait = AI_TRAIT_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/cruiser
-	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/cruiser/elite
 	name = "Special ops tactical cruiser"
@@ -211,7 +207,6 @@
 	can_resupply = TRUE
 	ai_trait = AI_TRAIT_SUPPLY
 	combat_dice_type = /datum/combat_dice/carrier
-	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/carrier/elite
 	name = "Special ops escort carrier"
@@ -251,7 +246,6 @@
 	armor = list("overmap_light" = 90, "overmap_heavy" = 50)
 	ai_trait = AI_TRAIT_DESTROYER
 	combat_dice_type = /datum/combat_dice/battleship
-	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser //A big box of tank which is hard to take down, and lethal up close.
 	name = "Inquisitior class assault cruiser"
@@ -269,7 +263,6 @@
 	ai_trait = AI_TRAIT_DESTROYER
 	speed_limit = 3
 	combat_dice_type = /datum/combat_dice/cruiser
-	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
@@ -291,7 +284,6 @@
 	bound_width = 96
 	damage_states = FALSE
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher	//Cruiser subtype, called frigate? Guess it gets the combat dice inbetween both.
-	possible_interior_maps = list('_maps/templates/boarding/syndicate/marine_frigate.dmm')
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
@@ -321,7 +313,6 @@
 	ai_trait = AI_TRAIT_ANTI_FIGHTER
 	damage_states = FALSE
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
-	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/gunboat/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
@@ -350,7 +341,6 @@
 	ai_trait = AI_TRAIT_DESTROYER
 	cloak_factor = 100 //Not a perfect cloak, mind you.
 	combat_dice_type = /datum/combat_dice/destroyer
-	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/submarine/Initialize()
 	. = ..()
@@ -384,7 +374,6 @@
 	armor = list("overmap_light" = 5, "overmap_heavy" = 5)
 	ai_trait = AI_TRAIT_SWARMER
 	combat_dice_type = /datum/combat_dice/fighter
-	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon(src)
@@ -407,7 +396,6 @@
 	armor = list("overmap_light" = 15, "overmap_heavy" = 0)
 	ai_trait = list(AI_TRAIT_DESTROYER, AI_TRAIT_SWARMER)
 	combat_dice_type = /datum/combat_dice/bomber
-	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/bomber/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon(src)

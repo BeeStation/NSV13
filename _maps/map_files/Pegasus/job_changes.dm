@@ -5,7 +5,7 @@
  */
 
 
-/datum/job/pilot/New()
+/datum/job/fighter_pilot/New()
 	..()
 	MAP_JOB_CHECK
 	addtimer(VARSET_CALLBACK(src, total_positions, 3), 10 SECONDS)

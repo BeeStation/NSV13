@@ -76,7 +76,7 @@
 	icon_state = "carrier"
 	pixel_x = -32
 	pixel_y = -12
-	output_path = /obj/structure/overmap/fighter/dropship/sabre
+	output_path = /obj/structure/overmap/fighter/utility
 
 /obj/structure/fighter_frame/update_icon()
 	icon_state = "[initial(icon_state)][build_state]"

@@ -50,11 +50,6 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate thrust parameters, no registered ship stored in microprocessor.</span>")
 		return FALSE
-	if((position == "pilot" || position == "gunner") && linked.ai_controlled)
-		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-		playsound(src, sound, 100, 1)
-		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Automated flight protocols are still active. Unable to comply.</span>")
-		return FALSE
 	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
 	if(!position)
 		return TRUE

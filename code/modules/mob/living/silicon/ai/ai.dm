@@ -164,11 +164,6 @@
 
 	builtInCamera = new (src)
 	builtInCamera.network = list("ss13")
-	//Nsv13
-	for(var/stype in subtypesof(/datum/component/simple_teamchat/radio_dependent/squad))
-		AddComponent(stype)
-
-	//Nsv13 end
 
 /mob/living/silicon/ai/key_down(_key, client/user)
 	if(findtext(_key, "numpad")) //if it's a numpad number, we can convert it to just the number
@@ -659,11 +654,7 @@
 
 	for (var/obj/machinery/camera/C in GLOB.cameranet.cameras)
 		var/list/tempnetwork = C.network
-		//Nsv13 - AIs need to see the Rocinante.
-		//if(!(is_station_level(C.z) || is_mining_level(C.z) || ("ss13" in tempnetwork)))
-		//	continue
-		//Nsv13 end.
-		if(!SHARES_OVERMAP_ALLIED(C, src) || ("ss13" in tempnetwork))
+		if(!(is_station_level(C.z) || is_mining_level(C.z) || ("ss13" in tempnetwork)))
 			continue
 		if(!C.can_use())
 			continue

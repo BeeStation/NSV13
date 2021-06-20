@@ -2,7 +2,7 @@
 Assistant
 */
 /datum/job/assistant
-	title = "Midshipman" //Nsv13 - Crayon eaters
+	title = "Assistant"
 	flag = ASSISTANT
 	department_flag = CIVILIAN
 	faction = "Station"
@@ -27,7 +27,7 @@ Assistant
 		return ..()
 
 /datum/outfit/job/assistant
-	name = "Midshipman" //Nsv13 - Crayon eaters
+	name = "Assistant"
 	jobtype = /datum/job/assistant
 
 /datum/outfit/job/assistant/pre_equip(mob/living/carbon/human/H)
