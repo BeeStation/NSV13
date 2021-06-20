@@ -45,12 +45,11 @@
 	if(!newloc || !AM)
 		return ..()
 	if(!isobserver(AM) && isTerminator() && (get_dir(src, newloc) == dir))
-		stair_ascend(AM)
-		return FALSE
+		return stair_ascend(AM, newloc)
 	return ..()
 
 /obj/structure/stairs/Cross(atom/movable/AM)
-	if(isTerminator() && (get_dir(src, AM) == dir))
+	if(isTerminator() && (get_dir(src, AM) == dir) && (AM.z <= z))
 		return FALSE
 	return ..()
 
@@ -60,7 +59,7 @@
 	else
 		icon_state = "stairs"
 
-/obj/structure/stairs/proc/stair_ascend(atom/movable/AM)
+/obj/structure/stairs/proc/stair_ascend(atom/movable/AM, turf/newloc)
 	var/turf/checking = get_step_multiz(get_turf(src), UP)
 	if(!istype(checking))
 		return
@@ -68,15 +67,12 @@
 		return
 	var/turf/target = get_step_multiz(get_turf(src), (dir|UP))
 	if(istype(target) && !target.can_zFall(AM, null, get_step_multiz(target, DOWN)))			//Don't throw them into a tile that will just dump them back down.
-		if(isliving(AM))
-			var/mob/living/L = AM
-			var/pulling = L.pulling
-			if(pulling)
-				L.pulling.forceMove(target)
-			L.forceMove(target)
-			L.start_pulling(pulling)
+		if(newloc == target)
+			// Slight jank, but this call is happening because we tried to leave the stair tile. If it's targeting the right location, say yes.
+			return TRUE
 		else
-			AM.forceMove(target)
+			return AM.Move(target)
+
 
 /obj/structure/stairs/vv_edit_var(var_name, var_value)
 	. = ..()

@@ -19,6 +19,7 @@
 	maintainable = FALSE //This just makes them brick.
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
 	var/obj/machinery/deck_turret/core
+	var/id = null //N.B. This is NOT intended to allow them to manual link deck guns. This is for certain boarding maps and is thus a UNIQUE CONSTRAINT for this one case. ~KMC
 
 /obj/machinery/ship_weapon/deck_turret/lazyload()
 	. = ..()
@@ -29,6 +30,8 @@
 /obj/machinery/ship_weapon/deck_turret/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
 	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
+	if(!core)
+		link_via_id()
 	if(!core)
 		to_chat(user, "<span class='warning'>No gun core detected to link to. Ensure one is placed directly below the turret. </span>")
 		return
@@ -134,6 +137,7 @@
 	density = TRUE
 	anchored = TRUE
 	circuit = /obj/item/circuitboard/machine/deck_gun
+	var/id = null
 	var/obj/machinery/ship_weapon/deck_turret/turret = null
 	var/list/powder_gates = list()
 	var/obj/machinery/deck_turret/payload_gate/payload_gate
@@ -160,6 +164,7 @@
 	powder_gates = list()
 	computer = locate(/obj/machinery/computer/deckgun) in orange(1, src)
 	computer.core = src
+	turret.get_ship()
 	for(var/turf/T in orange(1, src))
 		var/obj/machinery/deck_turret/powder_gate/powder_gate = locate(/obj/machinery/deck_turret/powder_gate) in T
 		if(powder_gate && istype(powder_gate))
@@ -479,6 +484,17 @@
 		return
 	core.turret = src
 	core.update_parts()
+	if(id)
+		addtimer(CALLBACK(src, .proc/link_via_id), 10 SECONDS)
+
+/obj/machinery/ship_weapon/deck_turret/proc/link_via_id()
+	for(var/obj/machinery/deck_turret/core in GLOB.machines)
+		if(!istype(core))
+			continue
+		if(core.id && core.id == id)
+			core.turret = src
+			src.core = core
+			core.update_parts()
 
 //The actual gun assembly.
 /obj/structure/ship_weapon/mac_assembly/artillery_frame

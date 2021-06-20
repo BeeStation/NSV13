@@ -266,7 +266,7 @@
 
 /datum/gear/uniform/rank/assistant
 	subtype_path = /datum/gear/uniform/rank/assistant
-	allowed_roles = list("Assistant")
+	allowed_roles = list("Midshipman")  //Nsv13 - Crayon eaters
 
 /datum/gear/uniform/rank/assistant/formal
 	display_name = "assistant's formal uniform"
@@ -343,7 +343,7 @@
 
 /datum/gear/uniform/rank/security
 	subtype_path = /datum/gear/uniform/rank/security
-	allowed_roles = list("Security Officer")
+	allowed_roles = list("Military Police") //Nsv13 - Crayon eaters & MPs
 
 /datum/gear/uniform/rank/security/white
 	display_name = "security jumpsuit, white"
