@@ -1,11 +1,11 @@
-#define MIN_SONAR_DELAY 5 SECONDS
-#define MAX_SONAR_DELAY 60 SECONDS
-#define SONAR_VISIBILITY_PENALTY 5 SECONDS
+#define MIN_RADAR_DELAY 5 SECONDS
+#define MAX_RADAR_DELAY 60 SECONDS
+#define RADAR_VISIBILITY_PENALTY 5 SECONDS
 #define SENSOR_MODE_PASSIVE 1
-#define SENSOR_MODE_SONAR 2
+#define SENSOR_MODE_RADAR 2
 
 /obj/machinery/computer/ship/dradis
-	name = "DRADIS computer"
+	name = "\improper DRADIS computer"
 	desc = "The DRADIS system is a series of highly sensitive detection, identification, navigation and tracking systems used to determine the range and speed of objects. This forms the most central component of a spaceship's navigational systems, as it can project the whereabouts of enemies that are out of visual sensor range by tracking their engine signatures."
 	icon_screen = "teleport"
 	req_access = list()
@@ -23,7 +23,8 @@
 	var/showEnemies= 100
 	var/showAsteroids = 100 //add planets to this eventually.
 	var/showAnomalies = 100
-	var/sensor_range = SENSOR_RANGE_DEFAULT //In tiles. How far your sensors can pick up precise info about ships.
+	var/sensor_range = 0 //Automatically set to equal base sensor range on init.
+	var/base_sensor_range = SENSOR_RANGE_DEFAULT //In tiles. How far your sensors can pick up precise info about ships.
 	var/zoom_factor = 0.5 //Lets you zoom in / out on the DRADIS for more precision, or for better info.
 	var/next_hail = 0
 	var/hail_range = 50 //Decent distance.
@@ -31,26 +32,26 @@
 	var/usingBeacon = FALSE //Var copied from express consoles so this doesn't break. I love abusing inheritance ;)
 	var/obj/item/supplypod_beacon/beacon
 	var/sensor_mode = SENSOR_MODE_PASSIVE
-	var/sonar_delay = MIN_SONAR_DELAY
+	var/radar_delay = MIN_RADAR_DELAY
 
-/obj/machinery/computer/ship/dradis/proc/can_sonar_pulse()
+/obj/machinery/computer/ship/dradis/proc/can_radar_pulse()
 	var/obj/structure/overmap/OM = get_overmap()
-	var/next_pulse = OM.last_sonar_pulse + sonar_delay
+	var/next_pulse = OM.last_radar_pulse + radar_delay
 	if(world.time >= next_pulse)
 		return TRUE
 
-/obj/machinery/computer/ship/dradis/internal/can_sonar_pulse()
+/obj/machinery/computer/ship/dradis/internal/can_radar_pulse()
 	return FALSE
 
-/obj/machinery/computer/ship/dradis/internal/awacs/can_sonar_pulse()
+/obj/machinery/computer/ship/dradis/internal/awacs/can_radar_pulse()
 	var/obj/structure/overmap/OM = loc
 	if(!OM)
 		return
-	var/next_pulse = OM.last_sonar_pulse + sonar_delay
+	var/next_pulse = OM.last_radar_pulse + radar_delay
 	if(world.time >= next_pulse)
 		return TRUE
 f
-/obj/machinery/computer/ship/dradis/minor/can_sonar_pulse()
+/obj/machinery/computer/ship/dradis/minor/can_radar_pulse()
 	return FALSE
 
 
@@ -61,7 +62,7 @@ args:
 penalty: The amount of additional sensor profile
 remove_in: Optional arg, if > 0: Will remove the effect in that amount of ticks
 */
-/obj/structure/overmap/proc/add_sensor_profile_penalty(var/penalty, var/remove_in = -1)
+/obj/structure/overmap/proc/add_sensor_profile_penalty(penalty, remove_in = -1)
 	sensor_profile += penalty
 	if(remove_in < 1)
 		return
@@ -71,29 +72,28 @@ remove_in: Optional arg, if > 0: Will remove the effect in that amount of ticks
 Reduces sensor profile by the amount given as arg.
 Called by add_sensor_profile_penalty if remove_in is used.
 */
-/obj/structure/overmap/proc/remove_sensor_profile_penalty(var/amount)
+/obj/structure/overmap/proc/remove_sensor_profile_penalty(amount)
 	sensor_profile -= amount
 
-/obj/structure/overmap/proc/send_sonar_pulse()
-	var/next_pulse = last_sonar_pulse + SONAR_VISIBILITY_PENALTY
+/obj/structure/overmap/proc/send_radar_pulse()
+	var/next_pulse = last_radar_pulse + RADAR_VISIBILITY_PENALTY
 	if(world.time < next_pulse)
 		return FALSE
 	relay('nsv13/sound/effects/ship/sensor_pulse_send.ogg')
 	relay_to_nearby('nsv13/sound/effects/ship/sensor_pulse_hit.ogg', ignore_self=TRUE, sound_range=255, faction_check=TRUE)
-	last_sonar_pulse = world.time
-	addtimer(VARSET_CALLBACK(src, max_tracking_range, max_tracking_range), SONAR_VISIBILITY_PENALTY)
+	last_radar_pulse = world.time
+	addtimer(VARSET_CALLBACK(src, max_tracking_range, max_tracking_range), RADAR_VISIBILITY_PENALTY)
 	max_tracking_range *= 2
-	add_sensor_profile_penalty(max_tracking_range, SONAR_VISIBILITY_PENALTY)
+	add_sensor_profile_penalty(max_tracking_range, RADAR_VISIBILITY_PENALTY)
 
-/obj/machinery/computer/ship/dradis/proc/send_sonar_pulse()
+/obj/machinery/computer/ship/dradis/proc/send_radar_pulse()
 	var/obj/structure/overmap/OM = get_overmap()
-	if(!can_sonar_pulse())
+	if(!can_radar_pulse())
 		return FALSE
-	OM?.send_sonar_pulse()
-	var/stored = sensor_range
-	addtimer(VARSET_CALLBACK(src, sensor_range, stored), SONAR_VISIBILITY_PENALTY)
+	OM?.send_radar_pulse()
+	addtimer(VARSET_CALLBACK(src, sensor_range, base_sensor_range), RADAR_VISIBILITY_PENALTY)
 	sensor_range = world.maxx
-	OM?.add_sensor_profile_penalty(sensor_range, SONAR_VISIBILITY_PENALTY)
+	OM?.add_sensor_profile_penalty(sensor_range, RADAR_VISIBILITY_PENALTY)
 
 /obj/machinery/computer/ship/dradis/examine(mob/user)
 	. = ..()
@@ -120,26 +120,24 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	return FALSE
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
-	name = "Air traffic control console"
+	name = "\improper Air traffic control console"
 
 /obj/machinery/computer/ship/dradis/mining
-	name = "Mining DRADIS computer"
+	name = "mining DRADIS computer"
 	desc = "A modified dradis console which links to the mining ship's mineral scanners, able to pick up asteroids that can be mined."
 	req_one_access_txt = "31;48"
 	circuit = /obj/item/circuitboard/computer/ship/dradis/mining
 	show_asteroids = TRUE
 
 /obj/machinery/computer/ship/dradis/internal
-	name = "Integrated dradis console"
+	name = "integrated dradis console"
 	use_power = 0
 	start_with_sound = FALSE
-	sensor_range = SENSOR_RANGE_FIGHTER
+	base_sensor_range = SENSOR_RANGE_FIGHTER
 	hail_range = 30
 
 /obj/machinery/computer/ship/dradis/internal/has_overmap()
-	if(linked)
-		return TRUE
-	return FALSE
+	return linked
 
 /obj/machinery/computer/ship/dradis/minor/set_position(obj/structure/overmap/OM)
 	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/reset_dradis_contacts, override=TRUE)
@@ -162,6 +160,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/Initialize()
 	. = ..()
+	sensor_range = base_sensor_range
 
 /obj/machinery/computer/ship/dradis/attack_hand(mob/user)
 	. = ..()
@@ -192,8 +191,10 @@ Called by add_sensor_profile_penalty if remove_in is used.
 		ui = new(user, src, "Dradis")
 		ui.open()
 
-/obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui)
+/obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui, mob/user)
 	. = ..()
+	if(isobserver(user))
+		return
 	if(.)
 		return
 	if(!has_overmap())
@@ -234,17 +235,17 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			next_hail = world.time + 10 SECONDS //I hate that I need to do this, but yeah.
 			if(get_dist(target, linked) <= hail_range)
 				target.try_hail(usr, linked)
-		if("sonar_pulse")
-			send_sonar_pulse()
+		if("radar_pulse")
+			send_radar_pulse()
 		if("sensor_mode")
-			sensor_mode = (sensor_mode == SENSOR_MODE_PASSIVE) ? SENSOR_MODE_SONAR : SENSOR_MODE_PASSIVE
-		if("sonar_delay")
-			var/newDelay = input(usr, "Set a new sonar delay (seconds)", "Sonar Delay", null) as num|null
+			sensor_mode = (sensor_mode == SENSOR_MODE_PASSIVE) ? SENSOR_MODE_RADAR : SENSOR_MODE_PASSIVE
+		if("radar_delay")
+			var/newDelay = input(usr, "Set a new radar delay (seconds)", "Radar Delay", null) as num|null
 			if(!newDelay)
 				return
 			newDelay = newDelay SECONDS
-			newDelay = CLAMP(newDelay, MIN_SONAR_DELAY, MAX_SONAR_DELAY)
-			sonar_delay = newDelay
+			newDelay = CLAMP(newDelay, MIN_RADAR_DELAY, MAX_RADAR_DELAY)
+			radar_delay = newDelay
 
 /obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
@@ -267,8 +268,8 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	if(dist <= 0)
 		dist = 1
 	var/distance_factor = (1/dist) //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
-	//If we fired off a sonar, we're visible to _every ship_
-	if(last_sonar_pulse+SONAR_VISIBILITY_PENALTY > world.time)
+	//If we fired off a radar, we're visible to _every ship_
+	if(last_radar_pulse+RADAR_VISIBILITY_PENALTY > world.time)
 		return SENSOR_VISIBILITY_FULL
 	//Convert alpha to an opacity reading.
 	switch(alpha)
@@ -288,26 +289,23 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	set waitfor = FALSE
 	switch(state)
 		if(TRUE)
-			while(alpha > cloak_factor){
+			while(alpha > cloak_factor)
 				stoplag()
 				alpha -= 5
-			}
 			mouse_opacity = FALSE
 			return
 		if(FALSE)
-			while(alpha < 255){
+			while(alpha < 255)
 				stoplag()
 				alpha += 5
-			}
 			mouse_opacity = TRUE
 			return
 		if(CLOAK_TEMPORARY_LOSS) //Flicker the cloak so that you can fire.
 			if(alpha >= 255) //No need to re-cloak us if we were never cloaked...
 				return
-			while(alpha < 255){
+			while(alpha < 255)
 				stoplag()
 				alpha += 15
-			}
 			mouse_opacity = TRUE
 			addtimer(CALLBACK(src, .proc/handle_cloak, TRUE), 15 SECONDS)
 
@@ -373,11 +371,11 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	data["showAnomalies"] = showAnomalies
 	data["sensor_range"] = sensor_range
 	data["width_mod"] = sensor_range / SENSOR_RANGE_DEFAULT
-	data["can_sonar_pulse"] = can_sonar_pulse()
-	data["sensor_mode"] = (sensor_mode == SENSOR_MODE_PASSIVE) ? "Passive Scanning" : "Active Sonar"
-	data["pulse_delay"] = "[sonar_delay / 10]"
-	if(sensor_mode == SENSOR_MODE_SONAR)
-		send_sonar_pulse()
+	data["can_radar_pulse"] = can_radar_pulse()
+	data["sensor_mode"] = (sensor_mode == SENSOR_MODE_PASSIVE) ? "Passive Radar" : "Active Radar"
+	data["pulse_delay"] = "[radar_delay / 10]"
+	if(sensor_mode == SENSOR_MODE_RADAR)
+		send_radar_pulse()
 	return data
 
 /datum/asset/simple/overmap_flight

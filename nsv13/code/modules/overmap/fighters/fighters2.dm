@@ -1,41 +1,12 @@
 /*
-Todo:
-Ammo loading
-Startup sequence
-Docking [X]
-Unified construction
-Death state / Crit mode (Canopy breach?)
-Hardpoints [X]
-Repair
+Woe betide ye who tread here.
+
+Been a mess since 2018, we'll fix it someday (probably)
 */
-
-
-#define HARDPOINT_SLOT_PRIMARY "Primary"
-#define HARDPOINT_SLOT_SECONDARY "Secondary"
-#define HARDPOINT_SLOT_UTILITY "Utility"
-#define HARDPOINT_SLOT_ARMOUR "Armour"
-#define HARDPOINT_SLOT_DOCKING "Docking Module"
-#define HARDPOINT_SLOT_CANOPY "Canopy"
-#define HARDPOINT_SLOT_FUEL "Fuel Tank"
-#define HARDPOINT_SLOT_ENGINE "Engine"
-#define HARDPOINT_SLOT_RADAR "Radar"
-#define HARDPOINT_SLOT_OXYGENATOR "Atmospheric Regulator"
-#define HARDPOINT_SLOT_BATTERY "Battery"
-#define HARDPOINT_SLOT_APU "APU"
-#define HARDPOINT_SLOT_UTILITY_PRIMARY "Primary Utility"
-#define HARDPOINT_SLOT_UTILITY_SECONDARY "Secondary Utility"
-
-#define ALL_HARDPOINT_SLOTS list(HARDPOINT_SLOT_PRIMARY, HARDPOINT_SLOT_SECONDARY,HARDPOINT_SLOT_UTILITY, HARDPOINT_SLOT_ARMOUR, HARDPOINT_SLOT_FUEL, HARDPOINT_SLOT_ENGINE, HARDPOINT_SLOT_RADAR, HARDPOINT_SLOT_CANOPY, HARDPOINT_SLOT_OXYGENATOR,HARDPOINT_SLOT_DOCKING, HARDPOINT_SLOT_BATTERY, HARDPOINT_SLOT_APU)
-#define HARDPOINT_SLOTS_STANDARD list(HARDPOINT_SLOT_PRIMARY, HARDPOINT_SLOT_SECONDARY, HARDPOINT_SLOT_ARMOUR, HARDPOINT_SLOT_FUEL, HARDPOINT_SLOT_ENGINE, HARDPOINT_SLOT_RADAR,HARDPOINT_SLOT_CANOPY, HARDPOINT_SLOT_OXYGENATOR,HARDPOINT_SLOT_DOCKING, HARDPOINT_SLOT_BATTERY, HARDPOINT_SLOT_APU)
-#define HARDPOINT_SLOTS_UTILITY list(HARDPOINT_SLOT_UTILITY_PRIMARY,HARDPOINT_SLOT_UTILITY_SECONDARY, HARDPOINT_SLOT_ARMOUR, HARDPOINT_SLOT_FUEL, HARDPOINT_SLOT_ENGINE, HARDPOINT_SLOT_RADAR,HARDPOINT_SLOT_CANOPY, HARDPOINT_SLOT_OXYGENATOR,HARDPOINT_SLOT_DOCKING, HARDPOINT_SLOT_BATTERY, HARDPOINT_SLOT_APU)
-
-#define LOADOUT_DEFAULT_FIGHTER /datum/component/ship_loadout
-#define LOADOUT_UTILITY_ONLY /datum/component/ship_loadout/utility
-
-#define ENGINE_RPM_SPUN 8000
 
 /obj/structure/overmap/fighter/Destroy()
 	throw_pilot()
+	kill_boarding_level()
 	. = ..()
 
 /obj/structure/overmap/fighter
@@ -62,9 +33,11 @@ Repair
 	weapon_safety = TRUE //This happens wayy too much for my liking. Starts ON.
 	pixel_w = -16
 	pixel_z = -20
+	var/flight_pixel_w = -30
+	var/flight_pixel_z = -32
 	pixel_collision_size_x = 32
 	pixel_collision_size_y = 32 //Avoid center tile viewport jank
-	req_one_access = list(ACCESS_FIGHTER)
+	req_one_access = list(ACCESS_COMBAT_PILOT)
 	var/start_emagged = FALSE
 	var/max_passengers = 0 //Change this per fighter.
 	//Component to handle the fighter's loadout, weapons, parts, the works.
@@ -76,6 +49,7 @@ Repair
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
 	var/maintenance_mode = FALSE //Munitions level IDs can change this.
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
+	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode, \
 								.verb/show_control_panel, .verb/change_name)
 
@@ -166,6 +140,13 @@ Repair
 	var/obj/item/fighter_component/engine/engine = loadout.get_slot(HARDPOINT_SLOT_ENGINE)
 	data["ignition"] = engine ? engine.active() : FALSE
 	data["rpm"] = engine? engine.rpm : 0
+
+	var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
+	data["ftl_capable"] = ftl ? TRUE : FALSE
+	data["ftl_spool_progress"] = ftl ? ftl.progress : FALSE
+	data["ftl_spool_time"] = ftl ? ftl.spoolup_time : FALSE
+	data["jump_ready"] = (ftl?.progress >= ftl?.spoolup_time)
+	data["ftl_active"] = (ftl?.active)
 
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
@@ -307,6 +288,14 @@ Repair
 		if("show_dradis")
 			dradis.ui_interact(usr)
 			return
+		if("toggle_ftl")
+			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
+			if(!ftl)
+				return
+			ftl.active = !ftl.active
+			relay('nsv13/sound/effects/fighters/switch.ogg')
+
+
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 
 /obj/structure/overmap/fighter/light
@@ -334,64 +323,6 @@ Repair
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/primary/cannon)
-
-//FL gets a hotrod
-/obj/structure/overmap/fighter/light/flight_leader
-	req_one_access = list(ACCESS_FL)
-	icon_state = "ace"
-	components = list(/obj/item/fighter_component/fuel_tank/tier2,
-						/obj/item/fighter_component/avionics,
-						/obj/item/fighter_component/apu,
-						/obj/item/fighter_component/armour_plating/tier2,
-						/obj/item/fighter_component/targeting_sensor,
-						/obj/item/fighter_component/engine/tier2,
-						/obj/item/fighter_component/countermeasure_dispenser,
-						/obj/item/fighter_component/secondary/ordnance_launcher,
-						/obj/item/fighter_component/oxygenator,
-						/obj/item/fighter_component/canopy,
-						/obj/item/fighter_component/docking_computer,
-						/obj/item/fighter_component/battery,
-						/obj/item/fighter_component/primary/cannon)
-
-/obj/structure/overmap/fighter/utility
-	name = "Su-437 Sabre"
-	desc = "A Su-437 Sabre utility vessel. Designed for robustness in deep space and as a highly modular platform, able to be fitted out for any situation. Drag and drop crates / ore boxes to load them into its cargo hold."
-	icon = 'nsv13/icons/overmap/nanotrasen/carrier.dmi'
-	icon_state = "carrier"
-	armor = list("melee" = 70, "bullet" = 70, "laser" = 70, "energy" = 40, "bomb" = 40, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 15, "overmap_heavy" = 0)
-	sprite_size = 32
-	damage_states = FALSE //temp
-	max_integrity = 250 //Tanky
-	max_passengers = 6
-	pixel_w = -16
-	pixel_z = -20
-	req_one_access = list(ACCESS_MUNITIONS, ACCESS_ENGINE, ACCESS_FIGHTER)
-
-	forward_maxthrust = 5
-	backward_maxthrust = 5
-	side_maxthrust = 5
-	max_angular_acceleration = 100
-	speed_limit = 6
-//	ftl_goal = 45 SECONDS //Raptors can, by default, initiate relative FTL jumps to other ships.
-	loadout_type = LOADOUT_UTILITY_ONLY
-	dradis_type = /obj/machinery/computer/ship/dradis/internal/awacs //Sabres can send sonar pulses
-	components = list(/obj/item/fighter_component/fuel_tank/tier2,
-						/obj/item/fighter_component/avionics,
-						/obj/item/fighter_component/apu,
-						/obj/item/fighter_component/armour_plating,
-						/obj/item/fighter_component/targeting_sensor,
-						/obj/item/fighter_component/engine,
-						/obj/item/fighter_component/oxygenator,
-						/obj/item/fighter_component/canopy,
-						/obj/item/fighter_component/docking_computer,
-						/obj/item/fighter_component/battery,
-						/obj/item/fighter_component/primary/utility/hold,
-						/obj/item/fighter_component/secondary/utility/resupply,
-						/obj/item/fighter_component/countermeasure_dispenser)
-
-/obj/structure/overmap/fighter/utility/mining
-	icon = 'nsv13/icons/overmap/nanotrasen/carrier_mining.dmi'
-	req_one_access = list(ACCESS_CARGO, ACCESS_MINING, ACCESS_MUNITIONS, ACCESS_ENGINE, ACCESS_FIGHTER)
 
 /obj/structure/overmap/fighter/escapepod
 	name = "Escape Pod"
@@ -456,20 +387,15 @@ Repair
 	req_one_access = ACCESS_SYNDICATE
 	faction = "syndicate"
 	start_emagged = TRUE
-/obj/structure/overmap/fighter/utility/syndicate //PVP MODE
-	name = "Syndicate Utility Vessel"
-	desc = "A boarding craft for rapid troop deployment."
-	icon = 'nsv13/icons/overmap/syndicate/syn_raptor.dmi'
-	req_one_access = ACCESS_SYNDICATE
-	faction = "syndicate"
-	start_emagged = TRUE
 
 /obj/structure/overmap/fighter/Initialize(mapload, list/build_components=components)
 	. = ..()
 	apply_weapons()
 	loadout = AddComponent(loadout_type)
-	dradis = new dradis_type(src) //Fighters need a way to find their way home.
-	dradis.linked = src
+	if(dradis_type)
+		dradis = new dradis_type(src) //Fighters need a way to find their way home.
+		dradis.linked = src
+	set_light(4)
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
 	add_overlay(image(icon = icon, icon_state = "canopy_open", dir = SOUTH))
@@ -570,8 +496,9 @@ Repair
 	if(!canopy_open)
 		canopy_open = TRUE
 		playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
-	for(var/mob/M in operators)
+	for(var/mob/M in mobs_in_ship)
 		stop_piloting(M, force)
+		M.forceMove(get_turf(src))
 		to_chat(M, "<span class='warning'>You have been remotely ejected from [src]!.</span>")
 		victims += M
 	return victims
@@ -588,7 +515,8 @@ Repair
 	E.rpm = ENGINE_RPM_SPUN
 	E.try_start()
 	toggle_canopy()
-	forceMove(get_turf(locate(world.maxx, y, z)))
+	forceMove(get_turf(locate(250, y, z)))
+	//check_overmap_elegibility(TRUE)
 
 /obj/structure/overmap/fighter/proc/throw_pilot() //Used when yeeting a pilot out of an exploding ship
 	if(SSmapping.level_trait(z, ZTRAIT_OVERMAP)) //Check if we're on the overmap
@@ -1001,7 +929,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/structure/overmap/fighter/proc/get_fuel()
 	var/obj/item/fighter_component/fuel_tank/ft = loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	. = 0
-	for(var/datum/reagent/aviation_fuel/F in ft?.reagents.reagent_list)
+	for(var/datum/reagent/cryogenic_fuel/F in ft?.reagents.reagent_list)
 		if(!istype(F))
 			continue
 		. += F.volume
@@ -1011,8 +939,8 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	var/obj/item/fighter_component/fuel_tank/ft = loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	if(!ft)
 		return FALSE
-	ft.reagents.add_reagent(/datum/reagent/aviation_fuel, 1) //Assert that we have this reagent in the tank.
-	for(var/datum/reagent/aviation_fuel/F in ft?.reagents.reagent_list)
+	ft.reagents.add_reagent(/datum/reagent/cryogenic_fuel, 1) //Assert that we have this reagent in the tank.
+	for(var/datum/reagent/cryogenic_fuel/F in ft?.reagents.reagent_list)
 		if(!istype(F))
 			continue
 		F.volume = amount
@@ -1039,7 +967,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	var/obj/item/fighter_component/fuel_tank/ft = loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	if(!ft)
 		return FALSE
-	ft.reagents.remove_reagent(/datum/reagent/aviation_fuel, amount)
+	ft.reagents.remove_reagent(/datum/reagent/cryogenic_fuel, amount)
 	if(get_fuel() >= amount)
 		return TRUE
 	set_master_caution(TRUE)
@@ -1280,7 +1208,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	next_process = world.time + 4 SECONDS
 	if(!fuel_line)
 		return //APU needs fuel to drink
-	playsound(F, 'nsv13/sound/effects/fighters/apu_loop.ogg', 70, FALSE)
+	F.relay('nsv13/sound/effects/fighters/apu_loop.ogg')
 	var/obj/item/fighter_component/engine/engine = F.loadout.get_slot(HARDPOINT_SLOT_ENGINE)
 	F.use_fuel(2, TRUE) //APUs take fuel to run.
 	if(engine.active())
@@ -1798,5 +1726,3 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/structure/overmap/fighter/proc/toggle_canopy()
 	canopy_open = !canopy_open
 	playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
-
-/obj/structure/overmap/fighter/utility/prebuilt/carrier //This needs to be resolved properly later

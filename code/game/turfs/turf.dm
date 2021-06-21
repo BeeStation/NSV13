@@ -181,16 +181,22 @@ GLOBAL_LIST_EMPTY(station_turfs)
 /turf/proc/can_zFall(atom/movable/A, levels = 1, turf/target)
 	return zPassOut(A, DOWN, target) && target.zPassIn(A, DOWN, src)
 
-/turf/proc/zFall(atom/movable/A, levels = 1, force = FALSE)
+/turf/proc/zFall(atom/movable/A, levels = 1, force = FALSE, turf/oldloc = null)
 	var/turf/target = get_step_multiz(src, DOWN)
 	if(!target || (!isobj(A) && !ismob(A)))
 		return FALSE
 	if(!force && (!can_zFall(A, levels, target) || !A.can_zFall(src, levels, target, DOWN)))
 		return FALSE
-	A.zfalling = TRUE
-	A.forceMove(target)
-	A.zfalling = FALSE
-	target.zImpact(A, levels, src)
+	if(!A.zfalling)
+		A.zfalling = TRUE
+		if(A.pulling && oldloc)
+			A.pulling.moving_from_pull = A
+			A.pulling.Move(oldloc)
+			A.pulling.moving_from_pull = null
+		if(!A.Move(target))
+			A.doMove(target)
+		. = target.zImpact(A, levels, src)
+		A.zfalling = FALSE
 	return TRUE
 
 /turf/attackby(obj/item/C, mob/user, params)
@@ -266,14 +272,14 @@ GLOBAL_LIST_EMPTY(station_turfs)
 		if(QDELETED(mover))
 			return FALSE		//We were deleted.
 
-/turf/Entered(atom/movable/AM)
+/turf/Entered(atom/movable/AM, turf/oldloc)
 	..()
 	// If an opaque movable atom moves around we need to potentially update visibility.
 	if (AM.opacity)
 		has_opaque_atom = TRUE // Make sure to do this before reconsider_lights(), incase we're on instant updates. Guaranteed to be on in this case.
 		reconsider_lights()
 
-/turf/open/Entered(atom/movable/AM)
+/turf/open/Entered(atom/movable/AM, turf/oldloc)
 	..()
 	//melting
 	if(isobj(AM) && air && air.return_temperature() > T0C)
@@ -281,7 +287,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 		if(O.obj_flags & FROZEN)
 			O.make_unfrozen()
 	if(!AM.zfalling)
-		zFall(AM)
+		zFall(AM, oldloc=oldloc)
 
 /turf/proc/is_plasteel_floor()
 	return FALSE

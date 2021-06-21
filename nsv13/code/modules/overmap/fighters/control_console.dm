@@ -1,5 +1,5 @@
 /obj/machinery/computer/ship/fighter_controller
-	name = "Fighter control console"
+	name = "fighter control console"
 	desc = "A computer which allows you to remotely modify fighter system settings. Its power should not be understated."
 	icon_screen = "fighter_control"
 	req_access = list(ACCESS_MAA)

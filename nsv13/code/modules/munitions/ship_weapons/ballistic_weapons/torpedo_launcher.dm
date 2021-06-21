@@ -16,15 +16,27 @@
 
 /obj/machinery/ship_weapon/torpedo_launcher/north
 	dir = NORTH
+	pixel_x = -16
+	pixel_y = -32
+	bound_height = 96
+	bound_width = 32
 
 /obj/machinery/ship_weapon/torpedo_launcher/south
 	dir = SOUTH
+	pixel_x = -16
+	pixel_y = -64
+	bound_height = 96
+	bound_width = 32
+	bound_y = -64
 
 /obj/machinery/ship_weapon/torpedo_launcher/east
 	dir = EAST
 
 /obj/machinery/ship_weapon/torpedo_launcher/west
 	dir = WEST
+	pixel_x = -64
+	pixel_y = -74
+	bound_x = -64
 
 /obj/machinery/ship_weapon/torpedo_launcher/Initialize()
 	..()

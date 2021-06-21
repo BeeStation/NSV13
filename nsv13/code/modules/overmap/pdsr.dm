@@ -127,7 +127,7 @@
 		reaction_containment += 5
 		if(reaction_containment >= 100)
 			reaction_containment = 100
-			if(reaction_injection_rate < 5)
+			if(reaction_injection_rate < 2.5)
 				say("Error: Unable to initialise reaction, insufficient nucleium injection.")
 				reaction_containment = 0
 				current_uptime = 0
@@ -151,7 +151,7 @@
 		if(nuc_in >= reaction_injection_rate) //If we are running in nominal conditions...
 			nucleium_input.adjust_moles(/datum/gas/nucleium, -reaction_injection_rate)
 			//Handle reaction rate adjustments here
-			var/target_reaction_rate = ((0.5 + (1e-03 * (reaction_injection_rate ** 2))) + (current_uptime / 1000)) * 16
+			var/target_reaction_rate = ((0.5 + (1e-03 * (reaction_injection_rate ** 2))) + (current_uptime / 2000)) * 16
 			var/delta_reaction_rate = target_reaction_rate - reaction_rate
 			reaction_rate += delta_reaction_rate / 2 //Function goes here
 			reaction_temperature += reaction_rate * 0.35 //Function goes
@@ -168,7 +168,7 @@
 			else //...and has some nucleium but not sufficient nucleium for a stable reaction
 				nucleium_input.adjust_moles(/datum/gas/nucleium, -nuc_in) //Use whatever is in there
 				//Handle reaction rate adjustments here WITH PENALTIES
-				var/target_reaction_rate = (0.5 + (1e-03 * (reaction_injection_rate ** 2))) + (current_uptime / 500) *  5
+				var/target_reaction_rate = (0.5 + (1e-03 * (reaction_injection_rate ** 2))) + (current_uptime / 1000) *  5
 				var/delta_reaction_rate = target_reaction_rate - reaction_rate
 				reaction_rate += delta_reaction_rate / 2 //Function goes here
 				reaction_temperature += reaction_rate * 0.45 //Heat Penalty
@@ -176,14 +176,14 @@
 				handle_polarity(TRUE)
 
 		if(reaction_rate > 5) //TEMP USE FUNCTIONS
-			reaction_energy_output = (reaction_rate + (reaction_injection_rate / 2)) * (2 - (current_uptime / 10000)) //FUNCTIONS
+			reaction_energy_output = (reaction_rate + (reaction_injection_rate / 2)) * (2 - (current_uptime / 20000)) //FUNCTIONS
 			radiation_pulse(src, reaction_energy_output)
 
 		else
 			reaction_energy_output = 0
 
 		if(coolant_input.total_moles() >= (reaction_rate * 3))
-			var/delta_coolant = (KELVIN_TO_CELSIUS(coolant_input.return_temperature()) / 40)  //no longer whole sale stolen :)
+			var/delta_coolant = (KELVIN_TO_CELSIUS(coolant_input.return_temperature()) / 40)  //no longer whole sale stolen :) - Yeah I was correct the first time; MAP PROBLEM, NOT CODE PROBLEM
 			reaction_temperature += delta_coolant
 			coolant_output.merge(coolant_input)
 			coolant_output.set_temperature(CELSIUS_TO_KELVIN(reaction_temperature))
@@ -351,7 +351,7 @@
 
 	var/polarity_function = abs(0.5 * (reaction_polarity ** 2)) //RECHECK THIS WHEN NOT DEAD
 	reaction_containment -= polarity_function
-	reaction_temperature += polarity_function * max(1, (current_uptime / 2000))
+	reaction_temperature += polarity_function * max(1, (current_uptime / 4000))
 
 /obj/machinery/atmospherics/components/trinary/defence_screen_reactor/proc/handle_emission_buildup()
 	if(prob(50)) //Seizure warning
@@ -401,7 +401,7 @@
 		env.set_temperature(temperature += delta_env / 2)
 		air_update_turf()
 
-	reaction_containment -= (reaction_temperature / 50) + (current_uptime / 1000)
+	reaction_containment -= (reaction_temperature / 50) + (current_uptime / 2000)
 
 /obj/machinery/atmospherics/components/trinary/defence_screen_reactor/proc/handle_atmos_check()
 	for(var/obj/machinery/defence_screen_relay/DSR in GLOB.machines)
@@ -624,7 +624,7 @@
 					return
 
 		if("shutdown")
-			if(reactor.state == REACTOR_STATE_RUNNING && reactor.reaction_temperature < 100)
+			if(reactor.state == REACTOR_STATE_RUNNING && reactor.reaction_temperature < 200)
 				reactor.say("Initializing Reactor Shutdown")
 				reactor.state = REACTOR_STATE_SHUTTING_DOWN
 				return
