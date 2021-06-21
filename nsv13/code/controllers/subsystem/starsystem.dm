@@ -553,7 +553,7 @@ Returns a faction datum by its name (case insensitive!)
 		*/
 		if("radioactive")
 			parallax_property = "radiation_cloud" //All credit goes to https://www.filterforge.com/filters/11427.html
-			possible_events = list(/datum/round_event_control/radiation_storm/deadly, /datum/round_event_control/radioactive_ash, /datum/round_event_control/radioactive_sludge = 8)
+			possible_events = list(/datum/round_event_control/radiation_storm/deadly, /datum/round_event_control/radioactive_sludge = 5)
 			event_chance = 100 //Radioactive systems are just that: Radioactive
 		if("nebula")
 			parallax_property = "nebula-thick" //All credit goes to https://www.filterforge.com/filters/11427.html
