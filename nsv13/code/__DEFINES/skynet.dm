@@ -23,16 +23,6 @@
 
 #define SCALE_FLEETS_WITH_POP TRUE //Change this to false if you want fleet size to be static. Fleets will be scaled down if the game detects underpopulation, however it can also scale them up to be more of a challenge.
 
-//Ship Ai trait defines
-/*
-#define AI_TRAIT_SUPPLY 1
-#define AI_TRAIT_BATTLESHIP 2
-#define AI_TRAIT_DESTROYER 3
-#define AI_TRAIT_ANTI_FIGHTER 4
-#define AI_TRAIT_BOARDER 5 
-#define AI_TRAIT_SWARMER 6 
-*/
-
 //Fleet behaviour. Border patrol fleets will stick to patrolling their home space only. Invasion fleets ignore home space and fly around. If the fleet has a goal system or is a interdictor, this gets mostly ignored, but stays as fallback.
 #define FLEET_TRAIT_BORDER_PATROL 1
 #define FLEET_TRAIT_INVASION 2
