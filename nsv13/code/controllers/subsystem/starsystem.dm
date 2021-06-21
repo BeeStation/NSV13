@@ -405,11 +405,6 @@ Returns a faction datum by its name (case insensitive!)
 			anomalies[++anomalies.len] = anomaly_info
 	return anomalies
 
-//Inheritance man, inheritance.
-/datum/round_event_control/radiation_storm/deadly
-	weight = 0
-	max_occurrences = 1000
-
 /obj/effect/overmap_anomaly
 	name = "Placeholder"
 	desc = "You shouldn't see this."
@@ -558,7 +553,7 @@ Returns a faction datum by its name (case insensitive!)
 		*/
 		if("radioactive")
 			parallax_property = "radiation_cloud" //All credit goes to https://www.filterforge.com/filters/11427.html
-			possible_events = list(/datum/round_event_control/radiation_storm/deadly)
+			possible_events = list(/datum/round_event_control/radiation_storm/deadly, /datum/round_event_control/radioactive_ash, /datum/round_event_control/radioactive_sludge = 8)
 			event_chance = 100 //Radioactive systems are just that: Radioactive
 		if("nebula")
 			parallax_property = "nebula-thick" //All credit goes to https://www.filterforge.com/filters/11427.html
