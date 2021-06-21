@@ -7,6 +7,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	resistance_flags = FLAMMABLE
 	var/list/squeak_override //Weighted list; If you want your plush to have different squeak sounds use this
+	var/should_squeak = TRUE //zeda edit: does the plush squeak At All
 	var/stuffed = TRUE //If the plushie has stuffing in it
 	var/obj/item/grenade/grenade //You can remove the stuffing from a plushie and add a grenade to it for *nefarious uses*
 	//--love ~<3--
@@ -35,7 +36,8 @@
 
 /obj/item/toy/plush/Initialize()
 	. = ..()
-	AddComponent(/datum/component/squeak, squeak_override)
+	if(should_squeak)
+		AddComponent(/datum/component/squeak, squeak_override)
 	AddElement(/datum/element/bed_tuckable, 6, -5, 90)
 
 	//have we decided if Pinocchio goes in the blue or pink aisle yet?
@@ -589,3 +591,27 @@
 	name = "metal upa"
 	desc = "You feel like this could have prevented World War 3 in a pararel timeline."
 	icon_state = "upaplush"
+
+//donator end, HK begin
+
+/obj/item/toy/plush/hornet
+	name = "strange bug plushie"
+	desc = "A cute, soft plush of a long-horned bug."
+	icon = 'nsv13/icons/obj/plushes.dmi'
+	icon_state = "plushie_hornet"
+	attack_verb = list("poked", "shaws")
+	squeak_override = list('nsv13/sound/hornetnoises/hornet_gitgud.ogg'=1, 'nsv13/sound/hornetnoises/hornet_SHAW.ogg'=10) //git gud will play 1 out of 11 times
+	gender = FEMALE
+
+/obj/item/toy/plush/hornet/gay
+	name = "gay bug plushie"
+	desc = "A cute, soft plush of a long-horned bug. Her cloak is in the colors of the lesbian pride flag."
+	icon_state = "plushie_gayhornet"
+
+/obj/item/toy/plush/knight
+	name = "odd bug plushie"
+	desc = "A cute, soft plush of a little bug. It sounds like this one didn't come with a voice box."
+	icon = 'nsv13/icons/obj/plushes.dmi'
+	icon_state = "plushie_knight"
+	attack_verb = list("poked")
+	should_squeak = FALSE //hk end
