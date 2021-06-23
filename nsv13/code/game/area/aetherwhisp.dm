@@ -34,7 +34,7 @@
 
 /area/engine/armour_pump
 	name = "Armour Repair Pumps"
-	icon_state = "engine_sm"
+	icon_state = "armour_pumps"
 
 /area/crew_quarters/pool_party
 	name = "Pool Area"
