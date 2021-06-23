@@ -1172,6 +1172,56 @@ Seek a ship thich we'll station ourselves around
 		fire_weapon(target, new_firemode)
 		next_firetime = world.time + (1 SECONDS) + (fire_delay*2)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
+
+/* 
+ * `ai_elite_fire(atom/target)`
+ * This proc is a slightly more advanced form of the normal 'fire' proc.
+ * Most menacing trait is that this allows AI elites to effectively broadside every single of their guns thats off cooldown. (if they have ammo)
+ */
+/obj/structure/overmap/proc/ai_elite_fire(atom/target)
+	if(next_firetime > world.time)
+		return
+	if(!istype(target, /obj/structure/overmap))
+		return
+	add_enemy(target)
+	var/target_range = get_dist(src,target)
+	if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
+		last_target = null
+		return
+	var/did_fire = FALSE
+	var/ammo_use = 0
+	var/smallest_cooldown = INFINITY
+
+	for(var/iter = FIRE_MODE_PDC, iter <= MAX_POSSIBLE_FIREMODE, iter++)
+		var/will_use_ammo = FALSE
+		var/datum/ship_weapon/SW = weapon_types[iter]
+		if(!SW)
+			continue
+		if(!next_firetime_gunspecific[iter])
+			next_firetime_gunspecific[iter] = world.time
+		else if(next_firetime_gunspecific[iter] > world.time)
+			continue
+		if(!SW.valid_target(src, target))
+			continue
+		if(SW.weapon_class > WEAPON_CLASS_LIGHT)
+			if((shots_left - ammo_use) <= 0)
+				continue //If we are out of shots. Continue.
+			will_use_ammo = TRUE
+		var/arc = Get_Angle(src, target)
+		if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
+			continue
+		fire_weapon(target, iter)
+		if(will_use_ammo)
+			ammo_use++
+		did_fire = TRUE
+		next_firetime_gunspecific[iter] = world.time + SW.fire_delay
+		if(SW.fire_delay < smallest_cooldown)
+			smallest_cooldown = SW.fire_delay
+
+	if(did_fire)
+		shots_left -= ammo_use
+		next_firetime = world.time + 1 SECONDS + smallest_cooldown
+		handle_cloak(CLOAK_TEMPORARY_LOSS)
 /**
 *
 *
@@ -1207,7 +1257,10 @@ Seek a ship thich we'll station ourselves around
 			last_target = null
 		else //They're in our tracking range. Let's hunt them down.
 			if(get_dist(last_target, src) <= max_weapon_range) //Theyre within weapon range.  Calculate a path to them and fire.
-				ai_fire(last_target) //Fire already handles things like being out of range, so we're good
+				if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE))
+					ai_elite_fire(last_target)
+				else
+					ai_fire(last_target) //Fire already handles things like being out of range, so we're good
 	if(move_mode)
 		user_thrust_dir = move_mode
 	if(can_resupply)
