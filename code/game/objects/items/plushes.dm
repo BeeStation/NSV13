@@ -520,6 +520,15 @@
 	gender = FEMALE	//given all the jokes and drawings, I'm not sure the xenobiologists would make a slimeboy
 	squeak_override = list('sound/effects/blobattack.ogg' = 1)
 
+/obj/item/toy/plush/amogusplush
+	name = "crewmate plushie"
+	desc = "Something is rather suspicious about this plushie"
+	icon = 'icons/obj/plushes.dmi'
+	icon_state = "amogusplush"
+	item_state = "amogusplush"
+	attack_verb = list("stabbed", "shot", "Neck Snapped", "Throat Sabered")
+	squeak_override = list('nsv13/sound/effects/amogusvent.ogg' = 1)
+
 /obj/item/toy/plush/awakenedplushie
 	name = "awakened plushie"
 	desc = "An ancient plushie that has grown enlightened to the true nature of reality."
