@@ -84,17 +84,9 @@
 	var/i_pressure = air_contents.return_pressure() // internal pressure
 	if(i_pressure > SILO_EXPLODE_PRESSURE)
 		if(prob(explosion_chance))
-			var/turf/T = get_turf(src)
-			var/multiplier = 1
-			if(air_contents.get_moles(/datum/gas/frameshifted_plasma) > 400) // something something rapid spacetime expansion something frame drag
-				multiplier = 1.5
-			T.assume_air(air_contents)
-			air_contents.clear()
-			var/V2 = round(2 + (i_pressure - SILO_EXPLODE_PRESSURE) / 300) * multiplier // Every 300 kpa over the threshold will increase the range by one
-			explosion(T, V2/4, V2/2, V2, V2*1.5, ignorecap = TRUE) // >:)
-			qdel(src)
+			kaboom()
 		else
-			explosion_chance++
+			explosion_chance += 0.5
 		return
 	if(explosion_chance > 0)
 		explosion_chance--
@@ -119,20 +111,31 @@
 				pressure_integrity--
 
 	// Actual refining stuff xD
-	if(!on || !is_operational())
+	if(!is_operational())
 		return
 	if(converting)
 		transmute_fuel()
 	if(outputting)
-		var/datum/gas_mixture/OP = airs[2]
-		var/o_pressure = OP.return_pressure() // output pressure
+		var/o_pressure = output.return_pressure() // output pressure
 		if(o_pressure > MAX_OUTPUT_PRESSURE)
 			return
-		if(air_contents.pump_gas_to(OP, clamp(outputting, 0, MAX_OUTPUT_PRESSURE - o_pressure)))
+		if(air_contents.pump_gas_to(OP, clamp(output, 0, MAX_OUTPUT_PRESSURE - o_pressure)))
 			update_parents()
+
+/obj/machinery/atmospherics/components/binary/silo/proc/kaboom()
+	var/turf/T = get_turf(src)
+	var/multiplier = 1
+	if(air_contents.get_moles(/datum/gas/frameshifted_plasma) > 400) // something something rapid spacetime expansion something frame drag
+		multiplier = 1.5
+	T.assume_air(air_contents)
+	air_contents.clear()
+	var/V2 = round(2 + (i_pressure - SILO_EXPLODE_PRESSURE) / 300) * multiplier // Every 300 kpa over the threshold will increase the range by one
+	explosion(T, V2/4, V2/2, V2, V2*1.5, ignorecap = TRUE) // >:)
+	qdel(src)
 
 /obj/machinery/atmospherics/components/binary/silo/attack_hand(mob/user)
 	ui_interact(user)
+	return ..()
 
 /obj/machinery/atmospherics/components/binary/silo/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -145,6 +148,23 @@
 	. = ..()
 	playsound(src, 'nsv13/sound/effects/computer/scroll_start.ogg', 100, 1)
 	switch(action)
-		if("toggle_transmute")
+		if("toggle_power")
 			converting = !converting
 			visible_message("<span class='notice'>Transmutation process [converting ? "starting" : "shutting down"]</span>")
+		if("target_power")
+			target_power_draw = max(text2num(params["target"]), min_power_draw)
+
+/obj/machinery/atmospherics/components/binary/silo/ui_data(mob/user)
+	var/list/data = list()
+	data["active"] = converting
+	data["target_power"] = target_power_draw
+	data["current_power"] = current_power_draw
+	data["min_power"] = min_power_draw
+	data["max_power"] = cable?.surplus()
+	data["pressure"] = air_contents.return_pressure() / max_pressure
+	data["stat"] = "Online"
+	if(!cable)
+		data["stat"] = "Power Failure"
+	else if(!active)
+		data["stat"] = "Offline"
+	return data

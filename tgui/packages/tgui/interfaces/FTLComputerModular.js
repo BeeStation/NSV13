@@ -31,8 +31,8 @@ export const FTLComputerModular = (props, context) => {
                     <br />
                     Gyro Speed:
                     <ProgressBar
-                      value = {value.gyro}
-                      ranges = {{
+                      value={value.gyro}
+                      ranges={{
                         good: [1, 2],
                         average: [0.5, 0.9],
                         bad: [0, 0.4],
@@ -40,8 +40,8 @@ export const FTLComputerModular = (props, context) => {
                     <br />
                     Capacitor Charge:
                     <ProgressBar
-                      value = {value.capacitor}
-                      ranges = {{
+                      value={value.capacitor}
+                      ranges={{
                         good: [1, 2],
                         average: [0.5, 0.9],
                         bad: [0, 0.4],
