@@ -25,6 +25,10 @@
 
 	vis_flags = VIS_INHERIT_ID	//when this be added to vis_contents of something it be associated with something on clicking, important for visualisation of turf in openspace and interraction with openspace that show you turf.
 
+	var/static/list/allowed_floors = typecacheof(list(
+			/obj/item/stack/tile/plasteel,
+			/obj/item/stack/tile/mono)) // NSV13 - allow building floor with monotiles
+
 /turf/open/space/basic/New()	//Do not convert to Initialize
 	//This is used to optimize the map loader
 	return
@@ -123,10 +127,10 @@
 		else
 			to_chat(user, "<span class='warning'>You need one rod to build a lattice.</span>")
 		return
-	if(istype(C, /obj/item/stack/tile/plasteel))
+	if(allowed_floors[C.type]) // NSV13 - allow building with monotiles
 		var/obj/structure/lattice/L = locate(/obj/structure/lattice, src)
 		if(L)
-			var/obj/item/stack/tile/plasteel/S = C
+			var/obj/item/stack/tile/S = C // NSV13 - genericized to all tile stacks allowed
 			if(S.use(1))
 				qdel(L)
 				playsound(src, 'sound/weapons/genhit.ogg', 50, 1)

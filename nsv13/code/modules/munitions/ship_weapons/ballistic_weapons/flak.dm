@@ -91,8 +91,7 @@
 		return
 	//Distance from the "center" of the flak effect.
 	var/dist = get_dist(locs[1], AM)
-	dist = CLAMP(dist, 1, dist)
-	var/severity = 1/dist
+	var/severity = (dist > 0) ? 1/dist : 1
 	var/obj/item/projectile/P = AM
 	if(P.faction != faction) //Stops flak from FFing
 		if(istype(AM, /obj/item/projectile/guided_munition))
