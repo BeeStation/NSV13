@@ -205,7 +205,7 @@
 	ai_behaviour = AI_AGGRESSIVE
 	mass = MASS_MEDIUM
 	sprite_size = 48
-	ai_trait = AI_TRAIT_DESTROYER
+	ai_flags= AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/frigate
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
@@ -214,7 +214,7 @@
 	obj_integrity = 800
 	max_integrity = 800 //Max health
 	integrity_failure = 800
-	ai_trait = list(AI_TRAIT_BATTLESHIP, AI_TRAIT_DESTROYER)
+	ai_flags  = AI_FLAG_BATTLESHIP | AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/ai
@@ -223,24 +223,24 @@
 	obj_integrity = 1000
 	max_integrity = 1000 //Max health
 	integrity_failure = 1000
-	ai_trait = AI_TRAIT_BATTLESHIP
+	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/cruiser
 
 /obj/structure/overmap/nanotrasen/battleship/ai
 	ai_controlled = TRUE
-	ai_trait = AI_TRAIT_BATTLESHIP
+	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/battleship
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/ai
 	ai_controlled = TRUE
-	ai_trait = AI_TRAIT_DESTROYER
+	ai_flags = AI_FLAG_DESTROYER
 	torpedoes = 10 //it's vago, alright?
 	missiles = 10
 	combat_dice_type = /datum/combat_dice/cruiser
 
 /obj/structure/overmap/nanotrasen/battlecruiser/ai
 	ai_controlled = TRUE
-	ai_trait = AI_TRAIT_BATTLESHIP
+	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/cruiser
 
 /obj/structure/overmap/nanotrasen/carrier/ai
@@ -249,7 +249,7 @@
 	ai_fighter_type = list(/obj/structure/overmap/nanotrasen/ai/fighter)
 	torpedoes = 0
 	can_resupply = TRUE
-	ai_trait = AI_TRAIT_SUPPLY
+	ai_flags = AI_FLAG_SUPPLY
 	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/nanotrasen/carrier/ai/apply_weapons()
@@ -277,7 +277,7 @@
 	obj_integrity = 75
 	max_integrity = 75 //Super squishy!
 	integrity_failure = 75
-	ai_trait = AI_TRAIT_SWARMER
+	ai_flags = AI_FLAG_SWARMER
 	bound_width = 32 //Change this on a per ship basis
 	bound_height = 32
 	combat_dice_type = /datum/combat_dice/fighter

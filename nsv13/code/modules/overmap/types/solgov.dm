@@ -61,7 +61,7 @@
 
 /obj/structure/overmap/nanotrasen/solgov/ai
 	ai_controlled = TRUE
-	ai_trait = AI_TRAIT_DESTROYER
+	ai_flags = AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/destroyer
 	shots_left = 10000 //Issa laser.
 	torpedoes = 10
@@ -69,12 +69,12 @@
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp/ai
 	ai_controlled = TRUE
-	ai_trait = AI_TRAIT_DESTROYER
+	ai_flags = AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/nanotrasen/solgov/carrier/ai
 	ai_controlled = TRUE
-	ai_trait = AI_TRAIT_SUPPLY
+	ai_flags = AI_FLAG_SUPPLY
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = list(/obj/structure/overmap/nanotrasen/solgov/ai/fighter)
 	torpedoes = 0
@@ -99,7 +99,7 @@
 	missiles = 0
 	torpedoes = 0
 	armor = list("overmap_light" = 5, "overmap_heavy" = 5)
-	ai_trait = AI_TRAIT_SWARMER
+	ai_flags = AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/fighter
 
 /obj/structure/overmap/nanotrasen/solgov/ai/fighter/apply_weapons()

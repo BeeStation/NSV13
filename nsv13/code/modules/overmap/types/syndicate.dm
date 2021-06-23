@@ -81,7 +81,7 @@
 	area_type = /area/ruin/powered/nsv13/gunship
 	var/bounty = 1000
 	armor = list("overmap_light" = 80, "overmap_heavy" = 15)
-	ai_trait = AI_TRAIT_DESTROYER
+	ai_flags = AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/frigate
 	possible_interior_maps = list('_maps/templates/boarding/syndicate/mako.dmm')
 
@@ -177,7 +177,7 @@
 	max_integrity = 1000
 	integrity_failure = 1000
 	bounty = 3000
-	ai_trait = AI_TRAIT_BATTLESHIP
+	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/cruiser
 	possible_interior_maps = list()
 
@@ -209,7 +209,7 @@
 	torpedoes = 0
 	armor = list("overmap_light" = 85, "overmap_heavy" = 20)
 	can_resupply = TRUE
-	ai_trait = AI_TRAIT_SUPPLY
+	ai_flags = AI_FLAG_SUPPLY
 	combat_dice_type = /datum/combat_dice/carrier
 	possible_interior_maps = list()
 
@@ -249,7 +249,7 @@
 	bound_width = 640
 	bound_height = 640
 	armor = list("overmap_light" = 95, "overmap_heavy" = 50)
-	ai_trait = AI_TRAIT_DESTROYER
+	ai_flags = AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/battleship
 	possible_interior_maps = list()
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
@@ -273,7 +273,7 @@
 	missiles = 0
 	torpedoes = 0
 	armor = list("overmap_light" = 80, "overmap_heavy" = 25)
-	ai_trait = AI_TRAIT_DESTROYER
+	ai_flags = AI_FLAG_DESTROYER
 	speed_limit = 3
 	combat_dice_type = /datum/combat_dice/cruiser
 	possible_interior_maps = list()
@@ -292,7 +292,7 @@
 	icon = 'nsv13/icons/overmap/new/syndicate/frigate.dmi'
 	icon_state = "boarding"
 	missiles = 5 //It's able to do basic anti-air when not able to find a good boarding target.
-	ai_trait = list(AI_TRAIT_ANTI_FIGHTER, AI_TRAIT_BOARDER) //It likes to go after fighters really
+	ai_flags = AI_FLAG_ANTI_FIGHTER | AI_FLAG_BOARDER //It likes to go after fighters really
 	speed_limit = 4 //So we have at least a chance of getting within boarding range.
 	bound_height = 96
 	bound_width = 96
@@ -325,7 +325,7 @@
 	shots_left = 5
 	torpedoes = 0
 	armor = list("overmap_light" = 80, "overmap_heavy" = 15)
-	ai_trait = AI_TRAIT_ANTI_FIGHTER
+	ai_flags = AI_FLAG_ANTI_FIGHTER
 	damage_states = FALSE
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
 	possible_interior_maps = list()
@@ -354,7 +354,7 @@
 	torpedoes = 10 //Torp boat!
 	shots_left = 10
 	armor = list("overmap_light" = 80, "overmap_heavy" = 15)
-	ai_trait = AI_TRAIT_DESTROYER
+	ai_flags = AI_FLAG_DESTROYER
 	cloak_factor = 100 //Not a perfect cloak, mind you.
 	combat_dice_type = /datum/combat_dice/destroyer
 	possible_interior_maps = list()
@@ -389,7 +389,7 @@
 	torpedoes = 0
 	bounty = 250
 	armor = list("overmap_light" = 5, "overmap_heavy" = 0)
-	ai_trait = AI_TRAIT_SWARMER
+	ai_flags = AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/fighter
 	possible_interior_maps = list()
 
@@ -412,7 +412,7 @@
 	torpedoes = 3
 	bounty = 250
 	armor = list("overmap_light" = 15, "overmap_heavy" = 0)
-	ai_trait = list(AI_TRAIT_DESTROYER, AI_TRAIT_SWARMER)
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/bomber
 	possible_interior_maps = list()
 
