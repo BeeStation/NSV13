@@ -1197,11 +1197,11 @@ Seek a ship thich we'll station ourselves around
 		next_firetime = world.time + (1 SECONDS) + (fire_delay*2)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
 
-/* 
- * `ai_elite_fire(atom/target)`
+/** 
+ * # `ai_elite_fire(atom/target)`
  * This proc is a slightly more advanced form of the normal 'fire' proc.
  * Most menacing trait is that this allows AI elites to effectively broadside every single of their guns thats off cooldown. (if they have ammo)
- */
+*/
 /obj/structure/overmap/proc/ai_elite_fire(atom/target)
 	if(next_firetime > world.time)
 		return
