@@ -1,6 +1,6 @@
 //The default gamemode
 
-//Acquire 1000 tickets for NT - know the drill
+//Acquire 1000 tickets for NT - you know the drill
 
 /datum/overmap_mission/patrol
 	name = "Patrol"
@@ -10,7 +10,23 @@
 	objective_reminder_setting = 1
 
 
-/datum/overmap_objective/nt_tickets
+/datum/overmap_objective/tickets
+	name = "Tickets"
+	desc = "Acquire ticket_amount Tickets for assigned_faction"
+	var/assigned_faction = null
+	var/ticket_amount = 0
+
+/datum/overmap_objective/tickets/New()
+	desc = "Acquire [ticket_amount] Tickets for [assigned_faction]"
+
+datum/overmap_objective/tickets/check_completion()
+	var/datum/faction/F = locate(assigned_faction in SSstar_system.factions)
+	if(F.tickets >= ticket_amount)
+		F.victory()
+		return TRUE
+	return FALSE
+
+/datum/overmap_objective/tickets/nt
 	name = "Nanotrasen Tickets"
-	desc = "Acquire [ticket_amount] Tickets for Nanotrasen"
-	var/ticket_amount = 1000
+	assigned_faction = "nanotrasen"
+	ticket_amount = 1000

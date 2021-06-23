@@ -10,6 +10,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/player_check = 0 //Number of players connected when the check is made for gamemode
 	var/datum/overmap_mission/mode //The assigned mode
 
+	var/objective_reminder_override = FALSE //Are we currently using the reminder system?
 	var/last_objective_interaction = 0 //Last time the crew interacted with one of our objectives
 	var/next_objective_reminder = 0 //Next time we automatically remind the crew to proceed with objectives
 	var/objective_reminder_interval = 30 MINUTES //Interval between objective reminders
@@ -41,7 +42,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	mode_cache = typecacheof(/datum/overmap_mission, TRUE)
 
-
+/*
 	//All the possible modes we can select fro,
 	var/list/possible = list()
 
@@ -52,7 +53,7 @@ SUBSYSTEM_DEF(overmap_mode)
 			possible += (candidate=candidate.weight)
 	//Pick using pickweight to account for weight.
 	mode = pickweight(possible) || new /datum/overmap_mission/patrol
-
+*/
 
 
 	var/list/mode_pool = mode_cache
@@ -102,7 +103,8 @@ SUBSYSTEM_DEF(overmap_mode)
 		if(2)
 			combat_delays_reminder = TRUE
 			combat_delay_amount = mode.combat_delay
-
+		if(3)
+			objective_reminder_override = TRUE
 
 	//configuration.dm line 341 /datum/controller/configuration/proc/get_runnable_modes()
 
@@ -117,25 +119,26 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/controller/subsystem/overmap_mode/fire()
 
-	if(world.time >= next_objective_reminder)
-		objective_reminder_stacks ++
-		next_objective_reminder = world.time + objective_reminder_interval
-		switch(objective_reminder_stacks)
-			if(1)
-				//something
-				priority_announce("Case 1", "Naval Command")
-			if(2)
-				//something else
-				priority_announce("Case 2", "Naval Command")
-			if(3)
-				//something else +
-				priority_announce("Case 3", "Naval Command")
-			if(4)
-				//last chance
-				priority_announce("Case 4", "Naval Command")
-			if(5)
-				//mission critical failure
-				priority_announce("Case 5", "Naval Command")
+	if(!objective_reminder_override)
+		if(world.time >= next_objective_reminder)
+			objective_reminder_stacks ++
+			next_objective_reminder = world.time + objective_reminder_interval
+			switch(objective_reminder_stacks)
+				if(1)
+					//something
+					priority_announce("Case 1", "Naval Command")
+				if(2)
+					//something else
+					priority_announce("Case 2", "Naval Command")
+				if(3)
+					//something else +
+					priority_announce("Case 3", "Naval Command")
+				if(4)
+					//last chance
+					priority_announce("Case 4", "Naval Command")
+				if(5)
+					//mission critical failure
+					priority_announce("Case 5", "Naval Command")
 
 /datum/controller/subsystem/overmap_mode/New()
 	.=..()
@@ -174,14 +177,19 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/difficulty = null				//Difficulty of the mission as determined by player count / abus abuse
 	var/starting_system = null			//Here we define where our player ships will start
 	var/starting_faction = null 		//Here we define which faction our player ships belong
-	var/objective_reminder_setting = 0	//0 - Objectives reset remind. 1 - Combat resets reminder. 2 - Combat delays reminder.
+	var/objective_reminder_setting = 0	//0 - Objectives reset remind. 1 - Combat resets reminder. 2 - Combat delays reminder. 3 - Disables reminder
 	var/combat_delay = 0				//How much time is added to the reminder timer
 	var/list/objectives = list()		//The actual mission objectives go here
 	var/whitelist_only = FALSE			//Can only be selected through map bound whitelists
 
-
 /datum/overmap_objective
-	var/name
-	var/desc
-	var/stage
+	var/name							//Name for admin view
+	var/desc							//Short description for admin view
+	var/brief							//Description for PLAYERS
+	var/stage							//For multi step objectives
+	var/completed = FALSE				//Have we completed the objective?
 
+/datum/overmap_objective/New()
+
+/datum/overmap_objective/proc/check_completion()
+	return completed

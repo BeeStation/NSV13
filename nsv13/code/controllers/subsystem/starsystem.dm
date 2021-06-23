@@ -239,7 +239,7 @@ Returns a faction datum by its name (case insensitive!)
 			F.victory()
 			return TRUE
 	return FALSE
-
+*/
 /datum/controller/subsystem/star_system/proc/get_winner()
 	var/highestTickets = 0
 	var/datum/faction/winner = null
@@ -249,7 +249,6 @@ Returns a faction datum by its name (case insensitive!)
 			winner = F
 			highestTickets = F.tickets
 	return winner
-*/
 
 /datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM)
 	ships[OM] = list("ship" = OM, "x" = 0, "y" = 0, "current_system" = system_by_id(OM.starting_system), "last_system" = system_by_id(OM.starting_system), "target_system" = null, "from_time" = 0, "to_time" = 0, "occupying_z" = OM.z)

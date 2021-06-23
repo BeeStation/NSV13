@@ -59,11 +59,11 @@ Set up relationships.
 	for(var/datum/faction/F in relationships)
 		if(relationships[F] <= RELATIONSHIP_ENEMIES)
 			F.gain_influence(value)
-	SSstar_system.check_completion()
+	//SSstar_system.check_completion()
 
 /datum/faction/proc/gain_influence(value)
 	tickets += value
-	SSstar_system.check_completion()
+	//SSstar_system.check_completion()
 
 /datum/faction/proc/send_fleet(datum/star_system/override=null, custom_difficulty=null, force=FALSE)
 	if(SSstar_system.check_completion() || !fleet_types || !force && (world.time < next_fleet_spawn))
