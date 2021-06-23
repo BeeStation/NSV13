@@ -258,7 +258,7 @@
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
 	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser //A big box of tank which is hard to take down, and lethal up close.
 	name = "Inquisitior class assault cruiser"
