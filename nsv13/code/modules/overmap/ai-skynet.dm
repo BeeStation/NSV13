@@ -1193,13 +1193,15 @@ Seek a ship thich we'll station ourselves around
 	var/smallest_cooldown = INFINITY
 
 	for(var/iter = FIRE_MODE_PDC, iter <= MAX_POSSIBLE_FIREMODE, iter++)
+		if(iter == FIRE_MODE_AMS || iter == FIRE_MODE_FLAK)
+			continue	//These act independantly
 		var/will_use_ammo = FALSE
 		var/datum/ship_weapon/SW = weapon_types[iter]
 		if(!SW)
 			continue
-		if(!next_firetime_gunspecific[iter])
-			next_firetime_gunspecific[iter] = world.time
-		else if(next_firetime_gunspecific[iter] > world.time)
+		if(!next_firetime_gunspecific["[iter]"])
+			next_firetime_gunspecific["[iter]"] = world.time
+		else if(next_firetime_gunspecific["[iter]"] > world.time)
 			continue
 		if(!SW.valid_target(src, target))
 			continue
@@ -1214,7 +1216,7 @@ Seek a ship thich we'll station ourselves around
 		if(will_use_ammo)
 			ammo_use++
 		did_fire = TRUE
-		next_firetime_gunspecific[iter] = world.time + SW.fire_delay
+		next_firetime_gunspecific["[iter]"] = world.time + SW.fire_delay
 		if(SW.fire_delay < smallest_cooldown)
 			smallest_cooldown = SW.fire_delay
 
