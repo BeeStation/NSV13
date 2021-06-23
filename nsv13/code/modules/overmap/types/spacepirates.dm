@@ -139,7 +139,7 @@
 	torpedoes = 35
 	armor = list("overmap_light" = 90, "overmap_heavy" = 50)
 	can_resupply = TRUE
-	ai_flags = AI_FLAG_SUPPLY
+	ai_flags = AI_FLAG_SUPPLY | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/flagship
 
 /obj/structure/overmap/spacepirate/ai/dreadnought/apply_weapons()
