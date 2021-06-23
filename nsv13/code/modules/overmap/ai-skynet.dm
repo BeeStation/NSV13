@@ -1372,7 +1372,7 @@ Seek a ship thich we'll station ourselves around
 			playsound(OM.dradis, 'nsv13/sound/effects/fighters/being_locked.ogg', 100, FALSE)
 
 //Pathfinding...sorta
-/obj/structure/overmap/proc/move_toward(atom/target)
+/obj/structure/overmap/proc/move_toward(atom/target, ram_target = FALSE)
 	brakes = FALSE
 	move_mode = NORTH
 	inertial_dampeners = TRUE
@@ -1391,6 +1391,8 @@ Seek a ship thich we'll station ourselves around
 		//This is...inefficient, but unavoidable without some equally expensive vector math.
 		for(var/obj/structure/overmap/OM in current_system.system_contents)
 			if(OM == src) //:sigh: this one tripped me up
+				continue
+			if(OM == target && ram_target)
 				continue
 			if(get_dist(get_turf(OM), T) <= 5 && OM.mass > MASS_TINY) //Who cares about fighters anyway!
 				blocked = OM
