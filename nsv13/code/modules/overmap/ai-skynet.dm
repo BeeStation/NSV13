@@ -815,7 +815,7 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 */
 /datum/ai_goal/swarm
 	name = "Join a lance and subsequently search & swarm targets."
-	score = AI_SCORE_DEFAULT
+	score = AI_SCORE_DEFAULT + AI_SCORE_VERY_LOW_PRIORITY	//This is a tiiiny bit better of a goal than normal ones.
 	required_ai_flags = AI_FLAG_SWARMER
 
 /datum/ai_goal/swarm/check_score(obj/structure/overmap/OM)
@@ -867,8 +867,9 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 	else if(L.last_finder == OM && OM.last_target != L.lance_target)	//We switched targets, relay this too.
 		L.lance_target = OM.last_target
 
-	if(get_dist(OM, OM.last_target) <= 4)	//Strafe Flyby them.
-		OM.move_away_from(OM.last_target)
+	if(get_dist(OM, OM.last_target) <= 4)	//Strafe Flyby (and / or ram) them.
+		OM.desired_angle = Get_Angle(OM, OM.last_target)
+		OM.move_mode = null
 	else
 		OM.move_toward(OM.last_target)
 
@@ -910,6 +911,29 @@ Seek a ship thich we'll station ourselves around
 	if(L.len)
 		return L[1]
 
+/datum/ai_goal/kamikaze
+	name = "Ram Target at fullspeed like a fly bumping against a closed window."
+	score = AI_SCORE_SUPERCRITICAL
+	required_ai_flags = AI_FLAG_SWARMER
+
+/datum/ai_goal/kamikaze/check_score(obj/structure/overmap/OM)
+	if(!..())
+		return 0
+	if(OM.fleet)
+		var/list/L = OM.fleet.taskforces["supply"]
+		if(L.len)
+			return 0
+	if(OM.shots_left)
+		return 0	//Gotta have run dry.
+
+	if(!OM.last_target)
+		return 0
+
+	return score
+
+/datum/ai_goal/kamikaze/action(obj/structure/overmap/OM)
+	..()
+	OM.move_toward(OM.last_target, ram_target = TRUE)
 
 //Boarding! Boarders love to board your ships.
 /datum/ai_goal/board
@@ -1384,7 +1408,8 @@ Seek a ship thich we'll station ourselves around
 		else
 			return
 	desired_angle = Get_Angle(src, target)
-	if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE) && world.time >= next_maneuvre)
+	var/target_dist = get_dist(src, target)
+	if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE) && world.time >= next_maneuvre && (target_dist > 12 || ram_target || ignore_all_collisions))	
 		var/angular_difference = desired_angle - angle
 		switch(angular_difference)
 			if(-15 to 15)
