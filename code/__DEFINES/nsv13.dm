@@ -44,7 +44,4 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define MEGAWATTS /1e+6
 
 //Gaming
-#define shares_overmap(A, B) (A.get_overmap() == B.get_overmap())
-#define SHARES_OVERMAP_ALLIED(A,B) (A.get_overmap()?.faction == B.get_overmap()?.faction)
-
 #define YEAR_OFFSET 241
