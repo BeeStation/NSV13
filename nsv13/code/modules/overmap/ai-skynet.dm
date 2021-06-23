@@ -1339,6 +1339,8 @@ Seek a ship thich we'll station ourselves around
 					break
 				var/obj/structure/overmap/newFighter = new ai_fighter(launch_turf)
 				newFighter.last_target = last_target
+				if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE))
+					newFighter.ai_flags |= AI_FLAG_ELITE	//:)
 				if(current_system)
 					current_system.system_contents += newFighter
 					newFighter.current_system = current_system
@@ -1372,7 +1374,7 @@ Seek a ship thich we'll station ourselves around
 			playsound(OM.dradis, 'nsv13/sound/effects/fighters/being_locked.ogg', 100, FALSE)
 
 //Pathfinding...sorta
-/obj/structure/overmap/proc/move_toward(atom/target, ram_target = FALSE)
+/obj/structure/overmap/proc/move_toward(atom/target, ram_target = FALSE, ignore_all_collisions = FALSE)
 	brakes = FALSE
 	move_mode = NORTH
 	inertial_dampeners = TRUE
@@ -1382,6 +1384,21 @@ Seek a ship thich we'll station ourselves around
 		else
 			return
 	desired_angle = Get_Angle(src, target)
+	if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE) && world.time >= next_maneuvre)
+		var/angular_difference = desired_angle - angle
+		switch(angular_difference)
+			if(-15 to 15)
+				boost(NORTH)	//ZOOOM
+			if(-45 to -180)
+				boost(WEST)
+			if(-180 to -INFINITY)
+				boost(EAST)
+			if(45 to 180)
+				boost(EAST)
+			if(180 to INFINITY)
+				boost(WEST)
+	if(ignore_all_collisions)
+		return	//FULL SPEED AHEAD!
 	//Raycasting! Should finally give the AI ships their driver's license....
 	for(var/turf/T in getline(src, target))
 		var/dist = get_dist(get_turf(src), T)

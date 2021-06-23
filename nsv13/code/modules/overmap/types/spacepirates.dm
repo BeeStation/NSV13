@@ -63,7 +63,7 @@
 			weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
 			missiles = 10
 		if(5)
-			weapon_types[FIRE_MODE_PDC = new /datum/ship_weapon/pdc_mount(src)
+			weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 			weapon_types[FIRE_MODE_TORPEDO] = null
 			weapon_types[FIRE_MODE_RAILGUN] = null
 			weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
