@@ -355,7 +355,7 @@
 		return
 
 	var/obj/item/card/id/W = H.wear_id
-	W.assignment = "Assistant"
+	W.assignment = "Midshipman" //Nsv13 - Crayon eaters
 	W.registered_name = H.real_name
 	W.update_label()
 

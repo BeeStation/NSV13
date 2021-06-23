@@ -662,9 +662,7 @@ Control Rods
 	radiation_pulse(src, (heat * radiation_modifier), 2)
 	ambient_temp_bleed()
 
-	handle_misc_contents()
-
-	if(last_power_produced > 2000000) //2MW
+	if(last_power_produced > 3000000) //3MW
 		handle_overload()
 
 	var/turf/T = get_turf(src)
@@ -731,13 +729,6 @@ Control Rods
 		if(can_cool())
 			if(control_rod_percent > 0)
 				heat -= cooling_power * cooling_power_modifier
-
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_misc_contents()
-	for(var/mob/living/L in contents)
-		if(heat > 50)
-			L.adjustFireLoss(min(heat / 10, 25))
-			if(prob(30))
-				to_chat(L, "<span class='danger'>The [src]'s internals sears your skin!</span>")
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_reaction_rate()
 	target_reaction_rate = (0.5+(1e-03*((100-control_rod_percent) * control_rod_modifier)**2) * reaction_rate_modifier) + 1e-05*(heat**2)  //let the train derail!
@@ -969,12 +960,12 @@ Control Rods
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_overload()
 	switch(last_power_produced)
-		if(2000000 to 3000000) //2MW to 3MW
+		if(3000000 to 5000000) //3MW to 5MW
 			if(prob(0.1))
 				for(var/obj/machinery/light/L in orange(8, src))
 					if(prob(25))
 						L.flicker()
-		if(3000000 to 5000000) //3MW to 5MW
+		if(5000000 to 8000000) //5MW to 8MW
 			if(prob(0.1))
 				for(var/obj/machinery/light/L in orange(25, src))
 					if(prob(25))
@@ -983,7 +974,7 @@ Control Rods
 				for(var/obj/machinery/light/L in orange(8, src))
 					if(prob(25))
 						L.flicker()
-		if(5000000 to 10000000) //5MW to 10MW
+		if(8000000 to 12000000) //8MW to 12MW
 			if(prob(0.1))
 				for(var/ar in SSmapping.areas_in_z["[z]"])
 					var/area/AR = ar
@@ -1000,7 +991,8 @@ Control Rods
 				for(var/obj/machinery/power/grounding_rod/R in orange(5, src))
 					R.take_damage(rand(25, 50))
 				tesla_zap(src, 5, 1000)
-		if(10000000 to INFINITY) //10MW+
+				reactor_stability -= rand(5, 10)
+		if(12000000 to INFINITY) //12MW+
 			if(prob(1))
 				for(var/obj/machinery/light/L in GLOB.machines)
 					if(prob(50) && shares_overmap(src, L))
@@ -1012,6 +1004,7 @@ Control Rods
 				for(var/obj/machinery/power/grounding_rod/R in orange(8, src))
 					R.take_damage(rand(25, 75))
 				tesla_zap(src, 8, 2000)
+				reactor_stability -= rand(10, 20)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/update_icon() //include overlays for radiation output levels and power output levels (ALSO 1k+ levels)
 	if(state == REACTOR_STATE_MELTDOWN)

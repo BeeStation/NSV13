@@ -69,35 +69,36 @@
 	new /obj/item/clothing/suit/hazardvest(src)
 	new /obj/item/flashlight/atc_wavy_sticks(src)
 
-/obj/structure/closet/secure_closet/fighter_pilot
-	name = "fighter pilot's locker"
-	req_access = list(ACCESS_FIGHTER)
+/obj/structure/closet/secure_closet/combat_pilot
+	name = "combat pilot's locker"
+	req_access = list(ACCESS_COMBAT_PILOT)
 	icon = 'nsv13/icons/obj/custom_closets.dmi'
 	icon_state = "pilot"
-	anchored = FALSE
+	icon_door = "cpilot"
+	anchored = TRUE
 
-/obj/structure/closet/secure_closet/fighter_pilot/PopulateContents()
+/obj/structure/closet/secure_closet/combat_pilot/PopulateContents()
 	..()
 	new /obj/item/radio/headset/munitions/pilot(src)
 	new /obj/item/clothing/under/ship/pilot(src)
 	new /obj/item/clothing/head/beret/ship/pilot(src)
 	new /obj/item/clothing/gloves/color/black(src)
 
-/obj/structure/closet/secure_closet/flight_leader
-	name = "flight leader's locker"
-	req_access = list(ACCESS_FL)
+/obj/structure/closet/secure_closet/transport_pilot
+	name = "transport pilot's locker"
+	req_access = list(ACCESS_TRANSPORT_PILOT)
 	icon = 'nsv13/icons/obj/custom_closets.dmi'
-	icon_state = "lpilot"
-	anchored = FALSE
+	icon_door = "tpilot"
+	icon_state = "pilot"
+	anchored = TRUE
 
-/obj/structure/closet/secure_closet/flight_leader/PopulateContents()
+/obj/structure/closet/secure_closet/transport_pilot/PopulateContents()
 	..()
 	new /obj/item/radio/headset/munitions/pilot(src)
-	new /obj/item/clothing/under/ship/pilot(src)
-	new /obj/item/clothing/head/beret/ship/flight_leader(src)
+	new /obj/item/clothing/under/ship/pilot/transport(src)
+	new /obj/item/clothing/head/helmet/transport_pilot(src)
+	new /obj/item/clothing/gloves/color/brown(src)
 	new /obj/item/clothing/glasses/sunglasses(src)
-	new /obj/item/clothing/suit/jacket(src)
-	new /obj/item/clothing/gloves/color/black(src)
 
 /obj/structure/closet/secure_closet/bridge
 	name = "bridge staff's locker"

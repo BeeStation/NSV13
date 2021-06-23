@@ -55,7 +55,7 @@
 	role = MAIN_OVERMAP
 	max_integrity = 750 //She's fragile and relies heavily on shields.
 	integrity_failure = 750
-	starting_system = "Sol"
+	starting_system = "Argo"
 
 //AI Versions
 
