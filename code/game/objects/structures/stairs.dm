@@ -45,7 +45,11 @@
 	if(!newloc || !AM)
 		return ..()
 	if(!isobserver(AM) && isTerminator() && (get_dir(src, newloc) == dir))
-		return stair_ascend(AM, newloc)
+		var/turf/target = get_step_multiz(get_turf(src), (dir|UP))
+		if(target == newloc) // Slightly jank, but this gets called twice mecause we move upwards out of the stair tile
+			return TRUE
+		stair_ascend(AM, target)
+		return FALSE // We don't want to cross onto the turf on the same Z as the stairs
 	return ..()
 
 /obj/structure/stairs/Cross(atom/movable/AM)
@@ -62,16 +66,12 @@
 /obj/structure/stairs/proc/stair_ascend(atom/movable/AM, turf/newloc)
 	var/turf/checking = get_step_multiz(get_turf(src), UP)
 	if(!istype(checking))
-		return
+		return FALSE
 	if(!checking.zPassIn(AM, UP, get_turf(src)))
-		return
-	var/turf/target = get_step_multiz(get_turf(src), (dir|UP))
-	if(istype(target) && !target.can_zFall(AM, null, get_step_multiz(target, DOWN)))			//Don't throw them into a tile that will just dump them back down.
-		if(newloc == target)
-			// Slight jank, but this call is happening because we tried to leave the stair tile. If it's targeting the right location, say yes.
-			return TRUE
-		else
-			return AM.Move(target)
+		return FALSE
+	if(istype(newloc) && !newloc.can_zFall(AM, null, get_step_multiz(newloc, DOWN)))			//Don't throw them into a tile that will just dump them back down.
+		return AM.Move(newloc) || AM.forceMove(newloc)
+	return FALSE
 
 
 /obj/structure/stairs/vv_edit_var(var_name, var_value)
