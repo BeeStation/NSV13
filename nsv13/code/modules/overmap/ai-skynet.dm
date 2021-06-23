@@ -867,7 +867,7 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 	else if(L.last_finder == OM && OM.last_target != L.lance_target)	//We switched targets, relay this too.
 		L.lance_target = OM.last_target
 
-	if(get_dist(OM, OM.last_target) <= 4)	//Hunt them down.
+	if(get_dist(OM, OM.last_target) <= 4)	//Strafe Flyby them.
 		OM.move_away_from(OM.last_target)
 	else
 		OM.move_toward(OM.last_target)
