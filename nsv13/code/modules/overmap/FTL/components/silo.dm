@@ -85,11 +85,11 @@
 	cable.add_load(current_power_draw)
 	return TRUE
 
-// Handles power use
+// Handles power draw
 /obj/machinery/atmospherics/components/binary/silo/process()
 	if(converting && !power_drain())
 		converting = FALSE
-		current_power_use = 0
+		current_power_draw = 0
 
 /obj/machinery/atmospherics/components/binary/silo/process_atmos()
 	// PRESSURE! Pushing down on me

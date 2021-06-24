@@ -46,7 +46,7 @@
 
 /obj/machinery/computer/ship/ftl_core/proc/get_pylons()
 	pylons.len = 0
-	for(var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P in GLOB.machines)
+	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in GLOB.machines)
 		if(pylons.len == 4) // No more than 4 pylons for the sake of the UI
 			break
 		if(link_id == P.link_id && P.get_overmap() == get_overmap() && P.is_operational())
@@ -88,7 +88,7 @@
 	if(ftl_state == FTL_STATE_JUMPING)
 		return
 	var/active_charge = FALSE
-	for(var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P in pylons)
+	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in pylons)
 		if(P.pylon_state == PYLON_STATE_ACTIVE)
 			progress = min(progress + charge_rate, req_charge)
 			active_charge = TRUE
@@ -229,7 +229,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	if(. || !has_overmap())
 		return
 	playsound(src, 'nsv13/sound/effects/computer/scroll_start.ogg', 100, 1)
-	var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P = locate(params["id"])
+	var/obj/machinery/atmospherics/components/binary/drive_pylon/P = locate(params["id"])
 	switch(action)
 		if("pylon_power")
 			if(!P)
@@ -265,7 +265,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	data["jumping"] = ftl_state == FTL_STATE_JUMPING
 	var/list/pylons_info = list()
 	var/count = 0
-	for(var/obj/machinery/atmospherics/components/binary/ftl/drive_pylon/P in pylons)
+	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in pylons)
 		count++
 		var/list/pylon_info = list()
 		pylon_info["name"] = "Pylon [count]"
