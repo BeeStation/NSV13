@@ -64,7 +64,7 @@ Defending fleets have priority for shooting (A turn iterates through a system's 
 	var/datum/combat_dice/Tdice = target.npc_combat_dice
 
 	var/affinity_target = FALSE
-	if(target.has_ai_trait(Fdice.affinity))
+	if(CHECK_MULTIPLE_BITFIELDS(target.ai_flags, Fdice.affinity_flags))
 		affinity_target = TRUE
 
 	var/targetting_roll = 0
