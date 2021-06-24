@@ -54,7 +54,7 @@
 	max_integrity = 1000 //Max health
 	integrity_failure = 1000
 	//collision_positions = list(new /datum/vector2d(-13,71), new /datum/vector2d(-25,52), new /datum/vector2d(-24,-25), new /datum/vector2d(-11,-66), new /datum/vector2d(4,-69), new /datum/vector2d(15,-28), new /datum/vector2d(15,38), new /datum/vector2d(6,61))
-	armor = list("overmap_light" = 50, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 80, "overmap_heavy" = 10)
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser
 	name = "corvid class tactical cruiser"
@@ -70,7 +70,7 @@
 	integrity_failure = 1500
 	bound_height = 96
 	bound_width = 96
-	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 85, "overmap_heavy" = 30)
 
 /obj/structure/overmap/nanotrasen/battleship
 	name = "jupiter class battlestar"
@@ -85,7 +85,7 @@
 	obj_integrity = 3000
 	max_integrity = 3000 //Max health
 	integrity_failure = 3000
-	armor = list("overmap_light" = 80, "overmap_heavy" = 40)
+	armor = list("overmap_light" = 95, "overmap_heavy" = 40)
 
 /obj/structure/overmap/nanotrasen/carrier
 	name = "enterprise class carrier"
@@ -100,7 +100,7 @@
 	obj_integrity = 2000
 	max_integrity = 2000 //Max health
 	integrity_failure = 2000
-	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 80, "overmap_heavy" = 30)
 
 /obj/structure/overmap/nanotrasen/battlecruiser
 	name = "corvid class tactical cruiser"
@@ -116,7 +116,7 @@
 	integrity_failure = 1500
 	bound_height = 96
 	bound_width = 96
-	armor = list("overmap_light" = 70, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
 
 //Instanced Versions
 
@@ -131,7 +131,7 @@
 	obj_integrity = 1800
 	max_integrity = 1800 //Max health
 	integrity_failure = 1200
-	armor = list("overmap_light" = 75, "overmap_heavy" = 35)
+	armor = list("overmap_light" = 80, "overmap_heavy" = 35)
 	bound_height = 320
 	bound_width = 320
 	starting_system = "Argo"
@@ -273,7 +273,7 @@
 	ai_behaviour = AI_AGGRESSIVE
 	weapon_safety = FALSE
 	faction = "nanotrasen"
-	armor = list("overmap_light" = 0, "overmap_heavy" = 0)
+	armor = list("overmap_light" = 5, "overmap_heavy" = 0)
 	obj_integrity = 75
 	max_integrity = 75 //Super squishy!
 	integrity_failure = 75
