@@ -27,7 +27,7 @@
 	bound_height = 128
 	role = PVP_SHIP
 	starting_system = "The Badlands" //Relatively safe start, fleets won't hotdrop you here.
-	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
+	armor = list("overmap_light" = 80, "overmap_heavy" = 20)
 
 /obj/structure/overmap/syndicate/pvp/apply_weapons()
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
@@ -52,7 +52,7 @@
 	max_integrity = 750 //Max health
 	integrity_failure = 750
 	role = PVP_SHIP
-	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 80, "overmap_heavy" = 30)
 
 //AI Versions
 
@@ -80,8 +80,8 @@
 	integrity_failure = 500
 	area_type = /area/ruin/powered/nsv13/gunship
 	var/bounty = 1000
-	armor = list("overmap_light" = 50, "overmap_heavy" = 15)
-	ai_trait = AI_TRAIT_DESTROYER
+	armor = list("overmap_light" = 80, "overmap_heavy" = 15)
+	ai_flags = AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/frigate
 	possible_interior_maps = list('_maps/templates/boarding/syndicate/mako.dmm')
 
@@ -138,7 +138,7 @@
 	obj_integrity = 700
 	max_integrity = 700
 	integrity_failure = 700
-	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
+	armor = list("overmap_light" = 80, "overmap_heavy" = 20)
 	missiles = 6
 	bounty = 1000
 	combat_dice_type = /datum/combat_dice/destroyer
@@ -150,7 +150,7 @@
 	obj_integrity = 900
 	max_integrity = 900
 	integrity_failure = 900
-	armor = list("overmap_light" = 80, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 85, "overmap_heavy" = 30)
 	missiles = 8
 	torpedoes = 4
 	bounty = 1500
@@ -172,19 +172,19 @@
 	bound_height = 128
 	bound_width = 128
 	mass = MASS_LARGE
-	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
-	obj_integrity = 1250
-	max_integrity = 1250
-	integrity_failure = 1250
+	armor = list("overmap_light" = 80, "overmap_heavy" = 20)
+	obj_integrity = 1000
+	max_integrity = 1000
+	integrity_failure = 1000
 	bounty = 3000
-	ai_trait = AI_TRAIT_BATTLESHIP
+	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/cruiser
 	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/cruiser/elite
 	name = "Special ops tactical cruiser"
 	icon_state = "barracuda_elite"
-	armor = list("overmap_light" = 75, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 85, "overmap_heavy" = 30)
 	obj_integrity = 1500
 	max_integrity = 1500
 	integrity_failure = 1500
@@ -207,9 +207,9 @@
 	integrity_failure = 1500
 	bounty = 3000
 	torpedoes = 0
-	armor = list("overmap_light" = 70, "overmap_heavy" = 20)
+	armor = list("overmap_light" = 85, "overmap_heavy" = 20)
 	can_resupply = TRUE
-	ai_trait = AI_TRAIT_SUPPLY
+	ai_flags = AI_FLAG_SUPPLY
 	combat_dice_type = /datum/combat_dice/carrier
 	possible_interior_maps = list()
 
@@ -227,11 +227,11 @@
 
 /obj/structure/overmap/syndicate/ai/carrier/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
 	weapon_types[FIRE_MODE_RAILGUN] = null
-	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
+	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
-	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/battleship //Larger ship which is much harder to kill
 	name = "SSV Sol's Revenge"
@@ -245,13 +245,20 @@
 	max_integrity = 15000 //Max health
 	integrity_failure = 15000
 	bounty = 20000
-	shots_left = 50 //A monster.
+	shots_left = 500 //A monster.
 	bound_width = 640
 	bound_height = 640
-	armor = list("overmap_light" = 90, "overmap_heavy" = 50)
-	ai_trait = AI_TRAIT_DESTROYER
+	armor = list("overmap_light" = 95, "overmap_heavy" = 50)
+	ai_flags = AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/battleship
 	possible_interior_maps = list()
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
+
+/obj/structure/overmap/syndicate/ai/battleship/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
+	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser //A big box of tank which is hard to take down, and lethal up close.
 	name = "Inquisitior class assault cruiser"
@@ -260,13 +267,13 @@
 	mass = MASS_MEDIUM_LARGE
 	sprite_size = 48
 	damage_states = FALSE
-	obj_integrity = 1200
-	max_integrity = 1200 //Max health
-	integrity_failure = 1200
+	obj_integrity = 1000
+	max_integrity = 1000 //Max health
+	integrity_failure = 1000
 	missiles = 0
 	torpedoes = 0
-	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
-	ai_trait = AI_TRAIT_DESTROYER
+	armor = list("overmap_light" = 80, "overmap_heavy" = 25)
+	ai_flags = AI_FLAG_DESTROYER
 	speed_limit = 3
 	combat_dice_type = /datum/combat_dice/cruiser
 	possible_interior_maps = list()
@@ -285,7 +292,7 @@
 	icon = 'nsv13/icons/overmap/new/syndicate/frigate.dmi'
 	icon_state = "boarding"
 	missiles = 5 //It's able to do basic anti-air when not able to find a good boarding target.
-	ai_trait = list(AI_TRAIT_ANTI_FIGHTER, AI_TRAIT_BOARDER) //It likes to go after fighters really
+	ai_flags = AI_FLAG_ANTI_FIGHTER | AI_FLAG_BOARDER //It likes to go after fighters really
 	speed_limit = 4 //So we have at least a chance of getting within boarding range.
 	bound_height = 96
 	bound_width = 96
@@ -317,8 +324,8 @@
 	missiles = 5
 	shots_left = 5
 	torpedoes = 0
-	armor = list("overmap_light" = 50, "overmap_heavy" = 15)
-	ai_trait = AI_TRAIT_ANTI_FIGHTER
+	armor = list("overmap_light" = 80, "overmap_heavy" = 15)
+	ai_flags = AI_FLAG_ANTI_FIGHTER
 	damage_states = FALSE
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
 	possible_interior_maps = list()
@@ -346,8 +353,8 @@
 	missiles = 10
 	torpedoes = 10 //Torp boat!
 	shots_left = 10
-	armor = list("overmap_light" = 50, "overmap_heavy" = 15)
-	ai_trait = AI_TRAIT_DESTROYER
+	armor = list("overmap_light" = 80, "overmap_heavy" = 15)
+	ai_flags = AI_FLAG_DESTROYER
 	cloak_factor = 100 //Not a perfect cloak, mind you.
 	combat_dice_type = /datum/combat_dice/destroyer
 	possible_interior_maps = list()
@@ -381,8 +388,8 @@
 	missiles = 4
 	torpedoes = 0
 	bounty = 250
-	armor = list("overmap_light" = 5, "overmap_heavy" = 5)
-	ai_trait = AI_TRAIT_SWARMER
+	armor = list("overmap_light" = 5, "overmap_heavy" = 0)
+	ai_flags = AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/fighter
 	possible_interior_maps = list()
 
@@ -405,7 +412,7 @@
 	torpedoes = 3
 	bounty = 250
 	armor = list("overmap_light" = 15, "overmap_heavy" = 0)
-	ai_trait = list(AI_TRAIT_DESTROYER, AI_TRAIT_SWARMER)
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/bomber
 	possible_interior_maps = list()
 
