@@ -16,13 +16,11 @@
 	pixel_x = -32
 	pixel_y = -32
 	var/converting = FALSE
-	var/max_pressure = 30 * ONE_ATMOSPHERE
 	var/outputting = FALSE
-	var/volume = 1000
 	var/conversion_limit = 10 // max amount of moles that can be converted (input) per tick
 	var/conversion_ratio = 0.5 // base input/output ratio. Effected by power efficiency
 
-	var/min_power_draw = 0 // min power use required for function
+	var/min_power_draw = 70000 // min power use required for function
 	var/target_power_draw = 0 // desired power use
 	var/current_power_draw = 0 // power used last tick
 
@@ -38,8 +36,12 @@
 	..()
 	input = airs[1]
 	output = airs[2]
-	air_contents = new(volume)
+	air_contents = new(10000)
 	air_contents.set_temperature(T20C)
+
+	var/turf/T = get_turf(src)
+	cable = T.get_cable_node()
+
 	update_parents()
 
 /obj/machinery/atmospherics/components/binary/silo/Destroy()
@@ -54,24 +56,28 @@
 	if(!cable)
 		return FALSE
 	var/input_fuel = min(input.get_moles(/datum/gas/nucleium), conversion_limit)
-	var/grid_power = min(cable.surplus(), current_power_draw)
-	if(input_fuel < 0.1 || grid_power < min_power_draw)
+	if(input_fuel < 0.1)
 		return FALSE
-	air_contents.adjust_moles(/datum/gas/frameshifted_plasma, input_fuel * (conversion_ratio * get_efficiency(grid_power)))
+	air_contents.adjust_moles(/datum/gas/frameshifted_plasma, input_fuel * (conversion_ratio * get_efficiency()))
 	air_contents.set_temperature(air_contents.temperature_share(input))
 	input.adjust_moles(/datum/gas/nucleium, -input_fuel)
 	return TRUE
 
-/obj/machinery/atmospherics/components/binary/silo/proc/get_efficiency(power)
-	return max((power ** EFFICIENCY_BASE - 1) * 100, EFFICIENCY_MIN)
+/obj/machinery/atmospherics/components/binary/silo/proc/get_efficiency()
+	var/grid_power = min(cable.surplus(), current_power_draw)
+	return max((grid_power ** EFFICIENCY_BASE - 1) * 100, EFFICIENCY_MIN)
 
 /obj/machinery/atmospherics/components/binary/silo/proc/power_drain()
 	if(min_power_draw <= 0)
 		return TRUE
-	var/turf/T = get_turf(src)
-	cable = T.get_cable_node()
 	if(!cable)
 		return FALSE
+	if(cable.loc != loc)
+		var/turf/T = get_turf(src)
+		cable = T.get_cable_node()
+		if(!cable)
+			return FALSE
+
 	current_power_draw = max(target_power_draw, min_power_draw)
 	if(current_power_draw > cable.surplus())
 		visible_message("<span class='warning'>\The [src] lets out a metallic rumble as it's power light flickers.</span>")
@@ -79,12 +85,18 @@
 	cable.add_load(current_power_draw)
 	return TRUE
 
+// Handles power use
+/obj/machinery/atmospherics/components/binary/silo/process()
+	if(converting && !power_drain())
+		converting = FALSE
+		current_power_use = 0
+
 /obj/machinery/atmospherics/components/binary/silo/process_atmos()
 	// PRESSURE! Pushing down on me
 	var/i_pressure = air_contents.return_pressure() // internal pressure
 	if(i_pressure > SILO_EXPLODE_PRESSURE)
 		if(prob(explosion_chance))
-			kaboom()
+			kaboom(i_pressure)
 		else
 			explosion_chance += 0.5
 		return
@@ -119,17 +131,17 @@
 		var/o_pressure = output.return_pressure() // output pressure
 		if(o_pressure > MAX_OUTPUT_PRESSURE)
 			return
-		if(air_contents.pump_gas_to(OP, clamp(output, 0, MAX_OUTPUT_PRESSURE - o_pressure)))
+		if(air_contents.pump_gas_to(output, clamp(output, 0, MAX_OUTPUT_PRESSURE - o_pressure)))
 			update_parents()
 
-/obj/machinery/atmospherics/components/binary/silo/proc/kaboom()
+/obj/machinery/atmospherics/components/binary/silo/proc/kaboom(pressure)
 	var/turf/T = get_turf(src)
 	var/multiplier = 1
 	if(air_contents.get_moles(/datum/gas/frameshifted_plasma) > 400) // something something rapid spacetime expansion something frame drag
 		multiplier = 1.5
 	T.assume_air(air_contents)
 	air_contents.clear()
-	var/V2 = round(2 + (i_pressure - SILO_EXPLODE_PRESSURE) / 300) * multiplier // Every 300 kpa over the threshold will increase the range by one
+	var/V2 = round(2 + (pressure - SILO_EXPLODE_PRESSURE) / 300) * multiplier // Every 300 kpa over the threshold will increase the range by one
 	explosion(T, V2/4, V2/2, V2, V2*1.5, ignorecap = TRUE) // >:)
 	qdel(src)
 
@@ -161,10 +173,10 @@
 	data["current_power"] = current_power_draw
 	data["min_power"] = min_power_draw
 	data["max_power"] = cable?.surplus()
-	data["pressure"] = air_contents.return_pressure() / max_pressure
+	data["pressure"] = air_contents.return_pressure() / SILO_LEAK_PRESSURE
 	data["stat"] = "Online"
 	if(!cable)
 		data["stat"] = "Power Failure"
-	else if(!active)
+	else if(!converting)
 		data["stat"] = "Offline"
 	return data
