@@ -130,7 +130,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/torpedo/nuclear
 	icon_state = "torpedo_nuke"
-	name = "thermonuclear cruise missile"
+	name = "thermonuclear missile"
 	damage = 600
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
