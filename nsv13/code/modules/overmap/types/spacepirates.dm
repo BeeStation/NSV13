@@ -12,7 +12,7 @@
 	mass = MASS_SMALL
 	max_integrity = 400
 	integrity_failure = 400
-	armor = list("overmap_light" = 30, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 65, "overmap_heavy" = 10)
 	bound_height = 64
 	bound_width = 64
 	ai_controlled = TRUE
@@ -87,7 +87,7 @@
 	bound_width = 96
 	max_integrity = 1000
 	integrity_failure = 1000
-	armor = list("overmap_light" = 60, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 80, "overmap_heavy" = 15)
 	ai_flags = AI_FLAG_DESTROYER
 	torpedoes = 20
 	missiles = 20
@@ -109,7 +109,7 @@
 	max_integrity = 750
 	integrity_failure = 750
 	shots_left = 20
-	armor = list("overmap_light" = 50, "overmap_heavy" = 20)
+	armor = list("overmap_light" = 80, "overmap_heavy" = 25)
 	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/destroyer
 
@@ -137,7 +137,7 @@
 	integrity_failure = 10000
 	shots_left = 35
 	torpedoes = 35
-	armor = list("overmap_light" = 90, "overmap_heavy" = 50)
+	armor = list("overmap_light" = 95, "overmap_heavy" = 50)
 	can_resupply = TRUE
 	ai_flags = AI_FLAG_SUPPLY
 	combat_dice_type = /datum/combat_dice/flagship
