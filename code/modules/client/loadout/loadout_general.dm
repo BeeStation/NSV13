@@ -63,8 +63,10 @@
 	path = /obj/item/clothing/mask/cigarette/cigar/havana
 	cost = 2400
 
+//NSV13 begin: marketable plushes
+
 /datum/gear/hornet
-	display_name = "toy, marketable hornet plushie"
+	display_name = "toy, hornet plushie"
 	path = /obj/item/toy/plush/hornet
 	cost = 2000
 
@@ -75,6 +77,7 @@
 	cost = 6969
 
 /datum/gear/knight
-	display_name = "toy, marketable knight plushie"
+	display_name = "toy, knight plushie"
 	path = /obj/item/toy/plush/knight
 	cost = 2000
+//NSV13 end
