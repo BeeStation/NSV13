@@ -199,15 +199,15 @@
 /datum/supply_pack/emergency/plasmaman
 	name = "Plasmaman Supply Kit"
 	desc = "Keep those Plasmamen alive with two sets of Plasmaman outfits. Each set contains a plasmaman jumpsuit, internals tank, and helmet."
-	cost = 700 //50 credits per suit. ##NSV edit, upped the price to avoid infinite money from sending back the crates and manifest. Added one extra of each item as compenstation.
+	cost = 700 //50 credits per suit. #NSV edit, upped the price to avoid infinite money from sending back the crates and manifest. Added one extra of each item as compenstation.
 	contains = list(/obj/item/clothing/under/plasmaman,
 					/obj/item/clothing/under/plasmaman,
-					obj/item/clothing/under/plasmaman
+					/obj/item/clothing/under/plasmaman,
 					/obj/item/tank/internals/plasmaman/belt/full,
 					/obj/item/tank/internals/plasmaman/belt/full,
 					/obj/item/tank/internals/plasmaman/belt/full,
 					/obj/item/clothing/head/helmet/space/plasmaman,
-					/obj/item/clothing/head/helmet/space/plasmaman
+					/obj/item/clothing/head/helmet/space/plasmaman,
 					/obj/item/clothing/head/helmet/space/plasmaman)
 	crate_name = "plasmaman supply kit"
 
@@ -1781,7 +1781,7 @@
 	cost = 800 //NSV Edit, price change from 500-800 and one extra box added as compensation. To avoid infinite money with manifests.
 	contains = list(/obj/item/storage/box/lights/mixed,
 					/obj/item/storage/box/lights/mixed,
-					/obj/item/storage/box/lights/mixed
+					/obj/item/storage/box/lights/mixed,
 					/obj/item/storage/box/lights/mixed)
 	crate_name = "replacement lights"
 
