@@ -6,7 +6,7 @@
 	icon = 'nsv13/icons/obj/plushes.dmi'
 	icon_state = "plushie_hornet"
 	attack_verb = list("poked", "shaws")
-	squeak_override = list('nsv13/sound/hornetnoises/hornet_gitgud.ogg'=1, 'nsv13/sound/hornetnoises/hornet_SHAW.ogg'=10) //git gud will play 1 out of 11 times
+	squeak_override = list('nsv13/sound/plush/hornet_gitgud.ogg'=1, 'nsv13/sound/plush/hornet_SHAW.ogg'=10) //git gud will play 1 out of 11 times
 	gender = FEMALE
 
 /obj/item/toy/plush/hornet/gay
