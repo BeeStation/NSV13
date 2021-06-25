@@ -188,7 +188,7 @@
 	fire_delay = 0.5 SECONDS
 	range_modifier = 10
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
-	overmap_firing_sounds = list('nsv13/sound/weapons/BRRTTTTTT.ogg')
+	overmap_firing_sounds = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg')
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online..</span>"
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
 	lateral = FALSE
@@ -247,7 +247,7 @@
 	range_modifier = 10
 	select_alert = "<span class='notice'>Activating point defense system...</span>"
 	failure_alert = "<span class='warning'>DANGER: point defense system not loaded.</span>"
-	overmap_firing_sounds = list('nsv13/sound/weapons/BRRTTTTTT.ogg')
+	overmap_firing_sounds = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	selectable = FALSE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
