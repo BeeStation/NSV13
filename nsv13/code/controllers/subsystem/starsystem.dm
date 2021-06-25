@@ -330,7 +330,7 @@ Returns a faction datum by its name (case insensitive!)
 	var/alignment = "unaligned"
 	var/visited = FALSE
 	var/hidden = FALSE //Secret systems
-	var/list/system_type = list() //Set this to pre-spawn systems as a specific type.
+	var/list/system_type = null //Set this to pre-spawn systems as a specific type.
 	var/event_chance = 0
 	var/list/possible_events = list()
 	var/list/active_missions = list()
@@ -604,7 +604,7 @@ Returns a faction datum by its name (case insensitive!)
 /datum/star_system/proc/generate_anomaly()
 	if(prob(15)) //Low chance of spawning a wormhole twixt us and another system.
 		create_wormhole()
-	if(system_type.len) //Already have a preset system type. Apply its effects.
+	if(system_type) //Already have a preset system type. Apply its effects.
 		apply_system_effects()
 		return
 	switch(threat_level)
