@@ -250,7 +250,7 @@
 	overmap_firing_sounds = list('nsv13/sound/weapons/pdc_single.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	selectable = FALSE
-	weapon_class = WEIGHT_CLASS_NORMAL //AIs can fire light weaponry like this for free.
+	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 
 /datum/ship_weapon/flak
 	name = "Flak cannon"

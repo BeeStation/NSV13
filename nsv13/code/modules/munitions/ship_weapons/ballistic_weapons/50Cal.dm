@@ -158,6 +158,7 @@
 	ammo_type = /obj/item/ammo_casing/fiftycal
 	caliber = "mm50pdc"
 	max_ammo = 300
+	w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/ammo_box/magazine/pdc/fiftycal/examine(mob/user)
 	. = ..()
