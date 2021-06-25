@@ -1,5 +1,5 @@
 //General weapons stuff
-/datum/design/board/munitions_computer_circuit
+/* /datum/design/board/munitions_computer_circuit
 	name = "Computer Design (Munitions Computer)"
 	desc = "Allows for the construction of a munitions control console."
 	id = "munitions_computer_circuit"
@@ -18,10 +18,10 @@
 	construction_time=100
 	build_path = /obj/item/ship_weapon/parts/firing_electronics
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS */
 
 //50 Cal.
-/datum/design/board/fiftycal
+/* /datum/design/board/fiftycal
 	name = "Machine Design (.50 cal deck turret)"
 	desc = "Allows for the construction of a crew served, 50 cal deck turret."
 	id = "fiftycal"
@@ -49,10 +49,10 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
 	build_path = /obj/item/circuitboard/computer/fiftycal
 	category = list("Computer Boards")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS */
 
 //Naval artillery
-/datum/design/board/naval_artillery
+/* /datum/design/board/naval_artillery
 	name = "Machine Design (Deck Gun Frame)"
 	desc = "Allows for the construction of a naval artillery gun frame."
 	id = "deck_gun"
@@ -110,7 +110,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/machine/deck_gun/payload
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS */
 
 /datum/design/board/deck_gun_autorepair
 	name = "Machine Design (Deck Gun Autorepair upgrade)"
@@ -133,7 +133,7 @@
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 //Missile system (factory parts in munitions_designs.dm)
-/datum/design/board/vls_tube
+/* /datum/design/board/vls_tube
 	name = "Machine Design (VLS Tube)"
 	desc = "Allows for the construction of a VLS launch tube (control computer not included)."
 	id = "vls_tube"
@@ -151,10 +151,10 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/computer/ams
 	category = list("Computer Boards")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS */
 
 //Misc
-/datum/design/railgun_rail
+/* /datum/design/railgun_rail
 	name = "Railgun Rail"
 	desc = "A reinforced electromagnetic rail for a railgun."
 	id = "railgun_rail"
@@ -173,4 +173,4 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/machine/gauss_dispenser
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS */

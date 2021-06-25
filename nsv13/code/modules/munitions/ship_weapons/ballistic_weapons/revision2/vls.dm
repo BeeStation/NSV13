@@ -214,6 +214,13 @@
 	name = "AMS control console"
 	icon_screen = "ams"
 	circuit = /obj/item/circuitboard/computer/ams
+
+/obj/machinery/computer/ams/Destroy()
+	if(circuit && !ispath(circuit))
+		circuit.forceMove(loc)
+		circuit = null
+	. = ..()
+
 /obj/structure/overmap
 	var/next_ams_shot = 0
 	var/ams_targeting_cooldown = 1.5 SECONDS

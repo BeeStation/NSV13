@@ -295,10 +295,10 @@
 //Rack loading
 
 /obj/structure/gauss_rack
-	name = "Deck gun loading rack"
+	name = "Gauss gun loading rack"
 	icon = 'nsv13/icons/obj/munitions_large.dmi'
 	icon_state = "loading_rack"
-	desc = "A large rack used as an ammunition feed for deck guns. The rack will automatically feed the deck gun above it with ammunition. You can load a crate with ammo and click+drag it onto the rack to speedload, or manually load it with rounds by hand."
+	desc = "A large rack used as an ammunition feed for gauss guns. The rack will automatically feed the gauss gun above it with ammunition. You can load a crate with ammo and click+drag it onto the rack to speedload, or manually load it with rounds by hand."
 	anchored = TRUE
 	density = TRUE
 	layer = 3
