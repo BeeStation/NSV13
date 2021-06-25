@@ -1,6 +1,6 @@
 /obj/item/ammo_box/magazine/light_cannon
 	name = "light cannon ammo"
-	desc = "A box of 20x102mm caliber rounds which can be loaded into a light fighter cannon."
+	desc = "A box of 20x102mm ammunition which can be loaded into a light fighter cannon."
 	icon = 'nsv13/icons/obj/ammo.dmi'
 	icon_state = "pdc"
 	ammo_type = /obj/item/ammo_casing/light_cannon
@@ -9,7 +9,7 @@
 
 /obj/item/ammo_box/magazine/heavy_cannon
 	name = "heavy cannon ammo"
-	desc = "A box of 30x173mm caliber rounds which can be loaded into a heavy fighter cannon."
+	desc = "A box of 30x173mm ammunition which can be loaded into a heavy fighter cannon."
 	icon = 'nsv13/icons/obj/ammo.dmi'
 	icon_state = "pdc"
 	ammo_type = /obj/item/ammo_casing/heavy_cannon
