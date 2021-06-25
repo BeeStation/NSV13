@@ -17,7 +17,7 @@
 	name = "Naval Artillery"
 	default_projectile_type = /obj/item/projectile/bullet/mac_round
 	burst_size = 1
-	fire_delay = 3.5 SECONDS
+	fire_delay = 4 SECONDS
 	range_modifier = 50
 	select_alert = "<span class='notice'>Naval artillery primed.</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Naval artillery systems are not loaded.</span>"
@@ -242,12 +242,12 @@
 /datum/ship_weapon/fiftycal // .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets 
 	name = "PDC"
 	default_projectile_type = /obj/item/projectile/bullet/fiftycal
-	burst_size = 1
-	fire_delay = 0.35 SECONDS
+	burst_size = 3
+	fire_delay = 0.15 SECONDS
 	range_modifier = 10
 	select_alert = "<span class='notice'>Activating point defense system...</span>"
 	failure_alert = "<span class='warning'>DANGER: point defense system not loaded.</span>"
-	overmap_firing_sounds = list('nsv13/sound/weapons/pdc_single.ogg')
+	overmap_firing_sounds = list('nsv13/sound/weapons/BRRTTTTTT.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	selectable = FALSE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
