@@ -606,7 +606,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	if(!lateral)
 		setAngle(source.angle)
 
-	if((targloc && curloc) || !params)
+	if(targloc && curloc && !params)
 		yo = targloc.y - curloc.y
 		xo = targloc.x - curloc.x
 		if(lateral)
