@@ -777,6 +777,7 @@ Adding tasks is easy! Just define a datum for it.
 	if(supplyPost) //Neat, we've found a supply post. Autobots roll out.
 		if(get_dist(OM, supplyPost) <= AI_PDC_RANGE)
 			OM.brakes = TRUE
+			OM.move_mode = null
 		else
 			OM.move_toward(supplyPost)
 
@@ -1227,7 +1228,7 @@ Seek a ship thich we'll station ourselves around
 			next_firetime_gunspecific["[iter]"] = world.time
 		else if(next_firetime_gunspecific["[iter]"] > world.time)
 			continue
-		if(!SW.valid_target(src, target))
+		if(!SW.valid_target(src, target, TRUE))
 			continue
 		if(SW.weapon_class > WEAPON_CLASS_LIGHT)
 			if((shots_left - ammo_use) <= 0)
