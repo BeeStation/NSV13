@@ -188,7 +188,7 @@
 	fire_delay = 0.5 SECONDS
 	range_modifier = 10
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
-	overmap_firing_sounds = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg')
+	overmap_firing_sounds = list('nsv13/sound/weapons/BRRTTTTTT.ogg')
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online..</span>"
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
 	lateral = FALSE
