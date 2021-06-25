@@ -21,7 +21,7 @@
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS */
 
 //50 Cal.
-/* /datum/design/board/fiftycal
+/datum/design/board/fiftycal
 	name = "Machine Design (.50 cal deck turret)"
 	desc = "Allows for the construction of a crew served, 50 cal deck turret."
 	id = "fiftycal"
@@ -49,7 +49,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
 	build_path = /obj/item/circuitboard/computer/fiftycal
 	category = list("Computer Boards")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS */
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 //Naval artillery
 /* /datum/design/board/naval_artillery
