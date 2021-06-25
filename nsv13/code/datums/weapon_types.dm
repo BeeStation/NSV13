@@ -17,7 +17,7 @@
 	name = "Naval Artillery"
 	default_projectile_type = /obj/item/projectile/bullet/mac_round
 	burst_size = 1
-	fire_delay = 4 SECONDS
+	fire_delay = 3.5 SECONDS
 	range_modifier = 50
 	select_alert = "<span class='notice'>Naval artillery primed.</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Naval artillery systems are not loaded.</span>"
@@ -247,7 +247,7 @@
 	range_modifier = 10
 	select_alert = "<span class='notice'>Activating point defense system...</span>"
 	failure_alert = "<span class='warning'>DANGER: point defense system not loaded.</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg')
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	selectable = FALSE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
