@@ -54,7 +54,7 @@
 	max_integrity = 1000 //Max health
 	integrity_failure = 1000
 	//collision_positions = list(new /datum/vector2d(-13,71), new /datum/vector2d(-25,52), new /datum/vector2d(-24,-25), new /datum/vector2d(-11,-66), new /datum/vector2d(4,-69), new /datum/vector2d(15,-28), new /datum/vector2d(15,38), new /datum/vector2d(6,61))
-	armor = list("overmap_light" = 80, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 10)
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser
 	name = "corvid class tactical cruiser"
@@ -70,7 +70,7 @@
 	integrity_failure = 1500
 	bound_height = 96
 	bound_width = 96
-	armor = list("overmap_light" = 85, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 95, "overmap_heavy" = 30)
 
 /obj/structure/overmap/nanotrasen/battleship
 	name = "jupiter class battlestar"
@@ -85,7 +85,7 @@
 	obj_integrity = 3000
 	max_integrity = 3000 //Max health
 	integrity_failure = 3000
-	armor = list("overmap_light" = 95, "overmap_heavy" = 40)
+	armor = list("overmap_light" = 99, "overmap_heavy" = 40)
 
 /obj/structure/overmap/nanotrasen/carrier
 	name = "enterprise class carrier"
@@ -100,7 +100,7 @@
 	obj_integrity = 2000
 	max_integrity = 2000 //Max health
 	integrity_failure = 2000
-	armor = list("overmap_light" = 80, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
 
 /obj/structure/overmap/nanotrasen/battlecruiser
 	name = "corvid class tactical cruiser"
@@ -116,7 +116,7 @@
 	integrity_failure = 1500
 	bound_height = 96
 	bound_width = 96
-	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 95, "overmap_heavy" = 25)
 
 //Instanced Versions
 
@@ -150,6 +150,7 @@
 	max_integrity = 1500 //Max health
 	integrity_failure = 1500
 	starting_system = "Argo"
+	armor = list("overmap_light" = 80, "overmap_heavy" = 10)
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Vago
 	role = MAIN_OVERMAP
@@ -157,40 +158,42 @@
 	max_integrity = 1000
 	integrity_failure = 1000
 	starting_system = "Argo"
+	armor = list("overmap_light" = 80, "overmap_heavy" = 10)
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to Jolly Sausage
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
 	starting_system = "Argo"
-
+	armor = list("overmap_light" = 80, "overmap_heavy" = 10)
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
 	role = MAIN_OVERMAP
 	obj_integrity = 1500
 	max_integrity = 1500
 	integrity_failure = 1500
 	starting_system = "Argo"
-
+	armor = list("overmap_light" = 80, "overmap_heavy" = 20)
 /obj/structure/overmap/nanotrasen/carrier/starter //NOT CURRENTLY ASSIGNED
 	role = MAIN_OVERMAP
 	obj_integrity = 2000
 	max_integrity = 2000
 	integrity_failure = 2000
 	starting_system = "Argo"
-
+	armor = list("overmap_light" = 85, "overmap_heavy" = 20)
 /obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon
 	role = MAIN_OVERMAP
 	obj_integrity = 1500
 	max_integrity = 1500
 	integrity_failure = 1500
 	starting_system = "Argo"
-
+	armor = list("overmap_light" = 85, "overmap_heavy" = 20)
 /obj/structure/overmap/nanotrasen/battleship/starter //Galactica
 	role = MAIN_OVERMAP //Player controlled variant
 	obj_integrity = 2250
 	max_integrity = 2250
 	integrity_failure = 2250
 	starting_system = "Argo"
+	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
 
 //AI Versions
 
