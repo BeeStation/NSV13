@@ -1418,7 +1418,7 @@ Seek a ship thich we'll station ourselves around
 	for(var/datum/star_system/SS in SSstar_system.systems)
 		var/list/sys_inf = list()
 		sys_inf["name"] = SS.name
-		sys_inf["system_type"] = SS.system_type
+		sys_inf["system_type"] = SS.system_type ? SS.system_type["tag"] : "NOT SETUP YET"
 		sys_inf["alignment"] = capitalize(SS.alignment)
 		sys_inf["sys_id"] = "\ref[SS]"
 		sys_inf["fleets"] = list() //2d array mess in 3...2...1..
