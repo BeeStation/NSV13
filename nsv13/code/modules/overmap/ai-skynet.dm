@@ -1211,7 +1211,8 @@ Seek a ship thich we'll station ourselves around
 	var/targety = their_center.y + target.velocity.y * time
 	var/turf/newtarget = locate(targetx, targety, target.z)
 	if(prob(ai_miss_chance)) // Slight miss chance
-		newtarget = get_step(newtarget, pick(GLOB.alldirs))
+		var/direction = rand(0, 359)
+		newtarget = get_turf_in_angle(direction, newtarget, rand(ai_max_miss_distance))
 
 	return newtarget
 
