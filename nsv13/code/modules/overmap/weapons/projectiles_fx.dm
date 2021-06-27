@@ -100,9 +100,9 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy" //This really needs a dual armour flag and more tuning
 
 /obj/item/projectile/guided_munition
-	obj_integrity = 100
-	max_integrity = 100
-	armor = list("overmap_light" = 25, "overmap_heavy" = 0)
+	obj_integrity = 50
+	max_integrity = 50
+	armor = list("overmap_light" = 10, "overmap_heavy" = 0)
 
 /obj/item/projectile/guided_munition/torpedo
 	icon_state = "torpedo"
