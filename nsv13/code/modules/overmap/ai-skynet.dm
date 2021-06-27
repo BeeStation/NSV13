@@ -1180,9 +1180,12 @@ Seek a ship thich we'll station ourselves around
 */
 /obj/structure/overmap/proc/calculate_intercept(obj/structure/overmap/target, obj/item/projectile/P)
 	if(!target || !istype(target) || !target.velocity || !P || !istype(P))
-		return
+		return target
 	var/turf/my_center = get_center()
 	var/turf/their_center = target.get_center()
+	if(!my_center || !their_center)
+		return target
+
 	var/dx = their_center.x - my_center.x
 	var/dy = their_center.y - my_center.y
 	var/tvx = target.velocity.x
