@@ -725,6 +725,7 @@ Adding tasks is easy! Just define a datum for it.
 	var/name = "Placeholder goal" //Please keep these human readable for debugging!
 	var/score = 0
 	var/required_ai_flags = NONE //Set this if you want this task to only be achievable by certain types of ship. This is a bitfield.
+	var/required_trait = null //Set this if you want this task to only be achievable by certain types of ship.
 
 //Method to get the score of a certain action. This can change the "base" score if the score of a specific action goes up, to encourage skynet to go for that one instead.
 //@param OM - If you want this score to be affected by the stats of an overmap.
