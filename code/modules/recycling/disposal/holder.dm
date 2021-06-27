@@ -22,7 +22,7 @@
 
 // initialize a holder from the contents of a disposal unit
 /obj/structure/disposalholder/proc/init(obj/machinery/disposal/D)
-	if(!istype(D, /obj/machinery/disposal))
+	if(!istype(D))
 		return
 	gas = D.air_contents// transfer gas resv. into holder object
 
