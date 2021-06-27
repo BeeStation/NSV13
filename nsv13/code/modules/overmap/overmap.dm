@@ -125,6 +125,7 @@
 	var/atom/target_lock = null
 	var/can_lock = TRUE //Can we lock on to people or not
 	var/lockon_time = 2 SECONDS
+	var/ai_miss_chance = 5 // % chance the AI intercept calculator will be off a step
 
 	// Railgun aim helper
 	var/last_tracer_process = 0
