@@ -1212,7 +1212,7 @@ Seek a ship thich we'll station ourselves around
 	var/turf/newtarget = locate(targetx, targety, target.z)
 	if(prob(ai_miss_chance)) // Slight miss chance
 		var/direction = rand(0, 359)
-		newtarget = get_turf_in_angle(direction, newtarget, rand(ai_max_miss_distance))
+		newtarget = get_turf_in_angle(direction, newtarget, rand(1, ai_max_miss_distance))
 
 	return newtarget
 
