@@ -7,10 +7,10 @@
 
 /datum/station_goal/bluespace_cannon/get_report()
 	return {"Our military presence is inadequate in your sector.
-	 We need you to construct BSA-[rand(1,99)] Artillery position aboard your station.
+	 We need you to construct BSA-[rand(1,99)] Artillery position aboard your ship. 
 
 	 Base parts are available for shipping via cargo.
-	 -Nanotrasen Naval Command"}
+	 -Nanotrasen Naval Command"} //NSV13
 
 /datum/station_goal/bluespace_cannon/on_report()
 	//Unlock BSA parts
@@ -20,7 +20,8 @@
 /datum/station_goal/bluespace_cannon/check_completion()
 	if(..())
 		return TRUE
-	var/obj/machinery/bsa/full/B = locate()
+	//var/obj/machinery/bsa/full/B = locate() Nsv13 - Galactica moment
+	var/obj/machinery/ship_weapon/energy/beam/bsa/built/B = locate()
 	if(B && !B.stat)
 		return TRUE
 	return FALSE
@@ -330,8 +331,12 @@
 	var/datum/effect_system/smoke_spread/s = new
 	s.set_up(4,get_turf(centerpiece))
 	s.start()
-	var/obj/machinery/bsa/full/cannon = new(get_turf(centerpiece),centerpiece.get_cannon_direction())
+	//Nsv13 - Galactica moment
+	var/obj/machinery/ship_weapon/energy/beam/bsa/built/cannon = new(get_turf(centerpiece),centerpiece.get_cannon_direction())
 	qdel(centerpiece.front)
 	qdel(centerpiece.back)
 	qdel(centerpiece)
+	new /obj/machinery/computer/sts_bsa_control(get_turf(src))
+	qdel(src)
+	// /Nsv13
 	return cannon

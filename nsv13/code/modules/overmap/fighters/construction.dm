@@ -1,19 +1,19 @@
 //Fluff components that are only used in building.
 /obj/item/fighter_component/avionics
-	name = "Fighter Avionics"
+	name = "\improper Fighter Avionics"
 	desc = "Avionics for a fighter"
 	icon = 'nsv13/icons/obj/fighter_components.dmi'
 	icon_state = "avionics"
 	tier = null //Cannot be upgraded.
 
 /obj/item/fighter_component/apu
-	name = "Fighter Auxiliary Power Unit"
+	name = "\improper Fighter Auxiliary Power Unit"
 	desc = "An Auxiliary Power Unit for a fighter"
 	icon = 'nsv13/icons/obj/fighter_components.dmi'
 	icon_state = "apu"
 
 /obj/item/fighter_component/targeting_sensor
-	name = "Fighter Targeting Sensors"
+	name = "\improper Fighter Targeting Sensors"
 	icon = 'icons/obj/crates.dmi'
 	icon_state = "weapon_crate"
 	tier = null //Cannot be upgraded.
@@ -48,7 +48,7 @@
 #define LBS_PAINT_DETAILING					25
 
 /obj/structure/fighter_frame
-	name = "Light Fighter Frame"
+	name = "\improper Light Fighter Frame"
 	desc = "An Incomplete Su-818 Rapier Light Fighter. Just add elbow grease and a bunch of parts!"
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter_construction.dmi'
 	icon_state = "fighter"
@@ -61,7 +61,7 @@
 	var/output_path = /obj/structure/overmap/fighter
 
 /obj/structure/fighter_frame/heavy
-	name = "Heavy Fighter Frame"
+	name = "\improper Heavy Fighter Frame"
 	desc = "An Incomplete Su-410 Scimitar Heavy Fighter"
 	icon = 'nsv13/icons/overmap/nanotrasen/heavyfighter_construction.dmi'
 	icon_state = "heavy_fighter"
@@ -70,13 +70,13 @@
 	output_path = /obj/structure/overmap/fighter/heavy
 
 /obj/structure/fighter_frame/utility
-	name = "Utility Vessel Frame"
+	name = "\improper Utility Vessel Frame"
 	desc = "An Incomplete Su-437 Sabre Utility Vessel"
 	icon = 'nsv13/icons/overmap/nanotrasen/raptorconstruction.dmi'
 	icon_state = "carrier"
 	pixel_x = -32
 	pixel_y = -12
-	output_path = /obj/structure/overmap/fighter/utility
+	output_path = /obj/structure/overmap/fighter/dropship/sabre
 
 /obj/structure/fighter_frame/update_icon()
 	icon_state = "[initial(icon_state)][build_state]"

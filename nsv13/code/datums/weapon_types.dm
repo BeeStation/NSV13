@@ -49,6 +49,7 @@
 	lateral = FALSE
 	firing_arc = 45 //Broad side of a barn...
 
+//Deprecated by AMS. Still kept around for AI ships
 /datum/ship_weapon/torpedo_launcher
 	name = "Torpedo tubes"
 	default_projectile_type = /obj/item/projectile/guided_munition/torpedo
@@ -109,6 +110,8 @@
 	select_alert = "<span class='notice'>Activating frontal phasers..</span>"
 	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
+	lateral = FALSE
+	firing_arc = 60 //Relatively generous, but coax.
 
 /datum/ship_weapon/phaser
 	name = "Phaser Banks"
@@ -121,6 +124,22 @@
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/phaser.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg' //Sound effect provided by: "All Sounds" https://www.youtube.com/watch?v=EpaCJ75T3fo under creative commons. Trimmed by Kmc2000
 	screen_shake = 1
+
+/datum/ship_weapon/bsa
+	name = "Bluespace Artillery"
+	default_projectile_type = /obj/item/projectile/beam/laser/heavylaser/bsa
+	burst_size = 1
+	fire_delay = 20 SECONDS
+	range_modifier = 255
+	select_alert = "<span class='notice'>Bluespace artillery ready.</span>"
+	failure_alert = "<span class='warning'>Unable to comply. Bluespace artillery recharging...</span>"
+	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
+	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
+	screen_shake = 5
+	//Pilot operated :))
+	selectable = FALSE
+	lateral = FALSE
+	firing_arc = 45 //Yeah have fun turning the galactica to shoot this thing :)
 
 //End Energy Weapons
 
@@ -220,22 +239,22 @@
 	selectable = FALSE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 
-/datum/ship_weapon/fiftycal
-	name = ".50 cals"
+/datum/ship_weapon/fiftycal // .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets 
+	name = "PDC"
 	default_projectile_type = /obj/item/projectile/bullet/fiftycal
 	burst_size = 1
 	fire_delay = 0.35 SECONDS
 	range_modifier = 10
-	select_alert = "<span class='notice'>Activating .50 cals...</span>"
-	failure_alert = "<span class='warning'>DANGER: 50 cal gun systems not loaded.</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/50cal.ogg')
+	select_alert = "<span class='notice'>Activating point defense system...</span>"
+	failure_alert = "<span class='warning'>DANGER: point defense system not loaded.</span>"
+	overmap_firing_sounds = list('nsv13/sound/weapons/pdc_single.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	selectable = FALSE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 
 /datum/ship_weapon/flak
 	name = "Flak cannon"
-	default_projectile_type = /obj/item/projectile/bullet/gauss_slug
+	default_projectile_type = /obj/item/projectile/bullet/flak
 	burst_size = 1
 	fire_delay = 0
 	range_modifier = 1
@@ -243,5 +262,6 @@
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/flak/flakhit1.ogg','nsv13/sound/effects/ship/flak/flakhit2.ogg','nsv13/sound/effects/ship/flak/flakhit3.ogg')
 	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual flak control.</span>"
 	failure_alert = "<span class='warning'>DANGER: flak guns unable to fire due to lack of ammunition.</span>"
-	special_fire_proc = /obj/structure/overmap/proc/fire_flak
+//	special_fire_proc = /obj/structure/overmap/proc/fire_flak
 	selectable = FALSE
+	lateral = TRUE

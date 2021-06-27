@@ -169,7 +169,9 @@
 	return
 
 /turf/open/floor/plating/can_have_cabling()
-	if(locate(/obj/structure/lattice/catwalk, src))
-		return 0
+	// NSV13 - let us put cables into open plated catwalk tiles
+	var/obj/structure/lattice/catwalk/C = locate(/obj/structure/lattice/catwalk, src)
+	if(C)
+		return C.can_lay_cable()
 	return 1
 
