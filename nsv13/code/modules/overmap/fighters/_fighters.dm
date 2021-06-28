@@ -1334,14 +1334,14 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary/cannon
 	name = "30mm Vulcan Cannon"
 	icon_state = "lightcannon"
-	accepted_ammo = /obj/item/ammo_box/magazine/light_cannon
+	accepted_ammo = /obj/item/ammo_box/magazine/pdc/light_cannon
 	burst_size = 2
 	fire_delay = 0.25 SECONDS
 
 /obj/item/fighter_component/primary/cannon/heavy
 	name = "40mm BRRRRTT Cannon"
 	icon_state = "heavycannon"
-	accepted_ammo = /obj/item/ammo_box/magazine/heavy_cannon
+	accepted_ammo = /obj/item/ammo_box/magazine/pdc/heavy_cannon
 	weight = 2 //Sloooow down there.
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg')

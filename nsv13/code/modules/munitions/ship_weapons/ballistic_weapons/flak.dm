@@ -5,12 +5,6 @@
 	caliber = "mm40"
 	max_ammo = 150
 
-/obj/item/ammo_box/magazine/pdc/update_icon()
-	if(ammo_count() > 10)
-		icon_state = initial(icon_state)
-	else
-		icon_state = "[initial(icon_state)]_empty"
-
 /obj/item/ammo_casing/flak
 	name = "mm40 flak round casing"
 	desc = "A mm40 bullet casing."
