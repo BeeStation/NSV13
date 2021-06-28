@@ -116,7 +116,7 @@
 /datum/trader_item/bluespace_crystal
 	name = "Bluespace crystal"
 	desc = "A wonder material which bent our world view, now it'll bend your wallet if you want some."
-	price = 1800
+	price = 8000
 	stock = 3
 	unlock_path = /obj/item/stack/sheet/bluespace_crystal
 
