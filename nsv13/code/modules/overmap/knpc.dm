@@ -274,7 +274,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 /datum/ai_goal/human
 	name = "Placeholder goal" //Please keep these human readable for debugging!
 	score = 0
-	required_trait = null //Set this if you want this task to only be achievable by certain types of ship.
+	required_ai_flags = null //Set this if you want this task to only be achievable by certain types of ship.
 
 //Method to get the score of a certain action. This can change the "base" score if the score of a specific action goes up, to encourage skynet to go for that one instead.
 //@param OM - If you want this score to be affected by the stats of an overmap.
@@ -283,17 +283,17 @@ GLOBAL_LIST_EMPTY(knpcs)
 	if(istype(HA, /obj/structure/overmap))
 		return ..()
 	var/mob/living/carbon/human/H = HA.parent
-	if(required_trait)
+	if(required_ai_flags)
 		if(islist(HA.ai_trait))
 			var/found = FALSE
 			for(var/X in HA.ai_trait)
-				if(X == required_trait)
+				if(X == required_ai_flags)
 					found = TRUE
 					break
 			if(!found)
 				return 0
 		else
-			if(HA.ai_trait != required_trait)
+			if(HA.ai_trait != required_ai_flags)
 				return 0
 	if(H.client) //AI disabled...
 		return 0
@@ -359,7 +359,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 /datum/ai_goal/human/acquire_weapon
 	name = "Acquire Weapon" //Please keep these human readable for debugging!
 	score = AI_SCORE_PRIORITY //Fighting takes priority
-	required_trait = null //Set this if you want this task to only be achievable by certain types of ship.
+	required_ai_flags = null //Set this if you want this task to only be achievable by certain types of ship.
 
 /datum/ai_goal/human/acquire_weapon/check_score(datum/component/knpc/HA)
 	if(!..())
@@ -435,7 +435,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 /datum/ai_goal/human/engage_targets
 	name = "Engage targets"
 	score = AI_SCORE_HIGH_PRIORITY //If we find a target, we want to engage!
-	required_trait = null //Set this if you want this task to only be achievable by certain types of ship.
+	required_ai_flags = null //Set this if you want this task to only be achievable by certain types of ship.
 
 /datum/ai_goal/human/engage_targets/check_score(datum/component/knpc/HA)
 	if(!..())
@@ -612,7 +612,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 /datum/ai_goal/human/patrol
 	name = "Patrol Nodes"
 	score = AI_SCORE_LOW_PRIORITY //The default task for most AIs is to just patrol
-	required_trait = null //Set this if you want this task to only be achievable by certain types of ship.
+	required_ai_flags = null //Set this if you want this task to only be achievable by certain types of ship.
 
 
 /datum/ai_goal/human/patrol/action(datum/component/knpc/HA)
@@ -682,7 +682,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 /datum/ai_goal/human/set_internals
 	name = "Set Internals"
 	score = AI_SCORE_CRITICAL //The lads need to be able to breathe.
-	required_trait = null
+	required_ai_flags = null
 
 /datum/ai_goal/human/set_internals/check_score(datum/component/knpc/HA)
 	if(!..())
@@ -741,7 +741,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 /datum/ai_goal/human/stop_drop_n_roll
 	name = "Stop drop & roll"
 	score = AI_SCORE_CRITICAL //The lads need to be able to breathe.
-	required_trait = null
+	required_ai_flags = null
 
 /datum/ai_goal/human/stop_drop_n_roll/check_score(datum/component/knpc/HA)
 	if(!..())
