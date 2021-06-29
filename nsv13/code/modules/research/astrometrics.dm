@@ -64,7 +64,7 @@ Clean override of the navigation computer to provide scan functionality.
 		if(LAZYFIND(scanned, selected_system.name)) //If we've scanned this one before, get me the list of its anomalies.
 			data["scanned"] = TRUE
 		if ( data["scanned"] )
-			data["system_type"] = syst[ "label" ]
+			data["system_type"] = syst ? syst[ "label" ] : "ERROR"	//the list /should/ always be initialized when players get to press the button, but alas never trust it.
 		else 
 			data["system_type"] = "Unknown (not scanned)"
 
