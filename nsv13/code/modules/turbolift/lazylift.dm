@@ -67,11 +67,8 @@ That's it, ok bye!
 			else if(LL.id == lift_id)
 				lift = LL
 	else
-		for(var/turf/T in get_area(src))
-			if(T.z != z)
-				continue
-			var/obj/machinery/lazylift/LL = locate(/obj/machinery/lazylift) in T
-			if(LL)
+		for(var/obj/machinery/lazylift/LL in get_area(src))
+			if(LL.z == z)
 				lift = LL
 
 /obj/machinery/lazylift_button/attack_robot(mob/user)
