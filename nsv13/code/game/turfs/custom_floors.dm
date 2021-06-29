@@ -281,3 +281,8 @@
 	icon_state = "techfloor"
 	broken_states = list("techfloor_dam1", "techfloor_dam2")
 	burnt_states = list("techfloor_scorched1", "techfloor_scorched2")
+
+/turf/open/floor/stairs
+	name = "stairs"
+	icon = 'icons/obj/stairs.dmi'
+	icon_state = "stairs"
