@@ -139,7 +139,7 @@
 					edir = EAST
 				if(SOUTHWEST)
 					edir = WEST
-		if(edir == dir) //In other words, theyre shooting the way that we're facing. So that means theyre behind us, and are allowed.
+		if(dir & edir) //In other words, theyre shooting the way that we're facing. So that means theyre behind us, and are allowed.
 			return TRUE
 		else
 			return FALSE

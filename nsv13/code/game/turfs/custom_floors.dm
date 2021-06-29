@@ -189,6 +189,9 @@
 /turf/open/floor/monotile/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
+/turf/open/floor/monotile/steel/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
 /turf/open/floor/monotile/light/airless
 	initial_gas_mix = AIRLESS_ATMOS
 

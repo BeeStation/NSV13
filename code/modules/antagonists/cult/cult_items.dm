@@ -22,7 +22,7 @@
 	block_level = 0
 	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
 	force = 15
-	throwforce = 12 // unlike normal daggers, this one is curved and not designed to be thrown
+	throwforce = 25 //NSV13 - revert cult to pre-nerf state
 	armour_penetration = 35
 	actions_types = list(/datum/action/item_action/cult_dagger)
 
@@ -247,11 +247,15 @@
 	breakouttime = 60
 	knockdown = 20
 
+/obj/item/restraints/legcuffs/bola/cult/pickup(mob/living/user) //NSV13 - reverted to pre-nerf state
+	if(!iscultist(user))
+		to_chat(user, "<span class='warning'>The bola seems to take on a life of its own!</span>")
+		ensnare(user)
+
 /obj/item/restraints/legcuffs/bola/cult/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	if(iscultist(hit_atom))
 		return
 	. = ..()
-
 
 /obj/item/clothing/head/culthood
 	name = "ancient cultist hood"
@@ -259,7 +263,7 @@
 	desc = "A torn, dust-caked hood. Strange letters line the inside."
 	flags_inv = HIDEFACE|HIDEHAIR|HIDEEARS
 	flags_cover = HEADCOVERSEYES
-	armor = list("melee" = 30, "bullet" = 30, "laser" = 20,"energy" = 20, "bomb" = 25, "bio" = 10, "rad" = 0, "fire" = 10, "acid" = 10, "stamina" = 40)
+	armor = list("melee" = 40, "bullet" = 30, "laser" = 40,"energy" = 20, "bomb" = 25, "bio" = 10, "rad" = 0, "fire" = 10, "acid" = 10, "stamina" = 40)
 	cold_protection = HEAD
 	min_cold_protection_temperature = HELMET_MIN_TEMP_PROTECT
 	heat_protection = HEAD
@@ -272,7 +276,7 @@
 	item_state = "cultrobes"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	allowed = list(/obj/item/tome, /obj/item/melee/cultblade)
-	armor = list("melee" = 30, "bullet" = 30, "laser" = 20,"energy" = 20, "bomb" = 25, "bio" = 10, "rad" = 0, "fire" = 10, "acid" = 10, "stamina" = 40)
+	armor = list("melee" = 40, "bullet" = 30, "laser" = 40,"energy" = 20, "bomb" = 25, "bio" = 10, "rad" = 0, "fire" = 10, "acid" = 10, "stamina" = 40)
 	flags_inv = HIDEJUMPSUIT
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	min_cold_protection_temperature = ARMOR_MIN_TEMP_PROTECT
@@ -364,7 +368,7 @@
 	icon_state = "cult_armor"
 	item_state = "cult_armor"
 	w_class = WEIGHT_CLASS_BULKY
-	armor = list("melee" = 40, "bullet" = 30, "laser" = 40,"energy" = 30, "bomb" = 50, "bio" = 30, "rad" = 30, "fire" = 50, "acid" = 60, "stamina" = 40)
+	armor = list("melee" = 50, "bullet" = 40, "laser" = 50,"energy" = 30, "bomb" = 50, "bio" = 30, "rad" = 30, "fire" = 50, "acid" = 60, "stamina" = 40)
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	allowed = list(/obj/item/tome, /obj/item/melee/cultblade)
 	var/current_charges = 3
@@ -374,7 +378,7 @@
 	name = "empowered cultist helmet"
 	desc = "Empowered helmet which creates a powerful shield around the user."
 	icon_state = "cult_hoodalt"
-	armor = list("melee" = 40, "bullet" = 30, "laser" = 40,"energy" = 30, "bomb" = 50, "bio" = 30, "rad" = 30, "fire" = 50, "acid" = 60, "stamina" = 40)
+	armor = list("melee" = 50, "bullet" = 40, "laser" = 50,"energy" = 30, "bomb" = 50, "bio" = 30, "rad" = 30, "fire" = 50, "acid" = 60, "stamina" = 40)
 	body_parts_covered = HEAD
 	flags_inv = HIDEHAIR|HIDEFACE|HIDEEARS
 
@@ -663,7 +667,7 @@
 				L.visible_message("<span class='warning'>[src] bounces off of [L], as if repelled by an unseen force!</span>")
 		else if(!..())
 			if(!L.anti_magic_check())
-				L.Knockdown(50)
+				L.Paralyze(50) //NSV13 - revert cult to pre-nerf state
 			break_spear(T)
 	else
 		..()
@@ -934,7 +938,7 @@
 				L.visible_message("<span class='warning'>[src] bounces off of [L], as if repelled by an unseen force!</span>")
 		else if(!..())
 			if(!L.anti_magic_check())
-				L.Knockdown(30)
+				L.Paralyze(30) //NSV13 - revert cult to pre-nerf state
 				if(D?.thrower)
 					for(var/mob/living/Next in orange(2, T))
 						if(!Next.density || iscultist(Next))

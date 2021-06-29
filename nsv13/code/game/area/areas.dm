@@ -54,7 +54,7 @@
 
 /area/science/nsv/astronomy
 	name = "Astrometrics Lab"
-	icon_state = "toxmisc"
+	icon_state = "astrometrics"
 
 /area/nsv/engine/corridor
 	name = "Engineering Corridor"
@@ -62,7 +62,7 @@
 
 /area/nsv/engine/engine_room/core
 	name = "Engine Core"
-	icon_state = "engine_foyer"
+	icon_state = "engine_core"
 
 /area/nsv/engine/engine_room/auxiliary
 	name = "Engine Auxiliary Equipment"
@@ -78,7 +78,7 @@
 
 /area/maintenance/nsv/ftlroom
 	name = "FTL Control Room"
-	icon_state = "maint_bridge"
+	icon_state = "ftl_room"
 
 /area/maintenance/nsv/turbolift/abandonedshaft
 	name = "Abandoned Elevator Shaft"
@@ -115,6 +115,9 @@
 /area/maintenance/nsv/deck1/starboard/aft
 	name = "Deck 1 Starboard Aft Maintenance"
 	icon_state = "smaint"
+
+/area/maintenance/nsv/deck1/starboard/fore
+	name = "Deck 1 Starboard Fore Maintenance"
 
 /area/maintenance/nsv/deck1/aft
 	name = "Deck 1 Aft Maintenance"
@@ -172,6 +175,10 @@
 	name = "Deck 2 Frame 2 Starboard Maintenance"
 	icon_state = "smaint"
 
+/area/maintenance/nsv/deck2/frame2/central
+	name = "Deck 2 Frame 2 Central Maintenance"
+	icon_state = "maintcentral"
+
 /area/maintenance/nsv/deck2/frame3/port
 	name = "Deck 2 Frame 3 Port Maintenence"
 	icon_state = "pmaint"
@@ -179,6 +186,10 @@
 /area/maintenance/nsv/deck2/frame3/starboard
 	name = "Deck 2 Frame 3 Starboard Maintenance"
 	icon_state = "smaint"
+
+/area/maintenance/nsv/deck2/frame3/central
+	name = "Deck 2 Frame 3 Central Maintenance"
+	icon_state = "maintcentral"
 
 /area/maintenance/nsv/deck2/frame4/port
 	name = "Deck 2 Frame 4 Port Maintenance"
@@ -188,6 +199,10 @@
 	name = "Deck 2 Frame 4 Starboard Maintenance"
 	icon_state = "smaint"
 
+/area/maintenance/nsv/deck2/frame4/central
+	name = "Deck 2 Frame 4 Central Maintenance"
+	icon_state = "maintcentral"
+
 /area/maintenance/nsv/deck2/frame5/port
 	name = "Deck 2 Frame 5 Port Maintenance"
 	icon_state = "pmaint"
@@ -195,6 +210,10 @@
 /area/maintenance/nsv/deck2/frame5/starboard
 	name = "Deck 2 Frame 5 Starboard Maintenance"
 	icon_state = "smaint"
+
+/area/maintenance/nsv/deck2/frame5/central
+	name = "Deck 2 Frame 5 Central Maintenance"
+	icon_state = "maintcentral"
 
 /area/maintenance/nsv/deck3/frame1/port
 	name = "Deck 3 Frame 1 Port Maintenance"
@@ -496,27 +515,31 @@
 
 /area/nsv/weapons
 	name = "Weapons Bay"
-	icon_state = "hallC"
+	icon_state = "weapons_bay"
 
 /area/nsv/weapons/ordnance
 	name = "Ordnance Handling Bay"
-	icon_state = "hallC"
+	icon_state = "magazine"
 
 /area/nsv/weapons/gauss
 	name = "Gauss Bay"
-	icon_state = "hallC"
+	icon_state = "gauss"
 
 /area/nsv/weapons/port
 	name = "Port Weapons Bay"
-	icon_state = "hallP"
+	icon_state = "weapons_bay"
 
 /area/nsv/weapons/starboard
 	name = "Starboard Weapons Bay"
-	icon_state = "hallS"
+	icon_state = "weapons_bay"
 
 /area/nsv/weapons/fore
 	name = "Fore Weapons Bay"
-	icon_state = "hallF"
+	icon_state = "weapons_bay"
+
+/area/nsv/weapons/artillery
+	name = "Artillery Bay"
+	icon_state = "artillery"
 
 /area/nsv/weapons/access_corridor
 	name = "Munitions Access Corridor"
@@ -524,15 +547,15 @@
 
 /area/nsv/magazine
 	name = "Ship's Magazine"
-	icon_state = "hallC"
+	icon_state = "magazine"
 
 /area/nsv/magazine/port
 	name = "Port Magazine"
-	icon_state = "hallP"
+	icon_state = "magazine"
 
 /area/nsv/magazine/starboard
 	name = "Starboard Magazine"
-	icon_state = "hallS"
+	icon_state = "magazine"
 
 /area/nsv/briefingroom
 	name = "Briefing Room"
@@ -623,18 +646,6 @@
 	name = "Mining Shuttle Lounge"
 	icon_state = "hallP"
 
-/area/ruin/powered/nsv13/prisonship
-	name = "Syndicate prison ship"
-
-/area/ruin/powered/nsv13/trooptransport
-	name = "Syndicate troop transport"
-
-/area/ruin/powered/nsv13/gunship
-	name = "Syndicate corvette"
-
-/area/ruin/powered/nsv13/yacht
-	name = "Luxury yacht"
-
 /area/nostromo
 	name = "DMC Rocinante"
 	ambient_effects = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
@@ -715,33 +726,24 @@
 
 
 
-/area/Entered(atom/movable/A)
-	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
-	set waitfor = FALSE
-	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, A)
-	SEND_SIGNAL(A, COMSIG_ENTER_AREA, src) //The atom that enters the area
-
-	var/atom/foo = pick(contents) //We need something with a z-level attached to it.
-	var/obj/structure/linked_overmap = foo.get_overmap()
-
-	var/mob/M = A
-	if(linked_overmap && istype(M))
-		var/progress = linked_overmap.obj_integrity
-		var/goal = linked_overmap.max_integrity
-		progress = CLAMP(progress, 0, goal)
-		progress = round(((progress / goal) * 100), 50)//If the ship goes below 50% health, we start creaking like mad.
-		if((progress <= 50) && (M.client?.prefs.toggles & SOUND_AMBIENCE) && M.can_hear_ambience())
-			var/list/creaks = list('nsv13/sound/ambience/ship_damage/creak1.ogg','nsv13/sound/ambience/ship_damage/creak2.ogg','nsv13/sound/ambience/ship_damage/creak3.ogg','nsv13/sound/ambience/ship_damage/creak4.ogg','nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg','nsv13/sound/ambience/ship_damage/creak7.ogg')
-			var/creak = pick(creaks)
-			SEND_SOUND(M, sound(creak, repeat = 0, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))
-			return
-
 /area/Exited(atom/movable/M)
 	SEND_SIGNAL(src, COMSIG_AREA_EXITED, M)
 	SEND_SIGNAL(M, COMSIG_EXIT_AREA, src) //The atom that exits the area
 
 /area/engine/engineering/reactor_core
 	name = "Nuclear Reactor Core"
+	icon_state = "engine_core"
 
 /area/engine/engineering/reactor_control
 	name = "Reactor Control Room"
+	icon_state = "reactor_control"
+
+/area/engine/engineering/ftl_room
+	name = "FTL Drive Core"
+	icon_state = "ftl_room"
+
+/area/maintenance/nsv/bunker
+	name = "Nuclear Bunker"
+	icon_state = "bunker"
+	ambient_effects = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/ship_damage/creak1.ogg','nsv13/sound/ambience/ship_damage/creak2.ogg','nsv13/sound/ambience/ship_damage/creak3.ogg','nsv13/sound/ambience/ship_damage/creak4.ogg','nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg','nsv13/sound/ambience/ship_damage/creak7.ogg')
+	light_color = "#e69602"

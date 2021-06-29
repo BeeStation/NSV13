@@ -1,7 +1,7 @@
 //Torpedo construction//
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
-	name = "NTB-M4A1-IB prebuilt torpedo-casing"
+	name = "\improper NTB-M4A1-IB prebuilt torpedo-casing"
 	icon_state = "case"
 	desc = "The outer casing of a 30mm torpedo."
 	var/state = 0
@@ -10,6 +10,7 @@
 	var/obj/item/ship_weapon/parts/missile/propulsion_system/ps = null
 	var/obj/item/ship_weapon/parts/missile/iff_card/iff = null
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/dud //Forget to finish your torpedo? You get a dud torpedo that doesn't do anything
+	claimable_gulag_points = 0
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/examine(mob/user) //No better guide than an in-game play-by-play guide
 	. = ..()
@@ -194,8 +195,8 @@
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/welder_act(mob/user, obj/item/tool)
 	//Fixes #620 (https://github.com/BeeStation/NSV13/issues/620)
-	if(istype(src.loc, /obj/structure))
-		to_chat(user, "<span class='notice'>[src] is loaded in [src.loc]. Unload it first.</span>")
+	if(istype(loc, /obj/structure))
+		to_chat(user, "<span class='notice'>[src] is loaded in [loc]. Unload it first.</span>")
 		return
 	switch(state)
 		if(0)
@@ -210,10 +211,16 @@
 			to_chat(user, "<span class='notice'>You start sealing the casing on [src]...</span>")
 			if(tool.use_tool(src, user, 40, amount=1, volume=100))
 				to_chat(user, "<span class='notice'You seal the casing on [src].</span>")
-				new_torpedo(wh, gs, ps, iff)
-				qdel(src)
+				state = 11
+				check_completion()
 			return TRUE
 	. = ..()
+
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/proc/check_completion()
+	update_icon()
+	if(state >= 11)
+		new_torpedo(wh, gs, ps, iff)
+		return TRUE
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/crowbar_act(mob/user, obj/item/tool)
 	switch(state)
@@ -279,13 +286,7 @@
 		if(10)
 			icon_state = "case_warhead_complete"
 
-/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/proc/new_torpedo(
-			obj/item/ship_weapon/parts/missile/warhead,
-			obj/item/ship_weapon/parts/missile/guidance_system,
-			obj/item/ship_weapon/parts/missile/propulsion_system,
-			obj/item/ship_weapon/parts/missile/iff_card)
-
-
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/proc/new_torpedo()
 	wh = locate(/obj/item/ship_weapon/parts/missile/warhead) in src
 	new wh.build_path(get_turf(src))
 	for(var/I in contents)

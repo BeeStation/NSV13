@@ -132,7 +132,7 @@
 
 /datum/symptom/heal/coma/proc/coma(mob/living/M)
 	if(deathgasp)
-		M.fakedeath("regenerative coma")
+		M.fakedeath("regenerative_coma")
 	else
 		M.Unconscious(300, TRUE, TRUE)
 	M.update_stat()
