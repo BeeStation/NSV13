@@ -24,7 +24,7 @@
 /obj/machinery/inertial_dampener/proc/try_use_power()
 	var/turf/T = get_turf(src)
 	C = T.get_cable_node()
-	if(C?.surplus() > power_input)
+	if ( C?.surplus() > power_input )
 		C.powernet.load += power_input
 		return TRUE
 	return FALSE
@@ -50,7 +50,7 @@
 	. = ..()
 	var/turf/T = get_turf(src)
 	C = T.get_cable_node()
-	if(C?.surplus() > power_input)
+	if ( C?.surplus() > power_input )
 		. += "<span class='notice'>Its LED display states: [power_input / 1000]kW</span>"
 	else 
 		. += "<span class='warning'>Its LED display flashes: [power_input / 1000]kW</span>"
@@ -90,7 +90,7 @@
 /obj/machinery/inertial_dampener/proc/toggle_machine()
 	var/turf/T = get_turf(src)
 	C = T.get_cable_node()
-	if ( C )
+	if ( on || C?.surplus() > power_input )
 		on = !on
 		update_icon()
 
