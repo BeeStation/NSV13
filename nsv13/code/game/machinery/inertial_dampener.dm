@@ -21,18 +21,18 @@
 	. = ..()
 	RefreshParts()
 	
-/obj/machinery/inertial_dampener/proc/try_use_power(amount)
+/obj/machinery/inertial_dampener/proc/try_use_power()
 	var/turf/T = get_turf(src)
 	C = T.get_cable_node()
-	if(C?.surplus() > amount)
-		C.powernet.load += amount
+	if(C?.surplus() > power_input)
+		C.powernet.load += power_input
 		return TRUE
 	return FALSE
 
 /obj/machinery/inertial_dampener/process()
 	if ( on )
-		if( power_input > 0 && try_use_power( power_input ) )
-			radiation_pulse( src, radiationAmountOnProcess )
+		if( power_input > 0 && try_use_power() )
+			radiation_pulse( src, radiationAmountOnProcess ) // Let's turn one form of energy into another form of energy. Using science! 
 		else 
 			on = FALSE
 			update_icon()
@@ -45,6 +45,15 @@
 		icon_state = "machine_active"
 	else
 		icon_state = "machine_inactive"
+
+/obj/machinery/inertial_dampener/examine(mob/user)
+	. = ..()
+	var/turf/T = get_turf(src)
+	C = T.get_cable_node()
+	if(C?.surplus() > power_input)
+		. += "<span class='notice'>Its LED display states: [power_input / 1000]kW</span>"
+	else 
+		. += "<span class='warning'>Its LED display flashes: [power_input / 1000]kW</span>"
 	
 /obj/machinery/inertial_dampener/attack_hand(mob/user)
 	. = ..()
@@ -114,7 +123,7 @@
 	for ( var/obj/item/stock_parts/manipulator/M in component_parts ) 
 		totalManipulatorRating += M.rating
 	// strengthMultiplier = ( ( 6 * 0.9 ) / totalManipulatorRating )
-	strengthMultiplier = ( -0.045 * ( totalManipulatorRating - 6 ) + 0.9 )
+	strengthMultiplier = ( -0.041 * ( totalManipulatorRating - 6 ) + 0.749 )
 
 	var/totalScannerRating
 	for ( var/obj/item/stock_parts/scanning_module/S in component_parts ) 
@@ -136,6 +145,9 @@
 		// Increasing dampening strength or affected range will consume more power. 
 		// Install better capacitors to compensate  
 		power_input = round( ( strengthMultiplier ** -1 ) * ( ( maxRange ** 2 ) / 2 ) * ( 4000 * ( 1 / capacitorRating ) ) )
+		
+		if ( power_input < 0 ) // Negative strength multiplier will produce a negative power input, but I'm lazy 
+			power_input = INFINITY
 
 /obj/machinery/inertial_dampener/proc/reduceStrength( distance, strength = 0 )
 	if ( emagged )
@@ -145,7 +157,7 @@
 	if ( distance && ( distance < maxRange ) )
 		var/result = ( strength * strengthMultiplier )
 		
-		if ( strengthMultiplier > 0.5 ) 
+		if ( strengthMultiplier > 0.6 ) 
 			result = ( result * ( rand( 8, 12 ) / 10 ) ) // Poor component rating, produce a small deviation from the expected mitigated result 
 
 		if ( result < 0 ) 
