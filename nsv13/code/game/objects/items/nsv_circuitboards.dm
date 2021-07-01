@@ -66,7 +66,7 @@
 	return QDEL_HINT_LETMELIVE
 
 /obj/item/circuitboard/computer/fiftycal
-	name = ".50 cal turret console (circuit)"
+	name = "PDC turret console (circuit)"
 	build_path = /obj/machinery/computer/fiftycal
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
@@ -86,7 +86,7 @@
 
 //50 Cal. guns
 /obj/item/circuitboard/machine/fiftycal
-	name = ".50 cal turret (circuitboard)"
+	name = "PDC turret (circuitboard)"
 	req_components = list(
 		/obj/item/stack/sheet/mineral/titanium = 20,
 		/obj/item/stack/sheet/mineral/copper = 10,
@@ -99,7 +99,7 @@
 	return QDEL_HINT_LETMELIVE
 
 /obj/item/circuitboard/machine/fiftycal/super
-	name = "super .50 cal turret (circuitboard)"
+	name = "RPDC (circuitboard)"
 	req_components = list(
 		/obj/item/stack/sheet/mineral/titanium = 40,
 		/obj/item/stack/sheet/mineral/copper = 40,

@@ -330,7 +330,7 @@ Returns a faction datum by its name (case insensitive!)
 	var/alignment = "unaligned"
 	var/visited = FALSE
 	var/hidden = FALSE //Secret systems
-	var/system_type = null //Set this to pre-spawn systems as a specific type.
+	var/list/system_type = null //Set this to pre-spawn systems as a specific type.
 	var/event_chance = 0
 	var/list/possible_events = list()
 	var/list/active_missions = list()

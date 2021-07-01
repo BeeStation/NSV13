@@ -125,12 +125,12 @@
 	. = FALSE
 	if(!multitool_check_buffer(user, tool))
 		return
-	apnw?.apnp -= src
 	var/obj/item/multitool/M = tool
-	if(!isnull(M.buffer))
+	if(!isnull(M.buffer) && istype(M.buffer, /obj/machinery/armour_plating_nanorepair_well))
+		apnw?.apnp -= src
 		apnw = M.buffer
-	apnw.apnp += src
-	M.buffer = null
+		apnw.apnp += src
+		M.buffer = null
 	quadrant = input(user, "Direct nano-repair pump to which quadrant?", "[name]") as null|anything in list("forward_port", "forward_starboard", "aft_port", "aft_starboard")
 	playsound(src, 'sound/items/flashlight_on.ogg', 100, TRUE)
 	to_chat(user, "<span class='notice'>Buffer transfered</span>")

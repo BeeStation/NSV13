@@ -112,6 +112,7 @@
 
 	var/fire_delay = 5
 	var/next_firetime = 0
+	var/next_firetime_gunspecific = list()	//List used by elites to control their fire times.
 
 	var/list/weapon_overlays = list()
 	var/obj/weapon_overlay/last_fired //Last weapon overlay that fired, so we can rotate guns independently
