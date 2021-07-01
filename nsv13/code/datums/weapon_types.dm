@@ -239,7 +239,7 @@
 	selectable = FALSE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 
-/datum/ship_weapon/fiftycal // .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets 
+/datum/ship_weapon/fiftycal // .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets
 	name = "PDC"
 	default_projectile_type = /obj/item/projectile/bullet/fiftycal
 	burst_size = 3
