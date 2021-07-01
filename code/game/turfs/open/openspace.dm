@@ -22,6 +22,11 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	var/can_build_on = TRUE
 
 	intact = 0
+
+	var/static/list/allowed_floors = typecacheof(list(
+			/obj/item/stack/tile/plasteel,
+			/obj/item/stack/tile/mono)) // NSV13 - allow building floor with monotiles
+
 /turf/open/openspace/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
@@ -121,12 +126,12 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 		else
 			to_chat(user, "<span class='warning'>You need one rod to build a lattice.</span>")
 		return
-	if(istype(C, /obj/item/stack/tile/plasteel))
+	if(allowed_floors[C.type]) // NSV13 - allow building with monotiles
 		if(!CanCoverUp())
 			return
 		var/obj/structure/lattice/L = locate(/obj/structure/lattice, src)
 		if(L)
-			var/obj/item/stack/tile/plasteel/S = C
+			var/obj/item/stack/tile/S = C // NSV13 - genericized to all tile stacks allowed
 			if(S.use(1))
 				qdel(L)
 				playsound(src, 'sound/weapons/genhit.ogg', 50, 1)

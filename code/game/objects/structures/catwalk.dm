@@ -39,6 +39,11 @@
 
 /obj/structure/lattice/catwalk/deconstruct()
 	var/turf/T = loc
-	for(var/obj/structure/cable/C in T)
-		C.deconstruct()
+	if(!istype(src, /obj/structure/lattice/catwalk/over/ship)) // NSV13 - don't cut cables if the catwalk goes *over* the cables
+		for(var/obj/structure/cable/C in T)
+			C.deconstruct()
 	..()
+
+// NSV13 - allow cable laying on open plated catwalk
+/obj/structure/lattice/catwalk/proc/can_lay_cable()
+	return FALSE

@@ -3,7 +3,7 @@
 	icon_state = "flak"
 	ammo_type = /obj/item/ammo_casing/flak
 	caliber = "mm40"
-	max_ammo = 100
+	max_ammo = 150
 
 /obj/item/ammo_box/magazine/pdc/update_icon()
 	if(ammo_count() > 10)
@@ -21,7 +21,7 @@
 	name = "Flak loading rack"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "pdc"
-	desc = "Seegson's all-in-one PDC targeting computer, ammunition loader, and human interface has proven extremely popular in recent times. It's rare to see a ship without one of these."
+	desc = "Seegson's all-in-one flak targeting computer and ammunition loader for defensive flak screens. These weapons, while crude, are still extremely effective, though rarely seen on smaller patrol craft due to their high running costs."
 	anchored = TRUE
 	density = FALSE
 	pixel_y = 26
@@ -37,7 +37,7 @@
 	auto_load = TRUE
 	semi_auto = TRUE
 	maintainable = FALSE
-	max_ammo = 100
+	max_ammo = 150
 
 	// We're fully automatic, so just the loading sound is enough
 	mag_load_sound = 'sound/weapons/autoguninsert.ogg'
@@ -56,54 +56,60 @@
 	bang = FALSE
 
 /obj/machinery/ship_weapon/pdc_mount/flak/animate_projectile(atom/target)
-	linked.fire_flak(target)
-
+	var/obj/item/projectile/bullet/B = ..()
+	if(istype(B, /obj/item/projectile/bullet/flak))
+		var/obj/item/projectile/bullet/flak/F = B
+		F.steps_left = get_overmap().get_flak_range(target)
 
 /obj/structure/overmap/proc/get_flak_range(atom/target)
 	if(!target)
 		target = src
-	var/dist = (get_dist(src, target) / 2)
+	var/dist = (get_dist(src, target) / 1.5)
 	var/minimum_safe_distance = pixel_collision_size_y / 32
 	return (dist >= minimum_safe_distance) ? dist : minimum_safe_distance //Stops you flak-ing yourself
-
-/obj/structure/overmap/proc/fire_flak(target,speed=null)
-	var/turf/T = get_turf(src)
-	var/flak_range = get_flak_range(target)
-	var/obj/item/projectile/proj = new /obj/item/projectile/bullet/flak(T, flak_range)
-	proj.starting = T
-	if(gunner)
-		proj.firer = gunner
-	else
-		proj.firer = src
-	proj.def_zone = "chest"
-	proj.original = target
-	proj.pixel_x = round(pixel_x)
-	proj.pixel_y = round(pixel_y)
-	var/theangle = Get_Angle(src,target)
-	spawn()
-		proj.fire(theangle)
-		if(speed)
-			proj.set_pixel_speed(speed)
-
-/obj/structure/overmap/proc/handle_flak()
-	if(mass <= MASS_MEDIUM) //This is for big boys only.
-		return
 
 /obj/effect/temp_visual/flak
 	icon = 'nsv13/goonstation/icons/effects/explosions/80x80.dmi'
 	icon_state = "explosion"
-	duration = 2 SECONDS
-	pixel_x = -32
-	pixel_y = -32
+	duration = 2.5 SECONDS
+	bound_height = 96
+	bound_width = 96
+	alpha = 10
+	var/faction = null
 	var/flak_range = 2 //AOE where flak hits torpedoes. May need to buff this a bit.
 
+/obj/effect/temp_visual/flak/Initialize(mapload, faction)
+	. = ..()
+	if(prob(50))
+		icon = 'nsv13/goonstation/icons/effects/explosions/96x96.dmi'
+	src.faction = faction
+	animate(src, alpha = 255, time = rand(0, 2 SECONDS))
+
+/obj/effect/temp_visual/flak/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
+	. = ..()
+	if(!isprojectile(AM) && !istype(AM, /obj/structure/overmap))
+		return
+	//Distance from the "center" of the flak effect.
+	var/dist = get_dist(locs[1], AM)
+	var/severity = (dist > 0) ? 1/dist : 1
+	var/obj/item/projectile/P = AM
+	if(P.faction != faction) //Stops flak from FFing
+		if(istype(AM, /obj/item/projectile/guided_munition))
+			P.take_damage(severity*50, BRUTE, "overmap_light")
+		if(isovermap(AM))
+			P.take_damage(severity*20, BRUTE, "overmap_light")
+
+/obj/item/projectile/bullet
+	obj_integrity = 500 //Flak doesn't shoot this down....
+
 /obj/item/projectile/bullet/flak
-	icon_state = "flak"
+	icon_state = "bolter"
 	name = "flak round"
 	damage = 2
 	flag = "overmap_light"
-	alpha = 0
-	var/steps_left = 0 //Flak range, AKA how many tiles can we move before we go kaboom
+	alpha = 100
+	var/steps_left = 10 //Flak range, AKA how many tiles can we move before we go kaboom
+	var/exploded = FALSE
 
 /obj/item/projectile/bullet/flak/Initialize(mapload, range=10)
 	. = ..()
@@ -111,40 +117,22 @@
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_range)
 
 /obj/item/projectile/bullet/flak/proc/explode()
-	if(ismob(firer))
-		var/mob/living/M = firer
-		faction = M.overmap_ship.faction
-	else
-		var/obj/structure/overmap/OM = firer
-		if(istype(OM))
-			faction = OM.faction
-	new /obj/effect/flak_handler(get_turf(src), faction)
-	qdel(src)
-
-//Small object to make flak "flicker" a bit. Kills itself after spawning flak
-/obj/effect/flak_handler/Initialize(mapload, faction)
-	. = ..()
+	if(exploded)
+		return FALSE
+	if(!faction)
+		if(ismob(firer))
+			var/mob/living/M = firer
+			faction = M.overmap_ship.faction
+		else
+			var/obj/structure/overmap/OM = firer
+			if(istype(OM))
+				faction = OM.faction
+	alpha = 0 //We can keep going, who cares.
+	exploded = TRUE
+	var/turf/cached = get_turf(src)
 	for(var/I = 0, I < rand(2,5), I++)
 		var/edir = pick(GLOB.alldirs)
-		new /obj/effect/temp_visual/flak(get_turf(get_step(src, edir)), faction)
-		sleep(rand(0, 2))
-	return INITIALIZE_HINT_QDEL
-
-/obj/effect/temp_visual/flak/Initialize(mapload, faction)
-	if(prob(50))
-		icon = 'nsv13/goonstation/icons/effects/explosions/96x96.dmi'
-	for(var/obj/X in view(flak_range, src))
-		var/severity = flak_range-get_dist(X, src)
-		if(istype(X, /obj/structure/overmap))
-			var/obj/structure/overmap/OM = X
-			if(OM.faction != faction)
-				X.take_damage(severity*5, BRUTE, "overmap_light")
-		else
-			if(istype(X, /obj/item/projectile))
-				var/obj/item/projectile/P = X
-				if(P.faction != faction && istype(P, /obj/item/projectile/guided_munition))
-					P.take_damage(severity*10)
-	. = ..()
+		new /obj/effect/temp_visual/flak(get_turf(get_step(cached, edir)), faction)
 
 /obj/item/projectile/bullet/flak/on_hit(atom/target, blocked = 0)
 	explode()

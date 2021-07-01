@@ -194,7 +194,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			if(isspaceturf(T))
 				continue
 			drag += 0.001
-			var/floating = FALSE
+			var/floating = (movement_type & FLYING)
 			if(has_gravity && velocity_mag >= 4)
 				floating = TRUE // Count them as "flying" if theyre going fast enough indoors. If you slow down, you start to scrape due to no lift or something
 			var/datum/gas_mixture/env = T.return_air()
@@ -415,17 +415,49 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		var/obj/structure/overmap/fighter/F = src
 		if(F.docking_act(other))
 			return FALSE
-	//No colliders? We get the simple version.
+	//No colliders. But we still get a lot of info anyways!
 	if(!c_response)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
-		if(other.dir & NORTH)
-			velocity.y += bump_impulse
-		if(other.dir & SOUTH)
-			velocity.y -= bump_impulse
-		if(other.dir & EAST)
-			velocity.x += bump_impulse
-		if(other.dir & WEST)
-			velocity.x -= bump_impulse
+
+		var/src_vel_mag = src.velocity.ln()
+		var/other_vel_mag = other.velocity.ln()
+		//I mean, the angle between the two objects is very likely to be the angle of incidence innit
+		var/col_angle = Get_Angle(src, other)
+
+		// Elastic collision equations
+		var/new_src_vel_x = ((																	\
+			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
+			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
+		) / (src.mass + other.mass)) * (cos(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * cos(col_angle + 90)))
+
+		var/new_src_vel_y = ((																	\
+			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
+			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
+		) / (src.mass + other.mass)) * (sin(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * sin(col_angle + 90)))
+
+		var/new_other_vel_x = ((																		\
+			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
+			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
+		) / (other.mass + src.mass)) * (cos(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * cos(col_angle + 90)))
+
+		var/new_other_vel_y = ((																		\
+			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
+			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
+		) / (other.mass + src.mass)) * (sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90)))
+		src.velocity._set(new_src_vel_x, new_src_vel_y)
+		other.velocity._set(new_other_vel_x, new_other_vel_y)
+
+		var/bonk = src_vel_mag//How much we got bonked
+		var/bonk2 = other_vel_mag //Vs how much they got bonked
+		//Prevent ultra spam.
+		if(!impact_sound_cooldown && (bonk > 2 || bonk2 > 2))
+			bonk *= 5 //The rammer gets an innate penalty, to discourage ramming metas.
+			bonk2 *= 5
+			take_quadrant_hit(bonk, projectile_quadrant_impact(other)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
+			other.take_quadrant_hit(bonk2, projectile_quadrant_impact(src)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
+
+			log_game("[key_name(pilot)] has impacted an overmap ship into [other] with velocity [bonk]")
+
 		return TRUE
 
 	//Update the colliders before we do any kind of calc.
@@ -531,130 +563,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		log_combat(pilot, M, "impacted", src, "with velocity of [bump_velocity]")
 	return ..()
 
-/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=10, explosive = FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
-	var/fx = cos(90 - angle)
-	var/fy = sin(90 - angle)
-	var/sx = fy
-	var/sy = -fx
-	var/new_offset = sprite_size/4
-	var/ox = (offset.x * 32) + new_offset
-	var/oy = (offset.y * 32) + new_offset
-	var/list/origins = list(list(ox + fx - sx, oy + fy - sy))
-	for(var/list/origin in origins)
-		var/this_x = origin[1]
-		var/this_y = origin[2]
-		var/turf/T = get_turf(src)
-		while(this_x > 16)
-			T = get_step(T, EAST)
-			this_x -= 32
-		while(this_x < -16)
-			T = get_step(T, WEST)
-			this_x += 32
-		while(this_y > 16)
-			T = get_step(T, NORTH)
-			this_y -= 32
-		while(this_y < -16)
-			T = get_step(T, SOUTH)
-			this_y += 32
-		if(!T)
-			continue
-		var/obj/item/projectile/proj = new proj_type(T)
-		proj.starting = T
-		if(gunner)
-			proj.firer = gunner
-		else
-			proj.firer = src
-		proj.def_zone = "chest"
-		proj.original = target
-		proj.overmap_firer = src
-		proj.pixel_x = round(this_x)
-		proj.pixel_y = round(this_y)
-		proj.faction = faction
-		if(physics2d && physics2d.collider2d)
-			proj.setup_collider()
-		if(homing)
-			proj.set_homing_target(target)
-		spawn()
-			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
-			proj.fire(angle)
-		return proj
-
-/obj/structure/overmap/proc/fire_projectiles(proj_type, target) // if spacepods of other sizes are added override this or something
-	var/fx = cos(90 - angle)
-	var/fy = sin(90 - angle)
-	var/sx = fy
-	var/sy = -fx
-	var/new_offset = sprite_size/4
-	var/ox = (offset.x * 32) + new_offset
-	var/oy = (offset.y * 32) + new_offset
-	var/list/origins = list(list(ox + fx*new_offset - sx*new_offset, oy + fy*new_offset - sy*new_offset), list(ox + fx*new_offset + sx*new_offset, oy + fy*new_offset + sy*new_offset))
-	var/list/what_we_fired = list()
-	for(var/list/origin in origins)
-		var/this_x = origin[1]
-		var/this_y = origin[2]
-		var/turf/T = get_turf(src)
-		while(this_x > 16)
-			T = get_step(T, EAST)
-			this_x -= 32
-		while(this_x < -16)
-			T = get_step(T, WEST)
-			this_x += 32
-		while(this_y > 16)
-			T = get_step(T, NORTH)
-			this_y -= 32
-		while(this_y < -16)
-			T = get_step(T, SOUTH)
-			this_y += 32
-		if(!T)
-			continue
-		var/obj/item/projectile/proj = new proj_type(T)
-		proj.starting = T
-		if(gunner)
-			proj.firer = gunner
-		else
-			proj.firer = src
-		proj.def_zone = "chest"
-		proj.original = target
-		proj.overmap_firer = src
-		proj.pixel_x = round(this_x)
-		proj.pixel_y = round(this_y)
-		if(physics2d && physics2d.collider2d)
-			proj.setup_collider()
-		spawn()
-			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
-			proj.fire(angle)
-		what_we_fired += proj
-	return what_we_fired
-
-//Jank as hell. This needs to happen to properly set the visual offset :/
-/obj/item/projectile/proc/preparePixelProjectileOvermap(obj/structure/overmap/target, obj/structure/overmap/source, params, spread = 0)
-	var/turf/curloc = source.get_center()
-	var/turf/targloc = (istype(target, /obj/structure/overmap)) ? target.get_center() : get_turf(target)
-	trajectory_ignore_forcemove = TRUE
-	forceMove(curloc)
-	trajectory_ignore_forcemove = FALSE
-	starting = curloc
-	original = target
-	if(targloc || !params)
-		yo = targloc.y - curloc.y
-		xo = targloc.x - curloc.x
-		setAngle(Get_Angle(src, targloc) + spread)
-
-	if(isliving(source) && params)
-		var/list/calculated = calculate_projectile_angle_and_pixel_offsets(source, params)
-		p_x = calculated[2]
-		p_y = calculated[3]
-
-		setAngle(calculated[1] + spread)
-	else if(targloc)
-		yo = targloc.y - curloc.y
-		xo = targloc.x - curloc.x
-		setAngle(Get_Angle(src, targloc) + spread)
-	else
-		stack_trace("WARNING: Projectile [type] fired without either mouse parameters, or a target atom to aim at!")
-		qdel(src)
-
-/obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null, mob/living/user_override=null, homing=FALSE)
+/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
 	var/turf/T = get_center()
 	var/obj/item/projectile/proj = new proj_type(T)
 	proj.starting = T
@@ -674,8 +583,47 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	else
 		proj.firer = src
 	spawn()
-		proj.preparePixelProjectileOvermap(target, src, null, round((rand() - 0.5) * proj.spread))
+		proj.preparePixelProjectileOvermap(target, src, null, round((rand() - 0.5) * proj.spread), lateral=lateral)
 		proj.fire()
+		if(!lateral)
+			proj.setAngle(src.angle)
+		//Sometimes we want to override speed.
 		if(speed)
 			proj.set_pixel_speed(speed)
+	//	else
+	//		proj.set_pixel_speed(proj.speed)
 	return proj
+
+//Jank as hell. This needs to happen to properly set the visual offset :/
+/obj/item/projectile/proc/preparePixelProjectileOvermap(obj/structure/overmap/target, obj/structure/overmap/source, params, spread = 0, lateral=TRUE)
+	var/turf/curloc = source.get_center()
+	var/turf/targloc = (istype(target, /obj/structure/overmap)) ? target.get_center() : get_turf(target)
+	trajectory_ignore_forcemove = TRUE
+	forceMove(curloc)
+	trajectory_ignore_forcemove = FALSE
+	starting = curloc
+	original = target
+	if(!lateral)
+		setAngle(source.angle)
+
+	if(targloc || !params)
+		yo = targloc.y - curloc.y
+		xo = targloc.x - curloc.x
+		if(lateral)
+			setAngle(Get_Angle(src, targloc) + spread)
+
+	if(isliving(source) && params)
+		var/list/calculated = calculate_projectile_angle_and_pixel_offsets(source, params)
+		p_x = calculated[2]
+		p_y = calculated[3]
+
+		if(lateral)
+			setAngle(calculated[1] + spread)
+	else if(targloc)
+		yo = targloc.y - curloc.y
+		xo = targloc.x - curloc.x
+		if(lateral)
+			setAngle(Get_Angle(src, targloc) + spread)
+	else
+		stack_trace("WARNING: Projectile [type] fired without either mouse parameters, or a target atom to aim at!")
+		qdel(src)

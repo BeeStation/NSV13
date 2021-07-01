@@ -20,3 +20,6 @@
 
 #define JOB_MODIFICATION_MAP_NAME "NSV Atlas"
 #include "..\..\..\..\_maps\map_files\Atlas\job_changes.dm"
+
+#define JOB_MODIFICATION_MAP_NAME "NSV Galactica"
+#include "..\..\..\..\_maps\map_files\Galactica\job_changes.dm"

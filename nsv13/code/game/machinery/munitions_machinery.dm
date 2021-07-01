@@ -35,10 +35,12 @@
 					/obj/item/clothing/under/ship/decktech = 3,
 					/obj/item/clothing/under/rank/munitions_tech = 3,
 					/obj/item/clothing/under/ship/pilot = 3,
+					/obj/item/clothing/under/ship/pilot/transport = 3,
 					/obj/item/clothing/suit/hazardvest = 3,
 					/obj/item/clothing/suit/ship/munitions_jacket = 3,
 					/obj/item/clothing/shoes/jackboots = 5,
 					/obj/item/clothing/gloves/color/black = 5)
+	contraband = list(/obj/item/clothing/head/ship/rising_sun = 5)
 	premium = list(/obj/item/clothing/head/helmet/decktech = 3,
 					/obj/item/clothing/head/beret/ship/pilot = 3,
 					/obj/item/clothing/ears/earmuffs = 3)

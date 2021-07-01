@@ -4,21 +4,22 @@
 	mid_length = 8 SECONDS
 	volume = 100
 
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel
-	name = "Tyrosene fuel pump"
-	desc = "A tank full of high performance aviation fuel with an inbuilt fuel pump for rapid fuel delivery"
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel
+	name = "\improper Tyrosene fuel pump"
+	desc = "A tank full of high performance cryogenic fuel with an inbuilt fuel pump for rapid fuel delivery. Highly advisable to avoid exposure of cryogenic contents to significant heat sources"
 	icon = 'nsv13/icons/obj/objects.dmi'
-	icon_state = "jetfuel" //NSV13 - Modified objects.dmi to include a jet fuel container
-	reagent_id = /datum/reagent/aviation_fuel
+	icon_state = "cryofuel" //NSV13 - Modified objects.dmi to include a cryo fuel container
+	reagent_id = /datum/reagent/cryogenic_fuel
+	reagent_temp = 40
 	tank_volume = 3500
-	var/obj/item/jetfuel_nozzle/nozzle = null
+	var/obj/item/cryofuel_nozzle/nozzle = null
 	var/obj/structure/overmap/fighter/fuel_target
 	var/datum/looping_sound/refuel/soundloop
 	var/max_range = 2
 	var/datum/beam/current_beam
 	var/allow_refuel = FALSE
 
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel/ui_act(action, params, datum/tgui/ui)
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
 	if(!in_range(src, usr) && get_current_user() != usr) //Topic check
@@ -43,13 +44,13 @@
 *
 */
 
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel/proc/get_current_user()
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/proc/get_current_user()
 	var/mob/living/user = nozzle.loc
-	if(!isliving(user))
+	if(!istype(user))
 		return null
 	return user
 
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel/can_interact(mob/user)
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/can_interact(mob/user)
 	if(user == get_current_user()) //If theyre holding the hose, bypass range checks so that they can see what they're currently fuelling.
 		return TRUE
 	if(!user.can_interact_with(src)) //Theyre too far away and not flying the ship
@@ -61,15 +62,15 @@
 		return FALSE
 	return TRUE
 
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel/ui_interact(mob/user, datum/tgui/ui)
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/ui_interact(mob/user, datum/tgui/ui)
 	if(!can_interact(user))
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "AviationFuel")
+		ui = new(user, src, "CryogenicFuel")
 		ui.open()
 
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel/ui_data(mob/user)
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/ui_data(mob/user)
 	var/list/data = list()
 	if(!fuel_target)
 		data["targetfuel"] = 0
@@ -82,15 +83,15 @@
 	data["maxfuel"] = reagents.maximum_volume
 	return data
 
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel/Initialize()
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/Initialize()
 	. = ..()
-	add_overlay("jetfuel_nozzle")
+	add_overlay("cryofuel_nozzle")
 	nozzle = new(src)
 	nozzle.parent = src
 	soundloop = new(list(src), FALSE)
 	reagents.flags |= REFILLABLE
 
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel/attack_hand(mob/user)
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/attack_hand(mob/user)
 	if(nozzle.loc == src)
 		if(!user.put_in_hands(nozzle))
 			to_chat(user, "<span class='warning'>You need a free hand to hold the fuel hose!</span>")
@@ -107,23 +108,23 @@
 	name = "fuel hose"
 	layer = LYING_MOB_LAYER
 
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel/proc/toggle_nozzle(state) //@param state: are you adding or removing the nozzle. True = adding, false = removing
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/proc/toggle_nozzle(state) //@param state: are you adding or removing the nozzle. True = adding, false = removing
 	if(state)
 		var/mob/user = get_current_user() //If they let the hose snap back in, unregister this way
 		if(user)
 			UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
-		add_overlay("jetfuel_nozzle")
+		add_overlay("cryofuel_nozzle")
 		visible_message("<span class='warning'>[nozzle] snaps back into [src]!</span>")
 		soundloop?.stop()
 		qdel(current_beam)
 		nozzle.forceMove(src)
 		fuel_target = null
 	else
-		cut_overlay("jetfuel_nozzle")
+		cut_overlay("cryofuel_nozzle")
 		current_beam = new(get_current_user(),src,beam_icon='nsv13/icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
 		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
 
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel/attackby(obj/item/I, mob/user, params)
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/attackby(obj/item/I, mob/user, params)
 	if(I == nozzle)
 		to_chat(user, "<span class='warning'>You slot the fuel hose back into [src]</span>")
 		UnregisterSignal(user, COMSIG_MOVABLE_MOVED) //Otherwise unregister the signal here because they put it back cleanly
@@ -131,26 +132,26 @@
 		toggle_nozzle(TRUE)
 	if(allow_refuel)
 		if(istype(I, /obj/item/reagent_containers))
-			to_chat(user, "<span class='warning'>You transfer some of [I]'s contents to [src].</span>") //Put anything other than aviation fuel in here at your own risk of having to flush out the tank and possibly wreck your fighter :)
+			to_chat(user, "<span class='warning'>You transfer some of [I]'s contents to [src].</span>") //Put anything other than cryogenic fuel in here at your own risk of having to flush out the tank and possibly wreck your fighter :)
 			var/obj/item/reagent_containers/X = I
 			X.reagents.trans_to(X, X.amount_per_transfer_from_this, transfered_by = user)
 	. = ..()
 
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel/proc/start_fuelling(target)
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/proc/start_fuelling(target)
 	if(!target)
 		return
 	soundloop?.start()
 	fuel_target = target
 	START_PROCESSING(SSobj, src)
 
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel/proc/check_distance()
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/proc/check_distance()
 	if(get_dist(get_current_user(), src) > max_range)// because nozzle, when in storage, will actually be in nullspace.
 		toggle_nozzle(TRUE)
 		STOP_PROCESSING(SSobj,src)
 		return FALSE
 	return TRUE
 
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel/process()
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/process()
 	if(!fuel_target)
 		soundloop.stop()
 		return PROCESS_KILL
@@ -174,20 +175,20 @@
 		return PROCESS_KILL
 	reagents.trans_to(sft, transfer_amount)
 
-/obj/item/jetfuel_nozzle
-	name = "Aviation fuel delivery hose"
+/obj/item/cryofuel_nozzle
+	name = "cryofuel delivery hose"
 	icon = 'icons/obj/hydroponics/equipment.dmi'
 	icon_state = "atmos_nozzle"
 	item_state = "nozzleatmos"
 	item_flags = NOBLUDGEON | ABSTRACT  // don't put in storage
 	slot_flags = 0
-	var/obj/structure/reagent_dispensers/fueltank/aviation_fuel/parent
+	var/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/parent
 
-/obj/item/jetfuel_nozzle/Initialize()
+/obj/item/cryofuel_nozzle/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
 
-/obj/item/jetfuel_nozzle/afterattack(atom/target, mob/user, proximity)
+/obj/item/cryofuel_nozzle/afterattack(atom/target, mob/user, proximity)
 	. = ..()
 	if(istype(target, /obj/structure/overmap/fighter))
 		var/obj/structure/overmap/fighter/f16 = target
@@ -206,4 +207,3 @@
 			return
 		else
 			to_chat(user, "<span class='notice'>[f16]'s fuel tank is already full.</span>")
-			return
