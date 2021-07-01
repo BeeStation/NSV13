@@ -981,7 +981,7 @@ Seek a ship thich we'll station ourselves around
 	if(OM.defense_target.last_target && get_dist(OM.defense_target, OM.defense_target.last_target) < OM.defense_target.max_weapon_range * 1.5)	//Enemy close to our defense target, prioritize.
 		defensively_engage(OM, OM.defense_target.last_target)
 		return
-	if(OM.last_target && get_dist(OM, OM.defense_target) < OM.max_weapon_range * 2)	//If we have a target and they're somewhat close to our defense target: Engage them.
+	if(OM.last_target && (get_dist(OM, OM.defense_target) <= OM.max_weapon_range * 2 || get_dist(OM.last_target, OM.defense_target) <= OM.max_weapon_range * 2))	//If we have a target and they're somewhat close to our defense target: Engage them.
 		defensively_engage(OM, OM.last_target)
 		return
 
