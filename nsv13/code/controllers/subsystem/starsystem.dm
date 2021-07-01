@@ -184,7 +184,7 @@ Returns a faction datum by its name (case insensitive!)
 /datum/controller/subsystem/star_system/proc/find_system(obj/structure/overmap/OM) //Used to determine what system a ship is currently in. Famously used to determine the starter system that you've put the ship in.
 	if(!ships[OM])
 		return
-	var/datum/star_system/system = system_by_id(SSovermap_mode.mode.starting_system)
+	var/datum/star_system/system = system_by_id(OM.starting_system)
 	ships[OM]["current_system"] = system
 	return system
 
@@ -584,53 +584,53 @@ Returns a faction datum by its name (case insensitive!)
 					label = "Empty space",
 				),
 				list(
-					tag = "nebula", 
+					tag = "nebula",
 					label = "Nebula",
 				),
 				list(
-					tag = "gas", 
+					tag = "gas",
 					label = "Gas cloud",
 				),
 				list(
-					tag = "icefield", 
+					tag = "icefield",
 					label = "Ice field",
 				),
 				list(
-					tag = "ice_planet", 
+					tag = "ice_planet",
 					label = "Planetary system",
 				),
 			)
 		if(THREAT_LEVEL_UNSAFE) //Unaligned and Syndicate systems have a chance to spawn threats. But nothing major.
 			system_type = pick(
 				list(
-					tag = "debris", 
+					tag = "debris",
 					label = "Asteroid field",
 				),
 				list(
-					tag = "pirate", 
+					tag = "pirate",
 					label = "Debris",
 				),
 				list(
-					tag = "nebula", 
+					tag = "nebula",
 					label = "Nebula",
 				),
 				list(
-					tag = "hazardous", 
+					tag = "hazardous",
 					label = "Untagged hazard",
 				),
 			)
 		if(THREAT_LEVEL_DANGEROUS) //Extreme threat level. Time to break out the most round destroying anomalies.
 			system_type = pick(
 				list(
-					tag = "quasar", 
+					tag = "quasar",
 					label = "Quasar",
 				),
 				list(
-					tag = "radioactive", 
+					tag = "radioactive",
 					label = "Radioactive",
 				),
 				list(
-					tag = "blackhole", 
+					tag = "blackhole",
 					label = "Blackhole",
 				),
 			)
@@ -657,6 +657,14 @@ Returns a faction datum by its name (case insensitive!)
 
 /datum/star_system/proc/lerp_y(datum/star_system/other, t)
 	return y + (t * (other.y - y))
+
+/datum/star_system/staging
+	name = "Staging"
+	desc = "Used for round initialisation and admin event staging"
+	hidden = TRUE
+
+/datum/star_system/staging/handle_combat() //disable the table top action
+	return
 
 //////star_system LIST (order of appearance)///////
 /datum/star_system/sol
@@ -924,21 +932,21 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 			list(
 				tag = "blackhole",
 				label = "Blackhole",
-			), 
+			),
 			list(
 				tag = "quasar",
 				label = "Quasar",
 			), 0.75;
 			list(
-				tag = "accretiondisk", 
+				tag = "accretiondisk",
 				label = "Accretion disk",
 			),
 			list(
-				tag = "nebula", 
+				tag = "nebula",
 				label = "Nebula",
 			),
 			list(
-				tag = "supernova", 
+				tag = "supernova",
 				label = "Supernova",
 			),
 			list(

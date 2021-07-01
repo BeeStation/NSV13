@@ -106,6 +106,16 @@ SUBSYSTEM_DEF(overmap_mode)
 		if(3)
 			objective_reminder_override = TRUE
 
+	for(var/datum/overmap_objective/O in mode.objectives)
+		O.instance() //Setup any overmap assets
+
+	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+	if(OM)
+		var/datum/star_system/target = SSstar_system.system_by_id(mode.starting_system)
+		OM.force_jump(target) //Move the ship to the designated start
+		if(mode.starting_faction)
+			OM.faction = mode.starting_faction //If we have a faction override, set it
+
 	//configuration.dm line 341 /datum/controller/configuration/proc/get_runnable_modes()
 
 	//We need to poll and assign each of the weights from the config and assign them to their datums
@@ -190,6 +200,9 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/completed = FALSE				//Have we completed the objective?
 
 /datum/overmap_objective/New()
+
+/datum/overmap_objective/proc/instance() //Used to generate any in world assets
+	return
 
 /datum/overmap_objective/proc/check_completion()
 	return completed
