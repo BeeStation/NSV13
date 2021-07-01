@@ -8,7 +8,7 @@
 	var/firing_arc = null //If this weapon only fires in an arc (for ai ships)
 	var/weapon_class = WEAPON_CLASS_HEAVY //Do AIs need to resupply with ammo to use this weapon?
 
-/datum/ship_weapon/proc/valid_target(obj/structure/overmap/source, obj/structure/overmap/target)
+/datum/ship_weapon/proc/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
 		return FALSE
 	return TRUE
@@ -25,10 +25,10 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_ready.ogg'
 	screen_shake = 2
 
-/datum/ship_weapon/mac/valid_target(obj/structure/overmap/source, obj/structure/overmap/target)
+/datum/ship_weapon/mac/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
 		return FALSE
-	if(target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
+	if(!override_mass_check && target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
 		return FALSE
 	return TRUE
 
@@ -66,10 +66,10 @@
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 
-/datum/ship_weapon/torpedo_launcher/valid_target(obj/structure/overmap/source, obj/structure/overmap/target)
+/datum/ship_weapon/torpedo_launcher/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
 		return FALSE
-	if(target.mass <= MASS_SMALL)
+	if(!override_mass_check && target.mass <= MASS_SMALL)
 		return FALSE
 	if(!source.torpedoes)
 		return FALSE
@@ -160,10 +160,10 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	firing_arc = 45 //Broad side of a barn...
 
-/datum/ship_weapon/missile_launcher/valid_target(obj/structure/overmap/source, obj/structure/overmap/target)
+/datum/ship_weapon/missile_launcher/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
 		return FALSE
-	if(target.mass > MASS_SMALL)
+	if(!override_mass_check && target.mass > MASS_SMALL)
 		return FALSE
 	if(!source.missiles)
 		return FALSE
