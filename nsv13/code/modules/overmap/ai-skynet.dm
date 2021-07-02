@@ -996,7 +996,7 @@ Seek a ship thich we'll station ourselves around
 	else
 		OM.move_toward(to_guard)
 
-//Proc for flying towards a target till pretty close. Usually used to engage enemies.
+//Proc for flying towards a target till pretty close, then orbiting said target. Usually used to engage enemies.
 /datum/ai_goal/proc/defensively_engage(obj/structure/overmap/OM, obj/structure/overmap/to_engage)
 	if(get_dist(OM, to_engage) <= 10)
 		OM.circle_around(to_engage)
