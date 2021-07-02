@@ -24,7 +24,7 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	selectable = TRUE
 
-/datum/ship_weapon/vls/valid_target(obj/structure/overmap/source, obj/structure/overmap/target)
+/datum/ship_weapon/vls/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
 		return FALSE
 	if(!source.missiles)

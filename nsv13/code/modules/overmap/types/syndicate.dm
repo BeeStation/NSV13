@@ -80,7 +80,7 @@
 	integrity_failure = 500
 	area_type = /area/ruin/powered/nsv13/gunship
 	var/bounty = 1000
-	armor = list("overmap_light" = 80, "overmap_heavy" = 15)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 15)
 	ai_flags = AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/frigate
 	possible_interior_maps = list('_maps/templates/boarding/syndicate/mako.dmm')
@@ -126,6 +126,7 @@
 	max_integrity = 2000 //Max health
 	integrity_failure = 2000
 	bounty = 15000
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/destroyer/nuclear
 
 /obj/structure/overmap/syndicate/ai/destroyer
@@ -138,7 +139,7 @@
 	obj_integrity = 700
 	max_integrity = 700
 	integrity_failure = 700
-	armor = list("overmap_light" = 80, "overmap_heavy" = 20)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 20)
 	missiles = 6
 	bounty = 1000
 	combat_dice_type = /datum/combat_dice/destroyer
@@ -150,10 +151,11 @@
 	obj_integrity = 900
 	max_integrity = 900
 	integrity_failure = 900
-	armor = list("overmap_light" = 85, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 95, "overmap_heavy" = 30)
 	missiles = 8
 	torpedoes = 4
 	bounty = 1500
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/syndicate/ai/destroyer/flak
@@ -172,7 +174,7 @@
 	bound_height = 128
 	bound_width = 128
 	mass = MASS_LARGE
-	armor = list("overmap_light" = 80, "overmap_heavy" = 20)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 20)
 	obj_integrity = 1000
 	max_integrity = 1000
 	integrity_failure = 1000
@@ -184,12 +186,13 @@
 /obj/structure/overmap/syndicate/ai/cruiser/elite
 	name = "Special ops tactical cruiser"
 	icon_state = "barracuda_elite"
-	armor = list("overmap_light" = 85, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 95, "overmap_heavy" = 30)
 	obj_integrity = 1500
 	max_integrity = 1500
 	integrity_failure = 1500
 	missiles = 10
 	bounty = 4000
+	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
 
 /obj/structure/overmap/syndicate/ai/carrier
 	name = "Syndicate combat carrier"
@@ -207,7 +210,7 @@
 	integrity_failure = 1500
 	bounty = 3000
 	torpedoes = 0
-	armor = list("overmap_light" = 85, "overmap_heavy" = 20)
+	armor = list("overmap_light" = 95, "overmap_heavy" = 20)
 	can_resupply = TRUE
 	ai_flags = AI_FLAG_SUPPLY
 	combat_dice_type = /datum/combat_dice/carrier
@@ -223,6 +226,7 @@
 	//This scary one can launch bombers, which absolutely wreak havoc
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
 							/obj/structure/overmap/syndicate/ai/bomber)
+	ai_flags = AI_FLAG_SUPPLY | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/syndicate/ai/carrier/apply_weapons()
@@ -248,8 +252,8 @@
 	shots_left = 500 //A monster.
 	bound_width = 640
 	bound_height = 640
-	armor = list("overmap_light" = 95, "overmap_heavy" = 50)
-	ai_flags = AI_FLAG_DESTROYER
+	armor = list("overmap_light" = 99, "overmap_heavy" = 50)
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/battleship
 	possible_interior_maps = list()
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
@@ -272,7 +276,7 @@
 	integrity_failure = 1000
 	missiles = 0
 	torpedoes = 0
-	armor = list("overmap_light" = 80, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
 	ai_flags = AI_FLAG_DESTROYER
 	speed_limit = 3
 	combat_dice_type = /datum/combat_dice/cruiser
@@ -324,7 +328,7 @@
 	missiles = 5
 	shots_left = 5
 	torpedoes = 0
-	armor = list("overmap_light" = 80, "overmap_heavy" = 15)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 15)
 	ai_flags = AI_FLAG_ANTI_FIGHTER
 	damage_states = FALSE
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
@@ -353,7 +357,7 @@
 	missiles = 10
 	torpedoes = 10 //Torp boat!
 	shots_left = 10
-	armor = list("overmap_light" = 80, "overmap_heavy" = 15)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 15)
 	ai_flags = AI_FLAG_DESTROYER
 	cloak_factor = 100 //Not a perfect cloak, mind you.
 	combat_dice_type = /datum/combat_dice/destroyer

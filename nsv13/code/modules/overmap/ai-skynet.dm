@@ -777,6 +777,7 @@ Adding tasks is easy! Just define a datum for it.
 	if(supplyPost) //Neat, we've found a supply post. Autobots roll out.
 		if(get_dist(OM, supplyPost) <= AI_PDC_RANGE)
 			OM.brakes = TRUE
+			OM.move_mode = null
 		else
 			OM.move_toward(supplyPost)
 
@@ -815,7 +816,7 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 */
 /datum/ai_goal/swarm
 	name = "Join a lance and subsequently search & swarm targets."
-	score = AI_SCORE_DEFAULT
+	score = AI_SCORE_DEFAULT + AI_SCORE_VERY_LOW_PRIORITY	//This is a tiiiny bit better of a goal than normal ones.
 	required_ai_flags = AI_FLAG_SWARMER
 
 /datum/ai_goal/swarm/check_score(obj/structure/overmap/OM)
@@ -867,8 +868,9 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 	else if(L.last_finder == OM && OM.last_target != L.lance_target)	//We switched targets, relay this too.
 		L.lance_target = OM.last_target
 
-	if(get_dist(OM, OM.last_target) <= 4)	//Hunt them down.
-		OM.move_away_from(OM.last_target)
+	if(get_dist(OM, OM.last_target) <= 4)	//Strafe Flyby (and / or ram) them.
+		OM.desired_angle = Get_Angle(OM, OM.last_target)
+		OM.move_mode = null
 	else
 		OM.move_toward(OM.last_target)
 
@@ -910,6 +912,29 @@ Seek a ship thich we'll station ourselves around
 	if(L.len)
 		return L[1]
 
+/datum/ai_goal/kamikaze
+	name = "Ram Target at fullspeed like a fly bumping against a closed window."
+	score = AI_SCORE_SUPERCRITICAL
+	required_ai_flags = AI_FLAG_SWARMER
+
+/datum/ai_goal/kamikaze/check_score(obj/structure/overmap/OM)
+	if(!..())
+		return 0
+	if(OM.fleet)
+		var/list/L = OM.fleet.taskforces["supply"]
+		if(L.len)
+			return 0
+	if(OM.shots_left)
+		return 0	//Gotta have run dry.
+
+	if(!OM.last_target)
+		return 0
+
+	return score
+
+/datum/ai_goal/kamikaze/action(obj/structure/overmap/OM)
+	..()
+	OM.move_toward(OM.last_target, ram_target = TRUE)
 
 //Boarding! Boarders love to board your ships.
 /datum/ai_goal/board
@@ -1173,6 +1198,57 @@ Seek a ship thich we'll station ourselves around
 		next_firetime = world.time + (1 SECONDS) + (fire_delay*2)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
 
+/** 
+ * # `ai_elite_fire(atom/target)`
+ * This proc is a slightly more advanced form of the normal 'fire' proc.
+ * Most menacing trait is that this allows AI elites to effectively broadside every single of their guns thats off cooldown. (if they have ammo)
+*/
+/obj/structure/overmap/proc/ai_elite_fire(atom/target)
+	if(next_firetime > world.time)
+		return
+	if(!istype(target, /obj/structure/overmap))
+		return
+	add_enemy(target)
+	var/target_range = get_dist(src,target)
+	if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
+		last_target = null
+		return
+	var/did_fire = FALSE
+	var/ammo_use = 0
+	var/smallest_cooldown = INFINITY
+
+	for(var/iter = FIRE_MODE_PDC, iter <= MAX_POSSIBLE_FIREMODE, iter++)
+		if(iter == FIRE_MODE_AMS || iter == FIRE_MODE_FLAK)
+			continue	//These act independantly
+		var/will_use_ammo = FALSE
+		var/datum/ship_weapon/SW = weapon_types[iter]
+		if(!SW)
+			continue
+		if(!next_firetime_gunspecific["[iter]"])
+			next_firetime_gunspecific["[iter]"] = world.time
+		else if(next_firetime_gunspecific["[iter]"] > world.time)
+			continue
+		if(!SW.valid_target(src, target, TRUE))
+			continue
+		if(SW.weapon_class > WEAPON_CLASS_LIGHT)
+			if((shots_left - ammo_use) <= 0)
+				continue //If we are out of shots. Continue.
+			will_use_ammo = TRUE
+		var/arc = Get_Angle(src, target)
+		if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
+			continue
+		fire_weapon(target, iter)
+		if(will_use_ammo)
+			ammo_use++
+		did_fire = TRUE
+		next_firetime_gunspecific["[iter]"] = world.time + SW.fire_delay
+		if(SW.fire_delay < smallest_cooldown)
+			smallest_cooldown = SW.fire_delay
+
+	if(did_fire)
+		shots_left -= ammo_use
+		next_firetime = world.time + 1 SECONDS + smallest_cooldown
+		handle_cloak(CLOAK_TEMPORARY_LOSS)
 /**
 * Given target ship and projectile speed, calculate aim point for intercept
 * See: https://stackoverflow.com/a/3487761
@@ -1254,7 +1330,10 @@ Seek a ship thich we'll station ourselves around
 			last_target = null
 		else //They're in our tracking range. Let's hunt them down.
 			if(get_dist(last_target, src) <= max_weapon_range) //Theyre within weapon range.  Calculate a path to them and fire.
-				ai_fire(last_target) //Fire already handles things like being out of range, so we're good
+				if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE))
+					ai_elite_fire(last_target)
+				else
+					ai_fire(last_target) //Fire already handles things like being out of range, so we're good
 	if(move_mode)
 		user_thrust_dir = move_mode
 	if(can_resupply)
@@ -1331,6 +1410,8 @@ Seek a ship thich we'll station ourselves around
 					break
 				var/obj/structure/overmap/newFighter = new ai_fighter(launch_turf)
 				newFighter.last_target = last_target
+				if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE))
+					newFighter.ai_flags |= AI_FLAG_ELITE	//:)
 				if(current_system)
 					current_system.system_contents += newFighter
 					newFighter.current_system = current_system
@@ -1364,7 +1445,7 @@ Seek a ship thich we'll station ourselves around
 			playsound(OM.dradis, 'nsv13/sound/effects/fighters/being_locked.ogg', 100, FALSE)
 
 //Pathfinding...sorta
-/obj/structure/overmap/proc/move_toward(atom/target)
+/obj/structure/overmap/proc/move_toward(atom/target, ram_target = FALSE, ignore_all_collisions = FALSE)
 	brakes = FALSE
 	move_mode = NORTH
 	inertial_dampeners = TRUE
@@ -1374,6 +1455,22 @@ Seek a ship thich we'll station ourselves around
 		else
 			return
 	desired_angle = Get_Angle(src, target)
+	var/target_dist = get_dist(src, target)
+	if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE) && world.time >= next_maneuvre && (target_dist > 12 || ram_target || ignore_all_collisions))	
+		var/angular_difference = desired_angle - angle
+		switch(angular_difference)
+			if(-15 to 15)
+				boost(NORTH)	//ZOOOM
+			if(-45 to -180)
+				boost(WEST)
+			if(-180 to -INFINITY)
+				boost(EAST)
+			if(45 to 180)
+				boost(EAST)
+			if(180 to INFINITY)
+				boost(WEST)
+	if(ignore_all_collisions)
+		return	//FULL SPEED AHEAD!
 	//Raycasting! Should finally give the AI ships their driver's license....
 	for(var/turf/T in getline(src, target))
 		var/dist = get_dist(get_turf(src), T)
@@ -1383,6 +1480,8 @@ Seek a ship thich we'll station ourselves around
 		//This is...inefficient, but unavoidable without some equally expensive vector math.
 		for(var/obj/structure/overmap/OM in current_system.system_contents)
 			if(OM == src) //:sigh: this one tripped me up
+				continue
+			if(OM == target && ram_target)
 				continue
 			if(get_dist(get_turf(OM), T) <= 5 && OM.mass > MASS_TINY) //Who cares about fighters anyway!
 				blocked = OM
@@ -1465,7 +1564,7 @@ Seek a ship thich we'll station ourselves around
 	for(var/datum/star_system/SS in SSstar_system.systems)
 		var/list/sys_inf = list()
 		sys_inf["name"] = SS.name
-		sys_inf["system_type"] = SS.system_type
+		sys_inf["system_type"] = SS.system_type ? SS.system_type["tag"] : "NOT SETUP YET"
 		sys_inf["alignment"] = capitalize(SS.alignment)
 		sys_inf["sys_id"] = "\ref[SS]"
 		sys_inf["fleets"] = list() //2d array mess in 3...2...1..

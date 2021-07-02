@@ -177,8 +177,9 @@
 	caliber = "mm50pdc"
 
 /obj/item/projectile/bullet/fiftycal
-	icon_state = "50cal"
-	name = ".50 cal round"
-	damage = 17
+	icon_state = "pdc"
+	name = "PDC round"
+	damage = 15
 	flag = "overmap_light"
 	speed = 2
+	spread = 5
