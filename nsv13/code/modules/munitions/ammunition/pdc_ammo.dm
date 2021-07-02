@@ -16,7 +16,15 @@
 	projectile_type = /obj/item/projectile/bullet/pdc_round
 	caliber = "mm30.12"
 
+/obj/item/ammo_box/magazine/pdc/forceMove()
+	..()
+	update_icon()//update icon when removed from a machine
+
 /obj/item/ammo_box/magazine/pdc/update_icon()
+	if (istype(loc, /obj))//don't update if it's in an object
+		if (istype(loc, /obj/item/storage)||istype(loc, /obj/item/clothing))//unless it's a backpack or something
+			fancy_icon()
+		return FALSE
 	fancy_icon()
 
 /obj/item/ammo_box/magazine/pdc/examine(mob/user)
