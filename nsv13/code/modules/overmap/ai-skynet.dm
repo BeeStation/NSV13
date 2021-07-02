@@ -1198,7 +1198,7 @@ Seek a ship thich we'll station ourselves around
 		next_firetime = world.time + (1 SECONDS) + (fire_delay*2)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
 
-/** 
+/**
  * # `ai_elite_fire(atom/target)`
  * This proc is a slightly more advanced form of the normal 'fire' proc.
  * Most menacing trait is that this allows AI elites to effectively broadside every single of their guns thats off cooldown. (if they have ammo)
@@ -1237,7 +1237,7 @@ Seek a ship thich we'll station ourselves around
 		var/arc = Get_Angle(src, target)
 		if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
 			continue
-		fire_weapon(target, iter)
+		fire_weapon(target, iter, ai_aim=TRUE)
 		if(will_use_ammo)
 			ammo_use++
 		did_fire = TRUE
@@ -1456,7 +1456,7 @@ Seek a ship thich we'll station ourselves around
 			return
 	desired_angle = Get_Angle(src, target)
 	var/target_dist = get_dist(src, target)
-	if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE) && world.time >= next_maneuvre && (target_dist > 12 || ram_target || ignore_all_collisions))	
+	if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE) && world.time >= next_maneuvre && (target_dist > 12 || ram_target || ignore_all_collisions))
 		var/angular_difference = desired_angle - angle
 		switch(angular_difference)
 			if(-15 to 15)
