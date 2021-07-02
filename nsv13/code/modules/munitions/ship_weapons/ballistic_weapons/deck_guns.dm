@@ -20,6 +20,7 @@
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
 	var/obj/machinery/deck_turret/core
 	var/id = null //N.B. This is NOT intended to allow them to manual link deck guns. This is for certain boarding maps and is thus a UNIQUE CONSTRAINT for this one case. ~KMC
+	circuit = /obj/item/circuitboard/deck_turret
 
 /obj/machinery/ship_weapon/deck_turret/lazyload()
 	. = ..()

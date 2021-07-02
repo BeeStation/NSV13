@@ -30,6 +30,7 @@
 	var/last_pdc_fire = 0 //Pdc cooldown
 	var/BeingLoaded //Used for gunner load
 	var/list/gauss_verbs = list(.verb/show_computer, .verb/show_view, .verb/swap_firemode)
+	circuit = /obj/item/circuitboard/machine/gauss_turret
 
 /obj/machinery/ship_weapon/gauss_gun/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
@@ -144,12 +145,7 @@
 	lower_rack()
 
 /obj/machinery/ship_weapon/gauss_gun/Destroy() //Yeet them out before we die.
-	remove_gunner()
-	QDEL_NULL(gunner_chair)
-	QDEL_NULL(ammo_rack)
-	QDEL_NULL(cabin_air)
-	QDEL_NULL(internal_tank)
-	. = ..()
+	return QDEL_HINT_LETMELIVE
 
 /obj/machinery/ship_weapon/gauss_gun/attack_hand(mob/user)
 	if(climbing_in)
@@ -192,12 +188,13 @@
 	ui_interact(user)
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
-	get_overmap().stop_piloting(gunner)
-	if(gunner_chair)
-		lower_chair()
-	else
-		gunner.forceMove(get_turf(src))
-	gunner.remove_verb(gauss_verbs)
+	if(gunner)
+		get_overmap().stop_piloting(gunner)
+		if(gunner_chair)
+			lower_chair()
+		else
+			gunner.forceMove(get_turf(src))
+		gunner.remove_verb(gauss_verbs)
 	gunner = null
 
 //Directional subtypes
@@ -332,6 +329,9 @@
 /obj/structure/gauss_rack/Initialize()
 	. = ..()
 	update_icon()
+
+/obj/structure/gauss_rack/Destroy()
+	return QDEL_HINT_LETMELIVE
 
 /obj/structure/gauss_rack/update_icon()
 	if(autoload)
@@ -483,6 +483,9 @@ Chair + rack handling
 	var/obj/machinery/ship_weapon/gauss_gun/gun
 	var/mob/living/carbon/occupant
 	var/feed_direction = SOUTH //Where does the ammo feed drop down to? By default, south of the chair by one tile.
+
+/obj/structure/chair/comfy/gauss/Destroy()
+	return QDEL_HINT_LETMELIVE
 
 /obj/structure/chair/comfy/gauss/north
 	feed_direction = NORTH

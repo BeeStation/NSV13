@@ -165,6 +165,14 @@
 #undef PATH_FLAK
 
 //Deck Gun
+/obj/item/circuitboard/deck_turret
+	name = "deck gun turret (circuitboard)"
+	build_path = /obj/machinery/ship_weapon/deck_turret
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+
+/obj/item/circuitboard/deck_turret/Destroy()
+	return QDEL_HINT_LETMELIVE
+
 /obj/item/circuitboard/computer/deckgun
 	name = "Deck gun loading computer (circuit)"
 	build_path = /obj/machinery/computer/deckgun
@@ -259,3 +267,13 @@
 
 /obj/item/circuitboard/machine/vls/Destroy()
 	return QDEL_HINT_LETMELIVE
+
+//Gauss guns
+/obj/item/circuitboard/machine/gauss_turret
+	name = "gauss gun turret (circuitboard)"
+	build_path = /obj/machinery/ship_weapon/gauss_gun
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+
+/obj/item/circuitboard/machine/gauss_turret/Destroy()
+	return QDEL_HINT_LETMELIVE
+
