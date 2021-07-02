@@ -985,11 +985,11 @@ Seek a ship thich we'll station ourselves around
 		defensively_engage(OM, OM.last_target)
 		return
 
-	guard(OM, OM.defense_target)
+	guard(OM, OM.defense_target) //Otherwise: Fly to the defense target and vibe there.
 
 //Proc for flying close to a target, then copying its angle. Usually used to defend, probably useful elsewhere.
 /datum/ai_goal/proc/guard(obj/structure/overmap/OM, obj/structure/overmap/to_guard)
-	if(get_dist(OM, to_guard) <= AI_PDC_RANGE)	//Otherwise: Fly to the defend target and vibe there.
+	if(get_dist(OM, to_guard) <= AI_PDC_RANGE)
 		OM.brakes = TRUE
 		OM.move_mode = null
 		OM.desired_angle = to_guard.angle //Turn and face boys!
@@ -1042,7 +1042,7 @@ Seek a ship thich we'll station ourselves around
 	var/obj/structure/overmap/foo = OM.last_target
 	if(!foo || !istype(foo) || get_dist(OM, foo) > OM.max_weapon_range) //You can run on for a long time, run on for a long time, run on for a long time, sooner or later gonna cut you down
 		return //Just drift aimlessly, let the fleet form up with it.
-	OM.move_away_from(foo)
+	OM.move_away_from(foo) //Turn the opposite direction and run.
 
 //Patrol goal in case there is no target.
 /datum/ai_goal/patrol
