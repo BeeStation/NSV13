@@ -271,7 +271,7 @@
 
 /datum/supply_pack/munitions/light_cannon
 	name = "Light Cannon Ammunition"
-	desc = "5 boxes of light cannon ammunition for use in fighters."
+	desc = "10 boxes of light cannon ammunition for use in fighters."
 	cost = 1000
 	contains = list(/obj/item/ammo_box/magazine/light_cannon,
 					/obj/item/ammo_box/magazine/light_cannon,
@@ -287,7 +287,7 @@
 
 /datum/supply_pack/munitions/heavy_cannon
 	name = "Heavy Cannon Ammunition"
-	desc = "5 boxes of heavy cannon ammunition for use in fighters."
+	desc = "10 boxes of heavy cannon ammunition for use in fighters."
 	cost = 1000
 	contains = list(/obj/item/ammo_box/magazine/heavy_cannon,
 					/obj/item/ammo_box/magazine/heavy_cannon,
