@@ -20,10 +20,6 @@
 		#include "map_files\Tycoon\Tycoon1.dmm"
 		#include "map_files\Tycoon\Tycoon2.dmm"
 
-		//Jeppison
-		#include "map_files\Jeppison\Jeppison1.dmm"
-		#include "map_files\Jeppison\Jeppison2.dmm"
-
 		//Eclipse
 		#include "map_files\Eclipse\Eclipse1.dmm"
 		#include "map_files\Eclipse\Eclipse2.dmm"
