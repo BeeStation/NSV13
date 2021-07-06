@@ -178,7 +178,7 @@
 	starting_system = "Argo"
 	armor = list("overmap_light" = 80, "overmap_heavy" = 20)
 	mass = MASS_LARGE
-	icon = 'nsv13/icons/overmap/nanotrasen/cruiser.dmi'
+	icon = 'nsv13/icons/overmap/nanotrasen/heavy_cruiser.dmi'
 	icon_state = "heavy_cruiser"
 	damage_states = TRUE
 	bound_height = 256
