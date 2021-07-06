@@ -172,3 +172,4 @@
 	damage = 15
 	flag = "overmap_light"
 	speed = 2
+	spread = 5

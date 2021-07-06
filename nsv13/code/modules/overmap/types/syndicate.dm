@@ -126,6 +126,7 @@
 	max_integrity = 2000 //Max health
 	integrity_failure = 2000
 	bounty = 15000
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/destroyer/nuclear
 
 /obj/structure/overmap/syndicate/ai/destroyer
@@ -154,6 +155,7 @@
 	missiles = 8
 	torpedoes = 4
 	bounty = 1500
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/syndicate/ai/destroyer/flak
@@ -190,6 +192,7 @@
 	integrity_failure = 1500
 	missiles = 10
 	bounty = 4000
+	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
 
 /obj/structure/overmap/syndicate/ai/carrier
 	name = "Syndicate combat carrier"
@@ -223,6 +226,7 @@
 	//This scary one can launch bombers, which absolutely wreak havoc
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
 							/obj/structure/overmap/syndicate/ai/bomber)
+	ai_flags = AI_FLAG_SUPPLY | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/syndicate/ai/carrier/apply_weapons()
@@ -249,7 +253,7 @@
 	bound_width = 640
 	bound_height = 640
 	armor = list("overmap_light" = 99, "overmap_heavy" = 50)
-	ai_flags = AI_FLAG_DESTROYER
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/battleship
 	possible_interior_maps = list()
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
