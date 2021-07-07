@@ -11,7 +11,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_light"
 	spread = 5
 
-/obj/item/projectile/bullet/pdc_round/heavy
+/obj/item/projectile/bullet/pdc_round/heavy //do we even use this anymore?
 	damage = 10
 	flag = "overmap_heavy"
 	spread = 5
@@ -63,6 +63,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "cannonball"
 	damage = 75
 	icon_state = "cannonshot"
+	flag = "overmap_medium"
 
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "mac"
@@ -83,7 +84,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "tungsten round"
 	damage = 40
 	obj_integrity = 500 //Flak doesn't shoot this down....
-	flag = "overmap_heavy"
+	flag = "overmap_medium"
 
 /obj/item/projectile/bullet/light_cannon_round
 	icon_state = "pdc"
@@ -97,12 +98,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "heavy cannon round"
 	damage = 8.5
 	spread = 5
-	flag = "overmap_heavy" //This really needs a dual armour flag and more tuning
+	flag = "overmap_medium"
 
 /obj/item/projectile/guided_munition
 	obj_integrity = 50
 	max_integrity = 50
-	armor = list("overmap_light" = 10, "overmap_heavy" = 0)
+	armor = list("overmap_light" = 10, "overmap_medium" = 0, "overmap_heavy" = 0)
 
 /obj/item/projectile/guided_munition/torpedo
 	icon_state = "torpedo"
@@ -112,10 +113,11 @@ Misc projectile types, effects, think of this as the special FX file.
 	homing_turn_speed = 35
 	damage = 240
 	range = 250
-	armor = list("overmap_light" = 20, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 20, "overmap_medium" = 10, "overmap_heavy" = 0)
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	spread = 5 //Helps them not get insta-bonked when launching
+
 /obj/item/projectile/guided_munition/torpedo/shredder
 	icon_state = "torpedo_shredder"
 	name = "plasma charge"
@@ -160,7 +162,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	valid_angle = 120
 	homing_turn_speed = 25
 	range = 250
-	flag = "overmap_light"
+	flag = "overmap_medium"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	spread = 5 //Helps them not get insta-bonked when launching
 
@@ -205,7 +207,11 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(isprojectile(target) && P.faction != faction) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
 		return BULLET_ACT_HIT
 	if(!isprojectile(target))
-		explosion(target, GLOB.MAX_EX_DEVESTATION_RANGE, GLOB.MAX_EX_HEAVY_RANGE, GLOB.MAX_EX_LIGHT_RANGE, GLOB.MAX_EX_FLASH_RANGE)
+		var/obj/structure/overmap/OM = target.get_overmap() //What if I just..........
+		OM.nuclear_impact()
+		explosion(target, 3, 6, 8)
+		//explosion(target, GLOB.MAX_EX_DEVESTATION_RANGE, GLOB.MAX_EX_HEAVY_RANGE, GLOB.MAX_EX_LIGHT_RANGE, GLOB.MAX_EX_FLASH_RANGE)
+
 	return BULLET_ACT_HIT
 
 /obj/item/projectile/guided_munition/torpedo/check_faction(atom/movable/A)
