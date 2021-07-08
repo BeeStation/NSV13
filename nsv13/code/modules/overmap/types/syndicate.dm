@@ -387,8 +387,8 @@
 	//!sprite size = TEMP
 	//!bound_height = TEMP
 	//!bound_width = TEMP
-	armor = list("overmap_light" = 75, "overmap_heavy" = 10)	//Armor plating with intent to dissuade fighter harassment, alot of high tech vulnerable to heavier ordnance though
-	ai_trait = list(AI_TRAIT_BATTLESHIP, AI_TRAIT_DESTROYER)
+	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
+	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_DESTROYER
 	max_tracking_range = 70	//Big sensors, they gotta be useful
 	flak_battery_amount = 2
 	mass = MASS_LARGE
