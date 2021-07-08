@@ -173,6 +173,7 @@
 		return
 	if(SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, src) & BEING_INTERDICTED)
 		ftl_drive?.radio.talk_into(ftl_drive, "Warning. Local energy anomaly detected - calculated jump parameters invalid. Performing emergency reboot.", ftl_drive.engineering_channel)
+		relay('sound/magic/lightning_chargeup.ogg', channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 		ftl_drive?.depower()
 		return
 	relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//Ships just hear a small "crack" when another one jumps

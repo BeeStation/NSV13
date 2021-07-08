@@ -381,19 +381,20 @@
 	obj_integrity = 2250	//Pretty thick hull due to it being a priority target
 	max_integrity = 2250
 	integrity_failure = 2250
-	//Just fill these in once you get the icon
-	//!icon = TEMP
-	//!icon_state = TEMP
-	//!sprite size = TEMP
-	//!bound_height = TEMP
-	//!bound_width = TEMP
+	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
+	icon_state = "advanced_cruiser"
+	damage_states = FALSE	//Maybe later
+	sprite_size = 96
+	bound_height = 105
+	bound_width = 105
 	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	max_tracking_range = 70	//Big sensors, they gotta be useful
 	flak_battery_amount = 2
 	mass = MASS_LARGE
-	shots_left = 10
+	shots_left = 26	//8 for missiles, 18 for the main gun.
 	missiles = 8
+	torpedoes = 0
 	combat_dice_type = /datum/combat_dice/cruiser
 
 /obj/structure/overmap/syndicate/ai/kadesh/Initialize()
@@ -404,6 +405,8 @@
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 	weapon_types[FIRE_MODE_TORPEDO] = null
 	weapon_types[FIRE_MODE_RAILGUN] = null
+	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
