@@ -1173,6 +1173,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	desc = "Avionics for a fighter"
 	icon = 'nsv13/icons/obj/fighter_components.dmi'
 	icon_state = "avionics"
+	tier = null
 
 /obj/item/fighter_component/apu
 	name = "Fighter Auxiliary Power Unit"

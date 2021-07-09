@@ -5,9 +5,9 @@
 		if(karmics_victim.stat == DEAD)	//They're dead!
 			continue
 		if(istype(karmics_victim.loc, /obj/structure/closet/secure_closet/freezer)) //Indiana Jones reference go brrr.
-			shake_camera(karmics_victim, 2, 1)
+			shake_with_inertia(karmics_victim, 2, 1)
 			continue
-		shake_camera(karmics_victim, 4, 1)
+		shake_with_inertia(karmics_victim, 4, 1)
 		karmics_victim.soundbang_act(1, 0, 10, 15)
 		karmics_victim.flash_act(affect_silicon = TRUE)
 		new /obj/effect/dummy/lighting_obj (get_turf(karmics_victim), LIGHT_COLOR_WHITE, (10), 4, 2)
