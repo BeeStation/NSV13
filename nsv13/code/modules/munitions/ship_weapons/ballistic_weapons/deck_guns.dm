@@ -409,7 +409,7 @@
 	var/obj/structure/overmap/OM = get_overmap()
 	for(var/mob/M in OM.mobs_in_ship)
 		if(OM.z == z)
-			shake_camera(M, 1, 1)
+			shake_with_inertia(M, 1, 1)
 
 /obj/machinery/ship_weapon/deck_turret/north
 	dir = NORTH
