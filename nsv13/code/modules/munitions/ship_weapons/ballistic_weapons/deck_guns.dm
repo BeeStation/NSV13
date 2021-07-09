@@ -154,7 +154,7 @@
 	if(circuit && !ispath(circuit))
 		circuit.forceMove(loc)
 		circuit = null
-	for(obj/O in component_parts)
+	for(var/obj/O in component_parts)
 		O.forceMove(loc)
 	. = ..()
 
