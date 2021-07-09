@@ -1021,6 +1021,8 @@ Seek a ship thich we'll station ourselves around
 		return 0	//Can't defend ourselves
 
 	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_BATTLESHIP))
+		if(OM.obj_integrity < OM.max_integrity/3 || OM.shots_left < initial(OM.shots_left)/3)
+			return AI_SCORE_PRIORITY - 1	//If we are out of ammo, prioritize rearming over chasing.
 		return AI_SCORE_CRITICAL
 	return score //If you've got nothing better to do, come group with the main fleet.
 
