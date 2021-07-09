@@ -165,12 +165,12 @@
 #undef PATH_FLAK
 
 //Deck Gun
-/obj/item/circuitboard/deck_turret
+/obj/item/circuitboard/machine/deck_turret
 	name = "deck gun turret (circuitboard)"
 	build_path = /obj/machinery/ship_weapon/deck_turret
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/deck_turret/Destroy()
+/obj/item/circuitboard/machine/deck_turret/Destroy()
 	return QDEL_HINT_LETMELIVE
 
 /obj/item/circuitboard/computer/deckgun
