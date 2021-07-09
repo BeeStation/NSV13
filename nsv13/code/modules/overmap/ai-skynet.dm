@@ -1094,7 +1094,12 @@ Seek a ship thich we'll station ourselves around
 	//Populate the list of valid goals, if we don't already have them
 	if(!GLOB.ai_goals.len)
 		for(var/x in subtypesof(/datum/ai_goal))
-			GLOB.ai_goals += new x
+			//I'll fix this jank later
+			var/datum/ai_goal/newGoal = new x
+			if(istype(newGoal, /datum/ai_goal/human))
+				newGoal = null
+				continue
+			GLOB.ai_goals += newGoal
 	var/best_score = 0
 	var/datum/ai_goal/chosen = null
 	for(var/datum/ai_goal/goal in GLOB.ai_goals)
