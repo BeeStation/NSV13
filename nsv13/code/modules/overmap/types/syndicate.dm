@@ -385,8 +385,8 @@
 	icon_state = "advanced_cruiser"
 	damage_states = FALSE	//Maybe later
 	sprite_size = 96
-	bound_height = 105
-	bound_width = 105
+	bound_height = 128
+	bound_width = 128
 	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	max_tracking_range = 70	//Big sensors, they gotta be useful
