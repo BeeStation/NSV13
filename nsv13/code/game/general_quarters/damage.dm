@@ -18,7 +18,7 @@
 		if(prob(80))
 			var/turf/T = pick(get_area_turfs(AR))
 			radiation_pulse(T, 1000, 10)
-			T.atmos_spawn_air("o2=500;plasma=200;TEMP=5000")
+			T.atmos_spawn_air("o2=125;plasma=50;TEMP=1000")
 
 //For training purposes.
 /obj/structure/overmap/proc/simulate_nuke()
