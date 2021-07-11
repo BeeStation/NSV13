@@ -31,7 +31,7 @@
 //Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
 /obj/item/projectile/beam/laser/phaser
 	damage = 10
-	flag = "overmap_light"
+	flag = "overmap_medium"
 
 /obj/machinery/ship_weapon/energy/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
