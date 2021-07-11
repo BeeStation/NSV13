@@ -177,6 +177,13 @@
 	integrity_failure = 1500
 	starting_system = "Argo"
 	armor = list("overmap_light" = 80, "overmap_heavy" = 20)
+	mass = MASS_LARGE
+	icon = 'nsv13/icons/overmap/nanotrasen/heavy_cruiser.dmi'
+	icon_state = "heavy_cruiser"
+	damage_states = TRUE
+	bound_height = 256
+	bound_height = 256
+
 /obj/structure/overmap/nanotrasen/carrier/starter //NOT CURRENTLY ASSIGNED
 	role = MAIN_OVERMAP
 	obj_integrity = 2000
