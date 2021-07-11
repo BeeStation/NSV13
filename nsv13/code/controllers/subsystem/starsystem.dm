@@ -352,6 +352,8 @@ Returns a faction datum by its name (case insensitive!)
 	var/preset_trader = null
 	var/datum/trader/trader = null
 	var/list/audio_cues = null //if you want music to queue on system entry. Format: list of youtube or media URLS.
+	var/list/gas_resources = list()	//Gas miners have access X amount of Y gasses in this system (gas_resource[gas_type] = moles)
+	var/preset_gasses = FALSE	//Set this to true if you already manually setup the gasses for this system and don't want randomgen to null that
 
 /datum/star_system/proc/dist(datum/star_system/other)
 	var/dx = other.x - x
@@ -595,6 +597,74 @@ Returns a faction datum by its name (case insensitive!)
 	if(!anomaly_type)
 		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
 	SSstar_system.spawn_anomaly(anomaly_type, src)
+	if(!preset_gasses)
+		setup_gas_resources()
+
+#define SYSTEM_GAS_COEFF 500
+#define MAX_GAS_RNG_ITERATIONS 6
+/datum/star_system/proc/setup_gas_resources()
+	//In moles
+	var/oxygen = 0
+	var/nitrogen = 0
+	var/plasma = 0
+	var/carbon_dioxide = 0
+	var/n2o = 0
+	var/h2o = 0
+
+	//Some gasses depending on system type if applicable
+	switch(system_type)
+		if("icefield", "ice_planet")
+			h2o += rand(5, 30) * SYSTEM_GAS_COEFF
+			oxygen += rand(1, 10) * SYSTEM_GAS_COEFF
+		if("nebula")
+			oxygen += rand(1, 10) * SYSTEM_GAS_COEFF
+			nitrogen += rand(1, 10) * SYSTEM_GAS_COEFF
+			if(prob(25))
+				plasma += rand(1, 20) * SYSTEM_GAS_COEFF
+		if("gas")
+			plasma += rand(10, 100) * SYSTEM_GAS_COEFF
+			n2o += rand(5, 50) * SYSTEM_GAS_COEFF
+		if("debris", "graveyard")
+			oxygen += rand(2, 5) * SYSTEM_GAS_COEFF
+			nitrogen += rand(2, 5) * SYSTEM_GAS_COEFF
+			carbon_dioxide += rand(2, 5) * SYSTEM_GAS_COEFF
+			if(prob(40))
+				plasma += rand(2, 10) * SYSTEM_GAS_COEFF
+		if("hazardous", "radioactive")
+			if(prob(35))
+				plasma += rand(1, 8) * SYSTEM_GAS_COEFF
+
+	//And sometimes some more via randomness
+	for(var/iter = 1, iter <= MAX_GAS_RNG_ITERATIONS, iter++)
+		var/rng = rand(1, 12)
+		switch(rng)
+			if(1)
+				oxygen += rand(4, 10) * SYSTEM_GAS_COEFF
+			if(2)
+				nitrogen += rand(4, 10) * SYSTEM_GAS_COEFF
+			if(3)
+				oxygen += rand(4, 10) * SYSTEM_GAS_COEFF
+				nitrogen += rand(4, 10) * SYSTEM_GAS_COEFF
+			if(4)
+				plasma += rand(4, 10) * SYSTEM_GAS_COEFF
+			if(5)
+				n2o += rand(4, 10) * SYSTEM_GAS_COEFF
+			if(6)
+				h2o += rand(4, 10) * SYSTEM_GAS_COEFF
+			if(7)
+				carbon_dioxide += rand(4, 10) * SYSTEM_GAS_COEFF
+			else
+				break
+
+	gas_resources[/datum/gas/oxygen] = oxygen
+	gas_resources[/datum/gas/nitrogen] = nitrogen
+	gas_resources[/datum/gas/plasma] = plasma
+	gas_resources[/datum/gas/carbon_dioxide] = carbon_dioxide
+	gas_resources[/datum/gas/nitrous_oxide] = n2o
+	gas_resources[/datum/gas/water_vapor] = h2o
+
+#undef SYSTEM_GAS_COEFF
+#undef MAX_GAS_RNG_ITERATIONS
 
 /datum/star_system/proc/generate_anomaly()
 	if(prob(15)) //Low chance of spawning a wormhole twixt us and another system.
