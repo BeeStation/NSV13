@@ -423,8 +423,8 @@
 /obj/machinery/ship_weapon/proc/can_fire(shots = weapon_type.burst_size)
 	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
-	if (maint_state != MSTATE_CLOSED) //Are we in maintenance?
-		return FALSE
+	if (maint_state > MSTATE_UNSCREWED) //Are we in maintenance?
+		return FALSE //Checks for states after UNSCREWED so we can add buttons under the panel
 	if(state >= STATE_FIRING) //Are we in the process of shooting already?
 		return FALSE
 	if(maintainable && malfunction) //Do we need maintenance?
@@ -523,6 +523,9 @@
 	flick("[initial(icon_state)]_unloading",src)
 	sleep(fire_animation_length)
 	icon_state = initial(icon_state)
+
+/obj/machinery/ship_weapon/Topic(href, href_list)
+	. = ..()
 
 #undef MSTATE_CLOSED
 #undef MSTATE_UNSCREWED

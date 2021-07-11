@@ -10,13 +10,15 @@
 	. = ..()
 	if(malfunction)
 		. += "The maintenance lights are flashing red."
-		if(maint_state == MSTATE_CLOSED)
+	switch(maint_state)
+		if(MSTATE_CLOSED)
 			. += "The maintenance panel is <i>screwed</i> shut."
-
-	if(maint_state == MSTATE_UNSCREWED)
-		. += "The maintenance panel is <b>unscrewed</b> and the inner casing is <i>bolted</i> in place."
-	else if(maint_state == MSTATE_UNBOLTED)
-		. += "The inner casing has been <b>pried away</b> and the parts can be <i>lubricated</i>."
+		if(MSTATE_UNSCREWED)
+			. += "The maintenance panel is <b>unscrewed</b> and the inner casing is <i>bolted</i> in place."
+		if(MSTATE_UNBOLTED)
+			. += "The <b>bolts</b> are loose, and the inner casing can be <i>pried out</i>."
+		if(MSTATE_PRIEDOUT)
+			. += "The inner casing has been <b>pried away</b>[(maintainable) ? ", and the parts can be <i>lubricated</i>" : ""]."
 
 /**
  * The weapon has malfunctioned and needs maintenance. Set the flag and do some effects to let people know.
@@ -40,10 +42,7 @@
  * Returns TRUE if handled, FALSE otherwise.
  */
 /obj/machinery/ship_weapon/screwdriver_act(mob/user, obj/item/tool)
-	if(state >= STATE_CHAMBERED && maint_state == MSTATE_CLOSED)
-		to_chat(user, "<span class='warning'>You cannot open the maintence panel while [src] has a round chambered!</span>")
-		return TRUE
-	else if(state < STATE_CHAMBERED && maint_state == MSTATE_CLOSED)
+	if(state < STATE_CHAMBERED && maint_state == MSTATE_CLOSED)
 		to_chat(user, "<span class='notice'>You begin unfastening the maintenance panel on [src]...</span>")
 		if(tool.use_tool(src, user, 40, volume=100))
 			to_chat(user, "<span class='notice'> You unfasten the maintenance panel on [src].</span>")
@@ -67,7 +66,10 @@
  * Returns TRUE if handled, FALSE otherwise.
  */
 /obj/machinery/ship_weapon/wrench_act(mob/user, obj/item/tool)
-	if(maint_state == MSTATE_UNSCREWED)
+	if(state >= STATE_CHAMBERED && maint_state == MSTATE_UNSCREWED)//we can put buttons and stuff inside the maintenance panel
+		to_chat(user, "<span class='warning'>You cannot unbolt the inner casing while [src] has a round chambered!</span>")
+		return TRUE
+	else if(maint_state == MSTATE_UNSCREWED)
 		to_chat(user, "<span class='notice'>You begin unfastening the inner casing bolts on [src]...</span>")
 		if(tool.use_tool(src, user, 40, volume=100))
 			to_chat(user, "<span class='notice'>You unfasten the inner case bolts on [src] and remove the inner casing.</span>")
