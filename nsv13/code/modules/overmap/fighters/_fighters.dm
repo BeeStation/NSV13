@@ -1269,7 +1269,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	if(!weapon_types[FIRE_MODE_TORPEDO])
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/fighter_secondary(src)
 
-/obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target)
+/obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target, ai_aim = FALSE)
 	hardpoint_fire(target, FIRE_MODE_PDC)
 
 /obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, fireMode)
@@ -1287,7 +1287,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 			return TRUE
 	return FALSE
 
-/obj/structure/overmap/proc/secondary_fire(obj/structure/overmap/target)
+/obj/structure/overmap/proc/secondary_fire(obj/structure/overmap/target, ai_aim = FALSE)
 	hardpoint_fire(target, FIRE_MODE_TORPEDO)
 
 /obj/item/fighter_component/primary/load(obj/structure/overmap/target, atom/movable/AM)
