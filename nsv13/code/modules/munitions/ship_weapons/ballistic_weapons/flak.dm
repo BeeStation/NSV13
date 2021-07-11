@@ -150,7 +150,7 @@
 		return
 
 	var/obj/item/projectile/P = AM //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
-	if(P.damage <= 0)
+	if(P.damage <= 0 || P.nodamage)
 		return
 
 	if(isprojectile(AM) && P.faction != faction) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
