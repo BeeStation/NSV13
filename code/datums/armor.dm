@@ -34,6 +34,9 @@
   src.acid = acid
   src.magic = magic
   src.stamina = stamina
+  src.overmap_light = overmap_light
+  src.overmap_medium = overmap_medium
+  src.overmap_heavy = overmap_heavy
   tag = ARMORID
 
 /datum/armor/proc/modifyRating(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0, fire = 0, acid = 0, magic = 0, stamina = 0, overmap_light = 0, overmap_medium = 0, overmap_heavy = 0)
@@ -62,7 +65,7 @@
   return vars[rating]
 
 /datum/armor/proc/getList()
-  return list("melee" = melee, "bullet" = bullet, "laser" = laser, "energy" = energy, "bomb" = bomb, "bio" = bio, "rad" = rad, "fire" = fire, "acid" = acid, "magic" = magic, "stamina" = stamina, "overmap light" = overmap_light, "overmap_medium" = overmap_medium, "overmap heavy" = overmap_heavy)
+  return list("melee" = melee, "bullet" = bullet, "laser" = laser, "energy" = energy, "bomb" = bomb, "bio" = bio, "rad" = rad, "fire" = fire, "acid" = acid, "magic" = magic, "stamina" = stamina, "overmap_light" = overmap_light, "overmap_medium" = overmap_medium, "overmap_heavy" = overmap_heavy)
 
 /datum/armor/proc/attachArmor(datum/armor/AA)
   return getArmor(melee+AA.melee, bullet+AA.bullet, laser+AA.laser, energy+AA.energy, bomb+AA.bomb, bio+AA.bio, rad+AA.rad, fire+AA.fire, acid+AA.acid, magic+AA.magic, stamina+AA.stamina, overmap_light+AA.overmap_light, overmap_medium+AA.overmap_medium, overmap_heavy+AA.overmap_heavy)
