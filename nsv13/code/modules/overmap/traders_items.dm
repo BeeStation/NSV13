@@ -71,6 +71,55 @@
 /datum/trader_item/ship_repair/on_purchase(obj/structure/overmap/OM)
 	OM.repair_all_quadrants(repair_amount, failure_chance)
 
+/datum/trader_item/mining_point_card
+	name = "Mining point card"
+	desc = "A mining point transfer card worth 500 at your local equipment vendor."
+	price = 500                                    //1:1 price because 2000 points can turn into 1000 credits.
+	stock = 5
+	unlock_path = /obj/item/card/mining_point_card
+
+/datum/trader_item/titanium
+	name = "Titanium"
+	desc = "A necessary part of any competent combat vessels armour."
+	price = 700                             //Price for minerals is roughly 6x their export value
+	stock = 30
+	unlock_path = /obj/item/stack/sheet/mineral/titanium
+
+/datum/trader_item/silver
+	name = "Silver"
+	desc = "Shiny, and affordable!."
+	price = 600
+	stock = 10
+	unlock_path = /obj/item/stack/sheet/mineral/silver
+
+/datum/trader_item/diamond
+	name = "Diamond"
+	desc = "Unlike some other places these don't come covered in blood. Only lots of sweat and tears."
+	price = 2000
+	stock = 4
+	unlock_path = /obj/item/stack/sheet/mineral/diamond
+
+/datum/trader_item/uranium
+	name = "Uranium"
+	desc = "Slightly radioactive, handle with care."
+	price = 650
+	stock = 8
+	unlock_path = /obj/item/stack/sheet/mineral/uranium
+
+/datum/trader_item/gold
+	name = "Gold"
+	desc = "Conducts electricity wonderfully! Just ask Steve."
+	price = 800
+	stock = 5
+	unlock_path = /obj/item/stack/sheet/mineral/gold
+
+/datum/trader_item/bluespace_crystal
+	name = "Bluespace crystal"
+	desc = "A wonder material which bent our world view, now it'll bend your wallet if you want some."
+	price = 8000
+	stock = 3
+	unlock_path = /obj/item/stack/sheet/bluespace_crystal
+
 /datum/trader_item/mac
 	name = "Magnetic Accelerator Cannon Kit"
 	desc = "Everything you need to build the big MAC."
