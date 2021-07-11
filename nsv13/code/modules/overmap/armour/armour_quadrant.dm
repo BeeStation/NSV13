@@ -98,7 +98,7 @@
 		var/name = pick(GLOB.teleportlocs)
 		var/area/target = GLOB.teleportlocs[name]
 		var/turf/T = pick(get_area_turfs(target))
-		new /obj/effect/temp_visual/explosion_telegraph(T)
+		new /obj/effect/temp_visual/explosion_telegraph(T, damage_amount = input)
 		return
 
 	obj_integrity += max_integrity * percentile
