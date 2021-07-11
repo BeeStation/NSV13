@@ -55,7 +55,7 @@
 	pixel_x = -12
 	pixel_y = -12
 	density = TRUE
-	anchored = FALSE
+	anchored = TRUE
 	var/build_state = LBS_CHASSIS
 	var/building = FALSE
 	var/output_path = /obj/structure/overmap/fighter
