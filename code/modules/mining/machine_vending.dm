@@ -47,6 +47,7 @@
 		new /datum/data/mining_equipment("P-KA Cosmetic Hyper Chassis",	/obj/item/borg/upgrade/modkit/chassis_mod/orange,					200),
 		new /datum/data/mining_equipment("Mining Hardsuit",				/obj/item/clothing/suit/space/hardsuit/mining,						2000),
 		new /datum/data/mining_equipment("Expanded E. Oxygen Tank",		/obj/item/tank/internals/emergency_oxygen/engi,						1000),
+		new /datum/data/mining_equipment("Hardsuit Jetpack Upgrade", 	/obj/item/tank/jetpack/suit,										2000), //NSV
 		new /datum/data/mining_equipment("Mining Conscription Kit",		/obj/item/storage/backpack/duffelbag/mining_conscript,				1000),
 		new /datum/data/mining_equipment("Survival Knife",				/obj/item/kitchen/knife/combat/survival,							1000),
 		new /datum/data/mining_equipment("Tracking Implant Kit", 		/obj/item/storage/box/minertracker,									1000),
