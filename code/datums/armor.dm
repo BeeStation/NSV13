@@ -33,6 +33,8 @@
   src.acid = acid
   src.magic = magic
   src.stamina = stamina
+  src.overmap_light = overmap_light
+  src.overmap_heavy = overmap_heavy
   tag = ARMORID
 
 /datum/armor/proc/modifyRating(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0, fire = 0, acid = 0, magic = 0, stamina = 0, overmap_light = 0, overmap_heavy = 0)
