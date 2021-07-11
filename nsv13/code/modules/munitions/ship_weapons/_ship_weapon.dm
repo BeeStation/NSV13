@@ -110,6 +110,15 @@
  * Try to unlink from a munitions computer, so it can re-link to other things
  */
 /obj/machinery/ship_weapon/Destroy()
+	var/obj/item/circuitboard/C = circuit
+	if(C)
+		C.forceMove(loc)
+		component_parts?.Remove(C)
+		circuit = null
+	if(component_parts && component_parts.len)
+		for(var/obj/P in component_parts)
+			P.forceMove(loc)
+			component_parts.Remove(P)
 	. = ..()
 	if(linked_computer)
 		linked_computer.SW = null

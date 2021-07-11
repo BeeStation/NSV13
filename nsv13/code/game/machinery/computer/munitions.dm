@@ -15,6 +15,12 @@
 	circuit = /obj/item/circuitboard/computer/ship/munitions_computer
 	var/obj/machinery/ship_weapon/SW //The one we're firing
 
+/obj/machinery/computer/ship/munitions_computer/Destroy()
+	if(circuit && !ispath(circuit))
+		circuit.forceMove(loc)
+		circuit = null
+	. = ..()
+
 /obj/machinery/computer/ship/munitions_computer/north
 	dir = NORTH
 
