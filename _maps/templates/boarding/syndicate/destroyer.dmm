@@ -476,6 +476,13 @@
 "la" = (
 /turf/open/space/basic,
 /area/ruin/unpowered/boarding_interior)
+"ln" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/mob/living/carbon/human/ai_boarder/medic,
+/turf/open/floor/engine,
+/area/ruin/unpowered/boarding_interior)
 "lv" = (
 /obj/machinery/atmospherics/pipe/simple/yellow/hidden{
 	dir = 8
@@ -542,6 +549,16 @@
 	dir = 8
 	},
 /turf/open/floor/engine,
+/area/ruin/unpowered/boarding_interior)
+"nC" = (
+/obj/structure/chair{
+	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	id = "destroyer_cic";
+	next_id = "destroyer_bridge"
+	},
+/turf/open/floor/carpet/red,
 /area/ruin/unpowered/boarding_interior)
 "nD" = (
 /obj/structure/hull_plate,
@@ -760,6 +777,13 @@
 /obj/effect/turf_decal/tile/orange,
 /mob/living/simple_animal/hostile/syndicate/ranged/shotgun/space,
 /turf/open/floor/plating,
+/area/ruin/unpowered/boarding_interior)
+"sH" = (
+/obj/effect/landmark/patrol_node{
+	id = "destroyer_bridge";
+	next_id = "destroyer_aft"
+	},
+/turf/open/floor/mineral/plastitanium/red,
 /area/ruin/unpowered/boarding_interior)
 "sW" = (
 /turf/open/floor/plasteel/ridged/steel,
@@ -1240,12 +1264,26 @@
 	},
 /turf/open/space/basic,
 /area/ruin/unpowered/boarding_interior)
+"Cq" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/mob/living/carbon/human/ai_boarder,
+/turf/open/floor/engine,
+/area/ruin/unpowered/boarding_interior)
 "Cr" = (
 /obj/structure/chair{
 	dir = 4
 	},
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/carpet/red,
+/area/ruin/unpowered/boarding_interior)
+"CE" = (
+/obj/effect/landmark/patrol_node{
+	id = "destroyer_aft";
+	next_id = "destroyer_muni"
+	},
+/turf/open/floor/monotile/dark,
 /area/ruin/unpowered/boarding_interior)
 "CI" = (
 /obj/structure/cable/yellow{
@@ -1446,6 +1484,14 @@
 	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
+/area/ruin/unpowered/boarding_interior)
+"Hj" = (
+/obj/structure/hull_plate,
+/obj/effect/landmark/patrol_node{
+	id = "destroyer_muni";
+	next_id = "destroyer_cic"
+	},
+/turf/open/floor/engine,
 /area/ruin/unpowered/boarding_interior)
 "Hk" = (
 /turf/closed/wall/r_wall,
@@ -29555,7 +29601,7 @@ id
 tV
 id
 Qc
-Yn
+CE
 Hk
 pP
 LE
@@ -32118,7 +32164,7 @@ tB
 zW
 Hk
 wp
-NP
+Cq
 Qc
 DU
 op
@@ -32374,8 +32420,8 @@ tB
 zZ
 Hk
 Cd
-NP
-BC
+ln
+Qc
 vj
 op
 hX
@@ -32633,7 +32679,7 @@ CO
 NP
 Yt
 Eg
-do
+op
 op
 Wt
 nD
@@ -32889,7 +32935,7 @@ CO
 NP
 Yt
 Eg
-op
+Hj
 op
 Wt
 pn
@@ -36210,7 +36256,7 @@ BV
 hb
 qC
 HY
-HY
+nC
 HY
 qC
 AQ
@@ -40562,7 +40608,7 @@ Hk
 Nk
 dW
 dW
-dW
+sH
 dW
 dW
 kc

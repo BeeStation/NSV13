@@ -13,7 +13,7 @@ Bullet reactions
 /obj/structure/overmap/proc/shake_everyone(severity)
 	for(var/mob/M in mobs_in_ship)
 		if(M.client)
-			shake_camera(M, severity, 1)
+			shake_with_inertia(M, severity, 1)
 
 /obj/structure/overmap/proc/e(){
 	while(1){

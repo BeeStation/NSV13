@@ -172,10 +172,10 @@
 	climbing_in = FALSE //Stop it. Just stop.
 
 /obj/machinery/ship_weapon/gauss_gun/do_animation()
-	shake_camera(gunner, 2, 1)
+	shake_with_inertia(gunner, 2, 1)
 	flick("[initial(icon_state)]_firing0",src)
 	sleep(0.3 SECONDS)
-	shake_camera(gunner, 2, 1)
+	shake_with_inertia(gunner, 2, 1)
 	flick("[initial(icon_state)]_firing1",src)
 	sleep(0.3 SECONDS)
 	flick("[initial(icon_state)]_unloading",src)

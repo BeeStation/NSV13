@@ -224,13 +224,30 @@
 		for(var/obj/structure/overmap/SOM in pulled)
 			target_system.add_ship(SOM)
 		SEND_SIGNAL(src, COMSIG_SHIP_ARRIVED) // Let missions know we have arrived in the system
+
 	for(var/mob/M in mobs_in_ship)
+		var/nearestDistance = INFINITY
+		var/obj/machinery/inertial_dampener/nearestMachine = null
+
+		// Going to helpfully pass this in after seasickness checks, to reduce duplicate machine checks 
+		for(var/obj/machinery/inertial_dampener/machine in GLOB.machines)
+			var/dist = get_dist( M, machine )
+			if ( dist < nearestDistance && machine.on )
+				nearestDistance = dist 
+				nearestMachine = machine
+
 		if(iscarbon(M))
 			var/mob/living/carbon/L = M
 			if(HAS_TRAIT(L, TRAIT_SEASICK))
-				to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
-				L.adjust_disgust(pick(70, 100))
-		shake_camera(M, 4, 1)
+				if ( nearestMachine )
+					var/newNausea = nearestMachine.reduceNausea( nearestDistance, 70 )
+					if ( newNausea > 10 )
+						to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
+					L.adjust_disgust( newNausea )
+				else 
+					to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
+					L.adjust_disgust(pick(70, 100))
+		shake_with_inertia(M, 4, 1, list(distance=nearestDistance, machine=nearestMachine))
 	force_parallax_update(ftl_start)
 
 /obj/item/ftl_slipstream_chip
