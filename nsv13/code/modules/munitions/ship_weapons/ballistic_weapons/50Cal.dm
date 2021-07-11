@@ -160,16 +160,6 @@
 	max_ammo = 300
 	w_class = WEIGHT_CLASS_NORMAL
 
-/obj/item/ammo_box/magazine/pdc/fiftycal/examine(mob/user)
-	. = ..()
-	. += "<span class ='notice'>It has [ammo_count()] bullets left.</span>"
-
-/obj/item/ammo_box/magazine/pdc/fiftycal/update_icon()
-	if(ammo_count() > 10)
-		icon_state = initial(icon_state)
-	else
-		icon_state = "[initial(icon_state)]_empty"
-
 /obj/item/ammo_casing/fiftycal
 	name = "50mm round casing"
 	desc = "A 50mm bullet casing."
