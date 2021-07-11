@@ -7,6 +7,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	resistance_flags = FLAMMABLE
 	var/list/squeak_override //Weighted list; If you want your plush to have different squeak sounds use this
+	var/should_squeak = TRUE //NSV13 edit: does the plush squeak At All
 	var/stuffed = TRUE //If the plushie has stuffing in it
 	var/obj/item/grenade/grenade //You can remove the stuffing from a plushie and add a grenade to it for *nefarious uses*
 	//--love ~<3--
@@ -35,7 +36,8 @@
 
 /obj/item/toy/plush/Initialize()
 	. = ..()
-	AddComponent(/datum/component/squeak, squeak_override)
+	if(should_squeak) //NSV13 Edit: silent plushies
+		AddComponent(/datum/component/squeak, squeak_override)
 	AddElement(/datum/element/bed_tuckable, 6, -5, 90)
 
 	//have we decided if Pinocchio goes in the blue or pink aisle yet?
