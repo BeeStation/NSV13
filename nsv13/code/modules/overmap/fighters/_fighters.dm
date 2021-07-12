@@ -1333,14 +1333,14 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	ammo = list()
 
 /obj/item/fighter_component/primary/cannon
-	name = "30mm Vulcan Cannon"
+	name = "20mm Vulcan Cannon"
 	icon_state = "lightcannon"
 	accepted_ammo = /obj/item/ammo_box/magazine/light_cannon
 	burst_size = 2
 	fire_delay = 0.25 SECONDS
 
 /obj/item/fighter_component/primary/cannon/heavy
-	name = "40mm BRRRRTT Cannon"
+	name = "30mm BRRRRTT Cannon"
 	icon_state = "heavycannon"
 	accepted_ammo = /obj/item/ammo_box/magazine/heavy_cannon
 	weight = 2 //Sloooow down there.
