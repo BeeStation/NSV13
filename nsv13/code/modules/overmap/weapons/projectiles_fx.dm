@@ -111,6 +111,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	valid_angle = 150
 	homing_turn_speed = 35
 	damage = 240
+	obj_integrity = 40
+	max_integrity = 40
 	range = 250
 	armor = list("overmap_light" = 20, "overmap_heavy" = 10)
 	flag = "overmap_heavy"
@@ -132,6 +134,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "torpedo_nuke"
 	name = "thermonuclear missile"
 	damage = 600
+	obj_integrity = 25
+	max_integrity = 25
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 
