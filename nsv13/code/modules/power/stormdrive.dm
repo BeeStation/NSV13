@@ -248,10 +248,9 @@ Control Rods
 			repairing = FALSE
 			return
 		to_chat(user, "<span class='warning'>Some of the sludge spills on the floor!</span>")
-		playsound(loc, 'sound/effects/gib_step.ogg', 100)
-		for(var/turf/open/floor in orange(3, get_turf(src)))
-			if(prob(35))
-				new /obj/effect/decal/nuclear_waste (floor)
+		var/obj/effect/landmark/nuclear_waste_spawner/weak/sludge_spawner = new (get_turf(src))
+		if (sludge_spawner)
+			sludge_spawner.fire()
 		state = REACTOR_STATE_REPAIR
 		repairing = FALSE
 		update_icon()
@@ -1506,92 +1505,6 @@ Control Rods
 	icon_state = "miasma"
 	gas_type = /datum/gas/nucleium
 
-
-/////// NUCLEAR WASTE////////
-
-/obj/effect/decal/nuclear_waste
-	name = "plutonium sludge"
-	desc = "A writhing pool of heavily irradiated, spent reactor fuel. You probably shouldn't step through this..."
-	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
-	icon_state = "nuclearwaste"
-	alpha = 150
-	light_color = LIGHT_COLOR_CYAN
-	color = "#ff9eff"
-
-/obj/effect/decal/nuclear_waste/Initialize()
-	. = ..()
-	set_light(3)
-
-/obj/effect/decal/nuclear_waste/epicenter //The one that actually does the irradiating. This is to avoid every bit of sludge PROCESSING
-	name = "dense nuclear sludge"
-
-/obj/effect/landmark/nuclear_waste_spawner //Clean way of spawning nuclear gunk after a reactor core meltdown.
-	name = "nuclear waste spawner"
-	var/range = PLUTONIUM_SLUDGE_RANGE //tile radius to spawn goop
-	var/list/avoid_objs = list( // List of objs that the waste does not spawn on
-		/obj/structure/stairs, // Sludge is hidden below stairs
-		/obj/structure/ladder, // Going down the ladder directly on sludge bad
-		/obj/effect/decal/nuclear_waste, // No stacked sludge
-		)
-
-/obj/effect/landmark/nuclear_waste_spawner/strong
-	range = PLUTONIUM_SLUDGE_RANGE_STRONG
-
-/obj/effect/landmark/nuclear_waste_spawner/proc/fire()
-	playsound(loc, 'sound/effects/gib_step.ogg', 100)
-
-	place_sludge(get_turf(src), TRUE)
-	for(var/turf/open/floor in orange(range, get_turf(src)))
-		place_sludge(floor, FALSE)
-
-	qdel(src)
-
-/// Tries to place plutonium sludge on 'floor'. Returns TRUE if the turf has been successfully processed, FALSE otherwise.
-/obj/effect/landmark/nuclear_waste_spawner/proc/place_sludge(turf/open/floor, epicenter = FALSE)
-	if(!floor)
-		return FALSE
-
-	if(epicenter)
-		for(var/obj/effect/decal/nuclear_waste/waste in floor) //Replace nuclear waste with the stronger version
-			qdel(waste)
-		new /obj/effect/decal/nuclear_waste/epicenter (floor)
-		return TRUE
-
-	if(!prob(PLUTONIUM_SLUDGE_CHANCE)) //Scatter the sludge, don't smear it everywhere
-		return TRUE
-
-
-	for(var/obj/O in floor)
-		if(O.density && O.anchored) // Dense and anchored objects block sludge (ex. machines, windows) while others (ex. canisters, cell chargers) do not.
-			return TRUE
-		for(var/blacklisted in avoid_objs)
-			if(ispath(O.type, blacklisted))
-				return TRUE
-
-	new /obj/effect/decal/nuclear_waste (floor)
-	return TRUE
-
-/obj/effect/decal/nuclear_waste/epicenter/Initialize()
-	. = ..()
-	AddComponent(/datum/component/radioactive, 1500, src, 0)
-
-/obj/effect/decal/nuclear_waste/Crossed(atom/movable/AM)
-	. = ..()
-	if(isliving(AM))
-		var/mob/living/L = AM
-		playsound(loc, 'sound/effects/gib_step.ogg', HAS_TRAIT(L, TRAIT_LIGHT_STEP) ? 20 : 50, 1)
-	radiation_pulse(src, 500, 5) //MORE RADS
-
-/obj/effect/decal/nuclear_waste/attackby(obj/item/tool, mob/user)
-	if(tool.tool_behaviour == TOOL_SHOVEL)
-		radiation_pulse(src, 1000, 5) //MORE RADS
-		to_chat(user, "<span class='notice'>You start to clear [src]...</span>")
-		if(tool.use_tool(src, user, 50, volume=100))
-			to_chat(user, "<span class='notice'>You clear [src]. </span>")
-			qdel(src)
-			return
-	. = ..()
-
 /datum/weather/nuclear_fallout
 	name = "nuclear fallout"
 	desc = "Irradiated dust falls down everywhere."
@@ -1893,7 +1806,3 @@ Control Rods
 #undef WARNING_STATE_OVERHEAT
 #undef WARNING_STATE_MELTDOWN
 #undef MAX_CONTROL_RODS
-
-#undef PLUTONIUM_SLUDGE_RANGE
-#undef PLUTONIUM_SLUDGE_RANGE_STRONG
-#undef PLUTONIUM_SLUDGE_CHANCE
