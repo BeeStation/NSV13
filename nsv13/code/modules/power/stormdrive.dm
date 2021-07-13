@@ -88,13 +88,6 @@ Control Rods
 
 #define MAX_CONTROL_RODS 5
 
-//Plutonium sludge
-
-#define PLUTONIUM_SLUDGE_RANGE 5
-#define PLUTONIUM_SLUDGE_RANGE_STRONG 10
-
-#define PLUTONIUM_SLUDGE_CHANCE 35
-
 //////Stormdrive///////
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor
