@@ -485,7 +485,9 @@ Chair + rack handling
 	var/feed_direction = SOUTH //Where does the ammo feed drop down to? By default, south of the chair by one tile.
 
 /obj/structure/chair/comfy/gauss/Destroy()
-	return QDEL_HINT_LETMELIVE
+	if(gun)
+		gun.gunner_chair = null
+	return ..()
 
 /obj/structure/chair/comfy/gauss/north
 	feed_direction = NORTH
