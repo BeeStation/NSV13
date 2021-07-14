@@ -2493,6 +2493,10 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_vault";
+	next_id = "tycoon_deck1_ladder_alt"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "gs" = (
@@ -4273,6 +4277,10 @@
 /area/nsv/briefingroom)
 "jZ" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_deck1_ladder_alt";
+	next_id = "tycoon_deck2_ladder_alt"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "ka" = (
@@ -6460,6 +6468,23 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/ai_monitored/nuke_storage)
+"zE" = (
+/obj/structure/chair/comfy/shuttle{
+	dir = 4;
+	name = "briefing room chair"
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_deck1_ladder";
+	next_id = "tycoon_vault"
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/briefingroom)
 "zK" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/structure/rack,
@@ -43904,7 +43929,7 @@ jS
 fA
 gx
 gx
-gx
+zE
 gx
 mY
 kO

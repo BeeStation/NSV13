@@ -889,7 +889,7 @@ Control Rods
 		grav_pull()
 		playsound(loc, 'sound/effects/empulse.ogg', 100)
 		for(var/mob/living/M in orange(((heat / 40) + 5), src))
-			shake_camera(M, 2, 1)
+			shake_with_inertia(M, 2, 1)
 
 	if(reactor_stability < 75)
 		if(prob((100 - reactor_stability) / 4)) //Destabilize the balance a little
@@ -1096,7 +1096,7 @@ Control Rods
 			W.take_damage(rand(50, 200))
 
 		for(var/mob/living/M in orange(12, src))
-			shake_camera(M, 2, 1)
+			shake_with_inertia(M, 2, 1)
 
 		for(var/mob/living/M in orange(5, src))
 			M.knockOver()
@@ -1135,7 +1135,7 @@ Control Rods
 
 	for(var/mob/living/M in GLOB.alive_mob_list)
 		if(shares_overmap(src, M))
-			shake_camera(M, 3, 2)
+			shake_with_inertia(M, 3, 2)
 			if(!M.mob_negates_gravity())
 				M.Knockdown(50)
 				to_chat(M, "<span class='danger'You feel a wave of energy wash over you!</span>")

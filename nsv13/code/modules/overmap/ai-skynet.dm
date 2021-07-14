@@ -803,7 +803,7 @@ Adding tasks is easy! Just define a datum for it.
 	..()
 	if(OM.last_target)
 		if(get_dist(OM, OM.last_target) <= 10)
-			OM.move_away_from(OM.last_target)
+			OM.circle_around(OM.last_target)
 		else
 			OM.move_toward(OM.last_target)
 	else
@@ -978,12 +978,31 @@ Seek a ship thich we'll station ourselves around
 		var/list/supplyline = OM.fleet.taskforces["supply"]
 		OM.defense_target = supplyline?.len ? pick(OM.fleet.taskforces["supply"]) : OM
 
-	if(get_dist(OM, OM.defense_target) <= AI_PDC_RANGE)
+	if(OM.defense_target.last_target && get_dist(OM.defense_target, OM.defense_target.last_target) < OM.defense_target.max_weapon_range * 1.5)	//Enemy close to our defense target, prioritize.
+		defensively_engage(OM, OM.defense_target.last_target)
+		return
+	if(OM.last_target && (get_dist(OM, OM.defense_target) <= OM.max_weapon_range * 2 || get_dist(OM.last_target, OM.defense_target) <= OM.max_weapon_range * 2))	//If we have a target and they're somewhat close to our defense target: Engage them.
+		defensively_engage(OM, OM.last_target)
+		return
+
+	guard(OM, OM.defense_target) //Otherwise: Fly to the defense target and vibe there.
+
+//Proc for flying close to a target, then copying its angle. Usually used to defend, probably useful elsewhere.
+/datum/ai_goal/proc/guard(obj/structure/overmap/OM, obj/structure/overmap/to_guard)
+	if(get_dist(OM, to_guard) <= AI_PDC_RANGE)
 		OM.brakes = TRUE
 		OM.move_mode = null
-		OM.desired_angle = OM.defense_target.angle //Turn and face boys!
+		OM.desired_angle = to_guard.angle //Turn and face boys!
 	else
-		OM.move_toward(OM.defense_target)
+		OM.move_toward(to_guard)
+
+//Proc for flying towards a target till pretty close, then orbiting said target. Usually used to engage enemies.
+/datum/ai_goal/proc/defensively_engage(obj/structure/overmap/OM, obj/structure/overmap/to_engage)
+	if(get_dist(OM, to_engage) <= 10)
+		OM.circle_around(to_engage)
+	else
+		OM.move_toward(to_engage)
+		OM.send_radar_pulse()
 
 //Battleships love to stick to supply ships like glue. This becomes the default behaviour if the AIs cannot find any targets.
 /datum/ai_goal/defend/check_score(obj/structure/overmap/OM)
@@ -1021,11 +1040,9 @@ Seek a ship thich we'll station ourselves around
 	..()
 	OM.brakes = TRUE
 	var/obj/structure/overmap/foo = OM.last_target
-	if(!foo || !istype(foo) || get_dist(OM, foo) > foo.max_weapon_range) //You can run on for a long time, run on for a long time, run on for a long time, sooner or later gonna cut you down
+	if(!foo || !istype(foo) || get_dist(OM, foo) > OM.max_weapon_range) //You can run on for a long time, run on for a long time, run on for a long time, sooner or later gonna cut you down
 		return //Just drift aimlessly, let the fleet form up with it.
-	OM.move_mode = NORTH
-	OM.brakes = FALSE
-	OM.desired_angle = -Get_Angle(OM, OM.last_target) //Turn the opposite direction and run.
+	OM.move_away_from(foo) //Turn the opposite direction and run.
 
 //Patrol goal in case there is no target.
 /datum/ai_goal/patrol
@@ -1094,7 +1111,12 @@ Seek a ship thich we'll station ourselves around
 	//Populate the list of valid goals, if we don't already have them
 	if(!GLOB.ai_goals.len)
 		for(var/x in subtypesof(/datum/ai_goal))
-			GLOB.ai_goals += new x
+			//I'll fix this jank later
+			var/datum/ai_goal/newGoal = new x
+			if(istype(newGoal, /datum/ai_goal/human))
+				newGoal = null
+				continue
+			GLOB.ai_goals += newGoal
 	var/best_score = 0
 	var/datum/ai_goal/chosen = null
 	for(var/datum/ai_goal/goal in GLOB.ai_goals)
@@ -1457,7 +1479,29 @@ Seek a ship thich we'll station ourselves around
 	move_mode = NORTH
 	if(!target || QDELETED(target))
 		return
-	desired_angle = -Get_Angle(src, target)
+	desired_angle =	Get_Angle(src, target) - 180
+
+/obj/structure/overmap/proc/circle_around(atom/target)
+	brakes = FALSE
+	move_mode = NORTH
+	if(!target)
+		return
+	var/relative_angle = Get_Angle(src, target)
+	var/option1 = relative_angle + 90
+	var/option2 = relative_angle - 90
+	if(option2 < 0)
+		option2 = 360 + option2
+	option1 = option1 % 360
+	var/actual_angle_positive = angle + 180	//Ew, math.
+	var/option1_difference = 180 - abs(abs(actual_angle_positive - option1) - 180)
+	var/option2_difference = 180 - abs(abs(actual_angle_positive - option2) - 180)
+	if(option1_difference < option2_difference)	//Basically, we circle the target the way we need to waste less time turning towards.
+		desired_angle = option1 - 180
+	else
+		desired_angle = option2 - 180
+
+	//Uncomment the next line if you want some insight on the decision making or if you are localtesting why this isn't working. Do not have this uncommented if you don't want adminchat spam.
+	//message_admins("Circling target. relative angle: [relative_angle], option 1: [option1] | [option1 - 180] | [option1_difference], option 2: [option2] | [option2 - 180] | [option2_difference]. Choice: [desired_angle]")
 
 //Method that will get you a new target, based on basic params.
 /obj/structure/overmap/proc/seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=FALSE, max_distance)

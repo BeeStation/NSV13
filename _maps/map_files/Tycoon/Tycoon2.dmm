@@ -16881,6 +16881,10 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 8
 	},
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_engi";
+	next_id = "tycoon_bar"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame2/port)
 "aSf" = (
@@ -21341,6 +21345,10 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_munitions";
+	next_id = "tycoon_dorms"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/central)
 "bcg" = (
@@ -21906,6 +21914,10 @@
 /area/quartermaster/storage)
 "bdh" = (
 /obj/machinery/holopad,
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_med";
+	next_id = "tycoon_munitions"
+	},
 /turf/open/floor/monotile/steel,
 /area/medical/medbay/lobby)
 "bdi" = (
@@ -25870,6 +25882,10 @@
 	dir = 4
 	},
 /obj/machinery/computer/ship/viewscreen,
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_deck2_ladder";
+	next_id = "tycoon_deck1_ladder"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/central)
 "bkV" = (
@@ -33787,6 +33803,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_dorms";
+	next_id = "tycoon_engi"
+	},
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/dorms)
 "bAP" = (
@@ -34306,6 +34326,10 @@
 "bBQ" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_deck2_ladder_alt";
+	next_id = "tycoon_escapes"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
 "bBR" = (
@@ -35002,6 +35026,10 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 1
+	},
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_brig";
+	next_id = "tycoon_med"
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/port)
@@ -38623,6 +38651,10 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_central_primary";
+	next_id = "tycoon_brig"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/central)
 "bLc" = (
@@ -45942,6 +45974,16 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
+"ljD" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_bar";
+	next_id = "tycoon_deck2_ladder"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/frame1/central)
 "ljS" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -51383,6 +51425,19 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
+"uti" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_escapes";
+	next_id = "tycoon_central_primary"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/secondary/exit)
 "uyI" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -85274,7 +85329,7 @@ aaa
 aOe
 bfL
 bcG
-aNp
+uti
 fOa
 bsK
 abM
@@ -91409,7 +91464,7 @@ bai
 adQ
 adQ
 biA
-adQ
+ljD
 bmB
 bmI
 bmI
