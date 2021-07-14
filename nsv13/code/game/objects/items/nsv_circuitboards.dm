@@ -213,9 +213,9 @@
 	build_path = /obj/machinery/deck_turret/payload_gate
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-// Inertial dampeners 
+// Inertial dampeners
 
-/obj/item/circuitboard/machine/inertial_dampener 
+/obj/item/circuitboard/machine/inertial_dampener
 	name = "inertial dampener (circuitboard)"
 	req_components = list(
 		/obj/item/stock_parts/scanning_module = 2,
@@ -288,4 +288,3 @@
 
 /obj/item/circuitboard/machine/gauss_turret/Destroy()
 	return QDEL_HINT_LETMELIVE
-

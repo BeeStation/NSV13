@@ -137,6 +137,13 @@
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
 	ammo_rack = new /obj/structure/gauss_rack(src)
 	ammo_rack.gun = src
+
+	var/turf/below = SSmapping.get_turf_below(src)
+	var/obj/structure/chair/comfy/gauss/gauss_chair = locate(/obj/structure/chair/comfy/gauss) in below
+	if(gauss_chair && istype(gauss_chair))
+		add_chair(gauss_chair)
+		gauss_chair.gun = src
+
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/ship_weapon/gauss_gun/LateInitialize()
@@ -145,7 +152,11 @@
 	lower_rack()
 
 /obj/machinery/ship_weapon/gauss_gun/Destroy() //Yeet them out before we die.
-	return QDEL_HINT_LETMELIVE
+	remove_gunner()
+	QDEL_NULL(ammo_rack)
+	QDEL_NULL(cabin_air)
+	QDEL_NULL(internal_tank)
+	. = ..()
 
 /obj/machinery/ship_weapon/gauss_gun/attack_hand(mob/user)
 	if(climbing_in)
