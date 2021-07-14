@@ -11,11 +11,11 @@
 	name = "nuclear waste spawner"
 	var/range = PLUTONIUM_SLUDGE_RANGE //tile radius to spawn goop
 	var/center_sludge = TRUE // Whether or not the center turf should spawn sludge or not.
-	var/list/avoid_objs = list( // List of objs that the waste does not spawn on
+	var/static/list/avoid_objs = typecacheof(list( // List of objs that the waste does not spawn on
 		/obj/structure/stairs, // Sludge is hidden below stairs
 		/obj/structure/ladder, // Going down the ladder directly on sludge bad
 		/obj/effect/decal/nuclear_waste, // No stacked sludge
-		)
+		))
 
 /obj/effect/landmark/nuclear_waste_spawner/proc/fire()
 	playsound(loc, 'sound/effects/gib_step.ogg', 100)
@@ -42,13 +42,11 @@
 	if(!prob(PLUTONIUM_SLUDGE_CHANCE)) //Scatter the sludge, don't smear it everywhere
 		return TRUE
 
-
 	for(var/obj/O in floor)
 		if(O.density && O.anchored) // Dense and anchored objects block sludge (ex. machines, windows) while others (ex. canisters, cell chargers) do not.
 			return TRUE
-		for(var/blacklisted in avoid_objs)
-			if(ispath(O.type, blacklisted))
-				return TRUE
+		if(avoid_objs[O.type])
+			return TRUE
 
 	new /obj/effect/decal/nuclear_waste (floor)
 	return TRUE
