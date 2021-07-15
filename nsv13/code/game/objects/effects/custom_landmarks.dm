@@ -15,6 +15,15 @@
 		/obj/structure/stairs, // Sludge is hidden below stairs
 		/obj/structure/ladder, // Going down the ladder directly on sludge bad
 		/obj/effect/decal/nuclear_waste, // No stacked sludge
+		/obj/structure/girder,
+		/obj/structure/grille,
+		/obj/structure/window/fulltile,
+		/obj/structure/window/plasma/fulltile,
+		/obj/structure/window/reinforced/fulltile,
+		/obj/structure/window/ship,
+		/obj/structure/window/shuttle,
+		/obj/machinery/gateway,
+		/obj/machinery/gravity_generator,
 		))
 
 /obj/effect/landmark/nuclear_waste_spawner/proc/fire()
@@ -43,8 +52,6 @@
 		return TRUE
 
 	for(var/obj/O in floor)
-		if(O.density && O.anchored) // Dense and anchored objects block sludge (ex. machines, windows) while others (ex. canisters, cell chargers) do not.
-			return TRUE
 		if(avoid_objs[O.type])
 			return TRUE
 
