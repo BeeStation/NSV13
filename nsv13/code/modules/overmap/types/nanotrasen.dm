@@ -30,7 +30,7 @@
 	obj_integrity = 600
 	max_integrity = 600
 	integrity_failure = 600
-	armor = list("overmap_light" = 100, "overmap_medium" = 40, "overmap_heavy" = 5)
+	armor = list("overmap_light" = 90, "overmap_medium" = 40, "overmap_heavy" = 5)
 
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser
@@ -44,7 +44,7 @@
 	integrity_failure = 1000
 	bound_height = 96
 	bound_width = 96
-	armor = list("overmap_light" = 100, "overmap_medium" = 45, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 90, "overmap_medium" = 45, "overmap_heavy" = 10)
 /obj/structure/overmap/nanotrasen/missile_cruiser //This has nothing to do with missiles
 	name = "caracal class missile frigate"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
@@ -58,7 +58,7 @@
 	max_integrity = 800
 	integrity_failure = 800
 	//collision_positions = list(new /datum/vector2d(-13,71), new /datum/vector2d(-25,52), new /datum/vector2d(-24,-25), new /datum/vector2d(-11,-66), new /datum/vector2d(4,-69), new /datum/vector2d(15,-28), new /datum/vector2d(15,38), new /datum/vector2d(6,61))
-	armor = list("overmap_light" = 100, "overmap_medium" = 45, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 90, "overmap_medium" = 45, "overmap_heavy" = 10)
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser
 	name = "corvid class tactical cruiser"
@@ -74,7 +74,7 @@
 	integrity_failure = 1000
 	bound_height = 96
 	bound_width = 96
-	armor = list("overmap_light" = 100, "overmap_medium" = 60, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 30)
 
 /obj/structure/overmap/nanotrasen/battleship
 	name = "jupiter class battlestar"
@@ -104,7 +104,7 @@
 	obj_integrity = 1200
 	max_integrity = 1200
 	integrity_failure = 1200
-	armor = list("overmap_light" = 100, "overmap_medium" = 65, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 90, "overmap_medium" = 65, "overmap_heavy" = 25)
 
 /obj/structure/overmap/nanotrasen/battlecruiser
 	name = "corvid class tactical cruiser"
@@ -120,7 +120,7 @@
 	integrity_failure = 1000
 	bound_height = 96
 	bound_width = 96
-	armor = list("overmap_light" = 100, "overmap_medium" = 60, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 25)
 
 //Instanced Versions
 
