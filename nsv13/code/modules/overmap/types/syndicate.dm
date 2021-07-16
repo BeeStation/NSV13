@@ -174,7 +174,7 @@
 	bound_height = 128
 	bound_width = 128
 	mass = MASS_LARGE
-	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 20)
+	armor = list("overmap_light" = 90, "overmap_medium" = 65, "overmap_heavy" = 20)
 	obj_integrity = 1000
 	max_integrity = 1000
 	integrity_failure = 1000
@@ -186,7 +186,7 @@
 /obj/structure/overmap/syndicate/ai/cruiser/elite
 	name = "Special ops tactical cruiser"
 	icon_state = "barracuda_elite"
-	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 30)
 	obj_integrity = 1500
 	max_integrity = 1500
 	integrity_failure = 1500
@@ -205,9 +205,9 @@
 	damage_states = FALSE
 	bound_height = 128
 	bound_width = 128
-	obj_integrity = 1500
-	max_integrity = 1500 //Tanky so that it can survive to deploy multiple fighter waves.
-	integrity_failure = 1500
+	obj_integrity = 1200
+	max_integrity = 1200 //Tanky so that it can survive to deploy multiple fighter waves.
+	integrity_failure = 1200
 	bounty = 3000
 	torpedoes = 0
 	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_heavy" = 20)
@@ -220,9 +220,9 @@
 	name = "Special ops escort carrier"
 	icon_state = "redtip_elite"
 	bounty = 5000
-	obj_integrity = 2500
-	max_integrity = 2500 //Tanky so that it can survive to deploy multiple fighter waves.
-	integrity_failure = 2500
+	obj_integrity = 2000
+	max_integrity = 2000 //Tanky so that it can survive to deploy multiple fighter waves.
+	integrity_failure = 2000
 	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 25)
 	//This scary one can launch bombers, which absolutely wreak havoc
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
@@ -358,7 +358,7 @@
 	missiles = 10
 	torpedoes = 10 //Torp boat!
 	shots_left = 10
-	armor = list("overmap_light" = 90, "overmap_medium" = 65, "overmap_heavy" = 15)
+	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 15)
 	ai_flags = AI_FLAG_DESTROYER
 	cloak_factor = 100 //Not a perfect cloak, mind you.
 	combat_dice_type = /datum/combat_dice/destroyer

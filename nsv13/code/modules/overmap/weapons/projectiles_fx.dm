@@ -19,7 +19,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/mac_round
 	icon_state = "railgun"
 	name = "artillery round"
-	damage = 350
+	damage = 400
 	speed = 1.85
 	//Not easily stopped.
 	obj_integrity = 300
@@ -47,14 +47,14 @@ Misc projectile types, effects, think of this as the special FX file.
 			set_homing_target(null)
 
 /obj/item/projectile/bullet/mac_round/ap
-	damage = 200
+	damage = 250
 	armour_penetration = 70
 	icon_state = "railgun_ap"
 	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
 
 /obj/item/projectile/bullet/mac_round/magneton
 	speed = 1.5
-	damage = 275
+	damage = 325
 	homing_benefit_time = 2.5 SECONDS
 	homing_turn_speed = 30
 
@@ -89,14 +89,14 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/light_cannon_round
 	icon_state = "pdc"
 	name = "light cannon round"
-	damage = 10
+	damage = 15
 	spread = 2
 	flag = "overmap_light"
 
 /obj/item/projectile/bullet/heavy_cannon_round
 	icon_state = "pdc"
 	name = "heavy cannon round"
-	damage = 8.5
+	damage = 15
 	spread = 5
 	flag = "overmap_medium"
 
