@@ -763,6 +763,8 @@ Adding tasks is easy! Just define a datum for it.
 	var/list/L = OM.fleet.taskforces["supply"] //I don't know why we have to do it this way, but dreamchecker is forcing us to.
 	if(!L.len)
 		return 0 //Can't resupply if there's no supply station/ship. Carry on fighting!
+	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY) && L.len == 1)	//We are the only supply ship left, no resupplying for us.
+		return 0
 	if(OM.obj_integrity < OM.max_integrity/3)
 		return AI_SCORE_SUPERPRIORITY
 	if(OM.shots_left < initial(OM.shots_left)/3)
@@ -777,7 +779,11 @@ Adding tasks is easy! Just define a datum for it.
 			L.lance_target = null	//Clear our relayed target if we fly to resupply to make it a bit easier on the players.
 			L.last_finder = null
 	var/obj/structure/overmap/supplyPost = null
-	for(var/obj/structure/overmap/supply in OM.fleet.taskforces["supply"])
+	var/list/orig_resupply_points = OM.fleet.taskforces["supply"]
+	var/list/resupply_points = orig_resupply_points.Copy()
+	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY))
+		resupply_points.Remove(src)
+	for(var/obj/structure/overmap/supply in resupply_points)
 		supplyPost = supply
 		break
 	if(supplyPost) //Neat, we've found a supply post. Autobots roll out.
