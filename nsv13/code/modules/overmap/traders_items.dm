@@ -49,9 +49,9 @@
 	qdel(inhabited_trader)
 	. = ..()
 
-/obj/structure/overmap/trader/process()
+/obj/structure/overmap/trader/LateInitialize()
 	. = ..()
-	if(!current_system || !current_system.occupying_z)
+	if((datum_flags & DF_ISPROCESSING) && (!current_system || !current_system.occupying_z))
 		STOP_PROCESSING(SSphysics_processing, src)
 
 
