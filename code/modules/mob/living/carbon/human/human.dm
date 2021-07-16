@@ -51,7 +51,8 @@
 	sec_hud_set_ID()
 	sec_hud_set_implants()
 	sec_hud_set_security_status()
-	set_squad_hud()
+	// FIXME: Boarding
+	//set_squad_hud()
 	//...and display them.
 	add_to_all_human_data_huds()
 

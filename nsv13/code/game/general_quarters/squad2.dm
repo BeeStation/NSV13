@@ -171,10 +171,11 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			hud_used.squad_lead_finder.invisibility = INVISIBILITY_ABSTRACT
 			hud_used.squad_lead_finder.alpha = 0
 	//hud_used?.show_hud(hud_used?.hud_version)
-	H.set_squad_hud()
+	// FIXME: Boarding
+	//H.set_squad_hud()
 
 /datum/squad/proc/remove_member(mob/living/carbon/human/H)
-	handle_hud(H, FALSE)
+	//handle_hud(H, FALSE)
 	strip_role(H)
 	//If we're changing into a new squad.
 	if(H.squad == src)
@@ -236,7 +237,8 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			grunts += H
 			H.squad_role = SQUAD_MARINE
 			apply_squad_rank(H, "PFC")
-	H.set_squad_hud()
+	// FIXME: Boarding
+	//H.set_squad_hud()
 	broadcast(src,"[H.name] has been re-assigned to [H.squad_role].", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
 
 
@@ -275,7 +277,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			H.squad_role = SQUAD_MARINE
 			apply_squad_rank(H, "PFC") //Private first class
 	equip(H, give_items)
-	handle_hud(H, TRUE)
+	//handle_hud(H, TRUE)
 	var/blurb = "As a <b>Squad Marine</b> you are the most Junior member of any squad and are expected only to follow the orders of your superiors... \n <i>Sergeants</i>, <i>Specialists</i> and the <i>Squad Leader</i> all outrank you and you are expected to follow their orders."
 	switch(H.squad_role)
 		if(SQUAD_LEAD)
@@ -291,7 +293,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	to_chat(H, "<span class='sciradio'>You are a [H.squad_role] in [name] squad! \n[desc] \n[blurb]</span>")
 
 	broadcast(src,"[H.name] has been assigned to your squad as [H.squad_role].", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
-
+/*
 /mob/living/carbon/human/proc/set_squad_hud()
 	if(squad && squad_role)
 		var/image/holder = hud_list[ID_HUD] //Todo: separate HUD layer, under job?
@@ -306,7 +308,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 		if(wear_id?.GetID())
 			holder.icon_state = "hud[ckey(wear_id.GetJobName())]"
 		sec_hud_set_security_status()
-
+*/
 /datum/squad/proc/equip(mob/living/carbon/human/H, give_items)
 	var/datum/squad/oldSquad = H.squad
 	H.squad = src
