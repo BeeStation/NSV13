@@ -172,10 +172,10 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			hud_used.squad_lead_finder.alpha = 0
 	//hud_used?.show_hud(hud_used?.hud_version)
 	// FIXME: Boarding
-	//H.set_squad_hud()
+	H.squad_hud_set_squad()
 
 /datum/squad/proc/remove_member(mob/living/carbon/human/H)
-	//handle_hud(H, FALSE)
+	handle_hud(H, FALSE)
 	strip_role(H)
 	//If we're changing into a new squad.
 	if(H.squad == src)
@@ -237,8 +237,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			grunts += H
 			H.squad_role = SQUAD_MARINE
 			apply_squad_rank(H, "PFC")
-	// FIXME: Boarding
-	//H.set_squad_hud()
+	H.squad_hud_set_squad()
 	broadcast(src,"[H.name] has been re-assigned to [H.squad_role].", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
 
 
@@ -277,7 +276,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			H.squad_role = SQUAD_MARINE
 			apply_squad_rank(H, "PFC") //Private first class
 	equip(H, give_items)
-	//handle_hud(H, TRUE)
+	handle_hud(H, TRUE)
 	var/blurb = "As a <b>Squad Marine</b> you are the most Junior member of any squad and are expected only to follow the orders of your superiors... \n <i>Sergeants</i>, <i>Specialists</i> and the <i>Squad Leader</i> all outrank you and you are expected to follow their orders."
 	switch(H.squad_role)
 		if(SQUAD_LEAD)
@@ -293,22 +292,22 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	to_chat(H, "<span class='sciradio'>You are a [H.squad_role] in [name] squad! \n[desc] \n[blurb]</span>")
 
 	broadcast(src,"[H.name] has been assigned to your squad as [H.squad_role].", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
-/*
-/mob/living/carbon/human/proc/set_squad_hud()
+
+/datum/atom_hud/data/human/squad_hud
+	hud_icons = list(SQUAD_HUD)
+
+/mob/living/carbon/human/proc/squad_hud_set_squad()
+	var/image/holder = hud_list[ID_HUD] //Todo: separate HUD layer, under job?
+	var/icon/I = icon(icon, icon_state, dir)
+	holder.pixel_y = I.Height() - world.icon_size
 	if(squad && squad_role)
-		var/image/holder = hud_list[ID_HUD] //Todo: separate HUD layer, under job?
-		var/icon/I = icon(icon, icon_state, dir)
-		holder.pixel_y = I.Height() - world.icon_size
 		holder.icon_state = "squad_[squad.name]_[squad_role]"
 	else
-		var/image/holder = hud_list[ID_HUD]
-		var/icon/I = icon(icon, icon_state, dir)
-		holder.pixel_y = I.Height() - world.icon_size
 		holder.icon_state = "hudno_id"
 		if(wear_id?.GetID())
 			holder.icon_state = "hud[ckey(wear_id.GetJobName())]"
 		sec_hud_set_security_status()
-*/
+
 /datum/squad/proc/equip(mob/living/carbon/human/H, give_items)
 	var/datum/squad/oldSquad = H.squad
 	H.squad = src
