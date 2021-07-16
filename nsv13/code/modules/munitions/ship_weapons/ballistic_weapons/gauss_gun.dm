@@ -153,6 +153,7 @@
 
 /obj/machinery/ship_weapon/gauss_gun/Destroy() //Yeet them out before we die.
 	remove_gunner()
+	gunner_chair.gun = null
 	QDEL_NULL(ammo_rack)
 	QDEL_NULL(cabin_air)
 	QDEL_NULL(internal_tank)
