@@ -110,7 +110,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/machine/deck_gun/payload
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS */
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/deck_gun_autorepair
 	name = "Machine Design (Deck Gun Autorepair upgrade)"
@@ -151,7 +151,7 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/computer/ams
 	category = list("Computer Boards")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS */
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 //Misc
 /datum/design/railgun_rail
@@ -173,4 +173,4 @@
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/machine/gauss_dispenser
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS */
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
