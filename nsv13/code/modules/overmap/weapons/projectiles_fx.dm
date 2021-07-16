@@ -202,5 +202,5 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/proc/detonate(atom/target)
 	explosion(target, 2, 4, 4)
 
-/obj/item/projectile/guided_munition/torpedo_nuclear/detonate(atom/target)
+/obj/item/projectile/guided_munition/torpedo/nuclear/detonate(atom/target)
 	explosion(target, GLOB.MAX_EX_DEVESTATION_RANGE, GLOB.MAX_EX_HEAVY_RANGE, GLOB.MAX_EX_LIGHT_RANGE, GLOB.MAX_EX_FLASH_RANGE)
