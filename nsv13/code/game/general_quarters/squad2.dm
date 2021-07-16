@@ -154,7 +154,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	add_overlay(pointyBoi)
 
 /datum/squad/proc/handle_hud(mob/living/carbon/human/H, add=TRUE)
-	var/datum/atom_hud/HUD = GLOB.huds[DATA_HUD_SECURITY_BASIC]
+	var/datum/atom_hud/HUD = GLOB.huds[DATA_HUD_SQUAD]
 	var/datum/hud/human/hud_used = H.hud_used
 
 	if(add)
@@ -171,7 +171,6 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			hud_used.squad_lead_finder.invisibility = INVISIBILITY_ABSTRACT
 			hud_used.squad_lead_finder.alpha = 0
 	//hud_used?.show_hud(hud_used?.hud_version)
-	// FIXME: Boarding
 	H.squad_hud_set_squad()
 
 /datum/squad/proc/remove_member(mob/living/carbon/human/H)
@@ -277,6 +276,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			apply_squad_rank(H, "PFC") //Private first class
 	equip(H, give_items)
 	handle_hud(H, TRUE)
+
 	var/blurb = "As a <b>Squad Marine</b> you are the most Junior member of any squad and are expected only to follow the orders of your superiors... \n <i>Sergeants</i>, <i>Specialists</i> and the <i>Squad Leader</i> all outrank you and you are expected to follow their orders."
 	switch(H.squad_role)
 		if(SQUAD_LEAD)
@@ -297,7 +297,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	hud_icons = list(SQUAD_HUD)
 
 /mob/living/carbon/human/proc/squad_hud_set_squad()
-	var/image/holder = hud_list[ID_HUD] //Todo: separate HUD layer, under job?
+	var/image/holder = hud_list[SQUAD_HUD] //Todo: separate HUD layer, under job?
 	var/icon/I = icon(icon, icon_state, dir)
 	holder.pixel_y = I.Height() - world.icon_size
 	if(squad && squad_role)
@@ -306,7 +306,6 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 		holder.icon_state = "hudno_id"
 		if(wear_id?.GetID())
 			holder.icon_state = "hud[ckey(wear_id.GetJobName())]"
-		sec_hud_set_security_status()
 
 /datum/squad/proc/equip(mob/living/carbon/human/H, give_items)
 	var/datum/squad/oldSquad = H.squad
