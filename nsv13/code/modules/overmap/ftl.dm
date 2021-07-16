@@ -203,7 +203,7 @@
 					var/name = pick(GLOB.teleportlocs)
 					var/area/target = GLOB.teleportlocs[name]
 					var/turf/T = pick(get_area_turfs(target))
-					new /obj/effect/temp_visual/explosion_telegraph(T)
+					new /obj/effect/temp_visual/explosion_telegraph(T, damage_amount = ((world.time - structure_crit_init)/30))
 		SSstar_system.ships[src]["target_system"] = target_system
 		SSstar_system.ships[src]["from_time"] = world.time
 		SSstar_system.ships[src]["current_system"] = null
