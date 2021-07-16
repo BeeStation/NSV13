@@ -23,20 +23,20 @@
 
 	display_order = JOB_DISPLAY_ORDER_PILOT
 
+//FIXME: boarding
+/*
 /datum/job/pilot/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
 
 	if(H && H.client && H.client.prefs)
 		var/role = H.client.prefs.preferred_pilot_role
 		var/obj/item/card/id/W = H.wear_id
-		//FIXME: boarding
-		/*
 		switch(role)
 			if(PILOT_COMBAT)
 				W.access |= list(ACCESS_COMBAT_PILOT)
 			if(PILOT_TRANSPORT)
 				W.access |= list(ACCESS_TRANSPORT_PILOT)
-		*/
+*/
 
 /datum/outfit/job/pilot
 	name = "Pilot"
