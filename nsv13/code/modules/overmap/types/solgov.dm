@@ -99,7 +99,7 @@
 	bound_height = 32
 	missiles = 0
 	torpedoes = 0
-	armor = list("overmap_light" = 5, "overmap_medium" = 5,  "overmap_heavy" = 5)
+	armor = list("overmap_light" = 5, "overmap_medium" = 5,  "overmap_heavy" = 90)
 	ai_flags = AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/fighter
 

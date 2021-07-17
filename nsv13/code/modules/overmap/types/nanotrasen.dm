@@ -283,7 +283,7 @@
 	ai_behaviour = AI_AGGRESSIVE
 	weapon_safety = FALSE
 	faction = "nanotrasen"
-	armor = list("overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 0)
+	armor = list("overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 90)
 	obj_integrity = 75
 	max_integrity = 75 //Super squishy!
 	integrity_failure = 75

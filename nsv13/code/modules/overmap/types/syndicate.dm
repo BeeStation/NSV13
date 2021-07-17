@@ -393,7 +393,7 @@
 	missiles = 4
 	torpedoes = 0
 	bounty = 250
-	armor = list("overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 0)
+	armor = list("overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 90)
 	ai_flags = AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/fighter
 	possible_interior_maps = list()
@@ -416,7 +416,7 @@
 	missiles = 0
 	torpedoes = 3
 	bounty = 250
-	armor = list("overmap_light" = 20, "overmap_medium" = 10, "overmap_heavy" = 0)
+	armor = list("overmap_light" = 20, "overmap_medium" = 10, "overmap_heavy" = 90)
 	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/bomber
 	possible_interior_maps = list()
