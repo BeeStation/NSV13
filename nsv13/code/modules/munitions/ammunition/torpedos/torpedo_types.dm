@@ -48,12 +48,6 @@
 	desc = "A heavy torpedo which is enriched with depleted uranium, allowing it to penetrate heavy armour plates."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/shredder
 
-/obj/item/projectile/guided_munition/torpedo/shredder
-	icon_state = "torpedo_shredder"
-	name = "plasma charge"
-	damage = 175
-	armour_penetration = 20
-
 //A dud missile designed to exhaust flak
 /obj/item/ship_weapon/ammunition/torpedo/decoy
 	name = "\improper NTP-0x 'DCY' 530mm electronic countermeasure"
@@ -61,12 +55,6 @@
 	icon_state = "decoy"
 	desc = "A simple electronic countermeasure packed inside a standard torpedo casing. This model excels at diverting enemy PDC emplacements away from friendly ships, or even another barrage of missiles."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/decoy
-
-/obj/item/projectile/guided_munition/torpedo/decoy
-	icon_state = "torpedo"
-	damage = 0
-	obj_integrity = 200
-	max_integrity = 200
 
 //The alpha torpedo
 /obj/item/ship_weapon/ammunition/torpedo/nuke
@@ -76,20 +64,6 @@
 	desc = "The NTX-class IV nuclear torpedo carries a fissionable payload which is capable of inflicting catastrophic damage against enemy ships, stations or dense population centers. These weapons are utterly without mercy and will annihilate indiscriminately, use with EXTREME caution."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/nuclear
 	volatility = 5
-
-/obj/item/projectile/guided_munition/torpedo/nuclear
-	icon_state = "torpedo_nuke"
-	name = "thermonuclear cruise missile"
-	damage = 600
-	impact_effect_type = /obj/effect/temp_visual/nuke_impact
-	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
-
-//What you get from an incomplete torpedo.
-/obj/item/projectile/guided_munition/torpedo/dud
-	icon_state = "torpedo_dud"
-	damage = 0
-
-
 /obj/item/ship_weapon/ammunition/torpedo/nuke/antonio
 	name = "Antonio"
 

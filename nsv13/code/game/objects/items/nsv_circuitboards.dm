@@ -58,7 +58,7 @@
 	build_path = /obj/machinery/computer/ams
 
 /obj/item/circuitboard/computer/fiftycal
-	name = ".50 cal turret console (circuit)"
+	name = "PDC turret console (circuit)"
 	build_path = /obj/machinery/computer/fiftycal
 
 /obj/item/circuitboard/computer/ship/fighter_controller
@@ -74,7 +74,7 @@
 
 //50 Cal. guns
 /obj/item/circuitboard/machine/fiftycal
-	name = ".50 cal turret (circuitboard)"
+	name = "PDC turret (circuitboard)"
 	req_components = list(
 		/obj/item/stack/sheet/mineral/titanium = 20,
 		/obj/item/stack/sheet/mineral/copper = 10,
@@ -83,7 +83,7 @@
 	build_path = /obj/machinery/ship_weapon/fiftycal
 
 /obj/item/circuitboard/machine/fiftycal/super
-	name = "super .50 cal turret (circuitboard)"
+	name = "RPDC (circuitboard)"
 	req_components = list(
 		/obj/item/stack/sheet/mineral/titanium = 40,
 		/obj/item/stack/sheet/mineral/copper = 40,

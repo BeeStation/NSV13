@@ -53,7 +53,8 @@ Clean override of the navigation computer to provide scan functionality.
 		data["scan_target"] = null
 	if(screen == 2) // Here's where the magic happens.
 		data["star_id"] = "\ref[selected_system]"
-		data["star_name"] = selected_system.name
+		var/list/syst = selected_system.system_type
+		// data["star_name"] = syst[ "tag" ]
 		data["alignment"] = capitalize(selected_system.alignment)
 		data["scanned"] = FALSE
 		if(info["current_system"])
@@ -62,6 +63,11 @@ Clean override of the navigation computer to provide scan functionality.
 		data["anomalies"] = selected_system.get_info()
 		if(LAZYFIND(scanned, selected_system.name)) //If we've scanned this one before, get me the list of its anomalies.
 			data["scanned"] = TRUE
+		if ( data["scanned"] )
+			data["system_type"] = syst ? syst[ "label" ] : "ERROR"	//the list /should/ always be initialized when players get to press the button, but alas never trust it.
+		else 
+			data["system_type"] = "Unknown (not scanned)"
+
 	data["can_scan"] = is_in_range(current_system, selected_system)
 	data["can_cancel"] = (scan_target) ? TRUE : FALSE
 	data["scan_progress"] = scan_progress

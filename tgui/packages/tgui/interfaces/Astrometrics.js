@@ -186,7 +186,7 @@ export const Astrometrics = (props, context) => {
                     bad: [-Infinity, 0.15],
                   }} />
               </Section>
-              <Section title={data.star_name}
+              <Section title="System info:"
                 buttons={(
                   <Button
                     content="Scan"
@@ -198,6 +198,8 @@ export const Astrometrics = (props, context) => {
                 Distance: {data.star_dist ? data.star_dist + " LY" : "0LY"}
                 <br />
                 Alignment: {data.alignment ? data.alignment : "Unknown"}
+                <br />
+                System type: {data.system_type ? data.system_type : "Unknown"}
                 <br />
               </Section>
               <Section title="Telemetry info:">
