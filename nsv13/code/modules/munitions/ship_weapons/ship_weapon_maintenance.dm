@@ -42,7 +42,10 @@
  * Returns TRUE if handled, FALSE otherwise.
  */
 /obj/machinery/ship_weapon/screwdriver_act(mob/user, obj/item/tool)
-	if(state < STATE_CHAMBERED && maint_state == MSTATE_CLOSED)
+	if(state == STATE_FIRING && maint_state == MSTATE_CLOSED)
+		to_chat(user, "<span class='warning'>You cannot open the maintence panel while [src] is firing!</span>")
+		return TRUE
+	else if(state < STATE_FIRING && maint_state == MSTATE_CLOSED)
 		to_chat(user, "<span class='notice'>You begin unfastening the maintenance panel on [src]...</span>")
 		if(tool.use_tool(src, user, 40, volume=100))
 			to_chat(user, "<span class='notice'> You unfasten the maintenance panel on [src].</span>")

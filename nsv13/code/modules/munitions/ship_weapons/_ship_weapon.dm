@@ -524,9 +524,6 @@
 	sleep(fire_animation_length)
 	icon_state = initial(icon_state)
 
-/obj/machinery/ship_weapon/Topic(href, href_list)
-	. = ..()
-
 #undef MSTATE_CLOSED
 #undef MSTATE_UNSCREWED
 #undef MSTATE_UNBOLTED

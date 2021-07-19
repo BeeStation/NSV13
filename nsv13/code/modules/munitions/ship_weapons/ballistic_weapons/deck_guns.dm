@@ -20,6 +20,7 @@
 	max_ammo = 1
 	obj_integrity = 500
 	max_integrity = 500
+	component_parts = list()
 	safety = FALSE
 	maintainable = FALSE //This just makes them brick.
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
@@ -30,7 +31,7 @@
 /obj/machinery/ship_weapon/deck_turret/Topic(href, href_list)
 	. = ..() //Sanity checks.
 	if(.)
-		return .
+		return
 	
 	if(href_list["fire_button"])
 		if(maint_state == MSTATE_UNSCREWED)
@@ -53,7 +54,7 @@
 		to_chat(user, "<span class='notice'>You start removing the loading tray from the [src].</span>")
 		if(!do_after(user, 4 SECONDS, target=src))
 			return
-		var/obj/W = (locate(/obj/item/ship_weapon/parts/loading_tray) in component_parts)
+		var/obj/item/ship_weapon/parts/loading_tray/W = locate() in component_parts
 		if(W)
 			W.forceMove(user.loc)
 			component_parts -= W
@@ -61,11 +62,11 @@
 		qdel(src)
 	
 /obj/machinery/ship_weapon/deck_turret/spawn_frame(disassembled)
-	var/obj/structure/ship_weapon/artillery_frame/M = new /obj/structure/ship_weapon/artillery_frame(loc)
+	var/obj/structure/ship_weapon/artillery_frame/M = new(get_turf(src))
 
 	for(var/obj/O in component_parts)
 		O.forceMove(M)
-	component_parts = list()
+	component_parts.Cut()
 
 	. = M
 	M.setAnchored(anchored)
@@ -175,7 +176,7 @@
 	var/obj/machinery/deck_turret/powder_gate/target = locate(params["target"])
 	switch(action)
 		if("load")
-			if(core.turret.maint_state > MSTATE_UNSCREWED)//Can't load a shell if we're doing maintenance 
+			if(core.turret.maint_state > MSTATE_CLOSED)//Can't load a shell if we're doing maintenance 
 				to_chat(usr, "<span class='notice'>Cannot feed shell while undergoing maintenance!</span>")
 				return
 			if(!core.turret.rack_load(core.payload_gate.shell))
@@ -539,19 +540,19 @@
 	if(id)
 		addtimer(CALLBACK(src, .proc/link_via_id), 10 SECONDS)
 
-	component_parts = list()
+	component_parts.Cut()
 	component_parts += new/obj/item/ship_weapon/parts/firing_electronics
 	component_parts += new/obj/item/ship_weapon/parts/loading_tray
-	if (max_ammo > 1)
-		if(ispath(text2path("/obj/item/circuitboard/multibarrel_upgrade/_[max_ammo]")))
-			component_parts += text2path("new/obj/item/circuitboard/multibarrel_upgrade/_[max_ammo]")
-		else//this should really never happen unless some major tomfoolery goes on
-			var/obj/item/circuitboard/multibarrel_upgrade/M = new/obj/item/circuitboard/multibarrel_upgrade
+	switch (max_ammo)
+		if(1)
+		if(3) component_parts += new/obj/item/circuitboard/multibarrel_upgrade/_3
+		else//this should really never happen unless some major tomfoolery goes on (or someone forgets to add a new upgrade to the switch)
+			var/obj/item/circuitboard/multibarrel_upgrade/M = new()
 			M.barrels = max_ammo
 			M.desc = "An upgrade that allows you to add [max_ammo] barrels to a Naval Artillery Cannon. You must partially deconstruct the cannon to install this."
 			component_parts += M
-	var/i
-	for(i=0, i<max_ammo, i++)
+
+	for(var/i in 1 to max_ammo)
 		component_parts += new/obj/item/ship_weapon/parts/mac_barrel
 		component_parts += new/obj/item/assembly/igniter
 
