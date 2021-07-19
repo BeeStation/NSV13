@@ -342,8 +342,9 @@ Returns a faction datum by its name (case insensitive!)
 		station13.current_system = src
 		station13.set_trader(trader)
 		trader.generate_missions()
-	addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
-	addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
+	if(system_traits != "EMPTY")
+		addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
+		addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
 /datum/star_system/proc/create_wormhole()
 	var/datum/star_system/S = pick((SSstar_system.systems - src)) //Pick a random system to put the wormhole in. Make sure that's not us.
@@ -662,6 +663,7 @@ Returns a faction datum by its name (case insensitive!)
 	name = "Staging"
 	desc = "Used for round initialisation and admin event staging"
 	hidden = TRUE
+	system_traits = "EMPTY"
 
 /datum/star_system/staging/handle_combat() //disable the table top action
 	return

@@ -1,14 +1,14 @@
 //The NSV13 Version of Game Mode, except it for the overmap and runs parallel to Game Mode
-//This needs to fire before SSstar_system
 
 SUBSYSTEM_DEF(overmap_mode)
 	name = "overmap_mode"
 	wait = 10
+	init_order = INIT_ORDER_OVERMAP_MODE
 	//flags = SS_NO_INIT
 
 	var/escalation = null
 	var/player_check = 0 //Number of players connected when the check is made for gamemode
-	var/datum/overmap_mission/mode //The assigned mode
+	var/datum/overmap_gamemode/mode //The assigned mode
 
 	var/objective_reminder_override = FALSE //Are we currently using the reminder system?
 	var/last_objective_interaction = 0 //Last time the crew interacted with one of our objectives
@@ -21,6 +21,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 
 	var/list/mode_cache
+
 	var/list/modes
 	var/list/mode_names
 
@@ -40,25 +41,15 @@ SUBSYSTEM_DEF(overmap_mode)
 	//Set starting systems for the player ships
 	//Load and set objectives
 
-	mode_cache = typecacheof(/datum/overmap_mission, TRUE)
+	mode_cache = typecacheof(/datum/overmap_gamemode, TRUE)
 
-/*
-	//All the possible modes we can select fro,
-	var/list/possible = list()
-
-	//Run throughthe subtypes, try instance them
-	for(var/dtype in subtypesof(/datum/overmap_mission))
-		var/datum/overmap_mission/candidate = new dtype()
-		if(candidate.is_selectable())
-			possible += (candidate=candidate.weight)
-	//Pick using pickweight to account for weight.
-	mode = pickweight(possible) || new /datum/overmap_mission/patrol
-*/
-
+	for(var/D in subtypesof(/datum/overmap_gamemode))
+		var/datum/overmap_gamemode/N = new D()
+		mode_cache += N
 
 	var/list/mode_pool = mode_cache
 
-	for(var/datum/overmap_mission/M in mode_pool)
+	for(var/datum/overmap_gamemode/M in mode_pool)
 		if(M.whitelist_only) //Remove all of our only whitelisted modes
 			mode_pool -= M
 
@@ -67,35 +58,37 @@ SUBSYSTEM_DEF(overmap_mode)
 			mode_pool = list() //Clear the list
 		else
 			for(var/S in SSmapping.config.omode_blacklist) //Grab the string to be the path - is there a proc for this?
-				var/datum/overmap_mission/B = text2path("/datum/overmap_mission/[S]")
+				var/datum/overmap_gamemode/B = text2path("/datum/overmap_gamemode/[S]")
 				mode_pool -= B
 
 	if(SSmapping.config.omode_whitelist.len > 0)
 		for(var/S in SSmapping.config.omode_whitelist) //Grab the string to be the path - is there a proc for this?
-			var/datum/overmap_mission/W = text2path("/datum/overmap_mission/[S]")
+			var/datum/overmap_gamemode/W = text2path("/datum/overmap_gamemode/[S]")
 			mode_pool += W
 
 	for(var/mob/dead/new_player/P in GLOB.player_list) //Count the number of connected players
 		if(P.client)
 			player_check ++
 
-	for(var/datum/overmap_mission/M in mode_pool) //Check and remove any modes that we have insufficient players for the mode
+	for(var/datum/overmap_gamemode/M in mode_pool) //Check and remove any modes that we have insufficient players for the mode
 		if(player_check < M.required_players)
 			mode_pool -= M
 
 	if(mode_pool.len <= 0) //If the pool is empty, we set the default
-		mode = /datum/overmap_mission/patrol //Holding that as the default for now - REPLACE ME LATER
+		mode = /datum/overmap_gamemode/patrol //Holding that as the default for now - REPLACE ME LATER
 		message_admins("Error: mode section pool empty - defaulting to PATROL")
+		log_game("Error: mode section pool empty - defaulting to PATROL")
 
 	else //Here we need to generate a ticket system that pulls from the config - aka: AAAAAAAAAAAAAAAAAAAA
 
 		var/list/mode_select = list()
-		for(var/datum/overmap_mission/M in mode_pool)
-			for(var/I = 0, I < M.selection_weight, I++) //What could go wrong
+		for(var/datum/overmap_gamemode/M in mode_pool)
+			for(var/I = 0, I < M.selection_weight, I++) //Populate with weight number of instances
 				mode_select += M
 
 		mode = pick(mode_select)
 		message_admins("[mode.name] has been selected as the overmap gamemode")
+		log_game("[mode.name] has been selected as the overmap gamemode")
 
 	switch(mode.objective_reminder_setting) //Load the reminder settings
 		if(1)
@@ -112,9 +105,11 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
 	if(OM)
 		var/datum/star_system/target = SSstar_system.system_by_id(mode.starting_system)
-		OM.force_jump(target) //Move the ship to the designated start
+		OM.jump(target) //Move the ship to the designated start
 		if(mode.starting_faction)
 			OM.faction = mode.starting_faction //If we have a faction override, set it
+
+
 
 	//configuration.dm line 341 /datum/controller/configuration/proc/get_runnable_modes()
 
@@ -123,9 +118,6 @@ SUBSYSTEM_DEF(overmap_mode)
 	//Which means we should do this way up above ^^ AAAAAAAAAAAAAAAAAAAA
 
 	//CONFIG_GET(number/)
-
-
-
 
 /datum/controller/subsystem/overmap_mode/fire()
 
@@ -136,26 +128,26 @@ SUBSYSTEM_DEF(overmap_mode)
 			switch(objective_reminder_stacks)
 				if(1)
 					//something
-					priority_announce("Case 1", "Naval Command")
+					priority_announce("[mode.reminder_one]", "[mode.reminder_origin]")
 				if(2)
 					//something else
-					priority_announce("Case 2", "Naval Command")
+					priority_announce("[mode.reminder_two]", "[mode.reminder_origin]")
 				if(3)
 					//something else +
-					priority_announce("Case 3", "Naval Command")
+					priority_announce("[mode.reminder_three]", "[mode.reminder_origin]")
 				if(4)
 					//last chance
-					priority_announce("Case 4", "Naval Command")
+					priority_announce("[mode.reminder_four]", "[mode.reminder_origin]")
 				if(5)
 					//mission critical failure
-					priority_announce("Case 5", "Naval Command")
+					priority_announce("[mode.reminder_five]", "[mode.reminder_origin]")
 
 /datum/controller/subsystem/overmap_mode/New()
 	.=..()
 	next_objective_reminder = world.time + objective_reminder_interval
 
 /datum/controller/subsystem/overmap_mode/proc/check_completion()
-
+	return
 
 /datum/controller/subsystem/overmap_mode/proc/update_reminder(var/objective = FALSE)
 	if(objective) //Is objective? Full Reset
@@ -175,15 +167,12 @@ SUBSYSTEM_DEF(overmap_mode)
 		next_objective_reminder += combat_delay_amount
 		return
 
-
-
-
-/datum/overmap_mission
+/datum/overmap_gamemode
 	var/name = null						//Name of the mission type
 	var/desc = null						//Description of the mission
 	var/config_tag = null				//Do we have a tag?
-	var/selection_weight = null			//Used to detrmine the chance of this mission being selected
-	var/required_players = null			//Required number of players for this mission to be randomly selected
+	var/selection_weight = 0			//Used to determine the chance of this mission being selected
+	var/required_players = 0			//Required number of players for this mission to be randomly selected
 	var/difficulty = null				//Difficulty of the mission as determined by player count / abus abuse
 	var/starting_system = null			//Here we define where our player ships will start
 	var/starting_faction = null 		//Here we define which faction our player ships belong
@@ -191,6 +180,14 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/combat_delay = 0				//How much time is added to the reminder timer
 	var/list/objectives = list()		//The actual mission objectives go here
 	var/whitelist_only = FALSE			//Can only be selected through map bound whitelists
+
+	//Reminder messages
+	var/reminder_origin = "Naval Command"
+	var/reminder_one = "Case 1"
+	var/reminder_two = "Case 2"
+	var/reminder_three = "Case 3"
+	var/reminder_four = "Case 4"
+	var/reminder_five = "Case 5"
 
 /datum/overmap_objective
 	var/name							//Name for admin view
@@ -204,5 +201,5 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_objective/proc/instance() //Used to generate any in world assets
 	return
 
-/datum/overmap_objective/proc/check_completion()
+/datum/overmap_objective/proc/check_completion() //make this also check the main subsystem completion
 	return completed

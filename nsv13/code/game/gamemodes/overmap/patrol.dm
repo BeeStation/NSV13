@@ -2,13 +2,14 @@
 
 //Acquire 1000 tickets for NT - you know the drill
 
-/datum/overmap_mission/patrol
+/datum/overmap_gamemode/patrol
 	name = "Patrol"
 	desc = "Default Gamemode - Acquire 1000 victory tickets for Nanotrasen"
 	starting_system = "Argo"
 	starting_faction = "nanotrasen"
 	objective_reminder_setting = 1
-
+	selection_weight = 5
+	required_players = 0
 
 /datum/overmap_objective/tickets
 	name = "Tickets"

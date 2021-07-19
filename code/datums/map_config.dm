@@ -172,9 +172,9 @@
 		mine_disable = TRUE
 	//Nsv13 stuff. No CHECK_EXISTS because we don't want to yell at mappers if they don't override these two.
 	if("omode_blacklist" in json) //Which modes we want disabled on this map
-		omode_blacklist = json["omode_blacklist"]
+		omode_blacklist = list(json["omode_blacklist"])
 	if("mode_whitelist" in json) //Which extra modes we want enabled on this map
-		omode_whitelist = json["omode_whitelist"]
+		omode_whitelist = list(json["omode_whitelist"])
 
 	CHECK_EXISTS("ship_type")
 	if("ship_type" in json)
