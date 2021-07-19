@@ -41,16 +41,12 @@
 	. = ..()
 	if(maint_state == MSTATE_UNSCREWED)
 		. += "There is a button labelled \"<A href='?src=[REF(src)];fire_button=1'>Force Eject Shell</A>\"."
-	if(maint_state == MSTATE_PRIEDOUT)
-		. += "The loading tray can be <b>removed by hand</b>."//deconstruction hint
+	if(maint_state == MSTATE_UNBOLTED)
+		pop(.)// this is the laziest way I know of to change an examine line
+		. += "The inner casing has been <b>unbolted</b>, and the loading tray can be <i>pried out</i>."//deconstruction hint
 
-/obj/machinery/ship_weapon/deck_turret/attack_robot(mob/user)
-	. = ..()
-	attack_hand(user)
-
-/obj/machinery/ship_weapon/deck_turret/attack_hand(mob/user)
-	. = ..()
-	if(maint_state == MSTATE_PRIEDOUT)
+/obj/machinery/ship_weapon/deck_turret/crowbar_act(mob/user, obj/item/tool)
+	if(maint_state == MSTATE_UNBOLTED)
 		to_chat(user, "<span class='notice'>You start removing the loading tray from the [src].</span>")
 		if(!do_after(user, 4 SECONDS, target=src))
 			return
@@ -62,6 +58,8 @@
 		qdel(src)
 	
 /obj/machinery/ship_weapon/deck_turret/spawn_frame(disassembled)
+	if(!disassembled)
+		return ..(disassembled)
 	var/obj/structure/ship_weapon/artillery_frame/M = new(get_turf(src))
 
 	for(var/obj/O in component_parts)
@@ -74,8 +72,6 @@
 	M.set_final_state()
 	M.max_barrels = max_ammo
 	M.lazy_icon()
-	if(!disassembled)
-		M.obj_integrity = M.max_integrity * 0.5 //the frame is already half broken
 	transfer_fingerprints_to(M)
 
 

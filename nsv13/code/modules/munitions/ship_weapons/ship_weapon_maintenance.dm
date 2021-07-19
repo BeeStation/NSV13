@@ -16,9 +16,7 @@
 		if(MSTATE_UNSCREWED)
 			. += "The maintenance panel is <b>unscrewed</b> and the inner casing is <i>bolted</i> in place."
 		if(MSTATE_UNBOLTED)
-			. += "The <b>bolts</b> are loose, and the inner casing can be <i>pried out</i>."
-		if(MSTATE_PRIEDOUT)
-			. += "The inner casing has been <b>pried away</b>[(maintainable) ? ", and the parts can be <i>lubricated</i>" : ""]."
+			. += "The inner casing has been <b>unbolted</b>, and the parts can be <i>pried out</i>."
 
 /**
  * The weapon has malfunctioned and needs maintenance. Set the flag and do some effects to let people know.
