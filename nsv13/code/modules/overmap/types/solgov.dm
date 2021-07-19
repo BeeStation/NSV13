@@ -14,7 +14,7 @@
 	bound_height = 96
 	obj_integrity = 1000
 	max_integrity = 1000
-	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 /obj/structure/overmap/nanotrasen/solgov/carrier
 	name = "rio-grande class support cruiser"
@@ -27,7 +27,7 @@
 	//Tanky
 	obj_integrity = 1500
 	max_integrity = 1500
-	armor = list("overmap_light" = 90, "overmap_heavy" = 40)
+	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_heavy" = 40)
 
 /obj/structure/overmap/nanotrasen/solgov/apply_weapons()
 	. = ..()
@@ -47,7 +47,7 @@
 	damage_states = FALSE
 	bound_height = 128
 	bound_width = 128
-	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 //Player Versions
 
@@ -56,7 +56,7 @@
 	max_integrity = 750 //She's fragile and relies heavily on shields.
 	integrity_failure = 750
 	starting_system = "Argo"
-	armor = list("overmap_light" = 80, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 //AI Versions
 
@@ -99,7 +99,7 @@
 	bound_height = 32
 	missiles = 0
 	torpedoes = 0
-	armor = list("overmap_light" = 5, "overmap_heavy" = 5)
+	armor = list("overmap_light" = 5, "overmap_medium" = 5,  "overmap_heavy" = 90)
 	ai_flags = AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/fighter
 

@@ -259,7 +259,7 @@ SUBSYSTEM_DEF(explosions)
 				if(dist <= round(max_range + getviewsize(world.view)[1] - 2, 1))
 					M.playsound_local(epicenter, null, 100, 1, frequency, falloff = 5, S = explosion_sound)
 					if(baseshakeamount > 0)
-						shake_camera(M, 25, clamp(baseshakeamount, 0, 10))
+						shake_with_inertia(M, 25, clamp(baseshakeamount, 0, 10)) // NSV13 - Shaking the camera should be passed through shake_with_inertia, as explosions on the other side of the ship won't affect inertial dampener users 
 				// You hear a far explosion if you're outside the blast radius. Small bombs shouldn't be heard all over the station.
 				else if(dist <= far_dist)
 					var/far_volume = clamp(far_dist/2, FAR_LOWER, FAR_UPPER) // Volume is based on explosion size and dist
@@ -273,12 +273,12 @@ SUBSYSTEM_DEF(explosions)
 					if(baseshakeamount > 0 || devastation_range)
 						if(!baseshakeamount) // Devastating explosions rock the station and ground
 							baseshakeamount = devastation_range*3
-						shake_camera(M, 10, clamp(baseshakeamount*0.25, 0, SHAKE_CLAMP))
+						shake_with_inertia(M, 10, clamp(baseshakeamount*0.25, 0, SHAKE_CLAMP)) // NSV13 - Shaking the camera should be passed through shake_with_inertia
 				else if(!isspaceturf(get_turf(M)) && heavy_impact_range) // Big enough explosions echo throughout the hull
 					var/echo_volume = 40
 					if(devastation_range)
 						baseshakeamount = devastation_range
-						shake_camera(M, 10, clamp(baseshakeamount*0.25, 0, SHAKE_CLAMP))
+						shake_with_inertia(M, 10, clamp(baseshakeamount*0.25, 0, SHAKE_CLAMP)) // NSV13 - Shaking the camera should be passed through shake_with_inertia
 						echo_volume = 60
 					M.playsound_local(epicenter, null, echo_volume, 1, frequency, S = explosion_echo_sound, distance_multiplier = 0)
 

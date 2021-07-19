@@ -1846,6 +1846,10 @@
 	dir = 1
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/effect/landmark/patrol_node{
+	id = "arrivals";
+	next_id = "janitor"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "aWR" = (
@@ -8385,6 +8389,10 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/ship/nt_floor_logo,
+/obj/effect/landmark/patrol_node{
+	id = "briefing_central";
+	next_id = "arrivals"
+	},
 /turf/open/floor/light,
 /area/nsv/briefingroom)
 "eDI" = (
@@ -9478,6 +9486,10 @@
 /area/hallway/nsv/deck2/primary)
 "fgp" = (
 /obj/effect/landmark/nuclear_waste_spawner,
+/obj/effect/landmark/patrol_node{
+	id = "janitor";
+	next_id = "trash"
+	},
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/bar{
 	name = "Night Club"
@@ -16442,6 +16454,16 @@
 	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/engine/engineering/ftl_room)
+"iPZ" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	id = "deck2_ladder";
+	next_id = "escapes"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/primary)
 "iQf" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos{
 	dir = 4;
@@ -23808,6 +23830,10 @@
 	icon_state = "1-2"
 	},
 /obj/effect/turf_decal/ship/nt_floor_logo,
+/obj/effect/landmark/patrol_node{
+	id = "briefing";
+	next_id = "briefing_central"
+	},
 /turf/open/floor/light,
 /area/hallway/nsv/deck2/primary)
 "mKx" = (
@@ -27178,7 +27204,7 @@
 	pixel_x = -4
 	},
 /obj/item/reagent_containers/glass/waterbottle/large{
-	pixel_x = 4#
+	pixel_x = 4
 	},
 /obj/machinery/light{
 	bulb_colour = "#e69602";
@@ -28978,6 +29004,13 @@
 /obj/effect/landmark/start/librarian,
 /turf/open/floor/wood,
 /area/bridge/showroom/corporate)
+"pDm" = (
+/obj/effect/landmark/patrol_node{
+	id = "escapes";
+	next_id = "chapel"
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/secondary/entry/arrivals)
 "pDn" = (
 /obj/effect/turf_decal/tile/ship/half/orange{
 	dir = 8
@@ -30269,6 +30302,26 @@
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/cable{
 	icon_state = "2-4"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/primary)
+"qoY" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	id = "trash";
+	next_id = "arrivals2"
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
@@ -32947,6 +33000,10 @@
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/effect/landmark/patrol_node{
+	id = "northern_corridor";
+	next_id = "deck2_ladder_up"
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
@@ -40568,6 +40625,10 @@
 	icon_state = "1-8"
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/effect/landmark/patrol_node{
+	id = "arrivals2";
+	next_id = "northern_corridor"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "vUy" = (
@@ -41833,6 +41894,22 @@
 /obj/machinery/status_display/evac/east,
 /turf/open/floor/monotile/steel,
 /area/science/nsv/astronomy)
+"wGN" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/patrol_node{
+	id = "chapel";
+	next_id = "briefing"
+	},
+/turf/open/floor/monotile/dark,
+/area/chapel/main)
 "wHh" = (
 /obj/structure/cable{
 	icon_state = "6-8"
@@ -43232,6 +43309,10 @@
 /area/crew_quarters/heads/chief)
 "xvR" = (
 /obj/machinery/airalarm/directional/north,
+/obj/effect/landmark/patrol_node{
+	id = "deck2_ladder_up";
+	next_id = "deck1_ladder_up"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "xvW" = (
@@ -76202,7 +76283,7 @@ jrv
 ncO
 uoa
 uGl
-cdy
+qoY
 gCP
 dpL
 lDy
@@ -78222,7 +78303,7 @@ vVn
 fJc
 qPA
 xvR
-hxp
+iPZ
 pEL
 rOl
 gnp
@@ -94406,7 +94487,7 @@ tZk
 sIq
 pXM
 pXM
-pXM
+pDm
 pXM
 jOD
 udZ
@@ -97746,7 +97827,7 @@ cYp
 vtt
 aWD
 rFv
-dnZ
+wGN
 iZT
 axb
 aWD

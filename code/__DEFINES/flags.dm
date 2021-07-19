@@ -124,4 +124,5 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define AI_FLAG_ANTI_FIGHTER 1<<3
 #define AI_FLAG_BOARDER 1<<4 //Ships that like to board you.
 #define AI_FLAG_SWARMER 1<<5 //Ships that love to act in swarms. Aka, Fighters.
+#define AI_FLAG_ELITE 1<<6	 //These ships are more /fun/ than others even with the same equipment.
 //NSV13 change end

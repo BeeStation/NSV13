@@ -6,7 +6,7 @@ Credit to TGMC for the interior sprites for all these!
 	desc = "An all-purpose troop carrier which can carry a unit of marines into the heart of darkness."
 	icon = 'nsv13/icons/overmap/new/nanotrasen/dropship.dmi'
 	icon_state = "dropship"
-	armor = list("melee" = 70, "bullet" = 70, "laser" = 70, "energy" = 40, "bomb" = 40, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 15, "overmap_heavy" = 0)
+	armor = list("melee" = 70, "bullet" = 70, "laser" = 70, "energy" = 40, "bomb" = 40, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 15, "overmap_medium" = 5, "overmap_heavy" = 90)
 	sprite_size = 32
 	damage_states = TRUE
 	max_integrity = 1000 //*slaps roof of dropship. This badboy can fit at least 20 alien references in it.
@@ -109,7 +109,7 @@ Credit to TGMC for the interior sprites for all these!
 	desc = "A Su-437 Sabre utility vessel. Designed for robustness in deep space and as a highly modular platform, able to be fitted out for any situation. While its interior may be cramped, it's definitely functional. Drag and drop crates / ore boxes to load them into its cargo hold."
 	icon = 'nsv13/icons/overmap/nanotrasen/carrier.dmi'
 	icon_state = "carrier"
-	armor = list("melee" = 70, "bullet" = 70, "laser" = 70, "energy" = 40, "bomb" = 40, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 15, "overmap_heavy" = 0)
+	armor = list("melee" = 70, "bullet" = 70, "laser" = 70, "energy" = 40, "bomb" = 40, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 15, "overmap_medium" = 5, "overmap_heavy" = 90)
 	sprite_size = 32
 	damage_states = FALSE //temp
 	max_integrity = 250 //Tanky

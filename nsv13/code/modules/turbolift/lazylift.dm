@@ -7,7 +7,8 @@ Steps:
 Place turbolift on the bottom floor of your ship
 Ensure there's a load of open space above it for any decks above.
 Ensure that each lift is inside a unique area.
-Give each lift segment on each deck a call button. Ensure it's in the same area as the lift. This should be outside the lift, as the button is what you use to call the lift to your location.
+Give each lift segment on each deck a call button. Ensure it's in the same area as the lift OR varedit the id var on the turbolift and the button to the same unique ID.
+	This should be outside the lift, as the button is what you use to call the lift to your location.
 That's it.
 
 Rules:
@@ -54,7 +55,21 @@ That's it, ok bye!
 	verb_exclaim = "beeps"
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 2
+	var/lift_id = null // A unique ID that can be used to link a specific lift to a specific button
 	var/obj/machinery/lazylift/lift = null //Pointer to the lift controller in our area on this deck, we then ask its master to path the lift to us, assuming it isn't busy or anything.
+
+/obj/machinery/lazylift_button/Initialize()
+	. = ..()
+	if(lift_id)
+		for(var/obj/machinery/lazylift/LL in GLOB.machines)
+			if(LL && (LL.z != z))
+				continue
+			else if(LL.id == lift_id)
+				lift = LL
+	else
+		for(var/obj/machinery/lazylift/LL in get_area(src))
+			if(LL.z == z)
+				lift = LL
 
 /obj/machinery/lazylift_button/attack_robot(mob/user)
 	return attack_hand(user)
@@ -97,6 +112,7 @@ That's it, ok bye!
 	var/list/platform = list() //The """platform""" of the lift that's going to move up and down. This is just a list of turfs that we own.
 	var/list/doors = list()
 	var/static/list/moving_blacklist = list(/obj/machinery/lazylift, /obj/machinery/lazylift/master, /obj/machinery/light, /obj/structure/cable, /obj/machinery/power/apc, /obj/machinery/airalarm, /obj/machinery/firealarm, /obj/structure/grille, /obj/structure/window, /obj/machinery/camera)
+	var/id = null // A unique ID that links a specific lift to a specific button
 
 	//Voice activation.
 	flags_1 = HEAR_1
@@ -205,12 +221,7 @@ That's it, ok bye!
 	for(var/turf/T in get_area(src))
 		if(T.z != z)
 			continue
-		if(!istype(T, /turf/open))
-			var/obj/machinery/lazylift_button/BB = locate(/obj/machinery/lazylift_button) in T
-			if(BB)
-				BB.lift = src
-			continue
-		else
+		if(istype(T, /turf/open))
 			platform += T
 	addtimer(CALLBACK(src, .proc/acquire_destinations), 10 SECONDS)
 	setup()
@@ -243,6 +254,7 @@ That's it, ok bye!
 		slave.pixel_x = pixel_x
 		slave.pixel_y = pixel_y
 		slave.dir = dir
+		slave.id = id
 		last = next
 		decks += slave
 	}
@@ -383,13 +395,13 @@ That's it, ok bye!
 	if(start)
 		for(var/mob/M in get_area(src))
 			SEND_SOUND(M, turbolift_start_sound)
-			shake_camera(M, 2, 1)
+			shake_with_inertia(M, 2, 1)
 			if(!isliving(M))
 				continue
 			if(obj_flags & EMAGGED)
 				var/mob/living/karmics_victim = M
 				karmics_victim.Knockdown(5 SECONDS)
-				shake_camera(karmics_victim, 10, 1)
+				shake_with_inertia(karmics_victim, 10, 1)
 				to_chat(karmics_victim, "<span class='warning'>You're pressed into the floor as the lift rapidly accelerates!</span>")
 				if(prob(50)) //Unlucky fucker
 					to_chat(karmics_victim, "<span class='warning'>You hit your head as you're thrown about wildly!</span>")
