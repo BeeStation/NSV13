@@ -19,6 +19,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/combat_delays_reminder = FALSE //Does combat in the overmap delay the reminder?
 	var/combat_delay_amount = 0 //How much the reminder is delayed by combat
 
+	var/check_completion_timer = 0
 
 	var/list/mode_cache
 
@@ -79,7 +80,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		message_admins("Error: mode section pool empty - defaulting to PATROL")
 		log_game("Error: mode section pool empty - defaulting to PATROL")
 
-	else //Here we need to generate a ticket system that pulls from the config - aka: AAAAAAAAAAAAAAAAAAAA
+	else //Here we need to generate a ticket system that pulls from the config at a future date
 
 		var/list/mode_select = list()
 		for(var/datum/overmap_gamemode/M in mode_pool)
@@ -99,6 +100,12 @@ SUBSYSTEM_DEF(overmap_mode)
 		if(3)
 			objective_reminder_override = TRUE
 
+	var/list/objective_pool = list() //Create instances of our objectives
+	for(var/O in mode.objectives)
+		var/datum/overmap_objective/I = new O()
+		objective_pool += I
+
+	mode.objectives = objective_pool
 	for(var/datum/overmap_objective/O in mode.objectives)
 		O.instance() //Setup any overmap assets
 
@@ -120,6 +127,10 @@ SUBSYSTEM_DEF(overmap_mode)
 	//CONFIG_GET(number/)
 
 /datum/controller/subsystem/overmap_mode/fire()
+
+	if(world.time >= check_completion_timer) //Fire this automatically every ten minutes to prevent round stalling
+		check_completion()
+		check_completion_timer += 10 MINUTES
 
 	if(!objective_reminder_override)
 		if(world.time >= next_objective_reminder)
@@ -189,6 +200,27 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/reminder_four = "Case 4"
 	var/reminder_five = "Case 5"
 
+/datum/overmap_gamemode/proc/check_completion() //This gets called by checking the communication console/modcomp program + automatically once every 10 minutes
+	//First we try to check completion on each objective
+	for(var/datum/overmap_objective/O in objectives)
+		O.check_completion()
+
+	//And then we check if they are all completed
+	var/objective_length = objectives.len
+	var/objective_check = 0
+	for(var/datum/overmap_objective/O in objectives) //etc
+		if(O.completed)
+			objective_check ++
+
+	if(objective_check >= objective_length)
+		victory()
+
+/datum/overmap_gamemode/proc/victory()
+	return
+
+/datum/overmap_gamemode/proc/defeat()
+	return
+
 /datum/overmap_objective
 	var/name							//Name for admin view
 	var/desc							//Short description for admin view
@@ -201,5 +233,5 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_objective/proc/instance() //Used to generate any in world assets
 	return
 
-/datum/overmap_objective/proc/check_completion() //make this also check the main subsystem completion
-	return completed
+/datum/overmap_objective/proc/check_completion()
+	return

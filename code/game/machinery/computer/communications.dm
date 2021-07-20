@@ -9,6 +9,7 @@
 #define STATE_CONFIRM_LEVEL 9
 #define STATE_TOGGLE_EMERGENCY 10
 #define STATE_PURCHASE 11
+#define STATE_OBJECTIVES 12 //NSV13
 
 // The communications computer
 /obj/machinery/computer/communications
@@ -327,6 +328,10 @@
 				priority_announce("The codes for the on-station nuclear self-destruct have been requested by [usr]. Confirmation or denial of this request will be sent shortly.", "Nuclear Self Destruct Codes Requested",'sound/ai/commandreport.ogg')
 				CM.lastTimeUsed = world.time
 
+		//NSV13 - Objective Button
+		if("objectives")
+			SSovermap_mode.check_completion()
+			state = STATE_OBJECTIVES
 
 		// AI interface
 		if("ai-main")
@@ -468,6 +473,7 @@
 						dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=cancelshuttle'>Cancel Shuttle Call</A> \]"
 
 				dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=status'>Set Status Display</A> \]"
+				dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=objectives'>Check Objectives</A> \]" //NSV13 - Added Objective Button
 				if (authenticated==2)
 					dat += "<BR><BR><B>Captain Functions</B>"
 					dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=announce'>Make a Captain's Announcement</A> \]"
@@ -583,6 +589,18 @@
 							dat += "Prerequisites: [S.prerequisites]<BR>"
 						dat += "<A href='?src=[REF(src)];operation=buyshuttle;chosen_shuttle=[REF(S)]'>(<font color=red><i>Purchase</i></font>)</A><BR><BR>"
 
+		if(STATE_OBJECTIVES) //NSV13 - Objectives
+			dat += "Current Objectives:<BR>"
+			for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+				dat += "[O.desc] : "
+				switch(O.completed)
+					if(0)
+						dat += "<font color=yellow><b>IN-PROGRESS</b></font><BR>"
+					if(1)
+						dat += "<font color=green><b>COMPLETED</b></font><BR>"
+					if(2)
+						dat += "<font color=RED><b>INCOMPLETE</b></font><BR>"
+
 	dat += "<BR><BR>\[ [(state != STATE_DEFAULT) ? "<A HREF='?src=[REF(src)];operation=main'>Main Menu</A> | " : ""]<A HREF='?src=[REF(user)];mach_close=communications'>Close</A> \]"
 
 	popup.set_content(dat)
@@ -643,6 +661,7 @@
 			if(SSshuttle.emergency.mode == SHUTTLE_IDLE)
 				dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-callshuttle'>Call Emergency Shuttle</A> \]"
 			dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-status'>Set Status Display</A> \]"
+			dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=objectives'>Check Objectives</A> \]" //NSV13 - Added Objective Button
 			dat += "<BR><BR><B>Special Functions</B>"
 			dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-announce'>Make an Announcement</A> \]"
 			dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-changeseclevel'>Change Alert Level</A> \]"
@@ -690,7 +709,7 @@
 			dat += " <A HREF='?src=[REF(src)];operation=setstat;statdisp=alert;alert=biohazard'>Biohazard</A> \]<BR><HR>"
 
 		if(STATE_ALERT_LEVEL)
-			dat += "Current alert level: [get_security_level()]<BR>"
+			dat += "Current defense condition: [get_security_level()]<BR>" //Nsv13 : General quarters
 			if(GLOB.security_level == SEC_LEVEL_DELTA)
 				dat += "<font color='red'><b>The self-destruct mechanism is active. Find a way to deactivate the mechanism to lower the alert level or evacuate.</b></font>"
 			else //Nsv13 - General Quarters
@@ -780,3 +799,4 @@
 #undef STATE_CONFIRM_LEVEL
 #undef STATE_TOGGLE_EMERGENCY
 #undef STATE_PURCHASE
+#undef STATE_OBJECTIVES //NSV13

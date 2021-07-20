@@ -10,6 +10,7 @@
 	objective_reminder_setting = 1
 	selection_weight = 5
 	required_players = 0
+	objectives = list(/datum/overmap_objective/tickets/nt)
 
 /datum/overmap_objective/tickets
 	name = "Tickets"
@@ -23,7 +24,6 @@
 datum/overmap_objective/tickets/check_completion()
 	var/datum/faction/F = locate(assigned_faction in SSstar_system.factions)
 	if(F.tickets >= ticket_amount)
-		F.victory()
 		return TRUE
 	return FALSE
 
