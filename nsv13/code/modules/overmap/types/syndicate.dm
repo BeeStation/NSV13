@@ -378,16 +378,16 @@
 /obj/structure/overmap/syndicate/ai/kadesh	//I sure wonder what this one does....
 	name = "Kadesh class advanced cruiser"
 	desc = "An experimental Syndicate cruiser capable of projecting energy bursts powerful enough to disrupt drive systems."
-	obj_integrity = 2250	//Pretty thick hull due to it being a priority target
-	max_integrity = 2250
-	integrity_failure = 2250
+	obj_integrity = 1700	//Pretty thick hull due to it being a priority target
+	max_integrity = 1700
+	integrity_failure = 1700
 	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
 	icon_state = "advanced_cruiser"
 	damage_states = FALSE	//Maybe later
 	sprite_size = 96
 	bound_height = 128
 	bound_width = 128
-	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 90, "overmap_medium" = 65, "overmap_heavy" = 25)
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	max_tracking_range = 70	//Big sensors, they gotta be useful
 	flak_battery_amount = 2
