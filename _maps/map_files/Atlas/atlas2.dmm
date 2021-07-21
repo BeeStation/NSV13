@@ -237,13 +237,9 @@
 "bm" = (
 /obj/structure/table/reinforced,
 /obj/item/lighter,
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/kitchen)
 "bs" = (
@@ -865,6 +861,7 @@
 /area/ai_monitored/turret_protected/aisat)
 "en" = (
 /obj/structure/dresser,
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/bar/mess_hall)
 "ep" = (
@@ -993,12 +990,6 @@
 	name = "Cold Room";
 	req_one_access_txt = "28;25"
 	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
@@ -1012,6 +1003,8 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/kitchen)
 "fm" = (
@@ -1598,13 +1591,9 @@
 	name = "Kitchen maintenance";
 	req_access_txt = "28;25"
 	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/freezer,
 /area/maintenance/nsv/deck2/frame1/port)
 "iD" = (
@@ -1811,7 +1800,6 @@
 	},
 /area/security/detectives_office)
 "jn" = (
-/obj/structure/table/reinforced,
 /obj/machinery/computer/secure_data/laptop,
 /obj/item/paper_bin,
 /obj/item/stamp/hos,
@@ -1819,6 +1807,9 @@
 /obj/machinery/power/apc/auto_name/west,
 /obj/structure/cable{
 	icon_state = "0-4"
+	},
+/obj/machinery/computer/boarding_guns{
+	dir = 1
 	},
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
@@ -1873,6 +1864,10 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/segment,
+/obj/effect/landmark/patrol_node{
+	id = "deck1_ladder";
+	next_id = "deck1_bar"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "jW" = (
@@ -2174,6 +2169,8 @@
 	req_one_access_txt = "35"
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
 "ln" = (
@@ -2236,12 +2233,6 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
@@ -2252,6 +2243,8 @@
 	dir = 4
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
 "lJ" = (
@@ -3093,6 +3086,9 @@
 /area/maintenance/nsv/deck2/frame1/port)
 "qg" = (
 /obj/machinery/airalarm/directional/east,
+/obj/structure/table/reinforced,
+/obj/item/paper_bin,
+/obj/item/pen,
 /turf/open/floor/plasteel/grid/lino,
 /area/tcommsat/server)
 "qh" = (
@@ -3547,6 +3543,10 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
+/obj/effect/landmark/patrol_node{
+	id = "deck1_bridge";
+	next_id = "deck1_medical"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "sh" = (
@@ -3722,12 +3722,6 @@
 	name = "Galley";
 	req_one_access_txt = "28;25"
 	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
@@ -3741,6 +3735,8 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/kitchen)
 "ta" = (
@@ -3779,7 +3775,7 @@
 	dir = 8
 	},
 /turf/open/floor/plating,
-/area/medical/chemistry)
+/area/maintenance/nsv/deck1/starboard)
 "tj" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/wood,
@@ -4177,7 +4173,7 @@
 	dir = 8
 	},
 /turf/open/floor/plating,
-/area/hallway/nsv/deck1/hallway)
+/area/maintenance/nsv/deck1/starboard)
 "uY" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -4283,14 +4279,8 @@
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/bar/mess_hall)
 "vr" = (
-/obj/machinery/computer/ship/viewscreen{
-	density = 1;
-	desc = "A large computer which shows an exterior view of the ship.";
-	dir = 4;
-	icon = 'icons/obj/computer.dmi';
-	icon_state = "computer";
-	name = "Seegson model S viewscreen";
-	pixel_y = 1
+/obj/machinery/computer/ship/salvage{
+	dir = 4
 	},
 /turf/open/floor/carpet/blue,
 /area/bridge/cic)
@@ -4453,6 +4443,12 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
+"wb" = (
+/obj/structure/chair/office{
+	dir = 8
+	},
+/turf/open/floor/plasteel/grid/lino,
+/area/tcommsat/server)
 "we" = (
 /obj/structure/hull_plate,
 /obj/machinery/ship_weapon/deck_turret/east,
@@ -4684,6 +4680,25 @@
 /obj/effect/landmark/start/medical_doctor,
 /turf/open/floor/plasteel/grid/lino,
 /area/medical/medbay)
+"xn" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	id = "deck1_medical";
+	next_id = "deck1_stairs"
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck1/hallway)
 "xp" = (
 /obj/structure/table/reinforced,
 /obj/machinery/reagentgrinder,
@@ -4737,6 +4752,8 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
 "xv" = (
@@ -5465,14 +5482,14 @@
 	},
 /area/maintenance/nsv/deck2/frame1/port)
 "Bv" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	name = "Engineering wing maintenance";
-	req_one_access_txt = "10"
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Engineering wing maintenance";
+	req_one_access_txt = "10;24"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/central)
 "BD" = (
@@ -5526,7 +5543,7 @@
 	dir = 1
 	},
 /turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/area/maintenance/nsv/deck1/starboard)
 "BN" = (
 /obj/machinery/door/airlock/ship/hatch{
 	name = "Mission Critical Systems";
@@ -6343,6 +6360,10 @@
 /area/maintenance/nsv/deck1/starboard)
 "FC" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/effect/landmark/patrol_node{
+	id = "deck1_bar";
+	next_id = "deck1_bridge"
+	},
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/bar/mess_hall)
 "FD" = (
@@ -6385,6 +6406,7 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 4
 	},
+/obj/machinery/camera/autoname,
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/bar/mess_hall)
 "FP" = (
@@ -7687,7 +7709,7 @@
 /obj/effect/landmark/zebra_interlock_point,
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/area/maintenance/nsv/deck1/starboard)
 "LR" = (
 /obj/structure/bed/pod,
 /obj/item/bedsheet/black,
@@ -8371,6 +8393,8 @@
 	req_one_access_txt = "35"
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/monotile/dark,
 /area/hydroponics)
 "OP" = (
@@ -8414,6 +8438,10 @@
 /obj/machinery/computer/ship/viewscreen,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
+	},
+/obj/effect/landmark/patrol_node{
+	id = "deck1_stairs";
+	next_id = "deck2_start"
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
@@ -9154,6 +9182,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/computer/ship/viewscreen,
+/obj/machinery/computer/iff_console,
 /turf/open/floor/plasteel/grid/lino,
 /area/ai_monitored/nuke_storage)
 "Ti" = (
@@ -9969,6 +9998,8 @@
 /area/crew_quarters/kitchen)
 "Xx" = (
 /obj/machinery/door/airlock/ship/maintenance,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
 "Xz" = (
@@ -10055,12 +10086,18 @@
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
+"XX" = (
+/obj/structure/chair/office{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/lino,
+/area/tcommsat/server)
 "XZ" = (
 /obj/structure/sign/ship/nosmoking{
 	dir = 1
 	},
 /turf/closed/wall/r_wall,
-/area/hallway/nsv/deck1/hallway)
+/area/maintenance/nsv/deck1/starboard)
 "Ya" = (
 /obj/structure/railing,
 /obj/structure/cable{
@@ -10165,12 +10202,6 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/hor)
 "YB" = (
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
 /obj/structure/table/reinforced,
 /obj/effect/landmark/zebra_interlock_point,
 /obj/structure/window/reinforced/spawner/west,
@@ -10187,6 +10218,8 @@
 	pixel_x = 4
 	},
 /obj/item/reagent_containers/food/drinks/shaker,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/light,
 /area/crew_quarters/kitchen)
 "YC" = (
@@ -10344,13 +10377,9 @@
 "ZA" = (
 /obj/structure/table/reinforced,
 /obj/item/reagent_containers/food/drinks/shaker,
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/kitchen)
 "ZC" = (
@@ -33946,7 +33975,7 @@ yb
 yJ
 sQ
 ju
-ju
+wb
 pT
 ac
 HS
@@ -34716,7 +34745,7 @@ oY
 Fp
 NX
 Nl
-ju
+XX
 Gz
 nh
 DX
@@ -36281,7 +36310,7 @@ bA
 bA
 bA
 cL
-cL
+gn
 cL
 cL
 cL
@@ -36537,9 +36566,9 @@ of
 of
 of
 of
-cL
-cL
-cL
+Cf
+SP
+SP
 cL
 cL
 cL
@@ -36796,7 +36825,7 @@ pt
 MS
 cL
 cL
-cL
+SP
 cL
 cL
 cL
@@ -37052,8 +37081,8 @@ Ph
 Ph
 MS
 lx
-cL
-cL
+Cf
+SP
 cL
 cL
 cL
@@ -37310,7 +37339,7 @@ Ph
 MS
 lx
 cL
-cL
+SP
 cL
 cL
 cL
@@ -37567,7 +37596,7 @@ Ph
 MS
 lx
 cL
-cL
+SP
 cL
 cL
 cL
@@ -37823,8 +37852,8 @@ Ph
 Ph
 MS
 lx
-cL
-cL
+Cf
+SP
 cL
 cL
 cL
@@ -39623,7 +39652,7 @@ Od
 MS
 lx
 cL
-cL
+Cf
 cL
 cL
 cL
@@ -39879,8 +39908,8 @@ LU
 RD
 MS
 lx
-cL
-cL
+Cf
+SP
 cL
 cL
 cL
@@ -40137,7 +40166,7 @@ Ng
 MS
 lx
 cL
-cL
+SP
 cL
 cL
 cL
@@ -40394,7 +40423,7 @@ Ih
 MS
 lx
 cL
-cL
+SP
 cL
 cL
 cL
@@ -40650,8 +40679,8 @@ rV
 Od
 MS
 lx
-cL
-cL
+Cf
+gn
 cL
 cL
 cL
@@ -40908,7 +40937,7 @@ ux
 MS
 lx
 cL
-cL
+SP
 cL
 cL
 cL
@@ -41165,7 +41194,7 @@ zS
 MS
 lx
 cL
-cL
+SP
 cL
 cL
 cL
@@ -41421,8 +41450,8 @@ rV
 zS
 MS
 lx
-cL
-cL
+Cf
+SP
 cL
 cL
 cL
@@ -41668,7 +41697,7 @@ jx
 HT
 zV
 Sc
-Am
+MS
 GJ
 rO
 MS
@@ -41679,8 +41708,8 @@ MS
 MS
 lx
 cL
-cL
-cL
+SP
+SP
 cL
 cL
 cL
@@ -42182,7 +42211,7 @@ Tc
 BP
 wu
 Sc
-Am
+MS
 Va
 rO
 MS
@@ -42439,7 +42468,7 @@ Tc
 MQ
 wu
 Sc
-Am
+MS
 wX
 db
 MS
@@ -42694,9 +42723,9 @@ dy
 oG
 Tc
 IY
-wu
+xn
 Sc
-Am
+MS
 dH
 rV
 MS
@@ -42953,7 +42982,7 @@ Tc
 MQ
 wu
 xR
-Am
+MS
 Om
 bU
 MS
@@ -43210,7 +43239,7 @@ Tc
 rb
 wu
 YC
-Am
+MS
 Ge
 lh
 MS

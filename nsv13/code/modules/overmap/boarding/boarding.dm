@@ -115,11 +115,15 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 			startx = (TRANSITIONEDGE+10)
 	. = locate(startx, starty, Z)
 
-/obj/structure/overmap/proc/spawn_boarders(amount, faction_selection)
-	if(!linked_areas.len)
+/obj/structure/overmap/proc/spawn_boarders(amount, faction_selection="syndicate")
+	if(!occupying_levels?.len)
 		return FALSE
+	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 	if(!amount)
-		amount = rand(2,4)
+		//Joker emoji
+		amount = round(rand(0,(player_check/5)))
+		if(amount <= 0)
+			amount = 2 //This is jank, but helps me test it locally...
 	var/list/zs = list()
 	if(!occupying_levels.len)
 		message_admins("Failed to spawn boarders for [name], it doesn't seem to have any occupying z-levels. (Interior)")
@@ -134,15 +138,48 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	if(SSstar_system.admin_boarding_override)
 		message_admins("Failed to spawn boarders for [name] due to admin boarding override.")
 		return FALSE //Allows the admins to disable boarders for event rounds
-	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
-	if(player_check < 20) // Remove the low pop boarder camping
-		message_admins("Failed to spawn boarders for [name] due to insufficient player count.")
-		return FALSE
-	if(faction_selection == "syndicate")
-		var/list/candidates = pollCandidatesForMob("Do you want to play as a Syndicate drop trooper?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
-		if(!LAZYLEN(candidates))
+	var/list/candidates = list()
+	if(player_check < 15)
+		message_admins("KNPC boarder spawning aborted due to insufficient playercounts.")
+		return FALSE //No... just no. I'm not that mean
+
+	//20 or more players? You're allowed "real" boarders.
+	if(player_check >= 20) // Remove the low pop boarder camping
+		candidates = pollCandidatesForMob("Do you want to play as a boarding team member?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
+	//No candidates? Well! Guess you get to deal with some KNPCs :))))))
+	if(!LAZYLEN(candidates))
+		var/list/knpc_types = list()
+		switch(faction_selection)
+			if("syndicate")
+				knpc_types = list(/mob/living/carbon/human/ai_boarder, /mob/living/carbon/human/ai_boarder/commando, /mob/living/carbon/human/ai_boarder/medic)
+			if("pirate")
+				knpc_types = list(/mob/living/carbon/human/ai_boarder/pirate, /mob/living/carbon/human/ai_boarder/pirate/leader, /mob/living/carbon/human/ai_boarder/pirate/sapper)
+			if("greytide")
+				knpc_types = list(/mob/living/carbon/human/ai_boarder/assistant)
+			if("nanotrasen")
+				knpc_types = list(/mob/living/carbon/human/ai_boarder/ert, /mob/living/carbon/human/ai_boarder/ert/commander, /mob/living/carbon/human/ai_boarder/medic, /mob/living/carbon/human/ai_boarder/ert/engineer)
+
+		var/list/possible_spawns = list()
+		for(var/obj/effect/landmark/patrol_node/node in GLOB.landmarks_list)
+			if(node.get_overmap() == src)
+				possible_spawns += node
+		//Can we establish a drop zone?
+		var/turf/LZ = (possible_spawns?.len) ? get_turf(pick(possible_spawns)) : null
+		if(!LZ)
+			message_admins("KNPC boarder spawn aborted. This ship does not support KNPCs (add some patrol nodes!))")
 			return FALSE
-		var/list/operatives = list()
+
+		var/obj/structure/closet/supplypod/centcompod/toLaunch = new /obj/structure/closet/supplypod/syndicate_odst
+		var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
+		toLaunch.forceMove(shippingLane)
+		for(var/I = 0; I < amount; I++)
+			var/soldier_type = pick(knpc_types)
+			new soldier_type(toLaunch)
+
+		new /obj/effect/pod_landingzone(LZ, toLaunch)
+		return TRUE
+	var/list/operatives = list()
+	if(faction_selection == "syndicate")
 		var/team_name = pick_n_take(GLOB.drop_trooper_teams)
 		var/datum/map_template/syndicate_boarding_pod/currentPod = new /datum/map_template/syndicate_boarding_pod()
 		currentPod.load(target, TRUE)
@@ -172,10 +209,6 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
 
 	else if(faction_selection == "pirate")
-		var/list/candidates = pollCandidatesForMob("Do you want to play as a Space Pirate boarding crewmember?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
-		if(!LAZYLEN(candidates))
-			return FALSE
-		var/list/operatives = list()
 		var/datum/map_template/spacepirate_boarding_pod/currentPod = new /datum/map_template/spacepirate_boarding_pod()
 		currentPod.load(target, TRUE)
 		for(var/I = 0, I < amount, I++)

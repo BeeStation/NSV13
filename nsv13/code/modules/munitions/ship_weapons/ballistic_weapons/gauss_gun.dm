@@ -5,6 +5,8 @@
 	icon_state = "gauss"
 	bound_width = 96
 	bound_height = 96
+	bound_x = -32
+	bound_y = -32
 	pixel_x = -44
 	obj_integrity = 500
 	max_integrity = 500
@@ -28,6 +30,7 @@
 	var/last_pdc_fire = 0 //Pdc cooldown
 	var/BeingLoaded //Used for gunner load
 	var/list/gauss_verbs = list(.verb/show_computer, .verb/show_view, .verb/swap_firemode)
+	circuit = /obj/item/circuitboard/machine/gauss_turret
 
 /obj/machinery/ship_weapon/gauss_gun/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
@@ -134,6 +137,13 @@
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
 	ammo_rack = new /obj/structure/gauss_rack(src)
 	ammo_rack.gun = src
+
+	var/turf/below = SSmapping.get_turf_below(src)
+	var/obj/structure/chair/comfy/gauss/gauss_chair = locate(/obj/structure/chair/comfy/gauss) in below
+	if(gauss_chair && istype(gauss_chair))
+		add_chair(gauss_chair)
+		gauss_chair.gun = src
+
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/ship_weapon/gauss_gun/LateInitialize()
@@ -143,7 +153,7 @@
 
 /obj/machinery/ship_weapon/gauss_gun/Destroy() //Yeet them out before we die.
 	remove_gunner()
-	QDEL_NULL(gunner_chair)
+	gunner_chair.gun = null
 	QDEL_NULL(ammo_rack)
 	QDEL_NULL(cabin_air)
 	QDEL_NULL(internal_tank)
@@ -170,10 +180,10 @@
 	climbing_in = FALSE //Stop it. Just stop.
 
 /obj/machinery/ship_weapon/gauss_gun/do_animation()
-	shake_camera(gunner, 2, 1)
+	shake_with_inertia(gunner, 2, 1)
 	flick("[initial(icon_state)]_firing0",src)
 	sleep(0.3 SECONDS)
-	shake_camera(gunner, 2, 1)
+	shake_with_inertia(gunner, 2, 1)
 	flick("[initial(icon_state)]_firing1",src)
 	sleep(0.3 SECONDS)
 	flick("[initial(icon_state)]_unloading",src)
@@ -190,12 +200,13 @@
 	ui_interact(user)
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
-	get_overmap().stop_piloting(gunner)
-	if(gunner_chair)
-		lower_chair()
-	else
-		gunner.forceMove(get_turf(src))
-	gunner.remove_verb(gauss_verbs)
+	if(gunner)
+		get_overmap().stop_piloting(gunner)
+		if(gunner_chair)
+			lower_chair()
+		else
+			gunner.forceMove(get_turf(src))
+		gunner.remove_verb(gauss_verbs)
 	gunner = null
 
 //Directional subtypes
@@ -293,10 +304,10 @@
 //Rack loading
 
 /obj/structure/gauss_rack
-	name = "Deck gun loading rack"
+	name = "Gauss gun loading rack"
 	icon = 'nsv13/icons/obj/munitions_large.dmi'
 	icon_state = "loading_rack"
-	desc = "A large rack used as an ammunition feed for deck guns. The rack will automatically feed the deck gun above it with ammunition. You can load a crate with ammo and click+drag it onto the rack to speedload, or manually load it with rounds by hand."
+	desc = "A large rack used as an ammunition feed for gauss guns. The rack will automatically feed the gauss gun above it with ammunition. You can load a crate with ammo and click+drag it onto the rack to speedload, or manually load it with rounds by hand."
 	anchored = TRUE
 	density = TRUE
 	layer = 3
@@ -330,6 +341,9 @@
 /obj/structure/gauss_rack/Initialize()
 	. = ..()
 	update_icon()
+
+/obj/structure/gauss_rack/Destroy()
+	return QDEL_HINT_LETMELIVE
 
 /obj/structure/gauss_rack/update_icon()
 	if(autoload)
@@ -481,6 +495,11 @@ Chair + rack handling
 	var/obj/machinery/ship_weapon/gauss_gun/gun
 	var/mob/living/carbon/occupant
 	var/feed_direction = SOUTH //Where does the ammo feed drop down to? By default, south of the chair by one tile.
+
+/obj/structure/chair/comfy/gauss/Destroy()
+	if(gun)
+		gun.gunner_chair = null
+	return ..()
 
 /obj/structure/chair/comfy/gauss/north
 	feed_direction = NORTH

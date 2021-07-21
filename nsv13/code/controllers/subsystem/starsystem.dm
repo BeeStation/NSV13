@@ -330,7 +330,7 @@ Returns a faction datum by its name (case insensitive!)
 	var/alignment = "unaligned"
 	var/visited = FALSE
 	var/hidden = FALSE //Secret systems
-	var/system_type = null //Set this to pre-spawn systems as a specific type.
+	var/list/system_type = null //Set this to pre-spawn systems as a specific type.
 	var/event_chance = 0
 	var/list/possible_events = list()
 	var/list/active_missions = list()
@@ -404,11 +404,6 @@ Returns a faction datum by its name (case insensitive!)
 			anomaly_info["anomaly_id"] = "\ref[OA]"
 			anomalies[++anomalies.len] = anomaly_info
 	return anomalies
-
-//Inheritance man, inheritance.
-/datum/round_event_control/radiation_storm/deadly
-	weight = 0
-	max_occurrences = 1000
 
 /obj/effect/overmap_anomaly
 	name = "Placeholder"
@@ -542,7 +537,8 @@ Returns a faction datum by its name (case insensitive!)
 	event_chance = 15 //Very low chance of an event happening
 	var/anomaly_type = null
 	difficulty_budget = threat_level
-	switch(system_type)
+	var/list/sys = system_type
+	switch(sys[ "tag" ])
 		if("safe")
 			possible_events = list(/datum/round_event_control/aurora_caelus)
 		if("hazardous") //TODO: Make better anomalies spawn in hazardous systems scaling with threat level.
@@ -558,7 +554,7 @@ Returns a faction datum by its name (case insensitive!)
 		*/
 		if("radioactive")
 			parallax_property = "radiation_cloud" //All credit goes to https://www.filterforge.com/filters/11427.html
-			possible_events = list(/datum/round_event_control/radiation_storm/deadly)
+			possible_events = list(/datum/round_event_control/radiation_storm/deadly, /datum/round_event_control/radioactive_sludge = 5)
 			event_chance = 100 //Radioactive systems are just that: Radioactive
 		if("nebula")
 			parallax_property = "nebula-thick" //All credit goes to https://www.filterforge.com/filters/11427.html
@@ -607,12 +603,63 @@ Returns a faction datum by its name (case insensitive!)
 		apply_system_effects()
 		return
 	switch(threat_level)
-		if(THREAT_LEVEL_NONE)
-			system_type = pick("safe", "nebula", "gas", "icefield", "ice_planet") //Threat level 0 denotes starter systems, so they just have "fluff" anomalies like gas clouds and whatever.
+		if(THREAT_LEVEL_NONE) //Threat level 0 denotes starter systems, so they just have "fluff" anomalies like gas clouds and whatever.
+			system_type = pick(
+				list(
+					tag = "safe",
+					label = "Empty space",
+				),
+				list(
+					tag = "nebula",
+					label = "Nebula",
+				),
+				list(
+					tag = "gas",
+					label = "Gas cloud",
+				),
+				list(
+					tag = "icefield",
+					label = "Ice field",
+				),
+				list(
+					tag = "ice_planet",
+					label = "Planetary system",
+				),
+			)
 		if(THREAT_LEVEL_UNSAFE) //Unaligned and Syndicate systems have a chance to spawn threats. But nothing major.
-			system_type = pick("debris", "pirate", "nebula", "hazardous")
+			system_type = pick(
+				list(
+					tag = "debris",
+					label = "Asteroid field",
+				),
+				list(
+					tag = "pirate",
+					label = "Debris",
+				),
+				list(
+					tag = "nebula",
+					label = "Nebula",
+				),
+				list(
+					tag = "hazardous",
+					label = "Untagged hazard",
+				),
+			)
 		if(THREAT_LEVEL_DANGEROUS) //Extreme threat level. Time to break out the most round destroying anomalies.
-			system_type = pick("quasar", "radioactive", "blackhole")
+			system_type = pick(
+				list(
+					tag = "quasar",
+					label = "Quasar",
+				),
+				list(
+					tag = "radioactive",
+					label = "Radioactive",
+				),
+				list(
+					tag = "blackhole",
+					label = "Blackhole",
+				),
+			)
 	apply_system_effects()
 
 /datum/star_system/proc/spawn_asteroids()
@@ -645,7 +692,10 @@ Returns a faction datum by its name (case insensitive!)
 	y = 50
 	fleet_type = /datum/fleet/nanotrasen/earth
 	alignment = "nanotrasen"
-	system_type = "planet_earth"
+	system_type = list(
+		tag = "planet_earth",
+		label = "Planetary system",
+	)
 	adjacency_list = list("Alpha Centauri", "Outpost 45", "Ross 154")
 	var/solar_siege_cycles_needed = 10	//See the starsystem controller for how many minutes is one cycle. Currently 3 minutes.
 	var/solar_siege_cycles_left = 10
@@ -663,7 +713,10 @@ Returns a faction datum by its name (case insensitive!)
 	x = 75
 	y = 60
 	alignment = "nanotrasen"
-	system_type = "supernova"
+	system_type = list(
+		tag = "supernova",
+		label = "Supernova",
+	)
 	threat_level = THREAT_LEVEL_NONE
 	adjacency_list = list("Ross 154", "Sol")
 
@@ -696,7 +749,10 @@ Returns a faction datum by its name (case insensitive!)
 	name = "Lalande 21185"
 	x = 25
 	y = 80
-	system_type = "demonstar"
+	system_type = list(
+		tag = "demonstar",
+		label = "Demon star",
+	)
 	alignment = "nanotrasen"
 	fleet_type = /datum/fleet/nanotrasen/border
 	adjacency_list = list("Wolf 359", "Feliciana", "Outpost 45")
@@ -730,7 +786,10 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	name = "Feliciana"
 	x = 10
 	y = 70
-	system_type = "demonstar"
+	system_type = list(
+		tag = "demonstar",
+		label = "Demon star",
+	)
 	alignment = "nanotrasen"
 	adjacency_list = list("Lalande 21185", "Corvi")
 	sector = 2
@@ -775,7 +834,6 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	fleet_type = /datum/fleet/nanotrasen/border/defense //The foothold in the darkness
 	adjacency_list = list("Ariel", "Argo", "The Badlands", "Ida", "Sion")
 	preset_trader = /datum/trader/armsdealer
-	audio_cues = list("https://www.youtube.com/watch?v=1pHbQ87NcCY", "https://www.youtube.com/watch?v=PSmUokZSbBs", "https://www.youtube.com/watch?v=bCxHzIQ9-Fs")
 	desc = "The last bastion of civilisation before the endless uncharted wastes beyond."
 
 /datum/star_system/sector2/sion
@@ -816,7 +874,10 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	x = 10
 	y = 30
 	alignment = "unaligned"
-	system_type = "pirate" //Guranteed piratical action!
+	system_type = list(
+		tag = "pirate", //Guranteed piratical action!
+		label = "Scrapyard",
+	)
 	threat_level = THREAT_LEVEL_UNSAFE
 	wormhole_connections = list("Feliciana")
 	adjacency_list = list()
@@ -827,7 +888,10 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	x = 140
 	y = 60
 	alignment = "syndicate"
-	system_type = "demonstar"
+	system_type = list(
+		tag = "demonstar",
+		label = "Demon star",
+	)
 	is_hypergate = TRUE
 	threat_level = THREAT_LEVEL_UNSAFE
 	fleet_type = /datum/fleet/rubicon
@@ -849,7 +913,6 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	y = 30
 	sector = 2
 	adjacency_list = list("Foothold")
-	audio_cues = list("https://www.youtube.com/watch?v=HIdNZlBKrTA")
 	desc = "The beginning of a sector of uncharted space known as the Delphic expanse. Ships from many opposing factions all vye for control over this new territory."
 
 /datum/star_system/brasil/New()
@@ -877,9 +940,39 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 
 	for(var/I=0;I<amount,I++){
 		var/datum/star_system/random/randy = new /datum/star_system/random()
-		randy.system_type = pick("radioactive", 0.5;"blackhole", "quasar", 0.75;"accretiondisk", "nebula", "supernova", "debris")
+		randy.system_type = pick(
+			list(
+				tag = "radioactive",
+				label = "Radioactive",
+			), 0.5;
+			list(
+				tag = "blackhole",
+				label = "Blackhole",
+			),
+			list(
+				tag = "quasar",
+				label = "Quasar",
+			), 0.75;
+			list(
+				tag = "accretiondisk",
+				label = "Accretion disk",
+			),
+			list(
+				tag = "nebula",
+				label = "Nebula",
+			),
+			list(
+				tag = "supernova",
+				label = "Supernova",
+			),
+			list(
+				tag = "debris",
+				label = "Asteroid field",
+			),
+		)
 		randy.apply_system_effects()
-		randy.name = (randy.system_type != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
+		var/list/sys_randy = randy.system_type
+		randy.name = (sys_randy.tag != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
 		var/randy_valid = FALSE
 
 		while(!randy_valid)
@@ -1060,7 +1153,10 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 /datum/star_system/sector4/demon
 	name = "Demon's Maw"
 	adjacency_list = list("Aeterna Victrix", "Phobos", "Deimos", "Mediolanum")
-	system_type = "accretiondisk"
+	system_type = list(
+		tag = "accretiondisk",
+		label = "Accretion disk",
+	)
 	alignment = "uncharted"
 	x = 100
 	y = 60
@@ -1068,7 +1164,10 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 
 /datum/star_system/sector4/phobos
 	name = "Phobos"
-	system_type = "nebula"
+	system_type = list(
+		tag = "nebula",
+		label = "Nebula",
+	)
 	adjacency_list = list("Demon's Maw", "Deimos", "Dolos Remnants")
 	fleet_type = /datum/fleet/border
 	x = 120
@@ -1085,11 +1184,13 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	x = 75
 	y = 100
 	alignment = "syndicate"
-	system_type = "graveyard"
+	system_type = list(
+		tag = "graveyard",
+		label = "Graveyard",
+	)
 	adjacency_list = list("Oasis Fidei", "Deimos", "Phobos") //No going back from here...
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = FALSE
-	audio_cues = list("https://www.youtube.com/watch?v=n_aONGBjuLA")
 	desc = "A place where giants fell. You feel nothing save for an odd sense of unease and an eerie silence."
 
 /datum/star_system/sector4/abassi
@@ -1098,7 +1199,10 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	y = 120
 	is_capital = TRUE
 	alignment = "syndicate"
-	system_type = "demonstar"
+	system_type = list(
+		tag = "demonstar",
+		label = "Demon star",
+	)
 	adjacency_list = list("Dolos Remnants")
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE
@@ -1108,7 +1212,10 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	x = 75
 	y = 120
 	alignment = "syndicate"
-	system_type = "radioactive"
+	system_type = list(
+		tag = "radioactive",
+		label = "Radioactive",
+	)
 	adjacency_list = list("Abassi") //No going back from here...
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE //In time, not now.
@@ -1120,7 +1227,10 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	x = 60
 	y = 50
 	alignment = "syndicate"
-	system_type = "demonstar"
+	system_type = list(
+		tag = "demonstar",
+		label = "Demon star",
+	)
 	is_hypergate = TRUE
 	threat_level = THREAT_LEVEL_UNSAFE
 	fleet_type = /datum/fleet/border

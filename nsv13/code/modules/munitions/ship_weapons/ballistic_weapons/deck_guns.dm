@@ -1,14 +1,16 @@
 /obj/machinery/ship_weapon/deck_turret
-	name = "M4-15 'Hood' deck turret"
+	name = "\improper M4-15 'Hood' deck turret"
 	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
 	icon = 'nsv13/icons/obj/munitions/deck_turret.dmi'
 	icon_state = "deck_turret"
 	fire_mode = FIRE_MODE_MAC
 	ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
-	pixel_x = -45
-	pixel_y = -63
-	bound_width = 64
+	pixel_x = -43
+	pixel_y = -64
+	bound_width = 96
 	bound_height = 128
+	bound_x = -32
+	bound_y = -64
 	semi_auto = TRUE
 	max_ammo = 1
 	obj_integrity = 500
@@ -17,6 +19,8 @@
 	maintainable = FALSE //This just makes them brick.
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
 	var/obj/machinery/deck_turret/core
+	var/id = null //N.B. This is NOT intended to allow them to manual link deck guns. This is for certain boarding maps and is thus a UNIQUE CONSTRAINT for this one case. ~KMC
+	circuit = /obj/item/circuitboard/machine/deck_turret
 
 /obj/machinery/ship_weapon/deck_turret/lazyload()
 	. = ..()
@@ -27,6 +31,8 @@
 /obj/machinery/ship_weapon/deck_turret/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
 	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
+	if(!core)
+		link_via_id()
 	if(!core)
 		to_chat(user, "<span class='warning'>No gun core detected to link to. Ensure one is placed directly below the turret. </span>")
 		return
@@ -71,6 +77,12 @@
 	. = ..()
 	if(!core)
 		core = locate(/obj/machinery/deck_turret) in orange(1, src)
+
+/obj/machinery/computer/deckgun/Destroy()
+	if(circuit && !ispath(circuit))
+		circuit.forceMove(loc)
+		circuit = null
+	. = ..()
 
 /obj/machinery/computer/deckgun/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -125,17 +137,26 @@
 			core.payload_gate.chamber(target)
 
 /obj/machinery/deck_turret
-	name = "Deck Turret Core"
+	name = "deck turret core"
 	desc = "The central mounting core for naval guns. Use a multitool on it to rescan parts."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "core"
 	density = TRUE
 	anchored = TRUE
 	circuit = /obj/item/circuitboard/machine/deck_gun
+	var/id = null
 	var/obj/machinery/ship_weapon/deck_turret/turret = null
 	var/list/powder_gates = list()
 	var/obj/machinery/deck_turret/payload_gate/payload_gate
 	var/obj/machinery/computer/deckgun/computer
+
+/obj/machinery/deck_turret/Destroy()
+	if(circuit && !ispath(circuit))
+		circuit.forceMove(loc)
+		circuit = null
+	for(var/obj/O in component_parts)
+		O.forceMove(loc)
+	. = ..()
 
 /obj/machinery/deck_turret/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -158,13 +179,14 @@
 	powder_gates = list()
 	computer = locate(/obj/machinery/computer/deckgun) in orange(1, src)
 	computer.core = src
+	turret.get_ship()
 	for(var/turf/T in orange(1, src))
 		var/obj/machinery/deck_turret/powder_gate/powder_gate = locate(/obj/machinery/deck_turret/powder_gate) in T
 		if(powder_gate && istype(powder_gate))
 			powder_gates += powder_gate
 
 /obj/machinery/deck_turret/powder_gate
-	name = "Powder loading gate"
+	name = "powder loading gate"
 	desc = "One of three gates which pack a shell with powder as they enter the gun core. Ensure that each one is secured before attempting to fire!"
 	icon_state = "powdergate"
 	circuit = /obj/item/circuitboard/machine/deck_gun/powder
@@ -172,6 +194,12 @@
 	var/ammo_type = /obj/item/powder_bag
 	var/loading = FALSE
 	var/load_delay = 8 SECONDS
+
+/obj/machinery/deck_turret/powder_gate/Destroy()
+	if(circuit && !ispath(circuit))
+		circuit.forceMove(loc)
+		circuit = null
+	. = ..()
 
 /obj/machinery/deck_turret/powder_gate/proc/pack()
 	set waitfor = FALSE
@@ -219,7 +247,7 @@
 	loading = FALSE
 
 /obj/item/powder_bag
-	name = "Gunpowder Bag"
+	name = "gunpowder bag"
 	desc = "A highly flammable bag of gunpowder which is used in naval artillery systems."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "powder"
@@ -234,14 +262,14 @@
 	AddComponent(/datum/component/volatile, volatility)
 
 /obj/item/powder_bag/plasma
-	name = "Plasma-based projectile accelerant"
+	name = "plasma-based projectile accelerant"
 	desc = "An extremely powerful 'bomb waiting to happen' which can propel naval artillery shells to high speeds with half the amount of regular powder!"
 	icon_state = "spicypowder"
 	power = 1
 	volatility = 3 //DANGEROUSLY VOLATILE. Can send the entire magazine up in smoke.
 
 /obj/item/ship_weapon/ammunition/naval_artillery //Huh gee this sure looks familiar don't it...
-	name = "FTL-13 Naval Artillery Round"
+	name = "\improper FTL-13 Naval Artillery Round"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "torpedo"
 	desc = "A large shell designed to deliver a high-yield warhead upon high-speed impact with solid objects. You need to arm it with a multitool before firing."
@@ -267,7 +295,7 @@
 	return FALSE
 
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
-	name = "Cannon ball"
+	name = "cannon ball"
 	desc = "The QM blew the cargo budget on corgis, the clown stole all our ammo, we've got half a tank of plasma and are halfway to Dolos. Hit it."
 	icon_state = "torpedo_ball"
 	projectile_type = /obj/item/projectile/bullet/mac_round/cannonshot
@@ -282,7 +310,7 @@
 	explode_when_hit = FALSE //Literally just iron
 
 /obj/item/ship_weapon/ammunition/naval_artillery/ap
-	name = "TX-101 Armour Penetrating Naval Artillery Round"
+	name = "\improper TX-101 Armour Penetrating Naval Artillery Round"
 	desc = "A massive diamond-tipped round which can slice through armour plating with ease to deliver a lethal impact. Best suited for targets with heavy armour such as destroyers and up."
 	icon_state = "torpedo_ap"
 	projectile_type = /obj/item/projectile/bullet/mac_round/ap
@@ -312,7 +340,7 @@
 	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
 
 /obj/machinery/deck_turret/payload_gate
-	name = "Payload loading gate"
+	name = "payload loading gate"
 	desc = "A chamber for loading a gun shell to be packed with gunpowder, ensure the payload is securely loaded before attempting to chamber!"
 	icon_state = "payloadgate"
 	circuit = /obj/item/circuitboard/machine/deck_gun/payload
@@ -381,18 +409,18 @@
 	return TRUE
 
 /obj/machinery/deck_turret/calibrator
-	name = "Deck gun calibration module"
+	name = "deck gun calibration module"
 	desc = "A module which allows you to calibrate deck guns. Required to ensure an accurate shot."
 	icon_state = "autocalibrator"
 
 /obj/machinery/deck_turret/autoelevator
-	name = "Auto elevator module"
+	name = "auto elevator module"
 	desc = "A module which greatly decreases load times on deck guns."
 	icon_state = "autoelevator"
 	circuit = /obj/item/circuitboard/machine/deck_gun/autoelevator
 
 /obj/machinery/deck_turret/autorepair
-	name = "Deck gun auto-repair module"
+	name = "deck gun auto-repair module"
 	desc = "A module which periodically injects repair nanites into a linked deck turret above it, removing the need for maintenance entirely."
 	icon_state = "autorepair"
 	circuit = /obj/item/circuitboard/machine/deck_gun/autorepair
@@ -402,26 +430,32 @@
 	var/obj/structure/overmap/OM = get_overmap()
 	for(var/mob/M in OM.mobs_in_ship)
 		if(OM.z == z)
-			shake_camera(M, 1, 1)
+			shake_with_inertia(M, 1, 1)
 
 /obj/machinery/ship_weapon/deck_turret/north
 	dir = NORTH
 	pixel_x = -43
 	pixel_y = -32
+	bound_x = -32
+	bound_y = -32
 
 /obj/machinery/ship_weapon/deck_turret/east
 	dir = EAST
 	pixel_x = -30
 	pixel_y = -42
 	bound_width = 128
-	bound_height = 64
+	bound_height = 96
+	bound_x = -32
+	bound_y = -32
 
 /obj/machinery/ship_weapon/deck_turret/west
 	dir = WEST
 	pixel_x = -63
 	pixel_y = -42
 	bound_width = 128
-	bound_height = 64
+	bound_height = 96
+	bound_x = -64
+	bound_y = -32
 
 //MEGADETH TURRET
 /obj/machinery/ship_weapon/deck_turret/mega
@@ -434,20 +468,26 @@
 	dir = NORTH
 	pixel_x = -43
 	pixel_y = -32
+	bound_x = -32
+	bound_y = -32
 
 /obj/machinery/ship_weapon/deck_turret/mega/east
 	dir = EAST
 	pixel_x = -30
 	pixel_y = -42
 	bound_width = 128
-	bound_height = 64
+	bound_height = 96
+	bound_x = -32
+	bound_y = -32
 
 /obj/machinery/ship_weapon/deck_turret/mega/west
 	dir = WEST
 	pixel_x = -63
 	pixel_y = -42
 	bound_width = 128
-	bound_height = 64
+	bound_height = 96
+	bound_x = -64
+	bound_y = -32
 
 /obj/structure/ship_weapon/mac_assembly/artillery_frame/mega
 	name = "M4-16 'Yamato' Triple Barrel Naval Artillery Frame"
@@ -465,45 +505,77 @@
 		return
 	core.turret = src
 	core.update_parts()
+	if(id)
+		addtimer(CALLBACK(src, .proc/link_via_id), 10 SECONDS)
+
+/obj/machinery/ship_weapon/deck_turret/proc/link_via_id()
+	for(var/obj/machinery/deck_turret/core in GLOB.machines)
+		if(!istype(core))
+			continue
+		if(core.id && core.id == id)
+			core.turret = src
+			src.core = core
+			core.update_parts()
 
 //The actual gun assembly.
 /obj/structure/ship_weapon/mac_assembly/artillery_frame
-	name = "Naval Artillery Frame"
+	name = "naval artillery frame"
 	desc = "The beginnings of a huge deck gun, internals notwithstanding."
 	icon = 'nsv13/icons/obj/munitions/deck_turret.dmi'
 	icon_state = "platform"
-	bound_width = 128
-	bound_height = 64
-	pixel_y = -64
+	num_sheets_frame = 20
 	anchored = TRUE
 	density = TRUE
 	output_path = /obj/machinery/ship_weapon/deck_turret
+	pixel_x = -43
+	pixel_y = -64
+	bound_width = 96
+	bound_height = 128
+	bound_x = -32
+	bound_y = -64
 
-/obj/structure/ship_weapon/mac_assembly/artillery_frame/AltClick(mob/user)
+/obj/structure/ship_weapon/mac_assembly/artillery_frame/setDir()
 	. = ..()
-	setDir(turn(dir, 90))
 	switch(dir)
 		if(NORTH)
 			output_path = text2path("[initial(output_path)]/north")
 			pixel_x = -43
 			pixel_y = -32
-			bound_width = 64
+			bound_width = 96
 			bound_height = 128
+			bound_x = -32
+			bound_y = -32
 		if(SOUTH)
 			output_path = initial(output_path)
+			pixel_x = -43
 			pixel_y = -64
-			pixel_x = 0
-			bound_width = 64
+			bound_width = 96
 			bound_height = 128
+			bound_x = -32
+			bound_y = -64
 		if(EAST)
 			output_path = text2path("[initial(output_path)]/east")
 			pixel_x = -30
 			pixel_y = -42
 			bound_width = 128
-			bound_height = 64
+			bound_height = 96
+			bound_x = -32
+			bound_y = -32
 		if(WEST)
 			output_path = text2path("[initial(output_path)]/west")
 			pixel_x = -63
 			pixel_y = -42
 			bound_width = 128
-			bound_height = 64
+			bound_height = 96
+			bound_x = -64
+			bound_y = -32
+
+//let me leave please
+/obj/structure/ship_weapon/mac_assembly/artillery_frame/CanPass(atom/movable/mover, turf/target)
+	if(get_turf(mover) in src.locs)
+		return 1
+	. = ..()
+
+/obj/structure/ship_weapon/mac_assembly/artillery_frame/AltClick(mob/user)
+	. = ..()
+	setDir(turn(dir, 90))

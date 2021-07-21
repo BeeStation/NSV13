@@ -24,7 +24,7 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	selectable = TRUE
 
-/datum/ship_weapon/vls/valid_target(obj/structure/overmap/source, obj/structure/overmap/target)
+/datum/ship_weapon/vls/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
 		return FALSE
 	if(!source.missiles)
@@ -90,6 +90,8 @@
 	if(!T)
 		return
 	hatch = locate(/obj/structure/fluff/vls_hatch) in T
+	if(!hatch)
+		return
 	var/matrix/ntransform = new()
 	if(dir & NORTH)
 		ntransform.Turn(90)
@@ -212,6 +214,13 @@
 	name = "AMS control console"
 	icon_screen = "ams"
 	circuit = /obj/item/circuitboard/computer/ams
+
+/obj/machinery/computer/ams/Destroy()
+	if(circuit && !ispath(circuit))
+		circuit.forceMove(loc)
+		circuit = null
+	. = ..()
+
 /obj/structure/overmap
 	var/next_ams_shot = 0
 	var/ams_targeting_cooldown = 1.5 SECONDS
@@ -286,7 +295,7 @@
 	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 		if(!ship || !istype(ship))
 			continue
-		if(ship == src || ship == last_target || ship.faction == faction || wrecked || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
+		if(ship == src || ship == last_target || ship.faction == faction || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
 			continue
 		var/target_range = get_dist(ship,src)
 		if(target_range > 30 || target_range <= 0) //Random pulled from the aether
@@ -326,7 +335,7 @@
 		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 			if(!ship || !istype(ship))
 				continue
-			if(ship == src || ship == last_target || ship.faction == faction || wrecked || ship.wrecked || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
+			if(ship == src || ship == last_target || ship.faction == faction || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
 				continue
 			var/target_range = get_dist(ship,src)
 			if(target_range > 30 || target_range <= 0) //Random pulled from the aether

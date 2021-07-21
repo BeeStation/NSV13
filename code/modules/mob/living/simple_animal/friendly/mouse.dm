@@ -58,7 +58,7 @@
 	death()
 
 /mob/living/simple_animal/mouse/death(gibbed, toast)
-	var/list/data = list("viruses" = ratdisease)
+	var/list/data = list("donor" = src.type, "viruses" = ratdisease) // NSV13 - Add mouse donor field for tracking later 
 	if(!ckey)
 		..(1)
 		if(!gibbed)

@@ -49,6 +49,11 @@
 	qdel(inhabited_trader)
 	. = ..()
 
+/obj/structure/overmap/trader/LateInitialize()
+	. = ..()
+	if((datum_flags & DF_ISPROCESSING) && (!current_system || !current_system.occupying_z))
+		STOP_PROCESSING(SSphysics_processing, src)
+
 
 //General items:
 
@@ -176,7 +181,7 @@
 	desc = "A pre-assembled utility craft, capable of restocking and repairing other fighters."
 	price = 9000
 	stock = 5
-	unlock_path = /obj/structure/overmap/fighter/utility
+	unlock_path = /obj/structure/overmap/fighter/dropship/sabre
 
 /datum/trader_item/fighter/heavy
 	name = "Heavy Fighter"

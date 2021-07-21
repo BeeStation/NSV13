@@ -18,6 +18,16 @@
 			if((D.spread_flags & DISEASE_SPREAD_SPECIAL) || (D.spread_flags & DISEASE_SPREAD_NON_CONTAGIOUS))
 				continue
 
+			if(data["donor"] == /mob/living/simple_animal/mouse && L) // NSV13 - Lizards do not get rat viruses
+				if(islizard(L)) 
+					continue 
+
+				if(istype(L, /mob/living/carbon)) 
+					var/mob/living/carbon/C = L 
+					if(iscatperson(C)) 
+						continue 
+			// NSV13 end species check 
+
 			if((method == TOUCH || method == VAPOR) && (D.spread_flags & DISEASE_SPREAD_CONTACT_FLUIDS))
 				L.ContactContractDisease(D)
 			else //ingest, patch or inject

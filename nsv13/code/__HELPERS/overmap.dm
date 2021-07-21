@@ -7,14 +7,6 @@
 			return SL.linked_overmap
 	return FALSE
 
-/proc/shares_overmap(atom/source, atom/target)
-	var/obj/structure/overmap/OM = source.get_overmap()
-	var/obj/structure/overmap/S = target.get_overmap()
-	if(OM == S)
-		return TRUE
-	else
-		return FALSE
-
 /**
 Helper method to get what ship an observer belongs to for stuff like parallax.
 */

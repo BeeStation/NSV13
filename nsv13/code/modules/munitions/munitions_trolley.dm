@@ -1,5 +1,5 @@
 /obj/structure/munitions_trolley
-	name = "Munitions trolley"
+	name = "munitions trolley"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "trolley"
 	desc = "A large trolley designed for ferrying munitions around. It has slots for traditional ammo magazines as well as a rack for loading torpedoes. To load it, click and drag the desired munition onto the rack."
@@ -71,7 +71,7 @@
 /obj/structure/munitions_trolley/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	var/atom/movable/target = locate(params["id"])
+	var/atom/movable/target = locate(params["id"]) in contents
 	switch(action)
 		if("unload")
 			if(!target)

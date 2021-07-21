@@ -305,8 +305,8 @@
 ///////////Civilians//////////////////////
 
 /obj/effect/mob_spawn/human/corpse/assistant
-	name = "Assistant"
-	outfit = /datum/outfit/job/assistant
+	name = "Midshipman" //Nsv13 - Crayon eaters
+	outfit = /datum/outfit/job/marine
 
 /obj/effect/mob_spawn/human/corpse/assistant/beesease_infection
 	disease = /datum/disease/beesease

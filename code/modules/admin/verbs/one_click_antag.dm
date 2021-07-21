@@ -50,7 +50,7 @@
 		temp.restricted_jobs += temp.protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		temp.restricted_jobs += "Assistant"
+		temp.restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
 
 	if(CONFIG_GET(flag/protect_heads_from_antagonist))
 		temp.restricted_jobs += GLOB.command_positions
@@ -85,7 +85,7 @@
 		temp.restricted_jobs += temp.protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		temp.restricted_jobs += "Assistant"
+		temp.restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
 
 	if(CONFIG_GET(flag/protect_heads_from_antagonist))
 		temp.restricted_jobs += GLOB.command_positions
@@ -118,7 +118,7 @@
 		temp.restricted_jobs += temp.protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		temp.restricted_jobs += "Assistant"
+		temp.restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
 
 	var/list/mob/living/carbon/human/candidates = list()
 	var/mob/living/carbon/human/H = null
@@ -157,7 +157,7 @@
 		temp.restricted_jobs += temp.protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		temp.restricted_jobs += "Assistant"
+		temp.restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
 
 	if(CONFIG_GET(flag/protect_heads_from_antagonist))
 		temp.restricted_jobs += GLOB.command_positions
@@ -388,7 +388,7 @@
 				ERTOperative.key = chosen_candidate.key
 				log_objective(ERTOperative, missionobj.explanation_text)
 
-				if(ertemplate.enforce_human || !ERTOperative.dna.species.changesource_flags & ERT_SPAWN) // Don't want any exploding plasmemes
+				if(ertemplate.enforce_human || !(ERTOperative.dna.species.changesource_flags & ERT_SPAWN)) // Don't want any exploding plasmemes
 					ERTOperative.set_species(/datum/species/human)
 
 				//Give antag datum

@@ -13,7 +13,7 @@ Bullet reactions
 /obj/structure/overmap/proc/shake_everyone(severity)
 	for(var/mob/M in mobs_in_ship)
 		if(M.client)
-			shake_camera(M, severity, 1)
+			shake_with_inertia(M, severity, 1)
 
 /obj/structure/overmap/proc/e(){
 	while(1){
@@ -92,7 +92,7 @@ Bullet reactions
 	. = ..()
 
 /obj/structure/overmap/proc/is_player_ship() //Should this ship be considered a player ship? This doesnt count fighters because they need to actually die.
-	if(linked_areas.len || role == MAIN_OVERMAP)
+	if(occupying_levels.len || role == MAIN_OVERMAP)
 		return TRUE
 	return FALSE
 
@@ -112,7 +112,7 @@ Bullet reactions
 	else
 		target = pick(linked_areas)
 	var/turf/T = pick(get_area_turfs(target))
-	new /obj/effect/temp_visual/explosion_telegraph(T)
+	new /obj/effect/temp_visual/explosion_telegraph(T, damage_amount)
 
 /obj/structure/overmap/proc/handle_critical_failure_part_1()
 	var/ss_crit_timer = world.time - structure_crit_init
@@ -228,6 +228,10 @@ Bullet reactions
 	randomdir = 0
 	light_color = LIGHT_COLOR_ORANGE
 	layer = ABOVE_MOB_LAYER
+	var/damage_amount = 1
+
+/obj/effect/temp_visual/explosion_telegraph/New(loc, damage_amount)
+	. = ..()
 
 /obj/effect/temp_visual/explosion_telegraph/Initialize()
 	. = ..()
@@ -239,5 +243,6 @@ Bullet reactions
 
 /obj/effect/temp_visual/explosion_telegraph/Destroy()
 	var/turf/T = get_turf(src)
-	explosion(T,3,4,4)
+	var/damage_level = ((damage_amount <= 20) ? 1 : ((damage_amount <= 100) ? 2 : ((damage_amount <= 200) ? 3 : 4)))
+	explosion(T,round(damage_level/3),round(damage_level*1.25),round(damage_level*1.5))
 	. = ..()

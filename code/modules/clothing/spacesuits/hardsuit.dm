@@ -47,7 +47,8 @@
 	..()
 	if(suit)
 		suit.RemoveHelmet()
-		soundloop.stop(user)
+
+		soundloop?.stop(user) //NSV13 fixes hololog runtime
 
 /obj/item/clothing/head/helmet/space/hardsuit/item_action_slot_check(slot)
 	if(slot == ITEM_SLOT_HEAD)
@@ -169,16 +170,20 @@
 /obj/item/clothing/head/helmet/space/hardsuit/engine
 	name = "engineering hardsuit helmet"
 	desc = "A special helmet designed for work in a hazardous, low-pressure environment. Has radiation shielding."
-	icon_state = "hardsuit0-engineering"
+	icon = 'nsv13/icons/obj/clothing/hats.dmi' //NSV13
+	alternate_worn_icon = 'nsv13/icons/mob/head.dmi' //NSV13
+	icon_state = "hardsuit0-engineering-legacy" //NSV13
 	item_state = "eng_helm"
 	armor = list("melee" = 30, "bullet" = 5, "laser" = 10, "energy" = 12, "bomb" = 10, "bio" = 100, "rad" = 75, "fire" = 100, "acid" = 75, "stamina" = 20)
-	item_color = "engineering"
+	item_color = "engineering-legacy" //NSV13
 	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/suit/space/hardsuit/engine
 	name = "engineering hardsuit"
 	desc = "A special suit that protects against hazardous, low pressure environments. Has radiation shielding."
-	icon_state = "hardsuit-engineering"
+	icon = 'nsv13/icons/obj/clothing/suits.dmi' //NSV13
+	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi' //NSV13
+	icon_state = "hardsuit-engineering-legacy" //NSV13
 	item_state = "eng_hardsuit"
 	armor = list("melee" = 30, "bullet" = 5, "laser" = 10, "energy" = 15, "bomb" = 10, "bio" = 100, "rad" = 75, "fire" = 100, "acid" = 75, "stamina" = 20)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/engine
@@ -188,9 +193,9 @@
 /obj/item/clothing/head/helmet/space/hardsuit/engine/atmos
 	name = "atmospherics hardsuit helmet"
 	desc = "A special helmet designed for work in a hazardous, low-pressure environment. Has thermal shielding."
-	icon_state = "hardsuit0-atmospherics"
+	icon_state = "hardsuit0-atmospherics-legacy" //NSV13
 	item_state = "atmo_helm"
-	item_color = "atmospherics"
+	item_color = "atmospherics-legacy" //NSV13
 	armor = list("melee" = 30, "bullet" = 5, "laser" = 10, "energy" = 15, "bomb" = 10, "bio" = 100, "rad" = 25, "fire" = 100, "acid" = 75, "stamina" = 20)
 	heat_protection = HEAD												//Uncomment to enable firesuit protection
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
@@ -198,7 +203,7 @@
 /obj/item/clothing/suit/space/hardsuit/engine/atmos
 	name = "atmospherics hardsuit"
 	desc = "A special suit that protects against hazardous, low pressure environments. Has thermal shielding."
-	icon_state = "hardsuit-atmospherics"
+	icon_state = "hardsuit-atmospherics-legacy" //NSV13
 	item_state = "atmo_hardsuit"
 	armor = list("melee" = 30, "bullet" = 5, "laser" = 10, "energy" = 15, "bomb" = 10, "bio" = 100, "rad" = 25, "fire" = 100, "acid" = 75, "stamina" = 20)
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS					//Uncomment to enable firesuit protection
@@ -210,15 +215,15 @@
 /obj/item/clothing/head/helmet/space/hardsuit/engine/elite
 	name = "advanced hardsuit helmet"
 	desc = "An advanced helmet designed for work in a hazardous, low pressure environment. Shines with a high polish."
-	icon_state = "hardsuit0-white"
+	icon_state = "hardsuit0-white-legacy" //NSV13
 	item_state = "ce_helm"
-	item_color = "white"
+	item_color = "white-legacy" //NSV13
 	armor = list("melee" = 40, "bullet" = 5, "laser" = 10, "energy" = 15, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 90, "stamina" = 30)
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 
 /obj/item/clothing/suit/space/hardsuit/engine/elite
-	icon_state = "hardsuit-white"
+	icon_state = "hardsuit-white-legacy" //NSV13
 	name = "advanced hardsuit"
 	desc = "An advanced suit that protects against hazardous, low pressure environments. Shines with a high polish."
 	item_state = "ce_hardsuit"

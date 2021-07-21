@@ -87,14 +87,14 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	return TRUE
 
 /obj/item/book/manual/wiki/rbmk
-	name = "Haynes nuclear reactor owner's manual"
+	name = "\improper Haynes nuclear reactor owner's manual"
 	icon_state ="bookEngineering2"
 	author = "CogWerk Engineering Reactor Design Department"
 	title = "Haynes nuclear reactor owner's manual"
 	page_link = "Guide_to_the_Nuclear_Reactor"
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor
-	name = "Advanced Gas-Cooled Nuclear Reactor"
+	name = "\improper Advanced Gas-Cooled Nuclear Reactor"
 	desc = "A tried and tested design which can output stable power at an acceptably low risk. The moderator can be changed to provide different effects."
 	icon = 'nsv13/icons/obj/machinery/rbmk.dmi'
 	icon_state = "reactor_map"
@@ -360,22 +360,22 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 				if(20 to 39)
 					grilled_item.name = "grilled [initial(grilled_item.name)]"
 					grilled_item.desc = "[initial(I.desc)] It's been grilled over a nuclear reactor."
-					if(!grilled_item.foodtype & FRIED)
+					if(!(grilled_item.foodtype & FRIED))
 						grilled_item.foodtype |= FRIED
 				if(40 to 70)
 					grilled_item.name = "heavily grilled [initial(grilled_item.name)]"
 					grilled_item.desc = "[initial(I.desc)] It's been heavily grilled through the magic of nuclear fission."
-					if(!grilled_item.foodtype & FRIED)
+					if(!(grilled_item.foodtype & FRIED))
 						grilled_item.foodtype |= FRIED
 				if(70 to 95)
 					grilled_item.name = "Three-Mile Nuclear-Grilled [initial(grilled_item.name)]"
 					grilled_item.desc = "A [initial(grilled_item.name)]. It's been put on top of a nuclear reactor running at extreme power by some badass engineer."
-					if(!grilled_item.foodtype & FRIED)
+					if(!(grilled_item.foodtype & FRIED))
 						grilled_item.foodtype |= FRIED
 				if(95 to INFINITY)
 					grilled_item.name = "Ultimate Meltdown Grilled [initial(grilled_item.name)]"
 					grilled_item.desc = "A [initial(grilled_item.name)]. A grill this perfect is a rare technique only known by a few engineers who know how to perform a 'controlled' meltdown whilst also having the time to throw food on a reactor. I'll bet it tastes amazing."
-					if(!grilled_item.foodtype & FRIED)
+					if(!(grilled_item.foodtype & FRIED))
 						grilled_item.foodtype |= FRIED
 
 //Method to handle sound effects, reactor warnings, all that jazz.
@@ -448,9 +448,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	OM.relay('nsv13/sound/effects/rbmk/meltdown.ogg', "<span class='userdanger'>You hear a horrible metallic hissing.</span>")
 	OM?.stop_relay(CHANNEL_REACTOR_ALERT)
 	NSW.fire() //This will take out engineering for a decent amount of time as they have to clean up the sludge.
-	for(var/a in GLOB.apcs_list)
-		var/obj/machinery/power/apc/A = a
-		if(shares_overmap(src, a) && prob(70))
+	for(var/obj/machinery/power/apc/A in GLOB.apcs_list)
+		if(shares_overmap(src, A) && prob(70))
 			A.overload_lighting()
 	var/datum/gas_mixture/coolant_input = COOLANT_INPUT_GATE
 	var/datum/gas_mixture/moderator_input = MODERATOR_INPUT_GATE
@@ -530,14 +529,14 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	update_icon()
 
 /obj/item/fuel_rod/Initialize()
-	.=..()
+	. = ..()
 	AddComponent(/datum/component/twohanded/required)
 	AddComponent(/datum/component/radioactive, 350 , src)
 
 //Controlling the reactor.
 
 /obj/machinery/computer/reactor
-	name = "Reactor control console"
+	name = "reactor control console"
 	desc = "Scream"
 	light_color = "#55BA55"
 	light_power = 1
@@ -562,7 +561,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 #define FREQ_RBMK_CONTROL 1439.69
 
 /obj/machinery/computer/reactor/control_rods
-	name = "Control rod management computer"
+	name = "control rod management computer"
 	desc = "A computer which can remotely raise / lower the control rods of a reactor."
 	icon_screen = "rbmk_rods"
 
@@ -597,7 +596,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	return data
 
 /obj/machinery/computer/reactor/stats
-	name = "Reactor Statistics Console"
+	name = "reactor statistics console"
 	desc = "A console for monitoring the statistics of a nuclear reactor."
 	icon_screen = "rbmk_stats"
 	var/next_stat_interval = 0
@@ -681,7 +680,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	frequency = FREQ_RBMK_CONTROL
 
 /obj/machinery/computer/reactor/pump
-	name = "Reactor inlet valve computer"
+	name = "reactor inlet valve computer"
 	desc = "A computer which controls valve settings on an advanced gas cooled reactor. Alt click it to remotely set pump pressure."
 	icon_screen = "rbmk_input"
 	id = "rbmk_input"

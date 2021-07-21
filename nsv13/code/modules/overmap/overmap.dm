@@ -112,6 +112,7 @@
 
 	var/fire_delay = 5
 	var/next_firetime = 0
+	var/next_firetime_gunspecific = list()	//List used by elites to control their fire times.
 
 	var/list/weapon_overlays = list()
 	var/obj/weapon_overlay/last_fired //Last weapon overlay that fired, so we can rotate guns independently
@@ -135,6 +136,8 @@
 	var/mob/listeningTo
 
 	var/uid = 0 //Unique identification code
+	var/static/list/free_treadmills = list()
+	var/static/list/free_boarding_levels = list()
 	var/starting_system = null //Where do we start in the world?
 	var/obj/machinery/computer/ship/ftl_computer/ftl_drive
 	var/reserved_z = 0 //The Z level we were spawned on, and thus inhabit. This can be changed if we "swap" positions with another ship.
@@ -147,12 +150,18 @@
 
 	var/list/missions = list()
 
-	var/last_sonar_pulse = 0
+	var/last_radar_pulse = 0
 
 	//NPC combat
 	var/datum/combat_dice/npc_combat_dice
 	var/combat_dice_type = /datum/combat_dice
 
+	//Boarding
+	var/datum/turf_reservation/roomReservation = null
+	var/datum/map_template/dropship/boarding_interior = null
+	var/list/possible_interior_maps = null
+	var/interior_mode = NO_INTERIOR
+	var/list/interior_entry_points = list()
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
@@ -165,6 +174,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		_path = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	RETURN_TYPE(/obj/structure/overmap)
 	SSmapping.add_new_zlevel("Overmap ship level [++world.maxz]", ZTRAITS_OVERMAP)
+
 	repopulate_sorted_areas()
 	smooth_zlevel(world.maxz)
 	log_game("Z-level [world.maxz] loaded for overmap treadmills.")
@@ -202,6 +212,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		if(midround)
 			overmap_lighting_force(OM)
 	}
+
 	return OM
 
 /obj/weapon_overlay
@@ -242,8 +253,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(collision_positions.len)
 		physics2d = AddComponent(/datum/component/physics2d)
 		physics2d.setup(collision_positions, angle)
-//	else //It pains me to comment this out...but we no longer use qwer2d, F.
-//		message_admins("[src] does not have collision points set! It will float through everything.")
 
 	for(var/atype in subtypesof(/datum/ams_mode))
 		ams_modes.Add(new atype)
@@ -362,6 +371,15 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		current_system = sys
 	addtimer(CALLBACK(src, .proc/force_parallax_update), 20 SECONDS)
 	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
+
+	//Boarding / Interior bits...
+	switch(interior_mode)
+		//If we didn't get it preset, Ie, we're not a dropship
+		if(NO_INTERIOR)
+			interior_mode = (possible_interior_maps?.len) ? INTERIOR_EXCLUSIVE : NO_INTERIOR
+		//Allows small ships to have a small interior.
+		if(INTERIOR_DYNAMIC)
+			instance_interior()
 
 	apply_weapons()
 

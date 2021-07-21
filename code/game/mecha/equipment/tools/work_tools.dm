@@ -34,6 +34,10 @@
 		return
 	if(!cargo_holder)
 		return
+	//Nsv13 - No, just no :)
+	if(istype(target, /obj/structure/overmap) || istype(target, /obj/vehicle) || istype(target, /obj/mecha))
+		return
+
 	if(isobj(target))
 		var/obj/O = target
 		if(istype(O, /obj/machinery/door/firedoor))
@@ -243,19 +247,6 @@
 		if(istype(M))
 			return 1
 	return 0
-
-//NSV-related change
-/obj/item/mecha_parts/mecha_equipment/extinguisher/hull_repair_juice
-	name = "exosuit hull foam dispenser"
-	desc = "Equipment for engineering exosuits. Used to rapidly dispense hull foam."
-	icon_state = "mecha_exting"
-	equip_cooldown = 5
-	energy_drain = 0
-	ext_chem = /datum/reagent/hull_repair_juice
-	ext_tank_type = /obj/structure/reagent_dispensers/foamtank/hull_repair_juice
-	ext_range = 6
-	precise = TRUE
-	range = MECHA_MELEE|MECHA_RANGED
 
 /obj/item/mecha_parts/mecha_equipment/rcd
 	name = "mounted RCD"

@@ -85,7 +85,7 @@
 	for(var/atom/X in system_contents)
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/ship = X
-			if(ship.occupying_levels.len && ship != OM)
+			if(ship.reserved_z && ship != OM)
 				other_player_ships += ship
 	if(OM.reserved_z == occupying_z && other_player_ships.len) //Alright, this is our Z-level but we're jumping out of it and there are still people here.
 		var/obj/structure/overmap/ship = pick(other_player_ships)
@@ -102,7 +102,7 @@
 	OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 	system_contents -= OM
 
-	if(!OM.occupying_levels.len)	//If this isn't actually a big ship with its own interior, do not pull ships, as only those get their own reserved z.
+	if(!OM.reserved_z)	//If this isn't actually a big ship with its own interior, do not pull ships, as only those get their own reserved z.
 		return
 	if(other_player_ships.len)	//There's still other ships here, only pull ships of our own faction.
 		ftl_pull_small_craft(OM)
@@ -110,7 +110,7 @@
 	for(var/atom/movable/X in system_contents)	//Do a last check for safety so we don't stasis a player ship that slid by our other checks somehow.
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/ship = X
-			if(ship != OM && ship.occupying_levels.len) //If there's somehow a player ship in the system that is somehow not in other_player_ships, emergency return.
+			if(ship != OM && ship.reserved_z) //If there's somehow a player ship in the system that is somehow not in other_player_ships, emergency return.
 				message_admins("Somehow [ship] got by the initial checks for system exits. This probably shouldn't happen, yell at a coder and / or check ftl.dm")
 				ftl_pull_small_craft(OM)
 				return
@@ -133,6 +133,9 @@
 		if(!istype(AM, /obj/structure/overmap))
 			continue
 		var/obj/structure/overmap/OM = AM
+		//Ships that have a Z reserved are on the active FTL plane.
+		if(OM.reserved_z)
+			continue
 		if(!OM.operators.len || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
 			continue
 		if(same_faction_only && jumping.faction != OM.faction)	//We don't pull all small craft in the system unless we were the last ship here.
@@ -141,7 +144,6 @@
 		SEND_SIGNAL(OM, COMSIG_FTL_STATE_CHANGE)
 		OM.forceMove(locate(OM.x, OM.y, jumping.reserved_z))
 		system_contents -= OM
-
 
 /obj/structure/overmap/proc/begin_jump(datum/star_system/target_system)
 	relay(ftl_drive.ftl_start, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
@@ -196,7 +198,7 @@
 					var/name = pick(GLOB.teleportlocs)
 					var/area/target = GLOB.teleportlocs[name]
 					var/turf/T = pick(get_area_turfs(target))
-					new /obj/effect/temp_visual/explosion_telegraph(T)
+					new /obj/effect/temp_visual/explosion_telegraph(T, damage_amount = ((world.time - structure_crit_init)/30))
 		SSstar_system.ships[src]["target_system"] = target_system
 		SSstar_system.ships[src]["from_time"] = world.time
 		SSstar_system.ships[src]["current_system"] = null
@@ -222,13 +224,30 @@
 		for(var/obj/structure/overmap/SOM in pulled)
 			target_system.add_ship(SOM)
 		SEND_SIGNAL(src, COMSIG_SHIP_ARRIVED) // Let missions know we have arrived in the system
+
 	for(var/mob/M in mobs_in_ship)
+		var/nearestDistance = INFINITY
+		var/obj/machinery/inertial_dampener/nearestMachine = null
+
+		// Going to helpfully pass this in after seasickness checks, to reduce duplicate machine checks 
+		for(var/obj/machinery/inertial_dampener/machine in GLOB.machines)
+			var/dist = get_dist( M, machine )
+			if ( dist < nearestDistance && machine.on )
+				nearestDistance = dist 
+				nearestMachine = machine
+
 		if(iscarbon(M))
 			var/mob/living/carbon/L = M
 			if(HAS_TRAIT(L, TRAIT_SEASICK))
-				to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
-				L.adjust_disgust(pick(70, 100))
-		shake_camera(M, 4, 1)
+				if ( nearestMachine )
+					var/newNausea = nearestMachine.reduceNausea( nearestDistance, 70 )
+					if ( newNausea > 10 )
+						to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
+					L.adjust_disgust( newNausea )
+				else 
+					to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
+					L.adjust_disgust(pick(70, 100))
+		shake_with_inertia(M, 4, 1, list(distance=nearestDistance, machine=nearestMachine))
 	force_parallax_update(ftl_start)
 
 /obj/item/ftl_slipstream_chip
@@ -578,7 +597,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 ///FTL DRIVE PYLON///
 /obj/machinery/atmospherics/components/unary/ftl_drive_pylon
-	name = "FTL Drive Pylon"
+	name = "\improper FTL Drive Pylon"
 	desc = "Words about the spinny boy"
 	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
 	icon_state = "pylon"
@@ -657,7 +676,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 //FTL DRIVE CORE - zappy core where the FTL charge builds
 /obj/machinery/power/ftl_drive_core
-	name = "FTL Drive Core"
+	name = "\improper FTL Drive Core"
 	desc = "Words about the core"
 	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
 	icon_state = "core_idle"
@@ -675,7 +694,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 //FTL DRIVE SILO - reinforced storage tank for FTL fuel
 /obj/machinery/atmospherics/components/binary/ftl_drive_silo
-	name = "FTL Drive Silo"
+	name = "\improper FTL Drive Silo"
 	desc = "Words about the vat"
 	icon = 'nsv13/icons/obj/machinery/FTL_silo.dmi'
 	icon_state = "silo"
@@ -695,7 +714,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 //FTL DRIVE MANIFOLD - required for normal use - TRAITOR TARGET - should not be touched unless in epsilon protocol - starts in the floor
 /obj/machinery/ftl_drive_manifold
-	name = "FTL Drive Manifold"
+	name = "\improper FTL Drive Manifold"
 	desc = "Words about the manifold"
 	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
 	icon_state = "pylon"

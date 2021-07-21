@@ -577,7 +577,7 @@
 "asv" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "External Access Deck 1 Fore Port";
-	req_one_access_txt = "72"
+	req_one_access_txt = "79"
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plating,
@@ -777,7 +777,7 @@
 "aAP" = (
 /obj/machinery/door/airlock/vault/ship{
 	name = "Hangar Storage";
-	req_one_access_txt = "69;72"
+	req_one_access_txt = "69;79"
 	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
@@ -1751,7 +1751,7 @@
 	},
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Hangar External Airlock";
-	req_one_access_txt = "69;72"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plating,
 /area/quartermaster/lobby)
@@ -2207,7 +2207,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
 	},
-/obj/effect/landmark/start/fighter_pilot,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/engine,
 /area/nsv/hanger/storage)
 "bvR" = (
@@ -2455,7 +2455,7 @@
 	},
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Hangar External Airlock";
-	req_one_access_txt = "69;72"
+	req_one_access_txt = "79"
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
@@ -2973,7 +2973,7 @@
 "bXu" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "External Access Deck 1 Fore Port";
-	req_one_access_txt = "72"
+	req_one_access_txt = "79"
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
@@ -3824,7 +3824,7 @@
 /turf/open/floor/wood,
 /area/library)
 "cAg" = (
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel,
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
 /turf/open/floor/engine,
 /area/nsv/hanger/storage)
 "cAm" = (
@@ -4256,6 +4256,10 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/effect/landmark/patrol_node{
+	id = "deck2_hangar";
+	next_id = "deck2_cargooffice"
+	},
 /turf/open/floor/plating/airless,
 /area/nsv/hanger)
 "cXZ" = (
@@ -4521,6 +4525,25 @@
 	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/research)
+"dij" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 1
+	},
+/obj/effect/landmark/patrol_node{
+	id = "deck2_astrometrics";
+	next_id = "deck2_generics"
+	},
+/turf/open/floor/carpet/ship/purple_carpet,
+/area/science/nsv/astronomy)
 "dio" = (
 /obj/machinery/light,
 /obj/effect/turf_decal/stripes/line{
@@ -4720,6 +4743,13 @@
 /obj/effect/spawner/room/threexfive,
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
+"dsV" = (
+/obj/effect/landmark/patrol_node{
+	id = "deck2_library";
+	next_id = "deck2_dorms"
+	},
+/turf/open/floor/wood,
+/area/library)
 "dtt" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -6806,7 +6836,7 @@
 	pixel_y = 26;
 	req_one_access_txt = "69"
 	},
-/obj/structure/reagent_dispensers/fueltank/aviation_fuel,
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
 /turf/open/floor/engine/vacuum,
 /area/nsv/hanger)
 "eSL" = (
@@ -7172,6 +7202,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
 	},
+/obj/effect/landmark/patrol_node,
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
 "fgG" = (
@@ -7336,6 +7367,13 @@
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat_interior)
+"fkD" = (
+/obj/effect/landmark/patrol_node{
+	id = "deck2_cargobay";
+	next_id = "deck2_hangar"
+	},
+/turf/open/floor/engine,
+/area/quartermaster/storage)
 "fkN" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -8998,7 +9036,7 @@
 "gqs" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Hangar External Airlock";
-	req_one_access_txt = "69;72"
+	req_one_access_txt = "79"
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
@@ -9377,6 +9415,10 @@
 "gCJ" = (
 /obj/machinery/light{
 	dir = 1
+	},
+/obj/effect/landmark/patrol_node{
+	id = "deck2_councilchamber";
+	next_id = "deck2_councilchamber2"
 	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
@@ -10031,7 +10073,6 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/effect/landmark/start/flight_leader,
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
 	},
@@ -10090,6 +10131,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/disposalpipe/segment,
+/obj/effect/landmark/patrol_node{
+	id = "deck2_cargooffice";
+	next_id = "deck2_councilchamber"
+	},
 /turf/open/floor/carpet/ship,
 /area/quartermaster/lobby)
 "hhJ" = (
@@ -11588,6 +11633,10 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
+/obj/effect/landmark/patrol_node{
+	id = "deck2_councilchamber2";
+	next_id = "deck2_hallway"
+	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -13012,6 +13061,10 @@
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 9
 	},
+/obj/effect/landmark/patrol_node{
+	id = "deck2_computerlab";
+	next_id = "deck2_hallway2"
+	},
 /turf/open/floor/holofloor/wood,
 /area/science/computer_lab)
 "jrf" = (
@@ -13068,6 +13121,14 @@
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/engine,
 /area/nsv/weapons/port)
+"jso" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/effect/landmark/patrol_node{
+	id = "deck2_robotics";
+	next_id = "deck2_astrometrics"
+	},
+/turf/open/floor/carpet/ship/purple_carpet,
+/area/science/robotics/lab)
 "jsv" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 9
@@ -13435,6 +13496,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
+/obj/effect/landmark/patrol_node{
+	id = "deck2_meetingroom";
+	next_id = "deck2_bridge"
+	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -13674,7 +13739,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/ship/command/glass{
 	name = "Air Traffic Controller Office";
-	req_one_access_txt = "69;72"
+	req_one_access_txt = "69;79"
 	},
 /turf/open/floor/carpet/ship,
 /area/nsv/atc)
@@ -14872,7 +14937,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/obj/effect/landmark/start/fighter_pilot,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/engine,
 /area/nsv/hanger/storage)
 "kTB" = (
@@ -15306,7 +15371,6 @@
 /obj/structure/chair/office{
 	dir = 4
 	},
-/obj/effect/landmark/start/flight_leader,
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/carpet/ship,
@@ -16377,6 +16441,13 @@
 	name = "nanoweave carpet (bluer)"
 	},
 /area/teleporter)
+"mbr" = (
+/obj/effect/landmark/patrol_node{
+	id = "deck2_dorms";
+	next_id = "deck2_library2"
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/dorms)
 "mbN" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/table,
@@ -17042,12 +17113,9 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
 "mtT" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/structure/overmap/fighter/light/flight_leader,
-/turf/open/floor/plating/airless,
-/area/nsv/hanger)
+/obj/structure/closet/secure_closet/transport_pilot,
+/turf/open/floor/engine,
+/area/nsv/hanger/storage)
 "mtV" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -17850,10 +17918,6 @@
 	},
 /turf/open/floor/plating/airless,
 /area/nsv/atc)
-"mYa" = (
-/obj/structure/closet/secure_closet/flight_leader,
-/turf/open/floor/carpet/ship,
-/area/nsv/atc)
 "mYb" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /turf/open/floor/plating,
@@ -17893,6 +17957,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
+"mZb" = (
+/obj/effect/landmark/patrol_node{
+	id = "deck2_library2";
+	next_id = "deck1_cafeterialadder2"
+	},
+/turf/open/floor/wood,
+/area/library)
 "mZf" = (
 /turf/closed/wall/ship,
 /area/bridge/meeting_room)
@@ -18092,7 +18163,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/structure/overmap/fighter/utility/prebuilt/carrier,
+/obj/structure/overmap/fighter/dropship/sabre,
 /turf/open/floor/plating/airless,
 /area/nsv/hanger)
 "niQ" = (
@@ -18170,12 +18241,13 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/ship/command/glass{
 	name = "Flight Leader Office";
-	req_access_txt = "73"
+	req_one_access_txt = "69"
 	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/barricade/wooden/crude,
 /turf/open/floor/plating,
 /area/nsv/atc)
 "nkP" = (
@@ -18235,7 +18307,7 @@
 "nmh" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/effect/landmark/start/fighter_pilot,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/engine,
 /area/nsv/hanger/storage)
 "nml" = (
@@ -18622,9 +18694,10 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Maintenance Access Flight Leader Office";
-	req_one_access_txt = "73"
+	req_one_access_txt = "69"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/structure/barricade/wooden/crude,
 /turf/open/floor/carpet/ship,
 /area/nsv/atc)
 "nBF" = (
@@ -22577,7 +22650,7 @@
 /turf/open/floor/wood,
 /area/library)
 "qnc" = (
-/obj/structure/closet/secure_closet/fighter_pilot,
+/obj/structure/closet/secure_closet/combat_pilot,
 /turf/open/floor/engine,
 /area/nsv/hanger/storage)
 "qng" = (
@@ -25397,7 +25470,7 @@
 "rZn" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Hangar External Airlock";
-	req_one_access_txt = "69;72"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plating,
 /area/nsv/atc)
@@ -25863,7 +25936,6 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/xenobiology)
 "srG" = (
-/obj/machinery/modular_computer/console/preset/command,
 /obj/structure/cable,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/item/paper{
@@ -25874,6 +25946,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
+/obj/machinery/computer/ship/salvage,
 /turf/open/floor/carpet/blue,
 /area/bridge)
 "srN" = (
@@ -25912,7 +25985,7 @@
 	},
 /area/nsv/hanger/storage)
 "ssI" = (
-/obj/effect/landmark/start/fighter_pilot,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/engine,
 /area/nsv/hanger/storage)
 "stl" = (
@@ -26642,6 +26715,16 @@
 	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
+"sRQ" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	id = "deck2_hallway2";
+	next_id = "deck2_cargooffice"
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck2/primary)
 "sRS" = (
 /turf/closed/wall/ship,
 /area/bridge)
@@ -27773,6 +27856,28 @@
 /obj/item/flashlight/lamp,
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
+"tWC" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/hidden{
+	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	id = "deck2_rnd";
+	next_id = "deck2_computerlab"
+	},
+/turf/open/floor/carpet/ship/purple_carpet,
+/area/science/research)
 "tWG" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -28223,7 +28328,7 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/airlock/vault/ship{
 	name = "Hangar Storage";
-	req_one_access_txt = "69;72"
+	req_one_access_txt = "69;79"
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
@@ -28234,7 +28339,7 @@
 /turf/open/floor/engine,
 /area/nsv/atc)
 "uno" = (
-/obj/structure/closet/secure_closet/fighter_pilot,
+/obj/structure/closet/secure_closet/combat_pilot,
 /obj/machinery/airalarm/directional/north,
 /obj/machinery/light_switch/west,
 /turf/open/floor/engine,
@@ -29112,7 +29217,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/vault/ship{
 	name = "Munitions and Hangar Storage";
-	req_one_access_txt = "69;19"
+	req_one_access_txt = "69;19;79"
 	},
 /turf/open/floor/carpet/ship,
 /area/nsv/hanger/storage)
@@ -30225,6 +30330,10 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/effect/landmark/patrol_node{
+	id = "deck2_generics";
+	next_id = "deck2_rnd"
+	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/medical/genetics)
 "vXV" = (
@@ -31262,6 +31371,16 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
+"wNF" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 8
+	},
+/obj/effect/landmark/patrol_node{
+	id = "deck2_hallway";
+	next_id = "deck2_computerlab"
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck2/primary)
 "wNK" = (
 /turf/closed/wall/ship,
 /area/library)
@@ -32524,6 +32643,10 @@
 /area/crew_quarters/pool_party)
 "xJO" = (
 /obj/machinery/door/firedoor/border_only/directional/west,
+/obj/effect/landmark/patrol_node{
+	id = "deck2_bridge";
+	next_id = "deck2_councilchamber2"
+	},
 /turf/open/floor/carpet/blue,
 /area/bridge)
 "xJT" = (
@@ -32891,7 +33014,7 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/airlock/vault/ship{
 	name = "Munitions and Hangar Storage";
-	req_access_txt = "69;72"
+	req_one_access_txt = "69;79"
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
@@ -33360,7 +33483,7 @@
 	dir = 1
 	},
 /obj/structure/disposalpipe/segment,
-/obj/effect/landmark/start/fighter_pilot,
+/obj/effect/landmark/start/pilot,
 /turf/open/floor/engine,
 /area/nsv/atc)
 "ykf" = (
@@ -54349,7 +54472,7 @@ rWm
 wKR
 lqr
 qQm
-leO
+mbr
 leO
 idc
 leO
@@ -58224,7 +58347,7 @@ acS
 iNX
 arW
 arW
-acS
+mZb
 tvj
 vDP
 pcP
@@ -58737,7 +58860,7 @@ bLr
 acS
 tRH
 oqw
-acS
+dsV
 acS
 kSl
 vDP
@@ -61543,7 +61666,7 @@ fJA
 esm
 esm
 tvo
-esm
+fkD
 tvo
 esm
 eBz
@@ -62094,7 +62217,7 @@ tRr
 kPd
 uiP
 jby
-nUu
+tWC
 fGJ
 qhB
 wFp
@@ -63086,7 +63209,7 @@ fav
 hJi
 vMA
 oFu
-oWJ
+sRQ
 vMA
 vMA
 lIB
@@ -65936,7 +66059,7 @@ vMA
 vMA
 vMA
 vMA
-vSK
+wNF
 vMA
 orC
 vMA
@@ -66711,7 +66834,7 @@ qia
 qnE
 nPW
 twX
-akX
+jso
 utH
 pPI
 akX
@@ -66720,7 +66843,7 @@ pCx
 vwI
 aGz
 tgR
-kKh
+dij
 rgn
 jsR
 oul
@@ -68473,7 +68596,7 @@ mqe
 mzQ
 mot
 qjS
-mtT
+qjS
 oAM
 vAz
 wTG
@@ -70537,7 +70660,7 @@ cOE
 wRu
 mrg
 bUr
-mYa
+qqW
 qqW
 gmW
 nAG
@@ -71304,7 +71427,7 @@ wNh
 wNh
 uno
 qnc
-qnc
+mtT
 dUX
 nNJ
 hQz

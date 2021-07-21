@@ -53,9 +53,9 @@
 	crate_type = /obj/structure/closet/crate/wooden
 	crate_name = "Captain Plasmasalt's finest gunpowder"
 
-/datum/supply_pack/munitions/fiftycal
-	name = ".50 cal deck gun rounds (x5)"
-	desc = "5 boxes of deck gun rounds, ideal for harassing small targets."
+/datum/supply_pack/munitions/pdc_ammo
+	name = "PDC turret rounds (x5)"
+	desc = "5 boxes of PDC turret rounds, ideal for repelling torpedoes and missiles."
 	cost = 1000
 	contains = list(/obj/item/ammo_box/magazine/pdc/fiftycal,
 					/obj/item/ammo_box/magazine/pdc/fiftycal,
@@ -271,9 +271,14 @@
 
 /datum/supply_pack/munitions/light_cannon
 	name = "Light Cannon Ammunition"
-	desc = "5 boxes of light cannon ammunition for use in fighters."
-	cost = 500
+	desc = "10 boxes of light cannon ammunition for use in fighters."
+	cost = 1000
 	contains = list(/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon,
 					/obj/item/ammo_box/magazine/light_cannon,
 					/obj/item/ammo_box/magazine/light_cannon,
 					/obj/item/ammo_box/magazine/light_cannon,
@@ -282,9 +287,14 @@
 
 /datum/supply_pack/munitions/heavy_cannon
 	name = "Heavy Cannon Ammunition"
-	desc = "5 boxes of heavy cannon ammunition for use in fighters."
-	cost = 500
+	desc = "10 boxes of heavy cannon ammunition for use in fighters."
+	cost = 1000
 	contains = list(/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon,
 					/obj/item/ammo_box/magazine/heavy_cannon,
 					/obj/item/ammo_box/magazine/heavy_cannon,
 					/obj/item/ammo_box/magazine/heavy_cannon,
@@ -397,11 +407,11 @@
 					/obj/item/gun/energy/laser)
 	crate_name = "laser crate"
 
-/datum/supply_pack/munitions/aviation_fuel
-	name = "Aviation fuel"
-	desc = "One Tyrosene fuel pump, capable of fully refuelling 3 fighters."
+/datum/supply_pack/munitions/fighter_fuel
+	name = "Fighter fuel"
+	desc = "One cryogenic Tyrosene fuel pump, capable of fully refuelling 3 fighters. Handle with care."
 	cost = 1500
-	contains = list(/obj/structure/reagent_dispensers/fueltank/aviation_fuel)
+	contains = list(/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel)
 
 /datum/supply_pack/engineering/control_rods
 	name = "Nanocarbon Reactor Control Rods (x5)"
@@ -457,3 +467,39 @@
 	cost = 750
 	contains = list(/obj/item/vending_refill/wardrobe/muni_wardrobe)
 	crate_name = "munidrobe supply crate"
+
+/datum/supply_pack/security/armory/mp_smg
+	name = "MP-16A4 Military Police SMG Crate"
+	desc = "Contains three standard issue military police SMGs, designed for concealed carry during shipside and boarding operations. Requires Armory access to open."
+	cost = 3280 //20%
+	contains = list(/obj/item/gun/ballistic/automatic/mp_smg,
+					/obj/item/gun/ballistic/automatic/mp_smg,
+					/obj/item/gun/ballistic/automatic/mp_smg)
+	crate_name = "MP-16A4 SMG crate"
+
+/datum/supply_pack/security/armory/mp_smgammo
+	name = "MP-16A4 Military Police SMG Ammo Crate"
+	desc = "Contains two 21-round magazines for the peacekeeper SMG and two 9mm ammo boxes. Requires Armory access to open."
+	cost = 1700
+	contains = list(/obj/item/ammo_box/magazine/smgm9mm,
+					/obj/item/ammo_box/magazine/smgm9mm,
+					/obj/item/ammo_box/c9mm,
+					/obj/item/ammo_box/c9mm)
+
+/datum/supply_pack/security/armory/marine_rifle
+	name = "M4A-16A1 Assault Rifle Crate"
+	desc = "Contains three high-powered, fully automatic assault rifles chambered in 5.56mm. These highly powerful assault weapons are frequently used by marines during boarding. Requires Armory access to open."
+	cost = 4000 //20%
+	contains = list(/obj/item/gun/ballistic/automatic/marine_rifle,
+					/obj/item/gun/ballistic/automatic/marine_rifle,
+					/obj/item/gun/ballistic/automatic/marine_rifle)
+	crate_name = "M4A-16A1 assault rifle crate"
+
+/datum/supply_pack/security/armory/marine_rifle_ammo
+	name = "M4A-16A1 Assault Rifle Ammo Crate"
+	desc = "Contains four 5.56 30-round magazines for the M4A16A1 rifle and two 9mm ammo boxes to fill them with. Requires Armory access to open."
+	cost = 2000
+	contains = list(/obj/item/ammo_box/magazine/m556,
+					/obj/item/ammo_box/magazine/m556,
+					/obj/item/ammo_box/magazine/m556,
+					/obj/item/ammo_box/magazine/m556)
