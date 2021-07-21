@@ -155,6 +155,9 @@ Adding tasks is easy! Just define a datum for it.
 
 		if(world.time < last_encounter_time + combat_move_delay) //So that fleets don't leave mid combat.
 			return FALSE
+		
+		if(SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, pick(all_ships)) & BEING_INTERDICTED)	//Hypothesis: All ships within a fleet should have the same faction.
+			return FALSE
 
 	current_system.fleets -= src
 	if(current_system.fleets && current_system.fleets.len)
@@ -468,6 +471,7 @@ Adding tasks is easy! Just define a datum for it.
 	name = "Rubicon Crossing"
 	size = FLEET_DIFFICULTY_VERY_HARD
 	allow_difficulty_scaling = FALSE
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/kadesh)	//:)
 	audio_cues = list()
 	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
@@ -483,6 +487,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/interdiction	//Pretty strong fleet with unerring hunting senses, Adminspawn for now.
 	name = "Syndicate Interdiction Fleet"	//These fun guys can and will hunt the player ship down, no matter how far away they are.
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/kadesh)
 	size = FLEET_DIFFICULTY_HARD
 	taunts = list("We have come to end your meagre existance. Prepare to die.", "Hostile entering weapons range. Fire at will.", "You have been a thorn in our side for quite a while. Time to end this.", "That is a nice ship you have there. Nothing a few nuclear missiles cannot fix.")
 	audio_cues = list()
@@ -499,6 +504,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/interdiction/light	//The syndicate can spawn these randomly (though rare). Be caareful! But, at least they aren't that scary.
 	name = "Syndicate Light Interdiction Fleet"
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser)
 	size = FLEET_DIFFICULTY_MEDIUM	//Don't let this fool you though, they are still somewhat dangerous and will hunt you down.
 	initial_move_delay = 12 MINUTES
 
@@ -757,6 +763,8 @@ Adding tasks is easy! Just define a datum for it.
 	var/list/L = OM.fleet.taskforces["supply"] //I don't know why we have to do it this way, but dreamchecker is forcing us to.
 	if(!L.len)
 		return 0 //Can't resupply if there's no supply station/ship. Carry on fighting!
+	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY) && L.len == 1)	//We are the only supply ship left, no resupplying for us.
+		return 0
 	if(OM.obj_integrity < OM.max_integrity/3)
 		return AI_SCORE_SUPERPRIORITY
 	if(OM.shots_left < initial(OM.shots_left)/3)
@@ -771,7 +779,11 @@ Adding tasks is easy! Just define a datum for it.
 			L.lance_target = null	//Clear our relayed target if we fly to resupply to make it a bit easier on the players.
 			L.last_finder = null
 	var/obj/structure/overmap/supplyPost = null
-	for(var/obj/structure/overmap/supply in OM.fleet.taskforces["supply"])
+	var/list/orig_resupply_points = OM.fleet.taskforces["supply"]
+	var/list/resupply_points = orig_resupply_points.Copy()
+	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY))
+		resupply_points.Remove(src)
+	for(var/obj/structure/overmap/supply in resupply_points)
 		supplyPost = supply
 		break
 	if(supplyPost) //Neat, we've found a supply post. Autobots roll out.
@@ -1015,6 +1027,8 @@ Seek a ship thich we'll station ourselves around
 		return 0	//Can't defend ourselves
 
 	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_BATTLESHIP))
+		if(OM.obj_integrity < OM.max_integrity/3 || OM.shots_left < initial(OM.shots_left)/3)
+			return AI_SCORE_PRIORITY - 1	//If we are out of ammo, prioritize rearming over chasing.
 		return AI_SCORE_CRITICAL
 	return score //If you've got nothing better to do, come group with the main fleet.
 
