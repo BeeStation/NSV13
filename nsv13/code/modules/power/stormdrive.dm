@@ -241,10 +241,9 @@ Control Rods
 			repairing = FALSE
 			return
 		to_chat(user, "<span class='warning'>Some of the sludge spills on the floor!</span>")
-		playsound(loc, 'sound/effects/gib_step.ogg', 100)
-		for(var/turf/open/floor in orange(3, get_turf(src)))
-			if(prob(35))
-				new /obj/effect/decal/nuclear_waste (floor)
+		var/obj/effect/landmark/nuclear_waste_spawner/weak/sludge_spawner = new (get_turf(src))
+		if (sludge_spawner)
+			sludge_spawner.fire()
 		state = REACTOR_STATE_REPAIR
 		repairing = FALSE
 		update_icon()
@@ -1498,61 +1497,6 @@ Control Rods
 	desc = "A waste plasma biproduct produced in the Stormdrive, used in quantum waveform generation."
 	icon_state = "miasma"
 	gas_type = /datum/gas/nucleium
-
-
-/////// NUCLEAR WASTE////////
-
-/obj/effect/decal/nuclear_waste
-	name = "plutonium sludge"
-	desc = "A writhing pool of heavily irradiated, spent reactor fuel. You probably shouldn't step through this..."
-	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
-	icon_state = "nuclearwaste"
-	alpha = 150
-	light_color = LIGHT_COLOR_CYAN
-	color = "#ff9eff"
-
-/obj/effect/decal/nuclear_waste/Initialize()
-	. = ..()
-	set_light(3)
-
-/obj/effect/decal/nuclear_waste/epicenter //The one that actually does the irradiating. This is to avoid every bit of sludge PROCESSING
-	name = "dense nuclear sludge"
-
-/obj/effect/landmark/nuclear_waste_spawner //Clean way of spawning nuclear gunk after a reactor core meltdown.
-	name = "nuclear waste spawner"
-	var/range = 5 //5 tile radius to spawn goop
-
-/obj/effect/landmark/nuclear_waste_spawner/strong
-	range = 10
-
-/obj/effect/landmark/nuclear_waste_spawner/proc/fire()
-	playsound(loc, 'sound/effects/gib_step.ogg', 100)
-	new /obj/effect/decal/nuclear_waste/epicenter(get_turf(src))
-	for(var/turf/open/floor in orange(range, get_turf(src)))
-		if(prob(35)) //Scatter the sludge, don't smear it everywhere
-			new /obj/effect/decal/nuclear_waste (floor)
-	qdel(src)
-
-/obj/effect/decal/nuclear_waste/epicenter/Initialize()
-	. = ..()
-	AddComponent(/datum/component/radioactive, 1500, src, 0)
-
-/obj/effect/decal/nuclear_waste/Crossed(atom/movable/AM)
-	. = ..()
-	if(isliving(AM))
-		var/mob/living/L = AM
-		playsound(loc, 'sound/effects/gib_step.ogg', HAS_TRAIT(L, TRAIT_LIGHT_STEP) ? 20 : 50, 1)
-	radiation_pulse(src, 500, 5) //MORE RADS
-
-/obj/effect/decal/nuclear_waste/attackby(obj/item/tool, mob/user)
-	if(tool.tool_behaviour == TOOL_SHOVEL)
-		radiation_pulse(src, 1000, 5) //MORE RADS
-		to_chat(user, "<span class='notice'>You start to clear [src]...</span>")
-		if(tool.use_tool(src, user, 50, volume=100))
-			to_chat(user, "<span class='notice'>You clear [src]. </span>")
-			qdel(src)
-			return
-	. = ..()
 
 /datum/weather/nuclear_fallout
 	name = "nuclear fallout"
