@@ -89,7 +89,7 @@
 			on_drop(equipper)
 			return
 		if(builtInCamera && H)
-			builtInCamera.c_tag = "Helmet Cam - [H.real_name]"
+			builtInCamera.c_tag = "Helmet Cam #[rand(0,999)]"
 			builtInCamera.forceMove(equipper) //I hate this. But, it's necessary.
 			RegisterSignal(equipper, COMSIG_MOVABLE_MOVED, .proc/update_camera_location)
 
@@ -98,12 +98,13 @@
 	on_drop(user)
 
 /obj/item/clothing/head/helmet/proc/on_drop(mob/user)
-	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
-	update_camera_location(get_turf(src))
-	builtInCamera.forceMove(src) //Snap the camera back into us.
+	if(builtInCamera && !QDELETED(builtInCamera)
+		UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
+		update_camera_location(get_turf(src))
+		builtInCamera.forceMove(src) //Snap the camera back into us.
 
 /obj/item/clothing/head/helmet/proc/do_camera_update(oldLoc)
-	if(!QDELETED(builtInCamera) && oldLoc != get_turf(loc))
+	if(builtInCamera && !QDELETED(builtInCamera) && oldLoc != get_turf(loc))
 		GLOB.cameranet.updatePortableCamera(builtInCamera)
 	updating = FALSE
 
@@ -130,6 +131,7 @@
 		update_helmlight()
 		update_icon()
 		QDEL_NULL(alight)
+		QDEL_NULL(builtInCamera) //NSV13 added helmet cams
 	return ..()
 
 /obj/item/clothing/head/helmet/sec
