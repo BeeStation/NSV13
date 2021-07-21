@@ -60,7 +60,13 @@
 	
 /obj/machinery/ship_weapon/deck_turret/spawn_frame(disassembled)
 	if(!disassembled)
+		for(var/obj/O in component_parts)
+			qdel(O)
+		component_parts.Cut()
 		return ..(disassembled)
+
+	circuit.moveToNullspace()//if you can't delete it...
+	circuit = null
 	var/obj/structure/ship_weapon/artillery_frame/M = new(get_turf(src))
 
 	for(var/obj/O in component_parts)
@@ -546,8 +552,10 @@
 	bound_x = -64
 	bound_y = -32
 
-/obj/machinery/ship_weapon/deck_turret/Initialize()
+/obj/machinery/ship_weapon/deck_turret/Initialize(mapload)
 	. = ..()
+	addtimer(CALLBACK(src, .proc/RefreshParts), world.tick_lag)
+
 	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
 	if(!core)
 		message_admins("Deck turret has no gun core! [src.x], [src.y], [src.z])")
@@ -557,21 +565,22 @@
 	if(id)
 		addtimer(CALLBACK(src, .proc/link_via_id), 10 SECONDS)
 
-	component_parts.Cut()
-	component_parts += new/obj/item/ship_weapon/parts/firing_electronics
-	component_parts += new/obj/item/ship_weapon/parts/loading_tray
-	switch (max_ammo)
-		if(1)
-		if(3) component_parts += new/obj/item/circuitboard/multibarrel_upgrade/_3
-		else//this should really never happen unless some major tomfoolery goes on (or someone forgets to add a new upgrade to the switch)
-			var/obj/item/circuitboard/multibarrel_upgrade/M = new()
-			M.barrels = max_ammo
-			M.desc = "An upgrade that allows you to add [max_ammo] barrels to a Naval Artillery Cannon. You must partially deconstruct the cannon to install this."
-			component_parts += M
-
-	for(var/i in 1 to max_ammo)
-		component_parts += new/obj/item/ship_weapon/parts/mac_barrel
-		component_parts += new/obj/item/assembly/igniter
+/obj/machinery/ship_weapon/deck_turret/RefreshParts()//using this proc to create the parts instead
+	. = ..()//because otherwise you'd need to put them in the machine frame to rebuild using a board
+	if(component_parts.len <= 1) //because circuit boards
+		component_parts += new/obj/item/ship_weapon/parts/firing_electronics
+		component_parts += new/obj/item/ship_weapon/parts/loading_tray
+		switch (max_ammo)
+			if(1)
+			if(3) component_parts += new/obj/item/circuitboard/multibarrel_upgrade/_3
+			else//this should really never happen unless some major tomfoolery goes on (or someone forgets to add a new upgrade to the switch)
+				var/obj/item/circuitboard/multibarrel_upgrade/M = new()
+				M.barrels = max_ammo
+				M.desc = "An upgrade that allows you to add [max_ammo] barrels to a Naval Artillery Cannon. You must partially deconstruct the cannon to install this."
+				component_parts += M
+		for(var/i in 1 to max_ammo)
+			component_parts += new/obj/item/ship_weapon/parts/mac_barrel
+			component_parts += new/obj/item/assembly/igniter
 
 /obj/machinery/ship_weapon/deck_turret/proc/link_via_id()
 	for(var/obj/machinery/deck_turret/core in GLOB.machines)
