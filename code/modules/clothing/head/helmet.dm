@@ -22,8 +22,17 @@
 	var/obj/item/flashlight/seclite/attached_light
 	var/datum/action/item_action/toggle_helmet_flashlight/alight
 
+	//NSV13 - added helmet cams
+	var/obj/machinery/camera/builtInCamera = null
+	var/updating = FALSE
+
 /obj/item/clothing/head/helmet/Initialize()
 	. = ..()
+	if(builtInCamera && ispath(builtInCamera)) //NSV13 - added helmet cams
+		builtInCamera = new builtInCamera(src)
+		builtInCamera.c_tag = "Helmet Cam #[rand(0,999)]"
+		builtInCamera.network = list("headcam")
+		builtInCamera.internal_light = FALSE
 	if(attached_light)
 		alight = new(src)
 
@@ -36,8 +45,83 @@
 	else if(can_flashlight)
 		. += "It has a mounting point for a <b>seclite</b>."
 
+	if(builtInCamera) //NSV13 - added helmet cams
+		. += "It has a camera mounted on it. The camera looks like it can be <b>cut</b> off [src].</span>"
+
+/obj/item/clothing/head/helmet/attackby(obj/item/I, mob/user, params)
+	//NSV13 - added helmet cam
+	if(istype(I, /obj/item/wallframe/camera))
+		if(builtInCamera)
+			to_chat(user, "<span class='warning'>[src] already has a camera.</span>")
+			return
+		if(src == user.get_item_by_slot(ITEM_SLOT_HEAD)) //Make sure the player is not wearing the suit before applying the upgrade.
+			to_chat(user, "<span class='warning'>You cannot install the upgrade to [src] while wearing it.</span>")
+			return
+		if(user.transferItemToLoc(I, src))
+			builtInCamera = new /obj/machinery/camera(src)
+			builtInCamera.c_tag = "Helmet Cam #[rand(0,999)]"
+			builtInCamera.network = list("headcam")
+			builtInCamera.internal_light = FALSE
+			QDEL_NULL(I)
+			to_chat(user, "<span class='notice'>You successfully attach the camera to [src].</span>")
+			return
+	else if(I.tool_behaviour == TOOL_WIRECUTTER)
+		if(!builtInCamera)
+			to_chat(user, "<span class='warning'>[src] has no camera installed.</span>")
+			return
+		if(src == user.get_item_by_slot(ITEM_SLOT_HEAD))
+			to_chat(user, "<span class='warning'>You cannot remove the camera from [src] while wearing it.</span>")
+			return
+
+		new /obj/item/wallframe/camera(drop_location())
+		QDEL_NULL(builtInCamera)
+		to_chat(user, "<span class='notice'>You successfully remove the camera from [src].</span>")
+		return
+	//NSV13 end
+
+//NSV13 start - added helmet cams
+/obj/item/clothing/head/helmet/equipped(mob/equipper, slot)
+	. = ..()
+	if(ishuman(equipper))
+		var/mob/living/carbon/human/H = equipper
+
+		if(slot && slot != ITEM_SLOT_HEAD)
+			on_drop(equipper)
+			return
+		if(builtInCamera && H)
+			builtInCamera.c_tag = "Helmet Cam - [H.real_name]"
+			builtInCamera.forceMove(equipper) //I hate this. But, it's necessary.
+			RegisterSignal(equipper, COMSIG_MOVABLE_MOVED, .proc/update_camera_location)
+
+/obj/item/clothing/head/helmet/dropped(mob/user)
+	. = ..()
+	on_drop(user)
+
+/obj/item/clothing/head/helmet/proc/on_drop(mob/user)
+	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
+	update_camera_location(get_turf(src))
+	builtInCamera.forceMove(src) //Snap the camera back into us.
+
+/obj/item/clothing/head/helmet/proc/do_camera_update(oldLoc)
+	if(!QDELETED(builtInCamera) && oldLoc != get_turf(loc))
+		GLOB.cameranet.updatePortableCamera(builtInCamera)
+	updating = FALSE
+
+#define SILICON_CAMERA_BUFFER 10
+/obj/item/clothing/head/helmet/proc/update_camera_location(oldLoc)
+	if(!oldLoc)
+		oldLoc = get_turf(loc)
+	oldLoc = get_turf(oldLoc)
+	if(!QDELETED(builtInCamera) && !updating)
+		updating = TRUE
+		addtimer(CALLBACK(src, .proc/do_camera_update, oldLoc), SILICON_CAMERA_BUFFER)
+#undef SILICON_CAMERA_BUFFER
+//end NSV13
+
 /obj/item/clothing/head/helmet/Destroy()
 	QDEL_NULL(attached_light)
+	if(builtInCamera) //NSV13 - added helmet cams
+		QDEL_NULL(builtInCamera)
 	return ..()
 
 /obj/item/clothing/head/helmet/handle_atom_del(atom/A)
