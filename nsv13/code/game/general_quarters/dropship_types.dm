@@ -46,6 +46,13 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/countermeasure_dispenser)
 	interior_mode = INTERIOR_DYNAMIC
 
+/obj/structure/overmap/fighter/dropship/Initialize(mapload, list/build_components)
+	. = ..()
+	var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
+	if(ftl)
+		starmap = new(src)
+		starmap.linked = src
+
 /datum/map_template/dropship
     name = "Marine Dropship"
     mappath = "_maps/templates/boarding/dropship.dmm"
