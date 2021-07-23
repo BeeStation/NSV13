@@ -150,6 +150,8 @@
 	RETURN_TYPE(/obj/structure/overmap)
 	if(..())
 		return ..()
+	if(istype(loc, /obj/structure/overmap))
+		return loc
 	var/area/AR = get_area(src)
 	return AR?.overmap_fallback
 
