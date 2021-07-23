@@ -379,8 +379,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			interior_mode = (possible_interior_maps?.len) ? INTERIOR_EXCLUSIVE : NO_INTERIOR
 		//Allows small ships to have a small interior.
 		if(INTERIOR_DYNAMIC)
-			instance_interior()
-			post_load_interior()
+			if(!instance_interior())
+				addtimer(CALLBACK(src, .proc/instance_interior), 5 SECONDS) //Fuck me, this still fails sometimes
 
 	apply_weapons()
 

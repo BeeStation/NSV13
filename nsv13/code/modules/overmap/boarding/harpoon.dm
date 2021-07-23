@@ -384,6 +384,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	var/turf/center = get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2]+boarding_interior.height/2, roomReservation.bottom_left_coords[3]))
 	if(!boarding_interior.load(center, centered = TRUE))
 		message_admins("Failed to load boarding interior at [center.x], [center.y], [center.z]")
+		return FALSE
 	var/area/target_area
 	//Now, set up the interior for loading...
 	if(center)
@@ -403,6 +404,8 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		if(get_area(entryway) == target_area && !entryway.linked)
 			interior_entry_points += entryway
 			entryway.linked = src
+
+	post_load_interior()
 
 // Anything that needs to be done after the interior loads
 /obj/structure/overmap/proc/post_load_interior()

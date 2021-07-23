@@ -662,10 +662,6 @@
 		//Nsv13 - AIs need to see the Rocinante.
 		if(!(is_station_level(C.z) || is_mining_level(C.z) || ("ss13" in tempnetwork)))
 			continue
-		//FIXME: boarding
-		//if(!SHARES_OVERMAP_ALLIED(C, src) || ("ss13" in tempnetwork))
-		//	continue
-		//Nsv13 end.
 		if(!C.can_use())
 			continue
 
