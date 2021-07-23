@@ -19,14 +19,20 @@
 	var/current_sector = 2
 	circuit = /obj/item/circuitboard/computer/ship/navigation
 
-/obj/machinery/computer/ship/navigation/internal
-	use_power = 0
-
-/obj/machinery/computer/ship/navigation/internal/can_interact(mob/user) //Override this code to allow people to use consoles when flying the ship.
+/obj/machinery/computer/ship/navigation/can_interact(mob/user) //Override this code to allow people to use consoles when flying the ship.
+	if(locate(user) in linked?.operators)
+		return TRUE
+	if(!user.can_interact_with(src)) //Theyre too far away and not flying the ship
+		return FALSE
+	if((interaction_flags_atom & INTERACT_ATOM_REQUIRES_DEXTERITY) && !user.IsAdvancedToolUser())
+		to_chat(user, "<span class='warning'>You don't have the dexterity to do this!</span>")
+		return FALSE
+	if(!(interaction_flags_atom & INTERACT_ATOM_IGNORE_INCAPACITATED) && user.incapacitated((interaction_flags_atom & INTERACT_ATOM_IGNORE_RESTRAINED), !(interaction_flags_atom & INTERACT_ATOM_CHECK_GRAB)))
+		return FALSE
 	return TRUE
 
-/obj/machinery/computer/ship/navigation/internal/ui_state(mob/user)
-	return  GLOB.always_state
+/obj/machinery/computer/ship/navigation/ui_state(mob/user)
+	return GLOB.always_state
 
 /obj/machinery/computer/ship/navigation/public
 	can_control_ship = FALSE

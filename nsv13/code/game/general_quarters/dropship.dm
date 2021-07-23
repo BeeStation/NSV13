@@ -338,7 +338,7 @@
 			ftl.active = !ftl.active
 			OM.relay('nsv13/sound/effects/fighters/switch.ogg')
 		if("show_starmap")
-			if(!OM.starmap)
+			if(!OM?.starmap)
 				return
 			if(!OM.starmap.linked)
 				OM.starmap.linked = OM

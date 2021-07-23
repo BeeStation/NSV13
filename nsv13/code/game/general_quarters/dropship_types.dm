@@ -48,9 +48,11 @@ Credit to TGMC for the interior sprites for all these!
 
 /obj/structure/overmap/fighter/dropship/Initialize(mapload, list/build_components)
 	. = ..()
+
+/obj/structure/overmap/fighter/dropship/post_load_interior()
 	var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
-	if(ftl)
-		starmap = new(src)
+	if(ftl && linked_areas?.len)
+		starmap = locate(/obj/machinery/computer/ship/navigation) in linked_areas[1] // There should only be one
 		starmap.linked = src
 
 /datum/map_template/dropship

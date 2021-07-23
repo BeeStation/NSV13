@@ -49,7 +49,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
 	var/maintenance_mode = FALSE //Munitions level IDs can change this.
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
-	var/obj/machinery/computer/ship/navigation/internal/starmap = null
+	var/obj/machinery/computer/ship/navigation/starmap = null
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode, \
 								.verb/show_control_panel, .verb/change_name)
@@ -295,6 +295,13 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			ftl.active = !ftl.active
 			relay('nsv13/sound/effects/fighters/switch.ogg')
+		if("show_starmap")
+			if(!starmap)
+				return
+			if(!starmap.linked)
+				starmap.linked = src
+			starmap.ui_interact(usr)
+			return
 
 
 	relay('nsv13/sound/effects/fighters/switch.ogg')
