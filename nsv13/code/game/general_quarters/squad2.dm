@@ -75,7 +75,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 	var/primary_objective = null //Text strings
 	var/secondary_objective = null
-	var/list/disallowed_jobs = list(/datum/job/captain, /datum/job/hop, /datum/job/ai, /datum/job/cyborg, /datum/job/munitions_tech, /datum/job/master_at_arms, /datum/job/pilot, /datum/job/air_traffic_controller, /datum/job/warden, /datum/job/hos, /datum/job/bridge, /datum/job/military_police, /datum/job/marine, /datum/job/doctor, /datum/job/engineer, /datum/job/chief_engineer)
+	var/list/disallowed_jobs = list(/datum/job/captain, /datum/job/hop, /datum/job/ai, /datum/job/cyborg, /datum/job/munitions_tech, /datum/job/master_at_arms, /datum/job/pilot, /datum/job/air_traffic_controller, /datum/job/warden, /datum/job/hos, /datum/job/bridge, /datum/job/officer, /datum/job/assistant, /datum/job/doctor, /datum/job/engineer, /datum/job/chief_engineer)
 	var/list/allowed_jobs = null //Do you want this squad to be locked to one role?
 	var/datum/component/simple_teamchat/radio_dependent/squad/squad_channel = null
 	var/squad_channel_type
@@ -355,7 +355,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	id = ABLE_SQUAD
 	colour = "#e61919"
 	access = list(ACCESS_HANGAR, ACCESS_BRIG, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MAINT_TUNNELS)
-	allowed_jobs = list(/datum/job/marine)
+	allowed_jobs = list(/datum/job/assistant)
 	disallowed_jobs = list()
 
 /datum/squad/baker
