@@ -297,7 +297,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	hud_icons = list(SQUAD_HUD)
 
 /mob/living/carbon/human/proc/squad_hud_set_squad()
-	var/image/holder = hud_list[SQUAD_HUD] //Todo: separate HUD layer, under job?
+	var/image/holder = hud_list[SQUAD_HUD]
 	var/icon/I = icon(icon, icon_state, dir)
 	holder.pixel_y = I.Height() - world.icon_size
 	if(squad && squad_role)
