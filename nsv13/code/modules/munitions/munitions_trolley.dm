@@ -71,7 +71,7 @@
 /obj/structure/munitions_trolley/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	var/atom/movable/target = locate(params["id"])
+	var/atom/movable/target = locate(params["id"]) in contents
 	switch(action)
 		if("unload")
 			if(!target)
