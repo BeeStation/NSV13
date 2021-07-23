@@ -44,7 +44,6 @@
 	if(isobserver(user))
 		return
 	if(!linked)
-		message_admins("No overmap")
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
