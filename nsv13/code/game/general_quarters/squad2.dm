@@ -355,7 +355,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	id = ABLE_SQUAD
 	colour = "#e61919"
 	access = list(ACCESS_HANGAR, ACCESS_BRIG, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MAINT_TUNNELS)
-	allowed_jobs = list(/datum/job/marine)
+	allowed_jobs = list(/datum/job/assistant)
 	disallowed_jobs = list()
 
 /datum/squad/baker
