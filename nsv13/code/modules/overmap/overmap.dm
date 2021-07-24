@@ -380,6 +380,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		//Allows small ships to have a small interior.
 		if(INTERIOR_DYNAMIC)
 			instance_interior()
+			post_load_interior()
 
 	apply_weapons()
 
