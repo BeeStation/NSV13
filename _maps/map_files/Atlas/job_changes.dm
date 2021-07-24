@@ -53,7 +53,7 @@ MAP_REMOVE_JOB(brig_phys)
 	//Munitech is the new assistant for Atlas. We don't want 20 marines : 1 CIC operator and so on..
 	addtimer(CALLBACK(SSjob, /datum/controller/subsystem/job/proc/set_overflow_role, src.title), 10 SECONDS)
 
-/datum/job/marine/New()
+/datum/job/assistant/New()
 	..()
 	MAP_JOB_CHECK
 	//Very reduced marine count due to the Atlas being small and lowpop. I don't want a shift where every single person rolls marine, and the ship has no one to fly it.
