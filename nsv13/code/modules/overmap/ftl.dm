@@ -150,6 +150,19 @@
 	desired_angle = 90 //90 degrees AKA face EAST to match the FTL parallax.
 	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), ftl_drive.ftl_startup_time)
 
+/obj/structure/overmap/proc/force_return_jump(datum/star_system/target_system)
+	if(ftl_drive) //Do we actually have an ftl drive?
+		for(var/datum/star_system/SS in SSstar_system.systems) //Reveal where we are going
+			if(SS.name == "Outpost 45")
+				SS.hidden = FALSE
+
+		ftl_drive.ftl_state = FTL_STATE_READY //force it all to be ready
+		ftl_drive.progress = 0
+		ftl_drive.jump(target_system) //Jump home
+
+	else
+		message_admins("Target does not have an FTL drive!")
+		return
 
 /obj/structure/overmap/proc/force_parallax_update(ftl_start)
 	if(reserved_z) //Actual overmap parallax behaviour

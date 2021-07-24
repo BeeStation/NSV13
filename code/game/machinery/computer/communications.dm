@@ -330,7 +330,7 @@
 
 		//NSV13 - Objective Button
 		if("objectives")
-			SSovermap_mode.check_completion()
+			SSovermap_mode.mode.check_completion()
 			state = STATE_OBJECTIVES
 
 		// AI interface
@@ -591,15 +591,20 @@
 
 		if(STATE_OBJECTIVES) //NSV13 - Objectives
 			dat += "Current Objectives:<BR>"
-			for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
-				dat += "[O.desc] : "
-				switch(O.completed)
-					if(0)
-						dat += "<font color=yellow><b>IN-PROGRESS</b></font><BR>"
-					if(1)
-						dat += "<font color=green><b>COMPLETED</b></font><BR>"
-					if(2)
-						dat += "<font color=RED><b>INCOMPLETE</b></font><BR>"
+			if(SSovermap_mode.announced_objectives)
+				for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+					dat += "[O.brief] : "
+					switch(O.status)
+						if(0)
+							dat += "<font color=yellow><b>IN-PROGRESS</b></font><BR>"
+						if(1)
+							dat += "<font color=green><b>COMPLETED</b></font><BR>"
+						if(2)
+							dat += "<font color=RED><b>INCOMPLETE</b></font><BR>"
+						if(3)
+							dat += "<font color=green><b>COMPLETED</b></font><BR>"
+			else
+				dat += "Standby for mission tasking."
 
 	dat += "<BR><BR>\[ [(state != STATE_DEFAULT) ? "<A HREF='?src=[REF(src)];operation=main'>Main Menu</A> | " : ""]<A HREF='?src=[REF(user)];mach_close=communications'>Close</A> \]"
 

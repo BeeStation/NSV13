@@ -19,13 +19,15 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/combat_delays_reminder = FALSE //Does combat in the overmap delay the reminder?
 	var/combat_delay_amount = 0 //How much the reminder is delayed by combat
 
+	var/announced_objectives = FALSE //Have we announced the objectives yet?
+	var/round_extended = FALSE //Has the round already been extended already?
+
 	var/check_completion_timer = 0
 
 	var/list/mode_cache
 
 	var/list/modes
 	var/list/mode_names
-
 
 //some legacy vars that need to be resolved in other files
 	var/next_nag_time = 0
@@ -116,20 +118,13 @@ SUBSYSTEM_DEF(overmap_mode)
 		if(mode.starting_faction)
 			OM.faction = mode.starting_faction //If we have a faction override, set it
 
-
-
-	//configuration.dm line 341 /datum/controller/configuration/proc/get_runnable_modes()
-
-	//We need to poll and assign each of the weights from the config and assign them to their datums
-	//We should probably do this for players too
-	//Which means we should do this way up above ^^ AAAAAAAAAAAAAAAAAAAA
-
-	//CONFIG_GET(number/)
-
 /datum/controller/subsystem/overmap_mode/fire()
 
+	if(world.time >= 3 MINUTES && !announced_objectives) //Send out our objectives
+		announce_objectives()
+
 	if(world.time >= check_completion_timer) //Fire this automatically every ten minutes to prevent round stalling
-		check_completion()
+		mode.check_completion()
 		check_completion_timer += 10 MINUTES
 
 	if(!objective_reminder_override)
@@ -140,25 +135,49 @@ SUBSYSTEM_DEF(overmap_mode)
 				if(1)
 					//something
 					priority_announce("[mode.reminder_one]", "[mode.reminder_origin]")
+					mode.consequence_one()
 				if(2)
 					//something else
 					priority_announce("[mode.reminder_two]", "[mode.reminder_origin]")
+					mode.consequence_two()
 				if(3)
 					//something else +
 					priority_announce("[mode.reminder_three]", "[mode.reminder_origin]")
+					mode.consequence_three()
 				if(4)
 					//last chance
 					priority_announce("[mode.reminder_four]", "[mode.reminder_origin]")
+					mode.consequence_four()
 				if(5)
 					//mission critical failure
 					priority_announce("[mode.reminder_five]", "[mode.reminder_origin]")
+					mode.consequence_five()
 
 /datum/controller/subsystem/overmap_mode/New()
 	.=..()
 	next_objective_reminder = world.time + objective_reminder_interval
 
-/datum/controller/subsystem/overmap_mode/proc/check_completion()
-	return
+/datum/controller/subsystem/overmap_mode/proc/announce_objectives()
+	announced_objectives = TRUE
+
+ 	/*
+	Replace with a SMEAC brief?
+	- Situation
+	- Mission
+	- Execution
+	- Administration
+	- Communication
+	*/
+
+	var/text = "<b>[GLOB.station_name]</b>, <br>You have been assigned the following mission by <b>[capitalize(mode.starting_faction)]</b> and are expected to complete it with all due haste. Please ensure your crew is properly informed of your objectives and delegate tasks accordingly."
+	var/title = "Mission Briefing: [random_capital_letter()][random_capital_letter()][random_capital_letter()]-[GLOB.round_id]"
+
+	text = "[text] <br><br> [mode.brief] <br><br> Objectives:"
+
+	for(var/datum/overmap_objective/O in mode.objectives)
+		text = "[text] <br> - [O.brief]"
+
+	print_command_report(text, title, TRUE)
 
 /datum/controller/subsystem/overmap_mode/proc/update_reminder(var/objective = FALSE)
 	if(objective) //Is objective? Full Reset
@@ -178,18 +197,36 @@ SUBSYSTEM_DEF(overmap_mode)
 		next_objective_reminder += combat_delay_amount
 		return
 
+/datum/controller/subsystem/overmap_mode/proc/request_additional_objectives()
+	for(var/datum/overmap_objective/O in mode.objectives)
+		O.ignore_check = TRUE //We no longer care about checking these objective against completeion
+
+	var/list/extension_pool = typecacheof(/datum/overmap_objective, TRUE)
+	for(var/datum/overmap_objective/O in extension_pool)
+		if(O.extension_supported == FALSE) //Clear the pool of anything we can't add
+			extension_pool -= O
+
+	var/datum/overmap_objective/selected = pick(extension_pool) //Insert new objective
+	mode.objectives += new selected()
+	for(var/datum/overmap_objective/O in mode.objectives)
+		if(O.ignore_check == FALSE)
+			O.instance()
+
+	announce_objectives() //Let them all know
+
 /datum/overmap_gamemode
-	var/name = null						//Name of the mission type
-	var/desc = null						//Description of the mission
+	var/name = null						//Name of the gamemode type
+	var/desc = null						//Description of the gamemode for ADMINS
+	var/brief = null					//Description of the gamemode for PLAYERS
 	var/config_tag = null				//Do we have a tag?
-	var/selection_weight = 0			//Used to determine the chance of this mission being selected
-	var/required_players = 0			//Required number of players for this mission to be randomly selected
-	var/difficulty = null				//Difficulty of the mission as determined by player count / abus abuse
+	var/selection_weight = 0			//Used to determine the chance of this gamemode being selected
+	var/required_players = 0			//Required number of players for this gamemode to be randomly selected
+	var/difficulty = null				//Difficulty of the gamemode as determined by player count / abus abuse
 	var/starting_system = null			//Here we define where our player ships will start
 	var/starting_faction = null 		//Here we define which faction our player ships belong
 	var/objective_reminder_setting = 0	//0 - Objectives reset remind. 1 - Combat resets reminder. 2 - Combat delays reminder. 3 - Disables reminder
 	var/combat_delay = 0				//How much time is added to the reminder timer
-	var/list/objectives = list()		//The actual mission objectives go here
+	var/list/objectives = list()		//The actual gamemode objectives go here
 	var/whitelist_only = FALSE			//Can only be selected through map bound whitelists
 
 	//Reminder messages
@@ -200,25 +237,60 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/reminder_four = "Case 4"
 	var/reminder_five = "Case 5"
 
+/datum/overmap_gamemode/proc/consequence_one()
+
+
+/datum/overmap_gamemode/proc/consequence_two()
+
+
+/datum/overmap_gamemode/proc/consequence_three()
+
+
+/datum/overmap_gamemode/proc/consequence_four()
+
+
+/datum/overmap_gamemode/proc/consequence_five()
+
+
 /datum/overmap_gamemode/proc/check_completion() //This gets called by checking the communication console/modcomp program + automatically once every 10 minutes
 	//First we try to check completion on each objective
 	for(var/datum/overmap_objective/O in objectives)
 		O.check_completion()
 
-	//And then we check if they are all completed
-	var/objective_length = objectives.len
-	var/objective_check = 0
-	for(var/datum/overmap_objective/O in objectives) //etc
-		if(O.completed)
-			objective_check ++
+	//And then we...
+	if(SSovermap_mode.round_extended) //...check if the bonus objective is completed
+		for(var/datum/overmap_objective/O in objectives)
+			if(O.ignore_check == FALSE)
+				if(O.status == 1 || O.status == 3)
+					victory()
+					return
 
-	if(objective_check >= objective_length)
-		victory()
+	else //...check if they are all completed
+		var/objective_length = objectives.len
+		var/objective_check = 0
+		for(var/datum/overmap_objective/O in objectives) //etc
+			if(O.status == 3) //Victory override check
+				victory()
+				return
+
+			else if(O.status == 1)
+				objective_check ++
+
+		if(objective_check >= objective_length)
+			victory()
 
 /datum/overmap_gamemode/proc/victory()
+	priority_announce("Mission Complete - Vote Pending") //TEMP
+	if(!SSovermap_mode.round_extended)	//If we haven't yet extended the round, let us vote!
+		SSvote.initiate_vote("Press On Or Return Home?", "Centcomm", forced=TRUE, popup=FALSE)
+	else	//Begin FTL jump to Outpost 45
+		priority_announce("Mission Complete - Returning to Outpost 45") //TEMP
+		var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+		OM.force_return_jump(SSstar_system.system_by_id("Outpost 45")) //replace with a new proc to not instantly jump
 	return
 
 /datum/overmap_gamemode/proc/defeat()
+	message_admins("Boo")
 	return
 
 /datum/overmap_objective
@@ -226,7 +298,9 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/desc							//Short description for admin view
 	var/brief							//Description for PLAYERS
 	var/stage							//For multi step objectives
-	var/completed = FALSE				//Have we completed the objective?
+	var/status = 0						//0 = In-progress, 1 = Completed, 2 = Failed, 3 = Victory Override (this will end the round)
+	var/extension_supported = FALSE 	//Is this objective available to be a random extended round objective?
+	var/ignore_check = FALSE			//Used for checking extended rounds
 
 /datum/overmap_objective/New()
 
