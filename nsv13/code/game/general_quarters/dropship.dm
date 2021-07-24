@@ -150,8 +150,6 @@
 	RETURN_TYPE(/obj/structure/overmap)
 	if(..())
 		return ..()
-	if(istype(loc, /obj/structure/overmap))
-		return loc
 	var/area/AR = get_area(src)
 	return AR?.overmap_fallback
 
@@ -331,7 +329,7 @@
 			OM.set_master_caution(FALSE)
 			return
 		if("show_dradis")
-			OM.dradis?.ui_interact(usr)
+			OM.dradis.ui_interact(usr)
 			return
 		if("toggle_ftl")
 			var/obj/item/fighter_component/ftl/ftl = OM.loadout.get_slot(HARDPOINT_SLOT_FTL)
@@ -339,13 +337,6 @@
 				return
 			ftl.active = !ftl.active
 			OM.relay('nsv13/sound/effects/fighters/switch.ogg')
-		if("show_starmap")
-			if(!OM?.starmap)
-				return
-			if(!OM.starmap.linked)
-				OM.starmap.linked = OM
-			OM.starmap.ui_interact(usr)
-			return
 
 
 	OM.relay('nsv13/sound/effects/fighters/switch.ogg')
