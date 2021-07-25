@@ -155,7 +155,7 @@ Adding tasks is easy! Just define a datum for it.
 
 		if(world.time < last_encounter_time + combat_move_delay) //So that fleets don't leave mid combat.
 			return FALSE
-		
+
 		if(SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, pick(all_ships)) & BEING_INTERDICTED)	//Hypothesis: All ships within a fleet should have the same faction.
 			return FALSE
 
@@ -1169,6 +1169,7 @@ Seek a ship thich we'll station ourselves around
 
 	//Fleet organisation
 	var/shots_left = 15 //Number of arbitrary shots an AI can fire with its heavy weapons before it has to resupply with a supply ship.
+	var/light_shots_left = 300
 	var/resupply_range = 15
 	var/resupplying = 0	//Are we resupplying things right now? If yes, how many?
 	var/can_resupply = FALSE //Can this ship resupply other ships?
@@ -1206,6 +1207,9 @@ Seek a ship thich we'll station ourselves around
 				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
 					if(shots_left <= 0)
 						continue //If we are out of shots. Continue.
+				else if(light_shots_left <= 0)
+					addtimer(CALLBACK(src, .proc/reload_light_weapon), 15 SECONDS) // make them reload like real people, sort of
+					continue
 				var/arc = Get_Angle(src, target)
 				if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
 					continue
@@ -1230,9 +1234,14 @@ Seek a ship thich we'll station ourselves around
 		fire_mode = new_firemode
 		if(will_use_shot) //Don't penalise them for weapons that are designed to be spammed.
 			shots_left --
+		else
+			light_shots_left --
 		fire_weapon(target, new_firemode)
 		next_firetime = world.time + (1 SECONDS) + (fire_delay*2)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
+
+/obj/structure/overmap/proc/reload_light_weapon()
+	light_shots_left = initial(light_shots_left)
 
 /**
  * # `ai_elite_fire(atom/target)`
