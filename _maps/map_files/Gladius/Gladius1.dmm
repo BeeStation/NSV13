@@ -2067,14 +2067,15 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/fore)
 "bdq" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_access_txt = "7;13"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access = null;
+	req_one_access_txt = "7"
 	},
 /turf/open/floor/plating,
 /area/science/mixing)
@@ -49255,7 +49256,8 @@
 /area/maintenance/nsv/deck1/starboard)
 "xxl" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	req_access_txt = "7;13"
+	req_one_access = null;
+	req_one_access_txt = "7"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
