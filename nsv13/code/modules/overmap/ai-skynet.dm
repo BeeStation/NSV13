@@ -1230,7 +1230,7 @@ Seek a ship thich we'll station ourselves around
 		fire_mode = new_firemode
 		if(will_use_shot) //Don't penalise them for weapons that are designed to be spammed.
 			shots_left --
-		fire_weapon(target, new_firemode)
+		fire_weapon(target, new_firemode, ai_aim=TRUE)
 		next_firetime = world.time + (1 SECONDS) + (fire_delay*2)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
 
@@ -1273,7 +1273,7 @@ Seek a ship thich we'll station ourselves around
 		var/arc = Get_Angle(src, target)
 		if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
 			continue
-		fire_weapon(target, iter)
+		fire_weapon(target, iter, ai_aim=TRUE)
 		if(will_use_ammo)
 			ammo_use++
 		did_fire = TRUE
@@ -1285,6 +1285,52 @@ Seek a ship thich we'll station ourselves around
 		shots_left -= ammo_use
 		next_firetime = world.time + 1 SECONDS + smallest_cooldown
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
+/**
+* Given target ship and projectile speed, calculate aim point for intercept
+* See: https://stackoverflow.com/a/3487761
+* If they're literally moving faster than a bullet just aim right at them
+*/
+/obj/structure/overmap/proc/calculate_intercept(obj/structure/overmap/target, obj/item/projectile/P)
+	if(!target || !istype(target) || !target.velocity || !P || !istype(P))
+		return target
+	var/turf/my_center = get_center()
+	var/turf/their_center = target.get_center()
+	if(!my_center || !their_center)
+		return target
+
+	var/dx = their_center.x - my_center.x
+	var/dy = their_center.y - my_center.y
+	var/tvx = target.velocity.x
+	var/tvy = target.velocity.y
+	var/projectilespeed = 32 / P.speed
+
+	var/a = tvx * tvx + tvy * tvy - (projectilespeed * projectilespeed)
+	var/b = 2 * (tvx * dx + tvy * dy)
+	var/c = dx * dx + dy * dy
+	var/list/solutions = SolveQuadratic(a, b, c)
+	if(!solutions.len)
+		return their_center
+	var/time = 0
+	if(solutions.len > 1)
+		// If both are valid take the smaller time
+		if((solutions[1] > 0) && (solutions[2] > 0))
+			time = min(solutions[1], solutions[2])
+		else if(solutions[1] > 0)
+			time = solutions[1]
+		else if(solutions[2] > 0)
+			time = solutions[2]
+		else
+			return their_center
+
+	var/targetx = their_center.x + target.velocity.x * time
+	var/targety = their_center.y + target.velocity.y * time
+	var/turf/newtarget = locate(targetx, targety, target.z)
+	if(prob(ai_miss_chance)) // Slight miss chance
+		var/direction = rand(0, 359)
+		newtarget = get_turf_in_angle(direction, newtarget, rand(1, ai_max_miss_distance))
+
+	return newtarget
+
 /**
 *
 *
