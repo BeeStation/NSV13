@@ -53,11 +53,11 @@
 	if(istype(holder, /obj/structure/overmap))
 		requires_physical_guns = (holder.occupying_levels?.len && !holder.ai_controlled) //AIs don't have physical guns, but anything with linked areas is very likely to.
 
-/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner) //"Lateral" means that your ship doesnt have to face the target
+/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner, ai_aim=FALSE) //"Lateral" means that your ship doesnt have to face the target
 	var/datum/ship_weapon/SW = weapon_types[mode]
 	if(weapon_safety)
 		return FALSE
-	if(SW?.fire(target))
+	if(SW?.fire(target, ai_aim=ai_aim))
 		return TRUE
 	else
 		if(user_override && SW) //Tell them we failed
@@ -67,17 +67,17 @@
 			to_chat(user_override, SW.failure_alert)
 	return FALSE
 
-/datum/ship_weapon/proc/special_fire(atom/target)
+/datum/ship_weapon/proc/special_fire(atom/target, ai_aim = FALSE)
 	if(fire_delay)
 		holder.next_firetime = world.time + fire_delay
 	if(!requires_physical_guns)
 		if(special_fire_proc)
-			CallAsync(source=holder, proctype=special_fire_proc, arguments=list(target=target)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
+			CallAsync(source=holder, proctype=special_fire_proc, arguments=list(target=target, ai_aim=ai_aim)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
 		else
 			weapon_sound()
 			for(var/I = 0; I < burst_size; I++)
 				sleep(1) //Prevents space shotgun
-				holder.fire_projectile(default_projectile_type, target, lateral=src.lateral)
+				holder.fire_projectile(default_projectile_type, target, lateral=src.lateral, ai_aim=ai_aim)
 		return FIRE_INTERCEPTED
 	return FALSE
 
@@ -103,8 +103,8 @@
 		holder.relay_to_nearby(chosen)
 	holder.fire_projectile(default_projectile_type, target)
 
-/datum/ship_weapon/proc/fire(atom/target)
-	if(special_fire(target) == FIRE_INTERCEPTED)
+/datum/ship_weapon/proc/fire(atom/target, ai_aim = FALSE)
+	if(special_fire(target, ai_aim=ai_aim) == FIRE_INTERCEPTED)
 		return TRUE //Fire call was intercepted. Don't do the thing
 	var/list/leftovers = list() //Assuming we can't find a fully loaded gun to fire our full burst, assemble a list of semi-loaded guns and fire all of them instead.
 	var/remaining = burst_size

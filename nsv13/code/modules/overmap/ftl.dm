@@ -184,6 +184,11 @@
 /obj/structure/overmap/proc/jump(datum/star_system/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
 	if(ftl_start && ftl_drive?.ftl_state != FTL_STATE_JUMPING)
 		return
+	if(SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, src) & BEING_INTERDICTED)
+		ftl_drive?.radio.talk_into(ftl_drive, "Warning. Local energy anomaly detected - calculated jump parameters invalid. Performing emergency reboot.", ftl_drive.engineering_channel)
+		relay('sound/magic/lightning_chargeup.ogg', channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+		ftl_drive?.depower()
+		return
 	relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//Ships just hear a small "crack" when another one jumps
 	if(reserved_z) //Actual overmap parallax behaviour
 		var/datum/space_level/SL = SSmapping.z_list[reserved_z]
@@ -211,7 +216,7 @@
 					var/name = pick(GLOB.teleportlocs)
 					var/area/target = GLOB.teleportlocs[name]
 					var/turf/T = pick(get_area_turfs(target))
-					new /obj/effect/temp_visual/explosion_telegraph(T)
+					new /obj/effect/temp_visual/explosion_telegraph(T, damage_amount = ((world.time - structure_crit_init)/30))
 		SSstar_system.ships[src]["target_system"] = target_system
 		SSstar_system.ships[src]["from_time"] = world.time
 		SSstar_system.ships[src]["current_system"] = null
@@ -237,13 +242,30 @@
 		for(var/obj/structure/overmap/SOM in pulled)
 			target_system.add_ship(SOM)
 		SEND_SIGNAL(src, COMSIG_SHIP_ARRIVED) // Let missions know we have arrived in the system
+
 	for(var/mob/M in mobs_in_ship)
+		var/nearestDistance = INFINITY
+		var/obj/machinery/inertial_dampener/nearestMachine = null
+
+		// Going to helpfully pass this in after seasickness checks, to reduce duplicate machine checks 
+		for(var/obj/machinery/inertial_dampener/machine in GLOB.machines)
+			var/dist = get_dist( M, machine )
+			if ( dist < nearestDistance && machine.on )
+				nearestDistance = dist 
+				nearestMachine = machine
+
 		if(iscarbon(M))
 			var/mob/living/carbon/L = M
 			if(HAS_TRAIT(L, TRAIT_SEASICK))
-				to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
-				L.adjust_disgust(pick(70, 100))
-		shake_camera(M, 4, 1)
+				if ( nearestMachine )
+					var/newNausea = nearestMachine.reduceNausea( nearestDistance, 70 )
+					if ( newNausea > 10 )
+						to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
+					L.adjust_disgust( newNausea )
+				else 
+					to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
+					L.adjust_disgust(pick(70, 100))
+		shake_with_inertia(M, 4, 1, list(distance=nearestDistance, machine=nearestMachine))
 	force_parallax_update(ftl_start)
 
 /obj/item/ftl_slipstream_chip

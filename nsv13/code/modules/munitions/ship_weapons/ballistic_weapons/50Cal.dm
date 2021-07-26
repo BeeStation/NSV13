@@ -1,4 +1,4 @@
-// The point defense system! A neat crew served weapon which replaces the .50 cal 
+// The point defense system! A neat crew served weapon which replaces the .50 cal
 // This file has so much borrowed code and name swaps from previous iterations of PDC
 /obj/machinery/ship_weapon/fiftycal
 	name = "PDC turret"
@@ -143,7 +143,7 @@
 	turret = locate(/obj/machinery/ship_weapon/fiftycal) in SSmapping.get_turf_above(src)
 	if ( turret )
 		to_chat(user, "<span class='warning'>Successfully linked [src] to [turret].")
-	else 
+	else
 		to_chat(user, "<span class='warning'>Unable to locate a compatible turret above this deck! Try relocating the turret construction.")
 
 /obj/machinery/computer/fiftycal/attack_hand(mob/user)
@@ -154,7 +154,7 @@
 	turret.start_gunning(user)
 
 /obj/item/ammo_box/magazine/pdc/fiftycal
-	name = "PDC turret rounds" // Just going to rename the current box to avoid a bunch of map changes, or creating duplicate code for a rename 
+	name = "PDC turret rounds" // Just going to rename the current box to avoid a bunch of map changes, or creating duplicate code for a rename
 	ammo_type = /obj/item/ammo_casing/fiftycal
 	caliber = "mm50pdc"
 	max_ammo = 300
@@ -177,8 +177,9 @@
 	caliber = "mm50pdc"
 
 /obj/item/projectile/bullet/fiftycal
-	icon_state = "50cal"
-	name = ".50 cal round"
-	damage = 17
+	icon_state = "pdc"
+	name = "PDC round"
+	damage = 15
 	flag = "overmap_light"
-	speed = 2
+	speed = 1
+	spread = 5

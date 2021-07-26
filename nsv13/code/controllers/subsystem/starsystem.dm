@@ -299,7 +299,7 @@ Returns a faction datum by its name (case insensitive!)
 	var/alignment = "unaligned"
 	var/visited = FALSE
 	var/hidden = FALSE //Secret systems
-	var/system_type = null //Set this to pre-spawn systems as a specific type.
+	var/list/system_type = null //Set this to pre-spawn systems as a specific type.
 	var/event_chance = 0
 	var/list/possible_events = list()
 	var/list/active_missions = list()
@@ -374,11 +374,6 @@ Returns a faction datum by its name (case insensitive!)
 			anomaly_info["anomaly_id"] = "\ref[OA]"
 			anomalies[++anomalies.len] = anomaly_info
 	return anomalies
-
-//Inheritance man, inheritance.
-/datum/round_event_control/radiation_storm/deadly
-	weight = 0
-	max_occurrences = 1000
 
 /obj/effect/overmap_anomaly
 	name = "Placeholder"
@@ -529,7 +524,7 @@ Returns a faction datum by its name (case insensitive!)
 		*/
 		if("radioactive")
 			parallax_property = "radiation_cloud" //All credit goes to https://www.filterforge.com/filters/11427.html
-			possible_events = list(/datum/round_event_control/radiation_storm/deadly)
+			possible_events = list(/datum/round_event_control/radiation_storm/deadly, /datum/round_event_control/radioactive_sludge = 5)
 			event_chance = 100 //Radioactive systems are just that: Radioactive
 		if("nebula")
 			parallax_property = "nebula-thick" //All credit goes to https://www.filterforge.com/filters/11427.html
@@ -818,7 +813,6 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	fleet_type = /datum/fleet/nanotrasen/border/defense //The foothold in the darkness
 	adjacency_list = list("Ariel", "Argo", "The Badlands", "Ida", "Sion")
 	preset_trader = /datum/trader/armsdealer
-	audio_cues = list("https://www.youtube.com/watch?v=1pHbQ87NcCY", "https://www.youtube.com/watch?v=PSmUokZSbBs", "https://www.youtube.com/watch?v=bCxHzIQ9-Fs")
 	desc = "The last bastion of civilisation before the endless uncharted wastes beyond."
 
 /datum/star_system/sector2/sion
@@ -898,7 +892,6 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	y = 30
 	sector = 2
 	adjacency_list = list("Foothold")
-	audio_cues = list("https://www.youtube.com/watch?v=HIdNZlBKrTA")
 	desc = "The beginning of a sector of uncharted space known as the Delphic expanse. Ships from many opposing factions all vye for control over this new territory."
 
 /datum/star_system/brasil/New()
@@ -1177,7 +1170,6 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	adjacency_list = list("Oasis Fidei", "Deimos", "Phobos") //No going back from here...
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = FALSE
-	audio_cues = list("https://www.youtube.com/watch?v=n_aONGBjuLA")
 	desc = "A place where giants fell. You feel nothing save for an odd sense of unease and an eerie silence."
 
 /datum/star_system/sector4/abassi
