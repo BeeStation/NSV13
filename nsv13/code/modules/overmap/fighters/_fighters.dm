@@ -121,6 +121,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["weapon_safety"] = weapon_safety
 	data["master_caution"] = master_caution
 	data["rwr"] = (enemies.len) ? TRUE : FALSE
+	data["target_lock"] = (target_painted.len) ? TRUE : FALSE
 	data["fuel_warning"] = get_fuel() <= get_max_fuel()*0.4
 	data["fuel"] = get_fuel()
 	data["max_fuel"] = get_max_fuel()
