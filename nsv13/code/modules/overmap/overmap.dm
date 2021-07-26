@@ -491,8 +491,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(params_list["ctrl"]) //Ctrl click to lock on to people
 		start_lockon(target)
 		return TRUE
-	if(target_lock && mass <= MASS_TINY)
-		fire(target_lock) //Fighters get an aimbot to help them out.
+	if((target_painted?.len > 0) && mass <= MASS_TINY)
+		fire(target_painted[1]) //Fighters get an aimbot to help them out.
 		return TRUE
 	fire(target)
 	return TRUE
