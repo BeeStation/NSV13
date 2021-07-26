@@ -128,8 +128,12 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["maintenance_mode"] = maintenance_mode //Todo
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	data["docking_mode"] = DC && DC.docking_mode
-	data["primary_ammo"] = 0
-	data["max_primary_ammo"] = 0
+	var/obj/item/fighter_component/primary/P = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+	data["primary_ammo"] = P ? P.get_ammo() : 0
+	data["max_primary_ammo"] = P ? P.get_max_ammo() : 0
+	var/obj/item/fighter_component/secondary/S = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+	data["secondary_ammo"] = S ? S.get_ammo() : 0
+	data["max_secondary_ammo"] = S ? S.get_max_ammo() : 0
 
 	var/obj/item/fighter_component/apu/APU = loadout.get_slot(HARDPOINT_SLOT_APU)
 	data["fuel_pump"] = APU ? APU.fuel_line : FALSE

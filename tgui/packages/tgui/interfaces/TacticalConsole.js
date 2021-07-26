@@ -87,22 +87,37 @@ export const TacticalConsole = (props, context) => {
             </LabeledList>
           </Section>
           <Section title="Tracking:">
-            {Object.keys(data.ships).map(key => {
+            {Object.keys(data.ships).map((key, newCurrent) => {
               let value = data.ships[key];
-              const [isExpanded, setIsExpanded] = useLocalState(
-                context, 'fs_isExpanded', true);
+              const [current, setCurrent] = useLocalState(context, 'fs_current', true);
+              const [hidden, setHidden] = useLocalState(context, 'fs_hidden', true);
+
               return (
                 <Fragment key={key}>
                   {!!value.name && (
                     <Section>
-                      <Button
-                        width="100%"
-                        fluid
-                        confirmColor="good"
-                        onClick={() => setIsExpanded(!isExpanded)}>
-                        {`${value.name}`}
-                      </Button>
-                      {!!isExpanded && (
+                      {!!(current === value.name) && (
+                        <Button
+                          width="100%"
+                          fluid
+                          onClick={() => setHidden(
+                            !hidden
+                          )}>
+                          {`${value.name}`}
+                        </Button>
+                      )}
+                      {!!(current !== value.name) && (
+                        <Button
+                          width="100%"
+                          fluid
+                          onClick={() => {
+                            setCurrent(value.name);
+                            setHidden(false);
+                          }}>
+                          {`${value.name}`}
+                        </Button>
+                      )}
+                      {!!(current === value.name) && !hidden && (
                         <Section title="Armour">
                           <LabeledList>
                             <LabeledList.Item label="Forward Starboard">
