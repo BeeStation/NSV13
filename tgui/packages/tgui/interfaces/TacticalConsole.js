@@ -96,27 +96,15 @@ export const TacticalConsole = (props, context) => {
                 <Fragment key={key}>
                   {!!value.name && (
                     <Section>
-                      {!!(current === value.name) && (
-                        <Button
-                          width="100%"
-                          fluid
-                          onClick={() => setHidden(
-                            !hidden
-                          )}>
-                          {`${value.name}`}
-                        </Button>
-                      )}
-                      {!!(current !== value.name) && (
-                        <Button
-                          width="100%"
-                          fluid
-                          onClick={() => {
-                            setCurrent(value.name);
-                            setHidden(false);
-                          }}>
-                          {`${value.name}`}
-                        </Button>
-                      )}
+                      <Button
+                        width="100%"
+                        fluid
+                        onClick={() => {
+                          setCurrent(value.name);
+                          setHidden(!hidden);
+                        }}>
+                        {`${value.name}`}
+                      </Button>
                       {!!(current === value.name) && !hidden && (
                         <Section title="Armour">
                           <LabeledList>
