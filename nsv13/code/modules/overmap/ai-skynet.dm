@@ -613,11 +613,7 @@ Adding tasks is easy! Just define a datum for it.
 	. = ..()
 	if(allow_difficulty_scaling)
 		//Account for pre-round spawned fleets.
-		var/num_players = (SSticker?.mode) ? SSticker.mode.num_players() : 0
-		if(num_players <= 15) //You get an easier time of it on lowpop
-			size = round(size * 0.8)
-		else
-			size = round(size + (num_players / 10) ) //Lightly scales things up.
+		size = SSovermap_mode.mode.difficulty
 	size = CLAMP(size, FLEET_DIFFICULTY_EASY, INFINITY)
 	faction = SSstar_system.faction_by_id(faction_id)
 	reward *= size //Bigger fleet = larger reward

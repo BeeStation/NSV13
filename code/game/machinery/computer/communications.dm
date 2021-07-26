@@ -600,7 +600,7 @@
 						if(1)
 							dat += "<font color=green><b>COMPLETED</b></font><BR>"
 						if(2)
-							dat += "<font color=RED><b>INCOMPLETE</b></font><BR>"
+							dat += "<font color=red><b>FAILED</b></font><BR>"
 						if(3)
 							dat += "<font color=green><b>COMPLETED</b></font><BR>"
 			else
