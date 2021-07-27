@@ -58,12 +58,14 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	for(var/D in subtypesof(/datum/overmap_gamemode))
 		var/datum/overmap_gamemode/N = new D()
-		mode_cache += N
+		mode_cache[D] = N
 
 	var/list/mode_pool = mode_cache
 
-	for(var/datum/overmap_gamemode/M in mode_pool)
-		if(M.whitelist_only) //Remove all of our only whitelisted modes
+	for(var/M in mode_pool)
+		var/datum/overmap_gamemode/GM = mode_pool[M]
+		if(GM.whitelist_only) //Remove all of our only whitelisted modes
+			QDEL_NULL(mode_pool[M])
 			mode_pool -= M
 
 	if(SSmapping.config.omode_blacklist.len > 0)
@@ -71,37 +73,43 @@ SUBSYSTEM_DEF(overmap_mode)
 			mode_pool = list() //Clear the list
 		else
 			for(var/S in SSmapping.config.omode_blacklist) //Grab the string to be the path - is there a proc for this?
-				var/datum/overmap_gamemode/B = text2path("/datum/overmap_gamemode/[S]")
+				var/B = text2path("/datum/overmap_gamemode/[S]")
+				QDEL_NULL(mode_pool[B])
 				mode_pool -= B
 
 	if(SSmapping.config.omode_whitelist.len > 0)
 		for(var/S in SSmapping.config.omode_whitelist) //Grab the string to be the path - is there a proc for this?
-			var/datum/overmap_gamemode/W = text2path("/datum/overmap_gamemode/[S]")
-			mode_pool += W
+			var/W = text2path("/datum/overmap_gamemode/[S]")
+			mode_pool[W] = new W()
 
 	for(var/mob/dead/new_player/P in GLOB.player_list) //Count the number of connected players
 		if(P.client)
 			player_check ++
 
-	for(var/datum/overmap_gamemode/M in mode_pool) //Check and remove any modes that we have insufficient players for the mode
-		if(player_check < M.required_players)
+	for(var/M in mode_pool) //Check and remove any modes that we have insufficient players for the mode
+		var/datum/overmap_gamemode/GM = mode_pool[M]
+		if(player_check < GM.required_players)
+			QDEL_NULL(mode_pool[M])
 			mode_pool -= M
 
-	if(mode_pool.len <= 0) //If the pool is empty, we set the default
-		mode = /datum/overmap_gamemode/patrol //Holding that as the default for now - REPLACE ME LATER
+	var/mode_type = /datum/overmap_gamemode/patrol
+	if(mode_pool.len)
+		var/list/mode_select = list()
+		for(var/M in mode_pool)
+			var/datum/overmap_gamemode/GM = mode_pool[M]
+			for(var/I = 0, I < GM.selection_weight, I++) //Populate with weight number of instances
+				mode_select += M
+
+		mode_type = pick(mode_select)
+		mode = mode_pool[mode_type]
+		message_admins("[mode.name] has been selected as the overmap gamemode")
+		log_game("[mode.name] has been selected as the overmap gamemode")
+	else //If the pool is empty, we set the default
+		//mode_type = /datum/overmap_gamemode/patrol //Holding that as the default for now - REPLACE ME LATER
+		mode = new/datum/overmap_gamemode/patrol()
 		message_admins("Error: mode section pool empty - defaulting to PATROL")
 		log_game("Error: mode section pool empty - defaulting to PATROL")
 
-	else //Here we need to generate a ticket system that pulls from the config at a future date
-
-		var/list/mode_select = list()
-		for(var/datum/overmap_gamemode/M in mode_pool)
-			for(var/I = 0, I < M.selection_weight, I++) //Populate with weight number of instances
-				mode_select += M
-
-		mode = pick(mode_select)
-		message_admins("[mode.name] has been selected as the overmap gamemode")
-		log_game("[mode.name] has been selected as the overmap gamemode")
 
 	switch(mode.objective_reminder_setting) //Load the reminder settings
 		if(REMINDER_COMBAT_RESET)
@@ -211,11 +219,14 @@ SUBSYSTEM_DEF(overmap_mode)
 		O.ignore_check = TRUE //We no longer care about checking these objective against completeion
 
 	var/list/extension_pool = typecacheof(/datum/overmap_objective, TRUE)
-	for(var/datum/overmap_objective/O in extension_pool)
-		if(O.extension_supported == FALSE) //Clear the pool of anything we can't add
+	for(var/O in extension_pool)
+		var/datum/overmap_objective/OO = new O()
+		if(OO.extension_supported == FALSE) //Clear the pool of anything we can't add
 			extension_pool -= O
+		else
+			extension_pool[O] = OO
 
-	var/datum/overmap_objective/selected = pick(extension_pool) //Insert new objective
+	var/datum/overmap_objective/selected = extension_pool[pick(extension_pool)] //Insert new objective
 	mode.objectives += new selected()
 	for(var/datum/overmap_objective/O in mode.objectives)
 		if(O.ignore_check == FALSE)
