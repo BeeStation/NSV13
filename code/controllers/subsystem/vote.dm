@@ -158,10 +158,12 @@ SUBSYSTEM_DEF(vote)
 					priority_announce("Additional Objectives") //TEMP
 					SSovermap_mode.round_extended = TRUE
 					SSovermap_mode.request_additional_objectives()
+					SSovermap_mode.already_ended = FALSE
 				else
 					priority_announce("Returning to Outpost 45") //TEMP
 					var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
 					OM.force_return_jump(SSstar_system.system_by_id("Outpost 45"))
+					SSovermap_mode.already_ended = TRUE
 	if(restart)
 		var/active_admins = FALSE
 		for(var/client/C in GLOB.admins+GLOB.deadmins)

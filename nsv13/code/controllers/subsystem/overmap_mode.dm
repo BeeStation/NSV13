@@ -31,6 +31,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/announced_objectives = FALSE 				//Have we announced the objectives yet?
 	var/round_extended = FALSE 						//Has the round already been extended already?
 	var/admin_override = FALSE						//Stops the mission ending
+	var/already_ended = FALSE						//Is the round already in an ending state
 
 	var/check_completion_timer = 0
 
@@ -293,7 +294,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	//Hotdrop O'Clock
 	var/datum/star_system/target = SSstar_system.find_main_overmap().current_system
 	priority_announce("Faction Hunter something something Hotdrop") //need a faction message
-	var/datum/fleet/F = new /datum/fleet/something() //need a fleet
+	var/datum/fleet/F = new /datum/fleet/interdiction() //need a fleet
 	target.fleets += F
 	F.current_system = target
 	F.assemble(target)
@@ -301,10 +302,14 @@ SUBSYSTEM_DEF(overmap_mode)
 
 
 /datum/overmap_gamemode/proc/check_completion() //This gets called by checking the communication console/modcomp program + automatically once every 10 minutes
+	if(SSovermap_mode.already_ended)
+		return
+
 	var/objective_length = objectives.len
 	var/objective_check = 0
 	var/failed = FALSE
-	for(var/datum/overmap_objective/O in objectives) //etc
+	for(var/datum/overmap_objective/O in objectives)
+		O.check_completion() 	//First we try to check completion on each objective
 		if(O.status == STATUS_OVERRIDE) //Victory override check
 			victory()
 			return

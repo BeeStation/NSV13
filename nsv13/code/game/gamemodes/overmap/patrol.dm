@@ -9,7 +9,7 @@
 	starting_system = "Argo"
 	starting_faction = "nanotrasen"
 	objective_reminder_setting = 1
-	selection_weight = 5
+	selection_weight = 0
 	required_players = 0
 	objectives = list(/datum/overmap_objective/tickets/nt)
 
@@ -37,3 +37,29 @@
 	assigned_faction = FACTION_ID_NT
 	ticket_amount = 1000
 	extension_supported = TRUE
+
+
+
+////////////////////////////////////////
+
+/datum/overmap_gamemode/one
+	name = "one"
+	desc = "one"
+	brief = "You have been assigned to standard patrol duty beyond the Foothold sector. Patrol this area and eliminate any Syndicate forces with extreme prejudice, then return back to Outpost 45."
+	starting_system = "Argo"
+	starting_faction = "nanotrasen"
+	objective_reminder_setting = 1
+	selection_weight = 5
+	required_players = 5
+	objectives = list(/datum/overmap_objective/tickets/nt)
+
+/datum/overmap_gamemode/two
+	name = "two"
+	desc = "two"
+	brief = "You have been assigned to standard patrol duty beyond the Foothold sector. Patrol this area and eliminate any Syndicate forces with extreme prejudice, then return back to Outpost 45."
+	starting_system = "Argo"
+	starting_faction = "nanotrasen"
+	objective_reminder_setting = 1
+	selection_weight = 5
+	required_players = 5
+	objectives = list(/datum/overmap_objective/tickets/nt)
