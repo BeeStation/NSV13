@@ -94,6 +94,10 @@
 
 	qdel(src)
 
+/obj/machinery/ship_weapon/mac/overmap_fire(atom/target)
+	. = ..()
+	linked.shake_animation(2)
+
 /obj/machinery/ship_weapon/mac/after_fire()
 	if(!ammo.len)
 		say("Autoloader has depleted all ammunition sources. Reload required.")
