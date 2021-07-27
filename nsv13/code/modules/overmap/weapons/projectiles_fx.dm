@@ -61,7 +61,7 @@ Misc projectile types, effects, think of this as the special FX file.
 //Improvised ammunition, does terrible damage but is cheap to produce
 /obj/item/projectile/bullet/mac_round/cannonshot
 	name = "cannonball"
-	damage = 75
+	damage = 350
 	icon_state = "cannonshot"
 	flag = "overmap_medium"
 
@@ -82,21 +82,22 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/gauss_slug
 	icon_state = "gaussgun"
 	name = "tungsten round"
-	damage = 40
+	damage = 80
 	obj_integrity = 500 //Flak doesn't shoot this down....
 	flag = "overmap_medium"
 
 /obj/item/projectile/bullet/light_cannon_round
 	icon_state = "pdc"
 	name = "light cannon round"
-	damage = 15
+	damage = 40
+	armour_penetration = 2
 	spread = 2
 	flag = "overmap_light"
 
 /obj/item/projectile/bullet/heavy_cannon_round
 	icon_state = "pdc"
 	name = "heavy cannon round"
-	damage = 15
+	damage = 30
 	spread = 5
 	flag = "overmap_medium"
 
@@ -111,7 +112,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	speed = 2.75
 	valid_angle = 150
 	homing_turn_speed = 35
-	damage = 240
+	damage = 250
 	range = 250
 	armor = list("overmap_light" = 20, "overmap_medium" = 10, "overmap_heavy" = 0)
 	flag = "overmap_heavy"
@@ -121,8 +122,8 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/torpedo/shredder
 	icon_state = "torpedo_shredder"
 	name = "plasma charge"
-	damage = 240
-	armour_penetration = 20
+	damage = 200
+	armour_penetration = 40
 
 /obj/item/projectile/guided_munition/torpedo/decoy
 	icon_state = "torpedo"
@@ -133,7 +134,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/torpedo/nuclear
 	icon_state = "torpedo_nuke"
 	name = "thermonuclear missile"
-	damage = 600
+	damage = 450
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 
@@ -158,7 +159,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "triton cruise missile"
 	icon_state = "conventional_missile"
 	speed = 1
-	damage = 150
+	damage = 175
 	valid_angle = 120
 	homing_turn_speed = 25
 	range = 250
@@ -230,3 +231,28 @@ Misc projectile types, effects, think of this as the special FX file.
 		return TRUE
 	if(faction != OM.faction)
 		return TRUE
+
+/obj/item/projectile/bullet/fiftycal
+	icon_state = "pdc"
+	name = "PDC round"
+	damage = 15
+	flag = "overmap_light"
+	speed = 1
+	spread = 5
+
+/obj/item/projectile/beam/laser/heavylaser/phaser
+	name = "phaser beam"
+	damage = 200
+	flag = "overmap_heavy"
+	hitscan = TRUE //Extremely powerful in ship combat
+	icon_state = "omnilaser"
+	light_color = LIGHT_COLOR_BLUE
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	tracer_type = /obj/effect/projectile/tracer/disabler
+	muzzle_type = /obj/effect/projectile/muzzle/disabler
+	impact_type = /obj/effect/projectile/impact/disabler
+
+//Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
+/obj/item/projectile/beam/laser/phaser
+	damage = 30
+	flag = "overmap_medium"
