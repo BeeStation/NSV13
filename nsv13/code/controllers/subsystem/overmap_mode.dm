@@ -92,7 +92,6 @@ SUBSYSTEM_DEF(overmap_mode)
 			QDEL_NULL(mode_pool[M])
 			mode_pool -= M
 
-	var/mode_type = /datum/overmap_gamemode/patrol
 	if(mode_pool.len)
 		var/list/mode_select = list()
 		for(var/M in mode_pool)
@@ -100,11 +99,12 @@ SUBSYSTEM_DEF(overmap_mode)
 			for(var/I = 0, I < GM.selection_weight, I++) //Populate with weight number of instances
 				mode_select += M
 
-		mode_type = pick(mode_select)
-		mode = mode_pool[mode_type]
-		message_admins("[mode.name] has been selected as the overmap gamemode")
-		log_game("[mode.name] has been selected as the overmap gamemode")
-	else //If the pool is empty, we set the default
+		if(mode_select.len)
+			var/mode_type = pick(mode_select)
+			mode = mode_pool[mode_type]
+			message_admins("[mode.name] has been selected as the overmap gamemode")
+			log_game("[mode.name] has been selected as the overmap gamemode")
+	if(!mode)
 		//mode_type = /datum/overmap_gamemode/patrol //Holding that as the default for now - REPLACE ME LATER
 		mode = new/datum/overmap_gamemode/patrol()
 		message_admins("Error: mode section pool empty - defaulting to PATROL")
@@ -301,31 +301,22 @@ SUBSYSTEM_DEF(overmap_mode)
 
 
 /datum/overmap_gamemode/proc/check_completion() //This gets called by checking the communication console/modcomp program + automatically once every 10 minutes
-	//First we try to check completion on each objective
-	for(var/datum/overmap_objective/O in objectives)
-		O.check_completion()
-
-	//And then we...
-	if(SSovermap_mode.round_extended) //...check if the bonus objective is completed
-		for(var/datum/overmap_objective/O in objectives)
-			if(O.ignore_check == FALSE)
-				if(O.status == STATUS_COMPLETED || O.status == STATUS_OVERRIDE)
-					victory()
-					return
-
-	else //...check if they are all completed
-		var/objective_length = objectives.len
-		var/objective_check = 0
-		for(var/datum/overmap_objective/O in objectives) //etc
-			if(O.status == STATUS_OVERRIDE) //Victory override check
-				victory()
-				return
-
-			else if(O.status == STATUS_COMPLETED)
-				objective_check ++
-
-		if(objective_check >= objective_length)
+	var/objective_length = objectives.len
+	var/objective_check = 0
+	var/failed = FALSE
+	for(var/datum/overmap_objective/O in objectives) //etc
+		if(O.status == STATUS_OVERRIDE) //Victory override check
 			victory()
+			return
+		else if(O.status == STATUS_COMPLETED)
+			objective_check ++
+		else if(O.status == STATUS_FAILED)
+			objective_check ++
+			if(O.ignore_check == TRUE) //This was a gamemode objective
+				failed = TRUE
+
+	if((objective_check >= objective_length) && !failed)
+		victory()
 
 /datum/overmap_gamemode/proc/victory()
 	if(SSovermap_mode.admin_override)
