@@ -21,7 +21,7 @@
 	range_modifier = 50
 	select_alert = "<span class='notice'>Naval artillery primed.</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Naval artillery systems are not loaded.</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/mac_fire.ogg')
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/battleship_gun2.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_ready.ogg'
 	screen_shake = 2
 
