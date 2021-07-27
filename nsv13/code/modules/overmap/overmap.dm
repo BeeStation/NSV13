@@ -339,16 +339,16 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			forward_maxthrust = 0.65
 			backward_maxthrust = 0.45
 			side_maxthrust = 0.35
-			max_angular_acceleration = 7.5
+			max_angular_acceleration = 8
 			bounce_factor = 0.40 //Throw your weight around more, though!
 			lateral_bounce_factor = 0.40
 
 		//Weightey ships, much harder to steer, generally less responsive. You'll need to use boost tactically.
 		if(MASS_LARGE)
-			forward_maxthrust = 0.45
-			backward_maxthrust = 0.3
+			forward_maxthrust = 0.5
+			backward_maxthrust = 0.35
 			side_maxthrust = 0.25
-			max_angular_acceleration = 5.5
+			max_angular_acceleration = 6
 			bounce_factor = 0.20 //But you can plow through enemy ships with ease.
 			lateral_bounce_factor = 0.20
 			//If we've not already got a special flak battery amount set.
