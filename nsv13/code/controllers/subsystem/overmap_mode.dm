@@ -219,11 +219,14 @@ SUBSYSTEM_DEF(overmap_mode)
 		O.ignore_check = TRUE //We no longer care about checking these objective against completeion
 
 	var/list/extension_pool = typecacheof(/datum/overmap_objective, TRUE)
-	for(var/datum/overmap_objective/O in extension_pool)
-		if(O.extension_supported == FALSE) //Clear the pool of anything we can't add
+	for(var/O in extension_pool)
+		var/datum/overmap_objective/OO = new O()
+		if(OO.extension_supported == FALSE) //Clear the pool of anything we can't add
 			extension_pool -= O
+		else
+			extension_pool[O] = OO
 
-	var/datum/overmap_objective/selected = pick(extension_pool) //Insert new objective
+	var/datum/overmap_objective/selected = extension_pool[pick(extension_pool)] //Insert new objective
 	mode.objectives += new selected()
 	for(var/datum/overmap_objective/O in mode.objectives)
 		if(O.ignore_check == FALSE)
