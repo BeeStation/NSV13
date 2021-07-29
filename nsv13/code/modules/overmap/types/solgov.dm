@@ -33,7 +33,6 @@
 	. = ..()
 	if(ai_controlled)
 		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
-		weapon_types[FIRE_MODE_AMS_LASER] = new /datum/ship_weapon/laser_ams(src)
 	else
 		weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
