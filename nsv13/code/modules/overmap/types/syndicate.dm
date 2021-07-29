@@ -90,7 +90,7 @@
 	icon_state = "mako_carrier"
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter)
-	object_integrity = 400
+	obj_integrity = 400
 	max_integrity = 400
 	integrity_failure = 400
 	armor = list("overmap_light" = 30, "overmap_medium" = 30, "overmap_heavy" = 30)
