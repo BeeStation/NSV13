@@ -2,8 +2,6 @@
 	name = "Destroy fleets"
 	desc = "Destroy enemy fleets"
 
-	var/target_faction = "any"
-
 	var/minimum_fleets = 1
 	var/maximum_fleets = 3
 
