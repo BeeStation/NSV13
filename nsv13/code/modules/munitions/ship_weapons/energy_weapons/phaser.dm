@@ -12,9 +12,9 @@
 	safety = FALSE //Ready to go right from the start.
 	idle_power_usage =  2500
 	var/active = FALSE
-	var/charge = 0
-	var/charge_rate = 25000 //How quickly do we charge?
-	var/charge_per_shot = 50000 //How much power per shot do we have to use?
+	charge = 0
+	charge_rate = 25000 //How quickly do we charge?
+	charge_per_shot = 50000 //How much power per shot do we have to use?
 	var/max_charge = 250000 //5 shots before it has to recharge.
 	var/power_modifier = 0 //Power youre inputting into this thing.
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
@@ -80,24 +80,6 @@
 	else
 		if(src in weapon_type.weapons["loaded"])
 			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
-
-/obj/machinery/ship_weapon/energy/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
-	set waitfor = FALSE //As to not hold up any feedback messages.
-	if(can_fire(shots))
-		if(manual)
-			linked.last_fired = overlay
-
-		for(var/i = 0, i < shots, i++)
-			do_animation()
-			state = 5
-
-			local_fire()
-			overmap_fire(target)
-			charge -= charge_per_shot
-
-			after_fire()
-		return TRUE
-	return FALSE
 
 /obj/machinery/ship_weapon/energy/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
 	for(var/I = FIRE_MODE_PDC; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.

@@ -23,6 +23,9 @@
 	var/special_fire_proc = null //Override this if you need to replace the firing weapons behaviour with a custom proc. See torpedoes and missiles for this.
 	var/selectable = TRUE //Is this a gun you can manually fire? Or do you want it for example, be an individually manned thing..?
 	var/screen_shake = 0
+	var/autonomous = FALSE // Is this a gun that can automatically fire? Keep in mind variables selectable and autonomous can both be TRUE 
+	var/autonomous_priority = 99 // If your new weapon is autonomous, assign a priority. Number 1 priority will be fired first if capable, number 2 priority will be fired if number 1 is unable to fire. 
+	var/permitted_ams_modes = list( "Anti-ship" = 1, "Anti-missile countermeasures" = 1 ) // Overwrite the list with a specific firing mode if you want to restrict its targets 
 
 /datum/ship_weapon/torpedo_launcher
 	special_fire_proc = /obj/structure/overmap/proc/fire_torpedo
@@ -102,6 +105,12 @@
 		var/sound/chosen = pick(overmap_firing_sounds)
 		holder.relay_to_nearby(chosen)
 	holder.fire_projectile(default_projectile_type, target)
+
+/datum/ship_weapon/proc/can_fire()
+	for(var/obj/machinery/ship_weapon/SW in weapons["loaded"])
+		if ( SW.can_fire() ) // If any one weapon in the datum's list can fire, return 
+			return TRUE 
+	return FALSE
 
 /datum/ship_weapon/proc/fire(atom/target)
 	if(special_fire(target) == FIRE_INTERCEPTED)
