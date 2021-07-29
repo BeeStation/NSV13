@@ -302,7 +302,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	name = "Su-818 Rapier"
 	desc = "An Su-818 Rapier space superiorty fighter craft. Designed for high maneuvreability and maximum combat effectivness against other similar weight classes."
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
-	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 10, "overmap_heavy" = 5)
+	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 10, "overmap_medium" = 5, "overmap_heavy" = 90)
 	sprite_size = 32
 	damage_states = FALSE //temp
 	max_integrity = 200 //Really really squishy!
@@ -354,7 +354,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	desc = "An Su-410 Scimitar heavy attack craft. It's a lot beefier than its Rapier cousin and is designed to take out capital ships, due to the weight of its modules however, it is extremely slow."
 	icon = 'nsv13/icons/overmap/nanotrasen/heavy_fighter.dmi'
 	icon_state = "heavy_fighter"
-	armor = list("melee" = 80, "bullet" = 80, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 25, "overmap_heavy" = 10)
+	armor = list("melee" = 80, "bullet" = 80, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 25, "overmap_medium" = 20, "overmap_heavy" = 90)
 	sprite_size = 32
 	damage_states = FALSE //TEMP
 	max_integrity = 300 //Not so squishy!
@@ -1173,6 +1173,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	desc = "Avionics for a fighter"
 	icon = 'nsv13/icons/obj/fighter_components.dmi'
 	icon_state = "avionics"
+	tier = null
 
 /obj/item/fighter_component/apu
 	name = "Fighter Auxiliary Power Unit"
@@ -1268,7 +1269,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	if(!weapon_types[FIRE_MODE_TORPEDO])
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/fighter_secondary(src)
 
-/obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target)
+/obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target, ai_aim = FALSE)
 	hardpoint_fire(target, FIRE_MODE_PDC)
 
 /obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, fireMode)
@@ -1286,7 +1287,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 			return TRUE
 	return FALSE
 
-/obj/structure/overmap/proc/secondary_fire(obj/structure/overmap/target)
+/obj/structure/overmap/proc/secondary_fire(obj/structure/overmap/target, ai_aim = FALSE)
 	hardpoint_fire(target, FIRE_MODE_TORPEDO)
 
 /obj/item/fighter_component/primary/load(obj/structure/overmap/target, atom/movable/AM)
@@ -1332,14 +1333,14 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	ammo = list()
 
 /obj/item/fighter_component/primary/cannon
-	name = "30mm Vulcan Cannon"
+	name = "20mm Vulcan Cannon"
 	icon_state = "lightcannon"
 	accepted_ammo = /obj/item/ammo_box/magazine/light_cannon
 	burst_size = 2
 	fire_delay = 0.25 SECONDS
 
 /obj/item/fighter_component/primary/cannon/heavy
-	name = "40mm BRRRRTT Cannon"
+	name = "30mm BRRRRTT Cannon"
 	icon_state = "heavycannon"
 	accepted_ammo = /obj/item/ammo_box/magazine/heavy_cannon
 	weight = 2 //Sloooow down there.

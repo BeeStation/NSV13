@@ -12,7 +12,7 @@
 	mass = MASS_SMALL
 	max_integrity = 400
 	integrity_failure = 400
-	armor = list("overmap_light" = 80, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 90, "overmap_medium" = 40, "overmap_heavy" = 10)
 	bound_height = 64
 	bound_width = 64
 	ai_controlled = TRUE
@@ -87,10 +87,10 @@
 	bound_width = 96
 	max_integrity = 1000
 	integrity_failure = 1000
-	armor = list("overmap_light" = 90, "overmap_heavy" = 15)
+	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 15)
 	ai_flags = AI_FLAG_DESTROYER
-	torpedoes = 20
-	missiles = 20
+	torpedoes = 30
+	missiles = 30
 
 /obj/structure/overmap/spacepirate/ai/nt_missile/apply_weapons()
 	.=..()
@@ -109,8 +109,8 @@
 	max_integrity = 750
 	integrity_failure = 750
 	shots_left = 20
-	armor = list("overmap_light" = 90, "overmap_heavy" = 25)
-	ai_flags = AI_FLAG_BATTLESHIP
+	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 25)
+	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE //Needs to be shooting all its guns
 	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/spacepirate/ai/syndie_gunboat/apply_weapons() //Dakka+
@@ -137,7 +137,7 @@
 	integrity_failure = 10000
 	shots_left = 35
 	torpedoes = 35
-	armor = list("overmap_light" = 99, "overmap_heavy" = 50)
+	armor = list("overmap_light" = 100, "overmap_medium" = 85, "overmap_heavy" = 50)
 	can_resupply = TRUE
 	ai_flags = AI_FLAG_SUPPLY | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/flagship
@@ -150,4 +150,4 @@
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
-	flak_battery_amount = 1
+	flak_battery_amount = 2

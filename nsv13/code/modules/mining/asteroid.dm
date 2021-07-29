@@ -69,7 +69,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	max_integrity = 100
 	var/list/core_composition = list(/turf/closed/mineral/iron, /turf/closed/mineral/titanium)
 	var/required_tier = 1
-	armor = list("overmap_light" = 99, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 100, "overmap_medium" = 100, "overmap_heavy" = 25)
 
 /obj/structure/overmap/asteroid/apply_weapons()
 	return FALSE //Lol, no.

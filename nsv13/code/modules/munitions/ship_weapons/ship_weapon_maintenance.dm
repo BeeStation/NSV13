@@ -26,7 +26,7 @@
 	playsound(src, malfunction_sound, 100, TRUE)
 	visible_message("<span class=userdanger>Malfunction detected in [src]! Firing sequence aborted!</span>") //perhaps additional flavour text of a non angry red kind?
 	for(var/mob/living/M in range(10, get_turf(src)))
-		shake_camera(M, 2, 1)
+		shake_with_inertia(M, 2, 1)
 	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(6, 0, src)
 	s.start()
