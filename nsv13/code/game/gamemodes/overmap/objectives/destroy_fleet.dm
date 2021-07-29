@@ -8,6 +8,8 @@
 	var/fleets_required = 1
 	var/fleets_defeated = 0
 
+	extension_supported = TRUE
+
 /datum/overmap_objective/destroy_fleets/instance()
 	fleets_required = rand(minimum_fleets, maximum_fleets) // Doing this in instance in case people want different numbers of them
 	brief = "Defeat [fleets_required] [(target_faction == "any") ? "hostile" : "[target_faction]"] [(fleets_required != 1) ? "fleets" : "fleet" ]"
