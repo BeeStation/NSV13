@@ -23,7 +23,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/objective_reminder_override = FALSE 		//Are we currently using the reminder system?
 	var/last_objective_interaction = 0 				//Last time the crew interacted with one of our objectives
 	var/next_objective_reminder = 0 				//Next time we automatically remind the crew to proceed with objectives
-	var/objective_reminder_stacks = 0 				//How many times has the crew been automatically reminded of objectives without any progress
+	var/objective_reminder_stacks = -1 				//How many times has the crew been automatically reminded of objectives without any progress
 	var/combat_resets_reminder = FALSE 				//Does combat in the overmap reset the reminder?
 	var/combat_delays_reminder = FALSE 				//Does combat in the overmap delay the reminder?
 	var/combat_delay_amount = 0 					//How much the reminder is delayed by combat
@@ -32,6 +32,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/round_extended = FALSE 						//Has the round already been extended already?
 	var/admin_override = FALSE						//Stops the mission ending
 	var/already_ended = FALSE						//Is the round already in an ending state
+	var/mode_initialised = FALSE
 
 	var/check_completion_timer = 0
 
@@ -111,7 +112,8 @@ SUBSYSTEM_DEF(overmap_mode)
 		message_admins("Error: mode section pool empty - defaulting to PATROL")
 		log_game("Error: mode section pool empty - defaulting to PATROL")
 
-
+/datum/controller/subsystem/overmap_mode/proc/setup_overmap_mode()
+	mode_initialised = TRUE
 	switch(mode.objective_reminder_setting) //Load the reminder settings
 		if(REMINDER_COMBAT_RESET)
 			combat_resets_reminder = TRUE
@@ -358,6 +360,89 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/overmap_objective/proc/check_completion()
 	return
+
+//////ADMIN TOOLS//////
+
+/client/proc/overmap_mode_controller() //Admin Verb for the Overmap Gamemode controller
+	set name = "Overmap Gamemode Controller"
+	set desc = "Manage the Overmap Gamemode"
+	set category = "Adminbus"
+	var/datum/overmap_mode_controller/omc = new(usr)
+	omc.ui_interact(usr)
+
+/datum/overmap_mode_controller
+	var/name = "Overmap Gamemode Controller"
+	var/client/holder = null
+
+/datum/overmap_mode_controller/New(H)
+	if(istype(H, /client))
+		var/client/C = H
+		holder = C
+	else
+		var/mob/M = H
+		holder = M.client
+	.=..()
+
+/datum/overmap_mode_controller/ui_state(mob/user)
+	return GLOB.admin_state
+
+/datum/overmap_mode_controller/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "OvermapGamemodeController")
+		ui.open()
+
+/datum/overmap_mode_controller/ui_act(action, params)
+	if(..())
+		return
+	var/adjust = text2num(params["adjust"])
+	if(action == "current_escalation")
+		if(adjust && isnum(adjust))
+			SSovermap_mode.escalation = adjust
+			if(SSovermap_mode.escalation > 5)
+				SSovermap_mode.escalation = 5
+			if(SSovermap_mode.escalation < -5)
+				SSovermap_mode.escalation = -5
+			SSovermap_mode.difficulty_calc()
+
+	switch(action)
+		if("change_gamemode")
+			return
+		if("add_objective")
+			return
+		if("remove_objective")
+			return
+		if("change_objective_state")
+			return
+		if("toggle_reminder")
+			return
+		if("extend_reminder")
+			return
+		if("reset_stage")
+			return
+		if("override_completion")
+			return
+		if("difficulty_override")
+			return
+
+
+/datum/overmap_mode_controller/ui_data(mob/user)
+	var/list/data = list()
+	var/list/objectives = list()
+	data["current_gamemode"] = SSovermap_mode.mode.name
+	data["mode_initalised"] = SSovermap_mode.mode_initialised
+	data["current_difficulty"] = SSovermap_mode.mode.difficulty
+	data["current_escalation"] = SSovermap_mode.escalation
+	data["reminder_time_remaining"] = (SSovermap_mode.next_objective_reminder - world.time) / 60 //Seconds
+	data["reminder_interval"] = SSovermap_mode.mode.objective_reminder_interval / 3600 //Minutes
+	data["reminder_stacks"] = SSovermap_mode.objective_reminder_stacks
+	data["toggle_reminder"] = SSovermap_mode.objective_reminder_override
+	data["toggle_override"] = SSovermap_mode.admin_override
+	for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+		objectives += O
+	data["objectives_list"] = objectives
+	return data
+
 
 #undef STATUS_INPROGRESS
 #undef STATUS_COMPLETED
