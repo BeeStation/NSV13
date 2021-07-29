@@ -30,6 +30,9 @@ SUBSYSTEM_DEF(star_system)
 	var/next_combat_cycle = 0
 	var/list/contested_systems = list()	//A maintained list containing all systems that have fleets of opposing factions in them. Fleets add a system to it if they arrive in a system with a hostile fleet, handle_combat removes a system if there is no more conflict.
 
+	var/obj/structure/overmap/main_overmap = null //The main overmap
+	var/obj/structure/overmap/mining_ship = null //The mining ship
+
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(time_limit && world.time >= time_limit)
 		var/datum/faction/winner = get_winner()
@@ -165,13 +168,17 @@ Returns a faction datum by its name (case insensitive!)
 
 /datum/controller/subsystem/star_system/proc/find_main_overmap() //Find the main ship
 	RETURN_TYPE(/obj/structure/overmap)
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+	if(main_overmap)
+		return main_overmap
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //We shouldn't have to do this, but fallback
 		if(OM.role == MAIN_OVERMAP)
 			return OM
 
 /datum/controller/subsystem/star_system/proc/find_main_miner() //Find the mining ship
 	RETURN_TYPE(/obj/structure/overmap)
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+	if(mining_ship)
+		return mining_ship
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //We shouldn't have to do this, but fallback
 		if(OM.role == MAIN_MINING_SHIP)
 			return OM
 
