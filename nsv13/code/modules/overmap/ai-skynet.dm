@@ -155,7 +155,7 @@ Adding tasks is easy! Just define a datum for it.
 
 		if(world.time < last_encounter_time + combat_move_delay) //So that fleets don't leave mid combat.
 			return FALSE
-		
+
 		if(SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, pick(all_ships)) & BEING_INTERDICTED)	//Hypothesis: All ships within a fleet should have the same faction.
 			return FALSE
 
@@ -266,9 +266,12 @@ Adding tasks is easy! Just define a datum for it.
 		current_system.mission_sector = FALSE
 	var/player_caused = FALSE
 	for(var/obj/structure/overmap/OOM in current_system.system_contents)
-		if(!OOM.mobs_in_ship.len)
+		if(QDELETED(OOM) || QDELING(OOM))
+			continue
+		if(!length(OOM.mobs_in_ship))
 			continue
 		player_caused = TRUE
+		SEND_SIGNAL(OOM, COMSIG_SHIP_KILLED_FLEET)
 		for(var/mob/M in OOM.mobs_in_ship)
 			if(M.client)
 				var/client/C = M.client
