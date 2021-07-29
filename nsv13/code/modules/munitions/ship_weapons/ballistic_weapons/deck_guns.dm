@@ -432,6 +432,10 @@
 		if(OM.z == z)
 			shake_with_inertia(M, 1, 1)
 
+/obj/machinery/ship_weapon/deck_turret/overmap_fire(atom/target)
+	linked.shake_animation()
+	. = ..()
+
 /obj/machinery/ship_weapon/deck_turret/north
 	dir = NORTH
 	pixel_x = -43
