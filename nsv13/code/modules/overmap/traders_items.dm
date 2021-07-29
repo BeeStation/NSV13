@@ -209,7 +209,7 @@
 	desc = "PDC rounds for use in ship to ship guns."
 	price = 800
 	stock = 10
-	unlock_path = /obj/item/ammo_box/magazine/pdc
+	unlock_path = /obj/item/ammo_box/magazine/pdc/fiftycal
 
 /datum/trader_item/flak
 	name = "Flak Ammo Box"
