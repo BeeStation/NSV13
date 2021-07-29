@@ -252,7 +252,7 @@
 	ai_flags = AI_FLAG_DESTROYER
 	torpedoes = 10 //it's vago, alright?
 	missiles = 10
-	object_integrity = 500
+	obj_integrity = 500
 	max_integrity = 500
 	integrity_failure = 500
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
