@@ -248,6 +248,8 @@ SUBSYSTEM_DEF(ticker)
 			SSjob.ResetOccupations()
 			return 0
 
+	CHECK_TICK //NSV 13
+	SSovermap_mode.setup_overmap_mode() //NSV 13 - Injecting our overmap stuff here
 	CHECK_TICK
 	//Configure mode and assign player to special mode stuff
 	var/can_continue = 0
