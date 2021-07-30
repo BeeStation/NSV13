@@ -1375,7 +1375,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	var/accepted_ammo = /obj/item/ship_weapon/ammunition/missile
 	var/list/ammo = list()
-	var/max_ammo = 3
+	var/max_ammo = 5
 	var/burst_size = 1 //Cluster torps...UNLESS?
 	var/fire_delay = 0.25 SECONDS
 
