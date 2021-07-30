@@ -208,23 +208,6 @@ Misc projectile types, effects, think of this as the special FX file.
 
 	return BULLET_ACT_HIT
 
-/obj/item/projectile/guided_munition/torpedo/check_faction(atom/movable/A)
-	var/obj/item/projectile/P = A //Lazy but w/e
-	//If it's a projectile and not sharing our faction, blow it up.
-	if(isprojectile(A) && P.faction != faction)
-		new /obj/effect/temp_visual/impact_effect/torpedo(get_turf(src)) //Exploding effect
-		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo_detonate.ogg','nsv13/sound/effects/ship/freespace2/impacts/boom_2.wav','nsv13/sound/effects/ship/freespace2/impacts/boom_3.wav','nsv13/sound/effects/ship/freespace2/impacts/subhit.wav','nsv13/sound/effects/ship/freespace2/impacts/subhit2.wav','nsv13/sound/effects/ship/freespace2/impacts/m_hit.wav','nsv13/sound/effects/ship/freespace2/impacts/hit_1.wav')
-		var/obj/structure/overmap/OM = firer || null
-		if(OM && istype(OM))
-			OM?.relay_to_nearby(chosen)
-		qdel(src)
-		return FALSE
-	var/obj/structure/overmap/OM = A
-	if(!istype(OM))
-		return TRUE
-	if(faction != OM.faction)
-		return TRUE
-
 /obj/item/projectile/bullet/fiftycal
 	icon_state = "pdc"
 	name = "PDC round"
