@@ -112,8 +112,6 @@ Misc projectile types, effects, think of this as the special FX file.
 	speed = 2.75
 	valid_angle = 150
 	homing_turn_speed = 35
-	obj_integrity = 40
-	max_integrity = 40
 	damage = 250
 	range = 250
 	armor = list("overmap_light" = 20, "overmap_medium" = 10, "overmap_heavy" = 0)
