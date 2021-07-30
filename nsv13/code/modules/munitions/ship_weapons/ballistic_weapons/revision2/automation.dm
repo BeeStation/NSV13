@@ -83,7 +83,6 @@
 		visible_message("[name] shakes its arm melancholically.")
 		arm.shake_animation()
 		playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
-
 	if(target)
 		arm.icon_state = arm_icon_state
 		target.state++ //Next step!
@@ -105,7 +104,6 @@
 		if(target.state == target_state)
 			found = TRUE
 			break
-
 	if(!found)
 		visible_message("<span class='notice'>[src] sighs.</span>")
 		playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
@@ -135,6 +133,18 @@
 		for(var/obj/item/X in held_components)
 			X.forceMove(get_turf(src))
 			held_components -= X
+
+/obj/machinery/missile_builder/assembler/MouseDrop_T(obj/structure/A, mob/user)
+	. = ..()
+	if(istype(A, /obj/structure/closet))
+		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/parts/missile))
+			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
+			return FALSE
+		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
+		if(do_after(user, 4 SECONDS , target = src))
+			for(var/obj/item/ship_weapon/parts/missile/P in A)
+				P.forceMove(src)
+				held_components += P
 
 /obj/machinery/missile_builder/assembler/process()
 	if(world.time < next_process)

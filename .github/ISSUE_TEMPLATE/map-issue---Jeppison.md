@@ -2,7 +2,7 @@
 name: Map Issue - Jeppison
 about: Bugs related to the Jeppison Map
 title: ''
-labels: Map Issue, Jeppison
+labels: Jeppison, Map Issue
 assignees: ''
 
 ---

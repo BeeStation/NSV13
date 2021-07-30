@@ -404,3 +404,8 @@
 
 //Heretics stuff
 #define COMSIG_HUMAN_VOID_MASK_ACT "void_mask_act"
+
+//NSV13 comsigs begin
+#define COMSIG_GLOB_CHECK_INTERDICT "check_interdict"							//from interdiction component
+#define BEING_INTERDICTED (1<<0)											//returned on successful interdict
+//NSV13 comsigs end
