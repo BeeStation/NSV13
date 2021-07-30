@@ -8,6 +8,8 @@
 	var/fleets_required = 1
 	var/fleets_defeated = 0
 
+	var/target_faction = "any"
+
 	extension_supported = TRUE
 
 /datum/overmap_objective/destroy_fleets/instance()
