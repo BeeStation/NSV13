@@ -23,7 +23,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/objective_reminder_override = FALSE 		//Are we currently using the reminder system?
 	var/last_objective_interaction = 0 				//Last time the crew interacted with one of our objectives
 	var/next_objective_reminder = 0 				//Next time we automatically remind the crew to proceed with objectives
-	var/objective_reminder_stacks = -1 				//How many times has the crew been automatically reminded of objectives without any progress
+	var/objective_reminder_stacks = 0 				//How many times has the crew been automatically reminded of objectives without any progress
 	var/combat_resets_reminder = FALSE 				//Does combat in the overmap reset the reminder?
 	var/combat_delays_reminder = FALSE 				//Does combat in the overmap delay the reminder?
 	var/combat_delay_amount = 0 					//How much the reminder is delayed by combat
@@ -407,20 +407,34 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	switch(action)
 		if("change_gamemode")
+			message_admins("Not Currently Enabled - SoonTM")
 			return
 		if("add_objective")
 			return
 		if("remove_objective")
+			var/datum/overmap_objective/O = locate(params["target"])
+			SSovermap_mode.mode.objectives -= O
+			qdel(O)
 			return
 		if("change_objective_state")
+			var/list/o_state = list(STATUS_INPROGRESS,
+									STATUS_COMPLETED,
+									STATUS_FAILED,
+									STATUS_OVERRIDE)
+			var/new_state = input("Select state to set", "Change Objective State") as null|anything in o_state
+			var/datum/overmap_objective/O = locate(params["target"])
+			O.status = new_state
 			return
 		if("toggle_reminder")
+			SSovermap_mode.objective_reminder_override = !SSovermap_mode.objective_reminder_override
 			return
 		if("extend_reminder")
 			return
 		if("reset_stage")
+			SSovermap_mode.objective_reminder_stacks = 0
 			return
 		if("override_completion")
+			SSovermap_mode.admin_override = !SSovermap_mode.admin_override
 			return
 		if("difficulty_override")
 			return
@@ -430,16 +444,30 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/list/data = list()
 	var/list/objectives = list()
 	data["current_gamemode"] = SSovermap_mode.mode.name
+	data["current_description"] = SSovermap_mode.mode.desc
 	data["mode_initalised"] = SSovermap_mode.mode_initialised
 	data["current_difficulty"] = SSovermap_mode.mode.difficulty
 	data["current_escalation"] = SSovermap_mode.escalation
-	data["reminder_time_remaining"] = (SSovermap_mode.next_objective_reminder - world.time) / 60 //Seconds
-	data["reminder_interval"] = SSovermap_mode.mode.objective_reminder_interval / 3600 //Minutes
+	data["reminder_time_remaining"] = (SSovermap_mode.next_objective_reminder - world.time) / 10 //Seconds
+	data["reminder_interval"] = SSovermap_mode.mode.objective_reminder_interval / 600 //Minutes
 	data["reminder_stacks"] = SSovermap_mode.objective_reminder_stacks
 	data["toggle_reminder"] = SSovermap_mode.objective_reminder_override
 	data["toggle_override"] = SSovermap_mode.admin_override
 	for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
-		objectives += O
+		var/list/objective_data = list()
+		objective_data["name"] = O.name
+		objective_data["desc"] = O.desc
+		switch(O.status)
+			if(STATUS_INPROGRESS)
+				objective_data["status"] = "In-Progress"
+			if(STATUS_COMPLETED)
+				objective_data["status"] = "Completed"
+			if(STATUS_FAILED)
+				objective_data["status"] = "Failed"
+			if(STATUS_OVERRIDE)
+				objective_data["status"] = "Completed - VICTORY OVERRIDE"
+		objective_data["datum"] = O
+		objectives[++objectives.len] = objective_data
 	data["objectives_list"] = objectives
 	return data
 
