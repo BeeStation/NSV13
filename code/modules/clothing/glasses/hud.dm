@@ -32,13 +32,9 @@
 		if(islist(hud_type))
 			for(var/T in hud_type)
 				var/datum/atom_hud/H = GLOB.huds[T]
-				if(user.squad && T == DATA_HUD_SECURITY_ADVANCED) //Nsv13 - Squad hud jank! Wahoo!
-					continue
 				H.remove_hud_from(user)
 		else
 			var/datum/atom_hud/H = GLOB.huds[hud_type]
-			if(user.squad && hud_type == DATA_HUD_SECURITY_ADVANCED) //Nsv13 - Squad hud jank! Wahoo!
-				return
 			H.remove_hud_from(user)
 	if(hud_trait)
 		if(islist(hud_trait))
