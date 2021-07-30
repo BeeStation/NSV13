@@ -200,11 +200,11 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/proc/detonate(atom/target)
 	explosion(target, 2, 4, 4)
-	
+
 /obj/item/projectile/guided_munition/torpedo/nuclear/detonate(atom/target)
-		var/obj/structure/overmap/OM = target.get_overmap() //What if I just..........
-		OM?.nuclear_impact()
-		explosion(target, 3, 6, 8)
+	var/obj/structure/overmap/OM = target.get_overmap() //What if I just..........
+	OM?.nuclear_impact()
+	explosion(target, 3, 6, 8)
 
 	return BULLET_ACT_HIT
 
