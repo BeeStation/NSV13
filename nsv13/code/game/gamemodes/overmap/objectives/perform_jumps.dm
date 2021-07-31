@@ -9,6 +9,7 @@
 	var/jumps_completed = -1 // Don't count staging
 
 /datum/overmap_objective/perform_jumps/instance()
+	.=..()
 	jumps_required = rand(minimum_jumps, maximum_jumps) // Doing this in instance in case people want different numbers of them
 	brief = "Perform [jumps_required] FTL jumps"
 	RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_SHIP_ARRIVED, .proc/register_jump)

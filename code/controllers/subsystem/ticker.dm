@@ -306,6 +306,7 @@ SUBSYSTEM_DEF(ticker)
 
 	current_state = GAME_STATE_PLAYING
 	Master.SetRunLevel(RUNLEVEL_GAME)
+	SSovermap_mode.start_reminder() //NSV13
 
 	if(SSevents.holidays)
 		to_chat(world, "<span class='notice'>and...</span>")

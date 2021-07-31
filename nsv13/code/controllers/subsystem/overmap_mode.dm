@@ -130,7 +130,8 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	mode.objectives = objective_pool
 	for(var/datum/overmap_objective/O in mode.objectives)
-		O.instance() //Setup any overmap assets
+		if(O.instanced == FALSE)
+			O.instance() //Setup any overmap assets
 
 	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
 	if(OM)
@@ -140,43 +141,42 @@ SUBSYSTEM_DEF(overmap_mode)
 			OM.faction = mode.starting_faction //If we have a faction override, set it
 
 /datum/controller/subsystem/overmap_mode/fire()
+	if(SSticker.current_state == GAME_STATE_PLAYING) //Wait for the game to begin
+		if(world.time >= 3 MINUTES && !announced_objectives) //Send out our objectives
+			announce_objectives()
 
-	if(world.time >= 3 MINUTES && !announced_objectives) //Send out our objectives
-		announce_objectives()
+		if(world.time >= check_completion_timer) //Fire this automatically every ten minutes to prevent round stalling
+			difficulty_calc() //Also do our difficulty check here
+			mode.check_completion()
+			check_completion_timer += 10 MINUTES
 
-	if(world.time >= check_completion_timer) //Fire this automatically every ten minutes to prevent round stalling
-		difficulty_calc() //Also do our difficulty check here
-		mode.check_completion()
-		check_completion_timer += 10 MINUTES
+		if(!objective_reminder_override)
+			if(world.time >= next_objective_reminder)
+				objective_reminder_stacks ++
+				next_objective_reminder = world.time + mode.objective_reminder_interval
+				switch(objective_reminder_stacks)
+					if(1)
+						//something
+						priority_announce("[mode.reminder_one]", "[mode.reminder_origin]")
+						mode.consequence_one()
+					if(2)
+						//something else
+						priority_announce("[mode.reminder_two]", "[mode.reminder_origin]")
+						mode.consequence_two()
+					if(3)
+						//something else +
+						priority_announce("[mode.reminder_three]", "[mode.reminder_origin]")
+						mode.consequence_three()
+					if(4)
+						//last chance
+						priority_announce("[mode.reminder_four]", "[mode.reminder_origin]")
+						mode.consequence_four()
+					if(5)
+						//mission critical failure
+						priority_announce("[mode.reminder_five]", "[mode.reminder_origin]")
+						mode.consequence_five()
 
-	if(!objective_reminder_override)
-		if(world.time >= next_objective_reminder)
-			objective_reminder_stacks ++
-			next_objective_reminder = world.time + mode.objective_reminder_interval
-			switch(objective_reminder_stacks)
-				if(1)
-					//something
-					priority_announce("[mode.reminder_one]", "[mode.reminder_origin]")
-					mode.consequence_one()
-				if(2)
-					//something else
-					priority_announce("[mode.reminder_two]", "[mode.reminder_origin]")
-					mode.consequence_two()
-				if(3)
-					//something else +
-					priority_announce("[mode.reminder_three]", "[mode.reminder_origin]")
-					mode.consequence_three()
-				if(4)
-					//last chance
-					priority_announce("[mode.reminder_four]", "[mode.reminder_origin]")
-					mode.consequence_four()
-				if(5)
-					//mission critical failure
-					priority_announce("[mode.reminder_five]", "[mode.reminder_origin]")
-					mode.consequence_five()
-
-/datum/controller/subsystem/overmap_mode/New()
-	.=..()
+/datum/controller/subsystem/overmap_mode/proc/start_reminder()
 	next_objective_reminder = world.time + mode.objective_reminder_interval
 
 /datum/controller/subsystem/overmap_mode/proc/announce_objectives()
@@ -232,7 +232,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/datum/overmap_objective/selected = extension_pool[pick(extension_pool)] //Insert new objective
 	mode.objectives += new selected()
 	for(var/datum/overmap_objective/O in mode.objectives)
-		if(O.ignore_check == FALSE)
+		if(O.instanced == FALSE)
 			O.instance()
 
 	announce_objectives() //Let them all know
@@ -283,10 +283,12 @@ SUBSYSTEM_DEF(overmap_mode)
 
 
 /datum/overmap_gamemode/proc/consequence_two()
-
+	var/datum/faction/F = SSstar_system.faction_by_id(starting_faction)
+	F.lose_influence(25)
 
 /datum/overmap_gamemode/proc/consequence_three()
-
+	var/datum/faction/F = SSstar_system.faction_by_id(starting_faction)
+	F.lose_influence(50)
 
 /datum/overmap_gamemode/proc/consequence_four()
 	var/datum/faction/F = SSstar_system.faction_by_id(starting_faction)
@@ -300,6 +302,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	target.fleets += F
 	F.current_system = target
 	F.assemble(target)
+	SSovermap_mode.objective_reminder_stacks = 0 //Reset
 
 
 
@@ -352,11 +355,12 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/status = STATUS_INPROGRESS		//0 = In-progress, 1 = Completed, 2 = Failed, 3 = Victory Override (this will end the round)
 	var/extension_supported = FALSE 	//Is this objective available to be a random extended round objective?
 	var/ignore_check = FALSE			//Used for checking extended rounds
+	var/instanced = FALSE				//Have we yet run the instance proc for this objective?
 
 /datum/overmap_objective/New()
 
 /datum/overmap_objective/proc/instance() //Used to generate any in world assets
-	return
+	instanced = TRUE
 
 /datum/overmap_objective/proc/check_completion()
 	return
@@ -397,7 +401,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		return
 	var/adjust = text2num(params["adjust"])
 	if(action == "current_escalation")
-		if(adjust && isnum(adjust))
+		if(isnum(adjust))
 			SSovermap_mode.escalation = adjust
 			if(SSovermap_mode.escalation > 5)
 				SSovermap_mode.escalation = 5
@@ -410,6 +414,14 @@ SUBSYSTEM_DEF(overmap_mode)
 			message_admins("Not Currently Enabled - SoonTM")
 			return
 		if("add_objective")
+			var/list/objectives_pool = typecacheof(/datum/overmap_objective, TRUE)
+			var/datum/overmap_objective/S = input("Select objective to add", "Add Objective") as null|anything in objectives_pool
+			if(S == null)
+				return
+			SSovermap_mode.mode.objectives += new S()
+			for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+				if(O.instanced == FALSE)
+					O.instance()
 			return
 		if("remove_objective")
 			var/datum/overmap_objective/O = locate(params["target"])
@@ -417,11 +429,19 @@ SUBSYSTEM_DEF(overmap_mode)
 			qdel(O)
 			return
 		if("change_objective_state")
-			var/list/o_state = list(STATUS_INPROGRESS,
-									STATUS_COMPLETED,
-									STATUS_FAILED,
-									STATUS_OVERRIDE)
+			var/list/o_state = list("In-Progress",
+									"Completed",
+									"Failed",
+									"Victory Override")
 			var/new_state = input("Select state to set", "Change Objective State") as null|anything in o_state
+			if(new_state == "In-Progress")
+				new_state = STATUS_INPROGRESS
+			else if(new_state == "Completed")
+				new_state = STATUS_COMPLETED
+			else if(new_state == "Failed")
+				new_state = STATUS_FAILED
+			else if(new_state == "Victory Override")
+				new_state = STATUS_OVERRIDE
 			var/datum/overmap_objective/O = locate(params["target"])
 			O.status = new_state
 			return
@@ -429,6 +449,8 @@ SUBSYSTEM_DEF(overmap_mode)
 			SSovermap_mode.objective_reminder_override = !SSovermap_mode.objective_reminder_override
 			return
 		if("extend_reminder")
+			var/amount = input("Enter amount to extend by in minutes:", "Extend Reminder") as num|null
+			SSovermap_mode.next_objective_reminder += amount MINUTES
 			return
 		if("reset_stage")
 			SSovermap_mode.objective_reminder_stacks = 0
@@ -436,9 +458,6 @@ SUBSYSTEM_DEF(overmap_mode)
 		if("override_completion")
 			SSovermap_mode.admin_override = !SSovermap_mode.admin_override
 			return
-		if("difficulty_override")
-			return
-
 
 /datum/overmap_mode_controller/ui_data(mob/user)
 	var/list/data = list()
@@ -466,7 +485,7 @@ SUBSYSTEM_DEF(overmap_mode)
 				objective_data["status"] = "Failed"
 			if(STATUS_OVERRIDE)
 				objective_data["status"] = "Completed - VICTORY OVERRIDE"
-		objective_data["datum"] = O
+		objective_data["datum"] = "\ref[O]"
 		objectives[++objectives.len] = objective_data
 	data["objectives_list"] = objectives
 	return data
