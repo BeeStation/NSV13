@@ -6,9 +6,8 @@
 	ammo_type = /obj/item/ammo_casing/pdc
 	caliber = "mm30.12"
 	max_ammo = 300
-	var/fancy_start = 25	//the pixel position of the first 'bullet' shown in the magazine
-	var/fancy_end   = 8		//the pixel position of the last 'bullet'
-	var/last_pixel	//the last pixel position to be used
+	var/overlay_frames = 17	//how many frames are in the "animation" of the ammo overlay
+	var/last_frame //what the last frame was
 
 /obj/item/ammo_casing/pdc
 	name = "30.12x82mm bullet casing"
@@ -25,27 +24,27 @@
 		if (!(istype(loc, /obj/item/storage)||istype(loc, /obj/item/clothing)))//unless it's a backpack or something
 			return FALSE
 	var/count = stored_ammo.len //faster than ammo_count()
-	var/new_pixel = round(((count/max_ammo)*(fancy_start - fancy_end)) + fancy_end + 1)
-
 	if (!count)
 		icon_state = "[initial(icon_state)]_empty"
 		cut_overlays()
-		last_pixel = null
+		last_frame = null
 		return FALSE
 	icon_state = "[initial(icon_state)]"
-
-	if (new_pixel == last_pixel) 
+	if (count >= max_ammo)
+		cut_overlays()
+		last_frame = null
 		return FALSE
-	last_pixel = new_pixel
+
+	var/new_frame = round(overlay_frames * (count/max_ammo) + 1)
+	if (new_frame == last_frame) 
+		return FALSE
+	last_frame = new_frame
 	cut_overlays()
 
 	if (count >= max_ammo)
 		return FALSE
 	
-	var/icon/mask = icon("[icon]","[initial(icon_state)]_empty")
-	mask.Crop(new_pixel,1,(32 + new_pixel),32)
-	mask.Shift(EAST,(new_pixel - 1))
-	add_overlay(mask)
+	add_overlay(icon("[icon]","pdc_overlay",frame = new_frame))
 	return TRUE
 
 /obj/item/ammo_box/magazine/pdc/examine(mob/user)
