@@ -22,16 +22,8 @@
 
 /obj/item/ammo_box/magazine/pdc/update_icon()
 	if (istype(loc, /obj))//don't update if it's in an object
-		if (istype(loc, /obj/item/storage)||istype(loc, /obj/item/clothing))//unless it's a backpack or something
-			fancy_icon()
-		return FALSE
-	fancy_icon()
-
-/obj/item/ammo_box/magazine/pdc/examine(mob/user)
-	. = ..()
-	. += "<span class ='notice'>It has [ammo_count()] bullets left.</span>"
-
-/obj/item/ammo_box/magazine/pdc/proc/fancy_icon()//new proc because it's probably too slow for all the times update_icon gets called
+		if (!(istype(loc, /obj/item/storage)||istype(loc, /obj/item/clothing)))//unless it's a backpack or something
+			return FALSE
 	var/count = stored_ammo.len //faster than ammo_count()
 	var/new_pixel = round(((count/max_ammo)*(fancy_start - fancy_end)) + fancy_end + 1)
 
@@ -55,5 +47,7 @@
 	mask.Shift(EAST,(new_pixel - 1))
 	add_overlay(mask)
 	return TRUE
-	
 
+/obj/item/ammo_box/magazine/pdc/examine(mob/user)
+	. = ..()
+	. += "<span class ='notice'>It has [ammo_count()] bullets left.</span>"
