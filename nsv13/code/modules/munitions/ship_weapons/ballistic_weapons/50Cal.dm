@@ -66,9 +66,9 @@
 	start_gunning()
 
 /datum/component/overmap_gunning/proc/apply_settings(special_fx=FALSE, automatic=FALSE) //Until we have named variables, this should work
-	if(special_fx != null)
+	if(!isnull(special_fx))
 		src.special_fx = special_fx
-	if(automatic != null)
+	if(!isnull(automatic))
 		src.automatic = automatic
 
 /datum/component/overmap_gunning/proc/start_gunning()
