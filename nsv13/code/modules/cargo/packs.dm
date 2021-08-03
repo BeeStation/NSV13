@@ -269,22 +269,32 @@
 					/obj/item/fighter_component/secondary/utility/resupply,
 					/obj/item/fighter_component/countermeasure_dispenser)
 
-/datum/supply_pack/munitions/pdc/light_cannon
+/datum/supply_pack/munitions/light_cannon
 	name = "Light Cannon Ammunition"
-	desc = "5 boxes of light cannon ammunition for use in fighters."
-	cost = 500
+	desc = "10 boxes of light cannon ammunition for use in fighters."
+	cost = 1000
 	contains = list(/obj/item/ammo_box/magazine/pdc/light_cannon,
+					/obj/item/ammo_box/magazine/pdc/light_cannon,
+					/obj/item/ammo_box/magazine/pdc/light_cannon,
+					/obj/item/ammo_box/magazine/pdc/light_cannon,
+					/obj/item/ammo_box/magazine/pdc/light_cannon,
+					/obj/item/ammo_box/magazine/pdc/light_cannon,
 					/obj/item/ammo_box/magazine/pdc/light_cannon,
 					/obj/item/ammo_box/magazine/pdc/light_cannon,
 					/obj/item/ammo_box/magazine/pdc/light_cannon,
 					/obj/item/ammo_box/magazine/pdc/light_cannon)
 	crate_name = "Light cannon ammunition crate"
 
-/datum/supply_pack/munitions/pdc/heavy_cannon
+/datum/supply_pack/munitions/heavy_cannon
 	name = "Heavy Cannon Ammunition"
-	desc = "5 boxes of heavy cannon ammunition for use in fighters."
-	cost = 500
+	desc = "10 boxes of heavy cannon ammunition for use in fighters."
+	cost = 1000
 	contains = list(/obj/item/ammo_box/magazine/pdc/heavy_cannon,
+					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
+					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
+					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
+					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
+					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
 					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
 					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
 					/obj/item/ammo_box/magazine/pdc/heavy_cannon,

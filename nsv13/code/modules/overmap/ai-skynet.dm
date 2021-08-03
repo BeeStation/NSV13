@@ -155,6 +155,9 @@ Adding tasks is easy! Just define a datum for it.
 
 		if(world.time < last_encounter_time + combat_move_delay) //So that fleets don't leave mid combat.
 			return FALSE
+		
+		if(SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, pick(all_ships)) & BEING_INTERDICTED)	//Hypothesis: All ships within a fleet should have the same faction.
+			return FALSE
 
 	current_system.fleets -= src
 	if(current_system.fleets && current_system.fleets.len)
@@ -408,7 +411,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/wolfpack
 	name = "Unidentified Fleet"
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine)
-	audio_cues = list("https://www.youtube.com/watch?v=sMejhjMfKj4", "https://www.youtube.com/watch?v=bfskFravnWM", "https://www.youtube.com/watch?v=C3WcBLLMnQ4")
+	audio_cues = list()
 	hide_movements = TRUE
 	taunts = list("....", "*static*")
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
@@ -416,7 +419,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/nuclear
 	name = "Syndicate nuclear deterrent"
 	taunts = list("Enemy ship, surrender now. This vessel is armed with thermonuclear weapons and eager to test them.")
-	audio_cues = list("https://www.youtube.com/watch?v=0iXfWWrwrlQ", "https://www.youtube.com/watch?v=YW2bPkw0VyU")
+	audio_cues = list()
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/nuclear/elite)
 	size = 2
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
@@ -441,7 +444,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/pirate/scout
 	name = "Space pirate scout fleet"
-	audio_cues = list("https://www.youtube.com/watch?v=LjhF3yIeDSc", "https://www.youtube.com/watch?v=dsLHf9X8P8w")
+	audio_cues = list()
 	taunts = list("Yar har! Fresh meat", "Unfurl the mainsails! We've got company", "Die landlubbers!")
 	size = FLEET_DIFFICULTY_MEDIUM
 	fleet_trait = FLEET_TRAIT_DEFENSE
@@ -449,14 +452,14 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/pirate/raiding
 	name = "Space pirate raiding fleet"
 	destroyer_types = list(/obj/structure/overmap/spacepirate/ai, /obj/structure/overmap/spacepirate/ai/boarding)
-	audio_cues = list("https://www.youtube.com/watch?v=LjhF3yIeDSc", "https://www.youtube.com/watch?v=dsLHf9X8P8w")
+	audio_cues = list()
 	taunts = list("Avast! A fine hold of loot sails our way", "Prepare the boarding crews, they've got enough loot for us all!")
 	size = FLEET_DIFFICULTY_MEDIUM
 
 /datum/fleet/pirate/tortuga
 	name = "Space pirate holding fleet"
 	supply_types = list(/obj/structure/overmap/spacepirate/ai/dreadnought)
-	audio_cues = list("https://www.youtube.com/watch?v=48b_TY8Jl2w", "https://www.youtube.com/watch?v=ntDt-502ftw")
+	audio_cues = list()
 	taunts = list("These are our waters you are sailing, prepare to surrender!", "Bold of you to fly Nanotrasen colours in this system, your last mistake.")
 	size = FLEET_DIFFICULTY_VERY_HARD
 	fleet_trait = FLEET_TRAIT_DEFENSE
@@ -468,7 +471,8 @@ Adding tasks is easy! Just define a datum for it.
 	name = "Rubicon Crossing"
 	size = FLEET_DIFFICULTY_VERY_HARD
 	allow_difficulty_scaling = FALSE
-	audio_cues = list("https://www.youtube.com/watch?v=mhXuYp0n88g", "https://www.youtube.com/watch?v=l1J-2nIovYw", "https://www.youtube.com/watch?v=M_MdmLWmDHs")
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/kadesh)	//:)
+	audio_cues = list()
 	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
@@ -478,14 +482,15 @@ Adding tasks is easy! Just define a datum for it.
 	size = FLEET_DIFFICULTY_VERY_HARD
 	allow_difficulty_scaling = FALSE
 	taunts = list("We're coming for Sol, and you can't stop us. All batteries fire at will.", "Lay down your arms now, you're outnumbered.", "All hands, assume assault formation. Begin bombardment.")
-	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
+	audio_cues = list()
 
 /datum/fleet/interdiction	//Pretty strong fleet with unerring hunting senses, Adminspawn for now.
 	name = "Syndicate Interdiction Fleet"	//These fun guys can and will hunt the player ship down, no matter how far away they are.
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/kadesh)
 	size = FLEET_DIFFICULTY_HARD
 	taunts = list("We have come to end your meagre existance. Prepare to die.", "Hostile entering weapons range. Fire at will.", "You have been a thorn in our side for quite a while. Time to end this.", "That is a nice ship you have there. Nothing a few nuclear missiles cannot fix.")
-	audio_cues = list("https://www.youtube.com/watch?v=dTKakINXjl8")
+	audio_cues = list()
 	var/obj/structure/overmap/hunted_ship
 	initial_move_delay = 5 MINUTES
 	minimum_random_move_delay = 2 MINUTES	//These are quite a bunch faster than your usual fleets. Good luck running. It won't save you.
@@ -499,6 +504,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/interdiction/light	//The syndicate can spawn these randomly (though rare). Be caareful! But, at least they aren't that scary.
 	name = "Syndicate Light Interdiction Fleet"
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser)
 	size = FLEET_DIFFICULTY_MEDIUM	//Don't let this fool you though, they are still somewhat dangerous and will hunt you down.
 	initial_move_delay = 12 MINUTES
 
@@ -506,7 +512,7 @@ Adding tasks is easy! Just define a datum for it.
 	name = "Dolos Welcoming Party" //Don't do it czanek, don't fucking do it!
 	size = FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING
 	allow_difficulty_scaling = FALSE
-	audio_cues = list("https://www.youtube.com/watch?v=UPHmazxB38g") //FTL13 ;(
+	audio_cues = list()
 	taunts = list("Don't think we didn't learn from your last attempt.", "We shall not fail again", "Your outdated MAC weapons are no match for us. Prepare to be destroyed.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
@@ -517,7 +523,7 @@ Adding tasks is easy! Just define a datum for it.
 	name = "The Remnant"
 	size = FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING
 	allow_difficulty_scaling = FALSE
-	audio_cues = list("https://www.youtube.com/watch?v=ALn-7v9BxNg")
+	audio_cues = list()
 	taunts = list("<pre>\[DECRYPTION FAILURE]</pre>")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
@@ -529,7 +535,7 @@ Adding tasks is easy! Just define a datum for it.
 	size = 1
 	allow_difficulty_scaling = FALSE
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/battleship)
-	audio_cues = list("https://www.youtube.com/watch?v=zyPSAkz84vM")
+	audio_cues = list()
 	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
@@ -567,7 +573,7 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("You're foolish to venture this deep into Solgov space! Main batteries stand ready.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "We shall protect our homeland!")
 	size = FLEET_DIFFICULTY_HARD
 	allow_difficulty_scaling = FALSE
-	audio_cues = list("https://www.youtube.com/watch?v=k8-HHivlj8k")
+	audio_cues = list()
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 //Solgov
@@ -757,6 +763,8 @@ Adding tasks is easy! Just define a datum for it.
 	var/list/L = OM.fleet.taskforces["supply"] //I don't know why we have to do it this way, but dreamchecker is forcing us to.
 	if(!L.len)
 		return 0 //Can't resupply if there's no supply station/ship. Carry on fighting!
+	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY) && L.len == 1)	//We are the only supply ship left, no resupplying for us.
+		return 0
 	if(OM.obj_integrity < OM.max_integrity/3)
 		return AI_SCORE_SUPERPRIORITY
 	if(OM.shots_left < initial(OM.shots_left)/3)
@@ -771,7 +779,11 @@ Adding tasks is easy! Just define a datum for it.
 			L.lance_target = null	//Clear our relayed target if we fly to resupply to make it a bit easier on the players.
 			L.last_finder = null
 	var/obj/structure/overmap/supplyPost = null
-	for(var/obj/structure/overmap/supply in OM.fleet.taskforces["supply"])
+	var/list/orig_resupply_points = OM.fleet.taskforces["supply"]
+	var/list/resupply_points = orig_resupply_points.Copy()
+	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY))
+		resupply_points.Remove(src)
+	for(var/obj/structure/overmap/supply in resupply_points)
 		supplyPost = supply
 		break
 	if(supplyPost) //Neat, we've found a supply post. Autobots roll out.
@@ -803,7 +815,7 @@ Adding tasks is easy! Just define a datum for it.
 	..()
 	if(OM.last_target)
 		if(get_dist(OM, OM.last_target) <= 10)
-			OM.move_away_from(OM.last_target)
+			OM.circle_around(OM.last_target)
 		else
 			OM.move_toward(OM.last_target)
 	else
@@ -978,12 +990,31 @@ Seek a ship thich we'll station ourselves around
 		var/list/supplyline = OM.fleet.taskforces["supply"]
 		OM.defense_target = supplyline?.len ? pick(OM.fleet.taskforces["supply"]) : OM
 
-	if(get_dist(OM, OM.defense_target) <= AI_PDC_RANGE)
+	if(OM.defense_target.last_target && get_dist(OM.defense_target, OM.defense_target.last_target) < OM.defense_target.max_weapon_range * 1.5)	//Enemy close to our defense target, prioritize.
+		defensively_engage(OM, OM.defense_target.last_target)
+		return
+	if(OM.last_target && (get_dist(OM, OM.defense_target) <= OM.max_weapon_range * 2 || get_dist(OM.last_target, OM.defense_target) <= OM.max_weapon_range * 2))	//If we have a target and they're somewhat close to our defense target: Engage them.
+		defensively_engage(OM, OM.last_target)
+		return
+
+	guard(OM, OM.defense_target) //Otherwise: Fly to the defense target and vibe there.
+
+//Proc for flying close to a target, then copying its angle. Usually used to defend, probably useful elsewhere.
+/datum/ai_goal/proc/guard(obj/structure/overmap/OM, obj/structure/overmap/to_guard)
+	if(get_dist(OM, to_guard) <= AI_PDC_RANGE)
 		OM.brakes = TRUE
 		OM.move_mode = null
-		OM.desired_angle = OM.defense_target.angle //Turn and face boys!
+		OM.desired_angle = to_guard.angle //Turn and face boys!
 	else
-		OM.move_toward(OM.defense_target)
+		OM.move_toward(to_guard)
+
+//Proc for flying towards a target till pretty close, then orbiting said target. Usually used to engage enemies.
+/datum/ai_goal/proc/defensively_engage(obj/structure/overmap/OM, obj/structure/overmap/to_engage)
+	if(get_dist(OM, to_engage) <= 10)
+		OM.circle_around(to_engage)
+	else
+		OM.move_toward(to_engage)
+		OM.send_radar_pulse()
 
 //Battleships love to stick to supply ships like glue. This becomes the default behaviour if the AIs cannot find any targets.
 /datum/ai_goal/defend/check_score(obj/structure/overmap/OM)
@@ -996,6 +1027,8 @@ Seek a ship thich we'll station ourselves around
 		return 0	//Can't defend ourselves
 
 	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_BATTLESHIP))
+		if(OM.obj_integrity < OM.max_integrity/3 || OM.shots_left < initial(OM.shots_left)/3)
+			return AI_SCORE_PRIORITY - 1	//If we are out of ammo, prioritize rearming over chasing.
 		return AI_SCORE_CRITICAL
 	return score //If you've got nothing better to do, come group with the main fleet.
 
@@ -1021,11 +1054,9 @@ Seek a ship thich we'll station ourselves around
 	..()
 	OM.brakes = TRUE
 	var/obj/structure/overmap/foo = OM.last_target
-	if(!foo || !istype(foo) || get_dist(OM, foo) > foo.max_weapon_range) //You can run on for a long time, run on for a long time, run on for a long time, sooner or later gonna cut you down
+	if(!foo || !istype(foo) || get_dist(OM, foo) > OM.max_weapon_range) //You can run on for a long time, run on for a long time, run on for a long time, sooner or later gonna cut you down
 		return //Just drift aimlessly, let the fleet form up with it.
-	OM.move_mode = NORTH
-	OM.brakes = FALSE
-	OM.desired_angle = -Get_Angle(OM, OM.last_target) //Turn the opposite direction and run.
+	OM.move_away_from(foo) //Turn the opposite direction and run.
 
 //Patrol goal in case there is no target.
 /datum/ai_goal/patrol
@@ -1094,7 +1125,12 @@ Seek a ship thich we'll station ourselves around
 	//Populate the list of valid goals, if we don't already have them
 	if(!GLOB.ai_goals.len)
 		for(var/x in subtypesof(/datum/ai_goal))
-			GLOB.ai_goals += new x
+			//I'll fix this jank later
+			var/datum/ai_goal/newGoal = new x
+			if(istype(newGoal, /datum/ai_goal/human))
+				newGoal = null
+				continue
+			GLOB.ai_goals += newGoal
 	var/best_score = 0
 	var/datum/ai_goal/chosen = null
 	for(var/datum/ai_goal/goal in GLOB.ai_goals)
@@ -1194,11 +1230,11 @@ Seek a ship thich we'll station ourselves around
 		fire_mode = new_firemode
 		if(will_use_shot) //Don't penalise them for weapons that are designed to be spammed.
 			shots_left --
-		fire_weapon(target, new_firemode)
+		fire_weapon(target, new_firemode, ai_aim=TRUE)
 		next_firetime = world.time + (1 SECONDS) + (fire_delay*2)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
 
-/** 
+/**
  * # `ai_elite_fire(atom/target)`
  * This proc is a slightly more advanced form of the normal 'fire' proc.
  * Most menacing trait is that this allows AI elites to effectively broadside every single of their guns thats off cooldown. (if they have ammo)
@@ -1237,7 +1273,7 @@ Seek a ship thich we'll station ourselves around
 		var/arc = Get_Angle(src, target)
 		if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
 			continue
-		fire_weapon(target, iter)
+		fire_weapon(target, iter, ai_aim=TRUE)
 		if(will_use_ammo)
 			ammo_use++
 		did_fire = TRUE
@@ -1249,6 +1285,52 @@ Seek a ship thich we'll station ourselves around
 		shots_left -= ammo_use
 		next_firetime = world.time + 1 SECONDS + smallest_cooldown
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
+/**
+* Given target ship and projectile speed, calculate aim point for intercept
+* See: https://stackoverflow.com/a/3487761
+* If they're literally moving faster than a bullet just aim right at them
+*/
+/obj/structure/overmap/proc/calculate_intercept(obj/structure/overmap/target, obj/item/projectile/P)
+	if(!target || !istype(target) || !target.velocity || !P || !istype(P))
+		return target
+	var/turf/my_center = get_center()
+	var/turf/their_center = target.get_center()
+	if(!my_center || !their_center)
+		return target
+
+	var/dx = their_center.x - my_center.x
+	var/dy = their_center.y - my_center.y
+	var/tvx = target.velocity.x
+	var/tvy = target.velocity.y
+	var/projectilespeed = 32 / P.speed
+
+	var/a = tvx * tvx + tvy * tvy - (projectilespeed * projectilespeed)
+	var/b = 2 * (tvx * dx + tvy * dy)
+	var/c = dx * dx + dy * dy
+	var/list/solutions = SolveQuadratic(a, b, c)
+	if(!solutions.len)
+		return their_center
+	var/time = 0
+	if(solutions.len > 1)
+		// If both are valid take the smaller time
+		if((solutions[1] > 0) && (solutions[2] > 0))
+			time = min(solutions[1], solutions[2])
+		else if(solutions[1] > 0)
+			time = solutions[1]
+		else if(solutions[2] > 0)
+			time = solutions[2]
+		else
+			return their_center
+
+	var/targetx = their_center.x + target.velocity.x * time
+	var/targety = their_center.y + target.velocity.y * time
+	var/turf/newtarget = locate(targetx, targety, target.z)
+	if(prob(ai_miss_chance)) // Slight miss chance
+		var/direction = rand(0, 359)
+		newtarget = get_turf_in_angle(direction, newtarget, rand(1, ai_max_miss_distance))
+
+	return newtarget
+
 /**
 *
 *
@@ -1410,7 +1492,7 @@ Seek a ship thich we'll station ourselves around
 			return
 	desired_angle = Get_Angle(src, target)
 	var/target_dist = get_dist(src, target)
-	if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE) && world.time >= next_maneuvre && (target_dist > 12 || ram_target || ignore_all_collisions))	
+	if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE) && world.time >= next_maneuvre && (target_dist > 12 || ram_target || ignore_all_collisions))
 		var/angular_difference = desired_angle - angle
 		switch(angular_difference)
 			if(-15 to 15)
@@ -1457,7 +1539,29 @@ Seek a ship thich we'll station ourselves around
 	move_mode = NORTH
 	if(!target || QDELETED(target))
 		return
-	desired_angle = -Get_Angle(src, target)
+	desired_angle =	Get_Angle(src, target) - 180
+
+/obj/structure/overmap/proc/circle_around(atom/target)
+	brakes = FALSE
+	move_mode = NORTH
+	if(!target)
+		return
+	var/relative_angle = Get_Angle(src, target)
+	var/option1 = relative_angle + 90
+	var/option2 = relative_angle - 90
+	if(option2 < 0)
+		option2 = 360 + option2
+	option1 = option1 % 360
+	var/actual_angle_positive = angle + 180	//Ew, math.
+	var/option1_difference = 180 - abs(abs(actual_angle_positive - option1) - 180)
+	var/option2_difference = 180 - abs(abs(actual_angle_positive - option2) - 180)
+	if(option1_difference < option2_difference)	//Basically, we circle the target the way we need to waste less time turning towards.
+		desired_angle = option1 - 180
+	else
+		desired_angle = option2 - 180
+
+	//Uncomment the next line if you want some insight on the decision making or if you are localtesting why this isn't working. Do not have this uncommented if you don't want adminchat spam.
+	//message_admins("Circling target. relative angle: [relative_angle], option 1: [option1] | [option1 - 180] | [option1_difference], option 2: [option2] | [option2 - 180] | [option2_difference]. Choice: [desired_angle]")
 
 //Method that will get you a new target, based on basic params.
 /obj/structure/overmap/proc/seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=FALSE, max_distance)

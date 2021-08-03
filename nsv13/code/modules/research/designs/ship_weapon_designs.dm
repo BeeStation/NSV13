@@ -20,7 +20,7 @@
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
-//50 Cal flavored PDC turrets 
+//50 Cal flavored PDC turrets
 /datum/design/board/fiftycal
 	name = "Machine Design (PDC turret)"
 	desc = "Allows for the construction of a crew served, PDC turret."

@@ -65,12 +65,12 @@
 		fire_delay += 1 SECONDS //Make it fair on the humans who have to actually reload and stuff.
 	return TRUE
 
-/obj/structure/overmap/proc/fire_torpedo(atom/target)
+/obj/structure/overmap/proc/fire_torpedo(atom/target, ai_aim = FALSE)
 	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(torpedoes <= 0)
 			return FALSE
 		torpedoes --
-		fire_projectile(torpedo_type, target, homing = TRUE, speed=3, lateral = TRUE)
+		fire_projectile(torpedo_type, target, homing = TRUE, speed=3, lateral = TRUE, ai_aim = ai_aim)
 		var/obj/structure/overmap/OM = target
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)
 			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
@@ -78,12 +78,12 @@
 		relay_to_nearby(pick(SW.overmap_firing_sounds))
 		return TRUE
 
-/obj/structure/overmap/proc/fire_missile(atom/target)
+/obj/structure/overmap/proc/fire_missile(atom/target, ai_aim = FALSE)
 	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(missiles <= 0)
 			return FALSE
 		missiles --
-		fire_projectile(/obj/item/projectile/guided_munition/missile, target, homing = TRUE, lateral = FALSE)
+		fire_projectile(/obj/item/projectile/guided_munition/missile, target, homing = TRUE, lateral = FALSE, ai_aim = ai_aim)
 		var/obj/structure/overmap/OM = target
 		if(istype(OM, /obj/structure/overmap) && OM.dradis)
 			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')

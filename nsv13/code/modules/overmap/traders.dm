@@ -155,6 +155,19 @@
 	station_type = /obj/structure/overmap/trader/shipyard
 	image = "https://cdn.discordapp.com/attachments/701841640897380434/764540586732421120/unknown.png"
 
+/datum/trader/shallowstone
+	name = "Shallow Stone Station"
+	desc = "Rock and ore coming right to your door!"
+	shortname = "SSS"
+	faction_type = FACTION_ID_NT
+	greetings = list("Need something water drinkers?",\
+	"Have you come to dig or pay?",\
+	"We got minerals for you, so long as you've got a deposit for us.")
+	on_purchase = list("Maybe next time, dig it up yourself lazy gits!", "Credits have been withdrawn, Supplies inbound.", "Czanek would approve of this.", "If you're too afraid to get these yourself, I'm almost scared to give them to you. But money is money.")
+	sold_items = list(/datum/trader_item/mining_point_card, /datum/trader_item/gold, /datum/trader_item/diamond, /datum/trader_item/uranium, /datum/trader_item/silver, /datum/trader_item/bluespace_crystal, /datum/trader_item/titanium )
+	station_type = /obj/structure/overmap/trader/
+	image = "https://cdn.discordapp.com/attachments/612668662977134592/859132739147792444/unknown.png"   //I don't wanna do this but I'm also not going to break the mold as to make it hopefully easier in future to fix.
+
 /datum/trader/minsky
 	name = "Minsky Heavy Engineering"
 	desc = "Corporate approved aftermarket shipyard."
