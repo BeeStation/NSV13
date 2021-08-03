@@ -660,7 +660,7 @@
 	for (var/obj/machinery/camera/C in GLOB.cameranet.cameras)
 		var/list/tempnetwork = C.network
 		//Nsv13 - AIs need to see the Rocinante.
-		if(!(SHARES_OVERMAP_ALLIED(C, src)) || ("ss13" in tempnetwork)))
+		if(!(SHARES_OVERMAP_ALLIED(C, src) || ("ss13" in tempnetwork)))
 			continue
 		if(!C.can_use())
 			continue
