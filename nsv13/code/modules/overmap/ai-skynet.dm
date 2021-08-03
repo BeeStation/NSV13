@@ -1208,7 +1208,8 @@ Seek a ship thich we'll station ourselves around
 					if(shots_left <= 0)
 						continue //If we are out of shots. Continue.
 				else if(light_shots_left <= 0)
-					addtimer(CALLBACK(src, .proc/reload_light_weapon), 15 SECONDS) // make them reload like real people, sort of
+					spawn(150)
+						light_shots_left = initial(light_shots_left) // make them reload like real people, sort of
 					continue
 				var/arc = Get_Angle(src, target)
 				if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
@@ -1239,9 +1240,6 @@ Seek a ship thich we'll station ourselves around
 		fire_weapon(target, new_firemode, ai_aim=TRUE)
 		next_firetime = world.time + (1 SECONDS) + (fire_delay*2)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
-
-/obj/structure/overmap/proc/reload_light_weapon()
-	light_shots_left = initial(light_shots_left)
 
 /**
  * # `ai_elite_fire(atom/target)`

@@ -434,7 +434,7 @@
 
 /obj/machinery/ship_weapon/deck_turret/overmap_fire(atom/target)
 	linked.shake_animation()
-	. = ..()
+	return ..()
 
 /obj/machinery/ship_weapon/deck_turret/north
 	dir = NORTH
