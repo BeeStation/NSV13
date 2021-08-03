@@ -20,7 +20,7 @@
 	circuit = /obj/item/circuitboard/computer/ship/navigation
 
 /obj/machinery/computer/ship/navigation/can_interact(mob/user) //Override this code to allow people to use consoles when flying the ship.
-	if(locate(user) in linked?.operators)
+	if(user in linked?.operators)
 		return TRUE
 	if(!user.can_interact_with(src)) //Theyre too far away and not flying the ship
 		return FALSE
