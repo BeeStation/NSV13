@@ -563,9 +563,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		log_combat(pilot, M, "impacted", src, "with velocity of [bump_velocity]")
 	return ..()
 
-/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
+/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE, ai_aim = FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
 	var/turf/T = get_center()
 	var/obj/item/projectile/proj = new proj_type(T)
+	if(ai_aim && !homing)
+		target = calculate_intercept(target, proj)
 	proj.starting = T
 	proj.firer = (!user_override && gunner) ? gunner : user_override
 	proj.def_zone = "chest"
@@ -606,7 +608,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	if(!lateral)
 		setAngle(source.angle)
 
-	if(targloc || !params)
+	if((targloc && curloc) || !params)
 		yo = targloc.y - curloc.y
 		xo = targloc.x - curloc.x
 		if(lateral)
@@ -619,7 +621,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 
 		if(lateral)
 			setAngle(calculated[1] + spread)
-	else if(targloc)
+	else if(targloc && curloc)
 		yo = targloc.y - curloc.y
 		xo = targloc.x - curloc.x
 		if(lateral)

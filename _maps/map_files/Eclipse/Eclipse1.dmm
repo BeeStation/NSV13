@@ -820,6 +820,10 @@
 /obj/structure/disposalpipe/junction/flip{
 	dir = 4
 	},
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_munitions";
+	next_id = "tycoon_dorms"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/entry)
 "dZ" = (
@@ -3970,6 +3974,25 @@
 	dir = 8
 	},
 /area/crew_quarters/cryopods)
+"qm" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_dorms";
+	next_id = "tycoon_engi"
+	},
+/turf/open/floor/monotile/dark,
+/area/crew_quarters/bar)
 "qp" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
@@ -8541,6 +8564,26 @@
 /obj/effect/decal/cleanable/robot_debris/old,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
+"JS" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4;
+	icon_state = "pipe11-1"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_med";
+	next_id = "tycoon_munitions"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/primary/aft)
 "JU" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -9802,7 +9845,9 @@
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/secondary/entry)
 "Pk" = (
-/obj/machinery/rnd/production/circuit_imprinter,
+/obj/machinery/computer/ship/navigation/astrometrics{
+	dir = 8
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 8
 	},
@@ -11051,6 +11096,10 @@
 /obj/structure/disposalpipe/junction{
 	dir = 4
 	},
+/obj/effect/landmark/patrol_node{
+	id = "tycoon_engi";
+	next_id = "tycoon_med"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "Us" = (
@@ -11250,9 +11299,6 @@
 	},
 /area/hallway/primary/fore)
 "Vc" = (
-/obj/machinery/computer/ship/navigation/astrometrics{
-	dir = 4
-	},
 /obj/machinery/light{
 	dir = 8
 	},
@@ -11265,6 +11311,7 @@
 	pixel_y = 30;
 	receive_ore_updates = 1
 	},
+/obj/machinery/rnd/production/circuit_imprinter,
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
@@ -32040,7 +32087,7 @@ RS
 SB
 NZ
 Zh
-Jk
+JS
 Sa
 rK
 MZ
@@ -43334,7 +43381,7 @@ dV
 SN
 Ww
 yE
-lZ
+qm
 BB
 Ww
 Gi

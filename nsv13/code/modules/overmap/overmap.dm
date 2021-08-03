@@ -112,6 +112,7 @@
 
 	var/fire_delay = 5
 	var/next_firetime = 0
+	var/next_firetime_gunspecific = list()	//List used by elites to control their fire times.
 
 	var/list/weapon_overlays = list()
 	var/obj/weapon_overlay/last_fired //Last weapon overlay that fired, so we can rotate guns independently
@@ -125,6 +126,8 @@
 	var/atom/target_lock = null
 	var/can_lock = TRUE //Can we lock on to people or not
 	var/lockon_time = 2 SECONDS
+	var/ai_miss_chance = 5 // % chance the AI intercept calculator will be off a step
+	var/ai_max_miss_distance = 4 // Maximum number of tiles the AI will miss by
 
 	// Railgun aim helper
 	var/last_tracer_process = 0

@@ -2,7 +2,7 @@
 name: Map Issue - Enterprise [UNSUPPORTED]
 about: Enterprise is no longer supported.
 title: ''
-labels: Enterprise, Map Issue
+labels: Map Issue
 assignees: ''
 
 ---

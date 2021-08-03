@@ -24,7 +24,7 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	selectable = TRUE
 
-/datum/ship_weapon/vls/valid_target(obj/structure/overmap/source, obj/structure/overmap/target)
+/datum/ship_weapon/vls/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
 		return FALSE
 	if(!source.missiles)
@@ -214,6 +214,13 @@
 	name = "AMS control console"
 	icon_screen = "ams"
 	circuit = /obj/item/circuitboard/computer/ams
+
+/obj/machinery/computer/ams/Destroy()
+	if(circuit && !ispath(circuit))
+		circuit.forceMove(loc)
+		circuit = null
+	. = ..()
+
 /obj/structure/overmap
 	var/next_ams_shot = 0
 	var/ams_targeting_cooldown = 1.5 SECONDS

@@ -20,6 +20,7 @@
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
 	var/obj/machinery/deck_turret/core
 	var/id = null //N.B. This is NOT intended to allow them to manual link deck guns. This is for certain boarding maps and is thus a UNIQUE CONSTRAINT for this one case. ~KMC
+	circuit = /obj/item/circuitboard/machine/deck_turret
 
 /obj/machinery/ship_weapon/deck_turret/lazyload()
 	. = ..()
@@ -76,6 +77,12 @@
 	. = ..()
 	if(!core)
 		core = locate(/obj/machinery/deck_turret) in orange(1, src)
+
+/obj/machinery/computer/deckgun/Destroy()
+	if(circuit && !ispath(circuit))
+		circuit.forceMove(loc)
+		circuit = null
+	. = ..()
 
 /obj/machinery/computer/deckgun/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -143,6 +150,14 @@
 	var/obj/machinery/deck_turret/payload_gate/payload_gate
 	var/obj/machinery/computer/deckgun/computer
 
+/obj/machinery/deck_turret/Destroy()
+	if(circuit && !ispath(circuit))
+		circuit.forceMove(loc)
+		circuit = null
+	for(var/obj/O in component_parts)
+		O.forceMove(loc)
+	. = ..()
+
 /obj/machinery/deck_turret/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
 	update_parts()
@@ -179,6 +194,12 @@
 	var/ammo_type = /obj/item/powder_bag
 	var/loading = FALSE
 	var/load_delay = 8 SECONDS
+
+/obj/machinery/deck_turret/powder_gate/Destroy()
+	if(circuit && !ispath(circuit))
+		circuit.forceMove(loc)
+		circuit = null
+	. = ..()
 
 /obj/machinery/deck_turret/powder_gate/proc/pack()
 	set waitfor = FALSE
@@ -409,7 +430,7 @@
 	var/obj/structure/overmap/OM = get_overmap()
 	for(var/mob/M in OM.mobs_in_ship)
 		if(OM.z == z)
-			shake_camera(M, 1, 1)
+			shake_with_inertia(M, 1, 1)
 
 /obj/machinery/ship_weapon/deck_turret/north
 	dir = NORTH

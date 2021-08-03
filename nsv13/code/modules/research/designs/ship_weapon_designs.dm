@@ -20,10 +20,10 @@
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
-//50 Cal.
+//50 Cal flavored PDC turrets
 /datum/design/board/fiftycal
-	name = "Machine Design (.50 cal deck turret)"
-	desc = "Allows for the construction of a crew served, 50 cal deck turret."
+	name = "Machine Design (PDC turret)"
+	desc = "Allows for the construction of a crew served, PDC turret."
 	id = "fiftycal"
 	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
@@ -32,8 +32,8 @@
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/fiftycal/super
-	name = "Machine Design (.50 cal deck turret)"
-	desc = "Allows for the construction of a crew served, super 50 cal pompom turret."
+	name = "Machine Design (RPDC turret)"
+	desc = "Allows for the construction of a crew served, RPDC turret."
 	id = "fiftycal_super"
 	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
@@ -42,8 +42,8 @@
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/fiftycalcomp
-	name = "Computer Design (.50 cal deck turret control console)"
-	desc = "Allows for the construction of a control console for .50 cal deck guns."
+	name = "Computer Design (PDC turret control console)"
+	desc = "Allows for the construction of a control console for PDC deck guns."
 	id = "fiftycalcomp"
 	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)

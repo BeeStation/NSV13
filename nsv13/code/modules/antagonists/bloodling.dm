@@ -846,7 +846,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 
 	var/list/mobs = list()
 	for(var/atom/movable/M in view(user, 2))
-		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha | !is_bloodling(M))
+		if(M == user || !isliving(M) || M.invisibility > 0 || !M.alpha || !is_bloodling(M))
 			continue
 		mobs += M
 	var/mob/living/M = input(user, "To whom shall we transfer biomass?", "[src]", null) as null|anything in mobs

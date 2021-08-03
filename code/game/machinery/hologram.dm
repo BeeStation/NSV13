@@ -373,6 +373,10 @@ Possible to do for anyone motivated enough:
 	update_icon()
 
 /obj/machinery/holopad/proc/activate_holo(mob/living/user)
+	if ( user.overmap_ship ) // NSV13 - Fixes an overmap access by holopad exploit
+		var/obj/structure/overmap/playerShip = user.overmap_ship
+		playerShip.stop_piloting( user )
+
 	var/mob/living/silicon/ai/AI = user
 	if(!istype(AI))
 		AI = null

@@ -26,6 +26,7 @@
 #define DIAG_LAUNCHPAD_HUD "22" //Displays launchpads' targeting reticle
 //for antag huds. these are used at the /mob level
 #define ANTAG_HUD		"23"
+#define SQUAD_HUD		"24" //NSV13
 
 //by default everything in the hud_list of an atom is an image
 //a value in hud_list with one of these will change that behavior
@@ -42,6 +43,7 @@
 #define DATA_HUD_ABDUCTOR				7
 #define DATA_HUD_SENTIENT_DISEASE		8
 #define DATA_HUD_AI_DETECT				9
+#define DATA_HUD_SQUAD					32 //NSV13
 
 //antag HUD defines
 #define ANTAG_HUD_CULT			10

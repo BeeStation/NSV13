@@ -32,6 +32,7 @@
 	radio.listening = 0
 	radio.recalculateChannels()
 
+/* //FIXME: boarding
 /obj/machinery/computer/ship/salvage/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -90,5 +91,4 @@
 			//They REALLY NEED TO NOT SPAM THIS
 			can_salvage = FALSE
 			addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown/2)
-
-
+*/

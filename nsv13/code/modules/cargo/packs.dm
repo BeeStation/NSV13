@@ -53,9 +53,9 @@
 	crate_type = /obj/structure/closet/crate/wooden
 	crate_name = "Captain Plasmasalt's finest gunpowder"
 
-/datum/supply_pack/munitions/fiftycal
-	name = ".50 cal deck gun rounds (x5)"
-	desc = "5 boxes of deck gun rounds, ideal for harassing small targets."
+/datum/supply_pack/munitions/pdc_ammo
+	name = "PDC turret rounds (x5)"
+	desc = "5 boxes of PDC turret rounds, ideal for repelling torpedoes and missiles."
 	cost = 1000
 	contains = list(/obj/item/ammo_box/magazine/pdc/fiftycal,
 					/obj/item/ammo_box/magazine/pdc/fiftycal,
@@ -271,9 +271,14 @@
 
 /datum/supply_pack/munitions/light_cannon
 	name = "Light Cannon Ammunition"
-	desc = "5 boxes of light cannon ammunition for use in fighters."
-	cost = 500
+	desc = "10 boxes of light cannon ammunition for use in fighters."
+	cost = 1000
 	contains = list(/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon,
+					/obj/item/ammo_box/magazine/light_cannon,
 					/obj/item/ammo_box/magazine/light_cannon,
 					/obj/item/ammo_box/magazine/light_cannon,
 					/obj/item/ammo_box/magazine/light_cannon,
@@ -282,9 +287,14 @@
 
 /datum/supply_pack/munitions/heavy_cannon
 	name = "Heavy Cannon Ammunition"
-	desc = "5 boxes of heavy cannon ammunition for use in fighters."
-	cost = 500
+	desc = "10 boxes of heavy cannon ammunition for use in fighters."
+	cost = 1000
 	contains = list(/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon,
+					/obj/item/ammo_box/magazine/heavy_cannon,
 					/obj/item/ammo_box/magazine/heavy_cannon,
 					/obj/item/ammo_box/magazine/heavy_cannon,
 					/obj/item/ammo_box/magazine/heavy_cannon,
@@ -493,4 +503,3 @@
 					/obj/item/ammo_box/magazine/m556,
 					/obj/item/ammo_box/magazine/m556,
 					/obj/item/ammo_box/magazine/m556)
-

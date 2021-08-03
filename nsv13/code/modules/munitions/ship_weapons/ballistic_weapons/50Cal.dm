@@ -1,6 +1,7 @@
-//The .50 cal! A neat crew served weapon which replaces PDC.
+// The point defense system! A neat crew served weapon which replaces the .50 cal
+// This file has so much borrowed code and name swaps from previous iterations of PDC
 /obj/machinery/ship_weapon/fiftycal
-	name = ".50 cal autocannon"
+	name = "PDC turret"
 	desc = "A formidable weapon operated by a gunner below deck, extremely effective at point defense though they struggle to damage larger targets."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "deck_gun"
@@ -10,7 +11,7 @@
 	semi_auto = TRUE
 	maintainable = FALSE
 	fire_mode = FIRE_MODE_50CAL
-	max_ammo = 200
+	max_ammo = 300
 	circuit = /obj/item/circuitboard/machine/fiftycal
 	var/gunning_component_type = /datum/component/overmap_gunning/fiftycal
 	var/mob/living/gunner
@@ -21,7 +22,7 @@
 
 
 /obj/machinery/ship_weapon/fiftycal/super
-	name = ".50 cal super pom pom turret"
+	name = "RPDC turret"
 	desc = "For when you need more bullets spat out more quickly."
 	icon_state = "deck_gun_super"
 	circuit = /obj/item/circuitboard/machine/fiftycal/super
@@ -109,8 +110,8 @@
 	return
 
 /obj/machinery/computer/fiftycal
-	name = ".50 cal autocannon console"
-	desc = "A computer that allows you to control a .50 cal deck gun, when paired with a turret above deck."
+	name = "PDC turret console"
+	desc = "A computer that allows you to control a PDC turret, when paired with a compatible turret directly above deck."
 	icon_screen = "50cal"
 	circuit = /obj/item/circuitboard/computer/fiftycal
 	var/obj/machinery/ship_weapon/fiftycal/turret
@@ -133,12 +134,17 @@
 
 /obj/machinery/computer/fiftycal/multitool_act(mob/living/user, obj/item/multitool/I)
 	. = ..()
-	if(!istype(I))
-		return FALSE
-	if(I.buffer && istype(I.buffer, /obj/machinery/ship_weapon/fiftycal))
-		turret = I.buffer
-		to_chat(user, "<span class='warning'>Successfully linked [src] to [I.buffer].")
-		I.buffer = null
+	// if(!istype(I))
+	// 	return FALSE
+	// if(I.buffer && istype(I.buffer, /obj/machinery/ship_weapon/fiftycal))
+	// 	turret = I.buffer
+	// 	to_chat(user, "<span class='warning'>Successfully linked [src] to [I.buffer].")
+	// 	I.buffer = null
+	turret = locate(/obj/machinery/ship_weapon/fiftycal) in SSmapping.get_turf_above(src)
+	if ( turret )
+		to_chat(user, "<span class='warning'>Successfully linked [src] to [turret].")
+	else
+		to_chat(user, "<span class='warning'>Unable to locate a compatible turret above this deck! Try relocating the turret construction.")
 
 /obj/machinery/computer/fiftycal/attack_hand(mob/user)
 	. = ..()
@@ -148,10 +154,11 @@
 	turret.start_gunning(user)
 
 /obj/item/ammo_box/magazine/pdc/fiftycal
-	name = "50 caliber rounds"
+	name = "PDC turret rounds" // Just going to rename the current box to avoid a bunch of map changes, or creating duplicate code for a rename
 	ammo_type = /obj/item/ammo_casing/fiftycal
 	caliber = "mm50pdc"
-	max_ammo = 200
+	max_ammo = 300
+	w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/ammo_box/magazine/pdc/fiftycal/examine(mob/user)
 	. = ..()
@@ -170,8 +177,9 @@
 	caliber = "mm50pdc"
 
 /obj/item/projectile/bullet/fiftycal
-	icon_state = "50cal"
-	name = ".50 cal round"
-	damage = 17
+	icon_state = "pdc"
+	name = "PDC round"
+	damage = 15
 	flag = "overmap_light"
-	speed = 2
+	speed = 1
+	spread = 5
