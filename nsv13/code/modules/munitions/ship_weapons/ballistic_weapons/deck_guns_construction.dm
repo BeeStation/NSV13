@@ -40,8 +40,7 @@
 
 /obj/structure/ship_weapon/artillery_frame/Initialize()
 	..()
-	if(!contents)
-		contents = list()
+	LAZYINITLIST(contents)
 
 /obj/structure/ship_weapon/artillery_frame/examine(mob/user)
 	. = ..()
@@ -84,98 +83,103 @@
 	state = BS_BARRELS_SECURED
 
 /obj/structure/ship_weapon/artillery_frame/attackby(obj/item/W, mob/user, params)
-	if ((istype(W, /obj/item/circuitboard/multibarrel_upgrade)) && (state == BS_ELECTRONICS_SECURE))
-		var/obj/item/circuitboard/multibarrel_upgrade/S = W
-		if(!do_after(user, 2 SECONDS, target=src))
-			return
-		if(state != BS_ELECTRONICS_SECURE)// check again in case someone else inserts an igniter or something
-			return
-		W.forceMove(src)
-		max_barrels = S.barrels
-		to_chat(user, "<span class='notice'>You install the [S].</span>")
-		state = BS_UPGRADE_LOOSE
-		return TRUE
+	switch(state)
+		if(BS_MOUNT_WELDED)
+			if(istype(W, /obj/item/ship_weapon/parts/firing_electronics))
+				if(!do_after(user, 2 SECONDS, target=src))
+					return
+				W.forceMove(src)
+				to_chat(user, "<span class='notice'>You add the electronic firing mechanism.</span>")
+				state = BS_ELECTRONICS_LOOSE
+				return TRUE
 
-	else if((istype(W, /obj/item/ship_weapon/parts/firing_electronics)) && (state == BS_MOUNT_WELDED))
-		if(!do_after(user, 2 SECONDS, target=src))
-			return
-		W.forceMove(src)
-		to_chat(user, "<span class='notice'>You add the electronic firing mechanism.</span>")
-		state = BS_ELECTRONICS_LOOSE
-		return TRUE
+		if(BS_ELECTRONICS_SECURE, BS_UPGRADE_SECURED)
+			if ((istype(W, /obj/item/circuitboard/multibarrel_upgrade)) && (state == BS_ELECTRONICS_SECURE))
+				var/obj/item/circuitboard/multibarrel_upgrade/S = W
+				if(!do_after(user, 2 SECONDS, target=src))
+					return
+				if(state != BS_ELECTRONICS_SECURE)// check again in case someone else inserts an igniter or something
+					return
+				W.forceMove(src)
+				max_barrels = S.barrels
+				to_chat(user, "<span class='notice'>You install the [S].</span>")
+				state = BS_UPGRADE_LOOSE
+				return TRUE
+			if(istype(W, /obj/item/assembly/igniter))
+				W.forceMove(src)
+				igniters_added++
+				to_chat(user, "<span class='notice'>You add the [W] to the [src].</span>")
+				if(igniters_added >= max_barrels)
+					state = BS_IGNITERS_PLACED
+				return TRUE
 
-	else if((istype(W, /obj/item/assembly/igniter)) && ((state == BS_ELECTRONICS_SECURE) || (state == BS_UPGRADE_SECURED)))
-		W.forceMove(src)
-		igniters_added++
-		to_chat(user, "<span class='notice'>You add the [W] to the [src].</span>")
-		if(igniters_added >= max_barrels)
-			state = BS_IGNITERS_PLACED
-		return TRUE
+		if(BS_IGNITERS_SECURED)
+			if(istype(W, /obj/item/stack/cable_coil))
+				var/obj/item/stack/cable_coil/S = W
+				if(S.get_amount() < num_cables)
+					to_chat(user, "<span class='warning'>You need four pieces of [S] to wire the NAC!</span>")
+					return
+				if(!do_after(user, 2 SECONDS, target=src))
+					return
+				if(S.get_amount() < num_cables)
+					to_chat(user, "<span class='warning'>You need four pieces of [S] to wire the NAC!</span>")
+					return
+				S.use(num_cables)
+				to_chat(user, "<span class='notice'>You wire up the electronics.</span>")
+				state = BS_WIRED
+				return TRUE
 
-	else if(istype(W, /obj/item/stack/cable_coil) && (state == BS_IGNITERS_SECURED))
-		var/obj/item/stack/cable_coil/S = W
-		if(S.get_amount() < num_cables)
-			to_chat(user, "<span class='warning'>You need four pieces of [S] to wire the NAC!</span>")
-			return
-		if(!do_after(user, 2 SECONDS, target=src))
-			return
-		if(S.get_amount() < num_cables)
-			to_chat(user, "<span class='warning'>You need four pieces of [S] to wire the NAC!</span>")
-			return
-		S.use(num_cables)
-		to_chat(user, "<span class='notice'>You wire up the electronics.</span>")
-		state = BS_WIRED
-		return TRUE
+		if(BS_WIRES_SOLDERED)
+			if(istype(W, /obj/item/stack/sheet/plasteel))
+				var/obj/item/stack/sheet/plasteel/S = W
+				if(S.get_amount() < num_sheets_casing)
+					to_chat(user, "<span class='warning'>You need four sheets of [S] to finish the [src]!</span>")
+					return
+				if(!do_after(user, 2 SECONDS, target=src))
+					return
+				if(S.get_amount() < num_sheets_casing)
+					to_chat(user, "<span class='warning'>You need four sheets of [S] to finish the [src]!</span>")
+					return
+				S.use(num_sheets_casing)
+				to_chat(user, "<span class='notice'>You add the outer casing to the assembly.</span>")
+				state = BS_CASING_ADDED
+				return TRUE
 
-	else if((istype(W, /obj/item/stack/sheet/plasteel)) && (state == BS_WIRES_SOLDERED))
-		var/obj/item/stack/sheet/plasteel/S = W
-		if(S.get_amount() < num_sheets_casing)
-			to_chat(user, "<span class='warning'>You need four sheets of [S] to finish the [src]!</span>")
-			return
-		if(!do_after(user, 2 SECONDS, target=src))
-			return
-		if(S.get_amount() < num_sheets_casing)
-			to_chat(user, "<span class='warning'>You need four sheets of [S] to finish the [src]!</span>")
-			return
-		S.use(num_sheets_casing)
-		to_chat(user, "<span class='notice'>You add the outer casing to the assembly.</span>")
-		state = BS_CASING_ADDED
-		return TRUE
+		if(BS_CASING_ADDED)
+			if(istype(W, /obj/item/ship_weapon/parts/mac_barrel))
+				W.forceMove(src)
+				barrels_added++
+				to_chat(user, "<span class='notice'>You add the [W] to the [src].</span>")
+				if(barrels_added >= max_barrels)
+					state = BS_BARRELS_PLACED
+				return TRUE
 
-	else if((istype(W, /obj/item/ship_weapon/parts/mac_barrel)) && (state == BS_CASING_ADDED))
-		W.forceMove(src)
-		barrels_added++
-		to_chat(user, "<span class='notice'>You add the [W] to the [src].</span>")
-		if(barrels_added >= max_barrels)
-			state = BS_BARRELS_PLACED
-		return TRUE
+		if(BS_BARRELS_SECURED)
+			if(istype(W, /obj/item/ship_weapon/parts/loading_tray))//finish
+				if(!do_after(user, 2 SECONDS, target=src))
+					return
+				W.forceMove(src)
+				to_chat(user, "<span class='notice'>You slide the loading tray into place.</span>")
+				if(ispath(text2path("/obj/machinery/ship_weapon/deck_turret/_[max_barrels]")))
+					output_path = text2path("/obj/machinery/ship_weapon/deck_turret/_[max_barrels]")
+				var/obj/machinery/ship_weapon/built = new output_path(loc)
+				built.setDir(dir)
+				built.setAnchored(anchored)
+				built.on_construction()
+				built.max_ammo = max_barrels
 
-	else if((istype(W, /obj/item/ship_weapon/parts/loading_tray)) && (state == BS_BARRELS_SECURED))
-		if(!do_after(user, 2 SECONDS, target=src))
-			return
-		W.forceMove(src)
-		to_chat(user, "<span class='notice'>You slide the loading tray into place.</span>")
-		if(ispath(text2path("/obj/machinery/ship_weapon/deck_turret/_[max_barrels]")))
-			output_path = text2path("/obj/machinery/ship_weapon/deck_turret/_[max_barrels]")
-		var/obj/machinery/ship_weapon/built = new output_path(loc)
-		built.setDir(dir)
-		built.setAnchored(anchored)
-		built.on_construction()
-		built.max_ammo = max_barrels
-
-		for(var/obj/O in built.component_parts)
-			qdel(O)
-			stoplag()
-		transfer_fingerprints_to(built)
-		built.component_parts = list()
-		for(var/obj/O in src)
-			O.moveToNullspace()
-			built.component_parts += O
-			stoplag()
-		qdel(src)
-		return TRUE
-
-	..()
+				for(var/obj/O in built.component_parts)
+					qdel(O)
+					stoplag()
+				transfer_fingerprints_to(built)
+				built.component_parts = list()
+				for(var/obj/O in src)
+					O.moveToNullspace()
+					built.component_parts += O
+					stoplag()
+				qdel(src)
+				return TRUE
+	return ..()
 	
 /obj/structure/ship_weapon/artillery_frame/attack_robot(mob/user)
 	. = ..()
@@ -187,11 +191,8 @@
 		if(!do_after(user, 2 SECONDS, target=src))
 			return
 		to_chat(user, "<span class='notice'>You remove the igniter[(max_barrels != 1) ? "s" : ""].</span>")
-		var/obj/item/assembly/igniter/C = (locate(/obj/item/assembly/igniter) in src)
-		while(C)
+		for(var/obj/item/assembly/igniter/C in src)
 			C.forceMove(user.loc)
-			C = (locate(/obj/item/assembly/igniter) in src)
-			stoplag()
 		igniters_added = 0
 		state = (max_barrels > 1) ? BS_UPGRADE_SECURED : BS_ELECTRONICS_SECURE
 		return TRUE
@@ -245,11 +246,8 @@
 				new/obj/item/stack/sheet/plasteel(user.loc, num_sheets_casing)
 				if(barrels_added)
 					to_chat(user, "<span class='notice'>The barrel[(barrels_added != 1) ? "s fall" : " falls"] out of the frame!</span>")
-					var/obj/item/ship_weapon/parts/mac_barrel/R = (locate(/obj/item/ship_weapon/parts/mac_barrel) in src)
-					while(R)
+					for(var/obj/item/ship_weapon/parts/mac_barrel/R in src)
 						R.forceMove(user.loc)
-						R = (locate(/obj/item/ship_weapon/parts/mac_barrel) in src)
-						stoplag()
 				barrels_added = 0
 				state = BS_WIRES_SOLDERED
 				return TRUE
@@ -287,11 +285,8 @@
 
 		if(BS_BARRELS_PLACED)
 			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
-				var/obj/item/ship_weapon/parts/mac_barrel/R = (locate(/obj/item/ship_weapon/parts/mac_barrel) in src)
-				while(R)
+				for(var/obj/item/ship_weapon/parts/mac_barrel/R in src)
 					R.forceMove(user.loc)
-					R = (locate(/obj/item/ship_weapon/parts/mac_barrel) in src)
-					stoplag()
 				to_chat(user, "<span class='notice'>You pry the barrel[(max_barrels != 1) ? "s" : ""] loose.</span>")
 				barrels_added = 0
 				state = BS_CASING_ADDED
@@ -347,11 +342,8 @@
 				to_chat(user, "<span class='notice'>You unsecure the [(C) ? "[C]" : "upgrade"].</span>")
 				if(igniters_added)
 					to_chat(user, "<span class='notice'>The igniter[(igniters_added != 1) ? "s fall" : " falls"] out of the frame!</span>")
-					var/obj/item/assembly/igniter/D = (locate(/obj/item/assembly/igniter) in src)
-					while(D)
+					for(var/obj/item/assembly/igniter/D in src)
 						D.forceMove(user.loc)
-						D = (locate(/obj/item/assembly/igniter) in src)
-						stoplag()
 					igniters_added = 0
 				lazy_icon()
 				state = BS_UPGRADE_LOOSE
@@ -432,9 +424,9 @@
 
 //let me leave please
 /obj/structure/ship_weapon/artillery_frame/CanPass(atom/movable/mover, turf/target)
-	if(get_turf(mover) in src.locs)
-		return 1
-	. = ..()
+	if(get_turf(mover) in locs)
+		return TRUE
+	return ..()
 
 /obj/structure/ship_weapon/artillery_frame/AltClick(mob/user)
 	. = ..()
