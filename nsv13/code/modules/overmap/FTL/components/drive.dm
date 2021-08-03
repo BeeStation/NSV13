@@ -26,7 +26,6 @@
 	var/radio_channel = "Engineering"
 	var/max_range = 30000
 	var/jump_speed_factor = 3.5 //How quickly do we jump? Larger is faster.
-	var/list/tracking = list()
 	var/ftl_startup_time = 30 SECONDS // How long does it take to iniate the jump
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long.ogg'
@@ -43,6 +42,7 @@
 	radio.keyslot = new radio_key
 	radio.listening = 0
 	radio.recalculateChannels()
+	START_PROCESSING(SSmachines, src)
 
 /obj/machinery/computer/ship/ftl_core/proc/get_pylons()
 	pylons.len = 0
@@ -53,7 +53,7 @@
 			pylons += P
 
 /obj/machinery/computer/ship/ftl_core/proc/check_pylons()
-	if(!LAZYLEN(pylons) && !get_pylons())
+	if(!length(pylons) && !get_pylons())
 		return FALSE
 	return TRUE
 
@@ -305,24 +305,17 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	return //Override computer updates
 
 /obj/machinery/computer/ship/ftl_core/proc/depower()
-	if(progress >= 0)
-		var/list/timers = active_timers
-		active_timers = null
-		for(var/thing in timers)
-			var/datum/timedevent/timer = thing
-			if(timer.spent)
-				continue
-			qdel(timer)
-		active = FALSE
-		ftl_state = FTL_STATE_IDLE
-		icon_state = "core_idle"
-		progress = 0
-		use_power = 50
-		if(auto_spool)
-			active = TRUE
-			spoolup()
-			START_PROCESSING(SSmachines, src)
-			return TRUE
-		STOP_PROCESSING(SSmachines, src)
+	if(progress <= 0)
+		return FALSE
+	active = FALSE
+	ftl_state = FTL_STATE_IDLE
+	icon_state = "core_idle"
+	progress = 0
+	use_power = 50
+	if(auto_spool)
+		active = TRUE
+		spoolup()
+		START_PROCESSING(SSmachines, src)
 		return TRUE
-	return FALSE
+	STOP_PROCESSING(SSmachines, src)
+	return TRUE

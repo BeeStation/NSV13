@@ -615,53 +615,53 @@ Returns a faction datum by its name (case insensitive!)
 					label = "Empty space",
 				),
 				list(
-					tag = "nebula", 
+					tag = "nebula",
 					label = "Nebula",
 				),
 				list(
-					tag = "gas", 
+					tag = "gas",
 					label = "Gas cloud",
 				),
 				list(
-					tag = "icefield", 
+					tag = "icefield",
 					label = "Ice field",
 				),
 				list(
-					tag = "ice_planet", 
+					tag = "ice_planet",
 					label = "Planetary system",
 				),
 			)
 		if(THREAT_LEVEL_UNSAFE) //Unaligned and Syndicate systems have a chance to spawn threats. But nothing major.
 			system_type = pick(
 				list(
-					tag = "debris", 
+					tag = "debris",
 					label = "Asteroid field",
 				),
 				list(
-					tag = "pirate", 
+					tag = "pirate",
 					label = "Debris",
 				),
 				list(
-					tag = "nebula", 
+					tag = "nebula",
 					label = "Nebula",
 				),
 				list(
-					tag = "hazardous", 
+					tag = "hazardous",
 					label = "Untagged hazard",
 				),
 			)
 		if(THREAT_LEVEL_DANGEROUS) //Extreme threat level. Time to break out the most round destroying anomalies.
 			system_type = pick(
 				list(
-					tag = "quasar", 
+					tag = "quasar",
 					label = "Quasar",
 				),
 				list(
-					tag = "radioactive", 
+					tag = "radioactive",
 					label = "Radioactive",
 				),
 				list(
-					tag = "blackhole", 
+					tag = "blackhole",
 					label = "Blackhole",
 				),
 			)
@@ -955,21 +955,21 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 			list(
 				tag = "blackhole",
 				label = "Blackhole",
-			), 
+			),
 			list(
 				tag = "quasar",
 				label = "Quasar",
 			), 0.75;
 			list(
-				tag = "accretiondisk", 
+				tag = "accretiondisk",
 				label = "Accretion disk",
 			),
 			list(
-				tag = "nebula", 
+				tag = "nebula",
 				label = "Nebula",
 			),
 			list(
-				tag = "supernova", 
+				tag = "supernova",
 				label = "Supernova",
 			),
 			list(
