@@ -37,7 +37,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/flight_pixel_z = -32
 	pixel_collision_size_x = 32
 	pixel_collision_size_y = 32 //Avoid center tile viewport jank
-	req_one_access = list(ACCESS_COMBAT_PILOT, ACCESS_TRANSPORT_PILOT)
+	req_one_access = list(ACCESS_COMBAT_PILOT)
 	var/start_emagged = FALSE
 	var/max_passengers = 0 //Change this per fighter.
 	//Component to handle the fighter's loadout, weapons, parts, the works.
