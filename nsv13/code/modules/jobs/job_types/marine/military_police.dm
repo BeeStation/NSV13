@@ -1,4 +1,4 @@
-/datum/job/military_police
+/datum/job/officer
 	title = "Military Police"
 	flag = OFFICER
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
@@ -14,7 +14,7 @@
 	exp_requirements = 840
 	exp_type = EXP_TYPE_CREW
 
-	outfit = /datum/outfit/job/military_police
+	outfit = /datum/outfit/job/security
 
 	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_BRIG, ACCESS_COURT, ACCESS_MAINT_TUNNELS,
 					ACCESS_MECH_SECURITY, ACCESS_MORGUE, ACCESS_WEAPONS, ACCESS_FORENSICS_LOCKERS,
@@ -27,14 +27,14 @@
 
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
 
-/datum/job/military_police/get_access()
+/datum/job/officer/get_access()
 	var/list/L = list()
 	L |= ..() | check_config_for_sec_maint()
 	return L
 
 GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY))
 
-/datum/job/military_police/after_spawn(mob/living/carbon/human/H, mob/M)
+/datum/job/officer/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
 	// Assign department security
 	var/department
@@ -111,9 +111,9 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	else
 		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
 
-/datum/outfit/job/military_police
+/datum/outfit/job/security
 	name = "Military Police Officer"
-	jobtype = /datum/job/military_police
+	jobtype = /datum/job/officer
 
 	belt = /obj/item/storage/belt/security/full
 	ears = /obj/item/radio/headset/headset_sec/alt
