@@ -35,6 +35,16 @@ export const SystemManager = (props, context) => {
                       onClick={() => act('jumpFleet', { id: fleet.id })} />
                   );
                 })}
+                {Object.keys(value.objects).map(key => {
+                  let obj = value.objects[key];
+                  return (
+                    <Button key={key}
+                      content={obj.name}
+                      icon="space-shuttle"
+                      color={obj.colour}
+                      onClick={() => act('jumpObject', { id: obj.id })} />
+                  );
+                })}
               </Section>
             </Fragment>);
         })}

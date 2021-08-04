@@ -4,15 +4,6 @@
 
 //The big mac. Coaxial railguns fired by the pilot.
 
-/datum/ship_weapon
-	var/firing_arc = null //If this weapon only fires in an arc (for ai ships)
-	var/weapon_class = WEAPON_CLASS_HEAVY //Do AIs need to resupply with ammo to use this weapon?
-
-/datum/ship_weapon/proc/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
-	if(!istype(source) || !istype(target))
-		return FALSE
-	return TRUE
-
 /datum/ship_weapon/mac
 	name = "Naval Artillery"
 	default_projectile_type = /obj/item/projectile/bullet/mac_round
@@ -86,6 +77,8 @@
 	select_alert = "<span class='notice'>Activating point defense emplacements..</span>"
 	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
+	miss_chance = 33
+	max_miss_distance = 6
 
 /datum/ship_weapon/pdc_mount/aa_guns
 	name = "Anti air guns"
@@ -238,6 +231,7 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	selectable = FALSE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
+	miss_chance = 20
 
 /datum/ship_weapon/fiftycal // .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets
 	name = "PDC"
@@ -251,6 +245,8 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	selectable = FALSE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
+	miss_chance = 33
+	max_miss_distance = 6
 
 /datum/ship_weapon/flak
 	name = "Flak cannon"
@@ -265,3 +261,5 @@
 //	special_fire_proc = /obj/structure/overmap/proc/fire_flak
 	selectable = FALSE
 	lateral = TRUE
+	miss_chance = 33
+	max_miss_distance = 8
