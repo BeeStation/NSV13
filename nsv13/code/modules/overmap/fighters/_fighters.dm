@@ -188,7 +188,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	return data
 
 /obj/structure/overmap/fighter/ui_act(action, params, datum/tgui/ui)
-	if(..() || usr != pilot)
+	if(..() || ((usr != pilot) && (!IsAdminGhost(usr))))
 		return
 	var/atom/movable/target = locate(params["id"])
 	switch(action)
