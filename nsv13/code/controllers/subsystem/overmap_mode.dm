@@ -273,11 +273,11 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	//Reminder messages
 	var/reminder_origin = "Naval Command"
-	var/reminder_one = "Case 1"
-	var/reminder_two = "Case 2"
-	var/reminder_three = "Case 3"
-	var/reminder_four = "Case 4"
-	var/reminder_five = "Case 5"
+	var/reminder_one = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, please continue on your patrol route"
+	var/reminder_two = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, your inactivity has been noted and will not be tolerated."
+	var/reminder_three = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, we are not paying you to idle in space during your assigned patrol schedule"
+	var/reminder_four = "This is Centcomm to the explore vessel currently assigned to the Delphic Expanse, you are expected to fulfill your assigned mission"
+	var/reminder_five = "This is Centcomm, due to your slow pace, a Syndicate Interdiction fleet has tracked you down, prepare for combat!"
 
 /datum/overmap_gamemode/proc/consequence_one()
 
@@ -340,12 +340,10 @@ SUBSYSTEM_DEF(overmap_mode)
 		priority_announce("Mission Complete - Returning to Outpost 45") //TEMP
 		var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
 		OM.force_return_jump(SSstar_system.system_by_id("Outpost 45")) //replace with a new proc to not instantly jump
-	return
 
 /datum/overmap_gamemode/proc/defeat() //Override this if defeat is to be called based on an objective
 	SSticker.mode.check_finished(TRUE)
 	SSticker.force_ending = TRUE
-	return
 
 /datum/overmap_objective
 	var/name							//Name for admin view
@@ -363,7 +361,9 @@ SUBSYSTEM_DEF(overmap_mode)
 	instanced = TRUE
 
 /datum/overmap_objective/proc/check_completion()
-	return
+
+/datum/overmap_objective/custom
+	name = "Custom"
 
 //////ADMIN TOOLS//////
 
@@ -423,6 +423,14 @@ SUBSYSTEM_DEF(overmap_mode)
 				if(O.instanced == FALSE)
 					O.instance()
 			return
+		if("add_custom_objective")
+			var/custom_desc = input("Input Objective Briefing", "Custom Objective") as text|null
+			var/datum/overmap_objective/custom/C = new /datum/overmap_objective/custom()
+			C.desc = custom_desc
+			C.brief = custom_desc
+			SSovermap_mode.mode.objectives += new C()
+			return
+
 		if("remove_objective")
 			var/datum/overmap_objective/O = locate(params["target"])
 			SSovermap_mode.mode.objectives -= O

@@ -120,6 +120,11 @@ export const OvermapGamemodeController = (props, context) => {
                   content="Add Objective"
                   color="green"
                   onClick={() => act('add_objective')} />
+                <Button
+                  icon="plus"
+                  content="Add Custom Objective"
+                  color="green"
+                  onClick={() => act('add_custom_objective')} />
               </Section>
             </Flex.Item>
           </Flex>

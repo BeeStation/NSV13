@@ -622,7 +622,10 @@ Adding tasks is easy! Just define a datum for it.
 	. = ..()
 	if(allow_difficulty_scaling)
 		//Account for pre-round spawned fleets.
-		size = SSovermap_mode.mode.difficulty
+		if(SSovermap_mode?.mode)
+			size = SSovermap_mode.mode.difficulty
+		else
+			size = 1 //Lets assume a low number of players
 	size = CLAMP(size, FLEET_DIFFICULTY_EASY, INFINITY)
 	faction = SSstar_system.faction_by_id(faction_id)
 	reward *= size //Bigger fleet = larger reward
