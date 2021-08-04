@@ -45,7 +45,7 @@
 
 /obj/machinery/computer/ship/navigation/ui_act(action, params, datum/tgui/ui)
 	.=..()
-	if(isobserver(user) && !IsAdminGhost(user))
+	if(isobserver(usr) && !IsAdminGhost(usr))
 		return
 	if(!linked)
 		return
