@@ -7,14 +7,10 @@
 
 /datum/overmap_objective/system_defence_armada/instance()
 	.=..()
-	message_admins("1")
 	var/datum/overmap_gamemode/M = SSovermap_mode.mode
-	message_admins("[M]")
 	if(istype(M, /datum/overmap_gamemode/armada))
-		message_admins("2")
 		var/datum/overmap_gamemode/armada/A = M
 		selected_system = A.selected_system
-		message_admins("[A]")
 
 	desc = "Defend [selected_system] against a Syndicate invasion fleet"
 	brief = "Defend [selected_system] against a Syndicate invasion fleet"

@@ -411,12 +411,20 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	switch(action)
 		if("change_gamemode")
-			message_admins("Not Currently Enabled - SoonTM")
+			if(SSovermap_mode.mode_initialised)
+				message_admins("Post Initilisation Overmap Gamemode Changes Not Currently Supported")
+				return
+			var/list/gamemode_pool = typecacheof(/datum/overmap_gamemode, TRUE)
+			var/datum/overmap_gamemode/S = input("Select Overmap Gamemode", "Change Overmap Gamemode") as null|anything in gamemode_pool
+			if(isnull(S))
+				return
+			SSovermap_mode.mode = new S()
+			message_admins("[key_name_admin(usr)] has changed the overmap gamemode to [SSovermap_mode.mode.name]")
 			return
 		if("add_objective")
 			var/list/objectives_pool = typecacheof(/datum/overmap_objective, TRUE)
 			var/datum/overmap_objective/S = input("Select objective to add", "Add Objective") as null|anything in objectives_pool
-			if(S == null)
+			if(isnull(S))
 				return
 			SSovermap_mode.mode.objectives += new S()
 			for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)

@@ -17,8 +17,8 @@
 	var/selected_system							//The target of the Syndicate Attack
 	var/reinforcements = 0						//How many reinforcement fleets NT has at hand
 
-	selection_weight = 100
-	required_players = 0
+	selection_weight = 5
+	required_players = 15
 	objectives = list(/datum/overmap_objective/system_defence_armada)
 
 /datum/overmap_gamemode/armada/New()
@@ -76,7 +76,7 @@
 /datum/overmap_gamemode/armada/proc/reinforce()
 	reinforcements -- //Deduct one from the pool
 	var/datum/star_system/target = SSstar_system.system_by_id(selected_system)
-	var/datum/fleet/F = new /datum/fleet/nanotrasen/light()
+	var/datum/fleet/F = new /datum/fleet/nanotrasen/light() //You expected more?
 	target.fleets += F
 	F.current_system = target
 	F.assemble(target)
