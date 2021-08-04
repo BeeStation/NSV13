@@ -47,13 +47,13 @@
 	on_drop(user)
 
 /obj/item/clothing/head/helmet/proc/on_drop(mob/user)
-	if(builtInCamera && !QDELETED(builtInCamera))
+	if(!QDELETED(builtInCamera))
 		UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
 		update_camera_location(get_turf(src))
 		builtInCamera.forceMove(src) //Snap the camera back into us.
 
 /obj/item/clothing/head/helmet/proc/do_camera_update(oldLoc)
-	if(builtInCamera && !QDELETED(builtInCamera) && oldLoc != get_turf(loc))
+	if(!QDELETED(builtInCamera) && oldLoc != get_turf(loc))
 		GLOB.cameranet.updatePortableCamera(builtInCamera)
 	updating = FALSE
 
