@@ -14,4 +14,6 @@
 
 /datum/overmap_objective/go_to_system/check_completion()
 	if(SSstar_system.find_system(SSstar_system.main_overmap) == target_system)
+		SSovermap_mode.update_reminder(objective=TRUE)
 		status = 1
+		UnregisterSignal(SSstar_system.find_main_overmap(), COMSIG_SHIP_ARRIVED)

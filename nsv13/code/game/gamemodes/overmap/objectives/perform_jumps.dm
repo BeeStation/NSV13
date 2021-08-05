@@ -17,6 +17,7 @@
 
 /datum/overmap_objective/perform_jumps/proc/register_jump()
 	jumps_completed ++
+	SSovermap_mode.update_reminder(objective=TRUE)
 	check_completion()
 
 /datum/overmap_objective/perform_jumps/check_completion()
@@ -25,3 +26,4 @@
 		return
 	if(jumps_completed >= jumps_required)
 		status = 1
+		UnregisterSignal(SSstar_system.find_main_overmap(), COMSIG_SHIP_ARRIVED)
