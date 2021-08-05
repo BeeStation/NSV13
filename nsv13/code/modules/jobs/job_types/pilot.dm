@@ -16,13 +16,15 @@
 	outfit = /datum/outfit/job/pilot
 
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_COMBAT_PILOT, ACCESS_TRANSPORT_PILOT, ACCESS_HANGAR)
-	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_HANGAR)
+	minimal_access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_COMBAT_PILOT, ACCESS_TRANSPORT_PILOT, ACCESS_HANGAR)
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_MUN
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_PILOT
 
+//FIXME: boarding
+/*
 /datum/job/pilot/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
 
@@ -34,6 +36,7 @@
 				W.access |= list(ACCESS_COMBAT_PILOT)
 			if(PILOT_TRANSPORT)
 				W.access |= list(ACCESS_TRANSPORT_PILOT)
+*/
 
 /datum/outfit/job/pilot
 	name = "Pilot"

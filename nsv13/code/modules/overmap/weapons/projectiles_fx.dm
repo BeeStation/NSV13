@@ -112,6 +112,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	valid_angle = 150
 	homing_turn_speed = 35
 	damage = 240
+	obj_integrity = 40
+	max_integrity = 40
 	range = 250
 	armor = list("overmap_light" = 20, "overmap_medium" = 10, "overmap_heavy" = 0)
 	flag = "overmap_heavy"
@@ -134,6 +136,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "torpedo_nuke"
 	name = "thermonuclear missile"
 	damage = 600
+	obj_integrity = 25
+	max_integrity = 25
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 
@@ -178,13 +182,13 @@ Misc projectile types, effects, think of this as the special FX file.
 
 //Corvid or someone please refactor this to be less messy.
 /obj/item/projectile/guided_munition/on_hit(atom/target, blocked = FALSE)
-	..()
+	. = ..()
 	if(!check_faction(target))
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
 		return BULLET_ACT_HIT
 	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
-	if(isprojectile(target) && P.faction != faction) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
+	if(isprojectile(target) && P.faction != faction && !P.nodamage) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
 		if(obj_integrity <= P.damage) //Tank the hit, take some damage
 			qdel(P)
 			explode()
@@ -194,39 +198,13 @@ Misc projectile types, effects, think of this as the special FX file.
 			take_damage(P.damage)
 			return FALSE //Didn't take the hit
 	if(!isprojectile(target)) //This is lazy as shit but is necessary to prevent explosions triggering on the overmap when two bullets collide. Fix this shit please.
-		explosion(target, 2, 4, 4)
+		detonate(target)
 	return BULLET_ACT_HIT
 
-/obj/item/projectile/guided_munition/torpedo/nuclear/on_hit(atom/target, blocked = FALSE)
-	..()
-	if(!check_faction(target))
-		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
-	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
-		return BULLET_ACT_HIT
-	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
-	if(isprojectile(target) && P.faction != faction) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
-		return BULLET_ACT_HIT
-	if(!isprojectile(target))
+/obj/item/projectile/guided_munition/proc/detonate(atom/target)
+	explosion(target, 2, 4, 4)
+	
+/obj/item/projectile/guided_munition/torpedo/nuclear/detonate(atom/target)
 		var/obj/structure/overmap/OM = target.get_overmap() //What if I just..........
-		OM.nuclear_impact()
+		OM?.nuclear_impact()
 		explosion(target, 3, 6, 8)
-		//explosion(target, GLOB.MAX_EX_DEVESTATION_RANGE, GLOB.MAX_EX_HEAVY_RANGE, GLOB.MAX_EX_LIGHT_RANGE, GLOB.MAX_EX_FLASH_RANGE)
-
-	return BULLET_ACT_HIT
-
-/obj/item/projectile/guided_munition/torpedo/check_faction(atom/movable/A)
-	var/obj/item/projectile/P = A //Lazy but w/e
-	//If it's a projectile and not sharing our faction, blow it up.
-	if(isprojectile(A) && P.faction != faction)
-		new /obj/effect/temp_visual/impact_effect/torpedo(get_turf(src)) //Exploding effect
-		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo_detonate.ogg','nsv13/sound/effects/ship/freespace2/impacts/boom_2.wav','nsv13/sound/effects/ship/freespace2/impacts/boom_3.wav','nsv13/sound/effects/ship/freespace2/impacts/subhit.wav','nsv13/sound/effects/ship/freespace2/impacts/subhit2.wav','nsv13/sound/effects/ship/freespace2/impacts/m_hit.wav','nsv13/sound/effects/ship/freespace2/impacts/hit_1.wav')
-		var/obj/structure/overmap/OM = firer || null
-		if(OM && istype(OM))
-			OM?.relay_to_nearby(chosen)
-		qdel(src)
-		return FALSE
-	var/obj/structure/overmap/OM = A
-	if(!istype(OM))
-		return TRUE
-	if(faction != OM.faction)
-		return TRUE

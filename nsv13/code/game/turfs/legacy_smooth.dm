@@ -200,10 +200,8 @@
 		if(density)
 			smooth = SMOOTH_FALSE
 			cut_overlays()
-			message_admins("opening!")
 			icon_state = "[initial(icon_state)]fwall_opening"
 		else
-			message_admins("closing!")
 			icon_state = "[initial(icon_state)]fwall_closing"
 			smooth = SMOOTH_TRUE
 			clear_smooth_overlays()
