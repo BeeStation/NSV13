@@ -154,27 +154,34 @@ SUBSYSTEM_DEF(overmap_mode)
 			if(world.time >= next_objective_reminder)
 				objective_reminder_stacks ++
 				next_objective_reminder = world.time + mode.objective_reminder_interval
-				switch(objective_reminder_stacks)
-					if(1)
-						//something
-						priority_announce("[mode.reminder_one]", "[mode.reminder_origin]")
-						mode.consequence_one()
-					if(2)
-						//something else
-						priority_announce("[mode.reminder_two]", "[mode.reminder_origin]")
-						mode.consequence_two()
-					if(3)
-						//something else +
-						priority_announce("[mode.reminder_three]", "[mode.reminder_origin]")
-						mode.consequence_three()
-					if(4)
-						//last chance
-						priority_announce("[mode.reminder_four]", "[mode.reminder_origin]")
-						mode.consequence_four()
-					if(5)
-						//mission critical failure
-						priority_announce("[mode.reminder_five]", "[mode.reminder_origin]")
-						mode.consequence_five()
+				if(!round_extended) //Normal Loop
+					switch(objective_reminder_stacks)
+						if(1) //something
+							priority_announce("[mode.reminder_one]", "[mode.reminder_origin]")
+							mode.consequence_one()
+						if(2) //something else
+							priority_announce("[mode.reminder_two]", "[mode.reminder_origin]")
+							mode.consequence_two()
+						if(3) //something else +
+							priority_announce("[mode.reminder_three]", "[mode.reminder_origin]")
+							mode.consequence_three()
+						if(4) //last chance
+							priority_announce("[mode.reminder_four]", "[mode.reminder_origin]")
+							mode.consequence_four()
+						if(5) //mission critical failure
+							priority_announce("[mode.reminder_five]", "[mode.reminder_origin]")
+							mode.consequence_five()
+				else
+					switch(objective_reminder_stacks) //Less Stacks Here, Prevent The Post-Round Stalling
+						if(1)
+							priority_announce("Auto-recall to Outpost 45 will occur in [(mode.objective_reminder_interval * 2) / 600] Minutes.", "[mode.reminder_origin]")
+
+						if(2)
+							priority_announce("Auto-recall to Outpost 45 will occur in [(mode.objective_reminder_interval * 1) / 600] Minutes.", "[mode.reminder_origin]")
+
+						if(3)
+							priority_announce("Auto-recall to Outpost 45 activated, additional objective aborted.", "[mode.reminder_origin]")
+							mode.victory()
 
 /datum/controller/subsystem/overmap_mode/proc/start_reminder()
 	next_objective_reminder = world.time + mode.objective_reminder_interval
@@ -237,6 +244,13 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	announce_objectives() //Let them all know
 
+	//Reset the reminder system & impose a hard timelimit
+	combat_resets_reminder = FALSE
+	combat_delays_reminder = FALSE
+	mode.objective_reminder_interval = 10 MINUTES
+	objective_reminder_stacks = 0
+	next_objective_reminder = world.time + mode.objective_reminder_interval
+
 /datum/controller/subsystem/overmap_mode/proc/difficulty_calc()
 	var/players = get_active_player_count(TRUE, FALSE, FALSE) //Check how many players are still alive
 	switch(players)
@@ -281,7 +295,6 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/overmap_gamemode/proc/consequence_one()
 
-
 /datum/overmap_gamemode/proc/consequence_two()
 	var/datum/faction/F = SSstar_system.faction_by_id(starting_faction)
 	F.lose_influence(25)
@@ -303,8 +316,6 @@ SUBSYSTEM_DEF(overmap_mode)
 	F.current_system = target
 	F.assemble(target)
 	SSovermap_mode.objective_reminder_stacks = 0 //Reset
-
-
 
 /datum/overmap_gamemode/proc/check_completion() //This gets called by checking the communication console/modcomp program + automatically once every 10 minutes
 	if(SSovermap_mode.already_ended)
@@ -365,6 +376,11 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_objective/custom
 	name = "Custom"
 
+/datum/overmap_objective/custom/New(var/passed_input) //Receive the string and make it brief/desc
+	.=..()
+	desc = passed_input
+	brief = passed_input
+
 //////ADMIN TOOLS//////
 
 /client/proc/overmap_mode_controller() //Admin Verb for the Overmap Gamemode controller
@@ -412,7 +428,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	switch(action)
 		if("change_gamemode")
 			if(SSovermap_mode.mode_initialised)
-				message_admins("Post Initilisation Overmap Gamemode Changes Not Currently Supported")
+				message_admins("Post Initilisation Overmap Gamemode Changes Not Currently Supported") //SoonTM
 				return
 			var/list/gamemode_pool = typecacheof(/datum/overmap_gamemode, TRUE)
 			var/datum/overmap_gamemode/S = input("Select Overmap Gamemode", "Change Overmap Gamemode") as null|anything in gamemode_pool
@@ -433,10 +449,7 @@ SUBSYSTEM_DEF(overmap_mode)
 			return
 		if("add_custom_objective")
 			var/custom_desc = input("Input Objective Briefing", "Custom Objective") as text|null
-			var/datum/overmap_objective/custom/C = new /datum/overmap_objective/custom()
-			C.desc = custom_desc
-			C.brief = custom_desc
-			SSovermap_mode.mode.objectives += new C()
+			SSovermap_mode.mode.objectives += new /datum/overmap_objective/custom(custom_desc)
 			return
 
 		if("remove_objective")
@@ -505,7 +518,6 @@ SUBSYSTEM_DEF(overmap_mode)
 		objectives[++objectives.len] = objective_data
 	data["objectives_list"] = objectives
 	return data
-
 
 #undef STATUS_INPROGRESS
 #undef STATUS_COMPLETED

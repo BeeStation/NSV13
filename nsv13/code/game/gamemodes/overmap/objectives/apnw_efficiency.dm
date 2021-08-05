@@ -17,6 +17,7 @@
 
 /datum/overmap_objective/apnw_efficiency/instance()
 	. = ..()
+	desc = "Get APNW to [target_efficiency * 100]% efficiency level"
 	brief = "Test the APNW by raising the repair efficiency to at least [target_efficiency * 100]%"
 
 /datum/overmap_objective/apnw_efficiency/process()
