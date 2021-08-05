@@ -297,7 +297,7 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_gamemode/proc/consequence_five()
 	//Hotdrop O'Clock
 	var/datum/star_system/target = SSstar_system.find_main_overmap().current_system
-	priority_announce("Faction Hunter something something Hotdrop") //need a faction message
+	priority_announce("Attention all ships throughout the fleet, assume DEFCON 1. A Syndicate invasion force has been spotted in [target]. All fleets must return to allied space and assist in the defense.") //need a faction message
 	var/datum/fleet/F = new /datum/fleet/interdiction() //need a fleet
 	target.fleets += F
 	F.current_system = target

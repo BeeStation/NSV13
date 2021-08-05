@@ -20,6 +20,7 @@
 
 /datum/overmap_objective/destroy_fleets/proc/register_kill()
 	fleets_defeated ++
+	SSovermap_mode.update_reminder(objective=TRUE)
 	check_completion()
 
 /datum/overmap_objective/destroy_fleets/check_completion()
