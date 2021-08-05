@@ -485,10 +485,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				SW = weapon_types[FIRE_MODE_RED_LASER]
 				if(SW)
 					fire_weapon(target, FIRE_MODE_RED_LASER)
-				else
-					SW = weapon_types[FIRE_MODE_50CAL]
-					loaded = SW?.weapons["loaded"]
-					fire_weapon(target, FIRE_MODE_50CAL)
 		return FALSE
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)

@@ -249,7 +249,7 @@
 	failure_alert = "<span class='warning'>DANGER: point defense system not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
-	selectable = FALSE
+	selectable = TRUE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 
 /datum/ship_weapon/flak
