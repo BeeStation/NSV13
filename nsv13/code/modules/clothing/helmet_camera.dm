@@ -61,7 +61,6 @@
 /obj/item/clothing/head/helmet/proc/update_camera_location(oldLoc)
 	if(!oldLoc)
 		oldLoc = get_turf(loc)
-	oldLoc = get_turf(oldLoc)
 	if(!QDELETED(builtInCamera) && !updating)
 		updating = TRUE
 		addtimer(CALLBACK(src, .proc/do_camera_update, oldLoc), SILICON_CAMERA_BUFFER)
