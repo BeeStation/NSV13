@@ -51,7 +51,7 @@
 	sec_hud_set_ID()
 	sec_hud_set_implants()
 	sec_hud_set_security_status()
-	set_squad_hud()
+	squad_hud_set_squad() //NSV13
 	//...and display them.
 	add_to_all_human_data_huds()
 

@@ -34,7 +34,9 @@ GLOBAL_LIST_INIT(huds, list(
 	ANTAG_HUD_BRAINWASHED = new/datum/atom_hud/antag/hidden(),
 	ANTAG_HUD_SURVIVALIST = new/datum/atom_hud/antag/hidden(),
 	ANTAG_HUD_INCURSION = new/datum/atom_hud/antag(),
-	ANTAG_HUD_HERETIC = new/datum/atom_hud/antag/hidden()
+	ANTAG_HUD_HERETIC = new/datum/atom_hud/antag/hidden(),
+	ANTAG_HUD_BLOODING = new/datum/atom_hud/antag(), //NSV13 bloodling
+	DATA_HUD_SQUAD = new/datum/atom_hud/data/human/squad_hud() //NSV13 squad
 	))
 
 /datum/atom_hud

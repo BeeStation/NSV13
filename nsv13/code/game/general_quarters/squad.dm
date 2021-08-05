@@ -35,7 +35,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	for(var/rank in list("Bridge Staff", "Munitions Technician"))
 		var/datum/job/job = SSjob.GetJob(rank)
 		if(!job)
-			message_admins("fuck. this is bad")
+			message_admins("No [rank] in SSjob]")
 			continue
 		if(!job.current_positions) //Unstaffed crucial job! I count MT and BS as ESSENTIAL for ship operation, so if you have none, the game needs to step in and fix your problem for you. This is so that the ship can always keep moving, even if all the crew try and go meme roles like clown (fight me)
 			var/list/possible = list()
