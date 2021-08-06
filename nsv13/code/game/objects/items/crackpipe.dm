@@ -19,3 +19,7 @@
 				to_chat(user, "<span class='notice'>The [glass] is empty.</span>")
 			else
 				to_chat(user, "<span class='notice'>The [src] is full.</span>")
+
+/obj/machinery/vending/cigarette/Initialize()
+	contraband += list(/obj/item/clothing/mask/cigarette/crackpipe = 1)
+	. = ..()
