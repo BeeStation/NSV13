@@ -15152,7 +15152,7 @@
 /area/chapel/main)
 "kaD" = (
 /obj/machinery/air_sensor/atmos{
-	id_tag = "nuclear_mix_sensor"
+	id_tag = "nuclear_sensor"
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer1{
 	dir = 4
@@ -17459,7 +17459,7 @@
 	},
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos{
 	dir = 4;
-	id = "stormdrive_mix_in";
+	id = "stormdrive_in";
 	piping_layer = 1
 	},
 /turf/open/floor/engine/vacuum,
@@ -17923,7 +17923,7 @@
 	dir = 4
 	},
 /obj/machinery/air_sensor/atmos{
-	id_tag = "stormdrive_mix_sensor"
+	id_tag = "stormdrive_sensor"
 	},
 /turf/open/floor/engine/vacuum,
 /area/engine/stormdrive)
@@ -19398,7 +19398,7 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos{
 	dir = 4;
-	id_tag = "stormdrive_mix_out";
+	id_tag = "stormdrive_out";
 	internal_pressure_bound = 2000;
 	on = 0
 	},
@@ -20709,9 +20709,9 @@
 /obj/machinery/atmospherics/pipe/simple/orange/visible,
 /obj/machinery/computer/atmos_control/tank{
 	dir = 4;
-	input_tag = "stormdrive_mix_in";
-	output_tag = "stormdrive_mix_out";
-	sensors = list("stormdrive_mix_sensor" = "Stormdrive Fuel Tank")
+	input_tag = "stormdrive_in";
+	output_tag = "stormdrive_out";
+	sensors = list("stormdrive_sensor" = "Stormdrive Fuel Tank")
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
@@ -21101,7 +21101,7 @@
 /obj/machinery/computer/atmos_control{
 	dir = 8;
 	name = "Ship Miscellaneous Monitoring";
-	sensors = list("distro-loop_meter" = "Distribution Loop", "atmos-waste_loop_meter" = "Atmos Waste Loop", "toxinslab_sensor" = "Toxins Mixing Chamber", "viro_sensor_alt" = "Virology Quarantine Tank", "stormdrive_mix_sensor" = "Stormdrive Fuel Tank", "stormdrive_chamber_sensor" = "Stormdrive Chamber", "sm_sense" = "Supermatter Core", "supermatter_fusion_sensor" = "Supermatter Fusion Chamber", "nuclear_mix_sensor" = "Nuclear Reactor Gas Mix Tank")
+	sensors = list("distro-loop_meter" = "Distribution Loop", "atmos-waste_loop_meter" = "Atmos Waste Loop", "toxinslab_sensor" = "Toxins Mixing Chamber", "viro_sensor_alt" = "Virology Quarantine Tank", "stormdrive_sensor" = "Stormdrive Fuel Tank", "stormdrive_chamber_sensor" = "Stormdrive Chamber", "sm_sense" = "Supermatter Core", "supermatter_fusion_sensor" = "Supermatter Fusion Chamber", "nuclear_sensor" = "Nuclear Reactor Gas Mix Tank")
 	},
 /obj/structure/cable{
 	icon_state = "1-6"
@@ -23908,7 +23908,7 @@
 	},
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos{
 	dir = 1;
-	id = "nuclear_mix_in";
+	id = "nuclear_in";
 	piping_layer = 3
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer1{
@@ -30262,10 +30262,10 @@
 "ubQ" = (
 /obj/machinery/computer/atmos_control/tank/toxin_tank{
 	dir = 4;
-	input_tag = "nuclear_mix_in";
+	input_tag = "nuclear_in";
 	name = "Nuclear Reactor Gas Tank Control";
-	output_tag = "nuclear_min_out";
-	sensors = list("nuclear_mix_sensor" = "Nuclear Reactor Gas Mix Tank")
+	output_tag = "nuclear_out";
+	sensors = list("nuclear_sensor" = "Nuclear Reactor Gas Mix Tank")
 	},
 /obj/machinery/computer/reactor/pump/rbmk_output{
 	density = 0;
@@ -35604,7 +35604,7 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos{
 	dir = 4;
-	id_tag = "nuclear_min_out";
+	id_tag = "nuclear_out";
 	internal_pressure_bound = 4500;
 	piping_layer = 1
 	},
