@@ -148,6 +148,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	if(!boarding_interior.load(center, centered = TRUE))
 		message_admins("[ADMIN_LOOKUPFLW(src)] failed to load interior")
 	SSair.can_fire = TRUE
+	post_load_interior()
 	var/area/target_area
 	//Now, set up the interior for loading...
 	if(center)
