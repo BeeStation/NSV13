@@ -288,3 +288,7 @@
 
 /obj/item/circuitboard/machine/gauss_turret/Destroy()
 	return QDEL_HINT_LETMELIVE
+
+/obj/item/circuitboard/computer/iff
+	name = "IFF Console (circuit)"
+	build_path = /obj/machinery/computer/iff_console

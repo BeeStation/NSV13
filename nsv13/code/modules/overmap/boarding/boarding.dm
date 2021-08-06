@@ -1,122 +1,7 @@
-GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", "Crimson", "Osiris", "Apex", "Apollo", "Thrace", "Galactica", "Valkyrie", "Recon", "Gamma", "Alpha", "Bravo", "Charlie", "Delta", "Indigo", "Sol's fist", "Abassi", "Cartesia", "Switchback", "Majestic", "Mountain", "Shadow", "Shrike", "Sterling", "FTL", "Belter", "Moya", "Crichton"))
-
-/datum/map_template/syndicate_boarding_pod
-	name = "Syndicate Boarding Pod"
-	mappath = "_maps/templates/boarding_pod.dmm"
-
-/area/nsv/boarding_pod
-	name = "Syndicate Boarding Pod"
-	icon_state = "syndie-ship"
-	requires_power = FALSE
-
-/datum/map_template/spacepirate_boarding_pod
-	name = "Space Pirate Boarding Pod"
-	mappath = "_maps/templates/pirate_pod.dmm"
-
-/datum/antagonist/traitor/boarder //TODO: Refactor this to not a traitor extension
-	name = "Boarder" //Not the school kind :b1:
-	antagpanel_category = "Boarder"
-	roundend_category = "boarders"
-	should_equip = FALSE
-	tips = 'html/antagtips/boarder.html'
-	show_to_ghosts = TRUE
-
-/datum/antagonist/traitor/boarder/forge_human_objectives()
-	var/martyr_chance = prob(20)
-	if (!(locate(/datum/objective/hijack) in objectives))
-		var/datum/objective/hijack/hijack_objective = new
-		hijack_objective.owner = owner
-		add_objective(hijack_objective)
-		return
-
-	var/martyr_compatibility = TRUE //You can't succeed in stealing if you're dead.
-	for(var/datum/objective/O in objectives)
-		if(!O.martyr_compatible)
-			martyr_compatibility = 0
-			break
-
-	if(martyr_compatibility && martyr_chance)
-		var/datum/objective/martyr/martyr_objective = new
-		martyr_objective.owner = owner
-		add_objective(martyr_objective)
-		return
-
-//God I love abusing OOP. This is disgusting.
-
-/datum/antagonist/pirate/boarder
-	name = "Space Pirate"
-	var/datum/team/pirate/boarder/boarding_crew
-
-/datum/team/pirate/boarder
-	name = "Space Pirate Boarding Crew"
-
-/datum/antagonist/pirate/boarder/greet()
-	to_chat(owner, "<span class='boldannounce'>You are a Space Pirate!</span>")
-	to_chat(owner, "<B>You've managed to dock within proximity of a Nanotrasen war vessel. You're outnumbered, outgunned, and under prepared in every conceivable way, but if you can manage to successfully pull off a heist on this vessel, it'd be enough to put your pirate crew on the map.</B>")
-	owner.announce_objectives()
-
-/datum/antagonist/pirate/boarder/get_team()
-	return boarding_crew
-
-/datum/antagonist/pirate/boarder/on_gain()
-	if(boarding_crew)
-		objectives |= boarding_crew.objectives
-	. = ..()
-
-/datum/antagonist/pirate/boarder/create_team(datum/team/pirate/boarder/new_team)
-	if(!new_team)
-		for(var/datum/antagonist/pirate/boarder/P in GLOB.antagonists)
-			if(!P.owner)
-				continue
-			if(P.boarding_crew)
-				boarding_crew = P.boarding_crew
-				return
-		if(!new_team)
-			boarding_crew = new /datum/team/pirate/boarder
-			boarding_crew.forge_objectives()
-			return
-	if(!istype(new_team))
-		stack_trace("Wrong team type passed to [type] initialization.")
-	boarding_crew = new_team
-
-/datum/team/pirate/boarder/forge_objectives()
-	var/datum/objective/loot/plunder/P = new()
-	P.team = src
-	for(var/obj/machinery/computer/piratepad_control/PPC in GLOB.machines)
-		var/area/A = get_area(PPC)
-		if(istype(A,/area/shuttle/pirate))
-			P.cargo_hold = PPC
-			break
-	objectives += P
-	for(var/datum/mind/M in members)
-		var/datum/antagonist/pirate/boarder/B = M.has_antag_datum(/datum/antagonist/pirate/boarder)
-		if(B)
-			B.objectives |= objectives
-
-/datum/objective/loot/plunder
-	explanation_text = "Loot and pillage the ship, transport 50000 credits worth of loot." //replace me
-
-///Finds a "safe" place to dump a boarding pod, with a bit of distance from the transition edge to avoid visual hiccups.
-/proc/boardingPodStartLoc(startSide, Z)
-	var/starty
-	var/startx
-	switch(startSide)
-		if(NORTH)
-			starty = world.maxy-(TRANSITIONEDGE+10)
-			startx = rand((TRANSITIONEDGE+10), world.maxx-(TRANSITIONEDGE+10))
-		if(EAST)
-			starty = rand((TRANSITIONEDGE+10),world.maxy-(TRANSITIONEDGE+10))
-			startx = world.maxx-(TRANSITIONEDGE+10)
-		if(SOUTH)
-			starty = (TRANSITIONEDGE+10)
-			startx = rand((TRANSITIONEDGE+10), world.maxx-(TRANSITIONEDGE+10))
-		if(WEST)
-			starty = rand((TRANSITIONEDGE+10), world.maxy-(TRANSITIONEDGE+10))
-			startx = (TRANSITIONEDGE+10)
-	. = locate(startx, starty, Z)
+#define drop_trooper_teams list("Noble", "Helljumper","Red", "Black", "Crimson", "Osiris", "Apex", "Apollo", "Thrace", "Galactica", "Valkyrie", "Recon", "Gamma", "Alpha", "Bravo", "Charlie", "Delta", "Indigo", "Sol's fist", "Abassi", "Cartesia", "Switchback", "Majestic", "Mountain", "Shadow", "Shrike", "Sterling", "FTL", "Belter", "Moya", "Crichton")
 
 /obj/structure/overmap/proc/spawn_boarders(amount, faction_selection="syndicate")
-	if(!occupying_levels?.len)
+	if(!occupying_levels || length(occupying_levels))
 		return FALSE
 	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 	if(!amount)
@@ -131,7 +16,25 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	for(var/datum/space_level/SL in occupying_levels)
 		zs += SL.z_value
 	var/startside = pick(GLOB.cardinals)
-	var/turf/target = boardingPodStartLoc(startside, pick(zs))
+
+	///Finds a "safe" place to dump a boarding pod, with a bit of distance from the transition edge to avoid visual hiccups.
+	var/starty
+	var/startx
+	switch(startside)
+		if(NORTH)
+			starty = world.maxy-(TRANSITIONEDGE+10)
+			startx = rand((TRANSITIONEDGE+10), world.maxx-(TRANSITIONEDGE+10))
+		if(EAST)
+			starty = rand((TRANSITIONEDGE+10),world.maxy-(TRANSITIONEDGE+10))
+			startx = world.maxx-(TRANSITIONEDGE+10)
+		if(SOUTH)
+			starty = (TRANSITIONEDGE+10)
+			startx = rand((TRANSITIONEDGE+10), world.maxx-(TRANSITIONEDGE+10))
+		if(WEST)
+			starty = rand((TRANSITIONEDGE+10), world.maxy-(TRANSITIONEDGE+10))
+			startx = (TRANSITIONEDGE+10)
+	var/turf/target = locate(startx, starty, pick(zs))
+
 	if(!target)
 		message_admins("Failed to spawn boarders for [name], does it have an interior?")
 		return FALSE //Cut off here to avoid polling people for a spawn that will never work.
@@ -180,7 +83,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		return TRUE
 	var/list/operatives = list()
 	if(faction_selection == "syndicate")
-		var/team_name = pick_n_take(GLOB.drop_trooper_teams)
+		var/team_name = pick_n_take(drop_trooper_teams)
 		var/datum/map_template/syndicate_boarding_pod/currentPod = new /datum/map_template/syndicate_boarding_pod()
 		currentPod.load(target, TRUE)
 		for(var/I = 0, I < amount, I++)
@@ -236,3 +139,5 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 			operatives += H
 		 //No audio warning?
 	return TRUE
+
+#undef drop_trooper_teams

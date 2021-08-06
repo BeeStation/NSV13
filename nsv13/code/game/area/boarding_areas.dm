@@ -1,3 +1,8 @@
+/area/nsv/boarding_pod
+	name = "Syndicate Boarding Pod"
+	icon_state = "syndie-ship"
+	requires_power = FALSE
+
 //Legacy areas.
 /area/ruin/powered/nsv13/prisonship
 	name = "Syndicate prison ship"

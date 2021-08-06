@@ -164,6 +164,8 @@
 	var/list/possible_interior_maps = null
 	var/interior_mode = NO_INTERIOR
 	var/list/interior_entry_points = list()
+	var/boarding_reservation_z = null //Do we have a reserved Z-level for boarding? This is set up on instance_overmap. Ships being boarded copy this value from the boarder.
+	var/obj/structure/overmap/active_boarding_target = null
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
@@ -453,6 +455,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		physics2d = null
 	if(npc_combat_dice)
 		qdel(npc_combat_dice)
+
+	kill_boarding_level()
 	return ..()
 
 /obj/structure/overmap/proc/find_area()
