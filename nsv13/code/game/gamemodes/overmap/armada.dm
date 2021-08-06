@@ -1,4 +1,4 @@
-
+//Side Objectives still need to be generated
 /datum/overmap_gamemode/armada
 	name = "Armada"
 	desc = "Complete objectives to gain reinforcements, defend allocated system when the Syndicate Armada arrives."
