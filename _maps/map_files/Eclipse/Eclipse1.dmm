@@ -137,10 +137,7 @@
 	pixel_y = 6
 	},
 /obj/item/gun/energy/kinetic_accelerator,
-/obj/machinery/requests_console{
-	department = "Mining";
-	pixel_y = 30
-	},
+/obj/item/radio/intercom/directional/north,
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/fore)
 "aB" = (
@@ -198,6 +195,8 @@
 /area/hallway/secondary/entry)
 "bd" = (
 /obj/structure/cable,
+/obj/item/radio/intercom/directional/west,
+/obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -223,6 +222,7 @@
 /obj/machinery/power/port_gen/pacman{
 	anchored = 1
 	},
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -780,7 +780,10 @@
 /area/crew_quarters/dorms)
 "dT" = (
 /obj/structure/tank_dispenser/oxygen,
-/obj/machinery/airalarm/directional/north,
+/obj/machinery/requests_console{
+	department = "Mining";
+	pixel_y = 30
+	},
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/fore)
 "dV" = (
@@ -1059,6 +1062,12 @@
 	},
 /turf/open/floor/carpet/purple,
 /area/science/research)
+"ff" = (
+/obj/item/radio/intercom/directional/south,
+/turf/open/floor/plasteel/dark/side{
+	dir = 1
+	},
+/area/hallway/primary/aft)
 "fg" = (
 /obj/item/paper_bin,
 /obj/item/pen/fountain,
@@ -1213,8 +1222,10 @@
 /turf/closed/wall/r_wall,
 /area/tcommsat/server)
 "fD" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
 /obj/machinery/firealarm/directional/south,
-/obj/machinery/light,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -1413,6 +1424,12 @@
 	dir = 1
 	},
 /area/hallway/secondary/construction)
+"go" = (
+/obj/structure/extinguisher_cabinet/west,
+/turf/open/floor/plasteel/dark/side{
+	dir = 1
+	},
+/area/hallway/primary/fore)
 "gr" = (
 /obj/item/radio/intercom/directional/north,
 /obj/machinery/space_heater,
@@ -1584,7 +1601,6 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "hg" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
@@ -1664,6 +1680,7 @@
 	pixel_y = 6
 	},
 /obj/item/wrench,
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/plasteel/white/side{
 	dir = 4
 	},
@@ -1731,6 +1748,7 @@
 /obj/item/pickaxe{
 	pixel_y = -5
 	},
+/obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/plasteel/dark/side{
 	dir = 8
 	},
@@ -1782,6 +1800,7 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 4
 	},
+/obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/dorms/nsv/dorms_2)
 "hU" = (
@@ -1791,7 +1810,6 @@
 	name = "First Mate's Quarters";
 	req_one_access_txt = "19"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 1
@@ -1847,6 +1865,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/plasteel/dark/side,
 /area/crew_quarters/lounge)
 "if" = (
@@ -2298,6 +2317,7 @@
 	dir = 5
 	},
 /obj/item/book/granter/martial/jujitsu,
+/obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/captain/private)
 "jO" = (
@@ -2330,6 +2350,7 @@
 	pixel_y = 5
 	},
 /obj/item/shovel,
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
@@ -2596,6 +2617,7 @@
 /area/nsv/weapons/fore)
 "kU" = (
 /obj/structure/closet/emcloset,
+/obj/item/radio/intercom/directional/north,
 /turf/open/floor/plasteel/dark/corner{
 	dir = 8
 	},
@@ -3461,16 +3483,13 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/entry)
 "oc" = (
-/obj/machinery/airalarm/directional/north,
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
+/obj/machinery/suit_storage_unit/mining/eva,
+/obj/item/mining_scanner,
+/obj/item/storage/bag/ore,
+/obj/machinery/airalarm/directional/south,
+/turf/open/floor/plasteel/dark/side{
+	dir = 1
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/monotile/dark,
 /area/hallway/primary/fore)
 "of" = (
 /turf/open/floor/plasteel/dark/side{
@@ -3526,6 +3545,15 @@
 /obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"oo" = (
+/obj/machinery/cryopod{
+	dir = 4
+	},
+/obj/structure/extinguisher_cabinet/west,
+/turf/open/floor/plasteel/dark/side{
+	dir = 8
+	},
+/area/crew_quarters/cryopods)
 "op" = (
 /obj/structure/extinguisher_cabinet/west,
 /turf/open/floor/plasteel/dark/side{
@@ -3793,6 +3821,12 @@
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/plasteel/dark/side,
 /area/storage/primary)
+"py" = (
+/obj/structure/extinguisher_cabinet/east,
+/turf/open/floor/plasteel/dark/side{
+	dir = 8
+	},
+/area/hallway/primary/aft)
 "pz" = (
 /obj/structure/sign/directions/plaque/command{
 	dir = 4
@@ -4365,6 +4399,10 @@
 	},
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/aft)
+"sb" = (
+/obj/structure/extinguisher_cabinet/west,
+/turf/open/floor/plasteel,
+/area/crew_quarters/lounge)
 "sg" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -4446,6 +4484,11 @@
 /obj/effect/turf_decal/arrows,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/warehouse)
+"sB" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/machinery/firealarm/directional/north,
+/turf/open/floor/plasteel/dark/side,
+/area/hallway/primary/fore)
 "sE" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -4511,18 +4554,10 @@
 /turf/open/floor/plasteel/dark,
 /area/hallway/secondary/construction)
 "sQ" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
-	dir = 4
+/obj/item/radio/intercom/directional/south,
+/turf/open/floor/plasteel/dark/side{
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 8
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/monotile/dark,
 /area/hallway/primary/fore)
 "sR" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
@@ -4831,6 +4866,7 @@
 	dir = 1
 	},
 /obj/structure/closet/emcloset,
+/obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/surgery)
 "um" = (
@@ -4942,6 +4978,7 @@
 /obj/machinery/air_sensor/atmos/oxygen_tank{
 	id_tag = "o2_sensor_alt"
 	},
+/obj/machinery/atmospherics/miner/oxygen,
 /turf/open/floor/engine/o2,
 /area/engine/atmos)
 "uH" = (
@@ -5080,6 +5117,7 @@
 	info = "<p>NOTE: There are no miners on this vessel, you are ALL miners. Use the mining dradis to see asteroids, move towards them, and then coordinate with your team on the mining rig (whoever you so choose to assign), and they can draw in the asteroid. This is the only way to acquire materials steadily outside of doing xenobio. -JT</p>";
 	name = "READ ME."
 	},
+/obj/item/radio/intercom/directional/north,
 /turf/open/floor/monotile/steel,
 /area/bridge)
 "va" = (
@@ -5228,6 +5266,11 @@
 /obj/machinery/telecomms/bus/preset_four,
 /turf/open/floor/circuit/green/telecomms,
 /area/tcommsat/server)
+"vD" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/structure/extinguisher_cabinet/north,
+/turf/open/floor/plasteel/dark/side,
+/area/hallway/primary/central)
 "vE" = (
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -5337,6 +5380,7 @@
 	},
 /obj/effect/landmark/observer_start,
 /obj/structure/table/reinforced,
+/obj/item/radio/intercom,
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/bar)
 "wb" = (
@@ -5358,6 +5402,15 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/fore)
+"wf" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 8
+	},
+/obj/structure/extinguisher_cabinet/east,
+/turf/open/floor/plasteel/dark/side{
+	dir = 8
+	},
+/area/hallway/primary/fore)
 "wg" = (
 /obj/effect/turf_decal/stripes{
 	dir = 8
@@ -5394,7 +5447,6 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/captain/private)
 "wp" = (
-/obj/item/radio/intercom/directional/north,
 /obj/machinery/camera/autoname,
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/aft)
@@ -5812,6 +5864,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/engine_smes)
+"yk" = (
+/obj/machinery/cryopod,
+/obj/item/radio/intercom/directional/east,
+/turf/open/floor/plasteel/dark/side{
+	dir = 4
+	},
+/area/crew_quarters/cryopods)
 "yl" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -5857,6 +5916,7 @@
 /obj/item/twohanded/required/kirbyplants{
 	icon_state = "plant-10"
 	},
+/obj/structure/extinguisher_cabinet/west,
 /turf/open/floor/plasteel/dark/corner,
 /area/science/research)
 "yE" = (
@@ -6159,6 +6219,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
 	},
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/sleeper)
 "zH" = (
@@ -6513,6 +6574,7 @@
 "Ba" = (
 /obj/effect/decal/cleanable/food/flour,
 /obj/item/reagent_containers/food/condiment/flour,
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/plasteel/checker,
 /area/crew_quarters/kitchen)
 "Bc" = (
@@ -6703,6 +6765,13 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Chief Medical Officer's Desk";
+	departmentType = 5;
+	name = "Chief Medical Officer RC";
+	pixel_x = 30
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/surgery)
 "BZ" = (
@@ -6785,6 +6854,7 @@
 /area/medical/surgery)
 "Ct" = (
 /obj/structure/disposalpipe/segment,
+/obj/structure/extinguisher_cabinet/west,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -6915,6 +6985,12 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/lounge)
+"Da" = (
+/obj/machinery/airalarm/directional/west,
+/turf/open/floor/plasteel/dark/side{
+	dir = 4
+	},
+/area/hallway/primary/fore)
 "Db" = (
 /obj/machinery/button/crematorium{
 	id = "crematoriumChapel";
@@ -7157,8 +7233,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/quartermaster/warehouse)
+"DX" = (
+/obj/machinery/airalarm/directional/east,
+/turf/open/floor/plasteel/dark/side{
+	dir = 8
+	},
+/area/hallway/primary/aft)
 "DY" = (
-/obj/machinery/atmospherics/pipe/simple,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
@@ -7186,6 +7267,7 @@
 /obj/machinery/computer/iff_console{
 	dir = 1
 	},
+/obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/monotile/steel,
 /area/bridge)
 "Ei" = (
@@ -7792,6 +7874,12 @@
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
+"GA" = (
+/obj/structure/extinguisher_cabinet/east,
+/turf/open/floor/plasteel/dark/side{
+	dir = 8
+	},
+/area/hallway/primary/fore)
 "GB" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -8204,6 +8292,10 @@
 /obj/effect/spawner/lootdrop/maintenance/seven,
 /turf/open/floor/monotile/dark,
 /area/quartermaster/warehouse)
+"Id" = (
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/plasteel/dark/side,
+/area/hallway/primary/fore)
 "Ie" = (
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
@@ -8218,6 +8310,7 @@
 /obj/machinery/washing_machine,
 /obj/item/clothing/suit/jacket,
 /obj/item/clothing/suit/ianshirt,
+/obj/item/radio/intercom/directional/north,
 /turf/open/floor/plasteel,
 /area/hallway/primary/fore)
 "Io" = (
@@ -8887,6 +8980,12 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/storage/primary)
+"Lo" = (
+/obj/machinery/firealarm/directional/south,
+/turf/open/floor/plasteel/dark/side{
+	dir = 1
+	},
+/area/hallway/primary/aft)
 "Lr" = (
 /turf/open/floor/plasteel/dark/side{
 	dir = 8
@@ -9574,6 +9673,7 @@
 	pixel_x = 5;
 	pixel_y = 3
 	},
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/surgery)
 "NU" = (
@@ -9848,6 +9948,7 @@
 /obj/machinery/computer/ship/navigation/astrometrics{
 	dir = 8
 	},
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/plasteel/dark/side{
 	dir = 8
 	},
@@ -10045,6 +10146,10 @@
 	dir = 4
 	},
 /area/crew_quarters/dorms)
+"Qb" = (
+/obj/machinery/airalarm/directional/west,
+/turf/open/floor/plasteel/dark/side,
+/area/hallway/primary/fore)
 "Qc" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -10226,13 +10331,6 @@
 	dir = 1
 	},
 /obj/machinery/iv_drip,
-/obj/machinery/requests_console{
-	announcementConsole = 1;
-	department = "Chief Medical Officer's Desk";
-	departmentType = 5;
-	name = "Chief Medical Officer RC";
-	pixel_x = 30
-	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/surgery)
 "QS" = (
@@ -10364,6 +10462,7 @@
 /area/engine/atmos)
 "Rt" = (
 /obj/machinery/ore_silo,
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/plasteel/dark/side{
 	dir = 8
 	},
@@ -10678,6 +10777,16 @@
 	},
 /turf/closed/wall/r_wall,
 /area/hallway/primary/aft)
+"SI" = (
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/stripes/line,
+/obj/item/radio/intercom/directional/west,
+/turf/open/floor/monotile/dark,
+/area/hallway/primary/fore)
 "SK" = (
 /obj/structure/ladder,
 /obj/effect/turf_decal/stripes/box,
@@ -10969,14 +11078,11 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/sleeper)
 "TQ" = (
-/obj/machinery/airalarm/directional/east,
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel/dark/side{
-	dir = 8
+	dir = 1
 	},
-/area/hallway/primary/aft)
+/area/hallway/primary/fore)
 "TR" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
@@ -11102,6 +11208,12 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
+"Uq" = (
+/obj/item/radio/intercom/directional/west,
+/turf/open/floor/plasteel/dark/side{
+	dir = 4
+	},
+/area/hallway/primary/fore)
 "Us" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -11537,6 +11649,10 @@
 	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/dorms)
+"Wd" = (
+/obj/structure/extinguisher_cabinet/north,
+/turf/open/floor/plasteel/dark/side,
+/area/hallway/primary/central)
 "Wf" = (
 /obj/structure/table/reinforced,
 /obj/item/reagent_containers/food/snacks/mint,
@@ -11618,6 +11734,7 @@
 /obj/item/gun/energy/kinetic_accelerator{
 	pixel_y = 6
 	},
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -12113,7 +12230,6 @@
 /area/engine/gravity_generator)
 "YN" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
-/obj/machinery/firealarm/directional/north,
 /obj/machinery/light{
 	dir = 1
 	},
@@ -12122,6 +12238,7 @@
 "YO" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/toolbox/emergency,
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/engine/gravity_generator)
 "YP" = (
@@ -32331,7 +32448,7 @@ nO
 OV
 pE
 NF
-tO
+fD
 hN
 Ud
 qW
@@ -32602,7 +32719,7 @@ Ze
 NZ
 Zh
 Jk
-fD
+oQ
 rK
 MZ
 MZ
@@ -32859,7 +32976,7 @@ PE
 NZ
 Zh
 Jk
-Sa
+Lo
 rK
 MZ
 MZ
@@ -33116,7 +33233,7 @@ Nc
 NZ
 Zh
 Jk
-Sa
+ff
 rK
 MZ
 MZ
@@ -34126,7 +34243,7 @@ Ln
 Mz
 kK
 Fm
-JF
+sb
 JF
 iu
 mN
@@ -36177,9 +36294,9 @@ mB
 Ig
 BW
 Ig
-TQ
+nX
 NH
-Ig
+DX
 MN
 mB
 Xv
@@ -36192,12 +36309,12 @@ Ig
 Ig
 Ig
 mB
-Ig
+DX
 nX
-Ig
+Xv
 Jx
 Ig
-Ig
+py
 qO
 Jk
 IL
@@ -37469,7 +37586,7 @@ WP
 XV
 XV
 zA
-ip
+Wd
 Hv
 Eu
 uo
@@ -40296,7 +40413,7 @@ aP
 zA
 zA
 zA
-mc
+vD
 Hg
 aG
 Su
@@ -40567,7 +40684,7 @@ mR
 xc
 rI
 rI
-Az
+sB
 xM
 Uw
 TK
@@ -40824,9 +40941,9 @@ xc
 xc
 rI
 rI
-Fc
+Id
 yl
-hz
+sQ
 rI
 gX
 gX
@@ -42109,7 +42226,7 @@ fN
 rm
 Ba
 lo
-oc
+Yw
 kp
 Yw
 rX
@@ -43908,7 +44025,7 @@ wH
 wH
 wH
 wH
-Fc
+Id
 yl
 hz
 wJ
@@ -44153,7 +44270,7 @@ Qs
 zH
 nN
 tG
-hz
+go
 RD
 xe
 of
@@ -44161,7 +44278,7 @@ ox
 fY
 IV
 Al
-qj
+oo
 jh
 qj
 wH
@@ -44673,7 +44790,7 @@ mF
 LK
 Ga
 xm
-Ga
+yk
 aB
 Ga
 xm
@@ -45681,7 +45798,7 @@ Ll
 hk
 Fc
 vf
-hz
+TQ
 nb
 xs
 nb
@@ -45707,7 +45824,7 @@ Lv
 Lv
 ed
 Lv
-Fc
+Qb
 zq
 hz
 aa
@@ -45954,16 +46071,16 @@ Mc
 Nn
 bf
 iP
-iP
-iP
+Uq
+Da
 DR
 iP
 iP
 iP
 iP
-Jy
+SI
 tZ
-iP
+CS
 YS
 zq
 bf
@@ -46196,7 +46313,7 @@ Jy
 QA
 MJ
 ca
-sQ
+Cw
 ne
 vN
 jl
@@ -46453,7 +46570,7 @@ Qn
 KY
 yR
 PJ
-iR
+wf
 Ne
 ub
 yR
@@ -46462,13 +46579,13 @@ yR
 yR
 vA
 PJ
-yR
+GA
 yR
 fB
 Nn
 Qm
 yR
-yR
+GA
 PJ
 yR
 Ne
@@ -47479,7 +47596,7 @@ MZ
 rI
 dT
 KY
-eZ
+oc
 qR
 qR
 eT
@@ -48250,7 +48367,7 @@ MZ
 rI
 rI
 jC
-hz
+sQ
 qR
 rt
 km
@@ -48278,7 +48395,7 @@ km
 to
 KF
 qR
-Fc
+fi
 XP
 rI
 rI
