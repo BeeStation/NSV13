@@ -217,7 +217,6 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "PDC round"
 	damage = 15
 	flag = "overmap_light"
-	speed = 1
 	spread = 5
 
 /obj/item/projectile/beam/laser/heavylaser/phaser
