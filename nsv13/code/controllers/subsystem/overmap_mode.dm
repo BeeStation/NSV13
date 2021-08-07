@@ -112,6 +112,8 @@ SUBSYSTEM_DEF(overmap_mode)
 		message_admins("Error: mode section pool empty - defaulting to PATROL")
 		log_game("Error: mode section pool empty - defaulting to PATROL")
 
+	return ..()
+
 /datum/controller/subsystem/overmap_mode/proc/setup_overmap_mode()
 	mode_initialised = TRUE
 	switch(mode.objective_reminder_setting) //Load the reminder settings
