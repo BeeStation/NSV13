@@ -104,6 +104,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition
 	obj_integrity = 50
 	max_integrity = 50
+	density = TRUE
 	armor = list("overmap_light" = 10, "overmap_medium" = 0, "overmap_heavy" = 0)
 
 /obj/item/projectile/guided_munition/torpedo
@@ -201,6 +202,10 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(!isprojectile(target)) //This is lazy as shit but is necessary to prevent explosions triggering on the overmap when two bullets collide. Fix this shit please.
 		detonate(target)
 	return BULLET_ACT_HIT
+
+/obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
+	. = ..()
+	on_hit(P)
 
 /obj/item/projectile/guided_munition/proc/detonate(atom/target)
 	explosion(target, 2, 4, 4)
