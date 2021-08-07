@@ -6,8 +6,7 @@
 
 /obj/item/disk/design_disk/deck_gun_autoelevator/Initialize()
 	. = ..()
-	var/datum/design/board/deck_gun_autoelevator/A = new
-	blueprints[1] = A
+	blueprints[1] = new /datum/design/board/deck_gun_autoelevator
 
 /obj/item/disk/design_disk/deck_gun_autorepair
 	name = "Naval Artillery Cannon Auto-repair Design"
@@ -17,5 +16,4 @@
 
 /obj/item/disk/design_disk/deck_gun_autorepair/Initialize()
 	. = ..()
-	var/datum/design/board/deck_gun_autorepair/A = new
-	blueprints[1] = A
+	blueprints[1] = new /datum/design/board/deck_gun_autorepair
