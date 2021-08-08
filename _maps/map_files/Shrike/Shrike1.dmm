@@ -192,9 +192,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "aY" = (
-/obj/machinery/lazylift_button,
-/turf/closed/wall/r_wall/ship,
-/area/shuttle/turbolift/tertiary)
+/obj/effect/landmark/patrol_node,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/port)
 "ba" = (
 /obj/docking_port/stationary{
 	dwidth = 6;
@@ -345,17 +345,17 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/ship/rust,
+/obj/effect/landmark/patrol_node,
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/genetics/cloning)
 "bG" = (
-/obj/effect/turf_decal/stripes/red/line{
-	dir = 8
+/obj/structure/lattice/catwalk,
+/obj/structure/cable/white{
+	icon_state = "1-2"
 	},
-/obj/effect/turf_decal/stripes/white/line{
-	dir = 4
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
+/obj/effect/landmark/patrol_node,
+/turf/open/openspace,
+/area/engine/stormdrive/monitor)
 "bH" = (
 /obj/machinery/requests_console{
 	announcementConsole = 1;
@@ -573,14 +573,18 @@
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "cy" = (
-/obj/effect/turf_decal/stripes/red/corner{
+/obj/machinery/light{
+	color = "#c1e1ff";
 	dir = 1
 	},
-/obj/effect/turf_decal/stripes/white/line{
-	dir = 9
+/turf/open/floor/monofloor{
+	dir = 1
 	},
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "cB" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -827,22 +831,6 @@
 	dir = 4;
 	icon_state = "tube"
 	},
-/obj/structure/reagent_dispensers/chem/potassium{
-	pixel_x = -4;
-	pixel_y = 8
-	},
-/obj/structure/reagent_dispensers/chem/radium{
-	pixel_x = 4;
-	pixel_y = 8
-	},
-/obj/structure/reagent_dispensers/chem/silicon{
-	pixel_x = -4;
-	pixel_y = -4
-	},
-/obj/structure/reagent_dispensers/chem/silver{
-	pixel_x = 4;
-	pixel_y = -4
-	},
 /turf/open/floor/plasteel/ship/padded,
 /area/medical/chemistry)
 "dD" = (
@@ -981,6 +969,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
+/obj/effect/landmark/patrol_node,
 /turf/open/floor/plating/rusty_techgrid,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -1038,8 +1027,7 @@
 /turf/open/openspace,
 /area/shuttle/turbolift/shaft)
 "eG" = (
-/obj/machinery/light{
-	color = "#c1e1ff";
+/obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
 /turf/open/floor/monofloor{
@@ -1079,26 +1067,6 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/port)
-"eT" = (
-/obj/structure/rack,
-/obj/structure/reagent_dispensers/chem/nitrogen{
-	pixel_x = -4;
-	pixel_y = 8
-	},
-/obj/structure/reagent_dispensers/chem/oxygen{
-	pixel_x = 4;
-	pixel_y = 8
-	},
-/obj/structure/reagent_dispensers/chem/phosphorus{
-	pixel_x = -4;
-	pixel_y = -4
-	},
-/obj/structure/reagent_dispensers/chem/plasma{
-	pixel_x = 4;
-	pixel_y = -4
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/medical/chemistry)
 "eV" = (
 /turf/open/floor/plasteel/white/side,
 /area/medical/medbay/zone2)
@@ -1177,14 +1145,16 @@
 /turf/closed/wall/ship,
 /area/crew_quarters/dorms)
 "fq" = (
-/obj/effect/turf_decal/stripes/red/line{
-	dir = 4
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/poddoor/shutters/ship{
+	dir = 4;
+	id = "emergency_armoury_shutter"
 	},
-/obj/effect/turf_decal/stripes/red/line{
+/obj/effect/turf_decal/caution/stand_clear{
 	dir = 8
 	},
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
+/turf/open/floor/plasteel/ship,
+/area/hallway/nsv/deck1/frame1/central)
 "fu" = (
 /obj/effect/turf_decal/loading_area{
 	dir = 4
@@ -1802,15 +1772,15 @@
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/miningdock)
 "iz" = (
-/obj/effect/turf_decal/stripes/red/corner,
-/obj/effect/turf_decal/stripes/red/corner{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/white/line{
+/obj/machinery/camera/autoname{
 	dir = 1
 	},
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
+/turf/open/floor/monofloor,
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "iB" = (
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/miningoffice)
@@ -2627,26 +2597,6 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/storage)
-"mB" = (
-/obj/structure/rack,
-/obj/structure/reagent_dispensers/chem/iodine{
-	pixel_x = -4;
-	pixel_y = 8
-	},
-/obj/structure/reagent_dispensers/chem/iron{
-	pixel_x = 4;
-	pixel_y = 8
-	},
-/obj/structure/reagent_dispensers/chem/lithium{
-	pixel_x = -4;
-	pixel_y = -4
-	},
-/obj/structure/reagent_dispensers/chem/mercury{
-	pixel_x = 4;
-	pixel_y = -4
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
-/area/medical/chemistry)
 "mH" = (
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/plating,
@@ -3322,9 +3272,11 @@
 	dir = 8
 	},
 /obj/machinery/firealarm/directional/west,
-/mob/living/simple_animal/pet{
+/mob/living/simple_animal/hostile/lizard{
 	desc = "A tiny little spider";
 	icon = 'icons/effects/effects.dmi';
+	icon_dead = "spiderling";
+	icon_living = "spiderling";
 	icon_state = "spiderling";
 	name = "spiderling"
 	},
@@ -4903,14 +4855,33 @@
 /turf/open/openspace,
 /area/maintenance/nsv/deck1/port)
 "wY" = (
-/obj/effect/turf_decal/stripes/red/line{
-	dir = 4
+/obj/structure/table/reinforced,
+/obj/structure/window/reinforced/spawner/north,
+/obj/structure/window/reinforced/spawner,
+/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+	pixel_x = 5;
+	pixel_y = 6
 	},
-/obj/effect/turf_decal/stripes/white/line{
+/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+	pixel_x = 2;
+	pixel_y = 3
+	},
+/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+	pixel_x = -1
+	},
+/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+	pixel_x = -4;
+	pixel_y = -3
+	},
+/obj/machinery/camera/motion{
 	dir = 8
 	},
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
+/turf/open/floor/plasteel/ship,
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "xb" = (
 /obj/machinery/computer/ship/viewscreen,
 /obj/machinery/computer/ship/navigation/public{
@@ -5158,6 +5129,7 @@
 	color = "#94deff";
 	dir = 4
 	},
+/obj/effect/landmark/patrol_node,
 /turf/open/floor/carpet/black,
 /area/crew_quarters/nsv/observation{
 	lighting_colour_bulb = "#c1e1ff";
@@ -5290,12 +5262,24 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "yC" = (
-/obj/effect/turf_decal/stripes/red/corner,
-/obj/effect/turf_decal/stripes/white/line{
-	dir = 6
+/obj/structure/window/reinforced/spawner,
+/obj/structure/guncase{
+	gun_category = /obj/item/gun/ballistic/automatic/pistol/glock;
+	name = "glock locker"
 	},
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
+/obj/item/gun/ballistic/automatic/pistol/glock,
+/obj/item/gun/ballistic/automatic/pistol/glock,
+/obj/machinery/light{
+	color = "#FF3232";
+	dir = 1
+	},
+/obj/effect/turf_decal/bot/right,
+/turf/open/floor/plasteel/ship,
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "yE" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
 	dir = 8
@@ -5574,27 +5558,11 @@
 "zT" = (
 /obj/structure/rack,
 /obj/machinery/firealarm/directional/north,
-/obj/structure/reagent_dispensers/chem/aluminium{
-	pixel_x = -4;
-	pixel_y = 8
-	},
-/obj/structure/reagent_dispensers/chem/bromine{
-	pixel_x = 4;
-	pixel_y = 8
-	},
-/obj/structure/reagent_dispensers/chem/carbon{
-	pixel_x = -4;
-	pixel_y = -4
-	},
-/obj/structure/reagent_dispensers/chem/chlorine{
-	pixel_x = 4;
-	pixel_y = -4
-	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/medical/chemistry)
 "zV" = (
-/obj/machinery/camera/autoname{
-	dir = 9
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
 /turf/open/floor/monofloor/corner,
 /area/hallway/nsv/deck1/frame1/central{
@@ -6296,6 +6264,7 @@
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/obj/effect/landmark/patrol_node,
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
@@ -6440,14 +6409,8 @@
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory)
 "Ev" = (
-/obj/effect/turf_decal/stripes/red/corner{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/white/line{
-	dir = 10
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
+/turf/closed/wall/r_wall/ship,
+/area/hallway/nsv/deck1/frame1/central)
 "Ey" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/effect/landmark/zebra_interlock_point,
@@ -6973,22 +6936,6 @@
 /area/tcommsat/server)
 "Hg" = (
 /obj/structure/rack,
-/obj/structure/reagent_dispensers/chem/sodium{
-	pixel_x = -4;
-	pixel_y = 8
-	},
-/obj/structure/reagent_dispensers/chem/sugar{
-	pixel_x = 4;
-	pixel_y = 8
-	},
-/obj/structure/reagent_dispensers/chem/sulfur{
-	pixel_x = -4;
-	pixel_y = -4
-	},
-/obj/structure/reagent_dispensers/chem/sulphuric{
-	pixel_x = 4;
-	pixel_y = -4
-	},
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/medical/chemistry)
 "Hk" = (
@@ -7176,14 +7123,11 @@
 /turf/open/floor/plasteel/dark/telecomms,
 /area/tcommsat/server)
 "HZ" = (
-/obj/effect/turf_decal/stripes/red/corner{
-	dir = 1
+/obj/structure/hull_plate,
+/obj/machinery/camera/autoname{
+	dir = 5
 	},
-/obj/effect/turf_decal/stripes/red/corner{
-	dir = 4
-	},
-/obj/effect/turf_decal/stripes/white/line,
-/turf/open/floor/monotile/dark/airless,
+/turf/open/floor/engine/airless,
 /area/space/nearstation)
 "Ia" = (
 /obj/machinery/disposal/bin,
@@ -8058,6 +8002,7 @@
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/effect/landmark/patrol_node,
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
@@ -8185,6 +8130,13 @@
 /area/crew_quarters/heads/captain/private)
 "Mx" = (
 /obj/machinery/firealarm/directional/south,
+/obj/machinery/button/door{
+	id = "emergency_armoury_shutter";
+	name = "emergency armoury shutter";
+	pixel_x = 40;
+	pixel_y = 32;
+	req_one_access_txt = "3"
+	},
 /turf/open/floor/carpet/black,
 /area/crew_quarters/heads/captain/private)
 "My" = (
@@ -9625,9 +9577,16 @@
 /turf/open/floor/plating,
 /area/tcommsat/computer)
 "Sc" = (
-/obj/structure/fluff/vls_hatch,
-/turf/open/floor/engine/airless,
-/area/space/nearstation)
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/effect/turf_decal/ship/rust,
+/obj/effect/landmark/patrol_node,
+/turf/open/floor/plating/rusty_techgrid,
+/area/vacant_room)
 "Sd" = (
 /turf/open/floor/plasteel/white/side{
 	dir = 1
@@ -9938,12 +9897,15 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "TH" = (
-/obj/effect/turf_decal/stripes/red/line,
-/obj/effect/turf_decal/stripes/white/line{
-	dir = 1
+/obj/machinery/lazylift_button{
+	lift_id = "medical";
+	pixel_x = 32;
+	pixel_y = 32
 	},
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
+/turf/open/floor/plasteel/white/side{
+	dir = 4
+	},
+/area/medical/medbay/zone2)
 "TL" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -10052,22 +10014,6 @@
 	dir = 4
 	},
 /obj/machinery/power/apc/auto_name/west,
-/obj/structure/reagent_dispensers/chem/copper{
-	pixel_x = -4;
-	pixel_y = 8
-	},
-/obj/structure/reagent_dispensers/chem/ethanol{
-	pixel_x = 4;
-	pixel_y = 8
-	},
-/obj/structure/reagent_dispensers/chem/fluorine{
-	pixel_x = -4;
-	pixel_y = -4
-	},
-/obj/structure/reagent_dispensers/chem/hydrogen{
-	pixel_x = 4;
-	pixel_y = -4
-	},
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/chemistry)
@@ -10928,13 +10874,6 @@
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
-"Xn" = (
-/obj/effect/turf_decal/stripes/red/line{
-	dir = 1
-	},
-/obj/effect/turf_decal/stripes/white/line,
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
 "Xp" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -11096,14 +11035,25 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "XO" = (
-/obj/effect/turf_decal/stripes/red/corner{
-	dir = 4
+/obj/structure/table/reinforced,
+/obj/structure/window/reinforced/spawner/north,
+/obj/item/clothing/suit/armor/bulletproof{
+	pixel_x = 5;
+	pixel_y = 2
 	},
-/obj/effect/turf_decal/stripes/white/line{
-	dir = 5
+/obj/item/clothing/suit/armor/bulletproof{
+	pixel_x = -5;
+	pixel_y = -2
 	},
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
+/obj/machinery/light{
+	color = "#FF3232"
+	},
+/turf/open/floor/plasteel/ship,
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "XP" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
 	dir = 5
@@ -11356,10 +11306,6 @@
 /obj/structure/rack,
 /obj/machinery/camera/autoname{
 	dir = 1
-	},
-/obj/structure/reagent_dispensers/chem/welding_fuel{
-	pixel_x = 6;
-	pixel_y = 2
 	},
 /obj/item/reagent_containers/glass/beaker{
 	pixel_x = -3;
@@ -11626,6 +11572,9 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "ZS" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
 /turf/open/floor/monofloor/corner{
 	dir = 1
 	},
@@ -42871,7 +42820,7 @@ vu
 wf
 Sz
 xE
-Xe
+aY
 jC
 nY
 mI
@@ -42888,7 +42837,7 @@ PF
 HT
 Wg
 Wg
-Wg
+bG
 Wg
 Lk
 Wg
@@ -42906,7 +42855,7 @@ We
 We
 We
 We
-hh
+Sc
 AA
 bw
 Ze
@@ -45488,7 +45437,7 @@ Pb
 Fq
 OF
 KX
-kM
+TH
 kM
 lg
 qb
@@ -45744,7 +45693,7 @@ Ey
 Pb
 Pb
 Pb
-aY
+Pb
 Ek
 RM
 ZA
@@ -46236,9 +46185,9 @@ qj
 cZ
 cS
 Yg
-bk
+cy
 ss
-YL
+iz
 gC
 gC
 gC
@@ -46753,7 +46702,7 @@ Yg
 ZS
 eG
 zV
-Ha
+Ev
 NP
 Cx
 rl
@@ -47007,10 +46956,10 @@ JN
 Yg
 Yg
 Yg
-Ha
-Ha
-Ha
-Ha
+fq
+fq
+fq
+Ev
 NP
 NP
 NP
@@ -47263,11 +47212,11 @@ nI
 HO
 Mz
 lK
-ED
+eX
 yC
 wY
 XO
-TA
+ZD
 TA
 Zh
 Zh
@@ -47520,12 +47469,12 @@ Yq
 Xy
 Aq
 Ym
-ED
-TH
-Sc
-Xn
-Wm
-cP
+eX
+ZD
+ZD
+ZD
+ZD
+TA
 IH
 IH
 IH
@@ -47778,11 +47727,11 @@ Er
 sb
 FE
 ED
-iz
-fq
-HZ
-Wm
-cP
+KO
+KO
+KO
+Wt
+TA
 IH
 IH
 IH
@@ -47807,7 +47756,7 @@ NJ
 VB
 zT
 Ug
-mB
+Hg
 Si
 YE
 Wm
@@ -48035,10 +47984,10 @@ Xy
 ED
 ED
 ED
-TH
-Sc
-Xn
 Wm
+Wm
+Wm
+HZ
 cP
 IH
 IH
@@ -48292,9 +48241,9 @@ zR
 ua
 Qr
 lm
-iz
-fq
-HZ
+Wm
+Wm
+Wm
 Wm
 cP
 IH
@@ -48319,7 +48268,7 @@ Sd
 NU
 op
 VB
-eT
+Hg
 dB
 Hg
 Si
@@ -48549,9 +48498,9 @@ vF
 qY
 PC
 ED
-TH
-Sc
-Xn
+Wm
+Wm
+Wm
 Wm
 cP
 IH
@@ -48806,9 +48755,9 @@ ps
 Er
 RI
 lm
-iz
-fq
-HZ
+Wm
+Wm
+Wm
 Wm
 cP
 IH
@@ -49063,9 +49012,9 @@ eX
 Xy
 ED
 ED
-TH
-Sc
-Xn
+Wm
+Wm
+Wm
 Wm
 cP
 IH
@@ -49320,9 +49269,9 @@ Ml
 Xy
 jv
 ED
-Ev
-bG
-cy
+Wm
+Wm
+Wm
 Wm
 cP
 IH
