@@ -15,12 +15,3 @@
 	moles_visible = MOLES_GAS_VISIBLE
 	dangerous = TRUE
 	rarity = 2000
-
-/datum/gas/frameshifted_plasma
-	id = "frameshifted_plasma"
-	specific_heat = 1000
-	name = "Frameshifted plasma"
-	gas_overlay = "frameshited_plasma"
-	moles_visible = MOLES_GAS_VISIBLE
-	dangerous = TRUE
-	rarity = 2500

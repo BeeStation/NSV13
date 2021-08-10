@@ -270,14 +270,6 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 				vessel_integrity -= temperature / 200 //Think fast loser.
 				take_damage(10) //Just for the sound effect, to let you know you've fucked up.
 				color = "[COLOR_RED]"
-	if(prob(moderator_input.get_moles(/datum/gas/frameshifted_plasma)) && has_fuel())
-		var/FP_amt = moderator_input.get_moles(/datum/gas/frameshifted_plasma)
-		var/atom/movable/luckywinner = pick(fuel_rods)
-		do_teleport(luckywinner, get_turf(src), min(FP_amt, 25))
-		var/turf/TFP = get_turf(luckywinner)
-		moderator_input.adjust_moles(/datum/gas/frameshifted_plasma, -(FP_amt * 0.5))
-		TFP.assume_air(moderator_input)
-		explosion(TFP, 0, 0, 2, 3)
 
 	//Now, heat up the output and set our pressure.
 	coolant_output.set_temperature(CELSIUS_TO_KELVIN(temperature)) //Heat the coolant output gas that we just had pass through us.

@@ -9,7 +9,7 @@
 
 /obj/machinery/atmospherics/components/binary/silo
 	name = "\improper Nucleium-Plasma Frame Refiner"
-	desc = "An incredibly advanced and power hungry machine capable of folding matter into itself. Usually used in the production of FTL drive fuel."
+	desc = "An incredibly advanced and power hungry machine capable of folding matter into itself. Commonly used in the production of FTL drive fuel."
 	icon = 'nsv13/icons/obj/machinery/FTL_silo.dmi'
 	icon_state = "silo"
 	max_integrity = 600
@@ -45,11 +45,17 @@
 	update_parents()
 
 /obj/machinery/atmospherics/components/binary/silo/Destroy()
-	if(air_contents.total_moles())
+	var/datum/gas_mixture/spill = air_contents.copy()
+	spill.merge(input)
+	spill.merge(output)
+	QDEL_NULL(air_contents)
+	QDEL_NULL(input)
+	QDEL_NULL(output)
+	if(spill.total_moles())
 		var/turf/T = get_turf(src)
-		T.assume_air(air_contents)
-		T.air_update_turf()
-		QDEL_NULL(air_contents)
+		T.assume_air(spill)
+
+	QDEL_NULL(spill)
 	return ..()
 
 /obj/machinery/atmospherics/components/binary/silo/proc/transmute_fuel()
@@ -58,7 +64,7 @@
 	var/input_fuel = min(input.get_moles(/datum/gas/nucleium), conversion_limit)
 	if(input_fuel < 0.1)
 		return FALSE
-	air_contents.adjust_moles(/datum/gas/frameshifted_plasma, input_fuel * (conversion_ratio * get_efficiency()))
+	air_contents.adjust_moles(/datum/gas/nucleium, input_fuel * (conversion_ratio * get_efficiency()))
 	air_contents.set_temperature(air_contents.temperature_share(input))
 	input.adjust_moles(/datum/gas/nucleium, -input_fuel)
 	return TRUE
@@ -99,10 +105,9 @@
 			kaboom(i_pressure)
 		else
 			explosion_chance += 0.5
-		return
-	if(explosion_chance > 0)
+	else if(explosion_chance > 0)
 		explosion_chance--
-	if(i_pressure > SILO_LEAK_PRESSURE)
+	else if(i_pressure > SILO_LEAK_PRESSURE)
 		if(prob(40))
 			switch(rand(1, 3))
 				if(1)
@@ -119,7 +124,7 @@
 			T.assume_air(leak)
 			qdel(leak)
 			playsound(src, 'sound/effects/spray.ogg', 100, TRUE)
-			if(pressure_integrity)
+			if(pressure_integrity > 0)
 				pressure_integrity--
 
 	// Actual refining stuff xD
@@ -137,7 +142,7 @@
 /obj/machinery/atmospherics/components/binary/silo/proc/kaboom(pressure)
 	var/turf/T = get_turf(src)
 	var/multiplier = 1
-	if(air_contents.get_moles(/datum/gas/frameshifted_plasma) > 400) // something something rapid spacetime expansion something frame drag
+	if(air_contents.get_moles(/datum/gas/nucleium) > 400) // something something spacetime expansion
 		multiplier = 1.5
 	T.assume_air(air_contents)
 	air_contents.clear()

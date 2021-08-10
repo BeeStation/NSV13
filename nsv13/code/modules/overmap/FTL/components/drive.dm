@@ -126,8 +126,6 @@
 
 /obj/machinery/computer/ship/ftl_core/proc/upgrade()
 	switch(tier)
-		if(1)
-			return
 		if(2)
 			name = "upgraded [initial(name)]"
 			max_range = initial(max_range) * 2
@@ -181,9 +179,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 		if(OM.role > NORMAL_OVERMAP && OM.faction != faction)
 			start_monitoring(OM)
 
-//Tell the FTL computer to start tracking a ship, regardless of how far apart you both are.
 /obj/machinery/computer/ship/ftl_core/proc/start_monitoring(obj/structure/overmap/OM)
-	tracking[OM] = list("ship" = OM, "name" = OM.name, "current_system" = OM.starting_system, "target_system" = null)
 	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/announce_jump)
 
 /*
@@ -192,11 +188,6 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_core/proc/announce_jump()
 	radio.talk_into(src, "TRACKING: FTL signature detected. Tracking information updated.", radio_channel)
-	for(var/list/L in tracking)
-		var/obj/structure/overmap/target = L["ship"]
-		var/datum/star_system/target_system = SSstar_system.ships[target]["target_system"]
-		var/datum/star_system/current_system = SSstar_system.ships[target]["current_system"]
-		tracking[target] = list("name" = target.name, "current_system" = current_system.name, "target_system" = target_system.name)
 
 /obj/machinery/computer/ship/ftl_core/Initialize()
 	. = ..()

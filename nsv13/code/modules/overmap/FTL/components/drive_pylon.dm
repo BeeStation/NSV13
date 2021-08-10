@@ -68,13 +68,13 @@
 				set_state(PYLON_STATE_WARMUP)
 
 		if(PYLON_STATE_WARMUP) //start the spin
-			var/ftl_fuel = input.get_moles(/datum/gas/frameshifted_plasma)
+			var/ftl_fuel = input.get_moles(/datum/gas/nucleium)
 
 			if(ftl_fuel < 0.01)
 				set_state(PYLON_STATE_STARTING)
 				return
 
-			input.adjust_moles(/datum/gas/frameshifted_plasma, -0.01)
+			input.adjust_moles(/datum/gas/nucleium, -0.01)
 			if(prob(20))
 				var/datum/effect_system/spark_spread/S = new /datum/effect_system/spark_spread
 				S.set_up(6, 0, src)
@@ -85,10 +85,10 @@
 				set_state(PYLON_STATE_SPOOLING)
 
 		if(PYLON_STATE_SPOOLING) //spinning intensifies
-			var/ftl_fuel = input.get_moles(/datum/gas/frameshifted_plasma)
+			var/ftl_fuel = input.get_moles(/datum/gas/nucleium)
 			if(ftl_fuel < 0.25)
 				if(capacitor > 0)
-					capacitor -= min(rand(0.25, 0.5)), capacitor)
+					capacitor -= min(rand(0.25, 0.5), capacitor)
 				else
 					set_state(PYLON_STATE_STARTING)
 				return
@@ -165,9 +165,9 @@
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/consume_fuel()
 	if(prob(30))
 		tesla_zap(src, 2,  1000)
-	var/input_fuel = min(input.get_moles(/datum/gas/frameshifted_plasma), max_charge_rate * mol_per_capacitor)
+	var/input_fuel = min(input.get_moles(/datum/gas/nucleium), max_charge_rate * mol_per_capacitor)
 	capacitor += min(input_fuel / mol_per_capacitor, req_capacitor - capacitor)
-	input.adjust_moles(/datum/gas/frameshifted_plasma, -input_fuel)
+	input.adjust_moles(/datum/gas/nucleium, -input_fuel)
 	var/datum/gas_mixture/waste = new
 	waste.adjust_moles(/datum/gas/plasma, input_fuel / 3)
 	waste.adjust_moles(/datum/gas/nucleium, input_fuel / 10)
@@ -204,10 +204,19 @@
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/Destroy()
 	QDEL_NULL(pylon_shield)
-	var/turf/T = get_turf(src)
-	if(T)
-		T.assume_air(air_contents)
+
+	var/datum/gas_mixture/spill = air_contents.copy()
+	spill.merge(input)
+	spill.merge(output)
+
 	QDEL_NULL(air_contents)
+	QDEL_NULL(input)
+	QDEL_NULL(output)
+	if(spill.total_moles())
+		var/turf/T = get_turf(src)
+		T.assume_air(spill)
+
+	QDEL_NULL(spill)
 	return ..()
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/update_icon()
@@ -239,7 +248,7 @@
 #undef PYLON_STATE_ACTIVE
 #undef PYLON_STATE_SHUTDOWN
 
-#undef MAX_WASTE_PRESSURE
+#undef MAX_OUTPUT_PRESSURE
 #undef MAX_WASTE_STORAGE_PRESSURE
 
 #undef PYLON_ACTIVE_EXPONENT

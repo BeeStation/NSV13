@@ -568,15 +568,6 @@ Control Rods
 		return
 
 	var/datum/gas_mixture/air1 = airs[1]
-	if(prob(air1.get_moles(/datum/gas/frameshifted_plasma) / 2))
-		for(var/mob/living/L in range(rand(7, 15), get_turf(src))) // Is there anyone near us?
-			var/datum/effect_system/spark_spread/sparks = new
-			sparks.set_up(5, 1, get_turf(L))
-			L.forceMove(src) // And we have a winner! Teleports them inside of us
-			playsound(src, 'sound/magic/wand_teleport.ogg', 100, 1)
-			if(prob(80))
-				shake_animation()
-				break
 	var/nucleium_power_reduction = 0
 	var/fuel_check = ((air1.get_moles(/datum/gas/plasma) + air1.get_moles(/datum/gas/constricted_plasma) + air1.get_moles(/datum/gas/tritium)) / air1.total_moles()) * 100
 	if(air1.total_moles() >= reaction_rate && fuel_check >= 12.5) //1:8 ratio
