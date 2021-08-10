@@ -72,6 +72,8 @@
 /mob/living/simple_animal/revenant/Initialize(mapload)
 	. = ..()
 	AddSpell(new /obj/effect/proc_holder/spell/targeted/night_vision/revenant(null))
+	AddSpell(new /obj/effect/proc_holder/spell/targeted/up(null)) //NSV13 - Revenant Z-Levels
+	AddSpell(new /obj/effect/proc_holder/spell/targeted/down(null)) //NSV13 - Revenant Z-Levels
 	AddSpell(new /obj/effect/proc_holder/spell/targeted/telepathy/revenant(null))
 	AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/revenant/defile(null))
 	AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/revenant/overload(null))
@@ -248,6 +250,8 @@
 	revealed = FALSE
 	ghostize(0)//Don't re-enter invisible corpse
 
+/mob/living/simple_animal/revenant/canZMove(direction, turf/target) //NSV13 - Revenant Z-Levels
+	return TRUE
 
 //reveal, stun, icon updates, cast checks, and essence changing
 /mob/living/simple_animal/revenant/proc/reveal(time)

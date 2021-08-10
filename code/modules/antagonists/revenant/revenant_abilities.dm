@@ -108,6 +108,95 @@
 	action_icon_state = "r_nightvision"
 	action_background_icon_state = "bg_revenant"
 
+
+//NSV13 - Revenant Z-Levels
+//Float up: lets the revenant go up a Z-level, more intuitive as a spell than just a verb.
+/obj/effect/proc_holder/spell/targeted/up
+	name = "Float up"
+	desc = "Move up a level."
+	charge_max = 0
+	clothes_req = 0
+	message = "<span class='revennotice'>You float up a level!</span>"
+	range = -1
+	include_user = 1
+	panel = "Revenant Abilities"
+	action_icon = 'icons/mob/actions/actions_revenant.dmi'
+	action_icon_state = "up"
+	action_background_icon_state = "bg_revenant"
+
+/obj/effect/proc_holder/spell/targeted/up/cast(list/targets, mob/user = usr)
+	var/mob/living/simple_animal/revenant/R = user
+	var/turf/stepTurf = get_step_multiz(R, UP)
+
+	if(R.notransform)
+		to_chat(user, "<span class='warning'>You can't move up when stunned!</span>")
+		return
+
+	if(R.revealed)
+		to_chat(user, "<span class='warning'>You can't move up when revealed!</span>")
+		return
+
+	if(stepTurf)
+		for(var/obj/effect/decal/cleanable/food/salt/S in stepTurf)
+			to_chat(user, "<span class='warning'>[S] above bars your passage!</span>")
+			R.reveal(20)
+			R.stun(20)
+			return
+		if(stepTurf.flags_1 & NOJAUNT_1)
+			to_chat(user, "<span class='warning'>Some strange aura above is blocking the way.</span>")
+			return
+		if(locate(/obj/effect/blessing, stepTurf))
+			to_chat(user, "<span class='warning'>Holy energies above block your path!</span>")
+			return
+		R.zMove(UP, TRUE)
+	else
+		R.zMove(UP, TRUE)
+
+
+//NSV13 - Revenant Z-Levels
+//Float down: lets the revenant go down a Z-level, more intuitive as a spell than just a verb.
+/obj/effect/proc_holder/spell/targeted/down
+	name = "Float down"
+	desc = "Move down a level."
+	charge_max = 0
+	clothes_req = 0
+	message = "<span class='revennotice'>You float down a level!</span>"
+	range = -1
+	include_user = 1
+	panel = "Revenant Abilities"
+	action_icon = 'icons/mob/actions/actions_revenant.dmi'
+	action_icon_state = "down"
+	action_background_icon_state = "bg_revenant"
+
+/obj/effect/proc_holder/spell/targeted/down/cast(list/targets, mob/user = usr)
+	var/mob/living/simple_animal/revenant/R = user
+	var/turf/stepTurf = get_step_multiz(R, DOWN)
+
+	if(R.notransform)
+		to_chat(user, "<span class='warning'>You can't move down when stunned!</span>")
+		return
+	if(R.revealed)
+		to_chat(user, "<span class='warning'>You can't move down when revealed!</span>")
+		return
+
+	if(stepTurf)
+		for(var/obj/effect/decal/cleanable/food/salt/S in stepTurf)
+			to_chat(user, "<span class='warning'>[S] below bars your passage!</span>")
+			R.reveal(20)
+			R.stun(20)
+			return
+		if(stepTurf.flags_1 & NOJAUNT_1)
+			to_chat(user, "<span class='warning'>Some strange aura below is blocking the way.</span>")
+			return
+		if(locate(/obj/effect/blessing, stepTurf))
+			to_chat(user, "<span class='warning'>Holy energies below block your path!</span>")
+			return
+		R.zMove(DOWN, TRUE)
+	else
+		R.zMove(DOWN, TRUE)
+
+
+
 //Transmit: the revemant's only direct way to communicate. Sends a single message silently to a single mob
 /obj/effect/proc_holder/spell/targeted/telepathy/revenant
 	name = "Revenant Transmit"
