@@ -530,8 +530,25 @@ Chair + rack handling
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>Access denied</span>")
 		return
-	if(M.loc != src.loc || user != M)
+
+	if(M.loc != src.loc)
 		return
+
+	if(!iscyborg(M) && !iscarbon(M)) //Only carbons and cyborgs get to use the gauss gun. (That means monkeys too, but only player-controlled ones will be able to use it)
+		if(M == user)
+			to_chat(user, "<span class='warning'>You can't seem fit in the [src].!</span>")
+		else
+			to_chat(user, "<span class='warning'>[M] won't fit in the [src].!</span>")
+		return
+	
+	var/mob/living/carbon/C = M
+	if(iscarbon(M) && !C.get_bodypart(BODY_ZONE_L_ARM) && !C.get_bodypart(BODY_ZONE_R_ARM)) //Can't shoot the gun if you have no hands, borgs get a pass on this
+		if(M == user)
+			to_chat(user, "<span class='warning'>You can't operate the gauss gun without hands!!</span>")
+		else
+			to_chat(user,"<span class='warning'>[M] can't operate the gauss gun without hands!!</span>")
+		return
+
 	to_chat(M, "<span class='warning'>[src]'s restraints clamp down onto you!</span>")
 	occupant = M
 	. = ..()
