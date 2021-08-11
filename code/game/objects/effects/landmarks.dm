@@ -130,8 +130,8 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "Chief Engineer"
 
 /obj/effect/landmark/start/head_of_personnel
-	name = "Head of Personnel"
-	icon_state = "Head of Personnel"
+	name = "Executive Officer"
+	icon_state = "Executive Officer"
 
 /obj/effect/landmark/start/librarian
 	name = "Curator"
