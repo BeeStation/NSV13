@@ -19,7 +19,7 @@
 
 	fire_animation_length = 1 SECONDS
 	maintainable = FALSE //Due to the amount of rounds that this thing fires, this would just get suuuper irritating.
-	var/mob/living/carbon/human/gunner = null
+	var/mob/gunner = null
 	var/next_sound = 0
 	var/obj/structure/chair/comfy/gauss/gunner_chair = null
 	var/obj/structure/gauss_rack/ammo_rack
@@ -493,7 +493,7 @@ Chair + rack handling
 	icon_state = "shuttle_chair"
 	var/locked = FALSE
 	var/obj/machinery/ship_weapon/gauss_gun/gun
-	var/mob/living/carbon/occupant
+	var/mob/occupant
 	var/feed_direction = SOUTH //Where does the ammo feed drop down to? By default, south of the chair by one tile.
 
 /obj/structure/chair/comfy/gauss/Destroy()
@@ -510,21 +510,21 @@ Chair + rack handling
 /obj/structure/chair/comfy/gauss/west
 	feed_direction = WEST
 
-/obj/structure/chair/comfy/gauss/unbuckle_mob(mob/living/buckled_mob, force=FALSE)
+/obj/structure/chair/comfy/gauss/unbuckle_mob(mob/buckled_mob, force=FALSE)
 	if(locked)
 		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
 		return FALSE
 	. = ..()
 	occupant = null
 
-/obj/structure/chair/comfy/gauss/user_unbuckle_mob(mob/living/buckled_mob, mob/living/carbon/human/user)
+/obj/structure/chair/comfy/gauss/user_unbuckle_mob(mob/buckled_mob, mob/user)
 	if(locked)
 		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
 		return FALSE
 	. = ..()
 	occupant = null
 
-/obj/structure/chair/comfy/gauss/user_buckle_mob(mob/living/M, mob/user, check_loc = TRUE)
+/obj/structure/chair/comfy/gauss/user_buckle_mob(mob/M, mob/user, check_loc = TRUE)
 	if((gun && !gun.allowed(M)) || !M.client)
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
