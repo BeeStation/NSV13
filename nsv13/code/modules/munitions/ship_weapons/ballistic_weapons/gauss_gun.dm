@@ -493,7 +493,7 @@ Chair + rack handling
 	icon_state = "shuttle_chair"
 	var/locked = FALSE
 	var/obj/machinery/ship_weapon/gauss_gun/gun
-	var/mob/occupant
+	var/mob/living/occupant
 	var/feed_direction = SOUTH //Where does the ammo feed drop down to? By default, south of the chair by one tile.
 
 /obj/structure/chair/comfy/gauss/Destroy()
@@ -524,14 +524,14 @@ Chair + rack handling
 	. = ..()
 	occupant = null
 
-/obj/structure/chair/comfy/gauss/user_buckle_mob(mob/M, mob/user, check_loc = TRUE)
+/obj/structure/chair/comfy/gauss/user_buckle_mob(mob/living/M, mob/user, check_loc = TRUE)
 	if((gun && !gun.allowed(M)) || !M.client)
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>Access denied</span>")
 		return
 
-	if(M.loc != src.loc)
+	if(M.loc != loc)
 		return
 
 	if(!iscyborg(M) && !iscarbon(M)) //Only carbons and cyborgs get to use the gauss gun. (That means monkeys too, but only player-controlled ones will be able to use it)
@@ -542,7 +542,7 @@ Chair + rack handling
 		return
 	
 	var/mob/living/carbon/C = M
-	if(iscarbon(M) && !C.get_bodypart(BODY_ZONE_L_ARM) && !C.get_bodypart(BODY_ZONE_R_ARM)) //Can't shoot the gun if you have no hands, borgs get a pass on this
+	if(istype(C) && !C.get_bodypart(BODY_ZONE_L_ARM) && !C.get_bodypart(BODY_ZONE_R_ARM)) //Can't shoot the gun if you have no hands, borgs get a pass on this
 		if(M == user)
 			to_chat(user, "<span class='warning'>You can't operate the gauss gun without hands!!</span>")
 		else
