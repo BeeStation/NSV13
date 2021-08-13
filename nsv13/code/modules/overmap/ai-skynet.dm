@@ -156,6 +156,9 @@ Adding tasks is easy! Just define a datum for it.
 		if(world.time < last_encounter_time + combat_move_delay) //So that fleets don't leave mid combat.
 			return FALSE
 
+		if(SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, pick(all_ships)) & BEING_INTERDICTED)	//Hypothesis: All ships within a fleet should have the same faction.
+			return FALSE
+
 	current_system.fleets -= src
 	if(current_system.fleets && current_system.fleets.len)
 		var/datum/fleet/F = pick(current_system.fleets)
@@ -468,6 +471,7 @@ Adding tasks is easy! Just define a datum for it.
 	name = "Rubicon Crossing"
 	size = FLEET_DIFFICULTY_VERY_HARD
 	allow_difficulty_scaling = FALSE
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/kadesh)	//:)
 	audio_cues = list()
 	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
@@ -483,6 +487,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/interdiction	//Pretty strong fleet with unerring hunting senses, Adminspawn for now.
 	name = "Syndicate Interdiction Fleet"	//These fun guys can and will hunt the player ship down, no matter how far away they are.
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/kadesh)
 	size = FLEET_DIFFICULTY_HARD
 	taunts = list("We have come to end your meagre existance. Prepare to die.", "Hostile entering weapons range. Fire at will.", "You have been a thorn in our side for quite a while. Time to end this.", "That is a nice ship you have there. Nothing a few nuclear missiles cannot fix.")
 	audio_cues = list()
@@ -499,6 +504,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/interdiction/light	//The syndicate can spawn these randomly (though rare). Be caareful! But, at least they aren't that scary.
 	name = "Syndicate Light Interdiction Fleet"
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser)
 	size = FLEET_DIFFICULTY_MEDIUM	//Don't let this fool you though, they are still somewhat dangerous and will hunt you down.
 	initial_move_delay = 12 MINUTES
 
@@ -757,6 +763,8 @@ Adding tasks is easy! Just define a datum for it.
 	var/list/L = OM.fleet.taskforces["supply"] //I don't know why we have to do it this way, but dreamchecker is forcing us to.
 	if(!L.len)
 		return 0 //Can't resupply if there's no supply station/ship. Carry on fighting!
+	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY) && L.len == 1)	//We are the only supply ship left, no resupplying for us.
+		return 0
 	if(OM.obj_integrity < OM.max_integrity/3)
 		return AI_SCORE_SUPERPRIORITY
 	if(OM.shots_left < initial(OM.shots_left)/3)
@@ -771,7 +779,11 @@ Adding tasks is easy! Just define a datum for it.
 			L.lance_target = null	//Clear our relayed target if we fly to resupply to make it a bit easier on the players.
 			L.last_finder = null
 	var/obj/structure/overmap/supplyPost = null
-	for(var/obj/structure/overmap/supply in OM.fleet.taskforces["supply"])
+	var/list/orig_resupply_points = OM.fleet.taskforces["supply"]
+	var/list/resupply_points = orig_resupply_points.Copy()
+	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY))
+		resupply_points.Remove(src)
+	for(var/obj/structure/overmap/supply in resupply_points)
 		supplyPost = supply
 		break
 	if(supplyPost) //Neat, we've found a supply post. Autobots roll out.
@@ -1015,6 +1027,8 @@ Seek a ship thich we'll station ourselves around
 		return 0	//Can't defend ourselves
 
 	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_BATTLESHIP))
+		if(OM.obj_integrity < OM.max_integrity/3 || OM.shots_left < initial(OM.shots_left)/3)
+			return AI_SCORE_PRIORITY - 1	//If we are out of ammo, prioritize rearming over chasing.
 		return AI_SCORE_CRITICAL
 	return score //If you've got nothing better to do, come group with the main fleet.
 
@@ -1155,6 +1169,7 @@ Seek a ship thich we'll station ourselves around
 
 	//Fleet organisation
 	var/shots_left = 15 //Number of arbitrary shots an AI can fire with its heavy weapons before it has to resupply with a supply ship.
+	var/light_shots_left = 300
 	var/resupply_range = 15
 	var/resupplying = 0	//Are we resupplying things right now? If yes, how many?
 	var/can_resupply = FALSE //Can this ship resupply other ships?
@@ -1178,7 +1193,7 @@ Seek a ship thich we'll station ourselves around
 			last_target = null
 			return
 		var/best_distance = INFINITY //Start off infinitely high, as we have not selected a distance yet.
-		var/will_use_shot = FALSE //Will this shot count as depleting "shots left"? Heavy weapons eat ammo, PDCs do not.
+		var/uses_main_shot = FALSE //Will this shot count as depleting "shots left"? Heavy weapons eat ammo, PDCs do not.
 		//So! now we pick a weapon.. We start off with PDCs, which have an effective range of "5". On ships with gauss, gauss will be chosen 90% of the time over PDCs, because you can fire off a PDC salvo anyway.
 		//Heavy weapons take ammo, stuff like PDC and gauss do NOT for AI ships. We make decisions on the fly as to which gun we get to shoot. If we've run out of ammo, we have to resort to PDCs only.
 		for(var/I = FIRE_MODE_PDC; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
@@ -1192,13 +1207,17 @@ Seek a ship thich we'll station ourselves around
 				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
 					if(shots_left <= 0)
 						continue //If we are out of shots. Continue.
+				else if(light_shots_left <= 0)
+					spawn(150)
+						light_shots_left = initial(light_shots_left) // make them reload like real people, sort of
+					continue
 				var/arc = Get_Angle(src, target)
 				if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
 					continue
 				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
-					will_use_shot = TRUE
+					uses_main_shot = TRUE
 				else
-					will_use_shot = FALSE
+					uses_main_shot = FALSE
 				new_firemode = I
 				best_distance = distance
 		if(!weapon_types[new_firemode]) //I have no physical idea how this even happened, but ok. Sure. If you must. If you REALLY must. We can do this, Sarah. We still gonna do this? It's been 5 years since the divorce, can't you just let go?
@@ -1214,9 +1233,11 @@ Seek a ship thich we'll station ourselves around
 					fire_weapon(ship, FIRE_MODE_GAUSS)
 					break
 		fire_mode = new_firemode
-		if(will_use_shot) //Don't penalise them for weapons that are designed to be spammed.
+		if(uses_main_shot) //Don't penalise them for weapons that are designed to be spammed.
 			shots_left --
-		fire_weapon(target, new_firemode)
+		else
+			light_shots_left --
+		fire_weapon(target, new_firemode, ai_aim=TRUE)
 		next_firetime = world.time + (1 SECONDS) + (fire_delay*2)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
 
@@ -1259,7 +1280,7 @@ Seek a ship thich we'll station ourselves around
 		var/arc = Get_Angle(src, target)
 		if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
 			continue
-		fire_weapon(target, iter)
+		fire_weapon(target, iter, ai_aim=TRUE)
 		if(will_use_ammo)
 			ammo_use++
 		did_fire = TRUE
@@ -1271,6 +1292,52 @@ Seek a ship thich we'll station ourselves around
 		shots_left -= ammo_use
 		next_firetime = world.time + 1 SECONDS + smallest_cooldown
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
+/**
+* Given target ship and projectile speed, calculate aim point for intercept
+* See: https://stackoverflow.com/a/3487761
+* If they're literally moving faster than a bullet just aim right at them
+*/
+/obj/structure/overmap/proc/calculate_intercept(obj/structure/overmap/target, obj/item/projectile/P)
+	if(!target || !istype(target) || !target.velocity || !P || !istype(P))
+		return target
+	var/turf/my_center = get_center()
+	var/turf/their_center = target.get_center()
+	if(!my_center || !their_center)
+		return target
+
+	var/dx = their_center.x - my_center.x
+	var/dy = their_center.y - my_center.y
+	var/tvx = target.velocity.x
+	var/tvy = target.velocity.y
+	var/projectilespeed = 32 / P.speed
+
+	var/a = tvx * tvx + tvy * tvy - (projectilespeed * projectilespeed)
+	var/b = 2 * (tvx * dx + tvy * dy)
+	var/c = dx * dx + dy * dy
+	var/list/solutions = SolveQuadratic(a, b, c)
+	if(!solutions.len)
+		return their_center
+	var/time = 0
+	if(solutions.len > 1)
+		// If both are valid take the smaller time
+		if((solutions[1] > 0) && (solutions[2] > 0))
+			time = min(solutions[1], solutions[2])
+		else if(solutions[1] > 0)
+			time = solutions[1]
+		else if(solutions[2] > 0)
+			time = solutions[2]
+		else
+			return their_center
+
+	var/targetx = their_center.x + target.velocity.x * time
+	var/targety = their_center.y + target.velocity.y * time
+	var/turf/newtarget = locate(targetx, targety, target.z)
+	if(prob(ai_miss_chance)) // Slight miss chance
+		var/direction = rand(0, 359)
+		newtarget = get_turf_in_angle(direction, newtarget, rand(1, ai_max_miss_distance))
+
+	return newtarget
+
 /**
 *
 *

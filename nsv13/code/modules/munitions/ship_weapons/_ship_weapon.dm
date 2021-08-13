@@ -438,6 +438,8 @@
 		return FALSE
 	if(maintainable && malfunction) //Do we need maintenance?
 		return FALSE
+	if(safety) // Is the safety on?
+		return FALSE
 	if(ammo?.len < shots) //Do we have enough ammo?
 		return FALSE
 	else

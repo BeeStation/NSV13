@@ -49,6 +49,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
 	var/maintenance_mode = FALSE //Munitions level IDs can change this.
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
+	var/obj/machinery/computer/ship/navigation/starmap = null
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode, \
 								.verb/show_control_panel, .verb/change_name)
@@ -120,6 +121,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["weapon_safety"] = weapon_safety
 	data["master_caution"] = master_caution
 	data["rwr"] = (enemies.len) ? TRUE : FALSE
+	data["target_lock"] = (target_painted.len) ? TRUE : FALSE
 	data["fuel_warning"] = get_fuel() <= get_max_fuel()*0.4
 	data["fuel"] = get_fuel()
 	data["max_fuel"] = get_max_fuel()
@@ -127,8 +129,12 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["maintenance_mode"] = maintenance_mode //Todo
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	data["docking_mode"] = DC && DC.docking_mode
-	data["primary_ammo"] = 0
-	data["max_primary_ammo"] = 0
+	var/obj/item/fighter_component/primary/P = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+	data["primary_ammo"] = P ? P.get_ammo() : 0
+	data["max_primary_ammo"] = P ? P.get_max_ammo() : 0
+	var/obj/item/fighter_component/secondary/S = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+	data["secondary_ammo"] = S ? S.get_ammo() : 0
+	data["max_secondary_ammo"] = S ? S.get_max_ammo() : 0
 
 	var/obj/item/fighter_component/apu/APU = loadout.get_slot(HARDPOINT_SLOT_APU)
 	data["fuel_pump"] = APU ? APU.fuel_line : FALSE
@@ -182,7 +188,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	return data
 
 /obj/structure/overmap/fighter/ui_act(action, params, datum/tgui/ui)
-	if(..() || usr != pilot)
+	if(..() || ((usr != pilot) && (!IsAdminGhost(usr))))
 		return
 	var/atom/movable/target = locate(params["id"])
 	switch(action)
@@ -294,6 +300,13 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			ftl.active = !ftl.active
 			relay('nsv13/sound/effects/fighters/switch.ogg')
+		if("show_starmap")
+			if(!starmap)
+				return
+			if(!starmap.linked)
+				starmap.linked = src
+			starmap.ui_interact(usr)
+			return
 
 
 	relay('nsv13/sound/effects/fighters/switch.ogg')
@@ -1269,7 +1282,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	if(!weapon_types[FIRE_MODE_TORPEDO])
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/fighter_secondary(src)
 
-/obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target)
+/obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target, ai_aim = FALSE)
 	hardpoint_fire(target, FIRE_MODE_PDC)
 
 /obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, fireMode)
@@ -1287,7 +1300,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 			return TRUE
 	return FALSE
 
-/obj/structure/overmap/proc/secondary_fire(obj/structure/overmap/target)
+/obj/structure/overmap/proc/secondary_fire(obj/structure/overmap/target, ai_aim = FALSE)
 	hardpoint_fire(target, FIRE_MODE_TORPEDO)
 
 /obj/item/fighter_component/primary/load(obj/structure/overmap/target, atom/movable/AM)
@@ -1362,7 +1375,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	var/accepted_ammo = /obj/item/ship_weapon/ammunition/missile
 	var/list/ammo = list()
-	var/max_ammo = 3
+	var/max_ammo = 5
 	var/burst_size = 1 //Cluster torps...UNLESS?
 	var/fire_delay = 0.25 SECONDS
 

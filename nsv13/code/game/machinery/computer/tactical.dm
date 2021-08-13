@@ -76,7 +76,15 @@
 	data["ships"] = list()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
 		if(OM.z == linked.z && OM.faction != linked.faction && get_dist(linked, OM) <= scan_range && OM.is_sensor_visible(linked) >= SENSOR_VISIBILITY_TARGETABLE)
-			data["ships"] += list(list("name" = OM.name, "integrity" = OM.obj_integrity, "max_integrity" = OM.max_integrity, "faction" = OM.faction))
+			data["ships"] += list(list("name" = OM.name, "integrity" = OM.obj_integrity, "max_integrity" = OM.max_integrity, "faction" = OM.faction, \
+				"quadrant_fs_armour_current" = OM.armour_quadrants["forward_starboard"]["current_armour"], \
+				"quadrant_fs_armour_max" = OM.armour_quadrants["forward_starboard"]["max_armour"], \
+				"quadrant_as_armour_current" = OM.armour_quadrants["aft_starboard"]["current_armour"], \
+				"quadrant_as_armour_max" = OM.armour_quadrants["aft_starboard"]["max_armour"], \
+				"quadrant_ap_armour_current" = OM.armour_quadrants["aft_port"]["current_armour"], \
+				"quadrant_ap_armour_max" = OM.armour_quadrants["aft_port"]["max_armour"], \
+				"quadrant_fp_armour_current" = OM.armour_quadrants["forward_port"]["current_armour"], \
+				"quadrant_fp_armour_max" = OM.armour_quadrants["forward_port"]["max_armour"]))
 	return data
 
 /obj/machinery/computer/ship/tactical/set_position(obj/structure/overmap/OM)

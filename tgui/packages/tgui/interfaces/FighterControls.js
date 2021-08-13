@@ -95,12 +95,15 @@ export const FighterControls = (props, context) => {
             }} />
         </Section>
         {!!data.ftl_capable && (
-          <Section title="FTL Drive:" buttons={
+          <Section title="FTL Drive:">
             <Button
               content={data.ftl_active ? "Stop Spooling" : "Begin Spooling"}
               icon="server"
               onClick={() => act('toggle_ftl')} />
-          }>
+            <Button
+              content="Starmap"
+              width="150px"
+              onClick={() => act('show_starmap')} />
             <ProgressBar
               value={(data.ftl_spool_progress / data.ftl_spool_time * 100) * 0.01}
               ranges={{

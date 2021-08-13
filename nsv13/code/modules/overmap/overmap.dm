@@ -126,6 +126,8 @@
 	var/atom/target_lock = null
 	var/can_lock = TRUE //Can we lock on to people or not
 	var/lockon_time = 2 SECONDS
+	var/ai_miss_chance = 5 // % chance the AI intercept calculator will be off a step
+	var/ai_max_miss_distance = 4 // Maximum number of tiles the AI will miss by
 
 	// Railgun aim helper
 	var/last_tracer_process = 0
@@ -337,16 +339,16 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			forward_maxthrust = 0.65
 			backward_maxthrust = 0.45
 			side_maxthrust = 0.35
-			max_angular_acceleration = 7.5
+			max_angular_acceleration = 8
 			bounce_factor = 0.40 //Throw your weight around more, though!
 			lateral_bounce_factor = 0.40
 
 		//Weightey ships, much harder to steer, generally less responsive. You'll need to use boost tactically.
 		if(MASS_LARGE)
-			forward_maxthrust = 0.45
-			backward_maxthrust = 0.3
+			forward_maxthrust = 0.5
+			backward_maxthrust = 0.35
 			side_maxthrust = 0.25
-			max_angular_acceleration = 5.5
+			max_angular_acceleration = 6
 			bounce_factor = 0.20 //But you can plow through enemy ships with ease.
 			lateral_bounce_factor = 0.20
 			//If we've not already got a special flak battery amount set.
@@ -380,6 +382,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		//Allows small ships to have a small interior.
 		if(INTERIOR_DYNAMIC)
 			instance_interior()
+			post_load_interior()
 
 	apply_weapons()
 
@@ -471,7 +474,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(locate(user) in gauss_gunners) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
 		var/datum/component/overmap_gunning/user_gun = user.GetComponent(/datum/component/overmap_gunning)
-		user_gun.onMouseDown(target)
+		user_gun.onClick(target)
 		return TRUE
 	if(user != gunner)
 		if(user == pilot)
@@ -490,8 +493,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(params_list["ctrl"]) //Ctrl click to lock on to people
 		start_lockon(target)
 		return TRUE
-	if(target_lock && mass <= MASS_TINY)
-		fire(target_lock) //Fighters get an aimbot to help them out.
+	if((target_painted?.len > 0) && mass <= MASS_TINY)
+		fire(target_painted[1]) //Fighters get an aimbot to help them out.
 		return TRUE
 	fire(target)
 	return TRUE
