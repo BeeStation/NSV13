@@ -29,7 +29,7 @@
 	var/max_miss_distance = 4 // Maximum number of tiles the AI will miss by
 
 /datum/ship_weapon/proc/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
-	return istype(source) && istype(target))
+	return (istype(source) && istype(target))
 
 /datum/ship_weapon/torpedo_launcher
 	special_fire_proc = /obj/structure/overmap/proc/fire_torpedo
