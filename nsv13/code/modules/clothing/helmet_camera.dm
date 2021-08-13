@@ -9,7 +9,7 @@
 		if(user.transferItemToLoc(I, src))
 			builtInCamera = new /obj/machinery/camera(src)
 			builtInCamera.c_tag = "Helmet Cam #[rand(0,999)]"
-			builtInCamera.network = list("headcam")
+			builtInCamera.network = list("headcam", "ss13")
 			builtInCamera.internal_light = FALSE
 			QDEL_NULL(I)
 			to_chat(user, "<span class='notice'>You successfully attach the camera to [src].</span>")
