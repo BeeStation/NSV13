@@ -185,11 +185,3 @@
 	desc = "A 50mm bullet casing."
 	projectile_type = /obj/item/projectile/bullet/fiftycal
 	caliber = "mm50pdc"
-
-/obj/item/projectile/bullet/fiftycal
-	icon_state = "pdc"
-	name = "PDC round"
-	damage = 15
-	flag = "overmap_light"
-	speed = 1
-	spread = 5

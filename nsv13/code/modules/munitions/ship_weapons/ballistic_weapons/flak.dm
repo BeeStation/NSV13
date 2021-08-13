@@ -95,7 +95,7 @@
 	var/obj/item/projectile/P = AM
 	if(P.faction != faction) //Stops flak from FFing
 		if(istype(AM, /obj/item/projectile/guided_munition))
-			P.take_damage(severity*50, BRUTE, "overmap_light")
+			P.take_damage(severity*30, BRUTE, "overmap_light")
 		if(isovermap(AM))
 			P.take_damage(severity*20, BRUTE, "overmap_light")
 
