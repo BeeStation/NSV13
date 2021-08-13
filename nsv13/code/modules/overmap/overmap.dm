@@ -474,7 +474,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(locate(user) in gauss_gunners) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
 		var/datum/component/overmap_gunning/user_gun = user.GetComponent(/datum/component/overmap_gunning)
-		user_gun.onMouseDown(target)
+		user_gun.onClick(target)
 		return TRUE
 	if(user != gunner)
 		if(user == pilot)

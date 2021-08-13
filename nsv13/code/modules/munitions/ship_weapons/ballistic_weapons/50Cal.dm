@@ -40,6 +40,7 @@
 //Unifying component for gauss / 50 cal gunning
 /datum/component/overmap_gunning
 	var/fire_mode = FIRE_MODE_GAUSS
+	var/automatic = FALSE
 	var/mob/living/holder = null
 	var/atom/movable/autofire_target
 	var/next_fire = 0
@@ -50,19 +51,25 @@
 /datum/component/overmap_gunning/fiftycal
 	fire_mode = FIRE_MODE_50CAL
 	fire_delay = 0.25 SECONDS
+	automatic = TRUE
 
 /datum/component/overmap_gunning/fiftycal/super
 	fire_mode = FIRE_MODE_50CAL
 	fire_delay = 0.1 SECONDS
 
-/datum/component/overmap_gunning/Initialize(obj/machinery/ship_weapon/fx_target, special_fx=FALSE)
+/datum/component/overmap_gunning/Initialize(obj/machinery/ship_weapon/fx_target)
 	. = ..()
 	if(!istype(parent, /mob/living)) //Needs at least this base prototype.
 		return COMPONENT_INCOMPATIBLE
-	src.special_fx = special_fx
 	src.fx_target = fx_target
 	holder = parent
 	start_gunning()
+
+/datum/component/overmap_gunning/proc/apply_settings(special_fx=FALSE, automatic=FALSE) //Until we have named variables, this should work
+	if(!isnull(special_fx))
+		src.special_fx = special_fx
+	if(!isnull(automatic))
+		src.automatic = automatic
 
 /datum/component/overmap_gunning/proc/start_gunning()
 	var/obj/structure/overmap/OM = holder.loc.get_overmap()
@@ -71,9 +78,12 @@
 		CRASH("Overmap gunning component created with no attached overmap.")
 	OM.gauss_gunners.Add(holder)
 	OM.start_piloting(holder, "secondary_gunner")
-	START_PROCESSING(SSfastprocess, src)
+	if(automatic)
+		START_PROCESSING(SSfastprocess, src)
 
-/datum/component/overmap_gunning/proc/onClick(atom/movable/target)
+/datum/component/overmap_gunning/proc/onClick(atom/movable/target, location, params)
+	if(!autofire_target)
+		autofire_target = target //When we start firing, we start firing at whatever you clicked on initially. When the user drags their mouse, this shall change.
 	if(world.time < next_fire || !autofire_target)
 		return FALSE
 	var/obj/structure/overmap/OM = holder.loc.get_overmap()
@@ -83,7 +93,7 @@
 	fx_target.fire(target)//You can only fire your gun, not someone else's.   //.fire_weapon(target, fire_mode)
 
 /datum/component/overmap_gunning/process()
-	if(!autofire_target)
+	if(!autofire_target || !automatic)
 		return
 	onClick(autofire_target)
 
