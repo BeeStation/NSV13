@@ -24,7 +24,7 @@
 /datum/design/board/anti_air
 	name = "Machine Design (AA turret)"
 	desc = "Allows for the construction of a crew served anti-air turret."
-	id = "fiftycal"
+	id = "antiair"
 	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
 	build_path = /obj/item/circuitboard/machine/anti_air
@@ -34,7 +34,7 @@
 /datum/design/board/anti_air/heavy
 	name = "Machine Design (HAA turret)"
 	desc = "Allows for the construction of a crew served, HAA turret."
-	id = "fiftycal_super"
+	id = "antiair_heavy"
 	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
 	build_path = /obj/item/circuitboard/machine/anti_air/heavy
@@ -44,7 +44,7 @@
 /datum/design/board/antiaircomp
 	name = "Computer Design (Anti-air turret control console)"
 	desc = "Allows for the construction of a control console for anti-air guns."
-	id = "fiftycalcomp"
+	id = "antiaircomp"
 	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
 	build_path = /obj/item/circuitboard/computer/anti_air
