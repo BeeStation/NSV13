@@ -110,7 +110,7 @@
 
 /obj/structure/overmap/nanotrasen/solgov/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/burst_phaser(src)
+	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/burst_phaser(src)
 	//The bigger the ship, the tankier the shields....
 	AddComponent(/datum/component/overmap_shields, mass*200, mass*200, mass*5)
 

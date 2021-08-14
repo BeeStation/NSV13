@@ -388,10 +388,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/proc/apply_weapons()
 	//Prevent fighters from getting access to the AMS.
 	if(mass <= MASS_TINY)
-		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon(src)
+		weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/light_cannon(src)
 	//Gauss is the true PDC replacement...
 	else
-		weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/pdc_mount(src)
+		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 	if(mass >= MASS_SMALL || occupying_levels?.len)
 		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)

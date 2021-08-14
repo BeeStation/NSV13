@@ -48,7 +48,7 @@
 		return FIRE_MODE_TORPEDO
 	return FIRE_MODE_MAC
 
-/obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)
+/obj/structure/overmap/proc/swap_to(what=FIRE_MODE_ANTI_AIR)
 	if(!weapon_types[what])
 		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[what]
