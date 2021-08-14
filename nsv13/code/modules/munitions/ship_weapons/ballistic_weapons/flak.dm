@@ -14,7 +14,7 @@
 /obj/item/ammo_casing/flak
 	name = "mm40 flak round casing"
 	desc = "A mm40 bullet casing."
-	projectile_type = /obj/item/projectile/bullet/pdc_round
+	projectile_type = /obj/item/projectile/bullet/flak
 	caliber = "mm40"
 
 /obj/machinery/ship_weapon/pdc_mount/flak

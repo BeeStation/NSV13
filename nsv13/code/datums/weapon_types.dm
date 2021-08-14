@@ -68,7 +68,7 @@
 
 /datum/ship_weapon/pdc_mount
 	name = "Point defense batteries"
-	default_projectile_type = /obj/item/projectile/bullet/pdc_round/heavy
+	default_projectile_type = /obj/item/projectile/bullet/aa_round/heavy
 	burst_size = 2
 	fire_delay = 0.25 SECONDS
 	range_modifier = 5
@@ -82,7 +82,7 @@
 
 /datum/ship_weapon/pdc_mount/aa_guns
 	name = "Anti air guns"
-	default_projectile_type = /obj/item/projectile/bullet/pdc_round
+	default_projectile_type = /obj/item/projectile/bullet/aa_round
 	burst_size = 4
 	fire_delay = 10 SECONDS
 	range_modifier = 10
