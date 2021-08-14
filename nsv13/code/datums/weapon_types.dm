@@ -252,7 +252,7 @@
 	name = "Flak cannon"
 	default_projectile_type = /obj/item/projectile/bullet/flak
 	burst_size = 1
-	fire_delay = 0
+	fire_delay = 0.5 SECONDS
 	range_modifier = 1
 	overmap_select_sound = 'nsv13/sound/effects/ship/freespace2/computer/escape.wav'
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/flak/flakhit1.ogg','nsv13/sound/effects/ship/flak/flakhit2.ogg','nsv13/sound/effects/ship/flak/flakhit3.ogg')
