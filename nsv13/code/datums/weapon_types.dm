@@ -66,33 +66,31 @@
 		return FALSE
 	return TRUE
 
-/datum/ship_weapon/pdc_mount
-	name = "Point defense batteries"
-	default_projectile_type = /obj/item/projectile/bullet/aa_round/heavy
-	burst_size = 2
-	fire_delay = 0.25 SECONDS
-	range_modifier = 5
-	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
-	overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
-	select_alert = "<span class='notice'>Activating point defense emplacements..</span>"
-	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
-	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
-	miss_chance = 33
-	max_miss_distance = 6
-
-/datum/ship_weapon/pdc_mount/aa_guns
+/datum/ship_weapon/aa_guns
 	name = "Anti air guns"
 	default_projectile_type = /obj/item/projectile/bullet/aa_round
 	burst_size = 4
 	fire_delay = 10 SECONDS
 	range_modifier = 10
+	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/weapons/pdc_single.ogg')
 	select_alert = "<span class='notice'>Activating anti-air guns..</span>"
 	failure_alert = "<span class='warning'>DANGER: Anti-air guns are unable to fire due to lack of ammunition.</span>"
+	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
+	miss_chance = 33
+	max_miss_distance = 6
+
+/datum/ship_weapon/aa_guns/heavy
+	name = "Point defense batteries"
+	default_projectile_type = /obj/item/projectile/bullet/aa_round/heavy
+	burst_size = 2
+	fire_delay = 0.25 SECONDS
+	range_modifier = 5
+	overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 
 //Energy Weapons
 
-/datum/ship_weapon/pdc_mount/burst_phaser
+/datum/ship_weapon/burst_phaser
 	name = "Burst Phasers"
 	default_projectile_type = /obj/item/projectile/beam/laser/phaser
 	burst_size = 1
@@ -105,6 +103,8 @@
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 	lateral = FALSE
 	firing_arc = 60 //Relatively generous, but coax.
+	miss_chance = 33
+	max_miss_distance = 6
 
 /datum/ship_weapon/phaser
 	name = "Phaser Banks"
@@ -235,7 +235,7 @@
 
 /datum/ship_weapon/fiftycal // .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets
 	name = "PDC"
-	default_projectile_type = /obj/item/projectile/bullet/fiftycal
+	default_projectile_type = /obj/item/projectile/bullet/pdc_round
 	burst_size = 3
 	fire_delay = 0.15 SECONDS
 	range_modifier = 10

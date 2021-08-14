@@ -34,9 +34,9 @@
 /obj/structure/overmap/nanotrasen/solgov/apply_weapons()
 	. = ..()
 	if(ai_controlled)
-		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/burst_phaser(src)
 	else
-		weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+		weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/burst_phaser(src)
 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp
@@ -110,7 +110,7 @@
 
 /obj/structure/overmap/nanotrasen/solgov/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/burst_phaser(src)
 	//The bigger the ship, the tankier the shields....
 	AddComponent(/datum/component/overmap_shields, mass*200, mass*200, mass*5)
 

@@ -143,7 +143,7 @@
 
 /obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
 	. = ..()
-	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/burst_phaser(src)
 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
 
 //Player Versions
@@ -281,7 +281,7 @@
 	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/nanotrasen/carrier/ai/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/aa_guns(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
 	weapon_types[FIRE_MODE_RAILGUN] = null
 	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)

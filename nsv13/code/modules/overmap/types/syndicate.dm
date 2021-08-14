@@ -241,7 +241,7 @@
 	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/syndicate/ai/carrier/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/aa_guns(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
 	weapon_types[FIRE_MODE_RAILGUN] = null
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
@@ -270,8 +270,8 @@
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
 
 /obj/structure/overmap/syndicate/ai/battleship/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
-	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/aa_guns(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/aa_guns(src)
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
 
@@ -294,7 +294,7 @@
 	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/aa_guns(src)
 	weapon_types[FIRE_MODE_TORPEDO] = null
 	weapon_types[FIRE_MODE_RAILGUN] = null
 	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
@@ -320,7 +320,7 @@
 	possible_interior_maps = list('_maps/templates/boarding/syndicate/marine_frigate.dmm')
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/aa_guns(src)
 	weapon_types[FIRE_MODE_TORPEDO] = null
 	weapon_types[FIRE_MODE_RAILGUN] = null
 	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
@@ -350,7 +350,7 @@
 	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/gunboat/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/aa_guns(src)
 	weapon_types[FIRE_MODE_TORPEDO] = null
 	weapon_types[FIRE_MODE_RAILGUN] = null
 	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
@@ -417,7 +417,7 @@
 	AddComponent(/datum/component/interdiction)
 
 /obj/structure/overmap/syndicate/ai/kadesh/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/aa_guns(src)
 	weapon_types[FIRE_MODE_TORPEDO] = null
 	weapon_types[FIRE_MODE_RAILGUN] = null
 	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
