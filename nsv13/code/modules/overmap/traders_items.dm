@@ -209,7 +209,7 @@
 	desc = "PDC rounds for use in ship to ship guns."
 	price = 800
 	stock = 10
-	unlock_path = /obj/item/ammo_box/magazine/pdc
+	unlock_path = /obj/item/ammo_box/magazine/pdc/fiftycal
 
 /datum/trader_item/flak
 	name = "Flak Ammo Box"
@@ -315,3 +315,17 @@
 	price = 100000
 	stock = 1
 	unlock_path = /obj/item/disk/design_disk/overmap_shields
+
+/datum/trader_item/deck_gun_autoelevator
+	name = "Experimental Naval Artillery Cannon Autoelevator Technology Disk"
+	desc = "A machine which can upgrade the naval artillery cannon to drastically reduce load times."
+	price = 10000
+	stock = 1
+	unlock_path = /obj/item/disk/design_disk/deck_gun_autoelevator
+
+/datum/trader_item/deck_gun_autorepair
+	name = "Experimental Naval Artillery Cannon Autorepair Technology Disk"
+	desc = "A machine which can upgrade the naval artillery cannon to let it self-repair."
+	price = 8000
+	stock = 1
+	unlock_path = /obj/item/disk/design_disk/deck_gun_autorepair

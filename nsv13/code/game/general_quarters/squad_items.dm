@@ -143,7 +143,7 @@
 	equip_delay_other = 80
 	resistance_flags = NONE
 
-/obj/item/clothing/head/ship/squad
+/obj/item/clothing/head/helmet/ship/squad
 	name = "Helmet"
 	desc = "A bulky helmet that's designed to keep your head in-tact while you perform essential repairs on the ship."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
@@ -155,10 +155,8 @@
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	var/has_headcam = TRUE
 	var/datum/squad/squad = null
-	var/obj/machinery/camera/builtInCamera = null
-	var/updating = FALSE //Updating the camera view? Copypasted verbatim from silicon_movement.dm
 
-/obj/item/clothing/head/ship/squad/space
+/obj/item/clothing/head/helmet/ship/squad/space
 	name = "Space Helmet"
 	icon_state = "skinsuit_squad"
 	item_state = "spaceold"
@@ -180,65 +178,15 @@
 	resistance_flags = NONE
 	dog_fashion = null
 
-/obj/item/clothing/head/ship/squad/equipped(mob/equipper, slot)
+/obj/item/clothing/head/helmet/ship/squad/equipped(mob/equipper, slot)
 	. = ..()
 	if(ishuman(equipper))
 		var/mob/living/carbon/human/H = equipper
-
-		if(slot && slot == ITEM_SLOT_BACKPACK)
-			on_drop(equipper)
-			return
 		if(H.squad)
 			if(H.squad != squad)
 				apply_squad(H.squad)
-		if(builtInCamera && H)
-			if(H.squad)
-				builtInCamera.c_tag = "[squad.name] Squad - [H.real_name] #[rand(0,999)]"
-			else
-				builtInCamera.c_tag = "Helmet Cam - [H.real_name]"
-			builtInCamera.forceMove(equipper) //I hate this. But, it's necessary.
-			RegisterSignal(equipper, COMSIG_MOVABLE_MOVED, .proc/update_camera_location)
 
-/obj/item/clothing/head/ship/squad/dropped(mob/user)
-	. = ..()
-	on_drop(user)
-
-/obj/item/clothing/head/ship/squad/proc/on_drop(mob/user)
-	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
-	update_camera_location(get_turf(src))
-	builtInCamera.forceMove(src) //Snap the camera back into us.
-
-/obj/item/clothing/head/ship/squad/Initialize(mapload, datum/squad/squad)
-	. = ..()
-
-	if(!builtInCamera && has_headcam)
-		builtInCamera = new (src)
-		builtInCamera.c_tag = "Helmet Cam #[rand(0,999)]"
-		builtInCamera.network = list("squad_headcam")
-		builtInCamera.internal_light = FALSE
-
-/obj/item/clothing/head/ship/squad/Destroy()
-	if(builtInCamera)
-		qdel(builtInCamera)
-	. = ..()
-
-/obj/item/clothing/head/ship/squad/proc/do_camera_update(oldLoc)
-	if(!QDELETED(builtInCamera) && oldLoc != get_turf(loc))
-		GLOB.cameranet.updatePortableCamera(builtInCamera)
-	updating = FALSE
-
-#define SILICON_CAMERA_BUFFER 10
-/obj/item/clothing/head/ship/squad/proc/update_camera_location(oldLoc)
-	if(!oldLoc)
-		oldLoc = get_turf(loc)
-	oldLoc = get_turf(oldLoc)
-	if(!QDELETED(builtInCamera) && !updating)
-		updating = TRUE
-		addtimer(CALLBACK(src, .proc/do_camera_update, oldLoc), SILICON_CAMERA_BUFFER)
-#undef SILICON_CAMERA_BUFFER
-
-
-/obj/item/clothing/head/ship/squad/leader
+/obj/item/clothing/head/helmet/ship/squad/leader
 	name = "Squad Lead Helmet"
 	desc = "A helmet which denotes the leader of a squad. The modern version of dead man's shoes."
 	icon_state = "squad_leader"
@@ -299,7 +247,7 @@
 		if(H.squad && H.squad != squad)
 			apply_squad(H.squad)
 
-/obj/item/clothing/head/ship/squad/Initialize(mapload, datum/squad/squad)
+/obj/item/clothing/head/helmet/ship/squad/Initialize(mapload, datum/squad/squad)
 	. = ..()
 	if(!squad)
 		addtimer(CALLBACK(src, .proc/apply_squad), 5 SECONDS)
@@ -318,7 +266,7 @@
 	src.squad = squad
 	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)
 
-/obj/item/clothing/head/ship/squad/proc/apply_squad(datum/squad/squad)
+/obj/item/clothing/head/helmet/ship/squad/proc/apply_squad(datum/squad/squad)
 	var/mob/living/carbon/human/user = null
 	if(!squad || !istype(squad))
 		user = (ishuman(loc)) ? loc : loc.loc //Two layers of recursion should suffice in most cases. If this fails, go see the XO to get it resprayed.
@@ -348,10 +296,31 @@
 	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)
 
 //If your squad hat doesnt get stripes, but merely gets recoloured.
-/obj/item/clothing/head/ship/squad/colouronly
+/obj/item/clothing/head/helmet/ship/squad/colouronly
 	has_headcam = FALSE
 
-/obj/item/clothing/head/ship/squad/colouronly/apply_squad(datum/squad/squad)
+/obj/item/clothing/head/helmet/ship/squad/colouronly/apply_squad(datum/squad/squad)
+	if(!squad || !istype(squad))
+		var/mob/living/carbon/human/user = (ishuman(loc)) ? loc : loc.loc //Two layers of recursion should suffice in most cases. If this fails, go see the XO to get it resprayed.
+		if(!ishuman(user) || !user.client || !user.squad)
+			return
+		squad = user.squad
+	color = squad.colour
+	src.squad = squad
+	name = "[squad.name] [initial(name)]"
+
+/obj/item/clothing/head/ship/squad
+	var/datum/squad/squad = null
+
+/obj/item/clothing/head/ship/squad/equipped(mob/equipper, slot)
+	. = ..()
+	if(ishuman(equipper))
+		var/mob/living/carbon/human/H = equipper
+		if(H.squad)
+			if(H.squad != squad)
+				apply_squad(H.squad)
+
+/obj/item/clothing/head/ship/squad/proc/apply_squad(datum/squad/squad)
 	if(!squad || !istype(squad))
 		var/mob/living/carbon/human/user = (ishuman(loc)) ? loc : loc.loc //Two layers of recursion should suffice in most cases. If this fails, go see the XO to get it resprayed.
 		if(!ishuman(user) || !user.client || !user.squad)
@@ -362,7 +331,6 @@
 	name = "[squad.name] [initial(name)]"
 
 //Credit to CM / TGMC for this sprite!
-
 /obj/item/clothing/head/ship/squad/colouronly/headband
 	name = "Headband"
 	icon_state = "squadheadband"
