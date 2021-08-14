@@ -1,7 +1,7 @@
 /*
 Marine & all their unique stuff!
 */
-/datum/job/marine
+/datum/job/assistant
 	title = "Midshipman"
 	flag = ASSISTANT
 	display_rank = "MID"
@@ -14,7 +14,7 @@ Marine & all their unique stuff!
 	chat_color = "#c2d5ee"
 	access = list()			//See /datum/job/Marine/get_access()
 	minimal_access = list()	//See /datum/job/Marine/get_access()
-	outfit = /datum/outfit/job/marine //Nsv13 - Marine resprite
+	outfit = /datum/outfit/job/assistant //Nsv13 - Marine resprite
 	antag_rep = 7
 	paycheck = PAYCHECK_ASSISTANT // Get a job. Job reassignment changes your paycheck now. Get over it.
 	paycheck_department = ACCOUNT_CIV
@@ -30,16 +30,16 @@ Marine & all their unique stuff!
 		. = 1
 	..()
 
-/datum/job/marine/get_access()
+/datum/job/assistant/get_access()
 	if(CONFIG_GET(flag/assistants_have_maint_access) || !CONFIG_GET(flag/jobs_have_minimal_access)) //Config has Marine maint access set
 		. = ..()
 		. |= list(ACCESS_MAINT_TUNNELS)
 	else
 		return ..()
 
-/datum/outfit/job/marine
+/datum/outfit/job/assistant
 	name = "Midshipman"
-	jobtype = /datum/job/marine
+	jobtype = /datum/job/assistant
 	uniform = /obj/item/clothing/under/ship/marine
 	shoes = /obj/item/clothing/shoes/jackboots
 	head = /obj/item/clothing/head/beret/durathread

@@ -12,8 +12,9 @@
 	damage_states = FALSE
 	bound_width = 96
 	bound_height = 96
-	obj_integrity = 1000
-	max_integrity = 1000
+	obj_integrity = 500
+	max_integrity = 500
+	integrity_failure = 500
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 /obj/structure/overmap/nanotrasen/solgov/carrier
@@ -25,9 +26,10 @@
 	bound_height = 96
 	bound_width = 96
 	//Tanky
-	obj_integrity = 1500
-	max_integrity = 1500
-	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_heavy" = 40)
+	obj_integrity = 1000
+	max_integrity = 1000
+	integrity_failure = 1000
+	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 20)
 
 /obj/structure/overmap/nanotrasen/solgov/apply_weapons()
 	. = ..()
@@ -47,6 +49,9 @@
 	damage_states = FALSE
 	bound_height = 128
 	bound_width = 128
+	obj_integrity = 750
+	max_integrity = 750
+	integrity_failure = 750
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 //Player Versions

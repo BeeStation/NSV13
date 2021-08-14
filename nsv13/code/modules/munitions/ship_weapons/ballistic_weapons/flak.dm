@@ -95,7 +95,7 @@
 	var/obj/item/projectile/P = AM
 	if(P.faction != faction) //Stops flak from FFing
 		if(istype(AM, /obj/item/projectile/guided_munition))
-			P.take_damage(severity*50, BRUTE, "overmap_light")
+			P.take_damage(severity*30, BRUTE, "overmap_light")
 		if(isovermap(AM))
 			P.take_damage(severity*20, BRUTE, "overmap_light")
 
@@ -150,7 +150,7 @@
 		return
 
 	var/obj/item/projectile/P = AM //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
-	if(P.damage <= 0)
+	if(P.damage <= 0 || P.nodamage)
 		return
 
 	if(isprojectile(AM) && P.faction != faction) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?

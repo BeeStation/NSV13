@@ -785,6 +785,15 @@
 		round_credits += list("<center><h2>[station_name()] had no silicon helpers!</h2>", "<center><h2>Not a single door was opened today!</h2>")
 	round_credits += "<br>"
 
+	// MUNITIONS - NSV13
+	round_credits += "<center><h1>The Valiant Munitions Crew:</h1>"
+	len_before_addition = round_credits.len
+	for(var/datum/mind/current in SSticker.mode.get_all_by_department(GLOB.munitions_positions))
+		round_credits += "<center><h2>[current.name] as the [current.assigned_role]</h2>"
+	if(round_credits.len == len_before_addition)
+		round_credits += list("<center><h2>The ship was likely defenceless!</h2>", "<center><h2>No one fired torp today!</h2>")
+	round_credits += "<br>"
+
 	// SECURITY
 	round_credits += "<center><h1>The Brave Security Officers:</h1>"
 	len_before_addition = round_credits.len

@@ -1,8 +1,8 @@
 ---
-name: Bug report
-about: Create a report to help reproduce and fix the issue
+name: Map Issue - Vago [UNSUPPORTED]
+about: Bugs related to the Vago Map
 title: ''
-labels: ''
+labels: Map Issue, Vago
 assignees: ''
 
 ---
@@ -11,7 +11,8 @@ assignees: ''
 ## Round ID:
 
 <!--- **INCLUDE THE ROUND ID**
-If you discovered this issue from playing beestation hosted servers:-->
+If you discovered this issue from playing tgstation hosted servers:
+[Round ID]: # (It can be found in the Status panel! The round id let's us look up valuable information and logs for the round the bug happened.)-->
 
 ## Testmerges:
 
