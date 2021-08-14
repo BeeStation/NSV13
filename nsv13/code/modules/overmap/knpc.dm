@@ -10,12 +10,14 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/datum/ai_goal/human/current_goal = null
 	var/view_range = 12 //How good is this mob's "eyes"?
 	var/move_delay = 3 //How quickly do the boys travel?
+	var/action_delay = 5 //How long we delay between actions
 	var/next_backup_call = 0 //Delay for calling for backup to avoid spam.
 	var/list/path = list()
 	var/turf/dest = null
 	var/tries = 0 //How quickly do we give up on following a path? To avoid lag...
 	var/max_tries = 10
 	var/next_action = 0
+	var/next_move = 0
 	var/obj/effect/landmark/patrol_node/last_node = null //What was the last patrol node we visited?
 	var/stealing_id = FALSE
 	var/next_internals_attempt = 0
@@ -24,6 +26,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	faction = list("Syndicate")
 	var/outfit = /datum/outfit/syndicate/odst/smg
 	var/is_martial_artist = FALSE
+	var/can_kite = TRUE
 	var/list/taunts = list(
 		"DEATH TO NANOTRASEN!!",
 		"FOR ABASSI!",
@@ -168,49 +171,51 @@ GLOBAL_LIST_EMPTY(knpcs)
 	return TRUE
 
 /datum/component/knpc/proc/next_path_step()
-	var/mob/living/carbon/human/H = parent
-	if(H.incapacitated() || H.stat == DEAD)
-		return FALSE
-	if(!path)
-		return FALSE
-	if(tries > 5)
-		//Add a bit of randomness to their movement to reduce "traffic jams"
-		H.Move(get_step(H,pick(GLOB.cardinals)))
-		if(prob(10))
-			H.lay_down()
+	if(world.time >= next_move)
+		next_move = world.time + move_delay
+		var/mob/living/carbon/human/H = parent
+		if(H.incapacitated() || H.stat == DEAD)
 			return FALSE
+		if(!path)
+			return FALSE
+		if(tries > 5)
+			//Add a bit of randomness to their movement to reduce "traffic jams"
+			H.Move(get_step(H,pick(GLOB.cardinals)))
+			if(prob(10))
+				H.lay_down()
+				return FALSE
 
-	if(tries >= max_tries)
-		tries = 0
-		if(last_node?.next) //Skip this one.
-			pathfind_to(last_node.next)
-		else
-			pathfind_to(null)
-		last_node = null //Reset pathfinding fully.
-		return FALSE
-
-	if(path.len > 1)
-		var/turf/T = path[1]
-		//Walk when you see a wet floor
-		if(T.GetComponent(/datum/component/wet_floor))
-			H.m_intent = MOVE_INTENT_WALK
-		else
-			H.m_intent = MOVE_INTENT_RUN
-
-		step_towards(H, path[1])
-		if(get_turf(H) == path[1]) //Successful move
-			increment_path()
+		if(tries >= max_tries)
 			tries = 0
-			if(H.resting)
-				//Gotta bypass the do-after here...
-				H.set_resting(FALSE, FALSE)
-		else
-			tries++
+			if(last_node?.next) //Skip this one.
+				pathfind_to(last_node.next)
+			else
+				pathfind_to(null)
+			last_node = null //Reset pathfinding fully.
 			return FALSE
-	else if(path.len == 1)
-		step_to(H, dest)
-		pathfind_to(null)
-	return TRUE
+
+		if(path.len > 1)
+			var/turf/T = path[1]
+			//Walk when you see a wet floor
+			if(T.GetComponent(/datum/component/wet_floor))
+				H.m_intent = MOVE_INTENT_WALK
+			else
+				H.m_intent = MOVE_INTENT_RUN
+
+			step_towards(H, path[1])
+			if(get_turf(H) == path[1]) //Successful move
+				increment_path()
+				tries = 0
+				if(H.resting)
+					//Gotta bypass the do-after here...
+					H.set_resting(FALSE, FALSE)
+			else
+				tries++
+				return FALSE
+		else if(path.len == 1)
+			step_to(H, dest)
+			pathfind_to(null)
+		return TRUE
 
 /datum/component/knpc/proc/increment_path()
 	path.Cut(1, 2)
@@ -218,22 +223,24 @@ GLOBAL_LIST_EMPTY(knpcs)
 
 //Allows the AI humans to kite around
 /datum/component/knpc/proc/kite(atom/movable/target)
-	var/mob/living/carbon/human/H = parent
-	if(!target || !isturf(target.loc) || !isturf(H.loc) || H.stat == DEAD)
-		return
-	var/target_dir = get_dir(H,target)
+	if(world.time >= next_move)
+		next_move = world.time + (move_delay * 2)
+		var/mob/living/carbon/human/H = parent
+		if(!target || !isturf(target.loc) || !isturf(H.loc) || H.stat == DEAD)
+			return
+		var/target_dir = get_dir(H,target)
 
-	var/static/list/cardinal_sidestep_directions = list(-90,-45,0,45,90)
-	var/static/list/diagonal_sidestep_directions = list(-45,0,45)
-	var/chosen_dir = 0
-	if (target_dir & (target_dir - 1))
-		chosen_dir = pick(diagonal_sidestep_directions)
-	else
-		chosen_dir = pick(cardinal_sidestep_directions)
-	if(chosen_dir)
-		chosen_dir = turn(target_dir,chosen_dir)
-		H.Move(get_step(H,chosen_dir))
-		H.face_atom(target) //Looks better if they keep looking at you when dodging
+		var/static/list/cardinal_sidestep_directions = list(-90,-45,0,45,90)
+		var/static/list/diagonal_sidestep_directions = list(-45,0,45)
+		var/chosen_dir = 0
+		if (target_dir & (target_dir - 1))
+			chosen_dir = pick(diagonal_sidestep_directions)
+		else
+			chosen_dir = pick(cardinal_sidestep_directions)
+		if(chosen_dir)
+			chosen_dir = turn(target_dir,chosen_dir)
+			H.Move(get_step(H,chosen_dir))
+			H.face_atom(target) //Looks better if they keep looking at you when dodging
 
 //Allows the AI actor to be revived by a medic, and get straight back into the fight!
 /datum/component/knpc/proc/restart()
@@ -259,7 +266,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	if(H.incapacitated()) //In crit or something....
 		return
 	if(world.time >= next_action)
-		next_action = world.time + 0.5 SECONDS
+		next_action = world.time + action_delay
 		pick_goal()
 		current_goal?.action(src)
 	if(path?.len)
@@ -434,7 +441,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 
 /datum/ai_goal/human/engage_targets
 	name = "Engage targets"
-	score = AI_SCORE_HIGH_PRIORITY //If we find a target, we want to engage!
+	score = AI_SCORE_SUPERPRIORITY //If we find a target, we want to engage!
 	required_ai_flags = null //Set this if you want this task to only be achievable by certain types of ship.
 
 /datum/ai_goal/human/engage_targets/check_score(datum/component/knpc/HA)
@@ -576,7 +583,8 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 				//Curbstomp!
 				H.MouseDrop(target)
 				return
-		HA.kite(target)
+		if(H.can_kite)
+			HA.kite(target)
 
 /datum/ai_goal/human/proc/call_backup(datum/component/knpc/HA)
 	HA.next_backup_call = world.time + 30 SECONDS //So it's not horribly spammy.
@@ -740,7 +748,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 
 /datum/ai_goal/human/stop_drop_n_roll
 	name = "Stop drop & roll"
-	score = AI_SCORE_CRITICAL //The lads need to be able to breathe.
+	score = AI_SCORE_HIGH_PRIORITY //Putting out fires is important, but not more important than killing the target setting us on fire
 	required_ai_flags = null
 
 /datum/ai_goal/human/stop_drop_n_roll/check_score(datum/component/knpc/HA)
