@@ -402,14 +402,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(ai_controlled)
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	/*
-	if(mass > MASS_TINY || occupying_levels.len)
-		weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
-		weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
-	if(mass > MASS_MEDIUM || occupying_levels.len)
-		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
-		weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
-	*/
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
@@ -484,6 +476,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				SW = weapon_types[FIRE_MODE_RED_LASER]
 				if(SW)
 					fire_weapon(target, FIRE_MODE_RED_LASER)
+				else
+					SW = weapon_types[FIRE_MODE_PDC]
+					if(SW)
+						fire_weapon(target, FIRE_MODE_PDC)
 		return FALSE
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
