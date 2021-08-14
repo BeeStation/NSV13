@@ -5,7 +5,7 @@
 	desc = "A formidable weapon operated by a gunner below deck, extremely effective at point defense though they struggle to damage larger targets."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "deck_gun"
-	magazine_type = /obj/item/ammo_box/magazine/pdc/fiftycal
+	magazine_type = /obj/item/ammo_box/magazine/nsv/anti_air
 	safety = FALSE
 	auto_load = TRUE
 	semi_auto = TRUE
@@ -162,26 +162,3 @@
 		to_chat(user, "<span class='warning'>This computer is not linked to a gun turret! You can link it with a multitool.</span>")
 		return
 	turret.start_gunning(user)
-
-/obj/item/ammo_box/magazine/pdc/fiftycal
-	name = "PDC turret rounds" // Just going to rename the current box to avoid a bunch of map changes, or creating duplicate code for a rename
-	ammo_type = /obj/item/ammo_casing/fiftycal
-	caliber = "mm50pdc"
-	max_ammo = 300
-	w_class = WEIGHT_CLASS_NORMAL
-
-/obj/item/ammo_box/magazine/pdc/fiftycal/examine(mob/user)
-	. = ..()
-	. += "<span class ='notice'>It has [ammo_count()] bullets left.</span>"
-
-/obj/item/ammo_box/magazine/pdc/fiftycal/update_icon()
-	if(ammo_count() > 10)
-		icon_state = initial(icon_state)
-	else
-		icon_state = "[initial(icon_state)]_empty"
-
-/obj/item/ammo_casing/fiftycal
-	name = "50mm round casing"
-	desc = "A 50mm bullet casing."
-	projectile_type = /obj/item/projectile/bullet/fiftycal
-	caliber = "mm50pdc"

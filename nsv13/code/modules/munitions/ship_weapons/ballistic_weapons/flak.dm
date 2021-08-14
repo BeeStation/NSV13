@@ -1,22 +1,3 @@
-/obj/item/ammo_box/magazine/pdc/flak
-	name = "40mm flak rounds"
-	icon_state = "flak"
-	ammo_type = /obj/item/ammo_casing/flak
-	caliber = "mm40"
-	max_ammo = 150
-
-/obj/item/ammo_box/magazine/pdc/update_icon()
-	if(ammo_count() > 10)
-		icon_state = initial(icon_state)
-	else
-		icon_state = "[initial(icon_state)]_empty"
-
-/obj/item/ammo_casing/flak
-	name = "mm40 flak round casing"
-	desc = "A mm40 bullet casing."
-	projectile_type = /obj/item/projectile/bullet/flak
-	caliber = "mm40"
-
 /obj/machinery/ship_weapon/pdc_mount/flak
 	name = "Flak loading rack"
 	icon = 'nsv13/icons/obj/munitions.dmi'
@@ -32,7 +13,7 @@
 //	circuit = /obj/item/circuitboard/machine/pdc_mount
 
 	fire_mode = FIRE_MODE_FLAK
-	magazine_type = /obj/item/ammo_box/magazine/pdc/flak
+	magazine_type = /obj/item/ammo_box/magazine/nsv/flak
 
 	auto_load = TRUE
 	semi_auto = TRUE
