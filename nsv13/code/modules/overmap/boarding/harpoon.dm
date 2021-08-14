@@ -309,9 +309,9 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	name = "Anti-aircraft supplies spawner"
 	loot = list(
 		/obj/item/ammo_box/magazine/nsv/anti_air = 15,
-		/obj/machinery/computer/fiftycal = 2,
-		/obj/machinery/ship_weapon/fiftycal = 1,
-		/obj/machinery/ship_weapon/fiftycal/super = 1
+		/obj/machinery/computer/anti_air = 2,
+		/obj/machinery/ship_weapon/anti_air = 1,
+		/obj/machinery/ship_weapon/anti_air/heavy = 1
 )
 	lootcount = 1
 
