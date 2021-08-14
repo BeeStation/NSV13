@@ -116,7 +116,7 @@ Credit to TGMC for the interior sprites for all these!
 	if(!weapon_types[FIRE_MODE_GAUSS])
 		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	if(!weapon_types[FIRE_MODE_50CAL])
-		weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
+		weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/fighter/dropship/sabre
 	name = "Su-437 Sabre"

@@ -233,7 +233,7 @@
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 	miss_chance = 20
 
-/datum/ship_weapon/fiftycal // .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets
+/datum/ship_weapon/pdc_mount // .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets
 	name = "PDC"
 	default_projectile_type = /obj/item/projectile/bullet/pdc_round
 	burst_size = 3
