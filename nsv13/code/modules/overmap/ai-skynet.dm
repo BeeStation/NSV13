@@ -1297,7 +1297,7 @@ Seek a ship thich we'll station ourselves around
 * See: https://stackoverflow.com/a/3487761
 * If they're literally moving faster than a bullet just aim right at them
 */
-/obj/structure/overmap/proc/calculate_intercept(obj/structure/overmap/target, obj/item/projectile/P)
+/obj/structure/overmap/proc/calculate_intercept(obj/structure/overmap/target, obj/item/projectile/P, miss_chance=5, max_miss_distance=5)
 	if(!target || !istype(target) || !target.velocity || !P || !istype(P))
 		return target
 	var/turf/my_center = get_center()
@@ -1332,9 +1332,6 @@ Seek a ship thich we'll station ourselves around
 	var/targetx = their_center.x + target.velocity.x * time
 	var/targety = their_center.y + target.velocity.y * time
 	var/turf/newtarget = locate(targetx, targety, target.z)
-	if(prob(ai_miss_chance)) // Slight miss chance
-		var/direction = rand(0, 359)
-		newtarget = get_turf_in_angle(direction, newtarget, rand(1, ai_max_miss_distance))
 
 	return newtarget
 
@@ -1640,6 +1637,15 @@ Seek a ship thich we'll station ourselves around
 			fleet_info["colour"] = (F.alignment == "nanotrasen") ? null : "bad"
 			var/list/fuckYouDreamChecker = sys_inf["fleets"]
 			fuckYouDreamChecker[++fuckYouDreamChecker.len] = fleet_info
+		sys_inf["objects"] = list()
+		for(var/obj/structure/overmap/OM in SS.system_contents)
+			if(!OM.fleet)
+				var/list/overmap_info = list()
+				overmap_info["name"] = OM.name
+				overmap_info["id"] = "\ref[OM]"
+				overmap_info["colour"] = (OM.faction == "nanotrasen") ? null : "bad"
+				var/list/fuckYouDreamChecker = sys_inf["objects"]
+				fuckYouDreamChecker[++fuckYouDreamChecker.len] = overmap_info
 		systems_info[++systems_info.len] = sys_inf
 	data["systems_info"] = systems_info
 	return data
@@ -1669,7 +1675,15 @@ Seek a ship thich we'll station ourselves around
 			F.current_system = target
 			F.assemble(target)
 			message_admins("[key_name(usr)] created a fleet ([F.name]) at [target].")
-
+		if("jumpObject")
+			var/obj/structure/overmap/target = locate(params["id"])
+			if(!istype(target))
+				return
+			var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
+			if(!sys || !istype(sys))
+				return FALSE
+			message_admins("[key_name(usr)] forced [target] to jump to [sys].")
+			target.jump(sys)
 
 /client/proc/instance_overmap_menu() //Creates a verb for admins to open up the ui
 	set name = "Instance Overmap"
