@@ -10,7 +10,7 @@
 	auto_load = TRUE
 	semi_auto = TRUE
 	maintainable = FALSE
-	fire_mode = FIRE_MODE_PDC
+	fire_mode = FIRE_MODE_ANTI_AIR
 	max_ammo = 300
 	circuit = /obj/item/circuitboard/machine/fiftycal
 	var/gunning_component_type = /datum/component/overmap_gunning/fiftycal
@@ -49,12 +49,12 @@
 	var/special_fx = FALSE
 
 /datum/component/overmap_gunning/fiftycal
-	fire_mode = FIRE_MODE_PDC
+	fire_mode = FIRE_MODE_ANTI_AIR
 	fire_delay = 0.25 SECONDS
 	automatic = TRUE
 
 /datum/component/overmap_gunning/fiftycal/super
-	fire_mode = FIRE_MODE_PDC
+	fire_mode = FIRE_MODE_ANTI_AIR
 	fire_delay = 0.1 SECONDS
 
 /datum/component/overmap_gunning/Initialize(obj/machinery/ship_weapon/fx_target)
