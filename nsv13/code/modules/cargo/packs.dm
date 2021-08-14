@@ -54,14 +54,14 @@
 	crate_name = "Captain Plasmasalt's finest gunpowder"
 
 /datum/supply_pack/munitions/pdc_ammo
-	name = "PDC turret rounds (x5)"
-	desc = "5 boxes of PDC turret rounds, ideal for repelling torpedoes and missiles."
+	name = "PDC mount rounds (x5)"
+	desc = "5 boxes of PDC rounds, ideal for repelling torpedoes and missiles."
 	cost = 1000
-	contains = list(/obj/item/ammo_box/magazine/pdc/fiftycal,
-					/obj/item/ammo_box/magazine/pdc/fiftycal,
-					/obj/item/ammo_box/magazine/pdc/fiftycal,
-					/obj/item/ammo_box/magazine/pdc/fiftycal,
-					/obj/item/ammo_box/magazine/pdc/fiftycal)
+	contains = list(/obj/item/ammo_box/magazine/pdc,
+					/obj/item/ammo_box/magazine/pdc,
+					/obj/item/ammo_box/magazine/pdc,
+					/obj/item/ammo_box/magazine/pdc,
+					/obj/item/ammo_box/magazine/pdc)
 	crate_name = "PDC ammunition crate"
 
 /datum/supply_pack/munitions/trolley
