@@ -295,18 +295,19 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
 	},
-/obj/item/powder_bag{
-	pixel_y = 8
+/obj/structure/rack,
+/obj/item/clothing/ears/earmuffs{
+	pixel_y = -5
 	},
-/obj/item/powder_bag{
-	pixel_y = -10
+/obj/item/clothing/ears/earmuffs{
+	pixel_y = -1
 	},
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = 8
+/obj/item/clothing/ears/earmuffs{
+	pixel_y = 4
 	},
-/obj/item/powder_bag,
-/obj/machinery/ammo_sorter,
+/obj/item/clothing/ears/earmuffs{
+	pixel_y = 7
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "bv" = (
@@ -551,22 +552,6 @@
 /obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
-"cM" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
-/obj/item/powder_bag,
-/obj/machinery/ammo_sorter,
-/turf/open/floor/monotile/dark,
-/area/nsv/weapons/fore)
 "cN" = (
 /obj/machinery/armour_plating_nanorepair_pump/aft_port{
 	apnw_id = "pleaseSendHelp";
@@ -1383,21 +1368,9 @@
 	dir = 6
 	},
 /obj/item/radio/intercom/directional/north,
-/obj/item/powder_bag{
-	pixel_y = 8
+/obj/machinery/computer/ammo_sorter{
+	id = "powder"
 	},
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
-/obj/machinery/ammo_sorter,
-/obj/item/powder_bag,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "gf" = (
@@ -1982,7 +1955,16 @@
 	pixel_y = 8
 	},
 /obj/item/powder_bag,
-/obj/machinery/ammo_sorter,
+/obj/machinery/ammo_sorter{
+	dir = 1
+	},
+/obj/item/powder_bag{
+	pixel_y = 8
+	},
+/obj/item/powder_bag,
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "iz" = (
@@ -2098,7 +2080,7 @@
 	},
 /area/hallway/primary/fore)
 "iT" = (
-/obj/machinery/computer/rdconsole/core{
+/obj/machinery/computer/rdservercontrol{
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark/side{
@@ -2445,8 +2427,17 @@
 /obj/item/powder_bag{
 	pixel_y = 8
 	},
-/obj/machinery/ammo_sorter,
 /obj/item/powder_bag,
+/obj/machinery/ammo_sorter{
+	id = "powder"
+	},
+/obj/item/powder_bag{
+	pixel_y = 8
+	},
+/obj/item/powder_bag,
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "kl" = (
@@ -3775,25 +3766,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/structure/rack,
-/obj/item/clothing/ears/earmuffs{
-	pixel_y = -6
-	},
-/obj/item/clothing/ears/earmuffs{
-	pixel_y = -5
-	},
-/obj/item/clothing/ears/earmuffs{
-	pixel_y = -1
-	},
-/obj/item/clothing/ears/earmuffs{
-	pixel_y = 4
-	},
-/obj/item/clothing/ears/earmuffs{
-	pixel_y = 6
-	},
-/obj/item/clothing/ears/earmuffs{
-	pixel_y = 7
-	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/fore)
 "pq" = (
@@ -4860,7 +4832,7 @@
 /area/hallway/primary/fore)
 "ue" = (
 /obj/item/book/manual/wiki/tcomms,
-/obj/machinery/computer/rdservercontrol{
+/obj/machinery/computer/rdconsole/core{
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark/side{
@@ -6005,7 +5977,16 @@
 	pixel_y = 8
 	},
 /obj/item/powder_bag,
-/obj/machinery/ammo_sorter,
+/obj/machinery/ammo_sorter{
+	dir = 1
+	},
+/obj/item/powder_bag{
+	pixel_y = 8
+	},
+/obj/item/powder_bag,
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "yV" = (
@@ -8212,15 +8193,27 @@
 /obj/item/powder_bag{
 	pixel_y = 8
 	},
+/obj/item/powder_bag{
+	pixel_y = 8
+	},
+/obj/item/powder_bag,
 /obj/item/powder_bag,
 /obj/item/powder_bag{
 	pixel_y = -10
 	},
 /obj/item/powder_bag{
+	pixel_y = -10
+	},
+/obj/machinery/ammo_sorter{
+	dir = 1
+	},
+/obj/item/powder_bag{
 	pixel_y = 8
 	},
 /obj/item/powder_bag,
-/obj/machinery/ammo_sorter,
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "HX" = (
@@ -9938,7 +9931,6 @@
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/secondary/entry)
 "Pk" = (
-/obj/machinery/rnd/production/circuit_imprinter,
 /turf/open/floor/plasteel/dark/side{
 	dir = 8
 	},
@@ -12051,6 +12043,23 @@
 /area/nsv/weapons/fore)
 "XU" = (
 /obj/effect/turf_decal/stripes/line,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag{
+	pixel_y = 8
+	},
+/obj/item/powder_bag{
+	pixel_y = 8
+	},
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
+/obj/machinery/ammo_sorter{
+	id = "powder"
+	},
 /obj/item/powder_bag{
 	pixel_y = 8
 	},
@@ -12058,11 +12067,6 @@
 /obj/item/powder_bag{
 	pixel_y = -10
 	},
-/obj/machinery/ammo_sorter,
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
-/obj/item/powder_bag,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "XV" = (
@@ -42737,7 +42741,7 @@ rX
 DD
 AZ
 rX
-cM
+kk
 TX
 pp
 gD
