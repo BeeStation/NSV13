@@ -319,7 +319,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	name = "PDC supplies spawner"
 	loot = list(
 		/obj/item/ammo_box/magazine/nsv/pdc = 20,
-		/obj/machinery/ship_weapon/pdc = 2,
+		/obj/machinery/ship_weapon/pdc_mount = 2,
 )
 	lootcount = 1
 
