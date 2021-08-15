@@ -26,7 +26,8 @@ GLOBAL_LIST_EMPTY(knpcs)
 	faction = list("Syndicate")
 	var/outfit = /datum/outfit/syndicate/odst/smg
 	var/is_martial_artist = FALSE
-	var/can_kite = TRUE
+	var/can_kite = TRUE 				//Does the KPNC dodge in CQC?
+	var/merciful = FALSE				//Are mobs in crit valid?
 	var/list/taunts = list(
 		"DEATH TO NANOTRASEN!!",
 		"FOR ABASSI!",
@@ -41,75 +42,6 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/datum/outfit/O = new outfit
 	O.equip(src)
 	AddComponent(/datum/component/knpc)
-
-
-//Subtypes!
-
-//Syndie boarders and the gang.
-/mob/living/carbon/human/ai_boarder/commando
-	outfit = /datum/outfit/syndicate/odst/shotgun
-	is_martial_artist = TRUE
-
-/mob/living/carbon/human/ai_boarder/medic
-	outfit = /datum/outfit/syndicate/odst/medic
-	is_martial_artist = TRUE
-
-//Pirates.
-
-/mob/living/carbon/human/ai_boarder/pirate
-	faction = list("Pirate")
-	taunts = list(
-		"YARRR!!!!",
-		"YAR HAR!!!",
-		"HO HO HO AND A BOTTLE O' RUM!",
-		"DIE LANDLUBBER!!"
-	)
-	outfit = /datum/outfit/pirate/space/boarding/gunner
-
-/mob/living/carbon/human/ai_boarder/pirate/leader
-	outfit = /datum/outfit/pirate/space/boarding/lead
-
-/mob/living/carbon/human/ai_boarder/pirate/sapper
-	outfit = /datum/outfit/pirate/space/boarding/sapper
-
-//Nanotrasen.
-
-/mob/living/carbon/human/ai_boarder/ert
-	faction = list("neutral", "Nanotrasen", "nanotrasenprivate")
-	taunts = list(
-		"Code 401 in progress, requesting immediate assistance",
-		"Stay down, scum",
-		"You can't outrun the law",
-		"For the corp!",
-		"Anti-corporate activities will NOT be tolerated!"
-	)
-	outfit = /datum/outfit/ert/security
-	is_martial_artist = TRUE //Special forces
-
-/mob/living/carbon/human/ai_boarder/ert/commander
-	outfit = /datum/outfit/ert/commander
-
-/mob/living/carbon/human/ai_boarder/ert/engineer
-	outfit = /datum/outfit/ert/engineer
-
-/mob/living/carbon/human/ai_boarder/ert/medic
-	outfit = /datum/outfit/ert/medic
-
-/mob/living/carbon/human/ai_boarder/ert/deathsquad
-	//Kill everything that isn't blue
-	faction = list("Nanotrasen", "nanotrasenprivate")
-	outfit = /datum/outfit/death_commando
-
-/mob/living/carbon/human/ai_boarder/assistant
-	outfit = /datum/outfit/job/assistant_ship
-	faction = list("neutral", "Nanotrasen")
-
-/mob/living/carbon/human/ai_boarder/ert/deathsquad/commander
-	outfit = /datum/outfit/death_commando/officer
-
-/mob/living/carbon/human/ai_boarder/ert/deathsquad/doomguy
-	name = "The oncoming storm"
-	outfit = /datum/outfit/death_commando/doomguy
 
 /datum/component/knpc/Initialize()
 	if(!iscarbon(parent))
@@ -683,6 +615,15 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 				L.travel(TRUE, H, FALSE, L.up, FALSE)
 			else
 				L.travel(FALSE, H, FALSE, L.down, FALSE)
+		//No Ladder, lets check for stairs
+		else if(!L && next_node.z > HA.last_node.z) //If going up a Z
+			var/obj/structure/stairs/S = locate(/obj/structure/stairs) in orange(1, get_turf(HA.last_node))
+			if(S)
+				S.stair_ascend(H)
+		else //If down
+			var/obj/structure/stairs/S = locate(/obj/structure/stairs) in orange(1, get_step_multiz(get_turf(HA.last_node), DOWN))
+			if(S)
+				step_towards(H, S)
 
 	HA.last_node = next_node
 	HA.pathfind_to(get_turf(next_node))
