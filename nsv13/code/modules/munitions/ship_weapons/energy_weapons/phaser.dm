@@ -26,9 +26,9 @@
 	icon_state = "ion_cannon"
 	fire_mode = FIRE_MODE_BLUE_LASER
 	energy_weapon_type = /datum/ship_weapon/phaser
-	charge_rate = 800000 //How quickly do we charge?
-	charge_per_shot = 5330000 //How much power per shot do we have to use? By default, half a megawatt.
-	max_charge = 10660000 //1 MW as base. This puppy needs a lot of power to use, but does a crapload of damage
+	charge_rate = 600000 // At power level 5, requires 3MW per tick to charge 
+	charge_per_shot = 4000000 // At power level 5, requires 20MW total to fire, takes about 12 seconds to gain 1 charge
+	max_charge = 8000000 // Store 2 charges
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
 
 /obj/machinery/ship_weapon/energy/lazyload()
