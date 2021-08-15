@@ -230,7 +230,6 @@
 	if(wear_id?.GetID())
 		holder.icon_state = "hud[ckey(wear_id.GetJobName())]"
 	sec_hud_set_security_status()
-	set_squad_hud()
 
 /mob/living/proc/sec_hud_set_implants()
 	var/image/holder
