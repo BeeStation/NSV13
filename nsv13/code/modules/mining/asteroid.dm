@@ -2,13 +2,22 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 
 //Credit to floyd for the backbone of this code
 
-/datum/techweb_node/mineral_mining
-	id = "mineral_mining"
-	display_name = "Deep core asteroid mining"
-	description = "Upgrades for the mining ship's asteroid arrestor, allowing it to lock on to more valuable asteroid cores.."
+/datum/techweb_node/mineral_nonferrous
+	id = "mineral_nonferrous"
+	display_name = "Polytrinic asteroid mining equipment"
+	description = "Upgrades for the mining ship's asteroid arrestor and dradis console, allowing it to detect and lock on to more specific mineral compositions in asteroid cores."
 	prereq_ids = list("base")
-	design_ids = list("deepcore1", "deepcore2")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
+	design_ids = list("deepcore1", "asteroidscanner")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 7500)
+	export_price = 5000
+
+/datum/techweb_node/mineral_exotic
+	id = "mineral_exotic"
+	display_name = "Phasic asteroid mining equipment"
+	description = "Advanced arrestor and dradis console upgrade for the mining ship, allowing it to handle any asteroid with a mineral composition at it's core."
+	prereq_ids = list("mineral_nonferrous")
+	design_ids = list("deepcore2", "asteroidscanner2")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 12500)
 	export_price = 5000
 
 /datum/design/deepcore1
@@ -30,15 +39,6 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	build_path = /obj/item/deepcore_upgrade/max
 	category = list("Asteroid Mining")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
-
-/datum/techweb_node/mineral_scanning
-	id = "mineral_scanning"
-	display_name = "Asteroid core sensors"
-	description = "Upgrades for dradis computers, allowing them to scan for mineral rich asteroids."
-	prereq_ids = list("base")
-	design_ids = list("asteroidscanner", "asteroidscanner2")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
-	export_price = 5000
 
 /datum/design/asteroidscanner
 	name = "Tier II asteroid sensor module"
