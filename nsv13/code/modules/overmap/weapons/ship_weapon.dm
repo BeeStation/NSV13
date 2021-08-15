@@ -28,7 +28,6 @@
 	var/miss_chance = 5 // % chance the AI intercept calculator will be off a step
 	var/max_miss_distance = 4 // Maximum number of tiles the AI will miss by
 	var/autonomous = FALSE // Is this a gun that can automatically fire? Keep in mind variables selectable and autonomous can both be TRUE 
-	var/autonomous_priority = 99 // If your new weapon is autonomous, assign a priority. Number 1 priority will be fired first if capable, number 2 priority will be fired if number 1 is unable to fire. 
 	var/permitted_ams_modes = list( "Anti-ship" = 1, "Anti-missile countermeasures" = 1 ) // Overwrite the list with a specific firing mode if you want to restrict its targets 
 
 /datum/ship_weapon/proc/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)

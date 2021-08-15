@@ -20,6 +20,17 @@
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
 	var/energy_weapon_type = /datum/ship_weapon/pdc_mount/burst_phaser
 
+/obj/machinery/ship_weapon/energy/beam
+	name = "Phase Cannon"
+	desc = "An extremely powerful directed energy weapon which is capable of delivering a devastating beam attack."
+	icon_state = "ion_cannon"
+	fire_mode = FIRE_MODE_BLUE_LASER
+	energy_weapon_type = /datum/ship_weapon/phaser
+	charge_rate = 75000 //How quickly do we charge?
+	charge_per_shot = 500000 //How much power per shot do we have to use? By default, half a megawatt.
+	max_charge = 1000000 //1 MW as base. This puppy needs a lot of power to use, but does a crapload of damage
+	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
+
 /obj/machinery/ship_weapon/energy/lazyload()
 	active = TRUE
 	power_modifier = 1
@@ -100,17 +111,6 @@
 
 /obj/machinery/ship_weapon/energy/get_ammo()
 	return charge
-
-/obj/machinery/ship_weapon/energy/beam
-	name = "Phase Cannon"
-	desc = "An extremely powerful directed energy weapon which is capable of delivering a devastating beam attack."
-	icon_state = "ion_cannon"
-	fire_mode = FIRE_MODE_BLUE_LASER
-	energy_weapon_type = /datum/ship_weapon/phaser
-	charge_rate = 75000 //How quickly do we charge?
-	charge_per_shot = 500000 //How much power per shot do we have to use? By default, half a megawatt.
-	max_charge = 1000000 //1 MW as base. This puppy needs a lot of power to use, but does a crapload of damage
-	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
 
 /obj/machinery/ship_weapon/energy/beam/animate_projectile(atom/target)
 	var/obj/item/projectile/P = ..()

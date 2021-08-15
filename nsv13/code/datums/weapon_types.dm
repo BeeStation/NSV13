@@ -92,7 +92,7 @@
 
 //Energy Weapons
 
-/datum/ship_weapon/pdc_mount/burst_phaser
+/datum/ship_weapon/pdc_mount/burst_phaser // Little red lasers 
 	name = "Burst Phasers"
 	default_projectile_type = /obj/item/projectile/beam/laser/phaser
 	burst_size = 1
@@ -106,7 +106,7 @@
 	lateral = FALSE
 	firing_arc = 60 //Relatively generous, but coax.
 
-/datum/ship_weapon/phaser
+/datum/ship_weapon/phaser // Big blue laser 
 	name = "Phaser Banks"
 	default_projectile_type = /obj/item/projectile/beam/laser/heavylaser/phaser
 	burst_size = 1

@@ -31,14 +31,6 @@
 	integrity_failure = 1000
 	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 20)
 
-/obj/structure/overmap/nanotrasen/solgov/apply_weapons()
-	. = ..()
-	if(ai_controlled)
-		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
-	else
-		weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
-	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
-
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp
 	name = "Aetherwhisp class light cruiser"
 	desc = "A mid range SolGov exploratory cruiser. These ships are geared for peaceful missions, but can defend themselves if they must."
@@ -109,12 +101,31 @@
 	combat_dice_type = /datum/combat_dice/fighter
 
 /obj/structure/overmap/nanotrasen/solgov/ai/fighter/apply_weapons()
-	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+	weapon_types[ FIRE_MODE_RED_LASER ] = new /datum/ship_weapon/pdc_mount/burst_phaser( src )
 	//The bigger the ship, the tankier the shields....
 	AddComponent(/datum/component/overmap_shields, mass*200, mass*200, mass*5)
 
-/obj/structure/overmap/nanotrasen/solgov/ai/apply_weapons()
-	. = ..()
+/obj/structure/overmap/nanotrasen/solgov/proc/apply_medium_ai_weapons()
+	weapon_types[ FIRE_MODE_RED_LASER ] = new /datum/ship_weapon/pdc_mount/burst_phaser( src )
+	weapon_types[ FIRE_MODE_BLUE_LASER ] = new /datum/ship_weapon/phaser( src )
+	weapon_types[ FIRE_MODE_AMS_LASER ] = new /datum/ship_weapon/laser_ams( src )
+
+	// Need to enable the AI ship's countermeasures mode so they can actually use laser ams 
+	for( var/datum/ams_mode/atype in src.ams_modes )
+		// if ( istype( atype, /datum/ams_mode/countermeasures ) )
+		atype.enabled = TRUE
+
 	//The bigger the ship, the tankier the shields....
 	AddComponent(/datum/component/overmap_shields, mass*200, mass*200, mass*5)
+
+/obj/structure/overmap/nanotrasen/solgov/carrier/ai/apply_weapons() // Kmc why didn't you use /solgov/ai for your ship childtypes 
+	// . = ..()
+	apply_medium_ai_weapons()
+
+/obj/structure/overmap/nanotrasen/solgov/aetherwhisp/ai/apply_weapons()
+	// . = ..()
+	apply_medium_ai_weapons()
+
+/obj/structure/overmap/nanotrasen/solgov/ai/apply_weapons()
+	// . = ..()
+	apply_medium_ai_weapons()
