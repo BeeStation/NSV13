@@ -13,15 +13,14 @@
 	idle_power_usage = 2500
 	active = FALSE
 	charge = 0
-	// charge_rate = 600000 // At power level 5, requires 3MW per tick to charge 
-	// charge_per_shot = 6000000 // At power level 5, requires 30MW to fire, takes about 10 seconds to gain 1 charge
-	// max_charge = 12000000 // Store 2 charges 
-	// Testing vars for solgov AI ships 
-	charge_rate = 100
-	charge_per_shot = 100
-	max_charge = 1000
+
+	// Hitscan antimissile laser, charges relatively quickly, but can't hold a decent buffer! 
+	charge_rate = 1000000 // At power level 2, requires 2MW per tick to charge 
+	charge_per_shot = 3000000 // At power level 2, requires 6MW total to fire, takes about 3 seconds to gain 1 charge
+	max_charge = 3000000 // Store 1 charge
+
 	power_modifier = 0 //Power you're inputting into this thing.
-	power_modifier_cap = 5
+	power_modifier_cap = 2
 	energy_weapon_type = /datum/ship_weapon/laser_ams
 
 /datum/ship_weapon/laser_ams

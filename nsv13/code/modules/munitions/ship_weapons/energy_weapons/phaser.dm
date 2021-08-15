@@ -13,9 +13,9 @@
 	idle_power_usage =  2500
 	var/active = FALSE
 	charge = 0
-	charge_rate = 25000 //How quickly do we charge?
-	charge_per_shot = 50000 //How much power per shot do we have to use?
-	var/max_charge = 250000 //5 shots before it has to recharge.
+	charge_rate = 330000 //How quickly do we charge?
+	charge_per_shot = 660000 //How much power per shot do we have to use?
+	var/max_charge = 3300000 //5 shots before it has to recharge.
 	var/power_modifier = 0 //Power youre inputting into this thing.
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
 	var/energy_weapon_type = /datum/ship_weapon/pdc_mount/burst_phaser
@@ -26,9 +26,9 @@
 	icon_state = "ion_cannon"
 	fire_mode = FIRE_MODE_BLUE_LASER
 	energy_weapon_type = /datum/ship_weapon/phaser
-	charge_rate = 75000 //How quickly do we charge?
-	charge_per_shot = 500000 //How much power per shot do we have to use? By default, half a megawatt.
-	max_charge = 1000000 //1 MW as base. This puppy needs a lot of power to use, but does a crapload of damage
+	charge_rate = 800000 //How quickly do we charge?
+	charge_per_shot = 5330000 //How much power per shot do we have to use? By default, half a megawatt.
+	max_charge = 10660000 //1 MW as base. This puppy needs a lot of power to use, but does a crapload of damage
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
 
 /obj/machinery/ship_weapon/energy/lazyload()

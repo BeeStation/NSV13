@@ -112,6 +112,7 @@
 	burst_size = 1
 	fire_delay = 1.5 SECONDS
 	range_modifier = 60
+	weapon_class = WEAPON_CLASS_LIGHT
 	select_alert = "<span class='notice'>Phaser banks standing by...</span>"
 	failure_alert = "<span class='warning'>Unable to comply. Phaser banks recharging.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/phaser.ogg')
