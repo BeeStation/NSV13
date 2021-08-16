@@ -23,6 +23,13 @@
 	var/special_fire_proc = null //Override this if you need to replace the firing weapons behaviour with a custom proc. See torpedoes and missiles for this.
 	var/selectable = TRUE //Is this a gun you can manually fire? Or do you want it for example, be an individually manned thing..?
 	var/screen_shake = 0
+	var/firing_arc = null //If this weapon only fires in an arc (for ai ships)
+	var/weapon_class = WEAPON_CLASS_HEAVY //Do AIs need to resupply with ammo to use this weapon?
+	var/miss_chance = 5 // % chance the AI intercept calculator will be off a step
+	var/max_miss_distance = 4 // Maximum number of tiles the AI will miss by
+
+/datum/ship_weapon/proc/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
+	return (istype(source) && istype(target))
 
 /datum/ship_weapon/torpedo_launcher
 	special_fire_proc = /obj/structure/overmap/proc/fire_torpedo
@@ -75,6 +82,9 @@
 			CallAsync(source=holder, proctype=special_fire_proc, arguments=list(target=target, ai_aim=ai_aim)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
 		else
 			weapon_sound()
+			if(ai_aim && prob(miss_chance)) // Apply bad aim here so the whole burst goes the same way
+				var/direction = rand(0, 359)
+				target = get_turf_in_angle(direction, target, rand(min(max_miss_distance,4), max_miss_distance))
 			for(var/I = 0; I < burst_size; I++)
 				sleep(1) //Prevents space shotgun
 				holder.fire_projectile(default_projectile_type, target, lateral=src.lateral, ai_aim=ai_aim)

@@ -193,7 +193,7 @@
 	var/obj/item/powder_bag/bag = null
 	var/ammo_type = /obj/item/powder_bag
 	var/loading = FALSE
-	var/load_delay = 8 SECONDS
+	var/load_delay = 6.4 SECONDS
 
 /obj/machinery/deck_turret/powder_gate/Destroy()
 	if(circuit && !ispath(circuit))
@@ -348,7 +348,7 @@
 	var/obj/item/ship_weapon/ammunition/naval_artillery/shell = null
 	var/ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
 	var/loading = FALSE
-	var/load_delay = 10 SECONDS
+	var/load_delay = 8 SECONDS
 
 /obj/machinery/deck_turret/payload_gate/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()
@@ -362,9 +362,9 @@
 		return FALSE
 	if(ammo_type && istype(A, ammo_type))
 		if(get_dist(A, src) > 1)
-			load_delay = 13 SECONDS
+			load_delay = 10.4 SECONDS
 		load(A, user)
-		load_delay = 9 SECONDS
+		load_delay = 7.2 SECONDS
 
 /obj/machinery/deck_turret/payload_gate/proc/load(obj/item/A, mob/user)
 	var/temp = load_delay
@@ -431,6 +431,10 @@
 	for(var/mob/M in OM.mobs_in_ship)
 		if(OM.z == z)
 			shake_with_inertia(M, 1, 1)
+
+/obj/machinery/ship_weapon/deck_turret/overmap_fire(atom/target)
+	linked.shake_animation()
+	return ..()
 
 /obj/machinery/ship_weapon/deck_turret/north
 	dir = NORTH

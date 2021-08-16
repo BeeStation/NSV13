@@ -28,11 +28,6 @@
 	sleep(10)
 	charge = max_charge
 
-//Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
-/obj/item/projectile/beam/laser/phaser
-	damage = 10
-	flag = "overmap_medium"
-
 /obj/machinery/ship_weapon/energy/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -123,18 +118,6 @@
 
 /obj/machinery/ship_weapon/energy/get_ammo()
 	return charge
-
-/obj/item/projectile/beam/laser/heavylaser/phaser
-	name = "phaser beam"
-	damage = 200
-	flag = "overmap_heavy"
-	hitscan = TRUE //Extremely powerful in ship combat
-	icon_state = "omnilaser"
-	light_color = LIGHT_COLOR_BLUE
-	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
-	tracer_type = /obj/effect/projectile/tracer/disabler
-	muzzle_type = /obj/effect/projectile/muzzle/disabler
-	impact_type = /obj/effect/projectile/impact/disabler
 
 /obj/machinery/ship_weapon/energy/beam
 	name = "Phase Cannon"

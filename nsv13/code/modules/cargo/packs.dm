@@ -503,3 +503,12 @@
 					/obj/item/ammo_box/magazine/m556,
 					/obj/item/ammo_box/magazine/m556,
 					/obj/item/ammo_box/magazine/m556)
+
+/datum/supply_pack/engineering/hulljuice
+	name = "Hulljuice Tank Crate"
+	desc = "Keep yourself afloat aboard the ship with some healthy hull repair JUICE! It includes one tank and two extinguishers. Apply liberally to damaged hull plates"
+	cost = 1200
+	contains = list(/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
+					/obj/item/extinguisher/advanced/hull_repair_juice,
+					/obj/item/extinguisher/advanced/hull_repair_juice)
+	crate_name = "engineering crate"
