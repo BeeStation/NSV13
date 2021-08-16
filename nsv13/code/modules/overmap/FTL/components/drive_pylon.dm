@@ -225,9 +225,7 @@
 	switch(pylon_state)
 		if(PYLON_STATE_OFFLINE)
 			ov += "pylon_gyro"
-		if(PYLON_STATE_STARTING)
-			ov += "pylon_gyro_on"
-		if(PYLON_STATE_WARMUP)
+		if(PYLON_STATE_STARTING, PYLON_STATE_WARMUP)
 			ov += "pylon_gyro_on"
 		if(PYLON_STATE_SPOOLING)
 			ov += "pylon_gyro_on_medium"
