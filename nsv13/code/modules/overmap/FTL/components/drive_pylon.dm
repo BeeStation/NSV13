@@ -44,18 +44,19 @@
 	input = airs[1]
 	output = airs[2]
 	pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open")
-	update_icon()
+	update_visuals()
 	air_contents = new(3000)
 	air_contents.set_temperature(T20C)
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/process()
 	if(!on)
 		return
-	if(!power_drain() && pylon_state != PYLON_STATE_SHUTDOWN)
-		set_state(PYLON_STATE_SHUTDOWN)
-		return
-	if(pylon_state != PYLON_STATE_SHUTDOWN && capacitor >= req_capacitor)
-		set_state(PYLON_STATE_ACTIVE)
+	if(pylon_state != PYLON_STATE_SHUTDOWN)
+		if(!power_drain())
+			set_state(PYLON_STATE_SHUTDOWN)
+			return
+		if(capacitor >= req_capacitor)
+			set_state(PYLON_STATE_ACTIVE)
 	switch(pylon_state)
 		if(PYLON_STATE_ACTIVE)
 			power_draw = round(power_draw * PYLON_ACTIVE_EXPONENT + 300) // Active pylons slowly but exponentially require more charge to stay stable. Don't leave them on when you don't need to
@@ -128,12 +129,11 @@
 		explosion(T, 0, 1, 3)
 		QDEL_NULL(air_contents)
 		return
-	var/datum/gas_mixture/output = airs[2]
 	if(output.return_pressure() <= MAX_OUTPUT_PRESSURE)
 		if(air_contents.pump_gas_to(output, MAX_OUTPUT_PRESSURE))
 			update_parents()
 
-/obj/machinery/atmospherics/components/binary/drive_pylon/try_enable()
+/obj/machinery/atmospherics/components/binary/drive_pylon/proc/try_enable()
 	if(pylon_state == PYLON_STATE_SHUTDOWN)
 		return FALSE
 	var/turf/T = get_turf(src)
@@ -142,7 +142,7 @@
 		return FALSE
 	on = TRUE
 	START_PROCESSING(SSmachines, src)
-	pylon_state = PYLON_STATE_STARTING
+	set_state(PYLON_STATE_STARTING)
 	return TRUE
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1)
@@ -164,7 +164,7 @@
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/consume_fuel()
 	if(prob(30))
-		tesla_zap(src, 2,  1000)
+		tesla_zap(src, 2, 1000)
 	var/input_fuel = min(input.get_moles(/datum/gas/nucleium), max_charge_rate * mol_per_capacitor)
 	capacitor += min(input_fuel / mol_per_capacitor, req_capacitor - capacitor)
 	input.adjust_moles(/datum/gas/nucleium, -input_fuel)
@@ -180,7 +180,7 @@
 		air_contents.merge(waste)
 	else
 		output.merge(waste)
-	qdel(waste) // merging doesn't delete the original merged gasmix
+	qdel(waste)
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/toggle_shield()
 	if(!pylon_shield) //somehow...
@@ -200,7 +200,7 @@
 	if(pylon_state == nstate) // to avoid needless icon updates
 		return
 	pylon_state = nstate
-	update_icon()
+	update_visuals()
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/Destroy()
 	QDEL_NULL(pylon_shield)
@@ -219,7 +219,7 @@
 	QDEL_NULL(spill)
 	return ..()
 
-/obj/machinery/atmospherics/components/binary/drive_pylon/update_icon()
+/obj/machinery/atmospherics/components/binary/drive_pylon/proc/update_visuals()
 	cut_overlays()
 	var/list/ov = list()
 	switch(pylon_state)

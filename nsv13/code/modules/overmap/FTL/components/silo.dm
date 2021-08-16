@@ -15,6 +15,7 @@
 	max_integrity = 600
 	pixel_x = -32
 	pixel_y = -32
+	density = TRUE
 	var/converting = FALSE
 	var/outputting = FALSE
 	var/conversion_limit = 10 // max amount of moles that can be converted (input) per tick
@@ -106,7 +107,7 @@
 		else
 			explosion_chance += 0.5
 	else if(explosion_chance > 0)
-		explosion_chance--
+		explosion_chance -= 0.5
 	else if(i_pressure > SILO_LEAK_PRESSURE)
 		if(prob(40))
 			switch(rand(1, 3))

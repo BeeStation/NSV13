@@ -230,7 +230,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 					if(P.try_enable()) // enables it if it passes
 						visible_message("<span class='notice'>Pylon power cycle starting.</span>")
 					else
-						visible_message("<span class='warning'>Selected pylon missing power connection!</span>")
+						visible_message("<span class='warning'>Pylon power cycle failed, Power source missing.</span>")
 				if(PYLON_STATE_SHUTDOWN)
 					visible_message("<span class='warning'>Please wait for pylon power cycle to complete before reactivating.</span>")
 				else
