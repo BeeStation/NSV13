@@ -325,7 +325,7 @@
 	///Maximum alpha for vis_contents
 	var/max_alpha = 255
 	///pixel_y offset for each gauss round in the rack
-	var/ammo_offset_y = 5
+	var/ammo_offset_y = 4
 
 /obj/item/circuitboard/gauss_rack_upgrade
 	name = "Gauss Rack Autoload Module (Circuit)"
