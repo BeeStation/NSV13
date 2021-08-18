@@ -316,6 +316,16 @@
 	var/loading = FALSE //stop you loading the same torp over and over
 	var/obj/machinery/ship_weapon/gauss_gun/gun
 	var/autoload = FALSE //Allows for AMBER compatability with Gauss.
+	///Amount of gauss rounds starting from the bottom of the rack that are fully opaque
+	var/full_alpha_count = 3
+	///Amount of alpha reduced with each subsequent gauss round added to the rack
+	var/alpha_interval = 40
+	///Minimum alpha for vis_contents
+	var/min_alpha = 70
+	///Maximum alpha for vis_contents
+	var/max_alpha = 255
+	///pixel_y offset for each gauss round in the rack
+	var/ammo_offset_y = 5
 
 /obj/item/circuitboard/gauss_rack_upgrade
 	name = "Gauss Rack Autoload Module (Circuit)"
@@ -450,9 +460,10 @@
 	if(!capacity)
 		return
 	var/i = 1
+	var/startalpha = 255 + (full_alpha_count * alpha_interval)
 	for(var/obj/item/ship_weapon/ammunition/gauss/G in vis_contents)
-		G.pixel_y = (i*5)
-		G.alpha = clamp(335 - (i*40), 70, 255) //3 full alpha rounds and then more transparency
+		G.pixel_y = (i*ammo_offset_y)
+		G.alpha = clamp(startalpha - (i*alpha_interval), min_alpha, max_alpha) //3 full alpha rounds and then more transparency
 		i++
 
 /obj/structure/gauss_rack/attack_hand(mob/user)
