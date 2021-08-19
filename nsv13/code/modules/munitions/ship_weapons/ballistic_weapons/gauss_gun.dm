@@ -129,9 +129,8 @@
 
 /obj/machinery/ship_weapon/gauss_gun/Initialize()
 	. = ..()
-	cabin_air = new
+	cabin_air = new(200)
 	cabin_air.set_temperature(T20C)
-	cabin_air.set_volume(200)
 	cabin_air.set_moles(/datum/gas/oxygen, O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 	cabin_air.set_moles(/datum/gas/nitrogen, N2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
