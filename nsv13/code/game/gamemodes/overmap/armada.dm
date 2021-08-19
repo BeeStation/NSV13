@@ -25,8 +25,7 @@
 	//Select a system to be targeted
 
 	var/list/candidate = list()
-	for(var/D in subtypesof(/datum/star_system))
-		var/datum/star_system/S = new D()
+	for(var/datum/star_system/S in SSstar_system.systems)
 		if(S.alignment == "nanotrasen")
 			candidate += S.name
 
