@@ -1,15 +1,15 @@
 // in kPa
-#define MAX_OUTPUT_PRESSURE 7500
+#define MAX_WASTE_OUTPUT_PRESSURE 7500
 #define MAX_WASTE_STORAGE_PRESSURE 10000
 
-// How much to heat waste gas by, celcius
+// Base temperature to heat waste gas by in celcius.
 #define WASTE_GAS_HEAT 50
 
-/// Multiplies power draw by this value every tick it remains active. Higher values will make power use increase faster
+/// Multiplies power draw by this value every tick it remains active when spooled. Higher values will make power use increase faster
 #define PYLON_ACTIVE_EXPONENT 1.02
 
-/// how many ticks of being active are required before we start to overheat
-#define ACTIVE_TIME_SAFE 90
+/// Max power use before we start to overheat (watts)
+#define POWER_USE_SAFE 100000
 
 ///FTL DRIVE PYLON///
 /obj/machinery/atmospherics/components/binary/drive_pylon
@@ -27,7 +27,6 @@
 	var/req_gyro_speed = 25
 	var/shielded = FALSE
 	var/mutable_appearance/pylon_shield
-	var/active_time = 0 // how many ticks have we been fully active for
 	var/pylon_state = PYLON_STATE_OFFLINE
 	var/capacitor = 0 // capacitors charged
 	var/mol_per_capacitor = 10
@@ -44,6 +43,8 @@
 	input = airs[1]
 	output = airs[2]
 	pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open")
+//	pylon_shield.pixel_x = pixel_x
+//	pylon_shield.pixel_y = pixel_y
 	update_visuals()
 	air_contents = new(3000)
 	air_contents.set_temperature(T20C)
@@ -60,29 +61,26 @@
 	switch(pylon_state)
 		if(PYLON_STATE_ACTIVE)
 			power_draw = round(power_draw * PYLON_ACTIVE_EXPONENT + 300) // Active pylons slowly but exponentially require more charge to stay stable. Don't leave them on when you don't need to
-			active_time++
 
 		if(PYLON_STATE_STARTING) //pop the lid
 			power_draw = 5000
-			gyro_speed++
-			if(gyro_speed >= 10)
+			if(++gyro_speed >= 10)
 				set_state(PYLON_STATE_WARMUP)
 
 		if(PYLON_STATE_WARMUP) //start the spin
 			var/ftl_fuel = input.get_moles(/datum/gas/nucleium)
 
-			if(ftl_fuel < 0.01)
+			if(ftl_fuel < 0.1)
 				set_state(PYLON_STATE_STARTING)
 				return
 
-			input.adjust_moles(/datum/gas/nucleium, -0.01)
+			input.adjust_moles(/datum/gas/nucleium, -0.1)
 			if(prob(20))
 				var/datum/effect_system/spark_spread/S = new /datum/effect_system/spark_spread
 				S.set_up(6, 0, src)
 				S.start()
 			power_draw = 20000
-			gyro_speed++
-			if(gyro_speed >= req_gyro_speed)
+			if(++gyro_speed >= req_gyro_speed)
 				set_state(PYLON_STATE_SPOOLING)
 
 		if(PYLON_STATE_SPOOLING) //spinning intensifies
@@ -98,12 +96,10 @@
 			if(gyro_speed < req_gyro_speed)
 				set_state(PYLON_STATE_SHUTDOWN)
 
-		if(PYLON_STATE_SHUTDOWN) //halt the spinning, close the lid
+		if(PYLON_STATE_SHUTDOWN) //halt the spinning
 			power_draw = 0
-			active_time -= active_time / gyro_speed
 			capacitor -= round(capacitor / gyro_speed, 0.1)
-			gyro_speed--
-			if(gyro_speed <= 0)
+			if(--gyro_speed <= 0)
 				finalalize_shutdown()
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/power_drain()
@@ -129,8 +125,8 @@
 		explosion(T, 0, 1, 3)
 		QDEL_NULL(air_contents)
 		return
-	if(output.return_pressure() <= MAX_OUTPUT_PRESSURE)
-		if(air_contents.pump_gas_to(output, MAX_OUTPUT_PRESSURE))
+	if(output.return_pressure() <= MAX_WASTE_OUTPUT_PRESSURE)
+		if(air_contents.pump_gas_to(output, MAX_WASTE_OUTPUT_PRESSURE))
 			update_parents()
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/try_enable()
@@ -157,7 +153,6 @@
 	set_state(PYLON_STATE_OFFLINE)
 	power_draw = 0
 	gyro_speed = 0
-	active_time = 0
 	capacitor = 0
 	on = FALSE
 	STOP_PROCESSING(SSmachines, src)
@@ -170,13 +165,12 @@
 	input.adjust_moles(/datum/gas/nucleium, -input_fuel)
 	var/datum/gas_mixture/waste = new
 	waste.adjust_moles(/datum/gas/plasma, input_fuel / 3)
-	waste.adjust_moles(/datum/gas/nucleium, input_fuel / 10)
-	var/heat_increase = WASTE_GAS_HEAT
+	waste.adjust_moles(/datum/gas/nucleium, input_fuel / 4)
+	var/heat_increase = WASTE_GAS_HEAT + round(power_draw / 1000)
 	if(shielded)
 		heat_increase *= 1.5
 	waste.set_temperature(input.return_temperature() + heat_increase)
-
-	if(output.return_pressure() < MAX_OUTPUT_PRESSURE)
+	if(output.return_pressure() < MAX_WASTE_OUTPUT_PRESSURE)
 		air_contents.merge(waste)
 	else
 		output.merge(waste)
@@ -192,7 +186,7 @@
 	else
 		pylon_shield.icon_state = "pylon_shield"
 		flick("pylon_shield_closing", pylon_shield)
-	playsound(src, 'sound/machines/blastdoor.ogg', 30, 1)
+	playsound(src, 'sound/machines/blastdoor.ogg', 40, 1)
 	shielded = !shielded
 
 /// Use this when changing pylon states to avoid icon CBT
@@ -234,8 +228,6 @@
 			ov += "pylon_arcing"
 		if(PYLON_STATE_SHUTDOWN)
 			ov += "pylon_gyro_on_medium"
-	if(active_time > ACTIVE_TIME_SAFE)
-		ov += "pylon_overheat"
 	ov += pylon_shield
 	add_overlay(ov)
 
@@ -246,7 +238,8 @@
 #undef PYLON_STATE_ACTIVE
 #undef PYLON_STATE_SHUTDOWN
 
-#undef MAX_OUTPUT_PRESSURE
+#undef MAX_WASTE_OUTPUT_PRESSURE
 #undef MAX_WASTE_STORAGE_PRESSURE
 
 #undef PYLON_ACTIVE_EXPONENT
+#undef POWER_USE_SAFE
