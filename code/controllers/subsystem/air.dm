@@ -61,6 +61,8 @@ SUBSYSTEM_DEF(air)
 	var/share_max_steps = 3
 	// Excited group processing will try to equalize groups with total pressure difference less than this amount.
 	var/excited_group_pressure_goal = 1
+	// If this is set to 0, monstermos won't process planet atmos
+	var/planet_equalize_enabled = 0
 
 	var/list/paused_z_levels	//Paused z-levels will not add turfs to active
 
