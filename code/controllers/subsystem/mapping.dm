@@ -420,11 +420,12 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 		map_templates[S.shelter_id] = S
 
 /datum/controller/subsystem/mapping/proc/preloadBoardingTemplates() //NSV13 - boarding maps
-	for(var/item in subtypesof(/datum/map_template/dropship))
-		var/datum/map_template/dropship/dropship_type = item
+	var/list/all_templates = subtypesof(/datum/map_template/dropship) + subtypesof(/datum/map_template/boarding)
+	for(var/item in all_templates)
+		var/datum/map_template/dropship_type = item
 		if(!(initial(dropship_type.mappath)))
 			continue
-		var/datum/map_template/dropship/D = new dropship_type()
+		var/datum/map_template/D = new dropship_type()
 
 		boarding_templates[item] = D
 		map_templates[item] = D

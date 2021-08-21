@@ -76,9 +76,12 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	if(!boarder.boarding_reservation_z || !possible_interior_maps?.len || occupying_levels?.len || !boarder.reserved_z || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
 		return FALSE
 	//Prepare the boarding interior map. Admins may also force-load this with a path if they want.
-	var/chosen = (map_path_override) ? map_path_override : pick(possible_interior_maps)
+	if(map_path_override)
+		boarding_interior = new/datum/map_template(path = map_path_override)
+	else
+		var/chosen = pick(possible_interior_maps)
+		boarding_interior = SSmapping.boarding_templates[chosen]
 	boarder.active_boarding_target = src
-	boarding_interior = new(chosen)
 	if(!boarding_interior || !boarding_interior.mappath)
 		message_admins("Error parsing boarding interior map for [src]")
 		return FALSE
