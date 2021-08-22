@@ -237,7 +237,7 @@
 	name = "PDC"
 	default_projectile_type = /obj/item/projectile/bullet/pdc_round
 	burst_size = 3
-	fire_delay = 0.15 SECONDS
+	fire_delay = 0.75 SECONDS
 	range_modifier = 10
 	select_alert = "<span class='notice'>Activating point defense system...</span>"
 	failure_alert = "<span class='warning'>DANGER: point defense system not loaded.</span>"
