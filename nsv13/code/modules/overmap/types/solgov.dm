@@ -42,7 +42,7 @@
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp
 	name = "Aetherwhisp class light cruiser"
 	desc = "A mid range SolGov exploratory cruiser. These ships are geared for peaceful missions, but can defend themselves if they must."
-	icon = 'nsv13/icons/overmap/nanotrasen/aetherwhisp.dmi'
+	icon = 'nsv13/icons/overmap/nanotrasen/aetherbrick.dmi'
 	icon_state = "cruiser"
 	mass = MASS_MEDIUM_LARGE // A solgov ship has greater maneuverability but not much more than a LARGE NT ship
 	sprite_size = 48
@@ -57,6 +57,7 @@
 //Player Versions
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp/starter
+	icon = 'nsv13/icons/overmap/nanotrasen/aetherwhisp.dmi'
 	role = MAIN_OVERMAP
 	max_integrity = 750 //She's fragile and relies heavily on shields.
 	integrity_failure = 750
