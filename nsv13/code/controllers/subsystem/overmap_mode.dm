@@ -135,12 +135,19 @@ SUBSYSTEM_DEF(overmap_mode)
 		if(O.instanced == FALSE)
 			O.instance() //Setup any overmap assets
 
-	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
-	if(OM)
+	var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
+	if(MO)
 		var/datum/star_system/target = SSstar_system.system_by_id(mode.starting_system)
-		OM.jump(target) //Move the ship to the designated start
+		MO.jump(target) //Move the ship to the designated start
 		if(mode.starting_faction)
-			OM.faction = mode.starting_faction //If we have a faction override, set it
+			MO.faction = mode.starting_faction //If we have a faction override, set it
+
+	var/obj/structure/overmap/MM = SSstar_system.find_main_miner() //ditto for the mining ship until delete
+	if(MM)
+		var/datum/star_system/target = SSstar_system.system_by_id(mode.starting_system)
+		MM.jump(target)
+		if(mode.starting_faction)
+			MM.faction = mode.starting_faction
 
 /datum/controller/subsystem/overmap_mode/fire()
 	if(SSticker.current_state == GAME_STATE_PLAYING) //Wait for the game to begin
@@ -453,7 +460,9 @@ SUBSYSTEM_DEF(overmap_mode)
 			var/custom_desc = input("Input Objective Briefing", "Custom Objective") as text|null
 			SSovermap_mode.mode.objectives += new /datum/overmap_objective/custom(custom_desc)
 			return
-
+		if("view_vars")
+			usr.client.debug_variables(locate(params["target"]))
+			return
 		if("remove_objective")
 			var/datum/overmap_objective/O = locate(params["target"])
 			SSovermap_mode.mode.objectives -= O

@@ -100,6 +100,11 @@ export const OvermapGamemodeController = (props, context) => {
                           <br /><br />
                           <Box mb={1}>
                             <Button
+                              icon="search"
+                              content="View Vars"
+                              color="blue"
+                              onClick={() => act('view_vars', { target: value.datum })} />
+                            <Button
                               icon="exchange-alt"
                               content="Change State"
                               color="green"
