@@ -56,6 +56,8 @@
 		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
+	special_fire_proc = /obj/structure/overmap/proc/fire_torpedo
+	lateral = FALSE
 
 /datum/ship_weapon/torpedo_launcher/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
@@ -152,6 +154,8 @@
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	firing_arc = 45 //Broad side of a barn...
+	special_fire_proc = /obj/structure/overmap/proc/fire_missile
+	lateral = FALSE
 
 /datum/ship_weapon/missile_launcher/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))

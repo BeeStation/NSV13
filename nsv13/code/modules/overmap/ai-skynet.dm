@@ -1238,7 +1238,6 @@ Seek a ship thich we'll station ourselves around
 		else
 			light_shots_left --
 		fire_weapon(target, new_firemode, ai_aim=TRUE)
-		next_firetime = world.time + (1 SECONDS) + (fire_delay*2)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
 
 /**
