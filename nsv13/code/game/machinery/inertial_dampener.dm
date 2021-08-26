@@ -1,5 +1,5 @@
-#define EfficiencyToStrength(part_efficiency) (-0.041 * (part_efficiency - 6 ) + 0.749)
-#define StrengthToEfficiency(strength) ((((1 - (strength / 100)) - 0.749) / -0.041) + 6)
+#define EfficiencyToStrength(part_efficiency) (-0.041 * ((part_efficiency) - 6 ) + 0.749)
+#define StrengthToEfficiency(strength) ((((strength) - 0.749) / -0.041) + 6)
 #define EfficiencyToRange(part_efficiency) (2.5 * (part_efficiency))
 #define RangeToEfficiency(range) ((range) / 2.5)
 
@@ -102,7 +102,7 @@
 		return TRUE
 	switch(action)
 		if("strength")
-			manipulator_setting = clamp(StrengthToEfficiency(params["value"]), min_manipulator_rating, max_manipulator_rating)
+			manipulator_setting = clamp(StrengthToEfficiency(1 - (params["value"] / 100)), min_manipulator_rating, max_manipulator_rating)
 			RefreshParts()
 			return TRUE
 		if("range")
