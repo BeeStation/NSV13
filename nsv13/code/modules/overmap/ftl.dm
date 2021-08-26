@@ -152,13 +152,19 @@
 
 /obj/structure/overmap/proc/force_return_jump(datum/star_system/target_system)
 	if(ftl_drive) //Do we actually have an ftl drive?
-		for(var/datum/star_system/SS in SSstar_system.systems) //Reveal where we are going
-			if(SS.name == "Outpost 45")
-				SS.hidden = FALSE
+		ftl_drive.lockout = TRUE //Prevent further jumps
+		if(ftl_drive.ftl_state == FTL_STATE_JUMPING)
+			addtimer(CALLBACK(src, .proc/force_return_jump, SSstar_system.system_by_id("Outpost 45")), 15 SECONDS)
+			message_admins("[src] is already jumping, delaying recall for 15 seconds")
+		else
+			for(var/datum/star_system/SS in SSstar_system.systems) //Reveal where we are going
+				if(SS.name == "Outpost 45")
+					SS.hidden = FALSE
 
-		ftl_drive.ftl_state = FTL_STATE_READY //force it all to be ready
-		ftl_drive.progress = 0
-		ftl_drive.jump(target_system) //Jump home
+			ftl_drive.ftl_state = FTL_STATE_READY //force it all to be ready
+			ftl_drive.use_power = 0
+			ftl_drive.progress = 0
+			ftl_drive.jump(target_system) //Jump home
 
 	else
 		message_admins("Target does not have an FTL drive!")
@@ -247,11 +253,11 @@
 		var/nearestDistance = INFINITY
 		var/obj/machinery/inertial_dampener/nearestMachine = null
 
-		// Going to helpfully pass this in after seasickness checks, to reduce duplicate machine checks 
+		// Going to helpfully pass this in after seasickness checks, to reduce duplicate machine checks
 		for(var/obj/machinery/inertial_dampener/machine in GLOB.machines)
 			var/dist = get_dist( M, machine )
 			if ( dist < nearestDistance && machine.on )
-				nearestDistance = dist 
+				nearestDistance = dist
 				nearestMachine = machine
 
 		if(iscarbon(M))
@@ -262,7 +268,7 @@
 					if ( newNausea > 10 )
 						to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
 					L.adjust_disgust( newNausea )
-				else 
+				else
 					to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
 					L.adjust_disgust(pick(70, 100))
 		shake_with_inertia(M, 4, 1, list(distance=nearestDistance, machine=nearestMachine))
@@ -330,6 +336,7 @@
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
 	var/ftl_startup_time = 30 SECONDS
 	var/auto_spool = FALSE //For lazy admins
+	var/lockout = FALSE //Used for our end round shenanigains
 
 //No please do not delete the FTL's radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
 /obj/machinery/computer/ship/ftl_computer/prevent_content_explosion()
