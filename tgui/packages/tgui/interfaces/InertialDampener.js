@@ -14,7 +14,7 @@ export const InertialDampener = (props, context) => {
       <Window.Content scrollable>
         <Section>
           <Button
-            icon="power-off"
+            icon="fas fa-power-off"
             selected={data.on}
             mr={0.5}
             inline

@@ -1,3 +1,7 @@
+#define EfficiencyToStrength(part_efficiency) (-0.041 * (part_efficiency - 6 ) + 0.749)
+#define StrengthToEfficiency(strength) ((((1 - (strength / 100)) - 0.749) / -0.041) + 6)
+#define EfficiencyToRange(part_efficiency) (2.5 * (part_efficiency))
+#define RangeToEfficiency(range) ((range) / 2.5)
 
 /obj/machinery/inertial_dampener
 	name = "inertial dampener"
@@ -21,7 +25,9 @@
 	var/max_scanner_rating = 2
 	///Minimum total component rating for the scanners if the component rating is 1 (<-basic T1)
 	var/min_scanner_rating = 2
+	///A setting to pretend the total componing rating of all manipulators
 	var/manipulator_setting = 6
+	///A setting to pretend the total componing rating of all scanners
 	var/scanner_setting = 2
 
 	var/strengthMultiplier = 1
@@ -77,12 +83,12 @@
 
 /obj/machinery/inertial_dampener/ui_data(mob/user)
 	var/list/data = list()
-	data["max_strength"] = (1 - getStrength(max_manipulator_rating)) * 100
-	data["min_strength"] = (1 - getStrength(min_manipulator_rating)) * 100
-	data["strength"] = (1 - getStrength(manipulator_setting)) * 100
-	data["max_range"] = getRange(max_scanner_rating)
-	data["min_range"] = getRange(min_scanner_rating)
-	data["range"] = getRange(scanner_setting)
+	data["max_strength"] = (1 - EfficiencyToStrength(max_manipulator_rating)) * 100
+	data["min_strength"] = (1 - EfficiencyToStrength(min_manipulator_rating)) * 100
+	data["strength"] = (1 - EfficiencyToStrength(manipulator_setting)) * 100
+	data["max_range"] = EfficiencyToRange(max_scanner_rating)
+	data["min_range"] = EfficiencyToRange(min_scanner_rating)
+	data["range"] = EfficiencyToRange(scanner_setting)
 	data["power_usage"] = DisplayPower(power_input)
 	data["on"] = on
 	return data
@@ -96,14 +102,11 @@
 		return TRUE
 	switch(action)
 		if("strength")
-			var/new_manipulator_setting = 1 - (params["value"] / 100)
-			new_manipulator_setting = ((new_manipulator_setting - 0.749) / -0.041) + 6 //Reversing the math from proc/getStrength()
-			manipulator_setting = clamp(new_manipulator_setting, min_manipulator_rating, max_manipulator_rating)
+			manipulator_setting = clamp(StrengthToEfficiency(params["value"]), min_manipulator_rating, max_manipulator_rating)
 			RefreshParts()
 			return TRUE
 		if("range")
-			var/new_scanner_setting = params["value"] / 2.5
-			scanner_setting = clamp(new_scanner_setting, min_scanner_rating, max_scanner_rating)
+			scanner_setting = clamp(RangeToEfficiency(params["value"]), min_scanner_rating, max_scanner_rating)
 			RefreshParts()
 			return TRUE
 		if("toggle_on")
@@ -165,20 +168,13 @@
 
 /obj/machinery/inertial_dampener/proc/recalculatePartEfficiency()
 
-	strengthMultiplier = getStrength(manipulator_setting)
-	maxRange = getRange(scanner_setting)
+	strengthMultiplier = EfficiencyToStrength(manipulator_setting)
+	maxRange = EfficiencyToRange(scanner_setting)
 
 	update_power_usage()
 
 	if ( emagged )
 		strengthMultiplier = strengthMultiplier ** -1
-
-/obj/machinery/inertial_dampener/proc/getStrength(part_efficiency)
-	// ( ( 6 * 0.9 ) / part_efficiency )
-	return -0.041 * ( part_efficiency - 6 ) + 0.749
-
-/obj/machinery/inertial_dampener/proc/getRange(part_efficiency)
-	return 2.5 * ( part_efficiency )
 
 /obj/machinery/inertial_dampener/proc/update_power_usage()
 	power_input = 0
@@ -234,3 +230,8 @@
 	design_ids = list("area_inerts")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
 	export_price = 5000
+
+#undef EfficiencyToStrength
+#undef StrengthToEfficiency
+#undef EfficiencyToRange
+#undef RangeToEfficiency
