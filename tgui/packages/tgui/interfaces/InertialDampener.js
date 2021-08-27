@@ -1,5 +1,4 @@
-import { Fragment } from 'inferno';
-import { useBackend, useLocalState } from '../backend';
+import { useBackend } from '../backend';
 import { Button, Section, Slider, Box } from '../components';
 import { Window } from '../layouts';
 
