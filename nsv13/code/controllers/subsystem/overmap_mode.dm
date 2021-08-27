@@ -93,6 +93,10 @@ SUBSYSTEM_DEF(overmap_mode)
 		if(player_check < GM.required_players)
 			QDEL_NULL(mode_pool[M])
 			mode_pool -= M
+		else if(GM.max_players > 0)
+			if(player_check > GM.max_players)
+				QDEL_NULL(mode_pool[M])
+				mode_pool -= M
 
 	if(mode_pool.len)
 		var/list/mode_select = list()
@@ -151,9 +155,6 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/controller/subsystem/overmap_mode/fire()
 	if(SSticker.current_state == GAME_STATE_PLAYING) //Wait for the game to begin
-		if(world.time >= 3 MINUTES && !announced_objectives) //Send out our objectives
-			announce_objectives()
-
 		if(world.time >= check_completion_timer) //Fire this automatically every ten minutes to prevent round stalling
 			difficulty_calc() //Also do our difficulty check here
 			mode.check_completion()
@@ -194,6 +195,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/controller/subsystem/overmap_mode/proc/start_reminder()
 	next_objective_reminder = world.time + mode.objective_reminder_interval
+	addtimer(CALLBACK(src, .proc/announce_objectives), 3 MINUTES)
 
 /datum/controller/subsystem/overmap_mode/proc/announce_objectives()
 	announced_objectives = TRUE
@@ -285,6 +287,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/config_tag = null									//Do we have a tag?
 	var/selection_weight = 0								//Used to determine the chance of this gamemode being selected
 	var/required_players = 0								//Required number of players for this gamemode to be randomly selected
+	var/max_players = 0										//Maximum amount of players allowed for this mode, 0 = unlimited
 	var/difficulty = null									//Difficulty of the gamemode as determined by player count / abus abuse: 1 is minimum, 10 is maximum
 	var/starting_system = null								//Here we define where our player ships will start
 	var/starting_faction = null 							//Here we define which faction our player ships belong
@@ -370,6 +373,9 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/desc							//Short description for admin view
 	var/brief							//Description for PLAYERS
 	var/stage							//For multi step objectives
+	var/binary = TRUE					//Is this just a simple T/F objective?
+	var/tally = 0						//How many of the objective goal has been completed
+	var/target = 0						//How many of the objective goal is required
 	var/status = STATUS_INPROGRESS		//0 = In-progress, 1 = Completed, 2 = Failed, 3 = Victory Override (this will end the round)
 	var/extension_supported = FALSE 	//Is this objective available to be a random extended round objective?
 	var/ignore_check = FALSE			//Used for checking extended rounds

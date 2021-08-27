@@ -14,4 +14,5 @@
 
 	selection_weight = 5
 	required_players = 0
+	max_players = 10
 	objectives = list(/datum/overmap_objective/perform_jumps, /datum/overmap_objective/destroy_fleets, /datum/overmap_objective/apnw_efficiency)

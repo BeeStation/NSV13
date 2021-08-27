@@ -12,7 +12,7 @@
 		message_admins("Overmap gamemode failed to locate APNW! Setting to auto-complete.")
 		status = 1
 	else
-		target_efficiency = rand(40, 80) / 100
+		target_efficiency = rand(60, 90) / 100
 		START_PROCESSING(SSprocessing, src)
 
 /datum/overmap_objective/apnw_efficiency/instance()

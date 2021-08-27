@@ -593,7 +593,10 @@
 			dat += "Current Objectives:<BR>"
 			if(SSovermap_mode.announced_objectives)
 				for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
-					dat += "[O.brief] : "
+					if(O.binary)
+						dat += "[O.brief] : "
+					else
+						dat += "[O.brief] ([O.tally] / [O.target]) : "
 					switch(O.status)
 						if(0)
 							dat += "<font color=yellow><b>IN-PROGRESS</b></font><BR>"

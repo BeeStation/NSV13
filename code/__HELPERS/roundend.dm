@@ -443,11 +443,11 @@
 		did_you_win_son = TRUE
 
 	if(did_you_win_son)
-		parts += "The Crew of the [GLOB.station_name] <font color=green><b>COMPLETED</b></font> their mission for [capitalize(SSovermap_mode.mode.starting_faction)]<b>"
+		parts += "The crew of the [GLOB.station_name] <font color=green><b>COMPLETED</b></font> their mission for [capitalize(SSovermap_mode.mode.starting_faction)]<b>"
 		return "<div class='panel greenborder'>[parts.Join("<br>")]</div>"
 
 	else
-		parts += "The Crew of the [GLOB.station_name] <font color=red><b>FAILED</b></font> their mission for [capitalize(SSovermap_mode.mode.starting_faction)]<b>"
+		parts += "The crew of the [GLOB.station_name] <font color=red><b>FAILED</b></font> their mission for [capitalize(SSovermap_mode.mode.starting_faction)]<b>"
 		return "<div class='panel redborder'>[parts.Join("<br>")]</div>"
 
 /datum/controller/subsystem/ticker/proc/law_report()
