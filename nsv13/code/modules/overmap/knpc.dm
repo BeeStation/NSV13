@@ -24,10 +24,12 @@ GLOBAL_LIST_EMPTY(knpcs)
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Syndicate")
+	var/grade = "c_1"
 	var/outfit = /datum/outfit/syndicate/odst/smg
-	var/is_martial_artist = FALSE
+	var/is_martial_artist = FALSE		//Can combo you right into the next round?
 	var/can_kite = TRUE 				//Does the KPNC dodge in CQC?
-	var/merciful = FALSE				//Are mobs in crit valid?
+	var/is_merciful = TRUE				//Are mobs in crit valid?
+	var/is_area_specific = TRUE			//Does the KNPC scream out the area when calling for backup?
 	var/list/taunts = list(
 		"DEATH TO NANOTRASEN!!",
 		"FOR ABASSI!",
@@ -36,12 +38,44 @@ GLOBAL_LIST_EMPTY(knpcs)
 		"You're going home in a coffin kid!",
 		"Engaging the enemy!"
 	)
+	var/list/call_lines = list(
+		"Enemy spotted! Need backup in",
+		"OPFOR sighted in",
+		"Requesting Support to"
+	)
+	var/list/response_lines = list(
+		"Copy that, en route.",
+		"On my way!",
+		"Loud and clear, coming!",
+		"On my way!",
+		"Ooh rah!"
+	)
+
+/datum/component/knpc/c_0
+	move_delay = 3
+	action_delay = 5
+
+/datum/component/knpc/c_1
+	move_delay = 3
+	action_delay = 6
+
+/datum/component/knpc/c_2
+	move_delay = 4
+	action_delay = 7
+
+/datum/component/knpc/c_3
+	move_delay = 4
+	action_delay = 8
+
+/datum/component/knpc/c_z
+	move_delay = 10
+	action_delay = 10
 
 /mob/living/carbon/human/ai_boarder/Initialize()
 	. = ..()
 	var/datum/outfit/O = new outfit
 	O.equip(src)
-	AddComponent(/datum/component/knpc)
+	AddComponent(text2path("/datum/component/knpc/[grade]"))
 
 /datum/component/knpc/Initialize()
 	if(!iscarbon(parent))
@@ -248,11 +282,15 @@ GLOBAL_LIST_EMPTY(knpcs)
 ///Method that gets all the potential aggressors for this target.
 /datum/ai_goal/proc/get_aggressors(datum/component/knpc/HA)
 	. = list()
-	var/mob/living/carbon/human/H = HA.parent
+	var/mob/living/carbon/human/ai_boarder/H = HA.parent
 	for(var/mob/living/M in oview(HA.view_range, HA.parent))
 		//Invis is a no go. Dead mobs are ignored. Non-human, non hostile animals are ignored.
-		if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || M.stat == DEAD || (!ishuman(M) && !istype(M, /mob/living/simple_animal/hostile)))
-			continue
+		if(H.is_merciful)
+			if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || M.stat >= UNCONSCIOUS || (!ishuman(M) && !istype(M, /mob/living/simple_animal/hostile)))
+				continue
+		else
+			if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || M.stat == DEAD || (!ishuman(M) && !istype(M, /mob/living/simple_animal/hostile)))
+				continue
 		if(H.faction_check_mob(M))
 			continue
 		if(!can_see(H, M, HA.view_range))
@@ -427,7 +465,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	HA.last_node = null //Reset their pathfinding
 	var/mob/living/carbon/human/ai_boarder/H = HA.parent
 	var/list/enemies = get_aggressors(HA)
-	var/obj/A = H.get_active_held_item()
+	var/obj/item/A = H.get_active_held_item()
 	var/closest_dist = 1000
 	var/mob/living/target = null
 	for(var/mob/living/L in enemies)
@@ -440,12 +478,14 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	var/dist = get_dist(H, target)
 	//We're holding a gun. See if we can shoot it....
 	HA.pathfind_to(target) //Walk up close and YEET SLAM
-	var/obj/item/gun/G = A
+	var/obj/item/gun/G = null
+	if(istype(A, /obj/item/gun))
+		G = A
 	var/obj/item/gun/ballistic/B = null
 	if(istype(A, /obj/item/gun/ballistic))
 		B = A
 	H.a_intent = (prob(65)) ? INTENT_HARM : INTENT_DISARM
-	if(A && istype(A, /obj/item) && dist > 0)
+	if(G && dist > 0)
 		if(!G.can_shoot())
 			//We need to reload first....
 			reload(HA, G)
@@ -470,51 +510,56 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		call_backup(HA)
 
 	if(dist <= 1)
-		H.dna.species.spec_attack_hand(H, target)
-		if(target.incapacitated())
-			//I know kung-fu.
+		if(A && !istype(A, /obj/item/gun) && A.force > 0)
+			target.attackby(A, H)
+			A.afterattack(target, H, TRUE)
 
-			var/obj/item/card/id/their_id = target.get_idcard()
-			if(their_id && !HA.stealing_id)
-				H.visible_message("<span class='warning'>[H] starts to take [their_id] from [target]!")
-				HA.stealing_id = TRUE
-				addtimer(CALLBACK(HA, /datum/component/knpc/proc/steal_id, their_id), 5 SECONDS)
+		else
+			H.dna.species.spec_attack_hand(H, target)
+			if(target.incapacitated())
+				//I know kung-fu.
 
-
-			if(istype(H) && H.is_martial_artist)
-				switch(rand(0, 2))
-					//Throw!
-					if(0)
-						H.start_pulling(target, supress_message = FALSE)
-						H.setGrabState(GRAB_AGGRESSIVE)
-						H.visible_message("<span class='warning'>[H] judo throws [target]!<span>")
-						playsound(get_turf(target), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
-						target.shake_animation(10)
-						target.throw_at(get_turf(get_step(H, pick(GLOB.cardinals))), 5, 5)
-					if(1)
-						H.do_attack_animation(target, ATTACK_EFFECT_PUNCH)
-						target.visible_message("<span class='warning'>[H] grabs [target]'s wrist and wrenches it sideways!</span>", \
-										"<span class='userdanger'>[H] grabs your wrist and violently wrenches it to the side!</span>")
-						playsound(get_turf(H), 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
-						target.emote("scream")
-						target.dropItemToGround(target.get_active_held_item())
-						target.apply_damage(5, BRUTE, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
-					if(2)
-						H.do_attack_animation(target, ATTACK_EFFECT_KICK)
-						target.visible_message("<span class='warning'>[H] knees [target] in the stomach!</span>", \
-										"<span class='userdanger'>[H] winds you with a knee in the stomach!</span>")
-						target.audible_message("<b>[target]</b> gags!")
-						target.losebreath += 3
+				var/obj/item/card/id/their_id = target.get_idcard()
+				if(their_id && !HA.stealing_id)
+					H.visible_message("<span class='warning'>[H] starts to take [their_id] from [target]!")
+					HA.stealing_id = TRUE
+					addtimer(CALLBACK(HA, /datum/component/knpc/proc/steal_id, their_id), 5 SECONDS)
 
 
-			else
-				//So they actually execute the curbstomp.
-				if(dist <= 1)
-					H.forceMove(get_turf(target))
-				H.zone_selected = BODY_ZONE_HEAD
-				//Curbstomp!
-				H.MouseDrop(target)
-				return
+				if(istype(H) && H.is_martial_artist)
+					switch(rand(0, 2))
+						//Throw!
+						if(0)
+							H.start_pulling(target, supress_message = FALSE)
+							H.setGrabState(GRAB_AGGRESSIVE)
+							H.visible_message("<span class='warning'>[H] judo throws [target]!<span>")
+							playsound(get_turf(target), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
+							target.shake_animation(10)
+							target.throw_at(get_turf(get_step(H, pick(GLOB.cardinals))), 5, 5)
+						if(1)
+							H.do_attack_animation(target, ATTACK_EFFECT_PUNCH)
+							target.visible_message("<span class='warning'>[H] grabs [target]'s wrist and wrenches it sideways!</span>", \
+											"<span class='userdanger'>[H] grabs your wrist and violently wrenches it to the side!</span>")
+							playsound(get_turf(H), 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
+							target.emote("scream")
+							target.dropItemToGround(target.get_active_held_item())
+							target.apply_damage(5, BRUTE, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
+						if(2)
+							H.do_attack_animation(target, ATTACK_EFFECT_KICK)
+							target.visible_message("<span class='warning'>[H] knees [target] in the stomach!</span>", \
+											"<span class='userdanger'>[H] winds you with a knee in the stomach!</span>")
+							target.audible_message("<b>[target]</b> gags!")
+							target.losebreath += 3
+
+
+				else
+					//So they actually execute the curbstomp.
+					if(dist <= 1)
+						H.forceMove(get_turf(target))
+					H.zone_selected = BODY_ZONE_HEAD
+					//Curbstomp!
+					H.MouseDrop(target)
+					return
 		if(H.can_kite)
 			HA.kite(target)
 
@@ -526,7 +571,12 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	playsound(H, 'sound/machines/chime.ogg', 50, 1, -1)
 	//Lets the AIs call for help over comms... This is quite deadly.
 	var/support_text = (radio) ? "; " : ""
-	support_text += pick("Enemy spotted! Need backup in [get_area(H)]", "OPFOR sighted in [get_area(H)]!", "Requesting Support to [get_area(H)]!")
+	if(H.is_area_specific)
+		var/text = pick(H.call_lines)
+		text += " [get_area(H)]!"
+		support_text += text
+	else
+		support_text += pick(H.call_lines)
 	H.say(support_text)
 
 	// Call for other intelligent AIs
@@ -538,7 +588,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		//They both have radios and can hear each other!
 		if((radio?.on && other_radio?.on) || get_dist(other, H) <= HA.view_range || H.faction_check_mob(other, TRUE))
 			var/thetext = (other_radio) ? "; " : ""
-			thetext += pick("Copy that, en route.", "On my way!", "Loud and clear, coming!", "On my way!", "Ooh rah!")
+			thetext += pick(H.response_lines)
 			HH.pathfind_to(H)
 			other.say(thetext)
 	//Firstly! Call for the simplemobs..
@@ -619,7 +669,8 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		else if(!L && next_node.z > HA.last_node.z) //If going up a Z
 			var/obj/structure/stairs/S = locate(/obj/structure/stairs) in orange(1, get_turf(HA.last_node))
 			if(S)
-				S.stair_ascend(H)
+				step_towards(H, S)
+				step(H, S.dir)
 		else //If down
 			var/obj/structure/stairs/S = locate(/obj/structure/stairs) in orange(1, get_step_multiz(get_turf(HA.last_node), DOWN))
 			if(S)
