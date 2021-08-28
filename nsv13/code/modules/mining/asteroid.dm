@@ -69,7 +69,10 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	max_integrity = 100
 	var/list/core_composition = list(/turf/closed/mineral/iron, /turf/closed/mineral/titanium)
 	var/required_tier = 1
+	var/loading = FALSE
 	armor = list("overmap_light" = 100, "overmap_medium" = 100, "overmap_heavy" = 25)
+	deletion_behavior = REMOVE_ON_DEPARTURE | DESTROY_BLOCKED_BY_OCCUPANTS | DESTROY_STARTS_COUNTDOWN
+	deletion_countdown_length = 3 MINUTES
 
 /obj/structure/overmap/asteroid/apply_weapons()
 	return FALSE //Lol, no.
@@ -113,11 +116,32 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	. = ..()
 	if(!core_composition.len) //No core composition? you a normie asteroid.
 		return
-	var/turf/center = locate(T.x+(width/2), T.y+(height/2), T.z)
+	var/turf/center = null
+	if(centered)
+		center = T
+	else
+		center = locate(T.x+(width/2), T.y+(height/2), T.z)
 	for(var/turf/target_turf in orange(rand(3,5), center)) //Give that boi a nice core.
 		if(prob(85)) //Bit of random distribution
 			var/turf_type = pick(core_composition)
 			target_turf.ChangeTurf(turf_type) //Make the core itself
+	// add boundaries
+	var/turf/bottom_left = T
+	if(centered)
+		bottom_left = locate(T.x - (width/2), T.y - (height/2), T.z)
+
+	for(var/i = 0; i <= width; i++)
+		// top and bottom
+		var/turf/border = locate(bottom_left.x + i, bottom_left.y, bottom_left.z)
+		border.ChangeTurf(/turf/closed/indestructible/boarding_cordon/)
+		border = locate(bottom_left.x + i, bottom_left.y + height, bottom_left.z)
+		border.ChangeTurf(/turf/closed/indestructible/boarding_cordon/)
+	for(var/j = 1; j < (height); j++)
+		// left and right
+		var/turf/border = locate(bottom_left.x, bottom_left.y + j, bottom_left.z)
+		border.ChangeTurf(/turf/closed/indestructible/boarding_cordon/)
+		border = locate(bottom_left.x + width, bottom_left.y + j, bottom_left.z)
+		border.ChangeTurf(/turf/closed/indestructible/boarding_cordon/)
 
 /obj/effect/landmark/asteroid_spawn
 	name = "Asteroid Spawn"

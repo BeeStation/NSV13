@@ -231,6 +231,8 @@
 			return TRUE
 		if(x < 10)
 			return TRUE
+	if(SSmapping.level_trait(z, ZTRAIT_RESERVED))
+		return TRUE
 	return FALSE
 
 /obj/structure/fighter_launcher/proc/recharge()
@@ -259,7 +261,7 @@
 		var/saved_layer = layer
 		layer = LOW_OBJ_LAYER
 		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 2 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
-		forceMove(get_turf(OM))
+		//forceMove(get_turf(OM))
 		var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 		DC.docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(DC, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
@@ -282,17 +284,35 @@
 				var/_z = pick_n_take(free_treadmills)
 				reserved_z = _z
 			starting_system = current_system.name //Just fuck off it works alright?
-			SSstar_system.add_ship(src)
+			SSstar_system.add_ship(src, get_turf(OM))
 
 		if(current_system && !LAZYFIND(current_system.system_contents, src))
 			LAZYADD(current_system.system_contents, src)
+
+		if(OM.boarding_interior)
+			OM.kill_boarding_level()
+			qdel(OM)
+
 		return TRUE
 
 /obj/structure/overmap/fighter/proc/update_overmap()
 	last_overmap = get_overmap()
 
 /obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
-	if(mass < OM.mass) //If theyre smaller than us,and we have docking points, and they want to dock
+	if(istype(OM, /obj/structure/overmap/asteroid))
+		var/obj/structure/overmap/asteroid/AS = OM
+		if(!AS.loading)
+			AS.loading = TRUE
+			if(prob(33)) //I hate this but it works so fuck you
+				var/list/potential_ruins = flist("_maps/map_files/Mining/nsv13/ruins/")
+				OM.boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/ruins/[pick(potential_ruins)]", null, FALSE, AS.core_composition) //Set up an asteroid
+			else //67% chance to get an actual asteroid
+				var/list/potential_asteroids = flist("_maps/map_files/Mining/nsv13/asteroids/")
+				OM.boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/asteroids/[pick(potential_asteroids)]", null, FALSE, AS.core_composition) //Set up an asteroid
+			AS.instance_interior()
+			AS.docking_points = AS.interior_entry_points
+		transfer_from_overmap(OM)
+	else if(mass < OM.mass) //If theyre smaller than us,and we have docking points, and they want to dock
 		return transfer_from_overmap(OM)
 	else
 		return FALSE
@@ -313,7 +333,7 @@
 	bound_width = initial(bound_width)
 	bound_height = initial(bound_height)
 	DC.docking_mode = FALSE
-	if(pilot && faction == OM.faction)
+	if(pilot && ((faction == OM.faction) || !faction))
 		weapon_safety = TRUE
 		to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)

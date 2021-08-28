@@ -482,7 +482,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE) && !force)
 		to_chat(M, "<span class='warning'>[src] won't let you jump out of it mid flight.</span>")
 		return FALSE
-	mobs_in_ship -= M
+	if(length(!occupying_levels))
+		mobs_in_ship -= M
 	. = ..()
 	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
 	M.forceMove(get_turf(src))
@@ -536,16 +537,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		var/max = world.maxx-TRANSITIONEDGE
 		var/min = 1+TRANSITIONEDGE
 
-		var/list/possible_transitions = list()
-		for(var/A in SSmapping.z_list)
-			var/datum/space_level/D = A
-			if (D.linkage == CROSSLINKED && !SSmapping.level_trait(D.z_value, ZTRAIT_OVERMAP))
-				possible_transitions += D.z_value
-			if(!possible_transitions.len) //Just in case there is no space z level
-				for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
-					possible_transitions += z
-
-		var/_z = pick(possible_transitions)
+		var/_z = pick(SSmapping.levels_by_trait(ZTRAIT_STATION))
 		var/_x
 		var/_y
 
@@ -952,7 +944,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	var/obj/item/fighter_component/fuel_tank/ft = loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	if(!ft)
 		return FALSE
-	ft.reagents.add_reagent(/datum/reagent/cryogenic_fuel, 1) //Assert that we have this reagent in the tank.
+	ft.reagents.add_reagent(/datum/reagent/cryogenic_fuel, amount, reagtemp = 40) //Assert that we have this reagent in the tank.
 	for(var/datum/reagent/cryogenic_fuel/F in ft?.reagents.reagent_list)
 		if(!istype(F))
 			continue
@@ -1011,6 +1003,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/fuel_tank/Initialize()
 	.=..()
 	create_reagents(fuel_capacity, DRAINABLE | AMOUNT_VISIBLE)
+	reagents.chem_temp = 40
 
 /obj/item/fighter_component/fuel_tank/tier2
 	name = "Fighter Extended Fuel Tank"

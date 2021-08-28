@@ -3,7 +3,7 @@
 #define FTL_STATE_READY 3
 #define FTL_STATE_JUMPING 4
 
-/datum/star_system/proc/add_ship(obj/structure/overmap/OM)
+/datum/star_system/proc/add_ship(obj/structure/overmap/OM, turf/target)
 	if(!system_contents.Find(OM))
 		system_contents += OM	//Lets be safe while I cast some black magic.
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
@@ -17,7 +17,9 @@
 				F.encounter(OM)
 		restore_contents()
 	var/turf/destination
-	if(istype(OM, /obj/structure/overmap))
+	if(target)
+		destination = target // if we launch from a ship or something, put us near that ship
+	else if(istype(OM, /obj/structure/overmap))
 		var/obj/structure/overmap/OMS = OM
 		if(!OMS.faction)
 			destination = locate(rand(40, world.maxx - 39), rand(40, world.maxy - 39), occupying_z)
@@ -234,11 +236,11 @@
 		var/nearestDistance = INFINITY
 		var/obj/machinery/inertial_dampener/nearestMachine = null
 
-		// Going to helpfully pass this in after seasickness checks, to reduce duplicate machine checks 
+		// Going to helpfully pass this in after seasickness checks, to reduce duplicate machine checks
 		for(var/obj/machinery/inertial_dampener/machine in GLOB.machines)
 			var/dist = get_dist( M, machine )
 			if ( dist < nearestDistance && machine.on )
-				nearestDistance = dist 
+				nearestDistance = dist
 				nearestMachine = machine
 
 		if(iscarbon(M))
@@ -249,7 +251,7 @@
 					if ( newNausea > 10 )
 						to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
 					L.adjust_disgust( newNausea )
-				else 
+				else
 					to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
 					L.adjust_disgust(pick(70, 100))
 		shake_with_inertia(M, 4, 1, list(distance=nearestDistance, machine=nearestMachine))

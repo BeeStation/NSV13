@@ -158,3 +158,11 @@
 	. = ..()
 	alpha = 0
 	mouse_opacity = FALSE
+
+/turf/closed/indestructible/boarding_cordon/Entered(atom/movable/AM)
+	. = ..()
+	if(isobserver(AM))
+		return
+	if(istype(AM, /obj/structure/overmap/fighter))
+		var/obj/structure/overmap/fighter/OM = AM
+		return OM.check_overmap_elegibility()

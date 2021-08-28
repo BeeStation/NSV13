@@ -81,3 +81,9 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 #define NO_INTERIOR 0
 #define INTERIOR_EXCLUSIVE 1
 #define INTERIOR_DYNAMIC 2
+
+//Overmap deletion behavior
+// Occupants are defined as mobs connected to a player, and overmaps
+#define REMOVE_ON_DEPARTURE 			1 << 0 // When a fighter/dropship leaves the map level for the overmap level, look for remaining occupants. If none exist, delete.
+#define DESTROY_BLOCKED_BY_OCCUPANTS	1 << 1 // When the overmap takes enough damage to be destroyed, if there are occupants (including on the map), don't delete it.
+#define DESTROY_STARTS_COUNTDOWN		1 << 2 // When the overmap takes enough damage to be destroyed, announce a countdown after which it will be deleted. (Let them evac).

@@ -133,11 +133,12 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 */
 /obj/structure/overmap/proc/instance_interior(tries=2)
 	//Init the template.
-	var/interior_type = pick(possible_interior_maps)
-	boarding_interior = SSmapping.boarding_templates[interior_type]
 	if(!boarding_interior)
-		message_admins("Mapping subsystem failed to load [interior_type]")
-		return
+		var/interior_type = pick(possible_interior_maps)
+		boarding_interior = SSmapping.boarding_templates[interior_type]
+		if(!boarding_interior)
+			message_admins("Mapping subsystem failed to load [interior_type]")
+			return
 
 	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
 	if(!roomReservation)
@@ -171,6 +172,11 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		if(get_area(entryway) == target_area && !entryway.linked)
 			interior_entry_points += entryway
 			entryway.linked = src
+	if(!length(interior_entry_points))
+		var/turf/bottom = get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2] + 2, roomReservation.bottom_left_coords[3]))
+		var/obj/effect/landmark/dropship_entry/entryway = new /obj/effect/landmark/dropship_entry(bottom)
+		interior_entry_points += entryway
+		entryway.linked = src
 
 // Anything that needs to be done after the interior loads
 /obj/structure/overmap/proc/post_load_interior()
