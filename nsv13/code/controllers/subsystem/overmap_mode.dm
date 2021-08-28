@@ -356,6 +356,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		message_admins("[GLOB.station_name] has completed its objectives but round end has been overriden by admin intervention")
 		return
 
+	SSovermap_mode.already_ended = TRUE //Prevent repeats
 	priority_announce("Mission Complete - Vote Pending") //TEMP
 	if(!SSovermap_mode.round_extended)	//If we haven't yet extended the round, let us vote!
 		SSvote.initiate_vote("Press On Or Return Home?", "Centcomm", forced=TRUE, popup=FALSE)

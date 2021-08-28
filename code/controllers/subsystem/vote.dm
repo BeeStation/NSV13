@@ -163,7 +163,7 @@ SUBSYSTEM_DEF(vote)
 					priority_announce("Returning to Outpost 45") //TEMP
 					var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
 					OM.force_return_jump(SSstar_system.system_by_id("Outpost 45"))
-					SSovermap_mode.already_ended = TRUE
+
 	if(restart)
 		var/active_admins = FALSE
 		for(var/client/C in GLOB.admins+GLOB.deadmins)
