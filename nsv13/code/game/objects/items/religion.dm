@@ -1,4 +1,4 @@
-obj/item/banner/munitions
+/obj/item/banner/munitions
 	name = "people's republic of munitions banner"
 	desc = "the banner of the people's republic of munitions, masters of arms and ammunition"
 	icon = 'nsv13/icons/obj/banners.dmi'
