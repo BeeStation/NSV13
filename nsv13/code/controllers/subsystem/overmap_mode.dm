@@ -248,7 +248,7 @@ SUBSYSTEM_DEF(overmap_mode)
 			extension_pool[O] = OO
 
 	var/datum/overmap_objective/selected = extension_pool[pick(extension_pool)] //Insert new objective
-	mode.objectives += new selected()
+	mode.objectives += selected
 	for(var/datum/overmap_objective/O in mode.objectives)
 		if(O.instanced == FALSE)
 			O.instance()
