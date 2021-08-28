@@ -122,6 +122,12 @@ Called by add_sensor_profile_penalty if remove_in is used.
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
 	name = "\improper Air traffic control console"
 
+/obj/machinery/computer/ship/dradis/cargo //Another dradis like air traffic control that links to cargo torpedo tubes and delivers freight 
+	name = "\improper Cargo freight delivery console"
+	
+/obj/machinery/computer/ship/dradis/cargo/can_radar_pulse()
+	return FALSE
+
 /obj/machinery/computer/ship/dradis/mining
 	name = "mining DRADIS computer"
 	desc = "A modified dradis console which links to the mining ship's mineral scanners, able to pick up asteroids that can be mined."
@@ -234,7 +240,11 @@ Called by add_sensor_profile_penalty if remove_in is used.
 				return
 			next_hail = world.time + 10 SECONDS //I hate that I need to do this, but yeah.
 			if(get_dist(target, linked) <= hail_range)
-				target.try_hail(usr, linked)
+				if ( istype( src, /obj/machinery/computer/ship/dradis/cargo ) && istype( target, /obj/structure/overmap/trader ) ) 
+					var/obj/structure/overmap/trader/Station = target // Must cast to access proc 
+					Station.try_deliver( usr, linked )
+				else 
+					target.try_hail(usr, linked)
 		if("radar_pulse")
 			send_radar_pulse()
 		if("sensor_mode")
