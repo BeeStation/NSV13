@@ -2,11 +2,13 @@
 	name = "Tickets"
 	desc = "Acquire ticket_amount Tickets for assigned_faction"
 	binary = FALSE
-	target = 1000
+	target = 0
+	var/ticket_amount = 1000
 	var/assigned_faction = null
 
 /datum/overmap_objective/tickets/New()
 	var/datum/faction/F = SSstar_system.faction_by_id(assigned_faction)
+	target = F.tickets + ticket_amount
 	brief = "Accumulate [target] faction points for [F.name] by defeating hostile fleets and completing station missions"
 
 /datum/overmap_objective/tickets/check_completion()
@@ -17,7 +19,6 @@
 	tally = F.tickets
 	if(F.tickets >= target) //Check if we have the required tickets
 		status = 1
-		F.tickets -= target //Subtract the tickets
 
 /datum/overmap_objective/tickets/nt
 	name = "Nanotrasen Tickets"
