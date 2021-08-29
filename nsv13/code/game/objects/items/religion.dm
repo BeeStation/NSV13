@@ -6,7 +6,7 @@
 	item_state = "banner_munitions"
 	lefthand_file = 'nsv13/icons/mob/inhands/equipment/banners_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/equipment/banners_righthand.dmi'
-	job_loyalties = list("Master At Arms", "Munitions Technician", "Flight Leader", "Fighter Pilot", "Air Traffic Controller")
+	job_loyalties = list("Master At Arms", "Munitions Technician", "Pilot", "Air Traffic Controller", "Bridge Staff")
 	warcry = "EARS RINGING, GUNS SINGING!"
 
 /obj/item/banner/munitions/mundane
