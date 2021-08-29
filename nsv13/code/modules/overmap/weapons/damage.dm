@@ -244,5 +244,5 @@ Bullet reactions
 /obj/effect/temp_visual/explosion_telegraph/Destroy()
 	var/turf/T = get_turf(src)
 	var/damage_level = ((damage_amount <= 20) ? 1 : ((damage_amount <= 75) ? 2 : ((damage_amount <= 150) ? 3 : 4)))
-	explosion(T,round(damage_level/2.5),round(damage_level*1.25),round(damage_level*2))
+	explosion(T,round(damage_level/2.5),round(damage_level*1.5),round(damage_level*2))
 	. = ..()
