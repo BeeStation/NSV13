@@ -154,12 +154,10 @@
 	if(ftl_drive) //Do we actually have an ftl drive?
 		ftl_drive.lockout = TRUE //Prevent further jumps
 		if(ftl_drive.ftl_state == FTL_STATE_JUMPING)
-			addtimer(CALLBACK(src, .proc/force_return_jump, SSstar_system.system_by_id(target_system.name)), 15 SECONDS)
-			message_admins("[src] is already jumping, delaying recall for 15 seconds")
+			addtimer(CALLBACK(src, .proc/force_return_jump, target_system), 30 SECONDS)
+			message_admins("[src] is already jumping, delaying recall for 30 seconds")
 		else
-			for(var/datum/star_system/SS in SSstar_system.systems) //Reveal where we are going
-				if(SS.name == "Outpost 45")
-					SS.hidden = FALSE
+			target_system.hidden = FALSE //Reveal where we are going
 
 			ftl_drive.ftl_state = FTL_STATE_READY //force it all to be ready
 			ftl_drive.use_power = 0
