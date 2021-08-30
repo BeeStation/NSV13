@@ -237,7 +237,8 @@ That's it, ok bye!
 	setup()
 
 /obj/machinery/lazylift/proc/acquire_destinations()
-	for(var/area/AR as() in SSmapping.areas_in_z["[z]"])
+	for(var/x in SSmapping.areas_in_z["[z]"])
+		var/area/AR = x
 		if(area_blacklist[AR.type])
 			continue
 		addresses += AR
@@ -344,20 +345,20 @@ That's it, ok bye!
 	platform_location.unbolt_doors(open_doors_on_arrival)
 	addtimer(VARSET_CALLBACK(src, in_use, FALSE), wait_time)
 
-/obj/machinery/lazylift/master/proc/move_platform(/obj/machinery/lazylift/targetDeck)
-	var/obj/machinery/lazylift/target
-	if(targetDeck in decks)
-		target = targetDeck
-		if(target != src)
-			break
-		for(var/turf/T in platform)
-			for(var/atom/movable/AM in T)
-				if(isliving(AM))
-					var/mob/living/karmics_victim = AM //SQUISH
-					karmics_victim.gib() //Elevator suicides are...a thing I guess!
-				else
-					AM.ex_act(4) //Crush
-		break
+/obj/machinery/lazylift/master/proc/move_platform(targetDeck)
+	var/obj/machinery/lazylift/target = null
+	for(var/obj/machinery/lazylift/L in decks) //First pass: Find the target
+		if(L.deck == targetDeck)
+			target = L
+			if(target != src)
+				break
+			for(var/turf/T as() in platform)
+				for(var/atom/movable/AM in T)
+					if(isliving(AM))
+						var/mob/living/karmics_victim = AM //SQUISH
+						karmics_victim.gib() //Elevator suicides are...a thing I guess!
+					else
+						AM.ex_act(4) //Crush
 	if(!target)
 		message_admins("Turbolift couldnt find a target..this is bad...")
 		return FALSE
