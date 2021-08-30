@@ -1,6 +1,6 @@
 /obj/item/banner/munitions
 	name = "People's Republic of Munitions banner"
-	desc = "the banner of the people's republic of munitions, masters of arms and ammunition"
+	desc = "the banner of the People's Republic of Munitions, masters of arms and ammunition"
 	icon = 'nsv13/icons/obj/banners.dmi'
 	icon_state = "banner_munitions"
 	item_state = "banner_munitions"
