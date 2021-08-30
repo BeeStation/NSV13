@@ -468,14 +468,14 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			user_gun.onClick(target)
 			return TRUE
 		else
+			log_runtime("BUG: User [user] is in [src]'s gauss_gunners list but has no overmap_gunning component!")
 			message_admins("BUG: User [ADMIN_LOOKUPFLW(user)]  is in [src]'s gauss_gunners list but has no overmap_gunning component! Attempting to eject them and remove them from the list...")
 			var/obj/machinery/ship_weapon/gauss_gun/G = user.loc
 			if(istype(G))
 				G.remove_gunner()
-			if(LAZYFIND(gauss_gunners, M))
+			if(LAZYFIND(gauss_gunners, user))
 				message_admins("[user] was still in gauss_gunners list after trying to kick them out, modifying the list directly")
-				gauss_gunners -= M
-			log_runtime("BUG: User [user] is in [src]'s gauss_gunners list but has no overmap_gunning component!")
+				gauss_gunners -= user
 			return FALSE
 	if(user != gunner)
 		if(user == pilot)
