@@ -135,11 +135,11 @@
 	turret = locate(/obj/machinery/ship_weapon/fiftycal) in SSmapping.get_turf_above(src)
 
 /obj/machinery/computer/fiftycal/attack_robot(mob/user)
-	. = ..()
+	..()
 	return attack_hand(user)
 
 /obj/machinery/computer/fiftycal/attack_ai(mob/user)
-	. = ..()
+	..()
 	return attack_hand(user)
 
 /obj/machinery/computer/fiftycal/multitool_act(mob/living/user, obj/item/multitool/I)

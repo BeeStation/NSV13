@@ -395,7 +395,7 @@
  * Transitions from STATE_FED to STATE_CHAMBERED.
  */
 /obj/machinery/ship_weapon/proc/chamber(rapidfire = FALSE)
-	if((state == STATE_FED) && (ammo?.len > 0))
+	if((state == STATE_FED) && (length(ammo) > 0))
 		flick("[initial(icon_state)]_chambering",src)
 		if(rapidfire)
 			sleep(chamber_delay_rapid)
@@ -471,7 +471,7 @@
 			qdel(chambered)
 			chambered = null
 
-			if(ammo?.len)
+			if(length(ammo))
 				state = STATE_FED
 			else
 				state = STATE_NOTLOADED
