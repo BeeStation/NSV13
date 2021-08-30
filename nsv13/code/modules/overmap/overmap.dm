@@ -464,8 +464,19 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(locate(user) in gauss_gunners) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
 		var/datum/component/overmap_gunning/user_gun = user.GetComponent(/datum/component/overmap_gunning)
-		user_gun.onClick(target)
-		return TRUE
+		if(user_gun)
+			user_gun.onClick(target)
+			return TRUE
+		else
+			message_admins("BUG: User [ADMIN_LOOKUPFLW(user)]  is in [src]'s gauss_gunners list but has no overmap_gunning component! Attempting to eject them and remove them from the list...")
+			var/obj/machinery/ship_weapon/gauss_gun/G = user.loc
+			if(istype(G))
+				G.remove_gunner()
+			if(LAZYFIND(gauss_gunners, M))
+				message_admins("[user] was still in gauss_gunners list after trying to kick them out, modifying the list directly")
+				gauss_gunners -= M
+			log_runtime("BUG: User [user] is in [src]'s gauss_gunners list but has no overmap_gunning component!")
+			return FALSE
 	if(user != gunner)
 		if(user == pilot)
 			var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_RAILGUN] //For annoying ships like whisp
