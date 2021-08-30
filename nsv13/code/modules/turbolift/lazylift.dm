@@ -142,7 +142,7 @@ That's it, ok bye!
 	var/list/deckNums = list()
 	for(var/obj/machinery/lazylift/LL in master.decks)
 		deckNums += LL.deck
-	var/theDeck = input(user, "Which deck would you like to go to?", name, null) as null|num in deckNums
+	var/theDeck = input(user, "Which deck would you like to go to?", name, null) as null|anything in deckNums
 	if(!theDeck)
 		return FALSE
 	master.path_to(theDeck)
