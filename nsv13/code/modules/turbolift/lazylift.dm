@@ -347,7 +347,7 @@ That's it, ok bye!
 /obj/machinery/lazylift/master/proc/move_platform(/obj/machinery/lazylift/targetDeck)
 	var/obj/machinery/lazylift/target
 	if(targetDeck in decks)
-		target = L
+		target = targetDeck
 		if(target != src)
 			break
 		for(var/turf/T in platform)
