@@ -237,7 +237,7 @@ That's it, ok bye!
 	setup()
 
 /obj/machinery/lazylift/proc/acquire_destinations()
-	for(var/area/AR as() SSmapping.areas_in_z["[z]"])
+	for(var/area/AR as() in SSmapping.areas_in_z["[z]"])
 		if(area_blacklist[AR.type])
 			continue
 		addresses += AR
@@ -251,7 +251,7 @@ That's it, ok bye!
 	platform_location = src //IMPORTANT! Platform starts at the bottom lift.
 	var/turf/last = get_turf(src)
 	decks += src //Ew. But necessary.
-	for(var/i =, i <= world.maxz; i++)
+	for(var/i = 0, i <= world.maxz; i++)
 		var/turf/next = SSmapping.get_turf_above(last)
 		if(!istype(next, /turf/open/openspace))
 			break //That means we've hit the end of the line, stop here.
