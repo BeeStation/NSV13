@@ -16,7 +16,7 @@
     return HAS_TRAIT(H, TRAIT_DEAF)
 
 /datum/crafting_recipe/munitions
-    name = "People's Republic of Munitions Banner"
+    name = "People's Republic of Munitions banner"
     result = /obj/item/banner/munitions/mundane
     time = 40
     reqs = list(/obj/item/stack/rods = 2,
