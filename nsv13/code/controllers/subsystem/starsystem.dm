@@ -349,12 +349,17 @@ Returns a faction datum by its name (case insensitive!)
 		station13.current_system = src
 		station13.set_trader(trader)
 		trader.generate_missions()
-	if(system_traits != "EMPTY")
+	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_EMPTY))
 		addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
 		addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
 /datum/star_system/proc/create_wormhole()
-	var/datum/star_system/S = pick((SSstar_system.systems - src - SSstar_system.system_by_id("staging"))) //Pick a random system to put the wormhole in. Make sure that's not us.
+	var/list/potential_systems = list()
+	for(var/datum/star_system/P in SSstar_system.systems)
+		if(!CHECK_BITFIELD(P.system_traits, STARSYSTEM_NO_WORMHOLE) && P != src) //No ourselves or systems that we don't want wormholes to
+			potential_systems += P
+
+	var/datum/star_system/S = pick(potential_systems) //Pick a random system to put the wormhole in
 	if(!(LAZYFIND(adjacency_list, S))) //Makes sure we're not already linked.
 		adjacency_list += S.name
 		wormhole_connections += S.name
@@ -665,7 +670,7 @@ Returns a faction datum by its name (case insensitive!)
 	name = "Staging"
 	desc = "Used for round initialisation and admin event staging"
 	hidden = TRUE
-	system_traits = "EMPTY"
+	system_traits = STARSYSTEM_EMPTY | STARSYSTEM_NO_WORMHOLE
 
 /datum/star_system/staging/handle_combat() //disable the table top action
 	return
@@ -752,6 +757,7 @@ Returns a faction datum by its name (case insensitive!)
 	y = 80
 	alignment = "nanotrasen"
 	adjacency_list = list("Lalande 21185")
+	system_traits = STARSYSTEM_NO_WORMHOLE
 
 /datum/star_system/outpost/after_enter(obj/structure/overmap/OM)
 	if(OM.role == MAIN_OVERMAP)
@@ -917,11 +923,11 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	var/list/generated = list()
 	var/amount = rand(50, 70)
 	var/toocloseconflict = 0
-	message_admins("Generating Brazil with [amount] systems.")
+	message_admins("Generating Badlands with [amount] systems.")
 	var/start_timeofday = REALTIMEOFDAY
 	var/datum/star_system/rubicon = SSstar_system.system_by_id("Rubicon")
 	if(!rubicon)
-		message_admins("Error setting up Brazil - No Rubicon found!") //This should never happen unless admins do bad things.
+		message_admins("Error setting up Badlands - No Rubicon found!") //This should never happen unless admins do bad things.
 		return
 
 	for(var/I=0;I<amount,I++){
@@ -993,7 +999,6 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 			randy.trader = randytrader
 			randytrader.generate_missions()
 
-
 		else if(prob(10))
 			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate/raiding, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)
 			var/datum/fleet/randyfleet = new x
@@ -1002,8 +1007,6 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 			randy.fleets += randyfleet
 			randy.alignment = randyfleet.alignment
 			randyfleet.assemble(randy)
-
-
 
 		SSstar_system.systems += randy
 	}
@@ -1108,7 +1111,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 
 	var/time = (REALTIMEOFDAY - start_timeofday) / 10
 	//There we go.
-	message_admins("Brazil has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorithm and [random_jumpline_count] random connections have been created!")
+	message_admins("Badlands has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorithm and [random_jumpline_count] random connections have been created!")
 
 #undef NONRELAXATION_PENALTY
 #undef MAX_RANDOM_CONNECTION_LENGTH
@@ -1206,6 +1209,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE //In time, not now.
 	fleet_type = /datum/fleet/remnant
+	system_traits = STARSYSTEM_NO_WORMHOLE
 
 /datum/star_system/romulus
 	name = "Romulus"
