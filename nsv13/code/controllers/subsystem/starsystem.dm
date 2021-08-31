@@ -354,7 +354,7 @@ Returns a faction datum by its name (case insensitive!)
 		addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 
 /datum/star_system/proc/create_wormhole()
-	var/datum/star_system/S = pick((SSstar_system.systems - src)) //Pick a random system to put the wormhole in. Make sure that's not us.
+	var/datum/star_system/S = pick((SSstar_system.systems - src - SSstar_system.system_by_id("staging"))) //Pick a random system to put the wormhole in. Make sure that's not us.
 	if(!(LAZYFIND(adjacency_list, S))) //Makes sure we're not already linked.
 		adjacency_list += S.name
 		wormhole_connections += S.name

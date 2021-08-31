@@ -14,7 +14,6 @@ SUBSYSTEM_DEF(overmap_mode)
 	name = "overmap_mode"
 	wait = 10
 	init_order = INIT_ORDER_OVERMAP_MODE
-	//flags = SS_NO_INIT
 
 	var/escalation = 0								//Admin ability to tweak current mission difficulty level
 	var/player_check = 0 							//Number of players connected when the check is made for gamemode
@@ -308,16 +307,16 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_gamemode/proc/consequence_one()
 
 /datum/overmap_gamemode/proc/consequence_two()
-	var/datum/faction/F = SSstar_system.faction_by_id(starting_faction)
+	var/datum/faction/F = SSstar_system.find_main_overmap().faction
 	F.lose_influence(25)
 
 /datum/overmap_gamemode/proc/consequence_three()
-	var/datum/faction/F = SSstar_system.faction_by_id(starting_faction)
-	F.lose_influence(50)
+	var/datum/faction/F = SSstar_system.find_main_overmap().faction
+	F.lose_influence(25)
 
 /datum/overmap_gamemode/proc/consequence_four()
-	var/datum/faction/F = SSstar_system.faction_by_id(starting_faction)
-	F.lose_influence(100)
+	var/datum/faction/F = SSstar_system.find_main_overmap().faction
+	F.lose_influence(25)
 
 /datum/overmap_gamemode/proc/consequence_five()
 	//Hotdrop O'Clock
