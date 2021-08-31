@@ -583,8 +583,6 @@ Chair + rack handling
 /obj/machinery/ship_weapon/gauss_gun/proc/lower_chair()
 	if(!gunner_chair || gunner_chair.loc != src)
 		return FALSE
-	var/mob/M = gunner
-	gunner = null
 	var/turf/below = SSmapping.get_turf_below(src)
 	gunner_chair.forceMove(below)
 	gunner_chair.locked = TRUE
