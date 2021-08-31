@@ -67,7 +67,6 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 
 	// -----------------------------
 	if(interior_mode == NO_INTERIOR || interior_mode == INTERIOR_DYNAMIC)
-	//	message_admins("1[boarding_reservation_z]2[possible_interior_maps?.len]3[occupying_levels?.len]4[boarder.occupying_levels?.len]5[(boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target))]")
 		message_admins("[src] attempted to be boarded by [boarder], but it has an incompatible interior_mode.")
 		return FALSE
 	if(!boarder.boarding_reservation_z)
@@ -85,7 +84,6 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	if(!boarding_interior || !boarding_interior.mappath)
 		message_admins("Error parsing boarding interior map for [src]")
 		return FALSE
-	current_system = boarder.current_system
 	//Add a treadmill for this ship as and when needed.
 	if(!reserved_z)
 		if(!free_treadmills?.len)
