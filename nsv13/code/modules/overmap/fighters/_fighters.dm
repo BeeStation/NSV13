@@ -738,8 +738,6 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 /obj/item/fighter_component/Initialize()
 	.=..()
 	AddComponent(/datum/component/twohanded/required) //These all require two hands to pick up
-	if(tier)
-		icon_state = icon_state+"_tier[tier]"
 
 //Overload this method to apply stat benefits based on your module.
 /obj/item/fighter_component/proc/on_install(obj/structure/overmap/target)
@@ -1009,7 +1007,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	slot = HARDPOINT_SLOT_FUEL
 
 /obj/item/fighter_component/fuel_tank/Initialize()
-	.=..()
+	. = ..()
 	create_reagents(fuel_capacity, DRAINABLE | AMOUNT_VISIBLE)
 
 /obj/item/fighter_component/fuel_tank/tier2

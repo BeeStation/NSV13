@@ -348,10 +348,10 @@ That's it, ok bye!
 /obj/machinery/lazylift/master/proc/move_platform(targetDeck)
 	var/obj/machinery/lazylift/target = null
 	for(var/obj/machinery/lazylift/L in decks) //First pass: Find the target
-		if(L.deck == targetDeck)
-			target = L
-			if(target != src)
-				break
+		if(L.deck != targetDeck)
+			continue
+		target = L
+		if(target == src)
 			for(var/turf/T as() in platform)
 				for(var/atom/movable/AM in T)
 					if(isliving(AM))
@@ -359,12 +359,14 @@ That's it, ok bye!
 						karmics_victim.gib() //Elevator suicides are...a thing I guess!
 					else
 						AM.ex_act(4) //Crush
+		break
+
 	if(!target)
 		message_admins("Turbolift couldnt find a target..this is bad...")
 		return FALSE
 
 	//First, move the platform.
-	for(var/turf/T in platform_location.platform)
+	for(var/turf/T as() in platform_location.platform)
 		var/turf/newT = locate(T.x,T.y,target.z)
 		newT.ChangeTurf(T.type, list(/turf/open/openspace, /turf/open/floor/plating), CHANGETURF_INHERIT_AIR)
 		for(var/atom/movable/AM in T.contents)
@@ -388,8 +390,8 @@ That's it, ok bye!
 				T.ScrapeAway(2)
 	platform_location = target
 	//Finally, ensure that the bottom floor is always plating.
-	for(var/turf/T in platform)
-		if(src != target)
+	if(src != target)
+		for(var/turf/T as() in platform)
 			T.ChangeTurf(/turf/open/floor/plasteel/elevatorshaft, list(/turf/open/openspace, /turf/open/floor/plating), CHANGETURF_INHERIT_AIR)
 
 //Special FX and stuff.
