@@ -201,7 +201,8 @@
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
 	if(gunner)
-		get_overmap().stop_piloting(gunner)
+		var/obj/structure/overmap/OM = get_overmap()
+		OM?.stop_piloting(gunner)
 		if(gunner_chair)
 			lower_chair()
 		else
