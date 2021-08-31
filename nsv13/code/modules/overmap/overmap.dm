@@ -474,7 +474,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			if(istype(G))
 				G.remove_gunner()
 			if(LAZYFIND(gauss_gunners, user))
-				message_admins("[user] was still in gauss_gunners list after trying to kick them out, modifying the list directly")
+				log_runtime("BUG: User [user] was still in gauss_gunners list after trying to kick them out, modifying the list directly")
+				message_admins("BUG: [user] was still in gauss_gunners list after trying to kick them out, modifying the list directly")
 				gauss_gunners -= user
 	if(user != gunner)
 		if(user == pilot)
