@@ -50,69 +50,12 @@ SUBSYSTEM_DEF(star_system)
 				SS.handle_combat()
 			next_combat_cycle = world.time + COMBAT_CYCLE_INTERVAL
 
-	/* We aren't doing this anymore
-	if(SSmapping.config.patrol_type == "passive")
-		priority_announce("[station_name()], you have been assigned to reconnaissance and exploration this shift. Scans indicate that besides a decent number of straggling Syndicate vessels, there will be little threat to your operations. You are granted permission to proceed at your own pace.", "[capitalize(SSmapping.config.faction)] Naval Command")
-		for(var/datum/star_system/SS in systems)
-			if(SS.name == "Outpost 45")
-				SS.hidden = FALSE
-		can_fire = FALSE //And leave it at that.
-		return FALSE //Don't karmic people if this roundtype is set to passive mode.
-	*/
 	for(var/datum/faction/F in factions)
 		F.send_fleet() //Try send a fleet out from each faction.
-	/* Moved already
-	if(world.time >= next_nag_time)
-		nag_stacks ++
-		nag_interval /= 2
-		next_nag_time = world.time + nag_interval
-		switch(nag_stacks)
-			if(1)
-				var/message = pick(	"This is Centcomm to all vessels assigned to explore the Delphic Expanse, please continue on your patrol route", \
-									"This is Centcomm to all vessels assigned to explore the Delphic Expanse, we are not paying you to idle in space during your assigned patrol schedule", \
-									"This is Centcomm to all vessels assigned to explore the Delphic Expanse, your inactivity has been noted and will not be tolerated.", \
-									"This is Centcomm to the explore vessel currently assigned to the Delphic Expanse, you are expected to fulfill your assigned mission")
-				priority_announce("[message]", "Naval Command") //Warn players for idleing too long
-			if(2)
-				priority_announce("[station_name()] is no longer responding to commands. Enacting emergency defense conditions. All shipside squads must assist in getting the ship ready for combat by any means necessary.", "WhiteRapids Administration Corps")
-				set_security_level(SEC_LEVEL_RED)
-			if(3) //Last straw. 40+ mins of inactivity.
-				var/datum/star_system/target = find_main_overmap().current_system //Itttttt's HOT DROP OCLOOOOOOCK
-				priority_announce("Attention all ships throughout the fleet, assume DEFCON 1. A Syndicate invasion force has been spotted in [target]. All fleets must return to allied space and assist in the defense.", "White Rapids Fleet Command")
-				var/datum/fleet/F = new /datum/fleet/earthbuster()
-				target.fleets += F
-				F.current_system = target
-				F.assemble(target)
-				minor_announce("[station_name()]. Your pay has been docked to cover expenses, continued ignorance of your mission will lead to removal by force.", "Naval Command")
-				nag_interval = rand(5 MINUTES, 10 MINUTES) //Keep up the nag, but slowly.
-				var/total_deductions
-				for(var/account in SSeconomy.department_accounts)
-					var/datum/bank_account/D = SSeconomy.get_dep_account(account)
-					if(account == ACCOUNT_SYN)
-						continue //No, just no.
-					total_deductions += D.account_balance / 2
-					D.account_balance /= 2
-			if(4 to INFINITY) //From this point on, you can actively lose the game.
-				nag_interval = rand(10 MINUTES, 15 MINUTES) //Keep up the nag, but slowly.
-				next_nag_time = world.time + nag_interval
-				var/lost_influence = FALSE
-				var/influence_to_lose = rand(1,3)
-				for(var/datum/star_system/sys in systems)
-					if(sys.fleets)
-						for(var/datum/fleet/F in sys.fleets)
-							if(lost_influence >= influence_to_lose)
-								break
-							if(F.alignment == "nanotrasen" && !istype(F, /datum/fleet/nanotrasen/earth))
-								F.defeat()
-								lost_influence ++
-				if(!lost_influence)
-					var/datum/faction/F = faction_by_id(FACTION_ID_NT)
-					F.lose_influence(100)
-	*/
+
 
 /datum/controller/subsystem/star_system/New()
 	. = ..()
-	//next_nag_time = world.time + nag_interval
 	instantiate_systems()
 	enemy_types = subtypesof(/obj/structure/overmap/syndicate/ai)
 	for(var/type in enemy_blacklist)
@@ -238,15 +181,6 @@ Returns a faction datum by its name (case insensitive!)
 	DD.adjust_money(split_bounty)
 	bounty_pool = 0
 
-/*
-/datum/controller/subsystem/star_system/proc/check_completion()
-	for(var/X in factions)
-		var/datum/faction/F = X
-		if(F.tickets >= tickets_to_win)
-			F.victory()
-			return TRUE
-	return FALSE
-*/
 /datum/controller/subsystem/star_system/proc/get_winner()
 	var/highestTickets = 0
 	var/datum/faction/winner = null
@@ -349,14 +283,16 @@ Returns a faction datum by its name (case insensitive!)
 		station13.current_system = src
 		station13.set_trader(trader)
 		trader.generate_missions()
-	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_EMPTY))
-		addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
+	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_NO_ANOMALIES))
 		addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
+	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_NO_ASTEROIDS))
+		addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
+
 
 /datum/star_system/proc/create_wormhole()
 	var/list/potential_systems = list()
 	for(var/datum/star_system/P in SSstar_system.systems)
-		if(!CHECK_BITFIELD(P.system_traits, STARSYSTEM_NO_WORMHOLE) && P != src) //No ourselves or systems that we don't want wormholes to
+		if(!CHECK_BITFIELD(P.system_traits, STARSYSTEM_NO_WORMHOLE) && P != src) //Not ourselves or systems that we don't want wormholes to
 			potential_systems += P
 
 	var/datum/star_system/S = pick(potential_systems) //Pick a random system to put the wormhole in
@@ -670,7 +606,7 @@ Returns a faction datum by its name (case insensitive!)
 	name = "Staging"
 	desc = "Used for round initialisation and admin event staging"
 	hidden = TRUE
-	system_traits = STARSYSTEM_EMPTY | STARSYSTEM_NO_WORMHOLE
+	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_ASTEROIDS | STARSYSTEM_NO_WORMHOLE
 
 /datum/star_system/staging/handle_combat() //disable the table top action
 	return
@@ -688,6 +624,7 @@ Returns a faction datum by its name (case insensitive!)
 		label = "Planetary system",
 	)
 	adjacency_list = list("Alpha Centauri", "Outpost 45", "Ross 154")
+	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_WORMHOLE
 	var/solar_siege_cycles_needed = 10	//See the starsystem controller for how many minutes is one cycle. Currently 3 minutes.
 	var/solar_siege_cycles_left = 10
 
@@ -757,7 +694,7 @@ Returns a faction datum by its name (case insensitive!)
 	y = 80
 	alignment = "nanotrasen"
 	adjacency_list = list("Lalande 21185")
-	system_traits = STARSYSTEM_NO_WORMHOLE
+	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_ASTEROIDS | STARSYSTEM_NO_WORMHOLE
 
 /datum/star_system/outpost/after_enter(obj/structure/overmap/OM)
 	if(OM.role == MAIN_OVERMAP)
@@ -1181,6 +1118,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = FALSE
 	desc = "A place where giants fell. You feel nothing save for an odd sense of unease and an eerie silence."
+	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_WORMHOLE
 
 /datum/star_system/sector4/abassi
 	name = "Abassi"
@@ -1209,7 +1147,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE //In time, not now.
 	fleet_type = /datum/fleet/remnant
-	system_traits = STARSYSTEM_NO_WORMHOLE
+	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_WORMHOLE
 
 /datum/star_system/romulus
 	name = "Romulus"
