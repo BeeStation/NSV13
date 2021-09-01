@@ -263,8 +263,12 @@
 		if(occupant)
 			if(uv_super | (obj_flags & EMAGGED)) //NSV13 Emagged flag check
 				mob_occupant.adjustFireLoss(rand(20, 36))
+				if(isipc(mob_occupant))	//NSV13 Edit (Ipc get toxin removed)
+					mob_occupant.adjustToxLoss(rand(-10, -15))
 			else
 				mob_occupant.adjustFireLoss(rand(10, 16))
+				if(isipc(mob_occupant))	//NSV13 Edit (Ipc get toxin removed)
+					mob_occupant.adjustToxLoss(rand(-5, -10))
 			mob_occupant.emote("scream")
 		addtimer(CALLBACK(src, .proc/cook), 50)
 	else
