@@ -23,6 +23,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/last_objective_interaction = 0 				//Last time the crew interacted with one of our objectives
 	var/next_objective_reminder = 0 				//Next time we automatically remind the crew to proceed with objectives
 	var/objective_reminder_stacks = 0 				//How many times has the crew been automatically reminded of objectives without any progress
+	var/objective_resets_reminder = FALSE			//Do we only reset the reminder when we complete an objective?
 	var/combat_resets_reminder = FALSE 				//Does combat in the overmap reset the reminder?
 	var/combat_delays_reminder = FALSE 				//Does combat in the overmap delay the reminder?
 	var/combat_delay_amount = 0 					//How much the reminder is delayed by combat
@@ -39,11 +40,6 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	var/list/modes
 	var/list/mode_names
-
-//some legacy vars that need to be resolved in other files
-	var/next_nag_time = 0
-	var/nag_interval = 30 MINUTES //Get off your asses and do some work idiots
-	var/nag_stacks = 0 //How many times have we told you to get a move on?
 
 /datum/controller/subsystem/overmap_mode/Initialize(start_timeofday)
 	//Retrieve the list of modes
@@ -110,8 +106,7 @@ SUBSYSTEM_DEF(overmap_mode)
 			message_admins("[mode.name] has been selected as the overmap gamemode")
 			log_game("[mode.name] has been selected as the overmap gamemode")
 	if(!mode)
-		//mode_type = /datum/overmap_gamemode/patrol //Holding that as the default for now - REPLACE ME LATER
-		mode = new/datum/overmap_gamemode/patrol()
+		mode = new/datum/overmap_gamemode/patrol() //Holding that as the default for now - REPLACE ME LATER
 		message_admins("Error: mode section pool empty - defaulting to PATROL")
 		log_game("Error: mode section pool empty - defaulting to PATROL")
 
@@ -120,6 +115,8 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/controller/subsystem/overmap_mode/proc/setup_overmap_mode()
 	mode_initialised = TRUE
 	switch(mode.objective_reminder_setting) //Load the reminder settings
+		if(REMINDER_OBJECTIVES)
+			objective_resets_reminder = TRUE
 		if(REMINDER_COMBAT_RESET)
 			combat_resets_reminder = TRUE
 		if(REMINDER_COMBAT_DELAY)
@@ -223,7 +220,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	print_command_report(text, title, TRUE)
 
 /datum/controller/subsystem/overmap_mode/proc/update_reminder(var/objective = FALSE)
-	if(objective) //Is objective? Full Reset
+	if(objective && objective_resets_reminder) //Is objective? Full Reset
 		last_objective_interaction = world.time
 		objective_reminder_stacks = 0
 		next_objective_reminder = world.time + mode.objective_reminder_interval
@@ -267,18 +264,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/controller/subsystem/overmap_mode/proc/difficulty_calc()
 	var/players = get_active_player_count(TRUE, FALSE, FALSE) //Check how many players are still alive
-	switch(players)
-		if(0 to 10)
-			mode.difficulty = 1
-		if(10 to 20)
-			mode.difficulty = 2
-		if(20 to 30)
-			mode.difficulty = 3
-		if(30 to 40)
-			mode.difficulty = 4
-		if(40 to INFINITY)
-			mode.difficulty = 5
-
+	mode.difficulty = CLAMP((CEILING(players / 10, 1)), 1, 5)
 	mode.difficulty += escalation //Our admin adjustment
 	if(mode.difficulty <= 0)
 		mode.difficulty = 1
@@ -287,7 +273,6 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/name = null											//Name of the gamemode type
 	var/desc = null											//Description of the gamemode for ADMINS
 	var/brief = null										//Description of the gamemode for PLAYERS
-	var/config_tag = null									//Do we have a tag?
 	var/selection_weight = 0								//Used to determine the chance of this gamemode being selected
 	var/required_players = 0								//Required number of players for this gamemode to be randomly selected
 	var/max_players = 0										//Maximum amount of players allowed for this mode, 0 = unlimited
@@ -302,10 +287,10 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	//Reminder messages
 	var/reminder_origin = "Naval Command"
-	var/reminder_one = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, please continue on your patrol route"
+	var/reminder_one = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, please continue on your mission"
 	var/reminder_two = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, your inactivity has been noted and will not be tolerated."
-	var/reminder_three = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, we are not paying you to idle in space during your assigned patrol schedule"
-	var/reminder_four = "This is Centcomm to the explore vessel currently assigned to the Delphic Expanse, you are expected to fulfill your assigned mission"
+	var/reminder_three = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, we are not paying you to idle in space during your assigned mission"
+	var/reminder_four = "This is Centcomm to the vessel currently assigned to the Delphic Expanse, you are expected to fulfill your assigned mission"
 	var/reminder_five = "This is Centcomm, due to your slow pace, a Syndicate Interdiction fleet has tracked you down, prepare for combat!"
 
 /datum/overmap_gamemode/proc/consequence_one()
@@ -369,6 +354,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		OM.force_return_jump(SSstar_system.system_by_id("Outpost 45"))
 
 /datum/overmap_gamemode/proc/defeat() //Override this if defeat is to be called based on an objective
+	priority_announce("Mission Critical Failure - Standby for carbon asset liquidation")
 	SSticker.mode.check_finished(TRUE)
 	SSticker.force_ending = TRUE
 

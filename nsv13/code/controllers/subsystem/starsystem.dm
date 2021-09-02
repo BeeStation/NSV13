@@ -19,9 +19,6 @@ SUBSYSTEM_DEF(star_system)
 	//Starmap 2
 	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
 	var/list/neutral_zone_systems = list()
-	//var/next_nag_time = 0
-	//var/nag_interval = 30 MINUTES //Get off your asses and do some work idiots
-	//var/nag_stacks = 0 //How many times have we told you to get a move on?
 	var/list/all_missions = list()
 	var/admin_boarding_override = FALSE //Used by admins to force disable boarders
 	var/time_limit = FALSE //Do we want to end the round after a specific time? Mostly used for galconquest.
