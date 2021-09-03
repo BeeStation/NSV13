@@ -125,4 +125,9 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define AI_FLAG_BOARDER 1<<4 //Ships that like to board you.
 #define AI_FLAG_SWARMER 1<<5 //Ships that love to act in swarms. Aka, Fighters.
 #define AI_FLAG_ELITE 1<<6	 //These ships are more /fun/ than others even with the same equipment.
+
+//Starsystem Traits
+#define STARSYSTEM_NO_ANOMALIES 1<<0	//Prevents Anomalies Spawning
+#define STARSYSTEM_NO_ASTEROIDS 1<<1	//Prevents Asteroids Spawning
+#define STARSYSTEM_NO_WORMHOLE 1<<2		//Prevents Incoming Wormholes
 //NSV13 change end

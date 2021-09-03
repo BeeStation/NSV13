@@ -286,6 +286,9 @@
 /datum/controller/subsystem/ticker/proc/build_roundend_report()
 	var/list/parts = list()
 
+	//NSV13 Gamemode Report
+	parts += overmap_report()
+
 	//Gamemode specific things. Should be empty most of the time.
 	parts += mode.special_report()
 
@@ -412,6 +415,40 @@
 		show_roundend_report(C, FALSE)
 		give_show_report_button(C)
 		CHECK_TICK
+
+/datum/controller/subsystem/ticker/proc/overmap_report() //NSV13
+	var/list/parts = list()
+	parts += "<b>[SSovermap_mode.mode.name]</b>"
+	parts += "" //Line Break
+	parts += "Objectives:"
+	for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+		switch(O.status)
+			if(0 || 2)
+				parts += "[O.brief]: <font color=red><b>FAILED</b></font>"
+			if(1 || 3)
+				parts += "[O.brief]: <font color=green><b>COMPLETED</b></font>"
+
+	parts += "" //Line Break
+	var/did_you_win_son = FALSE
+	var/objective_check = 0
+	for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+		if(O.status == 3) //Victory override check
+			did_you_win_son = TRUE
+			break
+
+		else if(O.status == 1)
+			objective_check ++
+
+	if(objective_check >= SSovermap_mode.mode.objectives.len)
+		did_you_win_son = TRUE
+
+	if(did_you_win_son)
+		parts += "The crew of the [GLOB.station_name] <font color=green><b>COMPLETED</b></font> their mission for [capitalize(SSovermap_mode.mode.starting_faction)]<b>"
+		return "<div class='panel greenborder'>[parts.Join("<br>")]</div>"
+
+	else
+		parts += "The crew of the [GLOB.station_name] <font color=red><b>FAILED</b></font> their mission for [capitalize(SSovermap_mode.mode.starting_faction)]<b>"
+		return "<div class='panel redborder'>[parts.Join("<br>")]</div>"
 
 /datum/controller/subsystem/ticker/proc/law_report()
 	var/list/parts = list()
