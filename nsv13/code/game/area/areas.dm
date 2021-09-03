@@ -719,9 +719,11 @@
 /area/medical/medbay/traumacenter
 	name = "Trauma Center"
 	icon_state = "surgery"
+	ambient_effects = 'nsv13/sound/ambience/medbay.ogg'
 
 /area/crew_quarters/naturedeck
 	name = "Nature Deck"
 	icon_state = "garden"
+	ambient_effects =
 	mood_bonus = 5
-	mood_message = "<span class='nicegreen'>It's so serene and peaceful here.\n</span>"
+	mood_message = "<span class='nicegreen'>It's so serene and beautiful here.\n</span>"
