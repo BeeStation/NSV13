@@ -30,5 +30,6 @@
 	S.send_fleet(target_system, null, TRUE)
 	var/datum/fleet/F = pick(target_system.fleets)
 	F.fleet_trait = FLEET_TRAIT_DEFENSE
+	target_ship.fleet = F
 
 /datum/overmap_objective/board_ship/check_completion()
