@@ -16,9 +16,12 @@
 		if(istype(S, /datum/star_system/random))
 			candidates += S
 	target_system = pick(candidates)
-	// make sure a boardable ship is there
+	// make a ship
 	var/ship_type = pick(BOARDABLE_SHIP_TYPES)
 	target_ship = instance_overmap(ship_type)
+	RegisterSignal(target_ship, COMSIG_SHIP_BOARDED, .proc/check_completion, target_ship)
+	// give it a home
+	target_system.enemies_in_system += target_ship
 	target_ship.ai_load_interior(SSstar_system.find_main_overmap())
 	// give it a name
 	var/ship_name = generate_ship_name()
@@ -30,6 +33,9 @@
 	S.send_fleet(target_system, null, TRUE)
 	var/datum/fleet/F = pick(target_system.fleets)
 	F.fleet_trait = FLEET_TRAIT_DEFENSE
-	target_ship.fleet = F
+	F.add_ship(target_ship)
 
 /datum/overmap_objective/board_ship/check_completion()
+	if (target_ship.faction == SSovermap_mode.mode.starting_faction)
+		status = 1
+		UnregisterSignal(target_ship, COMSIG_SHIP_BOARDED)

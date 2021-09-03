@@ -21,8 +21,20 @@
 
 	return new_prebuilt_fighter_name
 
-var/list/ship_name_prefix = list("Trail","Tongue","Whirl","Titan","King","Lord","Prince","Dream","Hell","Heaven","Clown","Crab","Lion","Hound","Devil","Demon","Dragon","Mime","Monster","Headmin","Maintainer","Ecolli","Floyd","Vivalas","Man","Meme","Death","Space","Singularity","Supermatter","Station","Alien","Hippie","Black","God","Dread","Robot","Yog","Xeno","Beast","Cuban","Ian","Changeling","Dutch","Toolbox","Greytide","Blood","Light","Rune","Lightning","War","Peace","Shitcurity","Sanguine","Captain","Sky","Planet","Blast","Furry","Love","Ass","Lewd","Dream","Pirate","War","Hellion","Anime","Russian","Spider","Goliath","Wolf","Bat","Weed","Princess","Widow","Monkey","Cargonia","Atmosia","Security","Comdom","Honk","Honker","Science","Mystery","Banana","Bee","Goon","Owl","Commie","Magic","Bluespace","Plasma","Human","Woman","Ghost","Eagle","Autist","Admin","Bwoink","Mother","Snake")
-var/list/ship_name_suffix = list("slayer","blazer","bringer","slapper","twirler","nought","stomper","killer","farter","bomber","destructor","stabber","holder","beater","keeper","seeker","chaser","developer","looter","slipper","loser","eater","devourer","biter","maker","blaster","leader","chopper","wrecker","bender","hauler","miner","stalker","observer","arbiter","overseer","watcher","indoctrinator","dominator","robustor","bane","maker","chomper","burner","hunter","puncher","raider","hoarder","harmer","runner","gunner","slinger","shooter","cruiser","ship","charmer","wrangler","rider")
+// FTL13-style ship name generation - Credit to Monster
+var/list/ship_name_prefix = list("Trail","Tongue","Whirl","Titan","King","Lord","Prince","Dream","Hell","Heaven","Clown","Crab",
+	"Lion","Hound","Devil","Demon","Dragon","Mime","Monster","Headmin","Maintainer","Man","Death","Space","Singularity",
+	"Supermatter","Station","Alien","Hippie","Black","God","Dread","Robot","Xeno","Beast","Cuban","Ian","Changeling","Meme",
+	"Dutch","Toolbox","Blood","Light","Rune","Lightning","War","Peace","Sanguine","Captain","Sky","Carp","Sausage","Slime",
+	"Planet","Blast","Love","Dream","Pirate","War","Hellion","Spider","Goliath","Wolf","Rail","Shell","Pilot","Asteroid","Yog",
+	"Bat","Weed","Princess","Widow","Monkey","Cargonia","Atmosia","Security","Storm","Honk","Honker","Science","Mystery",
+	"Banana","Bee","Goon","Owl","Commie","Magic","Bluespace","Plasma","Human","Woman","Ghost","Eagle","Autist","Admin","Bwoink",
+	"Mother","Snake","Hammer","Reactor","Grey","Star")
+var/list/ship_name_suffix = list("slayer","blazer","bringer","slapper","twirler","nought","stomper","killer","farter","bomber",
+	"destructor","stabber","holder","beater","keeper","seeker","chaser","developer","looter","slipper","loser","eater","devourer",
+	"biter","maker","blaster","leader","chopper","wrecker","bender","hauler","miner","stalker","observer","arbiter","overseer",
+	"watcher","indoctrinator","dominator","robustor","bane","maker","chomper","burner","hunter","puncher","raider","hoarder",
+	"harmer","runner","gunner","slinger","shooter","cruiser","ship","charmer","wrangler","rider")
 
 /proc/generate_ship_name()
 	var/name = ""
