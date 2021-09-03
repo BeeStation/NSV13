@@ -228,7 +228,7 @@
 /obj/structure/displaycase/captain
 	alert = TRUE
 	start_showpiece_type = /obj/item/gun/energy/laser/captain
-	req_access = list(ACCESS_CENT_SPECOPS)
+	req_access = list(ACCESS_CAPTAIN) //NSV13
 
 /obj/structure/displaycase/labcage
 	name = "lab cage"
