@@ -27,6 +27,7 @@
 	brief = "Capture the syndicate vessel [target_ship.name] in [target_system.name] by boarding it, defeating the enemies therein, and modifying its IFF codes."
 	target_system.add_ship(target_ship)
 	target_system.enemies_in_system += target_ship
+	target_system.objective_sector = TRUE
 	// give it a friend :)
 	var/datum/faction/S = SSstar_system.faction_by_id(FACTION_ID_SYNDICATE)
 	S.send_fleet(target_system, null, TRUE)
