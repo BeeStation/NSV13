@@ -46,6 +46,20 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/countermeasure_dispenser)
 	interior_mode = INTERIOR_DYNAMIC
 
+/obj/structure/overmap/fighter/dropship/Initialize(mapload, list/build_components)
+	return ..()
+
+/obj/structure/overmap/fighter/dropship/post_load_interior()
+	var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
+	if(ftl)
+		if(length(linked_areas) == 1)
+			starmap = locate(/obj/machinery/computer/ship/navigation) in linked_areas[1] // There should only be one
+			starmap.linked = src
+		if(!starmap)
+			starmap = new(src)
+			starmap.use_power = 0
+			starmap.linked = src
+
 /datum/map_template/dropship
     name = "Marine Dropship"
     mappath = "_maps/templates/boarding/dropship.dmm"
@@ -93,16 +107,16 @@ Credit to TGMC for the interior sprites for all these!
     mappath = "_maps/templates/boarding/gunship.dmm"
 
 /obj/structure/overmap/fighter/dropship/gunship/apply_weapons()
-	if(!weapon_types[FIRE_MODE_PDC])
-		weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/fighter_primary(src)
+	if(!weapon_types[FIRE_MODE_ANTI_AIR])
+		weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/fighter_primary(src)
 	if(!weapon_types[FIRE_MODE_TORPEDO])
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
 	if(!weapon_types[FIRE_MODE_AMS])
 		weapon_types[FIRE_MODE_AMS] = new/datum/ship_weapon/vls(src)
 	if(!weapon_types[FIRE_MODE_GAUSS])
 		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	if(!weapon_types[FIRE_MODE_50CAL])
-		weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
+	if(!weapon_types[FIRE_MODE_PDC])
+		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/fighter/dropship/sabre
 	name = "Su-437 Sabre"

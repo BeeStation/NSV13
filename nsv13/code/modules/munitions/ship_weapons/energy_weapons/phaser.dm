@@ -18,7 +18,7 @@
 	var/max_charge = 250000 //5 shots before it has to recharge.
 	var/power_modifier = 0 //Power youre inputting into this thing.
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
-	var/energy_weapon_type = /datum/ship_weapon/pdc_mount/burst_phaser
+	var/energy_weapon_type = /datum/ship_weapon/burst_phaser
 
 /obj/machinery/ship_weapon/energy/lazyload()
 	active = TRUE
@@ -27,11 +27,6 @@
 	//Comedy.
 	sleep(10)
 	charge = max_charge
-
-//Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
-/obj/item/projectile/beam/laser/phaser
-	damage = 10
-	flag = "overmap_medium"
 
 /obj/machinery/ship_weapon/energy/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -100,7 +95,7 @@
 	return FALSE
 
 /obj/machinery/ship_weapon/energy/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
-	for(var/I = FIRE_MODE_PDC; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
+	for(var/I = FIRE_MODE_ANTI_AIR; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
 		var/datum/ship_weapon/SW = OM.weapon_types[I]
 		if(!SW)
 			continue
@@ -123,18 +118,6 @@
 
 /obj/machinery/ship_weapon/energy/get_ammo()
 	return charge
-
-/obj/item/projectile/beam/laser/heavylaser/phaser
-	name = "phaser beam"
-	damage = 200
-	flag = "overmap_heavy"
-	hitscan = TRUE //Extremely powerful in ship combat
-	icon_state = "omnilaser"
-	light_color = LIGHT_COLOR_BLUE
-	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
-	tracer_type = /obj/effect/projectile/tracer/disabler
-	muzzle_type = /obj/effect/projectile/muzzle/disabler
-	impact_type = /obj/effect/projectile/impact/disabler
 
 /obj/machinery/ship_weapon/energy/beam
 	name = "Phase Cannon"

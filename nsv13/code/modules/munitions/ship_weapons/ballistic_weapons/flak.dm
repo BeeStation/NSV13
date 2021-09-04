@@ -1,16 +1,3 @@
-/obj/item/ammo_box/magazine/pdc/flak
-	name = "40mm flak rounds"
-	icon_state = "flak"
-	ammo_type = /obj/item/ammo_casing/flak
-	caliber = "mm40"
-	max_ammo = 150
-
-/obj/item/ammo_casing/flak
-	name = "mm40 flak round casing"
-	desc = "A mm40 bullet casing."
-	projectile_type = /obj/item/projectile/bullet/pdc_round
-	caliber = "mm40"
-
 /obj/machinery/ship_weapon/pdc_mount/flak
 	name = "Flak loading rack"
 	icon = 'nsv13/icons/obj/munitions.dmi'
@@ -26,7 +13,7 @@
 //	circuit = /obj/item/circuitboard/machine/pdc_mount
 
 	fire_mode = FIRE_MODE_FLAK
-	magazine_type = /obj/item/ammo_box/magazine/pdc/flak
+	magazine_type = /obj/item/ammo_box/magazine/nsv/flak
 
 	auto_load = TRUE
 	semi_auto = TRUE
@@ -89,7 +76,7 @@
 	var/obj/item/projectile/P = AM
 	if(P.faction != faction) //Stops flak from FFing
 		if(istype(AM, /obj/item/projectile/guided_munition))
-			P.take_damage(severity*50, BRUTE, "overmap_light")
+			P.take_damage(severity*30, BRUTE, "overmap_light")
 		if(isovermap(AM))
 			P.take_damage(severity*20, BRUTE, "overmap_light")
 
@@ -173,33 +160,3 @@
 	new shotdown_effect_type(get_turf(src)) //Exploding effect
 	qdel(src)
 	return FALSE
-/*
-	var/found_target = FALSE //Have we found a torpedo to shoot down? If we can't find a torpedo to shoot, look for enemy ships in range.
-	if(torpedoes_to_target.len)  //Are there any torpedoes we need to worry about? Torpedoes enter this list as theyre shot (when they target us).
-		for(var/atom/target in torpedoes_to_target) //Check through the torpedoes that our PDCs need to target
-			if(!target || QDELETED(target)) //Clear null bullets that may have runtimed
-				torpedoes_to_target -= target
-				continue
-			var/target_range = get_dist(target,src)
-			if(target_range <= initial(weapon_range)) //The torpedo is in range, let's target it!
-				found_target = TRUE
-				if(prob(pdc_miss_chance)) //Gives them a chance to actually hit a torpedo, so it's not a perfect smokescreen.
-					var/turf/T = get_turf(pick(orange(4,target))) //Pick a random tile within 6 turfs, this isn't a flat out miss 100% of the time though
-					fire_weapon(T, mode=FIRE_MODE_PDC, lateral=TRUE)
-				else
-					if(!target || QDELETED(target))
-						continue
-					fire_weapon(target, mode=FIRE_MODE_PDC, lateral=TRUE)
-	if(!found_target) //Can't see a torpedo to shoot, try find an enemy ship to shoot
-		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
-			if(!ship || !istype(ship, /obj/structure/overmap))
-				continue
-			if(ship == src || ship.faction == faction || ship.wrecked) //No friendly fire, don't blow up wrecks that the crew may wish to loot.
-				continue
-			var/target_range = get_dist(ship,src)
-			if(target_range > initial(weapon_range)) //If the target is out of PDC range, don't shoot. This prevents OP shit like spamming torps AND PDC flak all over a target.
-				continue
-			if(!QDELETED(ship) && isovermap(ship))
-				fire_weapon(ship, mode=FIRE_MODE_PDC, lateral=TRUE)
-
-*/

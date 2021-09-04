@@ -13,7 +13,7 @@
 	circuit = /obj/item/circuitboard/machine/pdc_mount
 
 	fire_mode = FIRE_MODE_PDC
-	magazine_type = /obj/item/ammo_box/magazine/pdc
+	magazine_type = /obj/item/ammo_box/magazine/nsv/pdc
 
 	auto_load = TRUE
 	semi_auto = TRUE
@@ -36,13 +36,6 @@
 	chamber_delay = 0
 	bang = FALSE
 
-/obj/machinery/ship_weapon/pdc_mount/attackby(obj/item/I, mob/user)//to stop you from inserting flak and stuff
-	if (istype(I, /obj/item/ammo_box/magazine))
-		if (I.type == magazine_type)
-			load_magazine(I, user)
-		return TRUE
-	return ..()
-	
 /obj/machinery/ship_weapon/pdc_mount/north //Things mounted on a north wall face south, etc.
 	dir = SOUTH
 	pixel_x = 0

@@ -2534,18 +2534,18 @@
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/structure/rack,
 /obj/machinery/camera/autoname,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/circuitboard/computer/fiftycal,
-/obj/item/circuitboard/computer/fiftycal,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/circuitboard/computer/anti_air,
+/obj/item/circuitboard/computer/anti_air,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "agr" = (
@@ -6161,8 +6161,8 @@
 	dir = 4;
 	pixel_x = -23
 	},
-/obj/item/circuitboard/machine/fiftycal,
-/obj/item/circuitboard/machine/fiftycal,
+/obj/item/circuitboard/machine/anti_air,
+/obj/item/circuitboard/machine/anti_air,
 /turf/open/floor/monotile/dark,
 /area/maintenance/starboard/secondary{
 	name = "Munitions Projects"
@@ -6216,8 +6216,8 @@
 	dir = 4;
 	pixel_x = -26
 	},
-/obj/item/circuitboard/computer/fiftycal,
-/obj/item/circuitboard/computer/fiftycal,
+/obj/item/circuitboard/computer/anti_air,
+/obj/item/circuitboard/computer/anti_air,
 /turf/open/floor/monotile/dark,
 /area/maintenance/starboard/secondary{
 	name = "Munitions Projects"
@@ -20380,17 +20380,9 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
-"ban" = (
-/obj/effect/turf_decal/ship/delivery/yellow,
-/obj/structure/frame/computer,
-/turf/open/floor/monotile/dark,
-/area/nsv/hanger/storage{
-	name = "Munitions Control Room"
-	})
 "bao" = (
 /obj/structure/chair/comfy/shuttle{
 	color = "#696969";
-	dir = 1;
 	name = "weapon officer"
 	},
 /obj/machinery/button/door{
@@ -24648,12 +24640,9 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/central)
 "biD" = (
-/obj/structure/chair/comfy/shuttle{
-	color = "#696969";
-	dir = 1;
-	name = "weapon officer"
-	},
-/turf/open/floor/carpet/red,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/ship_weapon/pdc_mount/north,
+/turf/open/floor/monotile/dark,
 /area/nsv/hanger/storage{
 	name = "Munitions Control Room"
 	})
@@ -24745,6 +24734,8 @@
 	dir = 4;
 	pixel_x = -22
 	},
+/obj/structure/table/reinforced,
+/obj/item/toy/cards/deck,
 /turf/open/floor/carpet/red,
 /area/nsv/hanger/storage{
 	name = "Munitions Control Room"
@@ -34290,9 +34281,16 @@
 /turf/open/floor/monotile/dark,
 /area/security/brig)
 "bBO" = (
-/obj/machinery/firealarm/directional/west,
+/obj/machinery/firealarm/directional/west{
+	light_color = "#000000"
+	},
 /obj/machinery/light{
 	dir = 8
+	},
+/obj/structure/chair/comfy/shuttle{
+	color = "#696969";
+	dir = 1;
+	name = "weapon officer"
 	},
 /turf/open/floor/carpet/red,
 /area/nsv/hanger/storage{
@@ -41355,8 +41353,10 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/fore)
 "egh" = (
-/obj/machinery/computer/fiftycal,
-/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/effect/turf_decal/tile/ship/orange,
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 8
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/storage{
 	name = "Munitions Control Room"
@@ -42116,11 +42116,6 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "flG" = (
-/obj/structure/chair/comfy/shuttle{
-	color = "#696969";
-	dir = 1;
-	name = "weapon officer"
-	},
 /obj/effect/landmark/start/munitions_tech,
 /turf/open/floor/carpet/red,
 /area/nsv/hanger/storage{
@@ -45685,10 +45680,12 @@
 	},
 /area/engine/atmos)
 "kNI" = (
-/obj/effect/turf_decal/ship/delivery/yellow,
-/obj/structure/frame/computer,
 /obj/item/radio/intercom{
 	pixel_x = -32
+	},
+/obj/effect/turf_decal/tile/ship/orange,
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/storage{
@@ -49891,11 +49888,13 @@
 /turf/open/space/basic,
 /area/engine/atmos)
 "rLj" = (
-/obj/machinery/computer/fiftycal,
-/obj/effect/turf_decal/ship/delivery/yellow,
 /obj/machinery/computer/ship/viewscreen,
 /obj/machinery/light{
 	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/orange,
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/storage{
@@ -83746,8 +83745,8 @@ tZa
 lwA
 abV
 cfh
-ban
-biD
+egh
+bMa
 bMa
 bBZ
 bKG
@@ -84516,8 +84515,8 @@ wKR
 agy
 bYW
 abV
-cfh
-egh
+ago
+biD
 flG
 bBe
 bCe
@@ -84773,9 +84772,9 @@ nOT
 tZa
 lwA
 abV
-cfh
-ban
+ago
 biD
+bMa
 sRt
 bHq
 bKH
@@ -85030,9 +85029,9 @@ cfo
 acY
 cfn
 abV
-cfh
-ban
+ago
 biD
+bMa
 xpU
 bHq
 bKH

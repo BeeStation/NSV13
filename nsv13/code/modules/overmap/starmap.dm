@@ -19,6 +19,14 @@
 	var/current_sector = 2
 	circuit = /obj/item/circuitboard/computer/ship/navigation
 
+/obj/machinery/computer/ship/navigation/can_interact(mob/user) //Override this code to allow people to use consoles when flying the ship.
+	if(user in linked?.operators)
+		return TRUE
+	return ..()
+
+/obj/machinery/computer/ship/navigation/ui_state(mob/user)
+	return GLOB.always_state
+
 /obj/machinery/computer/ship/navigation/public
 	can_control_ship = FALSE
 
@@ -26,6 +34,8 @@
 	ui_interact(user)
 
 /obj/machinery/computer/ship/navigation/ui_interact(mob/user, datum/tgui/ui)
+	if(!linked)
+		return
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		var/datum/asset/assets = get_asset_datum(/datum/asset/simple/starmap)
@@ -35,9 +45,9 @@
 
 /obj/machinery/computer/ship/navigation/ui_act(action, params, datum/tgui/ui)
 	.=..()
-	if(..())
+	if(isobserver(usr) && !IsAdminGhost(usr))
 		return
-	if(!has_overmap())
+	if(!linked)
 		return
 	switch(action)
 		if("map")
@@ -57,9 +67,15 @@
 			screen = 2
 			. = TRUE
 		if("jump")
+			if(linked.ftl_drive.lockout)
+				visible_message("<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. Invalid authkey to unlock remove override code.</span>")
+				return
 			linked.ftl_drive.jump(selected_system)
 			. = TRUE
 		if("cancel_jump")
+			if(linked.ftl_drive.lockout)
+				visible_message("<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. Invalid authkey to unlock remove override code.</span>")
+				return
 			if(linked.ftl_drive.cancel_ftl())
 				linked.stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)
 				linked.relay('nsv13/sound/effects/ship/ftl_stop.ogg', channel=CHANNEL_IMPORTANT_SHIP_ALERT)

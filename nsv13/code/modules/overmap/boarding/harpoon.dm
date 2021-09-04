@@ -249,6 +249,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 		return FALSE
 	//You can exist again :)
 	SSair.can_fire = TRUE
+	post_load_interior()
 	var/datum/space_level/SL = SSmapping.get_level(boarding_reservation_z)
 	SL.linked_overmap = src
 	occupying_levels += SL
@@ -304,13 +305,21 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	alpha = 0
 	mouse_opacity = FALSE
 
-/obj/effect/spawner/lootdrop/fiftycal
-	name = "fiftycal supplies spawner"
+/obj/effect/spawner/lootdrop/anti_air
+	name = "Anti-aircraft supplies spawner"
 	loot = list(
-		/obj/item/ammo_box/magazine/pdc/fiftycal = 15,
-		/obj/machinery/computer/fiftycal = 2,
-		/obj/machinery/ship_weapon/fiftycal = 1,
-		/obj/machinery/ship_weapon/fiftycal/super = 1
+		/obj/item/ammo_box/magazine/nsv/anti_air = 15,
+		/obj/machinery/computer/anti_air = 2,
+		/obj/machinery/ship_weapon/anti_air = 1,
+		/obj/machinery/ship_weapon/anti_air/heavy = 1
+)
+	lootcount = 1
+
+/obj/effect/spawner/lootdrop/pdc
+	name = "PDC supplies spawner"
+	loot = list(
+		/obj/item/ammo_box/magazine/nsv/pdc = 20,
+		/obj/machinery/ship_weapon/pdc_mount = 2,
 )
 	lootcount = 1
 
@@ -380,13 +389,10 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	if(!roomReservation)
 		message_admins("Dropship failed to reserve an interior!")
 		return FALSE
-	if(tries <= 0)
-		message_admins("Something went hideously wrong with loading [boarding_interior] for [src]. Contact a coder.")
-		qdel(src)
-		return FALSE
 
 	var/turf/center = get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2]+boarding_interior.height/2, roomReservation.bottom_left_coords[3]))
-	boarding_interior.load(center, centered = TRUE)
+	if(!boarding_interior.load(center, centered = TRUE))
+		message_admins("[ADMIN_LOOKUPFLW(src)] failed to load interior")
 	var/area/target_area
 	//Now, set up the interior for loading...
 	if(center)
@@ -406,3 +412,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		if(get_area(entryway) == target_area && !entryway.linked)
 			interior_entry_points += entryway
 			entryway.linked = src
+
+// Anything that needs to be done after the interior loads
+/obj/structure/overmap/proc/post_load_interior()
+	return

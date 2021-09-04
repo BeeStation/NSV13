@@ -1,4 +1,4 @@
-/obj/item/ammo_box/magazine/pdc/light_cannon
+/obj/item/ammo_box/magazine/nsv/light_cannon
 	name = "light cannon ammo"
 	desc = "A box of 20x102mm ammunition which can be loaded into a light fighter cannon."
 	icon = 'nsv13/icons/obj/ammo.dmi'
@@ -7,7 +7,7 @@
 	caliber = "mm20"
 	max_ammo = 500
 	
-/obj/item/ammo_box/magazine/pdc/heavy_cannon
+/obj/item/ammo_box/magazine/nsv/heavy_cannon
 	name = "heavy cannon ammo"
 	desc = "A box of 30x173mm ammunition which can be loaded into a heavy fighter cannon."
 	icon = 'nsv13/icons/obj/ammo.dmi'

@@ -1353,17 +1353,6 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
-"eK" = (
-/obj/effect/turf_decal/tile/orange{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/orange,
-/obj/machinery/airalarm/directional/north,
-/obj/machinery/computer/fiftycal{
-	dir = 8
-	},
-/turf/open/floor/monotile/steel,
-/area/nsv/weapons/gauss/battery/deck2/port)
 "eL" = (
 /obj/structure/sign/ship/deck/two,
 /turf/closed/wall/steel,
@@ -1373,13 +1362,10 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/orange,
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable{
-	icon_state = "0-2"
+/obj/machinery/gauss_dispenser{
+	pixel_y = 26
 	},
-/obj/machinery/computer/fiftycal{
-	dir = 4
-	},
+/obj/structure/closet/crate,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "eN" = (
@@ -1689,13 +1675,13 @@
 	dir = 1
 	},
 /obj/structure/cable{
-	icon_state = "1-4"
-	},
-/obj/structure/cable{
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
@@ -2072,11 +2058,6 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
-/obj/structure/rack,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "gX" = (
@@ -2102,9 +2083,6 @@
 	},
 /obj/effect/turf_decal/tile/orange,
 /obj/machinery/firealarm/directional/west,
-/obj/structure/chair/office{
-	dir = 4
-	},
 /obj/effect/landmark/start/munitions_tech,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss/battery/deck2/port)
@@ -3547,11 +3525,8 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "ly" = (
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/ship_weapon/pdc_mount/north,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "lz" = (
@@ -3859,9 +3834,6 @@
 /area/quartermaster/storage)
 "mD" = (
 /obj/structure/lattice/catwalk/over/ship,
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -4213,6 +4185,10 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "nK" = (
@@ -5153,8 +5129,6 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/orange,
-/obj/machinery/computer/fiftycal,
-/obj/item/radio/intercom/directional/north,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "qG" = (
@@ -6030,9 +6004,6 @@
 	icon_state = "4-8"
 	},
 /obj/effect/landmark/event_spawn,
-/obj/structure/chair/office{
-	dir = 1
-	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "tJ" = (
@@ -6390,7 +6361,6 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/orange,
-/obj/machinery/computer/fiftycal,
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss/battery/deck2/port)
@@ -6625,7 +6595,6 @@
 "vM" = (
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/extinguisher_cabinet/east,
-/obj/structure/chair/comfy/gauss,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "vO" = (
@@ -7228,15 +7197,9 @@
 	},
 /area/nsv/hanger/notkmcstupidhanger)
 "xY" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/chair/office{
-	dir = 1
-	},
+/obj/machinery/power/apc/auto_name/south,
+/obj/structure/cable,
+/obj/structure/chair/comfy/gauss/west,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "xZ" = (
@@ -9208,6 +9171,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
+"Gt" = (
+/obj/machinery/firealarm{
+	pixel_y = 24
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
 "Gu" = (
 /obj/machinery/conveyor/inverted{
 	dir = 9;
@@ -10086,7 +10055,6 @@
 /obj/machinery/camera/autoname{
 	dir = 9
 	},
-/obj/structure/chair/comfy/gauss/north,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "JS" = (
@@ -10942,9 +10910,7 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "MG" = (
-/obj/machinery/firealarm{
-	pixel_y = 24
-	},
+/obj/machinery/ship_weapon/pdc_mount/north,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "MI" = (
@@ -11316,11 +11282,8 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "Om" = (
-/obj/structure/rack,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/machinery/airalarm/directional/south,
+/obj/structure/chair/comfy/gauss/west,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "Oo" = (
@@ -11778,15 +11741,15 @@
 /area/engine/engine_room)
 "PS" = (
 /obj/structure/munitions_trolley,
-/obj/item/ammo_box/magazine/pdc/light_cannon,
-/obj/item/ammo_box/magazine/pdc/light_cannon,
-/obj/item/ammo_box/magazine/pdc/light_cannon,
-/obj/item/ammo_box/magazine/pdc/light_cannon,
-/obj/item/ammo_box/magazine/pdc/light_cannon,
-/obj/item/ammo_box/magazine/pdc/light_cannon,
-/obj/item/ammo_box/magazine/pdc/light_cannon,
-/obj/item/ammo_box/magazine/pdc/heavy_cannon,
-/obj/item/ammo_box/magazine/pdc/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
 /turf/open/floor/monotile/steel{
 	initial_gas_mix = "TEMP=2.7"
 	},
@@ -12116,11 +12079,17 @@
 /area/engine/engine_room)
 "QU" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
-/obj/machinery/gauss_dispenser,
 /obj/structure/closet/crate{
 	opened = 1
 	},
 /obj/item/multitool,
+/obj/machinery/ship_weapon/pdc_mount/north,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "QV" = (
@@ -13245,7 +13214,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "UP" = (
-/obj/machinery/suit_storage_unit/standard_unit,
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "UQ" = (
@@ -14434,10 +14403,16 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "Zn" = (
-/obj/machinery/gauss_dispenser,
 /obj/structure/closet/crate{
 	opened = 1
 	},
+/obj/machinery/ship_weapon/pdc_mount/north,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Zp" = (
@@ -46348,7 +46323,7 @@ IG
 iH
 tQ
 dC
-eK
+eM
 Rb
 Om
 hL
@@ -46606,7 +46581,7 @@ iC
 Hi
 dC
 uW
-xY
+Rb
 gW
 hL
 Oo
@@ -47121,7 +47096,7 @@ lZ
 dC
 eM
 fM
-pO
+xY
 hL
 ir
 ir
@@ -52526,7 +52501,7 @@ nC
 Xz
 xL
 eY
-mP
+Gt
 dH
 mP
 mP

@@ -90,6 +90,10 @@ SUBSYSTEM_DEF(vote)
 					else
 						factor = 1.4
 				choices["Initiate Crew Transfer"] += round(non_voters.len * factor)
+			else if(mode == "Press On Or Return Home?") //NSV13 - Round extension vote
+				choices["Return to Outpost 45"] += non_voters.len
+				if(choices["Return to Outpost 45"] >= greatest_votes)
+					greatest_votes = choices["Return to Outpost 45"]
 	//get all options with that many votes and return them in a list
 	. = list()
 	if(greatest_votes)
@@ -149,6 +153,17 @@ SUBSYSTEM_DEF(vote)
 					var/obj/machinery/computer/communications/C = locate() in GLOB.machines
 					if(C)
 						C.post_status("shuttle")
+			if("Press On Or Return Home?") //NSV13 - Round extension vote
+				if(. == "Request Additional Objectives")
+					priority_announce("Additional Objectives") //TEMP
+					SSovermap_mode.round_extended = TRUE
+					SSovermap_mode.request_additional_objectives()
+					SSovermap_mode.already_ended = FALSE
+				else
+					priority_announce("Returning to Outpost 45") //TEMP
+					var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+					OM.force_return_jump(SSstar_system.system_by_id("Outpost 45"))
+
 	if(restart)
 		var/active_admins = FALSE
 		for(var/client/C in GLOB.admins+GLOB.deadmins)
@@ -216,6 +231,8 @@ SUBSYSTEM_DEF(vote)
 					choices.Add(valid_map)
 			if("transfer")
 				choices.Add("Initiate Crew Transfer", "Continue Playing")
+			if("Press On Or Return Home?") //NSV13 - Round extension vote
+				choices.Add("Return to Outpost 45", "Request Additional Objectives")
 			if("custom")
 				question = stripped_input(usr,"What is the vote for?")
 				if(!question)

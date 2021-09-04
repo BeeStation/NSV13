@@ -54,14 +54,14 @@
 	crate_name = "Captain Plasmasalt's finest gunpowder"
 
 /datum/supply_pack/munitions/pdc_ammo
-	name = "PDC turret rounds (x5)"
-	desc = "5 boxes of PDC turret rounds, ideal for repelling torpedoes and missiles."
+	name = "PDC mount rounds (x5)"
+	desc = "5 boxes of PDC rounds, ideal for repelling torpedoes and missiles."
 	cost = 1000
-	contains = list(/obj/item/ammo_box/magazine/pdc/fiftycal,
-					/obj/item/ammo_box/magazine/pdc/fiftycal,
-					/obj/item/ammo_box/magazine/pdc/fiftycal,
-					/obj/item/ammo_box/magazine/pdc/fiftycal,
-					/obj/item/ammo_box/magazine/pdc/fiftycal)
+	contains = list(/obj/item/ammo_box/magazine/nsv/pdc,
+					/obj/item/ammo_box/magazine/nsv/pdc,
+					/obj/item/ammo_box/magazine/nsv/pdc,
+					/obj/item/ammo_box/magazine/nsv/pdc,
+					/obj/item/ammo_box/magazine/nsv/pdc)
 	crate_name = "PDC ammunition crate"
 
 /datum/supply_pack/munitions/trolley
@@ -273,32 +273,32 @@
 	name = "Light Cannon Ammunition"
 	desc = "10 boxes of light cannon ammunition for use in fighters."
 	cost = 1000
-	contains = list(/obj/item/ammo_box/magazine/pdc/light_cannon,
-					/obj/item/ammo_box/magazine/pdc/light_cannon,
-					/obj/item/ammo_box/magazine/pdc/light_cannon,
-					/obj/item/ammo_box/magazine/pdc/light_cannon,
-					/obj/item/ammo_box/magazine/pdc/light_cannon,
-					/obj/item/ammo_box/magazine/pdc/light_cannon,
-					/obj/item/ammo_box/magazine/pdc/light_cannon,
-					/obj/item/ammo_box/magazine/pdc/light_cannon,
-					/obj/item/ammo_box/magazine/pdc/light_cannon,
-					/obj/item/ammo_box/magazine/pdc/light_cannon)
+	contains = list(/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon)
 	crate_name = "Light cannon ammunition crate"
 
 /datum/supply_pack/munitions/heavy_cannon
 	name = "Heavy Cannon Ammunition"
 	desc = "10 boxes of heavy cannon ammunition for use in fighters."
 	cost = 1000
-	contains = list(/obj/item/ammo_box/magazine/pdc/heavy_cannon,
-					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
-					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
-					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
-					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
-					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
-					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
-					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
-					/obj/item/ammo_box/magazine/pdc/heavy_cannon,
-					/obj/item/ammo_box/magazine/pdc/heavy_cannon)
+	contains = list(/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon)
 	crate_name = "Heavy cannon ammunition crate"
 
 /datum/supply_pack/security/peacekeeper_rifles
@@ -503,3 +503,12 @@
 					/obj/item/ammo_box/magazine/m556,
 					/obj/item/ammo_box/magazine/m556,
 					/obj/item/ammo_box/magazine/m556)
+
+/datum/supply_pack/engineering/hulljuice
+	name = "Hulljuice Tank Crate"
+	desc = "Keep yourself afloat aboard the ship with some healthy hull repair JUICE! It includes one tank and two extinguishers. Apply liberally to damaged hull plates"
+	cost = 1200
+	contains = list(/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
+					/obj/item/extinguisher/advanced/hull_repair_juice,
+					/obj/item/extinguisher/advanced/hull_repair_juice)
+	crate_name = "engineering crate"

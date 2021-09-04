@@ -59,14 +59,15 @@ Set up relationships.
 	for(var/datum/faction/F in relationships)
 		if(relationships[F] <= RELATIONSHIP_ENEMIES)
 			F.gain_influence(value)
-	SSstar_system.check_completion()
+	//SSstar_system.check_completion()
 
 /datum/faction/proc/gain_influence(value)
 	tickets += value
-	SSstar_system.check_completion()
+	//SSstar_system.check_completion()
 
 /datum/faction/proc/send_fleet(datum/star_system/override=null, custom_difficulty=null, force=FALSE)
-	if(SSstar_system.check_completion() || !fleet_types || !force && (world.time < next_fleet_spawn))
+	 //if(SSstar_system.check_completion() || !fleet_types || !force && (world.time < next_fleet_spawn)) - Why are we checking completion this here?
+	if(!fleet_types || !force && (world.time < next_fleet_spawn))
 		return
 	next_fleet_spawn = world.time + fleet_spawn_rate
 	var/datum/star_system/current_system //Dont spawn enemies where theyre currently at
@@ -155,8 +156,8 @@ Set up relationships.
 		if(SS.name == "Outpost 45")
 			SS.hidden = FALSE
 	tickets = 0
-	SSstar_system.nag_stacks = 0
-	SSstar_system.next_nag_time = world.time + 10 HOURS
+	SSovermap_mode.objective_reminder_stacks = 0
+	SSovermap_mode.next_objective_reminder = world.time + 10 HOURS
 
 /datum/faction/pirate
 	name = "Tortuga Raiders"
