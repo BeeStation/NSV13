@@ -121,10 +121,13 @@
 		objective_count += forge_single_objective()
 
 	for(var/i = objective_count, i < CONFIG_GET(number/traitor_objectives_amount), i++)
-		var/datum/objective/assassinate/kill_objective = new
-		kill_objective.owner = owner
-		kill_objective.find_target()
-		add_objective(kill_objective)
+		if(length(GLOB.joined_player_list) >= CONFIG_GET(number/minpop_kill_objectives)) //NSV13 - no lowpop murder
+			var/datum/objective/assassinate/kill_objective = new
+			kill_objective.owner = owner
+			kill_objective.find_target()
+			add_objective(kill_objective)
+		else
+			objective_count += forge_single_objective()
 
 	var/datum/objective/survive/exist/exist_objective = new
 	exist_objective.owner = owner
@@ -152,7 +155,7 @@
 			maroon_objective.owner = owner
 			maroon_objective.find_target()
 			add_objective(maroon_objective)
-		else
+		else if(length(GLOB.joined_player_list) >= CONFIG_GET(number/minpop_kill_objectives)) //NSV13 - no lowpop murder
 			var/datum/objective/assassinate/kill_objective = new
 			kill_objective.owner = owner
 			kill_objective.find_target()
