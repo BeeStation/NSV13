@@ -18,14 +18,14 @@
 	// give it a name
 	var/ship_name = generate_ship_name()
 	target_ship.name = ship_name
-	target_system.add_ship(target_ship)
-	brief = "Capture the syndicate vessel [target_ship.name] in [target_system.name] by boarding it, defeating the enemies therein, and modifying its IFF codes."
 	// give it a home
 	var/list/candidates = list()
 	for(var/datum/star_system/S in SSstar_system.systems)
 		if(istype(S, /datum/star_system/random))
 			candidates += S
 	target_system = pick(candidates)
+	brief = "Capture the syndicate vessel [target_ship.name] in [target_system.name] by boarding it, defeating the enemies therein, and modifying its IFF codes."
+	target_system.add_ship(target_ship)
 	target_system.enemies_in_system += target_ship
 	// give it a friend :)
 	var/datum/faction/S = SSstar_system.faction_by_id(FACTION_ID_SYNDICATE)
@@ -33,6 +33,20 @@
 	var/datum/fleet/F = pick(target_system.fleets)
 	F.fleet_trait = FLEET_TRAIT_DEFENSE
 	F.add_ship(target_ship)
+
+	// How long should this take?
+	var/list/fastest_route = find_route(SSstar_system.find_system(SSovermap_mode.mode.starting_system), target_system)
+	var/distance = 0
+	for(var/i = 2; i < length(fastest_route); i++)
+		var/datum/star_system/start = fastest_route[i-1]
+		var/datum/star_system/finish = fastest_route[i]
+		distance += start.dist(finish)
+	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+	var/travel_time = (distance / (OM.ftl_drive.jump_speed_factor*10)) SECONDS // Time spent flying
+	travel_time += 2 MINUTES * length(fastest_route) // Time spent spooling FTL drive
+	travel_time *= 1.2 // Time spent lolligagging
+	SSovermap_mode.mode.objective_reminder_interval = max((travel_time / 5), SSovermap_mode.mode.objective_reminder_interval)
+	message_admins("Reminder interval set to [(SSovermap_mode.mode.objective_reminder_interval) / 600] minutes")
 
 /datum/overmap_objective/board_ship/check_completion()
 	if (target_ship.faction == SSovermap_mode.mode.starting_faction)
