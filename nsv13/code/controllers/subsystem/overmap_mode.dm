@@ -1,0 +1,536 @@
+//The NSV13 Version of Game Mode, except it for the overmap and runs parallel to Game Mode
+
+#define STATUS_INPROGRESS 0
+#define STATUS_COMPLETED 1
+#define STATUS_FAILED 2
+#define STATUS_OVERRIDE 3
+
+#define REMINDER_OBJECTIVES 0
+#define REMINDER_COMBAT_RESET 1
+#define REMINDER_COMBAT_DELAY 2
+#define REMINDER_OVERRIDE 3
+
+SUBSYSTEM_DEF(overmap_mode)
+	name = "overmap_mode"
+	wait = 10
+	init_order = INIT_ORDER_OVERMAP_MODE
+
+	var/escalation = 0								//Admin ability to tweak current mission difficulty level
+	var/player_check = 0 							//Number of players connected when the check is made for gamemode
+	var/datum/overmap_gamemode/mode 				//The assigned mode
+
+	var/objective_reminder_override = FALSE 		//Are we currently using the reminder system?
+	var/last_objective_interaction = 0 				//Last time the crew interacted with one of our objectives
+	var/next_objective_reminder = 0 				//Next time we automatically remind the crew to proceed with objectives
+	var/objective_reminder_stacks = 0 				//How many times has the crew been automatically reminded of objectives without any progress
+	var/objective_resets_reminder = FALSE			//Do we only reset the reminder when we complete an objective?
+	var/combat_resets_reminder = FALSE 				//Does combat in the overmap reset the reminder?
+	var/combat_delays_reminder = FALSE 				//Does combat in the overmap delay the reminder?
+	var/combat_delay_amount = 0 					//How much the reminder is delayed by combat
+
+	var/announced_objectives = FALSE 				//Have we announced the objectives yet?
+	var/round_extended = FALSE 						//Has the round already been extended already?
+	var/admin_override = FALSE						//Stops the mission ending
+	var/already_ended = FALSE						//Is the round already in an ending state
+	var/mode_initialised = FALSE
+
+	var/check_completion_timer = 0
+
+	var/list/mode_cache
+
+	var/list/modes
+	var/list/mode_names
+
+/datum/controller/subsystem/overmap_mode/Initialize(start_timeofday)
+	//Retrieve the list of modes
+	//Check our map for any white/black lists
+	//Exclude or lock any modes due to maps
+	//Check the player numbers
+	//Exclude or lock any modes due to players
+	//Use probs to pick a mode from the trimmed pool
+	//Set starting systems for the player ships
+	//Load and set objectives
+
+	mode_cache = typecacheof(/datum/overmap_gamemode, TRUE)
+
+	for(var/D in subtypesof(/datum/overmap_gamemode))
+		var/datum/overmap_gamemode/N = new D()
+		mode_cache[D] = N
+
+	var/list/mode_pool = mode_cache
+
+	for(var/M in mode_pool)
+		var/datum/overmap_gamemode/GM = mode_pool[M]
+		if(GM.whitelist_only) //Remove all of our only whitelisted modes
+			QDEL_NULL(mode_pool[M])
+			mode_pool -= M
+
+	if(SSmapping.config.omode_blacklist.len > 0)
+		if(locate("all") in SSmapping.config.omode_blacklist)
+			mode_pool = list() //Clear the list
+		else
+			for(var/S in SSmapping.config.omode_blacklist) //Grab the string to be the path - is there a proc for this?
+				var/B = text2path("/datum/overmap_gamemode/[S]")
+				QDEL_NULL(mode_pool[B])
+				mode_pool -= B
+
+	if(SSmapping.config.omode_whitelist.len > 0)
+		for(var/S in SSmapping.config.omode_whitelist) //Grab the string to be the path - is there a proc for this?
+			var/W = text2path("/datum/overmap_gamemode/[S]")
+			mode_pool[W] = new W()
+
+	for(var/mob/dead/new_player/P in GLOB.player_list) //Count the number of connected players
+		if(P.client)
+			player_check ++
+
+	for(var/M in mode_pool) //Check and remove any modes that we have insufficient players for the mode
+		var/datum/overmap_gamemode/GM = mode_pool[M]
+		if(player_check < GM.required_players)
+			QDEL_NULL(mode_pool[M])
+			mode_pool -= M
+		else if(GM.max_players > 0)
+			if(player_check > GM.max_players)
+				QDEL_NULL(mode_pool[M])
+				mode_pool -= M
+
+	if(mode_pool.len)
+		var/list/mode_select = list()
+		for(var/M in mode_pool)
+			var/datum/overmap_gamemode/GM = mode_pool[M]
+			for(var/I = 0, I < GM.selection_weight, I++) //Populate with weight number of instances
+				mode_select += M
+
+		if(mode_select.len)
+			var/mode_type = pick(mode_select)
+			mode = mode_pool[mode_type]
+			message_admins("[mode.name] has been selected as the overmap gamemode")
+			log_game("[mode.name] has been selected as the overmap gamemode")
+	if(!mode)
+		mode = new/datum/overmap_gamemode/patrol() //Holding that as the default for now - REPLACE ME LATER
+		message_admins("Error: mode section pool empty - defaulting to PATROL")
+		log_game("Error: mode section pool empty - defaulting to PATROL")
+
+	return ..()
+
+/datum/controller/subsystem/overmap_mode/proc/setup_overmap_mode()
+	mode_initialised = TRUE
+	switch(mode.objective_reminder_setting) //Load the reminder settings
+		if(REMINDER_OBJECTIVES)
+			objective_resets_reminder = TRUE
+		if(REMINDER_COMBAT_RESET)
+			combat_resets_reminder = TRUE
+		if(REMINDER_COMBAT_DELAY)
+			combat_delays_reminder = TRUE
+			combat_delay_amount = mode.combat_delay
+		if(REMINDER_OVERRIDE)
+			objective_reminder_override = TRUE
+
+	var/list/objective_pool = list() //Create instances of our objectives
+	for(var/O in mode.objectives)
+		var/datum/overmap_objective/I = new O()
+		objective_pool += I
+
+	mode.objectives = objective_pool
+	for(var/datum/overmap_objective/O in mode.objectives)
+		if(O.instanced == FALSE)
+			O.instance() //Setup any overmap assets
+
+	var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
+	if(MO)
+		var/datum/star_system/target = SSstar_system.system_by_id(mode.starting_system)
+		var/datum/star_system/curr = MO.current_system
+		curr?.remove_ship(MO)
+		MO.jump(target) //Move the ship to the designated start
+		if(mode.starting_faction)
+			MO.faction = mode.starting_faction //If we have a faction override, set it
+
+	var/obj/structure/overmap/MM = SSstar_system.find_main_miner() //ditto for the mining ship until delete
+	if(MM)
+		var/datum/star_system/target = SSstar_system.system_by_id(mode.starting_system)
+		var/datum/star_system/curr = MM.current_system
+		curr?.remove_ship(MM)
+		MM.jump(target)
+		if(mode.starting_faction)
+			MM.faction = mode.starting_faction
+
+/datum/controller/subsystem/overmap_mode/fire()
+	if(SSticker.current_state == GAME_STATE_PLAYING) //Wait for the game to begin
+		if(world.time >= check_completion_timer) //Fire this automatically every ten minutes to prevent round stalling
+			difficulty_calc() //Also do our difficulty check here
+			mode.check_completion()
+			check_completion_timer += 10 MINUTES
+
+		if(!objective_reminder_override)
+			if(world.time >= next_objective_reminder)
+				objective_reminder_stacks ++
+				next_objective_reminder = world.time + mode.objective_reminder_interval
+				if(!round_extended) //Normal Loop
+					switch(objective_reminder_stacks)
+						if(1) //something
+							priority_announce("[mode.reminder_one]", "[mode.reminder_origin]")
+							mode.consequence_one()
+						if(2) //something else
+							priority_announce("[mode.reminder_two]", "[mode.reminder_origin]")
+							mode.consequence_two()
+						if(3) //something else +
+							priority_announce("[mode.reminder_three]", "[mode.reminder_origin]")
+							mode.consequence_three()
+						if(4) //last chance
+							priority_announce("[mode.reminder_four]", "[mode.reminder_origin]")
+							mode.consequence_four()
+						if(5) //mission critical failure
+							priority_announce("[mode.reminder_five]", "[mode.reminder_origin]")
+							mode.consequence_five()
+				else
+					switch(objective_reminder_stacks) //Less Stacks Here, Prevent The Post-Round Stalling
+						if(1)
+							priority_announce("Auto-recall to Outpost 45 will occur in [(mode.objective_reminder_interval * 2) / 600] Minutes.", "[mode.reminder_origin]")
+
+						if(2)
+							priority_announce("Auto-recall to Outpost 45 will occur in [(mode.objective_reminder_interval * 1) / 600] Minutes.", "[mode.reminder_origin]")
+
+						if(3)
+							priority_announce("Auto-recall to Outpost 45 activated, additional objective aborted.", "[mode.reminder_origin]")
+							mode.victory()
+
+/datum/controller/subsystem/overmap_mode/proc/start_reminder()
+	next_objective_reminder = world.time + mode.objective_reminder_interval
+	addtimer(CALLBACK(src, .proc/announce_objectives), 3 MINUTES)
+
+/datum/controller/subsystem/overmap_mode/proc/announce_objectives()
+	announced_objectives = TRUE
+
+ 	/*
+	Replace with a SMEAC brief?
+	- Situation
+	- Mission
+	- Execution
+	- Administration
+	- Communication
+	*/
+
+	var/text = "<b>[GLOB.station_name]</b>, <br>You have been assigned the following mission by <b>[capitalize(mode.starting_faction)]</b> and are expected to complete it with all due haste. Please ensure your crew is properly informed of your objectives and delegate tasks accordingly."
+	var/title = "Mission Briefing: [random_capital_letter()][random_capital_letter()][random_capital_letter()]-[GLOB.round_id]"
+
+	text = "[text] <br><br> [mode.brief] <br><br> Objectives:"
+
+	for(var/datum/overmap_objective/O in mode.objectives)
+		text = "[text] <br> - [O.brief]"
+
+	print_command_report(text, title, TRUE)
+
+/datum/controller/subsystem/overmap_mode/proc/update_reminder(var/objective = FALSE)
+	if(objective && objective_resets_reminder) //Is objective? Full Reset
+		last_objective_interaction = world.time
+		objective_reminder_stacks = 0
+		next_objective_reminder = world.time + mode.objective_reminder_interval
+		return
+
+	if(combat_resets_reminder) //Set for full reset on combat
+		objective_reminder_stacks = 0
+		next_objective_reminder = world.time + mode.objective_reminder_interval
+		return
+
+	if(combat_delays_reminder) //Set for time extension on combat
+		next_objective_reminder += combat_delay_amount
+		return
+
+/datum/controller/subsystem/overmap_mode/proc/request_additional_objectives()
+	for(var/datum/overmap_objective/O in mode.objectives)
+		O.ignore_check = TRUE //We no longer care about checking these objective against completeion
+
+	var/list/extension_pool = typecacheof(/datum/overmap_objective, TRUE)
+	for(var/O in extension_pool)
+		var/datum/overmap_objective/OO = new O()
+		if(OO.extension_supported == FALSE) //Clear the pool of anything we can't add
+			extension_pool -= O
+		else
+			extension_pool[O] = OO
+
+	var/datum/overmap_objective/selected = extension_pool[pick(extension_pool)] //Insert new objective
+	mode.objectives += selected
+	for(var/datum/overmap_objective/O in mode.objectives)
+		if(O.instanced == FALSE)
+			O.instance()
+
+	announce_objectives() //Let them all know
+
+	//Reset the reminder system & impose a hard timelimit
+	combat_resets_reminder = FALSE
+	combat_delays_reminder = FALSE
+	mode.objective_reminder_interval = 10 MINUTES
+	objective_reminder_stacks = 0
+	next_objective_reminder = world.time + mode.objective_reminder_interval
+
+/datum/controller/subsystem/overmap_mode/proc/difficulty_calc()
+	var/players = get_active_player_count(TRUE, FALSE, FALSE) //Check how many players are still alive
+	mode.difficulty = CLAMP((CEILING(players / 10, 1)), 1, 5)
+	mode.difficulty += escalation //Our admin adjustment
+	if(mode.difficulty <= 0)
+		mode.difficulty = 1
+
+/datum/overmap_gamemode
+	var/name = null											//Name of the gamemode type
+	var/desc = null											//Description of the gamemode for ADMINS
+	var/brief = null										//Description of the gamemode for PLAYERS
+	var/selection_weight = 0								//Used to determine the chance of this gamemode being selected
+	var/required_players = 0								//Required number of players for this gamemode to be randomly selected
+	var/max_players = 0										//Maximum amount of players allowed for this mode, 0 = unlimited
+	var/difficulty = null									//Difficulty of the gamemode as determined by player count / abus abuse: 1 is minimum, 10 is maximum
+	var/starting_system = null								//Here we define where our player ships will start
+	var/starting_faction = null 							//Here we define which faction our player ships belong
+	var/objective_reminder_setting = REMINDER_OBJECTIVES	//0 - Objectives reset remind. 1 - Combat resets reminder. 2 - Combat delays reminder. 3 - Disables reminder
+	var/objective_reminder_interval = 15 MINUTES			//Interval between objective reminders
+	var/combat_delay = 0									//How much time is added to the reminder timer
+	var/list/objectives = list()							//The actual gamemode objectives go here
+	var/whitelist_only = FALSE								//Can only be selected through map bound whitelists
+
+	//Reminder messages
+	var/reminder_origin = "Naval Command"
+	var/reminder_one = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, please continue on your mission"
+	var/reminder_two = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, your inactivity has been noted and will not be tolerated."
+	var/reminder_three = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, we are not paying you to idle in space during your assigned mission"
+	var/reminder_four = "This is Centcomm to the vessel currently assigned to the Delphic Expanse, you are expected to fulfill your assigned mission"
+	var/reminder_five = "This is Centcomm, due to your slow pace, a Syndicate Interdiction fleet has tracked you down, prepare for combat!"
+
+/datum/overmap_gamemode/proc/consequence_one()
+
+/datum/overmap_gamemode/proc/consequence_two()
+	var/datum/faction/F = SSstar_system.find_main_overmap().faction
+	F.lose_influence(25)
+
+/datum/overmap_gamemode/proc/consequence_three()
+	var/datum/faction/F = SSstar_system.find_main_overmap().faction
+	F.lose_influence(25)
+
+/datum/overmap_gamemode/proc/consequence_four()
+	var/datum/faction/F = SSstar_system.find_main_overmap().faction
+	F.lose_influence(25)
+
+/datum/overmap_gamemode/proc/consequence_five()
+	//Hotdrop O'Clock
+	var/datum/star_system/target = SSstar_system.find_main_overmap().current_system
+	priority_announce("Attention all ships throughout the fleet, assume DEFCON 1. A Syndicate invasion force has been spotted in [target]. All fleets must return to allied space and assist in the defense.") //need a faction message
+	var/datum/fleet/F = new /datum/fleet/interdiction() //need a fleet
+	target.fleets += F
+	F.current_system = target
+	F.assemble(target)
+	SSovermap_mode.objective_reminder_stacks = 0 //Reset
+
+/datum/overmap_gamemode/proc/check_completion() //This gets called by checking the communication console/modcomp program + automatically once every 10 minutes
+	if(SSovermap_mode.already_ended)
+		return
+
+	var/objective_length = objectives.len
+	var/objective_check = 0
+	var/failed = FALSE
+	for(var/datum/overmap_objective/O in objectives)
+		O.check_completion() 	//First we try to check completion on each objective
+		if(O.status == STATUS_OVERRIDE) //Victory override check
+			victory()
+			return
+		else if(O.status == STATUS_COMPLETED)
+			objective_check ++
+		else if(O.status == STATUS_FAILED)
+			objective_check ++
+			if(O.ignore_check == TRUE) //This was a gamemode objective
+				failed = TRUE
+
+	if((objective_check >= objective_length) && !failed)
+		victory()
+
+/datum/overmap_gamemode/proc/victory()
+	if(SSovermap_mode.admin_override)
+		message_admins("[GLOB.station_name] has completed its objectives but round end has been overriden by admin intervention")
+		return
+
+	SSovermap_mode.already_ended = TRUE //Prevent repeats
+	if(!SSovermap_mode.round_extended)	//If we haven't yet extended the round, let us vote!
+		priority_announce("Mission Complete - Vote Pending") //TEMP get better words
+		SSvote.initiate_vote("Press On Or Return Home?", "Centcomm", forced=TRUE, popup=FALSE)
+	else	//Begin FTL jump to Outpost 45
+		priority_announce("Mission Complete - Returning to Outpost 45") //TEMP get better words
+		var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+		OM.force_return_jump(SSstar_system.system_by_id("Outpost 45"))
+
+/datum/overmap_gamemode/proc/defeat() //Override this if defeat is to be called based on an objective
+	priority_announce("Mission Critical Failure - Standby for carbon asset liquidation")
+	SSticker.mode.check_finished(TRUE)
+	SSticker.force_ending = TRUE
+
+/datum/overmap_objective
+	var/name							//Name for admin view
+	var/desc							//Short description for admin view
+	var/brief							//Description for PLAYERS
+	var/stage							//For multi step objectives
+	var/binary = TRUE					//Is this just a simple T/F objective?
+	var/tally = 0						//How many of the objective goal has been completed
+	var/target = 0						//How many of the objective goal is required
+	var/status = STATUS_INPROGRESS		//0 = In-progress, 1 = Completed, 2 = Failed, 3 = Victory Override (this will end the round)
+	var/extension_supported = FALSE 	//Is this objective available to be a random extended round objective?
+	var/ignore_check = FALSE			//Used for checking extended rounds
+	var/instanced = FALSE				//Have we yet run the instance proc for this objective?
+
+/datum/overmap_objective/New()
+
+/datum/overmap_objective/proc/instance() //Used to generate any in world assets
+	instanced = TRUE
+
+/datum/overmap_objective/proc/check_completion()
+
+/datum/overmap_objective/custom
+	name = "Custom"
+
+/datum/overmap_objective/custom/New(var/passed_input) //Receive the string and make it brief/desc
+	.=..()
+	desc = passed_input
+	brief = passed_input
+
+//////ADMIN TOOLS//////
+
+/client/proc/overmap_mode_controller() //Admin Verb for the Overmap Gamemode controller
+	set name = "Overmap Gamemode Controller"
+	set desc = "Manage the Overmap Gamemode"
+	set category = "Adminbus"
+	var/datum/overmap_mode_controller/omc = new(usr)
+	omc.ui_interact(usr)
+
+/datum/overmap_mode_controller
+	var/name = "Overmap Gamemode Controller"
+	var/client/holder = null
+
+/datum/overmap_mode_controller/New(H)
+	if(istype(H, /client))
+		var/client/C = H
+		holder = C
+	else
+		var/mob/M = H
+		holder = M.client
+	.=..()
+
+/datum/overmap_mode_controller/ui_state(mob/user)
+	return GLOB.admin_state
+
+/datum/overmap_mode_controller/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "OvermapGamemodeController")
+		ui.open()
+
+/datum/overmap_mode_controller/ui_act(action, params)
+	if(..())
+		return
+	var/adjust = text2num(params["adjust"])
+	if(action == "current_escalation")
+		if(isnum(adjust))
+			SSovermap_mode.escalation = adjust
+			if(SSovermap_mode.escalation > 5)
+				SSovermap_mode.escalation = 5
+			if(SSovermap_mode.escalation < -5)
+				SSovermap_mode.escalation = -5
+			SSovermap_mode.difficulty_calc()
+
+	switch(action)
+		if("change_gamemode")
+			if(SSovermap_mode.mode_initialised)
+				message_admins("Post Initilisation Overmap Gamemode Changes Not Currently Supported") //SoonTM
+				return
+			var/list/gamemode_pool = typecacheof(/datum/overmap_gamemode, TRUE)
+			var/datum/overmap_gamemode/S = input("Select Overmap Gamemode", "Change Overmap Gamemode") as null|anything in gamemode_pool
+			if(isnull(S))
+				return
+			SSovermap_mode.mode = new S()
+			message_admins("[key_name_admin(usr)] has changed the overmap gamemode to [SSovermap_mode.mode.name]")
+			return
+		if("add_objective")
+			var/list/objectives_pool = typecacheof(/datum/overmap_objective, TRUE)
+			var/datum/overmap_objective/S = input("Select objective to add", "Add Objective") as null|anything in objectives_pool
+			if(isnull(S))
+				return
+			SSovermap_mode.mode.objectives += new S()
+			for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+				if(O.instanced == FALSE)
+					O.instance()
+			return
+		if("add_custom_objective")
+			var/custom_desc = input("Input Objective Briefing", "Custom Objective") as text|null
+			SSovermap_mode.mode.objectives += new /datum/overmap_objective/custom(custom_desc)
+			return
+		if("view_vars")
+			usr.client.debug_variables(locate(params["target"]))
+			return
+		if("remove_objective")
+			var/datum/overmap_objective/O = locate(params["target"])
+			SSovermap_mode.mode.objectives -= O
+			qdel(O)
+			return
+		if("change_objective_state")
+			var/list/o_state = list("In-Progress",
+									"Completed",
+									"Failed",
+									"Victory Override")
+			var/new_state = input("Select state to set", "Change Objective State") as null|anything in o_state
+			if(new_state == "In-Progress")
+				new_state = STATUS_INPROGRESS
+			else if(new_state == "Completed")
+				new_state = STATUS_COMPLETED
+			else if(new_state == "Failed")
+				new_state = STATUS_FAILED
+			else if(new_state == "Victory Override")
+				new_state = STATUS_OVERRIDE
+			var/datum/overmap_objective/O = locate(params["target"])
+			O.status = new_state
+			return
+		if("toggle_reminder")
+			SSovermap_mode.objective_reminder_override = !SSovermap_mode.objective_reminder_override
+			return
+		if("extend_reminder")
+			var/amount = input("Enter amount to extend by in minutes:", "Extend Reminder") as num|null
+			SSovermap_mode.next_objective_reminder += amount MINUTES
+			return
+		if("reset_stage")
+			SSovermap_mode.objective_reminder_stacks = 0
+			return
+		if("override_completion")
+			SSovermap_mode.admin_override = !SSovermap_mode.admin_override
+			return
+
+/datum/overmap_mode_controller/ui_data(mob/user)
+	var/list/data = list()
+	var/list/objectives = list()
+	data["current_gamemode"] = SSovermap_mode.mode.name
+	data["current_description"] = SSovermap_mode.mode.desc
+	data["mode_initalised"] = SSovermap_mode.mode_initialised
+	data["current_difficulty"] = SSovermap_mode.mode.difficulty
+	data["current_escalation"] = SSovermap_mode.escalation
+	data["reminder_time_remaining"] = (SSovermap_mode.next_objective_reminder - world.time) / 10 //Seconds
+	data["reminder_interval"] = SSovermap_mode.mode.objective_reminder_interval / 600 //Minutes
+	data["reminder_stacks"] = SSovermap_mode.objective_reminder_stacks
+	data["toggle_reminder"] = SSovermap_mode.objective_reminder_override
+	data["toggle_override"] = SSovermap_mode.admin_override
+	for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+		var/list/objective_data = list()
+		objective_data["name"] = O.name
+		objective_data["desc"] = O.desc
+		switch(O.status)
+			if(STATUS_INPROGRESS)
+				objective_data["status"] = "In-Progress"
+			if(STATUS_COMPLETED)
+				objective_data["status"] = "Completed"
+			if(STATUS_FAILED)
+				objective_data["status"] = "Failed"
+			if(STATUS_OVERRIDE)
+				objective_data["status"] = "Completed - VICTORY OVERRIDE"
+		objective_data["datum"] = "\ref[O]"
+		objectives[++objectives.len] = objective_data
+	data["objectives_list"] = objectives
+	return data
+
+#undef STATUS_INPROGRESS
+#undef STATUS_COMPLETED
+#undef STATUS_FAILED
+#undef STATUS_OVERRIDE
+#undef REMINDER_OBJECTIVES
+#undef REMINDER_COMBAT_RESET
+#undef REMINDER_COMBAT_DELAY
+#undef REMINDER_OVERRIDE

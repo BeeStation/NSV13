@@ -248,6 +248,8 @@ SUBSYSTEM_DEF(ticker)
 			SSjob.ResetOccupations()
 			return 0
 
+	CHECK_TICK //NSV 13
+	SSovermap_mode.setup_overmap_mode() //NSV 13 - Injecting our overmap stuff here
 	CHECK_TICK
 	//Configure mode and assign player to special mode stuff
 	var/can_continue = 0
@@ -304,6 +306,7 @@ SUBSYSTEM_DEF(ticker)
 
 	current_state = GAME_STATE_PLAYING
 	Master.SetRunLevel(RUNLEVEL_GAME)
+	SSovermap_mode.start_reminder() //NSV13
 
 	if(SSevents.holidays)
 		to_chat(world, "<span class='notice'>and...</span>")
@@ -591,7 +594,7 @@ SUBSYSTEM_DEF(ticker)
 			news_message = "The sol sector has fallen into anarchistic piracy, as the Tortuga raiders used the chaos of a surprise attack by Syndicate forces to seize a large amount of territory unanswered."
 
 	if(news_message)
-		comms_send(news_source, news_message, "News_Report", CONFIG_GET(flag/insecure_newscaster))
+		SStopic.crosscomms_send("news_report", news_message, news_source)
 
 /datum/controller/subsystem/ticker/proc/GetTimeLeft()
 	if(isnull(SSticker.timeLeft))
