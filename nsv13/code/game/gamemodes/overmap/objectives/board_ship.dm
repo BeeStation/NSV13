@@ -33,7 +33,7 @@
 	S.send_fleet(target_system, null, TRUE)
 	var/datum/fleet/F = pick(target_system.fleets)
 	F.fleet_trait = FLEET_TRAIT_DEFENSE
-	F.add_ship(target_ship)
+	F.add_ship(target_ship, "battleships")
 
 	// How long should this take?
 	var/list/fastest_route = find_route(SSstar_system.find_system(SSovermap_mode.mode.starting_system), target_system)
