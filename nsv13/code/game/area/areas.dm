@@ -715,14 +715,3 @@
 	icon_state = "bunker"
 	ambient_effects = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/ship_damage/creak1.ogg','nsv13/sound/ambience/ship_damage/creak2.ogg','nsv13/sound/ambience/ship_damage/creak3.ogg','nsv13/sound/ambience/ship_damage/creak4.ogg','nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg','nsv13/sound/ambience/ship_damage/creak7.ogg')
 	light_color = "#e69602"
-
-/area/medical/medbay/traumacenter
-	name = "Trauma Center"
-	icon_state = "surgery"
-	ambient_effects = 'nsv13/sound/ambience/medbay.ogg'
-
-/area/crew_quarters/naturedeck
-	name = "Nature Deck"
-	icon_state = "garden"
-	mood_bonus = 5
-	mood_message = "<span class='nicegreen'>It's so serene and beautiful here.\n</span>"
