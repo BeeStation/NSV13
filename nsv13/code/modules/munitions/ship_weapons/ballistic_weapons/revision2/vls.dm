@@ -282,6 +282,10 @@
 		return
 	if(!weapon_types[FIRE_MODE_FLAK] || flak_battery_amount <= 0)
 		return FALSE
+	if(light_shots_left <= 0)
+		spawn(150)
+			light_shots_left = initial(light_shots_left) // make them reload like real people, sort of
+		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_FLAK]
 	var/flak_left = flak_battery_amount //Multi-flak batteries!
 	if(!ai_controlled)
@@ -342,7 +346,11 @@
 				continue
 			if(!QDELETED(ship) && isovermap(ship) && ship.is_sensor_visible(src) >= SENSOR_VISIBILITY_TARGETABLE)
 				last_target = ship
-				fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
+				if(light_shots_left <= 0)
+					spawn(150)
+						light_shots_left = initial(light_shots_left) // make them reload like real people, sort of
+				else
+					fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
 				flak_left --
 				if(flak_left <= 0)
 					break

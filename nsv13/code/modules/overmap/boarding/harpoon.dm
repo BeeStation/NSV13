@@ -305,13 +305,21 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	alpha = 0
 	mouse_opacity = FALSE
 
-/obj/effect/spawner/lootdrop/fiftycal
-	name = "fiftycal supplies spawner"
+/obj/effect/spawner/lootdrop/anti_air
+	name = "Anti-aircraft supplies spawner"
 	loot = list(
-		/obj/item/ammo_box/magazine/pdc/fiftycal = 15,
-		/obj/machinery/computer/fiftycal = 2,
-		/obj/machinery/ship_weapon/fiftycal = 1,
-		/obj/machinery/ship_weapon/fiftycal/super = 1
+		/obj/item/ammo_box/magazine/nsv/anti_air = 15,
+		/obj/machinery/computer/anti_air = 2,
+		/obj/machinery/ship_weapon/anti_air = 1,
+		/obj/machinery/ship_weapon/anti_air/heavy = 1
+)
+	lootcount = 1
+
+/obj/effect/spawner/lootdrop/pdc
+	name = "PDC supplies spawner"
+	loot = list(
+		/obj/item/ammo_box/magazine/nsv/pdc = 20,
+		/obj/machinery/ship_weapon/pdc_mount = 2,
 )
 	lootcount = 1
 

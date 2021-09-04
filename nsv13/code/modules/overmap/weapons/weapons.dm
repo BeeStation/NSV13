@@ -13,8 +13,6 @@
 		if(gunner)
 			to_chat(gunner, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
 		return
-	if(next_firetime > world.time)
-		return
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	last_target = target
 	if(ai_controlled) //Let the AI switch weapons according to range
@@ -23,8 +21,20 @@
 	if(istype(target, /obj/structure/overmap))
 		var/obj/structure/overmap/ship = target
 		ship.add_enemy(src)
-	next_firetime = world.time + fire_delay
 	fire_weapon(target)
+
+/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner, ai_aim=FALSE) //"Lateral" means that your ship doesnt have to face the target
+	var/datum/ship_weapon/SW = weapon_types[mode]
+	if(weapon_safety)
+		return FALSE
+	if(SW?.fire(target, ai_aim=ai_aim))
+		return TRUE
+	else
+		if(user_override && SW) //Tell them we failed
+			if(world.time < SW.next_firetime) //Silence, SPAM.
+				return FALSE
+			to_chat(user_override, SW.failure_alert)
+	return FALSE
 
 /obj/structure/overmap/verb/cycle_firemode()
 	set name = "Switch firemode"
@@ -48,21 +58,18 @@
 		return FIRE_MODE_TORPEDO
 	return FIRE_MODE_MAC
 
-/obj/structure/overmap/proc/swap_to(what=FIRE_MODE_PDC)
+/obj/structure/overmap/proc/swap_to(what=FIRE_MODE_ANTI_AIR)
 	if(!weapon_types[what])
 		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[what]
 	if(!SW.selectable)
 		return FALSE
-	fire_delay = initial(fire_delay) + SW.fire_delay
 	fire_mode = what
 	if(world.time > switchsound_cooldown)
 		relay(SW.overmap_select_sound)
 		switchsound_cooldown = world.time + 5 SECONDS
 	if(gunner)
 		to_chat(gunner, SW.select_alert)
-	if(ai_controlled)
-		fire_delay += 1 SECONDS //Make it fair on the humans who have to actually reload and stuff.
 	return TRUE
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target, ai_aim = FALSE)

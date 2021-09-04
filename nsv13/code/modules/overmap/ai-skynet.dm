@@ -1198,7 +1198,7 @@ Seek a ship thich we'll station ourselves around
 		var/uses_main_shot = FALSE //Will this shot count as depleting "shots left"? Heavy weapons eat ammo, PDCs do not.
 		//So! now we pick a weapon.. We start off with PDCs, which have an effective range of "5". On ships with gauss, gauss will be chosen 90% of the time over PDCs, because you can fire off a PDC salvo anyway.
 		//Heavy weapons take ammo, stuff like PDC and gauss do NOT for AI ships. We make decisions on the fly as to which gun we get to shoot. If we've run out of ammo, we have to resort to PDCs only.
-		for(var/I = FIRE_MODE_PDC; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
+		for(var/I = FIRE_MODE_ANTI_AIR; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
 			var/datum/ship_weapon/SW = weapon_types[I]
 			if(!SW)
 				continue
@@ -1240,7 +1240,6 @@ Seek a ship thich we'll station ourselves around
 		else
 			light_shots_left --
 		fire_weapon(target, new_firemode, ai_aim=TRUE)
-		next_firetime = world.time + (1 SECONDS) + (fire_delay*2)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
 
 /**
@@ -1262,7 +1261,7 @@ Seek a ship thich we'll station ourselves around
 	var/ammo_use = 0
 	var/smallest_cooldown = INFINITY
 
-	for(var/iter = FIRE_MODE_PDC, iter <= MAX_POSSIBLE_FIREMODE, iter++)
+	for(var/iter = FIRE_MODE_ANTI_AIR, iter <= MAX_POSSIBLE_FIREMODE, iter++)
 		if(iter == FIRE_MODE_AMS || iter == FIRE_MODE_FLAK)
 			continue	//These act independantly
 		var/will_use_ammo = FALSE
