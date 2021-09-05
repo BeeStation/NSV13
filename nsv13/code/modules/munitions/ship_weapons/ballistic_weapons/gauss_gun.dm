@@ -354,7 +354,7 @@
 	update_icon()
 
 /obj/structure/gauss_rack/Destroy()
-	for(var/atom/A in contents)
+	for(var/atom/movable/A in contents)
 		A.forceMove(loc)
 	. = ..()
 
