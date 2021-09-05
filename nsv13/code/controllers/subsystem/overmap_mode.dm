@@ -352,6 +352,8 @@ SUBSYSTEM_DEF(overmap_mode)
 		return
 
 	SSovermap_mode.already_ended = TRUE //Prevent repeats
+	var/datum/star_system/S = SSstar_system.system_by_id("Outpost 45")
+	S.hidden = FALSE
 	if(!SSovermap_mode.round_extended)	//If we haven't yet extended the round, let us vote!
 		priority_announce("Mission Complete - Vote Pending") //TEMP get better words
 		SSvote.initiate_vote("Press On Or Return Home?", "Centcomm", forced=TRUE, popup=FALSE)
