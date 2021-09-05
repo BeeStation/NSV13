@@ -1,6 +1,6 @@
 //Weapon modes
 
-#define FIRE_MODE_PDC 1
+#define FIRE_MODE_ANTI_AIR 1
 #define FIRE_MODE_TORPEDO 2
 
 //Revision 2.
@@ -9,7 +9,7 @@
 #define FIRE_MODE_MAC 5
 #define FIRE_MODE_RAILGUN 6
 #define FIRE_MODE_GAUSS 7
-#define FIRE_MODE_50CAL 8
+#define FIRE_MODE_PDC 8
 
 
 

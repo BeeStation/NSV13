@@ -129,9 +129,8 @@
 
 /obj/machinery/ship_weapon/gauss_gun/Initialize()
 	. = ..()
-	cabin_air = new
+	cabin_air = new(200)
 	cabin_air.set_temperature(T20C)
-	cabin_air.set_volume(200)
 	cabin_air.set_moles(/datum/gas/oxygen, O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 	cabin_air.set_moles(/datum/gas/nitrogen, N2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
@@ -201,7 +200,8 @@
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
 	if(gunner)
-		get_overmap().stop_piloting(gunner)
+		var/obj/structure/overmap/OM = get_overmap()
+		OM?.stop_piloting(gunner)
 		if(gunner_chair)
 			lower_chair()
 		else
@@ -316,6 +316,16 @@
 	var/loading = FALSE //stop you loading the same torp over and over
 	var/obj/machinery/ship_weapon/gauss_gun/gun
 	var/autoload = FALSE //Allows for AMBER compatability with Gauss.
+	///Amount of gauss rounds starting from the bottom of the rack that are fully opaque
+	var/full_alpha_count = 3
+	///Amount of alpha reduced with each subsequent gauss round added to the rack
+	var/alpha_interval = 40
+	///Minimum alpha for vis_contents
+	var/min_alpha = 70
+	///Maximum alpha for vis_contents
+	var/max_alpha = 255
+	///pixel_y offset for each gauss round in the rack
+	var/ammo_offset_y = 4
 
 /obj/item/circuitboard/gauss_rack_upgrade
 	name = "Gauss Rack Autoload Module (Circuit)"
@@ -387,10 +397,12 @@
 		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
 		if(do_after(user, 4 SECONDS , target = src))
 			for(var/obj/item/ship_weapon/ammunition/gauss/G in A)
-				if(load(G, user))
+				if(load(G, user, update_visuals = FALSE))
 					continue
 				else
 					break
+			update_visuals()
+
 //I'll probably live to regret this...
 /obj/structure/gauss_rack/Bumped(atom/movable/AM)
 	. = ..()
@@ -399,7 +411,7 @@
 			loading = TRUE
 			load(AM)
 
-/obj/structure/gauss_rack/proc/load(atom/movable/A, mob/user)
+/obj/structure/gauss_rack/proc/load(atom/movable/A, mob/user, update_visuals = TRUE)
 	if(capacity >= max_capacity)
 		if(user)
 			to_chat(user, "<span class='warning'>[src] is full!</span>")
@@ -408,11 +420,12 @@
 	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	if(istype(A, gun.ammo_type))
 		A.forceMove(src)
-		A.pixel_y = 5+(capacity*5)
 		vis_contents += A
 		capacity ++
 		A.layer = ABOVE_MOB_LAYER
 		A.mouse_opacity = FALSE //Nope, not letting you pick this up :)
+		if(update_visuals)
+			update_visuals()
 		loading = FALSE
 		return TRUE
 	else
@@ -420,14 +433,18 @@
 		return FALSE
 
 
-/obj/structure/gauss_rack/proc/unload(atom/movable/A)
+/obj/structure/gauss_rack/proc/unload(atom/movable/A, update_visuals = TRUE)
 	vis_contents -= A
 	A.forceMove(get_turf(src))
 	A.pixel_y = initial(A.pixel_y) //Remove our offset
+	A.alpha = initial(A.alpha)
 	A.layer = initial(A.layer)
 	A.mouse_opacity = TRUE
 	if(istype(A, gun.ammo_type)) //If a munition, allow them to load other munitions onto us.
 		capacity --
+	if(istype(A, /obj/item/circuitboard/gauss_rack_upgrade))
+		autoload = FALSE
+		update_icon()
 	if(contents.len)
 		var/count = capacity
 		for(var/X in contents)
@@ -435,6 +452,19 @@
 			if(istype(AM, gun.ammo_type))
 				AM.pixel_y = count*10
 				count --
+	if(update_visuals)
+		update_visuals()
+
+///Updates the pixel_y and alpha values of the gauss rounds inside the rack.
+/obj/structure/gauss_rack/proc/update_visuals()
+	if(!capacity)
+		return
+	var/i = 1
+	var/startalpha = 255 + (full_alpha_count * alpha_interval)
+	for(var/obj/item/ship_weapon/ammunition/gauss/G in vis_contents)
+		G.pixel_y = (i*ammo_offset_y)
+		G.alpha = clamp(startalpha - (i*alpha_interval), min_alpha, max_alpha) //3 full alpha rounds and then more transparency
+		i++
 
 /obj/structure/gauss_rack/attack_hand(mob/user)
 	. = ..()
@@ -450,7 +480,7 @@
 	if(..())
 		return
 	playsound(src.loc,'nsv13/sound/effects/fighters/switch.ogg', 50, FALSE)
-	var/atom/movable/BB = locate(params["id"])
+	var/atom/movable/BB = locate(params["id"]) in contents
 	switch(action)
 		if("unload")
 			if(!BB)
@@ -458,7 +488,9 @@
 			unload(BB)
 		if("unload_all")
 			for(var/atom/movable/A in src)
-				unload(A)
+				if(istype(A, gun.ammo_type)) //It says "unload all ammunition from rack" not "unload all"
+					unload(A, update_visuals = FALSE)
+			update_visuals()
 			return
 		if("load")
 			gun.raise_rack()
@@ -582,11 +614,10 @@ Chair + rack handling
 /obj/machinery/ship_weapon/gauss_gun/proc/lower_chair()
 	if(!gunner_chair || gunner_chair.loc != src)
 		return FALSE
-	var/mob/M = gunner
-	gunner = null
 	var/turf/below = SSmapping.get_turf_below(src)
 	gunner_chair.forceMove(below)
 	gunner_chair.locked = TRUE
+	var/mob/living/M = gunner
 	M.forceMove(below)
 	gunner_chair.buckle_mob(M)
 	playsound(below, 'nsv13/sound/effects/ship/freespace2/crane_2.wav', 100, FALSE)
@@ -621,9 +652,10 @@ Chair + rack handling
 	loading = TRUE
 	for(var/obj/item/ship_weapon/ammunition/A in ammo_rack.contents)
 		if(ammo?.len < max_ammo)
-			ammo_rack.unload(A)
+			ammo_rack.unload(A, update_visuals = FALSE)
 			A.forceMove(src)
 			ammo += A
+	ammo_rack.update_visuals()
 	if(load_sound)
 		playsound(src, load_sound, 100, 1)
 	state = 2

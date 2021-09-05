@@ -34,7 +34,7 @@
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp
 	name = "Aetherwhisp class light cruiser"
 	desc = "A mid range SolGov exploratory cruiser. These ships are geared for peaceful missions, but can defend themselves if they must."
-	icon = 'nsv13/icons/overmap/nanotrasen/aetherwhisp.dmi'
+	icon = 'nsv13/icons/overmap/nanotrasen/aetherbrick.dmi'
 	icon_state = "cruiser"
 	mass = MASS_MEDIUM_LARGE // A solgov ship has greater maneuverability but not much more than a LARGE NT ship
 	sprite_size = 48
@@ -49,17 +49,18 @@
 //Player Versions
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp/starter
+	icon = 'nsv13/icons/overmap/nanotrasen/aetherwhisp.dmi'
 	role = MAIN_OVERMAP
 	max_integrity = 750 //She's fragile and relies heavily on shields.
 	integrity_failure = 750
-	starting_system = "Argo"
+	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 //AI Versions
 
 /obj/structure/overmap/nanotrasen/solgov/ai
 	ai_controlled = TRUE
-	ai_flags = AI_FLAG_DESTROYER
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/destroyer
 	shots_left = 10000 //Issa laser.
 	torpedoes = 10
@@ -67,12 +68,12 @@
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp/ai
 	ai_controlled = TRUE
-	ai_flags = AI_FLAG_DESTROYER
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/nanotrasen/solgov/carrier/ai
 	ai_controlled = TRUE
-	ai_flags = AI_FLAG_SUPPLY
+	ai_flags = AI_FLAG_SUPPLY | AI_FLAG_ELITE
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = list(/obj/structure/overmap/nanotrasen/solgov/ai/fighter)
 	torpedoes = 0
@@ -97,16 +98,16 @@
 	missiles = 0
 	torpedoes = 0
 	armor = list("overmap_light" = 5, "overmap_medium" = 5,  "overmap_heavy" = 90)
-	ai_flags = AI_FLAG_SWARMER
+	ai_flags = AI_FLAG_SWARMER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/fighter
 
 /obj/structure/overmap/nanotrasen/solgov/ai/fighter/apply_weapons()
-	weapon_types[ FIRE_MODE_RED_LASER ] = new /datum/ship_weapon/pdc_mount/burst_phaser( src )
+	weapon_types[ FIRE_MODE_RED_LASER ] = new /datum/ship_weapon/burst_phaser( src )
 	//The bigger the ship, the tankier the shields....
 	AddComponent(/datum/component/overmap_shields, mass*200, mass*200, mass*5)
 
 /obj/structure/overmap/nanotrasen/solgov/proc/apply_medium_ai_weapons()
-	weapon_types[ FIRE_MODE_RED_LASER ] = new /datum/ship_weapon/pdc_mount/burst_phaser( src )
+	weapon_types[ FIRE_MODE_RED_LASER ] = new /datum/ship_weapon/burst_phaser( src )
 	weapon_types[ FIRE_MODE_BLUE_LASER ] = new /datum/ship_weapon/phaser( src )
 	weapon_types[ FIRE_MODE_AMS_LASER ] = new /datum/ship_weapon/laser_ams( src )
 
@@ -117,6 +118,14 @@
 
 	//The bigger the ship, the tankier the shields....
 	AddComponent(/datum/component/overmap_shields, mass*200, mass*200, mass*5)
+
+// /obj/structure/overmap/nanotrasen/solgov/apply_weapons()
+// 	. = ..()
+// 	if(ai_controlled)
+// 		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/burst_phaser(src)
+// 	else
+// 		weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/burst_phaser(src)
+// 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
 
 /obj/structure/overmap/nanotrasen/solgov/carrier/ai/apply_weapons() // Kmc why didn't you use /solgov/ai for your ship childtypes 
 	// . = ..()

@@ -11,6 +11,9 @@
 	shot_glass_icon_state = "shotglassred"
 
 /datum/reagent/blood/reaction_mob(mob/living/L, method=TOUCH, reac_volume)
+	if(method == INGEST && ismoth(L) && !HAS_TRAIT(L, TRAIT_AGEUSIA))//NSSV13 - Moths occasionally enjoy a sip of blood
+		SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "quality_drink", /datum/mood_event/moth_drink_blood)
+
 	if(data && data["viruses"])
 		for(var/thing in data["viruses"])
 			var/datum/disease/D = thing
@@ -19,14 +22,14 @@
 				continue
 
 			if(data["donor"] == /mob/living/simple_animal/mouse && L) // NSV13 - Lizards do not get rat viruses
-				if(islizard(L)) 
-					continue 
+				if(islizard(L))
+					continue
 
-				if(istype(L, /mob/living/carbon)) 
-					var/mob/living/carbon/C = L 
-					if(iscatperson(C)) 
-						continue 
-			// NSV13 end species check 
+				if(istype(L, /mob/living/carbon))
+					var/mob/living/carbon/C = L
+					if(iscatperson(C))
+						continue
+			// NSV13 end species check
 
 			if((method == TOUCH || method == VAPOR) && (D.spread_flags & DISEASE_SPREAD_CONTACT_FLUIDS))
 				L.ContactContractDisease(D)
@@ -636,7 +639,7 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/squid
 	taste_description = "fish"
-	
+
 /datum/reagent/mutationtoxin/oozeling
 	name = "Oozeling Mutation Toxin"
 	description = "An oozing toxin"

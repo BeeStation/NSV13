@@ -292,3 +292,14 @@
 			to_chat(user, "<span class='notice'>You cut the wires from the frame.</span>")
 			state = BS_BARREL_BOLTED
 			return TRUE
+
+#undef BS_MOUNT_UNBOLTED
+#undef BS_MOUNT_BOLTED
+#undef BS_MOUNT_WELDED
+#undef BS_BARREL_PLACED
+#undef BS_BARREL_BOLTED
+#undef BS_WIRED
+#undef BS_ELECTRONICS_LOOSE
+#undef BS_ELECTRONICS_SECURE
+#undef BS_DOOR_PLACED
+#undef BS_DOOR_BOLTED
