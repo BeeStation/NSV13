@@ -216,7 +216,7 @@
 	return data
 
 /obj/machinery/computer/ship/navigation/proc/is_in_range(datum/star_system/current_system, datum/star_system/system)
-	return LAZYFIND(current_system?.adjacency_list, system?.name
+	return LAZYFIND(current_system?.adjacency_list, system?.name)
 
 /obj/machinery/computer/ship/navigation/proc/is_visited(datum/star_system/system)
 	return system.visited

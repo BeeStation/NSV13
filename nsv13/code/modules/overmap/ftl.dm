@@ -188,7 +188,7 @@
 /obj/structure/overmap/proc/jump(datum/star_system/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
 	if(ftl_start && ftl_drive?.ftl_state != FTL_STATE_JUMPING)
 		return
-	if(SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, src) & BEING_INTERDICTED)
+	if((SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, src) & BEING_INTERDICTED) && (target_system != SSstar_system.system_by_id("Outpost 45"))) // Override interdiction if the game is over
 		ftl_drive?.radio.talk_into(ftl_drive, "Warning. Local energy anomaly detected - calculated jump parameters invalid. Performing emergency reboot.", ftl_drive.engineering_channel)
 		relay('sound/magic/lightning_chargeup.ogg', channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 		ftl_drive?.depower()
