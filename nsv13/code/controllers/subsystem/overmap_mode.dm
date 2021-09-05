@@ -358,9 +358,12 @@ SUBSYSTEM_DEF(overmap_mode)
 		priority_announce("Mission Complete - Vote Pending") //TEMP get better words
 		SSvote.initiate_vote("Press On Or Return Home?", "Centcomm", forced=TRUE, popup=FALSE)
 	else	//Begin FTL jump to Outpost 45
-		priority_announce("Mission Complete - Returning to Outpost 45") //TEMP get better words
 		var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
-		OM.force_return_jump(SSstar_system.system_by_id("Outpost 45"))
+		if(length(OM.current_system?.enemies_in_system))
+			addtimer(CALLBACK(src, .proc/victory), 5 MINUTES)
+		else
+			priority_announce("Mission Complete - Returning to Outpost 45") //TEMP get better words
+			OM.force_return_jump(SSstar_system.system_by_id("Outpost 45"))
 
 /datum/overmap_gamemode/proc/defeat() //Override this if defeat is to be called based on an objective
 	priority_announce("Mission Critical Failure - Standby for carbon asset liquidation")
