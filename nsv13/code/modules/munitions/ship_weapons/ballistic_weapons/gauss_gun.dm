@@ -445,7 +445,7 @@
 	A.alpha = initial(A.alpha)
 	A.layer = initial(A.layer)
 	A.mouse_opacity = TRUE
-	if(istype(A, gun?.ammo_type) || (!gun && istype(A, /obj/item/ship_weapon/ammunition/gauss)) //If a munition, allow them to load other munitions onto us.
+	if(istype(A, gun?.ammo_type) || (!gun && istype(A, /obj/item/ship_weapon/ammunition/gauss))) //If a munition, allow them to load other munitions onto us.
 		capacity --
 	if(istype(A, /obj/item/circuitboard/gauss_rack_upgrade))
 		autoload = FALSE
