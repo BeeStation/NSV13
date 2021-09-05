@@ -25,20 +25,23 @@
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>[pick(inhabited_trader.greetings)]</span>")
 
-/obj/structure/overmap/trader/proc/try_deliver(mob/living/user)
+/obj/structure/overmap/trader/try_deliver( mob/living/user, var/obj/structure/overmap/source_ship, var/obj/machinery/computer/ship/dradis/cargo/console )
 	if( !isliving(user) )
 		return FALSE 
 	if( !allowed(user) ) //Only cargo auth'd personnel can make purchases.
 		to_chat(user, "<span class='warning'>Warning: You cannot open a communications channel without appropriate requisitions access registered to your ID card.</span>")
 		return FALSE
 	if( inhabited_trader ) 
-		// TODO actually code the cargo delivery 
-		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-		var/choice = input("Transfer cargo to station?", "Confirm delivery", "No") in list("Yes", "No")
-		if( choice == "Yes" ) 
-			to_chat(user, "<span class='notice'>Delivery successful!</span>")
-		else 
-			to_chat(user, "<span class='notice'>Delivery cancelled</span>")
+		if ( console && console.linked_launcher )
+			var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = console.linked_launcher 
+			if ( launcher.chambered )
+				var/choice = input("Transfer cargo to station?", "Confirm delivery", "No") in list("Yes", "No")
+				if( choice == "Yes" ) 
+					SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+					to_chat(user, "<span class='notice'>Delivery successful!</span>")
+					launcher.fire( src, shots = 1 )
+				else 
+					to_chat(user, "<span class='notice'>Delivery cancelled</span>")
 
 //Nope!
 

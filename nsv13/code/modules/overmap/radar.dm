@@ -122,8 +122,53 @@ Called by add_sensor_profile_penalty if remove_in is used.
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
 	name = "\improper Air traffic control console"
 
-/obj/machinery/computer/ship/dradis/cargo //Another dradis like air traffic control that links to cargo torpedo tubes and delivers freight 
+/obj/machinery/computer/ship/dradis/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight 
 	name = "\improper Cargo freight delivery console"
+	var/linked_launcher = null
+
+/obj/machinery/computer/ship/dradis/cargo/Initialize()
+	..()
+	
+	// // Get nearest cargo launcher 
+	// var/nearestDistance = INFINITY
+	// var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = null
+	// for(var/obj/machinery/inertial_dampener/machine in GLOB.machines)
+	// 	var/dist = get_dist( src, machine )
+	// 	if ( dist < nearestDistance )
+	// 		nearestDistance = dist 
+	// 		launcher = machine
+	// 
+	// // Autolink the nearest cargo launcher if within a reasonable range on init 
+	// // I could have done this by area if it were more efficient but there was some easily reusable code in inertial dampeners 
+	// if ( launcher && nearestDistance <= 7 )
+	// 	launcher.linked_dradis = src 
+	// 	linked_launcher = launcher
+	
+	// for ( var/dir in list( NORTH, SOUTH, EAST, WEST ) ) 
+	// 	for( var/object in list( /obj/machinery/computer/ship/munitions_computer, /obj/machinery/ship_weapon/torpedo_launcher/cargo ) )
+	// 		var/atom/adjacent = locate(object) in get_turf(get_step(src, opposite_dir))
+	// 		if(adjacent && istype(adjacent, object))
+	
+	var/area/A = get_area( src )
+	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = locate( /obj/machinery/ship_weapon/torpedo_launcher/cargo ) in A.contents 
+	if ( launcher ) 
+		launcher.linked_dradis = src 
+		linked_launcher = launcher
+
+/obj/machinery/computer/ship/dradis/cargo/multitool_act(mob/living/user, obj/item/I)
+	// Allow relinking a console's cargo launcher 
+	var/obj/item/multitool/P = I
+	// Check to make sure the buffer is a valid cargo launcher before acting on it 
+	if( ( multitool_check_buffer(user, I) && istype( P.buffer, /obj/machinery/ship_weapon/torpedo_launcher/cargo ) ) ) 
+		var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = P.buffer 
+		launcher.linked_dradis = src 
+		linked_launcher = launcher
+		P.buffer = null
+		to_chat(user, "<span class='notice'>Buffer transferred</span>")
+		return TRUE
+	// Call the parent proc and allow supply beacon swaps 
+	else 
+		..()
 	
 /obj/machinery/computer/ship/dradis/cargo/can_radar_pulse()
 	return FALSE
@@ -240,9 +285,9 @@ Called by add_sensor_profile_penalty if remove_in is used.
 				return
 			next_hail = world.time + 10 SECONDS //I hate that I need to do this, but yeah.
 			if(get_dist(target, linked) <= hail_range)
-				if ( istype( src, /obj/machinery/computer/ship/dradis/cargo ) && istype( target, /obj/structure/overmap/trader ) ) 
-					var/obj/structure/overmap/trader/Station = target // Must cast to access proc 
-					Station.try_deliver( usr, linked )
+				if ( istype( src, /obj/machinery/computer/ship/dradis/cargo ) ) 
+					var/obj/machinery/computer/ship/dradis/cargo/console = src // Must cast before passing into proc 
+					target.try_deliver( usr, null, console )
 				else 
 					target.try_hail(usr, linked)
 		if("radar_pulse")

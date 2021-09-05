@@ -1,7 +1,9 @@
 /obj/machinery/ship_weapon/torpedo_launcher/cargo //heavily modified CM sprite
-	name = "M4-C Cargo freight tube"
+	name = "M4-C Cargo freight launcher"
 	desc = "A transport system that's employed by nigh on all modern ships. It's capable of delivering a self-propelling payload with pinpoint accuracy to deliver freight."
 	color = "#f5d1b0" // I have better things to do than to modify 100+ sprite frames just to add funny orange stripes 
+	var/linked_dradis = null
+	ammo_type = /obj/item/ship_weapon/ammunition/torpedo/freight
 
 /obj/machinery/ship_weapon/torpedo_launcher/cargo/north
 	dir = NORTH
@@ -27,8 +29,5 @@
 	pixel_y = -74
 	bound_x = -64
 
-/obj/machinery/ship_weapon/torpedo_launcher/cargo/Initialize()
-	// ..() // Don't run any ship weapon related procs 
-
-	component_parts = list()
-	component_parts += new/obj/item/ship_weapon/parts/firing_electronics
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/set_position()
+	// Don't register cargo torpedo tube for weapons fire by tactical console 

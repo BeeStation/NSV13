@@ -363,13 +363,14 @@
 	update()
 
 /obj/machinery/ship_weapon/proc/update()
-	if(!safety && chambered)
-		if(src in weapon_type.weapons["loaded"])
-			return
-		LAZYADD(weapon_type.weapons["loaded"] , src)
-	else
-		if(src in weapon_type.weapons["loaded"])
-			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
+	if ( weapon_type ) // Who would've thought creating a weapon with no weapon_type would break everything! 
+		if(!safety && chambered)
+			if(src in weapon_type.weapons["loaded"])
+				return
+			LAZYADD(weapon_type.weapons["loaded"] , src)
+		else
+			if(src in weapon_type.weapons["loaded"])
+				LAZYREMOVE(weapon_type.weapons["loaded"] , src)
 
 /obj/machinery/ship_weapon/proc/lazyload()
 	if(magazine_type)
@@ -468,7 +469,15 @@
 			overmap_fire(target)
 
 			ammo -= chambered
+			if ( istype( chambered, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
+				// Need to individually discard the contents before the create can call dump_contents on Destroy 
+				for ( var/atom/crate in chambered.contents ) // Please do not try to put an area into a freight torpedo, I will be very upset 
+					if ( istype( crate, /obj/structure/closet ) )
+						for ( var/atom/item in crate.contents )
+							qdel( item )
+					qdel( crate )
 			qdel(chambered)
+
 			chambered = null
 
 			if(ammo?.len)
@@ -499,12 +508,13 @@
  * Handles firing animations and sounds on the overmap.
  */
 /obj/machinery/ship_weapon/proc/overmap_fire(atom/target)
-	if(weapon_type.overmap_firing_sounds)
+	if(weapon_type && weapon_type.overmap_firing_sounds)
 		var/sound/chosen = pick(weapon_type.overmap_firing_sounds)
 		linked.relay_to_nearby(chosen)
 	if(overlay)
 		overlay.do_animation()
-	animate_projectile(target)
+	if( weapon_type )
+		animate_projectile(target)
 
 /**
  * Animates an overmap projectile matching whatever we're shooting.

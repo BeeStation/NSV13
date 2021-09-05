@@ -307,6 +307,9 @@ Adding tasks is easy! Just define a datum for it.
 		source_ship.hail(text, name, user.name, TRUE) // Let the crew on the source ship know an Outbound message was sent
 		hail(text, source_ship.name, user.name)
 
+/obj/structure/overmap/proc/try_deliver() 
+	// TODO allow cargo deliveries between ships with map interiors, perhaps for fleet gameplay or perfectly balanced boarding gameplay 
+
 /obj/structure/overmap/proc/hail(var/text, var/ship_name, var/player_name, var/outbound = FALSE)
 	if(!text)
 		return
