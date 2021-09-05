@@ -4,14 +4,14 @@ Misc projectile types, effects, think of this as the special FX file.
 
 */
 
-/obj/item/projectile/bullet/pdc_round
+/obj/item/projectile/bullet/aa_round
 	icon_state = "pdc"
-	name = "teflon coated tungsten round"
+	name = "anti-aircraft round"
 	damage = 40
 	flag = "overmap_light"
 	spread = 5
 
-/obj/item/projectile/bullet/pdc_round/heavy //do we even use this anymore?
+/obj/item/projectile/bullet/aa_round/heavy //do we even use this anymore?
 	damage = 10
 	flag = "overmap_heavy"
 	spread = 5
@@ -217,7 +217,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 	return BULLET_ACT_HIT
 
-/obj/item/projectile/bullet/fiftycal
+/obj/item/projectile/bullet/pdc_round
 	icon_state = "pdc"
 	name = "PDC round"
 	damage = 15
