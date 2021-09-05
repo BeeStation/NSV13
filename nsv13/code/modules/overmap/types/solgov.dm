@@ -102,9 +102,10 @@
 	combat_dice_type = /datum/combat_dice/fighter
 
 /obj/structure/overmap/nanotrasen/solgov/ai/fighter/apply_weapons()
-	weapon_types[ FIRE_MODE_RED_LASER ] = new /datum/ship_weapon/burst_phaser( src )
 	// Burst fire on solgov fighters 
-	weapon_types[ FIRE_MODE_RED_LASER ].burst_size = 3
+	var/datum/ship_weapon/SW = new /datum/ship_weapon/burst_phaser( src )
+	SW.burst_size = 3
+	weapon_types[ FIRE_MODE_RED_LASER ] = SW
 	//The bigger the ship, the tankier the shields....
 	AddComponent(/datum/component/overmap_shields, mass*200, mass*200, mass*5)
 
