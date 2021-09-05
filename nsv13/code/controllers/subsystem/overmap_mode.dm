@@ -181,7 +181,14 @@ SUBSYSTEM_DEF(overmap_mode)
 						if(5) //mission critical failure
 							priority_announce("[mode.reminder_five]", "[mode.reminder_origin]")
 							mode.consequence_five()
+						else // I don't know what happened but let's go around again
+							objective_reminder_stacks = 0
 				else
+					var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+					if(length(OM.current_system?.enemies_in_system))
+						if(objective_reminder_stacks == 3)
+							priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[mode.reminder_origin]")
+						return // Don't send them home while there are enemies to kill
 					switch(objective_reminder_stacks) //Less Stacks Here, Prevent The Post-Round Stalling
 						if(1)
 							priority_announce("Auto-recall to Outpost 45 will occur in [(mode.objective_reminder_interval * 2) / 600] Minutes.", "[mode.reminder_origin]")
@@ -189,7 +196,7 @@ SUBSYSTEM_DEF(overmap_mode)
 						if(2)
 							priority_announce("Auto-recall to Outpost 45 will occur in [(mode.objective_reminder_interval * 1) / 600] Minutes.", "[mode.reminder_origin]")
 
-						if(3)
+						else
 							priority_announce("Auto-recall to Outpost 45 activated, additional objective aborted.", "[mode.reminder_origin]")
 							mode.victory()
 
