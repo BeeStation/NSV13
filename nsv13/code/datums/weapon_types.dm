@@ -104,7 +104,6 @@
 	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 	lateral = FALSE
-	firing_arc = 60 //Relatively generous, but coax.
 	miss_chance = 33
 	max_miss_distance = 6
 

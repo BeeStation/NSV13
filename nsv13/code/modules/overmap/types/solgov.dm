@@ -60,7 +60,7 @@
 
 /obj/structure/overmap/nanotrasen/solgov/ai
 	ai_controlled = TRUE
-	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
+	ai_flags = AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/destroyer
 	shots_left = 10000 //Issa laser.
 	torpedoes = 10
@@ -68,12 +68,12 @@
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp/ai
 	ai_controlled = TRUE
-	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
+	ai_flags = AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/nanotrasen/solgov/carrier/ai
 	ai_controlled = TRUE
-	ai_flags = AI_FLAG_SUPPLY | AI_FLAG_ELITE
+	ai_flags = AI_FLAG_SUPPLY
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = list(/obj/structure/overmap/nanotrasen/solgov/ai/fighter)
 	torpedoes = 0
@@ -103,6 +103,8 @@
 
 /obj/structure/overmap/nanotrasen/solgov/ai/fighter/apply_weapons()
 	weapon_types[ FIRE_MODE_RED_LASER ] = new /datum/ship_weapon/burst_phaser( src )
+	// Burst fire on solgov fighters 
+	weapon_types[ FIRE_MODE_RED_LASER ].burst_size = 3
 	//The bigger the ship, the tankier the shields....
 	AddComponent(/datum/component/overmap_shields, mass*200, mass*200, mass*5)
 
@@ -118,23 +120,16 @@
 
 	//The bigger the ship, the tankier the shields....
 	AddComponent(/datum/component/overmap_shields, mass*200, mass*200, mass*5)
-
-// /obj/structure/overmap/nanotrasen/solgov/apply_weapons()
-// 	. = ..()
-// 	if(ai_controlled)
-// 		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/burst_phaser(src)
-// 	else
-// 		weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/burst_phaser(src)
-// 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
+	
+/obj/structure/overmap/nanotrasen/solgov/apply_weapons()
+	// Solgov do not need Nanotrasen weapons registered on roundstart. This bloats the ship's weapon_types and makes cycling via spacebar take much longer 
+	// . = ..()
 
 /obj/structure/overmap/nanotrasen/solgov/carrier/ai/apply_weapons() // Kmc why didn't you use /solgov/ai for your ship childtypes 
-	// . = ..()
 	apply_medium_ai_weapons()
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp/ai/apply_weapons()
-	// . = ..()
 	apply_medium_ai_weapons()
 
 /obj/structure/overmap/nanotrasen/solgov/ai/apply_weapons()
-	// . = ..()
 	apply_medium_ai_weapons()
