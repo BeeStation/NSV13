@@ -353,7 +353,9 @@
 	update_icon()
 
 /obj/structure/gauss_rack/Destroy()
-	return QDEL_HINT_LETMELIVE
+	for(var/atom/A in contents)
+		A.forceMove(loc)
+	. = ..()
 
 /obj/structure/gauss_rack/update_icon()
 	if(autoload)
