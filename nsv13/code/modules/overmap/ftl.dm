@@ -164,7 +164,7 @@
 			ftl_drive.use_power = 0
 			ftl_drive.progress = 0
 			ftl_drive.jump(target_system) //Jump home
-			addtimer(CALLBACK(src, .proc/check_return_jump), 5 MINUTES)
+			addtimer(CALLBACK(src, .proc/check_return_jump), SSstar_system.ships[src]["to_time"] + 30 SECONDS)
 
 	else
 		message_admins("Target does not have an FTL drive!")
