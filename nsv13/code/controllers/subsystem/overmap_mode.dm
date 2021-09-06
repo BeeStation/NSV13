@@ -164,7 +164,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		if(!objective_reminder_override)
 			if(world.time >= next_objective_reminder)
 				mode.check_completion()
-				if(objectives_completed)
+				if(objectives_completed || already_ended)
 					return
 				objective_reminder_stacks ++
 				next_objective_reminder = world.time + mode.objective_reminder_interval
