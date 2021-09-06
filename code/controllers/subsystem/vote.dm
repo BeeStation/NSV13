@@ -159,6 +159,7 @@ SUBSYSTEM_DEF(vote)
 					SSovermap_mode.round_extended = TRUE
 					SSovermap_mode.request_additional_objectives()
 					SSovermap_mode.already_ended = FALSE
+					SSovermap_mode.objectives_completed = FALSE
 				else
 					priority_announce("Returning to Outpost 45") //TEMP
 					var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()

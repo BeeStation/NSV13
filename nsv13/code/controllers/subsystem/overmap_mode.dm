@@ -31,7 +31,8 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/announced_objectives = FALSE 				//Have we announced the objectives yet?
 	var/round_extended = FALSE 						//Has the round already been extended already?
 	var/admin_override = FALSE						//Stops the mission ending
-	var/already_ended = FALSE						//Is the round already in an ending state
+	var/objectives_completed = FALSE				//Did they finish all the objectives that are available to them?
+	var/already_ended = FALSE						//Is the round already in an ending state, i.e. we return jumped
 	var/mode_initialised = FALSE
 
 	var/check_completion_timer = 0
@@ -162,6 +163,9 @@ SUBSYSTEM_DEF(overmap_mode)
 
 		if(!objective_reminder_override)
 			if(world.time >= next_objective_reminder)
+				mode.check_completion()
+				if(objectives_completed)
+					return
 				objective_reminder_stacks ++
 				next_objective_reminder = world.time + mode.objective_reminder_interval
 				if(!round_extended) //Normal Loop
@@ -327,6 +331,8 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_gamemode/proc/check_completion() //This gets called by checking the communication console/modcomp program + automatically once every 10 minutes
 	if(SSovermap_mode.already_ended)
 		return
+	if(SSovermap_mode.objectives_completed)
+		victory()
 
 	var/objective_length = objectives.len
 	var/objective_check = 0
@@ -347,11 +353,11 @@ SUBSYSTEM_DEF(overmap_mode)
 		victory()
 
 /datum/overmap_gamemode/proc/victory()
+	SSovermap_mode.objectives_completed = TRUE
 	if(SSovermap_mode.admin_override)
 		message_admins("[GLOB.station_name] has completed its objectives but round end has been overriden by admin intervention")
 		return
 
-	SSovermap_mode.already_ended = TRUE //Prevent repeats
 	var/datum/star_system/S = SSstar_system.system_by_id("Outpost 45")
 	S.hidden = FALSE
 	if(!SSovermap_mode.round_extended)	//If we haven't yet extended the round, let us vote!
@@ -359,9 +365,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		SSvote.initiate_vote("Press On Or Return Home?", "Centcomm", forced=TRUE, popup=FALSE)
 	else	//Begin FTL jump to Outpost 45
 		var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
-		if(length(OM.current_system?.enemies_in_system))
-			addtimer(CALLBACK(src, .proc/victory), 5 MINUTES)
-		else
+		if(!length(OM.current_system?.enemies_in_system))
 			priority_announce("Mission Complete - Returning to Outpost 45") //TEMP get better words
 			OM.force_return_jump(SSstar_system.system_by_id("Outpost 45"))
 

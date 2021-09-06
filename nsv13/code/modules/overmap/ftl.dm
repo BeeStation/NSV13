@@ -151,6 +151,7 @@
 	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), ftl_drive.ftl_startup_time)
 
 /obj/structure/overmap/proc/force_return_jump(datum/star_system/target_system)
+	SSovermap_mode.already_ended = TRUE
 	if(ftl_drive) //Do we actually have an ftl drive?
 		ftl_drive.lockout = TRUE //Prevent further jumps
 		if(ftl_drive.ftl_state == FTL_STATE_JUMPING)
