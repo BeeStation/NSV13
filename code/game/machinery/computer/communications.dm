@@ -332,7 +332,7 @@
 		if("objectives")
 			SSovermap_mode.mode.check_completion()
 			if(SSovermap_mode.objectives_completed && SSovermap_mode.round_extended)
-				priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[mode.reminder_origin]")
+				priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[SSovermap_mode.mode.reminder_origin]")
 			state = STATE_OBJECTIVES
 
 		// AI interface

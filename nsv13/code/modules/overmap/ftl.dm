@@ -164,10 +164,16 @@
 			ftl_drive.use_power = 0
 			ftl_drive.progress = 0
 			ftl_drive.jump(target_system) //Jump home
+			addtimer(CALLBACK(src, .proc/check_return_jump), 5 MINUTES)
 
 	else
 		message_admins("Target does not have an FTL drive!")
 		return
+
+/obj/structure/overmap/proc/check_return_jump()
+	var/datum/star_system/S = SSstar_system.system_by_id("Outpost 45")
+	if(current_system != S && SSstar_system.ships[src]["target_system"] != S) // Not in 45 and not on our way there
+		force_return_jump(S)
 
 /obj/structure/overmap/proc/force_parallax_update(ftl_start)
 	if(reserved_z) //Actual overmap parallax behaviour
