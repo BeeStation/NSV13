@@ -757,3 +757,24 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	if(!can_action(HA))
 		return
 	H.resist() //Stop drop and roll!
+
+/datum/ai_goal/human/escape_closet
+	name = "Escape Closet"
+	score = AI_SCORE_CRITICAL //Not being contained is fairly important
+	required_ai_flags = null
+
+/datum/ai_goal/human/escape_closet/check_score(datum/component/knpc/HA)
+	if(!..())
+		return 0
+	var/mob/living/carbon/human/H = HA.parent
+	if(istype(H.loc, /obj/structure/closet))
+		return score
+	return 0
+
+/datum/ai_goal/human/escape_closet/action(datum/component/knpc/HA)
+	if(!can_action(HA))
+		return
+	var/mob/living/carbon/human/H = HA.parent
+	if(istype(H.loc, /obj/structure/closet))
+		var/obj/structure/closet/C = H.loc
+		C.open()
