@@ -62,7 +62,7 @@
 /datum/ship_weapon/torpedo_launcher/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
 		return FALSE
-	if(!override_mass_check && target.mass <= MASS_SMALL)
+	if(!override_mass_check && target.mass < MASS_SMALL)	//The Atlas wants fun too :)
 		return FALSE
 	if(!source.torpedoes)
 		return FALSE
