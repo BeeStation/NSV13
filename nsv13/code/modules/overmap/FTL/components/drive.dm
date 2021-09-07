@@ -1,12 +1,12 @@
 /obj/machinery/computer/ship/ftl_core
 	name = "\improper FTL frameshift core"
-	desc = "A highly advanced system capable of using exotic energy to bend space around it, exotic energy must be supplied by drive pylons"
+	desc = "A highly advanced form of propulsion that utilizes exotic energy to warp space around itself, exotic energy must be supplied via drive pylons"
 	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
 	icon_state = "core_idle"
 	pixel_x = -80
 	pixel_y = -64
-//	bound_height = 128
-//	bound_width = 160
+	bound_height = 128
+	bound_width = 160
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	icon_screen = null
 	icon_keyboard = null
@@ -15,12 +15,13 @@
 	var/faction = "nanotrasen"
 	var/link_id = "default"
 	var/list/pylons = list() //connected pylons
+	var/min_pylons = 1 // min active pylons required to spool drive
 	var/active = FALSE // Whether or not we should be charging
 	var/progress = 0 // charge progress, 0-req_charge
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/req_charge = 100
 	var/cooldown = 0 // cooldown in process ticks
-	var/charge_rate = 0.5 // how much charge is given per pylon
+	var/charge_rate = 1 // how much charge is given per pylon
 	var/obj/item/radio/radio //For engineering alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_eng
 	var/radio_channel = "Engineering"
@@ -71,15 +72,25 @@
 	if(!check_pylons())
 		visible_message("<span class='warning'>Insufficient connected drive pylons.</span>")
 		return
+	var/active_pylons = 0
+	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in pylons)
+		if(P.pylon_state != PYLON_STATE_ACTIVE)
+			continue
+		active_pylons++
+		if(min_pylons > active_pylons)
+			continue
+		visible_message("<span class='info'>Core fuel cycle starting.</span>")
+		active = TRUE
+		START_PROCESSING(SSmachines, src)
+		playsound(src, 'nsv13/sound/effects/computer/hum3.ogg', 100, 1)
+		playsound(src, 'nsv13/sound/voice/ftl_spoolup.wav', 100, FALSE)
+		radio.talk_into(src, "FTL spoolup initiated.", radio_channel)
+		icon_state = "core_active"
+		use_power = 500
+		return TRUE
 
-	visible_message("<span class='info'>Core fuel cycle starting.</span>")
-	active = TRUE
-	START_PROCESSING(SSmachines, src)
-	playsound(src, 'nsv13/sound/effects/computer/hum3.ogg', 100, 1)
-	playsound(src, 'nsv13/sound/voice/ftl_spoolup.wav', 100, FALSE)
-	radio.talk_into(src, "FTL spoolup initiated.", radio_channel)
-	icon_state = "core_active"
-	use_power = 500
+	visible_message("<span class='warning'>Insufficient active drive pylons.</span>")
+
 
 /obj/machinery/computer/ship/ftl_core/process()
 	if(!active || !is_operational() || !anchored)
@@ -93,14 +104,22 @@
 			progress = min(progress + charge_rate, req_charge)
 			active_charge = TRUE
 			if(prob(30))
-				P.Beam(src, icon_state = "lightning[rand(1, 12)]", time = 10, maxdistance = 10)
-				playsound(P, 'sound/magic/lightningshock.ogg', 50, 1, extrarange = 5)
+				discharge_pylon(P)
 	if(!active_charge && progress > 0)
 		progress--
 		if(progress < req_charge && ftl_state == FTL_STATE_READY)
 			cancel_ftl()
 	if(ftl_state != FTL_STATE_READY && progress >= req_charge)
 		ready_ftl()
+
+/// Cosmetic effect
+/obj/machinery/computer/ship/ftl_core/proc/discharge_pylon(atom/P)
+	set waitfor = FALSE
+	playsound(P, 'NSV13/sound/machines/FTL/FTL_pylon_discharge.ogg', rand(85,100), TRUE, 1)
+	sleep(9)
+	P.Beam(src, icon_state = "lightning[rand(1, 12)]", time = 10, maxdistance = 10)
+	playsound(P, 'sound/magic/lightningshock.ogg', 30, 1, extrarange = 5)
+
 
 //No please do not delete the FTL's radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
 /obj/machinery/computer/ship/ftl_core/prevent_content_explosion()

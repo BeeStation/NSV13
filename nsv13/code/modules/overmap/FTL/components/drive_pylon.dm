@@ -14,7 +14,7 @@
 ///FTL DRIVE PYLON///
 /obj/machinery/atmospherics/components/binary/drive_pylon
 	name = "\improper FTL Drive Pylon"
-	desc = "Used to power the main FTL manifold. Consumes frameshifted plasma and large amounts of electricity to spool up, do not touch gyros during operation."
+	desc = "Produces exotic energy for an FTL manifold. Requires Nucleium and electricity to spool up, avoid physical contact with gyroscopes."
 	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
 	icon_state = "pylon"
 	pixel_x = -32
@@ -34,14 +34,10 @@
 	var/req_capacitor = 5 // amount of capacitors required to be charged for the pylon to be active
 	var/power_draw = 0
 	var/datum/gas_mixture/air_contents
-	var/datum/gas_mixture/input // airs[1]
-	var/datum/gas_mixture/output // airs[2]
 	var/obj/structure/cable/cable
 
-/obj/machinery/atmospherics/components/binary/drive_pylon/Initialize()
-	. = ..()
-	input = airs[1]
-	output = airs[2]
+/obj/machinery/atmospherics/components/binary/drive_pylon/New()
+	..()
 	pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open")
 //	pylon_shield.pixel_x = pixel_x
 //	pylon_shield.pixel_y = pixel_y
@@ -58,7 +54,9 @@
 			return
 		if(capacitor >= req_capacitor)
 			set_state(PYLON_STATE_ACTIVE)
-			playsound(src, 'NSV13/sound/machines/FTL/FTL_pylon_discharge.ogg', rand(85,100), FALSE, 1)
+
+	var/datum/gas_mixture/input = airs[1]
+
 	switch(pylon_state)
 		if(PYLON_STATE_ACTIVE)
 			power_draw = round(power_draw * PYLON_ACTIVE_EXPONENT + 300) // Active pylons slowly but exponentially require more charge to stay stable. Don't leave them on when you don't need to
@@ -72,7 +70,6 @@
 			var/ftl_fuel = input.get_moles(/datum/gas/nucleium)
 
 			if(ftl_fuel < 0.1)
-				set_state(PYLON_STATE_STARTING)
 				return
 
 			input.adjust_moles(/datum/gas/nucleium, -0.1)
@@ -117,6 +114,7 @@
 	return TRUE
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/process_atmos()
+	var/datum/gas_mixture/output = airs[2]
 	var/i_pressure = air_contents.return_pressure()
 	if(!i_pressure) // no point running other checks if we're pushing directly into output
 		return
@@ -159,8 +157,10 @@
 	STOP_PROCESSING(SSmachines, src)
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/consume_fuel()
-	if(prob(30))
-		tesla_zap(src, 2, 1000)
+	var/datum/gas_mixture/input = airs[1]
+	var/datum/gas_mixture/output = airs[2]
+//	if(prob(30))
+//		tesla_zap(src, 2, 1000)
 	var/input_fuel = min(input.get_moles(/datum/gas/nucleium), max_charge_rate * mol_per_capacitor)
 	capacitor += min(input_fuel / mol_per_capacitor, req_capacitor - capacitor)
 	input.adjust_moles(/datum/gas/nucleium, -input_fuel)
@@ -199,14 +199,14 @@
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/Destroy()
 	QDEL_NULL(pylon_shield)
+	var/datum/gas_mixture/input = airs[1]
+	var/datum/gas_mixture/output = airs[2]
 
 	var/datum/gas_mixture/spill = air_contents.copy()
 	spill.merge(input)
 	spill.merge(output)
 
 	QDEL_NULL(air_contents)
-	QDEL_NULL(input)
-	QDEL_NULL(output)
 	if(spill.total_moles())
 		var/turf/T = get_turf(src)
 		T.assume_air(spill)

@@ -26,8 +26,8 @@ export const FTLComputerModular = (props, context) => {
                       color={value.status === "shutdown" ? "average" : value.status === "offline" ? "bad" : "good"}
                       disabled={value.status === "shutdown"}
                       onClick={() => act('pylon_power', { id: value.id })} />
-                    <br />
                     Cycle Status: <b>{value.status}</b>
+                    <br />
                     <br />
                     Gyro Speed:
                     <ProgressBar
