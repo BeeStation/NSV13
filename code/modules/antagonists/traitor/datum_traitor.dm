@@ -74,7 +74,7 @@
 	if (GLOB.joined_player_list.len >= 30) // Less murderboning on lowpop thanks
 		is_hijacker = prob(10)
 	var/martyr_chance = FALSE
-	if (GLOB.joined_player_list.len >= CONFIG_GET(number/minpop_kill_objectives)) //NSV13 - dying is lazy, do your job
+	if (GLOB.joined_player_list.len >= CONFIG_GET(number/min_pop_kill_objectives)) //NSV13 - dying is lazy, do your job
 		martyr_chance = prob(20)
 	var/objective_count = is_hijacker 			//Hijacking counts towards number of objectives
 	if(!SSticker.mode.exchange_blue && SSticker.mode.traitors.len >= 8) 	//Set up an exchange if there are enough traitors
@@ -123,7 +123,7 @@
 		objective_count += forge_single_objective()
 
 	for(var/i = objective_count, i < CONFIG_GET(number/traitor_objectives_amount), i++)
-		if(length(GLOB.joined_player_list) >= CONFIG_GET(number/minpop_kill_objectives)) //NSV13 - no lowpop murder
+		if(length(GLOB.joined_player_list) >= CONFIG_GET(number/min_pop_kill_objectives)) //NSV13 - no lowpop murder
 			var/datum/objective/assassinate/kill_objective = new
 			kill_objective.owner = owner
 			kill_objective.find_target()
@@ -145,7 +145,7 @@
 
 /datum/antagonist/traitor/proc/forge_single_human_objective() //Returns how many objectives are added
 	.=1
-	if(prob(50) && (GLOB.joined_player_list.len >= CONFIG_GET(number/minpop_kill_objectives))) //NSV13 - no lowpop murder
+	if(prob(50) && (GLOB.joined_player_list.len >= CONFIG_GET(number/min_pop_kill_objectives))) //NSV13 - no lowpop murder
 		var/list/active_ais = active_ais()
 		if(active_ais.len && prob(100/GLOB.joined_player_list.len))
 			var/datum/objective/destroy/destroy_objective = new
@@ -177,7 +177,7 @@
 /datum/antagonist/traitor/proc/forge_single_AI_objective()
 	.=1
 	var/special_pick = rand(1,4)
-	if (GLOB.joined_player_list.len >= CONFIG_GET(number/minpop_kill_objectives)) //NSV13 - no lowpop murder
+	if (GLOB.joined_player_list.len >= CONFIG_GET(number/min_pop_kill_objectives)) //NSV13 - no lowpop murder
 		special_pick = rand(3,4)
 	switch(special_pick)
 		if(1)
