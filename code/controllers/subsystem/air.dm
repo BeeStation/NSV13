@@ -400,14 +400,15 @@ SUBSYSTEM_DEF(air)
 			eq_cooldown--
 			if(eq_cooldown <= 0)
 				equalize_enabled = TRUE
-	var/wait_ms = wait * 100
 	var/total_thread_time = cost_turfs + cost_equalize + cost_groups + cost_post_process
-	var/delay_threshold = 1-(total_thread_time/wait_ms + cur_deferred_airs / 50)
-	share_max_steps = max(1,round(share_max_steps_target * delay_threshold, 1))
-	eq_cooldown += (1-delay_threshold) * (cost_equalize / total_thread_time) * 2
-	if(eq_cooldown > 0.5)
-		equalize_enabled = FALSE
-	excited_group_pressure_goal = max(0,excited_group_pressure_goal_target * (1 - delay_threshold))
+	if(total_thread_time)
+		var/wait_ms = wait * 100
+		var/delay_threshold = 1-(total_thread_time/wait_ms + cur_deferred_airs / 50)
+		share_max_steps = max(1,round(share_max_steps_target * delay_threshold, 1))
+		eq_cooldown += (1-delay_threshold) * (cost_equalize / total_thread_time) * 2
+		if(eq_cooldown > 0.5)
+			equalize_enabled = FALSE
+		excited_group_pressure_goal = max(0,excited_group_pressure_goal_target * (1 - delay_threshold))
 
 
 /datum/controller/subsystem/air/proc/process_turfs(resumed = 0)
