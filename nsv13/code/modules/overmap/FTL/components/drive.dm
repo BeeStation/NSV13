@@ -3,10 +3,13 @@
 	desc = "A highly advanced form of propulsion that utilizes exotic energy to warp space around itself, exotic energy must be supplied via drive pylons"
 	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
 	icon_state = "core_idle"
-	pixel_x = -80
+	pixel_x = -64
 	pixel_y = -64
+	bound_x = -76
+	bound_y = -64
 	bound_height = 128
 	bound_width = 160
+	appearance_flags = PIXEL_SCALE
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	icon_screen = null
 	icon_keyboard = null
@@ -21,7 +24,7 @@
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/req_charge = 100
 	var/cooldown = 0 // cooldown in process ticks
-	var/charge_rate = 1 // how much charge is given per pylon
+	var/charge_rate = 1.2 // how much charge is given per pylon
 	var/obj/item/radio/radio //For engineering alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_eng
 	var/radio_channel = "Engineering"
@@ -66,7 +69,7 @@
 	if(cooldown)
 		visible_message("<span class='warning'>FTL core temperature beyond safety limits, please wait for cooldown cycle to complete.</span>")
 		return
-	if(progress)
+	if(progress || ftl_state != FTL_STATE_IDLE)
 		visible_message("<span class='warning'>FTL maifold is already active.</span>")
 		return
 	if(!check_pylons())
@@ -116,7 +119,7 @@
 /obj/machinery/computer/ship/ftl_core/proc/discharge_pylon(atom/P)
 	set waitfor = FALSE
 	playsound(P, 'NSV13/sound/machines/FTL/FTL_pylon_discharge.ogg', rand(85,100), TRUE, 1)
-	sleep(9)
+	sleep(20)
 	P.Beam(src, icon_state = "lightning[rand(1, 12)]", time = 10, maxdistance = 10)
 	playsound(P, 'sound/magic/lightningshock.ogg', 30, 1, extrarange = 5)
 

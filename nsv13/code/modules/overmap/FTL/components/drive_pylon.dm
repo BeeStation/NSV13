@@ -6,7 +6,7 @@
 #define WASTE_GAS_HEAT 50
 
 /// Multiplies power draw by this value every tick it remains active when spooled. Higher values will make power use increase faster
-#define PYLON_ACTIVE_EXPONENT 1.02
+#define PYLON_ACTIVE_EXPONENT 1.01
 
 /// Max power use before we start to overheat (watts)
 #define POWER_USE_SAFE 100000
@@ -17,11 +17,12 @@
 	desc = "Produces exotic energy for an FTL manifold. Requires Nucleium and electricity to spool up, avoid physical contact with gyroscopes."
 	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
 	icon_state = "pylon"
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -22 // mappers should modify this how they see fit.
+	bound_height = 64
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 500
+	layer = ABOVE_MOB_LAYER
 	var/link_id = "default"
 	var/gyro_speed = 0
 	var/req_gyro_speed = 25
@@ -38,7 +39,7 @@
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/New()
 	..()
-	pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open")
+	pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open", layer + 0.1)
 //	pylon_shield.pixel_x = pixel_x
 //	pylon_shield.pixel_y = pixel_y
 	update_visuals()

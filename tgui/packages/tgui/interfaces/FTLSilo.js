@@ -19,6 +19,12 @@ export const FTLSilo = (props, context) => {
               icon={data.active ? "times" : "power-off"}
               content="Toggle Power"
               onClick={() => act('toggle_power')} />
+            <Button
+              color={data.converting ? "green" : "average"}
+              icon={data.converting ? "times" : "square-o"}
+              disabled={!data.active}
+              content={"Switch to " + (data.converting ? "refining" : "output") + "mode"}
+              onClick={() => act('toggle_mode')} />
             <br />
             Power Allocation
             <Slider
@@ -26,12 +32,12 @@ export const FTLSilo = (props, context) => {
               fillValue={data.current_power}
               minValue={data.min_power}
               maxValue={data.max_power}
-              step={1}
-              stepPixelSize={0.1}
+              step={10}
+              stepPixelSize={1}
               onDrag={(e, value) => act('target_power', {
                 target: value,
               })}>
-              {data.current_power / 1e+5 + ' KW'}
+              {data.current_power + (data.current_power > 1000 ? ' MW' : ' KW')}
             </Slider>
           </Section>
           <Section title="Sensors">
@@ -45,7 +51,7 @@ export const FTLSilo = (props, context) => {
                 average: [0.21, 0.75],
                 bad: [0.76, Infinity],
               }} />
-            Vessel Integrity: <b>{data.integrity}</b>
+            Vessel Integrity: <b>{data.integrity}%</b>
           </Section>
         </Section>
       </Window.Content>

@@ -1,3 +1,8 @@
+
+#define SILO_MODE_IDLE 0
+#define SILO_MODE_CONVERT 1
+#define SILO_MODE_OUTPUT 2
+
 #define SILO_LEAK_PRESSURE (25 * ONE_ATMOSPHERE)
 #define SILO_EXPLODE_PRESSURE (27 * ONE_ATMOSPHERE)
 
@@ -14,10 +19,13 @@
 	icon_state = "silo"
 	max_integrity = 600
 	pixel_x = -32
-	pixel_y = -32
+	bound_x = -32
+	bound_width = 96
+	dir = EAST // Silo input/output goes from left to right
 	density = TRUE
-	var/converting = FALSE
-	var/outputting = FALSE
+	layer = ABOVE_MOB_LAYER
+	var/mode = SILO_MODE_IDLE
+	var/lastmode = SILO_MODE_CONVERT
 	var/conversion_limit = 10 // max amount of moles that can be converted (input) per tick
 	var/conversion_ratio = 0.5 // base input/output ratio. Effected by power efficiency
 
@@ -25,18 +33,15 @@
 	var/target_power_draw = 0 // desired power use
 	var/current_power_draw = 0 // power used last tick
 
-	var/pressure_integrity = 4
+	var/pressure_integrity = 15
 	var/explosion_chance = 0 // Chance of vessel exploding, increases after passing SILO_EXPLODE_PRESSURE
+	var/noleak = FALSE // Enable/Disable atmos leaking on destruction
 
 	var/obj/structure/cable/cable
 	var/datum/gas_mixture/air_contents
-	var/datum/gas_mixture/input
-	var/datum/gas_mixture/output
 
 /obj/machinery/atmospherics/components/binary/silo/Initialize()
-	..()
-	input = airs[1]
-	output = airs[2]
+	. = ..()
 	air_contents = new(10000)
 	air_contents.set_temperature(T20C)
 
@@ -48,28 +53,33 @@
 
 /obj/machinery/atmospherics/components/binary/silo/Destroy()
 	STOP_PROCESSING(SSmachines, src)
+	if(noleak)
+		QDEL_NULL(air_contents)
+		return ..()
+
+	var/datum/gas_mixture/input = airs[1]
+	var/datum/gas_mixture/output = airs[2]
 	var/datum/gas_mixture/spill = air_contents.copy()
 	spill.merge(input)
 	spill.merge(output)
 	QDEL_NULL(air_contents)
-	QDEL_NULL(input)
-	QDEL_NULL(output)
 	if(spill.total_moles())
 		var/turf/T = get_turf(src)
 		T.assume_air(spill)
 
-	QDEL_NULL(spill)
+	qdel(spill)
 	return ..()
 
 /obj/machinery/atmospherics/components/binary/silo/proc/transmute_fuel()
+	var/datum/gas_mixture/input = airs[1]
 	if(!cable)
 		return FALSE
-	var/input_fuel = min(input.get_moles(/datum/gas/nucleium), conversion_limit)
+	var/input_fuel = min(input.get_moles(/datum/gas/plasma), conversion_limit)
 	if(input_fuel < 0.1)
 		return FALSE
 	air_contents.adjust_moles(/datum/gas/nucleium, input_fuel * (conversion_ratio * get_efficiency()))
 	air_contents.set_temperature(air_contents.temperature_share(input))
-	input.adjust_moles(/datum/gas/nucleium, -input_fuel)
+	input.adjust_moles(/datum/gas/plasma, -input_fuel)
 	return TRUE
 
 /obj/machinery/atmospherics/components/binary/silo/proc/get_efficiency()
@@ -96,16 +106,17 @@
 
 // Handles power draw
 /obj/machinery/atmospherics/components/binary/silo/process()
-	if(converting && !power_drain())
-		converting = FALSE
+	if(mode == SILO_MODE_CONVERT && !power_drain())
+		mode = SILO_MODE_IDLE
 		current_power_draw = 0
 
 /obj/machinery/atmospherics/components/binary/silo/process_atmos()
 	// PRESSURE! Pushing down on me
 	var/i_pressure = air_contents.return_pressure()
-	if(i_pressure > SILO_EXPLODE_PRESSURE)
+	if(pressure_integrity <= 0 || i_pressure > SILO_EXPLODE_PRESSURE)
 		if(prob(explosion_chance))
 			kaboom(i_pressure)
+			return
 		else
 			explosion_chance += 0.5
 	else if(explosion_chance > 0)
@@ -133,9 +144,10 @@
 	// Actual refining stuff xD
 	if(!is_operational())
 		return
-	if(converting)
+	if(mode == SILO_MODE_CONVERT)
 		transmute_fuel()
 	if(outputting)
+		var/datum/gas_mixture/output = airs[2]
 		var/o_pressure = output.return_pressure() // output pressure
 		if(o_pressure > MAX_OUTPUT_PRESSURE)
 			return
@@ -149,8 +161,9 @@
 		multiplier = 1.5
 	T.assume_air(air_contents)
 	air_contents.clear()
-	var/V2 = round(2 + (pressure - SILO_EXPLODE_PRESSURE) / 300) * multiplier // Every 300 kpa over the threshold will increase the range by one
+	var/V2 = round(2 + (pressure - SILO_LEAK_PRESSURE) / 200) * multiplier // Every 200 kpa over the threshold will increase the range by one
 	explosion(T, V2/4, V2/2, V2, V2*1.5, ignorecap = TRUE) // >:)
+	noleak = TRUE
 	qdel(src)
 
 /obj/machinery/atmospherics/components/binary/silo/attack_hand(mob/user)
@@ -169,22 +182,46 @@
 	playsound(src, 'nsv13/sound/effects/computer/scroll_start.ogg', 100, 1)
 	switch(action)
 		if("toggle_power")
-			converting = !converting
-			visible_message("<span class='notice'>Transmutation process [converting ? "starting" : "shutting down"]</span>")
+			if(mode == SILO_MODE_IDLE)
+				mode = lastmode
+			else
+				lastmode = mode
+				mode = SILO_MODE_IDLE
+			visible_message("<span class='notice'>Refinery [mode ? "starting" : "shutting down"]</span>")
 		if("target_power")
-			target_power_draw = max(text2num(params["target"]), min_power_draw)
+			target_power_draw = round(max(text2num(params["target"]), min_power_draw) * 1000)
+		if("toggle_mode")
+			if(mode == SILO_MODE_CONVERT)
+				mode = SILO_MODE_OUTPUT
+			else if(mode == SILO_MODE_OUTPUT)
+				mode = SILO_MODE_CONVERT
 
 /obj/machinery/atmospherics/components/binary/silo/ui_data(mob/user)
 	var/list/data = list()
-	data["active"] = converting
-	data["target_power"] = target_power_draw
-	data["current_power"] = current_power_draw
+	data["active"] = mode != SILO_MODE_IDLE
+	data["converting"] = mode == SILO_MODE_CONVERT
+	data["target_power"] = round(target_power_draw / 1000) // converts to KW
+	data["current_power"] = round(current_power_draw / 1000)
 	data["min_power"] = min_power_draw
 	data["max_power"] = cable?.surplus()
 	data["pressure"] = air_contents.return_pressure() / SILO_LEAK_PRESSURE
-	data["stat"] = "Online"
+	data["integrity"] = pressure_integrity / initial(pressure_integrity)
 	if(!cable)
 		data["stat"] = "Power Failure"
-	else if(!converting)
-		data["stat"] = "Offline"
+	else
+		switch(mode)
+			if(SILO_MODE_IDLE)
+				data["stat"] = "Idle"
+			if(SILO_MODE_CONVERT)
+				data["stat"] = "Refining"
+			if(SILO_MODE_OUTPUT)
+				data["stat"] = "Draining"
 	return data
+
+#undef SILO_MODE_IDLE
+#undef SILO_MODE_CONVERT
+#undef SILO_MODE_OUTPUT
+#undef SILO_LEAK_PRESSURE
+#undef SILO_EXPLODE_PRESSURE
+#undef EFFICIENCY_BASE
+#undef EFFICIENCY_MIN

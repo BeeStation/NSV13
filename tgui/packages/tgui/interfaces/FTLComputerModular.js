@@ -62,7 +62,7 @@ export const FTLComputerModular = (props, context) => {
             <Button
               color={!!data.powered && 'green'}
               disabled={data.jumping}
-              content="Spool Drive"
+              content={data.progress ? "Shutdown Drive" : "Spool Drive"}
               onClick={() => act('toggle_power')} />
           </Section>
           <Section title="FTL Spoolup:">
@@ -70,7 +70,7 @@ export const FTLComputerModular = (props, context) => {
               value={data.progress/data.goal}
               ranges={{
                 good: [0.95, Infinity],
-                average: [0.15, 0.9],
+                average: [0.15, 0.95],
                 bad: [-Infinity, 0.15],
 
               }} />
