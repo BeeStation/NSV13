@@ -478,7 +478,7 @@
 			//Semi-automatic, chamber the next one
 			if(semi_auto)
 				chamber(rapidfire = TRUE)
-
+			sleep(0.75)
 			after_fire()
 		return TRUE
 	return FALSE

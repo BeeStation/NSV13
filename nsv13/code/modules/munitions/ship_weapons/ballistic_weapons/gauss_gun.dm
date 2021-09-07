@@ -200,7 +200,8 @@
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
 	if(gunner)
-		get_overmap().stop_piloting(gunner)
+		var/obj/structure/overmap/OM = get_overmap()
+		OM?.stop_piloting(gunner)
 		if(gunner_chair)
 			lower_chair()
 		else
@@ -613,11 +614,10 @@ Chair + rack handling
 /obj/machinery/ship_weapon/gauss_gun/proc/lower_chair()
 	if(!gunner_chair || gunner_chair.loc != src)
 		return FALSE
-	var/mob/M = gunner
-	gunner = null
 	var/turf/below = SSmapping.get_turf_below(src)
 	gunner_chair.forceMove(below)
 	gunner_chair.locked = TRUE
+	var/mob/living/M = gunner
 	M.forceMove(below)
 	gunner_chair.buckle_mob(M)
 	playsound(below, 'nsv13/sound/effects/ship/freespace2/crane_2.wav', 100, FALSE)

@@ -266,9 +266,12 @@ Adding tasks is easy! Just define a datum for it.
 		current_system.mission_sector = FALSE
 	var/player_caused = FALSE
 	for(var/obj/structure/overmap/OOM in current_system.system_contents)
-		if(!OOM.mobs_in_ship.len)
+		if(QDELETED(OOM) || QDELING(OOM))
+			continue
+		if(!length(OOM.mobs_in_ship))
 			continue
 		player_caused = TRUE
+		SEND_SIGNAL(OOM, COMSIG_SHIP_KILLED_FLEET)
 		for(var/mob/M in OOM.mobs_in_ship)
 			if(M.client)
 				var/client/C = M.client
@@ -619,11 +622,10 @@ Adding tasks is easy! Just define a datum for it.
 	. = ..()
 	if(allow_difficulty_scaling)
 		//Account for pre-round spawned fleets.
-		var/num_players = (SSticker?.mode) ? SSticker.mode.num_players() : 0
-		if(num_players <= 15) //You get an easier time of it on lowpop
-			size = round(size * 0.8)
+		if(SSovermap_mode?.mode)
+			size = SSovermap_mode.mode.difficulty
 		else
-			size = round(size + (num_players / 10) ) //Lightly scales things up.
+			size = 1 //Lets assume a low number of players
 	size = CLAMP(size, FLEET_DIFFICULTY_EASY, INFINITY)
 	faction = SSstar_system.faction_by_id(faction_id)
 	reward *= size //Bigger fleet = larger reward
@@ -1196,7 +1198,7 @@ Seek a ship thich we'll station ourselves around
 		var/uses_main_shot = FALSE //Will this shot count as depleting "shots left"? Heavy weapons eat ammo, PDCs do not.
 		//So! now we pick a weapon.. We start off with PDCs, which have an effective range of "5". On ships with gauss, gauss will be chosen 90% of the time over PDCs, because you can fire off a PDC salvo anyway.
 		//Heavy weapons take ammo, stuff like PDC and gauss do NOT for AI ships. We make decisions on the fly as to which gun we get to shoot. If we've run out of ammo, we have to resort to PDCs only.
-		for(var/I = FIRE_MODE_PDC; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
+		for(var/I = FIRE_MODE_ANTI_AIR; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
 			var/datum/ship_weapon/SW = weapon_types[I]
 			if(!SW)
 				continue
@@ -1238,7 +1240,6 @@ Seek a ship thich we'll station ourselves around
 		else
 			light_shots_left --
 		fire_weapon(target, new_firemode, ai_aim=TRUE)
-		next_firetime = world.time + (1 SECONDS) + (fire_delay*2)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
 
 /**
@@ -1260,7 +1261,7 @@ Seek a ship thich we'll station ourselves around
 	var/ammo_use = 0
 	var/smallest_cooldown = INFINITY
 
-	for(var/iter = FIRE_MODE_PDC, iter <= MAX_POSSIBLE_FIREMODE, iter++)
+	for(var/iter = FIRE_MODE_ANTI_AIR, iter <= MAX_POSSIBLE_FIREMODE, iter++)
 		if(iter == FIRE_MODE_AMS || iter == FIRE_MODE_FLAK)
 			continue	//These act independantly
 		var/will_use_ammo = FALSE
@@ -1470,12 +1471,7 @@ Seek a ship thich we'll station ourselves around
 	if(OM.role == MAIN_OVERMAP)
 		if(GLOB.security_level < SEC_LEVEL_RED)	//Lets not pull them out of Zebra / Delta
 			set_security_level(SEC_LEVEL_RED) //Action stations when the ship is under attack, if it's the main overmap.
-		SSstar_system.last_combat_enter = world.time //Tag the combat on the SS
-		SSstar_system.nag_stacks = 0 //Reset overmap spawn modifier
-		SSstar_system.nag_interval = initial(SSstar_system.nag_interval)
-		SSstar_system.next_nag_time = world.time + SSstar_system.nag_interval
-		var/datum/round_event_control/_overmap_event_handler/OEH = locate(/datum/round_event_control/_overmap_event_handler) in SSevents.control
-		OEH.weight = 0 //Reset controller weighting
+		SSovermap_mode.update_reminder()
 	if(OM.tactical)
 		var/sound = pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_3.ogg','nsv13/sound/effects/computer/alarm_4.ogg')
 		var/message = "<span class='warning'>DANGER: [src] is now targeting [OM].</span>"
