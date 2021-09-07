@@ -233,6 +233,35 @@
 	ov += pylon_shield
 	add_overlay(ov)
 
+
+// ------------------ Debug pylon ------------------
+
+
+/obj/machinery/atmospherics/components/binary/drive_pylon/hugbox
+	name = "hugbox drive pylon"
+	var/autoclear_waste = TRUE
+	var/autoadd_input = TRUE
+
+/obj/machinery/atmospherics/components/binary/drive_pylon/hugbox/try_enable()
+	if(pylon_state == PYLON_STATE_SHUTDOWN)
+		return FALSE
+	on = TRUE
+	START_PROCESSING(SSmachines, src)
+	set_state(PYLON_STATE_STARTING)
+	return TRUE
+
+/obj/machinery/atmospherics/components/binary/drive_pylon/hugbox/power_drain()
+	return TRUE
+
+/obj/machinery/atmospherics/components/binary/drive_pylon/hugbox/consume_fuel()
+	if(autoadd_input)
+		var/datum/gas_mixture/input = airs[1]
+		input.set_moles(/datum/gas/nucleium, 100)
+	if(autoclear_waste)
+		var/datum/gas_mixture/output = airs[2]
+		output.clear()
+	..()
+
 #undef PYLON_STATE_OFFLINE
 #undef PYLON_STATE_STARTING
 #undef PYLON_STATE_WARMUP

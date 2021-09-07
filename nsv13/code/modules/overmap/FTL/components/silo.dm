@@ -37,6 +37,10 @@
 	var/explosion_chance = 0 // Chance of vessel exploding, increases after passing SILO_EXPLODE_PRESSURE
 	var/noleak = FALSE // Enable/Disable atmos leaking on destruction
 
+	var/mutable_appearance/bulb
+	var/mutable_appearance/mode_ring
+
+
 	var/obj/structure/cable/cable
 	var/datum/gas_mixture/air_contents
 
@@ -49,6 +53,7 @@
 	cable = T.get_cable_node()
 	update_parents()
 	START_PROCESSING(SSmachines, src)
+	add_overlay("screen_on")
 
 
 /obj/machinery/atmospherics/components/binary/silo/Destroy()
@@ -74,10 +79,15 @@
 	var/datum/gas_mixture/input = airs[1]
 	if(!cable)
 		return FALSE
+	var/input_trit = min(input.get_moles(/datum/gas/tritium), 70)
 	var/input_fuel = min(input.get_moles(/datum/gas/plasma), conversion_limit)
 	if(input_fuel < 0.1)
 		return FALSE
-	air_contents.adjust_moles(/datum/gas/nucleium, input_fuel * (conversion_ratio * get_efficiency()))
+	var/transmutated = input_fuel * (conversion_ratio * get_efficiency())
+	if(input_trit)
+		transmutated *= 0.5 * (input_trit ** 0.725) + 1
+		input.adjust_moles(/datum/gas/tritium, -input_trit)
+	air_contents.adjust_moles(/datum/gas/nucleium, transmutated)
 	air_contents.set_temperature(air_contents.temperature_share(input))
 	input.adjust_moles(/datum/gas/plasma, -input_fuel)
 	return TRUE
@@ -111,60 +121,82 @@
 		current_power_draw = 0
 
 /obj/machinery/atmospherics/components/binary/silo/process_atmos()
-	// PRESSURE! Pushing down on me
+	// PRESSURE! Pushing down on me!
 	var/i_pressure = air_contents.return_pressure()
 	if(pressure_integrity <= 0 || i_pressure > SILO_EXPLODE_PRESSURE)
 		if(prob(explosion_chance))
-			kaboom(i_pressure)
+			kaboom(i_pressure) // Pushing down on you!
 			return
 		else
-			explosion_chance += 0.5
+			explosion_chance += 5
+			if(prob(50))
+				playsound(src, 'nsv13/sound/effects/metal_clang.ogg', rand(80,100), TRUE, 6)
 	else if(explosion_chance > 0)
-		explosion_chance -= 0.5
-	else if(i_pressure > SILO_LEAK_PRESSURE)
-		if(prob(40))
-			switch(rand(1, 3))
-				if(1)
-					audible_message("<span class='danger'>\The [src] resonates an ominous creak.</span>")
-				if(2)
-					visible_message("<span class='danger>\The [src] shakes violently!</span>")
-				if(3)
-					visible_message("<span class='danger>\The [src]'s chassis begins to bulge.</span>")
+		explosion_chance -= 5
+	switch(i_pressure)
+		if(SILO_LEAK_PRESSURE to SILO_EXPLODE_PRESSURE)
+			bulb.icon_state = "status_alert"
+			if(prob(40))
+				switch(rand(1, 3))
+					if(1)
+						audible_message("<span class='danger'>\The [src] resonates an ominous creak.</span>")
+					if(2)
+						visible_message("<span class='danger>\The [src] shakes violently!</span>")
+					if(3)
+						visible_message("<span class='danger>\The [src]'s chassis begins to bulge.</span>")
+			else if(prob(40))
+					playsound(src, 'nsv13/sound/effects/rbmk/alarm.ogg', 100, TRUE)
+					var/turf/T = get_turf(src)
+					var/datum/gas_mixture/leak = air_contents.remove_ratio(rand(0.05, 0.15))
+					T.assume_air(leak)
+					qdel(leak)
+					playsound(src, 'sound/effects/spray.ogg', 100, TRUE)
+					if(pressure_integrity > 0)
+						pressure_integrity--
+		if(SILO_LEAK_PRESSURE * 0.75 to SILO_LEAK_PRESSURE)
+			bulb.icon_state = "status_alert"
+		if(SILO_LEAK_PRESSURE * 0.5 to SILO_LEAK_PRESSURE * 0.75)
+			bulb.icon_state = "status_caution"
 		else
-			if(prob(20))
-				playsound(src, 'nsv13/sound/effects/rbmk/alarm.ogg', 100, TRUE)
-			var/turf/T = get_turf(src)
-			var/datum/gas_mixture/leak = air_contents.remove_ratio(rand(0.05, 0.15))
-			T.assume_air(leak)
-			qdel(leak)
-			playsound(src, 'sound/effects/spray.ogg', 100, TRUE)
-			if(pressure_integrity > 0)
-				pressure_integrity--
+			bulb.icon_state = "status_ok"
 
-	// Actual refining stuff xD
+	// Actual refining stuff lmao
 	if(!is_operational())
 		return
-	if(mode == SILO_MODE_CONVERT)
-		transmute_fuel()
-	if(outputting)
-		var/datum/gas_mixture/output = airs[2]
-		var/o_pressure = output.return_pressure() // output pressure
-		if(o_pressure > MAX_OUTPUT_PRESSURE)
-			return
-		if(air_contents.pump_gas_to(output, clamp(output, 0, MAX_OUTPUT_PRESSURE - o_pressure)))
-			update_parents()
+	switch(mode)
+		if(SILO_MODE_CONVERT)
+			transmute_fuel()
+
+		if(SILO_MODE_OUTPUT)
+			var/datum/gas_mixture/output = airs[2]
+			var/o_pressure = output.return_pressure() // output pressure
+			if(o_pressure > MAX_OUTPUT_PRESSURE)
+				return
+			if(air_contents.pump_gas_to(output, clamp(output, 0, MAX_OUTPUT_PRESSURE - o_pressure)))
+				update_parents()
 
 /obj/machinery/atmospherics/components/binary/silo/proc/kaboom(pressure)
 	var/turf/T = get_turf(src)
+	var/turf/open/floor/newT
+	for(var/i in 1 to 6) // a fun way to roll the dice
+		newT = locate(x + rand(5, 20), y + rand(5, 20), z)
+		if(newT && istype(newT) && newT.air?.return_pressure())
+			T = newT
+			break
+
 	var/multiplier = 1
 	if(air_contents.get_moles(/datum/gas/nucleium) > 400) // something something spacetime expansion
 		multiplier = 1.5
+	if(T != loc)
+		do_sparks(5, FALSE, T)
+		playsound(src, 'nsv13/sound/effects/metal_clang.ogg', 100, FALSE, 6)
 	T.assume_air(air_contents)
 	air_contents.clear()
 	var/V2 = round(2 + (pressure - SILO_LEAK_PRESSURE) / 200) * multiplier // Every 200 kpa over the threshold will increase the range by one
-	explosion(T, V2/4, V2/2, V2, V2*1.5, ignorecap = TRUE) // >:)
 	noleak = TRUE
-	qdel(src)
+	explosion(T, V2/4, V2/2, V2, V2*1.5, ignorecap = TRUE) // >:)
+	if(!QDELETED(src))
+		qdel(src)
 
 /obj/machinery/atmospherics/components/binary/silo/attack_hand(mob/user)
 	ui_interact(user)
@@ -217,6 +249,18 @@
 			if(SILO_MODE_OUTPUT)
 				data["stat"] = "Draining"
 	return data
+
+/obj/machinery/atmospherics/components/binary/silo/proc/set_mode(new_mode)
+	if(mode == new_mode)
+		return
+	mode = new_mode
+	switch(mode)
+		if(SILO_MODE_IDLE)
+			mode_ring.icon_state = "idle"
+		if(SILO_MODE_CONVERT)
+			mode_ring.icon_state = "transmute"
+		if(SILO_MODE_OUTPUT)
+			mode_ring.icon_state = "output"
 
 #undef SILO_MODE_IDLE
 #undef SILO_MODE_CONVERT

@@ -1,3 +1,7 @@
+// Don't make this any lower or else it'll conflict with the sound loop
+/// Minimuim time between FTL jumps in deciseconds
+#define FTL_COOLDOWN 260
+
 /obj/machinery/computer/ship/ftl_core
 	name = "\improper FTL frameshift core"
 	desc = "A highly advanced form of propulsion that utilizes exotic energy to warp space around itself, exotic energy must be supplied via drive pylons"
@@ -23,7 +27,7 @@
 	var/progress = 0 // charge progress, 0-req_charge
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/req_charge = 100
-	var/cooldown = 0 // cooldown in process ticks
+	var/cooldown = FALSE
 	var/charge_rate = 1.2 // how much charge is given per pylon
 	var/obj/item/radio/radio //For engineering alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_eng
@@ -34,6 +38,7 @@
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
+	var/datum/looping_sound/ftl_drive/soundloop
 	var/auto_spool = FALSE
 	var/lockout = FALSE //Used for our end round shenanigains
 
@@ -47,6 +52,7 @@
 	radio.keyslot = new radio_key
 	radio.listening = 0
 	radio.recalculateChannels()
+	soundloop = new(list(src))
 
 /obj/machinery/computer/ship/ftl_core/proc/get_pylons()
 	pylons.len = 0
@@ -85,7 +91,7 @@
 		visible_message("<span class='info'>Core fuel cycle starting.</span>")
 		active = TRUE
 		START_PROCESSING(SSmachines, src)
-		playsound(src, 'nsv13/sound/effects/computer/hum3.ogg', 100, 1)
+		soundloop.start()
 		playsound(src, 'nsv13/sound/voice/ftl_spoolup.wav', 100, FALSE)
 		radio.talk_into(src, "FTL spoolup initiated.", radio_channel)
 		icon_state = "core_active"
@@ -118,10 +124,10 @@
 /// Cosmetic effect
 /obj/machinery/computer/ship/ftl_core/proc/discharge_pylon(atom/P)
 	set waitfor = FALSE
-	playsound(P, 'NSV13/sound/machines/FTL/FTL_pylon_discharge.ogg', rand(85,100), TRUE, 1)
+	playsound(P, 'nsv13/sound/machines/FTL/FTL_pylon_discharge.ogg', rand(85,100), TRUE, 1)
 	sleep(20)
 	P.Beam(src, icon_state = "lightning[rand(1, 12)]", time = 10, maxdistance = 10)
-	playsound(P, 'sound/magic/lightningshock.ogg', 30, 1, extrarange = 5)
+	playsound(P, 'sound/magic/lightningshock.ogg', 10, 1, 1)
 
 
 //No please do not delete the FTL's radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
@@ -325,10 +331,17 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	icon_state = "core_idle"
 	progress = 0
 	use_power = 50
-	if(auto_spool)
-		active = TRUE
-		spoolup()
-		START_PROCESSING(SSmachines, src)
-		return TRUE
+	soundloop.stop()
+	cooldown = TRUE
+	addtimer(CALLBACK(src, .proc/post_cooldown, auto_spool), FTL_COOLDOWN)
 	STOP_PROCESSING(SSmachines, src)
 	return TRUE
+
+/// Handles auto-spooling and cooldown resetting
+/obj/machinery/computer/ship/ftl_core/proc/post_cooldown(spool)
+	cooldown = FALSE
+	if(spool)
+		active = TRUE
+		spoolup()
+
+#undef FTL_COOLDOWN
