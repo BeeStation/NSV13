@@ -73,8 +73,8 @@
 	var/is_hijacker = FALSE
 	if (GLOB.joined_player_list.len >= 30) // Less murderboning on lowpop thanks
 		is_hijacker = prob(10)
-	var/martyr_chance = FALSE
-	if (GLOB.joined_player_list.len >= CONFIG_GET(number/min_pop_kill_objectives)) //NSV13 - dying is lazy, do your job
+	var/martyr_chance = FALSE //NSV13 - dying is lazy, do your job
+	if (GLOB.joined_player_list.len >= CONFIG_GET(number/min_pop_kill_objectives))
 		martyr_chance = prob(20)
 	var/objective_count = is_hijacker 			//Hijacking counts towards number of objectives
 	if(!SSticker.mode.exchange_blue && SSticker.mode.traitors.len >= 8) 	//Set up an exchange if there are enough traitors
