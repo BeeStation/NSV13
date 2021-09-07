@@ -34,6 +34,7 @@
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
 	var/ftl_startup_time = 30 SECONDS
 	var/auto_spool = FALSE //For lazy admins
+	var/lockout = FALSE //Used for our end round shenanigains
 
 //No please do not delete the FTL's radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
 /obj/machinery/computer/ship/ftl_computer/prevent_content_explosion()

@@ -31,6 +31,7 @@
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
 	var/auto_spool = FALSE
+	var/lockout = FALSE //Used for our end round shenanigains
 
 	var/ftl_state = FTL_STATE_IDLE
 
@@ -42,14 +43,13 @@
 	radio.keyslot = new radio_key
 	radio.listening = 0
 	radio.recalculateChannels()
-	START_PROCESSING(SSmachines, src)
 
 /obj/machinery/computer/ship/ftl_core/proc/get_pylons()
 	pylons.len = 0
 	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in GLOB.machines)
-		if(pylons.len == 4) // No more than 4 pylons for the sake of the UI
+		if(length(pylons) == 4) // No more than 4 pylons for the sake of the UI
 			break
-		if(link_id == P.link_id && P.get_overmap() == get_overmap() && P.is_operational())
+		if(get_dist(src, P) <= 10 && link_id == P.link_id && P.get_overmap() == get_overmap() && P.is_operational())
 			pylons += P
 
 /obj/machinery/computer/ship/ftl_core/proc/check_pylons()
@@ -249,7 +249,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_core/ui_data(mob/user)
 	var/list/data = list()
-	data["powered"] = ftl_state != FTL_STATE_IDLE
+	data["powered"] = ftl_state != FTL_STATE_IDLE // Yes, we could pass ftl_state into just one data point but then defines break
 	data["progress"] = progress
 	data["goal"] = req_charge
 	data["ready"] = ftl_state == FTL_STATE_READY

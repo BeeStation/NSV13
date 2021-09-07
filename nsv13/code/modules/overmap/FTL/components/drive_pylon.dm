@@ -58,6 +58,7 @@
 			return
 		if(capacitor >= req_capacitor)
 			set_state(PYLON_STATE_ACTIVE)
+			playsound(src, 'NSV13/sound/machines/FTL/FTL_pylon_discharge.ogg', rand(85,100), FALSE, 1)
 	switch(pylon_state)
 		if(PYLON_STATE_ACTIVE)
 			power_draw = round(power_draw * PYLON_ACTIVE_EXPONENT + 300) // Active pylons slowly but exponentially require more charge to stay stable. Don't leave them on when you don't need to
@@ -146,7 +147,7 @@
 		if(damage_type == BURN)
 			damage_amount = 0
 		else
-			damage_amount /= 2
+			damage_amount *= 0.5
 	return ..()
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/finalalize_shutdown()
@@ -167,7 +168,7 @@
 	waste.adjust_moles(/datum/gas/plasma, input_fuel / 3)
 	waste.adjust_moles(/datum/gas/nucleium, input_fuel / 4)
 	var/heat_increase = WASTE_GAS_HEAT + round(power_draw / 1000)
-	if(shielded)
+	if(shielded) // Closing shields greatly increases internal temperture
 		heat_increase *= 1.5
 	waste.set_temperature(input.return_temperature() + heat_increase)
 	if(output.return_pressure() < MAX_WASTE_OUTPUT_PRESSURE)
@@ -189,7 +190,7 @@
 	playsound(src, 'sound/machines/blastdoor.ogg', 40, 1)
 	shielded = !shielded
 
-/// Use this when changing pylon states to avoid icon CBT
+/// Use this when changing pylon states to avoid overlay cbt
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/set_state(nstate)
 	if(pylon_state == nstate) // to avoid needless icon updates
 		return
@@ -210,7 +211,7 @@
 		var/turf/T = get_turf(src)
 		T.assume_air(spill)
 
-	QDEL_NULL(spill)
+	qdel(spill)
 	return ..()
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/update_visuals()

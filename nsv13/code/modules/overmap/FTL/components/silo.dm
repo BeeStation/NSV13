@@ -33,7 +33,7 @@
 	var/datum/gas_mixture/input
 	var/datum/gas_mixture/output
 
-/obj/machinery/atmospherics/components/binary/silo/New()
+/obj/machinery/atmospherics/components/binary/silo/Initialize()
 	..()
 	input = airs[1]
 	output = airs[2]
@@ -42,10 +42,12 @@
 
 	var/turf/T = get_turf(src)
 	cable = T.get_cable_node()
-
 	update_parents()
+	START_PROCESSING(SSmachines, src)
+
 
 /obj/machinery/atmospherics/components/binary/silo/Destroy()
+	STOP_PROCESSING(SSmachines, src)
 	var/datum/gas_mixture/spill = air_contents.copy()
 	spill.merge(input)
 	spill.merge(output)
@@ -100,7 +102,7 @@
 
 /obj/machinery/atmospherics/components/binary/silo/process_atmos()
 	// PRESSURE! Pushing down on me
-	var/i_pressure = air_contents.return_pressure() // internal pressure
+	var/i_pressure = air_contents.return_pressure()
 	if(i_pressure > SILO_EXPLODE_PRESSURE)
 		if(prob(explosion_chance))
 			kaboom(i_pressure)
