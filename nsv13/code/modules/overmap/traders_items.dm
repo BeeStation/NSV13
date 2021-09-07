@@ -209,14 +209,21 @@
 	desc = "PDC rounds for use in ship to ship guns."
 	price = 800
 	stock = 10
-	unlock_path = /obj/item/ammo_box/magazine/pdc/fiftycal
+	unlock_path = /obj/item/ammo_box/magazine/nsv/pdc
+
+/datum/trader_item/anti_air
+	name = "Anti-air Gun Ammo Box"
+	desc = "Anti-air rounds for use in ship to ship guns."
+	price = 800
+	stock = 10
+	unlock_path = /obj/item/ammo_box/magazine/nsv/pdc
 
 /datum/trader_item/flak
 	name = "Flak Ammo Box"
 	desc = "Flak rounds for use in ship to ship guns."
 	price = 500
 	stock = 10
-	unlock_path = /obj/item/ammo_box/magazine/pdc/flak
+	unlock_path = /obj/item/ammo_box/magazine/nsv/flak
 
 /datum/trader_item/fighter/light
 	name = "Light Fighter"

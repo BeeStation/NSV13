@@ -181,9 +181,9 @@
 			playsound(tactical, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
 		gunner = null
 		target_lock = null
-	if(LAZYFIND(gauss_gunners, M))
-		var/datum/component/overmap_gunning/C = M.GetComponent(/datum/component/overmap_gunning)
-		C.end_gunning()
+	if(istype(M.loc, /obj/machinery/ship_weapon/gauss_gun))
+		var/obj/machinery/ship_weapon/gauss_gun/GG = M.loc
+		GG.remove_gunner()
 	if(M.client)
 		M.client.view_size.resetToDefault()
 		M.client.overmap_zoomout = 0

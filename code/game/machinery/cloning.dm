@@ -182,7 +182,8 @@
 		clonemind = locate(mindref) in SSticker.minds
 		if(!istype(clonemind))	//not a mind
 			return NONE
-		if(clonemind.last_death != last_death) //The soul has advanced, the record has not.
+		//NSV13 - check for last_death != 1 to allow pre-scanning
+		if((clonemind.last_death != last_death) && (last_death != -1)) //The soul has advanced, the record has not.
 			return NONE
 		if(!QDELETED(clonemind.current))
 			if(clonemind.current.stat != DEAD)	//mind is associated with a non-dead body

@@ -138,10 +138,26 @@
 
 
 /obj/structure/overmap/proc/begin_jump(datum/star_system/target_system)
-	relay(ftl_drive.ftl_start, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+	relay(ftl_drive.ftl_start, channel = CHANNEL_IMPORTANT_SHIP_ALERT)
 	desired_angle = 90 //90 degrees AKA face EAST to match the FTL parallax.
 	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), ftl_drive.ftl_startup_time)
 
+/obj/structure/overmap/proc/force_return_jump(datum/star_system/target_system)
+	if(ftl_drive) //Do we actually have an ftl drive?
+		ftl_drive.lockout = TRUE //Prevent further jumps
+		if(ftl_drive.ftl_state == FTL_STATE_JUMPING)
+			addtimer(CALLBACK(src, .proc/force_return_jump, target_system), 30 SECONDS)
+			message_admins("[src] is already jumping, delaying recall for 30 seconds")
+		else
+			target_system.hidden = FALSE //Reveal where we are going
+
+			ftl_drive.ftl_state = FTL_STATE_READY //force it all to be ready
+			ftl_drive.use_power = 0
+			ftl_drive.progress = 0
+			ftl_drive.jump(target_system) //Jump home
+
+	else
+		message_admins("Target does not have an FTL drive!")
 
 /obj/structure/overmap/proc/force_parallax_update(ftl_start)
 	if(reserved_z) //Actual overmap parallax behaviour

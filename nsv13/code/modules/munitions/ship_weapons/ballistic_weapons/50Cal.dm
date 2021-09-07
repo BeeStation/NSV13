@@ -1,40 +1,40 @@
 // The point defense system! A neat crew served weapon which replaces the .50 cal
 // This file has so much borrowed code and name swaps from previous iterations of PDC
-/obj/machinery/ship_weapon/fiftycal
-	name = "PDC turret"
-	desc = "A formidable weapon operated by a gunner below deck, extremely effective at point defense though they struggle to damage larger targets."
+/obj/machinery/ship_weapon/anti_air
+	name = "AA turret"
+	desc = "A formidable weapon operated by a gunner below deck, extremely effective at anti-fighter defense though they struggle to damage larger targets."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "deck_gun"
-	magazine_type = /obj/item/ammo_box/magazine/pdc/fiftycal
+	magazine_type = /obj/item/ammo_box/magazine/nsv/anti_air
 	safety = FALSE
 	auto_load = TRUE
 	semi_auto = TRUE
 	maintainable = FALSE
-	fire_mode = FIRE_MODE_50CAL
+	fire_mode = FIRE_MODE_ANTI_AIR
 	max_ammo = 300
-	circuit = /obj/item/circuitboard/machine/fiftycal
-	var/gunning_component_type = /datum/component/overmap_gunning/fiftycal
+	circuit = /obj/item/circuitboard/machine/anti_air
+	var/gunning_component_type = /datum/component/overmap_gunning/anti_air
 	var/mob/living/gunner
 
-/obj/machinery/ship_weapon/fiftycal/examine(mob/user)
+/obj/machinery/ship_weapon/anti_air/examine(mob/user)
 	. = ..()
 	. += "<span class ='notice'>It has [get_ammo()]/[get_max_ammo()] rounds loaded.</span>"
 
 
-/obj/machinery/ship_weapon/fiftycal/super
-	name = "RPDC turret"
+/obj/machinery/ship_weapon/anti_air/heavy
+	name = "HAA turret"
 	desc = "For when you need more bullets spat out more quickly."
 	icon_state = "deck_gun_super"
-	circuit = /obj/item/circuitboard/machine/fiftycal/super
-	gunning_component_type = /datum/component/overmap_gunning/fiftycal/super
+	circuit = /obj/item/circuitboard/machine/anti_air/heavy
+	gunning_component_type = /datum/component/overmap_gunning/anti_air/heavy
 
-/obj/machinery/ship_weapon/fiftycal/proc/start_gunning(mob/user)
+/obj/machinery/ship_weapon/anti_air/proc/start_gunning(mob/user)
 	if(gunner)
 		remove_gunner()
 	gunner = user
 	user.AddComponent(gunning_component_type, src, TRUE)
 
-/obj/machinery/ship_weapon/fiftycal/proc/remove_gunner()
+/obj/machinery/ship_weapon/anti_air/proc/remove_gunner()
 	get_overmap().stop_piloting(gunner)
 
 //Unifying component for gauss / 50 cal gunning
@@ -48,13 +48,13 @@
 	var/obj/machinery/ship_weapon/fx_target = null
 	var/special_fx = FALSE
 
-/datum/component/overmap_gunning/fiftycal
-	fire_mode = FIRE_MODE_50CAL
+/datum/component/overmap_gunning/anti_air
+	fire_mode = FIRE_MODE_ANTI_AIR
 	fire_delay = 0.25 SECONDS
 	automatic = TRUE
 
-/datum/component/overmap_gunning/fiftycal/super
-	fire_mode = FIRE_MODE_50CAL
+/datum/component/overmap_gunning/anti_air/heavy
+	fire_mode = FIRE_MODE_ANTI_AIR
 	fire_delay = 0.1 SECONDS
 
 /datum/component/overmap_gunning/Initialize(obj/machinery/ship_weapon/fx_target)
@@ -119,69 +119,40 @@
 	RemoveComponent()
 	return
 
-/obj/machinery/computer/fiftycal
-	name = "PDC turret console"
-	desc = "A computer that allows you to control a PDC turret, when paired with a compatible turret directly above deck."
+/obj/machinery/computer/anti_air
+	name = "Anti-air turret console"
+	desc = "A computer that allows you to control an anti-air turret, when paired with a compatible turret directly above deck."
 	icon_screen = "50cal"
-	circuit = /obj/item/circuitboard/computer/fiftycal
-	var/obj/machinery/ship_weapon/fiftycal/turret
+	circuit = /obj/item/circuitboard/computer/anti_air
+	var/obj/machinery/ship_weapon/anti_air/turret
 
-/obj/machinery/computer/fiftycal/examine(mob/user)
+/obj/machinery/computer/anti_air/examine(mob/user)
 	. = ..()
 	. += "<span class ='notice'>Its ammo counter reads [turret.get_ammo()]/[turret.get_max_ammo()]. </span>"
 
-/obj/machinery/computer/fiftycal/Initialize()
+/obj/machinery/computer/anti_air/Initialize()
 	. = ..()
-	turret = locate(/obj/machinery/ship_weapon/fiftycal) in SSmapping.get_turf_above(src)
+	turret = locate(/obj/machinery/ship_weapon/anti_air) in SSmapping.get_turf_above(src)
 
-/obj/machinery/computer/fiftycal/attack_robot(mob/user)
+/obj/machinery/computer/anti_air/attack_robot(mob/user)
 	. = ..()
 	return attack_hand(user)
 
-/obj/machinery/computer/fiftycal/attack_ai(mob/user)
+/obj/machinery/computer/anti_air/attack_ai(mob/user)
 	. = ..()
 	return attack_hand(user)
 
-/obj/machinery/computer/fiftycal/multitool_act(mob/living/user, obj/item/multitool/I)
+/obj/machinery/computer/anti_air/multitool_act(mob/living/user, obj/item/multitool/I)
 	. = ..()
-	// if(!istype(I))
-	// 	return FALSE
-	// if(I.buffer && istype(I.buffer, /obj/machinery/ship_weapon/fiftycal))
-	// 	turret = I.buffer
-	// 	to_chat(user, "<span class='warning'>Successfully linked [src] to [I.buffer].")
-	// 	I.buffer = null
-	turret = locate(/obj/machinery/ship_weapon/fiftycal) in SSmapping.get_turf_above(src)
+	turret = locate(/obj/machinery/ship_weapon/anti_air) in SSmapping.get_turf_above(src)
 	if ( turret )
 		to_chat(user, "<span class='warning'>Successfully linked [src] to [turret].")
 	else
 		to_chat(user, "<span class='warning'>Unable to locate a compatible turret above this deck! Try relocating the turret construction.")
 
-/obj/machinery/computer/fiftycal/attack_hand(mob/user)
+/obj/machinery/computer/anti_air/attack_hand(mob/user)
 	. = ..()
 	if(!turret)
 		to_chat(user, "<span class='warning'>This computer is not linked to a gun turret! You can link it with a multitool.</span>")
 		return
 	turret.start_gunning(user)
-
-/obj/item/ammo_box/magazine/pdc/fiftycal
-	name = "PDC turret rounds" // Just going to rename the current box to avoid a bunch of map changes, or creating duplicate code for a rename
-	ammo_type = /obj/item/ammo_casing/fiftycal
-	caliber = "mm50pdc"
-	max_ammo = 300
-	w_class = WEIGHT_CLASS_NORMAL
-
-/obj/item/ammo_box/magazine/pdc/fiftycal/examine(mob/user)
-	. = ..()
-	. += "<span class ='notice'>It has [ammo_count()] bullets left.</span>"
-
-/obj/item/ammo_box/magazine/pdc/fiftycal/update_icon()
-	if(ammo_count() > 10)
-		icon_state = initial(icon_state)
-	else
-		icon_state = "[initial(icon_state)]_empty"
-
-/obj/item/ammo_casing/fiftycal
-	name = "50mm round casing"
-	desc = "A 50mm bullet casing."
-	projectile_type = /obj/item/projectile/bullet/fiftycal
-	caliber = "mm50pdc"

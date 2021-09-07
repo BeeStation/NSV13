@@ -185,6 +185,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	log_game("Z-level [world.maxz] loaded for overmap treadmills.")
 	var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), world.maxz)) //Plop them bang in the center of the system.
 	var/obj/structure/overmap/OM = new _path(exit) //Ship'll pick up the info it needs, so just domp eet at the exit turf.
+	OM.reserved_z = world.maxz
 	OM.current_system = SSstar_system.find_system(OM)
 	if(OM.role == MAIN_OVERMAP) //If we're the main overmap, we'll cheat a lil' and apply our status to all of the Zs under "station"
 		for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
@@ -278,7 +279,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	. = ..()
 	if(role > NORMAL_OVERMAP)
 		SSstar_system.add_ship(src)
-		reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
+		//reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
 		AddComponent(/datum/component/nsv_mission_arrival_in_system) // Adds components needed to track jumps for missions
 		AddComponent(/datum/component/nsv_mission_departure_from_system)
 	AddComponent(/datum/component/nsv_mission_killships)
@@ -371,6 +372,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 	if(role == MAIN_OVERMAP)
 		name = "[station_name()]"
+		SSstar_system.main_overmap = src
+	if(role == MAIN_MINING_SHIP)
+		SSstar_system.mining_ship = src
 	var/datum/star_system/sys = SSstar_system.find_system(src)
 	if(sys)
 		current_system = sys
@@ -393,10 +397,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/proc/apply_weapons()
 	//Prevent fighters from getting access to the AMS.
 	if(mass <= MASS_TINY)
-		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon(src)
+		weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/light_cannon(src)
 	//Gauss is the true PDC replacement...
 	else
-		weapon_types[FIRE_MODE_50CAL] = new /datum/ship_weapon/fiftycal(src)
+		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 	if(mass >= MASS_SMALL || occupying_levels?.len)
 		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
@@ -407,14 +411,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(ai_controlled)
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	/*
-	if(mass > MASS_TINY || occupying_levels.len)
-		weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
-		weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
-	if(mass > MASS_MEDIUM || occupying_levels.len)
-		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
-		weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
-	*/
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
@@ -475,10 +471,21 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(target == src || istype(target, /atom/movable/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["shift"])
 		return FALSE
-	if(locate(user) in gauss_gunners) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
+	if(LAZYFIND(gauss_gunners, user)) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
 		var/datum/component/overmap_gunning/user_gun = user.GetComponent(/datum/component/overmap_gunning)
-		user_gun.onClick(target)
-		return TRUE
+		if(user_gun)
+			user_gun.onClick(target)
+			return TRUE
+		else
+			log_runtime("BUG: User [user] is in [src]'s gauss_gunners list but has no overmap_gunning component!")
+			message_admins("BUG: User [ADMIN_LOOKUPFLW(user)]  is in [src]'s gauss_gunners list but has no overmap_gunning component! Attempting to eject them and remove them from the list...")
+			var/obj/machinery/ship_weapon/gauss_gun/G = user.loc
+			if(istype(G))
+				G.remove_gunner()
+			if(LAZYFIND(gauss_gunners, user))
+				log_runtime("BUG: User [user] was still in gauss_gunners list after trying to kick them out, modifying the list directly")
+				message_admins("BUG: [user] was still in gauss_gunners list after trying to kick them out, modifying the list directly")
+				gauss_gunners -= user
 	if(user != gunner)
 		if(user == pilot)
 			var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_RAILGUN] //For annoying ships like whisp
@@ -489,6 +496,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				SW = weapon_types[FIRE_MODE_RED_LASER]
 				if(SW)
 					fire_weapon(target, FIRE_MODE_RED_LASER)
+				else
+					SW = weapon_types[FIRE_MODE_PDC]
+					if(SW)
+						fire_weapon(target, FIRE_MODE_PDC)
 		return FALSE
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
