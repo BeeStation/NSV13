@@ -6,12 +6,45 @@
 	ammo_type = /obj/item/ammo_casing/pdc
 	caliber = "mm30.12"
 	max_ammo = 300
+	var/overlay_name = "pdc_overlay"
+	var/overlay_frames = 17	//how many frames are in the "animation" of the ammo overlay
+	var/last_frame //what the last frame was
+
+/obj/item/ammo_box/magazine/nsv/forceMove()
+	..()
+	update_icon()//update icon when removed from a machine
 
 /obj/item/ammo_box/magazine/nsv/update_icon()
-	if(ammo_count() > 10)
-		icon_state = initial(icon_state)
-	else
+	if (isobj(loc)) //don't update if it's in an object
+		if (!(istype(loc, /obj/item/storage)||istype(loc, /obj/item/clothing)))//unless it's a backpack or something
+			return FALSE
+	var/count = length(stored_ammo) //faster than ammo_count()
+	if (!count)
 		icon_state = "[initial(icon_state)]_empty"
+		cut_overlays()
+		last_frame = null
+		return FALSE
+	icon_state = "[initial(icon_state)]"
+	if (count >= max_ammo)
+		cut_overlays()
+		last_frame = null
+		return FALSE
+
+	var/new_frame = round(overlay_frames * (count/max_ammo) + 1)
+	if (new_frame == last_frame) 
+		return FALSE
+	last_frame = new_frame
+	cut_overlays()
+
+	if (count >= max_ammo)
+		return FALSE
+	
+	add_overlay(icon("[icon]","[overlay_name]",frame = new_frame))
+	return TRUE
+
+/obj/item/ammo_box/magazine/nsv/examine(mob/user)
+	. = ..()
+	. += "<span class ='notice'>It has [ammo_count()] bullets left.</span>"
 
 /obj/item/ammo_box/magazine/nsv/pdc
 	name = "point defense cannon ammo (30.12x82mm)"

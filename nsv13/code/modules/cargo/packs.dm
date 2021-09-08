@@ -273,32 +273,32 @@
 	name = "Light Cannon Ammunition"
 	desc = "10 boxes of light cannon ammunition for use in fighters."
 	cost = 1000
-	contains = list(/obj/item/ammo_box/magazine/light_cannon,
-					/obj/item/ammo_box/magazine/light_cannon,
-					/obj/item/ammo_box/magazine/light_cannon,
-					/obj/item/ammo_box/magazine/light_cannon,
-					/obj/item/ammo_box/magazine/light_cannon,
-					/obj/item/ammo_box/magazine/light_cannon,
-					/obj/item/ammo_box/magazine/light_cannon,
-					/obj/item/ammo_box/magazine/light_cannon,
-					/obj/item/ammo_box/magazine/light_cannon,
-					/obj/item/ammo_box/magazine/light_cannon)
+	contains = list(/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon,
+					/obj/item/ammo_box/magazine/nsv/light_cannon)
 	crate_name = "Light cannon ammunition crate"
 
 /datum/supply_pack/munitions/heavy_cannon
 	name = "Heavy Cannon Ammunition"
 	desc = "10 boxes of heavy cannon ammunition for use in fighters."
 	cost = 1000
-	contains = list(/obj/item/ammo_box/magazine/heavy_cannon,
-					/obj/item/ammo_box/magazine/heavy_cannon,
-					/obj/item/ammo_box/magazine/heavy_cannon,
-					/obj/item/ammo_box/magazine/heavy_cannon,
-					/obj/item/ammo_box/magazine/heavy_cannon,
-					/obj/item/ammo_box/magazine/heavy_cannon,
-					/obj/item/ammo_box/magazine/heavy_cannon,
-					/obj/item/ammo_box/magazine/heavy_cannon,
-					/obj/item/ammo_box/magazine/heavy_cannon,
-					/obj/item/ammo_box/magazine/heavy_cannon)
+	contains = list(/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+					/obj/item/ammo_box/magazine/nsv/heavy_cannon)
 	crate_name = "Heavy cannon ammunition crate"
 
 /datum/supply_pack/security/peacekeeper_rifles
