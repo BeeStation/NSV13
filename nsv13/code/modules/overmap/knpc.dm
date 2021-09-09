@@ -22,8 +22,8 @@ GLOBAL_LIST_EMPTY(knpcs)
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Syndicate")
-	var/move_delay = 3 //How quickly do the boys travel?
-	var/action_delay = 5 //How long we delay between actions
+	var/move_delay = 4 //How quickly do the boys travel?
+	var/action_delay = 6 //How long we delay between actions
 	var/knpc_traits = KNPC_IS_DODGER | KNPC_IS_MERCIFUL | KNPC_IS_AREA_SPECIFIC
 	var/difficulty_override = FALSE
 	var/list/outfit = list (
@@ -99,7 +99,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	. = ..()
 
 /datum/component/knpc/proc/pathfind_to(atom/movable/target, turf/avoid)
-	var/mob/living/carbon/human/H = parent
+	var/mob/living/carbon/human/ai_boarder/H = parent
 	if(dest && dest == get_turf(target) || H.stat == DEAD || H.incapacitated())
 		return FALSE //No need to recalculate this path.
 	path = list()
