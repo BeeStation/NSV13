@@ -8,7 +8,7 @@
 		"Anti-corporate activities will NOT be tolerated!"
 	)
 	outfit = /datum/outfit/ert/security
-	is_martial_artist = TRUE //Special forces
+	knpc_traits = KNPC_IS_MARTIAL_ARTIST | KNPC_IS_DODGER | KNPC_IS_MERCIFUL | KNPC_IS_AREA_SPECIFIC
 
 /mob/living/carbon/human/ai_boarder/ert/commander
 	outfit = /datum/outfit/ert/commander

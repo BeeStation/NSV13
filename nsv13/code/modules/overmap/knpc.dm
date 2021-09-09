@@ -9,8 +9,6 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/static/list/ai_goals = null
 	var/datum/ai_goal/human/current_goal = null
 	var/view_range = 12 //How good is this mob's "eyes"?
-	var/move_delay = 3 //How quickly do the boys travel?
-	var/action_delay = 5 //How long we delay between actions
 	var/next_backup_call = 0 //Delay for calling for backup to avoid spam.
 	var/list/path = list()
 	var/turf/dest = null
@@ -24,12 +22,13 @@ GLOBAL_LIST_EMPTY(knpcs)
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Syndicate")
-	var/grade = "c_1"
-	var/outfit = /datum/outfit/syndicate/odst/smg
-	var/is_martial_artist = FALSE		//Can combo you right into the next round?
-	var/can_kite = TRUE 				//Does the KPNC dodge in CQC?
-	var/is_merciful = TRUE				//Are mobs in crit valid?
-	var/is_area_specific = TRUE			//Does the KNPC scream out the area when calling for backup?
+	var/move_delay = 3 //How quickly do the boys travel?
+	var/action_delay = 5 //How long we delay between actions
+	var/knpc_traits = KNPC_IS_DODGER | KNPC_IS_MERCIFUL | KNPC_IS_AREA_SPECIFIC
+	var/difficulty_override = FALSE
+	var/list/outfit = list (
+		/datum/outfit/syndicate/odst/smg
+	)
 	var/list/taunts = list(
 		"DEATH TO NANOTRASEN!!",
 		"FOR ABASSI!",
@@ -51,31 +50,20 @@ GLOBAL_LIST_EMPTY(knpcs)
 		"Ooh rah!"
 	)
 
-/datum/component/knpc/c_0
-	move_delay = 3
-	action_delay = 5
-
-/datum/component/knpc/c_1
-	move_delay = 3
-	action_delay = 6
-
-/datum/component/knpc/c_2
-	move_delay = 4
-	action_delay = 7
-
-/datum/component/knpc/c_3
-	move_delay = 4
-	action_delay = 8
-
-/datum/component/knpc/c_z
-	move_delay = 10
-	action_delay = 10
-
 /mob/living/carbon/human/ai_boarder/Initialize()
 	. = ..()
-	var/datum/outfit/O = new outfit
+	var/datum/outfit/P = pick(outfit)
+	var/datum/outfit/O = new P
 	O.equip(src)
-	AddComponent(text2path("/datum/component/knpc/[grade]"))
+	AddComponent(/datum/component/knpc)
+	if(!difficulty_override) //Check if we actually care about current difficulty
+		switch(SSovermap_mode.mode.difficulty) //Check our current difficulty value
+			if(1) //Lowest pop, so slow them down
+				move_delay += 2
+				action_delay += 2
+			if(2 to 3)
+				move_delay += 1
+				action_delay += 1
 
 /datum/component/knpc/Initialize()
 	if(!iscarbon(parent))
@@ -114,7 +102,6 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/mob/living/carbon/human/H = parent
 	if(dest && dest == get_turf(target) || H.stat == DEAD || H.incapacitated())
 		return FALSE //No need to recalculate this path.
-	//walk_to(parent, target, 1, move_delay)
 	path = list()
 	dest = null
 	var/obj/item/card/id/access_card = H.wear_id
@@ -132,14 +119,13 @@ GLOBAL_LIST_EMPTY(knpcs)
 			fuckingMonsterMos.open()
 	//There's no valid path, try run against the wall.
 	if(!path?.len && !H.incapacitated() && !H.stat != DEAD)
-		//walk_to(H, target, 1, move_delay)
 		return FALSE
 	return TRUE
 
 /datum/component/knpc/proc/next_path_step()
 	if(world.time >= next_move)
-		next_move = world.time + move_delay
-		var/mob/living/carbon/human/H = parent
+		var/mob/living/carbon/human/ai_boarder/H = parent
+		next_move = world.time + H.move_delay
 		if(H.incapacitated() || H.stat == DEAD)
 			return FALSE
 		if(!path)
@@ -186,12 +172,11 @@ GLOBAL_LIST_EMPTY(knpcs)
 /datum/component/knpc/proc/increment_path()
 	path.Cut(1, 2)
 
-
 //Allows the AI humans to kite around
 /datum/component/knpc/proc/kite(atom/movable/target)
 	if(world.time >= next_move)
-		next_move = world.time + (move_delay * 2)
-		var/mob/living/carbon/human/H = parent
+		var/mob/living/carbon/human/ai_boarder/H = parent
+		next_move = world.time + (H.move_delay * 2)
 		if(!target || !isturf(target.loc) || !isturf(H.loc) || H.stat == DEAD)
 			return
 		var/target_dir = get_dir(H,target)
@@ -226,13 +211,13 @@ GLOBAL_LIST_EMPTY(knpcs)
 
 //Handles actioning on the goal every tick.
 /datum/component/knpc/process()
-	var/mob/living/carbon/human/H = parent
+	var/mob/living/carbon/human/ai_boarder/H = parent
 	if(H.stat == DEAD) //Dead.
 		return PROCESS_KILL
 	if(H.incapacitated()) //In crit or something....
 		return
 	if(world.time >= next_action)
-		next_action = world.time + action_delay
+		next_action = world.time + H.action_delay
 		pick_goal()
 		current_goal?.action(src)
 	if(path?.len)
@@ -285,7 +270,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/mob/living/carbon/human/ai_boarder/H = HA.parent
 	for(var/mob/living/M in oview(HA.view_range, HA.parent))
 		//Invis is a no go. Dead mobs are ignored. Non-human, non hostile animals are ignored.
-		if(H.is_merciful)
+		if(CHECK_BITFIELD(H.knpc_traits, KNPC_IS_MERCIFUL))
 			if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || M.stat >= UNCONSCIOUS || (!ishuman(M) && !istype(M, /mob/living/simple_animal/hostile)))
 				continue
 		else
@@ -525,8 +510,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 					HA.stealing_id = TRUE
 					addtimer(CALLBACK(HA, /datum/component/knpc/proc/steal_id, their_id), 5 SECONDS)
 
-
-				if(istype(H) && H.is_martial_artist)
+				if(istype(H) && CHECK_BITFIELD(H.knpc_traits, KNPC_IS_MARTIAL_ARTIST))
 					switch(rand(0, 2))
 						//Throw!
 						if(0)
@@ -551,7 +535,6 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 							target.audible_message("<b>[target]</b> gags!")
 							target.losebreath += 3
 
-
 				else
 					//So they actually execute the curbstomp.
 					if(dist <= 1)
@@ -560,7 +543,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 					//Curbstomp!
 					H.MouseDrop(target)
 					return
-		if(H.can_kite)
+		if(CHECK_BITFIELD(H.knpc_traits, KNPC_IS_DODGER))
 			HA.kite(target)
 
 /datum/ai_goal/human/proc/call_backup(datum/component/knpc/HA)
@@ -571,7 +554,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	playsound(H, 'sound/machines/chime.ogg', 50, 1, -1)
 	//Lets the AIs call for help over comms... This is quite deadly.
 	var/support_text = (radio) ? "; " : ""
-	if(H.is_area_specific)
+	if(CHECK_BITFIELD(H.knpc_traits, KNPC_IS_AREA_SPECIFIC))
 		var/text = pick(H.call_lines)
 		text += " [get_area(H)]!"
 		support_text += text

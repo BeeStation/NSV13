@@ -1,10 +1,10 @@
 /mob/living/carbon/human/ai_boarder/zombie
 	faction = list("zombie")
-	grade = "c_z"
 	outfit = /datum/outfit/assistant_ship
-	can_kite = FALSE
-	is_merciful = FALSE
-	is_area_specific = FALSE
+	knpc_traits = KNPC_IS_DOOR_BASHER
+	difficulty_override = TRUE
+	move_delay = 10
+	action_delay = 10
 	taunts = list(
 		"Braaaaains...",
 		"Hnngg...",
