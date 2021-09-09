@@ -12,8 +12,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/fighter
 	name = "Space Fighter"
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
-	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
 	icon_state = "fighter"
+	anchored = TRUE
 	brakes = TRUE
 	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
 	bound_width = 64 //Change this on a per ship basis
@@ -159,7 +159,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		//Look for any "primary" hardpoints, be those guns or utility slots
 		if(!weapon)
 			continue
-		if(weapon.fire_mode == FIRE_MODE_PDC)
+		if(weapon.fire_mode == FIRE_MODE_ANTI_AIR)
 			data["primary_ammo"] = weapon.get_ammo()
 			data["max_primary_ammo"] = weapon.get_max_ammo()
 		if(weapon.fire_mode == FIRE_MODE_TORPEDO)
@@ -1252,7 +1252,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary
 	name = "Fuck you"
 	slot = HARDPOINT_SLOT_PRIMARY
-	fire_mode = FIRE_MODE_PDC
+	fire_mode = FIRE_MODE_ANTI_AIR
 	var/overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	var/overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 	var/accepted_ammo = /obj/item/ammo_box/magazine
@@ -1277,13 +1277,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 //Ensure we get the genericised equipment mounts.
 /obj/structure/overmap/fighter/apply_weapons()
-	if(!weapon_types[FIRE_MODE_PDC])
-		weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/fighter_primary(src)
+	if(!weapon_types[FIRE_MODE_ANTI_AIR])
+		weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/fighter_primary(src)
 	if(!weapon_types[FIRE_MODE_TORPEDO])
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/fighter_secondary(src)
 
 /obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target, ai_aim = FALSE)
-	hardpoint_fire(target, FIRE_MODE_PDC)
+	hardpoint_fire(target, FIRE_MODE_ANTI_AIR)
 
 /obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, fireMode)
 	if(istype(src, /obj/structure/overmap/fighter))
@@ -1348,14 +1348,14 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary/cannon
 	name = "20mm Vulcan Cannon"
 	icon_state = "lightcannon"
-	accepted_ammo = /obj/item/ammo_box/magazine/light_cannon
+	accepted_ammo = /obj/item/ammo_box/magazine/nsv/light_cannon
 	burst_size = 2
 	fire_delay = 0.25 SECONDS
 
 /obj/item/fighter_component/primary/cannon/heavy
 	name = "30mm BRRRRTT Cannon"
 	icon_state = "heavycannon"
-	accepted_ammo = /obj/item/ammo_box/magazine/heavy_cannon
+	accepted_ammo = /obj/item/ammo_box/magazine/nsv/heavy_cannon
 	weight = 2 //Sloooow down there.
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg')
