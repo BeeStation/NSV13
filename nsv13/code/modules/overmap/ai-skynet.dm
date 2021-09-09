@@ -295,7 +295,7 @@ Adding tasks is easy! Just define a datum for it.
 		return
 	var/datum/star_system/curr = SSstar_system.ships[src]["current_system"]
 	curr?.remove_ship(src)
-	jump(SS, FALSE)
+	jump_end(SS)
 
 /obj/structure/overmap/proc/try_hail(mob/living/user, var/obj/structure/overmap/source_ship)
 	if(!isliving(user))
@@ -1679,7 +1679,7 @@ Seek a ship thich we'll station ourselves around
 			if(!sys || !istype(sys))
 				return FALSE
 			message_admins("[key_name(usr)] forced [target] to jump to [sys].")
-			target.jump(sys)
+			target.jump_start(sys)
 
 /client/proc/instance_overmap_menu() //Creates a verb for admins to open up the ui
 	set name = "Instance Overmap"

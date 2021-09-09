@@ -141,7 +141,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		var/datum/star_system/target = SSstar_system.system_by_id(mode.starting_system)
 		var/datum/star_system/curr = MO.current_system
 		curr?.remove_ship(MO)
-		MO.jump(target) //Move the ship to the designated start
+		MO.jump_start(target, TRUE) //Move the ship to the designated start
 		if(mode.starting_faction)
 			MO.faction = mode.starting_faction //If we have a faction override, set it
 
@@ -150,7 +150,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		var/datum/star_system/target = SSstar_system.system_by_id(mode.starting_system)
 		var/datum/star_system/curr = MM.current_system
 		curr?.remove_ship(MM)
-		MM.jump(target)
+		MM.jump_start(target, TRUE)
 		if(mode.starting_faction)
 			MM.faction = mode.starting_faction
 
