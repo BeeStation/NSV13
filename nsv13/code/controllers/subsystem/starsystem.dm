@@ -70,6 +70,14 @@ SUBSYSTEM_DEF(star_system)
 /**
 Returns a faction datum by its name (case insensitive!)
 */
+/datum/controller/subsystem/star_system/proc/faction_by_name(name)
+	RETURN_TYPE(/datum/faction)
+	if(!name)
+		return //Stop wasting my time.
+	for(var/datum/faction/F in factions)
+		if(lowertext(F.name) == lowertext(name))
+			return F
+
 /datum/controller/subsystem/star_system/proc/faction_by_id(id)
 	RETURN_TYPE(/datum/faction)
 	if(!id)

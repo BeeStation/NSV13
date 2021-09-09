@@ -307,15 +307,15 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_gamemode/proc/consequence_one()
 
 /datum/overmap_gamemode/proc/consequence_two()
-	var/datum/faction/F = SSstar_system.find_main_overmap().faction
+	var/datum/faction/F = SSstar_system.faction_by_name(SSstar_system.find_main_overmap().faction)
 	F.lose_influence(25)
 
 /datum/overmap_gamemode/proc/consequence_three()
-	var/datum/faction/F = SSstar_system.find_main_overmap().faction
+	var/datum/faction/F = SSstar_system.faction_by_name(SSstar_system.find_main_overmap().faction)
 	F.lose_influence(25)
 
 /datum/overmap_gamemode/proc/consequence_four()
-	var/datum/faction/F = SSstar_system.find_main_overmap().faction
+	var/datum/faction/F = SSstar_system.faction_by_name(SSstar_system.find_main_overmap().faction)
 	F.lose_influence(25)
 
 /datum/overmap_gamemode/proc/consequence_five()
