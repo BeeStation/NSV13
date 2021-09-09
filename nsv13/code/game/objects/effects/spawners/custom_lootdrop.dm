@@ -8,6 +8,14 @@
 		)
 	lootcount = 1
 
+/obj/effect/spawner/lootdrop/pdc
+	name = "\improperPDC supplies spawner"
+	loot = list(
+		/obj/item/ammo_box/magazine/nsv/pdc = 10,
+		/obj/machinery/ship_weapon/pdc_mount = 2
+	)
+	lootcount = 1
+
 /obj/effect/spawner/lootdrop/railgun
 	name = "railgun supplies spawner"
 	loot = list(
@@ -18,7 +26,7 @@
 	lootcount = 2
 
 /obj/effect/spawner/lootdrop/nac_ammo
-	name = "NAC ammo spawner"
+	name = "\improperNAC ammo spawner"
 	loot = list(
 		/obj/item/ship_weapon/ammunition/naval_artillery = 1,
 		/obj/item/ship_weapon/ammunition/naval_artillery/ap = 1,
@@ -29,7 +37,7 @@
 	lootcount = 3
 
 /obj/effect/spawner/lootdrop/nac_supplies
-	name = "NAC stuff spawner"
+	name = "\improperNAC stuff spawner"
 	loot = list(
 		/obj/item/powder_bag = 10,
 		/obj/machinery/computer/deckgun = 1,
