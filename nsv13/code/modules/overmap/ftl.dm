@@ -200,7 +200,6 @@
 
 
 /obj/structure/overmap/proc/jump(datum/star_system/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
-	message_admins("ftl_start = [ftl_start ? ftl_start : "null"]")
 	if(ftl_start && ftl_drive?.ftl_state != FTL_STATE_JUMPING)
 		log_runtime("DEBUG: jump: aborted jump to [target_system], ftl_start = [ftl_start], drive state = [ftl_drive?.ftl_state]")
 		return
