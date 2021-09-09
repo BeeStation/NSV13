@@ -144,6 +144,10 @@
 		jetpack = null
 		to_chat(user, "<span class='notice'>You successfully remove the jetpack from [src].</span>")
 		return
+	//NSV13 - added helmet cams
+	else if(I.tool_behaviour == TOOL_WIRECUTTER || istype(I, /obj/item/wallframe/camera))
+		helmet.attackby(I, user, params)
+	//end NSV13
 	return ..()
 
 

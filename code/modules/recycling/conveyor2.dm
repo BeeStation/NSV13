@@ -159,8 +159,12 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 
 /obj/machinery/conveyor/proc/convey(items)
 	if(operating) //the problem with slightly delaying movement is that stuff gets confused right after the conveyors are turned off
+		var/turf/T = get_turf(src) //NSV13 Edit Start
+		if(!T)
+			return
 		for(var/M in items)
-			step(M, movedir)
+			if(M in T.contents) //The item being moved is still on the same spot when the callback was added.
+				step(M, movedir) //NSV13 Edit End
 
 // attack with item, place item on conveyor
 /obj/machinery/conveyor/attackby(obj/item/I, mob/user, params)
