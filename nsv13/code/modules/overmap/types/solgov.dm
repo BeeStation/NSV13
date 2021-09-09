@@ -12,8 +12,9 @@
 	damage_states = FALSE
 	bound_width = 96
 	bound_height = 96
-	obj_integrity = 1000
-	max_integrity = 1000
+	obj_integrity = 500
+	max_integrity = 500
+	integrity_failure = 500
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 /obj/structure/overmap/nanotrasen/solgov/carrier
@@ -25,37 +26,42 @@
 	bound_height = 96
 	bound_width = 96
 	//Tanky
-	obj_integrity = 1500
-	max_integrity = 1500
-	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_heavy" = 40)
+	obj_integrity = 1000
+	max_integrity = 1000
+	integrity_failure = 1000
+	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 20)
 
 /obj/structure/overmap/nanotrasen/solgov/apply_weapons()
 	. = ..()
 	if(ai_controlled)
-		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/burst_phaser(src)
 	else
-		weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+		weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/burst_phaser(src)
 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp
 	name = "Aetherwhisp class light cruiser"
 	desc = "A mid range SolGov exploratory cruiser. These ships are geared for peaceful missions, but can defend themselves if they must."
-	icon = 'nsv13/icons/overmap/nanotrasen/aetherwhisp.dmi'
+	icon = 'nsv13/icons/overmap/nanotrasen/aetherbrick.dmi'
 	icon_state = "cruiser"
 	mass = MASS_MEDIUM_LARGE // A solgov ship has greater maneuverability but not much more than a LARGE NT ship
 	sprite_size = 48
 	damage_states = FALSE
 	bound_height = 128
 	bound_width = 128
+	obj_integrity = 750
+	max_integrity = 750
+	integrity_failure = 750
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 //Player Versions
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp/starter
+	icon = 'nsv13/icons/overmap/nanotrasen/aetherwhisp.dmi'
 	role = MAIN_OVERMAP
 	max_integrity = 750 //She's fragile and relies heavily on shields.
 	integrity_failure = 750
-	starting_system = "Argo"
+	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 //AI Versions
@@ -105,7 +111,7 @@
 
 /obj/structure/overmap/nanotrasen/solgov/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/burst_phaser(src)
 	//The bigger the ship, the tankier the shields....
 	AddComponent(/datum/component/overmap_shields, mass*200, mass*200, mass*5)
 

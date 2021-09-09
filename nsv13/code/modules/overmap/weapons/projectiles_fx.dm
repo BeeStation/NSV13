@@ -4,14 +4,14 @@ Misc projectile types, effects, think of this as the special FX file.
 
 */
 
-/obj/item/projectile/bullet/pdc_round
+/obj/item/projectile/bullet/aa_round
 	icon_state = "pdc"
-	name = "teflon coated tungsten round"
+	name = "anti-aircraft round"
 	damage = 40
 	flag = "overmap_light"
 	spread = 5
 
-/obj/item/projectile/bullet/pdc_round/heavy //do we even use this anymore?
+/obj/item/projectile/bullet/aa_round/heavy //do we even use this anymore?
 	damage = 10
 	flag = "overmap_heavy"
 	spread = 5
@@ -61,7 +61,7 @@ Misc projectile types, effects, think of this as the special FX file.
 //Improvised ammunition, does terrible damage but is cheap to produce
 /obj/item/projectile/bullet/mac_round/cannonshot
 	name = "cannonball"
-	damage = 75
+	damage = 350
 	icon_state = "cannonshot"
 	flag = "overmap_medium"
 
@@ -82,27 +82,29 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/gauss_slug
 	icon_state = "gaussgun"
 	name = "tungsten round"
-	damage = 40
+	damage = 80
 	obj_integrity = 500 //Flak doesn't shoot this down....
 	flag = "overmap_medium"
 
 /obj/item/projectile/bullet/light_cannon_round
 	icon_state = "pdc"
 	name = "light cannon round"
-	damage = 15
+	damage = 40
+	armour_penetration = 2
 	spread = 2
 	flag = "overmap_light"
 
 /obj/item/projectile/bullet/heavy_cannon_round
 	icon_state = "pdc"
 	name = "heavy cannon round"
-	damage = 15
+	damage = 30
 	spread = 5
 	flag = "overmap_medium"
 
 /obj/item/projectile/guided_munition
 	obj_integrity = 50
 	max_integrity = 50
+	density = TRUE
 	armor = list("overmap_light" = 10, "overmap_medium" = 0, "overmap_heavy" = 0)
 
 /obj/item/projectile/guided_munition/torpedo
@@ -111,7 +113,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	speed = 2.75
 	valid_angle = 150
 	homing_turn_speed = 35
-	damage = 240
+	damage = 250
 	obj_integrity = 40
 	max_integrity = 40
 	range = 250
@@ -123,8 +125,8 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/torpedo/shredder
 	icon_state = "torpedo_shredder"
 	name = "plasma charge"
-	damage = 240
-	armour_penetration = 20
+	damage = 200
+	armour_penetration = 40
 
 /obj/item/projectile/guided_munition/torpedo/decoy
 	icon_state = "torpedo"
@@ -135,7 +137,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/torpedo/nuclear
 	icon_state = "torpedo_nuke"
 	name = "thermonuclear missile"
-	damage = 600
+	damage = 450
 	obj_integrity = 25
 	max_integrity = 25
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
@@ -162,7 +164,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "triton cruise missile"
 	icon_state = "conventional_missile"
 	speed = 1
-	damage = 150
+	damage = 175
 	valid_angle = 120
 	homing_turn_speed = 25
 	range = 250
@@ -201,10 +203,40 @@ Misc projectile types, effects, think of this as the special FX file.
 		detonate(target)
 	return BULLET_ACT_HIT
 
+/obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
+	. = ..()
+	on_hit(P)
+
 /obj/item/projectile/guided_munition/proc/detonate(atom/target)
 	explosion(target, 2, 4, 4)
-	
+
 /obj/item/projectile/guided_munition/torpedo/nuclear/detonate(atom/target)
-		var/obj/structure/overmap/OM = target.get_overmap() //What if I just..........
-		OM?.nuclear_impact()
-		explosion(target, 3, 6, 8)
+	var/obj/structure/overmap/OM = target.get_overmap() //What if I just..........
+	OM?.nuclear_impact()
+	explosion(target, 3, 6, 8)
+
+	return BULLET_ACT_HIT
+
+/obj/item/projectile/bullet/pdc_round
+	icon_state = "pdc"
+	name = "PDC round"
+	damage = 15
+	flag = "overmap_light"
+	spread = 5
+
+/obj/item/projectile/beam/laser/heavylaser/phaser
+	name = "phaser beam"
+	damage = 200
+	flag = "overmap_heavy"
+	hitscan = TRUE //Extremely powerful in ship combat
+	icon_state = "omnilaser"
+	light_color = LIGHT_COLOR_BLUE
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	tracer_type = /obj/effect/projectile/tracer/disabler
+	muzzle_type = /obj/effect/projectile/muzzle/disabler
+	impact_type = /obj/effect/projectile/impact/disabler
+
+//Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
+/obj/item/projectile/beam/laser/phaser
+	damage = 30
+	flag = "overmap_medium"

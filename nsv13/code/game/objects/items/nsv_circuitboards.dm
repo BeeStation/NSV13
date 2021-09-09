@@ -65,12 +65,12 @@
 /obj/item/circuitboard/computer/ams/Destroy()
 	return QDEL_HINT_LETMELIVE
 
-/obj/item/circuitboard/computer/fiftycal
-	name = "PDC turret console (circuit)"
-	build_path = /obj/machinery/computer/fiftycal
+/obj/item/circuitboard/computer/anti_air
+	name = "Anti-air turret console (circuit)"
+	build_path = /obj/machinery/computer/anti_air
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/computer/fiftycal/Destroy()
+/obj/item/circuitboard/computer/anti_air/Destroy()
 	return QDEL_HINT_LETMELIVE
 
 /obj/item/circuitboard/computer/ship/fighter_controller
@@ -85,20 +85,20 @@
 ////SHIP GUNS////
 
 //50 Cal. guns
-/obj/item/circuitboard/machine/fiftycal
+/obj/item/circuitboard/machine/anti_air
 	name = "PDC turret (circuitboard)"
 	req_components = list(
 		/obj/item/stack/sheet/mineral/titanium = 20,
 		/obj/item/stack/sheet/mineral/copper = 10,
 		/obj/item/stack/sheet/iron = 30,
 		/obj/item/stack/cable_coil = 5)
-	build_path = /obj/machinery/ship_weapon/fiftycal
+	build_path = /obj/machinery/ship_weapon/anti_air
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/machine/fiftycal/Destroy()
+/obj/item/circuitboard/machine/anti_air/Destroy()
 	return QDEL_HINT_LETMELIVE
 
-/obj/item/circuitboard/machine/fiftycal/super
+/obj/item/circuitboard/machine/anti_air/heavy
 	name = "RPDC (circuitboard)"
 	req_components = list(
 		/obj/item/stack/sheet/mineral/titanium = 40,
@@ -106,7 +106,7 @@
 		/obj/item/stack/sheet/mineral/diamond = 5,
 		/obj/item/stack/sheet/iron = 20,
 		/obj/item/stack/cable_coil = 5)
-	build_path = /obj/machinery/ship_weapon/fiftycal/super
+	build_path = /obj/machinery/ship_weapon/anti_air/heavy
 
 //PDC and flak boards, currently not used
 #define PATH_PDC /obj/machinery/ship_weapon/pdc_mount
@@ -167,8 +167,12 @@
 //Deck Gun
 /obj/item/circuitboard/machine/deck_turret
 	name = "deck gun turret (circuitboard)"
+	req_components = list()
 	build_path = /obj/machinery/ship_weapon/deck_turret
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+
+/obj/item/circuitboard/machine/deck_turret/apply_default_parts()
+	//dont
 
 /obj/item/circuitboard/machine/deck_turret/Destroy()
 	return QDEL_HINT_LETMELIVE

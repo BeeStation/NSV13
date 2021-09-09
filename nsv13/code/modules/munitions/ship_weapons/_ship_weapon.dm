@@ -432,11 +432,13 @@
 /obj/machinery/ship_weapon/proc/can_fire(shots = weapon_type.burst_size)
 	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
-	if (maint_state != MSTATE_CLOSED) //Are we in maintenance?
-		return FALSE
+	if (maint_state > MSTATE_UNSCREWED) //Are we in maintenance?
+		return FALSE //Checks for states after UNSCREWED so we can add buttons under the panel
 	if(state >= STATE_FIRING) //Are we in the process of shooting already?
 		return FALSE
 	if(maintainable && malfunction) //Do we need maintenance?
+		return FALSE
+	if(safety) // Is the safety on?
 		return FALSE
 	if(ammo?.len < shots) //Do we have enough ammo?
 		return FALSE
@@ -476,7 +478,7 @@
 			//Semi-automatic, chamber the next one
 			if(semi_auto)
 				chamber(rapidfire = TRUE)
-
+			sleep(0.75)
 			after_fire()
 		return TRUE
 	return FALSE
