@@ -8,9 +8,7 @@
 	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
 	icon_state = "core_idle"
 	pixel_x = -64
-	pixel_y = -64
-	bound_x = -76
-	bound_y = -64
+	bound_x = -64
 	bound_height = 128
 	bound_width = 160
 	appearance_flags = PIXEL_SCALE

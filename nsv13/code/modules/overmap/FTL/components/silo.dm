@@ -14,14 +14,14 @@
 
 /obj/machinery/atmospherics/components/binary/silo
 	name = "\improper Nucleium-Plasma Frame Refiner"
-	desc = "An incredibly advanced and power hungry machine capable of folding matter into itself. Commonly used in the production of FTL drive fuel."
+	desc = "An incredibly advanced (and power hungry) refinery capable of folding plasma into itself. Commonly used in the production of FTL drive fuel."
 	icon = 'nsv13/icons/obj/machinery/FTL_silo.dmi'
 	icon_state = "silo"
 	max_integrity = 600
 	pixel_x = -32
 	bound_x = -32
 	bound_width = 96
-	dir = EAST // Silo input/output goes from left to right
+	initialize_directions = WEST|EAST
 	density = TRUE
 	layer = ABOVE_MOB_LAYER
 	var/mode = SILO_MODE_IDLE
@@ -136,15 +136,14 @@
 	switch(i_pressure)
 		if(SILO_LEAK_PRESSURE to SILO_EXPLODE_PRESSURE)
 			bulb.icon_state = "status_alert"
-			if(prob(40))
-				switch(rand(1, 3))
-					if(1)
-						audible_message("<span class='danger'>\The [src] resonates an ominous creak.</span>")
-					if(2)
-						visible_message("<span class='danger>\The [src] shakes violently!</span>")
-					if(3)
-						visible_message("<span class='danger>\The [src]'s chassis begins to bulge.</span>")
-			else if(prob(40))
+			switch(rand(1, 10))
+				if(1 to 2)
+					visible_message("<span class='danger>\The [src]'s chassis begins to bulge.</span>")
+				if(3)
+					visible_message("<span class='danger>\The [src] shakes violently!</span>")
+				if(4)
+					audible_message("<span class='danger'>\The [src] resonates an ominous creak.</span>")
+				if(5 to 6)
 					playsound(src, 'nsv13/sound/effects/rbmk/alarm.ogg', 100, TRUE)
 					var/turf/T = get_turf(src)
 					var/datum/gas_mixture/leak = air_contents.remove_ratio(rand(0.05, 0.15))

@@ -17,7 +17,8 @@
 	desc = "Produces exotic energy for an FTL manifold. Requires Nucleium and electricity to spool up, avoid physical contact with gyroscopes."
 	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
 	icon_state = "pylon"
-	pixel_x = -22 // mappers should modify this how they see fit.
+	pixel_y = 32
+	pixel_x = -22 // yes this is terrible but weird sprite dimensions made me
 	bound_height = 64
 	density = TRUE
 	anchored = TRUE
