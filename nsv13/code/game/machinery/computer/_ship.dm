@@ -58,11 +58,18 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
 	if(!position)
 		return TRUE
+	ui_users += user
 	return linked.start_piloting(user, position)
 
+/obj/machinery/computer/ship/ui_close(mob/user)
+	ui_users -= user
+	return ..()
+
 /obj/machinery/computer/ship/Destroy()
-	for(var/mob/living/M in ui_users)
-		linked.stop_piloting(M)
+	if(linked)
+		for(var/mob/living/M in ui_users)
+			linked.stop_piloting(M)
+	return ..()
 
 //Viewscreens for regular crew to watch combat
 /obj/machinery/computer/ship/viewscreen
