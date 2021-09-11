@@ -11,6 +11,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	var/position = null
 	var/can_sound = TRUE //Warning sound placeholder
 	var/sound_cooldown = 10 SECONDS //For big warnings like enemies firing on you, that we don't want repeating over and over
+	var/list/ui_users()
 
 /obj/machinery/computer/ship/Initialize()
 	. = ..()
@@ -33,10 +34,9 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	can_sound = TRUE
 
 /obj/machinery/computer/ship/proc/has_overmap()
-	var/obj/structure/overmap/OM = get_overmap()
-	linked = OM
-	if(OM)
-		set_position(OM)
+	linked = get_overmap()
+	if(linked)
+		set_position(linked)
 	return linked
 
 /obj/machinery/computer/ship/proc/set_position(obj/structure/overmap/OM)
@@ -59,6 +59,10 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	if(!position)
 		return TRUE
 	return linked.start_piloting(user, position)
+
+/obj/machinery/computer/ship/Destroy()
+	for(var/mob/living/M in ui_users)
+		linked.stop_piloting(M)
 
 //Viewscreens for regular crew to watch combat
 /obj/machinery/computer/ship/viewscreen

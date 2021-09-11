@@ -69,7 +69,7 @@
 
 		bloodling.add_antag_datum(new /datum/antagonist/changeling/bloodling_thrall)
 		log_game("[key_name(bloodling)] has been selected as a bloodling thrall")
-	. = ..()
+	return ..()
 
 /datum/game_mode/bloodling/check_win()
 	. = ..()

@@ -119,54 +119,54 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 //Syndicate ID card that isn't the agent card for the crew
 /obj/item/card/id/syndi_crew
-	name = "Syndicate ID Card"
+	name = "\improper Syndicate ID Card"
 	icon_state = "syndicate"
 	item_state = "syndicate_id"
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE)
 	assignment = "Crew"
 
 /obj/item/card/id/syndi_crew/captain
-	name = "Captain's ID"
+	name = "\improper Captain's ID"
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_LEADER, ACCESS_SYNDICATE_ENGINEERING, ACCESS_SYNDICATE_REQUISITIONS, ACCESS_SYNDICATE_MARINE_ARMOURY)
 	assignment = "Captain"
 
 /obj/item/card/id/syndi_crew/admiral
-	name = "Strategist's ID"
+	name = "\improper Strategist's ID"
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_LEADER, ACCESS_SYNDICATE_ENGINEERING, ACCESS_SYNDICATE_REQUISITIONS, ACCESS_SYNDICATE_MARINE_ARMOURY)
 	assignment = "Strategist"
 
 /obj/item/card/id/syndi_crew/requisitions_officer
-	name = "Requisitions Officer's ID"
+	name = "\improper Requisitions Officer's ID"
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_REQUISITIONS)
 	assignment = "Requisitions Officer"
 
 /obj/item/card/id/syndi_crew/bridge
-	name = "Bridge Crew's ID"
+	name = "\improper Bridge Crew's ID"
 	assignment = "Bridge Crew"
 
 /obj/item/card/id/syndi_crew/technician
-	name = "Ship Technician's ID"
+	name = "\improper Ship Technician's ID"
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_ENGINEERING)
 	assignment = "Ship Technician"
 
 /obj/item/card/id/syndi_crew/cag
-	name = "Commander Air Group's ID"
+	name = "\improper Commander Air Group's ID"
 	assignment = "Commander Air Group"
 
 /obj/item/card/id/syndi_crew/pilot
-	name = "Pilot's ID"
+	name = "\improper Pilot's ID"
 	assignment = "Pilot"
 
 /obj/item/card/id/syndi_crew/marine_sergeant
-	name = "Marine Sergeant's ID"
+	name = "\improper Marine Sergeant's ID"
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_MARINE_ARMOURY)
 
 /obj/item/card/id/syndi_crew/chef
-	name = "Line Cook's ID"
+	name = "\improper Line Cook's ID"
 	assignment = "Line Cook"
 
 /obj/item/card/id/syndi_crew/marine
-	name = "Marine's ID"
+	name = "\improper Marine's ID"
 	assignment = "Midshipman"
 
 //Syndicate crew outfits
@@ -191,8 +191,10 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	//r_hand = /obj/item/nuclear_challenge //Not made my mind up on this one yet...
 	head = /obj/item/clothing/head/helmet/space/beret
 	suit = /obj/item/clothing/suit/space/officer
-	backpack_contents = list(/obj/item/storage/box/syndie=1,\
-	/obj/item/kitchen/knife/combat/survival=1,)
+	backpack_contents = list(
+		/obj/item/storage/box/syndie = 1,
+		/obj/item/kitchen/knife/combat/survival = 1
+	)
 	command_radio = TRUE
 	implants = list()
 	uplink_type = null //Nope :) Go to the req officer you ungas.

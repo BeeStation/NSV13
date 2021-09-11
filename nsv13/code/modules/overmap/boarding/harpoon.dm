@@ -147,10 +147,6 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	var/boarding_reservation_z = null //Do we have a reserved Z-level for boarding? This is set up on instance_overmap. Ships being boarded copy this value from the boarder.
 	var/obj/structure/overmap/active_boarding_target = null
 
-/obj/structure/overmap/Destroy()
-	kill_boarding_level()
-	. = ..()
-
 /obj/structure/overmap/proc/kill_boarding_level(obj/structure/overmap/boarder)
 	set waitfor = FALSE
 	//Free up the boarding level....
