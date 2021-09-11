@@ -15,7 +15,8 @@
 	switch(alert("Proc owned by something?",,"Yes","No"))
 		if("Yes")
 			targetselected = TRUE
-			var/list/value = vv_get_value(default_class = VV_ATOM_REFERENCE, classes = list(VV_ATOM_REFERENCE, VV_DATUM_REFERENCE, VV_MOB_REFERENCE, VV_CLIENT, VV_MARKED_DATUM, VV_TEXT_LOCATE, VV_PROCCALL_RETVAL))
+			var/list/value = vv_get_value(default_class = VV_ATOM_REFERENCE, classes = list(VV_ATOM_REFERENCE, VV_DATUM_REFERENCE, VV_MOB_REFERENCE, VV_MARKED_DATUM, VV_TEXT_LOCATE, VV_PROCCALL_RETVAL)) //NSV13 removed client adv proccall because of possible abuse.
+			
 			if (!value["class"] || !value["value"])
 				return
 			target = value["value"]
