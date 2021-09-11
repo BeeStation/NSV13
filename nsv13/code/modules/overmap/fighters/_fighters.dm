@@ -1286,12 +1286,12 @@ Utility modules can be either one of these types, just ensure you set its slot t
 			//Look for any "primary" hardpoints, be those guns or utility slots
 			if(!weapon || weapon.fire_mode != fireMode)
 				continue
-			. = TRUE
-			set waitfor = FALSE
 			var/datum/ship_weapon/SW = weapon_types[weapon.fire_mode]
-			for(var/I = 0; I < SW.burst_size; I++)
-				weapon.fire(target)
-				sleep(1)
+			spawn()
+				for(var/I = 0; I < SW.burst_size; I++)
+					weapon.fire(target)
+					sleep(1)
+			return TRUE
 	return FALSE
 
 /obj/structure/overmap/proc/secondary_fire(obj/structure/overmap/target, ai_aim = FALSE)
