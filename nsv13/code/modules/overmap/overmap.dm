@@ -542,13 +542,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	cam.track_target(target)
 
 // This is so ridicously expensive, who made this.
-/*
 /obj/structure/overmap/onMouseMove(object,location,control,params)
 	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse || control !="mapwindow.map" ||!can_move()) //Check pilot status, if we're meant to follow the mouse, and if theyre actually moving over a tile rather than in a menu
 		return // I don't know what's going on.
 	desired_angle = getMouseAngle(params, pilot)
 	update_icon()
-*/
+
 
 /obj/structure/overmap/proc/getMouseAngle(params, mob/M)
 	var/list/params_list = params2list(params)
@@ -572,6 +571,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 //relay('nsv13/sound/effects/ship/rcs.ogg')
 
+// This is overly expensive, most of these checks are already ran in physics. TODO: optimize
 /obj/structure/overmap/update_icon() //Adds an rcs overlay
 	apply_damage_states()
 	if(last_fired) //Swivel the most recently fired gun's overlay to aim at the last thing we hit
