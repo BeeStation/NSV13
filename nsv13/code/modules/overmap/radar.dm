@@ -50,7 +50,7 @@
 	var/next_pulse = OM.last_radar_pulse + radar_delay
 	if(world.time >= next_pulse)
 		return TRUE
-f
+
 /obj/machinery/computer/ship/dradis/minor/can_radar_pulse()
 	return FALSE
 
@@ -288,7 +288,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			animate(src, 15, alpha = cloak_factor)
 			mouse_opacity = FALSE
 		if(FALSE)
-			animate(src, 15 alpha = 255)
+			animate(src, 15, alpha = 255)
 			mouse_opacity = TRUE
 		if(CLOAK_TEMPORARY_LOSS) //Flicker the cloak so that you can fire.
 			if(alpha >= 255) //No need to re-cloak us if we were never cloaked...
