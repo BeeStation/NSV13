@@ -427,7 +427,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	set_fuel(rand(500, 1000))
 	if(start_emagged)
 		obj_flags ^= EMAGGED
-	canopy = mutable_appearance(icon = icon, icon_state = "canopy_missing", dir = 1)
+	canopy = mutable_appearance(icon = icon, icon_state = "canopy_missing")
 	add_overlay(canopy)
 	update_visuals()
 
@@ -1655,6 +1655,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		B.give(100) //Jumpstart their battery
 	if(transfer_amount <= 0)
 		goto resupplyFuel
+	var/obj/item/fighter_component/fuel_tank/fuel = F.loadout.get_slot(HARDPOINT_SLOT_FUEL
 	fuel.reagents.trans_to(theirFuel, transfer_amount)
 	resupplyFuel:
 	var/obj/item/fighter_component/primary/utility/hold = F.loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
