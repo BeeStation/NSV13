@@ -1655,7 +1655,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		B.give(100) //Jumpstart their battery
 	if(transfer_amount <= 0)
 		goto resupplyFuel
-	var/obj/item/fighter_component/fuel_tank/fuel = F.loadout.get_slot(HARDPOINT_SLOT_FUEL
+	var/obj/item/fighter_component/fuel_tank/fuel = F.loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	fuel.reagents.trans_to(theirFuel, transfer_amount)
 	resupplyFuel:
 	var/obj/item/fighter_component/primary/utility/hold = F.loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
