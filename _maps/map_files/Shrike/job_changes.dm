@@ -181,4 +181,10 @@ MAP_REMOVE_JOB(air_traffic_controller)
 	total_positions = 1
 	spawn_positions = 1
 
+/datum/job/rd/New()
+	..()
+	MAP_JOB_CHECK
+	total_positions = 0
+	spawn_positions = 0
+
 #undef JOB_MODIFICATION_MAP_NAME
