@@ -202,6 +202,7 @@
 						#endif
 						CHECK_TICK
 					++xcrd
+				CHECK_TICK //NSV13 - midround mapload support
 			--ycrd
 
 		CHECK_TICK
