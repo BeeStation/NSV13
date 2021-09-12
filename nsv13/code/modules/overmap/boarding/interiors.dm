@@ -6,8 +6,8 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 */
 
 /obj/structure/overmap/proc/kill_boarding_level(obj/structure/overmap/boarder)
-	interior_status = INTERIOR_DELETING
 	set waitfor = FALSE
+	interior_status = INTERIOR_DELETING
 	//Free up the boarding level....
 	if(boarder)
 		boarder.boarding_reservation_z = null
