@@ -363,7 +363,7 @@
 	AM.forceMove(get_turf(get_step(src, dir)))
 
 /obj/machinery/ammo_sorter/proc/load(atom/movable/A, mob/user)
-	if(loaded.len >= max_capacity)
+	if(length(loaded) >= max_capacity)
 		if(user)
 			to_chat(user, "<span class='warning'>[src] is full!</span>")
 		loading = FALSE

@@ -3,12 +3,6 @@
 #define MSTATE_UNBOLTED 2
 #define MSTATE_PRIEDOUT 3
 
-#define STATE_NOTLOADED 1
-#define STATE_LOADED 2
-#define STATE_FEEDING 3
-#define STATE_FED 4
-#define STATE_CHAMBERED 5
-#define STATE_FIRING 6
 /**
  *	Ship-to-ship weapons
  *	To add a weapon type:
@@ -206,7 +200,8 @@
  * Returns true if loaded successfully, false otherwise.
  */
 /obj/machinery/ship_weapon/proc/load(obj/A, mob/user)
-	if(ammo?.len < max_ammo) //Room for one more?
+	set waitfor = FALSE
+	if(length(ammo) < max_ammo) //Room for one more?
 		if(!loading) //Not already loading a round?
 			if(user)
 				to_chat(user, "<span class='notice'>You start to load [A] into [src]...</span>")
@@ -246,7 +241,7 @@
 	return max_ammo
 
 /obj/machinery/ship_weapon/proc/get_ammo()
-	return ammo.len
+	return length(ammo)
 
 /**
  * Transitions from STATE_NOTLOADED to STATE_LOADED.
@@ -369,10 +364,10 @@
 	if(!safety && chambered)
 		if(src in weapon_type.weapons["loaded"])
 			return
-		LAZYADD(weapon_type.weapons["loaded"] , src)
+		weapon_type.weapons["loaded"] += src
 	else
 		if(src in weapon_type.weapons["loaded"])
-			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
+			weapon_type.weapons["loaded"] -= src
 
 /obj/machinery/ship_weapon/proc/lazyload()
 	if(magazine_type)
@@ -398,8 +393,8 @@
  * Transitions from STATE_FED to STATE_CHAMBERED.
  */
 /obj/machinery/ship_weapon/proc/chamber(rapidfire = FALSE)
-	set waitfor = FALSE
 	if((state == STATE_FED) && length(ammo) > 0)
+		state = STATE_CHAMBERING
 		flick("[initial(icon_state)]_chambering",src)
 		if(rapidfire)
 			sleep(chamber_delay_rapid)
@@ -420,6 +415,7 @@
  */
 /obj/machinery/ship_weapon/proc/unchamber()
 	if(state == STATE_CHAMBERED)
+		state = STATE_CHAMBERING
 		flick("[initial(icon_state)]_chambering",src)
 		sleep(chamber_delay)
 		if("[initial(icon_state)]_loaded" in icon_state_list)
@@ -444,7 +440,7 @@
 		return FALSE
 	if(safety) // Is the safety on?
 		return FALSE
-	if(ammo?.len < shots) //Do we have enough ammo?
+	if(length(ammo) < shots) //Do we have enough ammo?
 		return FALSE
 	else
 		return TRUE
@@ -475,7 +471,7 @@
 			qdel(chambered)
 			chambered = null
 
-			if(ammo?.len)
+			if(length(ammo))
 				state = STATE_FED
 			else
 				state = STATE_NOTLOADED
@@ -494,10 +490,9 @@
 	if(firing_sound)
 		playsound(src, firing_sound, 100, 1)
 	if(bang)
-		for(var/mob/living/M in get_hearers_in_view(10, get_turf(src))) //Burst unprotected eardrums
-			if(M.get_ear_protection() < 1) //checks for protection - why was this not here before???
-				if(M.stat != DEAD && isliving(M)) //Don't make noise if they're dead
-					M.soundbang_act(1,200,10,15)
+		for(var/mob/living/M in hearers(8, src)) //Burst unprotected eardrums
+			if(M.stat != DEAD && M.get_ear_protection() < 1) //checks for protection - why was this not here before???
+				M.soundbang_act(1,200,10,15)
 
 /**
  * Handles firing animations and sounds on the overmap.
