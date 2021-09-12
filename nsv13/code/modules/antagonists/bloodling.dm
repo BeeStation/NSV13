@@ -924,12 +924,12 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	user.visible_message("<span class='warning'>[user] lashes out with a legion of tentacles!</span>")
 	user.shake_animation()
 	playsound(user, 'sound/magic/tail_swing.ogg', 100, TRUE)
-	var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
-	var/stun_time = base_stun_time + max(B.last_evolution / 2, 0) SECONDS //Bigger bloodling = hit harder
 	INVOKE_ASYNC(src, .proc/summon_tentacles, user)
 	add_cooldown(cooldown)
 
 /datum/action/bloodling/whiplash/proc/summon_tentacles(mob/living/user)
+	var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
+	var/stun_time = base_stun_time + max(B.last_evolution / 2, 0) SECONDS //Bigger bloodling = hit harder
 	for(var/mob/living/M in view(user, 5))
 		if(M == user)
 			continue
