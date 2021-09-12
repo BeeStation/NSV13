@@ -21,8 +21,8 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 
 	announce_span = "danger"
 	announce_text = "The Syndicate are planning an all out assault!\n\
-	<span class='danger'>Syndicate crew</span>: Destroy NT fleets and capture systems with your beacon.\n\
-	<span class='notice'>Crew</span>: Destroy the Syndicate crew, and defeat any Syndicate reinforcements that appear."
+	<span class='danger'>Syndicate crew</span>: Destroy NT fleets and capture systems with your beacon.</span>\n\
+	<span class='notice'>Crew</span>: Destroy the Syndicate crew, and defeat any Syndicate reinforcements that appear.</span>"
 
 	title_icon = "conquest"
 
@@ -160,7 +160,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 			return TRUE
 		else
 			return FALSE
-	if (nukes_left == 0)
+	if(nukes_left == 0)
 		return TRUE
 	return ..()
 

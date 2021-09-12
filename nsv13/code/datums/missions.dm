@@ -86,8 +86,8 @@ NOTE:
 	for(var/i in 1 to length(rewards))
 		if(i == length(rewards))
 			reward_txt += " and " + rewards[rewards[i]]
-	else
-		reward_txt += ", " + rewards[rewards[i]]
+		else
+			reward_txt += ", " + rewards[rewards[i]]
 	return num2text(payout) + " credits" + reward_txt
 
 /datum/nsv_mission/proc/send_item(contents, cargo = TRUE) // Send an item to the players.

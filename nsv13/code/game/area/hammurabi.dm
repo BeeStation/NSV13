@@ -31,8 +31,8 @@
 	icon_state = "shuttlered"
 
 /area/hammurabi/bar
-    name = "Hammurabi bar"
-    icon_state = "bar"
+	name = "Hammurabi bar"
+	icon_state = "bar"
 
 /area/hammurabi/atc_tower
 	name = "Hammurabi ATC tower"
@@ -44,7 +44,7 @@
 	icon_state = "maintcentral"
 
 /area/hammurabi/maintenance/secondary
-    name = "Hammurabi deck 2 maintenance"
+	name = "Hammurabi deck 2 maintenance"
 
 /area/hammurabi/maintenance/exterior
 	name = "Hammurabi exterior"

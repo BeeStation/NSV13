@@ -56,7 +56,6 @@
 
 /datum/game_mode/bloodling/post_setup()
 	var/datum/mind/theMaster = null //A230-385
-
 	for(var/datum/mind/bloodling in bloodlings)
 		if(!theMaster)
 			theMaster = bloodling

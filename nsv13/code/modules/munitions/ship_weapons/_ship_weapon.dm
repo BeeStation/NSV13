@@ -5,20 +5,21 @@
 
 #define STATE_NOTLOADED 1
 #define STATE_LOADED 2
-#define STATE_FED 3
-#define STATE_CHAMBERED 4
-#define STATE_FIRING 5
+#define STATE_FEEDING 3
+#define STATE_FED 4
+#define STATE_CHAMBERED 5
+#define STATE_FIRING 6
 /**
- * Ship-to-ship weapons
- * To add a weapon type:
- *    Define a FIRE_MODE in nsv13/_DEFINES/overmap.dm
- *    Up the size of weapon_types and weapons in nsv13/code/modules/overmap/weapons.dm
- *    Add weapon specifics as a datum in nsv13/code/datums/weapon_types.dm
- *    Add a new datum of your type to weapon_types in nsv13/code/modules/overmap/overmap.dm Initialize()
- *    Subclass this
- *    Make firing_mode in the subclass equal to that define
- *    Set weapon_type in the subclass to a new datum of the kind you just created
- *    Define an ammo_type or magazine_type so you can load the weapon
+ *	Ship-to-ship weapons
+ *	To add a weapon type:
+ *	Define a FIRE_MODE in nsv13/_DEFINES/overmap.dm
+ *	Up the size of weapon_types and weapons in nsv13/code/modules/overmap/weapons.dm
+ *	Add weapon specifics as a datum in nsv13/code/datums/weapon_types.dm
+ *	Add a new datum of your type to weapon_types in nsv13/code/modules/overmap/overmap.dm Initialize()
+ *	Subclass this
+ *	Make firing_mode in the subclass equal to that define
+ *	Set weapon_type in the subclass to a new datum of the kind you just created
+ *	Define an ammo_type or magazine_type so you can load the weapon
  */
 /obj/machinery/ship_weapon //CREDIT TO CM FOR THE SPRITES!
 	name = "A ship weapon"
@@ -289,6 +290,7 @@
  * Transitions to STATE_NOTLOADED from higher states.
  */
 /obj/machinery/ship_weapon/proc/unload()
+	set waitfor = FALSE
 	if((state >= STATE_LOADED) && !magazine)
 		if(state >= STATE_FED) //Animate properly and make sure we clear any chambered rounds
 			unfeed()
@@ -298,17 +300,17 @@
 		sleep(unload_delay)
 
 		if(ammo[1])
-			var/obj/A = ammo[1]
-			A.forceMove(get_turf(src))
-			ammo -= A
+			var/atom/movable/AM = ammo[1]
+			AM.forceMove(get_turf(src))
+			ammo -= AM
 		state = STATE_NOTLOADED
 		icon_state = initial(icon_state)
 
 		//If we have more ammo, spit those out too
-		if(ammo.len)
-			for(var/obj/A in ammo)
-				A.forceMove(get_turf(src))
-				ammo -= A
+		if(length(ammo))
+			for(var/atom/movable/AM as() in ammo)
+				AM.forceMove(get_turf(src))
+			ammo.len = 0
 	//end if((state >= STATE_LOADED) && !magazine)
 
 /**
@@ -333,7 +335,9 @@
  * Transitions from STATE_LOADED to STATE_FED
  */
 /obj/machinery/ship_weapon/proc/feed()
+	set waitfor = FALSE
 	if(state == STATE_LOADED)
+		state = STATE_FEEDING
 		flick("[initial(icon_state)]_loading",src)
 		if(feeding_sound)
 			playsound(src, feeding_sound, 100, 1)
@@ -343,7 +347,6 @@
 		if(fed_sound)
 			playsound(src, fed_sound, 100, 1)
 		state = STATE_FED
-
 /**
  * Gets ammunition ready to take out.
  * Primarily an animation and sound effect step - opens the breech/tray.
@@ -395,7 +398,8 @@
  * Transitions from STATE_FED to STATE_CHAMBERED.
  */
 /obj/machinery/ship_weapon/proc/chamber(rapidfire = FALSE)
-	if((state == STATE_FED) && (ammo?.len > 0))
+	set waitfor = FALSE
+	if((state == STATE_FED) && length(ammo) > 0)
 		flick("[initial(icon_state)]_chambering",src)
 		if(rapidfire)
 			sleep(chamber_delay_rapid)

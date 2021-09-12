@@ -439,9 +439,9 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /mob/proc/get_stat_tab_faction()
 	var/list/tab_data = list()
 	for(var/datum/faction/F in SSstar_system.factions)
-		if (F) //No nulls!
-			tab_data["[F?.name]"] = list(
-				text = "[F?.tickets]",
+		if(F) //No nulls!
+			tab_data["[F.name]"] = list(
+				text = "[F.tickets]",
 				type = STAT_TEXT
 			)
 	return tab_data
@@ -497,7 +497,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 		return "<div class='panel redborder'>[parts.Join("<br>")]</div>"
 
 	else
-		. = ..()
+		return ..()
 
 /client/proc/create_syndie_job_icons()
 	set name = "Generate syndicate crew icons"
@@ -528,7 +528,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 //Ultra stripped down ID console for assigning secondary ship accesses.
 /obj/machinery/computer/secondary_ship_id_console
-	name = "Secondary Ship ID console"
+	name = "secondary ship ID console"
 	circuit = /obj/item/circuitboard/computer/card/secondary_ship_id_console
 	icon_screen = "idhos"
 	light_color = LIGHT_COLOR_RED
@@ -551,9 +551,10 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 /obj/machinery/computer/secondary_ship_id_console/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "SecondaryID")
-		ui.open()
+	if(ui)
+		return
+	ui = new(user, src, "SecondaryID")
+	ui.open()
 
 /obj/machinery/computer/secondary_ship_id_console/ui_data(mob/user)
 	var/list/data = list()
