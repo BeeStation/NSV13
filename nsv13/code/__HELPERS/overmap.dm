@@ -21,3 +21,35 @@ Helper method to get what ship an observer belongs to for stuff like parallax.
 		last_overmap.mobs_in_ship -= src
 	last_overmap = OM
 	OM.mobs_in_ship += src
+
+/// Finds a turf outside of the overmap
+/atom/proc/GetSafeTurf()
+	if(!SSmapping.level_trait(z, ZTRAIT_OVERMAP))
+		return get_turf(src)
+
+	var/max = world.maxx - TRANSITIONEDGE
+	var/min = TRANSITIONEDGE + 1
+	var/list/possible_transitions = list()
+	for(var/datum/space_level/D as() in SSmapping.z_list)
+		if(D.linkage == CROSSLINKED && !D.traits[ZTRAIT_OVERMAP])
+			possible_transitions += D.z_value
+	if(!length(possible_transitions)) //Just in case there is no space z level
+		for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
+			possible_transitions += z
+	var/_z = pick(possible_transitions)
+	var/_x
+	var/_y
+	switch(dir)
+		if(SOUTH)
+			_x = rand(min,max)
+			_y = max
+		if(WEST)
+			_x = max
+			_y = rand(min,max)
+		if(EAST)
+			_x = min
+			_y = rand(min,max)
+		else
+			_x = rand(min,max)
+			_y = min
+	return locate(_x, _y, _z) //Where are we putting you

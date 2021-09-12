@@ -7,7 +7,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/fighter/Destroy()
 	throw_pilot()
 	kill_boarding_level()
-	. = ..()
+	return ..()
 
 /obj/structure/overmap/fighter
 	name = "Space Fighter"
@@ -515,7 +515,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
 	for(var/mob/M in mobs_in_ship)
 		stop_piloting(M, force)
-		M.forceMove(T)
+		M.doMove(T) // we can use deMove because we already know we're moving to a safe turf.
 		to_chat(M, "<span class='warning'>You have been remotely ejected from [src]!.</span>")
 		victims += M
 	return victims
@@ -543,42 +543,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 	for(var/mob/living/M as() in victims)
 		M.apply_damage(m_damage)
 
-/// Finds a turf outside of the overmap
-/obj/structure/overmap/fighter/proc/GetSafeTurf()
-	if(!SSmapping.level_trait(z, ZTRAIT_OVERMAP))
-		return get_turf(src)
-
-	var/max = world.maxx - TRANSITIONEDGE
-	var/min = TRANSITIONEDGE + 1
-	var/list/possible_transitions = list()
-	for(var/A in SSmapping.z_list)
-		var/datum/space_level/D = A
-		if(D.linkage == CROSSLINKED && !SSmapping.level_trait(D.z_value, ZTRAIT_OVERMAP))
-			possible_transitions += D.z_value
-	if(!length(possible_transitions)) //Just in case there is no space z level
-		for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
-			possible_transitions += z
-	var/_z = pick(possible_transitions)
-	var/_x
-	var/_y
-	switch(dir)
-		if(SOUTH)
-			_x = rand(min,max)
-			_y = max
-		if(WEST)
-			_x = max
-			_y = rand(min,max)
-		if(EAST)
-			_x = min
-			_y = rand(min,max)
-		else
-			_x = rand(min,max)
-			_y = min
-	return locate(_x, _y, _z) //Where are we putting you
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
 	add_fingerprint(user)
-	if(istype(W, /obj/item/card/id)||istype(W, /obj/item/pda) && operators.len)
+	if(istype(W, /obj/item/card/id) || istype(W, /obj/item/pda) && length(operators))
 		if(!allowed(user))
 			var/ersound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 			playsound(src, ersound, 100, 1)
