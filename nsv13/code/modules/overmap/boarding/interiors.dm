@@ -33,7 +33,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 					reserved_z = null
 				free_boarding_levels += boarding_reservation_z
 				boarding_reservation_z = null
-				qdel(boarding_interior)
+				QDEL_NULL(boarding_interior)
 		if(INTERIOR_DYNAMIC)
 			if(boarding_interior)
 				var/turf/target = get_turf(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
@@ -72,6 +72,8 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	if(!boarder.boarding_reservation_z)
 		boarder.get_boarding_level()
 		sleep(5)
+	if(boarding_interior && boarding_reservation_z && length(occupying_levels) && length(docking_points) && length(linked_areas)) // it's probably loaded already
+		return TRUE
 	if(!boarder.boarding_reservation_z || !possible_interior_maps?.len || occupying_levels?.len || !boarder.reserved_z || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
 		return FALSE
 
@@ -120,6 +122,8 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 The meat of this file. This will instance the dropship's interior in reserved space land. I HIGHLY recommend you keep these maps small, reserved space code is shitcode.
 */
 /obj/structure/overmap/proc/instance_interior()
+	if(boarding_interior && length(interior_entry_points) && length(linked_areas)) // Already loaded
+		return TRUE
 	//Init the template.
 	choose_interior()
 	if(!boarding_interior || !boarding_interior.mappath)
