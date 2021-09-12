@@ -73,8 +73,8 @@
 			else
 				SW.unload()
 		if("chamber")
-			if(state == STATE_CHAMBERING)
-				to_chat(usr, "<span class='warning'>\The [SW] is already being chambered!</span>")
+			if(SW.state == STATE_CHAMBERING)
+				to_chat(usr, "<span class='warning'>You can't do that right now.</span>")
 			else
 				SW.chamber()
 		if("toggle_safety")
@@ -113,7 +113,7 @@
 		data["maint_req"] = SW.maintainable ? SW.maint_req : 25
 		data["max_maint_req"] = 25
 	else
-		data["has_linked_gun"] =  = FALSE
+		data["has_linked_gun"] = FALSE
 		data["linked_gun"] = "NO WEAPON LINKED"
 		data["loaded"] = FALSE
 		data["chambered"] = FALSE
