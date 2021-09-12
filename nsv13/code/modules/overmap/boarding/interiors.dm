@@ -6,6 +6,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 */
 
 /obj/structure/overmap/proc/kill_boarding_level(obj/structure/overmap/boarder)
+	interior_status = INTERIOR_DELETING
 	set waitfor = FALSE
 	//Free up the boarding level....
 	if(boarder)
@@ -42,6 +43,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 			//Free the reservation.
 			QDEL_NULL(roomReservation)
 			boarding_interior = null
+	interior_status = INTERIOR_NOT_LOADED
 
 /obj/structure/overmap/proc/board_test()
 	var/turf/aaa = locate(x, y-10, z)
@@ -50,6 +52,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	foo.ai_controlled = FALSE
 	foo.brakes = TRUE
 	foo.ai_load_interior(src)
+	foo.active_boarding_target = src
 
 /obj/structure/overmap/proc/get_boarding_level()
 	if(boarding_reservation_z)
@@ -72,18 +75,20 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	if(!boarder.boarding_reservation_z)
 		boarder.get_boarding_level()
 		sleep(5)
-	if(boarding_interior && boarding_reservation_z && length(occupying_levels) && length(docking_points) && length(linked_areas)) // it's probably loaded already
+	if(interior_status == INTERIOR_READY) // it's loaded already, just let them on
 		return TRUE
+	else if(interior_status != INTERIOR_NOT_LOADED)
+		return FALSE // If we're currently loading or deleting, stop
 	if(!boarder.boarding_reservation_z || !possible_interior_maps?.len || occupying_levels?.len || !boarder.reserved_z || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
 		return FALSE
 
+	interior_status = INTERIOR_LOADING
 	//Prepare the boarding interior map. Admins may also force-load this with a path if they want.
 	choose_interior(map_path_override)
 	if(!boarding_interior || !boarding_interior.mappath)
 		message_admins("Error parsing boarding interior map for [src]")
 		return FALSE
 
-	boarder.active_boarding_target = src
 	current_system = boarder.current_system
 	get_overmap_level()
 	boarding_reservation_z = boarder.boarding_reservation_z
@@ -122,8 +127,12 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 The meat of this file. This will instance the dropship's interior in reserved space land. I HIGHLY recommend you keep these maps small, reserved space code is shitcode.
 */
 /obj/structure/overmap/proc/instance_interior()
-	if(boarding_interior && length(interior_entry_points) && length(linked_areas)) // Already loaded
+	if(interior_status == INTERIOR_READY) // it's loaded already, we're done
 		return TRUE
+	else if(interior_status != INTERIOR_NOT_LOADED)
+		return FALSE // If we're currently loading or deleting, stop
+
+	interior_status = INTERIOR_LOADING
 	//Init the template.
 	choose_interior()
 	if(!boarding_interior || !boarding_interior.mappath)
@@ -171,6 +180,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 
 	linked_areas += target_area
 	target_area.overmap_fallback = src //Set up the fallback...
+	interior_status = INTERIOR_READY
 
 // Anything that needs to be done after the interior loads
 /obj/structure/overmap/proc/post_load_interior()

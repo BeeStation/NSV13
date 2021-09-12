@@ -74,6 +74,7 @@
 			radio.talk_into(src, "Electronic countermeasure deployment in progress.", radio_channel)
 			can_salvage = FALSE
 			if(OM.ai_load_interior(linked))
+				linked.active_boarding_target = OM
 				addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown)
 				radio.talk_into(src, "Enemy point defense systems scrambled. Bluefor strike teams cleared for approach.", radio_channel)
 			else

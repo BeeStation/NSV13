@@ -126,6 +126,10 @@
 	var/atom/target_lock = null
 	var/can_lock = TRUE //Can we lock on to people or not
 	var/lockon_time = 2 SECONDS
+	var/list/target_painted = list()
+	var/list/ams_modes = list()
+	var/next_ams_shot = 0
+	var/ams_targeting_cooldown = 1.5 SECONDS
 
 	// Railgun aim helper
 	var/last_tracer_process = 0
@@ -134,6 +138,9 @@
 	var/lastangle = 0
 	var/list/obj/effect/projectile/tracer/current_tracers
 	var/mob/listeningTo
+
+	// Trader delivery locations
+	var/list/trader_beacons = null
 
 	var/uid = 0 //Unique identification code
 	var/static/list/free_treadmills = list()
@@ -157,6 +164,7 @@
 	var/combat_dice_type = /datum/combat_dice
 
 	//Boarding
+	var/interior_status = INTERIOR_NOT_LOADED
 	var/datum/turf_reservation/roomReservation = null
 	var/datum/map_template/dropship/boarding_interior = null
 	var/list/possible_interior_maps = null
