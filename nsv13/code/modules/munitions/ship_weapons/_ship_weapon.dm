@@ -250,6 +250,9 @@
  * Returns true if loaded successfully, false otherwise.
  */
 /obj/machinery/ship_weapon/proc/load_magazine(obj/A, mob/user)
+	if(loading)
+		to_chat(user, "<span class='warning'>You can't do that right now.</span>")
+		return FALSE
 	if(magazine_type && istype(A, magazine_type))
 		to_chat(user, "<span class='notice'>You start to load [A] into [src].</span>")
 		loading = TRUE
@@ -272,9 +275,7 @@
 				chamber()
 			loading = FALSE
 			return TRUE
-		//end if(do_after(user, load_delay, target = src))
 		loading = FALSE
-	//end if(magazine_type && istype(A, magazine_type))
 	else
 		to_chat(user, "<span class='warning'>You can't load [A] into [src]!</span>")
 
@@ -375,7 +376,7 @@
 		ammo = magazine.stored_ammo //Lets us handle magazines and single rounds the same way
 	else
 		var/ammoType = (islist(ammo_type)) ? ammo_type[1] : ammo_type
-		for(var/I = 0; I < max_ammo; I++)
+		for(var/I = 0, I < max_ammo, I++)
 			var/atom/BB = new ammoType(src)
 			ammo += BB
 	safety = FALSE

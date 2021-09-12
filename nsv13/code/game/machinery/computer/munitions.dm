@@ -108,7 +108,7 @@
 		data["loaded"] = SW.state > STATE_LOADED
 		data["chambered"] = SW.state > STATE_FED
 		data["safety"] = SW.safety
-		data["ammo"] = SW.length(ammo)
+		data["ammo"] = length(SW.ammo)
 		data["max_ammo"] = SW.max_ammo
 		data["maint_req"] = SW.maintainable ? SW.maint_req : 25
 		data["max_maint_req"] = 25

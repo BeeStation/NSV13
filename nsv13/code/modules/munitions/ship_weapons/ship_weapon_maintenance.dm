@@ -86,7 +86,7 @@
 			return TRUE
 
 /**
- * Deconstructs the machine. We no longer track the panel casing 
+ * Deconstructs the machine. We no longer track the panel casing
  */
 /obj/machinery/ship_weapon/crowbar_act(mob/user, obj/item/tool)
 	// if(maint_state == MSTATE_UNBOLTED)
@@ -111,7 +111,7 @@
 	if ( maint_state != MSTATE_UNBOLTED )
 		to_chat(user, "<span class='warning'>The inner casing bolts are fastened on [src]!</span>")
 		return FALSE
-	else 
+	else
 		if(default_deconstruction_crowbar(tool))
 			return TRUE
 
@@ -142,7 +142,7 @@
 		else if(I.reagents.has_reagent(/datum/reagent/oil))
 			to_chat(user, "<span class='notice'>You need at least 10 units of oil to lubricate [src]!</span>")
 			return
-		else if(!I.reagents.has_reagent(/datum/reagent/oil))
+		else
 			visible_message("<span class=warning>Warning: Contaminants detected, flushing systems.</span>")
 			new /obj/effect/decal/cleanable/oil(user.loc)
 			I.reagents.trans_to(src, 10)
