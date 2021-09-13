@@ -52,7 +52,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/obj/machinery/computer/ship/navigation/starmap = null
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode, \
-								.verb/show_control_panel, .verb/change_name)
+								.verb/show_control_panel, .verb/change_name, .verb/countermeasure)
+												 //Countermeasure code in countermeasure_ammo.dm
 
 /obj/structure/overmap/fighter/verb/show_control_panel()
 	set name = "Show control panel"
@@ -93,6 +94,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
+		if("5")
+			if(themob == pilot)
+				countermeasure()
+			return TRUE
 
 /obj/structure/overmap/fighter/ui_state(mob/user)
 	return GLOB.contained_state
@@ -129,6 +134,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["maintenance_mode"] = maintenance_mode //Todo
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	data["docking_mode"] = DC && DC.docking_mode
+	var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
+	data["countermeasures"] = CD ? CD.charges : 0
+	data["max_countermeasures"] = CD ? CD.max_charges : 0
 	var/obj/item/fighter_component/primary/P = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
 	data["primary_ammo"] = P ? P.get_ammo() : 0
 	data["max_primary_ammo"] = P ? P.get_max_ammo() : 0
@@ -592,6 +600,14 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			to_chat(user, "<span class='warning'>You swipe your card and [maintenance_mode ? "disable" : "enable"] maintenance protocols.</span>")
 			maintenance_mode = !maintenance_mode
+	if(istype(W, /obj/item/ship_weapon/ammunition/countermeasure_charge))
+		var/obj/item/ship_weapon/ammunition/countermeasure_charge/CC = W
+		var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
+		if(CD)
+			CD.charges = clamp(CD.charges + CC.restock_amount, CD.max_charges, 0)
+			qdel(W) //reload complete
+		else
+			to_chat("<span>You try to insert the countermeasure charge, but there's nothing to put it in!</span>")
 	..()
 
 /obj/structure/overmap/fighter/take_damage(damage_amount, damage_type, damage_flag, sound_effect)
@@ -1235,6 +1251,8 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	desc = "A device which allows a fighter to deploy countermeasures."
 	icon = 'nsv13/icons/obj/fighter_components.dmi'
 	icon_state = "countermeasure"
+	var/max_charges = 3
+	var/charges = 3
 
 /obj/item/fighter_component/docking_computer
 	name = "Docking Computer"
