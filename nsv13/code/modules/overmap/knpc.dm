@@ -506,7 +506,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 
 				var/obj/item/card/id/their_id = target.get_idcard()
 				if(their_id && !HA.stealing_id)
-					H.visible_message("<span class='warning'>[H] starts to take [their_id] from [target]!")
+					H.visible_message("<span class='warning'>[H] starts to take [their_id] from [target]!</span>")
 					HA.stealing_id = TRUE
 					addtimer(CALLBACK(HA, /datum/component/knpc/proc/steal_id, their_id), 5 SECONDS)
 
@@ -516,7 +516,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 						if(0)
 							H.start_pulling(target, supress_message = FALSE)
 							H.setGrabState(GRAB_AGGRESSIVE)
-							H.visible_message("<span class='warning'>[H] judo throws [target]!<span>")
+							H.visible_message("<span class='warning'>[H] judo throws [target]!</span>")
 							playsound(get_turf(target), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
 							target.shake_animation(10)
 							target.throw_at(get_turf(get_step(H, pick(GLOB.cardinals))), 5, 5)
