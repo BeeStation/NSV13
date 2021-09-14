@@ -56,10 +56,6 @@ SUBSYSTEM_DEF(fail2topic)
 	if(!enabled)
 		return FALSE
 
-	var/static/regex/R = regex(@"(\.0\.)|(\.0$)|(\l+|/|;|&|\||-|%)") // Anything that interacts with a shell should be parsed. Prevents direct call input tampering
-	if(lentext(ip) > 15 || lentext(findtext(ip, R)))
-		return FALSE
-
 	var/last_attempt = rate_limiting[ip]
 
 	if (config.fail2topic_whitelisted_ips[ip])
@@ -92,6 +88,9 @@ SUBSYSTEM_DEF(fail2topic)
 /datum/controller/subsystem/fail2topic/proc/BanFromFirewall(ip)
 	if (!enabled)
 		return
+	var/static/regex/R = regex(@"(\.0\.)|(\.0$)|(\l+|/|;|&|\||-|%)") // Anything that interacts with a shell should be parsed. Prevents direct call input tampering
+	if(lentext(ip) > 15 || lentext(findtext(ip, R)))
+		return FALSE
 
 	active_bans[ip] = world.time
 	fail_counts -= ip
