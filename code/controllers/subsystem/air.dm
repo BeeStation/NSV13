@@ -109,6 +109,7 @@ SUBSYSTEM_DEF(air)
 	setup_atmos_machinery()
 	setup_pipenets()
 	gas_reactions = init_gas_reactions()
+	should_do_equalization = CONFIG_GET(flag/atmos_equalize_enabled)
 	auxtools_update_reactions()
 	return ..()
 

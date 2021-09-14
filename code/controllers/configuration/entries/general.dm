@@ -559,6 +559,9 @@
 	config_entry_value = 0
 	min_val = 0
 
+/datum/config_entry/flag/atmos_equalize_enabled
+	default = FALSE
+
 
 // Elasticsearch stuffs
 /datum/config_entry/flag/elasticsearch_metrics_enabled
