@@ -88,10 +88,17 @@ SUBSYSTEM_DEF(fail2topic)
 /datum/controller/subsystem/fail2topic/proc/BanFromFirewall(ip)
 	if (!enabled)
 		return
+<<<<<<< HEAD
 	var/static/regex/R = regex(@"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$") // Anything that interacts with a shell should be parsed. Prevents direct call input tampering
 	ip = replacetext(ip, R)
 	if(length(ip) > 15 || length(ip) < 8 )
 		return FALSE
+=======
+	var/static/regex/R = regex(@"(\.0\.)|(\.0$)|(\l+|/|;|&|\||-|%)") // Anything that interacts with a shell should be parsed. Prevents direct call input tampering
+	if(length(ip) > 15 || length(findtext(ip, R)))
+		return FALSE
+
+>>>>>>> nsv/master
 	active_bans[ip] = world.time
 	fail_counts -= ip
 	rate_limiting -= ip
