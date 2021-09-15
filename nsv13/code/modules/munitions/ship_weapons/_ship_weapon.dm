@@ -80,6 +80,11 @@
 	var/obj/item/ammo_box/magazine/magazine //Magazine if we have one
 	var/obj/chambered //Chambered round if we have one. Extrapolate ammo type from this
 	var/list/ammo = list() //All loaded ammo
+	
+	// These variables only pertain to energy weapons, but need to be checked later in /proc/fire 
+	var/charge = 0
+	var/charge_rate = 0 //How quickly do we charge?
+	var/charge_per_shot = 0 //How much power per shot do we have to use?
 
 /**
  * Constructor for /obj/machinery/ship_weapon
@@ -456,6 +461,26 @@
  */
 /obj/machinery/ship_weapon/proc/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
 	set waitfor = FALSE //As to not hold up any feedback messages.
+
+	// Energy weapons fire behavior 
+	if ( istype( src, /obj/machinery/ship_weapon/energy ) ) // Now 100% more modular! 
+		if(can_fire(shots))
+			if(manual)
+				linked.last_fired = overlay
+
+			for(var/i = 0, i < shots, i++)
+				do_animation()
+				state = 5
+
+				local_fire()
+				overmap_fire(target)
+				charge -= charge_per_shot
+
+				after_fire()
+			return TRUE
+		return FALSE
+	
+	// Default weapons fire behavior 
 	if(can_fire(shots))
 		if(manual)
 			linked.last_fired = overlay

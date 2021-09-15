@@ -92,7 +92,7 @@
 
 //Energy Weapons
 
-/datum/ship_weapon/burst_phaser
+/datum/ship_weapon/burst_phaser // Little red laser 
 	name = "Burst Phasers"
 	default_projectile_type = /obj/item/projectile/beam/laser/phaser
 	burst_size = 1
@@ -104,16 +104,16 @@
 	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 	lateral = FALSE
-	firing_arc = 60 //Relatively generous, but coax.
 	miss_chance = 33
 	max_miss_distance = 6
 
-/datum/ship_weapon/phaser
+/datum/ship_weapon/phaser // Big blue laser 
 	name = "Phaser Banks"
 	default_projectile_type = /obj/item/projectile/beam/laser/heavylaser/phaser
 	burst_size = 1
 	fire_delay = 1.5 SECONDS
 	range_modifier = 60
+	weapon_class = WEAPON_CLASS_LIGHT
 	select_alert = "<span class='notice'>Phaser banks standing by...</span>"
 	failure_alert = "<span class='warning'>Unable to comply. Phaser banks recharging.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/phaser.ogg')

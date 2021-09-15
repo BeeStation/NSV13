@@ -235,6 +235,18 @@ Misc projectile types, effects, think of this as the special FX file.
 	tracer_type = /obj/effect/projectile/tracer/disabler
 	muzzle_type = /obj/effect/projectile/muzzle/disabler
 	impact_type = /obj/effect/projectile/impact/disabler
+	
+/obj/item/projectile/beam/laser/point_defense
+	name = "laser pointer"
+	damage = 30
+	flag = "overmap_light"
+	hitscan = TRUE //Extremely powerful in ship combat
+	icon_state = "emitter"
+	light_color = LIGHT_COLOR_GREEN
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	tracer_type = /obj/effect/projectile/tracer/xray
+	muzzle_type = /obj/effect/projectile/muzzle/xray
+	impact_type = /obj/effect/projectile/impact/xray
 
 //Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
 /obj/item/projectile/beam/laser/phaser
