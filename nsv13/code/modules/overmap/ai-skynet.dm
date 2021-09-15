@@ -1264,7 +1264,6 @@ Seek a ship thich we'll station ourselves around
 		return
 	var/did_fire = FALSE
 	var/ammo_use = 0
-	var/smallest_cooldown = INFINITY
 
 	for(var/iter = FIRE_MODE_ANTI_AIR, iter <= MAX_POSSIBLE_FIREMODE, iter++)
 		if(iter == FIRE_MODE_AMS || iter == FIRE_MODE_FLAK)
@@ -1273,9 +1272,9 @@ Seek a ship thich we'll station ourselves around
 		var/datum/ship_weapon/SW = weapon_types[iter]
 		if(!SW)
 			continue
-		if(!next_firetime_gunspecific["[iter]"])
-			next_firetime_gunspecific["[iter]"] = world.time
-		else if(next_firetime_gunspecific["[iter]"] > world.time)
+		if(!SW.next_firetime)
+			SW.next_firetime = world.time
+		else if(SW.next_firetime > world.time)
 			continue
 		if(!SW.valid_target(src, target, TRUE))
 			continue
@@ -1293,9 +1292,7 @@ Seek a ship thich we'll station ourselves around
 		if(will_use_ammo)
 			ammo_use++
 		did_fire = TRUE
-		next_firetime_gunspecific["[iter]"] = world.time + SW.fire_delay + SW.ai_fire_delay
-		if(SW.fire_delay < smallest_cooldown)
-			smallest_cooldown = SW.fire_delay
+		SW.next_firetime = world.time + SW.fire_delay + SW.ai_fire_delay
 
 	if(did_fire)
 		shots_left -= ammo_use
