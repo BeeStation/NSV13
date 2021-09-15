@@ -35,6 +35,23 @@
 			startx = (TRANSITIONEDGE+10)
 	var/turf/target = locate(startx, starty, pick(zs))
 
+/obj/structure/overmap/proc/spawn_boarders(amount, faction_selection="syndicate")
+	if(!occupying_levels?.len)
+		return FALSE
+	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
+	if(!amount)
+		//Joker emoji
+		amount = CEILING(1 + (SSovermap_mode.mode.difficulty / 2), 1)
+		if(amount <= 0)
+			amount = 2 //This is jank, but helps me test it locally...
+	var/list/zs = list()
+	if(!occupying_levels.len)
+		message_admins("Failed to spawn boarders for [name], it doesn't seem to have any occupying z-levels. (Interior)")
+		return FALSE
+	for(var/datum/space_level/SL in occupying_levels)
+		zs += SL.z_value
+	var/startside = pick(GLOB.cardinals)
+	var/turf/target = boardingPodStartLoc(startside, pick(zs))
 	if(!target)
 		message_admins("Failed to spawn boarders for [name], does it have an interior?")
 		return FALSE //Cut off here to avoid polling people for a spawn that will never work.
@@ -42,7 +59,7 @@
 		message_admins("Failed to spawn boarders for [name] due to admin boarding override.")
 		return FALSE //Allows the admins to disable boarders for event rounds
 	var/list/candidates = list()
-	if(player_check < 15)
+	if(player_check < 5)
 		message_admins("KNPC boarder spawning aborted due to insufficient playercounts.")
 		return FALSE //No... just no. I'm not that mean
 

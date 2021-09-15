@@ -1,5 +1,5 @@
 /obj/item/wallframe/pdc_frame
-	name = "PDC loading rack frame"
+	name = "\improper PDC loading rack frame"
 	desc = "Used for building PDC loading racks."
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "pdc_frame"
@@ -7,7 +7,7 @@
 	materials = list(/datum/material/iron=MINERAL_MATERIAL_AMOUNT*5)
 
 /obj/structure/frame/machine/ship_weapon/pdc_mount
-	name = "PDC loading rack frame"
+	name = "\improper PDC loading rack frame"
 	desc = "Used for building PDC loading racks."
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "pdc_frame"
@@ -29,7 +29,6 @@
 	. = ..()
 	if(ndir)
 		setDir(ndir)
-
 	update_icon()
 
 /obj/structure/frame/machine/ship_weapon/pdc_mount/setDir(newdir)
@@ -53,7 +52,7 @@
 	if(circuit)
 		to_chat(user, "<span class='warning'>Remove the circuitboard first!</span>")
 		return TRUE
-	. = ..()
+	return ..()
 
 /obj/structure/frame/machine/ship_weapon/pdc_mount/attack_robot(mob/user)
 	. = ..()
