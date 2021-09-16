@@ -1675,9 +1675,13 @@ Seek a ship thich we'll station ourselves around
 					var/when = alert(usr, "When should they arrive?", "Jump to [sys]", "Now", "After FTL", "Cancel")
 					if(!when || when == "Cancel")
 						return FALSE
+					message_admins("[key_name(usr)] forced [target] to jump to [sys].")
 					if(when == "After FTL")
-						message_admins("[key_name(usr)] forced [target] to jump to [sys].")
 						target.jump_start(sys, TRUE)
+						return TRUE
+					if(when == "Now")
+						target.current_system.remove_ship(target)
+						target.jump_end(sys)
 						return TRUE
 				message_admins("[key_name(usr)] forced [target] to jump to [sys].")
 				SSstar_system.move_existing_object(target, sys)
