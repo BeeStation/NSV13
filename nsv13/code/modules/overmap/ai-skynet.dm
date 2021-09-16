@@ -1655,7 +1655,7 @@ Seek a ship thich we'll station ourselves around
 			var/datum/star_system/target = locate(params["sys_id"])
 			if(!istype(target))
 				return
-			var/asteroid_type = input(usr, "What kind of asteroid?","Asteroid Creation", null) as null|anything in typecacheof(/obj/structure/overmap/asteroid)
+			var/asteroid_type = input(usr, "What kind of asteroid?","Asteroid Creation", null) as null|anything in (typecacheof(/obj/structure/overmap/asteroid) + typecacheof(/obj/effect/overmap_anomaly) + typecacheof(/obj/structure/overmap/trader))
 			if(!asteroid_type)
 				return
 			SSstar_system.spawn_ship(asteroid_type, target)

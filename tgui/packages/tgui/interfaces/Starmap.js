@@ -3,6 +3,67 @@ import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Knob, Map, StarButton } from '../components';
 import { Window } from '../layouts';
 
+export const drawSystemNodes = System => {
+  let borderType = "star_marker_outline_blue";
+  let is_current = System.is_current;
+  let in_range = System.in_range;
+  {
+    !!is_current && (
+      borderType = "1px solid #193a7a"
+    ) || (
+      borderType = in_range ? "1px solid #008000" : "1px solid #a30000"
+    );
+  }
+  let markerStyle = {
+    height: '1px',
+    position: 'absolute',
+    left: System.x * 12 + 'px',
+    bottom: System.y * 12 + 'px',
+    border: borderType,
+  };
+  let markerType = "star_marker" + "_" + System.alignment;
+  let distance = System.distance;
+  let label = System.label;
+  {
+    !!label && (
+      label = "|" + System.label
+    );
+  }
+  return (
+    <StarButton unselectable="on" style={markerStyle} className={markerType}
+      content="" tooltip={distance}
+      onClick={() =>
+        act('select_system', { star_id: System.star_id })}>
+      <span class="star_label">
+        <p>{System.name} {label}</p>
+      </span>
+    </StarButton>
+  );
+};
+
+export const drawLines = Line => {
+  // Css properties with hypens are auto-converted to camel case. Important!
+  let lineStyle = {
+    height: '1px',
+    position: 'absolute',
+    left: Line.x * 12 + 'px',
+    bottom: Line.y * 12 + 'px',
+    width: Line.len * 12 + 'px',
+    border: '0.5px solid ' + Line.colour,
+    opacity: Line.opacity,
+    transform: 'rotate(' + Line.angle + 'deg)',
+    msTransform: 'rotate(' + Line.angle + 'deg)',
+    transformOrigin: 'center left',
+    zIndex: Line.priority,
+  };
+  return (
+    <Fragment key={Line}>
+      <div style={lineStyle} class="line" />
+    </Fragment>
+  );
+};
+
+
 export const Starmap = (props, context) => {
   const { act, data } = useBackend(context);
   const screen = data.screen;
@@ -29,6 +90,10 @@ export const Starmap = (props, context) => {
   arrowStyle += "" + -data.freepointer_sin + ",";
   arrowStyle += "" + data.freepointer_sin + "," + data.freepointer_cos + ", 0, 0);";
   arrowStyle += "transition: all 0.5s ease-out;";
+
+  let SystemNodes = (data.star_systems).map(drawSystemNodes);
+  let Connections = (data.lines).map(drawLines);
+
   return (
     <Window
       resizable
@@ -110,69 +175,8 @@ export const Starmap = (props, context) => {
                 initial_focus_y={data.focus_y}
                 initial_scale_factor={scale_factor}>
                 <Fragment>
-                  {Object.keys(data.star_systems).map(key => {
-                    let value = data.star_systems[key];
-                    let borderType = "star_marker_outline_blue";
-                    let is_current = value.is_current;
-                    let in_range = value.in_range;
-                    {
-                      !!is_current && (
-                        borderType = "1px solid #193a7a"
-                      ) || (
-                        borderType = in_range ? "1px solid #008000" : "1px solid #a30000"
-                      );
-                    }
-                    let markerStyle = {
-                      height: '1px',
-                      position: 'absolute',
-                      left: value.x * 12 + 'px',
-                      bottom: value.y * 12 + 'px',
-                      border: borderType,
-                    };
-                    let markerType = "star_marker" + "_" + value.alignment;
-                    let distance = value.distance;
-                    let label = value.label;
-                    {
-                      !!label && (
-                        label = "|" + value.label
-                      );
-                    }
-                    return (
-                      <Fragment key={key}>
-                        {!!value.name && (
-                          <StarButton unselectable="on" style={markerStyle} className={markerType}
-                            content="" tooltip={distance}
-                            onClick={() =>
-                              act('select_system', { star_id: value.star_id })}>
-                            <span class="star_label">
-                              <p>{value.name} {label}</p>
-                            </span>
-                          </StarButton>
-
-                        )}
-                      </Fragment>);
-                  })}
-                  {Object.keys(data.lines).map(key => {
-                    let value = data.lines[key];
-                    // Css properties with hypens are auto-converted to camel case. Important!
-                    let lineStyle = {
-                      height: '1px',
-                      position: 'absolute',
-                      left: value.x * 12 + 'px',
-                      bottom: value.y * 12 + 'px',
-                      width: value.len * 12 + 'px',
-                      border: '0.5px solid ' + value.colour,
-                      opacity: value.opacity,
-                      transform: 'rotate(' + value.angle + 'deg)',
-                      msTransform: 'rotate(' + value.angle + 'deg)',
-                      transformOrigin: 'center left',
-                      zIndex: value.priority,
-                    };
-                    return (
-                      <Fragment key={key}>
-                        <div style={lineStyle} class="line" />
-                      </Fragment>);
-                  })}
+                  {SystemNodes}
+                  {Connections}
                   {!!travelling && (
                     <span unselectable="on" style={arrowStyle}>
                       <i class="fa fa-arrow-right" />

@@ -92,8 +92,8 @@ export const SystemManager = (props, context) => {
     <Window
       resizable
       theme="ntos"
-      width={400}
-      height={400}>
+      width={600}
+      height={600}>
       <Window.Content scrollable>
         {Header}
         <Section>

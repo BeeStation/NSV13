@@ -2,6 +2,7 @@ import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Knob, Map, StarButton } from '../components';
 import { Window } from '../layouts';
+import { drawSystemNodes, drawLines } from './Starmap';
 
 // This entire fucking file is terrible. Turn back now. Don't look at this.
 // There are so many issues with the conditional rendering here which I do not have the time to fix.
@@ -32,6 +33,10 @@ export const Astrometrics = (props, context) => {
   arrowStyle += ""+-data.freepointer_sin+",";
   arrowStyle += ""+data.freepointer_sin+","+data.freepointer_cos+", 0, 0);";
   arrowStyle += "transition: all 0.5s ease-out;";
+
+  let Systems = (data.star_systems).map(drawSystemNodes);
+  let Lines = (data.lines).map(drawLines);
+
   return (
     <Window
       resizable
@@ -88,65 +93,8 @@ export const Astrometrics = (props, context) => {
                 initial_focus_y={data.focus_y}
                 initial_scale_factor={12}>
                 <Fragment>
-                  {Object.keys(data.star_systems).map(key => {
-                    let value = data.star_systems[key];
-                    let borderType = "star_marker_outline_blue";
-                    let is_current = value.is_current;
-                    let in_range = value.in_range;
-                    { !!is_current && (
-                      borderType = "1px solid #193a7a"
-                    ) || (
-                      borderType = in_range ? "1px solid #008000" : "1px solid #a30000"
-                    ); }
-                    let markerStyle = {
-                      height: '1px',
-                      position: 'absolute',
-                      left: value.x*12+'px',
-                      bottom: value.y*12+'px',
-                      border: borderType,
-                    };
-                    let markerType = "star_marker"+"_"+value.alignment;
-                    let distance = value.distance;
-                    let label = value.label;
-                    { !!label && (
-                      label = "|"+value.label
-                    ); }
-                    return (
-                      <Fragment key={key}>
-                        {!!value.name && (
-                          <StarButton unselectable="on" style={markerStyle} className={markerType}
-                            content="" tooltip={distance}
-                            onClick={() =>
-                              act('select_system', { star_id: value.star_id })}>
-                            <span class="star_label">
-                              <p>{value.name} {label}</p>
-                            </span>
-                          </StarButton>
-
-                        )}
-                      </Fragment>);
-                  })}
-                  {Object.keys(data.lines).map(key => {
-                    let value = data.lines[key];
-                    // Css properties with hypens are auto-converted to camel case. Important!
-                    let lineStyle = {
-                      height: '1px',
-                      position: 'absolute',
-                      left: value.x*12+'px',
-                      bottom: value.y*12+'px',
-                      width: value.len*12+'px',
-                      border: '0.5px solid '+value.colour,
-                      opacity: value.opacity,
-                      transform: 'rotate('+value.angle+'deg)',
-                      msTransform: 'rotate('+value.angle+'deg)',
-                      transformOrigin: 'center left',
-                      zIndex: value.priority,
-                    };
-                    return (
-                      <Fragment key={key}>
-                        <div style={lineStyle} class="line" />
-                      </Fragment>);
-                  })}
+                  {Systems}
+                  {Lines}
                   {!!travelling && (
                     <span unselectable="on" style={arrowStyle}>
                       <i class="fa fa-arrow-right" />
