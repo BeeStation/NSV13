@@ -102,7 +102,7 @@
 		ui_interact(user)
 	else
 		ui_interact(user)
-		. = ..()
+		return ..()
 
 /obj/effect/ebeam/fuel_hose
 	name = "fuel hose"
@@ -135,7 +135,7 @@
 			to_chat(user, "<span class='warning'>You transfer some of [I]'s contents to [src].</span>") //Put anything other than cryogenic fuel in here at your own risk of having to flush out the tank and possibly wreck your fighter :)
 			var/obj/item/reagent_containers/X = I
 			X.reagents.trans_to(X, X.amount_per_transfer_from_this, transfered_by = user)
-	. = ..()
+	return ..()
 
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/proc/start_fuelling(target)
 	if(!target)

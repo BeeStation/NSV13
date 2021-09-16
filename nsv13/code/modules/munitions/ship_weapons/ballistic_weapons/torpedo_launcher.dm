@@ -54,7 +54,7 @@
 			to_chat(user, "<span class='notice'>You unscrew the door panel on the [src].</span>")
 			spawn_frame(TRUE)
 			return TRUE
-	. = ..()
+	return ..()
 
 /obj/machinery/ship_weapon/torpedo_launcher/spawn_frame(disassembled)
 	var/obj/structure/ship_weapon/torpedo_launcher_assembly/M = new /obj/structure/ship_weapon/torpedo_launcher_assembly(loc)
