@@ -310,6 +310,9 @@ Adding tasks is easy! Just define a datum for it.
 /obj/structure/overmap/proc/try_deliver() 
 	// TODO allow cargo deliveries between ships with map interiors, perhaps for fleet gameplay or perfectly balanced boarding gameplay 
 
+/obj/structure/overmap/proc/receive_cargo() 
+	// TODO allow cargo deliveries between ships with map interiors, perhaps for fleet gameplay or perfectly balanced boarding gameplay 
+
 /obj/structure/overmap/proc/hail(var/text, var/ship_name, var/player_name, var/outbound = FALSE)
 	if(!text)
 		return

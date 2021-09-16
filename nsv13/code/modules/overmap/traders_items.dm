@@ -26,6 +26,8 @@
 		to_chat(user, "<span class='boldnotice'>[pick(inhabited_trader.greetings)]</span>")
 
 /obj/structure/overmap/trader/try_deliver( mob/living/user, var/obj/structure/overmap/source_ship, var/obj/machinery/computer/ship/dradis/cargo/console )
+	message_admins( "try_deliver" )
+
 	if( !isliving(user) )
 		return FALSE 
 	if( !allowed(user) ) //Only cargo auth'd personnel can make purchases.
@@ -38,10 +40,16 @@
 				var/choice = input("Transfer cargo to station?", "Confirm delivery", "No") in list("Yes", "No")
 				if( choice == "Yes" ) 
 					SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-					to_chat(user, "<span class='notice'>Delivery successful!</span>")
-					launcher.fire( src, shots = 1 )
-				else 
-					to_chat(user, "<span class='notice'>Delivery cancelled</span>")
+					receive_cargo( launcher.chambered )
+					// launcher.fire( src, shots = 1 )
+			else 
+				to_chat(user, "<span class='warning'>The cargo launcher has no freight torpedoes loaded!</span>")
+		else 
+			to_chat(user, "<span class='warning'>[src] has no cargo launcher attached! Use a multitool with a cargo launcher stored on its buffer to connect it.</span>")
+
+/obj/structure/overmap/trader/receive_cargo( atom/chambered )
+	message_admins( "receive_cargo" )
+	message_admins( chambered )
 
 //Nope!
 
