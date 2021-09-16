@@ -84,8 +84,11 @@
 	owner.setOxyLoss(0, 0)
 	owner.heal_overall_damage(INFINITY, INFINITY, INFINITY, null, TRUE)
 
+/* NSV13 - Does this do what they think it does?
 	if(!owner.revive())
 		return
+*/
+	owner?.revive()
 
 	owner.grab_ghost()
 	owner.visible_message("<span class='danger'>[owner] suddenly convulses, as [owner.p_they()][stand_up ? " stagger to [owner.p_their()] feet and" : ""] gain a ravenous hunger in [owner.p_their()] eyes!</span>", "<span class='alien'>You HUNGER!</span>")
@@ -93,6 +96,8 @@
 	owner.do_jitter_animation(living_transformation_time)
 	owner.Stun(living_transformation_time)
 	to_chat(owner, "<span class='alertalien'>You are now a zombie! Do not seek to be cured, do not help any non-zombies in any way, do not harm your zombie brethren and spread the disease by killing others. You are a creature of hunger and violence.</span>")
+
+	owner.faction = list("zombie") //NSV13 - used to prevent KNPC zombies remurdering them
 
 /obj/item/organ/zombie_infection/nodamage
 	causes_damage = FALSE

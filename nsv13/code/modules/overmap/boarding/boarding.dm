@@ -121,7 +121,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 	if(!amount)
 		//Joker emoji
-		amount = round(rand(0,(player_check/5)))
+		amount = CEILING(1 + (SSovermap_mode.mode.difficulty / 2), 1)
 		if(amount <= 0)
 			amount = 2 //This is jank, but helps me test it locally...
 	var/list/zs = list()
@@ -139,7 +139,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		message_admins("Failed to spawn boarders for [name] due to admin boarding override.")
 		return FALSE //Allows the admins to disable boarders for event rounds
 	var/list/candidates = list()
-	if(player_check < 15)
+	if(player_check < 5)
 		message_admins("KNPC boarder spawning aborted due to insufficient playercounts.")
 		return FALSE //No... just no. I'm not that mean
 

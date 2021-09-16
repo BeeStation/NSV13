@@ -190,8 +190,11 @@ Control Rods
 					if(!do_after(user, 50, target = src))
 						control_rod_installation = FALSE
 						return
-					to_chat(user, "<span class='notice'>You mount the [I.name] to the reactor control coupleing. </span>")
 					control_rod_installation = FALSE
+					if ( state == REACTOR_STATE_IDLE ) // Need to recheck the maintenance mode in case someone switched it while pushing in rods
+						to_chat(user, "<span class='warning'>[src] is not in maintenance mode! Enagage maintenance safety protocols before opening the lid!</span>")
+						return FALSE
+					to_chat(user, "<span class='notice'>You mount the [I.name] to the reactor control coupleing. </span>")
 					control_rods += I
 					I.forceMove(src)
 					update_icon()
@@ -357,12 +360,15 @@ Control Rods
 						if(!do_after(usr, 50, target = src))
 							control_rod_installation = FALSE
 							return
+						control_rod_installation = FALSE
+						if ( state == REACTOR_STATE_IDLE ) // Need to recheck the maintenance mode in case someone switched it while pulling out rods 
+							to_chat(usr, "<span class='warning'>[src] is not in maintenance mode! Enagage maintenance safety protocols before opening the lid!</span>")
+							return FALSE
 						to_chat(usr, "<span class='notice'>You remove the control rod from the [src].</span>")
 						var/obj/item/control_rod/cr = locate(params["target"])
 						control_rods -= cr
 						cr?.forceMove(get_turf(usr))
 						update_icon()
-						control_rod_installation = FALSE
 						handle_control_rod_efficiency()
 						handle_control_rod_integrity()
 				if(REACTOR_STATE_RUNNING)
@@ -712,6 +718,8 @@ Control Rods
 		for(var/obj/item/control_rod/cr in contents)
 			control_rod_integrity_total += cr.rod_integrity
 		control_rod_integrity = control_rod_integrity_total / control_rods.len
+	else
+		control_rod_integrity = 0
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/handle_heat()
 	heat += heat_gain

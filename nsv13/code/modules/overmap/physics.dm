@@ -578,7 +578,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	proj.faction = faction
 	if(physics2d && physics2d.collider2d)
 		proj.setup_collider()
-	if(homing)
+	if(homing && !isturf(target))	//Lets not have projectiles home in on some random tile someone clicked on to launch
 		proj.set_homing_target(target)
 	if(gunner)
 		proj.firer = gunner
@@ -599,7 +599,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 //Jank as hell. This needs to happen to properly set the visual offset :/
 /obj/item/projectile/proc/preparePixelProjectileOvermap(obj/structure/overmap/target, obj/structure/overmap/source, params, spread = 0, lateral=TRUE)
 	var/turf/curloc = source.get_center()
-	var/turf/targloc = (istype(target, /obj/structure/overmap)) ? target.get_center() : get_turf(target)
+	var/turf/targloc = istype(target, /obj/structure/overmap) ? target.get_center() : get_turf(target)
 	trajectory_ignore_forcemove = TRUE
 	forceMove(curloc)
 	trajectory_ignore_forcemove = FALSE

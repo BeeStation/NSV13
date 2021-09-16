@@ -27,6 +27,8 @@
 	var/weapon_class = WEAPON_CLASS_HEAVY //Do AIs need to resupply with ammo to use this weapon?
 	var/miss_chance = 5 // % chance the AI intercept calculator will be off a step
 	var/max_miss_distance = 4 // Maximum number of tiles the AI will miss by
+	var/autonomous = FALSE // Is this a gun that can automatically fire? Keep in mind variables selectable and autonomous can both be TRUE 
+	var/permitted_ams_modes = list( "Anti-ship" = 1, "Anti-missile countermeasures" = 1 ) // Overwrite the list with a specific firing mode if you want to restrict its targets 
 
 	var/next_firetime = 0
 
@@ -92,6 +94,12 @@
 		var/sound/chosen = pick(overmap_firing_sounds)
 		holder.relay_to_nearby(chosen)
 	holder.fire_projectile(default_projectile_type, target)
+
+/datum/ship_weapon/proc/can_fire()
+	for(var/obj/machinery/ship_weapon/SW in weapons["loaded"])
+		if ( SW.can_fire() ) // If any one weapon in the datum's list can fire, return 
+			return TRUE 
+	return FALSE
 
 /datum/ship_weapon/proc/fire(atom/target, ai_aim = FALSE)
 	if(next_firetime > world.time)
