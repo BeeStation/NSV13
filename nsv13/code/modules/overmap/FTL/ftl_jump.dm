@@ -157,7 +157,7 @@
 			ftl_drive.jump(target_system) //Jump home
 
 	else
-		message_admins("Target does not have an FTL drive!")
+		message_admins("Target does not have an Thirring Drive!")
 
 /obj/structure/overmap/proc/force_parallax_update(ftl_start)
 	if(reserved_z) //Actual overmap parallax behaviour
@@ -259,7 +259,7 @@
 
 /datum/design/ftl_slipstream_chip
 	name = "Quantum slipstream field generation matrix"
-	desc = "An upgrade for FTL drive computers which allows for much more efficient FTL translations."
+	desc = "An upgrade for Thirring Drive computers which allows for much more efficient FTL translations."
 	id = "ftl_slipstream_chip"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/plasma = 25000,/datum/material/diamond = 15000, /datum/material/silver = 20000)
@@ -270,7 +270,7 @@
 /datum/techweb_node/ftl_slipstream
 	id = "ftl_slipstream"
 	display_name = "Quantum slipstream technology"
-	description = "Cutting edge upgrades for the FTL drive computer, allowing for more efficient FTL travel."
+	description = "Cutting edge upgrades for the Thirring Drive computer, allowing for more efficient FTL travel."
 	prereq_ids = list("comptech")
 	design_ids = list("ftl_slipstream_chip")
 	research_costs = list(TECHWEB_POINT_TYPE_WORMHOLE = 5000) //You need to have fully probed a wormhole to unlock this.

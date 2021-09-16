@@ -11,10 +11,10 @@
 /// Max power use before we start to overheat (watts)
 #define POWER_USE_SAFE 100000
 
-///FTL DRIVE PYLON///
+///Thirring Drive PYLON///
 /obj/machinery/atmospherics/components/binary/drive_pylon
-	name = "\improper FTL Drive Pylon"
-	desc = "Produces exotic energy for an FTL manifold. Requires Nucleium and electricity to spool up, avoid physical contact with gyroscopes."
+	name = "\improper Thirring Drive Pylon"
+	desc = "Produces exotic energy for a Thirring Drive. Requires Nucleium and electricity to spool up, avoid physical contact with gyroscopes."
 	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
 	icon_state = "pylon"
 	pixel_x = -22 // yes this is terrible but weird sprite dimensions made me

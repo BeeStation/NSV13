@@ -11,7 +11,7 @@
 
 /obj/machinery/computer/ship/navigation
 	name = "\improper FTL Navigation console"
-	desc = "A computer which can interface with the FTL drive to allow the ship to travel vast distances in space."
+	desc = "A computer which can interface with the Thirring Drive to allow the ship to travel vast distances in space."
 	icon_screen = "ftl"
 	var/datum/star_system/selected_system = null
 	var/screen = STARMAP

@@ -4,7 +4,7 @@
 
 /obj/machinery/computer/ship/ftl_core
 	name = "\improper Thirring Drive manifold"
-	desc = "A Lense-Thirring Precession Drive, an advanced method of FTL propulsion that utilizes exotic energy to warp space around itself. Exotic energy must be supplied via drive pylons."
+	desc = "The Lense-Thirring Precession Drive, an advanced method of FTL propulsion that utilizes exotic energy to warp space around itself. Exotic energy must be supplied via drive pylons."
 	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
 	icon_state = "core_idle"
 	pixel_x = -64

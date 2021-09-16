@@ -14,7 +14,7 @@
 
 /obj/machinery/atmospherics/components/binary/silo
 	name = "\improper Nucleium-Plasma Frame Refiner"
-	desc = "An incredibly advanced (and power hungry) refinery capable of folding plasma into itself. Commonly used in the production of FTL drive fuel."
+	desc = "An incredibly advanced (and power hungry) refinery capable of folding plasma into itself. Commonly used in the production of Nucleium."
 	icon = 'nsv13/icons/obj/machinery/FTL_silo.dmi'
 	icon_state = "silo"
 	max_integrity = 600
