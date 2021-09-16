@@ -3,8 +3,8 @@
 #define FTL_COOLDOWN 260
 
 /obj/machinery/computer/ship/ftl_core
-	name = "\improper FTL frameshift core"
-	desc = "A highly advanced form of propulsion that utilizes exotic energy to warp space around itself, exotic energy must be supplied via drive pylons"
+	name = "\improper Thirring Drive manifold"
+	desc = "A Lense-Thirring Precession Drive, an advanced method of FTL propulsion that utilizes exotic energy to warp space around itself. Exotic energy must be supplied via drive pylons."
 	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
 	icon_state = "core_idle"
 	pixel_x = -64
@@ -74,7 +74,7 @@
 		say("FTL core temperature beyond safety limits, please wait for cooldown cycle to complete.")
 		return
 	if(progress || ftl_state != FTL_STATE_IDLE)
-		say("FTL maifold is already active.")
+		say("FTL manifold is already active.")
 		return
 	if(!check_pylons())
 		say("Insufficient connected drive pylons.")
@@ -111,7 +111,7 @@
 			progress = min(progress + charge_rate, req_charge)
 			active_charge = TRUE
 			if(prob(30))
-				discharge_pylon(P)
+				INVOKE_ASYNC(src, .proc/discharge_pylon, P)
 	if(!active_charge && progress > 0)
 		progress--
 		if(progress < req_charge && ftl_state == FTL_STATE_READY)
@@ -121,10 +121,12 @@
 
 /// Cosmetic effect
 /obj/machinery/computer/ship/ftl_core/proc/discharge_pylon(atom/P)
-	set waitfor = FALSE
 	playsound(P, 'nsv13/sound/machines/FTL/FTL_pylon_discharge.ogg', rand(85,100), TRUE, 1)
+	var/target = src
+	if(length(pylons) > 1)
+		target = pick(pylons - P)
 	sleep(20)
-	P.Beam(src, icon_state = "lightning[rand(1, 12)]", time = 10, maxdistance = 10)
+	P.Beam(target, icon_state = "lightning[rand(1, 12)]", time = 10, maxdistance = 10)
 	playsound(P, 'sound/magic/lightningshock.ogg', 10, 1, 1)
 
 
