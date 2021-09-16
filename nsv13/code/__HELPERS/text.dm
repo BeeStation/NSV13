@@ -38,7 +38,7 @@
 		"Zulu"
 		)
 	if(index > 26)
-		return nato[index-26] + "-" + num2text(FLOOR(index/26) + 1) // 27 turns into Alpha-2, 53 turns into Alpha-3, etc.
+		return nato[index-26] + "-" + num2text(FLOOR(index, 26) + 1) // 27 turns into Alpha-2, 53 turns into Alpha-3, etc.
 	return nato[index]
 
 /// Converts a number into it's coressponding index in Greek letters (1= Alpha, 24 = Omega by default)
@@ -70,5 +70,5 @@
 		"Omega"
 		)
 	if(index > 24)
-		return greek[index-26] + "-" + num2text(FLOOR(index/26) + 1)
+		return greek[index-26] + "-" + num2text(FLOOR(index, 26) + 1)
 	return greek[index]
