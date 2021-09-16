@@ -144,7 +144,6 @@
 /obj/item/projectile/guided_munition/torpedo/post
 	name = "freight torpedo"
 	icon_state = "torpedo_post"
-	overmap_friendly_fire = TRUE
 	homing_turn_speed = 0
 	damage = 0
 

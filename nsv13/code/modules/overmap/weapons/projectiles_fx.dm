@@ -110,7 +110,6 @@ Misc projectile types, effects, think of this as the special FX file.
 	max_integrity = 50
 	density = TRUE
 	armor = list("overmap_light" = 10, "overmap_medium" = 0, "overmap_heavy" = 0)
-	var/overmap_friendly_fire = TRUE
 
 /obj/item/projectile/guided_munition/torpedo
 	icon_state = "torpedo"
@@ -194,8 +193,8 @@ Misc projectile types, effects, think of this as the special FX file.
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
 		return BULLET_ACT_HIT
-	var/obj/item/projectile/guided_munition/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
-	if(isprojectile(target) && ( P.faction != faction || P.overmap_friendly_fire ) && !P.nodamage) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
+	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
+	if(isprojectile(target) && P.faction != faction && !P.nodamage) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
 		if(obj_integrity <= P.damage) //Tank the hit, take some damage
 			qdel(P)
 			explode()
