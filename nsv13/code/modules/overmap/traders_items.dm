@@ -13,6 +13,7 @@
 	bound_width = 224
 	bound_height = 224
 	req_one_access = list(ACCESS_CARGO, ACCESS_SYNDICATE)
+	var/list/received_cargo = list()
 	var/datum/trader/inhabited_trader = null
 
 /obj/structure/overmap/trader/try_hail(mob/living/user)
@@ -25,7 +26,7 @@
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>[pick(inhabited_trader.greetings)]</span>")
 
-/obj/structure/overmap/trader/try_deliver( mob/living/user, var/obj/structure/overmap/source_ship, var/obj/machinery/computer/ship/dradis/cargo/console )
+/obj/structure/overmap/trader/try_deliver( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console )
 	message_admins( "try_deliver" )
 
 	if( !isliving(user) )
@@ -40,20 +41,26 @@
 				var/choice = input("Transfer cargo to station?", "Confirm delivery", "No") in list("Yes", "No")
 				if( choice == "Yes" ) 
 					SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-					receive_cargo( launcher.chambered )
-					// launcher.fire( src, shots = 1 )
+					var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = launcher.chambered
+					message_admins( "receive_cargo" )
+					message_admins( shipment )
+					received_cargo += shipment
+					
+					// Fire the torpedo away to unload the launcher. 
+					// Without a weapon_type the projectile will not be animated 
+					launcher.fire( src, shots = 1 )
+					
+					check_objectives()
 			else 
 				to_chat(user, "<span class='warning'>The cargo launcher has no freight torpedoes loaded!</span>")
 		else 
-			to_chat(user, "<span class='warning'>[src] has no cargo launcher attached! Use a multitool with a cargo launcher stored on its buffer to connect it.</span>")
-
-/obj/structure/overmap/trader/receive_cargo( atom/chambered )
-	message_admins( "receive_cargo" )
-	message_admins( chambered )
-
-//Nope!
+			to_chat(user, "<span class='warning'>[console] has no cargo launcher attached! Use a multitool with a cargo launcher stored on its buffer to connect it.</span>")
+	
+/obj/structure/overmap/trader/proc/check_objectives()
+	message_admins( "check_objectives" )
 
 /obj/structure/overmap/trader/can_move()
+	//Nope!
 	return FALSE
 
 /obj/structure/overmap/trader/shipyard

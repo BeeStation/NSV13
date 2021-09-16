@@ -291,7 +291,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			if(get_dist(target, linked) <= hail_range)
 				if ( istype( src, /obj/machinery/computer/ship/dradis/cargo ) ) 
 					var/obj/machinery/computer/ship/dradis/cargo/console = src // Must cast before passing into proc 
-					target.try_deliver( usr, null, console )
+					target.try_deliver( usr, console )
 				else 
 					target.try_hail(usr, linked)
 		if("radar_pulse")
