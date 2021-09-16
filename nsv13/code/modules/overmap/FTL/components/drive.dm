@@ -288,8 +288,8 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		pylon_info["name"] = "Pylon [count]"
 		pylon_info["id"] = "\ref[P]"
 		pylon_info["status"] = P.pylon_state
-		pylon_info["gyro"] = round(P.gyro_speed / P.req_gyro_speed)
-		pylon_info["capacitor"] = round(P.capacitor / P.req_capacitor)
+		pylon_info["gyro"] = round(P.gyro_speed / P.req_gyro_speed, 0.01)
+		pylon_info["capacitor"] = round(P.capacitor / P.req_capacitor, 0.01)
 		pylon_info["draw"] = DisplayPower(P.power_draw)
 		pylons_info[++pylons_info.len] = pylon_info // probably could have a better var name for this one
 	data["pylons"] = pylons_info

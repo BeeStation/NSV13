@@ -17,7 +17,6 @@
 	desc = "Produces exotic energy for an FTL manifold. Requires Nucleium and electricity to spool up, avoid physical contact with gyroscopes."
 	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
 	icon_state = "pylon"
-	pixel_y = 32
 	pixel_x = -22 // yes this is terrible but weird sprite dimensions made me
 	bound_height = 64
 	density = TRUE
@@ -66,15 +65,21 @@
 		if(PYLON_STATE_STARTING) //pop the lid
 			power_draw = 5000
 			if(++gyro_speed >= 10)
-				set_state(PYLON_STATE_WARMUP)
+				if(input.get_moles(/datum/gas/nucleium))
+					set_state(PYLON_STATE_WARMUP)
+				else
+					say("Insufficient FTL fuel, spooling down.")
+					set_state(PYLON_STATE_SHUTDOWN)
 
 		if(PYLON_STATE_WARMUP) //start the spin
 			var/ftl_fuel = input.get_moles(/datum/gas/nucleium)
 
-			if(ftl_fuel < 0.1)
+			if(ftl_fuel < 0.25)
+				say("Insufficient FTL fuel, spooling down.")
+				set_state(PYLON_STATE_SHUTDOWN)
 				return
 
-			input.adjust_moles(/datum/gas/nucleium, -0.1)
+			input.adjust_moles(/datum/gas/nucleium, -0.25)
 			if(prob(20))
 				var/datum/effect_system/spark_spread/S = new /datum/effect_system/spark_spread
 				S.set_up(6, 0, src)
@@ -85,11 +90,12 @@
 
 		if(PYLON_STATE_SPOOLING) //spinning intensifies
 			var/ftl_fuel = input.get_moles(/datum/gas/nucleium)
-			if(ftl_fuel < 0.25)
+			if(ftl_fuel < 1)
 				if(capacitor > 0)
 					capacitor -= min(rand(0.25, 0.5), capacitor)
 				else
-					set_state(PYLON_STATE_STARTING)
+					say("Insufficient FTL fuel, spooling down.")
+					set_state(PYLON_STATE_SHUTDOWN)
 				return
 			power_draw = 50000 // 50KW
 			consume_fuel()
@@ -158,6 +164,7 @@
 	on = FALSE
 	STOP_PROCESSING(SSmachines, src)
 
+/// Main spool process, consumes nucleium and converts it into FTL capacitor power
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/consume_fuel()
 	var/datum/gas_mixture/input = airs[1]
 	var/datum/gas_mixture/output = airs[2]
