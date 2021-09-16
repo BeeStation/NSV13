@@ -535,8 +535,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	forceMove(get_turf(locate(250, y, z)))
 	//check_overmap_elegibility(TRUE)
 
-/obj/structure/overmap/fighter/proc/throw_pilot() //Used when yeeting a pilot out of an exploding ship
-	var/m_damage = 200
+/obj/structure/overmap/fighter/proc/throw_pilot(m_damage = 200) //Used when yeeting a pilot out of an exploding ship
 	if(SSmapping.level_trait(z, ZTRAIT_OVERMAP)) //Check if we're on the overmap
 		m_damage *= 2
 	var/list/victims = force_eject(TRUE)

@@ -55,6 +55,9 @@
 	//Various traits that probably won't change
 	var/maintainable = TRUE //Does the weapon require maintenance?
 	var/bang = TRUE //Is firing loud?
+	var/bang_range = 8
+	var/last_bang = 0 // performance reasons, rapid range/hearers checking is terrible
+	var/bang_list // :flushed:
 	var/auto_load = FALSE //Does the weapon feed and chamber the round once we load it?
 	var/semi_auto = FALSE //Does the weapon re-chamber for us after firing?
 
@@ -464,13 +467,11 @@
 		for(var/i = 0, i < shots, i++)
 			do_animation()
 			state = STATE_FIRING
-
-			local_fire()
 			overmap_fire(target)
 
 			ammo -= chambered
-			qdel(chambered)
-			chambered = null
+			local_fire()
+			QDEL_NULL(chambered)
 
 			if(length(ammo))
 				state = STATE_FED

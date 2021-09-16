@@ -11,7 +11,7 @@
 	icon_state = "warden" //placeholder
 
 /obj/machinery/computer/cargo/express/syndicate
-	name = "syndicate Requisitions Console"
+	name = "\improper Syndicate Requisitions Console"
 	req_one_access = list(ACCESS_SYNDICATE_LEADER, ACCESS_SYNDICATE_REQUISITIONS)
 	req_access = null
 	req_one_access_txt = ""
