@@ -117,7 +117,7 @@
 	if(!cable)
 		return FALSE
 	if(power_draw > cable.surplus())
-		visible_message("<span class='warning'>\The [src] lets out an eerie clang as it's power light flickers.</span>")
+		visible_message("<span class='warning'>\The [src] lets out an eerie hum as it's power light flickers.</span>")
 		return FALSE
 	cable.add_load(power_draw)
 	return TRUE
@@ -125,14 +125,38 @@
 /obj/machinery/atmospherics/components/binary/drive_pylon/process_atmos()
 	var/datum/gas_mixture/output = airs[2]
 	var/i_pressure = air_contents.return_pressure()
-	if(!i_pressure) // no point running other checks if we're pushing directly into output
-		return
-	if(i_pressure > MAX_WASTE_STORAGE_PRESSURE)
-		var/turf/T = get_turf(src)
-		T.assume_air(air_contents)
-		explosion(T, 0, 1, 3)
-		QDEL_NULL(air_contents)
-		return
+	switch(i_pressure)
+		if(0)
+			return
+		if(MAX_WASTE_STORAGE_PRESSURE/3 to MAX_WASTE_STORAGE_PRESSURE/2)
+			switch(rand(1, 10))
+				if(1)
+					playsound(src, 'nsv13/sound/effects/metal_clang.ogg', rand(70,90), TRUE)
+				if(2)
+					audible_message("<span class='warning'>\The [src] hisses quitely.</span>")
+				if(3)
+					audible_message("<span class='warning'>\The [src] lets out a metallic groan.</span>")
+		if(MAX_WASTE_STORAGE_PRESSURE/2 to MAX_WASTE_STORAGE_PRESSURE)
+			switch(rand(1, 20))
+				if(1)
+					playsound(src, 'nsv13/sound/effects/metal_clang.ogg', 100, TRUE)
+				if(3)
+					playsound(src, 'sound/effects/bampf.ogg', 100, TRUE)
+				if(4)
+					playsound(src, 'sound/effects/bang.ogg', 100, TRUE)
+				if(5)
+					visible_message(src, "<span class='danger'>\The [src]'s chassis begins to bulge!</span>")
+				if(6)
+					audible_message(src, "<span class='alert'>You hear a high pitch hiss!</span>")
+
+		if(MAX_WASTE_STORAGE_PRESSURE to INFINITY)
+			var/turf/T = get_turf(src)
+			T.assume_air(air_contents)
+			explosion(T, 0, 1, 3)
+			QDEL_NULL(air_contents)
+			if(!QDELETED(src))
+				qdel(src)
+			return
 	if(output.return_pressure() <= MAX_WASTE_OUTPUT_PRESSURE)
 		if(air_contents.pump_gas_to(output, MAX_WASTE_OUTPUT_PRESSURE))
 			update_parents()
@@ -178,8 +202,8 @@
 	waste.adjust_moles(/datum/gas/plasma, input_fuel / 3)
 	waste.adjust_moles(/datum/gas/nucleium, input_fuel / 4)
 	var/heat_increase = WASTE_GAS_HEAT + round(power_draw / 1000)
-	if(shielded) // Closing shields greatly increases internal temperture
-		heat_increase *= 1.5
+	if(shielded) // Closing shields greatly increases internal temperture gain
+		heat_increase *= 2
 	waste.set_temperature(input.return_temperature() + heat_increase)
 	if(output.return_pressure() < MAX_WASTE_OUTPUT_PRESSURE)
 		air_contents.merge(waste)

@@ -68,16 +68,16 @@
 
 /obj/machinery/computer/ship/ftl_core/proc/spoolup()
 	if(!is_operational() || !anchored)
-		visible_message("<span class='warning'>FTL core damaged or without power, startup procedure cancelled.</span>")
+		visible_message("FTL core is damaged or without power, startup procedure cancelled.")
 		return
 	if(cooldown)
-		visible_message("<span class='warning'>FTL core temperature beyond safety limits, please wait for cooldown cycle to complete.</span>")
+		say("FTL core temperature beyond safety limits, please wait for cooldown cycle to complete.")
 		return
 	if(progress || ftl_state != FTL_STATE_IDLE)
-		visible_message("<span class='warning'>FTL maifold is already active.</span>")
+		say("FTL maifold is already active.")
 		return
 	if(!check_pylons())
-		visible_message("<span class='warning'>Insufficient connected drive pylons.</span>")
+		say("Insufficient connected drive pylons.")
 		return
 	var/active_pylons = 0
 	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in pylons)
@@ -206,7 +206,8 @@ Preset classes of FTL drive with pre-programmed behaviours
 			start_monitoring(OM)
 
 /obj/machinery/computer/ship/ftl_core/proc/start_monitoring(obj/structure/overmap/OM)
-	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/announce_jump)
+	return
+//	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/announce_jump)
 
 /*
 A way for syndies to track where the player ship is going in advance, so they can get ahead of them and hunt them down.
