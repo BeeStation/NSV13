@@ -104,9 +104,10 @@
 
 		if(PYLON_STATE_SHUTDOWN) //halt the spinning
 			power_draw = 0
-			capacitor -= round(capacitor / gyro_speed, 0.1)
 			if(--gyro_speed <= 0)
 				finalalize_shutdown()
+			else
+				capacitor -= round(capacitor / gyro_speed, 0.1)
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/power_drain()
 	if(power_draw <= 0)
