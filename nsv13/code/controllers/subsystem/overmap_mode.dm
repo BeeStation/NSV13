@@ -519,17 +519,17 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_mode_controller/ui_data(mob/user)
 	var/list/data = list()
 	var/list/objectives = list()
-	data["current_gamemode"] = SSovermap_mode.mode.name
-	data["current_description"] = SSovermap_mode.mode.desc
-	data["mode_initalised"] = SSovermap_mode.mode_initialised
-	data["current_difficulty"] = SSovermap_mode.mode.difficulty
+	data["current_gamemode"] = SSovermap_mode.mode?.name
+	data["current_description"] = SSovermap_mode.mode?.desc
+	data["mode_initalised"] = SSovermap_mode?.mode_initialised
+	data["current_difficulty"] = SSovermap_mode.mode?.difficulty
 	data["current_escalation"] = SSovermap_mode.escalation
 	data["reminder_time_remaining"] = (SSovermap_mode.next_objective_reminder - world.time) / 10 //Seconds
-	data["reminder_interval"] = SSovermap_mode.mode.objective_reminder_interval / 600 //Minutes
+	data["reminder_interval"] = SSovermap_mode.mode?.objective_reminder_interval / 600 //Minutes
 	data["reminder_stacks"] = SSovermap_mode.objective_reminder_stacks
 	data["toggle_reminder"] = SSovermap_mode.objective_reminder_override
 	data["toggle_override"] = SSovermap_mode.admin_override
-	for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+	for(var/datum/overmap_objective/O in SSovermap_mode.mode?.objectives)
 		var/list/objective_data = list()
 		objective_data["name"] = O.name
 		objective_data["desc"] = O.desc

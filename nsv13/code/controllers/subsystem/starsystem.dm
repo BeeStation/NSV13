@@ -155,6 +155,35 @@ Returns a faction datum by its name (case insensitive!)
 	else
 		target_sys.enemy_queue += OM
 
+/datum/controller/subsystem/star_system/proc/move_existing_object(obj/structure/overmap/OM, datum/star_system/target)
+	if(QDELETED(OM))
+		return
+	target.system_contents += OM
+	if(!target.occupying_z)
+		STOP_PROCESSING(SSphysics_processing, OM)
+		if(OM.physics2d)
+			STOP_PROCESSING(SSphysics_processing, OM.physics2d)
+		var/backupx = OM.x
+		var/backupy = OM.y
+		OM.moveToNullspace()
+		if(backupx && backupy)
+			target.contents_positions[OM] = list("x" = backupx, "y" = backupy) //Cache the ship's position so we can regenerate it later.
+		else
+			target.contents_positions[OM] = list("x" = rand(15, 240), "y" = rand(15, 240))
+	else
+		if(!OM.z)
+			START_PROCESSING(SSphysics_processing, OM)
+			if(OM.physics2d)
+				START_PROCESSING(SSphysics_processing, OM.physics2d)
+		target.add_ship(OM)
+	OM.current_system?.system_contents -= OM
+	if(OM.faction != "nanotrasen" && OM.faction != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
+		OM.current_system?.enemies_in_system -= OM
+		target.enemies_in_system += OM
+	if(OM.current_system?.contents_positions[OM]) //If we were loaded, but the system was not.
+		OM.current_system?.contents_positions -= OM
+	OM.current_system = target
+
 //Specific case for anomalies. They need to be spawned in for research to scan them.
 
 /datum/controller/subsystem/star_system/proc/spawn_anomaly(anomaly_type, datum/star_system/target_sys, center=FALSE)

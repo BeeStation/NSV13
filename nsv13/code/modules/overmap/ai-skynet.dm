@@ -172,33 +172,7 @@ Adding tasks is easy! Just define a datum for it.
 		current_system.mission_sector = FALSE
 	if(instantiated)//If the fleet was "instantiated", that means it's already been encountered, and we need to track the states of all the ships in it.
 		for(var/obj/structure/overmap/OM in all_ships)
-			if(QDELETED(OM))
-				continue
-			target.system_contents += OM
-			if(!target.occupying_z)
-				STOP_PROCESSING(SSphysics_processing, OM)
-				if(OM.physics2d)
-					STOP_PROCESSING(SSphysics_processing, OM.physics2d)
-				var/backupx = OM.x
-				var/backupy = OM.y
-				OM.moveToNullspace()
-				if(backupx && backupy)
-					target.contents_positions[OM] = list("x" = backupx, "y" = backupy) //Cache the ship's position so we can regenerate it later.
-				else
-					target.contents_positions[OM] = list("x" = rand(15, 240), "y" = rand(15, 240))
-			else
-				if(!OM.z)
-					START_PROCESSING(SSphysics_processing, OM)
-					if(OM.physics2d)
-						START_PROCESSING(SSphysics_processing, OM.physics2d)
-				target.add_ship(OM)
-			current_system.system_contents -= OM
-			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
-				current_system.enemies_in_system -= OM
-				target.enemies_in_system += OM
-			if(current_system.contents_positions[OM]) //If we were loaded, but the system was not.
-				current_system.contents_positions -= OM
-			OM.current_system = target
+			SSstar_system.move_existing_object(OM, target)
 	target.fleets += src
 	current_system = target
 	if(target.alignment != alignment)
@@ -1622,7 +1596,7 @@ Seek a ship thich we'll station ourselves around
 	for(var/datum/star_system/SS in SSstar_system.systems)
 		var/list/sys_inf = list()
 		sys_inf["name"] = SS.name
-		sys_inf["system_type"] = SS.system_type ? SS.system_type["tag"] : "NOT SETUP YET"
+		sys_inf["system_type"] = SS.system_type ? SS.system_type["tag"] : "none"
 		sys_inf["alignment"] = capitalize(SS.alignment)
 		sys_inf["sys_id"] = "\ref[SS]"
 		sys_inf["fleets"] = list() //2d array mess in 3...2...1..
@@ -1650,15 +1624,21 @@ Seek a ship thich we'll station ourselves around
 	if(..())
 		return
 	switch(action)
-		if("jumpFleet")
+		if("fleetAct")
 			var/datum/fleet/target = locate(params["id"])
 			if(!istype(target))
 				return
-			var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
-			if(!sys || !istype(sys))
+			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Delete", "Cancel")
+			if(!command || command == "Cancel")
 				return FALSE
-			message_admins("[key_name(usr)] forced [target] to jump to [sys].")
-			target.move(sys, TRUE)
+			if(command == "Jump")
+				var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
+				if(!sys || !istype(sys))
+					return FALSE
+				message_admins("[key_name(usr)] forced [target] to jump to [sys].")
+				target.move(sys, TRUE)
+			if(command == "Delete")
+				usr.client.cmd_admin_delete(target)
 		if("createFleet")
 			var/datum/star_system/target = locate(params["sys_id"])
 			if(!istype(target))
@@ -1671,15 +1651,38 @@ Seek a ship thich we'll station ourselves around
 			F.current_system = target
 			F.assemble(target)
 			message_admins("[key_name(usr)] created a fleet ([F.name]) at [target].")
-		if("jumpObject")
+		if("createAsteroid")
+			var/datum/star_system/target = locate(params["sys_id"])
+			if(!istype(target))
+				return
+			var/asteroid_type = input(usr, "What kind of asteroid?","Asteroid Creation", null) as null|anything in typecacheof(/obj/structure/overmap/asteroid)
+			if(!asteroid_type)
+				return
+			SSstar_system.spawn_ship(asteroid_type, target)
+		if("objectAct")
 			var/obj/structure/overmap/target = locate(params["id"])
 			if(!istype(target))
 				return
-			var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
-			if(!sys || !istype(sys))
+			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Delete", "Cancel")
+			if(!command || command == "Cancel")
 				return FALSE
-			message_admins("[key_name(usr)] forced [target] to jump to [sys].")
-			target.jump_start(sys)
+			if(command == "Jump")
+				var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
+				if(!sys || !istype(sys))
+					return FALSE
+				// Handle player ships
+				if(length(target.linked_areas))
+					var/when = alert(usr, "When should they arrive?", "Jump to [sys]", "Now", "After FTL", "Cancel")
+					if(!when || when == "Cancel")
+						return FALSE
+					if(when == "After FTL")
+						message_admins("[key_name(usr)] forced [target] to jump to [sys].")
+						target.jump_start(sys, TRUE)
+						return TRUE
+				message_admins("[key_name(usr)] forced [target] to jump to [sys].")
+				SSstar_system.move_existing_object(target, sys)
+			if(command == "Delete")
+				usr.client.cmd_admin_delete(target)
 
 /client/proc/instance_overmap_menu() //Creates a verb for admins to open up the ui
 	set name = "Instance Overmap"
