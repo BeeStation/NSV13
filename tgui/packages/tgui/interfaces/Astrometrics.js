@@ -1,8 +1,8 @@
 import { Fragment } from 'inferno';
-import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Section, ProgressBar, Knob, Map, StarButton } from '../components';
+import { useBackend } from '../backend';
+import { Button, Section, ProgressBar } from '../components';
 import { Window } from '../layouts';
-import { drawSystemNodes, drawLines } from './Starmap';
+import { drawStarmap } from './Starmap';
 
 // This entire fucking file is terrible. Turn back now. Don't look at this.
 // There are so many issues with the conditional rendering here which I do not have the time to fix.
@@ -10,32 +10,7 @@ import { drawSystemNodes, drawLines } from './Starmap';
 export const Astrometrics = (props, context) => {
   const { act, data } = useBackend(context);
   const screen = data.screen;
-  const travelling = data.travelling;
-  const can_cancel = data.can_cancel;
-  let arrowStyle = "position: absolute; left: "+data.freepointer_x*12+"px;";
   let scan_target = data.scan_target;
-  arrowStyle += "bottom: "+data.freepointer_y*12+"px;";
-  arrowStyle += "filter: progid:DXImageTransform.Microsoft.";
-  arrowStyle += "Matrix(sizingMethod='auto expand',";
-  arrowStyle += "M11="+data.freepointer_cos+",";
-  arrowStyle += "M12="+(-data.freepointer_sin)+",M21="+data.freepointer_sin+",";
-  arrowStyle += "M22="+data.freepointer_cos+");";
-  arrowStyle += "ms-filter: progid:";
-  arrowStyle += "DXImageTransform.";
-  arrowStyle += "Microsoft.Matrix(sizingMethod='auto expand',";
-  arrowStyle += "M11="+data.freepointer_cos+",";
-  arrowStyle += "M12="+(-data.freepointer_sin)+",";
-  arrowStyle += "M21="+data.freepointer_sin+", M22="+data.freepointer_cos+");";
-  arrowStyle += "-ms-transform: matrix("+data.freepointer_cos+",";
-  arrowStyle += ""+-data.freepointer_sin+",";
-  arrowStyle += ""+data.freepointer_sin+","+data.freepointer_cos+", 0, 0);";
-  arrowStyle += "transform: matrix("+data.freepointer_cos+",";
-  arrowStyle += ""+-data.freepointer_sin+",";
-  arrowStyle += ""+data.freepointer_sin+","+data.freepointer_cos+", 0, 0);";
-  arrowStyle += "transition: all 0.5s ease-out;";
-
-  let Systems = (data.star_systems).map(drawSystemNodes);
-  let Lines = (data.lines).map(drawLines);
 
   return (
     <Window
@@ -57,12 +32,12 @@ export const Astrometrics = (props, context) => {
                 icon="map"
                 onClick={() =>
                   act('map')} />
-              <Section title={`Current scan: ${data.scan_target}`}
+              <Section title={`Current scan: ${scan_target}`}
                 buttons={(
                   <Button
                     content="Cancel Scan"
                     icon="stop-circle-o"
-                    disabled={data.scan_target}
+                    disabled={scan_target}
                     onClick={() =>
                       act('cancel_scan')} />
                 )}>
@@ -76,34 +51,7 @@ export const Astrometrics = (props, context) => {
               </Section>
             </Fragment>
           )}
-          {screen === 1 && (
-            <Fragment>
-              <Button
-                content="Ship Information"
-                icon="info-circle"
-                onClick={() =>
-                  act('shipinf')} />
-              <Button
-                content="Show Map"
-                icon="map"
-                ilstyle="position:absolute;left:10px"
-                onClick={() =>
-                  act('map')} />
-              <Map initial_focus_x={data.focus_x}
-                initial_focus_y={data.focus_y}
-                initial_scale_factor={12}>
-                <Fragment>
-                  {Systems}
-                  {Lines}
-                  {!!travelling && (
-                    <span unselectable="on" style={arrowStyle}>
-                      <i class="fa fa-arrow-right" />
-                    </span>
-                  )}
-                </Fragment>
-              </Map>
-            </Fragment>
-          )}
+          {screen === 1 && drawStarmap(props, context)}
           {screen === 2 && (
             <Fragment>
               <Button
@@ -117,7 +65,7 @@ export const Astrometrics = (props, context) => {
                 onClick={() =>
                   act('map')} />
               <br />
-              <Section title={`Current scan: ${data.scan_target}`}
+              <Section title={`Current scan: ${scan_target}`}
                 buttons={(
                   <Button
                     content="Cancel Scan"
@@ -157,7 +105,7 @@ export const Astrometrics = (props, context) => {
                     return;
                   }
                   if (value.scannable) {
-                    if (data.scan_target !== value.name) {
+                    if (scan_target !== value.name) {
                       return (
                         <Section title={value.name}>
                           Available research: {value.points}
