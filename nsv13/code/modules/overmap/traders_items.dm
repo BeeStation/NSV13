@@ -13,7 +13,8 @@
 	bound_width = 224
 	bound_height = 224
 	req_one_access = list(ACCESS_CARGO, ACCESS_SYNDICATE)
-	var/list/received_cargo = list()
+	var/list/expecting_cargo = list() // list of objective datums 
+	var/list/received_cargo = list() // list of typically freight torps 
 	var/datum/trader/inhabited_trader = null
 
 /obj/structure/overmap/trader/try_hail(mob/living/user)
@@ -25,6 +26,10 @@
 		inhabited_trader.ui_interact(user)
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>[pick(inhabited_trader.greetings)]</span>")
+
+/obj/structure/overmap/trader/proc/add_objective( objective )
+	if ( objective )
+		expecting_cargo += objective 
 
 /obj/structure/overmap/trader/try_deliver( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console )
 	message_admins( "try_deliver" )

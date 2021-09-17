@@ -282,7 +282,10 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/objective_reminder_setting = REMINDER_OBJECTIVES	//0 - Objectives reset remind. 1 - Combat resets reminder. 2 - Combat delays reminder. 3 - Disables reminder
 	var/objective_reminder_interval = 15 MINUTES			//Interval between objective reminders
 	var/combat_delay = 0									//How much time is added to the reminder timer
-	var/list/objectives = list()							//The actual gamemode objectives go here
+	var/list/possible_objectives = list()					//Add objectives here to select from this pool randomly. Don't forget to set total_possible_objectives, otherwise the actual objectives list won't autopopulate
+	var/total_possible_objectives = 0						//Set how many objectives can be pulled from possible_objectives
+	var/allow_duplicate_objectives = FALSE					//Whether picking from possible_objectives should respect objectives already picked 
+	var/list/objectives = list()							//The actual gamemode objectives go here. Either preset these (tickets gamemode) or leave empty for autopopulating (shakedown gamemode)
 	var/whitelist_only = FALSE								//Can only be selected through map bound whitelists
 
 	//Reminder messages
@@ -292,6 +295,22 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/reminder_three = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, we are not paying you to idle in space during your assigned mission"
 	var/reminder_four = "This is Centcomm to the vessel currently assigned to the Delphic Expanse, you are expected to fulfill your assigned mission"
 	var/reminder_five = "This is Centcomm, due to your slow pace, a Syndicate Interdiction fleet has tracked you down, prepare for combat!"
+	
+/datum/overmap_gamemode/New()
+	var/attempts = 0
+	if ( total_possible_objectives && length( possible_objectives ) )
+		if ( length( objectives ) < total_possible_objectives )
+			while( length( objectives ) < total_possible_objectives ) 
+				attempts++
+				if ( attempts > 100 )
+					total_possible_objectives = 0 // Stop, just stop 
+
+				var/O = pick( possible_objectives )
+				if ( allow_duplicate_objectives )
+					objectives += O
+				else 
+					if ( !( locate( O ) in objectives ) )
+						objectives += O
 
 /datum/overmap_gamemode/proc/consequence_one()
 
