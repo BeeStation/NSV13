@@ -515,8 +515,8 @@
 
 //Bottle chem packs - yes I have taken some liberties
 /datum/supply_pack/medical/chemical_supply_compounds
-	name = "Chemical Supply Crate - Compounds"
-	desc = "This crate contains 3x bottles of ethanol, sugar and welding fuel"
+	name = "Chemical Supply Crate - Organic Compounds"
+	desc = "This crate contains 3x bottles of ethanol and sugar"
 	cost = 1000
 	hidden = TRUE
 	contains = list(/obj/item/reagent_containers/glass/bottle/ethanol,
@@ -524,11 +524,8 @@
 					/obj/item/reagent_containers/glass/bottle/ethanol,
 					/obj/item/reagent_containers/glass/bottle/sugar,
 					/obj/item/reagent_containers/glass/bottle/sugar,
-					/obj/item/reagent_containers/glass/bottle/sugar,
-					/obj/item/reagent_containers/glass/bottle/welding_fuel,
-					/obj/item/reagent_containers/glass/bottle/welding_fuel,
-					/obj/item/reagent_containers/glass/bottle/welding_fuel)
-	crate_name = "Chemical Supply Crate - Compounds"
+					/obj/item/reagent_containers/glass/bottle/sugar)
+	crate_name = "Chemical Supply Crate - Organic Compounds"
 
 /datum/supply_pack/medical/chemical_supply_metals
 	name = "Chemical Supply Crate - Metals"

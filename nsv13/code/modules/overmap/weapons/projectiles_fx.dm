@@ -76,7 +76,8 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/bullet/railgun_slug/uranium //Heavier version
 	name = "uranium slug"
-	damage = 200
+	damage = 185
+	armour_penetration = 10
 
 /obj/item/projectile/bullet/railgun_slug/Initialize()
 	. = ..()

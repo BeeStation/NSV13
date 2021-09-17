@@ -20,7 +20,7 @@
 	dir = 1
 	},
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "ag" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -97,6 +97,17 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security)
+"ap" = (
+/obj/effect/turf_decal/trimline/blue/line,
+/obj/machinery/light,
+/obj/effect/turf_decal/trimline/red/line{
+	dir = 1
+	},
+/obj/item/radio/intercom{
+	pixel_y = -27
+	},
+/turf/open/floor/monofloor,
+/area/crew_quarters/bar/mess_hall)
 "au" = (
 /obj/machinery/button/door{
 	id = "stormdrive_blastdoors";
@@ -348,13 +359,18 @@
 /area/security)
 "bh" = (
 /obj/structure/cable{
-	icon_state = "1-2"
+	icon_state = "2-4"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 6
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 6
+	},
 /obj/effect/turf_decal/ship/rust,
-/obj/structure/fluff/support_beam,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/crew_quarters/bar)
 "bk" = (
@@ -542,11 +558,20 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/janitor)
 "bQ" = (
-/obj/machinery/light/small{
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
 	dir = 8
 	},
-/obj/structure/reagent_dispensers/fueltank,
-/turf/open/floor/plating,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/ship/rust,
+/obj/structure/cable{
+	icon_state = "5-8"
+	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/crew_quarters/bar)
 "bR" = (
 /obj/machinery/vending/wardrobe/jani_wardrobe,
@@ -596,15 +621,16 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "bW" = (
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
+	dir = 9
+	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 1
+	dir = 9
 	},
-/obj/structure/disposalpipe/segment,
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
 /obj/effect/turf_decal/ship/rust,
-/obj/structure/cable{
-	icon_state = "1-10"
-	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/crew_quarters/bar)
 "bZ" = (
@@ -624,10 +650,11 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/science/robotics)
 "ce" = (
-/obj/effect/spawner/lootdrop/gloves,
-/obj/effect/spawner/lootdrop/grille_or_trash,
+/obj/structure/closet/firecloset{
+	anchored = 1
+	},
 /turf/open/floor/plating,
-/area/maintenance/department/crew_quarters/bar)
+/area/maintenance/nsv/deck2/port)
 "cg" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/ship/medical{
@@ -697,13 +724,6 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/janitor)
-"co" = (
-/obj/structure/chair{
-	dir = 4
-	},
-/obj/effect/landmark/start/assistant,
-/turf/open/floor/monotile/steel,
-/area/crew_quarters/bar/mess_hall)
 "cp" = (
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
@@ -811,6 +831,16 @@
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/toilet/restrooms)
+"cF" = (
+/obj/effect/turf_decal/tile/ship/neutral,
+/obj/effect/turf_decal/tile/ship/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/ship/neutral{
+	dir = 8
+	},
+/turf/open/floor/monotile/steel,
+/area/crew_quarters/bar/mess_hall)
 "cI" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	alpha = 220;
@@ -979,11 +1009,25 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/toilet/restrooms)
 "dd" = (
-/obj/item/radio/intercom{
-	pixel_x = 27
-	},
-/turf/open/floor/plasteel/ship/techfloor/alt,
+/obj/structure/flora/grass/jungle/b,
+/obj/structure/flora/junglebush,
+/obj/structure/window/spawner,
+/obj/structure/window/spawner/west,
+/turf/open/floor/plating,
 /area/crew_quarters/bar/mess_hall)
+"de" = (
+/obj/effect/turf_decal/trimline/yellow/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/trimline/blue/arrow_ccw,
+/turf/open/floor/monofloor{
+	dir = 1
+	},
+/area/hallway/nsv/deck2/frame1/starboard{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "df" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 10
@@ -1099,9 +1143,10 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
 "dA" = (
-/obj/machinery/computer/ship/navigation/public,
-/obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/plasteel/ship/techfloor/alt,
+/obj/structure/flora/grass/jungle/b,
+/obj/structure/flora/junglebush/large,
+/obj/structure/window/spawner/west,
+/turf/open/floor/plating,
 /area/crew_quarters/bar/mess_hall)
 "dC" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
@@ -1214,6 +1259,22 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
+"dN" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/door/airlock/ship/station/mining{
+	name = "Mailroom";
+	req_access_txt = "50;12"
+	},
+/obj/effect/turf_decal/ship/rust,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/turf/open/floor/plating/rusty_techgrid,
+/area/quartermaster/sorting)
 "dO" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /obj/machinery/light{
@@ -1234,7 +1295,9 @@
 	},
 /area/medical/nsv)
 "dY" = (
-/obj/structure/reagent_dispensers/watertank,
+/obj/machinery/light/small{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
 "dZ" = (
@@ -1361,7 +1424,7 @@
 "eB" = (
 /obj/structure/shuttle/engine/large,
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "eC" = (
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 6
@@ -1416,20 +1479,8 @@
 /turf/open/floor/plasteel/white,
 /area/medical/nsv)
 "eL" = (
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/effect/turf_decal/ship/rust,
-/obj/structure/cable{
-	icon_state = "5-8"
-	},
-/turf/open/floor/plating/rusty_techgrid,
+/obj/structure/reagent_dispensers/watertank,
+/turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
 "eM" = (
 /obj/structure/cable/white{
@@ -1500,17 +1551,8 @@
 /turf/open/floor/plasteel/dark/side,
 /area/nsv/weapons)
 "fc" = (
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 9
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 9
-	},
-/obj/effect/turf_decal/ship/rust,
-/turf/open/floor/plating/rusty_techgrid,
+/obj/structure/reagent_dispensers/fueltank,
+/turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
 "fd" = (
 /obj/effect/turf_decal/ship/rust,
@@ -1936,6 +1978,10 @@
 	pixel_x = 6;
 	pixel_y = -5
 	},
+/obj/machinery/computer/ship/viewscreen{
+	pixel_x = -32
+	},
+/obj/structure/extinguisher_cabinet/west,
 /turf/open/floor/monofloor{
 	dir = 8
 	},
@@ -2224,6 +2270,14 @@
 /obj/machinery/light/floor,
 /turf/open/floor/monotile/dark,
 /area/shuttle/turbolift/shaft)
+"ho" = (
+/obj/machinery/ship_weapon/torpedo_launcher/north{
+	color = "#b97a56";
+	pixel_y = -58
+	},
+/obj/effect/turf_decal/ship/delivery/yellow,
+/turf/open/floor/monotile/steel,
+/area/quartermaster/storage)
 "hr" = (
 /obj/machinery/holopad,
 /obj/effect/landmark/patrol_node,
@@ -2257,12 +2311,13 @@
 	pixel_y = 30
 	},
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "hI" = (
 /obj/structure/sign/ship/deck/two{
 	dir = 8;
 	pixel_x = 34
 	},
+/obj/effect/turf_decal/arrows/white,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/bar/mess_hall)
 "hJ" = (
@@ -2409,6 +2464,19 @@
 	initial_gas_mix = "o2=100000;TEMP=293.15"
 	},
 /area/engine/atmos/starboard_atmos)
+"im" = (
+/obj/effect/turf_decal/trimline/yellow/line{
+	dir = 8
+	},
+/obj/structure/extinguisher_cabinet/west,
+/turf/open/floor/monofloor{
+	dir = 8
+	},
+/area/hallway/nsv/deck2/frame1/starboard{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "in" = (
 /obj/machinery/computer/atmos_control/tank{
 	input_tag = "sd_o2_in";
@@ -2769,15 +2837,10 @@
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/ship/station/mining{
-	name = "Mailroom";
-	req_access_txt = "50;12"
-	},
 /obj/effect/turf_decal/ship/rust,
-/obj/machinery/door/firedoor/border_only/directional/south,
-/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/structure/fluff/support_beam,
 /turf/open/floor/plating/rusty_techgrid,
-/area/quartermaster/sorting)
+/area/maintenance/department/crew_quarters/bar)
 "jC" = (
 /obj/machinery/light{
 	dir = 8
@@ -2922,7 +2985,7 @@
 "jY" = (
 /obj/structure/railing/corner,
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "jZ" = (
 /obj/structure/table/reinforced,
 /obj/item/reagent_containers/food/condiment/saltshaker{
@@ -2959,6 +3022,9 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/weapons)
 "kb" = (
+/obj/machinery/computer/ship/navigation/public{
+	dir = 8
+	},
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/bar/mess_hall)
 "kf" = (
@@ -2971,16 +3037,6 @@
 	dir = 1
 	},
 /area/hallway/nsv/deck2/frame2/starboard{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
-"kh" = (
-/obj/machinery/computer/ship/navigation/public{
-	dir = 1
-	},
-/turf/open/floor/plasteel/ship,
-/area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
@@ -3009,11 +3065,10 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "kp" = (
-/obj/effect/turf_decal/ship/rust,
-/obj/machinery/ship_weapon/torpedo_launcher/north{
-	color = "#b97a56"
-	},
-/turf/open/floor/plating/rusty_techgrid,
+/obj/structure/rack,
+/obj/structure/window/reinforced/spawner,
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "ks" = (
 /obj/effect/turf_decal/trimline/blue/corner{
@@ -3242,27 +3297,6 @@
 	dir = 4
 	},
 /area/quartermaster/storage)
-"kU" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/effect/turf_decal/ship/rust,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/structure/lattice/catwalk/over/ship,
-/turf/open/floor/plating/rusty_techgrid,
-/area/hallway/nsv/deck2/frame1/port{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "kW" = (
 /obj/structure/disposalpipe/sorting/mail{
 	dir = 1;
@@ -3372,15 +3406,13 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/weapons)
 "lr" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/disposalpipe/segment{
-	dir = 9
-	},
 /obj/effect/turf_decal/ship/rust,
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 10
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
 "ls" = (
@@ -3395,27 +3427,6 @@
 /obj/effect/decal/cleanable/robot_debris,
 /turf/open/floor/plating/rusty_techgrid,
 /area/science/robotics)
-"ly" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/effect/turf_decal/ship/rust,
-/obj/structure/disposalpipe/junction{
-	dir = 4
-	},
-/obj/structure/lattice/catwalk/over/ship,
-/turf/open/floor/plating/rusty_techgrid,
-/area/hallway/nsv/deck2/frame1/port{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "lz" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
@@ -3487,19 +3498,6 @@
 	dir = 4
 	},
 /area/crew_quarters/bar/mess_hall)
-"lO" = (
-/obj/effect/turf_decal/trimline/yellow/line{
-	dir = 8
-	},
-/obj/structure/extinguisher_cabinet/west,
-/turf/open/floor/monofloor{
-	dir = 8
-	},
-/area/hallway/nsv/deck2/frame1/starboard{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "lR" = (
 /obj/structure/closet/secure_closet/freezer/meat{
 	req_access = list()
@@ -3551,6 +3549,12 @@
 /obj/structure/window/reinforced/spawner/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
+"mf" = (
+/obj/machinery/light/small{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/quartermaster/storage)
 "mh" = (
 /obj/machinery/button/door{
 	id = "galley_shutters";
@@ -3615,12 +3619,12 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/toilet/restrooms)
 "my" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/effect/turf_decal/ship/rust,
+/obj/structure/cable{
+	icon_state = "2-9"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
 "mE" = (
@@ -3662,10 +3666,19 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
 "mO" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/effect/turf_decal/ship/rust,
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 5
+	},
+/obj/structure/cable{
+	icon_state = "1-6"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
 "mQ" = (
@@ -4157,16 +4170,6 @@
 	},
 /turf/open/floor/plating,
 /area/quartermaster/sorting)
-"oD" = (
-/obj/effect/turf_decal/tile/ship/neutral,
-/obj/effect/turf_decal/tile/ship/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/ship/neutral{
-	dir = 8
-	},
-/turf/open/floor/monotile/steel,
-/area/crew_quarters/bar/mess_hall)
 "oF" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Arrivals"
@@ -4289,10 +4292,6 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/atmospherics/pipe/simple/dark/visible,
-/obj/structure/railing{
-	dir = 8;
-	pixel_x = -10
-	},
 /obj/machinery/door/airlock/ship/engineering{
 	name = "Gravity Generator";
 	req_one_access_txt = "10;24"
@@ -4504,6 +4503,16 @@
 	},
 /turf/open/floor/plating,
 /area/quartermaster/storage)
+"pK" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment,
+/obj/effect/turf_decal/ship/rust,
+/turf/open/floor/plating/rusty_techgrid,
+/area/maintenance/department/crew_quarters/bar)
 "pM" = (
 /obj/structure/cable/white{
 	icon_state = "0-8"
@@ -4567,7 +4576,7 @@
 	width = 7
 	},
 /turf/open/space/basic,
-/area/space/nearstation)
+/area/space)
 "pY" = (
 /obj/structure/fluff/support_beam,
 /turf/open/floor/plating,
@@ -4742,21 +4751,11 @@
 	lighting_colour_tube = "#FF3232"
 	})
 "qw" = (
-/obj/structure/cable{
-	icon_state = "2-4"
+/obj/structure/sign/warning/electricshock{
+	pixel_y = 32
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
-	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 6
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 6
-	},
-/obj/effect/turf_decal/ship/rust,
-/turf/open/floor/plating/rusty_techgrid,
-/area/maintenance/department/crew_quarters/bar)
+/turf/open/floor/plasteel/dark,
+/area/security)
 "qx" = (
 /obj/machinery/power/deck_relay,
 /obj/structure/cable/white{
@@ -5030,12 +5029,6 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
-"rr" = (
-/obj/structure/closet/firecloset{
-	anchored = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck2/port)
 "rs" = (
 /obj/structure/stairs,
 /turf/open/floor/engine,
@@ -5164,7 +5157,7 @@
 /area/maintenance/nsv/weapons)
 "rL" = (
 /obj/structure/closet/secure_closet/evidence,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/grid/techfloor/grid,
 /area/security/main)
 "rO" = (
 /obj/structure/table/reinforced,
@@ -5328,6 +5321,18 @@
 	},
 /turf/open/floor/plating,
 /area/quartermaster/storage)
+"sd" = (
+/obj/structure/table,
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plasteel/white/side{
+	dir = 10
+	},
+/area/medical/nsv)
 "se" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -5430,6 +5435,15 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
+"sD" = (
+/obj/machinery/light/small{
+	dir = 8
+	},
+/obj/structure/fluff/support_beam{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/port)
 "sE" = (
 /obj/machinery/door/airlock/ship/public{
 	name = "Mess Hall"
@@ -5540,6 +5554,12 @@
 	},
 /turf/open/floor/carpet/red,
 /area/crew_quarters/theatre)
+"sV" = (
+/obj/effect/turf_decal{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/port)
 "sW" = (
 /obj/structure/closet/crate/freezer/blood,
 /obj/item/reagent_containers/blood/random,
@@ -5624,13 +5644,6 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
-"tj" = (
-/obj/structure/reagent_dispensers/foamtank,
-/obj/effect/turf_decal{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck2/starboard)
 "tk" = (
 /obj/effect/turf_decal/trimline/brown/arrow_cw{
 	color = "#FF7F00";
@@ -5820,8 +5833,10 @@
 /turf/open/floor/mineral/plastitanium,
 /area/engine/stormdrive)
 "tI" = (
-/obj/structure/extinguisher_cabinet/east,
-/turf/open/floor/plasteel/ship,
+/obj/structure/flora/grass/jungle,
+/obj/structure/flora/junglebush/b,
+/obj/structure/window/spawner/west,
+/turf/open/floor/plating,
 /area/crew_quarters/bar/mess_hall)
 "tJ" = (
 /obj/machinery/disposal/deliveryChute{
@@ -5951,6 +5966,9 @@
 "ud" = (
 /obj/structure/fluff/support_beam{
 	dir = 4
+	},
+/obj/machinery/light/small{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
@@ -6629,6 +6647,17 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
+"wu" = (
+/obj/effect/turf_decal/trimline/red/arrow_cw,
+/obj/structure/sign/warning/electricshock{
+	pixel_y = -32
+	},
+/turf/open/floor/monofloor,
+/area/hallway/nsv/deck2/frame1/starboard{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "wv" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/ship/maintenance{
@@ -6969,7 +6998,7 @@
 	dir = 8
 	},
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "xx" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -7514,6 +7543,13 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/starboard)
+"yT" = (
+/obj/structure/reagent_dispensers/foamtank,
+/obj/effect/turf_decal{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/starboard)
 "yV" = (
 /obj/effect/landmark/start/emt,
 /turf/open/floor/plasteel/white/side,
@@ -8019,15 +8055,15 @@
 	},
 /area/crew_quarters/bar/mess_hall)
 "Ae" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 1
 	},
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/ship/rust,
+/obj/structure/cable{
+	icon_state = "1-10"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/crew_quarters/bar)
 "Af" = (
@@ -8500,6 +8536,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
+/obj/structure/sign/warning/explosives{
+	pixel_y = 32
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/fore{
 	lighting_colour_bulb = "#FF3232";
@@ -8595,6 +8634,12 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/port)
+"Cj" = (
+/obj/structure/shuttle/engine/large{
+	dir = 4
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "Ck" = (
 /obj/effect/turf_decal/trimline/blue/line,
 /obj/effect/turf_decal/trimline/yellow/line{
@@ -8964,13 +9009,13 @@
 /turf/open/floor/mineral/plastitanium/airless,
 /area/engine/atmos/port_atmos)
 "Dp" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 6
 	},
 /turf/open/floor/plating/rusty_techgrid{
 	initial_gas_mix = "TEMP=2.7"
 	},
-/area/maintenance/nsv/deck2/port)
+/area/space/nearstation)
 "Dr" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -8984,6 +9029,12 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
+"Du" = (
+/obj/structure/closet/emcloset{
+	anchored = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/port)
 "Dw" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -9248,6 +9299,16 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"DX" = (
+/obj/effect/turf_decal/tile/ship/neutral,
+/obj/effect/turf_decal/tile/ship/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/neutral{
+	dir = 8
+	},
+/turf/open/floor/monotile/steel,
+/area/crew_quarters/bar/mess_hall)
 "DY" = (
 /obj/structure/table/reinforced,
 /obj/structure/cable/green,
@@ -9290,7 +9351,6 @@
 	name = "Munitions Access Corridor";
 	req_one_access_txt = "31;69"
 	},
-/obj/structure/lattice/catwalk/over/ship,
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/door/firedoor/border_only/directional/north,
@@ -9344,6 +9404,14 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
+"Ej" = (
+/obj/machinery/newscaster/directional/east{
+	pixel_y = 30
+	},
+/turf/open/floor/monofloor{
+	dir = 1
+	},
+/area/crew_quarters/bar/mess_hall)
 "El" = (
 /obj/effect/turf_decal/trimline/blue/line{
 	dir = 4
@@ -9489,12 +9557,6 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/security/main)
-"ED" = (
-/obj/effect/turf_decal{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck2/port)
 "EE" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 8
@@ -9611,6 +9673,27 @@
 	dir = 1
 	},
 /turf/open/floor/monofloor,
+/area/hallway/nsv/deck2/frame1/port{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
+"Fd" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/ship/rust,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
@@ -9846,6 +9929,16 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"FR" = (
+/obj/structure/chair{
+	dir = 8
+	},
+/obj/effect/landmark/start/assistant,
+/obj/effect/turf_decal/tile/ship/half/neutral{
+	dir = 4
+	},
+/turf/open/floor/monotile/steel,
+/area/crew_quarters/bar/mess_hall)
 "FU" = (
 /obj/structure/bodycontainer/morgue{
 	dir = 2
@@ -9871,6 +9964,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/weapons)
+"FZ" = (
+/obj/effect/turf_decal/ship/rust,
+/obj/effect/turf_decal/loading_area{
+	dir = 1
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/quartermaster/storage)
 "Ga" = (
 /obj/machinery/airalarm/directional/west,
 /obj/machinery/requests_console{
@@ -10066,6 +10166,9 @@
 	dir = 1;
 	pixel_y = -34
 	},
+/obj/effect/turf_decal/arrows/white{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/security)
 "GD" = (
@@ -10147,16 +10250,6 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/engine/stormdrive)
-"GU" = (
-/obj/structure/chair{
-	dir = 8
-	},
-/obj/effect/landmark/start/assistant,
-/obj/effect/turf_decal/tile/ship/half/neutral{
-	dir = 4
-	},
-/turf/open/floor/monotile/steel,
-/area/crew_quarters/bar/mess_hall)
 "GX" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -10234,10 +10327,6 @@
 /obj/effect/turf_decal/trimline/red/line,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/structure/railing{
-	dir = 1;
-	pixel_y = 10
-	},
 /turf/open/floor/monofloor,
 /area/security)
 "Hk" = (
@@ -10360,10 +10449,6 @@
 /obj/effect/turf_decal/trimline/red/line,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/structure/railing{
-	dir = 1;
-	pixel_y = 10
-	},
 /obj/machinery/door/airlock/ship/security/glass{
 	dir = 8;
 	name = "Security";
@@ -10410,12 +10495,6 @@
 	lighting_colour_night = "#FF3232";
 	lighting_colour_tube = "#FF3232"
 	})
-"HD" = (
-/obj/structure/closet/emcloset{
-	anchored = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck2/port)
 "HE" = (
 /obj/effect/turf_decal/trimline/red/arrow_cw,
 /turf/open/floor/monofloor,
@@ -10484,10 +10563,6 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
-"HN" = (
-/obj/machinery/computer,
-/turf/open/floor/plating,
-/area/quartermaster/storage)
 "HQ" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable/white{
@@ -10954,7 +11029,7 @@
 	name = "Security Office Storage";
 	req_one_access_txt = "1"
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/dark,
 /area/security/main)
 "Jl" = (
 /obj/structure/table/reinforced,
@@ -11125,13 +11200,21 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"JJ" = (
+/obj/effect/turf_decal/ship/rust,
+/obj/machinery/computer{
+	dir = 1
+	},
+/obj/structure/window/reinforced/spawner,
+/turf/open/floor/plating/rusty_techgrid,
+/area/quartermaster/storage)
 "JL" = (
 /obj/effect/spawner/lootdrop/gambling,
 /obj/structure/closet/firecloset{
 	anchored = 1
 	},
 /obj/effect/spawner/lootdrop/gambling,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/grid/techfloor/grid,
 /area/security/main)
 "JM" = (
 /obj/structure/lattice/catwalk,
@@ -11507,8 +11590,8 @@
 	lighting_colour_tube = "#FF3232"
 	})
 "KI" = (
-/turf/open/floor/plating,
-/area/security/main)
+/turf/open/space/basic,
+/area/space/nearstation)
 "KK" = (
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/ship/rust,
@@ -11873,7 +11956,7 @@
 "LC" = (
 /obj/structure/closet/secure_closet/evidence,
 /obj/effect/spawner/lootdrop/maintenance/three,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/grid/techfloor/grid,
 /area/security/main)
 "LE" = (
 /obj/structure/cable/white{
@@ -11970,6 +12053,27 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/security)
+"LR" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/effect/turf_decal/ship/rust,
+/obj/structure/disposalpipe/junction{
+	dir = 4
+	},
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/plating/rusty_techgrid,
+/area/hallway/nsv/deck2/frame1/port{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "LT" = (
 /obj/effect/turf_decal/ship/rust,
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
@@ -12125,6 +12229,10 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/kitchen)
+"Ms" = (
+/obj/effect/spawner/lootdrop/grille_or_trash,
+/turf/open/floor/plating,
+/area/maintenance/department/crew_quarters/bar)
 "Mu" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
 	dir = 8
@@ -12173,6 +12281,13 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
+"Mz" = (
+/obj/structure/chair{
+	dir = 4
+	},
+/obj/effect/landmark/start/assistant,
+/turf/open/floor/monotile/steel,
+/area/crew_quarters/bar/mess_hall)
 "MC" = (
 /obj/structure/fluff/support_beam{
 	dir = 4
@@ -12195,15 +12310,12 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "ME" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/disposalpipe/segment,
-/obj/effect/turf_decal/ship/rust,
-/turf/open/floor/plating/rusty_techgrid,
-/area/maintenance/department/crew_quarters/bar)
+/obj/structure/rack,
+/obj/structure/window/reinforced/spawner,
+/obj/structure/window/reinforced/spawner/north,
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/turf/open/floor/monotile/steel,
+/area/quartermaster/storage)
 "MI" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
@@ -12285,13 +12397,13 @@
 	})
 "MU" = (
 /obj/machinery/light/small,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/dark,
 /area/security/main)
 "MV" = (
 /obj/structure/closet/radiation{
 	anchored = 1
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/grid/techfloor/grid,
 /area/security/main)
 "MW" = (
 /obj/structure/toilet{
@@ -12759,19 +12871,6 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/bar/mess_hall)
-"Oe" = (
-/obj/effect/turf_decal/trimline/yellow/line{
-	dir = 1
-	},
-/obj/effect/turf_decal/trimline/blue/arrow_ccw,
-/turf/open/floor/monofloor{
-	dir = 1
-	},
-/area/hallway/nsv/deck2/frame1/starboard{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "Of" = (
 /obj/structure/fluff/support_beam{
 	dir = 1
@@ -12963,6 +13062,8 @@
 	pixel_y = 4
 	},
 /obj/item/ammo_box/magazine/nsv/pdc,
+/obj/structure/window/reinforced/spawner/north,
+/obj/structure/window/reinforced/spawner,
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/starboard{
 	lighting_colour_bulb = "#FF3232";
@@ -13059,7 +13160,7 @@
 /obj/structure/closet/emcloset{
 	anchored = 1
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/grid/techfloor/grid,
 /area/security/main)
 "OX" = (
 /obj/docking_port/stationary{
@@ -13085,6 +13186,8 @@
 	pixel_y = 4
 	},
 /obj/item/ammo_box/magazine/nsv/pdc,
+/obj/structure/window/reinforced/spawner/north,
+/obj/structure/window/reinforced/spawner,
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
@@ -13179,9 +13282,6 @@
 /obj/effect/turf_decal/trimline/blue/line,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/structure/railing{
-	pixel_y = -10
-	},
 /turf/open/floor/monofloor{
 	dir = 1
 	},
@@ -13223,15 +13323,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security)
-"Px" = (
-/obj/machinery/light/small{
-	dir = 8
-	},
-/obj/structure/fluff/support_beam{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck2/port)
 "Py" = (
 /obj/machinery/atmospherics/components/unary/thermomachine/heater{
 	dir = 8;
@@ -13374,7 +13465,7 @@
 	dir = 8
 	},
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "PL" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -13413,7 +13504,7 @@
 "PQ" = (
 /obj/machinery/camera/autoname,
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "PR" = (
 /obj/machinery/power/deck_relay,
 /obj/effect/turf_decal/ship/rust,
@@ -13761,6 +13852,16 @@
 	dir = 1
 	},
 /area/engine/stormdrive)
+"QW" = (
+/obj/effect/turf_decal/ship/rust,
+/obj/structure/disposalpipe/segment,
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/plating/rusty_techgrid,
+/area/hallway/nsv/deck2/frame1/port{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "QX" = (
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/ship/rust,
@@ -14292,9 +14393,6 @@
 	name = "Supermatter Core";
 	req_access_txt = "24"
 	},
-/obj/structure/railing{
-	pixel_y = -10
-	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/supermatter)
 "Sz" = (
@@ -14408,7 +14506,7 @@
 "SS" = (
 /obj/structure/railing,
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "ST" = (
 /obj/machinery/firealarm/directional/west,
 /obj/machinery/holopad,
@@ -14435,32 +14533,6 @@
 	lighting_colour_night = "#FF3232";
 	lighting_colour_tube = "#FF3232"
 	})
-"SV" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/effect/turf_decal/ship/rust,
-/obj/structure/closet/secure_closet{
-	icon_state = "qm";
-	name = "\proper quartermaster's locker";
-	req_access = list(41)
-	},
-/obj/item/stamp/qm,
-/obj/item/door_remote/quartermaster,
-/obj/item/megaphone/cargo,
-/obj/item/export_scanner,
-/obj/item/clothing/neck/cloak/qm,
-/turf/open/floor/plating/rusty_techgrid,
-/area/quartermaster/storage)
 "SW" = (
 /turf/open/floor/plasteel/white/side{
 	dir = 4
@@ -14555,6 +14627,8 @@
 	pixel_y = 4
 	},
 /obj/item/ammo_box/magazine/nsv/pdc,
+/obj/structure/window/reinforced/spawner/north,
+/obj/structure/window/reinforced/spawner,
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
@@ -14879,6 +14953,10 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/nsv)
+"Uc" = (
+/obj/effect/turf_decal/ship/delivery/yellow,
+/turf/open/floor/monotile/steel,
+/area/quartermaster/storage)
 "Uf" = (
 /obj/machinery/atmospherics/pipe/simple/dark/visible{
 	dir = 4
@@ -14907,6 +14985,14 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/engine/atmos/starboard_atmos)
+"Uj" = (
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos{
+	dir = 1
+	},
+/turf/open/floor/plating/rusty_techgrid{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/maintenance/nsv/deck2/port)
 "Uk" = (
 /turf/open/floor/monofloor{
 	dir = 1
@@ -14939,6 +15025,16 @@
 /obj/effect/landmark/patrol_node,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/port_substation)
+"Uo" = (
+/obj/machinery/computer/ship/navigation/public{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship,
+/area/hallway/nsv/deck2/frame1/port{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Uq" = (
 /turf/closed/wall/r_wall/ship,
 /area/engine/stormdrive)
@@ -15390,8 +15486,11 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Vs" = (
-/turf/open/space/basic,
-/area/space/nearstation)
+/obj/structure/rack,
+/obj/structure/window/reinforced/spawner/north,
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/turf/open/floor/monotile/steel,
+/area/quartermaster/storage)
 "Vt" = (
 /obj/effect/turf_decal/trimline/red/line{
 	dir = 8
@@ -15696,7 +15795,7 @@
 	pixel_y = 30
 	},
 /turf/open/space/basic,
-/area/space)
+/area/space/nearstation)
 "Wk" = (
 /obj/structure/cable/green{
 	icon_state = "4-8"
@@ -15721,6 +15820,32 @@
 /obj/effect/spawner/lootdrop/glowstick,
 /turf/open/floor/plating,
 /area/maintenance/nsv/port_substation)
+"Wn" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/ship/rust,
+/obj/structure/closet/secure_closet{
+	icon_state = "qm";
+	name = "\proper quartermaster's locker";
+	req_access = list(41)
+	},
+/obj/item/stamp/qm,
+/obj/item/door_remote/quartermaster,
+/obj/item/megaphone/cargo,
+/obj/item/export_scanner,
+/obj/item/clothing/neck/cloak/qm,
+/turf/open/floor/plating/rusty_techgrid,
+/area/quartermaster/storage)
 "Wp" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -16044,16 +16169,6 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
-"Xx" = (
-/obj/effect/turf_decal/tile/ship/neutral,
-/obj/effect/turf_decal/tile/ship/neutral{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/ship/neutral{
-	dir = 8
-	},
-/turf/open/floor/monotile/steel,
-/area/crew_quarters/bar/mess_hall)
 "Xz" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/effect/landmark/zebra_interlock_point,
@@ -17017,9 +17132,6 @@
 	lighting_colour_night = "#FF3232";
 	lighting_colour_tube = "#FF3232"
 	})
-"ZP" = (
-/turf/open/floor/plating,
-/area/quartermaster/storage)
 "ZQ" = (
 /obj/structure/disposalpipe/sorting/mail{
 	dir = 4;
@@ -17056,16 +17168,6 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/starboard_atmos)
-"ZX" = (
-/obj/effect/turf_decal/ship/rust,
-/obj/structure/disposalpipe/segment,
-/obj/structure/lattice/catwalk/over/ship,
-/turf/open/floor/plating/rusty_techgrid,
-/area/hallway/nsv/deck2/frame1/port{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "ZY" = (
 /obj/structure/chair{
 	dir = 8
@@ -42128,16 +42230,16 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -42384,18 +42486,18 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 PK
-gi
-gi
+KI
+KI
 PK
-gi
-gi
+KI
+KI
 PK
-gi
+KI
 gi
 gi
 gi
@@ -42641,19 +42743,19 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -42898,20 +43000,20 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -43154,9 +43256,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 vb
 vb
 vb
@@ -43166,10 +43268,10 @@ vb
 vb
 vb
 vb
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -43410,8 +43512,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 vb
 vb
 vb
@@ -43425,8 +43527,8 @@ XG
 vb
 vb
 vb
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -43667,8 +43769,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 HQ
 KL
 LO
@@ -43682,9 +43784,9 @@ XI
 LO
 no
 qz
-gi
-gi
-gi
+KI
+KI
+KI
 gi
 gi
 gi
@@ -43923,8 +44025,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 vb
 vb
 JM
@@ -43940,9 +44042,9 @@ PY
 JM
 vb
 vb
-gi
-gi
-gi
+KI
+KI
+KI
 gi
 gi
 gi
@@ -44176,12 +44278,12 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
 HQ
 JB
 KN
@@ -44197,9 +44299,9 @@ PY
 JO
 pN
 qz
-gi
-gi
-gi
+KI
+KI
+KI
 gi
 gi
 gi
@@ -44431,13 +44533,13 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 xv
 vb
 JM
@@ -44454,9 +44556,9 @@ PY
 PY
 JM
 vb
-gi
+KI
 xv
-gi
+KI
 gi
 gi
 gi
@@ -44669,33 +44771,33 @@ gi
 gi
 gi
 gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
 BX
 Dp
-Tj
-gi
-gi
+Uj
+KI
+KI
 vb
 JO
 Lc
@@ -44711,30 +44813,30 @@ Ma
 BT
 KN
 vb
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
 WB
 WB
+KI
+KI
 gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -44926,27 +45028,27 @@ gi
 gi
 gi
 gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
 vn
 vn
 DF
@@ -44975,24 +45077,24 @@ Tj
 Tj
 PT
 WB
+KI
+KI
+KI
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -45176,15 +45278,15 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 lo
 lo
 lo
@@ -45195,12 +45297,12 @@ lo
 lo
 lo
 lo
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
 vn
 vn
 vn
@@ -45233,12 +45335,12 @@ Kd
 Kd
 Kd
 Kd
+KI
+KI
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 ex
 ex
 ex
@@ -45248,9 +45350,9 @@ ex
 ex
 ex
 ex
-gi
-gi
-gi
+KI
+KI
+KI
 gi
 gi
 gi
@@ -45433,15 +45535,15 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 lo
 mE
 lW
@@ -45452,11 +45554,11 @@ tz
 rB
 sh
 lo
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
 xv
 vn
 yi
@@ -45490,12 +45592,12 @@ jg
 Im
 Nt
 Kd
-gi
+KI
 xv
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 ex
 jd
 VJ
@@ -45506,8 +45608,8 @@ rL
 LC
 ex
 ex
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -45690,15 +45792,15 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+Zz
+Zz
+Zz
+Zz
+Zz
+Zz
+Zz
 lo
 mL
 me
@@ -45709,12 +45811,12 @@ tJ
 rC
 sr
 lo
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
 vn
 yD
 zI
@@ -45747,31 +45849,31 @@ yR
 VD
 fM
 Kd
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
 ex
 hl
 bK
 XV
 pF
 Ji
-KI
-KI
+pF
+pF
 MU
 ex
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -45946,17 +46048,17 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
 Zz
-Zz
-Zz
-Zz
-Zz
-Zz
-lo
+bh
+jA
+jA
+jB
+pK
+pK
+dN
 mO
 lo
 pz
@@ -45966,10 +46068,10 @@ lo
 ul
 ss
 lo
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 vn
 vn
 vn
@@ -46006,10 +46108,10 @@ Kd
 PN
 PN
 PN
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 ex
 UA
 nI
@@ -46020,16 +46122,16 @@ JL
 OW
 MV
 ex
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -46203,17 +46305,17 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
 Zz
-qw
-jA
-jA
-bh
-ME
-jB
+ay
+Ms
+Zz
+Zz
+Zz
+Zz
+lo
 lr
 my
 nA
@@ -46223,10 +46325,10 @@ qr
 rD
 sB
 lo
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 vn
 xx
 ya
@@ -46263,10 +46365,10 @@ oa
 cK
 Ym
 PN
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 ex
 Gf
 NZ
@@ -46285,8 +46387,8 @@ MP
 MP
 MP
 MP
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -46459,17 +46561,17 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-Zz
+KI
+KI
+KI
 Zz
 Zz
 ay
-ce
 Zz
-tX
-tX
+Zz
+kp
+ME
+Vs
 lo
 lo
 lo
@@ -46480,10 +46582,10 @@ lo
 ur
 lo
 lo
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 vn
 xB
 PG
@@ -46542,9 +46644,9 @@ LX
 jf
 lf
 MP
-gi
-gi
-gi
+KI
+KI
+KI
 gi
 gi
 gi
@@ -46716,18 +46818,18 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Zz
 Zz
 dY
 bQ
 eL
 Zz
-Zz
-HN
+mf
+OJ
 ko
-ko
+JJ
 ls
 mT
 nK
@@ -46799,10 +46901,10 @@ rY
 cv
 lf
 MP
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -46973,17 +47075,17 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Zz
 cw
 Ae
 bW
 fc
 Zz
-qI
-ZP
-kp
+Uc
+ho
+FZ
 UP
 mQ
 HA
@@ -46992,11 +47094,11 @@ UP
 rl
 UP
 UP
-SV
+Wn
 tX
 vq
 vu
-Px
+sD
 wM
 vn
 xD
@@ -47058,8 +47160,8 @@ Pb
 MP
 MP
 MP
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -47230,8 +47332,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Zz
 ay
 bZ
@@ -47254,7 +47356,7 @@ tX
 vO
 vA
 MC
-ED
+sV
 wY
 xD
 PG
@@ -47291,7 +47393,7 @@ Vm
 PN
 QL
 PN
-tj
+yT
 Sw
 wG
 PN
@@ -47315,8 +47417,8 @@ tB
 Hf
 if
 MP
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -47487,8 +47589,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Zz
 ay
 bZ
@@ -47572,8 +47674,8 @@ tB
 Rb
 ns
 MP
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -47744,8 +47846,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Zz
 ay
 bZ
@@ -47829,8 +47931,8 @@ qH
 le
 Xp
 MP
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -48001,8 +48103,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Zz
 ay
 bZ
@@ -48086,8 +48188,8 @@ Ku
 tB
 Iz
 MP
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -48258,8 +48360,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Zz
 ay
 bZ
@@ -48282,7 +48384,7 @@ tX
 vT
 vM
 vn
-rr
+ce
 qm
 vn
 PG
@@ -48325,7 +48427,7 @@ lB
 PN
 yA
 TV
-mk
+qw
 CU
 mk
 TV
@@ -48343,8 +48445,8 @@ Cc
 MP
 MP
 MP
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -48515,7 +48617,7 @@ gi
 gi
 gi
 gi
-gi
+KI
 af
 Zz
 ay
@@ -48539,7 +48641,7 @@ JV
 kt
 vU
 vn
-HD
+Du
 xj
 xN
 PG
@@ -48599,9 +48701,9 @@ iV
 WH
 Zo
 dF
-gi
+KI
 eB
-gi
+KI
 gi
 gi
 gi
@@ -48771,9 +48873,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 Zz
 ay
 bZ
@@ -48856,8 +48958,8 @@ Sa
 UB
 DY
 dF
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -49028,8 +49130,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Zz
 Zz
 ay
@@ -49113,8 +49215,8 @@ zz
 VF
 uk
 dF
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -49285,8 +49387,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Zz
 bD
 ay
@@ -49355,7 +49457,7 @@ Ac
 Mv
 qn
 XK
-HE
+wu
 TV
 TV
 TV
@@ -49370,8 +49472,8 @@ GY
 Zs
 GY
 GY
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -49541,9 +49643,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 Zz
 bJ
 aA
@@ -49607,7 +49709,7 @@ EE
 EE
 EE
 EE
-lO
+im
 YT
 yZ
 aR
@@ -49627,8 +49729,8 @@ Ao
 ZQ
 Jw
 GY
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -49798,8 +49900,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Dg
 Dg
 Dg
@@ -49884,8 +49986,8 @@ WS
 Oi
 xT
 GY
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -50055,8 +50157,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Dg
 al
 mv
@@ -50141,8 +50243,8 @@ ud
 xT
 cW
 GY
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -50312,8 +50414,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Dg
 Dg
 Dg
@@ -50398,8 +50500,8 @@ RH
 RH
 RH
 RH
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -50569,8 +50671,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Dg
 al
 mv
@@ -50593,12 +50695,12 @@ tc
 IF
 Qy
 fR
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
 fR
 IL
 IL
@@ -50630,15 +50732,15 @@ Cs
 Cs
 Cs
 Mv
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 sA
 wW
 Bd
 Bz
-Oe
+de
 YT
 HE
 Xn
@@ -50655,8 +50757,8 @@ Na
 Qh
 Wq
 Xz
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -50826,8 +50928,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Dg
 Dg
 Dg
@@ -50846,16 +50948,16 @@ pY
 qI
 Zz
 uf
-ly
-ZX
+LR
+QW
 hQ
 fR
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
 fR
 Tf
 tt
@@ -50887,10 +50989,10 @@ NF
 ob
 RC
 Mv
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 sA
 xs
 Bk
@@ -50912,8 +51014,8 @@ DZ
 xY
 Au
 Xz
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -51083,8 +51185,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Dg
 aF
 mv
@@ -51103,16 +51205,16 @@ WZ
 qC
 WZ
 qM
-kU
+Fd
 IF
-kh
+Uo
 fR
+KI
+KI
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 fR
 zu
 Km
@@ -51144,10 +51246,10 @@ Dz
 ht
 rS
 Mv
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 sA
 sA
 sA
@@ -51169,8 +51271,8 @@ qQ
 yQ
 DD
 Xz
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -51340,8 +51442,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Dg
 Dg
 Dg
@@ -51364,12 +51466,12 @@ sb
 IF
 fR
 fR
+KI
+KI
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 fR
 AH
 VS
@@ -51401,13 +51503,13 @@ Zf
 VZ
 vl
 Mv
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 Mv
 CF
 YT
@@ -51426,8 +51528,8 @@ RH
 RH
 RH
 RH
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -51597,8 +51699,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Tj
 PT
 SG
@@ -51620,13 +51722,13 @@ rc
 rU
 RQ
 fR
+KI
+KI
+KI
 gi
 gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
 fR
 fR
 fR
@@ -51658,13 +51760,13 @@ Mv
 Mv
 Mv
 Mv
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 Mv
 PX
 pZ
@@ -51680,11 +51782,11 @@ Xi
 dq
 Xz
 Na
-Qh
+sd
 Pn
 Xz
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -51854,8 +51956,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 WB
 Tj
 SG
@@ -51877,18 +51979,18 @@ qM
 sb
 IF
 fR
+KI
+KI
+KI
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 YG
 Ij
 rz
@@ -51914,14 +52016,14 @@ lq
 EW
 Lq
 VW
+KI
+KI
+KI
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
 Mv
 Ke
 YT
@@ -51940,8 +52042,8 @@ zJ
 xY
 Au
 Xz
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -52111,15 +52213,15 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 bL
 DE
 hh
 hh
-oD
+DX
 Zx
 CY
 Dj
@@ -52134,18 +52236,18 @@ qM
 sb
 IF
 fR
+KI
+KI
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 YG
 Gv
 kY
@@ -52171,14 +52273,14 @@ re
 qx
 CO
 VW
+KI
+KI
+KI
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
 Mv
 Ke
 YT
@@ -52197,9 +52299,9 @@ qQ
 aV
 DD
 Xz
-gi
-gi
-gi
+KI
+KI
+KI
 gi
 pX
 gi
@@ -52368,10 +52470,10 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 bL
 To
 To
@@ -52391,6 +52493,8 @@ qM
 sb
 IF
 fR
+KI
+KI
 gi
 gi
 gi
@@ -52399,10 +52503,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 YG
 DU
 Fi
@@ -52428,14 +52530,14 @@ re
 VW
 VW
 VW
+KI
+KI
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
 Mv
 Ke
 yX
@@ -52455,9 +52557,9 @@ eP
 eP
 eP
 PQ
-gi
-gi
-gi
+KI
+KI
+KI
 gi
 gi
 gi
@@ -52625,10 +52727,10 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 bL
 ZY
 Ba
@@ -52648,6 +52750,8 @@ uj
 rZ
 tL
 fR
+KI
+KI
 gi
 gi
 gi
@@ -52656,10 +52760,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 YG
 aP
 yo
@@ -52682,17 +52784,17 @@ uY
 uY
 zj
 re
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
 Mv
 yY
 DV
@@ -52712,9 +52814,9 @@ kM
 UC
 Tg
 Tj
-gi
+KI
 hy
-gi
+KI
 gi
 gi
 gi
@@ -52882,8 +52984,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 WB
 Tj
 SG
@@ -52905,6 +53007,8 @@ qM
 sb
 IF
 fR
+KI
+KI
 gi
 gi
 gi
@@ -52913,10 +53017,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 YG
 ZK
 Oh
@@ -52939,16 +53041,16 @@ hc
 GD
 ch
 re
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
 qo
 qo
 qo
@@ -52970,8 +53072,8 @@ eP
 eP
 eP
 eP
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -53139,14 +53241,14 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 bL
 Pz
 Jz
-co
+Mz
 oN
 wL
 Yk
@@ -53162,6 +53264,8 @@ rh
 sb
 IF
 fR
+KI
+KI
 gi
 gi
 gi
@@ -53170,10 +53274,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 YG
 YG
 yg
@@ -53196,16 +53298,16 @@ KZ
 KZ
 Jb
 KZ
+KI
+KI
 gi
 gi
 gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 qo
 RD
 IG
@@ -53227,8 +53329,8 @@ oF
 Vt
 Vt
 Ki
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -53396,10 +53498,10 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 bL
 To
 To
@@ -53419,6 +53521,8 @@ ri
 se
 tp
 fR
+KI
+KI
 gi
 gi
 gi
@@ -53427,12 +53531,10 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 yg
 Jh
 KG
@@ -53453,16 +53555,16 @@ Pa
 Tl
 zf
 KZ
+KI
+KI
 gi
 gi
 gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 qo
 uQ
 FF
@@ -53484,8 +53586,8 @@ wU
 Bt
 Di
 eP
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -53653,10 +53755,10 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 bL
 dv
 Tb
@@ -53676,6 +53778,8 @@ xS
 xS
 vk
 fR
+KI
+KI
 gi
 gi
 gi
@@ -53684,12 +53788,10 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 yg
 Fq
 KH
@@ -53710,16 +53812,16 @@ YR
 UE
 zT
 KZ
+KI
+KI
 gi
 gi
 gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 qo
 Bo
 IG
@@ -53741,8 +53843,8 @@ YK
 XC
 XC
 th
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -53910,8 +54012,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 WB
 Tj
 SG
@@ -53933,6 +54035,8 @@ fR
 fR
 fR
 fR
+KI
+KI
 gi
 gi
 gi
@@ -53943,10 +54047,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 yg
 Rk
 Hv
@@ -53967,16 +54069,16 @@ Qk
 Vi
 Xk
 KZ
+KI
+KI
 gi
 gi
 gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 qo
 qo
 qo
@@ -53999,7 +54101,7 @@ eP
 eP
 eP
 Wj
-gi
+KI
 gi
 gi
 gi
@@ -54167,10 +54269,10 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 bL
 fN
 Jz
@@ -54186,6 +54288,12 @@ SG
 SG
 SG
 SG
+KI
+KI
+KI
+Cj
+KI
+KI
 gi
 gi
 gi
@@ -54196,14 +54304,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
 yg
 Jn
 oM
@@ -54224,27 +54326,27 @@ On
 On
 Xm
 KZ
+KI
+KI
 gi
 gi
 gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+Cj
 Mv
 Mv
 Mv
 Mv
-gi
-gi
+KI
+KI
 OX
-gi
-gi
+KI
+KI
 eP
 eP
 kg
@@ -54255,8 +54357,8 @@ cL
 dJ
 Pp
 Zg
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -54423,19 +54525,32 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
 bL
 To
 To
 To
 fv
 Zx
-xI
+ap
 SG
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -54446,21 +54561,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
 yg
 Hn
 Ni
@@ -54481,27 +54583,27 @@ KZ
 Tr
 Yv
 KZ
+KI
+KI
 gi
 gi
 gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 eP
 zs
 Qe
@@ -54512,8 +54614,8 @@ hJ
 SA
 aD
 Zg
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -54680,19 +54782,28 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
 bL
 fT
 YM
-GU
-Xx
+FR
+cF
 Zx
 jI
 SG
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -54707,17 +54818,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
 yg
 Jo
 tM
@@ -54727,7 +54829,7 @@ yg
 PF
 pM
 YV
-Mq
+YV
 YV
 pM
 MT
@@ -54738,6 +54840,8 @@ KZ
 Tr
 pC
 KZ
+KI
+KI
 gi
 gi
 gi
@@ -54747,18 +54851,16 @@ gi
 gi
 gi
 gi
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
 eP
 xC
 FC
@@ -54769,8 +54871,8 @@ SX
 dn
 Gr
 Zg
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -54937,20 +55039,21 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 Tj
 Tj
 SG
 dA
 tI
 dd
-Uk
+Ej
 XZ
 CY
 km
 kj
+KI
 gi
 gi
 gi
@@ -54972,9 +55075,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
 yg
 yg
 yg
@@ -54995,6 +55097,8 @@ KZ
 KZ
 KZ
 KZ
+KI
+KI
 gi
 gi
 gi
@@ -55012,10 +55116,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 eP
 eP
 JX
@@ -55026,8 +55128,8 @@ Xf
 Bl
 Ii
 Zg
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -55194,9 +55296,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 Tj
 Rf
 Rf
@@ -55207,6 +55309,8 @@ gq
 Zx
 jI
 SG
+KI
+KI
 gi
 gi
 gi
@@ -55228,11 +55332,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
 yg
 WB
 WB
@@ -55251,6 +55353,9 @@ WB
 WB
 WB
 KZ
+KI
+KI
+KI
 gi
 gi
 gi
@@ -55268,11 +55373,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
 Vd
 eP
 ZJ
@@ -55283,8 +55385,8 @@ QJ
 QJ
 QJ
 Zg
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -55451,9 +55553,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 Tj
 Rf
 bR
@@ -55464,6 +55566,8 @@ gt
 Zx
 CY
 SG
+KI
+KI
 gi
 gi
 gi
@@ -55485,15 +55589,13 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 yg
 PF
 YV
@@ -55503,6 +55605,13 @@ YV
 YV
 MT
 yg
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -55521,16 +55630,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-Vs
+KI
+KI
+KI
 eP
 zi
 TL
@@ -55540,8 +55642,8 @@ wH
 jr
 jN
 OB
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -55708,9 +55810,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 Tj
 Rf
 cn
@@ -55721,6 +55823,8 @@ fA
 jP
 Uu
 SG
+KI
+KI
 gi
 gi
 gi
@@ -55743,14 +55847,12 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
 yg
 Rz
 vg
@@ -55760,6 +55862,12 @@ XE
 vg
 Fs
 yg
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -55779,13 +55887,7 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
 jY
 Wv
 eP
@@ -55797,8 +55899,8 @@ Yw
 Rd
 KA
 OB
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -55965,9 +56067,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 Tj
 Rf
 cp
@@ -55978,6 +56080,8 @@ Uk
 jp
 Nx
 SG
+KI
+KI
 gi
 gi
 gi
@@ -56004,10 +56108,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 yg
 yg
 yg
@@ -56017,6 +56119,8 @@ yg
 yg
 yg
 yg
+KI
+KI
 gi
 gi
 gi
@@ -56040,9 +56144,7 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
 SS
 PT
 eP
@@ -56054,8 +56156,8 @@ df
 XF
 lt
 OB
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -56222,9 +56324,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 Tj
 Rf
 cs
@@ -56235,6 +56337,8 @@ gL
 gI
 CY
 SG
+KI
+KI
 gi
 gi
 gi
@@ -56261,11 +56365,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
 yg
 WB
 WB
@@ -56273,6 +56375,8 @@ WB
 WB
 WB
 yg
+KI
+KI
 gi
 gi
 gi
@@ -56297,10 +56401,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 Tj
 eP
 zw
@@ -56311,8 +56413,8 @@ ZC
 sH
 Sv
 OB
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -56479,9 +56581,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 Tj
 Rf
 Rf
@@ -56492,6 +56594,8 @@ hO
 gR
 is
 XX
+KI
+KI
 gi
 gi
 gi
@@ -56519,6 +56623,17 @@ gi
 gi
 gi
 gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -56543,21 +56658,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
 Tj
 Zy
 Hu
@@ -56568,8 +56670,8 @@ Zy
 Zy
 Zy
 Zy
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -56736,9 +56838,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 Tj
 Tj
 Tj
@@ -56749,6 +56851,8 @@ aL
 Kl
 iu
 XX
+KI
+KI
 gi
 gi
 gi
@@ -56777,6 +56881,15 @@ gi
 gi
 gi
 gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -56802,19 +56915,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
 Tj
 Zy
 np
@@ -56825,8 +56927,8 @@ Ww
 Zy
 Bh
 Zy
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -56993,11 +57095,11 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
 Tj
 XX
 em
@@ -57006,6 +57108,8 @@ fB
 cV
 iz
 XX
+KI
+KI
 gi
 gi
 gi
@@ -57068,10 +57172,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 Tj
 Zy
 Rq
@@ -57082,8 +57184,8 @@ HH
 Zy
 Qb
 Zy
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -57251,10 +57353,10 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
 Tj
 XX
 XX
@@ -57263,6 +57365,8 @@ hW
 gU
 iG
 XX
+KI
+KI
 gi
 gi
 gi
@@ -57324,11 +57428,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
 Tj
 Zy
 fw
@@ -57339,8 +57441,8 @@ Zy
 Zy
 SO
 Zy
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -57510,8 +57612,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Tj
 XX
 es
@@ -57520,6 +57622,10 @@ aL
 jx
 YX
 XX
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -57579,13 +57685,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
 Tj
 Zy
 eS
@@ -57596,8 +57698,8 @@ zc
 Yo
 SO
 Yo
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -57767,8 +57869,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Tj
 XX
 eQ
@@ -57777,6 +57879,10 @@ aL
 jx
 jM
 XX
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -57836,12 +57942,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
 Tj
 Tj
 Zy
@@ -57853,8 +57955,8 @@ Uz
 Zy
 SO
 Yo
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -58024,8 +58126,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Tj
 XX
 XX
@@ -58036,6 +58138,8 @@ XX
 XX
 XX
 Tj
+KI
+KI
 gi
 gi
 gi
@@ -58095,10 +58199,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 Tj
 Zy
 Zy
@@ -58110,8 +58212,8 @@ Zy
 Zy
 SO
 Yo
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -58281,8 +58383,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Tj
 XX
 eR
@@ -58293,6 +58395,8 @@ qt
 At
 xl
 Tj
+KI
+KI
 gi
 gi
 gi
@@ -58352,10 +58456,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 Tj
 De
 iQ
@@ -58367,8 +58469,8 @@ Gg
 RP
 Gg
 Zy
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -58538,8 +58640,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Tj
 XX
 XX
@@ -58550,6 +58652,8 @@ XX
 XX
 XX
 Tj
+KI
+KI
 gi
 gi
 gi
@@ -58609,10 +58713,8 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
+KI
+KI
 Tj
 Zy
 Zy
@@ -58624,8 +58726,8 @@ Zy
 Zy
 Zy
 Zy
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -58795,8 +58897,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 Tj
 Tj
 Tj
@@ -58807,6 +58909,8 @@ Tj
 Tj
 Tj
 Tj
+KI
+KI
 gi
 gi
 gi
@@ -58866,23 +58970,21 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -59052,6 +59154,20 @@ gi
 gi
 gi
 gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -59111,35 +59227,21 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
@@ -59309,20 +59411,20 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
-gi
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
+KI
 gi
 gi
 gi
