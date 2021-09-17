@@ -126,6 +126,14 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define AI_FLAG_SWARMER 1<<5 //Ships that love to act in swarms. Aka, Fighters.
 #define AI_FLAG_ELITE 1<<6	 //These ships are more /fun/ than others even with the same equipment.
 
+//KNPC flags
+#define KNPC_IS_MARTIAL_ARTIST 1<<0		//Does the KNPC combo you right into the next round?
+#define KNPC_IS_DODGER 1<<1				//Does the KNPC become like the wind in CQC?
+#define KNPC_IS_MERCIFUL 1<<2			//Does the KNPC consider mobs in crit to be valid?
+#define KNPC_IS_AREA_SPECIFIC 1<<3		//Does the KNPC scream out the area when calling for backup?
+#define KNPC_IS_DOOR_BASHER 1<<4		//Does the KNPC kick the door off its hinges if it doesn't have a valid ID?
+#define KNPC_IS_DOOR_HACKER 1<<5		//Does the KNPC hack the door open if it doesn't have a valid ID?
+
 //Starsystem Traits
 #define STARSYSTEM_NO_ANOMALIES 1<<0	//Prevents Anomalies Spawning
 #define STARSYSTEM_NO_ASTEROIDS 1<<1	//Prevents Asteroids Spawning
