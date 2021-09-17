@@ -93,7 +93,6 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/ship/rust,
-/obj/effect/landmark/patrol_node,
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/genetics/cloning)
 "ay" = (
@@ -181,9 +180,21 @@
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "aY" = (
-/obj/effect/landmark/patrol_node,
+/obj/machinery/door/airlock/ship/public,
+/obj/effect/landmark/patrol_node{
+	id = "4";
+	next_id = "5"
+	},
+/obj/effect/landmark/patrol_node{
+	id = "13";
+	next_id = "14"
+	},
 /turf/open/floor/plating,
-/area/maintenance/nsv/deck1/port)
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "ba" = (
 /obj/machinery/door/poddoor/shutters/ship{
 	id = "cargo_lift_shutters"
@@ -340,13 +351,17 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/genetics/cloning)
 "bG" = (
-/obj/structure/lattice/catwalk,
-/obj/structure/cable/white{
-	icon_state = "1-2"
+/obj/machinery/door/airlock/ship/public,
+/obj/effect/landmark/patrol_node{
+	id = "6";
+	next_id = "7"
 	},
-/obj/effect/landmark/patrol_node,
-/turf/open/openspace,
-/area/engine/stormdrive/monitor)
+/turf/open/floor/plating,
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "bH" = (
 /obj/machinery/requests_console{
 	announcementConsole = 1;
@@ -940,7 +955,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/obj/effect/landmark/patrol_node,
 /turf/open/floor/plating/rusty_techgrid,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -5130,7 +5144,6 @@
 	color = "#94deff";
 	dir = 4
 	},
-/obj/effect/landmark/patrol_node,
 /turf/open/floor/carpet/black,
 /area/crew_quarters/nsv/observation{
 	lighting_colour_bulb = "#c1e1ff";
@@ -5435,7 +5448,6 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/ship/rust,
-/obj/effect/landmark/patrol_node,
 /turf/open/floor/plating/rusty_techgrid,
 /area/vacant_room)
 "zg" = (
@@ -6303,7 +6315,6 @@
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
-/obj/effect/landmark/patrol_node,
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
@@ -8206,7 +8217,6 @@
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/effect/landmark/patrol_node,
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
@@ -10291,6 +10301,14 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	id = "5";
+	next_id = "6"
+	},
+/obj/effect/landmark/patrol_node{
+	id = "12";
+	next_id = "13"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck1/frame1/central{
@@ -43303,7 +43321,7 @@ vu
 Sz
 ul
 xE
-aY
+Xe
 jC
 Xe
 Xe
@@ -43320,7 +43338,7 @@ PF
 HT
 Wg
 Wg
-bG
+Wg
 Wg
 Lk
 Wg
@@ -46137,7 +46155,7 @@ Wp
 Sw
 Wp
 Wp
-NK
+aY
 bk
 Cv
 JK
@@ -46157,7 +46175,7 @@ ZD
 oX
 vn
 YL
-NK
+bG
 Wp
 Wp
 Sw

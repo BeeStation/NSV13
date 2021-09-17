@@ -156,7 +156,7 @@
 	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 10)
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE
-	icon_state = "kestrel" //Stealing that icon
+	icon_state = "shrike"
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike/apply_weapons()
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
