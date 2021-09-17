@@ -1604,16 +1604,33 @@ Seek a ship thich we'll station ourselves around
 			var/list/fleet_info = list()
 			fleet_info["name"] = F.name
 			fleet_info["id"] = "\ref[F]"
-			fleet_info["colour"] = (F.alignment == "nanotrasen") ? null : "bad"
+			if(F.alignment == "nanotrasen" || F.alignment == "solgov")
+				fleet_info["color"] = "good"
+			else if(F.alignment == "syndicate" || F.alignment == "pirate")
+				fleet_info["color"] = "bad"
+			else
+				fleet_info["color"] = null
 			var/list/fuckYouDreamChecker = sys_inf["fleets"]
 			fuckYouDreamChecker[++fuckYouDreamChecker.len] = fleet_info
 		sys_inf["objects"] = list()
-		for(var/obj/structure/overmap/OM in SS.system_contents)
-			if(!OM.fleet)
-				var/list/overmap_info = list()
-				overmap_info["name"] = OM.name
-				overmap_info["id"] = "\ref[OM]"
-				overmap_info["colour"] = (OM.faction == "nanotrasen") ? null : "bad"
+		for(var/obj/object in (SS.system_contents))
+			var/list/overmap_info = list()
+			if(istype(object, /obj/structure/overmap))
+				var/obj/structure/overmap/OM = object
+				if(!OM.fleet)
+					overmap_info["name"] = object.name
+					overmap_info["id"] = "\ref[object]"
+					if(OM.faction == "nanotrasen" || OM.faction == "solgov")
+						overmap_info["color"] = "good"
+					else if(OM.faction == "syndicate" || OM.faction == "pirate")
+						overmap_info["color"] = "bad"
+					else
+						overmap_info["color"] = null
+			else // anomalies
+				overmap_info["name"] = object.name
+				overmap_info["id"] = "\ref[object]"
+				overmap_info["color"] = null
+			if(length(overmap_info))
 				var/list/fuckYouDreamChecker = sys_inf["objects"]
 				fuckYouDreamChecker[++fuckYouDreamChecker.len] = overmap_info
 		systems_info[++systems_info.len] = sys_inf
@@ -1650,15 +1667,21 @@ Seek a ship thich we'll station ourselves around
 			target.fleets += F
 			F.current_system = target
 			F.assemble(target)
+			for(var/obj/structure/overmap/OM in target.system_contents)
+				if(length(OM.mobs_in_ship) && OM.reserved_z)
+					F.encounter(OM)
 			message_admins("[key_name(usr)] created a fleet ([F.name]) at [target].")
-		if("createAsteroid")
+		if("createObject")
 			var/datum/star_system/target = locate(params["sys_id"])
 			if(!istype(target))
 				return
-			var/asteroid_type = input(usr, "What kind of asteroid?","Asteroid Creation", null) as null|anything in (typecacheof(/obj/structure/overmap/asteroid) + typecacheof(/obj/effect/overmap_anomaly) + typecacheof(/obj/structure/overmap/trader))
-			if(!asteroid_type)
+			var/object_type = input(usr, "What kind of object?","Overmap Object Creation", null) as null|anything in (typecacheof(/obj/structure/overmap/asteroid) + typecacheof(/obj/effect/overmap_anomaly) + typecacheof(/obj/structure/overmap/trader))
+			if(!object_type)
 				return
-			SSstar_system.spawn_ship(asteroid_type, target)
+			if(ispath(object_type, /obj/structure/overmap))
+				SSstar_system.spawn_ship(object_type, target)
+			else if(ispath(object_type, /obj/effect/overmap_anomaly))
+				SSstar_system.spawn_anomaly(object_type, target)
 		if("objectAct")
 			var/obj/structure/overmap/target = locate(params["id"])
 			if(!istype(target))

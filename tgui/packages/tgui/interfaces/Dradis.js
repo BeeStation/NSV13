@@ -39,14 +39,14 @@ export const DradisContent = (props, context) => {
     let ShipMap = (ships).map(drawShips);
     return (
       <Map initial_focus_x={focus_x}
-      initial_focus_y={focus_y}
-      initial_scale_factor={scale_factor}
-      grid="1">
+        initial_focus_y={focus_y}
+        initial_scale_factor={scale_factor}
+        grid="1">
         {ShipMap}
         <div id="rangeCircle" style={rangeStyle} />
       </Map>
     );
-  }
+  };
 
   // Floats representing the different alpha values for different filtered objects.
   let showFriendlies = data.showFriendlies;
@@ -54,7 +54,7 @@ export const DradisContent = (props, context) => {
   let showAsteroids = data.showAsteroids;
   let showAnomalies = data.showAnomalies;
   let focus_x = data.focus_x;
-  let focus_y = data.focus_y
+  let focus_y = data.focus_y;
   let zoom_factor = data.zoom_factor;
   let zoom_factor_min = data.zoom_factor_min;
   let zoom_factor_max = data.zoom_factor_max;
@@ -154,7 +154,7 @@ export const DradisContent = (props, context) => {
       {dradis}
     </Section>
   );
-}
+};
 
 export const Dradis = (props, context) => {
   let content = DradisContent(props, context);

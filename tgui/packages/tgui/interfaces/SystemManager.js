@@ -25,7 +25,7 @@ export const SystemManager = (props, context) => {
       <Button key={fleet}
         content={fleet.name}
         icon="space-shuttle"
-        color={fleet.colour}
+        color={fleet.color}
         onClick={() => act('fleetAct', { id: fleet.id })} />
     );
   };
@@ -35,7 +35,7 @@ export const SystemManager = (props, context) => {
       <Button key={thing}
         content={thing.name}
         icon="space-shuttle"
-        color={thing.colour}
+        color={thing.color}
         onClick={() => act('objectAct', { id: thing.id })} />
     );
   };
@@ -51,9 +51,9 @@ export const SystemManager = (props, context) => {
             icon={"hammer"}
             onClick={() => act('createFleet', { sys_id: system.sys_id })} />
           <Button
-            content={"Create asteroid"}
+            content={"Create object"}
             icon={"hammer"}
-            onClick={() => act('createAsteroid', { sys_id: system.sys_id })} />
+            onClick={() => act('createObject', { sys_id: system.sys_id })} />
         </Fragment>
       }>
         Alignment: {system.alignment}<br />

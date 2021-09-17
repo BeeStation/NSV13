@@ -94,10 +94,10 @@ export const drawStarmap = (props, context) => {
   return (
     <Fragment>
       <Button
-      content="Ship Information"
-      icon="info-circle"
-      onClick={() =>
-        act('shipinf')} />
+        content="Ship Information"
+        icon="info-circle"
+        onClick={() =>
+          act('shipinf')} />
       <Button
         content="Show Map"
         icon="map"
@@ -123,8 +123,8 @@ export const drawStarmap = (props, context) => {
         </Fragment>
       </Map>
     </Fragment>
-  )
-}
+  );
+};
 
 export const Starmap = (props, context) => {
   const { act, data } = useBackend(context);
