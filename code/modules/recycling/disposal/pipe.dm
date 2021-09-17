@@ -111,7 +111,32 @@
 	playsound(src, 'sound/machines/hiss.ogg', 50, 0, 0)
 	for(var/A in H)
 		var/atom/movable/AM = A
-		AM.forceMove(get_turf(src))
+		//NSV13 start - nerfs disposals stacking of dense objects
+		var/turf/entryturf = get_turf(src)
+		if(!entryturf.Enter(AM)) // something is blocking the tile
+			// can it be pushed?
+			var/canpush = TRUE
+			for(var/atom/movable/thing in entryturf.contents)
+				if(thing.density)
+					if(thing.anchored)
+						canpush = FALSE
+						break
+					else
+						var/turf/candidate = get_step(entryturf, direction)
+						for(var/atom/movable/otherthing in candidate.contents)
+							if(otherthing.density)
+								canpush = FALSE
+								break
+						if(!canpush)
+							break
+
+			if(!canpush)
+				for(var/turf/newentry in oview(1, entryturf))
+					if(newentry.Enter(AM, entryturf))
+						entryturf = newentry
+						break
+		AM.forceMove(entryturf)
+		//NSV13 end
 		AM.pipe_eject(direction)
 		if(target)
 			AM.throw_at(target, eject_range, 1)
