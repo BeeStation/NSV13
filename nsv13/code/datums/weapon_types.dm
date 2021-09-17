@@ -42,6 +42,13 @@
 	firing_arc = 45 //Broad side of a barn...
 	ai_fire_delay = 10 SECONDS
 
+/datum/ship_weapon/railgun/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
+	if(!istype(source) || !istype(target))
+		return FALSE
+	if(!override_mass_check && target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
+		return FALSE
+	return TRUE
+
 //Deprecated by AMS. Still kept around for AI ships
 /datum/ship_weapon/torpedo_launcher
 	name = "Torpedo tubes"
@@ -126,6 +133,13 @@
 	screen_shake = 1
 	ai_fire_delay = 3 SECONDS
 
+/datum/ship_weapon/phaser/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
+	if(!istype(source) || !istype(target))
+		return FALSE
+	if(!override_mass_check && target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
+		return FALSE
+	return TRUE
+
 /datum/ship_weapon/bsa
 	name = "Bluespace Artillery"
 	default_projectile_type = /obj/item/projectile/beam/laser/heavylaser/bsa
@@ -142,6 +156,12 @@
 	lateral = FALSE
 	firing_arc = 45 //Yeah have fun turning the galactica to shoot this thing :)
 
+/datum/ship_weapon/bsa/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
+	if(!istype(source) || !istype(target))
+		return FALSE
+	if(!override_mass_check && target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
+		return FALSE
+	return TRUE
 //End Energy Weapons
 
 /datum/ship_weapon/missile_launcher
