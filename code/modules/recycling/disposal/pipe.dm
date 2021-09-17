@@ -118,17 +118,13 @@
 			var/canpush = TRUE
 			for(var/atom/movable/thing in entryturf.contents)
 				if(thing.density)
-					if(thing.anchored)
-						canpush = FALSE
-						break
-					else
-						var/turf/candidate = get_step(entryturf, direction)
-						for(var/atom/movable/otherthing in candidate.contents)
-							if(otherthing.density)
-								canpush = FALSE
-								break
-						if(!canpush)
+					var/turf/candidate = get_step(entryturf, direction)
+					for(var/atom/movable/otherthing in candidate.contents)
+						if(otherthing.density)
+							canpush = FALSE
 							break
+					if(!canpush)
+						break
 
 			if(!canpush)
 				for(var/turf/newentry in oview(1, entryturf))
