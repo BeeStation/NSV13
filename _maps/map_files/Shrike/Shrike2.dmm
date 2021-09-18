@@ -1539,7 +1539,6 @@
 	})
 "eS" = (
 /obj/effect/turf_decal/trimline/blue/line,
-/obj/machinery/camera/autoname,
 /obj/machinery/gauss_dispenser,
 /obj/structure/closet/crate,
 /turf/open/floor/monofloor{
@@ -3586,9 +3585,15 @@
 /turf/open/floor/plasteel/dark,
 /area/security)
 "mm" = (
-/obj/machinery/firealarm/directional/south,
-/turf/open/floor/plasteel/techmaint,
-/area/engine/gravity_generator)
+/obj/item/radio/intercom/directional/east,
+/turf/open/floor/monofloor{
+	dir = 1
+	},
+/area/nsv/weapons/gauss/battery/deck2/port{
+	lighting_colour_bulb = "#FF3232";
+	lighting_colour_night = "#FF3232";
+	lighting_colour_tube = "#FF3232"
+	})
 "mn" = (
 /obj/effect/turf_decal/trimline/brown/line{
 	color = "#FF7F00";
@@ -4749,6 +4754,14 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
+"qs" = (
+/obj/item/radio/intercom/directional/east,
+/turf/open/floor/monofloor,
+/area/nsv/weapons/gauss/battery/deck2/starboard{
+	lighting_colour_bulb = "#FF3232";
+	lighting_colour_night = "#FF3232";
+	lighting_colour_tube = "#FF3232"
+	})
 "qt" = (
 /obj/effect/turf_decal/ship/rust,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -6915,6 +6928,7 @@
 	dir = 8
 	},
 /obj/machinery/airalarm/directional/north,
+/obj/machinery/firealarm/directional/east,
 /turf/open/floor/plating,
 /area/medical/surgery/aux)
 "xf" = (
@@ -10224,6 +10238,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
 	},
+/obj/machinery/firealarm/directional/south,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -10826,6 +10841,7 @@
 /obj/effect/turf_decal/ship/rust,
 /obj/structure/cable/white,
 /obj/machinery/power/apc/auto_name/west,
+/obj/machinery/firealarm/directional/south,
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/engine/engine_room/auxiliary)
 "IB" = (
@@ -16690,6 +16706,9 @@
 /area/shuttle/turbolift/tertiary)
 "YD" = (
 /obj/machinery/portable_atmospherics/canister/nitrous_oxide,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/port_substation)
 "YE" = (
@@ -45919,7 +45938,7 @@ Zj
 eV
 bv
 lY
-mm
+lY
 eV
 Mx
 yC
@@ -48182,7 +48201,7 @@ gi
 gi
 gi
 KI
-KI
+af
 Zz
 ay
 bZ
@@ -49294,7 +49313,7 @@ VF
 uk
 dF
 KI
-KI
+eB
 gi
 gi
 gi
@@ -57953,7 +57972,7 @@ Tj
 XX
 eQ
 eC
-aL
+mm
 jx
 jM
 XX
@@ -58027,7 +58046,7 @@ Tj
 Zy
 jw
 gS
-Ye
+qs
 Us
 Uz
 Zy

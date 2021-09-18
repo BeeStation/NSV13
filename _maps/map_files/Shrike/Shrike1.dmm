@@ -1903,6 +1903,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
 	},
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/plasteel/white/side,
 /area/medical/storage)
 "ir" = (
@@ -2926,6 +2927,14 @@
 /area/crew_quarters/dorms)
 "nF" = (
 /obj/structure/table/glass,
+/obj/item/paper_bin{
+	pixel_x = 8;
+	pixel_y = 7
+	},
+/obj/item/pen/fountain/captain{
+	pixel_x = 8;
+	pixel_y = 5
+	},
 /turf/open/floor/carpet/black,
 /area/crew_quarters/heads/captain/private)
 "nI" = (
@@ -4443,9 +4452,6 @@
 	icon_state = "0-2"
 	},
 /obj/effect/turf_decal/ship/rust,
-/obj/item/radio/intercom/directional/east{
-	pixel_y = 32
-	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/storage)
 "uL" = (
@@ -7143,6 +7149,7 @@
 /obj/item/reagent_containers/glass/bottle/mercury{
 	pixel_x = 7
 	},
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel/ship/padded,
 /area/medical/chemistry)
 "Hk" = (
@@ -7263,6 +7270,7 @@
 /obj/item/storage/toolbox/electrical,
 /obj/structure/rack,
 /obj/item/multitool,
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/plating,
 /area/storage/tools)
 "HG" = (
@@ -7401,6 +7409,12 @@
 /obj/effect/turf_decal/ship/rust,
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/item/radio/intercom{
+	freerange = 1;
+	frequency = 1447;
+	name = "Private Channel";
+	pixel_x = 30
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai_upload)
 "In" = (
@@ -8209,7 +8223,7 @@
 	},
 /obj/effect/turf_decal/ship/rust,
 /obj/structure/sign/ship/securearea{
-	pixel_x = 30
+	pixel_y = -30
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai_upload_foyer)
@@ -8719,7 +8733,12 @@
 	})
 "NO" = (
 /obj/structure/table/reinforced,
-/obj/item/storage/box/ids,
+/obj/item/paper_bin{
+	pixel_x = -6
+	},
+/obj/item/storage/box/ids{
+	pixel_x = 5
+	},
 /obj/machinery/camera/autoname,
 /obj/item/radio/intercom/directional/north,
 /turf/open/floor/plasteel/ridged/steel,
@@ -10720,7 +10739,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
 	},
-/obj/machinery/airalarm/directional/east,
 /obj/machinery/light{
 	dir = 4;
 	icon_state = "tube"
