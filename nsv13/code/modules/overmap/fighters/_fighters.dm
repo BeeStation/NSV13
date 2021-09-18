@@ -607,7 +607,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			if(CD.charges == CD.max_charges)
 				to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's no space for more charges in the countermeasure dispenser!</span>")
 			else
-				var/ChargeChange = clamp(CC.restock_amount + CD.charges, CD.max_charges, 0) - CD.Charges
+				var/ChargeChange = clamp(CC.restock_amount + CD.charges, CD.max_charges, 0) - CD.charges
 				to_chat("<span>You successfully reload the countermeasure dispenser in [src]</span>")
 				CC.restock_amount -= ChargeChange
 				CD.charges += ChargeChange
