@@ -1686,7 +1686,7 @@ Seek a ship thich we'll station ourselves around
 			var/obj/structure/overmap/target = locate(params["id"])
 			if(!istype(target))
 				return
-			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Delete", "Cancel")
+			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Hail", "Delete", "Cancel")
 			if(!command || command == "Cancel")
 				return FALSE
 			if(command == "Jump")
@@ -1708,6 +1708,12 @@ Seek a ship thich we'll station ourselves around
 						return TRUE
 				message_admins("[key_name(usr)] forced [target] to jump to [sys].")
 				SSstar_system.move_existing_object(target, sys)
+			if(command == "Hail")
+				var/message = capped_input(usr, "Enter message", "Hail")
+				var/from = capped_input(usr, "Who is it from?", "Hail")
+				if(!message || !from)
+					return FALSE
+				target.hail(message, from)
 			if(command == "Delete")
 				usr.client.cmd_admin_delete(target)
 
