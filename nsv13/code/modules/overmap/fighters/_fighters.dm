@@ -1251,6 +1251,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	desc = "A device which allows a fighter to deploy countermeasures."
 	icon = 'nsv13/icons/obj/fighter_components.dmi'
 	icon_state = "countermeasure"
+	slot = HARDPOINT_SLOT_COUNTERMEASURE
 	var/max_charges = 3
 	var/charges = 3
 
