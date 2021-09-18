@@ -278,9 +278,9 @@
 /turf/open/floor/plating/rusty_techgrid
 	name = "rusted grid plating"
 	icon = 'nsv13/icons/turf/floors.dmi'
-	icon_state = "techfloor"
-	broken_states = list("techfloor_dam1", "techfloor_dam2")
-	burnt_states = list("techfloor_scorched1", "techfloor_scorched2")
+	icon_state = "techfloor_rusted"
+	broken_states = list("techfloor_rusted_dam1", "techfloor_rusted_dam2")
+	burnt_states = list("techfloor_rusted_scorched1", "techfloor_rusted_scorched2")
 
 /turf/open/floor/stairs
 	name = "stairs"
