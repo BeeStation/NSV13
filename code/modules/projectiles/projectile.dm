@@ -553,7 +553,7 @@
 	Range()
 
 /obj/item/projectile/proc/process_homing() //Nsv13 - Enhanced the performance of this entire proc.
-	if(!homing_target) //NSV13 - Changed proc to be less performance intensive
+	if(QDELETED(homing_target)) //NSV13 - Changed proc to be less performance intensive
 		return FALSE
 	var/targetAngle = Get_Angle(src, homing_target)
 	var/angle = closer_angle_difference(Angle, targetAngle)
