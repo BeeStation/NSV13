@@ -7,9 +7,7 @@
 /obj/structure/bed/roller{
 	color = "#94deff"
 	},
-/obj/item/radio/intercom{
-	pixel_x = -27
-	},
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/plasteel/white/side,
 /area/medical/nsv)
 "ad" = (
@@ -103,9 +101,7 @@
 /obj/effect/turf_decal/trimline/red/line{
 	dir = 1
 	},
-/obj/item/radio/intercom{
-	pixel_y = -27
-	},
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/monofloor,
 /area/crew_quarters/bar/mess_hall)
 "au" = (
@@ -247,6 +243,9 @@
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer1,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer3{
 	dir = 1
+	},
+/obj/machinery/meter{
+	target_layer = 1
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -1407,6 +1406,17 @@
 	lighting_colour_night = "#FF3232";
 	lighting_colour_tube = "#FF3232"
 	})
+"eu" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/turf_decal/ship/rust,
+/obj/machinery/atmospherics/pipe/simple/brown{
+	dir = 4
+	},
+/obj/machinery/meter,
+/turf/open/floor/plating/rusty_techgrid,
+/area/engine/stormdrive)
 "ex" = (
 /turf/closed/wall/ship,
 /area/security/main)
@@ -1672,6 +1682,7 @@
 /obj/machinery/atmospherics/pipe/simple/supplymain/visible{
 	dir = 4
 	},
+/obj/item/radio/intercom/directional/north,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/starboard_atmos)
 "fu" = (
@@ -3182,9 +3193,7 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 1
 	},
-/obj/item/radio/intercom{
-	pixel_y = 27
-	},
+/obj/item/radio/intercom/directional/north,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "kC" = (
@@ -3268,9 +3277,7 @@
 /obj/structure/cable/white{
 	icon_state = "5-8"
 	},
-/obj/item/radio/intercom{
-	pixel_x = 27
-	},
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/central_substation)
 "kO" = (
@@ -3998,6 +4005,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
 	dir = 8
 	},
+/obj/machinery/meter{
+	target_layer = 1
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "oa" = (
@@ -4303,9 +4313,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/gravity_generator)
 "oV" = (
-/obj/item/radio/intercom{
-	pixel_y = -27
-	},
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/plasteel/checker,
 /area/crew_quarters/kitchen)
 "oX" = (
@@ -4576,7 +4584,7 @@
 	height = 12;
 	id = "arrivals_stationary";
 	name = "Deck 2 Arrivals Port";
-	roundstart_template = /datum/map_template/shuttle/arrival/ez049st;
+	roundstart_template = /datum/map_template/shuttle/arrival/shrike;
 	width = 7
 	},
 /turf/open/space/basic,
@@ -4717,6 +4725,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/machinery/meter,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "qq" = (
@@ -5548,6 +5557,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
 	dir = 8
+	},
+/obj/machinery/meter{
+	target_layer = 1
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -6574,6 +6586,10 @@
 	},
 /turf/open/floor/engine,
 /area/engine/stormdrive)
+"wa" = (
+/obj/machinery/airalarm/directional/west,
+/turf/open/floor/plating,
+/area/maintenance/nsv/weapons)
 "wh" = (
 /obj/structure/cable/green{
 	icon_state = "1-2"
@@ -6651,7 +6667,7 @@
 /obj/machinery/atmospherics/components/binary/pump/on{
 	dir = 8;
 	name = "Stormdrive Fuel Pump";
-	target_pressure = 300
+	target_pressure = 600
 	},
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -6674,7 +6690,7 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Medical Maintenance";
-	req_access_txt = "5"
+	req_access_txt = "5;12"
 	},
 /obj/effect/turf_decal/ship/rust,
 /obj/machinery/door/firedoor/border_only/directional/north,
@@ -7404,6 +7420,7 @@
 	},
 /obj/effect/turf_decal/ship/rust,
 /obj/machinery/light/small,
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/weapons)
 "yA" = (
@@ -8592,9 +8609,7 @@
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 8
 	},
-/obj/item/radio/intercom{
-	pixel_x = -27
-	},
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/monofloor{
 	dir = 8
 	},
@@ -8685,6 +8700,7 @@
 	dir = 1
 	},
 /obj/structure/table/reinforced,
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/plasteel/dark/corner,
 /area/nsv/weapons/starboard{
 	lighting_colour_bulb = "#FF3232";
@@ -9068,6 +9084,9 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/item/radio/intercom/directional/east{
+	pixel_y = 30
+	},
 /turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "Dy" = (
@@ -9380,14 +9399,17 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Eg" = (
-/obj/item/radio/intercom{
-	pixel_x = -27
+/obj/effect/turf_decal/trimline/blue/line,
+/obj/effect/turf_decal/trimline/red/line{
+	dir = 1
 	},
-/obj/structure/closet/secure_closet/munitions_technician,
-/turf/open/floor/plasteel/dark/side{
-	dir = 4
-	},
-/area/nsv/weapons)
+/obj/item/radio/intercom/directional/south,
+/turf/open/floor/monofloor,
+/area/hallway/nsv/deck2/frame1/port{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Eh" = (
 /obj/effect/turf_decal/trimline/blue/line,
 /obj/effect/turf_decal/trimline/yellow/line{
@@ -9450,6 +9472,9 @@
 	})
 "Em" = (
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer1,
+/obj/machinery/meter{
+	target_layer = 1
+	},
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
 "Ep" = (
@@ -9861,9 +9886,7 @@
 /obj/structure/table,
 /obj/machinery/firealarm/directional/east,
 /obj/item/book/manual/wiki/sop/security,
-/obj/item/radio/intercom{
-	pixel_y = -27
-	},
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/plasteel/dark,
 /area/security/main)
 "Fz" = (
@@ -9906,12 +9929,10 @@
 "FG" = (
 /obj/effect/turf_decal/ship/rust,
 /obj/effect/turf_decal/caution,
-/obj/item/radio/intercom{
-	pixel_x = -27
-	},
 /obj/structure/cable/white{
 	icon_state = "2-5"
 	},
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "FH" = (
@@ -10105,6 +10126,7 @@
 	})
 "Gq" = (
 /obj/machinery/atmospherics/pipe/simple/supplymain/visible,
+/obj/machinery/meter,
 /turf/open/floor/plasteel/ship,
 /area/engine/atmos/starboard_atmos)
 "Gr" = (
@@ -10213,10 +10235,8 @@
 	},
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/ship/rust,
-/obj/item/radio/intercom{
-	pixel_x = 27
-	},
 /obj/machinery/atmospherics/pipe/simple/brown,
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/port_substation)
 "GK" = (
@@ -10345,6 +10365,20 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monofloor,
 /area/security)
+"Hh" = (
+/obj/effect/turf_decal/trimline/blue/line,
+/obj/effect/turf_decal/trimline/yellow/line{
+	dir = 1
+	},
+/obj/item/radio/intercom/directional/north,
+/turf/open/floor/monofloor{
+	dir = 1
+	},
+/area/hallway/nsv/deck2/frame1/starboard{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Hk" = (
 /obj/structure/cable/green{
 	icon_state = "1-2"
@@ -11631,6 +11665,14 @@
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
+"KM" = (
+/obj/item/radio/intercom/directional/north,
+/turf/open/floor/plasteel/dark/side,
+/area/nsv/weapons/fore{
+	lighting_colour_bulb = "#FF3232";
+	lighting_colour_night = "#FF3232";
+	lighting_colour_tube = "#FF3232"
+	})
 "KN" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple/layer1{
@@ -11838,6 +11880,9 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer1,
+/obj/machinery/meter{
+	target_layer = 1
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "Lo" = (
@@ -11945,6 +11990,7 @@
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 8
 	},
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/monofloor{
 	dir = 8
 	},
@@ -12151,6 +12197,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/supermatter)
 "Md" = (
+/obj/item/radio/intercom/directional/north,
 /turf/open/floor/monofloor{
 	dir = 1
 	},
@@ -12158,6 +12205,7 @@
 "Me" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible,
 /obj/effect/turf_decal/ship/rust,
+/obj/machinery/meter,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/supermatter)
 "Mg" = (
@@ -12456,6 +12504,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "6-8"
 	},
+/obj/machinery/meter,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "Ne" = (
@@ -13135,10 +13184,8 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/kitchen)
 "OS" = (
-/obj/item/radio/intercom{
-	pixel_y = -27
-	},
 /obj/machinery/atmospherics/pipe/manifold/green/visible,
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
 "OU" = (
@@ -13327,6 +13374,7 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/plasteel/dark,
 /area/security)
 "Pv" = (
@@ -13761,6 +13809,7 @@
 /area/engine/stormdrive)
 "QD" = (
 /obj/machinery/atmospherics/pipe/simple/dark/visible,
+/obj/machinery/meter,
 /turf/open/floor/plasteel/ship,
 /area/engine/atmos/starboard_atmos)
 "QF" = (
@@ -13959,6 +14008,7 @@
 	})
 "Rj" = (
 /obj/effect/turf_decal/tile/orange,
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -14505,6 +14555,9 @@
 	dir = 1
 	},
 /obj/structure/disposalpipe/segment,
+/obj/item/radio/intercom/directional/west{
+	pixel_y = -30
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/theatre)
 "SO" = (
@@ -15667,6 +15720,7 @@
 	},
 /obj/structure/cable/white,
 /obj/effect/turf_decal/ship/rust,
+/obj/machinery/meter,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/supermatter)
 "VQ" = (
@@ -17095,9 +17149,7 @@
 /area/medical/nsv)
 "ZJ" = (
 /obj/effect/turf_decal/trimline/blue/line,
-/obj/item/radio/intercom{
-	pixel_y = 27
-	},
+/obj/item/radio/intercom/directional/north,
 /turf/open/floor/monofloor{
 	dir = 1
 	},
@@ -42768,7 +42820,7 @@ gi
 gi
 gi
 gi
-gi
+KI
 KI
 KI
 KI
@@ -43024,8 +43076,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 KI
 KI
 KI
@@ -43280,8 +43332,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 KI
 KI
 KI
@@ -43536,8 +43588,8 @@ gi
 gi
 gi
 gi
-gi
-gi
+KI
+KI
 KI
 KI
 vb
@@ -43555,7 +43607,7 @@ vb
 vb
 KI
 KI
-gi
+KI
 gi
 gi
 gi
@@ -43792,9 +43844,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 KI
 KI
 HQ
@@ -43813,7 +43865,7 @@ qz
 KI
 KI
 KI
-gi
+KI
 gi
 gi
 gi
@@ -44048,9 +44100,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 KI
 KI
 vb
@@ -44328,8 +44380,8 @@ qz
 KI
 KI
 KI
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -44585,8 +44637,8 @@ vb
 KI
 xv
 KI
-gi
-gi
+KI
+KI
 gi
 gi
 gi
@@ -44848,7 +44900,7 @@ WB
 WB
 KI
 KI
-gi
+KI
 gi
 gi
 gi
@@ -46887,7 +46939,7 @@ Mj
 Uq
 Sg
 cU
-Jc
+eu
 Sg
 Sg
 Uq
@@ -52033,7 +52085,7 @@ KT
 VW
 qK
 VN
-VN
+wa
 aU
 VW
 wj
@@ -52260,7 +52312,7 @@ Vg
 WZ
 qM
 sb
-IF
+Eg
 fR
 KI
 KI
@@ -52280,7 +52332,7 @@ kY
 Gb
 KF
 bn
-Eg
+bn
 Pl
 sQ
 re
@@ -52565,7 +52617,7 @@ KI
 KI
 KI
 Mv
-Ke
+Hh
 yX
 Bx
 Ld
@@ -54595,7 +54647,7 @@ Ni
 LL
 yg
 yg
-PF
+KM
 Qr
 YV
 Mq
@@ -56403,7 +56455,7 @@ WB
 yg
 KI
 KI
-gi
+KI
 gi
 gi
 gi
@@ -56660,7 +56712,7 @@ KI
 KI
 KI
 KI
-gi
+KI
 gi
 gi
 gi
@@ -56916,7 +56968,7 @@ KI
 KI
 KI
 KI
-gi
+KI
 gi
 gi
 gi

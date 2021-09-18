@@ -20,10 +20,9 @@
 	suffix = "atlas"
 	name = "\[NSV\] cargo elevator (Atlas)"
 
-
-/datum/map_template/shuttle/cargo/ez049st
-	suffix = "ez-049st"
-	name = "\[NSV\] cargo ferry (EZ-049ST)"
+/datum/map_template/shuttle/cargo/shrike
+	suffix = "shrike"
+	name = "\[NSV\] cargo ferry (Shrike)"
 
 //Arrivals
 
@@ -39,9 +38,9 @@
 	suffix = "gladius"
 	name = "arrival shuttle (Gladius)"
 
-/datum/map_template/shuttle/arrival/ez049st
-	suffix = "ez-049st"
-	name = "arrival shuttle (EZ-049ST)"
+/datum/map_template/shuttle/arrival/shrike
+	suffix = "shrike"
+	name = "arrival shuttle (Shrike)"
 
 /datum/map_template/shuttle/hammurabi //This is definitely an elevator trust me.
 	prefix = "_maps/shuttles/turbolifts/"
@@ -50,10 +49,9 @@
 	name = "Hammurabi mining elevator"
 //Mining
 
-/datum/map_template/shuttle/mining/ez049st
-	suffix = "ez-049st"
-	name = "mining shuttle (EZ-049ST)"
-
+/datum/map_template/shuttle/mining/shrike
+	suffix = "shrike"
+	name = "mining shuttle (Shrike)"
 
 //Escape
 /datum/map_template/shuttle/escape_pod/shrike

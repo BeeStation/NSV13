@@ -19,6 +19,7 @@
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/camera/motion{
+	c_tag = "Telecomms Server Room Starboard";
 	dir = 1
 	},
 /turf/open/floor/plasteel/dark/telecomms,
@@ -37,7 +38,7 @@
 	height = 4;
 	id = "mining_home";
 	name = "mining shuttle bay";
-	roundstart_template = /datum/map_template/shuttle/mining/ez049st;
+	roundstart_template = /datum/map_template/shuttle/mining/shrike;
 	width = 7
 	},
 /turf/open/space/basic,
@@ -171,6 +172,7 @@
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/extinguisher_cabinet/south,
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/plasteel/dark/telecomms,
 /area/tcommsat/server)
 "aU" = (
@@ -637,6 +639,9 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
 	},
+/obj/item/radio/intercom/directional/west{
+	pixel_y = -32
+	},
 /turf/open/floor/plasteel/white/corner{
 	dir = 1
 	},
@@ -818,6 +823,7 @@
 	pixel_y = 28
 	},
 /obj/machinery/camera/motion{
+	c_tag = "AI Upload Access";
 	dir = 8
 	},
 /turf/open/floor/plating/rusty_techgrid,
@@ -832,6 +838,7 @@
 /obj/structure/window/reinforced/spawner/west,
 /obj/machinery/door/window,
 /obj/machinery/camera/motion{
+	c_tag = "Armoury Port";
 	dir = 6
 	},
 /turf/open/floor/plasteel/dark,
@@ -1471,6 +1478,14 @@
 	},
 /turf/open/openspace,
 /area/maintenance/nsv/deck1/starboard)
+"gw" = (
+/obj/structure/cable/white{
+	icon_state = "4-8"
+	},
+/obj/effect/turf_decal/ship/rust,
+/obj/item/radio/intercom/directional/south,
+/turf/open/floor/plating/rusty_techgrid,
+/area/engine/armour_pump)
 "gC" = (
 /turf/closed/wall/ship,
 /area/hallway/nsv/deck1/frame1/central{
@@ -1898,6 +1913,7 @@
 /area/space/nearstation)
 "is" = (
 /obj/machinery/camera/motion{
+	c_tag = "Records Room";
 	dir = 8
 	},
 /obj/machinery/power/apc/auto_name/east,
@@ -1993,6 +2009,10 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"iP" = (
+/obj/item/radio/intercom/directional/west,
+/turf/open/floor/plating,
+/area/storage/tech)
 "iR" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -2123,9 +2143,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/ship/rust,
-/obj/item/radio/intercom{
-	pixel_x = 27
-	},
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/miningoffice)
 "jE" = (
@@ -2249,9 +2267,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
 "kh" = (
-/obj/item/radio/intercom{
-	pixel_x = -27
-	},
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/monofloor{
 	dir = 8
 	},
@@ -3149,9 +3165,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/crew_quarters/dorms)
 "oF" = (
-/obj/item/radio/intercom{
-	pixel_x = -27
-	},
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/carpet/black,
 /area/crew_quarters/dorms)
 "oK" = (
@@ -3502,6 +3516,10 @@
 	dir = 4
 	},
 /area/medical/genetics/cloning)
+"qQ" = (
+/obj/item/radio/intercom/directional/south,
+/turf/open/floor/plasteel/dark,
+/area/ai_monitored/security/armory)
 "qV" = (
 /obj/structure/fluff/support_beam{
 	dir = 1
@@ -3611,6 +3629,7 @@
 /obj/item/clothing/head/helmet/riot,
 /obj/effect/turf_decal/box/white,
 /obj/machinery/camera/motion{
+	c_tag = "Armoury Starboard";
 	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
@@ -4424,6 +4443,9 @@
 	icon_state = "0-2"
 	},
 /obj/effect/turf_decal/ship/rust,
+/obj/item/radio/intercom/directional/east{
+	pixel_y = 32
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/storage)
 "uL" = (
@@ -4881,6 +4903,7 @@
 	pixel_y = -3
 	},
 /obj/machinery/camera/motion{
+	c_tag = "Secondary Armoury";
 	dir = 8
 	},
 /turf/open/floor/plasteel/ship,
@@ -5454,6 +5477,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/ship/rust,
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/plating/rusty_techgrid,
 /area/vacant_room)
 "zg" = (
@@ -6049,6 +6073,7 @@
 	},
 /obj/effect/turf_decal/ship/rust,
 /obj/machinery/camera/motion{
+	c_tag = "AI Chamber";
 	dir = 1
 	},
 /turf/open/floor/plating/rusty_techgrid,
@@ -6127,6 +6152,7 @@
 "CN" = (
 /obj/structure/extinguisher_cabinet/east,
 /obj/machinery/camera/motion{
+	c_tag = "Officer Locker Room";
 	dir = 8
 	},
 /turf/open/floor/monofloor,
@@ -6399,9 +6425,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive/monitor)
 "Ee" = (
-/obj/item/radio/intercom{
-	pixel_y = -27
-	},
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/plasteel/white/corner{
 	dir = 8
 	},
@@ -6546,6 +6570,9 @@
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
+/obj/item/radio/intercom/directional/west{
+	pixel_y = -32
+	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/nsv/observation{
 	lighting_colour_bulb = "#c1e1ff";
@@ -6623,6 +6650,7 @@
 	},
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/ship/rust,
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/storage)
 "Fb" = (
@@ -6700,9 +6728,6 @@
 /area/storage/tech)
 "Fu" = (
 /obj/item/twohanded/required/kirbyplants/random,
-/obj/item/radio/intercom{
-	pixel_x = -27
-	},
 /obj/machinery/light{
 	color = "#c1e1ff"
 	},
@@ -7283,6 +7308,7 @@
 "HQ" = (
 /obj/machinery/airalarm/directional/south,
 /obj/machinery/camera/motion{
+	c_tag = "AI Upload";
 	dir = 1
 	},
 /obj/effect/landmark/start/cyborg,
@@ -8695,6 +8721,7 @@
 /obj/structure/table/reinforced,
 /obj/item/storage/box/ids,
 /obj/machinery/camera/autoname,
+/obj/item/radio/intercom/directional/north,
 /turf/open/floor/plasteel/ridged/steel,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -9080,7 +9107,9 @@
 	dir = 10
 	},
 /obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/camera/motion,
+/obj/machinery/camera/motion{
+	c_tag = "Telecomms Server Room Port"
+	},
 /turf/open/floor/plasteel/dark/telecomms,
 /area/tcommsat/server)
 "Pm" = (
@@ -9805,9 +9834,6 @@
 /obj/machinery/computer/communications/console{
 	dir = 10
 	},
-/obj/item/radio/intercom{
-	pixel_x = 27
-	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -9894,9 +9920,7 @@
 /turf/open/floor/plasteel/white,
 /area/medical/storage)
 "Sg" = (
-/obj/item/radio/intercom{
-	pixel_y = -27
-	},
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/plasteel/dark,
 /area/security/locker_room)
 "Si" = (
@@ -10141,6 +10165,7 @@
 /obj/effect/spawner/lootdrop/techstorage/AI,
 /obj/effect/spawner/lootdrop/techstorage/RnD_secure,
 /obj/machinery/camera/motion{
+	c_tag = "Secure Technical Storage";
 	dir = 6
 	},
 /turf/open/floor/engine,
@@ -10605,6 +10630,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 10
 	},
+/obj/item/radio/intercom/directional/east{
+	pixel_y = 32
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -10881,9 +10909,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/item/radio/intercom{
-	pixel_x = -27
-	},
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/plasteel/ship,
 /area/tcommsat/computer)
 "VQ" = (
@@ -11736,10 +11762,8 @@
 /turf/closed/wall/ship,
 /area/quartermaster/miningdock)
 "YK" = (
-/obj/item/radio/intercom{
-	pixel_y = -27
-	},
 /obj/machinery/holopad,
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/carpet/black,
 /area/crew_quarters/heads/captain/private)
 "YL" = (
@@ -11769,6 +11793,17 @@
 /obj/effect/decal/cleanable/oil/slippery,
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"YR" = (
+/obj/docking_port/stationary{
+	dir = 4;
+	dwidth = 2;
+	height = 13;
+	id = "ferry_home";
+	name = "Centcom Ferry Port";
+	width = 5
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "YS" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -11781,6 +11816,7 @@
 /obj/effect/turf_decal/ship/rust,
 /obj/machinery/airalarm/directional/east,
 /obj/machinery/camera/motion{
+	c_tag = "Telecomms Access";
 	dir = 8
 	},
 /turf/open/floor/plating/rusty_techgrid,
@@ -40012,7 +40048,7 @@ UU
 BN
 pI
 jg
-nR
+iP
 ni
 UG
 hy
@@ -41575,7 +41611,7 @@ cD
 Wy
 Jd
 ZM
-Pp
+qQ
 vG
 vG
 bw
@@ -43336,7 +43372,7 @@ GN
 xL
 Sx
 CJ
-wK
+gw
 bO
 Hu
 RV
@@ -47984,7 +48020,7 @@ ZD
 TA
 Bh
 Bh
-Bh
+YR
 Bh
 Bh
 Bh
