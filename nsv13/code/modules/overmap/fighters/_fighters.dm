@@ -604,10 +604,17 @@ Been a mess since 2018, we'll fix it someday (probably)
 		var/obj/item/ship_weapon/ammunition/countermeasure_charge/CC = W
 		var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
 		if(CD)
-			CD.charges = clamp(CD.charges + CC.restock_amount, CD.max_charges, 0)
-			qdel(W) //reload complete
+			if(CD.charges = CD.max_charges)
+				to_chat("<span class="warning">You try to insert the countermeasure charge, but there's no space for more charges in the countermeasure dispenser!</span>")
+			else
+				var/ChargeChange = clamp(CC.restock_amount + CD.charges, CD.max_charges, 0) - CD.Charges
+				to_chat("<span>You successfully reload the countermeasure dispenser in [src]</span>")
+				CC.restock_amount -= ChargeChange
+				CD.charges += ChargeChange
+				if(CC.restock_amount <= 0)
+					qdel(W)
 		else
-			to_chat("<span>You try to insert the countermeasure charge, but there's nothing to put it in!</span>")
+			to_chat("<span class="warning">You try to insert the countermeasure charge, but there's nothing to put it in!</span>")
 	..()
 
 /obj/structure/overmap/fighter/take_damage(damage_amount, damage_type, damage_flag, sound_effect)
