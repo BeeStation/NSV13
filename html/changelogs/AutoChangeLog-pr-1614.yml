@@ -1,0 +1,16 @@
+author: covertcorvid
+delete-after: true
+changes:
+  - rscadd: Route home is open any time after primary mission is complete
+  - rscadd: Objective to clear Rubicon available as an extension
+  - admin: Added a search box and non-fleet objects to Starsystem Manager. Added option
+      to delete and hail things. Added fast and regular jumps for ships with linked
+      areas (player and boarding ships, generally)
+  - tweak: Prevents extension from timing out while in combat
+  - bugfix: The jump to outpost 45 can no longer be interdicted and interdiction fleets
+      will not spawn in hyperspace
+  - bugfix: Shakedown cruise no longer has an unstoppable countdown timer - mission
+      progress will reset it
+  - code_imp: refactored the overmap jump(system, ftl_start) proc into jump_start(system)
+      and jump_end(system) procs
+  - bugfix: Fixed default consequences' lose influence not working
