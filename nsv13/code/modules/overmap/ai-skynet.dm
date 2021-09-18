@@ -1301,10 +1301,10 @@ Seek a ship thich we'll station ourselves around
 // Not as good as a carrier, but something
 /obj/structure/overmap/proc/ai_self_resupply()
 	ai_resupply_scheduled = FALSE
-	var/resupply_amount = CEILING(initial(missiles) / 2, 1)
+	var/resupply_amount = CEILING(initial(missiles) / 4, 1)
 	if(missiles < resupply_amount)
 		missiles += resupply_amount
-	resupply_amount = CEILING(initial(torpedoes) / 2, 1)
+	resupply_amount = CEILING(initial(torpedoes) / 4, 1)
 	if(torpedoes < resupply_amount)
 		torpedoes += resupply_amount
 	resupply_amount = CEILING(initial(shots_left) / 2, 1)

@@ -15,7 +15,7 @@
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/battleship_gun2.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_ready.ogg'
 	screen_shake = 2
-	ai_fire_delay = 20 SECONDS
+	ai_fire_delay = 2 SECONDS
 
 /datum/ship_weapon/mac/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
@@ -40,7 +40,7 @@
 	selectable = FALSE
 	lateral = FALSE
 	firing_arc = 45 //Broad side of a barn...
-	ai_fire_delay = 10 SECONDS
+	ai_fire_delay = 5 SECONDS
 
 /datum/ship_weapon/railgun/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
