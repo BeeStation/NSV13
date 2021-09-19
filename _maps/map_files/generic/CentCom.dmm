@@ -2467,7 +2467,7 @@
 "hq" = (
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/door/airlock/ship/security/glass{
-	req_one_access_txt = "2"
+	req_one_access_txt = "2;101"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -2482,6 +2482,11 @@
 /obj/structure/chair/comfy/shuttle,
 /obj/effect/turf_decal/tile/ship/neutral{
 	dir = 1
+	},
+/obj/item/toy/plush/beeplushie,
+/obj/item/clothing/head/beret/durathread{
+	pixel_x = -4;
+	pixel_y = 7
 	},
 /turf/open/floor/monotile/dark,
 /area/centcom/evac)
@@ -10030,7 +10035,8 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plating,
 /area/centcom/evac)
 "xb" = (
@@ -16443,7 +16449,7 @@
 /area/tdome/tdomeadmin)
 "KI" = (
 /obj/structure/table/reinforced,
-/obj/item/storage/firstaid{
+/obj/item/storage/firstaid/regular{
 	pixel_x = 3;
 	pixel_y = 3
 	},
@@ -16632,6 +16638,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/monotile/dark,
 /area/centcom/evac)
 "Lh" = (
@@ -16644,6 +16651,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/machinery/firealarm/directional/east,
 /turf/open/floor/monotile/dark,
 /area/centcom/evac)
 "Li" = (
@@ -16675,6 +16683,11 @@
 /obj/structure/chair/comfy/shuttle,
 /obj/effect/turf_decal/tile/ship/neutral{
 	dir = 4
+	},
+/obj/item/toy/plush/lizardplushie,
+/obj/item/clothing/head/caphat{
+	pixel_x = -1;
+	pixel_y = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/centcom/evac)
@@ -17599,6 +17612,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
 	},
+/obj/item/clothing/head/caphat,
 /turf/open/floor/monotile/dark,
 /area/centcom/evac)
 "OD" = (
@@ -17864,7 +17878,8 @@
 	dir = 1
 	},
 /obj/machinery/door/airlock/ship/public/glass,
-/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/monotile/dark,
 /area/centcom/evac)
 "PO" = (
@@ -18213,6 +18228,20 @@
 /obj/effect/turf_decal/tile/blue,
 /turf/open/floor/plasteel/dark,
 /area/ctf)
+"Ry" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/airlock/ship/security/glass{
+	req_one_access_txt = "2;101"
+	},
+/turf/open/floor/plating,
+/area/centcom/evac)
 "Rz" = (
 /obj/effect/turf_decal/tile/red{
 	dir = 1
@@ -18383,7 +18412,7 @@
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/door/airlock/ship/command/glass{
 	name = "Bridge";
-	req_access_txt = "19"
+	req_one_access_txt = "19;101"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/cable{
@@ -19784,6 +19813,10 @@
 	dir = 8
 	},
 /area/ctf)
+"ZF" = (
+/obj/item/toy/plush/beeplushie,
+/turf/open/space/basic,
+/area/space)
 "ZG" = (
 /obj/machinery/igniter/on,
 /obj/effect/turf_decal/delivery,
@@ -44261,7 +44294,7 @@ aa
 aa
 aa
 Lw
-aa
+ZF
 aa
 aa
 aa
@@ -48117,10 +48150,10 @@ hq
 Cn
 KZ
 hx
-hq
+Ry
 KZ
 KZ
-hq
+Ry
 UI
 Px
 Lz

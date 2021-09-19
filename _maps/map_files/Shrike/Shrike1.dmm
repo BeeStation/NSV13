@@ -1858,6 +1858,7 @@
 /obj/structure/cable/white{
 	icon_state = "0-8"
 	},
+/obj/machinery/airalarm/directional/south,
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/records)
 "iv" = (
@@ -3012,12 +3013,12 @@
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/ship/maintenance{
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/airlock/vault/ship{
 	name = "Records Room";
 	req_access_txt = "19;12"
 	},
-/obj/machinery/door/firedoor/border_only/directional/north,
-/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/records)
 "oz" = (
@@ -3176,6 +3177,11 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"pm" = (
+/obj/structure/closet/crate/wooden,
+/obj/effect/spawner/lootdrop/maintenance,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/port)
 "pn" = (
 /obj/machinery/chem_master,
 /turf/open/floor/plasteel/white/corner{
@@ -5596,6 +5602,10 @@
 	},
 /turf/open/floor/engine,
 /area/ai_monitored/turret_protected/ai)
+"AH" = (
+/obj/structure/closet/crate/nsv_mission_rewards,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/starboard)
 "AI" = (
 /obj/machinery/suit_storage_unit/ce,
 /obj/structure/window/reinforced/spawner/east,
@@ -6101,6 +6111,7 @@
 /area/engine/storage)
 "DD" = (
 /obj/structure/rack,
+/obj/effect/spawner/lootdrop/maintenance/two,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "DG" = (
@@ -6157,6 +6168,8 @@
 /area/maintenance/nsv/deck1/starboard)
 "DS" = (
 /obj/machinery/light/small,
+/obj/item/relic,
+/obj/structure/closet/crate,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "DV" = (
@@ -7483,15 +7496,17 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/door/airlock/ship/maintenance{
-	dir = 8;
-	name = "Records Room";
-	req_access_txt = "19;12"
-	},
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/airlock/vault/ship{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/records)
+"JR" = (
+/obj/structure/closet/crate/internals,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/port)
 "JT" = (
 /obj/machinery/airalarm/directional/east,
 /turf/open/floor/monofloor/corner,
@@ -9268,6 +9283,13 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"QQ" = (
+/obj/structure/fluff/support_beam{
+	dir = 4
+	},
+/obj/structure/rack,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/starboard)
 "QS" = (
 /obj/structure/railing{
 	dir = 9
@@ -11278,6 +11300,10 @@
 	},
 /turf/open/openspace,
 /area/maintenance/department/cargo)
+"Yx" = (
+/obj/structure/closet/crate/nsv_mission_rewards,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/port)
 "Yy" = (
 /turf/open/openspace,
 /area/maintenance/department/cargo)
@@ -11620,7 +11646,7 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "ZL" = (
-/obj/machinery/airalarm/directional/east,
+/obj/machinery/computer/bank_machine,
 /turf/open/floor/plating,
 /area/ai_monitored/records)
 "ZM" = (
@@ -42933,8 +42959,8 @@ ul
 xE
 Xe
 jC
-Xe
-Xe
+pm
+Yx
 IY
 GN
 xL
@@ -43191,7 +43217,7 @@ xE
 Xe
 WP
 Xe
-Xe
+JR
 IY
 GN
 Dj
@@ -44765,8 +44791,8 @@ UZ
 IL
 CU
 kW
-jf
-IL
+AH
+QQ
 jf
 RX
 Iw
