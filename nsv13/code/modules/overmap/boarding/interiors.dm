@@ -29,9 +29,11 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 					L.forceMove(TT)
 					L.death()
 				TT.ChangeTurf(/turf/open/space/basic)
+				SSair.can_fire = FALSE
 				for(var/turf/T in boarding_interior.get_affected_turfs(get_turf(locate(1, 1, boarding_reservation_z)), FALSE)) //nuke
 					CHECK_TICK
 					T.empty()
+				SSair.can_fire = TRUE
 				if(reserved_z)
 					free_treadmills += reserved_z
 					reserved_z = null
