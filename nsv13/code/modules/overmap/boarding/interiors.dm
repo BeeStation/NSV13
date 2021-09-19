@@ -199,3 +199,11 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 // Anything that needs to be done after the interior loads
 /obj/structure/overmap/proc/post_load_interior()
 	return
+
+/obj/structure/overmap/proc/get_interior_center()
+	if(length(occupying_levels))
+		// center of a whole Z level
+		var/datum/space_level/level = pick(occupying_levels)
+		return get_turf(locate(127, 127, level.z_value))
+	else if(roomReservation)
+		return get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2]+boarding_interior.height/2, roomReservation.bottom_left_coords[3]))

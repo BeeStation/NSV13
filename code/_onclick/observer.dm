@@ -10,7 +10,14 @@
 	// Things you might plausibly want to follow
 	if(ismovableatom(A))
 		ManualFollow(A)
-
+		//NSV13 - overmap viewing help
+		if(istype(A, /obj/structure/overmap))
+			var/obj/structure/overmap/OM = A
+			if(length(OM.linked_areas))
+				var/seemap = alert("View interior map?", "Enter ship", "Yes")
+				if(seemap == "Yes")
+					var/atom/newtarget = OM.get_interior_center()
+					A.transfer_observers_to(newtarget)
 	// Otherwise jump
 	else if(A.loc)
 		forceMove(get_turf(A))
