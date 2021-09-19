@@ -1,6 +1,6 @@
 /mob/dead/observer/DblClickOn(atom/A, params)
 	if(check_click_intercept(params, A))
-		return	
+		return
 
 	if(can_reenter_corpse && mind && mind.current)
 		if(A == mind.current || (mind.current in A)) // double click your corpse or whatever holds it
@@ -14,7 +14,7 @@
 		if(istype(A, /obj/structure/overmap))
 			var/obj/structure/overmap/OM = A
 			if(length(OM.linked_areas))
-				var/seemap = alert("View interior map?", "Enter ship", "Yes")
+				var/seemap = alert("View interior map?", "Enter ship", "Yes", "No")
 				if(seemap == "Yes")
 					var/atom/newtarget = OM.get_interior_center()
 					A.transfer_observers_to(newtarget)
