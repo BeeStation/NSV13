@@ -277,7 +277,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	else
 		npc_combat_dice = new combat_dice_type()
 
-
+	GLOB.poi_list += src
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/overmap/LateInitialize()
@@ -424,6 +424,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	. = ..()
 
 /obj/structure/overmap/Destroy()
+	GLOB.poi_list -= src
 	if(current_system)
 		current_system.system_contents.Remove(src)
 		if(faction != "nanotrasen" && faction != "solgov")
