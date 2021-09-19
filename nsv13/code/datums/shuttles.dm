@@ -65,3 +65,9 @@
 	admin_notes = "Used for escape pod only maps"
 	credit_cost = 0
 	can_be_bought = FALSE
+
+/datum/map_template/shuttle/emergency/atlas
+	suffix = "atlas"
+	name = "Danube Class Yacht"
+	description = "A small, luxurious shuttle capable of ferrying small - medium crews in comfort and style."
+	credit_cost = 4000

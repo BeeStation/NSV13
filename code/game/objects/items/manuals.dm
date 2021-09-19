@@ -498,7 +498,7 @@
 	page_link = "Standard_Operating_Procedure"
 	icon_state = "sop_catalogue"
 
-/obj/item/book/manual/wiki/supermatter_guide
+/obj/item/book/manual/wiki/supermatter_guide //NSV13
 	name = "Supermatter Textbook"
 	icon_state ="bookEngineering2"
 	author = "Engineering Encyclopedia"
