@@ -17,9 +17,7 @@ MAP_REMOVE_JOB(detective)
 MAP_REMOVE_JOB(deputy)
 MAP_REMOVE_JOB(brig_phys)
 //Munitions
-MAP_REMOVE_JOB(deck_tech)
-MAP_REMOVE_JOB(flight_leader)
-MAP_REMOVE_JOB(fighter_pilot)
+MAP_REMOVE_JOB(pilot)
 MAP_REMOVE_JOB(air_traffic_controller)
 
 //Shuttles Disabled - All

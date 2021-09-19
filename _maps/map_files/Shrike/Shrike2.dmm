@@ -3698,6 +3698,12 @@
 	dir = 8
 	},
 /area/crew_quarters/bar/mess_hall)
+"ny" = (
+/obj/structure/closet/emcloset{
+	anchored = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/port_substation)
 "nA" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -8610,6 +8616,13 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/space/nearstation)
+"Dq" = (
+/obj/machinery/power/apc/auto_name/east,
+/obj/structure/cable/orange,
+/turf/open/floor/monofloor{
+	dir = 4
+	},
+/area/engine/supermatter)
 "Dr" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -14724,7 +14737,9 @@
 	icon_state = "tube"
 	},
 /obj/item/book/manual/wiki/supermatter_guide,
-/turf/open/floor/monofloor/corner,
+/turf/open/floor/monofloor{
+	dir = 4
+	},
 /area/engine/supermatter)
 "Vb" = (
 /obj/machinery/power/deck_relay,
@@ -15006,12 +15021,14 @@
 /area/maintenance/nsv/weapons)
 "VP" = (
 /obj/machinery/atmospherics/pipe/simple/dark/visible,
-/obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
 /obj/structure/cable/white,
 /obj/machinery/meter,
+/obj/machinery/power/terminal{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/supermatter)
 "VQ" = (
@@ -15176,8 +15193,10 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Wl" = (
-/obj/structure/table,
-/obj/effect/spawner/lootdrop/glowstick,
+/obj/structure/closet/radiation{
+	anchored = 1
+	},
+/obj/item/storage/pill_bottle/antirad,
 /turf/open/floor/plating,
 /area/maintenance/nsv/port_substation)
 "Wn" = (
@@ -16109,11 +16128,17 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/security)
 "Zc" = (
-/obj/structure/closet/emcloset{
-	anchored = 1
+/obj/machinery/power/smes/engineering{
+	name = "supermatter power storage unit"
 	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/port_substation)
+/obj/structure/cable/orange{
+	icon_state = "0-2"
+	},
+/obj/structure/window/reinforced/spawner/north,
+/turf/open/floor/monofloor{
+	dir = 4
+	},
+/area/engine/supermatter)
 "Zd" = (
 /obj/machinery/light{
 	color = "#c1e1ff";
@@ -16244,16 +16269,12 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/medical)
 "Zt" = (
-/obj/structure/closet/radiation{
-	anchored = 1
-	},
 /obj/structure/railing{
 	pixel_y = -10
 	},
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
-/obj/item/storage/pill_bottle/antirad,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/port_substation)
 "Zu" = (
@@ -44637,8 +44658,8 @@ Qs
 Sk
 TF
 Va
-PY
-PY
+Zc
+Dq
 PY
 yh
 Of
@@ -44895,8 +44916,8 @@ Su
 TM
 PY
 PY
-Gz
-Zc
+PY
+PY
 eV
 lY
 mt
@@ -45152,7 +45173,7 @@ Sy
 TS
 PY
 Wl
-Gz
+ny
 Zj
 eV
 bv
