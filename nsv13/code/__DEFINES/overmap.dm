@@ -4,7 +4,7 @@
 #define FIRE_MODE_TORPEDO 2
 
 //Revision 2.
-#define FIRE_MODE_AMS_LASER 3 // Laser AMS should be fired before expensive missiles are fired, so this is prioritized first 
+#define FIRE_MODE_AMS_LASER 3 // Laser AMS should be fired before expensive missiles are fired, so this is prioritized first
 #define FIRE_MODE_AMS 4 //You don't get to physically fire this one.
 #define FIRE_MODE_MAC 5
 #define FIRE_MODE_RAILGUN 6
@@ -87,3 +87,4 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 #define INTERIOR_LOADING 1
 #define INTERIOR_READY 2
 #define INTERIOR_DELETING 3
+#define INTERIOR_DELETED 4

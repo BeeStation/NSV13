@@ -91,6 +91,7 @@
 			radio.talk_into(src, "EWAR scrambling on [linked.active_boarding_target] cancelled.", radio_channel)
 			//They REALLY NEED TO NOT SPAM THIS
 			can_salvage = FALSE
+			message_admins("[usr] released boarding/salvage lock on [linked.active_boarding_target]")
 			linked.active_boarding_target.kill_boarding_level(linked)
 			linked.active_boarding_target = null
 			addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown/2)
