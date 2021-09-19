@@ -62,16 +62,15 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 
 /obj/structure/overmap/proc/get_boarding_level()
 	if(boarding_reservation_z)
-		return FALSE
-		return TRUE
+		return
 	if(length(free_boarding_levels))
 		var/_z = pick_n_take(free_boarding_levels)
 		message_admins("found free boarding level [_z]")
 		boarding_reservation_z = _z
-		return TRUE
+		return
 	SSmapping.add_new_zlevel("Overmap boarding reservation", ZTRAITS_BOARDABLE_SHIP)
 	boarding_reservation_z = world.maxz
-	return TRUE
+	return
 
 /obj/structure/overmap/proc/ai_load_interior(obj/structure/overmap/boarder, map_path_override)
 	if(!boarder)
