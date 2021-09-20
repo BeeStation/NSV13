@@ -200,13 +200,14 @@
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
 	if(gunner)
+		var/mob/oldGunner = gunner
 		var/obj/structure/overmap/OM = get_overmap()
 		OM?.stop_piloting(gunner)
 		if(gunner_chair)
 			lower_chair()
 		else
-			gunner.forceMove(get_turf(src))
-		gunner.remove_verb(gauss_verbs)
+			oldGunner.forceMove(get_turf(src))
+		oldGunner.remove_verb(gauss_verbs)
 	gunner = null
 
 //Directional subtypes
@@ -353,7 +354,9 @@
 	update_icon()
 
 /obj/structure/gauss_rack/Destroy()
-	return QDEL_HINT_LETMELIVE
+	for(var/atom/movable/A in contents)
+		A.forceMove(loc)
+	. = ..()
 
 /obj/structure/gauss_rack/update_icon()
 	if(autoload)
@@ -371,7 +374,7 @@
 		I.forceMove(src)
 		autoload = TRUE
 		update_icon()
-	if(istype(I, gun.ammo_type))
+	if(istype(I, gun?.ammo_type))
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading something onto [src]!.</span>")
 			return FALSE
@@ -386,6 +389,8 @@
 			return FALSE
 		else
 			to_chat(user, "<span class='warning'>[src] is fully loaded!</span>")
+	else if(!gun)
+		to_chat(user, "<span class='warning'>[src] is is not connected to a gun!</span>")
 	. = ..()
 
 /obj/structure/gauss_rack/MouseDrop_T(obj/structure/A, mob/user)
@@ -406,7 +411,7 @@
 //I'll probably live to regret this...
 /obj/structure/gauss_rack/Bumped(atom/movable/AM)
 	. = ..()
-	if(autoload)
+	if(autoload && gun)
 		if(istype(AM, gun.ammo_type))
 			loading = TRUE
 			load(AM)
@@ -418,7 +423,7 @@
 		loading = FALSE
 		return FALSE
 	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-	if(istype(A, gun.ammo_type))
+	if(istype(A, gun?.ammo_type))
 		A.forceMove(src)
 		vis_contents += A
 		capacity ++
@@ -440,7 +445,7 @@
 	A.alpha = initial(A.alpha)
 	A.layer = initial(A.layer)
 	A.mouse_opacity = TRUE
-	if(istype(A, gun.ammo_type)) //If a munition, allow them to load other munitions onto us.
+	if(istype(A, gun?.ammo_type) || (!gun && istype(A, /obj/item/ship_weapon/ammunition/gauss))) //If a munition, allow them to load other munitions onto us.
 		capacity --
 	if(istype(A, /obj/item/circuitboard/gauss_rack_upgrade))
 		autoload = FALSE
@@ -449,7 +454,7 @@
 		var/count = capacity
 		for(var/X in contents)
 			var/atom/movable/AM = X
-			if(istype(AM, gun.ammo_type))
+			if(istype(AM, gun?.ammo_type))
 				AM.pixel_y = count*10
 				count --
 	if(update_visuals)
@@ -488,12 +493,12 @@
 			unload(BB)
 		if("unload_all")
 			for(var/atom/movable/A in src)
-				if(istype(A, gun.ammo_type)) //It says "unload all ammunition from rack" not "unload all"
+				if(istype(A, gun?.ammo_type) || (!gun && istype(A, /obj/item/ship_weapon/ammunition/gauss))) //It says "unload all ammunition from rack" not "unload all"
 					unload(A, update_visuals = FALSE)
 			update_visuals()
 			return
 		if("load")
-			gun.raise_rack()
+			gun?.raise_rack()
 
 /obj/structure/gauss_rack/ui_data(mob/user)
 	var/list/data = list()
