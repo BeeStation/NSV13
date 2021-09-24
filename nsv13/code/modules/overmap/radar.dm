@@ -92,6 +92,8 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	if(!can_radar_pulse())
 		return FALSE
 	var/obj/structure/overmap/OM = get_overmap()
+	if(!OM)
+		return FALSE
 	OM.send_radar_pulse()
 	addtimer(VARSET_CALLBACK(src, sensor_range, base_sensor_range), RADAR_VISIBILITY_PENALTY)
 	sensor_range = world.maxx
