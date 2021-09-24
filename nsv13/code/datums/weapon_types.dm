@@ -92,7 +92,7 @@
 
 //Energy Weapons
 
-/datum/ship_weapon/burst_phaser // Little red laser 
+/datum/ship_weapon/burst_phaser // Little red laser
 	name = "Burst Phasers"
 	default_projectile_type = /obj/item/projectile/beam/laser/phaser
 	burst_size = 1
@@ -107,7 +107,7 @@
 	miss_chance = 33
 	max_miss_distance = 6
 
-/datum/ship_weapon/phaser // Big blue laser 
+/datum/ship_weapon/phaser // Big blue laser
 	name = "Phaser Banks"
 	default_projectile_type = /obj/item/projectile/beam/laser/heavylaser/phaser
 	burst_size = 1
@@ -251,6 +251,19 @@
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 	miss_chance = 33
 	max_miss_distance = 6
+	var/sound/lastsound // Special PDC sound handling
+
+/datum/ship_weapon/pdc_mount/Initialize()
+	. = ..()
+	lastsound = pick(overmap_firing_sounds)
+
+// only change our firing sound if we haven't been firing for our fire delay + one second
+/datum/ship_weapon/pdc_mount/weapon_sound()
+	set waitfor = FALSE
+	if(world.time > next_firetime + fire_delay + 10)
+		lastsound = pick(overmap_firing_sounds)
+	holder.relay(lastsound)
+
 
 /datum/ship_weapon/flak
 	name = "Flak cannon"
