@@ -893,6 +893,7 @@
 	pixel_x = -22;
 	req_one_access_txt = "10;24"
 	},
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple,
 /turf/open/floor/engine,
 /area/engine/stormdrive)
 "cV" = (
@@ -1104,6 +1105,12 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
+"dw" = (
+/obj/machinery/atmospherics/pipe/heat_exchanging/manifold{
+	dir = 8
+	},
+/turf/open/floor/engine,
+/area/engine/stormdrive)
 "dA" = (
 /obj/structure/flora/grass/jungle/b,
 /obj/structure/flora/junglebush/large,
@@ -1364,6 +1371,7 @@
 	dir = 4
 	},
 /obj/machinery/meter,
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "ex" = (
@@ -1822,6 +1830,12 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/weapons)
+"fZ" = (
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 9
+	},
+/turf/open/floor/engine,
+/area/engine/stormdrive)
 "ga" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/firealarm/directional/west,
@@ -3498,6 +3512,10 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
+"mB" = (
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple,
+/turf/open/floor/engine,
+/area/engine/stormdrive)
 "mE" = (
 /obj/structure/disposalpipe/trunk/multiz,
 /turf/open/floor/plating/rusty_techgrid,
@@ -3680,6 +3698,12 @@
 	lighting_colour_night = "#FF3232";
 	lighting_colour_tube = "#FF3232"
 	})
+"nq" = (
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/engine/stormdrive)
 "nr" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Galley Maintenance"
@@ -4551,6 +4575,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/meter,
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "qq" = (
@@ -6710,6 +6735,16 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/nsv)
+"xr" = (
+/obj/machinery/atmospherics/pipe/heat_exchanging/junction{
+	dir = 1
+	},
+/obj/machinery/door/poddoor/ship{
+	id = "stormdrive_blastdoors"
+	},
+/obj/effect/turf_decal/caution/stand_clear,
+/turf/open/floor/plating/rusty_techgrid,
+/area/engine/stormdrive)
 "xs" = (
 /obj/machinery/light/small{
 	dir = 4
@@ -7033,6 +7068,11 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"yk" = (
+/obj/structure/window/reinforced/spawner,
+/obj/machinery/portable_atmospherics/canister/nitrogen,
+/turf/open/floor/plating,
+/area/nsv/engine/engine_room/auxiliary)
 "yl" = (
 /obj/effect/spawner/lootdrop/grille_or_trash,
 /turf/open/floor/plating,
@@ -7740,7 +7780,8 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/components/trinary/filter/on{
-	dir = 4
+	dir = 4;
+	filter_type = "water_vapor"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
 	dir = 8
@@ -7770,6 +7811,12 @@
 /obj/machinery/portable_atmospherics/canister/pluoxium,
 /turf/open/floor/mineral/plastitanium/airless,
 /area/engine/atmos/port_atmos)
+"An" = (
+/obj/machinery/atmospherics/components/unary/portables_connector{
+	dir = 1
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/engine/stormdrive)
 "Ao" = (
 /obj/structure/fluff/support_beam{
 	dir = 1
@@ -7854,9 +7901,10 @@
 /turf/open/floor/mineral/plastitanium/airless,
 /area/engine/atmos/port_atmos)
 "AE" = (
-/turf/open/floor/monofloor/corner{
-	dir = 8
+/obj/structure/frame/machine{
+	anchored = 1
 	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "AH" = (
 /obj/machinery/camera/autoname{
@@ -9276,6 +9324,12 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/weapons)
+"EX" = (
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 10
+	},
+/turf/open/floor/engine,
+/area/engine/stormdrive)
 "EZ" = (
 /obj/structure/window/reinforced/spawner/north,
 /obj/structure/window/reinforced/spawner/east,
@@ -9982,6 +10036,9 @@
 	},
 /obj/machinery/camera/autoname{
 	dir = 1
+	},
+/obj/machinery/power/floodlight{
+	anchored = 0
 	},
 /turf/open/floor/monofloor,
 /area/engine/stormdrive)
@@ -11346,6 +11403,7 @@
 "Lh" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /obj/structure/extinguisher_cabinet/north,
+/obj/structure/table,
 /turf/open/floor/monofloor{
 	dir = 1
 	},
@@ -12879,6 +12937,12 @@
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/maintenance/nsv/weapons)
+"PE" = (
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 6
+	},
+/turf/open/floor/engine,
+/area/engine/stormdrive)
 "PF" = (
 /turf/open/floor/plasteel/dark/side,
 /area/nsv/weapons/fore{
@@ -13670,9 +13734,14 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/medical)
 "RX" = (
-/obj/structure/table,
-/obj/effect/spawner/lootdrop/maintenance/two,
 /obj/item/circuitboard/machine/thermomachine,
+/obj/item/storage/box/stockparts/basic{
+	pixel_x = -3;
+	pixel_y = 6
+	},
+/obj/item/stack/sheet/glass,
+/obj/item/stack/cable_coil/random,
+/obj/structure/closet/crate/engineering,
 /turf/open/floor/monofloor/corner{
 	dir = 4
 	},
@@ -16388,9 +16457,10 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/turf/open/floor/monofloor/corner{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/dark{
+	dir = 8
 	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "ZF" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1{
@@ -16479,6 +16549,12 @@
 /obj/machinery/portable_atmospherics/canister/toxins,
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
+"ZN" = (
+/obj/machinery/atmospherics/pipe/simple/dark/visible{
+	dir = 10
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/engine/stormdrive)
 "ZO" = (
 /obj/structure/cable/green{
 	icon_state = "4-8"
@@ -46224,12 +46300,12 @@ GO
 RX
 Mj
 Uq
-Sg
+PE
 cU
 eu
-Sg
-Sg
-Uq
+mB
+dw
+xr
 ZE
 AE
 GO
@@ -46481,14 +46557,14 @@ GO
 VM
 IJ
 Vq
-Sg
+nq
 gJ
 Jc
 cI
-Sg
+nq
 Vq
-QV
-KS
+ZN
+An
 GO
 UN
 Tz
@@ -46738,11 +46814,11 @@ GO
 Xh
 IJ
 Vq
-Sg
+nq
 cr
 Uw
 Vj
-Sg
+nq
 Vq
 QV
 KS
@@ -46995,11 +47071,11 @@ GO
 Lh
 Ca
 Vq
-Sg
+nq
 vZ
 rp
 Kc
-Sg
+nq
 Vq
 EA
 cq
@@ -47252,11 +47328,11 @@ YW
 Qf
 zM
 Uq
-Sg
-Sg
+EX
+mB
 qp
-Sg
-Sg
+mB
+fZ
 Uq
 ZF
 Hq
@@ -49818,7 +49894,7 @@ fk
 xL
 HB
 YG
-kG
+yk
 wD
 Yc
 GO
