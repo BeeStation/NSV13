@@ -235,8 +235,7 @@
 
 /obj/machinery/ship_weapon/gauss_gun/overmap_fire(atom/target)
 	if(world.time >= next_sound) //Prevents ear destruction from soundspam
-		var/sound/chosen = pick(weapon_type.overmap_firing_sounds)
-		linked.relay_to_nearby(chosen)
+		overmap_sound()
 		next_sound = world.time + 1 SECONDS
 	if(overlay)
 		overlay.do_animation()
