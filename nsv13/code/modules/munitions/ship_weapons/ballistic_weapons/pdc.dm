@@ -163,6 +163,6 @@
 /obj/machinery/ship_weapon/pdc_mount/overmap_sound()
 	if(world.time > soundcooldown)
 		lastsound = pick(weapon_type.overmap_firing_sounds)
-	holder.relay(lastsound)
+	linked.relay_to_nearby(lastsound)
 
 #undef MSTATE_PRIEDOUT
