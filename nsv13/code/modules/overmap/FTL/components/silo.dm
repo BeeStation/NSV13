@@ -58,6 +58,8 @@
 
 /obj/machinery/atmospherics/components/binary/silo/Destroy()
 	STOP_PROCESSING(SSmachines, src)
+	QDEL_NULL(bulb)
+	QDEL_NULL(mode_ring)
 	if(noleak)
 		QDEL_NULL(air_contents)
 		return ..()

@@ -1,6 +1,6 @@
 // in kPa
-#define MAX_WASTE_OUTPUT_PRESSURE 7500
-#define MAX_WASTE_STORAGE_PRESSURE 10000
+#define MAX_WASTE_OUTPUT_PRESSURE 5000
+#define MAX_WASTE_STORAGE_PRESSURE 8000
 
 // Base temperature to heat waste gas by in celcius.
 #define WASTE_GAS_HEAT 50
@@ -141,7 +141,7 @@
 				if(1)
 					playsound(src, 'nsv13/sound/effects/metal_clang.ogg', 100, TRUE)
 				if(3)
-					playsound(src, 'sound/effects/bampf.ogg', 100, TRUE)
+					playsound(src, 'sound/effects/bamf.ogg', 100, TRUE)
 				if(4)
 					playsound(src, 'sound/effects/bang.ogg', 100, TRUE)
 				if(5)
@@ -228,6 +228,8 @@
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/set_state(nstate)
 	if(pylon_state == nstate) // to avoid needless icon updates
 		return
+	if(nstate == PYLON_STATE_SPOOLING)
+		playsound(src, 'nsv13/sound/machines/FTL/AC_buzz.ogg', 150, FALSE, 3)
 	pylon_state = nstate
 	update_visuals()
 
@@ -250,6 +252,8 @@
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/update_visuals()
 	cut_overlays()
+	if(QDELETED(pylon_shield)) // Shouldn't be deleted but just in case
+		pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open")
 	var/list/ov = list()
 	switch(pylon_state)
 		if(PYLON_STATE_OFFLINE)
@@ -286,14 +290,14 @@
 /obj/machinery/atmospherics/components/binary/drive_pylon/hugbox/power_drain()
 	return TRUE
 
-/obj/machinery/atmospherics/components/binary/drive_pylon/hugbox/consume_fuel()
+/obj/machinery/atmospherics/components/binary/drive_pylon/hugbox/process_atmos()
 	if(autoadd_input)
 		var/datum/gas_mixture/input = airs[1]
 		input.set_moles(/datum/gas/nucleium, 100)
 	if(autoclear_waste)
 		var/datum/gas_mixture/output = airs[2]
 		output.clear()
-	..()
+	return ..()
 
 #undef PYLON_STATE_OFFLINE
 #undef PYLON_STATE_STARTING

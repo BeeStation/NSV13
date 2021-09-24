@@ -157,7 +157,7 @@
 			ftl_drive.jump(target_system) //Jump home
 
 	else
-		message_admins("Target does not have an Thirring Drive!")
+		message_admins("Target does not have an FTL Drive!")
 
 /obj/structure/overmap/proc/force_parallax_update(ftl_start)
 	if(reserved_z) //Actual overmap parallax behaviour

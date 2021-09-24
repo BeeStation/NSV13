@@ -2,6 +2,9 @@
 /// Minimuim time between FTL jumps in deciseconds
 #define FTL_COOLDOWN 260
 
+/// Maximum link distance between pylons and the core
+#define MAX_PYLON_DISTANCE 10
+
 /obj/machinery/computer/ship/ftl_core
 	name = "\improper Thirring Drive manifold"
 	desc = "The Lense-Thirring Precession Drive, an advanced method of FTL propulsion that utilizes exotic energy to warp space around itself. Exotic energy must be supplied via drive pylons."
@@ -34,7 +37,7 @@
 	var/jump_speed_factor = 3.5 //How quickly do we jump? Larger is faster.
 	var/ftl_startup_time = 30 SECONDS // How long does it take to iniate the jump
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
-	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long.ogg'
+	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long_thirring.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
 	var/datum/looping_sound/ftl_drive/soundloop
 	var/auto_spool = FALSE
@@ -52,12 +55,17 @@
 	radio.recalculateChannels()
 	soundloop = new(list(src))
 
+/obj/machinery/computer/ship/ftl_core/Destroy()
+	QDEL_NULL(soundloop)
+	QDEL_NULL(radio)
+	return ..()
+
 /obj/machinery/computer/ship/ftl_core/proc/get_pylons()
 	pylons.len = 0
 	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in GLOB.machines)
 		if(length(pylons) == 4) // No more than 4 pylons for the sake of the UI
 			break
-		if(get_dist(src, P) <= 10 && link_id == P.link_id && P.get_overmap() == get_overmap() && P.is_operational())
+		if(get_dist(src, P) <= MAX_PYLON_DISTANCE && link_id == P.link_id && P.get_overmap() == get_overmap() && P.is_operational())
 			pylons += P
 
 /obj/machinery/computer/ship/ftl_core/proc/check_pylons()
@@ -121,10 +129,12 @@
 
 /// Cosmetic effect
 /obj/machinery/computer/ship/ftl_core/proc/discharge_pylon(atom/P)
-	playsound(P, 'nsv13/sound/machines/FTL/FTL_pylon_discharge.ogg', rand(85,100), TRUE, 1)
-	var/target = src
+	playsound(P, 'nsv13/sound/machines/FTL/FTL_pylon_discharge.ogg', 100, TRUE, 1)
+	var/atom/target
 	if(length(pylons) > 1)
 		target = pick(pylons - P)
+	else
+		target = locate(x + rand(-1, 1), y + 1, z) // Make it hit the ring, not the console
 	sleep(20)
 	P.Beam(target, icon_state = "lightning[rand(1, 12)]", time = 10, maxdistance = 10)
 	playsound(P, 'sound/magic/lightningshock.ogg', 10, 1, 1)
@@ -145,7 +155,7 @@
 			qdel(FI)
 			upgrade()
 		else
-			to_chat(user, "<span class='notice'>[src] has already been upgraded to a higher tier than [FI] can offer.</span>")
+			to_chat(user, "<span class='notice'>\The [src] has already been upgraded to a higher tier than [FI] can offer.</span>")
 
 /obj/machinery/computer/ship/ftl_core/vv_edit_var(var_name, var_value)
 	. = ..()
@@ -324,7 +334,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 /obj/machinery/computer/ship/ftl_core/update_icon()
 	return //Override computer updates
 
-/obj/machinery/computer/ship/ftl_core/proc/depower()
+/obj/machinery/computer/ship/ftl_core/proc/depower(shutdown_pylons = TRUE)
 	if(progress <= 0)
 		return FALSE
 	active = FALSE
@@ -333,6 +343,9 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	progress = 0
 	use_power = 50
 	soundloop.stop()
+	if(shutdown_pylons)
+		for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in pylon)
+			P.set_state(PYLON_STATE_SHUTDOWN)
 	cooldown = TRUE
 	addtimer(CALLBACK(src, .proc/post_cooldown, auto_spool), FTL_COOLDOWN)
 	STOP_PROCESSING(SSmachines, src)
@@ -346,3 +359,4 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		spoolup()
 
 #undef FTL_COOLDOWN
+#undef MAX_PYLON_DISTANCE

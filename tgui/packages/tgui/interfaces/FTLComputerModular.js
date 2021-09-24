@@ -34,8 +34,8 @@ export const FTLComputerModular = (props, context) => {
                       value={value.gyro}
                       ranges={{
                         good: [1, 2],
-                        average: [0.5, 0.9],
-                        bad: [0, 0.4],
+                        average: [0.5, 0.99],
+                        bad: [0, 0.49],
                       }} />
                     <br />
                     Capacitor Charge:
@@ -43,8 +43,8 @@ export const FTLComputerModular = (props, context) => {
                       value={value.capacitor}
                       ranges={{
                         good: [1, 2],
-                        average: [0.5, 0.9],
-                        bad: [0, 0.4],
+                        average: [0.5, 0.99],
+                        bad: [0, 0.49],
                       }} />
                     <br />
                     Power Draw: <b>{value.draw}</b>
