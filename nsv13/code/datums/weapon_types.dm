@@ -253,8 +253,8 @@
 	max_miss_distance = 6
 	var/sound/lastsound // Special PDC sound handling
 
-/datum/ship_weapon/pdc_mount/Initialize()
-	. = ..()
+/datum/ship_weapon/pdc_mount/New()
+	..()
 	lastsound = pick(overmap_firing_sounds)
 
 // only change our firing sound if we haven't been firing for our fire delay + one second
