@@ -6,7 +6,7 @@
 	materials = list(/datum/material/iron = 300)
 	w_class = WEIGHT_CLASS_BULKY
 	result_path = /obj/structure/chair/shuttlecraft_chair
-	pixel_shift = -20
+	pixel_shift = -10
 
 /obj/structure/chair/shuttlecraft_chair
 	name = "Shuttle Seat"
@@ -83,8 +83,8 @@
 /obj/structure/chair/shuttlecraft_chair/Initialize()
     . = ..()
     var/datum/component/riding/D = LoadComponent(/datum/component/riding)
-    D.set_riding_offsets(RIDING_OFFSET_ALL, list(TEXT_NORTH = list(0, -20), TEXT_SOUTH = list(0, 20), TEXT_EAST = list(-20, 0), TEXT_WEST = list(20, 0)))
-    D.set_vehicle_dir_offsets(NORTH, 0, -20)
-    D.set_vehicle_dir_offsets(SOUTH, 0, 20)
-    D.set_vehicle_dir_offsets(EAST, -20, 0)
-    D.set_vehicle_dir_offsets(WEST, 20, 0)
+    D.set_riding_offsets(RIDING_OFFSET_ALL, list(TEXT_NORTH = list(0, -10), TEXT_SOUTH = list(0, 10), TEXT_EAST = list(-10, 0), TEXT_WEST = list(10, 0)))
+    D.set_vehicle_dir_offsets(NORTH, 0, -10)
+    D.set_vehicle_dir_offsets(SOUTH, 0, 10)
+    D.set_vehicle_dir_offsets(EAST, -10, 0)
+    D.set_vehicle_dir_offsets(WEST, 10, 0)
