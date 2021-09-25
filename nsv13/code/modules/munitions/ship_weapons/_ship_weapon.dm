@@ -474,7 +474,7 @@
 
 			for(var/i = 0, i < shots, i++)
 				do_animation()
-				state = 5
+				state = STATE_FIRING
 
 				local_fire()
 				overmap_fire(target)
