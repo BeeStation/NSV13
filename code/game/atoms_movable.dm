@@ -230,7 +230,7 @@
 			var/dy = newloc.y - loc.y
 			var/dz = newloc.z - loc.z
 			for(var/atom/A as() in (locs - newlocs))
-				if(!A.Exit(src, locate(A.x+dx,A.y+dy,A.z+dz))
+				if(!A.Exit(src, locate(A.x+dx,A.y+dy,A.z+dz)))
 					return
 			for(var/atom/A as() in (newlocs - locs))
 				if(!A.Enter(src, locate(A.x-dx,A.y-dy,A.z+dz)))
