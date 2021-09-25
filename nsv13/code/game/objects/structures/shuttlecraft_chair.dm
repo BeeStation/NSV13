@@ -48,6 +48,7 @@
 /obj/structure/chair/shuttlecraft_chair/proc/update_armrest()
 	if(has_buckled_mobs())
 		add_overlay(armrest)
+		AltClick(null)
 	else
 		cut_overlay(armrest)
 
@@ -63,16 +64,19 @@
 	return attack_hand(user)
 
 /obj/structure/chair/shuttlecraft_chair/AltClick(mob/living/user)
-	if(!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
-		return
-	if(broken)
-		to_chat(user, "<span class='warning'>[src] is broken [opened?"open":"closed"].</span>")
-		return
-	else
-		playsound(loc, 'sound/machines/click.ogg', 15, 1, -3)
-		opened = !opened
-		can_buckle = !can_buckle
-		update_icon()
+    if(!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
+        return
+    if(broken)
+        to_chat(user, "<span class='warning'>[src] is broken [opened?"open":"closed"].</span>")
+        return
+    if(has_buckled_mobs())
+        to_chat(user, "<span class='warning'>You can't [opened?"open":"close"] [src] while someone is sitting in it!</span>")
+        return
+    else
+        playsound(loc, 'sound/machines/click.ogg', 15, 1, -3)
+        opened = !opened
+        can_buckle = !can_buckle
+        update_icon()
 
 /obj/structure/chair/shuttlecraft_chair/update_icon()
 	if(!opened)
