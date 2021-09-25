@@ -67,13 +67,11 @@ If someone hacks it, you can always rebuild it.
 /obj/machinery/computer/iff_console/ui_data(mob/user)
 	var/list/data = list()
 	var/obj/item/multitool/tool = get_multitool(user)
-	if(!tool) //Don't all crowd around it at once... You have to hold a multitool out to progress the hack...
-		hack_progress = 0
-	else
+	if(tool) //Don't all crowd around it at once... You have to hold a multitool out to progress the hack...
 		hack_progress += 1 SECONDS
 	if(hack_progress >= hack_goal)
-		hack_progress = 0
 		hack()
+		hack_progress = 0
 	data["is_hackerman"] = (tool && obj_flags & EMAGGED) ? TRUE : FALSE
 	data["hack_progress"] = hack_progress
 	data["hack_goal"] = hack_goal
