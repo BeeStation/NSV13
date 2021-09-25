@@ -413,18 +413,18 @@ Returns a faction datum by its name (case insensitive!)
 
 /obj/effect/overmap_anomaly/singularity/process()
 	if(!z) //Not in nullspace
-		if(affecting && affecting.len)
+		if(length(affecting))
 			for(var/obj/structure/overmap/OM in affecting)
 				stop_affecting(OM)
 		return
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects)
 		if(LAZYFIND(affecting, OM))
 			continue
 		if(get_dist(src, OM) <= influence_range && OM.z == z)
 			affecting += OM
 			cached_colours[OM] = OM.color //So that say, a yellow fighter doesnt get its paint cleared by redshifting
-			OM.relay(sound='nsv13/sound/effects/ship/falling.ogg', message="<span class='warning'>You feel weighed down.</span>", loop=TRUE, channel=CHANNEL_HEARTBEAT)
-	for(var/obj/structure/overmap/OM in affecting)
+			OM.relay(S='nsv13/sound/effects/ship/falling.ogg', message="<span class='warning'>You feel weighed down.</span>", loop=TRUE, channel=CHANNEL_HEARTBEAT)
+	for(var/obj/structure/overmap/OM as() in affecting)
 		if(get_dist(src, OM) > influence_range || !z || OM.z != z)
 			stop_affecting(OM)
 			continue
@@ -441,7 +441,7 @@ Returns a faction datum by its name (case insensitive!)
 			qdel(OM)
 		dist = (dist > 0) ? dist : 1
 		var/pull_strength = (dist > event_horizon_range) ? 0.005 : base_pull_strength
-		var/succ_impulse = (!OM.brakes) ? pull_strength/dist*dist : (OM.forward_maxthrust / 10) + (pull_strength/dist*dist) //STOP RESISTING THE SUCC
+		var/succ_impulse = !OM.brakes ? pull_strength/dist*dist : (OM.forward_maxthrust / 10) + (pull_strength/dist*dist) //STOP RESISTING THE SUCC
 		if(incidence & NORTH)
 			OM.velocity.y += succ_impulse
 		if(incidence & SOUTH)
@@ -491,7 +491,7 @@ Returns a faction datum by its name (case insensitive!)
 	var/anomaly_type = null
 	difficulty_budget = threat_level
 	var/list/sys = system_type
-	switch(sys[ "tag" ])
+	switch(sys["tag"])
 		if("safe")
 			possible_events = list(/datum/round_event_control/aurora_caelus)
 		if("hazardous") //TODO: Make better anomalies spawn in hazardous systems scaling with threat level.

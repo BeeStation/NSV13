@@ -26,7 +26,7 @@
 
 //Executive officer's line variant. For rule of cool.
 /obj/machinery/turnstile/xo
-	name = "XO line turnstile"
+	name = "\improper XO line turnstile"
 	req_one_access = list(ACCESS_BRIG, ACCESS_HEADS)
 
 /obj/structure/closet/secure_closet/genpop
@@ -336,8 +336,7 @@ GLOBAL_LIST_EMPTY(prisoner_ids)
 
 /obj/item/card/id/prisoner/process()
 	served_time ++ //Maybe 2?
-
-	if (served_time >= sentence) //FREEDOM!
+	if(served_time >= sentence) //FREEDOM!
 		assignment = "Ex-Convict"
 		access = list(ACCESS_PRISONER)
 		update_label(registered_name, assignment)
