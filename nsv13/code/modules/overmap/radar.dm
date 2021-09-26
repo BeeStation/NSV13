@@ -126,36 +126,19 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight 
 	name = "\improper Cargo freight delivery console"
+	circuit = /obj/item/circuitboard/computer/ship/dradis/cargo
 	var/linked_launcher = null
 
 /obj/machinery/computer/ship/dradis/cargo/Initialize()
 	..()
-	
-	// // Get nearest cargo launcher 
-	// var/nearestDistance = INFINITY
-	// var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = null
-	// for(var/obj/machinery/inertial_dampener/machine in GLOB.machines)
-	// 	var/dist = get_dist( src, machine )
-	// 	if ( dist < nearestDistance )
-	// 		nearestDistance = dist 
-	// 		launcher = machine
-	// 
-	// // Autolink the nearest cargo launcher if within a reasonable range on init 
-	// // I could have done this by area if it were more efficient but there was some easily reusable code in inertial dampeners 
-	// if ( launcher && nearestDistance <= 7 )
-	// 	launcher.linked_dradis = src 
-	// 	linked_launcher = launcher
-	
-	// for ( var/dir in list( NORTH, SOUTH, EAST, WEST ) ) 
-	// 	for( var/object in list( /obj/machinery/computer/ship/munitions_computer, /obj/machinery/ship_weapon/torpedo_launcher/cargo ) )
-	// 		var/atom/adjacent = locate(object) in get_turf(get_step(src, opposite_dir))
-	// 		if(adjacent && istype(adjacent, object))
 	
 	var/area/A = get_area( src )
 	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = locate( /obj/machinery/ship_weapon/torpedo_launcher/cargo ) in A.contents 
 	if ( launcher ) 
 		launcher.linked_dradis = src 
 		linked_launcher = launcher
+	
+	sensor_range = hail_range
 
 /obj/machinery/computer/ship/dradis/cargo/multitool_act(mob/living/user, obj/item/I)
 	// Allow relinking a console's cargo launcher 

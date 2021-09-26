@@ -88,6 +88,10 @@ Bullet reactions
 			obj_integrity = 10 //Automatically set them to 10 HP, so that the hit isn't totally ignored. Say if we have a nuke dealing 1800 DMG (the ship's full health) this stops them from not taking damage from it, as it's more DMG than we can handle.
 			handle_crit(damage_amount)
 			return FALSE
+	if ( essential ) // Mission critical targets like stations with cargo missions need to stay alive to not break things 
+		// if(obj_integrity <= damage_amount) 
+		// 	obj_integrity = 10 //Automatically set them to 10 HP, so that the hit isn't totally ignored. 
+		return FALSE
 	update_icon()
 	. = ..()
 

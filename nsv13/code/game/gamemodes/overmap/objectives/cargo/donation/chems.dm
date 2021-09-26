@@ -46,7 +46,7 @@
 					// 	"units" = 30,
 					// 	"delivered" = 0
 					// )
-					var/datum/cargo_objective/reagent/O = new /datum/cargo_objective/reagent 
+					var/datum/cargo_item_type/reagent/O = new /datum/cargo_item_type/reagent 
 					O.reagent = C 
 					chemicals += O
 
