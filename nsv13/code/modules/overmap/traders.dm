@@ -59,7 +59,7 @@
 /datum/trader_item/proc/on_purchase(obj/structure/overmap/OM)
 	OM.send_supplypod(unlock_path)
 
-/obj/structure/overmap/proc/send_supplypod(unlock_path, isInitialized)
+/obj/structure/overmap/proc/send_supplypod(unlock_path, var/obj/structure/overmap/courier, isInitialized)
 	RETURN_TYPE(/atom/movable)
 	var/area/landingzone = null
 	var/obj/structure/overmap/OM = src
@@ -93,7 +93,11 @@
 		LZ = get_turf(dradis.beacon)
 	if(!LZ)
 		LZ = pick(landingzone.contents) //If we couldn't find an open floor, just throw it somewhere
-	var/obj/structure/closet/supplypod/toLaunch = new supply_pod_type
+	
+	// Knowing who the deliveryman is tells us what kind of pod to send 
+	var/obj/structure/closet/supplypod/courier_supply_pod_type = courier.supply_pod_type
+	var/obj/structure/closet/supplypod/toLaunch = new courier_supply_pod_type()
+
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
 	var/atom/movable/theItem

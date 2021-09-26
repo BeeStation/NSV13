@@ -346,7 +346,7 @@ Adding tasks is easy! Just define a datum for it.
 	if ( console.linked )
 		var/obj/structure/overmap/courier = console.linked 
 		if ( courier.faction == src.faction )
-			src.send_supplypod( shipment, TRUE )
+			src.send_supplypod( shipment, courier, TRUE )
 		else 
 			// We're not allowing syndicate to hitscan the player ship with boarders at this time 
 			to_chat(user, "<span class='warning'>The cargo launcher IFF checker blinks an error, recipient faction is unmatched!</span>")
