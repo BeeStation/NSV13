@@ -3,34 +3,24 @@
 	desc = "Donate 1 or more chemical bottles"
 	
 	// Must define the chems so we don't get things like adminordrazine
-	// TODO Hook onto /datum/chemical_reaction in medical.dm to instead generate a list from any craftable chemical 
-	var/list/possible_chemicals = list(
-		/datum/reagent/medicine/spaceacillin,
-		/datum/reagent/medicine/inacusiate,
-		/datum/reagent/medicine/oculine,
-		/datum/reagent/medicine/synaptizine,
-		/datum/reagent/medicine/charcoal,
-		/datum/reagent/medicine/synthflesh,
-		/datum/reagent/medicine/styptic_powder,
-		/datum/reagent/medicine/calomel,
-		/datum/reagent/medicine/potass_iodide,
-		/datum/reagent/medicine/pen_acid,
-		/datum/reagent/medicine/sal_acid,
-		/datum/reagent/medicine/salbutamol,
-		/datum/reagent/medicine/perfluorodecalin,
-		/datum/reagent/medicine/cryoxadone,
-		/datum/reagent/medicine/epinephrine,
-		/datum/reagent/medicine/neurine,
-		/datum/reagent/medicine/tricordrazine,
-	)
+	var/list/possible_chemicals = list()
 	var/chem_types_min = 2
 	var/chem_types_max = 4
 
 	var/list/chemicals = list()
 
 /datum/overmap_objective/cargo/donation/chems/instance()
+	message_admins( "chems instance" )
 	. = ..()
+
+	for( var/datum/chemical_reaction/D in subtypesof( /datum/chemical_reaction ) )
+		if ( D.id && istype( D.id, /datum/reagent/medicine ) )
+			var/datum/reagent/medicine/N = new D.id()
+			possible_chemicals[D] = N
 	
+	message_admins( possible_chemicals )
+	message_admins( length( possible_chemicals ) )
+
 	var/attempts = 0
 	if ( chem_types_max && length( possible_chemicals ) )
 		if ( length( chemicals ) < chem_types_max )

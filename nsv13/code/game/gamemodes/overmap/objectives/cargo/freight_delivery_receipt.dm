@@ -5,5 +5,5 @@
 /datum/freight_delivery_receipt 
 	var/obj/structure/overmap/vessel = null 
 	var/mob/living/courier = null
-	var/shipment = null 
+	var/obj/shipment = null 
 	var/datum/overmap_objective/cargo/completed_objective = null 

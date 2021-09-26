@@ -12,3 +12,4 @@
 	selection_weight = 5
 	required_players = 10
 	objectives = list(/datum/overmap_objective/tickets/nt)
+	whitelist_only = TRUE
