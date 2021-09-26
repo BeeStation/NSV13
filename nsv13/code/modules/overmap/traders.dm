@@ -95,8 +95,7 @@
 		LZ = pick(landingzone.contents) //If we couldn't find an open floor, just throw it somewhere
 	
 	// Knowing who the deliveryman is tells us what kind of pod to send 
-	var/obj/structure/closet/supplypod/courier_supply_pod_type = courier.supply_pod_type
-	var/obj/structure/closet/supplypod/toLaunch = new courier_supply_pod_type()
+	var/obj/structure/closet/supplypod/toLaunch = new courier.supply_pod_type()
 
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)

@@ -131,7 +131,7 @@
 		// Paperwork! Stations should always stamp their requisition forms as accepted and return to sender 
 		var/obj/item/paper/requisition_form = make_paperwork( receipt, TRUE )
 
-		vessel.send_supplypod( requisition_form, vessel, TRUE )
+		vessel.send_supplypod( requisition_form, src, TRUE )
 
 /obj/structure/overmap/trader/proc/return_shipment( var/datum/freight_delivery_receipt/receipt )
 	if ( receipt && receipt.vessel )
@@ -140,7 +140,7 @@
 			F.contents += make_paperwork( receipt, FALSE )
 
 		var/obj/structure/overmap/vessel = receipt.vessel
-		vessel.send_supplypod( receipt.shipment, vessel, TRUE )
+		vessel.send_supplypod( receipt.shipment, src, TRUE )
 
 /obj/structure/overmap/trader/can_move()
 	//Nope!
