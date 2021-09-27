@@ -168,7 +168,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "triton cruise missile"
 	icon_state = "conventional_missile"
 	speed = 1
-	damage = 175
+	damage = 250
 	valid_angle = 120
 	homing_turn_speed = 25
 	range = 250
@@ -239,7 +239,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	tracer_type = /obj/effect/projectile/tracer/disabler
 	muzzle_type = /obj/effect/projectile/muzzle/disabler
 	impact_type = /obj/effect/projectile/impact/disabler
-	
+
 /obj/item/projectile/beam/laser/point_defense
 	name = "laser pointer"
 	damage = 30

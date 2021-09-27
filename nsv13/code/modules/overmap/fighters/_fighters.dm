@@ -1350,7 +1350,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	icon_state = "lightcannon"
 	accepted_ammo = /obj/item/ammo_box/magazine/nsv/light_cannon
 	burst_size = 2
-	fire_delay = 0.25 SECONDS
+	fire_delay = 0.20 SECONDS
 
 /obj/item/fighter_component/primary/cannon/heavy
 	name = "30mm BRRRRTT Cannon"

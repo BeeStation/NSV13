@@ -5,8 +5,8 @@
 	icon_state = "light"
 	ammo_type = /obj/item/ammo_casing/light_cannon
 	caliber = "mm20"
-	max_ammo = 500
-	
+	max_ammo = 150
+
 /obj/item/ammo_box/magazine/nsv/heavy_cannon
 	name = "heavy cannon ammo"
 	desc = "A box of 30x173mm ammunition which can be loaded into a heavy fighter cannon."
