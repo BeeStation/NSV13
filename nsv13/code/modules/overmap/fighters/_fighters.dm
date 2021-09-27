@@ -1415,14 +1415,14 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/secondary/ordnance_launcher/tier2
 	name = "Upgraded Fighter Missile Rack"
 	tier = 2
-	max_ammo = 5
+	max_ammo = 8
 
 /obj/item/fighter_component/secondary/ordnance_launcher/tier3
 	name = "A-11 'Spacehog' Cluster-Freedom Launcher"
 	tier = 3
 	max_ammo = 15
 	weight = 1
-	burst_size = 2
+	burst_size = 1
 	fire_delay = 0.10 SECONDS
 
 //Specialist item for the superiority fighter.
@@ -1457,7 +1457,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	tier = 3
 	max_ammo = 10
 	weight = 2
-	burst_size = 2
+	burst_size = 1
 
 /obj/item/fighter_component/secondary/ordnance_launcher/load(obj/structure/overmap/target, atom/movable/AM)
 	if(!istype(AM, accepted_ammo))
