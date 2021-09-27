@@ -840,7 +840,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	name = "Nanocarbon Armour Plates"
 	desc = "A lightweight set of ablative armour which balances speed and protection at the cost of the average GDP of most third world countries."
 	tier = 3
-	weight = 1.25
+	weight = 0.90
 	obj_integrity = 300
 	max_integrity = 300
 

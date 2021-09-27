@@ -348,7 +348,7 @@
 	desc = "A component used in fighter construction."
 	id = "armour_plating_tier3"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 20000, /datum/material/diamond = 25000)
+	materials = list(/datum/material/iron = 20000, /datum/material/plasma = 20000, /datum/material/titanium = 25000)
 	build_path = /obj/item/fighter_component/armour_plating/tier3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
