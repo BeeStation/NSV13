@@ -12,23 +12,32 @@
 		/obj/item/stack/sheet/mineral/titanium,
 	)
 
-/datum/overmap_objective/cargo/donation/minerals/instance() 
-	cargo_item_type = new /datum/cargo_item_type/object/mineral 
-	var/datum/cargo_item_type/object/mineral/C = cargo_item_type
-	C.item = pick( possible_minerals )
+/datum/overmap_objective/cargo/donation/minerals/New() 
+	var/picked = pick( possible_minerals )
+	var/datum/cargo_item_type/object/mineral/C = new /datum/cargo_item_type/object/mineral( new picked() )
+	cargo_item_types += C
 
 /datum/overmap_objective/cargo/donation/minerals/pick_station()
 	message_admins( "minerals pick_station" )
 	// Pick a random existing station to give this objective to 
 	var/list/ntstations = list()
+	var/list/ntstations_expecting_cargo = list()
 	for ( var/trader in SSstar_system.traders )
 		var/datum/trader/T = trader
 		if ( T.faction_type == FACTION_ID_NT )
 			// Don't pick mineral type traders to deliver minerals 
 			if ( !istype( T.type, /datum/trader/shallowstone ) )
-				ntstations += T 
+				var/obj/structure/overmap/trader/S = T.current_location
+				ntstations += S 
+				
+				if ( length( S.expecting_cargo ) )
+					ntstations_expecting_cargo += S
 
-	var/obj/structure/overmap/trader/S = pick( ntstations )
+	var/obj/structure/overmap/trader/S
+	if ( pick_same_destination && length( ntstations_expecting_cargo ) )
+		S = pick( ntstations_expecting_cargo )
+	else 
+		S = pick( ntstations )
 
 	// Assign this objective directly to the station, so the station can track it 
 	destination = S 

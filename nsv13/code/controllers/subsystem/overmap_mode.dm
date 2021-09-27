@@ -284,7 +284,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/combat_delay = 0									//How much time is added to the reminder timer
 	var/list/possible_objectives = list()					//Add objectives here to select from this pool randomly. Don't forget to set total_possible_objectives, otherwise the actual objectives list won't autopopulate
 	var/total_possible_objectives = 0						//Set how many objectives can be pulled from possible_objectives
-	var/allow_duplicate_objectives = FALSE					//Whether picking from possible_objectives should respect objectives already picked 
+	var/allow_duplicate_objectives = FALSE					//Whether picking from possible_objectives should respect objectives already picked. An additional check is performed to ensure the randomly selected objective also permits duplicates of itself 
 	var/list/objectives = list()							//The actual gamemode objectives go here. Either preset these (tickets gamemode) or leave empty for autopopulating (shakedown gamemode)
 	var/whitelist_only = FALSE								//Can only be selected through map bound whitelists
 
@@ -297,20 +297,30 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/reminder_five = "This is Centcomm, due to your slow pace, a Syndicate Interdiction fleet has tracked you down, prepare for combat!"
 	
 /datum/overmap_gamemode/New()
-	var/attempts = 0
+	message_admins( "overmap_gamemode New" )
+	// overmap_gamemode skips randomly picking from possible_objectives if list objectives is already predefined 
 	if ( total_possible_objectives && length( possible_objectives ) )
 		if ( length( objectives ) < total_possible_objectives )
+			var/attempts = 0
+			message_admins( possible_objectives )
+			message_admins( length( possible_objectives ) )
 			while( length( objectives ) < total_possible_objectives ) 
 				attempts++
 				if ( attempts > 100 )
 					total_possible_objectives = 0 // Stop, just stop 
 
-				var/O = pick( possible_objectives )
+				var/datum/overmap_objective/picked = pick( possible_objectives )
+				message_admins( picked )
 				if ( allow_duplicate_objectives )
-					objectives += O
+					// allow_duplicates isn't readable from a datum that isn't initialized
+					// objectives must be initialized later in setup_overmap_mode for additional processing, once the subsystem is actually ready 
+					if ( new picked().allow_duplicates )
+						// Duplicates are allowed, so we won't check if the list objectives already has it 
+						objectives += picked
 				else 
-					if ( !( locate( O ) in objectives ) )
-						objectives += O
+					// Check if the list objectives already has it 
+					if ( !( locate( picked ) in objectives ) )
+						objectives += picked
 
 /datum/overmap_gamemode/proc/consequence_one()
 
@@ -378,17 +388,18 @@ SUBSYSTEM_DEF(overmap_mode)
 	SSticker.force_ending = TRUE
 
 /datum/overmap_objective
-	var/name							//Name for admin view
-	var/desc							//Short description for admin view
-	var/brief							//Description for PLAYERS
-	var/stage							//For multi step objectives
-	var/binary = TRUE					//Is this just a simple T/F objective?
-	var/tally = 0						//How many of the objective goal has been completed
-	var/target = 0						//How many of the objective goal is required
-	var/status = STATUS_INPROGRESS		//0 = In-progress, 1 = Completed, 2 = Failed, 3 = Victory Override (this will end the round)
-	var/extension_supported = FALSE 	//Is this objective available to be a random extended round objective?
-	var/ignore_check = FALSE			//Used for checking extended rounds
-	var/instanced = FALSE				//Have we yet run the instance proc for this objective?
+	var/name										//Name for admin view
+	var/desc										//Short description for admin view
+	var/brief										//Description for PLAYERS
+	var/stage										//For multi step objectives
+	var/binary = TRUE								//Is this just a simple T/F objective?
+	var/tally = 0									//How many of the objective goal has been completed
+	var/target = 0									//How many of the objective goal is required
+	var/status = STATUS_INPROGRESS					//0 = In-progress, 1 = Completed, 2 = Failed, 3 = Victory Override (this will end the round)
+	var/extension_supported = FALSE 				//Is this objective available to be a random extended round objective?
+	var/ignore_check = FALSE						//Used for checking extended rounds
+	var/instanced = FALSE							//Have we yet run the instance proc for this objective?
+	var/allow_duplicates = FALSE			// Whether gamemodes can select this objective multiple times 
 
 /datum/overmap_objective/New()
 

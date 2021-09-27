@@ -16,8 +16,7 @@
 		// "OZ",
 	)
 
-/datum/overmap_objective/cargo/donation/blood/instance()
-	cargo_item_type = new /datum/cargo_item_type/reagent/blood()
-	var/datum/cargo_item_type/reagent/blood/C = cargo_item_type
-	C.blood_type = pick( possible_blood_types )
+/datum/overmap_objective/cargo/donation/blood/New()
+	var/datum/cargo_item_type/reagent/blood/C = new /datum/cargo_item_type/reagent/blood( pick( possible_blood_types ) )
+	cargo_item_types += C
 	
