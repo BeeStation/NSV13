@@ -199,6 +199,9 @@
 				alignment = 100
 				break
 
+/obj/machinery/ship_weapon/hybrid_rail/crowbar_act(mob/user, obj/item/tool)
+	return //prevent deconstructing
+
 /obj/machinery/ship_weapon/hybrid_rail/attack_hand(mob/living/carbon/user)
 	ui_interact(user)
 
