@@ -1415,7 +1415,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/secondary/ordnance_launcher/tier2
 	name = "Upgraded Fighter Missile Rack"
 	tier = 2
-	max_ammo = 8
+	max_ammo = 5
 
 /obj/item/fighter_component/secondary/ordnance_launcher/tier3
 	name = "A-11 'Spacehog' Cluster-Freedom Launcher"
