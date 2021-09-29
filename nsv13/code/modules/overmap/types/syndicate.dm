@@ -7,6 +7,7 @@
 	icon = 'nsv13/icons/overmap/default.dmi'
 	icon_state = "default"
 	faction = "syndicate"
+	supply_pod_type = /obj/structure/closet/supplypod/syndicate_odst
 
 //Player Versions
 
