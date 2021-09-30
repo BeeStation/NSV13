@@ -187,7 +187,6 @@
 /turf/open/floor/plasteel/grid/techfloor,
 /area/engine/gravity_generator)
 "aP" = (
-/obj/machinery/light,
 /obj/effect/turf_decal/tile/ship/half/green,
 /obj/structure/table/glass,
 /turf/open/floor/monotile/steel,
@@ -436,9 +435,6 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
@@ -636,11 +632,8 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "dk" = (
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
-/obj/structure/closet/secure_closet/bridge,
 /obj/structure/extinguisher_cabinet/north,
+/obj/structure/filingcabinet/chestdrawer,
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "dl" = (
@@ -1541,6 +1534,9 @@
 /obj/structure/railing{
 	dir = 6
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/royalblack,
 /area/bridge/cic)
 "hr" = (
@@ -1560,13 +1556,6 @@
 	dir = 1
 	},
 /turf/open/floor/monotile/steel,
-/area/bridge/cic)
-"hw" = (
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
-/obj/structure/filingcabinet/chestdrawer,
-/turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "hx" = (
 /obj/item/storage/secure/safe/caps_spare,
@@ -1624,6 +1613,9 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "hV" = (
@@ -1683,6 +1675,9 @@
 /obj/structure/closet/radiation,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
@@ -1856,9 +1851,6 @@
 /area/maintenance/nsv/deck2/frame1/port)
 "iP" = (
 /obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/cable{
 	icon_state = "2-4"
 	},
 /obj/effect/turf_decal/stripes/line{
@@ -1953,7 +1945,6 @@
 /turf/open/floor/monotile/steel,
 /area/hydroponics)
 "je" = (
-/obj/item/radio/intercom/directional/north,
 /obj/effect/turf_decal/tile/ship/half/green{
 	dir = 1
 	},
@@ -2196,9 +2187,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "1-4"
 	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
@@ -2833,6 +2821,9 @@
 /obj/structure/railing{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/royalblack,
 /area/bridge/cic)
 "nM" = (
@@ -2982,7 +2973,9 @@
 "ov" = (
 /obj/structure/closet/radiation,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
-/obj/machinery/computer/ship/viewscreen,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "ox" = (
@@ -4083,14 +4076,13 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "tY" = (
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/yellow,
-/obj/machinery/power/apc/auto_name/west,
+/obj/machinery/power/apc/auto_name/west{
+	cell_type = /obj/item/stock_parts/cell/super
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "tZ" = (
@@ -4349,6 +4341,7 @@
 	dir = 1
 	},
 /obj/item/radio/intercom,
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/carpet/royalblack,
 /area/bridge/cic)
 "vl" = (
@@ -4893,6 +4886,16 @@
 /obj/machinery/newscaster/directional/south,
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck1/hallway)
+"xS" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "atlas_brief"
+	},
+/turf/open/floor/plating,
+/area/bridge/cic)
 "xT" = (
 /obj/machinery/atmospherics/components/unary/thermomachine/freezer/on,
 /obj/effect/turf_decal/stripes/line{
@@ -6615,6 +6618,9 @@
 /area/ai_monitored/turret_protected/aisat)
 "GG" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "GJ" = (
@@ -6756,6 +6762,16 @@
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck1/hallway)
+"Hq" = (
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 1
+	},
+/obj/item/radio/intercom/directional/north,
+/turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck1/hallway)
 "Ht" = (
 /obj/effect/turf_decal/tile/ship/half/green{
@@ -7267,9 +7283,6 @@
 "JM" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
 	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
@@ -8696,6 +8709,14 @@
 /obj/item/bedsheet/captain,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/captain)
+"Qh" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	id = "atlas_brief"
+	},
+/turf/open/floor/plating,
+/area/bridge/cic)
 "Qi" = (
 /obj/structure/chair/sofa/right{
 	dir = 8;
@@ -8883,6 +8904,12 @@
 	},
 /obj/structure/railing{
 	dir = 5
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
 	},
 /turf/open/floor/carpet/royalblack,
 /area/bridge/cic)
@@ -9313,7 +9340,6 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
-/obj/machinery/photocopier,
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "TU" = (
@@ -10053,9 +10079,6 @@
 /turf/open/floor/monotile/dark,
 /area/hydroponics)
 "XS" = (
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
 /obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
@@ -41435,7 +41458,7 @@ ei
 uj
 dF
 gq
-MQ
+Hq
 wu
 Sc
 XZ
@@ -42196,7 +42219,7 @@ PM
 cz
 Em
 aP
-Tc
+xS
 ov
 hP
 Rl
@@ -42204,7 +42227,7 @@ nL
 hq
 GG
 ij
-Tc
+Qh
 je
 Em
 wu
@@ -42449,7 +42472,7 @@ HI
 SX
 vu
 HG
-MQ
+ay
 wu
 ae
 aX
@@ -43223,7 +43246,7 @@ HG
 rb
 wu
 YC
-MZ
+Tc
 XS
 dC
 ek
@@ -43233,7 +43256,7 @@ ff
 ha
 ir
 tY
-zt
+Tc
 rb
 wu
 YC
@@ -44258,7 +44281,7 @@ TO
 eP
 fF
 gW
-hw
+TO
 nM
 Tc
 Tc
