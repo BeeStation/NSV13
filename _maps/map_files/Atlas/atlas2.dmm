@@ -897,12 +897,6 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "ek" = (
@@ -1144,12 +1138,6 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
 "ft" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -1527,7 +1515,6 @@
 /turf/closed/wall/steel,
 /area/maintenance/nsv/deck2/frame1/port)
 "hq" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/computer/ship/dradis{
 	dir = 8
 	},
@@ -1574,10 +1561,13 @@
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
 "hz" = (
-/obj/structure/disposalpipe/trunk{
+/obj/machinery/camera/autoname{
 	dir = 1
 	},
-/obj/machinery/disposal/bin,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/obj/structure/closet/radiation,
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "hA" = (
@@ -1612,7 +1602,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -1673,9 +1662,6 @@
 /area/crew_quarters/kitchen)
 "ij" = (
 /obj/structure/closet/radiation,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 1
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -2134,6 +2120,18 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/bridge/cic)
+"ke" = (
+/obj/effect/turf_decal/tile/ship/brown{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/brown{
+	dir = 8
+	},
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge/cic)
 "kh" = (
 /obj/structure/railing{
 	dir = 1
@@ -2161,10 +2159,13 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
 "ku" = (
-/obj/structure/disposalpipe/segment,
-/obj/structure/table/reinforced,
-/obj/structure/railing,
-/turf/open/floor/carpet/royalblack,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 10
+	},
+/turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "kw" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
@@ -2188,6 +2189,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "kz" = (
@@ -2531,7 +2533,6 @@
 "lO" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/structure/extinguisher_cabinet/west,
-/obj/machinery/photocopier,
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "lY" = (
@@ -2814,7 +2815,6 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "nL" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/computer/communications{
 	dir = 8
 	},
@@ -2824,17 +2824,17 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 5
+	},
 /turf/open/floor/carpet/royalblack,
 /area/bridge/cic)
 "nM" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
 	},
 /obj/machinery/light,
 /obj/effect/turf_decal/stripes/line{
@@ -2971,11 +2971,10 @@
 /turf/open/floor/plasteel/ship/riveted,
 /area/maintenance/nsv/deck2/frame1/port)
 "ov" = (
-/obj/structure/closet/radiation,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/photocopier,
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "ox" = (
@@ -3508,7 +3507,7 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "rs" = (
@@ -4650,12 +4649,6 @@
 /turf/open/floor/plasteel/grid/lino,
 /area/ai_monitored/nuke_storage)
 "wW" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -4678,12 +4671,11 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "wY" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 5
 	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
@@ -4911,7 +4903,6 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "xY" = (
@@ -6022,7 +6013,6 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "DJ" = (
-/obj/structure/disposalpipe/segment,
 /obj/structure/chair/comfy/shuttle{
 	color = "#696969";
 	dir = 4;
@@ -6273,8 +6263,6 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "EZ" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -6617,7 +6605,6 @@
 /turf/open/floor/engine,
 /area/ai_monitored/turret_protected/aisat)
 "GG" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -6664,10 +6651,6 @@
 	icon_state = "control_stun";
 	name = "upload turret control panel";
 	pixel_x = -32
-	},
-/obj/machinery/camera{
-	c_tag = "CIC - Aft";
-	dir = 4
 	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
@@ -7355,7 +7338,9 @@
 /turf/open/floor/carpet/royalblack,
 /area/bridge/cic)
 "JU" = (
-/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 1
+	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "JV" = (
@@ -7371,12 +7356,6 @@
 	},
 /obj/structure/cable{
 	icon_state = "2-4"
-	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
-	dir = 4
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/blue,
@@ -8283,12 +8262,6 @@
 /turf/open/floor/circuit/telecomms/server,
 /area/tcommsat/server)
 "NY" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 5
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 5
-	},
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
@@ -8432,8 +8405,8 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/xo)
 "OB" = (
-/obj/structure/disposalpipe/junction/yjunction{
-	dir = 4
+/obj/structure/disposalpipe/segment{
+	dir = 5
 	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
@@ -8895,7 +8868,6 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
 	dir = 1
 	},
@@ -8910,6 +8882,9 @@
 	},
 /obj/structure/cable{
 	icon_state = "2-8"
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 1
 	},
 /turf/open/floor/carpet/royalblack,
 /area/bridge/cic)
@@ -9558,7 +9533,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/obj/structure/disposalpipe/segment,
 /obj/structure/table/reinforced,
 /obj/structure/railing{
 	dir = 1
@@ -41450,7 +41424,7 @@ Kp
 gq
 dF
 uj
-ei
+uj
 Ov
 zY
 RI
@@ -41967,8 +41941,8 @@ ct
 OB
 UK
 DJ
-ku
-JU
+dy
+Vg
 hz
 Tc
 iW
@@ -42480,8 +42454,8 @@ Tc
 dk
 JM
 kx
-Vg
-Vg
+ku
+JU
 Vg
 ik
 Tc
@@ -44026,7 +44000,7 @@ fp
 jf
 Op
 ft
-Op
+ke
 Tc
 ay
 Af
@@ -44281,7 +44255,7 @@ TO
 eP
 fF
 gW
-TO
+ff
 nM
 Tc
 Tc
@@ -44534,7 +44508,7 @@ cD
 Tc
 Tc
 Ui
-ns
+Tc
 yv
 yv
 yv
