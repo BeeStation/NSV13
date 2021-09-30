@@ -361,7 +361,7 @@ Control Rods
 							control_rod_installation = FALSE
 							return
 						control_rod_installation = FALSE
-						if ( state == REACTOR_STATE_IDLE ) // Need to recheck the maintenance mode in case someone switched it while pulling out rods 
+						if ( state == REACTOR_STATE_IDLE ) // Need to recheck the maintenance mode in case someone switched it while pulling out rods
 							to_chat(usr, "<span class='warning'>[src] is not in maintenance mode! Enagage maintenance safety protocols before opening the lid!</span>")
 							return FALSE
 						to_chat(usr, "<span class='notice'>You remove the control rod from the [src].</span>")
@@ -907,12 +907,26 @@ Control Rods
 
 	if(reactor_stability < 15)
 		if(prob(1))
-			if(prob(50))
-				new /obj/effect/anomaly/stormdrive/surge(src, rand(2000, 5000))
-			else
-				new /obj/effect/anomaly/stormdrive/sheer(src, rand(2000, 5000))
+			var/anom = pick(1,2,3,4,5,6,7,8,9,10)
+			switch(anom)
+				if(1 to 4)
+					new /obj/effect/anomaly/stormdrive/surge(src, rand(2000, 5000))
+				if(5 to 8)
+					new /obj/effect/anomaly/stormdrive/sheer(src, rand(2000, 5000))
+				if(9 to 10)
+					new /obj/effect/anomaly/stormdrive/squall(src, rand(2000, 5000))
 			reactor_stability += 15 //Spike that stab back up
 			playsound(loc, 'sound/effects/empulse.ogg', 100)
+
+	switch(reactor_stability) //Entropy nudge
+		if(0 to 1)
+			heat += 1
+		if(1 to 15)
+			heat += 0.5
+		if(15 to 30)
+			heat += 0.1
+		if(30 to 75)
+			heat += 0.01
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/grav_pull()
 	for(var/obj/O in orange((heat / 40), src))
@@ -1155,18 +1169,26 @@ Control Rods
 				if(WS.range < 10) //small spawner
 					empulse(epi, 5, 15)
 					radiation_pulse(epi, 100)
-					if(prob(35))
-						if(prob(50))
-							new /obj/effect/anomaly/stormdrive/surge(epi, rand(2000, 5000))
-						else
-							new /obj/effect/anomaly/stormdrive/sheer(epi, rand(2000, 5000))
+					if(prob(50))
+						var/anom = pick(1,2,3,4,5,6,7,8,9,10)
+						switch(anom)
+							if(1 to 4)
+								new /obj/effect/anomaly/stormdrive/surge(epi, rand(2000, 5000))
+							if(5 to 8)
+								new /obj/effect/anomaly/stormdrive/sheer(epi, rand(2000, 5000))
+							if(9 to 10)
+								new /obj/effect/anomaly/stormdrive/squall(epi, rand(2000, 5000))
 				else //larger spawner
 					empulse(epi, 10, 25)
 					radiation_pulse(epi, 500)
-					if(prob(50)) //spawn SD anom
-						new /obj/effect/anomaly/stormdrive/surge(epi, rand(2000, 5000))
-					else
-						new /obj/effect/anomaly/stormdrive/sheer(epi, rand(2000, 5000))
+					var/anom = pick(1,2,3,4,5,6,7,8,9,10)
+					switch(anom) //spawn SD anom
+						if(1 to 4)
+							new /obj/effect/anomaly/stormdrive/surge(epi, rand(2000, 5000))
+						if(5 to 8)
+							new /obj/effect/anomaly/stormdrive/sheer(epi, rand(2000, 5000))
+						if(9 to 10)
+							new /obj/effect/anomaly/stormdrive/squall(epi, rand(2000, 5000))
 
 //////// Reactor Computer////////
 
@@ -1661,6 +1683,100 @@ Control Rods
 	empulse(src, 5, 10)
 	explosion(src, 0, 0, 1, 18, FALSE)
 	do_sparks(10, FALSE, src)
+
+/obj/effect/anomaly/stormdrive/squall //Gravity + Brute
+	name = "storm squall anomaly"
+	icon_state = "dragnetfield"
+	alpha = 65 //Not exactly easy to see
+
+/obj/effect/anomaly/stormdrive/squall/anomalyEffect()
+	var/direction = pick(GLOB.alldirs)
+	var/times = rand(2, 4)
+	for(var/I = 0, I < times, I++) //Appears to hop around, but actually passes through mobs
+		step(src, direction)
+
+	if(prob(90))
+		var/turf/open/L = get_turf(src)
+		if(!istype(L) || !L.air)
+			return
+		var/datum/gas_mixture/env = L.return_air()
+		var/temperature = env.return_temperature()
+		atmos_spawn_air("o2=5,n2=15;TEMP=[temperature]") //Add a little extra oxygenated air
+
+	else //throw everything away
+		for(var/mob/living/M in orange(4, src))
+			M.Paralyze(20)
+			M.Dizzy(5)
+			M.apply_damage(10)
+			var/atom/target = get_edge_target_turf(M, get_dir(src, get_step_away(M, src)))
+			M.throw_at(target, 4, 2)
+		for(var/obj/O in orange(4, src))
+			if(!O.anchored)
+				var/atom/target = get_edge_target_turf(O, get_dir(src, get_step_away(O, src)))
+				O.throw_at(target, 4, 2)
+
+/obj/effect/anomaly/stormdrive/squall/Crossed(mob/living/M)
+	polarise(M)
+
+/obj/effect/anomaly/stormdrive/squall/Bump(mob/living/M)
+	polarise(M)
+
+/obj/effect/anomaly/stormdrive/squall/Bumped(atom/movable/AM)
+	polarise(AM)
+
+/obj/effect/anomaly/stormdrive/squall/proc/polarise(mob/living/A)
+	if(istype(A))
+		A.Dizzy(10)
+		A.Jitter(5)
+		A.adjust_disgust(20)
+		A.visible_message("<span class='danger'>The space around [A] begins to shimmer!</span>", \
+		"<span class='userdanger'>Your head swims as space appears to bend around you!</span>",
+		"<span class='italics'>You feel space shift slightly in your vicinity.</span>")
+		addtimer(CALLBACK(src, .proc/equalise, A), 5 SECONDS)
+
+/obj/effect/anomaly/stormdrive/squall/proc/equalise(mob/living/A)
+	for(var/obj/O in orange(6, A))
+		if(!O.anchored)
+			O.throw_at(A, 6, 3)
+	for(var/mob/living/M in orange(6, A))
+		if(!M.mob_negates_gravity())
+			M.throw_at(A, 6, 3)
+
+	if(istype(A, /mob/living/carbon))
+		var/mob/living/carbon/C = A
+		var/list/parts = list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
+		var/selected = pick_n_take(parts)
+		if(C.get_bodypart(selected)) //First Attempt
+			var/obj/item/bodypart/affecting = C.get_bodypart(selected)
+			affecting.dismember(damtype)
+		else
+			selected = pick_n_take(parts) //Second Attempt
+			if(C.get_bodypart(selected))
+				var/obj/item/bodypart/affecting = C.get_bodypart(selected)
+				affecting.dismember(damtype)
+			else //Probably already dying
+				C.apply_damage(20)
+	else
+		A.apply_damage(20)
+
+/obj/effect/anomaly/stormdrive/squall/detonate()
+	for(var/mob/living/M in orange(6, src))
+		M.Paralyze(40)
+		M.Dizzy(10)
+		M.apply_damage(20)
+		var/atom/target = get_edge_target_turf(M, get_dir(src, get_step_away(M, src)))
+		M.throw_at(target, 6, 5)
+	for(var/obj/O in orange(6, src))
+		if(!O.anchored)
+			var/atom/target = get_edge_target_turf(O, get_dir(src, get_step_away(O, src)))
+			O.throw_at(target, 6, 5)
+
+	var/turf/open/L = get_turf(src)
+	if(!istype(L) || !L.air)
+		return
+	var/datum/gas_mixture/env = L.return_air()
+	var/temperature = env.return_temperature()
+	atmos_spawn_air("o2=200,n2=200;TEMP=[temperature]") //Hope there is nothing flammable in here
 
 //////// MISC ///////
 
