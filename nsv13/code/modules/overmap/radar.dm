@@ -128,16 +128,10 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	name = "\improper Cargo freight delivery console"
 	circuit = /obj/item/circuitboard/computer/ship/dradis/cargo
 	var/linked_launcher = null
+	var/launcher_id = null
 
 /obj/machinery/computer/ship/dradis/cargo/Initialize()
 	..()
-	
-	var/area/A = get_area( src )
-	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = locate( /obj/machinery/ship_weapon/torpedo_launcher/cargo ) in A.contents 
-	if ( launcher ) 
-		launcher.linked_dradis = src 
-		linked_launcher = launcher
-	
 	sensor_range = hail_range
 
 /obj/machinery/computer/ship/dradis/cargo/multitool_act(mob/living/user, obj/item/I)
