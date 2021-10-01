@@ -72,20 +72,26 @@
 		to_chat(gunner, SW.select_alert)
 	return TRUE
 
-/obj/structure/overmap/proc/fire_torpedo(atom/target, ai_aim = FALSE)
+/obj/structure/overmap/proc/fire_torpedo(atom/target, ai_aim = FALSE, burst = 1)
 	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(torpedoes <= 0)
 			return FALSE
-		torpedoes --
-		fire_projectile(torpedo_type, target, homing = TRUE, speed=3, lateral = TRUE, ai_aim = ai_aim)
-		var/obj/structure/overmap/OM = target
-		if(istype(OM, /obj/structure/overmap) && OM.dradis)
-			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
-		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
-		relay_to_nearby(pick(SW.overmap_firing_sounds))
+		var/launches = min(torpedoes, burst)
+		fire_single_torpedo(target, ai_aim)
+		for(var/launched = 1; launched < launches; launched++)
+			addtimer(CALLBACK(src, .proc/fire_single_torpedo, target, ai_aim), (0.25 SECONDS * launched))
+		torpedoes -= launches
 		return TRUE
 
-/obj/structure/overmap/proc/fire_missile(atom/target, ai_aim = FALSE)
+/obj/structure/overmap/proc/fire_single_torpedo(atom/target, ai_aim = FALSE)
+	fire_projectile(torpedo_type, target, homing = TRUE, speed=3, lateral = TRUE, ai_aim = ai_aim)
+	var/obj/structure/overmap/OM = target
+	if(istype(OM, /obj/structure/overmap) && OM.dradis)
+		OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+	var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
+	relay_to_nearby(pick(SW.overmap_firing_sounds))
+
+/obj/structure/overmap/proc/fire_missile(atom/target, ai_aim = FALSE, burst = 1)
 	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(missiles <= 0)
 			return FALSE

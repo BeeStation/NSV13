@@ -147,6 +147,11 @@ Misc projectile types, effects, think of this as the special FX file.
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 
+/obj/item/projectile/guided_munition/torpedo/disruptor
+	icon_state = "torpedo_disruptor"
+	name = "disruption torpedo"
+	damage = 140	//Lower damage, does some special stuff when it hits a target.
+
 //What you get from an incomplete torpedo.
 /obj/item/projectile/guided_munition/torpedo/dud
 	icon_state = "torpedo_dud"
@@ -189,9 +194,12 @@ Misc projectile types, effects, think of this as the special FX file.
 //Corvid or someone please refactor this to be less messy.
 /obj/item/projectile/guided_munition/on_hit(atom/target, blocked = FALSE)
 	. = ..()
+	if(istype(target, /obj/item/projectile))
+		var/obj/item/projectile/P = target
 	if(!check_faction(target))
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
+		spec_overmap_hit(target)
 		return BULLET_ACT_HIT
 	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
 	if(isprojectile(target) && P.faction != faction && !P.nodamage) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
@@ -205,7 +213,29 @@ Misc projectile types, effects, think of this as the special FX file.
 			return FALSE //Didn't take the hit
 	if(!isprojectile(target)) //This is lazy as shit but is necessary to prevent explosions triggering on the overmap when two bullets collide. Fix this shit please.
 		detonate(target)
+	else
+		return FALSE
 	return BULLET_ACT_HIT
+
+/obj/item/projectile/guided_munition/proc/spec_overmap_hit(obj/structure/overmap/target)
+	return
+
+/obj/item/projectile/guided_munition/torpedo/disruptor/spec_overmap_hit(obj/structure/overmap/target)
+	if(QDELETED(target))
+		return
+	if(target.occupying_levels.len)
+		return	//Detonate is gonna handle this for us.
+		
+	if(target.ai_controlled)
+		target.disruption += 30
+		return
+	
+	if(istype(target, /obj/structure/overmap/fighter))
+		target.disruption += 25
+		return
+
+	//Neither of these? I guess just some visibility penalty it is.
+	target.add_sensor_profile_penalty(150, 10 SECONDS)
 
 /obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
 	. = ..()
@@ -213,6 +243,10 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/proc/detonate(atom/target)
 	explosion(target, 2, 4, 4)
+
+/obj/item/projectile/guided_munition/torpedo/disruptor/detonate(atom/target)
+	empulse(get_turf(target), 5, 12)	//annoying emp.
+	explosion(target, 0, 2, 6, 4)	//but only a light explosion.
 
 /obj/item/projectile/guided_munition/torpedo/nuclear/detonate(atom/target)
 	var/obj/structure/overmap/OM = target.get_overmap() //What if I just..........

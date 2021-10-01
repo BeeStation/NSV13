@@ -59,6 +59,13 @@
 	special_fire_proc = /obj/structure/overmap/proc/fire_torpedo
 	lateral = FALSE
 
+/datum/ship_weapon/torpedo_launcher/burst_disruptor
+	name = "Burst Disruption Torpedo tubes"
+	default_projectile_type = /obj/item/projectile/guided_munition/torpedo/disruptor
+	burst_size = 3
+	fire_delay = 4 SECONDS
+	range_modifier = 35
+
 /datum/ship_weapon/torpedo_launcher/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
 		return FALSE
@@ -177,6 +184,10 @@
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online.</span>"
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
 	lateral = FALSE
+
+/datum/ship_weapon/light_cannon/integrated	//Weapon for ships big enough that autocannon ammo concerns shouldn't matter this much anymore. Changes their class from HEAVY to LIGHT
+	name = "integrated light autocannon"
+	weapon_class = WEAPON_CLASS_LIGHT
 
 /datum/ship_weapon/heavy_cannon
 	name = ".30 cal heavy cannon"

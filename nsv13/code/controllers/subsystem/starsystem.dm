@@ -159,6 +159,7 @@ Returns a faction datum by its name (case insensitive!)
 /datum/controller/subsystem/star_system/proc/move_existing_object(obj/structure/overmap/OM, datum/star_system/target)
 	if(QDELETED(OM))
 		return
+	var/datum/star_system/previous_system = OM.current_system
 	target.system_contents += OM
 	if(!target.occupying_z)
 		STOP_PROCESSING(SSphysics_processing, OM)
@@ -177,12 +178,12 @@ Returns a faction datum by its name (case insensitive!)
 			if(OM.physics2d)
 				START_PROCESSING(SSphysics_processing, OM.physics2d)
 		target.add_ship(OM)
-	OM.current_system?.system_contents -= OM
+	previous_system?.system_contents -= OM
 	if(OM.faction != "nanotrasen" && OM.faction != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
-		OM.current_system?.enemies_in_system -= OM
+		previous_system?.enemies_in_system -= OM
 		target.enemies_in_system += OM
-	if(OM.current_system?.contents_positions[OM]) //If we were loaded, but the system was not.
-		OM.current_system?.contents_positions -= OM
+	if(previous_system?.contents_positions[OM]) //If we were loaded, but the system was not.
+		previous_system?.contents_positions -= OM
 	OM.current_system = target
 
 //Specific case for anomalies. They need to be spawned in for research to scan them.
