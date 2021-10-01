@@ -282,6 +282,8 @@
 	pixel_y = -2
 	},
 /obj/item/pen/red,
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/lobby)
 "agG" = (
@@ -5917,6 +5919,9 @@
 "deV" = (
 /obj/item/ship_weapon/ammunition/torpedo/freight,
 /obj/effect/spawner/lootdrop/maintenance,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 5
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "dfa" = (
@@ -6675,9 +6680,7 @@
 /turf/open/floor/plating,
 /area/security/processing)
 "dCb" = (
-/obj/structure/fluff/bus/passable/seat{
-	icon_state = "backseat"
-	},
+/obj/structure/fluff/bus/passable/seat,
 /obj/item/storage/fancy/cigarettes/cigpack_robust,
 /turf/open/floor/plasteel/dark{
 	icon_state = "bus"
@@ -7337,6 +7340,14 @@
 /area/ai_monitored/security/armory/lockup)
 "eax" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/table,
+/obj/item/reagent_containers/food/drinks/bottle/beer,
+/obj/item/reagent_containers/food/drinks/bottle/beer{
+	pixel_x = 5;
+	pixel_y = 4
+	},
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "eaP" = (
@@ -9081,8 +9092,7 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 10;
-	icon_state = "pipe11-3"
+	dir = 10
 	},
 /turf/open/floor/monotile/steel,
 /area/maintenance/nsv/deck2/frame3/port)
@@ -9812,8 +9822,7 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8;
-	icon_state = "scrub_map_on-3"
+	dir = 8
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/atmos)
@@ -9867,12 +9876,11 @@
 /turf/open/floor/monotile/dark,
 /area/science/robotics/mechbay)
 "frE" = (
-/obj/item/ship_weapon/ammunition/torpedo/freight,
-/obj/structure/fluff/support_beam{
-	color = "#787878";
-	dir = 1
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/west{
+	dradis_id = "nt_cargo_torpedo_launcher";
+	linked_dradis = null
 	},
-/turf/open/floor/plasteel/techmaint,
+/turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/warehouse)
 "fsb" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -10696,11 +10704,6 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/engine,
 /area/engine/engineering/reactor_core)
-"fLB" = (
-/obj/structure/closet/crate,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/plasteel/tech/grid,
-/area/quartermaster/warehouse)
 "fLJ" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	req_access_txt = "12"
@@ -15413,9 +15416,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame3/central)
 "ilq" = (
-/obj/structure/fluff/bus/passable/seat{
-	icon_state = "backseat"
-	},
+/obj/structure/fluff/bus/passable/seat,
 /turf/open/floor/plasteel/dark{
 	icon_state = "bus"
 	},
@@ -17824,13 +17825,7 @@
 /turf/open/floor/monotile/light,
 /area/medical/genetics/cloning)
 "jBf" = (
-/obj/structure/closet/crate/engineering,
-/obj/item/clothing/glasses/welding,
-/obj/item/stack/sheet/iron/fifty,
-/obj/item/stack/sheet/glass/fifty,
-/obj/effect/spawner/lootdrop/maintenance/three,
-/obj/item/stack/sheet/plasteel/twenty,
-/obj/effect/decal/cleanable/dirt,
+/obj/machinery/computer/ship/munitions_computer/east,
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/warehouse)
 "jBh" = (
@@ -21578,9 +21573,7 @@
 /turf/open/floor/monotile/steel,
 /area/security/prison)
 "lCR" = (
-/obj/structure/fluff/bus/passable/seat{
-	icon_state = "backseat"
-	},
+/obj/structure/fluff/bus/passable/seat,
 /obj/effect/spawner/lootdrop/glowstick,
 /turf/open/floor/plasteel/dark{
 	icon_state = "bus"
@@ -24912,8 +24905,7 @@
 /area/ai_monitored/security/armory/lockup)
 "nuG" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8;
-	icon_state = "scrub_map_on-3"
+	dir = 8
 	},
 /turf/open/floor/carpet/green,
 /area/engine/engineering/reactor_control)
@@ -25523,6 +25515,13 @@
 /turf/open/floor/engine,
 /area/engine/atmos)
 "nMM" = (
+/obj/structure/closet/crate/engineering,
+/obj/item/clothing/glasses/welding,
+/obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/glass/fifty,
+/obj/effect/spawner/lootdrop/maintenance/three,
+/obj/item/stack/sheet/plasteel/twenty,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/warehouse)
 "nMZ" = (
@@ -25568,9 +25567,7 @@
 /turf/open/indestructible/sound/pool/spentfuel,
 /area/engine/engineering/reactor_core)
 "nNQ" = (
-/obj/structure/fluff/bus/passable/seat{
-	icon_state = "backseat"
-	},
+/obj/structure/fluff/bus/passable/seat,
 /obj/item/gps{
 	gpstag = "BUS0"
 	},
@@ -27254,8 +27251,7 @@
 	icon_state = "2-8"
 	},
 /obj/structure/disposalpipe/segment{
-	dir = 10;
-	icon_state = "pipe"
+	dir = 10
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/monotile/dark,
@@ -28170,10 +28166,7 @@
 /turf/open/floor/monotile/dark,
 /area/chapel/main)
 "pdH" = (
-/obj/structure/fluff/bus/passable/seat/driver{
-	icon_state = "driverseat";
-	pixel_y = 17
-	},
+/obj/structure/fluff/bus/passable/seat/driver,
 /turf/open/floor/plasteel/dark{
 	icon_state = "bus"
 	},
@@ -30560,6 +30553,11 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
+/obj/machinery/computer/ship/dradis/cargo{
+	dir = 1;
+	launcher_id = "nt_cargo_torpedo_launcher"
+	},
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "quW" = (
@@ -32008,12 +32006,6 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
-"rpf" = (
-/obj/machinery/ship_weapon/vls{
-	name = "Cargo Torp VLS"
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/quartermaster/storage)
 "rpj" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 8
@@ -32817,8 +32809,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/ship/blue{
-	dir = 8;
-	icon_state = "bordercorner"
+	dir = 8
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger{
@@ -33897,8 +33888,7 @@
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/disposalpipe/segment{
-	dir = 10;
-	icon_state = "pipe"
+	dir = 10
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
@@ -34356,15 +34346,6 @@
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
-"sBB" = (
-/obj/machinery/computer/ship/munitions_computer{
-	dir = 8;
-	icon = 'icons/obj/computer.dmi';
-	icon_screen = "tactical";
-	icon_state = "computer"
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/quartermaster/storage)
 "sBN" = (
 /obj/effect/turf_decal/tile/ship/yellow,
 /obj/effect/turf_decal/tile/ship/yellow{
@@ -38697,8 +38678,7 @@
 "uQP" = (
 /obj/effect/turf_decal/ship/techfloor,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8;
-	icon_state = "scrub_map_on-3"
+	dir = 8
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/atmos)
@@ -42794,8 +42774,7 @@
 	dir = 8
 	},
 /obj/structure/disposalpipe/segment{
-	dir = 10;
-	icon_state = "pipe"
+	dir = 10
 	},
 /turf/open/floor/monotile/steel,
 /area/quartermaster/lobby)
@@ -43306,8 +43285,7 @@
 /area/maintenance/nsv/deck2/frame2/central)
 "xvI" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8;
-	icon_state = "scrub_map_on-3"
+	dir = 8
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/chief)
@@ -78332,7 +78310,7 @@ uqQ
 oOA
 oNG
 gwX
-frE
+hxj
 deV
 sKg
 kWJ
@@ -78589,7 +78567,7 @@ jEB
 pRU
 bjB
 xhz
-fLB
+iED
 izg
 shN
 kWJ
@@ -78846,7 +78824,7 @@ sxJ
 ruo
 nbc
 iED
-nMM
+frE
 ndp
 hxj
 pHZ
@@ -82961,7 +82939,7 @@ fjV
 hXw
 dVX
 vva
-sBB
+bKj
 toG
 aVf
 cRj
@@ -83218,7 +83196,7 @@ mhv
 bKj
 lxi
 ssv
-rpf
+bKj
 toG
 kIv
 efp

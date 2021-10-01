@@ -1283,6 +1283,13 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig/pvp)
+"bsE" = (
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 12
+	},
+/turf/open/floor/plating,
+/area/quartermaster/pvp)
 "bsO" = (
 /obj/machinery/modular_computer/console/preset/civilian,
 /obj/structure/cable{
@@ -6232,6 +6239,7 @@
 	pixel_y = 4
 	},
 /obj/item/pen/red,
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
 "fRd" = (
@@ -12932,7 +12940,6 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/science/pvp)
 "lCL" = (
-/obj/structure/table,
 /obj/machinery/firealarm{
 	dir = 4;
 	pixel_x = -28
@@ -12945,6 +12952,9 @@
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/south{
+	dradis_id = "syndicate_cargo_torpedo_tube"
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
@@ -14201,8 +14211,6 @@
 /turf/open/floor/plasteel/dark,
 /area/security/brig/pvp)
 "mKN" = (
-/obj/structure/rack,
-/obj/effect/spawner/lootdrop/maintenance/two,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 1
 	},
@@ -14212,6 +14220,11 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/computer/ship/dradis/cargo{
+	dir = 4;
+	launcher_id = "syndicate_cargo_torpedo_tube"
+	},
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
 "mLo" = (
@@ -16588,12 +16601,6 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
 "oSV" = (
-/obj/structure/table,
-/obj/item/toner,
-/obj/item/pen{
-	pixel_x = 4;
-	pixel_y = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 5
 	},
@@ -17631,6 +17638,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/structure/munitions_trolley,
 /turf/open/floor/mineral/plastitanium/red,
 /area/quartermaster/pvp)
 "pUn" = (
@@ -19066,11 +19074,18 @@
 /turf/open/floor/monotile/dark,
 /area/bridge/meeting_room/pvp)
 "rnl" = (
-/obj/structure/chair/office{
-	dir = 8
+/obj/structure/rack,
+/obj/item/stack/packageWrap,
+/obj/item/toner,
+/obj/item/pen{
+	pixel_x = 4;
+	pixel_y = 4
 	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
-/turf/open/floor/mineral/plastitanium/red,
+/obj/item/hand_labeler,
+/obj/item/hand_labeler_refill,
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
+/turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
 "rnr" = (
 /obj/machinery/light{
@@ -21891,9 +21906,6 @@
 /turf/open/floor/engine/airless,
 /area/engine/engineering/pvp)
 "tKg" = (
-/obj/structure/table,
-/obj/item/hand_labeler,
-/obj/item/hand_labeler_refill,
 /obj/machinery/light{
 	dir = 8
 	},
@@ -23294,9 +23306,6 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/crew_quarters/heads/hor/pvp)
 "uYY" = (
-/obj/structure/table,
-/obj/item/stack/packageWrap,
-/obj/item/stack/packageWrap,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 1
 	},
@@ -23306,6 +23315,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/computer/ship/munitions_computer/north,
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
 "uZx" = (
@@ -53448,9 +53458,9 @@ hub
 hub
 hub
 hub
-rnl
+qyS
 pUm
-rQE
+rnl
 fYU
 pCs
 xyi
@@ -56280,7 +56290,7 @@ kql
 nDX
 wfn
 vgo
-xAe
+bsE
 hLg
 nNQ
 xgB
