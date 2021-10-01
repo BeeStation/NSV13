@@ -31,7 +31,6 @@
 /obj/structure/overmap/trader/proc/add_objective( objective )
 	if ( objective )
 		expecting_cargo += objective 
-		essential = TRUE
 
 /obj/structure/overmap/trader/receive_cargo( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console, var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment )
 	if ( inhabited_trader )

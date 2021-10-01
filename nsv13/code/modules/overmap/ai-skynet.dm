@@ -1217,7 +1217,6 @@ Seek a ship thich we'll station ourselves around
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
 	var/ai_flags = AI_FLAG_DESTROYER
-	var/essential = FALSE // Mob godmode equivalent for ships, used for mission critical targets 
 	var/supply_pod_type = /obj/structure/closet/supplypod/centcompod
 
 	var/last_decision = 0
