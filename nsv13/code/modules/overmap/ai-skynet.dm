@@ -314,42 +314,56 @@ Adding tasks is easy! Just define a datum for it.
 		to_chat(user, "<span class='warning'>Warning: You cannot open a communications channel without appropriate requisitions access registered to your ID card.</span>")
 		return FALSE
 
-	if ( console && console.linked_launcher )
-		var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = console.linked_launcher 
-		if ( launcher.chambered )
-			var/checkForLiving = recursive_locate( /mob/living, launcher.chambered )
-			
-			if ( !checkForLiving )
-				var/choice = input("Transfer cargo to [src]?", "Confirm delivery", "No") in list("Yes", "No")
-				if( choice == "Yes" ) 
-					var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = launcher.chambered 
-					receive_cargo( user, console, shipment )
-
-					// Fire the torpedo away to unload the launcher. 
-					// Without a weapon_type the projectile will not be animated 
-					launcher.fire( src, shots = 1 )
-				else 
-					if ( console.linked )
-						try_hail( user, console.linked )
-			else 
-				to_chat(user, "<span class='warning'>The cargo launcher's Cargo Shuttle Brand lifeform checker blinks an error, cannot deliver living organisms!</span>")
-		else 
-			to_chat(user, "<span class='warning'>The cargo launcher has no freight torpedoes loaded!</span>")
-			if ( console.linked )
-				try_hail( user, console.linked )
-	else 
+	if ( !( console && console.linked_launcher ) )
 		to_chat(user, "<span class='warning'>[console] has no cargo launcher attached! Use a multitool with a cargo launcher stored on its buffer to connect it.</span>")
 		if ( console && console.linked )
 			try_hail( user, console.linked )
+		return FALSE 
+
+	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = console.linked_launcher 
+	if ( !launcher.chambered )
+		to_chat(user, "<span class='warning'>[src] has no freight torpedoes loaded!</span>")
+		if ( console.linked )
+			try_hail( user, console.linked )
+		return FALSE 
+
+	var/checkForLiving = ( recursive_locate( /mob/living, launcher.chambered ) || recursive_locate( /obj/item/organ/brain, launcher.chambered ) || recursive_locate( /obj/item/mmi, launcher.chambered ) )
+	if ( checkForLiving )
+		to_chat(user, "<span class='warning'>[src] Cargo Shuttle Brand lifeform checker blinks an error, it cannot deliver living entities!</span>")
+		return FALSE 
+
+	var/checkForBeacons = (
+		recursive_locate( /obj/item/beacon, launcher.chambered )
+	)
+	if ( checkForBeacons )
+		to_chat(user, "<span class='warning'>[src] Cargo Shuttle Brand teleport devices checker blinks an error, it cannot deliver beacons!</span>")
+		return FALSE 
+
+	var/choice = input("Transfer cargo to [src]?", "Confirm delivery", "No") in list("Yes", "No")
+	if( choice == "No" ) 
+		if ( console.linked )
+			try_hail( user, console.linked )
+		return FALSE 
+
+	var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = launcher.chambered 
+	var/success = receive_cargo( user, console, shipment )
+
+	if ( success )
+		// Fire the torpedo away to unload the launcher. 
+		// Without a weapon_type the projectile will not be animated 
+		launcher.fire( src, shots = 1 )
+		return TRUE 
 
 /obj/structure/overmap/proc/receive_cargo( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console, var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment ) 
-	if ( console.linked )
-		var/obj/structure/overmap/courier = console.linked 
-		if ( courier.faction == src.faction )
-			src.send_supplypod( shipment, courier, TRUE )
-		else 
-			// We're not allowing syndicate to hitscan the player ship with boarders at this time 
-			to_chat(user, "<span class='warning'>The cargo launcher IFF checker blinks an error, recipient faction is unmatched!</span>")
+	if ( !console.linked )
+		// We're not allowing syndicate to hitscan the player ship with boarders at this time 
+		to_chat(user, "<span class='warning'>The cargo launcher IFF checker blinks an error, recipient faction is unmatched!</span>")
+		return FALSE 
+
+	var/obj/structure/overmap/courier = console.linked 
+	if ( courier.faction == src.faction )
+		src.send_supplypod( shipment, courier, TRUE )
+		return TRUE 
 
 /obj/structure/overmap/proc/hail(var/text, var/ship_name, var/player_name, var/outbound = FALSE)
 	if(!text)

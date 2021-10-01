@@ -40,47 +40,32 @@
 		receipt.vessel = console.linked 
 		receipt.shipment = shipment
 		receipts += receipt
-
-		check_objectives( receipt )
+		
+		to_chat(user, "<span class='notice'>The cargo has been sent to [src] and should be received shortly.</span>")
+		addtimer(CALLBACK(src, .proc/check_objectives, receipt), 60 SECONDS)
+		return TRUE
 	else 
-		. = ..() // Fallback to attempting a physical delivery to a station zlevel, if it exists 
+		return ..() // Fallback to attempting a physical delivery to a station zlevel, if it exists 
 	
 /obj/structure/overmap/trader/proc/check_objectives( var/datum/freight_delivery_receipt/receipt )
 	if ( !length( expecting_cargo ) ) 
-		if ( receipt && receipt.vessel )
-			SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-			receipt.vessel.hail( pick( list( 
-				"We're not expecting any shipments at this time. Please give us some time to arrange the return shipment.",
-				"We're not expecting any shipments, please don't send us your trash.",
-				"This cargo isn't registered on our supply requests. We will return it as soon as we can.",
-				"We haven't asked for any cargo like this. Take your business elsewhere.",
-			) ), src)
-			addtimer(CALLBACK(src, .proc/return_shipment, receipt), 60 SECONDS)
+		reject_unexpected_shipment( receipt )
 		return FALSE 
 	
-	for ( var/request in expecting_cargo ) 
-		if ( istype( request, /datum/overmap_objective/cargo ) )
-			var/datum/overmap_objective/cargo/objective = request 
-			var/success = objective.check_cargo( receipt.shipment ) 
+	for ( var/datum/overmap_objective/cargo/request in expecting_cargo ) 
+		var/datum/overmap_objective/cargo/objective = request 
+		var/allCargoPresent = objective.check_cargo( receipt.shipment ) 
+		
+		if ( !allCargoPresent ) 
+			reject_incomplete_shipment( receipt )
+			return FALSE 
 			
-			if ( success ) 
-				if ( receipt && receipt.vessel )
-					SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-					receipt.vessel.hail( "Thank you for delivering this cargo. We have marked the supply request as received.", src)
-				// Bag it, tag it, store it. Accessible for admin debugging later if needed 
-				receipt.completed_objective = objective 
-				received_cargo += receipt
-				addtimer(CALLBACK(src, .proc/return_approved_form, receipt), 60 SECONDS)
-			else 
-				if ( receipt && receipt.vessel )
-					SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-					receipt.vessel.hail( pick( list( 
-						"Some of the cargo contents are missing. We're sending the crates back, please double check your crates and try again.",
-						"We're not expecting this kind of shipment, please don't send us your trash.",
-						"This cargo isn't matching on our supply requests. We will return it as soon as we can.",
-						"We haven't asked for any cargo like this. Take your business elsewhere if you won't complete the job.",
-					) ), src)
-					addtimer(CALLBACK(src, .proc/return_shipment, receipt), 60 SECONDS)
+		// Bag it, tag it, store it. Accessible for admin debugging later if needed 
+		receipt.completed_objective = objective 
+		received_cargo += receipt
+		expecting_cargo -= request 
+		approve_shipment( receipt )
+		return TRUE
 
 /obj/structure/overmap/trader/proc/make_paperwork( var/datum/freight_delivery_receipt/receipt, var/approval )
 	// Cargo DRADIS automatically synthesizes and attaches the requisition form to the cargo torp
@@ -133,6 +118,34 @@
 		var/obj/item/paper/requisition_form = make_paperwork( receipt, TRUE )
 
 		vessel.send_supplypod( requisition_form, src, TRUE )
+
+/obj/structure/overmap/trader/proc/reject_unexpected_shipment( var/datum/freight_delivery_receipt/receipt ) 
+	if ( receipt && receipt.vessel )
+		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+		receipt.vessel.hail( pick( list( 
+			"We're not expecting any shipments at this time. Please give us some time to arrange the return shipment.",
+			"We're not expecting any shipments, please don't send us your trash.",
+			"This cargo isn't registered on our supply requests. We will return it as soon as we can.",
+			"We haven't asked for any cargo like this. Take your business elsewhere.",
+		) ), src)
+		addtimer(CALLBACK(src, .proc/return_shipment, receipt), 60 SECONDS)
+
+/obj/structure/overmap/trader/proc/reject_incomplete_shipment( var/datum/freight_delivery_receipt/receipt ) 
+	if ( receipt && receipt.vessel )
+		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+		receipt.vessel.hail( pick( list( 
+			"Some of the cargo contents are missing. We're sending the crates back, please double check your crates and try again.",
+			"We're not expecting this kind of shipment, please don't send us your trash.",
+			"This cargo isn't matching on our supply requests. We will return it as soon as we can.",
+			"We haven't asked for any cargo like this. Take your business elsewhere if you won't complete the job.",
+		) ), src)
+		addtimer(CALLBACK(src, .proc/return_shipment, receipt), 60 SECONDS)
+
+/obj/structure/overmap/trader/proc/approve_shipment( var/datum/freight_delivery_receipt/receipt ) 
+	if ( receipt && receipt.vessel )
+		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+		receipt.vessel.hail( "Thank you for delivering this cargo. We have marked the supply request as received.", src)
+		addtimer(CALLBACK(src, .proc/return_approved_form, receipt), 60 SECONDS)
 
 /obj/structure/overmap/trader/proc/return_shipment( var/datum/freight_delivery_receipt/receipt )
 	if ( receipt && receipt.vessel )

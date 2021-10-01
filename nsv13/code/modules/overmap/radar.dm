@@ -127,7 +127,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 /obj/machinery/computer/ship/dradis/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight 
 	name = "\improper Cargo freight delivery console"
 	circuit = /obj/item/circuitboard/computer/ship/dradis/cargo
-	var/linked_launcher = null
+	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/linked_launcher = null
 	var/launcher_id = null
 
 /obj/machinery/computer/ship/dradis/cargo/Initialize()

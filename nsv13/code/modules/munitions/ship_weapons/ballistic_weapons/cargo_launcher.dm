@@ -2,7 +2,7 @@
 	name = "M4-C Cargo freight launcher"
 	desc = "A transport system that's employed by nigh on all modern ships. It's capable of delivering a self-propelling payload with pinpoint accuracy to deliver freight."
 	color = "#f5d1b0" // I have better things to do than to modify 100+ sprite frames just to add funny orange stripes 
-	var/linked_dradis = null
+	var/obj/machinery/computer/ship/dradis/cargo/linked_dradis = null
 	ammo_type = /obj/item/ship_weapon/ammunition/torpedo/freight
 	var/dradis_id = null
 
@@ -30,12 +30,12 @@
 	pixel_y = -74
 	bound_x = -64
 	
-/obj/machinery/computer/ship/dradis/cargo/Initialize()
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/Initialize()
 	..()
 	
 	if(dradis_id) //If mappers set an ID)
 		for(var/obj/machinery/computer/ship/dradis/cargo/W in GLOB.machines)
-			if(W.dradis_id == dradis_id && W.z == z)
+			if(W.launcher_id == dradis_id && W.z == z)
 				linked_dradis = W
 				W.linked_launcher = src
 
