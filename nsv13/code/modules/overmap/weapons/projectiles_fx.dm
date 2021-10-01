@@ -194,8 +194,6 @@ Misc projectile types, effects, think of this as the special FX file.
 //Corvid or someone please refactor this to be less messy.
 /obj/item/projectile/guided_munition/on_hit(atom/target, blocked = FALSE)
 	. = ..()
-	if(istype(target, /obj/item/projectile))
-		var/obj/item/projectile/P = target
 	if(!check_faction(target))
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
