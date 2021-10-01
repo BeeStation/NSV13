@@ -582,7 +582,7 @@
 		if((target == firer) || ((target == firer.loc) && ismecha(firer.loc)) || (target in firer?.buckled_mobs) || (istype(M) && (M.buckled == target)))
 			return FALSE
 	//NSV13 change - projectiles invalid if same faction
-	if(istype(target, /obj/item/projectile))
+	if(isprojectile(target))
 		var/obj/item/projectile/P = target
 		if(P.faction == faction)
 			return FALSE
