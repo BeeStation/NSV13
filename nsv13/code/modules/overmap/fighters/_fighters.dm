@@ -509,7 +509,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	RETURN_TYPE(/list)
 	var/list/victims = list()
 	brakes = TRUE
-	var/turf/T = GetSafeTurf()
+	var/turf/T = GetSafeTurf(src)
 	if(!canopy_open)
 		canopy_open = TRUE
 		playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
