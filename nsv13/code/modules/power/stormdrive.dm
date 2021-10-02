@@ -907,7 +907,7 @@ Control Rods
 
 	if(reactor_stability < 15)
 		if(prob(1))
-			var/anom = pick(1,2,3,4,5,6,7,8,9,10)
+			var/anom = rand(1,10)
 			switch(anom)
 				if(1 to 4)
 					new /obj/effect/anomaly/stormdrive/surge(src, rand(2000, 5000))
@@ -1170,7 +1170,7 @@ Control Rods
 					empulse(epi, 5, 15)
 					radiation_pulse(epi, 100)
 					if(prob(50))
-						var/anom = pick(1,2,3,4,5,6,7,8,9,10)
+						var/anom = rand(1,10)
 						switch(anom)
 							if(1 to 4)
 								new /obj/effect/anomaly/stormdrive/surge(epi, rand(2000, 5000))
@@ -1181,7 +1181,7 @@ Control Rods
 				else //larger spawner
 					empulse(epi, 10, 25)
 					radiation_pulse(epi, 500)
-					var/anom = pick(1,2,3,4,5,6,7,8,9,10)
+					var/anom = rand(1,10)
 					switch(anom) //spawn SD anom
 						if(1 to 4)
 							new /obj/effect/anomaly/stormdrive/surge(epi, rand(2000, 5000))
