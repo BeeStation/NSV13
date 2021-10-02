@@ -1,10 +1,10 @@
 /datum/round_event_control/spontaneous_appendicitis
 	name = "Spontaneous Appendicitis"
 	typepath = /datum/round_event/spontaneous_appendicitis
-	weight = 10 
+	weight = 10
 	max_occurrences = 4
 	earliest_start = 10 MINUTES
-	min_players = 25 // This sucks when there's no medical staff
+	min_players = 15 //NSV13
 
 /datum/round_event/spontaneous_appendicitis
 	fakeable = FALSE
