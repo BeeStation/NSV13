@@ -4,7 +4,7 @@
 	color = "#f5d1b0" // I have better things to do than to modify 100+ sprite frames just to add funny orange stripes 
 	var/obj/machinery/computer/ship/dradis/cargo/linked_dradis = null
 	ammo_type = /obj/item/ship_weapon/ammunition/torpedo/freight
-	var/dradis_id = null
+	var/launcher_id = null
 
 /obj/machinery/ship_weapon/torpedo_launcher/cargo/north
 	dir = NORTH
@@ -30,14 +30,15 @@
 	pixel_y = -74
 	bound_x = -64
 	
-/obj/machinery/ship_weapon/torpedo_launcher/cargo/LateInitialize()
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/Initialize()
 	..()
-	
-	if(dradis_id) //If mappers set an ID)
-		for(var/obj/machinery/computer/ship/dradis/cargo/W in GLOB.machines)
-			if(W.launcher_id == dradis_id && W.z == z)
-				linked_dradis = W
-				W.linked_launcher = src
+
+	if(!linked_dradis)
+		if(launcher_id) //If mappers set an ID
+			for(var/obj/machinery/computer/ship/dradis/cargo/W in GLOB.machines)
+				if(W.dradis_id == launcher_id && W.z == z)
+					linked_dradis = W
+					W.linked_launcher = src
 
 /obj/machinery/ship_weapon/torpedo_launcher/cargo/set_position()
 	// Don't register cargo torpedo tube for weapons fire by tactical console 

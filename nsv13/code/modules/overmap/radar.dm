@@ -128,11 +128,18 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	name = "\improper Cargo freight delivery console"
 	circuit = /obj/item/circuitboard/computer/ship/dradis/cargo
 	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/linked_launcher = null
-	var/launcher_id = null
+	var/dradis_id = null
 
 /obj/machinery/computer/ship/dradis/cargo/Initialize()
 	..()
 	sensor_range = hail_range
+
+	if(!linked_launcher)
+		if(dradis_id) //If mappers set an ID
+			for(var/obj/machinery/ship_weapon/torpedo_launcher/cargo/W in GLOB.machines)
+				if(W.launcher_id == dradis_id && W.z == z)
+					linked_launcher = W
+					W.linked_dradis = src
 
 /obj/machinery/computer/ship/dradis/cargo/multitool_act(mob/living/user, obj/item/I)
 	// Allow relinking a console's cargo launcher 
