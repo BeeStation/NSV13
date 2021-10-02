@@ -633,7 +633,7 @@
 /area/hallway/nsv/deck1/hallway)
 "dk" = (
 /obj/structure/extinguisher_cabinet/north,
-/obj/structure/filingcabinet/chestdrawer,
+/obj/structure/closet/secure_closet/bridge,
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "dl" = (
@@ -728,6 +728,7 @@
 "dy" = (
 /obj/structure/table/reinforced,
 /obj/structure/railing,
+/obj/item/paper_bin,
 /turf/open/floor/carpet/royalblack,
 /area/bridge/cic)
 "dz" = (
@@ -861,6 +862,7 @@
 /obj/machinery/airalarm{
 	pixel_y = 23
 	},
+/obj/machinery/light_switch/east,
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "ee" = (
@@ -884,11 +886,11 @@
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/bar/mess_hall)
 "ei" = (
-/obj/structure/sign/ship/nosmoking{
-	dir = 4
-	},
-/turf/closed/wall/r_wall,
-/area/ai_monitored/turret_protected/ai_upload)
+/obj/structure/table/reinforced,
+/obj/structure/railing,
+/obj/item/radio/intercom,
+/turf/open/floor/carpet/royalblack,
+/area/bridge/cic)
 "ej" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -1040,7 +1042,7 @@
 /obj/structure/table/reinforced,
 /obj/machinery/button/door{
 	id = "atlas_brief";
-	name = "courtroom_shutter";
+	name = "Bridge Shutters";
 	pixel_y = 2
 	},
 /turf/open/floor/monotile/dark,
@@ -1425,7 +1427,6 @@
 /area/maintenance/nsv/deck2/frame1/central)
 "gN" = (
 /obj/structure/table/reinforced,
-/obj/item/radio/intercom,
 /obj/structure/railing{
 	dir = 1
 	},
@@ -1569,9 +1570,6 @@
 /area/bridge/cic)
 "hx" = (
 /obj/item/storage/secure/safe/caps_spare,
-/obj/structure/sign/ship/nosmoking{
-	dir = 4
-	},
 /turf/closed/wall/r_wall,
 /area/bridge/cic)
 "hy" = (
@@ -2559,6 +2557,7 @@
 "lO" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/structure/extinguisher_cabinet/west,
+/obj/machinery/photocopier,
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "lY" = (
@@ -2791,7 +2790,7 @@
 /area/hallway/nsv/deck1/hallway)
 "ns" = (
 /obj/structure/sign/ship/nosmoking{
-	dir = 4
+	dir = 1
 	},
 /turf/closed/wall/r_wall,
 /area/bridge/cic)
@@ -2999,7 +2998,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/photocopier,
+/obj/structure/filingcabinet/chestdrawer,
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "ox" = (
@@ -3093,6 +3092,10 @@
 "oZ" = (
 /obj/machinery/computer/upload/ai{
 	dir = 4
+	},
+/obj/machinery/camera{
+	c_tag = "AI Upload";
+	dir = 10
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
@@ -3210,10 +3213,6 @@
 "pE" = (
 /obj/effect/turf_decal/stripes/box,
 /obj/machinery/recharge_station,
-/obj/machinery/camera{
-	c_tag = "AI Upload";
-	dir = 8
-	},
 /turf/open/floor/monotile/steel,
 /area/ai_monitored/turret_protected/ai_upload)
 "pF" = (
@@ -6492,15 +6491,19 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/obj/machinery/door/airlock/ship/command{
-	name = "Bridge";
-	req_one_access_txt = "19"
-	},
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
 /obj/machinery/door/firedoor/border_only/directional/east,
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/command{
+	name = "Bridge";
+	req_one_access_txt = "19"
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "FR" = (
@@ -6683,6 +6686,9 @@
 	icon_state = "control_stun";
 	name = "upload turret control panel";
 	pixel_x = -32
+	},
+/obj/machinery/light_switch/west{
+	pixel_x = -19
 	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
@@ -8759,6 +8765,17 @@
 /obj/item/twohanded/required/kirbyplants/random,
 /turf/open/floor/carpet/red,
 /area/security/detectives_office)
+"Qv" = (
+/obj/effect/turf_decal/tile/ship/green,
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 8
+	},
+/obj/machinery/camera/autoname{
+	dir = 10;
+	icon_state = "camera"
+	},
+/turf/open/floor/plasteel/grid/mono,
+/area/hallway/nsv/deck1/hallway)
 "Qw" = (
 /obj/effect/decal/cleanable/glitter/white{
 	layer = 4.1;
@@ -9440,6 +9457,10 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
 /obj/machinery/door/airlock/ship/command{
 	name = "Bridge";
 	req_one_access_txt = "19"
@@ -9573,7 +9594,7 @@
 	},
 /obj/machinery/button/door{
 	id = "atlas_brief";
-	name = "courtroom_shutter";
+	name = "Bridge Shutters";
 	pixel_x = -9;
 	pixel_y = 2
 	},
@@ -10091,6 +10112,8 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/red,
+/obj/structure/extinguisher_cabinet/north,
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "XT" = (
@@ -41462,7 +41485,7 @@ uj
 Ov
 zY
 RI
-ei
+uj
 uj
 dF
 gq
@@ -42239,7 +42262,7 @@ Qh
 je
 Em
 wu
-Sc
+Qv
 MS
 Va
 rO
@@ -42492,7 +42515,7 @@ ku
 JU
 Vg
 ik
-Tc
+ns
 jB
 gR
 wu
@@ -42748,7 +42771,7 @@ XH
 qT
 gN
 YK
-dy
+ei
 Tc
 Am
 IY
@@ -42998,7 +43021,7 @@ MQ
 wu
 Sc
 Tc
-ns
+Tc
 KD
 Li
 NI
