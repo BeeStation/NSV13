@@ -867,7 +867,7 @@
 /area/quartermaster/miningdock)
 "dV" = (
 /obj/structure/rack,
-/turf/open/floor/plating,
+/turf/open/floor/plating/foam,
 /area/maintenance/nsv/deck1/starboard)
 "ea" = (
 /obj/structure/hull_plate/end{
@@ -1094,15 +1094,13 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "fb" = (
-/obj/structure/cable/green{
-	icon_state = "1-2"
+/obj/structure/hull_plate/end{
+	dir = 1;
+	icon_state = "tgmc_outerhull_dir25";
+	obj_integrity = 100
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/disposalpipe/segment,
-/obj/structure/fluff/support_beam,
-/turf/open/floor/plating/rusty_techgrid,
-/area/maintenance/nsv/deck1/starboard)
+/turf/open/floor/engine/airless,
+/area/space/nearstation)
 "fd" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -2256,6 +2254,10 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/storage)
+"kq" = (
+/obj/effect/spawner/lootdrop/grille_or_trash,
+/turf/open/floor/plating/foam,
+/area/maintenance/nsv/deck1/starboard)
 "kr" = (
 /obj/item/twohanded/required/kirbyplants/random,
 /obj/machinery/power/apc/auto_name/north,
@@ -2425,6 +2427,13 @@
 	},
 /turf/open/openspace,
 /area/maintenance/nsv/deck1/starboard)
+"lE" = (
+/obj/structure/hull_plate{
+	icon_state = "tgmc_outerhull25";
+	obj_integrity = 50
+	},
+/turf/open/floor/engine/airless,
+/area/space/nearstation)
 "lF" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -2940,6 +2949,17 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/openspace,
 /area/maintenance/department/cargo)
+"nX" = (
+/obj/structure/hull_plate{
+	icon_state = "tgmc_outerhull0";
+	obj_integrity = 0
+	},
+/obj/structure/hull_plate{
+	icon_state = "tgmc_outerhull0";
+	obj_integrity = 0
+	},
+/turf/open/floor/engine/airless,
+/area/space/nearstation)
 "nY" = (
 /obj/structure/closet/firecloset{
 	anchored = 1
@@ -3281,7 +3301,7 @@
 /area/engine/storage)
 "pZ" = (
 /obj/structure/reagent_dispensers/fueltank,
-/turf/open/floor/plating,
+/turf/open/floor/plating/foam,
 /area/maintenance/nsv/deck1/starboard)
 "qb" = (
 /turf/open/floor/plasteel/white/corner{
@@ -3508,6 +3528,9 @@
 /obj/machinery/ntnet_relay,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
+"rt" = (
+/turf/open/floor/plating/foam,
+/area/maintenance/nsv/deck1/starboard)
 "ru" = (
 /obj/structure/table/glass,
 /obj/item/cigbutt/cigarbutt,
@@ -4052,6 +4075,10 @@
 /obj/machinery/airalarm/directional/south,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/disposal)
+"tG" = (
+/obj/structure/grille,
+/turf/open/floor/plating/foam,
+/area/maintenance/nsv/deck1/starboard)
 "tH" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
@@ -4467,6 +4494,10 @@
 	},
 /turf/open/openspace,
 /area/maintenance/nsv/deck1/port)
+"vt" = (
+/obj/structure/foamedmetal,
+/turf/closed/wall/ship,
+/area/maintenance/nsv/deck1/starboard)
 "vu" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable{
@@ -4714,6 +4745,12 @@
 	},
 /turf/open/floor/plasteel/ship/padded,
 /area/medical/chemistry)
+"wS" = (
+/obj/structure/fluff/support_beam{
+	dir = 1
+	},
+/turf/open/floor/plating/foam,
+/area/maintenance/nsv/deck1/starboard)
 "wV" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -5265,7 +5302,7 @@
 "yU" = (
 /obj/structure/rack,
 /obj/effect/spawner/lootdrop/maintenance/two,
-/turf/open/floor/plating,
+/turf/open/floor/plating/foam,
 /area/maintenance/nsv/deck1/starboard)
 "yY" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
@@ -5778,6 +5815,13 @@
 "BN" = (
 /turf/closed/wall/r_wall/ship,
 /area/storage/tech)
+"BQ" = (
+/obj/structure/hull_plate{
+	icon_state = "tgmc_outerhull0";
+	obj_integrity = 0
+	},
+/turf/open/floor/engine/airless,
+/area/space/nearstation)
 "BR" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
@@ -6258,6 +6302,10 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/plating,
 /area/engine/storage)
+"Ep" = (
+/obj/structure/foamedmetal,
+/turf/open/floor/plating/foam,
+/area/maintenance/nsv/deck1/starboard)
 "Er" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -6793,6 +6841,18 @@
 /obj/structure/flora/junglebush/large,
 /turf/open/floor/plating,
 /area/medical/medbay/zone2)
+"GS" = (
+/obj/structure/cable/green{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment,
+/obj/structure/fluff/support_beam{
+	dir = 1
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/maintenance/nsv/deck1/starboard)
 "GU" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -8186,6 +8246,13 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/space/nearstation)
+"Nc" = (
+/obj/structure/hull_plate{
+	icon_state = "tgmc_outerhull50";
+	obj_integrity = 100
+	},
+/turf/open/floor/engine/airless,
+/area/space/nearstation)
 "Nd" = (
 /obj/docking_port/stationary{
 	dir = 4;
@@ -8649,6 +8716,13 @@
 	},
 /turf/open/openspace,
 /area/engine/stormdrive/monitor)
+"OM" = (
+/obj/structure/hull_plate{
+	icon_state = "tgmc_outerhull75";
+	obj_integrity = 150
+	},
+/turf/open/floor/engine/airless,
+/area/space/nearstation)
 "OP" = (
 /obj/structure/ladder,
 /obj/structure/lattice/catwalk,
@@ -10476,6 +10550,9 @@
 /obj/structure/cable/green{
 	icon_state = "2-5"
 	},
+/obj/structure/fluff/support_beam{
+	dir = 1
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/starboard)
 "VB" = (
@@ -10921,6 +10998,14 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"WZ" = (
+/obj/structure/hull_plate/end{
+	dir = 4;
+	icon_state = "tgmc_outerhull_dir25";
+	obj_integrity = 100
+	},
+/turf/open/floor/engine/airless,
+/area/space/nearstation)
 "Xa" = (
 /obj/structure/cable/green{
 	icon_state = "4-8"
@@ -41217,9 +41302,9 @@ qQ
 vG
 vG
 bw
-bw
-bw
-bw
+vt
+vt
+vt
 iL
 cF
 li
@@ -41473,10 +41558,10 @@ vG
 ez
 vG
 jf
-BH
-jf
+wS
+rt
 yU
-bw
+vt
 iL
 cF
 li
@@ -41731,9 +41816,9 @@ uq
 iU
 NX
 El
-jf
+rt
 dV
-bw
+vt
 iL
 cF
 li
@@ -41988,9 +42073,9 @@ fK
 HV
 jf
 WA
-jf
-jf
-bw
+rt
+kq
+vt
 iL
 cF
 li
@@ -42245,9 +42330,9 @@ Sg
 HV
 ck
 WA
-jf
+rt
 pZ
-bw
+vt
 iL
 li
 li
@@ -42502,7 +42587,7 @@ Vj
 HV
 kW
 WA
-jf
+rt
 LZ
 bw
 iL
@@ -42759,7 +42844,7 @@ Tx
 HV
 CU
 WA
-TB
+rt
 bw
 bw
 xX
@@ -43014,7 +43099,7 @@ bw
 bw
 bw
 bw
-bw
+tG
 FD
 jf
 bw
@@ -43270,8 +43355,8 @@ bw
 dy
 Vz
 Ub
+GS
 Ub
-fb
 pT
 jf
 bw
@@ -43525,10 +43610,10 @@ jf
 jf
 ng
 ZV
-TB
-jf
-jf
-bw
+kq
+rt
+rt
+Ep
 AD
 NX
 NX
@@ -47824,12 +47909,12 @@ IH
 IH
 Bh
 Bh
-aU
+fb
+OM
 Wm
 Wm
 Wm
-Wm
-Wm
+OM
 TA
 fn
 ht
@@ -48081,12 +48166,12 @@ IH
 IH
 Bh
 Bh
-aU
-Wm
-Wm
-Wm
-Wm
-Wm
+fb
+Nc
+Nc
+OM
+OM
+Nc
 TA
 fF
 uP
@@ -48339,10 +48424,10 @@ IH
 Bh
 Bh
 aU
-Wm
-Wm
-Wm
-Wm
+OM
+Nc
+Nc
+Nc
 Wm
 TA
 fn
@@ -48596,11 +48681,11 @@ IH
 Bh
 Bh
 aU
-Wm
-Wm
-Wm
-Wm
-Wm
+OM
+BQ
+lE
+Nc
+OM
 TA
 fn
 fn
@@ -48854,10 +48939,10 @@ Bh
 Bh
 aU
 Wm
-Wm
-Wm
-Wm
-Wm
+OM
+nX
+lE
+OM
 TA
 fn
 fn
@@ -49111,9 +49196,9 @@ Bh
 Bh
 aU
 Wm
-Wm
-Wm
-Wm
+OM
+BQ
+OM
 Wm
 TA
 TA
@@ -49369,9 +49454,9 @@ Bh
 aU
 Wm
 Wm
-Wm
-Wm
-Wm
+OM
+Nc
+OM
 Wm
 TA
 Bh
@@ -49628,7 +49713,7 @@ Wm
 Wm
 Wm
 Wm
-Wm
+OM
 Wm
 TA
 Bh
@@ -52714,7 +52799,7 @@ hK
 fS
 Wm
 Wm
-Wm
+OM
 ir
 Bh
 Bh
@@ -52969,8 +53054,8 @@ aU
 Wm
 ea
 Wm
-Wm
-Wm
+Nc
+lE
 Wm
 cP
 Bh
@@ -53227,7 +53312,7 @@ LY
 LY
 LY
 LY
-LY
+WZ
 LY
 IO
 Bh
