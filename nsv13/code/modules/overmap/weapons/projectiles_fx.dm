@@ -196,7 +196,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	. = ..()
 	if(!check_faction(target))
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
-	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
+	if(isovermap(target)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
 		spec_overmap_hit(target)
 		return BULLET_ACT_HIT
 	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
@@ -219,8 +219,6 @@ Misc projectile types, effects, think of this as the special FX file.
 	return
 
 /obj/item/projectile/guided_munition/torpedo/disruptor/spec_overmap_hit(obj/structure/overmap/target)
-	if(QDELETED(target))
-		return
 	if(target.occupying_levels.len)
 		return	//Detonate is gonna handle this for us.
 		
