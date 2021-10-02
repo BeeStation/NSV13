@@ -21,6 +21,7 @@
 	integrity_failure = 25
 	var/opened = FALSE
 	var/mutable_appearance/armrest
+	buildstackamount = 5
 	item_chair = null
 	layer = OBJ_LAYER
 
@@ -48,7 +49,6 @@
 /obj/structure/chair/shuttlecraft_chair/proc/update_armrest()
 	if(has_buckled_mobs())
 		add_overlay(armrest)
-		AltClick(null)
 	else
 		cut_overlay(armrest)
 
