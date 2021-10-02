@@ -1301,15 +1301,9 @@ Seek a ship thich we'll station ourselves around
 // Not as good as a carrier, but something
 /obj/structure/overmap/proc/ai_self_resupply()
 	ai_resupply_scheduled = FALSE
-	var/resupply_amount = CEILING(initial(missiles) / 4, 1)
-	if(missiles < resupply_amount)
-		missiles += resupply_amount
-	resupply_amount = CEILING(initial(torpedoes) / 4, 1)
-	if(torpedoes < resupply_amount)
-		torpedoes += resupply_amount
-	resupply_amount = CEILING(initial(shots_left) / 2, 1)
-	if(shots_left < resupply_amount)
-		shots_left += resupply_amount
+	missiles = round(CLAMP(missiles + initial(missiles)/4, 1, initial(missiles)/4))
+	torpedoes = round(CLAMP(torpedoes + initial(torpedoes)/4, 1, initial(torpedoes)/4))
+	shots_left = round(CLAMP(shots_left + initial(shots_left)/2, 1, initial(shots_left)/4))
 /**
 * Given target ship and projectile speed, calculate aim point for intercept
 * See: https://stackoverflow.com/a/3487761
