@@ -147,7 +147,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 		return TRUE
 	// Call the parent proc and allow supply beacon swaps 
 	else 
-		..()
+		return ..()
 	
 /obj/machinery/computer/ship/dradis/cargo/can_radar_pulse()
 	return FALSE

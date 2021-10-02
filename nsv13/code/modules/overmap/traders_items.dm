@@ -110,7 +110,7 @@
 	return paper
 
 /obj/structure/overmap/trader/proc/return_approved_form( var/datum/freight_delivery_receipt/receipt )
-	if ( receipt && receipt.vessel )
+	if(receipt?.vessel)
 		var/obj/structure/overmap/vessel = receipt.vessel
 
 		// Paperwork! Stations should always stamp their requisition forms as accepted and return to sender 
@@ -119,7 +119,7 @@
 		vessel.send_supplypod( requisition_form, src, TRUE )
 
 /obj/structure/overmap/trader/proc/reject_unexpected_shipment( var/datum/freight_delivery_receipt/receipt ) 
-	if ( receipt && receipt.vessel )
+	if(receipt?.vessel)
 		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		receipt.vessel.hail( pick( list( 
 			"We're not expecting any shipments at this time. Please give us some time to arrange the return shipment.",
@@ -130,7 +130,7 @@
 		addtimer(CALLBACK(src, .proc/return_shipment, receipt), 60 SECONDS)
 
 /obj/structure/overmap/trader/proc/reject_incomplete_shipment( var/datum/freight_delivery_receipt/receipt ) 
-	if ( receipt && receipt.vessel )
+	if(receipt?.vessel)
 		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		receipt.vessel.hail( pick( list( 
 			"Some of the cargo contents are missing. We're sending the crates back, please double check your crates and try again.",
@@ -141,13 +141,13 @@
 		addtimer(CALLBACK(src, .proc/return_shipment, receipt), 60 SECONDS)
 
 /obj/structure/overmap/trader/proc/approve_shipment( var/datum/freight_delivery_receipt/receipt ) 
-	if ( receipt && receipt.vessel )
+	if(receipt?.vessel)
 		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		receipt.vessel.hail( "Thank you for delivering this cargo. We have marked the supply request as received.", src)
 		addtimer(CALLBACK(src, .proc/return_approved_form, receipt), 60 SECONDS)
 
 /obj/structure/overmap/trader/proc/return_shipment( var/datum/freight_delivery_receipt/receipt )
-	if ( receipt && receipt.vessel )
+	if(receipt?.vessel)
 		if ( istype( receipt.shipment, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
 			var/obj/item/ship_weapon/ammunition/torpedo/freight/F = receipt.shipment 
 			F.contents += make_paperwork( receipt, FALSE )

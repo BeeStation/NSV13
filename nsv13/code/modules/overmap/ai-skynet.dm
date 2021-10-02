@@ -314,7 +314,7 @@ Adding tasks is easy! Just define a datum for it.
 		to_chat(user, "<span class='warning'>Warning: You cannot open a communications channel without appropriate requisitions access registered to your ID card.</span>")
 		return FALSE
 
-	if ( !( console && console.linked_launcher ) )
+	if (!console?.linked_launcher)
 		to_chat(user, "<span class='warning'>[console] has no cargo launcher attached! Use a multitool with a cargo launcher stored on its buffer to connect it.</span>")
 		if ( console && console.linked )
 			try_hail( user, console.linked )
@@ -327,20 +327,18 @@ Adding tasks is easy! Just define a datum for it.
 			try_hail( user, console.linked )
 		return FALSE 
 
-	var/checkForLiving = ( recursive_locate( /mob/living, launcher.chambered ) || recursive_locate( /obj/item/organ/brain, launcher.chambered ) || recursive_locate( /obj/item/mmi, launcher.chambered ) )
+	var/checkForLiving = ( recursive_loc_check( /mob/living, launcher.chambered ) || recursive_loc_check( /obj/item/organ/brain, launcher.chambered ) || recursive_loc_check( /obj/item/mmi, launcher.chambered ) )
 	if ( checkForLiving )
 		to_chat(user, "<span class='warning'>[src] Cargo Shuttle Brand lifeform checker blinks an error, it cannot deliver living entities!</span>")
 		return FALSE 
 
-	var/checkForBeacons = (
-		recursive_locate( /obj/item/beacon, launcher.chambered )
-	)
+	var/checkForBeacons = ( recursive_loc_check( /obj/item/beacon, launcher.chambered ) )
 	if ( checkForBeacons )
 		to_chat(user, "<span class='warning'>[src] Cargo Shuttle Brand teleport devices checker blinks an error, it cannot deliver beacons!</span>")
 		return FALSE 
 
 	var/choice = input("Transfer cargo to [src]?", "Confirm delivery", "No") in list("Yes", "No")
-	if( choice == "No" ) 
+	if(!choice || choice == "No") 
 		if ( console.linked )
 			try_hail( user, console.linked )
 		return FALSE 
