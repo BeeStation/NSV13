@@ -1704,16 +1704,18 @@ Control Rods
 		atmos_spawn_air("o2=5,n2=15;TEMP=[temperature]") //Add a little extra oxygenated air
 
 	else //throw everything away
-		for(var/mob/living/M in orange(4, src))
-			M.Paralyze(20)
-			M.Dizzy(5)
-			M.apply_damage(10)
-			var/atom/target = get_edge_target_turf(M, get_dir(src, get_step_away(M, src)))
-			M.throw_at(target, 4, 2)
-		for(var/obj/O in orange(4, src))
-			if(!O.anchored)
-				var/atom/target = get_edge_target_turf(O, get_dir(src, get_step_away(O, src)))
-				O.throw_at(target, 4, 2)
+		for(var/atom/movable/AM in orange(4, src))
+			if(isliving(AM))
+				var/mob/living/M = AM
+				M.Paralyze(20)
+				M.Dizzy(5)
+				M.apply_damage(10)
+				var/atom/target = get_edge_target_turf(M, get_dir(src, get_step_away(M, src)))
+				M.throw_at(target, 4, 2)
+				continue
+			if(isobj(AM) && !AM.anchored)
+				var/atom/target = get_edge_target_turf(AM, get_dir(src, get_step_away(AM, src)))
+				AM.throw_at(target, 4, 2)
 
 /obj/effect/anomaly/stormdrive/squall/Crossed(mob/living/M)
 	polarise(M)
@@ -1735,10 +1737,11 @@ Control Rods
 		addtimer(CALLBACK(src, .proc/equalise, A), 5 SECONDS)
 
 /obj/effect/anomaly/stormdrive/squall/proc/equalise(mob/living/A)
-	for(var/obj/O in orange(6, A))
+	var/list/throwlist = orange(6, A)
+	for(var/obj/O in throwlist)
 		if(!O.anchored)
 			O.throw_at(A, 6, 3)
-	for(var/mob/living/M in orange(6, A))
+	for(var/mob/living/M in throwlist)
 		if(!M.mob_negates_gravity())
 			M.throw_at(A, 6, 3)
 
@@ -1760,16 +1763,17 @@ Control Rods
 		A.apply_damage(20)
 
 /obj/effect/anomaly/stormdrive/squall/detonate()
-	for(var/mob/living/M in orange(6, src))
-		M.Paralyze(40)
-		M.Dizzy(10)
-		M.apply_damage(20)
-		var/atom/target = get_edge_target_turf(M, get_dir(src, get_step_away(M, src)))
-		M.throw_at(target, 6, 5)
-	for(var/obj/O in orange(6, src))
-		if(!O.anchored)
-			var/atom/target = get_edge_target_turf(O, get_dir(src, get_step_away(O, src)))
-			O.throw_at(target, 6, 5)
+	for(var/atom/movable/AM in orange(6, src))
+		if(isliving(AM))
+			var/mob/living/M = AM
+			M.Paralyze(40)
+			M.Dizzy(10)
+			M.apply_damage(20)
+			var/atom/target = get_edge_target_turf(M, get_dir(src, get_step_away(M, src)))
+			M.throw_at(target, 6, 5)
+		if(isobj(AM) && !AM.anchored)
+			var/atom/target = get_edge_target_turf(AM, get_dir(src, get_step_away(AM, src)))
+			AM.throw_at(target, 6, 5)
 
 	var/turf/open/L = get_turf(src)
 	if(!istype(L) || !L.air)
