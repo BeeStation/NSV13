@@ -326,16 +326,13 @@ Adding tasks is easy! Just define a datum for it.
 		if ( console.linked )
 			try_hail( user, console.linked )
 		return FALSE 
-
-	var/checkForLiving = ( recursive_loc_check( /mob/living, launcher.chambered ) || recursive_loc_check( /obj/item/organ/brain, launcher.chambered ) || recursive_loc_check( /obj/item/mmi, launcher.chambered ) )
-	if ( checkForLiving )
-		to_chat(user, "<span class='warning'>[src] Cargo Shuttle Brand lifeform checker blinks an error, it cannot deliver living entities!</span>")
-		return FALSE 
-
-	var/checkForBeacons = ( recursive_loc_check( /obj/item/beacon, launcher.chambered ) )
-	if ( checkForBeacons )
-		to_chat(user, "<span class='warning'>[src] Cargo Shuttle Brand teleport devices checker blinks an error, it cannot deliver beacons!</span>")
-		return FALSE 
+	
+	for(var/a in launcher.chambered.GetAllContents())
+		if(is_type_in_typecache(a, GLOB.blacklisted_cargo_types))
+			to_chat(user, "<span class='warning'>[src] Cargo Shuttle Brand lifeform checker blinks an error, \
+				for safety reasons it cannot transport live organisms, human remains, classified nuclear weaponry, \
+				homing beacons or machinery housing any form of artificial intelligence.")
+			return FALSE
 
 	var/choice = input("Transfer cargo to [src]?", "Confirm delivery", "No") in list("Yes", "No")
 	if(!choice || choice == "No") 
