@@ -1038,7 +1038,11 @@
 	icon_state = "2-4"
 	},
 /obj/structure/table/reinforced,
-/obj/item/megaphone/command,
+/obj/machinery/button/door{
+	id = "atlas_brief";
+	name = "courtroom_shutter";
+	pixel_y = 2
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "eS" = (
@@ -1051,6 +1055,21 @@
 /turf/open/floor/plasteel/stairs{
 	dir = 8
 	},
+/area/bridge/cic)
+"fd" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "fe" = (
 /obj/effect/turf_decal/tile/neutral{
@@ -1462,6 +1481,7 @@
 	},
 /obj/structure/table/reinforced,
 /obj/item/paper_bin,
+/obj/item/megaphone/command,
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "gX" = (
@@ -1500,6 +1520,9 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/yellow,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "hh" = (
@@ -1691,6 +1714,9 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/yellow,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "is" = (
@@ -4081,6 +4107,7 @@
 /obj/machinery/power/apc/auto_name/west{
 	cell_type = /obj/item/stock_parts/cell/super
 	},
+/obj/structure/cable,
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "tZ" = (
@@ -4981,6 +5008,12 @@
 /obj/effect/landmark/start/depsec/medical,
 /turf/open/floor/monotile/steel,
 /area/medical/medbay)
+"yp" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge/cic)
 "yq" = (
 /obj/machinery/computer/cryopod{
 	pixel_y = 26
@@ -43225,9 +43258,9 @@ Tc
 XS
 dC
 ek
-eH
-ff
-ff
+fd
+yp
+yp
 ha
 ir
 tY
