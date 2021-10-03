@@ -125,6 +125,7 @@
 	if(ai)
 		ai.all_eyes -= src
 		if(ai.eyeobj == src) //NSV13 - handle the active camera getting deleted
+			ai.eyeobj = null
 			ai.reset_perspective()
 		ai = null
 	for(var/V in visibleCameraChunks)
