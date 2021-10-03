@@ -5,7 +5,10 @@
 	for(var/datum/space_level/SL in SSmapping.z_list)
 		if(SL.z_value == z)
 			return SL.linked_overmap
-	return FALSE
+	if(istype(loc, /obj/structure/overmap))
+		return loc
+	var/area/AR = get_area(src)
+	return AR?.overmap_fallback //override for turf reservations and stuff
 
 /**
 Helper method to get what ship an observer belongs to for stuff like parallax.
