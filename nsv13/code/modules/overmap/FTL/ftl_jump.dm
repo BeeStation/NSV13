@@ -196,7 +196,13 @@
 		var/datum/star_system/curr = SSstar_system.ships[src]["current_system"]
 		SEND_SIGNAL(src, COMSIG_SHIP_DEPARTED) // Let missions know we have left the system
 		curr.remove_ship(src)
-		var/speed = (curr.dist(target_system) / (ftl_drive.jump_speed_factor*10)) //TODO: FTL drive speed upgrades.
+		var/speed = curr.dist(target_system) / (ftl_drive.jump_speed_factor * 10) // For legacy FTL support
+		if(istype(ftl_drive)) // I know it's dumb but sadly it's the "cleanest" way to do it
+			var/ap_multiplier = 0 // multiply speed by active pylons, 2 pylons are required for normal travel time
+			for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in ftl_drive.pylons)
+				if(P.pylon_state == PYLON_STATE_ACTIVE)
+					ap_multiplier += 0.5
+			speed = curr.dist(target_system) / (ftl_drive.jump_speed_factor * max(ap_multiplier, 0.5) * 10)
 		SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
 		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 		if(role == MAIN_OVERMAP) //Scuffed please fix

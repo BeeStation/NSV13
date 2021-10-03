@@ -28,6 +28,7 @@
 	var/extra_range
 
 	var/timerid
+	var/sound/current_sound // nsv13 -- Caches the currently playing sound
 
 /datum/looping_sound/New(list/_output_atoms=list(), start_immediately=FALSE, _direct=FALSE)
 	if(!mid_sounds)
@@ -82,6 +83,7 @@
 			SEND_SOUND(thing, S)
 		else
 			playsound(thing, S, volume, extra_range)
+	current_sound = S // nsv13 -- caches currently playing sound
 
 /datum/looping_sound/proc/get_sound(starttime, _mid_sounds)
 	. = _mid_sounds || mid_sounds

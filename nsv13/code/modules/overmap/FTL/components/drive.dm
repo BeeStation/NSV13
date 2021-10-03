@@ -7,7 +7,7 @@
 
 /obj/machinery/computer/ship/ftl_core
 	name = "\improper Thirring Drive manifold"
-	desc = "The Lense-Thirring Precession Drive, an advanced method of FTL propulsion that utilizes exotic energy to warp space around itself. Exotic energy must be supplied via drive pylons."
+	desc = "The Lense-Thirring Precession Drive, an advanced method of FTL propulsion that utilizes exotic energy to twist space around the ship. Exotic energy must be supplied via drive pylons."
 	icon = 'nsv13/icons/obj/machinery/FTL_drive.dmi'
 	icon_state = "core_idle"
 	pixel_x = -64
@@ -29,13 +29,14 @@
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/req_charge = 100
 	var/cooldown = FALSE
-	var/charge_rate = 1.2 // how much charge is given per pylon
+	var/charge_rate = 1.25 // how much charge is given per pylon
 	var/obj/item/radio/radio //For engineering alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_eng
 	var/radio_channel = "Engineering"
 	var/max_range = 30000
-	var/jump_speed_factor = 3.5 //How quickly do we jump? Larger is faster.
-	var/ftl_startup_time = 30 SECONDS // How long does it take to iniate the jump
+	var/jump_speed_factor = 2 //How quickly do we jump? Larger is faster.
+	var/jump_speed_pylon = 1 // multiplier for jump_speed_factor, increases with each active pylon
+	var/ftl_startup_time = 32.3 SECONDS // How long does it take to iniate the jump
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long_thirring.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
@@ -88,7 +89,7 @@
 		say("Insufficient connected drive pylons.")
 		return
 	var/active_pylons = 0
-	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in pylons)
+	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
 		if(P.pylon_state != PYLON_STATE_ACTIVE)
 			continue
 		active_pylons++
@@ -342,9 +343,10 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	icon_state = "core_idle"
 	progress = 0
 	use_power = 50
-	soundloop.stop()
+	soundloop.interrupt()
+	jump_speed_pylon = initial(jump_speed_pylon)
 	if(shutdown_pylons)
-		for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in pylon)
+		for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
 			P.set_state(PYLON_STATE_SHUTDOWN)
 	cooldown = TRUE
 	addtimer(CALLBACK(src, .proc/post_cooldown, auto_spool), FTL_COOLDOWN)
