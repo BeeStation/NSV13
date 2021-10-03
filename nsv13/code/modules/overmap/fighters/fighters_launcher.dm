@@ -313,8 +313,8 @@
 	bound_width = initial(bound_width)
 	bound_height = initial(bound_height)
 	DC.docking_mode = FALSE
-	if(pilot && faction == OM.faction)
-		weapon_safety = TRUE
+	weapon_safety = TRUE
+	if(pilot)
 		to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 	if(current_system && LAZYFIND(current_system.system_contents, src))

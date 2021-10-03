@@ -826,7 +826,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	to_chat(usr, "<span class='notice'>Inertial assistance system [inertial_dampeners ? "ONLINE" : "OFFLINE"].</span>")
 
 /obj/structure/overmap/proc/can_change_safeties()
-	return (obj_flags & EMAGGED || !is_station_level(loc.z))
+	return (obj_flags & EMAGGED || SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP))
 
 /obj/structure/overmap/verb/toggle_safety()
 	set name = "Toggle Gun Safeties"
