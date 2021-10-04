@@ -462,6 +462,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	kill_boarding_level()
 	return ..()
 
+/obj/structure/overmap/forceMove(atom/destination)
+	if(!istype(src, /obj/structure/overmap/fighter) && !SSmapping.level_trait(destination.z, ZTRAIT_OVERMAP))
+		return //No :)
+	return ..()
+
 /obj/structure/overmap/proc/find_area()
 	if(role == MAIN_OVERMAP) //We're the hero ship, link us to every ss13 area.
 		for(var/X in GLOB.teleportlocs) //Teleportlocs = ss13 areas that aren't special / centcom
