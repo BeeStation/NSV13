@@ -436,7 +436,9 @@
 	. = FALSE
 	if(destination == null) //destination destroyed due to explosion
 		return
-
+	if(istype(src, /obj/structure/overmap))
+		if(!istype(src, /obj/structure/overmap/fighter) && !SSmapping.level_trait(destination.z, ZTRAIT_OVERMAP))
+			return //No :)
 	if(destination)
 		. = doMove(destination)
 	else
