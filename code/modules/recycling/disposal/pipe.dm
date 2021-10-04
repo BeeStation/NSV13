@@ -114,8 +114,6 @@
 		//NSV13 start - nerfs disposals stacking of dense objects
 		var/turf/entryturf = get_turf(src)
 		if(!entryturf.Enter(AM)) // something is blocking the tile
-			// can it be pushed?
-			var/canpush = TRUE
 			for(var/atom/movable/thing in entryturf.contents)
 				if(thing.density)
 					var/turf/candidate = get_step(entryturf, direction)
