@@ -111,7 +111,7 @@
 	playsound(src, 'sound/machines/hiss.ogg', 50, 0, 0)
 
 	for(var/A in H)
-		var/atom/AM = A
+		var/atom/movable/AM = A
 		//NSV13 start - nerfs disposals stacking of dense objects
 		var/turf/entryturf = get_turf(src)
 		if(!entryturf.Enter(AM)) // something is blocking the tile
