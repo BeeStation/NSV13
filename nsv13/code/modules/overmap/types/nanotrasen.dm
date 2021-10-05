@@ -149,11 +149,11 @@
 
 /obj/structure/overmap/nanotrasen/light_cruiser/starter //Currently assigned to Eclipse
 	role = MAIN_OVERMAP
-	obj_integrity = 1500
-	max_integrity = 1500 //Max health
-	integrity_failure = 1500
+	obj_integrity = 1400
+	max_integrity = 1400 //Max health
+	integrity_failure = 1400
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Vago
 	role = MAIN_OVERMAP
@@ -161,45 +161,45 @@
 	max_integrity = 1000
 	integrity_failure = 1000
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to Jolly Sausage
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
 	role = MAIN_OVERMAP
-	obj_integrity = 1500
-	max_integrity = 1500
-	integrity_failure = 1500
+	obj_integrity = 1400
+	max_integrity = 1400
+	integrity_failure = 1400
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 99, "overmap_medium" = 60, "overmap_heavy" = 20)
+	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
 /obj/structure/overmap/nanotrasen/carrier/starter //NOT CURRENTLY ASSIGNED
 	role = MAIN_OVERMAP
 	obj_integrity = 2000
 	max_integrity = 2000
 	integrity_failure = 2000
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 99, "overmap_medium" = 65, "overmap_heavy" = 20)
+	armor = list("overmap_light" = 95, "overmap_medium" = 65, "overmap_heavy" = 20)
 
 /obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon
 	role = MAIN_OVERMAP
-	obj_integrity = 1500
-	max_integrity = 1500
-	integrity_failure = 1500
+	obj_integrity = 1400
+	max_integrity = 1400
+	integrity_failure = 1400
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 99, "overmap_medium" = 60, "overmap_heavy" = 20)
+	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
 
 /obj/structure/overmap/nanotrasen/battleship/starter //Galactica
 	role = MAIN_OVERMAP //Player controlled variant
-	obj_integrity = 2250
-	max_integrity = 2250
-	integrity_failure = 2250
+	obj_integrity = 2150
+	max_integrity = 2150
+	integrity_failure = 2150
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 99, "overmap_medium" = 75, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 25)
 
 //AI Versions
 
