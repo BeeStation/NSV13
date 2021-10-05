@@ -1159,8 +1159,6 @@ Seek a ship thich we'll station ourselves around
 	var/switchsound_cooldown = 0
 
 /obj/structure/overmap/proc/ai_fire(atom/target)
-	if(next_firetime > world.time)
-		return
 	if(istype(target, /obj/structure/overmap))
 		add_enemy(target)
 		var/target_range = get_dist(src,target)
@@ -1180,8 +1178,13 @@ Seek a ship thich we'll station ourselves around
 			if(distance < best_distance)
 				if(!SW.valid_target(src, target))
 					continue
+				if(SW.next_firetime > world.time)
+					continue
 				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
 					if(shots_left <= 0)
+						if(!ai_resupply_scheduled)
+							ai_resupply_scheduled = TRUE
+							addtimer(CALLBACK(src, .proc/ai_self_resupply), ai_resupply_time)
 						continue //If we are out of shots. Continue.
 				else if(light_shots_left <= 0)
 					spawn(150)
@@ -1206,14 +1209,18 @@ Seek a ship thich we'll station ourselves around
 						continue
 					if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
 						continue
-					fire_weapon(ship, FIRE_MODE_GAUSS)
+					if(fire_weapon(ship, FIRE_MODE_GAUSS, ai_aim=TRUE))
+						SW.next_firetime += SW.ai_fire_delay
 					break
 		fire_mode = new_firemode
 		if(uses_main_shot) //Don't penalise them for weapons that are designed to be spammed.
 			shots_left --
 		else
 			light_shots_left --
-		fire_weapon(target, new_firemode, ai_aim=TRUE)
+
+		if(fire_weapon(target, new_firemode, ai_aim=TRUE))
+			var/datum/ship_weapon/SW = weapon_types[new_firemode]
+			SW.next_firetime += SW.ai_fire_delay
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
 
 /**
@@ -1222,8 +1229,6 @@ Seek a ship thich we'll station ourselves around
  * Most menacing trait is that this allows AI elites to effectively broadside every single of their guns thats off cooldown. (if they have ammo)
 */
 /obj/structure/overmap/proc/ai_elite_fire(atom/target)
-	if(next_firetime > world.time)
-		return
 	if(!istype(target, /obj/structure/overmap))
 		return
 	add_enemy(target)
@@ -1233,7 +1238,6 @@ Seek a ship thich we'll station ourselves around
 		return
 	var/did_fire = FALSE
 	var/ammo_use = 0
-	var/smallest_cooldown = INFINITY
 
 	for(var/iter = FIRE_MODE_ANTI_AIR, iter <= MAX_POSSIBLE_FIREMODE, iter++)
 		if(iter == FIRE_MODE_AMS || iter == FIRE_MODE_FLAK)
@@ -1242,14 +1246,17 @@ Seek a ship thich we'll station ourselves around
 		var/datum/ship_weapon/SW = weapon_types[iter]
 		if(!SW)
 			continue
-		if(!next_firetime_gunspecific["[iter]"])
-			next_firetime_gunspecific["[iter]"] = world.time
-		else if(next_firetime_gunspecific["[iter]"] > world.time)
+		if(!SW.next_firetime)
+			SW.next_firetime = world.time
+		else if(SW.next_firetime > world.time)
 			continue
 		if(!SW.valid_target(src, target, TRUE))
 			continue
 		if(SW.weapon_class > WEAPON_CLASS_LIGHT)
 			if((shots_left - ammo_use) <= 0)
+				if(!ai_resupply_scheduled)
+					ai_resupply_scheduled = TRUE
+					addtimer(CALLBACK(src, .proc/ai_self_resupply), ai_resupply_time)
 				continue //If we are out of shots. Continue.
 			will_use_ammo = TRUE
 		var/arc = Get_Angle(src, target)
@@ -1259,14 +1266,18 @@ Seek a ship thich we'll station ourselves around
 		if(will_use_ammo)
 			ammo_use++
 		did_fire = TRUE
-		next_firetime_gunspecific["[iter]"] = world.time + SW.fire_delay
-		if(SW.fire_delay < smallest_cooldown)
-			smallest_cooldown = SW.fire_delay
+		SW.next_firetime = world.time + SW.fire_delay + SW.ai_fire_delay
 
 	if(did_fire)
 		shots_left -= ammo_use
-		next_firetime = world.time + 1 SECONDS + smallest_cooldown
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
+
+// Not as good as a carrier, but something
+/obj/structure/overmap/proc/ai_self_resupply()
+	ai_resupply_scheduled = FALSE
+	missiles = round(CLAMP(missiles + initial(missiles)/4, 1, initial(missiles)/4))
+	torpedoes = round(CLAMP(torpedoes + initial(torpedoes)/4, 1, initial(torpedoes)/4))
+	shots_left = round(CLAMP(shots_left + initial(shots_left)/2, 1, initial(shots_left)/4))
 /**
 * Given target ship and projectile speed, calculate aim point for intercept
 * See: https://stackoverflow.com/a/3487761
