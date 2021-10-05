@@ -40,21 +40,20 @@
 /obj/machinery/inertial_dampener/proc/try_use_power()
 	var/turf/T = get_turf(src)
 	C = T.get_cable_node()
-	if ( C?.surplus() > power_input )
+	if(C?.surplus() > power_input)
 		C.powernet.load += power_input
 		return TRUE
 	return FALSE
 
 /obj/machinery/inertial_dampener/process()
-	if ( on )
-		if( power_input > 0 && try_use_power() )
+	if(on)
+		if(power_input > 0 && try_use_power())
 			radiation_pulse( src, radiationAmountOnProcess ) // Let's turn one form of energy into another form of energy. Using science!
 		else
 			on = FALSE
-			update_icon()
+			update_visuals()
 
-/obj/machinery/inertial_dampener/update_icon()
-	cut_overlays()
+/obj/machinery/inertial_dampener/proc/update_visuals()
 	if(panel_open)
 		icon_state = "machine_maintenance"
 	else if( on )
@@ -128,7 +127,7 @@
 	C = T.get_cable_node()
 	if ( on || C?.surplus() > power_input )
 		on = !on
-		update_icon()
+		update_visuals()
 
 /obj/machinery/inertial_dampener/screwdriver_act(mob/user, obj/item/tool)
 	if(..())
@@ -139,7 +138,7 @@
 	panel_open = !panel_open
 	tool.play_tool_sound(src)
 	to_chat(user, "<span class='notice'>You [panel_open?"open":"close"] the panel on [src].</span>")
-	update_icon()
+	update_visuals()
 	return TRUE
 
 /obj/machinery/inertial_dampener/crowbar_act(mob/user, obj/item/tool)

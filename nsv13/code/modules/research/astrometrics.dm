@@ -138,4 +138,3 @@ Clean override of the navigation computer to provide scan functionality.
 				OA.scanned = TRUE
 			scan_target = null
 			scan_progress = 0
-			return
