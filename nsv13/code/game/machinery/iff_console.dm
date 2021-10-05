@@ -64,6 +64,9 @@ If someone hacks it, you can always rebuild it.
 			P = user.get_active_held_item()
 	return P
 
+/obj/machinery/computer/iff_console/ui_state(mob/user)
+	return GLOB.default_state
+
 /obj/machinery/computer/iff_console/ui_data(mob/user)
 	var/list/data = list()
 	var/obj/item/multitool/tool = get_multitool(user)
