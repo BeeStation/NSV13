@@ -219,7 +219,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	return
 
 /obj/item/projectile/guided_munition/torpedo/disruptor/spec_overmap_hit(obj/structure/overmap/target)
-	if(target.occupying_levels.len)
+	if(length(target.occupying_levels))
 		return	//Detonate is gonna handle this for us.
 		
 	if(target.ai_controlled)

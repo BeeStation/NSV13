@@ -76,24 +76,39 @@
 	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(torpedoes <= 0)
 			return FALSE
-		if(istype(OM))
+		var/obj/structure/overmap/OM = target
+		if(isovermap(target))
 			ai_aim = FALSE // This is a homing projectile
 		var/launches = min(torpedoes, burst)
-		fire_single_torpedo(target, ai_aim)
-		for(var/launched = 1; launched < launches; launched++)
-			addtimer(CALLBACK(src, .proc/fire_single_torpedo, target, ai_aim), (0.25 SECONDS * launched))
+
+		fire_projectile(torpedo_type, target, homing = TRUE, speed=3, lateral = TRUE, ai_aim = ai_aim)
+		if(isovermap(OM) && OM.dradis)
+			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
+		relay_to_nearby(pick(SW.overmap_firing_sounds))
+
+		if(launches > 1)
+			fire_torpedo_burst(target, ai_aim, launches - 1)
 		torpedoes -= launches
 		return TRUE
 
-/obj/structure/overmap/proc/fire_single_torpedo(atom/target, ai_aim = FALSE)
-	fire_projectile(torpedo_type, target, homing = TRUE, speed=3, lateral = TRUE, ai_aim = ai_aim)
+/obj/structure/overmap/proc/fire_torpedo_burst(atom/target, ai_aim = FALSE, burst = 1)
+	set waitfor = FALSE
 	var/obj/structure/overmap/OM = target
-	if(isovermap(OM) && OM.dradis)
-		OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
-	var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
-	relay_to_nearby(pick(SW.overmap_firing_sounds))
+	for(var/cycle = 1; cycle <= burst; cycle++)
+		sleep(25)
+		if(QDELETED(src))	//We might get shot.
+			return
+		if(QDELETED(target))
+			OM = null
+			target = null
+		fire_projectile(torpedo_type, target, homing = TRUE, speed=3, lateral = TRUE, ai_aim = ai_aim)
+		if(isovermap(OM) && OM.dradis)
+			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
+		relay_to_nearby(pick(SW.overmap_firing_sounds))
 
-/obj/structure/overmap/proc/fire_missile(atom/target, ai_aim = FALSE, burst = 1)
+/obj/structure/overmap/proc/fire_missile(atom/target, ai_aim = FALSE)
 	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(missiles <= 0)
 			return FALSE
