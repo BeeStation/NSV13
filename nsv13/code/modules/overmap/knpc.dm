@@ -29,9 +29,9 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/list/outfit = list (
 		/datum/outfit/job/assistant
 	)
-	var/list/taunts = list()
-	var/list/call_lines = list()
-	var/list/response_lines = list()
+	var/list/taunts = list("Engaging the enemy!")
+	var/list/call_lines = list("Enemy spotted!")
+	var/list/response_lines = list("On my way!")
 
 /mob/living/carbon/human/ai_boarder/Initialize()
 	. = ..()

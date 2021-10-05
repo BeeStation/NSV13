@@ -18,7 +18,6 @@
 		"Copy that, en route.",
 		"On my way!",
 		"Loud and clear, coming!",
-		"On my way!",
 		"Ooh rah!"
 	)
 	outfit = /datum/outfit/syndicate
