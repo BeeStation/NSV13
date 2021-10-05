@@ -96,7 +96,7 @@
 	set waitfor = FALSE
 	var/obj/structure/overmap/OM = target
 	for(var/cycle = 1; cycle <= burst; cycle++)
-		sleep(25)
+		sleep(3)
 		if(QDELETED(src))	//We might get shot.
 			return
 		if(QDELETED(target))
