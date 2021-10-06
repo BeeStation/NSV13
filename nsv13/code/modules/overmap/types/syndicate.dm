@@ -457,10 +457,10 @@
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/hailstorm(src)
 	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/quadgauss(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
 	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(scr)
+	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
 
 
 /obj/structure/overmap/syndicate/ai/fighter //need custom AI behaviour to escort bombers if applicable
