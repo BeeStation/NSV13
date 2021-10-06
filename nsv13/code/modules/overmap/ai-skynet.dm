@@ -1374,7 +1374,7 @@ Seek a ship thich we'll station ourselves around
 				patrol_target = get_turf(last_target)	//Destroyers are wary and will actively investigate when their target exits their sensor range. You might be able to use this to your advantage though!
 			if(fleet)
 				fleet.stop_reporting(last_target, src)
-			if(!fleet?.shared_targets?[last_target]))
+			if(!fleet?.shared_targets?[last_target])
 				last_target = null
 		else //They're in our tracking range. Let's hunt them down.
 			if(get_dist(last_target, src) <= max_weapon_range) //Theyre within weapon range.  Calculate a path to them and fire.
