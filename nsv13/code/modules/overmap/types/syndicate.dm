@@ -437,15 +437,17 @@
 	desc = "A terrifying vessel packing every inch of the Syndicate's abhorent arsenal."
 	mass = MASS_LARGE
 	sprite_size = 96
+	bound_width = 96
+	bound_height = 96
 	damage_states = FALSE
 	use_armour_quadrants = FALSE
 	max_weapon_range = 75
-	obj_integrity = 8500
-	max_integrity = 8500
-	integrity_failure = 8500
-	armor = list("overmap_light" = 99, "overmap_medium" = 80, "overmap_heavy" = 45)
+	obj_integrity = 6250
+	max_integrity = 6250
+	integrity_failure = 6250
+	armor = list("overmap_light" = 99, "overmap_medium" = 75, "overmap_heavy" = 40)
 	ai_controlled = TRUE
-	shots_left = 450
+	shots_left = 500
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
 	ai_flags = AI_FLAG_ELITE
 	can_resupply = TRUE
