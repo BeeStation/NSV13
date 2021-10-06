@@ -77,9 +77,7 @@ Adding tasks is easy! Just define a datum for it.
 		shared_targets -= target
 
 /datum/fleet/proc/is_reporting_target(target, reporter)
-	if(!shared_targets || !shared_targets[target] || !(reporter in shared_targets[target]))
-		return FALSE
-	return TRUE
+	return shared_targets?[target] && reporter in shared_targets[target]
 
 //BFS search algo. Entirely unused for now.
 /datum/fleet/proc/bfs(datum/star_system/target)
@@ -804,7 +802,7 @@ Adding tasks is easy! Just define a datum for it.
 		return 0
 	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY))
 		return 0	//Carriers don't hunt you down, they just patrol. The dirty work is reserved for their escorts.
-	if(!OM.last_target || QDELETED(OM.last_target) || !OM.fleet?.is_reporting_target(OM.last_target, OM))
+	if(QDELETED(OM.last_target) || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.seek_new_target()
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
 		return score
@@ -855,11 +853,11 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 		return	//Something that shouldn't have happened happened.
 
 	var/datum/lance/L = OM.current_lance
-	if(!OM.last_target || QDELETED(OM.last_target) || !OM.fleet?.is_reporting_target(OM.last_target, OM))
+	if(QDELETED(OM.last_target) || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.send_radar_pulse()
 		OM.seek_new_target()
 
-	if(!OM.last_target || QDELETED(OM.last_target))	//We didn't find a target
+	if(QDELETED(OM.last_target))	//We didn't find a target
 		if(L.lance_target)
 			if(L.last_finder == OM)
 				L.lance_target = null
@@ -939,7 +937,7 @@ Seek a ship thich we'll station ourselves around
 	if(OM.shots_left)
 		return 0	//Gotta have run dry.
 
-	if(!OM.last_target || QDELETED(OM.last_target))
+	if(QDELETED(OM.last_target))
 		return 0
 
 	return score
@@ -957,7 +955,7 @@ Seek a ship thich we'll station ourselves around
 /datum/ai_goal/board/check_score(obj/structure/overmap/OM)
 	if(!..())
 		return 0
-	if(!OM.last_target || QDELETED(OM.last_target) || !OM.fleet?.is_reporting_target(OM.last_target, OM))
+	if(QDELETED(OM.last_target) || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=TRUE)
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
 		return score
@@ -1042,7 +1040,7 @@ Seek a ship thich we'll station ourselves around
 		return 0
 	if(!CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY))
 		return 0
-	if(OM.fleet && OM.last_target)
+	if( OM.last_target)
 		OM.fleet.stop_reporting(OM.last_target, src)
 	OM.last_target = null
 	OM.seek_new_target(max_distance = OM.max_tracking_range)	//Supply ships will only start running if an enemy actually comes close.
