@@ -430,8 +430,8 @@
 /obj/structure/overmap/syndicate/ai/kadesh/on_interdict()
 	add_sensor_profile_penalty(150, 10 SECONDS)
 	
-/obj/structure/overmap/syndicate/ai/vanguard
-	name = "SSV Vanguard 13"
+/obj/structure/overmap/syndicate/ai/fistofsol
+	name = "SSV Fist of Sol"
 	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
 	icon_state = "tuningfork"
 	desc = "A forgotten vessel brimming with menacing weaponry."
@@ -447,7 +447,8 @@
 	can_resupply = TRUE
 	combat_dice_type = /datum/combat_dice/battleship
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
-		ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter)
+	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
+							/obj/structure/overmap/syndicate/ai/bomber)
 
 
 
