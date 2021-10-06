@@ -1040,6 +1040,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	if(world.time >= next_rat_spawn)
 		next_rat_spawn = world.time + rat_spawn_delay
 		new /mob/living/simple_animal/mouse(get_turf(src))
+
 /datum/action/bloodling/build
 	name = "Build"
 	desc = "We use some of our essence to construct other entities."

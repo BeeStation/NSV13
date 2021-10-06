@@ -389,7 +389,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		last_fired.transform = mat_to
 	*/ //We don't use these overlays for now, but we may wish to later.
 
-	for(var/mob/living/M in operators)
+	for(var/mob/living/M as() in operators)
 		var/client/C = M.client
 		if(!C)
 			continue

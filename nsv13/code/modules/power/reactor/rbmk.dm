@@ -242,7 +242,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 		next_slowprocess = world.time + 1 SECONDS //Set to wait for another second before processing again, we don't need to process more than once a second
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/has_fuel()
-	return fuel_rods?.len
+	return length(fuel_rods)
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/slowprocess()
 	//Let's get our gasses sorted out.

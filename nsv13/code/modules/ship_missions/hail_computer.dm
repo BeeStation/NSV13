@@ -17,9 +17,6 @@
   . = ..(user)
   ship = user.get_overmap()
 
-/datum/computer_file/program/ship_hail_logger/process_tick()
-	..()
-
 /datum/computer_file/program/ship_hail_logger/proc/prep_missions()
   var/list/results = list()
   if(!ship)

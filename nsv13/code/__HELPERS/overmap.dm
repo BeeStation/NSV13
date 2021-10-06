@@ -12,15 +12,13 @@ Helper method to get what ship an observer belongs to for stuff like parallax.
 */
 
 /mob/proc/find_overmap()
-	var/obj/structure/overmap/OM = loc?.get_overmap() //Accounts for things like fighters and for being in nullspace because having no loc is bad.
-	if(!OM) //We're on the overmap Z-level itself, thus we don't belong to any ship
-		if(last_overmap)
-			last_overmap.mobs_in_ship -= src
+	var/obj/structure/overmap/OM = loc.get_overmap() //Accounts for things like fighters and for being in nullspace because having no loc is bad.
+	if(OM == last_overmap)
 		return
 	if(last_overmap)
 		last_overmap.mobs_in_ship -= src
 	last_overmap = OM
-	OM.mobs_in_ship += src
+	OM?.mobs_in_ship += src
 
 /// Finds a turf outside of the overmap
 /proc/GetSafeTurf(atom/A)
