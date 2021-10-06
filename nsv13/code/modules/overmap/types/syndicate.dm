@@ -434,16 +434,18 @@
 	name = "SSV Fist of Sol"
 	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
 	icon_state = "tuningfork"
-	desc = "A forgotten vessel brimming with menacing weaponry."
-	mass = MASS_MEDIUM
+	desc = "A terrifying vessel packing every inch of the Syndicate's abhorent arsenal."
+	mass = MASS_LARGE
 	sprite_size = 96
 	damage_states = FALSE
 	use_armour_quadrants = FALSE
+	max_weapon_range = 75
 	obj_integrity = 8500
 	max_integrity = 8500
 	integrity_failure = 8500
 	armor = list("overmap_light" = 99, "overmap_medium" = 80, "overmap_heavy" = 45)
 	ai_controlled = TRUE
+	shots_left = 450
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
 	ai_flags = AI_FLAG_ELITE
 	can_resupply = TRUE
