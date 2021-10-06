@@ -5,10 +5,6 @@ Note: This expects the EDF to be in Sol, and not somewhere in Brazil due to admi
 */
 
 /datum/star_system/sol/handle_combat()
-	. = ..()
-	if(. == COMBAT_SKIPPED)
-		return
-
 	var/datum/fleet/siege_fleet
 	var/datum/fleet/defense_fleet
 
@@ -38,3 +34,6 @@ Note: This expects the EDF to be in Sol, and not somewhere in Brazil due to admi
 	else if(solar_siege_cycles_left < solar_siege_cycles_needed)
 		solar_siege_cycles_left = solar_siege_cycles_needed
 		priority_announce("Hostile invasion fleet in Sol has been successfully neutralized. All vessels are to return to their regular patrol patterns.", "White Rapids Fleetwide Announcement")
+	
+	if(!siege_fleet)
+		return ..()
