@@ -32,6 +32,8 @@
 
 	var/next_firetime = 0
 
+	var/ai_fire_delay = 0 // make it fair on the humans who have to reload and stuff
+
 /datum/ship_weapon/New(obj/structure/overmap/source, ...)
 	. = ..()
 	if(!source)
@@ -106,8 +108,6 @@
 		return FALSE
 	if(special_fire(target, ai_aim=ai_aim) == FIRE_INTERCEPTED)
 		next_firetime = world.time + fire_delay
-		if(ai_aim)
-			next_firetime = next_firetime + (1 SECONDS) + (fire_delay*2)
 		return TRUE //Fire call was intercepted. Don't do the thing
 	var/list/leftovers = list() //Assuming we can't find a fully loaded gun to fire our full burst, assemble a list of semi-loaded guns and fire all of them instead.
 	var/remaining = burst_size
@@ -115,8 +115,6 @@
 		if(SW.can_fire()) //Ok great, looks like this weapon can do all the shooting for us. Use it!
 			SW.fire(target)
 			next_firetime = world.time + fire_delay
-			if(ai_aim)
-				next_firetime = next_firetime + (1 SECONDS) + (fire_delay*2)
 			return TRUE
 		for(var/I = 0; I < SW.ammo.len; I++) //If a railgun has 3 bullets, add it to the leftovers list 3 times so we know exactly how many times we can fire it.
 			if(remaining)
@@ -130,6 +128,4 @@
 	if(screen_shake)
 		holder.shake_everyone(screen_shake)
 	next_firetime = world.time + fire_delay
-	if(ai_aim)
-		next_firetime = next_firetime + (1 SECONDS) + (fire_delay*2)
 	return TRUE
