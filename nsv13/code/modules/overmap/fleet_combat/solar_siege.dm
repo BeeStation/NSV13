@@ -37,3 +37,5 @@ Note: This expects the EDF to be in Sol, and not somewhere in Brazil due to admi
 	
 	if(!siege_fleet)
 		return ..()
+	else
+		return COMBAT_SKIPPED
