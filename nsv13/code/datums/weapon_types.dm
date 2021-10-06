@@ -333,7 +333,6 @@
 	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
 	weapon_class = WEAPON_CLASS_LIGHT
-	spread = 270
 	ai_fire_delay = 20 SECONDS
 	
 	
