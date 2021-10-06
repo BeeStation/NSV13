@@ -515,6 +515,13 @@ Adding tasks is easy! Just define a datum for it.
 	audio_cues = list()
 	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
+	
+/datum/fleet/vanguard
+	name = "SSV Fist of Sol"
+	size = 1
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/vanguard)
+	taunts = list("This is the Fist of Sol, responding to Emergancy Code Zero. You will answer to High Command if this code has been invoked lightly.")
+	fleet_trait = FLEET_TRAIT_DEFENSE
 
 //Nanotrasen fleets
 
