@@ -486,8 +486,7 @@
 	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/fighter/apply_weapons()
-	weapon_types[
-	_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
+	weapon_types[_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/bomber //need custom AI behaviour to target capitals only
