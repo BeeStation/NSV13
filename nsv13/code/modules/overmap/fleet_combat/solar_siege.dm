@@ -35,7 +35,4 @@ Note: This expects the EDF to be in Sol, and not somewhere in Brazil due to admi
 		solar_siege_cycles_left = solar_siege_cycles_needed
 		priority_announce("Hostile invasion fleet in Sol has been successfully neutralized. All vessels are to return to their regular patrol patterns.", "White Rapids Fleetwide Announcement")
 	
-	if(!siege_fleet)
-		return ..()
-	else
-		return COMBAT_SKIPPED
+	return siege_fleet ? COMBAT_SKIPPED : ..()
