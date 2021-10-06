@@ -438,18 +438,29 @@
 	mass = MASS_MEDIUM
 	sprite_size = 96
 	damage_states = FALSE
+	use_armour_quadrants = FALSE
 	obj_integrity = 8500
 	max_integrity = 8500
 	integrity_failure = 8500
-	armor = list("overmap_light" = 99, "overmap_medium" = 75, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 99, "overmap_medium" = 80, "overmap_heavy" = 45)
 	ai_controlled = TRUE
-	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
+	ai_flags = AI_FLAG_ELITE
 	can_resupply = TRUE
 	combat_dice_type = /datum/combat_dice/battleship
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
 							/obj/structure/overmap/syndicate/ai/bomber)
-
+							
+/obj/structure/overmap/syndicate/ai/fistofsol/apply_weapons()
+	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/twinmac(src)
+	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/hailstorm(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/quadgauss(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo(src)
+	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(scr)
 
 
 /obj/structure/overmap/syndicate/ai/fighter //need custom AI behaviour to escort bombers if applicable
@@ -475,7 +486,8 @@
 	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/fighter/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
+	weapon_types[
+	_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/bomber //need custom AI behaviour to target capitals only
