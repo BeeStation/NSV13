@@ -429,6 +429,27 @@
 
 /obj/structure/overmap/syndicate/ai/kadesh/on_interdict()
 	add_sensor_profile_penalty(150, 10 SECONDS)
+	
+/obj/structure/overmap/syndicate/ai/vanguard
+	name = "SSV Vanguard 13"
+	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
+	icon_state = "tuningfork"
+	desc = "A forgotten vessel brimming with menacing weaponry."
+	mass = MASS_MEDIUM
+	sprite_size = 96
+	damage_states = FALSE
+	obj_integrity = 8500
+	max_integrity = 8500
+	integrity_failure = 8500
+	armor = list("overmap_light" = 99, "overmap_medium" = 75, "overmap_heavy" = 30)
+	ai_controlled = TRUE
+	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
+	can_resupply = TRUE
+	combat_dice_type = /datum/combat_dice/battleship
+	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
+		ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter)
+
+
 
 /obj/structure/overmap/syndicate/ai/fighter //need custom AI behaviour to escort bombers if applicable
 	name = "Syndicate interceptor"
