@@ -1,14 +1,14 @@
 /obj/item/ship_weapon/ammunition/countermeasure_charge //A single use of the countermeasure system
-	name = "\improper Countermeasure Tri-Charge"
-	desc = "A tri-charge of countermeasure chaff for a fighter"
+	name = "three shot countermeasure tri-charge"
+	desc = "Three tri-charges of countermeasure chaff for a fighter"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "iff" //temp
 	var/restock_amount = 3
 	w_class = 3
 
 /obj/item/ship_weapon/ammunition/countermeasure_charge/five
-	name = "\improper Countermeasure Penta-Charge"
-	desc = "A penta-charge of countermeasure chaff for an upgraded countermeasure system"
+	name = "five shot countermeasure tri-charge"
+	desc = "Five tri-charges of countermeasure chaff for an upgraded countermeasure system"
 	icon_state = "iff" //temp :)
 	restock_amount = 5
 
