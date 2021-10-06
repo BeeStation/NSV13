@@ -421,6 +421,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		if(current_system.contents_positions[src])	//If we got destroyed while not loaded, chances are we should kill off this reference.
 			current_system.contents_positions.Remove(src)
 
+	if(fleet)
+		fleet.stop_reporting_all(src)
+
 	STOP_PROCESSING(SSphysics_processing, src)
 	GLOB.overmap_objects -= src
 	relay('nsv13/sound/effects/ship/damage/ship_explode.ogg')

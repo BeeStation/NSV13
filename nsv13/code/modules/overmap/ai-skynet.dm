@@ -79,6 +79,12 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/proc/is_reporting_target(target, reporter)
 	return shared_targets?[target] && reporter in shared_targets[target]
 
+/datum/fleet/proc/stop_reporting_all(reporter)
+	if(!length(shared_targets))
+		return
+	for(var/target in shared_targets)
+		stop_reporting(target, reporter)
+
 //BFS search algo. Entirely unused for now.
 /datum/fleet/proc/bfs(datum/star_system/target)
 	if(!current_system)
@@ -196,6 +202,7 @@ Adding tasks is easy! Just define a datum for it.
 		for(var/obj/structure/overmap/OM in all_ships)
 			SSstar_system.move_existing_object(OM, target)
 	target.fleets += src
+	shared_targets = list() // We just got here and don't know where anything is
 	current_system = target
 	if(target.alignment != alignment)
 		current_system.mission_sector = TRUE
