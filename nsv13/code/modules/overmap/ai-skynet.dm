@@ -77,7 +77,7 @@ Adding tasks is easy! Just define a datum for it.
 		shared_targets -= target
 
 /datum/fleet/proc/is_reporting_target(target, reporter)
-	return shared_targets?[target] && reporter in shared_targets[target]
+	return ((shared_targets?[target]) && (reporter in shared_targets[target]))
 
 /datum/fleet/proc/stop_reporting_all(reporter)
 	if(!length(shared_targets))
