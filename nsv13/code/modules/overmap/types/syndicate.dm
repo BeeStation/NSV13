@@ -440,15 +440,13 @@
 	bound_width = 96
 	bound_height = 96
 	damage_states = FALSE
-	use_armour_quadrants = FALSE
 	max_weapon_range = 75
 	obj_integrity = 6250
 	max_integrity = 6250
 	integrity_failure = 6250
-	armor = list("overmap_light" = 99, "overmap_medium" = 75, "overmap_heavy" = 40)
+	armor = list("overmap_light" = 100, "overmap_medium" = 80, "overmap_heavy" = 40)
 	ai_controlled = TRUE
 	shots_left = 500
-	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
 	ai_flags = AI_FLAG_ELITE
 	can_resupply = TRUE
 	combat_dice_type = /datum/combat_dice/battleship
@@ -459,10 +457,7 @@
 /obj/structure/overmap/syndicate/ai/fistofsol/apply_weapons()
 	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/twinmac(src)
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/hailstorm(src)
-	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/quadgauss(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
 
