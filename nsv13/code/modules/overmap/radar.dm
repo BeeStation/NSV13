@@ -380,7 +380,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	data["can_radar_pulse"] = can_radar_pulse()
 	data["sensor_mode"] = (sensor_mode == SENSOR_MODE_PASSIVE) ? "Passive Radar" : "Active Radar"
 	data["pulse_delay"] = "[radar_delay / 10]"
-	if(sensor_mode == SENSOR_MODE_RADAR)
+	if(!isobserver(user) && sensor_mode == SENSOR_MODE_RADAR)
 		send_radar_pulse()
 	return data
 
