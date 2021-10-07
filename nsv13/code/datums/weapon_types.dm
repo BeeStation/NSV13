@@ -326,7 +326,7 @@
 	
 /datum/ship_weapon/hailstorm
 	name = "Hailstorm System"
-	default_projectile_type = /obj/item/projectile/bullet/heavy_cannon_round
+	default_projectile_type = /obj/item/projectile/bullet/hailstorm_bullet
 	burst_size = 48
 	fire_delay = 20 SECONDS
 	range_modifier = 45
