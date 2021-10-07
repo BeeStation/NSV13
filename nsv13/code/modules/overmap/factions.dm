@@ -102,7 +102,7 @@ Set up relationships.
 	F.assemble(starsys)
 	if(!F.hide_movements && !starsys.hidden)
 		if(F.alignment == "nanotrasen")
-			mini_announce("A White Rapids fleet has been assigned to [current_system]", "White Rapids EAS")
+			mini_announce("A White Rapids fleet has been assigned to [current_system]", "White Rapids Fleet Command")
 		else
 			mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	F.faction = src
