@@ -106,10 +106,10 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_medium"
 
 /obj/item/projectile/bullet/hailstorm_bullet
-	icon_state = "pdc"
-	name = "heavy cannon round"
-	damage = 45
-	spread = 120
+	icon_state = "50cal"
+	name = "hailstorm fragment"
+	damage = 20
+	spread = 240
 	flag = "overmap_medium"
 
 /obj/item/projectile/guided_munition
