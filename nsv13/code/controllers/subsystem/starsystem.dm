@@ -298,6 +298,8 @@ Returns a faction datum by its name (case insensitive!)
 	var/datum/trader/trader = null
 	var/list/audio_cues = null //if you want music to queue on system entry. Format: list of youtube or media URLS.
 
+	var/already_announced_combat = FALSE
+
 /datum/star_system/proc/dist(datum/star_system/other)
 	var/dx = other.x - x
 	var/dy = other.y - y

@@ -100,6 +100,11 @@ Set up relationships.
 	if(custom_difficulty)
 		F.size = custom_difficulty
 	F.assemble(starsys)
+	if(!F.hide_movements && !starsys.hidden)
+		if(F.alignment == "nanotrasen")
+			mini_announce("A White Rapids fleet has been dispatched to [current_system]", "White Rapids EAS")
+		else
+			mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	F.faction = src
 	if(!force && id == FACTION_ID_SYNDICATE && !SSstar_system.neutral_zone_systems.Find(F.current_system))	//If it isn't forced, it got spawned by the midround processing. If we didn't already spawn in the neutral zone, we head to a random system there and occupy it.
 		var/list/possible_occupation_targets = list()
