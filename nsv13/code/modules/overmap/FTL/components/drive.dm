@@ -40,7 +40,7 @@
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long_thirring.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
-	var/datum/looping_sound/ftl_drive/soundloop
+	var/datum/looping_sound/advanced/ftl_drive/soundloop
 	var/auto_spool = FALSE
 	var/lockout = FALSE //Used for our end round shenanigains
 
@@ -55,6 +55,7 @@
 	radio.listening = 0
 	radio.recalculateChannels()
 	soundloop = new(list(src))
+	soundloop.channel = CHANNEL_FTL_MANIFOLD
 
 /obj/machinery/computer/ship/ftl_core/Destroy()
 	QDEL_NULL(soundloop)

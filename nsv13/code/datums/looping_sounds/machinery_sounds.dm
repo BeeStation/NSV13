@@ -1,4 +1,4 @@
-/datum/looping_sound/ftl_drive
+/datum/looping_sound/advanced/ftl_drive
 	start_sound = 'nsv13/sound/machines/FTL/main_drive_spoolup.ogg'
 	start_length = 24 SECONDS
 	mid_sounds = 'nsv13/sound/machines/FTL/main_drive_loop.ogg'

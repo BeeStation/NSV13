@@ -8,15 +8,16 @@
 #define CHANNEL_AMBIENT_EFFECTS 1018
 #define CHANNEL_AMBIENT_MUSIC 1017
 #define CHANNEL_AMBIENT_BUZZ 1016
-#define CHANNEL_SHIP_ALERT 1015 //nsv13 - sound channel for looping ship alerts, EG general quarters
-#define CHANNEL_REACTOR_ALERT 1014 //nsv13 - sound channel for the nuclear storm drive meltdown sfx.
-#define CHANNEL_SHIP_FX 1013 //nsv13 - sound channel for general ship ambience / FX
-#define CHANNEL_IMPORTANT_SHIP_ALERT 1012 //nsv13 - sound channel for really REALLY IMPORTANT ship
 
-//THIS SHOULD ALWAYS BE THE LOWEST ONE!
-//KEEP IT UPDATED
-
-#define CHANNEL_HIGHEST_AVAILABLE 1011 //Nsv13 - ADDED LOADS OF SOUND CHANNELS. KEEP THIS UP TO DATE
+// NSV13 start -- Not modularized as these likely need to be changed anyway in the event of a conflict. Helps prevent channel overwrites from slipping under our noses
+#define CHANNEL_SHIP_ALERT 1015
+#define CHANNEL_REACTOR_ALERT 1014
+#define CHANNEL_SHIP_FX 1013
+#define CHANNEL_IMPORTANT_SHIP_ALERT 1012
+#define CHANNEL_FTL_MANIFOLD 1011
+/// KEEP THIS UP TO DATE, SHOULD ALWAYS BE THE LOWEST
+#define CHANNEL_HIGHEST_AVAILABLE 1010
+// NSV end
 
 
 #define SOUND_MINIMUM_PRESSURE 10
