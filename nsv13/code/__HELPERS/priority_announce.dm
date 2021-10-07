@@ -23,13 +23,12 @@
 /proc/mini_announce(message, from, html_encode = TRUE) //Even less obtrusive than minor_announce!
 	if(!message)
 		return
-
 	if (html_encode)
 		from = html_encode(from)
 		message = html_encode(message)
 	for(var/mob/M in GLOB.player_list)
 		if(!isnewplayer(M) && M.can_hear())
-			var/complete_msg = "<meta charset='UTF-8'><h1><font color = red face = verdana>[from]</font color></h1><h3><font face = verdana>[message]</font></h3><BR>"
+			var/complete_msg = "<meta charset='UTF-8'><h3>[from]</h3><span class='danger'>[message]</span><BR>"
 			to_chat(M, complete_msg)
 			if(M.client.prefs.toggles & SOUND_ANNOUNCEMENTS)
 				SEND_SOUND(M, sound('sound/misc/notice2.ogg'))

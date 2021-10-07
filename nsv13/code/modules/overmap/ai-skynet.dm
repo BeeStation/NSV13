@@ -179,10 +179,7 @@ Adding tasks is easy! Just define a datum for it.
 		current_system.mission_sector = TRUE
 	target.alignment = alignment //We've taken it over.
 	if(!hide_movements && !current_system.hidden)
-		if(alignment == "nanotrasen")
-			mini_announce("A White Rapids fleet has been dispatched to [current_system]", "White Rapids EAS")
-		else
-			mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
+		(alignment != "nanotrasen") && mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	for(var/obj/structure/overmap/OM in current_system.system_contents)
 		//Boarding ships don't want to go to brasil
 		if(OM.mobs_in_ship?.len && OM.reserved_z)
