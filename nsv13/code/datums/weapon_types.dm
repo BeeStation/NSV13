@@ -327,9 +327,9 @@
 /datum/ship_weapon/hailstorm
 	name = "Hailstorm System"
 	default_projectile_type = /obj/item/projectile/bullet/hailstorm_bullet
-	burst_size = 48
+	burst_size = 80
 	fire_delay = 20 SECONDS
-	range_modifier = 45
+	range_modifier = 40
 	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
 	weapon_class = WEAPON_CLASS_LIGHT
