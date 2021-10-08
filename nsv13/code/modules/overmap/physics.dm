@@ -389,7 +389,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		last_fired.transform = mat_to
 	*/ //We don't use these overlays for now, but we may wish to later.
 
-	for(var/mob/living/M in operators)
+	for(var/mob/living/M as() in operators)
 		var/client/C = M.client
 		if(!C)
 			continue
@@ -578,7 +578,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	proj.faction = faction
 	if(physics2d && physics2d.collider2d)
 		proj.setup_collider()
-	if(homing)
+	if(homing && !isturf(target))	//Lets not have projectiles home in on some random tile someone clicked on to launch
 		proj.set_homing_target(target)
 	if(gunner)
 		proj.firer = gunner

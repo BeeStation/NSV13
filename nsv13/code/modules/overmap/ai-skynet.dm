@@ -172,33 +172,7 @@ Adding tasks is easy! Just define a datum for it.
 		current_system.mission_sector = FALSE
 	if(instantiated)//If the fleet was "instantiated", that means it's already been encountered, and we need to track the states of all the ships in it.
 		for(var/obj/structure/overmap/OM in all_ships)
-			if(QDELETED(OM))
-				continue
-			target.system_contents += OM
-			if(!target.occupying_z)
-				STOP_PROCESSING(SSphysics_processing, OM)
-				if(OM.physics2d)
-					STOP_PROCESSING(SSphysics_processing, OM.physics2d)
-				var/backupx = OM.x
-				var/backupy = OM.y
-				OM.moveToNullspace()
-				if(backupx && backupy)
-					target.contents_positions[OM] = list("x" = backupx, "y" = backupy) //Cache the ship's position so we can regenerate it later.
-				else
-					target.contents_positions[OM] = list("x" = rand(15, 240), "y" = rand(15, 240))
-			else
-				if(!OM.z)
-					START_PROCESSING(SSphysics_processing, OM)
-					if(OM.physics2d)
-						START_PROCESSING(SSphysics_processing, OM.physics2d)
-				target.add_ship(OM)
-			current_system.system_contents -= OM
-			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
-				current_system.enemies_in_system -= OM
-				target.enemies_in_system += OM
-			if(current_system.contents_positions[OM]) //If we were loaded, but the system was not.
-				current_system.contents_positions -= OM
-			OM.current_system = target
+			SSstar_system.move_existing_object(OM, target)
 	target.fleets += src
 	current_system = target
 	if(target.alignment != alignment)
@@ -295,7 +269,7 @@ Adding tasks is easy! Just define a datum for it.
 		return
 	var/datum/star_system/curr = SSstar_system.ships[src]["current_system"]
 	curr?.remove_ship(src)
-	jump(SS, FALSE)
+	jump_end(SS)
 
 /obj/structure/overmap/proc/try_hail(mob/living/user, var/obj/structure/overmap/source_ship)
 	if(!isliving(user))
@@ -1185,8 +1159,6 @@ Seek a ship thich we'll station ourselves around
 	var/switchsound_cooldown = 0
 
 /obj/structure/overmap/proc/ai_fire(atom/target)
-	if(next_firetime > world.time)
-		return
 	if(istype(target, /obj/structure/overmap))
 		add_enemy(target)
 		var/target_range = get_dist(src,target)
@@ -1206,8 +1178,13 @@ Seek a ship thich we'll station ourselves around
 			if(distance < best_distance)
 				if(!SW.valid_target(src, target))
 					continue
+				if(SW.next_firetime > world.time)
+					continue
 				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
 					if(shots_left <= 0)
+						if(!ai_resupply_scheduled)
+							ai_resupply_scheduled = TRUE
+							addtimer(CALLBACK(src, .proc/ai_self_resupply), ai_resupply_time)
 						continue //If we are out of shots. Continue.
 				else if(light_shots_left <= 0)
 					spawn(150)
@@ -1232,14 +1209,18 @@ Seek a ship thich we'll station ourselves around
 						continue
 					if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
 						continue
-					fire_weapon(ship, FIRE_MODE_GAUSS)
+					if(fire_weapon(ship, FIRE_MODE_GAUSS, ai_aim=TRUE))
+						SW.next_firetime += SW.ai_fire_delay
 					break
 		fire_mode = new_firemode
 		if(uses_main_shot) //Don't penalise them for weapons that are designed to be spammed.
 			shots_left --
 		else
 			light_shots_left --
-		fire_weapon(target, new_firemode, ai_aim=TRUE)
+
+		if(fire_weapon(target, new_firemode, ai_aim=TRUE))
+			var/datum/ship_weapon/SW = weapon_types[new_firemode]
+			SW.next_firetime += SW.ai_fire_delay
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
 
 /**
@@ -1248,8 +1229,6 @@ Seek a ship thich we'll station ourselves around
  * Most menacing trait is that this allows AI elites to effectively broadside every single of their guns thats off cooldown. (if they have ammo)
 */
 /obj/structure/overmap/proc/ai_elite_fire(atom/target)
-	if(next_firetime > world.time)
-		return
 	if(!istype(target, /obj/structure/overmap))
 		return
 	add_enemy(target)
@@ -1259,7 +1238,6 @@ Seek a ship thich we'll station ourselves around
 		return
 	var/did_fire = FALSE
 	var/ammo_use = 0
-	var/smallest_cooldown = INFINITY
 
 	for(var/iter = FIRE_MODE_ANTI_AIR, iter <= MAX_POSSIBLE_FIREMODE, iter++)
 		if(iter == FIRE_MODE_AMS || iter == FIRE_MODE_FLAK)
@@ -1268,14 +1246,17 @@ Seek a ship thich we'll station ourselves around
 		var/datum/ship_weapon/SW = weapon_types[iter]
 		if(!SW)
 			continue
-		if(!next_firetime_gunspecific["[iter]"])
-			next_firetime_gunspecific["[iter]"] = world.time
-		else if(next_firetime_gunspecific["[iter]"] > world.time)
+		if(!SW.next_firetime)
+			SW.next_firetime = world.time
+		else if(SW.next_firetime > world.time)
 			continue
 		if(!SW.valid_target(src, target, TRUE))
 			continue
 		if(SW.weapon_class > WEAPON_CLASS_LIGHT)
 			if((shots_left - ammo_use) <= 0)
+				if(!ai_resupply_scheduled)
+					ai_resupply_scheduled = TRUE
+					addtimer(CALLBACK(src, .proc/ai_self_resupply), ai_resupply_time)
 				continue //If we are out of shots. Continue.
 			will_use_ammo = TRUE
 		var/arc = Get_Angle(src, target)
@@ -1285,14 +1266,18 @@ Seek a ship thich we'll station ourselves around
 		if(will_use_ammo)
 			ammo_use++
 		did_fire = TRUE
-		next_firetime_gunspecific["[iter]"] = world.time + SW.fire_delay
-		if(SW.fire_delay < smallest_cooldown)
-			smallest_cooldown = SW.fire_delay
+		SW.next_firetime = world.time + SW.fire_delay + SW.ai_fire_delay
 
 	if(did_fire)
 		shots_left -= ammo_use
-		next_firetime = world.time + 1 SECONDS + smallest_cooldown
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
+
+// Not as good as a carrier, but something
+/obj/structure/overmap/proc/ai_self_resupply()
+	ai_resupply_scheduled = FALSE
+	missiles = round(CLAMP(missiles + initial(missiles)/4, 1, initial(missiles)/4))
+	torpedoes = round(CLAMP(torpedoes + initial(torpedoes)/4, 1, initial(torpedoes)/4))
+	shots_left = round(CLAMP(shots_left + initial(shots_left)/2, 1, initial(shots_left)/4))
 /**
 * Given target ship and projectile speed, calculate aim point for intercept
 * See: https://stackoverflow.com/a/3487761
@@ -1622,7 +1607,7 @@ Seek a ship thich we'll station ourselves around
 	for(var/datum/star_system/SS in SSstar_system.systems)
 		var/list/sys_inf = list()
 		sys_inf["name"] = SS.name
-		sys_inf["system_type"] = SS.system_type ? SS.system_type["tag"] : "NOT SETUP YET"
+		sys_inf["system_type"] = SS.system_type ? SS.system_type["tag"] : "none"
 		sys_inf["alignment"] = capitalize(SS.alignment)
 		sys_inf["sys_id"] = "\ref[SS]"
 		sys_inf["fleets"] = list() //2d array mess in 3...2...1..
@@ -1630,16 +1615,33 @@ Seek a ship thich we'll station ourselves around
 			var/list/fleet_info = list()
 			fleet_info["name"] = F.name
 			fleet_info["id"] = "\ref[F]"
-			fleet_info["colour"] = (F.alignment == "nanotrasen") ? null : "bad"
+			if(F.alignment == "nanotrasen" || F.alignment == "solgov")
+				fleet_info["color"] = "good"
+			else if(F.alignment == "syndicate" || F.alignment == "pirate")
+				fleet_info["color"] = "bad"
+			else
+				fleet_info["color"] = null
 			var/list/fuckYouDreamChecker = sys_inf["fleets"]
 			fuckYouDreamChecker[++fuckYouDreamChecker.len] = fleet_info
 		sys_inf["objects"] = list()
-		for(var/obj/structure/overmap/OM in SS.system_contents)
-			if(!OM.fleet)
-				var/list/overmap_info = list()
-				overmap_info["name"] = OM.name
-				overmap_info["id"] = "\ref[OM]"
-				overmap_info["colour"] = (OM.faction == "nanotrasen") ? null : "bad"
+		for(var/obj/object in (SS.system_contents))
+			var/list/overmap_info = list()
+			if(istype(object, /obj/structure/overmap))
+				var/obj/structure/overmap/OM = object
+				if(!OM.fleet)
+					overmap_info["name"] = object.name
+					overmap_info["id"] = "\ref[object]"
+					if(OM.faction == "nanotrasen" || OM.faction == "solgov")
+						overmap_info["color"] = "good"
+					else if(OM.faction == "syndicate" || OM.faction == "pirate")
+						overmap_info["color"] = "bad"
+					else
+						overmap_info["color"] = null
+			else // anomalies
+				overmap_info["name"] = object.name
+				overmap_info["id"] = "\ref[object]"
+				overmap_info["color"] = null
+			if(length(overmap_info))
 				var/list/fuckYouDreamChecker = sys_inf["objects"]
 				fuckYouDreamChecker[++fuckYouDreamChecker.len] = overmap_info
 		systems_info[++systems_info.len] = sys_inf
@@ -1650,15 +1652,21 @@ Seek a ship thich we'll station ourselves around
 	if(..())
 		return
 	switch(action)
-		if("jumpFleet")
+		if("fleetAct")
 			var/datum/fleet/target = locate(params["id"])
 			if(!istype(target))
 				return
-			var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
-			if(!sys || !istype(sys))
+			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Delete", "Cancel")
+			if(!command || command == "Cancel")
 				return FALSE
-			message_admins("[key_name(usr)] forced [target] to jump to [sys].")
-			target.move(sys, TRUE)
+			if(command == "Jump")
+				var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
+				if(!sys || !istype(sys))
+					return FALSE
+				message_admins("[key_name(usr)] forced [target] to jump to [sys].")
+				target.move(sys, TRUE)
+			if(command == "Delete")
+				usr.client.cmd_admin_delete(target)
 		if("createFleet")
 			var/datum/star_system/target = locate(params["sys_id"])
 			if(!istype(target))
@@ -1670,16 +1678,55 @@ Seek a ship thich we'll station ourselves around
 			target.fleets += F
 			F.current_system = target
 			F.assemble(target)
+			for(var/obj/structure/overmap/OM in target.system_contents)
+				if(length(OM.mobs_in_ship) && OM.reserved_z)
+					F.encounter(OM)
 			message_admins("[key_name(usr)] created a fleet ([F.name]) at [target].")
-		if("jumpObject")
+		if("createObject")
+			var/datum/star_system/target = locate(params["sys_id"])
+			if(!istype(target))
+				return
+			var/object_type = input(usr, "What kind of object?","Overmap Object Creation", null) as null|anything in (typecacheof(/obj/structure/overmap/asteroid) + typecacheof(/obj/effect/overmap_anomaly) + typecacheof(/obj/structure/overmap/trader))
+			if(!object_type)
+				return
+			if(ispath(object_type, /obj/structure/overmap))
+				SSstar_system.spawn_ship(object_type, target)
+			else if(ispath(object_type, /obj/effect/overmap_anomaly))
+				SSstar_system.spawn_anomaly(object_type, target)
+		if("objectAct")
 			var/obj/structure/overmap/target = locate(params["id"])
 			if(!istype(target))
 				return
-			var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
-			if(!sys || !istype(sys))
+			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Hail", "Delete", "Cancel")
+			if(!command || command == "Cancel")
 				return FALSE
-			message_admins("[key_name(usr)] forced [target] to jump to [sys].")
-			target.jump(sys)
+			if(command == "Jump")
+				var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
+				if(!sys || !istype(sys))
+					return FALSE
+				// Handle player ships
+				if(length(target.linked_areas))
+					var/when = alert(usr, "When should they arrive?", "Jump to [sys]", "Now", "After FTL", "Cancel")
+					if(!when || when == "Cancel")
+						return FALSE
+					message_admins("[key_name(usr)] forced [target] to jump to [sys].")
+					if(when == "After FTL")
+						target.jump_start(sys, TRUE)
+						return TRUE
+					if(when == "Now")
+						target.current_system.remove_ship(target)
+						target.jump_end(sys)
+						return TRUE
+				message_admins("[key_name(usr)] forced [target] to jump to [sys].")
+				SSstar_system.move_existing_object(target, sys)
+			if(command == "Hail")
+				var/message = capped_input(usr, "Enter message", "Hail")
+				var/from = capped_input(usr, "Who is it from?", "Hail")
+				if(!message || !from)
+					return FALSE
+				target.hail(message, from)
+			if(command == "Delete")
+				usr.client.cmd_admin_delete(target)
 
 /client/proc/instance_overmap_menu() //Creates a verb for admins to open up the ui
 	set name = "Instance Overmap"

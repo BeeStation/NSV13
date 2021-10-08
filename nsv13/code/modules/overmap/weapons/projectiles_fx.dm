@@ -28,23 +28,27 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	var/homing_benefit_time = 0 SECONDS //NAC shells have a very slight homing effect.
+	var/base_movement_type	//Our base move type for when we gain unstoppability from hitting tiny ships.
 
 /obj/item/projectile/bullet/mac_round/prehit(atom/target)
 	if(isovermap(target))
 		var/obj/structure/overmap/OM = target
-		var/cache_move_type = movement_type
 		if(OM.mass <= MASS_TINY)
-			movement_type = FLYING | UNSTOPPABLE //Small things don't stop us.
+			movement_type |= UNSTOPPABLE //Small things don't stop us.
 		else
-			movement_type = cache_move_type //But large things do.
+			movement_type = base_movement_type
 	. = ..()
 
 /obj/item/projectile/bullet/mac_round/Initialize()
 	. = ..()
+	base_movement_type = movement_type
 	if(homing_benefit_time)
-		spawn(0)
-			sleep(homing_benefit_time)
-			set_homing_target(null)
+		addtimer(CALLBACK(src, .proc/stop_homing), homing_benefit_time)
+	else
+		addtimer(CALLBACK(src, .proc/stop_homing), 0.2 SECONDS)	//Because all deck guns apparently have slight homing.
+
+/obj/item/projectile/bullet/proc/stop_homing()
+	homing = FALSE
 
 /obj/item/projectile/bullet/mac_round/ap
 	damage = 250
@@ -235,6 +239,18 @@ Misc projectile types, effects, think of this as the special FX file.
 	tracer_type = /obj/effect/projectile/tracer/disabler
 	muzzle_type = /obj/effect/projectile/muzzle/disabler
 	impact_type = /obj/effect/projectile/impact/disabler
+	
+/obj/item/projectile/beam/laser/point_defense
+	name = "laser pointer"
+	damage = 30
+	flag = "overmap_light"
+	hitscan = TRUE //Extremely powerful in ship combat
+	icon_state = "emitter"
+	light_color = LIGHT_COLOR_GREEN
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	tracer_type = /obj/effect/projectile/tracer/xray
+	muzzle_type = /obj/effect/projectile/muzzle/xray
+	impact_type = /obj/effect/projectile/impact/xray
 
 //Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
 /obj/item/projectile/beam/laser/phaser

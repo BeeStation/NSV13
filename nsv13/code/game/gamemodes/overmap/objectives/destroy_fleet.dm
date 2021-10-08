@@ -9,7 +9,7 @@
 
 	var/target_faction = "any"
 
-	extension_supported = TRUE
+	extension_supported = FALSE
 
 /datum/overmap_objective/destroy_fleets/instance()
 	.=..()

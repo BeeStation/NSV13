@@ -121,7 +121,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 	if(!amount)
 		//Joker emoji
-		amount = round(rand(0,(player_check/5)))
+		amount = CEILING(1 + (SSovermap_mode.mode.difficulty / 2), 1)
 		if(amount <= 0)
 			amount = 2 //This is jank, but helps me test it locally...
 	var/list/zs = list()
@@ -139,7 +139,7 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		message_admins("Failed to spawn boarders for [name] due to admin boarding override.")
 		return FALSE //Allows the admins to disable boarders for event rounds
 	var/list/candidates = list()
-	if(player_check < 15)
+	if(player_check < 5)
 		message_admins("KNPC boarder spawning aborted due to insufficient playercounts.")
 		return FALSE //No... just no. I'm not that mean
 
@@ -151,13 +151,13 @@ GLOBAL_LIST_INIT(drop_trooper_teams, list("Noble", "Helljumper","Red", "Black", 
 		var/list/knpc_types = list()
 		switch(faction_selection)
 			if("syndicate")
-				knpc_types = list(/mob/living/carbon/human/ai_boarder, /mob/living/carbon/human/ai_boarder/commando, /mob/living/carbon/human/ai_boarder/medic)
+				knpc_types = list(/mob/living/carbon/human/ai_boarder/syndicate/pistol, /mob/living/carbon/human/ai_boarder/syndicate/smg, /mob/living/carbon/human/ai_boarder/syndicate/shotgun)
 			if("pirate")
-				knpc_types = list(/mob/living/carbon/human/ai_boarder/pirate, /mob/living/carbon/human/ai_boarder/pirate/leader, /mob/living/carbon/human/ai_boarder/pirate/sapper)
+				knpc_types = list(/mob/living/carbon/human/ai_boarder/space_pirate/pistol, /mob/living/carbon/human/ai_boarder/space_pirate/auto_pistol)
 			if("greytide")
 				knpc_types = list(/mob/living/carbon/human/ai_boarder/assistant)
 			if("nanotrasen")
-				knpc_types = list(/mob/living/carbon/human/ai_boarder/ert, /mob/living/carbon/human/ai_boarder/ert/commander, /mob/living/carbon/human/ai_boarder/medic, /mob/living/carbon/human/ai_boarder/ert/engineer)
+				knpc_types = list(/mob/living/carbon/human/ai_boarder/ert, /mob/living/carbon/human/ai_boarder/ert/commander, /mob/living/carbon/human/ai_boarder/ert/medic, /mob/living/carbon/human/ai_boarder/ert/engineer)
 
 		var/list/possible_spawns = list()
 		for(var/obj/effect/landmark/patrol_node/node in GLOB.landmarks_list)

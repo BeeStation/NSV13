@@ -202,6 +202,7 @@
 	var/max_power_input = 1.5e+7 //15 MW theoretical maximum. This much power means your shield is going to be insanely good.
 	var/active = FALSE; //Are we projecting out our shields? This lets you offline the shields for a recharge period so that they become useful again.
 	var/obj/structure/cable/cable = null //Connected cable
+	var/mutable_appearance/c_screen
 
 
 /obj/machinery/shield_generator/proc/absorb_hit(damage)
@@ -245,10 +246,15 @@
 	. = ..()
 	var/obj/structure/overmap/ours = get_overmap()
 	ours?.shields = src
+	c_screen = mutable_appearance(src.icon, "screen_on")
+	add_overlay(c_screen)
 	if(!ours)
 		addtimer(CALLBACK(src, .proc/try_find_overmap), 20 SECONDS)
 
-
+/obj/machinery/shield_generator/Destroy()
+	cut_overlay(c_screen)
+	QDEL_NULL(c_screen)
+	return ..()
 
 /obj/machinery/shield_generator/proc/try_find_overmap()
 	var/obj/structure/overmap/ours = get_overmap()
@@ -260,6 +266,7 @@
 
 
 /obj/machinery/shield_generator/proc/depower_shield()
+	c_screen.alpha = 0
 	shield["integrity"] = 0
 	shield["max_integrity"] = 0
 
@@ -274,13 +281,12 @@
 
 //Every tick, the shield generator updates its stats based on the amount of power it's being allowed to chug.
 /obj/machinery/shield_generator/process()
-	cut_overlays()
 	if(!powered() || power_input <= 0 || !try_use_power(power_input))
 		depower_shield()
 		return FALSE
+	c_screen.alpha = 255
 	var/megawatts = power_input / 1e+6 //I'm lazy.
 	flux_rate = round(megawatts*2.5) //Round down them megawatts. Multiplier'd this to make shields actually useful
-	add_overlay("screen_on")
 
 	//Firstly, set the max health of the shield based off of the available input power, and the priority that the user set for generating a shield.
 	var/projectRate = max(((maxHealthPriority / 100) * flux_rate), 0)

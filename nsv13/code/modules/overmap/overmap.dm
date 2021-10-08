@@ -110,18 +110,15 @@
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
 	var/faction = null //Used for target acquisition by AIs
 
-	var/fire_delay = 5
-	var/next_firetime = 0
-	var/next_firetime_gunspecific = list()	//List used by elites to control their fire times.
-
 	var/list/weapon_overlays = list()
 	var/obj/weapon_overlay/last_fired //Last weapon overlay that fired, so we can rotate guns independently
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
+	var/static/ai_resupply_time = 1.5 MINUTES
+	var/ai_resupply_scheduled = FALSE
 	var/torpedoes = 2 //If this starts at above 0, then the ship can use torpedoes when AI controlled
 	var/missiles = 4 //If this starts at above 0, then the ship can use missiles when AI controlled
 
-	var/pdc_miss_chance = 20 //In %, how often do PDCs fire inaccurately when aiming at missiles. This is ignored for ships as theyre bigger targets.
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
 	var/atom/target_lock = null
 	var/can_lock = TRUE //Can we lock on to people or not
@@ -621,26 +618,21 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	progress = round(((progress / goal) * 100), 25)//Round it down to 20%. We now apply visual damage
 	icon_state = "[initial(icon_state)]-[progress]"
 
-/obj/structure/overmap/proc/relay(var/sound, var/message=null, loop = FALSE, channel = null) //Sends a sound + text message to the crew of a ship
-	for(var/X in mobs_in_ship)
-		if(ismob(X))
-			var/mob/mob = X
-			if(sound)
-				if(channel) //Doing this forbids overlapping of sounds
-					SEND_SOUND(mob, sound(sound, repeat = loop, wait = 0, volume = 100, channel = channel))
-				else
-					SEND_SOUND(mob, sound(sound, repeat = loop, wait = 0, volume = 100))
-			if(message)
-				to_chat(mob, message)
+/obj/structure/overmap/proc/relay(S, var/message=null, loop = FALSE, channel = null) //Sends a sound + text message to the crew of a ship
+	for(var/mob/M as() in mobs_in_ship)
+		if(channel) //Doing this forbids overlapping of sounds
+			SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100, channel = channel))
+		else
+			SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100))
+		if(message)
+			to_chat(M, message)
 
 /obj/structure/overmap/proc/stop_relay(channel) //Stops all playing sounds for crewmen on N channel.
-	for(var/X in mobs_in_ship)
-		if(ismob(X))
-			var/mob/mob = X
-			mob.stop_sound_channel(channel)
+	for(var/mob/M as() in mobs_in_ship)
+		M.stop_sound_channel(channel)
 
-/obj/structure/overmap/proc/relay_to_nearby(sound, message, ignore_self=FALSE, sound_range=20, faction_check=FALSE) //Sends a sound + text message to nearby ships
-	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+/obj/structure/overmap/proc/relay_to_nearby(S, message, ignore_self=FALSE, sound_range=20, faction_check=FALSE) //Sends a sound + text message to nearby ships
+	for(var/obj/structure/overmap/ship as() in GLOB.overmap_objects)
 		if(ignore_self)
 			if(ship == src)
 				continue
@@ -648,7 +640,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			if(faction_check)
 				if(src.faction == ship.faction)
 					continue
-			ship.relay(sound,message)
+			ship.relay(S,message)
 
 /obj/structure/overmap/proc/verb_check(mob/user, require_pilot = TRUE)
 	if(!user)
@@ -708,11 +700,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		var/sound = pick(GLOB.computer_beeps)
 		playsound(helm, sound, 100, 1)
 	next_maneuvre = world.time + 15 SECONDS
-	addtimer(VARSET_CALLBACK(src, forward_maxthrust, forward_maxthrust), 6 SECONDS)
-	addtimer(VARSET_CALLBACK(src, backward_maxthrust, backward_maxthrust), 6 SECONDS)
-	addtimer(VARSET_CALLBACK(src, side_maxthrust, side_maxthrust), 6 SECONDS)
-	addtimer(VARSET_CALLBACK(src, max_angular_acceleration, max_angular_acceleration), 6 SECONDS)
-	addtimer(VARSET_CALLBACK(src, speed_limit, speed_limit), 6 SECONDS)
+	addtimer(CALLBACK(src, .proc/reset_boost, forward_maxthrust, backward_maxthrust, side_maxthrust, max_angular_acceleration, speed_limit), 6 SECONDS)
 	speed_limit += 5
 	add_overlay("thrust")
 	switch(direction)
@@ -736,8 +724,15 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	user_thrust_dir = direction
 	shake_everyone(10)
 
-//Check how aggressively the pilots are turning
+/// Intended to be used with a timer, sets all agility controlling variables, saves us making 6 varset timers
+/obj/structure/overmap/proc/reset_boost(forward_maxthrust, backward_maxthrust, side_maxthrust, max_angular_acceleration, speed_limit)
+	src.forward_maxthrust = forward_maxthrust
+	src.backward_maxthrust = backward_maxthrust
+	src.side_maxthrust = side_maxthrust
+	src.max_angular_acceleration = max_angular_acceleration
+	src.speed_limit = speed_limit
 
+/// Check how aggressively the pilots are turning
 /obj/structure/overmap/proc/check_throwaround(theAngle, direction)
 	var/delta = abs(angular_velocity) //Where we started.
 	if(delta >= 20) //This is the canterbury, prepare for FLIP AND BURN.
@@ -845,9 +840,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(!verb_check())
 		return
 	to_chat(usr, "<span class='warning'>=Hotkeys=</span>")
-	to_chat(usr, "<span class='notice'>Use the <b>scroll wheel</b> to zoom in / out.</span>")
+	to_chat(usr, "<span class='notice'>Use the <b>Scroll Wheel</b> to zoom in / out.</span>")
 	to_chat(usr, "<span class='notice'>Use tab to activate hotkey mode, then:</span>")
-	to_chat(usr, "<span class='notice'>Press <b>space</b> to make the ship follow your mouse (or stop following your mouse).</span>")
+	to_chat(usr, "<span class='notice'>Press <b>Space</b> to make the ship follow your mouse (or stop following your mouse).</span>")
 	to_chat(usr, "<span class='notice'>Press <b>Alt<b> to engage handbrake</span>")
 	to_chat(usr, "<span class='notice'>Press <b>Ctrl<b> to cycle fire modes</span>")
 
