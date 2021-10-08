@@ -280,7 +280,7 @@
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 	miss_chance = 33
 	max_miss_distance = 6
-  ai_fire_delay = 0.5 SECONDS
+	ai_fire_delay = 0.5 SECONDS
 	var/sound/lastsound // Special PDC sound handling
 
 /datum/ship_weapon/pdc_mount/New()
