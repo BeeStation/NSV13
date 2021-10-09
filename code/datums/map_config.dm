@@ -13,16 +13,16 @@
 	var/voteweight = 1
 	var/votable = FALSE
 
-	// Config actually from the JSON - should default to Hammerhead //NSV EDITS
+	//NSV edits all over
 	var/map_name = "NSV Atlas - DEFAULTED"
 	var/map_link = null //This is intentionally wrong, this will make it not link to webmap.
 	var/map_path = "map_files/Atlas"
 	var/map_file = list("atlas.dmm", "atlas2.dmm")
 	var/ship_type = /obj/structure/overmap/nanotrasen/battlecruiser/starter
 	var/mining_ship_type = /obj/structure/overmap/nanotrasen/mining_cruiser/rocinante
-	var/mine_disable = FALSE //NSV13 - Allow disabling of mineship loading.
-	var/mine_file = "Rocinante.dmm" //Nsv13. Heavy changes to this file
-	var/mine_path = "map_files/Mining/nsv13"
+	var/mine_disable = FALSE //NSV13 option - Allow disabling of mineship loading.
+	var/mine_file = "Rocinante.dmm" //Nsv13 option
+	var/mine_path = "map_files/Mining/nsv13" //NSV13 option
 	var/list/omode_blacklist = list() //NSV13 - Blacklisted overmap modes - ie remove modes
 	var/list/omode_whitelist = list() //NSV13 - Whitelisted overmap modes - ie add modes
 	var/mine_traits = null
@@ -43,6 +43,7 @@
 	var/space_empty_levels = 1
 
 	var/allow_custom_shuttles = TRUE
+	var/allow_night_lighting = TRUE
 	var/shuttles = list(
 		"cargo" = "cargo_gladius",
 		"ferry" = "ferry_kilo",
@@ -198,10 +199,14 @@
 
 	allow_custom_shuttles = json["allow_custom_shuttles"] != FALSE
 
+<<<<<<< HEAD
 	if("map_link" in json)						// NSV Changes begin
 		map_link = json["map_link"]
 	else
 		log_world("map_link missing from json!")	// NSV Changes end
+=======
+	allow_night_lighting = json["allow_night_lighting"] != FALSE
+>>>>>>> master
 
 	defaulted = FALSE
 	return TRUE

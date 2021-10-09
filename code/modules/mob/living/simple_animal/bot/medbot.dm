@@ -425,6 +425,8 @@ GLOBAL_VAR(medibot_unique_id_gen)
 						healies *= -1.5
 					if(treatment_method == initial(FA.damagetype_healed)) //using the damage specific medkits give bonuses when healing this type of damage.
 						healies *= 1.5
+					if(treatment_method == TOX && HAS_TRAIT(patient, TRAIT_TOXINLOVER))
+						healies *= -1.5
 					if(emagged == 2)
 						patient.reagents.add_reagent(/datum/reagent/toxin/chloralhydrate, 5)
 						patient.apply_damage_type((healies*1),treatment_method)

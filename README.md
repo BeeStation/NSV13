@@ -2,7 +2,6 @@
 
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-resentment.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/contains-technical-debt.svg)](https://user-images.githubusercontent.com/8171642/50290880-ffef5500-043a-11e9-8270-a2e5b697c86c.png) [![forinfinityandbyond](https://user-images.githubusercontent.com/5211576/29499758-4efff304-85e6-11e7-8267-62919c3688a9.gif)](https://www.reddit.com/r/SS13/comments/5oplxp/what_is_the_main_problem_with_byond_as_an_engine/dclbu1a)
-
 [![Build Status](https://github.com/BeeStation/NSV13/workflows/Run%20tests/badge.svg)](https://github.com/BeeStation/NSV13/actions?query=workflow%3A%22Run+tests%22)
 ![Open Issues](http://isitmaintained.com/badge/open/BeeStation/NSV13.svg)
 
@@ -23,25 +22,19 @@ code tab of https://github.com/BeeStation/NSV13
 (note: this will use a lot of bandwidth if you wish to update and is a lot of
 hassle if you want to make any changes at all, so it's not recommended.)
 
-
 ## INSTALLATION
 
-First-time installation should be fairly straightforward. First, you'll need
-BYOND installed. You can get it from https://www.byond.com/download. Once you've done
-that, extract the game files to wherever you want to keep them. This is a
-sourcecode-only release, so the next step is to compile the server files.
-Open beestation.dme by double-clicking it, open the Build menu, and click
-compile. This'll take a little while, and if everything's done right you'll get
-a message like this:
+You can **no** longer compile the codebase simply through **DreamMaker**.
 
-```
-saving beestation.dmb (DEBUG mode)
-beestation.dmb - 0 errors, 0 warnings
-```
+You will find `BUILD.bat` in the root folder of NSV13, double-clicking it will initiate the build. It consists of multiple steps and might take around 1-5 minutes to compile. Unix users can directly call ./tools/build/build.
+
+**Building NSV13 in DreamMaker directly is now deprecated and might produce errors**, such as `'tgui.bundle.js': cannot find file`.
+
+**[How to compile in VSCode and other build options](tools/build/README.md).**
 
 If you see any errors or warnings, something has gone wrong - possibly a corrupt
 download or the files extracted wrong. If problems persist, ask for assistance
-in https://discord.gg/Vh8TJp9 or https://discord.gg/z9ttAvA
+in https://discord.gg/Vh8TJp9 or https://nsv.beestation13.com/discord
 
 
 Once that's done, open up the config folder. You'll want to edit config.txt to
@@ -71,7 +64,7 @@ and install it themselves. Directions can be found at the [rust-g
 repo](https://github.com/tgstation/rust-g).
 
 Finally, to start the server, run Dream Daemon and enter the path to your
-compiled beestation.dmb file. Make sure to set the port to the one you
+compiled nsv13.dmb file. Make sure to set the port to the one you
 specified in the config.txt, and set the Security box to 'Safe'. Then press GO
 and the server should start up and be ready to join. It is also recommended that
 you set up the SQL backend (see below).
@@ -89,8 +82,10 @@ the new version.
 
 ## HOSTING
 
-If you'd like a more robust server hosting option for tgstation and its
-derivatives. Check out their server tools suite at
+Hosting requires the [Microsoft Visual C++ 2015 Redistributable](https://www.microsoft.com/en-us/download/details.aspx?id=52685). Specifically,
+`vc_redist.x86.exe`. *Not* the 64-bit version. There is a decent chance you already have it if you've installed a game on Steam.
+
+If you'd like a more robust server hosting option, check out tgstation's server tools suite at
 https://github.com/tgstation/tgstation-server
 
 ## MAPS
@@ -110,7 +105,7 @@ Anytime you want to make changes to a map it's imperative you use the [Map Mergi
 
 ## AWAY MISSIONS
 
-BeeStation supports loading away missions however they are disabled by default.
+NSV13 supports loading away missions however they are disabled by default.
 
 Map files for away missions are located in the _maps/RandomZLevels directory. Each away mission includes it's own code definitions located in /code/modules/awaymissions/mission_code. These files must be included and compiled with the server beforehand otherwise the server will crash upon trying to load away missions that lack their code.
 
@@ -130,7 +125,6 @@ Web delivery of game resources makes it quicker for players to join and reduces 
 1. Add a url to config/external_rsc_urls pointing to a .zip file containing the .rsc.
     * You can use cdn services like CDN77 or cloudflare (requires adding a page rule to enable caching of the zip), or roll your own cdn using route 53 and vps providers.
 	* Regardless even offloading the rsc to a website without a CDN will be a massive improvement over the in game system for transferring files.
-
 ## IRC BOT SETUP
 
 Included in the repository is a python3 compatible IRC bot capable of relaying adminhelps to a specified
@@ -147,20 +141,18 @@ All code after [commit 333c566b88108de218d882840e61928a9b759d8f on 2014/31/12 at
 All code before [commit 333c566b88108de218d882840e61928a9b759d8f on 2014/31/12 at 4:38 PM PST](https://github.com/tgstation/tgstation/commit/333c566b88108de218d882840e61928a9b759d8f) is licensed under [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.html).
 (Including tools unless their readme specifies otherwise.)
 
-See [LICENSE](LICENSE) and [GPLv3.txt](GPLv3.txt) for more details.
+See LICENSE and GPLv3.txt for more details.
 
 tgui clientside is licensed as a subproject under the MIT license.
 Font Awesome font files, used by tgui, are licensed under the SIL Open Font License v1.1
 tgui assets are licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
 The TGS3 API is licensed as a subproject under the MIT license.
 
-See [tgui/LICENSE.md](tgui/LICENSE.md) for the MIT license.
-See [tgui/assets/fonts/SIL-OFL-1.1-LICENSE.md](tgui/assets/fonts/SIL-OFL-1.1-LICENSE.md) for the SIL Open Font License.
-See the footers of [code/\_\_DEFINES/server\_tools.dm](code/__DEFINES/server_tools.dm), [code/modules/server\_tools/st\_commands.dm](code/modules/server_tools/st_commands.dm), and [code/modules/server\_tools/st\_inteface.dm](code/modules/server_tools/st_inteface.dm) for the MIT license.
+See tgui/LICENSE.md for the MIT license.
+See tgui/assets/fonts/SIL-OFL-1.1-LICENSE.md for the SIL Open Font License.
+See the footers of code/\_\_DEFINES/server\_tools.dm, code/modules/server\_tools/st\_commands.dm, and code/modules/server\_tools/st\_inteface.dm for the MIT license.
 
 All assets including icons and sound are under a [Creative Commons 3.0 BY-SA license](https://creativecommons.org/licenses/by-sa/3.0/) unless otherwise indicated.
-
-byond-extools.dll is licensed under MIT. See [MIT.txt](MIT.txt) for more details.
 
 # Other Codebase Credits
 - /tg/, for the codebase.

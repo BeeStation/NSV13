@@ -1,8 +1,13 @@
 //Subtype of human
 /datum/species/human/felinid
 	name = "Felinid"
-	id = "felinid"
+	id = SPECIES_FELINID
+	bodyflag = FLAG_FELINID
 	limbs_id = "human"
+	say_mod = "meows"
+
+	disliked_food = VEGETABLES | SUGAR
+	liked_food = DAIRY | MEAT
 
 	disliked_food = VEGETABLES | SUGAR
 	liked_food = DAIRY | MEAT

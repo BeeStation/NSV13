@@ -9,6 +9,7 @@
 	supervisors = "the chief medical officer and research director"
 	selection_color = "#d4ebf2" //NSV13
 	chat_color = "#83BBBF"
+	exp_requirements = 120
 	exp_type = EXP_TYPE_CREW
 	exp_requirements = 60
 
@@ -20,6 +21,7 @@
 	paycheck_department = ACCOUNT_MED
 
 	display_order = JOB_DISPLAY_ORDER_GENETICIST
+	departments = DEPARTMENT_MEDICAL
 
 /datum/outfit/job/geneticist
 	name = "Geneticist"

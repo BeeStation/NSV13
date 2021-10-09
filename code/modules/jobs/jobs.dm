@@ -29,6 +29,7 @@ GLOBAL_LIST_INIT(medical_positions, list(
 GLOBAL_LIST_INIT(science_positions, list(
 	"Research Director",
 	"Scientist",
+	"Exploration Crew",
 	"Roboticist"))
 
 
@@ -59,7 +60,7 @@ GLOBAL_LIST_INIT(gimmick_positions, list(
 	"Debtor",
 	"Psychiatrist",
 	"VIP"))
- //Nsv13 - Crayon eaters & MPs
+
 GLOBAL_LIST_INIT(security_positions, list(
 	"Head of Security",
 	"Warden",

@@ -73,7 +73,7 @@
 		return 0
 	LoseTarget() //Target was our mecha, so null it out
 	M.aimob_enter_mech(src)
-	set_targets_from(M)
+	targets_from = WEAKREF(M)
 	allow_movement_on_non_turfs = TRUE //duh
 	var/do_ranged = 0
 	for(var/equip in mecha.equipment)
@@ -99,7 +99,7 @@
 
 	mecha.aimob_exit_mech(src)
 	allow_movement_on_non_turfs = FALSE
-	set_targets_from(src)
+	targets_from = null
 
 	//Find a new mecha
 	wanted_objects = typecacheof(/obj/mecha/combat, TRUE)
@@ -241,8 +241,7 @@
 						addtimer(CALLBACK(mecha.overload_action, /datum/action/innate/mecha/mech_defense_mode.proc/Activate, FALSE), 100) //10 seconds of speeeeed, then toggle off
 
 					retreat_distance = 50
-					spawn(100)
-						retreat_distance = 0
+					addtimer(VARSET_CALLBACK(src, retreat_distance, 0), 100)
 
 
 

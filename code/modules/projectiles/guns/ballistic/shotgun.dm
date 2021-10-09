@@ -80,21 +80,15 @@
 	desc = "A compact version of the semi automatic combat shotgun. For close encounters."
 	icon_state = "cshotgunc"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/com/compact
+	weapon_weight = WEAPON_MEDIUM
 	w_class = WEIGHT_CLASS_BULKY
 
-// Shotgun Pistol //
-
-/obj/item/gun/ballistic/shotgun/automatic/pistol
-	name = "\improper Solir 4 revolver hybrid"
-	desc = "A retro high-powered shotgun revolver typically used by high ranking officials. Uses shells."
-	icon_state = "shotgunpistol"
-	weapon_weight = WEIGHT_CLASS_NORMAL
-	rack_sound = 'sound/weapons/revolverdry.ogg'
-	bolt_type = BOLT_TYPE_NO_BOLT
-	semi_auto = TRUE
-	fire_rate = 1.5
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/com
-	pin = /obj/item/firing_pin/implant/pindicate
+/obj/item/gun/ballistic/shotgun/automatic/combat/compact/shoot_live_shot(mob/living/user, pointblank, atom/pbtarget, message)
+	if(!is_wielded)
+		recoil = 6
+	else
+		recoil = initial(recoil)
+	. = ..()
 
 // Breaching Shotgun //
 
@@ -162,6 +156,7 @@
 	burst_size = 1
 	fire_delay = 0
 	pin = /obj/item/firing_pin/implant/pindicate
+	spread_unwielded = 15
 	actions_types = list()
 	mag_display = TRUE
 	empty_indicator = TRUE

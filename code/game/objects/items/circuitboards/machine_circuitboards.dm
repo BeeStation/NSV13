@@ -49,7 +49,7 @@
 /obj/item/circuitboard/machine/autolathe
 	name = "autolathe (Machine Board)"
 	icon_state = "engineering"
-	build_path = /obj/machinery/autolathe
+	build_path = /obj/machinery/modular_fabricator/autolathe
 	req_components = list(
 		/obj/item/stock_parts/matter_bin = 3,
 		/obj/item/stock_parts/manipulator = 1,
@@ -618,7 +618,7 @@
 		/obj/item/stock_parts/cell = 1)
 	def_components = list(/obj/item/stock_parts/cell = /obj/item/stock_parts/cell/high)
 	needs_anchored = FALSE
-	
+
 /obj/item/circuitboard/machine/chem_dispenser/fullupgrade
 	build_path = /obj/machinery/chem_dispenser/fullupgrade
 	req_components = list(
@@ -799,19 +799,6 @@
 
 //Science
 
-/obj/item/circuitboard/machine/bluespace_miner
-	name = "bluespace miner (Machine Board)"
-	icon_state = "science"
-	build_path = /obj/machinery/mineral/bluespace_miner
-	req_components = list(
-		/obj/item/stock_parts/capacitor/quadratic = 1,
-		/obj/item/stock_parts/matter_bin = 3,
-		/obj/item/stock_parts/micro_laser = 1,
-		/obj/item/stock_parts/manipulator/femto = 3,
-		/obj/item/stock_parts/scanning_module = 1,
-		/obj/item/stack/ore/bluespace_crystal = 11)
-	needs_anchored = FALSE
-
 /obj/item/circuitboard/machine/circuit_imprinter/department/science
 	name = "departmental circuit imprinter - science (Machine Board)"
 	icon_state = "science"
@@ -856,7 +843,7 @@
 /obj/item/circuitboard/machine/mechfab
 	name = "exosuit fabricator (Machine Board)"
 	icon_state = "science"
-	build_path = /obj/machinery/mecha_part_fabricator
+	build_path = /obj/machinery/modular_fabricator/exosuit_fab
 	req_components = list(
 		/obj/item/stock_parts/matter_bin = 2,
 		/obj/item/stock_parts/manipulator = 1,
@@ -1159,14 +1146,23 @@
 /obj/item/circuitboard/machine/mining_equipment_vendor
 	name = "mining equipment vendor (Machine Board)"
 	icon_state = "supply"
-	build_path = /obj/machinery/mineral/equipment_vendor
+	build_path = /obj/machinery/vendor/mining
 	req_components = list(
 		/obj/item/stack/sheet/glass = 1,
 		/obj/item/stock_parts/matter_bin = 3)
 
+/obj/item/circuitboard/machine/exploration_equipment_vendor
+	name = "exploration equipment vendor (Machine Board)"
+	icon_state = "supply"
+	build_path = /obj/machinery/vendor/exploration
+	req_components = list(
+		/obj/item/stack/sheet/glass = 1,
+		/obj/item/stock_parts/matter_bin = 3)
+
+
 /obj/item/circuitboard/machine/mining_equipment_vendor/golem
 	name = "golem ship equipment vendor (Machine Board)"
-	build_path = /obj/machinery/mineral/equipment_vendor/golem
+	build_path = /obj/machinery/vendor/mining/golem
 
 /obj/item/circuitboard/machine/pump
 	name = "portable liquid pump (Machine Board)"

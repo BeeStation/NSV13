@@ -31,6 +31,7 @@
 	///Innate spells that are supposed to be added when a beast is created
 	var/list/spells_to_add
 	mobchatspan = "cultmobsay"
+	discovery_points = 2000
 
 /mob/living/simple_animal/hostile/eldritch/Initialize()
 	. = ..()
@@ -86,6 +87,7 @@
 	return TRUE
 
 /mob/living/simple_animal/hostile/eldritch/raw_prophet/proc/unlink_mob(mob/living/mob_linked)
+	SIGNAL_HANDLER
 
 	if(!linked_mobs[mob_linked])
 		return
@@ -94,7 +96,7 @@
 	action.Remove(mob_linked)
 	qdel(action)
 	to_chat(mob_linked, "<span class='notice'>Your mind shatters as the [src]'s Mansus Link leaves your mind.</span>")
-	mob_linked.emote("Scream")
+	INVOKE_ASYNC(mob_linked, .proc/emote, "scream")
 	//micro stun
 	mob_linked.AdjustParalyzed(0.5 SECONDS)
 	linked_mobs -= mob_linked
@@ -157,7 +159,6 @@
 			current = new type(drop_location(),FALSE)
 			current.icon_state = "armsy_mid"
 			current.icon_living = "armsy_mid"
-			current.icon = icon
 			current.front = src
 			current.toggle_ai(AI_OFF)
 			back = current
@@ -166,13 +167,11 @@
 			prev.back = current
 			prev.icon_state = "armsy_mid"
 			prev.icon_living = "armsy_mid"
-			prev.icon = icon
 			prev.front = next
 			prev.toggle_ai(AI_OFF)
 		else
 			prev.icon_state = "armsy_end"
 			prev.icon_living = "armsy_end"
-			prev.icon = icon
 			prev.front = next
 			prev.toggle_ai(AI_OFF)
 		next = prev
@@ -194,6 +193,8 @@
 
 ///Updates the next mob in the chain to move to our last location, fixed the worm if somehow broken.
 /mob/living/simple_animal/hostile/eldritch/armsy/proc/update_chain_links()
+	SIGNAL_HANDLER
+
 	gib_trail()
 	if(back && back.loc != oldloc)
 		back.Move(oldloc)

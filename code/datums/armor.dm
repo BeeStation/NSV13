@@ -43,7 +43,7 @@
   return getArmor(src.melee+melee, src.bullet+bullet, src.laser+laser, src.energy+energy, src.bomb+bomb, src.bio+bio, src.rad+rad, src.fire+fire, src.acid+acid, src.magic+magic, src.stamina+stamina, src.overmap_light+overmap_light, src.overmap_medium+overmap_medium, src.overmap_heavy+overmap_heavy)
 
 /datum/armor/proc/modifyAllRatings(modifier = 0)
-  return getArmor(melee+modifier, bullet+modifier, laser+modifier, energy+modifier, bomb+modifier, bio+modifier, rad+modifier, fire+modifier, acid+modifier, magic+modifier, stamina+modifier, overmap_light+modifier, overmap_heavy+modifier)
+  return getArmor(melee+modifier, bullet+modifier, laser+modifier, energy+modifier, bomb+modifier, bio+modifier, rad+modifier, fire+modifier, acid+modifier, magic+modifier, stamina+modifier, overmap_light+modifier, overmap_medium+modifier, overmap_heavy+modifier)
 
 /datum/armor/proc/setRating(melee, bullet, laser, energy, bomb, bio, rad, fire, acid, magic, overmap_light, overmap_medium, overmap_heavy)
   return getArmor((isnull(melee) ? src.melee : melee),\

@@ -7,7 +7,7 @@
 	proportion = 0.05			//The prbability per person of rolling it (5% is (5 in 100) (1 in 20))
 	max_amount = 4				//The maximum amount
 	role_name = "Undercover Agent"
-	protected_jobs = list("Military Police", "Warden", "Detective", "Head of Security", "Head of Personnel", "Chief Medical Officer", "Chief Engineer", "Research Director", "Captain", "Clown") //Nsv13 - Crayon eaters & MPs
+	protected_jobs = list("Military Police", "Warden", "Detective", "Head of Security", "Executive Officer", "Chief Medical Officer", "Chief Engineer", "Research Director", "Captain", "Clown", "Master At Arms") //Nsv13 - Crayon eaters & MPs
 	attached_antag_datum = /datum/antagonist/special/undercover
 
 ////////////////////////////////
@@ -122,7 +122,7 @@
 
 /datum/objective/protect_sm/update_explanation_text()
 	var/obj/machinery/power/supermatter_crystal/S = target_sm.resolve()
-	explanation_text = "Ensure the Supermatter crystal in [get_area(S).name] remains stable and has above [target_integrity]% integrity at the end of the shift."
+	explanation_text = "Ensure the Supermatter crystal in [get_area(S)] remains stable and has above [target_integrity]% integrity at the end of the shift."
 
 /datum/objective/protect_sm/check_completion()
 	var/obj/machinery/power/supermatter_crystal/S = target_sm.resolve()

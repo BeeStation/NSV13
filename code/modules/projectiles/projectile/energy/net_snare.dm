@@ -33,6 +33,7 @@
 /obj/effect/nettingportal/Initialize()
 	. = ..()
 	var/obj/item/beacon/teletarget = null
+
 	for(var/obj/item/beacon/bea in GLOB.teleportbeacons)
 		if(is_eligible(bea) && bea.nettingportal) //is it quick dragnet beacon?
 			teletarget = bea
@@ -47,7 +48,7 @@
 		return FALSE
 
 	var/turf/S = get_turf(src)
-	if (S.z != T.z)	//cannot teleport to another Zlevel
+	if (S.get_virtual_z_level() != T.get_virtual_z_level())	//cannot teleport to another Zlevel
 		return FALSE
 	var/area/A = get_area(T)
 	if(!A || A.teleport_restriction)

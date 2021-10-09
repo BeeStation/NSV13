@@ -36,6 +36,7 @@ GLOBAL_LIST_INIT(valid_keys, list(
 	else
 		log_admin_private("[key_name(C)] just attempted to send an invalid keypress - \"[key]\".")
 		message_admins("Mob [(C.mob)] with the ckey [(C.ckey)] just attempted to send an invalid keypress - \"[sanitize(key)]\".")
+
 	return TRUE
 
 /client/verb/keyDown(_key as text)
@@ -47,7 +48,7 @@ GLOBAL_LIST_INIT(valid_keys, list(
 
 	keys_held[_key] = world.time
 	var/movement = SSinput.movement_keys[_key]
-	if(!(next_move_dir_sub & movement) && !keys_held["Ctrl"])
+	if(!(next_move_dir_sub & movement) && !movement_locked)
 		next_move_dir_add |= movement
 
 	// Client-level keybindings are ones anyone should be able to do at any time
@@ -67,6 +68,7 @@ GLOBAL_LIST_INIT(valid_keys, list(
 	for (var/datum/keybinding/kb in kbs)
 		if (kb.down(src))
 			break
+
 	if(holder)
 		holder.key_down(_key, src)  //full_key is not necessary here, _key is enough
 	if(mob.focus)
@@ -99,10 +101,3 @@ GLOBAL_LIST_INIT(valid_keys, list(
 		holder.key_up(_key, src)
 	if(mob.focus)
 		mob.focus.key_up(_key, src)
-
-// Called every game tick
-/client/keyLoop()
-	if(holder)
-		holder.keyLoop(src)
-	if(mob?.focus)
-		mob.focus.keyLoop(src)

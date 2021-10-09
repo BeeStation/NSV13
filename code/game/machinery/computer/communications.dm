@@ -50,7 +50,7 @@
 		return
 	if(!usr.canUseTopic(src, !issilicon(usr)))
 		return
-	if(!is_station_level(z) && !is_reserved_level(z)) //Can only use in transit and on SS13
+	if(!is_station_level(z) && !is_reserved_level(z) && !is_centcom_level(z)) //Can only use in transit, on Central Command and on SS13
 		to_chat(usr, "<span class='boldannounce'>Unable to establish a connection</span>: \black You're too far away from the station!")
 		return
 	usr.set_machine(src)
@@ -168,7 +168,6 @@
 						if(points_to_check >= S.credit_cost)
 							SSshuttle.shuttle_purchased = TRUE
 							SSshuttle.unload_preview()
-							SSshuttle.load_template(S)
 							SSshuttle.existing_shuttle = SSshuttle.emergency
 							SSshuttle.action_load(S)
 							D.adjust_money(-S.credit_cost)
@@ -325,7 +324,7 @@
 				Nuke_request(input, usr)
 				to_chat(usr, "<span class='notice'>Request sent.</span>")
 				usr.log_message("has requested the nuclear codes from CentCom", LOG_SAY)
-				priority_announce("The codes for the on-station nuclear self-destruct have been requested by [usr]. Confirmation or denial of this request will be sent shortly.", "Nuclear Self Destruct Codes Requested",'sound/ai/commandreport.ogg')
+				priority_announce("The codes for the on-station nuclear self-destruct have been requested by [usr]. Confirmation or denial of this request will be sent shortly.", "Nuclear Self-Destruct Codes Requested", SSstation.announcer.get_rand_report_sound())
 				CM.lastTimeUsed = world.time
 
 		//NSV13 - Objective Button

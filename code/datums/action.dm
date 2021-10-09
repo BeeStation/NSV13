@@ -79,6 +79,7 @@
 
 /datum/action/proc/owner_deleted(datum/source)
 	SIGNAL_HANDLER
+
 	Remove(owner)
 
 /datum/action/proc/Remove(mob/M)
@@ -472,6 +473,10 @@
 		I.interact(usr)
 		return
 	return ..()
+
+/datum/action/item_action/activate_remote_view
+	name = "Activate Remote View"
+	desc = "Activates the Remote View of your spy sunglasses."
 
 /datum/action/item_action/organ_action
 	check_flags = AB_CHECK_CONSCIOUS

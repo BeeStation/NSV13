@@ -26,6 +26,7 @@
 	mind_traits = list(TRAIT_DISK_VERIFIER)
 
 	display_order = JOB_DISPLAY_ORDER_CAPTAIN
+	departments = DEPARTMENT_COMMAND
 
 /datum/job/captain/get_access()
 	return get_all_accesses()
@@ -39,22 +40,19 @@
 	jobtype = /datum/job/captain
 
 	id = /obj/item/card/id/gold
-	belt = /obj/item/melee/classic_baton/telescopic/stunsword
-	l_pocket = /obj/item/pda/captain
+	belt = /obj/item/pda/captain
 	glasses = /obj/item/clothing/glasses/sunglasses/advanced
 	ears = /obj/item/radio/headset/heads/captain/alt
 	gloves = /obj/item/clothing/gloves/color/captain
-	uniform = /obj/item/clothing/under/ship/officer
-	shoes = /obj/item/clothing/shoes/jackboots
-	suit = /obj/item/clothing/suit/ship/officer
-	head = /obj/item/clothing/head/beret/ship/captain
-	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1, /obj/item/station_charter=1, /obj/item/squad_pager/all_channels=1)
+	uniform =  /obj/item/clothing/under/rank/captain
+	suit = /obj/item/clothing/suit/armor/vest/capcarapace
+	shoes = /obj/item/clothing/shoes/sneakers/brown
+	head = /obj/item/clothing/head/caphat
+	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1, /obj/item/station_charter=1, /obj/item/modular_computer/tablet/preset/advanced=1)
 
 	backpack = /obj/item/storage/backpack/captain
 	satchel = /obj/item/storage/backpack/satchel/cap
 	duffelbag = /obj/item/storage/backpack/duffelbag/captain
-
-	pda_slot = ITEM_SLOT_LPOCKET
 
 	implants = list(/obj/item/implant/mindshield)
 	accessory = /obj/item/clothing/accessory/medal/gold/captain

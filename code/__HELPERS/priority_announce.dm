@@ -1,8 +1,15 @@
-/proc/priority_announce(text, title = "", sound = 'sound/ai/attention.ogg', type, sender_override, auth_id)
+#define DEFAULT_ALERT "alert_sound"
+
+/proc/priority_announce(text, title = "", sound = DEFAULT_ALERT, type, sender_override, has_important_message, auth_id)
 	if(!text)
 		return
 
 	var/announcement = "<meta charset='UTF-8'>"
+	if(sound == DEFAULT_ALERT)
+		sound = SSstation.announcer.get_rand_alert_sound()
+
+	if(sound && SSstation.announcer.event_sounds[sound])
+		sound = SSstation.announcer.event_sounds[sound]
 
 	if(type == "Priority")
 		announcement += "<h1 class='alert'>Priority Announcement</h1>"
@@ -26,7 +33,11 @@
 			else
 				GLOB.news_network.SubmitArticle(title + "<br><br>" + text, "Central Command", "Station Announcements", null)
 
-	announcement += "<br><span class='alert'>[html_encode(text)]</span><br>"
+	///If the announcer overrides alert messages, use that message.
+	if(SSstation.announcer.custom_alert_message && !has_important_message)
+		announcement +=  SSstation.announcer.custom_alert_message
+	else
+		announcement += "<br><span class='alert'>[html_encode(text)]</span><br>"
 	announcement += "<br>"
 	if(auth_id)
 		announcement += "<span class='alert'>-[auth_id]</span><br>"
@@ -38,13 +49,26 @@
 			if(M.client.prefs.toggles & SOUND_ANNOUNCEMENTS)
 				SEND_SOUND(M, s)
 
+/proc/exploration_announce(text, z_value)
+	var/announcement = "<meta charset='UTF-8'>"
+	announcement += "<h1 class='alert'>[command_name()] Update</h1>"
+	announcement += "<br><span class='alert'>[html_encode(text)]</span><br>"
+	announcement += "<br>"
+
+	for(var/mob/M in GLOB.player_list)
+		if(isliving(M))
+			var/turf/T = get_turf(M)
+			if(istype(get_area(M), /area/shuttle/exploration) || T.z == z_value)
+				to_chat(M, announcement)
+		if(isobserver(M))
+			to_chat(M, announcement)
+
 /proc/print_command_report(text = "", title = null, announce=TRUE)
 	if(!title)
 		title = "Classified [command_name()] Update"
 
 	if(announce)
-		priority_announce("A report has been downloaded and printed out at all communications consoles.", "Incoming Classified Message", 'sound/ai/commandreport.ogg')
-
+		priority_announce("A report has been downloaded and printed out at all communications consoles.", "Incoming Classified Message", SSstation.announcer.get_rand_report_sound(), has_important_message = TRUE)
 	var/datum/comm_message/M  = new
 	M.title = title
 	M.content =  text
@@ -70,3 +94,5 @@
 					SEND_SOUND(M, sound('sound/misc/notice1.ogg'))
 				else
 					SEND_SOUND(M, sound('sound/misc/notice2.ogg'))
+
+#undef DEFAULT_ALERT

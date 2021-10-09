@@ -16,8 +16,9 @@
 								"Misc. Machinery",
 								"Computer Parts",
 								"Shuttle Machinery",
-								"Advanced Munitions",//NSV13 ADDED START
-								"Ship Components"
+								"Advanced Munitions",//NSV13
+								"Ship Components", //NSV13
+								"Circuitry"
 								)
 	production_animation = "circuit_imprinter_ani"
 	allowed_buildtypes = IMPRINTER
