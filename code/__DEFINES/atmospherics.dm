@@ -275,7 +275,7 @@
 #define GAS_BZ					"bz"
 #define GAS_STIMULUM			"stim"
 #define GAS_PLUOXIUM			"pluox"
-#define GAS_MIASMA				"miasma"
+//#define GAS_MIASMA				"miasma" //NSV13 - no miasma
 #define GAS_CONSTRICTED_PLASMA  "constricted_plasma" //NSV13
 #define GAS_NUCLEIUM			"nucleium" //NSV13
 

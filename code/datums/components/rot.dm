@@ -7,11 +7,11 @@
 
 	if(new_amount)
 		amount = new_amount
-
-	START_PROCESSING(SSprocessing, src)
+	//NSV13 - no miasma, no problem
+	//START_PROCESSING(SSprocessing, src)
 
 /datum/component/rot/Destroy()
-	STOP_PROCESSING(SSprocessing, src)
+	//STOP_PROCESSING(SSprocessing, src)
 	return ..()
 
 /datum/component/rot/process(delta_time)

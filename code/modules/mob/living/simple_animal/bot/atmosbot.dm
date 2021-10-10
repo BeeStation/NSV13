@@ -56,7 +56,7 @@
 		GAS_BZ = 1,
 		GAS_CO2 = 1,
 		GAS_HYPERNOB = 1,
-		GAS_MIASMA = 1,
+		//GAS_MIASMA = 1, //NSV13 - no miasma
 		GAS_NITROUS = 1,
 		GAS_NITRYL = 1,
 		GAS_PLASMA = 1,
