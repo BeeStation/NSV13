@@ -660,8 +660,6 @@ Returns a faction datum by its name (case insensitive!)
 	)
 	adjacency_list = list("Alpha Centauri", "Outpost 45", "Ross 154")
 	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_WORMHOLE
-	var/solar_siege_cycles_needed = 10	//See the starsystem controller for how many minutes is one cycle. Currently 3 minutes.
-	var/solar_siege_cycles_left = 10
 
 /datum/star_system/ross
 	name = "Ross 154" //Hi mate my name's ross how's it going
