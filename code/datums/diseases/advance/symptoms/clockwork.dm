@@ -125,6 +125,7 @@
 					if(robustbits)
 						organ.gas_max = list(
 							GAS_PLASMA = 15,
+							GAS_CONSTRICTED_PLASMA = 15, //NSV13
 							GAS_CO2 = 15,
 						)
 						organ.SA_para_min = 15

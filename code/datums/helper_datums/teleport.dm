@@ -128,6 +128,8 @@
 			continue
 		if(A.get_moles(GAS_PLASMA))
 			continue
+		if(A.get_moles(GAS_CONSTRICTED_PLASMA)) //NSV13
+			continue
 		if(A.get_moles(GAS_CO2) >= 10)
 			continue
 
