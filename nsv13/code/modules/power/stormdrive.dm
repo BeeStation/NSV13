@@ -496,7 +496,7 @@ Control Rods
 	var/fuel_check = air1.get_moles(GAS_PLASMA) * LOW_ROR + \
 					air1.get_moles(GAS_CONSTRICTED_PLASMA) * NORMAL_ROR + \
 					air1.get_moles(GAS_CO2) * HINDER_ROR + \
-					air1.get_moles(GAS_H2O)) * HINDER_ROR + \
+					air1.get_moles(GAS_H2O) * HINDER_ROR + \
 					air1.get_moles(GAS_TRITIUM) * HIGH_ROR + \
 					air1.get_moles(GAS_HYPERNOB) * REALLY_HINDER_ROR
 

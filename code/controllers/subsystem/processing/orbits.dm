@@ -47,6 +47,8 @@ PROCESSING_SUBSYSTEM_DEF(orbits)
 	//Ruin level count
 	var/ruin_levels = 0
 
+	can_fire = 0 //NSV13 - no, we have multiple solar systems
+
 /datum/controller/subsystem/processing/orbits/Initialize(start_timeofday)
 	. = ..()
 	setup_event_list()

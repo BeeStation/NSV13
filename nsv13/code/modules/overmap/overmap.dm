@@ -189,7 +189,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(folder && interior_map_files){ //If this thing comes with an interior.
 		var/previous_maxz = world.maxz //Ok. Store the current number of Zs. Anything that we add on top of this due to this proc will then be conted as decks of our ship.
 		var/list/errorList = list()
-		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", files=interior_map_files, traits = traits, default_traits=default_traits, silent=TRUE, null)
+		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", interior_map_files, traits, default_traits, orbital_body_type = null)
 		if(errorList.len)	// failed to load :(
 			message_admins("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
 			log_game("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
@@ -309,8 +309,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			//101 kPa =
 			// PV=nRT
 			// PV/RT = n
-			cabin_air.set_moles(GAS_O2, O2STANDARD*cabin_air.return_volume()*ONE_ATMOSPHERE/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
-			cabin_air.set_moles(GAS_N2, N2STANDARD*cabin_air.return_volume()*ONE_ATMOSPHERE/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
+			cabin_air.set_moles(GAS_O2, O2STANDARD*ONE_ATMOSPHERE*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
+			cabin_air.set_moles(GAS_N2, N2STANDARD*ONE_ATMOSPHERE*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 			bounce_factor = 1 //Stops dead in its tracks
 			lateral_bounce_factor = 1
 			move_by_mouse = TRUE //You'll want this. Trust.
