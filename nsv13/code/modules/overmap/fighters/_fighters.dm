@@ -1290,6 +1290,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	if(!weapon_types[FIRE_MODE_TORPEDO])
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/fighter_secondary(src)
 
+//Burst arg currently unused for this proc.
 /obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target, ai_aim = FALSE, burst = 1)
 	hardpoint_fire(target, FIRE_MODE_ANTI_AIR)
 
@@ -1308,6 +1309,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 			return TRUE
 	return FALSE
 
+//Burst arg currently unused for this proc.
 /obj/structure/overmap/proc/secondary_fire(obj/structure/overmap/target, ai_aim = FALSE, burst = 1)
 	hardpoint_fire(target, FIRE_MODE_TORPEDO)
 
