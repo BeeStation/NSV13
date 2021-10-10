@@ -5,7 +5,7 @@
 #define DEPT_SCI 4
 #define DEPT_ENG 5
 #define DEPT_SUP 6
-#define DEPT_MUN 7
+#define DEPT_MUN 7 //NSV13
 
 //Keeps track of the time for the ID console. Having it as a global variable prevents people from dismantling/reassembling it to
 //increase the slots of many jobs.
@@ -809,3 +809,4 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 #undef DEPT_SCI
 #undef DEPT_ENG
 #undef DEPT_SUP
+#undef DEPT_MUN //NSV13
