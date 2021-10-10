@@ -30,7 +30,7 @@
 
 /obj/item/ship_weapon/parts/loading_tray/Initialize()
 	..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /**
  * Railgun rail
@@ -45,7 +45,7 @@
 
 /obj/item/ship_weapon/parts/railgun_rail/Initialize()
 	..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /**
  * MAC Barrel
@@ -60,4 +60,4 @@
 
 /obj/item/ship_weapon/parts/mac_barrel/Initialize()
 	..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)

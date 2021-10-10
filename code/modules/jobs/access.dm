@@ -390,7 +390,7 @@
 				// Engineering
 				"Chief Engineer", "Station Engineer", "Atmospheric Technician",
 				// NSV13 - munitions
-				"Air Traffic Controller", "Pilot", "Munitions Technician", "Deck Technician", "Master At Arms", "Bridge Staff"
+				"Air Traffic Controller", "Pilot", "Munitions Technician", "Deck Technician", "Master At Arms", "Bridge Staff",
 				// R&D
 				"Research Director", "Scientist", "Roboticist", "Exploration Crew",
 				// Medical

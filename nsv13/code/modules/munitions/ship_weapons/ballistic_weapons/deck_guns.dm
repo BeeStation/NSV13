@@ -33,7 +33,7 @@
 	. = ..() //Sanity checks.
 	if(.)
 		return
-	
+
 	if(href_list["fire_button"])
 		if(maint_state == MSTATE_UNSCREWED)
 			fire()
@@ -58,7 +58,7 @@
 			component_parts -= W
 		spawn_frame(TRUE)
 		qdel(src)
-	
+
 /obj/machinery/ship_weapon/deck_turret/spawn_frame(disassembled)
 	if(!disassembled)
 		QDEL_LIST(component_parts)
@@ -184,7 +184,7 @@
 	var/obj/machinery/deck_turret/powder_gate/target = locate(params["target"])
 	switch(action)
 		if("load")
-			if(core.turret.maint_state > MSTATE_CLOSED)//Can't load a shell if we're doing maintenance 
+			if(core.turret.maint_state > MSTATE_CLOSED)//Can't load a shell if we're doing maintenance
 				to_chat(usr, "<span class='notice'>Cannot feed shell while undergoing maintenance!</span>")
 				return
 			if(!core.turret.rack_load(core.payload_gate.shell))
@@ -320,7 +320,7 @@
 
 /obj/item/powder_bag/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 	AddComponent(/datum/component/volatile, volatility)
 
 /obj/item/powder_bag/plasma
@@ -624,7 +624,7 @@
 			bound_height = 96
 			bound_x = -64
 			bound_y = -32
-			
+
 #undef MSTATE_CLOSED
 #undef MSTATE_UNSCREWED
 #undef MSTATE_UNBOLTED

@@ -106,22 +106,27 @@
 /atom/movable/screen/click_catcher/IsAutoclickable()
 	. = 1
 
-/client/MouseDrag(src_object,atom/over_object,src_location,over_location,src_control,over_control,params)
-	var/list/L = params2list(params)
-	if (L["middle"])
-		if (src_object && src_location != over_location)
-			middragtime = world.time
-			middragatom = src_object
-		else
-			middragtime = 0
-			middragatom = null
-	if(active_mousedown_item)
-		//NSV13 type conversion before mouseup - formerly active_mousedown_item.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
-		active_mousedown_item.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
-		//NSV13 end
+//NSV13 start
+/client/MouseMove(object,location,control,params)
+	if(mob && LAZYLEN(mob.mousemove_intercept_objects))
+		for(var/datum/D in mob.mousemove_intercept_objects)
+			D.onMouseMove(object, location, control, params)
+	..()
 
+/datum/proc/onMouseMove(object, location, control, params)
+	return
+
+/datum/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
+	return
+//NSV13 end
+
+/client/MouseDrag(src_object, over_object, src_location, over_location, src_control, over_control, params)
+	return
+
+/* NSV13 - don't need this sice we defined it on /datum
 /obj/item/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
 	return
+*/
 
 /client/MouseDrop(src_object, over_object, src_location, over_location, src_control, over_control, params)
 	if (middragatom == src_object)

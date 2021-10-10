@@ -226,11 +226,6 @@ SUBSYSTEM_DEF(garbage)
 
 	D.gc_destroyed = gctime
 	var/list/queue = queues[level]
-<<<<<<< HEAD
-
-=======
-
->>>>>>> master
 	queue[++queue.len] = list(gctime, refid) // not += for byond reasons
 
 //this is mainly to separate things profile wise.

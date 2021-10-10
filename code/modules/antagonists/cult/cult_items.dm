@@ -115,7 +115,6 @@
 	set_light(4)
 	jaunt = new(src)
 	linked_action = new(src)
-	AddComponent(/datum/component/twohanded/required)
 	AddComponent(/datum/component/butchering, 50, 80)
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
@@ -657,7 +656,6 @@
 
 /obj/item/cult_spear/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded, 17, 24)
 	AddComponent(/datum/component/butchering, 100, 90)
 	AddComponent(/datum/component/two_handed, force_unwielded=17, force_wielded=24, icon_wielded="bloodspear1")
 

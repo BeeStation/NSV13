@@ -80,16 +80,8 @@ Starting Materials
 /obj/machinery/armour_plating_nanorepair_well/LateInitialize()
 	. = ..()
 	AddComponent(/datum/component/material_container,\
-				list(/datum/material/iron,\
-					/datum/material/silver,\
-					/datum/material/titanium,\
-					/datum/material/plasma),
-					1000000,
-					FALSE,
-					/obj/item/stack,
-					null,
-					null,
-					FALSE)
+		list(/datum/material/iron, /datum/material/silver, /datum/material/titanium, /datum/material/plasma),\
+		1000000, FALSE, /obj/item/stack, null, null, FALSE)
 
 	OM = get_overmap()
 	addtimer(CALLBACK(src, .proc/handle_linking), 10 SECONDS)

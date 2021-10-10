@@ -676,19 +676,11 @@
 	var/pluox_used = min(STIM_BALL_GAS_AMOUNT/air.get_moles(GAS_PLASMA),air.get_moles(GAS_PLUOXIUM))
 	var/energy_released = stim_used*STIMULUM_HEAT_SCALE//Stimulum has a lot of stored energy, and breaking it up releases some of it
 	location.fire_nuclear_particle(ball_shot_angle)
-<<<<<<< HEAD
-	air.adjust_moles(/datum/gas/carbon_dioxide, 4*pluox_used)
-	air.adjust_moles(/datum/gas/nitrogen, 8*stim_used)
-	air.adjust_moles(/datum/gas/pluoxium, -pluox_used)
-	air.adjust_moles(/datum/gas/stimulum, -stim_used)
-	air.adjust_moles(/datum/gas/plasma, max(-air.get_moles(/datum/gas/plasma)/2,-30))
-=======
 	air.adjust_moles(GAS_CO2, 4*pluox_used)
 	air.adjust_moles(GAS_N2, 8*stim_used)
 	air.adjust_moles(GAS_PLUOXIUM, -pluox_used)
 	air.adjust_moles(GAS_STIMULUM, -stim_used)
 	air.adjust_moles(GAS_PLASMA, max(-air.get_moles(GAS_PLASMA)/2,-30))
->>>>>>> master
 	if(energy_released)
 		var/new_heat_capacity = air.heat_capacity()
 		if(new_heat_capacity > MINIMUM_HEAT_CAPACITY)

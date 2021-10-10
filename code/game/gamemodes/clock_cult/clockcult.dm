@@ -220,7 +220,7 @@ GLOBAL_VAR(clockcult_eminence)
 				//Ew, this could be done better with a dictionary list, but this isn't much slower
 				if(role in GLOB.command_positions)
 					prefix = "High Priest"
-				else if(role in GLOB.engineering_positions)
+				else if(role in GLOB.engineering_positions || role in GLOB.munitions_positions) //NSV13 - munitions
 					prefix = "Cogturner"
 				else if(role in GLOB.medical_positions)
 					prefix = "Rejuvinator"
@@ -237,7 +237,11 @@ GLOBAL_VAR(clockcult_eminence)
 				else if((role in GLOB.civilian_positions) || (role in GLOB.gimmick_positions))
 					prefix = "Cogworker"
 				else if(role in GLOB.security_positions)
+					prefix = "Warrior"
 				else if(role in GLOB.nonhuman_positions)
+					prefix = "CPU"
+			//Fallthrough is default of "Clockbrother"
+		hierophant_message += "<b>[prefix] [sender.name]</b> transmits, \"[msg]\""
 	else
 		hierophant_message += msg
 	if(span)

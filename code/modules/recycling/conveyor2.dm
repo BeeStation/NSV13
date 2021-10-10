@@ -11,6 +11,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	layer = BELOW_OPEN_DOOR_LAYER
 	processing_flags = START_PROCESSING_MANUALLY
 	subsystem_type = /datum/controller/subsystem/processing/fastprocess
+	var/stack_type = /obj/item/stack/conveyor //NSV13 - What does this conveyor drop when decon'd?
 	var/operating = 0	// 1 if running forward, -1 if backwards, 0 if off
 	var/operable = 1	// true if can operate (no broken segments in this belt run)
 	var/forwards		// this is the default (forward) direction, set by the map dir
@@ -177,7 +178,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 		"<span class='notice'>You struggle to pry up \the [src] with \the [I].</span>")
 		if(I.use_tool(src, user, 40, volume=40))
 			if(!(stat & BROKEN))
-				var/obj/item/stack/conveyor/C = new stack_type(loc, 1, TRUE, id)
+				var/obj/item/stack/conveyor/C = new stack_type(loc, 1, TRUE, id) //NSV13 - stack_type for slow conveyors
 				transfer_fingerprints_to(C)
 			to_chat(user, "<span class='notice'>You remove the conveyor belt.</span>")
 			qdel(src)

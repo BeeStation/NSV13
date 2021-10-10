@@ -127,10 +127,11 @@
 /obj/item/radio/CtrlShiftClick(mob/user)
 	if(headset)
 		. = ..()
-	else
+	else if(user.canUseTopic(src, !issilicon(user), TRUE, FALSE))
 		listening = !listening
 		to_chat(user, "<span class='notice'>You toggle speaker [listening ? "on" : "off"].</span>")
-	else if(user.canUseTopic(src, !issilicon(user), TRUE, FALSE))
+		ui_update()
+
 /obj/item/radio/interact(mob/user)
 	if(unscrewed && !isAI(user))
 		wires.interact(user)

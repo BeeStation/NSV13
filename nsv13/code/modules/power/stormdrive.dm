@@ -299,7 +299,7 @@ Control Rods
 		if(!istype(L))
 			return FALSE
 		if(!istype(Proj.firer, /obj/structure/particle_accelerator/particle_emitter))
-			investigate_log("has been hit by [Proj] fired by [key_name(Proj.firer)]", INVESTIGATE_SUPERMATTER)
+			investigate_log("has been hit by [Proj] fired by [key_name(Proj.firer)]", INVESTIGATE_ENGINES)
 		if(Proj.flag != "bullet")
 			reactor_stability -= Proj.damage / 15
 		else
@@ -361,7 +361,7 @@ Control Rods
 							control_rod_installation = FALSE
 							return
 						control_rod_installation = FALSE
-						if ( state == REACTOR_STATE_IDLE ) // Need to recheck the maintenance mode in case someone switched it while pulling out rods 
+						if ( state == REACTOR_STATE_IDLE ) // Need to recheck the maintenance mode in case someone switched it while pulling out rods
 							to_chat(usr, "<span class='warning'>[src] is not in maintenance mode! Enagage maintenance safety protocols before opening the lid!</span>")
 							return FALSE
 						to_chat(usr, "<span class='notice'>You remove the control rod from the [src].</span>")
@@ -1680,7 +1680,7 @@ Control Rods
 
 /obj/item/stormdrive_core/Initialize()
 	.=..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /////// MOD COMP MONITORING PROGRAM ///////
 

@@ -338,12 +338,8 @@ SUBSYSTEM_DEF(explosions)
 			var/list/items = list()
 			for(var/I in T)
 				var/atom/A = I
-				if (length(A.contents) && !A.prevent_content_explosion()) //The atom/contents_explosion() proc returns null if the contents ex_acting has been handled by the atom, and TRUE if it hasn't. - NSV13 change, rolled back content explosion handling to pre-beebase state.
-					items += A.GetAllContents()
-				/*
 				if (length(A.contents) && !(A.flags_1 & PREVENT_CONTENTS_EXPLOSION_1)) //The atom/contents_explosion() proc returns null if the contents ex_acting has been handled by the atom, and TRUE if it hasn't.
 					items += A.GetAllContents(ignore_flag_1 = PREVENT_CONTENTS_EXPLOSION_1)
-				*/
 			for(var/thing in items)
 				var/atom/movable/movable_thing = thing
 				if(QDELETED(movable_thing))

@@ -453,6 +453,9 @@
 				if(Mech.occupant && !in_faction(Mech.occupant)) //If there is a user and they're not in our faction
 					if(assess_perp(Mech.occupant) >= 4)
 						targets += Mech
+		if(check_anomalies && GLOB.blobs.len && (mode == TURRET_LETHAL))
+			for(var/obj/structure/blob/B in view(scan_range, T))
+				targets += B
 	//Nsv13 start
 	for(var/A in GLOB.overmap_objects)
 		var/obj/structure/overmap/target = A
@@ -461,10 +464,6 @@
 				if(assess_perp(target.pilot) >= 4)
 					targets += target
 	//Nsv13 end
-
-		if(check_anomalies && GLOB.blobs.len && (mode == TURRET_LETHAL))
-			for(var/obj/structure/blob/B in view(scan_range, T))
-				targets += B
 
 	if(targets.len)
 		tryToShootAt(targets, valid_turfs)

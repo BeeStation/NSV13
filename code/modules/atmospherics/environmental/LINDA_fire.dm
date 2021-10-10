@@ -63,13 +63,9 @@
 
 	location.active_hotspot = src
 
-<<<<<<< HEAD
-	bypassing = !just_spawned && (volume > CELL_VOLUME*0.95) || location.air.return_temperature() > FUSION_TEMPERATURE_THRESHOLD
-=======
 	bypassing = !first_cycle && volume > CELL_VOLUME*0.95 || location.air.return_temperature() > FUSION_TEMPERATURE_THRESHOLD
 	if(first_cycle)
 		first_cycle = FALSE
->>>>>>> master
 
 	if(bypassing)
 		volume = location.air.reaction_results["fire"]*FIRE_GROWTH_RATE
@@ -159,17 +155,7 @@
 	if((temperature < FIRE_MINIMUM_TEMPERATURE_TO_EXIST) || (volume <= 1))
 		qdel(src)
 		return
-<<<<<<< HEAD
-	if(!location.air || (INSUFFICIENT(/datum/gas/plasma) && INSUFFICIENT(/datum/gas/tritium) && INSUFFICIENT(/datum/gas/constricted_plasma)) || INSUFFICIENT(/datum/gas/oxygen)) //NSV13 - constricted plasma
-		qdel(src)
-		return
-
-	//Not enough to burn
-	// god damn it previous coder you made the INSUFFICIENT macro for a fucking reason why didn't you use it here smh
-	if((INSUFFICIENT(/datum/gas/plasma) && INSUFFICIENT(/datum/gas/tritium) && INSUFFICIENT(/datum/gas/constricted_plasma)) || INSUFFICIENT(/datum/gas/oxygen)) //NSV13 - constricted plasma
-=======
-	if(!location.air || location.air.get_oxidation_power() < 0.5 || (INSUFFICIENT(GAS_PLASMA) && INSUFFICIENT(GAS_TRITIUM) && location.air.get_fuel_amount() < 0.5))
->>>>>>> master
+	if(!location.air || location.air.get_oxidation_power() < 0.5 || (INSUFFICIENT(GAS_PLASMA) && INSUFFICIENT(GAS_TRITIUM) && INSUFFICIENT(GAS_CONSTRICTED_PLASMA) && location.air.get_fuel_amount() < 0.5)) //NSV13 - constricted plasma
 		qdel(src)
 		return
 

@@ -199,14 +199,12 @@
 
 	allow_custom_shuttles = json["allow_custom_shuttles"] != FALSE
 
-<<<<<<< HEAD
 	if("map_link" in json)						// NSV Changes begin
 		map_link = json["map_link"]
 	else
 		log_world("map_link missing from json!")	// NSV Changes end
-=======
+
 	allow_night_lighting = json["allow_night_lighting"] != FALSE
->>>>>>> master
 
 	defaulted = FALSE
 	return TRUE

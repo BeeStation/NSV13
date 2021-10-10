@@ -760,7 +760,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 
 /obj/item/fighter_component/Initialize()
 	.=..()
-	AddComponent(/datum/component/twohanded/required) //These all require two hands to pick up
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE) //These all require two hands to pick up
 
 //Overload this method to apply stat benefits based on your module.
 /obj/item/fighter_component/proc/on_install(obj/structure/overmap/target)

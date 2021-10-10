@@ -10,4 +10,4 @@
 
 /obj/item/ship_weapon/ammunition/railgun_ammo/Initialize()
 	..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)

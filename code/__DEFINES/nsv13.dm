@@ -42,6 +42,7 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define KPA_TO_PSI(A) (A/6.895)
 #define PSI_TO_KPA(A) (A*6.895)
 #define KELVIN_TO_CELSIUS(A) (A-273.15)
+#define CELSIUS_TO_KELVIN(A) (A+273.15)
 #define MEGAWATTS /1e+6
 
 #define HARDPOINT_SLOT_PRIMARY "Primary"
@@ -71,6 +72,8 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define ENGINE_RPM_SPUN 8000
 
 #define COMSIG_SHIP_BOARDED "ship_boarded"
+#define COMSIG_GLOB_CHECK_INTERDICT "check_interdict"							//from interdiction component
+#define BEING_INTERDICTED (1<<0)											//returned on successful interdict
 
 //Gaming
 #define shares_overmap(A, B) (A.get_overmap() == B.get_overmap())

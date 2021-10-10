@@ -574,26 +574,6 @@
 		var/notetype = note_type()
 		base.add_overlay(get_airlock_overlay(notetype, note_overlay_file))
 
-/obj/machinery/door/airlock/proc/set_side_overlays(obj/effect/overlay/airlock_part/base, show_lights = FALSE)
-	var/side = base.side_id
-	base.icon = icon
-	base.cut_overlays()
-	if(airlock_material)
-		base.add_overlay(get_airlock_overlay("[airlock_material]_[side]", overlays_file))
-	else
-		base.add_overlay(get_airlock_overlay("fill_[side]", icon))
-	if(panel_open && panel_attachment == side)
-		if(security_level)
-			base.add_overlay(get_airlock_overlay("panel_closed_protected", overlays_file))
-		else
-			base.add_overlay(get_airlock_overlay("panel_closed", overlays_file))
-	if(show_lights && lights && hasPower())
-		base.add_overlay(get_airlock_overlay("lights_[side]", overlays_file))
-
-	if(note && note_attachment == side)
-		var/notetype = note_type()
-		base.add_overlay(get_airlock_overlay(notetype, note_overlay_file))
-
 /obj/machinery/door/airlock/proc/set_airlock_overlays(state)
 	for(var/obj/effect/overlay/airlock_part/part as() in part_overlays)
 		set_side_overlays(part, state == AIRLOCK_CLOSING || state == AIRLOCK_OPENING)

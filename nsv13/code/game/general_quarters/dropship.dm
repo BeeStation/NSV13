@@ -54,23 +54,19 @@
 	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
 	has_gravity = STANDARD_GRAVITY
 	always_unpowered = FALSE
-	valid_territory = FALSE
-	//unique = FALSE
 	lighting_colour_tube = "#e6af68"
 	lighting_colour_bulb = "#e6af68"
 	teleport_restriction = TELEPORT_ALLOW_NONE
-	//ambient_buzz = 'nsv13/sound/effects/fighters/cockpit.ogg'
 
 //If we ever want to let them build these things..
 /area/dropship/generic
 	name = "dropship"
-	unique = FALSE //So this var lets you instance new areas...wish I'd known about this 4 years ago haha
 
 /area/dropship/generic/syndicate
 	name = "dropship"
-	unique = FALSE //So this var lets you instance new areas...wish I'd known about this 4 years ago haha
 	lighting_colour_tube = "#d34330"
 	lighting_colour_bulb = "#d34330"
+
 /obj/item/fighter_component/fuel_tank/tier2/dropship
 	name = "Dropship Fuel Tank"
 	desc = "A fuel tank large enough for troop transports."

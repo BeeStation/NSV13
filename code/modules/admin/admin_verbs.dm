@@ -82,7 +82,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/fix_say,
 	/client/proc/stabilize_atmos,
 	/client/proc/openTicketManager,
-	/client/proc/battle_royale
+	/client/proc/battle_royale,
 	/client/proc/changeranks, //NSV13 - verb to change rank structure
 	/client/proc/system_manager, //Nsv13 - Fleet + starsystem management
 	/client/proc/instance_overmap_menu, //Nsv13 - Midround ship creation.

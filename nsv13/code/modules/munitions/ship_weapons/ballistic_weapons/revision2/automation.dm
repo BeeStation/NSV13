@@ -8,7 +8,6 @@
 	anchored = TRUE
 	can_be_unanchored = TRUE
 	density = TRUE
-	speed_process = TRUE
 	var/process_delay = 0.5 SECONDS
 	var/next_process = 0
 	var/arm_icon_state = "welder3"
@@ -39,7 +38,6 @@
 
 /obj/machinery/conveyor/slow
 	name = "Slow conveyor"
-	speed_process = FALSE
 	stack_type = /obj/item/stack/conveyor/slow //What does this conveyor drop when decon'd?
 
 /obj/machinery/missile_builder/wirer

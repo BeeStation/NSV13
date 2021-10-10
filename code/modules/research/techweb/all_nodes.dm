@@ -727,12 +727,6 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
-/datum/techweb_node/bluespace_mining/New() //Techweb nodes don't have an init,
-	. = ..()
-
-	hidden = !CONFIG_GET(flag/bsminer_researchable)
-
-
 /datum/techweb_node/janitor
 	id = "janitor"
 	tech_tier = 1

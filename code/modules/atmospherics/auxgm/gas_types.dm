@@ -135,7 +135,6 @@
 	gas_overlay = "constricted_plasma"
 	moles_visible = MOLES_GAS_VISIBLE
 	flags = GAS_FLAG_DANGEROUS
-	rarity = 1000
 
 /datum/gas/nucleium //NSV13
 	id = "nucleium"
@@ -144,4 +143,3 @@
 	gas_overlay = "nucleium"
 	moles_visible = MOLES_GAS_VISIBLE
 	flags = GAS_FLAG_DANGEROUS
-	rarity = 2000

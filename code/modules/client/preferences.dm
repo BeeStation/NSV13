@@ -39,8 +39,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/see_rc_emotes = TRUE
 	///Whether we want balloon alerts displayed alone, with chat or not displayed at all
 	var/see_balloon_alerts = BALLOON_ALERT_ALWAYS
+
+	var/tgui_fancy = TRUE
 	var/tgui_lock = TRUE
 	var/windowflashing = TRUE
+	var/crew_objectives = TRUE
 	var/toggles = TOGGLES_DEFAULT
 	var/db_flags
 	var/chat_toggles = TOGGLES_DEFAULT_CHAT

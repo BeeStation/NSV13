@@ -182,10 +182,11 @@
 		return
 	if(!mymob || !SSmapping.z_list || !SSmapping.z_list.len || !mymob.z)
 		return //Something has gone horribly wrong.
-	var/datum/space_level/SL = SSmapping.z_list[mymob.z]
+	var/area/areaobj = posobj.loc
+	var/area/mobarea = get_area(mymob) //NSV13
 
 	// Update the movement direction of the parallax if necessary (for shuttles)
-	var/new_parallax_movedir = (SL.parallax_movedir) ? SL.parallax_movedir : get_area(mymob).parallax_movedir //So that shuttles still have parallax.
+	var/new_parallax_movedir = (areaobj.parallax_movedir) ? areaobj.parallax_movedir : mobarea.parallax_movedir //NSV13 - So that shuttles still have parallax.
 	set_parallax_movedir(new_parallax_movedir, FALSE)
 
 	if(!C.previous_turf || (C.previous_turf.z != posobj.z))

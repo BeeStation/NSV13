@@ -85,7 +85,7 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 				for(var/obj/machinery/firealarm/FA in GLOB.machines)
 					if(is_station_level(FA.z))
 						FA.update_icon()
-				for(var/obj/machinery/computer/shuttle/pod/pod in GLOB.machines)
+				for(var/obj/machinery/computer/shuttle_flight/pod/pod in GLOB.machines)
 					pod.admin_controlled = 0
 
 			if(SEC_LEVEL_DELTA)

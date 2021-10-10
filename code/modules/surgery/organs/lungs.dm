@@ -324,8 +324,8 @@
 		else
 			SEND_SIGNAL(owner, COMSIG_CLEAR_MOOD_EVENT, "smell")
 */
-	// Nucleium - NSV 13
-		var/nucleium_pp = breath.get_breath_partial_pressure(breath.get_moles(/datum/gas/nucleium))
+		// Nucleium - NSV 13
+		var/nucleium_pp = PP(breath, GAS_NUCLEIUM)
 		switch(nucleium_pp)
 			if(0.1 to 5)
 				H.adjustFireLoss(1)
@@ -350,7 +350,8 @@
 				src.Remove(H, 1)
 				QDEL_NULL(src)
 				return
-
+		breath.adjust_moles(GAS_NUCLEIUM, -gas_breathed)
+		//NSV13 end
 		handle_breath_temperature(breath, H)
 	return TRUE
 
@@ -432,10 +433,6 @@
 /obj/item/organ/lungs/oozeling
 	name = "oozling vacuole"
 	desc = "A large organelle designed to store oxygen and filter toxins."
-
-	safe_oxygen_min = 16 //We breath THIS!
-	safe_toxins_min = 0
-	safe_toxins_max = 0
 
 /obj/item/organ/lungs/slime
 	name = "vacuole"

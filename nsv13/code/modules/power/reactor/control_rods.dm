@@ -9,7 +9,7 @@
 
 /obj/item/control_rod/Initialize()
 	.=..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /obj/item/control_rod/inferior
 	name = "\improper Techfab Manufactured Reactor Control Rod"

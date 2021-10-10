@@ -81,8 +81,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			affecting += L
 	for(var/mob/L in affecting)
 		if(L.client && L.client.prefs.toggles & SOUND_SHIP_AMBIENCE && L.client?.last_ambience != ambient_buzz)
-			L.client.ambient_buzz_playing = ambient_buzz
-			SEND_SOUND(L, sound(ambient_buzz, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_BUZZ))
+			L.client.buzz_playing = ambient_buzz
+			SEND_SOUND(L, sound(ambient_buzz, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_BUZZ))
 			L.client.last_ambience = ambient_buzz
 	return TRUE
 
@@ -530,7 +530,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 
 /obj/item/fuel_rod/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 	AddComponent(/datum/component/radioactive, 350 , src)
 
 //Controlling the reactor.

@@ -143,7 +143,7 @@
 		GAS_TRITIUM			= new/datum/tlv/dangerous,
 		GAS_STIMULUM			= new/datum/tlv/dangerous,
 		GAS_NITRYL			= new/datum/tlv/dangerous,
-		GAS_PLUOXIUM			= new/datum/tlv(-1, -1, 1000, 1000) // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
+		GAS_PLUOXIUM			= new/datum/tlv(-1, -1, 1000, 1000), // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
 		GAS_CONSTRICTED_PLASMA			= new/datum/tlv/dangerous, //NSV13
 		GAS_NUCLEIUM			= new/datum/tlv/dangerous, //NSV13
 	)

@@ -200,6 +200,8 @@
 
 // SSair run section
 #define SSAIR_PIPENETS 1
+#define SSAIR_ATMOSMACHINERY 2
+#define SSAIR_EXCITEDGROUPS 3
 #define SSAIR_HIGHPRESSURE 4
 #define SSAIR_HOTSPOTS 5
 #define SSAIR_TURF_CONDUCTION 6
@@ -214,6 +216,7 @@
 // Explosion Subsystem subtasks
 #define SSEXPLOSIONS_MOVABLES 1
 #define SSEXPLOSIONS_TURFS 2
+#define SSEXPLOSIONS_THROWS 3
 
 //! ## Overlays subsystem
 

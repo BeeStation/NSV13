@@ -131,6 +131,8 @@
 	var/lastangle = 0
 	var/list/obj/effect/projectile/tracer/current_tracers
 	var/mob/listeningTo
+	var/obj/aiming_target
+	var/aiming_params
 
 	var/uid = 0 //Unique identification code
 	var/static/list/free_treadmills = list()
@@ -187,12 +189,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(folder && interior_map_files){ //If this thing comes with an interior.
 		var/previous_maxz = world.maxz //Ok. Store the current number of Zs. Anything that we add on top of this due to this proc will then be conted as decks of our ship.
 		var/list/errorList = list()
-		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", files=interior_map_files, traits = traits, default_traits=default_traits, silent=TRUE)
+		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", files=interior_map_files, traits = traits, default_traits=default_traits, silent=TRUE, null)
 		if(errorList.len)	// failed to load :(
 			message_admins("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
 			log_game("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
 			return OM
-		for(var/datum/parsed_map/PM in loaded)
+		for(var/datum/map_template/PM in loaded)
 			PM.initTemplateBounds()
 		repopulate_sorted_areas()
 		var/list/occupying = list()

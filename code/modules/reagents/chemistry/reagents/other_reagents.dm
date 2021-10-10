@@ -167,8 +167,6 @@
 	L.adjustBruteLoss(new_corgi.getBruteLoss())
 	L.adjustFireLoss(new_corgi.getFireLoss())
 	L.forceMove(get_turf(new_corgi))
-<<<<<<< HEAD
-=======
 	// HACK - drop all corgi inventory
 	var/turf/T = get_turf(new_corgi)
 	if (new_corgi.inventory_head)
@@ -177,7 +175,6 @@
 	new_corgi.inventory_back?.forceMove(T)
 	new_corgi.inventory_head = null
 	new_corgi.inventory_back = null
->>>>>>> master
 	qdel(new_corgi)
 
 /datum/reagent/water
