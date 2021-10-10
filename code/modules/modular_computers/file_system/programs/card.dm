@@ -36,7 +36,7 @@
 		"[ACCESS_HOP]" = list(
 			"department" = list(CARDCON_DEPARTMENT_SUPPLY, CARDCON_DEPARTMENT_COMMAND),
 			"region" = 1,
-			"head" = "Head of Personnel"
+			"head" = "Executive Officer" //NSV13 - XO
 		),
 		"[ACCESS_HOS]" = list(
 			"department" = CARDCON_DEPARTMENT_SECURITY,

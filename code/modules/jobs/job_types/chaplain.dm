@@ -1,12 +1,12 @@
 /datum/job/chaplain
 	title = "Chaplain"
 	flag = CHAPLAIN
-	department_head = list("Head of Personnel")
+	department_head = list("Executive Officer") //NSV13 - XO
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	supervisors = "the head of personnel"
+	supervisors = "the executive officer" //NSV13
 	selection_color = "#dddddd"
 	chat_color = "#8AB48C"
 

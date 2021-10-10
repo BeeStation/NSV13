@@ -391,7 +391,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	glass_desc = "You've really hit rock bottom now... your liver packed its bags and left last night."
 
 /datum/reagent/consumable/ethanol/hooch/on_mob_life(mob/living/carbon/M)
-	if(M.mind?.assigned_role == "Assistant")
+	if(M.mind?.assigned_role == "Midshipman") //NSV13
 		M.heal_bodypart_damage(1,1)
 		. = 1
 	return ..() || .

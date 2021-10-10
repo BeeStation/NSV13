@@ -28,13 +28,12 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 
 /datum/crewmonitor/New()
 	. = ..()
- 	//Nsv13 - Crayon eaters & MPs
 	var/list/jobs = new/list()
 	jobs["Captain"] = 00
-	jobs["Head of Personnel"] = 50
+	jobs["Executive Officer"] = 50 //NSV13 - XO
 	jobs["Head of Security"] = 10
 	jobs["Warden"] = 11
-	jobs["Military Police"] = 12
+	jobs["Military Police"] = 12 //NSV13 - MPs
 	jobs["Detective"] = 13
 	jobs["Brig Physician"] = 14
 	jobs["Deputy"] = 16
@@ -55,6 +54,10 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 	jobs["Quartermaster"] = 51
 	jobs["Shaft Miner"] = 52
 	jobs["Cargo Technician"] = 53
+	jobs["Master At Arms"] = 55 //NSV13 start
+	jobs["Pilot"] = 56
+	jobs["Munitions Technician"] = 57
+	jobs["Air Traffic Controller"] = 58 //NSV13 end
 	jobs["Bartender"] = 61
 	jobs["Cook"] = 62
 	jobs["Botanist"] = 63

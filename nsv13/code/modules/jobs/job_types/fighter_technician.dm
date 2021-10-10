@@ -20,6 +20,7 @@
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_DECK_TECHNICIAN
+	departments = DEPARTMENT_MUNITIONS
 
 /datum/outfit/job/deck_tech
 	name = "Deck Technician"

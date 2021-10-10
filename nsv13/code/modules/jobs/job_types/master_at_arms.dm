@@ -25,6 +25,7 @@
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 	display_order = JOB_DISPLAY_ORDER_MASTER_AT_ARMS
 	display_rank = "WO" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
+	departments = DEPARTMENT_COMMAND | DEPARTMENT_MUNITIONS
 
 /datum/job/masteratarms/get_access()
 	var/list/L = list()
