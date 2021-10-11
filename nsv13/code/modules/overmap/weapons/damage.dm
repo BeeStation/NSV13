@@ -38,7 +38,8 @@ Bullet reactions
 			impact_sound_cooldown = TRUE
 			addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
 		return FALSE //Shields absorbed the hit, so don't relay the projectile.
-	relay_damage(P?.type)
+	var/relayed_type = P.relay_projectile_type ? P.relay_projectile_type : P.type
+	relay_damage(relayed_type)
 	if(!use_armour_quadrants)
 		. = ..()
 		return

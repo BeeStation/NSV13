@@ -1,6 +1,6 @@
 //Allows you to fully automate missile construction
 /obj/machinery/missile_builder
-	name = "Seegson model 'Ford' robotic autowrench"
+	name = "\improper Seegson model 'Ford' robotic autowrench"
 	desc = "An advanced robotic arm that can be arrayed with other such devices to form an assembly line for guided munition production. Swipe it with your ID to access maintenance mode options (only on some models!)"
 	icon = 'nsv13/icons/obj/munitions/assembly.dmi'
 	icon_state = "assemblybase"
