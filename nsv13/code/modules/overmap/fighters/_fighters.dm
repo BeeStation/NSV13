@@ -730,7 +730,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 	icon = 'nsv13/icons/obj/fighter_components.dmi'
 	w_class = WEIGHT_CLASS_GIGANTIC
 	//Thanks to comxy on Discord for these lovely tiered sprites o7
-	var/tier = 1 //Icon states are formatted as: armour_tier1 and so on.
+	var/tier = 1 // used for multipliers
 	var/slot = null //Change me!
 	var/weight = 0 //Some more advanced modules will weigh your fighter down some.
 	var/power_usage = 0 //Does this module require power to process()?
@@ -1466,7 +1466,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/secondary/ordnance_launcher/railgun
 	name = "Fighter Railgun"
 	desc = "A scaled down railgun designed for use in fighters."
-	icon_state = "railgun_tier1"
+	icon_state = "railgun"
 	weight = 1
 	accepted_ammo = /obj/item/ship_weapon/ammunition/railgun_ammo
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/railgun_fire.ogg')
