@@ -127,6 +127,13 @@ SUBSYSTEM_DEF(overmap_mode)
 			objective_reminder_override = TRUE
 
 	var/list/objective_pool = list() //Create instances of our objectives
+
+	mode.objectives += mode.fixed_objectives //Add our fixed objectives
+
+	if(mode.random_objectives.len) //Do we have random objectives?
+		for(var/I = 0, I < mode.random_objective_amount, I++) //We pick from our pool of random objectives
+			mode.objectives += pick_n_take(mode.random_objectives)
+
 	for(var/O in mode.objectives)
 		var/datum/overmap_objective/I = new O()
 		objective_pool += I
@@ -293,7 +300,10 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/objective_reminder_setting = REMINDER_OBJECTIVES	//0 - Objectives reset remind. 1 - Combat resets reminder. 2 - Combat delays reminder. 3 - Disables reminder
 	var/objective_reminder_interval = 15 MINUTES			//Interval between objective reminders
 	var/combat_delay = 0									//How much time is added to the reminder timer
-	var/list/objectives = list()							//The actual gamemode objectives go here
+	var/list/objectives = list()							//The actual gamemode objectives go here after being selected
+	var/list/fixed_objectives = list()						//The fixed objectives for the mode - always selected
+	var/list/random_objectives = list()						//The random objectives for the mode - the pool to be chosen from
+	var/random_objective_amount = 0							//How many random objectives we are going to get
 	var/whitelist_only = FALSE								//Can only be selected through map bound whitelists
 
 	//Reminder messages

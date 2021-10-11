@@ -40,6 +40,9 @@
 	desc = "An older handgun used by NT security forces, produced by H&KC but slowly being phased out by the Glock-13. One of the designers of the weapon went on record saying: 'There are no brakes on this commie fucktrain.'"
 	icon_state = "makarov"
 
+/obj/item/gun/ballistic/automatic/pistol/glock/makarov/lethal //Starts with lethal bullets loaded
+	mag_type = /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal
+
 /obj/item/gun/ballistic/automatic/pistol/m1911/m9le
 	name = "\improper M9LE"
 	desc = "A military surplus pistol no longer in service, but boasting a higher muzzle velocity than other handguns. It's a reliable damage dealer despite its age."

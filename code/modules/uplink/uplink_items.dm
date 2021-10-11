@@ -2300,3 +2300,9 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	item = /obj/item/storage/fancy/cigarettes/cigpack_syndicate
 	cost = 2
 	illegal_tech = FALSE
+
+/datum/uplink_item/stealthy_tools/babelfish //NSV13
+	 name = "Babel Fish"
+	 desc = "Place in your ear to understand all languages"
+	 item = /obj/item/clothing/ears/babelfish
+	 cost = 3
