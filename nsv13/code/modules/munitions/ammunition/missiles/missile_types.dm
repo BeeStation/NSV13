@@ -1,5 +1,5 @@
 /obj/item/ship_weapon/ammunition/missile //CREDIT TO CM FOR THIS SPRITE
-	name = "NTM 44-A 230mm missile"
+	name = "\improper NTM 44-A 230mm missile"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "highvelocity"
 	desc = "A standard pattern Nanotrasen anti-fighter missile."
@@ -43,7 +43,7 @@
 	damage = 0
 
 /obj/item/ship_weapon/ammunition/missile/georgio
-	name = "Georgio"
+	name = "\improper Georgio"
 
 /obj/item/ship_weapon/ammunition/missile/georgio/examine(mob/user)
 	.=..()

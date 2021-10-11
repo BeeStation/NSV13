@@ -160,12 +160,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	valid_angle = 360 //Torpedoes "wind up" to hit their target
 	homing_turn_speed *= 5
 	homing_turn_speed = CLAMP(homing_turn_speed, 0, 360)
-	sleep(0.7 SECONDS) //Let it get clear of the sender.
+	sleep(clearance_time) //Let it get clear of the sender.
 	valid_angle = initial(valid_angle)
 	homing_turn_speed = initial(homing_turn_speed)
 
 /obj/item/projectile/guided_munition/missile
-	name = "triton cruise missile"
+	name = "\improper Triton cruise missile"
 	icon_state = "conventional_missile"
 	speed = 1
 	damage = 175
@@ -188,7 +188,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 //Corvid or someone please refactor this to be less messy.
 /obj/item/projectile/guided_munition/on_hit(atom/target, blocked = FALSE)
-	. = ..()
+	..()
 	if(!check_faction(target))
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
@@ -200,8 +200,8 @@ Misc projectile types, effects, think of this as the special FX file.
 			explode()
 			return BULLET_ACT_HIT
 		else
-			qdel(P)
 			take_damage(P.damage)
+			qdel(P)
 			return FALSE //Didn't take the hit
 	if(!isprojectile(target)) //This is lazy as shit but is necessary to prevent explosions triggering on the overmap when two bullets collide. Fix this shit please.
 		detonate(target)
@@ -239,7 +239,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	tracer_type = /obj/effect/projectile/tracer/disabler
 	muzzle_type = /obj/effect/projectile/muzzle/disabler
 	impact_type = /obj/effect/projectile/impact/disabler
-	
+
 /obj/item/projectile/beam/laser/point_defense
 	name = "laser pointer"
 	damage = 30
