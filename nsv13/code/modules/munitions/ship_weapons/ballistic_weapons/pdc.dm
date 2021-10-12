@@ -1,7 +1,7 @@
 #define MSTATE_PRIEDOUT 3
 
 /obj/machinery/ship_weapon/pdc_mount
-	name = "PDC loading rack"
+	name = "\improper PDC loading rack"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "pdc"
 	desc = "Seegson's all-in-one PDC targeting computer, ammunition loader, and human interface has proven extremely popular in recent times. It's rare to see a ship without one of these."
@@ -13,7 +13,7 @@
 	circuit = /obj/item/circuitboard/machine/pdc_mount
 
 	fire_mode = FIRE_MODE_PDC
-	magazine_type = /obj/item/ammo_box/magazine/pdc
+	magazine_type = /obj/item/ammo_box/magazine/nsv/pdc
 
 	auto_load = TRUE
 	semi_auto = TRUE

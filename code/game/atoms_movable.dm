@@ -225,16 +225,23 @@
 		var/list/newlocs = isturf(newloc) ? block(locate(newloc.x+(-bound_x)/world.icon_size,newloc.y+(-bound_y)/world.icon_size,newloc.z),locate(newloc.x+(-bound_x+bound_width)/world.icon_size-1,newloc.y+(-bound_y+bound_height)/world.icon_size-1,newloc.z)) : list(newloc)
 		if(!newlocs)
 			return // we're trying to cross into the edge of space
-		var/bothturfs = isturf(newloc) && isturf(loc)
-		var/dx = bothturfs ? newloc.x - loc.x : 0
-		var/dy = bothturfs ? newloc.y - loc.y : 0
-		var/dz = bothturfs ? newloc.z - loc.z : 0
-		for(var/atom/A in (locs - newlocs))
-			if(!A.Exit(src, bothturfs ? locate(A.x+dx,A.y+dy,A.z+dz) : newloc))
-				return
-		for(var/atom/A in (newlocs - locs))
-			if(!A.Enter(src, bothturfs ? locate(A.x-dx,A.y-dy,A.z+dz) : loc))
-				return
+		if(isturf(newloc) && isturf(loc))
+			var/dx = newloc.x - loc.x
+			var/dy = newloc.y - loc.y
+			var/dz = newloc.z - loc.z
+			for(var/atom/A as() in (locs - newlocs))
+				if(!A.Exit(src, locate(A.x+dx,A.y+dy,A.z+dz)))
+					return
+			for(var/atom/A as() in (newlocs - locs))
+				if(!A.Enter(src, locate(A.x-dx,A.y-dy,A.z+dz)))
+					return
+		else
+			for(var/atom/A as() in (locs - newlocs))
+				if(!A.Exit(src, newloc))
+					return
+			for(var/atom/A as() in (newlocs - locs))
+				if(!A.Enter(src, loc))
+					return
 	//nsv13 end
 	if(!loc.Exit(src, newloc))
 		return

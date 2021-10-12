@@ -121,7 +121,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	screen_loc = "EAST-1:28,CENTER-4:10"
 	var/datum/squad/squad = null
 	var/mob/user = null
-
+	var/mutable_appearance/pointer
 
 /atom/movable/screen/squad_lead_finder/examine(mob/user)
 	. = ..()
@@ -131,15 +131,20 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 /atom/movable/screen/squad_lead_finder/proc/set_squad(datum/squad/squad, mob/living/user)
 	src.squad = squad
 	src.user = user
+	pointer = mutable_appearance(src.icon, "arrow")
+	pointer.dir = dir
+	add_overlay(pointer)
 	START_PROCESSING(SSobj, src)
 
 /atom/movable/screen/squad_lead_finder/Destroy()
+	if(pointer)
+		cut_overlay(pointer)
+		QDEL_NULL(pointer)
 	STOP_PROCESSING(SSobj, src)
-	. = ..()
+	return ..()
 
 /atom/movable/screen/squad_lead_finder/process()
-	cut_overlays()
-	var/mob/SL = squad?.leader || null
+	var/mob/SL = squad?.leader
 	if(!SL)
 		return
 	var/turf/Q = get_turf(SL)
@@ -150,8 +155,8 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/finder_icon = "arrow" //Overlay showed when adjacent to or on top of the queen!
 	if(squad.leader == user)
 		finder_icon = "youaretheleader"
-	var/image/pointyBoi = image(src.icon, finder_icon, dir = Qdir)
-	add_overlay(pointyBoi)
+	pointer.dir = Qdir
+	pointer.icon_state = finder_icon
 
 /datum/squad/proc/handle_hud(mob/living/carbon/human/H, add=TRUE)
 	var/datum/atom_hud/HUD = GLOB.huds[DATA_HUD_SQUAD]

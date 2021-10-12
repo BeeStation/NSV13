@@ -5,7 +5,7 @@
 	starting_system = "Argo"
 	starting_faction = "nanotrasen"
 
-	objective_reminder_setting = 2 // Combat will delay but not fully reset if it's not the objective
+	objective_reminder_setting = 0
 	reminder_one = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, please continue on your shakedown."
 	reminder_two = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, we are not paying you to idle in space during your assignment."
 	reminder_three = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, your inactivity has been noted and will not be tolerated."
@@ -15,4 +15,4 @@
 	selection_weight = 5
 	required_players = 0
 	max_players = 10
-	objectives = list(/datum/overmap_objective/perform_jumps, /datum/overmap_objective/destroy_fleets, /datum/overmap_objective/apnw_efficiency)
+	fixed_objectives = list(/datum/overmap_objective/perform_jumps, /datum/overmap_objective/destroy_fleets, /datum/overmap_objective/apnw_efficiency)

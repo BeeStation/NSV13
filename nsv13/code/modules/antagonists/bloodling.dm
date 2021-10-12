@@ -1032,12 +1032,13 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 
 /obj/structure/ratwarren/Destroy()
 	STOP_PROCESSING(SSobj,src)
-	. = ..()
+	return ..()
 
 /obj/structure/ratwarren/process()
 	if(world.time >= next_rat_spawn)
 		next_rat_spawn = world.time + rat_spawn_delay
 		new /mob/living/simple_animal/mouse(get_turf(src))
+
 /datum/action/bloodling/build
 	name = "Build"
 	desc = "We use some of our essence to construct other entities."
