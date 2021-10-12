@@ -7,10 +7,11 @@
 	telegraph_message = "<span class='danger'>The air begins to grow warm.</span>"
 
 	weather_message = "<span class='userdanger'><i>You feel waves of heat wash over you! Find shelter!</i></span>"
-	weather_overlay = "ash_storm"
+	weather_overlay = "light_snow"
 	weather_duration_lower = 600
 	weather_duration_upper = 1500
-	weather_color = "green"
+	weather_color = "red"
+	weather_color = "blue"
 	weather_sound = 'sound/misc/bloblarm.ogg'
 
 	end_duration = 100
@@ -30,44 +31,47 @@
 
 /datum/weather/rad_storm/weather_act(mob/living/L)
 	var/resist = L.getarmor(null, "rad")
-	if(prob(40))
-		if(ishuman(L))
-			var/mob/living/carbon/human/H = L
-			if(H.dna && !(HAS_TRAIT(H, TRAIT_RADIMMUNE) || HAS_TRAIT(H, TRAIT_MUTATEIMMUNE))) // NSV13 Don't add mutations for species that are trait immune, IPCs
-				if(prob(max(0,100-resist)))
-					H.randmuti()
-					if(prob(50))
-						if(prob(90))
-							H.easy_randmut(NEGATIVE+MINOR_NEGATIVE)
-						else
-							H.easy_randmut(POSITIVE)
-						H.domutcheck()
-			if( HAS_TRAIT( H, TRAIT_IPCRADBRAINDAMAGE ) ) // NSV13 IPCs will gain brain damage instead of mutations when exposed to radiation
-				if(prob(max(0,100-resist)))
-					if(prob(50))
-						var/trauma_type = pickweight( list(
-							BRAIN_TRAUMA_MILD = 65,
-							BRAIN_TRAUMA_SEVERE = 30,
-							BRAIN_TRAUMA_SPECIAL = 5
-						) )
-						var/resistance = pick(
-							95;TRAUMA_RESILIENCE_BASIC,
-							// 30;TRAUMA_RESILIENCE_SURGERY,
-							// 15;TRAUMA_RESILIENCE_LOBOTOMY,
-							5;TRAUMA_RESILIENCE_MAGIC
-						)
-						H.gain_trauma_type( trauma_type, resistance )
+	if(L.radiation >= 1000)
+		if(prob(40))
+			if(ishuman(L))
+				var/mob/living/carbon/human/H = L
+				if(H.dna && !(HAS_TRAIT(H, TRAIT_RADIMMUNE) || HAS_TRAIT(H, TRAIT_MUTATEIMMUNE))) // NSV13 Don't add mutations for species that are trait immune, IPCs
+					if(prob(max(0,100-resist)))
+						H.randmuti()
+						if(prob(50))
+							if(prob(90))
+								H.easy_randmut(NEGATIVE+MINOR_NEGATIVE)
+							else
+								H.easy_randmut(POSITIVE)
+							H.domutcheck()
+				if( HAS_TRAIT( H, TRAIT_IPCRADBRAINDAMAGE ) ) // NSV13 IPCs will gain brain damage instead of mutations when exposed to radiation
+					if(prob(max(0,100-resist)))
+						if(prob(50))
+							var/trauma_type = pickweight( list(
+								BRAIN_TRAUMA_MILD = 65,
+								BRAIN_TRAUMA_SEVERE = 30,
+								BRAIN_TRAUMA_SPECIAL = 5
+							) )
+							var/resistance = pick(
+								95;TRAUMA_RESILIENCE_BASIC,
+								// 30;TRAUMA_RESILIENCE_SURGERY,
+								// 15;TRAUMA_RESILIENCE_LOBOTOMY,
+								5;TRAUMA_RESILIENCE_MAGIC
+							)
+							H.gain_trauma_type( trauma_type, resistance )
 
-						var/emote_type = pickweight( list(
-							"beep" = 34,
-							"buzz" = 34,
-							"buzz2" = 34,
-						) )
-						H.emote( emote_type )
-			// NSV13 end code segment
+							var/emote_type = pickweight( list(
+								"beep" = 34,
+								"buzz" = 34,
+								"buzz2" = 34,
+							) )
+							H.emote( emote_type )
+	else
 
-		L.rad_act(20)
 
+		L.rad_act(100)
+		L.adjustFireLoss(1 / 100 * (100 - resist))// seperate resist check since burn doesnt care about radsuits like like rad_act does
+	// NSV13 end code segment
 /datum/weather/rad_storm/end()
 	if(..())
 		return
