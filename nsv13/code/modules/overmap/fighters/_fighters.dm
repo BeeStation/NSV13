@@ -51,7 +51,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
 	var/obj/machinery/computer/ship/navigation/starmap = null
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
-  var/mutable_appearance/canopy
+	var/mutable_appearance/canopy
 	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode,
 								.verb/show_control_panel, .verb/change_name, .verb/countermeasure)
 												 //Countermeasure code in countermeasure_ammo.dm
