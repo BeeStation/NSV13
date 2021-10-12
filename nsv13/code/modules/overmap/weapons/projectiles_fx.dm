@@ -119,7 +119,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	var/list/inrange_turfs = RANGE_TURFS(DIRTY_SHELL_SLUDGE_RANGE, detonation_turf) - detonation_turf
 	new /obj/effect/decal/nuclear_waste/epicenter(detonation_turf)
 	for(var/turf/T in inrange_turfs)
-		if(isspaceturf(T) || istype(T, /turf/open/openspace))	//Should those kinds of turfs be able to get waste from this? Hmm, I dunno.
+		if(isgroundlessturf(T))	//Should those kinds of turfs be able to get waste from this? Hmm, I dunno.
 			continue
 		if(isclosedturf(T) || is_blocked_turf(T, TRUE))	//Definitely not on closed turfs, for now also not on ones blocked by stuff to not make it agonizing.. unless?
 			continue
@@ -132,7 +132,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	for(var/turf/shootat_turf in shootat_turfs)
 		if(!prob(DIRTY_SHELL_PELLET_PROB))
 			continue
-		var/obj/item/projectile/energy/nuclear_particle/dirty_shell_stage_three/P = new /obj/item/projectile/energy/nuclear_particle/dirty_shell_stage_three(detonation_turf)
+		var/obj/item/projectile/energy/nuclear_particle/dirty_shell_stage_three/P = new(detonation_turf)
 		//Shooting Code:
 		P.random_color_time()
 		P.range = DIRTY_SHELL_PELLET_RANGE+1
@@ -147,7 +147,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/energy/nuclear_particle/dirty_shell_stage_three/on_hit(atom/target, blocked)
 	. = ..()
-	if(!QDELETED(target) && !isturf(target))
+	if(!isturf(target))
 		target.AddComponent(/datum/component/radioactive, 300, target, 5 MINUTES)
 
 #undef DIRTY_SHELL_TURF_SLUDGE_PROB
