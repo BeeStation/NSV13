@@ -16,6 +16,13 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy"
 	spread = 5
 
+/obj/item/projectile/bullet/mac_relayed_round	//Projectile relayed by all default MAC shells on overmap hit. No difference for AP / others as their values don't really matter on z level.
+	icon_state = "railgun"
+	name = "artillery round"
+	damage = 60
+	speed = 1.85
+	movement_type = FLYING | UNSTOPPABLE
+
 /obj/item/projectile/bullet/mac_round
 	icon_state = "railgun"
 	name = "artillery round"
@@ -27,6 +34,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	homing_turn_speed = 2.5
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	relay_projectile_type =  /obj/item/projectile/bullet/mac_relayed_round
 	var/homing_benefit_time = 0 SECONDS //NAC shells have a very slight homing effect.
 	var/base_movement_type	//Our base move type for when we gain unstoppability from hitting tiny ships.
 
@@ -69,10 +77,10 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "cannonshot"
 	flag = "overmap_medium"
 
-#define DIRTY_SHELL_TURF_SLUDGE_PROB 70
-#define DIRTY_SHELL_SLUDGE_RANGE 3
-#define DIRTY_SHELL_PELLET_PROB 80
-#define DIRTY_SHELL_PELLET_RANGE 6
+#define DIRTY_SHELL_TURF_SLUDGE_PROB 70	//Chance for sludge to spawn on a turf without the sludge range of the detonation range. Detonation turf always gets an epicenter sludge.
+#define DIRTY_SHELL_SLUDGE_RANGE 3	//Un-random sludge event radius (for the shell detonating)
+#define DIRTY_SHELL_PELLET_PROB 80	//Chance for a pellet per tile from the outer circle
+#define DIRTY_SHELL_PELLET_RANGE 6	//Picks all turfs on the other circle of this range and uses them as possible targets.
 
 //Dirty shell: Stage 1 - overmap projectile
 /obj/item/projectile/bullet/mac_round/dirty
@@ -85,8 +93,9 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "dirty artillery round"
 	icon_state = "railgun"
 	range = 255
+	speed = 1.85
 	movement_type = FLYING | UNSTOPPABLE
-	damage = 55		//It's on a z now, lets not instakill people / objects this happens to hit.
+	damage = 45		//It's on a z now, lets not instakill people / objects this happens to hit.
 	var/penetration_fuze = 4	//Will pen through this many solid turfs before arming. Can overpenetrate if it happens to pen through windows or other things with not enough resistance.
 
 /obj/item/projectile/bullet/dirty_shell_stage_two/on_hit(atom/target, blocked)
@@ -102,7 +111,7 @@ Misc projectile types, effects, think of this as the special FX file.
 		return
 	var/turf/newturf = newloc
 	if(penetration_fuze <= 0 && !is_blocked_turf(newturf, TRUE))
-		explosion(newturf, 0, 1, 4, 6, flame_range = 3)
+		explosion(newturf, 0, 0, 5, 8, flame_range = 3)
 		release_payload(newturf)
 		qdel(src)
 

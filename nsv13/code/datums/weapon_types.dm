@@ -24,6 +24,12 @@
 		return FALSE
 	return TRUE
 
+//A different MAC.. This one's a warcrime.
+
+/datum/ship_weapon/mac/dirty
+	name = "Dirty Naval Artillery"
+	default_projectile_type = /obj/item/projectile/bullet/mac_round/dirty
+
 //Coaxial railguns
 
 /datum/ship_weapon/railgun
