@@ -142,7 +142,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 //Dirty Shell: Stage 3 - spread of irradiating pellets
 /obj/item/projectile/energy/nuclear_particle/dirty_shell_stage_three
-	irradiate = 300	//Less radiation that the "true" gumballs
+	irradiate = 300	//Less radiation than the "true" gumballs
 	name = "irradiated pellet"
 
 /obj/item/projectile/energy/nuclear_particle/dirty_shell_stage_three/on_hit(atom/target, blocked)
