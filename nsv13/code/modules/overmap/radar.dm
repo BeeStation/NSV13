@@ -89,10 +89,8 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	add_sensor_profile_penalty(max_tracking_range, RADAR_VISIBILITY_PENALTY)
 
 /obj/machinery/computer/ship/dradis/proc/send_radar_pulse()
-	if(!can_radar_pulse())
-		return FALSE
 	var/obj/structure/overmap/OM = get_overmap()
-	if(!OM)
+	if(!OM || !can_radar_pulse())
 		return FALSE
 	OM.send_radar_pulse()
 	addtimer(VARSET_CALLBACK(src, sensor_range, base_sensor_range), RADAR_VISIBILITY_PENALTY)
@@ -195,9 +193,9 @@ Called by add_sensor_profile_penalty if remove_in is used.
 		ui = new(user, src, "Dradis")
 		ui.open()
 
-/obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui, mob/user)
+/obj/machinery/computer/ship/dradis/ui_act(action, params)
 	. = ..()
-	if(isobserver(user))
+	if(isobserver(usr))
 		return
 	if(.)
 		return
@@ -367,11 +365,14 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	data["showAnomalies"] = showAnomalies
 	data["sensor_range"] = sensor_range
 	data["width_mod"] = sensor_range / SENSOR_RANGE_DEFAULT
-	data["can_radar_pulse"] = can_radar_pulse()
 	data["sensor_mode"] = (sensor_mode == SENSOR_MODE_PASSIVE) ? "Passive Radar" : "Active Radar"
 	data["pulse_delay"] = "[radar_delay / 10]"
-	if(sensor_mode == SENSOR_MODE_RADAR)
-		send_radar_pulse()
+	if(can_radar_pulse())
+		data["can_radar_pulse"] = TRUE
+		if(sensor_mode == SENSOR_MODE_RADAR && !isobserver(user))
+			send_radar_pulse()
+	else
+		data["can_radar_pulse"] = FALSE
 	return data
 
 /datum/asset/simple/overmap_flight
