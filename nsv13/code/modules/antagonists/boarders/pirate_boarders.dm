@@ -16,7 +16,7 @@
 /datum/antagonist/pirate/boarder/on_gain()
 	if(boarding_crew)
 		objectives |= boarding_crew.objectives
-	. = ..()
+	return ..()
 
 /datum/antagonist/pirate/boarder/create_team(datum/team/pirate/boarder/new_team)
 	if(!new_team)

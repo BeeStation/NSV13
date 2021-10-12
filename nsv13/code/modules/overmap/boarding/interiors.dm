@@ -32,7 +32,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 				TT.ChangeTurf(/turf/open/space/basic)
 				*/
 				SSair.can_fire = FALSE
-				for(var/turf/T in boarding_interior.get_affected_turfs(get_turf(locate(1, 1, boarding_reservation_z)), FALSE)) //nuke
+				for(var/turf/T in boarding_interior.get_affected_turfs(locate(1, 1, boarding_reservation_z), FALSE)) //nuke
 					CHECK_TICK
 					T.empty()
 				SSair.can_fire = TRUE
@@ -44,8 +44,8 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 				QDEL_NULL(boarding_interior)
 		if(INTERIOR_DYNAMIC)
 			if(boarding_interior)
-				var/turf/target = get_turf(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
-				for(var/turf/T in boarding_interior.get_affected_turfs(target, FALSE)) //nuke
+				var/turf/target = locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3])
+				for(var/turf/T as () in boarding_interior.get_affected_turfs(target)) //nuke
 					T.empty()
 			//Free the reservation.
 			QDEL_NULL(roomReservation)
@@ -74,7 +74,6 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 		return
 	SSmapping.add_new_zlevel("Overmap boarding reservation", ZTRAITS_BOARDABLE_SHIP)
 	boarding_reservation_z = world.maxz
-	return
 
 /obj/structure/overmap/proc/ai_load_interior(obj/structure/overmap/boarder, map_path_override)
 	if(!boarder)
@@ -100,7 +99,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	interior_status = INTERIOR_LOADING
 	//Prepare the boarding interior map. Admins may also force-load this with a path if they want.
 	choose_interior(map_path_override)
-	if(!boarding_interior || !boarding_interior.mappath)
+	if(!boarding_interior?.mappath)
 		message_admins("Error parsing boarding interior map for [src]")
 		return FALSE
 
@@ -122,18 +121,17 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 /obj/structure/overmap/proc/get_overmap_level()
 	//Add a treadmill for this ship as and when needed.
 	if(!reserved_z)
-		if(!free_treadmills?.len)
+		if(!length(free_treadmills))
 			SSmapping.add_new_zlevel("Captured ship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
 			reserved_z = world.maxz
 		else
-			var/_z = pick_n_take(free_treadmills)
-			reserved_z = _z
+			reserved_z = pick_n_take(free_treadmills)
 		starting_system = current_system.name //Just fuck off it works alright?
 		SSstar_system.add_ship(src)
 
 /obj/structure/overmap/proc/choose_interior(map_path_override)
 	if(map_path_override)
-		boarding_interior = new/datum/map_template(path = map_path_override)
+		boarding_interior = new/datum/map_template(map_path_override)
 	else
 		var/chosen = pick(possible_interior_maps)
 		boarding_interior = SSmapping.boarding_templates[chosen]
@@ -151,7 +149,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	interior_status = INTERIOR_LOADING
 	//Init the template.
 	choose_interior()
-	if(!boarding_interior || !boarding_interior.mappath)
+	if(!boarding_interior?.mappath)
 		message_admins("Error parsing boarding interior map for [src]")
 
 	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
@@ -159,12 +157,12 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		message_admins("[src] failed to reserve space for a dropship interior!")
 		return FALSE
 
-	var/turf/bottom_left = get_turf(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
+	var/turf/bottom_left = locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3])
 	return load_interior(bottom_left, boarding_interior.width, boarding_interior.height)
 
 /obj/structure/overmap/proc/add_entrypoints(area/target_area)
 	for(var/obj/effect/landmark/dropship_entry/entryway in GLOB.landmarks_list)
-		if(get_area(entryway) == target_area && !entryway.linked)
+		if(!entryway.linked && get_area(entryway) == target_area)
 			interior_entry_points += entryway
 			entryway.linked = src
 

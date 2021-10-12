@@ -7,8 +7,6 @@
 	if(!amount)
 		//Joker emoji
 		amount = CEILING(1 + (SSovermap_mode.mode.difficulty / 2), 1)
-		if(amount <= 0)
-			amount = 2 //This is jank, but helps me test it locally...
 	var/list/zs = list()
 	if(!occupying_levels.len)
 		message_admins("Failed to spawn boarders for [name], it doesn't seem to have any occupying z-levels. (Interior)")

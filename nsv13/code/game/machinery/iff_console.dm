@@ -7,7 +7,7 @@ GUARD THIS WITH YOUR LIFE, CIC.
 If someone hacks it, you can always rebuild it.
 */
 /obj/machinery/computer/iff_console
-	name = "IFF Console"
+	name = "\improper IFF Console"
 	desc = "A console which holds information about a ship's IFF (Identify Friend/Foe) signature. <i>It can be bypassed to change the allegiance of a ship...</i>"
 	icon_screen = "iff"
 	icon_keyboard = "teleport_key"
@@ -18,7 +18,7 @@ If someone hacks it, you can always rebuild it.
 	var/faction = null
 
 /obj/machinery/computer/iff_console/Initialize(mapload, obj/item/circuitboard/C)
-	. = ..()
+	..()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/computer/iff_console/LateInitialize()
@@ -40,7 +40,7 @@ If someone hacks it, you can always rebuild it.
 		return
 	if(faction != OM.faction)
 		faction = OM.faction
-	. += "<span class='sciradio'>-----------------\n Ship information: \n Currently registered to: [OM.name]. \n IFF Signature: [OM.faction] \n -----------------"
+	. += "<span class='sciradio'>-----------------\n Ship information: \n Currently registered to: [OM.name]. \n IFF Signature: [OM.faction] \n -----------------</span>"
 
 //Subtype for boarding. Starts emagged so the marines can get straight underway.
 /obj/machinery/computer/iff_console/boarding
@@ -86,10 +86,6 @@ If someone hacks it, you can always rebuild it.
 	if(!ui)
 		ui = new(user, src, "IFF")
 		ui.open()
-
-/obj/machinery/computer/iff_console/ui_act(action, params)
-	if(..())
-		return
 
 //Uh oh...
 /obj/machinery/computer/iff_console/proc/hack()

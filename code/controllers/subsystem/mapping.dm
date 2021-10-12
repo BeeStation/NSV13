@@ -428,14 +428,13 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 
 /datum/controller/subsystem/mapping/proc/preloadBoardingTemplates() //NSV13 - boarding maps
 	var/list/all_templates = subtypesof(/datum/map_template/dropship) + subtypesof(/datum/map_template/boarding)
-	for(var/item in all_templates)
-		var/datum/map_template/dropship_type = item
+	for(var/datum/map_template/dropship_type as() in all_templates)
 		if(!(initial(dropship_type.mappath)))
 			continue
 		var/datum/map_template/D = new dropship_type()
 
-		boarding_templates[item] = D
-		map_templates[item] = D
+		boarding_templates[dropship_type] = D
+		map_templates[dropship_type] = D
 
 //Manual loading of away missions.
 /client/proc/admin_away()

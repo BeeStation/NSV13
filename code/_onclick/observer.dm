@@ -14,10 +14,10 @@
 		if(istype(A, /obj/structure/overmap))
 			var/obj/structure/overmap/OM = A
 			if(length(OM.linked_areas))
-				var/seemap = alert("View interior map?", "Enter ship", "Yes", "No")
-				if(seemap == "Yes")
+				if(alert("View interior map?", "Enter ship", "Yes", "No") == "Yes")
 					var/atom/newtarget = OM.get_interior_center()
-					A.transfer_observers_to(newtarget)
+					forceMove(newtarget)
+					update_parallax_contents()
 	// Otherwise jump
 	else if(A.loc)
 		forceMove(get_turf(A))
