@@ -46,5 +46,5 @@
 	name = "\improper Georgio"
 
 /obj/item/ship_weapon/ammunition/missile/georgio/examine(mob/user)
-	.=..()
+	. = ..()
 	. += "<span class='notice'>This is Georgio, Antonio's little brother.</span>"
