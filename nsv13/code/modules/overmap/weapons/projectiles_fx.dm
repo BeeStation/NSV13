@@ -77,10 +77,10 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "cannonshot"
 	flag = "overmap_medium"
 
-#define DIRTY_SHELL_TURF_SLUDGE_PROB 70	//Chance for sludge to spawn on a turf without the sludge range of the detonation range. Detonation turf always gets an epicenter sludge.
+#define DIRTY_SHELL_TURF_SLUDGE_PROB 70	//Chance for sludge to spawn on a turf within the sludge range of the detonation turf. Detonation turf always gets an epicenter sludge.
 #define DIRTY_SHELL_SLUDGE_RANGE 3	//Un-random sludge event radius (for the shell detonating)
 #define DIRTY_SHELL_PELLET_PROB 80	//Chance for a pellet per tile from the outer circle
-#define DIRTY_SHELL_PELLET_RANGE 6	//Picks all turfs on the other circle of this range and uses them as possible targets.
+#define DIRTY_SHELL_PELLET_RANGE 6	//Picks all turfs on the other circle of this range and uses them as possible targets for pellets.
 
 //Dirty shell: Stage 1 - overmap projectile
 /obj/item/projectile/bullet/mac_round/dirty
