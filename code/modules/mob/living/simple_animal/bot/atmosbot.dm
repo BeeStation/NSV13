@@ -56,7 +56,7 @@
 		GAS_BZ = 1,
 		GAS_CO2 = 1,
 		GAS_HYPERNOB = 1,
-		GAS_MIASMA = 1,
+		//GAS_MIASMA = 1, //NSV13 - no miasma
 		GAS_NITROUS = 1,
 		GAS_NITRYL = 1,
 		GAS_PLASMA = 1,
@@ -64,8 +64,8 @@
 		GAS_STIMULUM = 0,
 		GAS_TRITIUM = 1,
 		GAS_H2O = 0,
-		GAS_CONSTRICTED_PLASMA = 1,
-		GAS_NUCLEIUM = 0,
+		GAS_CONSTRICTED_PLASMA = 1, //NSV13
+		GAS_NUCLEIUM = 0, //NSV13
 	)
 	//Tank type
 	var/tank_type = /obj/item/tank/internals/oxygen/empty

@@ -626,7 +626,7 @@ What a mess.*/
 							printing = 1
 							for(var/i in 1 to posternum)
 								playsound(loc, 'sound/items/poster_being_created.ogg', 100, 1)
-								
+
 								sleep(30)
 								if((istype(active1, /datum/data/record) && GLOB.data_core.general.Find(active1)))//make sure the record still exists.
 									var/obj/item/photo/photo = active1.fields["photo_front"]
@@ -926,7 +926,7 @@ What a mess.*/
 							temp += "<li><a href='?src=[REF(src)];choice=Change Criminal Status;criminal2=released'>Discharged</a></li>"
 							temp += "</ul>"
 					if("rank")
-						var/list/L = list( "Head of Personnel", "Captain", "AI", "Central Command" )
+						var/list/L = list( "Executive Officer", "Captain", "AI", "Central Command" ) //NSV13 - XO
 						//This was so silly before the change. Now it actually works without beating your head against the keyboard. /N
 						if((istype(active1, /datum/data/record) && L.Find(rank)))
 							temp = "<h5>Rank:</h5>"

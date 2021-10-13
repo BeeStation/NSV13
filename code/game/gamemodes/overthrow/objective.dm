@@ -21,6 +21,7 @@
 #define CEPTS		3
 #define CMOPTS		3
 #define RDPTS		3
+#define MAAPTS		3
 
 #define CONVERTED_OURS	1.5
 #define CONVERTED		1
@@ -91,7 +92,7 @@
 			switch(role)
 				if("Captain")
 					target_points = CAPPTS
-				if("Head of Personnel")
+				if("Executive Officer") //NSV13 - XO
 					target_points = HOPPTS
 				if("Head of Security")
 					target_points = HOSPTS
@@ -101,6 +102,8 @@
 					target_points = RDPTS
 				if("Chief Medical Officer")
 					target_points = CMOPTS
+				if("Master At Arms") //NSV13 - MAA
+					target_points = MAAPTS
 			base_points += result_points(M, target_points)
 	return base_points
 
@@ -138,7 +141,7 @@
 	else
 		explanation_text = "Nothing."
 
-/datum/objective/overthrow/target/is_unique_objective(datum/mind/possible_target,dupe_search_range) 
+/datum/objective/overthrow/target/is_unique_objective(datum/mind/possible_target,dupe_search_range)
 	if(possible_target.assigned_role in GLOB.command_positions)
 		return FALSE
 	return TRUE

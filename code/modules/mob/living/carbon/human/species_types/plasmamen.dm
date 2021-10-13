@@ -157,7 +157,7 @@
 		if("Research Director")
 			O = new /datum/outfit/plasmaman/rd
 
-		if("Head of Personnel")
+		if("Executive Officer") //NSV13 - XO
 			O = new /datum/outfit/plasmaman/hop
 
 		if("Clown")
@@ -165,6 +165,9 @@
 
 		if("Mime")
 			O = new /datum/outfit/plasmaman/mime
+
+		else //NSV13 - who doesn't have a default case on a switch statement like this?
+			O = new /datum/outfit/plasmaman
 
 	H.equipOutfit(O, visualsOnly)
 	H.internal = H.get_item_for_held_index(2)

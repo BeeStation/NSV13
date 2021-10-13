@@ -41,6 +41,8 @@
 		var/datum/gas_mixture/G = T.air
 		var/plas_amt = min(30,G.get_moles(GAS_PLASMA)) //Absorb some plasma
 		G.adjust_moles(GAS_PLASMA, -plas_amt)
+		var/cplas_amt = min(30,G.get_moles(GAS_CONSTRICTED_PLASMA)) //NSV13
+		G.adjust_moles(GAS_CONSTRICTED_PLASMA, -cplas_amt)
 		absorbed_plasma += plas_amt
 		if(G.return_temperature() > T20C)
 			G.set_temperature(max(G.return_temperature()/2,T20C))

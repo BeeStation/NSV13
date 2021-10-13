@@ -223,11 +223,12 @@ SUBSYSTEM_DEF(mapping)
 	for (var/level in traits)
 		space_levels += add_new_zlevel("[name][i ? " [i + 1]" : ""]", level)
 		++i
-	//Shared orbital body
-	var/datum/orbital_object/z_linked/orbital_body = new orbital_body_type()
-	for(var/datum/space_level/level as() in space_levels)
-		level.orbital_body = orbital_body
-		orbital_body.link_to_z(level)
+	//Shared orbital body //NSV13 - we don't use this, so we need to handle null
+	if(orbital_body_type)
+		var/datum/orbital_object/z_linked/orbital_body = new orbital_body_type()
+		for(var/datum/space_level/level as() in space_levels)
+			level.orbital_body = orbital_body
+			orbital_body.link_to_z(level)
 
 	// load the maps
 	for (var/P in parsed_maps)
@@ -249,7 +250,7 @@ SUBSYSTEM_DEF(mapping)
 	// load the station
 	station_start = world.maxz + 1
 	INIT_ANNOUNCE("Loading [config.map_name]...")
-	LoadGroup(FailedZs, "Station", config.map_path, config.map_file, config.traits, ZTRAITS_STATION, orbital_body_type = /datum/orbital_object/z_linked/station)
+	LoadGroup(FailedZs, "Station", config.map_path, config.map_file, config.traits, ZTRAITS_STATION, orbital_body_type = null)
 	instance_overmap(config.ship_type) //NSV13 - load in the overmap Z-levels and create the main overmap that we'll need.
 	if(SSdbcore.Connect())
 		var/datum/DBQuery/query_round_map_name = SSdbcore.NewQuery({"

@@ -79,7 +79,7 @@
 	antag_datum = /datum/antagonist/rev/head
 	antag_flag = ROLE_REV_HEAD
 	antag_flag_override = ROLE_REV
-	restricted_roles = list("AI", "Cyborg", "Military Police", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel", "Chief Engineer", "Chief Medical Officer", "Research Director") //Nsv13 - Crayon eaters & MPs
+	restricted_roles = list("AI", "Cyborg", "Military Police", "Warden", "Detective", "Head of Security", "Captain", "Executive Officer", "Chief Engineer", "Chief Medical Officer", "Research Director", "Master At Arms") //Nsv13 - Crayon eaters & MPs, XO, MAA
 	enemy_roles = list("AI", "Cyborg", "Military Police","Detective","Head of Security", "Captain", "Warden") //Nsv13 - Crayon eaters & MPs
 	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
 	required_candidates = 1

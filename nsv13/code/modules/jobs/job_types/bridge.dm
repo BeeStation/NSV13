@@ -23,6 +23,7 @@
 	paycheck_department = ACCOUNT_SEC
 
 	display_order = JOB_DISPLAY_ORDER_BRIDGE_OFFICER
+	departments = DEPARTMENT_MUNITIONS | DEPARTMENT_COMMAND
 
 /datum/outfit/job/bridge
 	name = "Bridge Staff"

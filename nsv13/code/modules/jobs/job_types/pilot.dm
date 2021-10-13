@@ -22,6 +22,7 @@
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_PILOT
+	departments = DEPARTMENT_MUNITIONS
 
 //FIXME: boarding
 /*

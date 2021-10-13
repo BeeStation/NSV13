@@ -383,7 +383,7 @@
 /proc/get_all_jobs()
 	return list("Captain",
 				// Service
-				"Assistant", "Executive Officer", "Bartender", "Cook", "Botanist", "Janitor", "Curator", //NSV13 - changed HoP to XO
+				"Midshipman", "Executive Officer", "Bartender", "Cook", "Botanist", "Janitor", "Curator", //NSV13 - changed HoP to XO, assistant to midshipman
 				"Chaplain", "Lawyer", "Clown", "Mime", "Barber", "Stage Magician",
 				// Cargo
 				"Quartermaster", "Cargo Technician","Shaft Miner",
