@@ -15,3 +15,10 @@
 
 /area/shuttle/turbolift/tertiary
 	name = "tertiary turbolift"
+
+//NSV13 - added two more lift areas
+/area/shuttle/turbolift/quaternary
+	name = "quaternary turbolift"
+
+/area/shuttle/turbolift/quinary
+	name = "quinary turbolift"
