@@ -20,6 +20,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "railgun"
 	name = "artillery round"
 	damage = 60
+	range = 255
 	speed = 1.85
 	movement_type = FLYING | UNSTOPPABLE
 
