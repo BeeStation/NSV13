@@ -7,11 +7,9 @@
 	telegraph_message = "<span class='danger'>The air begins to grow warm.</span>"
 
 	weather_message = "<span class='userdanger'><i>You feel waves of heat wash over you! Find shelter!</i></span>"
-	weather_overlay = "light_snow"
+	weather_overlay = "rad_storm"
 	weather_duration_lower = 600
 	weather_duration_upper = 1500
-	weather_color = "red"
-	weather_color = "blue"
 	weather_sound = 'sound/misc/bloblarm.ogg'
 
 	end_duration = 100
@@ -70,7 +68,7 @@
 
 
 		L.rad_act(100)
-		L.adjustFireLoss(1 / 100 * (100 - resist))// seperate resist check since burn doesnt care about radsuits like like rad_act does
+		L.adjustFireLoss(0.5 / 100 * (100 - resist))// seperate resist check since burn doesnt care about radsuits like like rad_act does
 	// NSV13 end code segment
 /datum/weather/rad_storm/end()
 	if(..())
