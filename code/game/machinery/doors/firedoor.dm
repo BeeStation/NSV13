@@ -75,6 +75,21 @@
 /obj/machinery/door/firedoor/Bumped(atom/movable/AM)
 	if(panel_open || operating)
 		return
+	//NSV13 - allow bump to open if powered
+	if(welded || (stat & NOPOWER))
+		return
+	if(ismob(AM))
+		var/mob/user = AM
+		if(allow_hand_open(user))
+			add_fingerprint(user)
+			open()
+			return TRUE
+	if(ismecha(AM))
+		var/obj/mecha/M = AM
+		if(M.occupant && allow_hand_open(M.occupant))
+			open()
+			return TRUE
+	//end NSV13
 	if(!density)
 		return ..()
 	return FALSE
@@ -92,6 +107,24 @@
 	if(.)
 		return
 
+	//NSV13 - allow manual operation of unpowered firelocks
+	if (!welded && !operating)
+		if (stat & NOPOWER)
+			user.visible_message("[user] tries to open \the [src] manually.",
+						 "You operate the manual lever on \the [src].")
+			if (!do_after(user, 30, TRUE, src))
+				return FALSE
+		else if (density && !allow_hand_open(user))
+			return FALSE
+
+		add_fingerprint(user)
+		if(density)
+			emergency_close_timer = world.time + RECLOSE_DELAY // prevent it from instaclosing again if in space
+			open()
+		else
+			close()
+		return TRUE
+	//end NSV13
 	if(operating || !density)
 		return
 
