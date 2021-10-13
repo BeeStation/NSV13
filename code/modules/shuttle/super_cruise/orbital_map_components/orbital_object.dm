@@ -280,6 +280,8 @@
 	return
 
 /datum/orbital_object/proc/set_orbitting_around_body(datum/orbital_object/target_body, orbit_radius = 10, force = FALSE)
+	if(!target_body) //NSV13 - no really, sometimes there won't be one
+		return
 	if(orbitting && !force)
 		return
 	var/prev_x = position.x
