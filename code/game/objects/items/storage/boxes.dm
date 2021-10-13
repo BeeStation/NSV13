@@ -125,6 +125,8 @@
 /obj/item/storage/box/survival/PopulateContents()
 	new /obj/item/clothing/mask/breath(src)
 	new /obj/item/reagent_containers/hypospray/medipen(src)
+	new /obj/item/clothing/head/helmet/space/skinsuit(src) //NSV13 - rollup skinsuit
+	new /obj/item/clothing/suit/space/skinsuit(src) //NSV13 - rollup skinsuit
 
 	if(!isplasmaman(loc))
 		new /obj/item/tank/internals/emergency_oxygen(src)
@@ -144,6 +146,8 @@
 	new /obj/item/clothing/mask/gas/explorer(src)
 	new /obj/item/crowbar/red(src)
 	new /obj/item/reagent_containers/hypospray/medipen(src)
+	new /obj/item/clothing/head/helmet/space/skinsuit(src) //NSV13 - rollup skinsuit
+	new /obj/item/clothing/suit/space/skinsuit(src) //NSV13 - rollup skinsuit
 
 	if(!isplasmaman(loc))
 		new /obj/item/tank/internals/emergency_oxygen(src)
@@ -154,6 +158,8 @@
 /obj/item/storage/box/engineer/PopulateContents()
 	new /obj/item/clothing/mask/breath(src)
 	new /obj/item/reagent_containers/hypospray/medipen(src)
+	new /obj/item/clothing/head/helmet/space/skinsuit(src) //NSV13 - rollup skinsuit
+	new /obj/item/clothing/suit/space/skinsuit(src) //NSV13 - rollup skinsuit
 
 	if(!isplasmaman(loc))
 		new /obj/item/tank/internals/emergency_oxygen/engi(src)
@@ -177,6 +183,8 @@
 /obj/item/storage/box/security/PopulateContents()
 	new /obj/item/clothing/mask/gas/sechailer(src)
 	new /obj/item/reagent_containers/hypospray/medipen(src)
+	new /obj/item/clothing/head/helmet/space/skinsuit(src) //NSV13 - rollup skinsuit
+	new /obj/item/clothing/suit/space/skinsuit(src) //NSV13 - rollup skinsuit
 
 	if(!isplasmaman(loc))
 		new /obj/item/tank/internals/emergency_oxygen(src)
