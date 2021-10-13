@@ -325,6 +325,12 @@
 	credit_cost = 4000
 	description = "A smaller shuttle with area for cargo, medical and security personnel."
 
+/datum/map_template/shuttle/emergency/donut //NSV13 - we were using that shuttle
+	suffix = "donut"
+	name = "Donut Station Emergency Shuttle"
+	credit_cost = 4000
+
+
 /datum/map_template/shuttle/emergency/mini
 	suffix = "mini"
 	name = "Ministation emergency shuttle"
