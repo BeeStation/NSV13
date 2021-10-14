@@ -1504,7 +1504,7 @@ Seek a ship thich we'll station ourselves around
 			return
 	desired_angle = Get_Angle(src, target)
 	var/target_dist = get_dist(src, target)
-	if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE) && world.time >= next_maneuvre && (target_dist > 12 || ram_target || ignore_all_collisions))
+	if(world.time >= next_maneuvre && (target_dist > 12 || ram_target || ignore_all_collisions))
 		var/angular_difference = desired_angle - angle
 		switch(angular_difference)
 			if(-15 to 15)
