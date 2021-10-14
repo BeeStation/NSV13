@@ -281,6 +281,59 @@ Adding tasks is easy! Just define a datum for it.
 		source_ship.hail(text, name, user.name, TRUE) // Let the crew on the source ship know an Outbound message was sent
 		hail(text, source_ship.name, user.name)
 
+/obj/structure/overmap/proc/try_deliver( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console ) 
+	if( !isliving(user) )
+		return FALSE 
+	if( !allowed(user) ) //Only cargo auth'd personnel can make purchases.
+		to_chat(user, "<span class='warning'>Warning: You cannot open a communications channel without appropriate requisitions access registered to your ID card.</span>")
+		return FALSE
+
+	if (!console?.linked_launcher)
+		to_chat(user, "<span class='warning'>[console] has no cargo launcher attached! Use a multitool with a cargo launcher stored on its buffer to connect it.</span>")
+		if ( console && console.linked )
+			try_hail( user, console.linked )
+		return FALSE 
+
+	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = console.linked_launcher 
+	if ( !launcher.chambered )
+		to_chat(user, "<span class='warning'>[src] has no freight torpedoes loaded!</span>")
+		if ( console.linked )
+			try_hail( user, console.linked )
+		return FALSE 
+	
+	for(var/a in launcher.chambered.GetAllContents())
+		if(is_type_in_typecache(a, GLOB.blacklisted_cargo_types))
+			to_chat(user, "<span class='warning'>[src] Cargo Shuttle Brand lifeform checker blinks an error, \
+				for safety reasons it cannot transport live organisms, human remains, classified nuclear weaponry, \
+				homing beacons or machinery housing any form of artificial intelligence.")
+			return FALSE
+
+	var/choice = input("Transfer cargo to [src]?", "Confirm delivery", "No") in list("Yes", "No")
+	if(!choice || choice == "No") 
+		if ( console.linked )
+			try_hail( user, console.linked )
+		return FALSE 
+
+	var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = launcher.chambered 
+	var/success = receive_cargo( user, console, shipment )
+
+	if ( success )
+		// Fire the torpedo away to unload the launcher. 
+		// Without a weapon_type the projectile will not be animated 
+		launcher.fire( src, shots = 1 )
+		return TRUE 
+
+/obj/structure/overmap/proc/receive_cargo( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console, var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment ) 
+	if ( !console.linked )
+		// We're not allowing syndicate to hitscan the player ship with boarders at this time 
+		to_chat(user, "<span class='warning'>The cargo launcher IFF checker blinks an error, recipient faction is unmatched!</span>")
+		return FALSE 
+
+	var/obj/structure/overmap/courier = console.linked 
+	if ( courier.faction == src.faction )
+		src.send_supplypod( shipment, courier, TRUE )
+		return TRUE 
+
 /obj/structure/overmap/proc/hail(var/text, var/ship_name, var/player_name, var/outbound = FALSE)
 	if(!text)
 		return
@@ -1133,6 +1186,7 @@ Seek a ship thich we'll station ourselves around
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
 	var/ai_flags = AI_FLAG_DESTROYER
+	var/supply_pod_type = /obj/structure/closet/supplypod/centcompod
 
 	var/last_decision = 0
 	var/decision_delay = 2 SECONDS
