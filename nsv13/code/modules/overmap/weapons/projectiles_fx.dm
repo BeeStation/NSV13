@@ -119,7 +119,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/dirty_shell_stage_two/proc/release_payload(turf/detonation_turf)
 	var/list/inrange_turfs = RANGE_TURFS(DIRTY_SHELL_SLUDGE_RANGE, detonation_turf) - detonation_turf
 	new /obj/effect/decal/nuclear_waste/epicenter(detonation_turf)
-	for(var/turf/T in inrange_turfs)
+	for(var/turf/T as() in inrange_turfs)
 		if(isgroundlessturf(T))	//Should those kinds of turfs be able to get waste from this? Hmm, I dunno.
 			continue
 		if(isclosedturf(T) || is_blocked_turf(T, TRUE))	//Definitely not on closed turfs, for now also not on ones blocked by stuff to not make it agonizing.. unless?
@@ -130,7 +130,7 @@ Misc projectile types, effects, think of this as the special FX file.
 			continue
 		new /obj/effect/decal/nuclear_waste(T)
 	var/list/shootat_turfs = RANGE_TURFS(DIRTY_SHELL_PELLET_RANGE, detonation_turf) - RANGE_TURFS(DIRTY_SHELL_PELLET_RANGE-1, detonation_turf)
-	for(var/turf/shootat_turf in shootat_turfs)
+	for(var/turf/shootat_turf as() in shootat_turfs)
 		if(!prob(DIRTY_SHELL_PELLET_PROB))
 			continue
 		var/obj/item/projectile/energy/nuclear_particle/dirty_shell_stage_three/P = new(detonation_turf)
