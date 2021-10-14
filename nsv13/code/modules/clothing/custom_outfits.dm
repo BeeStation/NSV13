@@ -245,3 +245,79 @@ For when the marines are being irritating.
 	id = /obj/item/card/id
 	mask = /obj/item/clothing/mask/cigarette/cigar/cohiba
 	rank_title = "General"
+
+///// KNPC OUTFITS /////
+//Syndicate
+/datum/outfit/syndicate/knpc_pistol
+	l_pocket = /obj/item/reagent_containers/hypospray/medipen/survival
+	r_pocket = /obj/item/gun/ballistic/automatic/pistol
+	belt = /obj/item/storage/belt/utility/syndicate
+	suit = /obj/item/clothing/suit/space/syndicate
+	head = /obj/item/clothing/head/helmet/space/syndicate
+	mask = /obj/item/clothing/mask/gas/syndicate
+	suit_store = /obj/item/tank/internals/oxygen
+	internals_slot = ITEM_SLOT_SUITSTORE
+	back = /obj/item/storage/backpack/duffelbag/syndie
+	backpack_contents = list(/obj/item/storage/box/syndie=1, /obj/item/gun/ballistic/automatic/pistol=1,  /obj/item/ammo_box/magazine/m10mm=5)
+	tc = 0
+
+/datum/outfit/syndicate/knpc_smg
+	l_pocket = /obj/item/reagent_containers/hypospray/medipen/survival
+	r_pocket = /obj/item/gun/ballistic/automatic/pistol
+	belt = /obj/item/storage/belt/utility/syndicate
+	suit = /obj/item/clothing/suit/space/syndicate/black
+	head = /obj/item/clothing/head/helmet/space/syndicate/black
+	mask = /obj/item/clothing/mask/gas/syndicate
+	suit_store = /obj/item/tank/internals/oxygen
+	internals_slot = ITEM_SLOT_SUITSTORE
+	back = /obj/item/storage/backpack/duffelbag/syndie
+	backpack_contents = list(/obj/item/storage/box/syndie=1, /obj/item/gun/ballistic/automatic/c20r=1,  /obj/item/ammo_box/magazine/smgm45=5)
+	tc = 0
+
+/datum/outfit/syndicate/knpc_shotgun
+	l_pocket = /obj/item/reagent_containers/hypospray/medipen/survival
+	r_pocket = /obj/item/gun/ballistic/automatic/pistol
+	belt = /obj/item/storage/belt/utility/syndicate
+	suit = /obj/item/clothing/suit/space/syndicate/odst
+	head = /obj/item/clothing/head/helmet/space/syndicate/odst
+	mask = /obj/item/clothing/mask/gas/syndicate
+	suit_store = /obj/item/tank/internals/oxygen
+	internals_slot = ITEM_SLOT_SUITSTORE
+	back = /obj/item/storage/backpack/duffelbag/syndie
+	backpack_contents = list(/obj/item/storage/box/syndie=1, /obj/item/gun/ballistic/shotgun/bulldog=1,  /obj/item/ammo_box/magazine/m12g=5)
+	tc = 0
+
+//Space Pirate - TEMP UNTIL REWORK
+/datum/outfit/space_pirate/knpc_pistol
+	uniform = /obj/item/clothing/under/costume/pirate
+	shoes = /obj/item/clothing/shoes/sneakers/brown
+	gloves = /obj/item/clothing/gloves/color/brown
+	belt = /obj/item/storage/belt/utility/full
+	ears = /obj/item/radio/headset/pirate
+	id = /obj/item/card/id
+	suit = /obj/item/clothing/suit/space/pirate/boarder
+	head = /obj/item/clothing/head/helmet/space/pirate/bandana/boarder
+	mask = /obj/item/clothing/mask/breath
+	suit_store = /obj/item/tank/internals/oxygen
+	internals_slot = ITEM_SLOT_SUITSTORE
+	l_pocket = /obj/item/reagent_containers/hypospray/medipen/survival
+	r_pocket = /obj/item/gun/ballistic/automatic/pistol/glock/makarov/lethal
+	back = /obj/item/storage/backpack/satchel
+	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/glock/makarov/lethal=1, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal=5)
+
+/datum/outfit/space_pirate/knpc_auto_pistol
+	uniform = /obj/item/clothing/under/costume/pirate
+	shoes = /obj/item/clothing/shoes/sneakers/brown
+	gloves = /obj/item/clothing/gloves/color/brown
+	belt = /obj/item/storage/belt/utility/full
+	ears = /obj/item/radio/headset/pirate
+	id = /obj/item/card/id
+	suit = /obj/item/clothing/suit/space/pirate/boarder/lead
+	head = /obj/item/clothing/head/helmet/space/pirate/bandana/boarder
+	mask = /obj/item/clothing/mask/breath
+	suit_store = /obj/item/tank/internals/oxygen
+	internals_slot = ITEM_SLOT_SUITSTORE
+	l_pocket = /obj/item/reagent_containers/hypospray/medipen/survival
+	r_pocket = /obj/item/gun/ballistic/automatic/pistol/glock/makarov/lethal
+	back = /obj/item/storage/backpack/satchel
+	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/APS=1, /obj/item/ammo_box/magazine/pistolm9mm=5)

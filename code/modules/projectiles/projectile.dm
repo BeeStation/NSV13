@@ -106,6 +106,7 @@
 	var/impact_effect_type //what type of impact effect to show when hitting something
 	var/log_override = FALSE //is this type spammed enough to not log? (KAs)
 	var/faction = null //NSV13 - bullets need factions for collision checks
+	var/relay_projectile_type = null	//NSV13 - backend for some projectiles creating a different projectile than they are when relayed to a ship after hitting. I hate having this this far up in inheritance, but no overmap bullet subtype.
 	var/next_homing_process = 0 //Nsv13 - performance enhancements
 	var/homing_delay = 0.7 SECONDS //Nsv13 - performance enhancements. 1 second delay is noticeably slow
 	var/martial_arts_no_deflect = FALSE
