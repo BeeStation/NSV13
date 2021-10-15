@@ -368,13 +368,14 @@
 	update()
 
 /obj/machinery/ship_weapon/proc/update()
-	if(!safety && chambered)
-		if(src in weapon_type.weapons["loaded"])
-			return
-		LAZYADD(weapon_type.weapons["loaded"] , src)
-	else
-		if(src in weapon_type.weapons["loaded"])
-			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
+	if ( weapon_type ) // Who would've thought creating a weapon with no weapon_type would break everything! 
+		if(!safety && chambered)
+			if(src in weapon_type.weapons["loaded"])
+				return
+			LAZYADD(weapon_type.weapons["loaded"] , src)
+		else
+			if(src in weapon_type.weapons["loaded"])
+				LAZYREMOVE(weapon_type.weapons["loaded"] , src)
 
 /obj/machinery/ship_weapon/proc/lazyload()
 	if(magazine_type)
@@ -493,7 +494,10 @@
 			overmap_fire(target)
 
 			ammo -= chambered
-			qdel(chambered)
+			if ( !istype( chambered, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
+				// Don't qdel freight torpedoes, these are being moved to the stations for additional checks 
+				qdel(chambered)
+
 			chambered = null
 
 			if(length(ammo))
@@ -524,12 +528,13 @@
  * Handles firing animations and sounds on the overmap.
  */
 /obj/machinery/ship_weapon/proc/overmap_fire(atom/target)
-	if(weapon_type.overmap_firing_sounds)
+	if(weapon_type && weapon_type.overmap_firing_sounds)
 		var/sound/chosen = pick(weapon_type.overmap_firing_sounds)
 		linked.relay_to_nearby(chosen)
 	if(overlay)
 		overlay.do_animation()
-	animate_projectile(target)
+	if( weapon_type )
+		animate_projectile(target)
 
 /**
  * Animates an overmap projectile matching whatever we're shooting.
