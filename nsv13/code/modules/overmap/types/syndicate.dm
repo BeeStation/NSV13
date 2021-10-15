@@ -434,7 +434,7 @@
 	name = "\proper SSV Fist of Sol"
 	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
 	icon_state = "tuningfork"
-	desc = "A terrifying vessel packing every inch of the Syndicate's abhorent arsenal."
+	desc = "A terrifying vessel packing every inch of the Syndicate's abhorrent arsenal."
 	mass = MASS_LARGE
 	sprite_size = 96
 	bound_width = 96
