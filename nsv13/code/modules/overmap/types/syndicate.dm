@@ -431,7 +431,7 @@
 	add_sensor_profile_penalty(150, 10 SECONDS)
 	
 /obj/structure/overmap/syndicate/ai/fistofsol
-	name = "\improper SSV Fist of Sol"
+	name = "\proper SSV Fist of Sol"
 	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
 	icon_state = "tuningfork"
 	desc = "A terrifying vessel packing every inch of the Syndicate's abhorent arsenal."
