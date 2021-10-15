@@ -2225,11 +2225,12 @@
 /turf/open/floor/monotile/dark,
 /area/shuttle/turbolift/shaft)
 "ho" = (
-/obj/machinery/ship_weapon/torpedo_launcher/north{
-	color = "#b97a56";
-	pixel_y = -58
-	},
 /obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/north{
+	launcher_id = "cargo_torp_dradis";
+	linked_computer = null;
+	pixel_y = -48
+	},
 /turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "hr" = (
@@ -2973,12 +2974,19 @@
 /turf/open/floor/plating,
 /area/crew_quarters/bar/mess_hall)
 "ko" = (
-/turf/open/floor/plating/rusty_techgrid,
+/obj/structure/window/reinforced/spawner,
+/obj/structure/rack,
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 12
+	},
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "kp" = (
-/obj/structure/rack,
-/obj/structure/window/reinforced/spawner,
-/obj/item/ship_weapon/ammunition/torpedo/freight,
+/obj/machinery/computer/ship/dradis/cargo{
+	dir = 4;
+	dradis_id = "cargo_torp_dradis"
+	},
 /turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "ks" = (
@@ -9636,7 +9644,7 @@
 /obj/effect/turf_decal/loading_area{
 	dir = 1
 	},
-/turf/open/floor/plating/rusty_techgrid,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "Ga" = (
 /obj/machinery/airalarm/directional/west,
@@ -10843,11 +10851,13 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "JJ" = (
-/obj/machinery/computer{
-	dir = 1
-	},
 /obj/structure/window/reinforced/spawner,
-/turf/open/floor/plating/rusty_techgrid,
+/obj/structure/rack,
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 12
+	},
+/turf/open/floor/monotile/dark,
 /area/quartermaster/storage)
 "JL" = (
 /obj/effect/spawner/lootdrop/gambling,
@@ -11924,9 +11934,8 @@
 /area/engine/stormdrive)
 "ME" = (
 /obj/structure/rack,
-/obj/structure/window/reinforced/spawner,
-/obj/structure/window/reinforced/spawner/north,
-/obj/item/ship_weapon/ammunition/torpedo/freight,
+/obj/item/multitool,
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "MI" = (
@@ -14981,9 +14990,7 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Vs" = (
-/obj/structure/rack,
-/obj/structure/window/reinforced/spawner/north,
-/obj/item/ship_weapon/ammunition/torpedo/freight,
+/obj/machinery/computer/ship/munitions_computer/east,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "Vt" = (
@@ -46284,7 +46291,7 @@ eL
 Zz
 mf
 OJ
-ko
+OJ
 JJ
 ls
 mT
@@ -46542,7 +46549,7 @@ Zz
 Uc
 ho
 FZ
-UP
+ko
 mQ
 HA
 mX
