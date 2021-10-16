@@ -26,15 +26,17 @@
 	var/text = "<span class='warning'>"
 	text += "This item is tagged as cargo. "
 	if ( cargo_item_type?.item?.name )
-		text += "It contains [cargo_item_type.item.name]"
+		text += "It contains [cargo_item_type.item]"
 		if ( overmap_objective?.destination )
-			text += ", and needs to be delivered to [overmap_objective.destination]. "
+			var/obj/structure/overmap/S = overmap_objective.destination
+			text += ", and needs to be delivered to [S] in system [S.current_system]. "
 		else 
 			text += ". "
 	else if ( overmap_objective?.destination ) 
-		text += "It needs to be delivered to [overmap_objective.destination]. "
+		var/obj/structure/overmap/S = overmap_objective.destination
+		text += "It needs to be delivered to [S] in system [S.current_system]. "
 	
-	text += "<B>Opening this crate will reduce payout!</B>"
+	// text += "<B>Opening this crate will reduce payout!</B>" // No it doesn't 
 	text += "</span>\n"
 
 	. += text

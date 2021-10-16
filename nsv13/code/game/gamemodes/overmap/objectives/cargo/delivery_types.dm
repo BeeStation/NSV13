@@ -60,6 +60,8 @@
 			C.cargo_item_type = src
 			MO.send_supplypod( C, null, TRUE )
 			return TRUE 
+	else 
+		return TRUE 
 
 // Handheld item type objectives 
 
@@ -139,7 +141,7 @@
 	if ( itemTargets[ item.type ] && itemTargets[ item.type ] >= target ) 
 		return TRUE 
 
-/datum/cargo_item_type/object/get_brief_segment() 
+/datum/cargo_item_type/object/mineral/get_brief_segment() 
 	return "[item.name] ([target] sheets)"
 
 // Reagent type cargo objectives 
@@ -178,7 +180,7 @@
 		return TRUE 
 
 /datum/cargo_item_type/reagent/get_brief_segment() 
-	return "[reagent.name] ([target] units)"
+	return "[reagent.name ? reagent.name : reagent] ([target] units)"
 
 /datum/cargo_item_type/reagent/blood 
 	reagent = /datum/reagent/blood
