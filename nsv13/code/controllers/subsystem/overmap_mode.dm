@@ -304,6 +304,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/list/fixed_objectives = list()						//The fixed objectives for the mode - always selected
 	var/list/random_objectives = list()						//The random objectives for the mode - the pool to be chosen from
 	var/random_objective_amount = 0							//How many random objectives we are going to get
+	var/whitelist_only = FALSE								//Can only be selected through map bound whitelists
 
 	//Reminder messages
 	var/reminder_origin = "Naval Command"
