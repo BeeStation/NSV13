@@ -14,8 +14,7 @@
 
 /datum/overmap_objective/cargo/donation/minerals/New() 
 	var/picked = pick( possible_minerals )
-	var/datum/cargo_item_type/object/mineral/C = new /datum/cargo_item_type/object/mineral( new picked() )
-	cargo_item_types += C
+	cargo_item_types += new /datum/cargo_item_type/object/mineral( new picked() )
 
 /datum/overmap_objective/cargo/donation/minerals/pick_station()
 	message_admins( "minerals pick_station" )

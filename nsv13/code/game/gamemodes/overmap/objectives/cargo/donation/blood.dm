@@ -17,6 +17,5 @@
 	)
 
 /datum/overmap_objective/cargo/donation/blood/New()
-	var/datum/cargo_item_type/reagent/blood/C = new /datum/cargo_item_type/reagent/blood( pick( possible_blood_types ) )
-	cargo_item_types += C
+	cargo_item_types += new /datum/cargo_item_type/reagent/blood( pick( possible_blood_types ) )
 	

@@ -174,6 +174,8 @@
 			continue
 		if(ship == OM || ship.faction == OM.faction || ship.z != OM.z)
 			continue
+		if ( ship.essential ) 
+			continue 
 		var/target_range = get_dist(ship,OM)
 		if(target_range > max_range || target_range <= 0) //Random pulled from the aether
 			continue

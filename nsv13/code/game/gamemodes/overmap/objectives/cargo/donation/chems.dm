@@ -4,7 +4,7 @@
 	pick_same_destination = TRUE
 	var/list/chemicals = list()
 
-/datum/overmap_objective/cargo/donation/chems/New( var/datum/reagent/medicine/medicine )
+/datum/overmap_objective/cargo/donation/chems/New( var/datum/reagent/medicine )
 	message_admins( "chems instance" )
 
 	if ( medicine ) 
@@ -36,6 +36,5 @@
 					
 				var/datum/reagent/medicine/picked = pick( possible_chemicals )
 				if ( !( locate( picked ) in chemicals ) )
-					var/datum/cargo_item_type/reagent/O = new /datum/cargo_item_type/reagent( new picked() )
-					cargo_item_types += O
+					cargo_item_types += new /datum/cargo_item_type/reagent( new picked() )
 					chemicals += picked 

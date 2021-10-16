@@ -81,5 +81,3 @@
   if(parent_mission.stage != MISSION_ACTIVE)
     return
   parent_mission.report_destroyed_cargo(src)
-
-

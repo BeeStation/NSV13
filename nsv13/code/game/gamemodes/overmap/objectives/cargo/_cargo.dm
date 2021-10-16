@@ -3,7 +3,7 @@
 	// crate_name appears as a crate name when stations return requisition forms to players. 
 	// crate_name should be named similarly to cargo supply console crate names 
 	var/crate_name = "Approved Shipment"
-	binary = FALSE
+	binary = TRUE
 	extension_supported = FALSE // Players won't enjoy being handed a cargo job after beating up fleets. Review this if we decide to refactor missions later 
 	allow_duplicates = TRUE
 
@@ -39,7 +39,6 @@
 		status = 1
 
 /datum/overmap_objective/cargo/proc/pick_station()
-	message_admins( "generic pick_station" )
 	// Pick a random existing station to give this objective to 
 	var/list/ntstations = list()
 	var/list/ntstations_expecting_cargo = list()
@@ -61,6 +60,12 @@
 	// Assign this objective directly to the station, so the station can track it 
 	destination = S 
 	S.add_objective( src )
+
+/datum/overmap_objective/cargo/proc/deliver_package() 
+	for ( var/datum/cargo_item_type/T in cargo_item_types ) 
+		if ( !T.deliver_package() )
+			message_admins( "A cargo objective failed to deliver a prepackaged item to the ship! Automatically marking the objective as completed." )
+			status = 1
 
 /datum/overmap_objective/cargo/proc/update_brief() 
 	if ( length( cargo_item_types ) )

@@ -234,8 +234,20 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	for(var/datum/overmap_objective/O in mode.objectives)
 		text = "[text] <br> - [O.brief]"
+	
+	var/delivered_crates = deliver_packages()
+	if ( delivered_crates ) 
+		text = "[text] <br><br> [ delivered_crates ] prepackaged crates have been delivered to cargo for transfer objectives."
 
 	print_command_report(text, title, TRUE)
+
+/datum/controller/subsystem/overmap_mode/proc/deliver_packages()
+	var/delivered_crates = 0
+	for ( var/datum/overmap_objective/cargo/O in mode.objectives ) 
+		if ( O.deliver_package() ) 
+			delivered_crates++
+
+	return delivered_crates 
 
 /datum/controller/subsystem/overmap_mode/proc/update_reminder(var/objective = FALSE)
 	if(objective && objective_resets_reminder) //Is objective? Full Reset
