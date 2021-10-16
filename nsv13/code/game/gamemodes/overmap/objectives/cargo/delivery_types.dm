@@ -34,7 +34,7 @@
 
 /datum/cargo_item_type/object/check_contents( var/obj/container )
 	message_admins( "generic check_contents" )
-	var/obj/object = recursive_locate( item, container )
+	var/obj/object = container.GetAllContents()
 	message_admins( object )
 	return object
 
@@ -46,7 +46,7 @@
 
 /datum/cargo_item_type/object/mineral/check_contents( var/obj/container )
 	message_admins( "generic check_contents" )
-	var/obj/item/stack/sheet/mineral/object = recursive_locate( item, container )
+	var/obj/item/stack/sheet/mineral/object = container.GetAllContents()
 	message_admins( object )
 	var/success = ( object.amount > target )
 	return success
