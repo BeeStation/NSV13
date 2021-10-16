@@ -57,6 +57,34 @@ Adding tasks is easy! Just define a datum for it.
 	var/maximum_random_move_delay = 10 MINUTES
 	var/combat_move_delay = 10 MINUTES
 
+	var/list/shared_targets = list()
+
+/datum/fleet/proc/start_reporting(target, reporter)
+	//message_admins("[reporter] started reporting [target] to fleet")
+	if(!shared_targets)
+		shared_targets = list()
+	if(!shared_targets[target])
+		shared_targets[target] = list(reporter)
+	else
+		shared_targets[target] |= reporter
+
+/datum/fleet/proc/stop_reporting(target, reporter)
+	//message_admins("[reporter] stopped reporting [target] to fleet")
+	if(!shared_targets || !shared_targets[target])
+		return
+	shared_targets[target] -= reporter
+	if(!length(shared_targets[target]))
+		shared_targets -= target
+
+/datum/fleet/proc/is_reporting_target(target, reporter)
+	return ((shared_targets?[target]) && (reporter in shared_targets[target]))
+
+/datum/fleet/proc/stop_reporting_all(reporter)
+	if(!length(shared_targets))
+		return
+	for(var/target in shared_targets)
+		stop_reporting(target, reporter)
+
 //BFS search algo. Entirely unused for now.
 /datum/fleet/proc/bfs(datum/star_system/target)
 	if(!current_system)
@@ -174,6 +202,7 @@ Adding tasks is easy! Just define a datum for it.
 		for(var/obj/structure/overmap/OM in all_ships)
 			SSstar_system.move_existing_object(OM, target)
 	target.fleets += src
+	shared_targets = list() // We just got here and don't know where anything is
 	current_system = target
 	if(target.alignment != alignment)
 		current_system.mission_sector = TRUE
@@ -839,7 +868,7 @@ Adding tasks is easy! Just define a datum for it.
 		return 0
 	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY))
 		return 0	//Carriers don't hunt you down, they just patrol. The dirty work is reserved for their escorts.
-	if(!OM.last_target || QDELETED(OM.last_target))
+	if(QDELETED(OM.last_target) || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.seek_new_target()
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
 		return score
@@ -890,11 +919,11 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 		return	//Something that shouldn't have happened happened.
 
 	var/datum/lance/L = OM.current_lance
-	if(!OM.last_target)
+	if(QDELETED(OM.last_target) || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.send_radar_pulse()
 		OM.seek_new_target()
 
-	if(!OM.last_target)	//We didn't find a target
+	if(QDELETED(OM.last_target))	//We didn't find a target
 		if(L.lance_target)
 			if(L.last_finder == OM)
 				L.lance_target = null
@@ -907,7 +936,7 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 		else	//No targets anywhere we could grab, regroup or float, depending on if you are the leader.
 			regroup_swarm(OM, L)
 			return
-	//If we get to hdere, we should have a target
+	//If we get to here, we should have a target
 	if(!L.lance_target)	//Relay target
 		L.lance_target = OM.last_target
 		L.last_finder = OM
@@ -974,7 +1003,7 @@ Seek a ship thich we'll station ourselves around
 	if(OM.shots_left)
 		return 0	//Gotta have run dry.
 
-	if(!OM.last_target)
+	if(QDELETED(OM.last_target))
 		return 0
 
 	return score
@@ -992,7 +1021,7 @@ Seek a ship thich we'll station ourselves around
 /datum/ai_goal/board/check_score(obj/structure/overmap/OM)
 	if(!..())
 		return 0
-	if(!OM.last_target || QDELETED(OM.last_target))
+	if(QDELETED(OM.last_target) || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=TRUE)
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
 		return score
@@ -1077,6 +1106,8 @@ Seek a ship thich we'll station ourselves around
 		return 0
 	if(!CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY))
 		return 0
+	if( OM.last_target)
+		OM.fleet.stop_reporting(OM.last_target, src)
 	OM.last_target = null
 	OM.seek_new_target(max_distance = OM.max_tracking_range)	//Supply ships will only start running if an enemy actually comes close.
 	if(OM.last_target)
@@ -1101,7 +1132,7 @@ Seek a ship thich we'll station ourselves around
 /datum/ai_goal/patrol/check_score(obj/structure/overmap/OM)
 	if(!..())
 		return 0
-	if(!OM.last_target)
+	if(!OM.last_target || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.seek_new_target()
 	if(OM.last_target)
 		if(get_dist(OM, OM.last_target) < OM.max_tracking_range)
@@ -1144,12 +1175,12 @@ Seek a ship thich we'll station ourselves around
 	required_ai_flags = AI_FLAG_ANTI_FIGHTER
 	score = AI_SCORE_PRIORITY
 
-//Supply ships are timid, and will always try to run.
+//Kill the fighters
 /datum/ai_goal/seek/flyswatter/check_score(obj/structure/overmap/OM)
 	if(!..())
 		return 0
 	var/obj/structure/overmap/target = OM.last_target
-	if(!OM.last_target || !istype(target) || QDELETED(OM.last_target) || target.mass > MASS_TINY)
+	if(!OM.last_target || !istype(target) || QDELETED(OM.last_target) || target.mass > MASS_TINY || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.seek_new_target(max_weight_class=MASS_TINY)
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
 		return score
@@ -1224,6 +1255,8 @@ Seek a ship thich we'll station ourselves around
 		var/target_range = get_dist(src,target)
 		var/new_firemode = FIRE_MODE_GAUSS
 		if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
+			if(fleet)
+				fleet.stop_reporting(target, src)
 			last_target = null
 			return
 		var/best_distance = INFINITY //Start off infinitely high, as we have not selected a distance yet.
@@ -1294,6 +1327,8 @@ Seek a ship thich we'll station ourselves around
 	add_enemy(target)
 	var/target_range = get_dist(src,target)
 	if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
+		if(fleet)
+			fleet.stop_reporting(target, src)
 		last_target = null
 		return
 	var/did_fire = FALSE
@@ -1413,7 +1448,10 @@ Seek a ship thich we'll station ourselves around
 		if(get_dist(last_target, src) > max(max_tracking_range, OM.sensor_profile) || istype(OM) && OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE) //Out of range - Give up the chase
 			if(istype(OM) && CHECK_BITFIELD(ai_flags, AI_FLAG_DESTROYER) && OM.z == z)
 				patrol_target = get_turf(last_target)	//Destroyers are wary and will actively investigate when their target exits their sensor range. You might be able to use this to your advantage though!
-			last_target = null
+			if(fleet)
+				fleet.stop_reporting(last_target, src)
+			if(!fleet?.shared_targets?[last_target])
+				last_target = null
 		else //They're in our tracking range. Let's hunt them down.
 			if(get_dist(last_target, src) <= max_weapon_range) //Theyre within weapon range.  Calculate a path to them and fire.
 				if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE))
@@ -1537,7 +1575,7 @@ Seek a ship thich we'll station ourselves around
 			return
 	desired_angle = Get_Angle(src, target)
 	var/target_dist = get_dist(src, target)
-	if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE) && world.time >= next_maneuvre && (target_dist > 12 || ram_target || ignore_all_collisions))
+	if(world.time >= next_maneuvre && (target_dist > 12 || ram_target || ignore_all_collisions))
 		var/angular_difference = desired_angle - angle
 		switch(angular_difference)
 			if(-15 to 15)
@@ -1629,6 +1667,12 @@ Seek a ship thich we'll station ourselves around
 			continue
 		add_enemy(ship)
 		last_target = ship
+		if(fleet)
+			fleet.start_reporting(ship, src)
+		return TRUE
+	if(!last_target && length(fleet.shared_targets))
+		last_target = pick(fleet.shared_targets)
+		add_enemy(last_target)
 		return TRUE
 	return FALSE
 
