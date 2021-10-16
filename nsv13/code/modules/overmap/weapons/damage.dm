@@ -38,7 +38,8 @@ Bullet reactions
 			impact_sound_cooldown = TRUE
 			addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
 		return FALSE //Shields absorbed the hit, so don't relay the projectile.
-	relay_damage(P?.type)
+	var/relayed_type = P.relay_projectile_type ? P.relay_projectile_type : P.type
+	relay_damage(relayed_type)
 	if(!use_armour_quadrants)
 		. = ..()
 		return
@@ -247,6 +248,6 @@ Bullet reactions
 
 /obj/effect/temp_visual/explosion_telegraph/Destroy()
 	var/turf/T = get_turf(src)
-	var/damage_level = ((damage_amount <= 20) ? 1 : ((damage_amount <= 100) ? 2 : ((damage_amount <= 200) ? 3 : 4)))
-	explosion(T,round(damage_level/3),round(damage_level*1.25),round(damage_level*1.5))
+	var/damage_level = ((damage_amount <= 20) ? 1 : ((damage_amount <= 75) ? 2 : ((damage_amount <= 150) ? 3 : 4)))
+	explosion(T,damage_level == 4 ? 0 : 2,round(damage_level*1.75),round(damage_level*2.25))
 	. = ..()

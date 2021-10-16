@@ -19,7 +19,7 @@
 
 	fire_animation_length = 1 SECONDS
 	maintainable = FALSE //Due to the amount of rounds that this thing fires, this would just get suuuper irritating.
-	var/mob/living/carbon/human/gunner = null
+	var/mob/gunner = null
 	var/next_sound = 0
 	var/obj/structure/chair/comfy/gauss/gunner_chair = null
 	var/obj/structure/gauss_rack/ammo_rack
@@ -200,13 +200,14 @@
 
 /obj/machinery/ship_weapon/gauss_gun/proc/remove_gunner()
 	if(gunner)
+		var/mob/oldGunner = gunner
 		var/obj/structure/overmap/OM = get_overmap()
 		OM?.stop_piloting(gunner)
 		if(gunner_chair)
 			lower_chair()
 		else
-			gunner.forceMove(get_turf(src))
-		gunner.remove_verb(gauss_verbs)
+			oldGunner.forceMove(get_turf(src))
+		oldGunner.remove_verb(gauss_verbs)
 	gunner = null
 
 //Directional subtypes
@@ -353,7 +354,9 @@
 	update_icon()
 
 /obj/structure/gauss_rack/Destroy()
-	return QDEL_HINT_LETMELIVE
+	for(var/atom/movable/A in contents)
+		A.forceMove(loc)
+	. = ..()
 
 /obj/structure/gauss_rack/update_icon()
 	if(autoload)
@@ -371,7 +374,7 @@
 		I.forceMove(src)
 		autoload = TRUE
 		update_icon()
-	if(istype(I, gun.ammo_type))
+	if(istype(I, gun?.ammo_type))
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading something onto [src]!.</span>")
 			return FALSE
@@ -386,6 +389,8 @@
 			return FALSE
 		else
 			to_chat(user, "<span class='warning'>[src] is fully loaded!</span>")
+	else if(!gun)
+		to_chat(user, "<span class='warning'>[src] is is not connected to a gun!</span>")
 	. = ..()
 
 /obj/structure/gauss_rack/MouseDrop_T(obj/structure/A, mob/user)
@@ -406,7 +411,7 @@
 //I'll probably live to regret this...
 /obj/structure/gauss_rack/Bumped(atom/movable/AM)
 	. = ..()
-	if(autoload)
+	if(autoload && gun)
 		if(istype(AM, gun.ammo_type))
 			loading = TRUE
 			load(AM)
@@ -418,7 +423,7 @@
 		loading = FALSE
 		return FALSE
 	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-	if(istype(A, gun.ammo_type))
+	if(istype(A, gun?.ammo_type))
 		A.forceMove(src)
 		vis_contents += A
 		capacity ++
@@ -440,7 +445,7 @@
 	A.alpha = initial(A.alpha)
 	A.layer = initial(A.layer)
 	A.mouse_opacity = TRUE
-	if(istype(A, gun.ammo_type)) //If a munition, allow them to load other munitions onto us.
+	if(istype(A, gun?.ammo_type) || (!gun && istype(A, /obj/item/ship_weapon/ammunition/gauss))) //If a munition, allow them to load other munitions onto us.
 		capacity --
 	if(istype(A, /obj/item/circuitboard/gauss_rack_upgrade))
 		autoload = FALSE
@@ -449,7 +454,7 @@
 		var/count = capacity
 		for(var/X in contents)
 			var/atom/movable/AM = X
-			if(istype(AM, gun.ammo_type))
+			if(istype(AM, gun?.ammo_type))
 				AM.pixel_y = count*10
 				count --
 	if(update_visuals)
@@ -488,12 +493,12 @@
 			unload(BB)
 		if("unload_all")
 			for(var/atom/movable/A in src)
-				if(istype(A, gun.ammo_type)) //It says "unload all ammunition from rack" not "unload all"
+				if(istype(A, gun?.ammo_type) || (!gun && istype(A, /obj/item/ship_weapon/ammunition/gauss))) //It says "unload all ammunition from rack" not "unload all"
 					unload(A, update_visuals = FALSE)
 			update_visuals()
 			return
 		if("load")
-			gun.raise_rack()
+			gun?.raise_rack()
 
 /obj/structure/gauss_rack/ui_data(mob/user)
 	var/list/data = list()
@@ -525,7 +530,7 @@ Chair + rack handling
 	icon_state = "shuttle_chair"
 	var/locked = FALSE
 	var/obj/machinery/ship_weapon/gauss_gun/gun
-	var/mob/living/carbon/occupant
+	var/mob/living/occupant
 	var/feed_direction = SOUTH //Where does the ammo feed drop down to? By default, south of the chair by one tile.
 
 /obj/structure/chair/comfy/gauss/Destroy()
@@ -542,14 +547,14 @@ Chair + rack handling
 /obj/structure/chair/comfy/gauss/west
 	feed_direction = WEST
 
-/obj/structure/chair/comfy/gauss/unbuckle_mob(mob/living/buckled_mob, force=FALSE)
+/obj/structure/chair/comfy/gauss/unbuckle_mob(mob/buckled_mob, force=FALSE)
 	if(locked)
 		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
 		return FALSE
 	. = ..()
 	occupant = null
 
-/obj/structure/chair/comfy/gauss/user_unbuckle_mob(mob/living/buckled_mob, mob/living/carbon/human/user)
+/obj/structure/chair/comfy/gauss/user_unbuckle_mob(mob/buckled_mob, mob/user)
 	if(locked)
 		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
 		return FALSE
@@ -562,8 +567,25 @@ Chair + rack handling
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>Access denied</span>")
 		return
-	if(M.loc != src.loc || user != M)
+
+	if(M.loc != loc)
 		return
+
+	if(!iscyborg(M) && !iscarbon(M)) //Only carbons and cyborgs get to use the gauss gun. (That means monkeys too, but only player-controlled ones will be able to use it)
+		if(M == user)
+			to_chat(user, "<span class='warning'>You can't seem fit in the [src].!</span>")
+		else
+			to_chat(user, "<span class='warning'>[M] won't fit in the [src].!</span>")
+		return
+	
+	var/mob/living/carbon/C = M
+	if(istype(C) && !C.get_bodypart(BODY_ZONE_L_ARM) && !C.get_bodypart(BODY_ZONE_R_ARM)) //Can't shoot the gun if you have no hands, borgs get a pass on this
+		if(M == user)
+			to_chat(user, "<span class='warning'>You can't operate the gauss gun without hands!!</span>")
+		else
+			to_chat(user,"<span class='warning'>[M] can't operate the gauss gun without hands!!</span>")
+		return
+
 	to_chat(M, "<span class='warning'>[src]'s restraints clamp down onto you!</span>")
 	occupant = M
 	. = ..()

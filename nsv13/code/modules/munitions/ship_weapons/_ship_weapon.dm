@@ -494,16 +494,8 @@
 			overmap_fire(target)
 
 			ammo -= chambered
-			if ( istype( chambered, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
-				// // Need to individually discard the contents before the create can call dump_contents on Destroy 
-				// for ( var/atom/crate in chambered.contents ) // Please do not try to put an area into a freight torpedo, I will be very upset 
-				// 	if ( istype( crate, /obj/structure/closet ) )
-				// 		for ( var/atom/item in crate.contents )
-				// 			qdel( item )
-				// 	qdel( crate )
-				
+			if ( !istype( chambered, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
 				// Don't qdel freight torpedoes, these are being moved to the stations for additional checks 
-			else 
 				qdel(chambered)
 
 			chambered = null

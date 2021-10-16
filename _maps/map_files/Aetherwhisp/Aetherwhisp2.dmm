@@ -13167,7 +13167,9 @@
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "jqk" = (
-/obj/machinery/ship_weapon/torpedo_launcher/cargo/east,
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/east{
+	launcher_id = "solgov_cargo_torpedo_launcher"
+	},
 /turf/open/floor/engine,
 /area/quartermaster/storage)
 "jqu" = (
@@ -32194,7 +32196,8 @@
 	dir = 8
 	},
 /obj/machinery/computer/ship/dradis/cargo{
-	dir = 4
+	dir = 4;
+	dradis_id = "solgov_cargo_torpedo_launcher"
 	},
 /obj/item/clothing/ears/earmuffs,
 /obj/item/clothing/ears/earmuffs,

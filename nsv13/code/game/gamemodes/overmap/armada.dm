@@ -19,7 +19,7 @@
 
 	selection_weight = 0
 	required_players = 15
-	objectives = list(/datum/overmap_objective/system_defence_armada)
+	fixed_objectives = list(/datum/overmap_objective/system_defence_armada)
 
 /datum/overmap_gamemode/armada/New()
 	//Select a system to be targeted

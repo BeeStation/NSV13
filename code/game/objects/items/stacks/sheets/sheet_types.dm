@@ -108,6 +108,7 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("pdc mount frame", /obj/item/wallframe/pdc_frame, 5), \
 	new/datum/stack_recipe("railgun loading tray", /obj/item/ship_weapon/parts/loading_tray, 10), \
 	new/datum/stack_recipe("gauss gunner chair", /obj/structure/chair/comfy/gauss, 10), \
+	new/datum/stack_recipe("shuttlecraft chair", /obj/item/wallframe/shuttlecraft_chair, 5, one_per_turf = TRUE, on_floor = TRUE), \
 	//NSV13 end
 ))
 
