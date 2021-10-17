@@ -149,3 +149,12 @@
 
 /turf/open/openspace/airless
 	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/closed/indestructible/boarding_cordon
+	name = "ship interior cordon"
+	icon_state = "cordon"
+
+/turf/closed/indestructible/boarding_cordon/Initialize()
+	. = ..()
+	alpha = 0
+	mouse_opacity = FALSE

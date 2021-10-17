@@ -81,5 +81,11 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 #define FACTION_ID_PIRATES 5
 
 #define NO_INTERIOR 0
-#define INTERIOR_EXCLUSIVE 1
-#define INTERIOR_DYNAMIC 2
+#define INTERIOR_EXCLUSIVE 1 // Only one of them at a time, occupies a whole Z level
+#define INTERIOR_DYNAMIC 2 // Can have more than one, reserves space on the reserved Z
+
+#define INTERIOR_NOT_LOADED 0
+#define INTERIOR_LOADING 1
+#define INTERIOR_READY 2
+#define INTERIOR_DELETING 3
+#define INTERIOR_DELETED 4
