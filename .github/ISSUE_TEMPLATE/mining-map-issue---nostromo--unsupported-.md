@@ -1,8 +1,8 @@
 ---
-name: Map Issue - Jolly Sausage [UNSUPPORTED]
-about: Bugs related to the Jolly Sausage Map
+name: Mining Map Issue - Nostromo [UNSUPPORTED]
+about: Bugs related to the Nostromo Map
 title: ''
-labels: Jolly Sausage, Map Issue
+labels: Map Issue, Nostromo
 assignees: ''
 
 ---
