@@ -3,8 +3,8 @@
 #define FIRE_MODE_ANTI_AIR 1
 #define FIRE_MODE_TORPEDO 2
 
-//Revision 2.
-#define FIRE_MODE_AMS_LASER 3 // Laser AMS should be fired before expensive missiles are fired, so this is prioritized first
+//Revision 2. 
+#define FIRE_MODE_AMS_LASER 3 // Laser AMS should be fired before expensive missiles are fired, so this is prioritized first 
 #define FIRE_MODE_AMS 4 //You don't get to physically fire this one.
 #define FIRE_MODE_MAC 5
 #define FIRE_MODE_RAILGUN 6
