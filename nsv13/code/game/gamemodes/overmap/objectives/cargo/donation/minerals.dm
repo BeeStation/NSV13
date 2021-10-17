@@ -14,10 +14,11 @@
 
 /datum/overmap_objective/cargo/donation/minerals/New() 
 	var/picked = pick( possible_minerals )
-	cargo_item_types += new /datum/cargo_item_type/object/mineral( new picked() )
+	var/atom/mineral_item = new picked()
+	cargo_item_types += new /datum/cargo_item_type/object/mineral( mineral_item )
+	crate_name = "Surplus [mineral_item.name] crate"
 
 /datum/overmap_objective/cargo/donation/minerals/pick_station()
-	message_admins( "minerals pick_station" )
 	// Pick a random existing station to give this objective to 
 	var/list/ntstations = list()
 	var/list/ntstations_expecting_cargo = list()

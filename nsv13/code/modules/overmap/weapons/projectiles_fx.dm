@@ -216,6 +216,8 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/torpedo/nuclear/detonate(atom/target)
 	var/obj/structure/overmap/OM = target.get_overmap() //What if I just..........
+	if ( OM?.essential )
+		return FALSE
 	OM?.nuclear_impact()
 	explosion(target, 3, 6, 8)
 

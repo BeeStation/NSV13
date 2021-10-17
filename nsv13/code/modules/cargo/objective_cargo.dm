@@ -19,13 +19,26 @@
 			return
 		if(get_dist(user, src) > 1) //Check they are still in range
 			return
+		for ( var/mob/living/simple_animal/M in GetAllContents( contents ) )
+			message_admins( M )
+			message_admins( "reminder to reset probability" )
+			// if ( rand( 1, 20 ) == 20 ) // Random sentient mob event!
+			if ( rand( 1, 2 ) == 2 ) 
+				message_admins(" success")
+				var/list/candidates = pollCandidatesForMob("Do you want to play as [M]?", ROLE_SENTIENCE, null, ROLE_SENTIENCE, 50, M, POLL_IGNORE_SENTIENCE_POTION)
+				M.AIStatus = AI_ON
+				if(LAZYLEN(candidates))
+					var/mob/dead/observer/C = pick(candidates)
+					M.key = C.key
+					M.sentience_act()
+					log_game("[key_name(M)] took control of [M].")
 		..()
 
 /obj/structure/closet/crate/large/cargo_objective/examine( mob/user )
 	. = ..()
 	var/text = "<span class='warning'>"
 	text += "This item is tagged as cargo. "
-	if ( cargo_item_type?.item?.name )
+	if ( cargo_item_type.item )
 		text += "It contains [cargo_item_type.item]"
 		if ( overmap_objective?.destination )
 			var/obj/structure/overmap/S = overmap_objective.destination

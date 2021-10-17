@@ -1,6 +1,7 @@
 /datum/overmap_objective/cargo/transfer/emergency_supplies
 	name = "Deliver emergency supplies"
 	desc = "Deliver emergency supplies"
+	crate_name = "Surplus EVA suits crate"
 
 /datum/overmap_objective/cargo/transfer/emergency_supplies/New() 
 	var/datum/cargo_item_type/object/oxygen = new /datum/cargo_item_type/object( new /obj/machinery/portable_atmospherics/canister/oxygen(), 5 )

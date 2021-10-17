@@ -133,6 +133,9 @@ SUBSYSTEM_DEF(overmap_mode)
 	if(mode.random_objectives.len) //Do we have random objectives?
 		for(var/I = 0, I < mode.random_objective_amount, I++) //We pick from our pool of random objectives
 			mode.objectives += pick_n_take(mode.random_objectives)
+			// var/objective = pickweight(mode.random_objectives)
+			// mode.objectives += objective
+			// mode.random_objectives -= objective
 
 	for(var/O in mode.objectives)
 		var/datum/overmap_objective/I = new O()

@@ -16,8 +16,6 @@
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	last_target = target
 	var/obj/structure/overmap/ship = target
-	if ( ship.essential ) // AI ignore these targets 
-		return FALSE 
 	if(ai_controlled) //Let the AI switch weapons according to range
 		ai_fire(target)
 		return	//end if(ai_controlled)

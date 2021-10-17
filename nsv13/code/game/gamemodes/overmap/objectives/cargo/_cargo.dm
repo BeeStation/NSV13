@@ -1,3 +1,10 @@
+
+// If you're writing new cargo objectives please perform these test cases: 
+// Objective succeeds when supplying only items requested 
+// Objective succeeds when supplying items requested and any additional trash 
+// For objectives with multiple cargo item types or targets greater than 1, fails when supplying only some of items requested 
+// For objectives that send prepackaged items, succeeds when supplying items that have been removed from its original cargo crate, unless the objective is written to automatically fail on tamper 
+
 /datum/overmap_objective/cargo
 	name = "cargo objective"
 	// crate_name appears as a crate name when stations return requisition forms to players. 
@@ -16,12 +23,12 @@
 
 	// On proc pick_station, pick_same_destination attempts to find a station that is already expecting cargo. This avoids situations where players are trekking halfway across the universe to deliver two separate items 
 	// Set to FALSE if you always want random stations to be picked
-	// If you want to ensure your gamemode assigns its destinations correctly with pick_same_destination TRUE and using possible_objectives, either choose only objectives with pick_same_destination TRUE, manually set all cargo objectives pick_same_destination to TRUE, or do not use variable possible_objectives! When cherrypicking objectives with both pick_same_destination TRUE and FALSE, preorder your cargo missions in list objectives (not possible_objectives) by pick_same_destination FALSE first, pick_same_destination TRUE last. This ensures these objectives have applicable stations to pick from. I'm not responsible for destination inconsistency for not following these instructions 
-	// TLDR station destinations get funky when a gamemode uses possible_objectives to store multiple cargo objectives with pick_same_destination set to TRUE and FALSE, due to how possible_objectives randomly selects its objectives 
+	// If you want to ensure your gamemode assigns its destinations correctly with pick_same_destination TRUE and using random_objectives, either choose only objectives with pick_same_destination TRUE, manually set all cargo objectives pick_same_destination to TRUE, or do not use variable random_objectives! When cherrypicking objectives with both pick_same_destination TRUE and FALSE, preorder your cargo missions in list objectives (not random_objectives) by pick_same_destination FALSE first, pick_same_destination TRUE last. This ensures these objectives have applicable stations to pick from. I'm not responsible for destination inconsistency for not following these instructions 
+	// TLDR station destinations get funky when a gamemode uses random_objectives to store multiple cargo objectives with pick_same_destination set to TRUE and FALSE, due to how random_objectives randomly selects its objectives 
 	var/pick_same_destination = TRUE
 	
 	// Cargo objectives handle the station's requisitioned item in a special datum so we can control how to check contents  
-	// var/datum/cargo_item_type/cargo_item_type = null
+	// Reminder! Freight torpedoes can only hold 4 slots worth of items! This means cargo objectives should not be requiring more than 4 prepackaged item types 
 	var/list/cargo_item_types = list()
 
 /datum/overmap_objective/cargo/instance() 
@@ -34,7 +41,7 @@
 		for( var/datum/cargo_item_type/type in cargo_item_types )
 			target += type.target 
 	else 
-		// This is an objective with no deliveries set! 
+		message_admins( "A cargo objective was assigned with no delivery item types set! Automatically marking as completed" )
 		brief = "Succeed"
 		status = 1
 
@@ -95,13 +102,18 @@
 		brief = "Transfer [segments.Join( ", " )] to station [S] in system [S.current_system]"
 
 /datum/overmap_objective/cargo/proc/check_cargo( var/obj/shipment ) 
+	message_admins( "check_cargo" )
 	if ( length( cargo_item_types ) ) 
 		var/all_accounted_for = TRUE 
 		
 		for( var/datum/cargo_item_type/type in cargo_item_types )
 			if ( !( type.check_contents( shipment ) ) ) 
 				all_accounted_for = FALSE 
+				break 
 
 		if ( all_accounted_for )
 			tally = target // Target is set when the cargo_item_type is assigned 
 			status = 1
+
+		message_admins( "[all_accounted_for]" )
+		return all_accounted_for

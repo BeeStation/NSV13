@@ -8,6 +8,7 @@
 		/obj/item/ship_weapon/ammunition/torpedo/nuke,
 		/obj/item/ship_weapon/ammunition/naval_artillery,
 	)
+	crate_name = "Surplus Munitions crate"
 
 /datum/overmap_objective/cargo/donation/munitions/New() 
 	var/picked = pick( possible_munitions )
