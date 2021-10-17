@@ -5,14 +5,14 @@
 // I literally just need a box right now. 
 // TODO Refactor mission_cargos.dm to handle cargo objective descriptions 
 
-/obj/structure/closet/crate/large/cargo_objective/
+/obj/structure/closet/crate/large/freight_objective/
 	desc = "A hefty wooden crate. This crate is fitted with an anti-tamper seal. If you really want to open it you'll need a crowbar to get it open."
 	icon = 'nsv13/icons/obj/custom_crates.dmi'
 	icon_state = "large_cargo_crate"
 	var/datum/overmap_objective/cargo/overmap_objective = null
 	var/datum/freight_type/freight_type = null
 
-/obj/structure/closet/crate/large/cargo_objective/attackby(obj/item/W, mob/user, params)  
+/obj/structure/closet/crate/large/freight_objective/attackby(obj/item/W, mob/user, params)  
 	if(W.tool_behaviour == TOOL_CROWBAR)
 		var/choice = input("WARNING: The client requests that the cargo must not be tampered with. Opening this crate will reduce mission payout. Are you sure you wish to open it?", "WARNING!", "No") in list("Yes", "No")
 		if(choice != "Yes") 
@@ -34,7 +34,7 @@
 					log_game("[key_name(M)] took control of [M].")
 		..()
 
-/obj/structure/closet/crate/large/cargo_objective/examine( mob/user )
+/obj/structure/closet/crate/large/freight_objective/examine( mob/user )
 	. = ..()
 	var/text = "<span class='warning'>"
 	text += "This item is tagged as cargo. "

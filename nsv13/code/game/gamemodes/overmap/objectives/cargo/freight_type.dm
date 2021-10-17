@@ -1,5 +1,5 @@
 
-// List of specifically defined cargo_objective types so the objective knows how to handle a specific item  
+// List of specifically defined freight types so the objective knows how to handle a specific item  
 // If you're planning to deliver multiple different items to the same location, create one freight_type for each item and add these to the same objective 
 
 /datum/freight_type
@@ -47,7 +47,7 @@
 
 	for ( var/atom/a in container.GetAllContents() )
 		if( istype( a, item ) ) // Is this the item we're looking for? 
-			if ( istype( a.loc, /obj/structure/closet/crate/large/cargo_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
+			if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
 				if ( !prepackagedTargets[ a.type ] ) 
 					prepackagedTargets[ a.type ] = 0
 				prepackagedTargets[ a.type ]++
@@ -65,7 +65,7 @@
 	if ( prepackage_item )
 		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
 		if(MO)
-			var/obj/structure/closet/crate/large/cargo_objective/C = new /obj/structure/closet/crate/large/cargo_objective( src )
+			var/obj/structure/closet/crate/large/freight_objective/C = new /obj/structure/closet/crate/large/freight_objective( src )
 			for ( var/i = 0; i < target; i++ )
 				// For transfer objectives expecting multiple items of the same type, clone the referenced item 
 				add_item_to_crate( C )
