@@ -12,7 +12,6 @@
 			nearestMachine = D["machine"] 
 		else 
 			for(var/obj/machinery/inertial_dampener/machine in GLOB.inertia_dampeners)
-				CHECK_TICK	//Usually shouldn't happen but if someone makes 20000 dampeners for some reason might be useful.
 				var/dist = get_dist(M, machine)
 				if(dist < nearestDistance && machine.on)
 					nearestDistance = dist 
