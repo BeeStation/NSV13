@@ -1,8 +1,8 @@
 ---
-name: Map Issue - Jeppison
-about: Bugs related to the Jeppison Map
+name: Map Issue - Gladius
+about: Bugs related to the Gladius Map
 title: ''
-labels: Jeppison, Map Issue
+labels: Map Issue, Gladius
 assignees: ''
 
 ---

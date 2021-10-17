@@ -1,8 +1,8 @@
 ---
-name: Map Issue - Jolly Sausage [UNSUPPORTED]
-about: Bugs related to the Jolly Sausage Map
+name: Mining Map Issue - Aetherwhisp FOB [UNSUPPORTED]
+about: Bugs related to the Aetherwhisp FOB Map
 title: ''
-labels: Jolly Sausage, Map Issue
+labels: Map Issue, Aetherwhisp FOB
 assignees: ''
 
 ---
