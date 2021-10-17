@@ -66,7 +66,7 @@
 		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
 		if(MO)
 			var/obj/structure/closet/crate/large/cargo_objective/C = new /obj/structure/closet/crate/large/cargo_objective( src )
-			for ( var/atom/i = 0; i < target; i++ )
+			for ( var/i = 0; i < target; i++ )
 				// For transfer objectives expecting multiple items of the same type, clone the referenced item 
 				add_item_to_crate( C )
 			for ( var/atom/packaging in additional_prepackaging ) 
