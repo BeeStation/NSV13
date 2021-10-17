@@ -180,6 +180,7 @@ GLOBAL_LIST_INIT(plasteel_recipes, list ( \
 	new /datum/stack_recipe_list("ship weapon frames", list( \
 		new/datum/stack_recipe("naval artillery", /obj/structure/ship_weapon/artillery_frame, 20, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
 		new/datum/stack_recipe("torpedo tube frame", /obj/structure/ship_weapon/torpedo_launcher_assembly, 4, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
+		new/datum/stack_recipe("freight torpedo tube frame", /obj/structure/ship_weapon/torpedo_launcher_assembly/cargo, 4, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
 	)), \
 	//NSV13 end
 ))

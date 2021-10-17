@@ -14,8 +14,12 @@
 	build_path = /obj/machinery/computer/ship/dradis
 
 /obj/item/circuitboard/computer/ship/dradis/mining
-	name = "circuit board (minig dradis computer)"
+	name = "circuit board (mining dradis computer)"
 	build_path = /obj/machinery/computer/ship/dradis/mining
+
+/obj/item/circuitboard/computer/ship/dradis/cargo
+	name = "circuit board (cargo dradis computer)"
+	build_path = /obj/machinery/computer/ship/dradis/cargo
 
 //FTL nav
 /obj/item/circuitboard/computer/ship/navigation
