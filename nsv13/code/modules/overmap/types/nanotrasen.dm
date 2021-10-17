@@ -155,7 +155,15 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 
-/obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Vago
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE
+	icon_state = "shrike"
+
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike/apply_weapons()
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_HYBRID_RAIL] = new /datum/ship_weapon/hybrid_railgun(src)
+
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Atlas
 	role = MAIN_OVERMAP
 	obj_integrity = 1000
 	max_integrity = 1000
@@ -163,14 +171,14 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 
-/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to Jolly Sausage
+/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //NOT IN CYCLE
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 
-/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
+/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //NOT IN CYCLE
 	role = MAIN_OVERMAP
 	obj_integrity = 1400
 	max_integrity = 1400
@@ -185,7 +193,7 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 65, "overmap_heavy" = 20)
 
-/obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon
+/obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon and Gladius
 	role = MAIN_OVERMAP
 	obj_integrity = 1400
 	max_integrity = 1400

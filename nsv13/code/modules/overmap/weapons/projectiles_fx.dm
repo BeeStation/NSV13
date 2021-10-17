@@ -78,6 +78,11 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 
+/obj/item/projectile/bullet/railgun_slug/uranium //Heavier version
+	name = "uranium slug"
+	damage = 185
+	armour_penetration = 10
+
 /obj/item/projectile/bullet/railgun_slug/Initialize()
 	. = ..()
 	sleep(0.25)
