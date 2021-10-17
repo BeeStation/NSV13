@@ -27,13 +27,13 @@
 		if ( T.faction_type == FACTION_ID_NT )
 			// Don't pick mineral type traders to deliver minerals 
 			if ( !istype( T.type, /datum/trader/shallowstone ) )
-				var/obj/structure/overmap/trader/S = T.current_location
+				var/obj/structure/overmap/S = T.current_location
 				ntstations += S 
 				
 				if ( length( S.expecting_cargo ) )
 					ntstations_expecting_cargo += S
 
-	var/obj/structure/overmap/trader/S
+	var/obj/structure/overmap/S
 	if ( pick_same_destination && length( ntstations_expecting_cargo ) )
 		S = pick( ntstations_expecting_cargo )
 	else 

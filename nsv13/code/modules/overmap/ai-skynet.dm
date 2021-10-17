@@ -343,6 +343,7 @@ Adding tasks is easy! Just define a datum for it.
 		if ( allCargoPresent ) 
 			// Bag it, tag it, store it. Accessible for admin debugging later if needed 
 			// Able to check off multiple objectives through the loop if crew are piling everything into one torpedo 
+			// TODO Add checks to reject the entire shipment if there is any additional garbage. This would prevent situations where crew are trying to tick off multiple objectives at once but naturally forget to add something and have to make replacements 
 			receipt.completed_objectives += objective 
 			expecting_cargo -= request 
 
@@ -357,6 +358,7 @@ Adding tasks is easy! Just define a datum for it.
 		return FALSE 
 
 /obj/structure/overmap/proc/make_paperwork( var/datum/freight_delivery_receipt/receipt, var/approval )
+	message_admins( "make_paperwork" )
 	// Cargo DRADIS automatically synthesizes and attaches the requisition form to the cargo torp
 	var/obj/item/paper/paper = new /obj/item/paper()
 	paper.info = ""
@@ -383,10 +385,14 @@ Adding tasks is easy! Just define a datum for it.
 			/obj/item/storage,
 		)
 		// Reveal all contents of the torpedo tube 
+		message_admins( english_list( GetAllContents( shipment.contents ) ) )
 		for ( var/atom/item in GetAllContents( shipment.contents ) )
 			// Remove redundant objects that would otherwise always appear on the list 
 			if ( !is_type_in_list( item.type, blacklisted_paperwork_itemtypes ) )
+				message_admins( "additem [item]" )
 				paper.info += "<li>[item]</li>"
+			else 
+				message_admins( "ignore additem [item], it is blacklisted" )
 	else 
 		paper.info += "<li>miscellaneous unpackaged objects</li>" 
 	paper.info += "</ul>"

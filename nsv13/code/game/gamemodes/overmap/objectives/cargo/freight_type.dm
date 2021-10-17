@@ -116,7 +116,7 @@
 	message_admins( "end of check" )
 
 /datum/freight_type/object/get_brief_segment() 
-	return "[item.name] ([target] item" + (target!=1?"s":"") + ")"
+	return (target==1?"[item.name]":"[item.name] ([target] items)")
 
 /datum/freight_type/object/credits
 	target = 1
@@ -128,6 +128,7 @@
 	
 	var/obj/item/holochip/H = new /obj/item/holochip()
 	H.credits = credits // Preset value for possible prepackage transfer objectives 
+	H.name = "\improper [credits] credit transfer holochip" // Hopefully fixes cargo crate description fubar 
 	item = H
 
 /datum/freight_type/object/credits/check_contents( var/obj/container )
@@ -147,7 +148,7 @@
 		return TRUE 
 
 /datum/freight_type/object/credits/get_brief_segment() 
-	return "[target] credit" + (target!=1?"s":"")
+	return "[credits] credit" + (target!=1?"s":"")
 
 /datum/freight_type/object/mineral 
 	target = 50
@@ -266,7 +267,29 @@
 	var/mob/living/simple_animal/M = new item( C )
 	M.AIStatus = AI_OFF
 
+/datum/freight_type/specimen/check_prepackaged_contents( var/obj/container )
+	if ( !item ) // Something or someone forgot to define what the crew is delivering 
+		return FALSE 
+
+	var/list/prepackagedTargets = list()
+
+	for ( var/atom/a in container.GetAllContents() )
+		if( istype( a, item ) ) // Is this the item we're looking for? 
+			if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
+				if ( !prepackagedTargets[ a.type ] ) 
+					prepackagedTargets[ a.type ] = 0
+				prepackagedTargets[ a.type ]++
+				
+	// Prepackaged mobs need to be handled differently than prepackaged objects beecause I don't know how to code 
+	if ( prepackagedTargets[ item ] && prepackagedTargets[ item ] >= target ) 
+		// TODO add handling for stations begrudgingly accepting tampered cargo transfers 
+		// Due to the nature of objectives rewarding nothing but patrol completion there is no incentive for "bonus points" by leaving cargo untampered, unfortunately 
+		return TRUE 
+
 /datum/freight_type/specimen/check_contents( var/obj/container )
+	message_admins( "  specimen/check_contents" )
+	message_admins( item )
+	message_admins( target )
 	if ( ..() ) 
 		return TRUE 
 	
@@ -282,11 +305,13 @@
 			itemTargets[ a.type ]++
 	
 	last_check_contents = itemTargets
-	if ( itemTargets[ item.type ] && itemTargets[ item.type ] >= target ) 
+	message_admins( "[english_list(itemTargets)]" )
+	if ( itemTargets[ item ] && itemTargets[ item ] >= target ) 
 		return TRUE 
+	message_admins( "Done" );
 
 /datum/freight_type/specimen/get_brief_segment() 
 	if ( reveal_specimen )
-		return "[item.name] ([target] specimen" + (target!=1?"s":"") + ")"
+		return (target==1?"[item.name] specimen":"[target] [item.name] specimens")
 	else 
-		return "[target] secure specimen" + (target!=1?"s":"")
+		return (target==1?"a secure specimen":"[target] secure specimens")

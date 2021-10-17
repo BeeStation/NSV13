@@ -52,13 +52,16 @@
 	for ( var/trader in SSstar_system.traders )
 		var/datum/trader/T = trader
 		if ( T.faction_type == FACTION_ID_NT )
-			var/obj/structure/overmap/trader/S = T.current_location
-			ntstations += S 
-			
-			if ( length( S.expecting_cargo ) )
-				ntstations_expecting_cargo += S
+			var/obj/structure/overmap/S = T.current_location
+			var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
 
-	var/obj/structure/overmap/trader/S
+			if ( S?.current_system.name != MO?.starting_system ) // No transfer objectives to same-system stations on roundstart 
+				ntstations += S 
+				
+				if ( length( S.expecting_cargo ) )
+					ntstations_expecting_cargo += S
+
+	var/obj/structure/overmap/S
 	if ( pick_same_destination && length( ntstations_expecting_cargo ) )
 		S = pick( ntstations_expecting_cargo )
 	else 
