@@ -4,7 +4,7 @@
 #define FIRE_MODE_TORPEDO 2
 
 //Revision 2.
-#define FIRE_MODE_AMS_LASER 3 // Laser AMS should be fired before expensive missiles are fired, so this is prioritized first 
+#define FIRE_MODE_AMS_LASER 3 // Laser AMS should be fired before expensive missiles are fired, so this is prioritized first
 #define FIRE_MODE_AMS 4 //You don't get to physically fire this one.
 #define FIRE_MODE_MAC 5
 #define FIRE_MODE_RAILGUN 6
@@ -25,8 +25,9 @@
 
 #define FIRE_MODE_RED_LASER 13
 #define FIRE_MODE_BLUE_LASER 14
+#define FIRE_MODE_HYBRID_RAIL 15
 
-#define MAX_POSSIBLE_FIREMODE 14 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
+#define MAX_POSSIBLE_FIREMODE 15 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
 
 
 //Weapon classes for AIs

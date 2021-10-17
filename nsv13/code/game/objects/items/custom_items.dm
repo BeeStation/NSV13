@@ -95,3 +95,7 @@
 	icon_state = "solgov"
 	volume = 30
 	spillable = TRUE
+
+/obj/item/paper/fab_error //For disabled designs
+	name = "Fabrication Error Report"
+	info = "<p>Divide by cucumber error. Please reinstall universe and reboot.</p>"

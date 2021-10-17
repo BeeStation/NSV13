@@ -1,0 +1,43 @@
+/obj/effect/spawner/lootdrop/random_seeds
+	name = "random seed spawner"
+	lootcount = 10
+	fan_out_items = TRUE
+	loot = list(
+				/obj/item/seeds/ambrosia,
+				/obj/item/seeds/apple,
+				/obj/item/seeds/cotton,
+				/obj/item/seeds/banana,
+				/obj/item/seeds/berry,
+				/obj/item/seeds/cabbage,
+				/obj/item/seeds/carrot,
+				/obj/item/seeds/cherry,
+				/obj/item/seeds/chanter,
+				/obj/item/seeds/chili,
+				/obj/item/seeds/cocoapod,
+				/obj/item/seeds/coffee,
+				/obj/item/seeds/corn,
+				/obj/item/seeds/eggplant,
+				/obj/item/seeds/garlic,
+				/obj/item/seeds/grape,
+				/obj/item/seeds/grass,
+				/obj/item/seeds/lemon,
+				/obj/item/seeds/lime,
+				/obj/item/seeds/onion,
+				/obj/item/seeds/orange,
+				/obj/item/seeds/pineapple,
+				/obj/item/seeds/potato,
+				/obj/item/seeds/poppy,
+				/obj/item/seeds/pumpkin,
+				/obj/item/seeds/replicapod,
+				/obj/item/seeds/wheat/rice,
+				/obj/item/seeds/soya,
+				/obj/item/seeds/sunflower,
+				/obj/item/seeds/sugarcane,
+				/obj/item/seeds/tea,
+				/obj/item/seeds/tobacco,
+				/obj/item/seeds/tomato,
+				/obj/item/seeds/tower,
+				/obj/item/seeds/watermelon,
+				/obj/item/seeds/wheat,
+				/obj/item/seeds/whitebeet
+				)
