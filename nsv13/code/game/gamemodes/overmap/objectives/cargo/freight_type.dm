@@ -1,9 +1,9 @@
 
 // List of specifically defined cargo_objective types so the objective knows how to handle a specific item  
-// If you're planning to deliver multiple different items to the same location, create one cargo_item_type for each item and add these to the same objective 
+// If you're planning to deliver multiple different items to the same location, create one freight_type for each item and add these to the same objective 
 
-/datum/cargo_item_type
-	// You'll want to use the /datum/cargo_item_type/object type for defining a specific item 
+/datum/freight_type
+	// You'll want to use the /datum/freight_type/object type for defining a specific item 
 	// This should be an initialized object so prepacked delivery objectives can verify the object is identical and untampered 
 	// Some cargo types below will default to reagent/amount/credits validation in check_contents if an item is not provided 
 	var/atom/item = null
@@ -32,14 +32,14 @@
 	var/allow_replacements = TRUE 
 	var/last_check_contents = null // vv debug 
 
-/datum/cargo_item_type/proc/check_contents( var/obj/container ) 
-	// Stations call this proc, the cargo_item_type datum handles the rest 
+/datum/freight_type/proc/check_contents( var/obj/container ) 
+	// Stations call this proc, the freight_type datum handles the rest 
 	// PLEASE do NOT put areas inside freight torps this WILL cause problems! 
 	if ( prepackage_item )
 		return check_prepackaged_contents( container )
 	return FALSE
 
-/datum/cargo_item_type/proc/check_prepackaged_contents( var/obj/container )
+/datum/freight_type/proc/check_prepackaged_contents( var/obj/container )
 	if ( !item ) // Something or someone forgot to define what the crew is delivering 
 		return FALSE 
 
@@ -57,10 +57,10 @@
 		// Due to the nature of objectives rewarding nothing but patrol completion there is no incentive for "bonus points" by leaving cargo untampered, unfortunately 
 		return TRUE 
 
-/datum/cargo_item_type/proc/get_brief_segment()
+/datum/freight_type/proc/get_brief_segment()
 	return "nothing"
 
-/datum/cargo_item_type/proc/deliver_package() 
+/datum/freight_type/proc/deliver_package() 
 	message_admins( "deliver_package" )
 	if ( prepackage_item )
 		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
@@ -72,21 +72,21 @@
 			for ( var/atom/packaging in additional_prepackaging ) 
 				C.contents += packaging
 			C.overmap_objective = overmap_objective
-			C.cargo_item_type = src
+			C.freight_type = src
 			MO.send_supplypod( C, null, TRUE )
 			return TRUE 
 	else 
 		return TRUE 
 
-/datum/cargo_item_type/proc/add_item_to_crate( var/obj/C )
+/datum/freight_type/proc/add_item_to_crate( var/obj/C )
 	C.contents += DuplicateObject( item )
 
 // Handheld item type objectives 
 
-/datum/cargo_item_type/object 
+/datum/freight_type/object 
 	target = 1
 
-/datum/cargo_item_type/object/New( var/obj/object, var/number )
+/datum/freight_type/object/New( var/obj/object, var/number )
 	// Object should be initialized
 	if ( object ) 
 		item = object 
@@ -94,7 +94,7 @@
 	if ( number )
 		target = number
 
-/datum/cargo_item_type/object/check_contents( var/obj/container )
+/datum/freight_type/object/check_contents( var/obj/container )
 	message_admins( "  object/check_contents" )
 	message_admins( item )
 	message_admins( target )
@@ -115,14 +115,14 @@
 		return TRUE 
 	message_admins( "end of check" )
 
-/datum/cargo_item_type/object/get_brief_segment() 
+/datum/freight_type/object/get_brief_segment() 
 	return "[item.name] ([target] item" + (target!=1?"s":"") + ")"
 
-/datum/cargo_item_type/object/credits
+/datum/freight_type/object/credits
 	target = 1
 	var/credits = 10000
 
-/datum/cargo_item_type/object/credits/New( var/number )
+/datum/freight_type/object/credits/New( var/number )
 	if ( number )
 		credits = number
 	
@@ -130,7 +130,7 @@
 	H.credits = credits // Preset value for possible prepackage transfer objectives 
 	item = H
 
-/datum/cargo_item_type/object/credits/check_contents( var/obj/container )
+/datum/freight_type/object/credits/check_contents( var/obj/container )
 	if ( ..() ) 
 		return TRUE 
 
@@ -146,13 +146,13 @@
 	if ( itemTargets[ item.type ] && itemTargets[ item.type ] >= target ) 
 		return TRUE 
 
-/datum/cargo_item_type/object/credits/get_brief_segment() 
+/datum/freight_type/object/credits/get_brief_segment() 
 	return "[target] credit" + (target!=1?"s":"")
 
-/datum/cargo_item_type/object/mineral 
+/datum/freight_type/object/mineral 
 	target = 50
 
-/datum/cargo_item_type/object/mineral/check_contents( var/obj/container )
+/datum/freight_type/object/mineral/check_contents( var/obj/container )
 	if ( ..() ) 
 		return TRUE 
 
@@ -168,12 +168,12 @@
 	if ( itemTargets[ item.type ] && itemTargets[ item.type ] >= target ) 
 		return TRUE 
 
-/datum/cargo_item_type/object/mineral/get_brief_segment() 
+/datum/freight_type/object/mineral/get_brief_segment() 
 	return "[item.name] ([target] sheet" + (target!=1?"s":"") + ")"
 
 // Reagent type cargo objectives 
 
-/datum/cargo_item_type/reagent 
+/datum/freight_type/reagent 
 	var/datum/reagent/reagent = null
 	var/list/containers = list( // We're not accepting chemicals in food 
 		/obj/item/reagent_containers/spray,
@@ -182,21 +182,21 @@
 	)
 	target = 30 // Standard volume of a bottle 
 
-/datum/cargo_item_type/reagent/New( var/datum/reagent/medicine, var/amount ) 
+/datum/freight_type/reagent/New( var/datum/reagent/medicine, var/amount ) 
 	if ( medicine )
 		reagent = medicine 
 
 	if ( amount ) 
 		target = amount 
 
-/datum/cargo_item_type/reagent/check_contents( var/obj/container )
+/datum/freight_type/reagent/check_contents( var/obj/container )
 	message_admins( "  reagent/check_contents" )
 	message_admins( reagent )
 	message_admins( target )
 	if ( ..() ) // Check for prepackaged items 
 		return TRUE 
 
-	if ( istype( src, /datum/cargo_item_type/reagent/blood ) ) // Run the actual blood type check please thank you 
+	if ( istype( src, /datum/freight_type/reagent/blood ) ) // Run the actual blood type check please thank you 
 		return FALSE
 
 	var/list/reagentTargets = list() // Capable of summing reagents across multiple containers, useful for massive chemical deliveries! 
@@ -215,10 +215,10 @@
 		return TRUE 
 	message_admins(" end of check" )
 
-/datum/cargo_item_type/reagent/get_brief_segment() 
+/datum/freight_type/reagent/get_brief_segment() 
 	return "[reagent.name ? reagent.name : reagent] ([target] unit" + (target!=1?"s":"") + ")"
 
-/datum/cargo_item_type/reagent/blood 
+/datum/freight_type/reagent/blood 
 	reagent = new /datum/reagent/blood()
 	var/blood_type = null
 	containers = list(
@@ -226,11 +226,11 @@
 	)
 	target = 200 // Standard volume of a blood pack 
 
-/datum/cargo_item_type/reagent/blood/New( var/type ) 
+/datum/freight_type/reagent/blood/New( var/type ) 
 	if ( type )
 		blood_type = type 
 
-/datum/cargo_item_type/reagent/blood/check_contents( var/obj/container )
+/datum/freight_type/reagent/blood/check_contents( var/obj/container )
 	if ( ..() ) 
 		return TRUE 
 
@@ -248,25 +248,25 @@
 	if ( bloodTypeTargets[ reagent ] && bloodTypeTargets[ reagent ] >= target ) 
 		return TRUE 
 
-/datum/cargo_item_type/reagent/blood/get_brief_segment() 
+/datum/freight_type/reagent/blood/get_brief_segment() 
 	return "blood type [blood_type] ([target] unit" + (target!=1?"s":"") + ")"
 
-/datum/cargo_item_type/specimen 
+/datum/freight_type/specimen 
 	var/reveal_specimen = FALSE
 
-/datum/cargo_item_type/specimen/New( var/mob/living/simple_animal/object ) 
+/datum/freight_type/specimen/New( var/mob/living/simple_animal/object ) 
 	if ( object ) 
 		item = object 
 
 	var/picked = get_random_food()
 	additional_prepackaging += new picked()
 
-/datum/cargo_item_type/specimen/add_item_to_crate( var/obj/C )
+/datum/freight_type/specimen/add_item_to_crate( var/obj/C )
 	// DuplicateObject on a mob producing runtimes 
 	var/mob/living/simple_animal/M = new item( C )
 	M.AIStatus = AI_OFF
 
-/datum/cargo_item_type/specimen/check_contents( var/obj/container )
+/datum/freight_type/specimen/check_contents( var/obj/container )
 	if ( ..() ) 
 		return TRUE 
 	
@@ -285,7 +285,7 @@
 	if ( itemTargets[ item.type ] && itemTargets[ item.type ] >= target ) 
 		return TRUE 
 
-/datum/cargo_item_type/specimen/get_brief_segment() 
+/datum/freight_type/specimen/get_brief_segment() 
 	if ( reveal_specimen )
 		return "[item.name] ([target] specimen" + (target!=1?"s":"") + ")"
 	else 

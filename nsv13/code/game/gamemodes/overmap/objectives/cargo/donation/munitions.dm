@@ -12,6 +12,6 @@
 
 /datum/overmap_objective/cargo/donation/munitions/New() 
 	var/picked = pick( possible_munitions )
-	var/datum/cargo_item_type/object/C = new /datum/cargo_item_type/object( new picked() )
+	var/datum/freight_type/object/C = new /datum/freight_type/object( new picked() )
 	C.target = rand( 3, 5 )
-	cargo_item_types += C
+	freight_types += C

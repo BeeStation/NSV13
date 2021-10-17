@@ -14,7 +14,7 @@
 		/obj/item/reagent_containers/food/snacks/store/cake/holy_cake,
 		/obj/item/reagent_containers/food/snacks/store/cake/pound_cake,
 	) )
-	var/datum/cargo_item_type/object/cake = new /datum/cargo_item_type/object( new picked() )
+	var/datum/freight_type/object/cake = new /datum/freight_type/object( new picked() )
 	
 	// Pick a beer 
 	var/list/possible_chemicals = list()
@@ -27,15 +27,15 @@
 				possible_chemicals += C.id
 
 	var/datum/reagent/consumable/ethanol/picked_ethanol = pick( possible_chemicals )
-	var/datum/cargo_item_type/reagent/drinks = new /datum/cargo_item_type/reagent( new picked_ethanol() )
+	var/datum/freight_type/reagent/drinks = new /datum/freight_type/reagent( new picked_ethanol() )
 	drinks.target = 200
 
 	// Setup presents 
 	var/atom/parcel = new /obj/item/smallDelivery()
 	parcel.name = "small parcel"
-	var/datum/cargo_item_type/reagent/presents = new /datum/cargo_item_type/object( parcel )
+	var/datum/freight_type/reagent/presents = new /datum/freight_type/object( parcel )
 	presents.target = 3
 
-	cargo_item_types += cake
-	cargo_item_types += drinks
-	cargo_item_types += presents
+	freight_types += cake
+	freight_types += drinks
+	freight_types += presents

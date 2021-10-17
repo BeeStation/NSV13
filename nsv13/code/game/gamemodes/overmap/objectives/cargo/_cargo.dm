@@ -14,8 +14,8 @@
 	extension_supported = FALSE // Players won't enjoy being handed a cargo job after beating up fleets. Review this if we decide to refactor missions later 
 	allow_duplicates = TRUE
 
-	// Variables target and tally are automatically handled by the cargo_item_type datum
-	// Please set your target and tally amounts when setting up the cargo_item_type datum 
+	// Variables target and tally are automatically handled by the freight_type datum
+	// Please set your target and tally amounts when setting up the freight_type datum 
 	target = 0 
 	tally = 0 
 	
@@ -29,7 +29,7 @@
 	
 	// Cargo objectives handle the station's requisitioned item in a special datum so we can control how to check contents  
 	// Reminder! Freight torpedoes can only hold 4 slots worth of items! This means cargo objectives should not be requiring more than 4 prepackaged item types 
-	var/list/cargo_item_types = list()
+	var/list/freight_types = list()
 
 /datum/overmap_objective/cargo/instance() 
 	get_target()
@@ -37,8 +37,8 @@
 	update_brief()
 
 /datum/overmap_objective/cargo/proc/get_target()
-	if ( length( cargo_item_types ) )
-		for( var/datum/cargo_item_type/type in cargo_item_types )
+	if ( length( freight_types ) )
+		for( var/datum/freight_type/type in freight_types )
 			target += type.target 
 	else 
 		message_admins( "A cargo objective was assigned with no delivery item types set! Automatically marking as completed" )
@@ -69,33 +69,33 @@
 	S.add_objective( src )
 
 /datum/overmap_objective/cargo/proc/deliver_package() 
-	for ( var/datum/cargo_item_type/T in cargo_item_types ) 
+	for ( var/datum/freight_type/T in freight_types ) 
 		if ( !T.deliver_package() )
 			message_admins( "A cargo objective failed to deliver a prepackaged item to the ship! Automatically marking the objective as completed." )
 			status = 1
 
 /datum/overmap_objective/cargo/proc/update_brief() 
-	if ( length( cargo_item_types ) )
+	if ( length( freight_types ) )
 		var/list/segments = list()
-		for( var/datum/cargo_item_type/type in cargo_item_types )
+		for( var/datum/freight_type/type in freight_types )
 			segments += type.get_brief_segment() 
 		
 		var/obj/structure/overmap/S = destination
 		brief = "Deliver [segments.Join( ", " )] to station [S] in system [S.current_system]"
 
 /datum/overmap_objective/cargo/donation/update_brief() 
-	if ( length( cargo_item_types ) )
+	if ( length( freight_types ) )
 		var/list/segments = list()
-		for( var/datum/cargo_item_type/type in cargo_item_types )
+		for( var/datum/freight_type/type in freight_types )
 			segments += type.get_brief_segment() 
 		
 		var/obj/structure/overmap/S = destination
 		brief = "Source and donate [segments.Join( ", " )] to station [S] in system [S.current_system]"
 
 /datum/overmap_objective/cargo/transfer/update_brief() 
-	if ( length( cargo_item_types ) )
+	if ( length( freight_types ) )
 		var/list/segments = list()
-		for( var/datum/cargo_item_type/type in cargo_item_types )
+		for( var/datum/freight_type/type in freight_types )
 			segments += type.get_brief_segment() 
 		
 		var/obj/structure/overmap/S = destination
@@ -103,16 +103,16 @@
 
 /datum/overmap_objective/cargo/proc/check_cargo( var/obj/shipment ) 
 	message_admins( "check_cargo" )
-	if ( length( cargo_item_types ) ) 
+	if ( length( freight_types ) ) 
 		var/all_accounted_for = TRUE 
 		
-		for( var/datum/cargo_item_type/type in cargo_item_types )
+		for( var/datum/freight_type/type in freight_types )
 			if ( !( type.check_contents( shipment ) ) ) 
 				all_accounted_for = FALSE 
 				break 
 
 		if ( all_accounted_for )
-			tally = target // Target is set when the cargo_item_type is assigned 
+			tally = target // Target is set when the freight_type is assigned 
 			status = 1
 
 		message_admins( "[all_accounted_for]" )

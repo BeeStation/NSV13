@@ -29,7 +29,7 @@
 
 	// Bandaid fix to stop a runtime about mobs in nullspace 
 	// var/obj/structure/closet/closet = new /obj/structure/closet() 
-	var/datum/cargo_item_type/specimen/C = new /datum/cargo_item_type/specimen( picked )
+	var/datum/freight_type/specimen/C = new /datum/freight_type/specimen( picked )
 	C.prepackage_item = TRUE
 	C.overmap_objective = src
-	cargo_item_types += C
+	freight_types += C

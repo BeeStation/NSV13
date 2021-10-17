@@ -35,7 +35,7 @@
 
 	for ( var/i = 0; i < rand( 2, 4 ); i++ ) 
 		var/picked = pick( possible_components )
-		var/datum/cargo_item_type/object/C = new /datum/cargo_item_type/object( new picked() )
+		var/datum/freight_type/object/C = new /datum/freight_type/object( new picked() )
 		C.prepackage_item = TRUE
 		C.overmap_objective = src
-		cargo_item_types += C
+		freight_types += C

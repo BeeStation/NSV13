@@ -10,7 +10,7 @@
 	icon = 'nsv13/icons/obj/custom_crates.dmi'
 	icon_state = "large_cargo_crate"
 	var/datum/overmap_objective/cargo/overmap_objective = null
-	var/datum/cargo_item_type/cargo_item_type = null
+	var/datum/freight_type/freight_type = null
 
 /obj/structure/closet/crate/large/cargo_objective/attackby(obj/item/W, mob/user, params)  
 	if(W.tool_behaviour == TOOL_CROWBAR)
@@ -38,8 +38,8 @@
 	. = ..()
 	var/text = "<span class='warning'>"
 	text += "This item is tagged as cargo. "
-	if ( cargo_item_type.item )
-		text += "It contains [cargo_item_type.item]"
+	if ( freight_type.item )
+		text += "It contains [freight_type.item]"
 		if ( overmap_objective?.destination )
 			var/obj/structure/overmap/S = overmap_objective.destination
 			text += ", and needs to be delivered to [S] in system [S.current_system]. "

@@ -15,7 +15,7 @@
 /datum/overmap_objective/cargo/donation/minerals/New() 
 	var/picked = pick( possible_minerals )
 	var/atom/mineral_item = new picked()
-	cargo_item_types += new /datum/cargo_item_type/object/mineral( mineral_item )
+	freight_types += new /datum/freight_type/object/mineral( mineral_item )
 	crate_name = "Surplus [mineral_item.name] crate"
 
 /datum/overmap_objective/cargo/donation/minerals/pick_station()

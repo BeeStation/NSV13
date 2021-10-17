@@ -7,7 +7,7 @@
 
 /datum/overmap_objective/cargo/donation/chems/New( var/datum/reagent/medicine )
 	if ( medicine ) 
-		cargo_item_types += new /datum/cargo_item_type/reagent( new medicine() )
+		freight_types += new /datum/freight_type/reagent( new medicine() )
 		chemicals += medicine 
 	else // Haven't picked one yet? Don't worry, we got you covered! 
 		get_random_chems() 
@@ -23,6 +23,6 @@
 	
 	for( var/i = 0; i < rand( 1, 3 ); i++ ) 
 		var/datum/reagent/medicine/picked = pick_n_take( possible_chemicals )
-		cargo_item_types += new /datum/cargo_item_type/reagent( new picked() )
+		freight_types += new /datum/freight_type/reagent( new picked() )
 		chemicals += picked 
 		
