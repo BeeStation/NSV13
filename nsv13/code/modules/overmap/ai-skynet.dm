@@ -380,7 +380,6 @@ Adding tasks is easy! Just define a datum for it.
 
 		// Reveal all contents of the torpedo tube 
 		for ( var/atom/item in shipment.GetAllContents() )
-			message_admins( item )
 			// Remove redundant objects that would otherwise always appear on the list 
 			if ( !is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) )
 				paper.info += "<li>[item]</li>"

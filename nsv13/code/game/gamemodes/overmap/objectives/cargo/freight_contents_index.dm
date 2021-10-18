@@ -2,7 +2,9 @@
 // Stores freight torpedo contents and its prepackaged status data 
 
 /datum/freight_contents_index 
+	// Keep a total count of the actual type we're checking 
 	var/list/atoms_amount = list()
+	// Return these items that contain the amount in the list above 
 	var/list/atoms_list = list()
 
 /datum/freight_contents_index/proc/add_amount( var/atom/a, var/amount, var/type )

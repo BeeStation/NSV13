@@ -30,6 +30,8 @@
 	// Cargo objectives handle the station's requisitioned item in a special datum so we can control how to check contents  
 	// Reminder! Freight torpedoes can only hold 4 slots worth of items! This means cargo objectives should not be requiring more than 4 prepackaged item types 
 	var/list/freight_types = list()
+	var/last_check_cargo_items_requested = null
+	var/last_check_cargo_items_all = null
 
 /datum/overmap_objective/cargo/instance() 
 	message_admins(" reset pick_same_destination to FALSE" )
@@ -115,15 +117,20 @@
 		// Individual freight_type datums cannot check for non-objective trash because they do not have the full context of other freight_types in the same list 
 		
 		var/list/allContents = shipment.GetAllContents()
+		last_check_cargo_items_requested = list()
+		last_check_cargo_items_all = allContents
 		for( var/datum/freight_type/type in freight_types )
 			var/list/item_results = type.check_contents( shipment )
 			if ( item_results ) 
 				for ( var/atom/i in item_results ) 
+					last_check_cargo_items_requested += i
 					allContents -= i 
 			else 
+				// There are missing items in this freight type, we're not going to bother checking the rest  
 				all_accounted_for = FALSE 
 				break 
 
+		message
 		if ( all_accounted_for && !length( allContents ) )
 			tally = target // Target is set when the freight_type is assigned 
 			status = 1
