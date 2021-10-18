@@ -1,3 +1,10 @@
+// When validationg freight types, these common items will be ignored 
+// This list is also used in ignoring common items for making paperwork 
+GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
+	/obj/item/ship_weapon/ammunition/torpedo/freight,
+	/obj/structure/closet
+	// /obj/item/storage
+) ) )
 
 // List of specifically defined freight types so the objective knows how to handle a specific item  
 // If you're planning to deliver multiple different items to the same location, create one freight_type for each item and add these to the same objective 
@@ -43,25 +50,25 @@
 	if ( !item ) // Something or someone forgot to define what the crew is delivering 
 		return FALSE 
 
-	var/list/prepackagedTargets = list()
+	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/atom/a in container.GetAllContents() )
-		if( istype( a, item ) ) // Is this the item we're looking for? 
-			if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
-				if ( !prepackagedTargets[ a.type ] ) 
-					prepackagedTargets[ a.type ] = 0
-				prepackagedTargets[ a.type ]++
+		if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) ) )
+			if( istype( a.type, item.type ) )
+				if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
+					// Add to contents index for more checks 
+					index.add_amount( a, 1 )
 				
-	if ( prepackagedTargets[ item.type ] && prepackagedTargets[ item.type ] >= target ) 
-		// TODO add handling for stations begrudgingly accepting tampered cargo transfers 
-		// Due to the nature of objectives rewarding nothing but patrol completion there is no incentive for "bonus points" by leaving cargo untampered, unfortunately 
-		return TRUE 
+	// TODO add handling for stations begrudgingly accepting tampered cargo transfers 
+	// Due to the nature of objectives rewarding nothing but patrol completion there is no incentive for "bonus points" by leaving cargo untampered, unfortunately 
+	var/list/itemTargets = index.get_amount( item.type, target )
+	last_check_contents = itemTargets
+	return itemTargets
 
 /datum/freight_type/proc/get_brief_segment()
 	return "nothing"
 
 /datum/freight_type/proc/deliver_package() 
-	message_admins( "deliver_package" )
 	if ( prepackage_item )
 		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
 		if(MO)
@@ -95,25 +102,20 @@
 		target = number
 
 /datum/freight_type/object/check_contents( var/obj/container )
-	message_admins( "  object/check_contents" )
-	message_admins( item )
-	message_admins( target )
 	if ( ..() ) 
 		return TRUE 
 
-	var/list/itemTargets = list()
+	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/atom/a in container.GetAllContents() )
-		if( istype( a, item ) )
-			if ( !itemTargets[ a.type ] ) 
-				itemTargets[ a.type ] = 0
-			itemTargets[ a.type ]++
+		if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) ) )
+			if( istype( a.type, item.type ) )
+				// Add to contents index for more checks 
+				index.add_amount( a, 1 )
 			
-	message_admins( "[english_list(itemTargets)]" )
+	var/list/itemTargets = index.get_amount( item.type, target )
 	last_check_contents = itemTargets
-	if ( itemTargets[ item.type ] && itemTargets[ item.type ] >= target ) 
-		return TRUE 
-	message_admins( "end of check" )
+	return itemTargets
 
 /datum/freight_type/object/get_brief_segment() 
 	return (target==1?"[item.name]":"[item.name] ([target] items)")
@@ -135,17 +137,17 @@
 	if ( ..() ) 
 		return TRUE 
 
-	var/list/itemTargets = list()
+	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/obj/item/holochip/a in container.GetAllContents() )
-		if( istype( a, item ) )
-			if ( !itemTargets[ a.type ] ) 
-				itemTargets[ a.type ] = 0
-			itemTargets[ a.type ] += a.credits
-	
+		if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) ) )
+			if( istype( a.type, item.type ) )
+				// Add to contents index for more checks 
+				index.add_amount( a, a.credits )
+				
+	var/list/itemTargets = index.get_amount( item.type, credits )
 	last_check_contents = itemTargets
-	if ( itemTargets[ item.type ] && itemTargets[ item.type ] >= target ) 
-		return TRUE 
+	return itemTargets
 
 /datum/freight_type/object/credits/get_brief_segment() 
 	return "[credits] credit" + (target!=1?"s":"")
@@ -157,17 +159,17 @@
 	if ( ..() ) 
 		return TRUE 
 
-	var/list/itemTargets = list()
+	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/obj/item/stack/a in container.GetAllContents() )
-		if( istype( a, item ) )
-			if ( !itemTargets[ a.type ] ) 
-				itemTargets[ a.type ] = 0
-			itemTargets[ a.type ] += a.amount
-	
+		if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) ) )
+			if( istype( a, item.type ) )
+				// Add to contents index for more checks 
+				index.add_amount( a, a.amount )
+				
+	var/list/itemTargets = index.get_amount( item.type, target )
 	last_check_contents = itemTargets
-	if ( itemTargets[ item.type ] && itemTargets[ item.type ] >= target ) 
-		return TRUE 
+	return itemTargets
 
 /datum/freight_type/object/mineral/get_brief_segment() 
 	return "[item.name] ([target] sheet" + (target!=1?"s":"") + ")"
@@ -191,30 +193,25 @@
 		target = amount 
 
 /datum/freight_type/reagent/check_contents( var/obj/container )
-	message_admins( "  reagent/check_contents" )
-	message_admins( reagent )
-	message_admins( target )
 	if ( ..() ) // Check for prepackaged items 
 		return TRUE 
 
 	if ( istype( src, /datum/freight_type/reagent/blood ) ) // Run the actual blood type check please thank you 
 		return FALSE
 
-	var/list/reagentTargets = list() // Capable of summing reagents across multiple containers, useful for massive chemical deliveries! 
+	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 	
 	for ( var/obj/item/reagent_containers/a in container.GetAllContents() )
 		if ( is_type_in_list( a, containers ) )
 			var/datum/reagents/reagents = a.reagents
 			for ( var/datum/reagent/R in reagents.reagent_list )
-				if ( !reagentTargets[ R.type ] ) 
-					reagentTargets[ R.type ] = 0
-				reagentTargets[ R.type ] += R.volume
+				if ( istype( R, reagent.type ) )
+					// Add to contents index for more checks 
+					index.add_amount( a, R.volume, R.type )
 	
-	message_admins( "[english_list(reagentTargets)]" )
-	last_check_contents = reagentTargets
-	if ( reagentTargets[ reagent.type ] && reagentTargets[ reagent.type ] >= target ) 
-		return TRUE 
-	message_admins(" end of check" )
+	var/list/itemTargets = index.get_amount( reagent.type, target )
+	last_check_contents = itemTargets
+	return itemTargets
 
 /datum/freight_type/reagent/get_brief_segment() 
 	return "[reagent.name ? reagent.name : reagent] ([target] unit" + (target!=1?"s":"") + ")"
@@ -235,25 +232,25 @@
 	if ( ..() ) 
 		return TRUE 
 
-	var/list/bloodTypeTargets = list() // Capable of summing reagents across multiple containers, useful for massive blood bag deliveries! 
+	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/obj/item/reagent_containers/a in container.GetAllContents() )
 		if ( is_type_in_list( a, containers ) )
 			var/datum/reagents/reagents = a.reagents
 			for ( var/datum/reagent/blood/R in reagents.reagent_list )
-				if ( !bloodTypeTargets[ R.data[ "blood_type" ] ] ) 
-					bloodTypeTargets[ R.data[ "blood_type" ] ] = 0
-				bloodTypeTargets[ R.data[ "blood_type" ] ] += R.volume
-
-	last_check_contents = bloodTypeTargets
-	if ( bloodTypeTargets[ reagent ] && bloodTypeTargets[ reagent ] >= target ) 
-		return TRUE 
+				if ( R.data[ "blood_type" ] == blood_type )
+					// Add to contents index for more checks 
+					index.add_amount( a, R.volume, blood_type )
+					
+	var/list/itemTargets = index.get_amount( blood_type, target )
+	last_check_contents = itemTargets
+	return itemTargets
 
 /datum/freight_type/reagent/blood/get_brief_segment() 
 	return "blood type [blood_type] ([target] unit" + (target!=1?"s":"") + ")"
 
 /datum/freight_type/specimen 
-	var/reveal_specimen = FALSE
+	// var/reveal_specimen = FALSE
 
 /datum/freight_type/specimen/New( var/mob/living/simple_animal/object ) 
 	if ( object ) 
@@ -266,52 +263,49 @@
 	// DuplicateObject on a mob producing runtimes 
 	var/mob/living/simple_animal/M = new item( C )
 	M.AIStatus = AI_OFF
-
+	
+// Prepackaged mobs need to be handled differently than prepackaged objects beecause I don't know how to code 
 /datum/freight_type/specimen/check_prepackaged_contents( var/obj/container )
 	if ( !item ) // Something or someone forgot to define what the crew is delivering 
 		return FALSE 
 
-	var/list/prepackagedTargets = list()
+	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
-	for ( var/atom/a in container.GetAllContents() )
-		if( istype( a, item ) ) // Is this the item we're looking for? 
-			if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
-				if ( !prepackagedTargets[ a.type ] ) 
-					prepackagedTargets[ a.type ] = 0
-				prepackagedTargets[ a.type ]++
+	for ( var/mob/a in container.GetAllContents() )
+		if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) ) )
+			if( istype( a, item ) ) // Is this the item we're looking for? 
+				if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
+					// Add to contents index for more checks 
+					index.add_amount( a, 1 )
 				
-	// Prepackaged mobs need to be handled differently than prepackaged objects beecause I don't know how to code 
-	if ( prepackagedTargets[ item ] && prepackagedTargets[ item ] >= target ) 
-		// TODO add handling for stations begrudgingly accepting tampered cargo transfers 
-		// Due to the nature of objectives rewarding nothing but patrol completion there is no incentive for "bonus points" by leaving cargo untampered, unfortunately 
-		return TRUE 
+	// TODO add handling for stations begrudgingly accepting tampered cargo transfers 
+	// Due to the nature of objectives rewarding nothing but patrol completion there is no incentive for "bonus points" by leaving cargo untampered, unfortunately 
+	var/list/itemTargets = index.get_amount( item, target )
+	last_check_contents = itemTargets
+	return itemTargets
 
 /datum/freight_type/specimen/check_contents( var/obj/container )
-	message_admins( "  specimen/check_contents" )
-	message_admins( item )
-	message_admins( target )
 	if ( ..() ) 
 		return TRUE 
 	
 	if ( !allow_replacements )
 		return FALSE 
 
-	var/list/itemTargets = list()
+	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/mob/a in container.GetAllContents() )
 		if( istype( a, item ) )
-			if ( !itemTargets[ a.type ] ) 
-				itemTargets[ a.type ] = 0
-			itemTargets[ a.type ]++
+			if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) ) )
+				// Add to contents index for more checks 
+				index.add_amount( a, 1 )
 	
+	var/list/itemTargets = index.get_amount( item, target )
 	last_check_contents = itemTargets
-	message_admins( "[english_list(itemTargets)]" )
-	if ( itemTargets[ item ] && itemTargets[ item ] >= target ) 
-		return TRUE 
-	message_admins( "Done" );
+	return itemTargets
 
 /datum/freight_type/specimen/get_brief_segment() 
-	if ( reveal_specimen )
-		return (target==1?"[item.name] specimen":"[target] [item.name] specimens")
-	else 
-		return (target==1?"a secure specimen":"[target] secure specimens")
+	// TODO How do I get the mob name from an uninitialized typepath? 
+	// if ( reveal_specimen )
+	// 	return (target==1?"[item.name] specimen":"[target] [item.name] specimens")
+	// else 
+	return (target==1?"a secure specimen":"[target] secure specimens")

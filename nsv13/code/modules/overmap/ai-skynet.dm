@@ -343,7 +343,6 @@ Adding tasks is easy! Just define a datum for it.
 		if ( allCargoPresent ) 
 			// Bag it, tag it, store it. Accessible for admin debugging later if needed 
 			// Able to check off multiple objectives through the loop if crew are piling everything into one torpedo 
-			// TODO Add checks to reject the entire shipment if there is any additional garbage. This would prevent situations where crew are trying to tick off multiple objectives at once but naturally forget to add something and have to make replacements 
 			receipt.completed_objectives += objective 
 			expecting_cargo -= request 
 
@@ -358,7 +357,6 @@ Adding tasks is easy! Just define a datum for it.
 		return FALSE 
 
 /obj/structure/overmap/proc/make_paperwork( var/datum/freight_delivery_receipt/receipt, var/approval )
-	message_admins( "make_paperwork" )
 	// Cargo DRADIS automatically synthesizes and attaches the requisition form to the cargo torp
 	var/obj/item/paper/paper = new /obj/item/paper()
 	paper.info = ""
@@ -368,7 +366,7 @@ Adding tasks is easy! Just define a datum for it.
 	paper.info += ( "Order: S-[rand( 1000, 5000 )]<br/>" )
 	paper.info += "Destination: [src]<br/>"
 	if ( length( receipt.completed_objectives ) > 1 ) // If receipt has an attach objective which marks it as completed 
-		paper.info += ( "Item: Assorted Shipment" )
+		paper.info += ( "Item: Assorted Shipment<br/>" )
 	else if ( length( receipt.completed_objectives ) == 1 )
 		var/datum/overmap_objective/cargo/objective = receipt.completed_objectives[ 1 ]
 		paper.info += ( "Item: [objective.crate_name]<br/>" )
@@ -379,20 +377,13 @@ Adding tasks is easy! Just define a datum for it.
 	paper.info += "<ul>"
 	if ( istype( receipt.shipment, /obj/item/ship_weapon/ammunition/torpedo/freight ) ) 
 		var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = receipt.shipment 
-		var/list/blacklisted_paperwork_itemtypes = list(
-			/obj/item/ship_weapon/ammunition/torpedo/freight,
-			/obj/structure/closet,
-			/obj/item/storage,
-		)
+
 		// Reveal all contents of the torpedo tube 
-		message_admins( english_list( GetAllContents( shipment.contents ) ) )
-		for ( var/atom/item in GetAllContents( shipment.contents ) )
+		for ( var/atom/item in shipment.GetAllContents() )
+			message_admins( item )
 			// Remove redundant objects that would otherwise always appear on the list 
-			if ( !is_type_in_list( item.type, blacklisted_paperwork_itemtypes ) )
-				message_admins( "additem [item]" )
+			if ( !is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) )
 				paper.info += "<li>[item]</li>"
-			else 
-				message_admins( "ignore additem [item], it is blacklisted" )
 	else 
 		paper.info += "<li>miscellaneous unpackaged objects</li>" 
 	paper.info += "</ul>"
@@ -412,7 +403,6 @@ Adding tasks is easy! Just define a datum for it.
 		paper.stamps = list( list(sheet.icon_class_name("stamp-deny"), 1, 1, 0) )
 
 	paper.update_icon()
-
 	return paper
 
 /obj/structure/overmap/proc/return_approved_form( var/datum/freight_delivery_receipt/receipt )
@@ -445,7 +435,6 @@ Adding tasks is easy! Just define a datum for it.
 			) ), src)
 
 /obj/structure/overmap/proc/reject_incomplete_shipment( var/datum/freight_delivery_receipt/receipt ) 
-	message_admins( "reject_incomplete_shipment" )
 	if(receipt?.vessel)
 		// Won't check for returns_rejected_cargo if the station is actually expecting cargo, but the torp they receive is incorrect 
 		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')

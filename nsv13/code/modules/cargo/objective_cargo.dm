@@ -18,20 +18,16 @@
 	RegisterSignal( src, COMSIG_FREIGHT_TAMPERED, .proc/poll_for_ghost_sentience )
 
 /obj/structure/closet/crate/large/freight_objective/attackby(obj/item/W, mob/user, params)  
-	message_admins( "freight_objective/attackby" )
-	message_admins( user )
 	if(W.tool_behaviour == TOOL_CROWBAR)
 		var/choice = input("WARNING: The client requests that the cargo must not be tampered with. Opening this crate will reduce mission payout. Are you sure you wish to open it?", "WARNING!", "No") in list("Yes", "No")
 		if(choice != "Yes") 
 			return
 		if(get_dist(user, src) > 1) //Check they are still in range
 			return
-		message_admins( "do checks" )
 		SEND_SIGNAL( src, COMSIG_FREIGHT_TAMPERED ) // Detach the ghost poll from this proc so the crate gets opened 
 		..()
 
 /obj/structure/closet/crate/large/freight_objective/proc/poll_for_ghost_sentience()
-	message_admins( english_list( contents ) )
 	for ( var/mob/living/simple_animal/M in contents )
 		if ( rand( 1, 20 ) == 20 ) // Random sentient mob event!
 			var/list/candidates = pollCandidatesForMob("Do you want to play as [M]?", ROLE_SENTIENCE, null, ROLE_SENTIENCE, 50, M, POLL_IGNORE_SENTIENCE_POTION)

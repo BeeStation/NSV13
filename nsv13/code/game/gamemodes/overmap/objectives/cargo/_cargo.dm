@@ -1,9 +1,9 @@
 
 // If you're writing new cargo objectives please perform these test cases: 
-// Objective succeeds when supplying only items requested 
-// Objective succeeds when supplying items requested and any additional trash 
-// For objectives with multiple cargo item types or targets greater than 1, fails when supplying only some of items requested 
-// For objectives that send prepackaged items, succeeds when supplying items that have been removed from its original cargo crate, unless the objective is written to automatically fail on tamper 
+// Objective approves when supplying all and only items requested 
+// Objective rejects when supplying items requested and any additional trash 
+// For objectives with multiple cargo item types or targets greater than 1, rejects when supplying only some of items requested 
+// For objectives that send prepackaged items, approves when supplying items that have been removed from its original cargo crate, unless the objective is written to automatically fail on tamper 
 
 /datum/overmap_objective/cargo
 	name = "cargo objective"
@@ -32,6 +32,7 @@
 	var/list/freight_types = list()
 
 /datum/overmap_objective/cargo/instance() 
+	message_admins(" reset pick_same_destination to FALSE" )
 	get_target()
 	pick_station()
 	update_brief()
@@ -109,12 +110,21 @@
 	if ( length( freight_types ) ) 
 		var/all_accounted_for = TRUE 
 		
+		// Cargo objectives with multiple freight types need to be checked individually, 
+		// then the entire container needs checked for non-objective related trash. 
+		// Individual freight_type datums cannot check for non-objective trash because they do not have the full context of other freight_types in the same list 
+		
+		var/list/allContents = shipment.GetAllContents()
 		for( var/datum/freight_type/type in freight_types )
-			if ( !( type.check_contents( shipment ) ) ) 
+			var/list/item_results = type.check_contents( shipment )
+			if ( item_results ) 
+				for ( var/atom/i in item_results ) 
+					allContents -= i 
+			else 
 				all_accounted_for = FALSE 
 				break 
 
-		if ( all_accounted_for )
+		if ( all_accounted_for && !length( allContents ) )
 			tally = target // Target is set when the freight_type is assigned 
 			status = 1
 
