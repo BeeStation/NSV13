@@ -3682,6 +3682,11 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
+/obj/machinery/button/door/indestructible{
+	id = "medCCshutter";
+	name = "Medbay CC access Shutters";
+	pixel_x = -32
+	},
 /turf/open/floor/monotile/steel,
 /area/centcom/ferry)
 "kl" = (
@@ -3863,11 +3868,6 @@
 /area/centcom/control)
 "ld" = (
 /obj/structure/rack,
-/obj/effect/spawner/lootdrop/gloves,
-/obj/effect/spawner/lootdrop/gloves,
-/obj/effect/spawner/lootdrop/gloves,
-/obj/effect/spawner/lootdrop/gloves,
-/obj/effect/spawner/lootdrop/gloves,
 /obj/effect/spawner/lootdrop/gloves,
 /obj/effect/spawner/lootdrop/gloves,
 /obj/effect/spawner/lootdrop/gloves,
@@ -4091,6 +4091,19 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/centcom/prison)
+"lQ" = (
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/machinery/vending/snack/random,
+/turf/open/floor/monotile/steel,
+/area/centcom/ferry)
 "lR" = (
 /obj/machinery/light{
 	dir = 8
@@ -4202,7 +4215,9 @@
 /area/centcom/control)
 "mp" = (
 /obj/structure/rack,
-/obj/effect/spawner/lootdrop/maintenance/three,
+/obj/effect/spawner/lootdrop/snowdin/dungeonlite,
+/obj/effect/spawner/lootdrop/snowdin/dungeonlite,
+/obj/effect/spawner/lootdrop/snowdin/dungeonlite,
 /turf/open/floor/plasteel/checker,
 /area/centcom/control)
 "mq" = (
@@ -4590,6 +4605,14 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/centcom/ferry)
+"nE" = (
+/obj/effect/turf_decal/stripes/red/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/red,
+/obj/machinery/light,
+/turf/open/floor/plasteel/dark,
+/area/centcom/ferry)
 "nF" = (
 /obj/machinery/newscaster/security_unit{
 	pixel_y = -32
@@ -4668,6 +4691,12 @@
 	},
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
+	},
+/obj/machinery/button/door/indestructible{
+	id = "LobbyCCshutter";
+	name = "CC Lobby Shutters";
+	pixel_x = 32;
+	req_one_access_txt = "106"
 	},
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
@@ -5047,6 +5076,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/centcom/ferry)
+"oY" = (
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/snowdin/dungeonheavy,
+/obj/effect/spawner/lootdrop/snowdin/dungeonheavy,
+/obj/effect/spawner/lootdrop/snowdin/dungeonheavy,
+/turf/open/floor/plasteel/checker,
+/area/centcom/control)
 "oZ" = (
 /obj/structure/chair/comfy/black{
 	dir = 4
@@ -5160,6 +5196,18 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
+"pr" = (
+/obj/effect/turf_decal/stripes/red/line{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/centcom/ferry)
 "ps" = (
 /obj/structure/chair/wood/wings{
 	dir = 8
@@ -5799,6 +5847,13 @@
 /obj/structure/sign/warning/securearea,
 /turf/closed/indestructible/riveted,
 /area/centcom/ferry)
+"rB" = (
+/obj/structure/sink{
+	dir = 8;
+	pixel_x = -12
+	},
+/turf/open/floor/noslip/standard,
+/area/centcom/control)
 "rC" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/box/flashbangs,
@@ -6441,6 +6496,16 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/centcom/ferry)
+"tD" = (
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/item/twohanded/required/kirbyplants/random,
+/turf/open/floor/monotile/steel,
+/area/centcom/ferry)
 "tF" = (
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 8
@@ -6485,6 +6550,14 @@
 	dir = 8
 	},
 /turf/open/floor/noslip/darkblue,
+/area/centcom/ferry)
+"tR" = (
+/obj/machinery/door/poddoor/shutters{
+	id = "cccHallway";
+	name = "Central CC Hallway Shutter"
+	},
+/obj/machinery/light/floor,
+/turf/open/floor/noslip/dark,
 /area/centcom/ferry)
 "tS" = (
 /obj/effect/turf_decal/stripes/red/line{
@@ -6605,10 +6678,10 @@
 /turf/open/floor/monotile/dark,
 /area/centcom/ferry)
 "uq" = (
+/obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
@@ -6784,10 +6857,10 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
@@ -7129,13 +7202,10 @@
 /turf/open/floor/noslip/dark,
 /area/centcom/ferry)
 "vH" = (
-/obj/effect/turf_decal/tile/green{
-	dir = 8
+/obj/structure/chair/sofa{
+	dir = 4
 	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 1
-	},
-/turf/open/floor/monotile/steel,
+/turf/open/floor/carpet/green,
 /area/centcom/ferry)
 "vJ" = (
 /obj/effect/turf_decal/tile/green,
@@ -7698,6 +7768,14 @@
 	},
 /turf/open/floor/wood,
 /area/centcom/holding)
+"xD" = (
+/obj/machinery/button/door/indestructible{
+	id = "vipshutter";
+	name = "shutter button";
+	req_one_access_txt = "106;19"
+	},
+/turf/closed/indestructible/riveted,
+/area/centcom/control)
 "xE" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 8
@@ -7976,6 +8054,7 @@
 	id = "CCCheckBypass";
 	name = "CC Checkpoint Bypass"
 	},
+/obj/machinery/light/floor,
 /turf/open/floor/noslip/dark,
 /area/centcom/control)
 "yC" = (
@@ -8458,9 +8537,6 @@
 /obj/effect/spawner/lootdrop/glowstick,
 /obj/effect/spawner/lootdrop/glowstick,
 /obj/effect/spawner/lootdrop/glowstick,
-/obj/effect/spawner/lootdrop/glowstick,
-/obj/effect/spawner/lootdrop/glowstick,
-/obj/effect/spawner/lootdrop/glowstick,
 /turf/open/floor/plasteel/checker,
 /area/centcom/control)
 "Ap" = (
@@ -8473,6 +8549,16 @@
 /obj/machinery/vending/snack/random,
 /turf/open/floor/carpet/green,
 /area/centcom/control)
+"Ar" = (
+/obj/machinery/door/airlock/centcom{
+	name = "CentCom High Security";
+	req_access_txt = "106"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/centcom/ferry)
 "As" = (
 /obj/machinery/vending/cola/random,
 /turf/open/floor/carpet/green,
@@ -8638,11 +8724,6 @@
 /obj/effect/spawner/lootdrop/minor/beret_or_rabbitears,
 /obj/effect/spawner/lootdrop/minor/beret_or_rabbitears,
 /obj/effect/spawner/lootdrop/minor/bowler_or_that,
-/obj/effect/spawner/lootdrop/minor/bowler_or_that,
-/obj/effect/spawner/lootdrop/minor/kittyears_or_rabbitears,
-/obj/effect/spawner/lootdrop/minor/kittyears_or_rabbitears,
-/obj/effect/spawner/lootdrop/minor/pirate_or_bandana,
-/obj/effect/spawner/lootdrop/minor/pirate_or_bandana,
 /turf/open/floor/plasteel/checker,
 /area/centcom/control)
 "AV" = (
@@ -8758,6 +8839,13 @@
 	dir = 8
 	},
 /obj/item/banner/command/mundane,
+/obj/machinery/button/door/indestructible{
+	id = "LobbyCCshutter";
+	name = "CC Lobby Shutters";
+	pixel_x = 4;
+	pixel_y = 31;
+	req_one_access_txt = "106"
+	},
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
 "Bs" = (
@@ -8800,6 +8888,9 @@
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
+	},
+/obj/machinery/light{
+	dir = 1
 	},
 /turf/open/floor/monotile/steel,
 /area/centcom/ferry)
@@ -9410,6 +9501,13 @@
 	dir = 8
 	},
 /turf/open/floor/monotile/steel,
+/area/centcom/control)
+"DB" = (
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/snowdin/dungeonmid,
+/obj/effect/spawner/lootdrop/snowdin/dungeonmid,
+/obj/effect/spawner/lootdrop/snowdin/dungeonmid,
+/turf/open/floor/plasteel/checker,
 /area/centcom/control)
 "DC" = (
 /obj/machinery/door/airlock{
@@ -10181,6 +10279,15 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/monotile/steel,
 /area/centcom/ferry)
+"Gg" = (
+/obj/effect/turf_decal/tile/green{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/turf/open/floor/monotile/steel,
+/area/centcom/ferry)
 "Gj" = (
 /turf/open/floor/monotile/steel,
 /area/centcom/ferry)
@@ -10300,6 +10407,7 @@
 	id = "medCCshutter";
 	name = "Medbay CC Shutter"
 	},
+/obj/machinery/light/floor,
 /turf/open/floor/noslip/dark,
 /area/centcom/ferry)
 "GF" = (
@@ -10588,20 +10696,15 @@
 /turf/open/floor/monotile/steel,
 /area/centcom/ferry)
 "Ho" = (
-/obj/structure/table/reinforced,
-/obj/item/reagent_containers/food/condiment/saltshaker{
-	pixel_x = -8;
-	pixel_y = 5
-	},
-/obj/item/reagent_containers/food/condiment/peppermill{
-	pixel_x = -8
-	},
-/obj/item/kitchen/knife,
-/obj/machinery/newscaster{
-	pixel_x = -32
-	},
-/turf/open/floor/monotile/dark,
-/area/tdome/tdomeobserve)
+/obj/machinery/grill,
+/obj/item/trash/coal,
+/obj/item/trash/coal,
+/obj/item/trash/coal,
+/obj/item/trash/coal,
+/obj/item/trash/coal,
+/obj/item/trash/coal,
+/turf/open/floor/wood,
+/area/centcom/control)
 "Hp" = (
 /obj/machinery/light,
 /obj/effect/turf_decal/tile/red{
@@ -10701,6 +10804,9 @@
 /obj/item/reagent_containers/food/condiment/enzyme{
 	pixel_y = 5
 	},
+/obj/machinery/newscaster{
+	pixel_x = -32
+	},
 /turf/open/floor/monotile/dark,
 /area/tdome/tdomeobserve)
 "HC" = (
@@ -10751,6 +10857,7 @@
 /obj/structure/table/reinforced,
 /obj/item/clothing/suit/apron/chef,
 /obj/item/kitchen/rollingpin,
+/obj/item/kitchen/knife,
 /turf/open/floor/monotile/dark,
 /area/tdome/tdomeobserve)
 "HK" = (
@@ -11060,6 +11167,7 @@
 	name = "CentCom General";
 	req_one_access_txt = "19;101"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/noslip/dark,
 /area/centcom/control)
 "IH" = (
@@ -11975,13 +12083,11 @@
 /obj/structure/table/reinforced,
 /obj/effect/spawner/lootdrop/donkpockets,
 /obj/effect/spawner/lootdrop/donkpockets,
-/obj/effect/spawner/lootdrop/donkpockets,
-/obj/effect/spawner/lootdrop/donkpockets,
-/obj/effect/spawner/lootdrop/donkpockets,
 /obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/tile/brown{
 	dir = 4
 	},
+/obj/effect/spawner/lootdrop/donkpockets,
 /turf/open/floor/noslip/standard,
 /area/centcom/control)
 "Ld" = (
@@ -12066,6 +12172,9 @@
 /obj/machinery/door/airlock/centcom{
 	name = "CentCom General";
 	req_one_access_txt = "19;101"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
 	},
 /turf/open/floor/noslip/dark,
 /area/centcom/control)
@@ -12483,6 +12592,12 @@
 /obj/item/storage/box/alienhandcuffs,
 /turf/open/floor/plating/abductor,
 /area/abductor_ship)
+"Mq" = (
+/obj/structure/chair/sofa/corner{
+	dir = 4
+	},
+/turf/open/floor/carpet/green,
+/area/centcom/ferry)
 "Mr" = (
 /obj/structure/table/reinforced,
 /obj/item/grenade/plastic/c4{
@@ -13139,6 +13254,14 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/tdome/tdomeadmin)
+"Oe" = (
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "LFerrydock";
+	name = "Lower Ferrydock Access"
+	},
+/obj/machinery/light/floor,
+/turf/open/floor/noslip/dark,
+/area/centcom/ferry)
 "Of" = (
 /obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
@@ -13335,6 +13458,10 @@
 	},
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/monotile/steel,
+/area/centcom/ferry)
+"OK" = (
+/obj/structure/chair/sofa/left,
+/turf/open/floor/carpet/green,
 /area/centcom/ferry)
 "OL" = (
 /obj/structure/table/reinforced,
@@ -13919,17 +14046,10 @@
 /turf/open/floor/plasteel/dark,
 /area/ctf)
 "Qm" = (
-/obj/effect/turf_decal/tile/green{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/blue{
+/obj/structure/chair/sofa/corner{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/green{
-	dir = 4
-	},
-/obj/item/twohanded/required/kirbyplants/random,
-/turf/open/floor/monotile/steel,
+/turf/open/floor/carpet/green,
 /area/centcom/ferry)
 "Qn" = (
 /turf/closed/indestructible/fakeglass,
@@ -15508,6 +15628,21 @@
 /obj/structure/chair/stool/bar,
 /turf/open/floor/wood,
 /area/centcom/holding)
+"UF" = (
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/machinery/button/door/indestructible{
+	id = "medCCshutter";
+	name = "Medbay CC access Shutters";
+	pixel_x = -6;
+	pixel_y = 23
+	},
+/turf/open/floor/monotile/steel,
+/area/centcom/ferry)
 "UH" = (
 /obj/effect/turf_decal/tile/green{
 	dir = 1
@@ -15853,6 +15988,9 @@
 	name = "CentCom High Security";
 	req_access_txt = "106"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/centcom/ferry)
 "VW" = (
@@ -15896,10 +16034,11 @@
 	pixel_y = 23
 	},
 /obj/machinery/button/door/indestructible{
-	id = "CCCheckBypass";
-	name = "Allow CC Checkpoint Bypass";
-	pixel_x = 4;
-	pixel_y = 23
+	id = "medCCshutter";
+	name = "Medbay CC access Shutters";
+	pixel_x = -6;
+	pixel_y = 23;
+	req_one_access_txt = "106"
 	},
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
@@ -16234,6 +16373,12 @@
 	},
 /turf/open/floor/noslip/darkblue,
 /area/centcom/control)
+"Xc" = (
+/obj/structure/chair/sofa/left{
+	dir = 1
+	},
+/turf/open/floor/carpet/green,
+/area/centcom/ferry)
 "Xd" = (
 /obj/structure/flora/ausbushes/fernybush,
 /obj/structure/flora/ausbushes/fullgrass,
@@ -16267,6 +16412,10 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/poddoor/shutters/preopen{
+	id = "vipshutter";
+	name = "VIP area shutter"
+	},
 /turf/open/floor/noslip/dark,
 /area/centcom/control)
 "Xj" = (
@@ -16456,6 +16605,7 @@
 	id = "LobbyCCshutter";
 	name = "CC Lobby Shutter"
 	},
+/obj/machinery/light/floor,
 /turf/open/floor/noslip/dark,
 /area/centcom/control)
 "XL" = (
@@ -16694,12 +16844,12 @@
 /turf/open/floor/monotile/steel,
 /area/centcom/supplypod)
 "Yw" = (
-/obj/machinery/door/airlock/centcom{
-	name = "Thunderdome Kitchen";
-	req_one_access_txt = "19;101"
+/obj/structure/sink{
+	dir = 8;
+	pixel_x = -12
 	},
-/turf/open/floor/plasteel,
-/area/tdome/tdomeobserve)
+/turf/open/floor/wood,
+/area/centcom/control)
 "Yx" = (
 /obj/structure/table/reinforced,
 /obj/item/folder/red{
@@ -16905,6 +17055,13 @@
 	},
 /turf/open/floor/plating,
 /area/centcom/evac)
+"Zf" = (
+/obj/machinery/door/airlock/centcom{
+	name = "Thunderdome Kitchen";
+	req_one_access_txt = "19;101"
+	},
+/turf/open/floor/noslip/dark,
+/area/tdome/tdomeobserve)
 "Zg" = (
 /obj/structure/dresser,
 /turf/open/floor/carpet/green,
@@ -54111,7 +54268,7 @@ ZX
 xU
 Cs
 mD
-oe
+mD
 oe
 oe
 mD
@@ -54367,7 +54524,7 @@ su
 ZX
 Ge
 Gv
-XS
+Oe
 Hc
 QG
 yY
@@ -54881,7 +55038,7 @@ AL
 Bx
 wi
 Gv
-XS
+Oe
 Hc
 NM
 Wh
@@ -56406,7 +56563,7 @@ pg
 pN
 qj
 mD
-uY
+pr
 uY
 uY
 uY
@@ -56693,7 +56850,7 @@ mD
 mD
 mD
 mD
-Hn
+UF
 ZX
 ZX
 ZX
@@ -56924,7 +57081,7 @@ tF
 tF
 tF
 tF
-tF
+nE
 mD
 wA
 ZX
@@ -57179,7 +57336,7 @@ iF
 iF
 UA
 rz
-VU
+Ar
 rz
 UA
 mD
@@ -57463,8 +57620,8 @@ wz
 Mj
 Ep
 Ep
-Yw
 Ep
+Zf
 Ep
 Ep
 Ep
@@ -57721,7 +57878,7 @@ Mj
 hk
 GF
 zt
-Ho
+zt
 HB
 HJ
 HU
@@ -58211,9 +58368,9 @@ tI
 hP
 Uz
 mD
+tR
 wu
-wu
-wu
+tR
 mD
 nT
 rz
@@ -58979,9 +59136,9 @@ iF
 Qm
 vH
 vH
-vH
-vH
-vH
+Mq
+lQ
+tD
 QK
 ZX
 xU
@@ -59233,11 +59390,11 @@ pk
 SE
 qq
 iF
-rG
-ZX
-ZX
-ZX
-ZX
+OK
+Vl
+Vl
+Xc
+wz
 ZX
 ZX
 ZX
@@ -59490,11 +59647,11 @@ pl
 pQ
 Wy
 WX
+Gg
+Gg
+Gg
+Gg
 QK
-ZX
-ZX
-ZX
-ZX
 ZX
 ZX
 ZX
@@ -60514,8 +60671,8 @@ Gy
 io
 ox
 yU
-yU
-yU
+rB
+rB
 qt
 qT
 rI
@@ -66166,7 +66323,7 @@ io
 io
 io
 iu
-io
+xD
 Xi
 io
 iu
@@ -66421,7 +66578,7 @@ lR
 mo
 io
 nv
-kl
+Yw
 IH
 kl
 kl
@@ -66934,7 +67091,7 @@ mo
 mo
 mo
 io
-nw
+Ho
 kl
 oc
 kl
@@ -68985,10 +69142,10 @@ vF
 io
 mp
 mp
-mp
-mp
-mp
-mp
+DB
+DB
+oY
+oY
 io
 Fs
 kl
