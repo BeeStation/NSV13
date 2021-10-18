@@ -2937,12 +2937,21 @@
 /turf/open/floor/plating,
 /area/centcom/control)
 "hZ" = (
-/obj/structure/chair/comfy/brown{
-	color = "#66b266";
+/obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
-/turf/open/floor/carpet/green,
-/area/centcom/ferry)
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/stripes/red/line{
+	dir = 8
+	},
+/obj/structure/railing{
+	dir = 8
+	},
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/monotile/steel,
+/area/centcom/control)
 "ia" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
@@ -5332,15 +5341,15 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/structure/table/reinforced,
-/obj/item/storage/firstaid/regular,
-/obj/item/storage/firstaid/regular,
+/obj/structure/bed/roller,
+/obj/machinery/iv_drip,
 /turf/open/floor/noslip/white,
 /area/centcom/control)
 "pu" = (
 /obj/machinery/button/door/indestructible{
 	id = "triage";
-	name = "Triage Center Shutters"
+	name = "Triage Center Shutters";
+	req_one_access_txt = "101"
 	},
 /turf/closed/indestructible/riveted,
 /area/centcom/control)
@@ -6311,11 +6320,15 @@
 /turf/open/floor/plasteel/dark,
 /area/centcom/ferry)
 "sB" = (
-/turf/open/floor/carpet/green,
-/area/centcom/evac)
+/obj/structure/sign/directions/medical{
+	dir = 4;
+	pixel_y = -6
+	},
+/turf/closed/indestructible/riveted,
+/area/centcom/ferry)
 "sC" = (
 /obj/structure/table/reinforced,
-/turf/open/floor/carpet/green,
+/turf/open/floor/plasteel,
 /area/centcom/evac)
 "sD" = (
 /obj/effect/turf_decal/tile/ship/yellow,
@@ -7382,7 +7395,7 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/airlock/centcom{
 	name = "CentCom General";
-	req_access_txt = "101"
+	req_one_access_txt = "19;101"
 	},
 /turf/open/floor/noslip/dark,
 /area/centcom/ferry)
@@ -7922,20 +7935,28 @@
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
 "xr" = (
+/obj/structure/closet/secure_closet/security,
+/obj/item/storage/belt/security/full,
+/obj/item/gun/ballistic/automatic/wt550,
+/obj/item/clothing/head/helmet/swat/nanotrasen,
+/obj/item/crowbar/red,
 /obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
-/obj/structure/closet/secure_closet/ertSec,
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
 "xs" = (
+/obj/structure/closet/secure_closet/security,
+/obj/item/storage/belt/security/full,
+/obj/item/gun/ballistic/automatic/wt550,
+/obj/item/clothing/head/helmet/swat/nanotrasen,
+/obj/item/crowbar/red,
 /obj/effect/turf_decal/tile/red{
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/red{
 	dir = 4
 	},
-/obj/structure/closet/secure_closet/ertSec,
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
 "xt" = (
@@ -8099,7 +8120,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/centcom{
 	name = "CentCom General";
-	req_access_txt = "101"
+	req_one_access_txt = "19;101"
 	},
 /turf/open/floor/noslip/dark,
 /area/centcom/ferry)
@@ -10168,7 +10189,12 @@
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
 "EQ" = (
-/turf/open/space/basic,
+/obj/structure/bed/pod,
+/obj/item/bedsheet/centcom,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/carpet,
 /area/centcom/control)
 "EU" = (
 /obj/machinery/door/airlock/centcom{
@@ -10278,12 +10304,15 @@
 /turf/open/floor/monotile/steel,
 /area/centcom/evac)
 "Fm" = (
-/obj/structure/chair/comfy/brown{
-	color = "#66b266";
-	dir = 8
+/obj/effect/turf_decal/tile/ship/yellow{
+	dir = 4
 	},
-/turf/open/floor/carpet/green,
-/area/centcom/ferry)
+/obj/effect/turf_decal/tile/red,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/monotile/steel,
+/area/centcom/control)
 "Fo" = (
 /turf/open/floor/carpet/green,
 /area/centcom/ferry)
@@ -10307,7 +10336,6 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
-/mob/living/simple_animal/bot/cleanbot/medbay,
 /obj/machinery/light{
 	dir = 4
 	},
@@ -10606,9 +10634,8 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
-/obj/structure/table/reinforced,
-/obj/item/storage/firstaid/regular,
-/obj/item/storage/firstaid/regular,
+/obj/structure/bed/roller,
+/obj/machinery/iv_drip,
 /turf/open/floor/noslip/white,
 /area/centcom/control)
 "Gv" = (
@@ -10616,7 +10643,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/centcom{
 	name = "CentCom General";
-	req_access_txt = "101"
+	req_one_access_txt = "19;101"
 	},
 /turf/open/floor/noslip/dark,
 /area/centcom/ferry)
@@ -10920,7 +10947,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/centcom{
 	name = "CentCom General";
-	req_access_txt = "101"
+	req_one_access_txt = "19;101"
 	},
 /turf/open/floor/noslip/dark,
 /area/centcom/ferry)
@@ -13162,10 +13189,14 @@
 /turf/open/floor/plasteel/dark,
 /area/ctf)
 "MP" = (
+/obj/structure/closet/secure_closet/security,
+/obj/item/storage/belt/security/full,
+/obj/item/gun/ballistic/automatic/wt550,
+/obj/item/clothing/head/helmet/swat/nanotrasen,
+/obj/item/crowbar/red,
 /obj/effect/turf_decal/tile/red{
 	dir = 1
 	},
-/obj/structure/closet/secure_closet/ertSec,
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
 "MQ" = (
@@ -16836,22 +16867,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/centcom/ferry)
-"WS" = (
-/obj/machinery/light{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/stripes/red/line{
-	dir = 8
-	},
-/obj/structure/railing{
-	dir = 8
-	},
-/turf/open/floor/monotile/steel,
-/area/centcom/control)
 "WX" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -17068,7 +17083,7 @@
 "XA" = (
 /obj/item/storage/fancy/donut_box,
 /obj/structure/table/reinforced,
-/turf/open/floor/carpet/green,
+/turf/open/floor/plasteel,
 /area/centcom/evac)
 "XC" = (
 /obj/structure/filingcabinet/security,
@@ -17101,11 +17116,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ctf)
-"XG" = (
-/turf/closed/indestructible/fakedoor{
-	name = "Private Quarter"
-	},
-/area/centcom/control)
 "XH" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /obj/structure/lattice/catwalk/over/ship,
@@ -17587,13 +17597,6 @@
 	},
 /turf/open/floor/plating,
 /area/centcom/evac)
-"Zf" = (
-/obj/machinery/door/airlock/centcom{
-	name = "Thunderdome Kitchen";
-	req_one_access_txt = "19;101"
-	},
-/turf/open/floor/noslip/dark,
-/area/tdome/tdomeobserve)
 "Zg" = (
 /obj/structure/dresser,
 /turf/open/floor/carpet/green,
@@ -56101,7 +56104,7 @@ Im
 mD
 Zg
 Fo
-hZ
+oC
 mD
 Tf
 GD
@@ -56615,7 +56618,7 @@ Mv
 mD
 MN
 Fo
-Fm
+pb
 mD
 Gb
 GD
@@ -58163,7 +58166,7 @@ Mj
 Ep
 Ep
 Ep
-Zf
+Ep
 Ep
 Ep
 Ep
@@ -59442,7 +59445,7 @@ pg
 pg
 pg
 RQ
-mD
+sB
 wA
 Mj
 Ep
@@ -60953,7 +60956,7 @@ io
 mS
 WM
 FF
-io
+Uu
 io
 io
 io
@@ -60969,7 +60972,7 @@ mD
 mD
 mD
 mD
-Cs
+sB
 Ba
 pQ
 mV
@@ -62010,8 +62013,8 @@ io
 DI
 Mg
 io
-EQ
-EQ
+DI
+Mg
 io
 DI
 Mg
@@ -62267,8 +62270,8 @@ io
 EB
 Mg
 io
-EQ
-EQ
+EB
+Mg
 io
 EB
 Mg
@@ -62525,7 +62528,7 @@ FQ
 Mg
 io
 EQ
-EQ
+Mg
 io
 FQ
 Mg
@@ -62782,7 +62785,7 @@ io
 EU
 io
 io
-XG
+EU
 io
 io
 EU
@@ -63279,8 +63282,8 @@ ut
 ut
 ut
 vP
-WS
 vP
+hZ
 np
 ZJ
 ZJ
@@ -64061,7 +64064,7 @@ io
 EU
 io
 io
-XG
+EU
 io
 io
 EU
@@ -64317,8 +64320,8 @@ io
 DI
 Mg
 io
-EQ
-EQ
+DI
+Mg
 io
 DI
 Mg
@@ -64574,8 +64577,8 @@ io
 EB
 Mg
 io
-EQ
-EQ
+EB
+Mg
 io
 EB
 Mg
@@ -64832,7 +64835,7 @@ FQ
 Mg
 io
 EQ
-EQ
+Mg
 io
 FQ
 Mg
@@ -66608,9 +66611,9 @@ mV
 nu
 qz
 sL
-qz
 WM
-qz
+WM
+WM
 sL
 qz
 Cm
@@ -67401,7 +67404,7 @@ WM
 FZ
 io
 iR
-ZJ
+WM
 WM
 DA
 io
@@ -67915,7 +67918,7 @@ WM
 ZJ
 io
 Gq
-ZJ
+WM
 WM
 DA
 io
@@ -68173,7 +68176,7 @@ Ba
 io
 yf
 ml
-ml
+Fm
 KE
 io
 Ke
@@ -68943,7 +68946,7 @@ OD
 OD
 OD
 OD
-sB
+OD
 sC
 pn
 io
@@ -69200,7 +69203,7 @@ OD
 OD
 OD
 OD
-sB
+OD
 XA
 nD
 io
