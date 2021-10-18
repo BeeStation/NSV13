@@ -3,7 +3,7 @@
 // mission_cargos.dm has a bunch of signal code that I'm not going to touch at 3 in the morning, 
 // delivery_types.dm contains redundant checks that allow repackaging anyway, 
 // and overmap gamemodes are currently in a state that don't exactly encourage "bonus points" for untampered transfers. 
-// I literally just need a box right now. 
+// I literally just need a box right now. // Edit: hey past me you're lazy and dumb signals are great 
 // TODO Refactor mission_cargos.dm to handle cargo objective descriptions 
 
 /obj/structure/closet/crate/large/freight_objective/
@@ -24,7 +24,8 @@
 			return
 		if(get_dist(user, src) > 1) //Check they are still in range
 			return
-		SEND_SIGNAL( src, COMSIG_FREIGHT_TAMPERED ) // Detach the ghost poll from this proc so the crate gets opened 
+		// Detach the ghost poll from this proc so the crate gets opened 
+		SEND_SIGNAL( src, COMSIG_FREIGHT_TAMPERED ) 
 		..()
 
 /obj/structure/closet/crate/large/freight_objective/proc/poll_for_ghost_sentience()

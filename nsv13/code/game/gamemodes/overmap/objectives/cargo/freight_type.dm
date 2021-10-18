@@ -31,13 +31,16 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	// Get the parent objective for this item type 
 	var/datum/overmap_objective/cargo/overmap_objective = null
 	
-	// If mission critical items are prepackaged, includes additional supplies in case the crate is accidentally opened 
+	// If mission critical items are prepackaged, includes additional supplies in case the crate is "accidentally" opened 
+	// This packaging is not required for objective completion, and _cargo.dm will filter these items from completion checks. 
+	// Attempting to replace prepackaging will flag the incoming freight torpedo as trash, and will not complete the objective.
 	var/list/additional_prepackaging = list()
 	
 	// If prepackaged mission critical items are lost or destroyed, allow the crew to replace lost items 
 	// TODO finish tampered cargo checks to reduce payout or inflict penalties or something 
 	var/allow_replacements = TRUE 
-	var/last_check_contents = null // vv debug 
+	var/last_freight_contents_index = null // vv debug 
+	var/last_get_amount = null // vv debug 
 
 /datum/freight_type/proc/check_contents( var/obj/container ) 
 	// Stations call this proc, the freight_type datum handles the rest 
@@ -53,16 +56,17 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/atom/a in container.GetAllContents() )
-		if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			if( istype( a.type, item.type ) )
+		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
+			if( istype( a, item.type ) )
 				if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
 					// Add to contents index for more checks 
 					index.add_amount( a, 1 )
 				
 	// TODO add handling for stations begrudgingly accepting tampered cargo transfers 
 	// Due to the nature of objectives rewarding nothing but patrol completion there is no incentive for "bonus points" by leaving cargo untampered, unfortunately 
-	var/list/itemTargets = index.get_amount( item.type, target )
-	last_check_contents = itemTargets
+	var/list/itemTargets = index.get_amount( item.type, target, TRUE )
+	last_freight_contents_index = index
+	last_get_amount = itemTargets
 	return itemTargets
 
 /datum/freight_type/proc/get_brief_segment()
@@ -102,19 +106,24 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 		target = number
 
 /datum/freight_type/object/check_contents( var/obj/container )
+	message_admins( "check_contents" )
 	if ( ..() ) 
 		return TRUE 
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/atom/a in container.GetAllContents() )
-		if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			if( istype( a.type, item.type ) )
+		message_admins( "in crate [a]" )
+		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
+			message_admins( "pass blacklist" )
+			if( istype( a, item.type ) )
+				message_admins( "pass type" )
 				// Add to contents index for more checks 
 				index.add_amount( a, 1 )
 			
-	var/list/itemTargets = index.get_amount( item.type, target )
-	last_check_contents = itemTargets
+	var/list/itemTargets = index.get_amount( item.type, target, TRUE )
+	last_freight_contents_index = index
+	last_get_amount = itemTargets
 	return itemTargets
 
 /datum/freight_type/object/get_brief_segment() 
@@ -140,13 +149,14 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/obj/item/holochip/a in container.GetAllContents() )
-		if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			if( istype( a.type, item.type ) )
+		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
+			if( istype( a, item.type ) )
 				// Add to contents index for more checks 
 				index.add_amount( a, a.credits )
 				
 	var/list/itemTargets = index.get_amount( item.type, credits )
-	last_check_contents = itemTargets
+	last_freight_contents_index = index
+	last_get_amount = itemTargets
 	return itemTargets
 
 /datum/freight_type/object/credits/get_brief_segment() 
@@ -162,13 +172,14 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/obj/item/stack/a in container.GetAllContents() )
-		if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) ) )
+		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
 			if( istype( a, item.type ) )
 				// Add to contents index for more checks 
 				index.add_amount( a, a.amount )
 				
-	var/list/itemTargets = index.get_amount( item.type, target )
-	last_check_contents = itemTargets
+	var/list/itemTargets = index.get_amount( item.type, target, TRUE )
+	last_freight_contents_index = index
+	last_get_amount = itemTargets
 	return itemTargets
 
 /datum/freight_type/object/mineral/get_brief_segment() 
@@ -210,7 +221,8 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 					index.add_amount( a, R.volume, R.type )
 	
 	var/list/itemTargets = index.get_amount( reagent.type, target )
-	last_check_contents = itemTargets
+	last_freight_contents_index = index
+	last_get_amount = itemTargets
 	return itemTargets
 
 /datum/freight_type/reagent/get_brief_segment() 
@@ -243,7 +255,8 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 					index.add_amount( a, R.volume, blood_type )
 					
 	var/list/itemTargets = index.get_amount( blood_type, target )
-	last_check_contents = itemTargets
+	last_freight_contents_index = index
+	last_get_amount = itemTargets
 	return itemTargets
 
 /datum/freight_type/reagent/blood/get_brief_segment() 
@@ -272,7 +285,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/mob/a in container.GetAllContents() )
-		if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) ) )
+		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
 			if( istype( a, item ) ) // Is this the item we're looking for? 
 				if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
 					// Add to contents index for more checks 
@@ -280,8 +293,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 				
 	// TODO add handling for stations begrudgingly accepting tampered cargo transfers 
 	// Due to the nature of objectives rewarding nothing but patrol completion there is no incentive for "bonus points" by leaving cargo untampered, unfortunately 
-	var/list/itemTargets = index.get_amount( item, target )
-	last_check_contents = itemTargets
+	var/list/itemTargets = index.get_amount( item, target, TRUE )
+	last_freight_contents_index = index
+	last_get_amount = itemTargets
 	return itemTargets
 
 /datum/freight_type/specimen/check_contents( var/obj/container )
@@ -295,12 +309,13 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 	for ( var/mob/a in container.GetAllContents() )
 		if( istype( a, item ) )
-			if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) ) )
+			if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
 				// Add to contents index for more checks 
 				index.add_amount( a, 1 )
 	
-	var/list/itemTargets = index.get_amount( item, target )
-	last_check_contents = itemTargets
+	var/list/itemTargets = index.get_amount( item, target, TRUE )
+	last_freight_contents_index = index
+	last_get_amount = itemTargets
 	return itemTargets
 
 /datum/freight_type/specimen/get_brief_segment() 

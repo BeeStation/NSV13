@@ -335,8 +335,7 @@ Adding tasks is easy! Just define a datum for it.
 		reject_unexpected_shipment( receipt )
 		return FALSE 
 	
-	for ( var/datum/overmap_objective/cargo/request in expecting_cargo ) 
-		message_admins( "[ request ]" )
+	for ( var/datum/overmap_objective/cargo/request in expecting_cargo ) // Only validate this station's cargo related objectives 
 		var/datum/overmap_objective/cargo/objective = request 
 		var/allCargoPresent = objective.check_cargo( receipt.shipment ) 
 		

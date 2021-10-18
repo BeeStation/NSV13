@@ -108,7 +108,7 @@
 		brief = "Transfer [segments.Join( ", " )] to station [S] in system [S.current_system]"
 
 /datum/overmap_objective/cargo/proc/check_cargo( var/obj/shipment ) 
-	message_admins( "check_cargo" )
+	message_admins( "[src] check_cargo" )
 	if ( length( freight_types ) ) 
 		var/all_accounted_for = TRUE 
 		
@@ -116,11 +116,15 @@
 		// then the entire container needs checked for non-objective related trash. 
 		// Individual freight_type datums cannot check for non-objective trash because they do not have the full context of other freight_types in the same list 
 		
-		var/list/allContents = shipment.GetAllContents()
+		var/list/allContents = list()
+		for ( var/atom/a in shipment.GetAllContents() )
+			if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) )
+				allContents += a
+				
 		last_check_cargo_items_requested = list()
-		last_check_cargo_items_all = allContents
-		for( var/datum/freight_type/type in freight_types )
-			var/list/item_results = type.check_contents( shipment )
+		last_check_cargo_items_all = allContents // Separate all cargo items from checked contents, for debugging 
+		for( var/datum/freight_type/freight_type in freight_types )
+			var/list/item_results = freight_type.check_contents( shipment )
 			if ( item_results ) 
 				for ( var/atom/i in item_results ) 
 					last_check_cargo_items_requested += i
@@ -129,11 +133,14 @@
 				// There are missing items in this freight type, we're not going to bother checking the rest  
 				all_accounted_for = FALSE 
 				break 
+			
+			if ( freight_type.additional_prepackaging )
+				for ( var/atom/packaging in freight_type.additional_prepackaging ) 
+					allContents -= packaging 
 
-		message
+		message_admins( english_list( last_check_cargo_items_requested ) )
+		message_admins( english_list( last_check_cargo_items_all ) )
 		if ( all_accounted_for && !length( allContents ) )
 			tally = target // Target is set when the freight_type is assigned 
 			status = 1
-
-		message_admins( "[all_accounted_for]" )
-		return all_accounted_for
+			return TRUE 

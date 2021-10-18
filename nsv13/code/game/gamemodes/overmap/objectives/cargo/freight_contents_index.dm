@@ -18,6 +18,13 @@
 	atoms_amount[ type ] += amount 
 	atoms_list[ type ] += a 
 
-/datum/freight_contents_index/proc/get_amount( var/type, var/amount ) 
+/datum/freight_contents_index/proc/get_amount( var/type, var/amount, var/allow_subtypes ) 
 	if ( atoms_amount[ type ] && atoms_amount[ type ] >= amount )
 		return atoms_list[ type ]
+
+	if ( allow_subtypes && ispath( type ) )
+		// Object subtype leniency 
+		// If a parent type of an object is requested like a plain cake or a base fighter_component object, allow its subtypes to be submitted as well 
+		for ( var/subtype in subtypesof( type ) )
+			if ( atoms_amount[ subtype ] && atoms_amount[ subtype ] >= amount )
+				return atoms_list[ subtype ]
