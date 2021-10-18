@@ -6453,12 +6453,12 @@
 	})
 "wv" = (
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/ship/maintenance{
-	name = "Medical Maintenance";
-	req_access_txt = "5;12"
-	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/airlock/ship/medical{
+	name = "Medical Maintenance";
+	req_access_txt = "5"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/medical)
 "ww" = (
@@ -13035,7 +13035,7 @@
 /obj/machinery/door/airlock/ship/medical{
 	dir = 4;
 	name = "Medical Maintenance";
-	req_access_txt = "5;12"
+	req_access_txt = "5"
 	},
 /obj/structure/cable/green{
 	icon_state = "4-8"
