@@ -486,7 +486,6 @@ Adding tasks is easy! Just define a datum for it.
 	
 	to_chat(user, "<span class='notice'>The cargo has been sent to [src] and should be received shortly.</span>")
 	addtimer(CALLBACK(src, .proc/check_objectives, receipt), speed_cargo_check)
-	message_admins(" revert cargo checks to 60 seconds" )
 		
 	src.send_supplypod( shipment, courier, TRUE )
 	return TRUE 
@@ -1351,8 +1350,8 @@ Seek a ship thich we'll station ourselves around
 	var/nodamage = FALSE // Mob immunity equivalent for stations, used for mission critical targets. Separate var if mission critical stations need to be essential but not immortal 
 	var/supply_pod_type = /obj/structure/closet/supplypod/centcompod
 	var/returns_rejected_cargo = TRUE // AI ships will return cargo that does not match their expected shipments 
-	var/speed_cargo_check = 1 SECONDS 
-	var/speed_cargo_return = 1 SECONDS
+	var/speed_cargo_check = 60 SECONDS 
+	var/speed_cargo_return = 60 SECONDS
 
 	var/last_decision = 0
 	var/decision_delay = 2 SECONDS
