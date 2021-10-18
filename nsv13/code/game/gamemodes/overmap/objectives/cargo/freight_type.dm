@@ -110,7 +110,6 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 		target = number
 
 /datum/freight_type/object/check_contents( var/obj/container )
-	message_admins( "check_contents" )
 	var/list/prepackagedTargets = ..()
 	if ( prepackagedTargets ) 
 		return prepackagedTargets 
@@ -118,15 +117,17 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/atom/a in container.GetAllContents() )
-		message_admins( "in crate [a]" )
 		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			message_admins( "pass blacklist" )
 			if( istype( a, item.type ) || ( allow_wildcard_contents && recursive_loc_check( a, item.type ) ) )
-				message_admins( "pass type" )
 				// Add to contents index for more checks 
 				index.add_amount( a, 1 )
 			
-	var/list/itemTargets = index.get_amount( item.type, target, TRUE )
+	var/list/itemTargets
+	if ( allow_wildcard_contents )
+		// Add wildcard contents found in the loop above. Otherwise check_cargo in the parent cargo objective thinks these wildcard contents are trash 
+		itemTargets = index.get_all_if_successful( item.type, target, TRUE ) 
+	else 
+		itemTargets = index.get_amount( item.type, target, TRUE )
 	last_freight_contents_index = index
 	last_get_amount = itemTargets
 	return itemTargets
@@ -160,7 +161,12 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 				// Add to contents index for more checks 
 				index.add_amount( a, a.credits )
 				
-	var/list/itemTargets = index.get_amount( item.type, credits )
+	var/list/itemTargets
+	if ( allow_wildcard_contents )
+		// Add wildcard contents found in the loop above. Otherwise check_cargo in the parent cargo objective thinks these wildcard contents are trash 
+		itemTargets = index.get_all_if_successful( item.type, credits, TRUE ) 
+	else 
+		itemTargets = index.get_amount( item.type, credits, TRUE )
 	last_freight_contents_index = index
 	last_get_amount = itemTargets
 	return itemTargets
@@ -184,7 +190,12 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 				// Add to contents index for more checks 
 				index.add_amount( a, a.amount )
 				
-	var/list/itemTargets = index.get_amount( item.type, target, TRUE )
+	var/list/itemTargets
+	if ( allow_wildcard_contents )
+		// Add wildcard contents found in the loop above. Otherwise check_cargo in the parent cargo objective thinks these wildcard contents are trash 
+		itemTargets = index.get_all_if_successful( item.type, target, TRUE ) 
+	else 
+		itemTargets = index.get_amount( item.type, target, TRUE )
 	last_freight_contents_index = index
 	last_get_amount = itemTargets
 	return itemTargets
@@ -228,7 +239,12 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 					// Add to contents index for more checks 
 					index.add_amount( a, R.volume, R.type )
 	
-	var/list/itemTargets = index.get_amount( reagent.type, target )
+	var/list/itemTargets
+	if ( allow_wildcard_contents )
+	// Add wildcard contents found in the loop above. Otherwise check_cargo in the parent cargo objective thinks these wildcard contents are trash 
+		itemTargets = index.get_all_if_successful( reagent.type, target, TRUE ) 
+	else 
+		itemTargets = index.get_amount( reagent.type, target, TRUE )
 	last_freight_contents_index = index
 	last_get_amount = itemTargets
 	return itemTargets
@@ -263,7 +279,12 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 					// Add to contents index for more checks 
 					index.add_amount( a, R.volume, blood_type )
 					
-	var/list/itemTargets = index.get_amount( blood_type, target )
+	var/list/itemTargets
+	if ( allow_wildcard_contents )
+		// Add wildcard contents found in the loop above. Otherwise check_cargo in the parent cargo objective thinks these wildcard contents are trash 
+		itemTargets = index.get_all_if_successful( blood_type, target, TRUE ) 
+	else 
+		itemTargets = index.get_amount( blood_type, target, TRUE )
 	last_freight_contents_index = index
 	last_get_amount = itemTargets
 	return itemTargets
@@ -272,7 +293,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	return "blood type [blood_type] ([target] unit" + (target!=1?"s":"") + ")"
 
 /datum/freight_type/specimen 
-	// var/reveal_specimen = FALSE
+	// var/reveal_specimen = FALSE // WIP 
+	allow_wildcard_contents = TRUE // Don't count equipment attached to mobs as trash 
+	// var/mob/living/simple_animal/specimen = null
 
 /datum/freight_type/specimen/New( var/mob/living/simple_animal/object ) 
 	if ( object ) 
@@ -284,6 +307,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 /datum/freight_type/specimen/add_item_to_crate( var/obj/C )
 	// DuplicateObject on a mob producing runtimes 
 	var/mob/living/simple_animal/M = new item( C )
+	// specimen = M
 	M.AIStatus = AI_OFF
 	
 // Prepackaged mobs need to be handled differently than prepackaged objects beecause I don't know how to code 
@@ -293,16 +317,21 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
-	for ( var/mob/a in container.GetAllContents() )
+	for ( var/atom/a in container.GetAllContents() )
 		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			if( ( a.type == item ) || ( allow_wildcard_contents && recursive_loc_check( a, item.type ) ) ) // Is this the item we're looking for? 
+			if( ( a.type == item ) || ( allow_wildcard_contents && recursive_loc_check( a, item ) ) ) // Is this the item we're looking for? 
 				if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
 					// Add to contents index for more checks 
 					index.add_amount( a, 1 )
 				
 	// TODO add handling for stations begrudgingly accepting tampered cargo transfers 
 	// Due to the nature of objectives rewarding nothing but patrol completion there is no incentive for "bonus points" by leaving cargo untampered, unfortunately 
-	var/list/itemTargets = index.get_amount( item, target, TRUE )
+	var/list/itemTargets
+	if ( allow_wildcard_contents )
+		// Add wildcard contents found in the loop above. Otherwise check_cargo in the parent cargo objective thinks these wildcard contents are trash 
+		itemTargets = index.get_all_if_successful( item, target, TRUE ) 
+	else 
+		itemTargets = index.get_amount( item, target, TRUE )
 	last_freight_contents_index = index
 	last_get_amount = itemTargets
 	return itemTargets
@@ -317,13 +346,18 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
-	for ( var/mob/a in container.GetAllContents() )
-		if( istype( a, item ) )
-			if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
+	for ( var/atom/a in container.GetAllContents() )
+		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
+			if( istype( a, item ) || ( allow_wildcard_contents && recursive_loc_check( a, item ) ) )
 				// Add to contents index for more checks 
 				index.add_amount( a, 1 )
 	
-	var/list/itemTargets = index.get_amount( item, target, TRUE )
+	var/list/itemTargets
+	if ( allow_wildcard_contents )
+		// Add wildcard contents found in the loop above. Otherwise check_cargo in the parent cargo objective thinks these wildcard contents are trash 
+		itemTargets = index.get_all_if_successful( item, target, TRUE ) 
+	else 
+		itemTargets = index.get_amount( item, target, TRUE )
 	last_freight_contents_index = index
 	last_get_amount = itemTargets
 	return itemTargets

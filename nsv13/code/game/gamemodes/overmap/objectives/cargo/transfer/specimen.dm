@@ -21,7 +21,9 @@
 		/mob/living/simple_animal/pet/hamster,
 		/mob/living/simple_animal/pet/penguin/emperor,
 		/mob/living/simple_animal/chicken,
-		/mob/living/simple_animal/parrot,
+		// This is also spawning radios inside the crate on the parrot for some reason, which fails objectives for additional trash attached 
+		// TODO fix initialized parrot radios not being counted as freight items with allow_wildcard_contents set 
+		// /mob/living/simple_animal/parrot,
 		/mob/living/simple_animal/butterfly,
 		/mob/living/simple_animal/crab,
 		/mob/living/simple_animal/cow

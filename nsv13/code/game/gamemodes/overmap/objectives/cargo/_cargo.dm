@@ -34,7 +34,6 @@
 	var/last_check_cargo_items_all = null
 
 /datum/overmap_objective/cargo/instance() 
-	message_admins(" reset pick_same_destination to FALSE" )
 	get_target()
 	pick_station()
 	update_brief()
@@ -108,7 +107,6 @@
 		brief = "Transfer [segments.Join( ", " )] to station [S] in system [S.current_system]"
 
 /datum/overmap_objective/cargo/proc/check_cargo( var/obj/shipment ) 
-	message_admins( "[src] check_cargo" )
 	if ( length( freight_types ) ) 
 		var/all_accounted_for = TRUE 
 		
@@ -138,9 +136,6 @@
 			if ( freight_type.additional_prepackaging )
 				for ( var/atom/packaging in freight_type.additional_prepackaging ) 
 					allContents -= packaging 
-
-		message_admins( english_list( last_check_cargo_items_requested ) )
-		message_admins( english_list( last_check_cargo_items_all ) )
 		
 		// If there are additional trash items that were not requested, we won't mark this shipment as an objective completion 
 		// This prevents a scenario where the crew piles all their objective related cargo into a freight torpedo, completes 2 out of 3 applicable objectives, and can't get the incomplete shipment back for objective #3
