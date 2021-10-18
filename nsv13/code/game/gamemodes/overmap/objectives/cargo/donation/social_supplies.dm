@@ -35,6 +35,7 @@
 	parcel.name = "small parcel"
 	var/datum/freight_type/reagent/presents = new /datum/freight_type/object( parcel )
 	presents.target = 3
+	presents.allow_wildcard_contents = TRUE
 
 	freight_types += cake
 	freight_types += drinks

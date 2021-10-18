@@ -41,6 +41,10 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/allow_replacements = TRUE 
 	var/last_freight_contents_index = null // vv debug 
 	var/last_get_amount = null // vv debug 
+	
+	// Set to TRUE if we want whatever this item and whatever random items it contains 
+	// freight_contents_index will pass the item contents in as valid freight 
+	var/allow_wildcard_contents = FALSE
 
 /datum/freight_type/proc/check_contents( var/obj/container ) 
 	// Stations call this proc, the freight_type datum handles the rest 
@@ -57,7 +61,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 	for ( var/atom/a in container.GetAllContents() )
 		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			if( istype( a, item.type ) )
+			if( ( a.type == item.type ) || ( allow_wildcard_contents && recursive_loc_check( a, item.type ) ) )
 				if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
 					// Add to contents index for more checks 
 					index.add_amount( a, 1 )
@@ -107,8 +111,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 /datum/freight_type/object/check_contents( var/obj/container )
 	message_admins( "check_contents" )
-	if ( ..() ) 
-		return TRUE 
+	var/list/prepackagedTargets = ..()
+	if ( prepackagedTargets ) 
+		return prepackagedTargets 
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
@@ -116,7 +121,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 		message_admins( "in crate [a]" )
 		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
 			message_admins( "pass blacklist" )
-			if( istype( a, item.type ) )
+			if( istype( a, item.type ) || ( allow_wildcard_contents && recursive_loc_check( a, item.type ) ) )
 				message_admins( "pass type" )
 				// Add to contents index for more checks 
 				index.add_amount( a, 1 )
@@ -143,14 +148,15 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	item = H
 
 /datum/freight_type/object/credits/check_contents( var/obj/container )
-	if ( ..() ) 
-		return TRUE 
+	var/list/prepackagedTargets = ..()
+	if ( prepackagedTargets ) 
+		return prepackagedTargets  
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/obj/item/holochip/a in container.GetAllContents() )
 		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			if( istype( a, item.type ) )
+			if( istype( a, item.type ) || ( allow_wildcard_contents && recursive_loc_check( a, item.type ) ) )
 				// Add to contents index for more checks 
 				index.add_amount( a, a.credits )
 				
@@ -166,14 +172,15 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	target = 50
 
 /datum/freight_type/object/mineral/check_contents( var/obj/container )
-	if ( ..() ) 
-		return TRUE 
+	var/list/prepackagedTargets = ..()
+	if ( prepackagedTargets ) 
+		return prepackagedTargets 
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/obj/item/stack/a in container.GetAllContents() )
 		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			if( istype( a, item.type ) )
+			if( istype( a, item.type ) || ( allow_wildcard_contents && recursive_loc_check( a, item.type ) ) )
 				// Add to contents index for more checks 
 				index.add_amount( a, a.amount )
 				
@@ -204,8 +211,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 		target = amount 
 
 /datum/freight_type/reagent/check_contents( var/obj/container )
-	if ( ..() ) // Check for prepackaged items 
-		return TRUE 
+	var/list/prepackagedTargets = ..()
+	if ( prepackagedTargets ) 
+		return prepackagedTargets 
 
 	if ( istype( src, /datum/freight_type/reagent/blood ) ) // Run the actual blood type check please thank you 
 		return FALSE
@@ -241,8 +249,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 		blood_type = type 
 
 /datum/freight_type/reagent/blood/check_contents( var/obj/container )
-	if ( ..() ) 
-		return TRUE 
+	var/list/prepackagedTargets = ..()
+	if ( prepackagedTargets ) 
+		return prepackagedTargets 
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
@@ -286,7 +295,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 	for ( var/mob/a in container.GetAllContents() )
 		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			if( istype( a, item ) ) // Is this the item we're looking for? 
+			if( ( a.type == item ) || ( allow_wildcard_contents && recursive_loc_check( a, item.type ) ) ) // Is this the item we're looking for? 
 				if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
 					// Add to contents index for more checks 
 					index.add_amount( a, 1 )
@@ -299,8 +308,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	return itemTargets
 
 /datum/freight_type/specimen/check_contents( var/obj/container )
-	if ( ..() ) 
-		return TRUE 
+	var/list/prepackagedTargets = ..()
+	if ( prepackagedTargets ) 
+		return prepackagedTargets 
 	
 	if ( !allow_replacements )
 		return FALSE 

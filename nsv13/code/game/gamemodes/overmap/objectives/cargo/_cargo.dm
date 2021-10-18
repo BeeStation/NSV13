@@ -134,12 +134,16 @@
 				all_accounted_for = FALSE 
 				break 
 			
+			// Remove additional packaging from trash check 
 			if ( freight_type.additional_prepackaging )
 				for ( var/atom/packaging in freight_type.additional_prepackaging ) 
 					allContents -= packaging 
 
 		message_admins( english_list( last_check_cargo_items_requested ) )
 		message_admins( english_list( last_check_cargo_items_all ) )
+		
+		// If there are additional trash items that were not requested, we won't mark this shipment as an objective completion 
+		// This prevents a scenario where the crew piles all their objective related cargo into a freight torpedo, completes 2 out of 3 applicable objectives, and can't get the incomplete shipment back for objective #3
 		if ( all_accounted_for && !length( allContents ) )
 			tally = target // Target is set when the freight_type is assigned 
 			status = 1

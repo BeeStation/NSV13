@@ -337,13 +337,16 @@ Adding tasks is easy! Just define a datum for it.
 	
 	for ( var/datum/overmap_objective/cargo/request in expecting_cargo ) // Only validate this station's cargo related objectives 
 		var/datum/overmap_objective/cargo/objective = request 
-		var/allCargoPresent = objective.check_cargo( receipt.shipment ) 
+		var/allCargoPresent = objective.check_cargo( receipt.shipment ) // check_cargo will automatically check for additional trash 
 		
 		if ( allCargoPresent ) 
 			// Bag it, tag it, store it. Accessible for admin debugging later if needed 
 			// Able to check off multiple objectives through the loop if crew are piling everything into one torpedo 
 			receipt.completed_objectives += objective 
 			expecting_cargo -= request 
+			
+			// Break from the loop if there are multiple cargo missions requesting the same type of item. No double dipping! 
+			break 
 
 	if ( length( receipt.completed_objectives ) )
 		// If multiple objectives were completed, only hail once 
