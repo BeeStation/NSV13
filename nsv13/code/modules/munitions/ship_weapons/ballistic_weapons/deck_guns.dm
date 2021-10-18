@@ -33,7 +33,7 @@
 	. = ..() //Sanity checks.
 	if(.)
 		return
-	
+
 	if(href_list["fire_button"])
 		if(maint_state == MSTATE_UNSCREWED)
 			fire()
@@ -58,7 +58,7 @@
 			component_parts -= W
 		spawn_frame(TRUE)
 		qdel(src)
-	
+
 /obj/machinery/ship_weapon/deck_turret/spawn_frame(disassembled)
 	if(!disassembled)
 		QDEL_LIST(component_parts)
@@ -137,9 +137,12 @@
 	if(!core)
 		core = locate(/obj/machinery/deck_turret) in orange(1, src)
 
-/obj/machinery/computer/deckgun/Destroy()
+/obj/machinery/computer/deckgun/Destroy(force=FALSE)
 	if(circuit && !ispath(circuit))
-		circuit.forceMove(loc)
+		if(!force)
+			circuit.forceMove(loc)
+		else
+			qdel(circuit, force)
 		circuit = null
 	. = ..()
 
@@ -184,7 +187,7 @@
 	var/obj/machinery/deck_turret/powder_gate/target = locate(params["target"])
 	switch(action)
 		if("load")
-			if(core.turret.maint_state > MSTATE_CLOSED)//Can't load a shell if we're doing maintenance 
+			if(core.turret.maint_state > MSTATE_CLOSED)//Can't load a shell if we're doing maintenance
 				to_chat(usr, "<span class='notice'>Cannot feed shell while undergoing maintenance!</span>")
 				return
 			if(!core.turret.rack_load(core.payload_gate.shell))
@@ -212,12 +215,18 @@
 	var/obj/machinery/deck_turret/payload_gate/payload_gate
 	var/obj/machinery/computer/deckgun/computer
 
-/obj/machinery/deck_turret/Destroy()
+/obj/machinery/deck_turret/Destroy(force=FALSE)
 	if(circuit && !ispath(circuit))
-		circuit.forceMove(loc)
+		if(!force)
+			circuit.forceMove(loc)
+		else
+			qdel(circuit, force)
 		circuit = null
 	for(var/obj/O in component_parts)
-		O.forceMove(loc)
+		if(!force)
+			O.forceMove(loc)
+		else
+			qdel(circuit, force)
 	. = ..()
 
 /obj/machinery/deck_turret/multitool_act(mob/living/user, obj/item/I)
@@ -257,9 +266,12 @@
 	var/loading = FALSE
 	var/load_delay = 6.4 SECONDS
 
-/obj/machinery/deck_turret/powder_gate/Destroy()
+/obj/machinery/deck_turret/powder_gate/Destroy(force=FALSE)
 	if(circuit && !ispath(circuit))
-		circuit.forceMove(loc)
+		if(!force)
+			circuit.forceMove(loc)
+		else
+			qdel(circuit, force)
 		circuit = null
 	. = ..()
 
@@ -624,7 +636,7 @@
 			bound_height = 96
 			bound_x = -64
 			bound_y = -32
-			
+
 #undef MSTATE_CLOSED
 #undef MSTATE_UNSCREWED
 #undef MSTATE_UNBOLTED

@@ -498,6 +498,12 @@
 	page_link = "Standard_Operating_Procedure"
 	icon_state = "sop_catalogue"
 
+/obj/item/book/manual/wiki/supermatter_guide //NSV13
+	name = "Supermatter Textbook"
+	icon_state ="bookEngineering2"
+	author = "Engineering Encyclopedia"
+	title = "Supermatter Textbook"
+	page_link = "Guide_to_the_Supermatter"
 
 /obj/item/book/manual/wiki/toxins/suicide_act(mob/user)
 	var/mob/living/carbon/human/H = user

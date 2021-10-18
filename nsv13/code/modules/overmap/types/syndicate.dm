@@ -65,6 +65,10 @@
 	SSstar_system.bounty_pool += bounty //Adding payment for services rendered
 	. = ..()
 
+/datum/map_template/boarding
+    name = "Mako class patrol frigate (interior)"
+    mappath = "_maps/templates/boarding/syndicate/mako.dmm"
+
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
 	name = "Mako class patrol frigate"
 	icon = 'nsv13/icons/overmap/new/syndicate/frigate.dmi'
@@ -84,7 +88,12 @@
 	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
 	ai_flags = AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/frigate
-	possible_interior_maps = list('_maps/templates/boarding/syndicate/mako.dmm')
+	possible_interior_maps = list(/datum/map_template/boarding)
+
+
+/datum/map_template/boarding/mako_carrier
+    name = "Sturgeon class escort carrier (interior)"
+    mappath = "_maps/templates/boarding/syndicate/mako_carrier.dmm"
 
 /obj/structure/overmap/syndicate/ai/mako_carrier
 	name = "Sturgeon class escort carrier"
@@ -96,7 +105,7 @@
 	integrity_failure = 400
 	armor = list("overmap_light" = 30, "overmap_medium" = 30, "overmap_heavy" = 30)
 	combat_dice_type = /datum/combat_dice/carrier
-	possible_interior_maps = list('_maps/templates/boarding/syndicate/mako_carrier.dmm')
+	possible_interior_maps = list(/datum/map_template/boarding/mako_carrier)
 
 /obj/structure/overmap/syndicate/ai/mako_flak
 	name = "Mauler class flak frigate"
@@ -104,6 +113,10 @@
 	flak_battery_amount = 1
 	mass = MASS_MEDIUM
 	combat_dice_type = /datum/combat_dice/frigate
+
+/datum/map_template/boarding/nuclear
+    name = "Thermonuclear destroyer (interior)"
+    mappath = "_maps/templates/boarding/syndicate/nukefrigate.dmm"
 
 /obj/structure/overmap/syndicate/ai/nuclear
 	name = "Thermonuclear destroyer"
@@ -120,7 +133,7 @@
 	missiles = 10
 	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_heavy" = 30)
 	combat_dice_type = /datum/combat_dice/destroyer/nuclear
-	possible_interior_maps = list('_maps/templates/boarding/syndicate/nukefrigate.dmm')
+	possible_interior_maps = list(/datum/map_template/boarding/nuclear)
 
 /obj/structure/overmap/syndicate/ai/nuclear/elite
 	name = "Nightmare class thermonuclear deterrent"
@@ -136,6 +149,10 @@
 	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/destroyer/nuclear
 
+/datum/map_template/boarding/destroyer
+    name = "Hammerhead class missile destroyer (interior)"
+    mappath = "_maps/templates/boarding/syndicate/destroyer.dmm"
+
 /obj/structure/overmap/syndicate/ai/destroyer
 	name = "Hammerhead class missile destroyer"
 	icon = 'nsv13/icons/overmap/new/syndicate/destroyer.dmi'
@@ -150,7 +167,7 @@
 	missiles = 6
 	bounty = 1000
 	combat_dice_type = /datum/combat_dice/destroyer
-	possible_interior_maps = list('_maps/templates/boarding/syndicate/destroyer.dmm')
+	possible_interior_maps = list(/datum/map_template/boarding/destroyer)
 
 /obj/structure/overmap/syndicate/ai/destroyer/elite
 	name = "Special Ops Torpedo Destroyer"
@@ -303,6 +320,10 @@
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MISSILE] = null
 
+/datum/map_template/boarding/boarding_frigate
+    name = "Astartes class marine frigate (interior)"
+    mappath = "_maps/templates/boarding/syndicate/marine_frigate.dmm"
+
 /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate //A big box of tank which is hard to take down, and lethal up close.
 	name = "Astartes class marine frigate"
 	desc = "Deus Vult"
@@ -319,7 +340,7 @@
 	integrity_failure = 750
 	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_light" = 30)
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher	//Cruiser subtype, called frigate? Guess it gets the combat dice inbetween both.
-	possible_interior_maps = list('_maps/templates/boarding/syndicate/marine_frigate.dmm')
+	possible_interior_maps = list(/datum/map_template/boarding/boarding_frigate)
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)

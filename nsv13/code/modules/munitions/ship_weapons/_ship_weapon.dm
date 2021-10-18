@@ -80,8 +80,8 @@
 	var/obj/item/ammo_box/magazine/magazine //Magazine if we have one
 	var/obj/chambered //Chambered round if we have one. Extrapolate ammo type from this
 	var/list/ammo = list() //All loaded ammo
-	
-	// These variables only pertain to energy weapons, but need to be checked later in /proc/fire 
+
+	// These variables only pertain to energy weapons, but need to be checked later in /proc/fire
 	var/charge = 0
 	var/charge_rate = 0 //How quickly do we charge?
 	var/charge_per_shot = 0 //How much power per shot do we have to use?
@@ -114,16 +114,22 @@
  * Destructor for /obj/machinery/ship_weapon
  * Try to unlink from a munitions computer, so it can re-link to other things
  */
-/obj/machinery/ship_weapon/Destroy()
+/obj/machinery/ship_weapon/Destroy(force=FALSE)
 	var/obj/item/circuitboard/C = circuit
 	if(C)
-		C.forceMove(loc)
 		component_parts?.Remove(C)
 		circuit = null
+		if(force)
+			qdel(C, force)
+		else
+			C.forceMove(loc)
 	if(component_parts && component_parts.len)
 		for(var/obj/P in component_parts)
-			P.forceMove(loc)
 			component_parts.Remove(P)
+			if(force)
+				qdel(P, force)
+			else
+				P.forceMove(loc)
 	. = ..()
 	if(linked_computer)
 		linked_computer.SW = null
@@ -463,8 +469,8 @@
 /obj/machinery/ship_weapon/proc/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
 	set waitfor = FALSE //As to not hold up any feedback messages.
 
-	// Energy weapons fire behavior 
-	if ( istype( src, /obj/machinery/ship_weapon/energy ) ) // Now 100% more modular! 
+	// Energy weapons fire behavior
+	if ( istype( src, /obj/machinery/ship_weapon/energy ) ) // Now 100% more modular!
 		if(can_fire(shots))
 			if(manual)
 				linked.last_fired = overlay
@@ -480,8 +486,8 @@
 				after_fire()
 			return TRUE
 		return FALSE
-	
-	// Default weapons fire behavior 
+
+	// Default weapons fire behavior
 	if(can_fire(shots))
 		if(manual)
 			linked.last_fired = overlay

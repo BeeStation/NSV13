@@ -443,7 +443,6 @@
 	. = FALSE
 	if(destination == null) //destination destroyed due to explosion
 		return
-
 	if(destination)
 		. = doMove(destination)
 	else
