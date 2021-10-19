@@ -477,6 +477,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 		to_chat(user, "<span class='warning'>Access denied.</span>")
 
 /obj/structure/overmap/fighter/proc/enter(mob/user)
+	var/obj/structure/overmap/OM = user.get_overmap()
+	if(OM)
+		LAZYREMOVE(OM.mobs_in_ship, user)
 	user.forceMove(src)
 	mobs_in_ship += user
 	if((user.client?.prefs.toggles & SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.

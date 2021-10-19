@@ -24,7 +24,7 @@
 
 /obj/effect/temp_visual/countermeasure_cloud/Crossed(obj/item/projectile/guided_munition/B)
 	. = ..()
-	if(istype(B, /obj/item/projectile/guided_munition/torpedo || /obj/item/projectile/guided_munition/missile))
+	if(istype(B, /obj/item/projectile/guided_munition/torpedo) || istype(B, /obj/item/projectile/guided_munition/missile))
 		if(prob(50))
 			B.explode() //Kaboom on the chaff
 		else

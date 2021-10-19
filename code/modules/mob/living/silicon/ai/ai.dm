@@ -325,6 +325,13 @@
 	if ((ai.z != target.z) && !is_station_level(ai.z))
 		return FALSE
 
+	//NSV13 - don't let AI control hostile ship equipment
+	var/obj/structure/overmap/otherOM = A.get_overmap()
+	var/obj/structure/overmap/aiOM = get_overmap()
+	if(!otherOM || !aiOM || otherOM.faction != aiOM.faction)
+		return FALSE
+	//end NSV13
+
 	if (istype(loc, /obj/item/aicard))
 		if (!ai || !target)
 			return FALSE

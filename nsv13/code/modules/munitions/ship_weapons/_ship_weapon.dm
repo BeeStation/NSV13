@@ -112,16 +112,22 @@
  * Destructor for /obj/machinery/ship_weapon
  * Try to unlink from a munitions computer, so it can re-link to other things
  */
-/obj/machinery/ship_weapon/Destroy()
+/obj/machinery/ship_weapon/Destroy(force=FALSE)
 	var/obj/item/circuitboard/C = circuit
 	if(C)
-		C.forceMove(loc)
 		component_parts?.Remove(C)
 		circuit = null
+		if(force)
+			qdel(C, force)
+		else
+			C.forceMove(loc)
 	if(component_parts && component_parts.len)
 		for(var/obj/P in component_parts)
-			P.forceMove(loc)
 			component_parts.Remove(P)
+			if(force)
+				qdel(P, force)
+			else
+				P.forceMove(loc)
 	. = ..()
 	if(linked_computer)
 		linked_computer.SW = null
@@ -370,13 +376,11 @@
 	update()
 
 /obj/machinery/ship_weapon/proc/update()
-	if(!safety && chambered)
-		if(src in weapon_type.weapons["loaded"])
-			return
-		weapon_type.weapons["loaded"] += src
-	else
-		if(src in weapon_type.weapons["loaded"])
-			weapon_type.weapons["loaded"] -= src
+	if(weapon_type) // Who would've thought creating a weapon with no weapon_type would break everything!
+		if(!safety && chambered)
+			LAZYADD(weapon_type.weapons["loaded"] , src)
+		else
+			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
 
 /obj/machinery/ship_weapon/proc/lazyload()
 	if(magazine_type)
@@ -496,7 +500,9 @@
 
 			ammo -= chambered
 			local_fire()
-			QDEL_NULL(chambered)
+			if(!istype(chambered, /obj/item/ship_weapon/ammunition/torpedo/freight)) // Don't qdel freight torpedoes, these are being moved to the stations for additional checks
+				qdel(chambered)
+			chambered = null
 
 			if(length(ammo))
 				state = STATE_FED
@@ -525,12 +531,13 @@
  * Handles firing animations and sounds on the overmap.
  */
 /obj/machinery/ship_weapon/proc/overmap_fire(atom/target)
-	if(weapon_type.overmap_firing_sounds)
+	if(weapon_type && weapon_type.overmap_firing_sounds)
 		var/sound/chosen = pick(weapon_type.overmap_firing_sounds)
 		linked.relay_to_nearby(chosen)
 	if(overlay)
 		overlay.do_animation()
-	animate_projectile(target)
+	if( weapon_type )
+		animate_projectile(target)
 
 /**
  * Animates an overmap projectile matching whatever we're shooting.

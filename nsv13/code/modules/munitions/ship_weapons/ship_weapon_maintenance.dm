@@ -56,6 +56,7 @@
 		if(tool.use_tool(src, user, 40, volume=100))
 			to_chat(user, "<span class='notice'> You fasten the maintenance panel on [src].</span>")
 			maint_state = MSTATE_CLOSED
+			panel_open = FALSE
 			update_overlay()
 			return TRUE
 	. = ..()

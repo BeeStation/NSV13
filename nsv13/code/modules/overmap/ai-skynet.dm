@@ -57,6 +57,34 @@ Adding tasks is easy! Just define a datum for it.
 	var/maximum_random_move_delay = 10 MINUTES
 	var/combat_move_delay = 10 MINUTES
 
+	var/list/shared_targets = list()
+
+/datum/fleet/proc/start_reporting(target, reporter)
+	//message_admins("[reporter] started reporting [target] to fleet")
+	if(!shared_targets)
+		shared_targets = list()
+	if(!shared_targets[target])
+		shared_targets[target] = list(reporter)
+	else
+		shared_targets[target] |= reporter
+
+/datum/fleet/proc/stop_reporting(target, reporter)
+	//message_admins("[reporter] stopped reporting [target] to fleet")
+	if(!shared_targets || !shared_targets[target])
+		return
+	shared_targets[target] -= reporter
+	if(!length(shared_targets[target]))
+		shared_targets -= target
+
+/datum/fleet/proc/is_reporting_target(target, reporter)
+	return ((shared_targets?[target]) && (reporter in shared_targets[target]))
+
+/datum/fleet/proc/stop_reporting_all(reporter)
+	if(!length(shared_targets))
+		return
+	for(var/target in shared_targets)
+		stop_reporting(target, reporter)
+
 //BFS search algo. Entirely unused for now.
 /datum/fleet/proc/bfs(datum/star_system/target)
 	if(!current_system)
@@ -174,12 +202,13 @@ Adding tasks is easy! Just define a datum for it.
 		for(var/obj/structure/overmap/OM in all_ships)
 			SSstar_system.move_existing_object(OM, target)
 	target.fleets += src
+	shared_targets = list() // We just got here and don't know where anything is
 	current_system = target
 	if(target.alignment != alignment)
 		current_system.mission_sector = TRUE
 	target.alignment = alignment //We've taken it over.
-	if(!hide_movements)
-		minor_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
+	if(!hide_movements && !current_system.hidden)
+		(alignment != "nanotrasen") && mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	for(var/obj/structure/overmap/OM in current_system.system_contents)
 		//Boarding ships don't want to go to brasil
 		if(OM.mobs_in_ship?.len && OM.reserved_z)
@@ -226,7 +255,13 @@ Adding tasks is easy! Just define a datum for it.
 		defeat()
 
 /datum/fleet/proc/defeat()
-	minor_announce("[name] has been defeated [(current_system && !current_system.hidden) ? "during combat in the [current_system.name] system" : "in battle"].", "White Rapids Fleet Command")
+	var/datum/star_system/player_system = SSstar_system.find_main_overmap().current_system
+	var/datum/star_system/mining_system = SSstar_system.find_main_miner()?.current_system
+	var/message = "\a [name] has been defeated [(current_system && !current_system.hidden) ? "during combat in the [current_system.name] system" : "in battle"]."
+	if(alignment == "nanotrasen" || current_system == player_system || current_system == mining_system)
+		minor_announce(message, "White Rapids Fleet Command")
+	else
+		mini_announce(message, "White Rapids Fleet Command")
 	current_system.fleets -= src
 	if(current_system.fleets && current_system.fleets.len)
 		var/datum/fleet/F = pick(current_system.fleets)
@@ -280,6 +315,59 @@ Adding tasks is easy! Just define a datum for it.
 	if(text)
 		source_ship.hail(text, name, user.name, TRUE) // Let the crew on the source ship know an Outbound message was sent
 		hail(text, source_ship.name, user.name)
+
+/obj/structure/overmap/proc/try_deliver( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console ) 
+	if( !isliving(user) )
+		return FALSE 
+	if( !allowed(user) ) //Only cargo auth'd personnel can make purchases.
+		to_chat(user, "<span class='warning'>Warning: You cannot open a communications channel without appropriate requisitions access registered to your ID card.</span>")
+		return FALSE
+
+	if (!console?.linked_launcher)
+		to_chat(user, "<span class='warning'>[console] has no cargo launcher attached! Use a multitool with a cargo launcher stored on its buffer to connect it.</span>")
+		if ( console && console.linked )
+			try_hail( user, console.linked )
+		return FALSE 
+
+	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = console.linked_launcher 
+	if ( !launcher.chambered )
+		to_chat(user, "<span class='warning'>[src] has no freight torpedoes loaded!</span>")
+		if ( console.linked )
+			try_hail( user, console.linked )
+		return FALSE 
+	
+	for(var/a in launcher.chambered.GetAllContents())
+		if(is_type_in_typecache(a, GLOB.blacklisted_cargo_types))
+			to_chat(user, "<span class='warning'>[src] Cargo Shuttle Brand lifeform checker blinks an error, \
+				for safety reasons it cannot transport live organisms, human remains, classified nuclear weaponry, \
+				homing beacons or machinery housing any form of artificial intelligence.")
+			return FALSE
+
+	var/choice = input("Transfer cargo to [src]?", "Confirm delivery", "No") in list("Yes", "No")
+	if(!choice || choice == "No") 
+		if ( console.linked )
+			try_hail( user, console.linked )
+		return FALSE 
+
+	var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = launcher.chambered 
+	var/success = receive_cargo( user, console, shipment )
+
+	if ( success )
+		// Fire the torpedo away to unload the launcher. 
+		// Without a weapon_type the projectile will not be animated 
+		launcher.fire( src, shots = 1 )
+		return TRUE 
+
+/obj/structure/overmap/proc/receive_cargo( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console, var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment ) 
+	if ( !console.linked )
+		// We're not allowing syndicate to hitscan the player ship with boarders at this time 
+		to_chat(user, "<span class='warning'>The cargo launcher IFF checker blinks an error, recipient faction is unmatched!</span>")
+		return FALSE 
+
+	var/obj/structure/overmap/courier = console.linked 
+	if ( courier.faction == src.faction )
+		src.send_supplypod( shipment, courier, TRUE )
+		return TRUE 
 
 /obj/structure/overmap/proc/hail(var/text, var/ship_name, var/player_name, var/outbound = FALSE)
 	if(!text)
@@ -371,22 +459,22 @@ Adding tasks is easy! Just define a datum for it.
 //Syndicate Fleets
 
 /datum/fleet/neutral
-	name = "Syndicate Scout Fleet"
+	name = "\improper Syndicate scout fleet"
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
 
 /datum/fleet/border
-	name = "Syndicate border defense force"
+	name = "\improper Syndicate border defense force"
 	fleet_trait = FLEET_TRAIT_BORDER_PATROL
 	hide_movements = TRUE
 
 /datum/fleet/boarding
-	name = "Syndicate Commando Taskforce"
+	name = "\improper Syndicate commando taskforce"
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	taunts = list("Attention: This is an automated message. All non-Syndicate vessels prepare to be boarded for security clearance.")
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
 
 /datum/fleet/wolfpack
-	name = "Unidentified Fleet"
+	name = "\improper unidentified Syndicate fleet"
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine)
 	audio_cues = list()
 	hide_movements = TRUE
@@ -394,7 +482,7 @@ Adding tasks is easy! Just define a datum for it.
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
 
 /datum/fleet/nuclear
-	name = "Syndicate nuclear deterrent"
+	name = "\improper Syndicate nuclear deterrent"
 	taunts = list("Enemy ship, surrender now. This vessel is armed with thermonuclear weapons and eager to test them.")
 	audio_cues = list()
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/nuclear/elite)
@@ -402,7 +490,7 @@ Adding tasks is easy! Just define a datum for it.
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
 
 /datum/fleet/elite
-	name = "Syndicate Elite Taskforce"
+	name = "\improper elite Syndicate taskforce"
 	taunts = list("Enemy ship, surrender immediately or face destruction.", "Excellent, a worthwhile target. Arm all batteries.")
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/destroyer/elite)
@@ -410,7 +498,7 @@ Adding tasks is easy! Just define a datum for it.
 
 //Space Pirate Fleets
 /datum/fleet/pirate
-	name = "Space Pirate Fleet"
+	name = "\proper Tortuga Raiders Fleet"
 	fighter_types = null
 	destroyer_types = list(/obj/structure/overmap/spacepirate/ai)
 	battleship_types = list(/obj/structure/overmap/spacepirate/ai/nt_missile, /obj/structure/overmap/spacepirate/ai/syndie_gunboat)
@@ -420,21 +508,21 @@ Adding tasks is easy! Just define a datum for it.
 	reward = 35
 
 /datum/fleet/pirate/scout
-	name = "Space pirate scout fleet"
+	name = "\improper Tortuga Raiders scout fleet"
 	audio_cues = list()
 	taunts = list("Yar har! Fresh meat", "Unfurl the mainsails! We've got company", "Die landlubbers!")
 	size = FLEET_DIFFICULTY_MEDIUM
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/pirate/raiding
-	name = "Space pirate raiding fleet"
+	name = "\improper Tortuga Raiders raiding fleet"
 	destroyer_types = list(/obj/structure/overmap/spacepirate/ai, /obj/structure/overmap/spacepirate/ai/boarding)
 	audio_cues = list()
 	taunts = list("Avast! A fine hold of loot sails our way", "Prepare the boarding crews, they've got enough loot for us all!")
 	size = FLEET_DIFFICULTY_MEDIUM
 
 /datum/fleet/pirate/tortuga
-	name = "Space pirate holding fleet"
+	name = "\improper Tortuga Raiders holding fleet"
 	supply_types = list(/obj/structure/overmap/spacepirate/ai/dreadnought)
 	audio_cues = list()
 	taunts = list("These are our waters you are sailing, prepare to surrender!", "Bold of you to fly Nanotrasen colours in this system, your last mistake.")
@@ -445,7 +533,7 @@ Adding tasks is easy! Just define a datum for it.
 //Boss battles.
 
 /datum/fleet/rubicon //Crossing the rubicon, are we?
-	name = "Rubicon Crossing"
+	name = "\proper Rubicon Crossing"
 	size = FLEET_DIFFICULTY_VERY_HARD
 	allow_difficulty_scaling = FALSE
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/kadesh)	//:)
@@ -454,7 +542,7 @@ Adding tasks is easy! Just define a datum for it.
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/earthbuster
-	name = "Syndicate Armada" //Fleet spawned if the players are too inactive. Set course...FOR EARTH.
+	name = "\proper Syndicate Armada" //Fleet spawned if the players are too inactive. Set course...FOR EARTH.
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	size = FLEET_DIFFICULTY_VERY_HARD
 	allow_difficulty_scaling = FALSE
@@ -462,7 +550,7 @@ Adding tasks is easy! Just define a datum for it.
 	audio_cues = list()
 
 /datum/fleet/interdiction	//Pretty strong fleet with unerring hunting senses, Adminspawn for now.
-	name = "Syndicate Interdiction Fleet"	//These fun guys can and will hunt the player ship down, no matter how far away they are.
+	name = "\improper Syndicate interdiction fleet"	//These fun guys can and will hunt the player ship down, no matter how far away they are.
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/kadesh)
 	size = FLEET_DIFFICULTY_HARD
@@ -475,18 +563,18 @@ Adding tasks is easy! Just define a datum for it.
 	combat_move_delay = 6 MINUTES
 
 /datum/fleet/interdiction/stealth	//More fun for badmins
-	name = "Unidentified Heavy Fleet"
+	name = "\improper unidentified Syndicate heavy fleet"
 	hide_movements = TRUE
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser)
 
 /datum/fleet/interdiction/light	//The syndicate can spawn these randomly (though rare). Be caareful! But, at least they aren't that scary.
-	name = "Syndicate Light Interdiction Fleet"
+	name = "\improper Syndicate light interdiction fleet"
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser)
 	size = FLEET_DIFFICULTY_MEDIUM	//Don't let this fool you though, they are still somewhat dangerous and will hunt you down.
 	initial_move_delay = 12 MINUTES
 
 /datum/fleet/dolos
-	name = "Dolos Welcoming Party" //Don't do it czanek, don't fucking do it!
+	name = "\proper Dolos Welcoming Party" //Don't do it czanek, don't fucking do it!
 	size = FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING
 	allow_difficulty_scaling = FALSE
 	audio_cues = list()
@@ -497,7 +585,7 @@ Adding tasks is easy! Just define a datum for it.
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 
 /datum/fleet/remnant
-	name = "The Remnant"
+	name = "\proper The Remnant"
 	size = FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING
 	allow_difficulty_scaling = FALSE
 	audio_cues = list()
@@ -508,7 +596,7 @@ Adding tasks is easy! Just define a datum for it.
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 
 /datum/fleet/unknown_ship
-	name = "Unknown Ship Class"
+	name = "\improper unknown Syndicate ship class"
 	size = 1
 	allow_difficulty_scaling = FALSE
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/battleship)
@@ -519,7 +607,7 @@ Adding tasks is easy! Just define a datum for it.
 //Nanotrasen fleets
 
 /datum/fleet/nanotrasen
-	name = "Nanotrasen heavy combat fleet"
+	name = "\improper Nanotrasen heavy combat fleet"
 	fighter_types = list(/obj/structure/overmap/nanotrasen/ai/fighter)
 	destroyer_types = list(/obj/structure/overmap/nanotrasen/ai, /obj/structure/overmap/nanotrasen/missile_cruiser/ai)
 	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai, /obj/structure/overmap/nanotrasen/heavy_cruiser/ai, /obj/structure/overmap/nanotrasen/battlecruiser/ai)
@@ -530,23 +618,23 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("Syndicate vessel, stand down or be destroyed", "You are encroaching on our airspace, prepare to be destroyed", "Unidentified vessel, your existence will be forfeit in accordance with the peacekeeper act.")
 
 /datum/fleet/nanotrasen/light
-	name = "Nanotrasen light fleet"
+	name = "\improper Nanotrasen light fleet"
 	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai)
 
 /datum/fleet/nanotrasen/border
-	name = "Concord Border Enforcement Unit"
+	name = "\proper Concord Border Enforcement Unit"
 	taunts = list("You have violated the law. Stand down your weapons and prepare to be boarded.", "Hostile vessel. Stand down immediately or be destroyed.")
 	size = FLEET_DIFFICULTY_EASY
 	fleet_trait = FLEET_TRAIT_BORDER_PATROL
 
 /datum/fleet/nanotrasen/border/defense
-	name = "501st 'Crais' Fist' Expeditionary Force"
+	name = "\proper 501st 'Crais' Fist' Expeditionary Force"
 	taunts = list("You have violated the law. Stand down your weapons and prepare to be boarded.", "Hostile vessel. Stand down immediately or be destroyed.")
 	size = FLEET_DIFFICULTY_EASY
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/nanotrasen/earth
-	name = "Earth Defense Force"
+	name = "\proper Earth Defense Force"
 	taunts = list("You're foolish to venture this deep into Solgov space! Main batteries stand ready.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "We shall protect our homeland!")
 	size = FLEET_DIFFICULTY_HARD
 	allow_difficulty_scaling = FALSE
@@ -556,7 +644,7 @@ Adding tasks is easy! Just define a datum for it.
 //Solgov
 
 /datum/fleet/solgov
-	name = "Solgov light exploratory fleet"
+	name = "\improper Solgov light exploratory fleet"
 	fighter_types = list(/obj/structure/overmap/nanotrasen/solgov/ai/fighter)
 	destroyer_types = list(/obj/structure/overmap/nanotrasen/solgov/ai)
 	battleship_types = list(/obj/structure/overmap/nanotrasen/solgov/aetherwhisp/ai)
@@ -780,7 +868,7 @@ Adding tasks is easy! Just define a datum for it.
 		return 0
 	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY))
 		return 0	//Carriers don't hunt you down, they just patrol. The dirty work is reserved for their escorts.
-	if(!OM.last_target || QDELETED(OM.last_target))
+	if(QDELETED(OM.last_target) || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.seek_new_target()
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
 		return score
@@ -831,11 +919,11 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 		return	//Something that shouldn't have happened happened.
 
 	var/datum/lance/L = OM.current_lance
-	if(!OM.last_target)
+	if(QDELETED(OM.last_target) || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.send_radar_pulse()
 		OM.seek_new_target()
 
-	if(!OM.last_target)	//We didn't find a target
+	if(QDELETED(OM.last_target))	//We didn't find a target
 		if(L.lance_target)
 			if(L.last_finder == OM)
 				L.lance_target = null
@@ -848,7 +936,7 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 		else	//No targets anywhere we could grab, regroup or float, depending on if you are the leader.
 			regroup_swarm(OM, L)
 			return
-	//If we get to hdere, we should have a target
+	//If we get to here, we should have a target
 	if(!L.lance_target)	//Relay target
 		L.lance_target = OM.last_target
 		L.last_finder = OM
@@ -915,7 +1003,7 @@ Seek a ship thich we'll station ourselves around
 	if(OM.shots_left)
 		return 0	//Gotta have run dry.
 
-	if(!OM.last_target)
+	if(QDELETED(OM.last_target))
 		return 0
 
 	return score
@@ -933,7 +1021,7 @@ Seek a ship thich we'll station ourselves around
 /datum/ai_goal/board/check_score(obj/structure/overmap/OM)
 	if(!..())
 		return 0
-	if(!OM.last_target || QDELETED(OM.last_target))
+	if(QDELETED(OM.last_target) || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.seek_new_target(max_weight_class=null, min_weight_class=null, interior_check=TRUE)
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
 		return score
@@ -1018,6 +1106,8 @@ Seek a ship thich we'll station ourselves around
 		return 0
 	if(!CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY))
 		return 0
+	if( OM.last_target)
+		OM.fleet.stop_reporting(OM.last_target, src)
 	OM.last_target = null
 	OM.seek_new_target(max_distance = OM.max_tracking_range)	//Supply ships will only start running if an enemy actually comes close.
 	if(OM.last_target)
@@ -1042,7 +1132,7 @@ Seek a ship thich we'll station ourselves around
 /datum/ai_goal/patrol/check_score(obj/structure/overmap/OM)
 	if(!..())
 		return 0
-	if(!OM.last_target)
+	if(!OM.last_target || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.seek_new_target()
 	if(OM.last_target)
 		if(get_dist(OM, OM.last_target) < OM.max_tracking_range)
@@ -1085,12 +1175,12 @@ Seek a ship thich we'll station ourselves around
 	required_ai_flags = AI_FLAG_ANTI_FIGHTER
 	score = AI_SCORE_PRIORITY
 
-//Supply ships are timid, and will always try to run.
+//Kill the fighters
 /datum/ai_goal/seek/flyswatter/check_score(obj/structure/overmap/OM)
 	if(!..())
 		return 0
 	var/obj/structure/overmap/target = OM.last_target
-	if(!OM.last_target || !istype(target) || QDELETED(OM.last_target) || target.mass > MASS_TINY)
+	if(!OM.last_target || !istype(target) || QDELETED(OM.last_target) || target.mass > MASS_TINY || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.seek_new_target(max_weight_class=MASS_TINY)
 	if(OM.last_target) //If we can't find a target, then don't bother hunter-killering.
 		return score
@@ -1133,6 +1223,7 @@ Seek a ship thich we'll station ourselves around
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
 	var/ai_flags = AI_FLAG_DESTROYER
+	var/supply_pod_type = /obj/structure/closet/supplypod/centcompod
 
 	var/last_decision = 0
 	var/decision_delay = 2 SECONDS
@@ -1164,6 +1255,8 @@ Seek a ship thich we'll station ourselves around
 		var/target_range = get_dist(src,target)
 		var/new_firemode = FIRE_MODE_GAUSS
 		if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
+			if(fleet)
+				fleet.stop_reporting(target, src)
 			last_target = null
 			return
 		var/best_distance = INFINITY //Start off infinitely high, as we have not selected a distance yet.
@@ -1234,6 +1327,8 @@ Seek a ship thich we'll station ourselves around
 	add_enemy(target)
 	var/target_range = get_dist(src,target)
 	if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
+		if(fleet)
+			fleet.stop_reporting(target, src)
 		last_target = null
 		return
 	var/did_fire = FALSE
@@ -1353,7 +1448,10 @@ Seek a ship thich we'll station ourselves around
 		if(get_dist(last_target, src) > max(max_tracking_range, OM.sensor_profile) || istype(OM) && OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE) //Out of range - Give up the chase
 			if(istype(OM) && CHECK_BITFIELD(ai_flags, AI_FLAG_DESTROYER) && OM.z == z)
 				patrol_target = get_turf(last_target)	//Destroyers are wary and will actively investigate when their target exits their sensor range. You might be able to use this to your advantage though!
-			last_target = null
+			if(fleet)
+				fleet.stop_reporting(last_target, src)
+			if(!fleet?.shared_targets?[last_target])
+				last_target = null
 		else //They're in our tracking range. Let's hunt them down.
 			if(get_dist(last_target, src) <= max_weapon_range) //Theyre within weapon range.  Calculate a path to them and fire.
 				if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE))
@@ -1477,7 +1575,7 @@ Seek a ship thich we'll station ourselves around
 			return
 	desired_angle = Get_Angle(src, target)
 	var/target_dist = get_dist(src, target)
-	if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE) && world.time >= next_maneuvre && (target_dist > 12 || ram_target || ignore_all_collisions))
+	if(world.time >= next_maneuvre && (target_dist > 12 || ram_target || ignore_all_collisions))
 		var/angular_difference = desired_angle - angle
 		switch(angular_difference)
 			if(-15 to 15)
@@ -1569,6 +1667,12 @@ Seek a ship thich we'll station ourselves around
 			continue
 		add_enemy(ship)
 		last_target = ship
+		if(fleet)
+			fleet.start_reporting(ship, src)
+		return TRUE
+	if(!last_target && length(fleet.shared_targets))
+		last_target = pick(fleet.shared_targets)
+		add_enemy(last_target)
 		return TRUE
 	return FALSE
 

@@ -235,8 +235,15 @@ SUBSYSTEM_DEF(mapping)
 	station_start = world.maxz + 1
 	INIT_ANNOUNCE("Loading [config.map_name]...")
 	LoadGroup(FailedZs, "Station", config.map_path, config.map_file, config.traits, ZTRAITS_STATION)
-	//load in the overmap Z-levels and create the main overmap that we'll need.
-	instance_overmap(config.ship_type)
+	//NSV13 load in the overmap Z-levels and create the main overmap that we'll need.
+	var/obj/structure/overmap/OM = instance_overmap(config.ship_type)
+	pass(OM)
+	// and the boarding levels - the lists are static so this works
+	add_new_zlevel("Overmap boarding reservation", ZTRAITS_BOARDABLE_SHIP)
+	OM.free_boarding_levels += world.maxz
+	add_new_zlevel("Captured ship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
+	OM.free_treadmills += world.maxz
+
 	if(SSdbcore.Connect())
 		var/datum/DBQuery/query_round_map_name = SSdbcore.NewQuery({"
 			UPDATE [format_table_name("round")] SET map_name = :map_name WHERE id = :round_id
@@ -420,14 +427,14 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 		map_templates[S.shelter_id] = S
 
 /datum/controller/subsystem/mapping/proc/preloadBoardingTemplates() //NSV13 - boarding maps
-	for(var/item in subtypesof(/datum/map_template/dropship))
-		var/datum/map_template/dropship/dropship_type = item
+	var/list/all_templates = subtypesof(/datum/map_template/dropship) + subtypesof(/datum/map_template/boarding)
+	for(var/datum/map_template/dropship_type as() in all_templates)
 		if(!(initial(dropship_type.mappath)))
 			continue
-		var/datum/map_template/dropship/D = new dropship_type()
+		var/datum/map_template/D = new dropship_type()
 
-		boarding_templates[item] = D
-		map_templates[item] = D
+		boarding_templates[dropship_type] = D
+		map_templates[dropship_type] = D
 
 //Manual loading of away missions.
 /client/proc/admin_away()
