@@ -26,12 +26,8 @@
 	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
 	has_gravity = STANDARD_GRAVITY
 	always_unpowered = FALSE
-	valid_territory = FALSE
-	unique = FALSE //Instance those areas!
 
 /area/ruin/unpowered/boarding_interior
 	name = "Boarding Interior Map (Requires Power)"
 	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
 	has_gravity = STANDARD_GRAVITY
-	valid_territory = FALSE
-	unique = FALSE //Instance those areas!
