@@ -336,6 +336,9 @@ Adding tasks is easy! Just define a datum for it.
 		return FALSE 
 	
 	for ( var/datum/overmap_objective/cargo/request in expecting_cargo ) // Only validate this station's cargo related objectives 
+		if ( request.status != 0 ) 
+			continue 
+
 		var/datum/overmap_objective/cargo/objective = request 
 		var/allCargoPresent = objective.check_cargo( receipt.shipment ) // check_cargo will automatically check for additional trash 
 		

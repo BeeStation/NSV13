@@ -11,7 +11,7 @@
 		/mob/living/simple_animal/hostile/alien,
 		/mob/living/simple_animal/hostile/swarmer,
 		/mob/living/simple_animal/hostile/carp,
-
+		
 		// Benign specimens 
 		/mob/living/simple_animal/hostile/lizard,
 		/mob/living/simple_animal/pet/dog/corgi,
@@ -30,8 +30,10 @@
 	) )
 
 	// Bandaid fix to stop a runtime about mobs in nullspace 
-	// var/obj/structure/closet/closet = new /obj/structure/closet() 
-	var/datum/freight_type/specimen/C = new /datum/freight_type/specimen( picked )
-	C.prepackage_item = TRUE
+	// freight_types expect an arbitraty initialized atom to get info like name for briefing descriptions and type for delivery receipt checks 
+	// Someone please tell me how to not bodge this 
+	var/obj/structure/closet/location = new 
+	var/datum/freight_type/specimen/C = new /datum/freight_type/specimen( new picked( location ) )
+	C.send_prepackaged_item = TRUE
 	C.overmap_objective = src
 	freight_types += C

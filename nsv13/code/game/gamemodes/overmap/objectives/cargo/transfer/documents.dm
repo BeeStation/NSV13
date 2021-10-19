@@ -5,6 +5,6 @@
 
 /datum/overmap_objective/cargo/transfer/documents/New() 
 	var/datum/freight_type/object/C = new /datum/freight_type/object( new /obj/item/documents() )
-	C.prepackage_item = TRUE
+	C.send_prepackaged_item = TRUE
 	C.overmap_objective = src
 	freight_types += C

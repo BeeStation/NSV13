@@ -247,8 +247,9 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/controller/subsystem/overmap_mode/proc/deliver_packages()
 	var/delivered_crates = 0
 	for ( var/datum/overmap_objective/cargo/O in mode.objectives ) 
-		if ( O.deliver_package() ) 
-			delivered_crates++
+		if ( O.status == STATUS_INPROGRESS )
+			if ( O.deliver_package() ) 
+				delivered_crates++
 
 	return delivered_crates 
 

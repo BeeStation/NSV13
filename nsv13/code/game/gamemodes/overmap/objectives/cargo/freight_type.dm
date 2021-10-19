@@ -26,7 +26,11 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	// If an item is provided in a prepackaged large wooden crate but the players open it, the players can either repackage or source a replacement to deliver 
 	// item is a required field if prepackaged_item is true. 
 	// overmap_objective is a required field if prepackaged_item is true. 
-	var/prepackage_item = FALSE 
+	var/send_prepackaged_item = FALSE 
+	var/list/prepackaged_items = list()
+
+	// If prepackaged mission critical items are tampered or destroyed, allow the crew to replace these items or transfer them in generic crates
+	var/allow_replacements = FALSE 
 
 	// Get the parent objective for this item type 
 	var/datum/overmap_objective/cargo/overmap_objective = null
@@ -36,9 +40,6 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	// Attempting to replace prepackaging will flag the incoming freight torpedo as trash, and will not complete the objective.
 	var/list/additional_prepackaging = list()
 	
-	// If prepackaged mission critical items are lost or destroyed, allow the crew to replace lost items 
-	// TODO finish tampered cargo checks to reduce payout or inflict penalties or something 
-	var/allow_replacements = TRUE 
 	var/last_freight_contents_index = null // vv debug 
 	var/last_get_amount = null // vv debug 
 	
@@ -49,7 +50,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 /datum/freight_type/proc/check_contents( var/obj/container ) 
 	// Stations call this proc, the freight_type datum handles the rest 
 	// PLEASE do NOT put areas inside freight torps this WILL cause problems! 
-	if ( prepackage_item )
+	if ( send_prepackaged_item )
 		return check_prepackaged_contents( container )
 	return FALSE
 
@@ -61,14 +62,20 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 	for ( var/atom/a in container.GetAllContents() )
 		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			if( ( a.type == item.type ) || ( allow_wildcard_contents && recursive_loc_check( a, item.type ) ) )
-				if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
-					// Add to contents index for more checks 
-					index.add_amount( a, 1 )
+			// if( ( a.type == item.type ) || ( allow_wildcard_contents && recursive_loc_check( a, item.type ) ) )
+			if ( LAZYFIND( prepackaged_items, a ) || ( allow_wildcard_contents && recursive_loc_check( a, item.type ) ) ) // If we've only given them one prepackaged item this should be pretty easy to find 
+				// if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
+				// Add to contents index for more checks 
+				index.add_amount( a, 1 )
 				
 	// TODO add handling for stations begrudgingly accepting tampered cargo transfers 
 	// Due to the nature of objectives rewarding nothing but patrol completion there is no incentive for "bonus points" by leaving cargo untampered, unfortunately 
-	var/list/itemTargets = index.get_amount( item.type, target, TRUE )
+	var/list/itemTargets
+	if ( allow_wildcard_contents )
+		// Add wildcard contents found in the loop above. Otherwise check_cargo in the parent cargo objective thinks these wildcard contents are trash 
+		itemTargets = index.get_all_if_successful( item.type, target, TRUE ) 
+	else 
+		itemTargets = index.get_amount( item.type, target, TRUE )
 	last_freight_contents_index = index
 	last_get_amount = itemTargets
 	return itemTargets
@@ -77,13 +84,15 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	return "nothing"
 
 /datum/freight_type/proc/deliver_package() 
-	if ( prepackage_item )
+	if ( send_prepackaged_item )
 		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
 		if(MO)
 			var/obj/structure/closet/crate/large/freight_objective/C = new /obj/structure/closet/crate/large/freight_objective( src )
 			for ( var/i = 0; i < target; i++ )
-				// For transfer objectives expecting multiple items of the same type, clone the referenced item 
-				add_item_to_crate( C )
+				// For transfer objectives expecting multiple items of the same type, clones the referenced item 
+				var/atom/added_item = add_item_to_crate( C )
+				if ( added_item ) 
+					prepackaged_items += added_item 
 			for ( var/atom/packaging in additional_prepackaging ) 
 				C.contents += packaging
 			C.overmap_objective = overmap_objective
@@ -94,7 +103,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 		return TRUE 
 
 /datum/freight_type/proc/add_item_to_crate( var/obj/C )
-	C.contents += DuplicateObject( item )
+	var/atom/newitem = DuplicateObject( item )
+	C.contents += newitem
+	return newitem
 
 // Handheld item type objectives 
 
@@ -306,9 +317,10 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 /datum/freight_type/specimen/add_item_to_crate( var/obj/C )
 	// DuplicateObject on a mob producing runtimes 
-	var/mob/living/simple_animal/M = new item( C )
+	var/mob/living/simple_animal/M = new item.type( C )
 	// specimen = M
 	M.AIStatus = AI_OFF
+	return M
 	
 // Prepackaged mobs need to be handled differently than prepackaged objects beecause I don't know how to code 
 /datum/freight_type/specimen/check_prepackaged_contents( var/obj/container )
@@ -318,20 +330,21 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/atom/a in container.GetAllContents() )
-		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			if( ( a.type == item ) || ( allow_wildcard_contents && recursive_loc_check( a, item ) ) ) // Is this the item we're looking for? 
-				if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
-					// Add to contents index for more checks 
-					index.add_amount( a, 1 )
+		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
+			// if( ( a.type == item ) || ( allow_wildcard_contents && recursive_loc_check( a, item ) ) ) // Is this the item we're looking for? 
+			if ( LAZYFIND( prepackaged_items, a ) || ( allow_wildcard_contents && recursive_loc_check( a, item.type ) ) ) // Is this the item we're looking for? 
+				// if ( istype( a.loc, /obj/structure/closet/crate/large/freight_objective ) ) // Is it still in its original container? Ensures the unique item was untouched 
+				// Add to contents index for more checks 
+				index.add_amount( a, 1 )
 				
 	// TODO add handling for stations begrudgingly accepting tampered cargo transfers 
 	// Due to the nature of objectives rewarding nothing but patrol completion there is no incentive for "bonus points" by leaving cargo untampered, unfortunately 
 	var/list/itemTargets
 	if ( allow_wildcard_contents )
 		// Add wildcard contents found in the loop above. Otherwise check_cargo in the parent cargo objective thinks these wildcard contents are trash 
-		itemTargets = index.get_all_if_successful( item, target, TRUE ) 
+		itemTargets = index.get_all_if_successful( item.type, target, TRUE ) 
 	else 
-		itemTargets = index.get_amount( item, target, TRUE )
+		itemTargets = index.get_amount( item.type, target, TRUE )
 	last_freight_contents_index = index
 	last_get_amount = itemTargets
 	return itemTargets
@@ -347,8 +360,8 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/atom/a in container.GetAllContents() )
-		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			if( istype( a, item ) || ( allow_wildcard_contents && recursive_loc_check( a, item ) ) )
+		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
+			if( istype( a, item.type ) || ( allow_wildcard_contents && recursive_loc_check( a, item.type ) ) )
 				// Add to contents index for more checks 
 				index.add_amount( a, 1 )
 	

@@ -28,6 +28,17 @@
 		SEND_SIGNAL( src, COMSIG_FREIGHT_TAMPERED ) 
 		..()
 
+/obj/structure/closet/crate/large/freight_objective/Destroy() // Also covers destruction from weapons fire 
+	message_admins( "freight_objective crate destroyed" )
+	if ( freight_type ) 
+		if ( !freight_type.allow_replacements ) 
+			if ( overmap_objective ) 
+				// Mark objective as failed 
+				// I haven't figured out how to cleanly attach a Destroy check to prepackaged items that fail their associated transfer objective if destroyed 
+				// Checking against the packaging crate this way will at least prevent gamemode softlocks due to incomplete objectives 
+				overmap_objective.status = 2  
+	..()
+
 /obj/structure/closet/crate/large/freight_objective/proc/poll_for_ghost_sentience()
 	for ( var/mob/living/simple_animal/M in contents )
 		if ( rand( 1, 20 ) == 20 ) // Random sentient mob event!
