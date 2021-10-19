@@ -320,6 +320,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 
+// Bypass the z level checks done by parent
+/obj/structure/overmap/fighter/forceMove(atom/destination)
+	return doMove(destination)
+
 /obj/structure/overmap/fighter/light
 	name = "Su-818 Rapier"
 	desc = "An Su-818 Rapier space superiorty fighter craft. Designed for high maneuvreability and maximum combat effectivness against other similar weight classes."

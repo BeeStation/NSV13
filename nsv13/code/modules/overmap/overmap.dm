@@ -466,7 +466,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	return ..()
 
 /obj/structure/overmap/forceMove(atom/destination)
-	if(!istype(src, /obj/structure/overmap/fighter) && !SSmapping.level_trait(destination.z, ZTRAIT_OVERMAP))
+	if(!SSmapping.level_trait(destination.z, ZTRAIT_OVERMAP))
 		return //No :)
 	return ..()
 
@@ -782,7 +782,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 						to_chat(M, "<span class='userdanger'>You black out!</span>")
 						M.Sleeping(5 SECONDS)
 			return
-		for(var/mob/living/M in mobs_in_ship)
+		for(var/mob/living/M as() in mobs_in_ship)
 			if(!istype(M))
 				continue
 			if(M.buckled) //Good for you, you strapped in!

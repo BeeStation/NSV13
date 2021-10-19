@@ -471,7 +471,7 @@
 	set waitfor = FALSE //As to not hold up any feedback messages.
 
 	// Energy weapons fire behavior
-	if ( istype( src, /obj/machinery/ship_weapon/energy ) ) // Now 100% more modular!
+	if(istype(src, /obj/machinery/ship_weapon/energy)) // Now 100% more modular!
 		if(can_fire(shots))
 			if(manual)
 				linked.last_fired = overlay
