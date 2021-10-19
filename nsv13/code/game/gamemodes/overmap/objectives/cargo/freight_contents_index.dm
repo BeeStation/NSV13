@@ -19,12 +19,17 @@
 	atoms_list[ type ] += a 
 
 /datum/freight_contents_index/proc/get_all() 
+	message_admins( "freight_contents_index get_all" )
 	// Compile a list of all items from atoms_list types and their lists 
 	var/list/allAtoms = list() 
 	for ( var/types in atoms_list ) 
+		message_admins( types )
 		for ( var/atom/a in atoms_list[ types ] ) 
+			message_admins( a )
 			allAtoms += a 
 	
+	message_admins( "freight_contents_index final_check" )
+	message_admins( english_list( allAtoms ) )
 	if ( length( allAtoms ) )
 		return allAtoms
 
@@ -40,7 +45,9 @@
 				return atoms_list[ subtype ]
 
 /datum/freight_contents_index/proc/get_all_if_successful( var/type, var/amount, var/allow_subtypes ) 
-	// Runs get_amount by default. If successful, marks all filtered contents in atoms_list as not trash for objectives with allow_wildcard_contents 
+	message_admins( "freight_contents_index get_all_if_successful" )
+	// Runs get_amount by default. If successful, marks all filtered contents in atoms_list as not trash for objectives with ignore_inner_contents 
 	var/list/valid_atoms = get_amount( type, amount, allow_subtypes ) 
+	message_admins( "freight_contents_index valid_atoms [ english_list( valid_atoms ) ]" )
 	if ( valid_atoms && length( valid_atoms ) )
 		return get_all()

@@ -12,7 +12,6 @@
 	var/crate_name = "Approved Shipment"
 	binary = TRUE
 	extension_supported = FALSE // Players won't enjoy being handed a cargo job after beating up fleets. Review this if we decide to refactor missions later 
-	allow_duplicates = TRUE
 
 	// Variables target and tally are automatically handled by the freight_type datum
 	// Please set your target and tally amounts when setting up the freight_type datum 
@@ -131,11 +130,6 @@
 				// There are missing items in this freight type, we're not going to bother checking the rest  
 				all_accounted_for = FALSE 
 				break 
-			
-			// Remove additional packaging from trash check 
-			if ( freight_type.additional_prepackaging )
-				for ( var/atom/packaging in freight_type.additional_prepackaging ) 
-					allContents -= packaging 
 		
 		// If there are additional trash items that were not requested, we won't mark this shipment as an objective completion 
 		// This prevents a scenario where the crew piles all their objective related cargo into a freight torpedo, completes 2 out of 3 applicable objectives, and can't get the incomplete shipment back for objective #3

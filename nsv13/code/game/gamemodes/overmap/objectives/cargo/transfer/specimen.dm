@@ -5,28 +5,28 @@
 	
 /datum/overmap_objective/cargo/transfer/specimen/New() 
 	var/picked = pick( list (
-		// Dangerous specimens 
-		/mob/living/simple_animal/slime/random,
-		/mob/living/simple_animal/hostile/zombie/hugbox,
-		/mob/living/simple_animal/hostile/alien,
-		/mob/living/simple_animal/hostile/swarmer,
-		/mob/living/simple_animal/hostile/carp,
-		
-		// Benign specimens 
-		/mob/living/simple_animal/hostile/lizard,
-		/mob/living/simple_animal/pet/dog/corgi,
-		/mob/living/simple_animal/pet/dog/bullterrier,
-		/mob/living/simple_animal/pet/cat,
-		/mob/living/simple_animal/pet/fox,
-		/mob/living/simple_animal/pet/hamster,
-		/mob/living/simple_animal/pet/penguin/emperor,
-		/mob/living/simple_animal/chicken,
+		// // Dangerous specimens 
+		// /mob/living/simple_animal/slime/random,
+		// /mob/living/simple_animal/hostile/zombie/hugbox,
+		// /mob/living/simple_animal/hostile/alien,
+		// /mob/living/simple_animal/hostile/swarmer,
+		// /mob/living/simple_animal/hostile/carp,
+		// 
+		// // Benign specimens 
+		// /mob/living/simple_animal/hostile/lizard,
+		// /mob/living/simple_animal/pet/dog/corgi,
+		// /mob/living/simple_animal/pet/dog/bullterrier,
+		// /mob/living/simple_animal/pet/cat,
+		// /mob/living/simple_animal/pet/fox,
+		// /mob/living/simple_animal/pet/hamster,
+		// /mob/living/simple_animal/pet/penguin/emperor,
+		// /mob/living/simple_animal/chicken,
 		// This is also spawning radios inside the crate on the parrot for some reason, which fails objectives for additional trash attached 
-		// TODO fix initialized parrot radios not being counted as freight items with allow_wildcard_contents set 
-		// /mob/living/simple_animal/parrot,
-		/mob/living/simple_animal/butterfly,
-		/mob/living/simple_animal/crab,
-		/mob/living/simple_animal/cow
+		// TODO fix initialized parrot radios not being counted as freight items with ignore_inner_contents set 
+		/mob/living/simple_animal/parrot,
+		// /mob/living/simple_animal/butterfly,
+		// /mob/living/simple_animal/crab,
+		// /mob/living/simple_animal/cow
 	) )
 
 	// Bandaid fix to stop a runtime about mobs in nullspace 

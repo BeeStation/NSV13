@@ -213,7 +213,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/controller/subsystem/overmap_mode/proc/start_reminder()
 	next_objective_reminder = world.time + mode.objective_reminder_interval
-	addtimer(CALLBACK(src, .proc/announce_objectives), 3 MINUTES)
+	addtimer(CALLBACK(src, .proc/announce_objectives), 10 SECONDS)
 
 /datum/controller/subsystem/overmap_mode/proc/announce_objectives()
 	announced_objectives = TRUE
@@ -412,7 +412,6 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/extension_supported = FALSE 				//Is this objective available to be a random extended round objective?
 	var/ignore_check = FALSE						//Used for checking extended rounds
 	var/instanced = FALSE							//Have we yet run the instance proc for this objective?
-	var/allow_duplicates = FALSE					// Whether gamemodes can select this objective multiple times 
 
 /datum/overmap_objective/New()
 
