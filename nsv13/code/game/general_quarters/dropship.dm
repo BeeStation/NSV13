@@ -138,19 +138,6 @@
 	else
 		to_chat(user, "<span class='warning'>Access denied.</span>")
 
-/**
-	Override, as we're using the turf reservation system instead of the maploader (this was done for lag reasons, turf reservation REALLY lags with big maps!)
-*/
-
-/atom/get_overmap() //Here I go again on my own, walkin' down the only road I've ever known
-	RETURN_TYPE(/obj/structure/overmap)
-	if(..())
-		return ..()
-	if(istype(loc, /obj/structure/overmap))
-		return loc
-	var/area/AR = get_area(src)
-	return AR?.overmap_fallback
-
 //Bit jank but w/e
 
 /obj/structure/overmap/fighter/dropship/force_parallax_update(ftl_start)

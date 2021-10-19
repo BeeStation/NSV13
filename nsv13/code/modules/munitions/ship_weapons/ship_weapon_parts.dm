@@ -5,8 +5,10 @@
 	icon_state = "mcontroller"
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/ship_weapon/parts/Destroy()
-	return QDEL_HINT_LETMELIVE
+/obj/item/ship_weapon/parts/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 /**
  * Firing electronics - used in construction of <s>new</s> old munitions machinery

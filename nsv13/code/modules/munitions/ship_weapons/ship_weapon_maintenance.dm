@@ -56,6 +56,7 @@
 		if(tool.use_tool(src, user, 40, volume=100))
 			to_chat(user, "<span class='notice'> You fasten the maintenance panel on [src].</span>")
 			maint_state = MSTATE_CLOSED
+			panel_open = FALSE
 			update_overlay()
 			return TRUE
 	. = ..()
@@ -86,7 +87,7 @@
 			return TRUE
 
 /**
- * Deconstructs the machine. We no longer track the panel casing 
+ * Deconstructs the machine. We no longer track the panel casing
  */
 /obj/machinery/ship_weapon/crowbar_act(mob/user, obj/item/tool)
 	// if(maint_state == MSTATE_UNBOLTED)
@@ -111,7 +112,7 @@
 	if ( maint_state != MSTATE_UNBOLTED )
 		to_chat(user, "<span class='warning'>The inner casing bolts are fastened on [src]!</span>")
 		return FALSE
-	else 
+	else
 		if(default_deconstruction_crowbar(tool))
 			return TRUE
 

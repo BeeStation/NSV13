@@ -137,9 +137,12 @@
 	if(!core)
 		core = locate(/obj/machinery/deck_turret) in orange(1, src)
 
-/obj/machinery/computer/deckgun/Destroy()
+/obj/machinery/computer/deckgun/Destroy(force=FALSE)
 	if(circuit && !ispath(circuit))
-		circuit.forceMove(loc)
+		if(!force)
+			circuit.forceMove(loc)
+		else
+			qdel(circuit, force)
 		circuit = null
 	. = ..()
 
@@ -212,12 +215,18 @@
 	var/obj/machinery/deck_turret/payload_gate/payload_gate
 	var/obj/machinery/computer/deckgun/computer
 
-/obj/machinery/deck_turret/Destroy()
+/obj/machinery/deck_turret/Destroy(force=FALSE)
 	if(circuit && !ispath(circuit))
-		circuit.forceMove(loc)
+		if(!force)
+			circuit.forceMove(loc)
+		else
+			qdel(circuit, force)
 		circuit = null
 	for(var/obj/O in component_parts)
-		O.forceMove(loc)
+		if(!force)
+			O.forceMove(loc)
+		else
+			qdel(circuit, force)
 	. = ..()
 
 /obj/machinery/deck_turret/multitool_act(mob/living/user, obj/item/I)
@@ -257,9 +266,12 @@
 	var/loading = FALSE
 	var/load_delay = 6.4 SECONDS
 
-/obj/machinery/deck_turret/powder_gate/Destroy()
+/obj/machinery/deck_turret/powder_gate/Destroy(force=FALSE)
 	if(circuit && !ispath(circuit))
-		circuit.forceMove(loc)
+		if(!force)
+			circuit.forceMove(loc)
+		else
+			qdel(circuit, force)
 		circuit = null
 	. = ..()
 

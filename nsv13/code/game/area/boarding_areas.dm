@@ -1,3 +1,8 @@
+/area/nsv/boarding_pod
+	name = "Syndicate Boarding Pod"
+	icon_state = "syndie-ship"
+	requires_power = FALSE
+
 //Legacy areas.
 /area/ruin/powered/nsv13/prisonship
 	name = "Syndicate prison ship"
@@ -21,8 +26,12 @@
 	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
 	has_gravity = STANDARD_GRAVITY
 	always_unpowered = FALSE
+	valid_territory = FALSE
+	unique = FALSE //Instance those areas!
 
 /area/ruin/unpowered/boarding_interior
 	name = "Boarding Interior Map (Requires Power)"
 	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
 	has_gravity = STANDARD_GRAVITY
+	valid_territory = FALSE
+	unique = FALSE //Instance those areas!
