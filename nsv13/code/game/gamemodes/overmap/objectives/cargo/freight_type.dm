@@ -23,13 +23,17 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/tally = 0 
 
 	// Set to TRUE to automatically place this item in the ship's warehouse, for simpler transfer objectives 
-	// If an item is provided in a prepackaged large wooden crate but the players open it, the players can either repackage or source a replacement to deliver 
+	// If an item is provided in a prepackaged large wooden crate but the players open/destroy it, the players may be able to repackage or source a replacement to deliver, if allow_replacements is TRUE
 	// item is a required field if prepackaged_item is true. 
-	// overmap_objective is a required field if prepackaged_item is true. 
+	// overmap_objective is a required field if prepackaged_item is true. Simply pass in the overmap_objective on objective self initialize 
 	var/send_prepackaged_item = FALSE 
 	var/list/prepackaged_items = list()
 
-	// If prepackaged mission critical items are tampered or destroyed, allow the crew to replace these items or transfer them in generic crates
+	// If prepackaged mission critical items are tampered or destroyed, allow the crew to transfer these items in generic crates or replace them
+	// Alternatively if the objective requires the crew to source and donate an item, allow_replacements TRUE permits submitting sourced items 
+	// This should be set when a cargo objective creates and self assigns freight_types on initialize.
+	// Setting allow_replacements TRUE to a new freight_type and send_prepackaged_item FALSE means the players will never be able to complete it!
+	// TODO Update objective failure checks to attach to the prepackaged item destruction somehow, instead of failing on large wooden crate opening 
 	var/allow_replacements = TRUE 
 
 	// Get the parent objective for this item type 
@@ -131,6 +135,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/list/prepackagedTargets = ..()
 	if ( prepackagedTargets ) 
 		return prepackagedTargets 
+	
+	if ( !allow_replacements )
+		return FALSE 
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
@@ -177,6 +184,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/list/prepackagedTargets = ..()
 	if ( prepackagedTargets ) 
 		return prepackagedTargets  
+	
+	if ( !allow_replacements )
+		return FALSE 
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
@@ -213,6 +223,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/list/prepackagedTargets = ..()
 	if ( prepackagedTargets ) 
 		return prepackagedTargets 
+	
+	if ( !allow_replacements )
+		return FALSE 
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
@@ -264,6 +277,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/list/prepackagedTargets = ..()
 	if ( prepackagedTargets ) 
 		return prepackagedTargets 
+	
+	if ( !allow_replacements )
+		return FALSE 
 
 	if ( istype( src, /datum/freight_type/reagent/blood ) ) // Run the actual blood type check please thank you 
 		return FALSE
@@ -278,7 +294,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 					// Add to contents index for more checks 
 					index.add_amount( a, R.volume, R.type )
 	
-	var/list/itemTargets = index.get_amount( item.type, target, TRUE )
+	var/list/itemTargets = index.get_amount( reagent.type, target, TRUE )
 
 	// Add wildcard contents from inner object contents found in the loop above. Otherwise check_cargo in the parent cargo objective thinks these inner wildcard contents are trash 
 	if ( ignore_inner_contents )
@@ -314,6 +330,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/list/prepackagedTargets = ..()
 	if ( prepackagedTargets ) 
 		return prepackagedTargets 
+	
+	if ( !allow_replacements )
+		return FALSE 
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
@@ -325,7 +344,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 					// Add to contents index for more checks 
 					index.add_amount( a, R.volume, blood_type )
 					
-	var/list/itemTargets = index.get_amount( item.type, target, TRUE )
+	var/list/itemTargets = index.get_amount( blood_type, target, TRUE )
 
 	// Add wildcard contents from inner object contents found in the loop above. Otherwise check_cargo in the parent cargo objective thinks these inner wildcard contents are trash 
 	if ( ignore_inner_contents )

@@ -6,5 +6,6 @@
 /datum/overmap_objective/cargo/transfer/data/New() 
 	var/datum/freight_type/object/C = new /datum/freight_type/object( new /obj/item/disk/tech_disk() )
 	C.send_prepackaged_item = TRUE
+	C.allow_replacements = FALSE // This is secure data, replacement is not an option 
 	C.overmap_objective = src
 	freight_types += C

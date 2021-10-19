@@ -444,8 +444,8 @@ Adding tasks is easy! Just define a datum for it.
 		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		receipt.vessel.hail( pick( list( 
 			"Some of the cargo contents are missing. We're sending the crates back, please double check your crates and try again.",
-			"We're not expecting this kind of shipment, please don't send us your trash.",
-			"This cargo isn't matching on our supply requests. We will return it as soon as we can.",
+			"We're not expecting this kind of shipment. We will return it as soon as we can.",
+			"This cargo isn't matching on our supply requests, please review the attached contents manifest and resend the contents.",
 			"We haven't asked for any cargo like this. Take your business elsewhere if you won't complete the job.",
 		) ), src)
 		addtimer(CALLBACK(src, .proc/return_shipment, receipt), speed_cargo_return)
@@ -1353,8 +1353,8 @@ Seek a ship thich we'll station ourselves around
 	var/nodamage = FALSE // Mob immunity equivalent for stations, used for mission critical targets. Separate var if mission critical stations need to be essential but not immortal 
 	var/supply_pod_type = /obj/structure/closet/supplypod/centcompod
 	var/returns_rejected_cargo = TRUE // AI ships will return cargo that does not match their expected shipments 
-	var/speed_cargo_check = 1 SECONDS 
-	var/speed_cargo_return = 1 SECONDS
+	var/speed_cargo_check = 30 SECONDS 
+	var/speed_cargo_return = 30 SECONDS
 
 	var/last_decision = 0
 	var/decision_delay = 2 SECONDS

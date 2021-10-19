@@ -21,8 +21,11 @@
 			if ( ispath( C.id, /datum/reagent/medicine ) )
 				possible_chemicals += C.id
 	
-	for( var/i = 0; i < rand( 1, 3 ); i++ ) 
+	var/numberOfChemicals = rand( 1, 3 )
+	for( var/i = 0; i < numberOfChemicals; i++ ) 
 		var/datum/reagent/medicine/picked = pick_n_take( possible_chemicals )
-		freight_types += new /datum/freight_type/reagent( new picked() )
+		var/datum/freight_type/reagent/R = new ( new picked() )
+		R.target = ( 90 / numberOfChemicals )
+		freight_types += R
 		chemicals += picked 
 		
