@@ -104,7 +104,7 @@
 			segments += type.get_brief_segment() 
 		
 		var/obj/structure/overmap/S = destination
-		brief = "Transfer [segments.Join( ", " )] to station [S] in system [S.current_system]"
+		brief = "Transfer [segments.Join( ", " )] prepackaged and delivered to cargo, to station [S] in system [S.current_system]"
 
 /datum/overmap_objective/cargo/proc/check_cargo( var/obj/shipment ) 
 	if ( length( freight_types ) ) 

@@ -133,9 +133,6 @@ SUBSYSTEM_DEF(overmap_mode)
 	if(mode.random_objectives.len) //Do we have random objectives?
 		for(var/I = 0, I < mode.random_objective_amount, I++) //We pick from our pool of random objectives
 			mode.objectives += pick_n_take(mode.random_objectives)
-			// var/objective = pickweight(mode.random_objectives)
-			// mode.objectives += objective
-			// mode.random_objectives -= objective
 
 	for(var/O in mode.objectives)
 		var/datum/overmap_objective/I = new O()
@@ -238,9 +235,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	for(var/datum/overmap_objective/O in mode.objectives)
 		text = "[text] <br> - [O.brief]"
 	
-	var/delivered_crates = deliver_packages()
-	if ( delivered_crates ) 
-		text = "[text] <br><br> [ delivered_crates ] prepackaged crates have been delivered to cargo for transfer objectives."
+	deliver_packages()
 
 	print_command_report(text, title, TRUE)
 
@@ -417,7 +412,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/extension_supported = FALSE 				//Is this objective available to be a random extended round objective?
 	var/ignore_check = FALSE						//Used for checking extended rounds
 	var/instanced = FALSE							//Have we yet run the instance proc for this objective?
-	var/allow_duplicates = FALSE			// Whether gamemodes can select this objective multiple times 
+	var/allow_duplicates = FALSE					// Whether gamemodes can select this objective multiple times 
 
 /datum/overmap_objective/New()
 
