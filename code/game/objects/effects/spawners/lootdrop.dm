@@ -238,7 +238,7 @@
 		/obj/item/organ/liver/cybernetic/upgraded/ipc = 3,
 		/obj/item/organ/lungs/cybernetic = 4,
 		/obj/item/organ/lungs/cybernetic/upgraded= 2,
-		/obj/item/organ/stomach/cell = 4,
+		/obj/item/organ/stomach/battery/ipc = 4,
 		/obj/item/organ/heart/clockwork = 6,
 		/obj/item/organ/stomach/clockwork = 6,
 		/obj/item/organ/liver/clockwork = 6,
