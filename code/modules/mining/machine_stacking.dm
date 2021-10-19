@@ -18,14 +18,14 @@
 	else
 		machine = locate(/obj/machinery/mineral/stacking_machine, get_step(src, machinedir))
 		if (machine)
-			machine.CONSOLE = src
+			machine.console = src
 
 /obj/machinery/mineral/stacking_unit_console/LateInitialize() //NSV13
 	if(link_id) //If mappers set an ID)
 		for(var/obj/machinery/mineral/stacking_machine/SM in GLOB.machines)
 			if(SM.link_id == link_id)
 				machine = SM
-				machine.CONSOLE = src
+				machine.console = src
 
 /obj/machinery/mineral/stacking_unit_console/Destroy()
 	if(machine)

@@ -180,11 +180,6 @@
 	UnregisterSignal(owner, COMSIG_LIVING_ELECTROCUTE_ACT)
 	..()
 
-//NSV13 changed amount / x from x = 70 to x = 3.5
-/obj/item/organ/stomach/ethereal/proc/charge(datum/source, amount, repairs)
-	SIGNAL_HANDLER
-	adjust_charge(amount / 3.5)
-
 /obj/item/organ/stomach/battery/ethereal/proc/on_electrocute(datum/source, shock_damage, shock_source, siemens_coeff = 1, safety = 0, tesla_shock = 0, illusion = 0, stun = TRUE)
 	SIGNAL_HANDLER
 
