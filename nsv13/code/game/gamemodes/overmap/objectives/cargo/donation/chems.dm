@@ -24,7 +24,7 @@
 	var/numberOfChemicals = rand( 1, 3 )
 	for( var/i = 0; i < numberOfChemicals; i++ ) 
 		var/datum/reagent/medicine/picked = pick_n_take( possible_chemicals )
-		var/datum/freight_type/reagent/R = new ( new picked() )
+		var/datum/freight_type/reagent/R = new /datum/freight_type/reagent( picked )
 		R.target = ( 90 / numberOfChemicals )
 		freight_types += R
 		chemicals += picked 

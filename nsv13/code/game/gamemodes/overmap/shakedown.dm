@@ -15,7 +15,6 @@
 	selection_weight = 5
 	required_players = 0
 	max_players = 10
-
 	random_objective_amount = 3
 
 /datum/overmap_gamemode/New()

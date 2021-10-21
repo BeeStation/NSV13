@@ -322,6 +322,13 @@ Adding tasks is easy! Just define a datum for it.
 		// Fire the torpedo away to unload the launcher. 
 		// Without a weapon_type the projectile will not be animated 
 		launcher.fire( src, shots = 1 )
+		// Because it doesn't have a weapon_type to store the overmap_firing_sounds we'll bodge it here 
+		user?.get_overmap()?.relay( pick( list(
+			'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
+			'nsv13/sound/effects/ship/freespace2/m_stiletto.wav',
+			'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
+			'nsv13/sound/effects/ship/freespace2/m_wasp.wav'
+		) ) )
 		return TRUE 
 
 /obj/structure/overmap/proc/add_objective( objective )

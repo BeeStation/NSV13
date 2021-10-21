@@ -26,10 +26,10 @@
 			return
 		// Detach the ghost poll from this proc so the crate gets opened 
 		SEND_SIGNAL( src, COMSIG_FREIGHT_TAMPERED ) 
+		message_admins( "[user] opened a sealed cargo objective crate! [ADMIN_FLW(user)] [ADMIN_JMP(src)]" )
 		..()
 
 /obj/structure/closet/crate/large/freight_objective/Destroy() // Also covers destruction from weapons fire 
-	message_admins( "freight_objective crate destroyed" )
 	if ( freight_type ) 
 		if ( !freight_type.allow_replacements ) 
 			if ( overmap_objective ) 

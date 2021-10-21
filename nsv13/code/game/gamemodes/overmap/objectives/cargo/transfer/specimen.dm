@@ -27,11 +27,7 @@
 		/mob/living/simple_animal/cow
 	) )
 
-	// Bandaid fix to stop a runtime about mobs in nullspace 
-	// freight_types expect an arbitraty initialized atom to get info like name for briefing descriptions and type for delivery receipt checks 
-	// Someone please tell me how to not bodge this 
-	var/obj/structure/closet/location = new 
-	var/datum/freight_type/specimen/C = new /datum/freight_type/specimen( new picked( location ) )
+	var/datum/freight_type/specimen/C = new /datum/freight_type/specimen( picked )
 	C.send_prepackaged_item = TRUE
 	C.allow_replacements = FALSE // Once a packaged specimen gets out it may be too large to fit in a crate, or it may get killed. Prevents gamemode softlocks from incomplete objectives 
 	C.overmap_objective = src

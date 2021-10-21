@@ -42,7 +42,7 @@
 		for( var/datum/freight_type/type in freight_types )
 			target += type.target 
 	else 
-		message_admins( "A cargo objective was assigned with no delivery item types set! Automatically marking as completed" )
+		message_admins( "BUG: A cargo objective was assigned with no delivery item types set! Automatically marking as completed" )
 		brief = "Succeed"
 		status = 1
 
@@ -75,7 +75,7 @@
 /datum/overmap_objective/cargo/proc/deliver_package() 
 	for ( var/datum/freight_type/T in freight_types ) 
 		if ( !T.deliver_package() )
-			message_admins( "A cargo objective failed to deliver a prepackaged item to the ship! Automatically marking the objective as completed." )
+			message_admins( "BUG: A cargo objective failed to deliver a prepackaged item to the ship! Automatically marking the objective as completed." )
 			status = 1
 
 /datum/overmap_objective/cargo/proc/update_brief() 

@@ -29,13 +29,13 @@
 		/obj/item/fighter_component/secondary/ordnance_launcher/torpedo/tier2,
 		/obj/item/fighter_component/secondary/ordnance_launcher/torpedo/tier3,
 	)
-
-	// for( var/C in subtypesof( /obj/item/fighter_component ) )
-	// 	possible_components += C
+	
+	var/allow_replacements = pick( TRUE, FALSE ) // I just want to see someone get tempbanned for objective gambling on roundstart fighter upgrade lootboxes 
 
 	for ( var/i = 0; i < rand( 2, 4 ); i++ ) 
 		var/picked = pick( possible_components )
-		var/datum/freight_type/object/C = new /datum/freight_type/object( new picked() )
+		var/datum/freight_type/object/C = new /datum/freight_type/object( picked )
 		C.send_prepackaged_item = TRUE
 		C.overmap_objective = src
+		C.allow_replacements = allow_replacements
 		freight_types += C

@@ -14,12 +14,12 @@
 		/obj/item/reagent_containers/food/snacks/store/cake/holy_cake,
 		/obj/item/reagent_containers/food/snacks/store/cake/pound_cake,
 	) )
-	var/datum/freight_type/object/cake = new /datum/freight_type/object( new picked() )
+	var/datum/freight_type/object/cake = new /datum/freight_type/object( picked )
 	
 	// Pick a beer 
+	// Get only craftable chemicals of consumable ethanol 
 	var/list/possible_chemicals = list()
 
-	// Get only craftable chemicals of consumable ethanol 
 	for( var/D in subtypesof( /datum/chemical_reaction ) )
 		var/datum/chemical_reaction/C = new D()
 		if ( C.id )
@@ -27,14 +27,14 @@
 				possible_chemicals += C.id
 
 	var/datum/reagent/consumable/ethanol/picked_ethanol = pick( possible_chemicals )
-	var/datum/freight_type/reagent/drinks = new /datum/freight_type/reagent( new picked_ethanol() )
+	var/datum/freight_type/reagent/drinks = new /datum/freight_type/reagent( picked_ethanol )
 	drinks.target = 200
 
 	// Setup presents 
-	var/atom/parcel = new /obj/item/smallDelivery()
-	parcel.name = "small parcel"
+	var/atom/parcel = /obj/item/smallDelivery
 	var/datum/freight_type/reagent/presents = new /datum/freight_type/object( parcel )
 	presents.target = 3
+	presents.item_name = "wrapped parcel"
 	presents.ignore_inner_contents = TRUE
 
 	freight_types += cake
