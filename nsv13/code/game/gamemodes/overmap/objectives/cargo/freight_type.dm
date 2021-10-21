@@ -268,7 +268,8 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	set_item_name()
 
 /datum/freight_type/reagent/set_item_name() 
-	item_name = new reagent_type().name 
+	var/datum/reagent/R = new reagent_type()
+	item_name = R.name 
 	return TRUE 
 
 /datum/freight_type/reagent/check_contents( var/obj/container )
