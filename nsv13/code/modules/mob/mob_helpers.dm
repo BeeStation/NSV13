@@ -5,13 +5,13 @@
 		var/nearestDistance = INFINITY
 		var/obj/machinery/inertial_dampener/nearestMachine = null
 
-		if(dampenerData && islist(dampenerData))
+		if(islist(dampenerData))
 			// if we are already provided a nearest machine, we don't have to look for it 
 			var/list/D = dampenerData
 			nearestDistance = D["distance"]
 			nearestMachine = D["machine"] 
 		else 
-			for(var/obj/machinery/inertial_dampener/machine in GLOB.inertia_dampeners)
+			for(var/obj/machinery/inertial_dampener/machine as anything in GLOB.inertia_dampeners)
 				var/dist = get_dist(M, machine)
 				if(dist < nearestDistance && machine.on)
 					nearestDistance = dist 

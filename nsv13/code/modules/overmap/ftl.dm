@@ -281,7 +281,7 @@
 		var/obj/machinery/inertial_dampener/nearestMachine = null
 
 		// Going to helpfully pass this in after seasickness checks, to reduce duplicate machine checks
-		for(var/obj/machinery/inertial_dampener/machine in GLOB.inertia_dampeners)
+		for(var/obj/machinery/inertial_dampener/machine as anything in GLOB.inertia_dampeners)
 			var/dist = get_dist( M, machine )
 			if ( dist < nearestDistance && machine.on )
 				nearestDistance = dist
