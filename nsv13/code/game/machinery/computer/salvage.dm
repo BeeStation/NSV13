@@ -32,7 +32,6 @@
 	radio.listening = 0
 	radio.recalculateChannels()
 
-/* //FIXME: boarding
 /obj/machinery/computer/ship/salvage/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -49,7 +48,7 @@
 	data["salvage_target_max_integrity"] = (linked.active_boarding_target) ? linked.active_boarding_target.max_integrity  : 100
 	var/list/ships = list()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(OM.z != linked?.z || OM.interior_mode != INTERIOR_EXCLUSIVE || OM.is_sensor_visible(linked) <= SENSOR_VISIBILITY_FAINT || OM.boarding_reservation_z)
+		if(OM.z != linked?.z || OM.interior_mode != INTERIOR_EXCLUSIVE || OM.is_sensor_visible(linked) <= SENSOR_VISIBILITY_FAINT || OM == linked.active_boarding_target)
 			continue
 		ships[++ships.len] = list("name"=OM.name, "desc"=OM.desc, "id"="\ref[OM]")
 	data["ships"] = ships
@@ -73,12 +72,16 @@
 				radio.talk_into(src, "WARNING: This console is already maintaining EWAR scrambling on [linked.active_boarding_target]. Confirmation required to proceed.", radio_channel)
 				return FALSE
 			radio.talk_into(src, "Electronic countermeasure deployment in progress.", radio_channel)
+			can_salvage = FALSE
 			if(OM.ai_load_interior(linked))
-				can_salvage = FALSE
+				linked.active_boarding_target = OM
 				addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown)
 				radio.talk_into(src, "Enemy point defense systems scrambled. Bluefor strike teams cleared for approach.", radio_channel)
 			else
 				radio.talk_into(src, "Unable to scramble enemy point defense systems. Aborting...", radio_channel)
+				linked.active_boarding_target.kill_boarding_level(linked)
+				linked.active_boarding_target = null
+				addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown/2)
 
 		if("stop_salvage")
 			if(!linked || !linked.active_boarding_target || !can_salvage)
@@ -86,9 +89,9 @@
 			if(alert("Are you sure? (ALL BOARDERS WILL BE KILLED)",name,"Release Hammerlock","Cancel") == "Cancel")
 				return FALSE
 			radio.talk_into(src, "EWAR scrambling on [linked.active_boarding_target] cancelled.", radio_channel)
-			linked.active_boarding_target.kill_boarding_level(linked)
-			linked.active_boarding_target = null
 			//They REALLY NEED TO NOT SPAM THIS
 			can_salvage = FALSE
+			message_admins("[usr] released boarding/salvage lock on [linked.active_boarding_target]")
+			linked.active_boarding_target.kill_boarding_level(linked)
+			linked.active_boarding_target = null
 			addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown/2)
-*/

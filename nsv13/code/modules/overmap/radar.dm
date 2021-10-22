@@ -90,12 +90,12 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/proc/send_radar_pulse()
 	var/obj/structure/overmap/OM = get_overmap()
-	if(!can_radar_pulse())
+	if(!OM || !can_radar_pulse())
 		return FALSE
-	OM?.send_radar_pulse()
+	OM.send_radar_pulse()
 	addtimer(VARSET_CALLBACK(src, sensor_range, base_sensor_range), RADAR_VISIBILITY_PENALTY)
 	sensor_range = world.maxx
-	OM?.add_sensor_profile_penalty(sensor_range, RADAR_VISIBILITY_PENALTY)
+	OM.add_sensor_profile_penalty(sensor_range, RADAR_VISIBILITY_PENALTY)
 
 /obj/machinery/computer/ship/dradis/examine(mob/user)
 	. = ..()
@@ -123,6 +123,41 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
 	name = "\improper Air traffic control console"
+
+/obj/machinery/computer/ship/dradis/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight 
+	name = "\improper Cargo freight delivery console"
+	circuit = /obj/item/circuitboard/computer/ship/dradis/cargo
+	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/linked_launcher = null
+	var/dradis_id = null
+
+/obj/machinery/computer/ship/dradis/cargo/Initialize()
+	..()
+	sensor_range = hail_range
+
+	if(!linked_launcher)
+		if(dradis_id) //If mappers set an ID
+			for(var/obj/machinery/ship_weapon/torpedo_launcher/cargo/W in GLOB.machines)
+				if(W.launcher_id == dradis_id && W.z == z)
+					linked_launcher = W
+					W.linked_dradis = src
+
+/obj/machinery/computer/ship/dradis/cargo/multitool_act(mob/living/user, obj/item/I)
+	// Allow relinking a console's cargo launcher 
+	var/obj/item/multitool/P = I
+	// Check to make sure the buffer is a valid cargo launcher before acting on it 
+	if( ( multitool_check_buffer(user, I) && istype( P.buffer, /obj/machinery/ship_weapon/torpedo_launcher/cargo ) ) ) 
+		var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = P.buffer 
+		launcher.linked_dradis = src 
+		linked_launcher = launcher
+		P.buffer = null
+		to_chat(user, "<span class='notice'>Buffer transferred</span>")
+		return TRUE
+	// Call the parent proc and allow supply beacon swaps 
+	else 
+		return ..()
+	
+/obj/machinery/computer/ship/dradis/cargo/can_radar_pulse()
+	return FALSE
 
 /obj/machinery/computer/ship/dradis/mining
 	name = "mining DRADIS computer"
@@ -193,9 +228,9 @@ Called by add_sensor_profile_penalty if remove_in is used.
 		ui = new(user, src, "Dradis")
 		ui.open()
 
-/obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui, mob/user)
+/obj/machinery/computer/ship/dradis/ui_act(action, params)
 	. = ..()
-	if(isobserver(user))
+	if(isobserver(usr))
 		return
 	if(.)
 		return
@@ -238,7 +273,11 @@ Called by add_sensor_profile_penalty if remove_in is used.
 				return
 			next_hail = world.time + 10 SECONDS //I hate that I need to do this, but yeah.
 			if(get_dist(target, linked) <= hail_range)
-				target.try_hail(usr, linked)
+				if ( istype( src, /obj/machinery/computer/ship/dradis/cargo ) ) 
+					var/obj/machinery/computer/ship/dradis/cargo/console = src // Must cast before passing into proc 
+					target.try_deliver( usr, console )
+				else 
+					target.try_hail(usr, linked)
 		if("radar_pulse")
 			send_radar_pulse()
 		if("sensor_mode")
@@ -377,11 +416,14 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	data["showAnomalies"] = showAnomalies
 	data["sensor_range"] = sensor_range
 	data["width_mod"] = sensor_range / SENSOR_RANGE_DEFAULT
-	data["can_radar_pulse"] = can_radar_pulse()
 	data["sensor_mode"] = (sensor_mode == SENSOR_MODE_PASSIVE) ? "Passive Radar" : "Active Radar"
 	data["pulse_delay"] = "[radar_delay / 10]"
-	if(sensor_mode == SENSOR_MODE_RADAR)
-		send_radar_pulse()
+	if(can_radar_pulse())
+		data["can_radar_pulse"] = TRUE
+		if(sensor_mode == SENSOR_MODE_RADAR && !isobserver(user))
+			send_radar_pulse()
+	else
+		data["can_radar_pulse"] = FALSE
 	return data
 
 /datum/asset/simple/overmap_flight

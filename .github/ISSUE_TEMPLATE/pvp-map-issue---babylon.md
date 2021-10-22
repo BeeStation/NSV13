@@ -1,8 +1,8 @@
 ---
-name: Map Issue - Hammerhead
-about: Bugs related to the Hammerhead Map
-title: "[Hammerhead] Issue"
-labels: Hammerhead, Map Issue
+name: PVP Map Issue - Babylon
+about: Bugs related to the Babylon Map
+title: ''
+labels: Map Issue, Babylon
 assignees: ''
 
 ---

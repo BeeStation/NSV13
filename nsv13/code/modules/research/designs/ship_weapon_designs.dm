@@ -177,3 +177,26 @@
 	build_path = /obj/item/circuitboard/machine/gauss_dispenser
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+//Hybrid Railgun
+/datum/design/slug_cold_iron
+	name = "M4 NTRS 400mm teflon coated tungsten round"
+	desc = "A standard railgun slug."
+	id = "slug_cold_iron"
+	build_type = PROTOLATHE | AUTOLATHE
+	materials = list(/datum/material/iron = 2000, /datum/material/plasma = 750)
+	construction_time=10
+	build_path = /obj/item/ship_weapon/ammunition/railgun_ammo
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/slug_uranium
+	name = "U4 NTRK 400mm teflon coated uranium round"
+	desc = "A heavy railgun slug."
+	id = "slug_uranium"
+	build_type = PROTOLATHE | AUTOLATHE
+	materials = list(/datum/material/iron = 1500, /datum/material/plasma = 750, /datum/material/uranium = 500)
+	construction_time=10
+	build_path = /obj/item/ship_weapon/ammunition/railgun_ammo/uranium
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS

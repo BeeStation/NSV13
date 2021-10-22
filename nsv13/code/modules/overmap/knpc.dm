@@ -21,34 +21,17 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/next_internals_attempt = 0
 
 /mob/living/carbon/human/ai_boarder
-	faction = list("Syndicate")
+	faction = list("Neutral")
 	var/move_delay = 4 //How quickly do the boys travel?
 	var/action_delay = 6 //How long we delay between actions
 	var/knpc_traits = KNPC_IS_DODGER | KNPC_IS_MERCIFUL | KNPC_IS_AREA_SPECIFIC
 	var/difficulty_override = FALSE
 	var/list/outfit = list (
-		/datum/outfit/syndicate/odst/smg
+		/datum/outfit/job/assistant
 	)
-	var/list/taunts = list(
-		"DEATH TO NANOTRASEN!!",
-		"FOR ABASSI!",
-		"Eat this!",
-		"Weakling!",
-		"You're going home in a coffin kid!",
-		"Engaging the enemy!"
-	)
-	var/list/call_lines = list(
-		"Enemy spotted! Need backup in",
-		"OPFOR sighted in",
-		"Requesting Support to"
-	)
-	var/list/response_lines = list(
-		"Copy that, en route.",
-		"On my way!",
-		"Loud and clear, coming!",
-		"On my way!",
-		"Ooh rah!"
-	)
+	var/list/taunts = list("Engaging the enemy!")
+	var/list/call_lines = list("Enemy spotted!")
+	var/list/response_lines = list("On my way!")
 
 /mob/living/carbon/human/ai_boarder/Initialize()
 	. = ..()
@@ -214,8 +197,9 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/mob/living/carbon/human/ai_boarder/H = parent
 	if(H.stat == DEAD) //Dead.
 		return PROCESS_KILL
-	if(H.incapacitated()) //In crit or something....
-		return
+	if(!H.can_resist())
+		if(H.incapacitated()) //In crit or something....
+			return
 	if(world.time >= next_action)
 		next_action = world.time + H.action_delay
 		pick_goal()
@@ -741,23 +725,61 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		return
 	H.resist() //Stop drop and roll!
 
-/datum/ai_goal/human/escape_closet
-	name = "Escape Closet"
+/datum/ai_goal/human/escape_custody
+	name = "Escape Custody"
 	score = AI_SCORE_CRITICAL //Not being contained is fairly important
 	required_ai_flags = null
 
-/datum/ai_goal/human/escape_closet/check_score(datum/component/knpc/HA)
+/datum/ai_goal/human/escape_custody/check_score(datum/component/knpc/HA)
 	if(!..())
 		return 0
 	var/mob/living/carbon/human/H = HA.parent
-	if(istype(H.loc, /obj/structure/closet))
+	if(istype(H.loc, /obj/structure/closet)) //Check if we are in a closet
+		return score
+	if(H.handcuffed || H.buckled || H.legcuffed) //Or locked up somehow
 		return score
 	return 0
 
-/datum/ai_goal/human/escape_closet/action(datum/component/knpc/HA)
+/datum/ai_goal/human/escape_custody/action(datum/component/knpc/HA)
+	var/mob/living/carbon/human/H = HA.parent
+	if(!H.can_resist()) //We use a different check here
+		return
+
+	if(istype(H.loc, /obj/structure/closet))
+		var/obj/structure/closet/C = H.loc
+		C.open() //Open that closet
+	if(H.handcuffed || H.buckled || H.legcuffed)
+		H.resist() //Trigger the universal escape button
+
+/datum/ai_goal/human/heal_self
+	name = "Heal Self"
+	score = AI_SCORE_PRIORITY //Heal ourselves if outside of combat
+	required_ai_flags = null
+
+/datum/ai_goal/human/heal_self/check_score(datum/component/knpc/HA)
+	if(!..())
+		return 0
+	var/mob/living/carbon/human/H = HA.parent
+	if(H.health <= (H.maxHealth / 2)) //If half health
+		if(locate(/obj/item/reagent_containers/hypospray/medipen/survival) in H.contents) //And has survival pen
+			return score
+	return 0
+
+/datum/ai_goal/human/heal_self/action(datum/component/knpc/HA)
 	if(!can_action(HA))
 		return
 	var/mob/living/carbon/human/H = HA.parent
-	if(istype(H.loc, /obj/structure/closet))
-		var/obj/structure/closet/C = H.loc
-		C.open()
+	var/obj/item/storage/S = H.back
+	var/list/expanded_contents = H.contents
+	if(S) //Checking for a backpack
+		expanded_contents = S.contents + H.contents
+		for(var/obj/item/I in H.held_items) //If we are holding anything
+			I.forceMove(S) //Put it in our pack
+	else
+		for(var/obj/item/I in H.held_items) //If we are holding anything
+			I.forceMove(get_turf(H)) //Drop it on the floor
+	var/obj/item/reagent_containers/hypospray/medipen/survival/P = locate(/obj/item/reagent_containers/hypospray/medipen/survival) in expanded_contents
+	if(P)
+		H.put_in_active_hand(P) //Roll Up Your Sleeve
+		P.attack(H, H) //Self Vax
+		P.forceMove(get_turf(H)) //Litter because doing one good thing is enugh for today
