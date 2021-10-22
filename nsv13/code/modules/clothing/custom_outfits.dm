@@ -323,6 +323,7 @@ For when the marines are being irritating.
 	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/APS=1, /obj/item/ammo_box/magazine/pistolm9mm=5)
 
 /datum/outfit/boarding_droid
+	name = "Boarding Droid Loadout"
 	l_hand = /obj/item/gun/energy/temperature/security
 
 /datum/outfit/boarding_droid/post_equip(mob/living/carbon/human/H)
