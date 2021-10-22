@@ -32,4 +32,4 @@
 /datum/round_event/radioactive_sludge/announce(fake)
 	if(fake)
 		selected_area = pick(GLOB.the_station_areas)
-	priority_announce("Hazardous material leak detected in [initial(selected_area.name)]. Vacating the area is recommended.", "Anomaly Alert")
+	priority_announce("Hazardous material leak detected in [initial(selected_area.name)]. Vacating the area is recommended.", "Structural Alert")
