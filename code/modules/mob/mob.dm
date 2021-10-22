@@ -27,6 +27,7 @@
 	focus = null
 	if(last_overmap)
 		last_overmap.mobs_in_ship -= src
+		last_overmap = null
 	for (var/alert in alerts)
 		clear_alert(alert, TRUE)
 	if(observers?.len)
