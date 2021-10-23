@@ -5,9 +5,6 @@
 	var/datum/star_system/target_system = null
 	var/obj/structure/overmap/target_ship = null
 
-/datum/overmap_objective/board_ship/New()
-	. = ..()
-
 /datum/overmap_objective/board_ship/instance()
 	. = ..()
 	// make a ship
@@ -21,10 +18,9 @@
 	// give it a home
 	var/list/candidates = list()
 	for(var/datum/star_system/S in SSstar_system.systems)
-		if(istype(S, /datum/star_system/random))
-			candidates += S
+		candidates += S
 	target_system = pick(candidates)
-	brief = "Capture the syndicate vessel [target_ship.name] in [target_system.name] by boarding it, defeating the enemies therein, and modifying its IFF codes."
+	brief = "Capture the syndicate vessel [target_ship] in [target_system] by boarding it, defeating the enemies therein, and modifying its IFF codes."
 	target_system.add_ship(target_ship)
 	target_system.enemies_in_system += target_ship
 	target_system.objective_sector = TRUE
