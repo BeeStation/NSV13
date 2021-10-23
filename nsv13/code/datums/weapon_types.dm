@@ -24,6 +24,12 @@
 		return FALSE
 	return TRUE
 
+//A different MAC.. This one's a warcrime.
+
+/datum/ship_weapon/mac/dirty
+	name = "Dirty Naval Artillery"
+	default_projectile_type = /obj/item/projectile/bullet/mac_round/dirty
+
 //Coaxial railguns
 
 /datum/ship_weapon/railgun
@@ -48,6 +54,17 @@
 	if(!override_mass_check && target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
 		return FALSE
 	return TRUE
+
+/datum/ship_weapon/hybrid_railgun //Railgun+
+	name = "Coaxial Railguns"
+	default_projectile_type = /obj/item/projectile/bullet/ //This is ultra dodgy
+	burst_size = 1
+	fire_delay = 1 SECONDS
+	range_modifier = 50
+	select_alert = "<span class='notice'>Charging railgun hardpoints...</span>"
+	failure_alert = "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded or charged.</span>"
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/mac_fire.ogg')
+	overmap_select_sound = 'nsv13/sound/effects/ship/mac_charge.ogg'
 
 //Deprecated by AMS. Still kept around for AI ships
 /datum/ship_weapon/torpedo_launcher

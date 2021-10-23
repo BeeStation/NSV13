@@ -15,9 +15,12 @@
 	circuit = /obj/item/circuitboard/computer/ship/munitions_computer
 	var/obj/machinery/ship_weapon/SW //The one we're firing
 
-/obj/machinery/computer/ship/munitions_computer/Destroy()
+/obj/machinery/computer/ship/munitions_computer/Destroy(force=FALSE)
 	if(circuit && !ispath(circuit))
-		circuit.forceMove(loc)
+		if(!force)
+			circuit.forceMove(loc)
+		else
+			qdel(circuit, force)
 		circuit = null
 	. = ..()
 

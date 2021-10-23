@@ -14,8 +14,12 @@
 	build_path = /obj/machinery/computer/ship/dradis
 
 /obj/item/circuitboard/computer/ship/dradis/mining
-	name = "circuit board (minig dradis computer)"
+	name = "circuit board (mining dradis computer)"
 	build_path = /obj/machinery/computer/ship/dradis/mining
+
+/obj/item/circuitboard/computer/ship/dradis/cargo
+	name = "circuit board (cargo dradis computer)"
+	build_path = /obj/machinery/computer/ship/dradis/cargo
 
 //FTL nav
 /obj/item/circuitboard/computer/ship/navigation
@@ -50,8 +54,10 @@
 	build_path = /obj/machinery/computer/ship/munitions_computer
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/computer/ship/munitions_computer/Destroy()
-	return QDEL_HINT_LETMELIVE
+/obj/item/circuitboard/computer/ship/munitions_computer/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 /obj/item/circuitboard/computer/ship/ordnance_computer
 	name = "circuit board (ordnance computer)"
@@ -62,16 +68,20 @@
 	build_path = /obj/machinery/computer/ams
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/computer/ams/Destroy()
-	return QDEL_HINT_LETMELIVE
+/obj/item/circuitboard/computer/ams/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 /obj/item/circuitboard/computer/anti_air
 	name = "Anti-air turret console (circuit)"
 	build_path = /obj/machinery/computer/anti_air
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/computer/anti_air/Destroy()
-	return QDEL_HINT_LETMELIVE
+/obj/item/circuitboard/computer/anti_air/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 /obj/item/circuitboard/computer/ship/fighter_controller
 	name = "circuit board (fighter control computer)"
@@ -95,8 +105,10 @@
 	build_path = /obj/machinery/ship_weapon/anti_air
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/machine/anti_air/Destroy()
-	return QDEL_HINT_LETMELIVE
+/obj/item/circuitboard/machine/anti_air/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 /obj/item/circuitboard/machine/anti_air/heavy
 	name = "RPDC (circuitboard)"
@@ -133,8 +145,10 @@
 			name = "Flak Loading Rack (Machine Board)"
 			build_path = PATH_FLAK
 
-/obj/item/circuitboard/machine/pdc_mount/Destroy()
-	return QDEL_HINT_LETMELIVE
+/obj/item/circuitboard/machine/pdc_mount/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 /obj/item/circuitboard/machine/pdc_mount/attackby(obj/item/I, mob/user, params)
 	if(I.tool_behaviour == TOOL_SCREWDRIVER)
@@ -174,16 +188,20 @@
 /obj/item/circuitboard/machine/deck_turret/apply_default_parts()
 	//dont
 
-/obj/item/circuitboard/machine/deck_turret/Destroy()
-	return QDEL_HINT_LETMELIVE
+/obj/item/circuitboard/machine/deck_turret/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 /obj/item/circuitboard/computer/deckgun
 	name = "Deck gun loading computer (circuit)"
 	build_path = /obj/machinery/computer/deckgun
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/computer/deckgun/Destroy()
-	return QDEL_HINT_LETMELIVE
+/obj/item/circuitboard/computer/deckgun/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 /obj/item/circuitboard/machine/deck_gun
 	name = "Deck gun core (circuitboard)"
@@ -193,8 +211,10 @@
 	build_path = /obj/machinery/deck_turret
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/machine/deck_gun/Destroy()
-	return QDEL_HINT_LETMELIVE
+/obj/item/circuitboard/machine/deck_gun/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 /obj/item/circuitboard/machine/deck_gun/powder
 	name = "Deck gun powder gate (circuitboard)"
@@ -281,8 +301,10 @@
 		/obj/item/stack/cable_coil = 10)
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/machine/vls/Destroy()
-	return QDEL_HINT_LETMELIVE
+/obj/item/circuitboard/machine/vls/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 //Gauss guns
 /obj/item/circuitboard/machine/gauss_turret
@@ -290,5 +312,11 @@
 	build_path = /obj/machinery/ship_weapon/gauss_gun
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/machine/gauss_turret/Destroy()
-	return QDEL_HINT_LETMELIVE
+/obj/item/circuitboard/machine/gauss_turret/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
+
+/obj/item/circuitboard/computer/iff
+	name = "IFF Console (circuit)"
+	build_path = /obj/machinery/computer/iff_console

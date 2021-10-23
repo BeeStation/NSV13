@@ -27,6 +27,8 @@
 	///position relative to covered area, parallel to dir. You shouldn't modify this for mobile dockingports, set automatically.
 	var/dheight = 0
 
+	//NSV13 SUPER NOTE: You have to modify these for mobile docking ports on MINING SHUTTLES - IGNORE ABOVE
+
 	var/area_type
 	///are we invisible to shuttle navigation computers?
 	var/hidden = FALSE

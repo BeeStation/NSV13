@@ -16,6 +16,14 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy"
 	spread = 5
 
+/obj/item/projectile/bullet/mac_relayed_round	//Projectile relayed by all default MAC shells on overmap hit. No difference for AP / others as their values don't really matter on z level.
+	icon_state = "railgun"
+	name = "artillery round"
+	damage = 60
+	range = 255
+	speed = 1.85
+	movement_type = FLYING | UNSTOPPABLE
+
 /obj/item/projectile/bullet/mac_round
 	icon_state = "railgun"
 	name = "artillery round"
@@ -27,6 +35,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	homing_turn_speed = 2.5
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	relay_projectile_type =  /obj/item/projectile/bullet/mac_relayed_round
 	var/homing_benefit_time = 0 SECONDS //NAC shells have a very slight homing effect.
 	var/base_movement_type	//Our base move type for when we gain unstoppability from hitting tiny ships.
 
@@ -69,6 +78,84 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "cannonshot"
 	flag = "overmap_medium"
 
+#define DIRTY_SHELL_TURF_SLUDGE_PROB 70	//Chance for sludge to spawn on a turf within the sludge range of the detonation turf. Detonation turf always gets an epicenter sludge.
+#define DIRTY_SHELL_SLUDGE_RANGE 3	//Un-random sludge event radius (for the shell detonating)
+#define DIRTY_SHELL_PELLET_PROB 80	//Chance for a pellet per tile from the outer circle
+#define DIRTY_SHELL_PELLET_RANGE 6	//Picks all turfs on the other circle of this range and uses them as possible targets for pellets.
+
+//Dirty shell: Stage 1 - overmap projectile
+/obj/item/projectile/bullet/mac_round/dirty
+	damage = 150
+	name = "dirty artillery round"
+	relay_projectile_type = /obj/item/projectile/bullet/dirty_shell_stage_two
+
+//Dirty shell: Stage 2 - z level sludge payload projectile
+/obj/item/projectile/bullet/dirty_shell_stage_two
+	name = "dirty artillery round"
+	icon_state = "railgun"
+	range = 255
+	speed = 1.85
+	movement_type = FLYING | UNSTOPPABLE
+	damage = 45		//It's on a z now, lets not instakill people / objects this happens to hit.
+	var/penetration_fuze = 4	//Will pen through this many solid turfs before arming. Can overpenetrate if it happens to pen through windows or other things with not enough resistance.
+
+/obj/item/projectile/bullet/dirty_shell_stage_two/on_hit(atom/target, blocked)
+	. = ..()
+	if(isclosedturf(target))
+		penetration_fuze--
+
+/obj/item/projectile/bullet/dirty_shell_stage_two/Move(atom/newloc, dir)
+	. = ..()
+	if(!.)
+		return
+	if(!isopenturf(newloc))
+		return
+	var/turf/newturf = newloc
+	if(penetration_fuze <= 0 && !is_blocked_turf(newturf, TRUE))
+		explosion(newturf, 0, 0, 5, 8, flame_range = 3)
+		release_payload(newturf)
+		qdel(src)
+
+/obj/item/projectile/bullet/dirty_shell_stage_two/proc/release_payload(turf/detonation_turf)
+	var/list/inrange_turfs = RANGE_TURFS(DIRTY_SHELL_SLUDGE_RANGE, detonation_turf) - detonation_turf
+	new /obj/effect/decal/nuclear_waste/epicenter(detonation_turf)
+	for(var/turf/T as() in inrange_turfs)
+		if(isgroundlessturf(T))	//Should those kinds of turfs be able to get waste from this? Hmm, I dunno.
+			continue
+		if(isclosedturf(T) || is_blocked_turf(T, TRUE))	//Definitely not on closed turfs, for now also not on ones blocked by stuff to not make it agonizing.. unless?
+			continue
+		if(locate(/obj/effect/decal/nuclear_waste) in T)	//No stacking.
+			continue
+		if(!prob(DIRTY_SHELL_TURF_SLUDGE_PROB))
+			continue
+		new /obj/effect/decal/nuclear_waste(T)
+	var/list/shootat_turfs = RANGE_TURFS(DIRTY_SHELL_PELLET_RANGE, detonation_turf) - RANGE_TURFS(DIRTY_SHELL_PELLET_RANGE-1, detonation_turf)
+	for(var/turf/shootat_turf as() in shootat_turfs)
+		if(!prob(DIRTY_SHELL_PELLET_PROB))
+			continue
+		var/obj/item/projectile/energy/nuclear_particle/dirty_shell_stage_three/P = new(detonation_turf)
+		//Shooting Code:
+		P.random_color_time()
+		P.range = DIRTY_SHELL_PELLET_RANGE+1
+		P.preparePixelProjectile(shootat_turf, detonation_turf)
+		P.fire()
+
+
+//Dirty Shell: Stage 3 - spread of irradiating pellets
+/obj/item/projectile/energy/nuclear_particle/dirty_shell_stage_three
+	irradiate = 300	//Less radiation than the "true" gumballs
+	name = "irradiated pellet"
+
+/obj/item/projectile/energy/nuclear_particle/dirty_shell_stage_three/on_hit(atom/target, blocked)
+	. = ..()
+	if(!isturf(target))
+		target.AddComponent(/datum/component/radioactive, 300, target, 5 MINUTES)
+
+#undef DIRTY_SHELL_TURF_SLUDGE_PROB
+#undef DIRTY_SHELL_SLUDGE_RANGE
+#undef DIRTY_SHELL_PELLET_PROB
+#undef DIRTY_SHELL_PELLET_RANGE
+
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "mac"
 	name = "tungsten slug"
@@ -77,6 +164,11 @@ Misc projectile types, effects, think of this as the special FX file.
 	homing_turn_speed = 2
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+
+/obj/item/projectile/bullet/railgun_slug/uranium //Heavier version
+	name = "uranium slug"
+	damage = 185
+	armour_penetration = 10
 
 /obj/item/projectile/bullet/railgun_slug/Initialize()
 	. = ..()
@@ -160,12 +252,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	valid_angle = 360 //Torpedoes "wind up" to hit their target
 	homing_turn_speed *= 5
 	homing_turn_speed = CLAMP(homing_turn_speed, 0, 360)
-	sleep(0.7 SECONDS) //Let it get clear of the sender.
+	sleep(clearance_time) //Let it get clear of the sender.
 	valid_angle = initial(valid_angle)
 	homing_turn_speed = initial(homing_turn_speed)
 
 /obj/item/projectile/guided_munition/missile
-	name = "triton cruise missile"
+	name = "\improper Triton cruise missile"
 	icon_state = "conventional_missile"
 	speed = 1
 	damage = 175
@@ -188,7 +280,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 //Corvid or someone please refactor this to be less messy.
 /obj/item/projectile/guided_munition/on_hit(atom/target, blocked = FALSE)
-	. = ..()
+	..()
 	if(!check_faction(target))
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
@@ -200,8 +292,8 @@ Misc projectile types, effects, think of this as the special FX file.
 			explode()
 			return BULLET_ACT_HIT
 		else
-			qdel(P)
 			take_damage(P.damage)
+			qdel(P)
 			return FALSE //Didn't take the hit
 	if(!isprojectile(target)) //This is lazy as shit but is necessary to prevent explosions triggering on the overmap when two bullets collide. Fix this shit please.
 		detonate(target)
@@ -239,7 +331,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	tracer_type = /obj/effect/projectile/tracer/disabler
 	muzzle_type = /obj/effect/projectile/muzzle/disabler
 	impact_type = /obj/effect/projectile/impact/disabler
-	
+
 /obj/item/projectile/beam/laser/point_defense
 	name = "laser pointer"
 	damage = 30
