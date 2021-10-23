@@ -11,6 +11,7 @@
 	var/ship_type = pick(BOARDABLE_SHIP_TYPES)
 	target_ship = instance_overmap(ship_type)
 	RegisterSignal(target_ship, COMSIG_SHIP_BOARDED, .proc/check_completion, target_ship)
+	RegisterSignal(target_ship, COMSIG_SHIP_RELEASE_BOARDING, .proc/release_boarding, target_ship)
 	target_ship.ai_load_interior(SSstar_system.find_main_overmap())
 	// give it a name
 	var/ship_name = generate_ship_name()
@@ -49,3 +50,10 @@
 	if (target_ship.faction == SSovermap_mode.mode.starting_faction)
 		status = 1
 		UnregisterSignal(target_ship, COMSIG_SHIP_BOARDED)
+		UnregisterSignal(target_ship, COMSIG_SHIP_RELEASE_BOARDING)
+
+/datum/overmap_objective/board_ship/proc/release_boarding()
+	// Don't let them kill the ship if they haven't won yet
+	if(status != 1 && status != 3) // complete or admin override
+		return COMSIG_SHIP_BLOCKS_RELEASE_BOARDING
+	return 0

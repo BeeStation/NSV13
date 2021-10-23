@@ -86,6 +86,8 @@
 		if("stop_salvage")
 			if(!linked || !linked.active_boarding_target || !can_salvage)
 				return FALSE
+			if(SEND_SIGNAL(linked.active_boarding_target, COMSIG_SHIP_RELEASE_BOARDING))
+				return FALSE // Something blocked this
 			if(alert("Are you sure? (ALL BOARDERS WILL BE KILLED)",name,"Release Hammerlock","Cancel") == "Cancel")
 				return FALSE
 			radio.talk_into(src, "EWAR scrambling on [linked.active_boarding_target] cancelled.", radio_channel)
