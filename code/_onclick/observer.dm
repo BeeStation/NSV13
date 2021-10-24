@@ -1,6 +1,6 @@
 /mob/dead/observer/DblClickOn(atom/A, params)
 	if(check_click_intercept(params, A))
-		return	
+		return
 
 	if(can_reenter_corpse && mind && mind.current)
 		if(A == mind.current || (mind.current in A)) // double click your corpse or whatever holds it
@@ -10,7 +10,14 @@
 	// Things you might plausibly want to follow
 	if(ismovableatom(A))
 		ManualFollow(A)
-
+		//NSV13 - overmap viewing help
+		if(istype(A, /obj/structure/overmap))
+			var/obj/structure/overmap/OM = A
+			if(length(OM.linked_areas))
+				if(alert("View interior map?", "Enter ship", "Yes", "No") == "Yes")
+					var/atom/newtarget = OM.get_interior_center()
+					forceMove(newtarget)
+					update_parallax_contents()
 	// Otherwise jump
 	else if(A.loc)
 		forceMove(get_turf(A))

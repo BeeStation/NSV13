@@ -11,6 +11,11 @@
 	. = ..()
 	set_light(3)
 
+/obj/effect/decal/nuclear_waste/ex_act(severity, target)
+	if(severity != EXPLODE_DEVASTATE)
+		return
+	qdel(src)
+
 /obj/effect/decal/nuclear_waste/Crossed(atom/movable/AM)
 	. = ..()
 	if(isliving(AM))

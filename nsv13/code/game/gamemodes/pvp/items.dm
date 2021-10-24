@@ -282,10 +282,6 @@
 		if(target.apply(loc.get_overmap()))
 			qdel(src)
 
-//Allows you to specify a delivery destination for traders.
-/obj/structure/overmap
-	var/list/trader_beacons = null
-
 /obj/effect/landmark/trader_drop_point
 	name = "Trader sending target"
 

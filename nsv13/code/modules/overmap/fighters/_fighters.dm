@@ -12,8 +12,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/fighter
 	name = "Space Fighter"
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
-	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
 	icon_state = "fighter"
+	anchored = TRUE
 	brakes = TRUE
 	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
 	bound_width = 64 //Change this on a per ship basis
@@ -52,7 +52,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/obj/machinery/computer/ship/navigation/starmap = null
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode, \
-								.verb/show_control_panel, .verb/change_name)
+								.verb/show_control_panel, .verb/change_name, .verb/countermeasure)
+												 //Countermeasure code in countermeasure_ammo.dm
 
 /obj/structure/overmap/fighter/verb/show_control_panel()
 	set name = "Show control panel"
@@ -93,6 +94,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
+		if("5")
+			if(themob == pilot)
+				countermeasure()
+			return TRUE
 
 /obj/structure/overmap/fighter/ui_state(mob/user)
 	return GLOB.contained_state
@@ -129,6 +134,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["maintenance_mode"] = maintenance_mode //Todo
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	data["docking_mode"] = DC && DC.docking_mode
+	var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
+	data["countermeasures"] = CD ? CD.charges : 0
+	data["max_countermeasures"] = CD ? CD.max_charges : 0
 	var/obj/item/fighter_component/primary/P = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
 	data["primary_ammo"] = P ? P.get_ammo() : 0
 	data["max_primary_ammo"] = P ? P.get_max_ammo() : 0
@@ -159,7 +167,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		//Look for any "primary" hardpoints, be those guns or utility slots
 		if(!weapon)
 			continue
-		if(weapon.fire_mode == FIRE_MODE_PDC)
+		if(weapon.fire_mode == FIRE_MODE_ANTI_AIR)
 			data["primary_ammo"] = weapon.get_ammo()
 			data["max_primary_ammo"] = weapon.get_max_ammo()
 		if(weapon.fire_mode == FIRE_MODE_TORPEDO)
@@ -466,6 +474,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 		to_chat(user, "<span class='warning'>Access denied.</span>")
 
 /obj/structure/overmap/fighter/proc/enter(mob/user)
+	var/obj/structure/overmap/OM = user.get_overmap()
+	if(OM)
+		LAZYREMOVE(OM.mobs_in_ship, user)
 	user.forceMove(src)
 	mobs_in_ship += user
 	if((user.client?.prefs.toggles & SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
@@ -592,6 +603,21 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			to_chat(user, "<span class='warning'>You swipe your card and [maintenance_mode ? "disable" : "enable"] maintenance protocols.</span>")
 			maintenance_mode = !maintenance_mode
+	if(istype(W, /obj/item/ship_weapon/ammunition/countermeasure_charge))
+		var/obj/item/ship_weapon/ammunition/countermeasure_charge/CC = W
+		var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
+		if(CD)
+			if(CD.charges == CD.max_charges)
+				to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's no space for more charges in the countermeasure dispenser!</span>")
+			else
+				var/ChargeChange = clamp(CC.restock_amount + CD.charges, CD.max_charges, 0) - CD.charges
+				to_chat("<span>You successfully reload the countermeasure dispenser in [src]</span>")
+				CC.restock_amount -= ChargeChange
+				CD.charges += ChargeChange
+				if(CC.restock_amount == 0)
+					qdel(W)
+		else
+			to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's nothing to put it in!</span>")
 	..()
 
 /obj/structure/overmap/fighter/take_damage(damage_amount, damage_type, damage_flag, sound_effect)
@@ -738,8 +764,6 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 /obj/item/fighter_component/Initialize()
 	.=..()
 	AddComponent(/datum/component/twohanded/required) //These all require two hands to pick up
-	if(tier)
-		icon_state = icon_state+"_tier[tier]"
 
 //Overload this method to apply stat benefits based on your module.
 /obj/item/fighter_component/proc/on_install(obj/structure/overmap/target)
@@ -1004,23 +1028,25 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/fuel_tank
 	name = "Fighter Fuel Tank"
 	desc = "The fuel tank of a fighter, upgrading this lets your fighter hold more fuel."
-	icon_state = "fueltank"
+	icon_state = "fueltank_tier1"
 	var/fuel_capacity = 1000
 	slot = HARDPOINT_SLOT_FUEL
 
 /obj/item/fighter_component/fuel_tank/Initialize()
-	.=..()
+	. = ..()
 	create_reagents(fuel_capacity, DRAINABLE | AMOUNT_VISIBLE)
 
 /obj/item/fighter_component/fuel_tank/tier2
 	name = "Fighter Extended Fuel Tank"
 	desc = "A larger fuel tank which allows fighters to stay in combat for much longer"
+	icon_state = "fueltank_tier2"
 	fuel_capacity = 2500
 	tier = 2
 
 /obj/item/fighter_component/fuel_tank/tier3
 	name = "Massive Fighter Fuel Tank"
 	desc = "A super extended capacity fuel tank, allowing fighters to stay in a warzone for hours on end."
+	icon_state = "fueltank_tier3"
 	fuel_capacity = 4000
 	tier = 3
 
@@ -1235,6 +1261,9 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	desc = "A device which allows a fighter to deploy countermeasures."
 	icon = 'nsv13/icons/obj/fighter_components.dmi'
 	icon_state = "countermeasure"
+	slot = HARDPOINT_SLOT_COUNTERMEASURE
+	var/max_charges = 3
+	var/charges = 3
 
 /obj/item/fighter_component/docking_computer
 	name = "Docking Computer"
@@ -1252,7 +1281,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary
 	name = "Fuck you"
 	slot = HARDPOINT_SLOT_PRIMARY
-	fire_mode = FIRE_MODE_PDC
+	fire_mode = FIRE_MODE_ANTI_AIR
 	var/overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	var/overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 	var/accepted_ammo = /obj/item/ammo_box/magazine
@@ -1277,13 +1306,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 //Ensure we get the genericised equipment mounts.
 /obj/structure/overmap/fighter/apply_weapons()
-	if(!weapon_types[FIRE_MODE_PDC])
-		weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/fighter_primary(src)
+	if(!weapon_types[FIRE_MODE_ANTI_AIR])
+		weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/fighter_primary(src)
 	if(!weapon_types[FIRE_MODE_TORPEDO])
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/fighter_secondary(src)
 
 /obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target, ai_aim = FALSE)
-	hardpoint_fire(target, FIRE_MODE_PDC)
+	hardpoint_fire(target, FIRE_MODE_ANTI_AIR)
 
 /obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, fireMode)
 	if(istype(src, /obj/structure/overmap/fighter))
@@ -1348,14 +1377,14 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary/cannon
 	name = "20mm Vulcan Cannon"
 	icon_state = "lightcannon"
-	accepted_ammo = /obj/item/ammo_box/magazine/light_cannon
+	accepted_ammo = /obj/item/ammo_box/magazine/nsv/light_cannon
 	burst_size = 2
 	fire_delay = 0.25 SECONDS
 
 /obj/item/fighter_component/primary/cannon/heavy
 	name = "30mm BRRRRTT Cannon"
 	icon_state = "heavycannon"
-	accepted_ammo = /obj/item/ammo_box/magazine/heavy_cannon
+	accepted_ammo = /obj/item/ammo_box/magazine/nsv/heavy_cannon
 	weight = 2 //Sloooow down there.
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg')

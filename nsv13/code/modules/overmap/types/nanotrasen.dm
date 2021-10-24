@@ -138,69 +138,76 @@
 	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 10)
 	bound_height = 320
 	bound_width = 320
-	starting_system = "Argo"
 	role = INSTANCED_MIDROUND_SHIP
 
 /obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
 	. = ..()
-	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/burst_phaser(src)
 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
 
 //Player Versions
 
 /obj/structure/overmap/nanotrasen/light_cruiser/starter //Currently assigned to Eclipse
 	role = MAIN_OVERMAP
-	obj_integrity = 1500
-	max_integrity = 1500 //Max health
-	integrity_failure = 1500
-	starting_system = "Argo"
-	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 10)
+	obj_integrity = 1400
+	max_integrity = 1400 //Max health
+	integrity_failure = 1400
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 
-/obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Vago
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE
+	icon_state = "shrike"
+
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike/apply_weapons()
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_HYBRID_RAIL] = new /datum/ship_weapon/hybrid_railgun(src)
+
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Atlas
 	role = MAIN_OVERMAP
 	obj_integrity = 1000
 	max_integrity = 1000
 	integrity_failure = 1000
-	starting_system = "Argo"
-	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 10)
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 
-/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to Jolly Sausage
+/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //NOT IN CYCLE
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
-	starting_system = "Argo"
-	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 10)
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 
-/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
+/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //NOT IN CYCLE
 	role = MAIN_OVERMAP
-	obj_integrity = 1500
-	max_integrity = 1500
-	integrity_failure = 1500
-	starting_system = "Argo"
-	armor = list("overmap_light" = 99, "overmap_medium" = 60, "overmap_heavy" = 20)
+	obj_integrity = 1400
+	max_integrity = 1400
+	integrity_failure = 1400
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
 /obj/structure/overmap/nanotrasen/carrier/starter //NOT CURRENTLY ASSIGNED
 	role = MAIN_OVERMAP
 	obj_integrity = 2000
 	max_integrity = 2000
 	integrity_failure = 2000
-	starting_system = "Argo"
-	armor = list("overmap_light" = 99, "overmap_medium" = 65, "overmap_heavy" = 20)
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 65, "overmap_heavy" = 20)
 
-/obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon
+/obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon and Gladius
 	role = MAIN_OVERMAP
-	obj_integrity = 1500
-	max_integrity = 1500
-	integrity_failure = 1500
-	starting_system = "Argo"
-	armor = list("overmap_light" = 99, "overmap_medium" = 60, "overmap_heavy" = 20)
+	obj_integrity = 1400
+	max_integrity = 1400
+	integrity_failure = 1400
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
 
 /obj/structure/overmap/nanotrasen/battleship/starter //Galactica
 	role = MAIN_OVERMAP //Player controlled variant
-	obj_integrity = 2250
-	max_integrity = 2250
-	integrity_failure = 2250
-	starting_system = "Argo"
-	armor = list("overmap_light" = 99, "overmap_medium" = 75, "overmap_heavy" = 25)
+	obj_integrity = 2150
+	max_integrity = 2150
+	integrity_failure = 2150
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 25)
 
 //AI Versions
 
@@ -281,7 +288,7 @@
 	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/nanotrasen/carrier/ai/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
+	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
 	weapon_types[FIRE_MODE_RAILGUN] = null
 	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
@@ -289,7 +296,7 @@
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/nanotrasen/carrier/ai/get_max_firemode() //This boy really doesn't need a railgun
-	return FIRE_MODE_PDC
+	return FIRE_MODE_ANTI_AIR
 
 /obj/structure/overmap/nanotrasen/ai/fighter
 	name = "Viper class light fighter"
@@ -311,5 +318,5 @@
 	combat_dice_type = /datum/combat_dice/fighter
 
 /obj/structure/overmap/nanotrasen/ai/fighter/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon(src)
+	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)

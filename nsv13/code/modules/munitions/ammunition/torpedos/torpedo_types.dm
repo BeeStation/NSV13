@@ -102,7 +102,7 @@
 	try_load(dropping, user)
 
 /obj/item/ship_weapon/ammunition/torpedo/freight/proc/try_load(atom/movable/what, mob/user)
-	if(contents?.len >= max_stuff)
+	if(length(contents) >= max_stuff)
 		to_chat(user, "<span class='warning'>[src] is already full!</span>")
 		return
 	if(isturf(what) || what.anchored || what.move_resist > user.move_force)
@@ -111,7 +111,7 @@
 	visible_message("<span class='danger'>[user] starts to stuff [what] into [src]!</span>",\
 		"<span class='italics'>You start to stuff [user] into [src]...</span>")
 	if(do_after(user, 5 SECONDS, target = src))
-		if(contents?.len >= max_stuff)
+		if(length(contents) >= max_stuff)
 			to_chat(user, "<span class='warning'>[src] is already full!</span>")
 			return
 		if(isitem(what))
@@ -153,10 +153,9 @@
 /obj/item/projectile/guided_munition/torpedo/post/proc/foo()
 	new /mob/living/carbon/human(src)
 	for(var/obj/structure/overmap/OM in orange(5, src))
-		if(istype(OM))
-			var/angle = Get_Angle(src, OM)
-			setup_collider()
-			fire(angle)
+		var/angle = Get_Angle(src, OM)
+		setup_collider()
+		fire(angle)
 
 /obj/item/projectile/guided_munition/torpedo/post/check_faction(atom/movable/A)
 	var/obj/structure/overmap/OM = A

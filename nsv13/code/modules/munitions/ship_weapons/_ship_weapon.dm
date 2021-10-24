@@ -81,6 +81,11 @@
 	var/obj/chambered //Chambered round if we have one. Extrapolate ammo type from this
 	var/list/ammo = list() //All loaded ammo
 
+	// These variables only pertain to energy weapons, but need to be checked later in /proc/fire
+	var/charge = 0
+	var/charge_rate = 0 //How quickly do we charge?
+	var/charge_per_shot = 0 //How much power per shot do we have to use?
+
 /**
  * Constructor for /obj/machinery/ship_weapon
  * Attempts to link the weapon to an overmap ship.
@@ -109,16 +114,22 @@
  * Destructor for /obj/machinery/ship_weapon
  * Try to unlink from a munitions computer, so it can re-link to other things
  */
-/obj/machinery/ship_weapon/Destroy()
+/obj/machinery/ship_weapon/Destroy(force=FALSE)
 	var/obj/item/circuitboard/C = circuit
 	if(C)
-		C.forceMove(loc)
 		component_parts?.Remove(C)
 		circuit = null
+		if(force)
+			qdel(C, force)
+		else
+			C.forceMove(loc)
 	if(component_parts && component_parts.len)
 		for(var/obj/P in component_parts)
-			P.forceMove(loc)
 			component_parts.Remove(P)
+			if(force)
+				qdel(P, force)
+			else
+				P.forceMove(loc)
 	. = ..()
 	if(linked_computer)
 		linked_computer.SW = null
@@ -363,13 +374,14 @@
 	update()
 
 /obj/machinery/ship_weapon/proc/update()
-	if(!safety && chambered)
-		if(src in weapon_type.weapons["loaded"])
-			return
-		LAZYADD(weapon_type.weapons["loaded"] , src)
-	else
-		if(src in weapon_type.weapons["loaded"])
-			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
+	if ( weapon_type ) // Who would've thought creating a weapon with no weapon_type would break everything! 
+		if(!safety && chambered)
+			if(src in weapon_type.weapons["loaded"])
+				return
+			LAZYADD(weapon_type.weapons["loaded"] , src)
+		else
+			if(src in weapon_type.weapons["loaded"])
+				LAZYREMOVE(weapon_type.weapons["loaded"] , src)
 
 /obj/machinery/ship_weapon/proc/lazyload()
 	if(magazine_type)
@@ -395,7 +407,7 @@
  * Transitions from STATE_FED to STATE_CHAMBERED.
  */
 /obj/machinery/ship_weapon/proc/chamber(rapidfire = FALSE)
-	if((state == STATE_FED) && (ammo?.len > 0))
+	if((state == STATE_FED) && (length(ammo) > 0))
 		flick("[initial(icon_state)]_chambering",src)
 		if(rapidfire)
 			sleep(chamber_delay_rapid)
@@ -432,8 +444,8 @@
 /obj/machinery/ship_weapon/proc/can_fire(shots = weapon_type.burst_size)
 	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
-	if(maint_state != MSTATE_CLOSED) //Are we in maintenance?
-		return FALSE
+	if (maint_state > MSTATE_UNSCREWED) //Are we in maintenance?
+		return FALSE //Checks for states after UNSCREWED so we can add buttons under the panel
 	if(state >= STATE_FIRING) //Are we in the process of shooting already?
 		return FALSE
 	if(maintainable && malfunction) //Do we need maintenance?
@@ -456,6 +468,26 @@
  */
 /obj/machinery/ship_weapon/proc/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
 	set waitfor = FALSE //As to not hold up any feedback messages.
+
+	// Energy weapons fire behavior
+	if ( istype( src, /obj/machinery/ship_weapon/energy ) ) // Now 100% more modular!
+		if(can_fire(shots))
+			if(manual)
+				linked.last_fired = overlay
+
+			for(var/i = 0, i < shots, i++)
+				do_animation()
+				state = 5
+
+				local_fire()
+				overmap_fire(target)
+				charge -= charge_per_shot
+
+				after_fire()
+			return TRUE
+		return FALSE
+
+	// Default weapons fire behavior
 	if(can_fire(shots))
 		if(manual)
 			linked.last_fired = overlay
@@ -468,17 +500,20 @@
 			overmap_fire(target)
 
 			ammo -= chambered
-			qdel(chambered)
+			if ( !istype( chambered, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
+				// Don't qdel freight torpedoes, these are being moved to the stations for additional checks 
+				qdel(chambered)
+
 			chambered = null
 
-			if(ammo?.len)
+			if(length(ammo))
 				state = STATE_FED
 			else
 				state = STATE_NOTLOADED
 			//Semi-automatic, chamber the next one
 			if(semi_auto)
 				chamber(rapidfire = TRUE)
-
+			sleep(0.75)
 			after_fire()
 		return TRUE
 	return FALSE
@@ -499,12 +534,13 @@
  * Handles firing animations and sounds on the overmap.
  */
 /obj/machinery/ship_weapon/proc/overmap_fire(atom/target)
-	if(weapon_type.overmap_firing_sounds)
+	if(weapon_type && weapon_type.overmap_firing_sounds)
 		var/sound/chosen = pick(weapon_type.overmap_firing_sounds)
 		linked.relay_to_nearby(chosen)
 	if(overlay)
 		overlay.do_animation()
-	animate_projectile(target)
+	if( weapon_type )
+		animate_projectile(target)
 
 /**
  * Animates an overmap projectile matching whatever we're shooting.

@@ -119,6 +119,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 	process()
 	return TRUE
 
+// The prices (tick drift) we'll pay for vroom
 /obj/vehicle/sealed/car/realistic/process()
 	set waitfor = FALSE
 	var/time = min(world.time - last_process, 10)
