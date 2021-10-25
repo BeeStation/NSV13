@@ -82,7 +82,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	if(holder.z != last_registered_z) //Z changed? Update this unit's processing chunk.
 		if(!holder.z) // Something terrible has happened. Kill ourselves to prevent runtime spam
 			qdel(src)
-			message_admins("WARNING: [parent] has been moved out of bounds at [ADMIN_VERBOSEJMP(parent.loc)]. Deleting physics component.")
+			message_admins("WARNING: [parent] has been moved out of bounds at [ADMIN_VERBOSEJMP(holder.loc)]. Deleting physics component.")
 			CRASH("Physics component holder located in nullspace.")
 		var/list/stats = SSphysics_processing.physics_levels[last_registered_z]
 		if(stats) //If we're already in a list.
