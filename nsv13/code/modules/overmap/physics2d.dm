@@ -1,17 +1,14 @@
 #define MAXIMUM_COLLISION_RANGE 12 //In tiles, what is the range of the maximum possible collision that could take place? Please try and keep this low, as it saves a lot of time and memory because it'll just ignore physics bodies that are too far away from each other.
 //That being said. If you want to make a ship that is bigger than this in tile size, then you will have to change this number. As of 11/08/2020 the LARGEST possible collision range is 25 tiles, due to the fist of sol existing. Though tbh if you make a sprite much larger than this, byond will likely just cull it from the viewport.
-PROCESSING_SUBSYSTEM_DEF(physics_processing)
-	name = "Physics Processing"
+SUBSYSTEM_DEF(physics)
+	name = "Physics"
 	wait = 1.5
-	stat_tag = "PHYS"
 	priority = FIRE_PRIORITY_PHYSICS
 	var/list/physics_bodies = list() //All the physics bodies in the world.
 	var/list/physics_levels = list()
-	var/next_boarding_time = 0 //This is stupid and lazy but it's 5am and I don't care anymore
 	var/datum/collision_response/c_response = new /datum/collision_response()
 
-/datum/controller/subsystem/processing/physics_processing/fire(resumed)
-	. = ..()
+/datum/controller/subsystem/physics/fire(resumed)
 	for(var/list/za_warudo in physics_levels)
 		for(var/datum/component/physics2d/body as() in za_warudo)
 			var/list/recent_collisions = list() //So we don't collide two things together twice.
@@ -26,7 +23,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 				if(!neighbour.collider2d)
 					continue
 				if(!isovermap(body.holder))
-					if(isprojectile(body.holder) && isprojectile(neighbour.holder))
+					if(!body.holder.physics_collide(neighbour.holder))
 						continue //Bullets don't want to "bump" into each other, we actually handle that code in "crossed()"
 					if(body.collider2d.collides(neighbour.collider2d))
 						body.holder.Bump(neighbour.holder)
@@ -37,21 +34,23 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 						body.holder.Bump(neighbour.holder, c_response) //More in depth calculation required, so pass this information on.
 						recent_collisions += neighbour
 
+/datum/controller/subsystem/physics/stat_entry()
+	return ..("[length(physics_levels)]:[length(physics_bodies)]")
 
 /datum/component/physics2d
 	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
 	var/datum/vector2d/position = null //Positional vector, used exclusively for collisions with overmaps
 	var/datum/vector2d/velocity = null
-	var/last_registered_z = 0 //Placeholder. Overridden on process()
+	var/last_registered_z = 0 //Placeholder
 	var/atom/movable/holder = null
-	var/next_collision = 0
 
 /datum/component/physics2d/Initialize()
 	. = ..()
-	if(!ismovableatom(parent))
-		return COMPONENT_INCOMPATIBLE //Precondition: This is something that actually moves.
 	holder = parent
+	if(!istype(holder))
+		return COMPONENT_INCOMPATIBLE //Precondition: This is something that actually moves.
 	last_registered_z = holder.z
+	RegisterSignal(holder, COMSIG_MOVABLE_Z_CHANGED, .proc/update_z)
 
 /datum/component/physics2d/Destroy(force, silent)
 	//Stop fucking referencing this I sweAR
@@ -78,18 +77,17 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	last_registered_z = holder.z
 	SSphysics_processing.physics_bodies += src
 	SSphysics_processing.physics_levels[last_registered_z] += src
-	START_PROCESSING(SSphysics_processing, src)
 
 /datum/component/physics2d/proc/update(x, y, angle)
 	collider2d.set_angle(angle) //Turn the box collider
 	collider2d._set(x, y)
 
-/datum/component/physics2d/process()
+/datum/component/physics2d/proc/update_z()
 	if(holder.z != last_registered_z) //Z changed? Update this unit's processing chunk.
 		if(!holder.z) // Something terrible has happened. Kill ourselves to prevent runtime spam
-			EXCEPTION("Physics component holder located in nullspace.")
 			qdel(src)
-			return PROCESS_KILL
+			message_admins("WARNING: [parent] has been moved out of bounds at [ADMIN_VERBOSEJMP(parent.loc)]. Deleting physics component.")
+			CRASH("Physics component holder located in nullspace.")
 		var/list/stats = SSphysics_processing.physics_levels[last_registered_z]
 		if(stats) //If we're already in a list.
 			stats -= src
