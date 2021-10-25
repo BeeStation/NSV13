@@ -12,10 +12,8 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 
 /datum/controller/subsystem/processing/physics_processing/fire(resumed)
 	. = ..()
-	for(var/list/za_warudo as() in physics_levels)
+	for(var/list/za_warudo in physics_levels)
 		for(var/datum/component/physics2d/body as() in za_warudo)
-			if(!body.holder.z)
-				continue //If we're in nullspace.
 			var/list/recent_collisions = list() //So we don't collide two things together twice.
 			for(var/datum/component/physics2d/neighbour as() in za_warudo - body) //Now we check the collisions of every other physics body with this one. I hate that I have to do this, but I can't think of a better way just yet.
 				//Precondition: we're not checking collisions that we already ran.
@@ -24,8 +22,6 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 				//Precondition: They're actually somewhat near each other. This is a nice and simple way to cull collisions that would never happen, and save some CPU time.
 				if(get_dist(body.holder, neighbour.holder) > MAXIMUM_COLLISION_RANGE)
 					continue
-				if(!neighbour.holder.z)
-					continue //If we're in nullspace.
 				//Precondition: neighbour has a collider2d (IE, hitboxes set up for it)
 				if(!neighbour.collider2d)
 					continue
@@ -66,7 +62,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		var/obj/item/projectile/P = holder
 		if(istype(P))
 			P.physics2d = null
-	for(var/list/za_warudo as() in SSphysics_processing.physics_levels)
+	for(var/list/za_warudo in SSphysics_processing.physics_levels)
 		za_warudo.Remove(src)
 	//De-alloc references.
 	QDEL_NULL(collider2d)
@@ -90,9 +86,13 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 
 /datum/component/physics2d/process()
 	if(holder.z != last_registered_z) //Z changed? Update this unit's processing chunk.
-		var/list/stats = SSphysics_processing.physics_levels["[last_registered_z]"]
+		if(!holder.z) // Something terrible has happened. Kill ourselves to prevent runtime spam
+			EXCEPTION("Physics component holder located in nullspace.")
+			qdel(src)
+			return PROCESS_KILL
+		var/list/stats = SSphysics_processing.physics_levels[last_registered_z]
 		if(stats) //If we're already in a list.
 			stats -= src
 		last_registered_z = holder.z
-		stats = SSphysics_processing.physics_levels["[last_registered_z]"]
+		stats = SSphysics_processing.physics_levels[last_registered_z]
 		LAZYADD(stats, src) //If the SS isn't tracking this Z yet with a list, this will take care of it.
