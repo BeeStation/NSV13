@@ -1878,14 +1878,12 @@
 /turf/open/floor/engine,
 /area/quartermaster/storage)
 "gu" = (
-/obj/machinery/air_sensor/atmos/oxygen_tank{
-	id_tag = "o2_sensor_alt"
-	},
 /obj/machinery/atmospherics/miner/nitrogen,
 /obj/machinery/light/small{
 	brightness = 3;
 	dir = 1
 	},
+/obj/machinery/air_sensor/atmos/nitrogen_tank,
 /turf/open/floor/engine/n2,
 /area/engine/atmos)
 "gv" = (
@@ -3421,6 +3419,10 @@
 /obj/machinery/power/apc/auto_name/south,
 /obj/structure/cable{
 	icon_state = "0-4"
+	},
+/obj/machinery/computer/station_alert{
+	dir = 1;
+	name = "ship alert console"
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/engine_room)
