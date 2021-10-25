@@ -9,7 +9,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/list/physics_levels = list()
 	var/datum/collision_response/c_response = new /datum/collision_response()
 
-/datum/controller/subsystem/processing/physics/fire(resumed)
+/datum/controller/subsystem/processing/physics_processing/fire(resumed)
 	. = ..()
 	for(var/list/za_warudo in physics_levels)
 		for(var/datum/component/physics2d/body as() in za_warudo)
