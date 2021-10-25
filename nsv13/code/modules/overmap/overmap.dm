@@ -478,7 +478,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(weapon_safety)
 		return FALSE
 	var/list/params_list = params2list(params)
-	if(target == src || istype(target, /atom/movable/screen) || target in user.GetAllContents() || params_list["alt"] || params_list["shift"])
+	if(target == src || istype(target, /atom/movable/screen) || (target in user.GetAllContents()) || params_list["alt"] || params_list["shift"])
 		return FALSE
 	if(LAZYFIND(gauss_gunners, user)) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
 		var/datum/component/overmap_gunning/user_gun = user.GetComponent(/datum/component/overmap_gunning)
