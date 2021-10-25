@@ -1,10 +1,11 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "aa" = (
-/obj/structure/fighter_launcher,
+/obj/structure/fighter_launcher{
+	name = "1-2"
+	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
-/obj/structure/overmap/fighter/light/syndicate,
 /turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "an" = (
@@ -40,11 +41,11 @@
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "aD" = (
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/item/gun/ballistic/shotgun/riot,
-/obj/structure/guncase/shotgun,
+/obj/item/gun/ballistic/automatic/c20r,
+/obj/item/gun/ballistic/automatic/c20r,
+/obj/item/melee/transforming/energy/sword,
+/obj/item/melee/transforming/energy/sword,
+/obj/structure/guncase,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "aE" = (
@@ -72,11 +73,12 @@
 /turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "aV" = (
-/obj/structure/fighter_launcher,
+/obj/structure/fighter_launcher{
+	name = "1-1"
+	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
-/obj/structure/overmap/fighter/light/syndicate,
 /obj/machinery/button/door{
 	id = "hangar4";
 	name = "Hangar Door";
@@ -329,6 +331,13 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
+"ez" = (
+/obj/effect/landmark/patrol_node{
+	id = "carrier_armory";
+	next_id = "carrier_medical"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "eF" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -338,11 +347,12 @@
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "eP" = (
-/obj/structure/fighter_launcher,
+/obj/structure/fighter_launcher{
+	name = "2-1"
+	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
-/obj/structure/overmap/fighter/light/syndicate,
 /obj/machinery/button/door{
 	id = "hangar2";
 	name = "Hangar Door";
@@ -359,6 +369,16 @@
 /turf/open/floor/plating{
 	icon_state = "platingdmg1"
 	},
+/area/ruin/powered/nsv13/boarding_interior)
+"fa" = (
+/obj/structure/fighter_launcher{
+	dir = 1;
+	name = "4-2"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "fh" = (
 /obj/structure/cable{
@@ -812,23 +832,6 @@
 /mob/living/simple_animal/hostile/syndicate/melee/sword/space,
 /turf/open/floor/monotile/dark/airless,
 /area/ruin/powered/nsv13/boarding_interior)
-"mb" = (
-/obj/structure/rack,
-/obj/item/melee/transforming/energy/sword,
-/obj/item/melee/transforming/energy/sword{
-	pixel_x = 6;
-	pixel_y = 2
-	},
-/obj/item/melee/transforming/energy/sword{
-	pixel_x = 12;
-	pixel_y = 4
-	},
-/obj/item/melee/transforming/energy/sword{
-	pixel_x = 18;
-	pixel_y = 6
-	},
-/turf/open/floor/mineral/plastitanium/red,
-/area/ruin/powered/nsv13/boarding_interior)
 "mf" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -939,7 +942,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/effect/mob_spawn/human/nsv13/syndicate_crew{
+/obj/effect/mob_spawn/human/nsv13/syndicate_crew/pilot{
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/red,
@@ -1090,6 +1093,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ruin/powered/nsv13/boarding_interior)
+"po" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/machinery/suit_storage_unit/pilot,
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "pr" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 4
@@ -1151,10 +1161,8 @@
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "qs" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 1
-	},
-/turf/open/floor/mineral/plastitanium/red,
+/obj/structure/overmap/fighter/light/syndicate,
+/turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "qC" = (
 /obj/effect/turf_decal/ship/techfloor,
@@ -1171,12 +1179,11 @@
 /turf/open/floor/plasteel/techmaint,
 /area/ruin/powered/nsv13/boarding_interior)
 "qP" = (
-/obj/structure/guncase,
-/obj/item/gun/ballistic/automatic/c20r,
-/obj/item/gun/ballistic/automatic/c20r,
-/obj/item/gun/ballistic/automatic/c20r,
-/obj/item/gun/ballistic/automatic/c20r,
-/turf/open/floor/mineral/plastitanium/red,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/structure/overmap/fighter/light/syndicate,
+/turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "qV" = (
 /obj/structure/flora/grass/jungle/b,
@@ -1236,16 +1243,14 @@
 /turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "rK" = (
-/obj/structure/rack,
-/obj/item/ammo_box/magazine/smgm45,
-/obj/item/ammo_box/magazine/smgm45,
-/obj/item/ammo_box/magazine/smgm45,
-/obj/item/ammo_box/magazine/smgm45,
-/obj/item/ammo_box/magazine/smgm45,
-/obj/item/ammo_box/magazine/smgm45,
-/obj/item/ammo_box/magazine/smgm45,
-/obj/item/ammo_box/magazine/smgm45,
-/turf/open/floor/mineral/plastitanium/red,
+/obj/structure/fighter_launcher{
+	dir = 1;
+	name = "3-2"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "sg" = (
 /obj/effect/turf_decal/trimline/neutral/line{
@@ -1445,14 +1450,10 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "uJ" = (
 /obj/structure/rack,
-/obj/item/storage/box/lethalshot,
-/obj/item/storage/box/lethalshot,
-/obj/item/storage/box/lethalshot,
-/obj/item/storage/box/lethalshot,
-/obj/item/storage/box/lethalshot,
-/obj/item/storage/box/lethalshot,
-/obj/item/storage/box/lethalshot,
-/obj/item/storage/box/lethalshot,
+/obj/item/ammo_box/magazine/smgm45,
+/obj/item/ammo_box/magazine/smgm45,
+/obj/item/ammo_box/magazine/smgm45,
+/obj/item/ammo_box/magazine/smgm45,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "uM" = (
@@ -1464,9 +1465,9 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "uR" = (
 /obj/structure/fighter_launcher{
-	dir = 1
+	dir = 1;
+	name = "3-1"
 	},
-/obj/structure/overmap/fighter/light/syndicate,
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
@@ -1642,6 +1643,13 @@
 	},
 /obj/machinery/door/airlock/highsecurity/ship{
 	name = "Hangar Bay";
+	req_one_access_txt = "150"
+	},
+/turf/open/floor/monotile/dark,
+/area/ruin/powered/nsv13/boarding_interior)
+"wU" = (
+/obj/machinery/door/airlock/ship/hatch{
+	dir = 1;
 	req_one_access_txt = "150"
 	},
 /turf/open/floor/monotile/dark,
@@ -1827,9 +1835,8 @@
 /turf/open/floor/engine/n2,
 /area/ruin/powered/nsv13/boarding_interior)
 "zf" = (
-/obj/effect/landmark/patrol_node{
-	id = "carrier_armory";
-	next_id = "carrier_medical"
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 1
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
@@ -1911,7 +1918,13 @@
 /turf/open/floor/monotile/dark,
 /area/ruin/powered/nsv13/boarding_interior)
 "AN" = (
-/obj/structure/guncase,
+/obj/structure/guncase{
+	capacity = 8
+	},
+/obj/item/gun/ballistic/automatic/pistol,
+/obj/item/gun/ballistic/automatic/pistol,
+/obj/item/gun/ballistic/automatic/pistol,
+/obj/item/gun/ballistic/automatic/pistol,
 /obj/item/gun/ballistic/automatic/pistol,
 /obj/item/gun/ballistic/automatic/pistol,
 /obj/item/gun/ballistic/automatic/pistol,
@@ -2433,7 +2446,7 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Hp" = (
-/obj/machinery/suit_storage_unit/syndicate/odst,
+/obj/machinery/suit_storage_unit/syndicate,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Hs" = (
@@ -2744,6 +2757,14 @@
 /obj/item/ammo_box/magazine/pistolm9mm,
 /obj/item/ammo_box/magazine/pistolm9mm,
 /obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "LL" = (
@@ -2838,6 +2859,15 @@
 	dir = 1
 	},
 /turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
+"Mp" = (
+/obj/structure/fighter_launcher{
+	name = "2-2"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "MF" = (
 /turf/open/floor/mineral/plastitanium/red/airless,
@@ -3152,6 +3182,11 @@
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/ruin/powered/nsv13/boarding_interior)
+"RI" = (
+/obj/machinery/airalarm/directional/east,
+/obj/machinery/suit_storage_unit/pilot,
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "RN" = (
 /obj/structure/window/reinforced/spawner,
 /obj/effect/landmark/patrol_node{
@@ -3238,7 +3273,7 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "SM" = (
-/obj/machinery/suit_storage_unit/syndicate,
+/obj/machinery/suit_storage_unit/pilot,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "SP" = (
@@ -3270,6 +3305,16 @@
 "Tg" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
+	},
+/turf/open/floor/engine/airless,
+/area/ruin/powered/nsv13/boarding_interior)
+"Ti" = (
+/obj/structure/fighter_launcher{
+	dir = 1;
+	name = "4-1"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
 	},
 /turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/boarding_interior)
@@ -33597,7 +33642,7 @@ UV
 Cu
 ZK
 Tg
-eb
+qs
 rC
 Um
 Um
@@ -33623,7 +33668,7 @@ Um
 Um
 Um
 Tg
-eb
+qs
 rC
 fk
 Cu
@@ -34365,8 +34410,8 @@ UV
 Cu
 ZK
 ry
-dV
-uR
+qP
+rK
 Um
 Um
 lA
@@ -34391,7 +34436,7 @@ lA
 Um
 Um
 ry
-dV
+qP
 aa
 fk
 Cu
@@ -38462,7 +38507,7 @@ Cu
 as
 bU
 dV
-uR
+Ti
 Um
 Um
 lK
@@ -38717,7 +38762,7 @@ UV
 Cu
 as
 Tg
-eb
+qs
 rC
 Um
 Um
@@ -38743,7 +38788,7 @@ Um
 Um
 Um
 Tg
-eb
+qs
 rC
 jt
 Cu
@@ -39485,8 +39530,8 @@ UV
 Cu
 as
 ry
-dV
-uR
+qP
+fa
 Um
 Um
 lA
@@ -39511,8 +39556,8 @@ lA
 Um
 Um
 ry
-dV
-aa
+qP
+Mp
 jt
 Cu
 Tf
@@ -42050,7 +42095,7 @@ AB
 hC
 AB
 mk
-mk
+rl
 pr
 rl
 wD
@@ -44881,9 +44926,9 @@ AB
 SM
 SM
 SM
-AB
+po
 AN
-qP
+AB
 aD
 AB
 AB
@@ -45137,11 +45182,11 @@ NR
 jn
 jn
 jn
-IS
 jn
 jn
+wU
 jn
-mb
+Hp
 AB
 ix
 oA
@@ -45392,11 +45437,11 @@ NP
 AB
 DY
 XX
-XX
+ez
 zf
-XX
-qs
-jn
+cQ
+AB
+Zk
 cQ
 AB
 ix
@@ -45649,9 +45694,9 @@ NR
 jn
 jn
 jn
-AY
 jn
 jn
+wU
 jn
 Hp
 AB
@@ -45905,9 +45950,9 @@ AB
 SM
 SM
 SM
-AB
+RI
 LG
-rK
+AB
 uJ
 AB
 AB
