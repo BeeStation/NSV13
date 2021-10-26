@@ -42,7 +42,7 @@ GLOBAL_LIST_EMPTY(inertia_dampeners)
 
 /obj/machinery/inertial_dampener/Destroy()
 	GLOB.inertia_dampeners -= src
-	. = ..()
+	return ..()
 
 /obj/machinery/inertial_dampener/proc/try_use_power()
 	var/turf/T = get_turf(src)
