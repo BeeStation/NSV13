@@ -219,11 +219,12 @@ GLOBAL_LIST_EMPTY(knpcs)
 //@param OM - If you want this score to be affected by the stats of an overmap.
 
 /datum/ai_goal/check_score(datum/component/knpc/HA)
-	if(istype(HA, /obj/structure/overmap)) // why is this here >:(
+	if(!istype(HA)) // why is this here >:(
 		return ..()
 	if(required_ai_flags && !(HA.ai_trait & required_ai_flags))
 		return 0
-	if(HA.parent.client) //AI disabled...
+	var/mob/M = HA.parent
+	if(M.client) //AI disabled...
 		return 0
 	return score //Children sometimes NEED this true value to run their own checks. We also cancel here if the mob has been overtaken by someone.
 
