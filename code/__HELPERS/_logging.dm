@@ -35,6 +35,7 @@
 	SEND_TEXT(world.log, text)
 #endif
 
+//nothing
 
 /* Items with ADMINPRIVATE prefixed are stripped from public logs. */
 /proc/log_admin(text)
