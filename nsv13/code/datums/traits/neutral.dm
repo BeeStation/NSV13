@@ -12,17 +12,19 @@
 	var/cached_oxmod = 1
 
 /datum/quirk/spaceborn/add()
-	if(TRAIT_NOBREATH in quirk_holder.species.inherent_traits)
+	var/mob/living/carbon/human/H = quirk_holder
+	if(!istype(H) || (TRAIT_NOBREATH in H.dna.species.inherent_traits))
 		qdel(src)
 		return
-	og_mod = quirk_holder.physiology.oxy_mod
-	quirk_holder.physiology.oxy_mod *= 0.8
-	cached_mod = quirk_holder.physiology.oxy_mod
+	og_oxmod = H.physiology.oxy_mod
+	H.physiology.oxy_mod *= 0.8
+	cached_oxmod = H.physiology.oxy_mod
 
 /datum/quirk/spaceborn/remove()
 	if(!quirk_holder)
 		return
-	if(quirk_holder.physiology.oxy_mod == cached_mod)
-		quirk_holder.physiology.oxy_mod = og_mod
+	var/mob/living/carbon/human/H = quirk_holder
+	if(H.physiology.oxy_mod == cached_oxmod)
+		H.physiology.oxy_mod = og_oxmod
 	else
-		quirk_holder.physiology.oxy_mod = initial(quirk_holder.physiology.oxy_mod)
+		H.physiology.oxy_mod = initial(H.physiology.oxy_mod)
