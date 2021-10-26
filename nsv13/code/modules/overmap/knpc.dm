@@ -35,7 +35,8 @@ GLOBAL_LIST_EMPTY(knpcs)
 
 /mob/living/carbon/human/ai_boarder/Initialize()
 	. = ..()
-	var/datum/outfit/O = new pick(outfit)
+	var/outfit_path = pick(outfit)
+	var/datum/outfit/O = new outfit_path
 	O.equip(src)
 	AddComponent(/datum/component/knpc)
 	if(!difficulty_override) //Check if we actually care about current difficulty
