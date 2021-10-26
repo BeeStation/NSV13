@@ -341,7 +341,6 @@ That's it, ok bye!
 		for(var/mob/living/L in T)
 			moblist += L
 	sound_effect(moblist, TRUE)
-	if(obj_flags & EMAGGED)
 	for(var/_deck in path)
 		sleep(turbolift_delay)
 		if(_deck == target_deck)
