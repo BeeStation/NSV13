@@ -178,12 +178,13 @@ Returns a faction datum by its name (case insensitive!)
 			if(OM.physics2d)
 				START_PROCESSING(SSphysics_processing, OM.physics2d)
 		target.add_ship(OM)
-	previous_system?.system_contents -= OM
 	if(OM.faction != "nanotrasen" && OM.faction != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
 		previous_system?.enemies_in_system -= OM
 		target.enemies_in_system += OM
-	if(previous_system?.contents_positions[OM]) //If we were loaded, but the system was not.
-		previous_system?.contents_positions -= OM
+	if(previous_system)
+		previous_system.system_contents -= OM
+		if(previous_system.contents_positions[OM]) //If we were loaded, but the system was not.
+			previous_system.contents_positions -= OM
 	OM.current_system = target
 
 //Specific case for anomalies. They need to be spawned in for research to scan them.
