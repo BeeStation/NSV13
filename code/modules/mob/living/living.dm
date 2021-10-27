@@ -805,6 +805,9 @@
 		return
 	if(has_gravity)
 		if(has_gravity == 1)
+			if(!(movement_type | FLYING) && isturf(loc))
+				var/turf/T = loc
+				T.zFall(src) //NSV13 - you can't just stand over empty space when gravity comes back
 			clear_alert("gravity")
 		else
 			if(has_gravity >= GRAVITY_DAMAGE_TRESHOLD)
