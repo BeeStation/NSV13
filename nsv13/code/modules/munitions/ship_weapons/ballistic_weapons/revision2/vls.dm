@@ -155,10 +155,6 @@
 	icon_state = "vls_closed"
 	density = TRUE
 
-/obj/structure/overmap
-	var/list/target_painted = list()
-	var/list/ams_modes = list()
-
 /datum/ams_mode
 	var/name = "Example"
 	var/desc = "Nothing"
@@ -226,10 +222,6 @@
 		circuit.forceMove(loc)
 		circuit = null
 	. = ..()
-
-/obj/structure/overmap
-	var/next_ams_shot = 0
-	var/ams_targeting_cooldown = 1.5 SECONDS
 
 /obj/machinery/computer/ams/ui_act(action, params)
 	. = ..()

@@ -123,6 +123,10 @@
 	var/atom/target_lock = null
 	var/can_lock = TRUE //Can we lock on to people or not
 	var/lockon_time = 2 SECONDS
+	var/list/target_painted = list()
+	var/list/ams_modes = list()
+	var/next_ams_shot = 0
+	var/ams_targeting_cooldown = 1.5 SECONDS
 
 	// Railgun aim helper
 	var/last_tracer_process = 0
@@ -131,6 +135,9 @@
 	var/lastangle = 0
 	var/list/obj/effect/projectile/tracer/current_tracers
 	var/mob/listeningTo
+
+	// Trader delivery locations
+	var/list/trader_beacons = null
 
 	var/uid = 0 //Unique identification code
 	var/static/list/free_treadmills = list()
@@ -154,11 +161,14 @@
 	var/combat_dice_type = /datum/combat_dice
 
 	//Boarding
+	var/interior_status = INTERIOR_NOT_LOADED
 	var/datum/turf_reservation/roomReservation = null
 	var/datum/map_template/dropship/boarding_interior = null
 	var/list/possible_interior_maps = null
 	var/interior_mode = NO_INTERIOR
 	var/list/interior_entry_points = list()
+	var/boarding_reservation_z = null //Do we have a reserved Z-level for boarding? This is set up on instance_overmap. Ships being boarded copy this value from the boarder.
+	var/obj/structure/overmap/active_boarding_target = null
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
@@ -264,7 +274,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	else
 		npc_combat_dice = new combat_dice_type()
 
-
+	if(!istype(src, /obj/structure/overmap/asteroid))
+		GLOB.poi_list += src
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/overmap/LateInitialize()
@@ -411,12 +422,16 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	. = ..()
 
 /obj/structure/overmap/Destroy()
+	GLOB.poi_list -= src
 	if(current_system)
 		current_system.system_contents.Remove(src)
 		if(faction != "nanotrasen" && faction != "solgov")
 			current_system.enemies_in_system.Remove(src)
 		if(current_system.contents_positions[src])	//If we got destroyed while not loaded, chances are we should kill off this reference.
 			current_system.contents_positions.Remove(src)
+
+	if(fleet)
+		fleet.stop_reporting_all(src)
 
 	STOP_PROCESSING(SSphysics_processing, src)
 	GLOB.overmap_objects -= src
@@ -444,6 +459,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		physics2d = null
 	if(npc_combat_dice)
 		qdel(npc_combat_dice)
+
+	kill_boarding_level()
+	return ..()
+
+/obj/structure/overmap/forceMove(atom/destination)
+	if(!istype(src, /obj/structure/overmap/fighter) && !SSmapping.level_trait(destination.z, ZTRAIT_OVERMAP))
+		return //No :)
 	return ..()
 
 /obj/structure/overmap/proc/find_area()
@@ -620,10 +642,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/proc/relay(S, var/message=null, loop = FALSE, channel = null) //Sends a sound + text message to the crew of a ship
 	for(var/mob/M as() in mobs_in_ship)
-		if(channel) //Doing this forbids overlapping of sounds
-			SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100, channel = channel))
-		else
-			SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100))
+		if(M.can_hear())
+			if(channel) //Doing this forbids overlapping of sounds
+				SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100, channel = channel))
+			else
+				SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100))
 		if(message)
 			to_chat(M, message)
 
@@ -808,7 +831,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	to_chat(usr, "<span class='notice'>Inertial assistance system [inertial_dampeners ? "ONLINE" : "OFFLINE"].</span>")
 
 /obj/structure/overmap/proc/can_change_safeties()
-	return (obj_flags & EMAGGED || !is_station_level(loc.z))
+	return (SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP))
 
 /obj/structure/overmap/verb/toggle_safety()
 	set name = "Toggle Gun Safeties"

@@ -252,6 +252,22 @@ SUBSYSTEM_DEF(job)
 		return 1
 	return 0
 
+//NSV13 addition
+// This proc is called before the level loop of DivideOccupations() and will try to fill the job given
+// It either locates someone for the position or runs out of levels to check
+// This is to try to fill critical roles before assigning janitor and botanist
+/datum/controller/subsystem/job/proc/FillPosition(var/job_string)
+	var/datum/job/job = GetJob(job_string)
+	if(!job)
+		return 0
+	for(var/level in level_order)
+		var/list/candidates = list()
+		candidates = FindOccupationCandidates(job, level)
+		if(length(candidates))
+			var/mob/dead/new_player/candidate = pick(candidates)
+			if(AssignRole(candidate, job_string))
+				return 1
+	return 0
 
 /** Proc DivideOccupations
  *  fills var "assigned_role" for all ready players.
@@ -309,12 +325,21 @@ SUBSYSTEM_DEF(job)
 	//Select one head
 	JobDebug("DO, Running Head Check")
 	FillHeadPosition()
+	FillHeadPosition() //NSV13 - let's have two heads, actually
 	JobDebug("DO, Head Check end")
 
 	//Check for an AI
 	JobDebug("DO, Running AI Check")
 	FillAIPosition()
 	JobDebug("DO, AI Check end")
+
+	//NSV13 - fill some other high priority jobs
+	JobDebug("DO, Running Critical Jobs Check")
+	FillPosition("Station Engineer")
+	FillPosition("Munitions Technician")
+	FillPosition("Bridge Staff")
+	FillPosition("Shaft Miner")
+	JobDebug("DO, Critical Jobs Check end")
 
 	//Other jobs are now checked
 	JobDebug("DO, Running Standard Check")

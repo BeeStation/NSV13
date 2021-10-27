@@ -25,6 +25,11 @@
 	remove_from_dead_mob_list()
 	remove_from_alive_mob_list()
 	focus = null
+	//NSV13 change - Cleans up mobs_in_ship list on mob delete.
+	if(last_overmap)
+		last_overmap.mobs_in_ship -= src
+		last_overmap = null
+	//NSV13 change end.
 	for (var/alert in alerts)
 		clear_alert(alert, TRUE)
 	if(observers?.len)

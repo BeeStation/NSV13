@@ -1,8 +1,8 @@
 ---
-name: Map Issue - Vago [UNSUPPORTED]
-about: Bugs related to the Vago Map
+name: PVP Map Issue - Astraeus
+about: Bugs related to the Astraeus Map
 title: ''
-labels: Map Issue, Vago
+labels: Map Issue, Astraeus
 assignees: ''
 
 ---

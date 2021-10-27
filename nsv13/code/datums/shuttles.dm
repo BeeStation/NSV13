@@ -20,6 +20,10 @@
 	suffix = "atlas"
 	name = "\[NSV\] cargo elevator (Atlas)"
 
+/datum/map_template/shuttle/cargo/shrike
+	suffix = "shrike"
+	name = "\[NSV\] cargo ferry (Shrike)"
+
 //Arrivals
 
 /datum/map_template/shuttle/arrival/aetherwhisp
@@ -34,14 +38,36 @@
 	suffix = "gladius"
 	name = "arrival shuttle (Gladius)"
 
-/datum/map_template/shuttle/emergency/atlas
-	suffix = "atlas"
-	name = "Danube Class Yacht"
-	description = "A small, luxurious shuttle capable of ferrying small - medium crews in comfort and style."
-	credit_cost = 4000
+/datum/map_template/shuttle/arrival/shrike
+	suffix = "shrike"
+	name = "arrival shuttle (Shrike)"
 
 /datum/map_template/shuttle/hammurabi //This is definitely an elevator trust me.
 	prefix = "_maps/shuttles/turbolifts/"
 	port_id = "elevator"
 	suffix = "hammurabi"
 	name = "Hammurabi mining elevator"
+//Mining
+
+/datum/map_template/shuttle/mining/shrike
+	suffix = "shrike"
+	name = "mining shuttle (Shrike)"
+
+//Escape
+/datum/map_template/shuttle/escape_pod/shrike
+	suffix = "shrike"
+	name = "escape pod (Shrike)"
+
+/datum/map_template/shuttle/emergency/void
+	suffix = "void"
+	name = "Void Emergency Shuttle"
+	description = "Not even a shuttle."
+	admin_notes = "Used for escape pod only maps"
+	credit_cost = 0
+	can_be_bought = FALSE
+
+/datum/map_template/shuttle/emergency/atlas
+	suffix = "atlas"
+	name = "Danube Class Yacht"
+	description = "A small, luxurious shuttle capable of ferrying small - medium crews in comfort and style."
+	credit_cost = 4000

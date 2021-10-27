@@ -1,8 +1,8 @@
 ---
-name: Map Issue - Jolly Sausage
-about: Bugs related to the Jolly Sausage Map
+name: Mining Map Issue - Shrike Mining Rig
+about: Bugs related to the Shrike Mining Rig Map
 title: ''
-labels: Map Issue, Jolly Sausage
+labels: Map Issue, Shrike Mining Rig
 assignees: ''
 
 ---
