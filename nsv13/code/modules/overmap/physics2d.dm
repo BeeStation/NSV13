@@ -12,8 +12,8 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 /datum/controller/subsystem/processing/physics_processing/fire(resumed)
 	. = ..()
 	for(var/list/za_warudo in physics_levels)
+		var/list/recent_collisions = list() //So we don't collide two things together twice.
 		for(var/datum/component/physics2d/body as() in za_warudo)
-			var/list/recent_collisions = list() //So we don't collide two things together twice.
 			for(var/datum/component/physics2d/neighbour as() in za_warudo - body) //Now we check the collisions of every other physics body with this one. I hate that I have to do this, but I can't think of a better way just yet.
 				//Precondition: They're actually somewhat near each other. This is a nice and simple way to cull collisions that would never happen, and save some CPU time.
 				//Precondition: we're not checking collisions that we already ran.
@@ -51,14 +51,20 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 /datum/component/physics2d/Destroy(force, silent)
 	//Stop fucking referencing this I sweAR
 	if(holder)
+		// TODO: remove physics2d component references in definitions
+		// This is very silly, the whole point of components is that datums don't have to actively reference them like this >:(
 		var/obj/structure/overmap/OM = holder
 		if(istype(OM))
 			OM.physics2d = null
 		var/obj/item/projectile/P = holder
 		if(istype(P))
 			P.physics2d = null
-	for(var/list/za_warudo in SSphysics_processing.physics_levels)
-		za_warudo.Remove(src)
+	if(last_registered_z)
+		SSphysics_processing.physics_levels[last_registered_z] -= src
+	else
+		for(var/list/za_warudo in SSphysics_processing.physics_levels)
+			za_warudo -= src
+	physics_bodies -= src
 	//De-alloc references.
 	QDEL_NULL(collider2d)
 	QDEL_NULL(position)
@@ -66,8 +72,6 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	return ..()
 
 /datum/component/physics2d/proc/setup(list/hitbox, angle)
-	if(!holder)
-		CRASH("Physics datum tried to setup with a null holder")
 	position = new /datum/vector2d(holder.x*32,holder.y*32)
 	collider2d = new /datum/shape(position, hitbox, angle) // -TORADIANS(src.angle-90)
 	last_registered_z = holder.z
@@ -82,11 +86,11 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	if(holder.z != last_registered_z) //Z changed? Update this unit's processing chunk.
 		if(!holder.z) // Something terrible has happened. Kill ourselves to prevent runtime spam
 			qdel(src)
-			message_admins("WARNING: [parent] has been moved out of bounds at [ADMIN_VERBOSEJMP(holder.loc)]. Deleting physics component.")
+			message_admins("WARNING: [holder] has been moved out of bounds at [ADMIN_VERBOSEJMP(holder.loc)]. Deleting physics component.")
 			CRASH("Physics component holder located in nullspace.")
 		var/list/stats = SSphysics_processing.physics_levels[last_registered_z]
 		if(stats) //If we're already in a list.
 			stats -= src
 		last_registered_z = holder.z
 		stats = SSphysics_processing.physics_levels[last_registered_z]
-		LAZYADD(stats, src) //If the SS isn't tracking this Z yet with a list, this will take care of it.
+		stats += src //If the SS isn't tracking this Z yet with a list, this will take care of it.

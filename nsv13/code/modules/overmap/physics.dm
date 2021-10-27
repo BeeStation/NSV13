@@ -270,7 +270,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		velocity.x -= clamped_side_movement * sx
 		velocity.y -= clamped_side_movement * sy
 
-	offset._set(offset.x + velocity.x * time, offset.y +  velocity.y * time, sanity=TRUE)
+	offset._set(offset.x + velocity.x * time, offset.y +  velocity.y * time, TRUE)
 
 	position._set(x * 32 + offset.x * 32, y * 32 + offset.y * 32)
 
