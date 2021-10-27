@@ -64,7 +64,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	else
 		for(var/list/za_warudo in SSphysics_processing.physics_levels)
 			za_warudo -= src
-	physics_bodies -= src
+	SSphysics_processing.physics_bodies -= src
 	//De-alloc references.
 	QDEL_NULL(collider2d)
 	QDEL_NULL(position)
