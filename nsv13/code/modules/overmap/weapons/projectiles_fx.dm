@@ -307,7 +307,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/torpedo/viscerator
 	//icon_state = "???"	- alt sprite would be nice
-	name = "armoured Torpedo"
+	name = "armoured torpedo"
 	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo
 	damage = 75	//Simply kinetic damagewise..
 	flag = "overmap_medium"
