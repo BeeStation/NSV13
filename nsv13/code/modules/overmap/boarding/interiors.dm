@@ -7,6 +7,10 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 
 /obj/structure/overmap/proc/kill_boarding_level(obj/structure/overmap/boarder)
 	set waitfor = FALSE
+	var/was_fully_loaded = TRUE
+	if(interior_status != INTERIOR_READY) // determines whether this ship can be loaded again
+		was_fully_loaded = FALSE
+	interior_status = INTERIOR_DELETING
 	//Free up the boarding level....
 	if(boarder)
 		boarder.boarding_reservation_z = null
@@ -18,30 +22,29 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 					SL.linked_overmap = null //Free that level up.
 				occupying_levels = list()
 				docking_points = list()
-				var/turf/TT = get_turf(locate(1,1,boarding_reservation_z))
-				//Yeet the crew
-				TT.ChangeTurf(/turf/open/space/transit)
-				for(var/mob/living/L in mobs_in_ship)
-					L.forceMove(TT)
-					L.death()
-				TT.ChangeTurf(/turf/open/space/basic)
-				for(var/turf/T in boarding_interior.get_affected_turfs(get_turf(locate(1, 1, boarding_reservation_z)), FALSE)) //nuke
+				SSair.can_fire = FALSE
+				for(var/turf/T in boarding_interior.get_affected_turfs(locate(1, 1, boarding_reservation_z), FALSE)) //nuke
 					CHECK_TICK
 					T.empty()
+				SSair.can_fire = TRUE
 				if(reserved_z)
 					free_treadmills += reserved_z
 					reserved_z = null
 				free_boarding_levels += boarding_reservation_z
 				boarding_reservation_z = null
-				qdel(boarding_interior)
+				QDEL_NULL(boarding_interior)
 		if(INTERIOR_DYNAMIC)
 			if(boarding_interior)
-				var/turf/target = get_turf(locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3]))
-				for(var/turf/T in boarding_interior.get_affected_turfs(target, FALSE)) //nuke
+				var/turf/target = locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3])
+				for(var/turf/T as () in boarding_interior.get_affected_turfs(target)) //nuke
 					T.empty()
 			//Free the reservation.
 			QDEL_NULL(roomReservation)
 			boarding_interior = null
+	if(was_fully_loaded)
+		interior_status = INTERIOR_DELETED
+	else
+		interior_status = INTERIOR_NOT_LOADED
 
 /obj/structure/overmap/proc/board_test()
 	var/turf/aaa = locate(x, y-10, z)
@@ -50,124 +53,107 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	foo.ai_controlled = FALSE
 	foo.brakes = TRUE
 	foo.ai_load_interior(src)
+	foo.active_boarding_target = src
 
 /obj/structure/overmap/proc/get_boarding_level()
 	if(boarding_reservation_z)
-		return FALSE
-	if(free_boarding_levels?.len)
+		return
+	if(length(free_boarding_levels))
 		var/_z = pick_n_take(free_boarding_levels)
+		message_admins("found free boarding level [_z]")
 		boarding_reservation_z = _z
-		return TRUE
+		return
 	SSmapping.add_new_zlevel("Overmap boarding reservation", ZTRAITS_BOARDABLE_SHIP)
 	boarding_reservation_z = world.maxz
-	return TRUE
 
 /obj/structure/overmap/proc/ai_load_interior(obj/structure/overmap/boarder, map_path_override)
+	if(!boarder)
+		message_admins("Tried to load [src] for boarding, but we don't know who's boarding it! Aborting.")
+		return FALSE
 	//You can't harpoon a ship with no supported interior, or that already has an interior defined. Your ship must also have an interior to load this, so we can link the z-levels.
-
 	// -----------------------------
 	if(interior_mode == NO_INTERIOR || interior_mode == INTERIOR_DYNAMIC)
-		message_admins("[src] attempted to be boarded by [boarder], but it has an incompatible interior_mode.")
+		message_admins("[boarder] attempted to board [src], but the target has an incompatible interior_mode.")
 		return FALSE
 	if(!boarder.boarding_reservation_z)
 		boarder.get_boarding_level()
 		sleep(5)
-	if(!boarder.boarding_reservation_z || !possible_interior_maps?.len || occupying_levels?.len || !boarder.reserved_z || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
+	if(interior_status == INTERIOR_READY) // it's loaded already, just let them on
+		return TRUE
+	else if(interior_status != INTERIOR_NOT_LOADED)
+		message_admins("[src] tried to load boarding map while it was already loading, deleting, or had been released. Aborting!")
+		return FALSE // If we're currently loading or deleting, stop
+	if(!boarder.boarding_reservation_z || !length(possible_interior_maps) || length(occupying_levels) || !boarder.reserved_z || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
+		message_admins("[boarder] attempted to board [src], but the pre-mapload checks failed!")
 		return FALSE
+
+	interior_status = INTERIOR_LOADING
 	//Prepare the boarding interior map. Admins may also force-load this with a path if they want.
-	if(map_path_override)
-		boarding_interior = new/datum/map_template(path = map_path_override)
-	else
-		var/chosen = pick(possible_interior_maps)
-		boarding_interior = SSmapping.boarding_templates[chosen]
-	boarder.active_boarding_target = src
-	if(!boarding_interior || !boarding_interior.mappath)
+	choose_interior(map_path_override)
+	if(!boarding_interior?.mappath)
 		message_admins("Error parsing boarding interior map for [src]")
 		return FALSE
-	//Add a treadmill for this ship as and when needed.
-	if(!reserved_z)
-		if(!free_treadmills?.len)
-			SSmapping.add_new_zlevel("Captured ship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-			reserved_z = world.maxz
-		else
-			var/_z = pick_n_take(free_treadmills)
-			reserved_z = _z
-		starting_system = current_system.name //Just fuck off it works alright?
-		SSstar_system.add_ship(src)
+
+	current_system = boarder.current_system
+	get_overmap_level()
 	boarding_reservation_z = boarder.boarding_reservation_z
-	//Fuck right off. Stops monstermos events while loading the ship.
-	SSair.can_fire = FALSE
-	var/done = boarding_interior.load(get_turf(locate(1, 1, boarder.boarding_reservation_z)), FALSE)
-	if(!done)
-		SSair.enqueue()
-		message_admins("[src] failed to load a boarding map. Server is probably on fire :)")
-		return FALSE
-	//You can exist again :)
-	SSair.can_fire = TRUE
-	post_load_interior()
 	var/datum/space_level/SL = SSmapping.get_level(boarding_reservation_z)
 	SL.linked_overmap = src
 	occupying_levels += SL
 	//Just in case...
 	if(!docking_points.len)
 		docking_points += get_turf(locate(20, world.maxy/2, boarding_reservation_z))
-	log_game("Boarding Z-level [SL] linked to [src].")
 	boarder.relay_to_nearby('nsv13/sound/effects/ship/boarding_pod.ogg', ignore_self=FALSE)
 
-	var/turf/center = get_turf(locate(boarding_interior.width/2, boarding_interior.height/2, boarding_reservation_z))
-	var/area/target_area = null
-	if(center)
-		target_area = get_area(center)
+	var/turf/bottom_left = get_turf(locate(1, 1, boarding_reservation_z))
+	log_game("Boarding map [boarding_interior.mappath] loading for [src] on Z level [boarding_reservation_z]")
+	return load_interior(bottom_left, boarding_interior.width, boarding_interior.height)
 
-	if(!target_area)
-		message_admins("WARNING: [src] FAILED TO FIND AREA TO LINK TO. ENSURE THAT THE MIDDLE TILE OF THE MAP HAS AN AREA!")
+/obj/structure/overmap/proc/get_overmap_level()
+	//Add a treadmill for this ship as and when needed.
+	if(!reserved_z)
+		if(!length(free_treadmills))
+			SSmapping.add_new_zlevel("Captured ship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
+			reserved_z = world.maxz
+		else
+			reserved_z = pick_n_take(free_treadmills)
+		starting_system = current_system.name //Just fuck off it works alright?
+		SSstar_system.add_ship(src)
+
+/obj/structure/overmap/proc/choose_interior(map_path_override)
+	if(map_path_override)
+		boarding_interior = new/datum/map_template(map_path_override)
 	else
-		target_area.name = src.name
-
-	return TRUE
+		var/chosen = pick(possible_interior_maps)
+		boarding_interior = SSmapping.boarding_templates[chosen]
 
 /**
 The meat of this file. This will instance the dropship's interior in reserved space land. I HIGHLY recommend you keep these maps small, reserved space code is shitcode.
 */
-/obj/structure/overmap/proc/instance_interior(tries=2)
+/obj/structure/overmap/proc/instance_interior()
+	if(interior_status == INTERIOR_READY) // it's loaded already, we're done
+		return TRUE
+	else if(interior_status != INTERIOR_NOT_LOADED)
+		message_admins("[src] attempted to load its interior, but it was already loading, deleting, or had been released!")
+		return FALSE // If we're currently loading or deleting, stop
+
+	interior_status = INTERIOR_LOADING
 	//Init the template.
-	if(!boarding_interior)
-		var/interior_type = pick(possible_interior_maps)
-		boarding_interior = SSmapping.boarding_templates[interior_type]
-		if(!boarding_interior)
-			message_admins("Mapping subsystem failed to load [interior_type]")
-			return
+	choose_interior()
+	if(!boarding_interior?.mappath)
+		message_admins("Error parsing boarding interior map for [src]")
 
 	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
 	if(!roomReservation)
-		message_admins("Dropship failed to reserve an interior!")
+		message_admins("[src] failed to reserve space for a dropship interior!")
 		return FALSE
 
-	while(!SSair.initialized)
-		sleep(3 SECONDS)
-	SSair.can_fire = FALSE
-	var/turf/center = get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2]+boarding_interior.height/2, roomReservation.bottom_left_coords[3]))
-	if(!boarding_interior.load(center, centered = TRUE))
-		message_admins("[ADMIN_LOOKUPFLW(src)] failed to load interior")
-	SSair.can_fire = TRUE
-	post_load_interior()
-	var/area/target_area
-	//Now, set up the interior for loading...
-	if(center)
-		target_area = get_area(center)
+	var/turf/bottom_left = locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3])
+	return load_interior(bottom_left, boarding_interior.width, boarding_interior.height)
 
-	if(!target_area)
-		message_admins("WARNING: DROPSHIP FAILED TO FIND AREA TO LINK TO. ENSURE THAT THE MIDDLE TILE OF THE MAP HAS AN AREA!")
-		return FALSE
-	if(istype(target_area, /area/dropship/generic))
-		//Avoid naming conflicts.
-		target_area.name = "[src.name] interior #[rand(0,999)]"
-	else
-		target_area.name = src.name
-	linked_areas += target_area
-	target_area.overmap_fallback = src //Set up the fallback...
+/obj/structure/overmap/proc/add_entrypoints(area/target_area)
 	for(var/obj/effect/landmark/dropship_entry/entryway in GLOB.landmarks_list)
-		if(get_area(entryway) == target_area && !entryway.linked)
+		if(!entryway.linked && get_area(entryway) == target_area)
 			interior_entry_points += entryway
 			entryway.linked = src
 	if(!length(interior_entry_points))
@@ -176,6 +162,45 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		interior_entry_points += entryway
 		entryway.linked = src
 
+/obj/structure/overmap/proc/load_interior(turf/bottom_left, width, height)
+	SSair.can_fire = FALSE
+	if(!boarding_interior.load(bottom_left, centered = FALSE))
+		SSair.enqueue()
+		message_admins("[ADMIN_LOOKUPFLW(src)] failed to load interior [boarding_interior.mappath]")
+		log_mapping("[src] failed to load interior [boarding_interior.mappath]")
+	SSair.can_fire = TRUE
+	post_load_interior()
+
+	var/turf/center = get_turf(locate(bottom_left.x+boarding_interior.width/2, bottom_left.y+boarding_interior.height/2, bottom_left.z))
+	var/area/target_area
+	//Now, set up the interior for loading...
+	if(center)
+		target_area = get_area(center)
+
+	if(interior_mode == INTERIOR_DYNAMIC)
+		add_entrypoints(target_area)
+
+	if(!target_area)
+		message_admins("WARNING: [src]] FAILED TO FIND AREA TO LINK TO in [boarding_interior.mappath]. ENSURE THAT THE MIDDLE TILE OF THE MAP HAS AN AREA!")
+		return FALSE
+	if(istype(target_area, /area/dropship/generic))
+		target_area.name = "[src.name] interior #[rand(0,999)]" //Avoid naming conflicts.
+	else
+		target_area.name = src.name
+
+	linked_areas += target_area
+	target_area.overmap_fallback = src //Set up the fallback...
+	interior_status = INTERIOR_READY
+	return TRUE
+
 // Anything that needs to be done after the interior loads
 /obj/structure/overmap/proc/post_load_interior()
 	return
+
+/obj/structure/overmap/proc/get_interior_center()
+	if(length(occupying_levels))
+		// center of a whole Z level
+		var/datum/space_level/level = pick(occupying_levels)
+		return get_turf(locate(127, 127, level.z_value))
+	else if(roomReservation)
+		return get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2]+boarding_interior.height/2, roomReservation.bottom_left_coords[3]))

@@ -80,6 +80,8 @@
 	var/obj/item/organ/ears/ears = getorgan(/obj/item/organ/ears)
 	if(ears)
 		ears.adjustEarDamage(ddmg, ddeaf)
+		if(ears.deaf)
+			SEND_SOUND(src, sound(null)) //NSV13 - stop current sounds when you go deaf
 
 /mob/proc/minimumDeafTicks()
 
@@ -156,4 +158,4 @@
 			owner.Jitter(15)
 			owner.Dizzy(15)
 			owner.Knockdown(100)
-			to_chat(owner, "<span class='warning'>Your robotic ears buzz.</span>") 
+			to_chat(owner, "<span class='warning'>Your robotic ears buzz.</span>")

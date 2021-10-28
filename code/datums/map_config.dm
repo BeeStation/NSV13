@@ -23,8 +23,8 @@
 	var/mine_disable = FALSE //NSV13 - Allow disabling of mineship loading.
 	var/mine_file = "Rocinante.dmm" //Nsv13. Heavy changes to this file
 	var/mine_path = "map_files/Mining/nsv13"
-	var/faction = "nanotrasen" //Nsv13 - To what faction does the NSV belong?
-	var/patrol_type = "standard" //Nsv13 - Lets you set the patrol type per map. Sometimes we just wanna space cruise y'dig?
+	var/list/omode_blacklist = list() //NSV13 - Blacklisted overmap modes - ie remove modes
+	var/list/omode_whitelist = list() //NSV13 - Whitelisted overmap modes - ie add modes
 	var/mine_traits = null
 
 	var/traits = list(
@@ -171,10 +171,10 @@
 	else
 		mine_disable = TRUE
 	//Nsv13 stuff. No CHECK_EXISTS because we don't want to yell at mappers if they don't override these two.
-	if("faction" in json) //We don't always want to bother overriding faction, so the default will do for now
-		faction = json["faction"]
-	if("patrol_type" in json) //Lets us set our patrol type per map.
-		patrol_type = json["patrol_type"]
+	if("omode_blacklist" in json) //Which modes we want disabled on this map
+		omode_blacklist = json["omode_blacklist"]
+	if("omode_whitelist" in json) //Which extra modes we want enabled on this map
+		omode_whitelist = json["omode_whitelist"]
 
 	CHECK_EXISTS("ship_type")
 	if("ship_type" in json)

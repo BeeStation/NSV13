@@ -789,10 +789,10 @@
 /area/nostromo/maintenance/exterior)
 "vV" = (
 /obj/machinery/light,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
 /obj/structure/closet/crate{
 	name = "50 Calibre Ammo"
 	},
@@ -808,10 +808,12 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/computer/fiftycal{
-	dir = 8
-	},
 /obj/item/multitool,
+/obj/machinery/computer/ship/tactical{
+	dir = 8;
+	req_access = null;
+	req_one_access_txt = "31;48"
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/nostromo/bridge)
 "wh" = (
@@ -1180,10 +1182,15 @@
 /turf/open/floor/carpet/ship/blue,
 /area/nostromo/bridge)
 "Fi" = (
-/obj/structure/hull_plate,
-/obj/machinery/ship_weapon/fiftycal,
-/turf/open/floor/plating/airless,
-/area/nostromo/maintenance/exterior)
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 4
+	},
+/obj/machinery/ship_weapon/pdc_mount/north,
+/turf/open/floor/carpet/ship,
+/area/nostromo/hangar/starboard)
 "Fl" = (
 /obj/machinery/computer/cryopod{
 	pixel_y = 32
@@ -37072,7 +37079,7 @@ uj
 pH
 NU
 uj
-WR
+Fi
 Fu
 Pb
 Qu
@@ -38881,7 +38888,7 @@ xw
 vA
 RY
 kZ
-Fi
+bd
 Rq
 qH
 qH

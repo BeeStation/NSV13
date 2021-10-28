@@ -522,20 +522,19 @@ function game_announce($action, $payload, $pr_flags) {
 
 	$game_servers = filter_announce_targets($servers, $payload['pull_request']['base']['repo']['owner']['login'], $payload['pull_request']['base']['repo']['name'], $action, $pr_flags);
 
-	$msg = '?announce='.urlencode($msg).'&payload='.urlencode(json_encode($payload));
+	$data = ["announce" => urlencode($msg), "id" => $payload['pull_request']['id']];
 
 	foreach ($game_servers as $serverid => $server) {
-		$server_message = $msg;
 		if (isset($server['comskey']))
-			$server_message .= '&key='.urlencode($server['comskey']);
-		game_server_send($server['address'], $server['port'], $server_message);
+			$data["auth"] = $server['comskey'];
+		game_server_send($server['address'], $server['port'], json_encode($data));
 	}
 
 }
 
 function discord_announce($action, $payload, $pr_flags) {
 	global $discordWebHooks;
-	$color;
+	$color = null;
 	switch ($action) {
 		case 'reopened':
 		case 'opened':

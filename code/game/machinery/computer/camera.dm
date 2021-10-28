@@ -232,7 +232,7 @@
 /obj/machinery/computer/security/hos
 	name = "\improper Head of Security's camera console"
 	desc = "A custom security console with added access to the labor camp network."
-	network = list("ss13", "labor")
+	network = list("ss13", "labor", "headcam") //NSV13 added helmet cams
 	circuit = null
 
 /obj/machinery/computer/security/labor

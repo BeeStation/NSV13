@@ -12,8 +12,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/fighter
 	name = "Space Fighter"
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
-	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
 	icon_state = "fighter"
+	anchored = TRUE
 	brakes = TRUE
 	armor = list("melee" = 80, "bullet" = 50, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //temp to stop easy destruction from small arms
 	bound_width = 64 //Change this on a per ship basis
@@ -52,7 +52,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/obj/machinery/computer/ship/navigation/starmap = null
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode, \
-								.verb/show_control_panel, .verb/change_name)
+								.verb/show_control_panel, .verb/change_name, .verb/countermeasure)
+												 //Countermeasure code in countermeasure_ammo.dm
 
 /obj/structure/overmap/fighter/verb/show_control_panel()
 	set name = "Show control panel"
@@ -93,6 +94,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
+		if("5")
+			if(themob == pilot)
+				countermeasure()
+			return TRUE
 
 /obj/structure/overmap/fighter/ui_state(mob/user)
 	return GLOB.contained_state
@@ -129,6 +134,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["maintenance_mode"] = maintenance_mode //Todo
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	data["docking_mode"] = DC && DC.docking_mode
+	var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
+	data["countermeasures"] = CD ? CD.charges : 0
+	data["max_countermeasures"] = CD ? CD.max_charges : 0
 	var/obj/item/fighter_component/primary/P = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
 	data["primary_ammo"] = P ? P.get_ammo() : 0
 	data["max_primary_ammo"] = P ? P.get_max_ammo() : 0
@@ -159,7 +167,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		//Look for any "primary" hardpoints, be those guns or utility slots
 		if(!weapon)
 			continue
-		if(weapon.fire_mode == FIRE_MODE_PDC)
+		if(weapon.fire_mode == FIRE_MODE_ANTI_AIR)
 			data["primary_ammo"] = weapon.get_ammo()
 			data["max_primary_ammo"] = weapon.get_max_ammo()
 		if(weapon.fire_mode == FIRE_MODE_TORPEDO)
@@ -466,6 +474,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 		to_chat(user, "<span class='warning'>Access denied.</span>")
 
 /obj/structure/overmap/fighter/proc/enter(mob/user)
+	var/obj/structure/overmap/OM = user.get_overmap()
+	if(OM)
+		LAZYREMOVE(OM.mobs_in_ship, user)
 	user.forceMove(src)
 	mobs_in_ship += user
 	if((user.client?.prefs.toggles & SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
@@ -584,6 +595,21 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			to_chat(user, "<span class='warning'>You swipe your card and [maintenance_mode ? "disable" : "enable"] maintenance protocols.</span>")
 			maintenance_mode = !maintenance_mode
+	if(istype(W, /obj/item/ship_weapon/ammunition/countermeasure_charge))
+		var/obj/item/ship_weapon/ammunition/countermeasure_charge/CC = W
+		var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
+		if(CD)
+			if(CD.charges == CD.max_charges)
+				to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's no space for more charges in the countermeasure dispenser!</span>")
+			else
+				var/ChargeChange = clamp(CC.restock_amount + CD.charges, CD.max_charges, 0) - CD.charges
+				to_chat("<span>You successfully reload the countermeasure dispenser in [src]</span>")
+				CC.restock_amount -= ChargeChange
+				CD.charges += ChargeChange
+				if(CC.restock_amount == 0)
+					qdel(W)
+		else
+			to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's nothing to put it in!</span>")
 	..()
 
 /obj/structure/overmap/fighter/take_damage(damage_amount, damage_type, damage_flag, sound_effect)
@@ -699,7 +725,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 	icon = 'nsv13/icons/obj/fighter_components.dmi'
 	w_class = WEIGHT_CLASS_GIGANTIC
 	//Thanks to comxy on Discord for these lovely tiered sprites o7
-	var/tier = 1 //Icon states are formatted as: armour_tier1 and so on.
+	var/tier = 1 // used for multipliers
 	var/slot = null //Change me!
 	var/weight = 0 //Some more advanced modules will weigh your fighter down some.
 	var/power_usage = 0 //Does this module require power to process()?
@@ -730,8 +756,6 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 /obj/item/fighter_component/Initialize()
 	.=..()
 	AddComponent(/datum/component/twohanded/required) //These all require two hands to pick up
-	if(tier)
-		icon_state = icon_state+"_tier[tier]"
 
 //Overload this method to apply stat benefits based on your module.
 /obj/item/fighter_component/proc/on_install(obj/structure/overmap/target)
@@ -803,7 +827,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/armour_plating
 	name = "Durasteel Armour Plates"
 	desc = "A set of armour plates which can afford basic protection to a fighter, however heavier plates may slow you down"
-	icon_state = "armour"
+	icon_state = "armour_tier1"
 	slot = HARDPOINT_SLOT_ARMOUR
 	weight = 1
 	obj_integrity = 250
@@ -825,6 +849,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/armour_plating/tier2
 	name = "Ultra Heavy Fighter Armour"
 	desc = "An extremely thick and heavy set of armour plates. Guaranteed to weigh you down, but it'll keep you flying through brasil itself."
+	icon_state = "armour_tier2"
 	tier = 2
 	weight = 2
 	obj_integrity = 450
@@ -833,6 +858,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/armour_plating/tier3
 	name = "Nanocarbon Armour Plates"
 	desc = "A lightweight set of ablative armour which balances speed and protection at the cost of the average GDP of most third world countries."
+	icon_state = "armour_tier3"
 	tier = 3
 	weight = 1.25
 	obj_integrity = 300
@@ -841,7 +867,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/canopy
 	name = "Glass canopy"
 	desc = "A fighter canopy made of standard glass, it's extremely fragile and is so cheaply produced that it serves as little less than a windshield."
-	icon_state = "canopy"
+	icon_state = "canopy_tier0.5"
 	obj_integrity = 100 //Pretty fragile, don't break it you dumblet
 	max_integrity = 100
 	slot = HARDPOINT_SLOT_CANOPY
@@ -851,6 +877,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/canopy/reinforced
 	name = "Reinforced Glass Canopy"
 	desc = "A glass fighter canopy that's designed to maintain atmospheric pressure inside of a fighter, this one's pretty robust."
+	icon_state = "canopy_tier1"
 	obj_integrity = 200
 	max_integrity = 200
 	tier = 1
@@ -859,6 +886,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/canopy/tier2
 	name = "Nanocarbon glass canopy"
 	desc = "A glass fighter canopy that's designed to maintain atmospheric pressure inside of a fighter, this one's very robust."
+	icon_state = "canopy_tier2"
 	obj_integrity = 350
 	max_integrity = 350
 	tier = 2
@@ -867,6 +895,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/canopy/tier3
 	name = "Plasma glass canopy"
 	desc = "A glass fighter canopy that's designed to maintain atmospheric pressure inside of a fighter, this one's exceptionally robust."
+	icon_state = "canopy_tier3"
 	obj_integrity = 450
 	max_integrity = 450
 	tier = 3
@@ -907,12 +936,14 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 
 /obj/item/fighter_component/battery/tier2
 	name = "Upgraded Fighter Battery"
+	icon_state = "battery_tier2"
 	tier = 2
 	charge = 20000
 	maxcharge = 20000
 
 /obj/item/fighter_component/battery/tier3
 	name = "Mega Fighter Battery"
+	icon_state = "battery_tier3"
 	desc = "An electrochemical cell capable of holding a good amount of charge for keeping the fighter's radio on for longer periods without an engine."
 	tier = 3
 	charge = 40000
@@ -996,31 +1027,33 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/fuel_tank
 	name = "Fighter Fuel Tank"
 	desc = "The fuel tank of a fighter, upgrading this lets your fighter hold more fuel."
-	icon_state = "fueltank"
+	icon_state = "fueltank_tier1"
 	var/fuel_capacity = 1000
 	slot = HARDPOINT_SLOT_FUEL
 
 /obj/item/fighter_component/fuel_tank/Initialize()
-	.=..()
+	. = ..()
 	create_reagents(fuel_capacity, DRAINABLE | AMOUNT_VISIBLE)
 	reagents.chem_temp = 40
 
 /obj/item/fighter_component/fuel_tank/tier2
 	name = "Fighter Extended Fuel Tank"
 	desc = "A larger fuel tank which allows fighters to stay in combat for much longer"
+	icon_state = "fueltank_tier2"
 	fuel_capacity = 2500
 	tier = 2
 
 /obj/item/fighter_component/fuel_tank/tier3
 	name = "Massive Fighter Fuel Tank"
 	desc = "A super extended capacity fuel tank, allowing fighters to stay in a warzone for hours on end."
+	icon_state = "fueltank_tier3"
 	fuel_capacity = 4000
 	tier = 3
 
 /obj/item/fighter_component/engine
 	name = "Fighter engine"
 	desc = "A mighty engine capable of propelling small spacecraft to high speeds."
-	icon_state = "engine"
+	icon_state = "engine_tier1"
 	slot = HARDPOINT_SLOT_ENGINE
 	active = FALSE
 	var/rpm = 0
@@ -1089,11 +1122,13 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/engine/tier2
 	name = "Souped up fighter engine"
 	desc = "Born to zoom, forced to oom"
+	icon_state = "engine_tier2"
 	tier = 2
 
 /obj/item/fighter_component/engine/tier3
 	name = "Boringheed Marty V12 Super Giga Turbofan Space Engine"
 	desc = "An engine which allows a fighter to exceed the legal speed limit in most jurisdictions."
+	icon_state = "engine_tier3"
 	tier = 3
 
 /obj/item/fighter_component/engine/on_install(obj/structure/overmap/fighter/target)
@@ -1121,7 +1156,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/oxygenator
 	name = "Atmospheric Regulator"
 	desc = "A device which moderates the conditions inside a fighter, it requires fuel to run."
-	icon_state = "oxygenator"
+	icon_state = "oxygenator_tier1"
 	var/refill_amount = 1 //Starts off really terrible.
 	slot = HARDPOINT_SLOT_OXYGENATOR
 	weight = 0.5 //Wanna go REALLY FAST? Pack your own O2.
@@ -1129,6 +1164,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 
 /obj/item/fighter_component/oxygenator/tier2
 	name = "Upgraded Atmospheric Regulator"
+	icon_state = "oxygenator_tier2"
 	tier = 2
 	refill_amount = 3
 	power_usage = 300
@@ -1136,6 +1172,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/oxygenator/tier3
 	name = "Super Oxygenator"
 	desc = "A finely tuned atmospheric regulator to be fitted into a fighter which seems to be able to almost magically create oxygen out of nowhere."
+	icon_state = "oxygenator_tier3"
 	tier = 3
 	refill_amount = 10
 	power_usage = 400
@@ -1177,28 +1214,27 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/avionics
 	name = "Fighter Avionics"
 	desc = "Avionics for a fighter"
-	icon = 'nsv13/icons/obj/fighter_components.dmi'
 	icon_state = "avionics"
 	tier = null
 
 /obj/item/fighter_component/apu
 	name = "Fighter Auxiliary Power Unit"
 	desc = "An Auxiliary Power Unit for a fighter"
-	icon = 'nsv13/icons/obj/fighter_components.dmi'
-	icon_state = "apu"
+	icon_state = "apu_tier1"
 	slot = HARDPOINT_SLOT_APU
-	tier = 1
 	active = FALSE
 	var/fuel_line = FALSE
 	var/next_process = 0
 
 /obj/item/fighter_component/apu/tier2
 	name = "Upgraded fighter APU"
+	icon_state = "apu_tier2"
 	tier = 2
 
 /obj/item/fighter_component/apu/tier3
 	name = "Super fighter APU"
 	desc = "A small engine capable of rapidly starting a fighter."
+	icon_state = "apu_tier3"
 	tier = 3
 
 /obj/item/fighter_component/apu/proc/toggle_fuel_line()
@@ -1226,8 +1262,10 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/countermeasure_dispenser
 	name = "Fighter Countermeasure Dispenser"
 	desc = "A device which allows a fighter to deploy countermeasures."
-	icon = 'nsv13/icons/obj/fighter_components.dmi'
-	icon_state = "countermeasure"
+	icon_state = "countermeasure_tier1"
+	slot = HARDPOINT_SLOT_COUNTERMEASURE
+	var/max_charges = 3
+	var/charges = 3
 
 /obj/item/fighter_component/docking_computer
 	name = "Docking Computer"
@@ -1245,7 +1283,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary
 	name = "Fuck you"
 	slot = HARDPOINT_SLOT_PRIMARY
-	fire_mode = FIRE_MODE_PDC
+	fire_mode = FIRE_MODE_ANTI_AIR
 	var/overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	var/overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 	var/accepted_ammo = /obj/item/ammo_box/magazine
@@ -1270,13 +1308,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 //Ensure we get the genericised equipment mounts.
 /obj/structure/overmap/fighter/apply_weapons()
-	if(!weapon_types[FIRE_MODE_PDC])
-		weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/fighter_primary(src)
+	if(!weapon_types[FIRE_MODE_ANTI_AIR])
+		weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/fighter_primary(src)
 	if(!weapon_types[FIRE_MODE_TORPEDO])
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/fighter_secondary(src)
 
 /obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target, ai_aim = FALSE)
-	hardpoint_fire(target, FIRE_MODE_PDC)
+	hardpoint_fire(target, FIRE_MODE_ANTI_AIR)
 
 /obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, fireMode)
 	if(istype(src, /obj/structure/overmap/fighter))
@@ -1341,14 +1379,14 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary/cannon
 	name = "20mm Vulcan Cannon"
 	icon_state = "lightcannon"
-	accepted_ammo = /obj/item/ammo_box/magazine/light_cannon
+	accepted_ammo = /obj/item/ammo_box/magazine/nsv/light_cannon
 	burst_size = 2
 	fire_delay = 0.25 SECONDS
 
 /obj/item/fighter_component/primary/cannon/heavy
 	name = "30mm BRRRRTT Cannon"
 	icon_state = "heavycannon"
-	accepted_ammo = /obj/item/ammo_box/magazine/heavy_cannon
+	accepted_ammo = /obj/item/ammo_box/magazine/nsv/heavy_cannon
 	weight = 2 //Sloooow down there.
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg')
@@ -1403,15 +1441,17 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/secondary/ordnance_launcher
 	name = "Fighter Missile Rack"
 	desc = "A huge fighter missile rack capable of deploying missile based weaponry."
-	icon_state = "missilerack"
+	icon_state = "missilerack_tier1"
 
 /obj/item/fighter_component/secondary/ordnance_launcher/tier2
 	name = "Upgraded Fighter Missile Rack"
+	icon_state = "missilerack_tier2"
 	tier = 2
 	max_ammo = 5
 
 /obj/item/fighter_component/secondary/ordnance_launcher/tier3
 	name = "A-11 'Spacehog' Cluster-Freedom Launcher"
+	icon_state = "missilerack_tier3"
 	tier = 3
 	max_ammo = 15
 	weight = 1
@@ -1441,11 +1481,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 /obj/item/fighter_component/secondary/ordnance_launcher/torpedo/tier2
 	name = "Enhanced Torpedo Launcher"
+	icon_state = "torpedorack_tier2"
 	tier = 2
 	max_ammo = 4
 
 /obj/item/fighter_component/secondary/ordnance_launcher/torpedo/tier3
 	name = "FR33-8IRD Torpedo Launcher"
+	icon_state = "torpedorack_tier3"
 	desc = "A massive torpedo launcher capable of deploying enough ordnance to level several small, oil-rich nations."
 	tier = 3
 	max_ammo = 10
@@ -1496,18 +1538,20 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary/utility/hold
 	name = "Cargo Hold"
 	desc = "A cramped cargo hold for hauling light freight."
-	icon_state = "hold"
+	icon_state = "hold_tier1"
 	var/max_w_class = WEIGHT_CLASS_GIGANTIC
 	var/max_freight = 5
 
 /obj/item/fighter_component/primary/utility/hold/tier2
 	name = "Expanded Cargo Hold"
+	icon_state = "hold_tier2"
 	tier = 2
 	max_freight = 10
 
 /obj/item/fighter_component/primary/utility/hold/tier3
 	name = "S0CC3RMUM Jumbo Sized Cargo Hold"
 	desc ="Now with extra space for seating unlucky friends in the boot!"
+	icon_state = "hold_tier3"
 	tier = 3
 	max_freight = 20
 
@@ -1523,7 +1567,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary/utility/repairer
 	name = "Air-to-air Repair Kit"
 	desc = "A module which can use hull repair foam to repair other fighters in the air."
-	icon_state = "repairer"
+	icon_state = "repairer_tier1"
 	accepted_ammo = /obj/structure/reagent_dispensers/foamtank/hull_repair_juice
 	power_usage = 50
 	fire_delay = 5 SECONDS
@@ -1538,11 +1582,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 /obj/item/fighter_component/primary/utility/repairer/tier2
 	name = "Upgraded Air To Air Repair Kit"
+	icon_state = "repairer_tier2"
 	tier = 2
 	fire_delay = 4 SECONDS
 
 /obj/item/fighter_component/primary/utility/repairer/tier3
 	name = "Super Air To Air Repair Kit"
+	icon_state = "repairer_tier3"
 	tier = 3
 	fire_delay = 3 SECONDS
 
@@ -1595,7 +1641,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/secondary/utility/resupply
 	name = "Air to Air Resupply Kit"
 	desc = "A large hose line which can allow a utility craft to perform air to air refuelling and resupply, without needing to RTB!"
-	icon_state = "resupply"
+	icon_state = "resupply_tier1"
 	overmap_firing_sounds = list(
 		'nsv13/sound/effects/fighters/refuel.ogg')
 	fire_delay = 6 SECONDS
@@ -1616,11 +1662,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 /obj/item/fighter_component/secondary/utility/resupply/tier2
 	name = "Upgraded Air To Air Resupply Kit"
+	icon_state = "resupply_tier2"
 	fire_delay = 5 SECONDS
 	tier = 2
 
 /obj/item/fighter_component/secondary/utility/resupply/tier3
 	name = "Super Air To Air Resupply Kit"
+	icon_state = "resupply_tier3"
 	fire_delay = 3 SECONDS
 	tier = 3
 

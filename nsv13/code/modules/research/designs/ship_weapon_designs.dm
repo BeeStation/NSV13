@@ -21,37 +21,38 @@
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 //50 Cal flavored PDC turrets
-/datum/design/board/fiftycal
-	name = "Machine Design (PDC turret)"
-	desc = "Allows for the construction of a crew served, PDC turret."
-	id = "fiftycal"
+/datum/design/board/anti_air
+	name = "Machine Design (AA turret)"
+	desc = "Allows for the construction of a crew served anti-air turret."
+	id = "antiair"
 	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
-	build_path = /obj/item/circuitboard/machine/fiftycal
+	build_path = /obj/item/circuitboard/machine/anti_air
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
-/datum/design/board/fiftycal/super
-	name = "Machine Design (RPDC turret)"
-	desc = "Allows for the construction of a crew served, RPDC turret."
-	id = "fiftycal_super"
+/datum/design/board/anti_air/heavy
+	name = "Machine Design (HAA turret)"
+	desc = "Allows for the construction of a crew served, HAA turret."
+	id = "antiair_heavy"
 	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
-	build_path = /obj/item/circuitboard/machine/fiftycal/super
+	build_path = /obj/item/circuitboard/machine/anti_air/heavy
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
-/datum/design/board/fiftycalcomp
-	name = "Computer Design (PDC turret control console)"
-	desc = "Allows for the construction of a control console for PDC deck guns."
-	id = "fiftycalcomp"
+/datum/design/board/antiaircomp
+	name = "Computer Design (Anti-air turret control console)"
+	desc = "Allows for the construction of a control console for anti-air guns."
+	id = "antiaircomp"
 	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
-	build_path = /obj/item/circuitboard/computer/fiftycal
+	build_path = /obj/item/circuitboard/computer/anti_air
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 //Naval artillery
+/*
 /datum/design/board/naval_artillery
 	name = "Machine Design (Deck Gun Frame)"
 	desc = "Allows for the construction of a naval artillery gun frame."
@@ -61,7 +62,8 @@
 	build_path = /obj/structure/ship_weapon/mac_assembly/artillery_frame
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
-
+*/
+/*don't need this no more
 /datum/design/naval_artillery_triple
 	name = "Machine Design (Triple Deck Gun Frame)"
 	desc = "Allows for the construction of a triple barreled naval cannon frame."
@@ -71,6 +73,7 @@
 	category = list("Advanced Munitions")
 	build_type = PROTOLATHE | AUTOLATHE
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+*/
 
 /datum/design/board/naval_artillery_comp
 	name = "Machine Design (Deck Gun Computer)"
@@ -172,5 +175,28 @@
 	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
 	build_path = /obj/item/circuitboard/machine/gauss_dispenser
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+//Hybrid Railgun
+/datum/design/slug_cold_iron
+	name = "M4 NTRS 400mm teflon coated tungsten round"
+	desc = "A standard railgun slug."
+	id = "slug_cold_iron"
+	build_type = PROTOLATHE | AUTOLATHE
+	materials = list(/datum/material/iron = 2000, /datum/material/plasma = 750)
+	construction_time=10
+	build_path = /obj/item/ship_weapon/ammunition/railgun_ammo
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/slug_uranium
+	name = "U4 NTRK 400mm teflon coated uranium round"
+	desc = "A heavy railgun slug."
+	id = "slug_uranium"
+	build_type = PROTOLATHE | AUTOLATHE
+	materials = list(/datum/material/iron = 1500, /datum/material/plasma = 750, /datum/material/uranium = 500)
+	construction_time=10
+	build_path = /obj/item/ship_weapon/ammunition/railgun_ammo/uranium
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS

@@ -4,15 +4,6 @@
 
 //The big mac. Coaxial railguns fired by the pilot.
 
-/datum/ship_weapon
-	var/firing_arc = null //If this weapon only fires in an arc (for ai ships)
-	var/weapon_class = WEAPON_CLASS_HEAVY //Do AIs need to resupply with ammo to use this weapon?
-
-/datum/ship_weapon/proc/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
-	if(!istype(source) || !istype(target))
-		return FALSE
-	return TRUE
-
 /datum/ship_weapon/mac
 	name = "Naval Artillery"
 	default_projectile_type = /obj/item/projectile/bullet/mac_round
@@ -21,9 +12,10 @@
 	range_modifier = 50
 	select_alert = "<span class='notice'>Naval artillery primed.</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Naval artillery systems are not loaded.</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/battleship_gun.ogg')
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/battleship_gun2.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_ready.ogg'
 	screen_shake = 2
+	ai_fire_delay = 2 SECONDS
 
 /datum/ship_weapon/mac/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
@@ -31,6 +23,12 @@
 	if(!override_mass_check && target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
 		return FALSE
 	return TRUE
+
+//A different MAC.. This one's a warcrime.
+
+/datum/ship_weapon/mac/dirty
+	name = "Dirty Naval Artillery"
+	default_projectile_type = /obj/item/projectile/bullet/mac_round/dirty
 
 //Coaxial railguns
 
@@ -48,13 +46,32 @@
 	selectable = FALSE
 	lateral = FALSE
 	firing_arc = 45 //Broad side of a barn...
+	ai_fire_delay = 5 SECONDS
+
+/datum/ship_weapon/railgun/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
+	if(!istype(source) || !istype(target))
+		return FALSE
+	if(!override_mass_check && target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
+		return FALSE
+	return TRUE
+
+/datum/ship_weapon/hybrid_railgun //Railgun+
+	name = "Coaxial Railguns"
+	default_projectile_type = /obj/item/projectile/bullet/ //This is ultra dodgy
+	burst_size = 1
+	fire_delay = 1 SECONDS
+	range_modifier = 50
+	select_alert = "<span class='notice'>Charging railgun hardpoints...</span>"
+	failure_alert = "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded or charged.</span>"
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/mac_fire.ogg')
+	overmap_select_sound = 'nsv13/sound/effects/ship/mac_charge.ogg'
 
 //Deprecated by AMS. Still kept around for AI ships
 /datum/ship_weapon/torpedo_launcher
 	name = "Torpedo tubes"
 	default_projectile_type = /obj/item/projectile/guided_munition/torpedo
 	burst_size = 1
-	fire_delay = 5
+	fire_delay = 0.5 SECONDS
 	range_modifier = 30
 	select_alert = "<span class='notice'>Torpedo target acquisition systems: online.</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>"
@@ -65,41 +82,45 @@
 		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
+	special_fire_proc = /obj/structure/overmap/proc/fire_torpedo
+	lateral = FALSE
+	ai_fire_delay = 2 SECONDS
 
 /datum/ship_weapon/torpedo_launcher/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
 		return FALSE
-	if(!override_mass_check && target.mass <= MASS_SMALL)
+	if(!override_mass_check && target.mass < MASS_SMALL)	//The Atlas wants fun too :)
 		return FALSE
 	if(!source.torpedoes)
 		return FALSE
 	return TRUE
 
-/datum/ship_weapon/pdc_mount
-	name = "Point defense batteries"
-	default_projectile_type = /obj/item/projectile/bullet/pdc_round/heavy
-	burst_size = 2
-	fire_delay = 0.25 SECONDS
-	range_modifier = 5
-	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
-	overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
-	select_alert = "<span class='notice'>Activating point defense emplacements..</span>"
-	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
-	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
-
-/datum/ship_weapon/pdc_mount/aa_guns
+/datum/ship_weapon/aa_guns
 	name = "Anti air guns"
-	default_projectile_type = /obj/item/projectile/bullet/pdc_round
+	default_projectile_type = /obj/item/projectile/bullet/aa_round
 	burst_size = 4
-	fire_delay = 10 SECONDS
+	fire_delay = 0.6 SECONDS
 	range_modifier = 10
+	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/weapons/pdc_single.ogg')
 	select_alert = "<span class='notice'>Activating anti-air guns..</span>"
 	failure_alert = "<span class='warning'>DANGER: Anti-air guns are unable to fire due to lack of ammunition.</span>"
+	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
+	miss_chance = 33
+	max_miss_distance = 6
+	ai_fire_delay = 1 SECONDS
+
+/datum/ship_weapon/aa_guns/heavy
+	name = "Point defense batteries"
+	default_projectile_type = /obj/item/projectile/bullet/aa_round/heavy
+	burst_size = 2
+	fire_delay = 0.25 SECONDS
+	range_modifier = 5
+	overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 
 //Energy Weapons
 
-/datum/ship_weapon/pdc_mount/burst_phaser
+/datum/ship_weapon/burst_phaser // Little red laser
 	name = "Burst Phasers"
 	default_projectile_type = /obj/item/projectile/beam/laser/phaser
 	burst_size = 1
@@ -111,19 +132,30 @@
 	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 	lateral = FALSE
-	firing_arc = 60 //Relatively generous, but coax.
+	miss_chance = 33
+	max_miss_distance = 6
+	ai_fire_delay = 0.5 SECONDS
 
-/datum/ship_weapon/phaser
+/datum/ship_weapon/phaser // Big blue laser
 	name = "Phaser Banks"
 	default_projectile_type = /obj/item/projectile/beam/laser/heavylaser/phaser
 	burst_size = 1
 	fire_delay = 1.5 SECONDS
 	range_modifier = 60
+	weapon_class = WEAPON_CLASS_LIGHT
 	select_alert = "<span class='notice'>Phaser banks standing by...</span>"
 	failure_alert = "<span class='warning'>Unable to comply. Phaser banks recharging.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/phaser.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg' //Sound effect provided by: "All Sounds" https://www.youtube.com/watch?v=EpaCJ75T3fo under creative commons. Trimmed by Kmc2000
 	screen_shake = 1
+	ai_fire_delay = 3 SECONDS
+
+/datum/ship_weapon/phaser/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
+	if(!istype(source) || !istype(target))
+		return FALSE
+	if(!override_mass_check && target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
+		return FALSE
+	return TRUE
 
 /datum/ship_weapon/bsa
 	name = "Bluespace Artillery"
@@ -141,13 +173,19 @@
 	lateral = FALSE
 	firing_arc = 45 //Yeah have fun turning the galactica to shoot this thing :)
 
+/datum/ship_weapon/bsa/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
+	if(!istype(source) || !istype(target))
+		return FALSE
+	if(!override_mass_check && target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
+		return FALSE
+	return TRUE
 //End Energy Weapons
 
 /datum/ship_weapon/missile_launcher
 	name = "Missile Launchers"
 	default_projectile_type = /obj/item/projectile/guided_munition/missile
 	burst_size = 1
-	fire_delay = 5
+	fire_delay = 0.5 SECONDS
 	range_modifier = 30
 	select_alert = "<span class='notice'>Missile target acquisition systems: online.</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Missile racks are not loaded.</span>"
@@ -159,6 +197,9 @@
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	firing_arc = 45 //Broad side of a barn...
+	special_fire_proc = /obj/structure/overmap/proc/fire_missile
+	lateral = FALSE
+	ai_fire_delay = 1 SECONDS
 
 /datum/ship_weapon/missile_launcher/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
@@ -210,7 +251,7 @@
 	name = "Secondary Equipment Mount"
 	default_projectile_type = /obj/item/projectile/guided_munition/missile //This is overridden anyway
 	burst_size = 1
-	fire_delay = 5
+	fire_delay = 0.5 SECONDS
 	range_modifier = 30
 	select_alert = "<span class='notice'>Secondary mount selected.</span>"
 	failure_alert = "<span class='warning'>DANGER: Secondary mount not responding to fire command.</span>"
@@ -223,6 +264,7 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	firing_arc = 45 //Broad side of a barn...
 	special_fire_proc = /obj/structure/overmap/proc/secondary_fire
+	ai_fire_delay = 1 SECONDS
 
 //You don't ever actually select this. Crew act as gunners.
 
@@ -238,25 +280,30 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	selectable = FALSE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
+	miss_chance = 20
+	ai_fire_delay = 2 SECONDS
 
-/datum/ship_weapon/fiftycal // .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets
+/datum/ship_weapon/pdc_mount // .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets
 	name = "PDC"
-	default_projectile_type = /obj/item/projectile/bullet/fiftycal
+	default_projectile_type = /obj/item/projectile/bullet/pdc_round
 	burst_size = 3
-	fire_delay = 0.15 SECONDS
+	fire_delay = 0.25 SECONDS
 	range_modifier = 10
 	select_alert = "<span class='notice'>Activating point defense system...</span>"
 	failure_alert = "<span class='warning'>DANGER: point defense system not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
-	selectable = FALSE
+	selectable = TRUE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
+	miss_chance = 33
+	max_miss_distance = 6
+	ai_fire_delay = 0.5 SECONDS
 
 /datum/ship_weapon/flak
 	name = "Flak cannon"
 	default_projectile_type = /obj/item/projectile/bullet/flak
 	burst_size = 1
-	fire_delay = 0
+	fire_delay = 0.5 SECONDS
 	range_modifier = 1
 	overmap_select_sound = 'nsv13/sound/effects/ship/freespace2/computer/escape.wav'
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/flak/flakhit1.ogg','nsv13/sound/effects/ship/flak/flakhit2.ogg','nsv13/sound/effects/ship/flak/flakhit3.ogg')
@@ -265,3 +312,6 @@
 //	special_fire_proc = /obj/structure/overmap/proc/fire_flak
 	selectable = FALSE
 	lateral = TRUE
+	miss_chance = 33
+	max_miss_distance = 8
+	ai_fire_delay = 0.5 SECONDS

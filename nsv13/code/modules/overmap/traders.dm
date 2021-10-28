@@ -59,7 +59,7 @@
 /datum/trader_item/proc/on_purchase(obj/structure/overmap/OM)
 	OM.send_supplypod(unlock_path)
 
-/obj/structure/overmap/proc/send_supplypod(unlock_path)
+/obj/structure/overmap/proc/send_supplypod(unlock_path, var/obj/structure/overmap/courier, isInitialized)
 	RETURN_TYPE(/atom/movable)
 	var/area/landingzone = null
 	var/obj/structure/overmap/OM = src
@@ -93,10 +93,21 @@
 		LZ = get_turf(dradis.beacon)
 	if(!LZ)
 		LZ = pick(landingzone.contents) //If we couldn't find an open floor, just throw it somewhere
-	var/obj/structure/closet/supplypod/centcompod/toLaunch = new /obj/structure/closet/supplypod/centcompod
+	
+	// Knowing who the deliveryman is tells us what kind of pod to send 
+	var/obj/structure/closet/supplypod/toLaunch
+	if ( courier ) 
+		toLaunch = new courier.supply_pod_type()
+	else 
+		toLaunch = new /obj/structure/closet/supplypod/centcompod()
+
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
-	var/atom/movable/theItem = new unlock_path
+	var/atom/movable/theItem
+	if ( isInitialized ) 
+		theItem = unlock_path 
+	else 
+		theItem = new unlock_path
 	theItem.forceMove(toLaunch)
 	new /obj/effect/pod_landingzone(LZ, toLaunch)
 	return theItem
@@ -117,7 +128,7 @@
 	faction_type = FACTION_ID_NT
 	system_type = "nanotrasen"
 	image = "https://cdn.discordapp.com/attachments/701841640897380434/764557336684527637/unknown.png"
-	sold_items = list(/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/railgun, /datum/trader_item/c45, /datum/trader_item/pdc)
+	sold_items = list(/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/c45, /datum/trader_item/pdc, /datum/trader_item/deck_gun_autorepair)
 
 /datum/trader/armsdealer/syndicate
 	name = "DonkCo Warcrime Emporium"
@@ -126,7 +137,8 @@
 	faction_type = FACTION_ID_SYNDICATE
 	system_type = "syndicate"
 	//Top tier trader with the best items available.
-	sold_items = list(/datum/trader_item/nuke,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/railgun, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, /datum/trader_item/pdc, /datum/trader_item/flak, /datum/trader_item/fighter/syndicate, /datum/trader_item/overmap_shields)
+	sold_items = list(/datum/trader_item/nuke,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, \
+		/datum/trader_item/pdc, /datum/trader_item/fighter/syndicate, /datum/trader_item/overmap_shields, /datum/trader_item/deck_gun_autoelevator)
 	station_type = /obj/structure/overmap/trader/syndicate
 	image = "https://cdn.discordapp.com/attachments/728055734159540244/764570187357093928/unknown.png"
 	greetings = list("You've made it pretty far in, huh? We won't tell if you're buying...", "Freedom isn't free, buy a gun to secure yours.", "Excercise your right to bear arms now!")

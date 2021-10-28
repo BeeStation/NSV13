@@ -325,6 +325,13 @@
 	if ((ai.z != target.z) && !is_station_level(ai.z))
 		return FALSE
 
+	//NSV13 - don't let AI control hostile ship equipment
+	var/obj/structure/overmap/otherOM = A.get_overmap()
+	var/obj/structure/overmap/aiOM = get_overmap()
+	if(!otherOM || !aiOM || otherOM.faction != aiOM.faction)
+		return FALSE
+	//end NSV13
+
 	if (istype(loc, /obj/item/aicard))
 		if (!ai || !target)
 			return FALSE
@@ -660,10 +667,7 @@
 	for (var/obj/machinery/camera/C in GLOB.cameranet.cameras)
 		var/list/tempnetwork = C.network
 		//Nsv13 - AIs need to see the Rocinante.
-		//if(!(is_station_level(C.z) || is_mining_level(C.z) || ("ss13" in tempnetwork)))
-		//	continue
-		//Nsv13 end.
-		if(!SHARES_OVERMAP_ALLIED(C, src) || ("ss13" in tempnetwork))
+		if(!(SHARES_OVERMAP_ALLIED(C, src) || ("ss13" in tempnetwork)))
 			continue
 		if(!C.can_use())
 			continue

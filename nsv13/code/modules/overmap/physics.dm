@@ -389,7 +389,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		last_fired.transform = mat_to
 	*/ //We don't use these overlays for now, but we may wish to later.
 
-	for(var/mob/living/M in operators)
+	for(var/mob/living/M as() in operators)
 		var/client/C = M.client
 		if(!C)
 			continue
@@ -563,11 +563,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		log_combat(pilot, M, "impacted", src, "with velocity of [bump_velocity]")
 	return ..()
 
-/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE, ai_aim = FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
+/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE, ai_aim = FALSE, miss_chance=5, max_miss_distance=5) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
 	var/turf/T = get_center()
 	var/obj/item/projectile/proj = new proj_type(T)
 	if(ai_aim && !homing)
-		target = calculate_intercept(target, proj)
+		target = calculate_intercept(target, proj, miss_chance=miss_chance, max_miss_distance=max_miss_distance)
 	proj.starting = T
 	proj.firer = (!user_override && gunner) ? gunner : user_override
 	proj.def_zone = "chest"
@@ -578,7 +578,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	proj.faction = faction
 	if(physics2d && physics2d.collider2d)
 		proj.setup_collider()
-	if(homing)
+	if(homing && !isturf(target))	//Lets not have projectiles home in on some random tile someone clicked on to launch
 		proj.set_homing_target(target)
 	if(gunner)
 		proj.firer = gunner
@@ -599,7 +599,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 //Jank as hell. This needs to happen to properly set the visual offset :/
 /obj/item/projectile/proc/preparePixelProjectileOvermap(obj/structure/overmap/target, obj/structure/overmap/source, params, spread = 0, lateral=TRUE)
 	var/turf/curloc = source.get_center()
-	var/turf/targloc = (istype(target, /obj/structure/overmap)) ? target.get_center() : get_turf(target)
+	var/turf/targloc = istype(target, /obj/structure/overmap) ? target.get_center() : get_turf(target)
 	trajectory_ignore_forcemove = TRUE
 	forceMove(curloc)
 	trajectory_ignore_forcemove = FALSE

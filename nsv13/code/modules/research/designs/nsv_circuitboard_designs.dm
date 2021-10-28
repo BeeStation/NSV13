@@ -38,6 +38,25 @@
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
+//DRADIS Console
+/datum/design/board/dradis_console
+	name = "Computer Design (DRADIS console)"
+	desc = "Allows for the construction of a DRADIS console."
+	id = "dradis_console"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/diamond = 1000)
+	build_path = /obj/item/circuitboard/computer/ship/dradis
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
+
+/datum/design/board/cargo_dradis_console
+	name = "Computer Design (Cargo Delivery console)"
+	desc = "Allows for the construction of a cargo delivery console."
+	id = "cargo_dradis_console"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/diamond = 1000)
+	build_path = /obj/item/circuitboard/computer/ship/dradis/cargo
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
+
 //Helm console
 /datum/design/board/helm_circuit
 	name = "Computer Design (Helm Computer)"

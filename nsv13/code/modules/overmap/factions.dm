@@ -59,14 +59,15 @@ Set up relationships.
 	for(var/datum/faction/F in relationships)
 		if(relationships[F] <= RELATIONSHIP_ENEMIES)
 			F.gain_influence(value)
-	SSstar_system.check_completion()
+	//SSstar_system.check_completion()
 
 /datum/faction/proc/gain_influence(value)
 	tickets += value
-	SSstar_system.check_completion()
+	//SSstar_system.check_completion()
 
 /datum/faction/proc/send_fleet(datum/star_system/override=null, custom_difficulty=null, force=FALSE)
-	if(SSstar_system.check_completion() || !fleet_types || !force && (world.time < next_fleet_spawn))
+	 //if(SSstar_system.check_completion() || !fleet_types || !force && (world.time < next_fleet_spawn)) - Why are we checking completion this here?
+	if(!fleet_types || !force && (world.time < next_fleet_spawn))
 		return
 	next_fleet_spawn = world.time + fleet_spawn_rate
 	var/datum/star_system/current_system //Dont spawn enemies where theyre currently at
@@ -99,6 +100,11 @@ Set up relationships.
 	if(custom_difficulty)
 		F.size = custom_difficulty
 	F.assemble(starsys)
+	if(!F.hide_movements && !starsys.hidden)
+		if(F.alignment == "nanotrasen")
+			mini_announce("A White Rapids fleet has been assigned to [current_system]", "White Rapids Fleet Command")
+		else
+			mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	F.faction = src
 	if(!force && id == FACTION_ID_SYNDICATE && !SSstar_system.neutral_zone_systems.Find(F.current_system))	//If it isn't forced, it got spawned by the midround processing. If we didn't already spawn in the neutral zone, we head to a random system there and occupy it.
 		var/list/possible_occupation_targets = list()
@@ -155,8 +161,8 @@ Set up relationships.
 		if(SS.name == "Outpost 45")
 			SS.hidden = FALSE
 	tickets = 0
-	SSstar_system.nag_stacks = 0
-	SSstar_system.next_nag_time = world.time + 10 HOURS
+	SSovermap_mode.objective_reminder_stacks = 0
+	SSovermap_mode.next_objective_reminder = world.time + 10 HOURS
 
 /datum/faction/pirate
 	name = "Tortuga Raiders"

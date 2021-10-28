@@ -292,6 +292,7 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 		var/turf/T = I
 		for(var/obj/machinery/door/firedoor/FD in T)
 			FD.CalculateAffectingAreas()
+		CHECK_TICK //NSV13 - midround mapload support
 
 	queue_smooth_neighbors(src)
 
