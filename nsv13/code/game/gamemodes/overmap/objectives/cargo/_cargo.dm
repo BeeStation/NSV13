@@ -29,14 +29,17 @@
 	// Cargo objectives handle the station's requisitioned item in a special datum so we can control how to check contents  
 	// Reminder! Freight torpedoes can only hold 4 slots worth of items! This means cargo objectives should not be requiring more than 4 prepackaged item types 
 	var/list/freight_types = list()
-	var/last_check_cargo_items_requested = null
-	var/last_check_cargo_items_all = null
+	var/last_check_cargo_items_requested = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station approved for cargo objectives 
+	var/last_check_cargo_items_all = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station rejected for cargo objectives. Leftover items in this list means the station found garbage not related to the current objective 
+	var/delivered_packages = FALSE
 
 /datum/overmap_objective/cargo/instance() 
 	get_target()
 	pick_station()
 	update_brief()
-	deliver_package()
+	if ( !delivered_packages )
+		deliver_package()
+		delivered_packages = TRUE 
 
 /datum/overmap_objective/cargo/proc/get_target()
 	if ( length( freight_types ) )
