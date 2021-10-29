@@ -1,3 +1,4 @@
+// This file is now deprecated by overmap gamemode cargo objectives 
 
 // Trackers for when player ships arrive/leave a system
 /datum/component/nsv_mission_arrival_in_system/Initialize()

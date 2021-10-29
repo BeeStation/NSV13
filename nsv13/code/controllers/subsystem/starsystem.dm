@@ -319,7 +319,7 @@ Returns a faction datum by its name (case insensitive!)
 		station13.starting_system = name
 		station13.current_system = src
 		station13.set_trader(trader)
-		trader.generate_missions()
+		// trader.generate_missions()
 	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_NO_ANOMALIES))
 		addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_NO_ASTEROIDS))
@@ -482,11 +482,11 @@ Returns a faction datum by its name (case insensitive!)
 	icon_state = "redgiant"
 	research_points = 4000 //Somewhat more interesting than a sun.
 
-/datum/star_system/proc/add_mission(datum/nsv_mission/mission)
-	if(!mission)
-		return FALSE
-	active_missions += mission
-	objective_sector = TRUE
+// /datum/star_system/proc/add_mission(datum/nsv_mission/mission)
+// 	if(!mission)
+// 		return FALSE
+// 	active_missions += mission
+// 	objective_sector = TRUE
 
 /datum/star_system/proc/apply_system_effects()
 	event_chance = 15 //Very low chance of an event happening
@@ -969,7 +969,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 			randystation.current_system = randy
 			randystation.set_trader(randytrader)
 			randy.trader = randytrader
-			randytrader.generate_missions()
+			// randytrader.generate_missions()
 
 		else if(prob(10))
 			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate/raiding, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)
