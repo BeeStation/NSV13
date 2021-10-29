@@ -132,7 +132,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/cargo/Initialize()
 	..()
-	var/obj/item/paper/paper = new /obj/item/book/manual/wiki/stormdrive(get_turf(src))
+	var/obj/item/paper/paper = new /obj/item/paper(get_turf(src))
 	paper.info = ""
 	paper.info += "<h2>How to perform deliveries with the Cargo DRADIS</h2>"
 	paper.info += "<hr/><br/>"
