@@ -22,8 +22,11 @@
 	anchored = FALSE
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF // Overmap ships represent massive craft that don't burn
 
-	var/deletion_behavior = 0
-	var/deletion_countdown_length = 0
+	//Handling for deleting ships with interiors, see nsv13/code/__DEFINES/overmap.dm
+	//Defaults are set for AI ships
+	var/block_deletion = FALSE // used to avoid killing objectives
+	var/deletion_behavior = DAMAGE_DELETES_UNOCCUPIED | DAMAGE_STARTS_COUNTDOWN
+	var/deletion_teleports_occupants = FALSE
 
 	var/sprite_size = 64 //Pixels. This represents 64x64 and allows for the bullets that you fire to align properly.
 	var/area_type = null //Set the type of the desired area you want a ship to link to, assuming it's not the main player ship.
@@ -425,6 +428,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	. = ..()
 
 /obj/structure/overmap/Destroy()
+	if(CHECK_BITFIELD(deletion_behavior, NEVER_DELETE_OCCUPIED) && has_occupents())
+		return QDEL_HINT_LETMELIVE
+
 	GLOB.poi_list -= src
 	if(current_system)
 		current_system.system_contents.Remove(src)
@@ -463,6 +469,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(npc_combat_dice)
 		qdel(npc_combat_dice)
 
+	if(deletion_teleports_occupants)
+		// Do something
 	kill_boarding_level()
 	return ..()
 

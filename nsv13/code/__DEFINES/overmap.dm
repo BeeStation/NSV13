@@ -90,8 +90,10 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 #define INTERIOR_DELETING 3
 #define INTERIOR_DELETED 4
 
-//Overmap deletion behavior
-// Occupants are defined as mobs connected to a player, and overmaps
-#define REMOVE_ON_DEPARTURE 			1 << 0 // When a fighter/dropship leaves the map level for the overmap level, look for remaining occupants. If none exist, delete.
-#define DESTROY_BLOCKED_BY_OCCUPANTS	1 << 1 // When the overmap takes enough damage to be destroyed, if there are occupants (including on the map), don't delete it.
-#define DESTROY_STARTS_COUNTDOWN		1 << 2 // When the overmap takes enough damage to be destroyed, announce a countdown after which it will be deleted. (Let them evac).
+//Overmap deletion behavior - Occupants are defined as mobs connected to a client.
+#define DAMAGE_ALWAYS_DELETES 		0 // Not a real bitflag, just here for readability. If no damage flags are set, damage will delete the overmap immediately regardless of anyone in it
+#define DAMAGE_STARTS_COUNTDOWN		1 << 0 // When the overmap takes enough damage to be destroyed, begin a countdown after which it will be deleted
+#define DAMAGE_DELETES_UNOCCUPIED	1 << 1 // When the overmap takes enough damage to be destroyed, if there are no occupants, delete it immediately. Modifies DAMAGE_STARTS_COUNTDOWN
+#define NEVER_DELETE_OCCUPIED		1 << 2 // Even if the overmap takes enough damage to be destroyed, never delete it if it's occupied. I don't know when we'd use this it just seems useful
+#define DELETE_UNOCCUPIED_ON_DEPARTURE 	1 << 3 // When a fighter/dropship leaves the map level for the overmap level, look for remaining occupants. If none exist, delete
+#define FIGHTERS_ARE_OCCUPANTS		1 << 4 // Docked overmaps count as occupants when deciding whether to delete something

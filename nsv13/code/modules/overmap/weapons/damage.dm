@@ -84,7 +84,8 @@ Bullet reactions
 	if(blocked)
 		return FALSE
 	SEND_SIGNAL(src, COMSIG_ATOM_DAMAGE_ACT, damage_amount) //Trigger to update our list of armour plates without making the server cry.
-	if(is_player_ship()) //Code for handling "superstructure crit" only applies to the player ship, nothing else.
+	var/skipcountdown = FALSE
+	if(CHECK_BITFIELD(deletion_behavior, DAMAGE_STARTS_COUNTDOWN) && !(CHECK_BITFIELD(deletion_behavior, DAMAGE_DELETES_UNOCCUPIED) && !has_occupants())) //Code for handling "superstructure crit" countdown
 		if(obj_integrity <= damage_amount || structure_crit) //Superstructure crit! They would explode otherwise, unable to withstand the hit.
 			obj_integrity = 10 //Automatically set them to 10 HP, so that the hit isn't totally ignored. Say if we have a nuke dealing 1800 DMG (the ship's full health) this stops them from not taking damage from it, as it's more DMG than we can handle.
 			handle_crit(damage_amount)
@@ -92,8 +93,10 @@ Bullet reactions
 	update_icon()
 	. = ..()
 
-/obj/structure/overmap/proc/is_player_ship() //Should this ship be considered a player ship? This doesnt count fighters because they need to actually die.
-	if(occupying_levels.len || role == MAIN_OVERMAP)
+/obj/structure/overmap/proc/has_occupants()
+	if(length(mobs_in_ship))
+		return TRUE
+	else if(CHECK_BITFIELD(deletion_behavior, FIGHTERS_ARE_OCCUPANTS) && length(overmaps_in_ship))
 		return TRUE
 	return FALSE
 
@@ -110,10 +113,12 @@ Bullet reactions
 	if(role == MAIN_OVERMAP)
 		var/name = pick(GLOB.teleportlocs) //Time to kill everyone
 		target = GLOB.teleportlocs[name]
-	else
+	else if(length(linked_areas))
 		target = pick(linked_areas)
-	var/turf/T = pick(get_area_turfs(target))
-	new /obj/effect/temp_visual/explosion_telegraph(T, damage_amount)
+
+	if(target)
+		var/turf/T = pick(get_area_turfs(target))
+		new /obj/effect/temp_visual/explosion_telegraph(T, damage_amount)
 
 /obj/structure/overmap/proc/handle_critical_failure_part_1()
 	var/ss_crit_timer = world.time - structure_crit_init
