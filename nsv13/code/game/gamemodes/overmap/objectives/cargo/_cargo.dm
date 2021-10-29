@@ -36,6 +36,7 @@
 	get_target()
 	pick_station()
 	update_brief()
+	deliver_package()
 
 /datum/overmap_objective/cargo/proc/get_target()
 	if ( length( freight_types ) )
