@@ -69,7 +69,7 @@
 		if(OM.role == MAIN_OVERMAP)
 			landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 
-		else
+		if ( !landingzone ) // Main overmap may or may not have a warehouse 
 			if(!OM.linked_areas.len)
 				OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
 				if(OM?.linked_areas && OM?.linked_areas.len)
