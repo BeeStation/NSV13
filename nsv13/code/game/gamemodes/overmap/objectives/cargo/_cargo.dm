@@ -55,9 +55,8 @@
 		var/datum/trader/T = trader
 		if ( T.faction_type == FACTION_ID_NT )
 			var/obj/structure/overmap/S = T.current_location
-			var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
 
-			if ( S?.current_system.name != MO?.starting_system ) // No transfer objectives to same-system stations on roundstart 
+			if ( S?.current_system.name != SSovermap_mode.mode.starting_system ) // No transfer objectives to same-system stations on roundstart 
 				ntstations += S 
 				
 				if ( length( S.expecting_cargo ) )
