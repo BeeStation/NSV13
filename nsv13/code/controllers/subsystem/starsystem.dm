@@ -3,11 +3,16 @@ GLOBAL_VAR_INIT(crew_transfer_risa, FALSE)
 #define FACTION_VICTORY_TICKETS 1000
 #define COMBAT_CYCLE_INTERVAL 180 SECONDS	//Time between each 'combat cycle' of starsystems. Every combat cycle, every system that has opposing fleets in it gets iterated through, with the fleets firing at eachother.
 
+#define THREAT_LEVEL_NONE 0
+#define THREAT_LEVEL_UNSAFE 2
+#define THREAT_LEVEL_DANGEROUS 4
+
 //Subsystem to control overmap events and the greater gameworld
 SUBSYSTEM_DEF(star_system)
 	name = "star_system"
 	wait = 10
-	flags = SS_NO_INIT
+	init_order = INIT_ORDER_STARSYSTEM
+	//flags = SS_NO_INIT
 	var/last_combat_enter = 0 //Last time an AI controlled ship attacked the players
 	var/list/systems = list()
 	var/list/traders = list()
@@ -29,6 +34,8 @@ SUBSYSTEM_DEF(star_system)
 
 	var/obj/structure/overmap/main_overmap = null //The main overmap
 	var/obj/structure/overmap/mining_ship = null //The mining ship
+	var/saving = FALSE
+	var/foo = 0
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(time_limit && world.time >= time_limit)
@@ -50,10 +57,9 @@ SUBSYSTEM_DEF(star_system)
 	for(var/datum/faction/F in factions)
 		F.send_fleet() //Try send a fleet out from each faction.
 
-
-/datum/controller/subsystem/star_system/New()
-	. = ..()
+/datum/controller/subsystem/star_system/Initialize(start_timeofday)
 	instantiate_systems()
+	. = ..()
 	enemy_types = subtypesof(/obj/structure/overmap/syndicate/ai)
 	for(var/type in enemy_blacklist)
 		enemy_types -= type
@@ -66,7 +72,6 @@ SUBSYSTEM_DEF(star_system)
 		if(S.sector != 2)	//Magic numbers bad I know, but there is no sector defines.
 			continue
 		neutral_zone_systems += S
-
 /**
 Returns a faction datum by its name (case insensitive!)
 */
@@ -86,17 +91,130 @@ Returns a faction datum by its name (case insensitive!)
 		if(F.id == id)
 			return F
 
-
 /datum/controller/subsystem/star_system/proc/add_blacklist(what)
 	enemy_blacklist += what
 	if(locate(what) in enemy_types)
 		enemy_types -= what
 
-/datum/controller/subsystem/star_system/proc/instantiate_systems()
+/datum/controller/subsystem/star_system/proc/instantiate_systems(_source_path = SSmapping.config.starmap_path)
+	message_admins("Loading starsystem from [_source_path]...")
+	var/list/_systems = list()
+	//Read the file in...
+	try
+	{
+		_systems = json_decode(rustg_file_read(file(_source_path)))
+	}
+
+	catch(var/exception/ex){
+		//Fallback: Load the hardcoded systems and report an error.
+		instantiate_systems_backup()
+		CRASH("FATAL: Unable to load starmap from: [_source_path]. (Defaulting...): [ex]")
+	}
+
+	for(var/i = 1; i <= _systems.len; i++)
+		//Try instancing this system from JSON, jump out if anything goes wrong.
+		var/list/sys_info = _systems[i]
+		try{
+			//Fields that must be present are accessed unsafely. The rest is fine if null.
+			var/datum/star_system/next = new /datum/star_system(
+				//Required props, you must fill these out, or it's an invalid map.
+				name = sys_info["name"],
+				desc = sys_info["desc"],
+				x = sys_info["x"],
+				y = sys_info["y"],
+				alignment = sys_info["alignment"],
+				hidden = sys_info["hidden"],
+				sector = sys_info["sector"],
+				adjacency_list = json_decode(sys_info["adjacency_list"]),
+				//Optional props. Recommended, but can be left blank.
+				threat_level = LAZYACCESS(sys_info, "threat_level") || THREAT_LEVEL_NONE,
+				is_capital = LAZYACCESS(sys_info, "is_capital") || FALSE,
+				fleet_type = LAZYACCESS(sys_info, "fleet_type") || null,
+				parallax_property = LAZYACCESS(sys_info, "parallax_property") || null,
+				visitable = LAZYACCESS(sys_info, "visitable") || TRUE,
+				is_hypergate = LAZYACCESS(sys_info,"is_hypergate") || FALSE,
+				preset_trader = LAZYACCESS(sys_info,"preset_trader") || null,
+				system_traits = LAZYACCESS(sys_info,"system_traits") || list(),
+				system_type = (LAZYACCESS(sys_info,"system_type") && sys_info["system_type"] != "null" && sys_info["system_type"] != null) ? json_decode(sys_info["system_type"]) : list(),
+				audio_cues = (LAZYACCESS(sys_info,"audio_cues") && sys_info["audio_cues"] != "null" && sys_info["audio_cues"] != null) ? json_decode(sys_info["audio_cues"]) : list(),
+				wormhole_connections = (LAZYACCESS(sys_info,"wormhole_connections") && sys_info["wormhole_connections"] != "null" && sys_info["wormhole_connections"] != null) ? json_decode(sys_info["wormhole_connections"]) : list(),
+				startup_proc = LAZYACCESS(sys_info,"startup_proc") || null
+				//Future implementation ideas: We can cache system_contents. I'm not dealing with that now though.
+			)
+			systems += next
+		}
+		catch(var/exception/e){
+			message_admins("WARNING: Invalid star system in json: [sys_info["name"]] ([e]). Skipping...")
+			continue
+		}
+	message_admins("Successfully loaded starmap layout from [_source_path]")
+
+
+/datum/controller/subsystem/star_system/proc/instantiate_systems_backup()
 	for(var/instance in subtypesof(/datum/star_system))
 		var/datum/star_system/S = new instance
 		if(S.name)
 			systems += S
+	if(saving)
+		return
+	saving = TRUE
+	save()
+	saving = FALSE
+/**
+<summary>Save the current starmap layout to a json file. Used for persistence.</summary>
+<param></param>
+*/
+
+/datum/controller/subsystem/star_system/proc/save(_destination_path = "config/starmap/starmap_default.json")
+	message_admins("Saving current starsystem layout...")
+	var/json_file = null
+	//Read the file in...
+	try
+		json_file = file(_destination_path)
+	catch(var/exception/ex)
+		message_admins("WARNING: Unable to open [_destination_path]: [ex]")
+		return 1
+	var/list/file_data = list()
+	for(var/datum/star_system/S in systems)
+		if(S == null || istype(S, /datum/star_system/random))
+			continue
+		var/list/entry = list(
+			//Fluff.
+			"name"=S.name,
+			"desc"=S.desc,
+			"threat_level"=S.threat_level,
+			//General system props
+			"alignment" = S.alignment,
+			"hidden"=S.hidden,
+			"system_type" = json_encode(S.system_type),
+			"system_traits"=S.system_traits,
+			"is_capital"=S.is_capital,
+			"adjacency_list"=json_encode(S.adjacency_list),
+			"wormhole_connections"=json_encode(S.wormhole_connections),
+			"fleet_type" = S.fleet_type,
+			//Coords, props.
+			"x" = S.x,
+			"y" = S.y,
+			"parallax_property"=S.parallax_property,
+			"visitable"=S.visitable,
+			"sector"=S.sector,
+			"is_hypergate"=S.is_hypergate,
+			"preset_trader"=S.preset_trader,
+			"audio_cues" = json_encode(S.audio_cues),
+			"startup_proc" = S.startup_proc
+		)
+		file_data[++file_data.len] = entry
+	//Attempt to write to the file...
+	try
+
+		listclearnulls(file_data)
+		fdel(json_file)
+		var/list/to_save = file_data
+		WRITE_FILE(json_file, json_encode(to_save))
+		return 0
+	catch(var/exception/e)
+		message_admins("WARNING: Unable to save [_destination_path]: [e]")
+		return 1
 
 /client/proc/cmd_admin_boarding_override()
 	set category = "Adminbus"
@@ -252,10 +370,6 @@ Returns a faction datum by its name (case insensitive!)
 
 //////star_system DATUM///////
 
-#define THREAT_LEVEL_NONE 0
-#define THREAT_LEVEL_UNSAFE 2
-#define THREAT_LEVEL_DANGEROUS 4
-
 /datum/star_system
 	var/name = null //Parent type, please ignore
 	var/desc = null
@@ -297,16 +411,50 @@ Returns a faction datum by its name (case insensitive!)
 	var/preset_trader = null
 	var/datum/trader/trader = null
 	var/list/audio_cues = null //if you want music to queue on system entry. Format: list of youtube or media URLS.
-
 	var/already_announced_combat = FALSE
+	var/startup_proc = null
 
 /datum/star_system/proc/dist(datum/star_system/other)
 	var/dx = other.x - x
 	var/dy = other.y - y
 	return sqrt((dx * dx) + (dy * dy))
 
-/datum/star_system/New()
+/datum/star_system/proc/parse_startup_proc()
+	switch(startup_proc)
+		if("STARTUP_PROC_TYPE_BRASIL")
+			addtimer(CALLBACK(src, .proc/generate_badlands), 10 SECONDS)
+			return
+	message_admins("WARNING: Invalid startup_proc declared for [name]! Review your defines (~L438, starsystem.dm), please.")
+	return 1
+
+/datum/star_system/New(name, desc, threat_level, alignment, hidden, system_type, system_traits, is_capital, adjacency_list, wormhole_connections, fleet_type, x, y, parallax_property, visitable, sector, is_hypergate, preset_trader, audio_cues, startup_proc)
 	. = ..()
+	//Load props first.
+	if(name != null)
+		src.name = name
+		src.desc = desc
+		src.threat_level = threat_level
+		src.alignment = alignment
+		src.hidden = hidden
+		src.system_type = system_type
+		src.system_traits = system_traits
+		src.is_capital = is_capital
+		src.adjacency_list = adjacency_list
+		src.wormhole_connections = wormhole_connections
+		src.fleet_type = fleet_type
+		src.x = x
+		src.y = y
+		src.parallax_property = parallax_property
+		src.visitable = visitable
+		src.sector = sector
+		src.is_hypergate = is_hypergate
+		src.preset_trader = preset_trader
+		src.audio_cues = audio_cues
+		if(startup_proc)
+			src.startup_proc = startup_proc
+			parse_startup_proc()
+
+	//Then set up.
 	if(fleet_type)
 		var/datum/fleet/fleet = new fleet_type(src)
 		fleet.current_system = src
@@ -862,6 +1010,9 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	adjacency_list = list("Romulus")
 	desc = "Many have attempted to cross the Rubicon, many have failed. This system bridges many different sectors together, and is an inroad for the largely unknown Abassi ridge nebula."
 
+/**
+Random starsystem. Excluded from starmap saving, as they're generated at init.
+*/
 /datum/star_system/random
 	name = "Unknown Sector"
 	x = 0
@@ -878,10 +1029,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	sector = 2
 	adjacency_list = list("Foothold")
 	desc = "The beginning of a sector of uncharted space known as the Delphic expanse. Ships from many opposing factions all vye for control over this new territory."
-
-/datum/star_system/brasil/New()
-	. = ..()
-	addtimer(CALLBACK(src, .proc/generate_badlands), 10 SECONDS)
+	startup_proc = "STARTUP_PROC_TYPE_BRASIL"
 
 #define NONRELAXATION_PENALTY 1.2 //Encourages the badlands generator to use jump line relaxation even if a + b >= c. Set this lower if you want Brazil's jumplines to be more direct, high values might be very wacky. 1.0 will give all of the systems a direct jumpline to rubiconnector. Values below 1 might be very wacky.
 #define MAX_RANDOM_CONNECTION_LENGTH 30 //How long the random jump lines generated by this can be. Use higher values if there is few systems, or the sector may be very desolate of jump lines.
@@ -890,8 +1038,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 #define RANDOM_CONNECTION_BASE_CHANCE 40	//How high the probability for a system to gain a random jumpline is, provided it is valid and has valid partners. In percent.
 #define RANDOM_CONNECTION_REPEAT_PENALTY 20	//By how much this probability decreases per random jump line added to the system. In percent.
 
-/datum/star_system/brasil/proc/generate_badlands()
-
+/datum/star_system/proc/generate_badlands()
 	var/list/generated = list()
 	var/amount = rand(50, 70)
 	var/toocloseconflict = 0
