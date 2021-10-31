@@ -24,7 +24,7 @@ Checklist:
 
 ## Format:
 
-The starmap json is simply a json encoded list for lists, where each list represents a system.
+The starmap json is simply a json encoded list of lists, where each list represents a system.
 Each individual list element is directly serialized into a starsystem object.
 
 An example system would be:

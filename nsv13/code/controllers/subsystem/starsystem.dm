@@ -133,7 +133,7 @@ Returns a faction datum by its name (case insensitive!)
 				parallax_property = LAZYACCESS(sys_info, "parallax_property") || null,
 				visitable = LAZYACCESS(sys_info, "visitable") || TRUE,
 				is_hypergate = LAZYACCESS(sys_info,"is_hypergate") || FALSE,
-				preset_trader = LAZYACCESS(sys_info,"preset_trader") || null,
+				preset_trader = (LAZYACCESS(sys_info,"preset_trader")) ? text2path(sys_info["preset_trader"]) : null,
 				system_traits = LAZYACCESS(sys_info,"system_traits") || list(),
 				system_type = (LAZYACCESS(sys_info,"system_type") && sys_info["system_type"] != "null" && sys_info["system_type"] != null) ? json_decode(sys_info["system_type"]) : list(),
 				audio_cues = (LAZYACCESS(sys_info,"audio_cues") && sys_info["audio_cues"] != "null" && sys_info["audio_cues"] != null) ? json_decode(sys_info["audio_cues"]) : list(),
