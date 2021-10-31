@@ -15,12 +15,12 @@ Which will let you both validate your json, and print it in a readable format.
 
 Checklist:
 
--Any systems referenced in adjacency_list by name MUST exist.
--All systems MUST have the <required> props supplied, or the map will not load, and it will fallback to the default, hardcoded map.
--All hardcoded systems must be present, pending removal of this requirement.
--(If using startup_proc) Ensure that startup_proc is defined on parse_startup_proc.
--Ensure the json parses
--Escape all special chars (IE: "") with \
+- Any systems referenced in adjacency_list by name MUST exist.
+- All systems MUST have the <required> props supplied, or the map will not load, and it will fallback to the default, hardcoded map.
+- All hardcoded systems must be present, pending removal of this requirement.
+- (If using startup_proc) Ensure that startup_proc is defined on parse_startup_proc.
+- Ensure the json parses
+- Escape all special chars (IE: "") with \
 
 ## Format:
 
@@ -43,7 +43,8 @@ Definitions:
 
 Ensure that the following are supplied as keys:
 
-<required>
+\<required>
+
 	name (STRING, The system's name)
 	desc (STRING, A short description of the system, shown upon entering it.)
 	x (INT32, The x coordinate position of this system)
@@ -52,11 +53,13 @@ Ensure that the following are supplied as keys:
 	hidden (BOOL, is the system visible on the map?)
 	sector (INT32, the sector this system is in.)
 	adjacency_list (LIST<STRING>, the adjacency matrix of all systems. English: list of all the names of the systems that this sector is joined to.)
-</required>
+
+\</required>
 
 The rest can be supplied if you wish, otherwise, they have safe default values.
 
-<optional>
+\<optional>
+
 	threat_level (INT32, Threat level, check defines)
 	is_capital (BOOL, fluff to display a "capital" label under the system name on the map)
 	fleet_type (TYPE, preset starting fleet for this system)
@@ -69,4 +72,5 @@ The rest can be supplied if you wish, otherwise, they have safe default values.
 	audio_cues (LIST<STRING> Music files (media links, URLs), randomly picks one to play when entered.)
 	wormhole_connections (LIST<STRING> Any systems connected to this system by wormhole. Shows a different line on the map for this)
 	startup_proc ((#DEFINE, STRING) -> FUNC<T>, A string referencing a proc that should be run after this system is created. Specialist systems like The Badlands have extra startup behaviour. Format is: STARSYS_PROC_YOURPROC. This is a very advanced use-case, please be careful! Check starsystem.dm if unsure...)
-</optional>
+
+\</optional>
