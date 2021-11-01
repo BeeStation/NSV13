@@ -436,18 +436,22 @@
 	icon_state = "tuningfork"
 	desc = "A terrifying vessel packing every inch of the Syndicate's abhorrent arsenal."
 	mass = MASS_LARGE
-	sprite_size = 96
-	bound_width = 96
-	bound_height = 96
+	sprite_size = 128
+	bound_width = 128
+	bound_height = 128
 	damage_states = FALSE
-	max_weapon_range = 75
-	obj_integrity = 6250
-	max_integrity = 6250
-	integrity_failure = 6250
-	armor = list("overmap_light" = 100, "overmap_medium" = 80, "overmap_heavy" = 40)
+	max_weapon_range 85
+	obj_integrity = 5000
+	max_integrity = 5000
+	integrity_failure = 5000
+	speed_limit = 16
+	flak_battery_amount = 3
+	max_tracking_range = 90
+	armor = list("overmap_light" = 99, "overmap_medium" = 65, "overmap_heavy" = 40)
 	ai_controlled = TRUE
 	shots_left = 500
-	ai_flags = AI_FLAG_ELITE
+	missiles = 30
+	ai_flags = AI_FLAG_ELITE | AI_FLAG_BATTLESHIP
 	can_resupply = TRUE
 	combat_dice_type = /datum/combat_dice/battleship
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
@@ -460,6 +464,7 @@
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/quadgauss(src)
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
+	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
 
 
 /obj/structure/overmap/syndicate/ai/fighter //need custom AI behaviour to escort bombers if applicable
