@@ -440,7 +440,7 @@
 	bound_width = 128
 	bound_height = 128
 	damage_states = FALSE
-	max_weapon_range 85
+	max_weapon_range = 85
 	obj_integrity = 5000
 	max_integrity = 5000
 	integrity_failure = 5000
