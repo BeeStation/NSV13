@@ -1,6 +1,3 @@
-#define MSTATE_CLOSED 0
-#define MSTATE_UNSCREWED 1
-#define MSTATE_UNBOLTED 2
 // #define MSTATE_PRIEDOUT 3 // BEGONE
 
 /**
@@ -161,10 +158,3 @@
 			add_overlay("[initial(icon_state)]_wrench")
 		// if(MSTATE_PRIEDOUT)
 		// 	add_overlay("[initial(icon_state)]_crowbar")
-
-#undef MSTATE_CLOSED
-#undef MSTATE_UNSCREWED
-#undef MSTATE_UNBOLTED
-// #undef MSTATE_PRIEDOUT
-
-#undef STATE_CHAMBERED

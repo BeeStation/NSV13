@@ -1,8 +1,3 @@
-#define MSTATE_CLOSED 0
-#define MSTATE_UNSCREWED 1
-#define MSTATE_UNBOLTED 2
-#define MSTATE_PRIEDOUT 3
-
 /obj/machinery/ship_weapon/mac
 	name = "Radial MAC cannon"
 	desc = "An extremely powerful electromagnet which can accelerate a projectile to devastating speeds."
@@ -106,8 +101,3 @@
 /obj/machinery/ship_weapon/mac/set_position(obj/structure/overmap/OM)
 	..()
 	overlay = linked.add_weapon_overlay("/obj/weapon_overlay/railgun")
-
-#undef MSTATE_CLOSED
-#undef MSTATE_UNSCREWED
-#undef MSTATE_UNBOLTED
-#undef MSTATE_PRIEDOUT

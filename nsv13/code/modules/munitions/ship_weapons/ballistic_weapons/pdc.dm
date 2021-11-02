@@ -1,4 +1,3 @@
-#define MSTATE_PRIEDOUT 3
 
 /obj/machinery/ship_weapon/pdc_mount
 	name = "\improper PDC loading rack"
@@ -156,5 +155,3 @@
 		deconstruct(TRUE)
 		return TRUE
 	return default_deconstruction_crowbar(user, tool)
-
-#undef MSTATE_PRIEDOUT

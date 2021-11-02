@@ -283,7 +283,7 @@
 	. = ..()
 	if(state == BS_WIRED)
 		if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
-			new/obj/item/stack/cable_coil(loc, num_cables)
+			new /obj/item/stack/cable_coil(loc, num_cables)
 			to_chat(user, "<span class='notice'>You cut the wires from the frame.</span>")
 			state = BS_BARREL_BOLTED
 			return TRUE
@@ -292,7 +292,7 @@
 	name = "\improper M4-C Cargo Torpedo tube mount"
 	desc = "An incomplete assembly for an M4-C ship mounted cargo torpedo launcher."
 	color = "#f5d1b0"
-	
+
 	output_path = /obj/machinery/ship_weapon/torpedo_launcher/cargo
 
 #undef BS_MOUNT_UNBOLTED
