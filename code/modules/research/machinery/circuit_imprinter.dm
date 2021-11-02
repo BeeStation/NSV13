@@ -22,6 +22,7 @@
 								)
 	production_animation = "circuit_imprinter_ani"
 	allowed_buildtypes = IMPRINTER
+	consoleless_interface = TRUE
 //nsv13 added Advanced Munitions, Ship Components list above
 
 /obj/machinery/rnd/production/circuit_imprinter/disconnect_console()
