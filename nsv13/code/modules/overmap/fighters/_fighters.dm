@@ -520,9 +520,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 			ui_interact(user)
 			return TRUE
 
-/obj/structure/overmap/fighter/proc/force_eject(force=FALSE)
-	RETURN_TYPE(/list)
-	var/list/victims = list()
+/obj/structure/overmap/fighter/proc/force_eject(force = FALSE)
+	. = list()
 	brakes = TRUE
 	var/turf/T = GetSafeLoc(src)
 	if(!canopy_open)
@@ -530,10 +529,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 		playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
 	for(var/mob/M in mobs_in_ship)
 		stop_piloting(M, force)
-		M.doMove(T) // we can use deMove because we already know we're moving to a safe turf.
+		M.doMove(T) // we can use doMove because we already know we're moving to a safe turf.
 		to_chat(M, "<span class='warning'>You have been remotely ejected from [src]!.</span>")
-		victims += M
-	return victims
+		. += M
 
 //Iconic proc.
 /obj/structure/overmap/fighter/proc/foo()
@@ -547,15 +545,15 @@ Been a mess since 2018, we'll fix it someday (probably)
 	E.rpm = ENGINE_RPM_SPUN
 	E.try_start()
 	toggle_canopy()
-	forceMove(get_turf(locate(250, y, z)))
+	forceMove(locate(250, y, z))
 	//check_overmap_elegibility(TRUE)
 
-/obj/structure/overmap/fighter/proc/throw_pilot(m_damage = 200) //Used when yeeting a pilot out of an exploding ship
+/obj/structure/overmap/fighter/proc/throw_pilot(damage = 200) //Used when yeeting a pilot out of an exploding ship
 	if(SSmapping.level_trait(z, ZTRAIT_OVERMAP)) //Check if we're on the overmap
-		m_damage *= 2
+		damage *= 2
 	var/list/victims = force_eject(TRUE)
 	for(var/mob/living/M as() in victims)
-		M.apply_damage(m_damage)
+		M.apply_damage(damage)
 
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
