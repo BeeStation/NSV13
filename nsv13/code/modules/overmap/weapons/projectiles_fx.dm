@@ -170,10 +170,10 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 185
 	armour_penetration = 10
 
-/obj/item/projectile/bullet/railgun_slug/Initialize()
+// I think the idea is that they course-correct slightly, but only once? -Corvid
+/obj/item/projectile/bullet/railgun_slug/process_homing()
 	. = ..()
-	sleep(0.25)
-	set_homing_target(null)
+	homing = FALSE
 
 /obj/item/projectile/bullet/gauss_slug
 	icon_state = "gaussgun"
