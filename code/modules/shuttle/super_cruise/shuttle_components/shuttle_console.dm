@@ -70,6 +70,7 @@ GLOBAL_VAR_INIT(shuttle_docking_jammed, FALSE)
 /obj/machinery/computer/shuttle_flight/ui_state(mob/user)
 	return GLOB.default_state
 
+/* NSV13 - use the old shuttle console
 /obj/machinery/computer/shuttle_flight/ui_interact(mob/user, datum/tgui/ui)
 	if(!allowed(user) && !isobserver(user))
 		say("Insufficient access rights.")
@@ -84,6 +85,7 @@ GLOBAL_VAR_INIT(shuttle_docking_jammed, FALSE)
 		ui.open()
 	SSorbits.open_orbital_maps |= ui
 	ui.set_autoupdate(FALSE)
+*/
 
 /obj/machinery/computer/shuttle_flight/ui_close(mob/user, datum/tgui/tgui)
 	SSorbits.open_orbital_maps -= tgui
