@@ -2,7 +2,9 @@
 #define MSTATE_UNSCREWED 1
 #define MSTATE_UNBOLTED 2
 #define MSTATE_PRIEDOUT 3
-
+/// Kind of shitty but bitflags are even more cheesy when you can only have one state at a time.
+GLOBAL_LIST_INIT(busy_states, list(STATE_FEEDING, STATE_CHAMBERING, STATE_FIRING))
+#define CAN_ACTION(S) !(S in busy_states)
 /**
  *	Ship-to-ship weapons
  *	To add a weapon type:
@@ -363,7 +365,7 @@
  * Transitions to STATE_LOADED from higher states.
  */
 /obj/machinery/ship_weapon/proc/unfeed()
-	if(state >= STATE_FED)
+	if(state >= STATE_FED && )
 		if(state == STATE_CHAMBERED) //If chambered, unchamber first
 			unchamber()
 		flick("[initial(icon_state)]_unloading",src)
@@ -475,10 +477,8 @@
 		if(can_fire(shots))
 			if(manual)
 				linked.last_fired = overlay
-
 			for(var/i = 0, i < shots, i++)
 				do_animation()
-				state = STATE_FIRING
 
 				local_fire()
 				overmap_fire(target)
@@ -494,8 +494,8 @@
 			linked.last_fired = overlay
 
 		for(var/i = 0, i < shots, i++)
-			do_animation()
 			state = STATE_FIRING
+			do_animation()
 			overmap_fire(target)
 
 			ammo -= chambered

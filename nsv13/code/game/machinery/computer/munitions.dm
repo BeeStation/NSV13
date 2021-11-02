@@ -109,7 +109,7 @@
 		data["has_linked_gun"] = TRUE
 		data["linked_gun"] = SW.name
 		data["loaded"] = SW.state > STATE_LOADED
-		data["chambered"] = SW.state > STATE_FED
+		data["chambered"] = SW.state > STATE_CHAMBERING
 		data["safety"] = SW.safety
 		data["ammo"] = length(SW.ammo)
 		data["max_ammo"] = SW.max_ammo
