@@ -220,7 +220,7 @@ GLOBAL_VAR(clockcult_eminence)
 				//Ew, this could be done better with a dictionary list, but this isn't much slower
 				if(role in GLOB.command_positions)
 					prefix = "High Priest"
-				else if(role in GLOB.engineering_positions || role in GLOB.munitions_positions) //NSV13 - munitions
+				else if((role in GLOB.engineering_positions) || (role in GLOB.munitions_positions)) //NSV13 - munitions
 					prefix = "Cogturner"
 				else if(role in GLOB.medical_positions)
 					prefix = "Rejuvinator"
