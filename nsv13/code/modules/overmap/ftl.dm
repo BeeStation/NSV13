@@ -583,7 +583,6 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_computer/proc/ready_ftl()
 	ftl_state = FTL_STATE_READY
-	progress = 0
 	icon_state = "ftl_ready"
 	playsound(src, 'nsv13/sound/voice/ftl_ready.wav', 100, FALSE)
 	radio.talk_into(src, "FTL vectors calculated. Ready to commence FTL translation.", engineering_channel)
