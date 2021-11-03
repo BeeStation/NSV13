@@ -2483,18 +2483,17 @@
 /turf/open/floor/circuit/red,
 /area/ctf)
 "gF" = (
-/obj/effect/turf_decal/tile/green,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 4
 	},
 /obj/machinery/firealarm{
 	dir = 1;
 	pixel_y = -26
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/turf/open/floor/monotile/steel,
+/turf/open/floor/plasteel/dark,
 /area/centcom/ferry)
 "gH" = (
 /obj/machinery/vending/cigarette,
@@ -3109,6 +3108,11 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/monotile/steel,
 /area/centcom/prison)
+"iA" = (
+/obj/structure/window,
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plasteel,
+/area/centcom/ferry)
 "iB" = (
 /turf/closed/indestructible/fakedoor{
 	name = "CentCom Cell"
@@ -3832,6 +3836,18 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/centcom/prison)
+"kB" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/machinery/door/window/brigdoor/southleft,
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/monotile/steel,
+/area/centcom/ferry)
 "kC" = (
 /obj/structure/chair/mono_sofa/left{
 	dir = 8
@@ -4193,6 +4209,12 @@
 /obj/structure/fans/tiny/invisible,
 /turf/open/floor/holofloor/hyperspace,
 /area/centcom/supplypod/supplypod_temp_holding)
+"lT" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/turf/open/floor/monotile/steel,
+/area/centcom/ferry)
 "lV" = (
 /obj/machinery/light{
 	dir = 8
@@ -5553,6 +5575,22 @@
 	},
 /turf/open/floor/plasteel,
 /area/syndicate_mothership/control)
+"qb" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/machinery/door/window/brigdoor/northleft,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/monotile/steel,
+/area/centcom/ferry)
 "qe" = (
 /obj/item/twohanded/required/kirbyplants{
 	icon_state = "plant-22"
@@ -6340,6 +6378,8 @@
 	name = "Central CC Hallway Shutter"
 	},
 /obj/machinery/light,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/noslip/dark,
 /area/centcom/ferry)
 "sG" = (
@@ -6350,6 +6390,8 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/noslip/dark,
 /area/centcom/ferry)
 "sH" = (
@@ -6775,6 +6817,8 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/noslip/dark,
 /area/centcom/ferry)
 "tS" = (
@@ -6960,6 +7004,16 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
+/turf/open/floor/monotile/steel,
+/area/centcom/control)
+"ux" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/door/window/brigdoor/eastright,
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
 "uy" = (
@@ -7392,12 +7446,17 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
 	},
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/airlock/centcom{
-	name = "CentCom General";
-	req_one_access_txt = "19;101"
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
 	},
-/turf/open/floor/noslip/dark,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/machinery/door/window/brigdoor/westright,
+/turf/open/floor/monotile/steel,
 /area/centcom/ferry)
 "vH" = (
 /obj/structure/chair/sofa{
@@ -7457,6 +7516,15 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
+"vQ" = (
+/obj/structure/window{
+	dir = 1
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/plasteel,
+/area/centcom/ferry)
 "vR" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
@@ -7595,15 +7663,13 @@
 /turf/open/floor/monotile/dark,
 /area/centcom/evac)
 "wi" = (
-/obj/effect/turf_decal/tile/green{
+/obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/light{
+/obj/structure/window{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/blue,
-/obj/effect/turf_decal/stripes/line,
-/turf/open/floor/monotile/steel,
+/turf/open/floor/plasteel,
 /area/centcom/ferry)
 "wj" = (
 /obj/structure/table/wood,
@@ -7658,6 +7724,8 @@
 	id = "cccHallway";
 	name = "Central CC Hallway Shutter"
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/noslip/dark,
 /area/centcom/ferry)
 "wv" = (
@@ -7911,6 +7979,15 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/steel,
 /area/centcom/ferry)
+"xi" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/structure/window{
+	dir = 8
+	},
+/turf/open/floor/plasteel,
+/area/centcom/control)
 "xk" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -8117,12 +8194,17 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
 	},
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/machinery/door/airlock/centcom{
-	name = "CentCom General";
-	req_one_access_txt = "19;101"
+/obj/effect/turf_decal/tile/green{
+	dir = 4
 	},
-/turf/open/floor/noslip/dark,
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/door/window/brigdoor/eastleft,
+/turf/open/floor/monotile/steel,
 /area/centcom/ferry)
 "xU" = (
 /obj/effect/turf_decal/tile/green,
@@ -8702,9 +8784,6 @@
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 1
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
 "zT" = (
@@ -8858,14 +8937,7 @@
 /turf/open/floor/carpet/green,
 /area/centcom/control)
 "Ar" = (
-/obj/machinery/door/airlock/centcom{
-	name = "CentCom High Security";
-	req_access_txt = "106"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 8
-	},
-/turf/open/floor/plasteel/dark,
+/turf/closed/indestructible/fakedoor,
 /area/centcom/ferry)
 "As" = (
 /obj/machinery/vending/cola/random,
@@ -9203,9 +9275,6 @@
 	pixel_y = 23;
 	req_access_txt = "106"
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
 /obj/machinery/light{
 	dir = 1
 	},
@@ -9251,6 +9320,16 @@
 /obj/item/restraints/handcuffs/cable/zipties,
 /obj/item/assembly/flash/handheld,
 /turf/open/floor/carpet/green,
+/area/centcom/ferry)
+"BJ" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/machinery/door/window/brigdoor/southright,
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/monotile/steel,
 /area/centcom/ferry)
 "BK" = (
 /obj/machinery/door/firedoor/border_only/directional/south,
@@ -9577,6 +9656,16 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/turf/open/floor/monotile/steel,
+/area/centcom/control)
+"CJ" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/door/window/brigdoor/westleft,
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
 "CL" = (
@@ -10453,6 +10542,20 @@
 	},
 /obj/effect/turf_decal/tile/green{
 	dir = 8
+	},
+/turf/open/floor/monotile/steel,
+/area/centcom/ferry)
+"FK" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/machinery/door/window/brigdoor/northright,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
 /turf/open/floor/monotile/steel,
 /area/centcom/ferry)
@@ -12039,9 +12142,6 @@
 /obj/structure/chair{
 	dir = 4
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
 "Ke" = (
@@ -13293,7 +13393,12 @@
 	},
 /area/centcom/holding)
 "Ne" = (
-/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/structure/window{
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/centcom/ferry)
 "Nh" = (
@@ -13662,6 +13767,8 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/noslip/dark,
 /area/centcom/ferry)
 "Of" = (
@@ -14109,14 +14216,14 @@
 /turf/open/floor/monotile/steel,
 /area/centcom/supplypod/loading/four)
 "Pw" = (
-/obj/machinery/door/airlock/centcom{
-	name = "CentCom General";
-	req_access_txt = "101"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
 	},
-/turf/open/floor/noslip/dark,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/door/window/brigdoor/eastleft,
+/turf/open/floor/monotile/steel,
 /area/centcom/control)
 "Px" = (
 /obj/effect/turf_decal/tile/ship/neutral,
@@ -14240,9 +14347,6 @@
 	name = "Central CC Hallway Shutters";
 	pixel_y = 23;
 	req_access_txt = "106"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
 	},
 /turf/open/floor/monotile/steel,
 /area/centcom/ferry)
@@ -14573,15 +14677,17 @@
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
 "QG" = (
-/obj/effect/turf_decal/tile/green{
-	dir = 1
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/green,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
+/obj/machinery/door/window/brigdoor/eastright,
 /turf/open/floor/monotile/steel,
 /area/centcom/ferry)
 "QH" = (
@@ -15876,14 +15982,14 @@
 /turf/open/floor/monotile/steel,
 /area/centcom/control)
 "TZ" = (
-/obj/machinery/door/airlock/centcom{
-	name = "CentCom General";
-	req_access_txt = "101"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
 	},
-/turf/open/floor/noslip/dark,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/door/window/brigdoor/westright,
+/turf/open/floor/monotile/steel,
 /area/centcom/control)
 "Ub" = (
 /obj/effect/turf_decal/tile/red,
@@ -16517,9 +16623,8 @@
 	name = "CentCom High Security";
 	req_access_txt = "106"
 	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 4
-	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/plasteel/dark,
 /area/centcom/ferry)
 "VV" = (
@@ -16843,6 +16948,15 @@
 "WM" = (
 /turf/open/floor/plasteel,
 /area/centcom/control)
+"WO" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/structure/window{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/centcom/control)
 "WQ" = (
 /obj/machinery/light{
 	dir = 1
@@ -16886,13 +17000,17 @@
 /turf/open/floor/wood,
 /area/centcom/holding)
 "Xa" = (
-/obj/effect/turf_decal/tile/green,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
 /obj/effect/turf_decal/stripes/line{
-	dir = 4
+	dir = 8
 	},
+/obj/effect/turf_decal/tile/green,
+/obj/machinery/door/window/brigdoor/westleft,
 /turf/open/floor/monotile/steel,
 /area/centcom/ferry)
 "Xb" = (
@@ -17192,6 +17310,8 @@
 	id = "LFerrydock";
 	name = "Lower Ferrydock Access"
 	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/noslip/dark,
 /area/centcom/ferry)
 "XT" = (
@@ -55067,11 +55187,11 @@ Yr
 Ac
 su
 ZX
-Ge
-Gv
+lT
+kB
 Oe
-Hc
-QG
+qb
+yY
 yY
 VE
 yY
@@ -55324,11 +55444,11 @@ mD
 mD
 Vo
 ZX
-Ne
-Gv
+ZX
+iA
 XS
-Hc
-NM
+vQ
+ZX
 ZX
 ZX
 ZX
@@ -55581,11 +55701,11 @@ Qr
 mD
 AL
 Bx
-wi
-Gv
+Tg
+BJ
 sG
-Hc
-NM
+FK
+ZX
 Wh
 Tg
 ub
@@ -56341,7 +56461,7 @@ rx
 uX
 tC
 us
-uW
+gF
 mD
 wz
 ZX
@@ -58400,8 +58520,8 @@ hP
 vb
 mD
 PJ
-xk
-Xa
+ZX
+xU
 mD
 NG
 Fo
@@ -58657,8 +58777,8 @@ hP
 Nu
 mD
 xS
-xS
-xS
+wi
+QG
 mD
 zj
 NG
@@ -59171,8 +59291,8 @@ hP
 SY
 mD
 vG
-vG
-vG
+Ne
+Xa
 mD
 OJ
 KH
@@ -59428,8 +59548,8 @@ mD
 mD
 mD
 Bw
-HH
-gF
+ZX
+MF
 mD
 yo
 NG
@@ -66113,8 +66233,8 @@ wJ
 xr
 At
 Kd
-nr
-SL
+WM
+ZJ
 WE
 vT
 vY
@@ -66370,8 +66490,8 @@ wK
 xs
 io
 Pw
-Pw
-Pw
+WO
+ux
 io
 AV
 BU
@@ -66884,8 +67004,8 @@ wK
 Ml
 At
 TZ
-TZ
-TZ
+xi
+CJ
 io
 io
 io
@@ -67141,8 +67261,8 @@ UP
 Cl
 UN
 zS
-CX
-UM
+WM
+ZJ
 wZ
 AY
 io
