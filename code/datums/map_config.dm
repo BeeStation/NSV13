@@ -50,7 +50,8 @@
 
 //NSV EDITED END
 
-/proc/load_map_config(filename = "data/next_map.json", default_to_box, delete_after, error_if_missing = TRUE)
+/proc/load_map_config(filename = "next_map.json", default_to_box, delete_after, error_if_missing = TRUE)
+	filename = "_maps/[SANITIZE_FILENAME(filename)].json"
 	var/datum/map_config/config = new
 	if (default_to_box)
 		return config
@@ -58,7 +59,7 @@
 		qdel(config)
 		config = new /datum/map_config  // Fall back to Box
 		//config.LoadConfig(config.config_filename)
-	if (delete_after)
+	else if (delete_after)
 		fdel(filename)
 	return config
 
