@@ -516,7 +516,7 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 	
-/datum/fleet/syndicate/AbassisWrath
+/datum/fleet/syndicate/abassiswrath
 	name = "Abassi's Wrath"
 	size = FLEET_DIFFICULTY_VERY_HARD
 	allow_difficulty_scaling = TRUE
