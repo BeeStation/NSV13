@@ -642,10 +642,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/proc/relay(S, var/message=null, loop = FALSE, channel = null) //Sends a sound + text message to the crew of a ship
 	for(var/mob/M as() in mobs_in_ship)
-		if(channel) //Doing this forbids overlapping of sounds
-			SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100, channel = channel))
-		else
-			SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100))
+		if(M.can_hear())
+			if(channel) //Doing this forbids overlapping of sounds
+				SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100, channel = channel))
+			else
+				SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100))
 		if(message)
 			to_chat(M, message)
 
