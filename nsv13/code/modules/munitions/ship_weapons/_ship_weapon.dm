@@ -534,13 +534,18 @@
  * Handles firing animations and sounds on the overmap.
  */
 /obj/machinery/ship_weapon/proc/overmap_fire(atom/target)
-	if(weapon_type && weapon_type.overmap_firing_sounds)
-		var/sound/chosen = pick(weapon_type.overmap_firing_sounds)
-		linked.relay_to_nearby(chosen)
+
+	if(weapon_type?.overmap_firing_sounds)
+		overmap_sound()
+
 	if(overlay)
 		overlay.do_animation()
 	if( weapon_type )
 		animate_projectile(target)
+
+/obj/machinery/ship_weapon/proc/overmap_sound()
+	var/sound/chosen = pick(weapon_type.overmap_firing_sounds)
+	linked.relay_to_nearby(chosen)
 
 /**
  * Animates an overmap projectile matching whatever we're shooting.
