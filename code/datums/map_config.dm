@@ -49,14 +49,17 @@
 		"ferry" = "ferry_kilo",
 		"emergency" = "emergency_donut")
 
-/proc/load_map_config(filename = "next_map", default_to_box, delete_after, error_if_missing = TRUE)
-	filename = "data/[filename].json"
+//NSV EDITED END
+
+/proc/load_map_config(filename = "next_map.json", default_to_box, delete_after, error_if_missing = TRUE)
+	filename = "_maps/[SANITIZE_FILENAME(filename)].json"
 	var/datum/map_config/config = new
 	if (default_to_box)
 		return config
 	if (!config.LoadConfig(filename, error_if_missing))
 		qdel(config)
 		config = new /datum/map_config  // Fall back to Box
+		//config.LoadConfig(config.config_filename)
 	else if (delete_after)
 		fdel(filename)
 	return config

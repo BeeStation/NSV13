@@ -3,6 +3,8 @@
 #define EfficiencyToRange(part_efficiency) (2.5 * (part_efficiency))
 #define RangeToEfficiency(range) ((range) / 2.5)
 
+GLOBAL_LIST_EMPTY(inertia_dampeners)
+
 /obj/machinery/inertial_dampener
 	name = "inertial dampener"
 	icon = 'nsv13/icons/obj/machinery/inertial_dampener.dmi'
@@ -35,7 +37,12 @@
 
 /obj/machinery/inertial_dampener/Initialize()
 	. = ..()
+	GLOB.inertia_dampeners += src
 	RefreshParts()
+
+/obj/machinery/inertial_dampener/Destroy()
+	GLOB.inertia_dampeners -= src
+	return ..()
 
 /obj/machinery/inertial_dampener/proc/try_use_power()
 	var/turf/T = get_turf(src)

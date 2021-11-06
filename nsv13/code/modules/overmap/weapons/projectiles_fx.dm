@@ -5,6 +5,7 @@ Misc projectile types, effects, think of this as the special FX file.
 */
 
 /obj/item/projectile/bullet/aa_round
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "pdc"
 	name = "anti-aircraft round"
 	damage = 40
@@ -17,6 +18,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	spread = 5
 
 /obj/item/projectile/bullet/mac_relayed_round	//Projectile relayed by all default MAC shells on overmap hit. No difference for AP / others as their values don't really matter on z level.
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "railgun"
 	name = "artillery round"
 	damage = 60
@@ -25,6 +27,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	movement_type = FLYING | UNSTOPPABLE
 
 /obj/item/projectile/bullet/mac_round
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "railgun"
 	name = "artillery round"
 	damage = 400
@@ -92,6 +95,7 @@ Misc projectile types, effects, think of this as the special FX file.
 //Dirty shell: Stage 2 - z level sludge payload projectile
 /obj/item/projectile/bullet/dirty_shell_stage_two
 	name = "dirty artillery round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "railgun"
 	range = 255
 	speed = 1.85
@@ -159,6 +163,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "mac"
 	name = "tungsten slug"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 150
 	speed = 1
 	homing_turn_speed = 2
@@ -178,6 +183,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/gauss_slug
 	icon_state = "gaussgun"
 	name = "tungsten round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 80
 	obj_integrity = 500 //Flak doesn't shoot this down....
 	flag = "overmap_medium"
@@ -185,6 +191,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/light_cannon_round
 	icon_state = "pdc"
 	name = "light cannon round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 40
 	armour_penetration = 2
 	spread = 2
@@ -193,6 +200,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/heavy_cannon_round
 	icon_state = "pdc"
 	name = "heavy cannon round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 30
 	spread = 5
 	flag = "overmap_medium"
@@ -206,6 +214,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/torpedo
 	icon_state = "torpedo"
 	name = "plasma torpedo"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	speed = 2.75
 	valid_angle = 150
 	homing_turn_speed = 35
@@ -239,6 +248,11 @@ Misc projectile types, effects, think of this as the special FX file.
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 
+/obj/item/projectile/guided_munition/torpedo/disruptor
+	icon_state = "torpedo_disruptor"
+	name = "disruption torpedo"
+	damage = 140	//Lower damage, does some special stuff when it hits a target.
+
 //What you get from an incomplete torpedo.
 /obj/item/projectile/guided_munition/torpedo/dud
 	icon_state = "torpedo_dud"
@@ -258,6 +272,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/missile
 	name = "\improper Triton cruise missile"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "conventional_missile"
 	speed = 1
 	damage = 175
@@ -283,7 +298,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	..()
 	if(!check_faction(target))
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
-	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
+	if(isovermap(target)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
+		spec_overmap_hit(target)
 		return BULLET_ACT_HIT
 	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
 	if(isprojectile(target) && P.faction != faction && !P.nodamage) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
@@ -297,7 +313,27 @@ Misc projectile types, effects, think of this as the special FX file.
 			return FALSE //Didn't take the hit
 	if(!isprojectile(target)) //This is lazy as shit but is necessary to prevent explosions triggering on the overmap when two bullets collide. Fix this shit please.
 		detonate(target)
+	else
+		return FALSE
 	return BULLET_ACT_HIT
+
+/obj/item/projectile/guided_munition/proc/spec_overmap_hit(obj/structure/overmap/target)
+	return
+
+/obj/item/projectile/guided_munition/torpedo/disruptor/spec_overmap_hit(obj/structure/overmap/target)
+	if(length(target.occupying_levels))
+		return	//Detonate is gonna handle this for us.
+
+	if(target.ai_controlled)
+		target.disruption += 30
+		return
+
+	if(istype(target, /obj/structure/overmap/fighter))
+		target.disruption += 25
+		return
+
+	//Neither of these? I guess just some visibility penalty it is.
+	target.add_sensor_profile_penalty(150, 10 SECONDS)
 
 /obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
 	. = ..()
@@ -305,6 +341,10 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/proc/detonate(atom/target)
 	explosion(target, 2, 4, 4)
+
+/obj/item/projectile/guided_munition/torpedo/disruptor/detonate(atom/target)
+	empulse(get_turf(target), 5, 12)	//annoying emp.
+	explosion(target, 0, 2, 6, 4)	//but only a light explosion.
 
 /obj/item/projectile/guided_munition/torpedo/nuclear/detonate(atom/target)
 	var/obj/structure/overmap/OM = target.get_overmap() //What if I just..........
@@ -316,6 +356,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/pdc_round
 	icon_state = "pdc"
 	name = "PDC round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 15
 	flag = "overmap_light"
 	spread = 5

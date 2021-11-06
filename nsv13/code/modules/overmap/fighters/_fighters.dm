@@ -84,6 +84,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 	..()
 
 /obj/structure/overmap/fighter/key_down(key, client/user)
+	if(disruption && prob(min(95, disruption)))
+		to_chat(src, "The controls buzz angrily.")
+		playsound(helm, 'sound/machines/buzz-sigh.ogg', 75, 1)
+		return
 	. = ..()
 	var/mob/themob = user.mob
 	switch(key)
@@ -197,6 +201,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/fighter/ui_act(action, params, datum/tgui/ui)
 	if(..() || ((usr != pilot) && (!IsAdminGhost(usr))))
+		return
+	if(disruption && prob(min(95, disruption)))
+		to_chat(src, "The controls buzz angrily.")
+		relay('sound/machines/buzz-sigh.ogg')
 		return
 	var/atom/movable/target = locate(params["id"])
 	switch(action)
@@ -1320,7 +1328,8 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	if(!weapon_types[FIRE_MODE_TORPEDO])
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/fighter_secondary(src)
 
-/obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target, ai_aim = FALSE)
+//Burst arg currently unused for this proc.
+/obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target, ai_aim = FALSE, burst = 1)
 	hardpoint_fire(target, FIRE_MODE_ANTI_AIR)
 
 /obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, fireMode)
@@ -1338,7 +1347,8 @@ Utility modules can be either one of these types, just ensure you set its slot t
 			return TRUE
 	return FALSE
 
-/obj/structure/overmap/proc/secondary_fire(obj/structure/overmap/target, ai_aim = FALSE)
+//Burst arg currently unused for this proc.
+/obj/structure/overmap/proc/secondary_fire(obj/structure/overmap/target, ai_aim = FALSE, burst = 1)
 	hardpoint_fire(target, FIRE_MODE_TORPEDO)
 
 /obj/item/fighter_component/primary/load(obj/structure/overmap/target, atom/movable/AM)
