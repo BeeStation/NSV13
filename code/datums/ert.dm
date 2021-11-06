@@ -99,3 +99,13 @@
 	mission = "HONK them into submission"
 	polldesc = "an elite Nanotrasen tactical pranking squad"
 	code = "HOOOOOOOOOONK"
+
+/datum/ert/idpd
+	roles = list(/datum/antagonist/ert/idpd, /datum/antagonist/ert/idpd/titan, /datum/antagonist/ert/idpd/gazer)
+	leader_role = /datum/antagonist/ert/idpd/chief
+	teamsize = 4
+	opendoors = TRUE
+	rename_team = "Inter-Dimensional Police Department"
+	polldesc = "the keepers of reality"
+	mission = "Eliminate anyone tampering with the timeline."
+	code = "Epsilon"

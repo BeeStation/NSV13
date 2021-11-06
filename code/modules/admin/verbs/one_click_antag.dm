@@ -371,6 +371,11 @@
 			ert_team.objectives += missionobj
 			ert_team.mission = missionobj
 
+			if(istype(ertemplate, /datum/ert/idpd))
+				if(alert(owner, "Spawn an IDPD Portal on your location?", "Confirmation", "Yes", "No") == "Yes") //NSV13 - Added confirmation to make it clear how this ERT works
+					return attemptMakeIDPD(candidates, ertemplate.teamsize, ertemplate, ert_team, missionobj) //NSV13
+				else //NSV13
+					return FALSE //NSV 13
 			var/list/spawnpoints = GLOB.emergencyresponseteamspawn
 			while(numagents && candidates.len)
 				if (numagents > spawnpoints.len)

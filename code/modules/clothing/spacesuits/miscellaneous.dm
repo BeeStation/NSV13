@@ -14,6 +14,7 @@ Contains:
  - Carp hardsuit
  - Bounty hunter hardsuit
  - Emergency skinsuit
+ - IDPD Hardsuit: Grunt, Gazer, Titan, Chief
 */
 
 	//Death squad armored space suits, not hardsuits!
@@ -570,3 +571,66 @@ Contains:
 		w_class = WEIGHT_CLASS_SMALL
 
 	rolled_up = !rolled_up
+
+////IDPD HARDSUITS////
+////Grunt
+/obj/item/clothing/suit/space/hardsuit/ert/idpd
+	name = "grunt suit"
+	desc = "An iconic blue and silver hardsuit."
+	icon = 'icons/mob/IDPD.dmi'
+	icon_state = "idpd_grunt_suit"
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/idpd
+	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
+	armor = list("melee" = 50, "bullet" = 35, "laser" = 35, "energy" = 35, "bomb" = 35, "bio" = 100, "rad" = 100, "fire" = 65, "acid" = 65, "stamina" = 55)
+	slowdown = 0
+	strip_delay = 130
+	resistance_flags = FIRE_PROOF
+	jetpack = null
+
+/obj/item/clothing/head/helmet/space/hardsuit/ert/idpd
+	name = "grunt helmet"
+	desc = "a standard-issue I.D.P.D helmet"
+	icon = 'icons/mob/IDPD.dmi'
+	icon_state = "idpd_grunt_helmet"
+	armor = list("melee" = 50, "bullet" = 35, "laser" = 35, "energy" = 35, "bomb" = 35, "bio" = 100, "rad" = 100, "fire" = 65, "acid" = 65, "stamina" = 55)
+	strip_delay = 130
+	brightness_on = 7
+	resistance_flags = FIRE_PROOF
+
+////Chief
+/obj/item/clothing/suit/space/hardsuit/ert/idpd/chief
+	name = "chief suit"
+	desc = "Wearing this makes you feel #1"
+	icon_state = "idpd_chief_suit"
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/idpd/chief
+	armor = list("melee" = 75, "bullet" = 60, "laser" = 60, "energy" = 60, "bomb" = 80, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80, "stamina" = 70)
+
+/obj/item/clothing/head/helmet/space/hardsuit/ert/idpd/chief
+	name = "chief helmet"
+	desc = "Glorious"
+	icon_state = "idpd_chief_helmet"
+	armor = list("melee" = 75, "bullet" = 60, "laser" = 60, "energy" = 60, "bomb" = 80, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80, "stamina" = 70)
+
+///Gazer
+/obj/item/clothing/suit/space/hardsuit/ert/idpd/gazer
+	name = "gazer suit"
+	icon_state = "idpd_gazer_suit"
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/idpd/gazer
+	armor = list("melee" = 65, "bullet" = 50, "laser" = 50, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80, "stamina" = 70)
+
+/obj/item/clothing/head/helmet/space/hardsuit/ert/idpd/gazer
+	name = "gazer helmet"
+	icon_state = "idpd_gazer_helmet"
+	armor = list("melee" = 65, "bullet" = 50, "laser" = 50, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80, "stamina" = 70)
+
+///Titan
+/obj/item/clothing/suit/space/hardsuit/ert/idpd/titan
+	name = "titan suit"
+	icon_state = "idpd_titan_suit"
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/idpd/titan
+	armor = list("melee" = 70, "bullet" = 60, "laser" = 60, "energy" = 60, "bomb" = 80, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80, "stamina" = 70)
+
+/obj/item/clothing/head/helmet/space/hardsuit/ert/idpd/titan
+	name = "titan helmet"
+	icon_state = "idpd_titan_helmet"
+	armor = list("melee" = 70, "bullet" = 60, "laser" = 60, "energy" = 60, "bomb" = 80, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80, "stamina" = 70)
