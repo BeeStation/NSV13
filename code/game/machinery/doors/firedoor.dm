@@ -85,13 +85,13 @@
 		return
 	if(ismob(AM))
 		var/mob/user = AM
-		if(allow_hand_open(user))
+		if(check_safety(user))
 			add_fingerprint(user)
 			open()
 			return TRUE
 	if(ismecha(AM))
 		var/obj/mecha/M = AM
-		if(M.occupant && allow_hand_open(M.occupant))
+		if(M.occupant && check_safety(M.occupant))
 			open()
 			return TRUE
 	//end NSV13
@@ -119,7 +119,7 @@
 						 "You operate the manual lever on \the [src].")
 			if (!do_after(user, 30, TRUE, src))
 				return FALSE
-		else if (density && !allow_hand_open(user))
+		else if (density && !check_safety(user))
 			return FALSE
 
 		add_fingerprint(user)
