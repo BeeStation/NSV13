@@ -1434,6 +1434,8 @@ Seek a ship thich we'll station ourselves around
 		if(physics2d)
 			STOP_PROCESSING(SSphysics_processing, physics2d)
 		return
+	if(disruption && prob(min(99, disruption)))
+		return	//Timeout.
 	choose_goal()
 	if(!pilot) //AI ships need a pilot so that they aren't hit by their own bullets. Projectiles.dm's can_hit needs a mob to be the firer, so here we are.
 		pilot = new /mob/living(get_turf(src))
@@ -1469,7 +1471,7 @@ Seek a ship thich we'll station ourselves around
 		for(var/obj/structure/overmap/OM in maybe_resupply)
 			if(OM.z != z || OM == src || OM.faction != faction || get_dist(src, OM) > resupply_range) //No self healing
 				continue
-			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left)) //No need to resupply this ship at all.
+			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left) && OM.missiles >= initial(OM.missiles) && OM.torpedoes >= initial(OM.torpedoes)) //No need to resupply this ship at all.
 				continue
 			resupply_target = OM
 			addtimer(CALLBACK(src, .proc/resupply), 5 SECONDS)	//Resupply comperatively fast, but not instant. Repairs take longer.

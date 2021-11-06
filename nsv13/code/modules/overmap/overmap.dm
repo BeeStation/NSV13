@@ -43,6 +43,7 @@
 	var/max_armour_plates = 0
 	var/list/dent_decals = list() //Ships get visibly damaged as they get shot
 	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
+	var/disruption = 0	//Causes bad effects proportional to how significant. Most significant for AI ships (or fighters) hit by disruption weapons.
 
 	var/use_armour_quadrants = FALSE //Does the object use the armour quadrant system?
 	var/max_armour = 0 //Max armour amount per quad
