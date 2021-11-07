@@ -76,7 +76,7 @@
 	return FALSE
 
 /datum/ship_weapon/proc/weapon_sound()
-	set waitfor = FALSE
+	set waitfor = FALSE // is this needed
 	var/sound/chosen = pick(overmap_firing_sounds)
 	holder.relay(chosen)
 
