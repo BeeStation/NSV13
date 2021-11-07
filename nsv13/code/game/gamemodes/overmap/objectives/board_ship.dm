@@ -18,8 +18,9 @@
 	target_ship.name = ship_name
 	// give it a home
 	var/list/candidates = list()
-	for(var/datum/star_system/S in SSstar_system.systems)
-		candidates += S
+	for(var/datum/star_system/random/S in SSstar_system.systems)
+		if(!S.hidden)
+			candidates += S
 	target_system = pick(candidates)
 	brief = "Capture the syndicate vessel [target_ship] in [target_system] by boarding it, defeating the enemies therein, and modifying its IFF codes."
 	target_system.add_ship(target_ship)
