@@ -289,7 +289,7 @@
 		if(current_system && !LAZYFIND(current_system.system_contents, src))
 			LAZYADD(current_system.system_contents, src)
 
-		if(OM.boarding_interior)
+		if(OM.boarding_interior && CHECK_BITFIELD(deletion_behavior, DELETE_UNOCCUPIED_ON_DEPARTURE) && has_occupants())
 			OM.kill_boarding_level()
 			qdel(OM)
 
