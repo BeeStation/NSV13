@@ -35,6 +35,8 @@
 	chamber_delay_rapid = 0
 	chamber_delay = 0
 	bang = FALSE
+	var/sound/lastsound // PDCs only switch sounds after the user stops firing. (Rapidfire uses the same sound)
+	var/soundcooldown = 0
 
 /obj/machinery/ship_weapon/pdc_mount/north //Things mounted on a north wall face south, etc.
 	dir = SOUTH
@@ -106,6 +108,7 @@
 
 /obj/machinery/ship_weapon/pdc_mount/after_fire()
 	..()
+	soundcooldown = world.time + 10
 	update_icon()
 
 // Don't animate us on fire, the above takes care of all the icon updates we need
@@ -156,5 +159,10 @@
 		deconstruct(TRUE)
 		return TRUE
 	return default_deconstruction_crowbar(user, tool)
+
+/obj/machinery/ship_weapon/pdc_mount/overmap_sound()
+	if(world.time > soundcooldown)
+		lastsound = pick(weapon_type.overmap_firing_sounds)
+	linked.relay_to_nearby(lastsound)
 
 #undef MSTATE_PRIEDOUT
