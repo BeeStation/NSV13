@@ -9,8 +9,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	for(var/mob/M in operators)
 		stop_piloting(M, eject_mob=FALSE) // We'll handle kicking them out ourselves
 	if(length(mobs_in_ship))
-		if(ispath(has_escape_pod))
-			var/obj/structure/overmap/fighter/escapepod = create_escape_pod(has_escape_pod, last_pilot)
+		if(ispath(escape_pod_type))
+			var/obj/structure/overmap/fighter/escapepod = create_escape_pod(escape_pod_type, last_pilot)
 			if(!escapepod)
 				var/list/copy_of_mobs_in_ship = mobs_in_ship.Copy() //Sometimes you really need to iterate on a list while it's getting modified
 				for(var/mob/living/M in copy_of_mobs_in_ship)
@@ -63,7 +63,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
 	var/obj/machinery/computer/ship/navigation/starmap = null
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
-	var/has_escape_pod = /obj/structure/overmap/fighter/escapepod
+	var/escape_pod_type = /obj/structure/overmap/fighter/escapepod
 	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode, \
 								.verb/show_control_panel, .verb/change_name, .verb/countermeasure)
 												 //Countermeasure code in countermeasure_ammo.dm
@@ -393,10 +393,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 						/obj/item/fighter_component/countermeasure_dispenser)
 
 
-/obj/structure/overmap/fighter/escapepod/stop_piloting(mob/living/M, eject=TRUE, force=FALSE)
+/obj/structure/overmap/fighter/escapepod/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
 	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE))
 		return FALSE
-	return ..(eject_mob=eject_mob, force=force)
+	return ..(M, eject_mob=eject_mob, force=force)
 
 /obj/structure/overmap/fighter/escapepod/Destroy()
 	if(length(mobs_in_ship))
@@ -573,7 +573,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			M.forceMove(escape_pod)
 			if(!escape_pod.pilot || escape_pod.pilot.stat == DEAD || escape_pod.pilot.incapacitated()) // Someone please drive this thing
 				escape_pod.start_piloting(M, "pilot")
-				escape_pod.attack_hand(M)
+				escape_pod.ui_interact(M)
 			else
 				escape_pod.start_piloting(M, "observer")
 			escape_pod.mobs_in_ship += M
@@ -1103,6 +1103,9 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	return (engines_active())
 
 /obj/structure/overmap/fighter/escapepod/can_move()
+	return TRUE
+
+/obj/structure/overmap/fighter/escapepod/engines_active()
 	return TRUE
 
 /obj/structure/overmap/fighter/proc/empty_fuel_tank()//Debug purposes, for when you need to drain a fighter's tank entirely.
