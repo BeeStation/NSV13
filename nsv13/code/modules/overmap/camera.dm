@@ -137,7 +137,7 @@
 	if(!remote_eye?.origin)
 		qdel(src)
 		qdel(remote_eye)
-	if(ship.stop_piloting(target))
+	else if(ship.stop_piloting(target))
 		qdel(remote_eye)
 		qdel(src)
 
