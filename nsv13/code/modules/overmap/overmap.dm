@@ -473,9 +473,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 	if(deletion_teleports_occupants)
 		var/turf/T = get_turf(src) // Drop them outside if we're parked, forceMove protection will kick in if we're on the overmap
-		for(var/mob/M in mobs_in_ship)
+		for(var/mob/living/M in mobs_in_ship)
 			if(M)
 				M.forceMove(T)
+				M.apply_damage(200)
 	kill_boarding_level()
 	return ..()
 

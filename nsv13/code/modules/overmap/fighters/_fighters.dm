@@ -5,7 +5,11 @@ Been a mess since 2018, we'll fix it someday (probably)
 */
 
 /obj/structure/overmap/fighter/Destroy()
-	throw_pilot()
+	if(deletion_teleports_occupants)
+		var/list/dead_people = force_eject() // Doing fighter ejection specially should prevent pilot/gunner view issues
+		if(length(dead_people))
+			for(mob/living/M in dead_people)
+				M.apply_damage(200)
 	kill_boarding_level()
 	. = ..()
 
