@@ -86,6 +86,13 @@
 	lateral = FALSE
 	ai_fire_delay = 2 SECONDS
 
+/datum/ship_weapon/torpedo_launcher/burst_disruptor
+	name = "Burst Disruption Torpedo tubes"
+	default_projectile_type = /obj/item/projectile/guided_munition/torpedo/disruptor
+	burst_size = 3
+	fire_delay = 4 SECONDS
+	range_modifier = 35
+
 /datum/ship_weapon/torpedo_launcher/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
 		return FALSE
@@ -222,6 +229,10 @@
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
 	lateral = FALSE
 
+/datum/ship_weapon/light_cannon/integrated	//Weapon for ships big enough that autocannon ammo concerns shouldn't matter this much anymore. Changes their class from HEAVY to LIGHT
+	name = "integrated light autocannon"
+	weapon_class = WEAPON_CLASS_LIGHT
+
 /datum/ship_weapon/heavy_cannon
 	name = ".30 cal heavy cannon"
 	default_projectile_type = /obj/item/projectile/bullet/heavy_cannon_round
@@ -298,6 +309,18 @@
 	miss_chance = 33
 	max_miss_distance = 6
 	ai_fire_delay = 0.5 SECONDS
+	var/sound/lastsound // Special PDC sound handling
+
+/datum/ship_weapon/pdc_mount/New()
+	..()
+	lastsound = pick(overmap_firing_sounds)
+
+// only change our firing sound if we haven't been firing for our fire delay + one second
+/datum/ship_weapon/pdc_mount/weapon_sound()
+	set waitfor = FALSE
+	if(world.time > next_firetime + fire_delay + 10)
+		lastsound = pick(overmap_firing_sounds)
+	holder.relay(lastsound)
 
 /datum/ship_weapon/flak
 	name = "Flak cannon"
