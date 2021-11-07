@@ -166,6 +166,13 @@ Returns a faction datum by its name (case insensitive!)
 */
 
 /datum/controller/subsystem/star_system/proc/save(_destination_path = "config/starmap/starmap_default.json")
+	// No :)
+	var/list/directory = splittext(_destination_path, "/")
+	if(directory[1] != "config")
+		CRASH("ERR: Starmaps can only be saved to the config directory!")
+	if(!findtext(directory[directory.len], ".json"))
+		CRASH("ERR: Starmaps can only be written to JSON.")
+
 	message_admins("Saving current starsystem layout...")
 	var/json_file = null
 	//Read the file in...
@@ -211,6 +218,7 @@ Returns a faction datum by its name (case insensitive!)
 		fdel(json_file)
 		var/list/to_save = file_data
 		WRITE_FILE(json_file, json_encode(to_save))
+		message_admins("Successfully saved current starmap to: [_destination_path]")
 		return 0
 	catch(var/exception/e)
 		message_admins("WARNING: Unable to save [_destination_path]: [e]")
@@ -430,7 +438,7 @@ Returns a faction datum by its name (case insensitive!)
 /datum/star_system/New(name, desc, threat_level, alignment, hidden, system_type, system_traits, is_capital, adjacency_list, wormhole_connections, fleet_type, x, y, parallax_property, visitable, sector, is_hypergate, preset_trader, audio_cues, startup_proc)
 	. = ..()
 	//Load props first.
-	if(name != null)
+	if(name)
 		src.name = name
 		src.desc = desc
 		src.threat_level = threat_level
