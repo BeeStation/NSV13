@@ -55,7 +55,7 @@
 	if(IsAdminAdvancedProcCall())
 		return
 
-	filename = "[foldername]/[filename].json"
+	filename = "[foldername]/[SANITIZE_FILENAME(filename)].json"
 	var/datum/map_config/config = new
 	if (default_to_box)
 		return config
