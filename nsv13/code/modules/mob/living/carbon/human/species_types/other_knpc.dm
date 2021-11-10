@@ -64,3 +64,7 @@
 	icon_state = "boardingdroid"
 	real_name = "Droid [random_capital_letter()][random_capital_letter()][random_capital_letter()]"
 	cut_overlays()
+
+/mob/living/carbon/human/ai_boarder/boarding_droid/apply_damage(damage, damagetype, def_zone, blocked, forced)
+	. = ..()
+	cut_overlays()
