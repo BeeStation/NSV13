@@ -151,6 +151,7 @@
 	if(!ui)
 		ui = new(user, src, "DeckGun")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Loading delay, firing updates
 
 /obj/machinery/computer/deckgun/ui_data(mob/user)
 	var/list/data = list()

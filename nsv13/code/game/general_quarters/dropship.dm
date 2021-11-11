@@ -214,6 +214,7 @@
 	if(!ui)
 		ui = new(user, src, "FighterControls")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Fuel gauge, ammo, etc
 
 /obj/machinery/computer/ship/helm/console/dropship/ui_data(mob/user)
 	var/obj/structure/overmap/OM = get_overmap()

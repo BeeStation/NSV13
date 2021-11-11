@@ -69,6 +69,7 @@
 	if(!ui)
 		ui = new(user, src, "CryogenicFuel")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/ui_data(mob/user)
 	var/list/data = list()

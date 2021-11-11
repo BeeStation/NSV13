@@ -44,6 +44,7 @@
 		assets.send(user)
 		ui = new(user, src, "Starmap")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/navigation/ui_act(action, params, datum/tgui/ui)
 	.=..()

@@ -225,6 +225,7 @@
 	if(!ui)
 		ui = new(user, src, "ArmourPlatingNanorepairPump")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/armour_plating_nanorepair_pump/ui_act(action, params, datum/tgui/ui)
 	if(..())

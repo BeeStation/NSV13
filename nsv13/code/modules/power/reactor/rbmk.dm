@@ -574,6 +574,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	if(!ui)
 		ui = new(user, src, "RbmkControlRods")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/reactor/control_rods/ui_act(action, params)
 	if(..())

@@ -582,6 +582,7 @@
 	if(!ui)
 		ui = new(user, src, "PDSRMainframe")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/defence_screen_mainframe_reactor/ui_act(action, params, datum/tgui/ui)
 	if(..())

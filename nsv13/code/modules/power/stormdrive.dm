@@ -335,6 +335,7 @@ Control Rods
 	if(!ui)
 		ui = new(user, src, "StormdriveControlRods")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/ui_act(action, params, datum/tgui/ui)
 	if(..())

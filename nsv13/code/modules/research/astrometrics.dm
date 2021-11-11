@@ -38,6 +38,7 @@ you build.
 		assets.send(user)
 		ui = new(user, src, "Astrometrics")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /**
 Clean override of the navigation computer to provide scan functionality.

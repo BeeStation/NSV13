@@ -111,6 +111,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(!ui)
 		ui = new(user, src, "FighterControls")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/structure/overmap/fighter/ui_data(mob/user)
 	var/list/data = list()

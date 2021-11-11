@@ -306,6 +306,7 @@
 	if(!ui)
 		ui = new(user, src, "ShieldGenerator")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/shield_generator/attack_hand(mob/user)
 	ui_interact(user)

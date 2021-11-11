@@ -480,6 +480,7 @@
 	if(!ui)
 		ui = new(user, src, "GaussRack")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Ammo count
 
 /obj/structure/gauss_rack/ui_act(action, params, datum/tgui/ui)
 	if(..())
@@ -577,7 +578,7 @@ Chair + rack handling
 		else
 			to_chat(user, "<span class='warning'>[M] won't fit in the [src].!</span>")
 		return
-	
+
 	var/mob/living/carbon/C = M
 	if(istype(C) && !C.get_bodypart(BODY_ZONE_L_ARM) && !C.get_bodypart(BODY_ZONE_R_ARM)) //Can't shoot the gun if you have no hands, borgs get a pass on this
 		if(M == user)

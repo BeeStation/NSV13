@@ -349,6 +349,7 @@ Starting Materials
 	if(!ui)
 		ui = new(user, src, "ArmourPlatingNanorepairWell")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/armour_plating_nanorepair_well/ui_act(action, params, datum/tgui/ui)
 	if(..())

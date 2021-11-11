@@ -508,6 +508,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	if(!ui)
 		ui = new(user, src, "FTLComputer")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/ftl_computer/ui_act(action, params, datum/tgui/ui)
 	. = ..()
