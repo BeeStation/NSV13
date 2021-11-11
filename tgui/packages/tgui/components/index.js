@@ -26,6 +26,8 @@ export { Knob } from './Knob';
 export { LabeledControls } from './LabeledControls';
 export { LabeledList } from './LabeledList';
 export { Modal } from './Modal';
+// NSV13 - Map
+export { Map } from './Map';
 export { NoticeBox } from './NoticeBox';
 export { NumberInput } from './NumberInput';
 export { OrbitalMapComponent } from './OrbitalMapComponent';
@@ -35,6 +37,8 @@ export { Popper } from './Popper';
 export { Section } from './Section';
 export { Slider } from './Slider';
 export { Stack } from './Stack';
+// NSV13 - StarButton
+export { StarButton } from './StarButton';
 export { Table } from './Table';
 export { Tabs } from './Tabs';
 export { TextArea } from './TextArea';

@@ -1,6 +1,5 @@
 // NSV13
 
-import { Fragment } from 'inferno';
 import { useBackend } from '../backend';
 import { Button, Section, Knob, Map, StarButton } from '../components';
 import { Window } from '../layouts';
@@ -21,16 +20,16 @@ export const DradisContent = (props, context) => {
     };
     let markerType = "star_marker"+"_"+ship.alignment;
     return (
-      <Fragment key={ship}>
+      <>
         {!!ship.name && (
-          <StarButton unselectable="on" style={markerStyle} className={markerType}
+          <Button unselectable="on" style={markerStyle} className={markerType}
             content="" onClick={() => act('hail', { target: ship.id })}>
             <span class="star_label">
               <p>{ship.name}</p>
             </span>
-          </StarButton>
-        )}
-      </Fragment>
+          </Button>
+        )};
+      </>
     );
   };
 
@@ -67,7 +66,7 @@ export const DradisContent = (props, context) => {
     <Section
       title="Settings:"
       buttons={(
-        <Fragment>
+        <>
           <Button
             icon="search-plus"
             onClick={() => act('zoomin')} />
@@ -91,7 +90,7 @@ export const DradisContent = (props, context) => {
             content="Re-focus"
             icon="camera"
             onClick={() => location.reload()} />
-        </Fragment>
+        </>
       )}>
       Allies:
       <Knob
@@ -163,7 +162,6 @@ export const Dradis = (props, context) => {
 
   return (
     <Window
-      resizable
       theme="hackerman"
       width={700}
       height={750}>
