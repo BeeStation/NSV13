@@ -49,6 +49,7 @@
   if(!ui)
     ui = new(user, src, "FighterTug")
     ui.open()
+	ui.set_autoupdate(TRUE)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_data(mob/user)
 	var/list/data = ..()

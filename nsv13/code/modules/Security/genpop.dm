@@ -193,6 +193,7 @@
 	if(!ui)
 		ui = new(user, src, "GenPop")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/genpop_interface/ui_data(mob/user)
 	var/list/data = list()

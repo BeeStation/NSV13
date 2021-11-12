@@ -727,6 +727,7 @@ Chair + rack handling
 	if(!ui)
 		ui = new(user, src, "MunitionsComputer")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/ship_weapon/gauss_gun/ui_state(mob/user)
 	return GLOB.contained_state

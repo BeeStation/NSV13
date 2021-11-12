@@ -615,6 +615,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	if(!ui)
 		ui = new(user, src, "RbmkStats")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/reactor/stats/process()
 	if(world.time >= next_stat_interval)

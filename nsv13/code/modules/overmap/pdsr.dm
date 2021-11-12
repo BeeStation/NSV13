@@ -732,6 +732,7 @@
 	if(!ui)
 		ui = new(user, src, "PDSRManipulator")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/defence_screen_mainframe_shield/ui_act(action, params, datum/tgui/ui)
 	if(..())

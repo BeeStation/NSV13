@@ -136,6 +136,7 @@
 	if(unscrewed && !isAI(user))
 		wires.interact(user)
 		add_fingerprint(user)
+	else
 		..()
 
 /obj/item/radio/ui_state(mob/user)

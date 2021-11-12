@@ -67,6 +67,7 @@
 	if(!ui)
 		ui = new(user, src, "MunitionsTrolley")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/structure/munitions_trolley/ui_act(action, params, datum/tgui/ui)
 	if(..())

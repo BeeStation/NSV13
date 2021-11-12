@@ -185,6 +185,7 @@
 	if(!ui)
 		ui = new(user, src, "CarHardpoints")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/vehicle/sealed/car/realistic/ui_data(mob/user)
 	var/list/data = list()
