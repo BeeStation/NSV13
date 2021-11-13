@@ -134,7 +134,7 @@ Returns a faction datum by its name (case insensitive!)
 				visitable = LAZYACCESS(sys_info, "visitable") || TRUE,
 				is_hypergate = LAZYACCESS(sys_info,"is_hypergate") || FALSE,
 				preset_trader = (LAZYACCESS(sys_info,"preset_trader")) ? text2path(sys_info["preset_trader"]) : null,
-				system_traits = LAZYACCESS(sys_info,"system_traits") || list(),
+				system_traits = LAZYACCESS(sys_info,"system_traits") ? sys_info["system_traits"] : NONE,
 				system_type = (LAZYACCESS(sys_info,"system_type") && sys_info["system_type"] != "null" && sys_info["system_type"] != null) ? json_decode(sys_info["system_type"]) : list(),
 				audio_cues = (LAZYACCESS(sys_info,"audio_cues") && sys_info["audio_cues"] != "null" && sys_info["audio_cues"] != null) ? json_decode(sys_info["audio_cues"]) : list(),
 				wormhole_connections = (LAZYACCESS(sys_info,"wormhole_connections") && sys_info["wormhole_connections"] != "null" && sys_info["wormhole_connections"] != null) ? json_decode(sys_info["wormhole_connections"]) : list(),
@@ -185,6 +185,17 @@ Returns a faction datum by its name (case insensitive!)
 	for(var/datum/star_system/S in systems)
 		if(S == null || istype(S, /datum/star_system/random))
 			continue
+		var/list/adjusted_adjacency_list = S.adjacency_list.Copy()
+		//Don't cache randomized systems in adjacency matrices.
+		for(var/system_name in adjusted_adjacency_list)
+			var/datum/star_system/SS = system_by_id(system_name)
+			if(istype(SS, /datum/star_system/random))
+				adjusted_adjacency_list.Remove(system_name)
+		var/list/adjusted_wormhole_connections = S.wormhole_connections.Copy()
+		for(var/system_name in adjusted_wormhole_connections)
+			var/datum/star_system/SS = system_by_id(system_name)
+			if(istype(SS, /datum/star_system/random))
+				adjusted_wormhole_connections.Remove(system_name)
 		var/list/entry = list(
 			//Fluff.
 			"name"=S.name,
@@ -194,10 +205,10 @@ Returns a faction datum by its name (case insensitive!)
 			"alignment" = S.alignment,
 			"hidden"=S.hidden,
 			"system_type" = json_encode(S.system_type),
-			"system_traits"=S.system_traits,
+			"system_traits"=isnum(S.system_traits) ? S.system_traits : NONE,
 			"is_capital"=S.is_capital,
-			"adjacency_list"=json_encode(S.adjacency_list),
-			"wormhole_connections"=json_encode(S.wormhole_connections),
+			"adjacency_list"=json_encode(adjusted_adjacency_list),
+			"wormhole_connections"=json_encode(adjusted_wormhole_connections),
 			"fleet_type" = S.fleet_type,
 			//Coords, props.
 			"x" = S.x,
@@ -795,6 +806,16 @@ Returns a faction datum by its name (case insensitive!)
 /datum/star_system/proc/lerp_y(datum/star_system/other, t)
 	return y + (t * (other.y - y))
 
+//End the round upon entering O45.
+/datum/star_system/after_enter(obj/structure/overmap/OM)
+	if(CHECK_BITFIELD(system_traits, STARSYSTEM_END_ON_ENTER))
+		to_chat(world, "yeah [src.name]: [system_traits]")
+		if(OM.role == MAIN_OVERMAP)
+			priority_announce("[station_name()] has successfully returned to [src] for resupply and crew transfer, excellent work crew.", "Naval Command")
+			GLOB.crew_transfer_risa = TRUE
+			SSticker.mode.check_finished()
+	. = ..()
+
 /datum/star_system/staging
 	name = "Staging"
 	desc = "Used for round initialisation and admin event staging"
@@ -885,14 +906,7 @@ Returns a faction datum by its name (case insensitive!)
 	y = 80
 	alignment = "nanotrasen"
 	adjacency_list = list("Lalande 21185")
-	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_ASTEROIDS | STARSYSTEM_NO_WORMHOLE
-
-/datum/star_system/outpost/after_enter(obj/structure/overmap/OM)
-	if(OM.role == MAIN_OVERMAP)
-		priority_announce("[station_name()] has successfully returned to [src] for resupply and crew transfer, excellent work crew.", "Naval Command")
-		GLOB.crew_transfer_risa = TRUE
-		SSticker.mode.check_finished()
-	return
+	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_ASTEROIDS | STARSYSTEM_NO_WORMHOLE | STARSYSTEM_END_ON_ENTER
 
 //Sector 2: Neutral Zone.
 /*

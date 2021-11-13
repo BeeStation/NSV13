@@ -138,4 +138,5 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define STARSYSTEM_NO_ANOMALIES 1<<0	//Prevents Anomalies Spawning
 #define STARSYSTEM_NO_ASTEROIDS 1<<1	//Prevents Asteroids Spawning
 #define STARSYSTEM_NO_WORMHOLE 1<<2		//Prevents Incoming Wormholes
+#define STARSYSTEM_END_ON_ENTER 1<<3  //End the round after entering this system (Outpost 45)
 //NSV13 change end
