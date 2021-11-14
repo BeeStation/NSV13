@@ -142,6 +142,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	choose_interior()
 	if(!boarding_interior?.mappath)
 		message_admins("Error parsing boarding interior map for [src]")
+		return FALSE
 
 	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
 	if(!roomReservation)

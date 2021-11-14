@@ -12,7 +12,7 @@
 
 /obj/structure/overmap/get_overmap()
 	last_overmap = ..()
-	last_overmap.overmaps_in_ship += src
+	last_overmap?.overmaps_in_ship += src
 	return last_overmap
 
 /**

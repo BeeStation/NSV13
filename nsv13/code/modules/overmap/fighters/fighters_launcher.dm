@@ -304,21 +304,24 @@
 /obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
 	if(istype(OM, /obj/structure/overmap/asteroid))
 		var/obj/structure/overmap/asteroid/AS = OM
-		if(!AS.loading)
-			AS.loading = TRUE
-			if(prob(33)) //I hate this but it works so fuck you
-				var/list/potential_ruins = flist("_maps/map_files/Mining/nsv13/ruins/")
-				OM.boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/ruins/[pick(potential_ruins)]", null, FALSE, AS.core_composition) //Set up an asteroid
-			else //67% chance to get an actual asteroid
-				var/list/potential_asteroids = flist("_maps/map_files/Mining/nsv13/asteroids/")
-				OM.boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/asteroids/[pick(potential_asteroids)]", null, FALSE, AS.core_composition) //Set up an asteroid
-			AS.instance_interior()
-			AS.docking_points = AS.interior_entry_points
+		AS.instance_interior()
+		AS.docking_points = AS.interior_entry_points
 		transfer_from_overmap(OM)
 	else if(mass < OM.mass) //If theyre smaller than us,and we have docking points, and they want to dock
 		return transfer_from_overmap(OM)
 	else
 		return FALSE
+
+/obj/structure/overmap/asteroid/choose_interior(map_path_override)
+	if(map_path_override)
+		message_admins("using map path override [map_path_override]")
+		boarding_interior = new/datum/map_template(map_path_override)
+	else if(prob(33)) //I hate this but it works so fuck you
+		var/list/potential_ruins = flist("_maps/map_files/Mining/nsv13/ruins/")
+		boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/ruins/[pick(potential_ruins)]", null, FALSE, core_composition) //Set up an asteroid
+	else //67% chance to get an actual asteroid
+		var/list/potential_asteroids = flist("_maps/map_files/Mining/nsv13/asteroids/")
+		boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/asteroids/[pick(potential_asteroids)]", null, FALSE, core_composition) //Set up an asteroid
 
 /obj/structure/overmap/fighter/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
