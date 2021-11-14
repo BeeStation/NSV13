@@ -6,7 +6,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/fighter/Destroy()
 	var/mob/last_pilot = pilot // Old pilot gets first shot
-	for(var/mob/M in operators)
+	for(var/mob/M as() in operators)
 		stop_piloting(M, eject_mob=FALSE) // We'll handle kicking them out ourselves
 	if(length(mobs_in_ship))
 		if(ispath(escape_pod_type))
@@ -396,7 +396,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/fighter/escapepod/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
 	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE))
 		return FALSE
-	return ..(M, eject_mob=eject_mob, force=force)
+	return ..()
 
 /obj/structure/overmap/fighter/escapepod/Destroy()
 	if(length(mobs_in_ship))
@@ -549,11 +549,14 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/obj/structure/overmap/fighter/escapepod/escape_pod = new path(get_turf(src))
 	if(!istype(escape_pod))
 		message_admins("Unable to create escape pod for [src] with path [path]")
+		qdel(escape_pod)
 		return
 	escape_pod.name = "[name] - escape pod"
 	escape_pod.faction = faction
 	escape_pod.desired_angle = 0
 	escape_pod.user_thrust_dir = NORTH
+	var/obj/item/fighter_component/docking_computer/DC = escape_pod.loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+	DC.docking_mode = TRUE
 	relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
 
 	// Transfer occupants
@@ -569,9 +572,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 			escape_pod.mobs_in_ship += last_pilot
 			last_pilot.overmap_ship = escape_pod
 
-		for(var/mob/M in mobs_in_ship)
+		for(var/mob/M as() in mobs_in_ship)
 			M.forceMove(escape_pod)
-			if(!escape_pod.pilot || escape_pod.pilot.stat == DEAD || escape_pod.pilot.incapacitated()) // Someone please drive this thing
+			if(!escape_pod.pilot || escape_pod.pilot.incapacitated()) // Someone please drive this thing
 				escape_pod.start_piloting(M, "pilot")
 				escape_pod.ui_interact(M)
 			else
