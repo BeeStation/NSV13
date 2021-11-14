@@ -11,6 +11,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			for(mob/living/M in dead_people)
 				M.apply_damage(200)
 	kill_boarding_level()
+	last_overmap?.overmaps_in_ship -= src
 	. = ..()
 
 /obj/structure/overmap/fighter

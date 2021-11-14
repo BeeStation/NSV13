@@ -10,6 +10,11 @@
 	var/area/AR = get_area(src)
 	return AR.overmap_fallback
 
+/obj/structure/overmap/get_overmap()
+	last_overmap = ..()
+	last_overmap.overmaps_in_ship += src
+	return last_overmap
+
 /**
 Helper method to get what ship an observer belongs to for stuff like parallax.
 */

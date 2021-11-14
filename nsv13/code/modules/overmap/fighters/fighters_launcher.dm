@@ -289,7 +289,10 @@
 		if(current_system && !LAZYFIND(current_system.system_contents, src))
 			LAZYADD(current_system.system_contents, src)
 
+		OM.overmaps_in_ship -= src // No lazyremove, please don't null my list
+
 		if(OM.boarding_interior && CHECK_BITFIELD(deletion_behavior, DELETE_UNOCCUPIED_ON_DEPARTURE) && has_occupants())
+			last_overmap = null
 			OM.kill_boarding_level()
 			qdel(OM)
 
@@ -330,6 +333,7 @@
 	pixel_z = initial(pixel_z)
 	var/turf/T = get_turf(pick(OM.docking_points))
 	forceMove(T)
+	LAZYADD(OM.overmaps_in_ship, src)
 	bound_width = initial(bound_width)
 	bound_height = initial(bound_height)
 	DC.docking_mode = FALSE
