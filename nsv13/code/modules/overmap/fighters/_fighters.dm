@@ -378,6 +378,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	pixel_w = 0
 	max_integrity = 50 //Able to withstand more punishment so that people inside it don't get yeeted as hard
 	canopy_open = FALSE
+	escape_pod_type = null // This would just be silly
 	speed_limit = 2 //This, for reference, will feel suuuuper slow, but this is intentional
 	loadout_type = LOADOUT_UTILITY_ONLY
 	components = list(/obj/item/fighter_component/fuel_tank,
