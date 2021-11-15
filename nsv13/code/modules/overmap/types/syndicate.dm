@@ -8,6 +8,7 @@
 	icon_state = "default"
 	faction = "syndicate"
 	supply_pod_type = /obj/structure/closet/supplypod/syndicate_odst
+	returns_rejected_cargo = FALSE // We won't send freight torpedoes to our enemies, we'll send actual torpedoes to our enemies 
 
 //Player Versions
 

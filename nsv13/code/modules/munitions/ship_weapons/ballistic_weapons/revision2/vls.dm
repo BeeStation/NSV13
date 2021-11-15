@@ -170,6 +170,8 @@
 			continue
 		if(ship == OM || ship.faction == OM.faction || ship.z != OM.z)
 			continue
+		if ( ship.essential ) 
+			continue 
 		var/target_range = get_dist(ship,OM)
 		if(target_range > max_range || target_range <= 0) //Random pulled from the aether
 			continue
@@ -297,6 +299,8 @@
 			continue
 		if(ship == src || ship == last_target || ship.faction == faction || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
 			continue
+		if ( ship.essential )
+			continue
 		var/target_range = get_dist(ship,src)
 		if(target_range > 30 || target_range <= 0) //Random pulled from the aether
 			continue
@@ -350,6 +354,8 @@
 				continue
 			if(ship == src || ship == last_target || ship.faction == faction || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
 				continue
+			if ( ship.essential )
+				continue 
 			var/target_range = get_dist(ship,src)
 			if(target_range > 30 || target_range <= 0) //Random pulled from the aether
 				continue
