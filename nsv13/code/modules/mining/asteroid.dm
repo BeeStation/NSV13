@@ -69,7 +69,6 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	max_integrity = 100
 	var/list/core_composition = list(/turf/closed/mineral/iron, /turf/closed/mineral/titanium)
 	var/required_tier = 1
-	var/loading = FALSE
 	armor = list("overmap_light" = 100, "overmap_medium" = 100, "overmap_heavy" = 25)
 	deletion_behavior = DELETE_UNOCCUPIED_ON_DEPARTURE | DAMAGE_DELETES_UNOCCUPIED | DAMAGE_STARTS_COUNTDOWN | FIGHTERS_ARE_OCCUPANTS
 	deletion_teleports_occupants = TRUE
@@ -100,6 +99,16 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	icon_state = "[rand(1,5)]"
 	angle = rand(0,360)
 	desired_angle = angle
+
+/obj/structure/overmap/asteroid/choose_interior(map_path_override)
+	if(map_path_override)
+		boarding_interior = new/datum/map_template(map_path_override)
+	else if(prob(33)) //I hate this but it works so fuck you
+		var/list/potential_ruins = flist("_maps/map_files/Mining/nsv13/ruins/")
+		boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/ruins/[pick(potential_ruins)]", null, FALSE, core_composition) //Set up an asteroid
+	else //67% chance to get an actual asteroid
+		var/list/potential_asteroids = flist("_maps/map_files/Mining/nsv13/asteroids/")
+		boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/asteroids/[pick(potential_asteroids)]", null, FALSE, core_composition) //Set up an asteroid
 
 /obj/structure/overmap/asteroid/Destroy()
 	. = ..()
