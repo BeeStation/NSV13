@@ -302,7 +302,6 @@
 
 		if(OM.boarding_interior && CHECK_BITFIELD(OM.deletion_behavior, DELETE_UNOCCUPIED_ON_DEPARTURE) && !(OM.has_occupants()))
 			last_overmap = null
-			OM.kill_boarding_level()
 			qdel(OM)
 
 		return TRUE
