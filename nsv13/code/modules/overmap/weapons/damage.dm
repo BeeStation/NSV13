@@ -95,8 +95,12 @@ Bullet reactions
 /obj/structure/overmap/proc/has_occupants()
 	if(length(mobs_in_ship))
 		return TRUE
-	else if(CHECK_BITFIELD(deletion_behavior, FIGHTERS_ARE_OCCUPANTS) && length(overmaps_in_ship))
-		return TRUE
+	if(length(overmaps_in_ship))
+		if(CHECK_BITFIELD(deletion_behavior, FIGHTERS_ARE_OCCUPANTS)
+			return TRUE
+		for(var/obj/structure/overmap/OM as() in overmaps_in_ship)
+			if(length(OM.mobs_in_ship))
+				return TRUE
 	return FALSE
 
 /obj/structure/overmap/proc/handle_crit(damage_amount) //A proc to allow ships to enter superstructure crit, this means the player ship can't die, but its insides can get torn to shreds.
