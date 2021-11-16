@@ -452,7 +452,7 @@
 	shots_left = 500
 	missiles = 30
 	ai_behavior = AI_AGRESSIVE
-	ai_flags = AI_FLAG_ELITE | AI_FLAG_BATTLESHIP | AI_FLAG_SWARMER
+	ai_flags = AI_FLAG_ELITE | AI_FLAG_BATTLESHIP
 	can_resupply = TRUE
 	combat_dice_type = /datum/combat_dice/battleship
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
