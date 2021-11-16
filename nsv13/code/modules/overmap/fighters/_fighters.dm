@@ -376,8 +376,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 	bound_height = 32
 	pixel_z = 0
 	pixel_w = 0
-	max_integrity = 50 //Able to withstand more punishment so that people inside it don't get yeeted as hard
+	max_integrity = 500 //Able to withstand more punishment so that people inside it don't get yeeted as hard
 	canopy_open = FALSE
+	essential = TRUE
 	escape_pod_type = null // This would just be silly
 	speed_limit = 2 //This, for reference, will feel suuuuper slow, but this is intentional
 	loadout_type = LOADOUT_UTILITY_ONLY
@@ -397,11 +398,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/fighter/escapepod/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
 	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE))
 		return FALSE
-	return ..()
-
-/obj/structure/overmap/fighter/escapepod/Destroy()
-	if(length(mobs_in_ship))
-		return QDEL_HINT_LETMELIVE
 	return ..()
 
 /obj/structure/overmap/fighter/heavy
