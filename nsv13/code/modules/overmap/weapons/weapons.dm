@@ -15,11 +15,11 @@
 		return
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	last_target = target
+	var/obj/structure/overmap/ship = target
 	if(ai_controlled) //Let the AI switch weapons according to range
 		ai_fire(target)
 		return	//end if(ai_controlled)
 	if(istype(target, /obj/structure/overmap))
-		var/obj/structure/overmap/ship = target
 		ship.add_enemy(src)
 	fire_weapon(target)
 
