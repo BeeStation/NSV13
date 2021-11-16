@@ -94,7 +94,9 @@ Bullet reactions
 
 /obj/structure/overmap/proc/has_occupants()
 	if(length(mobs_in_ship))
-		return TRUE
+		for(var/mob/M in mobs_in_ship) // Hopefully we don't have to do this super often but I didn't want one list of people who have to hear noises and announcements and another list of people who matter for this
+			if(istype(M, /mob/living) && !istype(M, /mob/living/simple_animal))
+				return TRUE
 	if(length(overmaps_in_ship))
 		if(CHECK_BITFIELD(deletion_behavior, FIGHTERS_ARE_OCCUPANTS))
 			return TRUE
