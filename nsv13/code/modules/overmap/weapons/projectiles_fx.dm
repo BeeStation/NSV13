@@ -87,36 +87,61 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/mac_round/dirty
 	damage = 150
 	name = "dirty artillery round"
-	relay_projectile_type = /obj/item/projectile/bullet/dirty_shell_stage_two
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/dirty_shell_stage_two
 
-//Dirty shell: Stage 2 - z level sludge payload projectile
-/obj/item/projectile/bullet/dirty_shell_stage_two
-	name = "dirty artillery round"
-	icon_state = "railgun"
+
+//Delayed priming projectile parent type - useful for a few different kinds of projectiles so why not.
+/obj/item/projectile/bullet/delayed_prime
+	name = "uh oh this isn't supposed to exist!"
 	range = 255
 	speed = 1.85
 	movement_type = FLYING | UNSTOPPABLE
 	damage = 45		//It's on a z now, lets not instakill people / objects this happens to hit.
-	var/penetration_fuze = 4	//Will pen through this many solid turfs before arming. Can overpenetrate if it happens to pen through windows or other things with not enough resistance.
+	var/penetration_fuze = 1	//Will pen through this many things considered valid for reducing this before arming. Can overpenetrate if it happens to pen through windows or other things with not enough resistance.
 
-/obj/item/projectile/bullet/dirty_shell_stage_two/on_hit(atom/target, blocked)
+/obj/item/projectile/bullet/delayed_prime/on_hit(atom/target, blocked)
 	. = ..()
-	if(isclosedturf(target))
-		penetration_fuze--
+	penetration_fuze -= fuze_trigger_value(target)
 
-/obj/item/projectile/bullet/dirty_shell_stage_two/Move(atom/newloc, dir)
+/obj/item/projectile/bullet/delayed_prime/proc/fuze_trigger_value(atom/target)
+	return 0
+
+/obj/item/projectile/bullet/delayed_prime/Move(atom/newloc, dir)
 	. = ..()
 	if(!.)
 		return
-	if(!isopenturf(newloc))
-		return
-	var/turf/newturf = newloc
-	if(penetration_fuze <= 0 && !is_blocked_turf(newturf, TRUE))
-		explosion(newturf, 0, 0, 5, 8, flame_range = 3)
-		release_payload(newturf)
+	if(is_valid_to_release(newloc))
+		release_payload(newloc)
 		qdel(src)
 
-/obj/item/projectile/bullet/dirty_shell_stage_two/proc/release_payload(turf/detonation_turf)
+/obj/item/projectile/bullet/delayed_prime/proc/is_valid_to_release(atom/newloc)
+	return
+
+/obj/item/projectile/bullet/delayed_prime/proc/release_payload(atom/detonation_location)
+	return
+
+//Dirty shell: Stage 2 - z level sludge payload projectile
+/obj/item/projectile/bullet/delayed_prime/dirty_shell_stage_two
+	name = "dirty artillery round"
+	icon_state = "railgun"
+	penetration_fuze = 4
+
+/obj/item/projectile/bullet/delayed_prime/dirty_shell_stage_two/fuze_trigger_value(atom/target)
+	if(!isclosedturf(target))
+		return 0
+	return 1
+
+/obj/item/projectile/bullet/delayed_prime/dirty_shell_stage_two/is_valid_to_release(atom/newloc)
+	if(penetration_fuze > 0 || !isopenturf(newloc))
+		return FALSE
+	var/turf/newturf = newloc
+	if(is_blocked_turf(newturf, TRUE))
+		return FALSE
+	return TRUE
+
+/obj/item/projectile/bullet/delayed_prime/dirty_shell_stage_two/release_payload(atom/detonation_location)
+	var/turf/detonation_turf = detonation_location
+	explosion(detonation_turf, 0, 0, 5, 8, flame_range = 3)
 	var/list/inrange_turfs = RANGE_TURFS(DIRTY_SHELL_SLUDGE_RANGE, detonation_turf) - detonation_turf
 	new /obj/effect/decal/nuclear_waste/epicenter(detonation_turf)
 	for(var/turf/T as() in inrange_turfs)
@@ -155,6 +180,60 @@ Misc projectile types, effects, think of this as the special FX file.
 #undef DIRTY_SHELL_SLUDGE_RANGE
 #undef DIRTY_SHELL_PELLET_PROB
 #undef DIRTY_SHELL_PELLET_RANGE
+
+/obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
+	icon_state = "torpedo"	//For now
+	name = "incendiary torpedo"
+	penetration_fuze = 2
+
+/obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/fuze_trigger_value(atom/target)
+	if(isclosedturf(target))
+		return 1
+	
+	if(isliving(target))	//Someone got bonked by an incendiary torpedo, daamn.
+		var/mob/living/L = target
+		if(L.mind && L.mind.assigned_role == "Clown")
+			return (prob(50) ? 2 : -2)	//We all know clowns are cursed.
+		return 2	
+
+
+	return 0
+
+/obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/is_valid_to_release(atom/newloc)
+	if(penetration_fuze > 0 || !isopenturf(newloc))
+		return FALSE
+	return TRUE
+
+/obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/release_payload(atom/detonation_location)
+	var/turf/detonation_turf = detonation_location
+	explosion(detonation_turf, 0, 0, 4, 7, flame_range = 4)
+	detonation_turf.atmos_spawn_air("o2=75;plasma=425;TEMP=1000")
+
+/obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo
+	icon_state = "torpedo"
+	name = "armoured torpedo"
+	penetration_fuze = 3
+	damage = 25
+
+/obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo/fuze_trigger_value(atom/target)
+	if(isclosedturf(target))
+		return 1
+	return 0
+
+/obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo/is_valid_to_release(atom/newloc)
+	if(penetration_fuze > 0 || !isopenturf(newloc))
+		return FALSE
+	return TRUE
+
+/obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo/release_payload(atom/detonation_location)
+	var/turf/detonation_turf = detonation_location
+	new /obj/effect/dummy/lighting_obj(detonation_turf, LIGHT_COLOR_WHITE, 9, 4, 2)
+	playsound(detonation_turf, 'sound/effects/phasein.ogg', 100, 1)
+	for(var/mob/living/L in viewers(7, detonation_turf))
+		L.flash_act(affect_silicon = TRUE)
+	for(var/i = 1; i <= 13; i++)
+		new /mob/living/simple_animal/hostile/viscerator(detonation_turf)	//MANHACKS!1!!
+	
 
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "mac"
@@ -217,6 +296,23 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	spread = 5 //Helps them not get insta-bonked when launching
+
+/obj/item/projectile/guided_munition/torpedo/incendiary
+	//icon_state = "???" - alt sprite would be nice
+	name = "incendiary torpedo"
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
+	damage = 125
+	obj_integrity = 35
+	max_integrity = 35
+
+/obj/item/projectile/guided_munition/torpedo/viscerator
+	//icon_state = "???"	- alt sprite would be nice
+	name = "armoured torpedo"
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo
+	damage = 75	//Simply kinetic damagewise..
+	flag = "overmap_medium"
+	obj_integrity = 80
+	max_integrity = 80
 
 /obj/item/projectile/guided_munition/torpedo/shredder
 	icon_state = "torpedo_shredder"
