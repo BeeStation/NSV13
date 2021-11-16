@@ -135,7 +135,7 @@ Clean override of the navigation computer to provide scan functionality.
 				if(OA.research_points > 0 && !OA.scanned) //In case someone else did a scan on it already.
 					var/reward = OA.research_points/2
 					OA.research_points -= reward
-					linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, reward)
+					linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DISCOVERY, reward)
 				OA.scanned = TRUE
 			scan_target = null
 			scan_progress = 0
