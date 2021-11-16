@@ -31,3 +31,4 @@ Helper method to get what ship an observer belongs to for stuff like parallax.
 // Don't track these as mobs_in_ship
 /mob/living/simple_animal/find_overmap()
 	var/obj/structure/overmap/OM = loc.get_overmap() //Accounts for things like fighters and for being in nullspace because having no loc is bad.
+	last_overmap = OM

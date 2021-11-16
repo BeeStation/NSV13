@@ -96,7 +96,7 @@ Bullet reactions
 	if(length(mobs_in_ship))
 		return TRUE
 	if(length(overmaps_in_ship))
-		if(CHECK_BITFIELD(deletion_behavior, FIGHTERS_ARE_OCCUPANTS)
+		if(CHECK_BITFIELD(deletion_behavior, FIGHTERS_ARE_OCCUPANTS))
 			return TRUE
 		for(var/obj/structure/overmap/OM as() in overmaps_in_ship)
 			if(length(OM.mobs_in_ship))
