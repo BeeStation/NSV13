@@ -1,3 +1,4 @@
+// This file is now deprecated by overmap gamemode cargo objectives 
 
 /*
 Here we define the cargo crate, as well as the contents
