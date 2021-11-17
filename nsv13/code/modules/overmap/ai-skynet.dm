@@ -515,17 +515,17 @@ Adding tasks is easy! Just define a datum for it.
 	audio_cues = list()
 	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
-	
+
 /datum/fleet/syndicate/AbassisWrath
 	name = "Abassi's Wrath"
 	size = FLEET_DIFFICULTY_VERY_HARD
 	allow_difficulty_scaling = TRUE
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/fistofsol, /obj/structure/overmap/syndicate/ai/kadesh)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
-	destroyer_types = list/(/obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/cruiser/elite)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/cruiser/elite)
 	taunts = list("Do you see the scrap, the graves of your own making? You'll be in one soon enough.", "A criminal always returns to the scene of the crime...", "We are his wrath, we are his blade. We shall cut you down!", "All ships, end the war.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
-	
+
 /datum/fleet/syndicate/fistofsolo
 	name = "SSV Fist of Sol"
 	size = 1

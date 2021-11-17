@@ -429,7 +429,7 @@
 
 /obj/structure/overmap/syndicate/ai/kadesh/on_interdict()
 	add_sensor_profile_penalty(150, 10 SECONDS)
-	
+
 /obj/structure/overmap/syndicate/ai/fistofsol
 	name = "\improper SSV Fist of Sol"
 	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
@@ -451,14 +451,14 @@
 	ai_controlled = TRUE
 	shots_left = 500
 	missiles = 30
-	ai_behavior = AI_AGRESSIVE
+	ai_behaviour = AI_AGGRESSIVE
 	ai_flags = AI_FLAG_ELITE | AI_FLAG_BATTLESHIP
 	can_resupply = TRUE
 	combat_dice_type = /datum/combat_dice/battleship
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
 							/obj/structure/overmap/syndicate/ai/bomber)
-							
+
 /obj/structure/overmap/syndicate/ai/fistofsol/apply_weapons()
 	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/twinmac(src)
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/hailstorm(src)
