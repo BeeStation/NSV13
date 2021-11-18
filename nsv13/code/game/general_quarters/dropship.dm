@@ -56,6 +56,7 @@
 	always_unpowered = FALSE
 	lighting_colour_tube = "#e6af68"
 	lighting_colour_bulb = "#e6af68"
+	area_flags = 0 // Not a unique area and spawns are not allowed
 	teleport_restriction = TELEPORT_ALLOW_NONE
 
 //If we ever want to let them build these things..
