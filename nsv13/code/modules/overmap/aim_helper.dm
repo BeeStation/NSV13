@@ -1,6 +1,3 @@
-/obj/structure/overmap
-	var/atom/autofire_target = null //Are we clicking and holding to shoot our guns?
-
 /obj/structure/overmap/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
 	aiming_target = over_object
 	aiming_params = params

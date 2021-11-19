@@ -138,6 +138,7 @@
 	var/mob/listeningTo
 	var/obj/aiming_target
 	var/aiming_params
+	var/atom/autofire_target = null
 
 	// Trader delivery locations
 	var/list/trader_beacons = null

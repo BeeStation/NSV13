@@ -328,7 +328,7 @@
 	update_icon()
 	return TRUE
 
-/obj/item/gun/proc/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0, aimed=FALSE)
+/obj/item/gun/proc/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0, aimed=FALSE) //NSV13 added aimed
 	add_fingerprint(user)
 	if(fire_rate)
 		ranged_cooldown = world.time + 10 / fire_rate
@@ -635,6 +635,7 @@
 	pin = new /obj/item/firing_pin
 
 //Happens before the actual projectile creation
+//NSV13 - added aimed for aiming component
 /obj/item/gun/proc/before_firing(atom/target,mob/user, aimed)
 	return
 
