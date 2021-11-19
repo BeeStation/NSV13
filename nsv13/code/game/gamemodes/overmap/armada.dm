@@ -7,7 +7,7 @@
 	starting_faction = "nanotrasen"
 
 	objective_reminder_setting = 0				//We have strict timelines on this
-	objective_reminder_interval = 3 MINUTES	//60 Minutes Until Vanguard Arrives
+	objective_reminder_interval = 3 MINUTES		//60 Minutes Until Vanguard Arrives
 	reminder_one = ""							//Countdown 1
 	reminder_two = ""							//Countdown 2
 	reminder_three = ""							//Countdown 3
@@ -19,7 +19,10 @@
 
 	selection_weight = 0
 	required_players = 15
-	fixed_objectives = list(/datum/overmap_objective/system_defence_armada)
+	fixed_objectives = list(
+		/datum/overmap_objective/system_defence_armada,
+		/datum/overmap_objective/cargo/transfer/engine_parts
+	)
 
 /datum/overmap_gamemode/armada/New()
 	//Select a system to be targeted

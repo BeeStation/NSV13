@@ -20,6 +20,7 @@
 		return
 
 	var/datum/star_system/target = SSstar_system.system_by_id(selected_system)
-	if(target.alignment != "nanotrasen")
+	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+	if(target.alignment != "nanotrasen" && OM.current_system != target)
 		priority_announce("Attention [station_name()]. Our presence in this sector has been severely diminished due to your incompetence. Return to base immediately for disciplinary action.", "Naval Command")
 		SSovermap_mode.mode.defeat()

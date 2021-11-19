@@ -223,6 +223,20 @@
 	. = ..()
 	stock_items()
 
+////OBJECTIVE SPECIFIC
+/datum/trader/damaged_cruiser
+	name = "Damaged Caracal Class Cruiser" //TEMP
+	desc = "Mission Objective" //TEMP
+	shortname = "NTC"
+	faction_type = FACTION_ID_NT
+	sold_items = null //Nothing for sale
+	greetings = list(
+		"We've got our hands fully currently, what did you need?",\
+		"I don't mean to be terse, but we are busy over here.",\
+		"Make it quick."
+	)
+	station_type = /obj/structure/overmap/trader/damaged_cruiser
+
 /datum/trader/ui_data(mob/user)
 	if(world.time >= next_restock)
 		stock_items()
