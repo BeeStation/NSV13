@@ -61,7 +61,7 @@
 #define SEC_LEVEL_GREEN	0
 #define SEC_LEVEL_BLUE	1
 #define SEC_LEVEL_RED	2
-#define SEC_LEVEL_ZEBRA 3 //takeoff zebra baby
+#define SEC_LEVEL_ZEBRA 3 //NSV13 takeoff zebra baby
 #define SEC_LEVEL_DELTA	4
 
 //some arbitrary defines to be used by self-pruning global lists. (see master_controller)
