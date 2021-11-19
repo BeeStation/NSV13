@@ -17,7 +17,7 @@
 	var/selected_system							//The target of the Syndicate Attack
 	var/reinforcements = 0						//How many reinforcement fleets NT has at hand
 
-	selection_weight = 0
+	selection_weight = 5
 	required_players = 15
 	fixed_objectives = list(
 		/datum/overmap_objective/system_defence_armada,
@@ -40,8 +40,8 @@
 	reminder_one = "White Rapids predicts the Syndicate Armada will launch their assault on [selected_system] in [(objective_reminder_interval * 3) / 600] Minutes"
 	reminder_two = "White Rapids predicts the Syndicate Armada will launch their assault on [selected_system] in [(objective_reminder_interval * 2) / 600] Minutes"
 	reminder_three = "White Rapids predicts the Syndicate Armada will launch their assault on [selected_system] in [(objective_reminder_interval * 1) / 600] Minutes"
-	reminder_four = "Bluespace Signatures detected on the fringes of [selected_system], prepare to defend the system!"
-	reminder_five = "Additional Bluespace Signatures detected, brace for Syndicate reinforcements!"
+	reminder_four = "Bluespace signatures detected on the fringes of [selected_system], prepare to defend the system!"
+	reminder_five = "Additional bluespace signatures detected, brace for Syndicate reinforcements!"
 
 /datum/overmap_gamemode/armada/consequence_one() //Purely a reminder
 	return
@@ -70,7 +70,7 @@
 		O.armada_arrived = TRUE
 
 	var/datum/star_system/target = SSstar_system.system_by_id(selected_system)
-	var/datum/fleet/F = new /datum/fleet/earthbuster()
+	var/datum/fleet/F = new /datum/fleet/armada()
 	target.fleets += F
 	F.current_system = target
 	F.assemble(target)
@@ -88,7 +88,7 @@
 
 /datum/overmap_gamemode/armada/proc/vanguard()
 	var/datum/star_system/target = SSstar_system.system_by_id(selected_system)
-	var/datum/fleet/F = new /datum/fleet/interdiction/stealth()
+	var/datum/fleet/F = new /datum/fleet/interdiction/vanguard()
 	target.fleets += F
 	F.current_system = target
 	F.assemble(target)

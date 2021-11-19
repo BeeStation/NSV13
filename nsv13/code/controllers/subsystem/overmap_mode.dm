@@ -163,10 +163,10 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/controller/subsystem/overmap_mode/fire()
 	if(SSticker.current_state == GAME_STATE_PLAYING) //Wait for the game to begin
-		if(world.time >= check_completion_timer) //Fire this automatically every ten minutes to prevent round stalling
+		if(world.time >= check_completion_timer) //Fire this automatically every five minutes to prevent round stalling
 			difficulty_calc() //Also do our difficulty check here
 			mode.check_completion()
-			check_completion_timer += 10 MINUTES
+			check_completion_timer += 5 MINUTES
 
 		if(!objective_reminder_override)
 			if(world.time >= next_objective_reminder)
@@ -343,7 +343,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	F.assemble(target)
 	SSovermap_mode.objective_reminder_stacks = 0 //Reset
 
-/datum/overmap_gamemode/proc/check_completion() //This gets called by checking the communication console/modcomp program + automatically once every 10 minutes
+/datum/overmap_gamemode/proc/check_completion() //This gets called by checking the communication console/modcomp program + automatically once every five minutes
 	if(SSovermap_mode.already_ended)
 		return
 	if(SSovermap_mode.objectives_completed)

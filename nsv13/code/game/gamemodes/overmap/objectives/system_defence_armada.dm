@@ -23,4 +23,9 @@
 	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
 	if(target.alignment != "nanotrasen" && OM.current_system != target)
 		priority_announce("Attention [station_name()]. Our presence in this sector has been severely diminished due to your incompetence. Return to base immediately for disciplinary action.", "Naval Command")
+		status = 2
 		SSovermap_mode.mode.defeat()
+
+	if(target.enemies_in_system.len == 0)
+		priority_announce("Attention [station_name()]. You have successfully repulsed the Syndicate invasion force for now, mission accomplished.", "Naval Command")
+		status = 3

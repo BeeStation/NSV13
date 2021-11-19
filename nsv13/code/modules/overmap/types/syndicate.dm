@@ -339,7 +339,7 @@
 	obj_integrity = 750
 	max_integrity = 750
 	integrity_failure = 750
-	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_light" = 30)
+	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 30)
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher	//Cruiser subtype, called frigate? Guess it gets the combat dice inbetween both.
 	possible_interior_maps = list(/datum/map_template/boarding/boarding_frigate)
 
@@ -350,6 +350,16 @@
 	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+
+/obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/elite
+	name = "Special Ops marine frigate"
+	obj_integrity = 1250
+	max_integrity = 1250
+	integrity_failure = 1250
+	armor = list("overmap_light" = 95, "overmap_medium" = 85, "overmap_heavy" = 35)
+	missiles = 10
+	ai_flags = AI_FLAG_ANTI_FIGHTER | AI_FLAG_BOARDER | AI_FLAG_ELITE
+	bounty = 1500
 
 /obj/structure/overmap/syndicate/ai/gunboat //A big box of tank which is hard to take down, and lethal up close.
 	name = "Syndicate anti-air frigate"
@@ -380,6 +390,18 @@
 	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+
+/obj/structure/overmap/syndicate/ai/gunboat/elite
+	name = "Special Ops anti-air frigate"
+	obj_integrity = 900
+	max_integrity = 900
+	integrity_failure = 900
+	missiles = 10
+	shots_left = 10
+	armor = list("overmap_light" = 95, "overmap_medium" = 65, "overmap_heavy" = 20)
+	ai_flags = AI_FLAG_ELITE | AI_FLAG_ANTI_FIGHTER
+	bounty = 1500
+	flak_battery_amount = 2
 
 /obj/structure/overmap/syndicate/ai/submarine //A big box of tank which is hard to take down, and lethal up close.
 	name = "Aspala Class Sub-spacemarine"
@@ -414,6 +436,19 @@
 	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+
+/obj/structure/overmap/syndicate/ai/submarine/elite
+	name = "Special Ops Sub-spacemarine"
+	obj_integrity = 1000
+	max_integrity = 1000
+	integrity_failure = 1000
+	missiles = 20
+	torpedoes = 20
+	shots_left = 20
+	armor = list("overmap_light" = 85, "overmap_medium" = 50, "overmap_heavy" = 15)
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
+	cloak_factor = 50 //Unlike this one
+	bounty = 1500
 
 /obj/structure/overmap/syndicate/ai/kadesh	//I sure wonder what this one does....
 	name = "Kadesh class advanced cruiser"

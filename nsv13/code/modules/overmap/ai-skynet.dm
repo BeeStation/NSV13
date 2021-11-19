@@ -707,7 +707,7 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("Better crews have tried to cross the Rubicon, you will die like they did.", "Defense force, stand ready!", "Nanotrasen filth. Munitions, ready the guns. We’ll scrub the galaxy clean of you vermin.", "This shift just gets better and better. I’ll have your Captain’s head on my wall.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
-/datum/fleet/earthbuster
+/datum/fleet/earthbuster //Depricated
 	name = "\proper Syndicate Armada" //Fleet spawned if the players are too inactive. Set course...FOR EARTH.
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	size = FLEET_DIFFICULTY_VERY_HARD
@@ -715,7 +715,18 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("We're coming for Sol, and you can't stop us. All batteries fire at will.", "Lay down your arms now, you're outnumbered.", "All hands, assume assault formation. Begin bombardment.")
 	audio_cues = list()
 
-/datum/fleet/interdiction	//Pretty strong fleet with unerring hunting senses, Adminspawn for now.
+/datum/fleet/armada
+	name = "\proper Syndicate Armada" //Fleet used in the armada gamemode for the final confrontation
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/nuclear/elite, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/elite)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/cruiser/elite)
+	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier, /obj/structure/overmap/syndicate/ai/carrier/elite)
+	size = FLEET_DIFFICULTY_INSANE
+	allow_difficulty_scaling = FALSE
+	taunts = list("This is our system now, and you can't stop us. All batteries fire at will.", "Lay down your arms now, you're outnumbered.", "All hands, assume assault formation. Begin bombardment.")
+	audio_cues = list()
+	fleet_trait = FLEET_TRAIT_DEFENSE //Stay in the sieged system
+
+/datum/fleet/interdiction	//Pretty strong fleet with unerring hunting senses
 	name = "\improper Syndicate interdiction fleet"	//These fun guys can and will hunt the player ship down, no matter how far away they are.
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/kadesh)
@@ -738,6 +749,14 @@ Adding tasks is easy! Just define a datum for it.
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser)
 	size = FLEET_DIFFICULTY_MEDIUM	//Don't let this fool you though, they are still somewhat dangerous and will hunt you down.
 	initial_move_delay = 12 MINUTES
+
+/datum/fleet/interdiction/vanguard
+	name = "\improper Syndicate vanguard fleet"
+	hide_movements = TRUE
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine/elite, /obj/structure/overmap/syndicate/ai/gunboat/elite)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser)
+	taunts = list("Resistance... pitiful, wipe them out.", "Good, we were hoping for a fight. To stations!")
+	fleet_trait = FLEET_TRAIT_DEFENSE //Stay in the sieged system
 
 /datum/fleet/dolos
 	name = "\proper Dolos Welcoming Party" //Don't do it czanek, don't fucking do it!
