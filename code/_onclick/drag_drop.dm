@@ -1,5 +1,6 @@
 /*
 	MouseDrop:
+
 	Called on the atom you're dragging.  In a lot of circumstances we want to use the
 	receiving object instead, so that's the default action.  This allows you to drag
 	almost anything into a trash can.
@@ -120,8 +121,18 @@
 	return
 //NSV13 end
 
-/client/MouseDrag(src_object, over_object, src_location, over_location, src_control, over_control, params)
-	return
+/client/MouseDrag(src_object,atom/over_object,src_location,over_location,src_control,over_control,params)
+	var/list/L = params2list(params)
+	if (L["middle"])
+		if (src_object && src_location != over_location)
+			middragtime = world.time
+			middragatom = src_object
+		else
+			middragtime = 0
+			middragatom = null
+	if(active_mousedown_item)
+		active_mousedown_item.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
+
 
 /* NSV13 - don't need this sice we defined it on /datum
 /obj/item/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
