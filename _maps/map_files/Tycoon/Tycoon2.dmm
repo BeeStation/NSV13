@@ -575,6 +575,12 @@
 	dir = 4
 	},
 /obj/machinery/computer/ship/tactical/console,
+/obj/machinery/button/door{
+	id = "gaussgang";
+	name = "public gauss access";
+	pixel_y = 26;
+	req_one_access_txt = "69"
+	},
 /turf/open/floor/noslip/dark,
 /area/bridge{
 	name = "CIC"
@@ -24660,9 +24666,6 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/central)
 "biI" = (
-/obj/machinery/computer/communications{
-	dir = 8
-	},
 /obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
@@ -24670,6 +24673,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/red,
+/obj/structure/table/reinforced,
 /turf/open/floor/monotile/steel,
 /area/bridge{
 	name = "CIC"
@@ -39463,7 +39467,6 @@
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "bZR" = (
-/obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/red{
 	dir = 1
 	},
@@ -39473,6 +39476,9 @@
 /obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
+/obj/structure/table/reinforced,
+/obj/item/paper_bin,
+/obj/item/pen,
 /turf/open/floor/monotile/steel,
 /area/bridge{
 	name = "CIC"
@@ -39542,7 +39548,6 @@
 	name = "CIC"
 	})
 "car" = (
-/obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
@@ -39550,8 +39555,7 @@
 /obj/effect/turf_decal/tile/red{
 	dir = 1
 	},
-/obj/item/paper_bin,
-/obj/item/pen,
+/obj/structure/filingcabinet/chestdrawer,
 /turf/open/floor/monotile/steel,
 /area/bridge{
 	name = "CIC"
@@ -43955,7 +43959,9 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/red,
-/obj/structure/filingcabinet/chestdrawer,
+/obj/machinery/computer/communications{
+	dir = 1
+	},
 /turf/open/floor/monotile/steel,
 /area/bridge{
 	name = "CIC"
@@ -49272,9 +49278,7 @@
 /turf/open/floor/plasteel/stairs{
 	dir = 4
 	},
-/area/bridge{
-	name = "CIC"
-	})
+/area/space)
 "rdR" = (
 /obj/machinery/conveyor{
 	dir = 4;
@@ -52171,7 +52175,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/hangar)
 "wbu" = (
-/obj/machinery/computer/ship/viewscreen,
+/obj/machinery/computer/ship/viewscreen{
+	pixel_y = 31
+	},
 /obj/machinery/holopad,
 /obj/structure/chair/office{
 	dir = 4
