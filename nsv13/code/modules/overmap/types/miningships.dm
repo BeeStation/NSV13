@@ -51,3 +51,12 @@
 	max_integrity = 500 //Max health
 	integrity_failure = 500
 	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
+
+//AI Version
+/obj/structure/overmap/nanotrasen/mining_cruiser/ai
+	ai_controlled = TRUE
+	ai_behaviour = AI_PASSIVE
+	ai_flags = AI_FLAG_DESTROYER
+
+/obj/structure/overmap/nanotrasen/mining_cruiser/ai/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)

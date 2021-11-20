@@ -21,7 +21,8 @@
 	required_players = 15
 	fixed_objectives = list(
 		/datum/overmap_objective/system_defence_armada,
-		/datum/overmap_objective/cargo/transfer/engine_parts
+		/datum/overmap_objective/cargo/transfer/engine_parts,
+		/datum/overmap_objective/rescue_fleet
 	)
 
 /datum/overmap_gamemode/armada/New()

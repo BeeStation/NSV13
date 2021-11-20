@@ -226,7 +226,7 @@
 ////OBJECTIVE SPECIFIC
 /datum/trader/damaged_cruiser
 	name = "Damaged Caracal Class Cruiser" //TEMP
-	desc = "Mission Objective" //TEMP
+	desc = "Nanotrasen Caracal Class Cruiser" //TEMP
 	shortname = "NTC"
 	faction_type = FACTION_ID_NT
 	sold_items = null //Nothing for sale
@@ -236,6 +236,7 @@
 		"Make it quick."
 	)
 	station_type = /obj/structure/overmap/trader/damaged_cruiser
+	image = "nsv13/icons/overmap/trader_backgrounds/caracal_engine_room.png"
 
 /datum/trader/ui_data(mob/user)
 	if(world.time >= next_restock)

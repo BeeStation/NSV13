@@ -826,6 +826,15 @@ Adding tasks is easy! Just define a datum for it.
 	audio_cues = list()
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
+/datum/fleet/nanotrasen/convoy
+	name = "\improper Nanotrasen supply convoy"
+	fighter_types = list(/obj/structure/overmap/nanotrasen/ai/fighter)
+	destroyer_types = list(/obj/structure/overmap/nanotrasen/mining_cruiser/ai)
+	battleship_types = list()
+	supply_types = list()
+	size = FLEET_DIFFICULTY_HARD
+	fleet_trait = FLEET_TRAIT_DEFENSE
+
 //Solgov
 
 /datum/fleet/solgov

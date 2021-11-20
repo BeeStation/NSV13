@@ -1,5 +1,5 @@
 /datum/overmap_objective/system_defence_armada
-	name = "Defend"
+	name = "Defend System - Armada"
 	desc = "Defend selected_system against a Syndicate invasion fleet"
 
 	var/armada_arrived = FALSE		//Has the armada arrived yet?
