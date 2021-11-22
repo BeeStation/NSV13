@@ -31,7 +31,7 @@
 	var/atom/parcel = /obj/item/smallDelivery
 	var/datum/freight_type/reagent/presents = new /datum/freight_type/object( parcel )
 	presents.target = 3
-	presents.item_name = "wrapped parcel"
+	presents.item_name = "3 wrapped parcels"
 	presents.ignore_inner_contents = TRUE
 
 	freight_types += cake
