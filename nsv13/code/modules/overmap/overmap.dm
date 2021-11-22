@@ -44,6 +44,7 @@
 	var/max_armour_plates = 0
 	var/list/dent_decals = list() //Ships get visibly damaged as they get shot
 	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
+	var/disruption = 0	//Causes bad effects proportional to how significant. Most significant for AI ships (or fighters) hit by disruption weapons.
 
 	var/use_armour_quadrants = FALSE //Does the object use the armour quadrant system?
 	var/max_armour = 0 //Max armour amount per quad
@@ -284,9 +285,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(role > NORMAL_OVERMAP)
 		SSstar_system.add_ship(src)
 		//reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
-		AddComponent(/datum/component/nsv_mission_arrival_in_system) // Adds components needed to track jumps for missions
-		AddComponent(/datum/component/nsv_mission_departure_from_system)
-	AddComponent(/datum/component/nsv_mission_killships)
+		// AddComponent(/datum/component/nsv_mission_arrival_in_system) // Adds components needed to track jumps for missions
+		// AddComponent(/datum/component/nsv_mission_departure_from_system)
+	// AddComponent(/datum/component/nsv_mission_killships)
 	current_tracers = list()
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSphysics_processing, src)
@@ -646,10 +647,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/proc/relay(S, var/message=null, loop = FALSE, channel = null) //Sends a sound + text message to the crew of a ship
 	for(var/mob/M as() in mobs_in_ship)
-		if(channel) //Doing this forbids overlapping of sounds
-			SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100, channel = channel))
-		else
-			SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100))
+		if(M.can_hear())
+			if(channel) //Doing this forbids overlapping of sounds
+				SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100, channel = channel))
+			else
+				SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100))
 		if(message)
 			to_chat(M, message)
 

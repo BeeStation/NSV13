@@ -1,3 +1,4 @@
+// This file is now deprecated by overmap gamemode cargo objectives
 
 // Trackers for when player ships arrive/leave a system
 /datum/component/nsv_mission_arrival_in_system/Initialize()
@@ -78,8 +79,6 @@
 
 
 /datum/component/nsv_mission_cargo/proc/cargo_destroyed()
-	if(parent_mission.stage != MISSION_ACTIVE)
-		return
-	parent_mission.report_destroyed_cargo(src)
-
-
+  if(parent_mission.stage != MISSION_ACTIVE)
+    return
+  parent_mission.report_destroyed_cargo(src)
