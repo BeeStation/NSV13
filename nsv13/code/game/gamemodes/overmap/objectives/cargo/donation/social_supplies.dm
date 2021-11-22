@@ -7,10 +7,7 @@
 	// Pick a cake 
 	var/list/picked = pick( list(
 		/obj/item/reagent_containers/food/snacks/store/cake/plain,
-		/obj/item/reagent_containers/food/snacks/store/cake/carrot,
 		/obj/item/reagent_containers/food/snacks/store/cake/birthday,
-		/obj/item/reagent_containers/food/snacks/store/cake/cheese,
-		/obj/item/reagent_containers/food/snacks/store/cake/chocolate,
 		/obj/item/reagent_containers/food/snacks/store/cake/holy_cake,
 		/obj/item/reagent_containers/food/snacks/store/cake/pound_cake,
 	) )
