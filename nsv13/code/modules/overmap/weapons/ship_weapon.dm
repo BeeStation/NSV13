@@ -63,7 +63,7 @@
 		next_firetime = world.time + fire_delay
 	if(!requires_physical_guns)
 		if(special_fire_proc)
-			CallAsync(source=holder, proctype=special_fire_proc, arguments=list(target=target, ai_aim=ai_aim)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
+			CallAsync(source=holder, proctype=special_fire_proc, arguments=list(target=target, ai_aim=ai_aim, burst=burst_size)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
 		else
 			weapon_sound()
 			if(ai_aim && prob(miss_chance)) // Apply bad aim here so the whole burst goes the same way
@@ -76,7 +76,7 @@
 	return FALSE
 
 /datum/ship_weapon/proc/weapon_sound()
-	set waitfor = FALSE
+	set waitfor = FALSE // is this needed
 	var/sound/chosen = pick(overmap_firing_sounds)
 	holder.relay(chosen)
 

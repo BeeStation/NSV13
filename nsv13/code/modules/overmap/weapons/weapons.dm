@@ -15,11 +15,11 @@
 		return
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	last_target = target
+	var/obj/structure/overmap/ship = target
 	if(ai_controlled) //Let the AI switch weapons according to range
 		ai_fire(target)
 		return	//end if(ai_controlled)
 	if(istype(target, /obj/structure/overmap))
-		var/obj/structure/overmap/ship = target
 		ship.add_enemy(src)
 	fire_weapon(target)
 
@@ -72,22 +72,45 @@
 		to_chat(gunner, SW.select_alert)
 	return TRUE
 
-/obj/structure/overmap/proc/fire_torpedo(atom/target, ai_aim = FALSE)
+/obj/structure/overmap/proc/fire_torpedo(atom/target, ai_aim = FALSE, burst = 1)
 	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(torpedoes <= 0)
 			return FALSE
-		torpedoes --
 		var/obj/structure/overmap/OM = target
-		if(istype(OM))
+		if(isovermap(target))
 			ai_aim = FALSE // This is a homing projectile
+		var/launches = min(torpedoes, burst)
+
 		fire_projectile(torpedo_type, target, homing = TRUE, speed=3, lateral = TRUE, ai_aim = ai_aim)
-		if(istype(OM, /obj/structure/overmap) && OM.dradis)
+		if(isovermap(OM) && OM.dradis)
 			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
 		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
 		relay_to_nearby(pick(SW.overmap_firing_sounds))
+
+		if(launches > 1)
+			fire_torpedo_burst(target, ai_aim, launches - 1)
+		torpedoes -= launches
 		return TRUE
 
-/obj/structure/overmap/proc/fire_missile(atom/target, ai_aim = FALSE)
+/obj/structure/overmap/proc/fire_torpedo_burst(atom/target, ai_aim = FALSE, burst = 1)
+	set waitfor = FALSE
+	var/obj/structure/overmap/OM = target
+	for(var/cycle = 1; cycle <= burst; cycle++)
+		sleep(3)
+		if(QDELETED(src))	//We might get shot.
+			return
+		if(QDELETED(target))
+			OM = null
+			target = null
+		fire_projectile(torpedo_type, target, homing = TRUE, speed=3, lateral = TRUE, ai_aim = ai_aim)
+		if(isovermap(OM) && OM.dradis)
+			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
+		relay_to_nearby(pick(SW.overmap_firing_sounds))
+
+
+//Burst arg currently unused for this proc.
+/obj/structure/overmap/proc/fire_missile(atom/target, ai_aim = FALSE, burst = 1)
 	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(missiles <= 0)
 			return FALSE
