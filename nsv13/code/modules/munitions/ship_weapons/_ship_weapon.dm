@@ -340,7 +340,6 @@
  * Transitions from STATE_LOADED to STATE_FED
  */
 /obj/machinery/ship_weapon/proc/feed()
-	set waitfor = FALSE
 	if(state == STATE_LOADED)
 		state = STATE_FEEDING
 		flick("[initial(icon_state)]_loading",src)
