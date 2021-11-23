@@ -65,20 +65,20 @@
 	var/obj/structure/overmap/OM = src
 	var/turf/LZ = null
 	//If you wanna specify WHERE cargo is dropped. Otherwise we guess.
-	if(!trader_beacons || !trader_beacons.len)
+	if(!length(trader_beacons))
 		if(OM.role == MAIN_OVERMAP)
 			landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 
-		if ( !landingzone ) // Main overmap may or may not have a warehouse 
+		if ( !landingzone ) // Main overmap may or may not have a warehouse
 			if(!OM.linked_areas.len)
 				OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
-				if(OM?.linked_areas && OM?.linked_areas.len)
+				if(length(OM?.linked_areas))
 					goto foundareas
 				return FALSE
 			foundareas:
 			landingzone = pick(OM.linked_areas)
 		var/list/empty_turfs = list()
-		for(var/turf/open/floor/T in landingzone.contents)//uses default landing zone
+		for(var/turf/open/floor/T in landingzone)//uses default landing zone
 			if(is_blocked_turf(T))
 				continue
 			if(empty_turfs.len >= 10)
@@ -89,24 +89,24 @@
 			LZ = pick(empty_turfs)
 	else
 		LZ = get_turf(pick(trader_beacons))
-	if(dradis && dradis.beacon && !QDELETED(dradis.beacon) && dradis.usingBeacon)
+	if(dradis && !QDELETED(dradis.beacon) && dradis.usingBeacon)
 		LZ = get_turf(dradis.beacon)
 	if(!LZ)
-		LZ = pick(landingzone.contents) //If we couldn't find an open floor, just throw it somewhere
-	
-	// Knowing who the deliveryman is tells us what kind of pod to send 
+		LZ = pick(landingzone) //If we couldn't find an open floor, just throw it somewhere
+
+	// Knowing who the deliveryman is tells us what kind of pod to send
 	var/obj/structure/closet/supplypod/toLaunch
-	if ( courier ) 
+	if ( courier )
 		toLaunch = new courier.supply_pod_type()
-	else 
+	else
 		toLaunch = new /obj/structure/closet/supplypod/centcompod()
 
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
 	var/atom/movable/theItem
-	if ( isInitialized ) 
-		theItem = unlock_path 
-	else 
+	if ( isInitialized )
+		theItem = unlock_path
+	else
 		theItem = new unlock_path
 	theItem.forceMove(toLaunch)
 	new /obj/effect/pod_landingzone(LZ, toLaunch)
@@ -289,9 +289,9 @@
 // /datum/trader/proc/give_mission(mob/living/user)
 // 	if(!isliving(user))
 // 		return
-// 
+//
 // 	var/list/valid_missions = list()
-// 
+//
 // 	for(var/m in missions) // Get all valid missions the crew qualifies for
 // 		var/datum/nsv_mission/mission = m
 // 		if(mission.check_eligible(user.get_overmap()))
@@ -300,7 +300,7 @@
 // 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 // 		to_chat(user, "<span class='boldnotice'>We don't have any work for you I'm afraid.</span>")
 // 		return FALSE
-// 
+//
 // 	var/datum/nsv_mission/theJob = pick(valid_missions)
 // 	theJob.pre_register(user.get_overmap())
 // 	to_chat(user, "<span class='boldnotice'>[pick(on_mission_give)]</span>")
