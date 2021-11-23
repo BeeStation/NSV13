@@ -2,7 +2,7 @@
 	. = ..()
 	SEND_SIGNAL(src, COMSIG_LOOPINGSOUND_PLAYED) //This is mostly used for radar so that it updates the radar "sweep" as you hear the sound.
 
-/// More customizable version of looping sounds. Doesn't override the original for the sake of modularity and performance
+/// More customizable version of looping sounds. Subtype of the original for the sake of modularity and performance
 /datum/looping_sound/advanced
 	var/channel
 	var/list/listeners = list()
@@ -16,6 +16,7 @@
 		for(var/atom/A as() in output_atoms)
 			listeners += A
 			SEND_SOUND(A, S)
+
 	else
 		if(channel)
 			S.channel = channel

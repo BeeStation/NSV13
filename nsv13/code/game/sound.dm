@@ -15,10 +15,14 @@
 	var/sound/S = sound(get_sfx(soundin))
 	var/maxdistance = getviewsize(world.view)[1] + extrarange
 	var/z = turf_source.z
-	var/list/listeners = SSmobs.clients_by_zlevel[z] + SSmobs.dead_players_by_zlevel[z]
+	var/list/listeners = SSmobs.clients_by_zlevel[z]
 	if(!ignore_walls) //these sounds don't carry through walls
 		listeners = listeners & hearers(maxdistance,turf_source)
 	for(var/mob/M as() in listeners)
 		if(get_dist(M, turf_source) <= maxdistance)
 			M.playsound_local(turf_source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S)
+	for(var/mob/M as() in SSmobs.dead_players_by_zlevel[z])
+		if(get_dist(M, turf_source) <= maxdistance)
+			M.playsound_local(turf_source, soundin, vol, vary, frequency, falloff, channel, pressure_affected, S)
+			listiners += M
 	return listeners

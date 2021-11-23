@@ -36,6 +36,7 @@
 	var/power_draw = 0
 	var/datum/gas_mixture/air_contents
 	var/obj/structure/cable/cable
+	var/obj/machinery/computer/ship/ftl_core/ftl_drive
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/New()
 	..()
@@ -234,6 +235,8 @@
 	update_visuals()
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/Destroy()
+	if(ftl_drive)
+		ftl_drive.pylons -= src
 	QDEL_NULL(pylon_shield)
 	var/datum/gas_mixture/input = airs[1]
 	var/datum/gas_mixture/output = airs[2]

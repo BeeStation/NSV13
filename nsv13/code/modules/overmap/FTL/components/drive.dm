@@ -36,7 +36,7 @@
 	var/max_range = 30000
 	var/jump_speed_factor = 2 //How quickly do we jump? Larger is faster.
 	var/jump_speed_pylon = 1 // multiplier for jump_speed_factor, increases with each active pylon
-	var/ftl_startup_time = 32.3 SECONDS // How long does it take to iniate the jump
+	var/ftl_startup_time = 32.3 SECONDS // How long does it take to iniate the jump. (Synced with audio, make sure overrides have their own audio in sync)
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long_thirring.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
@@ -63,12 +63,16 @@
 	return ..()
 
 /obj/machinery/computer/ship/ftl_core/proc/get_pylons()
-	pylons.len = 0
+	if(length(pylons))
+		for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
+			P.ftl_drive = null
+		pylons.len = 0
 	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in GLOB.machines)
-		if(length(pylons) == 4) // No more than 4 pylons for the sake of the UI
+		if(length(pylons) == 4) // No more than 4 pylons
 			break
 		if(get_dist(src, P) <= MAX_PYLON_DISTANCE && link_id == P.link_id && P.get_overmap() == get_overmap() && P.is_operational())
 			pylons += P
+			P.ftl_drive = src
 
 /obj/machinery/computer/ship/ftl_core/proc/check_pylons()
 	if(!length(pylons) && !get_pylons())
@@ -110,13 +114,13 @@
 
 
 /obj/machinery/computer/ship/ftl_core/process()
-	if(!active || !is_operational() || !anchored)
+	if(!active || !is_operational() || !anchored || !length(pylons))
 		depower()
 		return
 	if(ftl_state == FTL_STATE_JUMPING)
 		return
 	var/active_charge = FALSE
-	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in pylons)
+	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
 		if(P.pylon_state == PYLON_STATE_ACTIVE)
 			progress = min(progress + charge_rate, req_charge)
 			active_charge = TRUE
@@ -129,14 +133,14 @@
 	if(ftl_state != FTL_STATE_READY && progress >= req_charge)
 		ready_ftl()
 
-/// Cosmetic effect
+/// Visual effect
 /obj/machinery/computer/ship/ftl_core/proc/discharge_pylon(atom/P)
 	playsound(P, 'nsv13/sound/machines/FTL/FTL_pylon_discharge.ogg', 100, TRUE, 1)
 	var/atom/target
 	if(length(pylons) > 1)
 		target = pick(pylons - P)
 	else
-		target = locate(x + rand(-1, 1), y + 1, z) // Make it hit the ring, not the console
+		target = locate(x + rand(-1, 1), y + 1, z) // Offset to make it hit the ring, not the console
 	sleep(20)
 	P.Beam(target, icon_state = "lightning[rand(1, 12)]", time = 10, maxdistance = 10)
 	playsound(P, 'sound/magic/lightningshock.ogg', 10, 1, 1)
