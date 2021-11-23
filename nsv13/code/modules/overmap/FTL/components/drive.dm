@@ -1,4 +1,4 @@
-// Don't make this any lower or else it'll conflict with the sound loop
+// Don't make this any lower or else it'll conflict with the spooldown sound loop
 /// Minimuim time between FTL jumps in deciseconds
 #define FTL_COOLDOWN 260
 
@@ -36,7 +36,7 @@
 	var/max_range = 30000
 	var/jump_speed_factor = 2 //How quickly do we jump? Larger is faster.
 	var/jump_speed_pylon = 1 // multiplier for jump_speed_factor, increases with each active pylon
-	var/ftl_startup_time = 32.3 SECONDS // How long does it take to iniate the jump. (Synced with audio, make sure overrides have their own audio in sync)
+	var/ftl_startup_time = 32.3 SECONDS // How long does it take to iniate the jump.
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long_thirring.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'

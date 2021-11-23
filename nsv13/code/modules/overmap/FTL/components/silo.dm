@@ -1,4 +1,3 @@
-
 #define SILO_MODE_IDLE 0
 #define SILO_MODE_CONVERT 1
 #define SILO_MODE_OUTPUT 2
@@ -35,7 +34,7 @@
 
 	var/pressure_integrity = 15
 	var/explosion_chance = 0 // Chance of vessel exploding, increases after passing SILO_EXPLODE_PRESSURE
-	var/noleak = FALSE // Enable/Disable atmos leaking on destruction
+	var/noleak = FALSE // Whether to perform atmos leaking on destruction, should be enabled if contents have already been emptied by other means (i.e explosion)
 
 	var/mutable_appearance/bulb
 	var/mutable_appearance/mode_ring
@@ -125,7 +124,7 @@
 /obj/machinery/atmospherics/components/binary/silo/process_atmos()
 	// PRESSURE! Pushing down on me!
 	var/i_pressure = air_contents.return_pressure()
-	if(pressure_integrity <= 0 || i_pressure > SILO_EXPLODE_PRESSURE)
+	if(pressure_integrity <= 0 || i_pressure >= SILO_EXPLODE_PRESSURE)
 		if(prob(explosion_chance))
 			kaboom(i_pressure) // Pushing down on you!
 			return
@@ -136,7 +135,7 @@
 	else if(explosion_chance > 0)
 		explosion_chance -= 5
 	switch(i_pressure)
-		if(SILO_LEAK_PRESSURE to SILO_EXPLODE_PRESSURE)
+		if(SILO_LEAK_PRESSURE to INFINITY)
 			bulb.icon_state = "status_alert"
 			switch(rand(1, 10))
 				if(1 to 2)
@@ -196,7 +195,7 @@
 	var/V2 = round(2 + (pressure - SILO_LEAK_PRESSURE) / 200) * multiplier // Every 200 kpa over the threshold will increase the range by one
 	noleak = TRUE
 	explosion(T, V2/4, V2/2, V2, V2*1.5, ignorecap = TRUE) // >:)
-	if(!QDELETED(src))
+	if(!QDELETED(src)) // In case we somehow survive the 'splosion
 		qdel(src)
 
 /obj/machinery/atmospherics/components/binary/silo/attack_hand(mob/user)

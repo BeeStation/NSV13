@@ -278,7 +278,7 @@
 
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/hugbox
-	name = "hugbox drive pylon"
+	name = "\improper Hugbox Drive Pylon"
 	var/autoclear_waste = TRUE
 	var/autoadd_input = TRUE
 
