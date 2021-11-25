@@ -540,8 +540,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 		qdel(src)
 
 /obj/structure/overmap/fighter/proc/create_escape_pod(path, mob/last_pilot)
-	if(!ispath(path))
-		return
 	// Create pod
 	var/obj/structure/overmap/fighter/escapepod/escape_pod = new path(get_turf(src))
 	if(!istype(escape_pod))
