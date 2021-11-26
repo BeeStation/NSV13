@@ -321,3 +321,11 @@ For when the marines are being irritating.
 	r_pocket = /obj/item/gun/ballistic/automatic/pistol/glock/makarov/lethal
 	back = /obj/item/storage/backpack/satchel
 	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/APS=1, /obj/item/ammo_box/magazine/pistolm9mm=5)
+
+/datum/outfit/boarding_droid
+	name = "Boarding Droid Loadout"
+	l_hand = /obj/item/gun/energy/temperature/security
+
+/datum/outfit/boarding_droid/post_equip(mob/living/carbon/human/H)
+	var/obj/item/implant/explosive/E = new/obj/item/implant/explosive(H)
+	E.implant(H)
