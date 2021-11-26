@@ -66,7 +66,7 @@ Method to set our points to a new list of points
 */
 
 /datum/shape/proc/set_points(list/points)
-	if(!length(base_points) || length(base_points.len) != length(points))
+	if(!length(base_points) || length(base_points) != length(points))
 		rel_points.len = 0
 		normals.len = 0
 		for (var/i in 1 to length(points))
