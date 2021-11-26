@@ -26,7 +26,7 @@ Adding tasks is easy! Just define a datum for it.
 	var/list/taskforces = list("fighters" = list(), "destroyers" = list(), "battleships" = list(), "supply" = list())
 	var/list/fighter_types = list(/obj/structure/overmap/syndicate/ai/fighter, /obj/structure/overmap/syndicate/ai/bomber)
 	var/list/destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
-	var/list/battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser) //TODO: Implement above list for more ship variety.
+	var/list/battleship_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
 	var/list/supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
 	var/list/all_ships = list()
 	var/list/lances = list()
@@ -630,6 +630,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/border
 	name = "\improper Syndicate border defense force"
+	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier, /obj/structure/overmap/syndicate/ai/carrier/elite)
 	fleet_trait = FLEET_TRAIT_BORDER_PATROL
 	hide_movements = TRUE
 
@@ -642,6 +643,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/wolfpack
 	name = "\improper unidentified Syndicate fleet"
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/destroyer)
 	audio_cues = list()
 	hide_movements = TRUE
 	taunts = list("....", "*static*")
