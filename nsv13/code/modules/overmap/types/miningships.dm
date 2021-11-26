@@ -54,6 +54,7 @@
 
 //AI Version
 /obj/structure/overmap/nanotrasen/mining_cruiser/ai
+	icon = 'nsv13/icons/overmap/nanotrasen/hephaistus_blue.dmi'
 	ai_controlled = TRUE
 	ai_behaviour = AI_PASSIVE
 	ai_flags = AI_FLAG_DESTROYER
