@@ -30,7 +30,7 @@
 
 /datum/weather/rad_storm/weather_act(mob/living/L)
 	var/resist = L.getarmor(null, "rad")
-	if(L.radiation >= 1000)
+	if(L.radiation >= 1000) //NSV13 start code segment, puts a maximum on how irradiated you can get
 		if(prob(40))
 			if(ishuman(L))
 				var/mob/living/carbon/human/H = L
