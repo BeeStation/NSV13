@@ -44,6 +44,11 @@
 	icon = 'nsv13/icons/overmap/nanotrasen/missile_cruiser.dmi'
 	icon_state = "patrol_cruiser-25"
 
+/obj/structure/overmap/trader/nt_staging_post
+	name = "NT Staging Post" //TEMP
+	obj_integrity = 5000 //Really need this to last for a while
+	max_integrity = 5000
+
 /obj/structure/overmap/trader/proc/set_trader(datum/trader/bob) //The love story of alice and bob continues.
 	name = "[bob.name]"
 	ai_controlled = FALSE //Yep, not a whole lot we can do about that.
@@ -51,6 +56,7 @@
 	bob.current_location = src
 
 /obj/structure/overmap/trader/Destroy()
+	SEND_SIGNAL(src, COMSIG_STATION_DESTROYED)
 	qdel(inhabited_trader)
 	. = ..()
 

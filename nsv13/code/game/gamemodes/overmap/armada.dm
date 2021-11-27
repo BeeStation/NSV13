@@ -17,12 +17,13 @@
 	var/selected_system							//The target of the Syndicate Attack
 	var/reinforcements = 0						//How many reinforcement fleets NT has at hand
 
-	selection_weight = 5
+	selection_weight = 0
 	required_players = 15
 	fixed_objectives = list(
 		/datum/overmap_objective/system_defence_armada,
 		/datum/overmap_objective/cargo/transfer/engine_parts,
-		/datum/overmap_objective/rescue_fleet
+		/datum/overmap_objective/rescue_fleet,
+		/datum/overmap_objective/defend_station
 	)
 
 /datum/overmap_gamemode/armada/New()
@@ -75,6 +76,8 @@
 	target.fleets += F
 	F.current_system = target
 	F.assemble(target)
+
+	objective_reminder_interval = 60 MINUTES //Don't pester us
 
 /datum/overmap_gamemode/armada/proc/reinforce()
 	reinforcements -- //Deduct one from the pool

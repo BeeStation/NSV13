@@ -288,7 +288,7 @@ Adding tasks is easy! Just define a datum for it.
 	if(player_caused)	//Only modify influence if players caused this, otherwise someone else claimed the kill and it doesn't modify influence for the purpose of Patrol completion.
 		faction = SSstar_system.faction_by_id(faction_id)
 		faction?.lose_influence(reward)
-	SEND_SIGNAL(src, COMSIG_FLEET_DESTROYED)
+	SEND_SIGNAL(src, COMSIG_FLEET_DESTROYED) //For use in tracking objectives
 	QDEL_NULL(src)
 
 /datum/fleet/nanotrasen/earth/defeat()

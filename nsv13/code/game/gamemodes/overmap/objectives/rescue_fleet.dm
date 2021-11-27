@@ -1,6 +1,7 @@
 /datum/overmap_objective/rescue_fleet
 	name = "Rescue Fleet"
 	desc = "Travel to a designated system and rescue a friendly fleet"
+	brief = "Travel to a designated system and rescue a friendly fleet"
 	var/datum/star_system/selected_system
 
 /datum/overmap_objective/rescue_fleet/instance()
@@ -19,6 +20,9 @@
 	RegisterSignal(SSstar_system.main_overmap, COMSIG_SHIP_ARRIVED, .proc/stage_encounter)
 
 /datum/overmap_objective/rescue_fleet/proc/stage_encounter()
+	if(status != 0)
+		return
+
 	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
 	if(OM.current_system == selected_system)
 
@@ -37,14 +41,18 @@
 		RegisterSignal(S, COMSIG_FLEET_DESTROYED, .proc/encounter_success)
 
 /datum/overmap_objective/rescue_fleet/proc/encounter_failure()
-	if(status == 0)
-		priority_announce("We've lost contact with the transport convoy, search for survivors if possible and continue your primary objective.")
-		status = 2
+	if(status != 0)
+		return
+
+	priority_announce("We've lost contact with the transport convoy, search for survivors if possible and continue your primary objective.")
+	status = 2
 
 /datum/overmap_objective/rescue_fleet/proc/encounter_success()
-	if(status == 0)
-		priority_announce("These resources should prove invaluable in our conflict with the Syndicate, good work.")
-		status = 1
-		var/datum/star_system/S = SSstar_system.system_by_id("Staging")
-		var/datum/fleet/N = locate(/datum/fleet/nanotrasen/convoy) in selected_system
-		N.move(S, TRUE)
+	if(status != 0)
+		return
+
+	priority_announce("These resources should prove invaluable in our conflict with the Syndicate, good work.")
+	status = 1
+	var/datum/star_system/S = SSstar_system.system_by_id("Staging")
+	var/datum/fleet/N = locate(/datum/fleet/nanotrasen/convoy) in selected_system
+	N.move(S, TRUE)

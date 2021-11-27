@@ -17,14 +17,6 @@
 	var/stock_delay = 0
 	var/image = "https://cdn.discordapp.com/attachments/701841640897380434/764534224291233822/unknown.png"
 	var/list/missions = list() //Missions
-	// var/list/possible_mission_types = list( // List of possible missions this trader may have
-	// 	/datum/nsv_mission/explore=10,
-	// 	/datum/nsv_mission/kill_ships=10,
-	// 	/datum/nsv_mission/kill_ships/waves=8,
-	// 	/datum/nsv_mission/kill_ships/system=6,
-	// 	/datum/nsv_mission/cargo=10,
-	// 	/datum/nsv_mission/cargo/high_risk=7,
-	// 	/datum/nsv_mission/cargo/nuke=1)
 	var/obj/structure/overmap/current_location = null
 	var/datum/star_system/system = null
 	var/max_missions = 5
@@ -69,7 +61,7 @@
 		if(OM.role == MAIN_OVERMAP)
 			landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 
-		if ( !landingzone ) // Main overmap may or may not have a warehouse 
+		if ( !landingzone ) // Main overmap may or may not have a warehouse
 			if(!OM.linked_areas.len)
 				OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
 				if(OM?.linked_areas && OM?.linked_areas.len)
@@ -93,31 +85,24 @@
 		LZ = get_turf(dradis.beacon)
 	if(!LZ)
 		LZ = pick(landingzone.contents) //If we couldn't find an open floor, just throw it somewhere
-	
-	// Knowing who the deliveryman is tells us what kind of pod to send 
+
+	// Knowing who the deliveryman is tells us what kind of pod to send
 	var/obj/structure/closet/supplypod/toLaunch
-	if ( courier ) 
+	if ( courier )
 		toLaunch = new courier.supply_pod_type()
-	else 
+	else
 		toLaunch = new /obj/structure/closet/supplypod/centcompod()
 
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
 	var/atom/movable/theItem
-	if ( isInitialized ) 
-		theItem = unlock_path 
-	else 
+	if ( isInitialized )
+		theItem = unlock_path
+	else
 		theItem = new unlock_path
 	theItem.forceMove(toLaunch)
 	new /obj/effect/pod_landingzone(LZ, toLaunch)
 	return theItem
-
-// /datum/trader/proc/generate_missions()
-// 	for(var/a in 1 to max_missions)
-// 		var/m = pickweightAllowZero(possible_mission_types)
-// 		possible_mission_types[m] --
-// 		missions += new m(current_location)
-
 
 
 //Arms dealers.
@@ -142,11 +127,6 @@
 	station_type = /obj/structure/overmap/trader/syndicate
 	image = "https://cdn.discordapp.com/attachments/728055734159540244/764570187357093928/unknown.png"
 	greetings = list("You've made it pretty far in, huh? We won't tell if you're buying...", "Freedom isn't free, buy a gun to secure yours.", "Excercise your right to bear arms now!")
-	// possible_mission_types = list(
-	// 	/datum/nsv_mission/cargo/nuke/syndicate=1,
-	// 	/datum/nsv_mission/kill_ships/waves/syndicate=1,
-	// 	/datum/nsv_mission/kill_ships/system/syndicate=3,
-	// 	/datum/nsv_mission/kill_ships/syndicate=1)
 	max_missions = 6
 
 /datum/trader/armsdealer/syndicate/New()
@@ -236,7 +216,19 @@
 		"Make it quick."
 	)
 	station_type = /obj/structure/overmap/trader/damaged_cruiser
-	image = "nsv13/icons/overmap/trader_backgrounds/caracal_engine_room.png"
+	image = "nsv13/icons/overmap/trader_backgrounds/caracal_engine_room.png" //RESOLVE THIS
+
+/datum/trader/nt_staging_post
+	name = "Nanotrasen Staging Post" //TEMP
+	name = "Nanotrasen Staging Post" //TEMP
+	shortname = "NTC"
+	faction_type = FACTION_ID_NT
+	sold_items = null //POPULATE ME
+	greetings = list(
+		"Words here"
+	)
+	station_type = /obj/structure/overmap/trader/nt_staging_post
+	image = "" //RESOLVE THIS
 
 /datum/trader/ui_data(mob/user)
 	if(world.time >= next_restock)
@@ -282,45 +274,6 @@
 			if(!target)
 				return
 			attempt_purchase(target, usr)
-		// if("mission")
-		// 	var/list/currentMissions = list()
-		// 	for(var/datum/nsv_mission/M in SSstar_system.all_missions)
-		// 		if(M.owner == user.get_overmap())
-		// 			if(M.stage != MISSION_COMPLETE)
-		// 				currentMissions += M
-		// 	if(currentMissions.len < 3) // Max number of missions
-		// 		give_mission(usr)
-		// 	else
-		// 		to_chat(user, "<span class='boldnotice'>" + pick(
-		// 			"Why don't you complete the mission we just gave you first.",
-		// 			"Please complete the mission we gave you first, then come back and ask again.",
-		// 			"Stop pressing the button.",
-		// 			"*static*",
-		// 			"We appreciate your enthusiasm, but we want to make sure this mission gets completed first.",
-		// 			"What are the chances you'll actually get this mission done? Go complete it before we trust you with another one.",
-		// 			"Our superiors have asked us to stop stacking critical missions on one courier.",
-		// 		) + "</span>")
-
-// /datum/trader/proc/give_mission(mob/living/user)
-// 	if(!isliving(user))
-// 		return
-// 
-// 	var/list/valid_missions = list()
-// 
-// 	for(var/m in missions) // Get all valid missions the crew qualifies for
-// 		var/datum/nsv_mission/mission = m
-// 		if(mission.check_eligible(user.get_overmap()))
-// 			valid_missions += mission
-// 	if(!valid_missions.len)
-// 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-// 		to_chat(user, "<span class='boldnotice'>We don't have any work for you I'm afraid.</span>")
-// 		return FALSE
-// 
-// 	var/datum/nsv_mission/theJob = pick(valid_missions)
-// 	theJob.pre_register(user.get_overmap())
-// 	to_chat(user, "<span class='boldnotice'>[pick(on_mission_give)]</span>")
-// 	user.get_overmap().hail("Mission details as follows: [theJob.desc]", src)
-// 	return TRUE
 
 /datum/trader/proc/attempt_purchase(datum/trader_item/item, mob/living/carbon/user)
 	if(!isliving(user))
