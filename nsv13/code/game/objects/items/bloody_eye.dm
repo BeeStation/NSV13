@@ -72,10 +72,12 @@
 	M.adjustStaminaLoss(-30, 0)
 	M.Jitter(2)
 	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 1)
+	M.overlay_fullscreen("brute", /atom/movable/screen/fullscreen/brute, 5)
 	if(prob(5))
 		M.emote(pick("scream", "laugh"))
 	..()
 	. = 1
+	playsound("heart_beat.ogg")
 
 /datum/reagent/drug/bloody_eye/overdose_start(mob/living/M)
 	to_chat(M, "<span class='userdanger'>KILLKILLKILLKILLKILLKILLKILLKILL!</span>")
@@ -170,4 +172,3 @@
 	 desc = "Spray into your eye or someone else's to go into a bloody thirsty rage. The Syndicate will not be held responsible for the actions taken by operatives of The Syndicate while they are under the influence of Bloody Eye."
 	 item = /obj/item/reagent_containers/hypospray/bloody_eye
 	 cost = 10
-
