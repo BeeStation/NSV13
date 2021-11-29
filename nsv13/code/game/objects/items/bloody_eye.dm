@@ -21,7 +21,7 @@
 	color = "#D92323"
 	overdose_threshold = 5
 	addiction_threshold = 5
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	metabolization_rate = 0.75 * REAGENTS_METABOLISM
 
 /datum/reagent/drug/bloody_eye/on_mob_metabolize(mob/living/L)
 	ADD_TRAIT(L,TRAIT_MONKEYLIKE,type)
@@ -37,11 +37,14 @@
 	ADD_TRAIT(L,TRAIT_IGNOREDAMAGESLOWDOWN,type)
 	ADD_TRAIT(L,TRAIT_NOSTAMCRIT,type)
 	ADD_TRAIT(L,TRAIT_NOLIMBDISABLE,type)
+	L.apply_status_effect(/datum/status_effect/bloody_eye)
 	..()
 	if (L.client)
 		SSmedals.UnlockMedal(MEDAL_APPLY_REAGENT_METH,L.client)
 
 	L.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-2, blacklisted_movetypes=(FLYING|FLOATING))
+
+//You won't go down unless you get killed with excess damage.
 
 /datum/reagent/drug/bloody_eye/on_mob_end_metabolize(mob/living/L)
 	REMOVE_TRAIT(L,TRAIT_MONKEYLIKE,type)
@@ -57,6 +60,7 @@
 	REMOVE_TRAIT(L,TRAIT_IGNOREDAMAGESLOWDOWN,type)
 	REMOVE_TRAIT(L,TRAIT_NOSTAMCRIT,type)
 	REMOVE_TRAIT(L,TRAIT_NOLIMBDISABLE,type)
+	L.remove_status_effect(/datum/status_effect/bloody_eye)
 	L.remove_movespeed_modifier(type)
 	..()
 
@@ -71,13 +75,11 @@
 	M.AdjustImmobilized(-40, FALSE)
 	M.adjustStaminaLoss(-30, 0)
 	M.Jitter(2)
-	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 1)
-	M.overlay_fullscreen("brute", /atom/movable/screen/fullscreen/brute, 5)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.25)
 	if(prob(5))
 		M.emote(pick("scream", "laugh"))
 	..()
 	. = 1
-	playsound("heart_beat.ogg")
 
 /datum/reagent/drug/bloody_eye/overdose_start(mob/living/M)
 	to_chat(M, "<span class='userdanger'>KILLKILLKILLKILLKILLKILLKILLKILL!</span>")
@@ -93,8 +95,8 @@
 		M.visible_message("<span class='danger'>[M]'s eyes are blood red!</span>")
 		M.drop_all_held_items()
 	..()
-	M.adjustToxLoss(0.5, 0)
-	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, pick(0.1, 0.2, 0.3, 0.4, 0.5))
+	M.adjustToxLoss(0.25, 0)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, pick(0.1, 0.15, 0.2, 0.25))
 	. = 1
 
 /datum/reagent/drug/bloody_eye/addiction_act_stage1(mob/living/M)
@@ -126,7 +128,7 @@
 			step(M, pick(GLOB.cardinals))
 	M.Jitter(150)
 	M.Dizzy(15)
-	M.adjustToxLoss(0.5, 0)
+	M.adjustToxLoss(0.25, 0)
 	if(prob(50))
 		M.emote(pick("scream"))
 	..()
@@ -169,6 +171,32 @@
 
 /datum/uplink_item/dangerous/bloody_eye
 	 name = "Bloody Eye Spray"
-	 desc = "Spray into your eye or someone else's to go into a bloody thirsty rage. The Syndicate will not be held responsible for the actions taken by operatives of The Syndicate while they are under the influence of Bloody Eye."
+	 desc = "Spray into your eye or someone else's to go into a bloody thirsty rage. Don't expect to live after using it."
 	 item = /obj/item/reagent_containers/hypospray/bloody_eye
 	 cost = 10
+
+//Bloody Eye gets it's own status effect.
+#define STATUS_EFFECT_BLOODY_EYE /datum/status_effect/bloody_eye
+
+/datum/status_effect/bloody_eye
+	id = "bloody_eye"
+	duration = -1
+	status_type = STATUS_EFFECT_UNIQUE
+	tick_interval = 1
+	examine_text = "<span class='warning'>Their eyes are blood red!"
+	alert_type = null
+
+/datum/status_effect/bloody_eye/tick()
+	owner.a_intent_change(INTENT_HARM)
+	if(owner.a_intent != INTENT_HARM)
+		owner.a_intent_change(INTENT_HARM)
+		to_chat(owner, "<span class='warning'>KILLKILLKILL</span>")
+	owner.overlay_fullscreen("brute" , /atom/movable/screen/fullscreen/brute, 5)
+	if(owner.changeNext_move(!CLICK_CD_RAPID))
+		owner.changeNext_move(CLICK_CD_RAPID)
+	playsound(owner, 'sound/effects/heart_beat.ogg', 50, 1)
+
+/datum/status_effect/bloody_eye/on_remove()
+	to_chat(owner, "<span class='warning'>See you Space Cowboy...</span>")
+	owner.clear_fullscreen("brute")
+	owner.adjustOxyLoss(25,0)
