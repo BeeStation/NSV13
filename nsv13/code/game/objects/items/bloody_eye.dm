@@ -128,9 +128,6 @@
 	..()
 	. = 1
 
-/obj/item/reagent_containers/hypospray/bloody_eye/attack_paw(mob/user)
-	return attack_hand(user)
-
 /obj/item/reagent_containers/hypospray/bloody_eye/attack(mob/living/M, mob/user)
 	if(!reagents.total_volume)
 		to_chat(user, "<span class='warning'>[src] is empty!</span>")
@@ -144,7 +141,7 @@
 	var/contained = english_list(injected)
 	log_combat(user, M, "attempted to spray", src, "([contained])")
 
-	if(reagents.total_volume && (ignore_flags || M.can_inject(user, 1))) // Ignore flag should be checked first or there will be an error message.
+	if(reagents.total_volume && (!(M.is_eyes_covered())))
 		to_chat(M, "<span class='warning'>Your eye is covered in a fine red mist!</span>")
 		to_chat(user, "<span class='notice'>You spray [M]'s eye with [src].</span>")
 		playsound(loc, 'sound/items/hypospray.ogg', 50, 1)
@@ -162,6 +159,8 @@
 
 
 			log_combat(user, M, "sprayed", src, "([contained])")
+	else
+		to_chat(M, "<span class='warning'>You have to uncover the eyes first!</span>")
 
 /datum/uplink_item/dangerous/bloody_eye
 	 name = "Bloody Eye Spray"
