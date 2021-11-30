@@ -18,7 +18,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/obj/effect/landmark/patrol_node/last_node = null //What was the last patrol node we visited?
 	var/stealing_id = FALSE
 	var/next_internals_attempt = 0
-	var/static/list/climable = typecacheof(list(/obj/structure/table, /obj/structure/railing)) // Climable structures
+	var/static/list/climbable = typecacheof(list(/obj/structure/table, /obj/structure/railing)) // climbable structures
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Neutral")
@@ -90,7 +90,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	dest = targturf
 	var/turf/T = get_step(H, H.dir)
 	var/obj/structure/dense_object = locate(/obj/structure) in T //If we're stuck
-	if(climable[dense_object.type])
+	if(climbable[dense_object.type])
 		H.forceMove(T)
 		H.visible_message("<span class='warning'>[H] climbs onto [dense_object]!</span>")
 		H.Stun(2 SECONDS) //Table.
