@@ -25,6 +25,7 @@
 
 	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
 	if(OM.current_system == selected_system)
+		UnregisterSignal(SSstar_system.main_overmap, COMSIG_SHIP_ARRIVED)
 
 		//Spawn the fleets
 		var/datum/fleet/N = new /datum/fleet/nanotrasen/convoy()

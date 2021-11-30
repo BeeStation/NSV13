@@ -46,8 +46,25 @@
 
 /obj/structure/overmap/trader/nt_staging_post
 	name = "NT Staging Post" //TEMP
-	obj_integrity = 5000 //Really need this to last for a while
+	obj_integrity = 7500 //Really need this to last for a while
+	max_integrity = 7500
+	ai_controlled = TRUE
+
+/obj/structure/overmap/trader/nt_staging_post/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+
+/obj/structure/overmap/trader/syndi_listening_post
+	name = "Syndicate Listening Post"
+	obj_integrity = 5000 //We want it to take a few hits
 	max_integrity = 5000
+	faction = "syndicate"
+	icon_state = "syndie"
+	ai_controlled = TRUE
+	shots_left = 1000 //Its a station, why would it be short on ammo?
+
+/obj/structure/overmap/trader/syndi_listening_post/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
 
 /obj/structure/overmap/trader/proc/set_trader(datum/trader/bob) //The love story of alice and bob continues.
 	name = "[bob.name]"

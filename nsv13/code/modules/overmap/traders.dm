@@ -220,7 +220,7 @@
 
 /datum/trader/nt_staging_post
 	name = "Nanotrasen Staging Post" //TEMP
-	name = "Nanotrasen Staging Post" //TEMP
+	desc = "Nanotrasen Staging Post" //TEMP
 	shortname = "NTC"
 	faction_type = FACTION_ID_NT
 	sold_items = null //POPULATE ME
@@ -228,6 +228,18 @@
 		"Words here"
 	)
 	station_type = /obj/structure/overmap/trader/nt_staging_post
+	image = "" //RESOLVE THIS
+
+/datum/trader/syndi_listening_post
+	name = "Syndicate Listening Post" //TEMP
+	desc = "Syndicate Listening Post" //TEMP
+	shortname = "SLP"
+	faction_type = FACTION_ID_SYNDICATE
+	sold_items = null
+	greetings = list(
+		"Words here"
+	)
+	station_type = /obj/structure/overmap/trader/syndi_listening_post
 	image = "" //RESOLVE THIS
 
 /datum/trader/ui_data(mob/user)

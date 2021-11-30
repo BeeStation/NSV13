@@ -14,7 +14,8 @@
 		if(!R.trader)
 			candidate += R
 
-	var/datum/star_system/selected_system = pick(candidate)
+	selected_system = pick(candidate)
+
 	//Generate the station entity and setup its destruction signal
 	var/datum/trader/nt_staging_post/T = new /datum/trader/nt_staging_post
 	var/obj/structure/overmap/trader/nt_staging_post/A = SSstar_system.spawn_anomaly(T.station_type, selected_system)
@@ -37,6 +38,8 @@
 
 	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
 	if(OM.current_system == selected_system)
+		UnregisterSignal(SSstar_system.main_overmap, COMSIG_SHIP_ARRIVED)
+
 		priority_announce("Just in time, bluespace signatures detected!")
 
 		waves = rand(1,3) //How many waves?

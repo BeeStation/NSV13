@@ -663,6 +663,15 @@ Adding tasks is easy! Just define a datum for it.
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/destroyer/elite)
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite)
 
+/datum/fleet/defensive
+	name = "\improper Syndicate holding fleet"
+	taunts = list("words")
+	fleet_trait = FLEET_TRAIT_DEFENSE
+	size = FLEET_DIFFICULTY_HARD
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/submarine/elite, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/elite)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser)
+	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
+
 //Space Pirate Fleets
 /datum/fleet/pirate
 	name = "\proper Tortuga Raiders Fleet"
