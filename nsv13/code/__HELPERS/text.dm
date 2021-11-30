@@ -8,7 +8,7 @@
 
 /// Converts a number into it's coressponding index in the phonetic alphabet (1 = Alpha, 26 = Zulu by default)
 /proc/index2phonetic(index, range = 26)
-	// YES, I KNOW. It's "Alfa" not "Alpha" but almost no one knows that, ignorance is bliss
+	// YES, I KNOW. It's "Alfa" not "Alpha" but sometimes ignorance is bliss
 	var/static/list/nato = list(
 		"Alpha",
 		"Bravo",
@@ -37,8 +37,8 @@
 		"Yankee",
 		"Zulu"
 		)
-	if(index > 26)
-		return nato[index-26] + "-" + num2text(FLOOR(index, 26) + 1) // 27 turns into Alpha-2, 53 turns into Alpha-3, etc.
+	if(index > range)
+		return nato[index % range] + "-" + num2text(FLOOR(index, range) + 1) // 27 turns into Alpha-2, 53 turns into Alpha-3, etc.
 	return nato[index]
 
 /// Converts a number into it's coressponding index in Greek letters (1= Alpha, 24 = Omega by default)
@@ -69,6 +69,6 @@
 		"Psi",
 		"Omega"
 		)
-	if(index > 24)
-		return greek[index-26] + "-" + num2text(FLOOR(index, 26) + 1)
+	if(index > range)
+		return greek[index % range] + "-" + num2text(FLOOR(index, range) + 1)
 	return greek[index]
