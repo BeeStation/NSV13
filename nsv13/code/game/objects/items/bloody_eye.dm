@@ -177,7 +177,7 @@
 	duration = -1
 	status_type = STATUS_EFFECT_UNIQUE
 	tick_interval = 1
-	examine_text = "<span class='warning'>Their eyes are blood red!"
+	examine_text = "<span class='warning'>Their eyes are blood red!</span>"
 	alert_type = null
 
 /datum/status_effect/bloody_eye/tick()
