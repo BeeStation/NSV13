@@ -71,7 +71,7 @@
 	M.Jitter(2)
 	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.25)
 	if(prob(5))
-		M.emote(pick("scream", "laugh"))
+		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
 	..()
 	. = 1
 
