@@ -1,5 +1,5 @@
 /obj/item/reagent_containers/hypospray/bloody_eye
-	name = "Bloody Eye Spray"
+	name = "\improper Bloody Eye spray"
 	desc = "This vial of Bloody Eye is equipped with a spray nozzle and a handy measuring ring to make sure the spray cone is just the right size."
 	icon = 'nsv13/icons/obj/nsv13_syringe.dmi'
 	item_state = "bloody"
