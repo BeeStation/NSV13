@@ -1,5 +1,5 @@
 /obj/item/reagent_containers/hypospray/bloody_eye
-	name = "Bloody Eye Spray"
+	name = "\improper Bloody Eye spray"
 	desc = "This vial of Bloody Eye is equipped with a spray nozzle and a handy measuring ring to make sure the spray cone is just the right size."
 	icon = 'nsv13/icons/obj/nsv13_syringe.dmi'
 	item_state = "bloody"
@@ -54,8 +54,8 @@
 	..()
 
 /datum/reagent/drug/bloody_eye/on_mob_life(mob/living/carbon/M)
-	var/high_message = pick("You see red.", "You feel like ripping out someone's throat.", "You feel like nothing could ever kill you.")
 	if(prob(5))
+		var/high_message = pick("You see red.", "You feel like ripping out someone's throat.", "You feel like nothing could ever kill you.")
 		to_chat(M, "<span class='notice'>[high_message]</span>")
 	M.AdjustStun(-40, FALSE)
 	M.AdjustKnockdown(-40, FALSE)
@@ -66,7 +66,7 @@
 	M.Jitter(2)
 	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.25)
 	if(prob(5))
-		M.emote(pick("scream", "laugh"))
+		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
 	..()
 	. = 1
 
@@ -131,7 +131,7 @@
 		return
 
 	var/list/injected = list()
-	for(var/datum/reagent/R in reagents.reagent_list)
+	for(var/datum/reagent/R as() in reagents.reagent_list)
 		injected += R.name
 	var/contained = english_list(injected)
 	log_combat(user, M, "attempted to spray", src, "([contained])")
@@ -168,7 +168,7 @@
 	duration = -1
 	status_type = STATUS_EFFECT_UNIQUE
 	tick_interval = 1
-	examine_text = "<span class='warning'>Their eyes are blood red!"
+	examine_text = "<span class='warning'>Their eyes are blood red!</span>"
 	alert_type = null
 
 /datum/status_effect/bloody_eye/tick()
