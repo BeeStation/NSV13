@@ -139,7 +139,7 @@
 		return
 
 	var/list/injected = list()
-	for(var/datum/reagent/R in reagents.reagent_list)
+	for(var/datum/reagent/R as() in reagents.reagent_list)
 		injected += R.name
 	var/contained = english_list(injected)
 	log_combat(user, M, "attempted to spray", src, "([contained])")
