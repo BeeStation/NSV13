@@ -24,32 +24,12 @@
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
 
 /datum/reagent/drug/bloody_eye/on_mob_metabolize(mob/living/L)
-	ADD_TRAIT(L,TRAIT_MONKEYLIKE,type)
-	ADD_TRAIT(L,TRAIT_NOCRITDAMAGE,type)
-	ADD_TRAIT(L,TRAIT_NOSOFTCRIT,type)
-	ADD_TRAIT(L,TRAIT_NOHARDCRIT,type)
-	ADD_TRAIT(L,TRAIT_NOBLOCK,type)
-	ADD_TRAIT(L,TRAIT_STUNIMMUNE,type)
-	ADD_TRAIT(L,TRAIT_SLEEPIMMUNE,type)
-	ADD_TRAIT(L,TRAIT_IGNOREDAMAGESLOWDOWN,type)
-	ADD_TRAIT(L,TRAIT_NOSTAMCRIT,type)
-	ADD_TRAIT(L,TRAIT_NOLIMBDISABLE,type)
 	L.apply_status_effect(/datum/status_effect/bloody_eye)
 	..()
 
 //You won't go down unless you get killed with excess damage.
 
 /datum/reagent/drug/bloody_eye/on_mob_end_metabolize(mob/living/L)
-	REMOVE_TRAIT(L,TRAIT_MONKEYLIKE,type)
-	REMOVE_TRAIT(L,TRAIT_NOCRITDAMAGE,type)
-	REMOVE_TRAIT(L,TRAIT_NOSOFTCRIT,type)
-	REMOVE_TRAIT(L,TRAIT_NOHARDCRIT,type)
-	REMOVE_TRAIT(L,TRAIT_NOBLOCK,type)
-	REMOVE_TRAIT(L,TRAIT_STUNIMMUNE,type)
-	REMOVE_TRAIT(L,TRAIT_SLEEPIMMUNE,type)
-	REMOVE_TRAIT(L,TRAIT_IGNOREDAMAGESLOWDOWN,type)
-	REMOVE_TRAIT(L,TRAIT_NOSTAMCRIT,type)
-	REMOVE_TRAIT(L,TRAIT_NOLIMBDISABLE,type)
 	L.remove_status_effect(/datum/status_effect/bloody_eye)
 	..()
 
@@ -79,7 +59,7 @@
 		for(var/i in 1 to 4)
 			step(M, pick(GLOB.cardinals))
 	if(prob(20))
-		M.emote("scream")
+		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
 	if(prob(33))
 		M.visible_message("<span class='danger'>[M]'s eyes are blood red!</span>")
 		M.drop_all_held_items()
@@ -91,14 +71,14 @@
 /datum/reagent/drug/bloody_eye/addiction_act_stage1(mob/living/M)
 	M.Jitter(20)
 	if(prob(20))
-		M.emote(pick("scream","laugh"))
+		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
 	..()
 
 /datum/reagent/drug/bloody_eye/addiction_act_stage2(mob/living/M)
 	M.Jitter(50)
 	M.Dizzy(5)
 	if(prob(30))
-		M.emote(pick("scream","gasp","laugh"))
+		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
 	..()
 
 /datum/reagent/drug/bloody_eye/addiction_act_stage3(mob/living/M)
@@ -108,7 +88,7 @@
 	M.Jitter(100)
 	M.Dizzy(10)
 	if(prob(40))
-		M.emote(pick("scream","gasp"))
+		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "gasp"))
 	..()
 
 /datum/reagent/drug/bloody_eye/addiction_act_stage4(mob/living/carbon/human/M)
@@ -119,7 +99,7 @@
 	M.Dizzy(15)
 	M.adjustToxLoss(0.25, 0)
 	if(prob(50))
-		M.emote(pick("scream"))
+		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
 	..()
 	. = 1
 
@@ -181,6 +161,16 @@
 		owner.changeNext_move(CLICK_CD_RAPID)
 	playsound(owner, 'sound/effects/heart_beat.ogg', 50, 1)
 	owner.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-2, blacklisted_movetypes=(FLYING|FLOATING))
+	ADD_TRAIT(L,TRAIT_MONKEYLIKE,type)
+	ADD_TRAIT(L,TRAIT_NOCRITDAMAGE,type)
+	ADD_TRAIT(L,TRAIT_NOSOFTCRIT,type)
+	ADD_TRAIT(L,TRAIT_NOHARDCRIT,type)
+	ADD_TRAIT(L,TRAIT_NOBLOCK,type)
+	ADD_TRAIT(L,TRAIT_STUNIMMUNE,type)
+	ADD_TRAIT(L,TRAIT_SLEEPIMMUNE,type)
+	ADD_TRAIT(L,TRAIT_IGNOREDAMAGESLOWDOWN,type)
+	ADD_TRAIT(L,TRAIT_NOSTAMCRIT,type)
+	ADD_TRAIT(L,TRAIT_NOLIMBDISABLE,type)
 
 
 /datum/status_effect/bloody_eye/on_remove()
@@ -188,5 +178,14 @@
 	owner.clear_fullscreen("brute")
 	owner.adjustOxyLoss(25,0)
 	owner.remove_movespeed_modifier(type)
-
+	REMOVE_TRAIT(L,TRAIT_MONKEYLIKE,type)
+	REMOVE_TRAIT(L,TRAIT_NOCRITDAMAGE,type)
+	REMOVE_TRAIT(L,TRAIT_NOSOFTCRIT,type)
+	REMOVE_TRAIT(L,TRAIT_NOHARDCRIT,type)
+	REMOVE_TRAIT(L,TRAIT_NOBLOCK,type)
+	REMOVE_TRAIT(L,TRAIT_STUNIMMUNE,type)
+	REMOVE_TRAIT(L,TRAIT_SLEEPIMMUNE,type)
+	REMOVE_TRAIT(L,TRAIT_IGNOREDAMAGESLOWDOWN,type)
+	REMOVE_TRAIT(L,TRAIT_NOSTAMCRIT,type)
+	REMOVE_TRAIT(L,TRAIT_NOLIMBDISABLE,type)
 
