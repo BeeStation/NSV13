@@ -36,10 +36,6 @@
 	ADD_TRAIT(L,TRAIT_NOLIMBDISABLE,type)
 	L.apply_status_effect(/datum/status_effect/bloody_eye)
 	..()
-	if (L.client)
-		SSmedals.UnlockMedal(MEDAL_APPLY_REAGENT_METH,L.client)
-
-	L.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-2, blacklisted_movetypes=(FLYING|FLOATING))
 
 //You won't go down unless you get killed with excess damage.
 
@@ -55,7 +51,6 @@
 	REMOVE_TRAIT(L,TRAIT_NOSTAMCRIT,type)
 	REMOVE_TRAIT(L,TRAIT_NOLIMBDISABLE,type)
 	L.remove_status_effect(/datum/status_effect/bloody_eye)
-	L.remove_movespeed_modifier(type)
 	..()
 
 /datum/reagent/drug/bloody_eye/on_mob_life(mob/living/carbon/M)
@@ -168,9 +163,6 @@
 	 item = /obj/item/reagent_containers/hypospray/bloody_eye
 	 cost = 10
 
-//Bloody Eye gets it's own status effect.
-#define STATUS_EFFECT_BLOODY_EYE /datum/status_effect/bloody_eye
-
 /datum/status_effect/bloody_eye
 	id = "bloody_eye"
 	duration = -1
@@ -188,8 +180,13 @@
 	if(owner.changeNext_move(!CLICK_CD_RAPID))
 		owner.changeNext_move(CLICK_CD_RAPID)
 	playsound(owner, 'sound/effects/heart_beat.ogg', 50, 1)
+	owner.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-2, blacklisted_movetypes=(FLYING|FLOATING))
+
 
 /datum/status_effect/bloody_eye/on_remove()
 	to_chat(owner, "<span class='warning'>See you Space Cowboy...</span>")
 	owner.clear_fullscreen("brute")
 	owner.adjustOxyLoss(25,0)
+	owner.remove_movespeed_modifier(type)
+
+
