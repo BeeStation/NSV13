@@ -59,8 +59,8 @@
 	..()
 
 /datum/reagent/drug/bloody_eye/on_mob_life(mob/living/carbon/M)
-	var/high_message = pick("You see red.", "You feel like ripping out someone's throat.", "You feel like nothing could ever kill you.")
 	if(prob(5))
+		var/high_message = pick("You see red.", "You feel like ripping out someone's throat.", "You feel like nothing could ever kill you.")
 		to_chat(M, "<span class='notice'>[high_message]</span>")
 	M.AdjustStun(-40, FALSE)
 	M.AdjustKnockdown(-40, FALSE)
