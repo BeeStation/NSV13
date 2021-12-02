@@ -56,7 +56,7 @@
 
 /datum/reagent/drug/bloody_eye/overdose_process(mob/living/M)
 	if((M.mobility_flags & MOBILITY_MOVE) && !ismovableatom(M.loc))
-		for(var/i in 1 to 4)
+		for(var/i in 1 to 2)
 			step(M, pick(GLOB.cardinals))
 	if(prob(20))
 		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
@@ -84,7 +84,7 @@
 /datum/reagent/drug/bloody_eye/addiction_act_stage3(mob/living/M)
 	if((M.mobility_flags & MOBILITY_MOVE) && !ismovableatom(M.loc))
 		for(var/i = 0, i < 4, i++)
-			step(M, pick(GLOB.cardinals))
+			moveRange(M, pick(GLOB.cardinals))
 	M.Jitter(100)
 	M.Dizzy(10)
 	if(prob(40))
@@ -93,7 +93,7 @@
 
 /datum/reagent/drug/bloody_eye/addiction_act_stage4(mob/living/carbon/human/M)
 	if((M.mobility_flags & MOBILITY_MOVE) && !ismovableatom(M.loc))
-		for(var/i = 0, i < 8, i++)
+		for(var/i = 0, i < 6, i++)
 			step(M, pick(GLOB.cardinals))
 	M.Jitter(150)
 	M.Dizzy(15)
@@ -161,6 +161,8 @@
 		owner.changeNext_move(CLICK_CD_RAPID)
 	playsound(owner, 'sound/effects/heart_beat.ogg', 50, 1)
 	owner.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-2, blacklisted_movetypes=(FLYING|FLOATING))
+
+/datum/status_effect/bloody_eye/on_apply()
 	ADD_TRAIT(owner,TRAIT_MONKEYLIKE,type)
 	ADD_TRAIT(owner,TRAIT_NOCRITDAMAGE,type)
 	ADD_TRAIT(owner,TRAIT_NOSOFTCRIT,type)
@@ -171,6 +173,7 @@
 	ADD_TRAIT(owner,TRAIT_IGNOREDAMAGESLOWDOWN,type)
 	ADD_TRAIT(owner,TRAIT_NOSTAMCRIT,type)
 	ADD_TRAIT(owner,TRAIT_NOLIMBDISABLE,type)
+	return TRUE
 
 
 /datum/status_effect/bloody_eye/on_remove()
