@@ -316,9 +316,9 @@ Adding tasks is easy! Just define a datum for it.
 		source_ship.hail(text, name, user.name, TRUE) // Let the crew on the source ship know an Outbound message was sent
 		hail(text, source_ship.name, user.name)
 
-/obj/structure/overmap/proc/try_deliver( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console ) 
+/obj/structure/overmap/proc/try_deliver( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console )
 	if( !isliving(user) )
-		return FALSE 
+		return FALSE
 	if( !allowed(user) ) //Only cargo auth'd personnel can make purchases.
 		to_chat(user, "<span class='warning'>Warning: You cannot open a communications channel without appropriate requisitions access registered to your ID card.</span>")
 		return FALSE
@@ -327,81 +327,81 @@ Adding tasks is easy! Just define a datum for it.
 		to_chat(user, "<span class='warning'>[console] has no cargo launcher attached! Use a multitool with a cargo launcher stored on its buffer to connect it.</span>")
 		if ( console && console.linked )
 			try_hail( user, console.linked )
-		return FALSE 
+		return FALSE
 
-	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = console.linked_launcher 
+	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = console.linked_launcher
 	if ( !launcher.chambered )
 		to_chat(user, "<span class='warning'>[src] has no freight torpedoes loaded!</span>")
 		if ( console.linked )
 			try_hail( user, console.linked )
-		return FALSE 
-	
+		return FALSE
+
 	for(var/a in launcher.chambered.GetAllContents())
 		if(is_type_in_typecache(a, GLOB.blacklisted_cargo_types))
-			if ( !istype( a, /mob/living/simple_animal ) ) // Allow the transfer of specimens specifically for cargo missions 
+			if ( !istype( a, /mob/living/simple_animal ) ) // Allow the transfer of specimens specifically for cargo missions
 				to_chat(user, "<span class='warning'>[src] Cargo Shuttle Brand lifeform checker blinks an error, \
 					for safety reasons it cannot transport hazardous organisms, human remains, classified nuclear weaponry, \
 					homing beacons or machinery housing any form of artificial intelligence.")
 				return FALSE
 
 	var/choice = input("Transfer cargo to [src]?", "Confirm delivery", "No") in list("Yes", "No")
-	if(!choice || choice == "No") 
+	if(!choice || choice == "No")
 		if ( console.linked )
 			try_hail( user, console.linked )
-		return FALSE 
+		return FALSE
 
-	var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = launcher.chambered 
+	var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = launcher.chambered
 	var/success = receive_cargo( user, console, shipment )
 
 	if ( success )
-		// Fire the torpedo away to unload the launcher. 
-		// Without a weapon_type the projectile will not be animated 
+		// Fire the torpedo away to unload the launcher.
+		// Without a weapon_type the projectile will not be animated
 		launcher.fire( src, shots = 1 )
-		// Because it doesn't have a weapon_type to store the overmap_firing_sounds we'll bodge it here 
+		// Because it doesn't have a weapon_type to store the overmap_firing_sounds we'll bodge it here
 		user?.get_overmap()?.relay( pick( list(
 			'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
 			'nsv13/sound/effects/ship/freespace2/m_stiletto.wav',
 			'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
 			'nsv13/sound/effects/ship/freespace2/m_wasp.wav'
 		) ) )
-		return TRUE 
+		return TRUE
 
 /obj/structure/overmap/proc/add_objective( objective )
 	if ( objective )
-		expecting_cargo += objective 
+		expecting_cargo += objective
 		essential = TRUE
 		nodamage = TRUE
-	
-/obj/structure/overmap/proc/check_objectives( var/datum/freight_delivery_receipt/receipt )
-	if ( !length( expecting_cargo ) ) 
-		reject_unexpected_shipment( receipt )
-		return FALSE 
-	
-	for ( var/datum/overmap_objective/cargo/request in expecting_cargo ) // Only validate this station's cargo related objectives 
-		if ( request.status != 0 ) 
-			continue 
 
-		var/datum/overmap_objective/cargo/objective = request 
-		var/allCargoPresent = objective.check_cargo( receipt.shipment ) // check_cargo will automatically check for additional trash 
-		
-		if ( allCargoPresent ) 
-			// Bag it, tag it, store it. Accessible for admin debugging later if needed 
-			// Able to check off multiple objectives through the loop if crew are piling everything into one torpedo 
-			receipt.completed_objectives += objective 
-			expecting_cargo -= request 
-			
-			// Break from the loop if there are multiple cargo missions requesting the same type of item. No double dipping! 
-			break 
+/obj/structure/overmap/proc/check_objectives( var/datum/freight_delivery_receipt/receipt )
+	if ( !length( expecting_cargo ) )
+		reject_unexpected_shipment( receipt )
+		return FALSE
+
+	for ( var/datum/overmap_objective/cargo/request in expecting_cargo ) // Only validate this station's cargo related objectives
+		if ( request.status != 0 )
+			continue
+
+		var/datum/overmap_objective/cargo/objective = request
+		var/allCargoPresent = objective.check_cargo( receipt.shipment ) // check_cargo will automatically check for additional trash
+
+		if ( allCargoPresent )
+			// Bag it, tag it, store it. Accessible for admin debugging later if needed
+			// Able to check off multiple objectives through the loop if crew are piling everything into one torpedo
+			receipt.completed_objectives += objective
+			expecting_cargo -= request
+
+			// Break from the loop if there are multiple cargo missions requesting the same type of item. No double dipping!
+			break
 
 	if ( length( receipt.completed_objectives ) )
-		// If multiple objectives were completed, only hail once 
+		// If multiple objectives were completed, only hail once
 		received_cargo += receipt
 		approve_shipment( receipt )
 		return TRUE
-	else 
-		// If no objectives were completed, reject it and dispose of the receipt 
+	else
+		// If no objectives were completed, reject it and dispose of the receipt
 		reject_incomplete_shipment( receipt )
-		return FALSE 
+		return FALSE
 
 /obj/structure/overmap/proc/make_paperwork( var/datum/freight_delivery_receipt/receipt, var/approval )
 	// Cargo DRADIS automatically synthesizes and attaches the requisition form to the cargo torp
@@ -412,28 +412,28 @@ Adding tasks is easy! Just define a datum for it.
 	paper.info += "<hr/>"
 	paper.info += ( "Order: S-[rand( 1000, 5000 )]<br/>" )
 	paper.info += "Destination: [src]<br/>"
-	if ( length( receipt.completed_objectives ) > 1 ) // If receipt has an attach objective which marks it as completed 
+	if ( length( receipt.completed_objectives ) > 1 ) // If receipt has an attach objective which marks it as completed
 		paper.info += ( "Item: Assorted Shipment<br/>" )
 	else if ( length( receipt.completed_objectives ) == 1 )
 		var/datum/overmap_objective/cargo/objective = receipt.completed_objectives[ 1 ]
 		paper.info += ( "Item: [objective.crate_name]<br/>" )
-	else 
+	else
 		paper.info += ( "Item: Unregistered Shipment<br/>" )
 	paper.info += "Contents:<br/>"
-	
-	paper.info += "<ul>"
-	if ( istype( receipt.shipment, /obj/item/ship_weapon/ammunition/torpedo/freight ) ) 
-		var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = receipt.shipment 
 
-		// Reveal all contents of the torpedo tube 
+	paper.info += "<ul>"
+	if ( istype( receipt.shipment, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
+		var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = receipt.shipment
+
+		// Reveal all contents of the torpedo tube
 		for ( var/atom/item in shipment.GetAllContents() )
-			// Remove redundant objects that would otherwise always appear on the list 
+			// Remove redundant objects that would otherwise always appear on the list
 			if ( !is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) )
 				paper.info += "<li>[item]</li>"
-	else 
-		paper.info += "<li>miscellaneous unpackaged objects</li>" 
+	else
+		paper.info += "<li>miscellaneous unpackaged objects</li>"
 	paper.info += "</ul>"
-	
+
 	paper.info += "<h4>Stamp below to confirm receipt of goods:</h4>"
 
 	paper.stamped = list()
@@ -444,7 +444,7 @@ Adding tasks is easy! Just define a datum for it.
 	if ( approval )
 		paper.stamped += "stamp-ok"
 		paper.stamps = list( list(sheet.icon_class_name("stamp-ok"), 1, 1, 0) )
-	else 
+	else
 		paper.stamped += "stamp-deny"
 		paper.stamps = list( list(sheet.icon_class_name("stamp-deny"), 1, 1, 0) )
 
@@ -455,36 +455,36 @@ Adding tasks is easy! Just define a datum for it.
 	if(receipt?.vessel)
 		var/obj/structure/overmap/vessel = receipt.vessel
 
-		// Paperwork! Stations should always stamp their requisition forms as accepted and return to sender 
+		// Paperwork! Stations should always stamp their requisition forms as accepted and return to sender
 		var/obj/item/paper/requisition_form = make_paperwork( receipt, TRUE )
 
 		vessel.send_supplypod( requisition_form, src, TRUE )
 
-/obj/structure/overmap/proc/reject_unexpected_shipment( var/datum/freight_delivery_receipt/receipt ) 
+/obj/structure/overmap/proc/reject_unexpected_shipment( var/datum/freight_delivery_receipt/receipt )
 	if(receipt?.vessel)
 		if ( returns_rejected_cargo )
 			SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-			receipt.vessel.hail( pick( list( 
+			receipt.vessel.hail( pick( list(
 				"We're not expecting any shipments at this time. Please give us some time to arrange the return shipment.",
 				"We're not expecting any shipments, please don't send us your trash.",
 				"This cargo isn't registered on our supply requests. We will return it as soon as we can.",
 				"We haven't asked for any cargo like this. Take your business elsewhere.",
 			) ), src)
-			addtimer(CALLBACK(src, .proc/return_shipment, receipt), speed_cargo_return) 
-		else 
+			addtimer(CALLBACK(src, .proc/return_shipment, receipt), speed_cargo_return)
+		else
 			SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-			receipt.vessel.hail( pick( list( 
+			receipt.vessel.hail( pick( list(
 				"We're not expecting any shipments at this time. We hope you weren't attached to this.",
 				"We're not expecting any shipments, but our assistants could make use of this.",
 				"This cargo isn't registered on our supply requests. We won't be returning this.",
 				"We haven't asked for any cargo like this. Take your unwanted business elsewhere.",
 			) ), src)
 
-/obj/structure/overmap/proc/reject_incomplete_shipment( var/datum/freight_delivery_receipt/receipt ) 
+/obj/structure/overmap/proc/reject_incomplete_shipment( var/datum/freight_delivery_receipt/receipt )
 	if(receipt?.vessel)
-		// Won't check for returns_rejected_cargo if the station is actually expecting cargo, but the torp they receive is incorrect 
+		// Won't check for returns_rejected_cargo if the station is actually expecting cargo, but the torp they receive is incorrect
 		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-		receipt.vessel.hail( pick( list( 
+		receipt.vessel.hail( pick( list(
 			"Some of the cargo contents are missing. We're sending the crates back, please double check your crates and try again.",
 			"We're not expecting this kind of shipment. We will return it as soon as we can.",
 			"This cargo isn't matching on our supply requests, please review the attached contents manifest and resend the contents.",
@@ -492,7 +492,7 @@ Adding tasks is easy! Just define a datum for it.
 		) ), src)
 		addtimer(CALLBACK(src, .proc/return_shipment, receipt), speed_cargo_return)
 
-/obj/structure/overmap/proc/approve_shipment( var/datum/freight_delivery_receipt/receipt ) 
+/obj/structure/overmap/proc/approve_shipment( var/datum/freight_delivery_receipt/receipt )
 	if(receipt?.vessel)
 		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		receipt.vessel.hail( "Thank you for delivering this cargo. We have marked the supply request as received.", src)
@@ -501,39 +501,39 @@ Adding tasks is easy! Just define a datum for it.
 /obj/structure/overmap/proc/return_shipment( var/datum/freight_delivery_receipt/receipt )
 	if(receipt?.vessel)
 		if ( istype( receipt.shipment, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
-			var/obj/item/ship_weapon/ammunition/torpedo/freight/F = receipt.shipment 
+			var/obj/item/ship_weapon/ammunition/torpedo/freight/F = receipt.shipment
 			F.contents += make_paperwork( receipt, FALSE )
 
 		var/obj/structure/overmap/vessel = receipt.vessel
 		vessel.send_supplypod( receipt.shipment, src, TRUE )
 
-/obj/structure/overmap/proc/receive_cargo( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console, var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment ) 
+/obj/structure/overmap/proc/receive_cargo( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console, var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment )
 	if ( !console.linked )
-		return FALSE 
+		return FALSE
 
-	var/obj/structure/overmap/courier = console.linked 
+	var/obj/structure/overmap/courier = console.linked
 	if ( courier.faction != src.faction )
-		// Make an exception for syndicate stations specifically, for adminbussing 
-		if ( !istype( src, /obj/structure/overmap/trader ) ) 
-			return FALSE 
+		// Make an exception for syndicate stations specifically, for adminbussing
+		if ( !istype( src, /obj/structure/overmap/trader ) )
+			return FALSE
 
 		var/obj/structure/overmap/trader/T = src
 		if ( !T.inhabited_trader )
-			// We're not allowing syndicate to hitscan the player ship with boarders at this time 
+			// We're not allowing syndicate to hitscan the player ship with boarders at this time
 			to_chat(user, "<span class='warning'>The cargo launcher IFF checker blinks an error, recipient faction is unmatched!</span>")
-			return FALSE 
+			return FALSE
 
 	var/datum/freight_delivery_receipt/receipt = new /datum/freight_delivery_receipt()
 	receipt.courier = user
-	receipt.vessel = console.linked 
+	receipt.vessel = console.linked
 	receipt.shipment = shipment
 	receipts += receipt
-	
+
 	to_chat(user, "<span class='notice'>The cargo has been sent to [src] and should be received shortly.</span>")
 	addtimer(CALLBACK(src, .proc/check_objectives, receipt), speed_cargo_check)
-		
+
 	src.send_supplypod( shipment, courier, TRUE )
-	return TRUE 
+	return TRUE
 
 /obj/structure/overmap/proc/hail(var/text, var/ship_name, var/player_name, var/outbound = FALSE)
 	if(!text)
@@ -843,7 +843,7 @@ Adding tasks is easy! Just define a datum for it.
 		if(istype(shield_scan_target, /obj/structure/overmap/nanotrasen/solgov))
 			continue //We don't scan our own boys.
 		//Ruh roh.... (Persona non gratas do not need to be scanned again.)
-		if((shield_scan_target.faction != shield_scan_target.name) && shield_scan_target.shields && shield_scan_target.shields.active && shield_scan_target.occupying_levels?.len)
+		if((shield_scan_target.faction != shield_scan_target.name) && shield_scan_target.shields && shield_scan_target.shields.active && length(shield_scan_target.occupying_levels))
 			shield_scan_target.hail("Scans have detected that you are in posession of prohibited technology. \n Your IFF signature has been marked as 'persona non grata'. \n In accordance with SGC-reg #10124, your ship and lives are now forfeit. Evacuate all civilian personnel immediately and surrender yourselves.", name)
 			shield_scan_target.relay_to_nearby('nsv13/sound/effects/ship/solgov_scan_alert.ogg', ignore_self=FALSE)
 			shield_scan_target.faction = shield_scan_target.name
@@ -1366,14 +1366,14 @@ Seek a ship thich we'll station ourselves around
 	var/list/ai_fighter_type = list()
 	var/ai_flags = AI_FLAG_DESTROYER
 
-	var/list/expecting_cargo = list() // list of objective datums 
-	var/list/received_cargo = list() // list of typically freight torps 
-	var/list/receipts = list() // All cargo delivery attempts made to this station 
+	var/list/expecting_cargo = list() // list of objective datums
+	var/list/received_cargo = list() // list of typically freight torps
+	var/list/receipts = list() // All cargo delivery attempts made to this station
 	var/essential = FALSE // AI targeting will ignore essential stations to preserve ammo. At least I hope, there's a thousand places AI last_target is updated
-	var/nodamage = FALSE // Mob immunity equivalent for stations, used for mission critical targets. Separate var if mission critical stations need to be essential but not immortal 
+	var/nodamage = FALSE // Mob immunity equivalent for stations, used for mission critical targets. Separate var if mission critical stations need to be essential but not immortal
 	var/supply_pod_type = /obj/structure/closet/supplypod/centcompod
-	var/returns_rejected_cargo = TRUE // AI ships will return cargo that does not match their expected shipments 
-	var/speed_cargo_check = 30 SECONDS 
+	var/returns_rejected_cargo = TRUE // AI ships will return cargo that does not match their expected shipments
+	var/speed_cargo_check = 30 SECONDS
 	var/speed_cargo_return = 30 SECONDS
 
 	var/last_decision = 0
@@ -1646,7 +1646,7 @@ Seek a ship thich we'll station ourselves around
 	resupply_target = null
 
 /obj/structure/overmap/proc/can_board(obj/structure/overmap/ship)
-	if(!ship.occupying_levels?.len)
+	if(!length(ship.occupying_levels))
 		return FALSE
 	if(get_dist(ship, src) > 8)
 		return FALSE
@@ -1671,7 +1671,7 @@ Seek a ship thich we'll station ourselves around
 	if(OM.faction == faction)
 		return
 	if ( OM.essential )
-		return 
+		return
 	last_target = target
 	if(ai_can_launch_fighters) //Found a new enemy? Release the hounds
 		ai_can_launch_fighters = FALSE
@@ -1820,7 +1820,7 @@ Seek a ship thich we'll station ourselves around
 			continue
 		if(min_weight_class && ship.mass < min_weight_class)
 			continue
-		if(interior_check && !ship.occupying_levels?.len) //So that boarders don't waste their time and try commit to boarding other AIs...yet.
+		if(interior_check && !length(ship.occupying_levels)) //So that boarders don't waste their time and try commit to boarding other AIs...yet.
 			continue
 		add_enemy(ship)
 		last_target = ship
