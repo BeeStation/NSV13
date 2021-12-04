@@ -14,13 +14,13 @@
 	selected_system = pick(candidate)
 
 	//Update description
-	desc = "Travel to [selected_system] and rescue a friendly fleet"
-	brief = "Intellegence indicates that a supply convoy is going to ambushed in [selected_system], travel to the system and ensure the convoy escapes with minimal damage."
+	desc = "(optional) Travel to [selected_system] and rescue a friendly fleet"
+	brief = "(optional) Intellegence indicates that a supply convoy is going to ambushed in [selected_system], travel to the system and ensure the convoy escapes with minimal damage."
 
 	RegisterSignal(SSstar_system.main_overmap, COMSIG_SHIP_ARRIVED, .proc/stage_encounter)
 
 /datum/overmap_objective/rescue_fleet/proc/stage_encounter()
-	if(status != 0)
+	if(status)
 		return
 
 	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
@@ -42,14 +42,14 @@
 		RegisterSignal(S, COMSIG_FLEET_DESTROYED, .proc/encounter_success)
 
 /datum/overmap_objective/rescue_fleet/proc/encounter_failure()
-	if(status != 0)
+	if(status)
 		return
 
 	priority_announce("We've lost contact with the transport convoy, search for survivors if possible and continue your primary objective.")
 	status = 2
 
 /datum/overmap_objective/rescue_fleet/proc/encounter_success()
-	if(status != 0)
+	if(status)
 		return
 
 	priority_announce("These resources should prove invaluable in our conflict with the Syndicate, good work.")

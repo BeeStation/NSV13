@@ -29,11 +29,11 @@
 	RegisterSignal(SSstar_system.main_overmap, COMSIG_SHIP_ARRIVED, .proc/stage_encounter)
 
 	//Update description
-	desc = "Travel to [selected_system] and defend a friendly station"
-	brief = "Intellegence indicates a hostile fleet enroute to one of our staging posts in [selected_system], head there and ensure the station survives the assault."
+	desc = "(optional) Travel to [selected_system] and defend a friendly station"
+	brief = "(optional) Intellegence indicates a hostile fleet enroute to one of our staging posts in [selected_system], head there and ensure the station survives the assault."
 
 /datum/overmap_objective/defend_station/proc/stage_encounter()
-	if(status != 0)
+	if(status)
 		return
 
 	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
@@ -85,6 +85,6 @@
 	if(!last_wave)
 		return
 
-	if(selected_system.enemies_in_system.len == 0)
+	if(!length(selected_system.enemies_in_system))
 		priority_announce("Station defended, continue with your primary objective.")
 		status = 1

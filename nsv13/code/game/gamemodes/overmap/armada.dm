@@ -39,6 +39,7 @@
 			candidate += S.name
 
 	candidate -= "Outpost 45"
+	candidate -= "Sol"
 	selected_system = pick(candidate)
 
 	brief = "Fleet Intelligence indicates that the Syndicate are preparing an invasion fleet to capture [selected_system], rally defences to repel the Armada by freeing up fleet assets and prepare to defend the system."
@@ -56,11 +57,10 @@
 	return
 
 /datum/overmap_gamemode/armada/consequence_three() //Purely a reminder
-	return
-
-/datum/overmap_gamemode/armada/consequence_four() //Syndicate Vanguard + Nanotrasen Reinforcements Arrive
 	objective_reminder_interval = 5 MINUTES //Armada Soon, Fellow Spaceman
 
+
+/datum/overmap_gamemode/armada/consequence_four() //Syndicate Vanguard + Nanotrasen Reinforcements Arrive
 	for(var/datum/overmap_objective/O in objectives)
 		O.check_completion()
 		if(O.status == 1) //STATUS_COMPLETED
@@ -70,6 +70,7 @@
 	if(reinforcements >= 1)
 		addtimer(CALLBACK(src, .proc/reinforce), 2 MINUTES)
 
+	objective_reminder_interval = 60 MINUTES //Don't pester us
 
 /datum/overmap_gamemode/armada/consequence_five() //Syndicate Armada Arrives
 	for(var/datum/overmap_objective/system_defence_armada/O in objectives)
@@ -80,8 +81,6 @@
 	target.fleets += F
 	F.current_system = target
 	F.assemble(target)
-
-	objective_reminder_interval = 60 MINUTES //Don't pester us
 
 /datum/overmap_gamemode/armada/proc/reinforce()
 	reinforcements -- //Deduct one from the pool

@@ -32,11 +32,11 @@
 	if ( length( freight_types ) )
 		var/list/segments = list()
 		for( var/datum/freight_type/type in freight_types )
-			segments += type.get_brief_segment() 
-		
+			segments += type.get_brief_segment()
+
 		var/obj/structure/overmap/S = destination
-		desc = "Deliver critical engine parts to [S.current_system]"
-		brief = "Deliver critical engine repair components to the stranded vessel in [S.current_system]. Prepackaged components include: [segments.Join( ", " )]"
+		desc = "(optional) Deliver critical engine parts to [S.current_system]"
+		brief = "(optional) Deliver critical engine repair components to the stranded vessel in [S.current_system]. Prepackaged components include: [segments.Join( ", " )]"
 
 /datum/overmap_objective/cargo/transfer/engine_parts/pick_station()
 	//Looking for a random sector system without a trader

@@ -15,6 +15,11 @@
 	desc = "Defend [selected_system] against a Syndicate invasion fleet"
 	brief = "Defend [selected_system] against a Syndicate invasion fleet"
 
+	//Setup our signaling for abandoning the objective
+	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+	if(OM.current_system == selected_system)
+		RegisterSignal(SSstar_system.main_overmap, COMSIG_SHIP_ARRIVED, .proc/check_completion)
+
 /datum/overmap_objective/system_defence_armada/check_completion()
 	if(!armada_arrived)
 		return
@@ -25,7 +30,9 @@
 		priority_announce("Attention [station_name()]. Our presence in this sector has been severely diminished due to your incompetence. Return to base immediately for disciplinary action.", "Naval Command")
 		status = 2
 		SSovermap_mode.mode.defeat()
+		UnregisterSignal(SSstar_system.main_overmap, COMSIG_SHIP_ARRIVED)
 
-	if(target.enemies_in_system.len == 0)
+	if(!length(target.enemies_in_system))
 		priority_announce("Attention [station_name()]. You have successfully repulsed the Syndicate invasion force for now, mission accomplished.", "Naval Command")
 		status = 3
+		UnregisterSignal(SSstar_system.main_overmap, COMSIG_SHIP_ARRIVED)

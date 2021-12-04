@@ -31,11 +31,11 @@
 	RegisterSignal(SSstar_system.main_overmap, COMSIG_SHIP_ARRIVED, .proc/stage_encounter)
 
 	//Update description
-	desc = "Destroy the syndicate listening post in [selected_system]"
-	brief = "Intellegence indicates a key weakness in the Syndicate invasion plan, travel to [selected_system] and destroy the listening post."
+	desc = "(optional) Destroy the syndicate listening post in [selected_system]"
+	brief = "(optional) Intellegence indicates a key weakness in the Syndicate invasion plan, travel to [selected_system] and destroy the listening post."
 
 /datum/overmap_objective/destroy_station/proc/stage_encounter()
-	if(status != 0) //Probably switch this to check if the system has been entered or deregister the signal
+	if(status)
 		return
 
 	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
