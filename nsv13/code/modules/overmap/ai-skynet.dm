@@ -26,7 +26,7 @@ Adding tasks is easy! Just define a datum for it.
 	var/list/taskforces = list("fighters" = list(), "destroyers" = list(), "battleships" = list(), "supply" = list())
 	var/list/fighter_types = list(/obj/structure/overmap/syndicate/ai/fighter, /obj/structure/overmap/syndicate/ai/bomber)
 	var/list/destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
-	var/list/battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser) //TODO: Implement above list for more ship variety.
+	var/list/battleship_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
 	var/list/supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
 	var/list/all_ships = list()
 	var/list/lances = list()
@@ -630,6 +630,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/border
 	name = "\improper Syndicate border defense force"
+	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier, /obj/structure/overmap/syndicate/ai/carrier/elite)
 	fleet_trait = FLEET_TRAIT_BORDER_PATROL
 	hide_movements = TRUE
 
@@ -642,6 +643,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/wolfpack
 	name = "\improper unidentified Syndicate fleet"
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/destroyer)
 	audio_cues = list()
 	hide_movements = TRUE
 	taunts = list("....", "*static*")
@@ -864,8 +866,28 @@ Adding tasks is easy! Just define a datum for it.
 		assemble(current_system)
 	addtimer(CALLBACK(src, .proc/move), initial_move_delay)
 
-//A fleet has entered a system. Assemble the fleet so that it lives in this system now.
+/datum/fleet/proc/add_ship(var/obj/structure/overmap/member, role as text)
+	if(!istype(member) || !role)
+		return
+	taskforces[role] += member
+	member.fleet = src
+	member.current_system = current_system
+	if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
+		current_system.enemies_in_system += member
+	all_ships += member
+	RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
+	RegisterSignal(member, COMSIG_SHIP_BOARDED , /datum/fleet/proc/remove_ship, member)
 
+	if(current_system.occupying_z)
+		current_system.add_ship(member)
+	else
+		LAZYADD(current_system.system_contents, member)
+		current_system.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them randomized positions.
+		STOP_PROCESSING(SSphysics_processing, member)
+		if(member.physics2d)
+			STOP_PROCESSING(SSphysics_processing, member.physics2d)
+
+//A fleet has entered a system. Assemble the fleet so that it lives in this system now.
 /datum/fleet/proc/assemble(datum/star_system/SS, difficulty=size)
 	if(!SS)
 		return
@@ -892,66 +914,20 @@ Adding tasks is easy! Just define a datum for it.
 	*/
 	//This may look lazy, but it's easier than storing all this info in one massive dict. Deal with it!
 	if(destroyer_types?.len)
-		for(var/I=0; I<max(round(difficulty/2), 1);I++){
+		for(var/I=0; I<max(round(difficulty/2), 1);I++)
 			var/shipType = pick(destroyer_types)
 			var/obj/structure/overmap/member = new shipType()
-			taskforces["destroyers"] += member
-			member.fleet = src
-			member.current_system = current_system
-			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
-				current_system.enemies_in_system += member
-			all_ships += member
-			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-			RegisterSignal(member, COMSIG_SHIP_BOARDED , /datum/fleet/proc/remove_ship, member)
-			if(SS.occupying_z)
-				SS.add_ship(member)
-			else
-				LAZYADD(SS.system_contents, member)
-				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them randomized positions.
-				STOP_PROCESSING(SSphysics_processing, member)
-				if(member.physics2d)
-					STOP_PROCESSING(SSphysics_processing, member.physics2d)
-		}
+			add_ship(member, "destroyers")
 	if(battleship_types?.len)
-		for(var/I=0; I<max(round(difficulty/4), 1);I++){
+		for(var/I=0; I<max(round(difficulty/4), 1);I++)
 			var/shipType = pick(battleship_types)
 			var/obj/structure/overmap/member = new shipType()
-			taskforces["battleships"] += member
-			member.fleet = src
-			member.current_system = current_system
-			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
-				current_system.enemies_in_system += member
-			all_ships += member
-			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-			if(SS.occupying_z)
-				SS.add_ship(member)
-			else
-				LAZYADD(SS.system_contents, member)
-				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them randomized positions..
-				STOP_PROCESSING(SSphysics_processing, member)
-				if(member.physics2d)
-					STOP_PROCESSING(SSphysics_processing, member.physics2d)
-		}
+			add_ship(member, "battleships")
 	if(supply_types?.len)
-		for(var/I=0; I<max(round(difficulty/4), 1);I++){
+		for(var/I=0; I<max(round(difficulty/4), 1);I++)
 			var/shipType = pick(supply_types)
 			var/obj/structure/overmap/member = new shipType()
-			taskforces["supply"] += member
-			member.fleet = src
-			member.current_system = current_system
-			if(alignment != "nanotrasen" && alignment != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
-				current_system.enemies_in_system += member
-			all_ships += member
-			RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-			if(SS.occupying_z)
-				SS.add_ship(member)
-			else
-				LAZYADD(SS.system_contents, member)
-				SS.contents_positions[member] = list("x" = rand(15, 240), "y" = rand(15, 240)) //If the system isn't loaded, just give them randomized positions..
-				STOP_PROCESSING(SSphysics_processing, member)
-				if(member.physics2d)
-					STOP_PROCESSING(SSphysics_processing, member.physics2d)
-		}
+			add_ship(member, "supply")
 	if(SS.check_conflict_status())
 		if(!SSstar_system.contested_systems.Find(SS))
 			SSstar_system.contested_systems.Add(SS)
