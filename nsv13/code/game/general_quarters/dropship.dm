@@ -336,3 +336,6 @@
 
 
 	OM.relay('nsv13/sound/effects/fighters/switch.ogg')
+
+/obj/structure/overmap/fighter/dropship/stop_piloting(mob/living/M, eject_mob=FALSE, force=FALSE) // Just changes eject default to false
+	return ..()
