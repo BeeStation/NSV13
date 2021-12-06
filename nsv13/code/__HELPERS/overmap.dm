@@ -11,7 +11,10 @@
 	return AR.overmap_fallback
 
 /obj/structure/overmap/get_overmap()
+	var/obj/structure/overmap/save_overmap = last_overmap
 	last_overmap = ..()
+	if(!last_overmap && save_overmap?.roomReservation && SSmapping.level_trait(z, ZTRAIT_RESERVED))
+		last_overmap = save_overmap // Hack because the space turfs in asteroid templates end up in area space instead of the asteroid's area
 	last_overmap?.overmaps_in_ship += src
 	return last_overmap
 

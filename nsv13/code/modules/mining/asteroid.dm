@@ -121,7 +121,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	if(core_comp)
 		core_composition = core_comp
 
-/datum/map_template/asteroid/load(turf/T, centered = FALSE) ///Add in vein if applicable.
+/datum/map_template/asteroid/load(turf/T, centered = FALSE, magnet_load = FALSE) ///Add in vein if applicable.
 	. = ..()
 	if(!core_composition.len) //No core composition? you a normie asteroid.
 		return
@@ -139,18 +139,19 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	if(centered)
 		bottom_left = locate(T.x - (width/2), T.y - (height/2), T.z)
 
-	for(var/i = 0; i <= width; i++)
-		// top and bottom
-		var/turf/border = locate(bottom_left.x + i, bottom_left.y, bottom_left.z)
-		border.ChangeTurf(/turf/closed/indestructible/boarding_cordon/)
-		border = locate(bottom_left.x + i, bottom_left.y + height, bottom_left.z)
-		border.ChangeTurf(/turf/closed/indestructible/boarding_cordon/)
-	for(var/j = 1; j < (height); j++)
-		// left and right
-		var/turf/border = locate(bottom_left.x, bottom_left.y + j, bottom_left.z)
-		border.ChangeTurf(/turf/closed/indestructible/boarding_cordon/)
-		border = locate(bottom_left.x + width, bottom_left.y + j, bottom_left.z)
-		border.ChangeTurf(/turf/closed/indestructible/boarding_cordon/)
+	if(!magnet_load)
+		for(var/i = 0; i <= width; i++)
+			// top and bottom
+			var/turf/border = locate(bottom_left.x + i, bottom_left.y, bottom_left.z)
+			border.ChangeTurf(/turf/closed/indestructible/boarding_cordon)
+			border = locate(bottom_left.x + i, bottom_left.y + height, bottom_left.z)
+			border.ChangeTurf(/turf/closed/indestructible/boarding_cordon)
+		for(var/j = 1; j < (height); j++)
+			// left and right
+			var/turf/border = locate(bottom_left.x, bottom_left.y + j, bottom_left.z)
+			border.ChangeTurf(/turf/closed/indestructible/boarding_cordon)
+			border = locate(bottom_left.x + width, bottom_left.y + j, bottom_left.z)
+			border.ChangeTurf(/turf/closed/indestructible/boarding_cordon)
 
 /obj/effect/landmark/asteroid_spawn
 	name = "Asteroid Spawn"
@@ -302,7 +303,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	qdel(AS)
 
 /obj/machinery/computer/ship/mineral_magnet/proc/load_asteroid()
-	current_asteroid.load(target_location, FALSE)
+	current_asteroid.load(target_location, FALSE, TRUE)
 
 /obj/machinery/computer/ship/mineral_magnet/proc/start_push()
 	if(!has_overmap())
