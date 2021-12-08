@@ -904,7 +904,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 		if(isstructure(AM))
 			var/obj/structure/XXX = AM
 			XXX.take_damage(2.5 * B.last_evolution) //Big boys slam harder
-		if(isliving(AM))
+		else if(isliving(AM))
 			var/mob/living/L = AM
 			L.Paralyze(stun_time)
 

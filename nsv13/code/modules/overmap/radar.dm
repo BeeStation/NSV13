@@ -124,7 +124,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
 	name = "air traffic control console"
 
-/obj/machinery/computer/ship/dradis/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight 
+/obj/machinery/computer/ship/dradis/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight
 	name = "\improper Cargo freight delivery console"
 	circuit = /obj/item/circuitboard/computer/ship/dradis/cargo
 	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/linked_launcher = null
@@ -153,20 +153,20 @@ Called by add_sensor_profile_penalty if remove_in is used.
 					W.linked_dradis = src
 
 /obj/machinery/computer/ship/dradis/cargo/multitool_act(mob/living/user, obj/item/I)
-	// Allow relinking a console's cargo launcher 
+	// Allow relinking a console's cargo launcher
 	var/obj/item/multitool/P = I
-	// Check to make sure the buffer is a valid cargo launcher before acting on it 
-	if( ( multitool_check_buffer(user, I) && istype( P.buffer, /obj/machinery/ship_weapon/torpedo_launcher/cargo ) ) ) 
-		var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = P.buffer 
-		launcher.linked_dradis = src 
+	// Check to make sure the buffer is a valid cargo launcher before acting on it
+	if( ( multitool_check_buffer(user, I) && istype( P.buffer, /obj/machinery/ship_weapon/torpedo_launcher/cargo ) ) )
+		var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = P.buffer
+		launcher.linked_dradis = src
 		linked_launcher = launcher
 		P.buffer = null
 		to_chat(user, "<span class='notice'>Buffer transferred</span>")
 		return TRUE
-	// Call the parent proc and allow supply beacon swaps 
-	else 
+	// Call the parent proc and allow supply beacon swaps
+	else
 		return ..()
-	
+
 /obj/machinery/computer/ship/dradis/cargo/can_radar_pulse()
 	return FALSE
 
@@ -284,10 +284,10 @@ Called by add_sensor_profile_penalty if remove_in is used.
 				return
 			next_hail = world.time + 10 SECONDS //I hate that I need to do this, but yeah.
 			if(get_dist(target, linked) <= hail_range)
-				if ( istype( src, /obj/machinery/computer/ship/dradis/cargo ) ) 
-					var/obj/machinery/computer/ship/dradis/cargo/console = src // Must cast before passing into proc 
+				if ( istype( src, /obj/machinery/computer/ship/dradis/cargo ) )
+					var/obj/machinery/computer/ship/dradis/cargo/console = src // Must cast before passing into proc
 					target.try_deliver( usr, console )
-				else 
+				else
 					target.try_hail(usr, linked)
 		if("radar_pulse")
 			send_radar_pulse()
@@ -297,7 +297,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			var/newDelay = input(usr, "Set a new radar delay (seconds)", "Radar Delay", null) as num|null
 			if(!newDelay)
 				return
-			newDelay = CLAMP(newDelay, MIN_RADAR_DELAY, MAX_RADAR_DELAY) SECONDS
+			newDelay = CLAMP(newDelay SECONDS, MIN_RADAR_DELAY, MAX_RADAR_DELAY)
 			radar_delay = newDelay
 
 /obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.

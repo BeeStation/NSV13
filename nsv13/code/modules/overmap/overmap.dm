@@ -473,7 +473,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/proc/find_area()
 	if(role == MAIN_OVERMAP) //We're the hero ship, link us to every ss13 area.
-		for(var/area/A as() in GLOB.teleportlocs) //Teleportlocs = ss13 areas that aren't special / centcom
+		for(var/X in GLOB.teleportlocs) //Teleportlocs = ss13 areas that aren't special / centcom
+			var/area/A = teleportlocs[X]
 			linked_areas += A
 
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
