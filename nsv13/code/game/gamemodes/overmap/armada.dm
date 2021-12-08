@@ -17,7 +17,7 @@
 	var/selected_system							//The target of the Syndicate Attack
 	var/reinforcements = 0						//How many reinforcement fleets NT has at hand
 
-	selection_weight = 0
+	selection_weight = 5
 	required_players = 15
 	fixed_objectives = list(
 		/datum/overmap_objective/system_defence_armada

@@ -709,7 +709,7 @@ Adding tasks is easy! Just define a datum for it.
 //Boss battles.
 
 /datum/fleet/rubicon //Crossing the rubicon, are we?
-	name = "\proper Rubicon Crossing"
+	name = "\improper Rubicon Crossing"
 	size = FLEET_DIFFICULTY_VERY_HARD
 	allow_difficulty_scaling = FALSE
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/kadesh)	//:)
@@ -718,7 +718,7 @@ Adding tasks is easy! Just define a datum for it.
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/earthbuster //Depricated
-	name = "\proper Syndicate Armada" //Fleet spawned if the players are too inactive. Set course...FOR EARTH.
+	name = "\improper Syndicate Armada" //Fleet spawned if the players are too inactive. Set course...FOR EARTH.
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	size = FLEET_DIFFICULTY_VERY_HARD
 	allow_difficulty_scaling = FALSE
@@ -726,7 +726,7 @@ Adding tasks is easy! Just define a datum for it.
 	audio_cues = list()
 
 /datum/fleet/armada
-	name = "\proper Syndicate Armada" //Fleet used in the armada gamemode for the final confrontation
+	name = "\improper Syndicate Armada" //Fleet used in the armada gamemode for the final confrontation
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/nuclear/elite, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/elite)
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/cruiser/elite)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier, /obj/structure/overmap/syndicate/ai/carrier/elite)
@@ -1842,7 +1842,7 @@ Seek a ship thich we'll station ourselves around
 	var/list/shiplist = current_system?.system_contents.Copy()	//We need to Copy() so shuffle doesn't make the global list messier
 	if(!shiplist || !shiplist.len)
 		return FALSE
-	shuffle(shiplist)	//Because we go through this list from first to last, shuffling will make the way we select targets appear more random.
+	shuffle_inplace(shiplist)	//Because we go through this list from first to last, shuffling will make the way we select targets appear more random.
 	for(var/obj/structure/overmap/ship in shiplist)
 		if(warcrime_blacklist[ship.type])
 			continue
@@ -1863,10 +1863,12 @@ Seek a ship thich we'll station ourselves around
 		if(fleet)
 			fleet.start_reporting(ship, src)
 		return TRUE
-	if(!last_target && length(fleet.shared_targets))
-		last_target = pick(fleet.shared_targets)
-		add_enemy(last_target)
-		return TRUE
+	if(!last_target)
+		if(fleet)
+			if(length(fleet.shared_targets))
+				last_target = pick(fleet.shared_targets)
+				add_enemy(last_target)
+				return TRUE
 	return FALSE
 
 /client/proc/system_manager() //Creates a verb for admins to open up the ui

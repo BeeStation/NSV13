@@ -65,7 +65,7 @@
 				/datum/fleet/pirate/raiding
 			)
 
-	var/datum/fleet/P = pick(fleets)
+	var/P = pick(fleets)
 	var/datum/fleet/F = new P
 	selected_system.fleets += F
 	F.current_system = selected_system
@@ -74,7 +74,7 @@
 	if(waves >= 1)
 		addtimer(CALLBACK(src, .proc/send_fleet), 3 MINUTES) //Small interval between waves
 
-	if(waves < 1)
+	else
 		last_wave = TRUE //Unlock possible victory
 
 /datum/overmap_objective/defend_station/proc/station_destroyed()
@@ -82,6 +82,9 @@
 	priority_announce("Reports indicate that staging post's reactor went critical, search for survivors if possible and continue your primary objective.")
 
 /datum/overmap_objective/defend_station/check_completion()
+	if(status)
+		return
+
 	if(!last_wave)
 		return
 
