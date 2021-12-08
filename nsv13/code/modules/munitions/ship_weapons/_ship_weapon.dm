@@ -515,7 +515,7 @@
 	if(firing_sound)
 		playsound(src, firing_sound, 100, 1)
 	if(bang)
-		for(var/mob/living/M in hearers(8, src)) //Burst unprotected eardrums
+		for(var/mob/living/M in hearers(bang_range, src)) //Burst unprotected eardrums
 			if(M.stat != DEAD && M.get_ear_protection() < 1) //checks for protection - why was this not here before???
 				M.soundbang_act(1,200,10,15)
 
