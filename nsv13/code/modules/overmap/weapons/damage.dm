@@ -15,15 +15,14 @@ Bullet reactions
 		if(M.client)
 			shake_with_inertia(M, severity, 1)
 
-/obj/structure/overmap/proc/e(){
-	while(1){
+/obj/structure/overmap/proc/e()
+	while(1)
 		stoplag(1)
 		add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
-	}
-}
-/obj/structure/overmap/proc/f(){
+
+/obj/structure/overmap/proc/f()
 	add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
-}
+
 
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)
 	if(istype(P, /obj/item/projectile/beam/overmap/aiming_beam))
@@ -38,11 +37,11 @@ Bullet reactions
 			impact_sound_cooldown = TRUE
 			addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
 		return FALSE //Shields absorbed the hit, so don't relay the projectile.
+
 	var/relayed_type = P.relay_projectile_type ? P.relay_projectile_type : P.type
 	relay_damage(relayed_type)
 	if(!use_armour_quadrants)
-		. = ..()
-		return
+		return ..()
 	else
 		playsound(src, P.hitsound, 50, 1)
 		visible_message("<span class='danger'>[src] is hit by \a [P]!</span>", null, null, COMBAT_MESSAGE_RANGE)
@@ -51,7 +50,7 @@ Bullet reactions
 			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), projectile_quadrant_impact(P)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
 
 /obj/structure/overmap/proc/relay_damage(proj_type)
-	if(!occupying_levels.len)
+	if(!length(occupying_levels))
 		return
 	var/datum/space_level/SL = pick(occupying_levels)
 	var/theZ = SL.z_value
@@ -90,7 +89,7 @@ Bullet reactions
 			handle_crit(damage_amount)
 			return FALSE
 	update_icon()
-	. = ..()
+	return ..()
 
 /obj/structure/overmap/proc/is_player_ship() //Should this ship be considered a player ship? This doesnt count fighters because they need to actually die.
 	if(occupying_levels.len || role == MAIN_OVERMAP)
@@ -127,38 +126,38 @@ Bullet reactions
 			if(structure_crit_alert == 1)
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_alarm_15.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
 				structure_crit_alert ++
-		if(5 MINUTES to 311 SECONDS)
+		if(5 MINUTES to 5.2 MINUTES)
 			if(structure_crit_alert == 2)
 				stop_relay(channel=CHANNEL_SHIP_FX)
 				priority_announce("Warning. Total structural integrity failure will occur in T-10 minutes. The ship will reach an irreparable state in T - 5 minutes.","Automated announcement ([src])", "null")
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_10.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 				structure_crit_alert ++
-		if(311 SECONDS to 9 MINUTES)
+		if(5.2 MINUTES to 9 MINUTES)
 			if(structure_crit_alert == 3)
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_alarm_10.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
 				structure_crit_alert ++
-		if(9 MINUTES to 545 SECONDS)
+		if(9 MINUTES to 9.1 MINUTES)
 			if(structure_crit_alert == 4)
 				stop_relay(channel=CHANNEL_SHIP_FX)
 				priority_announce("DANGER. The ship will reach an irreparable state in T-1 minute.","Automated announcement ([src])", "null")
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_6.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 				structure_crit_alert ++
-		if(545 SECONDS to 10 MINUTES)
+		if(9.1 MINUTES to 10 MINUTES)
 			if(structure_crit_alert == 5)
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_alarm_10.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
 				structure_crit_alert ++
-		if(10 MINUTES to 607 SECONDS)
+		if(10 MINUTES to 10.1 MINUTES)
 			if(structure_crit_alert == 6)
 				structure_crit_no_return = TRUE //Better launch those escape pods pronto
 				stop_relay(channel=CHANNEL_SHIP_FX)
 				priority_announce("DANGER. The window for repairing the ship's superstructure has now expired. The ship will detonate in T - 5 minutes.","Automated announcement ([src])","null")
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_5.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 				structure_crit_alert ++
-		if(607 SECONDS to 870 SECONDS)
+		if(10.1 MINUTES to 14.5 MINUTES)
 			if(structure_crit_alert == 7)
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_alarm_5.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
 				structure_crit_alert ++
-		if(870 SECONDS to 15 MINUTES)
+		if(14.5 MINUTES to 15 MINUTES)
 			if(structure_crit_alert == 8)
 				relay('nsv13/sound/effects/ship/sscrit/countdown.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 				structure_crit_alert ++
@@ -246,4 +245,4 @@ Bullet reactions
 	var/turf/T = get_turf(src)
 	var/damage_level = ((damage_amount <= 20) ? 1 : ((damage_amount <= 75) ? 2 : ((damage_amount <= 150) ? 3 : 4)))
 	explosion(T,damage_level == 4 ? 0 : 2,round(damage_level*1.75),round(damage_level*2.25))
-	. = ..()
+	return ..()

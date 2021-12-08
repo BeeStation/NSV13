@@ -348,14 +348,6 @@
 	desired.Scale(resize_x,resize_y)
 	desired.Turn(OM.angle)
 	transform = desired
-	track(OM)
-
-/obj/effect/temp_visual/overmap_shield_hit/proc/track(obj/structure/overmap/OM)
-	set waitfor = FALSE
-	while(!QDELETED(src))
-		stoplag()
-		forceMove(get_turf(OM))
-		alpha = 255
 
 /obj/machinery/shield_generator/ui_act(action, params)
 	if(..())

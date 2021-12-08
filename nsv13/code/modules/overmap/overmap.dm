@@ -40,6 +40,7 @@
 	integrity_failure = 0
 	var/armour_plates = 0 //You lose max integrity when you lose armour plates.
 	var/sensor_profile = 0	//A penalty (or, possibly even bonus) to from how far away one can be detected. Affected by things like sending out a active ping, which will make you glow like a christmas tree.
+	var/cloak_factor = 255 // Min alpha of a ship during cloak. 0-255
 	var/max_armour_plates = 0
 	var/list/dent_decals = list() //Ships get visibly damaged as they get shot
 	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
@@ -420,7 +421,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(physics2d)
 		qdel(physics2d)
 		physics2d = null
-	. = ..()
+	return ..()
 
 /obj/structure/overmap/Destroy()
 	GLOB.poi_list -= src
@@ -435,6 +436,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		fleet.stop_reporting_all(src)
 
 	STOP_PROCESSING(SSphysics_processing, src)
+	for(var/mob/living/M in operators)
+		stop_piloting(M)
 	GLOB.overmap_objects -= src
 	relay('nsv13/sound/effects/ship/damage/ship_explode.ogg')
 	relay_to_nearby('nsv13/sound/effects/ship/damage/disable.ogg') //Kaboom.
@@ -456,24 +459,22 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		QDEL_NULL(cabin_air)
 	//Free up memory refs here.
 	if(physics2d)
-		qdel(physics2d)
-		physics2d = null
+		QDEL_NULL(physics2d)
 	if(npc_combat_dice)
-		qdel(npc_combat_dice)
+		QDEL_NULL(npc_combat_dice)
 
 	kill_boarding_level()
 	return ..()
 
 /obj/structure/overmap/forceMove(atom/destination)
-	if(!istype(src, /obj/structure/overmap/fighter) && !SSmapping.level_trait(destination.z, ZTRAIT_OVERMAP))
+	if(!SSmapping.level_trait(destination.z, ZTRAIT_OVERMAP))
 		return //No :)
 	return ..()
 
 /obj/structure/overmap/proc/find_area()
 	if(role == MAIN_OVERMAP) //We're the hero ship, link us to every ss13 area.
-		for(var/X in GLOB.teleportlocs) //Teleportlocs = ss13 areas that aren't special / centcom
-			var/area/area = GLOB.teleportlocs[X] //Pick a station area and yeet it.
-			linked_areas += area
+		for(var/area/A as() in GLOB.teleportlocs) //Teleportlocs = ss13 areas that aren't special / centcom
+			linked_areas += A
 
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
 	var/list/params_list = params2list(params)
@@ -522,7 +523,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(params_list["ctrl"]) //Ctrl click to lock on to people
 		start_lockon(target)
 		return TRUE
-	if((target_painted?.len > 0) && mass <= MASS_TINY)
+	if((length(target_painted) > 0) && mass <= MASS_TINY)
 		fire(target_painted[1]) //Fighters get an aimbot to help them out.
 		return TRUE
 	fire(target)
@@ -558,11 +559,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	var/mob/camera/ai_eye/remote/overmap_observer/cam = gunner.remote_control
 	cam.track_target(target)
 
+// This is so ridicously expensive, who made this.
 /obj/structure/overmap/onMouseMove(object,location,control,params)
 	if(!pilot || !pilot.client || pilot.incapacitated() || !move_by_mouse || control !="mapwindow.map" ||!can_move()) //Check pilot status, if we're meant to follow the mouse, and if theyre actually moving over a tile rather than in a menu
 		return // I don't know what's going on.
 	desired_angle = getMouseAngle(params, pilot)
 	update_icon()
+
 
 /obj/structure/overmap/proc/getMouseAngle(params, mob/M)
 	var/list/params_list = params2list(params)
@@ -586,6 +589,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 //relay('nsv13/sound/effects/ship/rcs.ogg')
 
+// This is overly expensive, most of these checks are already ran in physics. TODO: optimize
 /obj/structure/overmap/update_icon() //Adds an rcs overlay
 	apply_damage_states()
 	if(last_fired) //Swivel the most recently fired gun's overlay to aim at the last thing we hit
@@ -779,7 +783,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 						to_chat(M, "<span class='userdanger'>You black out!</span>")
 						M.Sleeping(5 SECONDS)
 			return
-		for(var/mob/living/M in mobs_in_ship)
+		for(var/mob/living/M as() in mobs_in_ship)
 			if(!istype(M))
 				continue
 			if(M.buckled) //Good for you, you strapped in!

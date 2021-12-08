@@ -1,24 +1,14 @@
-#define MSTATE_CLOSED 0
-#define MSTATE_UNSCREWED 1
-#define MSTATE_UNBOLTED 2
-#define MSTATE_PRIEDOUT 3
-
-#define STATE_NOTLOADED 1
-#define STATE_LOADED 2
-#define STATE_FED 3
-#define STATE_CHAMBERED 4
-#define STATE_FIRING 5
 /**
- * Ship-to-ship weapons
- * To add a weapon type:
- *    Define a FIRE_MODE in nsv13/_DEFINES/overmap.dm
- *    Up the size of weapon_types and weapons in nsv13/code/modules/overmap/weapons.dm
- *    Add weapon specifics as a datum in nsv13/code/datums/weapon_types.dm
- *    Add a new datum of your type to weapon_types in nsv13/code/modules/overmap/overmap.dm Initialize()
- *    Subclass this
- *    Make firing_mode in the subclass equal to that define
- *    Set weapon_type in the subclass to a new datum of the kind you just created
- *    Define an ammo_type or magazine_type so you can load the weapon
+ *	Ship-to-ship weapons
+ *	To add a weapon type:
+ *	Define a FIRE_MODE in nsv13/_DEFINES/overmap.dm
+ *	Up the size of weapon_types and weapons in nsv13/code/modules/overmap/weapons.dm
+ *	Add weapon specifics as a datum in nsv13/code/datums/weapon_types.dm
+ *	Add a new datum of your type to weapon_types in nsv13/code/modules/overmap/overmap.dm Initialize()
+ *	Subclass this
+ *	Make firing_mode in the subclass equal to that define
+ *	Set weapon_type in the subclass to a new datum of the kind you just created
+ *	Define an ammo_type or magazine_type so you can load the weapon
  */
 /obj/machinery/ship_weapon //CREDIT TO CM FOR THE SPRITES!
 	name = "A ship weapon"
@@ -60,6 +50,9 @@
 	//Various traits that probably won't change
 	var/maintainable = TRUE //Does the weapon require maintenance?
 	var/bang = TRUE //Is firing loud?
+	var/bang_range = 8
+	var/last_bang = 0 // performance reasons, rapid range/hearers checking is terrible
+	var/bang_list // :flushed:
 	var/auto_load = FALSE //Does the weapon feed and chamber the round once we load it?
 	var/semi_auto = FALSE //Does the weapon re-chamber for us after firing?
 
@@ -216,7 +209,8 @@
  * Returns true if loaded successfully, false otherwise.
  */
 /obj/machinery/ship_weapon/proc/load(obj/A, mob/user)
-	if(ammo?.len < max_ammo) //Room for one more?
+	set waitfor = FALSE
+	if(length(ammo) < max_ammo) //Room for one more?
 		if(!loading) //Not already loading a round?
 			if(user)
 				to_chat(user, "<span class='notice'>You start to load [A] into [src]...</span>")
@@ -256,7 +250,7 @@
 	return max_ammo
 
 /obj/machinery/ship_weapon/proc/get_ammo()
-	return ammo.len
+	return length(ammo)
 
 /**
  * Transitions from STATE_NOTLOADED to STATE_LOADED.
@@ -265,6 +259,9 @@
  * Returns true if loaded successfully, false otherwise.
  */
 /obj/machinery/ship_weapon/proc/load_magazine(obj/A, mob/user)
+	if(loading)
+		to_chat(user, "<span class='warning'>You can't do that right now.</span>")
+		return FALSE
 	if(magazine_type && istype(A, magazine_type))
 		to_chat(user, "<span class='notice'>You start to load [A] into [src].</span>")
 		loading = TRUE
@@ -287,9 +284,7 @@
 				chamber()
 			loading = FALSE
 			return TRUE
-		//end if(do_after(user, load_delay, target = src))
 		loading = FALSE
-	//end if(magazine_type && istype(A, magazine_type))
 	else
 		to_chat(user, "<span class='warning'>You can't load [A] into [src]!</span>")
 
@@ -300,6 +295,7 @@
  * Transitions to STATE_NOTLOADED from higher states.
  */
 /obj/machinery/ship_weapon/proc/unload()
+	set waitfor = FALSE
 	if((state >= STATE_LOADED) && !magazine)
 		if(state >= STATE_FED) //Animate properly and make sure we clear any chambered rounds
 			unfeed()
@@ -309,17 +305,17 @@
 		sleep(unload_delay)
 
 		if(ammo[1])
-			var/obj/A = ammo[1]
-			A.forceMove(get_turf(src))
-			ammo -= A
+			var/atom/movable/AM = ammo[1]
+			AM.forceMove(get_turf(src))
+			ammo -= AM
 		state = STATE_NOTLOADED
 		icon_state = initial(icon_state)
 
 		//If we have more ammo, spit those out too
-		if(ammo.len)
-			for(var/obj/A in ammo)
-				A.forceMove(get_turf(src))
-				ammo -= A
+		if(length(ammo))
+			for(var/atom/movable/AM as() in ammo)
+				AM.forceMove(get_turf(src))
+			ammo.len = 0
 	//end if((state >= STATE_LOADED) && !magazine)
 
 /**
@@ -345,6 +341,7 @@
  */
 /obj/machinery/ship_weapon/proc/feed()
 	if(state == STATE_LOADED)
+		state = STATE_FEEDING
 		flick("[initial(icon_state)]_loading",src)
 		if(feeding_sound)
 			playsound(src, feeding_sound, 100, 1)
@@ -354,14 +351,13 @@
 		if(fed_sound)
 			playsound(src, fed_sound, 100, 1)
 		state = STATE_FED
-
 /**
  * Gets ammunition ready to take out.
  * Primarily an animation and sound effect step - opens the breech/tray.
  * Transitions to STATE_LOADED from higher states.
  */
 /obj/machinery/ship_weapon/proc/unfeed()
-	if(state >= STATE_FED)
+	if(state >= STATE_FED && length(ammo))
 		if(state == STATE_CHAMBERED) //If chambered, unchamber first
 			unchamber()
 		flick("[initial(icon_state)]_unloading",src)
@@ -374,14 +370,11 @@
 	update()
 
 /obj/machinery/ship_weapon/proc/update()
-	if ( weapon_type ) // Who would've thought creating a weapon with no weapon_type would break everything! 
+	if(weapon_type) // Who would've thought creating a weapon with no weapon_type would break everything!
 		if(!safety && chambered)
-			if(src in weapon_type.weapons["loaded"])
-				return
 			LAZYADD(weapon_type.weapons["loaded"] , src)
 		else
-			if(src in weapon_type.weapons["loaded"])
-				LAZYREMOVE(weapon_type.weapons["loaded"] , src)
+			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
 
 /obj/machinery/ship_weapon/proc/lazyload()
 	if(magazine_type)
@@ -389,7 +382,7 @@
 		ammo = magazine.stored_ammo //Lets us handle magazines and single rounds the same way
 	else
 		var/ammoType = (islist(ammo_type)) ? ammo_type[1] : ammo_type
-		for(var/I = 0; I < max_ammo; I++)
+		for(var/I = 0, I < max_ammo, I++)
 			var/atom/BB = new ammoType(src)
 			ammo += BB
 	safety = FALSE
@@ -407,7 +400,8 @@
  * Transitions from STATE_FED to STATE_CHAMBERED.
  */
 /obj/machinery/ship_weapon/proc/chamber(rapidfire = FALSE)
-	if((state == STATE_FED) && (length(ammo) > 0))
+	if((state == STATE_FED) && length(ammo))
+		state = STATE_CHAMBERING
 		flick("[initial(icon_state)]_chambering",src)
 		if(rapidfire)
 			sleep(chamber_delay_rapid)
@@ -428,6 +422,7 @@
  */
 /obj/machinery/ship_weapon/proc/unchamber()
 	if(state == STATE_CHAMBERED)
+		state = STATE_CHAMBERING // Technically unchambering, but it accomplishes the same purpose without needless defines
 		flick("[initial(icon_state)]_chambering",src)
 		sleep(chamber_delay)
 		if("[initial(icon_state)]_loaded" in icon_state_list)
@@ -452,7 +447,7 @@
 		return FALSE
 	if(safety) // Is the safety on?
 		return FALSE
-	if(ammo?.len < shots) //Do we have enough ammo?
+	if(length(ammo) < shots) //Do we have enough ammo?
 		return FALSE
 	else
 		return TRUE
@@ -470,14 +465,12 @@
 	set waitfor = FALSE //As to not hold up any feedback messages.
 
 	// Energy weapons fire behavior
-	if ( istype( src, /obj/machinery/ship_weapon/energy ) ) // Now 100% more modular!
+	if(istype(src, /obj/machinery/ship_weapon/energy)) // Now 100% more modular!
 		if(can_fire(shots))
 			if(manual)
 				linked.last_fired = overlay
-
 			for(var/i = 0, i < shots, i++)
 				do_animation()
-				state = 5
 
 				local_fire()
 				overmap_fire(target)
@@ -493,17 +486,14 @@
 			linked.last_fired = overlay
 
 		for(var/i = 0, i < shots, i++)
-			do_animation()
 			state = STATE_FIRING
-
-			local_fire()
+			do_animation()
 			overmap_fire(target)
 
 			ammo -= chambered
-			if ( !istype( chambered, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
-				// Don't qdel freight torpedoes, these are being moved to the stations for additional checks 
+			local_fire()
+			if(!istype(chambered, /obj/item/ship_weapon/ammunition/torpedo/freight)) // Don't qdel freight torpedoes, these are being moved to the stations for additional checks
 				qdel(chambered)
-
 			chambered = null
 
 			if(length(ammo))
@@ -525,10 +515,9 @@
 	if(firing_sound)
 		playsound(src, firing_sound, 100, 1)
 	if(bang)
-		for(var/mob/living/M in get_hearers_in_view(10, get_turf(src))) //Burst unprotected eardrums
-			if(M.get_ear_protection() < 1) //checks for protection - why was this not here before???
-				if(M.stat != DEAD && isliving(M)) //Don't make noise if they're dead
-					M.soundbang_act(1,200,10,15)
+		for(var/mob/living/M in hearers(8, src)) //Burst unprotected eardrums
+			if(M.stat != DEAD && M.get_ear_protection() < 1) //checks for protection - why was this not here before???
+				M.soundbang_act(1,200,10,15)
 
 /**
  * Handles firing animations and sounds on the overmap.
@@ -575,8 +564,3 @@
 	flick("[initial(icon_state)]_unloading",src)
 	sleep(fire_animation_length)
 	icon_state = initial(icon_state)
-
-#undef MSTATE_CLOSED
-#undef MSTATE_UNSCREWED
-#undef MSTATE_UNBOLTED
-#undef MSTATE_PRIEDOUT
