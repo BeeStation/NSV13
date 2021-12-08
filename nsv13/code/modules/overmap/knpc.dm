@@ -90,7 +90,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	dest = targturf
 	var/turf/T = get_step(H, H.dir)
 	var/obj/structure/dense_object = locate(/obj/structure) in T //If we're stuck
-	if(climbable[dense_object.type])
+	if(dense_object && climbable[dense_object.type])
 		H.forceMove(T)
 		H.visible_message("<span class='warning'>[H] climbs onto [dense_object]!</span>")
 		H.Stun(2 SECONDS) //Table.
