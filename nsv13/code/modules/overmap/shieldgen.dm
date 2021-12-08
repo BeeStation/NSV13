@@ -351,7 +351,7 @@
 
 /obj/effect/temp_visual/overmap_shield_hit/proc/track(datum/source)
 	SIGNAL_HANDLER
-	forceMove(get_turf(source))
+	doMove(get_turf(source))
 
 /obj/machinery/shield_generator/ui_act(action, params)
 	if(..())
