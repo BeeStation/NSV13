@@ -339,7 +339,6 @@
 
 /obj/effect/temp_visual/overmap_shield_hit/Initialize(mapload, obj/structure/overmap/OM)
 	. = ..()
-	alpha = 0
 	//Scale up the shield hit icon to roughly fit the overmap ship that owns us.
 	var/matrix/desired = new()
 	var/icon/I = icon(OM.icon)
@@ -348,6 +347,11 @@
 	desired.Scale(resize_x,resize_y)
 	desired.Turn(OM.angle)
 	transform = desired
+	RegisterSignal(OM, COMSIG_MOVABLE_MOVED, .proc/track)
+
+/obj/effect/temp_visual/overmap_shield_hit/proc/track(datum/source)
+	SIGNAL_HANDLER
+	forceMove(get_turf(source))
 
 /obj/machinery/shield_generator/ui_act(action, params)
 	if(..())
