@@ -447,7 +447,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	set_fuel(rand(500, 1000))
 	if(start_emagged)
 		obj_flags ^= EMAGGED
-	canopy = mutable_appearance(icon = icon, icon_state = "canopy_missing")
+	canopy = mutable_appearance(icon = icon, icon_state = "canopy_open")
 	add_overlay(canopy)
 	update_visuals()
 
@@ -629,9 +629,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 	relay('nsv13/sound/effects/ship/cockpit_breach.ogg') //We're leaking air!
 	loadout.remove_hardpoint(HARDPOINT_SLOT_CANOPY, TRUE)
 	qdel(C) //Pop off the canopy.
+	update_visuals()
 	sleep(2 SECONDS)
 	relay('nsv13/sound/effects/ship/reactor/gasmask.ogg', "<span class='warning'>The air around you rushes out of the breached canopy!</span>", loop = FALSE, channel = CHANNEL_SHIP_ALERT)
-	return
 
 /obj/structure/overmap/fighter/welder_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -731,7 +731,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 	active = !active
 
 /obj/item/fighter_component/proc/dump_contents()
-	if(!contents?.len)
+	if(!length(contents))
 		return FALSE
 	. = list()
 	for(var/atom/movable/AM in contents)
@@ -1702,7 +1702,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		canopy = mutable_appearance(icon = icon, icon_state = "canopy_missing")
 		add_overlay(canopy)
 	var/obj/item/fighter_component/canopy/C = loadout?.get_slot(HARDPOINT_SLOT_CANOPY)
-	if(!C)
+	if(QDELETED(C))
 		canopy.icon_state = "canopy_missing"
 		return
 	if(C.obj_integrity <= 20)
