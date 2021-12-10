@@ -775,9 +775,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 						to_chat(M, "<span class='warning'>You feel slightly lightheaded.</span>")
 					if(71 to 89)
 						to_chat(M, "<span class='warning'>Colour starts to drain from your vision. You feel like you're starting to black out....</span>")
+						if(HAS_TRAIT(M, TRAIT_GFORCE_WEAKNESS))
+							M.gravity_crush(3)
 					if(90 to 100) //Blackout. Slow down on the turns there kid!
 						to_chat(M, "<span class='userdanger'>You black out!</span>")
 						M.Sleeping(5 SECONDS)
+						if(HAS_TRAIT(M, TRAIT_GFORCE_WEAKNESS))
+							M.gravity_crush(4)
 			return
 		for(var/mob/living/M in mobs_in_ship)
 			if(!istype(M))
