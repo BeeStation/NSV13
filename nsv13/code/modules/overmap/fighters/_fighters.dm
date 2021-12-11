@@ -9,14 +9,16 @@ Been a mess since 2018, we'll fix it someday (probably)
 	for(var/mob/M as() in operators)
 		stop_piloting(M, eject_mob=FALSE) // We'll handle kicking them out ourselves
 	if(length(mobs_in_ship))
+		message_admins("Found mobs in the ship")
+		var/obj/structure/overmap/fighter/escapepod = null
 		if(ispath(escape_pod_type))
-			var/obj/structure/overmap/fighter/escapepod = create_escape_pod(escape_pod_type, last_pilot)
-			if(!escapepod)
-				var/list/copy_of_mobs_in_ship = mobs_in_ship.Copy() //Sometimes you really need to iterate on a list while it's getting modified
-				for(var/mob/living/M in copy_of_mobs_in_ship)
-					to_chat(M, "<span class='warning'>This ship is not equipped with an escape pod! Unable to eject.</span>")
-					M.apply_damage(200)
-					eject(M, force=TRUE)
+			escapepod = create_escape_pod(escape_pod_type, last_pilot)
+		if(!escapepod)
+			var/list/copy_of_mobs_in_ship = mobs_in_ship.Copy() //Sometimes you really need to iterate on a list while it's getting modified
+			for(var/mob/living/M in copy_of_mobs_in_ship)
+				to_chat(M, "<span class='warning'>This ship is not equipped with an escape pod! Unable to eject.</span>")
+				M.apply_damage(200)
+				eject(M, force=TRUE)
 
 	kill_boarding_level()
 	return ..()
@@ -527,11 +529,41 @@ Been a mess since 2018, we'll fix it someday (probably)
 			to_chat(M, "<span class='warning'>You bump your head on [src]'s canopy.</span>")
 			visible_message("<span class='warning'>You hear a muffled thud.</span>")
 		return FALSE
-	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE) && !force)
-		to_chat(M, "<span class='warning'>[src] won't let you jump out of it mid flight.</span>")
-		return FALSE
+
+	var/turf/dest = get_turf(src)
+	if(!SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
+		if(!force)
+			to_chat(M, "<span class='warning'>[src] won't let you jump out of it mid flight.</span>")
+			return FALSE
+		else
+			var/max = world.maxx - TRANSITIONEDGE
+			var/min = TRANSITIONEDGE + 1
+			var/list/possible_transitions = list()
+			for(var/datum/space_level/D as() in SSmapping.z_list)
+				if(!D.traits[ZTRAIT_OVERMAP])
+					possible_transitions += D.z_value
+			if(!length(possible_transitions))
+				possible_transitions = SSmapping.levels_by_trait(ZTRAIT_STATION)
+			var/_z = pick(possible_transitions)
+			var/_x
+			var/_y
+			switch(dir)
+				if(SOUTH)
+					_x = rand(min,max)
+					_y = max
+				if(WEST)
+					_x = max
+					_y = rand(min,max)
+				if(EAST)
+					_x = min
+					_y = rand(min,max)
+				else
+					_x = rand(min,max)
+					_y = min
+			dest = locate(_x, _y, _z)
 	mobs_in_ship -= M
-	M.forceMove(get_turf(src))
+
+	M.forceMove(dest)
 	return TRUE
 
 /obj/structure/overmap/fighter/escapepod/eject(mob/living/M, force=FALSE)
@@ -559,7 +591,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
 		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
 
-		if(last_pilot && !(last_pilot.stat == DEAD) && !last_pilot.incapacitated())
+		if(last_pilot && !last_pilot.incapacitated())
 			last_pilot.forceMove(escape_pod)
 			escape_pod.start_piloting(last_pilot, "pilot")
 			escape_pod.attack_hand(last_pilot) // Bring up UI
