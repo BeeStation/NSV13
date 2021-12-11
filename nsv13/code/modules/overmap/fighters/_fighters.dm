@@ -9,7 +9,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 	for(var/mob/M as() in operators)
 		stop_piloting(M, eject_mob=FALSE) // We'll handle kicking them out ourselves
 	if(length(mobs_in_ship))
-		message_admins("Found mobs in the ship")
 		var/obj/structure/overmap/fighter/escapepod = null
 		if(ispath(escape_pod_type))
 			escapepod = create_escape_pod(escape_pod_type, last_pilot)
@@ -398,7 +397,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 
 /obj/structure/overmap/fighter/escapepod/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
-	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE))
+	if(!SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
 		return FALSE
 	return ..()
 
@@ -568,7 +567,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/fighter/escapepod/eject(mob/living/M, force=FALSE)
 	. = ..()
-	if(. && !length(mobs_in_ship)) // Last one out means we don't need this anymore
+	if(. && !length(mobs_in_ship) && !(QDELETED(src) || QDESTROYING(src))) // Last one out means we don't need this anymore
 		qdel(src)
 
 /obj/structure/overmap/fighter/proc/create_escape_pod(path, mob/last_pilot)
