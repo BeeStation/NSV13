@@ -35,7 +35,6 @@ SUBSYSTEM_DEF(star_system)
 	var/obj/structure/overmap/main_overmap = null //The main overmap
 	var/obj/structure/overmap/mining_ship = null //The mining ship
 	var/saving = FALSE
-	var/foo = 0
 
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
 	if(time_limit && world.time >= time_limit)
@@ -101,15 +100,11 @@ Returns a faction datum by its name (case insensitive!)
 	var/list/_systems = list()
 	//Read the file in...
 	try
-	{
-		_systems = json_decode(rustg_file_read(file(_source_path)))
-	}
-
-	catch(var/exception/ex){
+		_systems += json_decode(rustg_file_read(file(_source_path)))
+	catch(var/exception/ex)
 		//Fallback: Load the hardcoded systems and report an error.
 		instantiate_systems_backup()
-		CRASH("FATAL: Unable to load starmap from: [_source_path]. (Defaulting...): [ex]")
-	}
+		log_game("Unable to load starmap from: [_source_path]. (Defaulting...): [ex]")
 
 	for(var/i = 1; i <= _systems.len; i++)
 		//Try instancing this system from JSON, jump out if anything goes wrong.
@@ -165,10 +160,11 @@ Returns a faction datum by its name (case insensitive!)
 <param></param>
 */
 
-/datum/controller/subsystem/star_system/proc/save(_destination_path = "config/starmap/starmap_default.json")
+/datum/controller/subsystem/star_system/proc/save(_destination_path = "config/starmap/starmap.json")
 	// No :)
+	_destination_path = sanitize_filename(_destination_path)
 	var/list/directory = splittext(_destination_path, "/")
-	if(directory[1] != "config")
+	if((directory[1] != "config") || (directory[2] != "starmap"))
 		CRASH("ERR: Starmaps can only be saved to the config directory!")
 	if(!findtext(directory[directory.len], ".json"))
 		CRASH("ERR: Starmaps can only be written to JSON.")
@@ -805,17 +801,6 @@ Returns a faction datum by its name (case insensitive!)
 
 /datum/star_system/proc/lerp_y(datum/star_system/other, t)
 	return y + (t * (other.y - y))
-
-//End the round upon entering O45.
-/datum/star_system/after_enter(obj/structure/overmap/OM)
-	if(CHECK_BITFIELD(system_traits, STARSYSTEM_END_ON_ENTER))
-		to_chat(world, "yeah [src.name]: [system_traits]")
-		if(OM.role == MAIN_OVERMAP)
-			priority_announce("[station_name()] has successfully returned to [src] for resupply and crew transfer, excellent work crew.", "Naval Command")
-			GLOB.crew_transfer_risa = TRUE
-			SSticker.mode.check_finished()
-	. = ..()
-
 /datum/star_system/staging
 	name = "Staging"
 	desc = "Used for round initialisation and admin event staging"

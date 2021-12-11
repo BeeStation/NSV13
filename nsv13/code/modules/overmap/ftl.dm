@@ -42,6 +42,12 @@
 		OM.relay(null, "<span class='notice'><h2>Now entering [name]...</h2></span>")
 		OM.relay(null, "<span class='notice'>[desc]</span>")
 		//If we have an audio cue, ensure it doesn't overlap with a fleet's one...
+	//End the round upon entering O45.
+	if(CHECK_BITFIELD(system_traits, STARSYSTEM_END_ON_ENTER))
+		if(OM.role == MAIN_OVERMAP)
+			priority_announce("[station_name()] has successfully returned to [src] for resupply and crew transfer, excellent work crew.", "Naval Command")
+			GLOB.crew_transfer_risa = TRUE
+			SSticker.mode.check_finished()
 	if(!audio_cues?.len)
 		return FALSE
 	for(var/datum/fleet/F in fleets)
