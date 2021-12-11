@@ -51,7 +51,7 @@ Bullet reactions
 			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), projectile_quadrant_impact(P)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
 
 /obj/structure/overmap/proc/relay_damage(proj_type)
-	if(!occupying_levels.len)
+	if(!length(occupying_levels))
 		return
 	var/datum/space_level/SL = pick(occupying_levels)
 	var/theZ = SL.z_value
@@ -93,7 +93,7 @@ Bullet reactions
 	. = ..()
 
 /obj/structure/overmap/proc/is_player_ship() //Should this ship be considered a player ship? This doesnt count fighters because they need to actually die.
-	if(occupying_levels.len || role == MAIN_OVERMAP)
+	if(length(occupying_levels) || role == MAIN_OVERMAP)
 		return TRUE
 	return FALSE
 

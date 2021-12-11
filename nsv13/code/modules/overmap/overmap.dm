@@ -408,12 +408,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	//Gauss is the true PDC replacement...
 	else
 		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	if(mass >= MASS_SMALL || occupying_levels?.len)
+	if(mass >= MASS_SMALL || length(occupying_levels))
 		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	if(flak_battery_amount > 0)
 		weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
-	if(mass > MASS_MEDIUM || occupying_levels.len)
+	if(mass > MASS_MEDIUM || length(occupying_levels))
 		weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
 	if(ai_controlled)
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
@@ -778,9 +778,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 						to_chat(M, "<span class='warning'>You feel slightly lightheaded.</span>")
 					if(71 to 89)
 						to_chat(M, "<span class='warning'>Colour starts to drain from your vision. You feel like you're starting to black out....</span>")
+						if(HAS_TRAIT(M, TRAIT_GFORCE_WEAKNESS))
+							M.gravity_crush(3)
 					if(90 to 100) //Blackout. Slow down on the turns there kid!
 						to_chat(M, "<span class='userdanger'>You black out!</span>")
 						M.Sleeping(5 SECONDS)
+						if(HAS_TRAIT(M, TRAIT_GFORCE_WEAKNESS))
+							M.gravity_crush(4)
 			return
 		for(var/mob/living/M in mobs_in_ship)
 			if(!istype(M))
