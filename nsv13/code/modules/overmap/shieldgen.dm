@@ -350,8 +350,12 @@
 	RegisterSignal(OM, COMSIG_MOVABLE_MOVED, .proc/track)
 
 /obj/effect/temp_visual/overmap_shield_hit/proc/track(datum/source)
-	SIGNAL_HANDLER
+	// SIGNAL_HANDLER -- we can't use the Signal handler because parallax updating (called later down the proc chain) uses callback datums which call admin proc wrapping (contains stoplag()) for some reason, uncomment the handler if this is ever fixed/changed
 	doMove(get_turf(source))
+
+/obj/effect/temp_visual/overmap_shield_hit/Destroy()
+	UnregisterSignal(OM, COMSIG_MOVABLE_MOVED)
+	return ..()
 
 /obj/machinery/shield_generator/ui_act(action, params)
 	if(..())
