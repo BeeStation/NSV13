@@ -257,7 +257,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/proc/defeat()
 	var/datum/star_system/player_system = SSstar_system.find_main_overmap().current_system
 	var/datum/star_system/mining_system = SSstar_system.find_main_miner()?.current_system
-	var/message = "\a [name] has been defeated [(current_system && !current_system.hidden) ? "during combat in the [current_system.name] system" : "in battle"]."
+	var/message = "\A [name] has been defeated [(current_system && !current_system.hidden) ? "during combat in the [current_system.name] system" : "in battle"]."
 	if(alignment == "nanotrasen" || current_system == player_system || current_system == mining_system)
 		minor_announce(message, "White Rapids Fleet Command")
 	else
