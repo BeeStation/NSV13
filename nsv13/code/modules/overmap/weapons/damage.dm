@@ -92,7 +92,7 @@ Bullet reactions
 	return ..()
 
 /obj/structure/overmap/proc/is_player_ship() //Should this ship be considered a player ship? This doesnt count fighters because they need to actually die.
-	if(occupying_levels.len || role == MAIN_OVERMAP)
+	if(length(occupying_levels) || role == MAIN_OVERMAP)
 		return TRUE
 	return FALSE
 

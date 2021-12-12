@@ -189,7 +189,7 @@
 			SL.set_parallax("transit", EAST)
 		else
 			SL.set_parallax(current_system.parallax_property, null)
-	for(var/datum/space_level/SL in occupying_levels)
+	for(var/datum/space_level/SL as() in occupying_levels)
 		if(ftl_start)
 			SL.set_parallax("transit", EAST)
 		else
@@ -217,7 +217,7 @@
 	if(reserved_z) //Actual overmap parallax behaviour
 		var/datum/space_level/SL = SSmapping.z_list[reserved_z]
 		SL.set_parallax("transit", EAST)
-	for(var/datum/space_level/SL in occupying_levels)
+	for(var/datum/space_level/SL as() in occupying_levels)
 		SL.set_parallax("transit", EAST)
 
 	relay(ftl_drive.ftl_loop, "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
@@ -248,7 +248,7 @@
 	if(reserved_z) //Actual overmap parallax behaviour
 		var/datum/space_level/SL = SSmapping.z_list[reserved_z]
 		SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)
-	for(var/datum/space_level/SL in occupying_levels)
+	for(var/datum/space_level/SL as() in occupying_levels)
 		SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)
 
 	log_runtime("DEBUG: jump_end: exiting hyperspace into [target_system]")

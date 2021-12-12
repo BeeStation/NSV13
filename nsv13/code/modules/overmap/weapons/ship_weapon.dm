@@ -44,7 +44,7 @@
 	weapons["loaded"] = list() //Weapons that are armed and ready.
 	weapons["all"] = list() //All weapons, regardless of ammo state
 	if(istype(holder, /obj/structure/overmap))
-		requires_physical_guns = (holder.occupying_levels?.len && !holder.ai_controlled) //AIs don't have physical guns, but anything with linked areas is very likely to.
+		requires_physical_guns = (length(holder.occupying_levels) && !holder.ai_controlled) //AIs don't have physical guns, but anything with linked areas is very likely to.
 
 /datum/ship_weapon/proc/add_weapon(obj/machinery/ship_weapon/weapon)
 	var/list/all_weapons = weapons["all"]
