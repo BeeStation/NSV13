@@ -336,25 +336,29 @@
 	layer = ABOVE_MOB_LAYER+0.1
 	animate_movement = NO_STEPS // Override the inbuilt movement engine to avoid bouncing
 	appearance_flags = TILE_BOUND | PIXEL_SCALE
+	var/obj/structure/overmap/overmap
 
 /obj/effect/temp_visual/overmap_shield_hit/Initialize(mapload, obj/structure/overmap/OM)
 	. = ..()
 	//Scale up the shield hit icon to roughly fit the overmap ship that owns us.
+	if(!OM)
+		return INITIALIZE_HINT_QDEL
+	overmap = OM
 	var/matrix/desired = new()
-	var/icon/I = icon(OM.icon)
+	var/icon/I = icon(overmap.icon)
 	var/resize_x = I.Width()/96
 	var/resize_y = I.Height()/96
 	desired.Scale(resize_x,resize_y)
-	desired.Turn(OM.angle)
+	desired.Turn(overmap.angle)
 	transform = desired
-	RegisterSignal(OM, COMSIG_MOVABLE_MOVED, .proc/track)
+	RegisterSignal(overmap, COMSIG_MOVABLE_MOVED, .proc/track)
 
 /obj/effect/temp_visual/overmap_shield_hit/proc/track(datum/source)
 	// SIGNAL_HANDLER -- we can't use the Signal handler because parallax updating (called later down the proc chain) uses callback datums which call admin proc wrapping (contains stoplag()) for some reason, uncomment the handler if this is ever fixed/changed
 	doMove(get_turf(source))
 
 /obj/effect/temp_visual/overmap_shield_hit/Destroy()
-	UnregisterSignal(OM, COMSIG_MOVABLE_MOVED)
+	UnregisterSignal(overmap, COMSIG_MOVABLE_MOVED)
 	return ..()
 
 /obj/machinery/shield_generator/ui_act(action, params)
