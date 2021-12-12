@@ -349,7 +349,9 @@
 	load(AM) //Try load
 
 /obj/machinery/ammo_sorter/proc/pop()
-	unload(loaded[loaded.len])
+	var/length = length(loaded)
+	if(length)
+		unload(loaded[length])
 
 /obj/machinery/ammo_sorter/proc/unload(atom/movable/AM)
 	if(!loaded.len)

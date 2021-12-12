@@ -33,6 +33,7 @@ SUBSYSTEM_DEF(economy)
 	for(var/A in bank_accounts)
 		var/datum/bank_account/B = A
 		B.payday(1)
+	distribute_funds(14000) //NSV13 - automatic payouts. Keep updated if the "departments" numbers in distribute_funds change
 
 
 /datum/controller/subsystem/economy/proc/get_dep_account(dep_id)
@@ -69,8 +70,7 @@ SUBSYSTEM_DEF(economy)
 		departments += 2
 	if(mun) //NSV13
 		departments += 2
-	if(syn) //NSV13
-		departments += 4
+	//NSV13 if we added syndicate here it would make everyone get slightly less money during PVP. Wack!
 
 	var/parts = round(amount / departments)
 

@@ -44,8 +44,9 @@
 	head = /obj/item/clothing/head/fedora/det_hat
 	l_pocket = /obj/item/toy/crayon/white
 	r_pocket = /obj/item/lighter
+	//NSV13 - our detective suit
 	backpack_contents = list(/obj/item/storage/box/evidence=1,\
-		/obj/item/clothing/suit/ship/peacekeeper/detective=1,\ //NSV13 - our detective suit
+		/obj/item/clothing/suit/ship/peacekeeper/detective=1,\
 		/obj/item/detective_scanner=1,\
 		/obj/item/melee/classic_baton/police=1)
 	mask = /obj/item/clothing/mask/cigarette

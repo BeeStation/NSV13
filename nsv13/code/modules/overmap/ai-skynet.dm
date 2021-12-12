@@ -1846,7 +1846,7 @@ Seek a ship thich we'll station ourselves around
 		if(fleet)
 			fleet.start_reporting(ship, src)
 		return TRUE
-	if(!last_target && length(fleet.shared_targets))
+	if(!last_target && length(fleet?.shared_targets))
 		last_target = pick(fleet.shared_targets)
 		add_enemy(last_target)
 		return TRUE

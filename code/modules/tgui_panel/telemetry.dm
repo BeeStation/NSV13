@@ -105,7 +105,7 @@
 				first_found_ban = row
 			LAZYSET(telemetry_notices,"TELEM_BANNED_[i]", "<span class='bad'>CONN_ID:[i]|BANNED ACCOUNT IN HISTORY! Matched: [row["ckey"]], [row["address"]], [row["computer_id"]]</span>")
 		//Check for protected CIDs
-		if(config.protected_cids.Find(row["computer_id"]))
+		if(config.protected_cids?.Find(row["computer_id"])) //NSV13 - don't runtime if we have no protected CIDs
 			LAZYSET(telemetry_notices, "TELEM_PROTECTED_[i]", "<span class='bad'>CONN_ID:[i]|[row["computer_id"]] is protected, Reason: [config.protected_cids[row["computer_id"]]]</span>")
 		//Track changes.
 		LAZYADD(all_ckeys, row["ckey"])
