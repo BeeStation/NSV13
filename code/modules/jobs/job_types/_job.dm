@@ -212,7 +212,7 @@
 
 	//Equip the rest of the gear
 	H.dna.species.before_equip_job(src, H, visualsOnly)
-	
+
 	if(src.species_outfits)
 		if(H.dna.species.id in src.species_outfits)
 			var/datum/outfit/O = species_outfits[H.dna.species.id]
@@ -311,12 +311,12 @@
 
 	//converts the uniform string into the path we'll wear, whether it's the skirt or regular variant
 	var/holder
-	if(H.jumpsuit_style == PREF_SKIRT)
+	if(CONFIG_GET(flag/jumpskirts) && (H.jumpsuit_style == PREF_SKIRT)) //NSV13 - made starting jumpstarts configurable
 		holder = "[uniform]/skirt"
 		if(!text2path(holder))
 			holder = "[uniform]"
 	else
-		holder = "[uniform]"
+		holder ="[uniform]"
 	uniform = text2path(holder)
 
 
