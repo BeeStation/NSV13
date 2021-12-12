@@ -43,15 +43,16 @@
 	jobtype = /datum/job/captain
 
 	id = /obj/item/card/id/gold
-	belt = /obj/item/pda/captain
+	belt = /obj/item/melee/classic_baton/telescopic/stunsword //NSV13 - stunsword
+	l_pocket = /obj/item/pda/captain //NSV13 - moved PDA to pocket
 	glasses = /obj/item/clothing/glasses/sunglasses/advanced
 	ears = /obj/item/radio/headset/heads/captain/alt
 	gloves = /obj/item/clothing/gloves/color/captain
-	uniform =  /obj/item/clothing/under/rank/captain
-	suit = /obj/item/clothing/suit/armor/vest/capcarapace
-	shoes = /obj/item/clothing/shoes/sneakers/brown
-	head = /obj/item/clothing/head/caphat
-	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1, /obj/item/station_charter=1, /obj/item/modular_computer/tablet/preset/advanced=1)
+	uniform =  /obj/item/clothing/under/ship/officer //NSV13 - officer's uniform
+	suit = /obj/item/clothing/suit/ship/officer //NSV13 - officer's uniform
+	shoes = /obj/item/clothing/shoes/jackboots //NSV13 - boots
+	head = /obj/item/clothing/head/beret/ship/captain //NSV13 - captain's beret
+	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1, /obj/item/station_charter=1, /obj/item/modular_computer/tablet/preset/advanced=1, /obj/item/squad_pager/all_channels=1) //NSV13 - added squad pager
 
 	backpack = /obj/item/storage/backpack/captain
 	satchel = /obj/item/storage/backpack/satchel/cap

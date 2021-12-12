@@ -61,6 +61,7 @@ GLOBAL_LIST_INIT(gimmick_positions, list(
 	"Psychiatrist",
 	"VIP"))
 
+//NSV13 - security officer -> military police
 GLOBAL_LIST_INIT(security_positions, list(
 	"Head of Security",
 	"Warden",
