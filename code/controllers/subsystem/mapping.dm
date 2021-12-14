@@ -279,7 +279,6 @@ SUBSYSTEM_DEF(mapping)
 	if(!config.mine_disable)
 		instance_overmap(_path=config.mining_ship_type, folder= config.mine_path ,interior_map_files = config.mine_file, traits=config.mine_traits)
 
-///NSV13 END
 	/*
 	// load mining
 	if(config.minetype == "lavaland")
@@ -287,6 +286,7 @@ SUBSYSTEM_DEF(mapping)
 	else if (!isnull(config.minetype))
 		INIT_ANNOUNCE("WARNING: An unknown minetype '[config.minetype]' was set! This is being ignored! Update the maploader code!")
 	*/
+///NSV13 END
 #endif
 
 	if(LAZYLEN(FailedZs))	//but seriously, unless the server's filesystem is messed up this will never happen

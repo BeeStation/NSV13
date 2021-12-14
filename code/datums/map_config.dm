@@ -47,7 +47,7 @@
 	var/shuttles = list(
 		"cargo" = "cargo_gladius",
 		"ferry" = "ferry_kilo",
-		"emergency" = "emergency_donut")
+		"emergency" = "emergency_atlas")
 
 //NSV EDITED END
 
