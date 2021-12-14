@@ -254,7 +254,8 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/list/containers = list( // We're not accepting chemicals in food 
 		/obj/item/reagent_containers/spray,
 		/obj/item/reagent_containers/glass,
-		/obj/item/reagent_containers/chemtank
+		/obj/item/reagent_containers/chemtank,
+		/obj/item/reagent_containers/food/drinks
 	)
 	target = 30 // Standard volume of a bottle 
 
