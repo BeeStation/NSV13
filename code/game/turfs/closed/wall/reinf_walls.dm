@@ -198,7 +198,7 @@
 
 /turf/closed/wall/r_wall/update_icon()
 	. = ..()
-	if(!legacy_smooth)
+	if(!legacy_smooth) //NSV13 - legacy smooth support
 		if(d_state != INTACT)
 			smooth = SMOOTH_FALSE
 			clear_smooth_overlays()
@@ -243,7 +243,7 @@
 	explosion_block = 20
 	sheet_type = /obj/item/stack/sheet/mineral/plastitanium
 	smooth = SMOOTH_MORE|SMOOTH_DIAGONAL
-	legacy_smooth = FALSE
+	legacy_smooth = FALSE //NSV13 - this one is normal
 	canSmoothWith = list(/turf/closed/wall/r_wall/syndicate, /turf/closed/wall/mineral/plastitanium, /obj/machinery/door/airlock/shuttle, /obj/machinery/door/airlock, /obj/structure/window/plastitanium, /obj/structure/shuttle/engine, /obj/structure/falsewall/plastitanium)
 
 /turf/closed/wall/r_wall/syndicate/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
