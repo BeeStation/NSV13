@@ -311,7 +311,7 @@
 
 	//converts the uniform string into the path we'll wear, whether it's the skirt or regular variant
 	var/holder
-	if(CONFIG_GET(flag/jumpskirts) && (H.jumpsuit_style == PREF_SKIRT)) //NSV13 - made starting jumpstarts configurable
+	if(H.jumpsuit_style == PREF_SKIRT)
 		holder = "[uniform]/skirt"
 		if(!text2path(holder))
 			holder = "[uniform]"
