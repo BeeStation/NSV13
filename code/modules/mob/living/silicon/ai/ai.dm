@@ -532,14 +532,20 @@
 	if(control_disabled)
 		to_chat(src, "<span class='warning'>Wireless control is disabled.</span>")
 		return
-	var/turf/ai_current_turf = get_turf(src)
-	var/ai_Zlevel = ai_current_turf.z
+	// NSV13 start -- checks if bot is in any occupied z level in the occupied overmap
+//	var/turf/ai_current_turf = get_turf(src)
+//	var/ai_Zlevel = ai_current_turf.z NSV13 -- don't need this anymore, read below
 	var/d
 	d += "<A HREF=?src=[REF(src)];botrefresh=1>Query network status</A><br>"
 	d += "<table width='100%'><tr><td width='40%'><h3>Name</h3></td><td width='30%'><h3>Status</h3></td><td width='30%'><h3>Location</h3></td><td width='10%'><h3>Control</h3></td></tr>"
-
+	var/list/valid_z = list()
+	var/obj/structure/overmap/OM = get_overmap()
+	if(OM && length(OM.occupying_levels))
+		valid_z = OM.occupying_levels
+	else
+		valid_z += SSmapping.z_list[z]
 	for (Bot in GLOB.alive_mob_list)
-		if(Bot.z == ai_Zlevel && !Bot.remote_disabled) //Only non-emagged bots on the same Z-level are detected!
+		if((SSmapping.z_list[Bot.z] in OM.occupying_levels) && !Bot.remote_disabled) // NSV13 end
 			var/bot_mode = Bot.get_mode()
 			d += "<tr><td width='30%'>[Bot.hacked ? "<span class='bad'>(!)</span>" : ""] [Bot.name]</A> ([Bot.model])</td>"
 			//If the bot is on, it will display the bot's current mode status. If the bot is not mode, it will just report "Idle". "Inactive if it is not on at all.

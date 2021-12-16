@@ -364,7 +364,7 @@
 	var/obj/item/organ/ears/ears = getorganslot(ORGAN_SLOT_EARS)
 	var/effect_amount = intensity - ear_safety
 	if(effect_amount > 0)
-		if(stun_pwr)
+		if(stun_pwr && !ears?.deaf) //NSV13 - doesn't work if they're already deaf
 			Paralyze((stun_pwr*effect_amount)*0.1)
 			Knockdown(stun_pwr*effect_amount)
 

@@ -189,7 +189,7 @@
 			SL.set_parallax("transit", EAST)
 		else
 			SL.set_parallax(current_system.parallax_property, null)
-	for(var/datum/space_level/SL in occupying_levels)
+	for(var/datum/space_level/SL as() in occupying_levels)
 		if(ftl_start)
 			SL.set_parallax("transit", EAST)
 		else
@@ -217,7 +217,7 @@
 	if(reserved_z) //Actual overmap parallax behaviour
 		var/datum/space_level/SL = SSmapping.z_list[reserved_z]
 		SL.set_parallax("transit", EAST)
-	for(var/datum/space_level/SL in occupying_levels)
+	for(var/datum/space_level/SL as() in occupying_levels)
 		SL.set_parallax("transit", EAST)
 
 	relay(ftl_drive.ftl_loop, "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
@@ -248,7 +248,7 @@
 	if(reserved_z) //Actual overmap parallax behaviour
 		var/datum/space_level/SL = SSmapping.z_list[reserved_z]
 		SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)
-	for(var/datum/space_level/SL in occupying_levels)
+	for(var/datum/space_level/SL as() in occupying_levels)
 		SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)
 
 	log_runtime("DEBUG: jump_end: exiting hyperspace into [target_system]")
@@ -281,7 +281,7 @@
 		var/obj/machinery/inertial_dampener/nearestMachine = null
 
 		// Going to helpfully pass this in after seasickness checks, to reduce duplicate machine checks
-		for(var/obj/machinery/inertial_dampener/machine in GLOB.machines)
+		for(var/obj/machinery/inertial_dampener/machine as anything in GLOB.inertia_dampeners)
 			var/dist = get_dist( M, machine )
 			if ( dist < nearestDistance && machine.on )
 				nearestDistance = dist
@@ -583,7 +583,6 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_computer/proc/ready_ftl()
 	ftl_state = FTL_STATE_READY
-	progress = 0
 	icon_state = "ftl_ready"
 	playsound(src, 'nsv13/sound/voice/ftl_ready.wav', 100, FALSE)
 	radio.talk_into(src, "FTL vectors calculated. Ready to commence FTL translation.", engineering_channel)

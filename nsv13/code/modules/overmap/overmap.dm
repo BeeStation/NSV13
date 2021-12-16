@@ -43,6 +43,7 @@
 	var/max_armour_plates = 0
 	var/list/dent_decals = list() //Ships get visibly damaged as they get shot
 	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
+	var/disruption = 0	//Causes bad effects proportional to how significant. Most significant for AI ships (or fighters) hit by disruption weapons.
 
 	var/use_armour_quadrants = FALSE //Does the object use the armour quadrant system?
 	var/max_armour = 0 //Max armour amount per quad
@@ -281,9 +282,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(role > NORMAL_OVERMAP)
 		SSstar_system.add_ship(src)
 		//reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
-		AddComponent(/datum/component/nsv_mission_arrival_in_system) // Adds components needed to track jumps for missions
-		AddComponent(/datum/component/nsv_mission_departure_from_system)
-	AddComponent(/datum/component/nsv_mission_killships)
+		// AddComponent(/datum/component/nsv_mission_arrival_in_system) // Adds components needed to track jumps for missions
+		// AddComponent(/datum/component/nsv_mission_departure_from_system)
+	// AddComponent(/datum/component/nsv_mission_killships)
 	current_tracers = list()
 	GLOB.overmap_objects += src
 	START_PROCESSING(SSphysics_processing, src)
@@ -402,12 +403,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	//Gauss is the true PDC replacement...
 	else
 		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	if(mass >= MASS_SMALL || occupying_levels?.len)
+	if(mass >= MASS_SMALL || length(occupying_levels))
 		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	if(flak_battery_amount > 0)
 		weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
-	if(mass > MASS_MEDIUM || occupying_levels.len)
+	if(mass > MASS_MEDIUM || length(occupying_levels))
 		weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
 	if(ai_controlled)
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
@@ -637,10 +638,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/proc/relay(S, var/message=null, loop = FALSE, channel = null) //Sends a sound + text message to the crew of a ship
 	for(var/mob/M as() in mobs_in_ship)
-		if(channel) //Doing this forbids overlapping of sounds
-			SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100, channel = channel))
-		else
-			SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100))
+		if(M.can_hear())
+			if(channel) //Doing this forbids overlapping of sounds
+				SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100, channel = channel))
+			else
+				SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100))
 		if(message)
 			to_chat(M, message)
 
@@ -764,22 +766,20 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				if(0 to 30)
 					continue
 				if(50 to 70)
-					to_chat(M, "<span class='warning'>You feel slightly lightheaded.</span>")
+					to_chat(M, "<span class='warning'>You feel lightheaded.</span>")
 				if(71 to 89)
-					to_chat(M, "<span class='warning'>Colour starts to drain from your vision. You feel like you're starting to black out...</span>")
+					to_chat(M, "<span class='warning'>Colour starts to drain from your vision. You feel like you're starting to black out....</span>")
+					if(HAS_TRAIT(M, TRAIT_GFORCE_WEAKNESS))
+						M.gravity_crush(3)
 				if(90 to 100) //Blackout. Slow down on the turns there kid!
 					to_chat(M, "<span class='userdanger'>You black out!</span>")
 					M.Sleeping(5 SECONDS)
-					if(prob(60) && iscarbon(M)) // This is gonna be nasty!
-						var/mob/living/carbon/C = M
-						C.losebreath += 2
-						var/obj/item/organ/brain/brain = C.getorganslot(ORGAN_SLOT_BRAIN)
-						if(brain?.status == ORGAN_ORGANIC)
-							brain.applyOrganDamage(rand(1, 3))
+					if(HAS_TRAIT(M, TRAIT_GFORCE_WEAKNESS))
+						M.gravity_crush(4)
 		return
 	if(!direction)
 		return
-	for(var/mob/living/M in mobs_in_ship)
+	for(var/mob/living/M as() in mobs_in_ship)
 		if(M.buckled) //Good for you, you strapped in!
 			continue
 		if(M.mob_negates_gravity()) //Wear magboots and you're good.

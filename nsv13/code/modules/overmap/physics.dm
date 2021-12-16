@@ -120,6 +120,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		if(world.time > last_critprocess + 1 SECONDS)
 			last_critprocess = world.time
 			handle_critical_failure_part_1()
+	disruption = max(0, disruption - 1)
 	ai_process()
 	//Atmos stuff, this updates once every tick
 	if(cabin_air && cabin_air.return_volume() > 0)
