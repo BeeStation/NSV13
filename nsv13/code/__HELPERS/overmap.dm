@@ -1,8 +1,8 @@
 /atom/proc/get_overmap() //Helper proc to get the overmap ship representing a given area.
 	RETURN_TYPE(/obj/structure/overmap)
-	if(istype(loc, /obj/structure/overmap))
+	if(loc && istype(loc, /obj/structure/overmap))
 		return loc
-	if(!loc.z)
+	if(!loc?.z)
 		return FALSE
 	var/datum/space_level/SL = SSmapping.z_list[z]
 	if(SL?.linked_overmap)
