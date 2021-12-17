@@ -256,8 +256,14 @@
 /obj/machinery/ship_weapon/gauss_gun/remove_air(amount)
 	return cabin_air.remove(amount)
 
+/obj/machinery/ship_weapon/gauss_gun/remove_air_ratio(ratio)
+	return cabin_air.remove_ratio(ratio)
+
 /obj/machinery/ship_weapon/gauss_gun/return_analyzable_air()
 	return cabin_air
+
+/obj/machinery/ship_weapon/gauss_gun/proc/return_pressure()
+	return cabin_air.return_pressure()
 
 /obj/machinery/ship_weapon/gauss_gun/return_temperature()
 	var/datum/gas_mixture/t_air = return_air()
