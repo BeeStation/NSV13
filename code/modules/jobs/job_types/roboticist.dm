@@ -9,7 +9,7 @@
 	supervisors = "the research director"
 	selection_color = "#ffeeff"
 	chat_color = "#AC71BA"
-	exp_requirements = 60
+	exp_requirements = 120
 	exp_type = EXP_TYPE_CREW
 
 	outfit = /datum/outfit/job/roboticist
@@ -22,11 +22,17 @@
 	paycheck_department = ACCOUNT_SCI
 
 	display_order = JOB_DISPLAY_ORDER_ROBOTICIST
+	departments = DEPARTMENT_SCIENCE
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/robotics
+	)
 
 /datum/outfit/job/roboticist
 	name = "Roboticist"
 	jobtype = /datum/job/roboticist
 
+	id = /obj/item/card/id/job/sci
 	belt = /obj/item/storage/belt/utility/full
 	l_pocket = /obj/item/pda/roboticist
 	ears = /obj/item/radio/headset/headset_sci

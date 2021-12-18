@@ -14,7 +14,6 @@
 	maxHealth = 200
 	health = 200
 	speed = 3
-	harm_intent_damage = 8
 	melee_damage = 10
 	attack_sound = 'sound/hallucinations/growl1.ogg'
 	obj_damage = 10

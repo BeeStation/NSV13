@@ -222,6 +222,7 @@
 	if(!ui)
 		ui = new(user, src, "HybridWeapons")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/ship_weapon/hybrid_rail/ui_act(action, params)
 	if(..())

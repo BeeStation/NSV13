@@ -87,6 +87,7 @@
 /turf/open/floor/plasteel/freezer/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
+
 /turf/open/floor/plasteel/grimy
 	icon_state = "grimy"
 	tiled_dirt = FALSE

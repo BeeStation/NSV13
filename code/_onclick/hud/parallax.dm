@@ -23,6 +23,14 @@
 		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_2(null, C.view, viewmob)//Nsv13 - FTL parallax
 		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/ftl_parallax //Nsv13 - We also snapped the planet layer.
 		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_3(null, C.view, viewmob)//Nsv13 - FTL parallax
+		/*
+		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_1(null, C.view)
+		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_2(null, C.view)
+		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/planet(null, C.view)
+		if(SSparallax.random_layer)
+			C.parallax_layers_cached += new SSparallax.random_layer
+		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_3(null, C.view)
+		*/
 
 	C.parallax_layers = C.parallax_layers_cached.Copy()
 
@@ -174,10 +182,11 @@
 		return
 	if(!mymob || !SSmapping.z_list || !SSmapping.z_list.len || !mymob.z)
 		return //Something has gone horribly wrong.
-	var/datum/space_level/SL = SSmapping.z_list[mymob.z]
+	var/area/areaobj = posobj.loc
+	var/area/mobarea = get_area(mymob) //NSV13
 
 	// Update the movement direction of the parallax if necessary (for shuttles)
-	var/new_parallax_movedir = (SL.parallax_movedir) ? SL.parallax_movedir : get_area(mymob).parallax_movedir //So that shuttles still have parallax.
+	var/new_parallax_movedir = (areaobj.parallax_movedir) ? areaobj.parallax_movedir : mobarea.parallax_movedir //NSV13 - So that shuttles still have parallax.
 	set_parallax_movedir(new_parallax_movedir, FALSE)
 
 	if(!C.previous_turf || (C.previous_turf.z != posobj.z))
@@ -235,10 +244,9 @@
 
 /atom/movable/proc/update_parallax_contents()
 	if(length(client_mobs_in_contents))
-		for(var/thing in client_mobs_in_contents)
-			var/mob/M = thing
-			if(M && M.client && M.hud_used && length(M.client.parallax_layers))
-				M.hud_used.update_parallax()
+		for(var/mob/client_mob as anything in client_mobs_in_contents)
+			if(length(client_mob?.client?.parallax_layers) && client_mob.hud_used)
+				client_mob.hud_used.update_parallax()
 
 /mob/proc/update_parallax_teleport()	//used for arrivals shuttle
 	if(client && client.eye && hud_used && length(client.parallax_layers))
@@ -317,3 +325,20 @@
 
 /atom/movable/screen/parallax_layer/random/asteroids
 	icon_state = "random_layer2"
+
+/atom/movable/screen/parallax_layer/planet
+	icon_state = "planet"
+	blend_mode = BLEND_OVERLAY
+	absolute = TRUE //Status of seperation
+	speed = 3
+	layer = 30
+
+/atom/movable/screen/parallax_layer/planet/update_status(mob/M)
+	var/turf/T = get_turf(M)
+	if(is_station_level(T.z))
+		invisibility = 0
+	else
+		invisibility = INVISIBILITY_ABSTRACT
+
+/atom/movable/screen/parallax_layer/planet/update_o()
+	return //Shit wont move

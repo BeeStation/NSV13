@@ -9,7 +9,7 @@
 	supervisors = "the chief engineer"
 	selection_color = "#fff5cc"
 	chat_color = "#D9BC89"
-	exp_requirements = 60
+	exp_requirements = 120
 	exp_type = EXP_TYPE_CREW
 
 	outfit = /datum/outfit/job/engineer
@@ -23,18 +23,24 @@
 	paycheck_department = ACCOUNT_ENG
 
 	display_order = JOB_DISPLAY_ORDER_STATION_ENGINEER
+	departments = DEPARTMENT_ENGINEERING
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/engineering
+	)
 
 /datum/outfit/job/engineer
 	name = "Station Engineer"
 	jobtype = /datum/job/engineer
 
+	id = /obj/item/card/id/job/engi
 	belt = /obj/item/storage/belt/utility/full/engi
 	l_pocket = /obj/item/pda/engineering
 	ears = /obj/item/radio/headset/headset_eng
-	uniform = /obj/item/clothing/under/ship/engineer
+	uniform = /obj/item/clothing/under/ship/engineer //NSV13 uniforms
 	shoes = /obj/item/clothing/shoes/workboots
-	suit = /obj/item/clothing/suit/ship/engineer
-	head = /obj/item/clothing/head/beret/ship/engineer
+	suit = /obj/item/clothing/suit/ship/engineer //NSV13 uniforms
+	head = /obj/item/clothing/head/beret/ship/engineer //NSV13 uniforms
 	r_pocket = /obj/item/t_scanner
 
 	backpack = /obj/item/storage/backpack/industrial
@@ -55,5 +61,4 @@
 	suit_store = /obj/item/tank/internals/oxygen
 	head = null
 	internals_slot = ITEM_SLOT_SUITSTORE
-
 

@@ -28,6 +28,7 @@
 			linked.start_piloting(user, position)
 		ui = new(user, src, "TacticalConsole")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/tactical/ui_act(action, params, datum/tgui/ui)
 	. = ..()

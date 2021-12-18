@@ -37,6 +37,7 @@
 	if(!ui)
 		ui = new(user, src, "SalvageConsole")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/salvage/ui_data(mob/user)
 	if(!linked)
