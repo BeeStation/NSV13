@@ -1,8 +1,6 @@
-/obj/structure/overmap
-	var/atom/autofire_target = null //Are we clicking and holding to shoot our guns?
-
 /obj/structure/overmap/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
-	..()
+	aiming_target = over_object
+	aiming_params = params
 	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
 	if(user_gun)
 		user_gun.onMouseDrag(src_object, over_object, src_location, over_location, params, M)
@@ -55,12 +53,12 @@
 	P.gun = src
 	P.color = "#99ff99"
 	var/turf/curloc = get_turf(src)
-	var/turf/targloc = get_turf(gunner.client.mouseObject)
+	var/turf/targloc = get_turf(aiming_target)
 	if(!istype(targloc))
 		if(!istype(curloc))
 			return
 		targloc = get_turf_in_angle(lastangle, curloc, 10)
-	P.preparePixelProjectile(targloc, src, gunner.client.mouseParams, 0)
+	P.preparePixelProjectile(targloc, src, aiming_params, 0)
 	P.layer = BULLET_HOLE_LAYER
 	P.fire(lastangle)
 

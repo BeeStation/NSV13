@@ -35,12 +35,11 @@
 		if(repairs)
 			. += "<span class='notice'>[src] has been upgraded to support automatic repairs.</span>"
 
-/obj/machinery/recharge_station/process()
+/obj/machinery/recharge_station/process(delta_time)
 	if(!is_operational())
 		return
-
 	if(occupant)
-		process_occupant()
+		process_occupant(delta_time)
 	return 1
 
 /obj/machinery/recharge_station/relaymove(mob/user)
@@ -101,24 +100,10 @@
 	..()
 	update_icon()
 
-/obj/machinery/recharge_station/proc/process_occupant()
+/obj/machinery/recharge_station/proc/process_occupant(delta_time)
 	if(!occupant)
 		return
-	SEND_SIGNAL(occupant, COMSIG_PROCESS_BORGCHARGER_OCCUPANT, recharge_speed, repairs) //Nsv13 - Allows synths to charge off of chargers.
-	if(iscyborg(occupant))
-		var/mob/living/silicon/robot/R = occupant
-		restock_modules()
-		if(repairs)
-			R.heal_bodypart_damage(repairs, repairs - 1)
-		if(R.cell)
-			R.cell.charge = min(R.cell.charge + recharge_speed, R.cell.maxcharge)
-	if(isethereal(occupant))
-		var/mob/living/carbon/human/H = occupant
-		var/datum/species/ethereal/E = H.dna?.species
-		if(E)
-			E.adjust_charge(recharge_speed / 30) //Around 5 per process if unupgraded
-			if(repairs && H.blood_volume < BLOOD_VOLUME_NORMAL)
-				H.reagents.add_reagent(/datum/reagent/consumable/liquidelectricity,repairs*0.2)
+	SEND_SIGNAL(occupant, COMSIG_PROCESS_BORGCHARGER_OCCUPANT, recharge_speed * delta_time / 2, repairs)
 
 /obj/machinery/recharge_station/proc/restock_modules()
 	if(occupant)

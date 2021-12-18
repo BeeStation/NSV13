@@ -12,17 +12,20 @@
 	minimal_player_age = 7
 	exp_requirements = 120
 	exp_type = EXP_TYPE_CREW
-	exp_type_department = EXP_TYPE_SECURITY
 
 	outfit = /datum/outfit/job/brig_phys
 
-	access = list(ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_SEC_RECORDS, ACCESS_BRIG, ACCESS_COURT, ACCESS_MAINT_TUNNELS, ACCESS_MORGUE, ACCESS_MEDICAL, ACCESS_BRIGPHYS, ACCESS_FORENSICS_LOCKERS)
-	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_SECURITY, ACCESS_SEC_RECORDS, ACCESS_BRIG, ACCESS_COURT, ACCESS_MAINT_TUNNELS, ACCESS_MORGUE, ACCESS_MEDICAL, ACCESS_BRIGPHYS, ACCESS_FORENSICS_LOCKERS,)
+	access = list(ACCESS_SEC_DOORS, ACCESS_COURT, ACCESS_MAINT_TUNNELS, ACCESS_MORGUE, ACCESS_MEDICAL, ACCESS_BRIGPHYS)
+	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_COURT, ACCESS_MAINT_TUNNELS, ACCESS_MORGUE, ACCESS_MEDICAL, ACCESS_BRIGPHYS)
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_MED
 
 	display_order = JOB_DISPLAY_ORDER_BRIG_PHYS
+	departments = DEPARTMENT_MEDICAL | DEPARTMENT_SECURITY
 
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/secmed
+	)
 /datum/outfit/job/brig_phys
 	name = "Brig Physician"
 	jobtype = /datum/job/brig_phys
@@ -33,6 +36,7 @@
 	shoes = /obj/item/clothing/shoes/sneakers/white
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
 	suit = /obj/item/clothing/suit/hazardvest/brig_phys
+	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 	suit_store = /obj/item/flashlight/seclite
 	l_hand = /obj/item/storage/firstaid/medical
 	head = /obj/item/clothing/head/soft/sec/brig_phys

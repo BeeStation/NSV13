@@ -62,6 +62,7 @@
 	if(!ui)
 		ui = new(user, src, "MunitionsComputer")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Loading delay, weapon getting fired
 
 /obj/machinery/computer/ship/munitions_computer/ui_act(action, params, datum/tgui/ui)
 	set waitfor = FALSE // Almost everything in here calls procs with sleeps in them
@@ -154,6 +155,7 @@
 		return
 	ui = new(user, src, "OrdnanceConsole")
 	ui.open()
+	ui.set_autoupdate(TRUE) // Ammo updates
 
 /obj/machinery/computer/ship/ordnance/ui_data(mob/user)
 	. = ..()

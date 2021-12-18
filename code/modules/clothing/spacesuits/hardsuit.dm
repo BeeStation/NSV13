@@ -14,9 +14,10 @@
 	actions_types = list(/datum/action/item_action/toggle_helmet_light)
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	visor_flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
-	var/rad_count = 0
-	var/rad_record = 0
-	var/grace_count = 0
+	clothing_flags = NOTCONSUMABLE | STOPSPRESSUREDAMAGE | THICKMATERIAL | SHOWEROKAY | SNUG_FIT
+	var/current_tick_amount = 0
+	var/radiation_count = 0
+	var/grace = RAD_GEIGER_GRACE_PERIOD
 	var/datum/looping_sound/geiger/soundloop
 
 /obj/item/clothing/head/helmet/space/hardsuit/Initialize()
@@ -26,6 +27,9 @@
 	START_PROCESSING(SSobj, src)
 
 /obj/item/clothing/head/helmet/space/hardsuit/Destroy()
+	if(!QDELETED(suit))
+		qdel(suit)
+	suit = null
 	QDEL_NULL(soundloop)
 	STOP_PROCESSING(SSobj, src)
 	return ..()
@@ -70,23 +74,25 @@
 	if(msg && ishuman(wearer))
 		wearer.show_message("[icon2html(src, wearer)]<b><span class='robot'>[msg]</span></b>", MSG_VISUAL)
 
-/obj/item/clothing/head/helmet/space/hardsuit/rad_act(severity)
+/obj/item/clothing/head/helmet/space/hardsuit/rad_act(amount)
 	. = ..()
-	rad_count += severity
-
-/obj/item/clothing/head/helmet/space/hardsuit/process()
-	if(!rad_count)
-		grace_count++
-		if(grace_count == 2)
-			soundloop.last_radiation = 0
+	if(amount <= RAD_BACKGROUND_RADIATION)
 		return
+	current_tick_amount += amount
 
-	grace_count = 0
-	rad_record -= rad_record/5
-	rad_record += rad_count/5
-	rad_count = 0
+/obj/item/clothing/head/helmet/space/hardsuit/process(delta_time)
+	radiation_count = LPFILTER(radiation_count, current_tick_amount, delta_time, RAD_GEIGER_RC)
 
-	soundloop.last_radiation = rad_record
+	if(current_tick_amount)
+		grace = RAD_GEIGER_GRACE_PERIOD
+	else
+		grace -= delta_time
+		if(grace <= 0)
+			radiation_count = 0
+
+	current_tick_amount = 0
+
+	soundloop.last_radiation = radiation_count
 
 /obj/item/clothing/head/helmet/space/hardsuit/emp_act(severity)
 	. = ..()
@@ -107,7 +113,6 @@
 	var/helmettype = /obj/item/clothing/head/helmet/space/hardsuit
 	var/obj/item/tank/jetpack/suit/jetpack = null
 	pocket_storage_component_path = null
-
 
 /obj/item/clothing/suit/space/hardsuit/Initialize()
 	if(jetpack && ispath(jetpack))
@@ -273,6 +278,29 @@
 	. = ..()
 	AddComponent(/datum/component/armor_plate)
 
+	//Exploration hardsuit
+/obj/item/clothing/head/helmet/space/hardsuit/exploration
+	name = "exploration hardsuit helmet"
+	desc = "An advanced space-proof hardsuit designed to protect against off-station threats."
+	icon_state = "hardsuit0-exploration"
+	item_state = "death_commando_mask"
+	item_color = "exploration"
+	heat_protection = HEAD
+	armor = list("melee" = 35, "bullet" = 15, "laser" = 20, "energy" = 10, "bomb" = 50, "bio" = 100, "rad" = 50, "fire" = 50, "acid" = 75, "stamina" = 20)
+	light_range = 6
+	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/resonator, /obj/item/mining_scanner, /obj/item/t_scanner/adv_mining_scanner, /obj/item/gun/energy/kinetic_accelerator)
+
+/obj/item/clothing/suit/space/hardsuit/exploration
+	icon_state = "hardsuit-exploration"
+	name = "exploration hardsuit"
+	desc = "An advanced space-proof hardsuit designed to protect against off-station threats. Despite looking remarkably similar to the mining hardsuit \
+		Nanotrasen officials note that it is unique in every way and the design has not been copied in any way."
+	item_state = "exploration_hardsuit"
+	armor = list("melee" = 35, "bullet" = 15, "laser" = 20, "energy" = 10, "bomb" = 50, "bio" = 100, "rad" = 50, "fire" = 50, "acid" = 75, "stamina" = 20)
+	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/storage/bag/ore, /obj/item/pickaxe)
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/exploration
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+
 	//Syndicate hardsuit
 /obj/item/clothing/head/helmet/space/hardsuit/syndi
 	name = "blood-red hardsuit helmet"
@@ -386,6 +414,7 @@
 	allowed = list(/obj/item/gun, /obj/item/ammo_box,/obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/melee/transforming/energy/sword/saber, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi
 	jetpack = /obj/item/tank/jetpack/suit
+	item_flags = ILLEGAL	//Syndicate only and difficult to obtain outside of uplink anyway. Nukie hardsuits on the ship are illegal.
 	actions_types = list(
 		/datum/action/item_action/toggle_helmet,
 		/datum/action/item_action/toggle_beacon,
@@ -423,6 +452,8 @@
 	. = ..()
 	//Update helmet to non combat mode
 	var/obj/item/clothing/head/helmet/space/hardsuit/syndi/syndieHelmet = helmet
+	if(!syndieHelmet)
+		return
 	syndieHelmet.activate_combat_mode()
 	syndieHelmet.update_icon()
 	for(var/X in syndieHelmet.actions)
@@ -884,6 +915,7 @@
 		/datum/action/item_action/toggle_beacon,
 		/datum/action/item_action/toggle_beacon_frequency
 	)
+	jetpack = /obj/item/tank/jetpack/suit
 
 /obj/item/clothing/suit/space/hardsuit/shielded/syndi/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -901,10 +933,6 @@
 		shield_on = "shield-red"
 		to_chat(user, "<span class='warning'>You update the hardsuit's hardware, changing back the shield's color to red.</span>")
 	user.update_inv_wear_suit()
-
-/obj/item/clothing/suit/space/hardsuit/shielded/syndi/Initialize()
-	jetpack = new /obj/item/tank/jetpack/suit(src)
-	. = ..()
 
 /obj/item/clothing/suit/space/hardsuit/shielded/syndi/ui_action_click(mob/user, datum/actiontype)
 	switch(actiontype.type)
@@ -932,6 +960,17 @@
 		to_chat(user, "<span class='notice'>The suit is not fitted with a tracking beacon.</span>")
 		return
 	beacon.change_frequency(user)
+
+//Helmet - With built in HUD
+
+/obj/item/clothing/suit/space/hardsuit/shielded/syndi/ui_action_click(mob/user, datum/actiontype)
+	switch(actiontype.type)
+		if(/datum/action/item_action/toggle_helmet)
+			ToggleHelmet()
+		if(/datum/action/item_action/toggle_beacon)
+			toggle_beacon(user)
+		if(/datum/action/item_action/toggle_beacon_frequency)
+			set_beacon_freq(user)
 
 //Helmet - With built in HUD
 

@@ -129,10 +129,11 @@
 
 /obj/machinery/ship_weapon/gauss_gun/Initialize()
 	. = ..()
-	cabin_air = new(200)
+	cabin_air = new
 	cabin_air.set_temperature(T20C)
-	cabin_air.set_moles(/datum/gas/oxygen, O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
-	cabin_air.set_moles(/datum/gas/nitrogen, N2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
+	cabin_air.set_volume(200)
+	cabin_air.set_moles(GAS_O2, O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
+	cabin_air.set_moles(GAS_N2, N2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
 	ammo_rack = new /obj/structure/gauss_rack(src)
 	ammo_rack.gun = src
@@ -255,8 +256,14 @@
 /obj/machinery/ship_weapon/gauss_gun/remove_air(amount)
 	return cabin_air.remove(amount)
 
+/obj/machinery/ship_weapon/gauss_gun/remove_air_ratio(ratio)
+	return cabin_air.remove_ratio(ratio)
+
 /obj/machinery/ship_weapon/gauss_gun/return_analyzable_air()
 	return cabin_air
+
+/obj/machinery/ship_weapon/gauss_gun/proc/return_pressure()
+	return cabin_air.return_pressure()
 
 /obj/machinery/ship_weapon/gauss_gun/return_temperature()
 	var/datum/gas_mixture/t_air = return_air()
@@ -479,6 +486,7 @@
 	if(!ui)
 		ui = new(user, src, "GaussRack")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Ammo count
 
 /obj/structure/gauss_rack/ui_act(action, params, datum/tgui/ui)
 	if(..())
@@ -726,6 +734,7 @@ Chair + rack handling
 	if(!ui)
 		ui = new(user, src, "MunitionsComputer")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/ship_weapon/gauss_gun/ui_state(mob/user)
 	return GLOB.contained_state

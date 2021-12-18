@@ -238,6 +238,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	if(!ui)
 		ui = new(user, src, "Dradis")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Contact positions
 
 /obj/machinery/computer/ship/dradis/ui_act(action, params)
 	. = ..()

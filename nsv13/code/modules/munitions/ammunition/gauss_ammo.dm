@@ -72,6 +72,7 @@
 	if(!ui)
 		ui = new(user, src, "GaussDispenser")
 		ui.open()
+		ui.set_autoupdate(TRUE) // progress bar
 
 /obj/machinery/gauss_dispenser/ui_act(action, params, datum/tgui/ui)
 	if(..())

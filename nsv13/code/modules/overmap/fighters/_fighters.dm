@@ -112,6 +112,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(!ui)
 		ui = new(user, src, "FighterControls")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/structure/overmap/fighter/ui_data(mob/user)
 	var/list/data = list()
@@ -491,7 +492,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/fighter/proc/enter(mob/user)
 	var/obj/structure/overmap/OM = user.get_overmap()
 	if(OM)
-		LAZYREMOVE(OM.mobs_in_ship, user)
+		OM.mobs_in_ship -= user
 	user.forceMove(src)
 	mobs_in_ship += user
 	if((user.client?.prefs.toggles & SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
@@ -531,13 +532,12 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/fighter/proc/force_eject(force = FALSE)
 	. = list()
 	brakes = TRUE
-	var/turf/T = GetSafeLoc(src)
 	if(!canopy_open)
 		canopy_open = TRUE
 		playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
 	for(var/mob/M in mobs_in_ship)
 		stop_piloting(M, force)
-		M.doMove(T) // we can use doMove because we already know we're moving to a safe turf.
+		M.forceMove(get_turf(src)) // we can use doMove because we already know we're moving to a safe turf.
 		to_chat(M, "<span class='warning'>You have been remotely ejected from [src]!.</span>")
 		. += M
 
@@ -746,7 +746,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 
 /obj/item/fighter_component/Initialize()
 	.=..()
-	AddComponent(/datum/component/twohanded/required) //These all require two hands to pick up
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE) //These all require two hands to pick up
 
 //Overload this method to apply stat benefits based on your module.
 /obj/item/fighter_component/proc/on_install(obj/structure/overmap/target)
@@ -1177,14 +1177,14 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	return TRUE
 
 /obj/item/fighter_component/oxygenator/proc/refill(obj/structure/overmap/OM)
-	OM.cabin_air.adjust_moles(/datum/gas/oxygen, refill_amount*O2STANDARD)
-	OM.cabin_air.adjust_moles(/datum/gas/nitrogen, refill_amount*N2STANDARD)
-	OM.cabin_air.adjust_moles(/datum/gas/carbon_dioxide, -refill_amount)
+	OM.cabin_air.adjust_moles(GAS_O2, refill_amount*O2STANDARD)
+	OM.cabin_air.adjust_moles(GAS_N2, refill_amount*N2STANDARD)
+	OM.cabin_air.adjust_moles(GAS_CO2, -refill_amount)
 
 /obj/item/fighter_component/oxygenator/plasmaman/refill(obj/structure/overmap/OM)
-	OM.cabin_air.adjust_moles(/datum/gas/plasma, refill_amount*N2STANDARD)
-	OM.cabin_air.adjust_moles(/datum/gas/oxygen, -refill_amount)
-	OM.cabin_air.adjust_moles(/datum/gas/nitrogen, -refill_amount)
+	OM.cabin_air.adjust_moles(GAS_PLASMA, refill_amount*N2STANDARD)
+	OM.cabin_air.adjust_moles(GAS_O2, -refill_amount)
+	OM.cabin_air.adjust_moles(GAS_N2, -refill_amount)
 
 //Construction only components
 
