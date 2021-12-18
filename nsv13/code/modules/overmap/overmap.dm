@@ -136,6 +136,9 @@
 	var/lastangle = 0
 	var/list/obj/effect/projectile/tracer/current_tracers
 	var/mob/listeningTo
+	var/obj/aiming_target
+	var/aiming_params
+	var/atom/autofire_target = null
 
 	// Trader delivery locations
 	var/list/trader_beacons = null
@@ -198,12 +201,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(folder && interior_map_files){ //If this thing comes with an interior.
 		var/previous_maxz = world.maxz //Ok. Store the current number of Zs. Anything that we add on top of this due to this proc will then be conted as decks of our ship.
 		var/list/errorList = list()
-		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", files=interior_map_files, traits = traits, default_traits=default_traits, silent=TRUE)
+		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", interior_map_files, traits, default_traits, orbital_body_type = null)
 		if(errorList.len)	// failed to load :(
 			message_admins("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
 			log_game("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
 			return OM
-		for(var/datum/parsed_map/PM in loaded)
+		for(var/datum/map_template/PM in loaded)
 			PM.initTemplateBounds()
 		repopulate_sorted_areas()
 		var/list/occupying = list()
@@ -319,8 +322,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			//101 kPa =
 			// PV=nRT
 			// PV/RT = n
-			cabin_air.set_moles(/datum/gas/oxygen, O2STANDARD*cabin_air.return_volume()*ONE_ATMOSPHERE/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
-			cabin_air.set_moles(/datum/gas/nitrogen, N2STANDARD*cabin_air.return_volume()*ONE_ATMOSPHERE/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
+			cabin_air.set_moles(GAS_O2, O2STANDARD*ONE_ATMOSPHERE*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
+			cabin_air.set_moles(GAS_N2, N2STANDARD*ONE_ATMOSPHERE*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 			bounce_factor = 1 //Stops dead in its tracks
 			lateral_bounce_factor = 1
 			move_by_mouse = TRUE //You'll want this. Trust.
@@ -405,12 +408,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	//Gauss is the true PDC replacement...
 	else
 		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	if(mass >= MASS_SMALL || occupying_levels?.len)
+	if(mass >= MASS_SMALL || length(occupying_levels))
 		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	if(flak_battery_amount > 0)
 		weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
-	if(mass > MASS_MEDIUM || occupying_levels.len)
+	if(mass > MASS_MEDIUM || length(occupying_levels))
 		weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
 	if(ai_controlled)
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
@@ -775,9 +778,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 						to_chat(M, "<span class='warning'>You feel slightly lightheaded.</span>")
 					if(71 to 89)
 						to_chat(M, "<span class='warning'>Colour starts to drain from your vision. You feel like you're starting to black out....</span>")
+						if(HAS_TRAIT(M, TRAIT_GFORCE_WEAKNESS))
+							M.gravity_crush(3)
 					if(90 to 100) //Blackout. Slow down on the turns there kid!
 						to_chat(M, "<span class='userdanger'>You black out!</span>")
 						M.Sleeping(5 SECONDS)
+						if(HAS_TRAIT(M, TRAIT_GFORCE_WEAKNESS))
+							M.gravity_crush(4)
 			return
 		for(var/mob/living/M in mobs_in_ship)
 			if(!istype(M))

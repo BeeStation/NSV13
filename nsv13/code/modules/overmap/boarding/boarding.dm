@@ -8,7 +8,7 @@
 		//Joker emoji
 		amount = CEILING(1 + (SSovermap_mode.mode.difficulty / 2), 1)
 	var/list/zs = list()
-	if(!occupying_levels.len)
+	if(!length(occupying_levels))
 		message_admins("Failed to spawn boarders for [name], it doesn't seem to have any occupying z-levels. (Interior)")
 		return FALSE
 	for(var/datum/space_level/SL in occupying_levels)

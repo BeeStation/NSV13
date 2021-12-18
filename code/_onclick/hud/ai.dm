@@ -184,6 +184,28 @@
 	var/mob/living/silicon/ai/AI = usr
 	AI.drop_new_multicam()
 
+/atom/movable/screen/ai/move_z
+	name = "View Above"
+	icon_state = "move_up"
+	var/upwards = TRUE
+
+/atom/movable/screen/ai/move_z/Click()
+	if(..())
+		return
+	var/mob/living/silicon/ai/AI = usr
+	var/turf/T = get_turf(AI.eyeobj)
+	var/turf/target = upwards ? T.above() : T.below()
+	if(isturf(target))
+		AI.eyeobj.forceMove(target)
+		AI.overlay_fullscreen("flash", /atom/movable/screen/fullscreen/flash/static)
+		AI.clear_fullscreen("flash", 5)
+	else
+		to_chat(AI, "<span class='warning'>There is nothing in that direction!</span>")
+
+/atom/movable/screen/ai/move_z/down
+	name = "View Below"
+	icon_state = "move_down"
+	upwards = FALSE
 
 /datum/hud/ai
 	ui_style = 'icons/mob/screen_ai.dmi'
@@ -300,14 +322,14 @@
 	using.hud = src
 	static_inventory += using
 
-//NSV13 - Add Z up action
-	using = new /atom/movable/screen/ai/zup()
-	using.screen_loc = ui_ai_zup
+//Add multi z up
+	using = new /atom/movable/screen/ai/move_z()
+	using.screen_loc = ui_ai_move_up
 	using.hud = src
 	static_inventory += using
 
-//NSV13 - Add Z down action
-	using = new /atom/movable/screen/ai/zdown()
-	using.screen_loc = ui_ai_zdown
+//Add multi z down
+	using = new /atom/movable/screen/ai/move_z/down()
+	using.screen_loc = ui_ai_move_down
 	using.hud = src
 	static_inventory += using

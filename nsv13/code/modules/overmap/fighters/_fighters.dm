@@ -111,6 +111,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(!ui)
 		ui = new(user, src, "FighterControls")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/structure/overmap/fighter/ui_data(mob/user)
 	var/list/data = list()
@@ -771,7 +772,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 
 /obj/item/fighter_component/Initialize()
 	.=..()
-	AddComponent(/datum/component/twohanded/required) //These all require two hands to pick up
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE) //These all require two hands to pick up
 
 //Overload this method to apply stat benefits based on your module.
 /obj/item/fighter_component/proc/on_install(obj/structure/overmap/target)
@@ -1215,14 +1216,14 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	return TRUE
 
 /obj/item/fighter_component/oxygenator/proc/refill(obj/structure/overmap/OM)
-	OM.cabin_air.adjust_moles(/datum/gas/oxygen, refill_amount*O2STANDARD)
-	OM.cabin_air.adjust_moles(/datum/gas/nitrogen, refill_amount*N2STANDARD)
-	OM.cabin_air.adjust_moles(/datum/gas/carbon_dioxide, -refill_amount)
+	OM.cabin_air.adjust_moles(GAS_O2, refill_amount*O2STANDARD)
+	OM.cabin_air.adjust_moles(GAS_N2, refill_amount*N2STANDARD)
+	OM.cabin_air.adjust_moles(GAS_CO2, -refill_amount)
 
 /obj/item/fighter_component/oxygenator/plasmaman/refill(obj/structure/overmap/OM)
-	OM.cabin_air.adjust_moles(/datum/gas/plasma, refill_amount*N2STANDARD)
-	OM.cabin_air.adjust_moles(/datum/gas/oxygen, -refill_amount)
-	OM.cabin_air.adjust_moles(/datum/gas/nitrogen, -refill_amount)
+	OM.cabin_air.adjust_moles(GAS_PLASMA, refill_amount*N2STANDARD)
+	OM.cabin_air.adjust_moles(GAS_O2, -refill_amount)
+	OM.cabin_air.adjust_moles(GAS_N2, -refill_amount)
 
 //Construction only components
 

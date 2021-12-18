@@ -447,6 +447,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	if(!ui)
 		ui = new(user, src, "OvermapGamemodeController")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Countdowns
 
 /datum/overmap_mode_controller/ui_act(action, params)
 	if(..())

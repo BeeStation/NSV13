@@ -5,6 +5,7 @@ Misc projectile types, effects, think of this as the special FX file.
 */
 
 /obj/item/projectile/bullet/aa_round
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "pdc"
 	name = "anti-aircraft round"
 	damage = 40
@@ -17,6 +18,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	spread = 5
 
 /obj/item/projectile/bullet/mac_relayed_round	//Projectile relayed by all default MAC shells on overmap hit. No difference for AP / others as their values don't really matter on z level.
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "railgun"
 	name = "artillery round"
 	damage = 60
@@ -25,6 +27,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	movement_type = FLYING | UNSTOPPABLE
 
 /obj/item/projectile/bullet/mac_round
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "railgun"
 	name = "artillery round"
 	damage = 400
@@ -238,6 +241,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "mac"
 	name = "tungsten slug"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 150
 	speed = 1
 	homing_turn_speed = 2
@@ -249,14 +253,15 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 185
 	armour_penetration = 10
 
-/obj/item/projectile/bullet/railgun_slug/Initialize()
+// I think the idea is that they course-correct slightly, but only once? -Corvid
+/obj/item/projectile/bullet/railgun_slug/process_homing()
 	. = ..()
-	sleep(0.25)
-	set_homing_target(null)
+	homing = FALSE
 
 /obj/item/projectile/bullet/gauss_slug
 	icon_state = "gaussgun"
 	name = "tungsten round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 80
 	obj_integrity = 500 //Flak doesn't shoot this down....
 	flag = "overmap_medium"
@@ -264,6 +269,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/light_cannon_round
 	icon_state = "pdc"
 	name = "light cannon round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 40
 	armour_penetration = 2
 	spread = 2
@@ -272,8 +278,16 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/heavy_cannon_round
 	icon_state = "pdc"
 	name = "heavy cannon round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 30
 	spread = 5
+	flag = "overmap_medium"
+
+/obj/item/projectile/bullet/hailstorm_bullet
+	icon_state = "50cal"
+	name = "hailstorm fragment"
+	damage = 20
+	spread = 90
 	flag = "overmap_medium"
 
 /obj/item/projectile/guided_munition
@@ -285,6 +299,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/torpedo
 	icon_state = "torpedo"
 	name = "plasma torpedo"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	speed = 2.75
 	valid_angle = 150
 	homing_turn_speed = 35
@@ -359,6 +374,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/missile
 	name = "\improper Triton cruise missile"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "conventional_missile"
 	speed = 1
 	damage = 175
@@ -409,11 +425,11 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/torpedo/disruptor/spec_overmap_hit(obj/structure/overmap/target)
 	if(length(target.occupying_levels))
 		return	//Detonate is gonna handle this for us.
-		
+
 	if(target.ai_controlled)
 		target.disruption += 30
 		return
-	
+
 	if(istype(target, /obj/structure/overmap/fighter))
 		target.disruption += 25
 		return
@@ -444,6 +460,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/pdc_round
 	icon_state = "pdc"
 	name = "PDC round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 15
 	flag = "overmap_light"
 	spread = 5
