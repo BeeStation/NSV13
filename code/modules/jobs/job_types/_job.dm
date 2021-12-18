@@ -310,13 +310,15 @@
 			back = backpack //Department backpack
 
 	//converts the uniform string into the path we'll wear, whether it's the skirt or regular variant
-	var/holder
+	var/holder = "[uniform]" //NSV13 - no skirts
+	/*
 	if(H.jumpsuit_style == PREF_SKIRT)
 		holder = "[uniform]/skirt"
 		if(!text2path(holder))
 			holder = "[uniform]"
 	else
 		holder ="[uniform]"
+	*/
 	uniform = text2path(holder)
 
 
