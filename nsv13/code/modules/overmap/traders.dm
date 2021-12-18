@@ -93,20 +93,20 @@
 		LZ = get_turf(dradis.beacon)
 	if(!LZ)
 		LZ = pick(landingzone.contents) //If we couldn't find an open floor, just throw it somewhere
-	
-	// Knowing who the deliveryman is tells us what kind of pod to send 
+
+	// Knowing who the deliveryman is tells us what kind of pod to send
 	var/obj/structure/closet/supplypod/toLaunch
-	if ( courier ) 
+	if ( courier )
 		toLaunch = new courier.supply_pod_type()
-	else 
+	else
 		toLaunch = new /obj/structure/closet/supplypod/centcompod()
 
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
 	var/atom/movable/theItem
-	if ( isInitialized ) 
-		theItem = unlock_path 
-	else 
+	if ( isInitialized )
+		theItem = unlock_path
+	else
 		theItem = new unlock_path
 	theItem.forceMove(toLaunch)
 	new /obj/effect/pod_landingzone(LZ, toLaunch)

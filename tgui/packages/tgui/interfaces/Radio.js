@@ -27,10 +27,9 @@ export const Radio = (props, context) => {
   }))(data.channels);
   return (
     <Window
-      resizable
       width={360}
-      height={106 + ((channels.length > 0) ? (6 + (channels.length * 21)) : 24)}>
-      <Window.Content scrollable>
+      height={106 + (channels.len > 0 ? 6 + channels.len * 21 : 24)}>
+      <Window.Content>
         <Section>
           <LabeledList>
             <LabeledList.Item label="Frequency">

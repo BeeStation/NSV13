@@ -94,3 +94,4 @@
 	if(!ui)
 		ui = new(user, src, "FighterController")
 		ui.open()
+		ui.set_autoupdate(TRUE)

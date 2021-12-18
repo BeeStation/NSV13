@@ -151,6 +151,7 @@
 	if(!ui)
 		ui = new(user, src, "DeckGun")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Loading delay, firing updates
 
 /obj/machinery/computer/deckgun/ui_data(mob/user)
 	var/list/data = list()
@@ -159,7 +160,21 @@
 		return data
 	if(get_dist(core.payload_gate, core) > 1)
 		core.update_parts()
-	data["id"] = (core.payload_gate) ? "\ref[core.payload_gate]" : null
+	if(core.payload_gate)
+		data["id"] = (core.payload_gate)
+		if(core.payload_gate.shell)
+			data["can_pack"] = TRUE
+			data["loaded"] = core.payload_gate.shell.name || "Nothing"
+			data["speed"] = core.payload_gate.shell.speed || 0
+		else
+			data["can_pack"] = FALSE
+			data["loaded"] = "Nothing"
+			data["speed"] = 0
+	else
+		data["id"] = null
+		data["can_pack"] = FALSE
+		data["loaded"] = "Nothing"
+		data["speed"] = 0
 	if(!core.powder_gates?.len)
 		core.update_parts()
 	for(var/obj/machinery/deck_turret/powder_gate/MOREPOWDER in core.powder_gates)
@@ -171,12 +186,9 @@
 		part["id"] = "\ref[MOREPOWDER]"
 		parts[++parts.len] = part
 	data["parts"] = parts
-	data["can_pack"] = core.payload_gate.shell ? TRUE : FALSE
 	data["can_load"] = core.turret?.ammo?.len < core.turret?.max_ammo || FALSE
 	data["ammo"] = core.turret?.ammo?.len || 0
 	data["max_ammo"] = core.turret?.max_ammo || 0
-	data["loaded"] = core.payload_gate?.shell?.name || "Nothing"
-	data["speed"] = core.payload_gate?.shell?.speed || 0
 	data["max_speed"] = 2
 	return data
 
@@ -250,7 +262,7 @@
 	powder_gates = list()
 	computer = locate(/obj/machinery/computer/deckgun) in orange(1, src)
 	computer.core = src
-	turret.get_ship()
+	turret?.get_ship()
 	for(var/turf/T in orange(1, src))
 		var/obj/machinery/deck_turret/powder_gate/powder_gate = locate(/obj/machinery/deck_turret/powder_gate) in T
 		if(powder_gate && istype(powder_gate))
@@ -332,7 +344,7 @@
 
 /obj/item/powder_bag/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 	AddComponent(/datum/component/volatile, volatility)
 
 /obj/item/powder_bag/plasma
