@@ -38,6 +38,7 @@
 
 /obj/machinery/conveyor/slow
 	name = "Slow conveyor"
+	subsystem_type = /datum/controller/subsystem/machines
 	stack_type = /obj/item/stack/conveyor/slow //What does this conveyor drop when decon'd?
 
 /obj/machinery/missile_builder/wirer
