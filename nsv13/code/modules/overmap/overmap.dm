@@ -199,7 +199,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			var/datum/space_level/SL = SSmapping.z_list[z]
 			SL.linked_overmap = OM
 			OM.occupying_levels += SL
-	if(folder && interior_map_files){ //If this thing comes with an interior.
+	if(folder && interior_map_files) //If this thing comes with an interior.
 		var/previous_maxz = world.maxz //Ok. Store the current number of Zs. Anything that we add on top of this due to this proc will then be conted as decks of our ship.
 		var/list/errorList = list()
 		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", interior_map_files, traits, default_traits, orbital_body_type = null)
@@ -211,20 +211,18 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			PM.initTemplateBounds()
 		repopulate_sorted_areas()
 		var/list/occupying = list()
-		for(var/I = ++previous_maxz; I <= world.maxz; I++){ //So let's say we started loading interior Z-levels at Z index 4 and we have 2 decks. That means that Z 5 and 6 belong to this ship's interior, so link them
+		for(var/I = ++previous_maxz; I <= world.maxz; I++) //So let's say we started loading interior Z-levels at Z index 4 and we have 2 decks. That means that Z 5 and 6 belong to this ship's interior, so link them
 			occupying += I;
-			for(var/area/AR in SSmapping.areas_in_z["[I]"])
-				OM.linked_areas += AR
-		}
-		for(var/A in SSmapping.z_list)
-			var/datum/space_level/SL = A
-			if(LAZYFIND(occupying, SL.z_value)) //And if the Z-level's value is one of ours, associate it.
-				SL.linked_overmap = OM
-				OM.occupying_levels += SL
-				log_game("Z-level [SL] linked to [OM].")
+			OM.linked_areas += SSmapping.areas_in_z["[I]"]
+
+		for(var/z in occupying)
+			var/datum/space_level/SL = SSmapping.z_list[z]
+			SL.linked_overmap = OM
+			OM.occupying_levels += SL
+			log_game("Z-level [SL] linked to [OM].")
 		if(midround)
 			overmap_lighting_force(OM)
-	}
+
 
 	return OM
 
@@ -377,12 +375,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			//If we've not already got a special flak battery amount set.
 			if(flak_battery_amount <= 0)
 				flak_battery_amount = 2
-
-	if(role == MAIN_OVERMAP)
-		name = "[station_name()]"
-		SSstar_system.main_overmap = src
-	if(role == MAIN_MINING_SHIP)
-		SSstar_system.mining_ship = src
+	switch(role)
+		if(MAIN_OVERMAP)
+			name = station_name()
+			SSstar_system.main_overmap = src
+		if(MAIN_MINING_SHIP)
+			SSstar_system.mining_ship = src
 	var/datum/star_system/sys = SSstar_system.find_system(src)
 	if(sys)
 		current_system = sys
@@ -422,8 +420,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
-		qdel(physics2d)
-		physics2d = null
+		QDEL_NULL(physics2d)
 	return ..()
 
 /obj/structure/overmap/Destroy()
@@ -481,7 +478,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			linked_areas += A
 
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
-	var/list/params_list = params2list(params)
 	if(user.incapacitated() || !isliving(user))
 		return FALSE
 	if(istype(target, /obj/machinery/button/door) || istype(target, /obj/machinery/turbolift_button))
@@ -489,7 +485,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(weapon_safety)
 		return FALSE
-	if(target == src || istype(target, /atom/movable/screen) || (target && (target in user.GetAllContents())) || params_list["alt"] || params_list["shift"])
+	var/list/params_list = params2list(params)
+	if(target == src || istype(target, /atom/movable/screen) || (target in user.GetAllContents()) || params_list["alt"] || params_list["shift"])
 		return FALSE
 	if(LAZYFIND(gauss_gunners, user)) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
 		var/datum/component/overmap_gunning/user_gun = user.GetComponent(/datum/component/overmap_gunning)
@@ -510,7 +507,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		if(user == pilot)
 			var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_RAILGUN] //For annoying ships like whisp
 			var/list/loaded = SW?.weapons["loaded"]
-			if(SW && loaded?.len)
+			if(length(loaded))
 				fire_weapon(target, FIRE_MODE_RAILGUN)
 			else
 				SW = weapon_types[FIRE_MODE_RED_LASER]
@@ -767,61 +764,58 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /// Check how aggressively the pilots are turning
 /obj/structure/overmap/proc/check_throwaround(theAngle, direction)
 	var/delta = abs(angular_velocity) //Where we started.
-	if(delta >= 20) //This is the canterbury, prepare for FLIP AND BURN.
-		if(!linked_areas.len)
-			if(!mobs_in_ship.len)
-				return
-			for(var/mob/living/M in mobs_in_ship)
-				//Black out viper jockies who turn too often and too hard.
-				if(!istype(M))
+	if(delta < 20) //This is the canterbury, prepare for FLIP AND BURN.
+		return
+	if(!length(mobs_in_ship))
+		return
+	if(!length(linked_areas))
+		for(var/mob/living/M in mobs_in_ship)
+			//Black out viper jockies who turn too often and too hard.
+			M.adjustStaminaLoss(30)
+			switch(M.staminaloss)
+				if(0 to 30)
 					continue
-				M.adjustStaminaLoss(30)
-				switch(M.staminaloss)
-					if(0 to 30)
-						continue
-					if(50 to 70)
-						to_chat(M, "<span class='warning'>You feel slightly lightheaded.</span>")
-					if(71 to 89)
-						to_chat(M, "<span class='warning'>Colour starts to drain from your vision. You feel like you're starting to black out....</span>")
-						if(HAS_TRAIT(M, TRAIT_GFORCE_WEAKNESS))
-							M.gravity_crush(3)
-					if(90 to 100) //Blackout. Slow down on the turns there kid!
-						to_chat(M, "<span class='userdanger'>You black out!</span>")
-						M.Sleeping(5 SECONDS)
-						if(HAS_TRAIT(M, TRAIT_GFORCE_WEAKNESS))
-							M.gravity_crush(4)
-			return
-		for(var/mob/living/M as() in mobs_in_ship)
-			if(!istype(M))
-				continue
-			if(M.buckled) //Good for you, you strapped in!
-				continue
-			if(!direction)
-				continue
-			if(M.mob_negates_gravity()) //Wear magboots and you're good.
-				continue
-			var/atom/throw_target = null
-			switch(direction) //Assuming that all our ships face east...
-				if(NORTH)
-					throw_target = get_turf(locate(M.x-10, M.y, M.z))
-				if(SOUTH)
-					throw_target = get_turf(locate(M.x+10, M.y, M.z))
-				if(EAST)
-					throw_target = get_turf(locate(M.x, M.y+10, M.z))
-				if(WEST)
-					throw_target = get_turf(locate(M.x, M.y-10, M.z))
-			if(!throw_target)
-				continue
-			if(iscarbon(M))
-				var/mob/living/carbon/L = M
-				if(HAS_TRAIT(L, TRAIT_SEASICK))
-					to_chat(L, "<span class='warning'>Your head swims as the ship violently turns!</span>")
-					if(prob(40)) //Take a roll! First option makes you puke and feel terrible. Second one makes you feel iffy.
-						L.adjust_disgust(20)
-					else
-						L.adjust_disgust(10)
-			M.throw_at(throw_target, 4, 3)
-			M.Knockdown(2 SECONDS)
+				if(50 to 70)
+					to_chat(M, "<span class='warning'>You feel lightheaded.</span>")
+				if(71 to 89)
+					to_chat(M, "<span class='warning'>Colour starts to drain from your vision. You feel like you're starting to black out....</span>")
+					if(HAS_TRAIT(M, TRAIT_GFORCE_WEAKNESS))
+						M.gravity_crush(3)
+				if(90 to 100) //Blackout. Slow down on the turns there kid!
+					to_chat(M, "<span class='userdanger'>You black out!</span>")
+					M.Sleeping(5 SECONDS)
+					if(HAS_TRAIT(M, TRAIT_GFORCE_WEAKNESS))
+						M.gravity_crush(4)
+		return
+	if(!direction)
+		return
+	for(var/mob/living/M as() in mobs_in_ship)
+		if(M.buckled) //Good for you, you strapped in!
+			continue
+		if(M.mob_negates_gravity()) //Wear magboots and you're good.
+			continue
+		var/atom/throw_target
+		switch(direction) //Assuming that all our ships face east...
+			if(NORTH)
+				throw_target = locate(M.x-10, M.y, M.z)
+			if(SOUTH)
+				throw_target = locate(M.x+10, M.y, M.z)
+			if(EAST)
+				throw_target = locate(M.x, M.y+10, M.z)
+			if(WEST)
+				throw_target = locate(M.x, M.y-10, M.z)
+		if(!throw_target)
+			continue
+		if(iscarbon(M))
+			var/mob/living/carbon/L = M
+			if(HAS_TRAIT(L, TRAIT_SEASICK))
+				to_chat(L, "<span class='warning'>Your head swims as the ship violently turns!</span>")
+				if(prob(40)) //Take a roll! First option makes you puke and feel terrible. Second one makes you feel iffy.
+					L.adjust_disgust(20)
+				else
+					L.adjust_disgust(10)
+		M.throw_at(throw_target, 4, 3)
+		M.Knockdown(2 SECONDS)
 
 /obj/structure/overmap/verb/toggle_brakes()
 	set name = "Toggle Handbrake"
@@ -875,12 +869,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 	if(!verb_check())
 		return
-	to_chat(usr, "<span class='warning'>=Hotkeys=</span>")
-	to_chat(usr, "<span class='notice'>Use the <b>Scroll Wheel</b> to zoom in / out.</span>")
-	to_chat(usr, "<span class='notice'>Use tab to activate hotkey mode, then:</span>")
-	to_chat(usr, "<span class='notice'>Press <b>Space</b> to make the ship follow your mouse (or stop following your mouse).</span>")
-	to_chat(usr, "<span class='notice'>Press <b>Alt<b> to engage handbrake</span>")
-	to_chat(usr, "<span class='notice'>Press <b>Ctrl<b> to cycle fire modes</span>")
+	to_chat(usr, "<span class='warning'>=Hotkeys=</span> \
+				<span class='notice'>Use the <b>Scroll Wheel</b> to zoom in / out. \
+				Use <b>tab</b> to activate hotkey mode, then: \
+				Press <b>Space</b> to make the ship follow your mouse (or stop following your mouse). \
+				Press <b>Alt<b> to engage handbrake. \
+				Press <b>Ctrl<b> to cycle fire modes.")
 
 /obj/structure/overmap/verb/toggle_move_mode()
 	set name = "Change movement mode"
