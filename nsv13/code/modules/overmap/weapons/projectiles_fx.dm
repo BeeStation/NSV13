@@ -95,6 +95,8 @@ Misc projectile types, effects, think of this as the special FX file.
 
 //Delayed priming projectile parent type - useful for a few different kinds of projectiles so why not.
 /obj/item/projectile/bullet/delayed_prime
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "railgun"
 	name = "uh oh this isn't supposed to exist!"
 	range = 255
 	speed = 1.85
