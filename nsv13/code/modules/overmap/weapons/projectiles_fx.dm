@@ -190,35 +190,26 @@ Misc projectile types, effects, think of this as the special FX file.
 	penetration_fuze = 2
 
 /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/fuze_trigger_value(atom/target)
-	message_admins("4")
 	if(isclosedturf(target))
-		message_admins("5")
 		return 1
 	
 	if(isliving(target))	//Someone got bonked by an incendiary torpedo, daamn.
-		message_admins("6")
 		var/mob/living/L = target
 		if(L.mind && L.mind.assigned_role == "Clown")
-			message_admins("7")
 			return (prob(50) ? 2 : -2)	//We all know clowns are cursed.
-		message_admins("8")
 		return 2	
 
-	message_admins("9")
 	return 0
 
 /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/is_valid_to_release(atom/newloc)
 	if(penetration_fuze > 0 || !isopenturf(newloc))
-		message_admins("1")
 		return FALSE
-	message_admins("2")
 	return TRUE
 
 /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/release_payload(atom/detonation_location)
 	var/turf/detonation_turf = detonation_location
 	explosion(detonation_turf, 0, 0, 4, 7, flame_range = 4)
 	detonation_turf.atmos_spawn_air("o2=75;plasma=425;TEMP=1000")
-	message_admins("3")
 
 /obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo
 	icon_state = "torpedo"
