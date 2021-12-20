@@ -18,7 +18,7 @@
 	var/reinforcements = 0						//How many reinforcement fleets NT has at hand
 
 	selection_weight = 5
-	required_players = 15
+	required_players = 10 //Temp down from 15 because I want testing
 	fixed_objectives = list(
 		/datum/overmap_objective/system_defence_armada
 	)
