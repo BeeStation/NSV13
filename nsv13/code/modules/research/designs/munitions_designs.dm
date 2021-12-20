@@ -148,7 +148,7 @@
 
 /datum/design/hellfire_warhead
 	name = "Hellfire Torpedo Warhead"
-	desc = "An incendairy warhead design for torpedos"
+	desc = "An incendiary warhead design for torpedos"
 	id = "hellfire_warhead"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 4000, /datum/material/glass = 1000, /datum/material/copper = 1000, /datum/material/plasma = 7500, /datum/material/gold = 1500, /datum/material/uranium = 5000)

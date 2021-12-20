@@ -60,7 +60,7 @@
 	name = "\improper NTP-6 'HLLF' 600mm Plasma Incendiary Torpedo"
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "incendiary"
-	desc = "A plasma enriched incendairy torpedo, designed for maximum subsystem damage."
+	desc = "A plasma enriched incendiary torpedo, designed for maximum subsystem damage."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/hellfire
 	volatility = 4
 

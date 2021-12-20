@@ -36,6 +36,6 @@
 /obj/item/ship_weapon/parts/missile/warhead/hellfire
 	name = "hellfire torpedo warhead"
 	icon_state = "warhead_nuclear"
-	desc = "An advanced warhead which carries a plasma enriched incendairy device. Torpedoes equipped with these can quickly annihilate targets with extreme prejudice, however they are extremely costly to produce."
+	desc = "An advanced warhead which carries a plasma enriched incendiary device. Torpedoes equipped with these can quickly annihilate targets with extreme prejudice, however they are extremely costly to produce."
 	fits_type = /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
 	build_path = /obj/item/ship_weapon/ammunition/torpedo/hellfire
