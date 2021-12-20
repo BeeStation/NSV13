@@ -146,13 +146,13 @@
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
-/datum/design/nuclear_warhead
-	name = "Nuclear Torpedo Warhead"
-	desc = "A nuclear warhead design for torpedos"
-	id = "nuke_warhead"
+/datum/design/hellfire_warhead
+	name = "Hellfire Torpedo Warhead"
+	desc = "An incendairy warhead design for torpedos"
+	id = "hellfire_warhead"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 4000, /datum/material/glass = 1000, /datum/material/copper = 1000, /datum/material/plasma = 7500, /datum/material/gold = 1500, /datum/material/uranium = 10000)
-	build_path = /obj/item/ship_weapon/parts/missile/warhead/nuclear
+	build_path = /obj/item/ship_weapon/parts/missile/warhead/hellfire
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 

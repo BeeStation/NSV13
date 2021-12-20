@@ -185,32 +185,40 @@ Misc projectile types, effects, think of this as the special FX file.
 #undef DIRTY_SHELL_PELLET_RANGE
 
 /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
-	icon_state = "torpedo"	//For now
+	icon_state = "torpedo_hellfire"
 	name = "incendiary torpedo"
 	penetration_fuze = 2
 
 /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/fuze_trigger_value(atom/target)
+	message_admins("4")
 	if(isclosedturf(target))
+		message_admins("5")
 		return 1
 	
 	if(isliving(target))	//Someone got bonked by an incendiary torpedo, daamn.
+		message_admins("6")
 		var/mob/living/L = target
 		if(L.mind && L.mind.assigned_role == "Clown")
+			message_admins("7")
 			return (prob(50) ? 2 : -2)	//We all know clowns are cursed.
+		message_admins("8")
 		return 2	
 
-
+	message_admins("9")
 	return 0
 
 /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/is_valid_to_release(atom/newloc)
 	if(penetration_fuze > 0 || !isopenturf(newloc))
+		message_admins("1")
 		return FALSE
+	message_admins("2")
 	return TRUE
 
 /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/release_payload(atom/detonation_location)
 	var/turf/detonation_turf = detonation_location
 	explosion(detonation_turf, 0, 0, 4, 7, flame_range = 4)
 	detonation_turf.atmos_spawn_air("o2=75;plasma=425;TEMP=1000")
+	message_admins("3")
 
 /obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo
 	icon_state = "torpedo"
@@ -312,14 +320,6 @@ Misc projectile types, effects, think of this as the special FX file.
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	spread = 5 //Helps them not get insta-bonked when launching
 
-/obj/item/projectile/guided_munition/torpedo/incendiary
-	//icon_state = "???" - alt sprite would be nice
-	name = "incendiary torpedo"
-	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
-	damage = 125
-	obj_integrity = 35
-	max_integrity = 35
-
 /obj/item/projectile/guided_munition/torpedo/viscerator
 	//icon_state = "???"	- alt sprite would be nice
 	name = "armoured torpedo"
@@ -341,14 +341,15 @@ Misc projectile types, effects, think of this as the special FX file.
 	obj_integrity = 200
 	max_integrity = 200
 
-/obj/item/projectile/guided_munition/torpedo/nuclear
-	icon_state = "torpedo_nuke"
-	name = "thermonuclear missile"
-	damage = 450
+/obj/item/projectile/guided_munition/torpedo/hellfire
+	icon_state = "torpedo_hellfire"
+	name = "hellfire missile"
+	damage = 350
 	obj_integrity = 25
 	max_integrity = 25
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
 
 /obj/item/projectile/guided_munition/torpedo/disruptor
 	icon_state = "torpedo_disruptor"
@@ -448,6 +449,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	empulse(get_turf(target), 5, 12)	//annoying emp.
 	explosion(target, 0, 2, 6, 4)	//but only a light explosion.
 
+/* Sleep for now, we'll see you again
 /obj/item/projectile/guided_munition/torpedo/nuclear/detonate(atom/target)
 	var/obj/structure/overmap/OM = target.get_overmap() //What if I just..........
 	if ( OM?.essential )
@@ -456,6 +458,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	explosion(target, 3, 6, 8)
 
 	return BULLET_ACT_HIT
+*/
 
 /obj/item/projectile/bullet/pdc_round
 	icon_state = "pdc"

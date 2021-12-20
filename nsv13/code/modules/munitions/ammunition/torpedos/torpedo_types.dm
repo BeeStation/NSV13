@@ -56,6 +56,15 @@
 	desc = "A simple electronic countermeasure packed inside a standard torpedo casing. This model excels at diverting enemy PDC emplacements away from friendly ships, or even another barrage of missiles."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/decoy
 
+/obj/item/ship_weapon/ammunition/torpedo/hellfire
+	name = "\improper NTP-6 'HLLF' 600mm Plasma Incendiary Torpedo"
+	icon = 'nsv13/icons/obj/munition_types.dmi'
+	icon_state = "incendiary"
+	desc = "A plasma enriched incendairy torpedo, designed for maximum subsystem damage."
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/hellfire
+	volatility = 4
+
+/* Retired for the moment, this will return in a new flavour
 //The alpha torpedo
 /obj/item/ship_weapon/ammunition/torpedo/nuke
 	name = "\improper NTNK 'Oncoming Storm' 700mm thermonuclear warhead"
@@ -64,17 +73,19 @@
 	desc = "The NTX-class IV nuclear torpedo carries a fissionable payload which is capable of inflicting catastrophic damage against enemy ships, stations or dense population centers. These weapons are utterly without mercy and will annihilate indiscriminately, use with EXTREME caution."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/nuclear
 	volatility = 5
-/obj/item/ship_weapon/ammunition/torpedo/nuke/antonio
+*/
+
+/obj/item/ship_weapon/ammunition/torpedo/hellfire/antonio
 	name = "Antonio"
 
-/obj/item/ship_weapon/ammunition/torpedo/nuke/antonio/examine(mob/user)
+/obj/item/ship_weapon/ammunition/torpedo/hellfire/antonio/examine(mob/user)
 	.=..()
 	. += "<span class='notice'> This is Antonio, the MAA's loyal companion.</span>"
 
-/obj/item/ship_weapon/ammunition/torpedo/nuke/fabio
+/obj/item/ship_weapon/ammunition/torpedo/hellfire/fabio
 	name = "Fabio"
 
-/obj/item/ship_weapon/ammunition/torpedo/nuke/fabio/examine(mob/user)
+/obj/item/ship_weapon/ammunition/torpedo/hellfire/fabio/examine(mob/user)
 	.=..()
 	. += "<span class='notice'> This is Fabio, Antonio's Evil Brother.</span>"
 
