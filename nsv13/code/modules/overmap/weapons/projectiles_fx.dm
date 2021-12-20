@@ -337,7 +337,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/torpedo/hellfire
 	icon_state = "torpedo_hellfire"
 	name = "hellfire missile"
-	damage = 350
+	damage = 400
 	obj_integrity = 25
 	max_integrity = 25
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
