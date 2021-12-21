@@ -83,14 +83,16 @@ GLOBAL_LIST_EMPTY(turbolifts)
 	if(locked)
 		return
 	locked = TRUE
-	wires.ui_update()
+	if(wires)
+		wires.ui_update()
 	update_icon()
 
 /obj/machinery/door/airlock/turbolift/unbolt()
 	if(!locked)
 		return
 	locked = FALSE
-	wires.ui_update()
+	if(wires)
+		wires.ui_update()
 	update_icon()
 
 /obj/machinery/door/airlock/turbolift/Initialize()

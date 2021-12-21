@@ -131,8 +131,11 @@
 
 /////////////////////////GAS OVERLAYS//////////////////////////////
 
+//NSV13change - moves this proc up to /turf due to auxmos sometimes calling it on closed turfs and runtiming.
+/turf/proc/update_visuals()
+	return	//Avoid issues from closed turfs getting turf visuals updated (?? why is it even doing that)
 
-/turf/open/proc/update_visuals()
+/turf/open/update_visuals()
 
 	var/list/atmos_overlay_types = src.atmos_overlay_types // Cache for free performance
 	var/list/new_overlay_types = list()
@@ -255,6 +258,11 @@
 	var/max_force = sqrt(pressure_difference)*(MOVE_FORCE_DEFAULT / 5)
 	set waitfor = 0
 	var/move_prob = 100
+	//NSV13change - depressurzation does not drag things upwards - caused infinite loops with objects being sucked out, then falling through openspace.
+	if(direction == UP)
+		last_high_pressure_movement_air_cycle = SSair.times_fired
+		return //By all that is holy STOP deathlooping tiles.
+	//NSV13change end.
 	if (pressure_resistance > 0)
 		move_prob = (pressure_difference/pressure_resistance*PROBABILITY_BASE_PRECENT)-PROBABILITY_OFFSET
 	move_prob += pressure_resistance_prob_delta
