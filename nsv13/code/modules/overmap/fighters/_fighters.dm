@@ -1698,18 +1698,20 @@ Utility modules can be either one of these types, just ensure you set its slot t
 			continue
 
 /obj/structure/overmap/fighter/proc/update_visuals()
-	if(!canopy) //canopy overlay, should always exist
+	if(canopy)
+		cut_overlay(canopy)
+	else
 		canopy = mutable_appearance(icon = icon, icon_state = "canopy_missing")
-		add_overlay(canopy)
 	var/obj/item/fighter_component/canopy/C = loadout?.get_slot(HARDPOINT_SLOT_CANOPY)
 	if(QDELETED(C))
 		canopy.icon_state = "canopy_missing"
-		return
-	if(C.obj_integrity <= 20)
+	else if(C.obj_integrity <= 20)
 		canopy.icon_state = "canopy_breach"
-		return
-	if(canopy_open)
+	else if(canopy_open)
 		canopy.icon_state = "canopy_open"
+	else
+		return
+	add_overlay(canopy)
 
 /obj/structure/overmap/fighter/slowprocess()
 	..()
