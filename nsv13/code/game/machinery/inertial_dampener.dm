@@ -125,6 +125,7 @@ GLOBAL_LIST_EMPTY(inertia_dampeners)
 	if(!ui)
 		ui = new(user, src, "InertialDampener")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/emergency_shuttle/ui_state(mob/user)
 	return GLOB.default_state

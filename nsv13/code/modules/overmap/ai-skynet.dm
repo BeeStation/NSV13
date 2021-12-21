@@ -257,7 +257,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/proc/defeat()
 	var/datum/star_system/player_system = SSstar_system.find_main_overmap().current_system
 	var/datum/star_system/mining_system = SSstar_system.find_main_miner()?.current_system
-	var/message = "\a [name] has been defeated [(current_system && !current_system.hidden) ? "during combat in the [current_system.name] system" : "in battle"]."
+	var/message = "\A [name] has been defeated [(current_system && !current_system.hidden) ? "during combat in the [current_system.name] system" : "in battle"]."
 	if(alignment == "nanotrasen" || current_system == player_system || current_system == mining_system)
 		minor_announce(message, "White Rapids Fleet Command")
 	else
@@ -1348,15 +1348,23 @@ Seek a ship thich we'll station ourselves around
 	else
 		return 0 //Default back to the "hunt down ships" behaviour.
 
+/datum/ai_goal/stationary
+	name = "Remain in place and defend against attackers"
+	required_ai_flags = AI_FLAG_STATIONARY
+	score = AI_SCORE_MAXIMUM + 1	//Stations do nothing else. Maximum++ to avoid conflict with Seek and Destroy.
+
+/datum/ai_goal/stationary/action(obj/structure/overmap/OM)
+	..()
+	if(!OM.last_target)
+		OM.seek_new_target()
+	OM.brakes = TRUE
+	
+
 /obj/structure/overmap/proc/choose_goal()
 	//Populate the list of valid goals, if we don't already have them
 	if(!GLOB.ai_goals.len)
-		for(var/x in subtypesof(/datum/ai_goal))
-			//I'll fix this jank later
+		for(var/x in (subtypesof(/datum/ai_goal) - typesof(/datum/ai_goal/human)))
 			var/datum/ai_goal/newGoal = new x
-			if(istype(newGoal, /datum/ai_goal/human))
-				newGoal = null
-				continue
 			GLOB.ai_goals += newGoal
 	var/best_score = 0
 	var/datum/ai_goal/chosen = null
@@ -1846,7 +1854,7 @@ Seek a ship thich we'll station ourselves around
 		if(fleet)
 			fleet.start_reporting(ship, src)
 		return TRUE
-	if(!last_target && length(fleet.shared_targets))
+	if(!last_target && length(fleet?.shared_targets))
 		last_target = pick(fleet.shared_targets)
 		add_enemy(last_target)
 		return TRUE
@@ -1880,6 +1888,7 @@ Seek a ship thich we'll station ourselves around
 	if(!ui)
 		ui = new(user, src, "SystemManager")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /datum/starsystem_manager/ui_data(mob/user)
 	var/list/data = list()

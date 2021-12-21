@@ -65,6 +65,7 @@
 
 //When adding new types, update the list below!
 #define TECHWEB_POINT_TYPE_GENERIC "General Research"
+#define TECHWEB_POINT_TYPE_DISCOVERY "Discovery Research"
 #define TECHWEB_POINT_TYPE_NANITES "Nanite Research"
 
 #define TECHWEB_POINT_TYPE_WORMHOLE "Wormhole Research"
@@ -74,6 +75,7 @@
 //defined here so people don't forget to change this! -Nsv13 Changed this to add wormhole research
 #define TECHWEB_POINT_TYPE_LIST_ASSOCIATIVE_NAMES list(\
 	TECHWEB_POINT_TYPE_GENERIC = "General Research",\
+	TECHWEB_POINT_TYPE_DISCOVERY = "Discovery Research",\
 	TECHWEB_POINT_TYPE_NANITES = "Nanite Research",\
 	TECHWEB_POINT_TYPE_WORMHOLE = "Wormhole Research"\
 	)
