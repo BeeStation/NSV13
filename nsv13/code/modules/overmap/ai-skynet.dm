@@ -1348,15 +1348,23 @@ Seek a ship thich we'll station ourselves around
 	else
 		return 0 //Default back to the "hunt down ships" behaviour.
 
+/datum/ai_goal/stationary
+	name = "Remain in place and defend against attackers"
+	required_ai_flags = AI_FLAG_STATIONARY
+	score = AI_SCORE_MAXIMUM + 1	//Stations do nothing else. Maximum++ to avoid conflict with Seek and Destroy.
+
+/datum/ai_goal/stationary/action(obj/structure/overmap/OM)
+	..()
+	if(!OM.last_target)
+		OM.seek_new_target()
+	OM.brakes = TRUE
+	
+
 /obj/structure/overmap/proc/choose_goal()
 	//Populate the list of valid goals, if we don't already have them
 	if(!GLOB.ai_goals.len)
-		for(var/x in subtypesof(/datum/ai_goal))
-			//I'll fix this jank later
+		for(var/x in (subtypesof(/datum/ai_goal) - typesof(/datum/ai_goal/human)))
 			var/datum/ai_goal/newGoal = new x
-			if(istype(newGoal, /datum/ai_goal/human))
-				newGoal = null
-				continue
 			GLOB.ai_goals += newGoal
 	var/best_score = 0
 	var/datum/ai_goal/chosen = null
