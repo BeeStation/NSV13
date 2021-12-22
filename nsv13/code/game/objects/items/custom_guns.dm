@@ -124,3 +124,22 @@
 	full_auto = TRUE
 	pixel_x = -4
 	pin = /obj/item/firing_pin/boarding
+/obj/item/gun/ballistic/shotgun/automatic/pistol
+	name = "\improper Solir 4 revolver hybrid"
+	desc = "A retro high-powered shotgun revolver typically used by high ranking officials. Uses shells."
+	icon_state = "shotgunpistol"
+	weapon_weight = WEIGHT_CLASS_NORMAL
+	rack_sound = 'sound/weapons/revolverdry.ogg'
+	bolt_type = BOLT_TYPE_NO_BOLT
+	semi_auto = TRUE
+	fire_rate = 1.5
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/com
+	pin = /obj/item/firing_pin/implant/pindicate
+
+/obj/item/ammo_box/shotgun_lethal
+	name = "speed loader (buckshot)"
+	desc = "Designed to quickly reload shell-based revolvers."
+	icon_state = "shotlethal"
+	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
+	max_ammo = 6
+	multiple_sprites = 1

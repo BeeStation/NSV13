@@ -30,5 +30,3 @@
 		if(!isnewplayer(M) && M.can_hear())
 			var/complete_msg = "<meta charset='UTF-8'><h3>[from]</h3><span class='danger'>[message]</span><BR>"
 			to_chat(M, complete_msg)
-			if(M.client.prefs.toggles & SOUND_ANNOUNCEMENTS)
-				SEND_SOUND(M, sound('sound/misc/notice2.ogg'))

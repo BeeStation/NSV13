@@ -431,17 +431,12 @@
 			addtimer(CALLBACK(L, /atom/proc/cut_overlay, forbearance), 100)
 
 			if(istype(anti_magic_source, /obj/item))
-				var/obj/item/ams_object = anti_magic_source
-				target.visible_message("<span class='warning'>[L] starts to glow in a halo of light!</span>", \
-									   "<span class='userdanger'>Your [ams_object.name] begins to glow, emitting a blanket of holy light which surrounds you and protects you from the flash of light!</span>")
-			else
-				target.visible_message("<span class='warning'>[L] starts to glow in a halo of light!</span>", \
-									   "<span class='userdanger'>A feeling of warmth washes over you, rays of holy light surround your body and protect you from the flash of light!</span>")
-
-		else
-			to_chat(user, "<span class='cultitalic'>In a brilliant flash of red, [L] falls to the ground!</span>")
-			L.Paralyze(16 SECONDS)
-			L.flash_act(1,TRUE)
+				target.visible_message("<span class='warning'>[L] is utterly unphased by your utterance!</span>", \
+									   "<span class='userdanger'>[GLOB.deity] protects you from the heresy of [user]!</span>")
+		else if(!HAS_TRAIT(target, TRAIT_MINDSHIELD) && !istype(L.get_item_by_slot(ITEM_SLOT_HEAD), /obj/item/clothing/head/foilhat))
+			to_chat(user, "<span class='cultitalic'>[L] falls to the ground, gibbering madly!</span>")
+			L.Paralyze(160)
+			L.flash_act(1,1)
 			if(issilicon(target))
 				var/mob/living/silicon/S = L
 				S.emp_act(EMP_HEAVY)
@@ -804,7 +799,7 @@
 					var/turf/T = get_turf(user)
 					qdel(src)
 					var/datum/action/innate/cult/spear/S = new(user)
-					var/obj/item/twohanded/cult_spear/rite = new(T)
+					var/obj/item/cult_spear/rite = new(T)
 					S.Grant(user, rite)
 					rite.spear_act = S
 					if(user.put_in_hands(rite))

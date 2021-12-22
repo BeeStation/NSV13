@@ -338,3 +338,42 @@
 	miss_chance = 33
 	max_miss_distance = 8
 	ai_fire_delay = 0.5 SECONDS
+	
+
+//AI exclusive weaponry
+
+/datum/ship_weapon/twinmac
+	name = "Twin MAC" //Currently only used by the Fist of Sol
+	default_projectile_type = /obj/item/projectile/bullet/mac_round
+	burst_size = 2
+	fire_delay = 3 SECONDS
+	range_modifier = 65
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/battleship_gun2.ogg')
+	overmap_select_sound = 'nsv13/sound/effects/ship/mac_ready.ogg'
+	ai_fire_delay = 3 SECONDS
+	
+/datum/ship_weapon/quadgauss
+	name = "Quad Gauss"
+	default_projectile_type = /obj/item/projectile/bullet/gauss_slug
+	burst_size = 4
+	fire_delay = 0.5 SECONDS
+	range_modifier = 25
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
+	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
+	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
+	miss_chance = 15
+	ai_fire_delay = 0.5 SECONDS
+	
+/datum/ship_weapon/hailstorm
+	name = "Hailstorm System"
+	default_projectile_type = /obj/item/projectile/bullet/hailstorm_bullet
+	burst_size = 80
+	fire_delay = 20 SECONDS
+	range_modifier = 40
+	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
+	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
+	weapon_class = WEAPON_CLASS_LIGHT
+	ai_fire_delay = 20 SECONDS
+	
+	
+	
