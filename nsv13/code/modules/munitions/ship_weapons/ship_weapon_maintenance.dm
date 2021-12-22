@@ -1,6 +1,3 @@
-#define MSTATE_CLOSED 0
-#define MSTATE_UNSCREWED 1
-#define MSTATE_UNBOLTED 2
 // #define MSTATE_PRIEDOUT 3 // BEGONE
 
 /**
@@ -143,7 +140,7 @@
 		else if(I.reagents.has_reagent(/datum/reagent/oil))
 			to_chat(user, "<span class='notice'>You need at least 10 units of oil to lubricate [src]!</span>")
 			return
-		else if(!I.reagents.has_reagent(/datum/reagent/oil))
+		else
 			visible_message("<span class=warning>Warning: Contaminants detected, flushing systems.</span>")
 			new /obj/effect/decal/cleanable/oil(user.loc)
 			I.reagents.trans_to(src, 10)
@@ -161,10 +158,3 @@
 			add_overlay("[initial(icon_state)]_wrench")
 		// if(MSTATE_PRIEDOUT)
 		// 	add_overlay("[initial(icon_state)]_crowbar")
-
-#undef MSTATE_CLOSED
-#undef MSTATE_UNSCREWED
-#undef MSTATE_UNBOLTED
-// #undef MSTATE_PRIEDOUT
-
-#undef STATE_CHAMBERED
