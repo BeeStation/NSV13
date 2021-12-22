@@ -386,12 +386,12 @@ SUBSYSTEM_DEF(explosions)
 		var/max_z_range = max(devastation_range, heavy_impact_range, light_impact_range, flash_range, flame_range) / (MULTI_Z_DISTANCE + 1)
 		var/list/z_list = get_zs_in_range(epicenter.z, max_z_range)
 		//Dont blow up our level again
-		//NSV13 change begin - fixes multiz explosion runtimes and maybe even issues.
+		//NSV13 begin - fixes multiz explosion runtimes and maybe even issues.
 		z_list -= epicenter	
 		for(var/turf/affecting_z in z_list)
 			var/z_reduction = abs(epicenter.z - affecting_z.z) * (MULTI_Z_DISTANCE + 1)
 			var/turf/T = locate(epicenter.x, epicenter.y, affecting_z.z)	
-			//NSV13change end.
+			//NSV13 end.
 			if(!T)
 				continue
 			SSexplosions.explode(T,

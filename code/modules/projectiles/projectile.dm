@@ -628,12 +628,12 @@
 		var/mob/M = firer
 		if((target == firer) || ((target == firer.loc) && ismecha(firer.loc)) || (target in firer?.buckled_mobs) || (istype(M) && (M.buckled == target)))
 			return FALSE
-	//NSV13 change - projectiles invalid if same faction
+	//NSV13 - projectiles invalid if same faction
 	if(isprojectile(target))
 		var/obj/item/projectile/P = target
 		if(P.faction == faction)
 			return FALSE
-	//NSV13 change end.
+	//NSV13 end.
 	if(!ignore_loc && (loc != target.loc))
 		return FALSE
 	if(target in passthrough)

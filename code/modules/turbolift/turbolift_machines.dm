@@ -83,20 +83,14 @@ GLOBAL_LIST_EMPTY(turbolifts)
 	if(locked)
 		return
 	locked = TRUE
-	//NSV13change - prevents a rare runtime pre-wire-init.
-	if(wires)
-		wires.ui_update()
-	//NSV13change end.
+	wires?.ui_update() //NSV13 - prevents a rare runtime pre-wire-init.
 	update_icon()
 
 /obj/machinery/door/airlock/turbolift/unbolt()
 	if(!locked)
 		return
 	locked = FALSE
-	//NSV13change - prevents a rare runtime pre-wire-init.
-	if(wires)
-		wires.ui_update()
-	//NSV13change end.
+	wires?.ui_update() //NSV13 - prevents a rare runtime pre-wire-init.
 	update_icon()
 
 /obj/machinery/door/airlock/turbolift/Initialize()

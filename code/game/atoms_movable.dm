@@ -105,17 +105,13 @@
 	return !(movement_type & FLYING) && has_gravity(src) && !throwing
 
 /atom/movable/proc/onZImpact(turf/T, levels)
-	if(QDELETED(src))	//NSV13change - (if unlikely) safety
-		return	//I hate this
 	var/atom/highest = null
 	for(var/i in T.contents)
 		var/atom/A = i
-		if(QDELETED(A)) //NSV13change - (if unlikely) safety
-			continue
 		if(!A.density)
 			continue
 		if(isobj(A) || ismob(A))
-			if(!highest || A.layer > highest.layer)	//NSV13change - always runtimed.
+			if(!highest || A.layer > highest.layer)	//NSV13 - always runtimed, adds check for !highest to counteract.
 				highest = A
 	INVOKE_ASYNC(src, .proc/SpinAnimation, 5, 2)
 	if(highest) // Collide with the topmost thing on the turf

@@ -251,7 +251,7 @@ DEFINE_BITFIELD(vis_flags, list(
 	"VIS_UNDERLAY" = VIS_UNDERLAY,
 ))
 
-//NSV13 change - Adds AI behavior bitflags
+//NSV13 - Adds AI behavior bitflags
 DEFINE_BITFIELD(ai_flags, list(
 	"AI_FLAG_SUPPLY" = AI_FLAG_SUPPLY,
 	"AI_FLAG_BATTLESHIP" = AI_FLAG_BATTLESHIP,
@@ -295,4 +295,4 @@ DEFINE_BITFIELD(knpc_traits, list(
 	"KNPC_IS_AREA_SPECIFIC" = KNPC_IS_AREA_SPECIFIC,
 	"KNPC_IS_DOOR_BASHER" = KNPC_IS_DOOR_BASHER,
 	"KNPC_IS_DOOR_HACKER" = KNPC_IS_DOOR_HACKER,
-)) //NSV13 change end.
+)) //NSV13 end.
