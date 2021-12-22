@@ -22,6 +22,7 @@
 
 //For training purposes.
 /obj/structure/overmap/proc/simulate_nuke()
+	set waitfor = FALSE
 	relay('nsv13/sound/effects/ship/incoming_missile.ogg', message="<h1>Missile Impact Imminent</h1><br/><span class='danger'>Thermonuclear launch detected. All hands brace for impact.</span>")
 	sleep(5 SECONDS) //This is a sin, but it won't be used much.
 	var/turf/open/pickedstart = get_turf(pick(orange(10, src)))

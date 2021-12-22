@@ -81,9 +81,9 @@
 /obj/structure/overmap/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover, /obj/item/projectile/beam/overmap/aiming_beam))
 		var/obj/item/projectile/beam/overmap/aiming_beam/AB = mover
-		if (src == AB.gun)
+		if(src == AB.gun)
 			return TRUE
-	. = ..()
+	return ..()
 
 
 /obj/item/projectile/beam/overmap/aiming_beam

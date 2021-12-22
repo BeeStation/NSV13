@@ -1,9 +1,3 @@
-#define STATE_NOTLOADED 1
-#define STATE_LOADED 2
-#define STATE_FED 3
-#define STATE_CHAMBERED 4
-#define STATE_FIRING 5
-
 //Standard munitions console
 /obj/machinery/computer/ship/munitions_computer
 	name = "munitions control computer"
@@ -56,8 +50,7 @@
 
 /obj/machinery/computer/ship/munitions_computer/Destroy()
 	. = ..()
-	if(SW)
-		SW.linked_computer = null
+	SW?.linked_computer = null
 
 /obj/machinery/computer/ship/munitions_computer/multitool_act(mob/user, obj/item/tool)
 	// Using a multitool lets you link stuff
@@ -72,10 +65,11 @@
 		ui.set_autoupdate(TRUE) // Loading delay, weapon getting fired
 
 /obj/machinery/computer/ship/munitions_computer/ui_act(action, params, datum/tgui/ui)
+	set waitfor = FALSE // Almost everything in here calls procs with sleeps in them
 	if(..())
 		return
 	var/obj/item/multitool/tool = get_multitool(ui.user)
-	playsound(src.loc,'nsv13/sound/effects/fighters/switch.ogg', 50, FALSE)
+	playsound(src,'nsv13/sound/effects/fighters/switch.ogg', 50, FALSE)
 	switch(action)
 		if("toggle_load")
 			if(SW.state == STATE_LOADED)
@@ -83,7 +77,10 @@
 			else
 				SW.unload()
 		if("chamber")
-			SW.chamber()
+			if(SW.state == STATE_CHAMBERING)
+				to_chat(usr, "<span class='warning'>\The [SW] is already [SW.chambered ? "unchambering" : "chambering"].</span>")
+			else
+				SW.chamber()
 		if("toggle_safety")
 			SW.toggle_safety()
 		//Sudo mode.
@@ -109,15 +106,26 @@
 	data["sudo_mode"] = (tool != null || SW == null) ? TRUE : FALSE //Hold a multitool to enter sudo mode and modify linkages.
 	data["tool_buffer"] = (tool && tool.buffer != null) ? TRUE : FALSE
 	data["tool_buffer_name"] = (tool && tool.buffer) ? tool.buffer.name : "/dev/null"
-	data["has_linked_gun"] =  (SW) ? TRUE : FALSE
-	data["linked_gun"] =  (SW && SW.name) ? SW.name : "NO WEAPON LINKED"
-	data["loaded"] = (SW && SW.state > STATE_LOADED) ? TRUE : FALSE
-	data["chambered"] = (SW && SW.state > STATE_FED) ? TRUE : FALSE
-	data["safety"] = (SW) ? SW.safety : FALSE
-	data["ammo"] = (SW) ? SW.ammo.len : 0
-	data["max_ammo"] = (SW) ? SW.max_ammo : 0
-	data["maint_req"] = (SW && SW.maintainable) ? SW.maint_req : 25
-	data["max_maint_req"] = (SW) ? 25 : 0
+	if(SW) // messy, but it saves us from checking if it exists every data entry, or redefining them
+		data["has_linked_gun"] = TRUE
+		data["linked_gun"] = SW.name
+		data["loaded"] = SW.state > STATE_LOADED
+		data["chambered"] = SW.state > STATE_CHAMBERING
+		data["safety"] = SW.safety
+		data["ammo"] = length(SW.ammo)
+		data["max_ammo"] = SW.max_ammo
+		data["maint_req"] = SW.maintainable ? SW.maint_req : 25
+		data["max_maint_req"] = 25
+	else
+		data["has_linked_gun"] = FALSE
+		data["linked_gun"] = "NO WEAPON LINKED"
+		data["loaded"] = FALSE
+		data["chambered"] = FALSE
+		data["safety"] = FALSE
+		data["ammo"] = 0
+		data["max_ammo"] = 0
+		data["maint_req"] = 25
+		data["max_maint_req"] = 0
 	data["pdc_mode"] = FALSE //Gauss overrides this behaviour.
 	return data
 
@@ -143,10 +151,11 @@
 
 /obj/machinery/computer/ship/ordnance/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "OrdnanceConsole")
-		ui.open()
-		ui.set_autoupdate(TRUE) // Ammo updates
+	if(ui)
+		return
+	ui = new(user, src, "OrdnanceConsole")
+	ui.open()
+	ui.set_autoupdate(TRUE) // Ammo updates
 
 /obj/machinery/computer/ship/ordnance/ui_data(mob/user)
 	. = ..()
@@ -162,9 +171,3 @@
 			ammo += SW.get_ammo()
 		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo))
 	return data
-
-#undef STATE_NOTLOADED
-#undef STATE_LOADED
-#undef STATE_FED
-#undef STATE_CHAMBERED
-#undef STATE_FIRING
