@@ -277,7 +277,7 @@
 
 //Trader exclusive specialty fighters
 /obj/structure/overmap/fighter/light/judgement
-	name = "Executive Fighter"
+	name = "executive fighter"
 	icon_state = "judgement"
 	components = list(/obj/item/fighter_component/fuel_tank/tier2,
 						/obj/item/fighter_component/avionics,

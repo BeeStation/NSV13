@@ -57,20 +57,20 @@
 	var/obj/structure/overmap/OM = src
 	var/turf/LZ = null
 	//If you wanna specify WHERE cargo is dropped. Otherwise we guess.
-	if(!trader_beacons || !trader_beacons.len)
+	if(!length(trader_beacons))
 		if(OM.role == MAIN_OVERMAP)
 			landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 
 		if ( !landingzone ) // Main overmap may or may not have a warehouse
 			if(!OM.linked_areas.len)
 				OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
-				if(OM?.linked_areas && OM?.linked_areas.len)
+				if(length(OM?.linked_areas))
 					goto foundareas
 				return FALSE
 			foundareas:
 			landingzone = pick(OM.linked_areas)
 		var/list/empty_turfs = list()
-		for(var/turf/open/floor/T in landingzone.contents)//uses default landing zone
+		for(var/turf/open/floor/T in landingzone)//uses default landing zone
 			if(is_blocked_turf(T))
 				continue
 			if(empty_turfs.len >= 10)
@@ -81,10 +81,10 @@
 			LZ = pick(empty_turfs)
 	else
 		LZ = get_turf(pick(trader_beacons))
-	if(dradis && dradis.beacon && !QDELETED(dradis.beacon) && dradis.usingBeacon)
+	if(dradis && !QDELETED(dradis.beacon) && dradis.usingBeacon)
 		LZ = get_turf(dradis.beacon)
 	if(!LZ)
-		LZ = pick(landingzone.contents) //If we couldn't find an open floor, just throw it somewhere
+		LZ = pick(landingzone) //If we couldn't find an open floor, just throw it somewhere
 
 	// Knowing who the deliveryman is tells us what kind of pod to send
 	var/obj/structure/closet/supplypod/toLaunch

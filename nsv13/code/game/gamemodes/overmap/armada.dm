@@ -83,7 +83,7 @@
 	F.assemble(target)
 
 /datum/overmap_gamemode/armada/proc/reinforce()
-	reinforcements -- //Deduct one from the pool
+	reinforcements-- //Deduct one from the pool
 	var/datum/star_system/target = SSstar_system.system_by_id(selected_system)
 	var/datum/fleet/F = new /datum/fleet/nanotrasen/light() //You expected more?
 	target.fleets += F
