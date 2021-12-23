@@ -277,12 +277,22 @@
 				return
 			ftl.active = !ftl.active
 			OM.relay('nsv13/sound/effects/fighters/switch.ogg')
-		if("show_starmap")
-			if(!OM.starmap)
+		if("return_jump")
+			var/obj/item/fighter_component/ftl/ftl = OM.loadout.get_slot(HARDPOINT_SLOT_FTL)
+			if(!ftl)
 				return
-			if(!OM.starmap.linked)
-				OM.starmap.linked = OM
-			OM.starmap.ui_interact(usr)
+			if(ftl.ftl_state != 3)
+				to_chat(usr, "<span class='warning'>Unable to comply. FTL vector calculation still in progress.</span>")
+				return
+			var/obj/structure/overmap/mothership = SSstar_system.find_main_overmap()
+			if(!mothership)
+				to_chat(usr, "<span class='warning'>Unable to comply. FTL tether lost.</span>")
+				return
+			var/datum/star_system/dest = SSstar_system.ships[mothership]["current_system"]
+			if(!dest)
+				to_chat(usr, "<span class='warning'>Unable to comply. Target beacon is currently in FTL transit.</span>")
+				return
+			ftl.jump(dest)
 			return
 
 

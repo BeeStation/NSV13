@@ -218,6 +218,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	return data
 
 /obj/structure/overmap/fighter/ui_act(action, params, datum/tgui/ui)
+	message_admins("Action was [action]")
 	if(..() || ((usr != pilot) && (!IsAdminGhost(usr))))
 		return
 	if(disruption && prob(min(95, disruption)))
@@ -334,14 +335,23 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			ftl.active = !ftl.active
 			relay('nsv13/sound/effects/fighters/switch.ogg')
-		if("show_starmap")
-			if(!starmap)
+		if("return_jump")
+			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
+			if(!ftl)
 				return
-			if(!starmap.linked)
-				starmap.linked = src
-			starmap.ui_interact(usr)
+			if(ftl.ftl_state != FTL_STATE_READY)
+				to_chat(usr, "<span class='warning'>Unable to comply. FTL vector calculation still in progress.</span>")
+				return
+			var/obj/structure/overmap/mothership = SSstar_system.find_main_overmap()
+			if(!mothership)
+				to_chat(usr, "<span class='warning'>Unable to comply. FTL tether lost.</span>")
+				return
+			var/datum/star_system/dest = SSstar_system.ships[mothership]["current_system"]
+			if(!dest)
+				to_chat(usr, "<span class='warning'>Unable to comply. Target beacon is currently in FTL transit.</span>")
+				return
+			ftl.jump(dest)
 			return
-
 
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 
