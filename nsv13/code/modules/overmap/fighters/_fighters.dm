@@ -546,7 +546,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	SEND_SOUND(M, sound(null))
 	mobs_in_ship -= M
 	M.forceMove(get_turf(src))
-	return ..()
+	return TRUE
 
 /obj/structure/overmap/fighter/escapepod/eject(mob/living/M, force=FALSE)
 	. = ..()
