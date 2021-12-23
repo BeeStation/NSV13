@@ -431,7 +431,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	return ..()
 
 /obj/structure/overmap/Destroy()
-	if(CHECK_BITFIELD(deletion_behavior, NEVER_DELETE_OCCUPIED) && has_occupants())
+	if(block_deletion || (CHECK_BITFIELD(deletion_behavior, NEVER_DELETE_OCCUPIED) && has_occupants()))
 		return QDEL_HINT_LETMELIVE
 
 	GLOB.poi_list -= src

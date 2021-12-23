@@ -90,7 +90,7 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 #define INTERIOR_DELETING 3
 #define INTERIOR_DELETED 4
 
-//Overmap deletion behavior - Occupants are defined as mobs connected to a client.
+//Overmap deletion behavior - Occupants are defined as non-simple mobs.
 #define DAMAGE_ALWAYS_DELETES 		0 // Not a real bitflag, just here for readability. If no damage flags are set, damage will delete the overmap immediately regardless of anyone in it
 #define DAMAGE_STARTS_COUNTDOWN		1 << 0 // When the overmap takes enough damage to be destroyed, begin a countdown after which it will be deleted
 #define DAMAGE_DELETES_UNOCCUPIED	1 << 1 // When the overmap takes enough damage to be destroyed, if there are no occupants, delete it immediately. Modifies DAMAGE_STARTS_COUNTDOWN
