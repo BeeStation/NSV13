@@ -51,6 +51,7 @@
 /datum/overmap_objective/board_ship/check_completion()
 	if (target_ship.faction == SSovermap_mode.mode.starting_faction)
 		status = 1
+		target_ship.block_deletion = FALSE
 		UnregisterSignal(target_ship, COMSIG_SHIP_BOARDED)
 		UnregisterSignal(target_ship, COMSIG_SHIP_RELEASE_BOARDING)
 
