@@ -2,74 +2,17 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 
 //Credit to floyd for the backbone of this code
 
-/datum/techweb_node/mineral_nonferrous
-	id = "mineral_nonferrous"
-	display_name = "Polytrinic asteroid mining equipment"
-	description = "Upgrades for the mining ship's asteroid arrestor and dradis console, allowing it to detect and lock on to more specific mineral compositions in asteroid cores."
-	prereq_ids = list("base")
-	design_ids = list("deepcore1", "asteroidscanner")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 7500)
-	export_price = 5000
-
-/datum/techweb_node/mineral_exotic
-	id = "mineral_exotic"
-	display_name = "Phasic asteroid mining equipment"
-	description = "Advanced arrestor and dradis console upgrade for the mining ship, allowing it to handle any asteroid with a mineral composition at it's core."
-	prereq_ids = list("mineral_nonferrous")
-	design_ids = list("deepcore2", "asteroidscanner2")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 12500)
-	export_price = 5000
-
-/datum/design/deepcore1
-	name = "Polytrinic non magnetic asteroid arrestor upgrade"
-	desc = "An upgrade module for the mining ship's asteroid arrestor, allowing it to lock on to asteroids containing valuable non ferrous metals such as gold, silver, copper and plasma"
-	id = "deepcore1"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 25000,/datum/material/titanium = 25000, /datum/material/silver = 5000)
-	build_path = /obj/item/deepcore_upgrade
-	category = list("Asteroid Mining")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
-
-/datum/design/deepcore2
-	name = "Phasic asteroid arrestor upgrade"
-	desc = "An upgrade module for the mining ship's asteroid arrestor, allowing it to lock on to asteroids containing rare and valuable minerals such as diamond, uranium and the exceedingly rare bluespace crystals."
-	id = "deepcore2"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/copper = 25000,/datum/material/titanium = 25000, /datum/material/gold = 10000, /datum/material/silver = 10000, /datum/material/plasma = 10000, /datum/material/uranium = 5000, /datum/material/diamond = 5000)
-	build_path = /obj/item/deepcore_upgrade/max
-	category = list("Asteroid Mining")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
-
-/datum/design/asteroidscanner
-	name = "Tier II asteroid sensor module"
-	desc = "An upgrade for dradis computers, allowing them to scan for asteroids containing valuable non ferrous metals such as gold, silver, copper and plasma"
-	id = "asteroidscanner"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 25000,/datum/material/titanium = 5000, /datum/material/silver = 2000)
-	build_path = /obj/item/mining_sensor_upgrade
-	category = list("Asteroid Mining")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
-
-/datum/design/asteroidscanner2
-	name = "Tier III asteroid sensor module"
-	desc = "An upgrade for dradis computers, allowing them to scan for asteroids containing rare and valuable minerals such as diamond, uranium and the exceedingly rare bluespace crystals."
-	id = "asteroidscanner2"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/copper = 25000,/datum/material/titanium = 25000, /datum/material/plasma = 2000, /datum/material/uranium = 2000, /datum/material/diamond = 2000)
-	build_path = /obj/item/mining_sensor_upgrade/max
-	category = list("Asteroid Mining")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
-
 /obj/structure/overmap/asteroid
-	name = "Asteroid (Ferrous)"
+	name = "Asteroid"
 	desc = "A huge asteroid...IN SPACE"
 	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/icefield/asteroid_ice_32x.dmi'
 	icon_state = "1"
-	obj_integrity = 100
-	max_integrity = 100
-	var/list/core_composition = list(/turf/closed/mineral/iron, /turf/closed/mineral/titanium)
+	obj_integrity = 1000
+	max_integrity = 1000
+	var/asteroid_type = pick(ASTEROID_TYPE_ICE, ASTEROID_TYPE_ROCK)
+	var/core_composition = pick()
 	var/required_tier = 1
-	armor = list("overmap_light" = 100, "overmap_medium" = 100, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 99, "overmap_medium" = 99, "overmap_heavy" = 25)
 
 /obj/structure/overmap/asteroid/apply_weapons()
 	return FALSE //Lol, no.

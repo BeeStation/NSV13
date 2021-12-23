@@ -1,0 +1,11 @@
+//Asteroid types
+
+#define ASTEROID_TYPE_ICE 0
+#define ASTEROID_TYPE_ROCK 1
+
+//Asteroid mineral composition types
+
+#define ASTEROID_COMPOSITION_FERROUS 0
+#define ASTEROID_COMPOSITION_NOBLE 1
+#define ASTEROID_COMPOSITION_EXOTIC 2
+#define ASTEROID_COMPOSITION_ANOMALOUS 3

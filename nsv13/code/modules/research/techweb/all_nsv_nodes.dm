@@ -144,3 +144,22 @@
 	prereq_ids = list("fightergun2", "adv_weaponry")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
+
+//Mining tech
+/datum/techweb_node/mineral_nonferrous
+	id = "mineral_nonferrous"
+	display_name = "Polytrinic asteroid mining equipment"
+	description = "Upgrades for the mining ship's asteroid arrestor and dradis console, allowing it to detect and lock on to more specific mineral compositions in asteroid cores."
+	prereq_ids = list("base")
+	design_ids = list("deepcore1", "asteroidscanner")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 7500)
+	export_price = 5000
+
+/datum/techweb_node/mineral_exotic
+	id = "mineral_exotic"
+	display_name = "Phasic asteroid mining equipment"
+	description = "Advanced arrestor and dradis console upgrade for the mining ship, allowing it to handle any asteroid with a mineral composition at it's core."
+	prereq_ids = list("mineral_nonferrous")
+	design_ids = list("deepcore2", "asteroidscanner2")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 12500)
+	export_price = 5000
