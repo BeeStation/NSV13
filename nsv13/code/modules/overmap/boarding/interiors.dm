@@ -60,7 +60,6 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 		return
 	if(length(free_boarding_levels))
 		var/_z = pick_n_take(free_boarding_levels)
-		message_admins("found free boarding level [_z]")
 		boarding_reservation_z = _z
 		return
 	SSmapping.add_new_zlevel("Overmap boarding reservation", ZTRAITS_BOARDABLE_SHIP)

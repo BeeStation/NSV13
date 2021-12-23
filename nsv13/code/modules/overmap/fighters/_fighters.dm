@@ -218,7 +218,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 	return data
 
 /obj/structure/overmap/fighter/ui_act(action, params, datum/tgui/ui)
-	message_admins("Action was [action]")
 	if(..() || ((usr != pilot) && (!IsAdminGhost(usr))))
 		return
 	if(disruption && prob(min(95, disruption)))
