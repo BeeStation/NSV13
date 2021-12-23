@@ -5,11 +5,20 @@ Been a mess since 2018, we'll fix it someday (probably)
 */
 
 /obj/structure/overmap/fighter/Destroy()
-	if(deletion_teleports_occupants)
-		var/list/dead_people = force_eject() // Doing fighter ejection specially should prevent pilot/gunner view issues
-		if(length(dead_people))
-			for(var/mob/living/M in dead_people)
+	var/mob/last_pilot = pilot // Old pilot gets first shot
+	for(var/mob/M as() in operators)
+		stop_piloting(M, eject_mob=FALSE) // We'll handle kicking them out ourselves
+	if(length(mobs_in_ship))
+		var/obj/structure/overmap/fighter/escapepod = null
+		if(ispath(escape_pod_type))
+			escapepod = create_escape_pod(escape_pod_type, last_pilot)
+		if(!escapepod && deletion_teleports_occupants)
+			var/list/copy_of_mobs_in_ship = mobs_in_ship.Copy() //Sometimes you really need to iterate on a list while it's getting modified
+			for(var/mob/living/M in copy_of_mobs_in_ship)
+				to_chat(M, "<span class='warning'>This ship is not equipped with an escape pod! Unable to eject.</span>")
 				M.apply_damage(200)
+				eject(M, force=TRUE)
+
 	last_overmap?.overmaps_in_ship -= src
 	return ..()
 
@@ -57,6 +66,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
 	var/obj/machinery/computer/ship/navigation/starmap = null
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
+	var/escape_pod_type = /obj/structure/overmap/fighter/escapepod
 	var/mutable_appearance/canopy
 	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode,
 								.verb/show_control_panel, .verb/change_name, .verb/countermeasure)
@@ -375,7 +385,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 	bound_height = 32
 	pixel_z = 0
 	pixel_w = 0
-	max_integrity = 50 //Able to withstand more punishment so that people inside it don't get yeeted as hard
+	max_integrity = 500 //Able to withstand more punishment so that people inside it don't get yeeted as hard
+	canopy_open = FALSE
+	essential = TRUE
+	escape_pod_type = null // This would just be silly
 	speed_limit = 2 //This, for reference, will feel suuuuper slow, but this is intentional
 	loadout_type = LOADOUT_UTILITY_ONLY
 	components = list(/obj/item/fighter_component/fuel_tank,
@@ -389,6 +402,12 @@ Been a mess since 2018, we'll fix it someday (probably)
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/countermeasure_dispenser)
+
+
+/obj/structure/overmap/fighter/escapepod/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
+	if(!SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
+		return FALSE
+	return ..()
 
 /obj/structure/overmap/fighter/heavy
 	name = "Su-410 Scimitar"
@@ -504,24 +523,76 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if((user.client?.prefs.toggles & SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
 		SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
 
-/obj/structure/overmap/fighter/stop_piloting(mob/living/M, force=FALSE)
+/obj/structure/overmap/fighter/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
+	if(eject_mob && !eject(M, force))
+		return FALSE
+	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
+	M.remove_verb(fighter_verbs)
+	return ..()
+
+/obj/structure/overmap/fighter/proc/eject(mob/living/M, force=FALSE)
 	if(!canopy_open && !force)
 		to_chat(M, "<span class='warning'>[src]'s canopy isn't open.</span>")
 		if(prob(50))
 			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
 			to_chat(M, "<span class='warning'>You bump your head on [src]'s canopy.</span>")
 			visible_message("<span class='warning'>You hear a muffled thud.</span>")
-		return
-	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE) && !force)
+		return FALSE
+
+	if(!force && !SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
 		to_chat(M, "<span class='warning'>[src] won't let you jump out of it mid flight.</span>")
 		return FALSE
-	if(length(!occupying_levels))
-		mobs_in_ship -= M
-	. = ..()
-	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
+
+	SEND_SOUND(M, sound(null))
+	mobs_in_ship -= M
 	M.forceMove(get_turf(src))
-	M.remove_verb(fighter_verbs)
-	return TRUE
+	return ..()
+
+/obj/structure/overmap/fighter/escapepod/eject(mob/living/M, force=FALSE)
+	. = ..()
+	if(. && !length(mobs_in_ship) && !(QDELETED(src) || QDESTROYING(src))) // Last one out means we don't need this anymore
+		qdel(src)
+
+/obj/structure/overmap/fighter/proc/create_escape_pod(path, mob/last_pilot)
+	// Create pod
+	var/obj/structure/overmap/fighter/escapepod/escape_pod = new path(get_turf(src))
+	if(!istype(escape_pod))
+		message_admins("Unable to create escape pod for [src] with path [path]")
+		qdel(escape_pod)
+		return
+	escape_pod.name = "[name] - escape pod"
+	escape_pod.faction = faction
+	escape_pod.desired_angle = 0
+	escape_pod.user_thrust_dir = NORTH
+	var/obj/item/fighter_component/docking_computer/DC = escape_pod.loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+	DC.docking_mode = TRUE
+	relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
+
+	// Transfer occupants
+	if(length(mobs_in_ship))
+		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
+		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
+
+		if(last_pilot && !last_pilot.incapacitated())
+			last_pilot.forceMove(escape_pod)
+			escape_pod.start_piloting(last_pilot, "pilot")
+			escape_pod.attack_hand(last_pilot) // Bring up UI
+			mobs_in_ship -= last_pilot
+			escape_pod.mobs_in_ship += last_pilot
+			last_pilot.overmap_ship = escape_pod
+
+		for(var/mob/M as() in mobs_in_ship)
+			M.forceMove(escape_pod)
+			if(!escape_pod.pilot || escape_pod.pilot.incapacitated()) // Someone please drive this thing
+				escape_pod.start_piloting(M, "pilot")
+				escape_pod.ui_interact(M)
+			else
+				escape_pod.start_piloting(M, "observer")
+			escape_pod.mobs_in_ship += M
+			M.overmap_ship = escape_pod
+	mobs_in_ship.Cut()
+
+	return escape_pod
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	. = ..()
@@ -1003,6 +1074,12 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 
 /obj/structure/overmap/fighter/can_move()
 	return (engines_active())
+
+/obj/structure/overmap/fighter/escapepod/can_move()
+	return TRUE
+
+/obj/structure/overmap/fighter/escapepod/engines_active()
+	return TRUE
 
 /obj/structure/overmap/fighter/proc/empty_fuel_tank()//Debug purposes, for when you need to drain a fighter's tank entirely.
 	var/obj/item/fighter_component/fuel_tank/ft = loadout.get_slot(HARDPOINT_SLOT_FUEL)

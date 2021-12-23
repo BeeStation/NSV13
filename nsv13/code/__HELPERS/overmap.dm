@@ -38,12 +38,7 @@ Helper method to get what ship an observer belongs to for stuff like parallax.
 
 	var/max = world.maxx - TRANSITIONEDGE
 	var/min = TRANSITIONEDGE + 1
-	var/list/possible_transitions = list()
-	for(var/datum/space_level/D as() in SSmapping.z_list)
-		if(!D.traits[ZTRAIT_OVERMAP])
-			possible_transitions += D.z_value
-	if(!length(possible_transitions)) //Just in case there is no space z level
-		possible_transitions = SSmapping.levels_by_trait(ZTRAIT_STATION)
+	var/list/possible_transitions = SSmapping.levels_by_trait(ZTRAIT_STATION)
 	var/_z = pick(possible_transitions)
 	var/_x
 	var/_y
