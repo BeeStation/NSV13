@@ -2,7 +2,7 @@
 
 /area/hammurabi
 	name = "SSV Hammurabi"
-	ambient_effects = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
+	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
 	icon_state = "syndie-ship"
 	has_gravity = TRUE
 
@@ -31,8 +31,8 @@
 	icon_state = "shuttlered"
 
 /area/hammurabi/bar
-    name = "Hammurabi bar"
-    icon_state = "bar"
+	name = "Hammurabi bar"
+	icon_state = "bar"
 
 /area/hammurabi/atc_tower
 	name = "Hammurabi ATC tower"
@@ -44,7 +44,7 @@
 	icon_state = "maintcentral"
 
 /area/hammurabi/maintenance/secondary
-    name = "Hammurabi deck 2 maintenance"
+	name = "Hammurabi deck 2 maintenance"
 
 /area/hammurabi/maintenance/exterior
 	name = "Hammurabi exterior"

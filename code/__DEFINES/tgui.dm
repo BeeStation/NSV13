@@ -10,10 +10,10 @@
 /// Maximum number of windows that can be suspended/reused
 #define TGUI_WINDOW_SOFT_LIMIT 5
 /// Maximum number of open windows
-#define TGUI_WINDOW_HARD_LIMIT 20
+#define TGUI_WINDOW_HARD_LIMIT 9
 
 /// Maximum ping timeout allowed to detect zombie windows
-#define TGUI_PING_TIMEOUT 5 SECONDS
+#define TGUI_PING_TIMEOUT 4 SECONDS
 
 /// Window does not exist
 #define TGUI_WINDOW_CLOSED 0
@@ -28,8 +28,34 @@
 #define TGUI_WINDOW_INDEX(window_id) text2num(copytext(window_id, 13))
 
 /// Creates a message packet for sending via output()
+// This is {"type":type,"payload":payload}, but pre-encoded. This is much faster
+// than doing it the normal way.
+// To ensure this is correct, this is unit tested in tgui_create_message.
 #define TGUI_CREATE_MESSAGE(type, payload) ( \
-	url_encode(json_encode(list( \
-		"type" = type, \
-		"payload" = payload, \
-	))))
+	"%7b%22type%22%3a%22[type]%22%2c%22payload%22%3a[url_encode(json_encode(payload))]%7d" \
+)
+
+/// Telemetry
+
+/**
+ * Maximum number of connection records allowed to analyze.
+ * Should match the value set in the browser.
+ */
+#define TGUI_TELEMETRY_MAX_CONNECTIONS 10
+
+/**
+ * Maximum time allocated for sending a telemetry packet.
+ */
+#define TGUI_TELEMETRY_RESPONSE_WINDOW 30 SECONDS
+
+/// Telemetry statuses
+#define TGUI_TELEMETRY_STAT_NOT_REQUESTED 0 //Not Yet Requested
+#define TGUI_TELEMETRY_STAT_AWAITING      1 //Awaiting request response
+#define TGUI_TELEMETRY_STAT_ANALYZED      2 //Retrieved and validated
+#define TGUI_TELEMETRY_STAT_MISSING       3 //Telemetry response window miss without valid telemetry
+#define TGUI_TELEMETRY_STAT_OVERSEND      4 //Telemetry was already processed but was repeated
+
+/// Telem Trigger Defines
+#define TGUI_TELEM_CKEY_WARNING "TELEM_CKEY_TEXT"
+#define TGUI_TELEM_IP_WARNING "TELEM_IP_TEXT"
+#define TGUI_TELEM_CID_WARNING "TELEM_CID_TEXT"

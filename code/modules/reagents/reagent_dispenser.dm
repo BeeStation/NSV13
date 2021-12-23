@@ -124,6 +124,7 @@
 	icon_state = "pepper"
 	anchored = TRUE
 	density = FALSE
+	layer = ABOVE_WINDOW_LAYER
 	reagent_id = /datum/reagent/consumable/condensedcapsaicin
 
 /obj/structure/reagent_dispensers/peppertank/Initialize()
@@ -180,6 +181,7 @@
 	icon_state = "virus_food"
 	anchored = TRUE
 	density = FALSE
+	layer = ABOVE_WINDOW_LAYER
 	reagent_id = /datum/reagent/consumable/virus_food
 
 

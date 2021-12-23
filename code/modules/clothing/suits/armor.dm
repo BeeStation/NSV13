@@ -64,7 +64,7 @@
 	strip_delay = 80
 
 /obj/item/clothing/suit/armor/hos/trenchcoat
-	name = "armored trenchoat"
+	name = "armored trenchcoat"
 	desc = "A trenchcoat enhanced with a special lightweight kevlar. The epitome of tactical plainclothes."
 	icon_state = "hostrench"
 	item_state = "hostrench"
@@ -112,17 +112,6 @@
 	name = "syndicate captain's vest"
 	desc = "A sinister looking vest of advanced armor worn over a black and red fireproof jacket. The gold collar and shoulders denote that this belongs to a high ranking syndicate officer."
 	icon_state = "syndievest"
-
-/obj/item/clothing/suit/armor/vest/capcarapace/syndicate/admiral
-	name = "syndicate admiral's vest"
-	desc = "A sinister looking vest of advanced armor worn over a black and red fireproof jacket. The gold collar and shoulders denote that this belongs to a high ranking syndicate officer. This one has been modified to be space proof, and highly resistant to Nanotrasen's laser based weapons."
-	icon_state = "syndievest_space"
-	armor = list("melee" = 60, "bullet" = 50, "laser" = 80, "energy" = 80, "bomb" = 40, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 100)
-	clothing_flags = THICKMATERIAL | STOPSPRESSUREDAMAGE
-	cold_protection = CHEST | GROIN | LEGS | FEET | ARMS | HANDS
-	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
-	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
 
 /obj/item/clothing/suit/armor/vest/capcarapace/alt
 	name = "captain's parade jacket"
@@ -249,13 +238,28 @@
 	icon_state = "tdgreen"
 	item_state = "tdgreen"
 
+/obj/item/clothing/suit/armor/tdome/holosuit
+	name = "thunderdome suit"
+	armor = list("melee" = 10, "bullet" = 10, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0, "stamina" = 0)
+	cold_protection = null
+	heat_protection = null
+
+/obj/item/clothing/suit/armor/tdome/holosuit/red
+	desc = "Reddish armor."
+	icon_state = "tdred"
+	item_state = "tdred"
+
+/obj/item/clothing/suit/armor/tdome/holosuit/green
+	desc = "Pukish armor."
+	icon_state = "tdgreen"
+	item_state = "tdgreen"
 
 /obj/item/clothing/suit/armor/riot/knight
 	name = "plate armour"
 	desc = "A classic suit of plate armour, highly effective at stopping melee attacks."
 	icon_state = "knight_green"
 	item_state = "knight_green"
-	move_sound = list()
+	move_sound = null
 
 /obj/item/clothing/suit/armor/riot/knight/yellow
 	icon_state = "knight_yellow"
