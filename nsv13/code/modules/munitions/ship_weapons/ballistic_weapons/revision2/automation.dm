@@ -289,8 +289,8 @@
 	var/list/loaded = list() //What's loaded in?
 	var/max_capacity = 12 //Max cap for holding.
 	var/loading = FALSE
-	var/durability = 100 //max durability: 100. this will not stray from being tens without outside influence.
-	var/jammed = FALSE //if at 0 durability, jam it, handled in unload.
+	var/durability = 100 //max durability: 100.
+	var/jammed = FALSE //if at 0 durability, jam it, handled in weardown().
 
 /obj/machinery/ammo_sorter/attackby(obj/item/I, mob/user, params)
 	if(default_unfasten_wrench(user, I))
@@ -332,7 +332,7 @@
 			to_chat(user, "<span class='notice'>You clear the jam with the crowbar.</span>")
 			playsound(src, 'nsv13/sound/effects/ship/mac_load_unjam.ogg', 100, 1)
 			jammed = FALSE
-			durability = 10 //give the poor fools one more use if they're lucky
+			durability = 5 //give the poor fools a few more uses if they're lucky
 		else
 			to_chat(user, "<span class='notice'>You need to close the panel to get at the jammed machinery.</span>")
 		return TRUE
@@ -411,20 +411,16 @@
 /obj/machinery/ammo_sorter/proc/unload(atom/movable/AM)
 	if(!loaded.len)
 		return FALSE
-	if(durability > 0) //don't go under 0, that's bad
-		durability -= pick(1,2,3,4,5,6,7,8,9,10) //pulling stuff out wears it down, now randomly. Feel free to tell me how this is done correctly.
-	else 
-		jammed = TRUE // if it's at 0, just kinda jam it.
-		durability = 0 // in case an admin plays with this and doesn't know how to use it, we reset it here for good measure.
 	if(jammed)
 		playsound(src, 'nsv13/sound/effects/ship/mac_load_jam.ogg', 100, 1)
-		return FALSE
+		return
 	else
 		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 		flick("ammorack_dispense", src)
 		loaded -= AM
 		//Load it out the back.
 		AM.forceMove(get_turf(get_step(src, dir)))
+		weardown()
 
 /obj/machinery/ammo_sorter/proc/load(atom/movable/A, mob/user)
 	if(length(loaded) >= max_capacity)
@@ -432,13 +428,25 @@
 			to_chat(user, "<span class='warning'>[src] is full!</span>")
 		loading = FALSE
 		return FALSE
-	if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
-		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-		flick("ammorack_dispense", src)
-		A.forceMove(src)
-		loading = FALSE
-		loaded += A
-		return TRUE
+	if(jammed)
+		playsound(src, 'nsv13/sound/effects/ship/mac_load_jam.ogg', 100, 1)
+		return
 	else
-		loading = FALSE
-		return FALSE
+		if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
+			playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+			flick("ammorack_dispense", src)
+			A.forceMove(src)
+			loading = FALSE
+			loaded += A
+			weardown()
+			return TRUE
+		else
+			loading = FALSE
+			return FALSE
+
+/obj/machinery/ammo_sorter/proc/weardown()
+	if(durability > 0) //don't go under 0, that's bad
+		durability -= rand(1,5) //pulling stuff out wears it down, now randomly. Feel free to tell me how this is done correctly.
+	else 
+		jammed = TRUE // if it's at 0, just kinda jam it.
+		durability = 0 // in case an admin plays with this and doesn't know how to use it, we reset it here for good measure.
