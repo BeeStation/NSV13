@@ -27,9 +27,6 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 					CHECK_TICK
 					T.empty()
 				SSair.can_fire = TRUE
-				if(reserved_z)
-					free_treadmills += reserved_z
-					reserved_z = null
 				free_boarding_levels += boarding_reservation_z
 				boarding_reservation_z = null
 				QDEL_NULL(boarding_interior)

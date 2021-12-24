@@ -480,6 +480,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				M.forceMove(T)
 				M.apply_damage(200)
 	kill_boarding_level()
+	if(reserved_z)
+		free_treadmills += reserved_z
+		reserved_z = null
 	return ..()
 
 /obj/structure/overmap/forceMove(atom/destination)
