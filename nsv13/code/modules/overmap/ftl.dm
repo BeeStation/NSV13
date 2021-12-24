@@ -4,10 +4,21 @@
 #define FTL_STATE_JUMPING 4
 
 /datum/star_system/proc/add_ship(obj/structure/overmap/OM, turf/target_turf)
+	message_admins("adding [OM] to [src]")
 	if(!system_contents.Find(OM))
 		system_contents += OM	//Lets be safe while I cast some black magic.
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
-		occupying_z = OM.z
+		if(!SSmapping.level_trait(OM.z, ZTRAIT_OVERMAP))
+			if(OM.reserved_z)
+				occupying_z = OM.reserved_z
+			else if(!length(OM.free_treadmills))
+				SSmapping.add_new_zlevel("Overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
+				occupying_z = world.maxz
+			else
+				var/_z = pick_n_take(OM.free_treadmills)
+				occupying_z = _z
+		else
+			occupying_z = OM.z
 		if(OM.role == MAIN_OVERMAP) //As these events all happen to the main ship, let's check that it's not say, the nomi that's triggering this system load...
 			try_spawn_event()
 		if(fleets.len)
@@ -16,6 +27,8 @@
 					F.current_system = src
 				F.encounter(OM)
 		restore_contents()
+	else
+		message_admins("Not restoring contents. occupying_z [occupying_z] and OM.z [OM.z]")
 	var/turf/destination
 	if(target_turf)
 		destination = target_turf // if we launch from a ship or something, put us near that ship
