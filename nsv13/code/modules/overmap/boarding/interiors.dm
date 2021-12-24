@@ -100,7 +100,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	SL.linked_overmap = src
 	occupying_levels += SL
 	//Just in case...
-	if(!docking_points.len)
+	if(!length(docking_points))
 		docking_points += get_turf(locate(20, world.maxy/2, boarding_reservation_z))
 	boarder.relay_to_nearby('nsv13/sound/effects/ship/boarding_pod.ogg', ignore_self=FALSE)
 
