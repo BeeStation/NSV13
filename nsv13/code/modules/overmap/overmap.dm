@@ -25,7 +25,7 @@
 	//Handling for deleting ships with interiors, see nsv13/code/__DEFINES/overmap.dm
 	//Defaults are set for AI ships
 	var/block_deletion = FALSE // used to avoid killing objectives
-	var/deletion_behavior = DAMAGE_DELETES_UNOCCUPIED | DAMAGE_STARTS_COUNTDOWN
+	var/overmap_deletion_traits = DAMAGE_DELETES_UNOCCUPIED | DAMAGE_STARTS_COUNTDOWN
 	var/deletion_teleports_occupants = FALSE
 
 	var/sprite_size = 64 //Pixels. This represents 64x64 and allows for the bullets that you fire to align properly.
@@ -431,7 +431,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	return ..()
 
 /obj/structure/overmap/Destroy()
-	if(block_deletion || (CHECK_BITFIELD(deletion_behavior, NEVER_DELETE_OCCUPIED) && has_occupants()))
+	if(block_deletion || (CHECK_BITFIELD(overmap_deletion_traits, NEVER_DELETE_OCCUPIED) && has_occupants()))
 		return QDEL_HINT_LETMELIVE
 
 	GLOB.poi_list -= src

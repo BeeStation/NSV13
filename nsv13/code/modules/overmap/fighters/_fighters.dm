@@ -32,7 +32,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	bound_width = 64 //Change this on a per ship basis
 	bound_height = 64
 	mass = MASS_TINY
-	deletion_behavior = DAMAGE_ALWAYS_DELETES
+	overmap_deletion_traits = DAMAGE_ALWAYS_DELETES
 	deletion_teleports_occupants = TRUE
 	sprite_size = 32
 	damage_states = TRUE

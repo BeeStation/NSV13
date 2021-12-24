@@ -83,7 +83,7 @@ Bullet reactions
 	if(blocked)
 		return FALSE
 	SEND_SIGNAL(src, COMSIG_ATOM_DAMAGE_ACT, damage_amount) //Trigger to update our list of armour plates without making the server cry.
-	if(CHECK_BITFIELD(deletion_behavior, DAMAGE_STARTS_COUNTDOWN) && !(CHECK_BITFIELD(deletion_behavior, DAMAGE_DELETES_UNOCCUPIED) && !has_occupants())) //Code for handling "superstructure crit" countdown
+	if(CHECK_BITFIELD(overmap_deletion_traits, DAMAGE_STARTS_COUNTDOWN) && !(CHECK_BITFIELD(overmap_deletion_traits, DAMAGE_DELETES_UNOCCUPIED) && !has_occupants())) //Code for handling "superstructure crit" countdown
 		if(obj_integrity <= damage_amount || structure_crit) //Superstructure crit! They would explode otherwise, unable to withstand the hit.
 			obj_integrity = 10 //Automatically set them to 10 HP, so that the hit isn't totally ignored. Say if we have a nuke dealing 1800 DMG (the ship's full health) this stops them from not taking damage from it, as it's more DMG than we can handle.
 			handle_crit(damage_amount)
@@ -97,7 +97,7 @@ Bullet reactions
 			if(istype(M, /mob/living) && !istype(M, /mob/living/simple_animal))
 				return TRUE
 	if(length(overmaps_in_ship))
-		if(CHECK_BITFIELD(deletion_behavior, FIGHTERS_ARE_OCCUPANTS))
+		if(CHECK_BITFIELD(overmap_deletion_traits, FIGHTERS_ARE_OCCUPANTS))
 			return TRUE
 		for(var/obj/structure/overmap/OM as() in overmaps_in_ship)
 			if(length(OM.mobs_in_ship))

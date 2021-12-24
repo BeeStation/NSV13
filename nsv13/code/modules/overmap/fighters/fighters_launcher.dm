@@ -301,7 +301,7 @@
 
 		OM.overmaps_in_ship -= src // No lazyremove, please don't null my list
 
-		if(OM.boarding_interior && CHECK_BITFIELD(OM.deletion_behavior, DELETE_UNOCCUPIED_ON_DEPARTURE) && !(OM.has_occupants()))
+		if(OM.boarding_interior && CHECK_BITFIELD(OM.overmap_deletion_traits, DELETE_UNOCCUPIED_ON_DEPARTURE) && !(OM.has_occupants()))
 			last_overmap = null
 			qdel(OM)
 
