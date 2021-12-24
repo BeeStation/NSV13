@@ -62,7 +62,7 @@
 
 /obj/structure/closet/secure_closet/atc/PopulateContents()
 	..()
-	new /obj/item/twohanded/binoculars(src)
+	new /obj/item/binoculars(src)
 	new /obj/item/radio/headset/munitions/atc(src)
 	new /obj/item/clothing/under/ship/officer(src)
 	new /obj/item/clothing/head/beret/ship/pilot(src)

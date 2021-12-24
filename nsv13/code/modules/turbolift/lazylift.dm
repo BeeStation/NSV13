@@ -127,10 +127,13 @@ That's it, ok bye!
 	var/static/list/area_blacklist = list(/area/space, /area/shuttle/turbolift, /area/shuttle, /area/maintenance/ship_exterior) //Areas that do not show up on the address book.
 
 	//Voice activation.
-	flags_1 = HEAR_1
 	initial_language_holder = /datum/language_holder/synthetic/turbolift
 	var/list/addresses = list() //Voice activation! Lets you speak into the elevator to tell it where you wanna go. This stores all the departments on this floor. If youre lazy and re-use floors then uh...sucks to be you I guess!
 	var/next_voice_activation = 0
+
+/obj/machinery/lazylift/Initialize()
+	. = ..()
+	become_hearing_sensitive()
 
 /obj/machinery/lazylift/attack_robot(mob/user)
 	return attack_hand(user)
@@ -330,17 +333,21 @@ That's it, ok bye!
 		for(var/I = --startDeck; I >= target_deck; I--)
 			path += I
 
-	if(!path.len)
+	if(!length(path))
 		message_admins("Uhh..turbolift didn't have a path..that's not good.")
 		platform_location.unbolt_doors()
 		in_use = FALSE //in use more like in PUCE am I right gamers???
 		return FALSE //FUCK
+	var/list/moblist = list()
 	playsound(platform_location.loc, 'sound/effects/turbolift/turbolift-close.ogg', 100, FALSE)
-	sound_effect(TRUE)
+	for(var/turf/T as() in platform_location.platform)
+		for(var/mob/living/L in T)
+			moblist += L
+	sound_effect(moblist, TRUE)
 	for(var/_deck in path)
 		sleep(turbolift_delay)
 		if(_deck == target_deck)
-			sound_effect(FALSE)
+			sound_effect(moblist, FALSE)
 		move_platform(_deck)
 	platform_location.unbolt_doors(open_doors_on_arrival)
 	addtimer(VARSET_CALLBACK(src, in_use, FALSE), wait_time)
@@ -396,9 +403,9 @@ That's it, ok bye!
 
 //Special FX and stuff.
 
-/obj/machinery/lazylift/master/proc/sound_effect(start = FALSE)
+/obj/machinery/lazylift/master/proc/sound_effect(list/moblist, start = FALSE)
 	if(start)
-		for(var/mob/M in get_area(src))
+		for(var/mob/M as() in moblist)
 			SEND_SOUND(M, turbolift_start_sound)
 			shake_with_inertia(M, 2, 1)
 			if(!isliving(M))
@@ -415,15 +422,17 @@ That's it, ok bye!
 				if(HAS_TRAIT(karmics_victim, TRAIT_SEASICK)) //oh my god you poor soul
 					to_chat(karmics_victim, "<span class='warning'>You can feel your head start to swim...</span>")
 					karmics_victim.adjust_disgust(100)
+				if(HAS_TRAIT(karmics_victim, TRAIT_GFORCE_WEAKNESS))
+					karmics_victim.gravity_crush(4, 3)
 		sleep(start_delay) //Sound time!
-		for(var/mob/M in get_area(src))
+		for(var/mob/M as() in moblist)
 			SEND_SOUND(M, sound(turbolift_loop_sound, repeat = TRUE, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))
 		return
 	else
 		if(play_voice_lines)
 			playsound(platform_location, 'nsv13/sound/effects/lift/mindthegap.ogg', 100, FALSE)
 			platform_location.say("Please mind the gap.")
-		for(var/mob/M in get_area(src))
+		for(var/mob/M as() in moblist)
 			SEND_SOUND(M, sound(turbolift_end_sound, repeat = FALSE, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))
 		sleep(end_delay)
 		return

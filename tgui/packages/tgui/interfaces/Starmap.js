@@ -1,4 +1,5 @@
-import { Fragment } from 'inferno';
+// NSV13
+
 import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Knob, Map, StarButton } from '../components';
 import { Window } from '../layouts';
@@ -82,9 +83,7 @@ export const drawStarmap = (props, context) => {
       zIndex: Line.priority,
     };
     return (
-      <Fragment key={Line}>
-        <div style={lineStyle} class="line" />
-      </Fragment>
+      <div style={lineStyle} class="line" />
     );
   };
 
@@ -92,7 +91,7 @@ export const drawStarmap = (props, context) => {
   let Connections = (data.lines).map(drawLines);
 
   return (
-    <Fragment>
+    <>
       <Button
         content="Ship Information"
         icon="info-circle"
@@ -112,7 +111,7 @@ export const drawStarmap = (props, context) => {
       <Map initial_focus_x={data.focus_x}
         initial_focus_y={data.focus_y}
         initial_scale_factor={scale_factor}>
-        <Fragment>
+        <>
           {data.star_systems && SystemNodes}
           {data.lines && Connections}
           {!!travelling && (
@@ -120,9 +119,9 @@ export const drawStarmap = (props, context) => {
               <i class="fa fa-arrow-right" />
             </span>
           )}
-        </Fragment>
+        </>
       </Map>
-    </Fragment>
+    </>
   );
 };
 
@@ -140,7 +139,7 @@ export const Starmap = (props, context) => {
       <Window.Content scrollable>
         <Section>
           {screen === 0 && (
-            <Fragment>
+            <>
               <Button
                 content="Ship Information"
                 icon="info-circle"
@@ -188,11 +187,11 @@ export const Starmap = (props, context) => {
                       act('star_id', { star_id: data.star_id })} />
                 </Section>
               )}
-            </Fragment>
+            </>
           )}
           {screen === 1 && drawStarmap(props, context)}
           {screen === 2 && (
-            <Fragment>
+            <>
               <Button
                 content="Ship Information"
                 icon="info-circle"
@@ -230,7 +229,7 @@ export const Starmap = (props, context) => {
                     bad: [-Infinity, 0.15],
                   }} />
               </Section>
-            </Fragment>
+            </>
           )}
         </Section>
       </Window.Content>

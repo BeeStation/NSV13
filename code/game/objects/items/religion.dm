@@ -120,7 +120,7 @@
 	category = CAT_MISC
 
 /obj/item/banner/medical/special_inspiration(mob/living/carbon/human/H)
-	H.adjustToxLoss(-15)
+	H.adjustToxLoss(-15, FALSE, TRUE)
 	H.setOxyLoss(0)
 	H.reagents.add_reagent(/datum/reagent/medicine/inaprovaline, 5)
 
@@ -197,7 +197,7 @@
 	name = "command banner"
 	desc = "The banner of Command, a staunch and ancient line of bueraucratic kings and queens."
 	//No icon state here since the default one is the NT banner
-	job_loyalties = list("Captain", "Head of Personnel", "Chief Engineer", "Head of Security", "Research Director", "Chief Medical Officer")
+	job_loyalties = list("Captain", "Executive Officer", "Chief Engineer", "Head of Security", "Research Director", "Chief Medical Officer", "Master At Arms") //NSV13 - XO and MAA
 	warcry = "Hail Nanotrasen!"
 
 /obj/item/banner/command/mundane

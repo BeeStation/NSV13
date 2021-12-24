@@ -15,4 +15,25 @@
 	selection_weight = 5
 	required_players = 0
 	max_players = 10
-	fixed_objectives = list(/datum/overmap_objective/perform_jumps, /datum/overmap_objective/destroy_fleets, /datum/overmap_objective/apnw_efficiency)
+	random_objective_amount = 3
+
+/datum/overmap_gamemode/New()
+	random_objectives = list(
+		/datum/overmap_objective/perform_jumps, 
+		/datum/overmap_objective/destroy_fleets, 
+		/datum/overmap_objective/apnw_efficiency,
+		pick( list(
+			/datum/overmap_objective/cargo/donation/chems, 
+			/datum/overmap_objective/cargo/donation/blood, 
+			/datum/overmap_objective/cargo/donation/food,
+			/datum/overmap_objective/cargo/donation/minerals,
+			/datum/overmap_objective/cargo/donation/munitions,
+			/datum/overmap_objective/cargo/donation/social_supplies,
+			/datum/overmap_objective/cargo/transfer/credits,
+			/datum/overmap_objective/cargo/transfer/data,
+			/datum/overmap_objective/cargo/transfer/documents,
+			/datum/overmap_objective/cargo/transfer/emergency_supplies,
+			/datum/overmap_objective/cargo/transfer/fighter_parts,
+			/datum/overmap_objective/cargo/transfer/specimen,
+		) )
+	)

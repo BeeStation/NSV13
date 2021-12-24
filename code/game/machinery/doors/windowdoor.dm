@@ -287,7 +287,7 @@
 /obj/machinery/door/window/interact(mob/user)		//for sillycones
 	try_to_activate_door(user)
 
-/obj/machinery/door/window/try_to_activate_door(mob/user)
+/obj/machinery/door/window/try_to_activate_door(obj/item/I, mob/user)
 	if (..())
 		autoclose = FALSE
 
@@ -315,6 +315,10 @@
 /obj/machinery/door/window/ntnet_receive(datum/netdata/data)
 	// Check if the airlock is powered.
 	if(!hasPower())
+		return
+
+	//Check radio signal jamming
+	if(is_jammed())
 		return
 
 	// Check packet access level.
@@ -403,6 +407,9 @@
 		color = "#960000"
 		animate(src, color = previouscolor, time = 8)
 		addtimer(CALLBACK(src, /atom/proc/update_atom_colour), 8)
+
+/obj/machinery/door/window/clockwork/ratvar_act()
+	return FALSE
 
 /obj/machinery/door/window/clockwork/attackby(obj/item/I, mob/living/user, params)
 

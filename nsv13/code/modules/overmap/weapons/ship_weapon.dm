@@ -44,7 +44,7 @@
 	weapons["loaded"] = list() //Weapons that are armed and ready.
 	weapons["all"] = list() //All weapons, regardless of ammo state
 	if(istype(holder, /obj/structure/overmap))
-		requires_physical_guns = (holder.occupying_levels?.len && !holder.ai_controlled) //AIs don't have physical guns, but anything with linked areas is very likely to.
+		requires_physical_guns = (length(holder.occupying_levels) && !holder.ai_controlled) //AIs don't have physical guns, but anything with linked areas is very likely to.
 
 /datum/ship_weapon/proc/add_weapon(obj/machinery/ship_weapon/weapon)
 	var/list/all_weapons = weapons["all"]
@@ -63,7 +63,7 @@
 		next_firetime = world.time + fire_delay
 	if(!requires_physical_guns)
 		if(special_fire_proc)
-			CallAsync(source=holder, proctype=special_fire_proc, arguments=list(target=target, ai_aim=ai_aim)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
+			CallAsync(source=holder, proctype=special_fire_proc, arguments=list(target=target, ai_aim=ai_aim, burst=burst_size)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
 		else
 			weapon_sound()
 			if(ai_aim && prob(miss_chance)) // Apply bad aim here so the whole burst goes the same way
@@ -76,7 +76,7 @@
 	return FALSE
 
 /datum/ship_weapon/proc/weapon_sound()
-	set waitfor = FALSE
+	set waitfor = FALSE // is this needed
 	var/sound/chosen = pick(overmap_firing_sounds)
 	holder.relay(chosen)
 

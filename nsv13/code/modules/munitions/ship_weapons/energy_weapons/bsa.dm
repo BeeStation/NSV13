@@ -95,6 +95,7 @@
 	if(!ui)
 		ui = new(user, src, "EnergyWeapons")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/sts_bsa_control/ui_data(mob/user)
 	return cannon.ui_data(user)

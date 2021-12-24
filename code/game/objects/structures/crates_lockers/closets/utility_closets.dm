@@ -26,28 +26,33 @@
 	if (prob(40))
 		new /obj/item/storage/toolbox/emergency(src)
 
+	//NSV13 - we still use the rollup skinsuits
 	switch (pickweight(list("small" = 40, "aid" = 25, "tank" = 20, "both" = 10, "nothing" = 4, "delete" = 1)))
 		if ("small")
 			new /obj/item/tank/internals/emergency_oxygen(src)
 			new /obj/item/tank/internals/emergency_oxygen(src)
 			new /obj/item/clothing/mask/breath(src)
 			new /obj/item/clothing/mask/breath(src)
+			//for(var/i in 1 to rand(1,3))
+			//	new /obj/item/clothing/suit/space/hardsuit/skinsuit(src)
 
 		if ("aid")
 			new /obj/item/tank/internals/emergency_oxygen(src)
 			new /obj/item/storage/firstaid/o2(src)
 			new /obj/item/clothing/mask/breath(src)
+			//for(var/i in 1 to rand(1,3))
+			//	new /obj/item/clothing/suit/space/hardsuit/skinsuit(src)
 
 		if ("tank")
 			new /obj/item/tank/internals/air(src)
 			new /obj/item/clothing/mask/breath(src)
+			//for(var/i in 1 to rand(1,3))
+			//	new /obj/item/clothing/suit/space/hardsuit/skinsuit(src)
 
 		if ("both")
 			new /obj/item/tank/internals/emergency_oxygen(src)
 			new /obj/item/clothing/mask/breath(src)
-
-		if ("nothing")
-			// doot
+			//new /obj/item/clothing/suit/space/hardsuit/skinsuit(src)
 
 		// teehee
 		if ("delete")

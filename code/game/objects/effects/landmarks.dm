@@ -101,6 +101,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Shaft Miner"
 	icon_state = "Shaft Miner"
 
+/obj/effect/landmark/start/exploration
+	name = "Exploration Crew"
+	icon_state = "Exploration Crew"
+
 /obj/effect/landmark/start/security_officer
 	name = "Military Police" //Nsv13 - Crayon eaters & MPs
 	icon_state = "Military Police"

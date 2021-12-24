@@ -1,3 +1,5 @@
+// NSV13
+
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Knob } from '../components';
@@ -20,7 +22,6 @@ export const Trader = (props, context) => {
           <img style={imgStyle} src={data.image} />
           <p>{data.greeting}</p>
           <hr />
-          <Button content="Do you have any work going?" onClick={() => act('mission')} />
         </Section>
         <Section title={data.next_restock} buttons={(
           <Button fluid content={data.points} />

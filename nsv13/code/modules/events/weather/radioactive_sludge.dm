@@ -5,24 +5,31 @@
 	max_occurrences = 1000
 
 /datum/round_event/radioactive_sludge
-	var/min_spawners = 2
-	var/max_spawners = 10
+	var/min_tiles = 6
+	var/max_tiles = 16
+	var/area/selected_area
 
 /datum/round_event/radioactive_sludge/setup()
-	startWhen = 2
+	startWhen = 15
 	endWhen = startWhen + 1
 	announceWhen = 1
+	selected_area = pick(GLOB.the_station_areas)
 
 /datum/round_event/radioactive_sludge/start()
-	var/list/possible_spawners = list()
-	for(var/obj/effect/landmark/nuclear_waste_spawner/spawner in GLOB.landmarks_list)
-		possible_spawners += spawner
-
-	var/num_spawners = min(rand(min_spawners, max_spawners), possible_spawners.len)
-	for(var/i = 0; i < num_spawners; i++)
-		var/obj/effect/landmark/nuclear_waste_spawner/S = pick(possible_spawners)
-		possible_spawners -= S
-		S.fire()
+	var/list/selected_turfs = get_area_turfs(selected_area)
+	shuffle_inplace(selected_turfs)
+	var/num_tiles = rand(min_tiles, max_tiles)
+	for(var/turf/T as anything in selected_turfs)
+		if(num_tiles <= 0)
+			break
+		if(isclosedturf(T) || is_blocked_turf(T, TRUE))
+			continue
+		if(locate(/obj/effect/decal/nuclear_waste) in T)
+			continue
+		new /obj/effect/decal/nuclear_waste(T)
+		num_tiles--
 
 /datum/round_event/radioactive_sludge/announce(fake)
-	priority_announce("Abnormal levels of radioactive material detected on board.", "Anomaly Alert")
+	if(fake)
+		selected_area = pick(GLOB.the_station_areas)
+	priority_announce("Hazardous material leak detected in [initial(selected_area.name)]. Vacating the area is recommended.", "Structural Alert")

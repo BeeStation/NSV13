@@ -45,6 +45,8 @@
 		return //No.
 	if(!armour_quadrants[quadrant])
 		return //Nonexistent quadrant. Work on your quads bro.
+	if ( nodamage )
+		return FALSE  // Mission critical targets like stations with cargo missions need to stay alive to not break things 
 	var/list/quad = armour_quadrants[quadrant] //Should be a string define in format. Get the quadrant that we seek.
 	//Time for some witchcraft that I stole from obj_defense.dm
 	var/delta = damage-quad["current_armour"]

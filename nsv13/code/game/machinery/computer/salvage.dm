@@ -37,6 +37,7 @@
 	if(!ui)
 		ui = new(user, src, "SalvageConsole")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/salvage/ui_data(mob/user)
 	if(!linked)
@@ -65,7 +66,14 @@
 	switch(action)
 		if("salvage")
 			var/obj/structure/overmap/OM = locate(params["target"])
-			if(!OM || !can_salvage || !linked)
+			if(!linked)
+				radio.talk_into(src, "This console is not attached to the ship's EWAR scrambling systems.", radio_channel)
+				return FALSE
+			if(!OM)
+				radio.talk_into(src, "Detection of target systems failed.", radio_channel)
+				return FALSE
+			if(!can_salvage)
+				radio.talk_into(src, "EWAR scrambling equipment is starting up or shutting down. Try again later.", radio_channel)
 				return FALSE
 			if((linked.active_boarding_target && !QDELETED(linked.active_boarding_target)))
 				playsound(pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_2.ogg'), 100, 1)
@@ -84,8 +92,18 @@
 				addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown/2)
 
 		if("stop_salvage")
-			if(!linked || !linked.active_boarding_target || !can_salvage)
+			if(!linked)
+				radio.talk_into(src, "This console is not attached to the ship's EWAR scrambling systems.", radio_channel)
 				return FALSE
+			if(!linked.active_boarding_target)
+				radio.talk_into(src, "EWAR scambling not currently engaged.", radio_channel)
+				return FALSE
+			if(!can_salvage)
+				radio.talk_into(src, "EWAR scrambling equipment is starting up or shutting down. Try again later.", radio_channel)
+				return FALSE
+			if(SEND_SIGNAL(linked.active_boarding_target, COMSIG_SHIP_RELEASE_BOARDING))
+				radio.talk_into(src, "Target is mission critical. Cannot cancel EWAR scrambling on [linked.active_boarding_target].", radio_channel)
+				return FALSE // Something blocked this
 			if(alert("Are you sure? (ALL BOARDERS WILL BE KILLED)",name,"Release Hammerlock","Cancel") == "Cancel")
 				return FALSE
 			radio.talk_into(src, "EWAR scrambling on [linked.active_boarding_target] cancelled.", radio_channel)
