@@ -291,6 +291,7 @@
 	var/loading = FALSE
 	var/durability = 100 //max durability: 100.
 	var/jammed = FALSE //if at 0 durability, jam it, handled in weardown().
+	var/jamchance = 0 //probability to jam every weardown
 
 /obj/machinery/ammo_sorter/attackby(obj/item/I, mob/user, params)
 	if(default_unfasten_wrench(user, I))
@@ -332,7 +333,7 @@
 			to_chat(user, "<span class='notice'>You clear the jam with the crowbar.</span>")
 			playsound(src, 'nsv13/sound/effects/ship/mac_load_unjam.ogg', 100, 1)
 			jammed = FALSE
-			durability = 5 //give the poor fools a few more uses if they're lucky
+			durability += 5 //give the poor fools a few more uses if they're lucky
 		else
 			to_chat(user, "<span class='notice'>You need to close the panel to get at the jammed machinery.</span>")
 		return TRUE
@@ -411,6 +412,7 @@
 /obj/machinery/ammo_sorter/proc/unload(atom/movable/AM)
 	if(!loaded.len)
 		return FALSE
+	weardown()
 	if(jammed)
 		playsound(src, 'nsv13/sound/effects/ship/mac_load_jam.ogg', 100, 1)
 		return
@@ -420,7 +422,7 @@
 		loaded -= AM
 		//Load it out the back.
 		AM.forceMove(get_turf(get_step(src, dir)))
-		weardown()
+		
 
 /obj/machinery/ammo_sorter/proc/load(atom/movable/A, mob/user)
 	if(length(loaded) >= max_capacity)
@@ -428,6 +430,7 @@
 			to_chat(user, "<span class='warning'>[src] is full!</span>")
 		loading = FALSE
 		return FALSE
+	weardown()
 	if(jammed)
 		playsound(src, 'nsv13/sound/effects/ship/mac_load_jam.ogg', 100, 1)
 		return
@@ -438,15 +441,17 @@
 			A.forceMove(src)
 			loading = FALSE
 			loaded += A
-			weardown()
 			return TRUE
 		else
 			loading = FALSE
 			return FALSE
 
 /obj/machinery/ammo_sorter/proc/weardown()
-	if(durability > 0) //don't go under 0, that's bad
-		durability -= rand(1,5) //pulling stuff out wears it down, now randomly. Feel free to tell me how this is done correctly.
+	if(durability > 0) //don't go under 0, that's bad, this whole if statement handles specifically the wear&tear and it's jamming at 0% durability.
+		durability -= rand(0,3) //pulling stuff out wears it down, now randomly. Feel free to tell me how this is done correctly.
 	else 
 		jammed = TRUE // if it's at 0, just kinda jam it.
 		durability = 0 // in case an admin plays with this and doesn't know how to use it, we reset it here for good measure.
+	jamchance = ((durability - 100) * (-1)) / 4 //inverting the 100-0 durability into a 0-100 probability to jam, then halving it
+	if(prob(jamchance))
+		jammed = TRUE
