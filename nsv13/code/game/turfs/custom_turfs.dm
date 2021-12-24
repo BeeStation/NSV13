@@ -158,3 +158,106 @@
 	. = ..()
 	alpha = 0
 	mouse_opacity = FALSE
+
+//Ice rocks
+/turf/open/floor/plating/asteroid/snow/ice/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/open/floor/plating/ice/smooth/airless 
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/closed/mineral/icesteroid
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+
+/turf/closed/mineral/random/icesteroid
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
+	mineralSpawnChanceList = list(/turf/closed/mineral/uranium/icesteroid = 5, /turf/closed/mineral/diamond/icesteroid = 1, /turf/closed/mineral/gold/icesteroid = 10,
+		/turf/closed/mineral/silver/icesteroid = 12, /turf/closed/mineral/plasma/icesteroid = 20, /turf/closed/mineral/iron/icesteroid = 40, /turf/closed/mineral/titanium/icesteroid = 11,
+		/turf/closed/mineral/gibtonite/icesteroid = 4, /turf/open/floor/plating/asteroid/snow/ice/airless = 2, /turf/closed/mineral/bscrystal/icesteroid = 1,
+		/turf/closed/mineral/copper/icesteroid = 15)
+
+/turf/closed/mineral/random/high_chance/icesteroid
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
+	mineralSpawnChanceList = list(
+		/turf/closed/mineral/uranium/icesteroid = 35, /turf/closed/mineral/diamond/icesteroid = 30, /turf/closed/mineral/gold/icesteroid = 45, /turf/closed/mineral/titanium/icesteroid = 45,
+
+		/turf/closed/mineral/silver/icesteroid = 50, /turf/closed/mineral/copper/icesteroid = 50,/turf/closed/mineral/plasma/icesteroid = 50, /turf/closed/mineral/bscrystal/icesteroid = 20)
+
+/turf/closed/mineral/random/low_chance/icesteroid
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
+		/turf/closed/mineral/uranium/icesteroid = 2, /turf/closed/mineral/diamond/icesteroid = 1, /turf/closed/mineral/gold/icesteroid = 4, /turf/closed/mineral/titanium/icesteroid = 4,
+		/turf/closed/mineral/silver/icesteroid = 6, /turf/closed/mineral/copper/icesteroid = 6, /turf/closed/mineral/plasma/icesteroid = 15, /turf/closed/mineral/iron/icesteroid = 40,
+		/turf/closed/mineral/gibtonite/icesteroid = 2, /turf/closed/mineral/bscrystal/icesteroid = 1)
+	mineralSpawnChanceList = list(
+
+/turf/closed/mineral/iron/icesteroid
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/closed/mineral/copper/icesteroid
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+
+/turf/closed/mineral/silver/icesteroid
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/closed/mineral/gold/icesteroid
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+
+/turf/closed/mineral/titanium/icesteroid
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+
+/turf/closed/mineral/gibtonite/icesteroid
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/closed/mineral/plasma/icesteroid
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/closed/mineral/uranium/icesteroid
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+/turf/closed/mineral/diamond/icesteroid
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/closed/mineral/bscrystal/icesteroid
+	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
+	initial_gas_mix = AIRLESS_ATMOS
