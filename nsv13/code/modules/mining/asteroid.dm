@@ -5,20 +5,29 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 /obj/structure/overmap/asteroid
 	name = "Asteroid"
 	desc = "A huge asteroid...IN SPACE"
-//	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/asteroid_32x.dmi'
+	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/asteroid'
 	icon_state = "1"
 	obj_integrity = 1000
 	max_integrity = 1000
-	var/asteroid_type = pick(ASTEROID_TYPE_ICE, ASTEROID_TYPE_ROCK)
-	var/core_composition = pick()
+	var/asteroid_size = pick(ASTEROID_SIZE_SMALL, ASTEROID_SIZE_MEDIUM, ASTEROID_SIZE_LARGE)
+	var/asteroid_type = pick(ASTEROID_TYPE_ROCK, ASTEROID_TYPE_ICE)
+	var/core_composition = pick(ASTEROID_COMPOSITION_FERROUS, ASTEROID_COMPOSITION_NONFERROUS, ASTEROID_COMPOSITION_EXOTIC)
 	var/required_tier = 1
 	armor = list("overmap_light" = 99, "overmap_medium" = 99, "overmap_heavy" = 25)
 
 /obj/structure/overmap/asteroid/apply_weapons()
 	return FALSE //Lol, no.
 
+/obj/structure/overmap/asteroid/Initialize()
+	. = ..()
+	icon += 
+	icon_state = "[rand(1,5)]"
+	angle = rand(0,360)
+	desired_angle = angle
+
+	
 /obj/structure/overmap/asteroid/ice
-	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/icefield/asteroid_ice_32x.dmi'
+	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/asteroid_ice_32x.dmi'
 	core_composition = list(/turf/closed/mineral/iron/icesteroid, /turf/closed/mineral/titanium/icesteroid)
 
 /obj/structure/overmap/asteroid/medium
@@ -31,27 +40,22 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	mass = MASS_MEDIUM
 
 /obj/structure/overmap/asteroid/medium/ice
-	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/icefield/asteroid_ice_96x.dmi'
+	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/asteroid_ice_96x.dmi'
 	core_composition = list(/turf/closed/mineral/copper/icesteroid, /turf/closed/mineral/silver/icesteroid, /turf/closed/mineral/gold/icesteroid, /turf/closed/mineral/plasma/icesteroid)
 
 /obj/structure/overmap/asteroid/large
 	name = "Asteroid (Exotic Composition)"
-//	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/asteroid_128x.dmi'
+	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/asteroid_128x.dmi'
 	core_composition = list(/turf/closed/mineral/diamond, /turf/closed/mineral/uranium, /turf/closed/mineral/bscrystal)
 	required_tier = 3
 	bound_height = 128
 	bound_width = 128
 	mass = MASS_MEDIUM_LARGE
 
-/obj/structure/overmap/asteroid/large/ice
-	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/icefield/asteroid_ice_128x.dmi'
+/obj/structure/overmap/asteroid/large/
+	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/asteroid_ice_128x.dmi'
 	core_composition = list(/turf/closed/mineral/diamond/icesteroid, /turf/closed/mineral/uranium/icesteroid, /turf/closed/mineral/bscrystal/icesteroid)
 
-/obj/structure/overmap/asteroid/Initialize()
-	. = ..()
-	icon_state = "[rand(1,5)]"
-	angle = rand(0,360)
-	desired_angle = angle
 
 /obj/structure/overmap/asteroid/Destroy()
 	. = ..()
