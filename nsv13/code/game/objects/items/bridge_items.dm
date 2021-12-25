@@ -6,5 +6,5 @@
 
 /obj/item/encryptionkey/bridge_staff
 	name = "bridge staff encryption key"
-	icon_state = "xo_cypherkey"
+	icon_state = "hop_cypherkey"
 	channels = list(RADIO_CHANNEL_COMMAND = 1)
