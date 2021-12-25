@@ -8,6 +8,7 @@
 	anchored = TRUE
 	can_be_unanchored = TRUE
 	density = TRUE
+	subsystem_type = /datum/controller/subsystem/processing //Needs to go faster than SSmachines
 	var/process_delay = 0.5 SECONDS
 	var/next_process = 0
 	var/arm_icon_state = "welder3"
