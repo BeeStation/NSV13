@@ -4,7 +4,7 @@
 		if(!loc)
 			return FALSE
 		return loc.get_overmap()
-	if(istype(loc, /obj/structure/overmap))
+	if(isovermap(loc))
 		return loc
 	var/datum/space_level/SL = SSmapping.z_list[z]
 	if(SL?.linked_overmap)
