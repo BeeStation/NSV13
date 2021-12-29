@@ -670,7 +670,7 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("words")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 	size = FLEET_DIFFICULTY_HARD
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/submarine/elite, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/elite)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/submarine/elite, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/elite)
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
 
@@ -729,7 +729,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/armada
 	name = "\improper Syndicate Armada" //Fleet used in the armada gamemode for the final confrontation
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/nuclear/elite, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/elite)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/conflagration/elite, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/elite)
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/cruiser/elite)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier, /obj/structure/overmap/syndicate/ai/carrier/elite)
 	size = FLEET_DIFFICULTY_INSANE
@@ -1396,7 +1396,7 @@ Seek a ship thich we'll station ourselves around
 	if(!OM.last_target)
 		OM.seek_new_target()
 	OM.brakes = TRUE
-	
+
 
 /obj/structure/overmap/proc/choose_goal()
 	//Populate the list of valid goals, if we don't already have them
