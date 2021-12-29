@@ -122,7 +122,7 @@
 	faction_type = FACTION_ID_SYNDICATE
 	system_type = "syndicate"
 	//Top tier trader with the best items available.
-	sold_items = list(/datum/trader_item/nuke,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, \
+	sold_items = list(/datum/trader_item/hellfire,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, \
 		/datum/trader_item/pdc, /datum/trader_item/fighter/syndicate, /datum/trader_item/overmap_shields, /datum/trader_item/deck_gun_autoelevator)
 	station_type = /obj/structure/overmap/trader/syndicate
 	image = "https://cdn.discordapp.com/attachments/728055734159540244/764570187357093928/unknown.png"

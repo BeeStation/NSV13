@@ -1,12 +1,14 @@
 /atom/proc/get_overmap() //Helper proc to get the overmap ship representing a given area.
 	RETURN_TYPE(/obj/structure/overmap)
 	if(!z)
-		return FALSE
+		if(!loc)
+			return FALSE
+		return loc.get_overmap()
+	if(isovermap(loc))
+		return loc
 	var/datum/space_level/SL = SSmapping.z_list[z]
 	if(SL?.linked_overmap)
 		return SL.linked_overmap
-	if(istype(loc, /obj/structure/overmap))
-		return loc
 	var/area/AR = get_area(src)
 	return AR.overmap_fallback
 
@@ -30,12 +32,7 @@ Helper method to get what ship an observer belongs to for stuff like parallax.
 
 	var/max = world.maxx - TRANSITIONEDGE
 	var/min = TRANSITIONEDGE + 1
-	var/list/possible_transitions = list()
-	for(var/datum/space_level/D as() in SSmapping.z_list)
-		if(!D.traits[ZTRAIT_OVERMAP])
-			possible_transitions += D.z_value
-	if(!length(possible_transitions)) //Just in case there is no space z level
-		possible_transitions = SSmapping.levels_by_trait(ZTRAIT_STATION)
+	var/list/possible_transitions = SSmapping.levels_by_trait(ZTRAIT_STATION)
 	var/_z = pick(possible_transitions)
 	var/_x
 	var/_y

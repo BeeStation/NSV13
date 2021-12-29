@@ -205,12 +205,12 @@
 	stock = 20
 	unlock_path = /obj/item/ship_weapon/ammunition/missile
 
-/datum/trader_item/nuke
-	name = "Thermonuclear Torpedo"
+/datum/trader_item/hellfire
+	name = "Plasma Incendiary Torpedo"
 	desc = "The alpha and the omega, shipped to you quickly and efficiently! (WARNING: HANDLE WITH CARE)."
 	price = 2500
 	stock = 4
-	unlock_path = /obj/item/ship_weapon/ammunition/torpedo/nuke
+	unlock_path = /obj/item/ship_weapon/ammunition/torpedo/hellfire
 
 /datum/trader_item/c20r
 	name = "Donk Co. C20R SMG."
