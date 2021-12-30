@@ -328,7 +328,7 @@
 	if(jammed && istype(I, /obj/item/crowbar))
 		if(!panel_open)
 			to_chat(user, "<span class='notice'>You begin clearing the jam...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
+			if(!do_after(user, 10 SECONDS, target=src))
 				return
 			to_chat(user, "<span class='notice'>You clear the jam with the crowbar.</span>")
 			playsound(src, 'nsv13/sound/effects/ship/mac_load_unjam.ogg', 100, 1)
@@ -448,10 +448,10 @@
 
 /obj/machinery/ammo_sorter/proc/weardown()
 	if(durability > 0) //don't go under 0, that's bad, this whole if statement handles specifically the wear&tear and it's jamming at 0% durability.
-		durability -= rand(0,3) //pulling stuff out wears it down, now randomly. Feel free to tell me how this is done correctly.
+		durability -= rand(0,2) //pulling stuff out wears it down, now randomly. Feel free to tell me how this is done correctly.
 	else 
 		jammed = TRUE // if it's at 0, just kinda jam it.
 		durability = 0 // in case an admin plays with this and doesn't know how to use it, we reset it here for good measure.
-	jamchance = ((durability - 100) * (-1)) / 4 //inverting the 100-0 durability into a 0-100 probability to jam, then halving it
+	jamchance = ((durability - 100) * (-1)) / 6 //inverting the 100-0 durability into a 0-100 probability to jam, then adjusting it.
 	if(prob(jamchance))
 		jammed = TRUE
