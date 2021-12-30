@@ -76,9 +76,6 @@
 	tier = 2
 	weight = 2
 
-/area
-	var/obj/structure/overmap/overmap_fallback = null //Used for dropships. Allows you to define an overmap to "fallback" to if get_overmap() fails to find a space level with a linked overmap.
-
 /obj/structure/overmap/fighter/dropship/enter(mob/user)
 	if(!interior_entry_points?.len)
 		message_admins("[src] has no interior or entry points and [user] tried to board it.")
