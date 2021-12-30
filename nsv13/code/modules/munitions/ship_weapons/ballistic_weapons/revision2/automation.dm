@@ -208,7 +208,7 @@
 
 /obj/item/circuitboard/machine/ammo_sorter
 	name = "Ammo sorter (circuitboard)"
-	req_components = list(/obj/item/stock_parts/matter_bin = 1)
+	req_components = list(/obj/item/stock_parts/matter_bin = 3)
 	build_path = /obj/machinery/ammo_sorter
 
 /obj/machinery/computer/ammo_sorter
@@ -288,7 +288,7 @@
 	anchored = TRUE
 	var/id = null
 	var/list/loaded = list() //What's loaded in?
-	var/max_capacity = 10	//Max cap for holding.
+	var/max_capacity = 12	//Max cap for holding.
 	var/loading = FALSE
 
 /obj/machinery/ammo_sorter/attackby(obj/item/I, mob/user, params)
@@ -339,7 +339,7 @@
 
 /obj/machinery/ammo_sorter/RefreshParts()
 	for(var/obj/item/stock_parts/matter_bin/MB in component_parts)
-		max_capacity = MB.rating*10
+		max_capacity = MB.rating*9+3
 
 /obj/machinery/ammo_sorter/MouseDrop_T(atom/movable/A, mob/user)
 	. = ..()
