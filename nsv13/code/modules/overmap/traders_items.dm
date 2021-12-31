@@ -14,6 +14,8 @@
 	bound_height = 224
 	req_one_access = list(ACCESS_CARGO, ACCESS_SYNDICATE)
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
+	ai_flags = AI_FLAG_STATIONARY
+	ai_behaviour = AI_RETALIATE
 	var/datum/trader/inhabited_trader = null
 
 /obj/structure/overmap/trader/try_hail(mob/living/user)
