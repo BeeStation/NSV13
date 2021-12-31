@@ -96,6 +96,7 @@ const DmTarget = Juke.createTarget({
     '_maps/map_files/generic/**',
     'code/**',
     'goon/**',
+    'nsv13/**',
     'html/**',
     'icons/**',
     'interface/**',
