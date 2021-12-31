@@ -30,7 +30,7 @@
 		launcher_info["name"] = FL.name
 		launcher_info["id"] = "\ref[FL]"
 		launcher_info["can_launch"] = FALSE
-		var/obj/structure/overmap/fighter/F = FL.mag_locked
+		var/obj/structure/overmap/small_craft/F = FL.mag_locked
 		launcher_info["can_launch"] = FL.ready
 		launcher_info["mag_locked"] = F?.name
 		launcher_info["pilot"] = (F?.pilot) ? F?.pilot.name : "No pilot"
@@ -75,7 +75,7 @@
 	anchored = TRUE
 	density = FALSE
 	var/place_landing_waypoint = TRUE
-	var/obj/structure/overmap/fighter/mag_locked = null
+	var/obj/structure/overmap/small_craft/mag_locked = null
 	var/obj/structure/overmap/linked = null
 	var/ready = TRUE
 
@@ -107,7 +107,7 @@
 	linkup()
 	addtimer(CALLBACK(src, .proc/linkup), 45 SECONDS)//Just in case we're not done initializing
 
-/obj/structure/overmap/fighter/can_brake()
+/obj/structure/overmap/small_craft/can_brake()
 	if(mag_lock)
 		if(pilot)
 			to_chat(pilot, "<span class='warning'>WARNING: Ship is magnetically arrested by an arrestor. Awaiting decoupling signal (O4).</span>")
@@ -116,8 +116,8 @@
 
 /obj/structure/fighter_launcher/Crossed(atom/movable/AM)
 	. = ..()
-	if(istype(AM, /obj/structure/overmap/fighter) && !mag_locked && ready) //Are we able to catch this ship?
-		var/obj/structure/overmap/fighter/OM = AM
+	if(istype(AM, /obj/structure/overmap/small_craft) && !mag_locked && ready) //Are we able to catch this ship?
+		var/obj/structure/overmap/small_craft/OM = AM
 		mag_locked = AM
 		visible_message("<span class='warning'>CLUNK.</span>")
 		OM.brakes = TRUE
@@ -219,7 +219,7 @@
 			if(WEST)
 				linked.docking_points += get_turf(locate(10, y, z))
 
-/obj/structure/overmap/fighter/proc/ready_for_transfer()
+/obj/structure/overmap/small_craft/proc/ready_for_transfer()
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	if(!DC || DC.docking_cooldown)
 		return FALSE
@@ -249,16 +249,16 @@
 	icon_state = "launcher"
 
 
-/obj/structure/overmap/fighter/proc/release_maglock()
+/obj/structure/overmap/small_craft/proc/release_maglock()
 	brakes = FALSE
 	mag_lock = null
 
-/obj/structure/overmap/fighter/proc/prime_launch()
+/obj/structure/overmap/small_craft/proc/prime_launch()
 	release_maglock()
 	speed_limit = 20 //Let them accelerate to hyperspeed due to the launch, and temporarily break the speed limit.
 	addtimer(VARSET_CALLBACK(src, speed_limit, initial(speed_limit)), 5 SECONDS) //Give them 5 seconds of super speed mode before we take it back from them
 
-/obj/structure/overmap/fighter/proc/check_overmap_elegibility() //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
+/obj/structure/overmap/small_craft/proc/check_overmap_elegibility() //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
 	if(ready_for_transfer())
 		var/obj/structure/overmap/OM = null
 		if(last_overmap)
@@ -307,10 +307,10 @@
 
 		return TRUE
 
-/obj/structure/overmap/fighter/proc/update_overmap()
+/obj/structure/overmap/small_craft/proc/update_overmap()
 	last_overmap = get_overmap()
 
-/obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
+/obj/structure/overmap/small_craft/proc/docking_act(obj/structure/overmap/OM)
 	if(istype(OM, /obj/structure/overmap/asteroid))
 		var/obj/structure/overmap/asteroid/AS = OM
 		AS.interior_mode = INTERIOR_DYNAMIC // We don't actually want it to create one until we're ready but we do need entry points
@@ -322,7 +322,7 @@
 	else
 		return FALSE
 
-/obj/structure/overmap/fighter/proc/transfer_from_overmap(obj/structure/overmap/OM)
+/obj/structure/overmap/small_craft/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	if(!DC || DC.docking_cooldown ||!DC.docking_mode|| !OM.docking_points?.len)
 		return FALSE

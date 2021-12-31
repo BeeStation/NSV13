@@ -162,7 +162,7 @@
 /turf/closed/indestructible/boarding_cordon/Bumped(atom/movable/AM)
 	if(isobserver(AM))
 		return
-	if(istype(AM, /obj/structure/overmap/fighter))
-		var/obj/structure/overmap/fighter/OM = AM
+	if(istype(AM, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/OM = AM
 		return OM.check_overmap_elegibility()
 	return ..()

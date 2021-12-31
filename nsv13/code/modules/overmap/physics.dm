@@ -408,12 +408,12 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
 	if(layer < other.layer || other.layer > layer)
 		return FALSE
-	if(istype(other, /obj/structure/overmap/fighter))
-		var/obj/structure/overmap/fighter/F = other
+	if(istype(other, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/F = other
 		if(F.docking_act(src))
 			return FALSE
-	if(istype(src, /obj/structure/overmap/fighter))
-		var/obj/structure/overmap/fighter/F = src
+	if(istype(src, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/F = src
 		if(F.docking_act(other))
 			return FALSE
 	//No colliders. But we still get a lot of info anyways!

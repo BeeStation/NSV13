@@ -23,7 +23,7 @@
 
 /turf/closed/wall/indestructible/dropship/entry/Bumped(atom/movable/AM)
 	. = ..()
-	var/obj/structure/overmap/fighter/dropship/OM = get_overmap()
+	var/obj/structure/overmap/small_craft/transport/OM = get_overmap()
 	if(OM && istype(OM) && !(SSmapping.level_trait(OM.z, ZTRAIT_OVERMAP)))
 		OM.exit(AM)
 
@@ -76,7 +76,7 @@
 	tier = 2
 	weight = 2
 
-/obj/structure/overmap/fighter/dropship/enter(mob/user)
+/obj/structure/overmap/small_craft/transport/enter(mob/user)
 	if(!interior_entry_points?.len)
 		message_admins("[src] has no interior or entry points and [user] tried to board it.")
 		return FALSE
@@ -95,7 +95,7 @@
 		user.forceMove(T)
 	mobs_in_ship += user
 
-/obj/structure/overmap/fighter/dropship/proc/exit(mob/user)
+/obj/structure/overmap/small_craft/transport/proc/exit(mob/user)
 	var/turf/T = get_turf(src)
 	var/atom/movable/AM
 	if(user.pulling)
@@ -111,14 +111,14 @@
 		user.forceMove(T)
 	mobs_in_ship -= user
 
-/obj/structure/overmap/fighter/dropship/attack_hand(mob/user)
+/obj/structure/overmap/small_craft/transport/attack_hand(mob/user)
 	if(allowed(user))
 		if(do_after(user, 2 SECONDS, target=src))
 			enter(user)
 			to_chat(user, "<span class='notice'>You climb into [src]'s passenger compartment.</span>")
 			return TRUE
 
-/obj/structure/overmap/fighter/dropship/MouseDrop_T(atom/movable/target, mob/user)
+/obj/structure/overmap/small_craft/transport/MouseDrop_T(atom/movable/target, mob/user)
 	if(!isliving(user))
 		return FALSE
 	for(var/slot in loadout.equippable_slots)
@@ -138,7 +138,7 @@
 
 //Bit jank but w/e
 
-/obj/structure/overmap/fighter/dropship/force_parallax_update(ftl_start)
+/obj/structure/overmap/small_craft/transport/force_parallax_update(ftl_start)
 	for(var/area/AR in linked_areas)
 		AR.parallax_movedir = (ftl_start ? EAST : null)
 	for(var/mob/M in mobs_in_ship)
@@ -173,7 +173,7 @@
 	return data
 
 /obj/machinery/computer/ship/helm/console/dropship/ui_act(action, params, datum/tgui/ui)
-	var/obj/structure/overmap/fighter/dropship/OM = get_overmap()
+	var/obj/structure/overmap/small_craft/transport/OM = get_overmap()
 	if(..() || !OM)
 		return
 	var/atom/movable/target = locate(params["id"])
@@ -295,5 +295,5 @@
 
 	OM.relay('nsv13/sound/effects/fighters/switch.ogg')
 
-/obj/structure/overmap/fighter/dropship/stop_piloting(mob/living/M, eject_mob=FALSE, force=FALSE) // Just changes eject default to false
+/obj/structure/overmap/small_craft/transport/stop_piloting(mob/living/M, eject_mob=FALSE, force=FALSE) // Just changes eject default to false
 	return ..()
