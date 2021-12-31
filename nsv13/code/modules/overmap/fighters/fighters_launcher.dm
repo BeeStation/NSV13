@@ -292,9 +292,9 @@
 			else
 				var/_z = pick_n_take(free_treadmills)
 				reserved_z = _z
-			if(current_system) // No I can't use ?, because if it's null we use the previous value instead
-				starting_system = current_system.name //Just fuck off it works alright?
-			SSstar_system.add_ship(src, get_turf(OM))
+		if(current_system) // No I can't use ?, because if it's null we use the previous value instead
+			starting_system = current_system.name //Just fuck off it works alright?
+		SSstar_system.add_ship(src, get_turf(OM))
 
 		if(current_system && !LAZYFIND(current_system.system_contents, src))
 			LAZYADD(current_system.system_contents, src)
