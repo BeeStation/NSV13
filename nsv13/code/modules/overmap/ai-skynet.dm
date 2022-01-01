@@ -371,6 +371,26 @@ Adding tasks is easy! Just define a datum for it.
 		expecting_cargo += objective 
 		essential = TRUE
 		nodamage = TRUE
+
+/obj/structure/overmap/proc/add_holding_cargo( objective )
+	if ( objective ) 
+		holding_cargo += objective 
+		essential = TRUE 
+		nodamage = TRUE 
+
+/obj/structure/overmap/proc/deliver_package(var/mob/living/user, var/datum/overmap_objective/cargo/O) 
+	if ( O ) 
+		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
+		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+		MO.hail( pick( list( 
+			"Message received, we are delivering your package for transfer now.",
+			"Understood, delivering the cargo.",
+			"The package is enroute, make sure it arrives intact to the destination.",
+			"Understood, the package is enroute. Is there anything else you needed?",
+		) ), src)
+
+		O.deliver_package() 
+		holding_cargo -= O
 	
 /obj/structure/overmap/proc/check_objectives( var/datum/freight_delivery_receipt/receipt )
 	if ( !length( expecting_cargo ) ) 
@@ -1366,8 +1386,9 @@ Seek a ship thich we'll station ourselves around
 	var/list/ai_fighter_type = list()
 	var/ai_flags = AI_FLAG_DESTROYER
 
-	var/list/expecting_cargo = list() // list of objective datums 
-	var/list/received_cargo = list() // list of typically freight torps 
+	var/list/holding_cargo = list() // list of objective datums. This station has cargo to deliver to the players as part of a courier objective 
+	var/list/expecting_cargo = list() // list of objective datums. This station is expecting cargo delivered to them by the players as a part of a courier objective 
+	var/list/received_cargo = list() // list of typically freight torps. This station has received cargo 
 	var/list/receipts = list() // All cargo delivery attempts made to this station 
 	var/essential = FALSE // AI targeting will ignore essential stations to preserve ammo. At least I hope, there's a thousand places AI last_target is updated
 	var/nodamage = FALSE // Mob immunity equivalent for stations, used for mission critical targets. Separate var if mission critical stations need to be essential but not immortal 

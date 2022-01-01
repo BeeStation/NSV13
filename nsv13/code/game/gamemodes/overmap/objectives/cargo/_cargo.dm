@@ -26,20 +26,26 @@
 	// TLDR station destinations get funky when a gamemode uses random_objectives to store multiple cargo objectives with pick_same_destination set to TRUE and FALSE, due to how random_objectives randomly selects its objectives 
 	var/pick_same_destination = TRUE
 	
+	// Setting send_to_station_pickup_point to TRUE will delay calling deliver_package until the players navigate to the station pickukp point and request the pickup. This is performed through the station trader menu after clicking the DRADIS blip
+	// This means the package will not be delievered at roundstart!
+	var/send_to_station_pickup_point = FALSE
+	
+	var/obj/structure/overmap/pickup_destination = null 
+
 	// Cargo objectives handle the station's requisitioned item in a special datum so we can control how to check contents  
 	// Reminder! Freight torpedoes can only hold 4 slots worth of items! This means cargo objectives should not be requiring more than 4 prepackaged item types 
 	var/list/freight_types = list()
 	var/last_check_cargo_items_requested = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station approved for cargo objectives 
 	var/last_check_cargo_items_all = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station rejected for cargo objectives. Leftover items in this list means the station found garbage not related to the current objective 
-	var/delivered_packages = FALSE
+	var/roundstart_packages_handled = FALSE
 
 /datum/overmap_objective/cargo/instance() 
 	get_target()
 	pick_station()
+	if ( !roundstart_packages_handled )
+		roundstart_deliver_package()
+		roundstart_packages_handled = TRUE 
 	update_brief()
-	if ( !delivered_packages )
-		deliver_package()
-		delivered_packages = TRUE 
 
 /datum/overmap_objective/cargo/proc/get_target()
 	if ( length( freight_types ) )
@@ -75,11 +81,37 @@
 	destination = S 
 	S.add_objective( src )
 
-/datum/overmap_objective/cargo/proc/deliver_package() 
+/datum/overmap_objective/cargo/proc/roundstart_deliver_package() 
+	if ( send_to_station_pickup_point )
+		pick_station_pickup_point() 
+		return TRUE 
+
+	deliver_package()
+
+/datum/overmap_objective/cargo/proc/deliver_package() // Called when picking up prepackaged crates at station pickup points 
 	for ( var/datum/freight_type/T in freight_types ) 
 		if ( !T.deliver_package() )
 			message_admins( "BUG: A cargo objective failed to deliver a prepackaged item to the ship! Automatically marking the objective as completed." )
 			status = 1
+
+/datum/overmap_objective/cargo/proc/pick_station_pickup_point()
+	// Pick a random existing station to give the prepackaged wooden crate to 
+	// This proc is called in place of deliver_package if send_to_station_pickup_point is TRUE 
+
+	var/list/ntstations = list()
+	for ( var/trader in SSstar_system.traders )
+		var/datum/trader/T = trader
+		if ( T.faction_type == FACTION_ID_NT )
+			var/obj/structure/overmap/S = T.current_location
+
+			if ( !length( S.expecting_cargo ) ) // No transfer objectives to stations that are also expecting cargo, for now 
+				ntstations += S 
+
+	var/obj/structure/overmap/S = pick( ntstations )
+
+	// Assign this objective directly to the station, so the station can track it 
+	pickup_destination = S 
+	S.add_holding_cargo( src )
 
 /datum/overmap_objective/cargo/proc/update_brief() 
 	if ( length( freight_types ) )
@@ -106,7 +138,10 @@
 			segments += type.get_brief_segment() 
 		
 		var/obj/structure/overmap/S = destination
-		brief = "Transfer [segments.Join( ", " )] prepackaged and delivered to cargo, to station [S] in system [S.current_system]"
+		if ( send_to_station_pickup_point )
+			brief = "Pick up [segments.Join( ", " )] from station [pickup_destination] in system [pickup_destination.current_system], and tranfer the contents to station [S] in system [S.current_system]"
+		else 
+			brief = "Transfer [segments.Join( ", " )] prepackaged and delivered to cargo, to station [S] in system [S.current_system]"
 
 /datum/overmap_objective/cargo/proc/check_cargo( var/obj/shipment ) 
 	if ( length( freight_types ) ) 
