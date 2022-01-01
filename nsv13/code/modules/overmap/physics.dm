@@ -504,7 +504,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	other.offset += output
 
 /obj/structure/overmap/Bumped(atom/movable/A)
-	if(brakes || ismob(A) || isovermap(A)) //No :)
+	if(brakes || isovermap(A)) //No :)
 		return FALSE
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	if(A.dir & NORTH)
@@ -602,7 +602,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	var/turf/curloc = source.get_center()
 	var/turf/targloc = istype(target, /obj/structure/overmap) ? target.get_center() : get_turf(target)
 	trajectory_ignore_forcemove = TRUE
-	forceMove(curloc)
+	doMove(curloc)
 	trajectory_ignore_forcemove = FALSE
 	starting = curloc
 	original = target

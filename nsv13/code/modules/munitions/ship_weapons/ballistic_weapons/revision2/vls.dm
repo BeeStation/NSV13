@@ -22,8 +22,8 @@
 		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
-	selectable = TRUE // Capable of firing manually 
-	autonomous = TRUE // Capable of firing autonomously 
+	selectable = TRUE // Capable of firing manually
+	autonomous = TRUE // Capable of firing autonomously
 
 /datum/ship_weapon/vls/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
@@ -185,7 +185,7 @@
 	if(!OM || !enabled)
 		return FALSE
 	if ( !weapon_type ) // Can't fire any weapons if we don't know which one to fire!
-		return FALSE 
+		return FALSE
 	var/list/potential_targets = acquire_targets(OM)
 	if(!potential_targets.len)
 		return FALSE
@@ -253,6 +253,7 @@
 	if(!ui)
 		ui = new(user, src, "AMS")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Ammo updates, loading delay
 
 /datum/ams_mode/countermeasures/acquire_targets(obj/structure/overmap/OM)
 	var/list/targets = list()
@@ -318,24 +319,24 @@
 	if(flak_battery_amount >= 1)
 		handle_flak()
 
-	// Get all weapons designated as autonomous and prepare to fire 
+	// Get all weapons designated as autonomous and prepare to fire
 	var/list/automated_weapons = list()
 	if ( weapon_types )
 		for( var/item in weapon_types )
 			var/datum/ship_weapon/W = item
 			if ( W && W.autonomous && ( ai_controlled || W.can_fire() ) ) // Is W defined to avoid runtimes? Is it loaded? Is it enabled? Is it not broken?
-				automated_weapons += W // Weapons are prioritized by the order they are defined in overmap.dm. Only the first priority weapon will be fired for each mode 
+				automated_weapons += W // Weapons are prioritized by the order they are defined in overmap.dm. Only the first priority weapon will be fired for each mode
 
 	for(var/datum/ams_mode/AMM in ams_modes)
 		if(AMM.enabled)
-			for ( var/datum/ship_weapon/W in automated_weapons ) 
+			for ( var/datum/ship_weapon/W in automated_weapons )
 				var/list/permitted_ams_modes = W.permitted_ams_modes
 				if ( permitted_ams_modes.len && permitted_ams_modes[ AMM.name ] )
-					// Fire the first prioritized and working weapon first, then return false 
-					// In continuous iterations of this loop, weapons will be dropped in and out of the automated_weapons list if they're not ready to fire 
-					// In-game this behavior will be viewed as firing secondary and tertiary defense weapons when the primary weapon runs out of ammo 
+					// Fire the first prioritized and working weapon first, then return false
+					// In continuous iterations of this loop, weapons will be dropped in and out of the automated_weapons list if they're not ready to fire
+					// In-game this behavior will be viewed as firing secondary and tertiary defense weapons when the primary weapon runs out of ammo
 					AMM.handle_autonomy(src, W)
-					break 
+					break
 
 	//Not currently used, but may as well keep it for reference...
 	if(flak_battery_amount > 0)

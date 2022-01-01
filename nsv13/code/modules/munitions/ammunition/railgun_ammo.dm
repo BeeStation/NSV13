@@ -10,7 +10,7 @@
 
 /obj/item/ship_weapon/ammunition/railgun_ammo/Initialize()
 	..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /obj/item/ship_weapon/ammunition/railgun_ammo/uranium
 	name = "U4 NTRK 400mm teflon coated uranium round"

@@ -189,7 +189,7 @@
 			SL.set_parallax("transit", EAST)
 		else
 			SL.set_parallax(current_system.parallax_property, null)
-	for(var/datum/space_level/SL in occupying_levels)
+	for(var/datum/space_level/SL as() in occupying_levels)
 		if(ftl_start)
 			SL.set_parallax("transit", EAST)
 		else
@@ -217,7 +217,7 @@
 	if(reserved_z) //Actual overmap parallax behaviour
 		var/datum/space_level/SL = SSmapping.z_list[reserved_z]
 		SL.set_parallax("transit", EAST)
-	for(var/datum/space_level/SL in occupying_levels)
+	for(var/datum/space_level/SL as() in occupying_levels)
 		SL.set_parallax("transit", EAST)
 
 	relay(ftl_drive.ftl_loop, "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
@@ -248,7 +248,7 @@
 	if(reserved_z) //Actual overmap parallax behaviour
 		var/datum/space_level/SL = SSmapping.z_list[reserved_z]
 		SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)
-	for(var/datum/space_level/SL in occupying_levels)
+	for(var/datum/space_level/SL as() in occupying_levels)
 		SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)
 
 	log_runtime("DEBUG: jump_end: exiting hyperspace into [target_system]")
@@ -342,6 +342,7 @@
 	icon_screen = null
 	icon_keyboard = null
 	req_access = list(ACCESS_ENGINE_EQUIP)
+	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
 	var/tier = 1
 	var/faction = "nanotrasen" //For ship tracking. The tracking feature of the FTL compy is entirely so that antagonists can hunt the NT ships down
 	var/jump_speed_factor = 3.5 //How quickly do we jump? Larger is faster.
@@ -363,10 +364,6 @@
 	var/ftl_startup_time = 30 SECONDS
 	var/auto_spool = FALSE //For lazy admins
 	var/lockout = FALSE //Used for our end round shenanigains
-
-//No please do not delete the FTL's radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
-/obj/machinery/computer/ship/ftl_computer/prevent_content_explosion()
-	return TRUE
 
 /obj/machinery/computer/ship/ftl_computer/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
@@ -511,6 +508,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	if(!ui)
 		ui = new(user, src, "FTLComputer")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/ftl_computer/ui_act(action, params, datum/tgui/ui)
 	. = ..()

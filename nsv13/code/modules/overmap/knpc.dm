@@ -90,7 +90,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/obj/item/card/id/access_card = H.wear_id
 	if(target)
 		dest = get_turf(target)
-		path = get_path_to(H, dest, /turf/proc/Distance_cardinal, 0, 120, id=access_card, exclude=avoid, simulated_only=!(H.wear_suit?.clothing_flags & STOPSPRESSUREDAMAGE && H.head?.clothing_flags & STOPSPRESSUREDAMAGE))
+		path = get_path_to(H, dest, max_distance = 120, mintargetdist = 0, id=access_card, simulated_only=!(H.wear_suit?.clothing_flags & STOPSPRESSUREDAMAGE && H.head?.clothing_flags & STOPSPRESSUREDAMAGE), exclude=avoid)
 
 		var/obj/structure/dense_object = locate(/obj/structure) in get_turf(get_step(H, H.dir)) //If we're stuck
 		if(istype(dense_object, /obj/structure/table) || istype(dense_object, /obj/structure/railing))
