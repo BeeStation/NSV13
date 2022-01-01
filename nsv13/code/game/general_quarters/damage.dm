@@ -20,8 +20,10 @@
 			radiation_pulse(T, 1000, 10)
 			T.atmos_spawn_air("o2=125;plasma=50;TEMP=1000")
 
+/* Disabled for now, set to return in a new form - KS
 //For training purposes.
 /obj/structure/overmap/proc/simulate_nuke()
+	set waitfor = FALSE
 	relay('nsv13/sound/effects/ship/incoming_missile.ogg', message="<h1>Missile Impact Imminent</h1><br/><span class='danger'>Thermonuclear launch detected. All hands brace for impact.</span>")
 	sleep(5 SECONDS) //This is a sin, but it won't be used much.
 	var/turf/open/pickedstart = get_turf(pick(orange(10, src)))
@@ -34,3 +36,4 @@
 	spawn()
 		proj.fire(Get_Angle(pickedstart,pickedgoal))
 		proj.set_pixel_speed(4)
+*/

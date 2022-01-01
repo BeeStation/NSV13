@@ -8,7 +8,7 @@
 /datum/overmap_objective/board_ship/instance()
 	. = ..()
 	// make a ship
-	var/ship_type = pick(BOARDABLE_SHIP_TYPES)
+	var/ship_type = pick(GLOB.boardable_ship_types)
 	target_ship = instance_overmap(ship_type)
 	RegisterSignal(target_ship, COMSIG_SHIP_BOARDED, .proc/check_completion, target_ship)
 	RegisterSignal(target_ship, COMSIG_SHIP_RELEASE_BOARDING, .proc/release_boarding, target_ship)

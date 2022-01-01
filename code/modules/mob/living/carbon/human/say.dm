@@ -47,12 +47,12 @@
 /mob/living/carbon/human/binarycheck()
 	if(..()) //NSV13- If they have the binary speaker trait. Used for synthetics
 		return TRUE
-	if(ears)
-		var/obj/item/radio/headset/dongle = ears
-		if(!istype(dongle))
-			return FALSE
-		if(dongle.translate_binary)
-			return TRUE
+	if(stat >= SOFT_CRIT || !ears)
+		return FALSE
+	var/obj/item/radio/headset/dongle = ears
+	if(!istype(dongle))
+		return FALSE
+	return dongle.translate_binary
 
 /mob/living/carbon/human/radio(message, list/message_mods = list(), list/spans, language)
 	. = ..()

@@ -82,7 +82,7 @@
 		slug_shell = 1
 		ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
 		max_ammo = 1
-		projectile_velo = 2 //Not so great at handling shells
+		projectile_velo = 2.5 //Not so great at handling shells
 		capacitor_max_charge = 1000000 //1MW
 		say("Cycling complete: Configuration - 800mm Shell Selected")
 
@@ -101,7 +101,7 @@
 			linked.last_fired = overlay
 		for(var/i = 0, i < shots, i++)
 			do_animation()
-			state = 5 //STATE_FIRING
+			state = STATE_FIRING
 			local_fire()
 			overmap_fire(target)
 			ammo -= chambered
@@ -109,17 +109,17 @@
 			chambered = null
 			capacitor_charge = 0
 			if(ammo?.len)
-				state = 3 //STATE_FED
+				state = STATE_FED
 				chamber(rapidfire = TRUE)
 			else
-				state = 1 //STATE_NOTLOADED
+				state = STATE_NOTLOADED
 			after_fire()
 	return FALSE
 
 /obj/machinery/ship_weapon/hybrid_rail/can_fire(shots = weapon_type.burst_size)
-	if((state < 4) || !chambered) //STATE_CHAMBERED
+	if((state < STATE_CHAMBERED) || !chambered)
 		return FALSE
-	if(state >= 5) //STATE_FIRING
+	if(state >= STATE_FIRING)
 		return FALSE
 	if(maintainable && malfunction) //Do we need maintenance?
 		return FALSE
@@ -222,6 +222,7 @@
 	if(!ui)
 		ui = new(user, src, "HybridWeapons")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/ship_weapon/hybrid_rail/ui_act(action, params)
 	if(..())
@@ -232,7 +233,7 @@
 			capacitor_current_charge_rate = adjust
 			active_power_usage = adjust
 		if("toggle_load")
-			if(state == 2) //STATE_LOADED
+			if(state == STATE_LOADED)
 				feed()
 			else
 				unload()
@@ -256,8 +257,8 @@
 /obj/machinery/ship_weapon/hybrid_rail/ui_data(mob/user)
 	. = ..()
 	var/list/data = list()
-	data["loaded"] = (state > 2) ? TRUE : FALSE //STATE_LOADED
-	data["chambered"] = (state > 3) ? TRUE : FALSE //STATE_FED
+	data["loaded"] = (state > STATE_LOADED) ? TRUE : FALSE
+	data["chambered"] = (state > STATE_FED) ? TRUE : FALSE
 	data["safety"] = safety
 	data["ammo"] = ammo.len
 	data["max_ammo"] = max_ammo

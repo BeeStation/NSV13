@@ -9,8 +9,7 @@
 	supervisors = "the chief engineer"
 	selection_color = "#fff5cc"
 	chat_color = "#D4A07D"
-
-	exp_requirements = 60
+	exp_requirements = 120
 	exp_type = EXP_TYPE_CREW
 
 	outfit = /datum/outfit/job/atmos
@@ -21,18 +20,20 @@
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_ENG
 	display_order = JOB_DISPLAY_ORDER_ATMOSPHERIC_TECHNICIAN
+	departments = DEPARTMENT_ENGINEERING
 
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/atmospherics
+	)
 /datum/outfit/job/atmos
 	name = "Atmospheric Technician"
 	jobtype = /datum/job/atmos
 
+	id = /obj/item/card/id/job/atmos
 	belt = /obj/item/storage/belt/utility/atmostech
 	l_pocket = /obj/item/pda/atmos
 	ears = /obj/item/radio/headset/headset_eng
 	uniform = /obj/item/clothing/under/rank/engineering/atmospheric_technician
-	shoes = /obj/item/clothing/shoes/workboots
-	suit = /obj/item/clothing/suit/ship/engineer
-	head = /obj/item/clothing/head/beret/ship/engineer
 	r_pocket = /obj/item/analyzer
 
 	backpack = /obj/item/storage/backpack/industrial

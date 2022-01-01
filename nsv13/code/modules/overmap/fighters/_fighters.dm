@@ -5,9 +5,22 @@ Been a mess since 2018, we'll fix it someday (probably)
 */
 
 /obj/structure/overmap/fighter/Destroy()
-	throw_pilot()
+	var/mob/last_pilot = pilot // Old pilot gets first shot
+	for(var/mob/M as() in operators)
+		stop_piloting(M, eject_mob=FALSE) // We'll handle kicking them out ourselves
+	if(length(mobs_in_ship))
+		var/obj/structure/overmap/fighter/escapepod = null
+		if(ispath(escape_pod_type))
+			escapepod = create_escape_pod(escape_pod_type, last_pilot)
+		if(!escapepod)
+			var/list/copy_of_mobs_in_ship = mobs_in_ship.Copy() //Sometimes you really need to iterate on a list while it's getting modified
+			for(var/mob/living/M in copy_of_mobs_in_ship)
+				to_chat(M, "<span class='warning'>This ship is not equipped with an escape pod! Unable to eject.</span>")
+				M.apply_damage(200)
+				eject(M, force=TRUE)
+
 	kill_boarding_level()
-	. = ..()
+	return ..()
 
 /obj/structure/overmap/fighter
 	name = "Space Fighter"
@@ -51,7 +64,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
 	var/obj/machinery/computer/ship/navigation/starmap = null
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
-	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode, \
+	var/escape_pod_type = /obj/structure/overmap/fighter/escapepod
+	var/mutable_appearance/canopy
+	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode,
 								.verb/show_control_panel, .verb/change_name, .verb/countermeasure)
 												 //Countermeasure code in countermeasure_ammo.dm
 
@@ -111,6 +126,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(!ui)
 		ui = new(user, src, "FighterControls")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/structure/overmap/fighter/ui_data(mob/user)
 	var/list/data = list()
@@ -327,6 +343,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 
+// Bypass the z level checks done by parent
+/obj/structure/overmap/fighter/forceMove(atom/destination)
+	return doMove(destination)
+
 /obj/structure/overmap/fighter/light
 	name = "Su-818 Rapier"
 	desc = "An Su-818 Rapier space superiorty fighter craft. Designed for high maneuvreability and maximum combat effectivness against other similar weight classes."
@@ -363,7 +383,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 	bound_height = 32
 	pixel_z = 0
 	pixel_w = 0
-	max_integrity = 50 //Able to withstand more punishment so that people inside it don't get yeeted as hard
+	max_integrity = 500 //Able to withstand more punishment so that people inside it don't get yeeted as hard
+	canopy_open = FALSE
+	essential = TRUE
+	escape_pod_type = null // This would just be silly
 	speed_limit = 2 //This, for reference, will feel suuuuper slow, but this is intentional
 	loadout_type = LOADOUT_UTILITY_ONLY
 	components = list(/obj/item/fighter_component/fuel_tank,
@@ -377,6 +400,12 @@ Been a mess since 2018, we'll fix it someday (probably)
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/countermeasure_dispenser)
+
+
+/obj/structure/overmap/fighter/escapepod/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
+	if(!SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
+		return FALSE
+	return ..()
 
 /obj/structure/overmap/fighter/heavy
 	name = "Su-410 Scimitar"
@@ -427,7 +456,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 	set_light(4)
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
-	add_overlay(image(icon = icon, icon_state = "canopy_open", dir = SOUTH))
 	var/obj/item/fighter_component/engine/engineGoesLast = null
 	if(build_components.len)
 		for(var/Ctype in build_components)
@@ -443,6 +471,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 	set_fuel(rand(500, 1000))
 	if(start_emagged)
 		obj_flags ^= EMAGGED
+	canopy = mutable_appearance(icon = icon, icon_state = "canopy_open")
+	add_overlay(canopy)
+	update_visuals()
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)
 	if(operators && LAZYFIND(operators, user))
@@ -484,29 +515,82 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/fighter/proc/enter(mob/user)
 	var/obj/structure/overmap/OM = user.get_overmap()
 	if(OM)
-		LAZYREMOVE(OM.mobs_in_ship, user)
+		OM.mobs_in_ship -= user
 	user.forceMove(src)
 	mobs_in_ship += user
 	if((user.client?.prefs.toggles & SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
 		SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
 
-/obj/structure/overmap/fighter/stop_piloting(mob/living/M, force=FALSE)
+/obj/structure/overmap/fighter/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
+	if(eject_mob && !eject(M, force))
+		return FALSE
+	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
+	M.remove_verb(fighter_verbs)
+	return ..()
+
+/obj/structure/overmap/fighter/proc/eject(mob/living/M, force=FALSE)
 	if(!canopy_open && !force)
 		to_chat(M, "<span class='warning'>[src]'s canopy isn't open.</span>")
 		if(prob(50))
 			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
 			to_chat(M, "<span class='warning'>You bump your head on [src]'s canopy.</span>")
 			visible_message("<span class='warning'>You hear a muffled thud.</span>")
-		return
-	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE) && !force)
+		return FALSE
+
+	if(!force && !SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
 		to_chat(M, "<span class='warning'>[src] won't let you jump out of it mid flight.</span>")
 		return FALSE
+
+	SEND_SOUND(M, sound(null))
 	mobs_in_ship -= M
-	. = ..()
-	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
 	M.forceMove(get_turf(src))
-	M.remove_verb(fighter_verbs)
 	return TRUE
+
+/obj/structure/overmap/fighter/escapepod/eject(mob/living/M, force=FALSE)
+	. = ..()
+	if(. && !length(mobs_in_ship) && !(QDELETED(src) || QDESTROYING(src))) // Last one out means we don't need this anymore
+		qdel(src)
+
+/obj/structure/overmap/fighter/proc/create_escape_pod(path, mob/last_pilot)
+	// Create pod
+	var/obj/structure/overmap/fighter/escapepod/escape_pod = new path(get_turf(src))
+	if(!istype(escape_pod))
+		message_admins("Unable to create escape pod for [src] with path [path]")
+		qdel(escape_pod)
+		return
+	escape_pod.name = "[name] - escape pod"
+	escape_pod.faction = faction
+	escape_pod.desired_angle = 0
+	escape_pod.user_thrust_dir = NORTH
+	var/obj/item/fighter_component/docking_computer/DC = escape_pod.loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+	DC.docking_mode = TRUE
+	relay_to_nearby('nsv13/sound/effects/ship/fighter_launch_short.ogg')
+
+	// Transfer occupants
+	if(length(mobs_in_ship))
+		relay('nsv13/sound/effects/computer/alarm_3.ogg', "<span class=userdanger>EJECT! EJECT! EJECT!</span>")
+		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
+
+		if(last_pilot && !last_pilot.incapacitated())
+			last_pilot.forceMove(escape_pod)
+			escape_pod.start_piloting(last_pilot, "pilot")
+			escape_pod.attack_hand(last_pilot) // Bring up UI
+			mobs_in_ship -= last_pilot
+			escape_pod.mobs_in_ship += last_pilot
+			last_pilot.overmap_ship = escape_pod
+
+		for(var/mob/M as() in mobs_in_ship)
+			M.forceMove(escape_pod)
+			if(!escape_pod.pilot || escape_pod.pilot.incapacitated()) // Someone please drive this thing
+				escape_pod.start_piloting(M, "pilot")
+				escape_pod.ui_interact(M)
+			else
+				escape_pod.start_piloting(M, "observer")
+			escape_pod.mobs_in_ship += M
+			M.overmap_ship = escape_pod
+	mobs_in_ship.Cut()
+
+	return escape_pod
 
 /obj/structure/overmap/fighter/attack_hand(mob/user)
 	. = ..()
@@ -521,19 +605,17 @@ Been a mess since 2018, we'll fix it someday (probably)
 			ui_interact(user)
 			return TRUE
 
-/obj/structure/overmap/fighter/proc/force_eject(force=FALSE)
-	RETURN_TYPE(/list)
-	var/list/victims = list()
+/obj/structure/overmap/fighter/proc/force_eject(force = FALSE)
+	. = list()
 	brakes = TRUE
 	if(!canopy_open)
 		canopy_open = TRUE
 		playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
 	for(var/mob/M in mobs_in_ship)
 		stop_piloting(M, force)
-		M.forceMove(get_turf(src))
+		M.forceMove(get_turf(src)) // we can use doMove because we already know we're moving to a safe turf.
 		to_chat(M, "<span class='warning'>You have been remotely ejected from [src]!.</span>")
-		victims += M
-	return victims
+		. += M
 
 //Iconic proc.
 /obj/structure/overmap/fighter/proc/foo()
@@ -547,58 +629,23 @@ Been a mess since 2018, we'll fix it someday (probably)
 	E.rpm = ENGINE_RPM_SPUN
 	E.try_start()
 	toggle_canopy()
-	forceMove(get_turf(locate(250, y, z)))
+	forceMove(locate(250, y, z))
 	//check_overmap_elegibility(TRUE)
 
-/obj/structure/overmap/fighter/proc/throw_pilot() //Used when yeeting a pilot out of an exploding ship
+/obj/structure/overmap/fighter/proc/throw_pilot(damage = 200) //Used when yeeting a pilot out of an exploding ship
 	if(SSmapping.level_trait(z, ZTRAIT_OVERMAP)) //Check if we're on the overmap
-		var/max = world.maxx-TRANSITIONEDGE
-		var/min = 1+TRANSITIONEDGE
+		damage *= 2
+	var/list/victims = force_eject(TRUE)
+	for(var/mob/living/M as() in victims)
+		M.apply_damage(damage)
 
-		var/list/possible_transitions = list()
-		for(var/A in SSmapping.z_list)
-			var/datum/space_level/D = A
-			if (D.linkage == CROSSLINKED && !SSmapping.level_trait(D.z_value, ZTRAIT_OVERMAP))
-				possible_transitions += D.z_value
-			if(!possible_transitions.len) //Just in case there is no space z level
-				for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
-					possible_transitions += z
-
-		var/_z = pick(possible_transitions)
-		var/_x
-		var/_y
-
-		switch(dir)
-			if(SOUTH)
-				_x = rand(min,max)
-				_y = max
-			if(WEST)
-				_x = max
-				_y = rand(min,max)
-			if(EAST)
-				_x = min
-				_y = rand(min,max)
-			else
-				_x = rand(min,max)
-				_y = min
-
-		var/turf/T = locate(_x, _y, _z) //Where are we putting you
-		var/list/victims = force_eject(TRUE)
-		for(var/mob/living/M in victims)
-			M.forceMove(T)
-			M.apply_damage(400) //No way you're surviving that
-
-	else //If we're anywhere that isn't the overmap
-		var/list/victims = force_eject(TRUE)
-		for(var/mob/living/M in victims)
-			M.apply_damage(200)
 
 /obj/structure/overmap/fighter/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
 	add_fingerprint(user)
-	if(istype(W, /obj/item/card/id)||istype(W, /obj/item/pda) && operators.len)
+	if(istype(W, /obj/item/card/id) || istype(W, /obj/item/pda) && length(operators))
 		if(!allowed(user))
-			var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-			playsound(src, sound, 100, 1)
+			var/ersound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+			playsound(src, ersound, 100, 1)
 			to_chat(user, "<span class='warning'>Access denied</span>")
 			return
 		if(alert("What do you want to do?",name,"Eject Occupants","Maintenance Mode") == "Eject Occupants")
@@ -611,6 +658,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			to_chat(user, "<span class='warning'>You swipe your card and [maintenance_mode ? "disable" : "enable"] maintenance protocols.</span>")
 			maintenance_mode = !maintenance_mode
+
 	if(istype(W, /obj/item/ship_weapon/ammunition/countermeasure_charge))
 		var/obj/item/ship_weapon/ammunition/countermeasure_charge/CC = W
 		var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
@@ -626,7 +674,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 					qdel(W)
 		else
 			to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's nothing to put it in!</span>")
-	..()
+	return ..()
+
 
 /obj/structure/overmap/fighter/take_damage(damage_amount, damage_type, damage_flag, sound_effect)
 	var/obj/item/fighter_component/armour_plating/A = loadout.get_slot(HARDPOINT_SLOT_ARMOUR)
@@ -652,12 +701,13 @@ Been a mess since 2018, we'll fix it someday (probably)
 			canopy_breach(C)
 
 /obj/structure/overmap/fighter/proc/canopy_breach(obj/item/fighter_component/canopy/C)
+	set waitfor = FALSE
 	relay('nsv13/sound/effects/ship/cockpit_breach.ogg') //We're leaking air!
 	loadout.remove_hardpoint(HARDPOINT_SLOT_CANOPY, TRUE)
 	qdel(C) //Pop off the canopy.
+	update_visuals()
 	sleep(2 SECONDS)
 	relay('nsv13/sound/effects/ship/reactor/gasmask.ogg', "<span class='warning'>The air around you rushes out of the breached canopy!</span>", loop = FALSE, channel = CHANNEL_SHIP_ALERT)
-	return
 
 /obj/structure/overmap/fighter/welder_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -669,6 +719,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		to_chat(user, "<span class='notice'>You weld some dents out of [src]'s hull.</span>")
 		obj_integrity += min(10, max_integrity-obj_integrity)
 		return TRUE
+
 /datum/component/ship_loadout
 	can_transfer = FALSE
 	var/list/equippable_slots = ALL_HARDPOINT_SLOTS //What slots does this loadout support? Want to allow a fighter to have multiple utility slots?
@@ -736,7 +787,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 		component?.process()
 
 /obj/item/fighter_component
-	name = "Fighter Component"
+	name = "fighter component"
 	desc = "It doesn't really do a whole lot"
 	icon = 'nsv13/icons/obj/fighter_components.dmi'
 	w_class = WEIGHT_CLASS_GIGANTIC
@@ -756,7 +807,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 	active = !active
 
 /obj/item/fighter_component/proc/dump_contents()
-	if(!contents?.len)
+	if(!length(contents))
 		return FALSE
 	. = list()
 	for(var/atom/movable/AM in contents)
@@ -771,7 +822,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 
 /obj/item/fighter_component/Initialize()
 	.=..()
-	AddComponent(/datum/component/twohanded/required) //These all require two hands to pick up
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE) //These all require two hands to pick up
 
 //Overload this method to apply stat benefits based on your module.
 /obj/item/fighter_component/proc/on_install(obj/structure/overmap/target)
@@ -793,9 +844,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 	return B?.use_power(power_usage)
 
 /obj/item/fighter_component/process()
-	if(!powered())
-		return FALSE
-	return TRUE
+	return powered()
 
 //Used for weapon style hardpoints
 /obj/item/fighter_component/proc/fire(obj/structure/overmap/target)
@@ -841,7 +890,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	return TRUE
 
 /obj/item/fighter_component/armour_plating
-	name = "Durasteel Armour Plates"
+	name = "durasteel armour plates"
 	desc = "A set of armour plates which can afford basic protection to a fighter, however heavier plates may slow you down"
 	icon_state = "armour_tier1"
 	slot = HARDPOINT_SLOT_ARMOUR
@@ -863,7 +912,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 		return TRUE
 
 /obj/item/fighter_component/armour_plating/tier2
-	name = "Ultra Heavy Fighter Armour"
+	name = "ultra heavy fighter armour"
 	desc = "An extremely thick and heavy set of armour plates. Guaranteed to weigh you down, but it'll keep you flying through brasil itself."
 	icon_state = "armour_tier2"
 	tier = 2
@@ -872,7 +921,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	max_integrity = 450
 
 /obj/item/fighter_component/armour_plating/tier3
-	name = "Nanocarbon Armour Plates"
+	name = "nanocarbon armour plates"
 	desc = "A lightweight set of ablative armour which balances speed and protection at the cost of the average GDP of most third world countries."
 	icon_state = "armour_tier3"
 	tier = 3
@@ -881,7 +930,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	max_integrity = 300
 
 /obj/item/fighter_component/canopy
-	name = "Glass canopy"
+	name = "glass canopy"
 	desc = "A fighter canopy made of standard glass, it's extremely fragile and is so cheaply produced that it serves as little less than a windshield."
 	icon_state = "canopy_tier0.5"
 	obj_integrity = 100 //Pretty fragile, don't break it you dumblet
@@ -891,7 +940,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	tier = 0.5
 
 /obj/item/fighter_component/canopy/reinforced
-	name = "Reinforced Glass Canopy"
+	name = "reinforced glass canopy"
 	desc = "A glass fighter canopy that's designed to maintain atmospheric pressure inside of a fighter, this one's pretty robust."
 	icon_state = "canopy_tier1"
 	obj_integrity = 200
@@ -900,7 +949,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	weight = 0.5
 
 /obj/item/fighter_component/canopy/tier2
-	name = "Nanocarbon glass canopy"
+	name = "nanocarbon glass canopy"
 	desc = "A glass fighter canopy that's designed to maintain atmospheric pressure inside of a fighter, this one's very robust."
 	icon_state = "canopy_tier2"
 	obj_integrity = 350
@@ -909,7 +958,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	weight = 0.35
 
 /obj/item/fighter_component/canopy/tier3
-	name = "Plasma glass canopy"
+	name = "plasma glass canopy"
 	desc = "A glass fighter canopy that's designed to maintain atmospheric pressure inside of a fighter, this one's exceptionally robust."
 	icon_state = "canopy_tier3"
 	obj_integrity = 450
@@ -918,7 +967,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	weight = 0.55
 
 /obj/item/fighter_component/battery
-	name = "Fighter Battery"
+	name = "fighter battery"
 	icon_state = "battery"
 	slot = HARDPOINT_SLOT_BATTERY
 	active = FALSE
@@ -951,14 +1000,14 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	return charge > 0
 
 /obj/item/fighter_component/battery/tier2
-	name = "Upgraded Fighter Battery"
+	name = "upgraded fighter battery"
 	icon_state = "battery_tier2"
 	tier = 2
 	charge = 20000
 	maxcharge = 20000
 
 /obj/item/fighter_component/battery/tier3
-	name = "Mega Fighter Battery"
+	name = "mega fighter battery"
 	icon_state = "battery_tier3"
 	desc = "An electrochemical cell capable of holding a good amount of charge for keeping the fighter's radio on for longer periods without an engine."
 	tier = 3
@@ -980,27 +1029,18 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 //Fuel
 /obj/structure/overmap/fighter/proc/get_fuel()
 	var/obj/item/fighter_component/fuel_tank/ft = loadout.get_slot(HARDPOINT_SLOT_FUEL)
-	. = 0
-	for(var/datum/reagent/cryogenic_fuel/F in ft?.reagents.reagent_list)
-		if(!istype(F))
-			continue
-		. += F.volume
-	return .
+	var/datum/reagent/cryogenic_fuel/F = locate() in ft?.reagents.reagent_list
+	return F ? F.volume : 0
 
 /obj/structure/overmap/fighter/proc/set_fuel(amount)
 	var/obj/item/fighter_component/fuel_tank/ft = loadout.get_slot(HARDPOINT_SLOT_FUEL)
-	if(!ft)
-		return FALSE
-	ft.reagents.add_reagent(/datum/reagent/cryogenic_fuel, 1) //Assert that we have this reagent in the tank.
-	for(var/datum/reagent/cryogenic_fuel/F in ft?.reagents.reagent_list)
-		if(!istype(F))
-			continue
-		F.volume = amount
-	return amount
+	ft?.reagents.add_reagent(/datum/reagent/cryogenic_fuel, 1) //Assert that we have this reagent in the tank.
+	var/datum/reagent/cryogenic_fuel/F = locate() in ft?.reagents.reagent_list
+	return F ? F.volume : 0
 
 /obj/structure/overmap/fighter/proc/engines_active()
 	var/obj/item/fighter_component/engine/E = loadout.get_slot(HARDPOINT_SLOT_ENGINE)//E's are good E's are good, he's ebeneezer goode.
-	return (E?.active() && get_fuel() > 0)
+	return E?.active() && get_fuel() > 0
 
 /obj/structure/overmap/fighter/proc/set_master_caution(state)
 	var/master_caution_switch = state
@@ -1028,11 +1068,15 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/structure/overmap/fighter/can_move()
 	return (engines_active())
 
+/obj/structure/overmap/fighter/escapepod/can_move()
+	return TRUE
+
+/obj/structure/overmap/fighter/escapepod/engines_active()
+	return TRUE
+
 /obj/structure/overmap/fighter/proc/empty_fuel_tank()//Debug purposes, for when you need to drain a fighter's tank entirely.
 	var/obj/item/fighter_component/fuel_tank/ft = loadout.get_slot(HARDPOINT_SLOT_FUEL)
-	if(!ft)
-		return FALSE
-	ft.reagents.clear_reagents()
+	ft?.reagents.clear_reagents()
 
 /obj/structure/overmap/fighter/proc/get_max_fuel()
 	var/obj/item/fighter_component/fuel_tank/ft = loadout.get_slot(HARDPOINT_SLOT_FUEL)
@@ -1052,21 +1096,21 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	create_reagents(fuel_capacity, DRAINABLE | AMOUNT_VISIBLE)
 
 /obj/item/fighter_component/fuel_tank/tier2
-	name = "Fighter Extended Fuel Tank"
+	name = "fighter extended fuel tank"
 	desc = "A larger fuel tank which allows fighters to stay in combat for much longer"
 	icon_state = "fueltank_tier2"
 	fuel_capacity = 2500
 	tier = 2
 
 /obj/item/fighter_component/fuel_tank/tier3
-	name = "Massive Fighter Fuel Tank"
+	name = "massive fighter fuel tank"
 	desc = "A super extended capacity fuel tank, allowing fighters to stay in a warzone for hours on end."
 	icon_state = "fueltank_tier3"
 	fuel_capacity = 4000
 	tier = 3
 
 /obj/item/fighter_component/engine
-	name = "Fighter engine"
+	name = "fighter engine"
 	desc = "A mighty engine capable of propelling small spacecraft to high speeds."
 	icon_state = "engine_tier1"
 	slot = HARDPOINT_SLOT_ENGINE
@@ -1088,6 +1132,8 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 
 /obj/item/fighter_component/engine/process()
 	var/obj/structure/overmap/fighter/F = loc
+	if(!istype(F))
+		return FALSE
 	var/obj/item/fighter_component/apu/APU = F.loadout.get_slot(HARDPOINT_SLOT_APU)
 	if(!APU?.fuel_line && rpm > 0)
 		rpm -= 1000 //Spool down the engine.
@@ -1098,11 +1144,9 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 			F.stop_relay(CHANNEL_SHIP_ALERT)
 			active = FALSE
 			return FALSE
-	if(!istype(F))
-		return FALSE
 	if(rpm > 3000)
 		var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
-		B.give(500*tier)
+		B.give(500  *tier)
 	if(!active())
 		return FALSE
 
@@ -1135,13 +1179,13 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 			active = FALSE
 
 /obj/item/fighter_component/engine/tier2
-	name = "Souped up fighter engine"
+	name = "souped up fighter engine"
 	desc = "Born to zoom, forced to oom"
 	icon_state = "engine_tier2"
 	tier = 2
 
 /obj/item/fighter_component/engine/tier3
-	name = "Boringheed Marty V12 Super Giga Turbofan Space Engine"
+	name = "\improper Boringheed Marty V12 Super Giga Turbofan Space Engine"
 	desc = "An engine which allows a fighter to exceed the legal speed limit in most jurisdictions."
 	icon_state = "engine_tier3"
 	tier = 3
@@ -1169,7 +1213,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 //Atmos
 
 /obj/item/fighter_component/oxygenator
-	name = "Atmospheric Regulator"
+	name = "atmospheric regulator"
 	desc = "A device which moderates the conditions inside a fighter, it requires fuel to run."
 	icon_state = "oxygenator_tier1"
 	var/refill_amount = 1 //Starts off really terrible.
@@ -1178,14 +1222,14 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	power_usage = 200
 
 /obj/item/fighter_component/oxygenator/tier2
-	name = "Upgraded Atmospheric Regulator"
+	name = "upgraded atmospheric regulator"
 	icon_state = "oxygenator_tier2"
 	tier = 2
 	refill_amount = 3
 	power_usage = 300
 
 /obj/item/fighter_component/oxygenator/tier3
-	name = "Super Oxygenator"
+	name = "super oxygenator"
 	desc = "A finely tuned atmospheric regulator to be fitted into a fighter which seems to be able to almost magically create oxygen out of nowhere."
 	icon_state = "oxygenator_tier3"
 	tier = 3
@@ -1193,7 +1237,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	power_usage = 400
 
 /obj/item/fighter_component/oxygenator/plasmaman
-	name = "Plasmaman Atmospheric Regulator"
+	name = "plasmaman atmospheric regulator"
 	desc = "An atmospheric regulator to be used in fighters, it's been rigged to fill the cabin with a hospitable environment for plasmamen instead of standard oxygen."
 	refill_amount = 3
 	tier = 4 //unique! but it has to have a sprite to make it obvious that, yknow, this is for plasmemes.
@@ -1215,25 +1259,25 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	return TRUE
 
 /obj/item/fighter_component/oxygenator/proc/refill(obj/structure/overmap/OM)
-	OM.cabin_air.adjust_moles(/datum/gas/oxygen, refill_amount*O2STANDARD)
-	OM.cabin_air.adjust_moles(/datum/gas/nitrogen, refill_amount*N2STANDARD)
-	OM.cabin_air.adjust_moles(/datum/gas/carbon_dioxide, -refill_amount)
+	OM.cabin_air.adjust_moles(GAS_O2, refill_amount*O2STANDARD)
+	OM.cabin_air.adjust_moles(GAS_N2, refill_amount*N2STANDARD)
+	OM.cabin_air.adjust_moles(GAS_CO2, -refill_amount)
 
 /obj/item/fighter_component/oxygenator/plasmaman/refill(obj/structure/overmap/OM)
-	OM.cabin_air.adjust_moles(/datum/gas/plasma, refill_amount*N2STANDARD)
-	OM.cabin_air.adjust_moles(/datum/gas/oxygen, -refill_amount)
-	OM.cabin_air.adjust_moles(/datum/gas/nitrogen, -refill_amount)
+	OM.cabin_air.adjust_moles(GAS_PLASMA, refill_amount*N2STANDARD)
+	OM.cabin_air.adjust_moles(GAS_O2, -refill_amount)
+	OM.cabin_air.adjust_moles(GAS_N2, -refill_amount)
 
 //Construction only components
 
 /obj/item/fighter_component/avionics
-	name = "Fighter Avionics"
+	name = "fighter avionics"
 	desc = "Avionics for a fighter"
 	icon_state = "avionics"
 	tier = null
 
 /obj/item/fighter_component/apu
-	name = "Fighter Auxiliary Power Unit"
+	name = "fighter auxiliary power unit"
 	desc = "An Auxiliary Power Unit for a fighter"
 	icon_state = "apu_tier1"
 	slot = HARDPOINT_SLOT_APU
@@ -1242,12 +1286,12 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	var/next_process = 0
 
 /obj/item/fighter_component/apu/tier2
-	name = "Upgraded fighter APU"
+	name = "upgraded fighter APU"
 	icon_state = "apu_tier2"
 	tier = 2
 
 /obj/item/fighter_component/apu/tier3
-	name = "Super fighter APU"
+	name = "super fighter APU"
 	desc = "A small engine capable of rapidly starting a fighter."
 	icon_state = "apu_tier3"
 	tier = 3
@@ -1275,7 +1319,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 
 
 /obj/item/fighter_component/countermeasure_dispenser
-	name = "Fighter Countermeasure Dispenser"
+	name = "fighter countermeasure dispenser"
 	desc = "A device which allows a fighter to deploy countermeasures."
 	icon_state = "countermeasure_tier1"
 	slot = HARDPOINT_SLOT_COUNTERMEASURE
@@ -1283,7 +1327,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	var/charges = 3
 
 /obj/item/fighter_component/docking_computer
-	name = "Docking Computer"
+	name = "docking computer"
 	desc = "A computer that allows fighters to easily dock to a ship"
 	icon_state = "docking_computer"
 	slot = HARDPOINT_SLOT_DOCKING
@@ -1296,7 +1340,7 @@ As a rule of thumb, primaries are small guns that take ammo boxes, secondaries a
 Utility modules can be either one of these types, just ensure you set its slot to HARDPOINT_SLOT_UTILITY
 */
 /obj/item/fighter_component/primary
-	name = "Fuck you"
+	name = "\improper Fuck you"
 	slot = HARDPOINT_SLOT_PRIMARY
 	fire_mode = FIRE_MODE_ANTI_AIR
 	var/overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
@@ -1309,14 +1353,14 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 /obj/item/fighter_component/primary/dump_contents()
 	. = ..()
-	for(var/atom/movable/AM in .)
+	for(var/atom/movable/AM as() in .)
 		if(AM == magazine)
 			magazine = null
 			ammo = list()
 			playsound(loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 
 /obj/item/fighter_component/primary/get_ammo()
-	return ammo?.len
+	return length(ammo)
 
 /obj/item/fighter_component/primary/get_max_ammo()
 	return magazine ? magazine.max_ammo : 500 //Default.
@@ -1341,9 +1385,10 @@ Utility modules can be either one of these types, just ensure you set its slot t
 			if(!weapon || weapon.fire_mode != fireMode)
 				continue
 			var/datum/ship_weapon/SW = weapon_types[weapon.fire_mode]
-			for(var/I = 0; I < SW.burst_size; I++)
-				weapon.fire(target)
-				sleep(1)
+			spawn()
+				for(var/I = 0; I < SW.burst_size; I++)
+					weapon.fire(target)
+					sleep(1)
 			return TRUE
 	return FALSE
 
@@ -1456,18 +1501,18 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 //Todo: make fighters use these.
 /obj/item/fighter_component/secondary/ordnance_launcher
-	name = "Fighter Missile Rack"
+	name = "fighter missile rack"
 	desc = "A huge fighter missile rack capable of deploying missile based weaponry."
 	icon_state = "missilerack_tier1"
 
 /obj/item/fighter_component/secondary/ordnance_launcher/tier2
-	name = "Upgraded Fighter Missile Rack"
+	name = "upgraded fighter missile rack"
 	icon_state = "missilerack_tier2"
 	tier = 2
 	max_ammo = 5
 
 /obj/item/fighter_component/secondary/ordnance_launcher/tier3
-	name = "A-11 'Spacehog' Cluster-Freedom Launcher"
+	name = "\improper A-11 'Spacehog' Cluster-Freedom Launcher"
 	icon_state = "missilerack_tier3"
 	tier = 3
 	max_ammo = 15
@@ -1477,7 +1522,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 //Specialist item for the superiority fighter.
 /obj/item/fighter_component/secondary/ordnance_launcher/railgun
-	name = "Fighter Railgun"
+	name = "fighter railgun"
 	desc = "A scaled down railgun designed for use in fighters."
 	icon_state = "railgun"
 	weight = 1
@@ -1489,7 +1534,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	tier = 1
 
 /obj/item/fighter_component/secondary/ordnance_launcher/torpedo
-	name = "Fighter Torpedo Launcher"
+	name = "fighter torpedo launcher"
 	desc = "A heavy torpedo rack which allows fighters to fire torpedoes at targets"
 	icon_state = "torpedorack"
 	accepted_ammo = /obj/item/ship_weapon/ammunition/torpedo
@@ -1497,13 +1542,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	weight = 1
 
 /obj/item/fighter_component/secondary/ordnance_launcher/torpedo/tier2
-	name = "Enhanced Torpedo Launcher"
+	name = "enhanced torpedo launcher"
 	icon_state = "torpedorack_tier2"
 	tier = 2
 	max_ammo = 4
 
 /obj/item/fighter_component/secondary/ordnance_launcher/torpedo/tier3
-	name = "FR33-8IRD Torpedo Launcher"
+	name = "\improper FR33-8IRD torpedo launcher"
 	icon_state = "torpedorack_tier3"
 	desc = "A massive torpedo launcher capable of deploying enough ordnance to level several small, oil-rich nations."
 	tier = 3
@@ -1553,27 +1598,27 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	return FALSE
 
 /obj/item/fighter_component/primary/utility/hold
-	name = "Cargo Hold"
+	name = "cargo hold"
 	desc = "A cramped cargo hold for hauling light freight."
 	icon_state = "hold_tier1"
 	var/max_w_class = WEIGHT_CLASS_GIGANTIC
 	var/max_freight = 5
 
 /obj/item/fighter_component/primary/utility/hold/tier2
-	name = "Expanded Cargo Hold"
+	name = "expanded cargo hold"
 	icon_state = "hold_tier2"
 	tier = 2
 	max_freight = 10
 
 /obj/item/fighter_component/primary/utility/hold/tier3
-	name = "S0CC3RMUM Jumbo Sized Cargo Hold"
+	name = "\improper S0CC3RMUM Jumbo Sized Cargo Hold"
 	desc ="Now with extra space for seating unlucky friends in the boot!"
 	icon_state = "hold_tier3"
 	tier = 3
 	max_freight = 20
 
 /obj/item/fighter_component/primary/utility/hold/load(obj/structure/overmap/target, atom/movable/AM)
-	if(contents && contents.len >= max_freight || isliving(AM) || istype(AM, /obj/item/fighter_component) || istype(AM, /obj/item/card/id) || istype(AM, /obj/item/pda) || istype(AM, /obj/structure/overmap)) //This just causess issues, trust me on this)
+	if(length(contents) >= max_freight || isliving(AM) || istype(AM, /obj/item/fighter_component) || istype(AM, /obj/item/card/id) || istype(AM, /obj/item/pda) || istype(AM, /obj/structure/overmap)) //This just causess issues, trust me on this)
 		return FALSE
 	if((AM.move_resist > MOVE_FORCE_DEFAULT) || !AM.doMove(src))
 		return //Can't put ultra heavy stuff in
@@ -1582,7 +1627,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	return TRUE
 
 /obj/item/fighter_component/primary/utility/repairer
-	name = "Air-to-air Repair Kit"
+	name = "air-to-air repair kit"
 	desc = "A module which can use hull repair foam to repair other fighters in the air."
 	icon_state = "repairer_tier1"
 	accepted_ammo = /obj/structure/reagent_dispensers/foamtank/hull_repair_juice
@@ -1598,13 +1643,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	return magazine?.reagents.maximum_volume
 
 /obj/item/fighter_component/primary/utility/repairer/tier2
-	name = "Upgraded Air To Air Repair Kit"
+	name = "upgraded air to air repair kit"
 	icon_state = "repairer_tier2"
 	tier = 2
 	fire_delay = 4 SECONDS
 
 /obj/item/fighter_component/primary/utility/repairer/tier3
-	name = "Super Air To Air Repair Kit"
+	name = "super air to air repair kit"
 	icon_state = "repairer_tier3"
 	tier = 3
 	fire_delay = 3 SECONDS
@@ -1645,7 +1690,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	//Generals sat from the lines at the back
 	us.relay('sound/items/welder.ogg')
 	them.relay('sound/items/welder2.ogg')
-	if(!current_beam || QDELETED(current_beam))
+	if(QDELETED(current_beam))
 		current_beam = new(us,them,beam_icon='icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="medbeam",btype=/obj/effect/ebeam/medical)
 		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
 
@@ -1656,7 +1701,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	power_usage = 200
 
 /obj/item/fighter_component/secondary/utility/resupply
-	name = "Air to Air Resupply Kit"
+	name = "air to air resupply kit"
 	desc = "A large hose line which can allow a utility craft to perform air to air refuelling and resupply, without needing to RTB!"
 	icon_state = "resupply_tier1"
 	overmap_firing_sounds = list(
@@ -1678,13 +1723,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	return F.get_max_fuel()
 
 /obj/item/fighter_component/secondary/utility/resupply/tier2
-	name = "Upgraded Air To Air Resupply Kit"
+	name = "upgraded air to air resupply kit"
 	icon_state = "resupply_tier2"
 	fire_delay = 5 SECONDS
 	tier = 2
 
 /obj/item/fighter_component/secondary/utility/resupply/tier3
-	name = "Super Air To Air Resupply Kit"
+	name = "super air to air resupply kit"
 	icon_state = "resupply_tier3"
 	fire_delay = 3 SECONDS
 	tier = 3
@@ -1693,9 +1738,8 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	if(!..())
 		return
 	var/obj/structure/overmap/fighter/F = loc
-	if(!istype(F) || !F.autofire_target || F.fire_mode != fire_mode)
-		qdel(current_beam)
-		current_beam = null
+	if((!istype(F) || !F.autofire_target || F.fire_mode != fire_mode) && current_beam)
+		QDEL_NULL(current_beam)
 		return FALSE
 	if(world.time < next_fuel)
 		return FALSE
@@ -1703,16 +1747,15 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	if(!istype(them) || them == F) //No self targeting
 		return FALSE
 	next_fuel = world.time + fire_delay
-	if(!current_beam || QDELETED(current_beam))
+	if(QDELETED(current_beam))
 		current_beam = new(F,them,beam_icon='nsv13/icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
 		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
 
 	//Firstly, try to refuel the friendly.
-	var/obj/item/fighter_component/fuel_tank/fuel = F.loadout.get_slot(HARDPOINT_SLOT_FUEL)
-	if(!fuel || F.get_fuel() <= 0)
+	if(F.get_fuel() <= 0)
 		goto resupplyFuel
 	var/obj/item/fighter_component/fuel_tank/theirFuel = them.loadout.get_slot(HARDPOINT_SLOT_FUEL)
-	var/transfer_amount = min(50, them.get_max_fuel()-them.get_fuel()) //Transfer as much as we can
+	var/transfer_amount = min(50, them.get_max_fuel() - them.get_fuel()) //Transfer as much as we can
 	transfer_amount = CLAMP(transfer_amount, 0, 100)//Don't want to overfill them
 	F.relay('nsv13/sound/effects/fighters/refuel.ogg')
 	them.relay('nsv13/sound/effects/fighters/refuel.ogg')
@@ -1721,6 +1764,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		B.give(100) //Jumpstart their battery
 	if(transfer_amount <= 0)
 		goto resupplyFuel
+	var/obj/item/fighter_component/fuel_tank/fuel = F.loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	fuel.reagents.trans_to(theirFuel, transfer_amount)
 	resupplyFuel:
 	var/obj/item/fighter_component/primary/utility/hold = F.loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
@@ -1729,24 +1773,27 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/obj/item/fighter_component/primary/theirGun = them.loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
 	var/obj/item/fighter_component/primary/theirTorp = them.loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
 	//Next up, try to refill the friendly's guns from whatever we have stored in cargo.
-	for(var/atom/movable/AM in hold.contents)
+	for(var/atom/movable/AM as() in hold.contents)
 		if(theirGun.load(them, AM))
 			continue
 		if(theirTorp.load(them, AM))
 			continue
 
-/obj/structure/overmap/fighter/update_icon()
-	cut_overlays()
-	..()
+/obj/structure/overmap/fighter/proc/update_visuals()
+	if(canopy)
+		cut_overlay(canopy)
+	else
+		canopy = mutable_appearance(icon = icon, icon_state = "canopy_missing")
 	var/obj/item/fighter_component/canopy/C = loadout?.get_slot(HARDPOINT_SLOT_CANOPY)
-	if(!C)
-		add_overlay(image(icon = icon, icon_state = "canopy_missing", dir = 1))
+	if(QDELETED(C))
+		canopy.icon_state = "canopy_missing"
+	else if(C.obj_integrity <= 20)
+		canopy.icon_state = "canopy_breach"
+	else if(canopy_open)
+		canopy.icon_state = "canopy_open"
+	else
 		return
-	if(C.obj_integrity <= 20)
-		add_overlay(image(icon = icon, icon_state = "canopy_breach", dir = 1))
-		return
-	if(canopy_open)
-		add_overlay("canopy_open")
+	add_overlay(canopy)
 
 /obj/structure/overmap/fighter/slowprocess()
 	..()
@@ -1760,33 +1807,30 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	// and air is in the cabin
 	// and the fighter's environment isn't pressurized
 
-	if((!C || (C.obj_integrity <= 0)) && (cabin_air && (cabin_air?.total_moles() > 0)))
-		var/datum/gas_mixture/outside_air = loc?.return_air()
+	if((!C || (C.obj_integrity <= 0)) && cabin_air.total_moles() > 0)
+		var/datum/gas_mixture/outside_air = loc.return_air()
 		var/outside_pressure = outside_air ? outside_air.return_pressure() : 0
 		if(outside_pressure && (cabin_air.return_pressure() > outside_pressure))
-			var/datum/gas_mixture/removed = cabin_air.remove(min(cabin_air.total_moles(), 5))
-			qdel(removed)
-	update_icon()
+			cabin_air.remove(min(cabin_air.total_moles(), 5))
+
+	update_visuals()
 
 /obj/structure/overmap/fighter/return_air()
 	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
 	if(canopy_open || !C || (C.obj_integrity <= 0))
-		. = loc.return_air()
-	else
-		. = cabin_air
+		return loc.return_air()
+	return cabin_air
 
 /obj/structure/overmap/fighter/remove_air(amount)
-	var/datum/gas_mixture/air
-	. = air?.remove(amount)
+	var/datum/gas_mixture/air = return_air()
+	return air.remove(amount)
 
 /obj/structure/overmap/fighter/return_analyzable_air()
 	return cabin_air
 
 /obj/structure/overmap/fighter/return_temperature()
 	var/datum/gas_mixture/t_air = return_air()
-	if(t_air)
-		. = t_air.return_temperature()
-	return
+	return t_air.return_temperature()
 
 /obj/structure/overmap/fighter/portableConnectorReturnAir()
 	return return_air()

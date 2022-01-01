@@ -11,7 +11,7 @@
 	icon_state = "warden" //placeholder
 
 /obj/machinery/computer/cargo/express/syndicate
-	name = "Syndicate Requisitions Console"
+	name = "\improper Syndicate Requisitions Console"
 	req_one_access = list(ACCESS_SYNDICATE_LEADER, ACCESS_SYNDICATE_REQUISITIONS)
 	req_access = null
 	req_one_access_txt = ""
@@ -23,7 +23,7 @@
 	return FALSE
 
 /obj/item/circuitboard/computer/cargo/express/syndicate
-	name = "Syndicate Requisitions Console (Computer Board)"
+	name = "\improper Syndicate Requisitions Console (Computer Board)"
 	icon_state = "security"
 	build_path = /obj/machinery/computer/cargo/express/syndicate
 
@@ -36,7 +36,7 @@
 	gloves = /obj/item/clothing/gloves/color/black
 
 /obj/item/pvp_nuke_spawner
-	name = "Nuclear summon device"
+	name = "nuclear summon device"
 	desc = "A small device that will summon the Nebuchadnezzar's nuclear warhead to your location. Click it in your hand to use it."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "gangtool-green"
@@ -83,7 +83,7 @@
 	return INITIALIZE_HINT_QDEL
 
 /obj/machinery/conquest_beacon
-	name = "Lighthouse beacon"
+	name = "lighthouse beacon"
 	desc = "An advanced navigational beacon capable of forming jump-bridges, allowing entire fleets to jump to a system it designates without needing to use a hyperlane. These devices take an incredible amount of power to operate, and are extremely obvious when activated."
 	icon = 'nsv13/icons/obj/munitions_large.dmi'
 	icon_state = "lighthouse"
