@@ -379,7 +379,7 @@ Adding tasks is easy! Just define a datum for it.
 		nodamage = TRUE
 
 /obj/structure/overmap/proc/deliver_package(var/mob/living/user, var/datum/overmap_objective/cargo/O)
-	if ( O )
+	if ( !O?.delivered_package )
 		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		MO.hail( pick( list(
