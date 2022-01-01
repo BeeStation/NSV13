@@ -17,9 +17,9 @@
 	max_players = 10
 	random_objective_amount = 3
 
-/datum/overmap_gamemode/New()
+/datum/overmap_gamemode/shakedown/New()
 	random_objectives = list(
-		/datum/overmap_objective/perform_jumps, 
-		/datum/overmap_objective/destroy_fleets, 
+		/datum/overmap_objective/perform_jumps,
+		/datum/overmap_objective/destroy_fleets,
 		/datum/overmap_objective/apnw_efficiency
 	)

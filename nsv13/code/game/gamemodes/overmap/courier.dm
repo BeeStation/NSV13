@@ -17,10 +17,10 @@
 	max_players = 10
 	random_objective_amount = 3
 
-/datum/overmap_gamemode/New()
+/datum/overmap_gamemode/courier/New()
 	random_objectives = list(
-		/datum/overmap_objective/cargo/donation/chems, 
-		/datum/overmap_objective/cargo/donation/blood, 
+		/datum/overmap_objective/cargo/donation/chems,
+		/datum/overmap_objective/cargo/donation/blood,
 		/datum/overmap_objective/cargo/donation/food,
 		/datum/overmap_objective/cargo/donation/minerals,
 		/datum/overmap_objective/cargo/donation/munitions,
