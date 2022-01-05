@@ -311,16 +311,17 @@
 	last_overmap = get_overmap()
 
 /obj/structure/overmap/small_craft/proc/docking_act(obj/structure/overmap/OM)
+	if(!ftl_drive && !OM.ftl_drive) // If no one can reserve a Z, don't do this
+		return FALSE
 	if(istype(OM, /obj/structure/overmap/asteroid))
 		var/obj/structure/overmap/asteroid/AS = OM
 		AS.interior_mode = INTERIOR_DYNAMIC // We don't actually want it to create one until we're ready but we do need entry points
 		AS.instance_interior()
 		AS.docking_points = AS.interior_entry_points
 		return transfer_from_overmap(OM)
-	else if(mass < OM.mass) //If theyre smaller than us,and we have docking points, and they want to dock
+	if(mass < OM.mass) //If theyre smaller than us, and we have docking points, and they want to dock
 		return transfer_from_overmap(OM)
-	else
-		return FALSE
+	return FALSE
 
 /obj/structure/overmap/small_craft/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
