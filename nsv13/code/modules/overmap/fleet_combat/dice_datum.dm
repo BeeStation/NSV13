@@ -124,8 +124,8 @@ Different ships have different combat dice, some have the same as eachother.
 
 	affinity_flags = AI_FLAG_SWARMER
 
-/datum/combat_dice/destroyer/nuclear
-	name = "Nuclear Destroyer combat dice"
+/datum/combat_dice/destroyer/conflagration
+	name = "Hellfire Destroyer combat dice"
 
 	target_bonus = 2
 
