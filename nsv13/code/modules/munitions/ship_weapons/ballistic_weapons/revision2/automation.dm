@@ -340,7 +340,7 @@
 /obj/machinery/ammo_sorter/RefreshParts()
 	max_capacity = 0
 	for(var/obj/item/stock_parts/matter_bin/MB in component_parts)
-		max_capacity += MB.rating*1+3
+		max_capacity += MB.rating+3
 
 /obj/machinery/ammo_sorter/MouseDrop_T(atom/movable/A, mob/user)
 	. = ..()
