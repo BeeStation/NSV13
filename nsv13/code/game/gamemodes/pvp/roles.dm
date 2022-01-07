@@ -174,6 +174,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /datum/outfit/syndicate/no_crystals/syndi_crew/post_equip(mob/living/carbon/human/H)
 	H.faction += "Syndicate"
 	var/obj/item/card/id/W = H.wear_id
+	implants = list(/obj/item/implant/weapons_auth)
 	W.registered_name = H.real_name
 	W.update_label()
 
