@@ -251,7 +251,7 @@ DEFINE_BITFIELD(vis_flags, list(
 	"VIS_UNDERLAY" = VIS_UNDERLAY,
 ))
 
-//NSV13 - Adds AI behavior bitflags
+//NSV13 change - Adds AI behavior bitflags
 DEFINE_BITFIELD(ai_flags, list(
 	"AI_FLAG_SUPPLY" = AI_FLAG_SUPPLY,
 	"AI_FLAG_BATTLESHIP" = AI_FLAG_BATTLESHIP,
