@@ -66,37 +66,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/escape_pod_type = /obj/structure/overmap/fighter/escapepod
 	var/mutable_appearance/canopy
-	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode,
+	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/cycle_firemode,
 								.verb/show_control_panel, .verb/change_name, .verb/countermeasure)
-												 //Countermeasure code in countermeasure_ammo.dm
 
-/obj/structure/overmap/fighter/verb/show_control_panel()
-	set name = "Show control panel"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check())
-		return
-	ui_interact(usr)
-
-/obj/structure/overmap/fighter/verb/change_name()
-	set name = "Change name"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check())
-		return
-	var/new_name = stripped_input(usr, message="What do you want to name \
-		your fighter? Keep in mind that particularly terrible names may be \
-		rejected by your employers.", max_length=MAX_CHARTER_LEN)
-	if(!new_name || length(new_name) <= 0)
-		return
-	message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
-	name = new_name
-
-/obj/structure/overmap/fighter/start_piloting(mob/living/carbon/user, position)
-	user.add_verb(fighter_verbs)
-	..()
 
 /obj/structure/overmap/fighter/key_down(key, client/user)
 	if(disruption && prob(min(95, disruption)))
@@ -525,7 +497,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(eject_mob && !eject(M, force))
 		return FALSE
 	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
-	M.remove_verb(fighter_verbs)
+	M.remove_verb(overmap_verbs)
 	return ..()
 
 /obj/structure/overmap/fighter/proc/eject(mob/living/M, force=FALSE)

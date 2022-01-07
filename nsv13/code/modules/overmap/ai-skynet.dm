@@ -1358,7 +1358,7 @@ Seek a ship thich we'll station ourselves around
 	if(!OM.last_target)
 		OM.seek_new_target()
 	OM.brakes = TRUE
-	
+
 
 /obj/structure/overmap/proc/choose_goal()
 	//Populate the list of valid goals, if we don't already have them

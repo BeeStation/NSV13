@@ -36,23 +36,6 @@
 			to_chat(user_override, SW.failure_alert)
 	return FALSE
 
-/obj/structure/overmap/verb/cycle_firemode()
-	set name = "Switch firemode"
-	set category = "Ship"
-	set src = usr.loc
-	if(usr != gunner)
-		return
-
-	var/stop = fire_mode
-	fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapon_types.len + 1)
-
-	for(fire_mode; fire_mode != stop; fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapon_types.len + 1))
-		if(swap_to(fire_mode))
-			return TRUE
-
-	// No other weapons available, go with whatever we had before
-	fire_mode = stop
-
 /obj/structure/overmap/proc/get_max_firemode()
 	if(mass < MASS_MEDIUM) //Small craft dont get a railgun
 		return FIRE_MODE_TORPEDO
