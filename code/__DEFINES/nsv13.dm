@@ -104,4 +104,4 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define STARSYSTEM_NO_ANOMALIES (1<<0)	//Prevents Anomalies Spawning
 #define STARSYSTEM_NO_ASTEROIDS (1<<1)	//Prevents Asteroids Spawning
 #define STARSYSTEM_NO_WORMHOLE (1<<2)	//Prevents Incoming Wormholes
-//NSV13 end
+//NSV13 change end
