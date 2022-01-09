@@ -257,7 +257,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/proc/defeat()
 	var/datum/star_system/player_system = SSstar_system.find_main_overmap().current_system
 	var/datum/star_system/mining_system = SSstar_system.find_main_miner()?.current_system
-	var/message = "\a [name] has been defeated [(current_system && !current_system.hidden) ? "during combat in the [current_system.name] system" : "in battle"]."
+	var/message = "\A [name] has been defeated [(current_system && !current_system.hidden) ? "during combat in the [current_system.name] system" : "in battle"]."
 	if(alignment == "nanotrasen" || current_system == player_system || current_system == mining_system)
 		minor_announce(message, "White Rapids Fleet Command")
 	else
@@ -649,11 +649,11 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("....", "*static*")
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
 
-/datum/fleet/nuclear
-	name = "\improper Syndicate nuclear deterrent"
-	taunts = list("Enemy ship, surrender now. This vessel is armed with thermonuclear weapons and eager to test them.")
+/datum/fleet/conflagration
+	name = "\improper Syndicate conflagration deterrent"
+	taunts = list("Enemy ship, surrender now. This vessel is armed with hellfire weapons and eager to test them.")
 	audio_cues = list()
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/nuclear/elite)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/conflagration/elite)
 	size = 2
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
 
@@ -711,7 +711,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/earthbuster
 	name = "\proper Syndicate Armada" //Fleet spawned if the players are too inactive. Set course...FOR EARTH.
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	size = FLEET_DIFFICULTY_VERY_HARD
 	allow_difficulty_scaling = FALSE
 	taunts = list("We're coming for Sol, and you can't stop us. All batteries fire at will.", "Lay down your arms now, you're outnumbered.", "All hands, assume assault formation. Begin bombardment.")
@@ -719,10 +719,10 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/interdiction	//Pretty strong fleet with unerring hunting senses, Adminspawn for now.
 	name = "\improper Syndicate interdiction fleet"	//These fun guys can and will hunt the player ship down, no matter how far away they are.
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/kadesh)
 	size = FLEET_DIFFICULTY_HARD
-	taunts = list("We have come to end your meagre existance. Prepare to die.", "Hostile entering weapons range. Fire at will.", "You have been a thorn in our side for quite a while. Time to end this.", "That is a nice ship you have there. Nothing a few nuclear missiles cannot fix.")
+	taunts = list("We have come to end your meagre existance. Prepare to die.", "Hostile entering weapons range. Fire at will.", "You have been a thorn in our side for quite a while. Time to end this.", "That is a nice ship you have there. Nothing a few hellfire missiles cannot fix.")
 	audio_cues = list()
 	var/obj/structure/overmap/hunted_ship
 	initial_move_delay = 5 MINUTES
@@ -733,7 +733,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/interdiction/stealth	//More fun for badmins
 	name = "\improper unidentified Syndicate heavy fleet"
 	hide_movements = TRUE
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/assault_cruiser)
 
 /datum/fleet/interdiction/light	//The syndicate can spawn these randomly (though rare). Be caareful! But, at least they aren't that scary.
 	name = "\improper Syndicate light interdiction fleet"
@@ -749,7 +749,7 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("Don't think we didn't learn from your last attempt.", "We shall not fail again", "Your outdated MAC weapons are no match for us. Prepare to be destroyed.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
-	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/nuclear/elite)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/conflagration/elite)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 
 /datum/fleet/remnant
@@ -760,7 +760,7 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("<pre>\[DECRYPTION FAILURE]</pre>")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
-	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/nuclear/elite)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/conflagration/elite)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 
 /datum/fleet/unknown_ship
@@ -1348,15 +1348,23 @@ Seek a ship thich we'll station ourselves around
 	else
 		return 0 //Default back to the "hunt down ships" behaviour.
 
+/datum/ai_goal/stationary
+	name = "Remain in place and defend against attackers"
+	required_ai_flags = AI_FLAG_STATIONARY
+	score = AI_SCORE_MAXIMUM + 1	//Stations do nothing else. Maximum++ to avoid conflict with Seek and Destroy.
+
+/datum/ai_goal/stationary/action(obj/structure/overmap/OM)
+	..()
+	if(!OM.last_target)
+		OM.seek_new_target()
+	OM.brakes = TRUE
+	
+
 /obj/structure/overmap/proc/choose_goal()
 	//Populate the list of valid goals, if we don't already have them
 	if(!GLOB.ai_goals.len)
-		for(var/x in subtypesof(/datum/ai_goal))
-			//I'll fix this jank later
+		for(var/x in (subtypesof(/datum/ai_goal) - typesof(/datum/ai_goal/human)))
 			var/datum/ai_goal/newGoal = new x
-			if(istype(newGoal, /datum/ai_goal/human))
-				newGoal = null
-				continue
 			GLOB.ai_goals += newGoal
 	var/best_score = 0
 	var/datum/ai_goal/chosen = null
@@ -1846,7 +1854,7 @@ Seek a ship thich we'll station ourselves around
 		if(fleet)
 			fleet.start_reporting(ship, src)
 		return TRUE
-	if(!last_target && length(fleet.shared_targets))
+	if(!last_target && length(fleet?.shared_targets))
 		last_target = pick(fleet.shared_targets)
 		add_enemy(last_target)
 		return TRUE
@@ -1880,6 +1888,7 @@ Seek a ship thich we'll station ourselves around
 	if(!ui)
 		ui = new(user, src, "SystemManager")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /datum/starsystem_manager/ui_data(mob/user)
 	var/list/data = list()

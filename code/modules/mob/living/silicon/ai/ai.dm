@@ -132,7 +132,8 @@
 	if(client)
 		apply_pref_name("ai",client)
 
-	set_core_display_icon()
+	INVOKE_ASYNC(src, .proc/set_core_display_icon)
+
 
 	holo_icon = getHologramIcon(icon('icons/mob/ai.dmi',"default"))
 
@@ -217,10 +218,16 @@
 	set name = "Set AI Core Display"
 	if(incapacitated())
 		return
+	icon = initial(icon)
+	icon_state = "ai"
+	cut_overlays()
 	var/list/iconstates = GLOB.ai_core_display_screens
 	for(var/option in iconstates)
 		if(option == "Random")
 			iconstates[option] = image(icon = src.icon, icon_state = "ai-random")
+			continue
+		if(option == "Portrait")
+			iconstates[option] = image(icon = src.icon, icon_state = "ai-portrait")
 			continue
 		iconstates[option] = image(icon = src.icon, icon_state = resolve_ai_icon(option))
 
@@ -322,7 +329,10 @@
 	if(!target)
 		return
 
-	if ((ai.z != target.z) && !is_station_level(ai.z))
+	if ((ai.get_virtual_z_level() != target.get_virtual_z_level()) && !is_station_level(ai.z))
+		return FALSE
+
+	if(A.is_jammed())
 		return FALSE
 
 	//NSV13 - don't let AI control hostile ship equipment
@@ -371,9 +381,9 @@
 
 	if(!get_ghost(1))
 		if(world.time < 30 * 600)//before the 30 minute mark
-			ghostize(0) // Players despawned too early may not re-enter the game
+			ghostize(FALSE,SENTIENCE_ERASE) // Players despawned too early may not re-enter the game
 	else
-		ghostize(1)
+		ghostize(TRUE,SENTIENCE_ERASE)
 
 	QDEL_NULL(src)
 
@@ -452,9 +462,11 @@
 		trackeable += track.humans + track.others
 		var/list/target = list()
 		for(var/I in trackeable)
-			var/mob/M = trackeable[I]
-			if(M.name == string)
-				target += M
+			var/datum/weakref/to_resolve = trackeable[I]
+			var/mob/to_track = to_resolve.resolve()
+			if(!to_track || to_track.name != string)
+				continue
+			target += to_track
 		if(name == string)
 			target += src
 		if(target.len)
@@ -584,7 +596,7 @@
 	call_bot_cooldown = 0
 
 /mob/living/silicon/ai/triggerAlarm(class, area/home, cameras, obj/source)
-	if(source.z != z)
+	if(source.get_virtual_z_level() != get_virtual_z_level())
 		return
 	var/list/our_sort = alarms[class]
 	for(var/areaname in our_sort)
@@ -940,9 +952,6 @@
 
 	var/rendered = "<i><span class='game say'>[start]<span class='name'>[hrefpart][namepart] ([jobpart])</a> </span><span class='message'>[treated_message]</span></span></i>"
 
-	if (client?.prefs.chat_on_map && (client.prefs.see_chat_non_mob || ismob(speaker)))
-		create_chat_message(speaker, message_language, raw_message, spans)
-
 	show_message(rendered, 2)
 
 /mob/living/silicon/ai/fully_replace_character_name(oldname,newname)
@@ -1052,6 +1061,10 @@
 		target = input(src, "Which body to control?") as null|anything in sortNames(possible)
 
 	if (!target || target.stat || target.deployed || !(!target.connected_ai ||(target.connected_ai == src)) || (target.ratvar && !is_servant_of_ratvar(src)))
+		return
+
+	if(target.is_jammed())
+		to_chat(src, "<span class='warning robot'>Unable to establish communication link with target.</span>")
 		return
 
 	else if(mind)

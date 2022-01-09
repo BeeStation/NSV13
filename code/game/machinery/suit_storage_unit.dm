@@ -43,7 +43,7 @@
 	* * If TRUE, decontamination sequence will burn and decontaminate all items contained within, and if occupied by a mob, intensifies burn damage delt. All wires will be cut at the end.
 	*/
 	var/uv_super = FALSE
-	/// NSV13 for managing the messages sent back when the machine was hacked
+	/// For managing the messages sent back when the machine was hacked
 	var/toasted = FALSE
 	/// How many cycles remain for the decontamination sequence.
 	var/uv_cycles = 6
@@ -52,7 +52,7 @@
 	/// How long it takes to break out of the SSU.
 	var/breakout_time = 300
 	/// How fast it charges cells in a suit
-	var/charge_rate = 500
+	var/charge_rate = 250
 
 /obj/machinery/suit_storage_unit/standard_unit
 	suit_type = /obj/item/clothing/suit/space/eva
@@ -93,6 +93,10 @@
 
 /obj/machinery/suit_storage_unit/mining/eva
 	suit_type = /obj/item/clothing/suit/space/hardsuit/mining
+	mask_type = /obj/item/clothing/mask/breath
+
+/obj/machinery/suit_storage_unit/exploration
+	suit_type = /obj/item/clothing/suit/space/hardsuit/exploration
 	mask_type = /obj/item/clothing/mask/breath
 
 /obj/machinery/suit_storage_unit/cmo
@@ -152,14 +156,14 @@
 	update_icon()
 
 /obj/machinery/suit_storage_unit/Destroy()
-	dump_contents() //NSV13 made SSU's not delete all items inside but drop them instead
+	dump_contents()
 	return ..()
 
 /obj/machinery/suit_storage_unit/update_icon()
 	cut_overlays()
 
 	if(uv)
-		if(uv_super | (obj_flags & EMAGGED)) //NSV13 Emagged flag check
+		if(uv_super || (obj_flags & EMAGGED))
 			add_overlay("super")
 		else if(occupant)
 			add_overlay("uvhuman")
@@ -194,17 +198,17 @@
 	storage = null
 	occupant = null
 
-//NSV13 gave SSU's an emag and emp interaction
 /obj/machinery/suit_storage_unit/emp_act()
 	. = ..()
-	uv_super = TRUE
+	uv_super = !uv_super
+	wires.ui_update()
+	ui_update()
 
 /obj/machinery/suit_storage_unit/emag_act(mob/user)
 	if(obj_flags & EMAGGED)
 		return
 	obj_flags |= EMAGGED
 	to_chat(user, "<span class='warning'>You reprogram [src]'s decontamination subroutines.</span>")
-//end of NSV13 change
 
 /obj/machinery/suit_storage_unit/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
@@ -261,7 +265,7 @@
 		locked = TRUE
 		update_icon()
 		if(occupant)
-			if(uv_super | (obj_flags & EMAGGED)) //NSV13 Emagged flag check
+			if(uv_super || (obj_flags & EMAGGED))
 				mob_occupant.adjustFireLoss(rand(20, 36))
 			else
 				mob_occupant.adjustFireLoss(rand(10, 16))
@@ -271,7 +275,7 @@
 		uv_cycles = initial(uv_cycles)
 		uv = FALSE
 		locked = FALSE
-		if(uv_super | (obj_flags & EMAGGED)) //NSV13 start of edited segment, adds Emag check, different occupant message if it's also hacked and makes the items get damaged instead of deleted.
+		if(uv_super || (obj_flags & EMAGGED))
 			toasted = TRUE
 			if(occupant)
 				visible_message("<span class='warning'>[src]'s door creaks open with a loud whining noise. A foul stench and a cloud of smoke exit the chamber.</span>")
@@ -288,7 +292,7 @@
 				storage.take_damage(100,BURN,"fire")
 			// The wires get damaged too.
 			wires.cut_all()
-		if(!toasted) //NSV13 Special toast check to prevent a double finishing message.
+		if(!toasted) //Special toast check to prevent a double finishing message.
 			if(occupant)
 				visible_message("<span class='warning'>[src]'s door slides open, barraging you with the nauseating smell of charred flesh.</span>")
 				mob_occupant.radiation = 0
@@ -316,7 +320,7 @@
 			SEND_SIGNAL(AM, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRONG)
 			var/datum/component/radioactive/contamination = AM.GetComponent(/datum/component/radioactive)
 			if(contamination)
-				qdel(contamination) //NSV13 moved entire cleaning segment (the bit above) to always trigger, cause the toasting just cleans it even better! end of NSV changes
+				qdel(contamination)
 		open_machine(FALSE)
 		if(occupant)
 			dump_contents()
@@ -404,6 +408,7 @@
 
 		visible_message("<span class='notice'>[user] inserts [I] into [src]</span>", "<span class='notice'>You load [I] into [src].</span>")
 		update_icon()
+		ui_update()
 		return
 
 	if(panel_open && is_wire_tool(I))
@@ -411,6 +416,7 @@
 		return
 	if(!state_open)
 		if(default_deconstruction_screwdriver(user, "panel", "close", I))
+			ui_update() // Wires might've changed availability of decontaminate button
 			return
 	if(default_pry_open(I))
 		dump_contents()
@@ -514,4 +520,6 @@
 				if(I)
 					I.forceMove(loc)
 			. = TRUE
-	update_icon()
+
+	if(.)
+		update_icon()

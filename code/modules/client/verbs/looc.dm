@@ -87,19 +87,6 @@
                 prefix = "LOOC"
             to_chat(C,"<span class='looc'>[ADMIN_FLW(usr)]<span class='prefix'>[prefix]:</span> <EM>[src.key]/[src.mob.name]:</EM> <span class='message'>[msg]</span></span>")
 
-    /*for(var/mob/dead/observer/G in world)
-        if(!G.client)
-            continue
-        var/client/C = G.client
-        if (C in GLOB.admins)
-            continue //handled earlier.
-        if(C.prefs.chat_toggles & CHAT_LOOC) //i don't care if it's commented out, i'm fixing it. //nsv13
-            var/prefix = "(G)LOOC"
-            if (C.mob in heard)
-                prefix = "LOOC"
-        to_chat(C,"<font color='#6699CC'><span class='ooc'><span class='prefix'>[prefix]:</span> <EM>[src.key]/[src.mob.name]:</EM> <span class='message'>[msg]</span></span></font>")*/
-
-
 /proc/toggle_looc(toggle = null) //nsv13 - adds a toggle for looc
     if(toggle != null) //if we're specifically en/disabling looc
         if(toggle != GLOB.looc_allowed)

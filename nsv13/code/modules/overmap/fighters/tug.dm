@@ -45,10 +45,11 @@
 	return GLOB.contained_state
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_interact(mob/user, datum/tgui/ui)
-  ui = SStgui.try_update_ui(user, src, ui)
-  if(!ui)
-    ui = new(user, src, "FighterTug")
-    ui.open()
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "FighterTug")
+		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_data(mob/user)
 	var/list/data = ..()

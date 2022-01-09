@@ -84,20 +84,23 @@ GLOBAL_LIST_EMPTY(knpcs)
 
 /datum/component/knpc/proc/pathfind_to(atom/target, turf/avoid)
 	var/mob/living/carbon/human/ai_boarder/H = parent
-	var/turf/targturf = get_turf(target)
-	if(dest && dest == targturf || H.incapacitated())
-		return FALSE //No need to recalculate the path.
-	dest = targturf
-	var/turf/T = get_step(H, H.dir)
-	var/obj/structure/dense_object = locate(/obj/structure) in T //If we're stuck
-	if(dense_object && climbable[dense_object.type])
-		H.forceMove(T)
-		H.visible_message("<span class='warning'>[H] climbs onto [dense_object]!</span>")
-		H.Stun(2 SECONDS) //Table.
-	var/obj/machinery/door/firedoor/border_only/fuckingMonsterMos = locate(/obj/machinery/door/firedoor/border_only) in T
-	if(fuckingMonsterMos)
-		fuckingMonsterMos.open()
-	path = get_path_to(H, dest, /turf/proc/Distance_cardinal, 0, 120, null, null, H.wear_id, avoid, !(H.wear_suit?.clothing_flags & STOPSPRESSUREDAMAGE && H.head?.clothing_flags & STOPSPRESSUREDAMAGE))
+	if(dest && dest == get_turf(target) || H.incapacitated())
+		return FALSE //No need to recalculate this path.
+	path = list()
+	dest = null
+	var/obj/item/card/id/access_card = H.wear_id
+	if(target)
+		dest = get_turf(target)
+		path = get_path_to(H, dest, 120, 0, access_card, !(H.wear_suit?.clothing_flags & STOPSPRESSUREDAMAGE && H.head?.clothing_flags & STOPSPRESSUREDAMAGE), avoid)
+
+		var/obj/structure/dense_object = locate() in get_step(H, H.dir) //If we're stuck
+		if(climbable[dense_object.type])
+			H.forceMove(get_turf(dense_object))
+			H.visible_message("<span class='warning'>[H] climbs onto [dense_object]!</span>")
+			H.Stun(2 SECONDS) //Table.
+		var/obj/machinery/door/firedoor/border_only/fuckingMonsterMos = locate() in get_step(H, H.dir)
+		if(fuckingMonsterMos)
+			fuckingMonsterMos.open()
 	//There's no valid path, try run against the wall.
 	if(!length(path) && !H.incapacitated())
 		return FALSE

@@ -454,23 +454,21 @@
 			playsound(src, 'sound/effects/spray2.ogg', 50, 1, -6)
 			to_chat(user, "<span class='notice'>You seal up [src], good as new!</span>")
 			obj_integrity = max_integrity
-	. = ..()
+	return ..()
 
 /obj/structure/inflatable/proc/deflate(violent=FALSE)
-	playsound(loc, 'sound/machines/hiss.ogg', 75, 1)
+	set waitfor = FALSE
+	playsound(src, 'sound/machines/hiss.ogg', 75, 1)
 	if(violent)
-		visible_message("[src] rapidly deflates!")
+		visible_message("<span class='warning'>\The [src] rapidly deflates!</span>")
 		var/obj/item/inflatable/torn/R = new /obj/item/inflatable/torn(loc)
-		src.transfer_fingerprints_to(R)
+		transfer_fingerprints_to(R)
 	else
-		visible_message("[src] slowly deflates.")
-		transform = new /matrix()
-		for(var/I = 0; I < 3; I ++){
-			transform = transform.Scale(0.5)
-			sleep(0.5 SECONDS)
-		}
+		visible_message("<span class='warning'>\The [src] slowly deflates.</span>")
+		animate(src, transform = transform.Scale(0.125), time = 15)
+		sleep(15)
 		var/obj/item/inflatable/R = new inflatable_type(loc)
-		src.transfer_fingerprints_to(R)
+		transfer_fingerprints_to(R)
 		qdel(src)
 
 /obj/structure/inflatable/attack_hand(mob/user)
