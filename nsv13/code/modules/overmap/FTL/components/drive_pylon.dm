@@ -63,14 +63,14 @@
 		if(PYLON_STATE_STARTING) //pop the lid
 			power_draw = 5000
 			if(++gyro_speed >= 10)
-				if(input.get_moles(/datum/gas/nucleium))
+				if(input.get_moles(GAS_NUCLEIUM))
 					set_state(PYLON_STATE_WARMUP)
 				else
 					say("Insufficient FTL fuel, spooling down.")
 					set_state(PYLON_STATE_SHUTDOWN)
 
 		if(PYLON_STATE_WARMUP) //start the spin
-			var/ftl_fuel = input.get_moles(/datum/gas/nucleium)
+			var/ftl_fuel = input.get_moles(GAS_NUCLEIUM)
 
 			if(ftl_fuel < 0.25)
 				say("Insufficient FTL fuel, spooling down.")
@@ -87,7 +87,7 @@
 				set_state(PYLON_STATE_SPOOLING)
 
 		if(PYLON_STATE_SPOOLING) //spinning intensifies
-			var/ftl_fuel = input.get_moles(/datum/gas/nucleium)
+			var/ftl_fuel = input.get_moles(GAS_NUCLEIUM)
 			if(ftl_fuel < 1)
 				if(capacitor > 0)
 					capacitor -= min(rand(0.25, 0.5), capacitor)
@@ -195,7 +195,7 @@
 	var/datum/gas_mixture/output = airs[2]
 //	if(prob(30))
 //		tesla_zap(src, 2, 1000)
-	var/input_fuel = min(input.get_moles(/datum/gas/nucleium), max_charge_rate * mol_per_capacitor)
+	var/input_fuel = min(input.get_moles(GAS_NUCLEIUM), max_charge_rate * mol_per_capacitor)
 	capacitor += min(input_fuel / mol_per_capacitor, req_capacitor - capacitor)
 	input.adjust_moles(/datum/gas/nucleium, -input_fuel)
 	var/datum/gas_mixture/waste = new
@@ -254,7 +254,7 @@
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/update_visuals()
 	cut_overlays()
-	if(QDELETED(pylon_shield)) // Shouldn't be deleted but just in case
+	if(!pylon_shield) // Shouldn't be deleted but just in case
 		pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open")
 	var/list/ov = list()
 	switch(pylon_state)

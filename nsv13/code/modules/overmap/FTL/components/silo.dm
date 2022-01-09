@@ -80,17 +80,17 @@
 	var/datum/gas_mixture/input = airs[1]
 	if(!cable)
 		return FALSE
-	var/input_trit = min(input.get_moles(/datum/gas/tritium), 70)
-	var/input_fuel = min(input.get_moles(/datum/gas/plasma), conversion_limit)
+	var/input_trit = min(input.get_moles(GAS_TRITIUM), 70)
+	var/input_fuel = min(input.get_moles(GAS_PLASMA), conversion_limit)
 	if(input_fuel < 0.1)
 		return FALSE
 	var/transmutated = input_fuel * (conversion_ratio * get_efficiency())
 	if(input_trit)
 		transmutated *= 0.5 * (input_trit ** 0.725) + 1
-		input.adjust_moles(/datum/gas/tritium, -input_trit)
-	air_contents.adjust_moles(/datum/gas/nucleium, transmutated)
+		input.adjust_moles(GAS_TRITIUM, -input_trit)
+	air_contents.adjust_moles(GAS_NUCLEIUM, transmutated)
 	air_contents.set_temperature(air_contents.temperature_share(input))
-	input.adjust_moles(/datum/gas/plasma, -input_fuel)
+	input.adjust_moles(GAS_PLASMA, -input_fuel)
 	return TRUE
 
 /obj/machinery/atmospherics/components/binary/silo/proc/get_efficiency()
@@ -186,7 +186,7 @@
 			break
 
 	var/multiplier = 1
-	if(air_contents.get_moles(/datum/gas/nucleium) > 400) // something something spacetime expansion
+	if(air_contents.get_moles(GAS_NUCLEIUM) > 400) // something something spacetime expansion
 		multiplier = 1.5
 	if(T != loc)
 		do_sparks(5, FALSE, T)
