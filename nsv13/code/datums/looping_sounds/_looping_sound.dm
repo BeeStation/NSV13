@@ -11,7 +11,7 @@
 	var/sound/S = sound(soundfile)
 	listeners.len = 0
 	if(direct)
-		S.channel = channel || open_sound_channel()
+		S.channel = channel || SSsounds.random_available_channel()
 		S.volume = volume
 		for(var/atom/A as() in output_atoms)
 			listeners += A

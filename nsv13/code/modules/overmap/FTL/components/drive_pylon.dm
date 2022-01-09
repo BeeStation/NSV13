@@ -158,9 +158,11 @@
 			if(!QDELETED(src))
 				qdel(src)
 			return
-	if(output.return_pressure() <= MAX_WASTE_OUTPUT_PRESSURE)
-		if(air_contents.pump_gas_to(output, MAX_WASTE_OUTPUT_PRESSURE))
-			update_parents()
+	var/output_pressure = output.return_pressure()
+	if(output_pressure < MAX_WASTE_OUTPUT_PRESSURE)
+		var/transfer_moles = (MAX_WASTE_OUTPUT_PRESSURE - output_pressure) * output.return_volume()/(air_contents.return_temperature() * R_IDEAL_GAS_EQUATION)
+		air_contents.transfer_to(output, transfer_moles)
+		update_parents()
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/try_enable()
 	if(pylon_state == PYLON_STATE_SHUTDOWN)

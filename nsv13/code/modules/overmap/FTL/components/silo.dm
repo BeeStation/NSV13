@@ -172,7 +172,8 @@
 			var/o_pressure = output.return_pressure() // output pressure
 			if(o_pressure > MAX_OUTPUT_PRESSURE)
 				return
-			if(air_contents.pump_gas_to(output, clamp(output, 0, MAX_OUTPUT_PRESSURE - o_pressure)))
+			var/transfer_moles = (MAX_OUTPUT_PRESSURE - o_pressure) * output.return_volume()/(air_contents.return_temperature() * R_IDEAL_GAS_EQUATION)
+			if(air_contents.transfer_to(output, transfer_moles))
 				update_parents()
 
 /obj/machinery/atmospherics/components/binary/silo/proc/kaboom(pressure)

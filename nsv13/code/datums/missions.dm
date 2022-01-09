@@ -1,4 +1,4 @@
-// This file is now deprecated by overmap gamemode cargo objectives 
+// This file is now deprecated by overmap gamemode cargo objectives
 
 /*
 NOTE:

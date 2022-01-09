@@ -21,7 +21,7 @@
 	var/ftl_state = FTL_STATE_IDLE //Mr Gaeta, spool up the FTLs.
 	var/obj/item/radio/radio //For engineering alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_eng
-	var/engineering_channel = "Engineering"
+	var/radio_channel = "Engineering"
 	var/active = FALSE
 	var/progress = 0 SECONDS
 	var/progress_rate = 1 SECONDS
@@ -98,14 +98,14 @@ Preset classes of FTL drive with pre-programmed behaviours
 	name = "Syndicate FTL computer"
 //	jump_speed_factor = 2 //Twice as fast as NT's shit so they can hunt the ship down or get ahead of them to set up an ambush of raptors
 	radio_key = /obj/item/encryptionkey/syndicate
-	engineering_channel = "Syndicate"
+	radio_channel = "Syndicate"
 	faction = "syndicate"
 	req_access = list(ACCESS_SYNDICATE)
 
 /obj/machinery/computer/ship/ftl_computer/mining
 	name = "Mining FTL computer"
 	radio_key = /obj/item/encryptionkey/headset_mining
-	engineering_channel = "Supply"
+	radio_channel = "Supply"
 	req_access = null
 	req_one_access_txt = "31;48"
 
@@ -133,7 +133,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 */
 
 /obj/machinery/computer/ship/ftl_computer/proc/announce_jump()
-	radio.talk_into(src, "TRACKING: FTL signature detected. Tracking information updated.",engineering_channel)
+	radio.talk_into(src, "TRACKING: FTL signature detected. Tracking information updated.",radio_channel)
 	for(var/list/L in tracking)
 		var/obj/structure/overmap/target = L["ship"]
 		var/datum/star_system/target_system = SSstar_system.ships[target]["target_system"]
@@ -241,11 +241,11 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_computer/proc/jump(datum/star_system/target_system, force=FALSE)
 	if(!target_system)
-		radio.talk_into(src, "ERROR. Specified star_system no longer exists.", engineering_channel)
+		radio.talk_into(src, "ERROR. Specified star_system no longer exists.", radio_channel)
 		return
 	linked?.begin_jump(target_system, force)
 	playsound(src, 'nsv13/sound/voice/ftl_start.wav', 100, FALSE)
-	radio.talk_into(src, "Initiating FTL translation.", engineering_channel)
+	radio.talk_into(src, "Initiating FTL translation.", radio_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
 	ftl_state = FTL_STATE_JUMPING
@@ -255,21 +255,21 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	ftl_state = FTL_STATE_READY
 	icon_state = "ftl_ready"
 	playsound(src, 'nsv13/sound/voice/ftl_ready.wav', 100, FALSE)
-	radio.talk_into(src, "FTL vectors calculated. Ready to commence FTL translation.", engineering_channel)
+	radio.talk_into(src, "FTL vectors calculated. Ready to commence FTL translation.", radio_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 
 /obj/machinery/computer/ship/ftl_computer/proc/spoolup()
 	if(ftl_state == FTL_STATE_IDLE)
 		playsound(src, 'nsv13/sound/effects/computer/hum3.ogg', 100, 1)
 		playsound(src, 'nsv13/sound/voice/ftl_spoolup.wav', 100, FALSE)
-		radio.talk_into(src, "FTL spoolup initiated.", engineering_channel)
+		radio.talk_into(src, "FTL spoolup initiated.", radio_channel)
 		icon_state = "ftl_charging"
 		ftl_state = FTL_STATE_SPOOLING
 
 /obj/machinery/computer/ship/ftl_computer/proc/cancel_ftl()
 	if(depower())
 		playsound(src, 'nsv13/sound/voice/ftl_cancelled.wav', 100, FALSE)
-		radio.talk_into(src, "FTL translation cancelled.", engineering_channel)
+		radio.talk_into(src, "FTL translation cancelled.", radio_channel)
 		return TRUE
 	return FALSE
 

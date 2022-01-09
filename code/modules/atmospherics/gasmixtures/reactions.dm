@@ -249,8 +249,6 @@
 
 	return cached_results["fire"] ? REACTING : NO_REACTION
 
-<<<<<<< HEAD
-=======
 //NSV13 constricted plasma combustion - acts identical to a plasma fire
 /datum/gas_reaction/constricted_plasmafire
 	priority = -3 //fire should ALWAYS be last, but plasma fires happen after tritium fires
@@ -402,7 +400,6 @@
 	cached_results["fire"] = min(total_fuel, oxidation_power) * 2
 	return cached_results["fire"] ? REACTING : NO_REACTION
 
->>>>>>> nsv/master
 //fusion: a terrible idea that was fun but broken. Now reworked to be less broken and more interesting. Again (and again, and again). Again!
 //Fusion Rework Counter: Please increment this if you make a major overhaul to this system again.
 //6 reworks
@@ -480,13 +477,8 @@
 
 	//The decay of the tritium and the reaction's energy produces waste gases, different ones depending on whether the reaction is endo or exothermic
 	var/standard_waste_gas_output = scale_factor * (FUSION_TRITIUM_CONVERSION_COEFFICIENT*FUSION_TRITIUM_MOLES_USED)
-<<<<<<< HEAD
-	delta_plasma > 0 ? air.adjust_moles(/datum/gas/water_vapor, standard_waste_gas_output) : air.adjust_moles(/datum/gas/bz, standard_waste_gas_output)
-	air.adjust_moles(/datum/gas/oxygen, standard_waste_gas_output) //Oxygen is a bit touchy subject
-=======
 	delta_plasma > 0 ? air.adjust_moles(GAS_H2O, standard_waste_gas_output) : air.adjust_moles(GAS_BZ, standard_waste_gas_output)
 	air.adjust_moles(GAS_O2, standard_waste_gas_output) //Oxygen is a bit touchy subject
->>>>>>> nsv/master
 
 	if(reaction_energy)
 		if(location)
