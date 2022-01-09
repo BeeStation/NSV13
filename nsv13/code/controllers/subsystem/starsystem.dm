@@ -621,8 +621,7 @@ Returns a faction datum by its name (case insensitive!)
 
 /datum/star_system/proc/spawn_asteroids()
 	for(var/I = 0; I <= rand(3, 6); I++){
-		var/roid_type = pick(/obj/structure/overmap/asteroid, /obj/structure/overmap/asteroid/medium, /obj/structure/overmap/asteroid/large)
-		SSstar_system.spawn_ship(roid_type, src)
+		SSstar_system.spawn_ship(/obj/structure/overmap/asteroid, src)
 	}
 
 /datum/star_system/proc/spawn_enemies(enemy_type, amount)

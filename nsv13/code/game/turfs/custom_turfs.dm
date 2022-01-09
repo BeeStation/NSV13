@@ -139,25 +139,8 @@
 	icon_state = "window"
 	color = "#94bbd1"
 
-/obj/structure/fluff/support_beam
-	name = "Support beam"
-	desc = "A large metal support which helps hold the ship together."
-	icon = 'nsv13/icons/obj/structures/ship_structures.dmi'
-	icon_state = "support_beam"
-	density = FALSE
-	anchored = TRUE
-
 /turf/open/openspace/airless
 	initial_gas_mix = AIRLESS_ATMOS
-
-/turf/closed/indestructible/boarding_cordon
-	name = "ship interior cordon"
-	icon_state = "cordon"
-
-/turf/closed/indestructible/boarding_cordon/Initialize()
-	. = ..()
-	alpha = 0
-	mouse_opacity = FALSE
 
 //Ice rocks
 /turf/open/floor/plating/asteroid/snow/ice/airless
@@ -197,10 +180,10 @@
 	turf_type = /turf/open/floor/plating/asteroid/snow/airless
 	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
 	initial_gas_mix = AIRLESS_ATMOS
+	mineralSpawnChanceList = list(
 		/turf/closed/mineral/uranium/icesteroid = 2, /turf/closed/mineral/diamond/icesteroid = 1, /turf/closed/mineral/gold/icesteroid = 4, /turf/closed/mineral/titanium/icesteroid = 4,
 		/turf/closed/mineral/silver/icesteroid = 6, /turf/closed/mineral/copper/icesteroid = 6, /turf/closed/mineral/plasma/icesteroid = 15, /turf/closed/mineral/iron/icesteroid = 40,
 		/turf/closed/mineral/gibtonite/icesteroid = 2, /turf/closed/mineral/bscrystal/icesteroid = 1)
-	mineralSpawnChanceList = list(
 
 /turf/closed/mineral/iron/icesteroid
 	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
@@ -245,8 +228,8 @@
 	initial_gas_mix = AIRLESS_ATMOS
 
 /turf/closed/mineral/uranium/icesteroid
-	turf_type = /turf/open/floor/plating/asteroid/snow/airless
 	smooth_icon = 'icons/turf/walls/mountain_wall.dmi'
+	turf_type = /turf/open/floor/plating/asteroid/snow/airless
 	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
@@ -261,3 +244,28 @@
 	baseturfs = /turf/open/floor/plating/asteroid/snow/airless
 	turf_type = /turf/open/floor/plating/asteroid/snow/airless
 	initial_gas_mix = AIRLESS_ATMOS
+
+//MISC
+
+/turf/closed/indestructible/boarding_cordon
+	name = "ship interior cordon"
+	icon_state = "cordon"
+
+/turf/closed/indestructible/boarding_cordon/Initialize()
+	. = ..()
+	alpha = 0
+	mouse_opacity = FALSE
+
+//Used to randomly generate different types of asteroid turfs
+/turf/template_gen
+	name = "Asteroid Generation Turf"
+	desc = "You shouldn't be seeing this"
+	icon_state = "noop"
+
+/turf/template_gen/closed
+	name = "Asteroid Generation Turf (Closed)"
+	icon_state = "noop_closed"
+
+/turf/template_gen/open
+	name = "Asteroid Generation Turf (Open)"
+	icon_state = "noop_open"
