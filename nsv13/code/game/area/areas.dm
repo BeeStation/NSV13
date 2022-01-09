@@ -1,6 +1,9 @@
 /client/var/last_ambience = null
 
 /area
+	var/obj/structure/overmap/overmap_fallback = null //Used for dropships. Allows you to define an overmap to "fallback" to if get_overmap() fails to find a space level with a linked overmap.
+
+/area
 	ambient_buzz = 'nsv13/sound/ambience/shipambience.ogg' //If you want an ambient sound to play on loop while theyre in a specific area, set this. Defaults to the classic "engine rumble"
 
 /area/space
@@ -8,33 +11,33 @@
 
 /area/maintenance
 	ambient_buzz = 'nsv13/sound/ambience/maintenance.ogg'
-	ambient_effects = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
+	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
 
 /area/medical
 	ambient_buzz = 'nsv13/sound/ambience/medbay.ogg'
-	ambient_effects = list()
+	ambientsounds = list()
 
 /area/ai_monitored
 	ambient_buzz = 'nsv13/sound/ambience/computer_core.ogg'
-	ambient_effects = list()
+	ambientsounds = list()
 
 /area/bridge
 	ambient_buzz = 'nsv13/sound/ambience/bridge.ogg'
-	ambient_effects = list()
+	ambientsounds = list()
 
 /area/science
 	ambient_buzz = 'nsv13/sound/ambience/computer_core.ogg'
-	ambient_effects = list()
+	ambientsounds = list()
 
 /area/crew_quarters/dorms/nsv/dorms_1
 	name = "Deck 2 Fore Quarters"
 	icon_state = "Sleep"
-	safe = TRUE
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED
 
 /area/crew_quarters/dorms/nsv/dorms_2
 	name = "Deck 2 Aft Quarters"
 	icon_state = "Sleep"
-	safe = TRUE
+	area_flags = VALID_TERRITORY | BLOBS_ALLOWED
 
 /area/crew_quarters/dorms/nsv/state_room
 	name = "Corporate Stateroom"
@@ -67,6 +70,14 @@
 /area/nsv/engine/engine_room/auxiliary
 	name = "Engine Auxiliary Equipment"
 	icon_state = "engine_foyer"
+
+/area/engine/atmos/port_atmos
+	name = "Port Atmospherics"
+	icon_state = "atmos"
+
+/area/engine/atmos/starboard_atmos
+	name = "Starboard Atmospherics"
+	icon_state = "atmos"
 
 /area/maintenance/nsv/ftlroom
 	name = "FTL Control Room"
@@ -265,6 +276,18 @@
 
 /area/maintenance/nsv/hangar
 	name = "Hangar Bay Maintenance"
+	icon_state = "amaint"
+
+/area/maintenance/nsv/port_substation
+	name = "Port Substation"
+	icon_state = "amaint"
+
+/area/maintenance/nsv/central_substation
+	name = "Central Substation"
+	icon_state = "amaint"
+
+/area/maintenance/nsv/starboard_substation
+	name = "Starboard Substation"
 	icon_state = "amaint"
 
 /area/hallway/nsv/deck2/forward
@@ -521,6 +544,10 @@
 	name = "Artillery Bay"
 	icon_state = "artillery"
 
+/area/nsv/weapons/access_corridor
+	name = "Munitions Access Corridor"
+	icon_state = "hallF"
+
 /area/nsv/magazine
 	name = "Ship's Magazine"
 	icon_state = "magazine"
@@ -544,6 +571,14 @@
 /area/nsv/squad
 	name = "Squad Equipment Room"
 	icon_state = "shuttlegrn"
+
+/area/ai_monitored/records
+	name = "Records Room"
+	icon_state = "nuke_storage"
+
+/area/security/locker_room
+	name = "Security Locker Room"
+	icon_state = "checkpoint1"
 
 /area/nsv/shuttle
 
@@ -616,7 +651,7 @@
 
 /area/nostromo
 	name = "DMC Rocinante"
-	ambient_effects = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
+	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
 	icon_state = "mining"
 	has_gravity = TRUE
 
@@ -690,7 +725,7 @@
 /area/nostromo/security
 	name = "Rocinante security"
 	icon_state = "security"
-	ambient_effects = HIGHSEC
+	ambience_index = AMBIENCE_DANGER
 
 
 
@@ -713,5 +748,5 @@
 /area/maintenance/nsv/bunker
 	name = "Nuclear Bunker"
 	icon_state = "bunker"
-	ambient_effects = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/ship_damage/creak1.ogg','nsv13/sound/ambience/ship_damage/creak2.ogg','nsv13/sound/ambience/ship_damage/creak3.ogg','nsv13/sound/ambience/ship_damage/creak4.ogg','nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg','nsv13/sound/ambience/ship_damage/creak7.ogg')
+	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/ship_damage/creak1.ogg','nsv13/sound/ambience/ship_damage/creak2.ogg','nsv13/sound/ambience/ship_damage/creak3.ogg','nsv13/sound/ambience/ship_damage/creak4.ogg','nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg','nsv13/sound/ambience/ship_damage/creak7.ogg')
 	light_color = "#e69602"

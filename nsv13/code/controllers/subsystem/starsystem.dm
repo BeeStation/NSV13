@@ -70,6 +70,14 @@ SUBSYSTEM_DEF(star_system)
 /**
 Returns a faction datum by its name (case insensitive!)
 */
+/datum/controller/subsystem/star_system/proc/faction_by_name(name)
+	RETURN_TYPE(/datum/faction)
+	if(!name)
+		return //Stop wasting my time.
+	for(var/datum/faction/F in factions)
+		if(lowertext(F.name) == lowertext(name))
+			return F
+
 /datum/controller/subsystem/star_system/proc/faction_by_id(id)
 	RETURN_TYPE(/datum/faction)
 	if(!id)
@@ -136,6 +144,7 @@ Returns a faction datum by its name (case insensitive!)
 	return system
 
 /datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
+	target_sys.system_contents += OM
 	if(target_sys.occupying_z)
 		var/turf/destination = null
 		if(center)
@@ -146,6 +155,37 @@ Returns a faction datum by its name (case insensitive!)
 		target_sys.add_ship(enemy)
 	else
 		target_sys.enemy_queue += OM
+
+/datum/controller/subsystem/star_system/proc/move_existing_object(obj/structure/overmap/OM, datum/star_system/target)
+	if(QDELETED(OM))
+		return
+	var/datum/star_system/previous_system = OM.current_system
+	target.system_contents += OM
+	if(!target.occupying_z)
+		STOP_PROCESSING(SSphysics_processing, OM)
+		if(OM.physics2d)
+			STOP_PROCESSING(SSphysics_processing, OM.physics2d)
+		var/backupx = OM.x
+		var/backupy = OM.y
+		OM.moveToNullspace()
+		if(backupx && backupy)
+			target.contents_positions[OM] = list("x" = backupx, "y" = backupy) //Cache the ship's position so we can regenerate it later.
+		else
+			target.contents_positions[OM] = list("x" = rand(15, 240), "y" = rand(15, 240))
+	else
+		if(!OM.z)
+			START_PROCESSING(SSphysics_processing, OM)
+			if(OM.physics2d)
+				START_PROCESSING(SSphysics_processing, OM.physics2d)
+		target.add_ship(OM)
+	if(OM.faction != "nanotrasen" && OM.faction != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
+		previous_system?.enemies_in_system -= OM
+		target.enemies_in_system += OM
+	if(previous_system)
+		previous_system.system_contents -= OM
+		if(previous_system.contents_positions[OM]) //If we were loaded, but the system was not.
+			previous_system.contents_positions -= OM
+	OM.current_system = target
 
 //Specific case for anomalies. They need to be spawned in for research to scan them.
 
@@ -260,6 +300,8 @@ Returns a faction datum by its name (case insensitive!)
 	var/datum/trader/trader = null
 	var/list/audio_cues = null //if you want music to queue on system entry. Format: list of youtube or media URLS.
 
+	var/already_announced_combat = FALSE
+
 /datum/star_system/proc/dist(datum/star_system/other)
 	var/dx = other.x - x
 	var/dy = other.y - y
@@ -279,7 +321,7 @@ Returns a faction datum by its name (case insensitive!)
 		station13.starting_system = name
 		station13.current_system = src
 		station13.set_trader(trader)
-		trader.generate_missions()
+		// trader.generate_missions()
 	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_NO_ANOMALIES))
 		addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_NO_ASTEROIDS))
@@ -375,18 +417,18 @@ Returns a faction datum by its name (case insensitive!)
 
 /obj/effect/overmap_anomaly/singularity/process()
 	if(!z) //Not in nullspace
-		if(affecting && affecting.len)
+		if(length(affecting))
 			for(var/obj/structure/overmap/OM in affecting)
 				stop_affecting(OM)
 		return
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects)
 		if(LAZYFIND(affecting, OM))
 			continue
 		if(get_dist(src, OM) <= influence_range && OM.z == z)
 			affecting += OM
 			cached_colours[OM] = OM.color //So that say, a yellow fighter doesnt get its paint cleared by redshifting
-			OM.relay(sound='nsv13/sound/effects/ship/falling.ogg', message="<span class='warning'>You feel weighed down.</span>", loop=TRUE, channel=CHANNEL_HEARTBEAT)
-	for(var/obj/structure/overmap/OM in affecting)
+			OM.relay(S='nsv13/sound/effects/ship/falling.ogg', message="<span class='warning'>You feel weighed down.</span>", loop=TRUE, channel=CHANNEL_HEARTBEAT)
+	for(var/obj/structure/overmap/OM as() in affecting)
 		if(get_dist(src, OM) > influence_range || !z || OM.z != z)
 			stop_affecting(OM)
 			continue
@@ -403,7 +445,7 @@ Returns a faction datum by its name (case insensitive!)
 			qdel(OM)
 		dist = (dist > 0) ? dist : 1
 		var/pull_strength = (dist > event_horizon_range) ? 0.005 : base_pull_strength
-		var/succ_impulse = (!OM.brakes) ? pull_strength/dist*dist : (OM.forward_maxthrust / 10) + (pull_strength/dist*dist) //STOP RESISTING THE SUCC
+		var/succ_impulse = !OM.brakes ? pull_strength/dist*dist : (OM.forward_maxthrust / 10) + (pull_strength/dist*dist) //STOP RESISTING THE SUCC
 		if(incidence & NORTH)
 			OM.velocity.y += succ_impulse
 		if(incidence & SOUTH)
@@ -442,18 +484,18 @@ Returns a faction datum by its name (case insensitive!)
 	icon_state = "redgiant"
 	research_points = 4000 //Somewhat more interesting than a sun.
 
-/datum/star_system/proc/add_mission(datum/nsv_mission/mission)
-	if(!mission)
-		return FALSE
-	active_missions += mission
-	objective_sector = TRUE
+// /datum/star_system/proc/add_mission(datum/nsv_mission/mission)
+// 	if(!mission)
+// 		return FALSE
+// 	active_missions += mission
+// 	objective_sector = TRUE
 
 /datum/star_system/proc/apply_system_effects()
 	event_chance = 15 //Very low chance of an event happening
 	var/anomaly_type = null
 	difficulty_budget = threat_level
 	var/list/sys = system_type
-	switch(sys[ "tag" ])
+	switch(sys["tag"])
 		if("safe")
 			possible_events = list(/datum/round_event_control/aurora_caelus)
 		if("hazardous") //TODO: Make better anomalies spawn in hazardous systems scaling with threat level.
@@ -622,8 +664,6 @@ Returns a faction datum by its name (case insensitive!)
 	)
 	adjacency_list = list("Alpha Centauri", "Outpost 45", "Ross 154")
 	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_WORMHOLE
-	var/solar_siege_cycles_needed = 10	//See the starsystem controller for how many minutes is one cycle. Currently 3 minutes.
-	var/solar_siege_cycles_left = 10
 
 /datum/star_system/ross
 	name = "Ross 154" //Hi mate my name's ross how's it going
@@ -931,7 +971,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 			randystation.current_system = randy
 			randystation.set_trader(randytrader)
 			randy.trader = randytrader
-			randytrader.generate_missions()
+			// randytrader.generate_missions()
 
 		else if(prob(10))
 			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate/raiding, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)

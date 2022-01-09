@@ -42,3 +42,12 @@
 	max_integrity = 400 //Max health
 	integrity_failure = 400
 	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
+
+/obj/structure/overmap/nanotrasen/mining_cruiser/rig
+	name = "Deep Space Mining Rig"
+	role = MAIN_MINING_SHIP
+	area_type = /area/nostromo
+	starting_system = "Lalande 21185"
+	max_integrity = 500 //Max health
+	integrity_failure = 500
+	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K

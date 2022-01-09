@@ -14,6 +14,7 @@
 	icon_screen = null
 	icon_keyboard = null
 	req_access = list(ACCESS_ENGINE_EQUIP)
+	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
 	var/tier = 1
 	var/faction = "nanotrasen" //For ship tracking. The tracking feature of the FTL compy is entirely so that antagonists can hunt the NT ships down
 	var/jump_speed_factor = 3.5 //How quickly do we jump? Larger is faster.
@@ -35,10 +36,6 @@
 	var/ftl_startup_time = 30 SECONDS
 	var/auto_spool = FALSE //For lazy admins
 	var/lockout = FALSE //Used for our end round shenanigains
-
-//No please do not delete the FTL's radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
-/obj/machinery/computer/ship/ftl_computer/prevent_content_explosion()
-	return TRUE
 
 /obj/machinery/computer/ship/ftl_computer/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
@@ -183,6 +180,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	if(!ui)
 		ui = new(user, src, "FTLComputer")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/ftl_computer/ui_act(action, params, datum/tgui/ui)
 	. = ..()
@@ -241,11 +239,11 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		depower()
 		STOP_PROCESSING(SSmachines, src)
 
-/obj/machinery/computer/ship/ftl_computer/proc/jump(datum/star_system/target_system)
+/obj/machinery/computer/ship/ftl_computer/proc/jump(datum/star_system/target_system, force=FALSE)
 	if(!target_system)
 		radio.talk_into(src, "ERROR. Specified star_system no longer exists.", engineering_channel)
 		return
-	linked?.begin_jump(target_system)
+	linked?.begin_jump(target_system, force)
 	playsound(src, 'nsv13/sound/voice/ftl_start.wav', 100, FALSE)
 	radio.talk_into(src, "Initiating FTL translation.", engineering_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
@@ -255,7 +253,6 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_computer/proc/ready_ftl()
 	ftl_state = FTL_STATE_READY
-	progress = 0
 	icon_state = "ftl_ready"
 	playsound(src, 'nsv13/sound/voice/ftl_ready.wav', 100, FALSE)
 	radio.talk_into(src, "FTL vectors calculated. Ready to commence FTL translation.", engineering_channel)

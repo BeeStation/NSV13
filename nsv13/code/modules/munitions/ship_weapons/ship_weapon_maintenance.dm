@@ -1,6 +1,3 @@
-#define MSTATE_CLOSED 0
-#define MSTATE_UNSCREWED 1
-#define MSTATE_UNBOLTED 2
 // #define MSTATE_PRIEDOUT 3 // BEGONE
 
 /**
@@ -56,6 +53,7 @@
 		if(tool.use_tool(src, user, 40, volume=100))
 			to_chat(user, "<span class='notice'> You fasten the maintenance panel on [src].</span>")
 			maint_state = MSTATE_CLOSED
+			panel_open = FALSE
 			update_overlay()
 			return TRUE
 	. = ..()
@@ -86,7 +84,7 @@
 			return TRUE
 
 /**
- * Deconstructs the machine. We no longer track the panel casing 
+ * Deconstructs the machine. We no longer track the panel casing
  */
 /obj/machinery/ship_weapon/crowbar_act(mob/user, obj/item/tool)
 	// if(maint_state == MSTATE_UNBOLTED)
@@ -111,7 +109,7 @@
 	if ( maint_state != MSTATE_UNBOLTED )
 		to_chat(user, "<span class='warning'>The inner casing bolts are fastened on [src]!</span>")
 		return FALSE
-	else 
+	else
 		if(default_deconstruction_crowbar(tool))
 			return TRUE
 
@@ -142,7 +140,7 @@
 		else if(I.reagents.has_reagent(/datum/reagent/oil))
 			to_chat(user, "<span class='notice'>You need at least 10 units of oil to lubricate [src]!</span>")
 			return
-		else if(!I.reagents.has_reagent(/datum/reagent/oil))
+		else
 			visible_message("<span class=warning>Warning: Contaminants detected, flushing systems.</span>")
 			new /obj/effect/decal/cleanable/oil(user.loc)
 			I.reagents.trans_to(src, 10)
@@ -160,10 +158,3 @@
 			add_overlay("[initial(icon_state)]_wrench")
 		// if(MSTATE_PRIEDOUT)
 		// 	add_overlay("[initial(icon_state)]_crowbar")
-
-#undef MSTATE_CLOSED
-#undef MSTATE_UNSCREWED
-#undef MSTATE_UNBOLTED
-// #undef MSTATE_PRIEDOUT
-
-#undef STATE_CHAMBERED

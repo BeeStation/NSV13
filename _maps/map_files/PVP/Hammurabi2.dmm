@@ -77,6 +77,10 @@
 /area/hammurabi/armoury)
 "aB" = (
 /obj/machinery/camera/syndicate/autoname,
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 12
+	},
 /turf/open/floor/engine,
 /area/quartermaster/pvp)
 "aD" = (
@@ -163,8 +167,7 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 8;
-	icon_state = "vent_map_on-2"
+	dir = 8
 	},
 /turf/open/floor/carpet/red,
 /area/quartermaster/pvp)
@@ -227,19 +230,10 @@
 /turf/open/floor/plating/airless,
 /area/hammurabi/maintenance/exterior)
 "bj" = (
-/obj/structure/table/reinforced,
-/obj/item/stack/packageWrap{
-	amount = 30
-	},
-/obj/item/stack/packageWrap{
-	amount = 30
-	},
-/obj/item/stack/packageWrap{
-	amount = 30
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/mineral/plastitanium/red,
 /area/quartermaster/pvp)
 "bk" = (
@@ -252,8 +246,7 @@
 /area/hammurabi/armoury)
 "bm" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 4;
-	icon_state = "vent_map_on-2"
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/pvp)
@@ -293,8 +286,7 @@
 "bx" = (
 /obj/machinery/camera/syndicate/autoname,
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 8;
-	icon_state = "vent_map_on-2"
+	dir = 8
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/quartermaster/pvp)
@@ -334,8 +326,7 @@
 /obj/item/gun/ballistic/automatic/c20r/toy/unrestricted/riot,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/effect/turf_decal/stripes/corner{
-	dir = 1;
-	icon_state = "warninglinecorner"
+	dir = 1
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/armoury)
@@ -372,8 +363,7 @@
 	icon_state = "1-4"
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 1;
-	icon_state = "vent_map_on-2"
+	dir = 1
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/armoury)
@@ -500,6 +490,14 @@
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/pvp)
+"db" = (
+/obj/machinery/computer/ship/dradis/cargo{
+	dir = 8;
+	dradis_id = "syndicate_cargo_torpedo_tube"
+	},
+/obj/item/clothing/ears/earmuffs,
+/turf/open/floor/mineral/plastitanium/red,
+/area/quartermaster/pvp)
 "dc" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
@@ -601,15 +599,13 @@
 /area/engine/engineering/pvp)
 "dA" = (
 /obj/structure/particle_accelerator/power_box{
-	dir = 8;
-	icon_state = "power_box"
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/pvp)
 "dB" = (
 /obj/structure/particle_accelerator/fuel_chamber{
-	dir = 8;
-	icon_state = "fuel_chamber"
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/pvp)
@@ -708,8 +704,7 @@
 /area/engine/engineering/pvp)
 "dY" = (
 /obj/structure/hull_plate/end{
-	dir = 1;
-	icon_state = "tgmc_outerhull_dir"
+	dir = 1
 	},
 /turf/open/floor/engine/airless,
 /area/hammurabi/maintenance/exterior)
@@ -804,8 +799,7 @@
 /area/hammurabi)
 "eo" = (
 /obj/structure/hull_plate/end{
-	dir = 8;
-	icon_state = "tgmc_outerhull_dir"
+	dir = 8
 	},
 /turf/open/floor/plating/airless,
 /area/hammurabi/maintenance/exterior)
@@ -934,7 +928,6 @@
 /obj/structure/chair/comfy/shuttle{
 	color = "#696969";
 	dir = 4;
-	icon_state = "shuttle_chair";
 	name = "captain's chair"
 	},
 /obj/structure/cable{
@@ -1005,9 +998,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/gauss_dispenser{
-	pixel_y = 26
-	},
+/obj/machinery/gauss_dispenser,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "fp" = (
@@ -1025,8 +1016,7 @@
 /area/hammurabi/armoury)
 "ft" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 1;
-	icon_state = "vent_map_on-2"
+	dir = 1
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/nsv/weapons/pvp)
@@ -1048,8 +1038,7 @@
 /area/nsv/weapons/pvp)
 "fB" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 4;
-	icon_state = "vent_map_on-2"
+	dir = 4
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
@@ -1194,11 +1183,16 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/armoury)
 "go" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
 /obj/machinery/computer/ship/dradis{
 	dir = 8
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
+/obj/machinery/computer/ship/dradis/mining{
+	dir = 8;
+	pixel_x = 14;
+	pixel_y = 6
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/bridge/pvp)
@@ -1594,11 +1588,12 @@
 /turf/open/floor/carpet/red,
 /area/engine/engineering/pvp)
 "ic" = (
-/obj/structure/table/reinforced,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/machinery/airalarm/directional/east,
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/east{
+	launcher_id = "syndicate_cargo_torpedo_tube"
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/quartermaster/pvp)
 "ie" = (
@@ -1711,8 +1706,7 @@
 /area/hammurabi/maintenance/exterior)
 "iz" = (
 /obj/structure/hull_plate/end{
-	dir = 4;
-	icon_state = "tgmc_outerhull_dir"
+	dir = 4
 	},
 /turf/open/floor/engine/airless,
 /area/hammurabi/maintenance/exterior)
@@ -1774,8 +1768,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 8;
-	icon_state = "vent_map_on-2"
+	dir = 8
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/bridge/pvp)
@@ -1828,8 +1821,7 @@
 	},
 /obj/effect/landmark/start/nukeop/syndi_crew,
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 4;
-	icon_state = "vent_map_on-2"
+	dir = 4
 	},
 /turf/open/floor/carpet/red,
 /area/hammurabi)
@@ -1850,8 +1842,7 @@
 "ja" = (
 /obj/structure/window/reinforced/spawner/west,
 /obj/machinery/sleeper/syndie{
-	dir = 4;
-	icon_state = "sleeper_s"
+	dir = 4
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi/medbay)
@@ -2017,8 +2008,7 @@
 /obj/item/extinguisher/advanced/hull_repair_juice,
 /obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
 /obj/effect/turf_decal/stripes/corner{
-	dir = 1;
-	icon_state = "warninglinecorner"
+	dir = 1
 	},
 /obj/effect/turf_decal/stripes/corner,
 /turf/open/floor/monotile/dark,
@@ -2065,8 +2055,7 @@
 /area/quartermaster/pvp)
 "jN" = (
 /obj/structure/particle_accelerator/particle_emitter/right{
-	dir = 8;
-	icon_state = "emitter_right"
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/pvp)
@@ -2194,8 +2183,7 @@
 /area/hammurabi)
 "kQ" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 1;
-	icon_state = "vent_map_on-2"
+	dir = 1
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/quartermaster/pvp)
@@ -2217,8 +2205,7 @@
 /area/nsv/weapons/pvp)
 "kW" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 1;
-	icon_state = "vent_map_on-2"
+	dir = 1
 	},
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plasteel/tech/grid,
@@ -2258,6 +2245,10 @@
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/pvp)
+"le" = (
+/obj/machinery/rnd/production/techfab,
+/turf/open/floor/mineral/plastitanium/red,
+/area/quartermaster/pvp)
 "li" = (
 /obj/structure/chair{
 	dir = 4
@@ -2286,8 +2277,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/effect/turf_decal/stripes/corner{
-	dir = 1;
-	icon_state = "warninglinecorner"
+	dir = 1
 	},
 /obj/machinery/door/airlock/ship/hatch{
 	name = "Armory";
@@ -2490,8 +2480,7 @@
 /area/hammurabi/maintenance)
 "np" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 4;
-	icon_state = "vent_map_on-2"
+	dir = 4
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -2500,8 +2489,7 @@
 /area/hammurabi/armoury)
 "nq" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 4;
-	icon_state = "vent_map_on-2"
+	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/crew_quarters/heads/hos/pvp)
@@ -2753,8 +2741,7 @@
 /area/quartermaster/pvp)
 "pd" = (
 /obj/effect/turf_decal/stripes/corner{
-	dir = 1;
-	icon_state = "warninglinecorner"
+	dir = 1
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/armoury)
@@ -2852,6 +2839,10 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/carpet/red,
 /area/crew_quarters/bar/pvp)
+"pG" = (
+/obj/structure/munitions_trolley,
+/turf/open/floor/engine,
+/area/quartermaster/pvp)
 "pH" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden,
 /obj/structure/cable{
@@ -2868,7 +2859,7 @@
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi)
 "pK" = (
-/obj/machinery/autolathe,
+/obj/machinery/modular_fabricator/autolathe,
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
@@ -2982,7 +2973,6 @@
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/captain/pvp/admiral)
 "qo" = (
-/obj/machinery/rnd/production/techfab,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -3104,8 +3094,7 @@
 /area/nsv/weapons/pvp)
 "rr" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 1;
-	icon_state = "vent_map_on-2"
+	dir = 1
 	},
 /turf/open/floor/carpet/red,
 /area/hammurabi)
@@ -3431,8 +3420,7 @@
 	},
 /obj/machinery/light/small,
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 4;
-	icon_state = "vent_map_on-2"
+	dir = 4
 	},
 /obj/machinery/firealarm/directional/south,
 /turf/open/floor/monotile/dark,
@@ -3621,8 +3609,7 @@
 /area/hammurabi)
 "uq" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 8;
-	icon_state = "vent_map_on-2"
+	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -3659,8 +3646,7 @@
 /area/engine/engineering/pvp)
 "uw" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 1;
-	icon_state = "vent_map_on-2"
+	dir = 1
 	},
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/captain/pvp)
@@ -4638,6 +4624,7 @@
 /area/hammurabi/medbay)
 "AJ" = (
 /obj/structure/table/wood,
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/carpet/red,
 /area/quartermaster/pvp)
 "AL" = (
@@ -4713,7 +4700,6 @@
 /obj/structure/chair/comfy/shuttle{
 	color = "#696969";
 	dir = 4;
-	icon_state = "shuttle_chair";
 	name = "bridge chair"
 	},
 /obj/effect/landmark/start/nukeop/syndi_crew,
@@ -4859,8 +4845,7 @@
 /area/quartermaster/pvp)
 "Ct" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 8;
-	icon_state = "vent_map_on-2"
+	dir = 8
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/nsv/weapons/pvp)
@@ -4885,7 +4870,6 @@
 /obj/structure/chair/comfy/shuttle{
 	color = "#696969";
 	dir = 4;
-	icon_state = "shuttle_chair";
 	name = "bridge chair"
 	},
 /obj/effect/landmark/start/nukeop/syndi_crew,
@@ -4952,8 +4936,7 @@
 	req_one_access_txt = "151;153"
 	},
 /turf/open/floor/plasteel/stairs/medium{
-	dir = 1;
-	icon_state = "stairs-m"
+	dir = 1
 	},
 /area/quartermaster/pvp)
 "CI" = (
@@ -5014,8 +4997,7 @@
 /area/nsv/weapons/pvp)
 "CZ" = (
 /obj/structure/particle_accelerator/particle_emitter/center{
-	dir = 8;
-	icon_state = "emitter_center"
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/pvp)
@@ -5050,7 +5032,7 @@
 /area/engine/engineering/pvp)
 "Dd" = (
 /obj/machinery/firealarm/directional/north,
-/obj/item/twohanded/required/kirbyplants/photosynthetic{
+/obj/item/kirbyplants/photosynthetic{
 	icon_state = "plant-20"
 	},
 /turf/open/floor/carpet/red,
@@ -5321,8 +5303,7 @@
 /area/engine/engineering/pvp)
 "Fp" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 1;
-	icon_state = "vent_map_on-2"
+	dir = 1
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi)
@@ -5344,8 +5325,7 @@
 /area/hammurabi/maintenance/exterior)
 "Fz" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/atmos_waste{
-	dir = 4;
-	icon_state = "inje_map-2"
+	dir = 4
 	},
 /obj/structure/hull_plate,
 /turf/open/floor/plating/airless,
@@ -5383,6 +5363,12 @@
 /obj/machinery/firealarm/directional/south,
 /obj/structure/closet/crate,
 /obj/effect/spawner/lootdrop/maintenance/two,
+/obj/item/stack/packageWrap{
+	amount = 30
+	},
+/obj/item/stack/packageWrap{
+	amount = 30
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
 "FM" = (
@@ -5695,8 +5681,7 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 1;
-	icon_state = "vent_map_on-2"
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/pvp)
@@ -5774,6 +5759,9 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/bridge/pvp)
+"Jd" = (
+/turf/open/floor/mineral/plastitanium/red,
+/area/quartermaster/pvp)
 "Jl" = (
 /obj/structure/closet/radiation,
 /turf/open/floor/plasteel/tech/grid,
@@ -6031,8 +6019,7 @@
 /area/crew_quarters/heads/hos/pvp)
 "Lr" = (
 /turf/open/floor/plasteel/stairs/medium{
-	dir = 4;
-	icon_state = "stairs-m"
+	dir = 4
 	},
 /area/bridge/pvp)
 "Ls" = (
@@ -6558,8 +6545,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plasteel/stairs/medium{
-	dir = 1;
-	icon_state = "stairs-m"
+	dir = 1
 	},
 /area/quartermaster/pvp)
 "Pi" = (
@@ -6879,8 +6865,7 @@
 /area/hammurabi)
 "Rq" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 4;
-	icon_state = "vent_map_on-2"
+	dir = 4
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/hammurabi)
@@ -7074,6 +7059,10 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/nsv/weapons/pvp)
+"Tc" = (
+/obj/machinery/computer/ship/munitions_computer/west,
+/turf/open/floor/mineral/plastitanium,
+/area/quartermaster/pvp)
 "Tg" = (
 /obj/machinery/atmospherics/pipe/simple/yellow/hidden{
 	dir = 6
@@ -7237,8 +7226,7 @@
 /area/hammurabi)
 "UH" = (
 /obj/structure/particle_accelerator/end_cap{
-	dir = 8;
-	icon_state = "end_cap"
+	dir = 8
 	},
 /obj/machinery/light{
 	dir = 4
@@ -7316,6 +7304,8 @@
 /obj/effect/turf_decal/bot,
 /obj/structure/closet/crate/medical,
 /obj/effect/spawner/lootdrop/gloves,
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
 "Vb" = (
@@ -7379,8 +7369,7 @@
 /area/hammurabi)
 "Vs" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 4;
-	icon_state = "vent_map_on-2"
+	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/medbay)
@@ -7507,8 +7496,7 @@
 /area/nsv/weapons/pvp)
 "VW" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 8;
-	icon_state = "vent_map_on-2"
+	dir = 8
 	},
 /turf/open/floor/engine,
 /area/quartermaster/pvp)
@@ -7613,8 +7601,7 @@
 /area/engine/engineering/pvp)
 "WP" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 4;
-	icon_state = "vent_map_on-2"
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/pvp)
@@ -7787,8 +7774,7 @@
 /area/hammurabi)
 "Ye" = (
 /obj/structure/particle_accelerator/particle_emitter/left{
-	dir = 8;
-	icon_state = "emitter_left"
+	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/orange/visible/layer1{
 	dir = 9
@@ -7933,8 +7919,7 @@
 /obj/item/clothing/mask/gas,
 /obj/item/tank/internals/oxygen,
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 1;
-	icon_state = "vent_map_on-2"
+	dir = 1
 	},
 /obj/item/shovel,
 /obj/item/storage/toolbox/emergency,
@@ -38492,7 +38477,7 @@ aa
 aa
 Xr
 aB
-iV
+pG
 nv
 bf
 Wu
@@ -39267,7 +39252,7 @@ iV
 ax
 hd
 Zb
-UD
+Tc
 bp
 Xr
 xr
@@ -39780,9 +39765,9 @@ aa
 aa
 Xr
 Xr
-Xr
-Xr
-Xr
+Jd
+Jd
+Jd
 Xr
 bx
 UD
@@ -40036,10 +40021,10 @@ aa
 aa
 aa
 dY
-ix
-ix
-ix
-ix
+Xr
+le
+Jd
+db
 Xr
 qZ
 UD
@@ -40293,10 +40278,10 @@ aa
 aa
 aa
 dY
-ix
-ix
-ix
-ix
+Xr
+Xr
+Xr
+Xr
 Xr
 So
 UD
@@ -40551,7 +40536,7 @@ aa
 aa
 dY
 ix
-bg
+ix
 ix
 ix
 Xr
@@ -41065,7 +41050,7 @@ aa
 aa
 dY
 ix
-ix
+bg
 ix
 ix
 ix

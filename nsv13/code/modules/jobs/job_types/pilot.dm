@@ -7,7 +7,7 @@
 	total_positions = 4
 	spawn_positions = 4
 	supervisors = "the Master At Arms"
-	selection_color = "#d692a3"
+	selection_color = "#ffd1a2"
 	chat_color = "#2681a5"
 	exp_requirements = 60
 	exp_type = EXP_TYPE_CREW
@@ -22,6 +22,7 @@
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_PILOT
+	departments = DEPARTMENT_MUNITIONS
 
 //FIXME: boarding
 /*

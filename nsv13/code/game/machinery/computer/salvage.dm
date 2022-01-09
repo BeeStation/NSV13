@@ -32,12 +32,12 @@
 	radio.listening = 0
 	radio.recalculateChannels()
 
-/* //FIXME: boarding
 /obj/machinery/computer/ship/salvage/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "SalvageConsole")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/salvage/ui_data(mob/user)
 	if(!linked)
@@ -49,7 +49,7 @@
 	data["salvage_target_max_integrity"] = (linked.active_boarding_target) ? linked.active_boarding_target.max_integrity  : 100
 	var/list/ships = list()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(OM.z != linked?.z || OM.interior_mode != INTERIOR_EXCLUSIVE || OM.is_sensor_visible(linked) <= SENSOR_VISIBILITY_FAINT || OM.boarding_reservation_z)
+		if(OM.z != linked?.z || OM.interior_mode != INTERIOR_EXCLUSIVE || OM.is_sensor_visible(linked) <= SENSOR_VISIBILITY_FAINT || OM == linked.active_boarding_target)
 			continue
 		ships[++ships.len] = list("name"=OM.name, "desc"=OM.desc, "id"="\ref[OM]")
 	data["ships"] = ships
@@ -66,29 +66,50 @@
 	switch(action)
 		if("salvage")
 			var/obj/structure/overmap/OM = locate(params["target"])
-			if(!OM || !can_salvage || !linked)
+			if(!linked)
+				radio.talk_into(src, "This console is not attached to the ship's EWAR scrambling systems.", radio_channel)
+				return FALSE
+			if(!OM)
+				radio.talk_into(src, "Detection of target systems failed.", radio_channel)
+				return FALSE
+			if(!can_salvage)
+				radio.talk_into(src, "EWAR scrambling equipment is starting up or shutting down. Try again later.", radio_channel)
 				return FALSE
 			if((linked.active_boarding_target && !QDELETED(linked.active_boarding_target)))
 				playsound(pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_2.ogg'), 100, 1)
 				radio.talk_into(src, "WARNING: This console is already maintaining EWAR scrambling on [linked.active_boarding_target]. Confirmation required to proceed.", radio_channel)
 				return FALSE
 			radio.talk_into(src, "Electronic countermeasure deployment in progress.", radio_channel)
+			can_salvage = FALSE
 			if(OM.ai_load_interior(linked))
-				can_salvage = FALSE
+				linked.active_boarding_target = OM
 				addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown)
 				radio.talk_into(src, "Enemy point defense systems scrambled. Bluefor strike teams cleared for approach.", radio_channel)
 			else
 				radio.talk_into(src, "Unable to scramble enemy point defense systems. Aborting...", radio_channel)
+				linked.active_boarding_target.kill_boarding_level(linked)
+				linked.active_boarding_target = null
+				addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown/2)
 
 		if("stop_salvage")
-			if(!linked || !linked.active_boarding_target || !can_salvage)
+			if(!linked)
+				radio.talk_into(src, "This console is not attached to the ship's EWAR scrambling systems.", radio_channel)
 				return FALSE
+			if(!linked.active_boarding_target)
+				radio.talk_into(src, "EWAR scambling not currently engaged.", radio_channel)
+				return FALSE
+			if(!can_salvage)
+				radio.talk_into(src, "EWAR scrambling equipment is starting up or shutting down. Try again later.", radio_channel)
+				return FALSE
+			if(SEND_SIGNAL(linked.active_boarding_target, COMSIG_SHIP_RELEASE_BOARDING))
+				radio.talk_into(src, "Target is mission critical. Cannot cancel EWAR scrambling on [linked.active_boarding_target].", radio_channel)
+				return FALSE // Something blocked this
 			if(alert("Are you sure? (ALL BOARDERS WILL BE KILLED)",name,"Release Hammerlock","Cancel") == "Cancel")
 				return FALSE
 			radio.talk_into(src, "EWAR scrambling on [linked.active_boarding_target] cancelled.", radio_channel)
-			linked.active_boarding_target.kill_boarding_level(linked)
-			linked.active_boarding_target = null
 			//They REALLY NEED TO NOT SPAM THIS
 			can_salvage = FALSE
+			message_admins("[usr] released boarding/salvage lock on [linked.active_boarding_target]")
+			linked.active_boarding_target.kill_boarding_level(linked)
+			linked.active_boarding_target = null
 			addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown/2)
-*/

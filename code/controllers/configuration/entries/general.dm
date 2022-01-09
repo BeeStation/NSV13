@@ -202,6 +202,7 @@
 
 /datum/config_entry/string/banappeals
 
+//NSV13 - updated URIs
 /datum/config_entry/string/wikiurl
 	config_entry_value = "https://nsv.beestation13.com/wiki/Main_Page"
 
@@ -220,7 +221,8 @@
 	config_entry_value = "https://www.patreon.com/user?u=10639001"
 
 /datum/config_entry/string/discordurl
-	config_entry_value = "https://discord.gg/8rrttjN"
+	config_entry_value = "https://nsv.beestation13.com/discord"
+//NSV13 changes end
 
 /datum/config_entry/string/roundstatsurl
 
@@ -327,6 +329,8 @@
 
 /datum/config_entry/flag/panic_bunker	// prevents people the server hasn't seen before from connecting
 
+/datum/config_entry/number/panic_bunker_living // living time in minutes that a player needs to pass the panic bunker
+
 /datum/config_entry/string/panic_bunker_message
 	config_entry_value = "Sorry but the server is currently not accepting connections from never before seen players."
 
@@ -336,7 +340,7 @@
 /datum/config_entry/number/notify_new_player_account_age	// how long do we notify admins of a new byond account
 	min_val = 0
 
-/datum/config_entry/flag/irc_first_connection_alert	// do we notify the irc channel when somebody is connecting for the first time?
+/datum/config_entry/flag/irc_first_connection_alert	// do we notify the irc/discord channel when somebody is connecting for the first time?
 
 /datum/config_entry/flag/check_randomizer
 
@@ -554,3 +558,14 @@
 /datum/config_entry/number/ghost_role_cooldown
 	config_entry_value = 0
 	min_val = 0
+
+/datum/config_entry/flag/atmos_equalize_enabled
+	default = FALSE
+
+
+// Elasticsearch stuffs
+/datum/config_entry/flag/elasticsearch_metrics_enabled
+
+/datum/config_entry/string/elasticsearch_metrics_endpoint
+
+/datum/config_entry/string/elasticsearch_metrics_apikey

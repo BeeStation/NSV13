@@ -49,11 +49,13 @@ SUBSYSTEM_DEF(job)
 	var/datum/job/new_overflow = GetJob(new_overflow_role)
 	var/cap = CONFIG_GET(number/overflow_cap)
 
+	new_overflow.allow_bureaucratic_error = FALSE
 	new_overflow.spawn_positions = cap
 	new_overflow.total_positions = cap
 
 	if(new_overflow_role != overflow_role)
 		var/datum/job/old_overflow = GetJob(overflow_role)
+		old_overflow.allow_bureaucratic_error = initial(old_overflow.allow_bureaucratic_error)
 		old_overflow.spawn_positions = initial(old_overflow.spawn_positions)
 		old_overflow.total_positions = initial(old_overflow.total_positions)
 		overflow_role = new_overflow_role
@@ -252,6 +254,22 @@ SUBSYSTEM_DEF(job)
 		return 1
 	return 0
 
+//NSV13 addition
+// This proc is called before the level loop of DivideOccupations() and will try to fill the job given
+// It either locates someone for the position or runs out of levels to check
+// This is to try to fill critical roles before assigning janitor and botanist
+/datum/controller/subsystem/job/proc/FillPosition(var/job_string)
+	var/datum/job/job = GetJob(job_string)
+	if(!job)
+		return 0
+	for(var/level in level_order)
+		var/list/candidates = list()
+		candidates = FindOccupationCandidates(job, level)
+		if(length(candidates))
+			var/mob/dead/new_player/candidate = pick(candidates)
+			if(AssignRole(candidate, job_string))
+				return 1
+	return 0
 
 /** Proc DivideOccupations
  *  fills var "assigned_role" for all ready players.
@@ -270,8 +288,11 @@ SUBSYSTEM_DEF(job)
 
 	//Get the players who are ready
 	for(var/mob/dead/new_player/player in GLOB.player_list)
-		if(player.ready == PLAYER_READY_TO_PLAY && player.has_valid_preferences() && player.mind && !player.mind.assigned_role)
-			unassigned += player
+		if(player.ready == PLAYER_READY_TO_PLAY && player.mind && !player.mind.assigned_role)
+			if(!player.has_valid_preferences())
+				player.ready = PLAYER_NOT_READY
+			else
+				unassigned += player
 
 	initial_players_to_assign = unassigned.len
 
@@ -309,12 +330,21 @@ SUBSYSTEM_DEF(job)
 	//Select one head
 	JobDebug("DO, Running Head Check")
 	FillHeadPosition()
+	FillHeadPosition() //NSV13 - let's have two heads, actually
 	JobDebug("DO, Head Check end")
 
 	//Check for an AI
 	JobDebug("DO, Running AI Check")
 	FillAIPosition()
 	JobDebug("DO, AI Check end")
+
+	//NSV13 - fill some other high priority jobs
+	JobDebug("DO, Running Critical Jobs Check")
+	FillPosition("Station Engineer")
+	FillPosition("Munitions Technician")
+	FillPosition("Bridge Staff")
+	FillPosition("Shaft Miner")
+	JobDebug("DO, Critical Jobs Check end")
 
 	//Other jobs are now checked
 	JobDebug("DO, Running Standard Check")
@@ -442,21 +472,32 @@ SUBSYSTEM_DEF(job)
 
 	//If we joined at roundstart we should be positioned at our workstation
 	if(!joined_late)
+		var/spawning_handled = FALSE
 		var/obj/S = null
-		for(var/obj/effect/landmark/start/sloc in GLOB.start_landmarks_list)
-			if(sloc.name != rank)
-				S = sloc //so we can revert to spawning them on top of eachother if something goes wrong
-				continue
-			if(locate(/mob/living) in sloc.loc)
-				continue
-			S = sloc
-			sloc.used = TRUE
-			break
-		if(length(GLOB.jobspawn_overrides[rank]))
+		if(HAS_TRAIT(SSstation, STATION_TRAIT_LATE_ARRIVALS) && job.random_spawns_possible)
+			SendToLateJoin(living_mob)
+			spawning_handled = TRUE
+		else if(HAS_TRAIT(SSstation, STATION_TRAIT_RANDOM_ARRIVALS) && job.random_spawns_possible)
+			DropLandAtRandomHallwayPoint(living_mob)
+			spawning_handled = TRUE
+		else if(HAS_TRAIT(SSstation, STATION_TRAIT_HANGOVER) && job.random_spawns_possible)
+			SpawnLandAtRandomHallwayPoint(living_mob)
+			spawning_handled = TRUE
+		else if(length(GLOB.jobspawn_overrides[rank]))
 			S = pick(GLOB.jobspawn_overrides[rank])
+		else
+			for(var/obj/effect/landmark/start/sloc in GLOB.start_landmarks_list)
+				if(sloc.name != rank)
+					S = sloc //so we can revert to spawning them on top of eachother if something goes wrong
+					continue
+				if(locate(/mob/living) in sloc.loc)
+					continue
+				S = sloc
+				sloc.used = TRUE
+				break
 		if(S)
 			S.JoinPlayerHere(living_mob, FALSE)
-		if(!S) //if there isn't a spawnpoint send them to latejoin, if there's no latejoin go yell at your mapper
+		if(!S && !spawning_handled) //if there isn't a spawnpoint send them to latejoin, if there's no latejoin go yell at your mapper
 			log_world("Couldn't find a round start spawn point for [rank]")
 			SendToLateJoin(living_mob)
 
@@ -491,7 +532,7 @@ SUBSYSTEM_DEF(job)
 		var/mob/living/carbon/human/wageslave = living_mob
 		living_mob.add_memory("Your account ID is [wageslave.account_id].")
 	if(job && living_mob)
-		job.after_spawn(living_mob, M, joined_late) // note: this happens before the mob has a key! M will always have a client, H might not.
+		job.after_spawn(living_mob, M, joined_late) // note: this happens before the mob has a key! M will always have a client, living_mob might not.
 
 	var/tries = 5
 	while(M.mind && !M.mind.crew_objectives.len && tries)
@@ -678,6 +719,27 @@ SUBSYSTEM_DEF(job)
 		message_admins(msg)
 		CRASH(msg)
 
+///Spawns specified mob at a random spot in the hallways
+/datum/controller/subsystem/job/proc/SpawnLandAtRandomHallwayPoint(mob/living/living_mob)
+	var/turf/spawn_turf = get_safe_random_station_turfs(typesof(/area/hallway))
+
+	if(!spawn_turf)
+		SendToLateJoin(living_mob)
+		return
+
+	living_mob.forceMove(spawn_turf)
+
+///Lands specified mob at a random spot in the hallways
+/datum/controller/subsystem/job/proc/DropLandAtRandomHallwayPoint(mob/living/living_mob)
+	var/turf/spawn_turf = get_safe_random_station_turfs(typesof(/area/hallway))
+
+	if(!spawn_turf)
+		SendToLateJoin(living_mob)
+		return
+
+	var/obj/structure/closet/supplypod/centcompod/toLaunch = new()
+	living_mob.forceMove(toLaunch)
+	new /obj/effect/pod_landingzone(spawn_turf, toLaunch)
 
 ///////////////////////////////////
 //Keeps track of all living heads//

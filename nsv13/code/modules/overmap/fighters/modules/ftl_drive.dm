@@ -24,14 +24,14 @@
 	desc = "A micro jump drive with an expanded range."
 	max_range = 200
 
-/obj/item/fighter_component/ftl/proc/jump(datum/star_system/target_system)
+/obj/item/fighter_component/ftl/proc/jump(datum/star_system/target_system, force=FALSE)
 	if(!target_system || !SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP))
 		return
 	var/obj/structure/overmap/linked = loc
 	if(!linked)
 		return FALSE
 	ftl_state = FTL_STATE_JUMPING
-	linked?.begin_jump(target_system)
+	linked?.begin_jump(target_system, force)
 	linked.relay('nsv13/sound/effects/ship/freespace2/computer/escape.wav')
 	progress = 0
 	addtimer(CALLBACK(src, .proc/depower), ftl_startup_time)

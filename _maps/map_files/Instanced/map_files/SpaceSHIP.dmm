@@ -728,9 +728,7 @@
 "bL" = (
 /obj/machinery/computer/ship/viewscreen,
 /obj/machinery/camera/syndicate/autoname,
-/obj/machinery/computer/monitor{
-	dir = 2
-	},
+/obj/machinery/computer/monitor,
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/engine,
 /area/quartermaster/pvp)
@@ -804,7 +802,10 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/hydroponics/pvp)
 "bV" = (
-/obj/structure/munitions_trolley,
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 12
+	},
 /turf/open/floor/monotile/dark,
 /area/quartermaster/pvp)
 "bW" = (
@@ -826,8 +827,7 @@
 /area/hallway/pvp)
 "bX" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 8;
-	icon_state = "vent_map_on-2"
+	dir = 8
 	},
 /turf/open/floor/carpet/red,
 /area/nsv/hanger/pvp)
@@ -1786,23 +1786,23 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
 /turf/open/floor/engine,
 /area/nsv/hanger/pvp)
 "dY" = (
@@ -2528,12 +2528,13 @@
 /turf/open/floor/plating,
 /area/engine/engineering/pvp)
 "fK" = (
-/obj/structure/hull_plate/end{
-	dir = 1;
-	icon_state = "tgmc_outerhull_dir"
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
 	},
-/turf/open/floor/plating/airless,
-/area/space)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/computer/ship/munitions_computer/south,
+/turf/open/floor/engine,
+/area/quartermaster/pvp)
 "fL" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -2821,6 +2822,18 @@
 	},
 /obj/structure/cable/yellow,
 /turf/open/floor/plasteel/tech/grid,
+/area/quartermaster/pvp)
+"gy" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/computer/ship/dradis/cargo{
+	dir = 4;
+	dradis_id = "syndicate_cargo_torpedo_tube"
+	},
+/obj/item/clothing/ears/earmuffs,
+/turf/open/floor/engine,
 /area/quartermaster/pvp)
 "gz" = (
 /obj/structure/extinguisher_cabinet/east,
@@ -4683,6 +4696,7 @@
 /obj/item/stack/spacecash/c1000,
 /obj/item/stack/spacecash/c1000,
 /obj/item/stack/spacecash/c1000,
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/carpet/red,
 /area/quartermaster/pvp)
 "lq" = (
@@ -4995,24 +5009,24 @@
 /area/security/brig/pvp)
 "md" = (
 /obj/structure/table,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
 /obj/item/fighter_component/secondary/utility/resupply,
 /obj/item/fighter_component/secondary/utility/resupply,
 /obj/item/fighter_component/secondary/utility/resupply,
@@ -5170,7 +5184,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/mecha_part_fabricator,
+/obj/machinery/modular_fabricator/exosuit_fab,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 8
 	},
@@ -5187,23 +5201,23 @@
 	},
 /obj/structure/window/reinforced,
 /obj/machinery/door/window/eastright,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
 /obj/item/storage/belt/utility/full,
 /turf/open/floor/mineral/plastitanium,
 /area/nsv/hanger/pvp/marine)
@@ -6288,23 +6302,23 @@
 	},
 /obj/structure/window/reinforced,
 /obj/machinery/door/window/eastright,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
 /obj/item/storage/belt/utility/full,
 /turf/open/floor/mineral/plastitanium,
 /area/nsv/hanger/pvp/marine)
@@ -6937,6 +6951,8 @@
 	},
 /obj/item/radio,
 /obj/item/megaphone/cargo,
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/carpet/red,
 /area/quartermaster/pvp)
 "qo" = (
@@ -7403,6 +7419,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 5
 	},
+/obj/structure/munitions_trolley,
 /turf/open/floor/engine,
 /area/quartermaster/pvp)
 "rt" = (
@@ -7898,7 +7915,7 @@
 	dir = 6
 	},
 /obj/item/circuitboard/computer/slot_machine,
-/obj/item/circuitboard/computer/shuttle/docker{
+/obj/item/circuitboard/computer/shuttle/flight_control{
 	pixel_x = -3
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -10196,7 +10213,7 @@
 /turf/open/floor/mineral/plastitanium,
 /area/quartermaster/pvp)
 "xG" = (
-/obj/machinery/mineral/equipment_vendor,
+/obj/machinery/vendor/mining,
 /obj/structure/disposalpipe/segment{
 	dir = 6
 	},
@@ -10466,7 +10483,7 @@
 /turf/open/floor/carpet/red,
 /area/quartermaster/pvp)
 "yp" = (
-/obj/machinery/autolathe,
+/obj/machinery/modular_fabricator/autolathe,
 /obj/machinery/firealarm{
 	dir = 4;
 	pixel_x = 24
@@ -12095,7 +12112,7 @@
 "Cp" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/obj/machinery/mecha_part_fabricator,
+/obj/machinery/modular_fabricator/exosuit_fab,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
@@ -16531,7 +16548,7 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge/pvp/secondary)
 "Nt" = (
-/obj/machinery/autolathe,
+/obj/machinery/modular_fabricator/autolathe,
 /turf/open/floor/plasteel/white,
 /area/science/pvp)
 "Nu" = (
@@ -17342,7 +17359,7 @@
 /area/crew_quarters/cafeteria/pvp)
 "Pv" = (
 /obj/structure/reagent_dispensers/watertank,
-/obj/item/twohanded/pushbroom,
+/obj/item/pushbroom,
 /turf/open/floor/plasteel/tech/grid,
 /area/hallway/pvp)
 "Pw" = (
@@ -17583,6 +17600,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/light{
 	dir = 8
+	},
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/north{
+	launcher_id = "syndicate_cargo_torpedo_tube"
 	},
 /turf/open/floor/engine,
 /area/quartermaster/pvp)
@@ -18131,8 +18151,7 @@
 	dir = 8
 	},
 /obj/machinery/computer/ship/ftl_computer/syndicate{
-	dir = 4;
-	icon_state = "ftl_off"
+	dir = 4
 	},
 /turf/open/floor/engine,
 /area/engine/engine_room/pvp)
@@ -19082,7 +19101,7 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/hydroponics/pvp)
 "Tj" = (
-/obj/structure/piano{
+/obj/structure/musician/piano{
 	icon_state = "piano"
 	},
 /turf/open/floor/carpet/red,
@@ -52415,8 +52434,8 @@ VB
 GM
 SG
 PZ
-SG
-SG
+fK
+gy
 rp
 VB
 sF
@@ -67619,7 +67638,7 @@ he
 he
 he
 he
-fK
+am
 Ze
 Ze
 dx
@@ -67876,7 +67895,7 @@ he
 he
 he
 he
-fK
+am
 Ze
 Ze
 dx
@@ -68133,7 +68152,7 @@ he
 he
 he
 he
-fK
+am
 Ze
 Ze
 dx
@@ -68390,7 +68409,7 @@ he
 he
 he
 he
-fK
+am
 Ze
 Ze
 dx
@@ -68647,7 +68666,7 @@ he
 he
 he
 he
-fK
+am
 Ze
 Ze
 dx
@@ -68904,7 +68923,7 @@ he
 he
 he
 he
-fK
+am
 Ze
 Ze
 dx

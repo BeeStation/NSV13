@@ -31,7 +31,8 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/announced_objectives = FALSE 				//Have we announced the objectives yet?
 	var/round_extended = FALSE 						//Has the round already been extended already?
 	var/admin_override = FALSE						//Stops the mission ending
-	var/already_ended = FALSE						//Is the round already in an ending state
+	var/objectives_completed = FALSE				//Did they finish all the objectives that are available to them?
+	var/already_ended = FALSE						//Is the round already in an ending state, i.e. we return jumped
 	var/mode_initialised = FALSE
 
 	var/check_completion_timer = 0
@@ -126,6 +127,13 @@ SUBSYSTEM_DEF(overmap_mode)
 			objective_reminder_override = TRUE
 
 	var/list/objective_pool = list() //Create instances of our objectives
+
+	mode.objectives += mode.fixed_objectives //Add our fixed objectives
+
+	if(mode.random_objectives.len) //Do we have random objectives?
+		for(var/I = 0, I < mode.random_objective_amount, I++) //We pick from our pool of random objectives
+			mode.objectives += pick_n_take(mode.random_objectives)
+
 	for(var/O in mode.objectives)
 		var/datum/overmap_objective/I = new O()
 		objective_pool += I
@@ -140,7 +148,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		var/datum/star_system/target = SSstar_system.system_by_id(mode.starting_system)
 		var/datum/star_system/curr = MO.current_system
 		curr?.remove_ship(MO)
-		MO.jump(target) //Move the ship to the designated start
+		MO.jump_end(target) //Move the ship to the designated start
 		if(mode.starting_faction)
 			MO.faction = mode.starting_faction //If we have a faction override, set it
 
@@ -149,7 +157,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		var/datum/star_system/target = SSstar_system.system_by_id(mode.starting_system)
 		var/datum/star_system/curr = MM.current_system
 		curr?.remove_ship(MM)
-		MM.jump(target)
+		MM.jump_end(target)
 		if(mode.starting_faction)
 			MM.faction = mode.starting_faction
 
@@ -162,6 +170,9 @@ SUBSYSTEM_DEF(overmap_mode)
 
 		if(!objective_reminder_override)
 			if(world.time >= next_objective_reminder)
+				mode.check_completion()
+				if(objectives_completed || already_ended)
+					return
 				objective_reminder_stacks ++
 				next_objective_reminder = world.time + mode.objective_reminder_interval
 				if(!round_extended) //Normal Loop
@@ -181,7 +192,14 @@ SUBSYSTEM_DEF(overmap_mode)
 						if(5) //mission critical failure
 							priority_announce("[mode.reminder_five]", "[mode.reminder_origin]")
 							mode.consequence_five()
+						else // I don't know what happened but let's go around again
+							objective_reminder_stacks = 0
 				else
+					var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+					if(length(OM.current_system?.enemies_in_system))
+						if(objective_reminder_stacks == 3)
+							priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[mode.reminder_origin]")
+						return // Don't send them home while there are enemies to kill
 					switch(objective_reminder_stacks) //Less Stacks Here, Prevent The Post-Round Stalling
 						if(1)
 							priority_announce("Auto-recall to Outpost 45 will occur in [(mode.objective_reminder_interval * 2) / 600] Minutes.", "[mode.reminder_origin]")
@@ -189,7 +207,7 @@ SUBSYSTEM_DEF(overmap_mode)
 						if(2)
 							priority_announce("Auto-recall to Outpost 45 will occur in [(mode.objective_reminder_interval * 1) / 600] Minutes.", "[mode.reminder_origin]")
 
-						if(3)
+						else
 							priority_announce("Auto-recall to Outpost 45 activated, additional objective aborted.", "[mode.reminder_origin]")
 							mode.victory()
 
@@ -282,7 +300,10 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/objective_reminder_setting = REMINDER_OBJECTIVES	//0 - Objectives reset remind. 1 - Combat resets reminder. 2 - Combat delays reminder. 3 - Disables reminder
 	var/objective_reminder_interval = 15 MINUTES			//Interval between objective reminders
 	var/combat_delay = 0									//How much time is added to the reminder timer
-	var/list/objectives = list()							//The actual gamemode objectives go here
+	var/list/objectives = list()							//The actual gamemode objectives go here after being selected
+	var/list/fixed_objectives = list()						//The fixed objectives for the mode - always selected
+	var/list/random_objectives = list()						//The random objectives for the mode - the pool to be chosen from
+	var/random_objective_amount = 0							//How many random objectives we are going to get
 	var/whitelist_only = FALSE								//Can only be selected through map bound whitelists
 
 	//Reminder messages
@@ -296,20 +317,25 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_gamemode/proc/consequence_one()
 
 /datum/overmap_gamemode/proc/consequence_two()
-	var/datum/faction/F = SSstar_system.find_main_overmap().faction
+	var/datum/faction/F = SSstar_system.faction_by_name(SSstar_system.find_main_overmap().faction)
 	F.lose_influence(25)
 
 /datum/overmap_gamemode/proc/consequence_three()
-	var/datum/faction/F = SSstar_system.find_main_overmap().faction
+	var/datum/faction/F = SSstar_system.faction_by_name(SSstar_system.find_main_overmap().faction)
 	F.lose_influence(25)
 
 /datum/overmap_gamemode/proc/consequence_four()
-	var/datum/faction/F = SSstar_system.find_main_overmap().faction
+	var/datum/faction/F = SSstar_system.faction_by_name(SSstar_system.find_main_overmap().faction)
 	F.lose_influence(25)
 
 /datum/overmap_gamemode/proc/consequence_five()
 	//Hotdrop O'Clock
-	var/datum/star_system/target = SSstar_system.find_main_overmap().current_system
+	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+	var/datum/star_system/target
+	if(SSstar_system.ships[OM]["current_system"] != null)
+		target = OM.current_system
+	else
+		target = SSstar_system.ships[OM]["target_system"]
 	priority_announce("Attention all ships throughout the fleet, assume DEFCON 1. A Syndicate invasion force has been spotted in [target]. All fleets must return to allied space and assist in the defense.") //need a faction message
 	var/datum/fleet/F = new /datum/fleet/interdiction() //need a fleet
 	target.fleets += F
@@ -320,6 +346,8 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_gamemode/proc/check_completion() //This gets called by checking the communication console/modcomp program + automatically once every 10 minutes
 	if(SSovermap_mode.already_ended)
 		return
+	if(SSovermap_mode.objectives_completed)
+		victory()
 
 	var/objective_length = objectives.len
 	var/objective_check = 0
@@ -340,18 +368,21 @@ SUBSYSTEM_DEF(overmap_mode)
 		victory()
 
 /datum/overmap_gamemode/proc/victory()
+	SSovermap_mode.objectives_completed = TRUE
 	if(SSovermap_mode.admin_override)
 		message_admins("[GLOB.station_name] has completed its objectives but round end has been overriden by admin intervention")
 		return
 
-	SSovermap_mode.already_ended = TRUE //Prevent repeats
+	var/datum/star_system/S = SSstar_system.system_by_id("Outpost 45")
+	S.hidden = FALSE
 	if(!SSovermap_mode.round_extended)	//If we haven't yet extended the round, let us vote!
 		priority_announce("Mission Complete - Vote Pending") //TEMP get better words
 		SSvote.initiate_vote("Press On Or Return Home?", "Centcomm", forced=TRUE, popup=FALSE)
 	else	//Begin FTL jump to Outpost 45
-		priority_announce("Mission Complete - Returning to Outpost 45") //TEMP get better words
 		var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
-		OM.force_return_jump(SSstar_system.system_by_id("Outpost 45"))
+		if(!length(OM.current_system?.enemies_in_system))
+			priority_announce("Mission Complete - Returning to Outpost 45") //TEMP get better words
+			OM.force_return_jump(SSstar_system.system_by_id("Outpost 45"))
 
 /datum/overmap_gamemode/proc/defeat() //Override this if defeat is to be called based on an objective
 	priority_announce("Mission Critical Failure - Standby for carbon asset liquidation")
@@ -359,17 +390,17 @@ SUBSYSTEM_DEF(overmap_mode)
 	SSticker.force_ending = TRUE
 
 /datum/overmap_objective
-	var/name							//Name for admin view
-	var/desc							//Short description for admin view
-	var/brief							//Description for PLAYERS
-	var/stage							//For multi step objectives
-	var/binary = TRUE					//Is this just a simple T/F objective?
-	var/tally = 0						//How many of the objective goal has been completed
-	var/target = 0						//How many of the objective goal is required
-	var/status = STATUS_INPROGRESS		//0 = In-progress, 1 = Completed, 2 = Failed, 3 = Victory Override (this will end the round)
-	var/extension_supported = FALSE 	//Is this objective available to be a random extended round objective?
-	var/ignore_check = FALSE			//Used for checking extended rounds
-	var/instanced = FALSE				//Have we yet run the instance proc for this objective?
+	var/name										//Name for admin view
+	var/desc										//Short description for admin view
+	var/brief										//Description for PLAYERS
+	var/stage										//For multi step objectives
+	var/binary = TRUE								//Is this just a simple T/F objective?
+	var/tally = 0									//How many of the objective goal has been completed
+	var/target = 0									//How many of the objective goal is required
+	var/status = STATUS_INPROGRESS					//0 = In-progress, 1 = Completed, 2 = Failed, 3 = Victory Override (this will end the round)
+	var/extension_supported = FALSE 				//Is this objective available to be a random extended round objective?
+	var/ignore_check = FALSE						//Used for checking extended rounds
+	var/instanced = FALSE							//Have we yet run the instance proc for this objective?
 
 /datum/overmap_objective/New()
 
@@ -416,6 +447,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	if(!ui)
 		ui = new(user, src, "OvermapGamemodeController")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Countdowns
 
 /datum/overmap_mode_controller/ui_act(action, params)
 	if(..())
@@ -498,17 +530,17 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_mode_controller/ui_data(mob/user)
 	var/list/data = list()
 	var/list/objectives = list()
-	data["current_gamemode"] = SSovermap_mode.mode.name
-	data["current_description"] = SSovermap_mode.mode.desc
-	data["mode_initalised"] = SSovermap_mode.mode_initialised
-	data["current_difficulty"] = SSovermap_mode.mode.difficulty
+	data["current_gamemode"] = SSovermap_mode.mode?.name
+	data["current_description"] = SSovermap_mode.mode?.desc
+	data["mode_initalised"] = SSovermap_mode?.mode_initialised
+	data["current_difficulty"] = SSovermap_mode.mode?.difficulty
 	data["current_escalation"] = SSovermap_mode.escalation
 	data["reminder_time_remaining"] = (SSovermap_mode.next_objective_reminder - world.time) / 10 //Seconds
-	data["reminder_interval"] = SSovermap_mode.mode.objective_reminder_interval / 600 //Minutes
+	data["reminder_interval"] = SSovermap_mode.mode?.objective_reminder_interval / 600 //Minutes
 	data["reminder_stacks"] = SSovermap_mode.objective_reminder_stacks
 	data["toggle_reminder"] = SSovermap_mode.objective_reminder_override
 	data["toggle_override"] = SSovermap_mode.admin_override
-	for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+	for(var/datum/overmap_objective/O in SSovermap_mode.mode?.objectives)
 		var/list/objective_data = list()
 		objective_data["name"] = O.name
 		objective_data["desc"] = O.desc

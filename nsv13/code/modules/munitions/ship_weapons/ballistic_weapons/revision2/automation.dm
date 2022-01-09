@@ -1,6 +1,6 @@
 //Allows you to fully automate missile construction
 /obj/machinery/missile_builder
-	name = "Seegson model 'Ford' robotic autowrench"
+	name = "\improper Seegson model 'Ford' robotic autowrench"
 	desc = "An advanced robotic arm that can be arrayed with other such devices to form an assembly line for guided munition production. Swipe it with your ID to access maintenance mode options (only on some models!)"
 	icon = 'nsv13/icons/obj/munitions/assembly.dmi'
 	icon_state = "assemblybase"
@@ -8,7 +8,6 @@
 	anchored = TRUE
 	can_be_unanchored = TRUE
 	density = TRUE
-	speed_process = TRUE
 	var/process_delay = 0.5 SECONDS
 	var/next_process = 0
 	var/arm_icon_state = "welder3"
@@ -39,7 +38,6 @@
 
 /obj/machinery/conveyor/slow
 	name = "Slow conveyor"
-	speed_process = FALSE
 	stack_type = /obj/item/stack/conveyor/slow //What does this conveyor drop when decon'd?
 
 /obj/machinery/missile_builder/wirer
@@ -351,7 +349,9 @@
 	load(AM) //Try load
 
 /obj/machinery/ammo_sorter/proc/pop()
-	unload(loaded[loaded.len])
+	var/length = length(loaded)
+	if(length)
+		unload(loaded[length])
 
 /obj/machinery/ammo_sorter/proc/unload(atom/movable/AM)
 	if(!loaded.len)
@@ -363,7 +363,7 @@
 	AM.forceMove(get_turf(get_step(src, dir)))
 
 /obj/machinery/ammo_sorter/proc/load(atom/movable/A, mob/user)
-	if(loaded.len >= max_capacity)
+	if(length(loaded) >= max_capacity)
 		if(user)
 			to_chat(user, "<span class='warning'>[src] is full!</span>")
 		loading = FALSE

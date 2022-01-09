@@ -139,8 +139,8 @@ Checks two text ranks, see which one outranks the other. Used for squad rank ass
 
 	browse_rank_configs()
 
-/client/proc/browse_rank_configs(path = "config/ranks/")
-	path = browse_files(path)
+/client/proc/browse_rank_configs()
+	var/path = browse_files(RANK_DIR)
 	if(!path)
 		return
 

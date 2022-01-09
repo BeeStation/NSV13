@@ -25,9 +25,8 @@
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>[pick(inhabited_trader.greetings)]</span>")
 
-//Nope!
-
 /obj/structure/overmap/trader/can_move()
+	//Nope!
 	return FALSE
 
 /obj/structure/overmap/trader/shipyard
@@ -38,6 +37,7 @@
 	name = "Arms Depot"
 	icon_state = "syndie"
 	faction = "syndicate"
+	supply_pod_type = /obj/structure/closet/supplypod/syndicate_odst
 
 /obj/structure/overmap/trader/proc/set_trader(datum/trader/bob) //The love story of alice and bob continues.
 	name = "[bob.name]"
@@ -176,12 +176,12 @@
 	stock = 20
 	unlock_path = /obj/item/ship_weapon/ammunition/missile
 
-/datum/trader_item/nuke
-	name = "Thermonuclear Torpedo"
+/datum/trader_item/hellfire
+	name = "Plasma Incendiary Torpedo"
 	desc = "The alpha and the omega, shipped to you quickly and efficiently! (WARNING: HANDLE WITH CARE)."
 	price = 2500
 	stock = 4
-	unlock_path = /obj/item/ship_weapon/ammunition/torpedo/nuke
+	unlock_path = /obj/item/ship_weapon/ammunition/torpedo/hellfire
 
 /datum/trader_item/c20r
 	name = "Donk Co. C20R SMG."
@@ -248,7 +248,7 @@
 
 //Trader exclusive specialty fighters
 /obj/structure/overmap/fighter/light/judgement
-	name = "Executive Fighter"
+	name = "executive fighter"
 	icon_state = "judgement"
 	components = list(/obj/item/fighter_component/fuel_tank/tier2,
 						/obj/item/fighter_component/avionics,

@@ -124,6 +124,9 @@
 /mob/camera/ai_eye/Destroy()
 	if(ai)
 		ai.all_eyes -= src
+		if(ai.eyeobj == src) //NSV13 - handle the active camera getting deleted
+			ai.eyeobj = null
+			ai.reset_perspective()
 		ai = null
 	for(var/V in visibleCameraChunks)
 		var/datum/camerachunk/c = V
@@ -139,7 +142,7 @@
 /atom/proc/move_camera_by_click()
 	if(isAI(usr))
 		var/mob/living/silicon/ai/AI = usr
-		if(AI.eyeobj && (AI.multicam_on || (AI.client.eye == AI.eyeobj)) && (AI.eyeobj.z == z))
+		if(AI.eyeobj && (AI.multicam_on || (AI.client.eye == AI.eyeobj)) && (AI.eyeobj.get_virtual_z_level() == get_virtual_z_level()))
 			AI.cameraFollow = null
 			if (isturf(loc) || isturf(src))
 				AI.eyeobj.setLoc(src)

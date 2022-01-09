@@ -118,6 +118,7 @@
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
 	weapon_types[FIRE_MODE_AMS] = null
 	weapon_types[FIRE_MODE_TORPEDO] = null
+	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac/dirty(src)
 	weapon_types[FIRE_MODE_RAILGUN] = null
 	weapon_types[FIRE_MODE_FLAK] = null
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)

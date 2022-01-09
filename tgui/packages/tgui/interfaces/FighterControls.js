@@ -1,3 +1,5 @@
+// NSV13
+
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Knob } from '../components';
@@ -35,7 +37,7 @@ export const FighterControls = (props, context) => {
           FUEL:
           <Knob
             inline
-            size={1.5}
+            size={1.25}
             color={data.fuel_warning && 'bad'}
             value={data.fuel}
             unit="L"
@@ -44,7 +46,7 @@ export const FighterControls = (props, context) => {
           BATT:
           <Knob
             inline
-            size={1.5}
+            size={1.25}
             color={data.battery_charge <= 2000 && 'bad'}
             value={data.battery_charge}
             unit="W"
@@ -53,7 +55,7 @@ export const FighterControls = (props, context) => {
           RPM:
           <Knob
             inline
-            size={1.5}
+            size={1.25}
             value={data.rpm}
             unit="RPM"
             minValue="0"
@@ -61,7 +63,7 @@ export const FighterControls = (props, context) => {
           PRIM:
           <Knob
             inline
-            size={1.5}
+            size={1.25}
             value={data.primary_ammo}
             unit="U"
             minValue="0"
@@ -69,11 +71,19 @@ export const FighterControls = (props, context) => {
           SEC:
           <Knob
             inline
-            size={1.5}
+            size={1.25}
             value={data.secondary_ammo}
             unit="U"
             minValue="0"
             maxValue={data.max_secondary_ammo} />
+          CTR:
+          <Knob
+            inline
+            size={1.25}
+            value={data.countermeasures}
+            unit="U"
+            minValue="0"
+            maxValue={data.max_countermeasures} />
           <br />
           <br />
           Armour:

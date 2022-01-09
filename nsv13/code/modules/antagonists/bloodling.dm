@@ -371,7 +371,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	var/sanity = 0
 	while(summon_spots.len < SUMMON_POSSIBILITIES && sanity < 100)
 		var/area/summon = pick(GLOB.sortedAreas - summon_spots)
-		if(summon && is_station_level(summon.z) && summon.valid_territory)
+		if(summon && is_station_level(summon.z) && (summon & VALID_TERRITORY))
 			summon_spots += summon
 		sanity++
 	update_explanation_text()
@@ -897,15 +897,15 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	playsound(user, 'sound/effects/gravhit.ogg', 100, TRUE)
 	var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
 	var/stun_time = base_stun_time + max(B.last_evolution / 2, 0) SECONDS //Bigger bloodling = hit harder
-	for(var/atom/X in view(user, 3))
-		if(X == src)
+	for(var/atom/movable/AM in view(user, 3))
+		if(AM == src)
 			continue
-		X.shake_animation(10)
-		if(isstructure(X) || ismachinery(X))
-			var/obj/structure/XXX = X
+		AM.shake_animation(10)
+		if(isstructure(AM))
+			var/obj/structure/XXX = AM
 			XXX.take_damage(2.5 * B.last_evolution) //Big boys slam harder
-		if(isliving(X))
-			var/mob/living/L = X
+		else if(isliving(AM))
+			var/mob/living/L = AM
 			L.Paralyze(stun_time)
 
 //The COOLER stun
@@ -924,27 +924,29 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	user.visible_message("<span class='warning'>[user] lashes out with a legion of tentacles!</span>")
 	user.shake_animation()
 	playsound(user, 'sound/magic/tail_swing.ogg', 100, TRUE)
+	INVOKE_ASYNC(src, .proc/summon_tentacles, user)
+	add_cooldown(cooldown)
+
+/datum/action/bloodling/whiplash/proc/summon_tentacles(mob/living/user)
 	var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)
 	var/stun_time = base_stun_time + max(B.last_evolution / 2, 0) SECONDS //Bigger bloodling = hit harder
 	for(var/mob/living/M in view(user, 5))
 		if(M == user)
 			continue
-		spawn(0) //Async time!
-			var/datum/beam/current_beam = new(user,M,time=0.75 SECONDS,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
-			INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
-			animate(M, pixel_y = 70, 0.25 SECONDS)
-			playsound(M, 'nsv13/sound/effects/bloodling_squelch.ogg', 70, FALSE)
-			M.visible_message("<span class='warning'>A tentacle grabs hold of [M]!</span>", "<span class='userdanger'>A tentacle sweeps you high into the air!</span>")
-			sleep(0.25 SECONDS)
-			animate(M, pixel_y = 0, 0.5 SECONDS)
-			M.visible_message("<span class='warning'>[M] is slammed down into the floor!</span>", "<span class='userdanger'>[user] slams you into the floor!</span>")
-			playsound(user, 'sound/effects/gravhit.ogg', 100, TRUE)
-			var/turf/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(M, user)))
-			var/distfromcaster = get_dist(user, M)
-			M.Paralyze(stun_time)
-			M.adjustBruteLoss(stun_time / 10)
-			M.safe_throw_at(throwtarget, ((CLAMP((5 - (CLAMP(distfromcaster - 2, 0, distfromcaster))), 3, 5))), 1,user, force = MOVE_FORCE_EXTREMELY_STRONG)//So stuff gets tossed around at the same time.
-	add_cooldown(cooldown)
+		var/datum/beam/current_beam = new(user,M,time=0.75 SECONDS,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
+		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+		animate(M, pixel_y = 70, 0.25 SECONDS)
+		playsound(M, 'nsv13/sound/effects/bloodling_squelch.ogg', 70, FALSE)
+		M.visible_message("<span class='warning'>A tentacle grabs hold of [M]!</span>", "<span class='userdanger'>A tentacle sweeps you high into the air!</span>")
+		sleep(2.5)
+		animate(M, pixel_y = 0, 5)
+		M.visible_message("<span class='warning'>[M] is slammed down into the floor!</span>", "<span class='userdanger'>[user] slams you into the floor!</span>")
+		playsound(user, 'sound/effects/gravhit.ogg', 100, TRUE)
+		var/turf/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(M, user)))
+		var/distfromcaster = get_dist(user, M)
+		M.Paralyze(stun_time)
+		M.adjustBruteLoss(stun_time / 10)
+		M.safe_throw_at(throwtarget, ((CLAMP((5 - (CLAMP(distfromcaster - 2, 0, distfromcaster))), 3, 5))), 1,user, force = MOVE_FORCE_EXTREMELY_STRONG)//So stuff gets tossed around at the same time.
 
 /mob/living/simple_animal/bloodling_minion
 	name = "necrotic harvester"
@@ -985,7 +987,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 		return A.attack_paw(src)
 	if(istype(A, /obj/machinery/door) && mob_size > MOB_SIZE_TINY)
 		return A.attack_alien(src)
-	. = ..()
+	return ..()
 
 /mob/living/simple_animal/bloodling_minion/tank
 	name = "wall of flesh"
@@ -1032,12 +1034,13 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 
 /obj/structure/ratwarren/Destroy()
 	STOP_PROCESSING(SSobj,src)
-	. = ..()
+	return ..()
 
 /obj/structure/ratwarren/process()
 	if(world.time >= next_rat_spawn)
 		next_rat_spawn = world.time + rat_spawn_delay
 		new /mob/living/simple_animal/mouse(get_turf(src))
+
 /datum/action/bloodling/build
 	name = "Build"
 	desc = "We use some of our essence to construct other entities."

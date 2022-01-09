@@ -1,8 +1,3 @@
-#define MSTATE_CLOSED 0// Gonna need these again
-#define MSTATE_UNSCREWED 1
-#define MSTATE_UNBOLTED 2
-#define MSTATE_PRIEDOUT 3
-
 /obj/machinery/ship_weapon/deck_turret
 	name = "\improper M4-15 'Hood' deck turret"
 	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
@@ -33,7 +28,7 @@
 	. = ..() //Sanity checks.
 	if(.)
 		return
-	
+
 	if(href_list["fire_button"])
 		if(maint_state == MSTATE_UNSCREWED)
 			fire()
@@ -58,7 +53,7 @@
 			component_parts -= W
 		spawn_frame(TRUE)
 		qdel(src)
-	
+
 /obj/machinery/ship_weapon/deck_turret/spawn_frame(disassembled)
 	if(!disassembled)
 		QDEL_LIST(component_parts)
@@ -109,7 +104,10 @@
 		linked.fire_projectile(T.projectile_type, target,speed=T.speed, homing=TRUE, lateral=weapon_type.lateral)
 
 /obj/machinery/ship_weapon/deck_turret/proc/rack_load(atom/movable/A)
-	if(ammo?.len < max_ammo && istype(A, ammo_type))
+	if(length(ammo) < max_ammo && istype(A, ammo_type))
+		if(state in GLOB.busy_states)
+			visible_message("<span class='warning'>Unable to perform operation right now, please wait.</span>")
+			return FALSE
 		loading = TRUE
 		if(load_sound)
 			playsound(A.loc, load_sound, 100, 1)
@@ -137,9 +135,12 @@
 	if(!core)
 		core = locate(/obj/machinery/deck_turret) in orange(1, src)
 
-/obj/machinery/computer/deckgun/Destroy()
+/obj/machinery/computer/deckgun/Destroy(force=FALSE)
 	if(circuit && !ispath(circuit))
-		circuit.forceMove(loc)
+		if(!force)
+			circuit.forceMove(loc)
+		else
+			qdel(circuit, force)
 		circuit = null
 	. = ..()
 
@@ -148,6 +149,7 @@
 	if(!ui)
 		ui = new(user, src, "DeckGun")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Loading delay, firing updates
 
 /obj/machinery/computer/deckgun/ui_data(mob/user)
 	var/list/data = list()
@@ -156,7 +158,21 @@
 		return data
 	if(get_dist(core.payload_gate, core) > 1)
 		core.update_parts()
-	data["id"] = (core.payload_gate) ? "\ref[core.payload_gate]" : null
+	if(core.payload_gate)
+		data["id"] = (core.payload_gate)
+		if(core.payload_gate.shell)
+			data["can_pack"] = TRUE
+			data["loaded"] = core.payload_gate.shell.name || "Nothing"
+			data["speed"] = core.payload_gate.shell.speed || 0
+		else
+			data["can_pack"] = FALSE
+			data["loaded"] = "Nothing"
+			data["speed"] = 0
+	else
+		data["id"] = null
+		data["can_pack"] = FALSE
+		data["loaded"] = "Nothing"
+		data["speed"] = 0
 	if(!core.powder_gates?.len)
 		core.update_parts()
 	for(var/obj/machinery/deck_turret/powder_gate/MOREPOWDER in core.powder_gates)
@@ -168,12 +184,9 @@
 		part["id"] = "\ref[MOREPOWDER]"
 		parts[++parts.len] = part
 	data["parts"] = parts
-	data["can_pack"] = core.payload_gate.shell ? TRUE : FALSE
 	data["can_load"] = core.turret?.ammo?.len < core.turret?.max_ammo || FALSE
 	data["ammo"] = core.turret?.ammo?.len || 0
 	data["max_ammo"] = core.turret?.max_ammo || 0
-	data["loaded"] = core.payload_gate?.shell?.name || "Nothing"
-	data["speed"] = core.payload_gate?.shell?.speed || 0
 	data["max_speed"] = 2
 	return data
 
@@ -184,7 +197,7 @@
 	var/obj/machinery/deck_turret/powder_gate/target = locate(params["target"])
 	switch(action)
 		if("load")
-			if(core.turret.maint_state > MSTATE_CLOSED)//Can't load a shell if we're doing maintenance 
+			if(core.turret.maint_state > MSTATE_CLOSED)//Can't load a shell if we're doing maintenance
 				to_chat(usr, "<span class='notice'>Cannot feed shell while undergoing maintenance!</span>")
 				return
 			if(!core.turret.rack_load(core.payload_gate.shell))
@@ -212,12 +225,18 @@
 	var/obj/machinery/deck_turret/payload_gate/payload_gate
 	var/obj/machinery/computer/deckgun/computer
 
-/obj/machinery/deck_turret/Destroy()
+/obj/machinery/deck_turret/Destroy(force=FALSE)
 	if(circuit && !ispath(circuit))
-		circuit.forceMove(loc)
+		if(!force)
+			circuit.forceMove(loc)
+		else
+			qdel(circuit, force)
 		circuit = null
 	for(var/obj/O in component_parts)
-		O.forceMove(loc)
+		if(!force)
+			O.forceMove(loc)
+		else
+			qdel(circuit, force)
 	. = ..()
 
 /obj/machinery/deck_turret/multitool_act(mob/living/user, obj/item/I)
@@ -241,7 +260,7 @@
 	powder_gates = list()
 	computer = locate(/obj/machinery/computer/deckgun) in orange(1, src)
 	computer.core = src
-	turret.get_ship()
+	turret?.get_ship()
 	for(var/turf/T in orange(1, src))
 		var/obj/machinery/deck_turret/powder_gate/powder_gate = locate(/obj/machinery/deck_turret/powder_gate) in T
 		if(powder_gate && istype(powder_gate))
@@ -257,9 +276,12 @@
 	var/loading = FALSE
 	var/load_delay = 6.4 SECONDS
 
-/obj/machinery/deck_turret/powder_gate/Destroy()
+/obj/machinery/deck_turret/powder_gate/Destroy(force=FALSE)
 	if(circuit && !ispath(circuit))
-		circuit.forceMove(loc)
+		if(!force)
+			circuit.forceMove(loc)
+		else
+			qdel(circuit, force)
 		circuit = null
 	. = ..()
 
@@ -320,7 +342,7 @@
 
 /obj/item/powder_bag/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 	AddComponent(/datum/component/volatile, volatility)
 
 /obj/item/powder_bag/plasma
@@ -624,8 +646,3 @@
 			bound_height = 96
 			bound_x = -64
 			bound_y = -32
-			
-#undef MSTATE_CLOSED
-#undef MSTATE_UNSCREWED
-#undef MSTATE_UNBOLTED
-#undef MSTATE_PRIEDOUT

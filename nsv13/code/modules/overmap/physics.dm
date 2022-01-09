@@ -120,6 +120,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		if(world.time > last_critprocess + 1 SECONDS)
 			last_critprocess = world.time
 			handle_critical_failure_part_1()
+	disruption = max(0, disruption - 1)
 	ai_process()
 	//Atmos stuff, this updates once every tick
 	if(cabin_air && cabin_air.return_volume() > 0)
@@ -389,7 +390,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		last_fired.transform = mat_to
 	*/ //We don't use these overlays for now, but we may wish to later.
 
-	for(var/mob/living/M in operators)
+	for(var/mob/living/M as() in operators)
 		var/client/C = M.client
 		if(!C)
 			continue
@@ -503,7 +504,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	other.offset += output
 
 /obj/structure/overmap/Bumped(atom/movable/A)
-	if(brakes || ismob(A) || isovermap(A)) //No :)
+	if(brakes || isovermap(A)) //No :)
 		return FALSE
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	if(A.dir & NORTH)
@@ -578,7 +579,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	proj.faction = faction
 	if(physics2d && physics2d.collider2d)
 		proj.setup_collider()
-	if(homing)
+	if(homing && !isturf(target))	//Lets not have projectiles home in on some random tile someone clicked on to launch
 		proj.set_homing_target(target)
 	if(gunner)
 		proj.firer = gunner
@@ -599,9 +600,9 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 //Jank as hell. This needs to happen to properly set the visual offset :/
 /obj/item/projectile/proc/preparePixelProjectileOvermap(obj/structure/overmap/target, obj/structure/overmap/source, params, spread = 0, lateral=TRUE)
 	var/turf/curloc = source.get_center()
-	var/turf/targloc = (istype(target, /obj/structure/overmap)) ? target.get_center() : get_turf(target)
+	var/turf/targloc = istype(target, /obj/structure/overmap) ? target.get_center() : get_turf(target)
 	trajectory_ignore_forcemove = TRUE
-	forceMove(curloc)
+	doMove(curloc)
 	trajectory_ignore_forcemove = FALSE
 	starting = curloc
 	original = target

@@ -19,6 +19,7 @@
 	icon_screen = null
 	icon_keyboard = null
 	req_access = list(ACCESS_ENGINE_EQUIP)
+	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
 	var/tier = 1 // increased tiers increase jump range
 	var/faction = "nanotrasen"
 	var/link_id = "default"
@@ -145,11 +146,6 @@
 	P.Beam(target, icon_state = "lightning[rand(1, 12)]", time = 10, maxdistance = 10)
 	playsound(P, 'sound/magic/lightningshock.ogg', 10, 1, 1)
 
-
-//No please do not delete the FTL's radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
-/obj/machinery/computer/ship/ftl_core/prevent_content_explosion()
-	return TRUE
-
 /obj/machinery/computer/ship/ftl_core/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
 	if(istype(I, /obj/item/ftl_slipstream_chip))
@@ -259,6 +255,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		return
 	ui = new(user, src, "FTLComputerModular")
 	ui.open()
+	ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/ftl_core/ui_act(action, params, datum/tgui/ui)
 	. = ..()
@@ -314,12 +311,12 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	data["pylons"] = pylons_info
 	return data
 
-/obj/machinery/computer/ship/ftl_core/proc/jump(datum/star_system/target_system)
+/obj/machinery/computer/ship/ftl_core/proc/jump(datum/star_system/target_system, force=FALSE)
 	ftl_state = FTL_STATE_JUMPING
 	if(!target_system)
 		radio.talk_into(src, "ERROR. Specified star_system no longer exists.", radio_channel)
 		return
-	linked?.begin_jump(target_system)
+	linked?.begin_jump(target_system, force)
 	playsound(src, 'nsv13/sound/voice/ftl_start.wav', 100, FALSE)
 	radio.talk_into(src, "Initiating FTL translation.", radio_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)

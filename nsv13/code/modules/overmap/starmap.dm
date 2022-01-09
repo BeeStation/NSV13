@@ -28,6 +28,8 @@
 	return GLOB.always_state
 
 /obj/machinery/computer/ship/navigation/public
+	name = "Starmap Console"
+	desc = "A computer which shows the current position of the ship in the universe."
 	can_control_ship = FALSE
 
 /obj/machinery/computer/ship/navigation/attack_hand(mob/user)
@@ -42,6 +44,7 @@
 		assets.send(user)
 		ui = new(user, src, "Starmap")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/navigation/ui_act(action, params, datum/tgui/ui)
 	.=..()
@@ -136,7 +139,7 @@
 				var/list/system_list = list()
 				system_list["name"] = system.name
 				if(current_system)
-					system_list["in_range"] = is_in_range(current_system, system)
+					system_list["in_range"] = is_in_range(current_system, system) || return_jump_check(system)
 					system_list["distance"] = "[current_system.dist(system) > 0 ? "[current_system.dist(system)] LY" : "You are here."]"
 				else
 					system_list["in_range"] = 0
@@ -213,6 +216,8 @@
 				var/datum/star_system/curr = info["current_system"]
 				data["star_dist"] = curr.dist(selected_system)
 				data["can_jump"] = current_system.dist(selected_system) < linked.ftl_drive?.max_range && linked.ftl_drive.ftl_state == FTL_STATE_READY && LAZYFIND(current_system.adjacency_list, selected_system.name)
+				if(return_jump_check(selected_system) && linked.ftl_drive.ftl_state == FTL_STATE_READY)
+					data["can_jump"] = TRUE
 				if(!can_control_ship) //For public consoles
 					data["can_jump"] = FALSE
 					data["can_cancel"] = FALSE
@@ -225,6 +230,9 @@
 
 /obj/machinery/computer/ship/navigation/proc/is_visited(datum/star_system/system)
 	return system.visited
+
+/obj/machinery/computer/ship/navigation/proc/return_jump_check(datum/star_system/system)
+	return ((SSovermap_mode.already_ended || SSovermap_mode.round_extended) && istype(system, /datum/star_system/outpost))
 
 #undef SHIPINFO
 #undef STARMAP

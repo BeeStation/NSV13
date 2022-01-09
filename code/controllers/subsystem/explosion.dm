@@ -182,7 +182,7 @@ SUBSYSTEM_DEF(explosions)
 #define FREQ_UPPER 40 //The upper limit for the randomly selected frequency.
 #define FREQ_LOWER 25 //The lower of the above.
 
-/datum/controller/subsystem/explosions/proc/explode(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog, ignorecap, flame_range, silent, smoke)
+/datum/controller/subsystem/explosions/proc/explode(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog, ignorecap, flame_range, silent, smoke, explode_z = TRUE)
 	epicenter = get_turf(epicenter)
 	if(!epicenter)
 		return
@@ -219,7 +219,7 @@ SUBSYSTEM_DEF(explosions)
 
 	var/x0 = epicenter.x
 	var/y0 = epicenter.y
-	var/z0 = epicenter.z
+	var/z0 = epicenter.get_virtual_z_level()
 	var/area/areatype = get_area(epicenter)
 	SSblackbox.record_feedback("associative", "explosion", 1, list("dev" = devastation_range, "heavy" = heavy_impact_range, "light" = light_impact_range, "flash" = flash_range, "flame" = flame_range, "orig_dev" = orig_dev_range, "orig_heavy" = orig_heavy_range, "orig_light" = orig_light_range, "x" = x0, "y" = y0, "z" = z0, "area" = areatype.type, "time" = time_stamp("YYYY-MM-DD hh:mm:ss", 1)))
 
@@ -250,16 +250,17 @@ SUBSYSTEM_DEF(explosions)
 			var/mob/M = MN
 			// Double check for client
 			var/turf/M_turf = get_turf(M)
-			if(M_turf && M_turf.z == z0)
-				var/dist = get_dist(M_turf, epicenter)
+			var/multiz_dist = multi_z_dist(M_turf, epicenter)
+			if(M_turf && multiz_dist <= 5000)
+				var/dist = multiz_dist
 				var/baseshakeamount
 				if(orig_max_distance - dist > 0)
 					baseshakeamount = sqrt((orig_max_distance - dist)*0.1)
 				// If inside the blast radius + world.view (x) - 2
 				if(dist <= round(max_range + getviewsize(world.view)[1] - 2, 1))
-					M.playsound_local(epicenter, null, 100, 1, frequency, falloff = 5, S = explosion_sound)
+					M.playsound_local(epicenter, null, 100, 1, frequency, falloff_exponent = 5, S = explosion_sound)
 					if(baseshakeamount > 0)
-						shake_with_inertia(M, 25, clamp(baseshakeamount, 0, 10)) // NSV13 - Shaking the camera should be passed through shake_with_inertia, as explosions on the other side of the ship won't affect inertial dampener users 
+						shake_camera(M, 25, clamp(baseshakeamount, 0, 10))
 				// You hear a far explosion if you're outside the blast radius. Small bombs shouldn't be heard all over the station.
 				else if(dist <= far_dist)
 					var/far_volume = clamp(far_dist/2, FAR_LOWER, FAR_UPPER) // Volume is based on explosion size and dist
@@ -273,12 +274,12 @@ SUBSYSTEM_DEF(explosions)
 					if(baseshakeamount > 0 || devastation_range)
 						if(!baseshakeamount) // Devastating explosions rock the station and ground
 							baseshakeamount = devastation_range*3
-						shake_with_inertia(M, 10, clamp(baseshakeamount*0.25, 0, SHAKE_CLAMP)) // NSV13 - Shaking the camera should be passed through shake_with_inertia
+						shake_camera(M, 10, clamp(baseshakeamount*0.25, 0, SHAKE_CLAMP))
 				else if(!isspaceturf(get_turf(M)) && heavy_impact_range) // Big enough explosions echo throughout the hull
 					var/echo_volume = 40
 					if(devastation_range)
 						baseshakeamount = devastation_range
-						shake_with_inertia(M, 10, clamp(baseshakeamount*0.25, 0, SHAKE_CLAMP)) // NSV13 - Shaking the camera should be passed through shake_with_inertia
+						shake_camera(M, 10, clamp(baseshakeamount*0.25, 0, SHAKE_CLAMP))
 						echo_volume = 60
 					M.playsound_local(epicenter, null, echo_volume, 1, frequency, S = explosion_echo_sound, distance_multiplier = 0)
 
@@ -322,7 +323,9 @@ SUBSYSTEM_DEF(explosions)
 
 		var/flame_dist = dist < flame_range
 
-		if(dist < devastation_range)
+		if(T.get_virtual_z_level() != z0)
+			dist = EXPLODE_NONE
+		else if(dist < devastation_range)
 			dist = EXPLODE_DEVASTATE
 		else if(dist < heavy_impact_range)
 			dist = EXPLODE_HEAVY
@@ -335,8 +338,8 @@ SUBSYSTEM_DEF(explosions)
 			var/list/items = list()
 			for(var/I in T)
 				var/atom/A = I
-				if (length(A.contents) && !A.prevent_content_explosion()) //The atom/contents_explosion() proc returns null if the contents ex_acting has been handled by the atom, and TRUE if it hasn't. - NSV13 change, rolled back content explosion handling to pre-beebase state.
-					items += A.GetAllContents()
+				if (length(A.contents) && !(A.flags_1 & PREVENT_CONTENTS_EXPLOSION_1)) //The atom/contents_explosion() proc returns null if the contents ex_acting has been handled by the atom, and TRUE if it hasn't.
+					items += A.GetAllContents(ignore_flag_1 = PREVENT_CONTENTS_EXPLOSION_1)
 			for(var/thing in items)
 				var/atom/movable/movable_thing = thing
 				if(QDELETED(movable_thing))
@@ -377,6 +380,29 @@ SUBSYSTEM_DEF(explosions)
 			T.explosion_throw_details = list(throw_range, throw_dir, max_range)
 			throwturf += T
 
+	//Calculate above and below Zs
+	//Multi-z explosions only work on station levels.
+	if(explode_z)
+		var/max_z_range = max(devastation_range, heavy_impact_range, light_impact_range, flash_range, flame_range) / (MULTI_Z_DISTANCE + 1)
+		var/list/z_list = get_zs_in_range(epicenter.z, max_z_range)
+		//Dont blow up our level again
+		z_list -= epicenter.z
+		for(var/affecting_z in z_list)
+			var/z_reduction = abs(epicenter.z - affecting_z) * (MULTI_Z_DISTANCE + 1)
+			var/turf/T = locate(epicenter.x, epicenter.y, affecting_z)
+			if(!T)
+				continue
+			SSexplosions.explode(T,
+				max(devastation_range - z_reduction, 0),
+				max(heavy_impact_range - z_reduction, 0),
+				max(light_impact_range - z_reduction, 0),
+				max(flash_range - z_reduction, 0),
+				adminlog,
+				ignorecap,
+				max(flame_range - z_reduction, 0),
+				silent = TRUE,
+				smoke = FALSE,
+				explode_z = FALSE)
 
 	var/took = (REALTIMEOFDAY - started_at) / 10
 
@@ -571,3 +597,5 @@ SUBSYSTEM_DEF(explosions)
 		cost_throwturf = MC_AVERAGE(cost_throwturf, TICK_DELTA_TO_MS(TICK_USAGE_REAL - timer))
 
 	currentpart = SSEXPLOSIONS_TURFS
+
+#undef SSAIR_REBUILD_PIPENETS

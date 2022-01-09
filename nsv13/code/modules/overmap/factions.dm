@@ -100,6 +100,11 @@ Set up relationships.
 	if(custom_difficulty)
 		F.size = custom_difficulty
 	F.assemble(starsys)
+	if(!F.hide_movements && !starsys.hidden)
+		if(F.alignment == "nanotrasen")
+			mini_announce("A White Rapids fleet has been assigned to [current_system]", "White Rapids Fleet Command")
+		else
+			mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	F.faction = src
 	if(!force && id == FACTION_ID_SYNDICATE && !SSstar_system.neutral_zone_systems.Find(F.current_system))	//If it isn't forced, it got spawned by the midround processing. If we didn't already spawn in the neutral zone, we head to a random system there and occupy it.
 		var/list/possible_occupation_targets = list()
@@ -144,7 +149,7 @@ Set up relationships.
 	desc = "The Abassi Syndicate are a collection of former Nanotrasen colonists who rebelled against their 'oppression' and formed their own government."
 	preset_allies = list(FACTION_ID_PIRATES) //Yar HAR it's me, captain PLASMASALT
 	preset_enemies = list(FACTION_ID_NT)
-	fleet_types = list(/datum/fleet/neutral = 5, /datum/fleet/boarding = 5, /datum/fleet/wolfpack = 5, /datum/fleet/nuclear = 5)
+	fleet_types = list(/datum/fleet/neutral = 5, /datum/fleet/boarding = 5, /datum/fleet/wolfpack = 5, /datum/fleet/conflagration = 5)
 	randomspawn_only_fleet_types = list(/datum/fleet/interdiction/light = 1)
 	fleet_spawn_rate = 30 MINUTES
 	id = FACTION_ID_SYNDICATE

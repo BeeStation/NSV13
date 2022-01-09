@@ -19,7 +19,7 @@
 
 	selection_weight = 0
 	required_players = 15
-	objectives = list(/datum/overmap_objective/system_defence_armada)
+	fixed_objectives = list(/datum/overmap_objective/system_defence_armada)
 
 /datum/overmap_gamemode/armada/New()
 	//Select a system to be targeted
@@ -73,7 +73,7 @@
 	F.assemble(target)
 
 /datum/overmap_gamemode/armada/proc/reinforce()
-	reinforcements -- //Deduct one from the pool
+	reinforcements-- //Deduct one from the pool
 	var/datum/star_system/target = SSstar_system.system_by_id(selected_system)
 	var/datum/fleet/F = new /datum/fleet/nanotrasen/light() //You expected more?
 	target.fleets += F

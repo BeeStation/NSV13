@@ -1,3 +1,5 @@
+// NSV13
+
 import { Fragment } from 'inferno';
 import { useBackend } from '../backend';
 import { Button, Section, ProgressBar } from '../components';
@@ -24,8 +26,8 @@ export const MunitionsComputer = (props, context) => {
     <Window
       resizable
       theme="hackerman"
-      width={560}
-      height={600}>
+      width={290}
+      height={380}>
       <Window.Content>
         {!sudo_mode && (
           <Section title="Weapon system controls:">
@@ -101,7 +103,7 @@ export const MunitionsComputer = (props, context) => {
               fluid
               icon={tool_buffer ? "exclamation-triangle" : "square-o"}
               color={tool_buffer ? "bad" : null}
-              content={`Clear multitool buffer: ${tool_buffer_name}`}
+              content={"Clear multitool buffer"}
               onClick={() => act('fflush')}
             />
             <Button

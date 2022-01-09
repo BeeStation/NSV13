@@ -3,7 +3,6 @@
 	id = "ship_shield_tech"
 	display_name = "Experimental Shield Technology"
 	description = "Highly experimental shield technology to vastly increase survivability in ships. Although Nanotrasen researchers have had access to this technology for quite some time, the incredible amount of power required to maintain shields has proven to be the greatest challenge in implementing them."
-	prereq_ids = list("")
 	design_ids = list("shield_fan", "shield_capacitor", "shield_modulator", "shield_interface", "shield_frame")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)
 	export_price = 5000
@@ -14,7 +13,7 @@
 	display_name = "Ship computer circuitry"
 	description = "Allows you to rebuild the CIC when it inevitably gets bombed."
 	prereq_ids = list("comptech")
-	design_ids = list("helm_circuit", "navigation_console_circuit", "tactical_comp_circuit", "dradis_circuit", "mining_dradis_circuit", "astrometrics_console")
+	design_ids = list("helm_circuit", "navigation_console_circuit", "tactical_comp_circuit", "astrometrics_console", "dradis_console", "cargo_dradis_console")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
 	export_price = 1000
 
@@ -42,7 +41,7 @@
 	display_name = "Guided Munitions II"
 	description = "More advanced torpedo components"
 	prereq_ids = list("basic_torpedo_components", "exotic_ammo")
-	design_ids = list("bb_warhead", "nuke_warhead", "probe_warhead")
+	design_ids = list("bb_warhead", "hellfire_warhead", "probe_warhead")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 7500
 
