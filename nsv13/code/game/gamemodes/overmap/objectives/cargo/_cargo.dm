@@ -96,6 +96,7 @@
 				message_admins( "BUG: A cargo objective failed to deliver a prepackaged item to the ship! Automatically marking the objective as completed." )
 				status = 1
 		delivered_package = TRUE
+		SSovermap_mode.update_reminder(objective=TRUE) // Picking up objective cargo resets the timer
 
 /datum/overmap_objective/cargo/proc/pick_station_pickup_point()
 	// Pick a random existing station to give the prepackaged wooden crate to

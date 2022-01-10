@@ -517,6 +517,7 @@ Adding tasks is easy! Just define a datum for it.
 		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		receipt.vessel.hail( "Thank you for delivering this cargo. We have marked the supply request as received.", src)
 		addtimer(CALLBACK(src, .proc/return_approved_form, receipt), speed_cargo_return)
+		SSovermap_mode.update_reminder(objective=TRUE) // Completing any valid delivery resets the timer
 
 /obj/structure/overmap/proc/return_shipment( var/datum/freight_delivery_receipt/receipt )
 	if(receipt?.vessel)
