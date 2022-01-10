@@ -583,7 +583,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		visible_message("<span class=userdanger>Auto-Ejection Sequence Enabled! Escape Pod Launched!</span>")
 
 		if(last_pilot && !last_pilot.incapacitated())
-			last_pilot.forceMove(escape_pod)
+			last_pilot.doMove(escape_pod)
 			escape_pod.start_piloting(last_pilot, "pilot")
 			escape_pod.attack_hand(last_pilot) // Bring up UI
 			mobs_in_ship -= last_pilot
@@ -591,7 +591,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			last_pilot.overmap_ship = escape_pod
 
 		for(var/mob/M as() in mobs_in_ship)
-			M.forceMove(escape_pod)
+			M.doMove(escape_pod)
 			if(!escape_pod.pilot || escape_pod.pilot.incapacitated()) // Someone please drive this thing
 				escape_pod.start_piloting(M, "pilot")
 				escape_pod.ui_interact(M)
@@ -624,7 +624,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
 	for(var/mob/M in mobs_in_ship)
 		stop_piloting(M, force)
-		M.forceMove(get_turf(src)) // we can use doMove because we already know we're moving to a safe turf.
+		M.forceMove(get_turf(src))
 		to_chat(M, "<span class='warning'>You have been remotely ejected from [src]!.</span>")
 		. += M
 
