@@ -162,7 +162,7 @@
 	var/last_radar_pulse = 0
 
 	//Our verbs tab
-	var/list/overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/show_dradis, .verb/show_tactical, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode)
+	var/list/overmap_verbs = list()
 
 	//NPC combat
 	var/datum/combat_dice/npc_combat_dice

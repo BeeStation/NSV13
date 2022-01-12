@@ -3,12 +3,9 @@
 /obj/structure/overmap/proc/verb_check(mob/user, require_pilot = TRUE)
 	if(!user)
 		user = usr
-		message_admins("A")
 	if(user != pilot)
 		to_chat(user, "<span class='notice'>You can't reach the controls from here</span>")
-		message_admins("B")
 		return FALSE
-	message_admins("C")
 	return !user.incapacitated() && isliving(user)
 
 //Control Scheme Verbs
