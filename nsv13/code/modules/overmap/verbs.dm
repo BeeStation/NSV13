@@ -34,7 +34,7 @@
 					<span class='notice'> Use <b>tab</b> to activate hotkey mode, then: \
 					Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
 					Press <b>Space</b> to cycle fire modes. (Gunner) \
-					Press <b>C</b>to cycle between mouse and keyboard steering. (Helm) \
+					Press <b>C</b>  to cycle between mouse and keyboard steering. (Helm) \
 					Press <b>X</b> to cycle inertial dampners. (Helm) \
 					Press <b>Alt<b> to cycle the handbrake. (Helm)")
 

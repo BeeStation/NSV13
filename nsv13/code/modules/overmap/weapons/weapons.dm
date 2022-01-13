@@ -25,6 +25,30 @@
 
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner, ai_aim=FALSE) //"Lateral" means that your ship doesnt have to face the target
 	var/datum/ship_weapon/SW = weapon_types[mode]
+	if(ghost_controlled) //Hook in our ghost ship functions
+		if(!SW.special_fire_proc)
+			var/uses_main_shot = FALSE
+			if(SW.weapon_class > WEAPON_CLASS_LIGHT)
+				if(shots_left <= 0)
+					if(!ai_resupply_scheduled)
+						ai_resupply_scheduled = TRUE
+						addtimer(CALLBACK(src, .proc/ai_self_resupply), ai_resupply_time)
+					return FALSE
+				else if(light_shots_left <= 0)
+					spawn(150)
+						light_shots_left = initial(light_shots_left) // make them reload like real people, sort of
+					return FALSE
+
+			if(SW.weapon_class > WEAPON_CLASS_LIGHT)
+				uses_main_shot = TRUE
+			else
+				uses_main_shot = FALSE
+
+			if(uses_main_shot)
+				shots_left --
+			else
+				light_shots_left --
+
 	if(weapon_safety)
 		return FALSE
 	if(SW?.fire(target, ai_aim=ai_aim))

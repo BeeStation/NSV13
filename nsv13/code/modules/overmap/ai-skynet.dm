@@ -604,6 +604,28 @@ Adding tasks is easy! Just define a datum for it.
 			if(audio_cues?.len)
 				OM.play_music(pick(audio_cues))
 
+			//Ghost Ship Spawn Here
+			if(SSovermap_mode.override_ghost_ships)
+				message_admins("Failed to spawn ghost ship due to admin override.")
+				return
+			var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
+			var/list/ship_list = list()
+			if(prob(10))
+				if(player_check > 15) //Requires 15 active players for most ships
+					ship_list += fighter_types
+					ship_list += destroyer_types
+					ship_list += battleship_types
+
+				else if(player_check > 10) //10 for fighters
+					ship_list += fighter_types
+
+				else
+					message_admins("Failed to spawn ghost ship due to insufficent players.")
+
+			var/target_location = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), OM.z)
+			var/selected_ship = pick(ship_list)
+			var/obj/structure/overmap/GS = new selected_ship(target_location)
+			GS.ghost_ship()
 
 ///Pass in a youtube link, have it played ONLY on that overmap. This should be called by code or admins only.
 /obj/structure/overmap/proc/play_music(url)

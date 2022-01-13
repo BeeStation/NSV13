@@ -35,6 +35,9 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/already_ended = FALSE						//Is the round already in an ending state, i.e. we return jumped
 	var/mode_initialised = FALSE
 
+	var/override_ghost_boarders = FALSE 			//Used by admins to force disable player boarders
+	var/override_ghost_ships = FALSE				//Used by admins to force disable player ghost ships
+
 	var/check_completion_timer = 0
 
 	var/list/mode_cache
@@ -526,6 +529,57 @@ SUBSYSTEM_DEF(overmap_mode)
 		if("override_completion")
 			SSovermap_mode.admin_override = !SSovermap_mode.admin_override
 			return
+		if("spawn_ghost_ship")
+			//Choose spawn location logic
+			var/target_location
+			switch(alert(usr, "Spawn at a random spot in the current mainship Z level or your location?", "Select Spawn Location", "Ship Z", "Current Loc", "Cancel"))
+				if("Cancel")
+					return
+				if("Ship Z")
+					var/obj/structure/overmap/MS = SSstar_system.find_main_overmap()
+					target_location = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), MS.z)
+				if("Current Loc")
+					target_location = usr.loc
+
+			//Choose ship spawn
+			var/list/ship_list = list()
+			ship_list += typesof(/obj/structure/overmap/nanotrasen/ai)
+			ship_list += typesof(/obj/structure/overmap/spacepirate/ai)
+			ship_list += typesof(/obj/structure/overmap/syndicate/ai)
+			ship_list += typesof(/obj/structure/overmap/nanotrasen/solgov/ai)
+			var/obj/structure/overmap/target_ship = input(usr, "Select which ship to spawn (note: factions will apply):", "Select Ship") as null|anything in ship_list
+
+			//Choose ghost logic
+			var/target_ghost
+			switch(alert(usr, "Who is going to pilot this ghost ship?", "Pilot Select Format", "Open", "Choose", "Cancel"))
+				if("Cancel")
+					return
+				if("Open")
+					target_ghost = 0
+				if("Choose")
+					target_ghost = input(usr, "Select player to pilot ghost ship:", "Select Player") as null|anything in GLOB.clients
+
+			//Now the actual spawning
+			var/obj/structure/overmap/GS = new target_ship(target_location)
+			GS.ghost_ship(target_ghost)
+			message_admins("[key_name_admin(usr)] has spawned a ghost [GS.name]!")
+			log_admin("[key_name_admin(usr)] has spawned a ghost [GS.name]!")
+
+		if("toggle_ghost_ships")
+			if(SSovermap_mode.override_ghost_ships)
+				SSovermap_mode.override_ghost_ships = FALSE
+				message_admins("[key_name_admin(usr)] has ENABLED player ghost ships.")
+			else if(!SSovermap_mode.override_ghost_ships)
+				SSovermap_mode.override_ghost_ships = TRUE
+				message_admins("[key_name_admin(usr)] has DISABLED player ghost ships.")
+
+		if("toggle_ghost_boarders")
+			if(SSovermap_mode.override_ghost_boarders)
+				SSovermap_mode.override_ghost_boarders = FALSE
+				message_admins("[key_name_admin(usr)] has ENABLED player antag boarders.")
+			else if(!SSovermap_mode.override_ghost_boarders)
+				SSovermap_mode.override_ghost_boarders = TRUE
+				message_admins("[key_name_admin(usr)] has DISABLED player antag boarders.")
 
 /datum/overmap_mode_controller/ui_data(mob/user)
 	var/list/data = list()
@@ -540,6 +594,8 @@ SUBSYSTEM_DEF(overmap_mode)
 	data["reminder_stacks"] = SSovermap_mode.objective_reminder_stacks
 	data["toggle_reminder"] = SSovermap_mode.objective_reminder_override
 	data["toggle_override"] = SSovermap_mode.admin_override
+	data["toggle_ghost_ships"] = SSovermap_mode.override_ghost_ships
+	data["toggle_ghost_boarders"] = SSovermap_mode.override_ghost_boarders
 	for(var/datum/overmap_objective/O in SSovermap_mode.mode?.objectives)
 		var/list/objective_data = list()
 		objective_data["name"] = O.name

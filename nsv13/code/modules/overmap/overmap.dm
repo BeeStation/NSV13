@@ -118,8 +118,8 @@
 
 	var/static/ai_resupply_time = 1.5 MINUTES
 	var/ai_resupply_scheduled = FALSE
-	var/torpedoes = 2 //If this starts at above 0, then the ship can use torpedoes when AI controlled
-	var/missiles = 4 //If this starts at above 0, then the ship can use missiles when AI controlled
+	var/torpedoes = 0 //If this starts at above 0, then the ship can use torpedoes when AI controlled
+	var/missiles = 0 //If this starts at above 0, then the ship can use missiles when AI controlled
 
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
 	var/atom/target_lock = null
@@ -163,6 +163,8 @@
 
 	//Our verbs tab
 	var/list/overmap_verbs = list()
+
+	var/ghost_controlled = FALSE //Is our overmap currently being controlled by a ghost?
 
 	//NPC combat
 	var/datum/combat_dice/npc_combat_dice

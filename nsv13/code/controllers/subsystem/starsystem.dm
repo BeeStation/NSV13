@@ -20,7 +20,6 @@ SUBSYSTEM_DEF(star_system)
 	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
 	var/list/neutral_zone_systems = list()
 	var/list/all_missions = list()
-	var/admin_boarding_override = FALSE //Used by admins to force disable boarders
 	var/time_limit = FALSE //Do we want to end the round after a specific time? Mostly used for galconquest.
 
 	var/enable_npc_combat = TRUE	//If you are running an event and don't want fleets to shoot eachother, set this to false.
@@ -97,20 +96,6 @@ Returns a faction datum by its name (case insensitive!)
 		var/datum/star_system/S = new instance
 		if(S.name)
 			systems += S
-
-/client/proc/cmd_admin_boarding_override()
-	set category = "Adminbus"
-	set name = "Toggle Antag Boarding Parties"
-
-	if(!check_rights(R_ADMIN))
-		return
-
-	if(SSstar_system.admin_boarding_override)
-		SSstar_system.admin_boarding_override = FALSE
-		message_admins("[key_name_admin(usr)] has ENABLED overmap antag boarding parties.")
-	else if(!SSstar_system.admin_boarding_override)
-		SSstar_system.admin_boarding_override = TRUE
-		message_admins("[key_name_admin(usr)] has DISABLED overmap antag boarding parties.")
 
 ///////SPAWN SYSTEM///////
 
