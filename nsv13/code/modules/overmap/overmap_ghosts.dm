@@ -1,15 +1,26 @@
 /////Here we handle ghost role overmap ships
+#define VV_HK_GHOST_SHIP "GhostShip"
 
-//Creation of the ghost ship
+/obj/structure/overmap/vv_get_dropdown()
+	. = ..()
+	VV_DROPDOWN_OPTION(VV_HK_GHOST_SHIP, "Make Ghost Ship")
 
-/*
-Admin Selects
-- Where: Current System or Admin Location? Both as option?
-- What: List selection of all AI controlled ships?
-- Who: List selection of all players, or open?
+/obj/structure/overmap/vv_do_topic(list/href_list)
+	. = ..()
+	if(href_list[VV_HK_GHOST_SHIP])
+		if(!check_rights(R_ADMIN))
+			return
+		var/target_ghost
+		switch(alert(usr, "Who is going to pilot this ghost ship?", "Pilot Select Format", "Open", "Choose", "Cancel"))
+			if("Cancel")
+				return
+			if("Open")
+				target_ghost = 0
+			if("Choose")
+				target_ghost = input(usr, "Select player to pilot ghost ship:", "Select Player") as null|anything in GLOB.clients
 
-*/
-
+		ghost_ship(target_ghost)
+		message_admins("Admin [key_name_admin(usr)] has fully repaired [src].")
 
 //Creation of the ghost ship pilot entity
 /obj/structure/overmap/proc/ghost_ship(mob/target)
