@@ -98,7 +98,7 @@ export const GhostTacticalConsole = (props, context) => {
               </LabeledList.Item>
               <LabeledList.Item label="Torpedoes">
                 <ProgressBar
-                  value={(data.torpedo_ammo / data.torpdeo_ammo_max)}
+                  value={(data.torpedo_ammo / data.torpedo_ammo_max)}
                   ranges={{
                     good: [0.66, Infinity],
                     average: [0.33, 0.66],
