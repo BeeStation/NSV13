@@ -4,7 +4,6 @@
 #define FTL_STATE_JUMPING 4
 
 /datum/star_system/proc/add_ship(obj/structure/overmap/OM, turf/target_turf)
-	message_admins("adding [OM] to [src]")
 	if(!system_contents.Find(OM))
 		system_contents += OM	//Lets be safe while I cast some black magic.
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
@@ -27,8 +26,6 @@
 					F.current_system = src
 				F.encounter(OM)
 		restore_contents()
-	else
-		message_admins("Not restoring contents. occupying_z [occupying_z] and OM.z [OM.z]")
 	var/turf/destination
 	if(target_turf)
 		destination = target_turf // if we launch from a ship or something, put us near that ship
