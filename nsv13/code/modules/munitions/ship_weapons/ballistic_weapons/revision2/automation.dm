@@ -194,7 +194,7 @@
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/ammo_sorter
-	name = "Ammo sorter console (circuitboard)"
+	name = "Ammo sorter (circuitboard)"
 	desc = "A helpful storage unit that allows for mass storage of ammunition, with the ability to retrieve it all from a central console."
 	id = "ammo_sorter"
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 1000, /datum/material/gold = 500)
@@ -208,6 +208,7 @@
 
 /obj/item/circuitboard/machine/ammo_sorter
 	name = "Ammo sorter (circuitboard)"
+	req_components = list(/obj/item/stock_parts/matter_bin = 3)
 	build_path = /obj/machinery/ammo_sorter
 
 /obj/machinery/computer/ammo_sorter
@@ -287,7 +288,7 @@
 	anchored = TRUE
 	var/id = null
 	var/list/loaded = list() //What's loaded in?
-	var/max_capacity = 12 //Max cap for holding.
+	var/max_capacity = 12	//Max cap for holding.
 	var/loading = FALSE
 	var/durability = 100 //max durability: 100.
 	var/jammed = FALSE //if at 0 durability, jam it, handled in weardown().
@@ -391,6 +392,10 @@
 		for(var/obj/item/C in loaded)
 			. += "<br/><span class='notice'>[C].</span>"
 
+/obj/machinery/ammo_sorter/RefreshParts()
+	max_capacity = 0
+	for(var/obj/item/stock_parts/matter_bin/MB in component_parts)
+		max_capacity += MB.rating+3
 
 /obj/machinery/ammo_sorter/MouseDrop_T(atom/movable/A, mob/user)
 	. = ..()

@@ -1,16 +1,13 @@
 #define drop_trooper_teams list("Noble", "Helljumper","Red", "Black", "Crimson", "Osiris", "Apex", "Apollo", "Thrace", "Galactica", "Valkyrie", "Recon", "Gamma", "Alpha", "Bravo", "Charlie", "Delta", "Indigo", "Sol's fist", "Abassi", "Cartesia", "Switchback", "Majestic", "Mountain", "Shadow", "Shrike", "Sterling", "FTL", "Belter", "Moya", "Crichton")
 
 /obj/structure/overmap/proc/spawn_boarders(amount, faction_selection="syndicate")
-	if(!occupying_levels || length(occupying_levels))
-		return FALSE
-	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
-	if(!amount)
-		//Joker emoji
-		amount = CEILING(1 + (SSovermap_mode.mode.difficulty / 2), 1)
-	var/list/zs = list()
 	if(!length(occupying_levels))
 		message_admins("Failed to spawn boarders for [name], it doesn't seem to have any occupying z-levels. (Interior)")
 		return FALSE
+	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
+	if(!amount)
+		amount = CEILING(1 + (SSovermap_mode.mode.difficulty / 2), 1)
+	var/list/zs = list()
 	for(var/datum/space_level/SL in occupying_levels)
 		zs += SL.z_value
 	var/startside = pick(GLOB.cardinals)

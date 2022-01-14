@@ -284,7 +284,7 @@ export const StormdriveConsole = (props, context) => {
                 </Section>
               </Flex.Item>
               <Flex.Item grow={1}>
-                <Section position="relative" height="100%">
+                <Section fill position="relative" height="100%">
                   <Chart.Line
                     fillPositionedParent
                     data={constricted_plasmaData}
