@@ -27,6 +27,8 @@ Helper method to get what ship an observer belongs to for stuff like parallax.
 
 /// Finds a turf outside of the overmap
 /proc/GetSafeLoc(atom/A)
+	if ( !A ) // play stupid games win stupid prizes
+		return
 	if(!SSmapping.level_trait(A.z, ZTRAIT_OVERMAP))
 		return A
 
