@@ -2010,8 +2010,10 @@
 /turf/open/floor/engine,
 /area/nsv/weapons/starboard)
 "bqC" = (
-/obj/machinery/door/poddoor/ship,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/poddoor/ship{
+	id = "minerlaunch1"
+	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/port)
 "bqX" = (
@@ -4237,6 +4239,7 @@
 	name = "Mining Shuttle Docking Pad";
 	req_one_access_txt = "48"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plating,
 /area/quartermaster/miningoffice)
 "cUY" = (
@@ -4319,6 +4322,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/port)
 "cYB" = (
@@ -4467,9 +4471,15 @@
 /area/maintenance/department/science/central)
 "dcD" = (
 /obj/effect/turf_decal/stripes/line{
-	dir = 1
+	dir = 5
 	},
-/obj/machinery/computer/ship/viewscreen,
+/obj/machinery/button/door{
+	id = "minerlaunch1";
+	name = "Hangar 1 exterior doors";
+	pixel_x = -26;
+	pixel_y = 26;
+	req_one_access_txt = "69"
+	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/port)
 "dcQ" = (
@@ -9219,6 +9229,8 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/plating,
 /area/quartermaster/warehouse)
 "gns" = (
@@ -15980,6 +15992,9 @@
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Mining Shuttle Docking Pad";
 	req_one_access_txt = "48"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
 	},
 /turf/open/floor/carpet/ship,
 /area/quartermaster/miningoffice)
@@ -24486,6 +24501,7 @@
 "raR" = (
 /obj/structure/closet/secure_closet/miner,
 /obj/machinery/computer/ship/viewscreen,
+/obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/carpet/ship,
 /area/quartermaster/miningoffice)
 "rbe" = (
@@ -24611,13 +24627,19 @@
 	},
 /area/ai_monitored/storage/eva)
 "rdy" = (
-/obj/structure/extinguisher_cabinet/west,
 /obj/machinery/computer/ship/navigation/public{
 	dir = 4;
 	name = "starmap console"
 	},
 /obj/machinery/light{
 	dir = 8
+	},
+/obj/machinery/button/door{
+	id = "minerlaunch1";
+	name = "Hangar 1 exterior doors";
+	pixel_x = -26;
+	pixel_y = -6;
+	req_one_access_txt = "69"
 	},
 /turf/open/floor/carpet/ship,
 /area/quartermaster/miningoffice)
@@ -25052,6 +25074,8 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/carpet/ship,
 /area/quartermaster/miningoffice)
 "rrd" = (
@@ -28480,7 +28504,9 @@
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "tMv" = (
-/obj/machinery/door/poddoor/ship,
+/obj/machinery/door/poddoor/ship{
+	id = "minerlaunch1"
+	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/port)
 "tND" = (
@@ -57274,7 +57300,7 @@ awB
 agZ
 agZ
 cOm
-dcD
+nzd
 jvn
 joM
 nzd
@@ -57531,7 +57557,7 @@ awB
 awB
 awB
 tMv
-dBn
+dcD
 hbS
 jqh
 dBn
