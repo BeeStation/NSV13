@@ -249,6 +249,15 @@
 	item_state = "sun"
 	dynamic_hair_suffix = ""
 
+/obj/item/clothing/accessory/bomber_jacket_accessory
+	name = "Thin bomber jacket"
+	desc = "A cheap, wafer thin replica of a bomber jacket, this would fit on top of most things."
+	icon = 'nsv13/icons/obj/clothing/accessories.dmi'
+	icon_state = "bomberthin"
+	item_color = "bomberthin"
+	item_state = "bomberthin"
+	above_suit = TRUE
+
 /obj/item/clothing/head/helmet/transport_pilot
 	name = "Transport Pilot's Helmet"
 	desc = "A large helmet made for protecting the head and ears."
