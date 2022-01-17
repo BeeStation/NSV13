@@ -255,10 +255,10 @@ GLOBAL_LIST_EMPTY(knpcs)
 	for(var/mob/living/M in oview(HA.view_range, HA.parent))
 		//Invis is a no go. Dead mobs are ignored. Non-human, non hostile animals are ignored.
 		if(CHECK_BITFIELD(H.knpc_traits, KNPC_IS_MERCIFUL))
-			if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || M.stat >= UNCONSCIOUS || (!ishuman(M) && !istype(M, /mob/living/simple_animal/hostile)))
+			if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || M.stat >= UNCONSCIOUS || (!ishuman(M) && !iscyborg(M) && !istype(M, /mob/living/simple_animal/hostile)))
 				continue
 		else
-			if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || M.stat == DEAD || (!ishuman(M) && !istype(M, /mob/living/simple_animal/hostile)))
+			if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || M.stat == DEAD || (!ishuman(M) && !iscyborg(M) && !istype(M, /mob/living/simple_animal/hostile)))
 				continue
 		if(H.faction_check_mob(M))
 			continue
