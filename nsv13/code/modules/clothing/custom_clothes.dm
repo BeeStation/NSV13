@@ -250,7 +250,7 @@
 	dynamic_hair_suffix = ""
 
 /obj/item/clothing/accessory/bomber_jacket_accessory
-	name = "Thin bomber jacket"
+	name = "thin bomber jacket"
 	desc = "A cheap, wafer thin replica of a bomber jacket, this would fit on top of most things."
 	icon = 'nsv13/icons/obj/clothing/accessories.dmi'
 	icon_state = "bomberthin"
