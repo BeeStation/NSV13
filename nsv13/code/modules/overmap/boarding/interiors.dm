@@ -9,6 +9,9 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	set waitfor = FALSE
 	var/was_fully_loaded = TRUE
 	if(interior_status != INTERIOR_READY) // determines whether this ship can be loaded again
+		if(interior_status != INTERIOR_NOT_LOADED)
+			message_admins("DEBUG: Deleting the interior for [src] before it was fully loaded")
+			log_mapping("DEBUG: Deleting the interior for [src] before it was fully loaded")
 		was_fully_loaded = FALSE
 	interior_status = INTERIOR_DELETING
 	//Free up the boarding level....
@@ -24,8 +27,8 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 				docking_points = list()
 				SSair.can_fire = FALSE
 				for(var/turf/T in boarding_interior.get_affected_turfs(locate(1, 1, boarding_reservation_z), FALSE)) //nuke
-					CHECK_TICK
 					T.empty()
+					CHECK_TICK
 				SSair.can_fire = TRUE
 				free_boarding_levels += boarding_reservation_z
 				boarding_reservation_z = null
@@ -35,6 +38,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 				var/turf/target = locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3])
 				for(var/turf/T as () in boarding_interior.get_affected_turfs(target)) //nuke
 					T.empty()
+					CHECK_TICK
 			//Free the reservation.
 			QDEL_NULL(roomReservation)
 			boarding_interior = null
@@ -130,7 +134,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	if(interior_status == INTERIOR_READY) // it's loaded already, we're done
 		return TRUE
 	else if(interior_status != INTERIOR_NOT_LOADED)
-		message_admins("[src] attempted to load its interior, but it was already loading, deleting, or had been released!")
+		message_admins("[src] attempted to load its interior, but it was already loading, deleting, or had been released! (Pretty normal for asteroids)")
 		return FALSE // If we're currently loading or deleting, stop
 
 	interior_status = INTERIOR_LOADING

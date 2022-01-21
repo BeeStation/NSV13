@@ -66,6 +66,9 @@ Bullet reactions
 		proj.fire(Get_Angle(pickedstart,pickedgoal))
 		proj.set_pixel_speed(4)
 
+/obj/structure/overmap/small_craft/relay_damage(proj_type)
+	return
+
 /obj/structure/overmap/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1)
 	var/blocked = FALSE
 	var/damage_sound = pick(GLOB.overmap_impact_sounds)
