@@ -1,0 +1,1 @@
+#define ADMIN_PUNISHMENT_ENTRAPPED "Entrap"

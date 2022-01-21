@@ -37,7 +37,7 @@
 
 /obj/structure/munitions_trolley/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
-	if(allowed[A.type])
+	if(allowed[A.type] && !A?.no_trolley)
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading something onto [src]!</span>")
 			return
@@ -53,7 +53,7 @@
 		if(user)
 			to_chat(user, "<span class='warning'>\The [src] is fully loaded!</span>")
 		return FALSE
-	if(allowed[A.type])
+	if(allowed[A.type] && !A?.no_trolley)
 		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 		A.forceMove(src)
 		A.pixel_y = 5+(amount*5)
