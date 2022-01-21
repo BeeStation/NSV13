@@ -65,8 +65,28 @@
 		GAS_TRITIUM = 1,
 		GAS_H2O = 0,
 		GAS_CONSTRICTED_PLASMA = 1, //NSV13
-		GAS_NUCLEIUM = 0, //NSV13
+		GAS_NUCLEIUM = 1, //NSV13
 	)
+
+	//NSV13 - for getting the proper name of things
+	var/static/list/gas_map = list(
+		GAS_O2 = /datum/gas/oxygen,
+		GAS_N2 = /datum/gas/nitrogen,
+		GAS_BZ = /datum/gas/bz,
+		GAS_CO2 = /datum/gas/carbon_dioxide,
+		GAS_HYPERNOB = /datum/gas/hypernoblium,
+		//GAS_MIASMA = /datum/gas/miasma, //NSV13 - no miasma
+		GAS_NITROUS = /datum/gas/nitrous_oxide,
+		GAS_NITRYL = /datum/gas/nitryl,
+		GAS_PLASMA = /datum/gas/plasma,
+		GAS_PLUOXIUM = /datum/gas/pluoxium,
+		GAS_STIMULUM = /datum/gas/stimulum,
+		GAS_TRITIUM = /datum/gas/tritium,
+		GAS_H2O = /datum/gas/water_vapor,
+		GAS_CONSTRICTED_PLASMA = /datum/gas/constricted_plasma, //NSV13
+		GAS_NUCLEIUM = /datum/gas/nucleium, //NSV13
+	)
+
 	//Tank type
 	var/tank_type = /obj/item/tank/internals/oxygen/empty
 
@@ -296,10 +316,10 @@
 		dat += "Temperature Control: <a href='?src=[REF(src)];toggle_temp_control=1'>[temperature_control?"Enabled":"Disabled"]</a><br>"
 		dat += "Temperature Target: <a href='?src=[REF(src)];set_ideal_temperature=[ideal_temperature]'>[ideal_temperature]C</a><br>"
 		dat += "Gas Scrubbing Controls<br>"
-		for(var/gas_typepath in gasses)
-			var/gas_enabled = gasses[gas_typepath]
-			var/datum/gas/gas_type = gas_typepath
-			dat += "[initial(gas_type.name)]: <a href='?src=[REF(src)];toggle_gas=[gas_typepath]'>[gas_enabled?"Scrubbing":"Not Scrubbing"]</a><br>"
+		for(var/gas_id in gasses) //NSV13 - updated for auxmos
+			var/gas_enabled = gasses[gas_id]
+			var/datum/gas/gas_type = gas_map[gas_id]
+			dat += "[initial(gas_type.name)]: <a href='?src=[REF(src)];toggle_gas=[gas_id]'>[gas_enabled?"Scrubbing":"Not Scrubbing"]</a><br>"
 		dat += "Patrol Station: <A href='?src=[REF(src)];operation=patrol'>[auto_patrol ? "Yes" : "No"]</A><BR>"
 	return dat
 
@@ -350,9 +370,9 @@
 	var/obj/item/tank/tank = new tank_type(Tsec)
 	var/datum/gas_mixture/GM = Tsec.return_air()
 	if(tank && GM)
-		for(var/datum/gas/G in tank.air_contents.get_gases())
-			GM.adjust_moles(G.type, tank.air_contents.get_moles(G))
-			tank.air_contents.adjust_moles(G.type, -tank.air_contents.get_moles())
+		for(var/G in tank.air_contents.get_gases()) //NSV13 - updated for auxmos
+			GM.adjust_moles(G, tank.air_contents.get_moles(G))
+			tank.air_contents.adjust_moles(G, -tank.air_contents.get_moles())
 		new /obj/effect/temp_visual/vent_wind(Tsec)
 	if(deployed_holobarrier)
 		qdel(deployed_holobarrier.resolve())
