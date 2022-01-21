@@ -37,7 +37,11 @@
 
 /obj/structure/munitions_trolley/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
-	if(allowed[A.type] && !A?.no_trolley)
+	if(istype(A, /obj/item/ship_weapon/ammunition))
+		var/obj/item/ship_weapon/ammunition/M = A
+		if(M.no_trolley)
+			return FALSE
+	if(allowed[A.type])
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading something onto [src]!</span>")
 			return
@@ -49,11 +53,15 @@
 		loading = FALSE
 
 /obj/structure/munitions_trolley/proc/load_trolley(atom/movable/A, mob/user)
+	if(istype(A, /obj/item/ship_weapon/ammunition))
+		var/obj/item/ship_weapon/ammunition/M = A
+		if(M.no_trolley)
+			return FALSE
 	if(amount >= max_capacity)
 		if(user)
 			to_chat(user, "<span class='warning'>\The [src] is fully loaded!</span>")
 		return FALSE
-	if(allowed[A.type] && !A?.no_trolley)
+	if(allowed[A.type])
 		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 		A.forceMove(src)
 		A.pixel_y = 5+(amount*5)
