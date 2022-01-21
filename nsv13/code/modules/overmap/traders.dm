@@ -271,6 +271,17 @@
 	var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 	if(D)
 		data["points"] = "$[D.account_balance]"
+	// Extra information about what missions this station is tracking 
+	var/list/holding_cargo_info = list()
+	for ( var/datum/overmap_objective/cargo/O in current_location.holding_cargo ) 
+		var/list/item_info = list()
+		item_info[ "name" ] = O.name 
+		item_info[ "brief" ] = O.brief 
+		item_info[ "id" ] = "\ref[O]"
+		holding_cargo_info[++holding_cargo_info.len] = item_info
+	data[ "holding_cargo" ] = holding_cargo_info
+	if ( current_location && length( current_location.expecting_cargo ) )
+		data[ "expecting_cargo" ] = length( current_location.expecting_cargo )
 	return data
 
 /datum/trader/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
