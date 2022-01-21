@@ -398,7 +398,7 @@
 	no_trolley = TRUE
 	climb_time = 1000
 	climb_stun = 10
-    resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
 /obj/item/ship_weapon/ammunition/naval_artillery/ap
 	name = "\improper TX-101 Armour Penetrating Naval Artillery Round"
