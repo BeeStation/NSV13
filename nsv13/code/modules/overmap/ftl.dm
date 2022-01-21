@@ -242,7 +242,7 @@
 	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 	if(role == MAIN_OVERMAP) //Scuffed please fix
 		priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected arrival time: [station_time_timestamp("hh:mm", world.time + speed MINUTES)] (Local time)","Automated announcement")
-		if(structure_crit) //Tear the ship apart if theyre trying to limp away.
+		if(structure_crit && !istype(src, /obj/structure/overmap/small_craft)) //Tear the ship apart if theyre trying to limp away.
 			for(var/i = 0, i < rand(4,8), i++)
 				var/name = pick(GLOB.teleportlocs)
 				var/area/target = GLOB.teleportlocs[name]
