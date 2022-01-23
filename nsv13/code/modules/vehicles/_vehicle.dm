@@ -386,7 +386,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 		strength = strength * strength
 		strength = min(strength, 5) // don't want the explosions *too* big
 		// wew lad, might wanna slow down there
-		explosion(A, -1, round((strength - 1) / 2), round(strength), source="vehicle389")
+		explosion(A, -1, round((strength - 1) / 2), round(strength))
 		take_damage(strength*10, BRUTE, "melee", TRUE)
 		visible_message("<span class='danger'>The force of the impact causes a shockwave</span>")
 	else if(isliving(A) && bump_velocity > 2)

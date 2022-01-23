@@ -187,7 +187,7 @@
 	get_overmap()?.relay_to_nearby(weapon_type.overmap_select_sound)
 
 	if(blocker)
-		explosion(blocker, GLOB.MAX_EX_DEVESTATION_RANGE, GLOB.MAX_EX_HEAVY_RANGE, GLOB.MAX_EX_LIGHT_RANGE, GLOB.MAX_EX_FLASH_RANGE, source = "bsa190")
+		explosion(blocker, GLOB.MAX_EX_DEVESTATION_RANGE, GLOB.MAX_EX_HEAVY_RANGE, GLOB.MAX_EX_LIGHT_RANGE, GLOB.MAX_EX_FLASH_RANGE)
 	else
 		. = ..() //Then actually fire it.
 

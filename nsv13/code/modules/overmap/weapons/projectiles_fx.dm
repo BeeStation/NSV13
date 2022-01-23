@@ -146,7 +146,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/bullet/delayed_prime/dirty_shell_stage_two/release_payload(atom/detonation_location)
 	var/turf/detonation_turf = detonation_location
-	explosion(detonation_turf, 0, 0, 5, 8, flame_range = 3, source="projectiles_fx149")
+	explosion(detonation_turf, 0, 0, 5, 8, flame_range = 3)
 	var/list/inrange_turfs = RANGE_TURFS(DIRTY_SHELL_SLUDGE_RANGE, detonation_turf) - detonation_turf
 	new /obj/effect/decal/nuclear_waste/epicenter(detonation_turf)
 	for(var/turf/T as() in inrange_turfs)
@@ -210,7 +210,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/release_payload(atom/detonation_location)
 	var/turf/detonation_turf = detonation_location
-	explosion(detonation_turf, 0, 0, 4, 7, flame_range = 4, source="projectiles_fx213")
+	explosion(detonation_turf, 0, 0, 4, 7, flame_range = 4)
 	detonation_turf.atmos_spawn_air("o2=75;plasma=425;TEMP=1000")
 
 /obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo
@@ -436,11 +436,11 @@ Misc projectile types, effects, think of this as the special FX file.
 	on_hit(P)
 
 /obj/item/projectile/guided_munition/proc/detonate(atom/target)
-	explosion(target, 2, 4, 4, source="projectiles_fx439")
+	explosion(target, 2, 4, 4)
 
 /obj/item/projectile/guided_munition/torpedo/disruptor/detonate(atom/target)
 	empulse(get_turf(target), 5, 12)	//annoying emp.
-	explosion(target, 0, 2, 6, 4, source="projectiles_fx443")	//but only a light explosion.
+	explosion(target, 0, 2, 6, 4)	//but only a light explosion.
 
 /* Sleep for now, we'll see you again
 /obj/item/projectile/guided_munition/torpedo/nuclear/detonate(atom/target)

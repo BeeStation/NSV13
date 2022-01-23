@@ -1150,7 +1150,7 @@ Control Rods
 						MO.meltdown = TRUE
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/do_meltdown_effects()
-	explosion(get_turf(src), 0, 0, 10, 20, TRUE, TRUE, source="stormdrive1153")
+	explosion(get_turf(src), 0, 0, 10, 20, TRUE, TRUE)
 	empulse(src, 25, 50)
 	radiation_pulse(src, 10000, 1)
 	src.atmos_spawn_air("o2=750;plasma=200;nucleium=100;TEMP=5000")
@@ -1633,7 +1633,7 @@ Control Rods
 /obj/effect/anomaly/stormdrive/sheer/detonate()
 	radiation_pulse(src, 5000)
 	src.atmos_spawn_air("o2=125;plasma=50;nucleium=50;TEMP=5000")
-	explosion(src, 0, 0, 1, 18, FALSE, source="stormdrive1636")
+	explosion(src, 0, 0, 1, 18, FALSE)
 	new /obj/effect/particle_effect/sparks(loc)
 
 /obj/effect/anomaly/stormdrive/surge //EMP + Flux
@@ -1651,7 +1651,7 @@ Control Rods
 			mobShock(M)
 	else
 		empulse(src, 1, 5)
-		explosion(src, 0, 0, 0, 10, FALSE, source="stormdrive1654")
+		explosion(src, 0, 0, 0, 10, FALSE)
 		for(var/mob/living/M in orange(2, src))
 			mobShock(M)
 
@@ -1683,7 +1683,7 @@ Control Rods
 	for(var/mob/living/M in orange(5, src))
 		mobShock(M)
 	empulse(src, 5, 10)
-	explosion(src, 0, 0, 1, 18, FALSE, source="stormdrive1686")
+	explosion(src, 0, 0, 1, 18, FALSE)
 	do_sparks(10, FALSE, src)
 
 /obj/effect/anomaly/stormdrive/squall //Gravity + Brute
