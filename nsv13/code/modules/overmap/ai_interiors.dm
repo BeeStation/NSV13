@@ -32,7 +32,7 @@
 	special()
 
 /proc/overmap_explode(list/areas)
-	set waitfor = FALSE	//Lets not freeze everything
+	set waitfor = FALSE	//Lets not freeze the game ending and ship del
 	if(!areas)
 		return
 	for(var/area/AR in areas)
