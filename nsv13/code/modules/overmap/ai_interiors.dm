@@ -38,7 +38,7 @@
 	for(var/area/AR in areas)
 		var/turf/T = pick(get_area_turfs(AR))
 		explosion(T,7,0,0, ignorecap = TRUE)
-		sleep(5 SECONDS)
+		sleep(3 SECONDS)
 
 /obj/structure/overmap/proc/decimate_area()
 	if(!linked_areas.len)
