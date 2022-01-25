@@ -173,7 +173,7 @@ SUBSYSTEM_DEF(explosions)
 	. = SSexplosions.explode(arglist(args))
 	if(epicenter && SSmapping.level_trait(epicenter.z, ZTRAIT_RESERVED))
 		message_admins("Another sabre interior might've blown up somehow")
-		log_mapping("Reserved Z explosion with size ([devastation_range], [heavy_impact_range], [light_impact_range], [flame_range]) in [loc_name(epicenter)] with usr [usr] and src [src]") //NSV13 - remove when sabre detonation is fixed
+		log_mapping("Reserved Z explosion with size ([devastation_range], [heavy_impact_range], [light_impact_range], [flame_range]) in [loc_name(epicenter)] with usr [usr]") //NSV13 - remove when sabre detonation is fixed
 
 #define CREAK_DELAY 5 SECONDS //Time taken for the creak to play after explosion, if applicable.
 #define DEVASTATION_PROB 30 //The probability modifier for devistation, maths!
