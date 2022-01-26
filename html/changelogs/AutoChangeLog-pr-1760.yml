@@ -1,0 +1,13 @@
+author: covertcorvid
+delete-after: true
+changes:
+  - rscadd: Allows small craft to dock with asteroids.
+  - tweak: Fighters entering the overmap will end up somewhat near the overmap they
+      just left.
+  - tweak: FTL-capable fighters can only use their FTL to return to the main ship,
+      not move away from it.
+  - bugfix: Fighters start with a little bit of fuel again.
+  - code_imp: New overmap deletion mechanics. See the nsv13/__DEFINES/overmap.dm file
+      for details.
+  - code_imp: Overmap objects maintain a list of smaller ships that are docked to
+      them, in case that affects whether we want to delete them.
