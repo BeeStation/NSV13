@@ -171,6 +171,9 @@ SUBSYSTEM_DEF(explosions)
 
 /proc/explosion(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = TRUE, ignorecap = FALSE, flame_range = 0, silent = FALSE, smoke = FALSE)
 	. = SSexplosions.explode(arglist(args))
+	if(epicenter && SSmapping.level_trait(epicenter.z, ZTRAIT_RESERVED))
+		message_admins("Another sabre interior might've blown up somehow")
+		log_mapping("Reserved Z explosion with size ([devastation_range], [heavy_impact_range], [light_impact_range], [flame_range]) in [loc_name(epicenter)] with usr [usr]") //NSV13 - remove when sabre detonation is fixed
 
 #define CREAK_DELAY 5 SECONDS //Time taken for the creak to play after explosion, if applicable.
 #define DEVASTATION_PROB 30 //The probability modifier for devistation, maths!
@@ -386,10 +389,12 @@ SUBSYSTEM_DEF(explosions)
 		var/max_z_range = max(devastation_range, heavy_impact_range, light_impact_range, flash_range, flame_range) / (MULTI_Z_DISTANCE + 1)
 		var/list/z_list = get_zs_in_range(epicenter.z, max_z_range)
 		//Dont blow up our level again
-		z_list -= epicenter.z
-		for(var/affecting_z in z_list)
-			var/z_reduction = abs(epicenter.z - affecting_z) * (MULTI_Z_DISTANCE + 1)
-			var/turf/T = locate(epicenter.x, epicenter.y, affecting_z)
+		//NSV13 begin - fixes multiz explosion runtimes and maybe even issues.
+		z_list -= epicenter	
+		for(var/turf/affecting_z in z_list)
+			var/z_reduction = abs(epicenter.z - affecting_z.z) * (MULTI_Z_DISTANCE + 1)
+			var/turf/T = locate(epicenter.x, epicenter.y, affecting_z.z)	
+			//NSV13 end.
 			if(!T)
 				continue
 			SSexplosions.explode(T,

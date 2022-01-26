@@ -317,6 +317,11 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/reminder_four = "This is Centcomm to the vessel currently assigned to the Delphic Expanse, you are expected to fulfill your assigned mission"
 	var/reminder_five = "This is Centcomm, due to your slow pace, a Syndicate Interdiction fleet has tracked you down, prepare for combat!"
 
+/datum/overmap_gamemode/New()
+	objectives = list(
+		/datum/overmap_objective/perform_jumps
+	)
+
 /datum/overmap_gamemode/proc/consequence_one()
 
 /datum/overmap_gamemode/proc/consequence_two()

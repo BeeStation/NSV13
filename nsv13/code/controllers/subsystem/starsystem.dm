@@ -213,10 +213,10 @@ Returns a faction datum by its name (case insensitive!)
 			highestTickets = F.tickets
 	return winner
 
-/datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM)
+/datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM, turf/target)
 	ships[OM] = list("ship" = OM, "x" = 0, "y" = 0, "current_system" = system_by_id(OM.starting_system), "last_system" = system_by_id(OM.starting_system), "target_system" = null, "from_time" = 0, "to_time" = 0, "occupying_z" = OM.z)
 	var/datum/star_system/curr = ships[OM]["current_system"]
-	curr.add_ship(OM)
+	curr.add_ship(OM, target)
 
 //Welcome to bracket hell.
 

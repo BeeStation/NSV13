@@ -29,8 +29,8 @@
 		message_admins("[src] is the main overmap and cannot be ghost controlled! Take manual control via the Z-level")
 		return
 
-	if(istype(src, /obj/structure/overmap/fighter))
-		message_admins("[src] is a fighter subtype and cannot be ghost controlled! Take manual control the mob!")
+	if(istype(src, /obj/structure/overmap/small_craft))
+		message_admins("[src] is a small craft subtype and cannot be ghost controlled! Take manual control the mob!")
 		return
 
 	ai_controlled = FALSE //Remove the AI control

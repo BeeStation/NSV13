@@ -97,7 +97,7 @@
 	fire_mode = stop
 
 //Small Craft Specific Verbs
-/obj/structure/overmap/fighter/verb/show_control_panel()
+/obj/structure/overmap/small_craft/verb/show_control_panel()
 	set name = "Show control panel"
 	set category = "Ship"
 	set src = usr.loc
@@ -106,7 +106,7 @@
 		return
 	ui_interact(usr)
 
-/obj/structure/overmap/fighter/verb/change_name()
+/obj/structure/overmap/small_craft/verb/change_name()
 	set name = "Change name"
 	set category = "Ship"
 	set src = usr.loc
@@ -131,7 +131,7 @@
 	weapon_safety = !weapon_safety
 	to_chat(usr, "<span class='notice'>You toggle [src]'s weapon safeties [weapon_safety ? "on" : "off"].</span>")
 
-/obj/structure/overmap/fighter/verb/countermeasure()
+/obj/structure/overmap/small_craft/verb/countermeasure()
 	set name = "Deploy Countermeasures"
 	set category = "Ship"
 	set src = usr.loc
