@@ -71,6 +71,14 @@ SUBSYSTEM_DEF(star_system)
 		if(S.sector != 2)	//Magic numbers bad I know, but there is no sector defines.
 			continue
 		neutral_zone_systems += S
+
+/datum/controller/subsystem/star_system/Shutdown()
+	if(CONFIG_GET(/flag/starmap_persistence_enabled))
+		saving = TRUE
+		save()
+		saving = FALSE
+	. = ..()
+	
 /**
 Returns a faction datum by its name (case insensitive!)
 */
@@ -152,9 +160,7 @@ Returns a faction datum by its name (case insensitive!)
 			systems += S
 	if(saving)
 		return
-	saving = TRUE
-	save()
-	saving = FALSE
+
 /**
 <summary>Save the current starmap layout to a json file. Used for persistence.</summary>
 <param></param>
