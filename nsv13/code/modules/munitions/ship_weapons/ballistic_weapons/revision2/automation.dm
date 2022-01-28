@@ -417,7 +417,6 @@
 /obj/machinery/ammo_sorter/proc/unload(atom/movable/AM)
 	if(!loaded.len)
 		return FALSE
-	weardown()
 	if(jammed)
 		playsound(src, 'nsv13/sound/effects/ship/mac_load_jam.ogg', 100, 1)
 		return
@@ -427,6 +426,7 @@
 		loaded -= AM
 		//Load it out the back.
 		AM.forceMove(get_turf(get_step(src, dir)))
+		weardown()
 		
 
 /obj/machinery/ammo_sorter/proc/load(atom/movable/A, mob/user)
@@ -435,10 +435,10 @@
 			to_chat(user, "<span class='warning'>[src] is full!</span>")
 		loading = FALSE
 		return FALSE
-	weardown()
 	if(jammed)
-		playsound(src, 'nsv13/sound/effects/ship/mac_load_jam.ogg', 100, 1)
-		return
+		if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
+			playsound(src, 'nsv13/sound/effects/ship/mac_load_jam.ogg', 100, 1)
+			return
 	else
 		if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
 			playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
@@ -446,6 +446,7 @@
 			A.forceMove(src)
 			loading = FALSE
 			loaded += A
+			weardown()
 			return TRUE
 		else
 			loading = FALSE
