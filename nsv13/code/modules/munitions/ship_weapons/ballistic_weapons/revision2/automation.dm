@@ -448,7 +448,7 @@
 
 /obj/machinery/ammo_sorter/proc/weardown()
 	if(durability > 0) //don't go under 0, that's bad, this whole if statement handles specifically the wear&tear and it's jamming at 0% durability.
-		durability -= rand(0,2) //pulling stuff out wears it down, now randomly. Feel free to tell me how this is done correctly.
+		durability -= rand(0,1) //pulling stuff out wears it down, now randomly. Feel free to tell me how this is done correctly.
 	else 
 		jammed = TRUE // if it's at 0, just kinda jam it.
 		durability = 0 // in case an admin plays with this and doesn't know how to use it, we reset it here for good measure.
