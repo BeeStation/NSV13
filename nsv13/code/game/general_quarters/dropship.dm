@@ -76,9 +76,6 @@
 	tier = 2
 	weight = 2
 
-/area
-	var/obj/structure/overmap/overmap_fallback = null //Used for dropships. Allows you to define an overmap to "fallback" to if get_overmap() fails to find a space level with a linked overmap.
-
 /obj/structure/overmap/fighter/dropship/enter(mob/user)
 	if(!interior_entry_points?.len)
 		message_admins("[src] has no interior or entry points and [user] tried to board it.")
@@ -147,53 +144,6 @@
 	for(var/mob/M in mobs_in_ship)
 		if(M && M.client && M.hud_used && length(M.client.parallax_layers))
 			M.hud_used.update_parallax(force=TRUE)
-
-//Jank ass override, because this is actually necessary... but eughhhh
-
-/obj/structure/overmap/fighter/dropship/stop_piloting(mob/living/M, force=FALSE)
-	LAZYREMOVE(operators,M)
-	M.overmap_ship = null
-	if(M.click_intercept == src)
-		M.click_intercept = null
-	if(pilot && M == pilot)
-		LAZYREMOVE(M.mousemove_intercept_objects, src)
-		pilot = null
-		if(helm)
-			playsound(helm, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-	if(gunner && M == gunner)
-		if(tactical)
-			playsound(tactical, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-		gunner = null
-		target_lock = null
-	if(istype(M.loc, /obj/machinery/ship_weapon/gauss_gun))
-		var/obj/machinery/ship_weapon/gauss_gun/GG = M.loc
-		GG.remove_gunner()
-	if(M.client)
-		M.client.view_size.resetToDefault()
-		M.client.overmap_zoomout = 0
-	var/mob/camera/ai_eye/remote/overmap_observer/eyeobj = M.remote_control
-	M.cancel_camera()
-	if(M.client) //Reset px, y
-		M.client.pixel_x = 0
-		M.client.pixel_y = 0
-
-	if(istype(M, /mob/living/silicon/ai))
-		var/mob/living/silicon/ai/hal = M
-		hal.view_core()
-		hal.remote_control = null
-		qdel(eyeobj)
-		qdel(eyeobj?.off_action)
-		qdel(M.remote_control)
-		return
-
-	qdel(eyeobj)
-	qdel(eyeobj?.off_action)
-	qdel(M.remote_control)
-	M.remote_control = null
-	M.set_focus(M)
-	M.cancel_camera()
-	M.remove_verb(fighter_verbs)
-	return TRUE
 
 /obj/machinery/computer/ship/helm/console/dropship
 	name = "Dropship Flight Station"
@@ -334,3 +284,6 @@
 
 
 	OM.relay('nsv13/sound/effects/fighters/switch.ogg')
+
+/obj/structure/overmap/fighter/dropship/stop_piloting(mob/living/M, eject_mob=FALSE, force=FALSE) // Just changes eject default to false
+	return ..()
