@@ -73,7 +73,7 @@ SUBSYSTEM_DEF(star_system)
 		neutral_zone_systems += S
 
 /datum/controller/subsystem/star_system/Shutdown()
-	if(CONFIG_GET(/flag/starmap_persistence_enabled))
+	if(CONFIG_GET(flag/starmap_persistence_enabled))
 		saving = TRUE
 		save()
 		saving = FALSE
