@@ -419,7 +419,7 @@
 		return FALSE
 	if(jammed)
 		playsound(src, 'nsv13/sound/effects/ship/mac_load_jam.ogg', 100, 1)
-		return
+		return FALSE
 	else
 		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 		flick("ammorack_dispense", src)
@@ -438,7 +438,8 @@
 	if(jammed)
 		if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
 			playsound(src, 'nsv13/sound/effects/ship/mac_load_jam.ogg', 100, 1)
-			return
+			loading = FALSE
+			return FALSE
 	else
 		if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
 			playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
