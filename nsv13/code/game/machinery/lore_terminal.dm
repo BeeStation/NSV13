@@ -183,7 +183,7 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 /datum/lore_entry/New()
 	..()
 	if(filename)
-		content = file2text("[LORE_DIR]/[sanitize_filename(filename)]")
+		content = file2text("[LORE_DIR]/[SANITIZE_FILENAME(filename)]")
 
 /*
 

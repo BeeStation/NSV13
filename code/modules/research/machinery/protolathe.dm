@@ -16,13 +16,16 @@
 								"Ammo",
 								"Firing Pins",
 								"Computer Parts",
-								"Advanced Munitions",
-								"Asteroid Mining",
-								"Ship Components",
-								"Vehicles"
+								"Advanced Munitions", //NSV13
+								"Asteroid Mining", //NSV13
+								"Ship Components", //NSV13
+								"Vehicles", //NSV13
+								"Circuitry"
 								)
 	production_animation = "protolathe_n"
 	allowed_buildtypes = PROTOLATHE
+	consoleless_interface = TRUE
+	requires_console = FALSE
 //nsv13 added Advanced Munitions, Ship Components, Vehicles Asteroid Mining list above
 
 /obj/machinery/rnd/production/protolathe/disconnect_console()

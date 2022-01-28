@@ -50,7 +50,7 @@ GLOBAL_VAR(exmap_initialized) // Exmap is windows only until I figure out how th
 	src.position = position
 	src._angle = _angle
 	set_points(points)
-	EXMAP_EXTOOLS_CHECK
+	//FIXME learn physics in rust
 
 /*
 Method to set our position to a new one.

@@ -314,6 +314,11 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/reminder_four = "This is Centcomm to the vessel currently assigned to the Delphic Expanse, you are expected to fulfill your assigned mission"
 	var/reminder_five = "This is Centcomm, due to your slow pace, a Syndicate Interdiction fleet has tracked you down, prepare for combat!"
 
+/datum/overmap_gamemode/New()
+	objectives = list(
+		/datum/overmap_objective/perform_jumps
+	)
+
 /datum/overmap_gamemode/proc/consequence_one()
 
 /datum/overmap_gamemode/proc/consequence_two()
@@ -390,17 +395,17 @@ SUBSYSTEM_DEF(overmap_mode)
 	SSticker.force_ending = TRUE
 
 /datum/overmap_objective
-	var/name							//Name for admin view
-	var/desc							//Short description for admin view
-	var/brief							//Description for PLAYERS
-	var/stage							//For multi step objectives
-	var/binary = TRUE					//Is this just a simple T/F objective?
-	var/tally = 0						//How many of the objective goal has been completed
-	var/target = 0						//How many of the objective goal is required
-	var/status = STATUS_INPROGRESS		//0 = In-progress, 1 = Completed, 2 = Failed, 3 = Victory Override (this will end the round)
-	var/extension_supported = FALSE 	//Is this objective available to be a random extended round objective?
-	var/ignore_check = FALSE			//Used for checking extended rounds
-	var/instanced = FALSE				//Have we yet run the instance proc for this objective?
+	var/name										//Name for admin view
+	var/desc										//Short description for admin view
+	var/brief										//Description for PLAYERS
+	var/stage										//For multi step objectives
+	var/binary = TRUE								//Is this just a simple T/F objective?
+	var/tally = 0									//How many of the objective goal has been completed
+	var/target = 0									//How many of the objective goal is required
+	var/status = STATUS_INPROGRESS					//0 = In-progress, 1 = Completed, 2 = Failed, 3 = Victory Override (this will end the round)
+	var/extension_supported = FALSE 				//Is this objective available to be a random extended round objective?
+	var/ignore_check = FALSE						//Used for checking extended rounds
+	var/instanced = FALSE							//Have we yet run the instance proc for this objective?
 
 /datum/overmap_objective/New()
 
@@ -447,6 +452,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	if(!ui)
 		ui = new(user, src, "OvermapGamemodeController")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Countdowns
 
 /datum/overmap_mode_controller/ui_act(action, params)
 	if(..())

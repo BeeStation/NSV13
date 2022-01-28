@@ -48,7 +48,7 @@
 					ammo += G
 			if(load_sound)
 				playsound(src, load_sound, 100, 1)
-			state = 2
+			state = STATE_LOADED
 			loading = FALSE
 
 #define VV_HK_REMOVE_GAUSS_GUNNER "getOutOfMyGunIdiot"
@@ -129,10 +129,11 @@
 
 /obj/machinery/ship_weapon/gauss_gun/Initialize()
 	. = ..()
-	cabin_air = new(200)
+	cabin_air = new
 	cabin_air.set_temperature(T20C)
-	cabin_air.set_moles(/datum/gas/oxygen, O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
-	cabin_air.set_moles(/datum/gas/nitrogen, N2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
+	cabin_air.set_volume(200)
+	cabin_air.set_moles(GAS_O2, O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
+	cabin_air.set_moles(GAS_N2, N2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
 	ammo_rack = new /obj/structure/gauss_rack(src)
 	ammo_rack.gun = src
@@ -235,8 +236,7 @@
 
 /obj/machinery/ship_weapon/gauss_gun/overmap_fire(atom/target)
 	if(world.time >= next_sound) //Prevents ear destruction from soundspam
-		var/sound/chosen = pick(weapon_type.overmap_firing_sounds)
-		linked.relay_to_nearby(chosen)
+		overmap_sound()
 		next_sound = world.time + 1 SECONDS
 	if(overlay)
 		overlay.do_animation()
@@ -256,8 +256,14 @@
 /obj/machinery/ship_weapon/gauss_gun/remove_air(amount)
 	return cabin_air.remove(amount)
 
+/obj/machinery/ship_weapon/gauss_gun/remove_air_ratio(ratio)
+	return cabin_air.remove_ratio(ratio)
+
 /obj/machinery/ship_weapon/gauss_gun/return_analyzable_air()
 	return cabin_air
+
+/obj/machinery/ship_weapon/gauss_gun/proc/return_pressure()
+	return cabin_air.return_pressure()
 
 /obj/machinery/ship_weapon/gauss_gun/return_temperature()
 	var/datum/gas_mixture/t_air = return_air()
@@ -480,6 +486,7 @@
 	if(!ui)
 		ui = new(user, src, "GaussRack")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Ammo count
 
 /obj/structure/gauss_rack/ui_act(action, params, datum/tgui/ui)
 	if(..())
@@ -577,7 +584,7 @@ Chair + rack handling
 		else
 			to_chat(user, "<span class='warning'>[M] won't fit in the [src].!</span>")
 		return
-	
+
 	var/mob/living/carbon/C = M
 	if(istype(C) && !C.get_bodypart(BODY_ZONE_L_ARM) && !C.get_bodypart(BODY_ZONE_R_ARM)) //Can't shoot the gun if you have no hands, borgs get a pass on this
 		if(M == user)
@@ -680,12 +687,13 @@ Chair + rack handling
 	ammo_rack.update_visuals()
 	if(load_sound)
 		playsound(src, load_sound, 100, 1)
-	state = 2
+	state = STATE_LOADED
 	loading = FALSE
 	sleep(3 SECONDS)
 	lower_rack()
 
 /obj/machinery/ship_weapon/gauss_gun/proc/lower_rack()
+	set waitfor = FALSE
 	if(!ammo_rack)
 		return
 	ammo_rack.loading = FALSE
@@ -726,6 +734,7 @@ Chair + rack handling
 	if(!ui)
 		ui = new(user, src, "MunitionsComputer")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/ship_weapon/gauss_gun/ui_state(mob/user)
 	return GLOB.contained_state
@@ -751,8 +760,8 @@ Chair + rack handling
 /obj/machinery/ship_weapon/gauss_gun/ui_data(mob/user)
 	var/list/data = list()
 	data["isgaussgun"] = TRUE //So what if I'm a hack. Sue me.
-	data["loaded"] = (state > STATE_LOADED) ? TRUE : FALSE
-	data["chambered"] = (state > STATE_FED) ? TRUE : FALSE
+	data["loaded"] = state > STATE_LOADED
+	data["chambered"] = state == STATE_CHAMBERED
 	data["safety"] = safety
 	data["ammo"] = ammo.len
 	data["max_ammo"] = max_ammo

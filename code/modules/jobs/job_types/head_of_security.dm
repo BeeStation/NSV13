@@ -32,6 +32,11 @@
 	paycheck_department = ACCOUNT_SEC
 
 	display_order = JOB_DISPLAY_ORDER_HEAD_OF_SECURITY
+	departments = DEPARTMENT_SECURITY | DEPARTMENT_COMMAND
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/hos
+	)
 
 /datum/outfit/job/hos
 	name = "Head of Security"
@@ -48,8 +53,8 @@
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	r_pocket = /obj/item/assembly/flash/handheld
 	l_pocket = /obj/item/restraints/handcuffs
-	backpack_contents = list(/obj/item/melee/baton/loaded=1, /obj/item/ammo_box/magazine/pistolm9mm/glock,
-		/obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1, /obj/item/book/granter/martial/jujitsu, /obj/item/club=1) //NSV13 this line
+	backpack_contents = list(/obj/item/melee/baton/loaded=1,
+		/obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1, /obj/item/book/granter/martial/jujitsu, /obj/item/club=1) //NSV13 this line)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec

@@ -52,7 +52,7 @@
 	var/next_pulse = OM.last_radar_pulse + radar_delay
 	if(world.time >= next_pulse)
 		return TRUE
-f
+
 /obj/machinery/computer/ship/dradis/minor/can_radar_pulse()
 	return FALSE
 
@@ -107,7 +107,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	if(istype(W, /obj/item/supplypod_beacon))
 		var/obj/item/supplypod_beacon/sb = W
 		if(linked?.dradis != src)
-			to_chat(user, "<span class='warning'>Supplypod beacons can only be linked to the primary DRADIS of a ship (try the one in CIC?).")
+			to_chat(user, "<span class='warning'>Supplypod beacons can only be linked to the primary DRADIS of a ship (try the one in CIC?).</span>")
 			return FALSE
 		if (sb.express_console != src)
 			sb.link_console(src, user)
@@ -118,13 +118,13 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/multitool_act(mob/living/user, obj/item/I)
 	usingBeacon = !usingBeacon
-	to_chat(user, "<span class='sciradio'>You switch [src]'s trader delivery location to [usingBeacon ? "target supply beacons" : "target the default landing location on your ship"]")
+	to_chat(user, "<span class='sciradio'>You switch [src]'s trader delivery location to [usingBeacon ? "target supply beacons" : "target the default landing location on your ship"]</span>")
 	return FALSE
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
-	name = "\improper Air traffic control console"
+	name = "air traffic control console"
 
-/obj/machinery/computer/ship/dradis/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight 
+/obj/machinery/computer/ship/dradis/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight
 	name = "\improper Cargo freight delivery console"
 	circuit = /obj/item/circuitboard/computer/ship/dradis/cargo
 	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/linked_launcher = null
@@ -132,6 +132,17 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/cargo/Initialize()
 	..()
+	var/obj/item/paper/paper = new /obj/item/paper(get_turf(src))
+	paper.info = ""
+	paper.info += "<h2>How to perform deliveries with the Cargo DRADIS</h2>"
+	paper.info += "<hr/><br/>"
+	paper.info += "Step 1: Find or build a freight torpedo.<br/><br/>"
+	paper.info += "Step 2: Load your contents directly into the freight torpedo. Or load your contents into a crate, then load the crate into the freight torpedo (click drag the object onto the torpedo).<br/><br/>"
+	paper.info += "Step 3: Load the freight torpedo into the Cargo freight launcher (click drag the torpedo onto the launcher). You may need to use a munitions trolley to move the freight torpedo closer.<br/><br/>"
+	paper.info += "Step 4: Use the munitions console to load the payload, chamber the payload, and disable weapon safeties.<br/><br/>"
+	paper.info += "Step 5: Put on hearing protection gear, such as earmuffs.<br/><br/>"
+	paper.info += "Step 6: Navigate to the cargo DRADIS, and click on the recipient. If the payload is malformed or not chambered, an error will display. If the payload is properly chambered, a final confirmation will display. Click Yes.<br/><br/>"
+	paper.update_icon()
 	sensor_range = hail_range
 
 	if(!linked_launcher)
@@ -142,20 +153,20 @@ Called by add_sensor_profile_penalty if remove_in is used.
 					W.linked_dradis = src
 
 /obj/machinery/computer/ship/dradis/cargo/multitool_act(mob/living/user, obj/item/I)
-	// Allow relinking a console's cargo launcher 
+	// Allow relinking a console's cargo launcher
 	var/obj/item/multitool/P = I
-	// Check to make sure the buffer is a valid cargo launcher before acting on it 
-	if( ( multitool_check_buffer(user, I) && istype( P.buffer, /obj/machinery/ship_weapon/torpedo_launcher/cargo ) ) ) 
-		var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = P.buffer 
-		launcher.linked_dradis = src 
+	// Check to make sure the buffer is a valid cargo launcher before acting on it
+	if( ( multitool_check_buffer(user, I) && istype( P.buffer, /obj/machinery/ship_weapon/torpedo_launcher/cargo ) ) )
+		var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = P.buffer
+		launcher.linked_dradis = src
 		linked_launcher = launcher
 		P.buffer = null
 		to_chat(user, "<span class='notice'>Buffer transferred</span>")
 		return TRUE
-	// Call the parent proc and allow supply beacon swaps 
-	else 
+	// Call the parent proc and allow supply beacon swaps
+	else
 		return ..()
-	
+
 /obj/machinery/computer/ship/dradis/cargo/can_radar_pulse()
 	return FALSE
 
@@ -217,16 +228,17 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	return TRUE
 
 /obj/machinery/computer/ship/dradis/ui_state(mob/user)
-	return  GLOB.always_state
-
+	return GLOB.always_state
 
 /obj/machinery/computer/ship/dradis/ui_interact(mob/user, datum/tgui/ui)
 	if(!has_overmap())
+		to_chat(user, "<span class='warning'>Failed to initiate ship connection.</span>")
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "Dradis")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Contact positions
 
 /obj/machinery/computer/ship/dradis/ui_act(action, params)
 	. = ..()
@@ -273,10 +285,10 @@ Called by add_sensor_profile_penalty if remove_in is used.
 				return
 			next_hail = world.time + 10 SECONDS //I hate that I need to do this, but yeah.
 			if(get_dist(target, linked) <= hail_range)
-				if ( istype( src, /obj/machinery/computer/ship/dradis/cargo ) ) 
-					var/obj/machinery/computer/ship/dradis/cargo/console = src // Must cast before passing into proc 
+				if ( istype( src, /obj/machinery/computer/ship/dradis/cargo ) )
+					var/obj/machinery/computer/ship/dradis/cargo/console = src // Must cast before passing into proc
 					target.try_deliver( usr, console )
-				else 
+				else
 					target.try_hail(usr, linked)
 		if("radar_pulse")
 			send_radar_pulse()
@@ -286,8 +298,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			var/newDelay = input(usr, "Set a new radar delay (seconds)", "Radar Delay", null) as num|null
 			if(!newDelay)
 				return
-			newDelay = newDelay SECONDS
-			newDelay = CLAMP(newDelay, MIN_RADAR_DELAY, MAX_RADAR_DELAY)
+			newDelay = CLAMP(newDelay SECONDS, MIN_RADAR_DELAY, MAX_RADAR_DELAY)
 			radar_delay = newDelay
 
 /obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
@@ -310,7 +321,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	var/dist = get_dist(src, observer)
 	if(dist <= 0)
 		dist = 1
-	var/distance_factor = (1/dist) //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
+	var/distance_factor = 1 / dist //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
 	//If we fired off a radar, we're visible to _every ship_
 	if(last_radar_pulse+RADAR_VISIBILITY_PENALTY > world.time)
 		return SENSOR_VISIBILITY_FULL
@@ -325,30 +336,19 @@ Called by add_sensor_profile_penalty if remove_in is used.
 		if(251 to 255)
 			return SENSOR_VISIBILITY_FULL
 
-/obj/structure/overmap
-	var/cloak_factor = SENSOR_VISIBILITY_GHOST
-
 /obj/structure/overmap/proc/handle_cloak(state)
 	set waitfor = FALSE
 	switch(state)
 		if(TRUE)
-			while(alpha > cloak_factor)
-				stoplag()
-				alpha -= 5
+			animate(src, 15, alpha = cloak_factor)
 			mouse_opacity = FALSE
-			return
 		if(FALSE)
-			while(alpha < 255)
-				stoplag()
-				alpha += 5
+			animate(src, 15, alpha = 255)
 			mouse_opacity = TRUE
-			return
 		if(CLOAK_TEMPORARY_LOSS) //Flicker the cloak so that you can fire.
 			if(alpha >= 255) //No need to re-cloak us if we were never cloaked...
 				return
-			while(alpha < 255)
-				stoplag()
-				alpha += 15
+			animate(src, 15, alpha = 255)
 			mouse_opacity = TRUE
 			addtimer(CALLBACK(src, .proc/handle_cloak, TRUE), 15 SECONDS)
 

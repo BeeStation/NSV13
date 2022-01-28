@@ -105,11 +105,12 @@ GLOBAL_LIST_INIT(radiochannels, list(
 	RADIO_CHANNEL_SYNDICATE = FREQ_SYNDICATE,
 	RADIO_CHANNEL_SUPPLY = FREQ_SUPPLY,
 	RADIO_CHANNEL_SERVICE = FREQ_SERVICE,
+//	RADIO_CHANNEL_EXPLORATION = FREQ_EXPLORATION,
 	RADIO_CHANNEL_AI_PRIVATE = FREQ_AI_PRIVATE,
 	RADIO_CHANNEL_CTF_RED = FREQ_CTF_RED,
 	RADIO_CHANNEL_CTF_BLUE = FREQ_CTF_BLUE
 ))
-//Nsv13 - Added ATC radio channel, Muni and Space Pirate
+//Nsv13 - Added ATC radio channel, Muni and Space Pirate. Removed exploration
 
 GLOBAL_LIST_INIT(reverseradiochannels, list(
 	"[FREQ_COMMON]" = RADIO_CHANNEL_COMMON,
@@ -124,6 +125,7 @@ GLOBAL_LIST_INIT(reverseradiochannels, list(
 	"[FREQ_PIRATE]" = RADIO_CHANNEL_PIRATE,
 	"[FREQ_SYNDICATE]" = RADIO_CHANNEL_SYNDICATE,
 	"[FREQ_SUPPLY]" = RADIO_CHANNEL_SUPPLY,
+//	"[FREQ_EXPLORATION]" = RADIO_CHANNEL_EXPLORATION,
 	"[FREQ_SERVICE]" = RADIO_CHANNEL_SERVICE,
 	"[FREQ_AI_PRIVATE]" = RADIO_CHANNEL_AI_PRIVATE,
 	"[FREQ_CTF_RED]" = RADIO_CHANNEL_CTF_RED,
@@ -131,8 +133,9 @@ GLOBAL_LIST_INIT(reverseradiochannels, list(
 ))
 
 /datum/radio_frequency
-	var/frequency as num
-	var/list/list/obj/devices = list()
+	var/frequency
+	/// List of filters -> list of devices
+	var/list/list/datum/weakref/devices = list()
 
 /datum/radio_frequency/New(freq)
 	frequency = freq
@@ -162,14 +165,18 @@ GLOBAL_LIST_INIT(reverseradiochannels, list(
 
 	//Send the data
 	for(var/current_filter in filter_list)
-		for(var/obj/device in devices[current_filter])
+		for(var/datum/weakref/device_ref as anything in devices[current_filter])
+			var/obj/device = device_ref.resolve()
+			if(!device)
+				devices[current_filter] -= device_ref
+				continue
 			if(device == source)
 				continue
 			if(range)
 				var/turf/end_point = get_turf(device)
 				if(!end_point)
 					continue
-				if(start_point.z != end_point.z || (range > 0 && get_dist(start_point, end_point) > range))
+				if(start_point.get_virtual_z_level() != end_point.get_virtual_z_level() || (range > 0 && get_dist(start_point, end_point) > range))
 					continue
 			device.receive_signal(signal)
 
@@ -180,7 +187,7 @@ GLOBAL_LIST_INIT(reverseradiochannels, list(
 	var/list/devices_line = devices[filter]
 	if(!devices_line)
 		devices[filter] = devices_line = list()
-	devices_line += device
+	devices_line += WEAKREF(device)
 
 
 /datum/radio_frequency/proc/remove_listener(obj/device)
@@ -188,7 +195,7 @@ GLOBAL_LIST_INIT(reverseradiochannels, list(
 		var/list/devices_line = devices[devices_filter]
 		if(!devices_line)
 			devices -= devices_filter
-		devices_line -= device
+		devices_line -= WEAKREF(device)
 		if(!devices_line.len)
 			devices -= devices_filter
 

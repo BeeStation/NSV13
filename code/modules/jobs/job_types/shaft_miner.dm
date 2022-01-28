@@ -22,6 +22,11 @@
 	paycheck_department = ACCOUNT_CAR
 
 	display_order = JOB_DISPLAY_ORDER_SHAFT_MINER
+	departments = DEPARTMENT_CARGO
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/mining
+	)
 
 /datum/outfit/job/miner
 	name = "Shaft Miner"
