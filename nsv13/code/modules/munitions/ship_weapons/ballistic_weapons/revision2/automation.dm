@@ -459,6 +459,6 @@
 	else 
 		jammed = TRUE // if it's at 0, just kinda jam it.
 		durability = 0 // in case an admin plays with this and doesn't know how to use it, we reset it here for good measure.
-	jamchance = ((durability - 100) * (-1)) / 20 //inverting the 100-0 durability into a 0-100 probability to jam, then adjusting it.
+	jamchance = CLAMP(-10*log(10, durability/80), 0, 100) //logarithmic function; at 80 it starts increasing from 0
 	if(prob(jamchance))
 		jammed = TRUE
