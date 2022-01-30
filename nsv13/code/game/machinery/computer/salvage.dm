@@ -81,6 +81,7 @@
 				return FALSE
 			radio.talk_into(src, "Electronic countermeasure deployment in progress.", radio_channel)
 			can_salvage = FALSE
+			DISABLE_BITFIELD(OM.overmap_deletion_traits, DAMAGE_DELETES_UNOCCUPIED) // Simplemobs don't count, so don't let this explode before we're ready
 			if(OM.ai_load_interior(linked))
 				linked.active_boarding_target = OM
 				addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown)
@@ -111,5 +112,6 @@
 			can_salvage = FALSE
 			message_admins("[usr] released boarding/salvage lock on [linked.active_boarding_target]")
 			linked.active_boarding_target.kill_boarding_level(linked)
+			linked.active_boarding_target.overmap_deletion_traits = initial(linked.active_boarding_target.overmap_deletion_traits)
 			linked.active_boarding_target = null
 			addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown/2)

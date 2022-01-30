@@ -24,10 +24,10 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/tally = 0 
 
 	// Stores a list of initialized atoms 
-	// Set to TRUE to automatically place this item in the ship's warehouse, for simpler transfer objectives 
-	// If an item is provided in a prepackaged large wooden crate but the players open/destroy it, the players may be able to repackage or source a replacement to deliver, if allow_replacements is TRUE
-	// item is a required field if prepackaged_item is true. 
-	// overmap_objective is a required field if prepackaged_item is true. Simply pass in the overmap_objective on objective self initialize 
+	// Set to TRUE to automatically place this item in a prepackaged large wooden crate, for simpler transfer objectives 
+	// If allow_replacements is TRUE, and an item is provided in a prepackaged large wooden crate but the players open/destroy it, the players may be able to repackage or source a replacement to deliver
+	// item is a required field if send_prepackaged_item is TRUE. 
+	// overmap_objective is a required field if send_prepackaged_item is TRUE. Simply pass in the overmap_objective on objective self initialize 
 	var/send_prepackaged_item = FALSE 
 	var/list/prepackaged_items = list()
 
@@ -118,22 +118,23 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	return "nothing"
 
 /datum/freight_type/proc/deliver_package() 
-	if ( send_prepackaged_item )
-		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
-		if(MO)
-			var/obj/structure/closet/crate/large/freight_objective/C = new /obj/structure/closet/crate/large/freight_objective( src )
-			for ( var/i = 0; i < target; i++ )
-				// For transfer objectives expecting multiple items of the same type, clones the referenced item 
-				var/atom/added_item = add_item_to_crate( C )
-				if ( added_item ) 
-					prepackaged_items += added_item 
-			for ( var/atom/packaging in additional_prepackaging ) 
-				C.contents += packaging
-			C.overmap_objective = overmap_objective
-			C.freight_type = src
-			MO.send_supplypod( C, null, TRUE )
-			return TRUE 
-	else 
+	if ( !send_prepackaged_item )
+		// This proc is a formality, even if we don't have anything to deliver 
+		return TRUE 
+
+	var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
+	if(MO)
+		var/obj/structure/closet/crate/large/freight_objective/C = new /obj/structure/closet/crate/large/freight_objective( src )
+		for ( var/i = 0; i < target; i++ )
+			// For transfer objectives expecting multiple items of the same type, clones the referenced item 
+			var/atom/added_item = add_item_to_crate( C )
+			if ( added_item ) 
+				prepackaged_items += added_item 
+		for ( var/atom/packaging in additional_prepackaging ) 
+			C.contents += packaging
+		C.overmap_objective = overmap_objective
+		C.freight_type = src
+		MO.send_supplypod( C, null, TRUE )
 		return TRUE 
 
 /datum/freight_type/proc/add_item_to_crate( var/obj/C )
