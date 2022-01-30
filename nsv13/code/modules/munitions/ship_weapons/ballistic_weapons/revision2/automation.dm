@@ -334,7 +334,7 @@
 			to_chat(user, "<span class='notice'>You clear the jam with the crowbar.</span>")
 			playsound(src, 'nsv13/sound/effects/ship/mac_load_unjam.ogg', 100, 1)
 			jammed = FALSE
-			durability += 5 //give the poor fools a few more uses if they're lucky
+			durability += rand(0,5) //give the poor fools a few more uses if they're lucky
 		else
 			to_chat(user, "<span class='notice'>You need to close the panel to get at the jammed machinery.</span>")
 		return TRUE
@@ -383,10 +383,10 @@
 				. += "<span class='notice'>It doesn't need any maintenance right now.</span>"
 			if(31 to 70)
 				. += "<span class='notice'>It might need some maintenance done soon.</span>"
-			if(1 to 30)
+			if(11 to 30)
 				. += "<span class='notice'>It could really do with some maintenance.</span>"
-			if(0)
-				. += "<span class='notice'>It's completely wrecked and will definitely jam.</span>"
+			if(0 to 10)
+				. += "<span class='notice'>It's completely wrecked.</span>"
 	. += "<br/><span class='notice'>It's currently holding:</span>"
 	if(loaded.len)
 		for(var/obj/item/C in loaded)
@@ -455,10 +455,10 @@
 
 /obj/machinery/ammo_sorter/proc/weardown()
 	if(durability > 0) //don't go under 0, that's bad
-		durability -= 1 //pulling stuff out wears it down.
+		durability -= 1 //using it wears it down.
 	else 
 		jammed = TRUE // if it's at 0, jam it.
 		durability = 0 // in case an admin plays with this and doesn't know how to use it, we reset it here for good measure.
-	jamchance = CLAMP(-5*log(5, durability/50), 0, 100) //logarithmic function; at 50 it starts increasing from 0
+	jamchance = CLAMP(-50*log(50, durability/50), 0, 100) //logarithmic function; at 50 it starts increasing from 0
 	if(prob(jamchance))
 		jammed = TRUE
