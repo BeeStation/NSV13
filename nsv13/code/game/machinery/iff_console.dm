@@ -86,6 +86,7 @@ If someone hacks it, you can always rebuild it.
 	if(!ui)
 		ui = new(user, src, "IFF")
 		ui.open()
+		ui.set_autoupdate(TRUE) // hackerman
 
 //Uh oh...
 /obj/machinery/computer/iff_console/proc/hack()

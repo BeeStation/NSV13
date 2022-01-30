@@ -110,7 +110,7 @@
 	var/datum/gas_mixture/nucleium_input = airs[2]
 	var/datum/gas_mixture/coolant_input = airs[1]
 	var/datum/gas_mixture/coolant_output = airs[3]
-	var/nuc_in = nucleium_input.get_moles(/datum/gas/nucleium)
+	var/nuc_in = nucleium_input.get_moles(GAS_NUCLEIUM)
 
 	handle_power_reqs()
 
@@ -149,7 +149,7 @@
 
 	if(state == REACTOR_STATE_RUNNING)
 		if(nuc_in >= reaction_injection_rate) //If we are running in nominal conditions...
-			nucleium_input.adjust_moles(/datum/gas/nucleium, -reaction_injection_rate)
+			nucleium_input.adjust_moles(GAS_NUCLEIUM, -reaction_injection_rate)
 			//Handle reaction rate adjustments here
 			var/target_reaction_rate = ((0.5 + (1e-03 * (reaction_injection_rate ** 2))) + (current_uptime / 2000)) * 16
 			var/delta_reaction_rate = target_reaction_rate - reaction_rate
@@ -166,7 +166,7 @@
 				handle_polarity(FALSE)
 
 			else //...and has some nucleium but not sufficient nucleium for a stable reaction
-				nucleium_input.adjust_moles(/datum/gas/nucleium, -nuc_in) //Use whatever is in there
+				nucleium_input.adjust_moles(GAS_NUCLEIUM, -nuc_in) //Use whatever is in there
 				//Handle reaction rate adjustments here WITH PENALTIES
 				var/target_reaction_rate = (0.5 + (1e-03 * (reaction_injection_rate ** 2))) + (current_uptime / 1000) *  5
 				var/delta_reaction_rate = target_reaction_rate - reaction_rate
@@ -582,6 +582,7 @@
 	if(!ui)
 		ui = new(user, src, "PDSRMainframe")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/defence_screen_mainframe_reactor/ui_act(action, params, datum/tgui/ui)
 	if(..())
@@ -731,6 +732,7 @@
 	if(!ui)
 		ui = new(user, src, "PDSRManipulator")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/defence_screen_mainframe_shield/ui_act(action, params, datum/tgui/ui)
 	if(..())

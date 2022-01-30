@@ -38,6 +38,7 @@ you build.
 		assets.send(user)
 		ui = new(user, src, "Astrometrics")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /**
 Clean override of the navigation computer to provide scan functionality.
@@ -75,7 +76,7 @@ Clean override of the navigation computer to provide scan functionality.
 	return data
 
 /obj/machinery/computer/ship/navigation/astrometrics/is_in_range(datum/star_system/current_system, datum/star_system/system)
-	return current_system && current_system.dist(system) <= max_range
+	return current_system && system && current_system.dist(system) <= max_range
 
 /obj/machinery/computer/ship/navigation/astrometrics/is_visited(datum/star_system/system)
 	return LAZYFIND(scanned, system.name)
@@ -134,7 +135,7 @@ Clean override of the navigation computer to provide scan functionality.
 				if(OA.research_points > 0 && !OA.scanned) //In case someone else did a scan on it already.
 					var/reward = OA.research_points/2
 					OA.research_points -= reward
-					linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, reward)
+					linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DISCOVERY, reward)
 				OA.scanned = TRUE
 			scan_target = null
 			scan_progress = 0

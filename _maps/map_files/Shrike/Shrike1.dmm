@@ -693,7 +693,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "dw" = (
-/obj/machinery/computer/shuttle/mining,
+/obj/machinery/computer/shuttle_flight/mining,
 /obj/structure/sign/warning/vacuum/external{
 	pixel_y = 30
 	},
@@ -1742,7 +1742,7 @@
 	departmentType = 2;
 	pixel_y = -30
 	},
-/obj/machinery/mineral/equipment_vendor,
+/obj/machinery/vendor/mining,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/miningdock)
 "hX" = (
@@ -2259,7 +2259,7 @@
 /turf/open/floor/plating/foam,
 /area/maintenance/nsv/deck1/starboard)
 "kr" = (
-/obj/item/twohanded/required/kirbyplants/random,
+/obj/item/kirbyplants/random,
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable{
 	icon_state = "0-2"
@@ -2859,7 +2859,10 @@
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/ship/command,
+/obj/machinery/door/airlock/ship/command{
+	req_one_access_txt = "19";
+	security_level = 6
+	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating/rusty_techgrid,
@@ -3095,7 +3098,7 @@
 /turf/open/floor/carpet/black,
 /area/crew_quarters/dorms)
 "oK" = (
-/obj/item/twohanded/required/kirbyplants/random,
+/obj/item/kirbyplants/random,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/dorms)
 "oP" = (
@@ -4292,7 +4295,7 @@
 /area/maintenance/nsv/deck1/port)
 "uC" = (
 /obj/structure/table/reinforced,
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-26";
 	pixel_y = 13
 	},
@@ -5343,7 +5346,8 @@
 "zg" = (
 /obj/machinery/door/airlock/ship/command{
 	dir = 4;
-	req_one_access_txt = "19"
+	req_one_access_txt = "19";
+	security_level = 6
 	},
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -6222,6 +6226,7 @@
 /obj/machinery/light/small,
 /obj/item/relic,
 /obj/structure/closet/crate,
+/obj/item/slime_extract/grey,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "DV" = (
@@ -6547,7 +6552,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/storage/tech)
 "Fu" = (
-/obj/item/twohanded/required/kirbyplants/random,
+/obj/item/kirbyplants/random,
 /obj/machinery/light{
 	color = "#c1e1ff"
 	},
@@ -6893,7 +6898,8 @@
 /obj/machinery/door/airlock/ship/command{
 	dir = 4;
 	name = "Officer's Locker Room";
-	req_one_access_txt = "20;30;40;56;57;58;70"
+	req_one_access_txt = "20;30;40;56;57;58;70";
+	security_level = 6
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -7567,7 +7573,9 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/vault/ship{
-	dir = 4
+	dir = 4;
+	name = "Records Room";
+	req_access_txt = "19;12"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/records)
@@ -7877,7 +7885,7 @@
 /area/tcommsat/computer)
 "Lc" = (
 /obj/structure/table/reinforced,
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-32";
 	pixel_y = 11
 	},
@@ -8599,7 +8607,8 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/ship/command{
 	name = "Captain's Quarters";
-	req_one_access_txt = "20"
+	req_one_access_txt = "20";
+	security_level = 6
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/lattice/catwalk/over/ship,
@@ -9351,7 +9360,7 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "QO" = (
-/obj/structure/overmap/fighter/dropship/sabre{
+/obj/structure/overmap/small_craft/transport/sabre{
 	angle = 90
 	},
 /turf/open/floor/monotile/dark/airless,
@@ -9541,7 +9550,8 @@
 "RF" = (
 /obj/machinery/door/airlock/ship/command{
 	dir = 4;
-	req_one_access_txt = "19"
+	req_one_access_txt = "19";
+	security_level = 6
 	},
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -10926,7 +10936,8 @@
 /obj/machinery/door/airlock/ship/command{
 	dir = 4;
 	name = "Officer's Observation Lounge";
-	req_one_access_txt = "20;30;40;56;57;58;70"
+	req_one_access_txt = "20;30;40;56;57;58;70";
+	security_level = 6
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{

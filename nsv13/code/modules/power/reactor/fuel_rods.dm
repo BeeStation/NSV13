@@ -23,7 +23,7 @@
 /obj/item/fuel_rod/Initialize()
 	. = ..()
 	time_created = world.time
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 	AddComponent(/datum/component/radioactive, rad_strength, src) // This should be temporary for it won't make rads go lower than 350
 	if(process)
 		START_PROCESSING(SSobj, src)

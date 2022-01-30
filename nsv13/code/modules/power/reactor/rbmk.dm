@@ -81,8 +81,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 			affecting += L
 	for(var/mob/L in affecting)
 		if(L.client && L.client.prefs.toggles & SOUND_SHIP_AMBIENCE && L.client?.last_ambience != ambient_buzz)
-			L.client.ambient_buzz_playing = ambient_buzz
-			SEND_SOUND(L, sound(ambient_buzz, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_BUZZ))
+			L.client.buzz_playing = ambient_buzz
+			SEND_SOUND(L, sound(ambient_buzz, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_BUZZ))
 			L.client.last_ambience = ambient_buzz
 	return TRUE
 
@@ -280,33 +280,33 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	gas_absorption_effectiveness = gas_absorption_constant
 	//Next up, handle moderators!
 	if(moderator_input.total_moles() >= minimum_coolant_level)
-		var/total_fuel_moles = moderator_input.get_moles(/datum/gas/plasma) + (moderator_input.get_moles(/datum/gas/constricted_plasma)*2)+ (moderator_input.get_moles(/datum/gas/tritium)*10) //Constricted plasma is 50% more efficient as fuel than plasma, but is harder to produce
-		var/power_modifier = max((moderator_input.get_moles(/datum/gas/oxygen) / moderator_input.total_moles() * 10), 1) //You can never have negative IPM. For now.
+		var/total_fuel_moles = moderator_input.get_moles(GAS_PLASMA) + (moderator_input.get_moles(GAS_CONSTRICTED_PLASMA)*2)+ (moderator_input.get_moles(GAS_TRITIUM)*10) //Constricted plasma is 50% more efficient as fuel than plasma, but is harder to produce
+		var/power_modifier = max((moderator_input.get_moles(GAS_O2) / moderator_input.total_moles() * 10), 1) //You can never have negative IPM. For now.
 		if(total_fuel_moles >= minimum_coolant_level) //You at least need SOME fuel.
 			var/power_produced = max((total_fuel_moles / moderator_input.total_moles() * 10), 1)
 			last_power_produced = max(0,((power_produced*power_modifier)*moderator_input.total_moles()))
-			last_power_produced *= (power/100) //Aaaand here comes the cap. Hotter reactor => more power.
+			last_power_produced *= (max(0,power)/100) //Aaaand here comes the cap. Hotter reactor => more power.
 			last_power_produced *= base_power_modifier //Finally, we turn it into actual usable numbers.
-			radioactivity_spice_multiplier += moderator_input.get_moles(/datum/gas/tritium) / 5 //Chernobyl 2.
+			radioactivity_spice_multiplier += moderator_input.get_moles(GAS_TRITIUM) / 5 //Chernobyl 2.
 			var/turf/T = get_turf(src)
 			if(power >= 20)
-				coolant_output.adjust_moles(/datum/gas/nucleium, total_fuel_moles/20) //Shove out nucleium into the air when it's fuelled. You need to filter this off, or you're gonna have a bad time.
+				coolant_output.adjust_moles(GAS_NUCLEIUM, total_fuel_moles/20) //Shove out nucleium into the air when it's fuelled. You need to filter this off, or you're gonna have a bad time.
 			var/obj/structure/cable/C = T.get_cable_node()
 			if(!C?.powernet)
 				return
 			else
 				C.powernet.newavail += last_power_produced
-		var/total_control_moles = moderator_input.get_moles(/datum/gas/nitrogen) + (moderator_input.get_moles(/datum/gas/carbon_dioxide)*2) + (moderator_input.get_moles(/datum/gas/pluoxium)*3) //N2 helps you control the reaction at the cost of making it absolutely blast you with rads. Pluoxium has the same effect but without the rads!
+		var/total_control_moles = moderator_input.get_moles(GAS_N2) + (moderator_input.get_moles(GAS_CO2)*2) + (moderator_input.get_moles(GAS_PLUOXIUM)*3) //N2 helps you control the reaction at the cost of making it absolutely blast you with rads. Pluoxium has the same effect but without the rads!
 		if(total_control_moles >= minimum_coolant_level)
 			var/control_bonus = total_control_moles / 250 //1 mol of n2 -> 0.002 bonus control rod effectiveness, if you want a super controlled reaction, you'll have to sacrifice some power.
 			control_rod_effectiveness = initial(control_rod_effectiveness) + control_bonus
-			radioactivity_spice_multiplier += moderator_input.get_moles(/datum/gas/nitrogen) / 25 //An example setup of 50 moles of n2 (for dealing with spent fuel) leaves us with a radioactivity spice multiplier of 3.
-			radioactivity_spice_multiplier += moderator_input.get_moles(/datum/gas/carbon_dioxide) / 12.5
-		var/total_permeability_moles = moderator_input.get_moles(/datum/gas/bz) + (moderator_input.get_moles(/datum/gas/water_vapor)*2) + (moderator_input.get_moles(/datum/gas/hypernoblium)*10)
+			radioactivity_spice_multiplier += moderator_input.get_moles(GAS_N2) / 25 //An example setup of 50 moles of n2 (for dealing with spent fuel) leaves us with a radioactivity spice multiplier of 3.
+			radioactivity_spice_multiplier += moderator_input.get_moles(GAS_CO2) / 12.5
+		var/total_permeability_moles = moderator_input.get_moles(GAS_BZ) + (moderator_input.get_moles(GAS_H2O)*2) + (moderator_input.get_moles(GAS_HYPERNOB)*10)
 		if(total_permeability_moles >= minimum_coolant_level)
 			var/permeability_bonus = total_permeability_moles / 500
 			gas_absorption_effectiveness = gas_absorption_constant + permeability_bonus
-		var/total_degradation_moles = moderator_input.get_moles(/datum/gas/nitryl) //Because it's quite hard to get.
+		var/total_degradation_moles = moderator_input.get_moles(GAS_NITRYL) //Because it's quite hard to get.
 		if(total_degradation_moles >= minimum_coolant_level*0.5) //I'll be nice.
 			depletion_modifier += total_degradation_moles / 15 //Oops! All depletion. This causes your fuel rods to get SPICY.
 			playsound(src, pick('sound/machines/sm/accent/normal/1.ogg','sound/machines/sm/accent/normal/2.ogg','sound/machines/sm/accent/normal/3.ogg','sound/machines/sm/accent/normal/4.ogg','sound/machines/sm/accent/normal/5.ogg'), 100, TRUE)
@@ -530,7 +530,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 
 /obj/item/fuel_rod/Initialize()
 	. = ..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 	AddComponent(/datum/component/radioactive, 350 , src)
 
 //Controlling the reactor.
@@ -574,6 +574,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	if(!ui)
 		ui = new(user, src, "RbmkControlRods")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/reactor/control_rods/ui_act(action, params)
 	if(..())
@@ -614,6 +615,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	if(!ui)
 		ui = new(user, src, "RbmkStats")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/reactor/stats/process()
 	if(world.time >= next_stat_interval)

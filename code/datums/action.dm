@@ -79,6 +79,7 @@
 
 /datum/action/proc/owner_deleted(datum/source)
 	SIGNAL_HANDLER
+
 	Remove(owner)
 
 /datum/action/proc/Remove(mob/M)
@@ -310,16 +311,6 @@
 			name = "Toggle Friendly Fire \[ON\]"
 	..()
 
-/datum/action/item_action/synthswitch
-	name = "Change Synthesizer Instrument"
-	desc = "Change the type of instrument your synthesizer is playing as."
-
-/datum/action/item_action/synthswitch/Trigger()
-	if(istype(target, /obj/item/instrument/piano_synth))
-		var/obj/item/instrument/piano_synth/synth = target
-		return synth.selectInstrument()
-	return ..()
-
 /datum/action/item_action/vortex_recall
 	name = "Vortex Recall"
 	desc = "Recall yourself, and anyone nearby, to an attuned hierophant beacon at any time.<br>If the beacon is still attached, will detach it."
@@ -472,6 +463,10 @@
 		I.interact(usr)
 		return
 	return ..()
+
+/datum/action/item_action/activate_remote_view
+	name = "Activate Remote View"
+	desc = "Activates the Remote View of your spy sunglasses."
 
 /datum/action/item_action/organ_action
 	check_flags = AB_CHECK_CONSCIOUS

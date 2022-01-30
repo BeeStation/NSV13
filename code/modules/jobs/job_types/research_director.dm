@@ -19,12 +19,12 @@
 
 	outfit = /datum/outfit/job/rd
 
-	access = list(ACCESS_RD, ACCESS_HEADS, ACCESS_TOX, ACCESS_GENETICS, ACCESS_MORGUE,
+	access = list(ACCESS_RD, ACCESS_HEADS, ACCESS_TOX, ACCESS_GENETICS, ACCESS_MORGUE, ACCESS_EXPLORATION,
 			            ACCESS_TOX_STORAGE, ACCESS_TELEPORTER, ACCESS_SEC_DOORS, ACCESS_MECH_SCIENCE,
 			            ACCESS_RESEARCH, ACCESS_ROBOTICS, ACCESS_XENOBIOLOGY, ACCESS_AI_UPLOAD,
 			            ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH, ACCESS_GATEWAY, ACCESS_MINERAL_STOREROOM,
 			            ACCESS_TECH_STORAGE, ACCESS_MINISAT, ACCESS_MAINT_TUNNELS, ACCESS_NETWORK, ACCESS_AUX_BASE)
-	minimal_access = list(ACCESS_RD, ACCESS_HEADS, ACCESS_TOX, ACCESS_GENETICS, ACCESS_MORGUE,
+	minimal_access = list(ACCESS_RD, ACCESS_HEADS, ACCESS_TOX, ACCESS_GENETICS, ACCESS_MORGUE, ACCESS_EXPLORATION,
 			            ACCESS_TOX_STORAGE, ACCESS_TELEPORTER, ACCESS_SEC_DOORS, ACCESS_MECH_SCIENCE,
 			            ACCESS_RESEARCH, ACCESS_ROBOTICS, ACCESS_XENOBIOLOGY, ACCESS_AI_UPLOAD,
 			            ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH, ACCESS_GATEWAY, ACCESS_MINERAL_STOREROOM,
@@ -33,12 +33,16 @@
 	paycheck_department = ACCOUNT_SCI
 
 	display_order = JOB_DISPLAY_ORDER_RESEARCH_DIRECTOR
+	departments = DEPARTMENT_SCIENCE | DEPARTMENT_COMMAND
 
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/rd
+	)
 /datum/outfit/job/rd
 	name = "Research Director"
 	jobtype = /datum/job/rd
 
-	id = /obj/item/card/id/silver
+	id = /obj/item/card/id/job/rd
 	belt = /obj/item/pda/heads/rd
 	ears = /obj/item/radio/headset/heads/rd
 	uniform = /obj/item/clothing/under/rank/rnd/research_director

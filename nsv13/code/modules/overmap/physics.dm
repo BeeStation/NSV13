@@ -120,6 +120,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		if(world.time > last_critprocess + 1 SECONDS)
 			last_critprocess = world.time
 			handle_critical_failure_part_1()
+	disruption = max(0, disruption - 1)
 	ai_process()
 	//Atmos stuff, this updates once every tick
 	if(cabin_air && cabin_air.return_volume() > 0)
@@ -407,12 +408,12 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
 	if(layer < other.layer || other.layer > layer)
 		return FALSE
-	if(istype(other, /obj/structure/overmap/fighter))
-		var/obj/structure/overmap/fighter/F = other
+	if(istype(other, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/F = other
 		if(F.docking_act(src))
 			return FALSE
-	if(istype(src, /obj/structure/overmap/fighter))
-		var/obj/structure/overmap/fighter/F = src
+	if(istype(src, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/F = src
 		if(F.docking_act(other))
 			return FALSE
 	//No colliders. But we still get a lot of info anyways!
@@ -503,7 +504,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	other.offset += output
 
 /obj/structure/overmap/Bumped(atom/movable/A)
-	if(brakes || ismob(A) || isovermap(A)) //No :)
+	if(brakes || isovermap(A)) //No :)
 		return FALSE
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	if(A.dir & NORTH)
@@ -601,7 +602,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	var/turf/curloc = source.get_center()
 	var/turf/targloc = istype(target, /obj/structure/overmap) ? target.get_center() : get_turf(target)
 	trajectory_ignore_forcemove = TRUE
-	forceMove(curloc)
+	doMove(curloc)
 	trajectory_ignore_forcemove = FALSE
 	starting = curloc
 	original = target
