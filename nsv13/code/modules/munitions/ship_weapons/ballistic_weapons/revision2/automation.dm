@@ -459,6 +459,6 @@
 	else 
 		jammed = TRUE // if it's at 0, jam it.
 		durability = 0 // in case an admin plays with this and doesn't know how to use it, we reset it here for good measure.
-	jamchance = CLAMP(-10*log(10, durability/80), 0, 100) //logarithmic function; at 80 it starts increasing from 0
+	jamchance = CLAMP(-5*log(5, durability/50), 0, 100) //logarithmic function; at 50 it starts increasing from 0
 	if(prob(jamchance))
 		jammed = TRUE
