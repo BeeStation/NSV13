@@ -643,11 +643,16 @@
 	dir = 1
 	},
 /obj/machinery/button/door{
-	id = "atlas_xo";
-	name = "courtroom_shutter";
-	pixel_x = -32
+	id = "atlas_xo_window";
+	name = "XO's Window Shutters";
+	pixel_x = -25
 	},
 /obj/machinery/light_switch/south,
+/obj/machinery/button/door{
+	id = "atlas_xo";
+	name = "courtroom_shutter";
+	pixel_x = -38
+	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/xo)
 "dn" = (
@@ -6218,6 +6223,11 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
+/obj/machinery/door/poddoor/shutters/ship{
+	dir = 4;
+	id = "atlas_xo_window";
+	name = "XO's Window Shutters"
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/xo)
 "EA" = (
@@ -9952,6 +9962,11 @@
 	},
 /obj/structure/cable{
 	icon_state = "2-8"
+	},
+/obj/machinery/door/poddoor/shutters/ship{
+	dir = 4;
+	id = "atlas_xo_window";
+	name = "XO's Window Shutters"
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/xo)
