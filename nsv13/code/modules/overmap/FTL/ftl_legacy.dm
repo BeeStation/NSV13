@@ -1,5 +1,3 @@
-
-
 // Old, simplified magic FTL computers.
 // Mappers should use modular drives instead where possible
 // Kept in the game for the sake of compatability and smaller ships.
@@ -304,3 +302,6 @@ A way for syndies to track where the player ship is going in advance, so they ca
 			START_PROCESSING(SSmachines, src)
 		return TRUE
 	return FALSE
+
+/obj/machinery/computer/ship/ftl_computer/proc/get_jump_speed()
+	return jump_speed_factor

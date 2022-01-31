@@ -26,7 +26,7 @@
 	var/list/pylons = list() //connected pylons
 	var/min_pylons = 1 // min active pylons required to spool drive
 	var/active = FALSE // Whether or not we should be charging
-	var/progress = 0 // charge progress, 0-req_charge
+	var/progress = 0 // charge progress, 0 to req_charge
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/req_charge = 100
 	var/cooldown = FALSE
@@ -36,13 +36,14 @@
 	var/radio_channel = "Engineering"
 	var/max_range = 30000
 	var/jump_speed_factor = 2 //How quickly do we jump? Larger is faster.
-	var/jump_speed_pylon = 1 // multiplier for jump_speed_factor, increases with each active pylon
+	var/jump_speed_pylon = 1 // Adds this value onto jump_speed_factor for every active pylon
 	var/ftl_startup_time = 32.3 SECONDS // How long does it take to iniate the jump.
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long_thirring.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
 	var/datum/looping_sound/advanced/ftl_drive/soundloop
-	var/auto_spool = FALSE
+	var/auto_spool = FALSE // whether the drive is capable of auto spooling or not
+	var/auto_spool_enabled = FALSE // whether the drive is set to auto spool or not
 	var/lockout = FALSE //Used for our end round shenanigains
 
 	var/ftl_state = FTL_STATE_IDLE
@@ -77,6 +78,14 @@
 			P.ftl_drive = src
 
 	return length(pylons)
+
+/// Returns the amount of *active* pylons connected to the drive
+/obj/machinery/computer/ship/ftl_core/proc/get_active_pylons()
+	. = 0
+	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
+		if(P.pylon_state != PYLON_STATE_ACTIVE)
+			continue
+		.++
 
 /obj/machinery/computer/ship/ftl_core/proc/check_pylons()
 	if(!length(pylons) && !get_pylons())
@@ -116,7 +125,7 @@
 	visible_message("<span class='warning'>Insufficient active drive pylons.</span>")
 
 
-/obj/machinery/computer/ship/ftl_core/process()
+/obj/machinery/computer/ship/ftl_core/process(delta_time)
 	if(!active || !is_operational() || !anchored || !length(pylons))
 		depower()
 		return
@@ -125,7 +134,7 @@
 	var/active_charge = FALSE
 	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
 		if(P.pylon_state == PYLON_STATE_ACTIVE)
-			progress = min(progress + charge_rate, req_charge)
+			progress = min(progress + round(charge_rate * delta_time, 0.1), req_charge)
 			active_charge = TRUE
 			if(prob(30))
 				INVOKE_ASYNC(src, .proc/discharge_pylon, P)
@@ -143,7 +152,7 @@
 	if(length(pylons) > 1)
 		target = pick(pylons - P)
 	else
-		target = locate(x + rand(-1, 1), y + 1, z) // Offset to make it hit the ring, not the console
+		target = locate(x + rand(-1, 1), y + 1, z) // Offset to make it hit the "ring" of the sprite, not the console
 	sleep(20)
 	P.Beam(target, icon_state = "lightning[rand(1, 12)]", time = 10, maxdistance = 10)
 	playsound(P, 'sound/magic/lightningshock.ogg', 10, 1, 1)
@@ -209,7 +218,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 
 /obj/machinery/computer/ship/ftl_core/Initialize()
 	. = ..()
-	start_monitoring(get_overmap()) //I'm a lazy hack that can't actually be assed to deal with an if statement in react right now.
+	start_monitoring(get_overmap())
 
 /obj/machinery/computer/ship/ftl_core/syndicate/Initialize()
 	. = ..()
@@ -290,6 +299,11 @@ A way for syndies to track where the player ship is going in advance, so they ca
 			else
 				spoolup()
 			. = TRUE
+		if("toggle_autospool")
+			if(!auto_spool)
+				return
+			auto_spool_enabled = !auto_spool_enabled
+			. = TRUE
 
 /obj/machinery/computer/ship/ftl_core/ui_data(mob/user)
 	var/list/data = list()
@@ -300,7 +314,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	data["jumping"] = ftl_state == FTL_STATE_JUMPING
 	var/list/pylons_info = list()
 	var/count = 0
-	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in pylons)
+	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
 		count++
 		var/list/pylon_info = list()
 		pylon_info["name"] = "Pylon [count]"
@@ -311,6 +325,8 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		pylon_info["draw"] = DisplayPower(P.power_draw)
 		pylons_info[++pylons_info.len] = pylon_info // probably could have a better var name for this one
 	data["pylons"] = pylons_info
+	data["can_auto_spool"] = auto_spool
+	data["auto_spool_enabled"] = auto_spool_enabled
 	return data
 
 /obj/machinery/computer/ship/ftl_core/proc/jump(datum/star_system/target_system, force=FALSE)
@@ -353,7 +369,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
 			P.set_state(PYLON_STATE_SHUTDOWN)
 	cooldown = TRUE
-	addtimer(CALLBACK(src, .proc/post_cooldown, auto_spool), FTL_COOLDOWN)
+	addtimer(CALLBACK(src, .proc/post_cooldown, auto_spool_enabled), FTL_COOLDOWN)
 	STOP_PROCESSING(SSmachines, src)
 	return TRUE
 
@@ -363,6 +379,9 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	if(spool)
 		active = TRUE
 		spoolup()
+
+/obj/machinery/computer/ship/ftl_core/proc/get_jump_speed()
+	return jump_speed_factor * (jump_speed_pylon * get_active_pylons())
 
 #undef FTL_COOLDOWN
 #undef MAX_PYLON_DISTANCE

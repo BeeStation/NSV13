@@ -64,6 +64,11 @@ export const FTLComputerModular = (props, context) => {
               disabled={data.jumping || !data.pylons.length}
               content={data.progress ? "Shutdown Drive" : "Spool Drive"}
               onClick={() => act('toggle_power')} />
+            <Button
+              color={!!data.auto_spool_enabled && 'green'}
+              disabled={!data.can_auto_spool}
+              content={data.auto_spool_enabled ? "Disable Autospool" : "Enable Autospool"}
+              onClick={() => act('toggle_autospool')} />
           </Section>
           <Section title="FTL Spoolup:">
             <ProgressBar

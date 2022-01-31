@@ -30,9 +30,10 @@
 	var/mutable_appearance/pylon_shield
 	var/pylon_state = PYLON_STATE_OFFLINE
 	var/capacitor = 0 // capacitors charged
-	var/mol_per_capacitor = 10
-	var/max_charge_rate = 1 // amount of capacitors that can be charged per tick
-	var/req_capacitor = 5 // amount of capacitors required to be charged for the pylon to be active
+	var/mol_per_capacitor = 10 // moles of nucleium required for each capacitor
+	var/active_mol_use = 0.2 // moles of nucleium used per tick once the pylon have been activated
+	var/max_charge_rate = 1 // max amount of capacitors that can be charged per tick
+	var/req_capacitor = 5 // amount of capacitors required to be charged for the pylon to activate
 	var/power_draw = 0
 	var/datum/gas_mixture/air_contents
 	var/obj/structure/cable/cable
@@ -60,6 +61,11 @@
 	switch(pylon_state)
 		if(PYLON_STATE_ACTIVE)
 			power_draw = round(power_draw * PYLON_ACTIVE_EXPONENT + 300) // Active pylons slowly but exponentially require more charge to stay stable. Don't leave them on when you don't need to
+			if(input.get_moles(GAS_NUCLEIUM) < active_mol_use)
+				say("Insufficient FTL fuel, spooling down.")
+				set_state(PYLON_STATE_SHUTDOWN)
+				return
+			input.adjust_moles(GAS_NUCLEIUM, -active_mol_use)
 
 		if(PYLON_STATE_STARTING) //pop the lid
 			power_draw = 5000
@@ -78,7 +84,7 @@
 				set_state(PYLON_STATE_SHUTDOWN)
 				return
 
-			input.adjust_moles(/datum/gas/nucleium, -0.25)
+			input.adjust_moles(GAS_NUCLEIUM, -0.25)
 			if(prob(20))
 				var/datum/effect_system/spark_spread/S = new /datum/effect_system/spark_spread
 				S.set_up(6, 0, src)
@@ -198,10 +204,10 @@
 //		tesla_zap(src, 2, 1000)
 	var/input_fuel = min(input.get_moles(GAS_NUCLEIUM), max_charge_rate * mol_per_capacitor)
 	capacitor += min(input_fuel / mol_per_capacitor, req_capacitor - capacitor)
-	input.adjust_moles(/datum/gas/nucleium, -input_fuel)
+	input.adjust_moles(GAS_NUCLEIUM, -input_fuel)
 	var/datum/gas_mixture/waste = new
-	waste.adjust_moles(/datum/gas/plasma, input_fuel / 3)
-	waste.adjust_moles(/datum/gas/nucleium, input_fuel / 4)
+	waste.adjust_moles(GAS_PLASMA, input_fuel / 3)
+	waste.adjust_moles(GAS_NUCLEIUM, input_fuel / 4)
 	var/heat_increase = WASTE_GAS_HEAT + round(power_draw / 1000)
 	if(shielded) // Closing shields greatly increases internal temperture gain
 		heat_increase *= 2
@@ -296,7 +302,7 @@
 /obj/machinery/atmospherics/components/binary/drive_pylon/hugbox/process_atmos()
 	if(autoadd_input)
 		var/datum/gas_mixture/input = airs[1]
-		input.set_moles(/datum/gas/nucleium, 100)
+		input.set_moles(GAS_NUCLEIUM, 100)
 	if(autoclear_waste)
 		var/datum/gas_mixture/output = airs[2]
 		output.clear()
