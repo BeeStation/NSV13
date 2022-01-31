@@ -613,6 +613,10 @@
 /obj/effect/landmark/xeno_spawn,
 /turf/template_noop,
 /area/maintenance/nsv/deck2/port)
+"cn" = (
+/obj/machinery/light_switch/west,
+/turf/open/floor/plasteel/grid/techfloor,
+/area/maintenance/nsv/deck2/starboard)
 "cp" = (
 /obj/structure/cable{
 	icon_state = "0-4"
@@ -724,6 +728,12 @@
 /obj/effect/turf_decal/pool,
 /obj/machinery/power/port_gen/pacman,
 /obj/item/stack/cable_coil,
+/obj/machinery/requests_console{
+	department = Engineering;
+	departmentType = 4;
+	name = "Engineering RC";
+	pixel_y = 26
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/engine_room)
 "cD" = (
@@ -738,15 +748,11 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 8
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 9
-	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/security/brig)
 "cH" = (
@@ -769,6 +775,12 @@
 /obj/machinery/firealarm/directional/north,
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/security/brig)
@@ -1939,6 +1951,10 @@
 "gB" = (
 /obj/machinery/power/deck_relay,
 /obj/structure/cable,
+/obj/machinery/light_switch/west,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 5
+	},
 /turf/open/floor/plating{
 	icon_state = "platingdmg1"
 	},
@@ -1987,6 +2003,12 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/security/brig)
+"gK" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 10
+	},
+/turf/closed/wall/r_wall,
+/area/maintenance/nsv/deck2/port)
 "gO" = (
 /obj/structure/sign/ship/securearea,
 /turf/closed/wall/r_wall,
@@ -1997,6 +2019,12 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
@@ -2268,6 +2296,12 @@
 /obj/effect/decal/remains/human{
 	name = "Joe Czanek"
 	},
+/obj/machinery/requests_console{
+	department = "Custodial Closet";
+	departmentType = 2;
+	name = "Custodial RC";
+	pixel_x = -32
+	},
 /turf/open/floor/plasteel/grid/lino,
 /area/janitor)
 "hE" = (
@@ -2311,6 +2345,12 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/ai_monitored/security/armory)
@@ -2509,6 +2549,10 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
+"iF" = (
+/obj/machinery/light_switch/south,
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "iH" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -2697,6 +2741,14 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/dark,
 /area/security/brig)
+"jn" = (
+/obj/machinery/requests_console{
+	department = "Cargo Bay";
+	departmentType = 2;
+	pixel_x = 32
+	},
+/turf/open/floor/monotile/steel,
+/area/quartermaster/storage)
 "jo" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -3319,6 +3371,9 @@
 /area/hallway/nsv/deck2/primary)
 "kZ" = (
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
+/obj/machinery/airalarm/server{
+	pixel_y = 23
+	},
 /turf/open/floor/plasteel/techmaint{
 	initial_gas_mix = "TEMP=2.7"
 	},
@@ -4351,6 +4406,7 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "ox" = (
@@ -4471,11 +4527,17 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 6
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 9
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "oS" = (
 /obj/item/organ/body_egg/alien_embryo{
 	layer = 2.35
+	},
+/obj/machinery/atmospherics/pipe/simple/general/hidden/layer1{
+	dir = 4
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/abandoned_gambling_den{
@@ -4821,6 +4883,7 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "pO" = (
+/obj/machinery/light_switch/south,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "pP" = (
@@ -5067,6 +5130,12 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/orange,
+/obj/machinery/requests_console{
+	department = "Port Gauss Bay";
+	departmentType = 5;
+	name = "Port Gauss Bay RC";
+	pixel_y = 26
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "qG" = (
@@ -5890,12 +5959,6 @@
 /turf/open/floor/plasteel/chapel,
 /area/chapel/main)
 "tx" = (
-/obj/machinery/requests_console{
-	department = "Research";
-	departmentType = 6;
-	name = "Research requests console";
-	pixel_x = 32
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
@@ -6207,12 +6270,12 @@
 /turf/open/floor/monotile/dark,
 /area/engine/engine_room)
 "uC" = (
-/obj/machinery/atmospherics/pipe/simple/general/hidden/layer1{
-	dir = 4
-	},
 /obj/machinery/light/small{
 	brightness = 3;
 	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "0-8"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/science)
@@ -6595,6 +6658,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/light_switch/south,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "vV" = (
@@ -6933,6 +6997,19 @@
 /obj/item/trash/candy,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
+"xn" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/power/floodlight,
+/obj/machinery/requests_console{
+	department = "Hangar";
+	departmentType = 5;
+	name = "Hangar RC";
+	pixel_y = 26
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/nsv/hanger/notkmcstupidhanger)
 "xp" = (
 /obj/machinery/rnd/production/circuit_imprinter/department/science,
 /turf/open/floor/plasteel/techmaint,
@@ -7132,7 +7209,6 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "xZ" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/missile_builder/screwdriver{
 	dir = 1
@@ -7455,6 +7531,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/general/hidden/layer1,
 /turf/open/floor/plating,
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Abandoned Bar"
@@ -7898,6 +7975,12 @@
 /obj/structure/rack,
 /obj/machinery/gauss_dispenser,
 /obj/effect/turf_decal/tile/ship/half/orange,
+/obj/machinery/requests_console{
+	department = "Starboard Gauss Bay";
+	departmentType = 5;
+	name = "Starboard Gauss Bay RC";
+	pixel_x = -32
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss/battery/deck2/starboard)
 "Bw" = (
@@ -7919,6 +8002,7 @@
 /obj/machinery/computer/cargo{
 	dir = 4
 	},
+/obj/machinery/light_switch/west,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/quartermaster/qm)
 "By" = (
@@ -8467,6 +8551,10 @@
 /obj/item/storage/box/lights/mixed,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
+"DE" = (
+/obj/machinery/light_switch/west,
+/turf/open/floor/monotile/dark/airless,
+/area/nsv/hanger/notkmcstupidhanger)
 "DG" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -8476,6 +8564,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"DI" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 6
+	},
+/turf/closed/wall/r_wall,
+/area/maintenance/nsv/deck2/port)
 "DM" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -8685,6 +8779,12 @@
 	},
 /obj/item/megaphone/cargo,
 /obj/item/clothing/ears/earmuffs,
+/obj/machinery/requests_console{
+	department = "Quartermaster's Office";
+	departmentType = 2;
+	name = "Quartermaster's Office RC";
+	pixel_x = 32
+	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/quartermaster/qm)
 "ER" = (
@@ -8814,6 +8914,10 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
+"Fv" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/turf/open/floor/monotile/steel,
+/area/ai_monitored/security/armory)
 "Fx" = (
 /obj/machinery/door/airlock/highsecurity/ship{
 	name = "Weapons Bay Maintenance";
@@ -8834,12 +8938,16 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "Fy" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/conveyor/slow{
 	dir = 4;
 	id = "atlas_torp"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 5
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "FA" = (
@@ -9103,6 +9211,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 5
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "Gt" = (
@@ -9252,6 +9363,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/light_switch/west,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "GT" = (
@@ -9677,6 +9789,12 @@
 /obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/engine,
 /area/quartermaster/storage)
+"IO" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 10
+	},
+/turf/closed/wall/r_wall,
+/area/maintenance/nsv/deck2/port)
 "IQ" = (
 /turf/open/floor/plating{
 	icon_state = "platingdmg1"
@@ -9748,6 +9866,12 @@
 	verted = -1
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 10
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Jh" = (
@@ -9947,6 +10071,23 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/nsv/hanger/notkmcstupidhanger)
+"JM" = (
+/obj/effect/turf_decal/tile/ship/half/red{
+	dir = 8
+	},
+/obj/structure/closet/secure_closet/genpop,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/item/poster/random_contraband,
+/obj/item/poster/random_contraband,
+/obj/item/clothing/under/rank/prisoner,
+/obj/machinery/requests_console{
+	department = "Brig";
+	departmentType = 5;
+	name = "Brig RC";
+	pixel_y = -32
+	},
+/turf/open/floor/monotile/steel,
+/area/security/brig)
 "JN" = (
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/cable{
@@ -10471,6 +10612,12 @@
 /obj/effect/turf_decal/tile/ship/half/yellow{
 	dir = 1
 	},
+/obj/machinery/requests_console{
+	department = "Deck 2 Primary Hallway";
+	departmentType = 2;
+	name = "Deck 2 Primary Hallway RC";
+	pixel_y = 26
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "LC" = (
@@ -10531,6 +10678,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "LL" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/plating{
 	icon_state = "platingdmg2"
 	},
@@ -10716,6 +10864,9 @@
 /obj/structure/cable,
 /obj/structure/closet/crate,
 /obj/effect/spawner/lootdrop/maintenance/three,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
+	dir = 9
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "Mt" = (
@@ -10768,6 +10919,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/light_switch/west,
 /turf/open/floor/wood,
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Abandoned Bar"
@@ -10837,9 +10989,7 @@
 /turf/closed/wall/r_wall,
 /area/engine/engine_room)
 "MP" = (
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "MR" = (
@@ -12153,6 +12303,7 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 10
 	},
+/obj/machinery/light_switch/east,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "Rv" = (
@@ -12580,6 +12731,7 @@
 /area/hallway/nsv/deck2/primary)
 "Tb" = (
 /obj/machinery/rnd/destructive_analyzer,
+/obj/machinery/light_switch/west,
 /turf/open/floor/plasteel/techmaint,
 /area/science)
 "Tc" = (
@@ -12751,6 +12903,12 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 9
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 8
+	},
 /turf/open/floor/monotile/steel,
 /area/ai_monitored/security/armory)
 "TB" = (
@@ -12897,6 +13055,12 @@
 /obj/item/gun/ballistic/automatic/mp_smg,
 /obj/item/gun/ballistic/automatic/mp_smg,
 /obj/item/gun/ballistic/automatic/mp_smg,
+/obj/machinery/requests_console{
+	department = "Armory";
+	departmentType = 5;
+	name = "Armory RC";
+	pixel_y = 26
+	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "Ua" = (
@@ -12936,6 +13100,16 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/monotile/dark,
 /area/security/brig)
+"Uj" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/port)
 "Ul" = (
 /obj/structure/closet/secure_closet/genpop,
 /obj/structure/window/reinforced{
@@ -13510,6 +13684,13 @@
 	},
 /turf/open/floor/engine,
 /area/engine/engine_room)
+"Wg" = (
+/obj/effect/turf_decal/tile/ship/half/orange{
+	dir = 4
+	},
+/obj/machinery/light_switch/west,
+/turf/open/floor/monotile/steel,
+/area/nsv/weapons/gauss/battery/deck2/starboard)
 "Wk" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /obj/machinery/camera/autoname,
@@ -13569,10 +13750,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/airalarm{
-	dir = 1;
-	pixel_y = -22
-	},
+/obj/machinery/airalarm/directional/south,
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "Ww" = (
@@ -13766,6 +13944,7 @@
 /obj/effect/turf_decal/tile/ship/half/red{
 	dir = 4
 	},
+/obj/machinery/light_switch/west,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "Xp" = (
@@ -14126,6 +14305,12 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
+"YG" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden{
+	dir = 6
+	},
+/turf/closed/wall/r_wall,
+/area/maintenance/nsv/deck2/port)
 "YH" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Pressurization Chamber";
@@ -14336,6 +14521,7 @@
 	icon_state = "0-2"
 	},
 /obj/machinery/power/apc/auto_name/north,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "Zr" = (
@@ -44181,7 +44367,7 @@ an
 kH
 bh
 wV
-kH
+YG
 Zp
 ov
 gB
@@ -44438,7 +44624,7 @@ an
 kH
 bh
 Yt
-kH
+IO
 MV
 fD
 oR
@@ -44695,7 +44881,7 @@ an
 kH
 ah
 dM
-kH
+DI
 PL
 Hu
 Gs
@@ -44952,9 +45138,9 @@ vj
 kH
 bh
 iw
-kH
+gK
 LL
-fz
+Uj
 Ms
 wd
 Jf
@@ -45229,7 +45415,7 @@ cf
 SK
 RN
 MR
-bO
+iF
 iY
 Jz
 un
@@ -45749,7 +45935,7 @@ Jz
 un
 Ef
 qI
-hP
+cn
 hP
 sj
 Ie
@@ -47034,7 +47220,7 @@ Jz
 un
 ut
 Eo
-Pg
+Wg
 Pg
 Eo
 Qk
@@ -49578,7 +49764,7 @@ LM
 AI
 NV
 qv
-dJ
+JM
 WN
 mg
 Kv
@@ -51374,7 +51560,7 @@ iV
 VI
 kb
 za
-za
+Fv
 Tz
 OQ
 VI
@@ -51414,7 +51600,7 @@ tR
 Ox
 Hr
 fE
-mC
+jn
 Rw
 Yl
 mC
@@ -55761,7 +55947,7 @@ eY
 wE
 Uc
 eY
-JZ
+xn
 PS
 JZ
 eY
@@ -56271,7 +56457,7 @@ iV
 Zd
 BZ
 BN
-Kl
+DE
 RH
 Jn
 Vd
@@ -56281,7 +56467,7 @@ Jc
 Vd
 Og
 Kl
-Kl
+DE
 BN
 TE
 CH
