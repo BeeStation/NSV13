@@ -61,7 +61,7 @@ export const FTLComputerModular = (props, context) => {
             title="Manifold controls:">
             <Button
               color={!!data.powered && 'green'}
-              disabled={data.jumping || data.pylons.length}
+              disabled={data.jumping || !data.pylons.length}
               content={data.progress ? "Shutdown Drive" : "Spool Drive"}
               onClick={() => act('toggle_power')} />
           </Section>

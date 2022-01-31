@@ -63,6 +63,7 @@
 	QDEL_NULL(radio)
 	return ..()
 
+/// Links with available pylons and returns number of connections
 /obj/machinery/computer/ship/ftl_core/proc/get_pylons()
 	if(length(pylons))
 		for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
@@ -75,11 +76,12 @@
 			pylons += P
 			P.ftl_drive = src
 
+	return length(pylons)
+
 /obj/machinery/computer/ship/ftl_core/proc/check_pylons()
 	if(!length(pylons) && !get_pylons())
 		return FALSE
 	return TRUE
-
 
 /obj/machinery/computer/ship/ftl_core/proc/spoolup()
 	if(!is_operational() || !anchored)

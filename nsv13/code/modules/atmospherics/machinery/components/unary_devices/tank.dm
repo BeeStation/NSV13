@@ -5,4 +5,4 @@
 /obj/machinery/atmospherics/components/unary/tank/nucleium/New()
 	..()
 	var/datum/gas_mixture/air_contents = airs[1]
-	air_contents.set_moles(/datum/gas/nucleium, AIR_CONTENTS)
+	air_contents.set_moles(GAS_NUCLEIUM, AIR_CONTENTS)
