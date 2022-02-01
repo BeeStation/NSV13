@@ -45,7 +45,7 @@
 	distance += z_dist
 
 	if(max_distance && distance > max_distance)
-		return
+		return FALSE
 
 	if(max_distance) //If theres no max_distance we're not a 3D sound, so no falloff.
 		S.volume -= (max(distance - falloff_distance, 0) ** (1 / falloff_exponent)) / ((max(max_distance, distance) - falloff_distance) ** (1 / falloff_exponent)) * S.volume
@@ -69,10 +69,11 @@
 
 		S.volume *= pressure_factor
 		//End Atmosphere affecting sound
+	S.status |= SOUND_UPDATE
 	if(S.volume <= 0)
 		SEND_SOUND(src, null)
-		return
-	S.status |= SOUND_UPDATE
+		return FALSE
 	SEND_SOUND(src, S)
+	return TRUE
 
 

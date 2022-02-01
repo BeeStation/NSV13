@@ -4,17 +4,27 @@
 
 /// More customizable version of looping sounds. Subtype of the original for the sake of modularity and performance (advanced sounds have more overhead, only use when needed)
 /datum/looping_sound/advanced
-	var/channel
+	var/channel // Keep in mind most advanced procs will not work without a designated channel
+	var/can_process = FALSE
 	// Associated list, each output atom contains a list of listeners and each listener contains their coordinates.
 	// Structure:  output_atom = list( L1 = list(L1.x, L1.y), L2 = list(L2.x, L2.y), etc )
 	var/list/listeners = list()
 	var/sound/current_sound
 
-/datum/looping_sound/advanced/New(list/_output_atoms=list(), start_immediately=FALSE, _direct=FALSE, _channel, process=FALSE)
+/datum/looping_sound/advanced/New(list/_output_atoms=list(), start_immediately=FALSE, _direct=FALSE, _channel, _process=FALSE)
 	channel = _channel
-	if(process)
-		START_PROCESSING(SSprocessing, src)
+	can_process = _process
 	..()
+
+/datum/looping_sound/advanced/on_start()
+	..()
+	if(can_process)
+		START_PROCESSING(SSprocessing, src)
+
+/datum/looping_sound/advanced/on_stop()
+	..()
+	if(!length(output_atoms))
+		STOP_PROCESSING(SSprocessing, src)
 
 /datum/looping_sound/advanced/play(soundfile)
 	var/sound/S = sound(soundfile)
@@ -40,9 +50,15 @@
 
 /// Similar to stop, but cuts off any currently playing sounds, requires a channel to be selected
 /datum/looping_sound/advanced/proc/interrupt(atom/remove_thing)
-	for(var/atom/output as() in listeners)
-		for(var/atom/A in listeners[output])
-			SEND_SOUND(A, sound(null, repeat = 0, wait = 0, channel = src.channel))
+	if(remove_thing)
+		for(var/atom/A as() in listeners[remove_thing])
+			SEND_SOUND(A, sound(null, 0, 0, src.channel))
+		listeners -= remove_thing
+	else
+		for(var/atom/output as() in listeners)
+			for(var/atom/A as() in listeners[output])
+				SEND_SOUND(A, sound(null, 0, 0, src.channel))
+			listeners[output] = list()
 	stop(remove_thing)
 
 // deviation_tolerance - How many tiles the listener needs to move to be eligible for recalculating (0 = any movement, 1 = two tiles, etc)
@@ -59,4 +75,5 @@
 				var/coords = listener_locations[output][M]
 				if(abs((coords[1] + coords[2]) - (M.x + M.y)) =< deviation_tolerance)
 					return
-			M.recalculate_sound_volume(output, current_sound, volume)
+			if(!M.recalculate_sound_volume(output, current_sound, volume))
+				listeners[output] -= M
