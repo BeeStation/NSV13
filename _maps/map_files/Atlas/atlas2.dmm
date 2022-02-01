@@ -326,12 +326,6 @@
 /obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
 	},
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Arrivals Shuttle Dock"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 8
-	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "bK" = (
@@ -663,11 +657,11 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/xo)
 "dn" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "24"
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer1{
+	dir = 8
 	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
 	},
 /turf/open/floor/engine,
 /area/maintenance/nsv/deck1/port)
@@ -2594,6 +2588,18 @@
 /obj/machinery/photocopier,
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
+"lX" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "24"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/maintenance/nsv/deck1/port)
 "lY" = (
 /obj/structure/hull_plate,
 /turf/closed/wall/r_wall,
@@ -3325,6 +3331,7 @@
 /obj/machinery/light/small{
 	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "qe" = (
@@ -3592,11 +3599,8 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/hor)
 "rt" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "24"
-	},
-/obj/machinery/atmospherics/pipe/layer_manifold,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "rv" = (
@@ -3799,11 +3803,15 @@
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/chief)
 "ss" = (
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/advanced_airlock_controller/directional/south,
 /obj/machinery/light/small{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 9
 	},
 /turf/open/floor/engine,
 /area/maintenance/nsv/deck1/port)
@@ -3945,6 +3953,9 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/kitchen)
+"sX" = (
+/turf/open/floor/monotile/steel,
+/area/space)
 "ta" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -4973,9 +4984,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
-/obj/machinery/light/small{
-	dir = 1
-	},
 /obj/machinery/advanced_airlock_controller/directional/south,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
@@ -5203,6 +5211,16 @@
 	},
 /turf/open/floor/plating,
 /area/bridge/cic)
+"zu" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Flight deck access";
+	req_one_access_txt = "69;13"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
+/turf/open/floor/engine,
+/area/hallway/nsv/deck1/hallway)
 "zv" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -5633,8 +5651,12 @@
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/bar/mess_hall)
 "BH" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "24"
+	},
 /obj/machinery/atmospherics/pipe/layer_manifold,
-/turf/closed/wall/r_wall,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "BJ" = (
 /obj/structure/railing/corner{
@@ -6254,16 +6276,14 @@
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck1/hallway)
 "Er" = (
-/obj/docking_port/stationary{
-	dir = 2;
-	dwidth = 2;
-	height = 13;
-	id = "ferry_home";
-	name = "port bay 2";
-	width = 5
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
 	},
-/turf/open/space/basic,
-/area/space/nearstation)
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Auxiliary Shuttle Dock"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck1/hallway)
 "Ey" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/ship/preopen{
@@ -6300,6 +6320,17 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/bar/mess_hall)
+"EE" = (
+/obj/docking_port/stationary{
+	dir = 2;
+	dwidth = 2;
+	height = 13;
+	id = "ferry_home";
+	name = "port bay 2";
+	width = 5
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "EH" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -6926,15 +6957,9 @@
 /turf/open/floor/plating,
 /area/security/detectives_office)
 "HN" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Auxiliary Shuttle Dock"
-	},
 /obj/machinery/atmospherics/pipe/layer_manifold,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 1
-	},
 /turf/open/floor/monotile/dark,
-/area/hallway/nsv/deck1/hallway)
+/area/space)
 "HP" = (
 /obj/effect/turf_decal/tile/ship/half/green{
 	dir = 8
@@ -6958,6 +6983,12 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck1/hallway)
+"HU" = (
+/obj/machinery/light/small{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/starboard)
 "HX" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -7178,13 +7209,13 @@
 	name = "Flight deck access";
 	req_one_access_txt = "69;13"
 	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
 	},
 /turf/open/floor/engine,
@@ -9250,13 +9281,6 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "SU" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Flight deck access";
-	req_one_access_txt = "69;13"
-	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
 	},
@@ -10212,17 +10236,14 @@
 /turf/open/floor/plasteel/grid/techfloor,
 /area/ai_monitored/turret_protected/aisat)
 "XU" = (
-/obj/docking_port/stationary{
-	dir = 4;
-	dwidth = 3;
-	height = 15;
-	id = "arrivals_stationary";
-	name = "arrivals";
-	roundstart_template = /datum/map_template/shuttle/arrival/atlas;
-	width = 7
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
 	},
-/turf/open/space/basic,
-/area/space/nearstation)
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Arrivals Shuttle Dock"
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck1/hallway)
 "XX" = (
 /obj/structure/chair/office{
 	dir = 4
@@ -37201,7 +37222,7 @@ MS
 MS
 MS
 MS
-MS
+HU
 xY
 MS
 MS
@@ -40258,7 +40279,7 @@ jv
 lx
 lx
 lx
-lx
+HI
 HI
 HI
 HI
@@ -40515,7 +40536,7 @@ jv
 mK
 mK
 Dy
-mK
+BH
 rt
 qc
 kP
@@ -40772,7 +40793,7 @@ jv
 lx
 lx
 lx
-lx
+HI
 HI
 HI
 iv
@@ -42830,8 +42851,8 @@ HI
 Zf
 MF
 HI
-mK
-mK
+lX
+HI
 mK
 mK
 mK
@@ -43345,7 +43366,7 @@ rg
 ot
 na
 ss
-BH
+HI
 YR
 mK
 mK
@@ -48002,8 +48023,8 @@ DQ
 DQ
 WJ
 WJ
+pU
 WJ
-cL
 cL
 cL
 cL
@@ -48259,8 +48280,8 @@ Em
 Em
 TE
 VD
+sX
 TE
-cL
 cL
 cL
 cL
@@ -48518,7 +48539,7 @@ uQ
 JN
 HN
 Er
-cL
+EE
 cL
 cL
 cL
@@ -48773,8 +48794,8 @@ vd
 Am
 Am
 Am
+pU
 Am
-cL
 cL
 cL
 cL
@@ -49030,8 +49051,8 @@ Lo
 Am
 lx
 lx
+pU
 Cf
-cL
 cL
 cL
 cL
@@ -49278,7 +49299,7 @@ Bp
 mK
 mK
 mK
-lY
+Am
 SU
 Am
 Am
@@ -49535,13 +49556,13 @@ mK
 mK
 mK
 mK
-mK
-mK
-cL
-cL
-cL
+lY
+zu
+Am
+Am
+Am
 XU
-cL
+Am
 cL
 cL
 cL

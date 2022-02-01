@@ -1200,6 +1200,9 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/hallway/nsv/deck2/primary)
+"el" = (
+/turf/closed/wall/r_wall,
+/area/space)
 "em" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
@@ -1254,7 +1257,7 @@
 /obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
 	},
-/turf/closed/wall/r_wall,
+/turf/open/floor/plating,
 /area/maintenance/department/science)
 "ev" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible{
@@ -2820,14 +2823,17 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "jp" = (
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable{
-	icon_state = "0-2"
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
 	},
-/turf/open/floor/plasteel/techmaint{
-	initial_gas_mix = "TEMP=2.7"
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
 	},
-/area/nsv/hanger/notkmcstupidhanger)
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "24"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/port)
 "jr" = (
 /obj/machinery/door/airlock/ship/maintenance,
 /obj/structure/cable{
@@ -3564,10 +3570,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
 	},
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer1{
-	dir = 8
-	},
 /obj/machinery/light/small,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "ls" = (
@@ -3647,13 +3653,12 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "lA" = (
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Pressurization Chamber";
+	req_one_access_txt = "79"
 	},
-/turf/open/floor/plasteel/techmaint{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/nsv/hanger/notkmcstupidhanger)
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/port/fore)
 "lB" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -4404,10 +4409,7 @@
 /area/engine/engine_room)
 "oi" = (
 /obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
+	dir = 5
 	},
 /turf/open/floor/monotile/steel{
 	initial_gas_mix = "TEMP=2.7"
@@ -7929,14 +7931,11 @@
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
 "zV" = (
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
-	},
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "24"
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer1{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
@@ -8405,16 +8404,14 @@
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck2/primary)
 "BZ" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Pressurization Chamber";
-	req_one_access_txt = "79"
+/obj/structure/cable{
+	icon_state = "0-2"
 	},
-/obj/structure/fans/tiny,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 1
+/obj/machinery/power/apc/auto_name/north,
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
 	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck2/port/fore)
+/area/nsv/hanger/notkmcstupidhanger)
 "Cb" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/dark,
@@ -8604,15 +8601,10 @@
 /area/nsv/weapons)
 "CR" = (
 /obj/effect/turf_decal/delivery,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 1
-	},
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Escape Shuttle Dock"
-	},
-/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile/dark,
-/area/hallway/nsv/deck2/primary)
+/area/space)
 "CS" = (
 /obj/effect/turf_decal/pool{
 	dir = 4
@@ -9060,7 +9052,7 @@
 /obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
 	},
-/turf/closed/wall/r_wall,
+/turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "ET" = (
 /obj/structure/ladder,
@@ -9197,9 +9189,6 @@
 	req_one_access_txt = "69"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 1
-	},
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
@@ -9208,6 +9197,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "Fy" = (
@@ -9673,21 +9663,21 @@
 /obj/effect/spawner/lootdrop/maintenance/three,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
-"He" = (
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "atlas_mining_hangar"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
+"Hd" = (
 /obj/effect/turf_decal/stripes/line{
-	dir = 5
+	dir = 6
 	},
 /turf/open/floor/monotile/steel{
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/nsv/hanger/mining)
+"He" = (
+/obj/machinery/light_switch/west,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/nsv/hanger/notkmcstupidhanger)
 "Hf" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
@@ -10549,6 +10539,17 @@
 "Kl" = (
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/hanger/notkmcstupidhanger)
+"Km" = (
+/obj/docking_port/stationary{
+	dir = 2;
+	dwidth = 9;
+	height = 25;
+	id = "emergency_home";
+	name = "Atlas evac bay";
+	width = 29
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "Ko" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
@@ -11491,16 +11492,16 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/hallway/nsv/deck2/primary)
 "NE" = (
-/obj/docking_port/stationary{
-	dir = 2;
-	dwidth = 9;
-	height = 25;
-	id = "emergency_home";
-	name = "Atlas evac bay";
-	width = 29
+/obj/effect/turf_decal/delivery,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
 	},
-/turf/open/space/basic,
-/area/space/nearstation)
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Escape Shuttle Dock"
+	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/primary)
 "NH" = (
 /obj/structure/stairs{
 	dir = 8
@@ -11868,9 +11869,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 4
-	},
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "OJ" = (
@@ -11975,16 +11973,12 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss/battery/deck2/starboard)
 "Ph" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Pressurization Chamber";
+	req_one_access_txt = "79"
 	},
-/obj/structure/cable{
-	icon_state = "0-4"
-	},
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/nsv/hanger/mining)
+/turf/open/floor/plating,
+/area/maintenance/department/science)
 "Pi" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -12239,9 +12233,7 @@
 	name = "Escape Shuttle Dock"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 1
-	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "Qf" = (
@@ -12769,6 +12761,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/hanger/notkmcstupidhanger)
 "RJ" = (
@@ -13208,12 +13203,10 @@
 /area/hallway/nsv/deck2/primary)
 "To" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 1
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
 "Tp" = (
@@ -13323,14 +13316,12 @@
 /turf/open/floor/plasteel/grid/lino,
 /area/chapel/main)
 "TE" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Pressurization Chamber";
-	req_one_access_txt = "79"
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "0-4"
 	},
-/obj/structure/fans/tiny,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
-/turf/open/floor/plating,
-/area/maintenance/department/science)
+/turf/open/space/basic,
+/area/space/nearstation)
 "TF" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable/yellow{
@@ -13987,12 +13978,11 @@
 /turf/open/floor/monotile/steel,
 /area/science)
 "VO" = (
+/obj/effect/turf_decal/caution/stand_clear,
+/obj/effect/turf_decal/box/red,
 /obj/machinery/door/poddoor/ship{
 	dir = 4;
 	id = "atlas_mining_hangar"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
 	},
 /turf/open/floor/plasteel/techmaint{
 	initial_gas_mix = "TEMP=2.7"
@@ -14214,9 +14204,6 @@
 /obj/structure/overmap/small_craft/transport/sabre,
 /obj/effect/turf_decal/loading_area{
 	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "1-8"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -14748,9 +14735,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 4
-	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "YI" = (
@@ -14962,14 +14946,10 @@
 /turf/open/floor/monotile/steel,
 /area/engine/engine_room)
 "Zs" = (
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "atlas_mining_hangar"
-	},
 /obj/effect/turf_decal/stripes/line{
-	dir = 6
+	dir = 4
 	},
-/turf/open/floor/monotile/steel{
+/turf/open/floor/plasteel/techmaint{
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/nsv/hanger/mining)
@@ -41220,9 +41200,9 @@ kH
 kH
 kH
 kH
-an
-an
-kD
+kH
+jp
+kH
 MO
 gf
 rc
@@ -48966,8 +48946,8 @@ Cc
 SF
 YQ
 YQ
+el
 YQ
-Nh
 Nh
 Nh
 Nh
@@ -49224,7 +49204,7 @@ CC
 Qe
 kv
 CR
-Nh
+NE
 Nh
 Nh
 Nh
@@ -49480,8 +49460,8 @@ lC
 Cz
 YQ
 YQ
+el
 YQ
-Nh
 Nh
 Nh
 Nh
@@ -49739,7 +49719,7 @@ Qe
 kv
 CR
 NE
-Nh
+Km
 Nh
 Nh
 Nh
@@ -49994,8 +49974,8 @@ rd
 tT
 YQ
 YQ
+el
 YQ
-Nh
 Nh
 Nh
 Nh
@@ -56157,7 +56137,7 @@ LY
 KU
 Mi
 Mi
-Ph
+Ju
 sH
 sH
 sH
@@ -56415,10 +56395,10 @@ Mi
 Mi
 kD
 oi
-sH
-sH
-sH
-BF
+Zs
+Zs
+Zs
+Hd
 Pm
 Nh
 Nh
@@ -56671,11 +56651,11 @@ Vk
 HF
 fI
 kD
-He
+Pm
 VO
 VO
 VO
-Zs
+Pm
 Pm
 Nh
 Nh
@@ -56900,9 +56880,9 @@ kD
 kD
 iV
 Zd
+iV
 BZ
-BN
-DE
+He
 RH
 Jn
 Vd
@@ -56914,7 +56894,7 @@ Og
 Kl
 DE
 BN
-TE
+fI
 CH
 fI
 Nv
@@ -56928,7 +56908,7 @@ Lt
 UM
 fI
 kD
-pK
+TE
 Nh
 Nh
 Nh
@@ -57157,9 +57137,9 @@ Nh
 kD
 iV
 ER
-iV
-jp
 lA
+Jc
+Jc
 WD
 UB
 BN
@@ -57171,7 +57151,7 @@ US
 Ok
 Jc
 UK
-fI
+Ph
 et
 fI
 Ex
