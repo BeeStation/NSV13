@@ -1699,7 +1699,7 @@ Seek a ship thich we'll station ourselves around
 		return FALSE
 	if(get_dist(ship, src) > 8)
 		return FALSE
-	if(SSphysics_processing.next_boarding_time <= world.time || next_boarding_attempt <= world.time)
+	if(next_boarding_time <= world.time || next_boarding_attempt <= world.time)
 		return TRUE
 	return FALSE
 
@@ -1707,8 +1707,8 @@ Seek a ship thich we'll station ourselves around
 	if(get_dist(ship, src) > 8)
 		return FALSE
 	next_boarding_attempt = world.time + 5 MINUTES //We very rarely try to board.
-	if(SSphysics_processing.next_boarding_time <= world.time)
-		SSphysics_processing.next_boarding_time = world.time + 30 MINUTES
+	if(next_boarding_time <= world.time)
+		next_boarding_time = world.time + 30 MINUTES
 		ship.spawn_boarders(null, src.faction)
 		return TRUE
 	return FALSE
