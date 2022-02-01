@@ -111,7 +111,7 @@
 		if(!A.density)
 			continue
 		if(isobj(A) || ismob(A))
-			if(A.layer > highest.layer)
+			if(!highest || A.layer > highest.layer)	//NSV13 - always runtimed, adds check for !highest to counteract.
 				highest = A
 	INVOKE_ASYNC(src, .proc/SpinAnimation, 5, 2)
 	if(highest) // Collide with the topmost thing on the turf

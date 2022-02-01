@@ -1,4 +1,3 @@
-#define MSTATE_PRIEDOUT 3
 
 /obj/machinery/ship_weapon/pdc_mount
 	name = "\improper PDC loading rack"
@@ -164,5 +163,3 @@
 	if(world.time > soundcooldown)
 		lastsound = pick(weapon_type.overmap_firing_sounds)
 	linked.relay_to_nearby(lastsound)
-
-#undef MSTATE_PRIEDOUT

@@ -89,8 +89,8 @@
 /obj/structure/overmap/proc/try_board(obj/structure/overmap/ship)
 	if(mass <= MASS_TINY)
 		return FALSE
-	if(SSphysics_processing.next_boarding_time <= world.time)
-		SSphysics_processing.next_boarding_time = world.time + 30 MINUTES
+	if(next_boarding_time <= world.time)
+		next_boarding_time = world.time + 30 MINUTES
 		ship.spawn_boarders()
 		return TRUE
 	return FALSE

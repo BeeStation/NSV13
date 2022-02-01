@@ -65,20 +65,20 @@
 	var/obj/structure/overmap/OM = src
 	var/turf/LZ = null
 	//If you wanna specify WHERE cargo is dropped. Otherwise we guess.
-	if(!trader_beacons || !trader_beacons.len)
+	if(!length(trader_beacons))
 		if(OM.role == MAIN_OVERMAP)
 			landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 
-		if ( !landingzone ) // Main overmap may or may not have a warehouse 
+		if ( !landingzone ) // Main overmap may or may not have a warehouse
 			if(!OM.linked_areas.len)
 				OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
-				if(OM?.linked_areas && OM?.linked_areas.len)
+				if(length(OM?.linked_areas))
 					goto foundareas
 				return FALSE
 			foundareas:
 			landingzone = pick(OM.linked_areas)
 		var/list/empty_turfs = list()
-		for(var/turf/open/floor/T in landingzone.contents)//uses default landing zone
+		for(var/turf/open/floor/T in landingzone)//uses default landing zone
 			if(is_blocked_turf(T))
 				continue
 			if(empty_turfs.len >= 10)
@@ -89,10 +89,10 @@
 			LZ = pick(empty_turfs)
 	else
 		LZ = get_turf(pick(trader_beacons))
-	if(dradis && dradis.beacon && !QDELETED(dradis.beacon) && dradis.usingBeacon)
+	if(dradis && !QDELETED(dradis.beacon) && dradis.usingBeacon)
 		LZ = get_turf(dradis.beacon)
 	if(!LZ)
-		LZ = pick(landingzone.contents) //If we couldn't find an open floor, just throw it somewhere
+		LZ = pick(landingzone) //If we couldn't find an open floor, just throw it somewhere
 
 	// Knowing who the deliveryman is tells us what kind of pod to send
 	var/obj/structure/closet/supplypod/toLaunch
@@ -137,7 +137,7 @@
 	faction_type = FACTION_ID_SYNDICATE
 	system_type = "syndicate"
 	//Top tier trader with the best items available.
-	sold_items = list(/datum/trader_item/nuke,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, \
+	sold_items = list(/datum/trader_item/hellfire,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, \
 		/datum/trader_item/pdc, /datum/trader_item/fighter/syndicate, /datum/trader_item/overmap_shields, /datum/trader_item/deck_gun_autoelevator)
 	station_type = /obj/structure/overmap/trader/syndicate
 	image = "https://cdn.discordapp.com/attachments/728055734159540244/764570187357093928/unknown.png"
@@ -252,6 +252,17 @@
 	var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 	if(D)
 		data["points"] = "$[D.account_balance]"
+	// Extra information about what missions this station is tracking 
+	var/list/holding_cargo_info = list()
+	for ( var/datum/overmap_objective/cargo/O in current_location.holding_cargo ) 
+		var/list/item_info = list()
+		item_info[ "name" ] = O.name 
+		item_info[ "brief" ] = O.brief 
+		item_info[ "id" ] = "\ref[O]"
+		holding_cargo_info[++holding_cargo_info.len] = item_info
+	data[ "holding_cargo" ] = holding_cargo_info
+	if ( current_location && length( current_location.expecting_cargo ) )
+		data[ "expecting_cargo" ] = length( current_location.expecting_cargo )
 	return data
 
 /datum/trader/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -267,6 +278,10 @@
 			if(!target)
 				return
 			attempt_purchase(target, usr)
+		if( "receive_cargo" )
+			var/datum/overmap_objective/cargo/O = locate(params["objective"])
+			current_location.deliver_package( user, O )
+
 		// if("mission")
 		// 	var/list/currentMissions = list()
 		// 	for(var/datum/nsv_mission/M in SSstar_system.all_missions)
@@ -289,9 +304,9 @@
 // /datum/trader/proc/give_mission(mob/living/user)
 // 	if(!isliving(user))
 // 		return
-// 
+//
 // 	var/list/valid_missions = list()
-// 
+//
 // 	for(var/m in missions) // Get all valid missions the crew qualifies for
 // 		var/datum/nsv_mission/mission = m
 // 		if(mission.check_eligible(user.get_overmap()))
@@ -300,7 +315,7 @@
 // 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 // 		to_chat(user, "<span class='boldnotice'>We don't have any work for you I'm afraid.</span>")
 // 		return FALSE
-// 
+//
 // 	var/datum/nsv_mission/theJob = pick(valid_missions)
 // 	theJob.pre_register(user.get_overmap())
 // 	to_chat(user, "<span class='boldnotice'>[pick(on_mission_give)]</span>")

@@ -119,25 +119,25 @@
     name = "Thermonuclear destroyer (interior)"
     mappath = "_maps/templates/boarding/syndicate/nukefrigate.dmm"
 
-/obj/structure/overmap/syndicate/ai/nuclear
-	name = "Thermonuclear destroyer"
+/obj/structure/overmap/syndicate/ai/conflagration
+	name = "Hellfire destroyer"
 	icon = 'nsv13/icons/overmap/new/syndicate/nuke_frigate.dmi'
 	icon_state = "megamouth"
 	bound_height = 160
 	bound_width = 160
-	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
 	obj_integrity = 900
 	max_integrity = 900 //Max health
 	integrity_failure = 900
-	shots_left = 7 //Reload yer nukes
+	shots_left = 7
 	torpedoes = 5
 	missiles = 10
 	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_heavy" = 30)
-	combat_dice_type = /datum/combat_dice/destroyer/nuclear
+	combat_dice_type = /datum/combat_dice/destroyer/conflagration
 	possible_interior_maps = list(/datum/map_template/boarding/nuclear)
 
-/obj/structure/overmap/syndicate/ai/nuclear/elite
-	name = "Nightmare class thermonuclear deterrent"
+/obj/structure/overmap/syndicate/ai/conflagration/elite
+	name = "Nightmare class hellfire deterrent"
 	icon_state = "megamouth_elite"
 	shots_left = 15
 	torpedoes = 10
@@ -148,7 +148,7 @@
 	bounty = 15000
 	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_light" = 50)
 	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
-	combat_dice_type = /datum/combat_dice/destroyer/nuclear
+	combat_dice_type = /datum/combat_dice/destroyer/conflagration
 
 /datum/map_template/boarding/destroyer
     name = "Hammerhead class missile destroyer (interior)"
@@ -286,7 +286,7 @@
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/battleship
 	possible_interior_maps = list()
-	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
 
 /obj/structure/overmap/syndicate/ai/battleship/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
@@ -520,6 +520,7 @@
 
 /obj/structure/overmap/syndicate/ai/bomber //need custom AI behaviour to target capitals only
 	name = "Syndicate Bomber"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/fighter_overmap.dmi'
 	icon_state = "bomber_syndicate"
 	damage_states = FALSE
 	brakes = FALSE

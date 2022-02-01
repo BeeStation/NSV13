@@ -48,7 +48,7 @@
 					ammo += G
 			if(load_sound)
 				playsound(src, load_sound, 100, 1)
-			state = 2
+			state = STATE_LOADED
 			loading = FALSE
 
 #define VV_HK_REMOVE_GAUSS_GUNNER "getOutOfMyGunIdiot"
@@ -687,12 +687,13 @@ Chair + rack handling
 	ammo_rack.update_visuals()
 	if(load_sound)
 		playsound(src, load_sound, 100, 1)
-	state = 2
+	state = STATE_LOADED
 	loading = FALSE
 	sleep(3 SECONDS)
 	lower_rack()
 
 /obj/machinery/ship_weapon/gauss_gun/proc/lower_rack()
+	set waitfor = FALSE
 	if(!ammo_rack)
 		return
 	ammo_rack.loading = FALSE
@@ -759,8 +760,8 @@ Chair + rack handling
 /obj/machinery/ship_weapon/gauss_gun/ui_data(mob/user)
 	var/list/data = list()
 	data["isgaussgun"] = TRUE //So what if I'm a hack. Sue me.
-	data["loaded"] = (state > STATE_LOADED) ? TRUE : FALSE
-	data["chambered"] = (state > STATE_FED) ? TRUE : FALSE
+	data["loaded"] = state > STATE_LOADED
+	data["chambered"] = state == STATE_CHAMBERED
 	data["safety"] = safety
 	data["ammo"] = ammo.len
 	data["max_ammo"] = max_ammo

@@ -53,7 +53,7 @@ SUBSYSTEM_DEF(air)
 	// Max number of turfs equalization will grab.
 	var/equalize_turf_limit = 10
 	// Max number of turfs to look for a space turf, and max number of turfs that will be decompressed.
-	var/equalize_hard_turf_limit = 2000
+	var/equalize_hard_turf_limit = 400	//NSV13 - please do not eat our entire processing power kthanks. - down from 2000
 	// Whether equalization is enabled. Can be disabled for performance reasons.
 	var/equalize_enabled = TRUE
 	// Whether equalization should be enabled.
@@ -409,7 +409,7 @@ SUBSYSTEM_DEF(air)
 		eq_cooldown += (1-delay_threshold) * (cost_equalize / total_thread_time) * 2
 		if(eq_cooldown > 0.5)
 			equalize_enabled = FALSE
-		excited_group_pressure_goal = max(0,excited_group_pressure_goal_target * (1 - delay_threshold))
+		excited_group_pressure_goal = max(0,excited_group_pressure_goal_target * delay_threshold)	//NSV13 - fix applied by Putnam somewhere else that previously slowed auxmos.
 
 
 /datum/controller/subsystem/air/proc/process_turfs(resumed = 0)

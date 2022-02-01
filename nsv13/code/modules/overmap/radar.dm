@@ -52,7 +52,7 @@
 	var/next_pulse = OM.last_radar_pulse + radar_delay
 	if(world.time >= next_pulse)
 		return TRUE
-f
+
 /obj/machinery/computer/ship/dradis/minor/can_radar_pulse()
 	return FALSE
 
@@ -107,7 +107,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	if(istype(W, /obj/item/supplypod_beacon))
 		var/obj/item/supplypod_beacon/sb = W
 		if(linked?.dradis != src)
-			to_chat(user, "<span class='warning'>Supplypod beacons can only be linked to the primary DRADIS of a ship (try the one in CIC?).")
+			to_chat(user, "<span class='warning'>Supplypod beacons can only be linked to the primary DRADIS of a ship (try the one in CIC?).</span>")
 			return FALSE
 		if (sb.express_console != src)
 			sb.link_console(src, user)
@@ -118,11 +118,11 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/multitool_act(mob/living/user, obj/item/I)
 	usingBeacon = !usingBeacon
-	to_chat(user, "<span class='sciradio'>You switch [src]'s trader delivery location to [usingBeacon ? "target supply beacons" : "target the default landing location on your ship"]")
+	to_chat(user, "<span class='sciradio'>You switch [src]'s trader delivery location to [usingBeacon ? "target supply beacons" : "target the default landing location on your ship"]</span>")
 	return FALSE
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
-	name = "\improper Air traffic control console"
+	name = "air traffic control console"
 
 /obj/machinery/computer/ship/dradis/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight
 	name = "\improper Cargo freight delivery console"
@@ -228,11 +228,11 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	return TRUE
 
 /obj/machinery/computer/ship/dradis/ui_state(mob/user)
-	return  GLOB.always_state
-
+	return GLOB.always_state
 
 /obj/machinery/computer/ship/dradis/ui_interact(mob/user, datum/tgui/ui)
 	if(!has_overmap())
+		to_chat(user, "<span class='warning'>Failed to initiate ship connection.</span>")
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -298,8 +298,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			var/newDelay = input(usr, "Set a new radar delay (seconds)", "Radar Delay", null) as num|null
 			if(!newDelay)
 				return
-			newDelay = newDelay SECONDS
-			newDelay = CLAMP(newDelay, MIN_RADAR_DELAY, MAX_RADAR_DELAY)
+			newDelay = CLAMP(newDelay SECONDS, MIN_RADAR_DELAY, MAX_RADAR_DELAY)
 			radar_delay = newDelay
 
 /obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
@@ -322,7 +321,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	var/dist = overmap_dist(src, observer)
 	if(dist <= 0)
 		dist = 1
-	var/distance_factor = (1/dist) //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
+	var/distance_factor = 1 / dist //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
 	//If we fired off a radar, we're visible to _every ship_
 	if(last_radar_pulse+RADAR_VISIBILITY_PENALTY > world.time)
 		return SENSOR_VISIBILITY_FULL
@@ -337,30 +336,19 @@ Called by add_sensor_profile_penalty if remove_in is used.
 		if(251 to 255)
 			return SENSOR_VISIBILITY_FULL
 
-/obj/structure/overmap
-	var/cloak_factor = SENSOR_VISIBILITY_GHOST
-
 /obj/structure/overmap/proc/handle_cloak(state)
 	set waitfor = FALSE
 	switch(state)
 		if(TRUE)
-			while(alpha > cloak_factor)
-				stoplag()
-				alpha -= 5
+			animate(src, 15, alpha = cloak_factor)
 			mouse_opacity = FALSE
-			return
 		if(FALSE)
-			while(alpha < 255)
-				stoplag()
-				alpha += 5
+			animate(src, 15, alpha = 255)
 			mouse_opacity = TRUE
-			return
 		if(CLOAK_TEMPORARY_LOSS) //Flicker the cloak so that you can fire.
 			if(alpha >= 255) //No need to re-cloak us if we were never cloaked...
 				return
-			while(alpha < 255)
-				stoplag()
-				alpha += 15
+			animate(src, 15, alpha = 255)
 			mouse_opacity = TRUE
 			addtimer(CALLBACK(src, .proc/handle_cloak, TRUE), 15 SECONDS)
 

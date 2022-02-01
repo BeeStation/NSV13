@@ -1,8 +1,3 @@
-#define MSTATE_CLOSED 0// Gonna need these again
-#define MSTATE_UNSCREWED 1
-#define MSTATE_UNBOLTED 2
-#define MSTATE_PRIEDOUT 3
-
 /obj/machinery/ship_weapon/deck_turret
 	name = "\improper M4-15 'Hood' deck turret"
 	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
@@ -109,7 +104,10 @@
 		linked.fire_projectile(T.projectile_type, target,speed=T.speed, homing=TRUE, lateral=weapon_type.lateral)
 
 /obj/machinery/ship_weapon/deck_turret/proc/rack_load(atom/movable/A)
-	if(ammo?.len < max_ammo && istype(A, ammo_type))
+	if(length(ammo) < max_ammo && istype(A, ammo_type))
+		if(state in GLOB.busy_states)
+			visible_message("<span class='warning'>Unable to perform operation right now, please wait.</span>")
+			return FALSE
 		loading = TRUE
 		if(load_sound)
 			playsound(A.loc, load_sound, 100, 1)
@@ -648,8 +646,3 @@
 			bound_height = 96
 			bound_x = -64
 			bound_y = -32
-
-#undef MSTATE_CLOSED
-#undef MSTATE_UNSCREWED
-#undef MSTATE_UNBOLTED
-#undef MSTATE_PRIEDOUT
