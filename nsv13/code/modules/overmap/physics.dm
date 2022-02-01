@@ -613,7 +613,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		yo = targloc.y - curloc.y
 		xo = targloc.x - curloc.x
 		if(lateral)
-			setAngle(Get_Angle(src, targloc) + spread)
+			setAngle(overmap_angle(src, targloc) + spread)
 
 	if(isliving(source) && params)
 		var/list/calculated = calculate_projectile_angle_and_pixel_offsets(source, params)
@@ -626,7 +626,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		yo = targloc.y - curloc.y
 		xo = targloc.x - curloc.x
 		if(lateral)
-			setAngle(Get_Angle(src, targloc) + spread)
+			setAngle(overmap_angle(src, targloc) + spread)
 	else
 		stack_trace("WARNING: Projectile [type] fired without either mouse parameters, or a target atom to aim at!")
 		qdel(src)
