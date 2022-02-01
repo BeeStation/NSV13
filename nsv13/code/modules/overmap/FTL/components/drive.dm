@@ -30,7 +30,7 @@
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/req_charge = 100
 	var/cooldown = FALSE
-	var/charge_rate = 1.25 // how much charge is given per pylon
+	var/charge_rate = 1 // how much charge is given by each pylon per second
 	var/obj/item/radio/radio //For engineering alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_eng
 	var/radio_channel = "Engineering"
@@ -42,7 +42,7 @@
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long_thirring.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
 	var/datum/looping_sound/advanced/ftl_drive/soundloop
-	var/auto_spool = FALSE // whether the drive is capable of auto spooling or not
+	var/auto_spool_capable = FALSE // whether the drive is capable of auto spooling or not
 	var/auto_spool_enabled = FALSE // whether the drive is set to auto spool or not
 	var/lockout = FALSE //Used for our end round shenanigains
 
@@ -56,8 +56,7 @@
 	radio.keyslot = new radio_key
 	radio.listening = 0
 	radio.recalculateChannels()
-	soundloop = new(list(src))
-	soundloop.channel = CHANNEL_FTL_MANIFOLD
+	soundloop = new(list(src), FALSE, FALSE, CHANNEL_FTL_MANIFOLD, TRUE)
 	STOP_PROCESSING(SSmachines, src)
 	return INITIALIZE_HINT_LATELOAD
 
@@ -68,6 +67,7 @@
 /obj/machinery/computer/ship/ftl_core/Destroy()
 	QDEL_NULL(soundloop)
 	QDEL_NULL(radio)
+	pylons = null
 	return ..()
 
 /// Links with available pylons and returns number of connections
@@ -145,22 +145,22 @@
 			if(prob(30))
 				INVOKE_ASYNC(src, .proc/discharge_pylon, P)
 	if(!active_charge && progress > 0)
-		progress--
+		progress = min(progress - 1, 0)
 		if(progress < req_charge && ftl_state == FTL_STATE_READY)
 			cancel_ftl()
 	if(ftl_state != FTL_STATE_READY && progress >= req_charge)
 		ready_ftl()
 
-/// Visual effect
+/// Visual effect, call with async
 /obj/machinery/computer/ship/ftl_core/proc/discharge_pylon(atom/P)
-	playsound(P, 'nsv13/sound/machines/FTL/FTL_pylon_discharge.ogg', 100, TRUE, 1)
+	playsound(P, 'nsv13/sound/machines/FTL/FTL_pylon_discharge.ogg', 120, TRUE, 2, 4.5)
 	var/atom/target
 	if(length(pylons) > 1)
 		target = pick(pylons - P)
 	else
 		target = locate(x + rand(-1, 1), y + 1, z) // Offset to make it hit the "ring" of the sprite, not the console
 	sleep(20)
-	P.Beam(target, icon_state = "lightning[rand(1, 12)]", time = 10, maxdistance = 10)
+	P.Beam(target, "lightning[rand(1, 12)]", time = INFINITY)
 	playsound(P, 'sound/magic/lightningshock.ogg', 10, 1, 1)
 
 /obj/machinery/computer/ship/ftl_core/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
@@ -190,7 +190,7 @@
 
 		if(3) //Admin only, for now
 			name = "advanced [initial(name)]"
-			auto_spool = TRUE
+			auto_spool_capable = TRUE
 			jump_speed_factor = 5
 			max_range = initial(max_range) * 3
 
@@ -297,7 +297,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 				spoolup()
 			. = TRUE
 		if("toggle_autospool")
-			if(!auto_spool)
+			if(!auto_spool_capable)
 				return
 			auto_spool_enabled = !auto_spool_enabled
 			. = TRUE
@@ -322,7 +322,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		pylon_info["draw"] = DisplayPower(P.power_draw)
 		pylons_info[++pylons_info.len] = pylon_info // probably could have a better var name for this one
 	data["pylons"] = pylons_info
-	data["can_auto_spool"] = auto_spool
+	data["can_auto_spool"] = auto_spool_capable
 	data["auto_spool_enabled"] = auto_spool_enabled
 	return data
 
@@ -336,7 +336,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	radio.talk_into(src, "Initiating FTL translation.", radio_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
-	addtimer(CALLBACK(src, .proc/depower), ftl_startup_time)
+	addtimer(CALLBACK(src, .proc/depower, auto_spool_enabled), ftl_startup_time)
 
 /obj/machinery/computer/ship/ftl_core/proc/ready_ftl()
 	playsound(src, 'nsv13/sound/voice/ftl_ready.wav', 100, FALSE)
@@ -370,7 +370,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	STOP_PROCESSING(SSmachines, src)
 	return TRUE
 
-/// Handles auto-spooling and cooldown resetting
+/// Handles auto-spooling and cooldown resetting, called after cooldown duration
 /obj/machinery/computer/ship/ftl_core/proc/post_cooldown(spool)
 	cooldown = FALSE
 	if(spool)

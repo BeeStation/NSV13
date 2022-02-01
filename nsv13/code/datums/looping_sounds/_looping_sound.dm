@@ -2,7 +2,7 @@
 	. = ..()
 	SEND_SIGNAL(src, COMSIG_LOOPINGSOUND_PLAYED) //This is mostly used for radar so that it updates the radar "sweep" as you hear the sound.
 
-/// More customizable version of looping sounds. Subtype of the original for the sake of modularity and performance (advanced sounds have more overhead, only use when needed)
+/// A more sophisticated version of looping sounds that give you much more dynamic control over the sounds you are playing. It's a tad more expensive so only use it when you need it
 /datum/looping_sound/advanced
 	var/channel // Keep in mind most advanced procs will not work without a designated channel
 	var/can_process = FALSE
@@ -39,9 +39,9 @@
 		if(channel)
 			S.channel = channel
 		for(var/atom/A as() in output_atoms)
-			var/list/locallisteners = playsound_range(A, S, volume, extra_range)
-			for(var/atom/L as() in locallisteners)
-				listener_locations[A][L] = list(L.x, L.y)
+			var/list/newhearers = playsound_range(A, S, volume, extra_range)
+			for(var/atom/L as() in newhearers)
+				listeners[A][L] = list(L.x, L.y)
 	current_sound = S
 
 /datum/looping_sound/advanced/process()
@@ -68,12 +68,15 @@
 	if(!current_sound)
 		return
 	for(var/atom/output as() in output_atoms)
-		for(var/mob/M in listeners[output])
+		var/list/locallist = listeners[output]
+		for(var/mob/M in locallist)
 			if(!force) // Don't update if they haven't moved
-				if(M == listeners[output]) // don't need to recalculate for direct output
+				if(M == locallist) // don't need to recalculate for direct output
 					return
-				var/coords = listener_locations[output][M]
-				if(abs((coords[1] + coords[2]) - (M.x + M.y)) =< deviation_tolerance)
+				var/coords = locallist[M]
+				if(abs((coords[2] + M.y) - (coords[1] + M.x)) <= deviation_tolerance)
 					return
-			if(!M.recalculate_sound_volume(output, current_sound, volume))
-				listeners[output] -= M
+			if(M.recalculate_sound_volume(output, current_sound, volume))
+				locallist[M] = list(M.x, M.y)
+			else
+				locallist[output] -= M

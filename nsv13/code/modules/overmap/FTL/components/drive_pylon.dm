@@ -35,6 +35,7 @@
 	var/max_charge_rate = 1 // max amount of capacitors that can be charged per tick
 	var/req_capacitor = 5 // amount of capacitors required to be charged for the pylon to activate
 	var/power_draw = 0
+	var/heat_capacity = 5000
 	var/datum/gas_mixture/air_contents
 	var/obj/structure/cable/cable
 	var/obj/machinery/computer/ship/ftl_core/ftl_drive
@@ -136,7 +137,7 @@
 		if(MAX_WASTE_STORAGE_PRESSURE/3 to MAX_WASTE_STORAGE_PRESSURE/2)
 			switch(rand(1, 10))
 				if(1)
-					playsound(src, 'nsv13/sound/effects/metal_clang.ogg', rand(70,90), TRUE)
+					playsound(src, 'nsv13/sound/effects/metal_clang.ogg', 100, TRUE)
 				if(2)
 					audible_message("<span class='warning'>\The [src] hisses quitely.</span>")
 				if(3)
@@ -211,7 +212,9 @@
 	var/heat_increase = WASTE_GAS_HEAT + round(power_draw / 1000)
 	if(shielded) // Closing shields greatly increases internal temperture gain
 		heat_increase *= 2
-	waste.set_temperature(input.return_temperature() + heat_increase)
+	var/air_heat_capacity = air.heat_capacity()
+	var/combined_energy = heat_capacity * target_temperature + air_heat_capacity * air_contents.return_temperature()
+	waste.set_temperature(combined_energy/(air_heat_capacity + heat_capacity) // combined energy divided by combined heat capacity
 	if(output.return_pressure() < MAX_WASTE_OUTPUT_PRESSURE)
 		air_contents.merge(waste)
 	else

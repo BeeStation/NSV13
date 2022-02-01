@@ -8,7 +8,7 @@ export const FTLComputerModular = (props, context) => {
   return (
     <Window
       resizable
-      theme="retro"
+      theme="hackerman"
       width={560}
       height={500}>
       <Window.Content scrollable>

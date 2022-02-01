@@ -4,8 +4,9 @@
 	mid_sounds = 'nsv13/sound/machines/FTL/main_drive_loop.ogg'
 	mid_length = 10.9 SECONDS
 	end_sound = 'nsv13/sound/machines/FTL/main_drive_spooldown.ogg'
-	volume = 80
+	volume = 100
+	can_process = TRUE
 
 // We use pretty long sounds here so we'll update the volume for listeners on process
 /datum/looping_sound/advanced/ftl_drive/process()
-	update_volume()
+	recalculate_volume(1)

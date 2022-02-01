@@ -28,7 +28,7 @@
 	return listeners
 
 // Only the first 3 args are needed, everything else will work so long as you're playing the original sound with the default proc. Otherwise, change the parameters accordingly
-/// Calculates the sound volume between
+/// Recalculates the volume for an already playing sound and updates it accordingly, ripped from playsound_local()
 /mob/proc/recalculate_sound_volume(turf/turf_source, sound/S, original_volume = 100, falloff_exponent = SOUND_FALLOFF_EXPONENT, pressure_affected = TRUE, max_distance, falloff_distance = SOUND_DEFAULT_FALLOFF_DISTANCE, distance_multiplier = 1)
 	S.volume = original_volume
 	var/turf/T = get_turf(src)

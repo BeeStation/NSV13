@@ -57,8 +57,8 @@
 
 /obj/machinery/atmospherics/components/binary/silo/Destroy()
 	STOP_PROCESSING(SSmachines, src)
-	QDEL_NULL(bulb)
-	QDEL_NULL(mode_ring)
+	qdel(bulb)
+	qdel(mode_ring)
 	if(noleak)
 		QDEL_NULL(air_contents)
 		return ..()
@@ -99,9 +99,7 @@
 /obj/machinery/atmospherics/components/binary/silo/proc/power_drain()
 	if(min_power_draw <= 0)
 		return TRUE
-	if(!cable)
-		return FALSE
-	if(cable.loc != loc)
+	if(!cable || cable.loc != loc) // in case we or the cable (somehow) moved
 		var/turf/T = get_turf(src)
 		cable = T.get_cable_node()
 		if(!cable)
@@ -176,14 +174,13 @@
 				update_parents()
 
 /obj/machinery/atmospherics/components/binary/silo/proc/kaboom(pressure)
-	var/turf/T = get_turf(src)
+	var/turf/T = get_turf(src) // defaultis to our own turf incase we're unable to find a valid candidate
 	var/turf/open/floor/newT
 	for(var/i in 1 to 6) // a fun way to roll the dice
-		newT = locate(x + rand(5, 20), y + rand(5, 20), z)
+		newT = locate(x + rand(-20, 20), y + rand(-20, 20), z)
 		if(newT && istype(newT) && newT.air?.return_pressure())
 			T = newT
 			break
-
 	var/multiplier = 1
 	if(air_contents.get_moles(GAS_NUCLEIUM) > 400) // something something spacetime expansion
 		multiplier = 1.5
@@ -221,7 +218,7 @@
 				mode = SILO_MODE_IDLE
 			visible_message("<span class='notice'>Refinery [mode ? "starting" : "shutting down"]</span>")
 		if("target_power")
-			target_power_draw = round(max(text2num(params["target"]), min_power_draw) * 1000)
+			target_power_draw = round(max(text2num(params["target"]), min_power_draw) * 1000, 1)
 		if("toggle_mode")
 			if(mode == SILO_MODE_CONVERT)
 				mode = SILO_MODE_OUTPUT
