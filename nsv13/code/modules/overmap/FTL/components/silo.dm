@@ -62,7 +62,6 @@
 	if(noleak)
 		QDEL_NULL(air_contents)
 		return ..()
-
 	var/datum/gas_mixture/input = airs[1]
 	var/datum/gas_mixture/output = airs[2]
 	var/datum/gas_mixture/spill = air_contents.copy()

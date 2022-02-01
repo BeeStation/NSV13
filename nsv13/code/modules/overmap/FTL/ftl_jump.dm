@@ -191,7 +191,7 @@
 /obj/structure/overmap/proc/jump_start(datum/star_system/target_system, force=FALSE)
 	if(ftl_drive?.ftl_state != FTL_STATE_JUMPING)
 		if(force)
-			ftl_drive?.ftl_state = FTL_STATE_JUMPING
+			ftl_drive.ftl_state = FTL_STATE_JUMPING
 		else
 			log_runtime("DEBUG: jump_start: aborted jump to [target_system], drive state = [ftl_drive?.ftl_state]")
 			return
@@ -215,7 +215,7 @@
 	log_runtime("DEBUG: jump_start: starting jump to [target_system] from [curr]")
 	SEND_SIGNAL(src, COMSIG_SHIP_DEPARTED) // Let missions know we have left the system
 	curr.remove_ship(src)
-	var/speed = (curr.dist(target_system) / (ftl_drive.jump_speed_factor*10)) //TODO: FTL drive speed upgrades.
+	var/speed = (curr.dist(target_system) / (ftl_drive.get_jump_speed() * 10)) //TODO: FTL drive speed upgrades.
 	SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
 	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 	if(role == MAIN_OVERMAP) //Scuffed please fix

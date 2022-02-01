@@ -35,7 +35,7 @@
 	var/radio_key = /obj/item/encryptionkey/headset_eng
 	var/radio_channel = "Engineering"
 	var/max_range = 30000
-	var/jump_speed_factor = 2 //How quickly do we jump? Larger is faster.
+	var/jump_speed_factor = 1.5 //How quickly do we jump? Larger is faster.
 	var/jump_speed_pylon = 1 // Adds this value onto jump_speed_factor for every active pylon
 	var/ftl_startup_time = 32.3 SECONDS // How long does it take to iniate the jump.
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
@@ -58,6 +58,12 @@
 	radio.recalculateChannels()
 	soundloop = new(list(src))
 	soundloop.channel = CHANNEL_FTL_MANIFOLD
+	STOP_PROCESSING(SSmachines, src)
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/computer/ship/ftl_core/LateInitialize()
+	. = ..()
+	has_overmap()
 
 /obj/machinery/computer/ship/ftl_core/Destroy()
 	QDEL_NULL(soundloop)
@@ -220,10 +226,6 @@ Preset classes of FTL drive with pre-programmed behaviours
 	. = ..()
 	start_monitoring(get_overmap())
 
-/obj/machinery/computer/ship/ftl_core/syndicate/Initialize()
-	. = ..()
-	return INITIALIZE_HINT_LATELOAD
-
 /obj/machinery/computer/ship/ftl_core/syndicate/LateInitialize()
 	. = ..()
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
@@ -241,21 +243,16 @@ A way for syndies to track where the player ship is going in advance, so they ca
 /obj/machinery/computer/ship/ftl_core/proc/announce_jump()
 	radio.talk_into(src, "TRACKING: FTL signature detected. Tracking information updated.", radio_channel)
 
-/obj/machinery/computer/ship/ftl_core/Initialize()
-	. = ..()
-	addtimer(CALLBACK(src, .proc/has_overmap), 5 SECONDS)
-	STOP_PROCESSING(SSmachines, src)
-
 /obj/machinery/computer/ship/ftl_core/has_overmap()
 	. = ..()
-	linked?.ftl_drive = src
+	linked?.ftl_drive = src // This is bad
 
 /obj/machinery/computer/ship/ftl_core/attack_hand(mob/user)
 	if(!has_overmap())
 		return
 	if(!allowed(user))
-		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-		playsound(src, sound, 100, 1)
+		var/sound/S = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, S, 100, 1)
 		to_chat(user, "<span class='warning'>Access denied.</span>")
 		return
 	ui_interact(user)

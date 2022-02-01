@@ -39,8 +39,8 @@
 	var/obj/structure/cable/cable
 	var/obj/machinery/computer/ship/ftl_core/ftl_drive
 
-/obj/machinery/atmospherics/components/binary/drive_pylon/New()
-	..()
+/obj/machinery/atmospherics/components/binary/drive_pylon/Initialize()
+	. = ..()
 	pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open", layer + 0.1)
 	update_visuals()
 	air_contents = new(3000)
