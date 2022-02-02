@@ -213,7 +213,7 @@
 	fuel_power = 0.60 // thrice as powerful as plutonium, you'll want to get this one out quick!
 	name = "exhausted [name]"
 	desc = "A highly energetic, disguised titanium sheathed rod containing a number of slots filled with greatly expanded telecrystals which can be removed by hand. It's extremely efficient as nuclear fuel, but will cause the reaction to get out of control if not properly utilised."
-	icon_state = "tc_used" //Why the fuck did this not have an icon for like a year.
+	icon_state = "tc_used"
 	AddComponent(/datum/component/radioactive, 3000, src)
 
 /obj/item/fuel_rod/material/bananium
