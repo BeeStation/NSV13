@@ -629,8 +629,6 @@ Returns a faction datum by its name (case insensitive!)
 	}
 
 /datum/star_system/proc/spawn_space_ruins()
-	message_admins( "spawn_space_ruins" )
-	message_admins( "length: [length( subtypesof( /obj/structure/overmap/space_ruin/station ) )]" )
 	for(var/I = 0; I < rand(1, 2); I++){
 		var/ruin_type = pick( subtypesof(/obj/structure/overmap/space_ruin/station ) )
 		SSstar_system.spawn_ship(ruin_type, src)
