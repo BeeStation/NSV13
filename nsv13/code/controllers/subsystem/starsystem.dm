@@ -551,9 +551,9 @@ Returns a faction datum by its name (case insensitive!)
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some guaranteed Syndiships.
 	if(!anomaly_type)
 		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
-	if ( prob( 33 ) )
-		message_admins( "prob hit, but we're generating stuff anyway" )
-	spawn_space_ruins()
+	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_NO_RUINS))
+		if ( prob( 33 ) )
+			spawn_space_ruins()
 	SSstar_system.spawn_anomaly(anomaly_type, src)
 
 /datum/star_system/proc/generate_anomaly()
