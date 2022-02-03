@@ -551,6 +551,9 @@ Returns a faction datum by its name (case insensitive!)
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some guaranteed Syndiships.
 	if(!anomaly_type)
 		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
+	if ( prob( 33 ) )
+		message_admins( "prob hit, but we're generating stuff anyway" )
+	spawn_space_ruins()
 	SSstar_system.spawn_anomaly(anomaly_type, src)
 
 /datum/star_system/proc/generate_anomaly()
@@ -625,6 +628,14 @@ Returns a faction datum by its name (case insensitive!)
 		SSstar_system.spawn_ship(roid_type, src)
 	}
 
+/datum/star_system/proc/spawn_space_ruins()
+	message_admins( "spawn_space_ruins" )
+	message_admins( "length: [length( subtypesof( /obj/structure/overmap/space_ruin/station ) )]" )
+	for(var/I = 0; I < rand(1, 2); I++){
+		var/ruin_type = pick( subtypesof(/obj/structure/overmap/space_ruin/station ) )
+		SSstar_system.spawn_ship(ruin_type, src)
+	}
+
 /datum/star_system/proc/spawn_enemies(enemy_type, amount)
 	if(!amount)
 		amount = difficulty_budget
@@ -645,7 +656,7 @@ Returns a faction datum by its name (case insensitive!)
 	name = "Staging"
 	desc = "Used for round initialisation and admin event staging"
 	hidden = TRUE
-	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_ASTEROIDS | STARSYSTEM_NO_WORMHOLE
+	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_ASTEROIDS | STARSYSTEM_NO_WORMHOLE | STARSYSTEM_NO_RUINS
 
 /datum/star_system/staging/handle_combat() //disable the table top action
 	return
@@ -731,7 +742,7 @@ Returns a faction datum by its name (case insensitive!)
 	y = 80
 	alignment = "nanotrasen"
 	adjacency_list = list("Lalande 21185")
-	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_ASTEROIDS | STARSYSTEM_NO_WORMHOLE
+	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_ASTEROIDS | STARSYSTEM_NO_WORMHOLE | STARSYSTEM_NO_RUINS
 
 /datum/star_system/outpost/after_enter(obj/structure/overmap/OM)
 	if(OM.role == MAIN_OVERMAP)
@@ -777,6 +788,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	alignment = "nanotrasen"
 	adjacency_list = list("Corvi", "Ariel", "Ida")
 	preset_trader = /datum/trader/czanekcorp
+	system_traits = STARSYSTEM_NO_RUINS
 
 /datum/star_system/sector2/ariel
 	name = "Ariel"

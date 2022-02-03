@@ -104,6 +104,7 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define STARSYSTEM_NO_ANOMALIES (1<<0)	//Prevents Anomalies Spawning
 #define STARSYSTEM_NO_ASTEROIDS (1<<1)	//Prevents Asteroids Spawning
 #define STARSYSTEM_NO_WORMHOLE (1<<2)	//Prevents Incoming Wormholes
+#define STARSYSTEM_NO_RUINS (1<<3) // Prevents space ruins spawning
 
 //Overmap deletion behavior - Occupants are defined as non-simple mobs.
 #define DAMAGE_ALWAYS_DELETES 		0 // Not a real bitflag, just here for readability. If no damage flags are set, damage will delete the overmap immediately regardless of anyone in it

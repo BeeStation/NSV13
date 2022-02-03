@@ -378,6 +378,13 @@ Called by add_sensor_profile_penalty if remove_in is used.
 					if(3)
 						thecolour = "#cc66ff"
 				filterType = showAsteroids
+			else if(istype(OM, /obj/structure/overmap/space_ruin))
+				if(!show_asteroids)
+					continue
+				if(OM.required_tier > mining_sensor_tier)
+					continue
+				thecolour = "#80523c"
+				filterType = showAsteroids
 			else
 				if(OM == linked)
 					thecolour = "#00FFFF"
