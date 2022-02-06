@@ -395,10 +395,13 @@
 
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball/admin
 	desc = "This cannon ball seems to be so comically large it's impossible to scale!"
-	no_trolley = TRUE
-	climb_time = 1000
+	anchored = TRUE
+	no_trolley = TRUE //Can still be loaded into a gun if you're really dedicated.
+	projectile_type = /obj/item/projectile/bullet/mac_round/cannonshot/admin
+	climb_time = 600
 	climb_stun = 10
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	obj_integrity = 1000
+	max_integrity = 1000
 
 /obj/item/ship_weapon/ammunition/naval_artillery/ap
 	name = "\improper TX-101 Armour Penetrating Naval Artillery Round"

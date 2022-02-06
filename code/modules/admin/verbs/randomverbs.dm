@@ -1089,8 +1089,9 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	switch(punishment)
 		if(ADMIN_PUNISHMENT_ENTRAPPED) //NSV13 start
-			for(var/turf/T in orange(1, target))
-				new /obj/item/ship_weapon/ammunition/naval_artillery/cannonball/admin
+			for(var/turf/T in (orange(1, target) - target.loc))
+				new /obj/item/ship_weapon/ammunition/naval_artillery/cannonball/admin(T)
+			target.playsound_local(get_turf(target), 'sound/magic/clockwork/invoke_general.ogg', 200, pressure_affected = FALSE)
 			to_chat(target, "<span class='narsiesmall'>Entrapped.</span>") //NSV13 end
 		if(ADMIN_PUNISHMENT_LIGHTNING)
 			var/turf/T = get_step(get_step(target, NORTH), NORTH)
