@@ -7,7 +7,7 @@
 	starting_faction = "nanotrasen"
 
 	objective_reminder_setting = 0				//We have strict timelines on this
-	objective_reminder_interval = 15 MINUTES	//60 Minutes Until Vanguard Arrives
+	objective_reminder_interval = 20 MINUTES	//80 Minutes Until Vanguard Arrives
 	reminder_one = ""							//Countdown 1
 	reminder_two = ""							//Countdown 2
 	reminder_three = ""							//Countdown 3
