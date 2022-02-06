@@ -94,8 +94,8 @@
 /obj/effect/spawner/lootdrop/syndicate_fighter
 	name = "syndicate fighter / raptor / frame spawner"
 	loot = list(
-		/obj/structure/overmap/fighter/light/syndicate = 2,
-		/obj/structure/overmap/fighter/dropship/sabre/syndicate = 1,
+		/obj/structure/overmap/small_craft/combat/light/syndicate = 2,
+		/obj/structure/overmap/small_craft/transport/sabre/syndicate = 1,
 		/obj/structure/fighter_frame = 1
 		)
 	lootcount = 1
@@ -103,9 +103,9 @@
 /obj/effect/spawner/lootdrop/fighter
 	name = "nanotrasen fighter / raptor / frame spawner"
 	loot = list(
-		/obj/structure/overmap/fighter/light = 2,
-		/obj/structure/overmap/fighter/dropship/sabre = 1,
-		/obj/structure/overmap/fighter/heavy = 1,
+		/obj/structure/overmap/small_craft/combat/light = 2,
+		/obj/structure/overmap/small_craft/transport/sabre = 1,
+		/obj/structure/overmap/small_craft/combat/heavy = 1,
 		/obj/structure/fighter_frame = 1
 		)
 	lootcount = 1

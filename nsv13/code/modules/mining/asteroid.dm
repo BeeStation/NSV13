@@ -70,6 +70,8 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	var/list/core_composition = list(/turf/closed/mineral/iron, /turf/closed/mineral/titanium)
 	var/required_tier = 1
 	armor = list("overmap_light" = 100, "overmap_medium" = 100, "overmap_heavy" = 25)
+	overmap_deletion_traits = DELETE_UNOCCUPIED_ON_DEPARTURE | DAMAGE_DELETES_UNOCCUPIED | DAMAGE_STARTS_COUNTDOWN | FIGHTERS_ARE_OCCUPANTS
+	deletion_teleports_occupants = TRUE
 
 /obj/structure/overmap/asteroid/apply_weapons()
 	return FALSE //Lol, no.
@@ -98,6 +100,16 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	angle = rand(0,360)
 	desired_angle = angle
 
+/obj/structure/overmap/asteroid/choose_interior(map_path_override)
+	if(map_path_override)
+		boarding_interior = new/datum/map_template(map_path_override)
+	else if(prob(33)) //I hate this but it works so fuck you
+		var/list/potential_ruins = flist("_maps/map_files/Mining/nsv13/ruins/")
+		boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/ruins/[pick(potential_ruins)]", null, FALSE, core_composition) //Set up an asteroid
+	else //67% chance to get an actual asteroid
+		var/list/potential_asteroids = flist("_maps/map_files/Mining/nsv13/asteroids/")
+		boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/asteroids/[pick(potential_asteroids)]", null, FALSE, core_composition) //Set up an asteroid
+
 /obj/structure/overmap/asteroid/Destroy()
 	. = ..()
 
@@ -109,15 +121,37 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	if(core_comp)
 		core_composition = core_comp
 
-/datum/map_template/asteroid/load(turf/T, centered = FALSE) ///Add in vein if applicable.
+/datum/map_template/asteroid/load(turf/T, centered = FALSE, magnet_load = FALSE) ///Add in vein if applicable.
 	. = ..()
 	if(!core_composition.len) //No core composition? you a normie asteroid.
 		return
-	var/turf/center = locate(T.x+(width/2), T.y+(height/2), T.z)
+	var/turf/center = null
+	if(centered)
+		center = T
+	else
+		center = locate(T.x+(width/2), T.y+(height/2), T.z)
 	for(var/turf/target_turf in orange(rand(3,5), center)) //Give that boi a nice core.
 		if(prob(85)) //Bit of random distribution
 			var/turf_type = pick(core_composition)
 			target_turf.ChangeTurf(turf_type) //Make the core itself
+	// add boundaries
+	var/turf/bottom_left = T
+	if(centered)
+		bottom_left = locate(T.x - (width/2), T.y - (height/2), T.z)
+
+	if(!magnet_load)
+		for(var/i = 0; i <= width; i++)
+			// top and bottom
+			var/turf/border = locate(bottom_left.x + i, bottom_left.y, bottom_left.z)
+			border.ChangeTurf(/turf/closed/indestructible/boarding_cordon)
+			border = locate(bottom_left.x + i, bottom_left.y + height, bottom_left.z)
+			border.ChangeTurf(/turf/closed/indestructible/boarding_cordon)
+		for(var/j = 1; j < (height); j++)
+			// left and right
+			var/turf/border = locate(bottom_left.x, bottom_left.y + j, bottom_left.z)
+			border.ChangeTurf(/turf/closed/indestructible/boarding_cordon)
+			border = locate(bottom_left.x + width, bottom_left.y + j, bottom_left.z)
+			border.ChangeTurf(/turf/closed/indestructible/boarding_cordon)
 
 /obj/effect/landmark/asteroid_spawn
 	name = "Asteroid Spawn"
@@ -269,7 +303,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	qdel(AS)
 
 /obj/machinery/computer/ship/mineral_magnet/proc/load_asteroid()
-	current_asteroid.load(target_location, FALSE)
+	current_asteroid.load(target_location, FALSE, TRUE)
 
 /obj/machinery/computer/ship/mineral_magnet/proc/start_push()
 	if(!has_overmap())

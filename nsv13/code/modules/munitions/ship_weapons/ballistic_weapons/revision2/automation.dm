@@ -8,6 +8,7 @@
 	anchored = TRUE
 	can_be_unanchored = TRUE
 	density = TRUE
+	subsystem_type = /datum/controller/subsystem/processing //Needs to go faster than SSmachines
 	var/process_delay = 0.5 SECONDS
 	var/next_process = 0
 	var/arm_icon_state = "welder3"
@@ -38,6 +39,7 @@
 
 /obj/machinery/conveyor/slow
 	name = "Slow conveyor"
+	subsystem_type = /datum/controller/subsystem/machines
 	stack_type = /obj/item/stack/conveyor/slow //What does this conveyor drop when decon'd?
 
 /obj/machinery/missile_builder/wirer
@@ -194,7 +196,7 @@
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/ammo_sorter
-	name = "Ammo sorter console (circuitboard)"
+	name = "Ammo sorter (circuitboard)"
 	desc = "A helpful storage unit that allows for mass storage of ammunition, with the ability to retrieve it all from a central console."
 	id = "ammo_sorter"
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 1000, /datum/material/gold = 500)
@@ -208,6 +210,7 @@
 
 /obj/item/circuitboard/machine/ammo_sorter
 	name = "Ammo sorter (circuitboard)"
+	req_components = list(/obj/item/stock_parts/matter_bin = 3)
 	build_path = /obj/machinery/ammo_sorter
 
 /obj/machinery/computer/ammo_sorter
@@ -287,7 +290,7 @@
 	anchored = TRUE
 	var/id = null
 	var/list/loaded = list() //What's loaded in?
-	var/max_capacity = 12 //Max cap for holding.
+	var/max_capacity = 12	//Max cap for holding.
 	var/loading = FALSE
 
 /obj/machinery/ammo_sorter/attackby(obj/item/I, mob/user, params)
@@ -335,6 +338,11 @@
 	if(loaded.len)
 		for(var/obj/item/C in loaded)
 			. += "<br/><span class='notice'>[C].</span>"
+
+/obj/machinery/ammo_sorter/RefreshParts()
+	max_capacity = 0
+	for(var/obj/item/stock_parts/matter_bin/MB in component_parts)
+		max_capacity += MB.rating+3
 
 /obj/machinery/ammo_sorter/MouseDrop_T(atom/movable/A, mob/user)
 	. = ..()

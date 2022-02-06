@@ -66,6 +66,9 @@ Bullet reactions
 		proj.fire(Get_Angle(pickedstart,pickedgoal))
 		proj.set_pixel_speed(4)
 
+/obj/structure/overmap/small_craft/relay_damage(proj_type)
+	return
+
 /obj/structure/overmap/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1)
 	var/blocked = FALSE
 	var/damage_sound = pick(GLOB.overmap_impact_sounds)
@@ -83,13 +86,26 @@ Bullet reactions
 	if(blocked)
 		return FALSE
 	SEND_SIGNAL(src, COMSIG_ATOM_DAMAGE_ACT, damage_amount) //Trigger to update our list of armour plates without making the server cry.
-	if(is_player_ship()) //Code for handling "superstructure crit" only applies to the player ship, nothing else.
+	if(CHECK_BITFIELD(overmap_deletion_traits, DAMAGE_STARTS_COUNTDOWN) && !(CHECK_BITFIELD(overmap_deletion_traits, DAMAGE_DELETES_UNOCCUPIED) && !has_occupants())) //Code for handling "superstructure crit" countdown
 		if(obj_integrity <= damage_amount || structure_crit) //Superstructure crit! They would explode otherwise, unable to withstand the hit.
 			obj_integrity = 10 //Automatically set them to 10 HP, so that the hit isn't totally ignored. Say if we have a nuke dealing 1800 DMG (the ship's full health) this stops them from not taking damage from it, as it's more DMG than we can handle.
 			handle_crit(damage_amount)
 			return FALSE
 	update_icon()
 	return ..()
+
+/obj/structure/overmap/proc/has_occupants()
+	if(length(mobs_in_ship))
+		for(var/mob/M in mobs_in_ship) // Hopefully we don't have to do this super often but I didn't want one list of people who have to hear noises and announcements and another list of people who matter for this
+			if(istype(M, /mob/living) && !istype(M, /mob/living/simple_animal))
+				return TRUE
+	if(length(overmaps_in_ship))
+		if(CHECK_BITFIELD(overmap_deletion_traits, FIGHTERS_ARE_OCCUPANTS))
+			return TRUE
+		for(var/obj/structure/overmap/OM as() in overmaps_in_ship)
+			if(length(OM.mobs_in_ship))
+				return TRUE
+	return FALSE
 
 /obj/structure/overmap/proc/is_player_ship() //Should this ship be considered a player ship? This doesnt count fighters because they need to actually die.
 	if(length(occupying_levels) || role == MAIN_OVERMAP)
@@ -109,10 +125,12 @@ Bullet reactions
 	if(role == MAIN_OVERMAP)
 		var/name = pick(GLOB.teleportlocs) //Time to kill everyone
 		target = GLOB.teleportlocs[name]
-	else
+	else if(length(linked_areas))
 		target = pick(linked_areas)
-	var/turf/T = pick(get_area_turfs(target))
-	new /obj/effect/temp_visual/explosion_telegraph(T, damage_amount)
+
+	if(target)
+		var/turf/T = pick(get_area_turfs(target))
+		new /obj/effect/temp_visual/explosion_telegraph(T, damage_amount)
 
 /obj/structure/overmap/proc/handle_critical_failure_part_1()
 	var/ss_crit_timer = world.time - structure_crit_init
