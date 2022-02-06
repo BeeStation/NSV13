@@ -724,8 +724,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				playsound(helm, sound, 100, 1)
 			return TRUE
 		if("C" || "c")
-			if(mass < MASS_SMALL) //Small craft are locked to laser guided
-				return
 			if(themob == pilot)
 				toggle_move_mode()
 			if(helm && prob(80))

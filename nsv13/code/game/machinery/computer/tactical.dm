@@ -26,6 +26,12 @@
 		if(!linked.gunner && isliving(user))
 			playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
 			linked.start_piloting(user, position)
+			to_chat(user, "<span class='notice'> TACTICAL CONTROL: \
+						Mouse 1 will fire the selected weapon (if applicable).</span>")
+			to_chat(user, "<span class='warning'>=Hotkeys=</span>")
+			to_chat(user, "<span class='notice'> Use <b>tab</b> to activate hotkey mode, then:</span>")
+			to_chat(user, "<span class='notice'> Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
+						Press <b>Space</b> to cycle fire modes.</span>")
 		ui = new(user, src, "TacticalConsole")
 		ui.open()
 		ui.set_autoupdate(TRUE)

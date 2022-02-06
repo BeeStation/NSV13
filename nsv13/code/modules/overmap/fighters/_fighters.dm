@@ -50,7 +50,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/escape_pod_type = /obj/structure/overmap/small_craft/escapepod
 	var/mutable_appearance/canopy
-	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/cycle_firemode,
+	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode,
 								.verb/show_control_panel, .verb/change_name, .verb/countermeasure)
 
 /obj/structure/overmap/small_craft/Destroy()
@@ -585,6 +585,15 @@ Been a mess since 2018, we'll fix it someday (probably)
 			start_piloting(user, "all_positions")
 			to_chat(user, "<span class='notice'>You climb into [src]'s cockpit.</span>")
 			ui_interact(user)
+			to_chat(user, "<span class='notice'>Small craft use directional keys (WASD in hotkey mode) to accelerate/decelerate in a given direction and the mouse to change the direction of craft.\
+						Mouse 1 will fire the selected weapon (if applicable).</span>")
+			to_chat(user, "<span class='warning'>=Hotkeys=</span>")
+			to_chat(user, "<span class='notice'>Use <b>tab</b> to activate hotkey mode, then:</span>")
+			to_chat(user, "<span class='notice'>Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
+						Press <b>Space</b> to cycle fire modes. \
+						Press <b>X</b> to cycle inertial dampners. \
+						Press <b>Alt<b> to cycle the handbrake. \
+						Press <b>C<b> to cycle mouse free movement.</span>")
 			return TRUE
 
 /obj/structure/overmap/small_craft/proc/force_eject(force = FALSE)

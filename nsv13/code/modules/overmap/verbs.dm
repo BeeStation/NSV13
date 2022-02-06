@@ -9,35 +9,6 @@
 	return !user.incapacitated() && isliving(user)
 
 //Control Scheme Verbs
-/obj/structure/overmap/verb/overmap_help()
-	set name = "Help"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check())
-		return
-
-	if(src.mass < MASS_SMALL)
-		to_chat(usr, "<span class='notice'> Small craft use directional keys (WASD in hotkey mode) to accelerate/decelerate in a given direction and the mouse to change the direction of craft.\
-					Mouse 1 will fire the selected weapon (if applicable).</span>")
-		to_chat(usr, "<span class='warning'>=Hotkeys=</span> \
-					<span class='notice'> Use <b>tab</b> to activate hotkey mode, then:</span>")
-		to_chat(usr, "<span class='notice'>	Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
-					Press <b>Space</b> to cycle fire modes. \
-					Press <b>X</b> to cycle inertial dampners. \
-					Press <b>Alt<b> to cycle the handbrake.")
-
-	else
-		to_chat(usr, "<span class='notice'> Large craft use the up and down arrow keys (W & S in hotkey mode) to accelerate/decelerate craft. Use the left and right arrow keys (A & D) to rotate the craft. (Helm)\
-					Mouse 1 will fire the selected weapon (if applicable).</span>")
-		to_chat(usr, "<span class='warning'>=Hotkeys=</span> \
-					<span class='notice'> Use <b>tab</b> to activate hotkey mode, then:</span>")
-		to_chat(usr, "<span class='notice'> Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
-					Press <b>Space</b> to cycle fire modes. (Tactical) \
-					Press <b>C</b> to cycle between mouse and keyboard steering. (Helm) \
-					Press <b>X</b> to cycle inertial dampners. (Helm) \
-					Press <b>Alt<b> to cycle the handbrake. (Helm)")
-
 /obj/structure/overmap/verb/toggle_brakes()
 	set name = "Toggle Handbrake"
 	set category = "Ship"
@@ -67,7 +38,6 @@
 		return
 	move_by_mouse = !move_by_mouse
 	to_chat(usr, "<span class='notice'>You [move_by_mouse ? "activate" : "deactivate"] [src]'s laser guided movement system.</span>")
-
 
 //General Overmap Verbs
 /obj/structure/overmap/verb/show_dradis()

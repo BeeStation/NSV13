@@ -62,7 +62,7 @@
 	ghost.hud_type = /datum/hud //Mostly blank hud
 
 	//Add some verbs
-	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/show_dradis, .verb/show_tactical, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode)
+	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/show_dradis, .verb/show_tactical, .verb/toggle_move_mode, .verb/cycle_firemode)
 
 	if(target)
 		ghost.key = target.key
