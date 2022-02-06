@@ -28,7 +28,7 @@
 	var/conversion_limit = 10 // max amount of moles that can be converted (input) per tick
 	var/conversion_ratio = 0.5 // base input/output ratio. Effected by power efficiency
 
-	var/min_power_draw = 70000 // min power use required for function
+	var/min_power_draw = 70000 // min power use required for function in watts
 	var/target_power_draw = 0 // desired power use
 	var/current_power_draw = 0 // power used last tick
 
@@ -74,6 +74,9 @@
 
 	qdel(spill)
 	return ..()
+
+/obj/machinery/atmospherics/components/binary/silo/SetInitDirections()
+	initialize_directions = initial(initialize_directions)
 
 /obj/machinery/atmospherics/components/binary/silo/proc/transmute_fuel()
 	var/datum/gas_mixture/input = airs[1]
@@ -127,10 +130,10 @@
 			return
 		else
 			explosion_chance += 5
-			if(prob(50))
-				playsound(src, 'nsv13/sound/effects/metal_clang.ogg', rand(80,100), TRUE, 6)
+			if(prob(30))
+				playsound(src, 'nsv13/sound/effects/metal_clang.ogg', 100, TRUE, 6)
 	else if(explosion_chance > 0)
-		explosion_chance -= 5
+		explosion_chance -= min(5, explosion_chance)
 	switch(i_pressure)
 		if(SILO_LEAK_PRESSURE to INFINITY)
 			bulb.icon_state = "status_alert"
@@ -184,9 +187,10 @@
 	var/multiplier = 1
 	if(air_contents.get_moles(GAS_NUCLEIUM) > 400) // something something spacetime expansion
 		multiplier = 1.5
+	playsound(src, 'nsv13/sound/effects/metal_clang.ogg', 100, FALSE, 6)
 	if(T != loc)
 		do_sparks(5, FALSE, T)
-		playsound(src, 'nsv13/sound/effects/metal_clang.ogg', 100, FALSE, 6)
+		playsound(T, 'nsv13/sound/effects/metal_clang.ogg', 100, FALSE, 6)
 	T.assume_air(air_contents)
 	air_contents.clear()
 	var/V2 = round(2 + (pressure - SILO_LEAK_PRESSURE) / 200) * multiplier // Every 200 kpa over the threshold will increase the range by one
@@ -229,14 +233,14 @@
 	var/list/data = list()
 	data["active"] = mode != SILO_MODE_IDLE
 	data["converting"] = mode == SILO_MODE_CONVERT
-	data["target_power"] = round(target_power_draw / 1000) // converts to KW
-	data["current_power"] = round(current_power_draw / 1000)
+	data["target_power"] = round(target_power_draw / 1000, 1) // converts to KW
+	data["current_power"] = round(current_power_draw / 1000, 1)
 	data["min_power"] = min_power_draw
 	data["max_power"] = cable?.surplus()
 	data["pressure"] = air_contents.return_pressure() / SILO_LEAK_PRESSURE
 	data["integrity"] = pressure_integrity / initial(pressure_integrity)
 	if(!cable)
-		data["stat"] = "Power Failure"
+		data["stat"] = "Power Error"
 	else
 		switch(mode)
 			if(SILO_MODE_IDLE)

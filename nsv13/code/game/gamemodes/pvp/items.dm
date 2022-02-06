@@ -224,7 +224,7 @@
 	OM.side_maxthrust *= 1.5
 	OM.speed_limit *= 1.5
 	OM.max_angular_acceleration *= 1.5
-	OM.ftl_drive.auto_spool = TRUE //Lazy sods, but yes this is a very valid option if you want to annoy NT.
+	OM.ftl_drive.auto_spool_enabled = TRUE //Lazy sods, but yes this is a very valid option if you want to annoy NT.
 	return TRUE
 
 /obj/item/ship_loadout_selector

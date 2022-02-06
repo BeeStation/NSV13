@@ -5,6 +5,7 @@ import { Window } from '../layouts';
 
 export const FTLSilo = (props, context) => {
   const { act, data } = useBackend(context);
+  const PowerStr = (data.current_power > 1000 ? data.current_power / 1000 + ' MW' : data.current_power + ' KW');
   return (
     <Window
       resizable
@@ -37,7 +38,7 @@ export const FTLSilo = (props, context) => {
               onDrag={(e, value) => act('target_power', {
                 target: value,
               })}>
-              {data.current_power + (data.current_power > 1000 ? ' MW' : ' KW')}
+              {PowerStr}
             </Slider>
           </Section>
           <Section title="Sensors">

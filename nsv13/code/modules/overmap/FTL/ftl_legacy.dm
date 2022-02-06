@@ -32,7 +32,7 @@
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
 	var/ftl_startup_time = 30 SECONDS
-	var/auto_spool = FALSE //For lazy admins
+	var/auto_spool_enabled = FALSE //For lazy admins
 	var/lockout = FALSE //Used for our end round shenanigains
 
 /obj/machinery/computer/ship/ftl_computer/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
@@ -74,7 +74,7 @@
 			ftl_exit = 'nsv13/sound/effects/ship/warp_exit.ogg'
 			ftl_startup_time = 5 SECONDS
 			spoolup_time = 10 SECONDS
-			auto_spool = TRUE
+			auto_spool_enabled = TRUE
 			jump_speed_factor = 10
 
 	max_range = initial(max_range) * 2
@@ -296,7 +296,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		ftl_state = FTL_STATE_IDLE
 		progress = 0
 		use_power = 0
-		if(auto_spool)
+		if(auto_spool_enabled)
 			active = TRUE
 			spoolup()
 			START_PROCESSING(SSmachines, src)

@@ -212,9 +212,10 @@
 	var/heat_increase = WASTE_GAS_HEAT + round(power_draw / 1000)
 	if(shielded) // Closing shields greatly increases internal temperture gain
 		heat_increase *= 2
-	var/air_heat_capacity = air.heat_capacity()
-	var/combined_energy = heat_capacity * target_temperature + air_heat_capacity * air_contents.return_temperature()
-	waste.set_temperature(combined_energy/(air_heat_capacity + heat_capacity) // combined energy divided by combined heat capacity
+	var/air_temperature = air_contents.return_temperature()
+	var/air_heat_capacity = air_contents.heat_capacity()
+	var/combined_energy = heat_capacity * (air_temperature + heat_increase) + air_heat_capacity * air_temperature // Thermodynamics and it's consequences have been a disaster for the humanity's programmers
+	waste.set_temperature(combined_energy/(air_heat_capacity + heat_capacity)) // combined energy divided by combined heat capacity
 	if(output.return_pressure() < MAX_WASTE_OUTPUT_PRESSURE)
 		air_contents.merge(waste)
 	else
@@ -246,6 +247,7 @@
 /obj/machinery/atmospherics/components/binary/drive_pylon/Destroy()
 	if(ftl_drive)
 		ftl_drive.pylons -= src
+		ftl_drive = null
 	QDEL_NULL(pylon_shield)
 	var/datum/gas_mixture/input = airs[1]
 	var/datum/gas_mixture/output = airs[2]
