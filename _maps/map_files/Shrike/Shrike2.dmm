@@ -824,6 +824,12 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
+"cH" = (
+/obj/structure/disposalpipe/segment{
+	dir = 6
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/quartermaster/storage)
 "cI" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	alpha = 220;
@@ -2801,6 +2807,10 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 4;
+	icon_state = "pipe"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "jH" = (
@@ -2924,6 +2934,8 @@
 /obj/machinery/door/poddoor/shutters/ship{
 	id = "galley_shutters"
 	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/kitchen)
 "ka" = (
@@ -3040,6 +3052,10 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer3{
 	dir = 1
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 4;
+	icon_state = "pipe"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "kx" = (
@@ -3104,6 +3120,9 @@
 	dir = 1
 	},
 /obj/item/radio/intercom/directional/north,
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "kC" = (
@@ -3126,6 +3145,7 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "kE" = (
@@ -3325,8 +3345,12 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
 "ls" = (
-/obj/structure/disposalpipe/trunk,
-/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/segment,
+/obj/structure/table,
+/obj/item/clipboard,
+/obj/item/clipboard,
+/obj/item/clipboard,
+/obj/item/export_scanner,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "lt" = (
@@ -3361,11 +3385,9 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
-/obj/item/clipboard,
-/obj/item/clipboard,
-/obj/item/clipboard,
-/obj/item/export_scanner,
-/obj/item/export_scanner,
+/obj/structure/disposalpipe/segment,
+/obj/item/stack/packageWrap,
+/obj/item/destTagger,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "lF" = (
@@ -3449,6 +3471,9 @@
 /obj/structure/window/reinforced/spawner/north,
 /obj/structure/window/reinforced/spawner/west,
 /obj/structure/window/reinforced/spawner/east,
+/obj/machinery/conveyor{
+	id = "mail_primary"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
 "mf" = (
@@ -3511,6 +3536,8 @@
 	id = "galley_shutters"
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/kitchen)
 "mt" = (
@@ -3556,8 +3583,10 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/item/book/manual/wiki/sop/supply,
-/obj/structure/table,
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
+	dir = 1
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "mK" = (
@@ -3609,6 +3638,8 @@
 "mT" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/extinguisher_cabinet/west,
+/obj/structure/table,
+/obj/item/book/manual/wiki/sop/supply,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "mX" = (
@@ -4394,6 +4425,9 @@
 	pixel_x = 5;
 	pixel_y = 3
 	},
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "pK" = (
@@ -5048,6 +5082,9 @@
 	id = "cargo_desk"
 	},
 /obj/item/paper_bin,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "rP" = (
@@ -5190,6 +5227,7 @@
 /obj/machinery/door/poddoor/shutters/ship/preopen{
 	id = "cargo_desk"
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "sd" = (
@@ -5643,6 +5681,10 @@
 /obj/structure/window/reinforced/spawner/west,
 /obj/structure/window/reinforced/spawner/east,
 /obj/structure/window/reinforced/spawner,
+/obj/machinery/conveyor{
+	dir = 1;
+	id = "mail_secondary"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
 "tB" = (
@@ -8711,6 +8753,8 @@
 /obj/machinery/door/poddoor/shutters/ship{
 	id = "galley_shutters"
 	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/kitchen)
 "Do" = (
@@ -9660,7 +9704,10 @@
 /obj/effect/turf_decal/loading_area{
 	dir = 1
 	},
-/turf/open/floor/monotile/steel,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "Ga" = (
 /obj/machinery/airalarm/directional/west,
@@ -10543,6 +10590,8 @@
 	id = "galley_shutters"
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/kitchen)
 "IY" = (
@@ -10709,6 +10758,8 @@
 	dir = 4;
 	id = "galley_shutters"
 	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/kitchen)
 "Jm" = (
@@ -10873,7 +10924,8 @@
 /obj/item/ship_weapon/ammunition/torpedo/freight{
 	pixel_y = 12
 	},
-/turf/open/floor/monotile/dark,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "JL" = (
 /obj/effect/spawner/lootdrop/gambling,
@@ -12184,6 +12236,10 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4;
+	icon_state = "pipe"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
@@ -46308,7 +46364,7 @@ eL
 Zz
 mf
 OJ
-OJ
+cH
 JJ
 ls
 mT
@@ -52264,7 +52320,7 @@ uY
 uY
 zj
 re
-KI
+WB
 KI
 KI
 KI
@@ -52521,7 +52577,7 @@ hc
 GD
 ch
 re
-KI
+WB
 KI
 KI
 KI
@@ -52778,7 +52834,7 @@ KZ
 KZ
 Jb
 KZ
-KI
+WB
 KI
 gi
 gi
@@ -53014,7 +53070,7 @@ gi
 KI
 KI
 KI
-KI
+WB
 yg
 Jh
 KG
@@ -53035,7 +53091,7 @@ Pa
 Tl
 zf
 KZ
-KI
+WB
 KI
 gi
 gi
@@ -53271,7 +53327,7 @@ gi
 KI
 KI
 KI
-KI
+WB
 yg
 Fq
 KH
@@ -53292,7 +53348,7 @@ YR
 UE
 zT
 KZ
-KI
+WB
 KI
 gi
 gi
@@ -53528,7 +53584,7 @@ gi
 gi
 gi
 KI
-KI
+WB
 yg
 Rk
 Hv
@@ -53549,7 +53605,7 @@ Qk
 Vi
 Xk
 KZ
-KI
+WB
 KI
 gi
 gi
@@ -53785,7 +53841,7 @@ gi
 gi
 gi
 KI
-KI
+WB
 yg
 Jn
 oM
@@ -53806,7 +53862,7 @@ On
 On
 Xm
 KZ
-KI
+WB
 KI
 gi
 gi
@@ -54040,9 +54096,9 @@ gi
 gi
 gi
 gi
-gi
 KI
 KI
+WB
 yg
 Hn
 Ni
@@ -54063,9 +54119,9 @@ KZ
 Tr
 Yv
 KZ
+WB
 KI
 KI
-gi
 gi
 gi
 gi
@@ -54297,9 +54353,9 @@ gi
 gi
 gi
 gi
-gi
 KI
 KI
+yg
 yg
 Jo
 tM
@@ -54320,9 +54376,9 @@ KZ
 Tr
 pC
 KZ
+KZ
 KI
 KI
-gi
 gi
 gi
 gi
@@ -54554,7 +54610,7 @@ gi
 gi
 gi
 gi
-gi
+KI
 KI
 KI
 yg
@@ -54579,7 +54635,7 @@ KZ
 KZ
 KI
 KI
-gi
+KI
 gi
 gi
 gi
