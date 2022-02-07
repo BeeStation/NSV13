@@ -3,7 +3,7 @@
 #define MAX_WASTE_STORAGE_PRESSURE 8000
 
 // Base temperature to heat waste gas by in celcius.
-#define WASTE_GAS_HEAT 50
+#define WASTE_GAS_HEAT 35
 
 /// Multiplies power draw by this value every tick it remains active when spooled. Higher values will make power use increase faster
 #define PYLON_ACTIVE_EXPONENT 1.01
@@ -49,19 +49,28 @@
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/process()
 	if(!on)
+		return PROCESS_KILL
+	if(pylon_state == PYLON_STATE_SHUTDOWN) //halt the spinning
+		power_draw = 0
+		if(--gyro_speed <= 0)
+			finalalize_shutdown()
+		else
+			capacitor -= round(capacitor / gyro_speed, 0.1)
 		return
-	if(pylon_state != PYLON_STATE_SHUTDOWN)
-		if(!power_drain())
-			set_state(PYLON_STATE_SHUTDOWN)
-			return
-		if(capacitor >= req_capacitor)
-			set_state(PYLON_STATE_ACTIVE)
+	if(!power_drain())
+		set_state(PYLON_STATE_SHUTDOWN)
+		return
+	if(capacitor >= req_capacitor)
+		set_state(PYLON_STATE_ACTIVE)
 
 	var/datum/gas_mixture/input = airs[1]
-
 	switch(pylon_state)
 		if(PYLON_STATE_ACTIVE)
-			power_draw = round(power_draw * PYLON_ACTIVE_EXPONENT + 300) // Active pylons slowly but exponentially require more charge to stay stable. Don't leave them on when you don't need to
+			if(shielded)
+				active_mol_use = max(round(active_mol_use * PYLON_ACTIVE_EXPONENT, 0.1), 0.025) // Shielded pylons use less power but burn more fuel
+				power_draw += round(500 * (active_mol_use / 10 + 1), 1)
+			else
+				power_draw = round(power_draw * PYLON_ACTIVE_EXPONENT + 300, 1) // Active pylons slowly but exponentially require more charge to stay stable. Don't leave them on when you don't need to
 			if(input.get_moles(GAS_NUCLEIUM) < active_mol_use)
 				say("Insufficient FTL fuel, spooling down.")
 				set_state(PYLON_STATE_SHUTDOWN)
@@ -87,7 +96,7 @@
 
 			input.adjust_moles(GAS_NUCLEIUM, -0.25)
 			if(prob(20))
-				var/datum/effect_system/spark_spread/S = new /datum/effect_system/spark_spread
+				var/datum/effect_system/spark_spread/S = new
 				S.set_up(6, 0, src)
 				S.start()
 			power_draw = 20000
@@ -108,22 +117,16 @@
 			if(gyro_speed < req_gyro_speed)
 				set_state(PYLON_STATE_SHUTDOWN)
 
-		if(PYLON_STATE_SHUTDOWN) //halt the spinning
-			power_draw = 0
-			if(--gyro_speed <= 0)
-				finalalize_shutdown()
-			else
-				capacitor -= round(capacitor / gyro_speed, 0.1)
-
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/power_drain()
-	if(power_draw <= 0)
+	if(power_draw)
 		return TRUE
 	var/turf/T = get_turf(src)
-	cable = T.get_cable_node()
-	if(!cable)
-		return FALSE
+	if(!cable || cable.loc != loc)
+		cable = T.get_cable_node()
+		if(!cable)
+			return FALSE
 	if(power_draw > cable.surplus())
-		visible_message("<span class='warning'>\The [src] lets out an eerie hum as it's power light flickers.</span>")
+		visible_message("<span class='warning'>\The [src] lets out a metallic groan as it's power light flickers.</span>")
 		return FALSE
 	cable.add_load(power_draw)
 	return TRUE
@@ -158,10 +161,9 @@
 		if(MAX_WASTE_STORAGE_PRESSURE to INFINITY)
 			var/turf/T = get_turf(src)
 			T.assume_air(air_contents)
-			explosion(T, 0, 1, 3)
 			QDEL_NULL(air_contents)
-			if(!QDELETED(src))
-				qdel(src)
+			explosion(T, 0, 1, 3)
+			qdel(src)
 			return
 	var/output_pressure = output.return_pressure()
 	if(output_pressure < MAX_WASTE_OUTPUT_PRESSURE)
@@ -194,6 +196,7 @@
 	power_draw = 0
 	gyro_speed = 0
 	capacitor = 0
+	active_mol_use = initial(active_mol_use)
 	on = FALSE
 	STOP_PROCESSING(SSmachines, src)
 
@@ -209,7 +212,7 @@
 	var/datum/gas_mixture/waste = new
 	waste.adjust_moles(GAS_PLASMA, input_fuel / 3)
 	waste.adjust_moles(GAS_NUCLEIUM, input_fuel / 4)
-	var/heat_increase = WASTE_GAS_HEAT + round(power_draw / 1000)
+	var/heat_increase = WASTE_GAS_HEAT + round(power_draw / 1000 / log(power_draw), 1)
 	if(shielded) // Closing shields greatly increases internal temperture gain
 		heat_increase *= 2
 	var/air_temperature = air_contents.return_temperature()
@@ -263,6 +266,10 @@
 
 	qdel(spill)
 	return ..()
+
+
+/obj/machinery/atmospherics/components/binary/drive_pylon/return_analyzable_air()
+	return airs + air_contents
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/update_visuals()
 	cut_overlays()

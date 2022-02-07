@@ -8,7 +8,7 @@
 
 /// Converts a number into it's coressponding index in the phonetic alphabet (1 = Alpha, 26 = Zulu by default)
 /proc/index2phonetic(index, range = 26)
-	// YES, I KNOW. It's "Alfa" not "Alpha" but sometimes ignorance is bliss
+	// I know it's "Alfa" not "Alpha" but sometimes ignorance is bliss
 	var/static/list/nato = list(
 		"Alpha",
 		"Bravo",

@@ -221,7 +221,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 	radio_channel = "Supply"
 	req_access = null
 	req_one_access_txt = "31;48"
-
+/*
 /obj/machinery/computer/ship/ftl_core/Initialize()
 	. = ..()
 	start_monitoring(get_overmap())
@@ -234,7 +234,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 
 /obj/machinery/computer/ship/ftl_core/proc/start_monitoring(obj/structure/overmap/OM)
 	return
-//	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/announce_jump)
+	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/announce_jump)
 
 /*
 A way for syndies to track where the player ship is going in advance, so they can get ahead of them and hunt them down.
@@ -242,7 +242,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_core/proc/announce_jump()
 	radio.talk_into(src, "TRACKING: FTL signature detected. Tracking information updated.", radio_channel)
-
+*/
 /obj/machinery/computer/ship/ftl_core/has_overmap()
 	. = ..()
 	linked?.ftl_drive = src // This is bad
@@ -286,6 +286,10 @@ A way for syndies to track where the player ship is going in advance, so they ca
 				else
 					P.set_state(PYLON_STATE_SHUTDOWN)
 					. = TRUE
+		if("toggle_shield")
+			if(!P)
+				return
+			P.toggle_shield()
 		if("find_pylons")
 			get_pylons()
 			. = TRUE
@@ -309,19 +313,20 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	data["goal"] = req_charge
 	data["ready"] = ftl_state == FTL_STATE_READY
 	data["jumping"] = ftl_state == FTL_STATE_JUMPING
-	var/list/pylons_info = list()
+	var/list/all_pylon_info = list()
 	var/count = 0
 	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
 		count++
 		var/list/pylon_info = list()
-		pylon_info["name"] = "Pylon [count]"
+		pylon_info["name"] = "Pylon [index2greek(count)]"
 		pylon_info["id"] = "\ref[P]"
 		pylon_info["status"] = P.pylon_state
 		pylon_info["gyro"] = round(P.gyro_speed / P.req_gyro_speed, 0.01)
 		pylon_info["capacitor"] = round(P.capacitor / P.req_capacitor, 0.01)
 		pylon_info["draw"] = DisplayPower(P.power_draw)
-		pylons_info[++pylons_info.len] = pylon_info // probably could have a better var name for this one
-	data["pylons"] = pylons_info
+		pylon_info["shielded"] = P.shielded
+		all_pylon_info[++all_pylon_info.len] = pylon_info // Unfortunately, this is currently the best way to embed lists
+	data["pylons"] = all_pylon_info
 	data["can_auto_spool"] = auto_spool_capable
 	data["auto_spool_enabled"] = auto_spool_enabled
 	return data

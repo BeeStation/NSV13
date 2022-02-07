@@ -20,12 +20,16 @@ export const FTLComputerModular = (props, context) => {
                 <Fragment key={key}>
                   <Section title={`${value.name}`}>
                     <Button
-                      fluid
                       content="Toggle Power"
                       icon="power-off"
                       color={value.status === "shutdown" ? "average" : value.status === "offline" ? "bad" : "good"}
                       disabled={value.status === "shutdown"}
                       onClick={() => act('pylon_power', { id: value.id })} />
+                    <Button
+                      content={value.shielded ? "Close Shield" : "Open Shield"}
+                      icon="exclamation-triangle"
+                      color={value.shielded && "average"}
+                      onClick={() => act('toggle_shield', { id: value.id })} />
                     Cycle Status: <b>{value.status}</b>
                     <br />
                     <br />
