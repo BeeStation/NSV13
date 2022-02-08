@@ -254,10 +254,8 @@ SUBSYSTEM_DEF(mapping)
 	//NSV13 load in the overmap Z-levels and create the main overmap that we'll need.
 	var/obj/structure/overmap/OM = instance_overmap(config.ship_type)
 	pass(OM)
-	// and the boarding levels - the lists are static so this works
-	add_new_zlevel("Overmap boarding reservation", ZTRAITS_BOARDABLE_SHIP)
-	OM.free_boarding_levels += world.maxz
-	add_new_zlevel("Captured ship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
+	// Free boarding overmap/mining level
+	add_new_zlevel("Overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
 	OM.free_treadmills += world.maxz
 
 	if(SSdbcore.Connect())

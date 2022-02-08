@@ -9,6 +9,9 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	set waitfor = FALSE
 	var/was_fully_loaded = TRUE
 	if(interior_status != INTERIOR_READY) // determines whether this ship can be loaded again
+		if(interior_status != INTERIOR_NOT_LOADED)
+			message_admins("DEBUG: Deleting the interior for [src] before it was fully loaded")
+			log_mapping("DEBUG: Deleting the interior for [src] before it was fully loaded")
 		was_fully_loaded = FALSE
 	interior_status = INTERIOR_DELETING
 	//Free up the boarding level....
@@ -22,23 +25,11 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 					SL.linked_overmap = null //Free that level up.
 				occupying_levels = list()
 				docking_points = list()
-				/*
-				var/turf/TT = get_turf(locate(1,1,boarding_reservation_z))
-				//Yeet the crew
-				TT.ChangeTurf(/turf/open/space/transit)
-				for(var/mob/living/L in mobs_in_ship)
-					L.forceMove(TT)
-					L.death()
-				TT.ChangeTurf(/turf/open/space/basic)
-				*/
 				SSair.can_fire = FALSE
 				for(var/turf/T in boarding_interior.get_affected_turfs(locate(1, 1, boarding_reservation_z), FALSE)) //nuke
-					CHECK_TICK
 					T.empty()
+					CHECK_TICK
 				SSair.can_fire = TRUE
-				if(reserved_z)
-					free_treadmills += reserved_z
-					reserved_z = null
 				free_boarding_levels += boarding_reservation_z
 				boarding_reservation_z = null
 				QDEL_NULL(boarding_interior)
@@ -47,6 +38,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 				var/turf/target = locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3])
 				for(var/turf/T as () in boarding_interior.get_affected_turfs(target)) //nuke
 					T.empty()
+					CHECK_TICK
 			//Free the reservation.
 			QDEL_NULL(roomReservation)
 			boarding_interior = null
@@ -69,7 +61,6 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 		return
 	if(length(free_boarding_levels))
 		var/_z = pick_n_take(free_boarding_levels)
-		message_admins("found free boarding level [_z]")
 		boarding_reservation_z = _z
 		return
 	SSmapping.add_new_zlevel("Overmap boarding reservation", ZTRAITS_BOARDABLE_SHIP)
@@ -110,7 +101,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	SL.linked_overmap = src
 	occupying_levels += SL
 	//Just in case...
-	if(!docking_points.len)
+	if(!length(docking_points))
 		docking_points += get_turf(locate(20, world.maxy/2, boarding_reservation_z))
 	boarder.relay_to_nearby('nsv13/sound/effects/ship/boarding_pod.ogg', ignore_self=FALSE)
 
@@ -143,7 +134,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	if(interior_status == INTERIOR_READY) // it's loaded already, we're done
 		return TRUE
 	else if(interior_status != INTERIOR_NOT_LOADED)
-		message_admins("[src] attempted to load its interior, but it was already loading, deleting, or had been released!")
+		message_admins("[src] attempted to load its interior, but it was already loading, deleting, or had been released! (Pretty normal for asteroids)")
 		return FALSE // If we're currently loading or deleting, stop
 
 	interior_status = INTERIOR_LOADING
@@ -151,6 +142,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	choose_interior()
 	if(!boarding_interior?.mappath)
 		message_admins("Error parsing boarding interior map for [src]")
+		return FALSE
 
 	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
 	if(!roomReservation)
@@ -165,6 +157,11 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		if(!entryway.linked && get_area(entryway) == target_area)
 			interior_entry_points += entryway
 			entryway.linked = src
+	if(!length(interior_entry_points))
+		var/turf/bottom = get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2] + 2, roomReservation.bottom_left_coords[3]))
+		var/obj/effect/landmark/dropship_entry/entryway = new /obj/effect/landmark/dropship_entry(bottom)
+		interior_entry_points += entryway
+		entryway.linked = src
 
 /obj/structure/overmap/proc/load_interior(turf/bottom_left, width, height)
 	SSair.can_fire = FALSE

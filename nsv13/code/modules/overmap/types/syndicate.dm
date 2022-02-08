@@ -520,6 +520,7 @@
 
 /obj/structure/overmap/syndicate/ai/bomber //need custom AI behaviour to target capitals only
 	name = "Syndicate Bomber"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/fighter_overmap.dmi'
 	icon_state = "bomber_syndicate"
 	damage_states = FALSE
 	brakes = FALSE

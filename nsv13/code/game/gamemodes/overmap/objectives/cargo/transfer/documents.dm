@@ -8,4 +8,5 @@
 	C.send_prepackaged_item = TRUE
 	C.allow_replacements = FALSE // This is secure data, replacement is not an option 
 	C.overmap_objective = src
+	send_to_station_pickup_point = TRUE
 	freight_types += C
