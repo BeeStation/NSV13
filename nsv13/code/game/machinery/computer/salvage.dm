@@ -5,6 +5,7 @@
 	icon_screen = "salvage"
 	circuit = /obj/item/circuitboard/computer/salvage
 	var/max_salvage_range = 20 //must stay within N tiles of range to salvage a ship.
+	var/required_damage_percentage = 50
 	var/obj/structure/overmap/salvage_target = null //What are we currently salvaging?
 	var/static/can_salvage = TRUE //Cooldown
 	var/salvage_cooldown = 5 MINUTES
@@ -78,6 +79,9 @@
 			if((linked.active_boarding_target && !QDELETED(linked.active_boarding_target)))
 				playsound(pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_2.ogg'), 100, 1)
 				radio.talk_into(src, "WARNING: This console is already maintaining EWAR scrambling on [linked.active_boarding_target]. Confirmation required to proceed.", radio_channel)
+				return FALSE
+			if((OM.obj_integrity * 100 / initial(OM.obj_integrity)) > required_damage_percentage)
+				radio.talk_into(src, "Target is not sufficiently compromised for EWAR scrambling.", radio_channel)
 				return FALSE
 			radio.talk_into(src, "Electronic countermeasure deployment in progress.", radio_channel)
 			can_salvage = FALSE
