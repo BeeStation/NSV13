@@ -6,7 +6,7 @@
 	circuit = /obj/item/circuitboard/computer/salvage
 	var/max_salvage_range = 20 //must stay within N tiles of range to salvage a ship.
 	var/obj/structure/overmap/salvage_target = null //What are we currently salvaging?
-	var/can_salvage = TRUE //Cooldown
+	var/static/can_salvage = TRUE //Cooldown
 	var/salvage_cooldown = 5 MINUTES
 	var/obj/item/radio/radio //For alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_sec
@@ -84,6 +84,8 @@
 			if(OM.ai_load_interior(linked))
 				linked.active_boarding_target = OM
 				addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown)
+				OM.ai_controlled = FALSE
+				OM.apply_weapons()
 				radio.talk_into(src, "Enemy point defense systems scrambled. Bluefor strike teams cleared for approach.", radio_channel)
 			else
 				radio.talk_into(src, "Unable to scramble enemy point defense systems. Aborting...", radio_channel)
