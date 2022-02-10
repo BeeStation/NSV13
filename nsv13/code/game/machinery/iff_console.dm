@@ -92,6 +92,8 @@ If someone hacks it, you can always rebuild it.
 			next_warning = world.time + minimum_time_between_warnings
 	if(hack_progress >= hack_goal)
 		hack()
+		var/obj/structure/overmap/OM = get_overmap()
+		log_game("[user] changed the IFF of [OM] to [OM?.faction]")
 		hack_progress = 0
 	data["is_hackerman"] = (tool && obj_flags & EMAGGED) ? TRUE : FALSE
 	data["hack_progress"] = hack_progress
@@ -130,3 +132,18 @@ If someone hacks it, you can always rebuild it.
 			return
 	//Fallback. Maybe we tried to IFF hack an IFF scrambled ship...?
 	OM.faction = initial(OM.faction)
+	if(OM.role == MAIN_OVERMAP)
+		// Make Solgov come get them
+		var/datum/star_system/player_system = OM.current_system
+		if(!player_system)
+			player_system = SSstar_system.ships[OM]["target_system"]
+		var/datum/star_system/starting_point = SSstar_system.system_by_id(pick(player_system.adjacency_list))
+
+		var/datum/fleet/F = new /datum/fleet/interdiction/solgov
+		starting_point.fleets += F
+		F.current_system = starting_point
+		F.assemble(starting_point)
+		for(var/obj/structure/overmap/OM in target.system_contents)
+			if(length(OM.mobs_in_ship) && OM.reserved_z)
+				F.encounter(OM)
+		message_admins("Solgov interdictor fleet created at [target].")
