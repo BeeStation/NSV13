@@ -139,6 +139,7 @@ If someone hacks it, you can always rebuild it.
 					if(length(ship.mobs_in_ship) && ship.reserved_z)
 						F.encounter(ship)
 				message_admins("Solgov interdictor fleet created at [starting_point].")
+				priority_announce("Contact with [GLOB.station_name] lost. Code Charlie Foxtrot.", "White Rapids Fleet Command")
 			return
 		if("pirate")
 			OM.faction = "nanotrasen"
