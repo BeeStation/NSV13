@@ -17,8 +17,17 @@ If someone hacks it, you can always rebuild it.
 	var/hack_goal = 2 MINUTES
 	var/faction = null
 
+	var/next_warning = 0
+	var/obj/item/radio/radio
+	var/radio_channel = RADIO_CHANNEL_COMMON
+	var/minimum_time_between_warnings = 400
+
 /obj/machinery/computer/iff_console/Initialize(mapload, obj/item/circuitboard/C)
 	..()
+	radio = new(src)
+	radio.subspace_transmission = TRUE
+	radio.canhear_range = 0
+	radio.recalculateChannels()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/computer/iff_console/LateInitialize()
@@ -32,6 +41,10 @@ If someone hacks it, you can always rebuild it.
 		faction = OM.faction
 	else //And yeah, we want to mirror state here, so.
 		OM.faction = faction
+
+/obj.machinery/computer/iff_console/Destroy()
+	QDEL_NULL(radio)
+	return ..()
 
 /obj/machinery/computer/iff_console/examine(mob/user)
 	. = ..()
@@ -72,6 +85,11 @@ If someone hacks it, you can always rebuild it.
 	var/obj/item/multitool/tool = get_multitool(user)
 	if(tool) //Don't all crowd around it at once... You have to hold a multitool out to progress the hack...
 		hack_progress += 1 SECONDS
+		if(next_warning < world.time && prob(15))
+			var/area/A = get_area(loc)
+			var/message = "Unauthorized access of IFF transponder in [A]!!"
+			radio.talk_into(src, message, radio_channel)
+			next_warning = world.time + minimum_time_between_warnings
 	if(hack_progress >= hack_goal)
 		hack()
 		hack_progress = 0
@@ -97,10 +115,6 @@ If someone hacks it, you can always rebuild it.
 	OM.relay(pick('sound/ambience/ambitech.ogg', 'sound/ambience/ambitech3.ogg'))
 	say(pick("981d5d2ef58bae5aec45eb7030e56d29","0d4b1c990a4d84aba5aa0560c55a3f4e", "e935f4417ad97a36e540bc67a807d5c4"))
 	playsound(loc, 'nsv13/sound/effects/computer/alarm_3.ogg', 80)
-	//You now own this small runabout.
-	if(OM.ai_controlled)
-		OM.ai_controlled = FALSE
-		OM.apply_weapons() //So the guns count ammo properly.
 	switch(OM.faction)
 		if("syndicate")
 			OM.faction = "nanotrasen"
