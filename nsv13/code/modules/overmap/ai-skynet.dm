@@ -855,7 +855,7 @@ Adding tasks is easy! Just define a datum for it.
 	hide_movements = TRUE //They're "friendly" alright....
 	faction_id = FACTION_ID_NT
 	taunts = list("You are encroaching on our airspace, prepare to be destroyed", "You have entered SolGov secure airspace. Prepare to be destroyed", "You are in violation of the SolGov non-aggression agreement. Leave this airspace immediately.")
-	var/list/traitor_taunts = list("Rogue vessel, reset your identification codes immediately or be destroyed.", "The penalty for defection is death.", "Your crew is charged with treason and breach of contract. Return to Sol to stand trial, or die here.")
+	var/list/traitor_taunts = list("Rogue vessel, reset your identification codes immediately or be destroyed.", "The penalty for defection is death.", "Your crew is charged with treason and breach of contract. Lethal force is authorized.")
 	size = FLEET_DIFFICULTY_INSANE
 	greetings = list("Allied vessel. You will be scanned for compliance with the peacekeeper act in 30 seconds. We thank you for your compliance.")
 	var/scan_delay = 30 SECONDS
