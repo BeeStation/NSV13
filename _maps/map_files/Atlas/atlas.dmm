@@ -4355,7 +4355,9 @@
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer3{
 	dir = 9
 	},
-/obj/machinery/meter/atmos,
+/obj/machinery/meter/atmos{
+	target_layer = 3
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "nU" = (
@@ -9195,6 +9197,15 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
+"Ft" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/monotile/steel,
+/area/engine/engine_room)
 "Fv" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/monotile/steel,
@@ -9235,7 +9246,9 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "FB" = (
-/obj/machinery/meter/atmos/distro_loop,
+/obj/machinery/meter/atmos/distro_loop{
+	target_layer = 1
+	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -41752,7 +41765,7 @@ MO
 om
 Ba
 NQ
-QT
+Ft
 QT
 TT
 PQ
