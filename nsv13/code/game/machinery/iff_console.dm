@@ -42,7 +42,7 @@ If someone hacks it, you can always rebuild it.
 	else //And yeah, we want to mirror state here, so.
 		OM.faction = faction
 
-/obj.machinery/computer/iff_console/Destroy()
+/obj/machinery/computer/iff_console/Destroy()
 	QDEL_NULL(radio)
 	return ..()
 
