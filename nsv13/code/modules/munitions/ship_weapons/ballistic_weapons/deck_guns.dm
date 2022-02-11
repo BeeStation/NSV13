@@ -393,6 +393,16 @@
 	volatility = 0
 	explode_when_hit = FALSE //Literally just iron
 
+/obj/item/ship_weapon/ammunition/naval_artillery/cannonball/admin
+	desc = "This cannon ball seems to be so comically large it's impossible to scale!"
+	anchored = TRUE
+	no_trolley = TRUE //Can still be loaded into a gun if you're really dedicated.
+	projectile_type = /obj/item/projectile/bullet/mac_round/cannonshot/admin
+	climb_time = 600
+	climb_stun = 10
+	obj_integrity = 1000
+	max_integrity = 1000
+
 /obj/item/ship_weapon/ammunition/naval_artillery/ap
 	name = "\improper TX-101 Armour Penetrating Naval Artillery Round"
 	desc = "A massive diamond-tipped round which can slice through armour plating with ease to deliver a lethal impact. Best suited for targets with heavy armour such as destroyers and up."
