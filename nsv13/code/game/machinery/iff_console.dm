@@ -131,7 +131,7 @@ If someone hacks it, you can always rebuild it.
 					player_system = SSstar_system.ships[OM]["target_system"]
 				var/datum/star_system/starting_point = SSstar_system.system_by_id(pick(player_system.adjacency_list))
 
-				var/datum/fleet/F = new /datum/fleet/interdiction/solgov
+				var/datum/fleet/F = new /datum/fleet/solgov/interdiction
 				starting_point.fleets += F
 				F.current_system = starting_point
 				F.assemble(starting_point)
@@ -139,7 +139,7 @@ If someone hacks it, you can always rebuild it.
 					if(length(ship.mobs_in_ship) && ship.reserved_z)
 						F.encounter(ship)
 				message_admins("Solgov interdictor fleet created at [starting_point].")
-				priority_announce("Contact with [GLOB.station_name] lost. Code Charlie Foxtrot.", "White Rapids Fleet Command")
+				priority_announce("Contact with [GLOB.station_name] lost. Code Charlie Foxtrot One Niner Eight Four.", "White Rapids Fleet Command")
 			return
 		if("pirate")
 			OM.faction = "nanotrasen"
