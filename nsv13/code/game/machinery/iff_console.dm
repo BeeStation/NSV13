@@ -58,6 +58,7 @@ If someone hacks it, you can always rebuild it.
 //Subtype for boarding. Starts emagged so the marines can get straight underway.
 /obj/machinery/computer/iff_console/boarding
 	start_emagged = TRUE
+	radio_channel = RADIO_CHANNEL_SYNDICATE
 
 /obj/machinery/computer/iff_console/emag_act()
 	. = ..()
