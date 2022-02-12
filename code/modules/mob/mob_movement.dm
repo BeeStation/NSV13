@@ -139,7 +139,7 @@
 	//NSV13 START STAMINA SYSTEM
 	if(L.m_intent == MOVE_INTENT_RUN)
 		if(L.getStaminaLoss() > 50)
-			if(prob(25) && iscarbon(mob))	
+			if(prob(10) && iscarbon(mob))	
 				L.emote("gasp")
 			L.adjustOxyLoss(1)
 		L.adjustStaminaLoss(1)
