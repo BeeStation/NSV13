@@ -8,7 +8,7 @@
 	icon_state = "default"
 	faction = "syndicate"
 	supply_pod_type = /obj/structure/closet/supplypod/syndicate_odst
-	returns_rejected_cargo = FALSE // We won't send freight torpedoes to our enemies, we'll send actual torpedoes to our enemies 
+	returns_rejected_cargo = FALSE // We won't send freight torpedoes to our enemies, we'll send actual torpedoes to our enemies
 
 //Player Versions
 
@@ -70,6 +70,10 @@
     name = "Mako class patrol frigate (interior)"
     mappath = "_maps/templates/boarding/syndicate/mako.dmm"
 
+/datum/map_template/boarding/mako
+    name = "Mako class patrol frigate (interior)"
+    mappath = "_maps/templates/boarding/syndicate/mako.dmm"
+
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
 	name = "Mako class patrol frigate"
 	icon = 'nsv13/icons/overmap/new/syndicate/frigate.dmi'
@@ -89,7 +93,7 @@
 	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
 	ai_flags = AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/frigate
-	possible_interior_maps = list(/datum/map_template/boarding)
+	possible_interior_maps = list(/datum/map_template/boarding/mako)
 
 
 /datum/map_template/boarding/mako_carrier
