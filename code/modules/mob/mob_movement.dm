@@ -136,7 +136,14 @@
 		move_delay = old_move_delay
 	else
 		move_delay = world.time
-
+	//NSV13 START STAMINA SYSTEM
+	if(L.m_intent == MOVE_INTENT_RUN)
+		if(L.getStaminaLoss() > 50)
+			if(prob(25) && iscarbon(mob))	
+				L.emote("gasp")
+			L.adjustOxyLoss(1)
+		L.adjustStaminaLoss(1)
+	//NSV13 END
 	if(L.confused && L.m_intent == MOVE_INTENT_RUN && !HAS_TRAIT(L, TRAIT_CONFUSEIMMUNE))
 		var/newdir = 0
 		if(L.confused > 40)
