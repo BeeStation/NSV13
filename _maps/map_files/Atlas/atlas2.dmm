@@ -3312,8 +3312,17 @@
 /turf/closed/wall/r_wall,
 /area/ai_monitored/turret_protected/ai)
 "pU" = (
-/turf/closed/wall/r_wall,
-/area/space)
+/obj/docking_port/stationary{
+	dir = 4;
+	dwidth = 3;
+	height = 15;
+	id = "arrivals_stationary";
+	name = "Atlas Arrivals";
+	roundstart_template = /datum/map_template/shuttle/arrival/atlas;
+	width = 7
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "qb" = (
 /obj/effect/spawner/room/threexthree,
 /turf/template_noop,
@@ -3949,9 +3958,6 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/kitchen)
-"sX" = (
-/turf/open/floor/monotile/steel,
-/area/space)
 "ta" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -6965,7 +6971,7 @@
 "HN" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/monotile/dark,
-/area/space)
+/area/hallway/nsv/deck1/hallway)
 "HP" = (
 /obj/effect/turf_decal/tile/ship/half/green{
 	dir = 8
@@ -7148,18 +7154,6 @@
 /obj/machinery/telecomms/processor/preset_one,
 /turf/open/floor/circuit/telecomms/server,
 /area/tcommsat/server)
-"IM" = (
-/obj/docking_port/stationary{
-	dir = 4;
-	dwidth = 3;
-	height = 15;
-	id = "arrivals_stationary";
-	name = "Atlas Arrivals";
-	roundstart_template = /datum/map_template/shuttle/arrival/atlas;
-	width = 7
-	},
-/turf/open/space/basic,
-/area/space)
 "IO" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -47277,7 +47271,7 @@ dQ
 dQ
 dQ
 dQ
-lx
+dQ
 cL
 cL
 gn
@@ -47528,7 +47522,7 @@ IX
 TM
 ad
 WJ
-pU
+WJ
 cL
 Cf
 cL
@@ -47785,7 +47779,7 @@ zn
 yP
 tZ
 WJ
-pU
+WJ
 SP
 SP
 SP
@@ -48041,7 +48035,7 @@ DQ
 DQ
 WJ
 WJ
-pU
+WJ
 WJ
 cL
 cL
@@ -48298,7 +48292,7 @@ Em
 Em
 TE
 VD
-sX
+Em
 TE
 cL
 cL
@@ -48812,7 +48806,7 @@ vd
 Am
 Am
 Am
-pU
+Am
 Am
 cL
 cL
@@ -49067,9 +49061,9 @@ Am
 Am
 Lo
 Am
-lx
-lx
-pU
+Am
+Am
+Am
 Cf
 cL
 cL
@@ -49324,8 +49318,8 @@ Am
 Am
 bJ
 Am
-lx
-lx
+Am
+Am
 Cf
 SP
 gn
@@ -49836,7 +49830,7 @@ mK
 cL
 cL
 cL
-IM
+pU
 cL
 cL
 cL
