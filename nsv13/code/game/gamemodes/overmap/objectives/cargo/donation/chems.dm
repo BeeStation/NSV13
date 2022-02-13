@@ -6,13 +6,13 @@
 	crate_name = "Chemicals crate"
 
 /datum/overmap_objective/cargo/donation/chems/New( var/datum/reagent/medicine )
-	if ( medicine ) 
-		freight_types += new /datum/freight_type/reagent( new medicine() )
-		chemicals += medicine 
-	else // Haven't picked one yet? Don't worry, we got you covered! 
-		get_random_chems() 
+	if ( medicine )
+		freight_type_group = new( list( new medicine() ) )
+		chemicals += medicine
+	else // Haven't picked one yet? Don't worry, we got you covered!
+		get_random_chems()
 
-/datum/overmap_objective/cargo/donation/chems/proc/get_random_chems() 
+/datum/overmap_objective/cargo/donation/chems/proc/get_random_chems()
 	var/list/possible_chemicals = list()
 
 	for( var/D in subtypesof( /datum/chemical_reaction ) )
@@ -20,12 +20,12 @@
 		if ( C.id )
 			if ( ispath( C.id, /datum/reagent/medicine ) )
 				possible_chemicals += C.id
-	
+
 	var/numberOfChemicals = rand( 1, 3 )
-	for( var/i = 0; i < numberOfChemicals; i++ ) 
+	for( var/i = 0; i < numberOfChemicals; i++ )
 		var/datum/reagent/medicine/picked = pick_n_take( possible_chemicals )
-		var/datum/freight_type/reagent/R = new /datum/freight_type/reagent( picked )
+		var/datum/freight_type/reagent/R = new( picked )
 		R.target = ( 90 / numberOfChemicals )
-		freight_types += R
-		chemicals += picked 
-		
+		freight_type_group = new( list( R ) )
+		chemicals += picked
+

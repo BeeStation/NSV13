@@ -35,8 +35,7 @@
 
 	// Cargo objectives handle the station's requisitioned item in a special datum so we can control how to check contents
 	var/datum/freight_type_group/freight_type_group = null
-	var/last_check_cargo_items_accepted = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station approved for cargo objectives
-	var/last_check_cargo_items_rejected = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station rejected for cargo objectives. Leftover items in this list means the station found garbage not related to the current objective
+	var/freight_type_check/last_freight_type_check = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station approved/rejected for cargo objectives
 	var/roundstart_packages_handled = FALSE
 	var/delivered_package = FALSE
 
@@ -49,7 +48,8 @@
 	update_brief()
 
 /datum/overmap_objective/cargo/proc/get_target()
-	target = freight_type_group.get_target()
+	if ( freight_type_group )
+		target = freight_type_group.get_target()
 	else
 		message_admins( "BUG: A cargo objective was assigned with no delivery item types set! Automatically marking as completed" )
 		brief = "Succeed"
@@ -133,13 +133,19 @@
 		brief = "Complete supply request form #[rand(1000)] by delivering its contents to station [S] in system [S.current_system]"
 
 /datum/overmap_objective/cargo/transfer/update_brief()
-	if ( freight_type_group ) )
+	if ( freight_type_group )
 		// var/list/segments = list()
 		// for( var/datum/freight_type/type in freight_types )
 		// 	segments += type.get_brief_segment()
 
 		var/obj/structure/overmap/S = destination
 		brief = "Complete supply request form #[rand(1000)] by delivering its contents to station [S] in system [S.current_system]"
+
+/datum/freight_type_check
+	var/obj/container = null
+	var/list/untracked_contents = list()
+	var/list/approved_contents = list()
+	var/group_status = TRUE
 
 /datum/overmap_objective/cargo/proc/check_cargo( var/obj/shipment )
 	if ( length( freight_types ) )
@@ -154,22 +160,25 @@
 			if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) )
 				allContents += a
 
-		last_check_cargo_items_accepted = list()
-		last_check_cargo_items_rejected = allContents // Separate all cargo items from checked contents, for debugging
-		for( var/datum/freight_type/freight_type in freight_types )
-			var/list/item_results = freight_type.check_contents( shipment )
-			if ( item_results )
-				for ( var/atom/i in item_results )
-					last_check_cargo_items_accepted += i
-					allContents -= i
-			else
-				// There are missing items in this freight type, we're not going to bother checking the rest
-				all_accounted_for = FALSE
-				break
+		last_freight_type_check = new()
+		last_freight_type_check.container = shipment
+		last_freight_type_check.untracked_contents = allContents
+		freight_type_group.check_contents( last_freight_type_check )
+
+		// for( var/datum/freight_type/freight_type in freight_types )
+		// 	var/list/item_results = freight_type.check_contents( shipment )
+		// 	if ( item_results )
+		// 		for ( var/atom/i in item_results )
+		// 			last_check_cargo_items_accepted += i
+		// 			allContents -= i
+		// 	else
+		// 		// There are missing items in this freight type, we're not going to bother checking the rest
+		// 		all_accounted_for = FALSE
+		// 		break
 
 		// If there are additional trash items that were not requested, we won't mark this shipment as an objective completion
 		// This prevents a scenario where the crew piles all their objective related cargo into a freight torpedo, completes 2 out of 3 applicable objectives, and can't get the incomplete shipment back for objective #3
-		if ( all_accounted_for && !length( allContents ) )
+		if ( freight_type_check.group_status && !length( freight_type_check.rejected ) )
 			tally = target // Target is set when the freight_type is assigned
 			status = 1
 			return TRUE

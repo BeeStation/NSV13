@@ -19,7 +19,7 @@
 	return M
 
 /datum/freight_type/specimen/check_contents( var/obj/container )
-	var/list/prepackagedTargets = ..()
+	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets
 

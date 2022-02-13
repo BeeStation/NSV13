@@ -2,7 +2,7 @@
 	target = 50
 
 /datum/freight_type/object/mineral/check_contents( var/obj/container )
-	var/list/prepackagedTargets = ..()
+	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets
 

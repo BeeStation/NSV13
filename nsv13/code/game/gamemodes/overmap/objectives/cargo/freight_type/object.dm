@@ -13,8 +13,8 @@
 
 	set_item_name()
 
-/datum/freight_type/object/check_contents( var/obj/container )
-	var/list/prepackagedTargets = ..()
+/datum/freight_type/object/check_contents( var/datum/freight_type_check )
+	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets
 
@@ -23,7 +23,7 @@
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
-	for ( var/atom/a in container.GetAllContents() )
+	for ( var/atom/a in freight_type_check.container.GetAllContents() )
 		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item_type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
 			if( istype( a, item_type ) )
 				// Add to contents index for more checks

@@ -16,7 +16,7 @@
 	return newitem
 
 /datum/freight_type/object/credits/check_contents( var/obj/container )
-	var/list/prepackagedTargets = ..()
+	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets
 

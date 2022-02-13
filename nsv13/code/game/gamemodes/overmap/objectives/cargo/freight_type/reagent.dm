@@ -25,7 +25,7 @@
 	return TRUE
 
 /datum/freight_type/reagent/check_contents( var/obj/container )
-	var/list/prepackagedTargets = ..()
+	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets
 

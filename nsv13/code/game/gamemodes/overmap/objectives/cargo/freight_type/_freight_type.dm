@@ -53,6 +53,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	// freight_contents_index will pass the item contents in as valid freight
 	var/ignore_inner_contents = FALSE
 
+	// Admin debug var, signals if the last shipment returned TRUE on check_contents
+	var/last_check_contents_success = FALSE
+
 /datum/freight_type/proc/set_item_name( var/custom_name )
 	if ( item_name ) // Don't overwrite it
 		return TRUE
@@ -89,9 +92,14 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	last_get_amount = itemTargets
 	return itemTargets
 
-/datum/freight_type/proc/check_contents( var/obj/container )
-	// Stations call this proc, the freight_type datum handles the rest
-	// PLEASE do NOT put areas inside freight torps this WILL cause problems!
+
+// Stations call this proc, the freight_type datum handles the rest
+// PLEASE do NOT put areas inside freight torps this WILL cause problems!
+/datum/freight_type/proc/check_contents( var/datum/freight_type_check )
+	// This datum is the top parent, it is too obtuse to handle any checks
+	return FALSE
+
+/datum/freight_type/proc/get_prepackaged_targets( var/obj/container )
 	if ( send_prepackaged_item )
 		return check_prepackaged_contents( container )
 	return FALSE
