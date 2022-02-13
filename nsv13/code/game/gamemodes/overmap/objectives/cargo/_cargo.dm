@@ -2,8 +2,9 @@
 // If you're writing new cargo objectives please perform these test cases:
 // Objective approves when supplying all and only items requested
 // Objective rejects when supplying items requested and any additional trash
-// For objectives with multiple cargo item types or targets greater than 1, rejects when supplying only some of items requested
-// For objectives that send prepackaged items, approves when supplying items that have been removed from its original cargo crate, unless the objective is written to automatically fail on tamper
+// For objectives with multiple cargo item types or targets greater than 1: objective rejects when supplying only some of items requested
+// For objectives that send prepackaged items, and the objective is written to automatically fail on tamper: objective fails on comms console
+// For objectives that send prepackaged items: objective approves when supplying items that have been removed from its original cargo crate
 
 /datum/overmap_objective/cargo
 	name = "cargo objective"
@@ -35,8 +36,8 @@
 	// Cargo objectives handle the station's requisitioned item in a special datum so we can control how to check contents
 	// Reminder! Freight torpedoes can only hold 4 slots worth of items! This means cargo objectives should not be requiring more than 4 prepackaged item types
 	var/list/freight_types = list()
-	var/last_check_cargo_items_requested = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station approved for cargo objectives
-	var/last_check_cargo_items_all = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station rejected for cargo objectives. Leftover items in this list means the station found garbage not related to the current objective
+	var/last_check_cargo_items_accepted = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station approved for cargo objectives
+	var/last_check_cargo_items_rejected = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station rejected for cargo objectives. Leftover items in this list means the station found garbage not related to the current objective
 	var/roundstart_packages_handled = FALSE
 	var/delivered_package = FALSE
 
@@ -160,13 +161,13 @@
 			if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) )
 				allContents += a
 
-		last_check_cargo_items_requested = list()
-		last_check_cargo_items_all = allContents // Separate all cargo items from checked contents, for debugging
+		last_check_cargo_items_accepted = list()
+		last_check_cargo_items_rejected = allContents // Separate all cargo items from checked contents, for debugging
 		for( var/datum/freight_type/freight_type in freight_types )
 			var/list/item_results = freight_type.check_contents( shipment )
 			if ( item_results )
 				for ( var/atom/i in item_results )
-					last_check_cargo_items_requested += i
+					last_check_cargo_items_accepted += i
 					allContents -= i
 			else
 				// There are missing items in this freight type, we're not going to bother checking the rest
