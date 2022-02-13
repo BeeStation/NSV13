@@ -1,6 +1,6 @@
 // Reagent type cargo objectives
 
-/datum/freight_type/reagent
+/datum/freight_type/single/reagent
 	var/datum/reagent/reagent_type = null
 	var/list/containers = list( // We're not accepting chemicals in food
 		/obj/item/reagent_containers/spray,
@@ -10,7 +10,7 @@
 	)
 	target = 30 // Standard volume of a bottle
 
-/datum/freight_type/reagent/New( var/datum/reagent/medicine, var/amount )
+/datum/freight_type/single/reagent/New( var/datum/reagent/medicine, var/amount )
 	if ( medicine )
 		reagent_type = medicine
 
@@ -19,12 +19,12 @@
 
 	set_item_name()
 
-/datum/freight_type/reagent/set_item_name()
+/datum/freight_type/single/reagent/set_item_name()
 	var/datum/reagent/R = new reagent_type()
 	item_name = R.name
 	return TRUE
 
-/datum/freight_type/reagent/check_contents( var/datum/freight_type_check )
+/datum/freight_type/single/reagent/check_contents( var/datum/freight_type_check )
 	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets
@@ -32,7 +32,7 @@
 	if ( !allow_replacements )
 		return FALSE
 
-	if ( istype( src, /datum/freight_type/reagent/blood ) ) // Run the actual blood type check please thank you
+	if ( istype( src, /datum/freight_type/single/reagent/blood ) ) // Run the actual blood type check please thank you
 		return FALSE
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
@@ -55,5 +55,5 @@
 
 	return FALSE
 
-/datum/freight_type/reagent/get_brief_segment()
+/datum/freight_type/single/reagent/get_brief_segment()
 	return "[item_name ? item_name : reagent_type] ([target] unit" + (target!=1?"s":"") + ")"

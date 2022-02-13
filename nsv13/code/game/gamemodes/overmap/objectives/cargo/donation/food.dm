@@ -48,6 +48,6 @@
 		/obj/item/reagent_containers/food/snacks/salad/oatmeal,
 		/obj/item/reagent_containers/food/snacks/deadmouse
 	) )
-	var/datum/freight_type/object/C = new( picked )
+	var/datum/freight_type/single/object/C = new( picked )
 	C.target = rand( 3, 5 )
 	freight_type_group = new( list( C ) )

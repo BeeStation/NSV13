@@ -34,7 +34,7 @@
 	var/obj/structure/overmap/pickup_destination = null
 
 	// Cargo objectives handle the station's requisitioned item in a special datum so we can control how to check contents
-	var/datum/freight_type_group/freight_type_group = null
+	var/datum/freight_type/group/freight_type_group = null
 	var/datum/freight_type_check/last_freight_type_check = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station approved/rejected for cargo objectives
 	var/roundstart_packages_handled = FALSE
 	var/delivered_package = FALSE

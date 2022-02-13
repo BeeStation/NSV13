@@ -11,7 +11,7 @@
 		/obj/item/reagent_containers/food/snacks/store/cake/holy_cake,
 		/obj/item/reagent_containers/food/snacks/store/cake/pound_cake,
 	) )
-	var/datum/freight_type/object/cake = new /datum/freight_type/object( picked )
+	var/datum/freight_type/single/object/cake = new /datum/freight_type/single/object( picked )
 
 	// Pick a beer
 	// Get only craftable chemicals of consumable ethanol
@@ -24,12 +24,12 @@
 				possible_chemicals += C.id
 
 	var/datum/reagent/consumable/ethanol/picked_ethanol = pick( possible_chemicals )
-	var/datum/freight_type/reagent/drinks = new( picked_ethanol )
+	var/datum/freight_type/single/reagent/drinks = new( picked_ethanol )
 	drinks.target = 200
 
 	// Setup presents
 	var/atom/parcel = /obj/item/smallDelivery
-	var/datum/freight_type/object/presents = new( parcel )
+	var/datum/freight_type/single/object/presents = new( parcel )
 	presents.target = 3
 	presents.item_name = "3 wrapped parcels"
 	presents.ignore_inner_contents = TRUE

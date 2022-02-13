@@ -1,19 +1,24 @@
-// Handheld item type objectives
+/datum/freight_type/single/specimen
+	var/reveal_specimen = FALSE // WIP
+	ignore_inner_contents = TRUE // Don't count equipment attached to mobs as trash
 
-/datum/freight_type/object
-	target = 1
-
-/datum/freight_type/object/New( var/obj/object, var/number )
-	// Object should be initialized
+/datum/freight_type/single/specimen/New( var/mob/living/simple_animal/object )
 	if ( object )
 		item_type = object
 
-	if ( number )
-		target = number
+	var/picked = get_random_food()
+	additional_prepackaging += new picked()
 
 	set_item_name()
 
-/datum/freight_type/object/check_contents( var/datum/freight_type_check )
+/datum/freight_type/single/specimen/add_item_to_crate( var/obj/C )
+	// DuplicateObject on a mob producing runtimes
+	var/mob/living/simple_animal/M = new item_type( C )
+	// specimen = M
+	M.AIStatus = AI_OFF
+	return M
+
+/datum/freight_type/single/specimen/check_contents( var/datum/freight_type_check )
 	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets
@@ -25,7 +30,7 @@
 
 	for ( var/atom/a in freight_type_check.container.GetAllContents() )
 		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item_type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			if( istype( a, item_type ) )
+			if( istype( a, item_type ) || ( length( prepackaged_items ) && recursive_loc_check( a, item_type ) ) )
 				// Add to contents index for more checks
 				index.add_amount( a, 1 )
 
@@ -39,5 +44,8 @@
 
 	return FALSE
 
-/datum/freight_type/object/get_brief_segment()
-	return (target==1?"[item_name]":"[item_name] ([target] items)")
+/datum/freight_type/single/specimen/get_brief_segment()
+	if ( reveal_specimen )
+		return (target==1?"[item_name] specimen":"[target] [item_name] specimens")
+	else
+		return (target==1?"a secure specimen":"[target] secure specimens")

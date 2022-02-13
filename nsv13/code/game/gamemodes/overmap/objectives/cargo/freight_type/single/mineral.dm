@@ -1,7 +1,7 @@
-/datum/freight_type/object/mineral
+/datum/freight_type/single/object/mineral
 	target = 50
 
-/datum/freight_type/object/mineral/check_contents( var/datum/freight_type_check )
+/datum/freight_type/single/object/mineral/check_contents( var/datum/freight_type_check )
 	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets
@@ -27,5 +27,5 @@
 
 	return FALSE
 
-/datum/freight_type/object/mineral/get_brief_segment()
+/datum/freight_type/single/object/mineral/get_brief_segment()
 	return "[item_name] ([target] sheet" + (target!=1?"s":"") + ")"

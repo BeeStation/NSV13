@@ -1,21 +1,21 @@
-/datum/freight_type/object/credits
+/datum/freight_type/single/object/credits
 	item_type = /obj/item/holochip
 	target = 1
 	var/credits = 10000
 
-/datum/freight_type/object/credits/New( var/number )
+/datum/freight_type/single/object/credits/New( var/number )
 	if ( number )
 		credits = number
 
 	item_name = "[credits] credit holochip"
 
-/datum/freight_type/object/credits/add_item_to_crate( var/obj/C )
+/datum/freight_type/single/object/credits/add_item_to_crate( var/obj/C )
 	var/obj/item/holochip/newitem = new item_type( C )
 	newitem.credits = credits // Preset value for possible prepackage transfer objectives
 	newitem.name = "\improper [credits] credit transfer holochip" // Hopefully fixes cargo crate description fubar
 	return newitem
 
-/datum/freight_type/object/credits/check_contents( var/datum/freight_type_check )
+/datum/freight_type/single/object/credits/check_contents( var/datum/freight_type_check )
 	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets
@@ -41,5 +41,5 @@
 
 	return FALSE
 
-/datum/freight_type/object/credits/get_brief_segment()
+/datum/freight_type/single/object/credits/get_brief_segment()
 	return "[credits] credit" + (target!=1?"s":"")

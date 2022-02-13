@@ -35,7 +35,7 @@
 
 	for ( var/i = 0; i < rand( 2, 4 ); i++ )
 		var/picked = pick( possible_components )
-		var/datum/freight_type/object/C = new( picked )
+		var/datum/freight_type/single/object/C = new( picked )
 		C.send_prepackaged_item = TRUE
 		C.overmap_objective = src
 		C.allow_replacements = allow_replacements

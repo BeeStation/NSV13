@@ -4,7 +4,7 @@
 	crate_name = "Secure Data Transfer"
 
 /datum/overmap_objective/cargo/transfer/data/New()
-	var/datum/freight_type/object/C = new /datum/freight_type/object( /obj/item/disk/tech_disk )
+	var/datum/freight_type/single/object/C = new /datum/freight_type/single/object( /obj/item/disk/tech_disk )
 	C.send_prepackaged_item = TRUE
 	C.allow_replacements = FALSE // This is secure data, replacement is not an option
 	C.overmap_objective = src
