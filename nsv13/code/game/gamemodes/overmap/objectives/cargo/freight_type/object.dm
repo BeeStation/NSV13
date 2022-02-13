@@ -30,8 +30,14 @@
 				index.add_amount( a, 1 )
 
 	var/list/itemTargets = index.get_amount( item_type, target, TRUE )
-	add_inner_contents_additional_packaging( itemTargets )
-	return itemTargets
+	add_inner_contents_as_approved( itemTargets )
+
+	if ( length( itemTargets ) )
+		freight_type_check.untracked_contents -= itemTargets
+		freight_type_check.approved_contents += itemTargets
+		return itemTargets
+
+	return FALSE
 
 /datum/freight_type/object/get_brief_segment()
 	return (target==1?"[item_name]":"[item_name] ([target] items)")

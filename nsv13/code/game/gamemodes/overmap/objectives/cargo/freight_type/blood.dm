@@ -16,7 +16,7 @@
 	item_name = blood_type
 	return TRUE
 
-/datum/freight_type/reagent/blood/check_contents( var/obj/container )
+/datum/freight_type/reagent/blood/check_contents( var/datum/freight_type_check )
 	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets
@@ -26,7 +26,7 @@
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
-	for ( var/obj/item/reagent_containers/a in container.GetAllContents() )
+	for ( var/obj/item/reagent_containers/a in freight_type_check.container.GetAllContents() )
 		if ( is_type_in_list( a, containers ) )
 			var/datum/reagents/reagents = a.reagents
 			for ( var/datum/reagent/blood/R in reagents.reagent_list )
@@ -35,8 +35,14 @@
 					index.add_amount( a, R.volume, blood_type )
 
 	var/list/itemTargets = index.get_amount( blood_type, target, TRUE )
-	add_inner_contents_additional_packaging( itemTargets )
-	return itemTargets
+	add_inner_contents_as_approved( itemTargets )
+
+	if ( length( itemTargets ) )
+		freight_type_check.untracked_contents -= itemTargets
+		freight_type_check.approved_contents += itemTargets
+		return itemTargets
+
+	return FALSE
 
 /datum/freight_type/reagent/blood/get_brief_segment()
 	return "blood type [blood_type] ([target] unit" + (target!=1?"s":"") + ")"

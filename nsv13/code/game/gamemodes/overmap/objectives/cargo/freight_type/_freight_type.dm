@@ -77,8 +77,10 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	item_name = item_type
 	return TRUE
 
-/datum/freight_type/proc/add_inner_contents_additional_packaging( var/list/itemTargets )
-	// Add wildcard contents from inner object contents found in the loop above. Otherwise check_cargo in the parent cargo objective thinks these inner wildcard contents are trash
+// Takes in a list of objects itemTargets, adds inner contents of each object to the input list itemTargets, and returns itemTargets
+/datum/freight_type/proc/add_inner_contents_as_approved( var/list/itemTargets )
+	// Add wildcard contents from inner object contents found in the loop above.
+	// Otherwise check_cargo in the parent cargo objective thinks these inner wildcard contents are trash
 	if ( ignore_inner_contents )
 		for ( var/atom/i in itemTargets )
 			for ( var/atom/a in i.GetAllContents() )
@@ -86,8 +88,8 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 	// Remove additional packaging from trash check
 	if ( additional_prepackaging )
-		for ( var/atom/packaging in additional_prepackaging )
-			itemTargets += packaging
+		for ( var/atom/a in additional_prepackaging )
+			itemTargets += a
 
 	last_get_amount = itemTargets
 	return itemTargets
@@ -119,7 +121,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 				index.add_amount( a, 1 )
 
 	var/list/itemTargets = index.get_amount( item_type, target, TRUE )
-	add_inner_contents_additional_packaging( itemTargets )
+	add_inner_contents_as_approved( itemTargets )
 	return itemTargets
 
 /datum/freight_type/proc/get_brief_segment()

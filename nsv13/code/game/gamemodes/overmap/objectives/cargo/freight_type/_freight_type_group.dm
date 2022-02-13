@@ -9,6 +9,8 @@
 // This means the entire cargo objective (all freight types under the objective) should not be requiring more than 4 prepackaged item types
 
 /datum/freight_type_group
+	// Keeping freight_type and freight_type_group datums separated into two lists for slightly less headache inducing loop code
+	// The alternative was a single list of two datums and having to check their types to cast them
 	var/list/freight_types = list()
 	var/list/freight_type_groups = list()
 	var/require = REQUIRE_ALL
@@ -28,21 +30,58 @@
 
 /datum/freight_type_group/proc/check_contents( var/datum/freight_type_check )
 	if ( freight_type_check.group_status == TRUE )
+		var/success = FALSE
 		switch ( require )
 			if ( REQUIRE_ALL )
+				success = TRUE
 				for ( var/datum/freight_type/F in freight_types )
 					var/result = F.check_contents( freight_type_check )
+					if ( !result )
+						success = FALSE
+
 				for ( var/datum/freight_type_group/G in freight_type_groups )
 					var/result = G.check_contents( freight_type_check )
+					if ( !result )
+						success = FALSE
 
 			if ( REQUIRE_ANY )
-				for ( var/datum/freight_type/F in freight_types )
-					var/result = F.check_contents( freight_type_check )
-				for ( var/datum/freight_type_group/G in freight_type_groups )
-					var/result = G.check_contents( freight_type_check )
+				if ( !success )
+					for ( var/datum/freight_type/F in freight_types )
+						var/result = F.check_contents( freight_type_check )
+						if ( result )
+							success = TRUE
+							break
+
+				if ( !success )
+					for ( var/datum/freight_type_group/G in freight_type_groups )
+						var/result = G.check_contents( freight_type_check )
+						if ( result )
+							success = TRUE
+							break
 
 			if ( REQUIRE_ONE )
-				var/success = FALSE
+				if ( success == FALSE )
+					for ( var/datum/freight_type/F in freight_types )
+						var/result = F.check_contents( freight_type_check )
+						if ( result )
+							if ( success )
+								success = "toomany"
+								break
+							success = TRUE
+
+				if ( success == FALSE )
+					for ( var/datum/freight_type_group/G in freight_type_groups )
+						var/result = G.check_contents( freight_type_check )
+						if ( result )
+							if ( success )
+								success = "toomany"
+								break
+							success = TRUE
+
+				if ( success == "toomany" )
+					success = FALSE
+
+		freight_type_check.group_status = success // If one group of freight_types fails to validate, we stop checking the rest
 
 /datum/freight_type_group/proc/get_target()
 	var/target = 0

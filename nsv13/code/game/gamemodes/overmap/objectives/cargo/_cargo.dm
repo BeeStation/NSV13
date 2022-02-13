@@ -35,7 +35,7 @@
 
 	// Cargo objectives handle the station's requisitioned item in a special datum so we can control how to check contents
 	var/datum/freight_type_group/freight_type_group = null
-	var/freight_type_check/last_freight_type_check = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station approved/rejected for cargo objectives
+	var/datum/freight_type_check/last_freight_type_check = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station approved/rejected for cargo objectives
 	var/roundstart_packages_handled = FALSE
 	var/delivered_package = FALSE
 
@@ -142,8 +142,11 @@
 		brief = "Complete supply request form #[rand(1000)] by delivering its contents to station [S] in system [S.current_system]"
 
 /datum/freight_type_check
+	// At the start of a check, the raw container and its contents go here
 	var/obj/container = null
 	var/list/untracked_contents = list()
+
+	// At the end of a check, untracked contents are filtered into approved contents and a global status is set in this datum
 	var/list/approved_contents = list()
 	var/group_status = TRUE
 
