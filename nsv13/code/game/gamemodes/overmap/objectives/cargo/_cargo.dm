@@ -34,8 +34,7 @@
 	var/obj/structure/overmap/pickup_destination = null
 
 	// Cargo objectives handle the station's requisitioned item in a special datum so we can control how to check contents
-	// Reminder! Freight torpedoes can only hold 4 slots worth of items! This means cargo objectives should not be requiring more than 4 prepackaged item types
-	var/list/freight_types = list()
+	var/datum/freight_type_group/freight_type_group = null
 	var/last_check_cargo_items_accepted = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station approved for cargo objectives
 	var/last_check_cargo_items_rejected = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station rejected for cargo objectives. Leftover items in this list means the station found garbage not related to the current objective
 	var/roundstart_packages_handled = FALSE
@@ -50,9 +49,7 @@
 	update_brief()
 
 /datum/overmap_objective/cargo/proc/get_target()
-	if ( length( freight_types ) )
-		for( var/datum/freight_type/type in freight_types )
-			target += type.target
+	target = freight_type_group.get_target()
 	else
 		message_admins( "BUG: A cargo objective was assigned with no delivery item types set! Automatically marking as completed" )
 		brief = "Succeed"
@@ -92,10 +89,9 @@
 
 /datum/overmap_objective/cargo/proc/deliver_package() // Called when picking up prepackaged crates at station pickup points
 	if ( !delivered_package ) // Do not resend prepackaged contents
-		for ( var/datum/freight_type/T in freight_types )
-			if ( !T.deliver_package() )
-				message_admins( "BUG: A cargo objective failed to deliver a prepackaged item to the ship! Automatically marking the objective as completed." )
-				status = 1
+		if ( !freight_type_group.deliver_package() )
+			message_admins( "BUG: A cargo objective failed to deliver a prepackaged item to the ship! Automatically marking the objective as completed." )
+			status = 1
 		delivered_package = TRUE
 		SSovermap_mode.update_reminder(objective=TRUE) // Picking up objective cargo resets the timer
 
@@ -119,34 +115,31 @@
 	S.add_holding_cargo( src )
 
 /datum/overmap_objective/cargo/proc/update_brief()
-	if ( length( freight_types ) )
-		var/list/segments = list()
-		for( var/datum/freight_type/type in freight_types )
-			segments += type.get_brief_segment()
+	if ( freight_type_group )
+		// var/list/segments = list()
+		// for( var/datum/freight_type/type in freight_types )
+		// 	segments += type.get_brief_segment()
 
 		var/obj/structure/overmap/S = destination
-		brief = "Deliver [segments.Join( ", " )] to station [S] in system [S.current_system]"
+		brief = "Complete supply request form #[rand(1000)] by delivering its contents to station [S] in system [S.current_system]"
 
 /datum/overmap_objective/cargo/donation/update_brief()
-	if ( length( freight_types ) )
-		var/list/segments = list()
-		for( var/datum/freight_type/type in freight_types )
-			segments += type.get_brief_segment()
+	if ( freight_type_group )
+		// var/list/segments = list()
+		// for( var/datum/freight_type/type in freight_types )
+		// 	segments += type.get_brief_segment()
 
 		var/obj/structure/overmap/S = destination
-		brief = "Source and donate [segments.Join( ", " )] to station [S] in system [S.current_system]"
+		brief = "Complete supply request form #[rand(1000)] by delivering its contents to station [S] in system [S.current_system]"
 
 /datum/overmap_objective/cargo/transfer/update_brief()
-	if ( length( freight_types ) )
-		var/list/segments = list()
-		for( var/datum/freight_type/type in freight_types )
-			segments += type.get_brief_segment()
+	if ( freight_type_group ) )
+		// var/list/segments = list()
+		// for( var/datum/freight_type/type in freight_types )
+		// 	segments += type.get_brief_segment()
 
 		var/obj/structure/overmap/S = destination
-		if ( send_to_station_pickup_point )
-			brief = "Pick up [segments.Join( ", " )] from station [pickup_destination] in system [pickup_destination.current_system], and tranfer the contents to station [S] in system [S.current_system]"
-		else
-			brief = "Transfer [segments.Join( ", " )] prepackaged and delivered to cargo, to station [S] in system [S.current_system]"
+		brief = "Complete supply request form #[rand(1000)] by delivering its contents to station [S] in system [S.current_system]"
 
 /datum/overmap_objective/cargo/proc/check_cargo( var/obj/shipment )
 	if ( length( freight_types ) )
