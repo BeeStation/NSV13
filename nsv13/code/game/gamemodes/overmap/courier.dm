@@ -18,17 +18,4 @@
 	random_objective_amount = 3
 
 /datum/overmap_gamemode/courier/New()
-	random_objectives = list(
-		/datum/overmap_objective/cargo/donation/chems,
-		/datum/overmap_objective/cargo/donation/blood,
-		/datum/overmap_objective/cargo/donation/food,
-		/datum/overmap_objective/cargo/donation/minerals,
-		/datum/overmap_objective/cargo/donation/munitions,
-		/datum/overmap_objective/cargo/donation/social_supplies,
-		/datum/overmap_objective/cargo/transfer/credits,
-		/datum/overmap_objective/cargo/transfer/data,
-		/datum/overmap_objective/cargo/transfer/documents,
-		/datum/overmap_objective/cargo/transfer/emergency_supplies,
-		/datum/overmap_objective/cargo/transfer/fighter_parts,
-		/datum/overmap_objective/cargo/transfer/specimen,
-	)
+	random_objectives = subtypesof( /datum/overmap_objective/cargo/donation ) + subtypesof( /datum/overmap_objective/cargo/transfer )
