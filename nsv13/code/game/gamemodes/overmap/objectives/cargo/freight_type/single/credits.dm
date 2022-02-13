@@ -15,7 +15,7 @@
 	newitem.name = "\improper [credits] credit transfer holochip" // Hopefully fixes cargo crate description fubar
 	return newitem
 
-/datum/freight_type/single/object/credits/check_contents( var/datum/freight_type_check )
+/datum/freight_type/single/object/credits/check_contents( var/datum/freight_type_check/freight_type_check )
 	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets

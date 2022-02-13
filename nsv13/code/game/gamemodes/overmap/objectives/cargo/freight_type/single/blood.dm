@@ -1,4 +1,4 @@
-/datum/freight_type/reagent/blood
+/datum/freight_type/single/reagent/blood
 	reagent_type = /datum/reagent/blood
 	var/blood_type = null
 	containers = list(
@@ -6,17 +6,17 @@
 	)
 	target = 200 // Standard volume of a blood pack
 
-/datum/freight_type/reagent/blood/New( var/type )
+/datum/freight_type/single/reagent/blood/New( var/type )
 	if ( type )
 		blood_type = type
 
 	set_item_name()
 
-/datum/freight_type/reagent/blood/set_item_name()
+/datum/freight_type/single/reagent/blood/set_item_name()
 	item_name = blood_type
 	return TRUE
 
-/datum/freight_type/reagent/blood/check_contents( var/datum/freight_type_check )
+/datum/freight_type/single/reagent/blood/check_contents( var/datum/freight_type_check/freight_type_check )
 	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets
@@ -44,5 +44,5 @@
 
 	return FALSE
 
-/datum/freight_type/reagent/blood/get_brief_segment()
+/datum/freight_type/single/reagent/blood/get_brief_segment()
 	return "blood type [blood_type] ([target] unit" + (target!=1?"s":"") + ")"

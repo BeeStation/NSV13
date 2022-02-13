@@ -25,7 +25,7 @@
 /datum/freight_type/group/require/one
 	require = REQUIRE_ONE
 
-/datum/freight_type/group/check_contents( var/datum/freight_type_check )
+/datum/freight_type/group/check_contents( var/datum/freight_type_check/freight_type_check )
 	if ( freight_type_check.group_status == TRUE )
 		var/success = FALSE
 		switch ( require )

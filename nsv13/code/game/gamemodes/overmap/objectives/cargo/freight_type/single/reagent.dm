@@ -24,7 +24,7 @@
 	item_name = R.name
 	return TRUE
 
-/datum/freight_type/single/reagent/check_contents( var/datum/freight_type_check )
+/datum/freight_type/single/reagent/check_contents( var/datum/freight_type_check/freight_type_check )
 	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets

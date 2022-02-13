@@ -151,8 +151,8 @@
 	var/group_status = TRUE
 
 /datum/overmap_objective/cargo/proc/check_cargo( var/obj/shipment )
-	if ( length( freight_types ) )
-		var/all_accounted_for = TRUE
+	if ( freight_type_group )
+		// var/all_accounted_for = TRUE
 
 		// Cargo objectives with multiple freight types need to be checked individually,
 		// then the entire container needs checked for non-objective related trash.
@@ -181,7 +181,7 @@
 
 		// If there are additional trash items that were not requested, we won't mark this shipment as an objective completion
 		// This prevents a scenario where the crew piles all their objective related cargo into a freight torpedo, completes 2 out of 3 applicable objectives, and can't get the incomplete shipment back for objective #3
-		if ( freight_type_check.group_status && !length( freight_type_check.rejected ) )
+		if ( last_freight_type_check.group_status && !length( last_freight_type_check.untracked_contents ) )
 			tally = target // Target is set when the freight_type is assigned
 			status = 1
 			return TRUE

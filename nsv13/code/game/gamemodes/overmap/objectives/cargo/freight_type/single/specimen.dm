@@ -18,7 +18,7 @@
 	M.AIStatus = AI_OFF
 	return M
 
-/datum/freight_type/single/specimen/check_contents( var/datum/freight_type_check )
+/datum/freight_type/single/specimen/check_contents( var/datum/freight_type_check/freight_type_check )
 	var/list/prepackagedTargets = get_prepackaged_targets()
 	if ( prepackagedTargets )
 		return prepackagedTargets
