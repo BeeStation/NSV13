@@ -143,7 +143,7 @@
 			progress = min(progress + round(charge_rate * delta_time, 0.1), req_charge)
 			active_charge = TRUE
 			if(prob(30))
-				INVOKE_ASYNC(src, .proc/discharge_pylon, P)
+				discharge_pylon(P)
 	if(!active_charge && progress > 0)
 		progress = min(progress - 1, 0)
 		if(progress < req_charge && ftl_state == FTL_STATE_READY)
@@ -151,8 +151,9 @@
 	if(ftl_state != FTL_STATE_READY && progress >= req_charge)
 		ready_ftl()
 
-/// Visual effect, call with async
+/// Visual effect
 /obj/machinery/computer/ship/ftl_core/proc/discharge_pylon(atom/P)
+	set waitfor = FALSE
 	playsound(P, 'nsv13/sound/machines/FTL/FTL_pylon_discharge.ogg', 120, TRUE, 2, 4.5)
 	var/atom/target
 	if(length(pylons) > 1)
@@ -160,8 +161,8 @@
 	else
 		target = locate(x + rand(-1, 1), y + 1, z) // Offset to make it hit the "ring" of the sprite, not the console
 	sleep(20)
-	P.Beam(target, "lightning[rand(1, 12)]", time = INFINITY)
-	playsound(P, 'sound/magic/lightningshock.ogg', 10, 1, 1)
+	P.Beam(target, "lightning[rand(1, 12)]")
+	playsound(P, 'sound/magic/lightningshock.ogg', 50, 1, 1)
 
 /obj/machinery/computer/ship/ftl_core/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
