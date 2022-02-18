@@ -12,7 +12,7 @@
 					/obj/item/storage/pill_bottle = 6,
 					/obj/item/reagent_containers/glass/bottle = 10,
 					/obj/item/healthanalyzer = 4,
-				    /obj/item/reagent_containers/spray/cleaner = 1,
+				    /obj/item/reagent_containers/spray/cleaner = 3,
 					/obj/item/stack/medical/gauze = 8,
 					/obj/item/reagent_containers/hypospray/medipen = 8,
 					/obj/item/reagent_containers/hypospray/medipen/dexalin = 8,
