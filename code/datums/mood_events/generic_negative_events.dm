@@ -232,6 +232,11 @@
 	mood_change = -3
 	timeout = 1.5 MINUTES
 
+/datum/mood_event/tailpull
+	description = "<span class='warning'>OUCH! Stop pulling my tail! It hurts!\n"
+	mood_change = -2
+	timeout = 2 MINUTES
+
 /datum/mood_event/watersprayed
 	description = "<span class='warning'>I hate being sprayed with water!</span>\n"
 	mood_change = -1
