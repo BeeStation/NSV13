@@ -47,7 +47,7 @@
 		return TRUE
 	else
 		return FALSE
-
+/* NSV13 - we don't have bubblegum as a boss
 ///datum/objective/crew/bubblegum //NSV13 - we don't have lavaland
 	//explanation_text = "Ensure Bubblegum is dead at the end of the shift."
 	//jobs = "shaftminer"
