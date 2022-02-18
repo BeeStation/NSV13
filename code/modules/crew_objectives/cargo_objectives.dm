@@ -57,6 +57,7 @@
 		//if(!(B.stat == DEAD))
 			//return FALSE
 	//return TRUE
+*/
 
 /datum/objective/crew/fatstacks //ported from old hippie
 	explanation_text = "Have at least (something broke, report this on GitHub) mining points on your ID at the end of the shift."
