@@ -249,7 +249,8 @@
 		M.blood_volume = max(M.blood_volume - 30, 0)
 		to_chat(M, "<span class='warning'>The water causes you to melt away!</span>")
 		return
-	if(iscatperson(M) && (method == TOUCH || method == VAPOR))
+	var/mob/living/carbon/human/H = M
+	if(istype(H) && iscatperson(H) && (method == TOUCH || method == VAPOR))
 		if(M.fire_stacks < 0) //if we're on fire, don't apply the negative mood
 			M.Immobilize(1) //startles the felinid
 			if (method == TOUCH)
