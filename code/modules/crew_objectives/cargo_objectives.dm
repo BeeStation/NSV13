@@ -48,15 +48,15 @@
 	else
 		return FALSE
 
-/datum/objective/crew/bubblegum
-	explanation_text = "Ensure Bubblegum is dead at the end of the shift."
-	jobs = "shaftminer"
+///datum/objective/crew/bubblegum //NSV13 - we don't have lavaland
+	//explanation_text = "Ensure Bubblegum is dead at the end of the shift."
+	//jobs = "shaftminer"
 
-/datum/objective/crew/bubblegum/check_completion()
-	for(var/mob/living/simple_animal/hostile/megafauna/bubblegum/B in GLOB.mob_list)
-		if(!(B.stat == DEAD))
-			return FALSE
-	return TRUE
+///datum/objective/crew/bubblegum/check_completion()
+	//for(var/mob/living/simple_animal/hostile/megafauna/bubblegum/B in GLOB.mob_list)
+		//if(!(B.stat == DEAD))
+			//return FALSE
+	//return TRUE
 
 /datum/objective/crew/fatstacks //ported from old hippie
 	explanation_text = "Have at least (something broke, report this on GitHub) mining points on your ID at the end of the shift."
