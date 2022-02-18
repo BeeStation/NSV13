@@ -231,3 +231,14 @@
 	description = "<span class='warning'>All the fish are dead...</span>\n"
 	mood_change = -3
 	timeout = 1.5 MINUTES
+
+/datum/mood_event/watersprayed
+	description = "<span class='warning'>I hate being sprayed with water!</span>\n"
+	mood_change = -1
+	timeout = 30 SECONDS
+
+/datum/mood_event/watersplashed
+	//splash gets a larger debuff
+	description = "<span class='boldwarning'>I hate being splashed with water!</span>\n"
+	mood_change = -2
+	timeout = 30 SECONDS
