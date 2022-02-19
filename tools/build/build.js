@@ -22,7 +22,7 @@ Juke.setup({ file: import.meta.url }).then((code) => {
   process.exit(code);
 });
 
-const DME_NAME = 'beestation';
+const DME_NAME = 'nsv13';
 
 export const DefineParameter = new Juke.Parameter({
   type: 'string[]',
