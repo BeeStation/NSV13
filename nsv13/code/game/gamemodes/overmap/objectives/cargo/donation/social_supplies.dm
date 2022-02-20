@@ -28,16 +28,14 @@
 	drinks.target = 200
 
 	// Setup presents
-	var/atom/parcel = /obj/item/smallDelivery
-	var/datum/freight_type/single/object/individually_wrapped_presents = new( parcel )
+	var/datum/freight_type/single/object/individually_wrapped_presents = new /datum/freight_type/single/object( /obj/item/smallDelivery )
 	individually_wrapped_presents.target = 3
 	individually_wrapped_presents.item_name = "3 wrapped parcels"
 	individually_wrapped_presents.ignore_inner_contents = TRUE
 
-	var/atom/parcel = /obj/item/bigDelivery
-	var/datum/freight_type/single/object/crate_with_presents = new( parcel )
-	crate_with_presents.target = 3
-	crate_with_presents.item_name = "3 wrapped crates"
+	var/datum/freight_type/single/object/crate_with_presents = new /datum/freight_type/single/object( /obj/structure/bigDelivery )
+	crate_with_presents.target = 1
+	crate_with_presents.item_name = "1 wrapped crate"
 	crate_with_presents.ignore_inner_contents = TRUE
 
 	freight_type_group = new( list(

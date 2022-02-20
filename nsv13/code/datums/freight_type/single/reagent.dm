@@ -57,3 +57,8 @@
 
 /datum/freight_type/single/reagent/get_brief_segment()
 	return "[item_name ? item_name : reagent_type] ([target] unit" + (target!=1?"s":"") + ")"
+
+/datum/freight_type/single/reagent/pill_patch
+	containers = list(
+		/obj/item/reagent_containers/pill
+	)
