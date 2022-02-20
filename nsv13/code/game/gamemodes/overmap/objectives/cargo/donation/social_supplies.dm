@@ -29,9 +29,22 @@
 
 	// Setup presents
 	var/atom/parcel = /obj/item/smallDelivery
-	var/datum/freight_type/single/object/presents = new( parcel )
-	presents.target = 3
-	presents.item_name = "3 wrapped parcels"
-	presents.ignore_inner_contents = TRUE
+	var/datum/freight_type/single/object/individually_wrapped_presents = new( parcel )
+	individually_wrapped_presents.target = 3
+	individually_wrapped_presents.item_name = "3 wrapped parcels"
+	individually_wrapped_presents.ignore_inner_contents = TRUE
 
-	freight_type_group = new( list( cake, drinks, presents ) )
+	var/atom/parcel = /obj/item/bigDelivery
+	var/datum/freight_type/single/object/crate_with_presents = new( parcel )
+	crate_with_presents.target = 3
+	crate_with_presents.item_name = "3 wrapped crates"
+	crate_with_presents.ignore_inner_contents = TRUE
+
+	freight_type_group = new( list(
+		cake,
+		drinks,
+		new /datum/freight_type/group/require/any( list(
+			individually_wrapped_presents,
+			crate_with_presents
+		) )
+	) )

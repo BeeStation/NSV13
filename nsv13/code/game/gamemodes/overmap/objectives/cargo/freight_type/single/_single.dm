@@ -115,6 +115,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	if ( !item_type ) // Something or someone forgot to define what the crew is delivering
 		return FALSE
 
+	if ( !container )
+		return FALSE
+
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
 	for ( var/atom/a in container.GetAllContents() )

@@ -1422,8 +1422,8 @@ Seek a ship thich we'll station ourselves around
 	var/nodamage = FALSE // Mob immunity equivalent for stations, used for mission critical targets. Separate var if mission critical stations need to be essential but not immortal
 	var/supply_pod_type = /obj/structure/closet/supplypod/centcompod
 	var/returns_rejected_cargo = TRUE // AI ships will return cargo that does not match their expected shipments
-	var/speed_cargo_check = 30 SECONDS
-	var/speed_cargo_return = 30 SECONDS
+	var/speed_cargo_check = 1 SECONDS // Time it takes for a ship to respond to a shipment
+	var/speed_cargo_return = 1 SECONDS // Time it takes for a ship to return a rejected shipment
 
 	var/last_decision = 0
 	var/decision_delay = 2 SECONDS
