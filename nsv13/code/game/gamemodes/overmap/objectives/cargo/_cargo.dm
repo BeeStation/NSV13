@@ -148,6 +148,7 @@
 
 	// At the end of a check, untracked contents are filtered into approved contents and a global status is set in this datum
 	var/list/approved_contents = list()
+	var/list/groups_refused = list()
 	var/group_status = TRUE
 
 /datum/overmap_objective/cargo/proc/check_cargo( var/obj/shipment )

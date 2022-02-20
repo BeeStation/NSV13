@@ -26,6 +26,8 @@
 	require = REQUIRE_ONE
 
 /datum/freight_type/group/check_contents( var/datum/freight_type_check/freight_type_check )
+	var/list/itemTargets = list()
+
 	if ( freight_type_check.group_status == TRUE )
 		var/success = FALSE
 		switch ( require )
@@ -36,6 +38,7 @@
 					if ( result )
 						freight_type_check.untracked_contents -= result
 						freight_type_check.approved_contents += result
+						itemTargets += result
 					else
 						success = FALSE
 
@@ -46,6 +49,7 @@
 						if ( result )
 							freight_type_check.untracked_contents -= result
 							freight_type_check.approved_contents += result
+							itemTargets += result
 							success = TRUE
 
 			if ( REQUIRE_ONE )
@@ -55,6 +59,7 @@
 						if ( result )
 							freight_type_check.untracked_contents -= result
 							freight_type_check.approved_contents += result
+							itemTargets += result
 							switch( success )
 								if ( FALSE )
 									success = TRUE
@@ -64,7 +69,11 @@
 				if ( success == "toomany" )
 					success = FALSE
 
+		if ( !success )
+			message_admins( "[ADMIN_VV(src)] refused last shipment" )
+			freight_type_check.groups_refused += src // This group failed to find its desired contents in the last shipment
 		freight_type_check.group_status = success // If one group of freight_types fails to validate, we stop checking the rest
+		return itemTargets
 
 /datum/freight_type/group/get_target()
 	var/target = 0

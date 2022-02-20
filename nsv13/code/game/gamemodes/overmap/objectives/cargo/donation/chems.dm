@@ -3,7 +3,7 @@
 	desc = "Donate 1 or more chemical bottles"
 	pick_same_destination = TRUE
 	crate_name = "Chemicals crate"
-	var/chemicals = list()
+	var/list/chemicals = list()
 
 /datum/overmap_objective/cargo/donation/chems/New( var/datum/reagent/medicine )
 	if ( medicine )
@@ -13,6 +13,7 @@
 	setup_freight_type_group()
 
 /datum/overmap_objective/cargo/donation/chems/proc/get_random_chems()
+	message_admins( "get_random_chems" )
 	var/list/possible_chemicals = list()
 
 	for( var/D in subtypesof( /datum/chemical_reaction ) )
@@ -24,17 +25,27 @@
 	for( var/i = 0; i < rand( 1, 3 ); i++ )
 		var/datum/reagent/medicine/picked = pick_n_take( possible_chemicals )
 		chemicals += picked
+	message_admins( length( chemicals ) )
 
 /datum/overmap_objective/cargo/donation/chems/proc/setup_freight_type_group()
+	message_admins( "setup_freight_type_group" )
+	message_admins( length( chemicals ) )
 	var/list/F = list()
 
-	for ( var/datum/reagent/picked in chemicals )
-		var/datum/freight_type/single/reagent/R = new( picked )
+	for ( var/picked in chemicals )
+		var/list/A = list()
+		message_admins( picked )
+		var/datum/freight_type/single/reagent/R = new /datum/freight_type/single/reagent( picked )
 		R.target = ( 90 / length( chemicals ) )
-		F += R
-		var/datum/freight_type/single/reagent/pill_patch/P = new( picked )
+		A += R
+		var/datum/freight_type/single/reagent/pill_patch/P = new /datum/freight_type/single/reagent/pill_patch( picked )
 		P.target = R.target
-		F += P
+		A += P
 
-	freight_type_group = new( F )
+		// Create a group for a single medicine type, such that any one of these medicine types may be submitted
+		F += new /datum/freight_type/group/require/any( A )
+
+	message_admins( length( F ) )
+	// Bundle all medicine types together and require one of each medicine to be submitted
+	freight_type_group = new /datum/freight_type/group/require/all( F )
 
