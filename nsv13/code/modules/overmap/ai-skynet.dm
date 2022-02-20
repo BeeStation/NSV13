@@ -644,9 +644,16 @@ Adding tasks is easy! Just define a datum for it.
 					message_admins("Failed to spawn ghost ship due to insufficent players.")
 
 			var/target_location = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), OM.z)
-			var/selected_ship = pick(ship_list)
-			var/obj/structure/overmap/GS = new selected_ship(target_location)
-			GS.ghost_ship()
+			var/obj/structure/overmap/selected_ship = pick(ship_list)
+			
+			var/target_ghost
+			var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [selected_ship]?", ROLE_GHOSTSHIP, null, null, 30 SECONDS, POLL_IGNORE_GHOSTSHIP)
+			if(LAZYLEN(candidates))
+				var/mob/dead/observer/C = pick(candidates)
+				target_ghost = C
+				var/obj/structure/overmap/GS = new selected_ship(target_location)
+				GS.ghost_ship(target_ghost)
+
 
 ///Pass in a youtube link, have it played ONLY on that overmap. This should be called by code or admins only.
 /obj/structure/overmap/proc/play_music(url)

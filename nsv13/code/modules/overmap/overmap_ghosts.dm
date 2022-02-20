@@ -24,6 +24,9 @@
 
 //Creation of the ghost ship pilot entity
 /obj/structure/overmap/proc/ghost_ship(mob/target)
+	if(!target)
+		return
+	
 	//Prevent the mainship being skeleton crewed
 	if(src.role == MAIN_OVERMAP)
 		message_admins("[src] is the main overmap and cannot be ghost controlled! Take manual control via the Z-level")
@@ -60,15 +63,10 @@
 	ghost.name = src.name
 	ghost.real_name = src.name
 	ghost.hud_type = /datum/hud //Mostly blank hud
+	ghost.key = target.key
 
 	//Add some verbs
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/show_dradis, .verb/show_tactical, .verb/toggle_move_mode, .verb/cycle_firemode)
-
-	if(target)
-		ghost.key = target.key
-	else
-		ghost.set_playable()
-		addtimer(CALLBACK(src, .proc/ghost_revert, ghost), 10 SECONDS) //10 seconds to fill or revert to AI control
 
 	ghost_key_check(ghost)
 
@@ -82,7 +80,3 @@
 
 	else //Try again later
 		addtimer(CALLBACK(src, .proc/ghost_key_check, ghost), 1 SECONDS)
-
-/obj/structure/overmap/proc/ghost_revert(var/mob/living/carbon/human/species/skeleton/ghost)
-	if(!ghost.key) //If no-one takes the ghost slot, revert it
-		ai_controlled = TRUE

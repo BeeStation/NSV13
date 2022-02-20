@@ -535,6 +535,8 @@ SUBSYSTEM_DEF(overmap_mode)
 			SSovermap_mode.admin_override = !SSovermap_mode.admin_override
 			return
 		if("spawn_ghost_ship")
+			set waitfor = FALSE
+
 			//Choose spawn location logic
 			var/target_location
 			switch(alert(usr, "Spawn at a random spot in the current mainship Z level or your location?", "Select Spawn Location", "Ship Z", "Current Loc", "Cancel"))
@@ -559,8 +561,13 @@ SUBSYSTEM_DEF(overmap_mode)
 			switch(alert(usr, "Who is going to pilot this ghost ship?", "Pilot Select Format", "Open", "Choose", "Cancel"))
 				if("Cancel")
 					return
-				if("Open")
-					target_ghost = 0
+				if("Open")					
+					var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [target_ship]?", ROLE_GHOSTSHIP, null, null, 30 SECONDS, POLL_IGNORE_GHOSTSHIP)
+					if(LAZYLEN(candidates))
+						var/mob/dead/observer/C = pick(candidates)
+						target_ghost = C
+					else
+						return
 				if("Choose")
 					target_ghost = input(usr, "Select player to pilot ghost ship:", "Select Player") as null|anything in GLOB.clients
 
