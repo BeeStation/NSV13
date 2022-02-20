@@ -33,7 +33,10 @@
 				success = TRUE
 				for ( var/datum/freight_type/F in freight_types )
 					var/result = F.check_contents( freight_type_check )
-					if ( !result )
+					if ( result )
+						freight_type_check.untracked_contents -= result
+						freight_type_check.approved_contents += result
+					else
 						success = FALSE
 
 			if ( REQUIRE_ANY )
@@ -41,18 +44,22 @@
 					for ( var/datum/freight_type/F in freight_types )
 						var/result = F.check_contents( freight_type_check )
 						if ( result )
+							freight_type_check.untracked_contents -= result
+							freight_type_check.approved_contents += result
 							success = TRUE
-							break
 
 			if ( REQUIRE_ONE )
 				if ( success == FALSE )
 					for ( var/datum/freight_type/F in freight_types )
 						var/result = F.check_contents( freight_type_check )
 						if ( result )
-							if ( success )
-								success = "toomany"
-								break
-							success = TRUE
+							freight_type_check.untracked_contents -= result
+							freight_type_check.approved_contents += result
+							switch( success )
+								if ( FALSE )
+									success = TRUE
+								if ( TRUE )
+									success = "toomany"
 
 				if ( success == "toomany" )
 					success = FALSE

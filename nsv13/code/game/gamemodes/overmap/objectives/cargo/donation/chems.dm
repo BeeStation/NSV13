@@ -3,15 +3,14 @@
 	desc = "Donate 1 or more chemical bottles"
 	pick_same_destination = TRUE
 	crate_name = "Chemicals crate"
+	var/chemicals = list()
 
 /datum/overmap_objective/cargo/donation/chems/New( var/datum/reagent/medicine )
 	if ( medicine )
-		freight_type_group = new( list(
-			new /datum/freight_type/single/reagent( new medicine() ),
-			new /datum/freight_type/single/reagent/pill_patch( new medicine() ),
-		) )
+		chemicals += medicine
 	else // Haven't picked one yet? Don't worry, we got you covered!
 		get_random_chems()
+	setup_freight_type_group()
 
 /datum/overmap_objective/cargo/donation/chems/proc/get_random_chems()
 	var/list/possible_chemicals = list()
@@ -22,17 +21,20 @@
 			if ( ispath( C.id, /datum/reagent/medicine ) )
 				possible_chemicals += C.id
 
-	var/numberOfChemicals = rand( 1, 3 )
-	for( var/i = 0; i < numberOfChemicals; i++ )
+	for( var/i = 0; i < rand( 1, 3 ); i++ )
 		var/datum/reagent/medicine/picked = pick_n_take( possible_chemicals )
+		chemicals += picked
 
+/datum/overmap_objective/cargo/donation/chems/proc/setup_freight_type_group()
+	var/list/F = list()
+
+	for ( var/datum/reagent/picked in chemicals )
 		var/datum/freight_type/single/reagent/R = new( picked )
-		R.target = ( 90 / numberOfChemicals )
+		R.target = ( 90 / length( chemicals ) )
+		F += R
 		var/datum/freight_type/single/reagent/pill_patch/P = new( picked )
 		P.target = R.target
+		F += P
 
-		freight_type_group = new( list(
-			R,
-			P,
-		) )
+	freight_type_group = new( F )
 

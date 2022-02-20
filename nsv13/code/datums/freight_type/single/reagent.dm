@@ -49,16 +49,9 @@
 	add_inner_contents_as_approved( itemTargets )
 
 	if ( length( itemTargets ) )
-		freight_type_check.untracked_contents -= itemTargets
-		freight_type_check.approved_contents += itemTargets
 		return itemTargets
 
 	return FALSE
 
 /datum/freight_type/single/reagent/get_brief_segment()
 	return "[item_name ? item_name : reagent_type] ([target] unit" + (target!=1?"s":"") + ")"
-
-/datum/freight_type/single/reagent/pill_patch
-	containers = list(
-		/obj/item/reagent_containers/pill
-	)

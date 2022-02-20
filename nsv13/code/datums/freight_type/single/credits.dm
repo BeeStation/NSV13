@@ -35,8 +35,6 @@
 	add_inner_contents_as_approved( itemTargets )
 
 	if ( length( itemTargets ) )
-		freight_type_check.untracked_contents -= itemTargets
-		freight_type_check.approved_contents += itemTargets
 		return itemTargets
 
 	return FALSE
