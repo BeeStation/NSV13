@@ -81,6 +81,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "cannonshot"
 	flag = "overmap_medium"
 
+//You somehow loaded a magic entrapment ball into a cannon. This is your reward.
+/obj/item/projectile/bullet/mac_round/cannonshot/admin
+	damage = 600
+	speed = 3
+	flag = "overmap_heavy"
+
 #define DIRTY_SHELL_TURF_SLUDGE_PROB 70	//Chance for sludge to spawn on a turf within the sludge range of the detonation turf. Detonation turf always gets an epicenter sludge.
 #define DIRTY_SHELL_SLUDGE_RANGE 3	//Un-random sludge event radius (for the shell detonating)
 #define DIRTY_SHELL_PELLET_PROB 80	//Chance for a pellet per tile from the outer circle
