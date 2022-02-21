@@ -108,23 +108,24 @@
 
 	switch( require )
 		if ( REQUIRE_ALL )
-			info += "<p>All in group:</p>"
+			info += "<li><p>All in group:</p></li>"
 		if ( REQUIRE_ANY )
-			info += "<p>One or more in group:</p>"
+			info += "<li><p>One or more in group:</p></li>"
 		if ( REQUIRE_ONE )
-			info += "<p>One and only one in group:</p>"
+			info += "<li><p>One and only one in group:</p></li>"
 
 	info += "<ul>"
 
 	for ( var/datum/freight_type/T in freight_types )
-		var/brief_segment = T.get_brief_segment()
-		if ( brief_segment )
-			info += "<li>[T.get_brief_segment()]</li>"
+		var/item = T.get_item_name()
+		if ( item )
+			info += "<li>Item: [item]</li>"
+			info += "<li>Quantity: [T.get_target()] units</li>"
 		if ( T.send_prepackaged_item )
 			if ( objective.send_to_station_pickup_point )
-				info += "<span>Freight contents are prepackaged and delivered to [objective.pickup_destination]. Navigate to [objective.pickup_destination.current_system] and contact the station to receive the package.</span>"
+				info += "<span>Prepackaged: Freight contents are prepackaged and delivered to [objective.pickup_destination]. Navigate to [objective.pickup_destination.current_system] and contact the station to receive the package.</span>"
 			else
-				info += "<span>Freight contents are prepackaged and delivered to your cargo supplypod droppoint.</span>"
+				info += "<span>Prepackaged: Freight contents are prepackaged and delivered to your cargo supplypod droppoint.</span>"
 		info += T.get_supply_request_form_segment()
 
 	info += "</ul>"

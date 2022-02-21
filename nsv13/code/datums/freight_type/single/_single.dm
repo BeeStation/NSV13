@@ -107,6 +107,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	// This datum is the top parent, it is too obtuse to handle any checks
 	return FALSE
 
+/datum/freight_type/single/get_item_name()
+	return item_name
+
 /datum/freight_type/single/get_target()
 	return target
 

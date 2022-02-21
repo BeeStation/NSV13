@@ -18,6 +18,8 @@
 
 /datum/freight_type/proc/check_contents()
 
+/datum/freight_type/proc/get_item_name()
+
 /datum/freight_type/proc/get_target()
 
 /datum/freight_type/proc/deliver_package()

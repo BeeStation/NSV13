@@ -133,7 +133,9 @@
 	info += "Item: [crate_name]<br/>"
 	info += "Submit the following:<br/>"
 
+	info += "<ul>"
 	info += freight_type_group.get_supply_request_form_segment()
+	info += "</ul>"
 
 	print_command_report(info, title, FALSE)
 
