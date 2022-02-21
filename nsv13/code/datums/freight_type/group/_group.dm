@@ -45,7 +45,7 @@
 					var/result = F.check_contents( freight_type_check )
 					if ( result )
 						itemTargets += result
-						if( add_approved_contents_to_check )
+						if( F.add_approved_contents_to_check )
 							freight_type_check.untracked_contents -= result
 							freight_type_check.approved_contents += result
 					else
@@ -57,7 +57,7 @@
 						var/result = F.check_contents( freight_type_check )
 						if ( result )
 							itemTargets += result
-							if ( add_approved_contents_to_check )
+							if ( F.add_approved_contents_to_check )
 								freight_type_check.untracked_contents -= result
 								freight_type_check.approved_contents += result
 							success = TRUE
@@ -68,7 +68,7 @@
 						var/result = F.check_contents( freight_type_check )
 						if ( result )
 							itemTargets += result
-							if ( add_approved_contents_to_check )
+							if ( F.add_approved_contents_to_check )
 								freight_type_check.untracked_contents -= result
 								freight_type_check.approved_contents += result
 							switch( success )
