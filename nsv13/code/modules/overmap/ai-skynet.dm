@@ -188,15 +188,15 @@ Adding tasks is easy! Just define a datum for it.
 			return FALSE
 
 	current_system.fleets -= src
-	if(current_system.fleets && current_system.fleets.len)
+	if(current_system.fleets?.len)
 		var/datum/fleet/F = pick(current_system.fleets)
-		current_system.alignment = F.alignment
+		current_system.owner = F.alignment
 		current_system.mission_sector = FALSE
 		for(var/datum/fleet/FF in current_system.fleets)
-			if(FF.alignment != initial(current_system.alignment))
+			if(FF.alignment != current_system.owner)
 				current_system.mission_sector = TRUE
 	else
-		current_system.alignment = initial(current_system.alignment)
+		current_system.alignment = current_system.owner
 		current_system.mission_sector = FALSE
 	if(instantiated)//If the fleet was "instantiated", that means it's already been encountered, and we need to track the states of all the ships in it.
 		for(var/obj/structure/overmap/OM in all_ships)
@@ -204,9 +204,14 @@ Adding tasks is easy! Just define a datum for it.
 	target.fleets += src
 	shared_targets = list() // We just got here and don't know where anything is
 	current_system = target
-	if(target.alignment != alignment)
-		current_system.mission_sector = TRUE
-	target.alignment = alignment //We've taken it over.
+	target.alignment = alignment //We're occupying it
+	if(target.fleets?.len)
+		for(var/datum/fleet/F as() in target.fleets)
+			if(alignment != target.alignment)
+				current_system.mission_sector = TRUE
+			
+	else
+		target.owner = alignment //this is ours now
 	if(!hide_movements && !current_system.hidden)
 		(alignment != "nanotrasen") && mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	for(var/obj/structure/overmap/OM in current_system.system_contents)
