@@ -430,7 +430,10 @@ Adding tasks is easy! Just define a datum for it.
 
 	paper.info += "<h2>[receipt.vessel] Shipping Manifest</h2>"
 	paper.info += "<hr/>"
-	paper.info += ( "Order: S-[rand( 1000, 5000 )]<br/>" )
+	if ( length( receipt.completed_objectives ) == 1 )
+		paper.info += ( "Order: #[GLOB.round_id]-[receipt.completed_objectives[ 1 ].objective_number]<br/>" )
+	else
+		paper.info += ( "Order: N/A<br/>" )
 	paper.info += "Destination: [src]<br/>"
 	if ( length( receipt.completed_objectives ) > 1 ) // If receipt has an attach objective which marks it as completed
 		paper.info += ( "Item: Assorted Shipment<br/>" )

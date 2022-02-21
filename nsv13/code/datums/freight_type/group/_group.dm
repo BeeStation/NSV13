@@ -12,10 +12,18 @@
 	var/list/freight_types = list()
 	var/require = REQUIRE_ALL
 
+	// Grouped freight types should NOT add duplicate approved contents to the freight type check when handling recursion! Only single freight types can do this
+	add_approved_contents_to_check = FALSE
+
 // Supplying a list on constructor assumes it is for freight_types only, to simply creating cargo objectives from scratch
 // If you want nested freight_type_groups be ready to get your hands dirty
 /datum/freight_type/group/New( var/list/list )
 	freight_types = list
+
+/datum/freight_type/group/set_objective( var/datum/overmap_objective/cargo/O )
+	. = ..()
+	for ( var/datum/freight_type/F in freight_types )
+		F.set_objective( O )
 
 /datum/freight_type/group/require/all
 
@@ -36,9 +44,10 @@
 				for ( var/datum/freight_type/F in freight_types )
 					var/result = F.check_contents( freight_type_check )
 					if ( result )
-						freight_type_check.untracked_contents -= result
-						freight_type_check.approved_contents += result
 						itemTargets += result
+						if( add_approved_contents_to_check )
+							freight_type_check.untracked_contents -= result
+							freight_type_check.approved_contents += result
 					else
 						success = FALSE
 
@@ -47,9 +56,10 @@
 					for ( var/datum/freight_type/F in freight_types )
 						var/result = F.check_contents( freight_type_check )
 						if ( result )
-							freight_type_check.untracked_contents -= result
-							freight_type_check.approved_contents += result
 							itemTargets += result
+							if ( add_approved_contents_to_check )
+								freight_type_check.untracked_contents -= result
+								freight_type_check.approved_contents += result
 							success = TRUE
 
 			if ( REQUIRE_ONE )
@@ -57,9 +67,10 @@
 					for ( var/datum/freight_type/F in freight_types )
 						var/result = F.check_contents( freight_type_check )
 						if ( result )
-							freight_type_check.untracked_contents -= result
-							freight_type_check.approved_contents += result
 							itemTargets += result
+							if ( add_approved_contents_to_check )
+								freight_type_check.untracked_contents -= result
+								freight_type_check.approved_contents += result
 							switch( success )
 								if ( FALSE )
 									success = TRUE
@@ -70,10 +81,13 @@
 					success = FALSE
 
 		if ( !success )
-			message_admins( "[ADMIN_VV(src)] refused last shipment" )
 			freight_type_check.groups_refused += src // This group failed to find its desired contents in the last shipment
 		freight_type_check.group_status = success // If one group of freight_types fails to validate, we stop checking the rest
-		return itemTargets
+
+		if ( success )
+			return itemTargets
+
+	return FALSE
 
 /datum/freight_type/group/get_target()
 	var/target = 0
@@ -88,3 +102,31 @@
 		if ( !T.deliver_package() )
 			status = FALSE
 	return status
+
+/datum/freight_type/group/get_supply_request_form_segment()
+	var/info = ""
+
+	switch( require )
+		if ( REQUIRE_ALL )
+			info += "<p>All in group:</p>"
+		if ( REQUIRE_ANY )
+			info += "<p>One or more in group:</p>"
+		if ( REQUIRE_ONE )
+			info += "<p>One and only one in group:</p>"
+
+	info += "<ul>"
+
+	for ( var/datum/freight_type/T in freight_types )
+		var/brief_segment = T.get_brief_segment()
+		if ( brief_segment )
+			info += "<li>[T.get_brief_segment()]</li>"
+		if ( T.send_prepackaged_item )
+			if ( objective.send_to_station_pickup_point )
+				info += "<span>Freight contents are prepackaged and delivered to [objective.pickup_destination]. Navigate to [objective.pickup_destination.current_system] and contact the station to receive the package.</span>"
+			else
+				info += "<span>Freight contents are prepackaged and delivered to your cargo supplypod droppoint.</span>"
+		info += T.get_supply_request_form_segment()
+
+	info += "</ul>"
+
+	return info

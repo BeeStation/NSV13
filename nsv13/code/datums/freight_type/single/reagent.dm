@@ -55,3 +55,6 @@
 
 /datum/freight_type/single/reagent/get_brief_segment()
 	return "[item_name ? item_name : reagent_type] ([target] unit" + (target!=1?"s":"") + ")"
+
+/datum/freight_type/single/reagent/get_supply_request_form_segment()
+	return "<span>permissible containers: spray bottles, beakers, bottles, chemical tanks, drinking glasses</span>"

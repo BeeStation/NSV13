@@ -40,4 +40,4 @@
 	return FALSE
 
 /datum/freight_type/single/object/credits/get_brief_segment()
-	return "[credits] credit" + (target!=1?"s":"")
+	return "[credits] credit chip"

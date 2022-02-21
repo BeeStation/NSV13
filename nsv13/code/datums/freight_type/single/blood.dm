@@ -44,3 +44,6 @@
 
 /datum/freight_type/single/reagent/blood/get_brief_segment()
 	return "blood type [blood_type] ([target] unit" + (target!=1?"s":"") + ")"
+
+/datum/freight_type/single/reagent/blood/get_supply_request_form_segment()
+	return "<span>permissible containers: blood bag</span>"

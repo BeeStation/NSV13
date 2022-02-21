@@ -1,6 +1,6 @@
 /datum/freight_type/single/specimen
 	var/reveal_specimen = FALSE // WIP
-	ignore_inner_contents = TRUE // Don't count equipment attached to mobs as trash
+	approve_inner_contents = TRUE // Don't count equipment attached to mobs as trash
 
 /datum/freight_type/single/specimen/New( var/mob/living/simple_animal/object )
 	if ( object )
@@ -47,3 +47,6 @@
 		return (target==1?"[item_name] specimen":"[target] [item_name] specimens")
 	else
 		return (target==1?"a secure specimen":"[target] secure specimens")
+
+/datum/freight_type/single/specimen/get_supply_request_form_segment()
+	return "<span>DISCLAIMER: By accepting this objective you acknowledge that Nanotrasen and all affiliated stations are NOT responsible for release of the specimen!</span>"

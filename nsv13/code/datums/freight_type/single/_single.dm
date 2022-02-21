@@ -23,14 +23,6 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	// tally is an arbitrary number that represents a percent of target
 	var/tally = 0
 
-	// Stores a list of initialized atoms
-	// Set to TRUE to automatically place this item in a prepackaged large wooden crate, for simpler transfer objectives
-	// If allow_replacements is TRUE, and an item is provided in a prepackaged large wooden crate but the players open/destroy it, the players may be able to repackage or source a replacement to deliver
-	// item is a required field if send_prepackaged_item is TRUE.
-	// overmap_objective is a required field if send_prepackaged_item is TRUE. Simply pass in the overmap_objective on objective self initialize
-	var/send_prepackaged_item = FALSE
-	var/list/prepackaged_items = list()
-
 	// If prepackaged mission critical items are tampered or destroyed, allow the crew to transfer these items in generic crates or replace them
 	// Alternatively if the objective requires the crew to source and donate an item, allow_replacements TRUE permits submitting sourced items
 	// This should be set when a cargo objective creates and self assigns freight_types on initialize.
@@ -51,7 +43,12 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 	// Set to TRUE if we want whatever this item and whatever random items it contains
 	// freight_contents_index will pass the item contents in as valid freight
-	var/ignore_inner_contents = FALSE
+	var/approve_inner_contents = FALSE
+
+	// Set a target of objects that MUST appear inside an approved item_type. See social_supplies.dm wrapped crates for an example of this
+	// For when you want something to be submitted but don't care what the wildcard is. If you do care what the wildcard is you should write a new freight_type to track this
+	// TODO refactor wildcard inner contents to instead be an object freight_type that checks its loc as part of the check_contents approval process
+	var/require_inner_contents = 0
 
 	// Admin debug var, signals if the last shipment returned TRUE on check_contents
 	var/last_check_contents_success = FALSE
@@ -81,10 +78,19 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 /datum/freight_type/single/proc/add_inner_contents_as_approved( var/list/itemTargets )
 	// Add wildcard contents from inner object contents found in the loop above.
 	// Otherwise check_cargo in the parent cargo objective thinks these inner wildcard contents are trash
-	if ( ignore_inner_contents )
+	var/list/innerContents = list()
+	if ( approve_inner_contents )
 		for ( var/atom/i in itemTargets )
 			for ( var/atom/a in i.GetAllContents() )
-				itemTargets += a
+				innerContents += a
+
+	if ( require_inner_contents )
+		if ( innerContents < length( require_inner_contents ) )
+			// We found inner contents that would have been approved, but we want more!
+			// Marks freight_type as rejected
+			return FALSE
+
+	itemTargets += innerContents
 
 	// Remove additional packaging from trash check
 	if ( additional_prepackaging )
@@ -130,7 +136,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	add_inner_contents_as_approved( itemTargets )
 	return itemTargets
 
-/datum/freight_type/single/proc/get_brief_segment()
+/datum/freight_type/single/get_brief_segment()
 	return "nothing"
 
 /datum/freight_type/single/deliver_package()

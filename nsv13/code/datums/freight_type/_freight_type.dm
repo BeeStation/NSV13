@@ -1,11 +1,30 @@
 
 // A parent datum for holding the singular and group types in a single list
 // Avoids using two identical loops to check two different kinds of datums that basically do the same thing. One just happens to be a recursive group
+// If you need to access a variable recursively but the variable is defined in /single, move it here to the topmost datum so /group can quickly iterate over the list
+// See _group.dm proc get_supply_request_form_segment
 
 /datum/freight_type
+	var/add_approved_contents_to_check = TRUE
+	var/datum/overmap_objective/cargo/objective = null
+
+	// Stores a list of initialized atoms
+	// Set to TRUE to automatically place this item in a prepackaged large wooden crate, for simpler transfer objectives
+	// If allow_replacements is TRUE, and an item is provided in a prepackaged large wooden crate but the players open/destroy it, the players may be able to repackage or source a replacement to deliver
+	// item is a required field if send_prepackaged_item is TRUE.
+	// overmap_objective is a required field if send_prepackaged_item is TRUE. Simply pass in the overmap_objective on objective self initialize
+	var/send_prepackaged_item = FALSE
+	var/list/prepackaged_items = list()
 
 /datum/freight_type/proc/check_contents()
 
 /datum/freight_type/proc/get_target()
 
 /datum/freight_type/proc/deliver_package()
+
+/datum/freight_type/proc/get_brief_segment()
+
+/datum/freight_type/proc/get_supply_request_form_segment()
+
+/datum/freight_type/proc/set_objective( var/datum/overmap_objective/O )
+	objective = O

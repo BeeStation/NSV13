@@ -139,9 +139,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		objective_pool += I
 
 	mode.objectives = objective_pool
-	for(var/datum/overmap_objective/O in mode.objectives)
-		if(O.instanced == FALSE)
-			O.instance() //Setup any overmap assets
+	instance_objectives()
 
 	var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
 	if(MO)
@@ -160,6 +158,13 @@ SUBSYSTEM_DEF(overmap_mode)
 		MM.jump_end(target)
 		if(mode.starting_faction)
 			MM.faction = mode.starting_faction
+
+/datum/controller/subsystem/overmap_mode/proc/instance_objectives()
+	for( var/I = 1, I <= length( mode.objectives ), I++ )
+		var/datum/overmap_objective/O = mode.objectives[ I ]
+		if(O.instanced == FALSE)
+			O.objective_number = I
+			O.instance() //Setup any overmap assets
 
 /datum/controller/subsystem/overmap_mode/fire()
 	if(SSticker.current_state == GAME_STATE_PLAYING) //Wait for the game to begin
@@ -234,6 +239,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	for(var/datum/overmap_objective/O in mode.objectives)
 		text = "[text] <br> - [O.brief]"
+		O.print_objective_report()
 
 	print_command_report(text, title, TRUE)
 
@@ -267,9 +273,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	var/datum/overmap_objective/selected = extension_pool[pick(extension_pool)] //Insert new objective
 	mode.objectives += selected
-	for(var/datum/overmap_objective/O in mode.objectives)
-		if(O.instanced == FALSE)
-			O.instance()
+	instance_objectives()
 
 	announce_objectives() //Let them all know
 
@@ -406,6 +410,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/extension_supported = FALSE 				//Is this objective available to be a random extended round objective?
 	var/ignore_check = FALSE						//Used for checking extended rounds
 	var/instanced = FALSE							//Have we yet run the instance proc for this objective?
+	var/objective_number = 0						//The objective's index in the list. Useful for creating arbitrary report titles
 
 /datum/overmap_objective/New()
 
@@ -413,6 +418,8 @@ SUBSYSTEM_DEF(overmap_mode)
 	instanced = TRUE
 
 /datum/overmap_objective/proc/check_completion()
+
+/datum/overmap_objective/proc/print_objective_report()
 
 /datum/overmap_objective/custom
 	name = "Custom"
@@ -485,9 +492,7 @@ SUBSYSTEM_DEF(overmap_mode)
 			if(isnull(S))
 				return
 			SSovermap_mode.mode.objectives += new S()
-			for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
-				if(O.instanced == FALSE)
-					O.instance()
+			SSovermap_mode.instance_objectives()
 			return
 		if("add_custom_objective")
 			var/custom_desc = input("Input Objective Briefing", "Custom Objective") as text|null

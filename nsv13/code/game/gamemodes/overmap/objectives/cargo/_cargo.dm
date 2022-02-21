@@ -46,6 +46,7 @@
 		roundstart_deliver_package()
 		roundstart_packages_handled = TRUE
 	update_brief()
+	update_freight_type_group()
 
 /datum/overmap_objective/cargo/proc/get_target()
 	if ( freight_type_group )
@@ -121,25 +122,23 @@
 		// 	segments += type.get_brief_segment()
 
 		var/obj/structure/overmap/S = destination
-		brief = "Complete supply request form #[rand(1000)] by delivering its contents to station [S] in system [S.current_system]"
+		brief = "Complete supply request form #[GLOB.round_id]-[objective_number] by delivering its contents to station [S] (system [S.current_system])"
 
-/datum/overmap_objective/cargo/donation/update_brief()
-	if ( freight_type_group )
-		// var/list/segments = list()
-		// for( var/datum/freight_type/type in freight_types )
-		// 	segments += type.get_brief_segment()
+/datum/overmap_objective/cargo/print_objective_report()
+	var/title = "Secure Supply Request Form: #[GLOB.round_id]-[objective_number]"
+	var/info = ""
 
-		var/obj/structure/overmap/S = destination
-		brief = "Complete supply request form #[rand(1000)] by delivering its contents to station [S] in system [S.current_system]"
+	info += "[title]<br/>"
+	info += "Destination: [destination]<br/>"
+	info += "Item: [crate_name]<br/>"
+	info += "Submit the following:<br/>"
 
-/datum/overmap_objective/cargo/transfer/update_brief()
-	if ( freight_type_group )
-		// var/list/segments = list()
-		// for( var/datum/freight_type/type in freight_types )
-		// 	segments += type.get_brief_segment()
+	info += freight_type_group.get_supply_request_form_segment()
 
-		var/obj/structure/overmap/S = destination
-		brief = "Complete supply request form #[rand(1000)] by delivering its contents to station [S] in system [S.current_system]"
+	print_command_report(info, title, FALSE)
+
+/datum/overmap_objective/cargo/proc/update_freight_type_group()
+	freight_type_group.set_objective( src )
 
 /datum/freight_type_check
 	// At the start of a check, the raw container and its contents go here
