@@ -158,7 +158,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 			interior_entry_points += entryway
 			entryway.linked = src
 	if(!length(interior_entry_points))
-		var/turf/bottom = get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2] + 2, roomReservation.bottom_left_coords[3]))
+		var/turf/bottom = get_turf(locate(roomReservation.bottom_left_coords[1] + 2, roomReservation.bottom_left_coords[2] + 2, roomReservation.bottom_left_coords[3]))
 		var/obj/effect/landmark/dropship_entry/entryway = new /obj/effect/landmark/dropship_entry(bottom)
 		interior_entry_points += entryway
 		entryway.linked = src
