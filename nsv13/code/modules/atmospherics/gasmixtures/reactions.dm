@@ -1,16 +1,15 @@
 //NSV13 constricted plasma combustion - acts identical to a plasma fire
 /datum/gas_reaction/constricted_plasmafire
-	priority = -2 //fire should ALWAYS be last, but plasma fires happen after tritium fires
+	priority = -3 //fire should ALWAYS be last, but plasma fires happen after tritium fires
 	name = "Constricted Plasma Combustion"
 	id = "constricted_plasmafire"
 
 /datum/gas_reaction/constricted_plasmafire/init_reqs()
 	min_requirements = list(
 		"TEMP" = FIRE_MINIMUM_TEMPERATURE_TO_EXIST,
-		/datum/gas/constricted_plasma = MINIMUM_MOLE_COUNT,
-		/datum/gas/oxygen = MINIMUM_MOLE_COUNT
+		GAS_CONSTRICTED_PLASMA = MINIMUM_MOLE_COUNT,
+		GAS_O2 = MINIMUM_MOLE_COUNT
 	)
-
 
 /datum/gas_reaction/constricted_plasmafire/react(datum/gas_mixture/air, datum/holder)
 	var/energy_released = 0
@@ -34,21 +33,21 @@
 		temperature_scale = (temperature-PLASMA_MINIMUM_BURN_TEMPERATURE)/(PLASMA_UPPER_TEMPERATURE-PLASMA_MINIMUM_BURN_TEMPERATURE)
 	if(temperature_scale > 0)
 		oxygen_burn_rate = OXYGEN_BURN_RATE_BASE - temperature_scale
-		if(air.get_moles(/datum/gas/oxygen) / air.get_moles(/datum/gas/constricted_plasma) > SUPER_SATURATION_THRESHOLD) //supersaturation. Form Tritium.
+		if(air.get_moles(GAS_O2) / air.get_moles(GAS_CONSTRICTED_PLASMA) > SUPER_SATURATION_THRESHOLD) //supersaturation. Form Tritium.
 			super_saturation = TRUE
-		if(air.get_moles(/datum/gas/oxygen) > air.get_moles(/datum/gas/constricted_plasma)*PLASMA_OXYGEN_FULLBURN)
-			plasma_burn_rate = (air.get_moles(/datum/gas/constricted_plasma)*temperature_scale)/PLASMA_BURN_RATE_DELTA
+		if(air.get_moles(GAS_O2) > air.get_moles(GAS_CONSTRICTED_PLASMA)*PLASMA_OXYGEN_FULLBURN)
+			plasma_burn_rate = (air.get_moles(GAS_CONSTRICTED_PLASMA)*temperature_scale)/PLASMA_BURN_RATE_DELTA
 		else
-			plasma_burn_rate = (temperature_scale*(air.get_moles(/datum/gas/oxygen)/PLASMA_OXYGEN_FULLBURN))/PLASMA_BURN_RATE_DELTA
+			plasma_burn_rate = (temperature_scale*(air.get_moles(GAS_O2)/PLASMA_OXYGEN_FULLBURN))/PLASMA_BURN_RATE_DELTA
 
 		if(plasma_burn_rate > MINIMUM_HEAT_CAPACITY)
-			plasma_burn_rate = min(plasma_burn_rate,air.get_moles(/datum/gas/constricted_plasma),air.get_moles(/datum/gas/oxygen)/oxygen_burn_rate) //Ensures matter is conserved properly
-			air.set_moles(/datum/gas/constricted_plasma, QUANTIZE(air.get_moles(/datum/gas/constricted_plasma) - plasma_burn_rate))
-			air.set_moles(/datum/gas/oxygen, QUANTIZE(air.get_moles(/datum/gas/oxygen) - (plasma_burn_rate * oxygen_burn_rate)))
+			plasma_burn_rate = min(plasma_burn_rate,air.get_moles(GAS_CONSTRICTED_PLASMA),air.get_moles(GAS_O2)/oxygen_burn_rate) //Ensures matter is conserved properly
+			air.set_moles(GAS_CONSTRICTED_PLASMA, QUANTIZE(air.get_moles(GAS_CONSTRICTED_PLASMA) - plasma_burn_rate))
+			air.set_moles(GAS_O2, QUANTIZE(air.get_moles(GAS_O2) - (plasma_burn_rate * oxygen_burn_rate)))
 			if (super_saturation)
-				air.adjust_moles(/datum/gas/tritium, plasma_burn_rate)
+				air.adjust_moles(GAS_TRITIUM, plasma_burn_rate)
 			else
-				air.adjust_moles(/datum/gas/carbon_dioxide, plasma_burn_rate)
+				air.adjust_moles(GAS_CO2, plasma_burn_rate)
 
 			energy_released += FIRE_PLASMA_ENERGY_RELEASED * (plasma_burn_rate)
 

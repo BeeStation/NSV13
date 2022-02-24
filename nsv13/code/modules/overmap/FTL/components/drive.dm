@@ -94,7 +94,7 @@
 		.++
 
 /obj/machinery/computer/ship/ftl_core/proc/check_pylons()
-	if(!length(pylons) && !get_pylons())
+	if(!length(pylons) && get_pylons() < min_pylons)
 		return FALSE
 	return TRUE
 
@@ -164,7 +164,7 @@
 	P.Beam(target, "lightning[rand(1, 12)]")
 	playsound(P, 'sound/magic/lightningshock.ogg', 50, 1, 1)
 
-/obj/machinery/computer/ship/ftl_core/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
+/obj/machinery/computer/ship/ftl_core/attackby(obj/item/I, mob/user)
 	. = ..()
 	if(istype(I, /obj/item/ftl_slipstream_chip))
 		var/obj/item/ftl_slipstream_chip/FI = I
@@ -222,28 +222,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 	radio_channel = "Supply"
 	req_access = null
 	req_one_access_txt = "31;48"
-/*
-/obj/machinery/computer/ship/ftl_core/Initialize()
-	. = ..()
-	start_monitoring(get_overmap())
 
-/obj/machinery/computer/ship/ftl_core/syndicate/LateInitialize()
-	. = ..()
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(OM.role > NORMAL_OVERMAP && OM.faction != faction)
-			start_monitoring(OM)
-
-/obj/machinery/computer/ship/ftl_core/proc/start_monitoring(obj/structure/overmap/OM)
-	return
-	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/announce_jump)
-
-/*
-A way for syndies to track where the player ship is going in advance, so they can get ahead of them and hunt them down.
-*/
-
-/obj/machinery/computer/ship/ftl_core/proc/announce_jump()
-	radio.talk_into(src, "TRACKING: FTL signature detected. Tracking information updated.", radio_channel)
-*/
 /obj/machinery/computer/ship/ftl_core/has_overmap()
 	. = ..()
 	linked?.ftl_drive = src // This is bad
