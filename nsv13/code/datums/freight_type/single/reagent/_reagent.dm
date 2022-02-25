@@ -2,11 +2,8 @@
 
 /datum/freight_type/single/reagent
 	var/datum/reagent/reagent_type = null
-	var/list/containers = list( // We're not accepting chemicals in food
-		/obj/item/reagent_containers/spray,
-		/obj/item/reagent_containers/glass,
-		/obj/item/reagent_containers/chemtank,
-		/obj/item/reagent_containers/food/drinks
+	var/list/containers = list(
+		/obj/item/reagent_containers
 	)
 	target = 30 // Standard volume of a bottle
 
@@ -57,4 +54,4 @@
 	return "[item_name ? item_name : reagent_type] ([target] unit" + (target!=1?"s":"") + ")"
 
 /datum/freight_type/single/reagent/get_supply_request_form_segment()
-	return "<span>permissible containers: spray bottles, beakers, bottles, chemical tanks, drinking glasses</span>"
+	return "<span>permissible containers: most reagent containers</span><br>"

@@ -128,10 +128,10 @@
 	var/title = "Secure Supply Request Form: #[GLOB.round_id]-[objective_number]"
 	var/info = ""
 
-	info += "[title]<br/>"
+	info += "<strong>[title]</strong><br/>"
 	info += "Destination: [destination]<br/>"
-	info += "Item: [crate_name]<br/>"
-	info += "Submit the following:<br/>"
+	info += "Shipment name: [crate_name]<br/>"
+	info += "Deliver the following:<br/>"
 
 	info += "<ul>"
 	info += freight_type_group.get_supply_request_form_segment()

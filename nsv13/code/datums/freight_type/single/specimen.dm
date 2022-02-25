@@ -49,4 +49,4 @@
 		return (target==1?"a secure specimen":"[target] secure specimens")
 
 /datum/freight_type/single/specimen/get_supply_request_form_segment()
-	return "<span>Disclaimer: By accepting this objective you acknowledge that Nanotrasen and all affiliated facilities are NOT responsible for release of the specimen!</span>"
+	return "<span>Disclaimer: By accepting this objective you acknowledge that Nanotrasen and all affiliated facilities are NOT responsible for release of the specimen!</span><br>"

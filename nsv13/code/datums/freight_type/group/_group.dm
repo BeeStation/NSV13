@@ -120,12 +120,12 @@
 		var/item = T.get_item_name()
 		if ( item )
 			info += "<li>Item: [item]</li>"
-			info += "<li>Quantity: [T.get_target()] units</li>"
+			info += "<span>Quantity: [T.get_target()] units</span><br>"
 		if ( T.send_prepackaged_item )
 			if ( objective.send_to_station_pickup_point )
-				info += "<span>Prepackaged: Freight contents are prepackaged and delivered to [objective.pickup_destination]. Navigate to [objective.pickup_destination.current_system] and contact the station to receive the package.</span>"
+				info += "<span>Prepackaged: Freight contents are prepackaged and delivered to [objective.pickup_destination]. Navigate to [objective.pickup_destination.current_system] and contact the station to receive the package.</span><br>"
 			else
-				info += "<span>Prepackaged: Freight contents are prepackaged and delivered to your cargo supplypod droppoint.</span>"
+				info += "<span>Prepackaged: Freight contents are prepackaged and delivered to your cargo supplypod droppoint.</span><br>"
 		info += T.get_supply_request_form_segment()
 
 	info += "</ul>"

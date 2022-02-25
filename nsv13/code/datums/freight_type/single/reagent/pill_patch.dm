@@ -4,4 +4,4 @@
 	)
 
 /datum/freight_type/single/reagent/pill_patch/get_supply_request_form_segment()
-	return "<span>permissible containers: pills, patches</span>"
+	return "<span>permissible containers: pills, patches</span><br>"
