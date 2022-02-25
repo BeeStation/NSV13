@@ -331,7 +331,7 @@ Adding tasks is easy! Just define a datum for it.
 
 	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = console.linked_launcher
 	if ( !launcher.chambered )
-		to_chat(user, "<span class='warning'>[src] has no freight torpedoes loaded!</span>")
+		to_chat(user, "<span class='warning'>[launcher] has no freight torpedoes loaded!</span>")
 		if ( console.linked )
 			try_hail( user, console.linked )
 		return FALSE
@@ -339,7 +339,7 @@ Adding tasks is easy! Just define a datum for it.
 	for(var/a in launcher.chambered.GetAllContents())
 		if(is_type_in_typecache(a, GLOB.blacklisted_cargo_types))
 			if ( !istype( a, /mob/living/simple_animal ) ) // Allow the transfer of specimens specifically for cargo missions
-				to_chat(user, "<span class='warning'>[src] Cargo Shuttle Brand lifeform checker blinks an error, \
+				to_chat(user, "<span class='warning'>[launcher] Cargo Shuttle Brand lifeform checker blinks an error, \
 					for safety reasons it cannot transport hazardous organisms, human remains, classified nuclear weaponry, \
 					homing beacons or machinery housing any form of artificial intelligence.")
 				return FALSE
@@ -1429,7 +1429,7 @@ Seek a ship thich we'll station ourselves around
 	var/supply_pod_type = /obj/structure/closet/supplypod/centcompod
 	var/returns_rejected_cargo = TRUE // AI ships will return cargo that does not match their expected shipments
 	var/speed_cargo_check = 1 SECONDS // Time it takes for a ship to respond to a shipment
-	var/speed_cargo_return = 1 SECONDS // Time it takes for a ship to return a rejected shipment
+	var/speed_cargo_return = 1 SECONDS // Time it takes for a ship to return shipment results (approved paperwork, rejected shipment)
 
 	var/last_decision = 0
 	var/decision_delay = 2 SECONDS
