@@ -11,7 +11,7 @@
 	var/bob_height_min = 2
 	var/bob_height_max = 5
 	var/bob_tick = 0
-	var/positive_moodlet = TRUE
+	var/positive_moodlet = TRUE //NSV positive moodlet
 
 /datum/component/swimming/Initialize()
 	. = ..()
@@ -32,7 +32,7 @@
 
 	lengths ++
 	if(lengths > lengths_for_bonus)
-		if (positive_moodlet)
+		if(positive_moodlet) //NSV positive moodlet
 			var/mob/living/L = parent
 			SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "exercise", /datum/mood_event/exercise)
 			L.apply_status_effect(STATUS_EFFECT_EXERCISED) //Swimming is really good excercise!

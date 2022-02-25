@@ -232,7 +232,7 @@
 	mood_change = -3
 	timeout = 1.5 MINUTES
 
-/datum/mood_event/tailpull
+/datum/mood_event/tailpull //NSV felinid moodlets
 	description = "<span class='warning'>OUCH! Stop pulling my tail! It hurts!\n"
 	mood_change = -2
 	timeout = 2 MINUTES
@@ -255,4 +255,4 @@
 /datum/mood_event/was_stuck_in_pool
 	description = "<span class='warning'>I was stuck in the pool, I never thought I'd get out.</span>\n"
 	mood_change = -2 //felinids really hate water
-	timeout = 4 MINUTES
+	timeout = 4 MINUTES //End of NSV code

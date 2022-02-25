@@ -96,10 +96,10 @@
 	mood_change = 4
 	timeout = 5 MINUTES
 
-/datum/mood_event/hate_shower
+/datum/mood_event/hate_shower //NSV felinid moodlets
 	description = "<span class='boldwarning'>I <i>HATE</i> showers!</span>\n"
 	mood_change = -2
-	timeout = 5 MINUTES
+	timeout = 5 MINUTES //End of NSV code
 
 /datum/mood_event/fresh_laundry
 	description = "<span class='nicegreen'>There's nothing like the feeling of a freshly laundered jumpsuit.</span>\n"
