@@ -39,7 +39,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	// Attempting to replace prepackaging will flag the incoming freight torpedo as trash, and will not complete the objective.
 	var/list/additional_prepackaging = list()
 
-	var/last_get_amount = null // vv debug
+	var/last_approved_targets = null // vv debug
 
 	// Set to TRUE if we want whatever this item and whatever random items it contains
 	// freight_contents_index will pass the item contents in as valid freight
@@ -85,7 +85,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 				innerContents += a
 
 	if ( require_inner_contents )
-		if ( length( innerContents ) < require_inner_contents )
+		if ( length( innerContents ) < require_inner_contents + 2 )
 			// We found inner contents that would have been approved, but we want more!
 			// Marks this freight_type as rejected
 			return FALSE
@@ -97,7 +97,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 		for ( var/atom/a in additional_prepackaging )
 			itemTargets += a
 
-	last_get_amount = itemTargets
+	last_approved_targets = itemTargets
 	return itemTargets
 
 

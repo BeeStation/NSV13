@@ -18,7 +18,7 @@
 				index.add_amount( a, a.amount )
 
 	var/list/itemTargets = index.get_amount( item_type, target, TRUE )
-	add_inner_contents_as_approved( itemTargets )
+	itemTargets = add_inner_contents_as_approved( itemTargets )
 
 	if ( length( itemTargets ) )
 		return itemTargets

@@ -35,7 +35,7 @@
 					index.add_amount( a, R.volume, blood_type )
 
 	var/list/itemTargets = index.get_amount( blood_type, target, TRUE )
-	add_inner_contents_as_approved( itemTargets )
+	itemTargets = add_inner_contents_as_approved( itemTargets )
 
 	if ( length( itemTargets ) )
 		return itemTargets
