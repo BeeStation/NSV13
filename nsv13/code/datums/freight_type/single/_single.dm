@@ -87,7 +87,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	if ( require_inner_contents )
 		if ( length( innerContents ) < require_inner_contents )
 			// We found inner contents that would have been approved, but we want more!
-			// Marks freight_type as rejected
+			// Marks this freight_type as rejected
 			return FALSE
 
 	itemTargets += innerContents
@@ -139,7 +139,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 				index.add_amount( a, 1 )
 
 	var/list/itemTargets = index.get_amount( item_type, target, TRUE )
-	add_inner_contents_as_approved( itemTargets )
+	itemTargets = add_inner_contents_as_approved( itemTargets )
 	return itemTargets
 
 /datum/freight_type/single/get_brief_segment()
