@@ -615,6 +615,8 @@ Adding tasks is easy! Just define a datum for it.
 			return list(web_sound_url, music_extra_data)
 
 /datum/fleet/proc/encounter(obj/structure/overmap/OM)
+	set waitfor = FALSE
+	
 	if(OM.faction == alignment)
 		OM.hail(pick(greetings), name)
 	assemble(current_system)
@@ -642,6 +644,7 @@ Adding tasks is easy! Just define a datum for it.
 
 				else
 					message_admins("Failed to spawn ghost ship due to insufficent players.")
+					return
 
 			var/target_location = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), OM.z)
 			var/obj/structure/overmap/selected_ship = pick(ship_list)
