@@ -218,7 +218,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/controller/subsystem/overmap_mode/proc/start_reminder()
 	next_objective_reminder = world.time + mode.objective_reminder_interval
-	addtimer(CALLBACK(src, .proc/announce_objectives), 1 SECONDS)
+	addtimer(CALLBACK(src, .proc/announce_objectives), 3 MINUTES)
 
 /datum/controller/subsystem/overmap_mode/proc/announce_objectives()
  	/*

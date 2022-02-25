@@ -13,7 +13,7 @@
 	reminder_five = "Your pay has been docked to cover expenses, continued ignorance of your mission will lead to removal by force."
 
 	selection_weight = 5
-	required_players = 5
+	required_players = 0
 	max_players = 10
 	random_objective_amount = 3
 
