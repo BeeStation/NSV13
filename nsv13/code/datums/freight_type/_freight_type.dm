@@ -22,6 +22,8 @@
 
 /datum/freight_type/proc/get_target()
 
+/datum/freight_type/proc/get_require_inner_contents()
+
 /datum/freight_type/proc/deliver_package()
 
 /datum/freight_type/proc/get_brief_segment()

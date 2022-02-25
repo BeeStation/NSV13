@@ -49,4 +49,10 @@
 		return (target==1?"a secure specimen":"[target] secure specimens")
 
 /datum/freight_type/single/specimen/get_supply_request_form_segment()
-	return "<span>Disclaimer: By accepting this objective you acknowledge that Nanotrasen and all affiliated facilities are NOT responsible for release of the specimen!</span><br>"
+	return "<span>Disclaimer: By accepting this objective you accept that Nanotrasen and all affiliated facilities are NOT responsible for release of the specimen!</span><br>"
+
+/datum/freight_type/single/specimen/get_item_name()
+	if ( reveal_specimen )
+		return (target==1?"[item_name] specimen":"[target] [item_name] specimens")
+	else
+		return (target==1?"a secure specimen":"[target] secure specimens")

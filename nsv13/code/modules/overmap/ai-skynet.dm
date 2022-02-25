@@ -431,8 +431,9 @@ Adding tasks is easy! Just define a datum for it.
 	paper.info += "<h2>[receipt.vessel] Shipping Manifest</h2>"
 	paper.info += "<hr/>"
 
-	var/datum/overmap_objective/cargo/objective = receipt.completed_objectives[ 1 ]
+
 	if ( length( receipt.completed_objectives ) == 1 )
+		var/datum/overmap_objective/cargo/objective = receipt.completed_objectives[ 1 ]
 		paper.info += ( "Order: #[GLOB.round_id]-[objective.objective_number]<br/>" )
 	else
 		paper.info += ( "Order: N/A<br/>" )
@@ -442,6 +443,7 @@ Adding tasks is easy! Just define a datum for it.
 	if ( length( receipt.completed_objectives ) > 1 ) // If receipt has an attach objective which marks it as completed
 		paper.info += ( "Item: Assorted Shipment<br/>" )
 	else if ( length( receipt.completed_objectives ) == 1 )
+		var/datum/overmap_objective/cargo/objective = receipt.completed_objectives[ 1 ]
 		paper.info += ( "Item: [objective.crate_name]<br/>" )
 	else
 		paper.info += ( "Item: Unregistered Shipment<br/>" )

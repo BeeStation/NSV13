@@ -37,7 +37,7 @@
 	// proc check_contents matches the freight_type's target item
 	// For this reason the target should be the number of wrapped crates (1), NOT the number of extra presents inside the crate
 	crate_with_presents.target = 1
-	crate_with_presents.item_name = "3 items in 1 wrapped crate"
+	crate_with_presents.item_name = "1 wrapped crate"
 	crate_with_presents.approve_inner_contents = TRUE
 	// Special snowflake var because otherwise you and I both know players would start submitting empty wrapped crates :)
 	crate_with_presents.require_inner_contents = 3

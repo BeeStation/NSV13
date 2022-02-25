@@ -218,11 +218,9 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/controller/subsystem/overmap_mode/proc/start_reminder()
 	next_objective_reminder = world.time + mode.objective_reminder_interval
-	addtimer(CALLBACK(src, .proc/announce_objectives), 3 MINUTES)
+	addtimer(CALLBACK(src, .proc/announce_objectives), 1 SECONDS)
 
 /datum/controller/subsystem/overmap_mode/proc/announce_objectives()
-	announced_objectives = TRUE
-
  	/*
 	Replace with a SMEAC brief?
 	- Situation
@@ -239,9 +237,12 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	for(var/datum/overmap_objective/O in mode.objectives)
 		text = "[text] <br> - [O.brief]"
-		O.print_objective_report()
+
+		if ( !SSovermap_mode.announced_objectives ) // Prevents duplicate report spam when assigning additional objectives
+			O.print_objective_report()
 
 	print_command_report(text, title, TRUE)
+	announced_objectives = TRUE
 
 /datum/controller/subsystem/overmap_mode/proc/update_reminder(var/objective = FALSE)
 	if(objective && objective_resets_reminder) //Is objective? Full Reset
@@ -415,6 +416,10 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_objective/New()
 
 /datum/overmap_objective/proc/instance() //Used to generate any in world assets
+	if ( SSovermap_mode.announced_objectives )
+		// If this objective was manually added by admins after announce, prints a new report. Otherwise waits for the gamemode to be announced before instancing reports
+		print_objective_report()
+
 	instanced = TRUE
 
 /datum/overmap_objective/proc/check_completion()

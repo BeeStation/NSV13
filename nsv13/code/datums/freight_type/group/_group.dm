@@ -52,6 +52,8 @@
 						success = FALSE
 
 			if ( REQUIRE_ANY )
+				// Reminder that this require type does not permit partials of two different freight_type s!
+				// For example, how or even why would we code calculating the approval/rejection for submitting 2 of 3 metal rods, and 1 of 2 of copper sheets?
 				if ( !success )
 					for ( var/datum/freight_type/F in freight_types )
 						var/result = F.check_contents( freight_type_check )
@@ -120,12 +122,21 @@
 		var/item = T.get_item_name()
 		if ( item )
 			info += "<li>Item: [item]</li>"
-			info += "<span>Quantity: [T.get_target()] units</span><br>"
+
+			var/target = T.get_target()
+			if ( target )
+				info += "<span>Quantity: [target] unit[target==1?"":"s"]</span><br>"
+
+			var/inner_target = T.get_require_inner_contents()
+			if ( inner_target )
+				info += "<span>Required inner contents: [inner_target] item[inner_target==1?"":"s"]</span><br>"
+
 		if ( T.send_prepackaged_item )
 			if ( objective.send_to_station_pickup_point )
-				info += "<span>Prepackaged: Freight contents are prepackaged and delivered to [objective.pickup_destination]. Navigate to [objective.pickup_destination.current_system] and contact the station to receive the package.</span><br>"
+				info += "<span>Prepackaged: Freight contents are prepackaged and delivered to [objective.pickup_destination]. Contact the station to receive the package.</span><br>"
+				info += "<span>Pickup system: [objective.pickup_destination.current_system]</span><br>"
 			else
-				info += "<span>Prepackaged: Freight contents are prepackaged and delivered to your cargo supplypod droppoint.</span><br>"
+				info += "<span>Prepackaged: Freight contents are prepackaged and delivered to your cargo supplypod drop point.</span><br>"
 		info += T.get_supply_request_form_segment()
 
 	info += "</ul>"

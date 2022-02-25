@@ -85,7 +85,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 				innerContents += a
 
 	if ( require_inner_contents )
-		if ( innerContents < length( require_inner_contents ) )
+		if ( length( innerContents ) < require_inner_contents )
 			// We found inner contents that would have been approved, but we want more!
 			// Marks freight_type as rejected
 			return FALSE
@@ -112,6 +112,9 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 /datum/freight_type/single/get_target()
 	return target
+
+/datum/freight_type/single/get_require_inner_contents()
+	return require_inner_contents
 
 /datum/freight_type/single/proc/get_prepackaged_targets( var/obj/container )
 	if ( send_prepackaged_item )

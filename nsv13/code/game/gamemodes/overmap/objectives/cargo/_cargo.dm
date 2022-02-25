@@ -19,7 +19,7 @@
 	target = 0
 	tally = 0
 
-	var/destination = null // For knowing who wants what by looking at this objective datum
+	var/obj/structure/overmap/destination = null // For knowing who wants what by looking at this objective datum
 
 	// On proc pick_station, pick_same_destination attempts to find a station that is already expecting cargo. This avoids situations where players are trekking halfway across the universe to deliver two separate items
 	// Set to FALSE if you always want random stations to be picked
@@ -47,6 +47,8 @@
 		roundstart_packages_handled = TRUE
 	update_brief()
 	update_freight_type_group()
+
+	. = ..()
 
 /datum/overmap_objective/cargo/proc/get_target()
 	if ( freight_type_group )
@@ -130,8 +132,9 @@
 
 	info += "<strong>[title]</strong><br/>"
 	info += "Destination: [destination]<br/>"
+	info += "Destination system: [destination.current_system]<br/>"
 	info += "Shipment name: [crate_name]<br/>"
-	info += "Deliver the following:<br/>"
+	info += "Deliver the following in a freight torpedo:<br/>"
 
 	info += "<ul>"
 	info += freight_type_group.get_supply_request_form_segment()
@@ -150,6 +153,8 @@
 	// At the end of a check, untracked contents are filtered into approved contents and a global status is set in this datum
 	var/list/approved_contents = list()
 	var/list/groups_refused = list()
+
+	// If one group doesn't like the results of the shipment, the whole check is cancelled and rejection kicks in
 	var/group_status = TRUE
 
 /datum/overmap_objective/cargo/proc/check_cargo( var/obj/shipment )
@@ -165,25 +170,16 @@
 			if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) )
 				allContents += a
 
-		last_freight_type_check = new()
+		// Start a new freight_type check
+		last_freight_type_check = new /datum/freight_type_check()
 		last_freight_type_check.container = shipment
 		last_freight_type_check.untracked_contents = allContents
 		freight_type_group.check_contents( last_freight_type_check )
 
-		// for( var/datum/freight_type/freight_type in freight_types )
-		// 	var/list/item_results = freight_type.check_contents( shipment )
-		// 	if ( item_results )
-		// 		for ( var/atom/i in item_results )
-		// 			last_check_cargo_items_accepted += i
-		// 			allContents -= i
-		// 	else
-		// 		// There are missing items in this freight type, we're not going to bother checking the rest
-		// 		all_accounted_for = FALSE
-		// 		break
-
 		// If there are additional trash items that were not requested, we won't mark this shipment as an objective completion
 		// This prevents a scenario where the crew piles all their objective related cargo into a freight torpedo, completes 2 out of 3 applicable objectives, and can't get the incomplete shipment back for objective #3
+		// No, I will not implement soft approvals where the players' trash is auto shipped back. If players can't follow basic directions on supply requests they shouldn't be allowed to greentext their basic objectives.
 		if ( last_freight_type_check.group_status && !length( last_freight_type_check.untracked_contents ) )
-			tally = target // Target is set when the freight_type is assigned
+			tally = target
 			status = 1
 			return TRUE
