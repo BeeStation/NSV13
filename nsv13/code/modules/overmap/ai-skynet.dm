@@ -647,7 +647,7 @@ Adding tasks is easy! Just define a datum for it.
 			var/obj/structure/overmap/selected_ship = pick(ship_list)
 			
 			var/target_ghost
-			var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(selected_ship.faction)] [initial(selected_ship.name)]?", ROLE_GHOSTSHIP, null, null, 30 SECONDS, POLL_IGNORE_GHOSTSHIP)
+			var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(selected_ship.faction)] [initial(selected_ship.name)]?", ROLE_GHOSTSHIP, null, null, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
 			if(LAZYLEN(candidates))
 				var/mob/dead/observer/C = pick(candidates)
 				target_ghost = C
