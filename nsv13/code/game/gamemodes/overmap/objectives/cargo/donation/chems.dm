@@ -30,7 +30,7 @@
 
 	for ( var/picked in chemicals )
 		var/list/A = list()
-		var/datum/freight_type/single/reagent/R = new /datum/freight_type/single/reagent( picked )
+		var/datum/freight_type/single/reagent/chemistry/R = new /datum/freight_type/single/reagent/chemistry( picked )
 		R.target = ( 90 / length( chemicals ) )
 		A += R
 		var/datum/freight_type/single/reagent/pill_patch/P = new /datum/freight_type/single/reagent/pill_patch( picked )

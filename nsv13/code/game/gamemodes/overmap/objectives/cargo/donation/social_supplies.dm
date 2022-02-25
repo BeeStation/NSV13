@@ -24,7 +24,7 @@
 				possible_chemicals += C.id
 
 	var/datum/reagent/consumable/ethanol/picked_ethanol = pick( possible_chemicals )
-	var/datum/freight_type/single/reagent/drinks = new( picked_ethanol )
+	var/datum/freight_type/single/reagent/drinks/drinks = new( picked_ethanol )
 	drinks.target = 200
 
 	// Setup presents
