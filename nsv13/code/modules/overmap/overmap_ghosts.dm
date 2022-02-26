@@ -6,6 +6,7 @@
 	VV_DROPDOWN_OPTION(VV_HK_GHOST_SHIP, "Make Ghost Ship")
 
 /obj/structure/overmap/vv_do_topic(list/href_list)
+	set waitfor = FALSE
 	. = ..()
 	if(href_list[VV_HK_GHOST_SHIP])
 		if(!check_rights(R_ADMIN))
@@ -15,12 +16,19 @@
 			if("Cancel")
 				return
 			if("Open")
-				target_ghost = 0
+				var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [src.faction] [src.name]?", ROLE_GHOSTSHIP, null, null, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
+				if(LAZYLEN(candidates))
+					var/mob/dead/observer/C = pick(candidates)
+					target_ghost = C
+				else
+					return
 			if("Choose")
 				target_ghost = input(usr, "Select player to pilot ghost ship:", "Select Player") as null|anything in GLOB.clients
 
 		ghost_ship(target_ghost)
-		message_admins("Admin [key_name_admin(usr)] has fully repaired [src].")
+		message_admins("[key_name_admin(usr)] has ghost shiped [src.name]!")
+		log_admin("[key_name_admin(usr)] has ghost shiped [src.name]!")
+
 
 //Creation of the ghost ship pilot entity
 /obj/structure/overmap/proc/ghost_ship(mob/target)
