@@ -1722,8 +1722,11 @@
 /turf/open/floor/monotile/dark,
 /area/engine/engine_room)
 "fS" = (
-/obj/structure/ladder,
-/turf/open/floor/monotile/steel,
+/obj/structure/sign/directions/supply{
+	pixel_y = -6
+	},
+/obj/structure/sign/directions/science,
+/turf/closed/wall/r_wall,
 /area/engine/atmos)
 "fU" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -5226,24 +5229,6 @@
 /obj/machinery/ship_weapon/vls,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
-"qs" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/requests_console{
-	department = "Deck 2 Primary Hallway";
-	departmentType = 2;
-	name = "Deck 2 Primary Hallway RC";
-	pixel_y = 26
-	},
-/obj/effect/turf_decal/tile/ship/green{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/ship/green{
-	dir = 4
-	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck2/primary)
 "qt" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -11001,6 +10986,12 @@
 /obj/effect/turf_decal/tile/ship/half/yellow{
 	dir = 1
 	},
+/obj/machinery/requests_console{
+	department = "Deck 2 Primary Hallway";
+	departmentType = 2;
+	name = "Deck 2 Primary Hallway RC";
+	pixel_y = 26
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "LC" = (
@@ -13026,12 +13017,9 @@
 /turf/open/floor/plasteel/airless/solarpanel,
 /area/space/nearstation)
 "Sn" = (
-/obj/structure/sign/directions/science,
-/obj/structure/sign/directions/supply{
-	pixel_y = -6
-	},
-/turf/closed/wall/r_wall,
-/area/engine/atmos)
+/obj/structure/ladder,
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
 "So" = (
 /obj/structure/ladder,
 /obj/effect/turf_decal/tile/ship/half/green{
@@ -48232,7 +48220,7 @@ GB
 jh
 lD
 RN
-qs
+Jz
 un
 ql
 yX
@@ -49259,7 +49247,7 @@ hH
 Se
 pH
 EB
-Sn
+RN
 LA
 un
 ny
@@ -52858,7 +52846,7 @@ rX
 TX
 nw
 mP
-mP
+Sn
 ff
 eY
 Mi
