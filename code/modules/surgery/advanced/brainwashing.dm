@@ -13,7 +13,6 @@
 	/datum/surgery_step/clamp_bleeders,
 	/datum/surgery_step/brainwash,
 	/datum/surgery_step/close)
-	self_operable = FALSE
 
 	target_mobtypes = list(/mob/living/carbon/human)
 	possible_locs = list(BODY_ZONE_HEAD)

@@ -10,6 +10,7 @@
 				/datum/surgery_step/close)
 	possible_locs = list(BODY_ZONE_CHEST)
 	bioware_target = BIOWARE_CIRCULATION
+	self_operable = TRUE
 
 /datum/surgery_step/thread_veins
 	name = "thread veins"
