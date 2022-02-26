@@ -2530,11 +2530,8 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/machinery/squad_vendor{
-	density = 0;
-	pixel_x = -32
-	},
-/turf/open/floor/monotile/steel,
+/obj/machinery/squad_vendor,
+/turf/closed/wall/steel,
 /area/bridge/cic)
 "lF" = (
 /obj/machinery/door/airlock/ship/public{
@@ -6089,17 +6086,9 @@
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck1/hallway)
 "Dv" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
+/obj/structure/ladder,
 /turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/area/bridge/cic)
 "Dx" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -7876,11 +7865,18 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "Lt" = (
-/obj/structure/ladder,
-/obj/machinery/door/window{
-	req_one_access_txt = "69"
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
-/turf/open/floor/engine,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/structure/sign/nanotrasen{
+	pixel_y = 26
+	},
+/turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "Lw" = (
 /obj/effect/turf_decal/stripes/line{
@@ -8183,15 +8179,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
-"MO" = (
-/obj/effect/turf_decal/tile/ship/half/green{
-	dir = 1
-	},
-/obj/structure/sign/nanotrasen{
-	pixel_y = 26
-	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
 "MQ" = (
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 4
@@ -44855,7 +44842,7 @@ Tc
 FP
 Tc
 Tc
-cD
+Lt
 sf
 cD
 cH
@@ -45111,8 +45098,8 @@ Vg
 Yn
 wW
 Tc
-Tc
-MO
+Dv
+rb
 wu
 iJ
 cH
@@ -48453,8 +48440,8 @@ mK
 mK
 lx
 Am
-Lt
-Dv
+Am
+ST
 Em
 qP
 Em
