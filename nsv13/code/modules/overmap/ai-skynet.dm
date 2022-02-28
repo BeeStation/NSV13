@@ -957,10 +957,18 @@ Adding tasks is easy! Just define a datum for it.
 			goal_system = null
 
 /datum/fleet/proc/federation_check(checked = current_system) //Lazy way to check if you're in the federation; for alignments.
-	if(checked.alignment = "solgov" && alignment = "nanotrasen")
-		return TRUE
-	if(checked.alignment = "nanotrasen" && alignment = "solgov")
-		return TRUE
+	if(istype(checked, /datum/star_system))
+		var/datum/star_system/S = checked
+		if(S.alignment = "solgov" && alignment = "nanotrasen")
+			return TRUE
+		if(S.alignment = "nanotrasen" && alignment = "solgov")
+			return TRUE
+	if(istype(checked, /obj/structure/overmap))
+		var/obj/structure/overmap/O = checked
+		if(S.alignment = "solgov" && alignment = "nanotrasen")
+			return TRUE
+		if(S.alignment = "nanotrasen" && alignment = "solgov")
+			return TRUE
 	return FALSE
 
 /datum/fleet/New()
