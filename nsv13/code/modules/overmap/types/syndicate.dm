@@ -222,6 +222,10 @@
 	missiles = 10
 	bounty = 4000
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
+	
+/datum/map_template/boarding/carrier
+	name = "carrier (interior)"
+	mappath = "_maps/templates/boarding/syndicate/carrier.dmm"
 
 /obj/structure/overmap/syndicate/ai/carrier
 	name = "Syndicate combat carrier"
@@ -243,7 +247,7 @@
 	can_resupply = TRUE
 	ai_flags = AI_FLAG_SUPPLY
 	combat_dice_type = /datum/combat_dice/carrier
-	possible_interior_maps = list()
+	possible_interior_maps = list(/datum/map_template/boarding/carrier)
 
 /obj/structure/overmap/syndicate/ai/carrier/elite
 	name = "Special ops escort carrier"
@@ -258,6 +262,7 @@
 							/obj/structure/overmap/syndicate/ai/bomber)
 	ai_flags = AI_FLAG_SUPPLY | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/carrier
+	possible_interior_maps = list(/datum/map_template/boarding/carrier)
 
 /obj/structure/overmap/syndicate/ai/carrier/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
