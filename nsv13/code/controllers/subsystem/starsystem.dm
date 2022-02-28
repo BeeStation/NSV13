@@ -126,6 +126,7 @@ Returns a faction datum by its name (case insensitive!)
 				x = sys_info["x"],
 				y = sys_info["y"],
 				alignment = sys_info["alignment"],
+				owner = sys_info["owner"],
 				hidden = sys_info["hidden"],
 				sector = sys_info["sector"],
 				adjacency_list = json_decode(sys_info["adjacency_list"]),
@@ -205,6 +206,7 @@ Returns a faction datum by its name (case insensitive!)
 			"threat_level"=S.threat_level,
 			//General system props
 			"alignment" = S.alignment,
+			"owner" = S.owner,
 			"hidden"=S.hidden,
 			"system_type" = json_encode(S.system_type),
 			"system_traits"=isnum(S.system_traits) ? S.system_traits : NONE,
@@ -226,7 +228,6 @@ Returns a faction datum by its name (case insensitive!)
 		file_data[++file_data.len] = entry
 	//Attempt to write to the file...
 	try
-
 		listclearnulls(file_data)
 		fdel(json_file)
 		var/list/to_save = file_data
@@ -409,7 +410,9 @@ Returns a faction datum by its name (case insensitive!)
 
 	var/x = 0 //Maximum: 1000 for now
 	var/y = 0 //Maximum: 1000 for now
+	//Current list of valid alignments (from Map.scss in TGUI): null, whiterapids, solgov, nanotrasen, syndicate, unaligned, pirate, uncharted
 	var/alignment = "unaligned"
+	var/owner = "unaligned" //Same as alignment, but only changes when a system is definitively captured (for persistent starmaps)
 	var/visited = FALSE
 	var/hidden = FALSE //Secret systems
 	var/list/system_type = null //Set this to pre-spawn systems as a specific type.
@@ -450,7 +453,7 @@ Returns a faction datum by its name (case insensitive!)
 	message_admins("WARNING: Invalid startup_proc declared for [name]! Review your defines (~L438, starsystem.dm), please.")
 	return 1
 
-/datum/star_system/New(name, desc, threat_level, alignment, hidden, system_type, system_traits, is_capital, adjacency_list, wormhole_connections, fleet_type, x, y, parallax_property, visitable, sector, is_hypergate, preset_trader, audio_cues, startup_proc)
+/datum/star_system/New(name, desc, threat_level, alignment, owner, hidden, system_type, system_traits, is_capital, adjacency_list, wormhole_connections, fleet_type, x, y, parallax_property, visitable, sector, is_hypergate, preset_trader, audio_cues, startup_proc)
 	. = ..()
 	//Load props first.
 	if(name)
@@ -458,6 +461,7 @@ Returns a faction datum by its name (case insensitive!)
 		src.desc = desc
 		src.threat_level = threat_level
 		src.alignment = alignment
+		src.owner = owner
 		src.hidden = hidden
 		src.system_type = system_type
 		src.system_traits = system_traits
@@ -496,7 +500,6 @@ Returns a faction datum by its name (case insensitive!)
 	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_NO_ASTEROIDS))
 		addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
 
-
 /datum/star_system/proc/create_wormhole()
 	var/list/potential_systems = list()
 	for(var/datum/star_system/P in SSstar_system.systems)
@@ -531,18 +534,20 @@ Returns a faction datum by its name (case insensitive!)
 			anomalies[++anomalies.len] = anomaly_info
 	return anomalies
 
-/obj/effect/overmap_anomaly
-	name = "Placeholder"
-	desc = "You shouldn't see this."
+/obj/effect/overmap_anomaly //Should not appear normally.
+	name = "Tear in reality"
+	desc = "Your mind is shattering just from looking at this."
+	icon = 'nsv13/goonstation/icons/effects/explosions/electricity.dmi'
+	icon_state = "rit-elec-aoe"
 	bound_width = 64
 	bound_height = 64
-	var/research_points = 0
+	var/research_points = 25000 //Glitches in spacetime are *really* interesting okay?
 	var/scanned = FALSE
 	var/specialist_research_type = null //Special techweb node unlocking.
 
 /obj/effect/overmap_anomaly/Crossed(atom/movable/AM)
 	if(istype(AM, /obj/item/projectile/bullet/torpedo/probe))
-		SSresearch.science_tech.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, research_points)
+		SSresearch.science_tech.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, research_points*1.5) //more points for scanning up close.
 		if(specialist_research_type)
 			SSresearch.science_tech.add_point_type(specialist_research_type, research_points)
 		research_points = 0
@@ -653,11 +658,7 @@ Returns a faction datum by its name (case insensitive!)
 	icon_state = "redgiant"
 	research_points = 4000 //Somewhat more interesting than a sun.
 
-// /datum/star_system/proc/add_mission(datum/nsv_mission/mission)
-// 	if(!mission)
-// 		return FALSE
-// 	active_missions += mission
-// 	objective_sector = TRUE
+//Space Weather
 
 /datum/star_system/proc/apply_system_effects()
 	event_chance = 15 //Very low chance of an event happening
@@ -714,10 +715,10 @@ Returns a faction datum by its name (case insensitive!)
 			anomaly_type = /obj/effect/overmap_anomaly/singularity
 			parallax_property = "pitchblack"
 		if("blacksite") //this a special one!
-			adjacency_list += "Outpost 45" //you're going to risa, dammit.
+			adjacency_list += "Outpost 45" //you're going to risa, damnit.
 			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
 	if(alignment == "syndicate")
-		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some guaranteed Syndiships.
+		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some Syndie ships.
 	if(!anomaly_type)
 		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
 	SSstar_system.spawn_anomaly(anomaly_type, src)
@@ -783,7 +784,7 @@ Returns a faction datum by its name (case insensitive!)
 				),
 				list(
 					tag = "blackhole",
-					label = "Blackhole",
+					label = "Black hole",
 				),
 			)
 	apply_system_effects()
@@ -809,6 +810,7 @@ Returns a faction datum by its name (case insensitive!)
 
 /datum/star_system/proc/lerp_y(datum/star_system/other, t)
 	return y + (t * (other.y - y))
+
 /datum/star_system/staging
 	name = "Staging"
 	desc = "Used for round initialisation and admin event staging"
@@ -819,6 +821,7 @@ Returns a faction datum by its name (case insensitive!)
 	return
 
 //////star_system LIST (order of appearance)///////
+// Only used as a fallback if the .json doesn't load right now.
 /datum/star_system/sol
 	name = "Sol"
 	is_capital = TRUE
@@ -1034,11 +1037,13 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 	y = 0
 	hidden = TRUE
 	alignment = "uncharted"
+	owner = "uncharted" //Currently this will say occupied whenever any fleet enters, change this.
 
 //The badlands generates a rat run of random systems around it, so keep it well clear of civilisation
 /datum/star_system/brasil
 	name = "The Badlands"
 	alignment = "uncharted"
+	owner = "uncharted" //Ditto star_system/random
 	x = 50
 	y = 30
 	sector = 2
@@ -1140,6 +1145,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 			randyfleet.hide_movements = TRUE //Prevent the shot of spam this caused to R1497.
 			randy.fleets += randyfleet
 			randy.alignment = randyfleet.alignment
+			randy.owner = randyfleet.alignment
 			randyfleet.assemble(randy)
 
 		SSstar_system.systems += randy
@@ -1330,6 +1336,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	adjacency_list = list("Dolos Remnants")
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE
+	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_WORMHOLE
 
 /datum/star_system/sector4/laststand
 	name = "Oasis Fidei" //oasis of faith
