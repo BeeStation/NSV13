@@ -448,7 +448,7 @@ Returns a faction datum by its name (case insensitive!)
 /datum/star_system/proc/parse_startup_proc()
 	switch(startup_proc)
 		if("STARTUP_PROC_TYPE_BRASIL")
-			addtimer(CALLBACK(src, .proc/generate_badlands), 5 SECONDS)
+			addtimer(CALLBACK(src, .proc/generate_badlands), 9 SECONDS)
 			return
 	message_admins("WARNING: Invalid startup_proc declared for [name]! Review your defines (~L438, starsystem.dm), please.")
 	return 1

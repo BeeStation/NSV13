@@ -61,6 +61,8 @@
 	// Pick a random existing station to give this objective to
 	var/list/ntstations = list()
 	var/list/ntstations_expecting_cargo = list()
+	if(!SSstar_system.traders)
+		sleep(10 SECONDS)
 	for ( var/trader in SSstar_system.traders )
 		var/datum/trader/T = trader
 		if ( T.faction_type == FACTION_ID_NT )
