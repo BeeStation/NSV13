@@ -1,9 +1,14 @@
 #define FIRE_INTERCEPTED 2 //For special_fire()
 
+//These procs should *really* not be here
 /obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
 	if(weapon_types[weapon.fire_mode])
 		var/datum/ship_weapon/SW = weapon_types[weapon.fire_mode]
 		SW.add_weapon(weapon) //hand it over to the datum for sane things like adding it idk
+
+/obj/structure/overmap/proc/remove_weapon(obj/machinery/ship_weapon/weapon)
+	var/datum/ship_weapon/SW = weapon_types[weapon.fire_mode]
+	SW.weapons -= weapon
 
 /datum/ship_weapon
 	var/name = "Ship weapon"

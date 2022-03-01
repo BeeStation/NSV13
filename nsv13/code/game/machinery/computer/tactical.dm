@@ -91,3 +91,7 @@
 /obj/machinery/computer/ship/tactical/set_position(obj/structure/overmap/OM)
 	OM.tactical = src
 	return
+
+/obj/machinery/computer/ship/tactical/Destroy()
+	linked?.tactical -= src
+	return ..()

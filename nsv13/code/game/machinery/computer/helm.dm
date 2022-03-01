@@ -9,6 +9,10 @@
 /obj/machinery/computer/ship/helm/syndicate
 	req_one_access = list(ACCESS_SYNDICATE)
 
+/obj/machinery/computer/ship/helm/Destroy()
+	linked?.helm -= src
+	return ..()
+
 /obj/machinery/computer/ship/helm/set_position(obj/structure/overmap/OM)
 	OM.helm = src
 	return
