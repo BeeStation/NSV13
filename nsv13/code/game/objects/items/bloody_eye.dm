@@ -116,7 +116,7 @@
 	var/contained = english_list(injected)
 	log_combat(user, M, "attempted to spray", src, "([contained])")
 
-	if(reagents.total_volume && !(M.is_eyes_covered()))
+	if(reagents.total_volume && !M.is_eyes_covered())
 		to_chat(M, "<span class='warning'>Your eye is covered in a fine red mist!</span>")
 		to_chat(user, "<span class='notice'>You spray [M]'s eye with [src].</span>")
 		playsound(loc, 'sound/items/hypospray.ogg', 50, 1)
