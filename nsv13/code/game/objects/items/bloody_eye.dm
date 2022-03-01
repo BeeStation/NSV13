@@ -1,11 +1,8 @@
 /obj/item/reagent_containers/hypospray/bloody_eye
-	name = "\improper Bloody Eye spray"
+	name = "\improper bloody eye spray"
 	desc = "This vial of Bloody Eye is equipped with a spray nozzle and a handy measuring ring to make sure the spray cone is just the right size."
 	icon = 'nsv13/icons/obj/nsv13_syringe.dmi'
-	item_state = "bloody"
-	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
-	icon_state = "hypo"
+	icon_state = "bloody"
 	amount_per_transfer_from_this = 30
 	volume = 30
 	possible_transfer_amounts = list(30)
@@ -24,16 +21,17 @@
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
 
 /datum/reagent/drug/bloody_eye/on_mob_metabolize(mob/living/L)
+	. = ..()
 	L.apply_status_effect(/datum/status_effect/bloody_eye)
-	..()
 
 //You won't go down unless you get killed with excess damage.
 
 /datum/reagent/drug/bloody_eye/on_mob_end_metabolize(mob/living/L)
+	. = ..()
 	L.remove_status_effect(/datum/status_effect/bloody_eye)
-	..()
 
 /datum/reagent/drug/bloody_eye/on_mob_life(mob/living/carbon/M)
+	. = ..()
 	if(prob(5))
 		var/high_message = pick("You see red.", "You feel like ripping out someone's throat.", "You feel like nothing could ever kill you.")
 		to_chat(M, "<span class='notice'>[high_message]</span>")
@@ -47,14 +45,14 @@
 	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.25)
 	if(prob(5))
 		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
-	..()
 	return TRUE
 
 /datum/reagent/drug/bloody_eye/overdose_start(mob/living/M)
-	to_chat(M, "<span class='userdanger'>KILLKILLKILLKILLKILLKILLKILLKILL!</span>")
+	to_chat(M, "<span class='userdanger'>EVERYTHING IS RED!</span>")
 	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "[type]_overdose", /datum/mood_event/overdose, name)
 
 /datum/reagent/drug/bloody_eye/overdose_process(mob/living/M)
+	. = ..()
 	if((M.mobility_flags & MOBILITY_MOVE) && !ismovableatom(M.loc))
 		for(var/i in 1 to 2)
 			step(M, pick(GLOB.cardinals))
@@ -63,25 +61,25 @@
 	if(prob(33))
 		M.visible_message("<span class='danger'>[M]'s eyes are blood red!</span>")
 		M.drop_all_held_items()
-	..()
 	M.adjustToxLoss(0.25, 0)
 	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, pick(0.1, 0.15, 0.2, 0.25))
 	return TRUE
 
 /datum/reagent/drug/bloody_eye/addiction_act_stage1(mob/living/M)
+	. = ..()
 	M.Jitter(20)
 	if(prob(20))
 		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
-	..()
 
 /datum/reagent/drug/bloody_eye/addiction_act_stage2(mob/living/M)
+	. = ..()
 	M.Jitter(50)
 	M.Dizzy(5)
 	if(prob(30))
 		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
-	..()
 
 /datum/reagent/drug/bloody_eye/addiction_act_stage3(mob/living/M)
+	. = ..()
 	if((M.mobility_flags & MOBILITY_MOVE) && !ismovableatom(M.loc))
 		for(var/i = 0, i < 4, i++)
 			moveRange(M, pick(GLOB.cardinals))
@@ -89,9 +87,9 @@
 	M.Dizzy(10)
 	if(prob(40))
 		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "gasp"))
-	..()
 
 /datum/reagent/drug/bloody_eye/addiction_act_stage4(mob/living/carbon/human/M)
+	. = ..()
 	if((M.mobility_flags & MOBILITY_MOVE) && !ismovableatom(M.loc))
 		for(var/i = 0, i < 6, i++)
 			step(M, pick(GLOB.cardinals))
@@ -100,7 +98,6 @@
 	M.adjustToxLoss(0.25, 0)
 	if(prob(50))
 		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
-	..()
 	return TRUE
 
 /obj/item/reagent_containers/hypospray/bloody_eye/attack(mob/living/M, mob/user)
@@ -153,16 +150,14 @@
 
 /datum/status_effect/bloody_eye/tick()
 	owner.a_intent_change(INTENT_HARM)
-	if(owner.a_intent != INTENT_HARM)
-		owner.a_intent_change(INTENT_HARM)
-		to_chat(owner, "<span class='warning'>KILLKILLKILL</span>")
 	owner.overlay_fullscreen("brute" , /atom/movable/screen/fullscreen/brute, 5)
 	if(owner.changeNext_move(!CLICK_CD_RAPID))
 		owner.changeNext_move(CLICK_CD_RAPID)
-	playsound(owner, 'sound/effects/heart_beat.ogg', 50, 1)
+	playsound(owner, 'sound/effects/heart_beat.ogg', 25, 1)
 	owner.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-2, blacklisted_movetypes=(FLYING|FLOATING))
 
 /datum/status_effect/bloody_eye/on_apply()
+	to_chat(owner, "<span class='warning'>KILLKILLKILL</span>")
 	ADD_TRAIT(owner,TRAIT_MONKEYLIKE,type)
 	ADD_TRAIT(owner,TRAIT_NOCRITDAMAGE,type)
 	ADD_TRAIT(owner,TRAIT_NOSOFTCRIT,type)
