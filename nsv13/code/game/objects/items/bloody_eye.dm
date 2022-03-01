@@ -48,7 +48,7 @@
 	if(prob(5))
 		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
 	..()
-	. = 1
+	return TRUE
 
 /datum/reagent/drug/bloody_eye/overdose_start(mob/living/M)
 	to_chat(M, "<span class='userdanger'>KILLKILLKILLKILLKILLKILLKILLKILL!</span>")
