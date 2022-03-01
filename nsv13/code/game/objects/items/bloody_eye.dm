@@ -66,7 +66,7 @@
 	..()
 	M.adjustToxLoss(0.25, 0)
 	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, pick(0.1, 0.15, 0.2, 0.25))
-	. = 1
+	return TRUE
 
 /datum/reagent/drug/bloody_eye/addiction_act_stage1(mob/living/M)
 	M.Jitter(20)
