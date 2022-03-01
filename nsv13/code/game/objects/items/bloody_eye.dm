@@ -101,7 +101,7 @@
 	if(prob(50))
 		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
 	..()
-	. = 1
+	return TRUE
 
 /obj/item/reagent_containers/hypospray/bloody_eye/attack(mob/living/M, mob/user)
 	if(!reagents.total_volume)
