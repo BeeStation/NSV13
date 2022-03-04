@@ -6,6 +6,10 @@
 	position = "gunner"
 	circuit = /obj/item/circuitboard/computer/ship/tactical_computer
 
+/obj/machinery/computer/ship/tactical/Destroy()
+	linked?.tactical -= src
+	return ..()
+
 /obj/machinery/computer/ship/tactical/ui_interact(mob/user, datum/tgui/ui)
 	if(isobserver(user))
 		return
@@ -91,7 +95,3 @@
 /obj/machinery/computer/ship/tactical/set_position(obj/structure/overmap/OM)
 	OM.tactical = src
 	return
-
-/obj/machinery/computer/ship/tactical/Destroy()
-	linked?.tactical -= src
-	return ..()
