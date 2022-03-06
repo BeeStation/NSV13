@@ -34,6 +34,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/machinery/status_display/evac/south,
 /turf/open/floor/plasteel/grid/lino,
 /area/medical/medbay)
 "ae" = (
@@ -2220,6 +2221,17 @@
 /obj/machinery/vending/clothing,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
+"kp" = (
+/obj/effect/turf_decal/tile/ship/green,
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 4
+	},
+/obj/structure/sign/ship/nosmoking{
+	dir = 8;
+	pixel_x = 32
+	},
+/turf/open/floor/plasteel/grid/mono,
+/area/hallway/nsv/deck1/hallway)
 "ku" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 9
@@ -2380,14 +2392,14 @@
 /turf/open/floor/wood,
 /area/security/detectives_office)
 "lb" = (
-/obj/machinery/status_display/evac{
-	pixel_y = 26
-	},
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 1
+	},
+/obj/machinery/status_display/ai/north{
+	pixel_y = 26
 	},
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck1/hallway)
@@ -2886,6 +2898,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/status_display/evac/south,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
 "nH" = (
@@ -3222,16 +3235,13 @@
 /obj/effect/turf_decal/tile/ship/half/green{
 	dir = 4
 	},
-/obj/structure/sign/ship/nosmoking{
-	dir = 8;
-	pixel_x = 32
-	},
 /obj/machinery/light{
 	dir = 4
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
 	},
+/obj/machinery/status_display/evac/east,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "ps" = (
@@ -3824,13 +3834,15 @@
 	location = "right"
 	},
 /obj/machinery/camera/autoname,
-/obj/structure/extinguisher_cabinet/north,
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
 /obj/effect/landmark/patrol_node{
 	id = "deck1_bridge";
 	next_id = "deck1_medical"
+	},
+/obj/machinery/status_display/evac/north{
+	pixel_y = 26
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
@@ -6574,6 +6586,15 @@
 "Fy" = (
 /turf/open/floor/wood,
 /area/crew_quarters/bar/mess_hall)
+"Fz" = (
+/obj/effect/turf_decal/tile/ship/half/green{
+	dir = 1
+	},
+/obj/machinery/status_display/evac/north{
+	pixel_y = 26
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck1/hallway)
 "FA" = (
 /obj/effect/spawner/lootdrop/grille_or_trash,
 /obj/structure/railing/corner{
@@ -9868,6 +9889,15 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/bridge/cic)
+"UM" = (
+/obj/effect/turf_decal/tile/ship/half/green{
+	dir = 1
+	},
+/obj/machinery/status_display/ai/north{
+	pixel_y = 26
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck1/hallway)
 "UN" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
@@ -39970,7 +40000,7 @@ pl
 Db
 Zr
 Zr
-Zr
+kp
 NL
 gR
 wu
@@ -40472,7 +40502,7 @@ HI
 Wf
 sd
 Pk
-MQ
+lb
 wu
 tQ
 gq
@@ -43556,7 +43586,7 @@ HI
 cm
 LL
 HG
-rb
+Fz
 wu
 YC
 Tc
@@ -43570,7 +43600,7 @@ ha
 ir
 tY
 Tc
-rb
+UM
 wu
 YC
 MS
@@ -46654,7 +46684,7 @@ PE
 Ka
 xd
 at
-lb
+cX
 pe
 ol
 LK
