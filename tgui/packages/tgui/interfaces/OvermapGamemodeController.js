@@ -40,7 +40,7 @@ export const OvermapGamemodeController = (props, context) => {
                       icon="exchange-alt"
                       content="Adjust threat"
                       color="grey"
-                      onClick={() => act ('adjust_threat')} />
+                      onClick={() => act('adjust_threat')} />
                   </LabeledList.Item>
                   <br />
                   <LabeledList.Item label="Difficulty">
