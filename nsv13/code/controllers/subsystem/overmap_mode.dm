@@ -16,6 +16,8 @@ SUBSYSTEM_DEF(overmap_mode)
 	init_order = INIT_ORDER_OVERMAP_MODE
 
 	var/escalation = 0								//Admin ability to tweak current mission difficulty level
+	var/threat_elevation = 0						//Threat generated or reduced via various activities, directly buffing enemy fleet sizes and possibly other things if implemented.
+	var/highest_objective_completion = 0				//What was the highest amount of objectives completed? If it increases, reduce threat.
 	var/player_check = 0 							//Number of players connected when the check is made for gamemode
 	var/datum/overmap_gamemode/mode 				//The assigned mode
 
@@ -161,9 +163,16 @@ SUBSYSTEM_DEF(overmap_mode)
 		if(mode.starting_faction)
 			MM.faction = mode.starting_faction
 
+/datum/controller/subsystem/overmap_mode/proc/modify_threat_elevation(value)
+	if(!value)
+		return
+	threat_elevation = max(threat_elevation + value, 0)	//threat never goes below 0
+
 /datum/controller/subsystem/overmap_mode/fire()
 	if(SSticker.current_state == GAME_STATE_PLAYING) //Wait for the game to begin
 		if(world.time >= check_completion_timer) //Fire this automatically every ten minutes to prevent round stalling
+			if(world.time > TE_INITIAL_DELAY)
+				modify_threat_elevation(TE_THREAT_PER_HOUR / 6)	//Accurate enough... although update this if the completion timer interval gets changed :)
 			difficulty_calc() //Also do our difficulty check here
 			mode.check_completion()
 			check_completion_timer += 10 MINUTES
@@ -356,6 +365,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	var/objective_length = objectives.len
 	var/objective_check = 0
+	var/successes = 0
 	var/failed = FALSE
 	for(var/datum/overmap_objective/O in objectives)
 		O.check_completion() 	//First we try to check completion on each objective
@@ -364,10 +374,14 @@ SUBSYSTEM_DEF(overmap_mode)
 			return
 		else if(O.status == STATUS_COMPLETED)
 			objective_check ++
+			successes++
 		else if(O.status == STATUS_FAILED)
 			objective_check ++
 			if(O.ignore_check == TRUE) //This was a gamemode objective
 				failed = TRUE
+	if(successes > SSovermap_mode.highest_objective_completion)
+		SSovermap_mode.modify_threat_elevation(-TE_OBJECTIVE_THREAT_NEGATION * (successes - SSovermap_mode.highest_objective_completion))
+		SSovermap_mode.highest_objective_completion = successes
 
 	if((objective_check >= objective_length) && !failed)
 		victory()
@@ -468,6 +482,9 @@ SUBSYSTEM_DEF(overmap_mode)
 			SSovermap_mode.difficulty_calc()
 
 	switch(action)
+		if("adjust_threat")
+			var/amount = input("Enter amount of threat to add (or substract if negative)", "Adjust Threat") as num|null
+			SSovermap_mode.modify_threat_elevation(amount)
 		if("change_gamemode")
 			if(SSovermap_mode.mode_initialised)
 				message_admins("Post Initilisation Overmap Gamemode Changes Not Currently Supported") //SoonTM
@@ -545,6 +562,8 @@ SUBSYSTEM_DEF(overmap_mode)
 	data["reminder_stacks"] = SSovermap_mode.objective_reminder_stacks
 	data["toggle_reminder"] = SSovermap_mode.objective_reminder_override
 	data["toggle_override"] = SSovermap_mode.admin_override
+	data["threat_elevation"] = SSovermap_mode.threat_elevation
+	data["threat_per_size_point"] = TE_POINTS_PER_FLEET_SIZE
 	for(var/datum/overmap_objective/O in SSovermap_mode.mode?.objectives)
 		var/list/objective_data = list()
 		objective_data["name"] = O.name

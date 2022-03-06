@@ -30,7 +30,12 @@ Adding tasks is easy! Just define a datum for it.
 	var/list/supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
 	var/list/all_ships = list()
 	var/list/lances = list()
+
 	var/size = FLEET_DIFFICULTY_MEDIUM //How big is this fleet anyway?
+	var/applied_size	//How big is this fleet ACTUALLY after modifications applied by.. well. everything.
+	var/threat_elevation_allowed = TRUE	//Does the threat elevation system apply to this fleet? This acts independantly to the base difficulty pop scaling.
+	var/can_reinforce = TRUE	//Can this fleet gain new ships after a while out of combat has passed?
+
 	var/allow_difficulty_scaling = TRUE	//Set this to false if the fleet is supposed to have a constant difficulty as opposed to scaling with pop.
 	var/list/audio_cues = list() //Does this fight come with a theme tune? Takes youtube / media links so that we don't have to store a bunch of copyrighted music on the box.
 	var/instantiated = FALSE //If we're not instantiated, moving all the ships is a piece of cake, if we are however, we do some extra steps to FTL them all.
@@ -120,7 +125,45 @@ Adding tasks is easy! Just define a datum for it.
 
 	return target
 
+/datum/fleet/proc/try_threat_elevation_reinforce()
+	if(!current_system)
+		return	//Which admin did this?
+	if(current_system.occupying_z)
+		return	//Loaded z - abort
+	if(current_system.check_conflict_status())
+		return //Bonking in progress - abort
+	if(world.time < last_encounter_time + TE_REINFORCEMENT_DELAY)
+		return
+	if(allow_difficulty_scaling)
+		//Account for pre-round spawned fleets.
+		if(SSovermap_mode?.mode)
+			applied_size = SSovermap_mode.mode.difficulty
+		else
+			applied_size = 1 //Lets assume a low number of players
+	else
+		applied_size = size
+	applied_size = CLAMP(applied_size, FLEET_DIFFICULTY_EASY, INFINITY)
+	if(threat_elevation_allowed)
+		applied_size += round(SSovermap_mode.threat_elevation / TE_POINTS_PER_FLEET_SIZE)	//Threat level modifies danger
+	if(destroyer_types?.len)
+		for(var/I=length(taskforces["destroyers"]); I<max(round(applied_size/2), 1);I++)
+			var/shipType = pick(destroyer_types)
+			var/obj/structure/overmap/member = new shipType()
+			add_ship(member, "destroyers")
+	if(battleship_types?.len)
+		for(var/I=length(taskforces["battleships"]); I<max(round(applied_size/4), 1);I++)
+			var/shipType = pick(battleship_types)
+			var/obj/structure/overmap/member = new shipType()
+			add_ship(member, "battleships")
+	if(supply_types?.len)
+		for(var/I=length(taskforces["supply"]); I<max(round(applied_size/4), 1);I++)
+			var/shipType = pick(supply_types)
+			var/obj/structure/overmap/member = new shipType()
+			add_ship(member, "supply")
+
 /datum/fleet/proc/move(datum/star_system/target, force=FALSE)
+	if(can_reinforce)
+		try_threat_elevation_reinforce()
 	var/course_picked_target = FALSE
 	if(!target)
 		if(goal_system)
@@ -288,6 +331,8 @@ Adding tasks is easy! Just define a datum for it.
 	if(player_caused)	//Only modify influence if players caused this, otherwise someone else claimed the kill and it doesn't modify influence for the purpose of Patrol completion.
 		faction = SSstar_system.faction_by_id(faction_id)
 		faction?.lose_influence(reward)
+		if(alignment != "nanotrasen")
+			SSovermap_mode.modify_threat_elevation(TE_FLEET_THREAT_DYNAMIC ? (TE_FLEET_KILL_THREAT * applied_size ) : TE_FLEET_KILL_THREAT)
 	QDEL_NULL(src)
 
 /datum/fleet/nanotrasen/earth/defeat()
@@ -824,6 +869,8 @@ Adding tasks is easy! Just define a datum for it.
 	hide_movements = TRUE //Friendly fleets just move around as you'd expect.
 	faction_id = FACTION_ID_NT
 	taunts = list("Syndicate vessel, stand down or be destroyed", "You are encroaching on our airspace, prepare to be destroyed", "Unidentified vessel, your existence will be forfeit in accordance with the peacekeeper act.")
+	can_reinforce = FALSE
+	threat_elevation_allowed = FALSE	//Sorry EDF, nothing personal.
 
 /datum/fleet/nanotrasen/light
 	name = "\improper Nanotrasen light fleet"
@@ -959,12 +1006,16 @@ Adding tasks is easy! Just define a datum for it.
 	if(allow_difficulty_scaling)
 		//Account for pre-round spawned fleets.
 		if(SSovermap_mode?.mode)
-			size = SSovermap_mode.mode.difficulty
+			applied_size = SSovermap_mode.mode.difficulty
 		else
-			size = 1 //Lets assume a low number of players
-	size = CLAMP(size, FLEET_DIFFICULTY_EASY, INFINITY)
+			applied_size = 1 //Lets assume a low number of players
+	else
+		applied_size = size
+	applied_size = CLAMP(applied_size, FLEET_DIFFICULTY_EASY, INFINITY)
 	faction = SSstar_system.faction_by_id(faction_id)
-	reward *= size //Bigger fleet = larger reward
+	reward *= applied_size //Bigger fleet = larger reward
+	if(threat_elevation_allowed)
+		applied_size += round(SSovermap_mode.threat_elevation / TE_POINTS_PER_FLEET_SIZE)	//Threat level modifies danger
 	if(current_system)
 		current_system.alignment = alignment
 		if(current_system.alignment != initial(current_system.alignment))
@@ -994,7 +1045,7 @@ Adding tasks is easy! Just define a datum for it.
 			STOP_PROCESSING(SSphysics_processing, member.physics2d)
 
 //A fleet has entered a system. Assemble the fleet so that it lives in this system now.
-/datum/fleet/proc/assemble(datum/star_system/SS, difficulty=size)
+/datum/fleet/proc/assemble(datum/star_system/SS, difficulty=applied_size)
 	if(!SS)
 		return
 	if(SS.occupying_z && instantiated)
