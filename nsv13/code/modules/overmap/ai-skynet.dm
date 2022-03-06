@@ -921,10 +921,10 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/solgov/interdiction/encounter(obj/structure/overmap/OM)
 	// Same as parent but detects if the player ship is hostile and uses different taunts
-	if(OM.faction == alignment)
+	if(OM.faction == alignment || OM.federation_check())
 		OM.hail(pick(greetings), name)
 	assemble(current_system)
-	if(OM.faction != alignment)
+	if(OM.faction != alignment && !OM.federation_check())
 		if(OM.alpha >= 150)
 			if(OM == SSstar_system.find_main_overmap())
 				OM.hail(pick(traitor_taunts), name)
