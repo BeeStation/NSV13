@@ -176,7 +176,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			hud_used.squad_lead_finder.invisibility = INVISIBILITY_ABSTRACT
 			hud_used.squad_lead_finder.alpha = 0
 	//hud_used?.show_hud(hud_used?.hud_version)
-	H.squad_hud_set_squad()
+	// H.squad_hud_set_squad()
 
 /datum/squad/proc/remove_member(mob/living/carbon/human/H)
 	handle_hud(H, FALSE)
@@ -241,7 +241,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			grunts += H
 			H.squad_role = SQUAD_MARINE
 			apply_squad_rank(H, "PFC")
-	H.squad_hud_set_squad()
+	// H.squad_hud_set_squad()
 	broadcast(src,"[H.name] has been re-assigned to [H.squad_role].", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
 
 
@@ -301,7 +301,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 /datum/atom_hud/data/human/squad_hud
 	hud_icons = list(SQUAD_HUD)
 
-/mob/living/carbon/human/proc/squad_hud_set_squad()
+/* /mob/living/carbon/human/proc/squad_hud_set_squad()
 	var/image/holder = hud_list[SQUAD_HUD]
 	var/icon/I = icon(icon, icon_state, dir)
 	holder.pixel_y = I.Height() - world.icon_size
@@ -310,7 +310,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	else
 		holder.icon_state = "hudno_id"
 		if(wear_id?.GetID())
-			holder.icon_state = "hud[ckey(wear_id.GetJobName())]"
+			holder.icon_state = "hud[ckey(wear_id.GetJobName())]" */
 
 /datum/squad/proc/equip(mob/living/carbon/human/H, give_items)
 	var/datum/squad/oldSquad = H.squad
@@ -321,6 +321,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	if(give_items)
 		var/obj/item/storage/backpack/bag = H.get_item_by_slot(ITEM_SLOT_BACK)
 		new /obj/item/squad_pager(bag, src)
+		new /obj/item/clothing/neck/squad(bag, src)
 		/*
 		switch(H.squad_role)
 			if(SQUAD_LEAD)

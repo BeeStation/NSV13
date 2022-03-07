@@ -18,6 +18,7 @@
 
 	var/can_cancel_jump = TRUE //Defaults to true. TODO: Make emagging disable this
 	var/max_range = 50 //Short range drive
+	var/lockout = FALSE
 
 /obj/item/fighter_component/ftl/tier2
 	name = "class III torch drive"

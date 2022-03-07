@@ -77,7 +77,10 @@
 	var/allow_bureaucratic_error = TRUE
 
 	///A dictionary of species IDs and a path to the outfit.
-	var/list/species_outfits = null
+	//NSV13 - set default plasmaman outfit
+	var/list/species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman
+	)
 
 /datum/job/New()
 	. = ..()

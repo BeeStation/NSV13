@@ -333,6 +333,12 @@
 			if(SSovermap_mode.objectives_completed && SSovermap_mode.round_extended)
 				priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[SSovermap_mode.mode.reminder_origin]")
 			state = STATE_OBJECTIVES
+		if("ai-objectives")
+			SSovermap_mode.mode.check_completion()
+			if(SSovermap_mode.objectives_completed && SSovermap_mode.round_extended)
+				priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[SSovermap_mode.mode.reminder_origin]")
+			aistate = STATE_OBJECTIVES
+		// End NSV objectives button
 
 		// AI interface
 		if("ai-main")
@@ -669,7 +675,7 @@
 			if(SSshuttle.emergency.mode == SHUTTLE_IDLE)
 				dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-callshuttle'>Call Emergency Shuttle</A> \]"
 			dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-status'>Set Status Display</A> \]"
-			dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=objectives'>Check Objectives</A> \]" //NSV13 - Added Objective Button
+			dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-objectives'>Check Objectives</A> \]" //NSV13 - Added Objective Button
 			dat += "<BR><BR><B>Special Functions</B>"
 			dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-announce'>Make an Announcement</A> \]"
 			dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-changeseclevel'>Change Alert Level</A> \]"
@@ -733,6 +739,27 @@
 			else
 				dat += "<b>Emergency Maintenance Access is currently <font color='green'>DISABLED</font></b>"
 				dat += "<BR>Lift access restrictions on maintenance and external airlocks? <BR>\[ <A HREF='?src=[REF(src)];operation=ai-enableemergency'>OK</A> | <A HREF='?src=[REF(src)];operation=ai-viewmessage'>Cancel</A> \]"
+
+		if(STATE_OBJECTIVES) //NSV13 - Objectives
+			dat += "Current Objectives:<BR>"
+			if(SSovermap_mode.announced_objectives)
+				for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+					if(O.binary)
+						dat += "[O.brief] : "
+					else
+						dat += "[O.brief] ([O.tally] / [O.target]) : "
+					switch(O.status)
+						if(0)
+							dat += "<font color=yellow><b>IN-PROGRESS</b></font><BR>"
+						if(1)
+							dat += "<font color=green><b>COMPLETED</b></font><BR>"
+						if(2)
+							dat += "<font color=red><b>FAILED</b></font><BR>"
+						if(3)
+							dat += "<font color=green><b>COMPLETED</b></font><BR>"
+			else
+				dat += "Standby for mission tasking."
+		// End NSV objectives
 
 	dat += "<BR><BR>\[ [(aistate != STATE_DEFAULT) ? "<A HREF='?src=[REF(src)];operation=ai-main'>Main Menu</A> | " : ""]<A HREF='?src=[REF(user)];mach_close=communications'>Close</A> \]"
 	return dat

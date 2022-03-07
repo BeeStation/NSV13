@@ -372,6 +372,26 @@ Adding tasks is easy! Just define a datum for it.
 		essential = TRUE
 		nodamage = TRUE
 
+/obj/structure/overmap/proc/add_holding_cargo( objective )
+	if ( objective )
+		holding_cargo += objective
+		essential = TRUE
+		nodamage = TRUE
+
+/obj/structure/overmap/proc/deliver_package(var/mob/living/user, var/datum/overmap_objective/cargo/O)
+	if ( !O?.delivered_package )
+		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
+		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+		MO.hail( pick( list(
+			"Message received, we are delivering your package for transfer now.",
+			"Understood, delivering the cargo.",
+			"The package is enroute, make sure it arrives intact to the destination.",
+			"Understood, the package is enroute. Is there anything else you needed?",
+		) ), src)
+
+		O.deliver_package()
+		holding_cargo -= O
+
 /obj/structure/overmap/proc/check_objectives( var/datum/freight_delivery_receipt/receipt )
 	if ( !length( expecting_cargo ) )
 		reject_unexpected_shipment( receipt )
@@ -497,6 +517,7 @@ Adding tasks is easy! Just define a datum for it.
 		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		receipt.vessel.hail( "Thank you for delivering this cargo. We have marked the supply request as received.", src)
 		addtimer(CALLBACK(src, .proc/return_approved_form, receipt), speed_cargo_return)
+		SSovermap_mode.update_reminder(objective=TRUE) // Completing any valid delivery resets the timer
 
 /obj/structure/overmap/proc/return_shipment( var/datum/freight_delivery_receipt/receipt )
 	if(receipt?.vessel)
@@ -649,11 +670,11 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("....", "*static*")
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
 
-/datum/fleet/nuclear
-	name = "\improper Syndicate nuclear deterrent"
-	taunts = list("Enemy ship, surrender now. This vessel is armed with thermonuclear weapons and eager to test them.")
+/datum/fleet/conflagration
+	name = "\improper Syndicate conflagration deterrent"
+	taunts = list("Enemy ship, surrender now. This vessel is armed with hellfire weapons and eager to test them.")
 	audio_cues = list()
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/nuclear/elite)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/conflagration/elite)
 	size = 2
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
 
@@ -711,7 +732,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/earthbuster
 	name = "\proper Syndicate Armada" //Fleet spawned if the players are too inactive. Set course...FOR EARTH.
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	size = FLEET_DIFFICULTY_VERY_HARD
 	allow_difficulty_scaling = FALSE
 	taunts = list("We're coming for Sol, and you can't stop us. All batteries fire at will.", "Lay down your arms now, you're outnumbered.", "All hands, assume assault formation. Begin bombardment.")
@@ -719,10 +740,10 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/interdiction	//Pretty strong fleet with unerring hunting senses, Adminspawn for now.
 	name = "\improper Syndicate interdiction fleet"	//These fun guys can and will hunt the player ship down, no matter how far away they are.
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/kadesh)
 	size = FLEET_DIFFICULTY_HARD
-	taunts = list("We have come to end your meagre existance. Prepare to die.", "Hostile entering weapons range. Fire at will.", "You have been a thorn in our side for quite a while. Time to end this.", "That is a nice ship you have there. Nothing a few nuclear missiles cannot fix.")
+	taunts = list("We have come to end your meagre existance. Prepare to die.", "Hostile entering weapons range. Fire at will.", "You have been a thorn in our side for quite a while. Time to end this.", "That is a nice ship you have there. Nothing a few hellfire missiles cannot fix.")
 	audio_cues = list()
 	var/obj/structure/overmap/hunted_ship
 	initial_move_delay = 5 MINUTES
@@ -733,7 +754,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/interdiction/stealth	//More fun for badmins
 	name = "\improper unidentified Syndicate heavy fleet"
 	hide_movements = TRUE
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/nuclear, /obj/structure/overmap/syndicate/ai/assault_cruiser)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/assault_cruiser)
 
 /datum/fleet/interdiction/light	//The syndicate can spawn these randomly (though rare). Be caareful! But, at least they aren't that scary.
 	name = "\improper Syndicate light interdiction fleet"
@@ -749,7 +770,7 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("Don't think we didn't learn from your last attempt.", "We shall not fail again", "Your outdated MAC weapons are no match for us. Prepare to be destroyed.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
-	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/nuclear/elite)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/conflagration/elite)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 
 /datum/fleet/remnant
@@ -760,7 +781,7 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("<pre>\[DECRYPTION FAILURE]</pre>")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
-	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/nuclear/elite)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/conflagration/elite)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 
 /datum/fleet/unknown_ship
@@ -866,6 +887,72 @@ Adding tasks is easy! Just define a datum for it.
 			shield_scan_target.hail("Scans have detected that you are in posession of prohibited technology. \n Your IFF signature has been marked as 'persona non grata'. \n In accordance with SGC-reg #10124, your ship and lives are now forfeit. Evacuate all civilian personnel immediately and surrender yourselves.", name)
 			shield_scan_target.relay_to_nearby('nsv13/sound/effects/ship/solgov_scan_alert.ogg', ignore_self=FALSE)
 			shield_scan_target.faction = shield_scan_target.name
+
+/datum/fleet/solgov/interdiction
+	name = "\improper Solgov hunter fleet"
+	destroyer_types = list(/obj/structure/overmap/nanotrasen/solgov/ai/interdictor)
+	var/list/traitor_taunts = list("Rogue vessel, reset your identification codes immediately or be destroyed.", "The penalty for defection is death.", "Your crew is charged with treason and breach of contract. Lethal force is authorized.")
+	size = FLEET_DIFFICULTY_INSANE
+	var/players_fired_upon = FALSE
+	var/obj/structure/overmap/hunted_ship
+
+/datum/fleet/solgov/interdiction/New()
+	. = ..()
+	hunted_ship = SSstar_system.find_main_overmap()
+
+/datum/fleet/solgov/interdiction/move(datum/star_system/target, force=FALSE)
+	// If we're going home just delete us actually
+	// Don't let the players game the ability to make solgov show up
+	if(!hunted_ship && goal_system)
+		qdel(src)
+		return
+	if(!target && hunted_ship)
+		goal_system = hunted_ship.current_system
+	. = ..()
+	if(.)
+		navigate_to(goal_system)	//Anytime we successfully move we recalculate the route, since players like moving around alot.
+
+/datum/fleet/solgov/interdiction/assemble(datum/star_system/SS, difficulty)
+	. = ..()
+	for(var/obj/structure/overmap/OM as() in all_ships)
+		RegisterSignal(OM, COMSIG_ATOM_BULLET_ACT, .proc/check_bullet)
+
+/datum/fleet/solgov/interdiction/encounter(obj/structure/overmap/OM)
+	// Same as parent but detects if the player ship is hostile and uses different taunts
+	if(OM.faction == alignment)
+		OM.hail(pick(greetings), name)
+	assemble(current_system)
+	if(OM.faction != alignment)
+		if(OM.alpha >= 150)
+			if(OM == SSstar_system.find_main_overmap())
+				OM.hail(pick(traitor_taunts), name)
+				RegisterSignal(OM, COMSIG_SHIP_BOARDED, .proc/handle_iff_change)
+			else
+				OM.hail(pick(taunts), name)
+			last_encounter_time = world.time
+			if(audio_cues?.len)
+				OM.play_music(pick(audio_cues))
+
+/datum/fleet/solgov/interdiction/proc/check_bullet(obj/structure/overmap/source, obj/item/projectile/P)
+	if(P.overmap_firer?.role == MAIN_OVERMAP)
+		players_fired_upon = TRUE
+		for(var/obj/structure/overmap/OM as() in all_ships)
+			UnregisterSignal(OM, COMSIG_ATOM_BULLET_ACT)
+
+/datum/fleet/solgov/interdiction/proc/handle_iff_change(obj/structure/overmap/source)
+	switch(source.faction)
+		if("nanotrasen")
+			if(!players_fired_upon)
+				hunted_ship = null
+				goal_system = SSstar_system.system_by_id("Sol")
+				if(current_system == source.current_system)
+					source.hail("Don't let it happen again.", name)
+			else if(current_system == source.current_system)
+				source.hail("... That's not going to cut it anymore.", name)
+		if("syndicate")
+			// Anger
+			hunted_ship = source
+			goal_system = null
 
 /datum/fleet/New()
 	. = ..()
@@ -1358,7 +1445,7 @@ Seek a ship thich we'll station ourselves around
 	if(!OM.last_target)
 		OM.seek_new_target()
 	OM.brakes = TRUE
-	
+
 
 /obj/structure/overmap/proc/choose_goal()
 	//Populate the list of valid goals, if we don't already have them
@@ -1393,8 +1480,9 @@ Seek a ship thich we'll station ourselves around
 	var/list/ai_fighter_type = list()
 	var/ai_flags = AI_FLAG_DESTROYER
 
-	var/list/expecting_cargo = list() // list of objective datums
-	var/list/received_cargo = list() // list of typically freight torps
+	var/list/holding_cargo = list() // list of objective datums. This station has cargo to deliver to the players as part of a courier objective
+	var/list/expecting_cargo = list() // list of objective datums. This station is expecting cargo delivered to them by the players as a part of a courier objective
+	var/list/received_cargo = list() // list of typically freight torps. This station has received cargo
 	var/list/receipts = list() // All cargo delivery attempts made to this station
 	var/essential = FALSE // AI targeting will ignore essential stations to preserve ammo. At least I hope, there's a thousand places AI last_target is updated
 	var/nodamage = FALSE // Mob immunity equivalent for stations, used for mission critical targets. Separate var if mission critical stations need to be essential but not immortal
@@ -1410,7 +1498,7 @@ Seek a ship thich we'll station ourselves around
 
 	var/reloading_torpedoes = FALSE
 	var/reloading_missiles = FALSE
-	var/static/list/warcrime_blacklist = typecacheof(list(/obj/structure/overmap/fighter/escapepod, /obj/structure/overmap/asteroid))//Ok. I'm not THAT mean...yet. (Hello karmic, it's me karmic 2)
+	var/static/list/warcrime_blacklist = typecacheof(list(/obj/structure/overmap/small_craft/escapepod, /obj/structure/overmap/asteroid))//Ok. I'm not THAT mean...yet. (Hello karmic, it's me karmic 2)
 
 	//Fleet organisation
 	var/shots_left = 15 //Number of arbitrary shots an AI can fire with its heavy weapons before it has to resupply with a supply ship.
@@ -1677,7 +1765,7 @@ Seek a ship thich we'll station ourselves around
 		return FALSE
 	if(get_dist(ship, src) > 8)
 		return FALSE
-	if(SSphysics_processing.next_boarding_time <= world.time || next_boarding_attempt <= world.time)
+	if(next_boarding_time <= world.time || next_boarding_attempt <= world.time)
 		return TRUE
 	return FALSE
 
@@ -1685,8 +1773,8 @@ Seek a ship thich we'll station ourselves around
 	if(get_dist(ship, src) > 8)
 		return FALSE
 	next_boarding_attempt = world.time + 5 MINUTES //We very rarely try to board.
-	if(SSphysics_processing.next_boarding_time <= world.time)
-		SSphysics_processing.next_boarding_time = world.time + 30 MINUTES
+	if(next_boarding_time <= world.time)
+		next_boarding_time = world.time + 30 MINUTES
 		ship.spawn_boarders(null, src.faction)
 		return TRUE
 	return FALSE
