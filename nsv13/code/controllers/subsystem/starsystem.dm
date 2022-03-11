@@ -67,10 +67,16 @@ SUBSYSTEM_DEF(star_system)
 		factions += F
 	for(var/datum/faction/F in factions)
 		F.setup_relationships() //Set up faction relationships AFTER they're all initialised to avoid errors.
+	
+	var/msg = "Systems and contents:\n"
 	for(var/datum/star_system/S in systems)	//Setup the neutral zone for easier access - Bit of overhead but better than having to search for sector 2 systems everytime we want a new neutral zone occupier)
+		msg += "[S] = [english_list(S.system_contents)]"
 		if(S.sector != 2)	//Magic numbers bad I know, but there is no sector defines.
 			continue
 		neutral_zone_systems += S
+
+	to_chat(world, "<span class='boldannounce'>[msg]</span>")
+	log_world(msg)
 
 /datum/controller/subsystem/star_system/Shutdown()
 	if(CONFIG_GET(flag/starmap_persistence_enabled))
