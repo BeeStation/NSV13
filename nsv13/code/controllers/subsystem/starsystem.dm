@@ -494,6 +494,7 @@ Returns a faction datum by its name (case insensitive!)
 		fleets += fleet
 		fleet.assemble(src)
 	if(preset_trader)
+		log_world("[src] has a preset trader")
 		trader = new preset_trader
 		//We need to instantiate the trader's shop now and give it info, so unfortunately these'll always load in.
 		var/obj/structure/overmap/trader/station13 = SSstar_system.spawn_anomaly(trader.station_type, src, TRUE)
