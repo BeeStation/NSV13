@@ -193,7 +193,7 @@ Adding tasks is easy! Just define a datum for it.
 		current_system.alignment = F.alignment
 		current_system.mission_sector = FALSE
 		for(var/datum/fleet/FF in current_system.fleets)
-			if(FF.alignment != current_system.owner && !federation_check())
+			if(FF.alignment != current_system.owner && !FF.federation_check())
 				current_system.mission_sector = TRUE
 	else
 		current_system.alignment = current_system.owner
@@ -959,9 +959,9 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/proc/federation_check(checked = current_system) //Lazy way to check if you're in the federation; for alignments.
 	if(istype(checked, /datum/star_system))
 		var/datum/star_system/S = checked
-		if(S.alignment == "solgov" && alignment == "nanotrasen")
+		if(S.owner == "solgov" && alignment == "nanotrasen")
 			return TRUE
-		if(S.alignment == "nanotrasen" && alignment == "solgov")
+		if(S.owner == "nanotrasen" && alignment == "solgov")
 			return TRUE
 	if(istype(checked, /datum/fleet))
 		var/datum/fleet/F = checked
