@@ -152,14 +152,14 @@
 	if(user)
 		if(!allowed(user))
 			to_chat(user, "<span class='notice'>Access denied.</span>")
-			return 
+			return
 		if(world.time < next_activation)
 			to_chat(user, "<span class='sciradio'>[src] is on cooldown.</span>")
-			return 
+			return
 		if(!powered())
-			return 
+			return
 		if(alert(user, "Begin calling for reinforcements with [src]? This is a loud process and will alert enemies to your location!","Confirm","Yes","No")=="No")
-			return 
+			return
 		var/datum/star_system/SS = get_overmap().current_system
 		if(SS.alignment == alignment) //Todo: add federation check here.
 			to_chat(user, "<span class='sciradio'>You can't claim systems that your faction already owns...</span>")
@@ -169,7 +169,7 @@
 		priority_announce("DANGER: [get_overmap()] is attempting to establish a jump bridge in [get_overmap().current_system]. Incursion underway", "WhiteRapids EAS", 'nsv13/sound/effects/ship/lighthouse_alarm.ogg')
 	if(active && !state && !voluntarily) //Great, they ran away! Good job stopping that capture crew. Now let's alert everyone.
 		visible_message("[src] spontaneously turns off!")
-		priority_announce("Jump bridge collapsing. Incursion halted.", "WhiteRapids EAS", 'nsv13/sound/effects/ship/lighthouse_alarm.ogg') 
+		priority_announce("Jump bridge collapsing. Incursion halted.", "WhiteRapids EAS", 'nsv13/sound/effects/ship/lighthouse_alarm.ogg')
 	active = state
 	icon_state = "[initial(icon_state)][active ? "_on" : ""]"
 	time_left = initial(time_left)
@@ -210,16 +210,16 @@
 	if(user)
 		if(!allowed(user))
 			to_chat(user, "<span class='notice'>Access denied.</span>")
-			return 
+			return
 		if(world.time < next_activation)
 			to_chat(user, "<span class='sciradio'>[src] is on cooldown.</span>")
-			return 
+			return
 		if(!powered())
-			return 
+			return
 		if(alert(user, "Activate the [src]? Sending the transmission will take two minutes and permanently mark the system as captured!","Confirm","Yes","No")=="No")
-			return 
-		var/datum/star_system/SS = get_overmap().current_system
-		if(SS.alignment == alignment) //Todo: add federation check here.
+			return
+		capturing = get_overmap().current_system
+		if(capturing.alignment == alignment || capturing.alignment == "solgov") //Todo: add federation check here.
 			to_chat(user, "<span class='sciradio'>You can't claim systems that your faction already owns...</span>")
 			return
 		next_activation = world.time + activation_delay
