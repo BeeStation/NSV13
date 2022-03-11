@@ -459,47 +459,66 @@ Returns a faction datum by its name (case insensitive!)
 	//Load props first.
 	if(name)
 		src.name = name
+	if(desc)
 		src.desc = desc
+	if(threat_level)
 		src.threat_level = threat_level
+	if(alignment)
 		src.alignment = alignment
+	if(owner)
 		src.owner = owner
+	if(hidden)
 		src.hidden = hidden
+	if(system_type)
 		src.system_type = system_type
+	if(system_traits)
 		src.system_traits = system_traits
+	if(is_capital)
 		src.is_capital = is_capital
+	if(adjacency_list)
 		src.adjacency_list = adjacency_list
+	if(wormhole_connections)
 		src.wormhole_connections = wormhole_connections
+	if(fleet_type)
 		src.fleet_type = fleet_type
+	if(x)
 		src.x = x
+	if(y)
 		src.y = y
+	if(parallax_property)
 		src.parallax_property = parallax_property
+	if(visitable)
 		src.visitable = visitable
+	if(sector)
 		src.sector = sector
+	if(is_hypergate)
 		src.is_hypergate = is_hypergate
+	if(preset_trader)
 		src.preset_trader = preset_trader
+	if(audio_cues)
 		src.audio_cues = audio_cues
-		if(startup_proc)
-			src.startup_proc = startup_proc
-			parse_startup_proc()
+	if(startup_proc)
+		src.startup_proc = startup_proc
+		parse_startup_proc()
 
 	//Then set up.
-	if(fleet_type)
+	if(src.fleet_type)
 		var/datum/fleet/fleet = new fleet_type(src)
 		fleet.current_system = src
-		fleets += fleet
+		src.fleets += fleet
 		fleet.assemble(src)
-	if(preset_trader)
+	if(src.preset_trader)
 		log_world("[src] has a preset trader")
-		trader = new preset_trader
+		src.trader = new preset_trader
 		//We need to instantiate the trader's shop now and give it info, so unfortunately these'll always load in.
 		var/obj/structure/overmap/trader/station13 = SSstar_system.spawn_anomaly(trader.station_type, src, TRUE)
 		station13.starting_system = name
 		station13.current_system = src
 		station13.set_trader(trader)
 		// trader.generate_missions()
-	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_NO_ANOMALIES))
+	if(!CHECK_BITFIELD(src.system_traits, STARSYSTEM_NO_ANOMALIES))
 		addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
-	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_NO_ASTEROIDS))
+	if(!CHECK_BITFIELD(src.system_traits, STARSYSTEM_NO_ASTEROIDS))
 		addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
 
 /datum/star_system/proc/create_wormhole()
