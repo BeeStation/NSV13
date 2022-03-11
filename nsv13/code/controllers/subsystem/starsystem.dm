@@ -503,18 +503,18 @@ Returns a faction datum by its name (case insensitive!)
 
 	//Then set up.
 	if(src.fleet_type)
-		var/datum/fleet/fleet = new fleet_type(src)
+		var/datum/fleet/fleet = new src.fleet_type(src)
 		fleet.current_system = src
 		src.fleets += fleet
 		fleet.assemble(src)
 	if(src.preset_trader)
 		log_world("[src] has a preset trader")
-		src.trader = new preset_trader
+		src.trader = new src.preset_trader
 		//We need to instantiate the trader's shop now and give it info, so unfortunately these'll always load in.
-		var/obj/structure/overmap/trader/station13 = SSstar_system.spawn_anomaly(trader.station_type, src, TRUE)
-		station13.starting_system = name
+		var/obj/structure/overmap/trader/station13 = SSstar_system.spawn_anomaly(src.trader.station_type, src, TRUE)
+		station13.starting_system = src.name
 		station13.current_system = src
-		station13.set_trader(trader)
+		station13.set_trader(src.trader)
 		// trader.generate_missions()
 	if(!CHECK_BITFIELD(src.system_traits, STARSYSTEM_NO_ANOMALIES))
 		addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
