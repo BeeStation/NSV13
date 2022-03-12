@@ -381,9 +381,13 @@
 /turf/open/floor/monotile/steel,
 /area/science)
 "bn" = (
-/obj/structure/chair,
-/obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/monotile/steel,
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck2/primary)
 "bo" = (
 /obj/structure/cable{
@@ -601,16 +605,22 @@
 /turf/open/floor/engine/vacuum,
 /area/engine/atmos)
 "cj" = (
+/obj/machinery/airalarm/directional/north,
 /obj/effect/turf_decal/ship/techfloor{
-	dir = 8
+	dir = 9
 	},
-/obj/machinery/firealarm{
-	dir = 4;
-	pixel_x = -26
+/obj/structure/chair/stool,
+/obj/effect/decal/cleanable/cobweb,
+/obj/effect/landmark/start/janitor,
+/obj/structure/chair/noose,
+/obj/effect/decal/remains/human{
+	name = "Joe Czanek"
 	},
-/obj/item/cigbutt/roach,
-/mob/living/simple_animal/kalo{
-	name = "Comrade"
+/obj/machinery/requests_console{
+	department = "Custodial Closet";
+	departmentType = 2;
+	name = "Custodial RC";
+	pixel_x = -32
 	},
 /turf/open/floor/plasteel/grid/lino,
 /area/janitor)
@@ -1959,22 +1969,12 @@
 /turf/open/floor/engine/n2,
 /area/engine/atmos)
 "gv" = (
-/obj/structure/closet/l3closet/janitor,
-/obj/machinery/camera/autoname,
-/obj/structure/cable{
-	icon_state = "0-8"
+/obj/effect/turf_decal/tile/ship/green,
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
-/obj/machinery/power/apc/auto_name/north,
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 5
-	},
-/obj/item/poster/random_contraband{
-	desc = "No memes in general!";
-	name = "discord moderation textbook"
-	},
-/obj/item/radio/intercom/directional/east,
-/turf/open/floor/plasteel/grid/lino,
-/area/janitor)
+/turf/open/floor/plasteel/grid/mono,
+/area/hallway/nsv/deck2/primary)
 "gx" = (
 /obj/machinery/atmospherics/pipe/simple/general/hidden/layer1{
 	dir = 4
@@ -2346,24 +2346,11 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "hC" = (
-/obj/machinery/airalarm/directional/north,
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 9
+/obj/effect/turf_decal/tile/ship/half/green,
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 1
 	},
-/obj/structure/chair/stool,
-/obj/effect/decal/cleanable/cobweb,
-/obj/effect/landmark/start/janitor,
-/obj/structure/chair/noose,
-/obj/effect/decal/remains/human{
-	name = "Joe Czanek"
-	},
-/obj/machinery/requests_console{
-	department = "Custodial Closet";
-	departmentType = 2;
-	name = "Custodial RC";
-	pixel_x = -32
-	},
-/turf/open/floor/plasteel/grid/lino,
+/turf/open/floor/plasteel/grid/mono,
 /area/janitor)
 "hE" = (
 /obj/structure/cable{
@@ -3402,10 +3389,10 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "kT" = (
-/obj/vehicle/ridden/janicart,
-/obj/item/key/janitor,
-/obj/effect/turf_decal/ship/techfloor,
-/obj/machinery/light/small/broken,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+	dir = 1
+	},
+/obj/effect/turf_decal/box,
 /turf/open/floor/plasteel/grid/lino,
 /area/janitor)
 "kU" = (
@@ -5691,10 +5678,16 @@
 	},
 /area/maintenance/nsv/deck2/starboard)
 "rU" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 1
 	},
-/obj/effect/turf_decal/box,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/effect/turf_decal/ship/techfloor{
+	dir = 1
+	},
 /turf/open/floor/plasteel/grid/lino,
 /area/janitor)
 "rV" = (
@@ -6217,9 +6210,13 @@
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "tN" = (
-/obj/structure/chair,
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck2/primary)
+/obj/effect/turf_decal/tile/ship/half/green,
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 4
+	},
+/obj/structure/ladder,
+/turf/open/floor/plasteel/grid/mono,
+/area/janitor)
 "tP" = (
 /turf/closed/wall/r_wall,
 /area/quartermaster/storage)
@@ -6603,11 +6600,13 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "uX" = (
-/obj/item/kirbyplants{
-	icon_state = "plant-32"
+/obj/structure/janitorialcart,
+/obj/item/mop,
+/obj/effect/turf_decal/ship/techfloor{
+	dir = 10
 	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck2/primary)
+/turf/open/floor/plasteel/grid/lino,
+/area/janitor)
 "uY" = (
 /obj/machinery/deck_turret/autoelevator,
 /obj/effect/turf_decal/stripes/line,
@@ -6845,6 +6844,18 @@
 /obj/effect/turf_decal/tile/ship/orange,
 /obj/effect/turf_decal/tile/ship/orange{
 	dir = 4
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/primary)
+"vS" = (
+/obj/machinery/door/airlock/ship/security/glass{
+	name = "Prisoner Transfer";
+	req_one_access_txt = "2"
+	},
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
@@ -7087,23 +7098,20 @@
 /turf/open/floor/carpet/orange,
 /area/engine/engine_room)
 "wN" = (
+/obj/structure/closet/l3closet/janitor,
+/obj/machinery/camera/autoname,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/machinery/power/apc/auto_name/north,
 /obj/effect/turf_decal/ship/techfloor{
-	dir = 4
+	dir = 5
 	},
-/obj/item/cigbutt,
-/obj/item/cigbutt{
-	pixel_x = 5;
-	pixel_y = -3
+/obj/item/poster/random_contraband{
+	desc = "No memes in general!";
+	name = "discord moderation textbook"
 	},
-/obj/item/cigbutt{
-	pixel_x = 12;
-	pixel_y = 6
-	},
-/obj/item/storage/fancy/cigarettes{
-	desc = "These taste terrible, but they'll help you manage a community.";
-	name = "\improper Community Manager's Cigarettes"
-	},
-/obj/machinery/light_switch/east,
+/obj/item/radio/intercom/directional/east,
 /turf/open/floor/plasteel/grid/lino,
 /area/janitor)
 "wO" = (
@@ -8643,17 +8651,20 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "CD" = (
+/obj/machinery/door/airlock/ship/public{
+	name = "Custodial Garage";
+	req_one_access_txt = "26"
+	},
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 1
-	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
-	icon_state = "1-4"
+	icon_state = "1-2"
 	},
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 1
-	},
-/turf/open/floor/plasteel/grid/lino,
+/turf/open/floor/monotile/steel,
 /area/janitor)
 "CE" = (
 /turf/closed/wall/r_wall,
@@ -10371,10 +10382,16 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Jt" = (
-/obj/structure/janitorialcart,
-/obj/item/mop,
 /obj/effect/turf_decal/ship/techfloor{
-	dir = 10
+	dir = 8
+	},
+/obj/machinery/firealarm{
+	dir = 4;
+	pixel_x = -26
+	},
+/obj/item/cigbutt/roach,
+/mob/living/simple_animal/kalo{
+	name = "Comrade"
 	},
 /turf/open/floor/plasteel/grid/lino,
 /area/janitor)
@@ -10546,10 +10563,23 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "JW" = (
-/obj/machinery/vending/wardrobe/jani_wardrobe,
 /obj/effect/turf_decal/ship/techfloor{
-	dir = 6
+	dir = 4
 	},
+/obj/item/cigbutt,
+/obj/item/cigbutt{
+	pixel_x = 5;
+	pixel_y = -3
+	},
+/obj/item/cigbutt{
+	pixel_x = 12;
+	pixel_y = 6
+	},
+/obj/item/storage/fancy/cigarettes{
+	desc = "These taste terrible, but they'll help you manage a community.";
+	name = "\improper Community Manager's Cigarettes"
+	},
+/obj/machinery/light_switch/east,
 /turf/open/floor/plasteel/grid/lino,
 /area/janitor)
 "JX" = (
@@ -11204,6 +11234,7 @@
 	name = "Munitions requests console";
 	pixel_y = -32
 	},
+/obj/structure/ladder,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Me" = (
@@ -12232,19 +12263,12 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "PH" = (
-/obj/machinery/door/airlock/ship/public{
-	name = "Custodial Garage";
-	req_one_access_txt = "26"
-	},
-/obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/firedoor/border_only{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/effect/turf_decal/tile/ship/half/green,
 /turf/open/floor/monotile/steel,
 /area/janitor)
 "PJ" = (
@@ -12932,17 +12956,12 @@
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
 "RR" = (
-/obj/machinery/door/airlock/ship/security/glass{
-	name = "Prisoner Transfer";
-	req_one_access_txt = "2"
-	},
-/obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/firedoor/border_only{
-	dir = 1
-	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck2/primary)
+/obj/vehicle/ridden/janicart,
+/obj/item/key/janitor,
+/obj/effect/turf_decal/ship/techfloor,
+/obj/machinery/light/small/broken,
+/turf/open/floor/plasteel/grid/lino,
+/area/janitor)
 "RS" = (
 /obj/machinery/camera/autoname{
 	dir = 1
@@ -13094,9 +13113,12 @@
 /turf/open/floor/plasteel/airless/solarpanel,
 /area/space/nearstation)
 "Sn" = (
-/obj/structure/ladder,
-/turf/open/floor/monotile/dark,
-/area/nsv/weapons)
+/obj/machinery/vending/wardrobe/jani_wardrobe,
+/obj/effect/turf_decal/ship/techfloor{
+	dir = 6
+	},
+/turf/open/floor/plasteel/grid/lino,
+/area/janitor)
 "So" = (
 /obj/structure/ladder,
 /obj/effect/turf_decal/tile/ship/half/green{
@@ -13395,6 +13417,11 @@
 /obj/item/toy/beach_ball/holoball,
 /turf/open/floor/plasteel/techmaint,
 /area/security/prison)
+"Tv" = (
+/obj/structure/chair,
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/primary)
 "Tw" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -13743,9 +13770,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "UA" = (
-/obj/structure/chair,
-/obj/machinery/airalarm/directional/north,
-/obj/machinery/camera/autoname,
+/obj/item/kirbyplants{
+	icon_state = "plant-32"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "UB" = (
@@ -14051,6 +14078,12 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"VA" = (
+/obj/structure/chair,
+/obj/machinery/airalarm/directional/north,
+/obj/machinery/camera/autoname,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/primary)
 "VC" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/machinery/door/firedoor/border_only,
@@ -48571,13 +48604,14 @@ RN
 nk
 Jz
 un
-Ef
-IW
+bn
 hC
+IW
 cj
 Jt
-IW
 uX
+qI
+UA
 Jk
 ew
 Cx
@@ -48833,11 +48867,11 @@ PH
 CD
 rU
 kT
-IW
-bn
-Jk
 RR
+qI
+Tv
 Jk
+vS
 Yw
 aw
 Yw
@@ -49085,16 +49119,16 @@ SK
 RN
 sR
 un
-Ef
-IW
 gv
+tN
+IW
 wN
 JW
-IW
-UA
+Sn
+qI
+VA
 Jk
 ew
-tN
 Yw
 em
 ei
@@ -49348,7 +49382,7 @@ IW
 IW
 IW
 IW
-ew
+qI
 ew
 Rm
 qI
@@ -52938,7 +52972,7 @@ rX
 TX
 nw
 mP
-Sn
+mP
 ff
 eY
 Mi
