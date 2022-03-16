@@ -6,6 +6,7 @@
 	var/climb_stun = 20 //Time to be stunned for after climbing
 	var/climbable = FALSE //Can you climb on it?
 	var/mob/living/climber //Who is climbing on it
+	var/no_trolley = FALSE //Can be put on a trolley?
 
 /obj/item/ship_weapon/ammunition/Initialize()
 	. = ..()
