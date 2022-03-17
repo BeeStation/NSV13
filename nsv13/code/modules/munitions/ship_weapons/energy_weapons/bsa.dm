@@ -202,7 +202,7 @@
 	tracer_type = /obj/effect/projectile/tracer/bsa
 	muzzle_type = /obj/effect/projectile/muzzle/bsa
 	impact_type = /obj/effect/projectile/impact/bsa
-	movement_type = FLYING | UNSTOPPABLE
+	movement_type = FLYING | PHASING
 
 /obj/effect/projectile/muzzle/bsa
 	alpha = 0
