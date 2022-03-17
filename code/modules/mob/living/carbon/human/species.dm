@@ -739,7 +739,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 					S = GLOB.legs_list[H.dna.features["legs"]]
 				if("moth_wings")
 					S = GLOB.moth_wings_list[H.dna.features["moth_wings"]]
-				if("moth_wingsopen") //NSV moth wings open
+				if("moth_wingsopen") //NSV13 moth wings open
 					S = GLOB.moth_wingsopen_list[H.dna.features["moth_wings"]]
 				if("caps")
 					S = GLOB.caps_list[H.dna.features["caps"]]
