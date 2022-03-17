@@ -336,6 +336,12 @@ Adding tasks is easy! Just define a datum for it.
 			try_hail( user, console.linked )
 		return FALSE
 
+	if ( launcher.safety ) //cannot fire with safety on
+		to_chat(user, "<span class='warning'>[src] has its safties on!</span")
+		if ( console.linked )
+			try_hail( user, console.linked )
+		return FALSE
+
 	for(var/a in launcher.chambered.GetAllContents())
 		if(is_type_in_typecache(a, GLOB.blacklisted_cargo_types))
 			if ( !istype( a, /mob/living/simple_animal ) ) // Allow the transfer of specimens specifically for cargo missions
