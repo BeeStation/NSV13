@@ -5,8 +5,9 @@
 	icon_screen = "salvage"
 	circuit = /obj/item/circuitboard/computer/salvage
 	var/max_salvage_range = 20 //must stay within N tiles of range to salvage a ship.
+	var/required_damage_percentage = 50
 	var/obj/structure/overmap/salvage_target = null //What are we currently salvaging?
-	var/can_salvage = TRUE //Cooldown
+	var/static/can_salvage = TRUE //Cooldown
 	var/salvage_cooldown = 5 MINUTES
 	var/obj/item/radio/radio //For alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_sec
@@ -37,6 +38,7 @@
 	if(!ui)
 		ui = new(user, src, "SalvageConsole")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/salvage/ui_data(mob/user)
 	if(!linked)
@@ -65,17 +67,30 @@
 	switch(action)
 		if("salvage")
 			var/obj/structure/overmap/OM = locate(params["target"])
-			if(!OM || !can_salvage || !linked)
+			if(!linked)
+				radio.talk_into(src, "This console is not attached to the ship's EWAR scrambling systems.", radio_channel)
+				return FALSE
+			if(!OM)
+				radio.talk_into(src, "Detection of target systems failed.", radio_channel)
+				return FALSE
+			if(!can_salvage)
+				radio.talk_into(src, "EWAR scrambling equipment is starting up or shutting down. Try again later.", radio_channel)
 				return FALSE
 			if((linked.active_boarding_target && !QDELETED(linked.active_boarding_target)))
 				playsound(pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_2.ogg'), 100, 1)
 				radio.talk_into(src, "WARNING: This console is already maintaining EWAR scrambling on [linked.active_boarding_target]. Confirmation required to proceed.", radio_channel)
 				return FALSE
+			if((OM.obj_integrity * 100 / initial(OM.obj_integrity)) > required_damage_percentage)
+				radio.talk_into(src, "Target is not sufficiently compromised for EWAR scrambling.", radio_channel)
+				return FALSE
 			radio.talk_into(src, "Electronic countermeasure deployment in progress.", radio_channel)
 			can_salvage = FALSE
+			DISABLE_BITFIELD(OM.overmap_deletion_traits, DAMAGE_DELETES_UNOCCUPIED) // Simplemobs don't count, so don't let this explode before we're ready
 			if(OM.ai_load_interior(linked))
 				linked.active_boarding_target = OM
 				addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown)
+				OM.ai_controlled = FALSE
+				OM.apply_weapons()
 				radio.talk_into(src, "Enemy point defense systems scrambled. Bluefor strike teams cleared for approach.", radio_channel)
 			else
 				radio.talk_into(src, "Unable to scramble enemy point defense systems. Aborting...", radio_channel)
@@ -84,8 +99,18 @@
 				addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown/2)
 
 		if("stop_salvage")
-			if(!linked || !linked.active_boarding_target || !can_salvage)
+			if(!linked)
+				radio.talk_into(src, "This console is not attached to the ship's EWAR scrambling systems.", radio_channel)
 				return FALSE
+			if(!linked.active_boarding_target)
+				radio.talk_into(src, "EWAR scambling not currently engaged.", radio_channel)
+				return FALSE
+			if(!can_salvage)
+				radio.talk_into(src, "EWAR scrambling equipment is starting up or shutting down. Try again later.", radio_channel)
+				return FALSE
+			if(SEND_SIGNAL(linked.active_boarding_target, COMSIG_SHIP_RELEASE_BOARDING))
+				radio.talk_into(src, "Target is mission critical. Cannot cancel EWAR scrambling on [linked.active_boarding_target].", radio_channel)
+				return FALSE // Something blocked this
 			if(alert("Are you sure? (ALL BOARDERS WILL BE KILLED)",name,"Release Hammerlock","Cancel") == "Cancel")
 				return FALSE
 			radio.talk_into(src, "EWAR scrambling on [linked.active_boarding_target] cancelled.", radio_channel)
@@ -93,5 +118,6 @@
 			can_salvage = FALSE
 			message_admins("[usr] released boarding/salvage lock on [linked.active_boarding_target]")
 			linked.active_boarding_target.kill_boarding_level(linked)
+			linked.active_boarding_target.overmap_deletion_traits = initial(linked.active_boarding_target.overmap_deletion_traits)
 			linked.active_boarding_target = null
 			addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown/2)

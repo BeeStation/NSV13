@@ -1,4 +1,5 @@
 /obj/machinery/holopad/proc/create_admin_hologram(client/C)
+	set waitfor = FALSE
 	RETURN_TYPE(/mob/living/simple_animal/admin_holopad)
 	var/icon/final = icon()
 	var/mob/living/carbon/human/dummy/D = new(locate(1,1,1)) //spawn on 1,1,1 so we don't have runtimes when items are deleted
@@ -19,19 +20,19 @@
 	qdel(D)
 	say("Incoming priority one transmission from Central Command.")
 	playsound(src, 'nsv13/sound/effects/computer/admin_holopad_activate.ogg', 100, FALSE)
-	sleep(3.6 SECONDS)
 	var/mob/Hologram = new /mob/living/simple_animal/admin_holopad(get_turf(src))
+	. = Hologram // Our calling proc won't wait for us when we sleep so we set the return value now
 	Hologram.alpha = 0
 	Hologram.name = (new_name) ? new_name : Hologram.name
 	Hologram.icon = final
 	Hologram.grant_all_languages(grant_omnitongue=TRUE) //This is an admin thing, so this makes sense to me.
 	Hologram.mouse_opacity = MOUSE_OPACITY_TRANSPARENT//So you can't click on it.
 	Hologram.layer = FLY_LAYER//Above all the other objects/mobs. Or the vast majority of them.
+	sleep(3.6 SECONDS) // Also returns hologram to calling proc
 	//codersprite some holo effects here
 	animate(Hologram, alpha = 100,time = 20)
 	Hologram.add_atom_colour("#77abff", FIXED_COLOUR_PRIORITY)
 	Hologram.ckey = C.ckey
-	return Hologram
 
 /mob/living/simple_animal/admin_holopad
 	name = "Hologram"
@@ -66,7 +67,7 @@
 	qdel(current_beam)
 	UnregisterSignal(src, COMSIG_MOVABLE_MOVED)
 	playsound(src, 'nsv13/sound/effects/computer/hum.ogg', 100, FALSE)
-	. = ..()
+	return ..()
 
 /obj/machinery/holopad/attack_ghost(mob/user)
 	if(!check_rights_for(user.client, R_ADMIN))

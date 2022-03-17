@@ -2,6 +2,8 @@
 
 Vector class written by qwertyquerty and Kmc2000
 
+Not to be confused with the point vector datum
+
 This uses operator overloading
 
 Special thanks to qwertyquerty for explaining and dictating a lot of this! (I've mostly translated his pseudocode into readable byond code)
@@ -35,7 +37,6 @@ Method to set our position directly
 			src.x = 0
 			src.y = 0
 			testing("What the fuck are you doing to vectors: [x] [y] for [usr?.name]")
-		src.x = isnum_safe(x) ? src.x : 0
 		src.y = CLAMP(src.y, -world.maxy*32, world.maxy*32)
 
 /*
@@ -45,7 +46,7 @@ Method to overload the + operator to add a vector to another vector
 /datum/vector2d/proc/operator+(datum/vector2d/b)
 	if(isnum(b))
 		return new /datum/vector2d(x + b, y + b)
-	else if(istype(b, /datum/vector2d))
+	else // Assuming b is correctly typed to vector2d to save performance
 		return new /datum/vector2d(x + b.x, y + b.y)
 
 /*
@@ -55,7 +56,7 @@ Method to overload the += operator to add the X,Y coordinates to our own ones, w
 	if(isnum(b))
 		x += b
 		y += b
-	else if(istype(b, /datum/vector2d))
+	else // Assuming b is correctly typed to vector2d to save performance
 		x += b.x
 		y += b.y
 
@@ -64,11 +65,9 @@ Method to overload the - operator to subtract a vector from this one.
 @return a new vector with the desired X,Y after operation performed
 */
 /datum/vector2d/proc/operator-(datum/vector2d/b)
-	if(!b)
-		return new /datum/vector2d(-x, -y)
-	else if(isnum(b))
+	if(isnum(b))
 		return new /datum/vector2d(x - b, y - b)
-	else if(istype(b, /datum/vector2d))
+	else // Assuming b is correctly typed to vector2d to save performance
 		return new /datum/vector2d(x - b.x, y - b.y)
 
 /*
@@ -78,7 +77,7 @@ Method to overload the += operator to subtract the X,Y coordinates to our own on
 	if(isnum(b))
 		x -= b
 		y -= b
-	else if(istype(b, /datum/vector2d))
+	else
 		x -= b.x
 		y -= b.y
 
@@ -89,7 +88,7 @@ Method to overload the * operator to multiply this vector by another one
 /datum/vector2d/proc/operator*(datum/vector2d/b)
 	if(isnum(b))
 		return new /datum/vector2d(x * b, y * b)
-	else if(istype(b, /datum/vector2d))
+	else
 		return new /datum/vector2d(x * b.x, y * b.y)
 
 /*
@@ -99,7 +98,7 @@ Method to overload the *= operator to multiply the X,Y coordinates to our own on
 	if(isnum(b))
 		x *= b
 		y *= b
-	else if(istype(b, /datum/vector2d))
+	else
 		x *= b.x
 		y *= b.y
 
@@ -110,7 +109,7 @@ Method to overload the / operator to divide this vector by another one
 /datum/vector2d/proc/operator/(datum/vector2d/b)
 	if(isnum(b))
 		return new /datum/vector2d(x / b, y / b)
-	else if(istype(b, /datum/vector2d))
+	else
 		return new /datum/vector2d(x / b.x, y / b.y)
 
 /*
@@ -118,7 +117,7 @@ Overrides the ~= operator to check if a vector has the same x and y values as an
 @return 1 if the vectors are equivalent, 0 if not
 */
 /datum/vector2d/proc/operator~=(datum/vector2d/b)
-	return (istype(b, /datum/vector2d) && x == b.x && y == b.y)
+	return (istype(b) && x == b.x && y == b.y)
 
 /*
 Convert the vector to a readable format: [x, y]

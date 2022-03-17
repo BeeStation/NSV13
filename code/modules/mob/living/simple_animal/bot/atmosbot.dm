@@ -53,20 +53,40 @@
 	var/last_barrier_tick
 	//Gasses
 	var/list/gasses = list(
-		/datum/gas/bz = 1,
-		/datum/gas/carbon_dioxide = 1,
-		/datum/gas/hypernoblium = 1,
-		/datum/gas/nitrous_oxide = 1,
-		/datum/gas/nitryl = 1,
-		/datum/gas/plasma = 1,
-		/datum/gas/pluoxium = 0,
-		/datum/gas/stimulum = 0,
-		/datum/gas/tritium = 1,
-		/datum/gas/water_vapor = 0,
-		//NSV13 - removed miasma, added nucleium and constricted plasma
-		/datum/gas/nucleium = 1,
-		/datum/gas/constricted_plasma = 1
+		GAS_BZ = 1,
+		GAS_CO2 = 1,
+		GAS_HYPERNOB = 1,
+		//GAS_MIASMA = 1, //NSV13 - no miasma
+		GAS_NITROUS = 1,
+		GAS_NITRYL = 1,
+		GAS_PLASMA = 1,
+		GAS_PLUOXIUM = 0,
+		GAS_STIMULUM = 0,
+		GAS_TRITIUM = 1,
+		GAS_H2O = 0,
+		GAS_CONSTRICTED_PLASMA = 1, //NSV13
+		GAS_NUCLEIUM = 1, //NSV13
 	)
+
+	//NSV13 - for getting the proper name of things
+	var/static/list/gas_map = list(
+		GAS_O2 = /datum/gas/oxygen,
+		GAS_N2 = /datum/gas/nitrogen,
+		GAS_BZ = /datum/gas/bz,
+		GAS_CO2 = /datum/gas/carbon_dioxide,
+		GAS_HYPERNOB = /datum/gas/hypernoblium,
+		//GAS_MIASMA = /datum/gas/miasma, //NSV13 - no miasma
+		GAS_NITROUS = /datum/gas/nitrous_oxide,
+		GAS_NITRYL = /datum/gas/nitryl,
+		GAS_PLASMA = /datum/gas/plasma,
+		GAS_PLUOXIUM = /datum/gas/pluoxium,
+		GAS_STIMULUM = /datum/gas/stimulum,
+		GAS_TRITIUM = /datum/gas/tritium,
+		GAS_H2O = /datum/gas/water_vapor,
+		GAS_CONSTRICTED_PLASMA = /datum/gas/constricted_plasma, //NSV13
+		GAS_NUCLEIUM = /datum/gas/nucleium, //NSV13
+	)
+
 	//Tank type
 	var/tank_type = /obj/item/tank/internals/oxygen/empty
 
@@ -167,7 +187,7 @@
 
 		if(!LAZYLEN(path))
 			var/turf/target_turf = get_turf(target)
-			path = get_path_to(src, target_turf, /turf/proc/Distance_cardinal, 0, 30, id=access_card, simulated_only = FALSE)
+			path = get_path_to(src, target_turf, 30, id=access_card, simulated_only = FALSE)
 
 			if(!bot_move(target))
 				add_to_ignore(target)
@@ -197,10 +217,10 @@
 	if(pressure_delta > 0)
 		var/transfer_moles = pressure_delta*environment.return_volume()/(T20C * R_IDEAL_GAS_EQUATION)
 		if(emagged == 2)
-			environment.adjust_moles(/datum/gas/bz, transfer_moles) //NSV13 - swapped miasma for BZ
+			environment.adjust_moles(GAS_BZ, transfer_moles) //NSV13 - swapped miasma for BZ
 		else
-			environment.adjust_moles(/datum/gas/nitrogen, transfer_moles * 0.7885)
-			environment.adjust_moles(/datum/gas/oxygen, transfer_moles * 0.2115)
+			environment.adjust_moles(GAS_N2, transfer_moles * 0.7885)
+			environment.adjust_moles(GAS_O2, transfer_moles * 0.2115)
 		air_update_turf()
 		new /obj/effect/temp_visual/vent_wind(get_turf(src))
 
@@ -231,7 +251,7 @@
 				return ATMOSBOT_HIGH_TOXINS
 	//Too little oxygen or too little pressure
 	var/partial_pressure = R_IDEAL_GAS_EQUATION * gas_mix.return_temperature() / gas_mix.return_volume()
-	var/oxygen_moles = gas_mix.get_moles(/datum/gas/oxygen) * partial_pressure
+	var/oxygen_moles = gas_mix.get_moles(GAS_O2) * partial_pressure
 	if(oxygen_moles < 20 || gas_mix.return_pressure() < WARNING_LOW_PRESSURE)
 		return ATMOSBOT_LOW_OXYGEN
 	//Check temperature
@@ -296,10 +316,10 @@
 		dat += "Temperature Control: <a href='?src=[REF(src)];toggle_temp_control=1'>[temperature_control?"Enabled":"Disabled"]</a><br>"
 		dat += "Temperature Target: <a href='?src=[REF(src)];set_ideal_temperature=[ideal_temperature]'>[ideal_temperature]C</a><br>"
 		dat += "Gas Scrubbing Controls<br>"
-		for(var/gas_typepath in gasses)
-			var/gas_enabled = gasses[gas_typepath]
-			var/datum/gas/gas_type = gas_typepath
-			dat += "[initial(gas_type.name)]: <a href='?src=[REF(src)];toggle_gas=[gas_typepath]'>[gas_enabled?"Scrubbing":"Not Scrubbing"]</a><br>"
+		for(var/gas_id in gasses) //NSV13 - updated for auxmos
+			var/gas_enabled = gasses[gas_id]
+			var/datum/gas/gas_type = gas_map[gas_id]
+			dat += "[initial(gas_type.name)]: <a href='?src=[REF(src)];toggle_gas=[gas_id]'>[gas_enabled?"Scrubbing":"Not Scrubbing"]</a><br>"
 		dat += "Patrol Station: <A href='?src=[REF(src)];operation=patrol'>[auto_patrol ? "Yes" : "No"]</A><BR>"
 	return dat
 
@@ -350,9 +370,9 @@
 	var/obj/item/tank/tank = new tank_type(Tsec)
 	var/datum/gas_mixture/GM = Tsec.return_air()
 	if(tank && GM)
-		for(var/datum/gas/G in tank.air_contents.get_gases())
-			GM.adjust_moles(G.type, tank.air_contents.get_moles(G))
-			tank.air_contents.adjust_moles(G.type, -tank.air_contents.get_moles())
+		for(var/G in tank.air_contents.get_gases()) //NSV13 - updated for auxmos
+			GM.adjust_moles(G, tank.air_contents.get_moles(G))
+			tank.air_contents.adjust_moles(G, -tank.air_contents.get_moles())
 		new /obj/effect/temp_visual/vent_wind(Tsec)
 	if(deployed_holobarrier)
 		qdel(deployed_holobarrier.resolve())

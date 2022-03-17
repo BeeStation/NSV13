@@ -37,6 +37,10 @@
 
 /obj/structure/munitions_trolley/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
+	if(istype(A, /obj/item/ship_weapon/ammunition))
+		var/obj/item/ship_weapon/ammunition/M = A
+		if(M.no_trolley)
+			return FALSE
 	if(allowed[A.type])
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading something onto [src]!</span>")
@@ -49,6 +53,10 @@
 		loading = FALSE
 
 /obj/structure/munitions_trolley/proc/load_trolley(atom/movable/A, mob/user)
+	if(istype(A, /obj/item/ship_weapon/ammunition))
+		var/obj/item/ship_weapon/ammunition/M = A
+		if(M.no_trolley)
+			return FALSE
 	if(amount >= max_capacity)
 		if(user)
 			to_chat(user, "<span class='warning'>\The [src] is fully loaded!</span>")
@@ -67,6 +75,7 @@
 	if(!ui)
 		ui = new(user, src, "MunitionsTrolley")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/structure/munitions_trolley/ui_act(action, params, datum/tgui/ui)
 	if(..())

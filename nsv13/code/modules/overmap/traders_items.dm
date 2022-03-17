@@ -13,9 +13,6 @@
 	bound_width = 224
 	bound_height = 224
 	req_one_access = list(ACCESS_CARGO, ACCESS_SYNDICATE)
-	var/list/expecting_cargo = list() // list of objective datums 
-	var/list/received_cargo = list() // list of typically freight torps 
-	var/list/receipts = list() // All cargo delivery attempts made to this station 
 	var/datum/trader/inhabited_trader = null
 
 /obj/structure/overmap/trader/try_hail(mob/living/user)
@@ -27,133 +24,6 @@
 		inhabited_trader.ui_interact(user)
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>[pick(inhabited_trader.greetings)]</span>")
-
-/obj/structure/overmap/trader/proc/add_objective( objective )
-	if ( objective )
-		expecting_cargo += objective 
-
-/obj/structure/overmap/trader/receive_cargo( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console, var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment )
-	if ( inhabited_trader )
-		var/datum/freight_delivery_receipt/receipt = new /datum/freight_delivery_receipt()
-		receipt.courier = user
-		receipt.vessel = console.linked 
-		receipt.shipment = shipment
-		receipts += receipt
-		
-		to_chat(user, "<span class='notice'>The cargo has been sent to [src] and should be received shortly.</span>")
-		addtimer(CALLBACK(src, .proc/check_objectives, receipt), 60 SECONDS)
-		return TRUE
-	else 
-		return ..() // Fallback to attempting a physical delivery to a station zlevel, if it exists 
-	
-/obj/structure/overmap/trader/proc/check_objectives( var/datum/freight_delivery_receipt/receipt )
-	if ( !length( expecting_cargo ) ) 
-		reject_unexpected_shipment( receipt )
-		return FALSE 
-	
-	for ( var/datum/overmap_objective/cargo/request in expecting_cargo ) 
-		var/datum/overmap_objective/cargo/objective = request 
-		var/allCargoPresent = objective.check_cargo( receipt.shipment ) 
-		
-		if ( !allCargoPresent ) 
-			reject_incomplete_shipment( receipt )
-			return FALSE 
-			
-		// Bag it, tag it, store it. Accessible for admin debugging later if needed 
-		receipt.completed_objective = objective 
-		received_cargo += receipt
-		expecting_cargo -= request 
-		approve_shipment( receipt )
-		return TRUE
-
-/obj/structure/overmap/trader/proc/make_paperwork( var/datum/freight_delivery_receipt/receipt, var/approval )
-	// Cargo DRADIS automatically synthesizes and attaches the requisition form to the cargo torp
-	var/obj/item/paper/paper = new /obj/item/paper()
-	paper.info = ""
-
-	paper.info += "<h2>[receipt.vessel] Shipping Manifest</h2>"
-	paper.info += "<hr/>"
-	paper.info += ( "Order: S-[rand( 1000, 5000 )]<br/>" )
-	paper.info += "Destination: [src]<br/>"
-	var/datum/overmap_objective/cargo/objective = receipt.completed_objective
-	if ( objective ) // If receipt has an attach objective which marks it as completed 
-		paper.info += ( "Item: [objective.crate_name]<br/>" )
-	else 
-		paper.info += ( "Item: Unregistered Shipment<br/>" )
-	paper.info += "Contents:<br/>"
-	
-	paper.info += "<ul>"
-	if ( istype( receipt.shipment, /obj/item/ship_weapon/ammunition/torpedo/freight ) ) 
-		var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = receipt.shipment 
-		for ( var/atom/item in shipment.contents )
-			paper.info += "<li>[item]</li>"
-	else 
-		paper.info += "<li>miscellaneous unpackaged objects</li>" 
-	paper.info += "</ul>"
-	
-	paper.info += "<h4>Stamp below to confirm receipt of goods:</h4>"
-
-	paper.stamped = list()
-	paper.stamps = list()
-	var/datum/asset/spritesheet/sheet = get_asset_datum(/datum/asset/spritesheet/simple/paper)
-
-	// Extremely cheap stamp code because the only way to add stamps is through tgui
-	if ( approval )
-		paper.stamped += "stamp-ok"
-		paper.stamps = list( list(sheet.icon_class_name("stamp-ok"), 1, 1, 0) )
-	else 
-		paper.stamped += "stamp-deny"
-		paper.stamps = list( list(sheet.icon_class_name("stamp-deny"), 1, 1, 0) )
-
-	paper.update_icon()
-
-	return paper
-
-/obj/structure/overmap/trader/proc/return_approved_form( var/datum/freight_delivery_receipt/receipt )
-	if(receipt?.vessel)
-		var/obj/structure/overmap/vessel = receipt.vessel
-
-		// Paperwork! Stations should always stamp their requisition forms as accepted and return to sender 
-		var/obj/item/paper/requisition_form = make_paperwork( receipt, TRUE )
-
-		vessel.send_supplypod( requisition_form, src, TRUE )
-
-/obj/structure/overmap/trader/proc/reject_unexpected_shipment( var/datum/freight_delivery_receipt/receipt ) 
-	if(receipt?.vessel)
-		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-		receipt.vessel.hail( pick( list( 
-			"We're not expecting any shipments at this time. Please give us some time to arrange the return shipment.",
-			"We're not expecting any shipments, please don't send us your trash.",
-			"This cargo isn't registered on our supply requests. We will return it as soon as we can.",
-			"We haven't asked for any cargo like this. Take your business elsewhere.",
-		) ), src)
-		addtimer(CALLBACK(src, .proc/return_shipment, receipt), 60 SECONDS)
-
-/obj/structure/overmap/trader/proc/reject_incomplete_shipment( var/datum/freight_delivery_receipt/receipt ) 
-	if(receipt?.vessel)
-		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-		receipt.vessel.hail( pick( list( 
-			"Some of the cargo contents are missing. We're sending the crates back, please double check your crates and try again.",
-			"We're not expecting this kind of shipment, please don't send us your trash.",
-			"This cargo isn't matching on our supply requests. We will return it as soon as we can.",
-			"We haven't asked for any cargo like this. Take your business elsewhere if you won't complete the job.",
-		) ), src)
-		addtimer(CALLBACK(src, .proc/return_shipment, receipt), 60 SECONDS)
-
-/obj/structure/overmap/trader/proc/approve_shipment( var/datum/freight_delivery_receipt/receipt ) 
-	if(receipt?.vessel)
-		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
-		receipt.vessel.hail( "Thank you for delivering this cargo. We have marked the supply request as received.", src)
-		addtimer(CALLBACK(src, .proc/return_approved_form, receipt), 60 SECONDS)
-
-/obj/structure/overmap/trader/proc/return_shipment( var/datum/freight_delivery_receipt/receipt )
-	if(receipt?.vessel)
-		if ( istype( receipt.shipment, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
-			var/obj/item/ship_weapon/ammunition/torpedo/freight/F = receipt.shipment 
-			F.contents += make_paperwork( receipt, FALSE )
-
-		var/obj/structure/overmap/vessel = receipt.vessel
-		vessel.send_supplypod( receipt.shipment, src, TRUE )
 
 /obj/structure/overmap/trader/can_move()
 	//Nope!
@@ -306,12 +176,12 @@
 	stock = 20
 	unlock_path = /obj/item/ship_weapon/ammunition/missile
 
-/datum/trader_item/nuke
-	name = "Thermonuclear Torpedo"
+/datum/trader_item/hellfire
+	name = "Plasma Incendiary Torpedo"
 	desc = "The alpha and the omega, shipped to you quickly and efficiently! (WARNING: HANDLE WITH CARE)."
 	price = 2500
 	stock = 4
-	unlock_path = /obj/item/ship_weapon/ammunition/torpedo/nuke
+	unlock_path = /obj/item/ship_weapon/ammunition/torpedo/hellfire
 
 /datum/trader_item/c20r
 	name = "Donk Co. C20R SMG."
@@ -360,25 +230,25 @@
 	desc = "A pre-assembled light fighter which comes pre-equipped with everything a pilot needs to get back into the fight."
 	price = 11000
 	stock = 2
-	unlock_path = /obj/structure/overmap/fighter/light
+	unlock_path = /obj/structure/overmap/small_craft/combat/light
 
 /datum/trader_item/fighter/utility
 	name = "Utility Fighter"
 	desc = "A pre-assembled utility craft, capable of restocking and repairing other fighters."
 	price = 9000
 	stock = 5
-	unlock_path = /obj/structure/overmap/fighter/dropship/sabre
+	unlock_path = /obj/structure/overmap/small_craft/transport/sabre
 
 /datum/trader_item/fighter/heavy
 	name = "Heavy Fighter"
 	desc = "A pre-assembled Scimitar class heavy fighter produced in house by our engineers."
 	price = 15000
 	stock = 2
-	unlock_path = /obj/structure/overmap/fighter/heavy
+	unlock_path = /obj/structure/overmap/small_craft/combat/heavy
 
 //Trader exclusive specialty fighters
-/obj/structure/overmap/fighter/light/judgement
-	name = "Executive Fighter"
+/obj/structure/overmap/small_craft/combat/light/judgement
+	name = "executive fighter"
 	icon_state = "judgement"
 	components = list(/obj/item/fighter_component/fuel_tank/tier2,
 						/obj/item/fighter_component/avionics,
@@ -399,16 +269,16 @@
 	desc = "A custom built light fighter tuned to perfection, attention to detail and pride fuel this beauty."
 	price = 20000
 	stock = 1
-	unlock_path = /obj/structure/overmap/fighter/light/judgement
+	unlock_path = /obj/structure/overmap/small_craft/combat/light/judgement
 
 /datum/trader_item/fighter/prototype
 	name = "SU-148 Chelyabinsk Superiority Fighter"
 	desc = "A highly experimental fighter prototype outfitted with a railgun. This absolute powerhouse balances speed, power and stealth in a package guaranteed to outclass anything the Syndicate can throw at you."
 	price = 50000
 	stock = 1
-	unlock_path = /obj/structure/overmap/fighter/light/prototype
+	unlock_path = /obj/structure/overmap/small_craft/combat/light/prototype
 
-/obj/structure/overmap/fighter/light/prototype
+/obj/structure/overmap/small_craft/combat/light/prototype
 	name = "SU-148 Chelyabinsk Superiority Fighter"
 	icon_state = "prototype"
 	components = list(/obj/item/fighter_component/fuel_tank/tier3,
@@ -430,7 +300,7 @@
 	desc = "A somewhat outdated Syndicate fighter design which may or may not be a facsimile of Nanotrasen's now defunct 'Viper' series."
 	price = 7000
 	stock = 5
-	unlock_path = /obj/structure/overmap/fighter/light/syndicate //Good luck using these without boarder IDs
+	unlock_path = /obj/structure/overmap/small_craft/combat/light/syndicate //Good luck using these without boarder IDs
 
 /datum/trader_item/taser
 	name = "Czanek corp Taser (Patent Pending)"

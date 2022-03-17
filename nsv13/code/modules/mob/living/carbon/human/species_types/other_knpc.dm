@@ -37,3 +37,34 @@
 /mob/living/carbon/human/ai_boarder/zombie/Initialize()
 	. = ..()
 	set_species(/datum/species/zombie/infectious)
+
+/mob/living/carbon/human/ai_boarder/boarding_droid
+	faction = list("silicon")
+	difficulty_override = TRUE
+	outfit = /datum/outfit/boarding_droid
+	icon_render_key = ""
+	move_delay = 2
+	action_delay = 2
+	taunts = list(
+		"Unit has become aware",
+		"Unit has seen the enemy",
+		"Unit has engaged the target"
+	)
+	call_lines = list(
+		"Unit has requested additional assets"
+	)
+	response_lines = list(
+		"Unit has recieved additional asset request"
+	)
+
+/mob/living/carbon/human/ai_boarder/boarding_droid/Initialize()
+	. = ..()
+	set_species(/datum/species/ipc)
+	icon = 'nsv13/icons/mob/boardingdroid.dmi'
+	icon_state = "boardingdroid"
+	real_name = "Droid [random_capital_letter()][random_capital_letter()][random_capital_letter()]"
+	cut_overlays()
+
+/mob/living/carbon/human/ai_boarder/boarding_droid/apply_damage(damage, damagetype, def_zone, blocked, forced)
+	. = ..()
+	cut_overlays()

@@ -159,6 +159,7 @@ Returns a faction datum by its name (case insensitive!)
 /datum/controller/subsystem/star_system/proc/move_existing_object(obj/structure/overmap/OM, datum/star_system/target)
 	if(QDELETED(OM))
 		return
+	var/datum/star_system/previous_system = OM.current_system
 	target.system_contents += OM
 	if(!target.occupying_z)
 		STOP_PROCESSING(SSphysics_processing, OM)
@@ -177,12 +178,13 @@ Returns a faction datum by its name (case insensitive!)
 			if(OM.physics2d)
 				START_PROCESSING(SSphysics_processing, OM.physics2d)
 		target.add_ship(OM)
-	OM.current_system?.system_contents -= OM
 	if(OM.faction != "nanotrasen" && OM.faction != "solgov") //NT, SGC or whatever don't count as enemies that NT hire you to kill.
-		OM.current_system?.enemies_in_system -= OM
+		previous_system?.enemies_in_system -= OM
 		target.enemies_in_system += OM
-	if(OM.current_system?.contents_positions[OM]) //If we were loaded, but the system was not.
-		OM.current_system?.contents_positions -= OM
+	if(previous_system)
+		previous_system.system_contents -= OM
+		if(previous_system.contents_positions[OM]) //If we were loaded, but the system was not.
+			previous_system.contents_positions -= OM
 	OM.current_system = target
 
 //Specific case for anomalies. They need to be spawned in for research to scan them.
@@ -226,10 +228,10 @@ Returns a faction datum by its name (case insensitive!)
 			highestTickets = F.tickets
 	return winner
 
-/datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM)
+/datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM, turf/target)
 	ships[OM] = list("ship" = OM, "x" = 0, "y" = 0, "current_system" = system_by_id(OM.starting_system), "last_system" = system_by_id(OM.starting_system), "target_system" = null, "from_time" = 0, "to_time" = 0, "occupying_z" = OM.z)
 	var/datum/star_system/curr = ships[OM]["current_system"]
-	curr.add_ship(OM)
+	curr.add_ship(OM, target)
 
 //Welcome to bracket hell.
 
@@ -319,7 +321,7 @@ Returns a faction datum by its name (case insensitive!)
 		station13.starting_system = name
 		station13.current_system = src
 		station13.set_trader(trader)
-		trader.generate_missions()
+		// trader.generate_missions()
 	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_NO_ANOMALIES))
 		addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
 	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_NO_ASTEROIDS))
@@ -482,11 +484,11 @@ Returns a faction datum by its name (case insensitive!)
 	icon_state = "redgiant"
 	research_points = 4000 //Somewhat more interesting than a sun.
 
-/datum/star_system/proc/add_mission(datum/nsv_mission/mission)
-	if(!mission)
-		return FALSE
-	active_missions += mission
-	objective_sector = TRUE
+// /datum/star_system/proc/add_mission(datum/nsv_mission/mission)
+// 	if(!mission)
+// 		return FALSE
+// 	active_missions += mission
+// 	objective_sector = TRUE
 
 /datum/star_system/proc/apply_system_effects()
 	event_chance = 15 //Very low chance of an event happening
@@ -969,7 +971,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 			randystation.current_system = randy
 			randystation.set_trader(randytrader)
 			randy.trader = randytrader
-			randytrader.generate_missions()
+			// randytrader.generate_missions()
 
 		else if(prob(10))
 			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate/raiding, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)

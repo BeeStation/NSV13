@@ -1,3 +1,5 @@
+// NSV13
+
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Knob } from '../components';
@@ -20,8 +22,8 @@ export const Trader = (props, context) => {
           <img style={imgStyle} src={data.image} />
           <p>{data.greeting}</p>
           <hr />
-          <Button content="Do you have any work going?" onClick={() => act('mission')} />
         </Section>
+        <MissionTracker />
         <Section title={data.next_restock} buttons={(
           <Button fluid content={data.points} />
         )}>
@@ -41,4 +43,29 @@ export const Trader = (props, context) => {
       </Window.Content>
     </Window>
   );
+};
+
+const MissionTracker = (props, context) => {
+  const { act, data } = useBackend(context);
+  if (data.holding_cargo && data.holding_cargo.length) {
+    return (
+      <Section title="Mission Tracking">
+        {Object.keys(data.holding_cargo).map(key => {
+          let value = data.holding_cargo[key];
+          return (
+            <Section title={value.name} key={key} buttons={(
+              <Button
+                content={"Receive Mission Cargo"}
+                icon="arrow-circle-down"
+                onClick={() => act('receive_cargo', { objective: value.id })} />
+            )}>
+              {value.brief}
+            </Section>
+          );
+        })}
+      </Section>
+    );
+  } else {
+    return;
+  }
 };

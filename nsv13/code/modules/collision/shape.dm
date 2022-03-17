@@ -50,7 +50,7 @@ GLOBAL_VAR(exmap_initialized) // Exmap is windows only until I figure out how th
 	src.position = position
 	src._angle = _angle
 	set_points(points)
-	EXMAP_EXTOOLS_CHECK
+	//FIXME learn physics in rust
 
 /*
 Method to set our position to a new one.
@@ -66,15 +66,15 @@ Method to set our points to a new list of points
 */
 
 /datum/shape/proc/set_points(list/points)
-	if(!src.base_points.len || src.base_points.len != points.len)
-		src.rel_points.Cut()
-		src.normals.Cut()
-		for (var/i in 1 to points.len)
-			src.rel_points.Add(new /datum/vector2d(0,0))
-			src.normals.Add(new /datum/vector2d(0,0))
+	if(!length(base_points) || length(base_points) != length(points))
+		rel_points.len = 0
+		normals.len = 0
+		for (var/i in 1 to length(points))
+			rel_points.Add(new /datum/vector2d(0,0))
+			normals.Add(new /datum/vector2d(0,0))
 
-	src.base_points = points
-	src._recalc()
+	base_points = points
+	_recalc()
 	return points
 
 /*
@@ -85,7 +85,7 @@ Method to set our angle to a new angle as required, then recalculate our points 
 		return FALSE
 
 	src._angle = angle
-	src._recalc()
+	_recalc()
 
 /*
 Method to recalculate our bounding box, adjusting the relative positions accordingly
@@ -98,13 +98,13 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 		src.rel_points[i].copy(rel_point)
 
 	//Clear out our current AABB collision box
-	src.aabb.Cut()
+	aabb.len = 0
 	var/min_x = INFINITY
 	var/min_y = INFINITY
 	var/max_x = -INFINITY
 	var/max_y = -INFINITY
 	//Recalculate the points
-	for(var/i in 1 to src.rel_points.len)
+	for(var/i in 1 to length(rel_points))
 		var/datum/vector2d/p1 = src.rel_points[i]
 		var/datum/vector2d/p2 = i < src.base_points.len ? src.rel_points[i+1] : src.rel_points[1]
 
@@ -117,10 +117,7 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 
 		src.normals[i].copy(edge.perp().normalize())
 
-	aabb.Add(min_x)
-	aabb.Add(min_y)
-	aabb.Add(max_x)
-	aabb.Add(max_y)
+	aabb.Add(min_x, min_y, max_x, max_y)
 
 /**
 Simple method to calculate whether we collide with another shape object, lightweight but not hugely precise.
@@ -131,8 +128,8 @@ Simple method to calculate whether we collide with another shape object, lightwe
 
 /datum/shape/proc/get_global_points()
 	var/list/datum/vector2d/global_points = list()
-	for (var/datum/vector2d/point in src.rel_points)
-		global_points.Add(point + src.position)
+	for (var/datum/vector2d/point as() in rel_points)
+		global_points.Add(point + position)
 
 	return global_points
 
@@ -143,14 +140,14 @@ to say that we don't need the added cost (and extra precision) of SAT.
 @returns boolean true / false
 */
 /datum/shape/proc/collides(var/datum/shape/other, var/datum/collision_response/c_response)
-	if(!src.test_aabb(other))
+	if(!test_aabb(other))
 		return FALSE
 
-	for (var/datum/vector2d/norm in src.normals)
+	for (var/datum/vector2d/norm as() in src.normals)
 		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm, c_response))
 			return FALSE
 
-	for (var/datum/vector2d/norm in other.normals)
+	for (var/datum/vector2d/norm as() in other.normals)
 		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm, c_response))
 			return FALSE
 	if (c_response)
@@ -180,10 +177,10 @@ Find the average collision point between two shapes. Usually ends up being prett
 				collision_points.Add(intersection)
 
 	// For some ungodly reason we're checking for an intersection point when the two shapes don't intersect; return nothing
-	if(!collision_points.len)
+	if(!length(collision_points))
 		return
 
-	for (var/datum/vector2d/collision_point in collision_points)
+	for (var/datum/vector2d/collision_point as() in collision_points)
 		closest_point += collision_point
 
 	// BYOND WHHHY CAN'T WE HAVE /=
@@ -199,7 +196,7 @@ Find the average collision point between two shapes. Usually ends up being prett
 /datum/shape/flatten_points_on(list/points, datum/vector2d/normal)
 	RETURN_TYPE(/datum/vector2d)
 	var/list/_points = list()
-	for(var/datum/vector2d/point in points)
+	for(var/datum/vector2d/point as() in points)
 		_points += point.x
 		_points += point.y
 	var/out = __flatten_points_on(_points, normal.x, normal.y, points.len*2)

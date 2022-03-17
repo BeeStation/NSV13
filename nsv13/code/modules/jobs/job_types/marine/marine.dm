@@ -19,7 +19,7 @@ Marine & all their unique stuff!
 	paycheck = PAYCHECK_ASSISTANT // Get a job. Job reassignment changes your paycheck now. Get over it.
 	paycheck_department = ACCOUNT_CIV
 	display_order = JOB_DISPLAY_ORDER_ASSISTANT
-	//mind_traits = list(TRAIT_MARINE_METABOLISM)
+	departments = DEPARTMENT_SERVICE
 
 /datum/reagent/colorful_reagent/powder
 	metabolization_rate = 0.15 * REAGENTS_METABOLISM

@@ -41,7 +41,7 @@
 	display_name = "Guided Munitions II"
 	description = "More advanced torpedo components"
 	prereq_ids = list("basic_torpedo_components", "exotic_ammo")
-	design_ids = list("bb_warhead", "nuke_warhead", "probe_warhead")
+	design_ids = list("bb_warhead", "hellfire_warhead", "probe_warhead")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 7500
 

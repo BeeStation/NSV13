@@ -201,6 +201,10 @@
 	w_class = 1
 	var/datum/squad/squad = null
 
+/obj/item/clothing/neck/squad/examine( mob/user )
+	. = ..()
+	. += "<span class='notice'>Use the lanyard to update the appearance of the squad role indicator.</span>"
+
 /obj/item/clothing/neck/squad/attack_self(mob/living/carbon/human/user)
 	. = ..()
 	if(!ishuman(user) || user.stat || user.restrained())
@@ -209,13 +213,14 @@
 		to_chat(user, "<span class='warning'>This lanyard hasn't got a registered squad on it...</span>")
 		return FALSE
 	if(user.squad && user.squad == squad)
-		to_chat(user, "<span class='warning'>You're already in [squad]!</span>")
+		to_chat(user, "<span class='notice'>The lanyard updates with your current squad role.</span>")
+		apply_squad( user.squad )
 		return FALSE
 	if(alert(user, "Join [squad] Squad?",name,"Yes","No") == "Yes")
 		if(user.squad)
 			user.squad.remove_member(user)
 		squad.add_member(user)
-		qdel(src)
+		apply_squad( user.squad )
 
 /obj/item/clothing/neck/squad/Initialize(mapload, datum/squad/squad)
 	. = ..()
@@ -292,6 +297,11 @@
 		return
 	name = "[squad] [initial(name)]"
 	icon_state = "hudsquad"
+	if ( user && ishuman( user ) )
+		if ( user.squad_role == SQUAD_MEDIC )
+			icon_state = "hudsquad_medic"
+		else if ( user.squad_role == SQUAD_ENGI )
+			icon_state = "hudsquad_engineer"
 	item_color = "hudsquad"
 	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)
 
@@ -317,8 +327,7 @@
 	if(ishuman(equipper))
 		var/mob/living/carbon/human/H = equipper
 		if(H.squad)
-			if(H.squad != squad)
-				apply_squad(H.squad)
+			apply_squad(H.squad)
 
 /obj/item/clothing/head/ship/squad/proc/apply_squad(datum/squad/squad)
 	if(!squad || !istype(squad))
@@ -454,23 +463,21 @@
 			playsound(src, 'sound/effects/spray2.ogg', 50, 1, -6)
 			to_chat(user, "<span class='notice'>You seal up [src], good as new!</span>")
 			obj_integrity = max_integrity
-	. = ..()
+	return ..()
 
 /obj/structure/inflatable/proc/deflate(violent=FALSE)
-	playsound(loc, 'sound/machines/hiss.ogg', 75, 1)
+	set waitfor = FALSE
+	playsound(src, 'sound/machines/hiss.ogg', 75, 1)
 	if(violent)
-		visible_message("[src] rapidly deflates!")
+		visible_message("<span class='warning'>\The [src] rapidly deflates!</span>")
 		var/obj/item/inflatable/torn/R = new /obj/item/inflatable/torn(loc)
-		src.transfer_fingerprints_to(R)
+		transfer_fingerprints_to(R)
 	else
-		visible_message("[src] slowly deflates.")
-		transform = new /matrix()
-		for(var/I = 0; I < 3; I ++){
-			transform = transform.Scale(0.5)
-			sleep(0.5 SECONDS)
-		}
+		visible_message("<span class='warning'>\The [src] slowly deflates.</span>")
+		animate(src, transform = transform.Scale(0.125), time = 15)
+		sleep(15)
 		var/obj/item/inflatable/R = new inflatable_type(loc)
-		src.transfer_fingerprints_to(R)
+		transfer_fingerprints_to(R)
 		qdel(src)
 
 /obj/structure/inflatable/attack_hand(mob/user)

@@ -5,6 +5,7 @@ Misc projectile types, effects, think of this as the special FX file.
 */
 
 /obj/item/projectile/bullet/aa_round
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "pdc"
 	name = "anti-aircraft round"
 	damage = 40
@@ -17,6 +18,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	spread = 5
 
 /obj/item/projectile/bullet/mac_relayed_round	//Projectile relayed by all default MAC shells on overmap hit. No difference for AP / others as their values don't really matter on z level.
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "railgun"
 	name = "artillery round"
 	damage = 60
@@ -25,6 +27,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	movement_type = FLYING | UNSTOPPABLE
 
 /obj/item/projectile/bullet/mac_round
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "railgun"
 	name = "artillery round"
 	damage = 400
@@ -78,6 +81,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "cannonshot"
 	flag = "overmap_medium"
 
+//You somehow loaded a magic entrapment ball into a cannon. This is your reward.
+/obj/item/projectile/bullet/mac_round/cannonshot/admin
+	damage = 600
+	speed = 3
+	flag = "overmap_heavy"
+
 #define DIRTY_SHELL_TURF_SLUDGE_PROB 70	//Chance for sludge to spawn on a turf within the sludge range of the detonation turf. Detonation turf always gets an epicenter sludge.
 #define DIRTY_SHELL_SLUDGE_RANGE 3	//Un-random sludge event radius (for the shell detonating)
 #define DIRTY_SHELL_PELLET_PROB 80	//Chance for a pellet per tile from the outer circle
@@ -87,36 +96,63 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/mac_round/dirty
 	damage = 150
 	name = "dirty artillery round"
-	relay_projectile_type = /obj/item/projectile/bullet/dirty_shell_stage_two
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/dirty_shell_stage_two
 
-//Dirty shell: Stage 2 - z level sludge payload projectile
-/obj/item/projectile/bullet/dirty_shell_stage_two
-	name = "dirty artillery round"
+
+//Delayed priming projectile parent type - useful for a few different kinds of projectiles so why not.
+/obj/item/projectile/bullet/delayed_prime
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "railgun"
+	name = "uh oh this isn't supposed to exist!"
 	range = 255
 	speed = 1.85
 	movement_type = FLYING | UNSTOPPABLE
 	damage = 45		//It's on a z now, lets not instakill people / objects this happens to hit.
-	var/penetration_fuze = 4	//Will pen through this many solid turfs before arming. Can overpenetrate if it happens to pen through windows or other things with not enough resistance.
+	var/penetration_fuze = 1	//Will pen through this many things considered valid for reducing this before arming. Can overpenetrate if it happens to pen through windows or other things with not enough resistance.
 
-/obj/item/projectile/bullet/dirty_shell_stage_two/on_hit(atom/target, blocked)
+/obj/item/projectile/bullet/delayed_prime/on_hit(atom/target, blocked)
 	. = ..()
-	if(isclosedturf(target))
-		penetration_fuze--
+	penetration_fuze -= fuze_trigger_value(target)
 
-/obj/item/projectile/bullet/dirty_shell_stage_two/Move(atom/newloc, dir)
+/obj/item/projectile/bullet/delayed_prime/proc/fuze_trigger_value(atom/target)
+	return 0
+
+/obj/item/projectile/bullet/delayed_prime/Move(atom/newloc, dir)
 	. = ..()
 	if(!.)
 		return
-	if(!isopenturf(newloc))
-		return
-	var/turf/newturf = newloc
-	if(penetration_fuze <= 0 && !is_blocked_turf(newturf, TRUE))
-		explosion(newturf, 0, 0, 5, 8, flame_range = 3)
-		release_payload(newturf)
+	if(is_valid_to_release(newloc))
+		release_payload(newloc)
 		qdel(src)
 
-/obj/item/projectile/bullet/dirty_shell_stage_two/proc/release_payload(turf/detonation_turf)
+/obj/item/projectile/bullet/delayed_prime/proc/is_valid_to_release(atom/newloc)
+	return
+
+/obj/item/projectile/bullet/delayed_prime/proc/release_payload(atom/detonation_location)
+	return
+
+//Dirty shell: Stage 2 - z level sludge payload projectile
+/obj/item/projectile/bullet/delayed_prime/dirty_shell_stage_two
+	name = "dirty artillery round"
+	icon_state = "railgun"
+	penetration_fuze = 4
+
+/obj/item/projectile/bullet/delayed_prime/dirty_shell_stage_two/fuze_trigger_value(atom/target)
+	if(!isclosedturf(target))
+		return 0
+	return 1
+
+/obj/item/projectile/bullet/delayed_prime/dirty_shell_stage_two/is_valid_to_release(atom/newloc)
+	if(penetration_fuze > 0 || !isopenturf(newloc))
+		return FALSE
+	var/turf/newturf = newloc
+	if(is_blocked_turf(newturf, TRUE))
+		return FALSE
+	return TRUE
+
+/obj/item/projectile/bullet/delayed_prime/dirty_shell_stage_two/release_payload(atom/detonation_location)
+	var/turf/detonation_turf = detonation_location
+	explosion(detonation_turf, 0, 0, 5, 8, flame_range = 3)
 	var/list/inrange_turfs = RANGE_TURFS(DIRTY_SHELL_SLUDGE_RANGE, detonation_turf) - detonation_turf
 	new /obj/effect/decal/nuclear_waste/epicenter(detonation_turf)
 	for(var/turf/T as() in inrange_turfs)
@@ -156,9 +192,63 @@ Misc projectile types, effects, think of this as the special FX file.
 #undef DIRTY_SHELL_PELLET_PROB
 #undef DIRTY_SHELL_PELLET_RANGE
 
+/obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
+	icon_state = "torpedo_hellfire"
+	name = "incendiary torpedo"
+	penetration_fuze = 2
+
+/obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/fuze_trigger_value(atom/target)
+	if(isclosedturf(target))
+		return 1
+
+	if(isliving(target))	//Someone got bonked by an incendiary torpedo, daamn.
+		var/mob/living/L = target
+		if(L.mind && L.mind.assigned_role == "Clown")
+			return (prob(50) ? 2 : -2)	//We all know clowns are cursed.
+		return 2
+
+	return 0
+
+/obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/is_valid_to_release(atom/newloc)
+	if(penetration_fuze > 0 || !isopenturf(newloc))
+		return FALSE
+	return TRUE
+
+/obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/release_payload(atom/detonation_location)
+	var/turf/detonation_turf = detonation_location
+	explosion(detonation_turf, 0, 0, 4, 7, flame_range = 4)
+	detonation_turf.atmos_spawn_air("o2=75;plasma=425;TEMP=1000")
+
+/obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo
+	icon_state = "torpedo"
+	name = "armoured torpedo"
+	penetration_fuze = 3
+	damage = 25
+
+/obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo/fuze_trigger_value(atom/target)
+	if(isclosedturf(target))
+		return 1
+	return 0
+
+/obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo/is_valid_to_release(atom/newloc)
+	if(penetration_fuze > 0 || !isopenturf(newloc))
+		return FALSE
+	return TRUE
+
+/obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo/release_payload(atom/detonation_location)
+	var/turf/detonation_turf = detonation_location
+	new /obj/effect/dummy/lighting_obj(detonation_turf, LIGHT_COLOR_WHITE, 9, 4, 2)
+	playsound(detonation_turf, 'sound/effects/phasein.ogg', 100, 1)
+	for(var/mob/living/L in viewers(7, detonation_turf))
+		L.flash_act(affect_silicon = TRUE)
+	for(var/i = 1; i <= 13; i++)
+		new /mob/living/simple_animal/hostile/viscerator(detonation_turf)	//MANHACKS!1!!
+
+
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "mac"
 	name = "tungsten slug"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 150
 	speed = 1
 	homing_turn_speed = 2
@@ -170,14 +260,15 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 185
 	armour_penetration = 10
 
-/obj/item/projectile/bullet/railgun_slug/Initialize()
+// I think the idea is that they course-correct slightly, but only once? -Corvid
+/obj/item/projectile/bullet/railgun_slug/process_homing()
 	. = ..()
-	sleep(0.25)
-	set_homing_target(null)
+	homing = FALSE
 
 /obj/item/projectile/bullet/gauss_slug
 	icon_state = "gaussgun"
 	name = "tungsten round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 80
 	obj_integrity = 500 //Flak doesn't shoot this down....
 	flag = "overmap_medium"
@@ -185,6 +276,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/light_cannon_round
 	icon_state = "pdc"
 	name = "light cannon round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 40
 	armour_penetration = 2
 	spread = 2
@@ -193,8 +285,16 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/heavy_cannon_round
 	icon_state = "pdc"
 	name = "heavy cannon round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 30
 	spread = 5
+	flag = "overmap_medium"
+
+/obj/item/projectile/bullet/hailstorm_bullet
+	icon_state = "50cal"
+	name = "hailstorm fragment"
+	damage = 20
+	spread = 90
 	flag = "overmap_medium"
 
 /obj/item/projectile/guided_munition
@@ -206,6 +306,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/torpedo
 	icon_state = "torpedo"
 	name = "plasma torpedo"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	speed = 2.75
 	valid_angle = 150
 	homing_turn_speed = 35
@@ -217,6 +318,15 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	spread = 5 //Helps them not get insta-bonked when launching
+
+/obj/item/projectile/guided_munition/torpedo/viscerator
+	//icon_state = "???"	- alt sprite would be nice
+	name = "armoured torpedo"
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo
+	damage = 75	//Simply kinetic damagewise..
+	flag = "overmap_medium"
+	obj_integrity = 80
+	max_integrity = 80
 
 /obj/item/projectile/guided_munition/torpedo/shredder
 	icon_state = "torpedo_shredder"
@@ -230,14 +340,20 @@ Misc projectile types, effects, think of this as the special FX file.
 	obj_integrity = 200
 	max_integrity = 200
 
-/obj/item/projectile/guided_munition/torpedo/nuclear
-	icon_state = "torpedo_nuke"
-	name = "thermonuclear missile"
-	damage = 450
+/obj/item/projectile/guided_munition/torpedo/hellfire
+	icon_state = "torpedo_hellfire"
+	name = "hellfire missile"
+	damage = 400
 	obj_integrity = 25
 	max_integrity = 25
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
+
+/obj/item/projectile/guided_munition/torpedo/disruptor
+	icon_state = "torpedo_disruptor"
+	name = "disruption torpedo"
+	damage = 140	//Lower damage, does some special stuff when it hits a target.
 
 //What you get from an incomplete torpedo.
 /obj/item/projectile/guided_munition/torpedo/dud
@@ -258,6 +374,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/missile
 	name = "\improper Triton cruise missile"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "conventional_missile"
 	speed = 1
 	damage = 175
@@ -283,7 +400,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	..()
 	if(!check_faction(target))
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
-	if(istype(target, /obj/structure/overmap)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
+	if(isovermap(target)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
+		spec_overmap_hit(target)
 		return BULLET_ACT_HIT
 	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
 	if(isprojectile(target) && P.faction != faction && !P.nodamage) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
@@ -297,7 +415,27 @@ Misc projectile types, effects, think of this as the special FX file.
 			return FALSE //Didn't take the hit
 	if(!isprojectile(target)) //This is lazy as shit but is necessary to prevent explosions triggering on the overmap when two bullets collide. Fix this shit please.
 		detonate(target)
+	else
+		return FALSE
 	return BULLET_ACT_HIT
+
+/obj/item/projectile/guided_munition/proc/spec_overmap_hit(obj/structure/overmap/target)
+	return
+
+/obj/item/projectile/guided_munition/torpedo/disruptor/spec_overmap_hit(obj/structure/overmap/target)
+	if(length(target.occupying_levels))
+		return	//Detonate is gonna handle this for us.
+
+	if(target.ai_controlled)
+		target.disruption += 30
+		return
+
+	if(istype(target, /obj/structure/overmap/small_craft))
+		target.disruption += 25
+		return
+
+	//Neither of these? I guess just some visibility penalty it is.
+	target.add_sensor_profile_penalty(150, 10 SECONDS)
 
 /obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
 	. = ..()
@@ -306,16 +444,25 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/proc/detonate(atom/target)
 	explosion(target, 2, 4, 4)
 
+/obj/item/projectile/guided_munition/torpedo/disruptor/detonate(atom/target)
+	empulse(get_turf(target), 5, 12)	//annoying emp.
+	explosion(target, 0, 2, 6, 4)	//but only a light explosion.
+
+/* Sleep for now, we'll see you again
 /obj/item/projectile/guided_munition/torpedo/nuclear/detonate(atom/target)
 	var/obj/structure/overmap/OM = target.get_overmap() //What if I just..........
+	if ( OM?.essential )
+		return FALSE
 	OM?.nuclear_impact()
 	explosion(target, 3, 6, 8)
 
 	return BULLET_ACT_HIT
+*/
 
 /obj/item/projectile/bullet/pdc_round
 	icon_state = "pdc"
 	name = "PDC round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	damage = 15
 	flag = "overmap_light"
 	spread = 5

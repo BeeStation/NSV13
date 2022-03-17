@@ -1,3 +1,5 @@
+// NSV13
+
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Knob } from '../components';
@@ -109,9 +111,9 @@ export const FighterControls = (props, context) => {
               icon="server"
               onClick={() => act('toggle_ftl')} />
             <Button
-              content="Starmap"
+              content="Return"
               width="150px"
-              onClick={() => act('show_starmap')} />
+              onClick={() => act('return_jump')} />
             <ProgressBar
               value={(data.ftl_spool_progress / data.ftl_spool_time * 100) * 0.01}
               ranges={{

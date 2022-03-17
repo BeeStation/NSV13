@@ -8,6 +8,7 @@
 	icon_state = "default"
 	faction = "syndicate"
 	supply_pod_type = /obj/structure/closet/supplypod/syndicate_odst
+	returns_rejected_cargo = FALSE // We won't send freight torpedoes to our enemies, we'll send actual torpedoes to our enemies
 
 //Player Versions
 
@@ -69,6 +70,10 @@
     name = "Mako class patrol frigate (interior)"
     mappath = "_maps/templates/boarding/syndicate/mako.dmm"
 
+/datum/map_template/boarding/mako
+    name = "Mako class patrol frigate (interior)"
+    mappath = "_maps/templates/boarding/syndicate/mako.dmm"
+
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
 	name = "Mako class patrol frigate"
 	icon = 'nsv13/icons/overmap/new/syndicate/frigate.dmi'
@@ -88,7 +93,7 @@
 	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
 	ai_flags = AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/frigate
-	possible_interior_maps = list(/datum/map_template/boarding)
+	possible_interior_maps = list(/datum/map_template/boarding/mako)
 
 
 /datum/map_template/boarding/mako_carrier
@@ -118,25 +123,25 @@
     name = "Thermonuclear destroyer (interior)"
     mappath = "_maps/templates/boarding/syndicate/nukefrigate.dmm"
 
-/obj/structure/overmap/syndicate/ai/nuclear
-	name = "Thermonuclear destroyer"
+/obj/structure/overmap/syndicate/ai/conflagration
+	name = "Hellfire destroyer"
 	icon = 'nsv13/icons/overmap/new/syndicate/nuke_frigate.dmi'
 	icon_state = "megamouth"
 	bound_height = 160
 	bound_width = 160
-	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
 	obj_integrity = 900
 	max_integrity = 900 //Max health
 	integrity_failure = 900
-	shots_left = 7 //Reload yer nukes
+	shots_left = 7
 	torpedoes = 5
 	missiles = 10
 	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_heavy" = 30)
-	combat_dice_type = /datum/combat_dice/destroyer/nuclear
+	combat_dice_type = /datum/combat_dice/destroyer/conflagration
 	possible_interior_maps = list(/datum/map_template/boarding/nuclear)
 
-/obj/structure/overmap/syndicate/ai/nuclear/elite
-	name = "Nightmare class thermonuclear deterrent"
+/obj/structure/overmap/syndicate/ai/conflagration/elite
+	name = "Nightmare class hellfire deterrent"
 	icon_state = "megamouth_elite"
 	shots_left = 15
 	torpedoes = 10
@@ -147,7 +152,7 @@
 	bounty = 15000
 	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_light" = 50)
 	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
-	combat_dice_type = /datum/combat_dice/destroyer/nuclear
+	combat_dice_type = /datum/combat_dice/destroyer/conflagration
 
 /datum/map_template/boarding/destroyer
     name = "Hammerhead class missile destroyer (interior)"
@@ -221,6 +226,10 @@
 	missiles = 10
 	bounty = 4000
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
+	
+/datum/map_template/boarding/carrier
+	name = "carrier (interior)"
+	mappath = "_maps/templates/boarding/syndicate/carrier.dmm"
 
 /obj/structure/overmap/syndicate/ai/carrier
 	name = "Syndicate combat carrier"
@@ -242,7 +251,7 @@
 	can_resupply = TRUE
 	ai_flags = AI_FLAG_SUPPLY
 	combat_dice_type = /datum/combat_dice/carrier
-	possible_interior_maps = list()
+	possible_interior_maps = list(/datum/map_template/boarding/carrier)
 
 /obj/structure/overmap/syndicate/ai/carrier/elite
 	name = "Special ops escort carrier"
@@ -257,6 +266,7 @@
 							/obj/structure/overmap/syndicate/ai/bomber)
 	ai_flags = AI_FLAG_SUPPLY | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/carrier
+	possible_interior_maps = list(/datum/map_template/boarding/carrier)
 
 /obj/structure/overmap/syndicate/ai/carrier/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
@@ -285,7 +295,7 @@
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/battleship
 	possible_interior_maps = list()
-	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nuclear
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
 
 /obj/structure/overmap/syndicate/ai/battleship/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
@@ -399,6 +409,7 @@
 	ai_flags = AI_FLAG_DESTROYER
 	cloak_factor = 100 //Not a perfect cloak, mind you.
 	combat_dice_type = /datum/combat_dice/destroyer
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/disruptor
 	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/submarine/Initialize()
@@ -406,8 +417,8 @@
 	handle_cloak(TRUE)
 
 /obj/structure/overmap/syndicate/ai/submarine/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/light_cannon(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/light_cannon/integrated(src)
+	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher/burst_disruptor(src)
 	weapon_types[FIRE_MODE_RAILGUN] = null
 	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
@@ -452,6 +463,44 @@
 /obj/structure/overmap/syndicate/ai/kadesh/on_interdict()
 	add_sensor_profile_penalty(150, 10 SECONDS)
 
+/obj/structure/overmap/syndicate/ai/fistofsol
+	name = "\improper SSV Fist of Sol"
+	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
+	icon_state = "tuningfork"
+	desc = "A terrifying vessel packing every inch of the Syndicate's abhorrent arsenal."
+	mass = MASS_LARGE
+	sprite_size = 128
+	bound_width = 128
+	bound_height = 128
+	damage_states = FALSE
+	max_weapon_range = 85
+	obj_integrity = 5000
+	max_integrity = 5000
+	integrity_failure = 5000
+	speed_limit = 16
+	flak_battery_amount = 3
+	max_tracking_range = 90
+	armor = list("overmap_light" = 99, "overmap_medium" = 65, "overmap_heavy" = 40)
+	ai_controlled = TRUE
+	shots_left = 500
+	missiles = 30
+	ai_behaviour = AI_AGGRESSIVE
+	ai_flags = AI_FLAG_ELITE | AI_FLAG_BATTLESHIP
+	can_resupply = TRUE
+	combat_dice_type = /datum/combat_dice/battleship
+	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
+	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
+							/obj/structure/overmap/syndicate/ai/bomber)
+
+/obj/structure/overmap/syndicate/ai/fistofsol/apply_weapons()
+	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/twinmac(src)
+	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/hailstorm(src)
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/quadgauss(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
+	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
+
+
 /obj/structure/overmap/syndicate/ai/fighter //need custom AI behaviour to escort bombers if applicable
 	name = "Syndicate interceptor"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/fighter_overmap.dmi'
@@ -480,6 +529,7 @@
 
 /obj/structure/overmap/syndicate/ai/bomber //need custom AI behaviour to target capitals only
 	name = "Syndicate Bomber"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/fighter_overmap.dmi'
 	icon_state = "bomber_syndicate"
 	damage_states = FALSE
 	brakes = FALSE

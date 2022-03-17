@@ -6,4 +6,4 @@
 	var/obj/structure/overmap/vessel = null 
 	var/mob/living/courier = null
 	var/obj/shipment = null 
-	var/datum/overmap_objective/cargo/completed_objective = null 
+	var/list/completed_objectives = list() 
