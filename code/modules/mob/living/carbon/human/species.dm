@@ -2029,7 +2029,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		override_float = TRUE
 		H.pass_flags |= PASSTABLE
 		H.update_mobility()
-		if("wings" in H.dna.species.mutant_bodyparts || "moth_wings" in H.dna.species.mutant_bodyparts) //NSV moth wings open
+		if(("wings" in H.dna.species.mutant_bodyparts) || ("moth_wings" in H.dna.species.mutant_bodyparts)) //NSV13 moth wings open
 			H.Togglewings()
 	else
 		stunmod *= 0.5
@@ -2037,7 +2037,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		H.setMovetype(H.movement_type & ~FLYING)
 		override_float = FALSE
 		H.pass_flags &= ~PASSTABLE
-		if("wingsopen" in H.dna.species.mutant_bodyparts || "moth_wingsopen" in H.dna.species.mutant_bodyparts) //NSV moth wings open
+		if(("wingsopen" in H.dna.species.mutant_bodyparts) || ("moth_wingsopen" in H.dna.species.mutant_bodyparts)) //NSV13 moth wings open
 			H.Togglewings()
 		if(isturf(H.loc))
 			var/turf/T = H.loc

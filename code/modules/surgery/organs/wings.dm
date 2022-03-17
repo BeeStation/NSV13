@@ -55,7 +55,7 @@
 		else if("wingsopen" in H.dna.species.mutant_bodyparts)
 			H.dna.species.mutant_bodyparts -= "wingsopen"
 			H.dna.species.mutant_bodyparts |= "wings"
-		else if("moth_wings" in H.dna.species.mutant_bodyparts) //NSV moth wings open
+		else if("moth_wings" in H.dna.species.mutant_bodyparts) //NSV13 moth wings open
 			H.dna.species.mutant_bodyparts |= "moth_wingsopen"
 			H.dna.species.mutant_bodyparts -= "moth_wings"
 		else if("moth_wingsopen" in H.dna.species.mutant_bodyparts)
@@ -114,7 +114,7 @@
 	flight_level = WINGS_FLIGHTLESS
 	basewings = "moth_wings"
 	wing_type = "plain"
-	canopen = TRUE
+	canopen = TRUE //NSV13 moth wings open
 
 /obj/item/organ/wings/moth/robust
 	desc = "A pair of moth wings. They look robust enough to fly in an atmosphere"

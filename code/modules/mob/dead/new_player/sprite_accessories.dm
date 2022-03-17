@@ -1913,7 +1913,7 @@
 	icon = 'icons/mob/moth_wings.dmi'
 	color_src = null
 
-/datum/sprite_accessory/moth_wingsopen //NSV moth wings open
+/datum/sprite_accessory/moth_wingsopen //NSV13 moth wings open
 	icon = 'nsv13/icons/mob/moth_wingsopen.dmi'
 	color_src = null
 	dimension_x = 76

@@ -116,7 +116,7 @@
 	key_third_person = "flaps"
 	message = "flaps their wings"
 	restraint_check = TRUE
-	var/wing_time = 10 //NSV speed up flap timers
+	var/wing_time = 10 //NSV13 speed up flap timers
 
 /datum/emote/living/flap/run_emote(mob/user, params, type_override, intentional)
 	. = ..()

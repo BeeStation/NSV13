@@ -136,7 +136,7 @@
 /datum/emote/living/carbon/human/wing/select_message_type(mob/user, intentional)
 	. = ..()
 	var/mob/living/carbon/human/H = user
-	if(("wings" in H.dna.species.mutant_bodyparts) || ("moth_wings" in H.dna.species.mutant_bodyparts)) //NSV moth wings open
+	if(("wings" in H.dna.species.mutant_bodyparts) || ("moth_wings" in H.dna.species.mutant_bodyparts)) //NSV13 moth wings open
 		. = "opens " + message
 	else
 		. = "closes " + message
@@ -145,7 +145,7 @@
 	if(!..())
 		return FALSE
 	var/mob/living/carbon/human/H = user
-	if(H.dna && H.dna.species && (H.dna.features["wings"] != "None" || H.dna.features["moth_wings"] != "None")) //NSV moth wings open
+	if(H.dna && H.dna.species && (H.dna.features["wings"] != "None" || H.dna.features["moth_wings"] != "None")) //NSV13 moth wings open
 		return TRUE
 
 /mob/living/carbon/human/proc/Togglewings()
