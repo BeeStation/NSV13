@@ -774,9 +774,6 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/structure/chair{
-	dir = 4
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
@@ -2576,6 +2573,7 @@
 /obj/item/restraints/handcuffs,
 /obj/machinery/light_switch/south,
 /obj/structure/closet/secure_closet/warden,
+/obj/machinery/status_display/ai/east,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "iA" = (
@@ -4555,12 +4553,15 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "oC" = (
-/obj/item/control_rod,
-/obj/machinery/light{
-	dir = 1
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
-/turf/open/indestructible/sound/pool/spentfuel/wall,
-/area/engine/engine_room)
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/obj/machinery/status_display/evac/west,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/primary)
 "oD" = (
 /turf/template_noop,
 /area/maintenance/nsv/deck2/port)
@@ -7692,6 +7693,10 @@
 /obj/machinery/light_switch/east,
 /turf/open/floor/plasteel/techmaint,
 /area/security/prison)
+"yN" = (
+/obj/machinery/status_display/evac,
+/turf/closed/wall/r_wall,
+/area/science)
 "yP" = (
 /obj/effect/decal/cleanable/blood/splatter,
 /obj/structure/cable{
@@ -7891,9 +7896,7 @@
 /obj/item/powder_bag{
 	pixel_y = 8
 	},
-/obj/machinery/status_display/evac/north{
-	pixel_y = 26
-	},
+/obj/machinery/status_display/evac/north,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "zy" = (
@@ -8290,6 +8293,13 @@
 "Bj" = (
 /turf/open/floor/monotile/dark,
 /area/science)
+"Bp" = (
+/obj/item/control_rod,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/indestructible/sound/pool/spentfuel/wall,
+/area/engine/engine_room)
 "Bs" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
@@ -8631,10 +8641,24 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Cx" = (
-/obj/structure/chair,
-/obj/machinery/status_display/evac/west,
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck2/primary)
+/obj/structure/rack,
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag{
+	pixel_y = 8
+	},
+/obj/item/powder_bag{
+	pixel_y = 8
+	},
+/obj/machinery/status_display/ai/north,
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
 "Cz" = (
 /obj/machinery/light,
 /obj/effect/turf_decal/stripes/line,
@@ -13177,6 +13201,7 @@
 /area/maintenance/nsv/deck2/port)
 "SF" = (
 /obj/effect/turf_decal/stripes/line,
+/obj/machinery/status_display/ai/south,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "SH" = (
@@ -13897,6 +13922,7 @@
 	dir = 8
 	},
 /obj/machinery/vending/wardrobe/science_wardrobe,
+/obj/machinery/status_display/ai/north,
 /turf/open/floor/monotile/dark,
 /area/science)
 "US" = (
@@ -43195,7 +43221,7 @@ rR
 qK
 qI
 oF
-oC
+lK
 mH
 Rr
 ZH
@@ -43452,7 +43478,7 @@ rV
 dQ
 jl
 eL
-lK
+Bp
 mH
 oh
 oz
@@ -48614,8 +48640,8 @@ qI
 UA
 Jk
 ew
-Cx
-qG
+Jk
+oC
 cH
 AS
 BS
@@ -48623,7 +48649,6 @@ In
 ye
 ew
 Od
-Nh
 Nh
 Nh
 Nh
@@ -54503,7 +54528,7 @@ gD
 RQ
 VE
 eY
-lf
+Cx
 Dk
 Xe
 Te
@@ -54524,7 +54549,7 @@ hV
 JB
 zH
 lB
-Mi
+yN
 sn
 Mi
 Mi

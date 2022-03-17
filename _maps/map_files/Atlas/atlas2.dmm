@@ -1934,6 +1934,9 @@
 	dir = 1
 	},
 /obj/machinery/disposal/bin,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
 "iW" = (
@@ -2908,7 +2911,6 @@
 /obj/effect/turf_decal/tile/ship/half/green{
 	dir = 1
 	},
-/obj/machinery/light,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -3117,6 +3119,7 @@
 /obj/item/pool/rubber_ring,
 /obj/item/pool/rubber_ring,
 /obj/item/pool/rubber_ring,
+/obj/machinery/status_display/ai/west,
 /turf/open/floor/monotile/light,
 /area/crew_quarters/bar/mess_hall)
 "oA" = (
@@ -3247,9 +3250,6 @@
 /area/tcommsat/server)
 "pl" = (
 /obj/effect/turf_decal/tile/ship/half/green{
-	dir = 4
-	},
-/obj/machinery/light{
 	dir = 4
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
@@ -6528,6 +6528,7 @@
 /obj/machinery/newscaster{
 	pixel_y = -28
 	},
+/obj/machinery/status_display/evac/west,
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "Fl" = (
@@ -7435,6 +7436,9 @@
 /area/bridge/cic)
 "Jo" = (
 /obj/structure/closet/emcloset,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "Jr" = (
@@ -8914,6 +8918,10 @@
 	icon_state = "panelscorched"
 	},
 /area/maintenance/nsv/deck1/port)
+"PR" = (
+/obj/machinery/status_display/ai/east,
+/turf/open/floor/monotile/dark,
+/area/bridge/cic)
 "PT" = (
 /obj/machinery/cryopod,
 /turf/open/floor/carpet/green,
@@ -9104,6 +9112,14 @@
 /obj/machinery/chem_master/condimaster,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen)
+"QM" = (
+/obj/effect/turf_decal/tile/ship/green,
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 8
+	},
+/obj/machinery/status_display/evac/south,
+/turf/open/floor/plasteel/grid/mono,
+/area/hallway/nsv/deck1/hallway)
 "QR" = (
 /obj/effect/turf_decal/tile/ship/green,
 /obj/effect/turf_decal/tile/ship/green{
@@ -43881,7 +43897,7 @@ iP
 kb
 MQ
 wu
-Sc
+QM
 MS
 MS
 ta
@@ -44646,7 +44662,7 @@ TO
 eP
 fF
 gW
-ff
+PR
 nM
 Tc
 Tc
