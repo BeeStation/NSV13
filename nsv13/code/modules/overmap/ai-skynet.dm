@@ -142,21 +142,21 @@ Adding tasks is easy! Just define a datum for it.
 			applied_size = 1 //Lets assume a low number of players
 	else
 		applied_size = size
-	applied_size = CLAMP(applied_size, FLEET_DIFFICULTY_EASY, INFINITY)
+	applied_size = max(applied_size, FLEET_DIFFICULTY_EASY)
 	if(threat_elevation_allowed)
 		applied_size += round(SSovermap_mode.threat_elevation / TE_POINTS_PER_FLEET_SIZE)	//Threat level modifies danger
-	if(destroyer_types?.len)
-		for(var/I=length(taskforces["destroyers"]); I<max(round(applied_size/2), 1);I++)
+	if(length(destroyer_types))
+		for(var/i = length(taskforces["destroyers"]); i < max(round(applied_size/2), 1); i++)
 			var/shipType = pick(destroyer_types)
 			var/obj/structure/overmap/member = new shipType()
 			add_ship(member, "destroyers")
-	if(battleship_types?.len)
-		for(var/I=length(taskforces["battleships"]); I<max(round(applied_size/4), 1);I++)
+	if(length(battleship_types))
+		for(var/i = length(taskforces["battleships"]); i < max(round(applied_size/4), 1); i++)
 			var/shipType = pick(battleship_types)
 			var/obj/structure/overmap/member = new shipType()
 			add_ship(member, "battleships")
-	if(supply_types?.len)
-		for(var/I=length(taskforces["supply"]); I<max(round(applied_size/4), 1);I++)
+	if(length(supply_types))
+		for(var/i = length(taskforces["supply"]); i < max(round(applied_size/4), 1); i++)
 			var/shipType = pick(supply_types)
 			var/obj/structure/overmap/member = new shipType()
 			add_ship(member, "supply")
