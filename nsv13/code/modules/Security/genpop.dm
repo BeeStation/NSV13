@@ -126,6 +126,7 @@
 		flick("deny", src)
 		playsound(src,'sound/machines/deniedbeep.ogg',50,0,3)
 		return FALSE
+	return ..()
 
 //Officer interface.
 /obj/machinery/genpop_interface
