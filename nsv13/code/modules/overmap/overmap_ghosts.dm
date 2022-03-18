@@ -26,8 +26,8 @@
 				target_ghost = input(usr, "Select player to pilot ghost ship:", "Select Player") as null|anything in GLOB.clients
 
 		ghost_ship(target_ghost)
-		message_admins("[key_name_admin(usr)] has ghost shiped [src.name]!")
-		log_admin("[key_name_admin(usr)] has ghost shiped [src.name]!")
+		message_admins("[key_name_admin(usr)] has ghost shipped [src.name]!")
+		log_admin("[key_name_admin(usr)] has ghost shipped [src.name]!")
 
 
 //Creation of the ghost ship pilot entity
