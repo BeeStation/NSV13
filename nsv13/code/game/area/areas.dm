@@ -516,6 +516,10 @@
 	name = "Deck 2 Starboard Hanger Bay"
 	icon_state = "hallS"
 
+/area/nsv/hanger/mining
+	name = "Mining Hangar Bay"
+	icon_state = "hallS"
+
 /area/nsv/weapons
 	name = "Weapons Bay"
 	icon_state = "weapons_bay"

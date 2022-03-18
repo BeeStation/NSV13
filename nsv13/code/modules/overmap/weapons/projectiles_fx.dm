@@ -81,6 +81,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "cannonshot"
 	flag = "overmap_medium"
 
+//You somehow loaded a magic entrapment ball into a cannon. This is your reward.
+/obj/item/projectile/bullet/mac_round/cannonshot/admin
+	damage = 600
+	speed = 3
+	flag = "overmap_heavy"
+
 #define DIRTY_SHELL_TURF_SLUDGE_PROB 70	//Chance for sludge to spawn on a turf within the sludge range of the detonation turf. Detonation turf always gets an epicenter sludge.
 #define DIRTY_SHELL_SLUDGE_RANGE 3	//Un-random sludge event radius (for the shell detonating)
 #define DIRTY_SHELL_PELLET_PROB 80	//Chance for a pellet per tile from the outer circle
@@ -194,12 +200,12 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/fuze_trigger_value(atom/target)
 	if(isclosedturf(target))
 		return 1
-	
+
 	if(isliving(target))	//Someone got bonked by an incendiary torpedo, daamn.
 		var/mob/living/L = target
 		if(L.mind && L.mind.assigned_role == "Clown")
 			return (prob(50) ? 2 : -2)	//We all know clowns are cursed.
-		return 2	
+		return 2
 
 	return 0
 
@@ -237,7 +243,7 @@ Misc projectile types, effects, think of this as the special FX file.
 		L.flash_act(affect_silicon = TRUE)
 	for(var/i = 1; i <= 13; i++)
 		new /mob/living/simple_animal/hostile/viscerator(detonation_turf)	//MANHACKS!1!!
-	
+
 
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "mac"
@@ -424,7 +430,7 @@ Misc projectile types, effects, think of this as the special FX file.
 		target.disruption += 30
 		return
 
-	if(istype(target, /obj/structure/overmap/fighter))
+	if(istype(target, /obj/structure/overmap/small_craft))
 		target.disruption += 25
 		return
 

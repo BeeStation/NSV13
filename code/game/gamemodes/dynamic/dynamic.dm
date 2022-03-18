@@ -301,6 +301,8 @@ GLOBAL_VAR_INIT(dynamic_forced_threat_level, -1)
 		return TRUE
 	if(station_was_nuked)
 		return TRUE
+	if(GLOB.crew_transfer_risa) // NSV13 win condition
+		return TRUE
 	if(force_ending)
 		return TRUE
 

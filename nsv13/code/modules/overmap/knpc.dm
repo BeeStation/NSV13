@@ -244,8 +244,8 @@ GLOBAL_LIST_EMPTY(knpcs)
 	. = list()
 	var/mob/living/carbon/human/ai_boarder/H = HA.parent
 	for(var/mob/living/M in oview(HA.view_range, HA.parent))
-		//Invis is a no go. Non-human, non hostile animals are ignored.
-		if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || (!ishuman(M) && !ishostile(M)))
+		//Invis is a no go. Non-human, -cyborg or -hostile mobs are ignored.
+		if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || (!ishuman(M) && !iscyborg(M) && !ishostile(M)))
 			continue
 		// Dead mobs are ignored.
 		if(CHECK_BITFIELD(H.knpc_traits, KNPC_IS_MERCIFUL) && M.stat >= UNCONSCIOUS)

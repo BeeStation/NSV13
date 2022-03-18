@@ -124,6 +124,7 @@
 #define INIT_ORDER_AI_CONTROLLERS 	55 //So the controller can get the ref
 #define INIT_ORDER_TICKER			55
 #define INIT_ORDER_MAPPING			50
+#define INIT_ORDER_STARSYSTEM		48 //NSV13 - Needs to init before ships....
 #define INIT_ORDER_TIMETRACK		47
 #define INIT_ORDER_NETWORKS			45
 #define INIT_ORDER_ECONOMY			40
@@ -182,8 +183,8 @@
 #define FIRE_PRIORITY_TGUI			110
 #define FIRE_PRIORITY_TICKER		200
 #define FIRE_PRIORITY_ATMOS_ADJACENCY	300
-#define FIRE_PRIORITY_PROJECTILES 	350 //Nsv13 - Lower priority: Projectile movement and processing
-#define FIRE_PRIORITY_PHYSICS		350 //NSV13 - Highest priority: Overmap movement and hitbox calc
+#define FIRE_PRIORITY_PHYSICS		340 //NSV13 - Processes after SSprojectiles to keep hitboxes consistent for physics projectiles. Probably won't break anything
+#define FIRE_PRIORITY_PROJECTILES 	350 //NSV13 - Projectile fire priority
 #define FIRE_PRIORITY_CHAT			400
 #define FIRE_PRIORITY_RUNECHAT		410
 #define FIRE_PRIORITY_OVERLAYS		500
