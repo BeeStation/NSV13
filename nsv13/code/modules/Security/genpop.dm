@@ -110,6 +110,7 @@
 	return TRUE
 
 /obj/machinery/turnstile/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
 	if(istype(mover) && (mover.pass_flags & PASSGLASS))
 		return TRUE
 	if(!isliving(mover))
@@ -126,7 +127,6 @@
 		flick("deny", src)
 		playsound(src,'sound/machines/deniedbeep.ogg',50,0,3)
 		return FALSE
-	return ..()
 
 //Officer interface.
 /obj/machinery/genpop_interface
