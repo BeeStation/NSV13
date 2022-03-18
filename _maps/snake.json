@@ -1,14 +1,28 @@
 {
     "map_name": "NSV Snake",
     "map_path": "map_files/Snake",
-    "map_file": ["snake2.dmm", "snake1.dmm"], 
-    "traits": [{"Up": 1}, {"Down": -1}],
+    "map_file": [
+		"snake1.dmm", 
+		"snake2.dmm"
+	], 
+    "traits": [
+		{
+			"Up": 1,
+			"linkage": "self"
+		}, 
+		{
+			"Down": 1,
+			"linkage": "self"
+		}
+	],
     "space_ruin_levels": -1,
+	"space_empty_levels": 0,
         "shuttles": {
 		"cargo": "cargo_box",
-		"mining": "mining_delta",
         "emergency": "emergency_goon",
-		"ferry": "ferry_kilo"},
-	"ship_type": "/obj/structure/overmap/nanotrasen/missile_cruiser/starter",
-	"mine_disable": 1
+		"ferry": "ferry_kilo"
+	},
+	"mine_disable": 1,
+	"ship_type": "/obj/structure/overmap/nanotrasen/missile_cruiser/starter"
+	
 } 
