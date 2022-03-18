@@ -32,11 +32,13 @@
 	special()
 
 /proc/overmap_explode(list/areas)
+	set waitfor = FALSE	//Lets not freeze the game ending and ship del
 	if(!areas)
 		return
 	for(var/area/AR in areas)
 		var/turf/T = pick(get_area_turfs(AR))
-		explosion(T,30,30,30)
+		explosion(T,7,0,0, ignorecap = TRUE)
+		sleep(3 SECONDS)
 
 /obj/structure/overmap/proc/decimate_area()
 	if(!linked_areas.len)

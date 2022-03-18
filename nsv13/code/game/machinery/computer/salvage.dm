@@ -5,8 +5,9 @@
 	icon_screen = "salvage"
 	circuit = /obj/item/circuitboard/computer/salvage
 	var/max_salvage_range = 20 //must stay within N tiles of range to salvage a ship.
+	var/required_damage_percentage = 50
 	var/obj/structure/overmap/salvage_target = null //What are we currently salvaging?
-	var/can_salvage = TRUE //Cooldown
+	var/static/can_salvage = TRUE //Cooldown
 	var/salvage_cooldown = 5 MINUTES
 	var/obj/item/radio/radio //For alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_sec
@@ -82,12 +83,17 @@
 				playsound(pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_2.ogg'), 100, 1)
 				radio.talk_into(src, "WARNING: This console is already maintaining EWAR scrambling on [linked.active_boarding_target]. Confirmation required to proceed.", radio_channel)
 				return FALSE
+			if((OM.obj_integrity * 100 / initial(OM.obj_integrity)) > required_damage_percentage)
+				radio.talk_into(src, "Target is not sufficiently compromised for EWAR scrambling.", radio_channel)
+				return FALSE
 			radio.talk_into(src, "Electronic countermeasure deployment in progress.", radio_channel)
 			can_salvage = FALSE
 			DISABLE_BITFIELD(OM.overmap_deletion_traits, DAMAGE_DELETES_UNOCCUPIED) // Simplemobs don't count, so don't let this explode before we're ready
 			if(OM.ai_load_interior(linked))
 				linked.active_boarding_target = OM
 				addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown)
+				OM.ai_controlled = FALSE
+				OM.apply_weapons()
 				radio.talk_into(src, "Enemy point defense systems scrambled. Bluefor strike teams cleared for approach.", radio_channel)
 			else
 				radio.talk_into(src, "Unable to scramble enemy point defense systems. Aborting...", radio_channel)

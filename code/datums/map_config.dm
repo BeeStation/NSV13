@@ -25,6 +25,7 @@
 	var/mine_path = "map_files/Mining/nsv13" //NSV13 option
 	var/list/omode_blacklist = list() //NSV13 - Blacklisted overmap modes - ie remove modes
 	var/list/omode_whitelist = list() //NSV13 - Whitelisted overmap modes - ie add modes
+	var/starmap_path = "config/starmap/starmap_default.json" //NSV13 - What starmap should this map load?
 	var/mine_traits = null
 
 	var/traits = list(
@@ -180,6 +181,8 @@
 		omode_blacklist = json["omode_blacklist"]
 	if("omode_whitelist" in json) //Which extra modes we want enabled on this map
 		omode_whitelist = json["omode_whitelist"]
+	if("starmap_path" in json)
+		starmap_path = json["starmap_path"]
 
 	CHECK_EXISTS("ship_type")
 	if("ship_type" in json)

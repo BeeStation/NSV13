@@ -207,7 +207,7 @@
 			to_chat(user, "<span class='notice'>You start disassembling [src]...</span>")
 			if(tool.use_tool(src, user, 40, amount=1, volume=100))
 				to_chat(user, "<span class='notice'>You disassmeble [src].</span>")
-				new /obj/item/stack/sheet/iron(loc, 15)
+				new /obj/item/stack/sheet/iron(loc, 5)
 				add_fingerprint(user)
 				qdel(src)
 			return TRUE

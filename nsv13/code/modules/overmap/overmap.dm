@@ -186,6 +186,7 @@
 	var/list/interior_entry_points = list()
 	var/boarding_reservation_z = null //Do we have a reserved Z-level for boarding? This is set up on instance_overmap. Ships being boarded copy this value from the boarder.
 	var/obj/structure/overmap/active_boarding_target = null
+	var/static/next_boarding_time = 0 // This is stupid and lazy but it's 5am and I don't care anymore
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
