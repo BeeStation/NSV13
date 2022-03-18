@@ -24,7 +24,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 60
 	range = 255
 	speed = 1.85
-	movement_type = FLYING | PHASING
+	movement_type = FLYING
+	projectile_phasing = ALL
 
 /obj/item/projectile/bullet/mac_round
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
@@ -46,7 +47,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(isovermap(target))
 		var/obj/structure/overmap/OM = target
 		if(OM.mass <= MASS_TINY)
-			movement_type |= PHASING //Small things don't stop us.
+			projectile_phasing = ALL
 		else
 			movement_type = base_movement_type
 	. = ..()
@@ -66,7 +67,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 250
 	armour_penetration = 70
 	icon_state = "railgun_ap"
-	movement_type = FLYING | PHASING //Railguns punch straight through your ship
+	movement_type = FLYING
+	projectile_phasing = ALL //Railguns punch straight through your ship
 
 /obj/item/projectile/bullet/mac_round/magneton
 	speed = 1.5
@@ -106,7 +108,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "uh oh this isn't supposed to exist!"
 	range = 255
 	speed = 1.85
-	movement_type = FLYING | PHASING
+	movement_type = FLYING
+	projectile_phasing = ALL
 	damage = 45		//It's on a z now, lets not instakill people / objects this happens to hit.
 	var/penetration_fuze = 1	//Will pen through this many things considered valid for reducing this before arming. Can overpenetrate if it happens to pen through windows or other things with not enough resistance.
 
