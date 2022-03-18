@@ -111,3 +111,15 @@
 /obj/item/kirbyplants/random/plush/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE, force_unwielded=0, force_wielded=0, wieldsound='sound/items/bikehorn.ogg')
+
+/obj/item/toy/plush/ullmanplush
+	name = "Ullman plushie"
+	desc = "A new ULLMAN corp favourite, this lovely little plushie is sure to warm the hearts of even the coldest corporate officials."
+	icon = 'nsv13/icons/obj/items_and_weapons.dmi'
+	icon_state = "Ullmanplush"
+	item_state = "Ullmanplush"
+	attack_verb = list("Nyaed", "spooled", "sabered")
+	gender = FEMALE
+	w_class = WEIGHT_CLASS_SMALL
+	resistance_flags = FLAMMABLE
+	squeak_override = list('sound/effects/meow1.ogg'=1)
