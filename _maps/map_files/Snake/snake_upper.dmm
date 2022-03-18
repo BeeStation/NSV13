@@ -153,10 +153,6 @@
 /turf/open/floor/plasteel,
 /area/security/brig)
 "bb" = (
-/obj/machinery/mineral/ore_redemption{
-	input_dir = 2;
-	output_dir = 8
-	},
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningdock)
@@ -1252,6 +1248,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/central)
+"iC" = (
+/obj/structure/reagent_dispensers/fueltank,
+/turf/open/floor/plating,
+/area/maintenance/aft)
 "iD" = (
 /turf/open/floor/plasteel/dark,
 /area/maintenance/fore)
@@ -1605,6 +1605,10 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
+"lo" = (
+/obj/structure/reagent_dispensers/watertank,
+/turf/open/floor/plating,
+/area/maintenance/aft)
 "lp" = (
 /obj/structure/table/wood,
 /obj/item/flashlight/lamp,
@@ -2318,9 +2322,12 @@
 /turf/open/floor/carpet/royalblack,
 /area/crew_quarters/heads/chief)
 "pY" = (
-/obj/machinery/door/airlock/ship/station/mining/glass{
-	req_one_access_txt = "48"
+/obj/machinery/mineral/ore_redemption{
+	input_dir = 2;
+	output_dir = 8
 	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningdock)
 "qj" = (
@@ -6234,6 +6241,10 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/dark,
 /area/maintenance/department/science)
+"OG" = (
+/obj/structure/reagent_dispensers/watertank,
+/turf/open/floor/plating,
+/area/maintenance/central)
 "OH" = (
 /obj/machinery/atmospherics/components/unary/portables_connector/visible{
 	dir = 1;
@@ -6719,6 +6730,10 @@
 /obj/machinery/camera/autoname,
 /turf/open/floor/plasteel,
 /area/science/mixing)
+"RM" = (
+/obj/structure/reagent_dispensers/fueltank,
+/turf/open/floor/plating,
+/area/maintenance/central)
 "RR" = (
 /obj/structure/table/reinforced,
 /obj/item/cartridge/quartermaster{
@@ -34936,7 +34951,7 @@ zQ
 zQ
 mv
 aT
-qz
+iC
 qz
 qz
 qz
@@ -35193,7 +35208,7 @@ zQ
 HX
 mv
 aT
-qz
+lo
 qz
 qz
 qz
@@ -35716,7 +35731,7 @@ kZ
 qz
 TZ
 Qx
-qz
+iC
 qz
 Ww
 aM
@@ -42143,7 +42158,7 @@ bw
 bw
 mF
 iY
-sk
+RM
 Ga
 cw
 vb
@@ -42400,7 +42415,7 @@ sk
 sk
 KB
 lE
-sk
+OG
 RJ
 RJ
 RJ
@@ -44713,7 +44728,7 @@ ZG
 DH
 hR
 iY
-sk
+RM
 RJ
 DY
 YE
@@ -44970,7 +44985,7 @@ Ab
 lz
 Hl
 lE
-sk
+OG
 RJ
 DR
 xY
