@@ -104,9 +104,6 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/apothecary)
-"aH" = (
-/turf/open/floor/plasteel/dark,
-/area/security/nuke_storage)
 "aM" = (
 /turf/closed/wall/r_wall,
 /area/science/xenobiology)
@@ -195,6 +192,14 @@
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/closed/wall/r_wall,
 /area/maintenance/central)
+"bs" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "QMLoad"
+	},
+/obj/machinery/status_display/supply/north,
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "bu" = (
 /obj/effect/turf_decal/tile/ship/red{
 	dir = 8
@@ -1269,10 +1274,6 @@
 /obj/machinery/light_switch/south,
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger)
-"iG" = (
-/obj/structure/closet/crate/bin,
-/turf/open/floor/plasteel/dark,
-/area/nsv/hanger/notkmcstupidhanger)
 "iN" = (
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -1986,6 +1987,9 @@
 /obj/machinery/light_switch/north,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/cmo)
+"nI" = (
+/turf/closed/wall/r_wall,
+/area/ai_monitored/storage/eva)
 "nJ" = (
 /obj/machinery/conveyor{
 	dir = 1;
@@ -2122,6 +2126,9 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
+"oC" = (
+/turf/open/floor/plasteel/dark,
+/area/security/nuke_storage)
 "oD" = (
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel/dark,
@@ -2772,6 +2779,13 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningdock)
+"sS" = (
+/obj/effect/turf_decal/tile/ship/purple{
+	dir = 1
+	},
+/obj/structure/closet/crate/bin,
+/turf/open/floor/plasteel/white,
+/area/science/xenobiology)
 "sW" = (
 /obj/structure/ore_box,
 /obj/structure/hull_plate,
@@ -5542,6 +5556,10 @@
 "KM" = (
 /turf/closed/wall/r_wall,
 /area/quartermaster/qm)
+"KO" = (
+/obj/structure/closet/crate/bin,
+/turf/open/floor/plasteel/dark,
+/area/nsv/hanger/notkmcstupidhanger)
 "KS" = (
 /obj/structure/table/wood,
 /obj/item/flashlight/lamp/green,
@@ -5838,6 +5856,8 @@
 "MG" = (
 /obj/structure/closet/secure_closet/miner,
 /obj/structure/hull_plate,
+/obj/item/encryptionkey/pilot,
+/obj/item/encryptionkey/pilot,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "MH" = (
@@ -5904,14 +5924,6 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai)
-"MS" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "QMLoad"
-	},
-/obj/machinery/status_display/supply/north,
-/turf/open/floor/plasteel,
-/area/quartermaster/storage)
 "MU" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/junction,
 /turf/open/floor/plasteel,
@@ -7144,9 +7156,6 @@
 /obj/structure/ladder,
 /turf/open/floor/plating,
 /area/maintenance/aft)
-"Ue" = (
-/turf/closed/wall/r_wall,
-/area/ai_monitored/storage/eva)
 "Uf" = (
 /obj/machinery/airalarm/directional/east,
 /turf/open/floor/plasteel,
@@ -8008,13 +8017,6 @@
 /obj/machinery/power/apc/auto_name/west,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai)
-"YL" = (
-/obj/effect/turf_decal/tile/ship/purple{
-	dir = 1
-	},
-/obj/structure/closet/crate/bin,
-/turf/open/floor/plasteel/white,
-/area/science/xenobiology)
 "YM" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -38660,7 +38662,7 @@ LV
 ZW
 gV
 aM
-YL
+sS
 rm
 aM
 zQ
@@ -44301,7 +44303,7 @@ gm
 Rf
 CP
 gm
-iG
+KO
 vK
 iE
 gm
@@ -49961,10 +49963,10 @@ gq
 Hl
 lE
 yO
-Ue
-Ue
-Ue
-Ue
+nI
+nI
+nI
+nI
 wt
 wt
 wt
@@ -50475,7 +50477,7 @@ gq
 Hl
 IH
 NL
-Ue
+nI
 um
 Bn
 FF
@@ -50989,7 +50991,7 @@ gq
 Hl
 xy
 HW
-Ue
+nI
 kf
 IQ
 Oh
@@ -52019,7 +52021,7 @@ KL
 DV
 hw
 wi
-aH
+oC
 XO
 ZO
 gG
@@ -55605,7 +55607,7 @@ zQ
 lc
 lc
 lc
-MS
+bs
 yr
 DU
 DU
