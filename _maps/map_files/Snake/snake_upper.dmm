@@ -420,8 +420,8 @@
 /turf/open/floor/plasteel,
 /area/security/brig)
 "cY" = (
-/obj/machinery/suit_storage_unit/mining,
 /obj/machinery/light/small,
+/obj/machinery/suit_storage_unit/mining/eva,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningdock)
 "da" = (
@@ -3672,6 +3672,13 @@
 	},
 /turf/open/floor/carpet/red,
 /area/security/detectives_office)
+"zl" = (
+/obj/machinery/light/small{
+	dir = 1
+	},
+/mob/living/simple_animal/slime,
+/turf/open/floor/plasteel,
+/area/science/xenobiology)
 "zq" = (
 /obj/effect/turf_decal/tile/ship/red,
 /obj/item/radio/intercom/directional/south,
@@ -3748,6 +3755,10 @@
 /obj/structure/dresser,
 /turf/open/floor/carpet/royalblack,
 /area/crew_quarters/heads/chief)
+"zL" = (
+/mob/living/simple_animal/slime,
+/turf/open/floor/plasteel,
+/area/science/xenobiology)
 "zN" = (
 /obj/machinery/portable_atmospherics/canister/nitrous_oxide,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
@@ -4592,6 +4603,7 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/machinery/vendor/mining,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningdock)
 "FA" = (
@@ -4947,10 +4959,10 @@
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "HI" = (
-/obj/machinery/suit_storage_unit/mining,
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/machinery/suit_storage_unit/mining/eva,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningdock)
 "HJ" = (
@@ -6929,13 +6941,13 @@
 /turf/open/floor/plating,
 /area/ai_monitored/turret_protected/ai_upload)
 "Tg" = (
-/obj/machinery/suit_storage_unit/mining,
 /obj/machinery/requests_console{
 	department = "Mining Dock";
 	departmentType = 2;
 	name = "Mining Dock RC";
 	pixel_y = -30
 	},
+/obj/machinery/suit_storage_unit/mining/eva,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningdock)
 "Ti" = (
@@ -7367,7 +7379,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
+	req_one_access_txt = "8;29;47;55"
+	},
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/white,
@@ -36762,7 +36776,7 @@ et
 Vr
 aM
 nQ
-Ai
+zL
 WW
 mo
 WW
@@ -37538,7 +37552,7 @@ Wu
 wd
 Wu
 Ai
-Ai
+zL
 aM
 Jk
 TW
@@ -38817,7 +38831,7 @@ qz
 Qx
 Fx
 aM
-nQ
+zl
 Ai
 WW
 cO

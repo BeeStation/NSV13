@@ -11876,6 +11876,9 @@
 /area/maintenance/department/crew_quarters/bar)
 "Te" = (
 /obj/machinery/firealarm/directional/north,
+/obj/machinery/modular_fabricator/exosuit_fab{
+	output_direction = 8
+	},
 /turf/open/floor/plasteel,
 /area/science/robotics)
 "Tg" = (
@@ -12860,23 +12863,17 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering/reactor_control)
 "WI" = (
-/obj/structure/rack,
-/obj/item/powder_bag{
-	pixel_y = -10
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
-/obj/item/powder_bag{
-	pixel_y = -10
+/obj/structure/cable{
+	icon_state = "1-4"
 	},
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
-/turf/open/floor/engine,
-/area/nsv/weapons/fore)
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/obj/structure/closet/secure_closet/engineering_personal,
+/turf/open/floor/plasteel/dark,
+/area/hallway/primary/aft)
 "WJ" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -41822,7 +41819,7 @@ vX
 IW
 ez
 Wr
-xz
+WI
 Nq
 cU
 cU
@@ -65214,7 +65211,7 @@ wY
 ND
 ND
 cl
-WI
+Ja
 Lh
 jb
 jb
@@ -65471,7 +65468,7 @@ lp
 SP
 SP
 VK
-WI
+Ja
 Ja
 hp
 oe
@@ -65728,7 +65725,7 @@ lp
 SP
 SP
 VK
-WI
+Ja
 Ja
 jb
 oe
