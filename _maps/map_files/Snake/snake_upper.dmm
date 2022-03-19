@@ -49,12 +49,8 @@
 /turf/open/floor/plating,
 /area/medical/morgue)
 "aq" = (
-/obj/effect/turf_decal/tile/ship/purple{
-	dir = 1
-	},
-/obj/structure/closet/crate/bin,
-/turf/open/floor/plasteel/white,
-/area/science/xenobiology)
+/turf/closed/wall/r_wall,
+/area/security/nuke_storage)
 "ar" = (
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
 /obj/structure/hull_plate,
@@ -108,6 +104,9 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/apothecary)
+"aH" = (
+/turf/open/floor/plasteel/dark,
+/area/security/nuke_storage)
 "aM" = (
 /turf/closed/wall/r_wall,
 /area/science/xenobiology)
@@ -327,9 +326,6 @@
 /obj/machinery/telecomms/relay/preset/station,
 /turf/open/floor/monotile/dark,
 /area/maintenance/department/engine)
-"cu" = (
-/turf/open/floor/plasteel/dark,
-/area/security/nuke_storage)
 "cv" = (
 /obj/effect/turf_decal/tile/ship/orange{
 	dir = 1
@@ -1271,6 +1267,10 @@
 "iE" = (
 /obj/structure/table/reinforced,
 /obj/machinery/light_switch/south,
+/turf/open/floor/plasteel/dark,
+/area/nsv/hanger/notkmcstupidhanger)
+"iG" = (
+/obj/structure/closet/crate/bin,
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger)
 "iN" = (
@@ -3707,9 +3707,6 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/apothecary)
-"zs" = (
-/turf/closed/wall/r_wall,
-/area/security/nuke_storage)
 "zx" = (
 /obj/machinery/light/small{
 	dir = 4
@@ -5000,10 +4997,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/maintenance/department/engine)
-"HQ" = (
-/obj/structure/closet/crate/bin,
-/turf/open/floor/plasteel/dark,
-/area/nsv/hanger/notkmcstupidhanger)
 "HS" = (
 /obj/machinery/door/window/eastright{
 	dir = 1;
@@ -5911,6 +5904,14 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai)
+"MS" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "QMLoad"
+	},
+/obj/machinery/status_display/supply/north,
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "MU" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/junction,
 /turf/open/floor/plasteel,
@@ -7143,6 +7144,9 @@
 /obj/structure/ladder,
 /turf/open/floor/plating,
 /area/maintenance/aft)
+"Ue" = (
+/turf/closed/wall/r_wall,
+/area/ai_monitored/storage/eva)
 "Uf" = (
 /obj/machinery/airalarm/directional/east,
 /turf/open/floor/plasteel,
@@ -7544,9 +7548,6 @@
 /obj/item/ammo_box/magazine/nsv/light_cannon,
 /turf/open/floor/plating/airless,
 /area/nsv/hanger/notkmcstupidhanger)
-"WF" = (
-/turf/closed/wall/r_wall,
-/area/ai_monitored/storage/eva)
 "WI" = (
 /obj/effect/turf_decal/tile/ship/purple{
 	dir = 1
@@ -8007,6 +8008,13 @@
 /obj/machinery/power/apc/auto_name/west,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai)
+"YL" = (
+/obj/effect/turf_decal/tile/ship/purple{
+	dir = 1
+	},
+/obj/structure/closet/crate/bin,
+/turf/open/floor/plasteel/white,
+/area/science/xenobiology)
 "YM" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -38652,7 +38660,7 @@ LV
 ZW
 gV
 aM
-aq
+YL
 rm
 aM
 zQ
@@ -44293,7 +44301,7 @@ gm
 Rf
 CP
 gm
-HQ
+iG
 vK
 iE
 gm
@@ -49953,10 +49961,10 @@ gq
 Hl
 lE
 yO
-WF
-WF
-WF
-WF
+Ue
+Ue
+Ue
+Ue
 wt
 wt
 wt
@@ -50467,7 +50475,7 @@ gq
 Hl
 IH
 NL
-WF
+Ue
 um
 Bn
 FF
@@ -50981,7 +50989,7 @@ gq
 Hl
 xy
 HW
-WF
+Ue
 kf
 IQ
 Oh
@@ -51495,10 +51503,10 @@ gq
 Hl
 lE
 Wc
-zs
-zs
-zs
-zs
+aq
+aq
+aq
+aq
 ZO
 Ws
 gG
@@ -51752,7 +51760,7 @@ gq
 Hl
 lE
 Wc
-zs
+aq
 gh
 ww
 kI
@@ -52011,7 +52019,7 @@ KL
 DV
 hw
 wi
-cu
+aH
 XO
 ZO
 gG
@@ -52266,7 +52274,7 @@ gq
 Hl
 lE
 Wc
-zs
+aq
 Nd
 pM
 Qy
@@ -52523,10 +52531,10 @@ gq
 Hl
 mV
 MV
-zs
-zs
-zs
-zs
+aq
+aq
+aq
+aq
 ZO
 ZO
 ZO
@@ -55597,7 +55605,7 @@ zQ
 lc
 lc
 lc
-Ei
+MS
 yr
 DU
 DU
