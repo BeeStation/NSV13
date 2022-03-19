@@ -192,14 +192,6 @@
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/closed/wall/r_wall,
 /area/maintenance/central)
-"bs" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "QMLoad"
-	},
-/obj/machinery/status_display/supply/north,
-/turf/open/floor/plasteel,
-/area/quartermaster/storage)
 "bu" = (
 /obj/effect/turf_decal/tile/ship/red{
 	dir = 8
@@ -730,6 +722,9 @@
 /obj/machinery/atmospherics/pipe/simple/multiz,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"eM" = (
+/turf/open/openspace,
+/area/maintenance/aft)
 "eP" = (
 /obj/effect/turf_decal/tile/ship/orange{
 	dir = 1
@@ -963,6 +958,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/structure/disposalpipe/trunk/multiz/down,
 /turf/open/floor/plating,
 /area/maintenance/central)
 "gE" = (
@@ -1072,6 +1068,13 @@
 "hd" = (
 /obj/machinery/atmospherics/components/unary/thermomachine/freezer/on/coldroom,
 /turf/open/floor/plasteel,
+/area/science/xenobiology)
+"he" = (
+/obj/effect/turf_decal/tile/ship/purple{
+	dir = 1
+	},
+/obj/structure/closet/crate/bin,
+/turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "hk" = (
 /turf/open/floor/plasteel,
@@ -1878,6 +1881,22 @@
 /obj/item/banner/cargo,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"mK" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/railing/corner{
+	dir = 1
+	},
+/obj/machinery/firealarm/directional/south,
+/turf/open/floor/plating,
+/area/maintenance/aft)
 "mO" = (
 /turf/closed/wall/r_wall,
 /area/quartermaster/miningdock)
@@ -1987,9 +2006,6 @@
 /obj/machinery/light_switch/north,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/cmo)
-"nI" = (
-/turf/closed/wall/r_wall,
-/area/ai_monitored/storage/eva)
 "nJ" = (
 /obj/machinery/conveyor{
 	dir = 1;
@@ -2126,9 +2142,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
-"oC" = (
-/turf/open/floor/plasteel/dark,
-/area/security/nuke_storage)
 "oD" = (
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel/dark,
@@ -2779,13 +2792,6 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningdock)
-"sS" = (
-/obj/effect/turf_decal/tile/ship/purple{
-	dir = 1
-	},
-/obj/structure/closet/crate/bin,
-/turf/open/floor/plasteel/white,
-/area/science/xenobiology)
 "sW" = (
 /obj/structure/ore_box,
 /obj/structure/hull_plate,
@@ -3822,6 +3828,21 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
+"Ac" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/railing/corner{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/aft)
 "Af" = (
 /turf/closed/wall/steel,
 /area/security/brig)
@@ -3980,6 +4001,20 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/storage/eva)
+"Bo" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/turf/open/floor/plasteel/dark,
+/area/maintenance/aft)
 "Bt" = (
 /obj/item/radio/intercom/directional/west,
 /turf/open/floor/carpet/royalblack,
@@ -4302,6 +4337,10 @@
 /obj/structure/closet/firecloset/full,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
+"Du" = (
+/obj/structure/closet/crate/bin,
+/turf/open/floor/plasteel/dark,
+/area/nsv/hanger/notkmcstupidhanger)
 "Dv" = (
 /obj/machinery/atmospherics/components/trinary/filter{
 	dir = 8
@@ -4577,6 +4616,9 @@
 	},
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
+"Fl" = (
+/turf/open/floor/plasteel/dark,
+/area/security/nuke_storage)
 "Fp" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -4893,6 +4935,9 @@
 /area/crew_quarters/heads/cmo)
 "Hi" = (
 /obj/machinery/airalarm/directional/north,
+/obj/structure/railing{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/aft)
 "Hj" = (
@@ -4974,6 +5019,21 @@
 	},
 /turf/open/floor/plating/airless,
 /area/nsv/hanger/notkmcstupidhanger)
+"HG" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/railing{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/maintenance/aft)
 "HH" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 9
@@ -5367,6 +5427,11 @@
 	dir = 8
 	},
 /area/ai_monitored/storage/eva)
+"JH" = (
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/turf/open/floor/plating,
+/area/maintenance/aft)
 "JJ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -5556,10 +5621,6 @@
 "KM" = (
 /turf/closed/wall/r_wall,
 /area/quartermaster/qm)
-"KO" = (
-/obj/structure/closet/crate/bin,
-/turf/open/floor/plasteel/dark,
-/area/nsv/hanger/notkmcstupidhanger)
 "KS" = (
 /obj/structure/table/wood,
 /obj/item/flashlight/lamp/green,
@@ -5679,6 +5740,14 @@
 /obj/item/stamp/qm,
 /turf/open/floor/plasteel,
 /area/quartermaster/qm)
+"Lz" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "QMLoad"
+	},
+/obj/machinery/status_display/supply/north,
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "LF" = (
 /obj/machinery/computer/security/telescreen/toxins{
 	pixel_x = -32
@@ -6861,6 +6930,15 @@
 /obj/machinery/power/apc/auto_name/west,
 /turf/open/floor/plasteel,
 /area/quartermaster/qm)
+"Sg" = (
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 9
+	},
+/turf/open/floor/plating,
+/area/maintenance/central)
 "Sh" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -7156,6 +7234,9 @@
 /obj/structure/ladder,
 /turf/open/floor/plating,
 /area/maintenance/aft)
+"Uc" = (
+/turf/closed/wall/r_wall,
+/area/ai_monitored/storage/eva)
 "Uf" = (
 /obj/machinery/airalarm/directional/east,
 /turf/open/floor/plasteel,
@@ -34028,7 +34109,7 @@ MO
 UK
 UK
 Hi
-IT
+Ac
 jX
 qz
 qz
@@ -34284,8 +34365,8 @@ PF
 MP
 Kb
 jV
-qz
-IT
+eM
+HG
 aT
 qz
 qz
@@ -34542,7 +34623,7 @@ LJ
 LI
 jV
 qz
-IT
+mK
 aT
 aT
 aT
@@ -35569,8 +35650,8 @@ UK
 UK
 UK
 UK
-qz
-Ww
+JH
+Bo
 aM
 hd
 rO
@@ -38662,7 +38743,7 @@ LV
 ZW
 gV
 aM
-sS
+he
 rm
 aM
 zQ
@@ -43270,7 +43351,7 @@ zQ
 zQ
 Hl
 gz
-sK
+Sg
 sk
 sk
 sk
@@ -44303,7 +44384,7 @@ gm
 Rf
 CP
 gm
-KO
+Du
 vK
 iE
 gm
@@ -49963,10 +50044,10 @@ gq
 Hl
 lE
 yO
-nI
-nI
-nI
-nI
+Uc
+Uc
+Uc
+Uc
 wt
 wt
 wt
@@ -50477,7 +50558,7 @@ gq
 Hl
 IH
 NL
-nI
+Uc
 um
 Bn
 FF
@@ -50991,7 +51072,7 @@ gq
 Hl
 xy
 HW
-nI
+Uc
 kf
 IQ
 Oh
@@ -52021,7 +52102,7 @@ KL
 DV
 hw
 wi
-oC
+Fl
 XO
 ZO
 gG
@@ -55607,7 +55688,7 @@ zQ
 lc
 lc
 lc
-bs
+Lz
 yr
 DU
 DU
