@@ -844,6 +844,7 @@
 /obj/machinery/atmospherics/components/unary/cryo_cell{
 	dir = 1
 	},
+/obj/machinery/airalarm/directional/south,
 /turf/open/floor/plasteel/white,
 /area/medical/genetics/cloning)
 "di" = (
@@ -2463,6 +2464,10 @@
 "jb" = (
 /turf/closed/wall/r_wall,
 /area/nsv/weapons/fore)
+"jd" = (
+/obj/structure/mirror,
+/turf/closed/wall/r_wall,
+/area/medical/genetics/cloning)
 "je" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -2784,9 +2789,12 @@
 /turf/open/floor/plasteel,
 /area/security/brig)
 "ki" = (
-/obj/machinery/airalarm/directional/east,
 /obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 10
+	},
+/obj/structure/sink{
+	dir = 4;
+	pixel_x = 12
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/genetics/cloning)
@@ -3586,6 +3594,7 @@
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 4
 	},
+/obj/item/reagent_containers/spray/cleaner,
 /turf/open/floor/plasteel/white,
 /area/medical/storage)
 "nr" = (
@@ -6682,6 +6691,7 @@
 "zg" = (
 /obj/structure/table,
 /obj/item/storage/box/bodybags,
+/obj/item/reagent_containers/spray/cleaner,
 /turf/open/floor/plasteel/white,
 /area/medical/sleeper)
 "zh" = (
@@ -6944,6 +6954,10 @@
 	},
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 8
+	},
+/obj/structure/sink{
+	dir = 8;
+	pixel_x = -11
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/sleeper)
@@ -7976,6 +7990,10 @@
 	id = "med_blast";
 	name = "Trauma Center Windows";
 	pixel_x = 24
+	},
+/obj/structure/sink{
+	dir = 4;
+	pixel_x = 12
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/sleeper)
@@ -14260,6 +14278,7 @@
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 4
 	},
+/obj/item/reagent_containers/spray/cleaner,
 /turf/open/floor/plasteel/white,
 /area/medical/storage)
 "Zi" = (
@@ -14456,6 +14475,7 @@
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 4
 	},
+/obj/item/reagent_containers/spray/cleaner,
 /turf/open/floor/plasteel/white,
 /area/medical/storage)
 "ZQ" = (
@@ -48030,7 +48050,7 @@ vy
 Kn
 Nu
 Nu
-Nu
+jd
 Nu
 Nu
 aJ
