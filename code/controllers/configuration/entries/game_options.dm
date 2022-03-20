@@ -72,6 +72,8 @@
 
 /datum/config_entry/flag/donator_items 	// do you need to be a donator to use donator items
 
+/datum/config_entry/flag/starmap_persistence_enabled //NSV13 should we enable starmap auto-saving?
+
 /datum/config_entry/number/traitor_scaling_coeff	//how much does the amount of players get divided by to determine traitors
 	config_entry_value = 6
 	integer = FALSE

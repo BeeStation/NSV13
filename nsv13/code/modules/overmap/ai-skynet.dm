@@ -142,10 +142,10 @@ Adding tasks is easy! Just define a datum for it.
 					if(FLEET_TRAIT_DEFENSE)
 						return FALSE //These boss fleets do not move.
 					if(FLEET_TRAIT_NEUTRAL_ZONE) //These fleets live in the neutral zone
-						if(sys.alignment != "unaligned" && sys.alignment != "uncharted")
+						if(sys.alignment != "unaligned" || "uncharted")
 							continue
 					if(FLEET_TRAIT_BORDER_PATROL)
-						if(sys.alignment != alignment)
+						if(sys.owner != alignment)
 							continue
 					if(FLEET_TRAIT_INVASION)
 						if(sys.alignment == alignment)
@@ -172,13 +172,13 @@ Adding tasks is easy! Just define a datum for it.
 				if(FLEET_TRAIT_DEFENSE)
 					return FALSE //These boss fleets do not move.
 				if(FLEET_TRAIT_BORDER_PATROL)
-					if(target.alignment != alignment)
+					if(target.owner != alignment) //Patrol systems we control
 						return FALSE
 				if(FLEET_TRAIT_INVASION)
 					if(target.alignment == alignment)
 						return FALSE
 				if(FLEET_TRAIT_NEUTRAL_ZONE)
-					if(target.alignment == alignment)
+					if(target.owner == alignment) //Can still patrol systems that are occupied
 						return FALSE
 
 		if(world.time < last_encounter_time + combat_move_delay) //So that fleets don't leave mid combat.
@@ -188,15 +188,15 @@ Adding tasks is easy! Just define a datum for it.
 			return FALSE
 
 	current_system.fleets -= src
-	if(current_system.fleets && current_system.fleets.len)
+	if(current_system.fleets?.len)
 		var/datum/fleet/F = pick(current_system.fleets)
 		current_system.alignment = F.alignment
 		current_system.mission_sector = FALSE
 		for(var/datum/fleet/FF in current_system.fleets)
-			if(FF.alignment != initial(current_system.alignment))
+			if(FF.alignment != current_system.owner && !FF.federation_check())
 				current_system.mission_sector = TRUE
 	else
-		current_system.alignment = initial(current_system.alignment)
+		current_system.alignment = current_system.owner
 		current_system.mission_sector = FALSE
 	if(instantiated)//If the fleet was "instantiated", that means it's already been encountered, and we need to track the states of all the ships in it.
 		for(var/obj/structure/overmap/OM in all_ships)
@@ -204,9 +204,11 @@ Adding tasks is easy! Just define a datum for it.
 	target.fleets += src
 	shared_targets = list() // We just got here and don't know where anything is
 	current_system = target
-	if(target.alignment != alignment)
-		current_system.mission_sector = TRUE
-	target.alignment = alignment //We've taken it over.
+	target.alignment = alignment //We're occupying it
+	if(target.fleets?.len)
+		for(var/datum/fleet/F as() in target.fleets)
+			if(alignment != target.owner && !federation_check(target))
+				current_system.mission_sector = TRUE
 	if(!hide_movements && !current_system.hidden)
 		(alignment != "nanotrasen") && mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	for(var/obj/structure/overmap/OM in current_system.system_contents)
@@ -268,10 +270,10 @@ Adding tasks is easy! Just define a datum for it.
 		current_system.alignment = F.alignment
 		current_system.mission_sector = FALSE
 		for(var/datum/fleet/FF in current_system.fleets)
-			if(FF.alignment != initial(current_system.alignment))
+			if(FF.alignment != current_system.owner && !federation_check())
 				current_system.mission_sector = TRUE
 	else
-		current_system.alignment = initial(current_system.alignment)
+		current_system.alignment = current_system.owner
 		current_system.mission_sector = FALSE
 	var/player_caused = FALSE
 	for(var/obj/structure/overmap/OOM in current_system.system_contents)
@@ -615,7 +617,7 @@ Adding tasks is easy! Just define a datum for it.
 			return list(web_sound_url, music_extra_data)
 
 /datum/fleet/proc/encounter(obj/structure/overmap/OM)
-	if(OM.faction == alignment)
+	if(OM.faction == alignment || federation_check(OM))
 		OM.hail(pick(greetings), name)
 	assemble(current_system)
 	if(OM.faction != alignment)
@@ -841,14 +843,6 @@ Adding tasks is easy! Just define a datum for it.
 	size = FLEET_DIFFICULTY_EASY
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
-/datum/fleet/nanotrasen/earth
-	name = "\proper Earth Defense Force"
-	taunts = list("You're foolish to venture this deep into Solgov space! Main batteries stand ready.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "We shall protect our homeland!")
-	size = FLEET_DIFFICULTY_HARD
-	allow_difficulty_scaling = FALSE
-	audio_cues = list()
-	fleet_trait = FLEET_TRAIT_DEFENSE
-
 //Solgov
 
 /datum/fleet/solgov
@@ -857,7 +851,7 @@ Adding tasks is easy! Just define a datum for it.
 	destroyer_types = list(/obj/structure/overmap/nanotrasen/solgov/ai)
 	battleship_types = list(/obj/structure/overmap/nanotrasen/solgov/aetherwhisp/ai)
 	supply_types = list(/obj/structure/overmap/nanotrasen/solgov/carrier/ai)
-	alignment = "nanotrasen"
+	alignment = "solgov"
 	hide_movements = TRUE //They're "friendly" alright....
 	faction_id = FACTION_ID_NT
 	taunts = list("You are encroaching on our airspace, prepare to be destroyed", "You have entered SolGov secure airspace. Prepare to be destroyed", "You are in violation of the SolGov non-aggression agreement. Leave this airspace immediately.")
@@ -865,6 +859,14 @@ Adding tasks is easy! Just define a datum for it.
 	greetings = list("Allied vessel. You will be scanned for compliance with the peacekeeper act in 30 seconds. We thank you for your compliance.")
 	var/scan_delay = 30 SECONDS
 	var/scanning = FALSE
+
+/datum/fleet/solgov/earth
+	name = "\proper Earth Defense Force"
+	taunts = list("You're foolish to venture this deep into Solgov space! Main batteries stand ready.", "All hands, set condition 1 throughout the fleet, enemy vessel approaching.", "Defense force, stand ready!", "We shall protect our homeland!")
+	size = FLEET_DIFFICULTY_HARD
+	allow_difficulty_scaling = FALSE
+	audio_cues = list()
+	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/solgov/assemble(datum/star_system/SS, difficulty)
 	. = ..()
@@ -919,10 +921,10 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/solgov/interdiction/encounter(obj/structure/overmap/OM)
 	// Same as parent but detects if the player ship is hostile and uses different taunts
-	if(OM.faction == alignment)
+	if(OM.faction == alignment || federation_check(OM))
 		OM.hail(pick(greetings), name)
 	assemble(current_system)
-	if(OM.faction != alignment)
+	if(OM.faction != alignment && !federation_check(OM))
 		if(OM.alpha >= 150)
 			if(OM == SSstar_system.find_main_overmap())
 				OM.hail(pick(traitor_taunts), name)
@@ -954,6 +956,27 @@ Adding tasks is easy! Just define a datum for it.
 			hunted_ship = source
 			goal_system = null
 
+/datum/fleet/proc/federation_check(checked = current_system) //Lazy way to check if you're in the federation; for alignments.
+	if(istype(checked, /datum/star_system))
+		var/datum/star_system/S = checked
+		if(S.owner == "solgov" && alignment == "nanotrasen")
+			return TRUE
+		if(S.owner == "nanotrasen" && alignment == "solgov")
+			return TRUE
+	if(istype(checked, /datum/fleet))
+		var/datum/fleet/F = checked
+		if(F.alignment == "solgov" && alignment == "nanotrasen")
+			return TRUE
+		if(F.alignment == "nanotrasen" && alignment == "solgov")
+			return TRUE
+	if(istype(checked, /obj/structure/overmap))
+		var/obj/structure/overmap/O = checked
+		if(O.faction == "solgov" && alignment == "nanotrasen")
+			return TRUE
+		if(O.faction == "nanotrasen" && alignment == "solgov")
+			return TRUE
+	return FALSE
+
 /datum/fleet/New()
 	. = ..()
 	if(allow_difficulty_scaling)
@@ -967,7 +990,7 @@ Adding tasks is easy! Just define a datum for it.
 	reward *= size //Bigger fleet = larger reward
 	if(current_system)
 		current_system.alignment = alignment
-		if(current_system.alignment != initial(current_system.alignment))
+		if(current_system.alignment != current_system.owner && !federation_check())
 			current_system.mission_sector = TRUE
 		assemble(current_system)
 	addtimer(CALLBACK(src, .proc/move), initial_move_delay)
@@ -1008,7 +1031,7 @@ Adding tasks is easy! Just define a datum for it.
 	if(instantiated)
 		return
 	SS.alignment = alignment
-	if(SS.alignment != initial(SS.alignment))
+	if(SS.alignment != SS.owner && !federation_check(SS))
 		SS.mission_sector = TRUE
 	current_system = SS	//It should already have a system but lets be safe and move it.
 	instantiated = TRUE
