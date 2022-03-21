@@ -1,10 +1,12 @@
+//NSV13
+
 import { filter, sortBy } from 'common/collections';
 import { flow } from 'common/fp';
 import { classes } from 'common/react';
 import { createSearch } from 'common/string';
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Button, ByondUi, Input, Section } from '../components';
+import { Button, ByondUi, Input, Section, ProgressBar, LabeledList } from '../components';
 import { Window } from '../layouts';
 
 /**
@@ -55,8 +57,17 @@ export const TorpedoConsole = (props, context) => {
       height={708}>
       <div className="CameraConsole__left">
         <Window.Content scrollable>
-          <CameraConsoleContent />
+          <TorpedoCameraContent />
+          <TorpedoSelectionContent />
         </Window.Content>
+        <Section>
+          <Button
+            icon="circle"
+            content="Launch"
+            disabled={!data.valid_to_fire}
+            color="bad"
+            onClick={() => act('launch')} />
+        </Section>
       </div>
       <div className="CameraConsole__right">
         <div className="CameraConsole__toolbar">
@@ -90,7 +101,7 @@ export const TorpedoConsole = (props, context) => {
   );
 };
 
-export const CameraConsoleContent = (props, context) => {
+export const TorpedoCameraContent = (props, context) => {
   const { act, data } = useBackend(context);
   const [
     searchText,
@@ -100,11 +111,6 @@ export const CameraConsoleContent = (props, context) => {
   const cameras = selectCameras(data.cameras, searchText);
   return (
     <Fragment>
-      <Input
-        fluid
-        mb={1}
-        placeholder="Search for a camera"
-        onInput={(e, value) => setSearchText(value)} />
       <Section>
         {cameras.map(camera => (
           // We're not using the component here because performance
@@ -118,8 +124,8 @@ export const CameraConsoleContent = (props, context) => {
               'Button--color--transparent',
               'Button--ellipsis',
               activeCamera
-                && camera.name === activeCamera.name
-                && 'Button--selected',
+              && camera.name === activeCamera.name
+              && 'Button--selected',
             ])}
             onClick={() => act('switch_camera', {
               name: camera.name,
@@ -128,6 +134,42 @@ export const CameraConsoleContent = (props, context) => {
           </div>
         ))}
       </Section>
+    </Fragment>
+  );
+};
+
+export const TorpedoSelectionContent = (props, context) => {
+  const { act, data } = useBackend(context);
+  const { torpedo_class } = []
+  return (
+    <Fragment>
+      {Object.keys(data.torpedo_class).map(key => {
+        let value = data.torpedo_class[key];
+        return (
+          <Fragment key={key}>
+            {!!value.number && (
+              <Section title={`${value.name}`}>
+                <ProgressBar
+                  value={value.number}
+                  minValue={0}
+                  maxValue={data.max_torps}
+                  ranges={{
+                    good: [0.9, Infinity],
+                    average: [0.25, 0.9],
+                    bad: [-Infinity, 0.25],
+                  }} >
+                </ProgressBar>
+                <Button
+                  icon="square"
+                  color="bad"
+                  onClick={() => act('select', {
+                    selected: value.subclass
+                  })} />
+              </Section>
+            )})
+          </Fragment>
+        )
+      })}
     </Fragment>
   );
 };
