@@ -99,14 +99,25 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/aft)
+"av" = (
+/obj/effect/spawner/lootdrop/techstorage/security,
+/obj/structure/rack,
+/obj/structure/window/reinforced/spawner,
+/obj/structure/window/reinforced/spawner/north,
+/obj/machinery/door/window/eastright{
+	req_one_access_txt = "23;58";
+	name = "Security Tech Storage"
+	},
+/turf/open/floor/carpet/red,
+/area/crew_quarters/heads/hos)
 "aB" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/turf/open/floor/plasteel,
-/area/security/brig)
+/turf/open/floor/carpet/red,
+/area/crew_quarters/heads/hos)
 "aC" = (
 /obj/effect/turf_decal/ship/techfloor,
 /obj/effect/turf_decal/tile/yellow{
@@ -171,6 +182,15 @@
 	},
 /obj/structure/cable{
 	icon_state = "1-4"
+	},
+/obj/effect/turf_decal/tile/ship/red{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/ship/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/red{
+	dir = 8
 	},
 /turf/open/floor/plasteel,
 /area/security/brig)
@@ -329,6 +349,7 @@
 "bX" = (
 /obj/structure/table/wood,
 /obj/item/paper_bin,
+/obj/item/assembly/signaler,
 /turf/open/floor/carpet/orange,
 /area/nsv/crew_quarters/heads/maa)
 "ca" = (
@@ -336,6 +357,7 @@
 /obj/machinery/firealarm/directional/west,
 /obj/item/rcl/pre_loaded,
 /obj/item/paper/monitorkey,
+/obj/item/book/manual/wiki/tcomms,
 /turf/open/floor/carpet/royalblack,
 /area/crew_quarters/heads/chief)
 "cc" = (
@@ -395,6 +417,12 @@
 	},
 /obj/effect/turf_decal/tile/ship/red,
 /obj/machinery/light_switch/south,
+/obj/effect/turf_decal/tile/ship/red{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/ship/red{
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/security/brig)
 "cE" = (
@@ -716,6 +744,14 @@
 /area/nsv/hanger/notkmcstupidhanger)
 "en" = (
 /obj/machinery/airalarm/directional/west,
+/obj/machinery/door/window/eastleft{
+	name = "Medical Tech Storage";
+	req_one_access_txt = "23;40"
+	},
+/obj/effect/spawner/lootdrop/techstorage/medical,
+/obj/structure/rack,
+/obj/structure/window/reinforced/spawner,
+/obj/structure/window/reinforced/spawner/north,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/cmo)
 "et" = (
@@ -1083,6 +1119,17 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/mixing)
+"gO" = (
+/obj/effect/spawner/lootdrop/techstorage/rnd,
+/obj/structure/rack,
+/obj/structure/window/reinforced/spawner/east,
+/obj/structure/window/reinforced/spawner/west,
+/obj/machinery/door/window/southleft{
+	name = "RnD Tech Storage";
+	req_one_access_txt = "23;30"
+	},
+/turf/open/floor/carpet/purple,
+/area/crew_quarters/heads/hor)
 "gQ" = (
 /obj/structure/table/wood,
 /obj/machinery/recharger,
@@ -1146,7 +1193,9 @@
 /turf/open/floor/plating,
 /area/maintenance/central)
 "hd" = (
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on/coldroom,
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on/coldroom{
+	target_temperature = 30
+	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "hk" = (
@@ -1344,6 +1393,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/central)
+"if" = (
+/obj/structure/rack,
+/obj/structure/window/reinforced/spawner/north,
+/obj/effect/spawner/lootdrop/techstorage/engineering,
+/obj/structure/window/reinforced/spawner/west,
+/turf/open/floor/carpet/royalblack,
+/area/crew_quarters/heads/chief)
 "ih" = (
 /obj/machinery/advanced_airlock_controller/directional/north,
 /obj/machinery/atmospherics/components/binary/dp_vent_pump/layer1{
@@ -1471,6 +1527,7 @@
 "jg" = (
 /obj/structure/table/wood,
 /obj/item/paper_bin,
+/obj/item/assembly/signaler,
 /turf/open/floor/carpet/purple,
 /area/crew_quarters/heads/hor)
 "jj" = (
@@ -1495,6 +1552,14 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/department/science)
+"jm" = (
+/obj/structure/rack,
+/obj/item/storage/toolbox/electrical{
+	pixel_x = 1;
+	pixel_y = -1
+	},
+/turf/open/floor/plating,
+/area/space)
 "jo" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
@@ -1627,6 +1692,18 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/central)
+"kt" = (
+/obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/techstorage/RnD_secure,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/ai_monitored/turret_protected/ai_upload)
 "kw" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Engineering External airlock";
@@ -1678,6 +1755,7 @@
 	dir = 1
 	},
 /obj/structure/extinguisher_cabinet/south,
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/plasteel/dark,
 /area/security/nuke_storage)
 "kJ" = (
@@ -1918,6 +1996,7 @@
 	icon_state = "4-8"
 	},
 /obj/structure/grille,
+/obj/structure/window/reinforced/spawner/north,
 /turf/open/floor/plating,
 /area/ai_monitored/turret_protected/ai_upload)
 "mo" = (
@@ -2527,9 +2606,9 @@
 /turf/open/floor/plasteel/white,
 /area/medical/apothecary)
 "pM" = (
-/obj/machinery/firealarm/directional/east,
-/turf/open/floor/plasteel/dark,
-/area/security/nuke_storage)
+/obj/structure/rack,
+/turf/open/floor/carpet/orange,
+/area/nsv/crew_quarters/heads/maa)
 "pN" = (
 /obj/structure/overmap/small_craft/transport/sabre,
 /turf/open/floor/plating/airless,
@@ -2579,6 +2658,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/turf_decal/tile/ship/red{
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/security/brig)
 "qq" = (
@@ -2589,6 +2671,13 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/effect/spawner/lootdrop/techstorage/tcomms,
+/obj/machinery/door/window/westleft{
+	name = "Engineering Tech Storage";
+	req_one_access_txt = "23;56"
+	},
+/obj/structure/window/reinforced/spawner,
+/obj/structure/rack,
 /turf/open/floor/carpet/royalblack,
 /area/crew_quarters/heads/chief)
 "qv" = (
@@ -3049,7 +3138,9 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
-/obj/structure/grille,
+/obj/effect/spawner/lootdrop/techstorage/AI,
+/obj/structure/rack,
+/obj/structure/window/reinforced/spawner/north,
 /turf/open/floor/plating,
 /area/ai_monitored/turret_protected/ai_upload)
 "tf" = (
@@ -3848,6 +3939,20 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"xR" = (
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Secure Tech Storage";
+	req_access_txt = "23;19"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/effect/mapping_helpers/airlock/locked,
+/turf/open/floor/plasteel/dark,
+/area/security/nuke_storage)
 "xV" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -4184,6 +4289,12 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"Al" = (
+/obj/structure/rack,
+/obj/item/airlock_painter,
+/obj/item/analyzer,
+/turf/open/floor/plating,
+/area/space)
 "Ap" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -4821,7 +4932,8 @@
 	dir = 8
 	},
 /obj/machinery/camera/motion{
-	dir = 8
+	dir = 8;
+	c_tag = "secure_tech"
 	},
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai)
@@ -4910,11 +5022,8 @@
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai_upload)
 "EC" = (
-/obj/effect/turf_decal/tile/ship/red{
-	dir = 1
-	},
-/turf/open/floor/plasteel,
-/area/security/brig)
+/turf/open/floor/carpet/red,
+/area/crew_quarters/heads/hos)
 "EG" = (
 /turf/open/floor/monotile/dark,
 /area/maintenance/department/engine)
@@ -5103,6 +5212,22 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/central)
+"FW" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 1
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/obj/effect/turf_decal/tile/ship/red{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/security/brig)
 "FX" = (
 /obj/machinery/requests_console{
 	announcementConsole = 1;
@@ -5354,6 +5479,7 @@
 	name = "CMO Lockdown"
 	},
 /obj/machinery/firealarm/directional/east,
+/obj/item/assembly/signaler,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/cmo)
 "Hz" = (
@@ -5594,6 +5720,19 @@
 	dir = 5
 	},
 /area/ai_monitored/security/armory)
+"IA" = (
+/obj/structure/rack,
+/obj/item/storage/toolbox/electrical{
+	pixel_x = 1;
+	pixel_y = -1
+	},
+/obj/item/multitool,
+/obj/item/clothing/glasses/meson,
+/obj/machinery/light_switch{
+	pixel_y = -28
+	},
+/turf/open/floor/plating,
+/area/space)
 "IC" = (
 /obj/machinery/power/apc/auto_name/south,
 /obj/structure/cable{
@@ -5711,6 +5850,9 @@
 /obj/effect/turf_decal/tile/ship/red,
 /obj/effect/turf_decal/tile/ship/red{
 	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/red{
+	dir = 8
 	},
 /turf/open/floor/plasteel,
 /area/security/brig)
@@ -6010,6 +6152,17 @@
 "KM" = (
 /turf/closed/wall/r_wall,
 /area/quartermaster/qm)
+"KN" = (
+/obj/effect/turf_decal/tile/ship/red{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/ship/red{
+	dir = 8
+	},
+/obj/structure/table,
+/obj/item/analyzer,
+/turf/open/floor/plasteel,
+/area/security/brig)
 "KO" = (
 /turf/closed/wall/r_wall,
 /area/ai_monitored/storage/eva)
@@ -6150,6 +6303,11 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/test_area)
+"LG" = (
+/obj/structure/rack,
+/obj/item/circuitboard/machine/stasis,
+/turf/open/floor/plating,
+/area/space)
 "LH" = (
 /obj/machinery/computer/apc_control,
 /turf/open/floor/carpet/royalblack,
@@ -6301,6 +6459,11 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"Mx" = (
+/obj/structure/rack,
+/obj/item/circuitboard/machine/cell_charger,
+/turf/open/floor/plating,
+/area/space)
 "My" = (
 /obj/structure/extinguisher_cabinet/west,
 /turf/open/floor/plasteel,
@@ -6686,6 +6849,8 @@
 	dir = 4
 	},
 /obj/machinery/airalarm/directional/north,
+/obj/structure/table,
+/obj/item/assembly/signaler,
 /turf/open/floor/plasteel,
 /area/security/brig)
 "NU" = (
@@ -7015,6 +7180,17 @@
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/ai_monitored/turret_protected/ai_upload)
+"PQ" = (
+/obj/structure/rack,
+/obj/item/storage/toolbox/electrical{
+	pixel_x = 1;
+	pixel_y = -1
+	},
+/obj/item/clothing/gloves/color/yellow,
+/obj/item/t_scanner,
+/obj/item/multitool,
+/turf/open/floor/plating,
+/area/space)
 "PT" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -7236,6 +7412,7 @@
 /obj/structure/table/reinforced,
 /obj/item/lighter,
 /obj/item/clothing/glasses/meson,
+/obj/item/assembly/signaler,
 /turf/open/floor/carpet/royalblack,
 /area/crew_quarters/heads/chief)
 "Rp" = (
@@ -8326,6 +8503,11 @@
 /obj/machinery/portable_atmospherics/canister/carbon_dioxide,
 /turf/open/floor/plasteel,
 /area/science/mixing)
+"Xz" = (
+/obj/structure/rack,
+/obj/item/circuitboard/computer/libraryconsole,
+/turf/open/floor/plating,
+/area/space)
 "XA" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -8535,6 +8717,19 @@
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"Yr" = (
+/obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/techstorage/command,
+/obj/machinery/camera/motion{
+	dir = 8;
+	c_tag = "secure_tech"
+	},
+/turf/open/floor/plating,
+/area/ai_monitored/turret_protected/ai_upload)
 "Ys" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -29255,7 +29450,7 @@ bO
 wo
 RV
 Bm
-ec
+if
 qt
 bE
 zK
@@ -49044,8 +49239,8 @@ mi
 NR
 Le
 gQ
+av
 jd
-EC
 cC
 gq
 gq
@@ -49301,8 +49496,8 @@ FX
 xF
 WM
 FQ
-Vs
 aB
+Vs
 aZ
 Jf
 gq
@@ -49558,8 +49753,8 @@ LZ
 OT
 tR
 UJ
+EC
 hL
-wP
 qn
 Wm
 gq
@@ -49816,8 +50011,8 @@ mz
 gW
 gW
 gW
-wP
-uy
+gq
+FW
 un
 gq
 Hl
@@ -50073,7 +50268,7 @@ kM
 Fu
 CX
 gW
-wP
+KN
 cP
 ee
 gq
@@ -50832,10 +51027,10 @@ zQ
 zQ
 zQ
 zQ
-zQ
-zQ
-zQ
-zQ
+IA
+LG
+Al
+PQ
 zQ
 zQ
 gW
@@ -51113,7 +51308,7 @@ um
 Bn
 FF
 wt
-Pw
+gO
 Pw
 Pw
 AF
@@ -51347,9 +51542,9 @@ zQ
 zQ
 zQ
 zQ
+LG
 zQ
-zQ
-zQ
+Xz
 zQ
 yd
 gW
@@ -51604,9 +51799,9 @@ zQ
 zQ
 zQ
 zQ
+Mx
 zQ
-zQ
-zQ
+jm
 zQ
 zQ
 gW
@@ -52655,7 +52850,7 @@ wi
 LX
 XO
 ZO
-gG
+pM
 gG
 gG
 gG
@@ -52909,7 +53104,7 @@ lE
 Wc
 JP
 Nd
-pM
+LX
 Qy
 ZO
 fI
@@ -53166,7 +53361,7 @@ mV
 MV
 JP
 JP
-JP
+xR
 JP
 ZO
 ZO
@@ -53423,8 +53618,8 @@ JJ
 iD
 XN
 tc
-PO
-PO
+kt
+Yr
 PO
 PO
 PO

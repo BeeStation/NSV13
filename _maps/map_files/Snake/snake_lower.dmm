@@ -231,13 +231,14 @@
 /turf/open/floor/carpet/purple,
 /area/crew_quarters/heads/hor)
 "aY" = (
-/obj/machinery/airalarm/directional/north,
 /obj/machinery/button/door{
 	id = "cap";
 	name = "Captain's Blast Doors";
 	pixel_x = 25;
 	pixel_y = 25
 	},
+/obj/structure/table/wood,
+/obj/item/storage/lockbox/medal,
 /turf/open/floor/carpet/royalblue,
 /area/crew_quarters/heads/captain)
 "bb" = (
@@ -770,6 +771,7 @@
 	pixel_x = -4;
 	pixel_y = 4
 	},
+/obj/item/assembly/signaler,
 /turf/open/floor/wood,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -913,6 +915,7 @@
 /obj/structure/table/wood,
 /obj/item/paper_bin,
 /obj/item/stamp/captain,
+/obj/item/assembly/signaler,
 /turf/open/floor/wood,
 /area/crew_quarters/heads/captain)
 "dt" = (
@@ -1325,6 +1328,7 @@
 "eY" = (
 /obj/structure/closet/secure_closet/atmospherics,
 /obj/item/stack/sheet/iron/fifty,
+/obj/item/assembly/signaler,
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "eZ" = (
@@ -3293,6 +3297,7 @@
 	},
 /obj/machinery/power/apc/auto_name/east,
 /obj/machinery/light_switch/north,
+/obj/item/assembly/signaler,
 /turf/open/floor/plasteel,
 /area/engine/storage)
 "my" = (
@@ -4198,6 +4203,7 @@
 /obj/machinery/light/small{
 	dir = 4
 	},
+/obj/item/assembly/signaler,
 /turf/open/floor/plasteel,
 /area/security/brig)
 "pK" = (
@@ -4325,8 +4331,6 @@
 /turf/open/floor/wood,
 /area/bridge/meeting_room)
 "qg" = (
-/obj/structure/table/wood,
-/obj/item/storage/lockbox/medal,
 /turf/open/floor/carpet/royalblue,
 /area/crew_quarters/heads/captain)
 "qh" = (
@@ -4735,6 +4739,9 @@
 	pixel_y = 30
 	},
 /obj/structure/dresser,
+/obj/machinery/keycard_auth{
+	pixel_x = -25
+	},
 /turf/open/floor/carpet/royalblue,
 /area/crew_quarters/heads/captain)
 "sd" = (
@@ -4831,13 +4838,13 @@
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
 "sF" = (
-/obj/machinery/airalarm/directional/north,
 /obj/machinery/button/door{
 	id = "xo";
 	name = "XO's Blast Doors";
 	pixel_x = -25;
 	pixel_y = 25
 	},
+/obj/structure/table/wood,
 /turf/open/floor/carpet/royalblue,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -5155,6 +5162,7 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/item/assembly/signaler,
 /turf/open/floor/plasteel,
 /area/engine/storage)
 "tT" = (
@@ -6155,6 +6163,7 @@
 /obj/effect/turf_decal/tile/ship/red,
 /obj/machinery/firealarm/directional/east,
 /obj/item/radio/intercom/directional/south,
+/obj/item/assembly/signaler,
 /turf/open/floor/plasteel,
 /area/security/brig)
 "xe" = (
@@ -7827,6 +7836,7 @@
 /obj/effect/turf_decal/tile/ship/red{
 	dir = 4
 	},
+/obj/item/assembly/signaler,
 /turf/open/floor/plasteel,
 /area/security/brig)
 "CY" = (
@@ -7908,6 +7918,7 @@
 	pixel_y = 30
 	},
 /obj/structure/dresser,
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/carpet/royalblue,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -8634,9 +8645,7 @@
 /area/engine/atmos)
 "FN" = (
 /obj/structure/closet/secure_closet/captains,
-/obj/machinery/keycard_auth{
-	pixel_x = 25
-	},
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/carpet/royalblue,
 /area/crew_quarters/heads/captain)
 "FO" = (
@@ -8814,6 +8823,8 @@
 "Gv" = (
 /obj/structure/table,
 /obj/item/radio/intercom/directional/north,
+/obj/item/assembly/signaler,
+/obj/item/analyzer,
 /turf/open/floor/plasteel,
 /area/crew_quarters/cryopods)
 "Gw" = (
@@ -9410,6 +9421,7 @@
 	pixel_x = 30
 	},
 /obj/item/storage/belt/utility/full/engi,
+/obj/item/assembly/signaler,
 /turf/open/floor/plasteel,
 /area/engine/storage)
 "It" = (
@@ -9453,6 +9465,7 @@
 /obj/structure/closet/secure_closet/atmospherics,
 /obj/item/stack/sheet/iron/fifty,
 /obj/machinery/airalarm/directional/north,
+/obj/item/assembly/signaler,
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "Ix" = (
@@ -10082,7 +10095,8 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering/reactor_control)
 "KJ" = (
-/obj/structure/table/wood,
+/obj/effect/spawner/lootdrop/techstorage/service,
+/obj/structure/rack,
 /turf/open/floor/carpet/royalblue,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -12186,6 +12200,7 @@
 	network = "tcommsat"
 	},
 /obj/machinery/airalarm/directional/east,
+/obj/item/book/manual/wiki/tcomms,
 /turf/open/floor/plasteel/dark,
 /area/tcommsat/computer)
 "Rz" = (
@@ -59338,7 +59353,7 @@ aJ
 cj
 aJ
 aJ
-hz
+as
 sF
 tJ
 hz
@@ -59595,7 +59610,7 @@ aJ
 cj
 aJ
 aJ
-as
+hz
 KJ
 FA
 LQ
@@ -60623,7 +60638,7 @@ aJ
 cj
 aJ
 aJ
-at
+xg
 qg
 FE
 MD
@@ -60880,7 +60895,7 @@ aJ
 cj
 aJ
 aJ
-xg
+at
 aY
 FW
 xg
