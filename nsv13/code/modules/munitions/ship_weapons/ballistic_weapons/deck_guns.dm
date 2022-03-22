@@ -353,7 +353,7 @@
 	volatility = 3 //DANGEROUSLY VOLATILE. Can send the entire magazine up in smoke.
 
 /obj/item/powder_bag/hungry
-	name = "projectile accelerant" // full name is built in update_name()
+	name = "gunpowder bag" // full name is built in update_name()
 	desc = "You think it would be wise to avoid getting too close to this... thing."
 	icon_state  = "exoticpowder"
 	power = 2
@@ -389,7 +389,7 @@
 		if(46 to 60)
 			prefix = "gluttonized"
 		else
-			prefix = "angered"
+			prefix = "enraged"
 	name = "[prefix] [initial(name)]"
 
 /obj/item/powder_bag/hungry/attackby(obj/item/I, mob/living/user)
@@ -398,14 +398,18 @@
 	if(!istype(user, /mob/living/carbon/human))
 		to_chat(user, "<span class='info'>\The [src] is too lonely to eat right now.</span>")
 		return
+	if(!do_after(user, 7, TRUE, src))
+		return
 	var/datum/reagent/toxin/plasma/plasma = locate() in I.reagents.reagent_list
 	if(plasma)
+		// Too spicy for Mr Bag's taste
 		playsound(loc, 'sound/items/eatfood.ogg', 100, 1)
 		visible_message("<span class='danger'>\The [src] begins to expand!</span>")
 		var/delay = max(50 - plasma.volume, 5)
 		var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
 		addtimer(CALLBACK(VC, /datum/component/volatile/.proc/explode), delay)
 		return
+
 	var/datum/reagent/consumable/nutriment/nutri = locate() in I.reagents.reagent_list
 	if(!nutri)
 		to_chat(user, "<span class='info'>\The [F] is not nutritious enough!</span>")
@@ -414,7 +418,7 @@
 	qdel(I)
 	if(energy >= next_evolve)
 		evolve(user)
-	else if (prob(10))
+	else if (prob(25))
 		new /obj/effect/temp_visual/heart(loc)
 	playsound(loc, 'sound/items/eatfood.ogg', 100, 1)
 
@@ -425,7 +429,7 @@
 	while(is_evolving)
 		sleep(5)
 		if(++failsafecounter > 20)
-			CRASH("Likely caught in an infinite loop due to another runtime.")
+			CRASH("Likely caught in an infinite loop due to a runtime.")
 	is_evolving = TRUE
 	while(energy >= next_evolve)
 		Elevel++
@@ -462,7 +466,7 @@
 	update_name()
 
 	visible_message("<span class='warning'>\The [src] gurgles happily.</span>")
-	new /obj/effect/temp_visual/heart(loc)
+	new /obj/effect/temp_visual/heart(loc) // :)
 	is_evolving = FALSE
 
 
