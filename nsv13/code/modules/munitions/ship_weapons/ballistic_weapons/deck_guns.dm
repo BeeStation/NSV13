@@ -355,33 +355,41 @@
 /obj/item/powder_bag/hungry
 	name = "gunpowder bag" // full name is built in update_name()
 	desc = "You think it would be wise to avoid getting too close to this... thing."
-	icon_state  = "exoticpowder"
+	icon_state  = "hungrypowder"
 	power = 2
 	volatility = 6 // fuck around and find out
 	var/is_evolving = FALSE // async my beloved
 	var/Elevel = 1
 	var/energy = 0
 	var/next_evolve = 20
+	// enraged related variables
+	var/enraged = FALSE
+	var/mob/living/target
+	var/satisfied_until // we don't attack anyone until we've passed this timestamp
+	var/satisfaction_duration = 5 MINUTES
 
 /obj/item/powder_bag/hungry/Initialize()
 	. = ..()
-	update_name()
+	update_state()
 
-/obj/item/powder_bag/hungry/proc/update_name()
+/obj/item/powder_bag/hungry/proc/update_state()
 	var/prefix
 	switch(Elevel)
 		if(0 to 3)
 			prefix = "famished"
 		if(4 to 6)
 			prefix = "ravenous"
+			icon_state = "hungrypowder_wobble"
 		if(7 to 10)
 			prefix = "starving"
 		if(11 to 14)
 			prefix = "malnourished"
+			icon_state = "hungrypowder_fastwobble"
 		if(15 to 18)
 			prefix = "hungry"
 		if(19 to 24)
 			prefix = "peckish"
+			icon_state = "hungrypowder_shake"
 		if(25 to 35)
 			prefix = "well-fed"
 		if(35 to 45)
@@ -390,6 +398,10 @@
 			prefix = "gluttonized"
 		else
 			prefix = "enraged"
+			if(!enraged)
+				enraged = TRUE
+				SpinAnimation(20, 0, pick(0, 1))
+				START_PROCESSING(SSobj, src)
 	name = "[prefix] [initial(name)]"
 
 /obj/item/powder_bag/hungry/attackby(obj/item/I, mob/living/user)
@@ -399,6 +411,9 @@
 		to_chat(user, "<span class='info'>\The [src] is too lonely to eat right now.</span>")
 		return
 	if(!do_after(user, 7, TRUE, src))
+		return
+	if(is_evolving)
+		to_chat(user, "<span class='info'>\The [src] can't eat right now.</span>s")
 		return
 	var/datum/reagent/toxin/plasma/plasma = locate() in I.reagents.reagent_list
 	if(plasma)
@@ -412,7 +427,7 @@
 
 	var/datum/reagent/consumable/nutriment/nutri = locate() in I.reagents.reagent_list
 	if(!nutri)
-		to_chat(user, "<span class='info'>\The [F] is not nutritious enough!</span>")
+		to_chat(user, "<span class='info'>\The [I] is not nutritious enough!</span>")
 		return
 	energy += nutri.volume
 	qdel(I)
@@ -425,50 +440,75 @@
 /obj/item/powder_bag/hungry/proc/evolve(mob/living/feeder)
 	set waitfor = FALSE
 	var/failsafecounter = 0
-	var/feeder_eaten = FALSE
-	while(is_evolving)
-		sleep(5)
-		if(++failsafecounter > 20)
-			CRASH("Likely caught in an infinite loop due to a runtime.")
 	is_evolving = TRUE
 	while(energy >= next_evolve)
 		Elevel++
 		power += 2
 		volatility = power * 2
 		next_evolve = max(round(next_evolve ** 1.1, 1), next_evolve + initial(next_evolve))
-		if(!feeder_eaten && prob(Elevel))
+
+		update_state() // we update state on every iteration so we can't jump over a switch range
+
+		if(feeder && prob(Elevel))
 			visible_message("<span class='warning'>\The [src] twitches violently, snatching [feeder].</span>")
 			sleep(rand(2, 7))
 			var/turf/T = get_turf(src)
 			if(T != loc)
-				visible_message("<span class='warning'>\The [src] breaks out of [loc]!</span>")
 				forceMove(T)
 			for(var/i in 1 to 15)
+				if(feeder.z != z)
+					break
 				step_towards(feeder)
-				if(get_turf(feeder) == loc)
-					visible_message("<span class='danger'>\The [src] wraps around and begins to devour [feeder]. Cute!</span>")
-					feeder.Paralyze(50, TRUE, TRUE)
-					INVOKE_ASYNC(feeder, /mob.proc/emote, "scream")
-					sleep(5)
-					energy = next_evolve * 1.5
-					feeder.gib(TRUE, TRUE, TRUE)
-					feeder_eaten = TRUE
+				if(get_turf(feeder) == loc) // no hiding in closets >:(
+					devour(feeder, 5, FALSE)
+					feeder = null
 					sleep(10)
 				else
 					sleep(1)
-			if(!feeder_eaten) // How could be so naive? There is no escape
+			if(feeder) // How could be so naive? There is no escape
 				playsound(feeder, 'sound/effects/tendril_destroyed.ogg', 100, 0)
 				feeder.gib(TRUE, TRUE, TRUE)
+				feeder = null
 	// update our component
 	var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
 	VC.volatility = volatility
-
-	update_name()
 
 	visible_message("<span class='warning'>\The [src] gurgles happily.</span>")
 	new /obj/effect/temp_visual/heart(loc) // :)
 	is_evolving = FALSE
 
+/// Keep in mind that this is a blocking call by default
+/obj/item/powder_bag/hungry/proc/devour(mob/living/target, consumeTime = 5, checkEvolve = TRUE)
+	visible_message("<span class='danger'>\The [src] wraps around and begins to devour [target]. Cute!</span>")
+	target.Paralyze(consumeTime * 10, TRUE, TRUE)
+	if(target.stat != DEAD)
+		INVOKE_ASYNC(target, /mob.proc/emote, "scream")
+	sleep(consumeTime)
+	energy = next_evolve * 1.5
+	target.gib(TRUE, TRUE, TRUE)
+	if(checkEvolve)
+		evolve()
+
+/obj/item/powder_bag/hungry/process(delta_time)
+	if(satisfied_until > world.time)
+		return
+	if(target)
+		if(target.z != z || get_dist(src, target) > 8)
+			target = null
+	else
+		var/closest_dist = 100
+		for(var/mob/living/L in orange(8, src))
+			var/dist = get_dist(src, L)
+			if(dist < closest_dist || (target.stat == DEAD && L.stat != DEAD)) // Pick the closest ALIVE mob to us, otherwise pick the closest dead one
+				target = L
+				closest_dist = dist
+		if(!target)
+			return
+	if(get_dist(src, target) <= 1)
+		INVOKE_ASYNC(src, .proc/devour, target)
+		satisfied_until = world.time + satisfaction_duration
+	else if(!throwing)
+		throw_at(target, 10, 4, null, FALSE)
 
 /obj/item/ship_weapon/ammunition/naval_artillery //Huh gee this sure looks familiar don't it...
 	name = "\improper FTL-13 Naval Artillery Round"
