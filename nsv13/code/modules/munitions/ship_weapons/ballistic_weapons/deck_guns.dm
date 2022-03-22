@@ -343,7 +343,7 @@
 /obj/item/powder_bag/Initialize()
 	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
-	AddComponent(/datum/component/volatile, volatility)
+	AddComponent(/datum/component/volatile, volatility, TRUE)
 
 /obj/item/powder_bag/plasma
 	name = "plasma-based projectile accelerant"
@@ -352,8 +352,8 @@
 	power = 1
 	volatility = 3 //DANGEROUSLY VOLATILE. Can send the entire magazine up in smoke.
 
-/obj/item/powder_bag/exotic
-	name = "exotic projectile accelerant"
+/obj/item/powder_bag/hungry
+	name = "projectile accelerant" // full name is built in update_name()
 	desc = "You think it would be wise to avoid getting too close to this... thing."
 	icon_state  = "exoticpowder"
 	power = 2
@@ -363,24 +363,65 @@
 	var/energy = 0
 	var/next_evolve = 20
 
-/obj/item/powder_bag/exotic/attackby(obj/item/I, mob/living/user)
+/obj/item/powder_bag/hungry/Initialize()
+	. = ..()
+	update_name()
+
+/obj/item/powder_bag/hungry/proc/update_name()
+	var/prefix
+	switch(Elevel)
+		if(0 to 3)
+			prefix = "famished"
+		if(4 to 6)
+			prefix = "ravenous"
+		if(7 to 10)
+			prefix = "starving"
+		if(11 to 14)
+			prefix = "malnourished"
+		if(15 to 18)
+			prefix = "hungry"
+		if(19 to 24)
+			prefix = "peckish"
+		if(25 to 35)
+			prefix = "well-fed"
+		if(35 to 45)
+			prefix = "stuffed"
+		if(46 to 60)
+			prefix = "gluttonized"
+		else
+			prefix = "angered"
+	name = "[prefix] [initial(name)]"
+
+/obj/item/powder_bag/hungry/attackby(obj/item/I, mob/living/user)
 	if(!istype(I, /obj/item/reagent_containers/food))
 		return ..()
 	if(!istype(user, /mob/living/carbon/human))
-		visible_message("<span class='warning'>\The [src] appears to be too lonely to eat right now.</span>")
+		to_chat(user, "<span class='info'>\The [src] is too lonely to eat right now.</span>")
 		return
-	var/obj/item/reagent_containers/food/F = I
-	var/datum/reagent/consumable/nutriment/nutri = locate() in F.reagents.reagent_list
+	var/datum/reagent/toxin/plasma/plasma = locate() in I.reagents.reagent_list
+	if(plasma)
+		playsound(loc, 'sound/items/eatfood.ogg', 100, 1)
+		visible_message("<span class='danger'>\The [src] begins to expand!</span>")
+		var/delay = max(50 - plasma.volume, 5)
+		var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
+		addtimer(CALLBACK(VC, /datum/component/volatile/.proc/explode), delay)
+		return
+	var/datum/reagent/consumable/nutriment/nutri = locate() in I.reagents.reagent_list
+	if(!nutri)
+		to_chat(user, "<span class='info'>\The [F] is not nutritious enough!</span>")
+		return
 	energy += nutri.volume
+	qdel(I)
 	if(energy >= next_evolve)
 		evolve(user)
 	else if (prob(10))
 		new /obj/effect/temp_visual/heart(loc)
 	playsound(loc, 'sound/items/eatfood.ogg', 100, 1)
 
-/obj/item/powder_bag/exotic/proc/evolve(mob/living/feeder)
+/obj/item/powder_bag/hungry/proc/evolve(mob/living/feeder)
 	set waitfor = FALSE
 	var/failsafecounter = 0
+	var/feeder_eaten = FALSE
 	while(is_evolving)
 		sleep(5)
 		if(++failsafecounter > 20)
@@ -391,10 +432,9 @@
 		power += 2
 		volatility = power * 2
 		next_evolve = max(round(next_evolve ** 1.1, 1), next_evolve + initial(next_evolve))
-		if(!eaten_feeder && prob(Elevel))
+		if(!feeder_eaten && prob(Elevel))
 			visible_message("<span class='warning'>\The [src] twitches violently, snatching [feeder].</span>")
 			sleep(rand(2, 7))
-			var/eaten_feeder = FALSE
 			var/turf/T = get_turf(src)
 			if(T != loc)
 				visible_message("<span class='warning'>\The [src] breaks out of [loc]!</span>")
@@ -402,20 +442,28 @@
 			for(var/i in 1 to 15)
 				step_towards(feeder)
 				if(get_turf(feeder) == loc)
-					visible_message("<span class='danger'>\The [src] wraps around and rapidly devours [feeder]. Cute!</span>")
+					visible_message("<span class='danger'>\The [src] wraps around and begins to devour [feeder]. Cute!</span>")
+					feeder.Paralyze(50, TRUE, TRUE)
+					INVOKE_ASYNC(feeder, /mob.proc/emote, "scream")
+					sleep(5)
 					energy = next_evolve * 1.5
 					feeder.gib(TRUE, TRUE, TRUE)
-					eaten_feeder = TRUE
+					feeder_eaten = TRUE
 					sleep(10)
 				else
 					sleep(1)
-			if(!eaten_feeder) // How could be so naive? There is no escape
+			if(!feeder_eaten) // How could be so naive? There is no escape
 				playsound(feeder, 'sound/effects/tendril_destroyed.ogg', 100, 0)
 				feeder.gib(TRUE, TRUE, TRUE)
+	// update our component
+	var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
+	VC.volatility = volatility
+
+	update_name()
+
 	visible_message("<span class='warning'>\The [src] gurgles happily.</span>")
 	new /obj/effect/temp_visual/heart(loc)
 	is_evolving = FALSE
-
 
 
 /obj/item/ship_weapon/ammunition/naval_artillery //Huh gee this sure looks familiar don't it...
