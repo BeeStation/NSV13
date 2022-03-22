@@ -52,4 +52,4 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 	UnregisterSignal(parent, COMSIG_ATOM_DAMAGE_ACT)
 	UnregisterSignal(parent, COMSIG_ATOM_FIRE_ACT)
 	UnregisterSignal(parent, COMSIG_PARENT_EXAMINE)
-	. = ..()
+	return ..()

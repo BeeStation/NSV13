@@ -352,6 +352,56 @@
 	power = 1
 	volatility = 3 //DANGEROUSLY VOLATILE. Can send the entire magazine up in smoke.
 
+/obj/item/powder_bag/exotic
+	name = "exotic projectile accelerant"
+	desc = "You think it would be wise to avoid getting too close to this..."
+	icon_state  = "exoticpowder"
+	power = 2
+	volatility = 6 // fuck around and find out
+	var/level = 1
+	var/energy = 0
+	var/next_evolve = 20
+
+/obj/item/powder_bag/exotic/attackby(obj/item/I, mob/living/user)
+	if(!istype(I, /obj/item/reagent_containers/food))
+		return ..()
+	if(!istype(user, /mob/living/carbon/human))
+		visible_message("<span class='warning'>\The [src] feels too lonely to grow.</span>")
+		return
+	var/obj/item/reagent_containers/food/F = I
+	var/datum/reagent/consumable/nutriment/nutri = locate() in F.reagents.reagent_list
+	energy += nutri.volume
+	if(energy >= next_evolve)
+		evolve(user)
+	playsound(loc, 'sound/items/eatfood.ogg', 100, 1)
+
+/obj/item/powder_bag/exotic/proc/evolve(mob/living/feeder)
+	set waitfor = FALSE
+	var/eaten_feeder = FALSE
+	while(energy >= next_evolve)
+		level++
+		power += 2
+		volatility = power * 2
+		next_evolve = max(round(next_evolve ** 1.1, 1), next_evolve + initial(next_evolve))
+		if(!eaten_feeder && prob(level))
+			visible_message("<span class='warning'>\The [src] twitches violently, snatching [feeder].</span>")
+			sleep(rand(2, 7))
+			for(var/i in 1 to 10)
+				feeder.step_towards(src)
+				if(feeder.loc == loc)
+					energy = next_evolve * 1.5
+					gib(feeder)
+					eaten_feeder = TRUE
+				else
+					sleep(1)
+			if(!eaten_feeder) // How could be so naive? There is no escape
+				playsound(feeder, 'sound/effects/tendril_destroyed.ogg', 100, 0)
+				gib(feeder)
+	if(!eaten_feeder)
+		visible_message("<span class='warning'>\The [src] gurgles happily.</span>")
+
+
+
 /obj/item/ship_weapon/ammunition/naval_artillery //Huh gee this sure looks familiar don't it...
 	name = "\improper FTL-13 Naval Artillery Round"
 	icon = 'nsv13/icons/obj/munitions.dmi'
