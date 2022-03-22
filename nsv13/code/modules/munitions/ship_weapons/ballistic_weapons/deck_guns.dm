@@ -396,6 +396,7 @@
 			prefix = "stuffed"
 		if(46 to 60)
 			prefix = "gluttonized"
+			icon_state = "hungrypowder_shakeflash"
 		else
 			prefix = "enraged"
 			if(!enraged)
