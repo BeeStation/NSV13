@@ -484,7 +484,7 @@
 				else
 					var/turf/step = get_step_towards(T, FT)
 					Move(step, get_dir(T, step))
-					var/static/list/messagepool = list("HELL", "HI!!", "HENLO!", "PERSON", "YAY", "HUNGRY", "FOOD", "MMMMM", "YES", "PLAY") // (HE IS A VERY GOOD BOY)
+					var/static/list/messagepool = list("HELLO", "HI!!", "HENLO!", "PERSON", "YAY", "HUNGRY", "FOOD", "MMMMM", "YES", "PLAY") // (HE IS A VERY GOOD BOY)
 					say(pick(messagepool))
 					sleep(1)
 			if(feeder) // How could be so naive? There is no escape
