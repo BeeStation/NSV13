@@ -469,8 +469,9 @@
 			var/turf/T = get_turf(src)
 			if(T != loc)
 				forceMove(T)
+			var/dist = rand(3, 5)
 			var/turf/FT
-			for(var/i in 1 to 15)
+			for(var/i in 1 to dist)
 				T = get_turf(src)
 				FT = get_turf(feeder)
 				if(FT.z != z)
@@ -489,7 +490,6 @@
 			if(feeder) // How could be so naive? There is no escape
 				say("SAD")
 				playsound(feeder, 'sound/effects/tendril_destroyed.ogg', 100, 0)
-				feeder.gib(TRUE, TRUE, TRUE)
 				feeder = null
 	// update our component
 	var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
@@ -553,7 +553,7 @@
 		INVOKE_ASYNC(src, .proc/devour, target)
 		satisfied_until = world.time + satisfaction_duration
 	else if(!throwing)
-		throw_at(target, 10, 4)
+		throw_at(target, 10, 2)
 
 /obj/item/powder_bag/hungry/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	if(!enraged)
