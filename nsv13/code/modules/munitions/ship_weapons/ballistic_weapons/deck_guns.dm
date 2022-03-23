@@ -484,8 +484,11 @@
 /// Keep in mind that this is a blocking call by default
 /obj/item/powder_bag/hungry/proc/devour(mob/living/target, consumeTime = 10, checkEvolve = TRUE, growSize = TRUE)
 	devouring = TRUE
+	forceMove(get_turf(target))
 	visible_message("<span class='danger'>\The [src] wraps around and begins to devour [target]. Cute!</span>")
-	target.Paralyze(consumeTime * 10, TRUE, TRUE)
+	target.Stun(100 + consumeTime, TRUE, TRUE)
+	target.notransform = TRUE
+	target.anchored = TRUE
 	if(target.stat != DEAD)
 		INVOKE_ASYNC(target, /mob.proc/emote, "scream")
 	var/segsleep = consumeTime * 0.5
