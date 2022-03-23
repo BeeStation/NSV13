@@ -237,7 +237,7 @@
 			O.forceMove(loc)
 		else
 			qdel(circuit, force)
-	. = ..()
+	return ..()
 
 /obj/machinery/deck_turret/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -249,7 +249,7 @@
 	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))
 		update_icon()
 		return
-	. = ..()
+	return ..()
 
 /obj/machinery/deck_turret/crowbar_act(mob/living/user, obj/item/I)
 	if(default_deconstruction_crowbar(I))
@@ -361,7 +361,7 @@
 	var/is_evolving = FALSE // async my beloved
 	var/Elevel = 1
 	var/energy = 0
-	var/next_evolve = 20
+	var/next_evolve = 15
 	var/devouring = FALSE
 	// enraged related variables
 	var/enraged = FALSE
@@ -409,7 +409,7 @@
 	name = "[prefix] [initial(name)]"
 
 /obj/item/powder_bag/hungry/attackby(obj/item/I, mob/living/user)
-	if(!istype(I, /obj/item/reagent_containers/food))
+	if(!istype(I, /obj/item/reagent_containers/food/snacks))
 		return ..()
 	if(!istype(user, /mob/living/carbon/human))
 		to_chat(user, "<span class='info'>\The [src] is too lonely to eat right now.</span>")
@@ -419,7 +419,9 @@
 	if(is_evolving)
 		to_chat(user, "<span class='info'>\The [src] can't eat right now.</span>s")
 		return
-	var/datum/reagent/toxin/plasma/plasma = locate() in I.reagents.reagent_list
+	var/obj/item/reagent_containers/food/snacks/F = I
+	var/list/food_reagents = F.reagents.reagent_list + F.bonus_reagents
+	var/datum/reagent/toxin/plasma/plasma = locate() in food_reagents
 	if(plasma)
 		// Too spicy for Mr Bag's taste
 		playsound(loc, 'sound/items/eatfood.ogg', 100, 1)
@@ -429,12 +431,13 @@
 		addtimer(CALLBACK(VC, /datum/component/volatile/.proc/explode), delay)
 		return
 
-	var/datum/reagent/consumable/nutriment/nutri = locate() in I.reagents.reagent_list
+	var/datum/reagent/consumable/nutriment/nutri = locate() in food_reagents
 	if(!nutri)
-		to_chat(user, "<span class='info'>\The [I] is not nutritious enough!</span>")
+		to_chat(user, "<span class='info'>\The [F] is not nutritious enough!</span>")
 		return
+	visible_message("<span class='notice'>\The [src] takes a huge bite out of [F]!</span>")
 	energy += nutri.volume
-	qdel(I)
+	qdel(F)
 	if(energy >= next_evolve)
 		evolve(user)
 	else if (prob(25))
@@ -453,21 +456,24 @@
 		update_state() // we update state on every iteration so we can't jump over a switch range
 
 		if(feeder && prob(Elevel / 2))
-			visible_message("<span class='warning'>\The [src] twitches violently, snatching [feeder].</span>")
+			playsound(feeder, 'sound/effects/tendril_destroyed.ogg', 100, 0)
+			visible_message("<span class='danger'>\The [src] twitches violently and begins to rapidly roll towards [feeder].</span>")
 			sleep(rand(2, 7))
 			var/turf/T = get_turf(src)
 			if(T != loc)
 				forceMove(T)
+			var/turf/FT
 			for(var/i in 1 to 15)
-				if(feeder.z != z)
+				FT = get_turf(feeder)
+				if(FT.z != z)
 					break
-				var/turf/step = get_step_towards(src, feeder)
-				Move(step, get_dir(src, step))
-				if(get_turf(feeder) == loc) // no hiding in closets >:(
+				if(get_dist(src, FT) < 2)
 					devour(feeder, 5, FALSE)
 					feeder = null
 					sleep(10)
 				else
+					var/turf/step = get_step_towards(src, FT)
+					Move(step, get_dir(src, step))
 					sleep(1)
 			if(feeder) // How could be so naive? There is no escape
 				playsound(feeder, 'sound/effects/tendril_destroyed.ogg', 100, 0)
@@ -532,6 +538,11 @@
 		satisfied_until = world.time + satisfaction_duration
 	else
 		return ..()
+
+/obj/item/powder_bag/hungry/examine(mob/user)
+	. = ..()
+	if(enraged)
+		. += "<span class='notice'>It appears to be <font color=red><i><b>very</b></i></font> agitated.</span>"
 
 /obj/item/ship_weapon/ammunition/naval_artillery //Huh gee this sure looks familiar don't it...
 	name = "\improper FTL-13 Naval Artillery Round"
