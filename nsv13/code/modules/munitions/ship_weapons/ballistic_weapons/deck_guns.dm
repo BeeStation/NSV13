@@ -429,14 +429,17 @@
 		var/delay = max(50 - plasma.volume, 5)
 		var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
 		addtimer(CALLBACK(VC, /datum/component/volatile/.proc/explode), delay)
+		Shake(10, 10, delay)
 		return
-
-	var/datum/reagent/consumable/nutriment/nutri = locate() in food_reagents
+	var/nutri = 0
+	// loop instead of locate() so we can catch subtypes too
+	for(var/datum/reagent/consumable/nutriment/N in food_reagents)
+		nutri += N.volume
 	if(!nutri)
 		to_chat(user, "<span class='info'>\The [F] is not nutritious enough!</span>")
 		return
 	visible_message("<span class='notice'>\The [src] takes a huge bite out of [F]!</span>")
-	energy += nutri.volume
+	energy += nutri * 2
 	qdel(F)
 	if(energy >= next_evolve)
 		evolve(user)
@@ -457,8 +460,8 @@
 
 		if(feeder && prob(Elevel / 2))
 			playsound(feeder, 'sound/effects/tendril_destroyed.ogg', 100, 0)
-			visible_message("<span class='danger'>\The [src] twitches violently and begins to rapidly roll towards [feeder].</span>")
-			sleep(rand(2, 7))
+			visible_message("<span class='danger'>\The [src] twitches violently as they begin to rapidly roll towards [feeder].</span>")
+			sleep(10)
 			var/turf/T = get_turf(src)
 			if(T != loc)
 				forceMove(T)
@@ -502,10 +505,20 @@
 	say("Nom!")
 	sleep(segsleep)
 	energy = next_evolve * 1.5
+	if(isplasmaman(target))
+		visible_message("<span class='danger'>\The [src] doesn't look very well..</span>")
+		var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
+		addtimer(CALLBACK(VC, /datum/component/volatile/.proc/explode), 20)
+		Shake(10, 10, 20)
+	var/list/inventoryItems = target.get_equipped_items(TRUE)
+	target.unequip_everything()
 	target.gib(TRUE, TRUE, TRUE)
-	devouring = FALSE
+	for(var/atom/movable/AM as() in inventoryItems)
+		var/throwdir = pick(GLOB.alldirs)
+		AM.throw_at(get_step(src, throwdir), rand(1, 3), 2)
 	if(growSize)
 		transform.Scale(1.1)
+	devouring = FALSE
 	if(checkEvolve)
 		evolve()
 
