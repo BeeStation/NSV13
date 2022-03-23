@@ -356,12 +356,13 @@
 	name = "gunpowder bag" // full name is built in update_name()
 	desc = "You think it would be wise to avoid getting too close to this... thing."
 	icon_state  = "hungrypowder"
-	power = 2
-	volatility = 6 // fuck around and find out
+	power = 1
+	volatility = 3
 	var/is_evolving = FALSE // async my beloved
 	var/Elevel = 1
 	var/energy = 0
 	var/next_evolve = 15
+	var/devour_chance = 0 // chance to eat feeder, increases with each evolution level
 	var/devouring = FALSE
 	// enraged related variables
 	var/enraged = FALSE
@@ -374,6 +375,9 @@
 	if(!mapload)
 		playsound(src, 'sound/items/eatfood.ogg', 100, 1)
 	update_state()
+
+	var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
+	VC.explosion_scale = 0.5
 
 /obj/item/powder_bag/hungry/proc/update_state()
 	var/prefix
@@ -416,8 +420,8 @@
 		return
 	if(!do_after(user, 7, TRUE, src))
 		return
-	if(is_evolving)
-		to_chat(user, "<span class='info'>\The [src] can't eat right now.</span>s")
+	if(is_evolving || devouring)
+		to_chat(user, "<span class='info'>\The [src] can't eat right now.</span>")
 		return
 	var/obj/item/reagent_containers/food/snacks/F = I
 	var/list/food_reagents = F.reagents.reagent_list + F.bonus_reagents
@@ -443,8 +447,6 @@
 	qdel(F)
 	if(energy >= next_evolve)
 		evolve(user)
-	else if (prob(25))
-		new /obj/effect/temp_visual/heart(loc)
 	playsound(loc, 'sound/items/eatfood.ogg', 100, 1)
 
 /obj/item/powder_bag/hungry/proc/evolve(mob/living/feeder)
@@ -454,14 +456,16 @@
 		Elevel++
 		power += 2
 		volatility = power * 2
-		next_evolve = max(round(next_evolve ** 1.025, 1), next_evolve + initial(next_evolve))
+		next_evolve = max(round(next_evolve ** 1.015, 1), next_evolve + initial(next_evolve))
 
-		update_state() // we update state on every iteration so we can't jump over a switch range
+		update_state() // we update state on every iteration so we can't jump over any switch ranges
 
-		if(feeder && prob(Elevel / 2))
+		devour_chance++
+		if(feeder && prob(devour_chance))
+			devour_chance = max(devour_chance - 10, 1)
 			playsound(feeder, 'sound/effects/tendril_destroyed.ogg', 100, 0)
-			visible_message("<span class='danger'>\The [src] twitches violently as they begin to rapidly roll towards [feeder].</span>")
-			sleep(10)
+			visible_message("<span class='danger'>\The [src] twitches violently as it begins to rapidly roll towards [feeder]!</span>")
+			sleep(15)
 			var/turf/T = get_turf(src)
 			if(T != loc)
 				forceMove(T)
@@ -474,6 +478,7 @@
 					devour(feeder, 5, FALSE)
 					feeder = null
 					sleep(10)
+					break
 				else
 					var/turf/step = get_step_towards(src, FT)
 					Move(step, get_dir(src, step))
@@ -491,7 +496,7 @@
 	is_evolving = FALSE
 
 /// Keep in mind that this is a blocking call by default
-/obj/item/powder_bag/hungry/proc/devour(mob/living/target, consumeTime = 10, checkEvolve = TRUE, growSize = TRUE)
+/obj/item/powder_bag/hungry/proc/devour(mob/living/target, consumeTime = 20, checkEvolve = TRUE, growSize = TRUE)
 	devouring = TRUE
 	forceMove(get_turf(target))
 	visible_message("<span class='danger'>\The [src] wraps around and begins to devour [target]. Cute!</span>")
@@ -504,7 +509,7 @@
 	sleep(segsleep)
 	say("Nom!")
 	sleep(segsleep)
-	energy = next_evolve * 1.5
+	energy = max((next_evolve - energy) * 2, energy)
 	if(isplasmaman(target))
 		visible_message("<span class='danger'>\The [src] doesn't look very well..</span>")
 		var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
@@ -546,11 +551,13 @@
 		throw_at(target, 10, 4)
 
 /obj/item/powder_bag/hungry/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
-	if(target && hit_atom == target)
+	if(!enraged)
+		return ..()
+	if(target && hit_atom == target && !devouring)
 		INVOKE_ASYNC(src, .proc/devour, target)
 		satisfied_until = world.time + satisfaction_duration
-	else
-		return ..()
+		return
+	return ..()
 
 /obj/item/powder_bag/hungry/examine(mob/user)
 	. = ..()
