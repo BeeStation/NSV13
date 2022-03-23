@@ -354,7 +354,7 @@
 
 /obj/item/powder_bag/hungry
 	name = "gunpowder bag" // full name is built in update_name()
-	desc = "You think it would be wise to avoid getting too close to this... thing."
+	desc = "Cute!"
 	icon_state  = "hungrypowder"
 	power = 1
 	volatility = 3
@@ -465,25 +465,29 @@
 			devour_chance = max(devour_chance - 10, 1)
 			playsound(feeder, 'sound/effects/tendril_destroyed.ogg', 100, 0)
 			visible_message("<span class='danger'>\The [src] twitches violently as it begins to rapidly roll towards [feeder]!</span>")
-			sleep(15)
+			sleep(20)
 			var/turf/T = get_turf(src)
 			if(T != loc)
 				forceMove(T)
 			var/turf/FT
 			for(var/i in 1 to 15)
+				T = get_turf(src)
 				FT = get_turf(feeder)
 				if(FT.z != z)
 					break
-				if(get_dist(src, FT) < 2)
+				if(get_dist(T, FT) < 2)
 					devour(feeder, 5, FALSE)
 					feeder = null
 					sleep(10)
 					break
 				else
-					var/turf/step = get_step_towards(src, FT)
-					Move(step, get_dir(src, step))
+					var/turf/step = get_step_towards(T, FT)
+					Move(step, get_dir(T, step))
+					var/static/list/messagepool = list("HELL", "HI!!", "HENLO!", "PERSON", "YAY", "HUNGRY", "FOOD", "MMMMM", "YES", "PLAY") // (HE IS A VERY GOOD BOY)
+					say(pick(messagepool))
 					sleep(1)
 			if(feeder) // How could be so naive? There is no escape
+				say("SAD")
 				playsound(feeder, 'sound/effects/tendril_destroyed.ogg', 100, 0)
 				feeder.gib(TRUE, TRUE, TRUE)
 				feeder = null
@@ -496,7 +500,7 @@
 	is_evolving = FALSE
 
 /// Keep in mind that this is a blocking call by default
-/obj/item/powder_bag/hungry/proc/devour(mob/living/target, consumeTime = 20, checkEvolve = TRUE, growSize = TRUE)
+/obj/item/powder_bag/hungry/proc/devour(mob/living/target, consumeTime = 26, checkEvolve = TRUE, growSize = TRUE)
 	devouring = TRUE
 	forceMove(get_turf(target))
 	visible_message("<span class='danger'>\The [src] wraps around and begins to devour [target]. Cute!</span>")
@@ -505,9 +509,10 @@
 	target.anchored = TRUE
 	if(target.stat != DEAD)
 		INVOKE_ASYNC(target, /mob.proc/emote, "scream")
+	SpinAnimation(20, 1, pick(0, 1), parallel = FALSE) // he does tricks!
 	var/segsleep = consumeTime * 0.5
 	sleep(segsleep)
-	say("Nom!")
+	say("NOM")
 	sleep(segsleep)
 	energy = max((next_evolve - energy) * 2, energy)
 	if(isplasmaman(target))
