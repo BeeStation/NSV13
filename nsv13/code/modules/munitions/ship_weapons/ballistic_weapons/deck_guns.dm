@@ -340,7 +340,7 @@
 	var/volatility = 1 //Gunpowder is volatile...
 	var/power = 0.5
 
-/obj/item/powder_bag/Initialize()
+/obj/item/powder_bag/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 	AddComponent(/datum/component/volatile, volatility, TRUE)
@@ -362,14 +362,17 @@
 	var/Elevel = 1
 	var/energy = 0
 	var/next_evolve = 20
+	var/devouring = FALSE
 	// enraged related variables
 	var/enraged = FALSE
 	var/mob/living/target
 	var/satisfied_until // we don't attack anyone until we've passed this timestamp
 	var/satisfaction_duration = 5 MINUTES
 
-/obj/item/powder_bag/hungry/Initialize()
+/obj/item/powder_bag/hungry/Initialize(mapload)
 	. = ..()
+	if(!mapload)
+		playsound(src, 'sound/items/eatfood.ogg', 100, 1)
 	update_state()
 
 /obj/item/powder_bag/hungry/proc/update_state()
@@ -380,28 +383,28 @@
 		if(4 to 6)
 			prefix = "ravenous"
 			icon_state = "hungrypowder_wobble"
-		if(7 to 10)
+		if(7 to 9)
 			prefix = "starving"
-		if(11 to 14)
+		if(10 to 12)
 			prefix = "malnourished"
 			icon_state = "hungrypowder_fastwobble"
-		if(15 to 18)
+		if(13 to 15)
 			prefix = "hungry"
-		if(19 to 24)
+		if(16 to 18)
 			prefix = "peckish"
-			icon_state = "hungrypowder_shake"
-		if(25 to 35)
+		if(19 to 21)
 			prefix = "well-fed"
-		if(35 to 45)
+			icon_state = "hungrypowder_shake"
+		if(22 to 24)
 			prefix = "stuffed"
-		if(46 to 60)
+		if(25 to 27)
 			prefix = "gluttonized"
-			icon_state = "hungrypowder_shakeflash"
 		else
 			prefix = "enraged"
+			icon_state = "hungrypowder_shakeflash"
+			SpinAnimation(20, 1, pick(0, 1))
 			if(!enraged)
 				enraged = TRUE
-				SpinAnimation(20, 0, pick(0, 1))
 				START_PROCESSING(SSobj, src)
 	name = "[prefix] [initial(name)]"
 
@@ -440,17 +443,16 @@
 
 /obj/item/powder_bag/hungry/proc/evolve(mob/living/feeder)
 	set waitfor = FALSE
-	var/failsafecounter = 0
 	is_evolving = TRUE
 	while(energy >= next_evolve)
 		Elevel++
 		power += 2
 		volatility = power * 2
-		next_evolve = max(round(next_evolve ** 1.1, 1), next_evolve + initial(next_evolve))
+		next_evolve = max(round(next_evolve ** 1.025, 1), next_evolve + initial(next_evolve))
 
 		update_state() // we update state on every iteration so we can't jump over a switch range
 
-		if(feeder && prob(Elevel))
+		if(feeder && prob(Elevel / 2))
 			visible_message("<span class='warning'>\The [src] twitches violently, snatching [feeder].</span>")
 			sleep(rand(2, 7))
 			var/turf/T = get_turf(src)
@@ -459,7 +461,8 @@
 			for(var/i in 1 to 15)
 				if(feeder.z != z)
 					break
-				step_towards(feeder)
+				var/turf/step = get_step_towards(src, feeder)
+				Move(step, get_dir(src, step))
 				if(get_turf(feeder) == loc) // no hiding in closets >:(
 					devour(feeder, 5, FALSE)
 					feeder = null
@@ -479,19 +482,28 @@
 	is_evolving = FALSE
 
 /// Keep in mind that this is a blocking call by default
-/obj/item/powder_bag/hungry/proc/devour(mob/living/target, consumeTime = 5, checkEvolve = TRUE)
+/obj/item/powder_bag/hungry/proc/devour(mob/living/target, consumeTime = 10, checkEvolve = TRUE, growSize = TRUE)
+	devouring = TRUE
 	visible_message("<span class='danger'>\The [src] wraps around and begins to devour [target]. Cute!</span>")
 	target.Paralyze(consumeTime * 10, TRUE, TRUE)
 	if(target.stat != DEAD)
 		INVOKE_ASYNC(target, /mob.proc/emote, "scream")
-	sleep(consumeTime)
+	var/segsleep = consumeTime * 0.5
+	sleep(segsleep)
+	say("Nom!")
+	sleep(segsleep)
 	energy = next_evolve * 1.5
 	target.gib(TRUE, TRUE, TRUE)
+	devouring = FALSE
+	if(growSize)
+		transform.Scale(1.1)
 	if(checkEvolve)
 		evolve()
 
 /obj/item/powder_bag/hungry/process(delta_time)
-	if(satisfied_until > world.time)
+	if(!enraged)
+		return PROCESS_KILL
+	if(satisfied_until > world.time || devouring)
 		return
 	if(target)
 		if(target.z != z || get_dist(src, target) > 8)
@@ -509,7 +521,14 @@
 		INVOKE_ASYNC(src, .proc/devour, target)
 		satisfied_until = world.time + satisfaction_duration
 	else if(!throwing)
-		throw_at(target, 10, 4, null, FALSE)
+		throw_at(target, 10, 4)
+
+/obj/item/powder_bag/hungry/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+	if(target && hit_atom == target)
+		INVOKE_ASYNC(src, .proc/devour, target)
+		satisfied_until = world.time + satisfaction_duration
+	else
+		return ..()
 
 /obj/item/ship_weapon/ammunition/naval_artillery //Huh gee this sure looks familiar don't it...
 	name = "\improper FTL-13 Naval Artillery Round"
