@@ -124,8 +124,8 @@ GLOBAL_LIST_EMPTY(knpcs)
 
 	if(tries >= max_tries)
 		tries = 0
-		if(last_node?.next) //Skip this one.
-			pathfind_to(last_node.next)
+		if(length(last_node?.next_nodes)) //Skip this one.
+			pathfind_to(pick(last_node.next_nodes))
 		else
 			pathfind_to(null)
 		last_node = null //Reset pathfinding fully.
@@ -575,10 +575,10 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	icon = 'nsv13/icons/effects/mapping_helpers.dmi'
 	icon_state = "patrol_node"
 	var/id = null
-	var/next_id = null //id of the node that this one goes to.
+	var/next_id = null //id of the node that this one goes to. Alternatively, a list of ids which will all be possible next destinations.
 	var/previous_id = null //id of the node that precedes this one
-	var/obj/effect/landmark/patrol_node/next //Refs for the waypoints you set.
-	var/obj/effect/landmark/patrol_node/previous
+	var/obj/effect/landmark/patrol_node/previous //-- This isn't actually used anywhere despite being required for it to not trigger a warning.. ok kmc. - Delta
+	var/list/next_nodes	//List of possible followup nodes set by next_id. If multiple entities exist in the list, one will be chosen at random on every occasion.
 
 /obj/effect/landmark/patrol_node/Initialize()
 	. = ..()
@@ -589,12 +589,20 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	for(var/obj/effect/landmark/patrol_node/node in GLOB.landmarks_list)
 		if(!node.id)
 			continue
-		if(next_id && node.id == next_id)
-			next = node
+		if(next_id)
+			if(islist(next_id))
+				var/list/next_id_list = next_id
+				if(node.id in next_id_list)
+					next_nodes += node
+			else
+				if(node.id == next_id)
+					next_nodes += node
 		if(previous_id && node.id == previous_id)
 			previous = node
-	if(next_id && !next || previous_id && !previous)
-		message_admins("WARNING: Patrol node in [get_area(src)] has a null next / previous node. ")
+	if(next_id && !length(next_nodes))
+		message_admins("WARNING: Patrol node in [get_area(src)] has no next node(s) despite set id(s).")
+	if(previous_id && !previous)
+		message_admins("WARNING: Patrol node in [get_area(src)] has no previous node despite a set id.")
 
 /datum/ai_goal/human/proc/get_next_patrol_node(datum/component/knpc/HA)
 	//Okay, we need to pick a starting point.
@@ -612,7 +620,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		HA.pathfind_to(best)
 		return
 
-	var/obj/effect/landmark/patrol_node/next_node = HA.last_node.next
+	var/obj/effect/landmark/patrol_node/next_node = pick(HA.last_node.next_nodes)
 	if(HA.last_node.z != next_node.z)
 		var/obj/structure/ladder/L = locate(/obj/structure/ladder) in get_turf(HA.last_node)
 		if(!L)
