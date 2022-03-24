@@ -577,7 +577,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	var/id = null
 	var/next_id = null //id of the node that this one goes to. Alternatively, a list of ids which will all be possible next destinations.
 	var/previous_id = null //id of the node that precedes this one
-	var/obj/effect/landmark/patrol_node/previous //-- This isn't actually used anywhere despite being required for it to not trigger a warning.. ok kmc. - Delta
+	var/obj/effect/landmark/patrol_node/previous //-- This isn't actually used anywhere.. - Delta
 	var/list/next_nodes	//List of possible followup nodes set by next_id. If multiple entities exist in the list, one will be chosen at random on every occasion.
 
 /obj/effect/landmark/patrol_node/Initialize()
