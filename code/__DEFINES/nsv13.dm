@@ -79,7 +79,7 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define shares_overmap(A, B) (A.get_overmap() == B.get_overmap())
 #define SHARES_OVERMAP_ALLIED(A,B) (A.get_overmap()?.faction == B.get_overmap()?.faction)
 
-#define YEAR_OFFSET 241
+#define YEAR_OFFSET 240
 
 //Overmap deletion behavior - Occupants are defined as non-simple mobs.
 #define DAMAGE_ALWAYS_DELETES 		0 // Not a real bitflag, just here for readability. If no damage flags are set, damage will delete the overmap immediately regardless of anyone in it
