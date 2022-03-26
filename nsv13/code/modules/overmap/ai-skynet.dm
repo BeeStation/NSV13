@@ -333,7 +333,13 @@ Adding tasks is easy! Just define a datum for it.
 
 	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = console.linked_launcher
 	if ( !launcher.chambered )
-		to_chat(user, "<span class='warning'>[src] has no freight torpedoes loaded!</span>")
+		to_chat(user, "<span class='warning'>[launcher] has no freight torpedoes loaded!</span>")
+		if ( console.linked )
+			try_hail( user, console.linked )
+		return FALSE
+
+	if ( launcher.safety ) //cannot fire with safety on
+		to_chat(user, "<span class='warning'>[launcher] has its safeties on!</span")
 		if ( console.linked )
 			try_hail( user, console.linked )
 		return FALSE
