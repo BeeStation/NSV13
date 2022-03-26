@@ -104,8 +104,28 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 // Stations call this proc, the freight_type datum handles the rest
 // PLEASE do NOT put areas inside freight torps this WILL cause problems!
 /datum/freight_type/single/check_contents( var/datum/freight_type_check )
-	// This datum is the top parent, it is too obtuse to handle any checks
+	// Moved the bulk of check_contents here while making callback to item_specific freight_type checks (blood, credits etc)
+	// just so I don't have to modify 8 versions of this proc each time I touch courier code
+	var/list/prepackagedTargets = get_prepackaged_targets( freight_type_check.container )
+	if ( prepackagedTargets )
+		return prepackagedTargets
+
+	if ( !allow_replacements )
+		return FALSE
+
+	var/list/itemTargets = get_item_targets( freight_type_check )
+	itemTargets = add_inner_contents_as_approved( itemTargets )
+
+	if ( length( itemTargets ) )
+		return itemTargets
+
 	return FALSE
+
+// check_contents calls the subtype of this proc to get specific freight_type item targets
+/datum/freight_type/single/proc/get_item_targets( var/datum/freight_type_check )
+	// Don't use /datum/freight_type/single in your objectives, it's too obtuse! Use a subtype that handles a very specific item
+	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
+	return index.get_amount( item_type, target, TRUE )
 
 /datum/freight_type/single/get_item_name()
 	return item_name

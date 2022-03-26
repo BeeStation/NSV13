@@ -15,7 +15,7 @@
 	selection_weight = 5
 	required_players = 0
 	max_players = 10
-	random_objective_amount = 3
+	random_objective_amount = 12
 
 /datum/overmap_gamemode/courier/New()
 	random_objectives = subtypesof( /datum/overmap_objective/cargo/donation ) + subtypesof( /datum/overmap_objective/cargo/transfer )

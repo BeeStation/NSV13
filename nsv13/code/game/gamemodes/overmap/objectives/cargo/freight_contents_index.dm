@@ -1,6 +1,10 @@
 
 // Stores freight torpedo contents and its prepackaged status data
 
+// Self reminder to uptick this tally every time you looked at this file, seriously considered axing it, but changed your mind because it was too arcane to refactor courier code without this file
+// Apparently they weren't kidding about the ballmer peak
+// ihatethisfile = 2
+
 /datum/freight_contents_index
 	// Keep a total count of the actual type we're checking
 	// atoms_amount = (
