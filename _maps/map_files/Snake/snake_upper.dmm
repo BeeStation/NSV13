@@ -171,6 +171,10 @@
 	dir = 5
 	},
 /obj/machinery/light,
+/obj/machinery/computer/ship/dradis/cargo{
+	dir = 8;
+	dradis_id = "nt_cargo_torpedo_launcher"
+	},
 /turf/open/floor/plasteel,
 /area/maintenance/fore)
 "aZ" = (
@@ -1553,13 +1557,8 @@
 /turf/open/floor/plasteel/dark,
 /area/maintenance/department/science)
 "jm" = (
-/obj/structure/rack,
-/obj/item/storage/toolbox/electrical{
-	pixel_x = 1;
-	pixel_y = -1
-	},
-/turf/open/floor/plating,
-/area/space)
+/turf/closed/wall/r_wall,
+/area/space/nearstation)
 "jo" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 5
@@ -4290,11 +4289,9 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "Al" = (
-/obj/structure/rack,
-/obj/item/airlock_painter,
-/obj/item/analyzer,
-/turf/open/floor/plating,
-/area/space)
+/obj/structure/munitions_trolley,
+/turf/open/floor/plasteel,
+/area/quartermaster/storage)
 "Ap" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
@@ -5721,18 +5718,9 @@
 	},
 /area/ai_monitored/security/armory)
 "IA" = (
-/obj/structure/rack,
-/obj/item/storage/toolbox/electrical{
-	pixel_x = 1;
-	pixel_y = -1
-	},
-/obj/item/multitool,
-/obj/item/clothing/glasses/meson,
-/obj/machinery/light_switch{
-	pixel_y = -28
-	},
+/obj/structure/closet/radiation,
 /turf/open/floor/plating,
-/area/space)
+/area/space/nearstation)
 "IC" = (
 /obj/machinery/power/apc/auto_name/south,
 /obj/structure/cable{
@@ -6304,10 +6292,11 @@
 /turf/open/floor/plasteel,
 /area/science/test_area)
 "LG" = (
-/obj/structure/rack,
-/obj/item/circuitboard/machine/stasis,
-/turf/open/floor/plating,
-/area/space)
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/east{
+	launcher_id = "nt_cargo_torpedo_launcher"
+	},
+/turf/closed/wall/r_wall,
+/area/maintenance/fore)
 "LH" = (
 /obj/machinery/computer/apc_control,
 /turf/open/floor/carpet/royalblack,
@@ -6460,10 +6449,8 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "Mx" = (
-/obj/structure/rack,
-/obj/item/circuitboard/machine/cell_charger,
 /turf/open/floor/plating,
-/area/space)
+/area/space/nearstation)
 "My" = (
 /obj/structure/extinguisher_cabinet/west,
 /turf/open/floor/plasteel,
@@ -7007,7 +6994,8 @@
 	dir = 8
 	},
 /obj/machinery/computer/ship/dradis/cargo{
-	dir = 4
+	dir = 4;
+	dradis_id = "nt_cargo_torpedo_launcher"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
@@ -7181,16 +7169,9 @@
 /turf/open/floor/plating,
 /area/ai_monitored/turret_protected/ai_upload)
 "PQ" = (
-/obj/structure/rack,
-/obj/item/storage/toolbox/electrical{
-	pixel_x = 1;
-	pixel_y = -1
-	},
-/obj/item/clothing/gloves/color/yellow,
-/obj/item/t_scanner,
-/obj/item/multitool,
+/obj/structure/closet/firecloset/full,
 /turf/open/floor/plating,
-/area/space)
+/area/space/nearstation)
 "PT" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -8263,7 +8244,9 @@
 /turf/open/floor/plasteel/dark,
 /area/maintenance/aft)
 "WB" = (
-/obj/machinery/ship_weapon/torpedo_launcher/cargo/east,
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/east{
+	launcher_id = "nt_cargo_torpedo_launcher"
+	},
 /turf/open/floor/plasteel,
 /area/maintenance/fore)
 "WD" = (
@@ -8503,11 +8486,6 @@
 /obj/machinery/portable_atmospherics/canister/carbon_dioxide,
 /turf/open/floor/plasteel,
 /area/science/mixing)
-"Xz" = (
-/obj/structure/rack,
-/obj/item/circuitboard/computer/libraryconsole,
-/turf/open/floor/plating,
-/area/space)
 "XA" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -32531,14 +32509,14 @@ zQ
 zQ
 BN
 BN
-BN
-BN
-BN
-BN
-BN
-BN
-BN
-BN
+Vo
+Vo
+Vo
+Vo
+Vo
+QV
+Vo
+Vo
 Vo
 Vo
 KE
@@ -32788,16 +32766,16 @@ zQ
 zQ
 BN
 BN
-Rm
-Rm
-Rm
-Rm
-Rm
-Rm
-Rm
+Mx
+Mx
+Mx
+Mx
+Mx
+Mx
+IA
 BN
-Vo
-Vo
+BN
+BN
 rb
 BN
 BN
@@ -33045,13 +33023,13 @@ zQ
 zQ
 BN
 BN
-Rm
-Rm
-Rm
-Rm
-Rm
-Rm
-Rm
+PQ
+PQ
+PQ
+IA
+IA
+Mx
+IA
 BN
 gM
 gM
@@ -33302,13 +33280,13 @@ zQ
 zQ
 BN
 BN
-Rm
-Rm
-Rm
-Rm
-Rm
-Rm
-Rm
+jm
+jm
+jm
+jm
+jm
+jm
+jm
 BN
 gM
 gM
@@ -51027,10 +51005,10 @@ zQ
 zQ
 zQ
 zQ
-IA
-LG
-Al
-PQ
+zQ
+zQ
+zQ
+zQ
 zQ
 zQ
 gW
@@ -51542,9 +51520,9 @@ zQ
 zQ
 zQ
 zQ
-LG
 zQ
-Xz
+zQ
+zQ
 zQ
 yd
 gW
@@ -51799,9 +51777,9 @@ zQ
 zQ
 zQ
 zQ
-Mx
 zQ
-jm
+zQ
+zQ
 zQ
 zQ
 gW
@@ -57984,7 +57962,7 @@ Ag
 lc
 Fq
 GD
-Fq
+LG
 Fq
 MG
 ar
@@ -59001,7 +58979,7 @@ zQ
 zQ
 zQ
 lc
-DU
+Al
 DU
 zG
 qG
