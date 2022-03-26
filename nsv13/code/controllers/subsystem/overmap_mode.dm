@@ -28,6 +28,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/combat_delays_reminder = FALSE 				//Does combat in the overmap delay the reminder?
 	var/combat_delay_amount = 0 					//How much the reminder is delayed by combat
 
+	var/announce_delay = 3 MINUTES					//How long do we wait?
 	var/announced_objectives = FALSE 				//Have we announced the objectives yet?
 	var/round_extended = FALSE 						//Has the round already been extended already?
 	var/admin_override = FALSE						//Stops the mission ending
@@ -218,7 +219,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/controller/subsystem/overmap_mode/proc/start_reminder()
 	next_objective_reminder = world.time + mode.objective_reminder_interval
-	addtimer(CALLBACK(src, .proc/announce_objectives), 3 MINUTES)
+	addtimer(CALLBACK(src, .proc/announce_objectives), announce_delay)
 
 /datum/controller/subsystem/overmap_mode/proc/announce_objectives()
  	/*
@@ -310,6 +311,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/list/random_objectives = list()						//The random objectives for the mode - the pool to be chosen from
 	var/random_objective_amount = 0							//How many random objectives we are going to get
 	var/whitelist_only = FALSE								//Can only be selected through map bound whitelists
+	var/debug_mode = FALSE 									//Debug var, for gamemode-specific testing
 
 	//Reminder messages
 	var/reminder_origin = "Naval Command"

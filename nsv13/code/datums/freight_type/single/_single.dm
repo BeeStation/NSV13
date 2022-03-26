@@ -45,11 +45,6 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	// freight_contents_index will pass the item contents in as valid freight
 	var/approve_inner_contents = FALSE
 
-	// Set a target of objects that MUST appear inside an approved item_type. See social_supplies.dm wrapped crates for an example of this
-	// For when you want something to be submitted but don't care what the wildcard is. If you do care what the wildcard is you should write a new freight_type to track this
-	// TODO refactor wildcard inner contents to instead be an object freight_type that checks its loc as part of the check_contents approval process
-	var/require_inner_contents = 0
-
 	// Admin debug var, signals if the last shipment returned TRUE on check_contents
 	var/last_check_contents_success = FALSE
 
@@ -79,16 +74,17 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	// Add wildcard contents from inner object contents found in the loop above.
 	// Otherwise check_cargo in the parent cargo objective thinks these inner wildcard contents are trash
 	var/list/innerContents = list()
-	if ( approve_inner_contents )
-		for ( var/atom/i in itemTargets )
+
+	// Let's only iterate over this list once if we can help it
+	for ( var/atom/i in itemTargets )
+		if ( require_loc )
+			if ( !recursive_loc_check( i, require_loc ) )
+				itemTargets -= i
+				continue
+
+		if ( approve_inner_contents )
 			for ( var/atom/a in i.GetAllContents() )
 				innerContents += a
-
-	if ( require_inner_contents )
-		if ( length( innerContents ) < require_inner_contents + 2 )
-			// We found inner contents that would have been approved, but we want more!
-			// Marks this freight_type as rejected
-			return FALSE
 
 	itemTargets += innerContents
 
@@ -103,20 +99,25 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 // Stations call this proc, the freight_type datum handles the rest
 // PLEASE do NOT put areas inside freight torps this WILL cause problems!
-/datum/freight_type/single/check_contents( var/datum/freight_type_check )
-	// Moved the bulk of check_contents here while making callback to item_specific freight_type checks (blood, credits etc)
+/datum/freight_type/single/check_contents( var/datum/freight_type_check/freight_type_check )
+	message_admins( "check_contents [ADMIN_VV(src)]" )
+	// Moved the bulk of check_contents here while making callback to item-specific freight_type checks (blood, credits etc),
 	// just so I don't have to modify 8 versions of this proc each time I touch courier code
 	var/list/prepackagedTargets = get_prepackaged_targets( freight_type_check.container )
 	if ( prepackagedTargets )
+		last_check_contents_success = TRUE
 		return prepackagedTargets
 
 	if ( !allow_replacements )
 		return FALSE
 
 	var/list/itemTargets = get_item_targets( freight_type_check )
+	message_admins( "length: [length( itemTargets )] [ADMIN_VV(itemTargets)]" )
 	itemTargets = add_inner_contents_as_approved( itemTargets )
+	message_admins( "length: [length( itemTargets )] [ADMIN_VV(itemTargets)]" )
 
 	if ( length( itemTargets ) )
+		last_check_contents_success = TRUE
 		return itemTargets
 
 	return FALSE
@@ -132,9 +133,6 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 /datum/freight_type/single/get_target()
 	return target
-
-/datum/freight_type/single/get_require_inner_contents()
-	return require_inner_contents
 
 /datum/freight_type/single/proc/get_prepackaged_targets( var/obj/container )
 	if ( send_prepackaged_item )

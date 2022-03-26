@@ -13,4 +13,4 @@
 	return index.get_amount( item_type, target, TRUE )
 
 /datum/freight_type/single/object/mineral/get_brief_segment()
-	return "[item_name] ([target] sheet" + (target!=1?"s":"") + ")"
+	return "[item_name] ([target] sheet\s)"

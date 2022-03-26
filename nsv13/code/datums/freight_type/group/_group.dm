@@ -110,13 +110,13 @@
 
 	switch( require )
 		if ( REQUIRE_ALL )
-			info += "<li><p>All in group:</p></li>"
+			info += "<li><span>All in group:</span></li>"
 		if ( REQUIRE_ANY )
-			info += "<li><p>One or more in group:</p></li>"
+			info += "<li><span>One or more in group:</span></li>"
 		if ( REQUIRE_ONE )
-			info += "<li><p>One and only one in group:</p></li>"
+			info += "<li><span>One and only one in group:</span></li>"
 
-	info += "<ul>"
+	info += "<br><ul>"
 
 	for ( var/datum/freight_type/T in freight_types )
 		var/item = T.get_item_name()
@@ -125,19 +125,17 @@
 
 			var/target = T.get_target()
 			if ( target )
-				info += "<span>Quantity: [target] unit[target==1?"":"s"]</span><br>"
-
-			var/inner_target = T.get_require_inner_contents()
-			if ( inner_target )
-				info += "<span>Required inner contents: [inner_target] item[inner_target==1?"":"s"]</span><br>"
+				info += "<span>Quantity: [target] unit\s</span><br>"
 
 		if ( T.send_prepackaged_item )
 			if ( objective.send_to_station_pickup_point )
-				info += "<span>Prepackaged: Freight contents are prepackaged and delivered to [objective.pickup_destination]. Contact the station to receive the package.</span><br>"
-				info += "<span>Pickup system: [objective.pickup_destination.current_system]</span><br>"
+				info += "<span>Prepackaged: Freight contents are prepackaged and delivered to [objective.pickup_destination]. Contact the station to receive the package.</span><br> \
+					<span>Pickup system: [objective.pickup_destination.current_system]</span><br>"
 			else
 				info += "<span>Prepackaged: Freight contents are prepackaged and delivered to your cargo supplypod drop point.</span><br>"
-		info += T.get_supply_request_form_segment()
+		if ( T.require_loc )
+			info += "<span>Special container required: The target item must be delivered inside [T.require_loc_name]. Nested layers of packaging is permitted, as long as [item] can be found inside [T.require_loc_name]. Unsuitable containers will be rejected.</span><br>"
+		info += "[T.get_supply_request_form_segment()]<br>"
 
 	info += "</ul>"
 

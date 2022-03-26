@@ -128,17 +128,14 @@
 
 /datum/overmap_objective/cargo/print_objective_report()
 	var/title = "Secure Supply Request Form: #[GLOB.round_id]-[objective_number]"
-	var/info = ""
-
-	info += "<strong>[title]</strong><br/>"
-	info += "Destination: [destination]<br/>"
-	info += "Destination system: [destination.current_system]<br/>"
-	info += "Shipment name: [crate_name]<br/>"
-	info += "Deliver the following in a freight torpedo:<br/>"
-
-	info += "<ul>"
-	info += freight_type_group.get_supply_request_form_segment()
-	info += "</ul>"
+	var/info = "<strong>[title]</strong><br/> \
+		Destination: [destination]<br/> \
+		Destination system: [destination.current_system]<br/> \
+		Shipment name: [crate_name]<br/> \
+		Deliver the following in a freight torpedo:<br/><br/> \
+		<ul> \
+		[freight_type_group.get_supply_request_form_segment()] \
+		</ul>"
 
 	print_command_report(info, title, FALSE)
 
@@ -147,7 +144,7 @@
 
 /datum/freight_type_check
 	// At the start of a check, the raw container and its contents go here
-	var/obj/container = null
+	var/obj/container
 	var/list/untracked_contents = list()
 
 	// At the end of a check, untracked contents are filtered into approved contents and a global status is set in this datum
@@ -171,7 +168,7 @@
 				allContents += a
 
 		// Start a new freight_type check
-		last_freight_type_check = new /datum/freight_type_check()
+		last_freight_type_check = new()
 		last_freight_type_check.container = shipment
 		last_freight_type_check.untracked_contents = allContents
 		freight_type_group.check_contents( last_freight_type_check )

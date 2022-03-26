@@ -6,4 +6,4 @@
 	)
 
 /datum/freight_type/single/reagent/chemistry/get_supply_request_form_segment()
-	return "<span>permissible containers: spray bottles, beakers, bottles, chemical tanks</span><br>"
+	return "<span>Permissible reagent containers: spray bottles, beakers, bottles, chemical tanks</span><br>"

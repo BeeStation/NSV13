@@ -434,30 +434,20 @@ Adding tasks is easy! Just define a datum for it.
 /obj/structure/overmap/proc/make_paperwork( var/datum/freight_delivery_receipt/receipt, var/approval )
 	// Cargo DRADIS automatically synthesizes and attaches the requisition form to the cargo torp
 	var/obj/item/paper/paper = new /obj/item/paper()
-	paper.info = ""
-
-	paper.info += "<h2>[receipt.vessel] Shipping Manifest</h2>"
-	paper.info += "<hr/>"
-
+	paper.info = "<h2>[receipt.vessel] Shipping Manifest</h2><hr/>"
 
 	if ( length( receipt.completed_objectives ) == 1 )
 		var/datum/overmap_objective/cargo/objective = receipt.completed_objectives[ 1 ]
-		paper.info += ( "Order: #[GLOB.round_id]-[objective.objective_number]<br/>" )
+		paper.info += "Order: #[GLOB.round_id]-[objective.objective_number]<br/> \
+			Destination: [src]<br/> \
+			Item: [objective.crate_name]<br/>"
 	else
-		paper.info += ( "Order: N/A<br/>" )
+		paper.info += "Order: N/A<br/> \
+			Destination: [src]<br/> \
+			Item: Unregistered Shipment<br/>"
 
-	paper.info += "Destination: [src]<br/>"
+	paper.info += "Contents:<br/><ul>"
 
-	if ( length( receipt.completed_objectives ) > 1 ) // If receipt has an attach objective which marks it as completed
-		paper.info += ( "Item: Assorted Shipment<br/>" )
-	else if ( length( receipt.completed_objectives ) == 1 )
-		var/datum/overmap_objective/cargo/objective = receipt.completed_objectives[ 1 ]
-		paper.info += ( "Item: [objective.crate_name]<br/>" )
-	else
-		paper.info += ( "Item: Unregistered Shipment<br/>" )
-	paper.info += "Contents:<br/>"
-
-	paper.info += "<ul>"
 	if ( istype( receipt.shipment, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
 		var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = receipt.shipment
 
@@ -468,9 +458,8 @@ Adding tasks is easy! Just define a datum for it.
 				paper.info += "<li>[item]</li>"
 	else
 		paper.info += "<li>miscellaneous unpackaged objects</li>"
-	paper.info += "</ul>"
 
-	paper.info += "<h4>Stamp below to confirm receipt of goods:</h4>"
+	paper.info += "</ul><h4>Stamp below to confirm receipt of goods:</h4>"
 
 	paper.stamped = list()
 	paper.stamps = list()
@@ -565,6 +554,10 @@ Adding tasks is easy! Just define a datum for it.
 	receipt.vessel = console.linked
 	receipt.shipment = shipment
 	receipts += receipt
+
+	if ( SSovermap_mode.mode.debug_mode )
+		speed_cargo_check = 1 SECONDS
+		speed_cargo_return = 1 SECONDS
 
 	to_chat(user, "<span class='notice'>The cargo has been sent to [src] and should be received shortly.</span>")
 	addtimer(CALLBACK(src, .proc/check_objectives, receipt), speed_cargo_check)

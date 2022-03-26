@@ -30,18 +30,18 @@
 	// Setup presents
 	var/datum/freight_type/single/object/individually_wrapped_presents = new /datum/freight_type/single/object( /obj )
 	individually_wrapped_presents.target = 3
-	individually_wrapped_presents.item_name = "3 individually wrapped parcels"
+	individually_wrapped_presents.item_name = "any item"
 	individually_wrapped_presents.approve_inner_contents = TRUE
 	individually_wrapped_presents.require_loc = /obj/item/smallDelivery
+	individually_wrapped_presents.require_loc_name = "a wrapped parcel"
 
 	var/datum/freight_type/single/object/crate_with_presents = new /datum/freight_type/single/object( /obj )
-	// proc check_contents matches the freight_type's target item
-	// For this reason the target should be the number of wrapped crates (1), NOT the number of extra presents inside the crate
 	crate_with_presents.target = 3
-	crate_with_presents.item_name = "3 items inside a wrapped crate"
+	crate_with_presents.item_name = "any item"
 	crate_with_presents.approve_inner_contents = TRUE
-	// Special snowflake var because otherwise you and I both know players would start submitting empty wrapped crates :)
 	crate_with_presents.require_loc = /obj/structure/bigDelivery
+	crate_with_presents.require_loc_name = "a wrapped crate"
+	// I hate social supplies I hate social supplies
 
 	freight_type_group = new( list(
 		cake,

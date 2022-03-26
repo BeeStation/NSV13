@@ -4,4 +4,4 @@
 	)
 
 /datum/freight_type/single/reagent/drinks/get_supply_request_form_segment()
-	return "<span>permissible containers: drinking glass, glass bottle</span><br>"
+	return "<span>Permissible reagent containers: drinking glass, glass bottle</span><br>"

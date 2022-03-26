@@ -16,13 +16,18 @@
 	var/send_prepackaged_item = FALSE
 	var/list/prepackaged_items = list()
 
+	// The superior version of require_inner_contents
+	// Setting this to a typepath will require all items checked to reside inside this loc object before approving
+	var/require_loc
+
+	// Set the loc name to update the briefing description
+	var/require_loc_name
+
 /datum/freight_type/proc/check_contents()
 
 /datum/freight_type/proc/get_item_name()
 
 /datum/freight_type/proc/get_target()
-
-/datum/freight_type/proc/get_require_inner_contents()
 
 /datum/freight_type/proc/deliver_package()
 

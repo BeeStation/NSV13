@@ -15,7 +15,21 @@
 	selection_weight = 5
 	required_players = 0
 	max_players = 10
-	random_objective_amount = 12
+	random_objective_amount = 3
+
+	debug_mode = TRUE
 
 /datum/overmap_gamemode/courier/New()
 	random_objectives = subtypesof( /datum/overmap_objective/cargo/donation ) + subtypesof( /datum/overmap_objective/cargo/transfer )
+
+	if ( debug_mode ) // I upend your code for my personal pleasure
+		random_objective_amount = length( random_objectives )
+
+		// selection_weight = INFINITY
+		selection_weight = 999
+		SSovermap_mode.announce_delay = 3 SECONDS
+
+		for( var/obj/machinery/computer/ship/dradis/dradis in GLOB.machines )
+			dradis.hail_range = 500
+
+		message_admins( "Courier gamemode DEBUG is enabled for testing. If this is on the production server, un-testmerge the last branch that touched courier code immediately!" )

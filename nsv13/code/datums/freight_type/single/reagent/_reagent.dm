@@ -35,7 +35,7 @@
 	return index.get_amount( reagent_type, target, TRUE )
 
 /datum/freight_type/single/reagent/get_brief_segment()
-	return "[item_name ? item_name : reagent_type] ([target] unit" + (target!=1?"s":"") + ")"
+	return "[item_name ? item_name : reagent_type] ([target] unit\s)"
 
 /datum/freight_type/single/reagent/get_supply_request_form_segment()
-	return "<span>permissible containers: most reagent containers</span><br>"
+	return "<span>Permissible reagent containers: most reagent containers</span><br>"
