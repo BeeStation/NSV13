@@ -1,5 +1,5 @@
 //Here we define what an overmap object torpdeo is
-/obj/structure/overmap/torpdeo
+/obj/structure/overmap/torpedo
 	name = "Fly-by-Wire Torpedo" //This should be inherited from the actual type of torpedo fired
 	desc = "A player guided torpedo" //Ditto
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
@@ -7,14 +7,18 @@
 	sprite_size = 32
 	pixel_collision_size_x = 32
 	pixel_collision_size_y = 32
+	var/arm_timer = null //Check for if we arm yet
+	density = FALSE //Not true until it arms
 
 	//IFF
 	faction = "nanotrasen" //Dittto
 
 	//Fuel Stats
-	var/max_fuel = 10 SECONDS // The fuel load of our torpedo
-	var/current_fuel = 10 SECONDS //How much burn time we have left
+	var/fuel = 10 SECONDS // The fuel load of our torpedo
+	var/fuel_cutout = null //When the torp will no longer be controllable
 	var/additional_life_time = 10 SECONDS //Timer before torpedo auto detonates after fuel depletion
+	var/life_time_cutout = null //<insert mass effect scene here>
+	var/can_control = TRUE
 
 	//Defensive Stats
 	armor = list("overmap_light" = 10, "overmap_medium" = 50, "overmap_heavy" = 95)
@@ -23,10 +27,11 @@
 	integrity_failure = 100
 
 	//Offensive Stats
-	var/obj/item/ship_weapon/ammunition/torpedo/warhead //This is where we retieve a lot of our data from
+	var/obj/item/projectile/guided_munition/torpedo/warhead //This is where we retieve a lot of our data from
 	var/obj/item/projectile/bullet/delayed_prime/relayed_projectile
 	var/obj/effect/temp_visual/detonation
 	var/damage_amount
+	var/damage_type
 	var/damage_penetration
 	var/damage_flag
 
@@ -46,26 +51,13 @@
 	var/obj/machinery/camera/builtInCamera = null
 	var/obj/structure/overmap/OM = null //Our source
 
-/obj/structure/overmap/torpdeo/Initialize() //Get all the stats at some point
+/obj/structure/overmap/torpedo/Initialize()
 	//something something feed our overmap in here for the reference
 
-	builtInCamera = new /obj/machinery/camera(src)
-	builtInCamera.c_tag = "Torpedo #[rand(0,999)]" //Lift the name of the torpdeo here
-	builtInCamera.network = list("[REF(OM)]") //Network is going to have to be the name of the parent overmap
-	builtInCamera.internal_light = FALSE
+	arm_timer = world.time
+	fuel_cutout = world.time + fuel
+	life_time_cutout = world.time + fuel + additional_life_time
 
-/*
-	if(warhead)
-		name = warhead.projectile_type.name
-		desc = warhead.desc
-		icon_state = warhead.projectile_type.icon_state
-		damage_amount = warhead.projectile_type.damage
-		damage_penetration = warhead.projectile_type.armour_penetration
-		damage_flag = warhead.projectile_type.flag
-		relayed_projectile = warhead.projectile_type.relay_projectile_type
-		detonation = warhead.projectile_type.impact_effect_type
-
-*/
 //Its various properties
 //Does this need to operate on a camera network?
 //How we tag it with a recogniseable "camera" when launched
@@ -84,11 +76,65 @@
 //would that be bad practice to jam it in there?
 //or do i put it inside tac consoles?
 
+/obj/structure/overmap/torpedo/proc/install_camera()
+	builtInCamera = new /obj/machinery/camera(src)
+	builtInCamera.c_tag = "Torpedo #[rand(0,999)]" //Lift the name of the torpdeo here
+	builtInCamera.network = list("[REF(OM)]") //Network is going to have to be the name of the parent overmap
+	builtInCamera.internal_light = FALSE
+
+/obj/structure/overmap/torpedo/process()
+	. = ..()
+	
+	if(!density) //If we aren't armed, we should arm
+		if(arm_timer >= world.time + 2 SECONDS)
+			density = TRUE
+
+	if(can_control)
+		if(world.time >= fuel_cutout)
+			can_control = FALSE
+	
+	if(world.time >= life_time_cutout)
+		new detonation(src)
+		qdel(src)
+
+/obj/structure/overmap/torpedo/Bump(atom/A)
+	.=..()
+	if(istype(A, /obj/structure/overmap)) //Are we hitting an overmap entity rather than a projectile?
+		var/obj/structure/overmap/O = A
+		if(O.faction) //We really need better faction handling code
+			O.relay('sound/effects/clang.ogg')
+			O.shake_everyone(10)
+			qdel(src)
+		
+		else
+			if(O.use_armour_quadrants) //tl;dr is this a big ship?
+				var/impact_quadrant = null
+				var/impact_angle = SIMPLIFY_DEGREES(Get_Angle(src, O) - O.angle) //On which quadrent did we strike them?
+				switch(impact_angle)
+					if(0 to 89)
+						impact_quadrant = ARMOUR_FORWARD_PORT
+					if(90 to 179)
+						impact_quadrant = ARMOUR_AFT_PORT
+					if(180 to 269)
+						impact_quadrant = ARMOUR_AFT_STARBOARD
+					if(270 to 360)
+						impact_quadrant = ARMOUR_FORWARD_STARBOARD
+				
+				O.take_quadrant_hit(run_obj_armor(damage_amount, damage_type, damage_flag, null, damage_penetration), impact_quadrant)
+
+			else
+				O.take_damage(damage_amount, damage_type, damage_flag) //This proc should probably have an armour check
+
+			O.relay_damage(relayed_projectile)
+			new detonation(src)
+			qdel(src)
+
+
 /obj/machinery/computer/ship/torpedo
 	name = "Seegson model TRP torpdeo control console"
 	desc = "If you can see this, please report it"
 	icon_screen = "tactical"
-	//circuit =
+	circuit = /obj/item/circuitboard/computer/ship/torpedo_console
 
 	var/list/network = list()
 	var/obj/machinery/camera/active_camera
@@ -104,7 +150,6 @@
 	//Torpdeo Stuff
 	var/list/silos = list()
 	var/list/munitions = list()
-	var/list/subclasses = list()
 
 	var/selected_subclass = null //Which type of torp we want to fire
 	var/valid_to_fire = FALSE
@@ -114,9 +159,6 @@
 
 	linked = get_overmap()
 	network = list("[REF(linked)]")
-
-	for(var/obj/item/ship_weapon/ammunition/torpedo/T in typesof(/obj/item/ship_weapon/ammunition/torpedo))
-		subclasses += T
 
 	map_name = "camera_console_[REF(src)]_map"
 	for(var/i in network)
@@ -156,12 +198,6 @@
 				if(W.state == STATE_CHAMBERED && W.safety == FALSE && W.maint_state == MSTATE_CLOSED && W.malfunction == FALSE) //Basically - is it ready to fire?
 					munitions += W.ammo
 
-/obj/machinery/computer/ship/torpedo/proc/attempt_torpedo_launch()
-	if(locate(selected_subclass) in munitions) //Do we even have the subclass?
-
-	else
-		valid_to_fire = FALSE
-
 /obj/machinery/computer/ship/torpedo/proc/launch_torpedo()
 	var/list/launch_candidate = list()
 	for(var/obj/item/ship_weapon/ammunition/torpedo/T in munitions)
@@ -171,14 +207,38 @@
 	var/obj/item/ship_weapon/ammunition/torpedo/ST = pick(launch_candidate)
 	
 	if(!istype(linked, /obj/structure/overmap/small_craft)) //If not a small ship, we do the silo effects
-		//Make launch noise from silo and hatch
-		//Flip hatch open
-		//Smoke up that silo
-		//Heat air slightly?
+		var/LP = ST.loc
+		if(istype(LP, /obj/machinery/ship_weapon/wgt))
+			var/obj/machinery/ship_weapon/wgt/S = LP
+			S.simulate_launch()
 
-		return //compile thanks
-//		if(istype(ST.loc), /obj/machinery/ship_weapon/wgt)//Hot garbage, rethink this
+	//Spawn the overmap torp
+	//Delete the item torp
+	//Pin the camera to the UI
+	//Control it somehow
 
+	var/obj/structure/overmap/torpedo/OMT = new(linked.loc)
+
+	//Assign properties
+	OMT.OM = linked
+	OMT.angle = linked.angle
+	OMT.faction = linked.faction
+	OMT.warhead = ST.projectile_type
+	var/obj/item/projectile/guided_munition/torpedo/PT = new OMT.warhead()
+	OMT.name = PT.name //<- runtime here, we can't read the info off that warhead
+	OMT.icon_state = PT.icon_state
+	OMT.damage_amount = PT.damage
+	OMT.damage_type = PT.damage_type
+	OMT.damage_penetration = PT.armour_penetration
+	OMT.damage_flag = PT.flag
+	OMT.relayed_projectile = PT.relay_projectile_type
+	OMT.detonation = PT.impact_effect_type
+
+	OMT.install_camera()
+
+	qdel(ST) //Don't need this anymore
+	qdel(PT) //Whereever this is
+	update_munitions()
 
 /obj/machinery/computer/ship/torpedo/Destroy()
     qdel(cam_screen)
@@ -190,17 +250,18 @@
     return GLOB.default_state
 
 /obj/machinery/computer/ship/torpedo/ui_interact(mob/user, datum/tgui/ui)
-    ui = SStgui.try_update_ui(user, src, ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 
-    update_active_camera_screen()
+	update_active_camera_screen()
+	update_munitions()
 
-    if(!ui)
-        user.client.register_map_obj(cam_screen)
-        user.client.register_map_obj(cam_plane_master)
-        user.client.register_map_obj(cam_background)
-        ui = new(user, src, "TorpedoConsole")
-        ui.open()
-        ui.set_autoupdate(TRUE)
+	if(!ui)
+		user.client.register_map_obj(cam_screen)
+		user.client.register_map_obj(cam_plane_master)
+		user.client.register_map_obj(cam_background)
+		ui = new(user, src, "TorpedoConsole")
+		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/torpedo/ui_data()
 	var/list/data = list()
@@ -212,43 +273,40 @@
 			name = active_camera.c_tag,
 			status = active_camera.status,
 		)
-	//Torpdeo Stuff
+	
+	//Torpdeo Stuff - Iterative Too Hard, Please Send Help - Insert Lazy Mode Here
+	var/TN = 0
+	var/TS = 0
+	var/TD = 0
+	var/TH = 0
+	for(var/obj/item/ship_weapon/ammunition/torpedo/T in munitions)
+		if(istype(T, /obj/item/ship_weapon/ammunition/torpedo/hull_shredder))
+			TS ++
+		else if(istype(T, /obj/item/ship_weapon/ammunition/torpedo/decoy))
+			TD ++
+		else if(istype(T, /obj/item/ship_weapon/ammunition/torpedo/hellfire))
+			TH ++
+		else if(istype(T, /obj/item/ship_weapon/ammunition/torpedo))
+			TN ++
 
-/*
-	var/org_num = 0
-	for(var/obj/item/ship_weapon/ammunition/torpedo/T in subclasses)
-		var/static/list/tclass = list("T")
-		var/static/list/torps = typecache_filter_list(munitions, tclass)
-		data["torpedo_class_[org_num]"] = length(torps)
-		org_num ++
-*/
-
-	data["torpedo_class"] = list()
-	for(var/obj/item/ship_weapon/ammunition/torpedo/T in subclasses)
-		var/list/tclass = list("T")
-		var/list/torps = typecache_filter_list(munitions, tclass)
-		data["torpedo_class"] += list(list(
-			"name" = T.name,
-			"number" = length(torps),
-			"subclass" = T
-		))
-
-	data["max_torps"] = silos
-	data["valid_to_fire"] = valid_to_fire
+	data["torpedo_amount_normal"] = TN
+	data["torpedo_amount_shredder"] = TS
+	data["torpedo_amount_decoy"] = TD
+	data["torpedo_amount_hellfire"] = TH
 	return data
 
 /obj/machinery/computer/ship/torpedo/ui_static_data()
-    var/list/data = list()
-    data["mapRef"] = map_name
-    var/list/cameras = get_available_cameras()
-    data["cameras"] = list()
-    for(var/i in cameras)
-        var/obj/machinery/camera/C = cameras[i]
-        data["cameras"] += list(list(
-            name = C.c_tag,
-        ))
+	var/list/data = list()
+	data["mapRef"] = map_name
+	var/list/cameras = get_available_cameras()
+	data["cameras"] = list()
+	for(var/i in cameras)
+		var/obj/machinery/camera/C = cameras[i]
+		data["cameras"] += list(list(
+			name = C.c_tag,
+		))
 
-    return data
+	return data
 
 /obj/machinery/computer/ship/torpedo/ui_act(action, params)
 	. = ..()
@@ -256,11 +314,42 @@
 		return
 
 	switch(action)
-		if("select")
-			var/selected_torpedo_type = params["selected"]
+		if("select_normal")
+			selected_subclass = /obj/item/ship_weapon/ammunition/torpedo
+			if(locate(selected_subclass) in munitions)
+				valid_to_fire = TRUE
+			else
+				valid_to_fire = FALSE
+
+		if("select_shredder")
+			selected_subclass = /obj/item/ship_weapon/ammunition/torpedo/hull_shredder
+			if(locate(selected_subclass) in munitions)
+				valid_to_fire = TRUE
+			else
+				valid_to_fire = FALSE
+
+		if("select_decoy")
+			selected_subclass = /obj/item/ship_weapon/ammunition/torpedo/decoy
+			if(locate(selected_subclass) in munitions)
+				valid_to_fire = TRUE
+			else
+				valid_to_fire = FALSE
+
+		if("select_hellfire")
+			selected_subclass = /obj/item/ship_weapon/ammunition/torpedo/hellfire
+			if(locate(selected_subclass) in munitions)
+				valid_to_fire = TRUE
+			else
+				valid_to_fire = FALSE
 
 		if("launch")
-			attempt_torpedo_launch()
+			if(locate(selected_subclass) in munitions) //Do we even have the subclass?
+				to_chat(usr, "<span class='warning'>Auth code accepted, beginning launch sequence.")
+				launch_torpedo()
+
+			else
+				to_chat(usr, "<span class='warning'>Error: Unable to locate requested torpedo. Aborting launch sequence.</span>")
+				valid_to_fire = FALSE
 
 		if("switch_camera") //unlikely to need this in final, but just for testing
 			var/c_tag = params["name"]
@@ -332,11 +421,71 @@
 
 //Temp
 /obj/machinery/ship_weapon/wgt
-	name = "WG VLS Silo"
+	name = "K9-WG VLS Silo"
 	desc = "Words here"
 	icon = 'nsv13/icons/obj/munitions/vls.dmi'
 	icon_state = "loader"
 	ammo_type = /obj/item/ship_weapon/ammunition/torpedo
-	//fire_mode = FIRE_MODE_WG_TORPEDO
+	resistance_flags = FIRE_PROOF //It does normally contain fire.
 	fire_mode = null
 	max_ammo = 1
+	circuit = /obj/item/circuitboard/machine/wgt
+	var/obj/structure/fluff/vls_hatch/hatch = null
+
+//Stolen from VLS
+/obj/machinery/ship_weapon/wgt/Initialize()
+	. = ..()
+	var/turf/T = SSmapping.get_turf_above(src)
+	if(!T)
+		return
+	hatch = locate(/obj/structure/fluff/vls_hatch) in T
+
+/obj/machinery/ship_weapon/wgt/feed()
+	. = ..()
+	if(!hatch)
+		return
+	hatch.toggle(1)
+
+/obj/machinery/ship_weapon/wgt/local_fire()
+	. = ..()
+	if(!hatch)
+		return
+	hatch.toggle(0)
+
+/obj/machinery/ship_weapon/wgt/unload_magazine()
+	. = ..()
+	if(!hatch)
+		return
+	hatch.toggle(0)
+
+
+/obj/machinery/ship_weapon/wgt/proc/simulate_launch()
+	maint_req -= rand(5, 10)
+	if(maint_req <= 0)
+		maint_req = 0
+		weapon_malfunction()
+		
+	var/list/launch_sound =  list(
+		'nsv13/sound/effects/ship/torpedo.ogg',
+		'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
+		'nsv13/sound/effects/ship/freespace2/m_stiletto.wav',
+		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
+		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
+	
+	var/sound = pick(launch_sound)
+	linked?.relay(sound, null, loop=FALSE, channel = CHANNEL_SHIP_FX)
+	
+	for(var/mob/living/M in orange(3, src))
+		M.Knockdown(30)
+	
+	for(var/mob/living/M in orange(6, src))
+		shake_with_inertia(M, 2, 1)
+
+	atmos_spawn_air("o2=1;plasma=1;TEMP=500")
+	var/datum/effect_system/smoke_spread/smoke = new
+	smoke.set_up(1, src)
+	smoke.start()
+
+	if(!hatch)
+		return
+	hatch.toggle(0)

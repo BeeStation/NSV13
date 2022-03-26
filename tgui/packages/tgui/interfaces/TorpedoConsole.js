@@ -143,33 +143,78 @@ export const TorpedoSelectionContent = (props, context) => {
   const { torpedo_class } = []
   return (
     <Fragment>
-      {Object.keys(data.torpedo_class).map(key => {
-        let value = data.torpedo_class[key];
-        return (
-          <Fragment key={key}>
-            {!!value.number && (
-              <Section title={`${value.name}`}>
-                <ProgressBar
-                  value={value.number}
-                  minValue={0}
-                  maxValue={data.max_torps}
-                  ranges={{
-                    good: [0.9, Infinity],
-                    average: [0.25, 0.9],
-                    bad: [-Infinity, 0.25],
-                  }} >
-                </ProgressBar>
-                <Button
-                  icon="square"
-                  color="bad"
-                  onClick={() => act('select', {
-                    selected: value.subclass
-                  })} />
-              </Section>
-            )})
-          </Fragment>
-        )
-      })}
+      <Section>
+        <Section title="Munitions in Silos">
+          <Section>
+            <ProgressBar
+              content="NTP-2 530mm torpedo"
+              value={data.torpedo_amount_normal}
+              minValue={0}
+              maxValue={data.max_torps}
+              ranges={{
+                good: [0.9, Infinity],
+                average: [0.25, 0.9],
+                bad: [-Infinity, 0.25],
+              }} />
+            <Button
+              icon="square"
+              color="bad"
+              onClick={() => act('select_normal')}
+            />
+          </Section>
+          <Section>
+            <ProgressBar
+              content="NTP-4 'BNKR' 430mm Armour Pentetrating Torpedo"
+              value={data.torpedo_amount_shredder}
+              minValue={0}
+              maxValue={data.max_torps}
+              ranges={{
+                good: [0.9, Infinity],
+                average: [0.25, 0.9],
+                bad: [-Infinity, 0.25],
+              }} />
+            <Button
+              icon="square"
+              color="bad"
+              onClick={() => act('select_shredder')}
+            />
+            <Section>
+              <ProgressBar
+                content="NTP-0x 'DCY' 530mm electronic countermeasure"
+                value={data.torpedo_amount_decoy}
+                minValue={0}
+                maxValue={data.max_torps}
+                ranges={{
+                  good: [0.9, Infinity],
+                  average: [0.25, 0.9],
+                  bad: [-Infinity, 0.25],
+                }} />
+              <Button
+                icon="square"
+                color="bad"
+                onClick={() => act('select_decoy')}
+              />
+            </Section>
+            <Section>
+              <ProgressBar
+                content="NTP-6 'HLLF' 600mm Plasma Incendiary Torpedo"
+                value={data.torpedo_amount_hellfire}
+                minValue={0}
+                maxValue={data.max_torps}
+                ranges={{
+                  good: [0.9, Infinity],
+                  average: [0.25, 0.9],
+                  bad: [-Infinity, 0.25],
+                }} />
+              <Button
+                icon="square"
+                color="bad"
+                onClick={() => act('select_hellfire')}
+              />
+            </Section>
+          </Section>
+        </Section>
+      </Section>
     </Fragment>
   );
 };

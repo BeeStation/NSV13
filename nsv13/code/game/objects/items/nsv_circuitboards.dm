@@ -8,6 +8,10 @@
 	name = "circuit board (tactical computer)"
 	build_path = /obj/machinery/computer/ship/tactical
 
+/obj/item/circuitboard/computer/ship/torpedo_console
+	name = "circuit board (torpedo console)"
+	build_path = /obj/machinery/computer/ship/torpedo
+
 //Dradis
 /obj/item/circuitboard/computer/ship/dradis
 	name = "circuit board (dradis computer)"
@@ -302,6 +306,22 @@
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
 /obj/item/circuitboard/machine/vls/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
+
+/obj/item/circuitboard/machine/wgt
+	name = "K9-WG VLS Silo (Circuitboard)"
+	build_path = /obj/machinery/ship_weapon/wgt
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 20,
+		/obj/item/stack/sheet/mineral/copper = 20,
+		/obj/item/stack/sheet/mineral/gold = 50,
+		/obj/item/stack/sheet/iron = 30,
+		/obj/item/stack/cable_coil = 10)
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+
+/obj/item/circuitboard/machine/wgt/Destroy(force=FALSE)
 	if(!force)
 		return QDEL_HINT_LETMELIVE
 	return ..()
