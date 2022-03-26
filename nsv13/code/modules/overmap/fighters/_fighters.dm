@@ -1394,7 +1394,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	hardpoint_fire(target, FIRE_MODE_ANTI_AIR)
 
 /obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, fireMode)
-	if(istype(src, /obj/structure/overmap/small_craft))
+	if(istype(src, /obj/structure/overmap/small_craft) && !pilot.incapacitated())
 		var/obj/structure/overmap/small_craft/F = src
 		for(var/slot in F.loadout.equippable_slots)
 			var/obj/item/fighter_component/weapon = F.loadout.hardpoint_slots[slot]
