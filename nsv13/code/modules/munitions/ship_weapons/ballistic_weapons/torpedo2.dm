@@ -210,6 +210,7 @@
 		var/LP = ST.loc
 		if(istype(LP, /obj/machinery/ship_weapon/wgt))
 			var/obj/machinery/ship_weapon/wgt/S = LP
+			//remove the ammo here?
 			S.simulate_launch()
 
 	//Spawn the overmap torp
@@ -225,7 +226,7 @@
 	OMT.faction = linked.faction
 	OMT.warhead = ST.projectile_type
 	var/obj/item/projectile/guided_munition/torpedo/PT = new OMT.warhead()
-	OMT.name = PT.name //<- runtime here, we can't read the info off that warhead
+	OMT.name = PT.name
 	OMT.icon_state = PT.icon_state
 	OMT.damage_amount = PT.damage
 	OMT.damage_type = PT.damage_type
@@ -234,8 +235,16 @@
 	OMT.relayed_projectile = PT.relay_projectile_type
 	OMT.detonation = PT.impact_effect_type
 
+	//Camera Stuff Here
 	OMT.install_camera()
 
+	if(OMT.builtInCamera)
+		active_camera = OMT.builtInCamera
+		update_active_camera_screen()
+
+
+	//Cleanup
+	munitions -= ST
 	qdel(ST) //Don't need this anymore
 	qdel(PT) //Whereever this is
 	update_munitions()
@@ -273,7 +282,15 @@
 			name = active_camera.c_tag,
 			status = active_camera.status,
 		)
-	
+	data["mapRef"] = map_name
+	var/list/cameras = get_available_cameras()
+	data["cameras"] = list()
+	for(var/i in cameras)
+		var/obj/machinery/camera/C = cameras[i]
+		data["cameras"] += list(list(
+			name = C.c_tag,
+		))
+
 	//Torpdeo Stuff - Iterative Too Hard, Please Send Help - Insert Lazy Mode Here
 	var/TN = 0
 	var/TS = 0
@@ -293,19 +310,8 @@
 	data["torpedo_amount_shredder"] = TS
 	data["torpedo_amount_decoy"] = TD
 	data["torpedo_amount_hellfire"] = TH
-	return data
-
-/obj/machinery/computer/ship/torpedo/ui_static_data()
-	var/list/data = list()
-	data["mapRef"] = map_name
-	var/list/cameras = get_available_cameras()
-	data["cameras"] = list()
-	for(var/i in cameras)
-		var/obj/machinery/camera/C = cameras[i]
-		data["cameras"] += list(list(
-			name = C.c_tag,
-		))
-
+	data["max_torps"] = length(silos)
+	data["valid_to_fire"] = valid_to_fire
 	return data
 
 /obj/machinery/computer/ship/torpedo/ui_act(action, params)
@@ -346,6 +352,7 @@
 			if(locate(selected_subclass) in munitions) //Do we even have the subclass?
 				to_chat(usr, "<span class='warning'>Auth code accepted, beginning launch sequence.")
 				launch_torpedo()
+				ui_update()
 
 			else
 				to_chat(usr, "<span class='warning'>Error: Unable to locate requested torpedo. Aborting launch sequence.</span>")
@@ -376,7 +383,7 @@
 		return
     
 	var/list/visible_turfs = list()
-	var/atom/cam_location = isliving(active_camera.loc) ? active_camera.loc : active_camera
+	var/atom/cam_location = active_camera.loc
 	var/newturf = get_turf(cam_location)
 	if(last_camera_turf == newturf)
 		return
@@ -481,7 +488,7 @@
 	for(var/mob/living/M in orange(6, src))
 		shake_with_inertia(M, 2, 1)
 
-	atmos_spawn_air("o2=1;plasma=1;TEMP=500")
+	atmos_spawn_air("o2=5;plasma=5;TEMP=500")
 	var/datum/effect_system/smoke_spread/smoke = new
 	smoke.set_up(1, src)
 	smoke.start()

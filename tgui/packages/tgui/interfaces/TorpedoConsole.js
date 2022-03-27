@@ -59,15 +59,9 @@ export const TorpedoConsole = (props, context) => {
         <Window.Content scrollable>
           <TorpedoCameraContent />
           <TorpedoSelectionContent />
+          <TorpedoLaunchContent />
         </Window.Content>
-        <Section>
-          <Button
-            icon="circle"
-            content="Launch"
-            disabled={!data.valid_to_fire}
-            color="bad"
-            onClick={() => act('launch')} />
-        </Section>
+
       </div>
       <div className="CameraConsole__right">
         <div className="CameraConsole__toolbar">
@@ -140,14 +134,12 @@ export const TorpedoCameraContent = (props, context) => {
 
 export const TorpedoSelectionContent = (props, context) => {
   const { act, data } = useBackend(context);
-  const { torpedo_class } = []
   return (
     <Fragment>
       <Section>
         <Section title="Munitions in Silos">
-          <Section>
+          <Section title="NTP-2 530mm torpedo">
             <ProgressBar
-              content="NTP-2 530mm torpedo"
               value={data.torpedo_amount_normal}
               minValue={0}
               maxValue={data.max_torps}
@@ -162,9 +154,8 @@ export const TorpedoSelectionContent = (props, context) => {
               onClick={() => act('select_normal')}
             />
           </Section>
-          <Section>
+          <Section title="NTP-4 'BNKR' 430mm Armour Pentetrating Torpedo">
             <ProgressBar
-              content="NTP-4 'BNKR' 430mm Armour Pentetrating Torpedo"
               value={data.torpedo_amount_shredder}
               minValue={0}
               maxValue={data.max_torps}
@@ -178,42 +169,56 @@ export const TorpedoSelectionContent = (props, context) => {
               color="bad"
               onClick={() => act('select_shredder')}
             />
-            <Section>
-              <ProgressBar
-                content="NTP-0x 'DCY' 530mm electronic countermeasure"
-                value={data.torpedo_amount_decoy}
-                minValue={0}
-                maxValue={data.max_torps}
-                ranges={{
-                  good: [0.9, Infinity],
-                  average: [0.25, 0.9],
-                  bad: [-Infinity, 0.25],
-                }} />
-              <Button
-                icon="square"
-                color="bad"
-                onClick={() => act('select_decoy')}
-              />
-            </Section>
-            <Section>
-              <ProgressBar
-                content="NTP-6 'HLLF' 600mm Plasma Incendiary Torpedo"
-                value={data.torpedo_amount_hellfire}
-                minValue={0}
-                maxValue={data.max_torps}
-                ranges={{
-                  good: [0.9, Infinity],
-                  average: [0.25, 0.9],
-                  bad: [-Infinity, 0.25],
-                }} />
-              <Button
-                icon="square"
-                color="bad"
-                onClick={() => act('select_hellfire')}
-              />
-            </Section>
+          </Section>
+          <Section title="NTP-0x 'DCY' 530mm electronic countermeasure">
+            <ProgressBar
+              value={data.torpedo_amount_decoy}
+              minValue={0}
+              maxValue={data.max_torps}
+              ranges={{
+                good: [0.9, Infinity],
+                average: [0.25, 0.9],
+                bad: [-Infinity, 0.25],
+              }} />
+            <Button
+              icon="square"
+              color="bad"
+              onClick={() => act('select_decoy')}
+            />
+          </Section>
+          <Section title="NTP-6 'HLLF' 600mm Plasma Incendiary Torpedo">
+            <ProgressBar
+              value={data.torpedo_amount_hellfire}
+              minValue={0}
+              maxValue={data.max_torps}
+              ranges={{
+                good: [0.9, Infinity],
+                average: [0.25, 0.9],
+                bad: [-Infinity, 0.25],
+              }} />
+            <Button
+              icon="square"
+              color="bad"
+              onClick={() => act('select_hellfire')}
+            />
           </Section>
         </Section>
+      </Section>
+    </Fragment >
+  );
+};
+
+export const TorpedoLaunchContent = (props, context) => {
+  const { act, data } = useBackend(context);
+  return (
+    <Fragment>
+      <Section>
+        <Button
+          icon="circle"
+          content="Launch"
+          disabled={!data.valid_to_fire}
+          color="bad"
+          onClick={() => act('launch')} />
       </Section>
     </Fragment>
   );
