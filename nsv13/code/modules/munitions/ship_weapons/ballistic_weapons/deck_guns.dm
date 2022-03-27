@@ -455,7 +455,7 @@
 	while(energy >= next_evolve)
 		Elevel++
 		power += 2
-		volatility = power * 2
+		volatility += 2
 		next_evolve = max(round(next_evolve ** 1.015, 1), next_evolve + initial(next_evolve))
 
 		update_state() // we update state on every iteration so we can't jump over any switch ranges
