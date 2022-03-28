@@ -559,7 +559,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	M.forceMove(get_turf(src))
 	return TRUE
 
-/obj/structure/overmap/small_craft/escapepod/proc/pilot_overmap_change(mob/living/M, obj/structure/overmap/newOM) // in case we get forceMoved outside of the ship somehow
+/obj/structure/overmap/small_craft/proc/pilot_overmap_change(mob/living/M, obj/structure/overmap/newOM) // in case we get forceMoved outside of the ship somehow
 	SIGNAL_HANDLER
 	if(newOM != src)
 		stop_piloting(M, FALSE, TRUE)
