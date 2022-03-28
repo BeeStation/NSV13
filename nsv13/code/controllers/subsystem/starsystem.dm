@@ -87,7 +87,7 @@ Returns a faction datum by its name (case insensitive!)
 	RETURN_TYPE(/datum/faction)
 	if(!name)
 		return //Stop wasting my time.
-	for(var/datum/faction/F in factions)
+	for(var/datum/faction/F as() in factions)
 		if(lowertext(F.name) == lowertext(name))
 			return F
 
@@ -95,7 +95,7 @@ Returns a faction datum by its name (case insensitive!)
 	RETURN_TYPE(/datum/faction)
 	if(!id)
 		return //Stop wasting my time.
-	for(var/datum/faction/F in factions)
+	for(var/datum/faction/F as() in factions)
 		if(F.id == id)
 			return F
 
@@ -811,20 +811,17 @@ Returns a faction datum by its name (case insensitive!)
 	apply_system_effects()
 
 /datum/star_system/proc/spawn_asteroids()
-	for(var/I = 0; I <= rand(3, 6); I++){
+	for(var/I = 0; I <= rand(3, 6); I++)
 		var/roid_type = pick(/obj/structure/overmap/asteroid, /obj/structure/overmap/asteroid/medium, /obj/structure/overmap/asteroid/large)
 		SSstar_system.spawn_ship(roid_type, src)
-	}
 
 /datum/star_system/proc/spawn_enemies(enemy_type, amount)
 	if(!amount)
 		amount = difficulty_budget
-	for(var/i = 0, i < amount, i++){ //number of enemies is set via the star_system vars
-		if(!enemy_type){
+	for(var/i = 0, i < amount, i++) //number of enemies is set via the star_system vars
+		if(!enemy_type)
 			enemy_type = pick(SSstar_system.enemy_types) //Spawn a random set of enemies.
-		}
 		SSstar_system.spawn_ship(enemy_type, src)
-	}
 
 /datum/star_system/proc/lerp_x(datum/star_system/other, t)
 	return x + (t * (other.x - x))
@@ -1199,7 +1196,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 			distances[i] = 0
 
 	//Setup: Done. Dijkstra time.
-	while(generated.len > 0) //we have to go through this n times
+	while(length(generated) > 0) //we have to go through this n times
 		var/closest = null
 		var/mindist = INFINITY
 		for(var/datum/star_system/S in generated)	//Find the system with the smallest value in distances[].
@@ -1219,7 +1216,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 				relax++
 
 	//Dijkstra: Done. We got parents for everyone, time to actually stitch them together.
-	for(var/i = 1; i <= systems.len; i++)
+	for(var/i = 1; i <= length(systems); i++)
 		var/datum/star_system/S = systems[i]
 		if(S == rubiconnector)
 			continue	//Rubiconnector is the home node and would fuck with us if we did stuff with it here.
@@ -1228,7 +1225,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		Connected.adjacency_list += S.name
 
 	//We got a nice tree! But this is looking far too clean, time to Brazilify this.
-	for(var/datum/star_system/S in systems)
+	for(var/datum/star_system/S as() in systems)
 		var/bonus = 0
 		var/list/valids = list()
 		for(var/datum/star_system/candidate in systems)
@@ -1242,9 +1239,9 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 				continue
 			valids += candidate
 		while(!prob(100 - RANDOM_CONNECTION_BASE_CHANCE + (bonus * RANDOM_CONNECTION_REPEAT_PENALTY))) //Lets not flood the map with random jumplanes, buuut create a good chunk of them
-			if(!valids.len)
+			if(!length(valids))
 				break
-			if(S.adjacency_list.len >= RNGSYSTEM_MAX_CONNECTIONS)
+			if(S.length(adjacency_list) >= RNGSYSTEM_MAX_CONNECTIONS)
 				break
 			var/datum/star_system/newconnection = pick(valids)
 			newconnection.adjacency_list += S.name
