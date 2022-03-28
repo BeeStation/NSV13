@@ -13,8 +13,6 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 	volatile_when_hit = flag
 
 /datum/component/volatile/proc/explode()
-	SIGNAL_HANDLER
-
 	if(!parent)
 		message_admins("Volatility component tried to explode with no attached parent. Contact a coder")
 		return FALSE
