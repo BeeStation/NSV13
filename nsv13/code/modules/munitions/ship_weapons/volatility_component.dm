@@ -36,8 +36,7 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 		if(volatile_when_hit) //Don't play with the torpedo warheads
 			examine_list += "<span class='warning'>It may explode if hit with enough force!</span>"
 
-/datum/component/volatile/New(datum/P, volatility=1, volatile_when_hit=FALSE)
-	. = ..()
+/datum/component/volatile/Initialize(volatility=1, volatile_when_hit=FALSE)
 	if(volatility <= 0)
 		message_admins("Volatility component with volatility \"0\" added to [parent], deleting the volatility component...")
 		RemoveComponent()
@@ -52,4 +51,4 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 	UnregisterSignal(parent, COMSIG_ATOM_DAMAGE_ACT)
 	UnregisterSignal(parent, COMSIG_ATOM_FIRE_ACT)
 	UnregisterSignal(parent, COMSIG_PARENT_EXAMINE)
-	. = ..()
+	return ..()
