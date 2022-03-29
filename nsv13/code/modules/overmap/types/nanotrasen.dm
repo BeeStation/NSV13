@@ -174,6 +174,11 @@
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter/apply_weapons()
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_WG_TORPEDO] = new /datum/ship_weapon/wire_guided_torpedo_launcher(src)
+
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //NOT IN CYCLE
 	role = MAIN_OVERMAP
 	max_integrity = 1000

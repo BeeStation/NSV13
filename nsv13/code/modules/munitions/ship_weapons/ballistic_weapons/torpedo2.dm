@@ -9,12 +9,13 @@
 	pixel_collision_size_y = 32
 	var/arm_timer = null //Check for if we arm yet
 	density = FALSE //Not true until it arms
+	move_by_mouse = TRUE
 
 	//IFF
 	faction = "nanotrasen" //Dittto
 
 	//Fuel Stats
-	var/fuel = 10 SECONDS // The fuel load of our torpedo
+	var/fuel = 20 SECONDS // The fuel load of our torpedo
 	var/fuel_cutout = null //When the torp will no longer be controllable
 	var/additional_life_time = 10 SECONDS //Timer before torpedo auto detonates after fuel depletion
 	var/life_time_cutout = null //<insert mass effect scene here>
@@ -52,6 +53,7 @@
 	var/obj/structure/overmap/OM = null //Our source
 
 /obj/structure/overmap/torpedo/Initialize()
+	.=..()
 	//something something feed our overmap in here for the reference
 
 	arm_timer = world.time
@@ -95,7 +97,11 @@
 	
 	if(world.time >= life_time_cutout)
 		new detonation(src)
+
+		release_pilot()
 		qdel(src)
+
+	user_thrust_dir = 1
 
 /obj/structure/overmap/torpedo/Bump(atom/A)
 	.=..()
@@ -128,8 +134,21 @@
 			O.relay_damage(relayed_projectile)
 			new detonation(src)
 			qdel(src)
+		
+		release_pilot()
 
 
+/obj/structure/overmap/torpedo/proc/release_pilot()
+	if(!pilot)
+		return
+	
+	var/mob/living/carbon/human/C = pilot
+	stop_piloting(C)
+
+	//if ghost ship support here	
+	OM.start_piloting(C, "gunner")
+
+/*
 /obj/machinery/computer/ship/torpedo
 	name = "Seegson model TRP torpdeo control console"
 	desc = "If you can see this, please report it"
@@ -198,7 +217,7 @@
 				if(W.state == STATE_CHAMBERED && W.safety == FALSE && W.maint_state == MSTATE_CLOSED && W.malfunction == FALSE) //Basically - is it ready to fire?
 					munitions += W.ammo
 
-/obj/machinery/computer/ship/torpedo/proc/launch_torpedo()
+/obj/machinery/computer/ship/torpedo/proc/launch_torpedo(mob/living/carbon/user)
 	var/list/launch_candidate = list()
 	for(var/obj/item/ship_weapon/ammunition/torpedo/T in munitions)
 		if(istype(T, selected_subclass))
@@ -242,6 +261,7 @@
 		active_camera = OMT.builtInCamera
 		update_active_camera_screen()
 
+	OMT.start_piloting(user, "pilot")
 
 	//Cleanup
 	munitions -= ST
@@ -351,7 +371,7 @@
 		if("launch")
 			if(locate(selected_subclass) in munitions) //Do we even have the subclass?
 				to_chat(usr, "<span class='warning'>Auth code accepted, beginning launch sequence.")
-				launch_torpedo()
+				launch_torpedo(usr)
 				ui_update()
 
 			else
@@ -425,6 +445,7 @@
 			D["[C.c_tag]"] = C
 	return D
 
+*/
 
 //Temp
 /obj/machinery/ship_weapon/wgt
@@ -434,7 +455,7 @@
 	icon_state = "loader"
 	ammo_type = /obj/item/ship_weapon/ammunition/torpedo
 	resistance_flags = FIRE_PROOF //It does normally contain fire.
-	fire_mode = null
+	fire_mode = FIRE_MODE_WG_TORPEDO
 	max_ammo = 1
 	circuit = /obj/item/circuitboard/machine/wgt
 	var/obj/structure/fluff/vls_hatch/hatch = null
@@ -465,7 +486,80 @@
 		return
 	hatch.toggle(0)
 
+/*
+/obj/machinery/ship_weapon/wgt/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+	set waitfor = FALSE
+	if(can_fire(shots))
+		if(manual)
+			linked.last_fired = overlay
+		for(var/i = 0, i, < shots, i++)
+			do_animation()
+			state = STATE_FIRING
+			local_fire()
+			overmap_fire(target) //override
+			ammo -= chambered
+			qdel(chambered)
+			chambered = null
+			state = STATE_NOTLOADED
+			after_fire() //override
+*/
 
+/obj/machinery/ship_weapon/wgt/overmap_fire()
+	if(weapon_type?.overmap_firing_sounds)
+		overmap_sound()
+	
+	if(overlay)
+		overlay.do_animation()
+	
+	//override below here
+	if(weapon_type)
+		//animate_projectile(target)
+
+		var/obj/item/ship_weapon/ammunition/torpedo/ST = pick(ammo)
+		var/obj/structure/overmap/torpedo/OMT = new(linked.loc)
+
+		//Assign properties
+		OMT.OM = linked
+		OMT.angle = linked.angle
+		OMT.faction = linked.faction
+		OMT.warhead = ST.projectile_type
+		var/obj/item/projectile/guided_munition/torpedo/PT = new OMT.warhead()
+		OMT.name = PT.name
+		OMT.icon_state = PT.icon_state
+		OMT.damage_amount = PT.damage
+		OMT.damage_type = PT.damage_type
+		OMT.damage_penetration = PT.armour_penetration
+		OMT.damage_flag = PT.flag
+		OMT.relayed_projectile = PT.relay_projectile_type
+		OMT.detonation = PT.impact_effect_type
+
+		//Get in the seat
+		var/mob/living/carbon/human/C = linked.gunner
+		linked.stop_piloting(C)
+		OMT.start_piloting(C, "pilot")
+
+		//Clean up
+		qdel(ST) //Don't need this anymore
+		qdel(PT) //Whereever this is
+
+
+
+
+
+/obj/machinery/ship_weapon/wgt/after_fire()
+	if(maintainable)
+		if(maint_req > 0)
+			maint_req -= rand(5, 10) //Quite heavy on the maint
+		else
+			weapon_malfunction()
+	update()
+
+	atmos_spawn_air("o2=5;plasma=5;TEMP=500")
+	var/datum/effect_system/smoke_spread/smoke = new
+	smoke.set_up(1, src)
+	smoke.start()	
+
+/*
 /obj/machinery/ship_weapon/wgt/proc/simulate_launch()
 	maint_req -= rand(5, 10)
 	if(maint_req <= 0)
@@ -496,3 +590,4 @@
 	if(!hatch)
 		return
 	hatch.toggle(0)
+*/

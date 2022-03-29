@@ -102,6 +102,24 @@
 		return FALSE
 	return TRUE
 
+/datum/ship_weapon/wire_guided_torpedo_launcher
+	name = "Wire Guided Torpedo Silos"
+	default_projectile_type = /obj/item/projectile/guided_munition/torpedo
+	burst_size = 1
+	fire_delay = 5 SECONDS
+	range_modifier = 30
+	select_alert = "<span class='notice'>Torpedo target acquisition systems: online.</span>"
+	failure_alert = "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>"
+	overmap_firing_sounds = list(
+		'nsv13/sound/effects/ship/torpedo.ogg',
+		'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
+		'nsv13/sound/effects/ship/freespace2/m_stiletto.wav',
+		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
+		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
+	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
+	lateral = FALSE
+	ai_fire_delay = 2 SECONDS
+
 /datum/ship_weapon/aa_guns
 	name = "Anti air guns"
 	default_projectile_type = /obj/item/projectile/bullet/aa_round
