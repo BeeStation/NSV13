@@ -102,6 +102,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	pixel_y = -32
 	density = FALSE //It burns you if you're stupid enough to walk over it.
 	anchored = TRUE
+	processing_flags = START_PROCESSING_MANUALLY
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	light_color = LIGHT_COLOR_CYAN
 	dir = 8 //Less headache inducing :))
@@ -137,6 +138,11 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/preset
 	id = "default_reactor_for_lazy_mappers"
 
+/obj/machinery/atmospherics/components/trinary/nuclear_reactor/destroyed
+	icon_state = "reactor_slagged"
+	slagged = TRUE
+	vessel_integrity = 0
+
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/examine(mob/user)
 	. = ..()
 	if(Adjacent(src, user))
@@ -169,13 +175,13 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 		to_chat(user, "<span class='notice'>You start to insert [W] into [src]...</span>")
 		radiation_pulse(src, temperature)
 		if(do_after(user, 5 SECONDS, target=src))
-			if(!fuel_rods.len)
+			if(!length(fuel_rods))
 				start_up() //That was the first fuel rod. Let's heat it up.
 			fuel_rods += W
 			W.forceMove(src)
 			radiation_pulse(src, temperature) //Wear protective equipment when even breathing near a reactor!
 		return TRUE
-	if(istype(W, /obj/item/sealant))
+	if(!slagged && istype(W, /obj/item/sealant))
 		if(power >= 20)
 			to_chat(user, "<span class='notice'>You cannot repair [src] while it is running at above 20% power.</span>")
 			return FALSE
@@ -197,6 +203,9 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	return ..()
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/welder_act(mob/living/user, obj/item/I)
+	if(slagged)
+		to_chat(user, "<span class='notice'>You can't repair [src], it's completely slagged!</span>")
+		return FALSE
 	if(power >= 20)
 		to_chat(user, "<span class='notice'>You can't repair [src] while it is running at above 20% power.</span>")
 		return FALSE
@@ -214,6 +223,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 //Admin procs to mess with the reaction environment.
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/lazy_startup()
+	slagged = FALSE
 	for(var/I=0;I<5;I++)
 		fuel_rods += new /obj/item/fuel_rod(src)
 	start_up()
@@ -227,7 +237,6 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	icon_state = "reactor_off"
 	gas_absorption_effectiveness = rand(5, 6)/10 //All reactors are slightly different. This will result in you having to figure out what the balance is for K.
 	gas_absorption_constant = gas_absorption_effectiveness //And set this up for the rest of the round.
-	STOP_PROCESSING(SSmachines, src) //We'll handle this one ourselves.
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/Crossed(atom/movable/AM, oldloc)
 	. = ..()
@@ -245,6 +254,10 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	return length(fuel_rods)
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/slowprocess()
+	if(slagged)
+		STOP_PROCESSING(SSmachines, src)
+		return
+
 	//Let's get our gasses sorted out.
 	var/datum/gas_mixture/coolant_input = COOLANT_INPUT_GATE
 	var/datum/gas_mixture/moderator_input = MODERATOR_INPUT_GATE
@@ -509,6 +522,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 //Startup, shutdown
 
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/start_up()
+	if(slagged)
+		return // No :)
 	START_PROCESSING(SSmachines, src)
 	desired_k = 1
 	set_light(10)
