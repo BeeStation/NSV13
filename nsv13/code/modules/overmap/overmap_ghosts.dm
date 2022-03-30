@@ -1,0 +1,90 @@
+/////Here we handle ghost role overmap ships
+#define VV_HK_GHOST_SHIP "GhostShip"
+
+/obj/structure/overmap/vv_get_dropdown()
+	. = ..()
+	VV_DROPDOWN_OPTION(VV_HK_GHOST_SHIP, "Make Ghost Ship")
+
+/obj/structure/overmap/vv_do_topic(list/href_list)
+	set waitfor = FALSE
+	. = ..()
+	if(href_list[VV_HK_GHOST_SHIP])
+		if(!check_rights(R_ADMIN))
+			return
+		var/target_ghost
+		switch(alert(usr, "Who is going to pilot this ghost ship?", "Pilot Select Format", "Open", "Choose", "Cancel"))
+			if("Cancel")
+				return
+			if("Open")
+				var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [src.faction] [src.name]?", ROLE_GHOSTSHIP, null, null, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
+				if(LAZYLEN(candidates))
+					var/mob/dead/observer/C = pick(candidates)
+					target_ghost = C
+				else
+					return
+			if("Choose")
+				target_ghost = input(usr, "Select player to pilot ghost ship:", "Select Player") as null|anything in GLOB.clients
+
+		ghost_ship(target_ghost)
+		message_admins("[key_name_admin(usr)] has ghost shipped [src.name]!")
+		log_admin("[key_name_admin(usr)] has ghost shipped [src.name]!")
+
+
+//Creation of the ghost ship pilot entity
+/obj/structure/overmap/proc/ghost_ship(mob/target)
+	if(!target)
+		return
+	
+	//Prevent the mainship being skeleton crewed
+	if(src.role == MAIN_OVERMAP)
+		message_admins("[src] is the main overmap and cannot be ghost controlled! Take manual control via the Z-level")
+		return
+
+	if(istype(src, /obj/structure/overmap/small_craft))
+		message_admins("[src] is a small craft subtype and cannot be ghost controlled! Take manual control the mob!")
+		return
+
+	ai_controlled = FALSE //Remove the AI control
+
+	//Remove the dummies
+	if(pilot)
+		QDEL_NULL(pilot)
+	if(gunner)
+		QDEL_NULL(gunner)
+
+	//Insert the extra machines
+	if(!dradis)
+		dradis = new /obj/machinery/computer/ship/dradis/internal(src)
+		dradis.linked = src
+
+	if(!tactical)
+		tactical = new /obj/machinery/computer/ship/tactical/internal(src)
+		tactical.linked = src
+
+	//Override AMS
+	weapon_types[FIRE_MODE_AMS] = null //Resolve this later to be auto
+	weapon_types[FIRE_MODE_FLAK] = null //Resolve this later to be a toggle
+
+	//Insert trackable player pilot here
+	var/mob/living/carbon/human/species/skeleton/ghost = new (src.contents)
+	ghost.loc = src
+	ghost.name = src.name
+	ghost.real_name = src.name
+	ghost.hud_type = /datum/hud //Mostly blank hud
+	ghost.key = target.key
+
+	//Add some verbs
+	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/show_dradis, .verb/show_tactical, .verb/toggle_move_mode, .verb/cycle_firemode)
+
+	ghost_key_check(ghost)
+
+/obj/structure/overmap/proc/ghost_key_check(var/mob/living/carbon/human/species/skeleton/ghost)
+	if(ai_controlled) //Exit this loop if we have put an AI back in control
+		return
+
+	if(ghost.key) //Is there a player in control of our ghost?
+		start_piloting(ghost, "all_positions")
+		ghost_controlled = TRUE
+
+	else //Try again later
+		addtimer(CALLBACK(src, .proc/ghost_key_check, ghost), 1 SECONDS)

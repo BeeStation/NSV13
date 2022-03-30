@@ -623,6 +623,8 @@ Adding tasks is easy! Just define a datum for it.
 			return list(web_sound_url, music_extra_data)
 
 /datum/fleet/proc/encounter(obj/structure/overmap/OM)
+	set waitfor = FALSE
+	
 	if(OM.faction == alignment || federation_check(OM))
 		OM.hail(pick(greetings), name)
 	assemble(current_system)
@@ -632,6 +634,36 @@ Adding tasks is easy! Just define a datum for it.
 			last_encounter_time = world.time
 			if(audio_cues?.len)
 				OM.play_music(pick(audio_cues))
+
+			//Ghost Ship Spawn Here
+			if(SSovermap_mode.override_ghost_ships)
+				message_admins("Failed to spawn ghost ship due to admin override.")
+				return
+			var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
+			var/list/ship_list = list()
+			if(prob(10))
+				if(player_check > 15) //Requires 15 active players for most ships
+					ship_list += fighter_types
+					ship_list += destroyer_types
+					ship_list += battleship_types
+
+				else if(player_check > 10) //10 for fighters
+					ship_list += fighter_types
+
+				else
+					message_admins("Failed to spawn ghost ship due to insufficent players.")
+					return
+
+			var/target_location = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), OM.z)
+			var/obj/structure/overmap/selected_ship = pick(ship_list)
+			
+			var/target_ghost
+			var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(selected_ship.faction)] [initial(selected_ship.name)]?", ROLE_GHOSTSHIP, null, null, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
+			if(LAZYLEN(candidates))
+				var/mob/dead/observer/C = pick(candidates)
+				target_ghost = C
+				var/obj/structure/overmap/GS = new selected_ship(target_location)
+				GS.ghost_ship(target_ghost)
 
 
 ///Pass in a youtube link, have it played ONLY on that overmap. This should be called by code or admins only.
