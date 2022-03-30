@@ -167,7 +167,7 @@
 	burst_size = 1
 	fire_delay = 1.5 SECONDS
 	range_modifier = 60
-	weapon_class = WEAPON_CLASS_LIGHT
+	weapon_class = WEAPON_CLASS_HEAVY
 	select_alert = "<span class='notice'>Phaser banks standing by...</span>"
 	failure_alert = "<span class='warning'>Unable to comply. Phaser banks recharging.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/phaser.ogg')
@@ -356,7 +356,7 @@
 	miss_chance = 33
 	max_miss_distance = 8
 	ai_fire_delay = 0.5 SECONDS
-	
+
 
 //AI exclusive weaponry
 
@@ -369,7 +369,7 @@
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/battleship_gun2.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_ready.ogg'
 	ai_fire_delay = 3 SECONDS
-	
+
 /datum/ship_weapon/quadgauss
 	name = "Quad Gauss"
 	default_projectile_type = /obj/item/projectile/bullet/gauss_slug
@@ -381,7 +381,7 @@
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 	miss_chance = 15
 	ai_fire_delay = 0.5 SECONDS
-	
+
 /datum/ship_weapon/hailstorm
 	name = "Hailstorm System"
 	default_projectile_type = /obj/item/projectile/bullet/hailstorm_bullet
@@ -392,6 +392,6 @@
 	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
 	weapon_class = WEAPON_CLASS_LIGHT
 	ai_fire_delay = 20 SECONDS
-	
-	
-	
+
+
+

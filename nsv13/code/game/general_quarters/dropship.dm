@@ -159,6 +159,15 @@
 	var/obj/structure/overmap/OM = get_overmap()
 	OM?.start_piloting(user, position)
 	ui_interact(user)
+	to_chat(user, "<span class='notice'>Small craft use directional keys (WASD in hotkey mode) to accelerate/decelerate in a given direction and the mouse to change the direction of craft.\
+			Mouse 1 will fire the selected weapon (if applicable).</span>")
+	to_chat(user, "<span class='warning'>=Hotkeys=</span>")
+	to_chat(user, "<span class='notice'>Use <b>tab</b> to activate hotkey mode, then:</span>")
+	to_chat(user, "<span class='notice'>Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
+			Press <b>Space</b> to cycle fire modes. \
+			Press <b>X</b> to cycle inertial dampners. \
+			Press <b>Alt<b> to cycle the handbrake. \
+			Press <b>C<b> to cycle mouse free movement.</span>")
 
 /obj/machinery/computer/ship/helm/console/dropship/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
