@@ -1241,7 +1241,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		while(!prob(100 - RANDOM_CONNECTION_BASE_CHANCE + (bonus * RANDOM_CONNECTION_REPEAT_PENALTY))) //Lets not flood the map with random jumplanes, buuut create a good chunk of them
 			if(!length(valids))
 				break
-			if(S.length(adjacency_list) >= RNGSYSTEM_MAX_CONNECTIONS)
+			if(length(S.adjacency_list) >= RNGSYSTEM_MAX_CONNECTIONS)
 				break
 			var/datum/star_system/newconnection = pick(valids)
 			newconnection.adjacency_list += S.name
