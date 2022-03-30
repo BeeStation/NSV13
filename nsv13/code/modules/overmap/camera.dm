@@ -18,7 +18,7 @@
 
 /obj/structure/overmap/proc/start_piloting(mob/living/carbon/user, position)
 	if(!position || user.overmap_ship == src || LAZYFIND(operators, user))
-		return
+		return FALSE
 	switch(position)
 		if("pilot")
 			if(pilot)
@@ -44,13 +44,18 @@
 	user.overmap_ship = src
 	dradis?.attack_hand(user)
 	user.click_intercept = src
+	if(position != "observer")
+		user.add_verb(overmap_verbs) //Add the ship panel verbs
 	if(mass < MASS_MEDIUM)
-		return //Don't zoom out for small ships.
+		return TRUE
 	user.client.overmap_zoomout = (mass <= MASS_MEDIUM) ? 5 : 10 //Automatically zooms you out a fair bit so you can see what's even going on.
 	user.client.rescale_view(user.client.overmap_zoomout, 0, ((40*2)+1)-15)
+	return TRUE
+
 
 /obj/structure/overmap/proc/stop_piloting(mob/living/M)
 	LAZYREMOVE(operators,M)
+	M.remove_verb(overmap_verbs)
 	M.overmap_ship = null
 	if(M.click_intercept == src)
 		M.click_intercept = null

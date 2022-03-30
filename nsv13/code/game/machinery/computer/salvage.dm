@@ -73,6 +73,9 @@
 			if(!OM)
 				radio.talk_into(src, "Detection of target systems failed.", radio_channel)
 				return FALSE
+			if(OM.ghost_controlled)
+				radio.talk_into(src, "EWAR scrambling unable to achieve positive lock, aborting process.", radio_channel)
+				return FALSE
 			if(!can_salvage)
 				radio.talk_into(src, "EWAR scrambling equipment is starting up or shutting down. Try again later.", radio_channel)
 				return FALSE
