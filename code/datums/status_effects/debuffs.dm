@@ -33,7 +33,6 @@
 /datum/status_effect/incapacitating/immobilized
 	id = "immobilized"
 
-//PARALYZED
 /datum/status_effect/incapacitating/paralyzed
 	id = "paralyzed"
 
