@@ -51,6 +51,7 @@ Adding tasks is easy! Just define a datum for it.
 	var/datum/faction/faction = null
 	var/faction_id = FACTION_ID_SYNDICATE
 	var/reward = 100 //Reward for defeating this fleet, is credited to this faction's enemies.
+	var/announce_status = TRUE //Do we tell everyone about us?
 
 	var/initial_move_delay = 10 MINUTES
 	var/minimum_random_move_delay = 5 MINUTES
@@ -259,11 +260,12 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/proc/defeat()
 	var/datum/star_system/player_system = SSstar_system.find_main_overmap().current_system
 	var/datum/star_system/mining_system = SSstar_system.find_main_miner()?.current_system
-	var/message = "\A [name] has been defeated [(current_system && !current_system.hidden) ? "during combat in the [current_system.name] system" : "in battle"]."
-	if(alignment == "nanotrasen" || current_system == player_system || current_system == mining_system)
-		minor_announce(message, "White Rapids Fleet Command")
-	else
-		mini_announce(message, "White Rapids Fleet Command")
+	if(announce_status)
+		var/message = "\A [name] has been defeated [(current_system && !current_system.hidden) ? "during combat in the [current_system.name] system" : "in battle"]."
+		if(alignment == "nanotrasen" || current_system == player_system || current_system == mining_system)
+			minor_announce(message, "White Rapids Fleet Command")
+		else
+			mini_announce(message, "White Rapids Fleet Command")
 	current_system.fleets -= src
 	if(current_system.fleets && current_system.fleets.len)
 		var/datum/fleet/F = pick(current_system.fleets)
@@ -624,13 +626,14 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/proc/encounter(obj/structure/overmap/OM)
 	set waitfor = FALSE
-	
-	if(OM.faction == alignment || federation_check(OM))
-		OM.hail(pick(greetings), name)
+	if(announce_status)
+		if(OM.faction == alignment || federation_check(OM))
+			OM.hail(pick(greetings), name)
 	assemble(current_system)
 	if(OM.faction != alignment)
 		if(OM.alpha >= 150) //Sensor cloaks my boy, sensor cloaks
-			OM.hail(pick(taunts), name)
+			if(announce_status)
+				OM.hail(pick(taunts), name)
 			last_encounter_time = world.time
 			if(audio_cues?.len)
 				OM.play_music(pick(audio_cues))
@@ -651,7 +654,7 @@ Adding tasks is easy! Just define a datum for it.
 					ship_list += fighter_types
 
 				else
-					message_admins("Failed to spawn ghost ship due to insufficent players.")
+					message_admins("Failed to spawn ghost ship due to insufficient players.")
 					return
 
 			var/target_location = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), OM.z)

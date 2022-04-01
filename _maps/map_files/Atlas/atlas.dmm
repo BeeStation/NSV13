@@ -1062,17 +1062,6 @@
 /obj/item/clothing/under/rank/prisoner,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
-"dK" = (
-/obj/machinery/computer/deckgun,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/ship/orange{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/ship/orange,
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "dM" = (
 /obj/structure/table,
 /obj/effect/decal/cleanable/dirt/dust,
@@ -1174,7 +1163,11 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/turf/open/floor/carpet/red,
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "ec" = (
 /obj/structure/table,
@@ -1596,15 +1589,6 @@
 	},
 /turf/open/floor/circuit/telecomms,
 /area/science)
-"fx" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
-/obj/effect/turf_decal/tile/ship/orange{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "fy" = (
 /obj/structure/table,
 /obj/item/healthanalyzer{
@@ -2146,13 +2130,6 @@
 	dir = 8;
 	id = "atlas_naval"
 	},
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "he" = (
@@ -2361,14 +2338,7 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "hI" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/ship/orange{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/ship/orange,
-/obj/machinery/deck_turret/powder_gate,
+/obj/machinery/ship_weapon/wgt,
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "hJ" = (
@@ -2483,18 +2453,6 @@
 /obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/engine,
 /area/quartermaster/storage)
-"ig" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/ship/orange{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/ship/orange{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "ih" = (
 /obj/effect/landmark/start/cargo_technician,
 /obj/structure/disposalpipe/segment{
@@ -2569,12 +2527,6 @@
 /obj/structure/closet/secure_closet/warden,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
-"iA" = (
-/obj/machinery/computer/ship/munitions_computer/west{
-	dir = 4
-	},
-/turf/open/floor/monotile/dark,
-/area/nsv/weapons)
 "iC" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -3025,11 +2977,17 @@
 /turf/open/floor/monotile/dark,
 /area/engine/engine_room)
 "jX" = (
-/obj/structure/lattice/catwalk/over/ship,
-/obj/structure/chair/office{
-	dir = 4
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
-/turf/open/floor/monotile/steel,
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/ship/orange,
+/obj/machinery/computer/ship/munitions_computer/west{
+	dir = 1
+	},
+/turf/open/floor/plating,
 /area/nsv/weapons)
 "jY" = (
 /obj/effect/turf_decal/tile/ship/half/green{
@@ -3375,10 +3333,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
-"kQ" = (
-/obj/machinery/computer/ship/munitions_computer/west,
-/turf/open/floor/monotile/dark,
-/area/nsv/weapons)
 "kT" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
@@ -3476,20 +3430,8 @@
 /area/space/nearstation)
 "lf" = (
 /obj/structure/rack,
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "lh" = (
@@ -3578,10 +3520,14 @@
 	},
 /area/nsv/hanger/mining)
 "lt" = (
-/obj/machinery/computer/ams{
-	dir = 8
+/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 1
 	},
-/turf/open/floor/carpet/red,
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 4
+	},
+/turf/open/floor/plating,
 /area/nsv/weapons)
 "lu" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
@@ -4048,10 +3994,9 @@
 	id = "atlas1";
 	name = "Gunpowder #2"
 	},
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag,
+/obj/item/ship_weapon/ammunition/torpedo/ai_test/t1,
+/obj/item/ship_weapon/ammunition/torpedo/ai_test/t1,
+/obj/item/ship_weapon/ammunition/torpedo/ai_test/t1,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "nh" = (
@@ -5040,9 +4985,10 @@
 	id = "atlas1";
 	name = "Standard Shells #1"
 	},
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "pV" = (
@@ -5212,10 +5158,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
-"qq" = (
-/obj/machinery/ship_weapon/vls,
-/turf/open/floor/monotile/dark,
-/area/nsv/weapons)
 "qt" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -5316,11 +5258,9 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "qQ" = (
-/obj/machinery/deck_turret/autoelevator,
 /obj/effect/turf_decal/stripes/line{
-	dir = 1
+	dir = 5
 	},
-/obj/effect/turf_decal/tile/ship/orange,
 /obj/effect/turf_decal/tile/ship/orange{
 	dir = 8
 	},
@@ -5411,9 +5351,10 @@
 	id = "atlas1";
 	name = "Standard Shells #2"
 	},
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/item/ship_weapon/ammunition/naval_artillery,
-/obj/item/ship_weapon/ammunition/naval_artillery,
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "rj" = (
@@ -5694,14 +5635,12 @@
 /area/nsv/weapons/gauss/battery/deck2/starboard)
 "rX" = (
 /obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/ship/orange{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/ship/orange{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/ship/orange,
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "rZ" = (
@@ -6019,17 +5958,6 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
-"tn" = (
-/obj/machinery/computer/deckgun,
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/tile/ship/orange{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/ship/orange{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "tp" = (
 /turf/open/floor/engine,
 /area/science)
@@ -6505,16 +6433,6 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Abandoned Bar"
 	})
-"uG" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 6
-	},
-/obj/effect/turf_decal/tile/ship/orange{
-	dir = 1
-	},
-/obj/machinery/deck_turret/payload_gate,
-/turf/open/floor/plating,
-/area/nsv/weapons)
 "uI" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -6596,13 +6514,11 @@
 /turf/open/floor/plasteel/grid/lino,
 /area/janitor)
 "uY" = (
-/obj/machinery/deck_turret/autoelevator,
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/tile/ship/orange{
-	dir = 1
+/obj/effect/turf_decal/stripes/line{
+	dir = 6
 	},
 /obj/effect/turf_decal/tile/ship/orange{
-	dir = 4
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons)
@@ -6775,10 +6691,9 @@
 	id = "atlas1";
 	name = "Gunpowder #1"
 	},
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag,
+/obj/item/ship_weapon/ammunition/torpedo/ai_test/t2,
+/obj/item/ship_weapon/ammunition/torpedo/ai_test/t2,
+/obj/item/ship_weapon/ammunition/torpedo/ai_test/t2,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "vG" = (
@@ -8626,7 +8541,15 @@
 /turf/open/floor/plasteel/ridged/steel,
 /area/hallway/nsv/deck2/primary)
 "CG" = (
-/obj/machinery/deck_turret,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "CH" = (
@@ -8725,12 +8648,10 @@
 	id = "atlas1";
 	name = "AP shells"
 	},
-/obj/item/ship_weapon/ammunition/naval_artillery/ap,
-/obj/item/ship_weapon/ammunition/naval_artillery/ap,
-/obj/item/ship_weapon/ammunition/naval_artillery/ap,
-/obj/item/ship_weapon/ammunition/naval_artillery/ap,
-/obj/item/ship_weapon/ammunition/naval_artillery/ap,
-/obj/item/ship_weapon/ammunition/naval_artillery/ap,
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo,
+/obj/item/ship_weapon/ammunition/torpedo,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Dk" = (
@@ -9927,20 +9848,8 @@
 	},
 /obj/item/radio/intercom/directional/north,
 /obj/structure/rack,
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "HN" = (
@@ -9982,13 +9891,16 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "HR" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
+/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 1
 	},
 /obj/effect/turf_decal/tile/ship/orange{
 	dir = 4
 	},
-/obj/machinery/deck_turret/powder_gate,
+/obj/machinery/computer/ship/munitions_computer/west{
+	dir = 2
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "HW" = (
@@ -10023,12 +9935,9 @@
 /area/maintenance/nsv/deck2/starboard)
 "If" = (
 /obj/effect/turf_decal/stripes/line{
-	dir = 5
+	dir = 9
 	},
-/obj/effect/turf_decal/tile/ship/orange{
-	dir = 8
-	},
-/obj/machinery/deck_turret/payload_gate,
+/obj/effect/turf_decal/tile/ship/orange,
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "Ii" = (
@@ -10317,11 +10226,11 @@
 	id = "atlas1";
 	name = "Custom #2"
 	},
-/obj/item/ship_weapon/ammunition/torpedo,
-/obj/item/ship_weapon/ammunition/torpedo,
 /obj/structure/window/reinforced{
 	dir = 4
 	},
+/obj/item/ship_weapon/ammunition/torpedo/hull_shredder,
+/obj/item/ship_weapon/ammunition/torpedo/hull_shredder,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Jt" = (
@@ -10395,10 +10304,16 @@
 /turf/closed/wall/r_wall,
 /area/science)
 "JC" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
+	},
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 8
+	},
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
-/turf/open/floor/monotile/dark,
+/turf/open/floor/plating,
 /area/nsv/weapons)
 "JD" = (
 /obj/structure/cable/yellow{
@@ -11612,10 +11527,12 @@
 /area/quartermaster/storage)
 "NO" = (
 /obj/effect/turf_decal/stripes/line{
-	dir = 9
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/orange{
+	dir = 8
 	},
 /obj/effect/turf_decal/tile/ship/orange,
-/obj/machinery/deck_turret/powder_gate,
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "NP" = (
@@ -12113,20 +12030,8 @@
 "Pq" = (
 /obj/machinery/camera/autoname,
 /obj/structure/rack,
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag{
-	pixel_y = -10
-	},
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
-/obj/item/powder_bag{
-	pixel_y = 8
-	},
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Pr" = (
@@ -12585,17 +12490,7 @@
 /area/engine/engine_room)
 "QU" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
-/obj/structure/closet/crate{
-	opened = 1
-	},
-/obj/item/multitool,
 /obj/machinery/ship_weapon/pdc_mount/north,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "QV" = (
@@ -13510,10 +13405,10 @@
 /area/hallway/nsv/deck2/primary)
 "TX" = (
 /obj/effect/turf_decal/stripes/line{
-	dir = 6
+	dir = 10
 	},
 /obj/effect/turf_decal/tile/ship/orange{
-	dir = 1
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons)
@@ -14421,9 +14316,7 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 8
 	},
-/obj/structure/disposaloutlet{
-	dir = 8
-	},
+/obj/structure/disposaloutlet,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Xg" = (
@@ -14591,6 +14484,7 @@
 	id = "atlas1";
 	name = "Custom #1"
 	},
+/obj/item/ship_weapon/ammunition/torpedo/hellfire,
 /obj/item/ship_weapon/ammunition/torpedo/hellfire,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
@@ -15011,19 +14905,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
-"Zn" = (
-/obj/structure/closet/crate{
-	opened = 1
-	},
-/obj/machinery/ship_weapon/pdc_mount/north,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/turf/open/floor/monotile/dark,
-/area/nsv/weapons)
 "Zp" = (
 /obj/structure/cable{
 	icon_state = "0-2"
@@ -52099,13 +51980,13 @@ eY
 eY
 QU
 mz
-mP
-mP
-mP
+If
+rX
+TX
 Te
-mP
-mP
-mP
+If
+rX
+TX
 gc
 mk
 mP
@@ -52354,15 +52235,15 @@ yv
 PF
 hi
 eY
-Zn
+MG
 Dk
 NO
 hI
 HR
 Te
-NO
+jX
 hI
-HR
+lt
 nw
 mP
 mP
@@ -52613,13 +52494,13 @@ MK
 Gx
 ly
 mD
-dK
+qQ
 CG
 uY
 Te
 qQ
 CG
-tn
+uY
 nw
 Te
 Te
@@ -52870,9 +52751,9 @@ aB
 eY
 MG
 dH
-fx
-ig
-uG
+If
+rX
+TX
 Te
 If
 rX
@@ -53127,13 +53008,13 @@ xL
 eY
 Gt
 dH
-mP
-mP
-mP
+NO
+hI
+HR
 FA
-mP
-mP
-mP
+jX
+hI
+lt
 tZ
 xN
 Mi
@@ -53384,13 +53265,13 @@ Ce
 eY
 HK
 dH
-mP
-kQ
-kQ
+qQ
+CG
+uY
 Te
-kQ
-kQ
-mP
+qQ
+CG
+uY
 ct
 mP
 Mi
@@ -53641,13 +53522,13 @@ rC
 eY
 lf
 dH
-mP
-qq
-qq
+If
+rX
+TX
 Te
-qq
-qq
-mP
+If
+rX
+TX
 ct
 Md
 Mi
@@ -53898,13 +53779,13 @@ zU
 eY
 lf
 dH
-mP
-qq
-qq
+NO
+hI
+HR
 Te
-qq
-qq
-mP
+jX
+hI
+lt
 ct
 Gm
 Mi
@@ -54156,12 +54037,12 @@ eY
 Pq
 JN
 JC
-iA
-iA
+CG
+uY
 Te
-iA
-iA
-mP
+qQ
+CG
+uY
 ct
 tX
 Mi
@@ -54413,11 +54294,11 @@ eY
 lf
 Dk
 Xe
+mP
+mP
 Te
-Te
-jX
-Te
-Te
+mP
+mP
 mP
 ct
 mP
@@ -54672,8 +54553,8 @@ Dk
 Te
 vM
 ea
-lt
-gD
+Te
+Te
 JP
 Te
 ct
