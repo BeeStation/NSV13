@@ -12,7 +12,9 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/datum/quadtree/quadtree
 
 /datum/controller/subsystem/processing/physics_processing/Initialize()
-	quadtree = new(null, 0, world.maxx / 2, world.maxy / 2, world.maxx, world.maxy)
+	var/maxPixelX = world.maxx * 32
+	var/maxPixelY = world.maxy * 32
+	quadtree = new(null, 0, maxPixelX / 2, maxPixelY / 2, maxPixelX, maxPixelY)
 	return ..()
 
 /datum/controller/subsystem/processing/physics_processing/fire(resumed)
@@ -39,6 +41,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 
 /datum/component/physics2d
 	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
+	var/datum/quadtree/last_node = null // The last quadtree node we were at.
 	var/datum/vector2d/position = null //Positional vector, used exclusively for collisions with overmaps
 	var/last_registered_z = 0
 	var/atom/movable/holder = null
@@ -77,12 +80,14 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	position = new /datum/vector2d(holder.x*32,holder.y*32)
 	collider2d = new /datum/shape(position, hitbox, angle) // -TORADIANS(src.angle-90)
 	last_registered_z = holder.z
+	last_node = SSphysics_processing.quadtree.Add(collider2d)
 	SSphysics_processing.physics_bodies += src
 	SSphysics_processing.physics_levels[last_registered_z] += src
 
 /datum/component/physics2d/proc/update(x, y, angle)
 	collider2d.set_angle(angle) //Turn the box collider
 	collider2d._set(x, y)
+	last_node = SSphysics_processing.quadtree.Walk(collider2d, last_node)
 
 /datum/component/physics2d/proc/update_z()
 	if(holder.z != last_registered_z) //Z changed? Update this unit's processing chunk.
@@ -109,21 +114,25 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 #define MAX_OBJECTS_PER_NODE 15
 /// Max recursion depth of subnode creation
 #define MAX_DEPTH 4
+/// Nodes with subnodes are marked for pruning below this weight
+#define PRUNE_WEIGHT 5
 
 /datum/quadtree
+	var/datum/quadtree/parent
 	var/list/objects = list()
-	var/weight = 0 // how many objects are stored within this tree/leaf (recursive).
+	var/weight = 0 // how many objects are stored within this tree/leaf recursively.
 	var/depth = 0
 	var/list/subnodes // dynamically initialized because length() is slower than a reference check
-	var/datum/vector2d/pos
-	// rectangle bounds relative to world (AABB).
+	var/datum/vector2d/pos // pixel coordinates
+	// pixel rectangle bounds relative to world (AABB).
 	var/XMin
 	var/XMax
 	var/YMin
 	var/YMax
 
-/datum/quadtree/New(Depth, x, y, Width, Height)
-	depth = Depth
+/datum/quadtree/New(parent, depth, x, y, Width, Height)
+	src.parent = parent // should be null for root
+	src.depth = depth
 	pos = new(x, y)
 
 	var/W = Width / 2
@@ -148,10 +157,10 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/childWidth = (XMax - XMin) / 2
 	var/childHeight = (YMax - YMin) / 2
 	subnodes = list()
-	subnodes[TOPLEFT_QUADRANT] = new /datum/quadtree(childLevel, pos.x + childWidth, pos.y, childWidth, childHeight)
-	subnodes[TOPRIGHT_QUADRANT] = new /datum/quadtree(childLevel, pos.x, pos.y, childWidth, childHeight)
-	subnodes[BOTTOMLEFT_QUADRANT] = new /datum/quadtree(childLevel, pos.x, pos.y + childHeight, childWidth, childHeight)
-	subnodes[BOTTOMRIGHT_QUADRANT] = new /datum/quadtree(childLevel, pos.x + childWidth, pos.y + childHeight, childWidth, childHeight)
+	subnodes[TOPLEFT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x + childWidth, pos.y, childWidth, childHeight)
+	subnodes[TOPRIGHT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x, pos.y, childWidth, childHeight)
+	subnodes[BOTTOMLEFT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x, pos.y + childHeight, childWidth, childHeight)
+	subnodes[BOTTOMRIGHT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x + childWidth, pos.y + childHeight, childWidth, childHeight)
 
 #define TOP_QUADRANT 1
 #define BOTTOM_QUADRANT 2
@@ -182,14 +191,14 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 
 	return quadIndex
 
+/// Adds an element and returns the specific node the element is stored in
 /datum/quadtree/proc/Add(datum/shape/O)
 	weight++
 	if(subnodes)
 		var/node = get_node_index(O)
 		if(node)
 			var/datum/quadtree/Q = subnodes[node]
-			Q.Add(O)
-			return
+			return Q.Add(O)
 	objects += O
 	if(depth < MAX_DEPTH && weight > MAX_OBJECTS_PER_NODE)
 		if(!subnodes)
@@ -204,6 +213,43 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 				Q.Add(object)
 			else
 				i++
+	return src
+
+/datum/quadtree/proc/Remove(datum/shape/O)
+	weight--
+	if(subnodes)
+		var/node = get_node_index(O)
+		if(node)
+			var/datum/quadtree/Q = subnodes[node]
+			Q.Remove(O)
+			return
+	objects -= O
+
+// Should be used when an element is relocated (moved) to a nearby cell
+/// walks from the supplied node, moving back a level if we can't find a placement in our node (reverse lookup). Returns node location
+/datum/quadtree/proc/Walk(datum/shape/O, datum/quadtree/lastnode)
+	if(lastnode == src)
+		var/node = get_node_index(O)
+		if(node)
+			var/datum/quadtree/Q = subnodes[node]
+			lastnode.objects -= O
+			return Q.Add(O)
+		return src // don't need to do anything :)
+	lastnode.objects -= O
+	weight--
+	return parent.WalkUp(O, lastnode)
+
+/// Don't call this directly unless you know what you're doing, used in Walk()
+/datum/quadtree/proc/WalkUp(datum/shape/O)
+	var/node = get_node_index(O)
+	if(node)
+		var/datum/quadtree/Q = subnodes[node]
+		return Q.Add(O)
+	weight--
+	return parent.WalkUp(O) // keep goin!
+
+/datum/quadtree/proc/FastRemove(datum/shape/O, datum/quadtree/lastnode)
+	if(lastnode == )
 
 /datum/quadtree/proc/get_nearby_objects(datum/shape/O)
 	var/list/nearby = list()
