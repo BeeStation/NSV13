@@ -34,6 +34,8 @@
 
 /obj/machinery/ship_weapon/gauss_gun/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	if(istype(A, /obj/structure/closet))
 		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/ammunition/gauss))
 			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
@@ -401,6 +403,8 @@
 
 /obj/structure/gauss_rack/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return
 	if(istype(A, /obj/structure/closet))
 		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/ammunition/gauss))
 			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")

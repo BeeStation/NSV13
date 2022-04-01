@@ -446,6 +446,8 @@
 
 /obj/machinery/deck_turret/payload_gate/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	if(get_dist(user, src) > 1)
 		return FALSE
 	if(shell)
