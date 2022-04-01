@@ -27,8 +27,8 @@ GLOBAL_VAR(exmap_initialized) // Exmap is windows only until I figure out how th
 	var/list/datum/vector2d/rel_points = list() //The vertices that this collider holds. Relative to the position. If the shape's at 200,200, and we have a vertex at 10,5, the vertex is actually at 210,205 in world. These are pixel coordinates. Counterclockwise order.
 	var/list/datum/vector2d/normals = list()
 	var/list/aabb = list() //Cached points from AABB collision
-	var/width
-	var/height
+	var/width = 0
+	var/height = 0
 
 //All stuff that happens in C++ land must be declared here and wrapped later.
 

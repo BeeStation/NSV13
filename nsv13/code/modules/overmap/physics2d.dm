@@ -9,8 +9,12 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/list/physics_bodies = list() //All the physics bodies in the world.
 	var/list/physics_levels = list()
 	var/datum/collision_response/c_response = new /datum/collision_response()
+	var/datum/quadtree/quadtree
 
-// TODO: Implement a sweep and prune algorithm, a much faster alternative than our current exponential iteration
+/datum/controller/subsystem/processing/physics_processing/Initialize()
+	quadtree = new(null, 0, world.maxx / 2, world.maxy / 2, world.maxx, world.maxy)
+	return ..()
+
 /datum/controller/subsystem/processing/physics_processing/fire(resumed)
 	. = ..()
 	for(var/list/za_warudo in physics_levels)
@@ -92,40 +96,36 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		last_registered_z = holder.z
 		stats = SSphysics_processing.physics_levels[last_registered_z] += src //If the SS isn't tracking this Z yet with a list, this will take care of it.
 
-/*
-/datum/physics_quadtree
-	var/static/MaxObjects
-	var/static/MaxLevels
-	var/list/cells = list()
 
+// While I'd love to make a perfect QuadTree data structure with trunk index list, leaf datums, element nodes and all that juicy low level stuff;
+// I'm fairly confident that those further optimizations would end up making things *slower* due to BYOND's slow ass backend.
+// But if you're daring (and willing to benchmark the performance gain), feel free to try!
 
-/datum/physics_quadtree/New()
-	var/cellsX = world.maxx / cellsize
-	var/cellsY = world.maxy / cellsize
+#define TOPLEFT_QUADRANT 1
+#define TOPRIGHT_QUADRANT 2
+#define BOTTOMLEFT_QUADRANT 3
+#define BOTTOMRIGHT_QUADRANT 4
+/// Max amount of objects we can have in a quadrant before subdividing
+#define MAX_OBJECTS_PER_NODE 15
+/// Max recursion depth of subnode creation
+#define MAX_DEPTH 4
 
-	var/posX
-	var/posY
-	for(var/x in 1 to cellsX)
-		for(var/y in 1 to cellsY)
-			// ERR TODO
-			posX = cellsX - x
-			posY = world.maxy
-			cells += new /datum/physics_cell(posX, posY)
-*/
-/datum/physics_quadtree
+/datum/quadtree
 	var/list/objects = list()
-	var/depth
-	var/list/subnodes = list()
+	var/weight = 0 // how many objects are stored within this tree/leaf (recursive).
+	var/depth = 0
+	var/list/subnodes // dynamically initialized because length() is slower than a reference check
 	var/datum/vector2d/pos
-	// rectangle bounds (relative to world).
+	// rectangle bounds relative to world (AABB).
 	var/XMin
 	var/XMax
 	var/YMin
 	var/YMax
 
-/datum/physics_quadtree/New(Depth, x, y, Width, Height)
+/datum/quadtree/New(Depth, x, y, Width, Height)
 	depth = Depth
 	pos = new(x, y)
+
 	var/W = Width / 2
 	XMin = x - W
 	XMax = x + W
@@ -134,29 +134,94 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	YMax = y + H
 
 
-/datum/physics_quadtree/proc/Clear()
+/datum/quadtree/proc/Clear()
 	objects.len = 0
-	for(var/datum/physics_quadtree/Q as() in subnodes)
+	if(!subnodes)
+		return
+	for(var/datum/quadtree/Q as() in subnodes)
 		Q.Clear()
-	subnodes.len = 0
+		qdel(Q)
+	subnodes = null
 
-/datum/physics_quadtree/proc/subdivide()
+/datum/quadtree/proc/subdivide()
 	var/childLevel = depth + 1
 	var/childWidth = (XMax - XMin) / 2
 	var/childHeight = (YMax - YMin) / 2
-
-	subnodes += new /datum/physics_quadtree(childLevel, pos.x + childWidth, pos.y, childWidth, childHeight)
-	subnodes += new /datum/physics_quadtree(childLevel, pos.x, pos.y, childWidth, childHeight)
-	subnodes += new /datum/physics_quadtree(childLevel, pos.x, pos.y + childHeight, childWidth, childHeight)
-	subnodes += new /datum/physics_quadtree(childLevel, pos.x + childWidth, pos.y + childHeight, childWidth, childHeight)
+	subnodes = list()
+	subnodes[TOPLEFT_QUADRANT] = new /datum/quadtree(childLevel, pos.x + childWidth, pos.y, childWidth, childHeight)
+	subnodes[TOPRIGHT_QUADRANT] = new /datum/quadtree(childLevel, pos.x, pos.y, childWidth, childHeight)
+	subnodes[BOTTOMLEFT_QUADRANT] = new /datum/quadtree(childLevel, pos.x, pos.y + childHeight, childWidth, childHeight)
+	subnodes[BOTTOMRIGHT_QUADRANT] = new /datum/quadtree(childLevel, pos.x + childWidth, pos.y + childHeight, childWidth, childHeight)
 
 #define TOP_QUADRANT 1
 #define BOTTOM_QUADRANT 2
-/datum/physics_quadtree/proc/get_placement_node(datum/shape/O)
-	var/quadrant = 0
-	if()
-	if(O.position.x < pos.x && O.position.x + O.width < pos.x)
-		if
+/// Used by a parent node to determine what subnode an object belongs to
+/datum/quadtree/proc/get_node_index(datum/shape/O)
+	var/quadIndex = 0
+
+	var/vertQuad = 0 // whether we're in the topleft/topright or bottomleft/bottomright quadrant.
+	if(O.position.y > pos.y)
+		vertQuad = TOP_QUADRANT
+	else if(O.position.y < pos.y && O.position.y + O.height < pos.y)
+		vertQuad = BOTTOM_QUADRANT
+	// are we in the right quadrant?
+	if(O.position.x > pos.x)
+		switch(vertQuad)
+			if(TOP_QUADRANT)
+				quadIndex = TOPRIGHT_QUADRANT
+			if(BOTTOM_QUADRANT)
+				quadIndex = BOTTOMRIGHT_QUADRANT
+
+	// or are we in the left quadrant?
+	else if(O.position.x < pos.x && O.position.x + O.width < pos.x)
+		switch(vertQuad)
+			if(TOP_QUADRANT)
+				quadIndex = TOPLEFT_QUADRANT
+			if(BOTTOM_QUADRANT)
+				quadIndex = BOTTOMLEFT_QUADRANT
+
+	return quadIndex
+
+/datum/quadtree/proc/Add(datum/shape/O)
+	weight++
+	if(subnodes)
+		var/node = get_node_index(O)
+		if(node)
+			var/datum/quadtree/Q = subnodes[node]
+			Q.Add(O)
+			return
+	objects += O
+	if(depth < MAX_DEPTH && weight > MAX_OBJECTS_PER_NODE)
+		if(!subnodes)
+			subdivide()
+		var/i = 0 // increments every time an object has finished moving to a valid subnode
+		while(i < length(objects))
+			var/object = objects[i]
+			var/node = get_node_index(object)
+			if(node)
+				var/datum/quadtree/Q = subnodes[node]
+				objects -= object
+				Q.Add(object)
+			else
+				i++
+
+/datum/quadtree/proc/get_nearby_objects(datum/shape/O)
+	var/list/nearby = list()
+
+	var/node = get_node_index(O)
+	if(node && subnodes)
+		var/datum/quadtree/Q = subnodes[node]
+		nearby += Q.get_nearby_objects(O)
+	nearby += objects // add any objects that don't fit in our subnodes (or just all objects, if we don't have subnodes)
+	return nearby
 
 #undef TOP_QUADRANT
 #undef BOTTOM_QUADRANT
+
+#undef TOPLEFT_QUADRANT
+#undef TOPRIGHT_QUADRANT
+#undef BOTTOMLEFT_QUADRANT
+#undef BOTTOMRIGHT_QUADRANT
+
+#undef MAX_OBJECTS_PER_NODE
+#undef MAX_DEPTH
