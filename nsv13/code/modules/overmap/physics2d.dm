@@ -91,3 +91,72 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 			stats -= src
 		last_registered_z = holder.z
 		stats = SSphysics_processing.physics_levels[last_registered_z] += src //If the SS isn't tracking this Z yet with a list, this will take care of it.
+
+/*
+/datum/physics_quadtree
+	var/static/MaxObjects
+	var/static/MaxLevels
+	var/list/cells = list()
+
+
+/datum/physics_quadtree/New()
+	var/cellsX = world.maxx / cellsize
+	var/cellsY = world.maxy / cellsize
+
+	var/posX
+	var/posY
+	for(var/x in 1 to cellsX)
+		for(var/y in 1 to cellsY)
+			// ERR TODO
+			posX = cellsX - x
+			posY = world.maxy
+			cells += new /datum/physics_cell(posX, posY)
+*/
+/datum/physics_quadtree
+	var/list/objects = list()
+	var/depth
+	var/list/subnodes = list()
+	var/datum/vector2d/pos
+	// rectangle bounds (relative to world).
+	var/XMin
+	var/XMax
+	var/YMin
+	var/YMax
+
+/datum/physics_quadtree/New(Depth, x, y, Width, Height)
+	depth = Depth
+	pos = new(x, y)
+	var/W = Width / 2
+	XMin = x - W
+	XMax = x + W
+	var/H = Height / 2
+	YMin = y - H
+	YMax = y + H
+
+
+/datum/physics_quadtree/proc/Clear()
+	objects.len = 0
+	for(var/datum/physics_quadtree/Q as() in subnodes)
+		Q.Clear()
+	subnodes.len = 0
+
+/datum/physics_quadtree/proc/subdivide()
+	var/childLevel = depth + 1
+	var/childWidth = (XMax - XMin) / 2
+	var/childHeight = (YMax - YMin) / 2
+
+	subnodes += new /datum/physics_quadtree(childLevel, pos.x + childWidth, pos.y, childWidth, childHeight)
+	subnodes += new /datum/physics_quadtree(childLevel, pos.x, pos.y, childWidth, childHeight)
+	subnodes += new /datum/physics_quadtree(childLevel, pos.x, pos.y + childHeight, childWidth, childHeight)
+	subnodes += new /datum/physics_quadtree(childLevel, pos.x + childWidth, pos.y + childHeight, childWidth, childHeight)
+
+#define TOP_QUADRANT 1
+#define BOTTOM_QUADRANT 2
+/datum/physics_quadtree/proc/get_placement_node(datum/shape/O)
+	var/quadrant = 0
+	if()
+	if(O.position.x < pos.x && O.position.x + O.width < pos.x)
+		if
+
+#undef TOP_QUADRANT
+#undef BOTTOM_QUADRANT
