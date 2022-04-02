@@ -60,7 +60,7 @@
 	. = ..()
 	
 	if(!density) //If we aren't armed, we should arm
-		if(arm_timer >= world.time + 2 SECONDS)
+		if(arm_timer >= world.time + 3 SECONDS)
 			density = TRUE
 	
 	if(world.time >= fuel_cutout)
