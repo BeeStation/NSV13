@@ -1174,6 +1174,8 @@ Adding tasks is easy! Just define a datum for it.
 	score = AI_SCORE_DEFAULT
 
 /datum/ai_goal/seek/check_score(obj/structure/overmap/OM)
+	if(OM.ai_flags & AI_FLAG_MUNITION)
+		return 0
 	if(!OM.fleet && !OM.current_lance) //If this is a rogue / lone AI. This should be their only objective.
 		return AI_SCORE_MAXIMUM
 	if(!..()) //If it's not an overmap, or it's not linked to a fleet.
@@ -1323,6 +1325,25 @@ Seek a ship thich we'll station ourselves around
 /datum/ai_goal/kamikaze/action(obj/structure/overmap/OM)
 	..()
 	OM.move_toward(OM.last_target, ram_target = TRUE)
+
+/datum/ai_goal/munition_impact
+	name = "Impact Target to detonate payload"
+	score = AI_SCORE_SUPERCRITICAL
+	required_ai_flags = AI_FLAG_MUNITION
+
+/datum/ai_goal/munition_impact/check_score(obj/structure/overmap/OM)
+	if(!..())
+		return 0
+	return score
+	
+/datum/ai_goal/munition_impact/action(obj/structure/overmap/OM)
+	..()
+	if(!OM.last_target)
+		OM.seek_new_target()
+	if(!OM.last_target)	//Still no target? Float until a new lockon is acquired.
+		return
+	OM.move_toward(OM.last_target, ram_target = TRUE)
+
 
 //Boarding! Boarders love to board your ships.
 /datum/ai_goal/board

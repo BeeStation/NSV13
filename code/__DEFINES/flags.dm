@@ -154,6 +154,7 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define AI_FLAG_SWARMER 1<<5 //Ships that love to act in swarms. Aka, Fighters.
 #define AI_FLAG_ELITE 1<<6	 //These ships are more /fun/ than others even with the same equipment.
 #define AI_FLAG_STATIONARY 1<<7 //Overrides all other flags. Object will attempt to stay in place, restoring its angle if possible (and, obviously, shooting things)
+#define AI_FLAG_MUNITION 1<<8 //This is a special munition which is handled as overmap object. Incompatible with other AI flags at the moment.
 
 //KNPC flags
 #define KNPC_IS_MARTIAL_ARTIST 1<<0		//Does the KNPC combo you right into the next round?
