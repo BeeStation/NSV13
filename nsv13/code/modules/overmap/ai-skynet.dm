@@ -845,7 +845,6 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/boss/alicorn
 	name = "\proper SGV Alicorn"
-	faction = FACTION_ID_NANOTRASEN
 	size = 1
 	hide_movements = TRUE
 	allow_difficulty_scaling = FALSE
