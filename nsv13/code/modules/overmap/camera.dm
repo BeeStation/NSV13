@@ -46,7 +46,8 @@
 	user.click_intercept = src
 	if(position != "observer")
 		user.add_verb(overmap_verbs) //Add the ship panel verbs
-	if(mass < MASS_MEDIUM)
+	
+	if(mass < MASS_MEDIUM || !istype(src, /obj/structure/overmap/torpedo))
 		return //Don't zoom out for small ships.
 	user.client.overmap_zoomout = (mass <= MASS_MEDIUM) ? 5 : 10 //Automatically zooms you out a fair bit so you can see what's even going on.
 	user.client.rescale_view(user.client.overmap_zoomout, 0, ((40*2)+1)-15)

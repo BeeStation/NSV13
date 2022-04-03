@@ -60,7 +60,7 @@
 	. = ..()
 	
 	if(!density) //If we aren't armed, we should arm
-		if(arm_timer >= world.time + 3 SECONDS)
+		if(world.time >= arm_timer + 2 SECONDS)
 			density = TRUE
 	
 	if(world.time >= fuel_cutout)
@@ -194,7 +194,7 @@
 		if(istype(ST, /obj/item/ship_weapon/ammunition/torpedo/ai_test))
 			OMT.ai_controlled = TRUE
 			OMT.ai_behaviour = AI_AGGRESSIVE
-			OMT.ai_flags = AI_FLAG_SWARMER //This may need a new flag
+			OMT.ai_flags = AI_FLAG_MUNITION
 			
 			var/datum/star_system/target = linked.current_system
 			var/datum/fleet/torpedo_holder/TT = new()
@@ -202,6 +202,7 @@
 			TT.current_system = target	
 			TT.faction = OMT.faction
 			TT.add_ship(OMT, "fighters")
+
 
 		else //Get in the seat
 			var/mob/living/carbon/human/C = linked.gunner
