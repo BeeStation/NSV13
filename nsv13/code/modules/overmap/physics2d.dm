@@ -9,21 +9,26 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/list/physics_bodies = list() //All the physics bodies in the world.
 	var/list/physics_levels = list()
 	var/datum/collision_response/c_response = new /datum/collision_response()
-	var/datum/quadtree/quadtree
+	var/list/quadtrees = list() // key = z, value = quadtree
 
-/datum/controller/subsystem/processing/physics_processing/Initialize()
-	var/maxPixelX = world.maxx * 32
-	var/maxPixelY = world.maxy * 32
-	quadtree = new(null, 0, maxPixelX / 2, maxPixelY / 2, maxPixelX, maxPixelY)
-	return ..()
+/datum/controller/subsystem/processing/physics_processing/proc/AddToLevel(datum/component/physics2d/newP, target_z)
+	if(!physics_levels[target_z])
+		quadtrees[target_z] = new /datum/quadtree(null, 0, GLOB.max_pixel_x / 2, GLOB.max_pixel_y / 2, GLOB.max_pixel_x, GLOB.max_pixel_y)
+	physics_levels[target_z] += newP
 
 /datum/controller/subsystem/processing/physics_processing/fire(resumed)
 	. = ..()
+	var/current_z
+	var/list/nearby
+	var/list/recent_collisions = list()
 	for(var/list/za_warudo in physics_levels)
-		var/list/recent_collisions = list() //So we don't collide two things together twice.
+		current_z = physics_levels.Find(za_warudo)
+		recent_collisions.len = 0
+		var/datum/quadtree/quad = quadtrees[current_z]
 		for(var/datum/component/physics2d/body as() in za_warudo)
-			for(var/datum/component/physics2d/neighbour as() in za_warudo - body) //Now we check the collisions of every other physics body with this one. I hate that I have to do this, but I can't think of a better way just yet.
-				//Precondition: They're actually somewhat near each other. This is a nice and simple way to cull collisions that would never happen, and save some CPU time.
+			//Precondition: They're actually somewhat near each other. This is a nice and simple way to cull collisions that would never happen, and save some CPU time.
+			nearby = quad.get_nearby_objects(body.collider2d) - src
+			for(var/datum/component/physics2d/neighbour as() in nearby) //Now we check the collisions of every other physics body with this one. I hate that I have to do this, but I can't think of a better way just yet.
 				//Precondition: we're not checking collisions that we already ran.
 				if(get_dist(body.holder, neighbour.holder) > MAXIMUM_COLLISION_RANGE || (neighbour in recent_collisions))
 					continue
@@ -40,21 +45,27 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 
 
 /datum/component/physics2d
+	var/atom/movable/holder = null
 	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
+	var/datum/quadtree/tree = null // What tree we're in, changes with z
 	var/datum/quadtree/last_node = null // The last quadtree node we were at.
 	var/datum/vector2d/position = null //Positional vector, used exclusively for collisions with overmaps
 	var/last_registered_z = 0
-	var/atom/movable/holder = null
+	var/static_collider = FALSE // does this object move?
 
-/datum/component/physics2d/Initialize()
+	var/poscache // lightweight position cache. Format is pixel_x * max_pixel_x + pixel_y
+
+/datum/component/physics2d/Initialize(IsStatic = FALSE)
 	. = ..()
 	holder = parent
 	if(!istype(holder))
 		return COMPONENT_INCOMPATIBLE //Precondition: This is a subtype of atom/movable.
 	last_registered_z = holder.z
+	static_collider = IsStatic
 	RegisterSignal(holder, COMSIG_MOVABLE_Z_CHANGED, .proc/update_z)
 
 /datum/component/physics2d/Destroy(force, silent)
+	last_node.FastRemove(collider2d)
 	//Stop fucking referencing this I sweAR
 	if(holder)
 		UnregisterSignal(holder, COMSIG_MOVABLE_Z_CHANGED)
@@ -81,13 +92,20 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	collider2d = new /datum/shape(position, hitbox, angle) // -TORADIANS(src.angle-90)
 	last_registered_z = holder.z
 	last_node = SSphysics_processing.quadtree.Add(collider2d)
+	poscache = position.x * GLOB.max_pixel_x + position.y
 	SSphysics_processing.physics_bodies += src
-	SSphysics_processing.physics_levels[last_registered_z] += src
+	SSphysics_processing.AddToLevel(src, last_registered_z)
 
+/// Uses pixel coordinates
 /datum/component/physics2d/proc/update(x, y, angle)
 	collider2d.set_angle(angle) //Turn the box collider
 	collider2d._set(x, y)
-	last_node = SSphysics_processing.quadtree.Walk(collider2d, last_node)
+	if(static_collider)
+		return
+	var/NP = x * GLOB.max_pixel_x + y
+	if(poscache != NP)
+		last_node = last_node.Walk(collider2d)
+		poscache = NP
 
 /datum/component/physics2d/proc/update_z()
 	if(holder.z != last_registered_z) //Z changed? Update this unit's processing chunk.
@@ -99,7 +117,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		if(stats) //If we're already in a list.
 			stats -= src
 		last_registered_z = holder.z
-		stats = SSphysics_processing.physics_levels[last_registered_z] += src //If the SS isn't tracking this Z yet with a list, this will take care of it.
+		SSphysics_processing.AddToLevel(src, last_registered_z)
 
 
 // While I'd love to make a perfect QuadTree data structure with trunk index list, leaf datums, element nodes and all that juicy low level stuff;
@@ -191,6 +209,9 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 
 	return quadIndex
 
+#undef TOP_QUADRANT
+#undef BOTTOM_QUADRANT
+
 /// Adds an element and returns the specific node the element is stored in
 /datum/quadtree/proc/Add(datum/shape/O)
 	weight++
@@ -211,9 +232,12 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 				var/datum/quadtree/Q = subnodes[node]
 				objects -= object
 				Q.Add(object)
+				if(object == O)
+					. = Q
 			else
 				i++
-	return src
+	if(!.)
+		return src
 
 /datum/quadtree/proc/Remove(datum/shape/O)
 	weight--
@@ -225,31 +249,39 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 			return
 	objects -= O
 
-// Should be used when an element is relocated (moved) to a nearby cell
+// Should be used when an element is relocated (moved) to a nearby cell.
+// ONLY CALL THIS DIRECTLY ON SUBNODES. e.g lastnode.Walk(object)
 /// walks from the supplied node, moving back a level if we can't find a placement in our node (reverse lookup). Returns node location
-/datum/quadtree/proc/Walk(datum/shape/O, datum/quadtree/lastnode)
-	if(lastnode == src)
-		var/node = get_node_index(O)
-		if(node)
-			var/datum/quadtree/Q = subnodes[node]
-			lastnode.objects -= O
-			return Q.Add(O)
-		return src // don't need to do anything :)
-	lastnode.objects -= O
-	weight--
-	return parent.WalkUp(O, lastnode)
-
-/// Don't call this directly unless you know what you're doing, used in Walk()
-/datum/quadtree/proc/WalkUp(datum/shape/O)
+/datum/quadtree/proc/Walk(datum/shape/O)
 	var/node = get_node_index(O)
 	if(node)
 		var/datum/quadtree/Q = subnodes[node]
+		objects -= O
 		return Q.Add(O)
+	objects -= O
 	weight--
-	return parent.WalkUp(O) // keep goin!
 
-/datum/quadtree/proc/FastRemove(datum/shape/O, datum/quadtree/lastnode)
-	if(lastnode == )
+	var/datum/quadtree/Q = src
+	for(var/i = depth, 0 < i, i--)
+		Q = Q.parent
+		if(!Q)
+			break
+		var/node = Q.get_node_index(O)
+		if(node)
+			Q = Q.subnodes[node]
+			return Q.Add(O)
+		// keeping lookin'
+		Q.weight--
+
+/// Similar to Walk() in that it traverses the tree in reverse but instead of updating object position it deletes it
+/datum/quadtree/proc/FastRemove(datum/shape/O)
+	objects -= O
+	weight--
+	var/datum/quadtree/Q = src
+	for(var/i = depth, 0 < i, i--)
+		Q = Q.parent
+		if(Q)
+			Q.weight--
 
 /datum/quadtree/proc/get_nearby_objects(datum/shape/O)
 	var/list/nearby = list()
@@ -260,9 +292,6 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		nearby += Q.get_nearby_objects(O)
 	nearby += objects // add any objects that don't fit in our subnodes (or just all objects, if we don't have subnodes)
 	return nearby
-
-#undef TOP_QUADRANT
-#undef BOTTOM_QUADRANT
 
 #undef TOPLEFT_QUADRANT
 #undef TOPRIGHT_QUADRANT
