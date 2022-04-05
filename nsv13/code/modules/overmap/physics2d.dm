@@ -10,9 +10,8 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/datum/collision_response/c_response = new /datum/collision_response()
 	var/list/quadtrees = list() // key = (string) z_level, value = root quadtree
 
-	var/next_rebuild = 0 // Next quadtree rebuild (world time)
-	var/rebuild_frequency = 600 // in deciseconds
-	var/rebuild_weight_limit = 50 // We will not rebuild the quadtree above this weight to save TiDi
+	var/RBcounter = 0
+	var/rebuild_frequency = 10 // How many physics ticks between rebuilds
 
 /datum/controller/subsystem/processing/physics_processing/proc/AddToLevel(datum/component/physics2d/newP, target_z)
 	var/z_str = "[target_z]"
@@ -49,11 +48,11 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 				//OK, now we get into the expensive calculation. This is our absolute last resort because it's REALLY expensive.
 				else if(isovermap(neighbour.holder) && body.collider2d.collides(neighbour.collider2d, c_response)) // Dirty, but necessary. I want to minimize in-depth collision calc wherever I possibly can, so only overmap prototypes use it.
 					body.holder.Bump(neighbour.holder, c_response) //More in depth calculation required, so pass this information on.
-	if(next_rebuild >= world.time)
-		next_rebuild = world.time + rebuild_frequency
+	if(++RBcounter >= rebuild_frequency)
+		RBcounter = 0
 		for(var/z_key in quadtrees)
 			var/datum/quadtree/Q = quadtrees[z_key]
-			if(Q.weight > MAX_OBJECTS_PER_NODE && Q.weight < rebuild_weight_limit)
+			if(Q.weight > MAX_OBJECTS_PER_NODE)
 				Q.Clear() // remove everything
 				za_warudo = physics_levels[z_key]
 				if(!za_warudo)
@@ -61,6 +60,12 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 				// re-add everything
 				for(var/datum/component/physics2d/P as() in za_warudo)
 					P.last_node = Q.Add(P)
+			// clear subnode cache before moving onto next Z
+			for(var/parent in Q.cached_subnodes)
+				var/list/subnodes = Q.cached_subnodes[parent]
+				if(subnodes)
+					QDEL_LIST(subnodes)
+			Q.cached_subnodes.len = 0
 
 
 
@@ -160,6 +165,9 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/XMax
 	var/YMin
 	var/YMax
+	// contains subnodes marked for deletion, we look in here before making new nodes to see if we can just restore old nodes to save qdel calls
+	// key = parent quadtree, value = list(subnodes)
+	var/static/list/cached_subnodes = list()
 
 /datum/quadtree/New(parent, depth, x, y, Width, Height)
 	src.parent = parent // should be null for root
@@ -181,12 +189,11 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 /datum/quadtree/proc/Clear()
 	objects.len = 0
 	weight = 0
-	parent = null
 	if(!subnodes)
 		return
+	cached_subnodes[src] = subnodes
 	for(var/datum/quadtree/Q as() in subnodes)
 		Q.Clear()
-		qdel(Q)
 	subnodes = null
 
 /datum/quadtree/proc/get_all_objects()
@@ -199,18 +206,22 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/childLevel = depth + 1
 	var/childWidth = (XMax - XMin) / 2
 	var/childHeight = (YMax - YMin) / 2
-	subnodes = list()
-	subnodes[TOPLEFT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x + childWidth, pos.y, childWidth, childHeight)
-	subnodes[TOPRIGHT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x, pos.y, childWidth, childHeight)
-	subnodes[BOTTOMLEFT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x, pos.y + childHeight, childWidth, childHeight)
-	subnodes[BOTTOMRIGHT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x + childWidth, pos.y + childHeight, childWidth, childHeight)
+
+	var/list/CS = cached_subnodes[src]
+	if(CS)
+		subnodes = CS
+	else
+		subnodes = list()
+		subnodes[TOPLEFT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x + childWidth, pos.y, childWidth, childHeight)
+		subnodes[TOPRIGHT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x, pos.y, childWidth, childHeight)
+		subnodes[BOTTOMLEFT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x, pos.y + childHeight, childWidth, childHeight)
+		subnodes[BOTTOMRIGHT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x + childWidth, pos.y + childHeight, childWidth, childHeight)
 
 #define UPPER_QUADRANT 1
 #define LOWER_QUADRANT 2
 /// Used by a parent node to determine what subnode an object belongs to
 /datum/quadtree/proc/get_node_index(datum/shape/O)
-	var/quadIndex = 0
-
+	. = 0
 	var/vertQuad = 0 // whether we're in the topleft/topright or bottomleft/bottomright quadrant.
 	if(O.position.y > pos.y)
 		vertQuad = UPPER_QUADRANT
@@ -221,19 +232,17 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	if(O.position.x > pos.x)
 		switch(vertQuad)
 			if(UPPER_QUADRANT)
-				quadIndex = TOPRIGHT_QUADRANT
+				. = TOPRIGHT_QUADRANT
 			if(LOWER_QUADRANT)
-				quadIndex = BOTTOMRIGHT_QUADRANT
+				. = BOTTOMRIGHT_QUADRANT
 
 	// or are we in the left quadrant?
 	else if(O.position.x != pos.x && O.position.x + O.width < pos.x)
 		switch(vertQuad)
 			if(UPPER_QUADRANT)
-				quadIndex = TOPLEFT_QUADRANT
+				. = TOPLEFT_QUADRANT
 			if(LOWER_QUADRANT)
-				quadIndex = BOTTOMLEFT_QUADRANT
-
-	return quadIndex
+				. = BOTTOMLEFT_QUADRANT
 
 #undef UPPER_QUADRANT
 #undef LOWER_QUADRANT
@@ -251,19 +260,21 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	if(depth < MAX_DEPTH && objlen > MAX_OBJECTS_PER_NODE)
 		if(!subnodes)
 			subdivide()
+		var/node_index = 0
 		var/i = 0 // increments every time an object has finished moving to a valid subnode
 		while(i < objlen)
-			var/object = objects[i]
-			var/node = get_node_index(object)
-			if(node)
-				var/datum/quadtree/Q = subnodes[node]
+			var/datum/shape/object = objects[i]
+			node_index = get_node_index(object)
+			if(node_index)
+				var/datum/quadtree/Q = subnodes[node_index]
 				objects -= object
-				Q.Add(object)
 				if(object == O)
-					. = Q
+					. = Q.Add(object)
+				else
+					Q.Add(object)
 			else
 				i++
-	if(!.)
+	if(. == null)
 		return src
 
 /datum/quadtree/proc/Remove(datum/shape/O)
