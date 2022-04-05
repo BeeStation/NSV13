@@ -173,22 +173,21 @@ Find the average collision point between two shapes. Usually ends up being prett
 
 	var/list/datum/vector2d/collision_points = list()
 
-	for (var/src_i = 1, src_i < src_points.len, src_i++)
-		for (var/other_i = 1, other_i < other_points.len, other_i++)
+	for (var/src_i = 1, src_i < length(src_points), src_i++)
+		for (var/other_i = 1, other_i < length(other_points), other_i++)
 			var/datum/vector2d/intersection = get_seg_intersection(src_points[src_i], src_points[src_i+1], other_points[other_i], other_points[other_i+1])
 			if(intersection)
 				collision_points.Add(intersection)
 
 	// For some ungodly reason we're checking for an intersection point when the two shapes don't intersect; return nothing
-	if(!length(collision_points))
+	var/CPL = length(collision_points)
+	if(!CPL)
 		return
-
 	for (var/datum/vector2d/collision_point as() in collision_points)
 		closest_point += collision_point
 
-	// BYOND WHHHY CAN'T WE HAVE /=
-	closest_point.x = closest_point.x / collision_points.len
-	closest_point.y = closest_point.y / collision_points.len
+	closest_point.x /= CPL
+	closest_point.y /= CPL
 
 	return closest_point
 

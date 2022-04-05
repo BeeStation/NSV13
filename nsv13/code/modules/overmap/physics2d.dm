@@ -9,8 +9,10 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/list/physics_levels = list() // key = (string) z_level, value = list()
 	var/datum/collision_response/c_response = new /datum/collision_response()
 	var/list/quadtrees = list() // key = (string) z_level, value = root quadtree
+
 	var/next_rebuild = 0 // Next quadtree rebuild (world time)
-	var/rebuild_frequency = 200 // in deciseconds
+	var/rebuild_frequency = 600 // in deciseconds
+	var/rebuild_weight_limit = 50 // We will not rebuild the quadtree above this weight to save TiDi
 
 /datum/controller/subsystem/processing/physics_processing/proc/AddToLevel(datum/component/physics2d/newP, target_z)
 	var/z_str = "[target_z]"
@@ -21,13 +23,11 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	return Q.Add(newP.collider2d)
 
 /datum/controller/subsystem/processing/physics_processing/proc/RemoveFromLevel(datum/component/physics2d/P, target_z)
-	if(target_z)
-		var/z_str = "[target_z]"
-		var/list/za_warudo = physics_levels[z_str]
-		za_warudo -= P
-		if(!length(za_warudo))
-			qdel(quadtrees[z_str])
-			quadtrees[z_str] = null
+	var/z_str = "[target_z]"
+	var/list/za_warudo = physics_levels[z_str]
+	if(za_warudo.Remove(P) && !length(za_warudo))
+		qdel(quadtrees[z_str])
+		quadtrees[z_str] = null
 
 
 /datum/controller/subsystem/processing/physics_processing/fire(resumed)
@@ -39,7 +39,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		var/datum/quadtree/quad = quadtrees[z_key]
 		for(var/datum/component/physics2d/body as() in za_warudo)
 			//Precondition: They're actually somewhat near each other. This is a nice and simple way to cull collisions that would never happen, and save some CPU time.
-			nearby = quad.get_nearby_objects(body.collider2d) - src
+			nearby = quad.get_nearby_objects(body.collider2d) - body.collider2d
 			for(var/datum/component/physics2d/neighbour as() in nearby)
 				if(!isovermap(body.holder))
 					if(!body.holder.physics_collide(neighbour.holder))
@@ -53,7 +53,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		next_rebuild = world.time + rebuild_frequency
 		for(var/z_key in quadtrees)
 			var/datum/quadtree/Q = quadtrees[z_key]
-			if(Q.weight > MAX_OBJECTS_PER_NODE)
+			if(Q.weight > MAX_OBJECTS_PER_NODE && Q.weight < rebuild_weight_limit)
 				Q.Rebuild()
 
 
@@ -91,10 +91,10 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		if(istype(P))
 			P.physics2d = null
 	if(last_registered_z)
-		SSphysics_processing.physics_levels["[last_registered_z]"] -= src
+		SSphysics_processing.RemoveFromLevel(src, last_registered_z)
 	else
 		for(var/z_key in SSphysics_processing.physics_levels)
-			SSphysics_processing.physics_levels[z_key] -= src
+			SSphysics_processing.RemoveFromLevel(src,z_key)
 	//De-alloc references.
 	QDEL_NULL(collider2d)
 	QDEL_NULL(position)
@@ -309,6 +309,8 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		Q = Q.parent
 		if(Q)
 			Q.weight--
+			continue
+		return
 
 /datum/quadtree/proc/get_nearby_objects(datum/shape/O)
 	. = list()
