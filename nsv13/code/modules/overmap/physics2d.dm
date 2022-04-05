@@ -100,7 +100,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		SSphysics_processing.RemoveFromLevel(src, last_registered_z)
 	else
 		for(var/z_key in SSphysics_processing.physics_levels)
-			SSphysics_processing.RemoveFromLevel(src,z_key)
+			SSphysics_processing.RemoveFromLevel(src, z_key)
 	//De-alloc references.
 	QDEL_NULL(collider2d)
 	QDEL_NULL(position)
