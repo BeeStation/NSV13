@@ -293,7 +293,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		Q = Q.parent
 		if(!Q)
 			break
-		var/node = Q.get_node_index(O)
+		node = Q.get_node_index(O)
 		if(node)
 			Q = Q.subnodes[node]
 			return Q.Add(O)
@@ -318,7 +318,6 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		var/datum/quadtree/Q = subnodes[node]
 		. += Q.get_nearby_objects(O)
 	. += objects // add any objects that don't fit in our subnodes (or just all objects, if we don't have subnodes)
-	return nearby
 
 #undef TOPLEFT_QUADRANT
 #undef TOPRIGHT_QUADRANT
