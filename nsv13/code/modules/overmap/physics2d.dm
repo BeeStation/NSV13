@@ -139,8 +139,6 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 #define BOTTOMRIGHT_QUADRANT 4
 /// Max recursion depth of subnode creation
 #define MAX_DEPTH 4
-/// Nodes with subnodes are marked for pruning below this weight
-#define PRUNE_WEIGHT 5
 
 /datum/quadtree
 	var/datum/quadtree/parent
@@ -175,6 +173,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 /datum/quadtree/proc/Clear()
 	objects.len = 0
 	weight = 0
+	parent = null
 	if(!subnodes)
 		return
 	for(var/datum/quadtree/Q as() in subnodes)
@@ -182,7 +181,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		qdel(Q)
 	subnodes = null
 
-/// Prunes unused/unnecessary subnodes by destroying and rebuilding the quadtree, can be pretty expensive for deeper quadtrees so try to use this sparingly
+/// Prunes unused/unnecessary subnodes by destroying and rebuilding the quadtree, can be pretty expensive for more complex quadtrees so try to use this sparingly
 /datum/quadtree/proc/Rebuild()
 	if(weight < MAX_OBJECTS_PER_NODE)
 		return
@@ -207,37 +206,37 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	subnodes[BOTTOMLEFT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x, pos.y + childHeight, childWidth, childHeight)
 	subnodes[BOTTOMRIGHT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x + childWidth, pos.y + childHeight, childWidth, childHeight)
 
-#define TOP_QUADRANT 1
-#define BOTTOM_QUADRANT 2
+#define UPPER_QUADRANT 1
+#define LOWER_QUADRANT 2
 /// Used by a parent node to determine what subnode an object belongs to
 /datum/quadtree/proc/get_node_index(datum/shape/O)
 	var/quadIndex = 0
 
 	var/vertQuad = 0 // whether we're in the topleft/topright or bottomleft/bottomright quadrant.
 	if(O.position.y > pos.y)
-		vertQuad = TOP_QUADRANT
+		vertQuad = UPPER_QUADRANT
 	else if(O.position.y < pos.y && O.position.y + O.height < pos.y)
-		vertQuad = BOTTOM_QUADRANT
+		vertQuad = LOWER_QUADRANT
 	// are we in the right quadrant?
 	if(O.position.x > pos.x)
 		switch(vertQuad)
-			if(TOP_QUADRANT)
+			if(UPPER_QUADRANT)
 				quadIndex = TOPRIGHT_QUADRANT
-			if(BOTTOM_QUADRANT)
+			if(LOWER_QUADRANT)
 				quadIndex = BOTTOMRIGHT_QUADRANT
 
 	// or are we in the left quadrant?
-	else if(O.position.x < pos.x && O.position.x + O.width < pos.x)
+	else if(O.position.x != pos.x && O.position.x + O.width < pos.x)
 		switch(vertQuad)
-			if(TOP_QUADRANT)
+			if(UPPER_QUADRANT)
 				quadIndex = TOPLEFT_QUADRANT
-			if(BOTTOM_QUADRANT)
+			if(LOWER_QUADRANT)
 				quadIndex = BOTTOMLEFT_QUADRANT
 
 	return quadIndex
 
-#undef TOP_QUADRANT
-#undef BOTTOM_QUADRANT
+#undef UPPER_QUADRANT
+#undef LOWER_QUADRANT
 
 /// Adds an element and returns the specific node the element is stored in
 /datum/quadtree/proc/Add(datum/shape/O)
@@ -326,5 +325,6 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 #undef BOTTOMLEFT_QUADRANT
 #undef BOTTOMRIGHT_QUADRANT
 
-#undef MAX_OBJECTS_PER_NODE
 #undef MAX_DEPTH
+
+#undef MAX_OBJECTS_PER_NODE
