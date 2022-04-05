@@ -1,3 +1,5 @@
+/// Max amount of objects we can have in a quadtree node before subdividing
+#define MAX_OBJECTS_PER_NODE 15
 
 PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	name = "Physics"
@@ -7,6 +9,8 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/list/physics_levels = list() // key = (string) z_level, value = list()
 	var/datum/collision_response/c_response = new /datum/collision_response()
 	var/list/quadtrees = list() // key = (string) z_level, value = root quadtree
+	var/next_rebuild = 0 // Next quadtree rebuild (world time)
+	var/rebuild_frequency = 200 // in deciseconds
 
 /datum/controller/subsystem/processing/physics_processing/proc/AddToLevel(datum/component/physics2d/newP, target_z)
 	var/z_str = "[target_z]"
@@ -45,6 +49,13 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 				//OK, now we get into the expensive calculation. This is our absolute last resort because it's REALLY expensive.
 				else if(isovermap(neighbour.holder) && body.collider2d.collides(neighbour.collider2d, c_response)) // Dirty, but necessary. I want to minimize in-depth collision calc wherever I possibly can, so only overmap prototypes use it.
 					body.holder.Bump(neighbour.holder, c_response) //More in depth calculation required, so pass this information on.
+	if(next_rebuild >= world.time)
+		next_rebuild = world.time + rebuild_frequency
+		for(var/z_key in quadtrees)
+			var/datum/quadtree/Q = quadtrees[z_key]
+			if(Q.weight > MAX_OBJECTS_PER_NODE)
+				Q.Rebuild()
+
 
 
 /datum/component/physics2d
@@ -126,8 +137,6 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 #define TOPRIGHT_QUADRANT 2
 #define BOTTOMLEFT_QUADRANT 3
 #define BOTTOMRIGHT_QUADRANT 4
-/// Max amount of objects we can have in a quadrant before subdividing
-#define MAX_OBJECTS_PER_NODE 15
 /// Max recursion depth of subnode creation
 #define MAX_DEPTH 4
 /// Nodes with subnodes are marked for pruning below this weight
