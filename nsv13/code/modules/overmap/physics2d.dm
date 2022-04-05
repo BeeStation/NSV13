@@ -15,8 +15,8 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 
 /datum/controller/subsystem/processing/physics_processing/proc/AddToLevel(datum/component/physics2d/newP, target_z)
 	var/z_str = "[target_z]"
-	if(!physics_levels[z_str])
-		quadtrees[z_str] = new /datum/quadtree(null, 0, GLOB.max_pixel_x / 2, GLOB.max_pixel_y / 2, GLOB.max_pixel_x, GLOB.max_pixel_y)
+	if(!quadtrees[z_str])
+		quadtrees[z_str] = new /datum/quadtree(null, 0, GLOB.max_pixel_x / 2, GLOB.max_pixel_y / 2, GLOB.max_pixel_x, GLOB.max_pixel_y) // create new tree
 	physics_levels[z_str] += newP
 	var/datum/quadtree/Q = quadtrees[z_str]
 	return Q.Add(newP.collider2d)
@@ -53,7 +53,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		for(var/z_key in quadtrees)
 			var/datum/quadtree/Q = quadtrees[z_key]
 			if(Q.weight > MAX_OBJECTS_PER_NODE)
-				Q.Clear() // remove everything
+				Q.Clear(TRUE) // remove everything
 				za_warudo = physics_levels[z_key]
 				if(!za_warudo)
 					continue
@@ -81,7 +81,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/last_x_clamped
 	var/last_y_clamped
 
-/datum/component/physics2d/Initialize(IsStatic = FALSE)
+/datum/component/physics2d/Initialize()
 	. = ..()
 	holder = parent
 	if(!istype(holder))
@@ -184,16 +184,17 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 /datum/quadtree/Destroy()
 	. = ..()
 	if(weight)
-		Clear()
+		Clear(FALSE)
 
-/datum/quadtree/proc/Clear()
+/datum/quadtree/proc/Clear(cache = FALSE)
 	objects.len = 0
 	weight = 0
 	if(!subnodes)
 		return
-	cached_subnodes[src] = subnodes
+	if(cache)
+		cached_subnodes[src] = subnodes
 	for(var/datum/quadtree/Q as() in subnodes)
-		Q.Clear()
+		Q.Clear(cache)
 	subnodes = null
 
 /datum/quadtree/proc/get_all_objects()
