@@ -1,47 +1,50 @@
-//In tiles, what is the range of the maximum possible collision that could take place? Please try and keep this low, as it saves a lot of time and memory because it'll just ignore physics bodies that are too far away from each other.
-//That being said. If you want to make a ship that is bigger than this in tile size, then you will have to change this number. As of 11/08/2020 the LARGEST possible collision range is 25 tiles, due to the fist of sol existing. Though tbh if you make a sprite much larger than this, byond will likely just cull it from the viewport.
-#define MAXIMUM_COLLISION_RANGE 12
+
 PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	name = "Physics"
 	wait = 1.5
 	priority = FIRE_PRIORITY_PHYSICS
 	stat_tag = "PHYS"
-	var/list/physics_bodies = list() //All the physics bodies in the world.
-	var/list/physics_levels = list()
+	var/list/physics_levels = list() // key = (string) z_level, value = list()
 	var/datum/collision_response/c_response = new /datum/collision_response()
-	var/list/quadtrees = list() // key = z, value = quadtree
+	var/list/quadtrees = list() // key = (string) z_level, value = root quadtree
 
 /datum/controller/subsystem/processing/physics_processing/proc/AddToLevel(datum/component/physics2d/newP, target_z)
-	if(!physics_levels[target_z])
-		quadtrees[target_z] = new /datum/quadtree(null, 0, GLOB.max_pixel_x / 2, GLOB.max_pixel_y / 2, GLOB.max_pixel_x, GLOB.max_pixel_y)
-	physics_levels[target_z] += newP
+	var/z_str = "[target_z]"
+	if(!physics_levels[z_str])
+		quadtrees[z_str] = new /datum/quadtree(null, 0, GLOB.max_pixel_x / 2, GLOB.max_pixel_y / 2, GLOB.max_pixel_x, GLOB.max_pixel_y)
+	physics_levels[z_str] += newP
+	var/datum/quadtree/Q = quadtrees[z_str]
+	return Q.Add(newP.collider2d)
+
+/datum/controller/subsystem/processing/physics_processing/proc/RemoveFromLevel(datum/component/physics2d/P, target_z)
+	if(target_z)
+		var/z_str = "[target_z]"
+		var/list/za_warudo = physics_levels[z_str]
+		za_warudo -= P
+		if(!length(za_warudo))
+			qdel(quadtrees[z_str])
+			quadtrees[z_str] = null
+
 
 /datum/controller/subsystem/processing/physics_processing/fire(resumed)
 	. = ..()
-	var/current_z
 	var/list/nearby
-	var/list/recent_collisions = list()
-	for(var/list/za_warudo in physics_levels)
-		current_z = physics_levels.Find(za_warudo)
-		recent_collisions.len = 0
-		var/datum/quadtree/quad = quadtrees[current_z]
+	var/list/za_warudo
+	for(var/z_key in physics_levels)
+		za_warudo = physics_levels[z_key]
+		var/datum/quadtree/quad = quadtrees[z_key]
 		for(var/datum/component/physics2d/body as() in za_warudo)
 			//Precondition: They're actually somewhat near each other. This is a nice and simple way to cull collisions that would never happen, and save some CPU time.
 			nearby = quad.get_nearby_objects(body.collider2d) - src
-			for(var/datum/component/physics2d/neighbour as() in nearby) //Now we check the collisions of every other physics body with this one. I hate that I have to do this, but I can't think of a better way just yet.
-				//Precondition: we're not checking collisions that we already ran.
-				if(get_dist(body.holder, neighbour.holder) > MAXIMUM_COLLISION_RANGE || (neighbour in recent_collisions))
-					continue
+			for(var/datum/component/physics2d/neighbour as() in nearby)
 				if(!isovermap(body.holder))
 					if(!body.holder.physics_collide(neighbour.holder))
 						continue //Bullets don't want to "bump" into each other, we actually handle that code in "crossed()"
 					if(body.collider2d.collides(neighbour.collider2d))
 						body.holder.Bump(neighbour.holder)
-						recent_collisions += neighbour
 				//OK, now we get into the expensive calculation. This is our absolute last resort because it's REALLY expensive.
 				else if(isovermap(neighbour.holder) && body.collider2d.collides(neighbour.collider2d, c_response)) // Dirty, but necessary. I want to minimize in-depth collision calc wherever I possibly can, so only overmap prototypes use it.
 					body.holder.Bump(neighbour.holder, c_response) //More in depth calculation required, so pass this information on.
-					recent_collisions += neighbour
 
 
 /datum/component/physics2d
@@ -77,11 +80,10 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		if(istype(P))
 			P.physics2d = null
 	if(last_registered_z)
-		SSphysics_processing.physics_levels[last_registered_z] -= src
+		SSphysics_processing.physics_levels["[last_registered_z]"] -= src
 	else
-		for(var/list/za_warudo in SSphysics_processing.physics_levels)
-			za_warudo -= src
-	SSphysics_processing.physics_bodies -= src
+		for(var/z_key in SSphysics_processing.physics_levels)
+			SSphysics_processing.physics_levels[z_key] -= src
 	//De-alloc references.
 	QDEL_NULL(collider2d)
 	QDEL_NULL(position)
@@ -91,9 +93,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	position = new /datum/vector2d(holder.x*32,holder.y*32)
 	collider2d = new /datum/shape(position, hitbox, angle) // -TORADIANS(src.angle-90)
 	last_registered_z = holder.z
-	last_node = SSphysics_processing.quadtree.Add(collider2d)
 	poscache = position.x * GLOB.max_pixel_x + position.y
-	SSphysics_processing.physics_bodies += src
 	SSphysics_processing.AddToLevel(src, last_registered_z)
 
 /// Uses pixel coordinates
@@ -113,9 +113,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 			qdel(src)
 			message_admins("WARNING: [holder] has been moved out of bounds at [ADMIN_VERBOSEJMP(holder.loc)]. Deleting physics component.")
 			CRASH("Physics component holder located in nullspace.")
-		var/list/stats = SSphysics_processing.physics_levels[last_registered_z]
-		if(stats) //If we're already in a list.
-			stats -= src
+		SSphysics_processing.RemoveFromLevel(src, last_registered_z)
 		last_registered_z = holder.z
 		SSphysics_processing.AddToLevel(src, last_registered_z)
 
@@ -160,15 +158,35 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	YMin = y - H
 	YMax = y + H
 
+/datum/quadtree/Destroy()
+	. = ..()
+	if(weight)
+		Clear()
 
 /datum/quadtree/proc/Clear()
 	objects.len = 0
+	weight = 0
 	if(!subnodes)
 		return
 	for(var/datum/quadtree/Q as() in subnodes)
 		Q.Clear()
 		qdel(Q)
 	subnodes = null
+
+/// Prunes unused/unnecessary subnodes by destroying and rebuilding the quadtree, can be pretty expensive for deeper quadtrees so try to use this sparingly
+/datum/quadtree/proc/Rebuild()
+	if(weight < MAX_OBJECTS_PER_NODE)
+		return
+	var/list/all_objects = get_all_objects()
+	Clear()
+	for(var/datum/shape/O as() in all_objects)
+		Add(O)
+
+/datum/quadtree/proc/get_all_objects()
+	. = objects
+	if(subnodes)
+		for(var/datum/quadtree/Q as() in subnodes)
+			. += Q.get_all_objects()
 
 /datum/quadtree/proc/subdivide()
 	var/childLevel = depth + 1
@@ -284,13 +302,13 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 			Q.weight--
 
 /datum/quadtree/proc/get_nearby_objects(datum/shape/O)
-	var/list/nearby = list()
+	. = list()
 
 	var/node = get_node_index(O)
 	if(node && subnodes)
 		var/datum/quadtree/Q = subnodes[node]
-		nearby += Q.get_nearby_objects(O)
-	nearby += objects // add any objects that don't fit in our subnodes (or just all objects, if we don't have subnodes)
+		. += Q.get_nearby_objects(O)
+	. += objects // add any objects that don't fit in our subnodes (or just all objects, if we don't have subnodes)
 	return nearby
 
 #undef TOPLEFT_QUADRANT
