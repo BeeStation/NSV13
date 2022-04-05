@@ -54,20 +54,27 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		for(var/z_key in quadtrees)
 			var/datum/quadtree/Q = quadtrees[z_key]
 			if(Q.weight > MAX_OBJECTS_PER_NODE && Q.weight < rebuild_weight_limit)
-				Q.Rebuild()
+				Q.Clear() // remove everything
+				za_warudo = physics_levels[z_key]
+				if(!za_warudo)
+					continue
+				// re-add everything
+				for(var/datum/component/physics2d/P as() in za_warudo)
+					P.last_node = Q.Add(P)
+
 
 
 
 /datum/component/physics2d
 	var/atom/movable/holder = null
 	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
-	var/datum/quadtree/tree = null // What tree we're in, changes with z
 	var/datum/quadtree/last_node = null // The last quadtree node we were at.
 	var/datum/vector2d/position = null //Positional vector, used exclusively for collisions with overmaps
 	var/last_registered_z = 0
-	var/static_collider = FALSE // does this object move?
 
-	var/poscache // lightweight position cache. Format is pixel_x * max_pixel_x + pixel_y
+	// rounded to multiple of 128 (changes every 4 tiles)
+	var/last_x_clamped
+	var/last_y_clamped
 
 /datum/component/physics2d/Initialize(IsStatic = FALSE)
 	. = ..()
@@ -75,7 +82,6 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	if(!istype(holder))
 		return COMPONENT_INCOMPATIBLE //Precondition: This is a subtype of atom/movable.
 	last_registered_z = holder.z
-	static_collider = IsStatic
 	RegisterSignal(holder, COMSIG_MOVABLE_Z_CHANGED, .proc/update_z)
 
 /datum/component/physics2d/Destroy(force, silent)
@@ -104,19 +110,21 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	position = new /datum/vector2d(holder.x*32,holder.y*32)
 	collider2d = new /datum/shape(position, hitbox, angle) // -TORADIANS(src.angle-90)
 	last_registered_z = holder.z
-	poscache = position.x * GLOB.max_pixel_x + position.y
-	SSphysics_processing.AddToLevel(src, last_registered_z)
+	last_x_clamped = round(position.x, 128)
+	last_y_clamped = round(position.y, 128)
+	last_node = SSphysics_processing.AddToLevel(src, last_registered_z)
 
 /// Uses pixel coordinates
 /datum/component/physics2d/proc/update(x, y, angle)
 	collider2d.set_angle(angle) //Turn the box collider
 	collider2d._set(x, y)
-	if(static_collider)
-		return
-	var/NP = x * GLOB.max_pixel_x + y
-	if(poscache != NP)
+	var/new_x_clamped = round(x, 128)
+	var/new_y_clamped = round(y, 128)
+	// we don't need to update our quadrant every time we move, every 4 tiles should be enough for the current max grid dimensions
+	if(new_x_clamped != last_x_clamped || new_y_clamped != last_y_clamped)
 		last_node = last_node.Walk(collider2d)
-		poscache = NP
+		last_x_clamped = new_x_clamped
+		last_y_clamped = new_y_clamped
 
 /datum/component/physics2d/proc/update_z()
 	if(holder.z != last_registered_z) //Z changed? Update this unit's processing chunk.
@@ -126,10 +134,10 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 			CRASH("Physics component holder located in nullspace.")
 		SSphysics_processing.RemoveFromLevel(src, last_registered_z)
 		last_registered_z = holder.z
-		SSphysics_processing.AddToLevel(src, last_registered_z)
+		last_node = SSphysics_processing.AddToLevel(src, last_registered_z)
 
 
-// While I'd love to make a perfect QuadTree data structure with trunk index list, leaf datums, element nodes and all that juicy low level stuff;
+// While I'd love to make a perfect Quadtree data structure with trunk index list, leaf datums, element nodes and all that juicy low level stuff;
 // I'm fairly confident that those further optimizations would end up making things *slower* due to BYOND's slow ass backend.
 // But if you're daring (and willing to benchmark the performance gain), feel free to try!
 
@@ -181,17 +189,8 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		qdel(Q)
 	subnodes = null
 
-/// Prunes unused/unnecessary subnodes by destroying and rebuilding the quadtree, can be pretty expensive for more complex quadtrees so try to use this sparingly
-/datum/quadtree/proc/Rebuild()
-	if(weight < MAX_OBJECTS_PER_NODE)
-		return
-	var/list/all_objects = get_all_objects()
-	Clear()
-	for(var/datum/shape/O as() in all_objects)
-		Add(O)
-
 /datum/quadtree/proc/get_all_objects()
-	. = objects
+	. = objects.Copy()
 	if(subnodes)
 		for(var/datum/quadtree/Q as() in subnodes)
 			. += Q.get_all_objects()
@@ -217,6 +216,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		vertQuad = UPPER_QUADRANT
 	else if(O.position.y < pos.y && O.position.y + O.height < pos.y)
 		vertQuad = LOWER_QUADRANT
+
 	// are we in the right quadrant?
 	if(O.position.x > pos.x)
 		switch(vertQuad)
@@ -247,11 +247,12 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 			var/datum/quadtree/Q = subnodes[node]
 			return Q.Add(O)
 	objects += O
-	if(depth < MAX_DEPTH && weight > MAX_OBJECTS_PER_NODE)
+	var/objlen = length(objects)
+	if(depth < MAX_DEPTH && objlen > MAX_OBJECTS_PER_NODE)
 		if(!subnodes)
 			subdivide()
 		var/i = 0 // increments every time an object has finished moving to a valid subnode
-		while(i < length(objects))
+		while(i < objlen)
 			var/object = objects[i]
 			var/node = get_node_index(object)
 			if(node)
