@@ -27,7 +27,7 @@
 
 		// selection_weight = INFINITY
 		selection_weight = 999
-		SSovermap_mode.announce_delay = 3 SECONDS
+		SSovermap_mode.announce_delay = 5 SECONDS
 
 		for( var/obj/machinery/computer/ship/dradis/dradis in GLOB.machines )
 			dradis.hail_range = 500

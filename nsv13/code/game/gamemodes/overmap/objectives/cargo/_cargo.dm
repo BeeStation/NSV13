@@ -84,7 +84,7 @@
 	S.add_objective( src )
 
 /datum/overmap_objective/cargo/proc/roundstart_deliver_package()
-	if ( send_to_station_pickup_point )
+	if ( send_to_station_pickup_point && !SSovermap_mode.mode.debug_mode )
 		pick_station_pickup_point()
 		return TRUE
 
@@ -127,7 +127,10 @@
 		brief = "Complete supply request form #[GLOB.round_id]-[objective_number] by delivering its contents to station [S] (system [S.current_system])"
 
 /datum/overmap_objective/cargo/print_objective_report()
+	message_admins( "print_objective_report" )
 	var/title = "Secure Supply Request Form: #[GLOB.round_id]-[objective_number]"
+	message_admins( "[ADMIN_VV(destination)]" )
+	message_admins( "[ADMIN_VV(destination.current_system)]" )
 	var/info = "<strong>[title]</strong><br/> \
 		Destination: [destination]<br/> \
 		Destination system: [destination.current_system]<br/> \
@@ -138,6 +141,13 @@
 		</ul>"
 
 	print_command_report(info, title, FALSE)
+
+	message_admins( "[ADMIN_VV(SSstar_system.main_overmap)]" )
+	if ( SSovermap_mode.mode.debug_mode )
+		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
+		if ( MO.current_system != destination.current_system )
+			MO.current_system.remove_ship(MO)
+			MO.jump_end(destination.current_system)
 
 /datum/overmap_objective/cargo/proc/update_freight_type_group()
 	freight_type_group.set_objective( src )
