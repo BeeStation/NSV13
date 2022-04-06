@@ -1,7 +1,7 @@
 /* MESSAGE FOR THE NEXT POOR SOD TO STUMBLE UPON THIS SAD LITTLE THING WE CALL A SUBSYSTEM
 --------------------------------------------------------------------------------------------
  * Collision detection hasn't been used in this subsystem for a while, expect to encounter unexpected behavior when re-implementing this
- * collission detection currently relies on deprecated C++ hooks in shapes.dm, you'll need to either replace the hook with DM or use Rust to hook it with auxtools
+ * collission detection currently relies on deprecated C++ hooks in shape.dm, you'll need to either replace the hook with DM or use Rust to hook it with auxtools
  * godspeed o7.
 */
 
@@ -14,7 +14,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	priority = FIRE_PRIORITY_PHYSICS
 	stat_tag = "PHYS"
 	var/list/physics_levels = list() // key = (string) z_level, value = list()
-	var/datum/collision_response/c_response = new /datum/collision_response()
+	var/datum/collision_response/c_response = new()
 	var/list/quadtrees = list() // key = (string) z_level, value = root quadtree
 
 	var/RBcounter = 0

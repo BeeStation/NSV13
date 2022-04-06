@@ -9,6 +9,9 @@ COLLISIONS MAY OR MAY NOT END UP BACKWARDS. CHECK THIS LATER.
 Special thanks to qwertyquerty for explaining and dictating all this! (I've mostly translated his pseudocode into readable byond code)
 
 */
+
+
+// UPDATE: DEPRECATED. SEE COMMENT ABOVE HOOK FUNCTIONS
 GLOBAL_VAR(exmap_initialized) // Exmap is windows only until I figure out how the hell to compile it for linux
 #define EXMAP_EXTOOLS_CHECK if(!GLOB.exmap_initialized){\
 	GLOB.exmap_initialized=TRUE;\
@@ -31,9 +34,7 @@ GLOBAL_VAR(exmap_initialized) // Exmap is windows only until I figure out how th
 	var/height = 0
 
 //All stuff that happens in C++ land must be declared here and wrapped later.
-
-/datum/shape/proc/__test_aabb(list/v1, list/v2, list/aabb, list/other_aabb)
-/datum/shape/proc/test_aabb(datum/shape/other)
+// UPDATE: These functions have been deprecated since auxtools. Reimplementation should ideally be done via auxtool hooks (Rust) or DM if the function is not too expensive
 /datum/shape/proc/__foo()
 /datum/shape/proc/__get_seg_intersection(datum/vector2d/p0, datum/vector2d/p1, datum/vector2d/p2, datum/vector2d/p3)
 /datum/shape/proc/get_seg_intersection()
@@ -123,11 +124,10 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 	aabb.Add(min_x, min_y, max_x, max_y)
 
 /**
-Simple method to calculate whether we collide with another shape object, lightweight but not hugely precise.
+Simple method to calculate whether we collide with another shape object, lightweight but not hugely precise for non-rectangle colliders.
 */
-/datum/shape/test_aabb(datum/shape/other)
-	var/out = __test_aabb(list(position.x, position.y), list(other.position.x, other.position.y), src.aabb, other.aabb)
-	return out
+/datum/shape/proc/test_aabb(datum/shape/O)
+	return position.x < O.position.x + O.width && position.x + width > O.position.x && position.y < O.position.y + O.height && position.y + height > O.position.y
 
 /datum/shape/proc/get_global_points()
 	var/list/datum/vector2d/global_points = list()
