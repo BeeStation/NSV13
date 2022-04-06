@@ -1,3 +1,10 @@
+/* MESSAGE FOR THE NEXT POOR SOD TO STUMBLE UPON THIS SAD LITTLE THING WE CALL A SUBSYSTEM
+--------------------------------------------------------------------------------------------
+ * Collision detection hasn't been used in this subsystem for a while, expect to encounter unexpected behavior when re-implementing this
+ * collission detection currently relies on deprecated C++ hooks in shapes.dm, you'll need to either replace the hook with DM or use Rust to hook it with auxtools
+ * godspeed o7.
+*/
+
 /// Max amount of objects we can have in a quadtree node before subdividing
 #define MAX_OBJECTS_PER_NODE 15
 
