@@ -1342,7 +1342,7 @@ Seek a ship thich we'll station ourselves around
 		OM.seek_new_target()
 	if(!OM.last_target)	//Still no target? Float until a new lockon is acquired.
 		return
-	OM.move_toward(OM.last_target, ram_target = TRUE)
+	OM.move_toward(OM.last_target, ignore_all_collisions = TRUE)
 
 
 //Boarding! Boarders love to board your ships.

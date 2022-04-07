@@ -8,6 +8,7 @@
 	pixel_collision_size_x = 32
 	pixel_collision_size_y = 32
 	var/arm_timer = null //Check for if we arm yet
+	var/ai_driven = FALSE //Are we an AI torp?
 	density = FALSE //Not true until it arms
 	move_by_mouse = TRUE
 	overmap_verbs = list()
@@ -62,6 +63,8 @@
 	if(!density) //If we aren't armed, we should arm
 		if(world.time >= arm_timer + 2 SECONDS)
 			density = TRUE
+			if(ai_driven)
+				ai_controlled = TRUE
 	
 	if(world.time >= fuel_cutout)
 		new detonation(src)
@@ -106,7 +109,7 @@
 			qdel(src)			
 
 /obj/structure/overmap/torpedo/proc/release_pilot()
-	if(ai_controlled)
+	if(ai_controlled || ai_driven)
 		return
  	
 	if(!pilot)
@@ -180,7 +183,7 @@
 		OMT.OM = linked
 		OMT.angle = linked.angle
 		OMT.faction = linked.faction
-		OMT.warhead = ST.projectile_type
+		OMT.warhead = ST.projectile_type //make a default type if no warhead
 		var/obj/item/projectile/guided_munition/torpedo/PT = new OMT.warhead()
 		OMT.name = PT.name
 		OMT.icon_state = PT.icon_state
@@ -192,16 +195,19 @@
 		OMT.detonation = PT.impact_effect_type
 
 		if(istype(ST, /obj/item/ship_weapon/ammunition/torpedo/ai_test))
-			OMT.ai_controlled = TRUE
+			OMT.ai_driven = TRUE
 			OMT.ai_behaviour = AI_AGGRESSIVE
 			OMT.ai_flags = AI_FLAG_MUNITION
-			
+			OMT.current_system = linked.current_system
+
+			/*
 			var/datum/star_system/target = linked.current_system
 			var/datum/fleet/torpedo_holder/TT = new()
 			target.fleets += TT
 			TT.current_system = target	
 			TT.faction = OMT.faction
 			TT.add_ship(OMT, "fighters")
+			*/
 
 
 		else //Get in the seat
@@ -216,15 +222,19 @@
 /obj/machinery/ship_weapon/wgt/after_fire()
 	if(maintainable)
 		if(maint_req > 0)
-			maint_req -= rand(5, 10) //Quite heavy on the maint
+			maint_req -= rand(3, 6) //Quite heavy on the maint
 		else
 			weapon_malfunction()
 	update()
 
+	explosion(src, 0, 0, 0, 2, 0, FALSE, 1, FALSE, TRUE)
+
+	/*
 	atmos_spawn_air("o2=5;plasma=5;TEMP=500")
 	var/datum/effect_system/smoke_spread/smoke = new
 	smoke.set_up(1, src)
 	smoke.start()	
+	*/
 
 //Test torps
 /obj/item/ship_weapon/ammunition/torpedo/ai_test/t1
