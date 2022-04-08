@@ -60,11 +60,13 @@
 /obj/structure/overmap/torpedo/process()
 	. = ..()
 	
+	if(ai_driven && !ai_controlled) //Causes torpedo to not instantly snap to target
+		if(world.time >= arm_timer + 1 SECONDS)
+			ai_controlled = TRUE
+
 	if(!density) //If we aren't armed, we should arm
 		if(world.time >= arm_timer + 2 SECONDS)
 			density = TRUE
-			if(ai_driven)
-				ai_controlled = TRUE
 	
 	if(world.time >= fuel_cutout)
 		new detonation(src)
