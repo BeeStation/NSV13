@@ -26,7 +26,7 @@
 //TE_POINTS_PER_FLEET_SIZE points is equivalent to 1 fleet size point - not the same due to the possibility of using these for other things too.
 #define TE_REINFORCEMENT_DELAY 15 MINUTES   //A fleet needs to not be currently on a loaded z aswell as not have been in player combat for this long to reinforce up to TE mandated strength. For NPC combat, it simply has to not be in a contested system.
 #define TE_INITIAL_DELAY 25 MINUTES         //Let's say the crew needs about 25 minutes usually to get things setup enough to be considered working.
-#define TE_THREAT_PER_HOUR 200              //How much threat is passively generated per hour?
+#define TE_THREAT_PER_HOUR 100              //How much threat is passively generated per hour?
 #define TE_OBJECTIVE_THREAT_NEGATION 50     //How much threat do we lose per completed objective (cannot go below 0 threat) - can be further modified in the overmap objectives themselves - set to 0 to disable
 #define TE_FLEET_THREAT_DYNAMIC TRUE        //If true, the fleet kill threat below is modified by base fleet strength. If not, it is simply applied the same for every fleet.
 #define TE_FLEET_KILL_THREAT 10             //If Dynamic mode is enabled, this many points of threat will be added per base strength point of the destroyed fleet. If it is not, this point value is simply applied flat on kill.
