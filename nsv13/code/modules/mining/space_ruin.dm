@@ -8,6 +8,7 @@
 	bound_width = 224
 	bound_height = 224
 	dockable_poi = TRUE
+	interior_border_width = 3
 	armor = list("overmap_light" = 25, "overmap_medium" = 25, "overmap_heavy" = 25)
 	overmap_deletion_traits = DELETE_UNOCCUPIED_ON_DEPARTURE | DAMAGE_DELETES_UNOCCUPIED | DAMAGE_STARTS_COUNTDOWN | FIGHTERS_ARE_OCCUPANTS
 	deletion_teleports_occupants = TRUE

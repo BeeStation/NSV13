@@ -131,6 +131,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 The meat of this file. This will instance the dropship's interior in reserved space land. I HIGHLY recommend you keep these maps small, reserved space code is shitcode.
 */
 /obj/structure/overmap/proc/instance_interior()
+	message_admins( "instance_interior" )
 	if(interior_status == INTERIOR_READY) // it's loaded already, we're done
 		return TRUE
 	else if(interior_status != INTERIOR_NOT_LOADED)
@@ -144,12 +145,13 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		message_admins("Error parsing boarding interior map for [src]")
 		return FALSE
 
-	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
+	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width + ( interior_border_width * 2 ), boarding_interior.height + ( interior_border_width * 2 ))
 	if(!roomReservation)
 		message_admins("[src] failed to reserve space for a dropship interior!")
 		return FALSE
 
-	var/turf/bottom_left = locate(roomReservation.bottom_left_coords[1], roomReservation.bottom_left_coords[2], roomReservation.bottom_left_coords[3])
+	message_admins( "[ADMIN_VV(roomReservation)]" )
+	var/turf/bottom_left = locate(roomReservation.bottom_left_coords[1] + interior_border_width, roomReservation.bottom_left_coords[2] + interior_border_width, roomReservation.bottom_left_coords[3])
 	return load_interior(bottom_left, boarding_interior.width, boarding_interior.height)
 
 /obj/structure/overmap/proc/add_entrypoints(area/target_area)
