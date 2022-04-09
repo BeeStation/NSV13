@@ -38,12 +38,12 @@
 		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/ammunition/gauss))
 			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
 			return FALSE
-		if(ammo?.len >= max_ammo)
+		if(length(ammo) >= max_ammo)
 			return FALSE
 		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
 		if(do_after(user, 4 SECONDS , target = src))
 			for(var/obj/item/ship_weapon/ammunition/gauss/G in A)
-				if(ammo?.len < max_ammo)
+				if(length(ammo) < max_ammo)
 					G.forceMove(src)
 					ammo += G
 			if(load_sound)
@@ -63,6 +63,8 @@
 		if(!check_rights(NONE))
 			return
 		remove_gunner()
+
+#undef VV_HK_REMOVE_GAUSS_GUNNER
 
 /obj/machinery/ship_weapon/gauss_gun/powered(chan)
 	if(!loc)
@@ -129,7 +131,7 @@
 
 /obj/machinery/ship_weapon/gauss_gun/Initialize()
 	. = ..()
-	cabin_air = new
+	cabin_air = new()
 	cabin_air.set_temperature(T20C)
 	cabin_air.set_volume(200)
 	cabin_air.set_moles(GAS_O2, O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
@@ -157,7 +159,7 @@
 	QDEL_NULL(ammo_rack)
 	QDEL_NULL(cabin_air)
 	QDEL_NULL(internal_tank)
-	. = ..()
+	return ..()
 
 /obj/machinery/ship_weapon/gauss_gun/attack_hand(mob/user)
 	if(climbing_in)
@@ -559,14 +561,16 @@ Chair + rack handling
 		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
 		return FALSE
 	. = ..()
-	occupant = null
+	if(.)
+		occupant = null
 
 /obj/structure/chair/comfy/gauss/user_unbuckle_mob(mob/buckled_mob, mob/user)
 	if(locked)
 		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
 		return FALSE
 	. = ..()
-	occupant = null
+	if(.)
+		occupant = null
 
 /obj/structure/chair/comfy/gauss/user_buckle_mob(mob/living/M, mob/user, check_loc = TRUE)
 	if((gun && !gun.allowed(M)) || !M.client)
@@ -586,18 +590,19 @@ Chair + rack handling
 		return
 
 	var/mob/living/carbon/C = M
-	if(istype(C) && !C.get_bodypart(BODY_ZONE_L_ARM) && !C.get_bodypart(BODY_ZONE_R_ARM)) //Can't shoot the gun if you have no hands, borgs get a pass on this
+	if(istype(C) && ((!C.get_bodypart(BODY_ZONE_L_ARM) && !C.get_bodypart(BODY_ZONE_R_ARM)) || C.restrained(TRUE))) //Can't shoot the gun if you have no hands, borgs get a pass on this
 		if(M == user)
 			to_chat(user, "<span class='warning'>You can't operate the gauss gun without hands!!</span>")
 		else
 			to_chat(user,"<span class='warning'>[M] can't operate the gauss gun without hands!!</span>")
 		return
 
-	to_chat(M, "<span class='warning'>[src]'s restraints clamp down onto you!</span>")
-	occupant = M
+	to_chat(C, "<span class='warning'>[src]'s restraints clamp down onto you!</span>")
+	occupant = C
 	. = ..()
-	update_armrest()
-	gun?.raise_chair()
+	if(.)
+		update_armrest()
+		gun?.raise_chair()
 
 /obj/structure/chair/comfy/gauss/Initialize()
 	. = ..()
@@ -667,7 +672,7 @@ Chair + rack handling
 	playsound(gunner_chair, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 
 /obj/machinery/ship_weapon/gauss_gun/proc/raise_rack()
-	if(!ammo_rack || ammo?.len >= max_ammo)
+	if(!ammo_rack || length(ammo) >= max_ammo)
 		return
 	playsound(ammo_rack.loc, 'nsv13/sound/effects/ship/freespace2/crane_2.wav', 100, FALSE)
 	ammo_rack.pixel_y = 0

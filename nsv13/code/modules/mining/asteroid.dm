@@ -124,14 +124,14 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 
 /datum/map_template/asteroid/load(turf/T, centered = FALSE, magnet_load = FALSE) ///Add in vein if applicable.
 	. = ..()
-	if(!core_composition.len) //No core composition? you a normie asteroid.
+	if(!length(core_composition)) //No core composition? you a normie asteroid.
 		return
 	var/turf/center = null
 	if(centered)
 		center = T
 	else
 		center = locate(T.x+(width/2), T.y+(height/2), T.z)
-	for(var/turf/target_turf in orange(rand(3,5), center)) //Give that boi a nice core.
+	for(var/turf/target_turf as() in RANGE_TURFS(rand(3,5), center)) //Give that boi a nice core.
 		if(prob(85)) //Bit of random distribution
 			var/turf_type = pick(core_composition)
 			target_turf.ChangeTurf(turf_type) //Make the core itself
@@ -206,7 +206,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	turf_type = /turf/open/floor/plating/airless
 
 /obj/machinery/computer/ship/mineral_magnet/Initialize()
-	. = ..()
+	..()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/computer/ship/mineral_magnet/LateInitialize()
@@ -283,13 +283,13 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	for(var/obj/structure/overmap/asteroid/AS in orange(5, linked))
 		if(AS.required_tier <= tier)
 			asteroids += AS
-	if(!asteroids.len)
+	if(!length(asteroids))
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='notice'>Cannot lock on to any asteroids near [linked]</span>")
 		return FALSE
 	var/obj/structure/overmap/asteroid/AS = input(usr, "Select target:", "Target") as null|anything in asteroids
-	if(!AS || !AS.core_composition)
+	if(!AS || !length(AS.core_composition))
 		return FALSE
 	linked.relay('nsv13/sound/effects/ship/tractor.ogg', "<span class='warning'>DANGER: Magnet has locked on to an asteroid. Vacate the asteroid cage immediately.</span>")
 	cooldown = TRUE
@@ -320,9 +320,8 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	addtimer(CALLBACK(src, .proc/push_away_asteroid), 30 SECONDS)
 
 /obj/machinery/computer/ship/mineral_magnet/proc/push_away_asteroid()
-	for(var/i in current_asteroid.get_affected_turfs(target_location, FALSE)) //nuke
-		var/turf/T = i
-		for(var/atom/A in T.contents)
+	for(var/turf/T as() in current_asteroid.get_affected_turfs(target_location, FALSE)) //nuke
+		for(var/atom/A as() in T.contents)
 			if(!ismob(A) && !istype(A, /obj/effect/landmark/asteroid_spawn))
 				qdel(A)
 		T.ChangeTurf(turf_type)
