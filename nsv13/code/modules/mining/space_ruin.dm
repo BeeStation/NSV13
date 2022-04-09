@@ -33,4 +33,5 @@
 		boarding_interior = new/datum/map_template(map_path_override)
 	else
 		var/list/picked_ruin = pick( subtypesof( /datum/map_template/ruin/space ) )
+
 		boarding_interior = new picked_ruin
