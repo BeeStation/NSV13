@@ -41,7 +41,7 @@
 	crate_with_presents.approve_inner_contents = TRUE
 	crate_with_presents.require_loc = /obj/structure/bigDelivery
 	crate_with_presents.require_loc_name = "a wrapped crate"
-	// I hate social supplies I hate social supplies
+	// I hate social supplies i HATE SOCIAL SUPPLIES
 
 	freight_type_group = new( list(
 		cake,

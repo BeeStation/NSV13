@@ -27,9 +27,16 @@
 
 		// selection_weight = INFINITY
 		selection_weight = 999
-		SSovermap_mode.announce_delay = 5 SECONDS
+		SSovermap_mode.announce_delay = 10 SECONDS
 
 		for( var/obj/machinery/computer/ship/dradis/dradis in GLOB.machines )
 			dradis.hail_range = 500
+		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
+		MO.essential = TRUE
+		MO.nodamage = TRUE
+
+		for ( var/i = 0; i < length( random_objectives ); i++ )
+			MO.send_supplypod( /obj/item/ship_weapon/ammunition/torpedo/freight )
+		MO.send_supplypod( /obj/item/crowbar )
 
 		message_admins( "Courier gamemode DEBUG is enabled for testing. If this is on the production server, un-testmerge the last branch that touched courier code immediately!" )

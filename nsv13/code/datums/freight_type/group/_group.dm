@@ -14,6 +14,7 @@
 
 	// Grouped freight types should NOT add duplicate approved contents to the freight type check when handling recursion! Only single freight types can do this
 	add_approved_contents_to_check = FALSE
+	var/last_check_contents_success = FALSE
 
 // Supplying a list on constructor assumes it is for freight_types only, to simply creating cargo objectives from scratch
 // If you want nested freight_type_groups be ready to get your hands dirty
@@ -37,10 +38,10 @@
 	var/list/itemTargets = list()
 
 	if ( freight_type_check.group_status == TRUE )
-		var/success = FALSE
+		last_check_contents_success = FALSE
 		switch ( require )
 			if ( REQUIRE_ALL )
-				success = TRUE
+				last_check_contents_success = TRUE
 				for ( var/datum/freight_type/F in freight_types )
 					var/result = F.check_contents( freight_type_check )
 					if ( result )
@@ -49,12 +50,12 @@
 							freight_type_check.untracked_contents -= result
 							freight_type_check.approved_contents += result
 					else
-						success = FALSE
+						last_check_contents_success = FALSE
 
 			if ( REQUIRE_ANY )
 				// Reminder that this require type does not permit partials of two different freight_type s!
 				// For example, how or even why would we code calculating the approval/rejection for submitting 2 of 3 metal rods, and 1 of 2 of copper sheets?
-				if ( !success )
+				if ( !last_check_contents_success )
 					for ( var/datum/freight_type/F in freight_types )
 						var/result = F.check_contents( freight_type_check )
 						if ( result )
@@ -62,10 +63,11 @@
 							if ( F.add_approved_contents_to_check )
 								freight_type_check.untracked_contents -= result
 								freight_type_check.approved_contents += result
-							success = TRUE
+							last_check_contents_success = TRUE
 
 			if ( REQUIRE_ONE )
-				if ( success == FALSE )
+				// Untested
+				if ( last_check_contents_success == FALSE )
 					for ( var/datum/freight_type/F in freight_types )
 						var/result = F.check_contents( freight_type_check )
 						if ( result )
@@ -73,20 +75,20 @@
 							if ( F.add_approved_contents_to_check )
 								freight_type_check.untracked_contents -= result
 								freight_type_check.approved_contents += result
-							switch( success )
+							switch( last_check_contents_success )
 								if ( FALSE )
-									success = TRUE
+									last_check_contents_success = TRUE
 								if ( TRUE )
-									success = "toomany"
+									last_check_contents_success = "toomany"
 
-				if ( success == "toomany" )
-					success = FALSE
+				if ( last_check_contents_success == "toomany" )
+					last_check_contents_success = FALSE
 
-		if ( !success )
+		if ( !last_check_contents_success )
 			freight_type_check.groups_refused += src // This group failed to find its desired contents in the last shipment
-		freight_type_check.group_status = success // If one group of freight_types fails to validate, we stop checking the rest
+		freight_type_check.group_status = last_check_contents_success // If one group of freight_types fails to validate, we stop checking the rest
 
-		if ( success )
+		if ( last_check_contents_success )
 			return itemTargets
 
 	return FALSE

@@ -47,6 +47,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 	// Admin debug var, signals if the last shipment returned TRUE on check_contents
 	var/last_check_contents_success = FALSE
+	var/datum/freight_contents_index/freight_contents_index
 
 /datum/freight_type/single/proc/set_item_name( var/custom_name )
 	if ( item_name ) // Don't overwrite it
@@ -75,13 +76,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	// Otherwise check_cargo in the parent cargo objective thinks these inner wildcard contents are trash
 	var/list/innerContents = list()
 
-	// Let's only iterate over this list once if we can help it
 	for ( var/atom/i in itemTargets )
-		if ( require_loc )
-			if ( !recursive_loc_check( i, require_loc ) )
-				itemTargets -= i
-				continue
-
 		if ( approve_inner_contents )
 			for ( var/atom/a in i.GetAllContents() )
 				innerContents += a
@@ -100,11 +95,10 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 // Stations call this proc, the freight_type datum handles the rest
 // PLEASE do NOT put areas inside freight torps this WILL cause problems!
 /datum/freight_type/single/check_contents( var/datum/freight_type_check/freight_type_check )
-	message_admins( "check_contents [ADMIN_VV(src)]" )
 	// Moved the bulk of check_contents here while making callback to item-specific freight_type checks (blood, credits etc),
 	// just so I don't have to modify 8 versions of this proc each time I touch courier code
 	var/list/prepackagedTargets = get_prepackaged_targets( freight_type_check.container )
-	if ( prepackagedTargets )
+	if ( prepackagedTargets && length( prepackagedTargets ) )
 		last_check_contents_success = TRUE
 		return prepackagedTargets
 
@@ -112,9 +106,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 		return FALSE
 
 	var/list/itemTargets = get_item_targets( freight_type_check )
-	message_admins( "length: [length( itemTargets )] [ADMIN_VV(itemTargets)]" )
 	itemTargets = add_inner_contents_as_approved( itemTargets )
-	message_admins( "length: [length( itemTargets )] [ADMIN_VV(itemTargets)]" )
 
 	if ( length( itemTargets ) )
 		last_check_contents_success = TRUE
@@ -158,7 +150,11 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 	var/list/itemTargets = index.get_amount( item_type, target, TRUE )
 	itemTargets = add_inner_contents_as_approved( itemTargets )
-	return itemTargets
+
+	if ( length( itemTargets ) )
+		return itemTargets
+
+	return FALSE
 
 /datum/freight_type/single/get_brief_segment()
 	return "nothing"

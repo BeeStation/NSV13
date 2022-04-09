@@ -17,12 +17,14 @@
 
 /datum/freight_type/single/object/credits/get_item_targets( var/datum/freight_type_check/freight_type_check )
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
+	freight_contents_index = index
 
 	for ( var/obj/item/holochip/a in freight_type_check.container.GetAllContents() )
 		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item_type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
 			if( istype( a, item_type ) )
-				// Add to contents index for more checks
-				index.add_amount( a, a.credits )
+				if ( in_required_loc_or_is_required_loc( a ) )
+					// Add to contents index for more checks
+					index.add_amount( a, a.credits )
 
 	return index.get_amount( item_type, target, TRUE )
 

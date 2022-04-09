@@ -23,14 +23,16 @@
 
 /datum/freight_type/single/reagent/get_item_targets( var/datum/freight_type_check/freight_type_check )
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
+	freight_contents_index = index
 
 	for ( var/obj/item/reagent_containers/a in freight_type_check.container.GetAllContents() )
 		if ( is_type_in_list( a, containers ) )
 			var/datum/reagents/reagents = a.reagents
 			for ( var/datum/reagent/R in reagents.reagent_list )
 				if ( istype( R, reagent_type ) )
-					// Add to contents index for more checks
-					index.add_amount( a, R.volume, R.type )
+					if ( in_required_loc_or_is_required_loc( a ) )
+						// Add to contents index for more checks
+						index.add_amount( a, R.volume, R.type )
 
 	return index.get_amount( reagent_type, target, TRUE )
 

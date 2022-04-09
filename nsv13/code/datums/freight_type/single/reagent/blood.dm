@@ -18,14 +18,16 @@
 
 /datum/freight_type/single/reagent/blood/get_item_targets( var/datum/freight_type_check/freight_type_check )
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
+	freight_contents_index = index
 
 	for ( var/obj/item/reagent_containers/a in freight_type_check.container.GetAllContents() )
 		if ( is_type_in_list( a, containers ) )
 			var/datum/reagents/reagents = a.reagents
 			for ( var/datum/reagent/blood/R in reagents.reagent_list )
 				if ( R.data[ "blood_type" ] == blood_type )
-					// Add to contents index for more checks
-					index.add_amount( a, R.volume, blood_type )
+					if ( in_required_loc_or_is_required_loc( a ) )
+						// Add to contents index for more checks
+						index.add_amount( a, R.volume, blood_type )
 
 	return index.get_amount( blood_type, target, TRUE )
 

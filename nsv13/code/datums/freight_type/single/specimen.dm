@@ -20,12 +20,14 @@
 
 /datum/freight_type/single/specimen/get_item_targets( var/datum/freight_type_check/freight_type_check )
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
+	freight_contents_index = index
 
 	for ( var/atom/a in freight_type_check.container.GetAllContents() )
 		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item_type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
-			if( istype( a, item_type ) || ( length( prepackaged_items ) && recursive_loc_check( a, item_type ) ) )
-				// Add to contents index for more checks
-				index.add_amount( a, 1 )
+			if( istype( a, item_type ) || ( length( prepackaged_items ) && recursive_loc_check( a, item_type ) ) ) // I can't remember why this deviated from the typical object check and I'm scared to remove it
+				if ( in_required_loc_or_is_required_loc( a ) )
+					// Add to contents index for more checks
+					index.add_amount( a, 1 )
 
 	return index.get_amount( item_type, target, TRUE )
 

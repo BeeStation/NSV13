@@ -3,7 +3,7 @@
 
 // Self reminder to uptick this tally every time you looked at this file, seriously considered axing it, but changed your mind because it was too arcane to refactor courier code without this file
 // Apparently they weren't kidding about the ballmer peak
-// ihatethisfile = 2
+// ihatethisfile = 3
 
 /datum/freight_contents_index
 	// Keep a total count of the actual type we're checking
@@ -51,9 +51,14 @@
 	if ( allow_subtypes && ispath( type ) )
 		// Object subtype leniency
 		// If a parent type of an object is requested like a plain cake or a base fighter_component object, allow its subtypes to be submitted as well
+		var/list/allAtoms = list()
 		for ( var/subtype in subtypesof( type ) )
-			if ( atoms_amount[ subtype ] && atoms_amount[ subtype ] >= amount )
-				return atoms_list[ subtype ]
+			if ( atoms_amount[ subtype ] )
+				// Collate all partial subtypes
+				allAtoms += atoms_list[ subtype ]
+
+		if ( length( allAtoms ) >= amount )
+			return allAtoms
 
 /datum/freight_contents_index/proc/get_all_if_successful( var/type, var/amount, var/allow_subtypes )
 	// Runs get_amount by default. If successful, marks all filtered contents in atoms_list as not trash for objectives with approve_inner_contents
