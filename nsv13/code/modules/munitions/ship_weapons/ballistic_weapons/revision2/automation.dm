@@ -136,6 +136,8 @@
 
 /obj/machinery/missile_builder/assembler/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	if(istype(A, /obj/structure/closet))
 		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/parts/missile))
 			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
@@ -401,6 +403,8 @@
 
 /obj/machinery/ammo_sorter/MouseDrop_T(atom/movable/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	//You can store any kind of ammo here for now.
 	if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
 		to_chat(user, "<span class='notice'>You start to load [src] with [A]</span>")

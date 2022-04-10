@@ -37,6 +37,8 @@
 
 /obj/structure/munitions_trolley/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	if(istype(A, /obj/item/ship_weapon/ammunition))
 		var/obj/item/ship_weapon/ammunition/M = A
 		if(M.no_trolley)

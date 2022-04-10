@@ -56,6 +56,60 @@
 		-->
 		<div class="commit sansserif">
 
+			<h2 class="date">09 April 2022</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Ghosts should once again be unable to clickdrag certain things.</li>
+			</ul>
+			<h3 class="author">TheFakeElon updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Adds the hungry gunpowder bag</li>
+			</ul>
+
+			<h2 class="date">08 April 2022</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Water turfs no longer turn into chasms if a rock spawns ontop them.</li>
+			</ul>
+			<h3 class="author">TheFakeElon updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">fixes gauss gun chair inescapable buckle bug</li>
+				<li class="code_imp">Misc optmizations</li>
+			</ul>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Stopped AGCNR from being restarted while already melted</li>
+			</ul>
+			<h3 class="author">silicons, ninjanomnom, ported by jupyterkat and Archanial updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="refactor">projectiles now use a new hit detection system that doesn't rely on quirks in movement code to work, and is easier(?) to work with</li>
+				<li class="refactor">pass_flags_self now handles determining if something with specific pass_flags can cross something, by default.</li>
+				<li class="bugfix">piercing projectiles (see: penetrating snipers) work again</li>
+				<li class="tweak">projectile permutated/impacted list is reset on ricochets, meaning reflected projectiles can potentially hit something again if it pierced it the first time.</li>
+			</ul>
+
+			<h2 class="date">01 April 2022</h2>
+			<h3 class="author">Absolutely-Steph updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added more status displays to atlas</li>
+			</ul>
+
+			<h2 class="date">30 March 2022</h2>
+			<h3 class="author">Karmic-Skink updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="refactor">Refactored flight controls by splitting into small and large craft control schemes</li>
+				<li class="refactor">Defaulted small craft into using laser steering mode (note: keyboard steering unavailable)</li>
+				<li class="refactor">Defaulted large craft into using keyboard steering mode</li>
+				<li class="refactor">Refactored keyboard steering</li>
+				<li class="tweak">Updated the ship help verb to accurately list controls</li>
+				<li class="tweak">Set ship help verb to fire whenever a mob starts piloting</li>
+				<li class="rscadd">Added ghost ships code</li>
+				<li class="rscadd">Added ghost ship encounters to fleet battles</li>
+				<li class="rscadd">Added support for tactical consoles in ghost ships</li>
+				<li class="admin">Added various spawn options for ghost ships</li>
+				<li class="admin">Retooled NSV13 specific ghost tools onto the overmap gamemode control panel</li>
+			</ul>
+
 			<h2 class="date">26 March 2022</h2>
 			<h3 class="author">DeltaFire15 updated:</h3>
 			<ul class="changes bgimages16">
@@ -238,41 +292,6 @@
 			<h3 class="author">sunofang updated:</h3>
 			<ul class="changes bgimages16">
 				<li class="bugfix">Material fuel rods now have sprites.</li>
-			</ul>
-
-			<h2 class="date">06 February 2022</h2>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Stopped paper from bluescreening</li>
-			</ul>
-
-			<h2 class="date">01 February 2022</h2>
-			<h3 class="author">IndusRobot updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Aetherwhisp, added a mining hangar</li>
-				<li class="rscadd">Aetherwhisp, added hull juice tanks and extinguishers back</li>
-				<li class="bugfix">Fixes an oversight where silicon are not included when finding aggressors</li>
-			</ul>
-			<h3 class="author">TheFakeElon updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="refactor">refactored the physics subsystem for performance</li>
-			</ul>
-
-			<h2 class="date">26 January 2022</h2>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Allows small craft to dock with asteroids.</li>
-				<li class="tweak">Fighters entering the overmap will end up somewhat near the overmap they just left.</li>
-				<li class="tweak">FTL-capable fighters can only use their FTL to return to the main ship, not move away from it.</li>
-				<li class="bugfix">Fighters start with a little bit of fuel again.</li>
-				<li class="code_imp">New overmap deletion mechanics. See the nsv13/__DEFINES/overmap.dm file for details.</li>
-				<li class="code_imp">Overmap objects maintain a list of smaller ships that are docked to them, in case that affects whether we want to delete them.</li>
-			</ul>
-
-			<h2 class="date">23 January 2022</h2>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Makes Syndicate bombers visible</li>
 			</ul>
 		</div>
 

@@ -774,9 +774,6 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/structure/chair{
-	dir = 4
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
@@ -969,6 +966,14 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
+"du" = (
+/obj/structure/closet/secure_closet/security/sec,
+/obj/item/book/granter/martial/jujitsu,
+/obj/machinery/status_display/evac/north{
+	pixel_y = 26
+	},
+/turf/open/floor/monotile/steel,
+/area/security/brig)
 "dv" = (
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/monotile/dark,
@@ -1729,6 +1734,7 @@
 "fP" = (
 /obj/effect/turf_decal/pool,
 /obj/machinery/suit_storage_unit/engine,
+/obj/machinery/status_display/evac/east,
 /turf/open/floor/monotile/dark,
 /area/engine/engine_room)
 "fS" = (
@@ -2567,6 +2573,7 @@
 /obj/item/restraints/handcuffs,
 /obj/machinery/light_switch/south,
 /obj/structure/closet/secure_closet/warden,
+/obj/machinery/status_display/ai/east,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "iA" = (
@@ -4432,6 +4439,9 @@
 /area/science)
 "om" = (
 /obj/machinery/vending/engivend,
+/obj/machinery/status_display/ai/north{
+	pixel_y = 26
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/engine_room)
 "oo" = (
@@ -4543,12 +4553,15 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "oC" = (
-/obj/item/control_rod,
-/obj/machinery/light{
-	dir = 1
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
-/turf/open/indestructible/sound/pool/spentfuel/wall,
-/area/engine/engine_room)
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/obj/machinery/status_display/evac/west,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/primary)
 "oD" = (
 /turf/template_noop,
 /area/maintenance/nsv/deck2/port)
@@ -7448,6 +7461,21 @@
 /obj/machinery/light,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
+"xU" = (
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 1
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/status_display/evac/north{
+	pixel_y = 26
+	},
+/turf/open/floor/plasteel/grid/mono,
+/area/hallway/nsv/deck2/primary)
 "xX" = (
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
 /obj/item/radio/intercom/directional/north,
@@ -7665,6 +7693,10 @@
 /obj/machinery/light_switch/east,
 /turf/open/floor/plasteel/techmaint,
 /area/security/prison)
+"yN" = (
+/obj/machinery/status_display/evac,
+/turf/closed/wall/r_wall,
+/area/science)
 "yP" = (
 /obj/effect/decal/cleanable/blood/splatter,
 /obj/structure/cable{
@@ -7848,6 +7880,25 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"zw" = (
+/obj/structure/rack,
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag{
+	pixel_y = 8
+	},
+/obj/item/powder_bag{
+	pixel_y = 8
+	},
+/obj/machinery/status_display/evac/north,
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
 "zy" = (
 /obj/structure/disposalpipe/segment{
 	dir = 10
@@ -8242,6 +8293,13 @@
 "Bj" = (
 /turf/open/floor/monotile/dark,
 /area/science)
+"Bp" = (
+/obj/item/control_rod,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/indestructible/sound/pool/spentfuel/wall,
+/area/engine/engine_room)
 "Bs" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
@@ -8580,6 +8638,25 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons)
+"Cx" = (
+/obj/structure/rack,
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
+/obj/item/powder_bag{
+	pixel_y = -10
+	},
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag{
+	pixel_y = 8
+	},
+/obj/item/powder_bag{
+	pixel_y = 8
+	},
+/obj/machinery/status_display/ai/north,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Cz" = (
@@ -8946,6 +9023,7 @@
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 1
 	},
+/obj/machinery/status_display/evac/west,
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck2/primary)
 "Ef" = (
@@ -9218,6 +9296,9 @@
 	},
 /obj/item/ship_weapon/ammunition/missile{
 	pixel_y = 10
+	},
+/obj/machinery/status_display/ai/north{
+	pixel_y = 26
 	},
 /turf/open/floor/plasteel/techmaint{
 	initial_gas_mix = "TEMP=2.7"
@@ -11984,6 +12065,18 @@
 /obj/machinery/firealarm/directional/south,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
+"OR" = (
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 1
+	},
+/obj/machinery/status_display/evac/north{
+	pixel_y = 26
+	},
+/turf/open/floor/plasteel/grid/mono,
+/area/hallway/nsv/deck2/primary)
 "OV" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
@@ -12370,6 +12463,14 @@
 	icon_state = "panelscorched"
 	},
 /area/maintenance/department/science)
+"Qr" = (
+/obj/machinery/status_display/evac/north{
+	pixel_y = 26
+	},
+/turf/open/floor/plasteel/techmaint{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/nsv/hanger/notkmcstupidhanger)
 "Qs" = (
 /obj/machinery/advanced_airlock_controller/directional/east{
 	pixel_y = 24
@@ -13100,6 +13201,7 @@
 /area/maintenance/nsv/deck2/port)
 "SF" = (
 /obj/effect/turf_decal/stripes/line,
+/obj/machinery/status_display/ai/south,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "SH" = (
@@ -13281,6 +13383,21 @@
 "Tm" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/primary)
+"Tn" = (
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 1
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/status_display/ai/north{
+	pixel_y = 26
+	},
+/turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck2/primary)
 "To" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -13805,6 +13922,7 @@
 	dir = 8
 	},
 /obj/machinery/vending/wardrobe/science_wardrobe,
+/obj/machinery/status_display/ai/north,
 /turf/open/floor/monotile/dark,
 /area/science)
 "US" = (
@@ -43103,7 +43221,7 @@ rR
 qK
 qI
 oF
-oC
+lK
 mH
 Rr
 ZH
@@ -43360,7 +43478,7 @@ rV
 dQ
 jl
 eL
-lK
+Bp
 mH
 oh
 oz
@@ -47211,7 +47329,7 @@ hL
 Oo
 ir
 wd
-rf
+OR
 un
 Ef
 RN
@@ -47225,7 +47343,7 @@ Oy
 jh
 BR
 RN
-Jz
+xU
 un
 Ef
 qI
@@ -48253,7 +48371,7 @@ GB
 jh
 lD
 RN
-Jz
+Tn
 un
 ql
 yX
@@ -48522,7 +48640,8 @@ qI
 UA
 Jk
 ew
-qG
+Jk
+oC
 cH
 AS
 BS
@@ -48530,7 +48649,6 @@ In
 ye
 ew
 Od
-Nh
 Nh
 Nh
 Nh
@@ -50032,7 +50150,7 @@ NV
 FT
 dI
 WN
-mg
+du
 KE
 SW
 iy
@@ -53896,7 +54014,7 @@ fj
 Ql
 zU
 eY
-lf
+zw
 dH
 mP
 qq
@@ -54410,7 +54528,7 @@ gD
 RQ
 VE
 eY
-lf
+Cx
 Dk
 Xe
 Te
@@ -54431,7 +54549,7 @@ hV
 JB
 zH
 lB
-Mi
+yN
 sn
 Mi
 Mi
@@ -59035,7 +59153,7 @@ Nh
 Nh
 jx
 jx
-Jc
+Qr
 Jc
 wX
 UB

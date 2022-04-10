@@ -50,9 +50,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/escape_pod_type = /obj/structure/overmap/small_craft/escapepod
 	var/mutable_appearance/canopy
-	var/list/fighter_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/overmap_help, .verb/toggle_move_mode, .verb/cycle_firemode,
-								.verb/show_control_panel, .verb/change_name, .verb/countermeasure)
-												 //Countermeasure code in countermeasure_ammo.dm
+	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/change_name, .verb/countermeasure)
 
 /obj/structure/overmap/small_craft/Destroy()
 	var/mob/last_pilot = pilot // Old pilot gets first shot
@@ -71,34 +69,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 	last_overmap?.overmaps_in_ship -= src
 	return ..()
-
-/obj/structure/overmap/small_craft/verb/show_control_panel()
-	set name = "Show control panel"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check())
-		return
-	ui_interact(usr)
-
-/obj/structure/overmap/small_craft/verb/change_name()
-	set name = "Change name"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check())
-		return
-	var/new_name = stripped_input(usr, message="What do you want to name \
-		your fighter? Keep in mind that particularly terrible names may be \
-		rejected by your employers.", max_length=MAX_CHARTER_LEN)
-	if(!new_name || length(new_name) <= 0)
-		return
-	message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
-	name = new_name
-
-/obj/structure/overmap/small_craft/start_piloting(mob/living/carbon/user, position)
-	user.add_verb(fighter_verbs)
-	..()
 
 /obj/structure/overmap/small_craft/key_down(key, client/user)
 	if(disruption && prob(min(95, disruption)))
@@ -536,7 +506,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(eject_mob && !eject(M, force))
 		return FALSE
 	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
-	M.remove_verb(fighter_verbs)
+	M.remove_verb(overmap_verbs)
 	return ..()
 
 /obj/structure/overmap/small_craft/proc/eject(mob/living/M, force=FALSE)
@@ -614,6 +584,15 @@ Been a mess since 2018, we'll fix it someday (probably)
 			start_piloting(user, "all_positions")
 			to_chat(user, "<span class='notice'>You climb into [src]'s cockpit.</span>")
 			ui_interact(user)
+			to_chat(user, "<span class='notice'>Small craft use directional keys (WASD in hotkey mode) to accelerate/decelerate in a given direction and the mouse to change the direction of craft.\
+						Mouse 1 will fire the selected weapon (if applicable).</span>")
+			to_chat(user, "<span class='warning'>=Hotkeys=</span>")
+			to_chat(user, "<span class='notice'>Use <b>tab</b> to activate hotkey mode, then:</span>")
+			to_chat(user, "<span class='notice'>Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
+						Press <b>Space</b> to cycle fire modes. \
+						Press <b>X</b> to cycle inertial dampners. \
+						Press <b>Alt<b> to cycle the handbrake. \
+						Press <b>C<b> to cycle mouse free movement.</span>")
 			return TRUE
 
 /obj/structure/overmap/small_craft/proc/force_eject(force = FALSE)
