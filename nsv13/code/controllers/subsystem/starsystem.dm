@@ -728,7 +728,7 @@ Returns a faction datum by its name (case insensitive!)
 	if(!anomaly_type)
 		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
 	if(!CHECK_BITFIELD(system_traits, STARSYSTEM_NO_RUINS))
-		if ( prob( 33 ) )
+		if ( prob( 20 ) )
 			spawn_space_ruins()
 	SSstar_system.spawn_anomaly(anomaly_type, src)
 
