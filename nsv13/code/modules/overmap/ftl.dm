@@ -56,7 +56,7 @@
 		//If we have an audio cue, ensure it doesn't overlap with a fleet's one...
 	//End the round upon entering O45.
 	if(CHECK_BITFIELD(system_traits, STARSYSTEM_END_ON_ENTER))
-		if(OM?.role == MAIN_OVERMAP)
+		if(istype(OM, /obj/structure/overmap) && OM.role == MAIN_OVERMAP)
 			priority_announce("[station_name()] has successfully returned to [src] for resupply and crew transfer, excellent work crew.", "Naval Command")
 			GLOB.crew_transfer_risa = TRUE
 			SSticker.mode?.check_finished()
