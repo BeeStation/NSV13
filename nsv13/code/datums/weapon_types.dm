@@ -386,12 +386,4 @@
 	ai_fire_delay = 32 SECONDS
 	lateral = TRUE
 
-/datum/ship_weapon/burst_torpedoes
-	name = "Burst Torpedo Launcher"
-	default_projectile_type = /obj/item/projectile/guided_munition/torpedo
-	burst_size = 4
-	fire_delay = 1
-	range_modifier = 50
-	ai_fire_delay = 8 SECONDS
-
 
