@@ -503,8 +503,8 @@
 /obj/structure/overmap/hostile/ai/alicorn
 	name = "The Alicorn"
 	desc = "One Billion Lives!"
-	icon = 'nsv13/icons/overmap/alicorn2.dmi'
-	icon_state = "alicorn2"
+	icon = 'nsv13/icons/overmap/alicorn.dmi'
+	icon_state = "alicorn"
 	faction = "hostile"
 	mass = MASS_LARGE
 	sprite_size = 96
