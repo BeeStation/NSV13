@@ -851,7 +851,7 @@ Adding tasks is easy! Just define a datum for it.
 	fighter_types = list(/obj/structure/overmap/hostile/ai/fighter)
 	battleship_types = list(/obj/structure/overmap/hostile/ai/fighter, /obj/structure/overmap/hostile/ai/fighter)
 	destroyer_types = list(/obj/structure/overmap/hostile/ai/fighter)
-	supply_types = list(/obj/structure/overmap/hostile/alicorn)
+	supply_types = list(/obj/structure/overmap/hostile/ai/alicorn)
 	taunts = list("Ahaha... A powerful ship, a powerful gun, powerful ammunition. The graceful slaughter of a billion lives to save billions more!")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
