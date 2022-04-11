@@ -833,7 +833,7 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
-/datum/fleet/boss/fistofsol
+/datum/fleet/syndicate/fistofsol_boss
 	name = "SSV Fist of Sol"
 	faction = FACTION_ID_SYNDICATE
 	size = 1
@@ -843,7 +843,7 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("That's it... Just you and me now, no support, no distractions... no war. Whoever wins is the best crew.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
-/datum/fleet/boss/alicorn
+/datum/fleet/hostile/alicorn_boss
 	name = "\proper SGV Alicorn"
 	size = 1
 	hide_movements = TRUE
