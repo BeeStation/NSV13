@@ -848,9 +848,9 @@ Adding tasks is easy! Just define a datum for it.
 	size = 1
 	hide_movements = TRUE
 	allow_difficulty_scaling = FALSE
-	fighter_types = list(/obj/structure/overmap/spacepirates/ai/fighter)
-	battleship_types = list(/obj/structure/overmap/spacepirates/ai/fighter, /obj/structure/overmap/spacepirates/ai/fighter)
-	destroyer_types = list(/obj/structure/overmap/spacepirates/ai/fighter)
+	fighter_types = list(/obj/structure/overmap/hostile/ai/fighter)
+	battleship_types = list(/obj/structure/overmap/hostile/ai/fighter, /obj/structure/overmap/hostile/ai/fighter)
+	destroyer_types = list(/obj/structure/overmap/hostile/ai/fighter)
 	supply_types = list(/obj/structure/overmap/spacepirate/alicorn)
 	taunts = list("Ahaha... A powerful ship, a powerful gun, powerful ammunition. The graceful slaughter of a billion lives to save billions more!")
 	fleet_trait = FLEET_TRAIT_DEFENSE
