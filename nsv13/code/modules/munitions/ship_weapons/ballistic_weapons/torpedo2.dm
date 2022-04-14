@@ -89,7 +89,7 @@
 		else
 			if(O.use_armour_quadrants) //tl;dr is this a big ship?
 				var/impact_quadrant = null
-				var/impact_angle = SIMPLIFY_DEGREES(Get_Angle(O, src) - angle) //On which quadrant did we strike them?
+				var/impact_angle = SIMPLIFY_DEGREES(Get_Angle(O, src) - angle) //On which quadrant did we strike them? Someone double check this is the correct orientation, please.
 				switch(impact_angle)
 					if(0 to 89)
 						impact_quadrant = ARMOUR_FORWARD_PORT
@@ -133,7 +133,7 @@
 /obj/machinery/ship_weapon/wgt
 	name = "K9-WG VLS Silo"
 	desc = "Words here"
-	icon = 'nsv13/icons/obj/munitions/vls.dmi'
+	icon = 'nsv13/icons/obj/munitions/wgt_silo.dmi'
 	icon_state = "loader"
 	ammo_type = /obj/item/ship_weapon/ammunition/torpedo
 	resistance_flags = FIRE_PROOF //It does normally contain fire.
@@ -174,10 +174,7 @@
 	if(overlay)
 		overlay.do_animation()
 	
-	//override below here
 	if(weapon_type)
-		//animate_projectile(target)
-
 		var/obj/item/ship_weapon/ammunition/torpedo/ST = pick(ammo)
 		var/obj/structure/overmap/torpedo/OMT = new(linked.loc)
 
@@ -196,21 +193,11 @@
 		OMT.relayed_projectile = PT.relay_projectile_type
 		OMT.detonation = PT.impact_effect_type
 
-		if(istype(ST, /obj/item/ship_weapon/ammunition/torpedo/ai_test))
+		if(linked.ai_controlled) //If an AI fires this
 			OMT.ai_driven = TRUE
 			OMT.ai_behaviour = AI_AGGRESSIVE
 			OMT.ai_flags = AI_FLAG_MUNITION
 			OMT.current_system = linked.current_system
-
-			/*
-			var/datum/star_system/target = linked.current_system
-			var/datum/fleet/torpedo_holder/TT = new()
-			target.fleets += TT
-			TT.current_system = target	
-			TT.faction = OMT.faction
-			TT.add_ship(OMT, "fighters")
-			*/
-
 
 		else //Get in the seat
 			var/mob/living/carbon/human/C = linked.gunner
@@ -229,34 +216,5 @@
 			weapon_malfunction()
 	update()
 
+	//Project some flames
 	explosion(src, 0, 0, 0, 2, 0, FALSE, 1, FALSE, TRUE)
-
-	/*
-	atmos_spawn_air("o2=5;plasma=5;TEMP=500")
-	var/datum/effect_system/smoke_spread/smoke = new
-	smoke.set_up(1, src)
-	smoke.start()	
-	*/
-
-//Test torps
-/obj/item/ship_weapon/ammunition/torpedo/ai_test/t1
-	name = "AI Test Torp T1"
-	desc = "Tier 1 test torpedo for AI control - WG Silo ONLY"
-	projectile_type = /obj/item/projectile/guided_munition/torpedo
-
-/obj/item/ship_weapon/ammunition/torpedo/ai_test/t2
-	name = "AI Test Torp T2"
-	desc = "Tier 2 test torpedo for AI control - WG Silo ONLY"
-	projectile_type = /obj/item/projectile/guided_munition/torpedo/shredder
-	icon_state = "hull_shredder"
-
-//Torp Fleet
-/datum/fleet/torpedo_holder
-	name = "Torpedo Holder"
-	size = 0
-	allow_difficulty_scaling = FALSE
-	taunts = list()
-	greetings = list()
-	fleet_trait = FLEET_TRAIT_DEFENSE
-	reward = 0
-	announce_status = FALSE
