@@ -600,9 +600,9 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		if(previous_id && node.id == previous_id)
 			previous = node
 	if(next_id && !length(next_nodes))
-		message_admins("WARNING: Patrol node in [get_area(src)] has no next node(s) despite set id(s).")
+		CRASH("WARNING: Patrol node in [get_area(src)] has no next node(s) despite set id(s).")
 	if(previous_id && !previous)
-		message_admins("WARNING: Patrol node in [get_area(src)] has no previous node despite a set id.")
+		CRASH("WARNING: Patrol node in [get_area(src)] has no previous node despite a set id.")
 
 /datum/ai_goal/human/proc/get_next_patrol_node(datum/component/knpc/HA)
 	//Okay, we need to pick a starting point.
