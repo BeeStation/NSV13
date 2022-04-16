@@ -26,6 +26,11 @@
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
+	departments = DEPARTMENT_SECURITY
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/security
+	)
 
 /datum/job/officer/get_access()
 	var/list/L = list()

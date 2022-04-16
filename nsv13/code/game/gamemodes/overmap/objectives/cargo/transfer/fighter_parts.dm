@@ -31,6 +31,7 @@
 	)
 	
 	var/allow_replacements = pick( TRUE, FALSE ) // I just want to see someone get tempbanned for objective gambling on roundstart fighter upgrade lootboxes 
+	send_to_station_pickup_point = TRUE
 
 	for ( var/i = 0; i < rand( 2, 4 ); i++ ) 
 		var/picked = pick( possible_components )

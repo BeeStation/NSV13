@@ -146,7 +146,7 @@
 /turf/open/floor/plating/asteroid/snow/ice/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
-/turf/open/floor/plating/ice/smooth/airless 
+/turf/open/floor/plating/ice/smooth/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
 /turf/closed/mineral/icesteroid
@@ -255,6 +255,14 @@
 	. = ..()
 	alpha = 0
 	mouse_opacity = FALSE
+
+/turf/closed/indestructible/boarding_cordon/Bumped(atom/movable/AM)
+	if(isobserver(AM))
+		return
+	if(istype(AM, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/OM = AM
+		return OM.check_overmap_elegibility()
+	return ..()
 
 //Used to randomly generate different types of asteroid turfs
 /turf/template_gen

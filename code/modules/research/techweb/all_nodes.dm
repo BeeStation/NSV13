@@ -246,7 +246,7 @@
 	design_ids = list("bag_holding")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
-	hidden = TRUE
+	hidden = FALSE //NSV13 - unhide
 
 /datum/techweb_node/wormhole_gun
 	id = "wormholegun"
@@ -257,7 +257,7 @@
 	design_ids = list("wormholeprojector")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
-	hidden = TRUE
+	hidden = FALSE //NSV13 - unhide
 
 /datum/techweb_node/quantum_spin
 	id = "qswapper"
@@ -268,7 +268,7 @@
 	design_ids = list("swapper")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
-	hidden = TRUE
+	hidden = FALSE //NSV13 - unhide
 
 /datum/techweb_node/practical_bluespace
 	id = "practical_bluespace"
@@ -701,7 +701,7 @@
 	design_ids = list("ci-xray", "ci-thermals", "ci-antidrop", "ci-antistun", "ci-thrusters")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
-	hidden = TRUE
+	hidden = FALSE //NSV13 - unhide
 
 /datum/techweb_node/adv_combat_cyber_implants
 	id = "adv_combat_cyber_implants"
@@ -868,7 +868,7 @@
 	design_ids = list("nuclear_gun")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
-	hidden = TRUE
+	hidden = FALSE //NSV13 - unhide
 
 /datum/techweb_node/medical_weapons
 	id = "medical_weapons"
@@ -889,7 +889,7 @@
 	design_ids = list("temp_gun", "xray_laser")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
-	hidden = TRUE
+	hidden = FALSE //NSV13 - unhide
 
 /datum/techweb_node/adv_beam_weapons
 	id = "adv_beam_weapons"
@@ -900,7 +900,7 @@
 	design_ids = list("beamrifle")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
-	hidden = TRUE
+	hidden = FALSE //NSV13 - unhide
 
 /datum/techweb_node/explosive_weapons
 	id = "explosive_weapons"
@@ -931,7 +931,7 @@
 	design_ids = list("techshotshell", "c38_hotshot", "c38_iceblox", "shotgundartcryostasis")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
-	hidden = TRUE
+	hidden = FALSE //NSV13 - unhide
 
 /datum/techweb_node/gravity_gun
 	id = "gravity_gun"
@@ -997,7 +997,7 @@
 	"phazon_peri", "phazon_targ", "phazon_armor")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
-	hidden = TRUE
+	hidden = FALSE //NSV13 - unhide
 
 /datum/techweb_node/adv_mecha_tools
 	id = "adv_mecha_tools"

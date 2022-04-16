@@ -24,7 +24,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 60
 	range = 255
 	speed = 1.85
-	movement_type = FLYING | UNSTOPPABLE
+	movement_type = FLYING
+	projectile_phasing = ALL
 
 /obj/item/projectile/bullet/mac_round
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
@@ -42,11 +43,11 @@ Misc projectile types, effects, think of this as the special FX file.
 	var/homing_benefit_time = 0 SECONDS //NAC shells have a very slight homing effect.
 	var/base_movement_type	//Our base move type for when we gain unstoppability from hitting tiny ships.
 
-/obj/item/projectile/bullet/mac_round/prehit(atom/target)
+/obj/item/projectile/bullet/mac_round/prehit_pierce(atom/target)
 	if(isovermap(target))
 		var/obj/structure/overmap/OM = target
 		if(OM.mass <= MASS_TINY)
-			movement_type |= UNSTOPPABLE //Small things don't stop us.
+			projectile_phasing = ALL
 		else
 			movement_type = base_movement_type
 	. = ..()
@@ -66,7 +67,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 250
 	armour_penetration = 70
 	icon_state = "railgun_ap"
-	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
+	movement_type = FLYING
+	projectile_phasing = ALL //Railguns punch straight through your ship
 
 /obj/item/projectile/bullet/mac_round/magneton
 	speed = 1.5
@@ -80,6 +82,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 350
 	icon_state = "cannonshot"
 	flag = "overmap_medium"
+
+//You somehow loaded a magic entrapment ball into a cannon. This is your reward.
+/obj/item/projectile/bullet/mac_round/cannonshot/admin
+	damage = 600
+	speed = 3
+	flag = "overmap_heavy"
 
 #define DIRTY_SHELL_TURF_SLUDGE_PROB 70	//Chance for sludge to spawn on a turf within the sludge range of the detonation turf. Detonation turf always gets an epicenter sludge.
 #define DIRTY_SHELL_SLUDGE_RANGE 3	//Un-random sludge event radius (for the shell detonating)
@@ -100,7 +108,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "uh oh this isn't supposed to exist!"
 	range = 255
 	speed = 1.85
-	movement_type = FLYING | UNSTOPPABLE
+	movement_type = FLYING
+	projectile_phasing = ALL
 	damage = 45		//It's on a z now, lets not instakill people / objects this happens to hit.
 	var/penetration_fuze = 1	//Will pen through this many things considered valid for reducing this before arming. Can overpenetrate if it happens to pen through windows or other things with not enough resistance.
 
@@ -187,20 +196,19 @@ Misc projectile types, effects, think of this as the special FX file.
 #undef DIRTY_SHELL_PELLET_RANGE
 
 /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
-	icon_state = "torpedo"	//For now
+	icon_state = "torpedo_hellfire"
 	name = "incendiary torpedo"
 	penetration_fuze = 2
 
 /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo/fuze_trigger_value(atom/target)
 	if(isclosedturf(target))
 		return 1
-	
+
 	if(isliving(target))	//Someone got bonked by an incendiary torpedo, daamn.
 		var/mob/living/L = target
 		if(L.mind && L.mind.assigned_role == "Clown")
 			return (prob(50) ? 2 : -2)	//We all know clowns are cursed.
-		return 2	
-
+		return 2
 
 	return 0
 
@@ -238,7 +246,7 @@ Misc projectile types, effects, think of this as the special FX file.
 		L.flash_act(affect_silicon = TRUE)
 	for(var/i = 1; i <= 13; i++)
 		new /mob/living/simple_animal/hostile/viscerator(detonation_turf)	//MANHACKS!1!!
-	
+
 
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "mac"
@@ -314,14 +322,6 @@ Misc projectile types, effects, think of this as the special FX file.
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	spread = 5 //Helps them not get insta-bonked when launching
 
-/obj/item/projectile/guided_munition/torpedo/incendiary
-	//icon_state = "???" - alt sprite would be nice
-	name = "incendiary torpedo"
-	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
-	damage = 125
-	obj_integrity = 35
-	max_integrity = 35
-
 /obj/item/projectile/guided_munition/torpedo/viscerator
 	//icon_state = "???"	- alt sprite would be nice
 	name = "armoured torpedo"
@@ -343,14 +343,15 @@ Misc projectile types, effects, think of this as the special FX file.
 	obj_integrity = 200
 	max_integrity = 200
 
-/obj/item/projectile/guided_munition/torpedo/nuclear
-	icon_state = "torpedo_nuke"
-	name = "thermonuclear missile"
-	damage = 450
+/obj/item/projectile/guided_munition/torpedo/hellfire
+	icon_state = "torpedo_hellfire"
+	name = "hellfire missile"
+	damage = 400
 	obj_integrity = 25
 	max_integrity = 25
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
 
 /obj/item/projectile/guided_munition/torpedo/disruptor
 	icon_state = "torpedo_disruptor"
@@ -432,7 +433,7 @@ Misc projectile types, effects, think of this as the special FX file.
 		target.disruption += 30
 		return
 
-	if(istype(target, /obj/structure/overmap/fighter))
+	if(istype(target, /obj/structure/overmap/small_craft))
 		target.disruption += 25
 		return
 
@@ -450,6 +451,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	empulse(get_turf(target), 5, 12)	//annoying emp.
 	explosion(target, 0, 2, 6, 4)	//but only a light explosion.
 
+/* Sleep for now, we'll see you again
 /obj/item/projectile/guided_munition/torpedo/nuclear/detonate(atom/target)
 	var/obj/structure/overmap/OM = target.get_overmap() //What if I just..........
 	if ( OM?.essential )
@@ -458,6 +460,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	explosion(target, 3, 6, 8)
 
 	return BULLET_ACT_HIT
+*/
 
 /obj/item/projectile/bullet/pdc_round
 	icon_state = "pdc"

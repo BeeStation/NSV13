@@ -194,10 +194,13 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/toilet/restrooms)
 "aD" = (
-/obj/machinery/airalarm/directional/south,
 /obj/machinery/atmospherics/pipe/simple/violet/hidden{
 	dir = 9
 	},
+/obj/machinery/computer/ship/navigation/astrometrics{
+	dir = 4
+	},
+/obj/machinery/airalarm/directional/south,
 /turf/open/floor/plating/rusty_techgrid,
 /area/science/lab)
 "aF" = (
@@ -821,6 +824,12 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
+"cH" = (
+/obj/structure/disposalpipe/segment{
+	dir = 6
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/quartermaster/storage)
 "cI" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	alpha = 220;
@@ -1094,7 +1103,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/bar/mess_hall)
 "dt" = (
-/obj/item/twohanded/required/kirbyplants/random,
+/obj/item/kirbyplants/random,
 /obj/machinery/camera/autoname,
 /obj/machinery/newscaster/directional/north,
 /obj/effect/turf_decal/tile/ship/half/neutral{
@@ -2489,7 +2498,7 @@
 	lighting_colour_tube = "#FF3232"
 	})
 "iH" = (
-/obj/machinery/biogenerator,
+/obj/machinery/seed_extractor,
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
 "iI" = (
@@ -2513,14 +2522,7 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "iP" = (
-/obj/structure/closet/crate,
-/obj/item/storage/bag/plants,
-/obj/item/shovel/spade,
-/obj/item/cultivator,
-/obj/item/reagent_containers/glass/bottle/nutrient/l4z,
-/obj/item/reagent_containers/glass/bottle/nutrient/ez,
-/obj/item/reagent_containers/glass/bottle/nutrient/rh,
-/obj/item/reagent_containers/glass/bucket,
+/obj/machinery/biogenerator,
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
 "iQ" = (
@@ -2546,6 +2548,14 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/nsv)
 "iS" = (
+/obj/structure/closet/crate,
+/obj/item/storage/bag/plants,
+/obj/item/shovel/spade,
+/obj/item/cultivator,
+/obj/item/reagent_containers/glass/bottle/nutrient/l4z,
+/obj/item/reagent_containers/glass/bottle/nutrient/ez,
+/obj/item/reagent_containers/glass/bottle/nutrient/rh,
+/obj/item/reagent_containers/glass/bucket,
 /obj/machinery/firealarm/directional/north,
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
@@ -2797,6 +2807,10 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 4;
+	icon_state = "pipe"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "jH" = (
@@ -2920,6 +2934,8 @@
 /obj/machinery/door/poddoor/shutters/ship{
 	id = "galley_shutters"
 	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/kitchen)
 "ka" = (
@@ -3036,6 +3052,10 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer3{
 	dir = 1
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 4;
+	icon_state = "pipe"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "kx" = (
@@ -3100,6 +3120,9 @@
 	dir = 1
 	},
 /obj/item/radio/intercom/directional/north,
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "kC" = (
@@ -3122,6 +3145,7 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "kE" = (
@@ -3321,8 +3345,12 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
 "ls" = (
-/obj/structure/disposalpipe/trunk,
-/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/segment,
+/obj/structure/table,
+/obj/item/clipboard,
+/obj/item/clipboard,
+/obj/item/clipboard,
+/obj/item/export_scanner,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "lt" = (
@@ -3357,11 +3385,9 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
-/obj/item/clipboard,
-/obj/item/clipboard,
-/obj/item/clipboard,
-/obj/item/export_scanner,
-/obj/item/export_scanner,
+/obj/structure/disposalpipe/segment,
+/obj/item/stack/packageWrap,
+/obj/item/destTagger,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "lF" = (
@@ -3445,6 +3471,9 @@
 /obj/structure/window/reinforced/spawner/north,
 /obj/structure/window/reinforced/spawner/west,
 /obj/structure/window/reinforced/spawner/east,
+/obj/machinery/conveyor{
+	id = "mail_primary"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
 "mf" = (
@@ -3507,6 +3536,8 @@
 	id = "galley_shutters"
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/kitchen)
 "mt" = (
@@ -3552,8 +3583,10 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/item/book/manual/wiki/sop/supply,
-/obj/structure/table,
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
+	dir = 1
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "mK" = (
@@ -3605,6 +3638,8 @@
 "mT" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/extinguisher_cabinet/west,
+/obj/structure/table,
+/obj/item/book/manual/wiki/sop/supply,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "mX" = (
@@ -3973,7 +4008,7 @@
 	},
 /area/engine/atmos/starboard_atmos)
 "oj" = (
-/obj/machinery/autolathe,
+/obj/machinery/modular_fabricator/autolathe,
 /obj/structure/sign/departments/minsky/supply/cargo{
 	pixel_y = 30
 	},
@@ -4390,6 +4425,9 @@
 	pixel_x = 5;
 	pixel_y = 3
 	},
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "pK" = (
@@ -5044,6 +5082,9 @@
 	id = "cargo_desk"
 	},
 /obj/item/paper_bin,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "rP" = (
@@ -5186,6 +5227,7 @@
 /obj/machinery/door/poddoor/shutters/ship/preopen{
 	id = "cargo_desk"
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "sd" = (
@@ -5639,6 +5681,10 @@
 /obj/structure/window/reinforced/spawner/west,
 /obj/structure/window/reinforced/spawner/east,
 /obj/structure/window/reinforced/spawner,
+/obj/machinery/conveyor{
+	dir = 1;
+	id = "mail_secondary"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/sorting)
 "tB" = (
@@ -8707,6 +8753,8 @@
 /obj/machinery/door/poddoor/shutters/ship{
 	id = "galley_shutters"
 	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/kitchen)
 "Do" = (
@@ -9656,7 +9704,10 @@
 /obj/effect/turf_decal/loading_area{
 	dir = 1
 	},
-/turf/open/floor/monotile/steel,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "Ga" = (
 /obj/machinery/airalarm/directional/west,
@@ -10539,6 +10590,8 @@
 	id = "galley_shutters"
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/kitchen)
 "IY" = (
@@ -10705,6 +10758,8 @@
 	dir = 4;
 	id = "galley_shutters"
 	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/ship,
 /area/crew_quarters/kitchen)
 "Jm" = (
@@ -10869,7 +10924,8 @@
 /obj/item/ship_weapon/ammunition/torpedo/freight{
 	pixel_y = 12
 	},
-/turf/open/floor/monotile/dark,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "JL" = (
 /obj/effect/spawner/lootdrop/gambling,
@@ -12181,12 +12237,16 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 4;
+	icon_state = "pipe"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "Nw" = (
 /obj/machinery/door/airlock/ship/hatch{
 	name = "Magazine";
-	req_one_access_txt = "70"
+	req_one_access_txt = "69"
 	},
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
@@ -13669,7 +13729,7 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 4;
-	filter_types = list(/datum/gas/oxygen,/datum/gas/nitrogen,/datum/gas/plasma,/datum/gas/nitrous_oxide,/datum/gas/bz,/datum/gas/hypernoblium,/datum/gas/water_vapor,/datum/gas/tritium,/datum/gas/stimulum,/datum/gas/nitryl,/datum/gas/pluoxium,/datum/gas/constricted_plasma,/datum/gas/nucleium);
+	filter_types = list("o2","n2","plasma","n2o","bz","nob","water_vapor","tritium","stim","no2","pluox","constricted_plasma","nucleium");
 	widenet = 1
 	},
 /obj/machinery/button/door{
@@ -13750,7 +13810,7 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 8;
-	filter_types = list(/datum/gas/oxygen,/datum/gas/nitrogen,/datum/gas/plasma,/datum/gas/nitrous_oxide,/datum/gas/bz,/datum/gas/hypernoblium,/datum/gas/water_vapor,/datum/gas/tritium,/datum/gas/stimulum,/datum/gas/nitryl,/datum/gas/pluoxium,/datum/gas/constricted_plasma,/datum/gas/nucleium);
+	filter_types = list("o2","n2","plasma","n2o","bz","nob","water_vapor","tritium","stim","no2","pluox","constricted_plasma","nucleium");
 	widenet = 1
 	},
 /turf/open/floor/engine/vacuum{
@@ -45057,7 +45117,7 @@ PY
 PY
 PY
 PY
-eV
+yh
 lY
 mt
 xh
@@ -45314,7 +45374,7 @@ PY
 Wl
 ny
 Zj
-eV
+yh
 bv
 lY
 lY
@@ -46304,7 +46364,7 @@ eL
 Zz
 mf
 OJ
-OJ
+cH
 JJ
 ls
 mT
@@ -52260,7 +52320,7 @@ uY
 uY
 zj
 re
-KI
+WB
 KI
 KI
 KI
@@ -52517,7 +52577,7 @@ hc
 GD
 ch
 re
-KI
+WB
 KI
 KI
 KI
@@ -52774,7 +52834,7 @@ KZ
 KZ
 Jb
 KZ
-KI
+WB
 KI
 gi
 gi
@@ -53010,7 +53070,7 @@ gi
 KI
 KI
 KI
-KI
+WB
 yg
 Jh
 KG
@@ -53031,7 +53091,7 @@ Pa
 Tl
 zf
 KZ
-KI
+WB
 KI
 gi
 gi
@@ -53267,7 +53327,7 @@ gi
 KI
 KI
 KI
-KI
+WB
 yg
 Fq
 KH
@@ -53288,7 +53348,7 @@ YR
 UE
 zT
 KZ
-KI
+WB
 KI
 gi
 gi
@@ -53524,7 +53584,7 @@ gi
 gi
 gi
 KI
-KI
+WB
 yg
 Rk
 Hv
@@ -53545,7 +53605,7 @@ Qk
 Vi
 Xk
 KZ
-KI
+WB
 KI
 gi
 gi
@@ -53781,7 +53841,7 @@ gi
 gi
 gi
 KI
-KI
+WB
 yg
 Jn
 oM
@@ -53802,7 +53862,7 @@ On
 On
 Xm
 KZ
-KI
+WB
 KI
 gi
 gi
@@ -54036,9 +54096,9 @@ gi
 gi
 gi
 gi
-gi
 KI
 KI
+WB
 yg
 Hn
 Ni
@@ -54059,9 +54119,9 @@ KZ
 Tr
 Yv
 KZ
+WB
 KI
 KI
-gi
 gi
 gi
 gi
@@ -54293,9 +54353,9 @@ gi
 gi
 gi
 gi
-gi
 KI
 KI
+yg
 yg
 Jo
 tM
@@ -54316,9 +54376,9 @@ KZ
 Tr
 pC
 KZ
+KZ
 KI
 KI
-gi
 gi
 gi
 gi
@@ -54550,7 +54610,7 @@ gi
 gi
 gi
 gi
-gi
+KI
 KI
 KI
 yg
@@ -54575,7 +54635,7 @@ KZ
 KZ
 KI
 KI
-gi
+KI
 gi
 gi
 gi

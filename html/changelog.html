@@ -56,146 +56,234 @@
 		-->
 		<div class="commit sansserif">
 
-			<h2 class="date">23 December 2021</h2>
+			<h2 class="date">13 April 2022</h2>
+			<h3 class="author">red031000 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="server">updates byond version to 1583</li>
+			</ul>
+
+			<h2 class="date">09 April 2022</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Ghosts should once again be unable to clickdrag certain things.</li>
+			</ul>
+			<h3 class="author">TheFakeElon updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Adds the hungry gunpowder bag</li>
+			</ul>
+
+			<h2 class="date">08 April 2022</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Water turfs no longer turn into chasms if a rock spawns ontop them.</li>
+			</ul>
+			<h3 class="author">TheFakeElon updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">fixes gauss gun chair inescapable buckle bug</li>
+				<li class="code_imp">Misc optmizations</li>
+			</ul>
 			<h3 class="author">covertcorvid updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Fighter escape pods are back</li>
-				<li class="bugfix">They don't get shot down anymore</li>
-				<li class="bugfix">Removes engine trouble</li>
+				<li class="bugfix">Stopped AGCNR from being restarted while already melted</li>
+			</ul>
+			<h3 class="author">silicons, ninjanomnom, ported by jupyterkat and Archanial updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="refactor">projectiles now use a new hit detection system that doesn't rely on quirks in movement code to work, and is easier(?) to work with</li>
+				<li class="refactor">pass_flags_self now handles determining if something with specific pass_flags can cross something, by default.</li>
+				<li class="bugfix">piercing projectiles (see: penetrating snipers) work again</li>
+				<li class="tweak">projectile permutated/impacted list is reset on ricochets, meaning reflected projectiles can potentially hit something again if it pierced it the first time.</li>
 			</ul>
 
-			<h2 class="date">22 December 2021</h2>
+			<h2 class="date">01 April 2022</h2>
+			<h3 class="author">Absolutely-Steph updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added more status displays to atlas</li>
+			</ul>
+
+			<h2 class="date">30 March 2022</h2>
+			<h3 class="author">Karmic-Skink updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="refactor">Refactored flight controls by splitting into small and large craft control schemes</li>
+				<li class="refactor">Defaulted small craft into using laser steering mode (note: keyboard steering unavailable)</li>
+				<li class="refactor">Defaulted large craft into using keyboard steering mode</li>
+				<li class="refactor">Refactored keyboard steering</li>
+				<li class="tweak">Updated the ship help verb to accurately list controls</li>
+				<li class="tweak">Set ship help verb to fire whenever a mob starts piloting</li>
+				<li class="rscadd">Added ghost ships code</li>
+				<li class="rscadd">Added ghost ship encounters to fleet battles</li>
+				<li class="rscadd">Added support for tactical consoles in ghost ships</li>
+				<li class="admin">Added various spawn options for ghost ships</li>
+				<li class="admin">Retooled NSV13 specific ghost tools onto the overmap gamemode control panel</li>
+			</ul>
+
+			<h2 class="date">26 March 2022</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">AI hitscan weapons aim dead center instead of trying to predict trajectory (and missing)</li>
+			</ul>
+			<h3 class="author">red031000 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Launching freight torps now checks if safties are on before trying to fire</li>
+			</ul>
+
+			<h2 class="date">25 March 2022</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">This year has been 2262 all along.</li>
+			</ul>
+
+			<h2 class="date">24 March 2022</h2>
 			<h3 class="author">TheFakeElon updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Fixes multiple bugs that allowed mobs to enter the overmap</li>
-				<li class="bugfix">Fixes client screen bug when overmap consoles are destroyed</li>
-				<li class="code_imp">Somewhat significant overmap and overlay optimizations</li>
-				<li class="code_imp">General name fixes and code cleaning</li>
-				<li class="code_imp">Optimizes projectile movement slightly</li>
-				<li class="refactor">refactors fighter overlay and turf move handling</li>
-				<li class="refactor">refactors ship weapon intermediate states, reloading should be smoother now</li>
+				<li class="server">fixes topic security issue</li>
 			</ul>
 
-			<h2 class="date">21 December 2021</h2>
-			<h3 class="author">DeltaFire15 updated:</h3>
+			<h2 class="date">18 March 2022</h2>
+			<h3 class="author">BetaCentari updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Stationary AI flag & goal, intended for station use.</li>
+				<li class="rscadd">Bloody Eye Hypospray</li>
+				<li class="imageadd">Sprites for hypospray</li>
+			</ul>
+			<h3 class="author">Kmc2000 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">The starmap can now be loaded and saved dynamically per round.</li>
 			</ul>
 
-			<h2 class="date">20 December 2021</h2>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Some projectiles are no longer invisible.</li>
-			</ul>
-
-			<h2 class="date">19 December 2021</h2>
-			<h3 class="author">TheFakeElon updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">high level GLOC can cause minor oxygen & brain damage</li>
-			</ul>
-
-			<h2 class="date">18 December 2021</h2>
-			<h3 class="author">Archanial updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed next map loading</li>
-			</ul>
-			<h3 class="author">Bokkiewokkie updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">made the FTL UI update properly</li>
-			</ul>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Things using mobs_in_ship no longer break as soon as one mob on one is deleted.</li>
-				<li class="tweak">The random sludge event now affects one specific area instead of most waste spawners</li>
-				<li class="rscadd">NAC / MAC shells can once again penetrate through ship z-levels.</li>
-				<li class="rscadd">Adds Dirty shells, a devious ammunition used by certain factions.</li>
-				<li class="balance">Pirate Gunships are now slightly less of a weakling.</li>
-				<li class="code_imp">shake_with_inertia and FTL shake no longer kill performance.</li>
-				<li class="bugfix">Cyborg B.o.r.i.s. installation now checks for if the chest has a cell, just like how it does with MMIs.</li>
-				<li class="rscadd">added disruption torpedoes (AI only for now)</li>
-				<li class="balance">The syndicate has supplied its Stealth Destroyer class with a new disruptive weapon system. Be mindful of it hiding in the dark during your journeys.</li>
-				<li class="bugfix">fixed Projectiles hitting eachother when friendly (Again. Maybe.)</li>
-				<li class="bugfix">ships no longer are in no system's system contents after jumping.</li>
-				<li class="rscdel">Removed regular solar siege integration.</li>
-				<li class="code_imp">Slightly improved delayed prime projectiles to be easier to code.</li>
-			</ul>
-			<h3 class="author">Golubian updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed non-humans not being able to use the gauss gun.</li>
-			</ul>
+			<h2 class="date">11 March 2022</h2>
 			<h3 class="author">IndusRobot updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Fix cargo objectives rejecting some cakes, and not accepting drinking glasses as a reagent container</li>
-				<li class="rscadd">Added new cargo torpedo tube, accepts freight torpedoes only</li>
-				<li class="rscadd">Added new cargo DRADIS, delivers freight torpedoes to targets by clicking on entities within sensor range</li>
-				<li class="bugfix">Fixed ship computer circuity techweb not containing DRADIS circuits</li>
-				<li class="rscadd">Added framework for cargo objectives to overmap missions.</li>
+				<li class="rscdel">Removed Rocinante from Tycoon</li>
+				<li class="rscadd">Added mining sabres to Tycoon</li>
+				<li class="bugfix">Fixed disconnected pipes, duplicate APCs, missing air alarms in various areas</li>
+				<li class="bugfix">Fixed brig physician not having bare minimum access to access their medical station</li>
+				<li class="bugfix">Fixed tycoon munitions factory not working most of the time</li>
+				<li class="bugfix">Fixed tycoon bots having no patrol routes</li>
+				<li class="bugfix">Fixed hangar bay APC not charging</li>
+			</ul>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">Moved the ladder inside Atlas munitions to the hallway near atmos/bridge.</li>
+			</ul>
+
+			<h2 class="date">04 March 2022</h2>
+			<h3 class="author">IndusRobot updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixed the mako boarding ship not loading its interior on roundstart</li>
+			</ul>
+
+			<h2 class="date">01 March 2022</h2>
+			<h3 class="author">Absolutely-Steph updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added Thin bomber jackets</li>
+			</ul>
+
+			<h2 class="date">25 February 2022</h2>
+			<h3 class="author">IndusRobot updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Adds the check objectives state to communications console AI view</li>
+			</ul>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="code_imp">Updated TGUI versions</li>
+			</ul>
+
+			<h2 class="date">22 February 2022</h2>
+			<h3 class="author">bluey89962 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="imageadd">Inhand advanced tool sprites are yellow again.</li>
+			</ul>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixed round not ending on dynamic</li>
+			</ul>
+			<h3 class="author">red031000 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Pilots cannot shoot while incapacitated</li>
+			</ul>
+
+			<h2 class="date">21 February 2022</h2>
+			<h3 class="author">IndusRobot updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixes new aetherwhisp mining hangar blast door button access</li>
+				<li class="bugfix">Fixes new aetherwhisp mining hangar dumping air into space</li>
 			</ul>
 			<h3 class="author">Karmic-Skink updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Added the NSV Shrike</li>
-				<li class="imageadd">Added the Shrike Sprite (Credit to CovertCorvid)</li>
-				<li class="imageadd">Added new turf and object sprites</li>
-				<li class="rscadd">Added the Hybrid Railgun system</li>
-				<li class="rscadd">Added wrench helpers for mapping</li>
-				<li class="tweak">Upgraded the Centcom Recovery Ship</li>
-				<li class="refactor">Overhauled the old smelter to allow points and distance</li>
-				<li class="bugfix">Fixes medibay access on shrike</li>
-				<li class="bugfix">Fixes missing trader drop points</li>
+				<li class="rscdel">Removed the mining shuttle dock and console from Shrike</li>
+				<li class="rscadd">Added mining sabre dock and mining sabres to Shrike</li>
+				<li class="rscadd">Added a survival locker in the dorms airlock</li>
+				<li class="balance">Added extra armour to the Shrike chem dispensary & munitions</li>
+				<li class="balance">Added firelocks on the cargo, galley and xo counters</li>
+				<li class="tweak">Altered Cargo layout on Shrike to encourage use of the mail system</li>
 			</ul>
-			<h3 class="author">Pontenerd updated:</h3>
+			<h3 class="author">Omppusolttu updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">fixes #1561</li>
-				<li class="bugfix">fixed a couple map issues on the atlas</li>
+				<li class="rscadd">Carriers are now boardable.</li>
 			</ul>
-			<h3 class="author">QAI-07 updated:</h3>
+			<h3 class="author">Vasily2013 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">The Fist of Sol is back, again.</li>
-				<li class="rscadd">Another fleet to support the fist of sol</li>
+				<li class="bugfix">XO office on atlas now starts with closed, independently operable shutters.</li>
+				<li class="bugfix">Meters in atmos on Atlas now start connected to their pipes.</li>
+				<li class="tweak">Most areas on atlas now have light switches, request consoles, and air alarms.</li>
+				<li class="tweak">Atlas airlocks expanded so you can drag things through most of them.</li>
+				<li class="tweak">Atlas engine now has airlock separating it from the rest of the engine room. Aka it's osha compliant now.</li>
+				<li class="rscadd">Atlas mining hangar.</li>
 			</ul>
-			<h3 class="author">Remindme updated:</h3>
+
+			<h2 class="date">19 February 2022</h2>
+			<h3 class="author">someone543 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">VLS hatches on Atlas were not aligned with actual VLS tubes</li>
+				<li class="rscadd">Space law to book management console and SecTech</li>
+				<li class="spellcheck">fixed a typo in SOP books</li>
+				<li class="rscdel">Removes shaft miner bubblegum objective</li>
 			</ul>
-			<h3 class="author">TheFakeElon updated:</h3>
+
+			<h2 class="date">18 February 2022</h2>
+			<h3 class="author">IndusRobot updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="code_imp">Significantly improves file sanitization</li>
-				<li class="server">Patches multiple security vulnerabilities</li>
-				<li class="tweak">PDC sounds are no longer randomly chosen. They now use a cooldown based selection, rapidfire sounds nicer</li>
-				<li class="soundadd">Added new PDC sounds</li>
-				<li class="bugfix">fixed fighter component sprites</li>
-				<li class="code_imp">makes boardable_ship_types a global variable</li>
-				<li class="rscadd">Added Spaceborn quirk for beltalowda</li>
-				<li class="code_imp">Improved high gravity handling and damage</li>
-				<li class="code_imp">protects the filename regex global</li>
-				<li class="bugfix">fixed AI remote control across z levels on multi-z maps/ships</li>
-				<li class="code_imp">standardized occupying_levels length checking</li>
-				<li class="code_imp">misc cleanups</li>
-				<li class="code_imp">Optimizes overmap checks</li>
+				<li class="rscadd">Lanyards now display any squad role when equipped, alongside the squad color</li>
+				<li class="tweak">Lanyard roles can be updated by same-squad users by using it in hand</li>
+				<li class="rscadd">Added lanyards back to the backpacks of squad members on roundstart</li>
+				<li class="rscdel">Removed the right-side squad role hud indicator in favor of lanyards</li>
 			</ul>
 			<h3 class="author">covertcorvid updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Boarding gamemode</li>
-				<li class="server">Updated map issue templates for github</li>
-				<li class="tweak">Smaller notifications about where AI fleets are moving around</li>
-				<li class="rscadd">Normal-sized notifications when AI fleets enter combat with each other</li>
-				<li class="tweak">specified proper/improper for the fleets and tweaked names where needed</li>
-				<li class="tweak">Tweaked job selection order to prioritize critical jobs</li>
-				<li class="bugfix">Fixed the Galactica job changes file, which used the wrong path for the munitions tech job</li>
-				<li class="tweak">You can now move up and down through holes in the floor/ceiling if there's no gravity.</li>
-				<li class="code_imp">reorganized boarding code</li>
-				<li class="code_imp">made map parsers not all share one regex object</li>
-				<li class="code_imp">added some check_ticks in procs that were being slow</li>
-				<li class="bugfix">turned off SSair during map loading and deletion</li>
-				<li class="bugfix">updated deletion of weapon parts to allow boarding levels to clear</li>
-				<li class="rscadd">re-enabled the EWAR console</li>
-				<li class="bugfix">moved KNPC path node on assault cruiser to fix lag</li>
-				<li class="tweak">Allowed syndicate crew to open munitions cargo crates</li>
-				<li class="tweak">Deafness protects against sound-based stuns</li>
-				<li class="tweak">Allowed AI ships to share enemy locations with each other as long as one of them has sensors on target</li>
-				<li class="tweak">Allowed regular AI ships to boost towards their targets</li>
-				<li class="tweak">increased the list of possible battleship types mainly</li>
-				<li class="balance">allowed some elite ships to appear in the wild</li>
+				<li class="tweak">Made all EWAR consoles share the cooldown</li>
+				<li class="tweak">Hammerlocked vessels will no longer use combat AI</li>
+				<li class="tweak">Added warnings when someone hacks the IFF console</li>
+				<li class="balance">Vessels must be under 50% health to engage Hammerlock</li>
+				<li class="rscadd">Solgov interdiction fleet</li>
+			</ul>
+
+			<h2 class="date">15 February 2022</h2>
+			<h3 class="author">Absolutely-Steph updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added maintenance need to ammostackers</li>
+				<li class="balance">balanced ammostackers maintenance decay to require maintenance roughly every 50-100 uses.</li>
+				<li class="soundadd">added jam/unjam sounds to ammostackers</li>
+				<li class="spellcheck">fixed a typo in the ammostackers examine text</li>
+			</ul>
+			<h3 class="author">Sarchutar updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">silicons can remotely open windoors again</li>
+			</ul>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">Changed the height of the gas tank computer window</li>
+			</ul>
+
+			<h2 class="date">13 February 2022</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">Overmap interior explosions when they are destroyed should now be less laggy (primary for ones with more areas)</li>
+			</ul>
+			<h3 class="author">MrStonedOne updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixes background subsystem prioritization</li>
+			</ul>
+			<h3 class="author">someone543 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Disassembling missile casings now drop five metal instead of fifteen</li>
 			</ul>
 		</div>
 

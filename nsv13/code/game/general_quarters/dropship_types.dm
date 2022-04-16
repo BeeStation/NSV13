@@ -1,7 +1,7 @@
 /**
 Credit to TGMC for the interior sprites for all these!
 */
-/obj/structure/overmap/fighter/dropship
+/obj/structure/overmap/small_craft/transport
 	name = "Su-624 'Trafalgar' Utility Dropship"
 	desc = "An all-purpose troop carrier which can carry a unit of marines into the heart of darkness."
 	icon = 'nsv13/icons/overmap/new/nanotrasen/dropship.dmi'
@@ -45,11 +45,12 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/secondary/utility/resupply,
 						/obj/item/fighter_component/countermeasure_dispenser)
 	interior_mode = INTERIOR_DYNAMIC
+	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/countermeasure)
 
-/obj/structure/overmap/fighter/dropship/Initialize(mapload, list/build_components)
+/obj/structure/overmap/small_craft/transport/Initialize(mapload, list/build_components)
 	return ..()
 
-/obj/structure/overmap/fighter/dropship/post_load_interior()
+/obj/structure/overmap/small_craft/transport/post_load_interior()
 	var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
 	if(ftl)
 		if(length(linked_areas) == 1)
@@ -64,7 +65,7 @@ Credit to TGMC for the interior sprites for all these!
     name = "Marine Dropship"
     mappath = "_maps/templates/boarding/dropship.dmm"
 
-/obj/structure/overmap/fighter/dropship/starter
+/obj/structure/overmap/small_craft/transport/starter
 	name = "NSV Sephora"
 	possible_interior_maps = list(/datum/map_template/dropship/main)
 
@@ -72,7 +73,7 @@ Credit to TGMC for the interior sprites for all these!
     name = "NSV Sephora (Dropship)"
     mappath = "_maps/templates/boarding/dropship_main.dmm"
 
-/obj/structure/overmap/fighter/dropship/syndicate
+/obj/structure/overmap/small_craft/transport/syndicate
 	name = "Syndicate Dropship"
 	icon = 'nsv13/icons/overmap/new/syndicate/dropship.dmi'
 	icon_state = "dropship_syndie"
@@ -80,14 +81,14 @@ Credit to TGMC for the interior sprites for all these!
 	faction = "syndicate"
 	req_one_access = list(ACCESS_SYNDICATE)
 
-/obj/structure/overmap/fighter/dropship/syndicate/main
+/obj/structure/overmap/small_craft/transport/syndicate/main
 	name = "SSV Thunderbird"
 
 /datum/map_template/dropship/syndicate
     name = "Syndicate Dropship"
     mappath = "_maps/templates/boarding/dropship_syndicate.dmm"
 
-/obj/structure/overmap/fighter/dropship/gunship
+/obj/structure/overmap/small_craft/transport/gunship
 	name = "SC-130 'Halberd' gunship"
 	desc = "A horrible, cramped death trap armed to the teeth with more guns than most small nations, all of which are under investigation for their carcinogenic properties."
 	possible_interior_maps = list(/datum/map_template/dropship/gunship)
@@ -106,7 +107,7 @@ Credit to TGMC for the interior sprites for all these!
     name = "SC-130 Halberd Gunship"
     mappath = "_maps/templates/boarding/gunship.dmm"
 
-/obj/structure/overmap/fighter/dropship/gunship/apply_weapons()
+/obj/structure/overmap/small_craft/transport/gunship/apply_weapons()
 	if(!weapon_types[FIRE_MODE_ANTI_AIR])
 		weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/fighter_primary(src)
 	if(!weapon_types[FIRE_MODE_TORPEDO])
@@ -118,7 +119,7 @@ Credit to TGMC for the interior sprites for all these!
 	if(!weapon_types[FIRE_MODE_PDC])
 		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 
-/obj/structure/overmap/fighter/dropship/sabre
+/obj/structure/overmap/small_craft/transport/sabre
 	name = "Su-437 Sabre"
 	desc = "A Su-437 Sabre utility vessel. Designed for robustness in deep space and as a highly modular platform, able to be fitted out for any situation. While its interior may be cramped, it's definitely functional. Drag and drop crates / ore boxes to load them into its cargo hold."
 	icon = 'nsv13/icons/overmap/nanotrasen/carrier.dmi'
@@ -160,7 +161,7 @@ Credit to TGMC for the interior sprites for all these!
     name = "SU-437 Sabre Interior"
     mappath = "_maps/templates/boarding/sabre_interior.dmm"
 
-/obj/structure/overmap/fighter/dropship/sabre/mining
+/obj/structure/overmap/small_craft/transport/sabre/mining
 	icon = 'nsv13/icons/overmap/nanotrasen/carrier_mining.dmi'
 	req_one_access = list(ACCESS_CARGO, ACCESS_MINING, ACCESS_TRANSPORT_PILOT)
 	possible_interior_maps = list(/datum/map_template/dropship/sabre/mining)
@@ -169,7 +170,7 @@ Credit to TGMC for the interior sprites for all these!
     name = "SU-437 Sabre Interior (Mining)"
     mappath = "_maps/templates/boarding/sabre_interior_mining.dmm"
 
-/obj/structure/overmap/fighter/dropship/sabre/syndicate
+/obj/structure/overmap/small_craft/transport/sabre/syndicate
 	name = "Syndicate Utility Vessel"
 	desc = "A boarding craft for rapid troop deployment. It contains a full combat medical bay for establishing FOBs."
 	icon = 'nsv13/icons/overmap/syndicate/syn_raptor.dmi'
