@@ -10,9 +10,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	obj_integrity = 1000
 	max_integrity = 1000
 	var/icon_path = "nsv13/icons/overmap/stellarbodies/asteroidfield/asteroid"
-	var/asteroid_size = ASTEROID_SIZE_SMALL
-	var/asteroid_type = ASTEROID_TYPE_ICE
-	var/core_composition = ASTEROID_COMPOSITION_FERROUS
+	var/nsv/asteroid_type/asteroid_type = null
 	var/has_ruins = FALSE
 	var/required_tier = 0
 	armor = list("overmap_light" = 99, "overmap_medium" = 99, "overmap_heavy" = 25)
@@ -22,17 +20,18 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 /obj/structure/overmap/asteroid/apply_weapons()
 	return FALSE //Lol, no.
 
-/obj/structure/overmap/asteroid/Initialize()
+/datum/nsv/asteroid_type
+	var/asteroid_size = pick(ASTEROID_SIZE_SMALL, ASTEROID_SIZE_MEDIUM, ASTEROID_SIZE_MEDIUM_LARGE, ASTEROID_SIZE_LARGE)
+	var/core_composition = pick(ASTEROID_COMPOSITION_FERROUS, ASTEROID_COMPOSITION_NONFERROUS, ASTEROID_COMPOSITION_EXOTIC) // TODO datumize this to instead store a list of minerals
+	var/mass
+	var/bound_height
+	var/bound_width
+	var/icon_path
+	var/turf_floor
+	var/turf_mineral
+
+/datum/nsv/asteroid_type/New()
 	. = ..()
-	asteroid_size = pick(ASTEROID_SIZE_SMALL, ASTEROID_SIZE_MEDIUM, ASTEROID_SIZE_MEDIUM_LARGE, ASTEROID_SIZE_LARGE)
-	asteroid_type = pick(ASTEROID_TYPE_ROCK, ASTEROID_TYPE_ICE)
-	core_composition = pick(ASTEROID_COMPOSITION_FERROUS, ASTEROID_COMPOSITION_NONFERROUS, ASTEROID_COMPOSITION_EXOTIC)
-	has_ruins = pick(FALSE,TRUE)
-	switch(asteroid_type)
-		if(ASTEROID_TYPE_ROCK)
-			icon_path += "_rock"
-		if(ASTEROID_TYPE_ICE)
-			icon_path += "_ice"
 	switch(asteroid_size)
 		if(ASTEROID_SIZE_MEDIUM)
 			mass = MASS_MEDIUM
@@ -46,22 +45,45 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 			mass = MASS_LARGE
 			bound_height = 192
 			bound_width = 192
+
+/datum/nsv/asteroid_type/rock
+	icon_path = "_rock"
+	turf_floor = /turf/open/floor/plating/asteroid/airless
+	turf_mineral = "volcanic"
+
+/datum/nsv/asteroid_type/ice
+	icon_path = "_ice"
+	turf_floor = /turf/open/floor/plating/asteroid/snow/ice/airless
+	turf_mineral = "icesteroid"
+
+/obj/structure/overmap/asteroid/Initialize()
+	. = ..()
+	var/typepick = pick( subtypesof( /datum/nsv/asteroid_type ) )
+	asteroid_type = new typepick
+
+	has_ruins = pick(FALSE,TRUE)
+	icon_path += asteroid_type.icon_path
+
+	mass = asteroid_type.mass
+	bound_height = asteroid_type.bound_height
+	bound_width = asteroid_type.bound_width
+
 	icon_path += "[asteroid_size].dmi"
 	icon = file(icon_path)
 	icon_state = "[rand(1,5)]"
 	angle = rand(0,360)
 	desired_angle = angle
-	required_tier += core_composition
+	required_tier += asteroid_type.core_composition
 
 /obj/structure/overmap/asteroid/choose_interior(map_path_override)
 	if(map_path_override)
 		boarding_interior = new/datum/map_template(map_path_override)
 	else if(prob(33)) //I hate this but it works so fuck you
 		var/list/potential_ruins = flist("_maps/map_files/Mining/nsv13/ruins/")
-		boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/ruins/[pick(potential_ruins)]", null, FALSE, core_composition) //Set up an asteroid
+		boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/ruins/[pick(potential_ruins)]", null, FALSE, asteroid_type.core_composition) //Set up an asteroid
 	else //67% chance to get an actual asteroid
 		var/list/potential_asteroids = flist("_maps/map_files/Mining/nsv13/asteroids/")
-		boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/asteroids/[pick(potential_asteroids)]", null, FALSE, core_composition) //Set up an asteroid
+		boarding_interior = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/asteroids/[pick(potential_asteroids)]", null, FALSE, asteroid_type.core_composition) //Set up an asteroid
 
 /obj/structure/overmap/asteroid/Destroy()
 	. = ..()
@@ -241,17 +263,17 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 		to_chat(user, "<span class='notice'>Cannot lock on to any asteroids near [linked]</span>")
 		return FALSE
 	var/obj/structure/overmap/asteroid/AS = input(usr, "Select target:", "Target") as null|anything in asteroids
-	if(!AS || !length(AS.core_composition))
+	if(!AS || !length(AS.asteroid_type.core_composition))
 		return FALSE
 	linked.relay('nsv13/sound/effects/ship/tractor.ogg', "<span class='warning'>DANGER: Magnet has locked on to an asteroid. Vacate the asteroid cage immediately.</span>")
 	cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 1 MINUTES)
 	if(prob(20))
 		var/list/potential_ruins = flist("_maps/map_files/Mining/nsv13/ruins/")
-		current_asteroid = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/ruins/[pick(potential_ruins)]", null, FALSE, AS.core_composition) //Set up an asteroid
+		current_asteroid = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/ruins/[pick(potential_ruins)]", null, FALSE, AS.asteroid_type.core_composition) //Set up an asteroid
 	else //80% chance to get an actual asteroid
 		var/list/potential_asteroids = flist("_maps/map_files/Mining/nsv13/asteroids/")
-		current_asteroid = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/asteroids/[pick(potential_asteroids)]", null, FALSE, AS.core_composition) //Set up an asteroid
+		current_asteroid = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/asteroids/[pick(potential_asteroids)]", null, FALSE, AS.asteroid_type.core_composition) //Set up an asteroid
 	addtimer(CALLBACK(src, .proc/load_asteroid), 10 SECONDS)
 	qdel(AS)
 

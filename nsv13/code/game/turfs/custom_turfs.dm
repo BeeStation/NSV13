@@ -264,11 +264,33 @@
 		return OM.check_overmap_elegibility()
 	return ..()
 
+// Used to store data on the gen
+/obj/effect/landmark/asteroid_generation
+	var/turf/template_gen/gen
+	var/obj/structure/overmap/asteroid/asteroid
+
+/obj/effect/landmark/asteroid_generation/Initialize()
+	. = ..()
+	gen = loc
+	asteroid = get_overmap()
+	load_asteroid_turf()
+
+/obj/effect/landmark/asteroid_generation/proc/load_asteroid_turf()
+	gen.PlaceOnTop( asteroid/asteroid_type.turf_floor )
+
+	// TODO finish this part
+	// var/mineralpick = pick( asteroid/asteroid_type.)
+	// gen.PlaceOnTop( asteroid/asteroid_type.turf_mineral )
+
 //Used to randomly generate different types of asteroid turfs
 /turf/template_gen
 	name = "Asteroid Generation Turf"
 	desc = "You shouldn't be seeing this"
 	icon_state = "noop"
+
+/turf/template_gen/Initialize()
+	. = ..()
+	new /obj/effect/landmark/asteroid_generation( src )
 
 /turf/template_gen/closed
 	name = "Asteroid Generation Turf (Closed)"
