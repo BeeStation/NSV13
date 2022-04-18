@@ -155,7 +155,7 @@
 	else
 		return TRUE
 
-/obj/structure/peacekeeper_barricade/CanPass(atom/movable/mover, turf/target)
+/obj/structure/peacekeeper_barricade/CanAllowThrough(atom/movable/mover, turf/target)
 	. = ..()
 	if(closed)
 		return TRUE
