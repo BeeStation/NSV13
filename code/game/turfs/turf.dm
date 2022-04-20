@@ -87,7 +87,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 	if(color)
 		add_atom_colour(color, FIXED_COLOUR_PRIORITY)
-		
+
 	if (light_power && light_range)
 		update_light()
 
@@ -152,7 +152,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 /turf/attack_hand(mob/user)
 	//Must have no gravity.
-	if(allow_z_travel && get_turf(user) == src)
+	if(get_turf(user) == src)
 		if(!user.has_gravity(src) || (user.movement_type & FLYING))
 			check_z_travel(user)
 			return
@@ -191,7 +191,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 			travel_z(user, below, FALSE)
 
 /turf/proc/travel_z(mob/user, turf/target, upwards = TRUE)
-	user.visible_message("<span class='notice'>[user] begins floating upwards!</span>", "<span class='notice'>You begin floating upwards.</span>")
+	user.visible_message("<span class='notice'>[user] begins floating [upwards ? "upwards" : "downwards"]!</span>", "<span class='notice'>You begin floating [upwards ? "upwards" : "downwards"].</span>")
 	var/matrix/M = user.transform
 	//Animation is inverted due to immediately resetting user vars.
 	animate(user, 30, pixel_y = upwards ? -64 : 64, transform = matrix() * (upwards ? 0.7 : 1.3))
@@ -200,7 +200,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(!do_after(user, 30, FALSE, get_turf(user)))
 		animate(user, 0, flags = ANIMATION_END_NOW)
 		return
-	if(!istype(target, /turf/open/space) && !istype(target, /turf/open/openspace))
+	if((upwards && !target.allow_z_travel) || (!upwards && !allow_z_travel))
 		to_chat(user, "<span class='warning'>Something is blocking you!</span>")
 		return
 	var/atom/movable/AM

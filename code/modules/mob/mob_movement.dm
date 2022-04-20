@@ -509,7 +509,11 @@
 /mob/proc/zMove(dir, feedback = FALSE)
 	if(dir != UP && dir != DOWN)
 		return FALSE
+	var/turf/source = get_turf(src)
 	var/turf/target = get_step_multiz(src, dir)
+	if(isliving(src))
+		source.travel_z(src, target, (dir == UP))
+		return
 	if(!target)
 		if(feedback)
 			to_chat(src, "<span class='warning'>There's nothing in that direction!</span>")

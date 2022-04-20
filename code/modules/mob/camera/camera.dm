@@ -25,3 +25,6 @@
 
 /mob/camera/emote(act, m_type=1, message = null, intentional = FALSE)
 	return
+
+/mob/camera/canZMove(direction, turf/target) //cameras do not respect these FLOORS you speak so much of
+	return TRUE

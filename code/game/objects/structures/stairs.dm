@@ -34,6 +34,11 @@
 		build_signal_listener()
 	update_surrounding()
 
+//passthrough to the turf below for 0G Z travel
+/obj/structure/stairs/attack_hand(mob/user)
+	var/turf/T = get_turf(src)
+	T.attack_hand(user)
+
 /obj/structure/stairs/proc/update_surrounding()
 	update_icon()
 	for(var/i in GLOB.cardinals)
