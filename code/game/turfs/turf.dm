@@ -152,7 +152,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 /turf/attack_hand(mob/user)
 	//Must have no gravity.
-	if(get_turf(user) == src)
+	if(get_turf(user) == src) //NSV13 - lets people do this even if they're on the floor
 		if(!user.has_gravity(src) || (user.movement_type & FLYING))
 			check_z_travel(user)
 			return
@@ -191,6 +191,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 			travel_z(user, below, FALSE)
 
 /turf/proc/travel_z(mob/user, turf/target, upwards = TRUE)
+	//NSV13 - added ternary direction checks to this message
 	user.visible_message("<span class='notice'>[user] begins floating [upwards ? "upwards" : "downwards"]!</span>", "<span class='notice'>You begin floating [upwards ? "upwards" : "downwards"].</span>")
 	var/matrix/M = user.transform
 	//Animation is inverted due to immediately resetting user vars.
@@ -200,11 +201,13 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(!do_after(user, 30, FALSE, get_turf(user)))
 		animate(user, 0, flags = ANIMATION_END_NOW)
 		return
+	//NSV13 - added incorporeal movement handling
 	if(isliving(user))
 		var/mob/living/L = user
 		if(L.incorporeal_move)
 			user.client?.Process_Incorpmove(upwards ? UP : DOWN)
 			return
+	//NSV13 - changed allow_z_travel checks. Can't go through the ceiling or floor, but pushing off a floor is fine
 	if((upwards && !target.allow_z_travel) || (!upwards && !allow_z_travel))
 		to_chat(user, "<span class='warning'>Something is blocking you!</span>")
 		return

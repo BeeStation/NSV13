@@ -110,6 +110,9 @@
 	setLoc(target, TRUE)
 	return TRUE
 
+/mob/camera/canZMove(direction, turf/target) //cameras do not respect these FLOORS you speak so much of
+	return TRUE
+
 /mob/camera/ai_eye/Move()
 	return 0
 

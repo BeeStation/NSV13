@@ -202,10 +202,10 @@
 	var/mob/living/L = mob
 	switch(L.incorporeal_move)
 		if(INCORPOREAL_MOVE_BASIC)
-			var/T = get_step_multiz(mobloc, direct)
+			var/T = get_step_multiz(mobloc, direct) //NSV13 - multiz handling
 			if(T)
 				L.forceMove(T)
-			else
+			else //NSV13 - added warning
 				to_chat(L, "<span class='warning'>There's nothing in that direction!</span>")
 			L.setDir(direct)
 		if(INCORPOREAL_MOVE_SHADOW)
@@ -251,7 +251,7 @@
 					L.forceMove(T)
 			L.setDir(direct)
 		if(INCORPOREAL_MOVE_JAUNT) //Incorporeal move, but blocked by holy-watered tiles and salt piles.
-			var/turf/open/floor/stepTurf = get_step_multiz(mobloc, direct)
+			var/turf/open/floor/stepTurf = get_step_multiz(mobloc, direct) //NSV13 - multiz handling
 			if(stepTurf)
 				for(var/obj/effect/decal/cleanable/food/salt/S in stepTurf)
 					to_chat(L, "<span class='warning'>[S] bars your passage!</span>")
@@ -267,12 +267,12 @@
 					to_chat(L, "<span class='warning'>Holy energies block your path!</span>")
 					return
 				L.forceMove(stepTurf)
-			else
+			else //NSV13 - added warning
 				to_chat(L, "<span class='warning'>There's nothing in that direction!</span>")
 			L.setDir(direct)
 
 		if(INCORPOREAL_MOVE_EMINENCE) //Incorporeal move for emincence. Blocks move like Jaunt but lets it pass through clockwalls
-			var/turf/open/floor/stepTurf = get_step_multiz(mobloc, direct)
+			var/turf/open/floor/stepTurf = get_step_multiz(mobloc, direct) //NSV13 - multiz handling
 			var/turf/loccheck = get_turf(stepTurf)
 			if(stepTurf)
 				for(var/obj/effect/decal/cleanable/food/salt/S in stepTurf)
@@ -286,7 +286,7 @@
 					to_chat(L, "<span class='warning'>Holy energies block your path!</span>")
 					return
 				L.forceMove(stepTurf)
-			else
+			else //NSV13 - added warning
 				to_chat(L, "<span class='warning'>There's nothing in that direction!</span>")
 			L.setDir(direct)
 	return TRUE
@@ -517,7 +517,7 @@
 		return FALSE
 	var/turf/source = get_turf(src)
 	var/turf/target = get_step_multiz(src, dir)
-	if(isliving(src))
+	if(isliving(src)) //NSV13 - let living things do the fancy animation
 		source.travel_z(src, target, (dir == UP))
 		return
 	if(!target)
