@@ -71,4 +71,10 @@ MAP_REMOVE_JOB(brig_phys)
     total_positions = 1
     spawn_positions = 1
 
+/datum/job/air_traffic_controller/New() //Nope
+    ..()
+    MAP_JOB_CHECK
+    total_positions = 0
+    spawn_positions = 0
+
 #undef JOB_MODIFICATION_MAP_NAME
