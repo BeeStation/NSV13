@@ -200,6 +200,11 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(!do_after(user, 30, FALSE, get_turf(user)))
 		animate(user, 0, flags = ANIMATION_END_NOW)
 		return
+	if(isliving(user))
+		var/mob/living/L = user
+		if(L.incorporeal_move)
+			user.client?.Process_Incorpmove(upwards ? UP : DOWN)
+			return
 	if((upwards && !target.allow_z_travel) || (!upwards && !allow_z_travel))
 		to_chat(user, "<span class='warning'>Something is blocking you!</span>")
 		return
