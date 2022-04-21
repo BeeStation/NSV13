@@ -64,6 +64,13 @@
 	desc = "It's Officer Pingsky! Delegated to satellite guard duty for harbouring anti-human sentiment."
 	radio_channel = RADIO_CHANNEL_AI_PRIVATE
 
+/mob/living/simple_animal/bot/secbot/armsky //NSV13
+	name = "Sergeant-At-Armsky"
+	health = 45
+	idcheck = TRUE
+	weaponscheck = TRUE
+	arrest_type = TRUE
+
 /mob/living/simple_animal/bot/secbot/Initialize()
 	. = ..()
 	update_icon()
