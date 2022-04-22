@@ -374,9 +374,9 @@
 /obj/machinery/ship_weapon/proc/update()
 	if(weapon_type) // Who would've thought creating a weapon with no weapon_type would break everything!
 		if(!safety && chambered)
-			LAZYADD(weapon_type.weapons["loaded"] , src)
+			weapon_type.weapons["loaded"] |= src //OR to avoid duplicating refs
 		else
-			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
+			weapon_type.weapons["loaded"] -= src
 
 /obj/machinery/ship_weapon/proc/lazyload()
 	if(magazine_type)
