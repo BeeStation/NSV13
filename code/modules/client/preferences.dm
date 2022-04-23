@@ -1252,13 +1252,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(TG.sort_category == "Donator")
 						if(CONFIG_GET(flag/donator_items) && alert(parent, "This item is only accessible to our patrons. Would you like to subscribe?", "Patron Locked", "Yes", "No") == "Yes")
 							parent.donate()
-						else if(TG.cost < user.client.get_metabalance())
-							purchased_gear += TG.id
-							TG.purchase(user.client)
-							user.client.inc_metabalance((TG.cost * -1), TRUE, "Purchased [TG.display_name].")
-							save_preferences()
-						else
-							to_chat(user, "<span class='warning'>You don't have enough [CONFIG_GET(string/metacurrency_name)]s to purchase \the [TG.display_name]!</span>")
+					else if(TG.cost < user.client.get_metabalance())
+						purchased_gear += TG.id
+						TG.purchase(user.client)
+						user.client.inc_metabalance((TG.cost * -1), TRUE, "Purchased [TG.display_name].")
+						save_preferences()
+					else
+						to_chat(user, "<span class='warning'>You don't have enough [CONFIG_GET(string/metacurrency_name)]s to purchase \the [TG.display_name]!</span>")
 				if(GEAR_DONATOR)
 					if(usr.ckey != TG.ckey)
 						//The fuck are you playing at?
