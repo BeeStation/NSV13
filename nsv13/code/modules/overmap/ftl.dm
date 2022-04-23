@@ -11,8 +11,6 @@
 			occupying_z = OM.get_reserved_z()
 		else
 			occupying_z = OM.z
-		if(OM.role == MAIN_OVERMAP) //As these events all happen to the main ship, let's check that it's not say, the nomi that's triggering this system load...
-			try_spawn_event()
 		if(fleets.len)
 			for(var/datum/fleet/F in fleets)
 				if(!F.current_system)

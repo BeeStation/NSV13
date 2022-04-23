@@ -64,7 +64,16 @@ SUBSYSTEM_DEF(events)
 	// Only alive, non-AFK human players count towards this.
 
 	var/sum_of_weights = 0
-	for(var/datum/round_event_control/E in control)
+
+	//NSV13 - are we using our event list or the full one?
+	var/obj/structure/overmap/mainship = SSstar_system.find_main_overmap()
+	var/list/possible_events
+	if(mainship.current_system && length(mainship.current_system.possible_events) && prob(70))
+		possible_events = mainship.current_system.possible_events
+	else
+		possible_events = control
+
+	for(var/datum/round_event_control/E in possible_events)
 		if(!E.canSpawnEvent(players_amt, gamemode))
 			continue
 		if(E.weight < 0)						//for round-start events etc.
@@ -77,7 +86,7 @@ SUBSYSTEM_DEF(events)
 
 	sum_of_weights = rand(0,sum_of_weights)	//reusing this variable. It now represents the 'weight' we want to select
 
-	for(var/datum/round_event_control/E in control)
+	for(var/datum/round_event_control/E in possible_events)
 		if(!E.canSpawnEvent(players_amt, gamemode))
 			continue
 		sum_of_weights -= E.weight
