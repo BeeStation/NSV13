@@ -18,6 +18,8 @@
 	var/list/mode_reports
 	var/list/mode_false_report_weight
 
+	var/list/active_donators //NSV13 - donator code
+
 	var/motd
 
 	var/static/regex/ic_filter_regex
@@ -452,3 +454,16 @@
 		in_character_filter += REGEX_QUOTE(line)
 
 	ic_filter_regex = in_character_filter.len ? regex("\\b([jointext(in_character_filter, "|")])\\b", "i") : null
+
+//NSV13 - donator code
+/datum/controller/configuration/proc/LoadDonators()
+	active_donators = list()
+	for(var/line in world.file2list("[global.config.directory]/donators.txt"))
+		if(!line)
+			continue
+		if(findtextEx(line,"#",1,2))
+			continue
+		active_donators += ckey(line)
+
+	if(!active_donators.len)
+		active_donators = null

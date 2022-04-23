@@ -30,9 +30,18 @@ GLOBAL_LIST_EMPTY(gear_datums)
 		if(use_id in used_ids)
 			WARNING("Loadout - ID Already Exists: [G], with ID:[use_id], Conflicts with: [used_ids[use_id]]")
 			continue
-		if(!initial(G.cost))
+		//NSV13 - donator code
+		if(!initial(G.unlocktype))
+			WARNING("Loadout - No unlock type defined: [G]")
+			continue
+		if(!initial(G.cost) && initial(G.unlocktype) == GEAR_METACOIN)
+			WARNING("Loadout - Metacoin item, Missing cost: [G]")
+		// end NSV13
+		else if(!initial(G.cost))
 			WARNING("Loadout - Missing cost: [G]")
 			continue
+		if(!initial(G.ckey) && initial(G.unlocktype) == GEAR_DONATOR)
+			WARNING("Loadout - Donator Item, No assigned control key: [G]")
 		if(!initial(G.path) && use_category != "OOC") //OOC category does not contain actual items
 			WARNING("Loadout - Missing path definition: [G]")
 			continue
@@ -50,8 +59,10 @@ GLOBAL_LIST_EMPTY(gear_datums)
 	var/display_name       //Name. Should be unique.
 	var/id                 //ID string. MUST be unique.
 	var/description        //Description of this gear. If left blank will default to the description of the pathed item.
+	var/unlocktype = GEAR_METACOIN //NSV13 - How is this item unlocked, May also cause the item to be hidden.
 	var/path               //Path to item.
 	var/cost = INFINITY    //Number of metacoins
+	var/ckey               //NSV13 - Control Key of the donator the item is assigned to. (GEAR_DONATOR)
 	var/slot               //Slot to equip to.
 	var/list/allowed_roles //Roles that can spawn with this item.
 	var/list/species_blacklist //Stop certain species from receiving this gear
