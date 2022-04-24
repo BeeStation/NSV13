@@ -6,6 +6,10 @@
 	position = "gunner"
 	circuit = /obj/item/circuitboard/computer/ship/tactical_computer
 
+/obj/machinery/computer/ship/tactical/Destroy()
+	linked?.tactical = null
+	return ..()
+
 /obj/machinery/computer/ship/tactical/ui_interact(mob/user, datum/tgui/ui)
 	if(isobserver(user))
 		return
