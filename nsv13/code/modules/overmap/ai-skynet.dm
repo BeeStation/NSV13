@@ -1160,7 +1160,7 @@ Adding tasks is easy! Just define a datum for it.
 		supplyPost = supply
 		break
 	if(supplyPost) //Neat, we've found a supply post. Autobots roll out.
-		if(get_dist(OM, supplyPost) <= AI_PDC_RANGE)
+		if(overmap_dist(OM, supplyPost) <= AI_PDC_RANGE)
 			OM.brakes = TRUE
 			OM.move_mode = null
 		else
@@ -1187,7 +1187,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/ai_goal/seek/action(obj/structure/overmap/OM)
 	..()
 	if(OM.last_target)
-		if(get_dist(OM, OM.last_target) <= 10)
+		if(overmap_dist(OM, OM.last_target) <= 10)
 			OM.circle_around(OM.last_target)
 		else
 			OM.move_toward(OM.last_target)
@@ -1253,8 +1253,8 @@ Ships with this goal create a a lance, but are not exactly bound to it. They'll 
 	else if(L.last_finder == OM && OM.last_target != L.lance_target)	//We switched targets, relay this too.
 		L.lance_target = OM.last_target
 
-	if(get_dist(OM, OM.last_target) <= 4)	//Strafe Flyby (and / or ram) them.
-		OM.desired_angle = Get_Angle(OM, OM.last_target)
+	if(overmap_dist(OM, OM.last_target) <= 4)	//Strafe Flyby (and / or ram) them.
+		OM.desired_angle = overmap_angle(OM, OM.last_target)
 		OM.move_mode = null
 	else
 		OM.move_toward(OM.last_target)
@@ -1274,7 +1274,7 @@ Staging point priorities are supply ships > battleships > destroyers > just floa
 	if(!movement_target)
 		OM.move_toward(null)	//Just drift I guess?
 	else
-		if(get_dist(OM, movement_target) <= 8)
+		if(overmap_dist(OM, movement_target) <= 8)
 			OM.brakes = TRUE
 			OM.move_mode = null
 			OM.desired_angle = movement_target.angle //Style points
@@ -1341,7 +1341,7 @@ Seek a ship thich we'll station ourselves around
 	..()
 	if(OM.last_target)
 		OM.move_toward(OM.last_target)
-		if(get_dist(OM.last_target, OM) <= 8)
+		if(overmap_dist(OM.last_target, OM) <= 8)
 			var/obj/structure/overmap/foo = OM.last_target
 			if(istype(foo))
 				OM.desired_angle = foo.angle //Pull up parallel beside it for style points.
@@ -1363,10 +1363,10 @@ Seek a ship thich we'll station ourselves around
 		var/list/supplyline = OM.fleet.taskforces["supply"]
 		OM.defense_target = supplyline?.len ? pick(OM.fleet.taskforces["supply"]) : OM
 
-	if(OM.defense_target.last_target && get_dist(OM.defense_target, OM.defense_target.last_target) < OM.defense_target.max_weapon_range * 1.5)	//Enemy close to our defense target, prioritize.
+	if(OM.defense_target.last_target && overmap_dist(OM.defense_target, OM.defense_target.last_target) < OM.defense_target.max_weapon_range * 1.5)	//Enemy close to our defense target, prioritize.
 		defensively_engage(OM, OM.defense_target.last_target)
 		return
-	if(OM.last_target && (get_dist(OM, OM.defense_target) <= OM.max_weapon_range * 2 || get_dist(OM.last_target, OM.defense_target) <= OM.max_weapon_range * 2))	//If we have a target and they're somewhat close to our defense target: Engage them.
+	if(OM.last_target && (overmap_dist(OM, OM.defense_target) <= OM.max_weapon_range * 2 || overmap_dist(OM.last_target, OM.defense_target) <= OM.max_weapon_range * 2))	//If we have a target and they're somewhat close to our defense target: Engage them.
 		defensively_engage(OM, OM.last_target)
 		return
 
@@ -1374,7 +1374,7 @@ Seek a ship thich we'll station ourselves around
 
 //Proc for flying close to a target, then copying its angle. Usually used to defend, probably useful elsewhere.
 /datum/ai_goal/proc/guard(obj/structure/overmap/OM, obj/structure/overmap/to_guard)
-	if(get_dist(OM, to_guard) <= AI_PDC_RANGE)
+	if(overmap_dist(OM, to_guard) <= AI_PDC_RANGE)
 		OM.brakes = TRUE
 		OM.move_mode = null
 		OM.desired_angle = to_guard.angle //Turn and face boys!
@@ -1383,7 +1383,7 @@ Seek a ship thich we'll station ourselves around
 
 //Proc for flying towards a target till pretty close, then orbiting said target. Usually used to engage enemies.
 /datum/ai_goal/proc/defensively_engage(obj/structure/overmap/OM, obj/structure/overmap/to_engage)
-	if(get_dist(OM, to_engage) <= 10)
+	if(overmap_dist(OM, to_engage) <= 10)
 		OM.circle_around(to_engage)
 	else
 		OM.move_toward(to_engage)
@@ -1429,7 +1429,7 @@ Seek a ship thich we'll station ourselves around
 	..()
 	OM.brakes = TRUE
 	var/obj/structure/overmap/foo = OM.last_target
-	if(!foo || !istype(foo) || get_dist(OM, foo) > OM.max_weapon_range) //You can run on for a long time, run on for a long time, run on for a long time, sooner or later gonna cut you down
+	if(!foo || !istype(foo) || overmap_dist(OM, foo) > OM.max_weapon_range) //You can run on for a long time, run on for a long time, run on for a long time, sooner or later gonna cut you down
 		return //Just drift aimlessly, let the fleet form up with it.
 	OM.move_away_from(foo) //Turn the opposite direction and run.
 
@@ -1444,7 +1444,7 @@ Seek a ship thich we'll station ourselves around
 	if(!OM.last_target || !OM.fleet?.is_reporting_target(OM.last_target, OM))
 		OM.seek_new_target()
 	if(OM.last_target)
-		if(get_dist(OM, OM.last_target) < OM.max_tracking_range)
+		if(overmap_dist(OM, OM.last_target) < OM.max_tracking_range)
 			OM.patrol_target = null	//Clear our destination if we are getting close to the enemy. Otherwise we resume patrol to our old destination.
 			return 0
 		if(!CHECK_BITFIELD(OM.ai_flags, AI_FLAG_SUPPLY))	//Supply ships only stop patrolling to run away (which when needed still has higher score
@@ -1459,7 +1459,7 @@ Seek a ship thich we'll station ourselves around
 	..()
 	if(prob(8))	//Ping every now and then, so things can't sneak up on you.
 		OM.send_radar_pulse()
-	if(OM.patrol_target && get_dist(OM, OM.patrol_target) <= 8)
+	if(OM.patrol_target && overmap_dist(OM, OM.patrol_target) <= 8)
 		OM.patrol_target = null	//You have arrived at your destination.
 	if(!OM.patrol_target || OM.patrol_target.z != OM.z)
 		var/min_x = max(OM.x - 50, 15)
@@ -1579,7 +1579,7 @@ Seek a ship thich we'll station ourselves around
 /obj/structure/overmap/proc/ai_fire(atom/target)
 	if(istype(target, /obj/structure/overmap))
 		add_enemy(target)
-		var/target_range = get_dist(src,target)
+		var/target_range = overmap_dist(src,target)
 		var/new_firemode = FIRE_MODE_GAUSS
 		if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
 			if(fleet)
@@ -1610,7 +1610,7 @@ Seek a ship thich we'll station ourselves around
 					spawn(150)
 						light_shots_left = initial(light_shots_left) // make them reload like real people, sort of
 					continue
-				var/arc = Get_Angle(src, target)
+				var/arc = overmap_angle(src, target)
 				if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
 					continue
 				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
@@ -1627,7 +1627,7 @@ Seek a ship thich we'll station ourselves around
 				for(var/obj/structure/overmap/ship in current_system.system_contents)
 					if(warcrime_blacklist[ship.type])
 						continue
-					if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
+					if(!ship || QDELETED(ship) || ship == src || overmap_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
 						continue
 					if(fire_weapon(ship, FIRE_MODE_GAUSS, ai_aim=TRUE))
 						SW.next_firetime += SW.ai_fire_delay
@@ -1652,7 +1652,7 @@ Seek a ship thich we'll station ourselves around
 	if(!istype(target, /obj/structure/overmap))
 		return
 	add_enemy(target)
-	var/target_range = get_dist(src,target)
+	var/target_range = overmap_dist(src,target)
 	if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
 		if(fleet)
 			fleet.stop_reporting(target, src)
@@ -1681,7 +1681,7 @@ Seek a ship thich we'll station ourselves around
 					addtimer(CALLBACK(src, .proc/ai_self_resupply), ai_resupply_time)
 				continue //If we are out of shots. Continue.
 			will_use_ammo = TRUE
-		var/arc = Get_Angle(src, target)
+		var/arc = overmap_angle(src, target)
 		if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
 			continue
 		fire_weapon(target, iter, ai_aim=TRUE)
@@ -1774,7 +1774,7 @@ Seek a ship thich we'll station ourselves around
 		gunner = pilot
 	if(last_target) //Have we got a target?
 		var/obj/structure/overmap/OM = last_target
-		if(get_dist(last_target, src) > max(max_tracking_range, OM.sensor_profile) || istype(OM) && OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE) //Out of range - Give up the chase
+		if(overmap_dist(last_target, src) > max(max_tracking_range, OM.sensor_profile) || istype(OM) && OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE) //Out of range - Give up the chase
 			if(istype(OM) && CHECK_BITFIELD(ai_flags, AI_FLAG_DESTROYER) && OM.z == z)
 				patrol_target = get_turf(last_target)	//Destroyers are wary and will actively investigate when their target exits their sensor range. You might be able to use this to your advantage though!
 			if(fleet)
@@ -1782,7 +1782,7 @@ Seek a ship thich we'll station ourselves around
 			if(!fleet?.shared_targets?[last_target])
 				last_target = null
 		else //They're in our tracking range. Let's hunt them down.
-			if(get_dist(last_target, src) <= max_weapon_range) //Theyre within weapon range.  Calculate a path to them and fire.
+			if(overmap_dist(last_target, src) <= max_weapon_range) //Theyre within weapon range.  Calculate a path to them and fire.
 				if(CHECK_BITFIELD(ai_flags, AI_FLAG_ELITE))
 					ai_elite_fire(last_target)
 				else
@@ -1790,13 +1790,13 @@ Seek a ship thich we'll station ourselves around
 	if(move_mode)
 		user_thrust_dir = move_mode
 	if(can_resupply)
-		if(resupply_target && !QDELETED(resupply_target) && get_dist(src, resupply_target) <= resupply_range)
+		if(resupply_target && !QDELETED(resupply_target) && overmap_dist(src, resupply_target) <= resupply_range)
 			new /obj/effect/temp_visual/heal(get_turf(resupply_target))
 			return
 		var/list/maybe_resupply = current_system.system_contents.Copy()
 		shuffle(maybe_resupply)	//Lets not have a fixed resupply list that can cause things to be wonky.
 		for(var/obj/structure/overmap/OM in maybe_resupply)
-			if(OM.z != z || OM == src || OM.faction != faction || get_dist(src, OM) > resupply_range) //No self healing
+			if(OM.z != z || OM == src || OM.faction != faction || overmap_dist(src, OM) > resupply_range) //No self healing
 				continue
 			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left) && OM.missiles >= initial(OM.missiles) && OM.torpedoes >= initial(OM.torpedoes)) //No need to resupply this ship at all.
 				continue
@@ -1808,7 +1808,7 @@ Seek a ship thich we'll station ourselves around
 
 /obj/structure/overmap/proc/resupply()
 	resupplying--
-	if(!resupply_target || QDELETED(resupply_target) || get_dist(src, resupply_target) > resupply_range)
+	if(!resupply_target || QDELETED(resupply_target) || overmap_dist(src, resupply_target) > resupply_range)
 		resupply_target = null
 		return
 	var/missileStock = initial(resupply_target.missiles)
@@ -1824,14 +1824,14 @@ Seek a ship thich we'll station ourselves around
 /obj/structure/overmap/proc/can_board(obj/structure/overmap/ship)
 	if(!length(ship.occupying_levels))
 		return FALSE
-	if(get_dist(ship, src) > 8)
+	if(overmap_dist(ship, src) > 8)
 		return FALSE
 	if(next_boarding_time <= world.time || next_boarding_attempt <= world.time)
 		return TRUE
 	return FALSE
 
 /obj/structure/overmap/proc/try_board(obj/structure/overmap/ship)
-	if(get_dist(ship, src) > 8)
+	if(overmap_dist(ship, src) > 8)
 		return FALSE
 	next_boarding_attempt = world.time + 5 MINUTES //We very rarely try to board.
 	if(next_boarding_time <= world.time)
@@ -1904,8 +1904,8 @@ Seek a ship thich we'll station ourselves around
 			target = defense_target
 		else
 			return
-	desired_angle = Get_Angle(src, target)
-	var/target_dist = get_dist(src, target)
+	desired_angle = overmap_angle(src, target)
+	var/target_dist = overmap_dist(src, target)
 	if(world.time >= next_maneuvre && (target_dist > 12 || ram_target || ignore_all_collisions))
 		var/angular_difference = desired_angle - angle
 		switch(angular_difference)
@@ -1923,7 +1923,7 @@ Seek a ship thich we'll station ourselves around
 		return	//FULL SPEED AHEAD!
 	//Raycasting! Should finally give the AI ships their driver's license....
 	for(var/turf/T in getline(src, target))
-		var/dist = get_dist(get_turf(src), T)
+		var/dist = overmap_dist(get_turf(src), T)
 		if(dist >= 8) //ignore collisions this far away, no need to dodge that.
 			break
 		var/obj/structure/overmap/blocked = null
@@ -1933,7 +1933,7 @@ Seek a ship thich we'll station ourselves around
 				continue
 			if(OM == target && ram_target)
 				continue
-			if(get_dist(get_turf(OM), T) <= 5 && OM.mass > MASS_TINY) //Who cares about fighters anyway!
+			if(overmap_dist(get_turf(OM), T) <= 5 && OM.mass > MASS_TINY) //Who cares about fighters anyway!
 				blocked = OM
 				break
 		if(blocked) //Time to do some evasive. Determine the object's direction to evade in the opposite direction.
@@ -1953,14 +1953,14 @@ Seek a ship thich we'll station ourselves around
 	move_mode = NORTH
 	if(!target || QDELETED(target))
 		return
-	desired_angle =	Get_Angle(src, target) - 180
+	desired_angle =	overmap_angle(src, target) - 180
 
 /obj/structure/overmap/proc/circle_around(atom/target)
 	brakes = FALSE
 	move_mode = NORTH
 	if(!target)
 		return
-	var/relative_angle = Get_Angle(src, target)
+	var/relative_angle = overmap_angle(src, target)
 	var/option1 = relative_angle + 90
 	var/option2 = relative_angle - 90
 	if(option2 < 0)
@@ -1986,11 +1986,11 @@ Seek a ship thich we'll station ourselves around
 	for(var/obj/structure/overmap/ship in shiplist)
 		if(warcrime_blacklist[ship.type])
 			continue
-		if(!ship || QDELETED(ship) || ship == src || get_dist(src, ship) > max(max_tracking_range, ship.sensor_profile) || ship.faction == faction || ship.z != z || ship.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE)
+		if(!ship || QDELETED(ship) || ship == src || overmap_dist(src, ship) > max(max_tracking_range, ship.sensor_profile) || ship.faction == faction || ship.z != z || ship.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE)
 			continue
 		if ( ship.essential )
 			continue
-		if(max_distance && get_dist(src, ship) > max_distance)
+		if(max_distance && overmap_dist(src, ship) > max_distance)
 			continue
 		if(max_weight_class && ship.mass > max_weight_class)
 			continue
