@@ -66,6 +66,22 @@
 	torpedoes = 10
 	missiles = 10
 
+// Solgov Kadesh? Solgov Kadesh.
+/obj/structure/overmap/nanotrasen/solgov/ai/interdictor
+	name = "Capiens class medium cruiser"
+	desc = "A SolGov pursuit craft, meant for tracking and cornering high value targets."
+	obj_integrity = 1200
+	max_integrity = 1200
+	integrity_failure = 1200
+	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_DESTROYER | AI_FLAG_ELITE
+	max_tracking_range = 70
+	flak_battery_amount = 2
+	combat_dice_type = /datum/combat_dice/cruiser
+
+/obj/structure/overmap/nanotrasen/solgov/ai/interdictor/Initialize()
+	. = ..()
+	AddComponent(/datum/component/interdiction)
+
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp/ai
 	ai_controlled = TRUE
 	ai_flags = AI_FLAG_DESTROYER
@@ -125,6 +141,7 @@
 /obj/structure/overmap/nanotrasen/solgov/apply_weapons()
 	// Solgov do not need Nanotrasen weapons registered on roundstart. This bloats the ship's weapon_types and makes cycling via spacebar take much longer
 	// . = ..()
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
 
 /obj/structure/overmap/nanotrasen/solgov/carrier/ai/apply_weapons() // Kmc why didn't you use /solgov/ai for your ship childtypes
 	apply_medium_ai_weapons()

@@ -94,7 +94,7 @@
 
 	var/brakes = FALSE //Helps you stop the ship
 	var/rcs_mode = FALSE //stops you from swivelling on mouse move
-	var/move_by_mouse = TRUE //It's way easier this way, but people can choose.
+	var/move_by_mouse = FALSE //Mouse guided turning
 
 	//Logging
 	var/list/weapon_log = list() //Shows who did the firing thing
@@ -125,8 +125,8 @@
 
 	var/static/ai_resupply_time = 1.5 MINUTES
 	var/ai_resupply_scheduled = FALSE
-	var/torpedoes = 2 //If this starts at above 0, then the ship can use torpedoes when AI controlled
-	var/missiles = 4 //If this starts at above 0, then the ship can use missiles when AI controlled
+	var/torpedoes = 0 //If this starts at above 0, then the ship can use torpedoes when AI controlled
+	var/missiles = 0 //If this starts at above 0, then the ship can use missiles when AI controlled
 
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
 	var/atom/target_lock = null
@@ -168,6 +168,11 @@
 
 	var/last_radar_pulse = 0
 
+	//Our verbs tab
+	var/list/overmap_verbs = list()
+
+	var/ghost_controlled = FALSE //Is our overmap currently being controlled by a ghost?
+
 	//NPC combat
 	var/datum/combat_dice/npc_combat_dice
 	var/combat_dice_type = /datum/combat_dice
@@ -181,6 +186,7 @@
 	var/list/interior_entry_points = list()
 	var/boarding_reservation_z = null //Do we have a reserved Z-level for boarding? This is set up on instance_overmap. Ships being boarded copy this value from the boarder.
 	var/obj/structure/overmap/active_boarding_target = null
+	var/static/next_boarding_time = 0 // This is stupid and lazy but it's 5am and I don't care anymore
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
@@ -606,7 +612,21 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/relaymove(mob/user, direction)
 	if(user != pilot || pilot.incapacitated())
 		return
-	user_thrust_dir = direction
+
+	if(mass < MASS_SMALL) //Small craft can "strafe"
+		user_thrust_dir = direction
+
+	else //Everything else cannot
+		if(direction & WEST)
+			desired_angle = angle - 15
+			user_thrust_dir = direction - WEST
+
+		else if(direction & EAST)
+			desired_angle = angle + 15
+			user_thrust_dir = direction - EAST
+
+		else
+			user_thrust_dir = direction
 
 //relay('nsv13/sound/effects/ship/rcs.ogg')
 
@@ -691,14 +711,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 					continue
 			ship.relay(S,message)
 
-/obj/structure/overmap/proc/verb_check(mob/user, require_pilot = TRUE)
-	if(!user)
-		user = usr
-	if(user != pilot)
-		to_chat(user, "<span class='notice'>You can't reach the controls from here</span>")
-		return FALSE
-	return !user.incapacitated() && isliving(user)
-
 /obj/structure/overmap/key_down(key, client/user)
 	var/mob/themob = user.mob
 	switch(key)
@@ -733,12 +745,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 					var/sound = pick(GLOB.computer_beeps)
 					playsound(tactical, sound, 100, 1)
 			return TRUE
-		if("Q" || "q")
-			if(!move_by_mouse)
-				desired_angle -= 15
-		if("E" || "e")
-			if(!move_by_mouse)
-				desired_angle += 15
 
 /obj/structure/overmap/proc/boost(direction)
 	if(world.time < next_maneuvre)
@@ -837,71 +843,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		M.throw_at(throw_target, 4, 3)
 		M.Knockdown(2 SECONDS)
 
-/obj/structure/overmap/verb/toggle_brakes()
-	set name = "Toggle Handbrake"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check() || !can_brake())
-		return
-	brakes = !brakes
-	to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].</span>")
-
-/obj/structure/overmap/verb/toggle_inertia()
-	set name = "Toggle IAS"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check() || !can_brake())
-		return
-	inertial_dampeners = !inertial_dampeners
-	to_chat(usr, "<span class='notice'>Inertial assistance system [inertial_dampeners ? "ONLINE" : "OFFLINE"].</span>")
-
 /obj/structure/overmap/proc/can_change_safeties()
 	return (SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP))
 
-/obj/structure/overmap/verb/toggle_safety()
-	set name = "Toggle Gun Safeties"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check() || !can_change_safeties())
-		return
-	weapon_safety = !weapon_safety
-	to_chat(usr, "<span class='notice'>You toggle [src]'s weapon safeties [weapon_safety ? "on" : "off"].</span>")
-
-/obj/structure/overmap/verb/show_dradis()
-	set name = "Show DRADIS"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check() || !dradis)
-		return
-	dradis.attack_hand(usr)
-
 /obj/structure/overmap/proc/can_brake()
 	return TRUE //See fighters.dm
-
-/obj/structure/overmap/verb/overmap_help()
-	set name = "Help"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check())
-		return
-	to_chat(usr, "<span class='warning'>=Hotkeys=</span> \
-				<span class='notice'>Use the <b>Scroll Wheel</b> to zoom in / out. \
-				Use <b>tab</b> to activate hotkey mode, then: \
-				Press <b>Space</b> to make the ship follow your mouse (or stop following your mouse). \
-				Press <b>Alt<b> to engage handbrake. \
-				Press <b>Ctrl<b> to cycle fire modes.")
-
-/obj/structure/overmap/verb/toggle_move_mode()
-	set name = "Change movement mode"
-	set category = "Ship"
-	set src = usr.loc
-
-	if(!verb_check())
-		return
-	move_by_mouse = !move_by_mouse
-	to_chat(usr, "<span class='notice'>You [move_by_mouse ? "activate" : "deactivate"] [src]'s laser guided movement system.</span>")

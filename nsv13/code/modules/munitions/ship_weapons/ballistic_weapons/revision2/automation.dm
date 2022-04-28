@@ -136,6 +136,8 @@
 
 /obj/machinery/missile_builder/assembler/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	if(istype(A, /obj/structure/closet))
 		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/parts/missile))
 			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
@@ -205,23 +207,23 @@
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /obj/item/circuitboard/computer/ammo_sorter
-	name = "Ammo sorter console (circuitboard)"
+	name = "ammo sorter console (circuitboard)"
 	build_path = /obj/machinery/computer/ammo_sorter
 
 /obj/item/circuitboard/machine/ammo_sorter
-	name = "Ammo sorter (circuitboard)"
+	name = "ammo sorter (circuitboard)"
 	req_components = list(/obj/item/stock_parts/matter_bin = 3)
 	build_path = /obj/machinery/ammo_sorter
 
 /obj/machinery/computer/ammo_sorter
-	name = "Ammo Rack Control Console"
+	name = "ammo rack control console"
 	icon_screen = "ammorack"
 	circuit = /obj/item/circuitboard/computer/ammo_sorter
 	var/id = null
 	var/list/linked_sorters = list()
 
 /obj/machinery/computer/ammo_sorter/Initialize(mapload, obj/item/circuitboard/C)
-	. = ..()
+	..()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/computer/ammo_sorter/LateInitialize()
@@ -263,20 +265,23 @@
 			AS.name = new_name
 			message_admins("[key_name(usr)] renamed an ammo rack to [new_name].")
 			log_game("[key_name(usr)] renamed an ammo rack to [new_name].")
+	// update UI
+	ui_interact(usr)
 
 /obj/machinery/computer/ammo_sorter/proc/unload_all()
-	for(var/obj/machinery/ammo_sorter/AS in linked_sorters)
+	for(var/obj/machinery/ammo_sorter/AS as() in linked_sorters)
 		AS.unload()
 
 /obj/machinery/computer/ammo_sorter/ui_data(mob/user)
 	. = ..()
 	var/list/data = list()
 	var/list/racks_info = list()
-	for(var/obj/machinery/ammo_sorter/AS in linked_sorters)
+	for(var/obj/machinery/ammo_sorter/AS as() in linked_sorters)
 		var/atom/what = null
-		if(AS.loaded.len)
-			what = AS.loaded[AS.loaded.len]
-		racks_info[++racks_info.len] = list("name"=AS.name, "has_loaded"=AS.loaded?.len > 0, "id"="\ref[AS]", "top"=(what ? what.name : "Nothing"))
+		var/loadedlen = length(AS.loaded)
+		if(loadedlen)
+			what = AS.loaded[loadedlen]
+		racks_info[++racks_info.len] = list("name"=AS.name, "has_loaded"=loadedlen > 0, "id"="\ref[AS]", "top"=(what ? what.name : "Nothing"))
 	data["racks_info"] = racks_info
 	return data
 
@@ -292,6 +297,9 @@
 	var/list/loaded = list() //What's loaded in?
 	var/max_capacity = 12	//Max cap for holding.
 	var/loading = FALSE
+	var/durability = 100 //max durability: 100.
+	var/jammed = FALSE //if at 0 durability, jam it, handled in weardown().
+	var/jamchance = 0 //probability to jam every weardown
 
 /obj/machinery/ammo_sorter/attackby(obj/item/I, mob/user, params)
 	if(default_unfasten_wrench(user, I))
@@ -299,7 +307,45 @@
 	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))
 		update_icon()
 		return
-	. = ..()
+	if(panel_open && istype(I, /obj/item/reagent_containers))
+		if(!jammed)
+			if(durability < 100)
+				if(I.reagents.has_reagent(/datum/reagent/oil, 1))
+					to_chat(user, "<span class='notice'>You start lubricating the inner workings of [src]...</span>")
+					if(!do_after(user, 1 SECONDS, target=src))
+						return
+					if(!I.reagents.has_reagent(/datum/reagent/oil, 1)) //things can change, check again.
+						to_chat(user, "<span class='notice'>You don't have enough oil left to lubricate [src]!</span>")
+						return
+					to_chat(user, "<span class='notice'>You lubricate the inner workings of [src].</span>")
+					durability += 10
+					if(durability > 100) //if we did an oopsie, set it back to 100.
+						durability = 100
+					I.reagents.remove_reagent(/datum/reagent/oil, 1)
+					return TRUE
+				else if(I.reagents.has_reagent(/datum/reagent/oil))
+					to_chat(user, "<span class='notice'>You need at least 1 unit of oil to lubricate [src]!</span>")
+					return
+				else
+					to_chat(user, "<span class='notice'>You need oil to lubricate this!</span>")
+					return
+			else
+				to_chat(user, "<span class='notice'>[src] doesn't need any oil right now!</span>")
+		else
+			to_chat(user, "<span class='notice'>You can't lubricate a jammed machine!</span>")
+	if(jammed && istype(I, /obj/item/crowbar))
+		if(!panel_open)
+			to_chat(user, "<span class='notice'>You begin clearing the jam...</span>")
+			if(!do_after(user, 10 SECONDS, target=src))
+				return
+			to_chat(user, "<span class='notice'>You clear the jam with the crowbar.</span>")
+			playsound(src, 'nsv13/sound/effects/ship/mac_load_unjam.ogg', 100, 1)
+			jammed = FALSE
+			durability += rand(0,5) //give the poor fools a few more uses if they're lucky
+		else
+			to_chat(user, "<span class='notice'>You need to close the panel to get at the jammed machinery.</span>")
+		return TRUE
+	return ..()
 
 /obj/machinery/ammo_sorter/AltClick(mob/user)
 	. = ..()
@@ -334,7 +380,21 @@
 
 /obj/machinery/ammo_sorter/examine(mob/user)
 	. = ..()
-	. += "<span class='notice'>It's current holding:</span>"
+	if(panel_open)
+		. += "<span class='notice'>It's maintenance panel is open, you could probably add some oil to lubricate it.</span>" //it didnt tell the players if this was the case before.
+	if(jammed)
+		. += "<span class='notice'>It's jammed shut.</span>"	//if it's jammed, don't show durability. only thing they need to know is that it's jammed.
+	else
+		switch(durability)
+			if(71 to 100)
+				. += "<span class='notice'>It doesn't need any maintenance right now.</span>"
+			if(31 to 70)
+				. += "<span class='notice'>It might need some maintenance done soon.</span>"
+			if(11 to 30)
+				. += "<span class='notice'>It could really do with some maintenance.</span>"
+			if(0 to 10)
+				. += "<span class='notice'>It's completely wrecked.</span>"
+	. += "<br/><span class='notice'>It's currently holding:</span>"
 	if(loaded.len)
 		for(var/obj/item/C in loaded)
 			. += "<br/><span class='notice'>[C].</span>"
@@ -346,6 +406,8 @@
 
 /obj/machinery/ammo_sorter/MouseDrop_T(atom/movable/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	//You can store any kind of ammo here for now.
 	if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
 		to_chat(user, "<span class='notice'>You start to load [src] with [A]</span>")
@@ -364,11 +426,17 @@
 /obj/machinery/ammo_sorter/proc/unload(atom/movable/AM)
 	if(!loaded.len)
 		return FALSE
-	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-	flick("ammorack_dispense", src)
-	loaded -= AM
-	//Load it out the back.
-	AM.forceMove(get_turf(get_step(src, dir)))
+	if(jammed)
+		playsound(src, 'nsv13/sound/effects/ship/mac_load_jam.ogg', 100, 1)
+		return FALSE
+	else
+		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+		flick("ammorack_dispense", src)
+		loaded -= AM
+		//Load it out the back.
+		AM.forceMove(get_turf(get_step(src, dir)))
+		weardown()
+
 
 /obj/machinery/ammo_sorter/proc/load(atom/movable/A, mob/user)
 	if(length(loaded) >= max_capacity)
@@ -376,13 +444,30 @@
 			to_chat(user, "<span class='warning'>[src] is full!</span>")
 		loading = FALSE
 		return FALSE
-	if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
-		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-		flick("ammorack_dispense", src)
-		A.forceMove(src)
-		loading = FALSE
-		loaded += A
-		return TRUE
+	if(jammed)
+		if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
+			playsound(src, 'nsv13/sound/effects/ship/mac_load_jam.ogg', 100, 1)
+			loading = FALSE
+			return FALSE
 	else
-		loading = FALSE
-		return FALSE
+		if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
+			playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+			flick("ammorack_dispense", src)
+			A.forceMove(src)
+			loading = FALSE
+			loaded += A
+			weardown()
+			return TRUE
+		else
+			loading = FALSE
+			return FALSE
+
+/obj/machinery/ammo_sorter/proc/weardown()
+	if(durability > 0) //don't go under 0, that's bad
+		durability -= 1 //using it wears it down.
+	else
+		jammed = TRUE // if it's at 0, jam it.
+		durability = 0 // in case an admin plays with this and doesn't know how to use it, we reset it here for good measure.
+	jamchance = CLAMP(-50*log(50, durability/50), 0, 100) //logarithmic function; at 50 it starts increasing from 0
+	if(prob(jamchance))
+		jammed = TRUE

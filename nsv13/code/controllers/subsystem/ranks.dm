@@ -17,9 +17,9 @@ GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"
 				message_admins("No rank found for: [J.title]")
 				missed += J
 				J.display_rank = ""
-		if(missed.len == 0)
+		if(!length(missed))
 			return
-		else if(missed.len < occupations.len)
+		else if(length(missed) < length(occupations))
 			//Try to default rank-less jobs to another rank
 			var/datum/job/A = select_substitute_rank()
 			if(A)
