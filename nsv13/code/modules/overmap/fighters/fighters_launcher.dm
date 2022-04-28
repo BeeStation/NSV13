@@ -270,6 +270,7 @@
 		var/saved_layer = layer
 		layer = LOW_OBJ_LAYER
 		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 2 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
+		//forceMove(get_turf(OM))
 		var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 		DC.docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(DC, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
@@ -318,11 +319,6 @@
 	if(!ftl_drive && !OM.ftl_drive) // If no one can reserve a Z, don't do this
 		return FALSE
 	if(istype(OM, /obj/structure/overmap/asteroid))
-		//Gives fighters a small window of immunity from collisions with other overmaps while the 'roid loads
-		var/saved_layer = layer
-		layer = LOW_OBJ_LAYER
-		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 1 SECONDS)
-		//Actually loads the asteroid
 		var/obj/structure/overmap/asteroid/AS = OM
 		AS.interior_mode = INTERIOR_DYNAMIC // We don't actually want it to create one until we're ready but we do need entry points
 		AS.instance_interior()
