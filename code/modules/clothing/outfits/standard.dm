@@ -109,6 +109,8 @@
 	glasses = /obj/item/clothing/glasses/eyepatch
 
 /datum/outfit/pirate/space
+	name = "Space Pirate - Space Suit" //NSV13 - prevent overwriting of space pirate outfit in admin equip
+
 	suit = /obj/item/clothing/suit/space/pirate
 	head = /obj/item/clothing/head/helmet/space/pirate/bandana
 	mask = /obj/item/clothing/mask/breath
@@ -117,6 +119,8 @@
 	id = /obj/item/card/id
 
 /datum/outfit/pirate/space/captain
+	name = "Space Pirate - Captain" //NSV13 - prevent overwriting of space pirate outfit in admin equip
+
 	head = /obj/item/clothing/head/helmet/space/pirate
 
 /datum/outfit/pirate/post_equip(mob/living/carbon/human/H)
