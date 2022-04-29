@@ -15,6 +15,8 @@
 
 /obj/item/ship_weapon/ammunition/MouseDrop_T(atom/movable/O, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	if(!climbable)
 		return
 	if(user == O && iscarbon(O))

@@ -8,6 +8,7 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 	var/desc = "<span class='warning'>It's highly volatile and liable to explode if subjected to heat!</span>"
 	var/volatility = 1
 	var/volatile_when_hit = FALSE //Does this volatile thing blow up when it's destroyed?
+	var/explosion_scale = 1
 
 /datum/component/volatile/proc/set_volatile_when_hit(flag)
 	volatile_when_hit = flag
@@ -18,8 +19,8 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 		return FALSE
 	//Explosion! This can lead to a chain reaction if you're not careful... WATCH THOSE SHELLS MAA!
 	log_game("Volatile substance caused an explosion at [get_area(parent)].")
-	//explosion(parent, round(volatility), round(volatility * 2), round(volatility * 2.5), round(volatility * 3), TRUE, FALSE, round(volatility), FALSE, FALSE)
-	explosion(parent, 0, round(volatility * 0.75), round(volatility * 1.5), round(volatility * 2), TRUE, FALSE, round(volatility * 1.5), FALSE, FALSE)
+	var/ExPower = volatility * explosion_scale
+	explosion(parent, 0, round(ExPower * 0.75), round(ExPower * 1.5), round(ExPower * 2), TRUE, FALSE, round(ExPower * 1.5), FALSE, FALSE)
 
 /datum/component/volatile/proc/burn_act()
 	SIGNAL_HANDLER
@@ -41,13 +42,14 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 		if(volatile_when_hit) //Don't play with the torpedo warheads
 			examine_list += "<span class='warning'>It may explode if hit with enough force!</span>"
 
-/datum/component/volatile/Initialize(volatility = 1, volatile_when_hit = FALSE)
+/datum/component/volatile/Initialize(volatility = 1, volatile_when_hit = FALSE, explosion_scale = 1)
 	if(volatility <= 0)
 		message_admins("Volatility component with volatility \"[volatility]\" added to [parent], deleting the volatility component...")
 		RemoveComponent()
 		return
 	src.volatility = volatility
 	src.volatile_when_hit = volatile_when_hit
+	src.explosion_scale = explosion_scale
 	RegisterSignal(parent, COMSIG_ATOM_DAMAGE_ACT, .proc/damage_react)
 	RegisterSignal(parent, COMSIG_ATOM_FIRE_ACT, .proc/burn_act)
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/examine)

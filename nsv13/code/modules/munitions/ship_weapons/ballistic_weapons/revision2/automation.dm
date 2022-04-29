@@ -136,6 +136,8 @@
 
 /obj/machinery/missile_builder/assembler/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	if(istype(A, /obj/structure/closet))
 		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/parts/missile))
 			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
@@ -205,23 +207,23 @@
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /obj/item/circuitboard/computer/ammo_sorter
-	name = "Ammo sorter console (circuitboard)"
+	name = "ammo sorter console (circuitboard)"
 	build_path = /obj/machinery/computer/ammo_sorter
 
 /obj/item/circuitboard/machine/ammo_sorter
-	name = "Ammo sorter (circuitboard)"
+	name = "ammo sorter (circuitboard)"
 	req_components = list(/obj/item/stock_parts/matter_bin = 3)
 	build_path = /obj/machinery/ammo_sorter
 
 /obj/machinery/computer/ammo_sorter
-	name = "Ammo Rack Control Console"
+	name = "ammo rack control console"
 	icon_screen = "ammorack"
 	circuit = /obj/item/circuitboard/computer/ammo_sorter
 	var/id = null
 	var/list/linked_sorters = list()
 
 /obj/machinery/computer/ammo_sorter/Initialize(mapload, obj/item/circuitboard/C)
-	. = ..()
+	..()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/computer/ammo_sorter/LateInitialize()
@@ -263,20 +265,23 @@
 			AS.name = new_name
 			message_admins("[key_name(usr)] renamed an ammo rack to [new_name].")
 			log_game("[key_name(usr)] renamed an ammo rack to [new_name].")
+	// update UI
+	ui_interact(usr)
 
 /obj/machinery/computer/ammo_sorter/proc/unload_all()
-	for(var/obj/machinery/ammo_sorter/AS in linked_sorters)
+	for(var/obj/machinery/ammo_sorter/AS as() in linked_sorters)
 		AS.unload()
 
 /obj/machinery/computer/ammo_sorter/ui_data(mob/user)
 	. = ..()
 	var/list/data = list()
 	var/list/racks_info = list()
-	for(var/obj/machinery/ammo_sorter/AS in linked_sorters)
+	for(var/obj/machinery/ammo_sorter/AS as() in linked_sorters)
 		var/atom/what = null
-		if(AS.loaded.len)
-			what = AS.loaded[AS.loaded.len]
-		racks_info[++racks_info.len] = list("name"=AS.name, "has_loaded"=AS.loaded?.len > 0, "id"="\ref[AS]", "top"=(what ? what.name : "Nothing"))
+		var/loadedlen = length(AS.loaded)
+		if(loadedlen)
+			what = AS.loaded[loadedlen]
+		racks_info[++racks_info.len] = list("name"=AS.name, "has_loaded"=loadedlen > 0, "id"="\ref[AS]", "top"=(what ? what.name : "Nothing"))
 	data["racks_info"] = racks_info
 	return data
 
@@ -323,7 +328,7 @@
 					return
 				else
 					to_chat(user, "<span class='notice'>You need oil to lubricate this!</span>")
-					return	
+					return
 			else
 				to_chat(user, "<span class='notice'>[src] doesn't need any oil right now!</span>")
 		else
@@ -340,7 +345,7 @@
 		else
 			to_chat(user, "<span class='notice'>You need to close the panel to get at the jammed machinery.</span>")
 		return TRUE
-	. = ..()
+	return ..()
 
 /obj/machinery/ammo_sorter/AltClick(mob/user)
 	. = ..()
@@ -401,6 +406,8 @@
 
 /obj/machinery/ammo_sorter/MouseDrop_T(atom/movable/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	//You can store any kind of ammo here for now.
 	if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
 		to_chat(user, "<span class='notice'>You start to load [src] with [A]</span>")
@@ -429,7 +436,7 @@
 		//Load it out the back.
 		AM.forceMove(get_turf(get_step(src, dir)))
 		weardown()
-		
+
 
 /obj/machinery/ammo_sorter/proc/load(atom/movable/A, mob/user)
 	if(length(loaded) >= max_capacity)
@@ -458,7 +465,7 @@
 /obj/machinery/ammo_sorter/proc/weardown()
 	if(durability > 0) //don't go under 0, that's bad
 		durability -= 1 //using it wears it down.
-	else 
+	else
 		jammed = TRUE // if it's at 0, jam it.
 		durability = 0 // in case an admin plays with this and doesn't know how to use it, we reset it here for good measure.
 	jamchance = CLAMP(-50*log(50, durability/50), 0, 100) //logarithmic function; at 50 it starts increasing from 0

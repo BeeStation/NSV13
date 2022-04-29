@@ -194,6 +194,8 @@
  */
 /obj/machinery/ship_weapon/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	if(islist(ammo_type))
 		for(var/at in ammo_type)
 			if(istype(A, at))
@@ -372,9 +374,9 @@
 /obj/machinery/ship_weapon/proc/update()
 	if(weapon_type) // Who would've thought creating a weapon with no weapon_type would break everything!
 		if(!safety && chambered)
-			LAZYADD(weapon_type.weapons["loaded"] , src)
+			weapon_type.weapons["loaded"] |= src //OR to avoid duplicating refs
 		else
-			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
+			weapon_type.weapons["loaded"] -= src
 
 /obj/machinery/ship_weapon/proc/lazyload()
 	if(magazine_type)

@@ -45,6 +45,7 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/secondary/utility/resupply,
 						/obj/item/fighter_component/countermeasure_dispenser)
 	interior_mode = INTERIOR_DYNAMIC
+	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/countermeasure)
 
 /obj/structure/overmap/small_craft/transport/Initialize(mapload, list/build_components)
 	return ..()

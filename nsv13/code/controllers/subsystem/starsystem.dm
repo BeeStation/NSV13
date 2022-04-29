@@ -25,7 +25,6 @@ SUBSYSTEM_DEF(star_system)
 	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
 	var/list/neutral_zone_systems = list()
 	var/list/all_missions = list()
-	var/admin_boarding_override = FALSE //Used by admins to force disable boarders
 	var/time_limit = FALSE //Do we want to end the round after a specific time? Mostly used for galconquest.
 
 	var/enable_npc_combat = TRUE	//If you are running an event and don't want fleets to shoot eachother, set this to false.
@@ -87,7 +86,7 @@ Returns a faction datum by its name (case insensitive!)
 	RETURN_TYPE(/datum/faction)
 	if(!name)
 		return //Stop wasting my time.
-	for(var/datum/faction/F in factions)
+	for(var/datum/faction/F as() in factions)
 		if(lowertext(F.name) == lowertext(name))
 			return F
 
@@ -95,7 +94,7 @@ Returns a faction datum by its name (case insensitive!)
 	RETURN_TYPE(/datum/faction)
 	if(!id)
 		return //Stop wasting my time.
-	for(var/datum/faction/F in factions)
+	for(var/datum/faction/F as() in factions)
 		if(F.id == id)
 			return F
 
@@ -238,20 +237,6 @@ Returns a faction datum by its name (case insensitive!)
 	catch(var/exception/e)
 		message_admins("WARNING: Unable to save [_destination_path]: [e]")
 		return 1
-
-/client/proc/cmd_admin_boarding_override()
-	set category = "Adminbus"
-	set name = "Toggle Antag Boarding Parties"
-
-	if(!check_rights(R_ADMIN))
-		return
-
-	if(SSstar_system.admin_boarding_override)
-		SSstar_system.admin_boarding_override = FALSE
-		message_admins("[key_name_admin(usr)] has ENABLED overmap antag boarding parties.")
-	else if(!SSstar_system.admin_boarding_override)
-		SSstar_system.admin_boarding_override = TRUE
-		message_admins("[key_name_admin(usr)] has DISABLED overmap antag boarding parties.")
 
 ///////SPAWN SYSTEM///////
 
@@ -811,20 +796,17 @@ Returns a faction datum by its name (case insensitive!)
 	apply_system_effects()
 
 /datum/star_system/proc/spawn_asteroids()
-	for(var/I = 0; I <= rand(3, 6); I++){
+	for(var/I = 0; I <= rand(3, 6); I++)
 		var/roid_type = pick(/obj/structure/overmap/asteroid, /obj/structure/overmap/asteroid/medium, /obj/structure/overmap/asteroid/large)
 		SSstar_system.spawn_ship(roid_type, src)
-	}
 
 /datum/star_system/proc/spawn_enemies(enemy_type, amount)
 	if(!amount)
 		amount = difficulty_budget
-	for(var/i = 0, i < amount, i++){ //number of enemies is set via the star_system vars
-		if(!enemy_type){
+	for(var/i = 0, i < amount, i++) //number of enemies is set via the star_system vars
+		if(!enemy_type)
 			enemy_type = pick(SSstar_system.enemy_types) //Spawn a random set of enemies.
-		}
 		SSstar_system.spawn_ship(enemy_type, src)
-	}
 
 /datum/star_system/proc/lerp_x(datum/star_system/other, t)
 	return x + (t * (other.x - x))
@@ -1081,7 +1063,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 
 /datum/star_system/proc/generate_badlands()
 	var/list/generated = list()
-	var/amount = rand(50, 70)
+	var/amount = rand(17, 25)
 	var/toocloseconflict = 0
 	message_admins("Generating Badlands with [amount] systems.")
 	var/start_timeofday = REALTIMEOFDAY
@@ -1128,8 +1110,8 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		var/randy_valid = FALSE
 
 		while(!randy_valid)
-			randy.x = (rand(1, 10)/10)+rand(1, 200)+20 // Buffer space for readability
-			randy.y = (rand(1, 10)/10)+rand(1, 100)+30 // Offset vertically for viewing 'pleasure'
+			randy.x = (rand(1, 10)/10)+rand(1, 80)+20 // Buffer space for readability
+			randy.y = (rand(1, 10)/10)+rand(1, 50)+30 // Offset vertically for viewing 'pleasure'
 			var/syscheck_pass = TRUE
 			for(var/datum/star_system/S in (generated + rubicon + src))
 				if(!syscheck_pass)
@@ -1199,7 +1181,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 			distances[i] = 0
 
 	//Setup: Done. Dijkstra time.
-	while(generated.len > 0) //we have to go through this n times
+	while(length(generated) > 0) //we have to go through this n times
 		var/closest = null
 		var/mindist = INFINITY
 		for(var/datum/star_system/S in generated)	//Find the system with the smallest value in distances[].
@@ -1219,7 +1201,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 				relax++
 
 	//Dijkstra: Done. We got parents for everyone, time to actually stitch them together.
-	for(var/i = 1; i <= systems.len; i++)
+	for(var/i = 1; i <= length(systems); i++)
 		var/datum/star_system/S = systems[i]
 		if(S == rubiconnector)
 			continue	//Rubiconnector is the home node and would fuck with us if we did stuff with it here.
@@ -1228,7 +1210,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		Connected.adjacency_list += S.name
 
 	//We got a nice tree! But this is looking far too clean, time to Brazilify this.
-	for(var/datum/star_system/S in systems)
+	for(var/datum/star_system/S as() in systems)
 		var/bonus = 0
 		var/list/valids = list()
 		for(var/datum/star_system/candidate in systems)
@@ -1242,9 +1224,9 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 				continue
 			valids += candidate
 		while(!prob(100 - RANDOM_CONNECTION_BASE_CHANCE + (bonus * RANDOM_CONNECTION_REPEAT_PENALTY))) //Lets not flood the map with random jumplanes, buuut create a good chunk of them
-			if(!valids.len)
+			if(!length(valids))
 				break
-			if(S.adjacency_list.len >= RNGSYSTEM_MAX_CONNECTIONS)
+			if(length(S.adjacency_list) >= RNGSYSTEM_MAX_CONNECTIONS)
 				break
 			var/datum/star_system/newconnection = pick(valids)
 			newconnection.adjacency_list += S.name

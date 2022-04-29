@@ -110,6 +110,8 @@
 
 /obj/item/ship_weapon/ammunition/torpedo/freight/MouseDrop_T(atom/dropping, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	try_load(dropping, user)
 
 /obj/item/ship_weapon/ammunition/torpedo/freight/proc/try_load(atom/movable/what, mob/user)
