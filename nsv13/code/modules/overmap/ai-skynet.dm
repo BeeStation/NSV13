@@ -318,7 +318,7 @@ Adding tasks is easy! Just define a datum for it.
 		source_ship.hail(text, name, user.name, TRUE) // Let the crew on the source ship know an Outbound message was sent
 		hail(text, source_ship.name, user.name)
 
-/obj/structure/overmap/proc/try_deliver( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console )
+/obj/structure/overmap/proc/try_deliver( mob/living/user, var/obj/machinery/computer/ship/dradis/minor/cargo/console )
 	if( !isliving(user) )
 		return FALSE
 	if( !allowed(user) ) //Only cargo auth'd personnel can make purchases.
@@ -536,7 +536,7 @@ Adding tasks is easy! Just define a datum for it.
 		var/obj/structure/overmap/vessel = receipt.vessel
 		vessel.send_supplypod( receipt.shipment, src, TRUE )
 
-/obj/structure/overmap/proc/receive_cargo( mob/living/user, var/obj/machinery/computer/ship/dradis/cargo/console, var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment )
+/obj/structure/overmap/proc/receive_cargo( mob/living/user, var/obj/machinery/computer/ship/dradis/minor/cargo/console, var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment )
 	if ( !console.linked )
 		return FALSE
 
@@ -624,7 +624,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/proc/encounter(obj/structure/overmap/OM)
 	set waitfor = FALSE
-	
+
 	if(OM.faction == alignment || federation_check(OM))
 		OM.hail(pick(greetings), name)
 	assemble(current_system)
@@ -656,7 +656,7 @@ Adding tasks is easy! Just define a datum for it.
 
 			var/target_location = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), OM.z)
 			var/obj/structure/overmap/selected_ship = pick(ship_list)
-			
+
 			var/target_ghost
 			var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(selected_ship.faction)] [initial(selected_ship.name)]?", ROLE_GHOSTSHIP, null, null, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
 			if(LAZYLEN(candidates))
