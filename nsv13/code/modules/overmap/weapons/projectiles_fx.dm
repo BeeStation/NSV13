@@ -41,7 +41,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	relay_projectile_type =  /obj/item/projectile/bullet/mac_relayed_round
 	var/homing_benefit_time = 0 SECONDS //NAC shells have a very slight homing effect.
-	var/base_movement_type	//Our base move type for when we gain unstoppability from hitting tiny ships.
+	var/base_piercing_type	//Our base move type for when we gain unstoppability from hitting tiny ships.
 
 /obj/item/projectile/bullet/mac_round/prehit_pierce(atom/target)
 	if(isovermap(target))
@@ -49,12 +49,12 @@ Misc projectile types, effects, think of this as the special FX file.
 		if(OM.mass <= MASS_TINY)
 			projectile_piercing = ALL
 		else
-			movement_type = base_movement_type
+			projectile_piercing = base_piercing_type
 	. = ..()
 
 /obj/item/projectile/bullet/mac_round/Initialize()
 	. = ..()
-	base_movement_type = movement_type
+	base_piercing_type = projectile_piercing
 	if(homing_benefit_time)
 		addtimer(CALLBACK(src, .proc/stop_homing), homing_benefit_time)
 	else
