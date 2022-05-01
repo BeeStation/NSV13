@@ -25,7 +25,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	range = 255
 	speed = 1.85
 	movement_type = FLYING
-	projectile_phasing = ALL
+	projectile_piercing = ALL
 
 /obj/item/projectile/bullet/mac_round
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
@@ -47,7 +47,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(isovermap(target))
 		var/obj/structure/overmap/OM = target
 		if(OM.mass <= MASS_TINY)
-			projectile_phasing = ALL
+			projectile_piercing = ALL
 		else
 			movement_type = base_movement_type
 	. = ..()
@@ -68,7 +68,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	armour_penetration = 70
 	icon_state = "railgun_ap"
 	movement_type = FLYING
-	projectile_phasing = ALL //Railguns punch straight through your ship
+	projectile_piercing = ALL //Railguns punch straight through your ship
 
 /obj/item/projectile/bullet/mac_round/magneton
 	speed = 1.5
@@ -109,13 +109,14 @@ Misc projectile types, effects, think of this as the special FX file.
 	range = 255
 	speed = 1.85
 	movement_type = FLYING
-	projectile_phasing = ALL
+	projectile_piercing = ALL
 	damage = 45		//It's on a z now, lets not instakill people / objects this happens to hit.
 	var/penetration_fuze = 1	//Will pen through this many things considered valid for reducing this before arming. Can overpenetrate if it happens to pen through windows or other things with not enough resistance.
 
 /obj/item/projectile/bullet/delayed_prime/on_hit(atom/target, blocked)
 	. = ..()
 	penetration_fuze -= fuze_trigger_value(target)
+	message_admins("Hitting target [target] - reducing fuze by [fuze_trigger_value(target)] - remaining fuze = [penetration_fuze]")
 
 /obj/item/projectile/bullet/delayed_prime/proc/fuze_trigger_value(atom/target)
 	return 0
