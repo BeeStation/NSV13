@@ -116,7 +116,6 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/delayed_prime/on_hit(atom/target, blocked)
 	. = ..()
 	penetration_fuze -= fuze_trigger_value(target)
-	message_admins("Hitting target [target] - reducing fuze by [fuze_trigger_value(target)] - remaining fuze = [penetration_fuze]")
 
 /obj/item/projectile/bullet/delayed_prime/proc/fuze_trigger_value(atom/target)
 	return 0
