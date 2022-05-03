@@ -1,5 +1,5 @@
 /obj/machinery/ship_weapon/energy
-	name = "Burst phaser MK2"
+	name = "burst phaser MK2"
 	desc = "A coaxial laser system, capable of firing controlled laser bursts at a target."
 	icon ='nsv13/icons/obj/energy_weapons.dmi'
 	icon_state = "phase_cannon"
@@ -21,7 +21,7 @@
 	var/energy_weapon_type = /datum/ship_weapon/burst_phaser
 
 /obj/machinery/ship_weapon/energy/beam
-	name = "Phase Cannon"
+	name = "phase cannon"
 	desc = "An extremely powerful directed energy weapon which is capable of delivering a devastating beam attack."
 	icon_state = "ion_cannon"
 	fire_mode = FIRE_MODE_BLUE_LASER
