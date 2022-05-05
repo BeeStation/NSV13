@@ -7,7 +7,7 @@ GLOBAL_LIST_EMPTY(silo_access_logs)
 	icon = 'icons/obj/mining.dmi'
 	icon_state = "silo"
 	density = TRUE
-	circuit = /obj/item/circuitboard/machine/ore_silo
+	// NSV13 Ore Silo Removal: circuit = /obj/item/circuitboard/machine/ore_silo
 
 	var/list/holds = list()
 	var/list/datum/component/remote_materials/connected = list()

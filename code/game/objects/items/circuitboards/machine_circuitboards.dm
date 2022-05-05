@@ -1184,13 +1184,13 @@
 		/obj/item/stock_parts/manipulator = 1,
 		/obj/item/assembly/igniter = 1)
 	needs_anchored = FALSE
-
+/*NSV13 Ore Silo Removal:
 /obj/item/circuitboard/machine/ore_silo
 	name = "ore silo (Machine Board)"
 	icon_state = "supply"
 	build_path = /obj/machinery/ore_silo
 	req_components = list()
-
+*/
 /obj/item/circuitboard/machine/protolathe/department/cargo
 	name = "departmental protolathe - cargo (Machine Board)"
 	icon_state = "supply"
