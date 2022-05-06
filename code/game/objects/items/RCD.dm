@@ -879,11 +879,11 @@ RLD
 /obj/item/rcd_upgrade/simple_circuits
 	desc = "It contains the design for firelock, air alarm, fire alarm, apc circuits and crap power cells."
 	upgrade = RCD_UPGRADE_SIMPLE_CIRCUITS
-
+/*NSV13 Silo Removal:
 /obj/item/rcd_upgrade/silo_link
 	desc = "It contains direct silo connection RCD upgrade."
 	upgrade = RCD_UPGRADE_SILO_LINK
-
+*/
 #undef GLOW_MODE
 #undef LIGHT_MODE
 #undef REMOVE_MODE

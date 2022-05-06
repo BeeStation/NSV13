@@ -101,7 +101,7 @@
 	build_path = /obj/item/rcd_upgrade/simple_circuits
 	category = list("Tool Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
-
+/*NSV13 Silo Removal:
 /datum/design/rcd_upgrade/silo_link
 	name = "Advanced RCD silo link upgrade"
 	desc = "Upgrades the RCD to be able to pull materials from the ore silo. The RCD must be linked to the silo using a multitool before it will function."
@@ -111,7 +111,7 @@
 	build_path = /obj/item/rcd_upgrade/silo_link
 	category = list("Tool Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
-
+*/
 /////////////////////////////////////////
 //////////////Alien Tools////////////////
 /////////////////////////////////////////
