@@ -121,17 +121,17 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	to_chat(user, "<span class='sciradio'>You switch [src]'s trader delivery location to [usingBeacon ? "target supply beacons" : "target the default landing location on your ship"]</span>")
 	return FALSE
 
-/obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
+/obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge. All secondary dradis consoles should be a subtype of this
 	name = "air traffic control console"
 
-/obj/machinery/computer/ship/dradis/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight
+/obj/machinery/computer/ship/dradis/minor/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight
 	name = "\improper Cargo freight delivery console"
 	circuit = /obj/item/circuitboard/computer/ship/dradis/cargo
 	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/linked_launcher = null
 	var/dradis_id = null
 
-/obj/machinery/computer/ship/dradis/cargo/Initialize()
-	..()
+/obj/machinery/computer/ship/dradis/minor/cargo/Initialize()
+	. = ..()
 	var/obj/item/paper/paper = new /obj/item/paper(get_turf(src))
 	paper.info = ""
 	paper.info += "<h2>How to perform deliveries with the Cargo DRADIS</h2>"
@@ -152,7 +152,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 					linked_launcher = W
 					W.linked_dradis = src
 
-/obj/machinery/computer/ship/dradis/cargo/multitool_act(mob/living/user, obj/item/I)
+/obj/machinery/computer/ship/dradis/minor/cargo/multitool_act(mob/living/user, obj/item/I)
 	// Allow relinking a console's cargo launcher
 	var/obj/item/multitool/P = I
 	// Check to make sure the buffer is a valid cargo launcher before acting on it
@@ -166,9 +166,6 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	// Call the parent proc and allow supply beacon swaps
 	else
 		return ..()
-
-/obj/machinery/computer/ship/dradis/cargo/can_radar_pulse()
-	return FALSE
 
 /obj/machinery/computer/ship/dradis/mining
 	name = "mining DRADIS computer"
@@ -189,7 +186,6 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/minor/set_position(obj/structure/overmap/OM)
 	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/reset_dradis_contacts, override=TRUE)
-	return
 
 /datum/looping_sound/dradis
 	mid_sounds = list('nsv13/sound/effects/ship/dradis.ogg')
@@ -285,8 +281,8 @@ Called by add_sensor_profile_penalty if remove_in is used.
 				return
 			next_hail = world.time + 10 SECONDS //I hate that I need to do this, but yeah.
 			if(overmap_dist(target, linked) <= hail_range)
-				if ( istype( src, /obj/machinery/computer/ship/dradis/cargo ) )
-					var/obj/machinery/computer/ship/dradis/cargo/console = src // Must cast before passing into proc
+				if ( istype( src, /obj/machinery/computer/ship/dradis/minor/cargo ) )
+					var/obj/machinery/computer/ship/dradis/minor/cargo/console = src // Must cast before passing into proc
 					target.try_deliver( usr, console )
 				else
 					target.try_hail(usr, linked)
