@@ -10,4 +10,4 @@
 /mob/living/forceMove(atom/destination)
 	destination = GetSafeLoc(destination)
 	. = ..()
-	find_overmap()
+	update_overmap()
