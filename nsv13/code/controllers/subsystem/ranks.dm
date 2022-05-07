@@ -49,7 +49,6 @@ GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"
 		var/theRank = GLOB.pecking_order[I]
 		if(theRank == myRank)
 			myClout = I
-			continue
 		if(theRank == theirRank)
 			theirClout = I
 	//We live in a clout based society :(
@@ -58,7 +57,7 @@ GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"
 	if(myClout > theirClout)
 		return "<span class='boldnotice'>You outrank them as a [theirRank].</span>"
 	if(myClout < theirClout)
-		return "<span class='boldwarning'>They outrank you as a [myRank]</span>"
+		return "<span class='boldwarning'>They outrank you as a [myRank].</span>"
 	return "<span class='warning'>You've forgotten how ranks work.</span>"
 
 /**
