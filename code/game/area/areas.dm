@@ -610,10 +610,10 @@ GLOBAL_LIST_EMPTY(teleportlocs)
   *
   * If the area has ambience, then it plays some ambience music to the ambience channel
   */
-/area/Entered(atom/movable/M)
+/area/Entered(atom/movable/arrived, area/old_area)
 	set waitfor = FALSE
-	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, M)
-	SEND_SIGNAL(M, COMSIG_ENTER_AREA, src) //The atom that enters the area
+	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, arrived, old_area)
+	SEND_SIGNAL(arrived, COMSIG_ENTER_AREA, src) //The atom that enters the area
 
 	//NSV13 - creaky ship damage noises
 	var/mob/mymob = M
@@ -634,9 +634,9 @@ GLOBAL_LIST_EMPTY(teleportlocs)
   *
   * Sends signals COMSIG_AREA_EXITED and COMSIG_EXIT_AREA (to the atom)
   */
-/area/Exited(atom/movable/M)
-	SEND_SIGNAL(src, COMSIG_AREA_EXITED, M)
-	SEND_SIGNAL(M, COMSIG_EXIT_AREA, src) //The atom that exits the area
+/area/Exited(atom/movable/gone, direction)
+	SEND_SIGNAL(src, COMSIG_AREA_EXITED, gone, direction)
+	SEND_SIGNAL(gone, COMSIG_EXIT_AREA, src) //The atom that exits the area
 
 /**
   * Returns true if this atom has gravity for the passed in turf or other gravity-mimicking behaviors
