@@ -117,7 +117,7 @@
 			if(!highest || A.layer > highest.layer)	//NSV13 - always runtimed, adds check for !highest to counteract.
 				highest = A
 	INVOKE_ASYNC(src, .proc/SpinAnimation, 5, 2)
-	if(highest) // Collide with the topmost thing on the turf
+	if(highest)
 		throw_impact(highest)
 	return TRUE
 
@@ -343,7 +343,8 @@
 	var/atom/oldloc = loc
 
 	if(loc != newloc)
-		if (!(direct & (direct - 1))) //Cardinal move
+		var/flat_direct = direct & ~(UP|DOWN)
+		if (!(flat_direct & (flat_direct - 1))) //Cardinal move
 			. = ..()
 		else //Diagonal move, split it into cardinal moves
 			moving_diagonally = FIRST_DIAG_STEP
@@ -706,7 +707,7 @@
 	for(var/m in buckled_mobs)
 		var/mob/living/buckled_mob = m
 		if(!buckled_mob.Move(newloc, direct))
-			doMove(buckled_mob.loc)
+			doMove(buckled_mob.loc) //forceMove breaks buckles on stairs, use doMove
 			last_move = buckled_mob.last_move
 			inertia_dir = last_move
 			buckled_mob.inertia_dir = last_move

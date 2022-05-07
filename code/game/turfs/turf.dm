@@ -152,7 +152,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 /turf/attack_hand(mob/user)
 	//Must have no gravity.
-	if(get_turf(user) == src) //NSV13 - lets people do this even if they're on the floor
+	if(get_turf(user) == src)
 		if(!user.has_gravity(src) || (user.movement_type & FLYING))
 			check_z_travel(user)
 			return
@@ -164,6 +164,12 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(.)
 		return
 	user.Move_Pulled(src)
+
+/turf/eminence_act(mob/living/simple_animal/eminence/eminence)
+	if(get_turf(eminence) == src)
+		check_z_travel(eminence)
+		return
+	return ..()
 
 /turf/proc/check_z_travel(mob/user)
 	if(get_turf(user) != src)
@@ -191,8 +197,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 			travel_z(user, below, FALSE)
 
 /turf/proc/travel_z(mob/user, turf/target, upwards = TRUE)
-	//NSV13 - added ternary direction checks to this message
-	user.visible_message("<span class='notice'>[user] begins floating [upwards ? "upwards" : "downwards"]!</span>", "<span class='notice'>You begin floating [upwards ? "upwards" : "downwards"].</span>")
+	user.visible_message("<span class='notice'>[user] begins floating [upwards ? "upwards" : "downwards"]!</span>", "<span class='notice'>You begin floating [upwards ? "upwards" : "downwards"].")
 	var/matrix/M = user.transform
 	//Animation is inverted due to immediately resetting user vars.
 	animate(user, 30, pixel_y = upwards ? -64 : 64, transform = matrix() * (upwards ? 0.7 : 1.3))
@@ -201,13 +206,12 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(!do_after(user, 30, FALSE, get_turf(user)))
 		animate(user, 0, flags = ANIMATION_END_NOW)
 		return
-	//NSV13 - added incorporeal movement handling
 	if(isliving(user))
 		var/mob/living/L = user
-		if(L.incorporeal_move)
+		if(L.incorporeal_move) // Allow most jaunting
 			user.client?.Process_Incorpmove(upwards ? UP : DOWN)
 			return
-	//NSV13 - changed allow_z_travel checks. Can't go through the ceiling or floor, but pushing off a floor is fine
+	// You can push off of or land on the floor, but not go through it
 	if((upwards && !target.allow_z_travel) || (!upwards && !allow_z_travel))
 		to_chat(user, "<span class='warning'>Something is blocking you!</span>")
 		return
@@ -261,25 +265,23 @@ GLOBAL_LIST_EMPTY(station_turfs)
 /turf/proc/can_zFall(atom/movable/A, levels = 1, turf/target)
 	return zPassOut(A, DOWN, target) && target.zPassIn(A, DOWN, src)
 
-/turf/proc/zFall(atom/movable/A, levels = 1, force = FALSE)
+/turf/proc/zFall(atom/movable/A, levels = 1, force = FALSE, old_loc = null)
 	var/turf/target = get_step_multiz(src, DOWN)
 	if(!target || (!isobj(A) && !ismob(A)))
 		return FALSE
 	if(!force && (!can_zFall(A, levels, target) || !A.can_zFall(src, levels, target, DOWN)))
 		return FALSE
-	A.zfalling = TRUE
-	var/atom/movable/pulling = A.pulling
-	A.forceMove(target)
-	A.zfalling = FALSE
-	if(pulling)
-		//Things you are pulling fall with you
-		pulling.zfalling = TRUE
-		pulling.forceMove(target)
-		A.start_pulling(pulling)
-		pulling.zfalling = FALSE
-		target.zImpact(pulling, levels, src)
-	target.zImpact(A, levels, src)
-	return TRUE
+	. = TRUE
+	if(!A.zfalling)
+		A.zfalling = TRUE
+		if(A.pulling && old_loc) // Moves whatever we're pulling to where we were before so we're still adjacent
+			A.pulling.moving_from_pull = A
+			A.pulling.Move(old_loc)
+			A.pulling.moving_from_pull = null
+		if(!A.Move(target))
+			A.doMove(target)
+		. = target.zImpact(A, levels, src)
+		A.zfalling = FALSE
 
 /turf/proc/handleRCL(obj/item/rcl/C, mob/user)
 	if(C.loaded)
@@ -372,8 +374,8 @@ GLOBAL_LIST_EMPTY(station_turfs)
 		var/obj/O = AM
 		if(O.obj_flags & FROZEN)
 			O.make_unfrozen()
-	if(!AM.zfalling)
-		zFall(AM)
+	if(!arrived.zfalling)
+		zFall(arrived, old_loc = old_loc)
 
 /turf/proc/is_plasteel_floor()
 	return FALSE
