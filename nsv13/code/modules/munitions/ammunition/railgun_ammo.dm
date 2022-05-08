@@ -13,7 +13,7 @@
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /obj/item/ship_weapon/ammunition/railgun_ammo/uranium
-	name = "U4 NTRK 400mm teflon coated uranium round"
+	name = "\improper U4 NTRK 400mm teflon coated uranium round"
 	desc = "A gigantic slug that's designed to be fired out of a railgun. It's extremely heavy, but doesn't actually contain any volatile components, so it's safe to manhandle."
 	icon_state = "railgun_ammo"
 	projectile_type = /obj/item/projectile/bullet/railgun_slug/uranium

@@ -70,6 +70,11 @@ Been a mess since 2018, we'll fix it someday (probably)
 	last_overmap?.overmaps_in_ship -= src
 	return ..()
 
+/obj/structure/overmap/small_craft/start_piloting(mob/living/carbon/user, position)
+	. = ..()
+	if(.)
+		RegisterSignal(src, COMSIG_MOB_OVERMAP_CHANGE, .proc/pilot_overmap_change)
+
 /obj/structure/overmap/small_craft/key_down(key, client/user)
 	if(disruption && prob(min(95, disruption)))
 		to_chat(src, "The controls buzz angrily.")
@@ -505,6 +510,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/small_craft/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
 	if(eject_mob && !eject(M, force))
 		return FALSE
+	UnregisterSignal(src, COMSIG_MOB_OVERMAP_CHANGE)
 	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
 	M.remove_verb(overmap_verbs)
 	return ..()
@@ -526,6 +532,11 @@ Been a mess since 2018, we'll fix it someday (probably)
 	mobs_in_ship -= M
 	M.forceMove(get_turf(src))
 	return TRUE
+
+/obj/structure/overmap/small_craft/proc/pilot_overmap_change(mob/living/M, obj/structure/overmap/newOM) // in case we get forceMoved outside of the ship somehow
+	SIGNAL_HANDLER
+	if(newOM != src)
+		INVOKE_ASYNC(src, .proc/stop_piloting, M, FALSE, TRUE)
 
 /obj/structure/overmap/small_craft/escapepod/eject(mob/living/M, force=FALSE)
 	. = ..()

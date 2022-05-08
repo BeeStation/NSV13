@@ -113,9 +113,9 @@
 	A.layer = initial(A.layer)
 	if(allowed[A.type]) //If a munition, allow them to load other munitions onto us.
 		amount--
-	if(contents.len)
+	if(length(contents))
 		var/count = amount
-		for(var/atom/movable/AM in contents)
+		for(var/atom/movable/AM as() in contents)
 			if(allowed[AM.type])
 				AM.pixel_y = count*5
 				count--
