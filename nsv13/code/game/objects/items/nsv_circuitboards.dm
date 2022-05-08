@@ -19,7 +19,7 @@
 
 /obj/item/circuitboard/computer/ship/dradis/cargo
 	name = "circuit board (cargo dradis computer)"
-	build_path = /obj/machinery/computer/ship/dradis/cargo
+	build_path = /obj/machinery/computer/ship/dradis/minor/cargo
 
 //FTL nav
 /obj/item/circuitboard/computer/ship/navigation

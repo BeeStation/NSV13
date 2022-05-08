@@ -1,7 +1,7 @@
 // The point defense system! A neat crew served weapon which replaces the .50 cal
 // This file has so much borrowed code and name swaps from previous iterations of PDC
 /obj/machinery/ship_weapon/anti_air
-	name = "AA turret"
+	name = "\improper AA turret"
 	desc = "A formidable weapon operated by a gunner below deck, extremely effective at anti-fighter defense though they struggle to damage larger targets."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "deck_gun"
@@ -22,7 +22,7 @@
 
 
 /obj/machinery/ship_weapon/anti_air/heavy
-	name = "HAA turret"
+	name = "\improper HAA turret"
 	desc = "For when you need more bullets spat out more quickly."
 	icon_state = "deck_gun_super"
 	circuit = /obj/item/circuitboard/machine/anti_air/heavy
@@ -120,7 +120,7 @@
 	return
 
 /obj/machinery/computer/anti_air
-	name = "Anti-air turret console"
+	name = "anti-air turret console"
 	desc = "A computer that allows you to control an anti-air turret, when paired with a compatible turret directly above deck."
 	icon_screen = "50cal"
 	circuit = /obj/item/circuitboard/computer/anti_air

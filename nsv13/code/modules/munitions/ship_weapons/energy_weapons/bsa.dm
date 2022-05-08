@@ -1,5 +1,5 @@
 /obj/machinery/ship_weapon/energy/beam/bsa
-	name = "Superliminal Bluespace Artillery"
+	name = "\improper Superliminal Bluespace Artillery"
 	desc = "A massive machine which can accelerate a bolt of concentrated quark-gluon plasma to superliminal speeds, tearing clean through targets and annihilating everything in its path. <b>Ensure it has a clear firing path to space!</b>"
 	icon = 'nsv13/icons/obj/cannon.dmi'
 	icon_state = "cannon"
@@ -51,7 +51,7 @@
 
 //Ship-to-ship BSA control...
 /obj/machinery/computer/sts_bsa_control
-	name = "Superliminal Bluespace Artillery Control"
+	name = "\improper Superliminal Bluespace Artillery control"
 	desc = "A computer which lets you interface with anti-capital super weapons."
 	icon = 'nsv13/goonstation/icons/obj/computer.dmi'
 	icon_state = "computer"
@@ -61,7 +61,7 @@
 	var/id = null
 
 /obj/item/circuitboard/computer/sts_bsa_control
-	name = "Superliminal Bluespace Artillery Control (circuit)"
+	name = "\improper Superliminal Bluespace Artillery control (circuit)"
 	build_path = /obj/machinery/computer/sts_bsa_control
 
 /obj/machinery/computer/sts_bsa_control/Initialize(mapload, obj/item/circuitboard/C)
@@ -202,7 +202,8 @@
 	tracer_type = /obj/effect/projectile/tracer/bsa
 	muzzle_type = /obj/effect/projectile/muzzle/bsa
 	impact_type = /obj/effect/projectile/impact/bsa
-	movement_type = FLYING | UNSTOPPABLE
+	movement_type = FLYING
+	projectile_phasing = ALL
 
 /obj/effect/projectile/muzzle/bsa
 	alpha = 0
