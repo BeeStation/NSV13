@@ -616,7 +616,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	SEND_SIGNAL(arrived, COMSIG_ENTER_AREA, src) //The atom that enters the area
 
 	//NSV13 - creaky ship damage noises
-	var/mob/mymob = M
+	var/mob/mymob = arrived
 	var/obj/structure/linked_overmap = mymob.get_overmap()
 	if(linked_overmap && istype(mymob))
 		var/progress = linked_overmap.obj_integrity
