@@ -111,8 +111,7 @@
 
 /obj/machinery/gauss_dispenser/default_deconstruction_screwdriver(mob/user, icon_state_open, icon_state_closed, obj/item/I)
 	. = ..()
-	var/state = !panel_open
-	check_active(state)
+	check_active(!panel_open)
 
 /obj/machinery/gauss_dispenser/ui_data(mob/user)
 	var/list/data = list()
