@@ -203,7 +203,7 @@
 	muzzle_type = /obj/effect/projectile/muzzle/bsa
 	impact_type = /obj/effect/projectile/impact/bsa
 	movement_type = FLYING
-	projectile_phasing = ALL
+	projectile_piercing = ALL
 
 /obj/effect/projectile/muzzle/bsa
 	alpha = 0
