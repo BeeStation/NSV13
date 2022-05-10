@@ -503,7 +503,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(OM)
 		OM.mobs_in_ship -= user
 	user.forceMove(src)
-	mobs_in_ship += user
+	mobs_in_ship |= user
 	if((user.client?.prefs.toggles & SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
 		SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
 
@@ -568,7 +568,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			escape_pod.start_piloting(last_pilot, "pilot")
 			escape_pod.attack_hand(last_pilot) // Bring up UI
 			mobs_in_ship -= last_pilot
-			escape_pod.mobs_in_ship += last_pilot
+			escape_pod.mobs_in_ship |= last_pilot
 			last_pilot.overmap_ship = escape_pod
 
 		for(var/mob/M as() in mobs_in_ship)
@@ -578,7 +578,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 				escape_pod.ui_interact(M)
 			else
 				escape_pod.start_piloting(M, "observer")
-			escape_pod.mobs_in_ship += M
+			escape_pod.mobs_in_ship |= M
 			M.overmap_ship = escape_pod
 	mobs_in_ship.Cut()
 

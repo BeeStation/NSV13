@@ -89,11 +89,11 @@
 		user.forceMove(T)
 		user.start_pulling(AM)
 		if(ismob(AM))
-			mobs_in_ship += AM
+			mobs_in_ship |= AM
 	else
 		playsound(src, 'nsv13/sound/effects/footstep/ladder2.ogg')
 		user.forceMove(T)
-	mobs_in_ship += user
+	mobs_in_ship |= user
 
 /obj/structure/overmap/small_craft/transport/proc/exit(mob/user)
 	var/turf/T = get_turf(src)
