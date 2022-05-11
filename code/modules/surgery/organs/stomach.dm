@@ -182,6 +182,10 @@
 	UnregisterSignal(owner, COMSIG_LIVING_ELECTROCUTE_ACT)
 	..()
 
+//NSV13 - more hunger
+/obj/item/organ/stomach/battery/ethereal/adjust_charge_scaled(amount)
+	adjust_charge((ETHEREAL_CHARGE_FACTOR/HUNGER_FACTOR)*amount*max_charge/NUTRITION_LEVEL_FULL)
+
 /obj/item/organ/stomach/battery/ethereal/charge(datum/source, amount, repairs)
 	SIGNAL_HANDLER
 	adjust_charge(amount / 3.5) //NSV13 - divide by 3.5
