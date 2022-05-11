@@ -184,7 +184,7 @@
 
 /obj/item/organ/stomach/battery/ethereal/charge(datum/source, amount, repairs)
 	SIGNAL_HANDLER
-	adjust_charge(amount * 20)
+	adjust_charge(amount / 3.5) //NSV13 - divide by 3.5
 
 /obj/item/organ/stomach/battery/ethereal/proc/on_electrocute(datum/source, shock_damage, shock_source, siemens_coeff = 1, safety = 0, tesla_shock = 0, illusion = 0, stun = TRUE)
 	SIGNAL_HANDLER
