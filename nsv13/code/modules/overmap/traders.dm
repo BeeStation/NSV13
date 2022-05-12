@@ -152,6 +152,13 @@
 	// 	/datum/nsv_mission/kill_ships/syndicate=1)
 	max_missions = 6
 
+/datum/trader/armsdealer/syndicate/attempt_purchase(datum/trader_item/item, mob/living/carbon/user)
+	. = ..()
+	if(!.)
+		return
+	if(!user.last_overmap || user.last_overmap.faction != "syndicate")
+		SSovermap_mode.modify_threat_elevation(TE_SYNDISHOP_PENALTY)	//How to get a hitsquad sent at you: Buy hellfire weapons from the Syndicate.
+
 /datum/trader/armsdealer/syndicate/New()
 	. = ..()
 	name = pick(name, "Gorlex Marauders Weapons Co.", "Syndi-dyne Gun Fiesta", "Dolos Dealers")
@@ -346,6 +353,7 @@
 	if(item.stock <= 0)
 		stonks -= item
 		qdel(item)
+	return TRUE
 
 /datum/trader/ui_state(mob/user)
 	return GLOB.not_incapacitated_state

@@ -31,6 +31,18 @@ export const OvermapGamemodeController = (props, context) => {
                       onClick={() => act('change_gamemode')} />
                   </LabeledList.Item>
                   <br />
+                  <LabeledList.Item label="Threat">
+                    {"Current threat points: " + data.threat_elevation}
+                    <br />
+                    {"Points required per fleet size point: " + data.threat_per_size_point + " | effective fleet size bonus: " + Math.floor(data.threat_elevation / data.threat_per_size_point)}
+                    <br /><br />
+                    <Button
+                      icon="exchange-alt"
+                      content="Adjust threat"
+                      color="grey"
+                      onClick={() => act('adjust_threat')} />
+                  </LabeledList.Item>
+                  <br />
                   <LabeledList.Item label="Difficulty">
                     Current Global Difficulty: {data.current_difficulty}
                     <br />

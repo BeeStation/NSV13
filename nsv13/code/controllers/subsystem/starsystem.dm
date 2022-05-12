@@ -1063,7 +1063,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 
 /datum/star_system/proc/generate_badlands()
 	var/list/generated = list()
-	var/amount = rand(50, 70)
+	var/amount = rand(17, 25)
 	var/toocloseconflict = 0
 	message_admins("Generating Badlands with [amount] systems.")
 	var/start_timeofday = REALTIMEOFDAY
@@ -1110,8 +1110,8 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		var/randy_valid = FALSE
 
 		while(!randy_valid)
-			randy.x = (rand(1, 10)/10)+rand(1, 200)+20 // Buffer space for readability
-			randy.y = (rand(1, 10)/10)+rand(1, 100)+30 // Offset vertically for viewing 'pleasure'
+			randy.x = (rand(1, 10)/10)+rand(1, 80)+20 // Buffer space for readability
+			randy.y = (rand(1, 10)/10)+rand(1, 50)+30 // Offset vertically for viewing 'pleasure'
 			var/syscheck_pass = TRUE
 			for(var/datum/star_system/S in (generated + rubicon + src))
 				if(!syscheck_pass)

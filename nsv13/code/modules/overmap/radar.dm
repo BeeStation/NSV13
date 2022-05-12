@@ -121,17 +121,17 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	to_chat(user, "<span class='sciradio'>You switch [src]'s trader delivery location to [usingBeacon ? "target supply beacons" : "target the default landing location on your ship"]</span>")
 	return FALSE
 
-/obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
+/obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge. All secondary dradis consoles should be a subtype of this
 	name = "air traffic control console"
 
-/obj/machinery/computer/ship/dradis/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight
+/obj/machinery/computer/ship/dradis/minor/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight
 	name = "\improper Cargo freight delivery console"
 	circuit = /obj/item/circuitboard/computer/ship/dradis/cargo
 	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/linked_launcher = null
 	var/dradis_id = null
 
-/obj/machinery/computer/ship/dradis/cargo/Initialize()
-	..()
+/obj/machinery/computer/ship/dradis/minor/cargo/Initialize()
+	. = ..()
 	var/obj/item/paper/paper = new /obj/item/paper(get_turf(src))
 	paper.info = ""
 	paper.info += "<h2>How to perform deliveries with the Cargo DRADIS</h2>"
@@ -152,7 +152,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 					linked_launcher = W
 					W.linked_dradis = src
 
-/obj/machinery/computer/ship/dradis/cargo/multitool_act(mob/living/user, obj/item/I)
+/obj/machinery/computer/ship/dradis/minor/cargo/multitool_act(mob/living/user, obj/item/I)
 	// Allow relinking a console's cargo launcher
 	var/obj/item/multitool/P = I
 	// Check to make sure the buffer is a valid cargo launcher before acting on it
@@ -166,9 +166,6 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	// Call the parent proc and allow supply beacon swaps
 	else
 		return ..()
-
-/obj/machinery/computer/ship/dradis/cargo/can_radar_pulse()
-	return FALSE
 
 /obj/machinery/computer/ship/dradis/mining
 	name = "mining DRADIS computer"
@@ -189,7 +186,6 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/minor/set_position(obj/structure/overmap/OM)
 	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/reset_dradis_contacts, override=TRUE)
-	return
 
 /datum/looping_sound/dradis
 	mid_sounds = list('nsv13/sound/effects/ship/dradis.ogg')
@@ -284,9 +280,9 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			if(target == linked)
 				return
 			next_hail = world.time + 10 SECONDS //I hate that I need to do this, but yeah.
-			if(get_dist(target, linked) <= hail_range)
-				if ( istype( src, /obj/machinery/computer/ship/dradis/cargo ) )
-					var/obj/machinery/computer/ship/dradis/cargo/console = src // Must cast before passing into proc
+			if(overmap_dist(target, linked) <= hail_range)
+				if ( istype( src, /obj/machinery/computer/ship/dradis/minor/cargo ) )
+					var/obj/machinery/computer/ship/dradis/minor/cargo/console = src // Must cast before passing into proc
 					target.try_deliver( usr, console )
 				else
 					target.try_hail(usr, linked)
@@ -318,7 +314,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 //Cloaking and sensors!
 
 /obj/structure/overmap/proc/is_sensor_visible(obj/structure/overmap/observer) //How visible is this enemy ship to sensors? Sometimes ya gotta get real up close n' personal.
-	var/dist = get_dist(src, observer)
+	var/dist = overmap_dist(src, observer)
 	if(dist <= 0)
 		dist = 1
 	var/distance_factor = 1 / dist //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
@@ -360,9 +356,9 @@ Called by add_sensor_profile_penalty if remove_in is used.
 		if(OA && istype(OA) && OA.z == linked?.z)
 			blips.Add(list(list("x" = OA.x, "y" = OA.y, "colour" = "#eb9534", "name" = "[(OA.scanned) ? OA.name : "anomaly"]", opacity=showAnomalies*0.01, alignment = "uncharted")))
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Iterate through overmaps in the world!
-		var/sensor_visible = (OM != linked && OM.faction != linked.faction) ? ((get_dist(linked, OM) > max(sensor_range * 2, OM.sensor_profile)) ? 0 : OM.is_sensor_visible(linked)) : SENSOR_VISIBILITY_FULL //You can always see your own ship, or allied, cloaked ships.
+		var/sensor_visible = (OM != linked && OM.faction != linked.faction) ? ((overmap_dist(linked, OM) > max(sensor_range * 2, OM.sensor_profile)) ? 0 : OM.is_sensor_visible(linked)) : SENSOR_VISIBILITY_FULL //You can always see your own ship, or allied, cloaked ships.
 		if(OM.z == linked.z && sensor_visible >= SENSOR_VISIBILITY_FAINT)
-			var/inRange = (get_dist(linked, OM) <= max(sensor_range,OM.sensor_profile)) || OM.faction == linked.faction	//Allies broadcast encrypted IFF so we can see them anywhere.
+			var/inRange = (overmap_dist(linked, OM) <= max(sensor_range,OM.sensor_profile)) || OM.faction == linked.faction	//Allies broadcast encrypted IFF so we can see them anywhere.
 			var/thecolour = "#FFFFFF"
 			var/filterType = showEnemies
 			if(istype(OM, /obj/structure/overmap/asteroid))

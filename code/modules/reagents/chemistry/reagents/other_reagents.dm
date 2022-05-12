@@ -249,6 +249,14 @@
 		M.blood_volume = max(M.blood_volume - 30, 0)
 		to_chat(M, "<span class='warning'>The water causes you to melt away!</span>")
 		return
+	var/mob/living/carbon/human/H = M //NSV felinids can be sprayed by water
+	if(istype(H) && iscatperson(H) && (method == TOUCH || method == VAPOR))
+		if(M.fire_stacks < 0) //if we're on fire, don't apply the negative mood
+			M.Immobilize(1) //startles the felinid
+			if (method == TOUCH)
+				SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "watersplashed", /datum/mood_event/watersplashed)
+			if (method == VAPOR)
+				SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "watersprayed", /datum/mood_event/watersprayed) //End of NSV code
 	if(method == TOUCH)
 		M.adjust_fire_stacks(-(reac_volume / 10))
 		M.ExtinguishMob()
