@@ -303,7 +303,11 @@
 		log_combat(src, M, "grabbed", addition="passive grab")
 		if(!supress_message && !(iscarbon(AM) && HAS_TRAIT(src, TRAIT_STRONG_GRABBER))) //Everything in this if statement handles chat messages for grabbing
 			var/mob/living/L = M
-			if (L.getorgan(/obj/item/organ/tail) && zone_selected == BODY_ZONE_PRECISE_GROIN) //Does the target have a tail?
+			if (getorgan(/obj/item/organ/tail) && L.getorgan(/obj/item/organ/tail) && zone_selected == BODY_ZONE_PRECISE_GROIN) //NSV - tail entwining
+				M.visible_message("<span class='warning'>[src] coils their tail with [L], wow is that okay in public?!</span>",\
+								"<span class='warning'>[src] has entwined their tail with yours!</span>", null, null, src)
+				to_chat(src, "<span class='notice'>You entwine your tail with [L].</span>")
+			else if (L.getorgan(/obj/item/organ/tail) && zone_selected == BODY_ZONE_PRECISE_GROIN) //Does the target have a tail?
 				if(!do_after(src, 2 SECONDS, target=L)) //NSV pulling by tail gives negative moodlet
 					return
 				M.visible_message("<span class ='warning'>[src] grabs [L] by [L.p_their()] tail!</span>",\
