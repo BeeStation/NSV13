@@ -10,7 +10,7 @@
 /datum/gear/hat/hhat_yellow
 	display_name = "hardhat, yellow"
 	path = /obj/item/clothing/head/hardhat
-	allowed_roles = list("Chief Engineer", "Station Engineer", "Atmospheric Technician")
+	allowed_roles = list("Chief Engineer", "Engineer", "Atmospheric Technician") //nsv13 station engineer -> engineer
 	cost = 2500
 
 /datum/gear/hat/hhat_orange

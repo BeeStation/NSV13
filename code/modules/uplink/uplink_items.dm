@@ -2309,7 +2309,7 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	desc = "A plasma cored control rod designed for sabotaging Stormdrive reactors."
 	cost = 10
 	item = /obj/item/control_rod/plasma
-	restricted_roles = list("Chief Engineer", "Station Engineer", "Atmospheric Technician")
+	restricted_roles = list("Chief Engineer", "Engineer", "Atmospheric Technician") //nsv13 station engineer -> engineer
 
 // Pointless
 /datum/uplink_item/badass
