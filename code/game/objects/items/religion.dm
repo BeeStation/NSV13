@@ -176,7 +176,7 @@
 	item_state = "banner_engineering"
 	lefthand_file = 'icons/mob/inhands/equipment/banners_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/banners_righthand.dmi'
-	job_loyalties = list("Station Engineer", "Atmospheric Technician", "Chief Engineer")
+	job_loyalties = list("Engineer", "Atmospheric Technician", "Chief Engineer") //nsv13 station engineer -> engineer
 	warcry = "All hail lord Singuloth!!"
 
 /obj/item/banner/engineering/mundane

@@ -340,7 +340,7 @@ SUBSYSTEM_DEF(job)
 
 	//NSV13 - fill some other high priority jobs
 	JobDebug("DO, Running Critical Jobs Check")
-	FillPosition("Station Engineer")
+	FillPosition("Engineer")
 	FillPosition("Munitions Technician")
 	FillPosition("Bridge Staff")
 	FillPosition("Shaft Miner")

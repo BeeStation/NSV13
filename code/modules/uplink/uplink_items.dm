@@ -1987,7 +1987,7 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	desc = "A pair of extra-strength magboots that crush anyone you walk over."
 	cost = 7
 	item = /obj/item/clothing/shoes/magboots/crushing
-	restricted_roles = list("Chief Engineer", "Station Engineer", "Atmospheric Technician")
+	restricted_roles = list("Chief Engineer", "Engineer", "Atmospheric Technician") //nsv13 station engineer -> engineer
 
 /datum/uplink_item/role_restricted/gorillacubes
 	name = "Box of Gorilla Cubes"

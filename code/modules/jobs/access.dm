@@ -394,7 +394,7 @@
 				// Cargo
 				"Quartermaster", "Cargo Technician","Shaft Miner",
 				// Engineering
-				"Chief Engineer", "Station Engineer", "Atmospheric Technician",
+				"Chief Engineer", "Engineer", "Atmospheric Technician", //nsv13 station engineer -> engineer
 				// NSV13 - munitions
 				"Air Traffic Controller", "Pilot", "Munitions Technician", "Deck Technician", "Master At Arms", "Bridge Staff",
 				// R&D

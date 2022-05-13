@@ -12,7 +12,7 @@ GLOBAL_LIST_INIT(command_positions, list(
 
 GLOBAL_LIST_INIT(engineering_positions, list(
 	"Chief Engineer",
-	"Station Engineer",
+	"Engineer", //nsv13 station engineer -> engineer
 	"Atmospheric Technician"))
 
 

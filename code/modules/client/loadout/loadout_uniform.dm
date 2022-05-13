@@ -333,7 +333,7 @@
 
 /datum/gear/uniform/rank/engineering
 	subtype_path = /datum/gear/uniform/rank/engineering
-	allowed_roles = list("Chief Engineer", "Station Engineer", "Atmospheric Technician")
+	allowed_roles = list("Chief Engineer", "Engineer", "Atmospheric Technician") //nsv13 station engineer -> engineer
 
 /datum/gear/uniform/rank/engineering/hazard
 	display_name = "engineering jumpsuit, hazard"

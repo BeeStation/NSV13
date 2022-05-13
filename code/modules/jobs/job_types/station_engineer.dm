@@ -1,5 +1,5 @@
 /datum/job/engineer
-	title = "Station Engineer"
+	title = "Engineer" //nsv13 station engineer -> engineer
 	flag = ENGINEER
 	department_head = list("Chief Engineer")
 	department_flag = ENGSEC
@@ -30,7 +30,7 @@
 	)
 
 /datum/outfit/job/engineer
-	name = "Station Engineer"
+	name = "Engineer" //nsv13 station engineer -> engineer
 	jobtype = /datum/job/engineer
 
 	id = /obj/item/card/id/job/engi
@@ -51,11 +51,11 @@
 	backpack_contents = list(/obj/item/modular_computer/tablet/preset/advanced=1)
 
 /datum/outfit/job/engineer/gloved
-	name = "Station Engineer (Gloves)"
+	name = "Engineer (Gloves)" //nsv13 station engineer -> engineer
 	gloves = /obj/item/clothing/gloves/color/yellow
 
 /datum/outfit/job/engineer/gloved/rig
-	name = "Station Engineer (Hardsuit)"
+	name = "Engineer (Hardsuit)" //nsv13 station engineer -> engineer
 	mask = /obj/item/clothing/mask/breath
 	suit = /obj/item/clothing/suit/space/hardsuit/engine
 	suit_store = /obj/item/tank/internals/oxygen

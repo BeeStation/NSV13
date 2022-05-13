@@ -49,7 +49,7 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 	jobs["Roboticist"] = 32
 	jobs["Exploration Crew"] = 33
 	jobs["Chief Engineer"] = 40
-	jobs["Station Engineer"] = 41
+	jobs["Engineer"] = 41 //nsv13 station engineer -> engineer
 	jobs["Atmospheric Technician"] = 42
 	jobs["Quartermaster"] = 51
 	jobs["Shaft Miner"] = 52

@@ -657,7 +657,7 @@
 
 
 	if(mind)
-		if((mind.assigned_role == "Station Engineer") || (mind.assigned_role == "Chief Engineer") )
+		if((mind.assigned_role == "Engineer") || (mind.assigned_role == "Chief Engineer") ) //nsv13 station engineer -> engineer
 			gain = 100
 		if(mind.assigned_role == "Clown")
 			gain = rand(-1000, 1000)

@@ -146,7 +146,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "Lawyer"
 
 /obj/effect/landmark/start/station_engineer
-	name = "Station Engineer"
+	name = "Engineer" //nsv13 station engineer -> engineer
 	icon_state = "Station Engineer"
 
 /obj/effect/landmark/start/medical_doctor
