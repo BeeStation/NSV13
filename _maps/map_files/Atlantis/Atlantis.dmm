@@ -3901,6 +3901,19 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/monotile/dark,
 /area/security/prison)
+"cTu" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
+	},
+/obj/machinery/computer/atmos_control/tank/air_tank{
+	dir = 1;
+	input_tag = "sdmix_in";
+	name = "Reactor Mix Control";
+	output_tag = "sdmix_out";
+	sensors = list("sdmix_sensor" = "Reactor Mix Tank")
+	},
+/turf/open/floor/engine,
+/area/engine/stormdrive)
 "cTJ" = (
 /obj/machinery/conveyor{
 	dir = 4;
@@ -5693,19 +5706,6 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/science)
-"ewg" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
-/obj/machinery/computer/atmos_control/tank/air_tank{
-	dir = 1;
-	input_tag = "sdmix_in";
-	name = "Reactor Mix Control";
-	output_tag = "sdmix_out";
-	sensors = list("sdmix_sensor" = "Reactor Mix Tank")
-	},
-/turf/open/floor/engine,
-/area/engine/stormdrive)
 "ewO" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -13008,11 +13008,9 @@
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/security/brig)
 "kgf" = (
-/obj/structure/disposalpipe/trunk/multiz{
-	dir = 8
-	},
-/turf/closed/wall/r_wall,
-/area/engine/atmos/starboard_atmos)
+/mob/living/simple_animal/bot/secbot/armsky,
+/turf/open/floor/engine,
+/area/ai_monitored/security/armory/lockup)
 "kgh" = (
 /obj/effect/decal/cleanable/blood/old,
 /obj/effect/decal/cleanable/glass,
@@ -13062,8 +13060,8 @@
 	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/disposalpipe/segment{
-	dir = 4
+/obj/structure/disposalpipe/trunk/multiz{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
@@ -17553,9 +17551,10 @@
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/security/brig)
 "nyw" = (
-/obj/machinery/atmospherics/components/unary/tank/air{
-	piping_layer = 1
+/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer1{
+	dir = 1
 	},
+/obj/machinery/portable_atmospherics/canister/air,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "nyW" = (
@@ -25304,10 +25303,6 @@
 "tMm" = (
 /turf/open/space/basic,
 /area/space/nearstation)
-"tMq" = (
-/mob/living/simple_animal/bot/secbot/armsky,
-/turf/open/floor/engine,
-/area/ai_monitored/security/armory/lockup)
 "tMG" = (
 /obj/machinery/atmospherics/pipe/simple/general/hidden{
 	dir = 4
@@ -53368,7 +53363,7 @@ wys
 xim
 yco
 vfX
-ewg
+cTu
 rfh
 nNa
 sFe
@@ -56471,7 +56466,7 @@ uhe
 uIs
 uIs
 wjB
-kgf
+wjB
 hKe
 gjN
 gzS
@@ -70313,7 +70308,7 @@ glV
 wDr
 hIN
 lCw
-tMq
+kgf
 ipo
 ipo
 xvk

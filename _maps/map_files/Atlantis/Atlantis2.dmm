@@ -252,11 +252,19 @@
 /turf/open/floor/engine,
 /area/bridge/cic)
 "amo" = (
-/obj/structure/disposalpipe/trunk/multiz/down{
+/obj/machinery/door/airlock/vault/ship{
+	name = "Emergency Exit";
+	req_one_access_txt = "19"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
-/turf/closed/wall/steel,
-/area/maintenance/nsv/deck1/starboard)
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/plating,
+/area/bridge)
 "ann" = (
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 1
@@ -1180,18 +1188,6 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/cafeteria)
-"bjN" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
-/obj/machinery/squad_vendor{
-	pixel_y = 26
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/hallway/nsv/deck1/hallway)
 "bjR" = (
 /obj/machinery/power/smes{
 	charge = 5e+006
@@ -1825,6 +1821,11 @@
 /obj/effect/spawner/room/threexthree,
 /turf/template_noop,
 /area/maintenance/nsv/deck1/port)
+"bKZ" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/vending/wardrobe/cargo_wardrobe,
+/turf/open/floor/plasteel/tech/grid,
+/area/quartermaster/warehouse)
 "bLa" = (
 /obj/structure/chair/office{
 	dir = 1
@@ -5823,11 +5824,6 @@
 /obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
-"fvc" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/vending/wardrobe/cargo_wardrobe,
-/turf/open/floor/plasteel/tech/grid,
-/area/quartermaster/warehouse)
 "fvw" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -17472,6 +17468,18 @@
 /obj/effect/spawner/lootdrop/minor/kittyears_or_rabbitears,
 /turf/open/floor/plasteel/techmaint,
 /area/hallway/nsv/deck1/hallway)
+"rjn" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/machinery/squad_vendor{
+	pixel_y = 26
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/hallway/nsv/deck1/hallway)
 "rjt" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/lootdrop/two_percent_xeno_egg_spawner,
@@ -18797,9 +18805,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 10
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 6
-	},
+/obj/structure/disposalpipe/trunk/multiz/down,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "sCB" = (
@@ -20719,20 +20725,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/medical/chemistry)
-"uns" = (
-/obj/machinery/door/airlock/vault/ship{
-	name = "Emergency Exit";
-	req_one_access_txt = "19"
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/effect/landmark/zebra_interlock_point,
-/turf/open/floor/plating,
-/area/bridge)
 "unQ" = (
 /obj/machinery/door/airlock/ship/command{
 	name = "Captain's Office";
@@ -22842,6 +22834,7 @@
 /area/crew_quarters/theatre)
 "woe" = (
 /obj/machinery/firealarm/directional/east,
+/obj/structure/filingcabinet/filingcabinet,
 /turf/open/floor/carpet/ship,
 /area/quartermaster/storage)
 "won" = (
@@ -50456,7 +50449,7 @@ ydh
 ajb
 ajb
 ajb
-amo
+ajb
 nte
 ajb
 xQh
@@ -57865,7 +57858,7 @@ aiw
 eMS
 iEA
 iEA
-uns
+amo
 iEA
 iEA
 iEA
@@ -58158,7 +58151,7 @@ gHy
 vUo
 hhs
 bpB
-fvc
+bKZ
 oRG
 rWO
 xFC
@@ -63538,7 +63531,7 @@ ldH
 kJK
 kwV
 vIh
-bjN
+rjn
 hCx
 azr
 nlj
