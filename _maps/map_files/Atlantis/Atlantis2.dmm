@@ -1180,6 +1180,18 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/cafeteria)
+"bjN" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/machinery/squad_vendor{
+	pixel_y = 26
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/hallway/nsv/deck1/hallway)
 "bjR" = (
 /obj/machinery/power/smes{
 	charge = 5e+006
@@ -1643,8 +1655,11 @@
 	name = "Auxiliary Shuttle Dock"
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
-/area/space/nearstation)
+/area/maintenance/nsv/deck1/starboard)
 "bFs" = (
 /obj/item/stack/spacecash/c1,
 /obj/structure/festivus{
@@ -2980,8 +2995,11 @@
 /obj/machinery/advanced_airlock_controller/directional/west,
 /obj/machinery/atmospherics/components/binary/dp_vent_pump/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
-/area/space/nearstation)
+/area/maintenance/nsv/deck1/starboard)
 "cKJ" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -5805,6 +5823,11 @@
 /obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"fvc" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/vending/wardrobe/cargo_wardrobe,
+/turf/open/floor/plasteel/tech/grid,
+/area/quartermaster/warehouse)
 "fvw" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -8066,8 +8089,7 @@
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engineering)
 "hBY" = (
-/obj/structure/table/reinforced,
-/obj/item/storage/toolbox/mechanical,
+/obj/machinery/rnd/production/techfab/department/cargo,
 /turf/open/floor/carpet/ship,
 /area/quartermaster/storage)
 "hCp" = (
@@ -11735,6 +11757,7 @@
 /obj/structure/disposalpipe/trunk/multiz/down{
 	dir = 1
 	},
+/obj/structure/ladder,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/aft)
 "lgh" = (
@@ -13269,6 +13292,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "mTz" = (
@@ -14194,6 +14220,13 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/item/paper_bin,
+/obj/item/stamp{
+	pixel_x = 8
+	},
+/obj/item/stamp/denied{
+	pixel_x = -4
+	},
 /turf/open/floor/carpet/ship,
 /area/quartermaster/storage)
 "nTx" = (
@@ -15112,7 +15145,6 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/nuke_storage)
 "oRG" = (
-/obj/machinery/vending/wardrobe/cargo_wardrobe,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/plasteel/tech/grid,
@@ -16141,9 +16173,17 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/segment,
-/obj/structure/falsewall,
+/obj/machinery/door/airlock/ship/maintenance{
+	name = "Brig Maintenance";
+	req_one_access_txt = "2"
+	},
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
 /turf/open/floor/plating,
-/area/maintenance/nsv/deck1/port/aft)
+/area/security)
 "pSH" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -19211,7 +19251,12 @@
 /area/crew_quarters/heads/captain/private)
 "sTk" = (
 /obj/structure/table/reinforced,
-/obj/item/storage/firstaid/regular,
+/obj/item/storage/toolbox/mechanical{
+	pixel_y = 10
+	},
+/obj/item/storage/firstaid/regular{
+	pixel_x = 6
+	},
 /turf/open/floor/carpet/ship,
 /area/quartermaster/storage)
 "sTO" = (
@@ -20674,6 +20719,20 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/medical/chemistry)
+"uns" = (
+/obj/machinery/door/airlock/vault/ship{
+	name = "Emergency Exit";
+	req_one_access_txt = "19"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/plating,
+/area/bridge)
 "unQ" = (
 /obj/machinery/door/airlock/ship/command{
 	name = "Captain's Office";
@@ -22782,7 +22841,6 @@
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/theatre)
 "woe" = (
-/obj/structure/table/reinforced,
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/carpet/ship,
 /area/quartermaster/storage)
@@ -55558,8 +55616,8 @@ ajb
 dUU
 dUU
 dUU
-iOE
-iOE
+dUU
+dUU
 wIG
 wIG
 wIG
@@ -57292,7 +57350,7 @@ aiw
 nvy
 wGZ
 jEp
-hcT
+jEp
 qyN
 hcT
 hcT
@@ -57807,7 +57865,7 @@ aiw
 eMS
 iEA
 iEA
-eXh
+uns
 iEA
 iEA
 iEA
@@ -58100,7 +58158,7 @@ gHy
 vUo
 hhs
 bpB
-pdZ
+fvc
 oRG
 rWO
 xFC
@@ -63480,7 +63538,7 @@ ldH
 kJK
 kwV
 vIh
-wcA
+bjN
 hCx
 azr
 nlj

@@ -624,6 +624,9 @@
 /obj/structure/disposalpipe/trunk/multiz{
 	dir = 8
 	},
+/obj/structure/ladder{
+	pixel_y = 20
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "aCs" = (
@@ -3778,6 +3781,7 @@
 /obj/effect/turf_decal/tile/ship/half/yellow{
 	dir = 8
 	},
+/obj/machinery/telecomms/relay/preset/station,
 /turf/open/floor/plasteel/grid/techfloor,
 /area/engine/engineering)
 "cPy" = (
@@ -5467,6 +5471,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
 	dir = 8
 	},
+/mob/living/simple_animal/bot/secbot/armsky,
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/ai_monitored/security/armory)
 "eol" = (
@@ -5688,6 +5693,19 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/science)
+"ewg" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 5
+	},
+/obj/machinery/computer/atmos_control/tank/air_tank{
+	dir = 1;
+	input_tag = "sdmix_in";
+	name = "Reactor Mix Control";
+	output_tag = "sdmix_out";
+	sensors = list("sdmix_sensor" = "Reactor Mix Tank")
+	},
+/turf/open/floor/engine,
+/area/engine/stormdrive)
 "ewO" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -7045,6 +7063,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
 	},
+/obj/machinery/firealarm/directional/south,
 /turf/open/floor/wood{
 	color = "grey"
 	},
@@ -8383,7 +8402,9 @@
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
 "gBL" = (
-/obj/structure/table/reinforced,
+/obj/machinery/squad_vendor{
+	pixel_y = 26
+	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/hallway/nsv/deck2/primary)
 "gCf" = (
@@ -12184,13 +12205,13 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
 	},
-/obj/machinery/meter/atmos/atmos_waste_loop,
 /obj/effect/turf_decal/tile/ship/half/yellow{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/ship/yellow{
 	dir = 1
 	},
+/obj/machinery/meter,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "jFr" = (
@@ -12211,10 +12232,10 @@
 /obj/effect/turf_decal/tile/ship/half/yellow{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/green/visible/layer1,
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
 	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/simple/green/visible,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "jHg" = (
@@ -15699,10 +15720,10 @@
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/security/brig)
 "mfy" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible/layer1,
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
 	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/simple/green/visible,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "mfO" = (
@@ -16210,7 +16231,7 @@
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck2/primary)
 "mCL" = (
-/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/simple/green/visible,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "mDe" = (
@@ -17533,7 +17554,6 @@
 /area/security/brig)
 "nyw" = (
 /obj/machinery/atmospherics/components/unary/tank/air{
-	dir = 4;
 	piping_layer = 1
 	},
 /turf/open/floor/plasteel/grid/steel,
@@ -20484,9 +20504,9 @@
 	},
 /obj/effect/turf_decal/tile/ship/yellow,
 /obj/structure/rack,
-/obj/item/stack/sheet/glass/fifty,
-/obj/item/stack/sheet/glass/fifty,
-/obj/item/stack/sheet/glass/fifty,
+/obj/item/clothing/shoes/magboots,
+/obj/item/clothing/shoes/magboots,
+/obj/item/clothing/shoes/magboots,
 /turf/open/floor/plasteel/grid/techfloor,
 /area/engine/engineering)
 "pXm" = (
@@ -22023,7 +22043,11 @@
 /area/nsv/weapons)
 "rid" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/visible/layer1,
-/obj/machinery/meter/atmos/distro_loop,
+/obj/machinery/meter{
+	pixel_x = 4;
+	pixel_y = -1;
+	target_layer = 1
+	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "rip" = (
@@ -22895,6 +22919,7 @@
 	pixel_y = 32;
 	req_one_access_txt = "69"
 	},
+/obj/structure/table/reinforced,
 /turf/open/floor/plasteel/grid/techfloor,
 /area/nsv/weapons/access_corridor)
 "rWN" = (
@@ -24394,9 +24419,8 @@
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "thW" = (
-/obj/machinery/firealarm/directional/south,
 /obj/machinery/camera/autoname{
-	dir = 10
+	dir = 4
 	},
 /turf/open/floor/wood{
 	color = "grey"
@@ -25280,6 +25304,10 @@
 "tMm" = (
 /turf/open/space/basic,
 /area/space/nearstation)
+"tMq" = (
+/mob/living/simple_animal/bot/secbot/armsky,
+/turf/open/floor/engine,
+/area/ai_monitored/security/armory/lockup)
 "tMG" = (
 /obj/machinery/atmospherics/pipe/simple/general/hidden{
 	dir = 4
@@ -26565,7 +26593,7 @@
 /obj/effect/turf_decal/tile/ship/half/yellow{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/simple/green/visible,
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "uLf" = (
@@ -29021,6 +29049,9 @@
 /obj/item/stack/sheet/iron/fifty,
 /obj/item/stack/sheet/iron/fifty,
 /obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/glass/fifty,
+/obj/item/stack/sheet/glass/fifty,
+/obj/item/stack/sheet/glass/fifty,
 /turf/open/floor/plasteel/grid/techfloor,
 /area/engine/engineering)
 "wRO" = (
@@ -53337,7 +53368,7 @@ wys
 xim
 yco
 vfX
-aAr
+ewg
 rfh
 nNa
 sFe
@@ -68498,7 +68529,7 @@ cOM
 mqb
 jzM
 gBL
-gBL
+krU
 pbK
 eHn
 qmJ
@@ -68754,7 +68785,7 @@ jRd
 cOM
 jRd
 jzM
-krU
+gBL
 krU
 hEB
 nta
@@ -70282,7 +70313,7 @@ glV
 wDr
 hIN
 lCw
-ipo
+tMq
 ipo
 ipo
 xvk
