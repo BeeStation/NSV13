@@ -2909,10 +2909,18 @@
 /turf/open/floor/plasteel/grid/techfloor,
 /area/science)
 "cfr" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/vending/wardrobe/atmos_wardrobe,
-/turf/open/floor/monotile/dark,
-/area/engine/atmos)
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/extinguisher_cabinet/east,
+/obj/structure/disposalpipe/segment{
+	dir = 6
+	},
+/turf/open/floor/carpet/red,
+/area/security/detectives_office)
 "cfx" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 1
@@ -4295,14 +4303,11 @@
 /turf/open/floor/monotile/steel,
 /area/science/research)
 "dia" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 6
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
+	dir = 5
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
@@ -5470,13 +5475,21 @@
 	req_one_access_txt = "4"
 	},
 /obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
-	dir = 1
+	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/disposalpipe/segment,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/security/detectives_office)
 "eoo" = (
@@ -5700,10 +5713,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 1;
-	sortType = 30
-	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "exs" = (
@@ -6125,7 +6135,7 @@
 "eOy" = (
 /obj/machinery/vending/wardrobe/det_wardrobe,
 /obj/structure/disposalpipe/segment{
-	dir = 4
+	dir = 9
 	},
 /turf/open/floor/carpet/red,
 /area/security/detectives_office)
@@ -6382,10 +6392,19 @@
 /turf/open/floor/monotile/dark,
 /area/science/mixing)
 "eZy" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 1
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
-/obj/structure/closet/emcloset,
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 1;
+	sortType = 30
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "eZT" = (
@@ -9636,15 +9655,8 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "hGE" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 5
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 5
-	},
+/obj/effect/spawner/lootdrop/maintenance,
+/obj/structure/rack,
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "hHn" = (
@@ -10817,12 +10829,14 @@
 /turf/open/floor/plasteel/grid/techfloor,
 /area/security/brig)
 "iAs" = (
-/obj/structure/extinguisher_cabinet/east,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 10
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 10
+	dir = 4
 	},
 /turf/open/floor/carpet/red,
 /area/security/detectives_office)
@@ -10914,6 +10928,7 @@
 /turf/open/floor/monotile/dark,
 /area/science/research)
 "iGS" = (
+/obj/machinery/firealarm/directional/north,
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "iHr" = (
@@ -12170,7 +12185,6 @@
 	dir = 4
 	},
 /obj/machinery/meter/atmos/atmos_waste_loop,
-/obj/machinery/firealarm/directional/north,
 /obj/effect/turf_decal/tile/ship/half/yellow{
 	dir = 4
 	},
@@ -13117,8 +13131,10 @@
 /turf/open/space/basic,
 /area/space)
 "kkT" = (
-/turf/open/floor/monotile/dark,
-/area/maintenance/department/engine/atmos)
+/obj/structure/closet/emcloset,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/turf/open/floor/plating,
+/area/security/detectives_office)
 "klf" = (
 /obj/machinery/newscaster{
 	pixel_y = -28
@@ -15363,6 +15379,7 @@
 /area/hallway/nsv/deck2/primary)
 "lVy" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/machinery/vending/wardrobe/atmos_wardrobe,
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
 "lVM" = (
@@ -18313,14 +18330,14 @@
 	icon_state = "platingdmg3"
 	},
 /area/security/prison)
+"okC" = (
+/obj/effect/landmark/start/station_engineer,
+/turf/open/floor/plasteel/grid/techfloor/grid,
+/area/engine/engineering)
 "okF" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/disposalpipe/segment{
-	dir = 10
-	},
-/turf/open/floor/carpet/red,
-/area/security/detectives_office)
+/obj/effect/landmark/start/atmospheric_technician,
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "ole" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -55383,7 +55400,7 @@ puI
 qCY
 iKM
 iKM
-iKM
+okC
 iKM
 iKM
 jIb
@@ -58464,7 +58481,7 @@ oUb
 sqZ
 kcS
 kcS
-kcS
+okF
 tPg
 lLc
 hxs
@@ -58966,7 +58983,7 @@ xRs
 rjf
 uvg
 lJi
-xaN
+cfr
 eOy
 nbp
 qCY
@@ -59224,11 +59241,11 @@ tWT
 ots
 qDT
 iAs
-okF
-eol
+nbp
+nbp
 hGE
-eZy
-kkT
+qCY
+qCY
 lAr
 pva
 mTP
@@ -59237,7 +59254,7 @@ lyM
 hKK
 kcE
 qpP
-cfr
+qCY
 qCY
 tJK
 uIs
@@ -59480,12 +59497,12 @@ nbp
 nbp
 nbp
 nbp
+eol
 nbp
-nbp
-nbp
+kkT
 dia
 jUU
-iZH
+qCY
 qCY
 qCY
 qCY
@@ -59495,7 +59512,7 @@ qCY
 qCY
 qCY
 qCY
-qCY
+gDl
 gDl
 uIs
 rgk
@@ -59737,7 +59754,7 @@ cjL
 djD
 nWt
 nWt
-nWt
+eZy
 kDU
 nWt
 ewW
