@@ -79,14 +79,19 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define PASSBLOB		(1<<3)
 #define PASSMOB			(1<<4)
 #define PASSCLOSEDTURF	(1<<5)
+/// Let thrown things past us. **ONLY MEANINGFUL ON pass_flags_self!**
 #define LETPASSTHROW	(1<<6)
+#define PASSMACHINE 	(1<<7)
+#define PASSSTRUCTURE 	(1<<8)
+#define PASSFLAPS 		(1<<9)
+#define PASSDOORS 		(1<<10)
 
 //! ## Movement Types
 #define GROUND			(1<<0)
 #define FLYING			(1<<1)
 #define VENTCRAWLING	(1<<2)
 #define FLOATING		(1<<3)
-#define UNSTOPPABLE		(1<<4)			//! When moving, will Bump()/Cross()/Uncross() everything, but won't be stopped.
+#define PHASING			(1<<4) // When moving, will Cross()/Uncross() everything, but won't stop or Bump() anything.
 #define THROWN			(1<<5) //! while an atom is being thrown
 
 //! ## Fire and Acid stuff, for resistance_flags
@@ -143,3 +148,29 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define RELIGION_TOOL_INVOKE (1<<0)
 #define RELIGION_TOOL_SACRIFICE (1<<1)
 #define RELIGION_TOOL_SECTSELECT (1<<2)
+
+//NSV13 Change - AI flags
+//Bitfields for AI behavior, because bitfields save us processing when compared with lists.
+#define AI_FLAG_SUPPLY 1<<0
+#define AI_FLAG_BATTLESHIP 1<<1
+#define AI_FLAG_DESTROYER 1<<2
+#define AI_FLAG_ANTI_FIGHTER 1<<3
+#define AI_FLAG_BOARDER 1<<4 //Ships that like to board you.
+#define AI_FLAG_SWARMER 1<<5 //Ships that love to act in swarms. Aka, Fighters.
+#define AI_FLAG_ELITE 1<<6	 //These ships are more /fun/ than others even with the same equipment.
+#define AI_FLAG_STATIONARY 1<<7 //Overrides all other flags. Object will attempt to stay in place, restoring its angle if possible (and, obviously, shooting things)
+
+//KNPC flags
+#define KNPC_IS_MARTIAL_ARTIST 1<<0		//Does the KNPC combo you right into the next round?
+#define KNPC_IS_DODGER 1<<1				//Does the KNPC become like the wind in CQC?
+#define KNPC_IS_MERCIFUL 1<<2			//Does the KNPC consider mobs in crit to be valid?
+#define KNPC_IS_AREA_SPECIFIC 1<<3		//Does the KNPC scream out the area when calling for backup?
+#define KNPC_IS_DOOR_BASHER 1<<4		//Does the KNPC kick the door off its hinges if it doesn't have a valid ID?
+#define KNPC_IS_DOOR_HACKER 1<<5		//Does the KNPC hack the door open if it doesn't have a valid ID?
+
+//Starsystem Traits
+#define STARSYSTEM_NO_ANOMALIES 1<<0	//Prevents Anomalies Spawning
+#define STARSYSTEM_NO_ASTEROIDS 1<<1	//Prevents Asteroids Spawning
+#define STARSYSTEM_NO_WORMHOLE 1<<2		//Prevents Incoming Wormholes
+#define STARSYSTEM_END_ON_ENTER 1<<3  //End the round after entering this system (Outpost 45)
+//NSV13 change end

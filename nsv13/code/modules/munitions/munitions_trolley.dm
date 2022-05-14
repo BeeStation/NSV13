@@ -37,6 +37,8 @@
 
 /obj/structure/munitions_trolley/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	if(istype(A, /obj/item/ship_weapon/ammunition))
 		var/obj/item/ship_weapon/ammunition/M = A
 		if(M.no_trolley)
@@ -111,9 +113,9 @@
 	A.layer = initial(A.layer)
 	if(allowed[A.type]) //If a munition, allow them to load other munitions onto us.
 		amount--
-	if(contents.len)
+	if(length(contents))
 		var/count = amount
-		for(var/atom/movable/AM in contents)
+		for(var/atom/movable/AM as() in contents)
 			if(allowed[AM.type])
 				AM.pixel_y = count*5
 				count--

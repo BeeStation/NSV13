@@ -1,5 +1,5 @@
 /obj/item/ship_weapon/parts //Base item
-	name = "Weapon electronics"
+	name = "weapon electronics"
 	desc = "This piece of equipment is a figment of your imagination, let the coders know how you got it!"
 	icon = 'icons/obj/module.dmi'
 	icon_state = "mcontroller"

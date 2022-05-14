@@ -30,17 +30,6 @@
 		else
 			B.homing = FALSE //Confused by the chaff
 
-/obj/structure/overmap/small_craft/verb/countermeasure()
-	set name = "Deploy Countermeasures"
-	set category = "Ship"
-	set src = usr.loc
-	set waitfor = FALSE
-
-	if(!verb_check())
-		return
-
-	fire_countermeasure()
-
 /obj/structure/overmap/small_craft/proc/fire_countermeasure()
 	var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
 	if(!CD) //Check for a dispenser
