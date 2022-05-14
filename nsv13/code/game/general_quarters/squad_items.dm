@@ -120,7 +120,6 @@
 	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 	body_parts_covered = CHEST|GROIN|LEGS|FEET
-	allowed = list(GLOB.security_vest_allowed)
 	var/datum/squad/squad = null
 
 /obj/item/clothing/suit/ship/squad/space
@@ -132,7 +131,7 @@
 	permeability_coefficient = 0.02
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | SHOWEROKAY
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	allowed = list(GLOB.security_vest_allowed, /obj/item/flashlight, /obj/item/tank/internals)
+	allowed = list(/obj/item/flashlight, /obj/item/tank/internals)
 	slowdown = 1
 	armor = list("melee" = 20, "bullet" = 30, "laser" = 5,"energy" = 0, "bomb" = 10, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 70, "stamina" = 10)
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
@@ -152,7 +151,7 @@
 	icon_state = "squad"
 	item_color = null
 	w_class = WEIGHT_CLASS_NORMAL
-	armor = list("melee" = 30, "bullet" = 20, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
+	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	var/has_headcam = TRUE
 	var/datum/squad/squad = null
@@ -487,3 +486,7 @@
 		return
 	if(alert(user, "Deflate [src]?",name,"Yes","Reconsider") == "Yes")
 		deflate()
+
+//this proc makes squad items take
+/obj/item/clothing/suit/ship/squad/Initialize()
+	. = ..()
