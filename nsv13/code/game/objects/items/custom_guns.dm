@@ -37,7 +37,7 @@
 /obj/item/projectile/bullet/peacekeeper
 	name = "6mm tungsten round"
 	damage = 10 //Hopefully making it bias towards armorpen should make it less likely to kill people straight out.
-	armour_penetration = 40
+	armour_penetration = 30
 	icon_state = "pdc"
 
 /obj/item/projectile/bullet/peacekeeper/stun
