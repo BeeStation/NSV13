@@ -13,8 +13,8 @@
 #define BROKEN_SPARKS_MAX (90 SECONDS)
 
 //NSV13 added ethereal light interaction defines
-#define LIGHT_DRAIN_TIME 25
-#define LIGHT_POWER_GAIN 35
+#define LIGHT_DRAIN_TIME 35
+#define LIGHT_POWER_GAIN 50
 
 /obj/item/wallframe/light_fixture
 	name = "light fixture frame"

@@ -40,7 +40,7 @@
 
 //NSV13 added ethereal power drain defines
 #define APC_DRAIN_TIME 80
-#define APC_POWER_GAIN 200
+#define APC_POWER_GAIN 250
 
 // the Area Power Controller (APC), formerly Power Distribution Unit (PDU)
 // one per area, needs wire connection to power network through a terminal

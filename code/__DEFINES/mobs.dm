@@ -229,12 +229,10 @@
 
 //NSV13 - TG style ethereal charge levels
 #define ETHEREAL_CHARGE_NONE 0
-#define ETHEREAL_CHARGE_LOWPOWER 400
-#define ETHEREAL_CHARGE_NORMAL 1000
-#define ETHEREAL_CHARGE_ALMOSTFULL 1500
-#define ETHEREAL_CHARGE_FULL 2000
-#define ETHEREAL_CHARGE_OVERLOAD 2500
-#define ETHEREAL_CHARGE_DANGEROUS 3000
+#define ETHEREAL_CHARGE_LOWPOWER 500
+#define ETHEREAL_CHARGE_NORMAL 1250
+#define ETHEREAL_CHARGE_ALMOSTFULL 1875
+#define ETHEREAL_CHARGE_FULL 2500
 
 //Base nutrition value used for newly initialized slimes
 #define SLIME_DEFAULT_NUTRITION 700
@@ -361,7 +359,7 @@
 #define DOOR_CRUSH_DAMAGE	15	//! the amount of damage that airlocks deal when they crush you
 
 #define	HUNGER_FACTOR		0.1	//! factor at which mob nutrition decreases
-#define ETHEREAL_CHARGE_FACTOR	1.6 //! NSV13 - factor at which ethereal's charge decreases
+#define ETHEREAL_CHARGE_FACTOR	0.5 //! NSV13 - factor at which ethereal's charge decreases
 #define	HYGIENE_FACTOR  0.1	//! factor at which mob hygiene decreases
 #define	REAGENTS_METABOLISM 0.4	//! How many units of reagent are consumed per tick, by default.
 #define REAGENTS_EFFECT_MULTIPLIER (REAGENTS_METABOLISM / 0.4)	//! By defining the effect multiplier this way, it'll exactly adjust all effects according to how they originally were with the 0.4 metabolism

@@ -1,7 +1,7 @@
 //NSV13 added defines for ethereal cell interactions
-#define CELL_DRAIN_TIME 35
-#define CELL_POWER_GAIN 60
-#define CELL_POWER_DRAIN 750
+#define CELL_DRAIN_TIME 25
+#define CELL_POWER_GAIN 75
+#define CELL_POWER_DRAIN 300
 
 /obj/item/stock_parts/cell
 	name = "power cell"
