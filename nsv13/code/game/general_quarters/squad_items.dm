@@ -490,3 +490,4 @@
 //this proc makes squad items take
 /obj/item/clothing/suit/ship/squad/Initialize()
 	. = ..()
+	allowed = GLOB.security_vest_allowed
