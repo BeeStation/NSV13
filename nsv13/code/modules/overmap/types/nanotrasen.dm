@@ -45,7 +45,8 @@
 	bound_height = 96
 	bound_width = 96
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
-/obj/structure/overmap/nanotrasen/missile_cruiser //This has nothing to do with missiles
+
+/obj/structure/overmap/nanotrasen/missile_cruiser
 	name = "caracal class missile frigate"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
 	icon_state = "frigate"
@@ -59,6 +60,12 @@
 	integrity_failure = 500
 	//collision_positions = list(new /datum/vector2d(-13,71), new /datum/vector2d(-25,52), new /datum/vector2d(-24,-25), new /datum/vector2d(-11,-66), new /datum/vector2d(4,-69), new /datum/vector2d(15,-28), new /datum/vector2d(15,38), new /datum/vector2d(6,61))
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
+
+/obj/structure/overmap/nanotrasen/missile_cruiser/apply_weapons()
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_WG_TORPEDO] = new /datum/ship_weapon/wire_guided_torpedo_launcher(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser
 	name = "corvid class tactical cruiser"
@@ -173,12 +180,6 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
-
-/obj/structure/overmap/nanotrasen/missile_cruiser/starter/apply_weapons()
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	weapon_types[FIRE_MODE_WG_TORPEDO] = new /datum/ship_weapon/wire_guided_torpedo_launcher(src)
-	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //NOT IN CYCLE
 	role = MAIN_OVERMAP

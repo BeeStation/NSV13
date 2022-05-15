@@ -273,6 +273,21 @@
 		if(targets.len >= max_targets)
 			break
 		targets += P
+
+	for(var/obj/structure/overmap/torpedo/T in OM.current_system.system_contents) //As above
+		if(!T || !istype(T))
+			continue
+		if(T.faction == OM.faction)
+			continue
+		var/target_range = get_dist(T,OM)
+		var/incidence_dir = get_dir(T, OM)
+		if(angle2dir(T.angle)!= incidence_dir)
+			continue
+		if(target_range > max_range || target_range <= 0)
+			continue
+		if(targets.len >= max_targets)
+			break
+		targets += T
 	return targets
 
 
