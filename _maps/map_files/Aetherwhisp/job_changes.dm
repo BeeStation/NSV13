@@ -3,6 +3,7 @@
 // I'm replacing your job with bridge officers who are perfectly capable of pushing a button on lasers 
 // MAP_REMOVE_JOB(master_at_arms)
 MAP_REMOVE_JOB(munitions_tech)
+MAP_REMOVE_JOB(lawyer) //not ours, don't need 'em
 
 /datum/job/munitions_tech/New()
 	..()

@@ -42,9 +42,6 @@
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck1/hallway)
 "af" = (
-/obj/machinery/door/airlock/ship/public/glass{
-	name = "Smoking area"
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -55,8 +52,12 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/effect/landmark/zebra_interlock_point,
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Staff Judge Advocacy";
+	req_one_access_txt = "38"
+	},
+/turf/open/floor/monotile/dark,
+/area/lawoffice)
 "ag" = (
 /obj/structure/curtain,
 /obj/machinery/shower{
@@ -169,13 +170,10 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "aJ" = (
-/obj/effect/decal/cleanable/glitter/white{
-	layer = 4.1;
-	name = "smoke"
-	},
 /obj/machinery/light/small,
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/obj/structure/filingcabinet/employment,
+/turf/open/floor/monotile/dark,
+/area/lawoffice)
 "aK" = (
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 8
@@ -586,16 +584,20 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/xo)
 "cV" = (
-/obj/effect/decal/cleanable/glitter/white{
-	layer = 4.1;
-	name = "smoke"
-	},
 /obj/structure/table/reinforced,
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/obj/item/cartridge/lawyer,
+/obj/item/paper_bin{
+	pixel_x = -3;
+	pixel_y = 7
+	},
+/obj/item/folder,
+/obj/item/taperecorder,
+/obj/item/pen,
+/turf/open/floor/monotile/dark,
+/area/lawoffice)
 "cW" = (
 /obj/effect/turf_decal/tile/ship/half/green,
 /turf/open/floor/monotile/steel,
@@ -1969,15 +1971,15 @@
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck1/hallway)
 "iX" = (
-/obj/effect/decal/cleanable/glitter/white{
-	layer = 4.1;
-	name = "smoke"
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/monotile/dark,
+/area/lawoffice)
 "ja" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/window/brigdoor/northleft{
@@ -2564,14 +2566,9 @@
 /turf/closed/wall/r_wall,
 /area/space/nearstation)
 "lA" = (
-/obj/effect/decal/cleanable/glitter/white{
-	layer = 4.1;
-	name = "smoke"
-	},
 /obj/structure/chair/stool,
-/obj/effect/landmark/event_spawn,
-/turf/open/floor/carpet/ship/beige_carpet,
-/area/hallway/nsv/deck1/hallway)
+/turf/open/floor/monotile/dark,
+/area/lawoffice)
 "lD" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -2887,6 +2884,9 @@
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/bar/mess_hall)
+"no" = (
+/turf/closed/wall/steel,
+/area/lawoffice)
 "nr" = (
 /obj/effect/turf_decal/tile/ship/green,
 /obj/effect/turf_decal/tile/ship/green{
@@ -4217,11 +4217,6 @@
 /turf/open/floor/monotile/steel,
 /area/maintenance/nsv/deck1/port)
 "tM" = (
-/obj/effect/decal/cleanable/glitter/white{
-	layer = 4.1;
-	name = "smoke"
-	},
-/obj/structure/chair/stool,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -4229,8 +4224,8 @@
 	dir = 1
 	},
 /obj/machinery/light_switch/west,
-/turf/open/floor/carpet/ship/beige_carpet,
-/area/hallway/nsv/deck1/hallway)
+/turf/open/floor/monotile/dark,
+/area/lawoffice)
 "tQ" = (
 /obj/effect/turf_decal/tile/ship/green,
 /obj/effect/turf_decal/tile/ship/green{
@@ -6257,17 +6252,10 @@
 /turf/open/floor/carpet/royalblack,
 /area/bridge/cic)
 "DK" = (
-/obj/effect/decal/cleanable/glitter/white{
-	layer = 4.1;
-	name = "smoke"
-	},
-/turf/open/floor/carpet/ship/beige_carpet,
-/area/hallway/nsv/deck1/hallway)
+/obj/machinery/photocopier,
+/turf/open/floor/monotile/dark,
+/area/lawoffice)
 "DL" = (
-/obj/effect/decal/cleanable/glitter/white{
-	layer = 4.1;
-	name = "smoke"
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -6276,16 +6264,12 @@
 	dir = 1
 	},
 /obj/item/radio/intercom/directional/west,
-/turf/open/floor/carpet/ship/beige_carpet,
-/area/hallway/nsv/deck1/hallway)
+/turf/open/floor/monotile/dark,
+/area/lawoffice)
 "DM" = (
-/obj/effect/decal/cleanable/glitter/white{
-	layer = 4.1;
-	name = "smoke"
-	},
 /obj/structure/table/reinforced,
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/turf/open/floor/monotile/dark,
+/area/lawoffice)
 "DQ" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -6381,13 +6365,10 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "En" = (
-/obj/effect/decal/cleanable/glitter/white{
-	layer = 4.1;
-	name = "smoke"
-	},
 /obj/structure/chair/stool,
-/turf/open/floor/carpet/ship/beige_carpet,
-/area/hallway/nsv/deck1/hallway)
+/obj/machinery/airalarm/directional/east,
+/turf/open/floor/monotile/dark,
+/area/lawoffice)
 "Eo" = (
 /turf/open/floor/monotile/steel,
 /area/ai_monitored/turret_protected/ai_upload)
@@ -6902,6 +6883,10 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
+"GP" = (
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/lawoffice)
 "GQ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 10
@@ -8585,11 +8570,8 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "NN" = (
-/obj/structure/sign/ship/smoking{
-	dir = 8
-	},
 /turf/closed/wall/r_wall,
-/area/hallway/nsv/deck1/hallway)
+/area/lawoffice)
 "NP" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
@@ -9109,16 +9091,10 @@
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck1/hallway)
 "Qw" = (
-/obj/effect/decal/cleanable/glitter/white{
-	layer = 4.1;
-	name = "smoke"
-	},
-/obj/machinery/vending/cigarette{
-	name = "Adama's Finest Cigars"
-	},
 /obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/carpet/ship/beige_carpet,
-/area/hallway/nsv/deck1/hallway)
+/obj/machinery/vending/wardrobe/law_wardrobe,
+/turf/open/floor/monotile/dark,
+/area/lawoffice)
 "Qy" = (
 /obj/structure/safe,
 /obj/item/bikehorn/golden,
@@ -10255,18 +10231,12 @@
 /turf/closed/wall/r_wall,
 /area/hydroponics)
 "WC" = (
-/obj/effect/decal/cleanable/glitter/white{
-	layer = 4.1;
-	name = "smoke"
-	},
-/obj/structure/table/reinforced,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/item/lighter/greyscale,
 /obj/machinery/newscaster/directional/west,
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/turf/open/floor/monotile/dark,
+/area/lawoffice)
 "WD" = (
 /obj/structure/table/reinforced,
 /obj/item/clothing/glasses/science,
@@ -10275,12 +10245,12 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
 "WE" = (
-/obj/effect/decal/cleanable/glitter/white{
-	layer = 4.1;
-	name = "smoke"
+/obj/structure/chair/office{
+	dir = 1
 	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
+/obj/effect/landmark/start/staffjudgeadvocate,
+/turf/open/floor/monotile/dark,
+/area/lawoffice)
 "WJ" = (
 /turf/closed/wall/r_wall,
 /area/medical/medbay)
@@ -40644,12 +40614,12 @@ gq
 WV
 wu
 Sc
-Am
-Am
-Am
-Am
-Am
-Am
+NN
+NN
+NN
+NN
+NN
+NN
 Up
 Ng
 MS
@@ -41158,12 +41128,12 @@ gq
 hA
 wu
 YC
-TE
+GP
 DK
 lA
 DM
 WE
-Am
+NN
 rV
 Od
 MS
@@ -41415,12 +41385,12 @@ Bv
 wg
 zL
 Sc
-Pk
+no
 Qw
 En
 cV
 aJ
-Am
+NN
 yl
 ux
 MS
@@ -41672,12 +41642,12 @@ gq
 MQ
 wu
 Sc
-Am
-Am
 NN
-Am
-Am
-Am
+NN
+NN
+NN
+NN
+NN
 Ej
 zS
 MS
