@@ -344,11 +344,11 @@
 	name = "Glock-13 ammo (nonlethal)"
 	desc = "5 magazines of nonlethal ammo for security sidearms."
 	cost = 1500
-	contains = list(/obj/item/ammo_box/magazine/pistolm9mm/glock,
-					/obj/item/ammo_box/magazine/pistolm9mm/glock,
-					/obj/item/ammo_box/magazine/pistolm9mm/glock,
-					/obj/item/ammo_box/magazine/pistolm9mm/glock,
-					/obj/item/ammo_box/magazine/pistolm9mm/glock,
+	contains = list(/obj/item/ammo_box/magazine/glock,
+					/obj/item/ammo_box/magazine/glock,
+					/obj/item/ammo_box/magazine/glock,
+					/obj/item/ammo_box/magazine/glock,
+					/obj/item/ammo_box/magazine/glock,
 					/obj/item/ammo_box/c9mm/rubber)
 	crate_name = "Glock-13 nonlethal ammunition crate"
 
@@ -356,11 +356,11 @@
 	name = "Glock-13 ammo (lethal)"
 	desc = "5 magazines of lethal ammo for security sidearms."
 	cost = 1500
-	contains = list(/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-					/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-					/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-					/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-					/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
+	contains = list(/obj/item/ammo_box/magazine/glock/lethal,
+					/obj/item/ammo_box/magazine/glock/lethal,
+					/obj/item/ammo_box/magazine/glock/lethal,
+					/obj/item/ammo_box/magazine/glock/lethal,
+					/obj/item/ammo_box/magazine/glock/lethal,
 					/obj/item/ammo_box/c9mm)
 	crate_name = "Glock-13 lethal ammunition crate"
 	access = ACCESS_ARMORY

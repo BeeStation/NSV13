@@ -68,12 +68,12 @@
 	suit = /obj/item/clothing/suit/space/pirate/boarder/lead
 	head = /obj/item/clothing/head/helmet/space/pirate/boarder
 	l_pocket = /obj/item/melee/transforming/energy/sword/pirate
-	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/glock/makarov=1, /obj/item/ammo_box/magazine/pistolm9mm/glock=3, /obj/item/storage/firstaid/regular=1, /obj/item/loot_locator=1)
+	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/glock/makarov=1, /obj/item/ammo_box/magazine/glock=3, /obj/item/storage/firstaid/regular=1, /obj/item/loot_locator=1)
 
 /datum/outfit/pirate/space/boarding/sapper
 	name = "Space Pirate Boarder - Sapper Kit"
 	l_pocket = /obj/item/kitchen/knife
-	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/glock/makarov=1, /obj/item/ammo_box/magazine/pistolm9mm/glock=2, /obj/item/grenade/smokebomb=2, /obj/item/grenade/plastic/x4=2)
+	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/glock/makarov=1, /obj/item/ammo_box/magazine/glock=2, /obj/item/grenade/smokebomb=2, /obj/item/grenade/plastic/x4=2)
 
 /datum/outfit/pirate/space/boarding/gunner
 	name = "Space Pirate Boarder - Gunner Kit"
@@ -303,7 +303,7 @@ For when the marines are being irritating.
 	l_pocket = /obj/item/reagent_containers/hypospray/medipen/survival
 	r_pocket = /obj/item/gun/ballistic/automatic/pistol/glock/makarov/lethal
 	back = /obj/item/storage/backpack/satchel
-	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/glock/makarov/lethal=1, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal=5)
+	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/glock/makarov/lethal=1, /obj/item/ammo_box/magazine/glock/lethal=5)
 
 /datum/outfit/space_pirate/knpc_auto_pistol
 	uniform = /obj/item/clothing/under/costume/pirate

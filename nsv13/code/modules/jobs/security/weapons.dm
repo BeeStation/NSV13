@@ -27,7 +27,7 @@
 	item_state = "glock"
 	fire_sound = 'nsv13/sound/weapons/glock.ogg'
 	w_class = WEIGHT_CLASS_NORMAL
-	mag_type = /obj/item/ammo_box/magazine/pistolm9mm/glock
+	mag_type = /obj/item/ammo_box/magazine/glock
 	can_suppress = TRUE
 	automatic = FALSE
 	can_flashlight = TRUE
@@ -41,7 +41,7 @@
 	icon_state = "makarov"
 
 /obj/item/gun/ballistic/automatic/pistol/glock/makarov/lethal //Starts with lethal bullets loaded
-	mag_type = /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal
+	mag_type = /obj/item/ammo_box/magazine/glock/lethal
 
 /obj/item/gun/ballistic/automatic/pistol/m1911/m9le
 	name = "\improper M9LE"
@@ -79,15 +79,19 @@
 	build_path = /obj/item/ammo_casing/tazer
 	category = list("initial", "Security")
 
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal
-	name = "9mm pistol magazine (lethal)"
-	icon = 'nsv13/icons/obj/ammo.dmi'
+/obj/item/ammo_box/magazine/glock/lethal
+	name = "pistol magazine (9mm Lethal)"
+	icon_state = "Glock-lethal"
 	ammo_type = /obj/item/ammo_casing/c9mm
+	caliber = "9mm"
+	max_ammo = 15
 
-/obj/item/ammo_box/magazine/pistolm9mm/glock
-	name = "9mm pistol magazine (non-lethal)"
-	icon = 'nsv13/icons/obj/ammo.dmi'
+/obj/item/ammo_box/magazine/glock
+	name = "pistol magazine (9mm Non-lethal)"
+	icon_state = "Glock-nonlethal"
 	ammo_type = /obj/item/ammo_casing/c9mm/rubber
+	caliber = "9mm"
+	max_ammo = 15
 
 /obj/item/ammo_casing/c9mm/rubber
 	name = "9mm rubber bullet casing"
