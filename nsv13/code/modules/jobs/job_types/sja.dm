@@ -9,10 +9,9 @@
 	supervisors = "the Executive Officer"
 	selection_color = "#dddddd"
 	chat_color = "#C07D7D"
-	minimal_player_age = 7
-	exp_requirements = 840
+	minimal_player_age = 2
+	exp_requirements = 60
 	exp_type = EXP_TYPE_CREW
-
 
 	outfit = /datum/outfit/job/staffjudgeadvocate
 
@@ -20,7 +19,7 @@
 	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_COURT, ACCESS_MEDICAL, ACCESS_ENGINE, ACCESS_MAINT_TUNNELS, ACCESS_BAR, ACCESS_JANITOR, ACCESS_MORGUE, ACCESS_KITCHEN, ACCESS_CARGO, ACCESS_HYDROPONICS, ACCESS_LAWYER, ACCESS_LIBRARY, ACCESS_RESEARCH, ACCESS_MINING)
 	paycheck = PAYCHECK_EASY
 	paycheck_department = ACCOUNT_CIV
-	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
+	mind_traits = list()
 
 	display_order = JOB_DISPLAY_ORDER_LAWYER
 	departments = DEPARTMENT_SERVICE

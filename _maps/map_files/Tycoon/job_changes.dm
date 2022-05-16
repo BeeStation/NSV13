@@ -1,6 +1,4 @@
 
-MAP_REMOVE_JOB(lawyer) //not ours, don't need 'em
-
 /datum/job/pilot/New()
 	..()
 	MAP_JOB_CHECK
