@@ -36,6 +36,12 @@
 	var/static/list/loadouts = list()
 	var/static/list/requires_weapons_clearance = list(/obj/item/ammo_box, /obj/item/gun)
 
+/obj/machinery/squad_vendor/Initialize()
+	. = ..()
+	if(!length(loadouts))
+		for(var/instance in subtypesof(/datum/squad_loadout))
+			loadouts += new instance
+
 /obj/machinery/squad_vendor/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -50,7 +56,7 @@
 	var/datum/squad/squad = ishuman(H) ? H?.squad : null
 	var/list/kits = list()
 	for(var/datum/squad_loadout/S in loadouts)
-		if(!squad || !(LAZYFIND(S.allowed_ranks, H.squad_role)))
+		if(!squad || !(LAZYFIND(S.allowed_roles, H.squad.id)))
 			continue
 		var/list/kit = list()
 		kit["name"] = S.name
@@ -116,18 +122,13 @@
 			loans_info[H] = null
 			return TRUE
 
-/obj/machinery/squad_vendor/Initialize()
-	. = ..()
-	if(!loadouts.len)
-		for(var/instance in subtypesof(/datum/squad_loadout))
-			loadouts += new instance
-
 /datum/squad_loadout
 	var/name = "Parent"
 	var/desc = "A standardised equipment set for Blue Phalanx marines. This set is designed for use in pressurized areas, it comes with lightweight armour to protect the wearer from most hazards."
 	var/list/items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
 	var/list/must_return = list()
-	var/list/allowed_ranks = list(SQUAD_MARINE, SQUAD_SERGEANT)
+	var/leader_only = FALSE
+	var/list/allowed_roles = ALL_SQUAD_ROLES
 
 /datum/squad_loadout/marine
 	name = "Squad Marine (Standard)"
@@ -146,7 +147,7 @@
 	name = "Squad Leader (Standard)"
 	desc = "For hazardous, low pressure environments. This kit contains a reinforced skinsuit which, while slow, will protect marines from the elements."
 	items = list(/obj/item/clothing/under/ship/marine, /obj/item/megaphone, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad/leader, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
-	allowed_ranks = list(SQUAD_LEAD)
+	leader_only = TRUE
 
 /datum/squad_loadout/leader/space
 	name = "Squad Leader (Hazardous Environment)"
@@ -157,7 +158,7 @@
 	name = "Squad Engineer (Standard)"
 	desc = "This kit contains everything a squad engineer needs to effect repairs in non-hazardous environments. Recommended only for planetside operations where speed is necessary."
 	items = list(/obj/item/clothing/under/ship/marine/engineer, /obj/item/storage/belt/utility/full, /obj/item/storage/box/damage_control, /obj/item/clothing/glasses/welding, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
-	allowed_ranks = list(SQUAD_ENGI)
+	allowed_roles = list(DC_SQUAD, MUNITIONS_SUPPORT, COMBAT_AIR_PATROL)
 
 /datum/squad_loadout/engineer/space
 	name = "Squad Engineer (Hazardous Environment)"
@@ -168,7 +169,7 @@
 	name = "Squad Medic (Standard)"
 	desc = "A kit containing battlefield medical equipment and light squad armour."
 	items = list(/obj/item/clothing/under/ship/marine/medic, /obj/item/storage/firstaid/regular, /obj/item/reagent_containers/medspray/sterilizine, /obj/item/reagent_containers/medspray/styptic, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
-	allowed_ranks = list(SQUAD_MEDIC)
+	allowed_roles = list(MEDICAL_SQUAD)
 
 /datum/squad_loadout/medic/space
 	name = "Squad Medic (Hazardous Environment)"

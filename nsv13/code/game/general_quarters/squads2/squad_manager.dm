@@ -97,11 +97,8 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/list/joinable = list()
 	for(var/datum/squad/squad in squads)
 		if(!squad.hidden)
-			if(squad.disallowed_jobs)
-				if(LAZYFIND(squad.disallowed_jobs, J.type))
-					continue
-			if(squad.allowed_jobs)
-				if(!(LAZYFIND(squad.allowed_jobs, J.type)))
-					continue
-			joinable += squad
+			if(LAZYFIND(squad.allowed_jobs, J.type))
+				joinable += squad
+			else if(!LAZYFIND(squad.disallowed_jobs, J.type))
+				joinable += squad
 	return (length(joinable)) ? pick(joinable) : null

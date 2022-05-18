@@ -1,7 +1,5 @@
 /mob/living/carbon/human
 	var/datum/squad/squad = null
-	var/squad_role = null
-	var/squad_rank = null
 
 //Show relevent squad info on status panel.
 /mob/living/carbon/human/proc/get_stat_tab_squad()

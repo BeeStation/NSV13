@@ -59,12 +59,12 @@
 		if("primary_objective")
 			if(!S)
 				return FALSE
-			var/orders = stripped_input(usr, message="Set primary objective:", max_length=MAX_BROADCAST_LEN, default=S.primary_objective)
+			var/orders = input(usr, "Choose squad role:", "Squad Setup") as null|anything in ALL_SQUAD_ROLES
 			if(!orders || length(orders) <= 0)
 				return
 			log_say("[S]: [usr] set primary objective: [orders]")
-			S.primary_objective = orders
-			S.broadcast(S,"New Primary Objective: "+orders, list('nsv13/sound/effects/notice2.ogg'))
+			S.retask(orders)
+			S.broadcast(S, S.primary_objective, list('nsv13/sound/effects/notice2.ogg'))
 		if("secondary_objective")
 			if(!S)
 				return FALSE

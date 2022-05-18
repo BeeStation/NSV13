@@ -79,10 +79,17 @@
 /datum/squad/proc/add_member(mob/living/carbon/human/H, give_items=FALSE)
 	if(!ishuman(H))
 		return FALSE
-	var/my_exp = H.client?.calc_exp_type(EXP_TYPE_CREW) || 0
-	if(my_exp > 1200)
-		if(!leader)
+
+	members += H
+
+	if(leader)
+		var/myRank = H.compose_rank()
+		var/theirRank = leader.compose_rank()
+		if(check_rank_pecking_order(myRank, theirRank))
 			leader = H
+	else //First one in
+		leader = H
+
 	equip(H, give_items)
 	handle_hud(H, TRUE)
 
@@ -95,7 +102,20 @@
 	//If we're changing into a new squad.
 	if(H.squad == src)
 		H.squad = null
+	members -= H
+	if(leader == H)
+		assign_leader()
 	broadcast(src,"[H.name] has been reassigned from your squad.", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
+
+/datum/squad/proc/assign_leader()
+	//Whoever ranks highest is in charge
+	var/mob/living/carbon/human/highest = members[1]
+	for(var/mob/living/carbon/human/H in members)
+		if(check_rank_pecking_order(H.compose_rank(), highest.compose_rank()))
+			highest = H
+	if(highest != leader)
+		unset_leader()
+		set_leader(highest)
 
 /datum/squad/proc/equip(mob/living/carbon/human/H, give_items)
 	var/datum/squad/oldSquad = H.squad
@@ -107,6 +127,22 @@
 		var/obj/item/storage/backpack/bag = H.get_item_by_slot(ITEM_SLOT_BACK)
 		new /obj/item/squad_pager(bag, src)
 		new /obj/item/clothing/neck/squad(bag, src)
+
+/datum/squad/proc/set_leader(mob/living/carbon/human/H)
+	leader = H
+	to_chat(H, "<span class='sciradio'>You are the squad leader of [name]!. You have authority over the members of this squadron, and may direct them as you see fit. In general, you should use your squad members to help you repair damaged areas during general quarters</span>")
+	broadcast(src,"[leader.name] has been assigned to your squad as leader.", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
+	if(!(LAZYFIND(members, H)))
+		add_member(H)
+
+/datum/squad/proc/unset_leader(mob/living/carbon/human/H)
+	if(!leader || (H && H != leader))
+		return
+	if(!H && leader)
+		H = leader
+	to_chat(H, "<span class='warning'>You have been demoted from your position as [name] Lead.</span>")
+	broadcast(src,"[H] has been demoted from squad lead.", list('nsv13/sound/effects/notice2.ogg'))
+	leader = null
 
 /datum/squad/able
 	name = ABLE_SQUAD
@@ -123,6 +159,7 @@
 	id = MEDICAL_SQUAD
 	colour = "#4148c8"
 	access = list(ACCESS_MUNITIONS, ACCESS_MEDICAL, ACCESS_MAINT_TUNNELS, ACCESS_ENGINE, ACCESS_EXTERNAL_AIRLOCKS)
+	allowed_jobs = list(/datum/job/doctor, /datum/job/emt)
 
 //Backup squads for the XO to use.
 
@@ -132,7 +169,6 @@
 	id = DC_SQUAD
 	colour = "#ffc32d"
 	access = list(ACCESS_HANGAR, ACCESS_BRIG, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MAINT_TUNNELS)
-	hidden = TRUE
 
 /datum/squad/duff
 	name = DUFF_SQUAD
@@ -140,4 +176,3 @@
 	id = MUNITIONS_SUPPORT
 	colour = "#c864c8"
 	access = list(ACCESS_MUNITIONS, ACCESS_MEDICAL, ACCESS_MAINT_TUNNELS, ACCESS_ENGINE, ACCESS_EXTERNAL_AIRLOCKS)
-	hidden = TRUE

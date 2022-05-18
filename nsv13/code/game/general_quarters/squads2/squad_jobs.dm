@@ -11,5 +11,6 @@
 		squad = GLOB.squad_manager.get_squad(H.client.prefs.preferred_squad)
 	if(!squad || (length(squad.members) > squad.max_members))
 		squad = GLOB.squad_manager.get_joinable_squad(src)
-
-	squad?.add_member(H, give_items=TRUE)
+	if(!squad)
+		return
+	squad.add_member(H, give_items=TRUE)
