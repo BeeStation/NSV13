@@ -22,9 +22,9 @@
 
 	//Defensive Stats
 	armor = list("overmap_light" = 0, "overmap_medium" = 50, "overmap_heavy" = 95)
-	obj_integrity = 100
-	max_integrity = 100
-	integrity_failure = 100
+	obj_integrity = 150
+	max_integrity = 150
+	integrity_failure = 150
 
 	//Offensive Stats
 	var/obj/item/projectile/guided_munition/torpedo/warhead //This is where we retieve a lot of our data from
@@ -77,6 +77,9 @@
 
 /obj/structure/overmap/torpedo/Bump(atom/A)
 	.=..()
+
+	if(!density) //Not yet armed
+		return
 
 	if(istype(A, /obj/structure/overmap)) //Are we hitting an overmap entity rather than a projectile?
 		var/obj/structure/overmap/O = A
