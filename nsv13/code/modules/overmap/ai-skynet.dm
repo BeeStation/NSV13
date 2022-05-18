@@ -337,7 +337,7 @@ Adding tasks is easy! Just define a datum for it.
 			SSovermap_mode.modify_threat_elevation(TE_FLEET_THREAT_DYNAMIC ? (TE_FLEET_KILL_THREAT * applied_size ) : TE_FLEET_KILL_THREAT)
 	QDEL_NULL(src)
 
-/datum/fleet/nanotrasen/earth/defeat()
+/datum/fleet/solgov/earth/defeat()
 	. = ..() //If you lose sol...game over man, game over.
 	priority_announce("SolGov command do you read?! Requesting immediate assistance, we have a foothold situation, repeat, a foothold sit##----///", "White Rapids Fleet Command")
 	SSticker.mode.check_finished(TRUE)
