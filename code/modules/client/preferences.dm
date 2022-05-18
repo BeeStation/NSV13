@@ -133,7 +133,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	var/action_buttons_screen_locs = list()
 	//Nsv13 squads - we CM now
-	var/squad_specialisation = "Midshipman"
+	var/preferred_squad = "Able"
 	//Nsv13 - Syndicate role select
 	var/preferred_syndie_role = CONQUEST_ROLE_GRUNT
 
@@ -251,7 +251,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<a href='?_src_=prefs;preference=syndiecrew;task=input'><b>Preferred Syndicate Role:</b> [preferred_syndie_role]</a><br>" //Nsv13
 
 			dat += "<b>Squad Preferences:</b><BR>"
-			dat += "<a href='?_src_=prefs;preference=squad;task=input'><b>Squad Specialisation:</b> [squad_specialisation]</a><br>" //Nsv13 squads - we CM now.
+			dat += "<a href='?_src_=prefs;preference=squad;task=input'><b>Preferred GQ Squad:</b> [preferred_squad]</a><br>" //Nsv13 squads - we CM now.
 			dat += "</tr></table>"
 
 			dat += "<h2>Body</h2>"
@@ -1665,9 +1665,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 //Nsv13 squads - we CM now
 				if("squad")
-					var/new_spec = input(user, "Choose your preferred squad specialisation:", "Squad Setup") as null|anything in GLOB.squad_manager.specialisations
+					var/new_spec = input(user, "Choose your preferred squad:", "Squad Setup") as null|anything in GLOB.squad_manager.squads
 					if(new_spec)
-						squad_specialisation = new_spec
+						preferred_squad = new_spec
 				if("syndiecrew")
 					var/client/C = (istype(user, /client)) ? user : user.client
 					C.select_syndie_role()

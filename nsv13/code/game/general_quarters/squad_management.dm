@@ -32,38 +32,13 @@
 		squad_info["access_enabled"] = S.access_enabled
 		squad_info["id"] = "\ref[S]"
 		//Get info about SGTs...
-		var/list/sergeants_info = list()
-		for(var/mob/living/M in S.sergeants)
-			var/list/sergeant_info = list()
-			sergeant_info["name"] = compose_rank(M)+M.real_name
-			sergeant_info["id"] = "\ref[M]"
-			sergeants_info[++sergeants_info.len] = sergeant_info
-		squad_info["sergeants"] = sergeants_info
-		//Get info about engis...
-		var/list/engineers = list()
-		for(var/mob/living/M in S.engineers)
-			var/list/engineer_info = list()
-			engineer_info["name"] = compose_rank(M)+M.real_name
-			engineer_info["id"] = "\ref[M]"
-			engineers[++engineers.len] = engineer_info
-		squad_info["engineers"] = engineers
-		//Get info about medics...
-		var/list/medics = list()
-		for(var/mob/living/M in S.medics)
-			var/list/medic_info = list()
-			medic_info["name"] = compose_rank(M)+M.real_name
-			medic_info["id"] = "\ref[M]"
-			medics[++medics.len] = medic_info
-		squad_info["medics"] = medics
-		//Get info about grunts...
-		var/list/grunts = list()
-		for(var/mob/living/M in S.grunts)
-			var/list/grunt_info = list()
-			grunt_info["name"] = compose_rank(M)+M.real_name
-			grunt_info["id"] = "\ref[M]"
-			grunts[++grunts.len] = grunt_info
-		squad_info["grunts"] = grunts
-		squads_info[++squads_info.len] = squad_info
+		var/list/members_info = list()
+		for(var/mob/living/M in S.members)
+			var/list/member_info = list()
+			member_info["name"] = compose_rank(M)+M.real_name
+			member_info["id"] = "\ref[M]"
+			member_info[++members_info.len] = member_info
+		squad_info["members"] = members_info
 	data["squads_info"] = squads_info
 	return data
 
@@ -114,13 +89,6 @@
 				if(M.squad)
 					M.squad.remove_member(M)
 				newSquad.add_member(M)
-		if("reassign")
-			if(!M)
-				return FALSE
-			var/newRole = input(usr, "Re-assign [M]:", "Squad Setup") as null|anything in GLOB.squad_manager.specialisations
-			if(newRole)
-				log_game("[M.squad]: [usr] reassigned [M] to [newRole]")
-				M.squad.set_role(M, newRole)
 		if("toggle_hidden")
 			if(!S)
 				return FALSE
@@ -169,38 +137,13 @@
 		squad_info["access_enabled"] = S.access_enabled
 		squad_info["id"] = "\ref[S]"
 		//Get info about SGTs...
-		var/list/sergeants_info = list()
-		for(var/mob/living/M in S.sergeants)
-			var/list/sergeant_info = list()
-			sergeant_info["name"] = M.compose_rank(M)+M.real_name
-			sergeant_info["id"] = "\ref[M]"
-			sergeants_info[++sergeants_info.len] = sergeant_info
-		squad_info["sergeants"] = sergeants_info
-		//Get info about engis...
-		var/list/engineers = list()
-		for(var/mob/living/M in S.engineers)
-			var/list/engineer_info = list()
-			engineer_info["name"] = M.compose_rank(M)+M.real_name
-			engineer_info["id"] = "\ref[M]"
-			engineers[++engineers.len] = engineer_info
-		squad_info["engineers"] = engineers
-		//Get info about medics...
-		var/list/medics = list()
-		for(var/mob/living/M in S.medics)
-			var/list/medic_info = list()
-			medic_info["name"] = M.compose_rank(M)+M.real_name
-			medic_info["id"] = "\ref[M]"
-			medics[++medics.len] = medic_info
-		squad_info["medics"] = medics
-		//Get info about grunts...
-		var/list/grunts = list()
-		for(var/mob/living/M in S.grunts)
-			var/list/grunt_info = list()
-			grunt_info["name"] = M.compose_rank(M)+M.real_name
-			grunt_info["id"] = "\ref[M]"
-			grunts[++grunts.len] = grunt_info
-		squad_info["grunts"] = grunts
-		squads_info[++squads_info.len] = squad_info
+		var/list/members_info = list()
+		for(var/mob/living/M in S.members)
+			var/list/member_info = list()
+			member_info["name"] = M.compose_rank(M)+M.real_name
+			member_info["id"] = "\ref[M]"
+			members_info[++members_info.len] = member_info
+		squad_info["members"] = members_info
 	data["squads_info"] = squads_info
 	return data
 
@@ -252,13 +195,6 @@
 				if(M.squad)
 					M.squad.remove_member(M)
 				newSquad.add_member(M)
-		if("reassign")
-			if(!M)
-				return FALSE
-			var/newRole = input(usr, "Re-assign [M]:", "Squad Setup") as null|anything in GLOB.squad_manager.specialisations
-			if(newRole)
-				log_game("[M.squad]: [usr] reassigned [M] to [newRole]")
-				M.squad.set_role(M, newRole)
 		if("toggle_hidden")
 			if(!S)
 				return FALSE

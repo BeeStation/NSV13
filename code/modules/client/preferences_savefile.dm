@@ -64,7 +64,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			if(n_gear)
 				purchased_gear += n_gear
 	if(current_version < 34)
-		squad_specialisation = "Midshipman"
+		preferred_squad = "Able"
 		preferred_pilot_role = PILOT_COMBAT
 	if(current_version < 35)
 		chat_on_map = TRUE
@@ -187,7 +187,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	READ_FILE(S["crew_objectives"], crew_objectives)
 
 	//Nsv13 squads - we CM now
-	READ_FILE(S["squad_specialisation"], squad_specialisation)
+	READ_FILE(S["preferred_squad"], preferred_squad)
 	READ_FILE(S["preferred_syndie_role"], preferred_syndie_role)
 	READ_FILE(S["preferred_pilot_role"], preferred_pilot_role)
 
@@ -323,7 +323,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["purchased_gear"], purchased_gear)
 	WRITE_FILE(S["equipped_gear"], equipped_gear)
 	//Nsv13 squads - we CM now
-	WRITE_FILE(S["squad_specialisation"], squad_specialisation)
+	WRITE_FILE(S["preferred_squad"], preferred_squad)
 	WRITE_FILE(S["preferred_syndie_role"], preferred_syndie_role)
 	WRITE_FILE(S["preferred_pilot_role"], preferred_pilot_role)
 

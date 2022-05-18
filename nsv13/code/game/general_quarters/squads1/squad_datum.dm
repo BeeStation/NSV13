@@ -17,21 +17,8 @@
 	var/datum/component/simple_teamchat/radio_dependent/squad/squad_channel = null
 	var/squad_channel_type
 
-/datum/squad/New()
-	. = ..()
-	radio_connection = SSradio.add_object(src, FREQ_SQUAD , RADIO_SQUAD)
-
-/datum/squad/proc/generate_channel()
-	var/stripped = replacetext(name, " Squad", "")
-	squad_channel_type = text2path("/datum/component/simple_teamchat/radio_dependent/squad/[stripped]") //This is OOP sin.
-	squad_channel = AddComponent(squad_channel_type)
-	squad_channel.squad = src
-
 /datum/squad/proc/get_squad_channel()
 	return squad_channel_type
-
-/datum/squad/proc/broadcast(mob/living/carbon/human/sender, message, list/sounds)
-	squad_channel.send_message(sender, message, sounds)
 
 /datum/squad/proc/set_leader(mob/living/carbon/human/H)
 	leader = H
