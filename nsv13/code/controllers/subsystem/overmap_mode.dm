@@ -30,6 +30,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/combat_delays_reminder = FALSE 				//Does combat in the overmap delay the reminder?
 	var/combat_delay_amount = 0 					//How much the reminder is delayed by combat
 
+	var/announce_delay = 3 MINUTES					//How long do we wait?
 	var/announced_objectives = FALSE 				//Have we announced the objectives yet?
 	var/round_extended = FALSE 						//Has the round already been extended already?
 	var/admin_override = FALSE						//Stops the mission ending
@@ -144,9 +145,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		objective_pool += I
 
 	mode.objectives = objective_pool
-	for(var/datum/overmap_objective/O in mode.objectives)
-		if(O.instanced == FALSE)
-			O.instance() //Setup any overmap assets
+	instance_objectives()
 
 	var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
 	if(MO)
@@ -165,6 +164,13 @@ SUBSYSTEM_DEF(overmap_mode)
 		MM.jump_end(target)
 		if(mode.starting_faction)
 			MM.faction = mode.starting_faction
+
+/datum/controller/subsystem/overmap_mode/proc/instance_objectives()
+	for( var/I = 1, I <= length( mode.objectives ), I++ )
+		var/datum/overmap_objective/O = mode.objectives[ I ]
+		if(O.instanced == FALSE)
+			O.objective_number = I
+			O.instance() //Setup any overmap assets
 
 /datum/controller/subsystem/overmap_mode/proc/modify_threat_elevation(value)
 	if(!value)
@@ -225,11 +231,9 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/controller/subsystem/overmap_mode/proc/start_reminder()
 	next_objective_reminder = world.time + mode.objective_reminder_interval
-	addtimer(CALLBACK(src, .proc/announce_objectives), 3 MINUTES)
+	addtimer(CALLBACK(src, .proc/announce_objectives), announce_delay)
 
 /datum/controller/subsystem/overmap_mode/proc/announce_objectives()
-	announced_objectives = TRUE
-
  	/*
 	Replace with a SMEAC brief?
 	- Situation
@@ -247,7 +251,11 @@ SUBSYSTEM_DEF(overmap_mode)
 	for(var/datum/overmap_objective/O in mode.objectives)
 		text = "[text] <br> - [O.brief]"
 
+		if ( !SSovermap_mode.announced_objectives ) // Prevents duplicate report spam when assigning additional objectives
+			O.print_objective_report()
+
 	print_command_report(text, title, TRUE)
+	announced_objectives = TRUE
 
 /datum/controller/subsystem/overmap_mode/proc/update_reminder(var/objective = FALSE)
 	if(objective && objective_resets_reminder) //Is objective? Full Reset
@@ -279,9 +287,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	var/datum/overmap_objective/selected = extension_pool[pick(extension_pool)] //Insert new objective
 	mode.objectives += selected
-	for(var/datum/overmap_objective/O in mode.objectives)
-		if(O.instanced == FALSE)
-			O.instance()
+	instance_objectives()
 
 	announce_objectives() //Let them all know
 
@@ -317,6 +323,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/list/random_objectives = list()						//The random objectives for the mode - the pool to be chosen from
 	var/random_objective_amount = 0							//How many random objectives we are going to get
 	var/whitelist_only = FALSE								//Can only be selected through map bound whitelists
+	var/debug_mode = FALSE 									//Debug var, for gamemode-specific testing
 
 	//Reminder messages
 	var/reminder_origin = "Naval Command"
@@ -423,13 +430,20 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/extension_supported = FALSE 				//Is this objective available to be a random extended round objective?
 	var/ignore_check = FALSE						//Used for checking extended rounds
 	var/instanced = FALSE							//Have we yet run the instance proc for this objective?
+	var/objective_number = 0						//The objective's index in the list. Useful for creating arbitrary report titles
 
 /datum/overmap_objective/New()
 
 /datum/overmap_objective/proc/instance() //Used to generate any in world assets
+	if ( SSovermap_mode.announced_objectives )
+		// If this objective was manually added by admins after announce, prints a new report. Otherwise waits for the gamemode to be announced before instancing reports
+		print_objective_report()
+
 	instanced = TRUE
 
 /datum/overmap_objective/proc/check_completion()
+
+/datum/overmap_objective/proc/print_objective_report()
 
 /datum/overmap_objective/custom
 	name = "Custom"
@@ -505,9 +519,7 @@ SUBSYSTEM_DEF(overmap_mode)
 			if(isnull(S))
 				return
 			SSovermap_mode.mode.objectives += new S()
-			for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
-				if(O.instanced == FALSE)
-					O.instance()
+			SSovermap_mode.instance_objectives()
 			return
 		if("add_custom_objective")
 			var/custom_desc = input("Input Objective Briefing", "Custom Objective") as text|null
@@ -578,7 +590,7 @@ SUBSYSTEM_DEF(overmap_mode)
 			switch(alert(usr, "Who is going to pilot this ghost ship?", "Pilot Select Format", "Open", "Choose", "Cancel"))
 				if("Cancel")
 					return
-				if("Open")					
+				if("Open")
 					var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(target_ship.faction)] [initial(target_ship.name)]?", ROLE_GHOSTSHIP, null, null, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
 					if(LAZYLEN(candidates))
 						var/mob/dead/observer/C = pick(candidates)
