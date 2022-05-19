@@ -343,7 +343,8 @@
 
 /obj/effect/landmark/trader_drop_point/LateInitialize()
 	..()
-	addtimer(CALLBACK(src, .proc/add_to_ship), 1 MINUTES)
+	// addtimer(CALLBACK(src, .proc/add_to_ship), 1 MINUTES)
+	add_to_ship() // I don't understand why we're delaying this
 
 /obj/effect/landmark/trader_drop_point/proc/add_to_ship()
 	LAZYADD(get_overmap()?.trader_beacons, src)

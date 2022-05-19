@@ -9,13 +9,13 @@
 		"A-",
 		"A+",
 		"L",
-		// We don't have enough ethereal or oozling players to donate blood if the ship does not spawn with any 
+		// We don't have enough ethereal or oozling players to donate blood if the ship does not spawn with any
 		// "LE",
 		// "OZ",
 	)
 	crate_name = "Blood Packs crate"
 
 /datum/overmap_objective/cargo/donation/blood/New()
-	var/datum/freight_type/reagent/blood/C = new /datum/freight_type/reagent/blood( pick( possible_blood_types ) )
-	freight_types += C
-	
+	var/datum/freight_type/single/reagent/blood/C = new( pick( possible_blood_types ) )
+	freight_type_group = new( list( C ) )
+
