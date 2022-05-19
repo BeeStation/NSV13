@@ -56,7 +56,7 @@
 	var/datum/squad/squad = ishuman(H) ? H?.squad : null
 	var/list/kits = list()
 	for(var/datum/squad_loadout/S in loadouts)
-		if(!squad || !(LAZYFIND(S.allowed_roles, H.squad.id)))
+		if(!squad || !(LAZYFIND(S.allowed_roles, H.squad.role)))
 			continue
 		var/list/kit = list()
 		kit["name"] = S.name

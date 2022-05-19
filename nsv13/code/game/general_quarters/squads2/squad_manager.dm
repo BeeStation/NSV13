@@ -45,10 +45,10 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	for(var/_type in subtypesof(/datum/squad))
 		var/datum/squad/squad = new _type()
 		squads |= squad
-		if(!role_squad_map[squad.id])
-			role_squad_map[squad.id] = list()
-		role_squad_map[squad.id] |= squad
-		squad.retask(squad.id)
+		if(!role_squad_map[squad.role])
+			role_squad_map[squad.role] = list()
+		role_squad_map[squad.role] |= squad
+		squad.retask(squad.role)
 	addtimer(CALLBACK(src, .proc/check_squad_assignments), 5 MINUTES) //Kick off a timer to check if we need to finagle some people into jobs. Ensure people have a chance to join.
 
 /datum/squad_manager/proc/get_squad(name)

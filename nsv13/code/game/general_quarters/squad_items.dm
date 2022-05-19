@@ -298,9 +298,9 @@
 	name = "[squad] [initial(name)]"
 	icon_state = "hudsquad"
 	if ( user && ishuman( user ) )
-		if ( user.squad.id == MEDICAL_SQUAD )
+		if ( user.squad.role == MEDICAL_SQUAD )
 			icon_state = "hudsquad_medic"
-		else if ( user.squad.id == DC_SQUAD )
+		else if ( user.squad.role == DC_SQUAD )
 			icon_state = "hudsquad_engineer"
 	item_color = "hudsquad"
 	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)

@@ -1,7 +1,7 @@
 /datum/squad
 	var/name = ""
 	var/desc = "nope"
-	var/id = null
+	var/role = null
 	var/tracking_id = null // for use with SSdirection
 	var/colour = null //colour for helmets, etc.
 	var/list/access = list() //Which special access do we grant them during GQ
@@ -40,14 +40,14 @@
 	squad_channel.squad = src
 
 /datum/squad/proc/retask(task)
-	if(id == task)
+	if(role == task)
 		return
-	GLOB.squad_manager.role_squad_map[id] -= src
-	id = task
-	GLOB.squad_manager.role_squad_map[id] |= src
-	broadcast(src, "ATTENTION: Your squad has been re-assigned as a [id]. Report to squad vendors to obtain your new equipment.", list('nsv13/sound/effects/notice2.ogg'))
-	primary_objective = GLOB.squad_manager.role_objective_map[id]
-	access = GLOB.squad_manager.role_access_map[id]
+	GLOB.squad_manager.role_squad_map[role] -= src
+	role = task
+	GLOB.squad_manager.role_squad_map[role] |= src
+	broadcast(src, "ATTENTION: Your squad has been re-assigned as [role]. Report to squad vendors to obtain your new equipment.", list('nsv13/sound/effects/notice2.ogg'))
+	primary_objective = GLOB.squad_manager.role_objective_map[role]
+	access = GLOB.squad_manager.role_access_map[role]
 
 /**
 	Checks your access.
