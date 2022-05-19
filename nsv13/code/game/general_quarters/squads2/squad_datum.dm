@@ -34,8 +34,8 @@
 	generate_channel()
 
 /datum/squad/proc/generate_channel()
-	var/stripped = replacetext(name, " Squad", "")
-	squad_channel_type = text2path("/datum/component/simple_teamchat/radio_dependent/squad/[stripped]") //This is OOP sin.
+	message_admins("/datum/component/simple_teamchat/radio_dependent/squad/[name]")
+	squad_channel_type = text2path("/datum/component/simple_teamchat/radio_dependent/squad/[name]") //This is OOP sin.
 	squad_channel = AddComponent(squad_channel_type)
 	squad_channel.squad = src
 
@@ -134,7 +134,7 @@
 
 /datum/squad/proc/set_leader(mob/living/carbon/human/H)
 	leader = H
-	to_chat(H, "<span class='sciradio'>You are the squad leader of [name]!. You have authority over the members of this squadron, and may direct them as you see fit. In general, you should use your squad members to help you repair damaged areas during general quarters</span>")
+	to_chat(H, "<span class='sciradio'>You are the squad leader of [name] Squad!. You have authority over the members of this squadron, and may direct them as you see fit. In general, you should use your squad members to help you repair damaged areas during general quarters</span>")
 	broadcast(src,"[leader.name] has been assigned to your squad as leader.", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
 	if(!(LAZYFIND(members, H)))
 		add_member(H)
@@ -144,7 +144,7 @@
 		return
 	if(!H && leader)
 		H = leader
-	to_chat(H, "<span class='warning'>You have been demoted from your position as [name] Lead.</span>")
+	to_chat(H, "<span class='warning'>You have been demoted from your position as [name] Squad Lead.</span>")
 	broadcast(src,"[H] has been demoted from squad lead.", list('nsv13/sound/effects/notice2.ogg'))
 	leader = null
 

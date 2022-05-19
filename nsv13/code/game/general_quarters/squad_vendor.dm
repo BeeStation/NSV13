@@ -128,7 +128,7 @@
 	var/list/items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
 	var/list/must_return = list()
 	var/leader_only = FALSE
-	var/list/allowed_roles = ALL_SQUAD_ROLES
+	var/list/allowed_roles = SQUAD_TYPES
 
 /datum/squad_loadout/marine
 	name = "Squad Marine (Standard)"
