@@ -23,9 +23,8 @@
 		/datum/job/master_at_arms, /datum/job/pilot, /datum/job/munitions_tech, /datum/job/air_traffic_controller, \
 		/datum/job/hos, /datum/job/warden, /datum/job/officer, \
 		/datum/job/cmo, /datum/job/doctor, /datum/job/emt, /datum/job/brig_phys, \
-		/datum/job/chief_engineer, /datum/job/engineer, \
-		/datum/job/assistant)
-	var/list/allowed_jobs = null //Do you want this squad to be locked to one role?
+		/datum/job/chief_engineer, /datum/job/engineer, /datum/job/atmos)
+	var/list/allowed_jobs = null
 	var/datum/component/simple_teamchat/radio_dependent/squad/squad_channel = null
 	var/squad_channel_type
 	var/weapons_clearance = FALSE //Are they cleared for firearms?
@@ -152,17 +151,12 @@
 	desc = "Able squad is the ship's marine squad. Able Squad can be activated to commandeer / loot enemy vessels, though by default they are expected to help munitions with wartime ship operation."
 	id = DC_SQUAD
 	colour = "#e61919"
-	access = list(ACCESS_HANGAR, ACCESS_BRIG, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MAINT_TUNNELS)
-	allowed_jobs = list(/datum/job/assistant)
-	disallowed_jobs = list()
 
 /datum/squad/baker
 	name = BAKER_SQUAD
 	desc = "Baker squad is the ship's reservist squad. They specialise in damage control and medical care, comprised mostly of engineering and medical specialists."
 	id = MEDICAL_SQUAD
 	colour = "#4148c8"
-	access = list(ACCESS_MUNITIONS, ACCESS_MEDICAL, ACCESS_MAINT_TUNNELS, ACCESS_ENGINE, ACCESS_EXTERNAL_AIRLOCKS)
-	allowed_jobs = list(/datum/job/doctor, /datum/job/emt)
 
 //Backup squads for the XO to use.
 
@@ -171,11 +165,9 @@
 	desc = "Charlie squad is the ship's secondary marine squad. They are usually activated during highly complex boarding operations when Able becomes overcrowded."
 	id = DC_SQUAD
 	colour = "#ffc32d"
-	access = list(ACCESS_HANGAR, ACCESS_BRIG, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MAINT_TUNNELS)
 
 /datum/squad/duff
 	name = DUFF_SQUAD
 	desc = "Duff squad is comprised of conscripts and deserters. While they're a band of rogues, they can be useful when munitions is understaffed. Give them access to weapons at your own risk."
 	id = MUNITIONS_SUPPORT
 	colour = "#c864c8"
-	access = list(ACCESS_MUNITIONS, ACCESS_MEDICAL, ACCESS_MAINT_TUNNELS, ACCESS_ENGINE, ACCESS_EXTERNAL_AIRLOCKS)
