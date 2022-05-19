@@ -94,6 +94,9 @@
 	handle_hud(H, TRUE)
 
 	to_chat(H, "<span class='sciradio'>You are a member of [name] squad! \n[desc] \n[primary_objective]</span>")
+	to_chat(H, "<span class='sciradio'>[primary_objective]</span>")
+	if(secondary_objective)
+		to_chat(H, "<span class='sciradio'>[secondary_objective]</span>")
 	broadcast(src,"[H.name] has been assigned to your squad.", list('nsv13/sound/effects/notice2.ogg'))
 
 

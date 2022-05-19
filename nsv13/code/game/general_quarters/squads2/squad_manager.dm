@@ -48,6 +48,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 		if(!role_squad_map[squad.id])
 			role_squad_map[squad.id] = list()
 		role_squad_map[squad.id] |= squad
+		squad.retask(squad.id)
 	addtimer(CALLBACK(src, .proc/check_squad_assignments), 5 MINUTES) //Kick off a timer to check if we need to finagle some people into jobs. Ensure people have a chance to join.
 
 /datum/squad_manager/proc/get_squad(name)
@@ -57,6 +58,11 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 // Try to find a squad that's not already tasked that can do the job
 /datum/squad_manager/proc/assign_squad(role)
+	var/datum/squad/assigned = role_squad_map[role]
+	if(assigned && length(assigned.members))
+		assigned.lowpop_retasked = TRUE
+		return
+
 	//Prefer DC squads by default. Make sure there are people in them and we haven't tasked them already
 	var/list/possible = role_squad_map[DC_SQUAD]
 	for(var/datum/squad/S in possible)
@@ -73,6 +79,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 	var/datum/squad/stuckee = pick(possible)
 	stuckee.retask(role)
+	stuckee.lowpop_retasked = TRUE
 	minor_announce("[stuckee] has been retasked as a [role] due to staffing issues", "WhiteRapids Bureaucratic Corps")
 
 // Method which runs just slightly after roundstart, and ensures that the ship has at least its BASIC roles filled
