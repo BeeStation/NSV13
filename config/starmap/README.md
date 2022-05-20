@@ -30,7 +30,7 @@ Each individual list element is directly serialized into a starsystem object.
 An example system would be:
 
 ```
-{"name":"Sol","desc":null,"threat_level":0,"alignment":"nanotrasen","hidden":0,"system_type":"{\"tag\":\"planet_earth\",\"label\":\"Planetary system\"}","system_traits":5,"is_capital":1,"adjacency_list":"[\"Alpha Centauri\",\"Outpost 45\",\"Ross 154\"]","wormhole_connections":"[]","fleet_type":"/datum/fleet/solgov/earth","x":70,"y":50,"parallax_property":null,"visitable":0,"sector":1,"is_hypergate":0,"preset_trader":null,"audio_cues":"null"}
+{"name":"Sol","desc":null,"threat_level":0,"alignment":"solgov","hidden":0,"system_type":"{\"tag\":\"planet_earth\",\"label\":\"Planetary system\"}","system_traits":5,"is_capital":1,"adjacency_list":"[\"Alpha Centauri\",\"Outpost 45\",\"Ross 154\"]","wormhole_connections":"[]","fleet_type":"/datum/fleet/solgov/earth","x":70,"y":50,"parallax_property":null,"visitable":0,"sector":1,"is_hypergate":0,"preset_trader":null,"audio_cues":"null"}
 ```
 
 An example (Invalid) map setup COULD be:
