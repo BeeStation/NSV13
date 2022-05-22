@@ -724,7 +724,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				var/sound = pick(GLOB.computer_beeps)
 				playsound(helm, sound, 100, 1)
 			return TRUE
-		if("C" || "c")
+		if("C", "c")
 			if(themob == pilot)
 				toggle_move_mode()
 			if(helm && prob(80))

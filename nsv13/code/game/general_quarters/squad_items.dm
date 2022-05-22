@@ -76,7 +76,7 @@
 	. = ..()
 	//Lets you choose any squad to message, at any time.
 	for(var/datum/squad/S in GLOB.squad_manager.squads)
-		squad_channel = src.AddComponent(S.squad_channel_type)
+		squad_channel = src.AddComponent(S.squad_channel_type, override = TRUE)
 		squad_channel.squad = squad
 
 /obj/item/squad_pager/Initialize(mapload, datum/squad/squad)

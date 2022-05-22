@@ -93,7 +93,11 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	if(slot && slot == ITEM_SLOT_BACKPACK)
 		on_drop(source, equipper)
 		return
-	chatAction.Grant(equipper)
+	if(has_send_permission(source, equipper))
+		chatAction.Grant(equipper)
+
+/datum/component/simple_teamchat/proc/has_send_permission(datum/source, mob/equipper)
+	return TRUE
 
 /datum/component/simple_teamchat/proc/on_drop(datum/source, mob/user)
 	chatAction.Remove(user)
@@ -183,6 +187,17 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 /datum/component/simple_teamchat/radio_dependent/squad
 	var/datum/squad/squad = null
 	dupe_mode = COMPONENT_DUPE_ALLOWED //For the global squad pager.
+	var/override_send_permission = FALSE //For AI and global pagers
+
+/datum/component/simple_teamchat/radio_dependent/squad/Initialize(override = FALSE)
+	. = ..()
+	if(override)
+		override_send_permission = TRUE
+
+/datum/component/simple_teamchat/radio_dependent/squad/has_send_permission(datum/source, mob/equipper)
+	if(override_send_permission || (squad && equipper && (squad.leader == equipper)))
+		return TRUE
+	return FALSE
 
 /datum/component/simple_teamchat/radio_dependent/squad/Able
 	name = "Able Squad"

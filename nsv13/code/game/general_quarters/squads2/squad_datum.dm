@@ -142,7 +142,7 @@
 /datum/squad/proc/unset_leader(mob/living/carbon/human/H)
 	if(!leader || (H && H != leader))
 		return
-	if(!H && leader)
+	if(!H && leader) //No leader passed in but we need to demote the current one
 		H = leader
 	to_chat(H, "<span class='warning'>You have been demoted from your position as [name] Squad Lead.</span>")
 	broadcast(src,"[H] has been demoted from squad lead.", list('nsv13/sound/effects/notice2.ogg'))
