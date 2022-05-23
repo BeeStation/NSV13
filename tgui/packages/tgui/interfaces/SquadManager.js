@@ -78,18 +78,22 @@ export const SquadManager = (props, context) => {
                 {Object.keys(value.members).map(key => {
                   let member = value.members[key];
                   return (
-                    <Section key={key} title={member.name} buttons={
-                      <Fragment>
-                        <Button
-                          content="Reassign"
-                          icon={"user-cog"}
-                          onClick={() => act('reassign', { id: member.id })} />
-                        <Button
-                          content="Transfer"
-                          icon={"arrows-alt"}
-                          onClick={() => act('transfer', { id: member.id })} />
-                      </Fragment>
-                    } />);
+                    <Fragment key={key}>
+                      {!!member.name && (
+                        <Section title={member.name} buttons={
+                          <Fragment>
+                            <Button
+                              content="Reassign"
+                              icon={"user-cog"}
+                              onClick={() => act('reassign', { id: member.id })} />
+                            <Button
+                              content="Transfer"
+                              icon={"arrows-alt"}
+                              onClick={() => act('transfer', { id: member.id })} />
+                          </Fragment>
+                        } />
+                      )}
+                    </Fragment>);
                 })}
               </Section>
             </Section>);

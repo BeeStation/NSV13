@@ -73,76 +73,26 @@ export const NtosSquadManager = (props, context) => {
                     onClick={() => act('transfer', { id: value.squad_leader_id })} />
                 </Fragment>
               } />
-              <Section title="Sergeants:">
-                {Object.keys(value.sergeants).map(key => {
-                  let member = value.sergeants[key];
+              <Section title="Members:">
+                {Object.keys(value.members).map(key => {
+                  let member = value.members[key];
                   return (
-                    <Section key={key} title={member.name} buttons={
-                      <Fragment>
-                        <Button
-                          content="Reassign"
-                          icon={"user-cog"}
-                          onClick={() => act('reassign', { id: member.id })} />
-                        <Button
-                          content="Transfer"
-                          icon={"arrows-alt"}
-                          onClick={() => act('transfer', { id: member.id })} />
-                      </Fragment>
-                    } />);
-                })}
-              </Section>
-              <Section title="Engineers:">
-                {Object.keys(value.engineers).map(key => {
-                  let member = value.engineers[key];
-                  return (
-                    <Section key={key} title={member.name} buttons={
-                      <Fragment>
-                        <Button
-                          content="Reassign"
-                          icon={"user-cog"}
-                          onClick={() => act('reassign', { id: member.id })} />
-                        <Button
-                          content="Transfer"
-                          icon={"arrows-alt"}
-                          onClick={() => act('transfer', { id: member.id })} />
-                      </Fragment>
-                    } />);
-                })}
-              </Section>
-              <Section title="Medics:">
-                {Object.keys(value.medics).map(key => {
-                  let member = value.medics[key];
-                  return (
-                    <Section key={key} title={member.name} buttons={
-                      <Fragment>
-                        <Button
-                          content="Reassign"
-                          icon={"user-cog"}
-                          onClick={() => act('reassign', { id: member.id })} />
-                        <Button
-                          content="Transfer"
-                          icon={"arrows-alt"}
-                          onClick={() => act('transfer', { id: member.id })} />
-                      </Fragment>
-                    } />);
-                })}
-              </Section>
-              <Section title="Grunts:">
-                {Object.keys(value.grunts).map(key => {
-                  let member = value.grunts[key];
-                  return (
-                    <Section key={key} title={member.name} buttons={
-                      <Fragment>
-                        <Button
-                          content="Reassign"
-                          icon={"user-cog"}
-                          onClick={() => act('reassign', { id: member.id })} />
-                        <Button
-                          content="Transfer"
-                          icon={"arrows-alt"}
-                          onClick={() => act('transfer', { id: member.id })} />
-                      </Fragment>
-                    } />);
+                    <Fragment key={key}>
+                      {!!member.name && (
+                        <Section title={member.name} buttons={
+                          <Fragment>
+                            <Button
+                              content="Reassign"
+                              icon={"user-cog"}
+                              onClick={() => act('reassign', { id: member.id })} />
+                            <Button
+                              content="Transfer"
+                              icon={"arrows-alt"}
+                              onClick={() => act('transfer', { id: member.id })} />
+                          </Fragment>
+                        } />
+                      )}
+                    </Fragment>);
                 })}
               </Section>
             </Section>);

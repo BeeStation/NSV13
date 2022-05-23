@@ -113,6 +113,8 @@
 
 /datum/squad/proc/assign_leader()
 	//Whoever ranks highest is in charge
+	if(!length(members))
+		return
 	var/mob/living/carbon/human/highest = members[1]
 	for(var/mob/living/carbon/human/H in members)
 		if(check_rank_pecking_order(H.compose_rank(), highest.compose_rank()))

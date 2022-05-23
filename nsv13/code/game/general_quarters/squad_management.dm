@@ -20,9 +20,8 @@
 	var/list/data = list()
 	var/list/squads_info = list()
 	for(var/datum/squad/S in GLOB.squad_manager.squads)
-		message_admins("Getting data for [S.name]")
 		var/list/squad_info = list()
-		squad_info["squad_leader_name"] = (S.leader) ? compose_rank(S.leader)+S.leader?.name : "Unassigned"
+		squad_info["squad_leader_name"] = "[(S.leader) ? "[compose_rank(S.leader)] [S.leader.name]" : "Unassigned"]"
 		squad_info["squad_leader_id"] = S.leader ? "\ref[S.leader]" : null
 		squad_info["hidden"] = S.hidden
 		squad_info["weapons_clearance"] = S.weapons_clearance
@@ -36,9 +35,9 @@
 		var/list/members_info = list()
 		for(var/mob/living/M in S.members)
 			var/list/member_info = list()
-			member_info["name"] = compose_rank(M)+M.real_name
+			member_info["name"] = "[compose_rank(M)] [M.real_name]"
 			member_info["id"] = "\ref[M]"
-			member_info[++members_info.len] = member_info
+			members_info[++members_info.len] = member_info
 		squad_info["members"] = members_info
 		squads_info[++squads_info.len] = squad_info
 	data["squads_info"] = squads_info
@@ -128,7 +127,7 @@
 	var/list/squads_info = list()
 	for(var/datum/squad/S in GLOB.squad_manager.squads)
 		var/list/squad_info = list()
-		squad_info["squad_leader_name"] = (S.leader) ? S.leader.compose_rank(S.leader)+S.leader?.name : "Unassigned"
+		squad_info["squad_leader_name"] = "[(S.leader) ? "[compose_rank(S.leader)] [S.leader.name]" : "Unassigned"]"
 		squad_info["squad_leader_id"] = S.leader ? "\ref[S.leader]" : null
 		squad_info["hidden"] = S.hidden
 		squad_info["weapons_clearance"] = S.weapons_clearance
@@ -138,11 +137,11 @@
 		squad_info["secondary_objective"] = S.secondary_objective
 		squad_info["access_enabled"] = S.access_enabled
 		squad_info["id"] = "\ref[S]"
-		//Get info about SGTs...
+		//Get info about members...
 		var/list/members_info = list()
 		for(var/mob/living/M in S.members)
 			var/list/member_info = list()
-			member_info["name"] = M.compose_rank(M)+M.real_name
+			member_info["name"] = "[compose_rank(M)] [M.real_name]"
 			member_info["id"] = "\ref[M]"
 			members_info[++members_info.len] = member_info
 		squad_info["members"] = members_info
