@@ -108,6 +108,7 @@
 		H.squad = null
 	members -= H
 	if(leader == H)
+		unset_leader()
 		assign_leader()
 	broadcast(src,"[H.name] has been reassigned from your squad.", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
 
