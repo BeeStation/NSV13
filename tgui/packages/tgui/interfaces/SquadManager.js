@@ -2,7 +2,7 @@
 
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, LabeledList, NumberInput, Section } from '../components';
+import { Box, Button, LabeledList, NumberInput, Section, Table } from '../components';
 import { Window } from '../layouts';
 
 export const SquadManager = (props, context) => {
@@ -11,30 +11,18 @@ export const SquadManager = (props, context) => {
     <Window
       resizable
       theme="hackerman"
-      width={850}
+      width={750}
       height={800}>
       <Window.Content scrollable>
         {Object.keys(data.squads_info).map(key => {
           let value = data.squads_info[key];
           return (
-            <Section title={`${value.name}`} key={key} buttons={
+            <Section title={`${value.name} - ${value.role}`} key={key} buttons={
               <Fragment>
                 <Button
                   content="Message"
                   icon="reply"
                   onClick={() => act('message', { squad_id: value.id })} />
-                <Button
-                  content={value.primary_objective}
-                  color={value.primary_objective ? "good" : "average"}
-                  icon="bullseye"
-                  tooltip="Set a primary objective for this squad."
-                  onClick={() => act('primary_objective', { squad_id: value.id })} />
-                <Button
-                  content={value.secondary_objective}
-                  icon="dot-circle"
-                  color={value.secondary_objective ? "good" : "average"}
-                  tooltip="Set a secondary objective for this squad."
-                  onClick={() => act('secondary_objective', { squad_id: value.id })} />
                 <Button
                   content={value.access_enabled ? "Full Access" : "No Access"}
                   color={value.access_enabled ? "good" : "average"}
@@ -53,49 +41,92 @@ export const SquadManager = (props, context) => {
                   color={value.hidden ? "bad" : "good"}
                   tooltip="Enable autofill for this squad for new crewmates joining the shift."
                   onClick={() => act('toggle_hidden', { squad_id: value.id })} />
-                <Button
-                  content="Print Lanyard"
-                  tooltip="Print a lanyard to let someone join a squad. Have them click it in hand, and they'll join the squad!"
-                  icon="print"
-                  color="good"
-                  onClick={() => act('print_pass', { squad_id: value.id })} />
               </Fragment>
             }>
               <p>{value.desc}</p>
-              <Section key={key} title={value.squad_leader_name + " (SL)"} buttons={
-                <Fragment>
-                  <Button
-                    content="Reassign"
-                    icon={"user-cog"}
-                    onClick={() => act('reassign', { id: value.squad_leader_id })} />
-                  <Button
-                    content="Transfer"
-                    icon={"arrows-alt"}
-                    onClick={() => act('transfer', { id: value.squad_leader_id })} />
-                </Fragment>
-              } />
-              <Section title="Members:">
-                {Object.keys(value.members).map(key => {
-                  let member = value.members[key];
-                  return (
-                    <Fragment key={key}>
-                      {!!member.name && (
-                        <Section title={member.name} buttons={
-                          <Fragment>
-                            <Button
-                              content="Reassign"
-                              icon={"user-cog"}
-                              onClick={() => act('reassign', { id: member.id })} />
-                            <Button
-                              content="Transfer"
-                              icon={"arrows-alt"}
-                              onClick={() => act('transfer', { id: member.id })} />
-                          </Fragment>
-                        } />
+              <Table>
+                <Table.Row>
+                  <Table.Cell>
+                    <Section title="Primary Orders" buttons={
+                      <Button
+                        content={value.role}
+                        color={value.primary_objective ? "good" : "average"}
+                        icon="bullseye"
+                        tooltip="Set a primary objective for this squad."
+                        onClick={() => act('primary_objective', { squad_id: value.id })} />
+                    }>
+                      {!!value.primary_objective && (
+                        <>
+                          {value.primary_objective}
+                        </>
                       )}
-                    </Fragment>);
-                })}
-              </Section>
+                    </Section>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Section title="Secondary Orders" buttons={
+                      <Button
+                        content="Change"
+                        icon="dot-circle"
+                        color={value.secondary_objective ? "good" : "average"}
+                        tooltip="Set a secondary objective for this squad."
+                        onClick={() => act('secondary_objective', { squad_id: value.id })} />
+                    }>
+                      {!!value.secondary_objective && (
+                        <>
+                          {value.secondary_objective}
+                        </>
+                      )}
+                    </Section>
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    <Section key={key} title="Squad Leader">
+                      <LabeledList>
+                        <LabeledList.Item label={value.squad_leader_name}>
+                          <Button
+                            content="Demote"
+                            icon={"user-cog"}
+                            onClick={() => act('demote_leader', { id: value.squad_leader_id })} />
+                          <Button
+                            content="Transfer"
+                            icon={"arrows-alt"}
+                            onClick={() => act('transfer', { id: value.squad_leader_id })} />
+                        </LabeledList.Item>
+                      </LabeledList>
+                    </Section>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Section key={key} title="Members" buttons={
+                      <Button
+                        content="Print Lanyard"
+                        tooltip="Print a lanyard to let someone join a squad. Have them click it in hand, and they'll join the squad!"
+                        icon="print"
+                        color="good"
+                        onClick={() => act('print_pass', { squad_id: value.id })} />
+                    }>
+                      {Object.keys(value.members).map(key => {
+                        let member = value.members[key];
+                        return (
+                          <LabeledList key={key}>
+                            {!!member.name && (
+                              <LabeledList.Item label={member.name}>
+                                <Button
+                                  content="Promote"
+                                  icon={"user-cog"}
+                                  onClick={() => act('set_leader', { id: member.id })} />
+                                <Button
+                                  content="Transfer"
+                                  icon={"arrows-alt"}
+                                  onClick={() => act('transfer', { id: member.id })} />
+                              </LabeledList.Item>
+                            )}
+                          </LabeledList>);
+                      })}
+                    </Section>
+                  </Table.Cell>
+                </Table.Row>
+              </Table>
             </Section>);
         })}
       </Window.Content>

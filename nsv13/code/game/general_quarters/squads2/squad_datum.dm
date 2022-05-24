@@ -36,15 +36,15 @@
 /datum/squad/proc/generate_channel()
 	message_admins("/datum/component/simple_teamchat/radio_dependent/squad/[name]")
 	squad_channel_type = text2path("/datum/component/simple_teamchat/radio_dependent/squad/[name]") //This is OOP sin.
-	squad_channel = AddComponent(squad_channel_type)
+	squad_channel = AddComponent(squad_channel_type, override = TRUE)
 	squad_channel.squad = src
 
 /datum/squad/proc/retask(task)
 	if(role == task)
 		return
-	GLOB.squad_manager.role_squad_map[role] -= src
+	LAZYREMOVEASSOC(GLOB.squad_manager.role_squad_map, role, src)
 	role = task
-	GLOB.squad_manager.role_squad_map[role] |= src
+	LAZYADDASSOCLIST(GLOB.squad_manager.role_squad_map, role, src)
 	broadcast(src, "ATTENTION: Your squad has been re-assigned as [role]. Report to squad vendors to obtain your new equipment.", list('nsv13/sound/effects/notice2.ogg'))
 	primary_objective = GLOB.squad_manager.role_objective_map[role]
 	access = GLOB.squad_manager.role_access_map[role]
@@ -135,11 +135,13 @@
 		new /obj/item/clothing/neck/squad(bag, src)
 
 /datum/squad/proc/set_leader(mob/living/carbon/human/H)
+	if(leader && leader != H)
+		unset_leader()
 	leader = H
-	to_chat(H, "<span class='sciradio'>You are the squad leader of [name] Squad!. You have authority over the members of this squadron, and may direct them as you see fit. In general, you should use your squad members to help you repair damaged areas during general quarters</span>")
-	broadcast(src,"[leader.name] has been assigned to your squad as leader.", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
 	if(!(LAZYFIND(members, H)))
 		add_member(H)
+	to_chat(H, "<span class='sciradio'>You are the squad leader of [name] Squad!. You have authority over the members of this squadron, and may direct them as you see fit. In general, you should use your squad members to help you repair damaged areas during general quarters</span>")
+	broadcast(src,"[leader.name] has been assigned to your squad as leader.", list('nsv13/sound/effects/notice2.ogg'))
 
 /datum/squad/proc/unset_leader(mob/living/carbon/human/H)
 	if(!leader || (H && H != leader))
