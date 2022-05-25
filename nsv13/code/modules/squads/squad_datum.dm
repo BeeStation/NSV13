@@ -154,13 +154,13 @@
 	leader = null
 
 /datum/squad/able
-	name = ABLE_SQUAD
+	name = "Able"
 	desc = "Able squad is the ship's high-alert squad. Able Squad can be activated to commandeer enemy vessels or deal with threats, though by default they are expected to help with combat repairs."
 	role = DC_SQUAD
 	colour = "#e61919"
 
 /datum/squad/baker
-	name = BAKER_SQUAD
+	name = "Baker"
 	desc = "Baker squad is the ship's reservist squad. They specialise in search-and-rescue and emergency medical care."
 	role = MEDICAL_SQUAD
 	colour = "#4148c8"
@@ -168,13 +168,13 @@
 //Backup squads for the XO to use.
 
 /datum/squad/charlie
-	name = CHARLIE_SQUAD
+	name = "Charlie"
 	desc = "Charlie squad is the ship's secondary engineering squad. They are usually activated during complex boarding operations when Able becomes overcrowded."
 	role = DC_SQUAD
 	colour = "#ffc32d"
 
 /datum/squad/duff
-	name = DUFF_SQUAD
+	name = "Duff"
 	desc = "Duff squad is comprised of conscripts and deserters. While they're a band of rogues, they can be useful when munitions is understaffed. Give them access to weapons at your own risk."
 	role = MUNITIONS_SUPPORT
 	colour = "#c864c8"
