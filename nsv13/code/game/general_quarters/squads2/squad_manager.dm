@@ -100,10 +100,20 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 /datum/squad_manager/proc/get_joinable_squad(datum/job/J)
 	var/list/joinable = list()
+	var/datum/squad/smallest_squad = null
+	var/datum/squad/least_members = 99
 	for(var/datum/squad/squad in squads)
 		if(!squad.hidden)
-			if(LAZYFIND(squad.allowed_jobs, J.type))
-				joinable += squad
-			else if(!LAZYFIND(squad.disallowed_jobs, J.type))
-				joinable += squad
-	return (length(joinable)) ? pick(joinable) : null
+			if(LAZYFIND(squad.disallowed_jobs, J.type) && !LAZYFIND(squad.allowed_jobs, J.type))
+				continue
+			joinable += squad
+			var/squad_size = length(squad.members)
+			if(least_members > squad_size)
+				smallest_squad = squad
+				least_members = squad_size
+	if(!length(joinable))
+		return null
+	var/datum/squad/chosen = pick(joinable)
+	if(length(chosen.members) >= chosen.max_members)
+		return smallest_squad
+	return chosen
