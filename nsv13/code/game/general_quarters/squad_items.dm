@@ -85,6 +85,9 @@
 		return
 	apply_squad(squad)
 
+/obj/item/squad_pager/attack_self(mob/user)
+	squad_channel.show_last_message(user)
+
 /obj/item/squad_pager/equipped(mob/equipper, slot)
 	. = ..()
 	if(global_access)

@@ -47,6 +47,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	var/list/sound_on_receipt = null //Play a sound when a message is received by someone? (WARNING: MAY GET ANNOYING)
 	var/telepathic = TRUE //Should the user speak their message when they enter it? Or if youre mimicking radio, can it be heard "in your head" or over a comm.
 	var/text_span_style = "boldnotice"
+	var/last_message = "<span class='notice'>No new messages.</span>"
 
 /datum/component/simple_teamchat/proc/get_user()
 	RETURN_TYPE(/mob/living)
@@ -145,21 +146,26 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 
 
 /datum/component/simple_teamchat/proc/receive_message(atom/movable/sender, text, list/receipt_sound_override)
+	text = style_message(sender, text)
+	last_message = text
+
 	var/mob/user = get_user()
 	if(!isliving(user))
 		return FALSE
 
-	text = style_message(sender, text)
 	if(!receipt_sound_override)
 		receipt_sound_override = sound_on_receipt
 	if(receipt_sound_override && isatom(user))
 		playsound(user.loc, pick(receipt_sound_override), 100, 1)
 	if(telepathic)
 		to_chat(user, text)
-	else
+	if isliving(user)
 		//You can hear the sound coming out the radio...
 		user.visible_message(text, \
 							text, null, 1)
+
+/datum/component/simple_teamchat/proc/show_last_message(mob/user)
+	user.visible_message(last_message, last_message, null, 1)
 
 //Teamchat that behaves just like a radio would.
 
