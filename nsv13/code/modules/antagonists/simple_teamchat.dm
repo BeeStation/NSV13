@@ -159,7 +159,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 		playsound(user.loc, pick(receipt_sound_override), 100, 1)
 	if(telepathic)
 		to_chat(user, text)
-	if isliving(user)
+	if(isliving(user))
 		//You can hear the sound coming out the radio...
 		user.visible_message(text, \
 							text, null, 1)
@@ -193,6 +193,8 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 /datum/component/simple_teamchat/radio_dependent/squad
 	var/datum/squad/squad = null
 	dupe_mode = COMPONENT_DUPE_ALLOWED //For the global squad pager.
+	telepathic = TRUE // Not really but it *is* text-based
+	sound_on_receipt = list('sound/machines/twobeep.ogg')
 	var/override_send_permission = FALSE //For AI and global pagers
 
 /datum/component/simple_teamchat/radio_dependent/squad/Initialize(override = FALSE)
@@ -231,11 +233,8 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 
 /datum/component/simple_teamchat/radio_dependent/squad/style_message(atom/movable/sender, msg)
 	if(isatom(sender))
-		return "<span class='[text_span_style]'><b>([key]) [sender.compose_rank(sender)][sender]</b> ([sender == squad?.leader ? "<b>SL</b>" : "Midshipman"]) says,  \"[msg]\"</span>"
+		return "<span class='[text_span_style]'><b>([key]) [sender.compose_rank(sender)][sender]</b>[sender == squad?.leader ? " <b>(SL)</b>" : ""]: [msg]</span>"
 	return "<span class='[text_span_style]'><b>([key]) [sender] (Overwatch)</b>: [msg]</span>"
-
-//datum/component/simple_teamchat/radio_dependent/squad/style_message(atom/movable/sender, msg)
-	//return "<span style=\"color:[squad.colour]><b>([key]) [sender.compose_rank(sender)][sender == squad.leader ? " (SL) " : ""]:</b> <i>[msg]</i></span>"
 
 /datum/component/simple_teamchat/bloodling
 	background_icon_state = "bg_changeling"
