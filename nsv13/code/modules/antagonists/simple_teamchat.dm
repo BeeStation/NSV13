@@ -43,6 +43,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	var/icon_icon = 'nsv13/icons/mob/actions/actions_teamchat.dmi'
 	var/button_icon_state = null //The button's icon_state
 	var/background_icon_state = null
+	var/max_message_length = MAX_MESSAGE_LEN
 	var/list/sound_on_send = null //Play a sound when they're messaging this channel?
 	var/list/sound_on_receipt = null //Play a sound when a message is received by someone? (WARNING: MAY GET ANNOYING)
 	var/telepathic = TRUE //Should the user speak their message when they enter it? Or if youre mimicking radio, can it be heard "in your head" or over a comm.
@@ -125,7 +126,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 /datum/component/simple_teamchat/proc/enter_message(datum/user)
 	if(!can_message())
 		return FALSE
-	var/str = stripped_input(user,"Enter a message:", "[key]", "", MAX_MESSAGE_LEN)
+	var/str = stripped_input(user,"Enter a message:", "[key]", "", max_message_length)
 	if(!str)
 		return FALSE
 	log_say("[key]: [user] transmitted: [str]")
@@ -146,6 +147,8 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 
 
 /datum/component/simple_teamchat/proc/receive_message(atom/movable/sender, text, list/receipt_sound_override)
+	if(length(text) > max_message_length)
+		text = copytext(text, 1, max_message_length)
 	text = style_message(sender, text)
 	last_message = text
 
@@ -195,6 +198,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	dupe_mode = COMPONENT_DUPE_ALLOWED //For the global squad pager.
 	telepathic = TRUE // Not really but it *is* text-based
 	sound_on_receipt = list('sound/machines/twobeep.ogg')
+	max_message_length = 50 // It's a pager, the screen's not that big
 	var/override_send_permission = FALSE //For AI and global pagers
 
 /datum/component/simple_teamchat/radio_dependent/squad/Initialize(override = FALSE)
