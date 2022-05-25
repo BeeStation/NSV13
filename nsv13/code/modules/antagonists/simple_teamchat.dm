@@ -86,7 +86,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	qdel(chatAction)
 
 /datum/component/simple_teamchat/proc/finalise_chat()
-	LAZYADD(GLOB.simple_teamchats[key], src)
+	LAZYOR(GLOB.simple_teamchats[key], src)
 
 //For "radios". You keep
 /datum/component/simple_teamchat/proc/on_equip(datum/source, mob/equipper, slot)
@@ -159,7 +159,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 		playsound(user.loc, pick(receipt_sound_override), 100, 1)
 	if(telepathic)
 		to_chat(user, text)
-	if(isliving(user))
+	else if(isliving(user))
 		//You can hear the sound coming out the radio...
 		user.visible_message(text, \
 							text, null, 1)

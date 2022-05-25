@@ -76,7 +76,7 @@
 	. = ..()
 	//Lets you choose any squad to message, at any time.
 	for(var/datum/squad/S in GLOB.squad_manager.squads)
-		squad_channel = src.AddComponent(S.squad_channel_type, override = TRUE)
+		squad_channel = AddComponent(S.squad_channel_type, override = TRUE)
 		squad_channel.squad = squad
 
 /obj/item/squad_pager/Initialize(mapload, datum/squad/squad)
@@ -99,7 +99,7 @@
 
 /obj/item/squad_pager/proc/apply_squad(datum/squad/squad)
 	squad_channel?.RemoveComponent()
-	qdel(squad_channel)
+	QDEL_NULL(squad_channel)
 	cut_overlays()
 	src.squad = squad //Ahoy mr squadward! Ack ack ack.
 	name = "[squad] pager"
@@ -109,7 +109,7 @@
 	stripes.color = squad.colour
 	add_overlay(new /mutable_appearance(stripes))
 	if(squad)
-		squad_channel = src.AddComponent(squad.squad_channel_type)
+		squad_channel = AddComponent(squad.squad_channel_type)
 		squad_channel.squad = squad
 
 /obj/item/clothing/suit/ship/squad
