@@ -100,18 +100,20 @@ export const NtosSquadManager = (props, context) => {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell width="50%">
-                      <LabeledList>
-                        <LabeledList.Item label={value.squad_leader_name}>
-                          <Button
-                            content="Demote"
-                            icon={"user-cog"}
-                            onClick={() => act('demote_leader', { id: value.squad_leader_id })} />
-                          <Button
-                            content="Transfer"
-                            icon={"arrows-alt"}
-                            onClick={() => act('transfer', { id: value.squad_leader_id })} />
-                        </LabeledList.Item>
-                      </LabeledList>
+                      {!!value.squad_leader_id && (
+                        <LabeledList>
+                          <LabeledList.Item label={value.squad_leader_name}>
+                            <Button
+                              content="Demote"
+                              icon={"user-cog"}
+                              onClick={() => act('demote_leader', { id: value.squad_leader_id })} />
+                            <Button
+                              content="Transfer"
+                              icon={"arrows-alt"}
+                              onClick={() => act('transfer', { id: value.squad_leader_id })} />
+                          </LabeledList.Item>
+                        </LabeledList>
+                      )}
                     </Table.Cell>
                     <Table.Cell width="50%">
                       <Section>
