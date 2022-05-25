@@ -155,13 +155,13 @@
 
 /datum/squad/able
 	name = ABLE_SQUAD
-	desc = "Able squad is the ship's marine squad. Able Squad can be activated to commandeer / loot enemy vessels, though by default they are expected to help munitions with wartime ship operation."
+	desc = "Able squad is the ship's high-alert squad. Able Squad can be activated to commandeer enemy vessels or deal with threats, though by default they are expected to help with combat repairs."
 	role = DC_SQUAD
 	colour = "#e61919"
 
 /datum/squad/baker
 	name = BAKER_SQUAD
-	desc = "Baker squad is the ship's reservist squad. They specialise in damage control and medical care, comprised mostly of engineering and medical specialists."
+	desc = "Baker squad is the ship's reservist squad. They specialise in search-and-rescue and emergency medical care."
 	role = MEDICAL_SQUAD
 	colour = "#4148c8"
 
@@ -169,7 +169,7 @@
 
 /datum/squad/charlie
 	name = CHARLIE_SQUAD
-	desc = "Charlie squad is the ship's secondary marine squad. They are usually activated during highly complex boarding operations when Able becomes overcrowded."
+	desc = "Charlie squad is the ship's secondary engineering squad. They are usually activated during complex boarding operations when Able becomes overcrowded."
 	role = DC_SQUAD
 	colour = "#ffc32d"
 
