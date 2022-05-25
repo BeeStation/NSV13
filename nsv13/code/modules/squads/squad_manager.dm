@@ -5,9 +5,10 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/static/list/squads = list()
 	var/static/list/role_squad_map = list()
 	//Think "what do they need that squad vendors can't give them?"
+	//These aren't granted by default, someone has to enable access
 	var/static/list/role_access_map = list(
-		DC_SQUAD = list(),
-		MEDICAL_SQUAD = list(),
+		DC_SQUAD = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_ATMOSPHERICS), //Low staffing? Guess you better get the engine running
+		MEDICAL_SQUAD = list(ACCESS_MEDICAL, ACCESS_SURGERY),
 		SECURITY_SQUAD = list(ACCESS_BRIG),
 		MUNITIONS_SUPPORT = list(ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE),
 		COMBAT_AIR_PATROL = list(ACCESS_COMBAT_PILOT, ACCESS_MUNITIONS), //Hangar is typically through munitions
@@ -59,6 +60,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/datum/squad/assigned = role_squad_map[role]
 	if(assigned && length(assigned.members))
 		assigned.lowpop_retasked = TRUE
+		assigned.access_enabled = TRUE // They won't be much help without this
 		return
 
 	//Prefer DC squads by default. Make sure there are people in them and we haven't tasked them already
@@ -78,6 +80,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/datum/squad/stuckee = pick(possible)
 	stuckee.retask(role)
 	stuckee.lowpop_retasked = TRUE
+	assigned.access_enabled = TRUE // They won't be much help without this
 	minor_announce("[stuckee] has been retasked as a [role] due to staffing issues", "WhiteRapids Bureaucratic Corps")
 
 // Method which runs just slightly after roundstart, and ensures that the ship has at least its BASIC roles filled
