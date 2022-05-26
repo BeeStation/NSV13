@@ -81,59 +81,60 @@ export const SquadManager = (props, context) => {
                     color="good"
                     onClick={() => act('print_pass', { squad_id: value.id })} />
                 </>
-              }>
-              <Table>
-                <Table.Row header>
-                  <Table.Cell width="50%">
-                    Leader
-                  </Table.Cell>
-                  <Table.Cell width="50%">
-                    Roster
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell width="50%">
-                    {!!value.squad_leader_id && (
-                      <LabeledList>
-                        <LabeledList.Item label={value.squad_leader_name}>
-                          <Button
-                            content="Demote"
-                            icon={"user-cog"}
-                            onClick={() => act('demote_leader', { id: value.squad_leader_id })} />
-                          <Button
-                            content="Transfer"
-                            icon={"arrows-alt"}
-                            onClick={() => act('transfer', { id: value.squad_leader_id })} />
-                        </LabeledList.Item>
-                      </LabeledList>
-                    )}
-                  </Table.Cell>
-                  <Table.Cell width="50%">
-                    <Section>
-                      {Object.keys(value.members).map(key => {
-                        let member = value.members[key];
-                        return (
-                          <LabeledList key={key}>
-                            {!!member.name && (
-                              <LabeledList.Item label={member.name}>
-                                <Button
-                                  content="Promote"
-                                  icon={"user-cog"}
-                                  onClick={() => act('set_leader', { id: member.id })} />
-                                <Button
-                                  content="Transfer"
-                                  icon={"arrows-alt"}
-                                  onClick={() => act('transfer', { id: member.id })} />
-                              </LabeledList.Item>
-                            )}
-                          </LabeledList>);
-                      })}
-                    </Section>
-                  </Table.Cell>
-                </Table.Row>
-              </Table>
+                }>
+                <Table>
+                  <Table.Row header>
+                    <Table.Cell width="50%">
+                      Leader
+                    </Table.Cell>
+                    <Table.Cell width="50%">
+                      Roster
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell width="50%">
+                      {!!value.squad_leader_id && (
+                        <LabeledList>
+                          <LabeledList.Item label={value.squad_leader_name}>
+                            <Button
+                              content="Demote"
+                              icon={"user-cog"}
+                              onClick={() => act('demote_leader', { id: value.squad_leader_id })} />
+                            <Button
+                              content="Transfer"
+                              icon={"arrows-alt"}
+                              onClick={() => act('transfer', { id: value.squad_leader_id })} />
+                          </LabeledList.Item>
+                        </LabeledList>
+                      )}
+                    </Table.Cell>
+                    <Table.Cell width="50%">
+                      <Section>
+                        {Object.keys(value.members).map(key => {
+                          let member = value.members[key];
+                          return (
+                            <LabeledList key={key}>
+                              {!!member.name && (
+                                <LabeledList.Item label={member.name}>
+                                  <Button
+                                    content="Promote"
+                                    icon={"user-cog"}
+                                    onClick={() => act('set_leader', { id: member.id })} />
+                                  <Button
+                                    content="Transfer"
+                                    icon={"arrows-alt"}
+                                    onClick={() => act('transfer', { id: member.id })} />
+                                </LabeledList.Item>
+                              )}
+                            </LabeledList>);
+                        })}
+                      </Section>
+                    </Table.Cell>
+                  </Table.Row>
+                </Table>
+              </Section>
             </Section>
-          </Section>);
+          );
         })}
       </Window.Content>
     </Window>
