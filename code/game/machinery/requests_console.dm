@@ -384,7 +384,7 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 
 	if(href_list["sendSquadMessage"] && message)
 		var/squad_type
-		switch(lowertext(department)) {
+		switch(lowertext(department))
 			if("bridge", "cic")
 				squad_type = CIC_OPS
 			if("munitions")
@@ -397,7 +397,6 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 				squad_type = DC_SQUAD
 			if("hangar")
 				squad_type = COMBAT_AIR_PATROL
-		}
 
 		if(!squad_type)
 			screen = REQ_SCREEN_ERR
