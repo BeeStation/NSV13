@@ -48,11 +48,7 @@ export const NtosSquadManager = (props, context) => {
                         tooltip="Set a primary objective for this squad."
                         onClick={() => act('primary_objective', { squad_id: value.id })} />
                     }>
-                      {!!value.role && (
-                        <>
-                          {value.role}
-                        </>
-                      )}
+                      {!!value.role && value.role}
                     </Section>
                   </Table.Cell>
                   <Table.Cell width="50%">
@@ -64,83 +60,79 @@ export const NtosSquadManager = (props, context) => {
                         tooltip="Set a secondary objective for this squad."
                         onClick={() => act('secondary_objective', { squad_id: value.id })} />
                     }>
-                      {!!value.secondary_objective && (
-                        <>
-                          {value.secondary_objective}
-                        </>
-                      )}
+                      {!!value.secondary_objective && value.secondary_objective}
                     </Section>
                   </Table.Cell>
                 </Table.Row>
               </Table>
               <Section title="Members" buttons={
-                  <>
-                    <Button
-                      content={value.hidden ? "No Autofill" : "Autofill"}
-                      icon={value.hidden ? "eye-slash" : "eye"}
-                      color={value.hidden ? "bad" : "good"}
-                      tooltip="Enable autofill for this squad for new crewmates joining the shift."
-                      onClick={() => act('toggle_hidden', { squad_id: value.id })} />
-                    <Button
-                      content="Print Lanyard"
-                      tooltip="Print a lanyard to let someone join a squad. Have them click it in hand, and they'll join the squad!"
-                      icon="print"
-                      color="good"
-                      onClick={() => act('print_pass', { squad_id: value.id })} />
-                  </>
-                }>
-                <Table>
-                  <Table.Row header>
-                    <Table.Cell width="50%">
-                      Leader
-                    </Table.Cell>
-                    <Table.Cell width="50%">
-                      Roster
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell width="50%">
-                      {!!value.squad_leader_id && (
-                        <LabeledList>
-                          <LabeledList.Item label={value.squad_leader_name}>
-                            <Button
-                              content="Demote"
-                              icon={"user-cog"}
-                              onClick={() => act('demote_leader', { id: value.squad_leader_id })} />
-                            <Button
-                              content="Transfer"
-                              icon={"arrows-alt"}
-                              onClick={() => act('transfer', { id: value.squad_leader_id })} />
-                          </LabeledList.Item>
-                        </LabeledList>
-                      )}
-                    </Table.Cell>
-                    <Table.Cell width="50%">
-                      <Section>
-                        {Object.keys(value.members).map(key => {
-                          let member = value.members[key];
-                          return (
-                            <LabeledList key={key}>
-                              {!!member.name && (
-                                <LabeledList.Item label={member.name}>
-                                  <Button
-                                    content="Promote"
-                                    icon={"user-cog"}
-                                    onClick={() => act('set_leader', { id: member.id })} />
-                                  <Button
-                                    content="Transfer"
-                                    icon={"arrows-alt"}
-                                    onClick={() => act('transfer', { id: member.id })} />
-                                </LabeledList.Item>
-                              )}
-                            </LabeledList>);
-                        })}
-                      </Section>
-                    </Table.Cell>
-                  </Table.Row>
-                </Table>
-              </Section>
-            </Section>);
+                <>
+                  <Button
+                    content={value.hidden ? "No Autofill" : "Autofill"}
+                    icon={value.hidden ? "eye-slash" : "eye"}
+                    color={value.hidden ? "bad" : "good"}
+                    tooltip="Enable autofill for this squad for new crewmates joining the shift."
+                    onClick={() => act('toggle_hidden', { squad_id: value.id })} />
+                  <Button
+                    content="Print Lanyard"
+                    tooltip="Print a lanyard to let someone join a squad. Have them click it in hand, and they'll join the squad!"
+                    icon="print"
+                    color="good"
+                    onClick={() => act('print_pass', { squad_id: value.id })} />
+                </>
+              }>
+              <Table>
+                <Table.Row header>
+                  <Table.Cell width="50%">
+                    Leader
+                  </Table.Cell>
+                  <Table.Cell width="50%">
+                    Roster
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell width="50%">
+                    {!!value.squad_leader_id && (
+                      <LabeledList>
+                        <LabeledList.Item label={value.squad_leader_name}>
+                          <Button
+                            content="Demote"
+                            icon={"user-cog"}
+                            onClick={() => act('demote_leader', { id: value.squad_leader_id })} />
+                          <Button
+                            content="Transfer"
+                            icon={"arrows-alt"}
+                            onClick={() => act('transfer', { id: value.squad_leader_id })} />
+                        </LabeledList.Item>
+                      </LabeledList>
+                    )}
+                  </Table.Cell>
+                  <Table.Cell width="50%">
+                    <Section>
+                      {Object.keys(value.members).map(key => {
+                        let member = value.members[key];
+                        return (
+                          <LabeledList key={key}>
+                            {!!member.name && (
+                              <LabeledList.Item label={member.name}>
+                                <Button
+                                  content="Promote"
+                                  icon={"user-cog"}
+                                  onClick={() => act('set_leader', { id: member.id })} />
+                                <Button
+                                  content="Transfer"
+                                  icon={"arrows-alt"}
+                                  onClick={() => act('transfer', { id: member.id })} />
+                              </LabeledList.Item>
+                            )}
+                          </LabeledList>);
+                      })}
+                    </Section>
+                  </Table.Cell>
+                </Table.Row>
+              </Table>
+            </Section>
+          </Section>);
         })}
       </NtosWindow.Content>
     </NtosWindow>
