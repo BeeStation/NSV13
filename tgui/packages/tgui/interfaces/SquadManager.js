@@ -81,7 +81,7 @@ export const SquadManager = (props, context) => {
                     color="good"
                     onClick={() => act('print_pass', { squad_id: value.id })} />
                 </>
-                }>
+              }>
                 <Table>
                   <Table.Row header>
                     <Table.Cell width="50%">
