@@ -375,5 +375,15 @@
 	weapon_class = WEAPON_CLASS_LIGHT
 	ai_fire_delay = 20 SECONDS
 
+/datum/ship_weapon/prototype_bsa
+	name = "Prototype Bluespace Artillery"
+	default_projectile_type = /obj/item/projectile/bullet/prototype_bsa
+	burst_size = 1
+	fire_delay = 32 SECONDS
+	range_modifier = 200
+	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
+	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
+	ai_fire_delay = 32 SECONDS
+	lateral = TRUE
 
 
