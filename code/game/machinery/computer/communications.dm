@@ -596,6 +596,19 @@
 						dat += "<A href='?src=[REF(src)];operation=buyshuttle;chosen_shuttle=[REF(S)]'>(<font color=red><i>Purchase</i></font>)</A><BR><BR>"
 
 		if(STATE_OBJECTIVES) //NSV13 - Objectives
+			var/notoriety
+			switch(SSovermap_mode.threat_elevation)
+				if(800 to INFINITY)
+					notoriety = "<font color=purple>Extreme</font>"
+				if(600 to 800)
+					notoriety = "<font color=red>Very High</font>"
+				if(300 to 600)
+					notoriety = "<font color=orange>High</font>"
+				if(100 to 300)
+					notoriety = "<font color=yellow>Medium</font>"
+				if(0 to 100)
+					notoriety = "<font color=green>Low</font>"
+			dat += "Current Notoriety: [notoriety]<BR>"
 			dat += "Current Objectives:<BR>"
 			if(SSovermap_mode.announced_objectives)
 				for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)

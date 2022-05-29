@@ -25,7 +25,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	range = 255
 	speed = 1.85
 	movement_type = FLYING
-	projectile_phasing = ALL
+	projectile_piercing = ALL
 
 /obj/item/projectile/bullet/mac_round
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
@@ -41,20 +41,20 @@ Misc projectile types, effects, think of this as the special FX file.
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	relay_projectile_type =  /obj/item/projectile/bullet/mac_relayed_round
 	var/homing_benefit_time = 0 SECONDS //NAC shells have a very slight homing effect.
-	var/base_movement_type	//Our base move type for when we gain unstoppability from hitting tiny ships.
+	var/base_piercing_type	//Our base move type for when we gain unstoppability from hitting tiny ships.
 
 /obj/item/projectile/bullet/mac_round/prehit_pierce(atom/target)
 	if(isovermap(target))
 		var/obj/structure/overmap/OM = target
 		if(OM.mass <= MASS_TINY)
-			projectile_phasing = ALL
+			projectile_piercing = ALL
 		else
-			movement_type = base_movement_type
+			projectile_piercing = base_piercing_type
 	. = ..()
 
 /obj/item/projectile/bullet/mac_round/Initialize()
 	. = ..()
-	base_movement_type = movement_type
+	base_piercing_type = projectile_piercing
 	if(homing_benefit_time)
 		addtimer(CALLBACK(src, .proc/stop_homing), homing_benefit_time)
 	else
@@ -68,7 +68,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	armour_penetration = 70
 	icon_state = "railgun_ap"
 	movement_type = FLYING
-	projectile_phasing = ALL //Railguns punch straight through your ship
+	projectile_piercing = ALL //Railguns punch straight through your ship
 
 /obj/item/projectile/bullet/mac_round/magneton
 	speed = 1.5
@@ -109,7 +109,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	range = 255
 	speed = 1.85
 	movement_type = FLYING
-	projectile_phasing = ALL
+	projectile_piercing = ALL
 	damage = 45		//It's on a z now, lets not instakill people / objects this happens to hit.
 	var/penetration_fuze = 1	//Will pen through this many things considered valid for reducing this before arming. Can overpenetrate if it happens to pen through windows or other things with not enough resistance.
 
@@ -299,6 +299,16 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 20
 	spread = 90
 	flag = "overmap_medium"
+	
+/obj/item/projectile/bullet/prototype_bsa
+	icon_state = "proto_bsa"
+	name = "Prototype BSA Round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	speed = 0.3
+	damage = 400
+	spread = 1
+	armour_penetration = 35
+	flag = "overmap_heavy"
 
 /obj/item/projectile/guided_munition
 	obj_integrity = 50
