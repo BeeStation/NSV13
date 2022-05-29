@@ -39,7 +39,10 @@
 		if(channel)
 			S.channel = channel
 		for(var/atom/A as() in output_atoms)
+			listeners[A] = list()
+			// get all of the hearers for this atom
 			var/list/newhearers = playsound_range(A, S, volume, extra_range)
+			// create a dictionary of all of our hearers and their current position
 			for(var/atom/L as() in newhearers)
 				listeners[A][L] = list(L.x, L.y)
 	current_sound = S
@@ -48,18 +51,18 @@
 	WARNING("Advanced looping sound set to process without any process function.")
 	return PROCESS_KILL
 
-/// Similar to stop, but cuts off any currently playing sounds, requires a channel to be selected
-/datum/looping_sound/advanced/proc/interrupt(atom/remove_thing)
-	if(remove_thing)
-		for(var/atom/A as() in listeners[remove_thing])
+/// Similar to stop, but cuts off any currently playing sounds immediately, rather than waiting until the sound finishes. Requires a channel to be selected
+/datum/looping_sound/advanced/proc/interrupt(atom/remove_source)
+	if(remove_source)
+		for(var/atom/A as() in listeners[remove_source])
 			SEND_SOUND(A, sound(null, 0, 0, src.channel))
-		listeners -= remove_thing
+		listeners -= remove_source
 	else
 		for(var/atom/output as() in listeners)
 			for(var/atom/A as() in listeners[output])
 				SEND_SOUND(A, sound(null, 0, 0, src.channel))
 			listeners[output] = list()
-	stop(remove_thing)
+	stop(remove_source)
 
 // deviation_tolerance - How many tiles the listener needs to move to be eligible for recalculating (0 = any movement, 1 = two tiles, etc)
 // force - whether to skip optimization checks, Only really needed if you've changed the volume of the source sound itself
@@ -75,7 +78,7 @@
 					return
 				var/coords = locallist[M]
 				if(abs((coords[2] + M.y) - (coords[1] + M.x)) <= deviation_tolerance)
-					return
+					return // listener hasn't moved enough to warrent recalculation
 			if(M.recalculate_sound_volume(output, current_sound, volume))
 				locallist[M] = list(M.x, M.y)
 			else
