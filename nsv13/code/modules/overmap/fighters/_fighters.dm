@@ -441,7 +441,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		dradis.linked = src
 	set_light(4)
 	obj_integrity = max_integrity
-	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_overmap_elegibility) //Used to smoothly transition from ship to overmap
+	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/handle_moved) //Used to smoothly transition from ship to overmap
 	var/obj/item/fighter_component/engine/engineGoesLast = null
 	if(build_components.len)
 		for(var/Ctype in build_components)
