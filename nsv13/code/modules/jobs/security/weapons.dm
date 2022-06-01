@@ -81,6 +81,7 @@
 
 /obj/item/ammo_box/magazine/glock/lethal
 	name = "pistol magazine (9mm Lethal)"
+	desc = "Loaded with lead bullets that excel in dealing with hostile threats onboard or offboard the ship."
 	icon_state = "Glock-lethal"
 	ammo_type = /obj/item/ammo_casing/c9mm
 	caliber = "9mm"
@@ -88,11 +89,16 @@
 
 /obj/item/ammo_box/magazine/glock
 	name = "pistol magazine (9mm Non-lethal)"
+	desc = "Loaded with rubber bullets that excel in disabling limbs and pacifying at range."
 	icon_state = "Glock-nonlethal"
 	ammo_type = /obj/item/ammo_casing/c9mm/rubber
 	caliber = "9mm"
 	max_ammo = 15
 
+/obj/item/ammo_box/magazine/glock/update_icon()
+    ..()
+    icon_state = "[initial(icon_state)][ammo_count() ? "" : "-0"]"
+	
 /obj/item/ammo_casing/c9mm/rubber
 	name = "9mm rubber bullet casing"
 	desc = "A 9mm rubber bullet casing."
