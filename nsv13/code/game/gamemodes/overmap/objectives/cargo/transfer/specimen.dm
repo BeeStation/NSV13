@@ -26,8 +26,8 @@
 		/mob/living/simple_animal/cow
 	) )
 
-	var/datum/freight_type/specimen/C = new /datum/freight_type/specimen( picked )
+	var/datum/freight_type/single/specimen/C = new /datum/freight_type/single/specimen( picked )
 	C.send_prepackaged_item = TRUE
 	C.allow_replacements = FALSE // Once a packaged specimen gets out it may be too large to fit in a crate, or it may get killed. Prevents gamemode softlocks from incomplete objectives
 	C.overmap_objective = src
-	freight_types += C
+	freight_type_group = new( list( C ) )

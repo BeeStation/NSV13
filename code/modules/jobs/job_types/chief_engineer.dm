@@ -44,10 +44,10 @@
 	belt = /obj/item/storage/belt/utility/chief/full
 	l_pocket = /obj/item/pda/heads/ce
 	ears = /obj/item/radio/headset/heads/ce
-	uniform = /obj/item/clothing/under/ship/engineer
+	uniform = /obj/item/clothing/under/rank/engineering/chief_engineer
 	shoes = /obj/item/clothing/shoes/workboots
 	suit = /obj/item/clothing/suit/ship/engineer
-	head = /obj/item/clothing/head/beret/ship/engineer
+	head = /obj/item/clothing/head/beret/ce
 	gloves = /obj/item/clothing/gloves/color/black/ce
 	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1, /obj/item/modular_computer/tablet/preset/advanced=1)
 

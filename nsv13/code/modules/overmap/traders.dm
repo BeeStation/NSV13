@@ -70,6 +70,9 @@
 			landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 
 		if ( !landingzone ) // Main overmap may or may not have a warehouse
+			landingzone = GLOB.areas_by_type[/area/quartermaster]
+
+		if ( !landingzone ) // Main overmap may or may not have a cargobay
 			if(!OM.linked_areas.len)
 				OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
 				if(length(OM?.linked_areas))
@@ -148,6 +151,13 @@
 	// 	/datum/nsv_mission/kill_ships/system/syndicate=3,
 	// 	/datum/nsv_mission/kill_ships/syndicate=1)
 	max_missions = 6
+
+/datum/trader/armsdealer/syndicate/attempt_purchase(datum/trader_item/item, mob/living/carbon/user)
+	. = ..()
+	if(!.)
+		return
+	if(!user.last_overmap || user.last_overmap.faction != "syndicate")
+		SSovermap_mode.modify_threat_elevation(TE_SYNDISHOP_PENALTY)	//How to get a hitsquad sent at you: Buy hellfire weapons from the Syndicate.
 
 /datum/trader/armsdealer/syndicate/New()
 	. = ..()
@@ -252,12 +262,12 @@
 	var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 	if(D)
 		data["points"] = "$[D.account_balance]"
-	// Extra information about what missions this station is tracking 
+	// Extra information about what missions this station is tracking
 	var/list/holding_cargo_info = list()
-	for ( var/datum/overmap_objective/cargo/O in current_location.holding_cargo ) 
+	for ( var/datum/overmap_objective/cargo/O in current_location.holding_cargo )
 		var/list/item_info = list()
-		item_info[ "name" ] = O.name 
-		item_info[ "brief" ] = O.brief 
+		item_info[ "name" ] = O.name
+		item_info[ "brief" ] = O.brief
 		item_info[ "id" ] = "\ref[O]"
 		holding_cargo_info[++holding_cargo_info.len] = item_info
 	data[ "holding_cargo" ] = holding_cargo_info
@@ -343,6 +353,7 @@
 	if(item.stock <= 0)
 		stonks -= item
 		qdel(item)
+	return TRUE
 
 /datum/trader/ui_state(mob/user)
 	return GLOB.not_incapacitated_state

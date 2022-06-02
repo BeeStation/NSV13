@@ -30,7 +30,12 @@ Adding tasks is easy! Just define a datum for it.
 	var/list/supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
 	var/list/all_ships = list()
 	var/list/lances = list()
+
 	var/size = FLEET_DIFFICULTY_MEDIUM //How big is this fleet anyway?
+	var/applied_size	//How big is this fleet ACTUALLY after modifications applied by.. well. everything.
+	var/threat_elevation_allowed = TRUE	//Does the threat elevation system apply to this fleet? This acts independantly to the base difficulty pop scaling.
+	var/can_reinforce = TRUE	//Can this fleet gain new ships after a while out of combat has passed?
+
 	var/allow_difficulty_scaling = TRUE	//Set this to false if the fleet is supposed to have a constant difficulty as opposed to scaling with pop.
 	var/list/audio_cues = list() //Does this fight come with a theme tune? Takes youtube / media links so that we don't have to store a bunch of copyrighted music on the box.
 	var/instantiated = FALSE //If we're not instantiated, moving all the ships is a piece of cake, if we are however, we do some extra steps to FTL them all.
@@ -120,7 +125,45 @@ Adding tasks is easy! Just define a datum for it.
 
 	return target
 
+/datum/fleet/proc/try_threat_elevation_reinforce()
+	if(!current_system)
+		return	//Which admin did this?
+	if(current_system.occupying_z)
+		return	//Loaded z - abort
+	if(current_system.check_conflict_status())
+		return //Bonking in progress - abort
+	if(world.time < last_encounter_time + TE_REINFORCEMENT_DELAY)
+		return
+	if(allow_difficulty_scaling)
+		//Account for pre-round spawned fleets.
+		if(SSovermap_mode?.mode)
+			applied_size = SSovermap_mode.mode.difficulty
+		else
+			applied_size = 1 //Lets assume a low number of players
+	else
+		applied_size = size
+	applied_size = max(applied_size, FLEET_DIFFICULTY_EASY)
+	if(threat_elevation_allowed)
+		applied_size += round(SSovermap_mode.threat_elevation / TE_POINTS_PER_FLEET_SIZE)	//Threat level modifies danger
+	if(length(destroyer_types))
+		for(var/i = length(taskforces["destroyers"]); i < max(round(applied_size/2), 1); i++)
+			var/shipType = pick(destroyer_types)
+			var/obj/structure/overmap/member = new shipType()
+			add_ship(member, "destroyers")
+	if(length(battleship_types))
+		for(var/i = length(taskforces["battleships"]); i < max(round(applied_size/4), 1); i++)
+			var/shipType = pick(battleship_types)
+			var/obj/structure/overmap/member = new shipType()
+			add_ship(member, "battleships")
+	if(length(supply_types))
+		for(var/i = length(taskforces["supply"]); i < max(round(applied_size/4), 1); i++)
+			var/shipType = pick(supply_types)
+			var/obj/structure/overmap/member = new shipType()
+			add_ship(member, "supply")
+
 /datum/fleet/proc/move(datum/star_system/target, force=FALSE)
+	if(can_reinforce)
+		try_threat_elevation_reinforce()
 	var/course_picked_target = FALSE
 	if(!target)
 		if(goal_system)
@@ -290,6 +333,8 @@ Adding tasks is easy! Just define a datum for it.
 	if(player_caused)	//Only modify influence if players caused this, otherwise someone else claimed the kill and it doesn't modify influence for the purpose of Patrol completion.
 		faction = SSstar_system.faction_by_id(faction_id)
 		faction?.lose_influence(reward)
+		if(alignment != "nanotrasen")
+			SSovermap_mode.modify_threat_elevation(TE_FLEET_THREAT_DYNAMIC ? (TE_FLEET_KILL_THREAT * applied_size ) : TE_FLEET_KILL_THREAT)
 	QDEL_NULL(src)
 
 /datum/fleet/nanotrasen/earth/defeat()
@@ -347,7 +392,7 @@ Adding tasks is easy! Just define a datum for it.
 	for(var/a in launcher.chambered.GetAllContents())
 		if(is_type_in_typecache(a, GLOB.blacklisted_cargo_types))
 			if ( !istype( a, /mob/living/simple_animal ) ) // Allow the transfer of specimens specifically for cargo missions
-				to_chat(user, "<span class='warning'>[src] Cargo Shuttle Brand lifeform checker blinks an error, \
+				to_chat(user, "<span class='warning'>[launcher] Cargo Shuttle Brand lifeform checker blinks an error, \
 					for safety reasons it cannot transport hazardous organisms, human remains, classified nuclear weaponry, \
 					homing beacons or machinery housing any form of artificial intelligence.")
 				return FALSE
@@ -434,22 +479,20 @@ Adding tasks is easy! Just define a datum for it.
 /obj/structure/overmap/proc/make_paperwork( var/datum/freight_delivery_receipt/receipt, var/approval )
 	// Cargo DRADIS automatically synthesizes and attaches the requisition form to the cargo torp
 	var/obj/item/paper/paper = new /obj/item/paper()
-	paper.info = ""
+	paper.info = "<h2>[receipt.vessel] Shipping Manifest</h2><hr/>"
 
-	paper.info += "<h2>[receipt.vessel] Shipping Manifest</h2>"
-	paper.info += "<hr/>"
-	paper.info += ( "Order: S-[rand( 1000, 5000 )]<br/>" )
-	paper.info += "Destination: [src]<br/>"
-	if ( length( receipt.completed_objectives ) > 1 ) // If receipt has an attach objective which marks it as completed
-		paper.info += ( "Item: Assorted Shipment<br/>" )
-	else if ( length( receipt.completed_objectives ) == 1 )
+	if ( length( receipt.completed_objectives ) == 1 )
 		var/datum/overmap_objective/cargo/objective = receipt.completed_objectives[ 1 ]
-		paper.info += ( "Item: [objective.crate_name]<br/>" )
+		paper.info += "Order: #[GLOB.round_id]-[objective.objective_number]<br/> \
+			Destination: [src]<br/> \
+			Item: [objective.crate_name]<br/>"
 	else
-		paper.info += ( "Item: Unregistered Shipment<br/>" )
-	paper.info += "Contents:<br/>"
+		paper.info += "Order: N/A<br/> \
+			Destination: [src]<br/> \
+			Item: Unregistered Shipment<br/>"
 
-	paper.info += "<ul>"
+	paper.info += "Contents:<br/><ul>"
+
 	if ( istype( receipt.shipment, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
 		var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = receipt.shipment
 
@@ -460,9 +503,8 @@ Adding tasks is easy! Just define a datum for it.
 				paper.info += "<li>[item]</li>"
 	else
 		paper.info += "<li>miscellaneous unpackaged objects</li>"
-	paper.info += "</ul>"
 
-	paper.info += "<h4>Stamp below to confirm receipt of goods:</h4>"
+	paper.info += "</ul><h4>Stamp below to confirm receipt of goods:</h4>"
 
 	paper.stamped = list()
 	paper.stamps = list()
@@ -557,6 +599,10 @@ Adding tasks is easy! Just define a datum for it.
 	receipt.vessel = console.linked
 	receipt.shipment = shipment
 	receipts += receipt
+
+	if ( SSovermap_mode.mode.debug_mode )
+		speed_cargo_check = 1 SECONDS
+		speed_cargo_return = 1 SECONDS
 
 	to_chat(user, "<span class='notice'>The cargo has been sent to [src] and should be received shortly.</span>")
 	addtimer(CALLBACK(src, .proc/check_objectives, receipt), speed_cargo_check)
@@ -833,24 +879,26 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
-/datum/fleet/syndicate/AbassisWrath
-	name = "Abassi's Wrath"
-	size = FLEET_DIFFICULTY_VERY_HARD
-	allow_difficulty_scaling = TRUE
-	battleship_types = list(/obj/structure/overmap/syndicate/ai/fistofsol, /obj/structure/overmap/syndicate/ai/kadesh)
-	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/cruiser/elite)
-	taunts = list("Do you see the scrap, the graves of your own making? You'll be in one soon enough.", "A criminal always returns to the scene of the crime...", "We are his wrath, we are his blade. We shall cut you down!", "All ships, end the war.")
-	fleet_trait = FLEET_TRAIT_DEFENSE
-
-/datum/fleet/syndicate/fistofsolo
+/datum/fleet/syndicate/fistofsol_boss
 	name = "SSV Fist of Sol"
+	faction = FACTION_ID_SYNDICATE
 	size = 1
 	allow_difficulty_scaling = FALSE
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/fistofsol)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 	taunts = list("That's it... Just you and me now, no support, no distractions... no war. Whoever wins is the best crew.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
+
+/datum/fleet/hostile/alicorn_boss
+	name = "\proper SGV Alicorn"
+	size = 1
+	hide_movements = TRUE
+	allow_difficulty_scaling = FALSE
+	fighter_types = list(/obj/structure/overmap/hostile/ai/fighter)
+	supply_types = list(/obj/structure/overmap/hostile/ai/alicorn)
+	taunts = list("Ahaha... A powerful ship, a powerful gun, powerful ammunition. The graceful slaughter of a billion lives to save billions more!")
+	fleet_trait = FLEET_TRAIT_DEFENSE
+
 
 //Nanotrasen fleets
 
@@ -864,6 +912,8 @@ Adding tasks is easy! Just define a datum for it.
 	hide_movements = TRUE //Friendly fleets just move around as you'd expect.
 	faction_id = FACTION_ID_NT
 	taunts = list("Syndicate vessel, stand down or be destroyed", "You are encroaching on our airspace, prepare to be destroyed", "Unidentified vessel, your existence will be forfeit in accordance with the peacekeeper act.")
+	can_reinforce = FALSE
+	threat_elevation_allowed = FALSE	//Sorry EDF, nothing personal.
 
 /datum/fleet/nanotrasen/light
 	name = "\improper Nanotrasen light fleet"
@@ -1020,12 +1070,16 @@ Adding tasks is easy! Just define a datum for it.
 	if(allow_difficulty_scaling)
 		//Account for pre-round spawned fleets.
 		if(SSovermap_mode?.mode)
-			size = SSovermap_mode.mode.difficulty
+			applied_size = SSovermap_mode.mode.difficulty
 		else
-			size = 1 //Lets assume a low number of players
-	size = CLAMP(size, FLEET_DIFFICULTY_EASY, INFINITY)
+			applied_size = 1 //Lets assume a low number of players
+	else
+		applied_size = size
+	applied_size = CLAMP(applied_size, FLEET_DIFFICULTY_EASY, INFINITY)
 	faction = SSstar_system.faction_by_id(faction_id)
-	reward *= size //Bigger fleet = larger reward
+	reward *= applied_size //Bigger fleet = larger reward
+	if(SSovermap_mode && threat_elevation_allowed)
+		applied_size += round(SSovermap_mode.threat_elevation / TE_POINTS_PER_FLEET_SIZE)	//Threat level modifies danger
 	if(current_system)
 		current_system.alignment = alignment
 		if(current_system.alignment != current_system.owner && !federation_check())
@@ -1055,7 +1109,7 @@ Adding tasks is easy! Just define a datum for it.
 			STOP_PROCESSING(SSphysics_processing, member.physics2d)
 
 //A fleet has entered a system. Assemble the fleet so that it lives in this system now.
-/datum/fleet/proc/assemble(datum/star_system/SS, difficulty=size)
+/datum/fleet/proc/assemble(datum/star_system/SS, difficulty=applied_size)
 	if(!SS)
 		return
 	if(SS.occupying_z && instantiated)
@@ -1549,8 +1603,8 @@ Seek a ship thich we'll station ourselves around
 	var/nodamage = FALSE // Mob immunity equivalent for stations, used for mission critical targets. Separate var if mission critical stations need to be essential but not immortal
 	var/supply_pod_type = /obj/structure/closet/supplypod/centcompod
 	var/returns_rejected_cargo = TRUE // AI ships will return cargo that does not match their expected shipments
-	var/speed_cargo_check = 30 SECONDS
-	var/speed_cargo_return = 30 SECONDS
+	var/speed_cargo_check = 30 SECONDS // Time it takes for a ship to respond to a shipment
+	var/speed_cargo_return = 30 SECONDS // Time it takes for a ship to return shipment results (approved paperwork, rejected shipment)
 
 	var/last_decision = 0
 	var/decision_delay = 2 SECONDS
