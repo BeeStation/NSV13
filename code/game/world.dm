@@ -316,7 +316,7 @@ GLOBAL_VAR(restart_counter)
 		hostedby = CONFIG_GET(string/hostedby)
 
 	s += "<b>[station_name()]</b>";
-	s += "(<a href='https://discord.gg/5ueTAFgHUB'>Discord</a>|<a href='https://github.com/Proxima-Project/Proxi-Bay12'>Github</a>)" //NSV13 URIs
+	s += "(<a href='https://discord.gg/5ueTAFgHUB'>Discord</a>|<a href='https://github.com/Proxima-Project/Proxi-NSV13'>Github</a>)" //NSV13 URIs
 
 	var/players = GLOB.clients.len
 

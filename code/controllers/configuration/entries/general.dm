@@ -213,7 +213,7 @@
 	config_entry_value = "https://discord.com/channels/836290307396993029/836301756379037767/926769052888731649"
 
 /datum/config_entry/string/githuburl
-	config_entry_value = "https://github.com/Proxima-Project/Proxi-Bay12"
+	config_entry_value = "https://github.com/Proxima-Project/Proxi-NSV13"
 
 /datum/config_entry/string/issue_label
 
