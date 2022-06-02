@@ -711,41 +711,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 					continue
 			ship.relay(S,message)
 
-/obj/structure/overmap/key_down(key, client/user)
-	var/mob/themob = user.mob
-	switch(key)
-		if("Shift")
-			if(themob == pilot)
-				boost(NORTH)
-		if("X")
-			if(themob == pilot)
-				toggle_inertia()
-			if(helm && prob(80))
-				var/sound = pick(GLOB.computer_beeps)
-				playsound(helm, sound, 100, 1)
-			return TRUE
-		if("C" || "c")
-			if(themob == pilot)
-				toggle_move_mode()
-			if(helm && prob(80))
-				var/sound = pick(GLOB.computer_beeps)
-				playsound(helm, sound, 100, 1)
-			return TRUE
-		if("Alt")
-			if(themob == pilot)
-				toggle_brakes()
-			if(helm && prob(80))
-				var/sound = pick(GLOB.computer_beeps)
-				playsound(helm, sound, 100, 1)
-			return TRUE
-		if("Space")
-			if(themob == gunner)
-				cycle_firemode()
-				if(tactical && prob(80))
-					var/sound = pick(GLOB.computer_beeps)
-					playsound(tactical, sound, 100, 1)
-			return TRUE
-
 /obj/structure/overmap/proc/boost(direction)
 	if(world.time < next_maneuvre)
 		to_chat(pilot, "<span class='notice'>Engines on cooldown to prevent overheat</span>")
