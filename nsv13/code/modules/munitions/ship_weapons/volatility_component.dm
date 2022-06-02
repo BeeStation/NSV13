@@ -23,24 +23,28 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 	explosion(parent, 0, round(ExPower * 0.75), round(ExPower * 1.5), round(ExPower * 2), TRUE, FALSE, round(ExPower * 1.5), FALSE, FALSE)
 
 /datum/component/volatile/proc/burn_act()
+	SIGNAL_HANDLER
+
 	if(prob(CLAMP(volatility * 10, 0, 100))) //How likely we are to blow up
 		explode()
 
 /datum/component/volatile/proc/damage_react(datum/source, amount)
+	SIGNAL_HANDLER
 	//Is this thing volatile when smacked? Harder hits mean more likely to go up in flames...
 	if(volatile_when_hit && prob(CLAMP(amount/5 * volatility, 0, 100)))
 		explode()
 
 /datum/component/volatile/proc/examine(datum/source, mob/user, list/examine_list)
+	SIGNAL_HANDLER
+
 	if(desc)
 		examine_list += desc
 		if(volatile_when_hit) //Don't play with the torpedo warheads
 			examine_list += "<span class='warning'>It may explode if hit with enough force!</span>"
 
-/datum/component/volatile/New(datum/P, volatility=1, volatile_when_hit=FALSE, explosion_scale = 1)
-	. = ..()
+/datum/component/volatile/Initialize(volatility = 1, volatile_when_hit = FALSE, explosion_scale = 1)
 	if(volatility <= 0)
-		message_admins("Volatility component with volatility \"0\" added to [parent], deleting the volatility component...")
+		message_admins("Volatility component with volatility \"[volatility]\" added to [parent], deleting the volatility component...")
 		RemoveComponent()
 		return
 	src.volatility = volatility
