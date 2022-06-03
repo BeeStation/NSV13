@@ -59,19 +59,61 @@
 		playsound(OM.tactical, sound, 100, 1)
 	return TRUE
 
-/datum/keybinding/overmap/suppress_drop
+// Strafing AND turning? At the same time? It's more likely than you think!
+/datum/keybinding/overmap/rotate_left
 	key = "Q"
-	name = "suppress_drop"
-	full_name = "Suppress Drop"
-	description = "Intercepts the drop action"
+	name = "rotate_left"
+	full_name = "Rotate Left"
+	description = ""
 
-/datum/keybinding/overmap/suppress_drop/down(client/user)
+/datum/keybinding/overmap/rotate_left/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.get_overmap()
 	if(!OM) return
 
 	if(M != OM.pilot) return
+	if(OM.mass >= MASS_SMALL) return
+	OM.applied_turn_rate = OM.applied_turn_rate - 15
+	return TRUE
+
+/datum/keybinding/overmap/rotate_left/up(client/user)
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.get_overmap()
+	if(!OM) return
+
+	if(M != OM.pilot) return
+	if(OM.mass >= MASS_SMALL) return
+	OM.applied_turn_rate = OM.applied_turn_rate + 15
+	return TRUE
+
+/datum/keybinding/overmap/rotate_right
+	key = "E"
+	name = "rotate_right"
+	full_name = "Rotate Right"
+	description = ""
+
+/datum/keybinding/overmap/rotate_right/down(client/user)
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.get_overmap()
+	if(!OM) return
+
+	if(M != OM.pilot) return
+	if(OM.mass >= MASS_SMALL) return
+	OM.applied_turn_rate = OM.applied_turn_rate + 15
+	return TRUE
+
+/datum/keybinding/overmap/rotate_right/up(client/user)
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.get_overmap()
+	if(!OM) return
+
+	if(M != OM.pilot) return
+	if(OM.mass >= MASS_SMALL) return
+	OM.applied_turn_rate = OM.applied_turn_rate - 15
 	return TRUE
 
 // Small craft - safeties and countermeasures

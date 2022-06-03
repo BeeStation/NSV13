@@ -79,6 +79,7 @@
 	var/should_open_doors = FALSE //Should we open airlocks? This is off by default because it was HORRIBLE.
 	var/inertial_dampeners = TRUE
 
+	var/applied_turn_rate = 0
 	var/user_thrust_dir = 0
 
 	//Movement speed variables
