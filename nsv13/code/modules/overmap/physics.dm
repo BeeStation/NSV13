@@ -163,7 +163,6 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		slowprocess()
 	last_offset.copy(offset)
 	var/last_angle = angle
-
 	var/desired_angular_velocity = 0
 	if(isnum(desired_angle))
 		// do some finagling to make sure that our angles end up rotating the short way
