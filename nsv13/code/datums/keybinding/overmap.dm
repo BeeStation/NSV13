@@ -2,62 +2,6 @@
 		category = CATEGORY_OVERMAP
 		weight = WEIGHT_OVERMAP
 
-/datum/keybinding/overmap/toggle_inertia
-	key = "X"
-	name = "toggle_inertia"
-	full_name = "Toggle Inertia"
-	description = ""
-
-/datum/keybinding/overmap/toggle_inertia/down(client/user)
-	if(!user.mob) return
-	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
-	if(!OM) return
-
-	if(M != OM.pilot) return
-	OM.toggle_inertia()
-	if(OM.helm && prob(80))
-		var/sound = pick(GLOB.computer_beeps)
-		playsound(OM.helm, sound, 100, 1)
-	return TRUE
-
-/datum/keybinding/overmap/toggle_move_mode
-	key = "C"
-	name = "toggle_move_mode"
-	full_name = "Toggle Movement Mode"
-	description = ""
-
-/datum/keybinding/overmap/toggle_move_mode/down(client/user)
-	if(!user.mob) return
-	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
-	if(!OM) return
-
-	if(M != OM.pilot) return
-	OM.toggle_move_mode()
-	if(OM.helm && prob(80))
-		var/sound = pick(GLOB.computer_beeps)
-		playsound(OM.helm, sound, 100, 1)
-	return TRUE
-
-/datum/keybinding/overmap/cycle_firemode
-	key = "Space"
-	name = "cycle_firemode"
-	full_name = "Cycle Firemode"
-	description = ""
-
-/datum/keybinding/overmap/cycle_firemode/down(client/user)
-	if(!user.mob) return
-	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
-	if(!OM) return
-
-	if(M != OM.gunner) return
-	OM.cycle_firemode()
-	if(OM.tactical && prob(80))
-		var/sound = pick(GLOB.computer_beeps)
-		playsound(OM.tactical, sound, 100, 1)
-	return TRUE
 
 // Basically just blocks the other Q and E bindings since held keys are handled in keyLoop
 /datum/keybinding/overmap/rotate_left
@@ -112,42 +56,6 @@
 	if(!OM.use_QE_turning()) return
 	return TRUE
 
-// Small craft - safeties and countermeasures
-/datum/keybinding/overmap/toggle_safety
-	key = "Capslock"
-	name = "toggle_safety"
-	full_name = "Toggle Safeties"
-	description = ""
-
-/datum/keybinding/overmap/toggle_safety/down(client/user)
-	if(!user.mob) return
-	var/mob/M = user.mob
-	var/obj/structure/overmap/small_craft/OM = M.get_overmap()
-	if(!istype(OM)) return
-
-	if(M != OM.gunner) return
-	OM.toggle_safety()
-	if(OM.helm && prob(80))
-		var/sound = pick(GLOB.computer_beeps)
-		playsound(OM.helm, sound, 100, 1)
-	return TRUE
-
-/datum/keybinding/overmap/deploy_countermeasure
-	key = "5"
-	name = "deploy_countermeasure"
-	full_name = "Deploy Countermeasure"
-	description = ""
-
-/datum/keybinding/overmap/deploy_countermeasure/down(client/user)
-	if(!user.mob) return
-	var/mob/M = user.mob
-	var/obj/structure/overmap/small_craft/OM = M.get_overmap()
-	if(!istype(OM)) return
-
-	if(M != OM.pilot) return
-	OM.countermeasure()
-	return TRUE
-
 // Keys that are held down in other binding modes need both a down and an up to override correctly
 /datum/keybinding/overmap/boost
 	key = "Shift"
@@ -200,4 +108,180 @@
 	if(!OM) return
 
 	if(M != OM.pilot) return
+	return TRUE
+
+// Other ship controls
+/datum/keybinding/overmap/toggle_inertia
+	key = "X"
+	name = "toggle_inertia"
+	full_name = "Toggle Inertial Assistance"
+	description = ""
+
+/datum/keybinding/overmap/toggle_inertia/down(client/user)
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.get_overmap()
+	if(!OM) return
+
+	if(M != OM.pilot) return
+	OM.toggle_inertia()
+	if(OM.helm && prob(80))
+		var/sound = pick(GLOB.computer_beeps)
+		playsound(OM.helm, sound, 100, 1)
+	return TRUE
+
+/datum/keybinding/overmap/toggle_move_mode
+	key = "C"
+	name = "toggle_move_mode"
+	full_name = "Toggle Mouse Movement"
+	description = ""
+
+/datum/keybinding/overmap/toggle_move_mode/down(client/user)
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.get_overmap()
+	if(!OM) return
+
+	if(M != OM.pilot) return
+	OM.toggle_move_mode()
+	if(OM.helm && prob(80))
+		var/sound = pick(GLOB.computer_beeps)
+		playsound(OM.helm, sound, 100, 1)
+	return TRUE
+
+/datum/keybinding/overmap/cycle_firemode
+	key = "Space"
+	name = "cycle_firemode"
+	full_name = "Cycle Firemode"
+	description = ""
+
+/datum/keybinding/overmap/cycle_firemode/down(client/user)
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.get_overmap()
+	if(!OM) return
+
+	if(M != OM.gunner) return
+	OM.cycle_firemode()
+	if(OM.tactical && prob(80))
+		var/sound = pick(GLOB.computer_beeps)
+		playsound(OM.tactical, sound, 100, 1)
+	return TRUE
+
+// Small craft - safeties and countermeasures
+
+/datum/keybinding/overmap/deploy_countermeasure
+	key = "5"
+	name = "deploy_countermeasure"
+	full_name = "Deploy Countermeasure"
+	description = ""
+
+/datum/keybinding/overmap/deploy_countermeasure/down(client/user)
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/small_craft/OM = M.get_overmap()
+	if(!istype(OM)) return
+
+	if(M != OM.pilot) return
+	OM.countermeasure()
+	return TRUE
+
+/datum/keybinding/overmap/toggle_safety
+	key = "Capslock"
+	name = "toggle_safety"
+	full_name = "Toggle Safeties"
+	description = ""
+
+/datum/keybinding/overmap/toggle_safety/down(client/user)
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/small_craft/OM = M.get_overmap()
+	if(!istype(OM)) return
+
+	if(M != OM.gunner) return
+	OM.toggle_safety()
+	if(OM.helm && prob(80))
+		var/sound = pick(GLOB.computer_beeps)
+		playsound(OM.helm, sound, 100, 1)
+	return TRUE
+
+// Weapon selection - this is overly complicated but probably useful as a proof of concept
+/datum/keybinding/overmap/weapon_1
+	key = "1"
+	name = "weapon_1"
+	full_name = "Weapon 1"
+	description = ""
+
+/datum/keybinding/overmap/weapon_1/down(client/user)
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.get_overmap()
+	if(!OM) return
+
+	if(M != OM.gunner) return
+	OM.select_weapon(1)
+	return TRUE
+
+/datum/keybinding/overmap/weapon_2
+	key = "2"
+	name = "weapon_2"
+	full_name = "Weapon 2"
+	description = ""
+
+/datum/keybinding/overmap/weapon_2/down(client/user)
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.get_overmap()
+	if(!OM) return
+
+	if(M != OM.gunner) return
+	OM.select_weapon(2)
+	return TRUE
+
+/datum/keybinding/overmap/weapon_3
+	key = "3"
+	name = "weapon_3"
+	full_name = "Weapon 3"
+	description = ""
+
+/datum/keybinding/overmap/weapon_3/down(client/user)
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.get_overmap()
+	if(!OM) return
+
+	if(M != OM.gunner) return
+	OM.select_weapon(3)
+	return TRUE
+
+/datum/keybinding/overmap/weapon_4
+	key = "4"
+	name = "weapon_4"
+	full_name = "Weapon 4"
+	description = ""
+
+/datum/keybinding/overmap/weapon_4/down(client/user)
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.get_overmap()
+	if(!OM) return
+
+	if(M != OM.gunner) return
+	OM.select_weapon(4)
+	return TRUE
+
+/datum/keybinding/overmap/weapon_5
+	key = "5"
+	name = "weapon_5"
+	full_name = "Weapon 5"
+	description = ""
+
+/datum/keybinding/overmap/weapon_5/down(client/user)
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.get_overmap()
+	if(!OM) return
+
+	if(M != OM.gunner) return
+	OM.select_weapon(5)
 	return TRUE

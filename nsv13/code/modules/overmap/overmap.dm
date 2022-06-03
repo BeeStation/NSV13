@@ -114,6 +114,7 @@
 
 	// Ship weapons
 	var/list/weapon_types[MAX_POSSIBLE_FIREMODE]
+	var/list/weapon_numkeys_map = list() // I hate this
 
 	var/fire_mode = FIRE_MODE_TORPEDO //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
@@ -411,6 +412,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			post_load_interior()
 
 	apply_weapons()
+	//We have a lot of types but not that many weapons per ship, so let's just worry about the ones we do have
+	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
+		var/datum/ship_weapon/SW = weapon_types[firemode]
+		if(istype(SW) && SW.selectable)
+			weapon_numkeys_map += firemode
 
 //Method to apply weapon types to a ship. Override to your liking, this just handles generic rules and behaviours
 /obj/structure/overmap/proc/apply_weapons()
