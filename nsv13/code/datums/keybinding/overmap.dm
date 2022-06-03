@@ -73,7 +73,7 @@
 	if(!OM) return
 
 	if(M != OM.pilot) return
-	if(OM.mass >= MASS_SMALL) return
+	if(!OM.use_QE_turning()) return
 	return TRUE
 
 /datum/keybinding/overmap/rotate_left/up(client/user)
@@ -83,7 +83,7 @@
 	if(!OM) return
 
 	if(M != OM.pilot) return
-	if(OM.mass >= MASS_SMALL) return
+	if(!OM.use_QE_turning()) return
 	return TRUE
 
 /datum/keybinding/overmap/rotate_right
@@ -99,8 +99,7 @@
 	if(!OM) return
 
 	if(M != OM.pilot) return
-	if(OM.mass >= MASS_SMALL) return
-	OM.applied_turn_rate = OM.applied_turn_rate + 15
+	if(!OM.use_QE_turning()) return
 	return TRUE
 
 /datum/keybinding/overmap/rotate_right/up(client/user)
@@ -110,8 +109,7 @@
 	if(!OM) return
 
 	if(M != OM.pilot) return
-	if(OM.mass >= MASS_SMALL) return
-	OM.applied_turn_rate = OM.applied_turn_rate - 15
+	if(!OM.use_QE_turning()) return
 	return TRUE
 
 // Small craft - safeties and countermeasures
