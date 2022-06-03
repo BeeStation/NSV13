@@ -561,7 +561,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/keyLoop(client/user)
 	. = ..()
-	if(!move_by_mouse && mass < MASS_SMALL)
+	if(use_QE_turning())
 		for(var/_key in user.keys_held)
 			switch(_key)
 				if("Q", "q")
