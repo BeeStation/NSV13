@@ -151,7 +151,7 @@
 	icon_state = "squad"
 	item_color = null
 	w_class = WEIGHT_CLASS_NORMAL
-	armor = list("melee" = 30, "bullet" = 20, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
+	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	var/has_headcam = TRUE
 	var/datum/squad/squad = null
@@ -486,3 +486,8 @@
 		return
 	if(alert(user, "Deflate [src]?",name,"Yes","Reconsider") == "Yes")
 		deflate()
+
+//this proc makes squad items take
+/obj/item/clothing/suit/ship/squad/Initialize()
+	. = ..()
+	allowed = GLOB.security_vest_allowed
