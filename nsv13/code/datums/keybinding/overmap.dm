@@ -13,7 +13,7 @@
 /datum/keybinding/overmap/rotate_left/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.pilot) return
@@ -23,7 +23,7 @@
 /datum/keybinding/overmap/rotate_left/up(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.pilot) return
@@ -39,7 +39,7 @@
 /datum/keybinding/overmap/rotate_right/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.pilot) return
@@ -49,7 +49,7 @@
 /datum/keybinding/overmap/rotate_right/up(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.pilot) return
@@ -66,7 +66,7 @@
 /datum/keybinding/overmap/boost/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.pilot) return
@@ -76,7 +76,7 @@
 /datum/keybinding/overmap/boost/up(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.pilot) return
@@ -91,7 +91,7 @@
 /datum/keybinding/overmap/toggle_brakes/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.pilot) return
@@ -104,7 +104,7 @@
 /datum/keybinding/overmap/toggle_brakes/up(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.pilot) return
@@ -120,7 +120,7 @@
 /datum/keybinding/overmap/toggle_inertia/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.pilot) return
@@ -139,7 +139,7 @@
 /datum/keybinding/overmap/toggle_move_mode/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.pilot) return
@@ -158,7 +158,7 @@
 /datum/keybinding/overmap/cycle_firemode/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.gunner) return
@@ -179,7 +179,7 @@
 /datum/keybinding/overmap/deploy_countermeasure/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/small_craft/OM = M.get_overmap()
+	var/obj/structure/overmap/small_craft/OM = M.overmap_ship
 	if(!istype(OM)) return
 
 	if(M != OM.pilot) return
@@ -195,7 +195,7 @@
 /datum/keybinding/overmap/toggle_safety/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/small_craft/OM = M.get_overmap()
+	var/obj/structure/overmap/small_craft/OM = M.overmap_ship
 	if(!istype(OM)) return
 
 	if(M != OM.gunner) return
@@ -215,7 +215,7 @@
 /datum/keybinding/overmap/weapon_1/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.gunner) return
@@ -231,7 +231,7 @@
 /datum/keybinding/overmap/weapon_2/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.gunner) return
@@ -247,7 +247,7 @@
 /datum/keybinding/overmap/weapon_3/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.gunner) return
@@ -263,25 +263,9 @@
 /datum/keybinding/overmap/weapon_4/down(client/user)
 	if(!user.mob) return
 	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
+	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
 	if(M != OM.gunner) return
 	OM.select_weapon(4)
-	return TRUE
-
-/datum/keybinding/overmap/weapon_5
-	key = "5"
-	name = "weapon_5"
-	full_name = "Weapon 5"
-	description = ""
-
-/datum/keybinding/overmap/weapon_5/down(client/user)
-	if(!user.mob) return
-	var/mob/M = user.mob
-	var/obj/structure/overmap/OM = M.get_overmap()
-	if(!OM) return
-
-	if(M != OM.gunner) return
-	OM.select_weapon(5)
 	return TRUE
