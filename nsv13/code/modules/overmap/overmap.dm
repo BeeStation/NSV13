@@ -79,7 +79,6 @@
 	var/should_open_doors = FALSE //Should we open airlocks? This is off by default because it was HORRIBLE.
 	var/inertial_dampeners = TRUE
 
-	var/applied_turn_rate = 0
 	var/user_thrust_dir = 0
 
 	//Movement speed variables
@@ -556,6 +555,16 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return TRUE
 	fire(target)
 	return TRUE
+
+/obj/structure/overmap/keyLoop(client/user)
+	. = ..()
+	if(!move_by_mouse && mass < MASS_SMALL)
+		for(var/_key in user.keys_held)
+			switch(_key)
+				if("Q", "q")
+					desired_angle = angle - 15
+				if("W", "w")
+					desired_angle = angle + 15
 
 /obj/structure/overmap/proc/start_lockon(atom/target)
 	if(!istype(target, /obj/structure/overmap))

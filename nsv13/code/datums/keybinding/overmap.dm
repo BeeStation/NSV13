@@ -59,7 +59,7 @@
 		playsound(OM.tactical, sound, 100, 1)
 	return TRUE
 
-// Strafing AND turning? At the same time? It's more likely than you think!
+// Basically just blocks the other Q and E bindings since held keys are handled in keyLoop
 /datum/keybinding/overmap/rotate_left
 	key = "Q"
 	name = "rotate_left"
@@ -74,7 +74,6 @@
 
 	if(M != OM.pilot) return
 	if(OM.mass >= MASS_SMALL) return
-	OM.applied_turn_rate = OM.applied_turn_rate - 15
 	return TRUE
 
 /datum/keybinding/overmap/rotate_left/up(client/user)
@@ -85,7 +84,6 @@
 
 	if(M != OM.pilot) return
 	if(OM.mass >= MASS_SMALL) return
-	OM.applied_turn_rate = OM.applied_turn_rate + 15
 	return TRUE
 
 /datum/keybinding/overmap/rotate_right
