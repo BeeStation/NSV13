@@ -301,7 +301,7 @@
 					/obj/item/ammo_box/magazine/nsv/heavy_cannon)
 	crate_name = "Heavy cannon ammunition crate"
 
-/datum/supply_pack/security/peacekeeper_rifles
+/datum/supply_pack/security/armory/peacekeeper_rifles
 	name = "M2A45 pulse rifles (x3)"
 	desc = "A pack of 3 M2A45 pulse rifles, preloaded with nonlethal stun slugs."
 	cost = 9000
@@ -310,7 +310,7 @@
 					/obj/item/gun/ballistic/automatic/peacekeeper)
 	crate_name = "M2A45 crate"
 
-/datum/supply_pack/security/peacekeeper_rifles_single
+/datum/supply_pack/security/armory/peacekeeper_rifles_single
 	name = "M2A45 Pulse Rifle Single-Pack"
 	desc = "A single M2A45 pulse rifle, preloaded with nonlethal stun slugs."
 	cost = 3500
@@ -375,7 +375,7 @@
 					/obj/item/gun/ballistic/tazer)
 	crate_name = "Czanek corp tazer crate"
 
-/datum/supply_pack/security/peacekeeper_ammo
+/datum/supply_pack/security/armory/peacekeeper_ammo
 	name = "M2A45 pulse rifle ammo (nonlethal)"
 	desc = "5 magazines of nonlethal ammo for peacekeeper rifles."
 	cost = 800
@@ -386,7 +386,7 @@
 					/obj/item/ammo_box/magazine/peacekeeper)
 	crate_name = "M2A45 nonlethal ammunition crate"
 
-/datum/supply_pack/security/peacekeeper_ammo_lethal
+/datum/supply_pack/security/armory/peacekeeper_ammo_lethal
 	name = "M2A45 pulse rifle ammo (lethal)"
 	desc = "5 magazines of lethal ammunition for peacekeeper rifles."
 	cost = 1200

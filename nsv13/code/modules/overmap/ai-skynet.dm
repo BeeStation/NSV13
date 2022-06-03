@@ -879,24 +879,26 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
-/datum/fleet/syndicate/AbassisWrath
-	name = "Abassi's Wrath"
-	size = FLEET_DIFFICULTY_VERY_HARD
-	allow_difficulty_scaling = TRUE
-	battleship_types = list(/obj/structure/overmap/syndicate/ai/fistofsol, /obj/structure/overmap/syndicate/ai/kadesh)
-	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/cruiser/elite)
-	taunts = list("Do you see the scrap, the graves of your own making? You'll be in one soon enough.", "A criminal always returns to the scene of the crime...", "We are his wrath, we are his blade. We shall cut you down!", "All ships, end the war.")
-	fleet_trait = FLEET_TRAIT_DEFENSE
-
-/datum/fleet/syndicate/fistofsolo
+/datum/fleet/syndicate/fistofsol_boss
 	name = "SSV Fist of Sol"
+	faction = FACTION_ID_SYNDICATE
 	size = 1
 	allow_difficulty_scaling = FALSE
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/fistofsol)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 	taunts = list("That's it... Just you and me now, no support, no distractions... no war. Whoever wins is the best crew.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
+
+/datum/fleet/hostile/alicorn_boss
+	name = "\proper SGV Alicorn"
+	size = 1
+	hide_movements = TRUE
+	allow_difficulty_scaling = FALSE
+	fighter_types = list(/obj/structure/overmap/hostile/ai/fighter)
+	supply_types = list(/obj/structure/overmap/hostile/ai/alicorn)
+	taunts = list("Ahaha... A powerful ship, a powerful gun, powerful ammunition. The graceful slaughter of a billion lives to save billions more!")
+	fleet_trait = FLEET_TRAIT_DEFENSE
+
 
 //Nanotrasen fleets
 

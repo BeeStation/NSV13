@@ -37,7 +37,7 @@
 /obj/item/projectile/bullet/peacekeeper
 	name = "6mm tungsten round"
 	damage = 10 //Hopefully making it bias towards armorpen should make it less likely to kill people straight out.
-	armour_penetration = 60
+	armour_penetration = 30
 	icon_state = "pdc"
 
 /obj/item/projectile/bullet/peacekeeper/stun
@@ -56,19 +56,14 @@
 	icon_state = "peacekeeper_stun"
 	ammo_type = /obj/item/ammo_casing/peacekeeper
 	caliber = "6mm"
-	max_ammo = 30
+	max_ammo = 75
 
 /obj/item/ammo_box/magazine/peacekeeper/lethal
 	name = "pinned M2A45 pulse rifle magazine (lethal)"
 	icon_state = "peacekeeper"
 	ammo_type = /obj/item/ammo_casing/peacekeeper/lethal
 	caliber = "6mm"
-	max_ammo = 10
-
-/obj/item/ammo_box/magazine/peacekeeper/lethal/unpinned
-	name = "M2A45 pulse rifle magazine (lethal)"
-	max_ammo = 30
-
+	max_ammo = 75
 
 /obj/item/ammo_box/magazine/peacekeeper/update_icon()
 	..()
