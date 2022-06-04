@@ -69,8 +69,9 @@
 	var/offset_x = 0 // like pixel_x/y but in tiles
 	var/offset_y = 0
 	var/angle = 0 // degrees, clockwise
-	var/keyboard_delta_angle = 0 // Set by use of turning keys
-	var/desired_angle = null // set by pilot moving his mouse
+	var/keyboard_delta_angle_left = 0 // Set by use of turning key
+	var/keyboard_delta_angle_right = 0 // Set by use of turning key
+	var/desired_angle = null // set by pilot moving his mouse or by keyboard steering
 	var/angular_velocity = 0 // degrees per second
 	var/max_angular_acceleration = 180 // in degrees per second per second
 	var/speed_limit = 3.5 //Stops ships from going too damn fast. This can be overridden by things like fighters launching from tubes, so it's not a const.
