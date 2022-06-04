@@ -3,7 +3,7 @@
 		weight = WEIGHT_OVERMAP
 
 
-// Basically just blocks the other Q and E bindings since held keys are handled in keyLoop
+// Strafing AND turning? It's more likely than you think!
 /datum/keybinding/overmap/rotate_left
 	key = "Q"
 	name = "rotate_left"
@@ -18,6 +18,7 @@
 
 	if(M != OM.pilot) return
 	if(!OM.use_QE_turning()) return
+	OM.keyboard_delta_angle = OM.keyboard_delta_angle - 15
 	return TRUE
 
 /datum/keybinding/overmap/rotate_left/up(client/user)
@@ -28,6 +29,7 @@
 
 	if(M != OM.pilot) return
 	if(!OM.use_QE_turning()) return
+	OM.keyboard_delta_angle = OM.keyboard_delta_angle + 15
 	return TRUE
 
 /datum/keybinding/overmap/rotate_right
@@ -44,6 +46,7 @@
 
 	if(M != OM.pilot) return
 	if(!OM.use_QE_turning()) return
+	OM.keyboard_delta_angle = OM.keyboard_delta_angle + 15
 	return TRUE
 
 /datum/keybinding/overmap/rotate_right/up(client/user)
@@ -54,6 +57,7 @@
 
 	if(M != OM.pilot) return
 	if(!OM.use_QE_turning()) return
+	OM.keyboard_delta_angle = OM.keyboard_delta_angle - 15
 	return TRUE
 
 // Keys that are held down in other binding modes need both a down and an up to override correctly

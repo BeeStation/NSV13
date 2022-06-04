@@ -69,6 +69,7 @@
 	var/offset_x = 0 // like pixel_x/y but in tiles
 	var/offset_y = 0
 	var/angle = 0 // degrees, clockwise
+	var/keyboard_delta_angle = 0 // Set by use of turning keys
 	var/desired_angle = null // set by pilot moving his mouse
 	var/angular_velocity = 0 // degrees per second
 	var/max_angular_acceleration = 180 // in degrees per second per second
@@ -564,16 +565,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/proc/use_QE_turning()
 	return (!move_by_mouse && (mass < MASS_SMALL))
-
-/obj/structure/overmap/keyLoop(client/user)
-	. = ..()
-	if(use_QE_turning())
-		for(var/_key in user.keys_held)
-			switch(_key)
-				if("Q", "q")
-					desired_angle = angle - 15
-				if("W", "w")
-					desired_angle = angle + 15
 
 /obj/structure/overmap/proc/start_lockon(atom/target)
 	if(!istype(target, /obj/structure/overmap))
