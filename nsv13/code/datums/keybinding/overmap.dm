@@ -18,7 +18,7 @@
 
 	if(M != OM.pilot) return
 	if(!OM.use_QE_turning()) return
-	OM.keyboard_delta_angle_left = 15
+	OM.keyboard_delta_angle_left = -15
 	return TRUE
 
 /datum/keybinding/overmap/rotate_left/up(client/user)
