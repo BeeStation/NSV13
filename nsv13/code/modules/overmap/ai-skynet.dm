@@ -685,20 +685,27 @@ Adding tasks is easy! Just define a datum for it.
 			if(SSovermap_mode.override_ghost_ships)
 				message_admins("Failed to spawn ghost ship due to admin override.")
 				return
+			if(!prob(10))
+				log_game("DEBUG: Fleet not selected for ghost ship spawn")
+				return
+			log_game("DEBUG: Attempting to spawn ghost ship")
+
 			var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 			var/list/ship_list = list()
-			if(prob(10))
-				if(player_check > 15) //Requires 15 active players for most ships
-					ship_list += fighter_types
-					ship_list += destroyer_types
-					ship_list += battleship_types
+			if(player_check > 15) //Requires 15 active players for most ships
+				log_game("DEBUG: [src] attempting to spawn ghost ship with fighters: [english_list(fighter_types)], destroyers: [english_list(destroyer_types)], battleships: [english_list(battleship_types)]")
+				ship_list += fighter_types
+				ship_list += destroyer_types
+				ship_list += battleship_types
 
-				else if(player_check > 10) //10 for fighters
-					ship_list += fighter_types
+			else if(player_check > 10) //10 for fighters
+				log_game("DEBUG: [src] attempting to spawn ghost ship with fighters: [english_list(fighter_types)]")
+				ship_list += fighter_types
 
-				else
-					message_admins("Failed to spawn ghost ship due to insufficent players.")
-					return
+			else
+				message_admins("Failed to spawn ghost ship due to insufficent players.")
+				log_game("DEBUG: Failed to spawn ghost ship due to insufficent players.")
+				return
 
 			if(!length(ship_list))
 				message_admins("Failed to spawn ghost ship due to lack of valid ship types")
