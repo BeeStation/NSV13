@@ -1,5 +1,5 @@
 /datum/reagent/blood
-	data = list("donor"=null,"viruses"=null,"blood_DNA"=null,"blood_type"=null,"resistances"=null,"trace_chem"=null,"mind"=null,"ckey"=null,"gender"=null,"real_name"=null,"cloneable"=null,"factions"=null,"quirks"=null)
+	data = list("viruses"=null,"blood_DNA"=null,"blood_type"=null,"resistances"=null,"trace_chem"=null,"mind"=null,"ckey"=null,"gender"=null,"real_name"=null,"cloneable"=null,"factions"=null,"quirks"=null)
 	name = "Blood"
 	color = "#C80000" // rgb: 200, 0, 0
 	metabolization_rate = 5 //fast rate so it disappears fast.
@@ -11,6 +11,9 @@
 	shot_glass_icon_state = "shotglassred"
 
 /datum/reagent/blood/reaction_mob(mob/living/L, method=TOUCH, reac_volume)
+	if(method == INGEST && ismoth(L) && !HAS_TRAIT(L, TRAIT_AGEUSIA))//NSSV13 - Moths occasionally enjoy a sip of blood
+		SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "quality_drink", /datum/mood_event/moth_drink_blood)
+
 	if(data && data["viruses"])
 		for(var/thing in data["viruses"])
 			var/datum/disease/D = thing
@@ -18,15 +21,15 @@
 			if((D.spread_flags & DISEASE_SPREAD_SPECIAL) || (D.spread_flags & DISEASE_SPREAD_NON_CONTAGIOUS))
 				continue
 
-			if ( data[ "donor" ] && istype( data[ "donor" ], /mob/living/simple_animal/mouse ) && L ) // NSV13 - Lizards do not get rat viruses
-				if ( islizard( L ) ) 
-					continue 
+			if(data["donor"] == /mob/living/simple_animal/mouse && L) // NSV13 - Lizards do not get rat viruses
+				if(islizard(L))
+					continue
 
-				if ( istype( L, /mob/living/carbon ) ) 
-					var/mob/living/carbon/C = L 
-					if( iscatperson(C) ) 
-						continue 
-			// NSV13 end species check 
+				if(istype(L, /mob/living/carbon))
+					var/mob/living/carbon/C = L
+					if(iscatperson(C))
+						continue
+			// NSV13 end species check
 
 			if((method == TOUCH || method == VAPOR) && (D.spread_flags & DISEASE_SPREAD_CONTACT_FLUIDS))
 				L.ContactContractDisease(D)
@@ -127,14 +130,22 @@
 	description = "A happy looking liquid that you feel compelled to consume if you want a better life."
 	color = "#ecca7f"
 	taste_description = "dog treats"
+	can_synth = FALSE
 	var/mob/living/simple_animal/pet/dog/corgi/new_corgi
 
 /datum/reagent/corgium/on_mob_metabolize(mob/living/L)
 	. = ..()
 	new_corgi = new(get_turf(L))
 	new_corgi.key = L.key
-	new_corgi.name = L.name
+	new_corgi.name = L.real_name
+	new_corgi.real_name = L.real_name
 	ADD_TRAIT(L, TRAIT_NOBREATH, CORGIUM_TRAIT)
+	//hack - equipt current hat
+	var/mob/living/carbon/C = L
+	if (istype(C))
+		var/obj/item/hat = C.get_item_by_slot(ITEM_SLOT_HEAD)
+		if (hat)
+			new_corgi.place_on_head(hat,null,FALSE)
 	L.forceMove(new_corgi)
 
 /datum/reagent/corgium/on_mob_life(mob/living/carbon/M)
@@ -156,6 +167,14 @@
 	L.adjustBruteLoss(new_corgi.getBruteLoss())
 	L.adjustFireLoss(new_corgi.getFireLoss())
 	L.forceMove(get_turf(new_corgi))
+	// HACK - drop all corgi inventory
+	var/turf/T = get_turf(new_corgi)
+	if (new_corgi.inventory_head)
+		if(!L.equip_to_slot_if_possible(new_corgi.inventory_head, ITEM_SLOT_HEAD,disable_warning = TRUE, bypass_equip_delay_self=TRUE))
+			new_corgi.inventory_head.forceMove(T)
+	new_corgi.inventory_back?.forceMove(T)
+	new_corgi.inventory_head = null
+	new_corgi.inventory_back = null
 	qdel(new_corgi)
 
 /datum/reagent/water
@@ -227,9 +246,17 @@
 	if(!istype(M))
 		return
 	if(isoozeling(M))
-		M.blood_volume -= 30
+		M.blood_volume = max(M.blood_volume - 30, 0)
 		to_chat(M, "<span class='warning'>The water causes you to melt away!</span>")
 		return
+	var/mob/living/carbon/human/H = M //NSV felinids can be sprayed by water
+	if(istype(H) && iscatperson(H) && (method == TOUCH || method == VAPOR))
+		if(M.fire_stacks < 0) //if we're on fire, don't apply the negative mood
+			M.Immobilize(1) //startles the felinid
+			if (method == TOUCH)
+				SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "watersplashed", /datum/mood_event/watersplashed)
+			if (method == VAPOR)
+				SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "watersprayed", /datum/mood_event/watersprayed) //End of NSV code
 	if(method == TOUCH)
 		M.adjust_fire_stacks(-(reac_volume / 10))
 		M.ExtinguishMob()
@@ -539,10 +566,12 @@
 						/datum/species/lizard,
 						/datum/species/fly,
 						/datum/species/moth,
+						/datum/species/apid,
 						/datum/species/pod,
 						/datum/species/jelly,
 						/datum/species/abductor,
-						/datum/species/squid)
+						/datum/species/squid,
+						/datum/species/skeleton)
 	can_synth = TRUE
 
 /datum/reagent/mutationtoxin/felinid
@@ -571,6 +600,13 @@
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/moth
 	taste_description = "clothing"
+
+/datum/reagent/mutationtoxin/apid
+	name = "Apid Mutation Toxin"
+	description = "A sweet-smelling toxin."
+	color = "#5EFF3B" //RGB: 94, 255, 59
+	race = /datum/species/apid
+	taste_description = "honey"
 
 /datum/reagent/mutationtoxin/pod
 	name = "Podperson Mutation Toxin"
@@ -630,13 +666,20 @@
 	race = /datum/species/ipc
 	taste_description = "silicon and copper"
 
+/datum/reagent/mutationtoxin/ethereal
+	name = "Ethereal Mutation Toxin"
+	description = "A positively electric toxin."
+	color = "#5EFF3B" //RGB: 94, 255, 59
+	race = /datum/species/ethereal
+	taste_description = "shocking"
+
 /datum/reagent/mutationtoxin/squid
 	name = "Squid Mutation Toxin"
 	description = "A salty toxin."
 	color = "#5EFF3B" //RGB: 94, 255, 59
 	race = /datum/species/squid
 	taste_description = "fish"
-	
+
 /datum/reagent/mutationtoxin/oozeling
 	name = "Oozeling Mutation Toxin"
 	description = "An oozing toxin"
@@ -724,6 +767,7 @@
 	description = "An advanced corruptive toxin produced by slimes."
 	color = "#13BC5E" // rgb: 19, 188, 94
 	taste_description = "slime"
+	can_synth = FALSE //idedplznerf
 
 /datum/reagent/aslimetoxin/reaction_mob(mob/living/L, method=TOUCH, reac_volume)
 	if(method != TOUCH)
@@ -912,7 +956,7 @@
 	random_unrestricted = FALSE
 
 /datum/reagent/lithium/on_mob_life(mob/living/carbon/M)
-	if((M.mobility_flags & MOBILITY_MOVE) && !isspaceturf(M.loc))
+	if((M.mobility_flags & MOBILITY_MOVE) && !isspaceturf(M.loc) && isturf(M.loc))
 		step(M, pick(GLOB.cardinals))
 	if(prob(5))
 		M.emote(pick("twitch","drool","moan"))
@@ -934,8 +978,8 @@
 	if(method in list(TOUCH, VAPOR, PATCH))
 		for(var/s in C.surgeries)
 			var/datum/surgery/S = s
-			S.success_multiplier = max(0.2, S.success_multiplier)
-			// +20% success propability on each step, useful while operating in less-than-perfect conditions
+			S.speed_modifier = max(0.2, S.speed_modifier)
+			// +20% surgery speed on each step, useful while operating in less-than-perfect conditions
 	..()
 
 /datum/reagent/iron

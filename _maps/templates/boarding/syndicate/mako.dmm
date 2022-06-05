@@ -1,4 +1,11 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"al" = (
+/obj/effect/landmark/patrol_node{
+	id = "destroyer_bridge";
+	next_id = "destroyer_aft"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "an" = (
 /obj/structure/chair/stool,
 /obj/machinery/light{
@@ -50,8 +57,7 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "bw" = (
 /turf/open/floor/plasteel/stairs/medium{
-	dir = 4;
-	icon_state = "stairs-m"
+	dir = 4
 	},
 /area/ruin/powered/nsv13/boarding_interior)
 "bW" = (
@@ -226,8 +232,8 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "mW" = (
 /obj/structure/rack,
-/obj/effect/spawner/lootdrop/fiftycal,
-/obj/item/ammo_box/magazine/pdc/flak,
+/obj/effect/spawner/lootdrop/pdc,
+/obj/item/ammo_box/magazine/nsv/flak,
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
 "nc" = (
@@ -425,6 +431,14 @@
 	},
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
+"xu" = (
+/obj/structure/hull_plate,
+/obj/effect/landmark/patrol_node{
+	id = "destroyer_muni";
+	next_id = "destroyer_cic"
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
 "xK" = (
 /obj/structure/hull_plate/end{
 	dir = 1
@@ -472,6 +486,13 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
+"AX" = (
+/obj/effect/landmark/patrol_node{
+	id = "destroyer_cic";
+	next_id = "destroyer_bridge"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "By" = (
 /obj/item/radio/intercom{
 	freqlock = 1;
@@ -490,7 +511,6 @@
 /obj/structure/chair/comfy/shuttle{
 	color = "#696969";
 	dir = 4;
-	icon_state = "shuttle_chair";
 	name = "bridge chair"
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -614,6 +634,14 @@
 /obj/machinery/ship_weapon/torpedo_launcher/west,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
+"JE" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/effect/landmark/patrol_node{
+	id = "destroyer_aft";
+	next_id = "destroyer_muni"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "JM" = (
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plasteel/tech/grid,
@@ -725,7 +753,6 @@
 /obj/structure/chair/comfy/shuttle{
 	color = "#696969";
 	dir = 4;
-	icon_state = "shuttle_chair";
 	name = "captain's chair"
 	},
 /mob/living/simple_animal/hostile/syndicate/civilian{
@@ -778,7 +805,7 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "VT" = (
 /obj/structure/rack,
-/obj/effect/spawner/lootdrop/fiftycal,
+/obj/effect/spawner/lootdrop/pdc,
 /obj/item/multitool,
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
@@ -29889,7 +29916,7 @@ Ca
 Ca
 MZ
 Cb
-hS
+JE
 FB
 fG
 sy
@@ -32700,7 +32727,7 @@ dz
 fG
 uT
 oZ
-oZ
+xu
 oZ
 oZ
 aU
@@ -32712,7 +32739,7 @@ Om
 nc
 nc
 nc
-nc
+AX
 nc
 nc
 nc
@@ -39362,7 +39389,7 @@ kQ
 Cb
 nc
 DL
-nc
+al
 Cb
 fG
 fG

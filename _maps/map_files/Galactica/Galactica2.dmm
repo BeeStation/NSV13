@@ -199,7 +199,7 @@
 /obj/effect/turf_decal/ship/techfloor,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 1;
-	filter_types = list(/datum/gas/nucleium);
+	filter_types = list("nucleium");
 	name = "Nucleium Scrubber"
 	},
 /turf/open/floor/plasteel/ridged/steel,
@@ -282,6 +282,8 @@
 	pixel_y = -2
 	},
 /obj/item/pen/red,
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/lobby)
 "agG" = (
@@ -567,7 +569,7 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 4;
-	filter_types = list(/datum/gas/nucleium);
+	filter_types = list("nucleium");
 	name = "Nucleium Scrubber"
 	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
@@ -1295,7 +1297,7 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	filter_types = list(/datum/gas/nucleium);
+	filter_types = list("nucleium");
 	name = "Nucleium Scrubber"
 	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
@@ -1846,6 +1848,10 @@
 	dir = 1
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/effect/landmark/patrol_node{
+	id = "arrivals";
+	next_id = "janitor"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "aWR" = (
@@ -2428,7 +2434,7 @@
 /turf/open/floor/carpet/blue,
 /area/bridge/showroom/corporate)
 "biF" = (
-/obj/item/twohanded/required/kirbyplants,
+/obj/item/kirbyplants,
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/nsv/deck2/frame5/starboard)
 "biJ" = (
@@ -2463,7 +2469,7 @@
 /obj/structure/bed/dogbed{
 	name = "Antonio's Bed"
 	},
-/obj/item/ship_weapon/ammunition/torpedo/nuke/antonio{
+/obj/item/ship_weapon/ammunition/torpedo/hellfire/antonio{
 	icon_state = "joytorp";
 	name = "Comedia"
 	},
@@ -4793,7 +4799,7 @@
 /turf/open/floor/plating,
 /area/engine/engineering/reactor_core)
 "cDa" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-21"
 	},
 /turf/open/floor/monotile/dark,
@@ -4905,6 +4911,12 @@
 /obj/effect/spawner/room/threexfive,
 /turf/template_noop,
 /area/maintenance/nsv/deck2/frame5/starboard)
+"cGd" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/turf/open/floor/engine/airless,
+/area/nsv/hanger/notkmcstupidhanger)
 "cGl" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -5237,7 +5249,7 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/secondary/entry/arrivals)
 "cPn" = (
-/obj/item/twohanded/required/kirbyplants,
+/obj/item/kirbyplants,
 /turf/open/floor/noslip/dark,
 /area/maintenance/nsv/bunker)
 "cPN" = (
@@ -5907,6 +5919,9 @@
 "deV" = (
 /obj/item/ship_weapon/ammunition/torpedo/freight,
 /obj/effect/spawner/lootdrop/maintenance,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 5
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "dfa" = (
@@ -5984,7 +5999,7 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 8;
-	filter_types = list(/datum/gas/nucleium);
+	filter_types = list("nucleium");
 	name = "Nucleium Scrubber"
 	},
 /turf/open/floor/plasteel/ridged/steel,
@@ -6665,9 +6680,7 @@
 /turf/open/floor/plating,
 /area/security/processing)
 "dCb" = (
-/obj/structure/fluff/bus/passable/seat{
-	icon_state = "backseat"
-	},
+/obj/structure/fluff/bus/passable/seat,
 /obj/item/storage/fancy/cigarettes/cigpack_robust,
 /turf/open/floor/plasteel/dark{
 	icon_state = "bus"
@@ -7327,6 +7340,14 @@
 /area/ai_monitored/security/armory/lockup)
 "eax" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/table,
+/obj/item/reagent_containers/food/drinks/bottle/beer,
+/obj/item/reagent_containers/food/drinks/bottle/beer{
+	pixel_x = 5;
+	pixel_y = 4
+	},
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "eaP" = (
@@ -7513,7 +7534,7 @@
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/engine/atmos)
 "efb" = (
-/obj/item/twohanded/required/kirbyplants/photosynthetic,
+/obj/item/kirbyplants/photosynthetic,
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
 "efp" = (
@@ -7920,13 +7941,13 @@
 /area/engine/gravity_generator)
 "epL" = (
 /obj/structure/munitions_trolley,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/hanger/notkmcstupidhanger)
 "epX" = (
@@ -8385,6 +8406,10 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/ship/nt_floor_logo,
+/obj/effect/landmark/patrol_node{
+	id = "briefing_central";
+	next_id = "arrivals"
+	},
 /turf/open/floor/light,
 /area/nsv/briefingroom)
 "eDI" = (
@@ -8622,7 +8647,7 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "eKR" = (
-/obj/item/twohanded/required/kirbyplants/photosynthetic,
+/obj/item/kirbyplants/photosynthetic,
 /obj/structure/window/reinforced{
 	dir = 1;
 	layer = 2.9
@@ -9067,8 +9092,7 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 10;
-	icon_state = "pipe11-3"
+	dir = 10
 	},
 /turf/open/floor/monotile/steel,
 /area/maintenance/nsv/deck2/frame3/port)
@@ -9478,6 +9502,10 @@
 /area/hallway/nsv/deck2/primary)
 "fgp" = (
 /obj/effect/landmark/nuclear_waste_spawner,
+/obj/effect/landmark/patrol_node{
+	id = "janitor";
+	next_id = "trash"
+	},
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/bar{
 	name = "Night Club"
@@ -9676,7 +9704,7 @@
 /area/quartermaster/warehouse)
 "flX" = (
 /obj/effect/turf_decal/stripes/line,
-/obj/structure/overmap/fighter/dropship/starter{
+/obj/structure/overmap/small_craft/transport/starter{
 	angle = 90
 	},
 /turf/open/floor/engine,
@@ -9794,8 +9822,7 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8;
-	icon_state = "scrub_map_on-3"
+	dir = 8
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/atmos)
@@ -9849,12 +9876,10 @@
 /turf/open/floor/monotile/dark,
 /area/science/robotics/mechbay)
 "frE" = (
-/obj/item/ship_weapon/ammunition/torpedo/freight,
-/obj/structure/fluff/support_beam{
-	color = "#787878";
-	dir = 1
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/west{
+	launcher_id = "nt_cargo_torpedo_launcher"
 	},
-/turf/open/floor/plasteel/techmaint,
+/turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/warehouse)
 "fsb" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -10546,6 +10571,11 @@
 	},
 /turf/open/floor/plasteel/stairs/old,
 /area/nsv/briefingroom)
+"fIg" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/structure/overmap/small_craft/combat/light,
+/turf/open/floor/engine/airless,
+/area/nsv/hanger/notkmcstupidhanger)
 "fIR" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
@@ -10673,11 +10703,6 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/engine,
 /area/engine/engineering/reactor_core)
-"fLB" = (
-/obj/structure/closet/crate,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/plasteel/tech/grid,
-/area/quartermaster/warehouse)
 "fLJ" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	req_access_txt = "12"
@@ -11380,7 +11405,7 @@
 	name = "Night Club"
 	})
 "gej" = (
-/obj/structure/overmap/fighter/light/syndicate,
+/obj/structure/overmap/small_craft/combat/light/syndicate,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
@@ -11783,7 +11808,7 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "gpj" = (
-/obj/item/twohanded/required/kirbyplants/random,
+/obj/item/kirbyplants/random,
 /obj/effect/turf_decal/tile/ship/half/neutral,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
@@ -12430,7 +12455,7 @@
 /obj/effect/turf_decal/tile/ship/half/neutral{
 	dir = 8
 	},
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-21"
 	},
 /turf/open/floor/monotile/dark,
@@ -13604,7 +13629,7 @@
 	name = "Chief Engineer RC";
 	pixel_x = -32
 	},
-/obj/item/twohanded/required/kirbyplants/random,
+/obj/item/kirbyplants/random,
 /obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/chief)
@@ -14001,7 +14026,7 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	filter_types = list(/datum/gas/nucleium);
+	filter_types = list("nucleium");
 	name = "Nucleium Scrubber"
 	},
 /turf/open/floor/plasteel/ridged/steel,
@@ -14826,7 +14851,7 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/magazine/starboard)
 "hUI" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-10"
 	},
 /obj/machinery/power/apc/auto_name/west,
@@ -15390,9 +15415,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame3/central)
 "ilq" = (
-/obj/structure/fluff/bus/passable/seat{
-	icon_state = "backseat"
-	},
+/obj/structure/fluff/bus/passable/seat,
 /turf/open/floor/plasteel/dark{
 	icon_state = "bus"
 	},
@@ -15635,7 +15658,7 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "iqh" = (
-/obj/machinery/mecha_part_fabricator,
+/obj/machinery/modular_fabricator/exosuit_fab,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/item/stack/sheet/iron/fifty,
 /obj/item/stack/sheet/iron/fifty,
@@ -15674,7 +15697,7 @@
 /turf/open/floor/monotile/light,
 /area/medical/genetics/cloning)
 "irl" = (
-/obj/item/twohanded/required/kirbyplants/random,
+/obj/item/kirbyplants/random,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/chief)
 "irI" = (
@@ -16442,6 +16465,16 @@
 	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/engine/engineering/ftl_room)
+"iPZ" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	id = "deck2_ladder";
+	next_id = "escapes"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/primary)
 "iQf" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos{
 	dir = 4;
@@ -17118,7 +17151,7 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 4;
-	filter_types = list(/datum/gas/nucleium);
+	filter_types = list("nucleium");
 	name = "Nucleium Scrubber"
 	},
 /turf/open/floor/plasteel/ridged/steel,
@@ -17670,7 +17703,7 @@
 /turf/open/floor/circuit/red/anim,
 /area/engine/engineering/reactor_core)
 "jxN" = (
-/obj/machinery/computer/shuttle/labor{
+/obj/machinery/computer/shuttle_flight/labor{
 	dir = 4
 	},
 /turf/open/floor/plasteel/grid/lino,
@@ -17791,13 +17824,7 @@
 /turf/open/floor/monotile/light,
 /area/medical/genetics/cloning)
 "jBf" = (
-/obj/structure/closet/crate/engineering,
-/obj/item/clothing/glasses/welding,
-/obj/item/stack/sheet/iron/fifty,
-/obj/item/stack/sheet/glass/fifty,
-/obj/effect/spawner/lootdrop/maintenance/three,
-/obj/item/stack/sheet/plasteel/twenty,
-/obj/effect/decal/cleanable/dirt,
+/obj/machinery/computer/ship/munitions_computer/east,
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/warehouse)
 "jBh" = (
@@ -18415,13 +18442,13 @@
 	})
 "jQI" = (
 /obj/structure/munitions_trolley,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/hanger/notkmcstupidhanger)
 "jRa" = (
@@ -19259,11 +19286,11 @@
 	dir = 1
 	},
 /obj/structure/rack,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/nsv/flak,
+/obj/item/ammo_box/magazine/nsv/flak,
+/obj/item/ammo_box/magazine/nsv/flak,
+/obj/item/ammo_box/magazine/nsv/flak,
+/obj/item/ammo_box/magazine/nsv/flak,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "kom" = (
@@ -19334,7 +19361,7 @@
 /turf/open/floor/plasteel/grid/lino,
 /area/engine/engineering/reactor_control)
 "kqo" = (
-/obj/item/twohanded/required/kirbyplants/photosynthetic,
+/obj/item/kirbyplants/photosynthetic,
 /obj/structure/window/reinforced{
 	dir = 4;
 	layer = 2.9
@@ -19735,10 +19762,10 @@
 "kCB" = (
 /obj/effect/turf_decal/tile/ship/half/orange,
 /obj/machinery/airalarm/directional/north,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/nsv/flak,
+/obj/item/ammo_box/magazine/nsv/flak,
+/obj/item/ammo_box/magazine/nsv/flak,
+/obj/item/ammo_box/magazine/nsv/flak,
 /obj/structure/rack,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
@@ -21545,9 +21572,7 @@
 /turf/open/floor/monotile/steel,
 /area/security/prison)
 "lCR" = (
-/obj/structure/fluff/bus/passable/seat{
-	icon_state = "backseat"
-	},
+/obj/structure/fluff/bus/passable/seat,
 /obj/effect/spawner/lootdrop/glowstick,
 /turf/open/floor/plasteel/dark{
 	icon_state = "bus"
@@ -22819,7 +22844,7 @@
 /turf/open/floor/engine,
 /area/engine/engineering/ftl_room)
 "mmi" = (
-/obj/structure/fighter_launcher/launch_only{
+/obj/structure/fighter_launcher{
 	dir = 4;
 	name = "Purple 1";
 	pixel_x = 32
@@ -22937,7 +22962,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
-/obj/structure/overmap/fighter/dropship/sabre,
+/obj/structure/overmap/small_craft/transport/sabre,
 /turf/open/floor/engine/airless,
 /area/nsv/hanger/notkmcstupidhanger)
 "mpa" = (
@@ -23808,6 +23833,10 @@
 	icon_state = "1-2"
 	},
 /obj/effect/turf_decal/ship/nt_floor_logo,
+/obj/effect/landmark/patrol_node{
+	id = "briefing";
+	next_id = "briefing_central"
+	},
 /turf/open/floor/light,
 /area/hallway/nsv/deck2/primary)
 "mKx" = (
@@ -24875,8 +24904,7 @@
 /area/ai_monitored/security/armory/lockup)
 "nuG" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8;
-	icon_state = "scrub_map_on-3"
+	dir = 8
 	},
 /turf/open/floor/carpet/green,
 /area/engine/engineering/reactor_control)
@@ -25390,7 +25418,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame5/starboard)
 "nJM" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-21"
 	},
 /obj/effect/turf_decal/tile/ship/half/neutral,
@@ -25486,6 +25514,13 @@
 /turf/open/floor/engine,
 /area/engine/atmos)
 "nMM" = (
+/obj/structure/closet/crate/engineering,
+/obj/item/clothing/glasses/welding,
+/obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/glass/fifty,
+/obj/effect/spawner/lootdrop/maintenance/three,
+/obj/item/stack/sheet/plasteel/twenty,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/warehouse)
 "nMZ" = (
@@ -25531,9 +25566,7 @@
 /turf/open/indestructible/sound/pool/spentfuel,
 /area/engine/engineering/reactor_core)
 "nNQ" = (
-/obj/structure/fluff/bus/passable/seat{
-	icon_state = "backseat"
-	},
+/obj/structure/fluff/bus/passable/seat,
 /obj/item/gps{
 	gpstag = "BUS0"
 	},
@@ -25916,7 +25949,7 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "oaX" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-02"
 	},
 /turf/open/floor/plating,
@@ -27178,7 +27211,7 @@
 	pixel_x = -4
 	},
 /obj/item/reagent_containers/glass/waterbottle/large{
-	pixel_x = 4#
+	pixel_x = 4
 	},
 /obj/machinery/light{
 	bulb_colour = "#e69602";
@@ -27217,8 +27250,7 @@
 	icon_state = "2-8"
 	},
 /obj/structure/disposalpipe/segment{
-	dir = 10;
-	icon_state = "pipe"
+	dir = 10
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/monotile/dark,
@@ -27934,7 +27966,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-25"
 	},
 /turf/open/floor/engine,
@@ -28133,10 +28165,7 @@
 /turf/open/floor/monotile/dark,
 /area/chapel/main)
 "pdH" = (
-/obj/structure/fluff/bus/passable/seat/driver{
-	icon_state = "driverseat";
-	pixel_y = 17
-	},
+/obj/structure/fluff/bus/passable/seat/driver,
 /turf/open/floor/plasteel/dark{
 	icon_state = "bus"
 	},
@@ -28232,7 +28261,7 @@
 /turf/closed/wall/steel,
 /area/hallway/nsv/deck2/primary)
 "phq" = (
-/obj/item/twohanded/required/kirbyplants,
+/obj/item/kirbyplants,
 /turf/open/floor/monotile/dark,
 /area/mine/laborcamp/security)
 "phB" = (
@@ -28968,7 +28997,7 @@
 /area/security/brig)
 "pDf" = (
 /obj/effect/decal/cleanable/dirt/dust,
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-21"
 	},
 /turf/open/floor/plating,
@@ -28978,6 +29007,13 @@
 /obj/effect/landmark/start/librarian,
 /turf/open/floor/wood,
 /area/bridge/showroom/corporate)
+"pDm" = (
+/obj/effect/landmark/patrol_node{
+	id = "escapes";
+	next_id = "chapel"
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/secondary/entry/arrivals)
 "pDn" = (
 /obj/effect/turf_decal/tile/ship/half/orange{
 	dir = 8
@@ -29049,7 +29085,7 @@
 /turf/open/floor/monotile/dark,
 /area/security/brig)
 "pFB" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-10"
 	},
 /obj/machinery/airalarm/directional/east,
@@ -29329,7 +29365,7 @@
 /obj/effect/turf_decal/tile/ship/half/red{
 	dir = 1
 	},
-/obj/item/canvas/twentythreeXtwentythree,
+/obj/item/canvas/twentythree_twentythree,
 /obj/structure/easel,
 /obj/machinery/light,
 /turf/open/floor/monotile/steel,
@@ -29787,7 +29823,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame5/port)
 "qaH" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-02"
 	},
 /turf/open/floor/plasteel/ship,
@@ -30272,6 +30308,26 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
+"qoY" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	id = "trash";
+	next_id = "arrivals2"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/primary)
 "qpm" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -30496,6 +30552,11 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
+/obj/machinery/computer/ship/dradis/minor/cargo{
+	dir = 1;
+	dradis_id = "nt_cargo_torpedo_launcher"
+	},
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "quW" = (
@@ -31601,7 +31662,7 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 8;
-	filter_types = list(/datum/gas/nucleium);
+	filter_types = list("nucleium");
 	name = "Nucleium Scrubber"
 	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
@@ -31828,7 +31889,7 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/warehouse)
 "rjY" = (
-/obj/item/twohanded/required/kirbyplants/random,
+/obj/item/kirbyplants/random,
 /turf/open/floor/carpet/ship,
 /area/security/detectives_office)
 "rki" = (
@@ -31887,7 +31948,7 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 1;
-	filter_types = list(/datum/gas/nucleium);
+	filter_types = list("nucleium");
 	name = "Nucleium Scrubber"
 	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
@@ -31944,12 +32005,6 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
-"rpf" = (
-/obj/machinery/ship_weapon/vls{
-	name = "Cargo Torp VLS"
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/quartermaster/storage)
 "rpj" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 8
@@ -31960,7 +32015,7 @@
 /area/science/lab)
 "rqx" = (
 /obj/structure/table/reinforced,
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-12";
 	pixel_y = 14
 	},
@@ -32554,7 +32609,7 @@
 /turf/open/space/basic,
 /area/mine/laborcamp)
 "rGy" = (
-/obj/machinery/computer/shuttle/labor,
+/obj/machinery/computer/shuttle_flight/labor,
 /turf/open/floor/monotile/dark,
 /area/mine/laborcamp/security)
 "rGE" = (
@@ -32753,8 +32808,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/ship/blue{
-	dir = 8;
-	icon_state = "bordercorner"
+	dir = 8
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger{
@@ -32947,6 +33001,10 @@
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/effect/landmark/patrol_node{
+	id = "northern_corridor";
+	next_id = "deck2_ladder_up"
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
@@ -33829,8 +33887,7 @@
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/disposalpipe/segment{
-	dir = 10;
-	icon_state = "pipe"
+	dir = 10
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
@@ -33915,7 +33972,7 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "sqH" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-10"
 	},
 /turf/open/floor/monotile/steel,
@@ -34288,15 +34345,6 @@
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/port)
-"sBB" = (
-/obj/machinery/computer/ship/munitions_computer{
-	dir = 8;
-	icon = 'icons/obj/computer.dmi';
-	icon_screen = "tactical";
-	icon_state = "computer"
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/quartermaster/storage)
 "sBN" = (
 /obj/effect/turf_decal/tile/ship/yellow,
 /obj/effect/turf_decal/tile/ship/yellow{
@@ -34850,7 +34898,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
-/obj/structure/overmap/fighter/light,
+/obj/structure/overmap/small_craft/combat/light,
 /turf/open/floor/engine/airless,
 /area/nsv/hanger/notkmcstupidhanger)
 "sQa" = (
@@ -34996,7 +35044,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/item/twohanded/required/kirbyplants/random,
+/obj/item/kirbyplants/random,
 /turf/open/floor/plating,
 /area/engine/engineering)
 "sTE" = (
@@ -35071,7 +35119,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
-/obj/structure/overmap/fighter/heavy,
+/obj/structure/overmap/small_craft/combat/heavy,
 /turf/open/floor/engine/airless,
 /area/nsv/hanger/notkmcstupidhanger)
 "sWU" = (
@@ -35632,7 +35680,7 @@
 	})
 "tkY" = (
 /obj/machinery/light,
-/obj/machinery/autolathe,
+/obj/machinery/modular_fabricator/autolathe,
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "tlk" = (
@@ -36651,7 +36699,7 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "tPM" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-25"
 	},
 /turf/open/floor/plasteel/grid/lino,
@@ -36839,7 +36887,7 @@
 /turf/open/floor/noslip/dark,
 /area/maintenance/nsv/bunker)
 "tVQ" = (
-/obj/item/twohanded/required/kirbyplants/photosynthetic,
+/obj/item/kirbyplants/photosynthetic,
 /obj/structure/window/reinforced{
 	dir = 8
 	},
@@ -37272,7 +37320,7 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "uhj" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-02"
 	},
 /obj/effect/landmark/xeno_spawn,
@@ -38563,7 +38611,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame3/central)
 "uPT" = (
-/obj/machinery/mecha_part_fabricator,
+/obj/machinery/modular_fabricator/exosuit_fab,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/machinery/newscaster{
 	pixel_y = 32
@@ -38629,8 +38677,7 @@
 "uQP" = (
 /obj/effect/turf_decal/ship/techfloor,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8;
-	icon_state = "scrub_map_on-3"
+	dir = 8
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/atmos)
@@ -39333,7 +39380,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/item/twohanded/required/kirbyplants/random,
+/obj/item/kirbyplants/random,
 /turf/open/floor/eighties,
 /area/crew_quarters/theatre)
 "vkK" = (
@@ -39395,7 +39442,7 @@
 /turf/open/floor/plating,
 /area/mine/laborcamp)
 "vmw" = (
-/obj/structure/piano,
+/obj/structure/musician/piano,
 /obj/structure/sign/poster/random{
 	pixel_x = -32
 	},
@@ -40568,6 +40615,10 @@
 	icon_state = "1-8"
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/effect/landmark/patrol_node{
+	id = "arrivals2";
+	next_id = "northern_corridor"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "vUy" = (
@@ -41366,13 +41417,6 @@
 /turf/open/floor/engine,
 /area/engine/atmos)
 "wtd" = (
-/obj/item/ship_weapon/ammunition/missile,
-/obj/item/ship_weapon/ammunition/missile{
-	pixel_y = 4
-	},
-/obj/item/ship_weapon/ammunition/missile{
-	pixel_y = 10
-	},
 /obj/machinery/light,
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/hanger/notkmcstupidhanger)
@@ -41833,6 +41877,22 @@
 /obj/machinery/status_display/evac/east,
 /turf/open/floor/monotile/steel,
 /area/science/nsv/astronomy)
+"wGN" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/patrol_node{
+	id = "chapel";
+	next_id = "briefing"
+	},
+/turf/open/floor/monotile/dark,
+/area/chapel/main)
 "wHh" = (
 /obj/structure/cable{
 	icon_state = "6-8"
@@ -42193,7 +42253,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame3/central)
 "wSC" = (
-/obj/item/twohanded/required/kirbyplants/random,
+/obj/item/kirbyplants/random,
 /obj/structure/window/reinforced{
 	dir = 1;
 	layer = 2.9
@@ -42713,8 +42773,7 @@
 	dir = 8
 	},
 /obj/structure/disposalpipe/segment{
-	dir = 10;
-	icon_state = "pipe"
+	dir = 10
 	},
 /turf/open/floor/monotile/steel,
 /area/quartermaster/lobby)
@@ -42768,10 +42827,10 @@
 	})
 "xjv" = (
 /obj/effect/turf_decal/tile/ship/half/orange,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
-/obj/item/ammo_box/magazine/pdc/flak,
+/obj/item/ammo_box/magazine/nsv/flak,
+/obj/item/ammo_box/magazine/nsv/flak,
+/obj/item/ammo_box/magazine/nsv/flak,
+/obj/item/ammo_box/magazine/nsv/flak,
 /obj/structure/rack,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
@@ -43225,13 +43284,16 @@
 /area/maintenance/nsv/deck2/frame2/central)
 "xvI" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8;
-	icon_state = "scrub_map_on-3"
+	dir = 8
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/chief)
 "xvR" = (
 /obj/machinery/airalarm/directional/north,
+/obj/effect/landmark/patrol_node{
+	id = "deck2_ladder_up";
+	next_id = "deck1_ladder_up"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "xvW" = (
@@ -43686,8 +43748,8 @@
 /obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
 /obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
 /obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
-/obj/item/ship_weapon/parts/missile/warhead/nuclear,
-/obj/item/ship_weapon/parts/missile/warhead/nuclear,
+/obj/item/ship_weapon/parts/missile/warhead/hellfire,
+/obj/item/ship_weapon/parts/missile/warhead/hellfire,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
@@ -44012,7 +44074,7 @@
 /turf/open/floor/monotile/steel,
 /area/hydroponics)
 "xTE" = (
-/obj/machinery/computer/shuttle/labor/one_way{
+/obj/machinery/computer/shuttle_flight/labor/one_way{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -44381,7 +44443,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/item/twohanded/required/kirbyplants/random,
+/obj/item/kirbyplants/random,
 /turf/open/floor/eighties,
 /area/crew_quarters/theatre)
 "yex" = (
@@ -44579,7 +44641,7 @@
 /turf/open/floor/monotile/dark,
 /area/medical/medbay)
 "yiG" = (
-/obj/structure/fighter_launcher/launch_only{
+/obj/structure/fighter_launcher{
 	dir = 4;
 	name = "Yellow 1";
 	pixel_x = 32
@@ -76202,7 +76264,7 @@ jrv
 ncO
 uoa
 uGl
-cdy
+qoY
 gCP
 dpL
 lDy
@@ -78222,7 +78284,7 @@ vVn
 fJc
 qPA
 xvR
-hxp
+iPZ
 pEL
 rOl
 gnp
@@ -78247,7 +78309,7 @@ uqQ
 oOA
 oNG
 gwX
-frE
+hxj
 deV
 sKg
 kWJ
@@ -78504,7 +78566,7 @@ jEB
 pRU
 bjB
 xhz
-fLB
+iED
 izg
 shN
 kWJ
@@ -78761,7 +78823,7 @@ sxJ
 ruo
 nbc
 iED
-nMM
+frE
 ndp
 hxj
 pHZ
@@ -82876,7 +82938,7 @@ fjV
 hXw
 dVX
 vva
-sBB
+bKj
 toG
 aVf
 cRj
@@ -83133,7 +83195,7 @@ mhv
 bKj
 lxi
 ssv
-rpf
+bKj
 toG
 kIv
 efp
@@ -94406,7 +94468,7 @@ tZk
 sIq
 pXM
 pXM
-pXM
+pDm
 pXM
 jOD
 udZ
@@ -97746,7 +97808,7 @@ cYp
 vtt
 aWD
 rFv
-dnZ
+wGN
 iZT
 axb
 aWD
@@ -102918,7 +102980,7 @@ msz
 dZC
 dDc
 pRr
-sPR
+cGd
 dwi
 rIa
 eEK
@@ -103175,7 +103237,7 @@ msz
 dZC
 wFF
 ivE
-ciB
+fIg
 dwi
 rIa
 eEK
@@ -104458,8 +104520,8 @@ bDf
 bDf
 tsI
 dZC
-saX
 pjW
+qnd
 qnd
 dwi
 rIa
@@ -104715,8 +104777,8 @@ bDf
 bDf
 msz
 dZC
-saX
 pjW
+saX
 wtd
 dwi
 rIa

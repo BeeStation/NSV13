@@ -26,7 +26,7 @@
 
 //Executive officer's line variant. For rule of cool.
 /obj/machinery/turnstile/xo
-	name = "XO line turnstile"
+	name = "\improper XO line turnstile"
 	req_one_access = list(ACCESS_BRIG, ACCESS_HEADS)
 
 /obj/structure/closet/secure_closet/genpop
@@ -109,7 +109,8 @@
 /obj/machinery/turnstile/CanAtmosPass(turf/T)
 	return TRUE
 
-/obj/machinery/turnstile/CanPass(atom/movable/mover, turf/target)
+/obj/machinery/turnstile/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
 	if(istype(mover) && (mover.pass_flags & PASSGLASS))
 		return TRUE
 	if(!isliving(mover))
@@ -193,6 +194,7 @@
 	if(!ui)
 		ui = new(user, src, "GenPop")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/genpop_interface/ui_data(mob/user)
 	var/list/data = list()
@@ -336,8 +338,7 @@ GLOBAL_LIST_EMPTY(prisoner_ids)
 
 /obj/item/card/id/prisoner/process()
 	served_time ++ //Maybe 2?
-
-	if (served_time >= sentence) //FREEDOM!
+	if(served_time >= sentence) //FREEDOM!
 		assignment = "Ex-Convict"
 		access = list(ACCESS_PRISONER)
 		update_label(registered_name, assignment)

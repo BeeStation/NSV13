@@ -75,7 +75,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 	var/primary_objective = null //Text strings
 	var/secondary_objective = null
-	var/list/disallowed_jobs = list(/datum/job/captain, /datum/job/hop, /datum/job/ai, /datum/job/cyborg, /datum/job/munitions_tech, /datum/job/master_at_arms, /datum/job/pilot, /datum/job/air_traffic_controller, /datum/job/warden, /datum/job/hos, /datum/job/bridge, /datum/job/military_police, /datum/job/marine, /datum/job/doctor, /datum/job/engineer, /datum/job/chief_engineer)
+	var/list/disallowed_jobs = list(/datum/job/captain, /datum/job/hop, /datum/job/ai, /datum/job/cyborg, /datum/job/munitions_tech, /datum/job/master_at_arms, /datum/job/pilot, /datum/job/air_traffic_controller, /datum/job/warden, /datum/job/hos, /datum/job/bridge, /datum/job/officer, /datum/job/assistant, /datum/job/doctor, /datum/job/engineer, /datum/job/chief_engineer)
 	var/list/allowed_jobs = null //Do you want this squad to be locked to one role?
 	var/datum/component/simple_teamchat/radio_dependent/squad/squad_channel = null
 	var/squad_channel_type
@@ -121,7 +121,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	screen_loc = "EAST-1:28,CENTER-4:10"
 	var/datum/squad/squad = null
 	var/mob/user = null
-
+	var/mutable_appearance/pointer
 
 /atom/movable/screen/squad_lead_finder/examine(mob/user)
 	. = ..()
@@ -131,15 +131,20 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 /atom/movable/screen/squad_lead_finder/proc/set_squad(datum/squad/squad, mob/living/user)
 	src.squad = squad
 	src.user = user
+	pointer = mutable_appearance(src.icon, "arrow")
+	pointer.dir = dir
+	add_overlay(pointer)
 	START_PROCESSING(SSobj, src)
 
 /atom/movable/screen/squad_lead_finder/Destroy()
+	if(pointer)
+		cut_overlay(pointer)
+		QDEL_NULL(pointer)
 	STOP_PROCESSING(SSobj, src)
-	. = ..()
+	return ..()
 
 /atom/movable/screen/squad_lead_finder/process()
-	cut_overlays()
-	var/mob/SL = squad?.leader || null
+	var/mob/SL = squad?.leader
 	if(!SL)
 		return
 	var/turf/Q = get_turf(SL)
@@ -150,11 +155,11 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/finder_icon = "arrow" //Overlay showed when adjacent to or on top of the queen!
 	if(squad.leader == user)
 		finder_icon = "youaretheleader"
-	var/image/pointyBoi = image(src.icon, finder_icon, dir = Qdir)
-	add_overlay(pointyBoi)
+	pointer.dir = Qdir
+	pointer.icon_state = finder_icon
 
 /datum/squad/proc/handle_hud(mob/living/carbon/human/H, add=TRUE)
-	var/datum/atom_hud/HUD = GLOB.huds[DATA_HUD_SECURITY_BASIC]
+	var/datum/atom_hud/HUD = GLOB.huds[DATA_HUD_SQUAD]
 	var/datum/hud/human/hud_used = H.hud_used
 
 	if(add)
@@ -171,7 +176,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			hud_used.squad_lead_finder.invisibility = INVISIBILITY_ABSTRACT
 			hud_used.squad_lead_finder.alpha = 0
 	//hud_used?.show_hud(hud_used?.hud_version)
-	H.set_squad_hud()
+	// H.squad_hud_set_squad()
 
 /datum/squad/proc/remove_member(mob/living/carbon/human/H)
 	handle_hud(H, FALSE)
@@ -236,7 +241,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			grunts += H
 			H.squad_role = SQUAD_MARINE
 			apply_squad_rank(H, "PFC")
-	H.set_squad_hud()
+	// H.squad_hud_set_squad()
 	broadcast(src,"[H.name] has been re-assigned to [H.squad_role].", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
 
 
@@ -276,6 +281,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 			apply_squad_rank(H, "PFC") //Private first class
 	equip(H, give_items)
 	handle_hud(H, TRUE)
+
 	var/blurb = "As a <b>Squad Marine</b> you are the most Junior member of any squad and are expected only to follow the orders of your superiors... \n <i>Sergeants</i>, <i>Specialists</i> and the <i>Squad Leader</i> all outrank you and you are expected to follow their orders."
 	switch(H.squad_role)
 		if(SQUAD_LEAD)
@@ -292,20 +298,19 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 	broadcast(src,"[H.name] has been assigned to your squad as [H.squad_role].", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
 
-/mob/living/carbon/human/proc/set_squad_hud()
+/datum/atom_hud/data/human/squad_hud
+	hud_icons = list(SQUAD_HUD)
+
+/* /mob/living/carbon/human/proc/squad_hud_set_squad()
+	var/image/holder = hud_list[SQUAD_HUD]
+	var/icon/I = icon(icon, icon_state, dir)
+	holder.pixel_y = I.Height() - world.icon_size
 	if(squad && squad_role)
-		var/image/holder = hud_list[ID_HUD] //Todo: separate HUD layer, under job?
-		var/icon/I = icon(icon, icon_state, dir)
-		holder.pixel_y = I.Height() - world.icon_size
 		holder.icon_state = "squad_[squad.name]_[squad_role]"
 	else
-		var/image/holder = hud_list[ID_HUD]
-		var/icon/I = icon(icon, icon_state, dir)
-		holder.pixel_y = I.Height() - world.icon_size
 		holder.icon_state = "hudno_id"
 		if(wear_id?.GetID())
-			holder.icon_state = "hud[ckey(wear_id.GetJobName())]"
-		sec_hud_set_security_status()
+			holder.icon_state = "hud[ckey(wear_id.GetJobName())]" */
 
 /datum/squad/proc/equip(mob/living/carbon/human/H, give_items)
 	var/datum/squad/oldSquad = H.squad
@@ -316,6 +321,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	if(give_items)
 		var/obj/item/storage/backpack/bag = H.get_item_by_slot(ITEM_SLOT_BACK)
 		new /obj/item/squad_pager(bag, src)
+		new /obj/item/clothing/neck/squad(bag, src)
 		/*
 		switch(H.squad_role)
 			if(SQUAD_LEAD)
@@ -355,7 +361,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	id = ABLE_SQUAD
 	colour = "#e61919"
 	access = list(ACCESS_HANGAR, ACCESS_BRIG, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_MAINT_TUNNELS)
-	allowed_jobs = list(/datum/job/marine)
+	allowed_jobs = list(/datum/job/assistant)
 	disallowed_jobs = list()
 
 /datum/squad/baker

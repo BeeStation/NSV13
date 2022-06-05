@@ -36,7 +36,7 @@ MAP_REMOVE_JOB(mime)
 //Security
 MAP_REMOVE_JOB(warden)
 MAP_REMOVE_JOB(detective)
-MAP_REMOVE_JOB(military_police)
+MAP_REMOVE_JOB(officer)
 MAP_REMOVE_JOB(deputy)
 MAP_REMOVE_JOB(brig_phys)
 //MAP_REMOVE_JOB(marine) //I hope you can understand why I needed to do this lol
@@ -54,19 +54,6 @@ MAP_REMOVE_JOB(air_traffic_controller)
     limited_stock = 0 //This ship is way too small for this shit.
     cant_discount = TRUE
     surplus = 0
-
-/datum/job/munitions_tech/New()
-	..()
-	MAP_JOB_CHECK
-	//Munitech is the new assistant for Atlas. We don't want 20 marines : 1 CIC operator and so on..
-	addtimer(CALLBACK(SSjob, /datum/controller/subsystem/job/proc/set_overflow_role, src.title), 10 SECONDS)
-
-/datum/job/marine/New()
-	..()
-	MAP_JOB_CHECK
-	//Very reduced marine count due to the Atlas being small and lowpop. I don't want a shift where every single person rolls marine, and the ship has no one to fly it.
-	total_positions = 0
-	spawn_positions = 0
 
 /datum/job/hos/New()
     ..()

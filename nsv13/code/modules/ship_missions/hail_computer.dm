@@ -17,16 +17,13 @@
   . = ..(user)
   ship = user.get_overmap()
 
-/datum/computer_file/program/ship_hail_logger/process_tick()
-	..()
-
 /datum/computer_file/program/ship_hail_logger/proc/prep_missions()
   var/list/results = list()
   if(!ship)
     return results
-  for(var/m in ship.missions)
-    var/datum/nsv_mission/mission = m
-    results[++results.len] = list("desc" = mission.desc, "status" = mission.stage, "client" = mission.the_client ? mission.the_client.name : "Corrupted data", "reward" = mission.reward_string())
+  // for(var/m in ship.missions)
+  //   var/datum/nsv_mission/mission = m
+  //   results[++results.len] = list("desc" = mission.desc, "status" = mission.stage, "client" = mission.the_client ? mission.the_client.name : "Corrupted data", "reward" = mission.reward_string())
   return results
 
 

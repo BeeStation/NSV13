@@ -37,6 +37,12 @@
 
 /obj/structure/munitions_trolley/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
+	if(istype(A, /obj/item/ship_weapon/ammunition))
+		var/obj/item/ship_weapon/ammunition/M = A
+		if(M.no_trolley)
+			return FALSE
 	if(allowed[A.type])
 		if(loading)
 			to_chat(user, "<span class='notice'>You're already loading something onto [src]!</span>")
@@ -49,6 +55,10 @@
 		loading = FALSE
 
 /obj/structure/munitions_trolley/proc/load_trolley(atom/movable/A, mob/user)
+	if(istype(A, /obj/item/ship_weapon/ammunition))
+		var/obj/item/ship_weapon/ammunition/M = A
+		if(M.no_trolley)
+			return FALSE
 	if(amount >= max_capacity)
 		if(user)
 			to_chat(user, "<span class='warning'>\The [src] is fully loaded!</span>")
@@ -67,11 +77,12 @@
 	if(!ui)
 		ui = new(user, src, "MunitionsTrolley")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/structure/munitions_trolley/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	var/atom/movable/target = locate(params["id"])
+	var/atom/movable/target = locate(params["id"]) in contents
 	switch(action)
 		if("unload")
 			if(!target)
@@ -102,9 +113,9 @@
 	A.layer = initial(A.layer)
 	if(allowed[A.type]) //If a munition, allow them to load other munitions onto us.
 		amount--
-	if(contents.len)
+	if(length(contents))
 		var/count = amount
-		for(var/atom/movable/AM in contents)
+		for(var/atom/movable/AM as() in contents)
 			if(allowed[AM.type])
 				AM.pixel_y = count*5
 				count--

@@ -15,15 +15,23 @@
 	flags_inv = HIDEHAIR
 	bang_protect = 1
 	clothing_flags = THICKMATERIAL
-
 	dog_fashion = /datum/dog_fashion/head/helmet
 
 	var/can_flashlight = FALSE //if a flashlight can be mounted. if it has a flashlight and this is false, it is permanently attached.
 	var/obj/item/flashlight/seclite/attached_light
 	var/datum/action/item_action/toggle_helmet_flashlight/alight
 
+	//NSV13 - added helmet cams
+	var/obj/machinery/camera/builtInCamera = null
+	var/updating = FALSE
+
 /obj/item/clothing/head/helmet/Initialize()
 	. = ..()
+	if(builtInCamera && ispath(builtInCamera)) //NSV13 - added helmet cams
+		builtInCamera = new builtInCamera(src)
+		builtInCamera.c_tag = "Helmet Cam #[rand(0,999)]"
+		builtInCamera.network = list("headcam")
+		builtInCamera.internal_light = FALSE
 	if(attached_light)
 		alight = new(src)
 
@@ -36,8 +44,13 @@
 	else if(can_flashlight)
 		. += "It has a mounting point for a <b>seclite</b>."
 
+	if(builtInCamera) //NSV13 - added helmet cams
+		. += "It has a camera mounted on it. The camera looks like it can be <b>cut</b> off [src].</span>"
+
 /obj/item/clothing/head/helmet/Destroy()
 	QDEL_NULL(attached_light)
+	if(builtInCamera) //NSV13 - added helmet cams
+		QDEL_NULL(builtInCamera)
 	return ..()
 
 /obj/item/clothing/head/helmet/handle_atom_del(atom/A)
@@ -46,6 +59,7 @@
 		update_helmlight()
 		update_icon()
 		QDEL_NULL(alight)
+		QDEL_NULL(builtInCamera) //NSV13 added helmet cams
 	return ..()
 
 /obj/item/clothing/head/helmet/sec
@@ -185,6 +199,11 @@
 	max_heat_protection_temperature = SPACE_HELM_MAX_TEMP_PROTECT
 	strip_delay = 80
 	dog_fashion = null
+
+/obj/item/clothing/head/helmet/thunderdome/holosuit
+	cold_protection = null
+	heat_protection = null
+	armor = list("melee" = 10, "bullet" = 10, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0, "stamina" = 0)
 
 /obj/item/clothing/head/helmet/roman
 	name = "\improper Roman helmet"

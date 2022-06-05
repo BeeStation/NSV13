@@ -17,9 +17,9 @@ GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"
 				message_admins("No rank found for: [J.title]")
 				missed += J
 				J.display_rank = ""
-		if(missed.len == 0)
+		if(!length(missed))
 			return
-		else if(missed.len < occupations.len)
+		else if(length(missed) < length(occupations))
 			//Try to default rank-less jobs to another rank
 			var/datum/job/A = select_substitute_rank()
 			if(A)
@@ -49,7 +49,6 @@ GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"
 		var/theRank = GLOB.pecking_order[I]
 		if(theRank == myRank)
 			myClout = I
-			continue
 		if(theRank == theirRank)
 			theirClout = I
 	//We live in a clout based society :(
@@ -58,7 +57,7 @@ GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"
 	if(myClout > theirClout)
 		return "<span class='boldnotice'>You outrank them as a [theirRank].</span>"
 	if(myClout < theirClout)
-		return "<span class='boldwarning'>They outrank you as a [myRank]</span>"
+		return "<span class='boldwarning'>They outrank you as a [myRank].</span>"
 	return "<span class='warning'>You've forgotten how ranks work.</span>"
 
 /**
@@ -139,8 +138,8 @@ Checks two text ranks, see which one outranks the other. Used for squad rank ass
 
 	browse_rank_configs()
 
-/client/proc/browse_rank_configs(path = "config/ranks/")
-	path = browse_files(path)
+/client/proc/browse_rank_configs()
+	var/path = browse_files(RANK_DIR)
 	if(!path)
 		return
 

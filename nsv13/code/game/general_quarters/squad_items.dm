@@ -143,7 +143,7 @@
 	equip_delay_other = 80
 	resistance_flags = NONE
 
-/obj/item/clothing/head/ship/squad
+/obj/item/clothing/head/helmet/ship/squad
 	name = "Helmet"
 	desc = "A bulky helmet that's designed to keep your head in-tact while you perform essential repairs on the ship."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
@@ -151,14 +151,12 @@
 	icon_state = "squad"
 	item_color = null
 	w_class = WEIGHT_CLASS_NORMAL
-	armor = list("melee" = 30, "bullet" = 20, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
+	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	var/has_headcam = TRUE
 	var/datum/squad/squad = null
-	var/obj/machinery/camera/builtInCamera = null
-	var/updating = FALSE //Updating the camera view? Copypasted verbatim from silicon_movement.dm
 
-/obj/item/clothing/head/ship/squad/space
+/obj/item/clothing/head/helmet/ship/squad/space
 	name = "Space Helmet"
 	icon_state = "skinsuit_squad"
 	item_state = "spaceold"
@@ -180,65 +178,15 @@
 	resistance_flags = NONE
 	dog_fashion = null
 
-/obj/item/clothing/head/ship/squad/equipped(mob/equipper, slot)
+/obj/item/clothing/head/helmet/ship/squad/equipped(mob/equipper, slot)
 	. = ..()
 	if(ishuman(equipper))
 		var/mob/living/carbon/human/H = equipper
-
-		if(slot && slot == ITEM_SLOT_BACKPACK)
-			on_drop(equipper)
-			return
 		if(H.squad)
 			if(H.squad != squad)
 				apply_squad(H.squad)
-		if(builtInCamera && H)
-			if(H.squad)
-				builtInCamera.c_tag = "[squad.name] Squad - [H.real_name] #[rand(0,999)]"
-			else
-				builtInCamera.c_tag = "Helmet Cam - [H.real_name]"
-			builtInCamera.forceMove(equipper) //I hate this. But, it's necessary.
-			RegisterSignal(equipper, COMSIG_MOVABLE_MOVED, .proc/update_camera_location)
 
-/obj/item/clothing/head/ship/squad/dropped(mob/user)
-	. = ..()
-	on_drop(user)
-
-/obj/item/clothing/head/ship/squad/proc/on_drop(mob/user)
-	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
-	update_camera_location(get_turf(src))
-	builtInCamera.forceMove(src) //Snap the camera back into us.
-
-/obj/item/clothing/head/ship/squad/Initialize(mapload, datum/squad/squad)
-	. = ..()
-
-	if(!builtInCamera && has_headcam)
-		builtInCamera = new (src)
-		builtInCamera.c_tag = "Helmet Cam #[rand(0,999)]"
-		builtInCamera.network = list("squad_headcam")
-		builtInCamera.internal_light = FALSE
-
-/obj/item/clothing/head/ship/squad/Destroy()
-	if(builtInCamera)
-		qdel(builtInCamera)
-	. = ..()
-
-/obj/item/clothing/head/ship/squad/proc/do_camera_update(oldLoc)
-	if(!QDELETED(builtInCamera) && oldLoc != get_turf(loc))
-		GLOB.cameranet.updatePortableCamera(builtInCamera)
-	updating = FALSE
-
-#define SILICON_CAMERA_BUFFER 10
-/obj/item/clothing/head/ship/squad/proc/update_camera_location(oldLoc)
-	if(!oldLoc)
-		oldLoc = get_turf(loc)
-	oldLoc = get_turf(oldLoc)
-	if(!QDELETED(builtInCamera) && !updating)
-		updating = TRUE
-		addtimer(CALLBACK(src, .proc/do_camera_update, oldLoc), SILICON_CAMERA_BUFFER)
-#undef SILICON_CAMERA_BUFFER
-
-
-/obj/item/clothing/head/ship/squad/leader
+/obj/item/clothing/head/helmet/ship/squad/leader
 	name = "Squad Lead Helmet"
 	desc = "A helmet which denotes the leader of a squad. The modern version of dead man's shoes."
 	icon_state = "squad_leader"
@@ -253,6 +201,10 @@
 	w_class = 1
 	var/datum/squad/squad = null
 
+/obj/item/clothing/neck/squad/examine( mob/user )
+	. = ..()
+	. += "<span class='notice'>Use the lanyard to update the appearance of the squad role indicator.</span>"
+
 /obj/item/clothing/neck/squad/attack_self(mob/living/carbon/human/user)
 	. = ..()
 	if(!ishuman(user) || user.stat || user.restrained())
@@ -261,13 +213,14 @@
 		to_chat(user, "<span class='warning'>This lanyard hasn't got a registered squad on it...</span>")
 		return FALSE
 	if(user.squad && user.squad == squad)
-		to_chat(user, "<span class='warning'>You're already in [squad]!</span>")
+		to_chat(user, "<span class='notice'>The lanyard updates with your current squad role.</span>")
+		apply_squad( user.squad )
 		return FALSE
 	if(alert(user, "Join [squad] Squad?",name,"Yes","No") == "Yes")
 		if(user.squad)
 			user.squad.remove_member(user)
 		squad.add_member(user)
-		qdel(src)
+		apply_squad( user.squad )
 
 /obj/item/clothing/neck/squad/Initialize(mapload, datum/squad/squad)
 	. = ..()
@@ -299,7 +252,7 @@
 		if(H.squad && H.squad != squad)
 			apply_squad(H.squad)
 
-/obj/item/clothing/head/ship/squad/Initialize(mapload, datum/squad/squad)
+/obj/item/clothing/head/helmet/ship/squad/Initialize(mapload, datum/squad/squad)
 	. = ..()
 	if(!squad)
 		addtimer(CALLBACK(src, .proc/apply_squad), 5 SECONDS)
@@ -318,7 +271,7 @@
 	src.squad = squad
 	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)
 
-/obj/item/clothing/head/ship/squad/proc/apply_squad(datum/squad/squad)
+/obj/item/clothing/head/helmet/ship/squad/proc/apply_squad(datum/squad/squad)
 	var/mob/living/carbon/human/user = null
 	if(!squad || !istype(squad))
 		user = (ishuman(loc)) ? loc : loc.loc //Two layers of recursion should suffice in most cases. If this fails, go see the XO to get it resprayed.
@@ -344,14 +297,39 @@
 		return
 	name = "[squad] [initial(name)]"
 	icon_state = "hudsquad"
+	if ( user && ishuman( user ) )
+		if ( user.squad_role == SQUAD_MEDIC )
+			icon_state = "hudsquad_medic"
+		else if ( user.squad_role == SQUAD_ENGI )
+			icon_state = "hudsquad_engineer"
 	item_color = "hudsquad"
 	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)
 
 //If your squad hat doesnt get stripes, but merely gets recoloured.
-/obj/item/clothing/head/ship/squad/colouronly
+/obj/item/clothing/head/helmet/ship/squad/colouronly
 	has_headcam = FALSE
 
-/obj/item/clothing/head/ship/squad/colouronly/apply_squad(datum/squad/squad)
+/obj/item/clothing/head/helmet/ship/squad/colouronly/apply_squad(datum/squad/squad)
+	if(!squad || !istype(squad))
+		var/mob/living/carbon/human/user = (ishuman(loc)) ? loc : loc.loc //Two layers of recursion should suffice in most cases. If this fails, go see the XO to get it resprayed.
+		if(!ishuman(user) || !user.client || !user.squad)
+			return
+		squad = user.squad
+	color = squad.colour
+	src.squad = squad
+	name = "[squad.name] [initial(name)]"
+
+/obj/item/clothing/head/ship/squad
+	var/datum/squad/squad = null
+
+/obj/item/clothing/head/ship/squad/equipped(mob/equipper, slot)
+	. = ..()
+	if(ishuman(equipper))
+		var/mob/living/carbon/human/H = equipper
+		if(H.squad)
+			apply_squad(H.squad)
+
+/obj/item/clothing/head/ship/squad/proc/apply_squad(datum/squad/squad)
 	if(!squad || !istype(squad))
 		var/mob/living/carbon/human/user = (ishuman(loc)) ? loc : loc.loc //Two layers of recursion should suffice in most cases. If this fails, go see the XO to get it resprayed.
 		if(!ishuman(user) || !user.client || !user.squad)
@@ -362,7 +340,6 @@
 	name = "[squad.name] [initial(name)]"
 
 //Credit to CM / TGMC for this sprite!
-
 /obj/item/clothing/head/ship/squad/colouronly/headband
 	name = "Headband"
 	icon_state = "squadheadband"
@@ -486,23 +463,21 @@
 			playsound(src, 'sound/effects/spray2.ogg', 50, 1, -6)
 			to_chat(user, "<span class='notice'>You seal up [src], good as new!</span>")
 			obj_integrity = max_integrity
-	. = ..()
+	return ..()
 
 /obj/structure/inflatable/proc/deflate(violent=FALSE)
-	playsound(loc, 'sound/machines/hiss.ogg', 75, 1)
+	set waitfor = FALSE
+	playsound(src, 'sound/machines/hiss.ogg', 75, 1)
 	if(violent)
-		visible_message("[src] rapidly deflates!")
+		visible_message("<span class='warning'>\The [src] rapidly deflates!</span>")
 		var/obj/item/inflatable/torn/R = new /obj/item/inflatable/torn(loc)
-		src.transfer_fingerprints_to(R)
+		transfer_fingerprints_to(R)
 	else
-		visible_message("[src] slowly deflates.")
-		transform = new /matrix()
-		for(var/I = 0; I < 3; I ++){
-			transform = transform.Scale(0.5)
-			sleep(0.5 SECONDS)
-		}
+		visible_message("<span class='warning'>\The [src] slowly deflates.</span>")
+		animate(src, transform = transform.Scale(0.125), time = 15)
+		sleep(15)
 		var/obj/item/inflatable/R = new inflatable_type(loc)
-		src.transfer_fingerprints_to(R)
+		transfer_fingerprints_to(R)
 		qdel(src)
 
 /obj/structure/inflatable/attack_hand(mob/user)
@@ -511,3 +486,8 @@
 		return
 	if(alert(user, "Deflate [src]?",name,"Yes","Reconsider") == "Yes")
 		deflate()
+
+//this proc makes squad items take
+/obj/item/clothing/suit/ship/squad/Initialize()
+	. = ..()
+	allowed = GLOB.security_vest_allowed

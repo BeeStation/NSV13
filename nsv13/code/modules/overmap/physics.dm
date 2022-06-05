@@ -120,12 +120,15 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		if(world.time > last_critprocess + 1 SECONDS)
 			last_critprocess = world.time
 			handle_critical_failure_part_1()
+	disruption = max(0, disruption - 1)
 	ai_process()
+	if(!cabin_air)
+		return
 	//Atmos stuff, this updates once every tick
-	if(cabin_air && cabin_air.return_volume() > 0)
+	if(cabin_air.return_volume() > 0)
 		var/delta = cabin_air.return_temperature() - T20C
 		cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
-	if(internal_tank && cabin_air)
+	if(internal_tank)
 		var/datum/gas_mixture/tank_air = internal_tank.return_air()
 		var/cabin_pressure = cabin_air.return_pressure()
 		var/pressure_delta = min(RELEASE_PRESSURE - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
@@ -137,6 +140,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 				cabin_air.merge(removed)
 		else if(pressure_delta < 0) //cabin pressure higher than release pressure
 			var/turf/T = get_center()
+			if(!T)
+				return
 			var/datum/gas_mixture/t_air = T.return_air()
 			pressure_delta = cabin_pressure - RELEASE_PRESSURE
 			if(t_air)
@@ -144,10 +149,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			if(pressure_delta > 0) //if location pressure is lower than cabin pressure
 				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
 				var/datum/gas_mixture/removed = cabin_air.remove(transfer_moles)
-				if(T)
-					T.assume_air(removed)
-				else //just delete the cabin gas, we're in space or some shit
-					qdel(removed)
+				T.assume_air(removed)
 
 #undef RELEASE_PRESSURE
 
@@ -187,7 +189,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	// calculate drag and shit
 
 	var/velocity_mag = velocity.ln() // magnitude
-	if(velocity_mag  && velocity_mag > 0 && !SSmapping.level_trait(src.z, ZTRAIT_OVERMAP))
+	if(velocity_mag > 0 && !SSmapping.level_trait(src.z, ZTRAIT_OVERMAP))
 		var/drag = 0
 		var/has_gravity = get_center()?.has_gravity()
 		for(var/turf/T in locs)
@@ -211,10 +213,9 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		if(velocity_mag > 20)
 			drag = max(drag, (velocity_mag - 20) / time)
 		if(drag)
-			if(velocity_mag)
-				var/drag_factor = 1 - CLAMP(drag * time / velocity_mag, 0, 1)
-				velocity.x *= drag_factor
-				velocity.y *= drag_factor
+			var/drag_factor = 1 - CLAMP(drag * time / velocity_mag, 0, 1)
+			velocity.x *= drag_factor
+			velocity.y *= drag_factor
 			if(angular_velocity != 0)
 				var/drag_factor_spin = 1 - CLAMP(drag * 30 * time / abs(angular_velocity), 0, 1)
 				angular_velocity *= drag_factor_spin
@@ -270,7 +271,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		velocity.x -= clamped_side_movement * sx
 		velocity.y -= clamped_side_movement * sy
 
-	offset._set(offset.x + velocity.x * time, offset.y +  velocity.y * time, sanity=TRUE)
+	offset._set(offset.x + velocity.x * time, offset.y +  velocity.y * time, TRUE)
 
 	position._set(x * 32 + offset.x * 32, y * 32 + offset.y * 32)
 
@@ -278,7 +279,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		physics2d.update(position.x, position.y, angle)
 
 	// alright so now we reconcile the offsets with the in-world position.
-	while((offset.x > 0 && velocity.x > 0) || (offset.y > 0 && velocity.y > 0) || (offset.x < 0 && velocity.x < 0) || (offset.y < 0 && velocity.y < 0))
+	while((offset.x != 0 && velocity.x != 0) || (offset.y != 0 && velocity.y != 0))
 		var/failed_x = FALSE
 		var/failed_y = FALSE
 		if(offset.x > 0 && velocity.x > 0)
@@ -389,7 +390,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		last_fired.transform = mat_to
 	*/ //We don't use these overlays for now, but we may wish to later.
 
-	for(var/mob/living/M in operators)
+	for(var/mob/living/M as() in operators)
 		var/client/C = M.client
 		if(!C)
 			continue
@@ -407,12 +408,12 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
 	if(layer < other.layer || other.layer > layer)
 		return FALSE
-	if(istype(other, /obj/structure/overmap/fighter))
-		var/obj/structure/overmap/fighter/F = other
+	if(istype(other, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/F = other
 		if(F.docking_act(src))
 			return FALSE
-	if(istype(src, /obj/structure/overmap/fighter))
-		var/obj/structure/overmap/fighter/F = src
+	if(istype(src, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/F = src
 		if(F.docking_act(other))
 			return FALSE
 	//No colliders. But we still get a lot of info anyways!
@@ -503,7 +504,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	other.offset += output
 
 /obj/structure/overmap/Bumped(atom/movable/A)
-	if(brakes || ismob(A) || isovermap(A)) //No :)
+	if(brakes || isovermap(A)) //No :)
 		return FALSE
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	if(A.dir & NORTH)
@@ -563,9 +564,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		log_combat(pilot, M, "impacted", src, "with velocity of [bump_velocity]")
 	return ..()
 
-/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
+/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE, ai_aim = FALSE, miss_chance=5, max_miss_distance=5) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
 	var/turf/T = get_center()
 	var/obj/item/projectile/proj = new proj_type(T)
+	if(ai_aim && !homing && !proj.hitscan)
+		target = calculate_intercept(target, proj, miss_chance=miss_chance, max_miss_distance=max_miss_distance)
 	proj.starting = T
 	proj.firer = (!user_override && gunner) ? gunner : user_override
 	proj.def_zone = "chest"
@@ -576,7 +579,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	proj.faction = faction
 	if(physics2d && physics2d.collider2d)
 		proj.setup_collider()
-	if(homing)
+	if(homing && !isturf(target))	//Lets not have projectiles home in on some random tile someone clicked on to launch
 		proj.set_homing_target(target)
 	if(gunner)
 		proj.firer = gunner
@@ -597,20 +600,20 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 //Jank as hell. This needs to happen to properly set the visual offset :/
 /obj/item/projectile/proc/preparePixelProjectileOvermap(obj/structure/overmap/target, obj/structure/overmap/source, params, spread = 0, lateral=TRUE)
 	var/turf/curloc = source.get_center()
-	var/turf/targloc = (istype(target, /obj/structure/overmap)) ? target.get_center() : get_turf(target)
+	var/turf/targloc = istype(target, /obj/structure/overmap) ? target.get_center() : get_turf(target)
 	trajectory_ignore_forcemove = TRUE
-	forceMove(curloc)
+	doMove(curloc)
 	trajectory_ignore_forcemove = FALSE
 	starting = curloc
 	original = target
 	if(!lateral)
 		setAngle(source.angle)
 
-	if(targloc || !params)
+	if((targloc && curloc) || !params)
 		yo = targloc.y - curloc.y
 		xo = targloc.x - curloc.x
 		if(lateral)
-			setAngle(Get_Angle(src, targloc) + spread)
+			setAngle(overmap_angle(src, targloc) + spread)
 
 	if(isliving(source) && params)
 		var/list/calculated = calculate_projectile_angle_and_pixel_offsets(source, params)
@@ -619,11 +622,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 
 		if(lateral)
 			setAngle(calculated[1] + spread)
-	else if(targloc)
+	else if(targloc && curloc)
 		yo = targloc.y - curloc.y
 		xo = targloc.x - curloc.x
 		if(lateral)
-			setAngle(Get_Angle(src, targloc) + spread)
+			setAngle(overmap_angle(src, targloc) + spread)
 	else
 		stack_trace("WARNING: Projectile [type] fired without either mouse parameters, or a target atom to aim at!")
 		qdel(src)

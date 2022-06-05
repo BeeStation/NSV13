@@ -149,3 +149,20 @@
 
 /turf/open/openspace/airless
 	initial_gas_mix = AIRLESS_ATMOS
+
+/turf/closed/indestructible/boarding_cordon
+	name = "ship interior cordon"
+	icon_state = "cordon"
+
+/turf/closed/indestructible/boarding_cordon/Initialize()
+	. = ..()
+	alpha = 0
+	mouse_opacity = FALSE
+
+/turf/closed/indestructible/boarding_cordon/Bumped(atom/movable/AM)
+	if(isobserver(AM))
+		return
+	if(istype(AM, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/OM = AM
+		return OM.check_overmap_elegibility()
+	return ..()

@@ -9,7 +9,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the Captain"
-	selection_color = "#cc8899"
+	selection_color = "#ffbc79"
 	chat_color = "#ff7f00"
 	minimal_player_age = 7
 	exp_requirements = 180
@@ -25,6 +25,7 @@
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 	display_order = JOB_DISPLAY_ORDER_MASTER_AT_ARMS
 	display_rank = "WO" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
+	departments = DEPARTMENT_COMMAND | DEPARTMENT_MUNITIONS
 
 /datum/job/masteratarms/get_access()
 	var/list/L = list()

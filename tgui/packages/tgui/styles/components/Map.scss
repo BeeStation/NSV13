@@ -8,7 +8,7 @@
   width: 100%;
   height: 600px;
   overflow: hidden;
-  background: url('../../assets/space.png');
+  background-image: url('../../assets/space.png');
   border: 1px solid #40628a;
   transition: all 0.5s ease-out;
 }
@@ -25,7 +25,7 @@
   width: 100%;
   height: 80vh;
   overflow: hidden;
-  background: url('../../assets/space.png');
+  background-image: url('../../assets/space.png');
   border: 1px solid #40628a;
   transition: all 0.5s ease-out;
 }
@@ -56,7 +56,23 @@ div#rangeCircle {
   margin-left: -240px;
   transition: all 0.5s ease-out;
 }
-.star_marker {
+.star_marker_null {
+  display: inline-block;
+  padding: 0px 5px 0px 5px;
+  color: rgba(0,0,0,0);
+  line-height: 25px;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  margin-left: -12px;
+  margin-bottom: -12px;
+  border-radius: 50%;
+  z-index: 3;
+  background: radial-gradient(ellipse at center, #fff 0%, #fff 20%, rgba(255,255,255,0.71) 40%, rgba(255,255,255,0) 60%);
+  outline: 0px;
+}
+.star_marker_whiterapids {
   display: inline-block;
   padding: 0px 5px 0px 5px;
   color: rgba(0,0,0,0);
@@ -85,7 +101,7 @@ div#rangeCircle {
   margin-bottom: -12px;
   border-radius: 50%;
   z-index: 3;
-  background: radial-gradient(ellipse at center, #fff 0%, #fff 20%, rgba(255,255,255,0.71) 40%, rgba(255,255,255,0) 60%);
+  background: radial-gradient(ellipse at center, cornflowerblue 0%, cornflowerblue 20%, rgba(100,149,237,0.71) 40%, rgba(100,149,237,0) 60%);
   outline: 0px;
 }
 .star_marker_syndicate {
@@ -135,6 +151,22 @@ div#rangeCircle {
   z-index: 3;
   background: radial-gradient(ellipse at center, #193a7a 0%, #193a7a 20%, rgba(25,58,122,0.71) 40%, rgba(25,58,122,0) 60%);
   outline: 0px;
+}
+.star_marker_pirate {
+ display: inline-block;
+ padding: 0px 5px 0px 5px;
+ color: rgba(0,0,0,0);
+ line-height: 25px;
+ width: 25px;
+ height: 25px;
+ min-width: 25px;
+ min-height: 25px;
+ margin-left: -12px;
+ margin-bottom: -12px;
+ border-radius: 50%;
+ z-index: 3;
+ background: radial-gradient(ellipse at center, #7b2ca8 0%, #7b2ca8 20%, rgba(123,44,168,0.71) 40%, rgba(25,58,122,0) 60%);
+ outline: 0px;
 }
 .star_marker_uncharted {
   display: inline-block;

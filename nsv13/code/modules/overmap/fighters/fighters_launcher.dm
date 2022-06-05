@@ -20,6 +20,7 @@
 	if(!ui)
 		ui = new(user, src, "FighterLauncher")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/fighter_launcher/ui_data(mob/user)
 	var/list/data = list()
@@ -29,7 +30,7 @@
 		launcher_info["name"] = FL.name
 		launcher_info["id"] = "\ref[FL]"
 		launcher_info["can_launch"] = FALSE
-		var/obj/structure/overmap/fighter/F = FL.mag_locked
+		var/obj/structure/overmap/small_craft/F = FL.mag_locked
 		launcher_info["can_launch"] = FL.ready
 		launcher_info["mag_locked"] = F?.name
 		launcher_info["pilot"] = (F?.pilot) ? F?.pilot.name : "No pilot"
@@ -74,7 +75,7 @@
 	anchored = TRUE
 	density = FALSE
 	var/place_landing_waypoint = TRUE
-	var/obj/structure/overmap/fighter/mag_locked = null
+	var/obj/structure/overmap/small_craft/mag_locked = null
 	var/obj/structure/overmap/linked = null
 	var/ready = TRUE
 
@@ -106,7 +107,7 @@
 	linkup()
 	addtimer(CALLBACK(src, .proc/linkup), 45 SECONDS)//Just in case we're not done initializing
 
-/obj/structure/overmap/fighter/can_brake()
+/obj/structure/overmap/small_craft/can_brake()
 	if(mag_lock)
 		if(pilot)
 			to_chat(pilot, "<span class='warning'>WARNING: Ship is magnetically arrested by an arrestor. Awaiting decoupling signal (O4).</span>")
@@ -115,8 +116,8 @@
 
 /obj/structure/fighter_launcher/Crossed(atom/movable/AM)
 	. = ..()
-	if(istype(AM, /obj/structure/overmap/fighter) && !mag_locked && ready) //Are we able to catch this ship?
-		var/obj/structure/overmap/fighter/OM = AM
+	if(istype(AM, /obj/structure/overmap/small_craft) && !mag_locked && ready) //Are we able to catch this ship?
+		var/obj/structure/overmap/small_craft/OM = AM
 		mag_locked = AM
 		visible_message("<span class='warning'>CLUNK.</span>")
 		OM.brakes = TRUE
@@ -152,7 +153,7 @@
 /obj/structure/fighter_launcher/proc/shake_people(var/obj/structure/overmap/OM)
 	if(OM?.operators.len)
 		for(var/mob/M in OM.operators)
-			shake_camera(M, 10, 1)
+			shake_with_inertia(M, 10, 1)
 			to_chat(M, "<span class='warning'>You feel a sudden jolt!</span>")
 			if(iscarbon(M))
 				var/mob/living/carbon/L = M
@@ -218,7 +219,7 @@
 			if(WEST)
 				linked.docking_points += get_turf(locate(10, y, z))
 
-/obj/structure/overmap/fighter/proc/ready_for_transfer()
+/obj/structure/overmap/small_craft/proc/ready_for_transfer()
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	if(!DC || DC.docking_cooldown)
 		return FALSE
@@ -231,6 +232,16 @@
 			return TRUE
 		if(x < 10)
 			return TRUE
+	if(SSmapping.level_trait(z, ZTRAIT_RESERVED) && last_overmap?.roomReservation)
+		// We need to check the bounds of the interior map
+		if(y > (last_overmap.roomReservation.top_right_coords[2] - 2))
+			return TRUE
+		if(y < (last_overmap.roomReservation.bottom_left_coords[2] + 2))
+			return TRUE
+		if(x > (last_overmap.roomReservation.top_right_coords[1] - 2))
+			return TRUE
+		if(x < last_overmap.roomReservation.bottom_left_coords[1] + 2)
+			return TRUE
 	return FALSE
 
 /obj/structure/fighter_launcher/proc/recharge()
@@ -238,16 +249,16 @@
 	icon_state = "launcher"
 
 
-/obj/structure/overmap/fighter/proc/release_maglock()
+/obj/structure/overmap/small_craft/proc/release_maglock()
 	brakes = FALSE
 	mag_lock = null
 
-/obj/structure/overmap/fighter/proc/prime_launch()
+/obj/structure/overmap/small_craft/proc/prime_launch()
 	release_maglock()
 	speed_limit = 20 //Let them accelerate to hyperspeed due to the launch, and temporarily break the speed limit.
 	addtimer(VARSET_CALLBACK(src, speed_limit, initial(speed_limit)), 5 SECONDS) //Give them 5 seconds of super speed mode before we take it back from them
 
-/obj/structure/overmap/fighter/proc/check_overmap_elegibility() //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
+/obj/structure/overmap/small_craft/proc/check_overmap_elegibility() //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
 	if(ready_for_transfer())
 		var/obj/structure/overmap/OM = null
 		if(last_overmap)
@@ -259,7 +270,7 @@
 		var/saved_layer = layer
 		layer = LOW_OBJ_LAYER
 		addtimer(VARSET_CALLBACK(src, layer, saved_layer), 2 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
-		forceMove(get_turf(OM))
+		//forceMove(get_turf(OM))
 		var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 		DC.docking_cooldown = TRUE
 		addtimer(VARSET_CALLBACK(DC, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
@@ -281,23 +292,43 @@
 			else
 				var/_z = pick_n_take(free_treadmills)
 				reserved_z = _z
+		if(current_system) // No I can't use ?, because if it's null we use the previous value instead
 			starting_system = current_system.name //Just fuck off it works alright?
-			SSstar_system.add_ship(src)
+		SSstar_system.add_ship(src, get_turf(OM))
 
 		if(current_system && !LAZYFIND(current_system.system_contents, src))
 			LAZYADD(current_system.system_contents, src)
+
+		OM.overmaps_in_ship -= src // No lazyremove, please don't null my list
+
+		if(CHECK_BITFIELD(OM.overmap_deletion_traits, DELETE_UNOCCUPIED_ON_DEPARTURE) && !(OM.has_occupants()))
+			message_admins("[src] was the last occupant of [OM], [OM] will now be deleted")
+			log_mapping("[src] was the last occupant of [OM], [OM] will now be deleted")
+			last_overmap = null
+			qdel(OM)
+		else if(CHECK_BITFIELD(OM.overmap_deletion_traits, DELETE_UNOCCUPIED_ON_DEPARTURE))
+			message_admins("[OM] still has occupants, so [OM] will not be deleted when [src] leaves")
+			log_mapping("[OM] still has occupants [english_list(OM.mobs_in_ship)] and [OM.overmaps_in_ship], so [OM] will not be deleted when [src] leaves")
+
 		return TRUE
 
-/obj/structure/overmap/fighter/proc/update_overmap()
+/obj/structure/overmap/small_craft/proc/update_overmap()
 	last_overmap = get_overmap()
 
-/obj/structure/overmap/fighter/proc/docking_act(obj/structure/overmap/OM)
-	if(mass < OM.mass) //If theyre smaller than us,and we have docking points, and they want to dock
-		return transfer_from_overmap(OM)
-	else
+/obj/structure/overmap/small_craft/proc/docking_act(obj/structure/overmap/OM)
+	if(!ftl_drive && !OM.ftl_drive) // If no one can reserve a Z, don't do this
 		return FALSE
+	if(istype(OM, /obj/structure/overmap/asteroid))
+		var/obj/structure/overmap/asteroid/AS = OM
+		AS.interior_mode = INTERIOR_DYNAMIC // We don't actually want it to create one until we're ready but we do need entry points
+		AS.instance_interior()
+		AS.docking_points = AS.interior_entry_points
+		return transfer_from_overmap(OM)
+	if(mass < OM.mass) //If theyre smaller than us, and we have docking points, and they want to dock
+		return transfer_from_overmap(OM)
+	return FALSE
 
-/obj/structure/overmap/fighter/proc/transfer_from_overmap(obj/structure/overmap/OM)
+/obj/structure/overmap/small_craft/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	if(!DC || DC.docking_cooldown ||!DC.docking_mode|| !OM.docking_points?.len)
 		return FALSE
@@ -310,11 +341,12 @@
 	pixel_z = initial(pixel_z)
 	var/turf/T = get_turf(pick(OM.docking_points))
 	forceMove(T)
+	LAZYADD(OM.overmaps_in_ship, src)
 	bound_width = initial(bound_width)
 	bound_height = initial(bound_height)
 	DC.docking_mode = FALSE
-	if(pilot && faction == OM.faction)
-		weapon_safety = TRUE
+	weapon_safety = TRUE
+	if(pilot)
 		to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 	if(current_system && LAZYFIND(current_system.system_contents, src))

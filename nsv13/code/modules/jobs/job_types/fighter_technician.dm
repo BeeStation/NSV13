@@ -7,7 +7,7 @@
 	total_positions = 2
 	spawn_positions = 2
 	supervisors = "the Master At Arms"
-	selection_color = "#d692a3"
+	selection_color = "#ffd1a2"
 	chat_color = "#2681a5"
 	exp_type_department = EXP_TYPE_MUNITIONS
 
@@ -20,6 +20,7 @@
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_DECK_TECHNICIAN
+	departments = DEPARTMENT_MUNITIONS
 
 /datum/outfit/job/deck_tech
 	name = "Deck Technician"

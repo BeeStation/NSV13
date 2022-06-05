@@ -11,7 +11,7 @@
 // Then screw it shut
 
 /obj/structure/ship_weapon/torpedo_launcher_assembly
-	name = "M4-B Torpedo tube mount"
+	name = "\improper M4-B Torpedo tube mount"
 	desc = "An incomplete assembly for an M4-B ship mounted torpedo launcher."
 	icon = 'nsv13/icons/obj/railgun.dmi'
 	icon_state = "torpedo_launcher_platform"
@@ -30,11 +30,6 @@
 	var/num_sheets_barrel = 4
 	var/num_sheets_frame = 4
 	var/output_path = /obj/machinery/ship_weapon/torpedo_launcher
-
-/obj/structure/ship_weapon/torpedo_launcher_assembly/Initialize()
-	..()
-	if(!contents)
-		contents = list()
 
 /obj/structure/ship_weapon/torpedo_launcher_assembly/setDir()
 	. = ..()
@@ -157,7 +152,7 @@
 		state = BS_ELECTRONICS_LOOSE
 		return TRUE
 
-	. = ..()
+	return ..()
 
 /obj/structure/ship_weapon/torpedo_launcher_assembly/attack_robot(mob/user)
 	. = ..()
@@ -167,19 +162,19 @@
 	. = ..()
 	switch(state)
 		if(BS_ELECTRONICS_LOOSE)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
 				to_chat(user, "<span class='notice'>You secure the firing electronics.</span>")
 				state = BS_ELECTRONICS_SECURE
 				return TRUE
 
 		if(BS_ELECTRONICS_SECURE)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
 				to_chat(user, "<span class='notice'>You unsecure the firing electronics.</span>")
 				state = BS_ELECTRONICS_LOOSE
 				return TRUE
 
 		if(BS_DOOR_BOLTED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
 				to_chat(user, "<span class='notice'>You finish the torpedo launcher.</span>")
 				var/obj/machinery/ship_weapon/TL = new output_path(loc)
 				TL.dir = dir
@@ -201,38 +196,38 @@
 	. = ..()
 	switch(state)
 		if(BS_MOUNT_UNBOLTED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
 				to_chat(user, "<span class='notice'>You bolt the [src] to the floor.</span>")
 				anchored = TRUE
 				state = BS_MOUNT_BOLTED
 				return TRUE
 
 		if(BS_BARREL_PLACED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
 				to_chat(user, "<span class='notice'>You secure the barrel.</span>")
 				state = BS_BARREL_BOLTED
 				return TRUE
 
 		if(BS_BARREL_BOLTED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
 				to_chat(user, "<span class='notice'>You unbolt the the barrel.</span>")
 				state = BS_BARREL_PLACED
 				return TRUE
 
 		if(BS_MOUNT_BOLTED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
 				to_chat(user, "<span class='notice'>You unbolt the [src] from the floor.</span>")
 				state = BS_MOUNT_UNBOLTED
 				return TRUE
 
 		if(BS_DOOR_PLACED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
 				to_chat(user, "<span class='notice'>You bolt the door to the frame.</span>")
 				state = BS_DOOR_BOLTED
 				return TRUE
 
 		if(BS_DOOR_BOLTED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
 				to_chat(user, "<span class='notice'>You unbolt the door from the frame.</span>")
 				state = BS_DOOR_PLACED
 				return TRUE
@@ -241,19 +236,19 @@
 	. = ..()
 	switch(state)
 		if(BS_MOUNT_BOLTED)
-			if(anchored && tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
+			if(anchored && tool.use_tool(src, user, 2 SECONDS, 2, 100))
 				to_chat(user, "<span class='notice'>You weld the [src] to the floor.</span>")
 				state = BS_MOUNT_WELDED
 				return TRUE
 
 		if(BS_MOUNT_WELDED)
-			if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 2, 100))
 				to_chat(user, "<span class='notice'>You unweld the [src] from the floor.</span>")
 				state = BS_MOUNT_BOLTED
 				return TRUE
 
 		if(BS_MOUNT_UNBOLTED)
-			if(tool.use_tool(src, user, 2 SECONDS, amount=2, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 2, 100))
 				to_chat(user, "<span class='notice'>You cut apart the frame.</span>")
 				new/obj/item/stack/sheet/plasteel(loc, num_sheets_frame)
 				qdel(src)
@@ -263,14 +258,14 @@
 	. = ..()
 	switch(state)
 		if(BS_DOOR_PLACED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
 				to_chat(user, "<span class='notice'>You pry the door loose from the [src].</span>")
 				new/obj/item/stack/sheet/nanocarbon_glass(loc, num_sheets_door)
 				state = BS_ELECTRONICS_SECURE
 				return TRUE
 
 		if(BS_ELECTRONICS_LOOSE)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
 				var/obj/item/ship_weapon/parts/firing_electronics/F = (locate(/obj/item/ship_weapon/parts/firing_electronics) in contents)
 				F.forceMove(loc)
 				to_chat(user, "<span class='notice'>You pry the firing electronics loose from the [src].</span>")
@@ -278,7 +273,7 @@
 				return TRUE
 
 		if(BS_BARREL_PLACED)
-			if(tool.use_tool(src, user, 2 SECONDS, volume=100))
+			if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
 				to_chat(user, "<span class='notice'>You pry the nanocarbon barrel off the [src].</span>")
 				new/obj/item/stack/sheet/nanocarbon_glass(loc, num_sheets_barrel)
 				state = BS_MOUNT_WELDED
@@ -287,8 +282,26 @@
 /obj/structure/ship_weapon/torpedo_launcher_assembly/wirecutter_act(mob/living/user, obj/item/tool)
 	. = ..()
 	if(state == BS_WIRED)
-		if(tool.use_tool(src, user, 2 SECONDS, volume=100))
-			new/obj/item/stack/cable_coil(loc, num_cables)
+		if(tool.use_tool(src, user, 2 SECONDS, 0, 100))
+			new /obj/item/stack/cable_coil(loc, num_cables)
 			to_chat(user, "<span class='notice'>You cut the wires from the frame.</span>")
 			state = BS_BARREL_BOLTED
 			return TRUE
+
+/obj/structure/ship_weapon/torpedo_launcher_assembly/cargo
+	name = "\improper M4-C Cargo Torpedo tube mount"
+	desc = "An incomplete assembly for an M4-C ship mounted cargo torpedo launcher."
+	color = "#f5d1b0"
+
+	output_path = /obj/machinery/ship_weapon/torpedo_launcher/cargo
+
+#undef BS_MOUNT_UNBOLTED
+#undef BS_MOUNT_BOLTED
+#undef BS_MOUNT_WELDED
+#undef BS_BARREL_PLACED
+#undef BS_BARREL_BOLTED
+#undef BS_WIRED
+#undef BS_ELECTRONICS_LOOSE
+#undef BS_ELECTRONICS_SECURE
+#undef BS_DOOR_PLACED
+#undef BS_DOOR_BOLTED

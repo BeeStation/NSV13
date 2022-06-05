@@ -137,12 +137,12 @@
 #define ui_ai_pda_log "SOUTH:6,WEST+11"
 #define ui_ai_take_picture "SOUTH:6,WEST+12"
 #define ui_ai_view_images "SOUTH:6,WEST+13"
-#define ui_ai_zup "SOUTH+1:6,WEST+14" //Nsv13 - AI multiz
-#define ui_ai_zdown "SOUTH+1:6,WEST+15" //Nsv13 - AI multiz
 #define ui_ai_sensor "SOUTH:6,WEST+14"
 #define ui_ai_multicam "SOUTH:6,WEST+15"
 #define ui_ai_add_multicam "SOUTH:6,WEST+16"
 #define ui_ai_language_menu "CENTER+7:32,SOUTH+1:5"
+#define ui_ai_move_up "SOUTH:5+1,WEST+14"
+#define ui_ai_move_down "SOUTH:5+1,WEST+15"
 
 // pAI
 

@@ -14,6 +14,12 @@
 	req_components = list(
 		/obj/item/stock_parts/capacitor = 1,
 		/obj/item/ship_weapon/parts/loading_tray = 1)
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+
+/obj/item/circuitboard/machine/gauss_dispenser/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 /obj/machinery/gauss_dispenser
 	name = "\improper Gauss ammunition dispenser"
@@ -66,6 +72,7 @@
 	if(!ui)
 		ui = new(user, src, "GaussDispenser")
 		ui.open()
+		ui.set_autoupdate(TRUE) // progress bar
 
 /obj/machinery/gauss_dispenser/ui_act(action, params, datum/tgui/ui)
 	if(..())
@@ -104,8 +111,7 @@
 
 /obj/machinery/gauss_dispenser/default_deconstruction_screwdriver(mob/user, icon_state_open, icon_state_closed, obj/item/I)
 	. = ..()
-	var/state = !panel_open
-	check_active(state)
+	check_active(!panel_open)
 
 /obj/machinery/gauss_dispenser/ui_data(mob/user)
 	var/list/data = list()

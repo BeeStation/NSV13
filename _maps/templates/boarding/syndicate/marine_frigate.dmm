@@ -119,7 +119,7 @@
 /obj/item/crowbar/red,
 /obj/item/pinpointer/nuke/syndicate,
 /obj/item/gps,
-/obj/effect/spawner/lootdrop/fiftycal,
+/obj/effect/spawner/lootdrop/anti_air,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "cV" = (
@@ -174,7 +174,7 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "dO" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-18"
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -217,6 +217,10 @@
 	name = "Syndicate Pilot (839)"
 	},
 /turf/open/floor/mineral/plastitanium/airless,
+/area/ruin/powered/nsv13/boarding_interior)
+"ft" = (
+/mob/living/carbon/human/ai_boarder/syndicate/smg,
+/turf/open/floor/mineral/titanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "fy" = (
 /obj/effect/turf_decal/stripes/line,
@@ -269,8 +273,8 @@
 /turf/closed/wall/r_wall,
 /area/ruin/powered/nsv13/boarding_interior)
 "gN" = (
-/obj/structure/overmap/fighter/dropship/sabre/syndicate,
-/obj/structure/overmap/fighter/dropship/sabre/syndicate,
+/obj/structure/overmap/small_craft/transport/sabre/syndicate,
+/obj/structure/overmap/small_craft/transport/sabre/syndicate,
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "hh" = (
@@ -284,6 +288,9 @@
 "hl" = (
 /obj/structure/table/wood,
 /obj/item/folder/syndicate,
+/obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
 /turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "hm" = (
@@ -371,7 +378,7 @@
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "id" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-17"
 	},
 /obj/machinery/computer/ship/viewscreen,
@@ -630,7 +637,7 @@
 /turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "oo" = (
-/obj/structure/overmap/fighter/dropship/sabre/syndicate,
+/obj/structure/overmap/small_craft/transport/sabre/syndicate,
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "op" = (
@@ -740,7 +747,7 @@
 /obj/machinery/light/small{
 	dir = 8
 	},
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-18"
 	},
 /turf/open/floor/carpet/red,
@@ -768,7 +775,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-18"
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -817,6 +824,13 @@
 	dir = 4
 	},
 /turf/open/floor/carpet/red,
+/area/ruin/powered/nsv13/boarding_interior)
+"se" = (
+/obj/effect/landmark/patrol_node{
+	id = "destroyer_bridge";
+	next_id = "destroyer_aft"
+	},
+/turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "sf" = (
 /turf/open/floor/engine/airless,
@@ -897,8 +911,15 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
+"tN" = (
+/obj/effect/landmark/patrol_node{
+	id = "destroyer_cic";
+	next_id = "destroyer_bridge"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "tO" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-22"
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -945,7 +966,7 @@
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "uG" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-33"
 	},
 /turf/open/floor/carpet/red,
@@ -972,8 +993,15 @@
 /obj/structure/sign/poster/contraband/c20r,
 /turf/closed/wall/r_wall,
 /area/ruin/powered/nsv13/boarding_interior)
+"vu" = (
+/obj/effect/landmark/patrol_node{
+	id = "destroyer_aft";
+	next_id = "destroyer_muni"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "vF" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-28"
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -999,7 +1027,7 @@
 	},
 /area/ruin/powered/nsv13/boarding_interior)
 "wj" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-14"
 	},
 /obj/machinery/light/small{
@@ -1081,7 +1109,7 @@
 /turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "ye" = (
-/obj/effect/spawner/lootdrop/fiftycal,
+/obj/effect/spawner/lootdrop/pdc,
 /obj/structure/closet/crate/secure/weapon{
 	req_one_access_txt = "150"
 	},
@@ -1295,7 +1323,7 @@
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "Dg" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-26"
 	},
 /turf/open/floor/carpet/red,
@@ -1324,7 +1352,7 @@
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "DJ" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-32"
 	},
 /turf/open/floor/carpet/red,
@@ -1485,6 +1513,10 @@
 	},
 /turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/boarding_interior)
+"Hj" = (
+/mob/living/carbon/human/ai_boarder/syndicate/shotgun,
+/turf/open/floor/mineral/titanium,
+/area/ruin/powered/nsv13/boarding_interior)
 "Ht" = (
 /obj/structure/table,
 /turf/open/floor/plating,
@@ -1637,6 +1669,13 @@
 	},
 /turf/open/floor/engine/airless,
 /area/ruin/powered/nsv13/boarding_interior)
+"Nw" = (
+/obj/effect/landmark/patrol_node{
+	id = "destroyer_muni";
+	next_id = "destroyer_cic"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "Nz" = (
 /obj/structure/closet/syndicate/personal,
 /obj/effect/spawner/lootdrop/maintenance/two,
@@ -1760,7 +1799,7 @@
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "Qd" = (
-/obj/structure/overmap/fighter/light/syndicate,
+/obj/structure/overmap/small_craft/combat/light/syndicate,
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "Qq" = (
@@ -1835,7 +1874,7 @@
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "Ss" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-28"
 	},
 /turf/open/floor/mineral/plastitanium/red,
@@ -1880,7 +1919,7 @@
 /turf/template_noop,
 /area/ruin/powered/nsv13/boarding_interior)
 "Tm" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-33"
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -1902,12 +1941,19 @@
 /turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "TD" = (
-/obj/item/twohanded/required/kirbyplants,
+/obj/item/kirbyplants,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "TG" = (
 /obj/structure/closet/crate,
 /turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
+"TN" = (
+/obj/structure/table/wood,
+/obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
+/turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "TY" = (
 /obj/structure/railing{
@@ -1978,16 +2024,19 @@
 /obj/item/folder/syndicate{
 	name = "folder"
 	},
+/obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
+/obj/item/ammo_box/magazine/pistolm9mm,
 /turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Wf" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-10"
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "Wo" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-12"
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -2003,7 +2052,7 @@
 /turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "WG" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-21"
 	},
 /turf/open/floor/mineral/plastitanium/red,
@@ -2027,7 +2076,7 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "WU" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-14"
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -2094,7 +2143,7 @@
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "YQ" = (
-/obj/item/twohanded/required/kirbyplants{
+/obj/item/kirbyplants{
 	icon_state = "plant-07"
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -28857,7 +28906,7 @@ Mp
 Mp
 Pk
 bd
-ma
+vu
 bd
 Pk
 mr
@@ -29365,7 +29414,7 @@ ED
 Mp
 ma
 Mp
-Mp
+Hj
 Mp
 fG
 bd
@@ -29619,7 +29668,7 @@ zR
 zR
 LF
 Mp
-Mp
+ft
 Mp
 Mp
 Mp
@@ -29877,7 +29926,7 @@ nT
 Mp
 Mp
 Mp
-Mp
+Hj
 Mp
 fG
 bd
@@ -32432,7 +32481,7 @@ bd
 ma
 ma
 ma
-ma
+Nw
 ma
 ma
 ma
@@ -35001,7 +35050,7 @@ Rq
 ma
 ma
 ma
-ma
+tN
 ma
 ma
 ma
@@ -46265,7 +46314,7 @@ zR
 bd
 ma
 bd
-ma
+se
 bd
 ma
 bd
@@ -46770,7 +46819,7 @@ aM
 td
 Xh
 Fh
-bn
+TN
 nY
 hG
 zR

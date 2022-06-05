@@ -9,6 +9,10 @@
 /obj/machinery/computer/ship/helm/syndicate
 	req_one_access = list(ACCESS_SYNDICATE)
 
+/obj/machinery/computer/ship/helm/Destroy()
+	linked?.helm = null
+	return ..()
+
 /obj/machinery/computer/ship/helm/set_position(obj/structure/overmap/OM)
 	OM.helm = src
 	return
@@ -26,3 +30,15 @@
 		playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
 		to_chat(user, "<span class='warning'>Autopilot [linked.ai_controlled ? "Enabled" : "Disengaged"].</span>")
 	..()
+
+// Helm and tactical in one console, useful for debugging 
+// This console should not be made available for the player ship, looking at you mappers 
+/obj/machinery/computer/ship/helm/allinone
+	name = "debug ship"
+	desc = "You shouldn't be seeing this"
+	color = "red"
+
+/obj/machinery/computer/ship/helm/allinone/ui_interact(mob/user)
+	. = ..()
+	if(!linked.gunner && isliving(user))
+		linked.gunner = user

@@ -434,57 +434,57 @@
 	page_link = "Guide_to_toxins"
 
 //NSV13 - Change
-//Standard operating prosedure books. Inherited of wiki books.
+//Standard operating procedure books. Inherited of wiki books.
 
 /obj/item/book/manual/wiki/sop
 	author = "Ta-Go Clown Resources"
 	icon = 'nsv13/icons/obj/nsv_bureaucracy.dmi' //created own dmi for the books
 
 /obj/item/book/manual/wiki/sop/security
-	name = "Standard operating Prosedure: Security"
-	title = "Standard operating Prosedure: Security"
+	name = "Standard operating Procedure: Security"
+	title = "Standard operating Procedure: Security"
 	page_link = "Department_Standard_Operating_Procedure:_Security"
 	icon_state = "sop_sec"
 
 /obj/item/book/manual/wiki/sop/science
-	name = "Standard operating Prosedure: Science"
-	title = "Standard operating Prosedure: Science"
+	name = "Standard operating Procedure: Science"
+	title = "Standard operating Procedure: Science"
 	page_link = "Department_Standard_Operating_Procedure:_Science"
 	icon_state = "sop_sci"
 
 /obj/item/book/manual/wiki/sop/service
-	name = "Standard operating Prosedure: Service"
-	title = "Standard operating Prosedure: Service"
+	name = "Standard operating Procedure: Service"
+	title = "Standard operating Procedure: Service"
 	page_link = "Department_Standard_Operating_Procedure:_Service/Civilian"
 	icon_state = "sop_service"
 
 /obj/item/book/manual/wiki/sop/command
-	name = "Standard operating Prosedure: Command"
-	title = "Standard operating Prosedure: Command"
+	name = "Standard operating Procedure: Command"
+	title = "Standard operating Procedure: Command"
 	page_link = "Department_Standard_Operating_Procedure:_Command"
 	icon_state = "sop_comdom"
 
 /obj/item/book/manual/wiki/sop/engineering
-	name = "Standard operating Prosedure: Engineering"
-	title = "Standard operating Prosedure: Engineering"
+	name = "Standard operating Procedure: Engineering"
+	title = "Standard operating Procedure: Engineering"
 	page_link = "Department_Standard_Operating_Procedure:_Engineering"
 	icon_state = "sop_engi"
 
 /obj/item/book/manual/wiki/sop/supply
-	name = "Standard operating Prosedure: Supply"
-	title = "Standard operating Prosedure: Supply"
+	name = "Standard operating Procedure: Supply"
+	title = "Standard operating Procedure: Supply"
 	page_link = "Department_Standard_Operating_Procedure:_Supply"
 	icon_state = "sop_cargo"
 
 /obj/item/book/manual/wiki/sop/medical
-	name = "Standard operating Prosedure: Medical"
-	title = "Standard operating Prosedure: Medical"
+	name = "Standard operating Procedure: Medical"
+	title = "Standard operating Procedure: Medical"
 	page_link = "Department_Standard_Operating_Procedure:_Medical"
 	icon_state = "sop_med"
 
 /obj/item/book/manual/wiki/sop/munitions
-	name = "Standard operating Prosedure: Munitions"
-	title = "Standard operating Prosedure: Munitions"
+	name = "Standard operating Procedure: Munitions"
+	title = "Standard operating Procedure: Munitions"
 	page_link = "Department_Standard_Operating_Procedure:_Munitions"
 	icon_state = "sop_muni"
 
@@ -498,6 +498,12 @@
 	page_link = "Standard_Operating_Procedure"
 	icon_state = "sop_catalogue"
 
+/obj/item/book/manual/wiki/supermatter_guide //NSV13
+	name = "Supermatter Textbook"
+	icon_state ="bookEngineering2"
+	author = "Engineering Encyclopedia"
+	title = "Supermatter Textbook"
+	page_link = "Guide_to_the_Supermatter"
 
 /obj/item/book/manual/wiki/toxins/suicide_act(mob/user)
 	var/mob/living/carbon/human/H = user

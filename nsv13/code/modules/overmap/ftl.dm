@@ -3,11 +3,21 @@
 #define FTL_STATE_READY 3
 #define FTL_STATE_JUMPING 4
 
-/datum/star_system/proc/add_ship(obj/structure/overmap/OM)
+/datum/star_system/proc/add_ship(obj/structure/overmap/OM, turf/target_turf)
 	if(!system_contents.Find(OM))
 		system_contents += OM	//Lets be safe while I cast some black magic.
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
-		occupying_z = OM.z
+		if(!SSmapping.level_trait(OM.z, ZTRAIT_OVERMAP))
+			if(OM.reserved_z)
+				occupying_z = OM.reserved_z
+			else if(!length(OM.free_treadmills))
+				SSmapping.add_new_zlevel("Overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
+				occupying_z = world.maxz
+			else
+				var/_z = pick_n_take(OM.free_treadmills)
+				occupying_z = _z
+		else
+			occupying_z = OM.z
 		if(OM.role == MAIN_OVERMAP) //As these events all happen to the main ship, let's check that it's not say, the nomi that's triggering this system load...
 			try_spawn_event()
 		if(fleets.len)
@@ -17,7 +27,9 @@
 				F.encounter(OM)
 		restore_contents()
 	var/turf/destination
-	if(istype(OM, /obj/structure/overmap))
+	if(target_turf)
+		destination = target_turf // if we launch from a ship or something, put us near that ship
+	else if(istype(OM, /obj/structure/overmap))
 		var/obj/structure/overmap/OMS = OM
 		if(!OMS.faction)
 			destination = locate(rand(40, world.maxx - 39), rand(40, world.maxy - 39), occupying_z)
@@ -42,6 +54,12 @@
 		OM.relay(null, "<span class='notice'><h2>Now entering [name]...</h2></span>")
 		OM.relay(null, "<span class='notice'>[desc]</span>")
 		//If we have an audio cue, ensure it doesn't overlap with a fleet's one...
+	//End the round upon entering O45.
+	if(CHECK_BITFIELD(system_traits, STARSYSTEM_END_ON_ENTER))
+		if(OM.role == MAIN_OVERMAP)
+			priority_announce("[station_name()] has successfully returned to [src] for resupply and crew transfer, excellent work crew.", "Naval Command")
+			GLOB.crew_transfer_risa = TRUE
+			SSticker.mode.check_finished()
 	if(!audio_cues?.len)
 		return FALSE
 	for(var/datum/fleet/F in fleets)
@@ -145,11 +163,42 @@
 		OM.forceMove(locate(OM.x, OM.y, jumping.reserved_z))
 		system_contents -= OM
 
-/obj/structure/overmap/proc/begin_jump(datum/star_system/target_system)
+/obj/structure/overmap/proc/begin_jump(datum/star_system/target_system, force=FALSE)
 	relay(ftl_drive.ftl_start, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	desired_angle = 90 //90 degrees AKA face EAST to match the FTL parallax.
-	addtimer(CALLBACK(src, .proc/jump, target_system, TRUE), ftl_drive.ftl_startup_time)
+	addtimer(CALLBACK(src, .proc/jump_start, target_system, force), ftl_drive.ftl_startup_time)
 
+/obj/structure/overmap/proc/force_return_jump(datum/star_system/target_system)
+	if(!istype(target_system))
+		message_admins("force_return_jump called with invalid target system")
+	SSovermap_mode.already_ended = TRUE
+	if(ftl_drive) //Do we actually have an ftl drive?
+		ftl_drive.lockout = TRUE //Prevent further jumps
+		if(ftl_drive.ftl_state == FTL_STATE_JUMPING)
+			addtimer(CALLBACK(src, .proc/force_return_jump, target_system), 30 SECONDS)
+			message_admins("[src] is already jumping, delaying recall for 30 seconds")
+			log_runtime("DEBUG: force_return_jump: Players were already jumping, trying again in 30 seconds")
+		else
+			target_system.hidden = FALSE //Reveal where we are going
+
+			ftl_drive.ftl_state = FTL_STATE_READY //force it all to be ready
+			ftl_drive.use_power = 0
+			ftl_drive.progress = 0
+			log_runtime("DEBUG: force_return_jump: Beginning jump to outpost 45")
+			ftl_drive.jump(target_system, TRUE) //Jump home
+			addtimer(CALLBACK(src, .proc/check_return_jump), SSstar_system.ships[src]["to_time"] + 35 SECONDS)
+
+	else
+		message_admins("Target does not have an FTL drive!")
+		log_runtime("DEBUG: force_return_jump: Ship had no FTL drive")
+		return
+
+/obj/structure/overmap/proc/check_return_jump()
+	log_runtime("DEBUG: check_return_jump called")
+	var/datum/star_system/S = SSstar_system.system_by_id("Outpost 45")
+	if(current_system != S && SSstar_system.ships[src]["target_system"] != S) // Not in 45 and not on our way there
+		log_runtime("DEBUG: check_return_jump detected bad state, trying to force_return_jump")
+		force_return_jump(S)
 
 /obj/structure/overmap/proc/force_parallax_update(ftl_start)
 	if(reserved_z) //Actual overmap parallax behaviour
@@ -158,7 +207,7 @@
 			SL.set_parallax("transit", EAST)
 		else
 			SL.set_parallax(current_system.parallax_property, null)
-	for(var/datum/space_level/SL in occupying_levels)
+	for(var/datum/space_level/SL as() in occupying_levels)
 		if(ftl_start)
 			SL.set_parallax("transit", EAST)
 		else
@@ -167,71 +216,107 @@
 		if(M && M.client && M.hud_used && length(M.client.parallax_layers))
 			M.hud_used.update_parallax(force=TRUE)
 
-
-/obj/structure/overmap/proc/jump(datum/star_system/target_system, ftl_start) //FTL start IE, are we beginning a jump? Or ending one?
-	if(ftl_start && ftl_drive?.ftl_state != FTL_STATE_JUMPING)
+/obj/structure/overmap/proc/jump_start(datum/star_system/target_system, force=FALSE)
+	if(ftl_drive?.ftl_state != FTL_STATE_JUMPING)
+		if(force)
+			ftl_drive?.ftl_state = FTL_STATE_JUMPING
+		else
+			log_runtime("DEBUG: jump_start: aborted jump to [target_system], drive state = [ftl_drive?.ftl_state]")
+			return
+	if((SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, src) & BEING_INTERDICTED) && (!force)) // Override interdiction if the game is over
+		ftl_drive?.radio.talk_into(ftl_drive, "Warning. Local energy anomaly detected - calculated jump parameters invalid. Performing emergency reboot.", ftl_drive.engineering_channel)
+		relay('sound/magic/lightning_chargeup.ogg', channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+		ftl_drive?.depower()
+		log_runtime("DEBUG: jump_start: aborted jump to [target_system] due to interdiction")
 		return
+
+	log_runtime("DEBUG: jump_start: jump to [target_system] passed initial checks")
 	relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//Ships just hear a small "crack" when another one jumps
 	if(reserved_z) //Actual overmap parallax behaviour
 		var/datum/space_level/SL = SSmapping.z_list[reserved_z]
-		if(ftl_start)
-			SL.set_parallax("transit", EAST)
-		else
-			SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)
-	for(var/datum/space_level/SL in occupying_levels)
-		if(ftl_start)
-			SL.set_parallax("transit", EAST)
-		else
-			SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)
-	if(ftl_start)
-		relay(ftl_drive.ftl_loop, "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
-		var/datum/star_system/curr = SSstar_system.ships[src]["current_system"]
-		SEND_SIGNAL(src, COMSIG_SHIP_DEPARTED) // Let missions know we have left the system
-		curr.remove_ship(src)
-		var/speed = (curr.dist(target_system) / (ftl_drive.jump_speed_factor*10)) //TODO: FTL drive speed upgrades.
-		SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
-		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
-		if(role == MAIN_OVERMAP) //Scuffed please fix
-			priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected arrival time: [station_time_timestamp("hh:mm", world.time + speed MINUTES)] (Local time)","Automated announcement")
-			if(structure_crit) //Tear the ship apart if theyre trying to limp away.
-				for(var/i = 0, i < rand(4,8), i++)
-					var/name = pick(GLOB.teleportlocs)
-					var/area/target = GLOB.teleportlocs[name]
-					var/turf/T = pick(get_area_turfs(target))
-					new /obj/effect/temp_visual/explosion_telegraph(T)
-		SSstar_system.ships[src]["target_system"] = target_system
-		SSstar_system.ships[src]["from_time"] = world.time
-		SSstar_system.ships[src]["current_system"] = null
-		addtimer(CALLBACK(src, .proc/jump, target_system, FALSE), speed MINUTES)
+		SL.set_parallax("transit", EAST)
+	for(var/datum/space_level/SL as() in occupying_levels)
+		SL.set_parallax("transit", EAST)
 
+	relay(ftl_drive.ftl_loop, "<span class='warning'>You feel the ship lurch forward</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
+	var/datum/star_system/curr = SSstar_system.ships[src]["current_system"]
+	log_runtime("DEBUG: jump_start: starting jump to [target_system] from [curr]")
+	SEND_SIGNAL(src, COMSIG_SHIP_DEPARTED) // Let missions know we have left the system
+	curr.remove_ship(src)
+	var/speed = (curr.dist(target_system) / (ftl_drive.jump_speed_factor*10)) //TODO: FTL drive speed upgrades.
+	SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
+	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
+	if(role == MAIN_OVERMAP) //Scuffed please fix
+		priority_announce("Attention: All hands brace for FTL translation. Destination: [target_system]. Projected arrival time: [station_time_timestamp("hh:mm", world.time + speed MINUTES)] (Local time)","Automated announcement")
+		if(structure_crit && !istype(src, /obj/structure/overmap/small_craft)) //Tear the ship apart if theyre trying to limp away.
+			for(var/i = 0, i < rand(4,8), i++)
+				var/name = pick(GLOB.teleportlocs)
+				var/area/target = GLOB.teleportlocs[name]
+				var/turf/T = pick(get_area_turfs(target))
+				new /obj/effect/temp_visual/explosion_telegraph(T, damage_amount = ((world.time - structure_crit_init)/30))
+	SSstar_system.ships[src]["target_system"] = target_system
+	SSstar_system.ships[src]["from_time"] = world.time
+	SSstar_system.ships[src]["current_system"] = null
+	addtimer(CALLBACK(src, .proc/jump_end, target_system), speed MINUTES)
+	jump_handle_shake()
+	force_parallax_update(TRUE)
 
-	else
-		SSstar_system.ships[src]["target_system"] = null
-		SSstar_system.ships[src]["current_system"] = target_system
-		SSstar_system.ships[src]["last_system"] = target_system
-		SSstar_system.ships[src]["from_time"] = 0
-		SSstar_system.ships[src]["to_time"] = 0
-		SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
-		relay(ftl_drive.ftl_exit, "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
-		var/list/pulled = list()
-		for(var/obj/structure/overmap/SOM in GLOB.overmap_objects)
-			if(SOM.z != reserved_z)
-				continue
-			if(SOM == src)
-				continue
-			LAZYADD(pulled, SOM)
-		target_system.add_ship(src) //Get the system to transfer us to its location.
-		for(var/obj/structure/overmap/SOM in pulled)
-			target_system.add_ship(SOM)
-		SEND_SIGNAL(src, COMSIG_SHIP_ARRIVED) // Let missions know we have arrived in the system
+/obj/structure/overmap/proc/jump_end(datum/star_system/target_system)
+	relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//Ships just hear a small "crack" when another one jumps
+	if(reserved_z) //Actual overmap parallax behaviour
+		var/datum/space_level/SL = SSmapping.z_list[reserved_z]
+		SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)
+	for(var/datum/space_level/SL as() in occupying_levels)
+		SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)
+
+	log_runtime("DEBUG: jump_end: exiting hyperspace into [target_system]")
+	SSstar_system.ships[src]["target_system"] = null
+	SSstar_system.ships[src]["current_system"] = target_system
+	SSstar_system.ships[src]["last_system"] = target_system
+	SSstar_system.ships[src]["from_time"] = 0
+	SSstar_system.ships[src]["to_time"] = 0
+	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
+	relay(ftl_drive.ftl_exit, "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
+
+	var/list/pulled = list()
+	for(var/obj/structure/overmap/SOM in GLOB.overmap_objects)
+		if(SOM.z != reserved_z)
+			continue
+		if(SOM == src)
+			continue
+		LAZYADD(pulled, SOM)
+	target_system.add_ship(src) //Get the system to transfer us to its location.
+	for(var/obj/structure/overmap/SOM in pulled)
+		target_system.add_ship(SOM)
+
+	SEND_SIGNAL(src, COMSIG_SHIP_ARRIVED) // Let missions know we have arrived in the system
+	jump_handle_shake()
+	force_parallax_update(FALSE)
+
+/obj/structure/overmap/proc/jump_handle_shake(ftl_start)
 	for(var/mob/M in mobs_in_ship)
+		var/nearestDistance = INFINITY
+		var/obj/machinery/inertial_dampener/nearestMachine = null
+
+		// Going to helpfully pass this in after seasickness checks, to reduce duplicate machine checks
+		for(var/obj/machinery/inertial_dampener/machine as anything in GLOB.inertia_dampeners)
+			var/dist = get_dist( M, machine )
+			if ( dist < nearestDistance && machine.on )
+				nearestDistance = dist
+				nearestMachine = machine
+
 		if(iscarbon(M))
 			var/mob/living/carbon/L = M
 			if(HAS_TRAIT(L, TRAIT_SEASICK))
-				to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
-				L.adjust_disgust(pick(70, 100))
-		shake_camera(M, 4, 1)
-	force_parallax_update(ftl_start)
+				if ( nearestMachine )
+					var/newNausea = nearestMachine.reduceNausea( nearestDistance, 70 )
+					if ( newNausea > 10 )
+						to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
+					L.adjust_disgust( newNausea )
+				else
+					to_chat(L, "<span class='warning'>You can feel your head start to swim...</span>")
+					L.adjust_disgust(pick(70, 100))
+		shake_with_inertia(M, 4, 1, list(distance=nearestDistance, machine=nearestMachine))
 
 /obj/item/ftl_slipstream_chip
 	name = "Quantum slipstream field generation matrix (tier II)"
@@ -275,6 +360,7 @@
 	icon_screen = null
 	icon_keyboard = null
 	req_access = list(ACCESS_ENGINE_EQUIP)
+	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
 	var/tier = 1
 	var/faction = "nanotrasen" //For ship tracking. The tracking feature of the FTL compy is entirely so that antagonists can hunt the NT ships down
 	var/jump_speed_factor = 3.5 //How quickly do we jump? Larger is faster.
@@ -295,10 +381,7 @@
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
 	var/ftl_startup_time = 30 SECONDS
 	var/auto_spool = FALSE //For lazy admins
-
-//No please do not delete the FTL's radio and especially do not cause it to get stuck in limbo due to runtimes from said radio being gone.
-/obj/machinery/computer/ship/ftl_computer/prevent_content_explosion()
-	return TRUE
+	var/lockout = FALSE //Used for our end round shenanigains
 
 /obj/machinery/computer/ship/ftl_computer/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
@@ -443,6 +526,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	if(!ui)
 		ui = new(user, src, "FTLComputer")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/ftl_computer/ui_act(action, params, datum/tgui/ui)
 	. = ..()
@@ -501,11 +585,11 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		depower()
 		STOP_PROCESSING(SSmachines, src)
 
-/obj/machinery/computer/ship/ftl_computer/proc/jump(datum/star_system/target_system)
+/obj/machinery/computer/ship/ftl_computer/proc/jump(datum/star_system/target_system, force=FALSE)
 	if(!target_system)
 		radio.talk_into(src, "ERROR. Specified star_system no longer exists.", engineering_channel)
 		return
-	linked?.begin_jump(target_system)
+	linked?.begin_jump(target_system, force)
 	playsound(src, 'nsv13/sound/voice/ftl_start.wav', 100, FALSE)
 	radio.talk_into(src, "Initiating FTL translation.", engineering_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
@@ -515,7 +599,6 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_computer/proc/ready_ftl()
 	ftl_state = FTL_STATE_READY
-	progress = 0
 	icon_state = "ftl_ready"
 	playsound(src, 'nsv13/sound/voice/ftl_ready.wav', 100, FALSE)
 	radio.talk_into(src, "FTL vectors calculated. Ready to commence FTL translation.", engineering_channel)

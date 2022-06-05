@@ -16,7 +16,7 @@
     total_positions = 5
     spawn_positions = 5
 
-/datum/job/munitions_technician/New()
+/datum/job/munitions_tech/New()
     ..()
     MAP_JOB_CHECK
     total_positions = 12

@@ -159,7 +159,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/structure/overmap/fighter/dropship/sabre/syndicate,
+/obj/structure/overmap/small_craft/transport/sabre/syndicate,
 /turf/open/floor/engine,
 /area/nsv/hanger/pvp/marine)
 "aA" = (
@@ -728,9 +728,7 @@
 "bL" = (
 /obj/machinery/computer/ship/viewscreen,
 /obj/machinery/camera/syndicate/autoname,
-/obj/machinery/computer/monitor{
-	dir = 2
-	},
+/obj/machinery/computer/monitor,
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/engine,
 /area/quartermaster/pvp)
@@ -804,7 +802,10 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/hydroponics/pvp)
 "bV" = (
-/obj/structure/munitions_trolley,
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 12
+	},
 /turf/open/floor/monotile/dark,
 /area/quartermaster/pvp)
 "bW" = (
@@ -826,8 +827,7 @@
 /area/hallway/pvp)
 "bX" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 8;
-	icon_state = "vent_map_on-2"
+	dir = 8
 	},
 /turf/open/floor/carpet/red,
 /area/nsv/hanger/pvp)
@@ -1447,10 +1447,10 @@
 /obj/item/clothing/ears/earmuffs,
 /obj/item/clothing/ears/earmuffs,
 /obj/item/clothing/ears/earmuffs,
-/obj/item/storage/box/squad_kit/mt,
-/obj/item/storage/box/squad_kit/mt,
-/obj/item/storage/box/squad_kit/mt,
-/obj/item/storage/box/squad_kit/mt,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
 /obj/item/multitool,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
@@ -1513,10 +1513,10 @@
 	},
 /obj/item/clothing/gloves/color/fyellow,
 /obj/item/storage/toolbox/electrical,
-/obj/item/storage/box/squad_kit/dc,
-/obj/item/storage/box/squad_kit/dc,
-/obj/item/storage/box/squad_kit/dc,
-/obj/item/storage/box/squad_kit/dc,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hallway/pvp)
 "dv" = (
@@ -1786,23 +1786,23 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
 /turf/open/floor/engine,
 /area/nsv/hanger/pvp)
 "dY" = (
@@ -2238,13 +2238,14 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/nsv/pdc,
 /obj/structure/closet/crate/engineering{
 	name = "pdc ammo crate"
 	},
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/machinery/ship_weapon/pdc_mount/north,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "eV" = (
@@ -2413,7 +2414,7 @@
 /turf/open/floor/engine,
 /area/security/brig/pvp)
 "ft" = (
-/obj/structure/overmap/fighter/dropship/sabre/syndicate,
+/obj/structure/overmap/small_craft/transport/sabre/syndicate,
 /obj/structure/hull_plate,
 /obj/structure/fighter_launcher{
 	dir = 4;
@@ -2527,12 +2528,13 @@
 /turf/open/floor/plating,
 /area/engine/engineering/pvp)
 "fK" = (
-/obj/structure/hull_plate/end{
-	dir = 1;
-	icon_state = "tgmc_outerhull_dir"
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
 	},
-/turf/open/floor/plating/airless,
-/area/space)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/computer/ship/munitions_computer/south,
+/turf/open/floor/engine,
+/area/quartermaster/pvp)
 "fL" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -2821,6 +2823,18 @@
 /obj/structure/cable/yellow,
 /turf/open/floor/plasteel/tech/grid,
 /area/quartermaster/pvp)
+"gy" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/machinery/computer/ship/dradis/minor/cargo{
+	dir = 4;
+	dradis_id = "syndicate_cargo_torpedo_tube"
+	},
+/obj/item/clothing/ears/earmuffs,
+/turf/open/floor/engine,
+/area/quartermaster/pvp)
 "gz" = (
 /obj/structure/extinguisher_cabinet/east,
 /obj/effect/turf_decal/stripes/line{
@@ -2914,10 +2928,10 @@
 /obj/structure/rack,
 /obj/structure/window/reinforced,
 /obj/effect/turf_decal/tile/ship/full/red,
-/obj/item/storage/box/squad_kit/fireteam,
-/obj/item/storage/box/squad_kit/fireteam,
-/obj/item/storage/box/squad_kit/fireteam,
-/obj/item/storage/box/squad_kit/fireteam,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
 /turf/open/floor/monotile/dark,
 /area/security/brig/pvp)
 "gM" = (
@@ -3290,10 +3304,10 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/item/storage/box/squad_kit/dc,
-/obj/item/storage/box/squad_kit/dc,
-/obj/item/storage/box/squad_kit/dc,
-/obj/item/storage/box/squad_kit/dc,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
 /obj/structure/rack,
 /turf/open/floor/mineral/plastitanium,
 /area/nsv/hanger/pvp/marine)
@@ -3536,8 +3550,8 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
-/obj/item/storage/box/squad_kit/med,
-/obj/item/storage/box/squad_kit/med,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/pvp)
 "iz" = (
@@ -4152,10 +4166,10 @@
 /turf/open/floor/carpet/red,
 /area/nsv/hanger/pvp/marine)
 "kg" = (
-/obj/item/storage/box/squad_kit/dc,
-/obj/item/storage/box/squad_kit/dc,
-/obj/item/storage/box/squad_kit/dc,
-/obj/item/storage/box/squad_kit/dc,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
 /obj/structure/rack,
 /obj/item/key/fighter_tug,
 /turf/open/floor/mineral/plastitanium,
@@ -4268,8 +4282,8 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/item/storage/box/squad_kit/med,
-/obj/item/storage/box/squad_kit/med,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/pvp)
 "ku" = (
@@ -4524,7 +4538,7 @@
 /turf/open/floor/carpet/red,
 /area/quartermaster/pvp)
 "kX" = (
-/obj/structure/overmap/fighter/light/syndicate{
+/obj/structure/overmap/small_craft/combat/light/syndicate{
 	angle = 90
 	},
 /turf/open/floor/plating,
@@ -4561,10 +4575,6 @@
 /obj/machinery/porta_turret/ai,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/captain/pvp/admiral)
-"ld" = (
-/obj/machinery/ship_weapon/fiftycal,
-/turf/open/floor/plating/airless,
-/area/bridge/pvp)
 "le" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
@@ -4686,6 +4696,7 @@
 /obj/item/stack/spacecash/c1000,
 /obj/item/stack/spacecash/c1000,
 /obj/item/stack/spacecash/c1000,
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/carpet/red,
 /area/quartermaster/pvp)
 "lq" = (
@@ -4998,24 +5009,24 @@
 /area/security/brig/pvp)
 "md" = (
 /obj/structure/table,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
 /obj/item/fighter_component/secondary/utility/resupply,
 /obj/item/fighter_component/secondary/utility/resupply,
 /obj/item/fighter_component/secondary/utility/resupply,
@@ -5173,7 +5184,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/mecha_part_fabricator,
+/obj/machinery/modular_fabricator/exosuit_fab,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 8
 	},
@@ -5190,23 +5201,23 @@
 	},
 /obj/structure/window/reinforced,
 /obj/machinery/door/window/eastright,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
-/obj/item/ammo_box/magazine/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
 /obj/item/storage/belt/utility/full,
 /turf/open/floor/mineral/plastitanium,
 /area/nsv/hanger/pvp/marine)
@@ -6291,23 +6302,23 @@
 	},
 /obj/structure/window/reinforced,
 /obj/machinery/door/window/eastright,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
-/obj/item/ammo_box/magazine/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
+/obj/item/ammo_box/magazine/nsv/heavy_cannon,
 /obj/item/storage/belt/utility/full,
 /turf/open/floor/mineral/plastitanium,
 /area/nsv/hanger/pvp/marine)
@@ -6376,7 +6387,7 @@
 /area/engine/engineering/pvp)
 "pd" = (
 /obj/structure/hull_plate,
-/obj/structure/overmap/fighter/dropship/sabre/syndicate,
+/obj/structure/overmap/small_craft/transport/sabre/syndicate,
 /obj/structure/fighter_launcher{
 	dir = 4;
 	name = "Marine 2"
@@ -6940,6 +6951,8 @@
 	},
 /obj/item/radio,
 /obj/item/megaphone/cargo,
+/obj/item/clothing/ears/earmuffs,
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/carpet/red,
 /area/quartermaster/pvp)
 "qo" = (
@@ -7406,6 +7419,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 5
 	},
+/obj/structure/munitions_trolley,
 /turf/open/floor/engine,
 /area/quartermaster/pvp)
 "rt" = (
@@ -7870,14 +7884,6 @@
 /obj/machinery/computer/med_data/laptop,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/pvp)
-"sq" = (
-/obj/structure/chair/comfy/shuttle{
-	color = "#696969";
-	dir = 4;
-	name = "weapon officer"
-	},
-/turf/open/floor/mineral/plastitanium/red,
-/area/nsv/weapons/pvp)
 "sr" = (
 /obj/structure/kitchenspike,
 /turf/open/floor/plasteel/cafeteria,
@@ -7909,7 +7915,7 @@
 	dir = 6
 	},
 /obj/item/circuitboard/computer/slot_machine,
-/obj/item/circuitboard/computer/shuttle/docker{
+/obj/item/circuitboard/computer/shuttle/flight_control{
 	pixel_x = -3
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -9061,11 +9067,6 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
 	dir = 8
 	},
-/obj/structure/chair/comfy/shuttle{
-	color = "#696969";
-	dir = 4;
-	name = "weapon officer"
-	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/nsv/weapons/pvp)
 "uT" = (
@@ -10212,7 +10213,7 @@
 /turf/open/floor/mineral/plastitanium,
 /area/quartermaster/pvp)
 "xG" = (
-/obj/machinery/mineral/equipment_vendor,
+/obj/machinery/vendor/mining,
 /obj/structure/disposalpipe/segment{
 	dir = 6
 	},
@@ -10482,7 +10483,7 @@
 /turf/open/floor/carpet/red,
 /area/quartermaster/pvp)
 "yp" = (
-/obj/machinery/autolathe,
+/obj/machinery/modular_fabricator/autolathe,
 /obj/machinery/firealarm{
 	dir = 4;
 	pixel_x = 24
@@ -10955,7 +10956,7 @@
 /area/nsv/hanger/pvp/marine)
 "zu" = (
 /obj/machinery/light,
-/obj/structure/closet/secure_closet/fighter_pilot{
+/obj/structure/closet/secure_closet/combat_pilot{
 	req_access = null
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -10970,7 +10971,7 @@
 /turf/closed/wall/r_wall,
 /area/medical/medbay/pvp)
 "zx" = (
-/obj/structure/closet/secure_closet/fighter_pilot{
+/obj/structure/closet/secure_closet/combat_pilot{
 	req_access = null
 	},
 /obj/machinery/airalarm{
@@ -12111,7 +12112,7 @@
 "Cp" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
-/obj/machinery/mecha_part_fabricator,
+/obj/machinery/modular_fabricator/exosuit_fab,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
@@ -13715,7 +13716,7 @@
 /turf/open/floor/plating,
 /area/maintenance/pvp)
 "Gg" = (
-/obj/structure/closet/secure_closet/fighter_pilot{
+/obj/structure/closet/secure_closet/combat_pilot{
 	req_access = null
 	},
 /obj/item/inducer,
@@ -15181,7 +15182,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
 	},
-/obj/structure/overmap/fighter/light/syndicate,
+/obj/structure/overmap/small_craft/combat/light/syndicate,
 /turf/open/floor/engine,
 /area/nsv/hanger/pvp)
 "Ka" = (
@@ -15948,9 +15949,6 @@
 	req_access = list(150)
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/machinery/computer/fiftycal{
-	dir = 8
-	},
 /obj/item/multitool,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
@@ -16550,7 +16548,7 @@
 /turf/open/floor/plasteel/dark,
 /area/bridge/pvp/secondary)
 "Nt" = (
-/obj/machinery/autolathe,
+/obj/machinery/modular_fabricator/autolathe,
 /turf/open/floor/plasteel/white,
 /area/science/pvp)
 "Nu" = (
@@ -16649,9 +16647,6 @@
 	pixel_x = 24
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/machinery/computer/fiftycal{
-	dir = 8
-	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "NL" = (
@@ -17119,20 +17114,6 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engineering/pvp)
-"OP" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/structure/chair/comfy/shuttle{
-	color = "#696969";
-	dir = 4;
-	name = "weapon officer"
-	},
-/turf/open/floor/mineral/plastitanium/red,
-/area/nsv/weapons/pvp)
 "OQ" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on{
 	dir = 1
@@ -17331,13 +17312,6 @@
 	pixel_x = 24
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/machinery/computer/fiftycal{
-	dir = 8
-	},
-/obj/item/paper{
-	info = "<h1>Budget cuts</h1>This thing had to be stripped down a bit. We didn't have the budget for a roof deck, so your fiftycals are outside, in space, to the right. Good luck.";
-	name = "Note From Quartermaster Zorn"
-	},
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "Pp" = (
@@ -17385,7 +17359,7 @@
 /area/crew_quarters/cafeteria/pvp)
 "Pv" = (
 /obj/structure/reagent_dispensers/watertank,
-/obj/item/twohanded/pushbroom,
+/obj/item/pushbroom,
 /turf/open/floor/plasteel/tech/grid,
 /area/hallway/pvp)
 "Pw" = (
@@ -17406,10 +17380,11 @@
 	name = "pdc ammo crate"
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/machinery/ship_weapon/pdc_mount/north,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "Pz" = (
@@ -17465,9 +17440,6 @@
 /obj/machinery/airalarm{
 	dir = 8;
 	pixel_x = 22
-	},
-/obj/machinery/computer/fiftycal{
-	dir = 8
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/plasteel/tech/grid,
@@ -17628,6 +17600,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /obj/machinery/light{
 	dir = 8
+	},
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/north{
+	launcher_id = "syndicate_cargo_torpedo_tube"
 	},
 /turf/open/floor/engine,
 /area/quartermaster/pvp)
@@ -17898,17 +17873,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/pvp)
-"QB" = (
-/obj/structure/lattice/catwalk,
-/obj/structure/cable{
-	icon_state = "2-4";
-	tag = ""
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/space/basic,
-/area/bridge/pvp)
 "QC" = (
 /obj/structure/cable{
 	icon_state = "0-8"
@@ -18187,8 +18151,7 @@
 	dir = 8
 	},
 /obj/machinery/computer/ship/ftl_computer/syndicate{
-	dir = 4;
-	icon_state = "ftl_off"
+	dir = 4
 	},
 /turf/open/floor/engine,
 /area/engine/engine_room/pvp)
@@ -18750,10 +18713,10 @@
 	dir = 8
 	},
 /obj/item/storage/toolbox/electrical,
-/obj/item/storage/box/squad_kit/dc,
-/obj/item/storage/box/squad_kit/dc,
-/obj/item/storage/box/squad_kit/dc,
-/obj/item/storage/box/squad_kit/dc,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
+/obj/item/storage/box/damage_control,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hallway/pvp)
 "Sx" = (
@@ -19138,7 +19101,7 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/hydroponics/pvp)
 "Tj" = (
-/obj/structure/piano{
+/obj/structure/musician/piano{
 	icon_state = "piano"
 	},
 /turf/open/floor/carpet/red,
@@ -19518,10 +19481,11 @@
 	name = "pdc ammo crate"
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
-/obj/item/ammo_box/magazine/pdc/fiftycal,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/machinery/ship_weapon/pdc_mount/north,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "TZ" = (
@@ -21066,7 +21030,7 @@
 /area/nsv/hanger/pvp)
 "XJ" = (
 /obj/effect/turf_decal/delivery,
-/obj/structure/overmap/fighter/light/syndicate,
+/obj/structure/overmap/small_craft/combat/light/syndicate,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/pvp)
 "XM" = (
@@ -52470,8 +52434,8 @@ VB
 GM
 SG
 PZ
-SG
-SG
+fK
+gy
 rp
 VB
 sF
@@ -54540,9 +54504,9 @@ Gu
 gi
 JA
 uS
-sq
-sq
-OP
+nF
+nF
+pa
 nF
 IC
 Cs
@@ -56085,7 +56049,7 @@ Me
 JF
 qg
 eR
-QB
+NY
 NY
 cq
 NY
@@ -56342,7 +56306,7 @@ Me
 NQ
 qg
 yd
-ld
+Fq
 WE
 he
 WE
@@ -56599,7 +56563,7 @@ Mm
 Nw
 qg
 yd
-ld
+Fq
 WE
 he
 he
@@ -56856,7 +56820,7 @@ Mn
 NS
 Pq
 TI
-ld
+Fq
 WE
 he
 he
@@ -57113,7 +57077,7 @@ kI
 kI
 kI
 yd
-ld
+Fq
 WE
 he
 he
@@ -67674,7 +67638,7 @@ he
 he
 he
 he
-fK
+am
 Ze
 Ze
 dx
@@ -67931,7 +67895,7 @@ he
 he
 he
 he
-fK
+am
 Ze
 Ze
 dx
@@ -68188,7 +68152,7 @@ he
 he
 he
 he
-fK
+am
 Ze
 Ze
 dx
@@ -68445,7 +68409,7 @@ he
 he
 he
 he
-fK
+am
 Ze
 Ze
 dx
@@ -68702,7 +68666,7 @@ he
 he
 he
 he
-fK
+am
 Ze
 Ze
 dx
@@ -68959,7 +68923,7 @@ he
 he
 he
 he
-fK
+am
 Ze
 Ze
 dx

@@ -13,18 +13,19 @@
 	var/voteweight = 1
 	var/votable = FALSE
 
-	// Config actually from the JSON - should default to Hammerhead //NSV EDITS
+	//NSV edits all over
 	var/map_name = "NSV Atlas - DEFAULTED"
 	var/map_link = null //This is intentionally wrong, this will make it not link to webmap.
 	var/map_path = "map_files/Atlas"
 	var/map_file = list("atlas.dmm", "atlas2.dmm")
 	var/ship_type = /obj/structure/overmap/nanotrasen/battlecruiser/starter
 	var/mining_ship_type = /obj/structure/overmap/nanotrasen/mining_cruiser/rocinante
-	var/mine_disable = FALSE //NSV13 - Allow disabling of mineship loading.
-	var/mine_file = "Rocinante.dmm" //Nsv13. Heavy changes to this file
-	var/mine_path = "map_files/Mining/nsv13"
-	var/faction = "nanotrasen" //Nsv13 - To what faction does the NSV belong?
-	var/patrol_type = "standard" //Nsv13 - Lets you set the patrol type per map. Sometimes we just wanna space cruise y'dig?
+	var/mine_disable = FALSE //NSV13 option - Allow disabling of mineship loading.
+	var/mine_file = "Rocinante.dmm" //Nsv13 option
+	var/mine_path = "map_files/Mining/nsv13" //NSV13 option
+	var/list/omode_blacklist = list() //NSV13 - Blacklisted overmap modes - ie remove modes
+	var/list/omode_whitelist = list() //NSV13 - Whitelisted overmap modes - ie add modes
+	var/starmap_path = "config/starmap/starmap_default.json" //NSV13 - What starmap should this map load?
 	var/mine_traits = null
 
 	var/traits = list(
@@ -43,14 +44,19 @@
 	var/space_empty_levels = 1
 
 	var/allow_custom_shuttles = TRUE
+	var/allow_night_lighting = TRUE
 	var/shuttles = list(
 		"cargo" = "cargo_gladius",
 		"ferry" = "ferry_kilo",
-		"emergency" = "emergency_donut")
+		"emergency" = "emergency_atlas")
 
 //NSV EDITED END
 
-/proc/load_map_config(filename = "data/next_map.json", default_to_box, delete_after, error_if_missing = TRUE)
+/proc/load_map_config(filename = "next_map", foldername = DATA_DIRECTORY, default_to_box, delete_after, error_if_missing = TRUE)
+	if(IsAdminAdvancedProcCall())
+		return
+
+	filename = "[foldername]/[SANITIZE_FILENAME(filename)].json"
 	var/datum/map_config/config = new
 	if (default_to_box)
 		return config
@@ -58,7 +64,7 @@
 		qdel(config)
 		config = new /datum/map_config  // Fall back to Box
 		//config.LoadConfig(config.config_filename)
-	if (delete_after)
+	else if (delete_after)
 		fdel(filename)
 	return config
 
@@ -171,10 +177,12 @@
 	else
 		mine_disable = TRUE
 	//Nsv13 stuff. No CHECK_EXISTS because we don't want to yell at mappers if they don't override these two.
-	if("faction" in json) //We don't always want to bother overriding faction, so the default will do for now
-		faction = json["faction"]
-	if("patrol_type" in json) //Lets us set our patrol type per map.
-		patrol_type = json["patrol_type"]
+	if("omode_blacklist" in json) //Which modes we want disabled on this map
+		omode_blacklist = json["omode_blacklist"]
+	if("omode_whitelist" in json) //Which extra modes we want enabled on this map
+		omode_whitelist = json["omode_whitelist"]
+	if("starmap_path" in json)
+		starmap_path = json["starmap_path"]
 
 	CHECK_EXISTS("ship_type")
 	if("ship_type" in json)
@@ -202,6 +210,8 @@
 		map_link = json["map_link"]
 	else
 		log_world("map_link missing from json!")	// NSV Changes end
+
+	allow_night_lighting = json["allow_night_lighting"] != FALSE
 
 	defaulted = FALSE
 	return TRUE

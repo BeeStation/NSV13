@@ -33,14 +33,14 @@
 
 /datum/station_goal/dna_vault/get_report()
 	return {"Our long term prediction systems indicate a 99% chance of system-wide cataclysm in the near future.
-	 We need you to construct a DNA Vault aboard your station.
+	 We need you to construct a DNA Vault aboard your ship.
 
 	 The DNA Vault needs to contain samples of:
 	 [animal_count] unique animal data
 	 [plant_count] unique non-standard plant data
 	 [human_count] unique sapient humanoid DNA data
 
-	 Base vault parts are available for shipping via cargo."}
+	 Base vault parts are available for shipping via cargo."} //NSV13
 
 
 /datum/station_goal/dna_vault/on_report()
@@ -223,13 +223,12 @@
 		return
 	switch(action)
 		if("gene")
-			upgrade(usr,params["choice"])
-			. = TRUE
+			. = upgrade(usr,params["choice"])
 
 /obj/machinery/dna_vault/proc/check_goal()
 	if(plants.len >= plants_max && animals.len >= animals_max && dna.len >= dna_max)
 		completed = TRUE
-
+	ui_update()
 
 /obj/machinery/dna_vault/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/dna_probe))
@@ -255,14 +254,15 @@
 /obj/machinery/dna_vault/proc/upgrade(mob/living/carbon/human/H,upgrade_type)
 	if(!(upgrade_type in power_lottery[H]))
 		return
+	. = TRUE
 	var/datum/species/S = H.dna.species
 	switch(upgrade_type)
 		if(VAULT_TOXIN)
 			to_chat(H, "<span class='notice'>You feel resistant to airborne toxins.</span>")
 			if(locate(/obj/item/organ/lungs) in H.internal_organs)
 				var/obj/item/organ/lungs/L = H.internal_organs_slot[ORGAN_SLOT_LUNGS]
-				L.tox_breath_dam_min = 0
-				L.tox_breath_dam_max = 0
+				L.gas_max -= GAS_PLASMA
+				L.gas_max -= GAS_CONSTRICTED_PLASMA //NSV13
 			ADD_TRAIT(H, TRAIT_VIRUSIMMUNE, "dna_vault")
 		if(VAULT_NOBREATH)
 			to_chat(H, "<span class='notice'>Your lungs feel great.</span>")
