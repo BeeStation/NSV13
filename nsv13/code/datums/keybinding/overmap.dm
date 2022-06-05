@@ -17,7 +17,7 @@
 	if(!OM) return
 
 	if(M != OM.pilot) return
-	if(!OM.use_QE_turning()) return
+	if(OM.move_by_mouse) return
 	OM.keyboard_delta_angle_left = -15
 	return TRUE
 
@@ -28,7 +28,7 @@
 	if(!OM) return
 
 	if(M != OM.pilot) return
-	if(!OM.use_QE_turning()) return
+	if(OM.move_by_mouse) return
 	OM.keyboard_delta_angle_left = 0
 	return TRUE
 
@@ -45,7 +45,7 @@
 	if(!OM) return
 
 	if(M != OM.pilot) return
-	if(!OM.use_QE_turning()) return
+	if(OM.move_by_mouse) return
 	OM.keyboard_delta_angle_right = 15
 	return TRUE
 
@@ -56,7 +56,7 @@
 	if(!OM) return
 
 	if(M != OM.pilot) return
-	if(!OM.use_QE_turning()) return
+	if(OM.move_by_mouse) return
 	OM.keyboard_delta_angle_right = 0
 	return TRUE
 

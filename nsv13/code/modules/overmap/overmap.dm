@@ -564,9 +564,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	fire(target)
 	return TRUE
 
-/obj/structure/overmap/proc/use_QE_turning()
-	return (!move_by_mouse && (mass < MASS_SMALL))
-
 /obj/structure/overmap/proc/start_lockon(atom/target)
 	if(!istype(target, /obj/structure/overmap))
 		return FALSE
@@ -624,20 +621,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(user != pilot || pilot.incapacitated())
 		return
 
-	if(mass < MASS_SMALL) //Small craft can "strafe"
-		user_thrust_dir = direction
-
-	else //Everything else cannot
-		if(direction & WEST)
-			desired_angle = angle - 15
-			user_thrust_dir = direction - WEST
-
-		else if(direction & EAST)
-			desired_angle = angle + 15
-			user_thrust_dir = direction - EAST
-
-		else
-			user_thrust_dir = direction
+	user_thrust_dir = direction
 
 //relay('nsv13/sound/effects/ship/rcs.ogg')
 
