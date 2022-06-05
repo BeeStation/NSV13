@@ -121,6 +121,23 @@
 	bound_height = 96
 	bound_width = 96
 	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50)
+	
+/obj/structure/overmap/nanotrasen/heavy_battlecruiser
+	name = "Gungnir Class Battlecruiser"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/cruiser.dmi'
+	icon_state = "cruiser"
+	mass = MASS_LARGE
+	sprite_size = 48
+	//damage_states = TRUE
+	//pixel_z = -32
+	//pixel_w = -32
+	obj_integrity = 1000
+	max_integrity = 1000 //Max health
+	integrity_failure = 1000
+	bound_height = 96
+	bound_width = 96
+	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50)
+	
 
 //Instanced Versions
 
@@ -206,6 +223,15 @@
 	integrity_failure = 1400
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+
+/obj/structure/overmap/nanotrasen/heavy_battlecruiser/starter //Gungnir
+	role = MAIN_OVERMAP
+	obj_integrity = 1700
+	max_integrity = 1700
+	integrity_failure = 1700
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 65, "overmap_heavy" = 20)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
 /obj/structure/overmap/nanotrasen/battleship/starter //Galactica
