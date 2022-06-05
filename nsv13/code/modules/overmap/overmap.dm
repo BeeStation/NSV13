@@ -624,7 +624,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(user != pilot || pilot.incapacitated())
 		return
 
-	if(use_QE_turning()) //Small craft can "strafe"
+	if(mass < MASS_SMALL) //Small craft can "strafe"
 		user_thrust_dir = direction
 
 	else //Everything else cannot
