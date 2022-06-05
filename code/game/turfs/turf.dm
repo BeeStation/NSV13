@@ -202,13 +202,10 @@ GLOBAL_LIST_EMPTY(station_turfs)
 			travel_z(user, below, FALSE)
 
 /turf/proc/travel_z(mob/user, turf/target, upwards = TRUE)
-	if(isliving(user))
-		var/mob/living/L = user
-		if(L.incorporeal_move) // Allow most jaunting
-			user.client?.Process_Incorpmove(upwards ? UP : DOWN)
-			return
-	// You can push off of or land on the floor, but not go through it
-	if((upwards && !target.allow_z_travel) || (!upwards && !allow_z_travel))
+	var/mob/living/L = user
+	var/jaunting = isliving(user) && L.incorporeal_move
+	// You can push off of or land on the floor, but not go through it, unless you can jaunt
+	if(!jaunting && ((upwards && !target.allow_z_travel) || (!upwards && !allow_z_travel)))
 		to_chat(user, "<span class='warning'>Something is blocking you!</span>")
 		return
 	user.visible_message("<span class='notice'>[user] begins floating [upwards ? "upwards" : "downwards"]!</span>", "<span class='notice'>You begin floating [upwards ? "upwards" : "downwards"].")
@@ -219,6 +216,9 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	user.transform = M
 	if(!do_after(user, 30, FALSE, get_turf(user)))
 		animate(user, 0, flags = ANIMATION_END_NOW)
+		return
+	if(jaunting)
+		user.client?.Process_Incorpmove(upwards ? UP : DOWN)
 		return
 	var/atom/movable/AM
 	if(user.pulling)
