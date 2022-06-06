@@ -1,7 +1,7 @@
 //NSV13 added defines for ethereal cell interactions
-#define CELL_DRAIN_TIME 35
-#define CELL_POWER_GAIN 60
-#define CELL_POWER_DRAIN 750
+#define CELL_DRAIN_TIME 25
+#define CELL_POWER_GAIN 75
+#define CELL_POWER_DRAIN 300
 
 /obj/item/stock_parts/cell
 	name = "power cell"
@@ -169,15 +169,15 @@
 			return
 
 		to_chat(H, "<span class='notice'>You clumsily channel power through the [src] and into your body, wasting some in the process.</span>")
-		E.drain_time = world.time + 25
-		while(do_after(user, 20, target = src))
+		E.drain_time = world.time + CELL_DRAIN_TIME
+		while(do_after(user, CELL_DRAIN_TIME, target = src))
 			if(!istype(stomach))
 				to_chat(H, "<span class='warning'>You can't receive charge!</span>")
 				return
-			E.drain_time = world.time + 25
-			if(charge > 300)
-				stomach.adjust_charge(75)
-				charge -= 300 //you waste way more than you receive, so that ethereals cant just steal one cell and forget about hunger
+			E.drain_time = world.time + CELL_DRAIN_TIME
+			if(charge > CELL_POWER_DRAIN)
+				stomach.adjust_charge(CELL_POWER_GAIN)
+				charge -= CELL_POWER_DRAIN //you waste way more than you receive, so that ethereals cant just steal one cell and forget about hunger
 				to_chat(H, "<span class='notice'>You receive some charge from the [src].</span>")
 			else
 				stomach.adjust_charge(charge/4)
