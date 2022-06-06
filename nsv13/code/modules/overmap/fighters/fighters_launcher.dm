@@ -294,6 +294,7 @@
 	if(!reserved_z && ftl_drive)
 		if(!free_treadmills?.len)
 			SSmapping.add_new_zlevel("Dropship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
+			SSmapping.setup_map_transitions(SSmapping.z_list[world.maxz])
 			reserved_z = world.maxz
 		else
 			var/_z = pick_n_take(free_treadmills)
