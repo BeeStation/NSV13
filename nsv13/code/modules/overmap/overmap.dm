@@ -620,8 +620,15 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/relaymove(mob/user, direction)
 	if(user != pilot || pilot.incapacitated())
 		return
-
 	user_thrust_dir = direction
+	// Since they can't strafe with IAS on, they can also turn with A and D
+	if(inertial_dampeners)
+		if(direction & WEST)
+			desired_angle = angle - 15
+			user_thrust_dir = direction - WEST
+		else if(direction & EAST)
+			desired_angle = angle + 15
+			user_thrust_dir = direction - EAST
 
 //relay('nsv13/sound/effects/ship/rcs.ogg')
 
