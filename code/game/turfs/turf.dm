@@ -46,6 +46,9 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	/// Used by ammo_casing/bounce_away() to determine if the shell casing should make a sizzle sound when it's ejected over the turf. ex: If the turf is supposed to be water, set TRUE.
 	var/bullet_sizzle = FALSE
 
+	///Lumcount added by sources other than lighting datum objects, such as the overlay lighting component.
+	var/dynamic_lumcount = 0
+
 	/// Should we used the smooth tiled dirt decal or not
 	var/tiled_dirt = FALSE
 
@@ -87,7 +90,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 	if(color)
 		add_atom_colour(color, FIXED_COLOUR_PRIORITY)
-		
+
 	if (light_power && light_range)
 		update_light()
 
