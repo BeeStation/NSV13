@@ -443,7 +443,7 @@
 					identity_theft.update_explanation_text()
 					objectives += identity_theft
 					log_objective(owner, identity_theft.explanation_text)
-					escape_objective_possible = FALSE
+					escape_objective_possible = FALSE //nsv13 end
 
 	if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
 		//nsv13 - No (almost neccessarily) kill objectives on low pop
