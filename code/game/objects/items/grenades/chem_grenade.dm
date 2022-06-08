@@ -622,8 +622,8 @@
 	B1.reagents.add_reagent(/datum/reagent/stable_plasma, 20)
 	B2.reagents.add_reagent(/datum/reagent/water, 30)
 	B2.reagents.add_reagent(/datum/reagent/carbon, 20)
-	B2.reagents.add_reagent(/datum/reagent/acid, 40)
-	B2.reagents.add_reagent(/datum/reagent/acid/fluacid, 10)
+	B2.reagents.add_reagent(/datum/reagent/toxin/acid, 40)
+	B2.reagents.add_reagent(/datum/reagent/toxin/acid/fluacid, 10)
 
 	beakers += B1
 	beakers += B2

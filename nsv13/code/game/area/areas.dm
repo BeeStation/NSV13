@@ -551,6 +551,26 @@
 /area/nsv/weapons/access_corridor
 	name = "Munitions Access Corridor"
 	icon_state = "hallF"
+	
+/area/nsv/weapons/munitions_lounge
+	name = "Munitions Lounge"
+	icon_state = "hallF"
+
+/area/nsv/weapons/weapons_secure_storage
+	name = "Munitions Secure Storage"
+	icon_state = "hallF"
+
+/area/nsv/weapons/equipment_room
+	name = "Munitions Equipment Room"
+	icon_state = "hallF"
+
+/area/nsv/weapons/observation_deck
+	name = "Munitions Observation Deck"
+	icon_state = "hallF"
+
+/area/nsv/weapons/main_passageway
+	name = "Munitions Access Corridor"
+	icon_state = "hallF"
 
 /area/nsv/magazine
 	name = "Ship's Magazine"
