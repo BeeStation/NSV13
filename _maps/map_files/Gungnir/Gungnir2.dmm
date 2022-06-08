@@ -5,6 +5,10 @@
 "aab" = (
 /turf/closed/wall/ship,
 /area/maintenance/department/science)
+"aac" = (
+/obj/machinery/navbeacon,
+/turf/open/floor/plasteel/white,
+/area/crew_quarters/cryopods)
 "aad" = (
 /turf/closed/wall/ship,
 /area/space)
@@ -226,6 +230,13 @@
 "aaQ" = (
 /turf/closed/wall/ship,
 /area/medical/genetics)
+"aaR" = (
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=cics";
+	location = "right"
+	},
+/turf/open/floor/monotile/steel,
+/area/maintenance/department/medical)
 "aaS" = (
 /turf/closed/wall/ship,
 /area/medical/storage)
@@ -528,18 +539,12 @@
 /turf/closed/wall/ship,
 /area/science)
 "abZ" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/structure/window/reinforced{
+	layer = 2.89
 	},
 /obj/machinery/navbeacon,
-/turf/open/floor/monotile/steel,
-/area/maintenance/department/medical)
+/turf/open/floor/monotile/dark,
+/area/medical/morgue)
 "acb" = (
 /turf/open/floor/plasteel/ship,
 /area/science/robotics/lab)
@@ -1145,7 +1150,6 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
-/obj/machinery/navbeacon,
 /turf/open/floor/monotile/steel,
 /area/maintenance/department/medical)
 "adO" = (
@@ -1961,6 +1965,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/weapons)
+"ago" = (
+/obj/effect/landmark/patrol_node,
+/turf/open/floor/monotile/steel,
+/area/hallway/secondary/entry)
 "agp" = (
 /obj/structure/ladder,
 /turf/open/floor/plating,
@@ -5101,8 +5109,8 @@
 /area/engine/engineering/reactor_control)
 "anQ" = (
 /obj/machinery/navbeacon,
-/turf/open/floor/plasteel/white,
-/area/medical/medbay/central)
+/turf/open/floor/plasteel/ship,
+/area/science/robotics/lab)
 "anR" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 1
@@ -7825,7 +7833,6 @@
 /area/science)
 "aub" = (
 /obj/structure/disposalpipe/segment,
-/obj/machinery/navbeacon,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -11210,11 +11217,7 @@
 /area/shuttle/turbolift/quaternary)
 "aBs" = (
 /obj/machinery/navbeacon,
-/obj/structure/disposalpipe/segment{
-	dir = 4;
-	icon_state = "pipe"
-	},
-/turf/open/floor/plasteel/tiled/light,
+/turf/open/floor/carpet/green,
 /area/medical/medbay/lobby)
 "aBt" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
@@ -11397,12 +11400,12 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "aBL" = (
-/obj/machinery/navbeacon,
 /obj/structure/disposalpipe/segment{
-	dir = 8
+	dir = 1
 	},
+/obj/machinery/navbeacon,
 /turf/open/floor/plasteel/white,
-/area/medical/medbay/central)
+/area/medical/genetics)
 "aBM" = (
 /obj/machinery/light,
 /obj/structure/disposalpipe/segment{
@@ -11533,6 +11536,10 @@
 /obj/structure/cable,
 /turf/open/floor/plasteel/ship,
 /area/science/nanite)
+"aCs" = (
+/obj/machinery/navbeacon,
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/ordnance)
 "aCx" = (
 /obj/machinery/portable_atmospherics/scrubber/huge/movable,
 /obj/structure/window/reinforced{
@@ -12321,6 +12328,19 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/steel,
 /area/engine/atmos)
+"aEU" = (
+/obj/effect/turf_decal/tile/ship/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/neutral{
+	dir = 8
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=cics";
+	location = "right"
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/primary)
 "aEV" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 10
@@ -14590,7 +14610,6 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
-/obj/machinery/navbeacon,
 /obj/structure/disposalpipe/segment,
 /obj/structure/disposalpipe/segment{
 	dir = 8
@@ -14716,6 +14735,10 @@
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=cics";
+	location = "right"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "aJj" = (
@@ -14816,20 +14839,39 @@
 /area/maintenance/department/engine)
 "aJr" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/patrol_node,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/aft)
+"aJs" = (
+/obj/effect/turf_decal/tile/ship/neutral{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/effect/turf_decal/tile/ship/neutral{
+	dir = 8
 	},
-/obj/machinery/navbeacon,
-/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 8
+	},
+/obj/effect/landmark/patrol_node,
 /turf/open/floor/monotile/steel,
-/area/science)
-"aJs" = (
-/obj/machinery/navbeacon,
-/turf/open/floor/monotile/steel,
-/area/science)
+/area/hallway/nsv/deck2/primary)
 "aJt" = (
 /obj/machinery/light{
 	dir = 8
@@ -14961,9 +15003,21 @@
 /turf/open/floor/plating,
 /area/maintenance/department/electrical)
 "aJE" = (
-/obj/machinery/navbeacon,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 8
+	},
+/obj/effect/landmark/patrol_node,
 /turf/open/floor/monotile/steel,
-/area/hallway/secondary/exit/departure_lounge)
+/area/hallway/nsv/deck2/forward)
 "aJF" = (
 /obj/structure/table,
 /obj/item/clothing/head/welding,
@@ -15054,6 +15108,10 @@
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=cics";
+	location = "right"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "aJO" = (
@@ -15140,6 +15198,10 @@
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=cics";
+	location = "right"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "aJU" = (
@@ -15564,7 +15626,6 @@
 	icon_state = "2-8";
 	tag = ""
 	},
-/obj/machinery/navbeacon,
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
@@ -17134,10 +17195,18 @@
 /turf/open/floor/plasteel/white,
 /area/medical/patients_rooms/room_b)
 "aOi" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/obj/structure/table,
-/turf/open/floor/plasteel/white,
-/area/medical/nsv/clinic)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/patrol_node,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/forward)
 "aOj" = (
 /obj/structure/table,
 /obj/item/clothing/glasses/science,
@@ -24283,7 +24352,7 @@
 /obj/machinery/conveyor_switch/oneway{
 	id = "Ending";
 	name = "To Cargo Hold";
-	pixel_x = 0;
+	pixel_x = 1;
 	pixel_y = 6
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -24368,6 +24437,19 @@
 	},
 /turf/open/floor/wood,
 /area/quartermaster/qm)
+"bdn" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layer3,
+/obj/structure/disposalpipe/segment{
+	dir = 4;
+	icon_state = "pipe"
+	},
+/obj/machinery/navbeacon,
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/artillery)
 "bdo" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -24982,6 +25064,12 @@
 /obj/effect/spawner/structure/window/plasma,
 /turf/open/floor/plasteel/ship,
 /area/engine/engineering/reactor_control)
+"eJe" = (
+/obj/machinery/computer/cargo{
+	dir = 1
+	},
+/turf/open/floor/plasteel/ship,
+/area/quartermaster/warehouse)
 "eLk" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
@@ -24994,6 +25082,10 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/shuttle/turbolift/secondary)
+"eTW" = (
+/obj/machinery/navbeacon,
+/turf/open/floor/plasteel/ship,
+/area/science/xenobiology)
 "eYT" = (
 /obj/effect/spawner/structure/window/plasma/reinforced,
 /obj/machinery/atmospherics/pipe/simple/yellow/visible{
@@ -25111,6 +25203,16 @@
 /obj/structure/rack,
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
+"gOq" = (
+/obj/docking_port/stationary{
+	dir = 2;
+	dwidth = 2;
+	height = 7;
+	id = "supply_home";
+	width = 13
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "gWQ" = (
 /obj/effect/turf_decal/tile/brown{
 	dir = 8
@@ -25191,6 +25293,10 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/quartermaster/warehouse)
+"icC" = (
+/obj/machinery/navbeacon,
+/turf/open/floor/plasteel/ship,
+/area/science/lab)
 "idf" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4;
@@ -25273,6 +25379,10 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/quartermaster/warehouse)
+"jmb" = (
+/obj/effect/landmark/patrol_node,
+/turf/open/floor/monotile/steel,
+/area/hallway/secondary/exit/departure_lounge)
 "jrh" = (
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple{
@@ -25360,6 +25470,13 @@
 "kbf" = (
 /obj/structure/closet/firecloset/full,
 /turf/open/floor/monotile/dark,
+/area/hallway/secondary/exit/departure_lounge)
+"kcx" = (
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=cics";
+	location = "right"
+	},
+/turf/open/floor/monotile/steel,
 /area/hallway/secondary/exit/departure_lounge)
 "kdz" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -25973,6 +26090,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/aft)
+"rTB" = (
+/obj/machinery/computer/ship/dradis/minor/cargo{
+	dir = 8;
+	dradis_id = "nt_cargo_torpedo_launcher"
+	},
+/turf/open/floor/plasteel/ship,
+/area/quartermaster/warehouse)
 "rYB" = (
 /obj/machinery/light{
 	brightness = 0;
@@ -26023,6 +26147,13 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"sAz" = (
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=cics";
+	location = "right"
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/secondary/exit)
 "sKZ" = (
 /obj/effect/turf_decal/tile/orange,
 /obj/effect/turf_decal/tile/orange{
@@ -26284,6 +26415,10 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/engine/atmos)
+"xiR" = (
+/obj/effect/landmark/patrol_node,
+/turf/open/floor/monotile/steel,
+/area/hallway/secondary/exit)
 "xpy" = (
 /turf/open/floor/monotile/steel,
 /area/shuttle/turbolift/secondary)
@@ -49412,7 +49547,7 @@ afm
 ijO
 afc
 aIK
-ajC
+aJr
 afe
 afc
 ijO
@@ -49637,7 +49772,7 @@ aag
 aaE
 aaE
 ads
-aaE
+aac
 aaE
 aaE
 aab
@@ -50202,7 +50337,7 @@ lkz
 aZK
 aMS
 aMW
-lLd
+eTW
 lLd
 aOr
 aZK
@@ -51480,7 +51615,7 @@ aCC
 aCC
 aLl
 aLp
-aJr
+azQ
 azQ
 aqA
 vmp
@@ -51994,11 +52129,11 @@ jvB
 ayY
 acl
 aLt
-aJs
+acl
 acl
 aoI
 acl
-aJs
+acl
 acl
 akS
 acl
@@ -52988,7 +53123,7 @@ abX
 aiL
 acb
 acb
-acb
+anQ
 acb
 acb
 atK
@@ -53041,7 +53176,7 @@ aGh
 agH
 ard
 bdO
-agH
+kcx
 agH
 agH
 aYM
@@ -53236,7 +53371,7 @@ aYz
 aYH
 adu
 abk
-abk
+aaR
 abk
 abk
 abk
@@ -54326,7 +54461,7 @@ aGj
 agH
 agH
 agH
-agH
+jmb
 agH
 agH
 aYP
@@ -54519,7 +54654,7 @@ aaa
 aYy
 aYC
 aYx
-abZ
+adu
 abk
 abk
 abk
@@ -54583,7 +54718,7 @@ aGk
 agH
 agH
 agH
-aJE
+agH
 agH
 agH
 aYQ
@@ -55082,7 +55217,7 @@ adX
 adX
 adX
 adX
-adX
+icC
 aKY
 hsZ
 adR
@@ -55836,7 +55971,7 @@ aff
 aff
 aff
 aff
-afx
+aEU
 aIS
 aJi
 aKr
@@ -56063,15 +56198,15 @@ aYz
 aYH
 adu
 abk
-abk
+aaR
 abk
 akb
+aaR
 abk
-abk
 aeZ
 aeZ
 aeZ
-aeZ
+ago
 aeZ
 aeZ
 aeZ
@@ -56094,7 +56229,7 @@ aff
 aff
 aff
 afp
-aIS
+aJs
 ags
 aKs
 aJj
@@ -56118,14 +56253,14 @@ aqz
 agF
 agF
 agF
-agF
+xiR
 asw
-agF
+sAz
 awI
 aqZ
 agH
 bdR
-agH
+kcx
 agH
 art
 aYL
@@ -58389,7 +58524,7 @@ adH
 axa
 aOG
 aOG
-aOG
+aBs
 aPT
 aPZ
 afk
@@ -58652,7 +58787,7 @@ aQa
 aJI
 aQk
 abj
-aBs
+aBo
 abj
 abj
 abj
@@ -59937,7 +60072,7 @@ aaP
 aaP
 abz
 aBC
-aBL
+aBC
 aRo
 abA
 abA
@@ -61204,7 +61339,7 @@ aak
 aaf
 aar
 aaN
-abf
+abZ
 aao
 akl
 aaT
@@ -61216,7 +61351,7 @@ auN
 azt
 aON
 azt
-azt
+aBL
 azt
 aQd
 aOA
@@ -61998,7 +62133,7 @@ abo
 axZ
 aRy
 ani
-aOi
+ani
 ani
 ani
 auM
@@ -63271,7 +63406,7 @@ aaS
 aaS
 aaS
 auW
-anQ
+abz
 alo
 abz
 abz
@@ -64318,7 +64453,7 @@ aRk
 aRS
 abo
 aXA
-aJP
+aJE
 aKh
 abR
 avB
@@ -65881,7 +66016,7 @@ bbn
 bbn
 aBj
 wiB
-bbn
+eJe
 aez
 aez
 aez
@@ -66142,7 +66277,7 @@ rmo
 bbz
 bbK
 bbY
-aaI
+gOq
 aaI
 aaI
 aaI
@@ -67946,7 +68081,7 @@ bcw
 bcJ
 bbn
 bdc
-bbn
+rTB
 bdx
 aez
 aYo
@@ -70486,7 +70621,7 @@ aur
 aix
 abq
 jKI
-akx
+aOi
 vBP
 abq
 aql
@@ -70731,7 +70866,7 @@ alr
 ayD
 ayD
 aTB
-aaZ
+aCs
 aaZ
 aTY
 asM
@@ -73313,7 +73448,7 @@ aVX
 aWb
 aVW
 aWg
-aUP
+bdn
 aWb
 aVW
 aWg
