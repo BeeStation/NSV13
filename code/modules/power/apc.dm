@@ -39,8 +39,8 @@
 #define APC_FULLY_CHARGED 2
 
 //NSV13 added ethereal power drain defines
-#define APC_DRAIN_TIME 75
-#define APC_POWER_GAIN 200
+#define APC_DRAIN_TIME 80
+#define APC_POWER_GAIN 250
 
 // the Area Power Controller (APC), formerly Power Distribution Unit (PDU)
 // one per area, needs wire connection to power network through a terminal
@@ -893,9 +893,9 @@
 				to_chat(H, "<span class='warning'>The APC doesn't have much power, you probably shouldn't drain anymore.</span>")
 				return
 
-			E.drain_time = world.time + 80
+			E.drain_time = world.time + APC_DRAIN_TIME
 			to_chat(H, "<span class='notice'>You start channeling some power through the APC into your body.</span>")
-			while(do_after(user, 75, target = src))
+			while(do_after(user, APC_DRAIN_TIME, target = src))
 				if(!istype(stomach))
 					to_chat(H, "<span class='warning'>You can't receive charge!</span>")
 					return
@@ -903,10 +903,10 @@
 					to_chat(H, "<span class='warning'>The APC doesn't have much power, you probably shouldn't drain anymore.</span>")
 					E.drain_time = 0
 					return
-				E.drain_time = world.time + 80
+				E.drain_time = world.time + APC_DRAIN_TIME
 				if(cell.charge > cell.maxcharge/4 + 250)
-					stomach.adjust_charge(250)
-					cell.charge -= 250
+					stomach.adjust_charge(APC_POWER_GAIN)
+					cell.charge -= APC_POWER_GAIN
 					to_chat(H, "<span class='notice'>You receive some charge from the APC.</span>")
 				else
 					stomach.adjust_charge(cell.charge - cell.maxcharge/4)
@@ -925,17 +925,17 @@
 			if(!istype(stomach))
 				to_chat(H, "<span class='warning'>You can't transfer charge!</span>")
 				return
-			E.drain_time = world.time + 80
+			E.drain_time = world.time + APC_DRAIN_TIME
 			to_chat(H, "<span class='notice'>You start channeling power through your body into the APC.</span>")
 			while(do_after(user, 75, target = src))
 				if(!istype(stomach))
 					to_chat(H, "<span class='warning'>You can't transfer charge!</span>")
 					return
-				E.drain_time = world.time + 80
-				if(stomach.charge > 250)
+				E.drain_time = world.time + APC_DRAIN_TIME
+				if(stomach.charge > APC_POWER_GAIN)
 					to_chat(H, "<span class='notice'>You transfer some power to the APC.</span>")
-					stomach.adjust_charge(-250)
-					cell.charge = min(cell.charge + 250, cell.maxcharge)
+					stomach.adjust_charge(-APC_POWER_GAIN)
+					cell.charge = min(cell.charge + APC_POWER_GAIN, cell.maxcharge)
 				else
 					to_chat(H, "<span class='notice'>You transfer the last of your charge to the APC.</span>")
 					cell.charge = min(cell.charge + stomach.charge, cell.maxcharge)
