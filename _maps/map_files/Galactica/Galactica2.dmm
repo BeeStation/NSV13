@@ -378,7 +378,7 @@
 	input_tag = "extra_2_input";
 	name = "Custom Tank 2 Control";
 	output_tag = "extra_2_output";
-	sensors = list("extra_2_sensor" = "Custom Tank 2")
+	sensors = list("extra_2_sensor"="Custom Tank 2")
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -10962,7 +10962,7 @@
 	input_tag = "extra_5_input";
 	name = "Custom Tank 5 Control";
 	output_tag = "extra_5_output";
-	sensors = list("extra_5_sensor" = "Custom Tank 5")
+	sensors = list("extra_5_sensor"="Custom Tank 5")
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
@@ -11627,7 +11627,7 @@
 	input_tag = "extra_1_input";
 	name = "Custom Tank 1 Control";
 	output_tag = "extra_1_output";
-	sensors = list("extra_1_sensor" = "Custom Tank 1")
+	sensors = list("extra_1_sensor"="Custom Tank 1")
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -14017,6 +14017,10 @@
 "huS" = (
 /turf/closed/wall/r_wall,
 /area/maintenance/nsv/deck2/frame2/starboard)
+"hvg" = (
+/obj/machinery/firealarm/directional/east,
+/turf/open/floor/plasteel/grid/steel,
+/area/quartermaster/storage)
 "hvs" = (
 /obj/structure/grille,
 /obj/structure/lattice,
@@ -14421,7 +14425,7 @@
 	input_tag = "nuclear_mix_in_3";
 	name = "Nuclear Reactor Gas Tank Control";
 	output_tag = "nuclear_min_out_3";
-	sensors = list("nuclear_mix_sensor_3" = "Nuclear Reactor Gas Mix Tank 3")
+	sensors = list("nuclear_mix_sensor_3"="Nuclear Reactor Gas Mix Tank 3")
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/reactor_core)
@@ -23555,7 +23559,7 @@
 	input_tag = "extra_4_input";
 	name = "Custom Tank 4 Control";
 	output_tag = "extra_4_output";
-	sensors = list("extra_4_sensor" = "Custom Tank 4")
+	sensors = list("extra_4_sensor"="Custom Tank 4")
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating,
@@ -29315,6 +29319,10 @@
 /obj/machinery/light,
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
+"pMl" = (
+/obj/machinery/lazylift_button,
+/turf/closed/wall/steel,
+/area/shuttle/turbolift/tertiary)
 "pMB" = (
 /obj/structure/frame/machine/ship_weapon,
 /obj/machinery/light/small{
@@ -34113,7 +34121,7 @@
 	input_tag = "extra_3_input";
 	name = "Custom Tank 3 Control";
 	output_tag = "extra_3_output";
-	sensors = list("extra_3_sensor" = "Custom Tank 3")
+	sensors = list("extra_3_sensor"="Custom Tank 3")
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/light{
@@ -40506,7 +40514,7 @@
 	input_tag = "stormdrive_mix_in";
 	name = "Secondary reactor Gas Tank Control";
 	output_tag = "stormdrive_mix_out";
-	sensors = list("stormdrive_mix_sensor" = "Stormdrive Gas Mix Tank")
+	sensors = list("stormdrive_mix_sensor"="Stormdrive Gas Mix Tank")
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating,
@@ -44005,7 +44013,6 @@
 /obj/machinery/conveyor_switch{
 	id = "freightliftCargo"
 	},
-/obj/machinery/firealarm/directional/north,
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "xRU" = (
@@ -44606,7 +44613,7 @@
 	input_tag = "nuclear_mix_in_1";
 	name = "Primary reactor Gas Tank Control";
 	output_tag = "nuclear_min_out_1";
-	sensors = list("nuclear_mix_sensor_1" = "Nuclear Reactor Gas Mix Tank 1")
+	sensors = list("nuclear_mix_sensor_1"="Nuclear Reactor Gas Mix Tank 1")
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/violet/visible/layer3,
@@ -82424,7 +82431,7 @@ fjV
 vgY
 vgY
 vgY
-fjV
+pMl
 xRO
 aiH
 vva
@@ -83196,7 +83203,7 @@ vgA
 oXe
 vva
 mhv
-bKj
+hvg
 lxi
 ssv
 bKj
