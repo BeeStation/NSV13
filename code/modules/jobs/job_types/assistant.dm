@@ -67,19 +67,19 @@ Assistant
 	switch(department)
 		if(SEC_DEPT_SUPPLY)
 			ears = /obj/item/radio/headset/headset_cargo
-			dep_access = list(ACCESS_MAILSORTING, ACCESS_MINING, ACCESS_MINING_STATION, ACCESS_CARGO, ACCESS_AUX_BASE)
+			dep_access = list(ACCESS_MAILSORTING, ACCESS_CARGO)
 			accessory = /obj/item/clothing/accessory/armband/cargo
 		if(SEC_DEPT_ENGINEERING)
 			ears = /obj/item/radio/headset/headset_eng
-			dep_access = list(ACCESS_CONSTRUCTION, ACCESS_ENGINE, ACCESS_ATMOSPHERICS, ACCESS_AUX_BASE)
+			dep_access = list(ACCESS_CONSTRUCTION, ACCESS_ENGINE, ACCESS_AUX_BASE)
 			accessory = /obj/item/clothing/accessory/armband/engine
 		if(SEC_DEPT_MEDICAL)
 			ears = /obj/item/radio/headset/headset_med
-			dep_access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_CLONING)
+			dep_access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_CLONING)
 			accessory =  /obj/item/clothing/accessory/armband/medblue
 		if(SEC_DEPT_SCIENCE)
 			ears = /obj/item/radio/headset/headset_sci
-			dep_access = list(ACCESS_RESEARCH, ACCESS_TOX, ACCESS_AUX_BASE)
+			dep_access = list(ACCESS_RESEARCH)
 			accessory = /obj/item/clothing/accessory/armband/science
 
 	if(accessory)
