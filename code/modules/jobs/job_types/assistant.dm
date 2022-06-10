@@ -98,4 +98,5 @@ Assistant
 		to_chat(M, "<b>You have been assigned to [department]!</b>")
 
 	else
-		to_chat(M, "<b>You have not been assigned to any department. Help in any way you can!</b>")
+		to_chat(M, "<b>You have not been assigned to any department. Help in any way you can!</b>") //NSV13 end
+
