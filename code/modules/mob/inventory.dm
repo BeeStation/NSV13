@@ -291,22 +291,22 @@
 
 //for when you want the item to end up on the ground
 //will force move the item to the ground and call the turf's Entered
-/mob/proc/dropItemToGround(obj/item/I, force = FALSE, thrown = FALSE)
-	return doUnEquip(I, force, drop_location(), FALSE, was_thrown = thrown)
+/mob/proc/dropItemToGround(obj/item/I, force = FALSE, thrown = FALSE, bypass_strip_delay_other)//NSV13
+	return doUnEquip(I, force, drop_location(), FALSE, was_thrown = thrown, bypass_strip_delay_other = bypass_strip_delay_other)//NSV13
 
 //for when the item will be immediately placed in a loc other than the ground
-/mob/proc/transferItemToLoc(obj/item/I, newloc = null, force = FALSE)
-	return doUnEquip(I, force, newloc, FALSE)
+/mob/proc/transferItemToLoc(obj/item/I, newloc = null, force = FALSE, bypass_strip_delay_other)//NSV13
+	return doUnEquip(I, force, newloc, FALSE, bypass_strip_delay_other = bypass_strip_delay_other)//NSV13
 
 //visibly unequips I but it is NOT MOVED AND REMAINS IN SRC
 //item MUST BE FORCEMOVE'D OR QDEL'D
-/mob/proc/temporarilyRemoveItemFromInventory(obj/item/I, force = FALSE, idrop = TRUE)
-	return doUnEquip(I, force, null, TRUE, idrop)
+/mob/proc/temporarilyRemoveItemFromInventory(obj/item/I, force = FALSE, idrop = TRUE, bypass_strip_delay_other)//NSV13
+	return doUnEquip(I, force, null, TRUE, idrop, bypass_strip_delay_other = bypass_strip_delay_other)//NSV13
 
 //DO NOT CALL THIS PROC
 //use one of the above 3 helper procs
 //you may override it, but do not modify the args
-/mob/proc/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, was_thrown = FALSE) //Force overrides TRAIT_NODROP for things like wizarditis and admin undress.
+/mob/proc/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, was_thrown = FALSE, bypass_strip_delay_other = TRUE) //NSV13 Force overrides TRAIT_NODROP for things like wizarditis and admin undress.
 													//Use no_move if the item is just gonna be immediately moved afterward
 													//Invdrop is used to prevent stuff in pockets dropping. only set to false if it's going to immediately be replaced
 	if(!I) //If there's nothing to drop, the drop is automatically succesfull. If(unEquip) should generally be used to check for TRAIT_NODROP.

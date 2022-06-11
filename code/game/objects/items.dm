@@ -413,7 +413,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(throwing)
 		throwing.finalize(FALSE)
 	if(loc == user)
-		if(!allow_attack_hand_drop(user) || !user.temporarilyRemoveItemFromInventory(src))
+		if(!allow_attack_hand_drop(user) || !user.temporarilyRemoveItemFromInventory(src, bypass_strip_delay_other = FALSE)) //NSV13
 			return
 
 	remove_outline()
@@ -1038,7 +1038,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	return !HAS_TRAIT(src, TRAIT_NODROP)
 
 /obj/item/proc/doStrip(mob/stripper, mob/owner)
-	return owner.dropItemToGround(src)
+	return owner.dropItemToGround(src,)
 
 /obj/item/ex_act(severity, target)
 	if(resistance_flags & INDESTRUCTIBLE)
