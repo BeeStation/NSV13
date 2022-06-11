@@ -145,13 +145,16 @@
 
 /mob/living/carbon/human/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, silent = FALSE, was_thrown = FALSE)
 	var/index = get_held_index_of_item(I)
-	. = ..(I, force, newloc, no_move, invdrop, was_thrown) //See mob.dm for an explanation on this and some rage about people copypasting instead of calling ..() like they should.
-	if(!. || !I)
-		return
 	if(index && !QDELETED(src) && dna.species.mutanthands) //hand freed, fill with claws, skip if we're getting deleted.
 		put_in_hand(new dna.species.mutanthands(), index)
 	if(I == wear_suit)
-		if(s_store && invdrop)
+		if (I.strip_delay_self)
+			var/mob/living/carbon/human/H = src
+			if(!(I in held_items))
+				H.visible_message("<span class='notice'>[H] starts unequipping [I]...</span>", "<span class='notice'>You start unequipping [I]...</span>")
+				if(!do_after(H, I.strip_delay_self, TRUE, H))
+					if(s_store && invdrop)
+						return FALSE
 			dropItemToGround(s_store, TRUE) //It makes no sense for your suit storage to stay on you if you drop your suit.
 		if(wear_suit.breakouttime) //when unequipping a straightjacket
 			drop_all_held_items() //suit is restraining
@@ -222,6 +225,9 @@
 		s_store = null
 		if(!QDELETED(src))
 			update_inv_s_store()
+	. = ..(I, force, newloc, no_move, invdrop, was_thrown) //See mob.dm for an explanation on this and some rage about people copypasting instead of calling ..() like they should.
+	if(!. || !I)
+		return
 
 /mob/living/carbon/human/wear_mask_update(obj/item/I, toggle_off = 1)
 	if((I.flags_inv & (HIDEHAIR|HIDEFACIALHAIR)) || (initial(I.flags_inv) & (HIDEHAIR|HIDEFACIALHAIR)))

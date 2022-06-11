@@ -175,7 +175,7 @@
 	var/image/item_overlay = image(holding)
 	item_overlay.alpha = 92
 
-	if(!user.can_equip(holding, slot_id, TRUE))
+	if(!user.can_equip(holding, slot_id, disable_warning = TRUE, bypass_equip_delay_self = TRUE)) //NSV13, fixes hover triggering of equip delay
 		item_overlay.color = "#FF0000"
 	else
 		item_overlay.color = "#00ff00"
