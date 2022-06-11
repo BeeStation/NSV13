@@ -219,11 +219,13 @@
 			if(WEST)
 				linked.docking_points += get_turf(locate(10, y, z))
 
-/obj/structure/overmap/small_craft/proc/ready_for_transfer()
+/obj/structure/overmap/small_craft/proc/is_docking_on_cooldown()
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	if(!DC || DC.docking_cooldown)
 		return FALSE
-	if(SSmapping.level_trait(z, ZTRAIT_BOARDABLE)) //AKA, we're on the ship or mining level. Havent added away mission support yet.
+
+/obj/structure/overmap/small_craft/proc/is_near_boundary()
+	if(SSmapping.level_trait(z, ZTRAIT_BOARDABLE)) //Ship level, mining level, or boarding level
 		if(y > 250)
 			return TRUE
 		if(y < 10)
@@ -232,7 +234,7 @@
 			return TRUE
 		if(x < 10)
 			return TRUE
-	if(SSmapping.level_trait(z, ZTRAIT_RESERVED) && last_overmap?.roomReservation)
+	if(SSmapping.level_trait(z, ZTRAIT_RESERVED) && last_overmap?.roomReservation) //Smaller dockable maps
 		// We need to check the bounds of the interior map
 		if(y > (last_overmap.roomReservation.top_right_coords[2] - 2))
 			return TRUE
@@ -261,8 +263,10 @@
 /obj/structure/overmap/small_craft/proc/handle_moved()
 	check_overmap_elegibility()
 
-/obj/structure/overmap/small_craft/proc/check_overmap_elegibility(force_exit = FALSE) //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
-	if(!force_exit && !ready_for_transfer())
+/obj/structure/overmap/small_craft/proc/check_overmap_elegibility(ignore_position = FALSE, ignore_cooldown = FALSE) //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
+	if(!ignore_position && !is_near_boundary())
+		return FALSE
+	if(!ignore_cooldown && is_docking_on_cooldown())
 		return FALSE
 	var/obj/structure/overmap/OM = null
 	if(last_overmap)
@@ -270,7 +274,7 @@
 	else
 		OM = get_overmap()
 	if(!OM)
-		if(!force_exit)
+		if(!ignore_position)
 			return FALSE
 		OM = SSstar_system.find_main_overmap()
 		message_admins("[src] has no overmap or last overmap during a forced exit, it will enter the overmap near [OM]")
