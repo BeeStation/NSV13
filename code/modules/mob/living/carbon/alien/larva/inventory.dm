@@ -1,3 +1,3 @@
 //can't unequip since it can't equip anything
-/mob/living/carbon/alien/larva/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, was_thrown = FALSE, bypass_strip_delay_other = TRUE)
+/mob/living/carbon/alien/larva/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, was_thrown = FALSE, bypass_strip_delay_other = TRUE)//NSV13
 	return

@@ -1038,7 +1038,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	return !HAS_TRAIT(src, TRAIT_NODROP)
 
 /obj/item/proc/doStrip(mob/stripper, mob/owner)
-	return owner.dropItemToGround(src,)
+	return owner.dropItemToGround(src)
 
 /obj/item/ex_act(severity, target)
 	if(resistance_flags & INDESTRUCTIBLE)
