@@ -13,6 +13,7 @@
 			item_name = "prototype gun",
 			// allow_replacements = pick( TRUE, FALSE ) // See fighter_parts.dm
 			allow_replacements = FALSE,
-			send_prepackaged_item = TRUE
+			send_prepackaged_item = TRUE,
+			approve_inner_contents = TRUE // Guns have firing pins and ammo clips inside them
 		)
 	) )

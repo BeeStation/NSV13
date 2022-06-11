@@ -12,7 +12,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 /datum/freight_type/single
 	// You'll want to use the /datum/freight_type/object type for defining a specific item
 	// Some cargo types below will default to reagent/amount/credits validation in check contents proc if an item is not provided
-	var/atom/item_type = null
+	var/atom/item_type
 	var/item_name = ""
 
 	// target is an arbitrary number to track how many units have been delivered.
@@ -38,8 +38,6 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	// Attempting to replace prepackaging will flag the incoming freight torpedo as trash, and will not complete the objective.
 	var/list/additional_prepackaging = list()
 
-	var/last_approved_targets = null // vv debug
-
 	// Set to TRUE if we want whatever this item and whatever random items it contains
 	// freight_contents_index will pass the item contents in as valid freight
 	var/approve_inner_contents = FALSE
@@ -49,7 +47,6 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/datum/freight_contents_index/freight_contents_index
 
 /datum/freight_type/single/New( item_type, target, item_name, approve_inner_contents, send_prepackaged_item, overmap_objective, allow_replacements )
-	message_admins( "/datum/freight_type/single/New: [src] ([src.type]) [ADMIN_VV(src)] - [item_type], [target], [item_name] -" )
 	..()
 	if ( !src.item_type && item_type )
 		src.item_type = item_type
@@ -84,7 +81,10 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	return TRUE
 
 // Takes in a list of objects itemTargets, adds inner contents of each object to the input list itemTargets, and returns itemTargets
-/datum/freight_type/single/proc/add_inner_contents_as_approved( var/list/itemTargets )
+/datum/freight_type/single/proc/add_inner_contents_as_approved( var/datum/freight_type_check/freight_type_check, var/list/itemTargets )
+	if ( !itemTargets )
+		itemTargets = list()
+
 	// Add wildcard contents from inner object contents found in the loop above.
 	// Otherwise check_cargo in the parent cargo objective thinks these inner wildcard contents are trash
 	var/list/innerContents = list()
@@ -99,18 +99,17 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	// Remove additional packaging from trash check
 	if ( additional_prepackaging )
 		for ( var/atom/a in additional_prepackaging )
-			itemTargets += a
+			if ( locate( a ) in freight_type_check.container ) // Only add additional packaging if it's present
+				itemTargets += a
 
-	last_approved_targets = itemTargets
 	return itemTargets
 
-
 // Stations call this proc, the freight_type datum handles the rest
-// PLEASE do NOT put areas inside freight torps this WILL cause problems!
+// PLEASE do NOT put areas inside containers this WILL cause problems!
 /datum/freight_type/single/check_contents( var/datum/freight_type_check/freight_type_check )
 	// Moved the bulk of check_contents here while making callback to item-specific freight_type checks (blood, credits etc),
 	// just so I don't have to modify 8 versions of this proc each time I touch courier code
-	var/list/prepackagedTargets = get_prepackaged_targets( freight_type_check.container )
+	var/list/prepackagedTargets = get_prepackaged_targets( freight_type_check )
 	if ( prepackagedTargets && length( prepackagedTargets ) )
 		last_check_contents_success = TRUE
 		return prepackagedTargets
@@ -119,7 +118,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 		return FALSE
 
 	var/list/itemTargets = get_item_targets( freight_type_check )
-	itemTargets = add_inner_contents_as_approved( itemTargets )
+	itemTargets = add_inner_contents_as_approved( freight_type_check, itemTargets )
 
 	if ( length( itemTargets ) )
 		last_check_contents_success = TRUE
@@ -130,8 +129,7 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 // check_contents calls the subtype of this proc to get specific freight_type item targets
 /datum/freight_type/single/proc/get_item_targets( var/datum/freight_type_check )
 	// Don't use /datum/freight_type/single in your objectives, it's too obtuse! Use a subtype that handles a very specific item
-	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
-	return index.get_amount( item_type, target, TRUE )
+	return
 
 /datum/freight_type/single/get_item_name()
 	return item_name
@@ -139,30 +137,30 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 /datum/freight_type/single/get_target()
 	return target
 
-/datum/freight_type/single/proc/get_prepackaged_targets( var/obj/container )
+/datum/freight_type/single/proc/get_prepackaged_targets( var/datum/freight_type_check/freight_type_check )
 	if ( send_prepackaged_item )
-		return check_prepackaged_contents( container )
+		return check_prepackaged_contents( freight_type_check.container )
 	return FALSE
 
 // TODO add handling for stations begrudgingly accepting tampered cargo transfers
 // Due to the nature of objectives rewarding nothing but patrol completion there is no incentive for "bonus points" by leaving cargo untampered, unfortunately
-/datum/freight_type/single/proc/check_prepackaged_contents( var/obj/container )
+/datum/freight_type/single/proc/check_prepackaged_contents( var/datum/freight_type_check/freight_type_check )
 	if ( !item_type ) // Something or someone forgot to define what the crew is delivering
 		return FALSE
 
-	if ( !container )
+	if ( !freight_type_check.container )
 		return FALSE
 
 	var/datum/freight_contents_index/index = new /datum/freight_contents_index()
 
-	for ( var/atom/a in container.GetAllContents() )
+	for ( var/atom/a in freight_type_check.container.GetAllContents() )
 		if( !is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) || ( is_type_in_typecache( item_type, GLOB.blacklisted_paperwork_itemtypes ) && is_type_in_typecache( a, GLOB.blacklisted_paperwork_itemtypes ) ) )
 			if ( LAZYFIND( prepackaged_items, a ) ) // Is this the item we're looking for?
 				// Add to contents index for more checks
 				index.add_amount( a, 1 )
 
 	var/list/itemTargets = index.get_amount( item_type, target, TRUE )
-	itemTargets = add_inner_contents_as_approved( itemTargets )
+	itemTargets = add_inner_contents_as_approved( freight_type_check, itemTargets )
 
 	if ( length( itemTargets ) )
 		return itemTargets

@@ -472,40 +472,48 @@ Adding tasks is easy! Just define a datum for it.
 		approve_shipment( receipt )
 		return TRUE
 	else
+		// Find the objective that was closest to completion to help the players debug their own shipment
+		for ( var/datum/overmap_objective/cargo/request in expecting_cargo )
+			if ( !length( request.last_freight_type_check.approved_contents ) )
+				// No approved contents were found
+				continue
+
+			if ( !receipt.fuzzy_incomplete_objective )
+				receipt.fuzzy_incomplete_objective = request
+				continue
+
+			if ( length( request.last_freight_type_check.approved_contents ) > length( receipt.fuzzy_incomplete_objective.last_freight_type_check.approved_contents ) )
+				// This objective was closer to completion
+				receipt.fuzzy_incomplete_objective = request
+
 		// If no objectives were completed, reject it and dispose of the receipt
 		reject_incomplete_shipment( receipt )
 		return FALSE
 
 /obj/structure/overmap/proc/make_paperwork( var/datum/freight_delivery_receipt/receipt, var/approval )
-	message_admins( "make_paperwork [receipt] [ADMIN_VV(receipt)]" )
 	// Cargo DRADIS automatically synthesizes and attaches the requisition form to the cargo torp
 	var/obj/item/paper/paper = new /obj/item/paper()
 	paper.info = "<h2>[receipt.vessel] Shipping Manifest</h2><hr/>"
 
-	if ( length( receipt.completed_objectives ) == 1 )
+	if ( receipt.fuzzy_incomplete_objective )
+		var/datum/overmap_objective/cargo/objective = receipt.fuzzy_incomplete_objective
+		paper.info += "Order: #[GLOB.round_id]-[objective.objective_number]<br/> \
+			Destination: [src]<br/> \
+			Item: [objective.crate_name]<br/>"
+		paper.info += get_separated_shipment_contents( receipt )
+	else if ( length( receipt.completed_objectives ) == 1 )
 		var/datum/overmap_objective/cargo/objective = receipt.completed_objectives[ 1 ]
 		paper.info += "Order: #[GLOB.round_id]-[objective.objective_number]<br/> \
 			Destination: [src]<br/> \
 			Item: [objective.crate_name]<br/>"
+		paper.info += get_all_shipment_contents( receipt )
 	else
 		paper.info += "Order: N/A<br/> \
 			Destination: [src]<br/> \
 			Item: Unregistered Shipment<br/>"
+		paper.info += get_all_shipment_contents( receipt )
 
-	paper.info += "Contents:<br/><ul>"
-
-	if ( istype( receipt.shipment, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
-		var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = receipt.shipment
-
-		// Reveal all contents of the torpedo tube
-		for ( var/atom/item in shipment.GetAllContents() )
-			// Remove redundant objects that would otherwise always appear on the list
-			if ( !is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) )
-				paper.info += "<li>[item]</li>"
-	else
-		paper.info += "<li>miscellaneous unpackaged objects</li>"
-
-	paper.info += "</ul><h4>Stamp below to confirm receipt of goods:</h4>"
+	paper.info += "<h4>Stamp below to confirm receipt of goods:</h4>"
 
 	paper.stamped = list()
 	paper.stamps = list()
@@ -521,6 +529,36 @@ Adding tasks is easy! Just define a datum for it.
 
 	paper.update_icon()
 	return paper
+
+/obj/structure/overmap/proc/get_all_shipment_contents( var/datum/freight_delivery_receipt/receipt )
+	var/info = "Contents:<br/><ul>"
+	var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = receipt.shipment
+
+	// Reveal all contents of the container
+	for ( var/atom/item in shipment.GetAllContents() )
+		// Remove redundant objects that would otherwise always appear on the list
+		if ( !is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) )
+			info += "<li>[item]</li>"
+		info += "</ul>"
+
+	return info
+
+/obj/structure/overmap/proc/get_separated_shipment_contents( var/datum/freight_delivery_receipt/receipt )
+	var/info = "Contents:<br/>"
+	info += "Approved:<br/><ul>"
+	// Reveal approved contents
+	for ( var/atom/item in receipt.fuzzy_incomplete_objective.last_freight_type_check.approved_contents )
+		if ( !is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) )
+			info += "<li>[item]</li>"
+
+	info += "</ul>Rejected:<br/><ul>"
+	// Reveal rejected contents
+	for ( var/atom/item in receipt.fuzzy_incomplete_objective.last_freight_type_check.approved_contents )
+		if ( !is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) )
+			info += "<li>[item]</li>"
+	info += "</ul>"
+
+	return info
 
 /obj/structure/overmap/proc/return_approved_form( var/datum/freight_delivery_receipt/receipt )
 	if(receipt?.vessel)
