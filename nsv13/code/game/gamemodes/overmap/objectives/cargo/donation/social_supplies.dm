@@ -1,9 +1,12 @@
+// NOTE: This objective is completable, but players have reported too many issues trying to complete it partially due to submit complexity. So it's unticked.
+
 /datum/overmap_objective/cargo/donation/social_supplies
 	name = "Donate social supplies"
 	desc = "Donate 1 or more social supplies"
 	crate_name = "Social Supplies crate"
 
 /datum/overmap_objective/cargo/donation/social_supplies/New()
+	..()
 	// Pick a cake
 	var/list/picked = pick( list(
 		/obj/item/reagent_containers/food/snacks/store/cake/plain,

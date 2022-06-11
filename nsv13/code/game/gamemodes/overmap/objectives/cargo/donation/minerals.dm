@@ -13,6 +13,7 @@
 	)
 
 /datum/overmap_objective/cargo/donation/minerals/New()
+	..()
 	var/picked = pick( possible_minerals )
 	var/atom/P = new picked()
 	freight_type_group = new( list( new /datum/freight_type/single/object/mineral( picked ) ) )

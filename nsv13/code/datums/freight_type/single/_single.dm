@@ -11,7 +11,6 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 
 /datum/freight_type/single
 	// You'll want to use the /datum/freight_type/object type for defining a specific item
-	// This should be an initialized object so prepacked delivery objectives can verify the object is identical and untampered
 	// Some cargo types below will default to reagent/amount/credits validation in check contents proc if an item is not provided
 	var/atom/item_type = null
 	var/item_name = ""
@@ -49,6 +48,24 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 	var/last_check_contents_success = FALSE
 	var/datum/freight_contents_index/freight_contents_index
 
+/datum/freight_type/single/New( item_type, target, item_name, approve_inner_contents, send_prepackaged_item, overmap_objective, allow_replacements )
+	message_admins( "/datum/freight_type/single/New: [src] ([src.type]) [ADMIN_VV(src)] - [item_type], [target], [item_name] -" )
+	..()
+	if ( !src.item_type && item_type )
+		src.item_type = item_type
+	if ( target )
+		src.target = target
+	if ( approve_inner_contents )
+		src.approve_inner_contents = approve_inner_contents
+	if ( send_prepackaged_item )
+		src.send_prepackaged_item = send_prepackaged_item
+	if ( overmap_objective )
+		src.overmap_objective = overmap_objective
+	if ( allow_replacements == FALSE )
+		src.allow_replacements = allow_replacements
+
+	set_item_name( item_name )
+
 /datum/freight_type/single/proc/set_item_name( var/custom_name )
 	if ( item_name ) // Don't overwrite it
 		return TRUE
@@ -58,12 +75,8 @@ GLOBAL_LIST_INIT( blacklisted_paperwork_itemtypes, typecacheof( list(
 		return TRUE
 
 	if ( item_type )
-		// Still don't know how else to get an object's name from a typepath without initializing it
-		// Someone please tell me how to not bodge this
-		var/obj/structure/closet/C = new
-		var/atom/newitem = new item_type( C )
-		item_name = newitem.name
-		qdel( C )
+		// Edit: it's you from the future! Your code has been unbodged :)
+		item_name = initial( item_type.name )
 		return TRUE
 
 	// Can't leave blank fields on the comms console or crew will have no idea how to complete this objective

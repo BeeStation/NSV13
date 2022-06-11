@@ -17,7 +17,7 @@
 	max_players = 10
 	random_objective_amount = 3
 
-	debug_mode = FALSE
+	debug_mode = TRUE
 
 /datum/overmap_gamemode/courier/New()
 	random_objectives = subtypesof( /datum/overmap_objective/cargo/donation ) + subtypesof( /datum/overmap_objective/cargo/transfer )

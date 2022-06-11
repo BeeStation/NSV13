@@ -14,7 +14,6 @@
 /datum/freight_type/single/specimen/add_item_to_crate( var/obj/C )
 	// DuplicateObject on a mob producing runtimes
 	var/mob/living/simple_animal/M = new item_type( C )
-	// specimen = M
 	M.AIStatus = AI_OFF
 	return M
 

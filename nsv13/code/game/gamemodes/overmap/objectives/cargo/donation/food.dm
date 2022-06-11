@@ -4,6 +4,7 @@
 	crate_name = "Buffet crate"
 
 /datum/overmap_objective/cargo/donation/food/New()
+	..()
 	// Must create a specific list of foods. Using parent types may turn up "snack" on communications console which is misleading, and using subtypes loops may turn up uncraftable foods
 	// var/picked = get_random_food()
 	var/picked = pick( list(

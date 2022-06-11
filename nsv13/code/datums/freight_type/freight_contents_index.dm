@@ -1,5 +1,5 @@
 
-// Stores freight torpedo contents and its prepackaged status data
+// Stores container contents and its prepackaged status data
 
 // Self reminder to uptick this tally every time you looked at this file, seriously considered axing it, but changed your mind because it was too arcane to refactor courier code without this file
 // Apparently they weren't kidding about the ballmer peak
@@ -8,14 +8,14 @@
 /datum/freight_contents_index
 	// Keep a total count of the actual type we're checking
 	// atoms_amount = (
-	// 	typepath "/obj/structure/closet" = 5
+	// 	typepath "obj structure closet" = 5
 	// 	...
 	// )
 	var/list/atoms_amount = list()
 
 	// Return these items that contain the amount in the list above
 	// atoms_list = (
-	// 	"/obj/structure/closet" = (
+	// 	"obj structure closet" = (
 	// 		an initialized atom,
 	// 		...
 	// 	)

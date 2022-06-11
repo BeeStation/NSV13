@@ -477,6 +477,7 @@ Adding tasks is easy! Just define a datum for it.
 		return FALSE
 
 /obj/structure/overmap/proc/make_paperwork( var/datum/freight_delivery_receipt/receipt, var/approval )
+	message_admins( "make_paperwork [receipt] [ADMIN_VV(receipt)]" )
 	// Cargo DRADIS automatically synthesizes and attaches the requisition form to the cargo torp
 	var/obj/item/paper/paper = new /obj/item/paper()
 	paper.info = "<h2>[receipt.vessel] Shipping Manifest</h2><hr/>"

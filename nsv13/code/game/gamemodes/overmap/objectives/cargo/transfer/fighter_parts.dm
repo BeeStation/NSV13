@@ -2,8 +2,10 @@
 	name = "Deliver fighter parts"
 	desc = "Deliver fighter parts"
 	crate_name = "Experimental Fighter Parts crate"
+	send_to_station_pickup_point = TRUE
 
 /datum/overmap_objective/cargo/transfer/fighter_parts/New()
+	..()
 	var/list/possible_components = list( // Because some of the subtypes are underdeveloped and shouldn't be present on the ship
 		/obj/item/fighter_component/fuel_tank,
 		/obj/item/fighter_component/armour_plating,
@@ -31,7 +33,6 @@
 	)
 
 	var/allow_replacements = pick( TRUE, FALSE ) // I just want to see someone get tempbanned for objective gambling on roundstart fighter upgrade lootboxes
-	send_to_station_pickup_point = TRUE
 
 	for ( var/i = 0; i < rand( 2, 4 ); i++ )
 		var/picked = pick( possible_components )

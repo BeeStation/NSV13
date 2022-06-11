@@ -16,6 +16,8 @@
 	crate_name = "Blood Packs crate"
 
 /datum/overmap_objective/cargo/donation/blood/New()
-	var/datum/freight_type/single/reagent/blood/C = new( pick( possible_blood_types ) )
+	..()
+	var/picked = pick( possible_blood_types )
+	var/datum/freight_type/single/reagent/blood/C = new( item_name = ( picked + " blood" ), blood_type = picked )
 	freight_type_group = new( list( C ) )
 

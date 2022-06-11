@@ -6,6 +6,7 @@
 	var/list/chemicals = list()
 
 /datum/overmap_objective/cargo/donation/chems/New( var/datum/reagent/medicine )
+	..()
 	if ( medicine )
 		chemicals += medicine
 	else // Haven't picked one yet? Don't worry, we got you covered!

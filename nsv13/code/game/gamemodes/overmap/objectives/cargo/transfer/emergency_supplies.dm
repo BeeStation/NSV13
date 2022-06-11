@@ -4,6 +4,7 @@
 	crate_name = "Surplus EVA suits crate"
 
 /datum/overmap_objective/cargo/transfer/emergency_supplies/New()
+	..()
 	var/datum/freight_type/single/object/oxygen = new /datum/freight_type/single/object( /obj/item/tank/internals/oxygen, 5 )
 	oxygen.send_prepackaged_item = TRUE
 	oxygen.overmap_objective = src

@@ -6,9 +6,11 @@
 	)
 	target = 200 // Standard volume of a blood pack
 
-/datum/freight_type/single/reagent/blood/New( var/type )
-	if ( type )
-		blood_type = type
+/datum/freight_type/single/reagent/blood/New( item_type, target, item_name, blood_type )
+	message_admins( "/datum/freight_type/single/reagent/blood/New: [src] ([src.type]) [ADMIN_VV(src)] - [item_name], [blood_type]" )
+	..()
+	if ( blood_type )
+		src.blood_type = blood_type
 
 	set_item_name()
 

@@ -150,18 +150,6 @@
 /datum/overmap_objective/cargo/proc/update_freight_type_group()
 	freight_type_group.set_objective( src )
 
-/datum/freight_type_check
-	// At the start of a check, the raw container and its contents go here
-	var/obj/container
-	var/list/untracked_contents = list()
-
-	// At the end of a check, untracked contents are filtered into approved contents and a global status is set in this datum
-	var/list/approved_contents = list()
-	var/list/groups_refused = list()
-
-	// If one group doesn't like the results of the shipment, the whole check is cancelled and rejection kicks in
-	var/group_status = TRUE
-
 /datum/overmap_objective/cargo/proc/check_cargo( var/obj/shipment )
 	if ( freight_type_group )
 		// var/all_accounted_for = TRUE

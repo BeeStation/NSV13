@@ -38,5 +38,17 @@
 /datum/freight_type/proc/set_objective( var/datum/overmap_objective/O )
 	objective = O
 
-/datum/freight_type/proc/in_required_loc_or_is_required_loc( var/atom/a ) // I am literally one inconvenience away from trashing the social supplies objective
-	return ( !require_loc || ( require_loc && ( recursive_loc_check( a, require_loc ) || istype( a, require_loc ) ) ) )
+/datum/freight_type/proc/in_required_loc_or_is_required_loc( var/atom/a )
+	// return ( !require_loc || ( require_loc && ( recursive_loc_check( a, require_loc ) || istype( a, require_loc ) ) ) )
+	if ( !require_loc )
+		return TRUE
+
+	if ( istype( a, require_loc ) )
+		return TRUE
+
+	if ( recursive_loc_check( a, require_loc ) )
+		return TRUE
+
+// Attempts to compile a crate of contents from each objective, submits it, and logs results
+// TODO write unit test procs
+/datum/freight_type/proc/debug_submit()

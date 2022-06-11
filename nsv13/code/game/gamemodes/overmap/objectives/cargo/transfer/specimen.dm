@@ -4,6 +4,7 @@
 	crate_name = "Secure Specimen Transfer"
 
 /datum/overmap_objective/cargo/transfer/specimen/New()
+	..()
 	var/picked = pick( list (
 		// Dangerous specimens
 		/mob/living/simple_animal/slime/random,
