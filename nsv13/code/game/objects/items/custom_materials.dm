@@ -1,6 +1,6 @@
 //Metals
 
-GLOBAL_LIST_INIT(duranium_recipes, list (\
+GLOBAL_LIST_INIT(duranium_recipes, list ( \
 	new/datum/stack_recipe("railgun rail", /obj/item/ship_weapon/parts/railgun_rail, 1, time = 20, one_per_turf = FALSE, on_floor = TRUE), \
 	new/datum/stack_recipe("mac barrel", /obj/item/ship_weapon/parts/mac_barrel, 1, time = 20, one_per_turf = FALSE, on_floor = TRUE), \
 	))
@@ -92,3 +92,152 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 /obj/item/stack/sheet/nanocarbon_glass/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.nanocarbon_glass_recipes
 	return ..()
+
+//NSV floor tiles
+
+/obj/item/stack/tile/durasteel
+	name = "durasteel floor tile"
+	singular_name = "durasteel floor tile"
+	desc = "A regular dursasteel tile. Those could work as a pretty decent throwing weapon."
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "durasteel_tile"
+	force = 6
+	materials = list(/datum/material/iron=500, /datum/material/silver=500)
+	throwforce = 10
+	flags_1 = CONDUCT_1
+	turf_type = /turf/open/floor/durasteel
+	mineralType = "durasteel"
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 70, "stamina" = 0)
+	resistance_flags = FIRE_PROOF
+	var/list/tilelist = list( \
+	"durasteel tile", \
+	"riveted durasteel tile", \
+	"padded durasteel tile", \
+	"embossed durasteel tile", \
+	"alt embossed durasteel tile", \
+
+	)
+
+/obj/item/stack/tile/durasteel/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>Ctrl-click to change the tile type.</span>"
+
+/obj/item/stack/tile/durasteel/CtrlClick(mob/user)
+	. = ..()
+	if(loc == user.contents && (!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user))) && !is_cyborg)
+		var/tiletype = input(user, "Which type of tile do you want to change to?" as anything in tilelist)
+		switch(tiletype)
+			if("durasteel tile")
+
+
+/obj/item/stack/tile/plasteel/ship
+	name = "durasteel hull plating tile"
+	singular_name = "durasteel hull plating tile"
+	desc = "A regular durasteel hull plating tile"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "durasteel_tile"
+	turf_type = /turf/open/floor/plasteel/ship
+
+/obj/item/stack/tile/plasteel/ship/riveted
+	name = "riveted steel hull plating tile"
+	singular_name = "riveted steel hull plating tile"
+	desc = "A regular riveted steel hull plating tile"
+	icon_state = "riveted_tile"
+	turf_type = /turf/open/floor/plasteel/ship/riveted
+
+/obj/item/stack/tile/plasteel/ship/padded
+	name = "padded steel hull plating tile"
+	singular_name = "padded steel hull plating tile"
+	desc = "A regular padded steel hull plating tile"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "padded_tile"
+	turf_type = /turf/open/floor/plasteel/ship/padded
+
+/obj/item/stack/tile/plasteel/ship/techfloor
+	name = "embossed hull plating tile"
+	singular_name = "embossed hull plating tile"
+	desc = "A regular embossed hull plating tile"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "eris_techfloor_tile"
+	turf_type = /turf/open/floor/plasteel/ship/techfloor
+
+/obj/item/stack/tile/plasteel/ship/techfloor/alt
+	name = "embossed hull plating tile"
+	singular_name = "embossed hull plating tile"
+	desc = "A regular embossed hull plating tile"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "eris_techfloor_alt_tile"
+	turf_type = /turf/open/floor/plasteel/ship/techfloor/alt
+
+/obj/item/stack/tile/plasteel/grid/mono
+	name = "steel hull plating tile"
+	singular_name = "steel hull plating tile"
+	desc = "A regular steel hull plating tile"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "steel_tile"
+	turf_type = /turf/open/floor/plasteel/grid/mono
+
+/obj/item/stack/tile/plasteel/grid/lino
+	name = "linoleum hull plating tile"
+	singular_name = "linoleum hull plating tile"
+	desc = "A regular linoleum hull plating tile"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "lino_tile"
+	turf_type = /turf/open/floor/plasteel/grid/lino
+
+/obj/item/stack/tile/plasteel/grid/techfloor
+	name = "techfloor tile"
+	singular_name = "techfloor hull plating tile"
+	desc = "A regular techfloor hull plating tile"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "techfloor_tile"
+	turf_type = /turf/open/floor/plasteel/grid/lino
+
+/obj/item/stack/tile/plasteel/grid/techfloor/grid
+	name = "techfloor tile"
+	singular_name = "techfloor hull plating tile"
+	desc = "A regular techfloor hull plating tile"
+	icon = 'nsv13/icons/turf/floors.dmi'
+	icon_state = "techfloor_grid_tile"
+	turf_type = /turf/open/floor/plasteel/grid/techfloor/grid
+
+//carpet
+
+/obj/item/stack/tile/carpet/ship
+	name = "nanoweave carpet tile"
+	singular_name = "nanoweave carpet tile"
+	desc = "A regular nanoweave carpet tile"
+	icon = 'nsv13/icons/turf/dark_carpet.dmi'
+	icon_state = "dark_carpet_tile"
+	resistance_flags = FLAMMABLE
+	turf_type = /turf/open/floor/carpet/ship
+
+/obj/item/stack/tile/carpet/ship/blue
+	name = "nanoweave carpet tile (blue)"
+	icon = 'nsv13/icons/turf/blue_carpet.dmi'
+	icon_state = "blue_carpet_tile"
+	turf_type = /turf/open/floor/carpet/ship/blue
+
+/obj/item/stack/tile/carpet/ship/orange_carpet
+	name = "nanoweave carpet tile (orange)"
+	icon = 'nsv13/icons/turf/orange_carpet.dmi'
+	icon_state = "orange_carpet_tile"
+	turf_type = /turf/open/floor/carpet/ship/orange_carpet
+
+/obj/item/stack/tile/carpet/ship/purple_carpet
+	name = "nanoweave carpet tile (purple)"
+	icon = 'nsv13/icons/turf/purple_carpet.dmi'
+	icon_state = "purple_carpet_tile"
+	turf_type = /turf/open/floor/carpet/ship/purple_carpet
+
+/obj/item/stack/tile/carpet/ship/beige_carpet
+	name = "nanoweave carpet tile (beige)"
+	icon = 'nsv13/icons/turf/beige_carpet.dmi'
+	icon_state = "beige_carpet_tile"
+	turf_type = /turf/open/floor/carpet/ship/beige_carpet
+
+/obj/item/stack/tile/carpet/ship/red_carpet
+	name = "nanoweave carpet tile (red)"
+	icon = 'nsv13/icons/turf/beige_carpet.dmi'
+	icon_state = "red_carpet_tile"
+	turf_type = /turf/open/floor/carpet/ship/red_carpet
