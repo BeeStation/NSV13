@@ -125,7 +125,7 @@
 /datum/squad_loadout
 	var/name = "Parent"
 	var/desc = "A standardised equipment set for Blue Phalanx marines. This set is designed for use in pressurized areas, it comes with lightweight armour to protect the wearer from most hazards."
-	var/list/items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
+	var/list/items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/ammo_box/magazine/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
 	var/list/must_return = list()
 	var/list/allowed_ranks = list(SQUAD_MARINE, SQUAD_SERGEANT)
 
@@ -135,7 +135,7 @@
 /datum/squad_loadout/space
 	name = "Squad Marine (Hazardous Environment)"
 	desc = "For hazardous, low pressure environments. This kit contains a reinforced skinsuit which, while slow, will protect marines from the elements."
-	items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad/space, /obj/item/clothing/head/helmet/ship/squad/space, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
+	items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad/space, /obj/item/clothing/head/helmet/ship/squad/space, /obj/item/ammo_box/magazine/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
 
 /datum/squad_loadout/New()
 	. = ..()
@@ -145,32 +145,32 @@
 /datum/squad_loadout/leader
 	name = "Squad Leader (Standard)"
 	desc = "For hazardous, low pressure environments. This kit contains a reinforced skinsuit which, while slow, will protect marines from the elements."
-	items = list(/obj/item/clothing/under/ship/marine, /obj/item/megaphone, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad/leader, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
+	items = list(/obj/item/clothing/under/ship/marine, /obj/item/megaphone, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad/leader, /obj/item/ammo_box/magazine/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
 	allowed_ranks = list(SQUAD_LEAD)
 
 /datum/squad_loadout/leader/space
 	name = "Squad Leader (Hazardous Environment)"
 	desc = "For hazardous, low pressure environments. This kit contains a reinforced skinsuit which, while slow, will protect marines from the elements."
-	items = list(/obj/item/clothing/under/ship/marine, /obj/item/megaphone, /obj/item/clothing/suit/ship/squad/space, /obj/item/clothing/head/helmet/ship/squad/space, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
+	items = list(/obj/item/clothing/under/ship/marine, /obj/item/megaphone, /obj/item/clothing/suit/ship/squad/space, /obj/item/clothing/head/helmet/ship/squad/space, /obj/item/ammo_box/magazine/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
 
 /datum/squad_loadout/engineer
 	name = "Squad Engineer (Standard)"
 	desc = "This kit contains everything a squad engineer needs to effect repairs in non-hazardous environments. Recommended only for planetside operations where speed is necessary."
-	items = list(/obj/item/clothing/under/ship/marine/engineer, /obj/item/storage/belt/utility/full, /obj/item/storage/box/damage_control, /obj/item/clothing/glasses/welding, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
+	items = list(/obj/item/clothing/under/ship/marine/engineer, /obj/item/storage/belt/utility/full, /obj/item/storage/box/damage_control, /obj/item/clothing/glasses/welding, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/ammo_box/magazine/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
 	allowed_ranks = list(SQUAD_ENGI)
 
 /datum/squad_loadout/engineer/space
 	name = "Squad Engineer (Hazardous Environment)"
 	desc = "For hazardous, low pressure environments. This kit contains everything a squad engineer needs to effect repairs in the heat of battle, no matter the condition of the ship they're on."
-	items = list(/obj/item/clothing/under/ship/marine/engineer, /obj/item/storage/belt/utility/full, /obj/item/storage/box/damage_control, /obj/item/clothing/glasses/welding, /obj/item/clothing/suit/ship/squad/space,/obj/item/clothing/head/helmet/ship/squad/space, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
+	items = list(/obj/item/clothing/under/ship/marine/engineer, /obj/item/storage/belt/utility/full, /obj/item/storage/box/damage_control, /obj/item/clothing/glasses/welding, /obj/item/clothing/suit/ship/squad/space,/obj/item/clothing/head/helmet/ship/squad/space, /obj/item/ammo_box/magazine/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
 
 /datum/squad_loadout/medic
 	name = "Squad Medic (Standard)"
 	desc = "A kit containing battlefield medical equipment and light squad armour."
-	items = list(/obj/item/clothing/under/ship/marine/medic, /obj/item/storage/firstaid/regular, /obj/item/reagent_containers/medspray/sterilizine, /obj/item/reagent_containers/medspray/styptic, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
+	items = list(/obj/item/clothing/under/ship/marine/medic, /obj/item/storage/firstaid/regular, /obj/item/reagent_containers/medspray/sterilizine, /obj/item/reagent_containers/medspray/styptic, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/ammo_box/magazine/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
 	allowed_ranks = list(SQUAD_MEDIC)
 
 /datum/squad_loadout/medic/space
 	name = "Squad Medic (Hazardous Environment)"
 	desc = "For hazardous, low pressure environments. This kit contains specialist equipment for treating common battlefield injuries."
-	items = list(/obj/item/clothing/under/ship/marine/medic, /obj/item/storage/firstaid/regular, /obj/item/reagent_containers/medspray/sterilizine, /obj/item/reagent_containers/medspray/styptic, /obj/item/storage/firstaid/o2, /obj/item/clothing/suit/ship/squad/space, /obj/item/clothing/head/helmet/ship/squad/space, /obj/item/ammo_box/magazine/pistolm9mm/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
+	items = list(/obj/item/clothing/under/ship/marine/medic, /obj/item/storage/firstaid/regular, /obj/item/reagent_containers/medspray/sterilizine, /obj/item/reagent_containers/medspray/styptic, /obj/item/storage/firstaid/o2, /obj/item/clothing/suit/ship/squad/space, /obj/item/clothing/head/helmet/ship/squad/space, /obj/item/ammo_box/magazine/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
