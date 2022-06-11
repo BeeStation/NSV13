@@ -763,6 +763,8 @@
 	heat_protection = NONE
 	max_heat_protection_temperature = 100
 	var/rolled_up = TRUE
+	equip_delay_self = 15
+	strip_delay_self = 15
 
 /obj/item/clothing/suit/space/skinsuit/mob_can_equip(mob/M, mob/living/equipper, slot)
 	if(rolled_up && slot == ITEM_SLOT_OCLOTHING)

@@ -156,7 +156,6 @@
 				if(!do_after(H, I.strip_delay_self, TRUE, H))
 					if(s_store && invdrop)
 						return FALSE
-		message_admins("/mob/living/carbon/human/doUnEquip was called on [I], [src] with bypass [bypass_strip_delay_other]")
 		dropItemToGround(s_store, TRUE) //It makes no sense for your suit storage to stay on you if you drop your suit.
 		if(wear_suit.breakouttime) //when unequipping a straightjacket
 			drop_all_held_items() //suit is restraining
