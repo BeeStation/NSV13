@@ -708,12 +708,7 @@ Adding tasks is easy! Just define a datum for it.
 				log_game("Failed to spawn ghost ship due to lack of valid ship types")
 				return
 			var/target_location = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), OM.z)
-			var/shiptype = pick(ship_list)
-			var/obj/structure/overmap/selected_ship = shiptype
-			if(!ispath(selected_ship, /obj/structure/overmap))
-				message_admins("ERROR: Failed to spawn ghost ship because [selected_ship] is not an overmap type")
-				log_game("ERROR: Failed to spawn ghost ship because [selected_ship] is not an overmap type")
-				return
+			var/obj/structure/overmap/selected_ship = pick(ship_list)
 			var/target_ghost
 			var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(selected_ship.faction)] [initial(selected_ship.name)]?", ROLE_GHOSTSHIP, null, null, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
 			if(LAZYLEN(candidates))
