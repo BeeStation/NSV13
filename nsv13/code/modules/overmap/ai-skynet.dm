@@ -686,37 +686,33 @@ Adding tasks is easy! Just define a datum for it.
 				message_admins("Failed to spawn ghost ship due to admin override.")
 				return
 			if(!prob(10))
-				log_game("DEBUG: Fleet not selected for ghost ship spawn")
 				return
-			log_game("DEBUG: Attempting to spawn ghost ship")
 
 			var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 			var/list/ship_list = list()
 			if(player_check > 15) //Requires 15 active players for most ships
-				log_game("DEBUG: [src] attempting to spawn ghost ship with fighters: [english_list(fighter_types)], destroyers: [english_list(destroyer_types)], battleships: [english_list(battleship_types)]")
 				ship_list += fighter_types
 				ship_list += destroyer_types
 				ship_list += battleship_types
 
 			else if(player_check > 10) //10 for fighters
-				log_game("DEBUG: [src] attempting to spawn ghost ship with fighters: [english_list(fighter_types)]")
 				ship_list += fighter_types
 
 			else
 				message_admins("Failed to spawn ghost ship due to insufficent players.")
-				log_game("DEBUG: Failed to spawn ghost ship due to insufficent players.")
+				log_game("Failed to spawn ghost ship due to insufficent players.")
 				return
 
 			if(!length(ship_list))
 				message_admins("Failed to spawn ghost ship due to lack of valid ship types")
-				log_game("DEBUG: Failed to spawn ghost ship due to lack of valid ship types")
+				log_game("Failed to spawn ghost ship due to lack of valid ship types")
 				return
 			var/target_location = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), OM.z)
 			var/shiptype = pick(ship_list)
 			var/obj/structure/overmap/selected_ship = shiptype
 			if(!ispath(selected_ship, /obj/structure/overmap))
-				message_admins("Failed to spawn ghost ship because [selected_ship] is not an overmap type")
-				log_game("DEBUG: Failed to spawn ghost ship because [selected_ship] is not an overmap type")
+				message_admins("ERROR: Failed to spawn ghost ship because [selected_ship] is not an overmap type")
+				log_game("ERROR: Failed to spawn ghost ship because [selected_ship] is not an overmap type")
 				return
 			var/target_ghost
 			var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(selected_ship.faction)] [initial(selected_ship.name)]?", ROLE_GHOSTSHIP, null, null, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
