@@ -42,6 +42,6 @@
 	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
 	strip_delay = 80
 	equip_delay_other = 80
-	equip_delay_self = 40 //NSV13
-	strip_delay_self = 40 //NSV13
+	equip_delay_self = 55 //NSV13
+	strip_delay_self = 55 //NSV13
 	resistance_flags = NONE
