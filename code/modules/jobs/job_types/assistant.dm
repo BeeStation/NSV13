@@ -82,7 +82,7 @@ Assistant
 			dep_access = list(ACCESS_RESEARCH)
 			accessory = /obj/item/clothing/accessory/armband/science
 		if(SEC_DEPT_MUNITIONS)
-			ears = /obj/item/radio/headset/munitions/munitions_security_alt
+			ears = /obj/item/radio/headset/munitions/munitions_tech
 			dep_access = list(ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE)
 			accessory = /obj/item/clothing/accessory/armband/munitions
 
