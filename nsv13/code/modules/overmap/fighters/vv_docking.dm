@@ -27,9 +27,16 @@
 			loadout.install_hardpoint(DC)
 		DC.docking_cooldown = FALSE
 		DC.docking_mode = TRUE
-		if(!length(target.docking_points)) //TODO allow them to create one if there's an interior
-			alert(usr, "[target] has no docking points. Unable to dock.", "Warning", "OK")
-			return
+		if(!length(target.docking_points))
+			if(usr.client?.holder?.marked_datum && isturf(usr.client.holder.marked_datum))
+				switch(alert(usr, "[target] has no docking points. Add marked turf to docking points?", "Warning", "Yes", "No"))
+					if("No")
+						return
+					if("Yes")
+						target.docking_points |= usr.client.holder.marked_datum
+			else
+				alert(usr, "[target] has no docking points. Unable to dock.", "Warning", "OK")
+				return
 
 		transfer_from_overmap(target)
 
