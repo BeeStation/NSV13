@@ -4,7 +4,7 @@
 	icon = 'nsv13/icons/turf/floors/glass.dmi'
 	icon_state = "glass-0"
 	baseturfs = /turf/open/openspace
-	floor_tile = /obj/item/stack/tile/glass
+	floor_tile = /turf/open/floor/plating
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/turf/open/floor/glass,/turf/open/floor/glass/reinforced)
 	footstep = FOOTSTEP_PLATING
