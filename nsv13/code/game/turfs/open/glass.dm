@@ -3,8 +3,8 @@
 	desc = "While it at first appears to be a dangerous glass floor over space, closer inspection reveals it to simply be a screen behind a layer of glass."
 	icon = 'nsv13/icons/turf/floors/glass.dmi'
 	icon_state = "glass-0"
-	baseturfs = /turf/open/openspace
-	floor_tile = /turf/open/floor/plating
+	baseturfs = /turf/open/floor/plating
+	floor_tile = /obj/item/stack/tile/glass
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/turf/open/floor/glass,/turf/open/floor/glass/reinforced)
 	footstep = FOOTSTEP_PLATING
