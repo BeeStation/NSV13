@@ -222,7 +222,8 @@
 /obj/structure/overmap/small_craft/proc/is_docking_on_cooldown()
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	if(!DC || DC.docking_cooldown)
-		return FALSE
+		return TRUE
+	return FALSE
 
 /obj/structure/overmap/small_craft/proc/is_near_boundary()
 	if(SSmapping.level_trait(z, ZTRAIT_BOARDABLE)) //Ship level, mining level, or boarding level
@@ -341,8 +342,10 @@
 	return FALSE
 
 /obj/structure/overmap/small_craft/proc/transfer_from_overmap(obj/structure/overmap/OM)
+	if(is_docking_on_cooldown())
+		return FALSE
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
-	if(!DC || DC.docking_cooldown ||!DC.docking_mode|| !OM.docking_points?.len)
+	if(!DC.docking_mode|| !length(OM.docking_points))
 		return FALSE
 	enemies = list() //Reset RWR warning.
 	last_overmap = OM
