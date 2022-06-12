@@ -131,6 +131,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["maintenance_mode"] = maintenance_mode //Todo
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	data["docking_mode"] = DC && DC.docking_mode
+	data["docking_cooldown"] = DC && DC.docking_cooldown
 	var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
 	data["countermeasures"] = CD ? CD.charges : 0
 	data["max_countermeasures"] = CD ? CD.max_charges : 0

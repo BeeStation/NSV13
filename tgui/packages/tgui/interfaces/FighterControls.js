@@ -134,7 +134,7 @@ export const FighterControls = (props, context) => {
             width="150px"
             content="Docking mode"
             icon={data.docking_mode ? "anchor" : "times"}
-            color={data.docking_mode ? "good" : null}
+            color={(data.docking_cooldown && "orange") || (data.docking_mode ? "good" : null)}
             onClick={() => act('docking_mode')} />
           <Button
             width="150px"
