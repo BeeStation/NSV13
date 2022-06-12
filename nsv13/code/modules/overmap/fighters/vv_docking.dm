@@ -1,8 +1,10 @@
 #define VV_HK_FORCE_DOCK "ForceDocking"
+#define VV_HK_FORCE_UNDOCK "ForceUndocking"
 
 /obj/structure/overmap/small_craft/vv_get_dropdown()
 	. = ..()
 	VV_DROPDOWN_OPTION(VV_HK_FORCE_DOCK, "Force Docking")
+	VV_DROPDOWN_OPTION(VV_HK_FORCE_UNDOCK, "Force onto Overmap")
 
 /obj/structure/overmap/small_craft/vv_do_topic(list/href_list)
 	set waitfor = FALSE
@@ -33,3 +35,39 @@
 
 		message_admins("[key_name_admin(usr)] has transferred [src] onto [target]")
 		log_admin("[key_name_admin(usr)] has transferred [src] onto [target]")
+
+	if(href_list[VV_HK_FORCE_UNDOCK])
+		if(!check_rights(R_ADMIN))
+			return
+
+		if(get_fuel() < 1000)
+			set_fuel(1000)
+
+		var/obj/item/fighter_component/apu/APU = loadout.get_slot(HARDPOINT_SLOT_APU)
+		if(!APU)
+			APU = new()
+			loadout.install_hardpoint(APU)
+		APU.fuel_line = TRUE
+
+		var/obj/item/fighter_component/battery/B = loadout.get_slot(HARDPOINT_SLOT_BATTERY)
+		if(!B)
+			B = new()
+			loadout.install_hardpoint(B)
+		B.active = TRUE
+		B.charge = B.maxcharge
+
+		var/obj/item/fighter_component/engine/E = loadout.get_slot(HARDPOINT_SLOT_ENGINE)
+		if(!E)
+			E = new()
+			loadout.install_hardpoint(E)
+		if(!E.active)
+			E.rpm = ENGINE_RPM_SPUN
+			E.try_start()
+
+		APU.fuel_line = FALSE
+
+		canopy_open = FALSE
+		check_overmap_elegibility(ignore_position = TRUE, ignore_cooldown = TRUE)
+
+		message_admins("[key_name_admin(usr)] has transferred [src] to the overmap")
+		log_admin("[key_name_admin(usr)] has transferred [src] to the overmap")
