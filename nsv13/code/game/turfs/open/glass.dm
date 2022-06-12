@@ -2,7 +2,7 @@
 	name = "Glass floor"
 	desc = "While it at first appears to be a dangerous glass floor over space, closer inspection reveals it to simply be a screen behind a layer of glass."
 	icon = 'nsv13/icons/turf/floors/glass.dmi'
-	icon_state = "glass"
+	icon_state = "glass-0"
 	baseturfs = /turf/open/openspace
 	floor_tile = /obj/item/stack/tile/glass
 	smooth = SMOOTH_TRUE
@@ -25,6 +25,5 @@
 	name = "Reinforced glass floor"
 	desc = "While it at first appears to be a dangerous glass floor over space, closer inspection reveals it to simply be a screen behind a reinforced protective layer of glass."
 	icon = 'nsv13/icons/turf/floors/reinf_glass.dmi'
-	icon_state = "reinf_glass"
-	// base_icon_state = "reinf_glass"
+	icon_state = "reinf_glass-0"
 	floor_tile = /obj/item/stack/tile/glass/reinforced
