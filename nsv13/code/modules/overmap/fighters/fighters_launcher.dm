@@ -331,24 +331,27 @@
 /obj/structure/overmap/small_craft/proc/docking_act(obj/structure/overmap/OM)
 	if(!ftl_drive && !OM.ftl_drive) // If no one can reserve a Z, don't do this
 		return FALSE
+	if(is_docking_on_cooldown())
+		return FALSE
+	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+	if(!DC || !DC.docking_mode)
+		return FALSE
 	if(istype(OM, /obj/structure/overmap/asteroid))
 		var/obj/structure/overmap/asteroid/AS = OM
 		AS.interior_mode = INTERIOR_DYNAMIC // We don't actually want it to create one until we're ready but we do need entry points
 		AS.instance_interior()
 		AS.docking_points = AS.interior_entry_points
 		return transfer_from_overmap(OM)
-	if(mass < OM.mass) //If theyre smaller than us, and we have docking points, and they want to dock
+	if(mass < OM.mass) //If theyre bigger than us and have docking points, and we want to dock
 		return transfer_from_overmap(OM)
 	return FALSE
 
 /obj/structure/overmap/small_craft/proc/transfer_from_overmap(obj/structure/overmap/OM)
-	if(is_docking_on_cooldown())
-		return FALSE
-	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
-	if(!DC.docking_mode|| !length(OM.docking_points))
+	if(!length(OM.docking_points))
 		return FALSE
 	enemies = list() //Reset RWR warning.
 	last_overmap = OM
+	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	DC.docking_cooldown = TRUE
 	addtimer(VARSET_CALLBACK(DC, docking_cooldown, FALSE), 20 SECONDS) //Prevents jank.
 	resize = 0 //Scale up!
