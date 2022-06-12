@@ -81,6 +81,10 @@ Assistant
 			ears = /obj/item/radio/headset/headset_sci
 			dep_access = list(ACCESS_RESEARCH)
 			accessory = /obj/item/clothing/accessory/armband/science
+		if(SEC_DEPT_MUNITIONS)
+			ears = /obj/item/radio/headset/munitions/munitions_security_alt
+			dep_access = list(ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE)
+			accessory = /obj/item/clothing/accessory/armband/munitions
 
 	if(accessory)
 		var/obj/item/clothing/under/U = H.w_uniform
