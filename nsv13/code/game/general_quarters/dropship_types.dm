@@ -42,7 +42,7 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/ftl,
-						/obj/item/fighter_component/secondary/utility/resupply,
+						/obj/item/fighter_component/secondary/utility/refuel,
 						/obj/item/fighter_component/countermeasure_dispenser)
 	interior_mode = INTERIOR_DYNAMIC
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/countermeasure)
@@ -154,7 +154,7 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/ftl,
-						/obj/item/fighter_component/secondary/utility/resupply,
+						/obj/item/fighter_component/secondary/utility/refuel,
 						/obj/item/fighter_component/countermeasure_dispenser)
 
 /datum/map_template/dropship/sabre

@@ -1712,9 +1712,9 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	slot = HARDPOINT_SLOT_UTILITY_SECONDARY
 	power_usage = 200
 
-/obj/item/fighter_component/secondary/utility/resupply
+/obj/item/fighter_component/secondary/utility/refuel
 	name = "air to air resupply kit"
-	desc = "A large hose line which can allow a utility craft to perform air to air refuelling and resupply, without needing to RTB!"
+	desc = "A large hose line which can allow a utility craft to perform air to air refuelling."
 	icon_state = "resupply_tier1"
 	overmap_firing_sounds = list(
 		'nsv13/sound/effects/fighters/refuel.ogg')
@@ -1722,31 +1722,31 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/datum/beam/current_beam
 	var/next_fuel = 0
 
-/obj/item/fighter_component/secondary/utility/resupply/get_ammo()
+/obj/item/fighter_component/secondary/utility/refuel/get_ammo()
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F))
 		return 0
 	return F.get_fuel()
 
-/obj/item/fighter_component/secondary/utility/resupply/get_max_ammo()
+/obj/item/fighter_component/secondary/utility/refuel/get_max_ammo()
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F))
 		return 0
 	return F.get_max_fuel()
 
-/obj/item/fighter_component/secondary/utility/resupply/tier2
+/obj/item/fighter_component/secondary/utility/refuel/tier2
 	name = "upgraded air to air resupply kit"
 	icon_state = "resupply_tier2"
 	fire_delay = 5 SECONDS
 	tier = 2
 
-/obj/item/fighter_component/secondary/utility/resupply/tier3
+/obj/item/fighter_component/secondary/utility/refuel/tier3
 	name = "super air to air resupply kit"
 	icon_state = "resupply_tier3"
 	fire_delay = 3 SECONDS
 	tier = 3
 
-/obj/item/fighter_component/secondary/utility/resupply/process()
+/obj/item/fighter_component/secondary/utility/refuel/process()
 	if(!..())
 		return
 	var/obj/structure/overmap/small_craft/F = loc
@@ -1763,12 +1763,11 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		current_beam = new(F,them,beam_icon='nsv13/icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
 		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
 
-	//Firstly, try to refuel the friendly.
-	resupply_fuel(them)
+	transfer_fuel(them)
 	jump_battery(them)
-	reload_guns(them)
+	//reload_guns(them)
 
-/obj/item/fighter_component/secondary/utility/resupply/proc/resupply_fuel(obj/structure/overmap/small_craft/them)
+/obj/item/fighter_component/secondary/utility/refuel/proc/transfer_fuel(obj/structure/overmap/small_craft/them)
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!F || !istype(F))
 		return
@@ -1785,7 +1784,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	them.relay('nsv13/sound/effects/fighters/refuel.ogg')
 	fuel.reagents.trans_to(theirFuel, transfer_amount)
 
-/obj/item/fighter_component/secondary/utility/resupply/proc/jump_battery(obj/structure/overmap/small_craft/friendly)
+/obj/item/fighter_component/secondary/utility/refuel/proc/jump_battery(obj/structure/overmap/small_craft/friendly)
 	var/obj/structure/overmap/small_craft/self = loc
 	var/obj/item/fighter_component/battery/ourBattery = self.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 	if(!ourBattery || !istype(ourBattery) || ourBattery.charge < 1000)
@@ -1796,7 +1795,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		theirBattery.give(500) //Jumpstart their battery
 		ourBattery.use_power(500)
 
-/obj/item/fighter_component/secondary/utility/resupply/proc/reload_guns(obj/structure/overmap/small_craft/friendly)
+/obj/item/fighter_component/secondary/utility/refuel/proc/reload_guns(obj/structure/overmap/small_craft/friendly)
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!F || !istype(F))
 		return

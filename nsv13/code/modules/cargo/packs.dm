@@ -266,7 +266,7 @@
 					/obj/item/fighter_component/docking_computer,
 					/obj/item/fighter_component/battery,
 					/obj/item/fighter_component/primary/utility/hold,
-					/obj/item/fighter_component/secondary/utility/resupply,
+					/obj/item/fighter_component/secondary/utility/refuel,
 					/obj/item/fighter_component/countermeasure_dispenser)
 
 /datum/supply_pack/munitions/light_cannon

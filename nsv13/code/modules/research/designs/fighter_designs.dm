@@ -185,11 +185,11 @@
 
 /datum/design/refuel_kit
 	name = "Air to air refuel kit"
-	desc = "A kit that allows utility fighters to transfer fuel, power and ammunition to another fighter."
+	desc = "A kit that allows utility fighters to transfer fuel and power to another fighter."
 	id = "refuel_kit"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000, /datum/material/copper = 5000, /datum/material/glass = 5000)
-	build_path = /obj/item/fighter_component/secondary/utility/resupply
+	build_path = /obj/item/fighter_component/secondary/utility/refuel
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
@@ -203,7 +203,7 @@
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
-/datum/design/resupply
+/datum/design/repair
 	name = "Air to Air repair kit"
 	desc = "A module that allows utility craft to remotely repair fighter craft, when loaded with hull repair juice."
 	id = "resupply"
@@ -295,11 +295,11 @@
 
 /datum/design/refuel_kit_tier2
 	name = "Upgraded Air to air refuel kit"
-	desc = "A kit that allows utility fighters to transfer fuel, power and ammunition to another fighter."
+	desc = "A kit that allows utility fighters to transfer fuel and power to another fighter."
 	id = "refuel_kit_tier2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 15000, /datum/material/copper = 5000, /datum/material/glass = 5000)
-	build_path = /obj/item/fighter_component/secondary/utility/resupply/tier2
+	build_path = /obj/item/fighter_component/secondary/utility/refuel/tier2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
@@ -313,7 +313,7 @@
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
-/datum/design/resupply_tier2
+/datum/design/repair_tier2
 	name = "Upgraded Air to Air repair kit"
 	desc = "A module that allows utility craft to remotely repair fighter craft, when loaded with hull repair juice."
 	id = "resupply_tier2"
@@ -405,11 +405,11 @@
 
 /datum/design/refuel_kit_tier3
 	name = "Experimental Air to air refuel kit"
-	desc = "A kit that allows utility fighters to transfer fuel, power and ammunition to another fighter."
+	desc = "A kit that allows utility fighters to transfer fuel and power to another fighter."
 	id = "refuel_kit_tier3"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 25000, /datum/material/copper = 7000, /datum/material/glass = 10000)
-	build_path = /obj/item/fighter_component/secondary/utility/resupply/tier3
+	build_path = /obj/item/fighter_component/secondary/utility/refuel/tier3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
@@ -423,7 +423,7 @@
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
-/datum/design/resupply_tier3
+/datum/design/repair_tier3
 	name = "Experimental Air to Air repair kit"
 	desc = "A module that allows utility craft to remotely repair fighter craft, when loaded with hull repair juice."
 	id = "resupply_tier3"
