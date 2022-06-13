@@ -13,8 +13,8 @@
 #define BROKEN_SPARKS_MAX (90 SECONDS)
 
 //NSV13 added ethereal light interaction defines
-#define LIGHT_DRAIN_TIME 25
-#define LIGHT_POWER_GAIN 35
+#define LIGHT_DRAIN_TIME 35
+#define LIGHT_POWER_GAIN 50
 
 /obj/item/wallframe/light_fixture
 	name = "light fixture frame"
@@ -681,15 +681,15 @@
 					return
 
 				to_chat(H, "<span class='notice'>You start channeling some power through the [fitting] into your body.</span>")
-				E.drain_time = world.time + 35
-				while(do_after(user, 30, target = src))
-					E.drain_time = world.time + 35
+				E.drain_time = world.time + LIGHT_DRAIN_TIME
+				while(do_after(user, LIGHT_DRAIN_TIME, target = src))
+					E.drain_time = world.time + LIGHT_DRAIN_TIME
 					if(!istype(stomach))
 						to_chat(H, "<span class='warning'>You can't receive charge!</span>")
 						return
 					to_chat(H, "<span class='notice'>You receive some charge from the [fitting].</span>")
-					stomach.adjust_charge(50)
-					use_power(50)
+					stomach.adjust_charge(LIGHT_POWER_GAIN)
+					use_power(LIGHT_POWER_GAIN)
 					if(stomach.charge >= stomach.max_charge)
 						to_chat(H, "<span class='notice'>You are now fully charged.</span>")
 						E.drain_time = 0
