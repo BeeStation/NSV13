@@ -1005,12 +1005,18 @@
 /area/hallway/nsv/deck2/primary)
 "aCt" = (
 /obj/structure/table/reinforced,
-/obj/structure/window/reinforced,
 /obj/item/paper_bin,
 /obj/item/pen,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/window/northleft{
+	name = "Operating suite";
+	req_one_access_txt = "7;29"
+	},
+/obj/machinery/door/window/southleft{
+	name = "Operating suite"
+	},
 /turf/open/floor/monotile/dark,
 /area/science/robotics/lab)
 "aCv" = (
@@ -19577,8 +19583,7 @@
 "kwF" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/window/southright{
-	name = "Science Desk";
-	req_one_access_txt = "7;29"
+	name = "Science Desk"
 	},
 /obj/item/disk/tech_disk,
 /obj/item/disk/tech_disk,
@@ -19592,7 +19597,10 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
-/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/window/northleft{
+	name = "Science Desk";
+	req_one_access_txt = "7;29"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/science/lab)
 "kwO" = (
@@ -26355,13 +26363,16 @@
 /area/security/processing)
 "ojF" = (
 /obj/structure/table/reinforced,
-/obj/machinery/door/window/southright{
-	name = "Operating suite";
-	req_one_access_txt = "7;29"
-	},
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/window/southright{
+	name = "Operating suite"
+	},
+/obj/machinery/door/window/northright{
+	req_one_access_txt = "7;29";
+	name = "Operating suite"
+	},
 /turf/open/floor/monotile/dark,
 /area/science/robotics/lab)
 "oku" = (
@@ -38757,6 +38768,10 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/window/northright{
+	req_one_access_txt = "7;29";
+	name = "Science Desk"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/science/lab)
 "uTA" = (
