@@ -1407,9 +1407,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary/load(obj/structure/overmap/target, atom/movable/AM)
 	if(!istype(AM, accepted_ammo))
 		return FALSE
-	magazine?.forceMove(get_turf(target))
-	if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE))
-		qdel(magazine) //So bullets don't drop onto the overmap.
+	if(magazine)
+		if(magazine.ammo_count() >= magazine.max_ammo)
+			return FALSE
+		else
+			magazine.forceMove(get_turf(target))
+			if(!SSmapping.level_trait(loc.z, ZTRAIT_BOARDABLE))
+				QDEL_NULL(magazine) //So bullets don't drop onto the overmap.
 	AM.forceMove(src)
 	magazine = AM
 	ammo = magazine.stored_ammo
@@ -1760,31 +1764,55 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
 
 	//Firstly, try to refuel the friendly.
-	if(F.get_fuel() <= 0)
-		goto resupplyFuel
+	resupply_fuel(them)
+	jump_battery(them)
+	reload_guns(them)
+
+/obj/item/fighter_component/secondary/utility/resupply/proc/resupply_fuel(obj/structure/overmap/small_craft/them)
+	var/obj/structure/overmap/small_craft/F = loc
+	if(!F || !istype(F))
+		return
+	var/transfer_amount = CLAMP((them.get_max_fuel() - them.get_fuel()), 0, 100)
+	if(!transfer_amount)
+		to_chat(F.gunner, "<span class='notice'>Fuel tank is full.</span>")
+		return
+	if(F.get_fuel() <= 200) // Don't give away ALL our fuel
+		to_chat(F.gunner, "<span class='warning'>Fuel is below minimum safe transfer level.</span>")
+		return
+	var/obj/item/fighter_component/fuel_tank/fuel = F.loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	var/obj/item/fighter_component/fuel_tank/theirFuel = them.loadout.get_slot(HARDPOINT_SLOT_FUEL)
-	var/transfer_amount = min(50, them.get_max_fuel() - them.get_fuel()) //Transfer as much as we can
-	transfer_amount = CLAMP(transfer_amount, 0, 100)//Don't want to overfill them
 	F.relay('nsv13/sound/effects/fighters/refuel.ogg')
 	them.relay('nsv13/sound/effects/fighters/refuel.ogg')
-	var/obj/item/fighter_component/battery/B = them.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
-	if(B && istype(B))
-		B.give(100) //Jumpstart their battery
-	if(transfer_amount <= 0)
-		goto resupplyFuel
-	var/obj/item/fighter_component/fuel_tank/fuel = F.loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	fuel.reagents.trans_to(theirFuel, transfer_amount)
-	resupplyFuel:
+
+/obj/item/fighter_component/secondary/utility/resupply/proc/jump_battery(obj/structure/overmap/small_craft/friendly)
+	var/obj/structure/overmap/small_craft/self = loc
+	var/obj/item/fighter_component/battery/ourBattery = self.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
+	if(!ourBattery || !istype(ourBattery) || ourBattery.charge < 1000)
+		to_chat(self.gunner, "<span class='warning'>Battery charge is below minimum safe transfer level.</span>")
+		return
+	var/obj/item/fighter_component/battery/theirBattery = friendly.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
+	if(theirBattery && istype(theirBattery) && (theirBattery.charge < 500))
+		theirBattery.give(500) //Jumpstart their battery
+		ourBattery.use_power(500)
+
+/obj/item/fighter_component/secondary/utility/resupply/proc/reload_guns(obj/structure/overmap/small_craft/friendly)
+	var/obj/structure/overmap/small_craft/F = loc
+	if(!F || !istype(F))
+		return
+	// We need to have ammo in our cargo hold for this
 	var/obj/item/fighter_component/primary/utility/hold = F.loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
 	if(!istype(hold))
 		return FALSE
-	var/obj/item/fighter_component/primary/theirGun = them.loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
-	var/obj/item/fighter_component/primary/theirTorp = them.loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+	var/obj/item/fighter_component/primary/theirPrimary = friendly.loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+	var/obj/item/fighter_component/secondary/theirSecondary = friendly.loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
 	//Next up, try to refill the friendly's guns from whatever we have stored in cargo.
 	for(var/atom/movable/AM as() in hold.contents)
-		if(theirGun.load(them, AM))
+		if((theirPrimary.get_ammo() < theirPrimary.get_max_ammo()) && theirPrimary.load(friendly, AM))
+			to_chat(F.gunner, "<span class='notice'>Transferred [AM].</span>")
 			continue
-		if(theirTorp.load(them, AM))
+		if((theirSecondary.get_ammo() < theirSecondary.get_max_ammo()) && theirSecondary.load(friendly, AM))
+			to_chat(F.gunner, "<span class='notice'>Transferred [AM].</span>")
 			continue
 
 /obj/structure/overmap/small_craft/proc/update_visuals()
