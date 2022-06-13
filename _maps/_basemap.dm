@@ -36,6 +36,10 @@
 		#include "map_files\Vago\vagodeck1.dmm"
 		#include "map_files\Vago\vagodeck2.dmm"
 
+		//Snake
+		#include "map_files\Snake\snake_lower.dmm"
+		#include "map_files\Snake\snake_upper.dmm"
+
 		#ifdef CIBUILDING
 			#include "templates.dm"
 		#endif
