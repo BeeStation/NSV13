@@ -18,7 +18,6 @@
 	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
 	icon_state = "pylon"
 	dir = NORTH
-	bound_height = 64
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 500
