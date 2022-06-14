@@ -40,14 +40,14 @@
 	if(!..())
 		return
 	var/obj/structure/overmap/small_craft/F = loc
-	if((!istype(F) || !F.autofire_target || F.fire_mode != fire_mode) && current_beam)
+	if(!F || !istype(F) || !F.autofire_target || (F.fire_mode != fire_mode))
 		QDEL_NULL(current_beam)
-		return FALSE
+		return
 	if(world.time < next_fuel)
-		return FALSE
+		return
 	var/obj/structure/overmap/small_craft/them = F.autofire_target
-	if(!istype(them) || them == F) //No self targeting
-		return FALSE
+	if(!istype(them) || (them == F)) //No self targeting
+		return
 	next_fuel = world.time + fire_delay
 	if(QDELETED(current_beam))
 		current_beam = new(F,them,beam_icon='nsv13/icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
