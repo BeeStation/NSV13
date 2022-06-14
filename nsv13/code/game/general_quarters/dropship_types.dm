@@ -150,7 +150,6 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/armour_plating,
 						/obj/item/fighter_component/targeting_sensor,
 						/obj/item/fighter_component/engine,
-						/obj/item/fighter_component/canopy,
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/ftl,
