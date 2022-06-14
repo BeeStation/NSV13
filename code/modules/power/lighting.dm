@@ -359,7 +359,7 @@
 		return
 
 	var/area/local_area = get_area(src)
-	if(emergency_mode || (local_area?.fire))
+	if(emergency_mode || (local_area?.fire) || (local_area?.vacuum) || (local_area && local_area.redalert))
 		. += mutable_appearance(overlayicon, "[base_state]_emergency")
 		return
 	if(nightshift_enabled)
