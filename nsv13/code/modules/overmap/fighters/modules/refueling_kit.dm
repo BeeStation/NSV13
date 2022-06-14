@@ -5,6 +5,7 @@
 	overmap_firing_sounds = list(
 		'nsv13/sound/effects/fighters/refuel.ogg')
 	fire_delay = 6 SECONDS
+	bypass_safety = TRUE
 	var/datum/beam/current_beam
 	var/next_fuel = 0
 	var/battery_recharge_amount = 500

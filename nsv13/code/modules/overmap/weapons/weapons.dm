@@ -8,8 +8,8 @@
 	weapon_overlays += OL
 	return OL
 
-/obj/structure/overmap/proc/fire(atom/target)
-	if(weapon_safety)
+/obj/structure/overmap/proc/fire(atom/target, override_safety = FALSE)
+	if(weapon_safety && !override_safety)
 		if(gunner)
 			to_chat(gunner, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
 		return
