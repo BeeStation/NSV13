@@ -1,6 +1,7 @@
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Section, ProgressBar } from '../components';
+import { Box, Button, Section, ProgressBar, Grid, Table } from '../components';
+import { GridColumn } from '../components/Grid';
 import { Window } from '../layouts';
 
 export const FTLComputerModular = (props, context) => {
@@ -9,52 +10,55 @@ export const FTLComputerModular = (props, context) => {
     <Window
       resizable
       theme="hackerman"
-      width={560}
-      height={500}>
+      width={600}
+      height={550}>
       <Window.Content scrollable>
         <Section>
           <Section title="Pylon control:">
-            {Object.keys(data.pylons).map(key => {
-              let value = data.pylons[key];
-              return (
-                <Fragment key={key}>
-                  <Section title={`${value.name}`}>
-                    <Button
-                      content="Toggle Power"
-                      icon="power-off"
-                      color={value.status === "shutdown" ? "average" : value.status === "offline" ? "bad" : "good"}
-                      disabled={value.status === "shutdown"}
-                      onClick={() => act('pylon_power', { id: value.id })} />
-                    <Button
-                      content={value.shielded ? "Close Shield" : "Open Shield"}
-                      icon="exclamation-triangle"
-                      color={value.shielded && "average"}
-                      onClick={() => act('toggle_shield', { id: value.id })} />
-                    Cycle Status: <b>{value.status}</b>
-                    <br />
-                    <br />
-                    Gyro Speed:
-                    <ProgressBar
-                      value={value.gyro}
-                      ranges={{
-                        good: [1, 2],
-                        average: [0.5, 0.99],
-                        bad: [0, 0.49],
-                      }} />
-                    <br />
-                    Capacitor Charge:
-                    <ProgressBar
-                      value={value.capacitor}
-                      ranges={{
-                        good: [1, 2],
-                        average: [0.5, 0.99],
-                        bad: [0, 0.49],
-                      }} />
-                    <br />
-                    Power Draw: <b>{value.draw}</b>
-                  </Section>
-                </Fragment>);
-            })}
+            <Table.Row fluid>
+              {Object.keys(data.pylons).map(key => {
+                let value = data.pylons[key];
+                return (
+                  <Table.Cell key={key}>
+                    <Section title={`${value.name}`}>
+                      <Button
+                        content="Toggle Power"
+                        icon="power-off"
+                        color={value.status === "shutdown" ? "average" : value.status === "offline" ? "bad" : "good"}
+                        disabled={value.status === "shutdown"}
+                        onClick={() => act('pylon_power', { id: value.id })} />
+                      <Button
+                        content={value.shielded ? "Open Shield" : "Close Shield"}
+                        icon="exclamation-triangle"
+                        color={value.shielded && "average"}
+                        onClick={() => act('toggle_shield', { id: value.id })} />
+                      <br />
+                      Cycle Status: <b>{value.status}</b>
+                      <br />
+                      <br />
+                      Gyro Speed:
+                      <ProgressBar
+                        value={value.gyro}
+                        ranges={{
+                          good: [1, 2],
+                          average: [0.5, 0.99],
+                          bad: [0, 0.49],
+                        }} />
+                      <br />
+                      Capacitor Charge:
+                      <ProgressBar
+                        value={value.capacitor}
+                        ranges={{
+                          good: [1, 2],
+                          average: [0.5, 0.99],
+                          bad: [0, 0.49],
+                        }} />
+                      <br />
+                      Power Draw: <b>{value.draw}</b>
+                    </Section>
+                  </Table.Cell>);
+              })}
+            </Table.Row>
             <Button
               content="Find Pylons"
               icon="search"

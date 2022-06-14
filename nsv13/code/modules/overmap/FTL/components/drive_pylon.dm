@@ -42,7 +42,8 @@
 /obj/machinery/atmospherics/components/binary/drive_pylon/Initialize()
 	. = ..()
 	pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open", layer + 0.1)
-	update_visuals()
+	add_overlay(pylon_shield)
+	update_visuals(FALSE)
 	air_contents = new(3000)
 	air_contents.set_temperature(T20C)
 
@@ -115,6 +116,15 @@
 			consume_fuel()
 			if(gyro_speed < req_gyro_speed)
 				set_state(PYLON_STATE_SHUTDOWN)
+
+/obj/machinery/atmospherics/components/binary/drive_pylon/attack_hand(mob/user)
+	. = ..()
+	if(.)
+		return
+	if(pylon_state == PYLON_STATE_OFFLINE)
+		to_chat(user, "<span class='info'>You poke the metallic [shielded ? "shield" : "gyros"].</span>")
+	else
+		to_chat(user, "<span class='info'>You don't think it would be wise to touch this right now.</span>")
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/power_drain()
 	if(power_draw)
@@ -228,6 +238,8 @@
 	if(!pylon_shield) //somehow...
 		pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open")
 		add_overlay(pylon_shield)
+	else
+		cut_overlay(pylon_shield)
 	if(shielded)
 		pylon_shield.icon_state = "pylon_shield_open"
 		flick("pylon_shield_opening", pylon_shield)
@@ -236,6 +248,7 @@
 		flick("pylon_shield_closing", pylon_shield)
 	playsound(src, 'sound/machines/blastdoor.ogg', 40, 1)
 	shielded = !shielded
+	add_overlay(pylon_shield)
 
 /// Use this when changing pylon states to avoid overlay cbt
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/set_state(nstate)
@@ -270,10 +283,11 @@
 /obj/machinery/atmospherics/components/binary/drive_pylon/return_analyzable_air()
 	return airs + air_contents
 
-/obj/machinery/atmospherics/components/binary/drive_pylon/proc/update_visuals()
-	cut_overlays()
+/obj/machinery/atmospherics/components/binary/drive_pylon/proc/update_visuals(cut = TRUE)
+	if(cut)
+		cut_overlays()
 	if(!pylon_shield) // Shouldn't be deleted but just in case
-		pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open")
+		pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', shielded ? "pylon_shield_closed" : "pylon_shield_open")
 	var/list/ov = list()
 	switch(pylon_state)
 		if(PYLON_STATE_OFFLINE)

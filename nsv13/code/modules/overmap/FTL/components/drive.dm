@@ -51,7 +51,6 @@
 /obj/machinery/computer/ship/ftl_core/Initialize()
 	. = ..()
 	add_overlay("screen")
-	get_pylons()
 	radio = new(src)
 	radio.keyslot = new radio_key
 	radio.listening = 0
@@ -63,6 +62,7 @@
 /obj/machinery/computer/ship/ftl_core/LateInitialize()
 	. = ..()
 	has_overmap()
+	get_pylons()
 
 /obj/machinery/computer/ship/ftl_core/Destroy()
 	QDEL_NULL(soundloop)
@@ -72,6 +72,7 @@
 
 /// Links with available pylons and returns number of connections
 /obj/machinery/computer/ship/ftl_core/proc/get_pylons()
+	var/obj/structure/overmap/OMcache = get_overmap()
 	if(length(pylons))
 		for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
 			P.ftl_drive = null
@@ -79,7 +80,7 @@
 	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in GLOB.machines)
 		if(length(pylons) == 4) // No more than 4 pylons
 			break
-		if(get_dist(src, P) <= MAX_PYLON_DISTANCE && link_id == P.link_id && P.get_overmap() == get_overmap() && P.is_operational())
+		if(P.get_overmap() == OMcache && get_dist(src, P) && link_id == P.link_id && P.is_operational() <= MAX_PYLON_DISTANCE)
 			pylons += P
 			P.ftl_drive = src
 
