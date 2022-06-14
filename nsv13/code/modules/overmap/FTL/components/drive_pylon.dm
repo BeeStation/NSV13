@@ -26,7 +26,7 @@
 	var/gyro_speed = 0
 	var/req_gyro_speed = 25
 	var/shielded = FALSE
-	var/mutable_appearance/pylon_shield
+	var/obj/effect/pylon_shield/pylon_shield
 	var/pylon_state = PYLON_STATE_OFFLINE
 	var/capacitor = 0 // capacitors charged
 	var/mol_per_capacitor = 10 // moles of nucleium required for each capacitor
@@ -41,8 +41,7 @@
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/Initialize()
 	. = ..()
-	pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open", layer + 0.1)
-	add_overlay(pylon_shield)
+	initialize_shield()
 	update_visuals(FALSE)
 	air_contents = new(3000)
 	air_contents.set_temperature(T20C)
@@ -116,15 +115,6 @@
 			consume_fuel()
 			if(gyro_speed < req_gyro_speed)
 				set_state(PYLON_STATE_SHUTDOWN)
-
-/obj/machinery/atmospherics/components/binary/drive_pylon/attack_hand(mob/user)
-	. = ..()
-	if(.)
-		return
-	if(pylon_state == PYLON_STATE_OFFLINE)
-		to_chat(user, "<span class='info'>You poke the metallic [shielded ? "shield" : "gyros"].</span>")
-	else
-		to_chat(user, "<span class='info'>You don't think it would be wise to touch this right now.</span>")
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/power_drain()
 	if(power_draw)
@@ -236,10 +226,7 @@
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/toggle_shield()
 	if(!pylon_shield) //somehow...
-		pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', "pylon_shield_open")
-		add_overlay(pylon_shield)
-	else
-		cut_overlay(pylon_shield)
+		initialize_shield()
 	if(shielded)
 		pylon_shield.icon_state = "pylon_shield_open"
 		flick("pylon_shield_opening", pylon_shield)
@@ -248,7 +235,6 @@
 		flick("pylon_shield_closing", pylon_shield)
 	playsound(src, 'sound/machines/blastdoor.ogg', 40, 1)
 	shielded = !shielded
-	add_overlay(pylon_shield)
 
 /// Use this when changing pylon states to avoid overlay cbt
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/set_state(nstate)
@@ -263,6 +249,7 @@
 	if(ftl_drive)
 		ftl_drive.pylons -= src
 		ftl_drive = null
+	pylon_shield.pylon = null
 	QDEL_NULL(pylon_shield)
 	var/datum/gas_mixture/input = airs[1]
 	var/datum/gas_mixture/output = airs[2]
@@ -287,7 +274,7 @@
 	if(cut)
 		cut_overlays()
 	if(!pylon_shield) // Shouldn't be deleted but just in case
-		pylon_shield = mutable_appearance('nsv13/icons/obj/machinery/FTL_pylon.dmi', shielded ? "pylon_shield_closed" : "pylon_shield_open")
+		initialize_shield()
 	var/list/ov = list()
 	switch(pylon_state)
 		if(PYLON_STATE_OFFLINE)
@@ -301,9 +288,13 @@
 			ov += "pylon_arcing"
 		if(PYLON_STATE_SHUTDOWN)
 			ov += "pylon_gyro_on_medium"
-	ov += pylon_shield
 	add_overlay(ov)
 
+/obj/machinery/atmospherics/components/binary/drive_pylon/proc/initialize_shield()
+	pylon_shield = new(loc)
+	pylon_shield.layer = layer + 0.01
+	pylon_shield.pylon = src
+	vis_contents += pylon_shield
 
 // ------------------ Debug pylon ------------------
 
@@ -332,6 +323,27 @@
 		var/datum/gas_mixture/output = airs[2]
 		output.clear()
 	return ..()
+
+
+// VFX
+
+/obj/effect/pylon_shield
+	name = "pylon shield"
+	icon = 'nsv13/icons/obj/machinery/FTL_pylon.dmi'
+	icon_state = "pylon_shield_open"
+	vis_flags = VIS_INHERIT_ID | VIS_INHERIT_PLANE | VIS_INHERIT_LAYER
+	var/obj/machinery/atmospherics/components/binary/drive_pylon/pylon
+
+
+/obj/effect/pylon_shield/attack_hand(mob/user)
+	. = ..()
+	if(.)
+		return
+	if(pylon.pylon_state == PYLON_STATE_OFFLINE)
+		to_chat(user, "<span class='info'>You poke the metallic [pylon.shielded ? "shield" : "gyros"].</span>")
+	else
+		to_chat(user, "<span class='info'>You don't think it would be wise to touch this right now.</span>")
+
 
 #undef PYLON_STATE_OFFLINE
 #undef PYLON_STATE_STARTING
