@@ -144,12 +144,12 @@
 	return not_handled //For future deeper overrides
 
 //NSV13 lots of changes below in this proc, all related to strip delays
-/mob/living/carbon/human/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, silent = FALSE, was_thrown = FALSE, bypass_strip_delay_other = TRUE)
+/mob/living/carbon/human/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, silent = FALSE, was_thrown = FALSE, bypass_delay = TRUE)
 	var/index = get_held_index_of_item(I)
 	if(index && !QDELETED(src) && dna.species.mutanthands) //hand freed, fill with claws, skip if we're getting deleted.
 		put_in_hand(new dna.species.mutanthands(), index)
 	if(I == wear_suit)
-		if (I.strip_delay_self && !bypass_strip_delay_other)
+		if (I.strip_delay_self && !bypass_delay)
 			var/mob/living/carbon/human/H = src
 			if(!(I in held_items))
 				H.visible_message("<span class='notice'>[H] starts unequipping [I]...</span>", "<span class='notice'>You start unequipping [I]...</span>")

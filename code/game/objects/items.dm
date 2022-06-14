@@ -413,7 +413,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(throwing)
 		throwing.finalize(FALSE)
 	if(loc == user)
-		if(!allow_attack_hand_drop(user) || !user.temporarilyRemoveItemFromInventory(src, bypass_strip_delay_other = FALSE)) //NSV13
+		if(!allow_attack_hand_drop(user) || !user.temporarilyRemoveItemFromInventory(src, bypass_delay = FALSE)) //NSV13
 			return
 
 	remove_outline()
