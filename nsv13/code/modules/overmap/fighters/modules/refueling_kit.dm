@@ -1,4 +1,4 @@
-/obj/item/fighter_component/secondary/utility/refuel
+/obj/item/fighter_component/primary/utility/refuel
 	name = "air to air refueling kit"
 	desc = "A large hose line which can allow a utility craft to perform air to air refuelling and battery jumpstarts."
 	icon_state = "resupply_tier1"
@@ -12,31 +12,31 @@
 	var/minimum_fuel_to_keep = 200
 	var/fuel_transfer_rate = 100
 
-/obj/item/fighter_component/secondary/utility/refuel/get_ammo()
+/obj/item/fighter_component/primary/utility/refuel/get_ammo()
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F))
 		return 0
 	return F.get_fuel()
 
-/obj/item/fighter_component/secondary/utility/refuel/get_max_ammo()
+/obj/item/fighter_component/primary/utility/refuel/get_max_ammo()
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F))
 		return 0
 	return F.get_max_fuel()
 
-/obj/item/fighter_component/secondary/utility/refuel/tier2
+/obj/item/fighter_component/primary/utility/refuel/tier2
 	name = "upgraded air to air resupply kit"
 	icon_state = "resupply_tier2"
 	fire_delay = 5 SECONDS
 	tier = 2
 
-/obj/item/fighter_component/secondary/utility/refuel/tier3
+/obj/item/fighter_component/primary/utility/refuel/tier3
 	name = "super air to air resupply kit"
 	icon_state = "resupply_tier3"
 	fire_delay = 3 SECONDS
 	tier = 3
 
-/obj/item/fighter_component/secondary/utility/refuel/proc/cancel_action(obj/structure/overmap/us, obj/structure/overmap/them, message)
+/obj/item/fighter_component/primary/utility/refuel/proc/cancel_action(obj/structure/overmap/us, obj/structure/overmap/them, message)
 	// Remove beam
 	QDEL_NULL(current_beam)
 	// Remove targeting
@@ -45,7 +45,7 @@
 	if(us && us.gunner && message)
 		to_chat(us.gunner, message)
 
-/obj/item/fighter_component/secondary/utility/refuel/process()
+/obj/item/fighter_component/primary/utility/refuel/process()
 	if(!..())
 		return
 	if(world.time < next_fuel)
@@ -71,7 +71,7 @@
 		current_beam = new(us,them,beam_icon='nsv13/icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
 		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
 
-/obj/item/fighter_component/secondary/utility/refuel/proc/transfer_fuel(obj/structure/overmap/small_craft/us, obj/structure/overmap/small_craft/them)
+/obj/item/fighter_component/primary/utility/refuel/proc/transfer_fuel(obj/structure/overmap/small_craft/us, obj/structure/overmap/small_craft/them)
 	var/transfer_amount = CLAMP((them.get_max_fuel() - them.get_fuel()), 0, fuel_transfer_rate)
 	if(transfer_amount <= 0)
 		cancel_action(us, them, "<span class='notice'>Fuel tank is full.</span>")
@@ -86,7 +86,7 @@
 	ourTank.reagents.trans_to(theirTank, transfer_amount)
 	return TRUE
 
-/obj/item/fighter_component/secondary/utility/refuel/proc/jump_battery(obj/structure/overmap/small_craft/us, obj/structure/overmap/small_craft/them)
+/obj/item/fighter_component/primary/utility/refuel/proc/jump_battery(obj/structure/overmap/small_craft/us, obj/structure/overmap/small_craft/them)
 	var/obj/item/fighter_component/battery/ourBattery = us.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 	if(!ourBattery || !istype(ourBattery))
 		cancel_action(us, them, "<span class='warning'>This craft has no battery installed!</span>")

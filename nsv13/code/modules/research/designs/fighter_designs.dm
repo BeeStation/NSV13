@@ -189,7 +189,7 @@
 	id = "refuel_kit"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 5000, /datum/material/copper = 5000, /datum/material/glass = 5000)
-	build_path = /obj/item/fighter_component/secondary/utility/refuel
+	build_path = /obj/item/fighter_component/primary/utility/refuel
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
@@ -199,7 +199,7 @@
 	id = "cargo_hold"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 15000, /datum/material/glass = 5000)
-	build_path = /obj/item/fighter_component/primary/utility/hold
+	build_path = /obj/item/fighter_component/secondary/utility/hold
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
@@ -299,7 +299,7 @@
 	id = "refuel_kit_tier2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 15000, /datum/material/copper = 5000, /datum/material/glass = 5000)
-	build_path = /obj/item/fighter_component/secondary/utility/refuel/tier2
+	build_path = /obj/item/fighter_component/primary/utility/refuel/tier2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
@@ -309,7 +309,7 @@
 	id = "cargo_hold_tier2"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 25000, /datum/material/glass = 15000)
-	build_path = /obj/item/fighter_component/primary/utility/hold/tier2
+	build_path = /obj/item/fighter_component/secondary/utility/hold/tier2
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
@@ -409,7 +409,7 @@
 	id = "refuel_kit_tier3"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 25000, /datum/material/copper = 7000, /datum/material/glass = 10000)
-	build_path = /obj/item/fighter_component/secondary/utility/refuel/tier3
+	build_path = /obj/item/fighter_component/primary/utility/refuel/tier3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
@@ -419,7 +419,7 @@
 	id = "cargo_hold_tier3"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 35000, /datum/material/titanium = 15000)
-	build_path = /obj/item/fighter_component/primary/utility/hold/tier3
+	build_path = /obj/item/fighter_component/secondary/utility/hold/tier3
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
