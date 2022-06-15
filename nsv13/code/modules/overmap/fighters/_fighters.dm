@@ -722,6 +722,14 @@ Been a mess since 2018, we'll fix it someday (probably)
 		obj_integrity += min(10, max_integrity-obj_integrity)
 		return TRUE
 
+/obj/structure/overmap/small_craft/InterceptClickOn(mob/user, params, atom/target)
+	if(user.incapacitated() || !isliving(user))
+		return FALSE
+	if((target == src) && (user == pilot))
+		helm?.ui_interact(user)
+		return FALSE
+	return ..()
+
 /obj/structure/overmap/small_craft/can_friendly_fire()
 	if(fire_mode == 1)
 		var/obj/item/fighter_component/primary/P = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)

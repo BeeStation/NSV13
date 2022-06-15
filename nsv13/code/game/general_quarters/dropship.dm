@@ -156,7 +156,7 @@
 
 /obj/machinery/computer/ship/helm/console/dropship/attack_hand(mob/living/user)
 	. = ..()
-	var/obj/structure/overmap/OM = get_overmap()
+	var/obj/structure/overmap/OM = has_overmap()
 	OM?.start_piloting(user, position)
 	ui_interact(user)
 	to_chat(user, "<span class='notice'>Small craft use directional keys (WASD in hotkey mode) to accelerate/decelerate in a given direction and the mouse to change the direction of craft.\
