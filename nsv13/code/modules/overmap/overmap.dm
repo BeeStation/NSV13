@@ -510,7 +510,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(istype(target, /obj/machinery/button/door) || istype(target, /obj/machinery/turbolift_button))
 		target.attack_hand(user)
 		return FALSE
-	if(weapon_safety)
+	if(weapon_safety && !can_friendly_fire())
 		return FALSE
 	var/list/params_list = params2list(params)
 	if(target == src || istype(target, /atom/movable/screen) || (target in user.GetAllContents()) || params_list["alt"] || params_list["shift"])
@@ -557,11 +557,15 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	fire(target)
 	return TRUE
 
+// Placeholder to allow targeting with utility modules
+/obj/structure/overmap/proc/can_friendly_fire()
+	return FALSE
+
 /obj/structure/overmap/proc/start_lockon(atom/target)
 	if(!istype(target, /obj/structure/overmap))
 		return FALSE
 	var/obj/structure/overmap/OM = target
-	if(OM.faction == faction)
+	if((OM.faction == faction) && !can_friendly_fire())
 		return FALSE
 	if(LAZYFIND(target_painted, target))
 		target_painted.Remove(target)
@@ -575,7 +579,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(!gunner)
 		return
 	target_painted.Add(target)
-	if(last_overmap && last_overmap.faction == faction)
+	if(last_overmap && ((last_overmap.faction == faction) || can_friendly_fire()))
 		last_overmap.target_painted.Add(target)
 		if(last_overmap.gunner)
 			to_chat(last_overmap.gunner, "<span class='notice'>[src] has painted [target] for AMS targeting.</span>")

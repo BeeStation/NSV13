@@ -36,52 +36,71 @@
 	fire_delay = 3 SECONDS
 	tier = 3
 
+/obj/item/fighter_component/secondary/utility/refuel/proc/cancel_action(obj/structure/overmap/us, obj/structure/overmap/them, message)
+	// Remove beam
+	QDEL_NULL(current_beam)
+	// Remove targeting
+	if(us && LAZYFIND(us.target_painted, them))
+		us.start_lockon(them)
+	if(us && us.gunner && message)
+		to_chat(us.gunner, message)
+
 /obj/item/fighter_component/secondary/utility/refuel/process()
 	if(!..())
 		return
-	var/obj/structure/overmap/small_craft/F = loc
-	if(!F || !istype(F) || !F.autofire_target || (F.fire_mode != fire_mode))
-		QDEL_NULL(current_beam)
-		return
 	if(world.time < next_fuel)
 		return
-	var/obj/structure/overmap/small_craft/them = F.autofire_target
-	if(!istype(them) || (them == F)) //No self targeting
+	// The component isn't installed, we're not on that mode, or we have no potential targets
+	var/obj/structure/overmap/small_craft/us = loc
+	if(!us || !istype(us) || (us.fire_mode != fire_mode) || !length(us.target_painted))
+		cancel_action(us)
 		return
+	// The target isn't an overmap somehow, we're targeting ourselves, or they're an enemy
+	var/obj/structure/overmap/small_craft/them = us.target_painted[1]
+	if(!them || !istype(them) || (them == us) || (them.faction != us.faction))
+		cancel_action(us, them)
+		return
+
+	// Getting here means we should actually try refueling them
 	next_fuel = world.time + fire_delay
+
+	if(!transfer_fuel(us, them) || jump_battery(us, them))
+		return
+	// See if we need to make a new beam. Comes after the refuel so we can not do this if we fail any checks.
 	if(QDELETED(current_beam))
-		current_beam = new(F,them,beam_icon='nsv13/icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
+		current_beam = new(us,them,beam_icon='nsv13/icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
 		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
 
-	transfer_fuel(them)
-	jump_battery(them)
-
-/obj/item/fighter_component/secondary/utility/refuel/proc/transfer_fuel(obj/structure/overmap/small_craft/them)
-	var/obj/structure/overmap/small_craft/F = loc
-	if(!F || !istype(F))
-		return
+/obj/item/fighter_component/secondary/utility/refuel/proc/transfer_fuel(obj/structure/overmap/small_craft/us, obj/structure/overmap/small_craft/them)
 	var/transfer_amount = CLAMP((them.get_max_fuel() - them.get_fuel()), 0, fuel_transfer_rate)
-	if(!transfer_amount)
-		to_chat(F.gunner, "<span class='notice'>Fuel tank is full.</span>")
+	if(transfer_amount <= 0)
+		cancel_action(us, them, "<span class='notice'>Fuel tank is full.</span>")
 		return
-	if(F.get_fuel() <= minimum_fuel_to_keep) // Don't give away ALL our fuel
-		to_chat(F.gunner, "<span class='warning'>Fuel is below minimum safe transfer level.</span>")
+	if(them.get_fuel() <= minimum_fuel_to_keep) // Don't give away ALL our fuel
+		cancel_action(us, them, "<span class='warning'>Fuel is below minimum safe transfer level.</span>")
 		return
-	var/obj/item/fighter_component/fuel_tank/fuel = F.loadout.get_slot(HARDPOINT_SLOT_FUEL)
-	var/obj/item/fighter_component/fuel_tank/theirFuel = them.loadout.get_slot(HARDPOINT_SLOT_FUEL)
-	F.relay('nsv13/sound/effects/fighters/refuel.ogg')
+	var/obj/item/fighter_component/fuel_tank/ourTank = us.loadout.get_slot(HARDPOINT_SLOT_FUEL)
+	var/obj/item/fighter_component/fuel_tank/theirTank = them.loadout.get_slot(HARDPOINT_SLOT_FUEL)
+	us.relay('nsv13/sound/effects/fighters/refuel.ogg')
 	them.relay('nsv13/sound/effects/fighters/refuel.ogg')
-	fuel.reagents.trans_to(theirFuel, transfer_amount)
+	ourTank.reagents.trans_to(theirTank, transfer_amount)
+	return TRUE
 
-/obj/item/fighter_component/secondary/utility/refuel/proc/jump_battery(obj/structure/overmap/small_craft/friendly)
-	var/obj/structure/overmap/small_craft/self = loc
-	var/obj/item/fighter_component/battery/ourBattery = self.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
-	if(!ourBattery || !istype(ourBattery) || ourBattery.charge < (battery_recharge_amount * 2))
-		to_chat(self.gunner, "<span class='warning'>Battery charge is below minimum safe transfer level.</span>")
+/obj/item/fighter_component/secondary/utility/refuel/proc/jump_battery(obj/structure/overmap/small_craft/us, obj/structure/overmap/small_craft/them)
+	var/obj/item/fighter_component/battery/ourBattery = us.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
+	if(!ourBattery || !istype(ourBattery))
+		cancel_action(us, them, "<span class='warning'>This craft has no battery installed!</span>")
 		return
-	var/obj/item/fighter_component/battery/theirBattery = friendly.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
-	if(!theirBattery || !istype(theirBattery) || !(theirBattery.charge < battery_recharge_amount))
-		to_chat(self.gunner, "<span class='notice'>Battery levels nominal.</span>")
+	var/obj/item/fighter_component/battery/theirBattery = them.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
+	if(!theirBattery || !istype(theirBattery))
+		cancel_action(us, them, "<span class='warning'>The target has no battery installed!</span>")
+		return
+	if(!ourBattery.charge < (battery_recharge_amount * 2))
+		cancel_action(us, them, "<span class='warning'>Battery charge is below minimum safe transfer level.</span>")
+		return
+	if(!(theirBattery.charge < battery_recharge_amount))
+		cancel_action(us, them, "<span class='notice'>Battery levels nominal.</span>")
 		return
 	theirBattery.give(battery_recharge_amount) //Jumpstart their battery
 	ourBattery.use_power(battery_recharge_amount)
+	return TRUE

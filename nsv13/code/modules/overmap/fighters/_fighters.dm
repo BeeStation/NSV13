@@ -722,16 +722,21 @@ Been a mess since 2018, we'll fix it someday (probably)
 		obj_integrity += min(10, max_integrity-obj_integrity)
 		return TRUE
 
-/obj/structure/overmap/small_craft/fire(atom/target, override_safety = FALSE)
+/obj/structure/overmap/small_craft/can_friendly_fire()
 	if(fire_mode == 1)
 		var/obj/item/fighter_component/primary/P = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
-		if(P && istype(P) && P.bypass_safety)
-			return ..(target, override_safety = P?.bypass_safety)
+		return (P && istype(P) && P.bypass_safety)
 	else if(fire_mode == 2)
 		var/obj/item/fighter_component/secondary/S = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
-		if(S && istype(S))
-			return ..(target, override_safety = S?.bypass_safety)
-	return ..()
+		return (S && istype(S) && S.bypass_safety)
+	return FALSE
+
+/obj/structure/overmap/small_craft/try_repair(amount)
+	if(obj_integrity < max_integrity)
+		..()
+	else
+		var/obj/item/fighter_component/armour_plating/armour = loadout.get_slot(HARDPOINT_SLOT_ARMOUR)
+		armour.obj_integrity = CLAMP(armour.obj_integrity + amount, 0, armour.max_integrity)
 
 /datum/component/ship_loadout
 	can_transfer = FALSE
