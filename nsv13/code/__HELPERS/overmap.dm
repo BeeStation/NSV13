@@ -63,7 +63,7 @@ Helper method to get what ship an observer belongs to for stuff like parallax.
 	return locate(_x, _y, _z) //Where are we putting you
 
 /**
-A more accurate get_dist, that takes into account the looping edges of the overmap.  
+A more accurate get_dist, that takes into account the looping edges of the overmap.
 [Here's the algorithm in desmos](https://www.desmos.com/calculator/6akddpjzio)
 */
 
@@ -78,12 +78,12 @@ A more accurate get_dist, that takes into account the looping edges of the overm
 		CX = ((-CX % TX) - TX)
 	else if (CX > TX)
 		CX = (TX - (CX % TX))
-	
+
 	if (CY < -TY)
 		CY = ((-CY % TY) - TY)
 	else if (CY > TY)
 		CY = (TY - (CY % TY))
-	
+
 	return sqrt(CX**2 + CY**2)
 
 /**
@@ -101,14 +101,14 @@ Another get_angle that works better with the looping edges of the overmap
 		CX = ((-CX % TX) - TX)
 	else if (CX > TX)
 		CX = (TX - (CX % TX))
-	else 
+	else
 		CX = -CX
-	
+
 	if (CY < -TY)
 		CY = ((-CY % TY) - TY)
 	else if (CY > TY)
 		CY = (TY - (CY % TY))
-	else 
+	else
 		CY = -CY
 
 	if(!CY)//straight up copied from Get_Angle
@@ -118,3 +118,8 @@ Another get_angle that works better with the looping edges of the overmap
 		.+=180
 	else if(CX<0)
 		.+=360
+
+/datum/controller/subsystem/mapping/proc/add_new_initialized_zlevel(name, traits = list(), z_type = /datum/space_level, orbital_body_type)
+	add_new_zlevel(name, traits)
+	SSatoms.InitializeAtoms(block(locate(1,1,world.maxz),locate(world.maxx,world.maxy,world.maxz)))
+	setup_map_transitions(z_list[world.maxz])

@@ -11,8 +11,7 @@
 			if(OM.reserved_z)
 				occupying_z = OM.reserved_z
 			else if(!length(OM.free_treadmills))
-				SSmapping.add_new_zlevel("Overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-				SSmapping.setup_map_transitions(SSmapping.z_list[world.maxz])
+				SSmapping.add_new_initialized_zlevel("Overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
 				occupying_z = world.maxz
 			else
 				var/_z = pick_n_take(OM.free_treadmills)

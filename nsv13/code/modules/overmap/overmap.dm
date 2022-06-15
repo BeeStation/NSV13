@@ -198,8 +198,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(!_path)
 		_path = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	RETURN_TYPE(/obj/structure/overmap)
-	SSmapping.add_new_zlevel("Overmap ship level [++world.maxz]", ZTRAITS_OVERMAP)
-	SSmapping.setup_map_transitions(SSmapping.z_list[world.maxz])
+	SSmapping.add_new_initialized_zlevel("Overmap ship level [++world.maxz]", ZTRAITS_OVERMAP)
 
 	repopulate_sorted_areas()
 	smooth_zlevel(world.maxz)

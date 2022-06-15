@@ -63,8 +63,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 		var/_z = pick_n_take(free_boarding_levels)
 		boarding_reservation_z = _z
 		return
-	SSmapping.add_new_zlevel("Overmap boarding reservation", ZTRAITS_BOARDABLE_SHIP)
-	SSmapping.setup_map_transitions(SSmapping.z_list[world.maxz])
+	SSmapping.add_new_initialized_zlevel("Overmap boarding reservation", ZTRAITS_BOARDABLE_SHIP)
 	boarding_reservation_z = world.maxz
 
 /obj/structure/overmap/proc/ai_load_interior(obj/structure/overmap/boarder, map_path_override)
@@ -114,8 +113,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	//Add a treadmill for this ship as and when needed.
 	if(!reserved_z)
 		if(!length(free_treadmills))
-			SSmapping.add_new_zlevel("Captured ship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-			SSmapping.setup_map_transitions(SSmapping.z_list[world.maxz])
+			SSmapping.add_new_initialized_zlevel("Captured ship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
 			reserved_z = world.maxz
 		else
 			reserved_z = pick_n_take(free_treadmills)
