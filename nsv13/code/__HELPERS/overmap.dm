@@ -9,7 +9,12 @@
 	var/datum/space_level/SL = SSmapping.z_list[z]
 	if(SL?.linked_overmap)
 		return SL.linked_overmap
+	if(SSmapping.level_trait(z, ZTRAIT_RESERVED))
+		var/datum/turf_reservation/reserved = SSmapping.used_turfs[get_turf(src)]
+		if(reserved && reserved.overmap_fallback)
+			return reserved.overmap_fallback
 	var/area/AR = get_area(src)
+	message_admins("we had to resort to the area fallback to get the overmap for [src], which was [AR.overmap_fallback], please tell Corvid")
 	return AR.overmap_fallback
 
 /obj/structure/overmap/get_overmap()
@@ -17,6 +22,7 @@
 	last_overmap = ..()
 	if(!last_overmap && save_overmap?.roomReservation && SSmapping.level_trait(z, ZTRAIT_RESERVED))
 		last_overmap = save_overmap // Hack because the space turfs in asteroid templates end up in area space instead of the asteroid's area
+		message_admins("we couldn't get_overmap on [src] and had to use the saved last_overmap which was [last_overmap], please tell Corvid")
 	last_overmap?.overmaps_in_ship += src
 	return last_overmap
 

@@ -145,6 +145,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		return FALSE
 
 	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
+	roomReservation.overmap_fallback = src
 	if(!roomReservation)
 		message_admins("[src] failed to reserve space for a dropship interior!")
 		return FALSE
