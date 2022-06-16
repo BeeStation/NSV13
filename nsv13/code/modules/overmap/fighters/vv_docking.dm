@@ -55,6 +55,7 @@
 			APU = new()
 			loadout.install_hardpoint(APU)
 		APU.fuel_line = TRUE
+		APU.active = TRUE
 
 		var/obj/item/fighter_component/battery/B = loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 		if(!B)
@@ -67,11 +68,10 @@
 		if(!E)
 			E = new()
 			loadout.install_hardpoint(E)
-		if(!E.active)
-			E.rpm = ENGINE_RPM_SPUN
-			E.try_start()
+		E.rpm = ENGINE_RPM_SPUN
+		E.try_start()
 
-		APU.fuel_line = FALSE
+		APU.active = FALSE
 
 		canopy_open = FALSE
 		check_overmap_elegibility(ignore_position = TRUE, ignore_cooldown = TRUE)
