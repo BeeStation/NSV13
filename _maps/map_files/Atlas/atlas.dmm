@@ -188,7 +188,9 @@
 	charge = 100;
 	maxcharge = 15000
 	},
-/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/power/apc/auto_name/north{
+	pixel_y = 24
+	},
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
@@ -331,7 +333,8 @@
 /obj/machinery/power/apc/auto_name/north{
 	cell_type = /obj/item/stock_parts/cell/empty;
 	coverlocked = 0;
-	locked = 0
+	locked = 0;
+	pixel_y = 24
 	},
 /turf/open/floor/wood{
 	icon_state = "wood-broken7"
@@ -636,7 +639,9 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
-/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/power/apc/auto_name/north{
+	pixel_y = 24
+	},
 /obj/effect/decal/cleanable/robot_debris,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
@@ -770,15 +775,6 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/security/brig)
-"cH" = (
-/obj/machinery/light{
-	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 5
-	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck2/primary)
 "cM" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
@@ -3269,7 +3265,9 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/power/apc/auto_name/north{
+	pixel_y = 24
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/security/prison)
 "kC" = (
@@ -3545,7 +3543,9 @@
 /obj/effect/turf_decal/tile/ship/half/yellow{
 	dir = 1
 	},
-/obj/machinery/power/apc/auto_name/south,
+/obj/machinery/power/apc/auto_name/south{
+	pixel_y = -24
+	},
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
@@ -3789,7 +3789,9 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/machinery/power/apc/auto_name/east,
+/obj/machinery/power/apc/auto_name/east{
+	pixel_x = 24
+	},
 /obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 1
 	},
@@ -4280,7 +4282,9 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/power/apc/auto_name/north{
+	pixel_y = 24
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "nK" = (
@@ -4552,16 +4556,6 @@
 	dir = 4
 	},
 /turf/open/floor/monotile/dark,
-/area/hallway/nsv/deck2/primary)
-"oC" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 10
-	},
-/obj/machinery/status_display/evac/west,
-/turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "oD" = (
 /turf/template_noop,
@@ -5280,6 +5274,16 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss/battery/deck2/port)
+"qF" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/obj/machinery/status_display/evac/west,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/primary)
 "qG" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -5487,7 +5491,9 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
-/obj/machinery/power/apc/auto_name/west,
+/obj/machinery/power/apc/auto_name/west{
+	pixel_x = -24
+	},
 /obj/structure/closet/crate/engineering,
 /obj/effect/spawner/lootdrop/maintenance/six,
 /obj/effect/spawner/lootdrop/gloves,
@@ -6754,7 +6760,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "vC" = (
-/obj/machinery/power/apc/auto_name/south,
+/obj/machinery/power/apc/auto_name/south{
+	pixel_y = -24
+	},
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/ship/half/orange{
 	dir = 1
@@ -7105,7 +7113,9 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
-/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/power/apc/auto_name/north{
+	pixel_y = 24
+	},
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 5
 	},
@@ -7485,7 +7495,9 @@
 	},
 /area/nsv/hanger/notkmcstupidhanger)
 "xY" = (
-/obj/machinery/power/apc/auto_name/south,
+/obj/machinery/power/apc/auto_name/south{
+	pixel_y = -24
+	},
 /obj/structure/cable,
 /obj/structure/chair/comfy/gauss/west,
 /turf/open/floor/monotile/dark,
@@ -7644,7 +7656,9 @@
 	dir = 1
 	},
 /obj/structure/cable,
-/obj/machinery/power/apc/auto_name/south,
+/obj/machinery/power/apc/auto_name/south{
+	pixel_y = -24
+	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "yI" = (
@@ -8510,7 +8524,9 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/power/apc/auto_name/north{
+	pixel_y = 24
+	},
 /turf/open/floor/monotile/steel{
 	initial_gas_mix = "TEMP=2.7"
 	},
@@ -8599,7 +8615,9 @@
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
 "Cp" = (
-/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/power/apc/auto_name/north{
+	pixel_y = 24
+	},
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
@@ -9005,7 +9023,9 @@
 /area/maintenance/nsv/deck2/starboard)
 "Eb" = (
 /obj/structure/cable,
-/obj/machinery/power/apc/auto_name/west,
+/obj/machinery/power/apc/auto_name/west{
+	pixel_x = -24
+	},
 /turf/open/floor/monotile/steel{
 	initial_gas_mix = "TEMP=2.7"
 	},
@@ -9155,7 +9175,9 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/power/apc/auto_name/north{
+	pixel_y = 24
+	},
 /obj/item/clothing/neck/cloak/qm,
 /obj/item/clothing/head/soft{
 	pixel_x = 7;
@@ -9194,7 +9216,9 @@
 /obj/item/kirbyplants{
 	icon_state = "plant-20"
 	},
-/obj/machinery/power/apc/auto_name/west,
+/obj/machinery/power/apc/auto_name/west{
+	pixel_x = -24
+	},
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
@@ -9876,7 +9900,9 @@
 /area/nsv/hanger/mining)
 "Hr" = (
 /obj/machinery/modular_fabricator/autolathe,
-/obj/machinery/power/apc/auto_name/east,
+/obj/machinery/power/apc/auto_name/east{
+	pixel_x = 24
+	},
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
@@ -12591,7 +12617,9 @@
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 1
 	},
-/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/power/apc/auto_name/north{
+	pixel_y = 24
+	},
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
@@ -13096,7 +13124,9 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
-/obj/machinery/power/apc/auto_name/west,
+/obj/machinery/power/apc/auto_name/west{
+	pixel_x = -24
+	},
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
@@ -13962,7 +13992,9 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/power/apc/auto_name/north{
+	pixel_y = 24
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "Vc" = (
@@ -15147,7 +15179,9 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/machinery/power/apc/auto_name/north,
+/obj/machinery/power/apc/auto_name/north{
+	pixel_y = 24
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
@@ -48641,15 +48675,15 @@ qI
 UA
 Jk
 ew
-Jk
-oC
-cH
+qG
+qF
 AS
 BS
 In
 ye
 ew
 Od
+Nh
 Nh
 Nh
 Nh
