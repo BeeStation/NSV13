@@ -1,15 +1,15 @@
 /atom/proc/get_overmap() //Helper proc to get the overmap ship representing a given area.
 	RETURN_TYPE(/obj/structure/overmap)
-	if(!z)
-		if(!loc)
-			return FALSE
-		return loc.get_overmap()
 	if(isovermap(loc))
 		return loc
-	var/datum/space_level/SL = SSmapping.z_list[z]
+	if(!z) // We're in something's contents
+		if(!loc) // Or not...
+			return FALSE
+		return loc.get_overmap() // Begin recursion!
+	var/datum/space_level/SL = SSmapping.z_list[z] // Overmaps linked to Zs, like the main ship
 	if(SL?.linked_overmap)
 		return SL.linked_overmap
-	if(SSmapping.level_trait(z, ZTRAIT_RESERVED))
+	if(SSmapping.level_trait(z, ZTRAIT_RESERVED)) // Overmaps using reserved turfs, like dropships and asteroids
 		var/datum/turf_reservation/reserved = SSmapping.used_turfs[get_turf(src)]
 		if(reserved && reserved.overmap_fallback)
 			return reserved.overmap_fallback
