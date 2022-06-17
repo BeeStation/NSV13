@@ -164,11 +164,8 @@
 /turf/open/floor/engine/airless,
 /area/hammurabi/maintenance/exterior)
 "eM" = (
-/obj/structure/rack,
-/obj/item/t_scanner/adv_mining_scanner/lesser,
-/obj/item/t_scanner/adv_mining_scanner/lesser,
-/obj/item/t_scanner/adv_mining_scanner/lesser,
 /obj/effect/turf_decal/bot,
+/obj/structure/closet/crate,
 /turf/open/floor/engine/airless,
 /area/hammurabi/maintenance/exterior)
 "eV" = (
@@ -201,6 +198,10 @@
 /obj/effect/turf_decal/stripes/end{
 	dir = 1
 	},
+/turf/open/floor/engine/airless,
+/area/hammurabi/maintenance/exterior)
+"fI" = (
+/obj/machinery/vendor/mining,
 /turf/open/floor/engine/airless,
 /area/hammurabi/maintenance/exterior)
 "fJ" = (
@@ -330,6 +331,9 @@
 /obj/machinery/light/small{
 	dir = 1
 	},
+/obj/item/t_scanner/adv_mining_scanner/lesser,
+/obj/item/t_scanner/adv_mining_scanner/lesser,
+/obj/item/t_scanner/adv_mining_scanner/lesser,
 /turf/open/floor/engine/airless,
 /area/hammurabi/hangar)
 "lx" = (
@@ -384,7 +388,9 @@
 /obj/machinery/computer/ship/fighter_controller{
 	dir = 8;
 	faction = "syndicate";
-	valid_filters = list("Only Occupied Ship","Syndicate Light Fighter","Syndicate Utility Vessel")
+	valid_filters = list("Only Occupied Ship","Syndicate Light Fighter","Syndicate Utility Vessel");
+	req_access = null;
+	req_one_access_txt = "150"
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/atc_tower)
@@ -621,7 +627,9 @@
 /turf/open/floor/engine/airless,
 /area/nsv/weapons/pvp)
 "wh" = (
-/obj/structure/extinguisher_cabinet/south,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/hangar)
 "wp" = (
@@ -637,7 +645,7 @@
 /turf/open/floor/mineral/plastitanium/airless,
 /area/hammurabi/hangar)
 "wt" = (
-/obj/structure/table/reinforced,
+/obj/machinery/suit_storage_unit/syndicate/odst,
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/hangar)
 "wu" = (
@@ -669,11 +677,11 @@
 /turf/open/floor/engine/airless,
 /area/hammurabi/maintenance/exterior)
 "xw" = (
-/obj/machinery/computer/ship/dradis/mining{
-	dir = 8
+/obj/structure/closet/secure_closet/miner{
+	req_access = null
 	},
-/turf/open/floor/engine/airless,
-/area/hammurabi/maintenance/exterior)
+/turf/open/floor/mineral/plastitanium/red,
+/area/hammurabi/hangar)
 "xx" = (
 /obj/effect/turf_decal/box/white/corners,
 /turf/open/floor/engine/airless,
@@ -691,7 +699,10 @@
 /obj/machinery/light/small{
 	dir = 8
 	},
-/obj/machinery/advanced_airlock_controller/directional/north,
+/obj/machinery/advanced_airlock_controller/directional/north{
+	req_access = null;
+	req_one_access = "150"
+	},
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/hangar)
 "xZ" = (
@@ -858,11 +869,24 @@
 /obj/effect/turf_decal/stripes/red/line,
 /turf/open/floor/engine/airless,
 /area/hammurabi/maintenance/exterior)
+"GD" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/structure/extinguisher_cabinet/west,
+/turf/open/floor/mineral/plastitanium,
+/area/hammurabi/hangar)
 "GW" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "1-4"
+	},
+/turf/open/floor/mineral/plastitanium,
+/area/hammurabi/hangar)
+"Hf" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/hangar)
@@ -887,11 +911,6 @@
 "IG" = (
 /obj/structure/closet/firecloset,
 /turf/open/floor/mineral/plastitanium/airless,
-/area/hammurabi/hangar)
-"IM" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
-/turf/open/floor/plating,
 /area/hammurabi/hangar)
 "JM" = (
 /obj/machinery/mineral/processing_unit,
@@ -1034,6 +1053,9 @@
 	pixel_y = 26;
 	req_access = list(150)
 	},
+/obj/machinery/conveyor_switch/oneway{
+	id = "hammurabi"
+	},
 /turf/open/floor/engine/airless,
 /area/hammurabi/hangar)
 "Oi" = (
@@ -1081,7 +1103,10 @@
 /obj/machinery/light/small{
 	dir = 4
 	},
-/obj/machinery/advanced_airlock_controller/directional/south,
+/obj/machinery/advanced_airlock_controller/directional/south{
+	req_access = null;
+	req_one_access = "150"
+	},
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/hangar)
 "Qs" = (
@@ -1150,6 +1175,7 @@
 /area/hammurabi/hangar)
 "RO" = (
 /obj/effect/decal/cleanable/oil,
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
 /turf/open/floor/mineral/plastitanium/airless,
 /area/hammurabi/hangar)
 "RX" = (
@@ -20994,7 +21020,7 @@ xI
 cG
 xI
 bn
-MD
+fI
 MD
 MD
 MD
@@ -21768,7 +21794,7 @@ Za
 Ss
 zf
 MD
-xw
+MD
 eM
 qK
 Pe
@@ -27161,10 +27187,10 @@ mv
 xT
 zC
 Vv
+xw
+CN
 wt
-wt
-wt
-IM
+Vv
 zC
 hb
 ay
@@ -27418,9 +27444,9 @@ mv
 oo
 gO
 Vv
-EU
-EU
-EU
+xw
+CN
+wt
 Vv
 gO
 PY
@@ -27675,9 +27701,9 @@ mv
 oi
 ul
 bk
-UR
-UR
-wh
+xw
+CN
+wt
 Za
 ul
 oi
@@ -27933,9 +27959,9 @@ Cp
 GW
 Cv
 UR
-UR
-UR
-Cv
+Hf
+wh
+GD
 vi
 RM
 Za
