@@ -41,11 +41,5 @@ var/list/ship_name_suffix = list("slayer","blazer","bringer","slapper","twirler"
 
 /proc/generate_fighter_name()
 	var/name = ""
-	var/randomizer = rand(0,1)
-	var/chooser = FALSE
-	if(randomizer == 0)
-		chooser = FALSE
-	else
-		chooser = TRUE
 	name = pick(GLOB.fighter_noun) + " of " + "[pick(0,1) ? pick(GLOB.fighter_moon) : pick(GLOB.fighter_planet)]"
-
+	return name
