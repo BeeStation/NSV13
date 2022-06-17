@@ -39,10 +39,6 @@ var/list/ship_name_suffix = list("slayer","blazer","bringer","slapper","twirler"
 	name = pick(ship_name_prefix) + pick(ship_name_suffix)
 	return capitalize(name)
 
-GLOBAL_LIST_INIT(fighter_noun, world.file2list("strings/names/fighter_noun.txt"))
-GLOBAL_LIST_INIT(fighter_planet, world.file2list("strings/names/fighter_planet.txt"))
-GLOBAL_LIST_INIT(fighter_moon, world.file2list("strings/names/fighter_moon.txt"))
-
 /proc/generate_fighter_name()
 	var/name = ""
 	var/randomizer = rand(0,1)
