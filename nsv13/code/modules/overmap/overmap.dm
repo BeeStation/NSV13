@@ -220,8 +220,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			message_admins("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
 			log_game("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
 			return OM
-		for(var/datum/map_template/PM in loaded)
-			PM.initTemplateBounds()
+		for(var/datum/parsed_map/PM in loaded)
+			PM.initParsedTemplateBounds()
 		repopulate_sorted_areas()
 		var/list/occupying = list()
 		for(var/I = ++previous_maxz; I <= world.maxz; I++) //So let's say we started loading interior Z-levels at Z index 4 and we have 2 decks. That means that Z 5 and 6 belong to this ship's interior, so link them
@@ -233,6 +233,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			SL.linked_overmap = OM
 			OM.occupying_levels += SL
 			log_game("Z-level [SL] linked to [OM].")
+		SSmapping.setup_map_transitions() // Allows overmap borders to function properly
 		if(midround)
 			overmap_lighting_force(OM)
 
