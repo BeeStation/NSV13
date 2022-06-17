@@ -406,6 +406,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		fire(autofire_target)
 
 /obj/structure/overmap/small_craft/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
+	addtimer(VARSET_CALLBACK(src, layer, layer), 0.5 SECONDS)
+	layer = LOW_OBJ_LAYER // Stop us from just bumping right into them after we bounce
 	if(docking_act(other))
 		return
 	return ..()
