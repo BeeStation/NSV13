@@ -26,7 +26,7 @@
 	max_range = 200
 
 /obj/item/fighter_component/ftl/proc/jump(datum/star_system/target_system, force=FALSE)
-	if(!target_system || !SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP))
+	if(!target_system || !(SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP) || SSmapping.level_trait(loc.z, ZTRAIT_RESERVED)))
 		return
 	var/obj/structure/overmap/linked = loc
 	if(!linked)
