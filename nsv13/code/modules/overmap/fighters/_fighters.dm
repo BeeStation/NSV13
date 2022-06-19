@@ -50,6 +50,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/escape_pod_type = /obj/structure/overmap/small_craft/escapepod
 	var/mutable_appearance/canopy
+	var/random_name = TRUE
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/change_name, .verb/countermeasure)
 
 /obj/structure/overmap/small_craft/Destroy()
@@ -434,7 +435,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/small_craft/Initialize(mapload, list/build_components=components)
 	. = ..()
-	name = generate_fighter_name()
+	if(random_name)
+		 name = generate_fighter_name()
 	apply_weapons()
 	loadout = AddComponent(loadout_type)
 	if(dradis_type)
