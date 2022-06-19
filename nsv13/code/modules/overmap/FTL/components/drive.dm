@@ -111,7 +111,7 @@
 		say("FTL manifold is already active.")
 		return
 	if(!check_pylons())
-		say("Insufficient connected drive pylons.")
+		say("You must construct additional pylons.")
 		return
 	var/active_pylons = 0
 	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
@@ -225,9 +225,8 @@ Preset classes of FTL drive with pre-programmed behaviours
 	req_access = null
 	req_one_access_txt = "31;48"
 
-/obj/machinery/computer/ship/ftl_core/has_overmap()
-	. = ..()
-	linked?.ftl_drive = src // This is bad
+/obj/machinery/computer/ship/ftl_core/set_position(obj/structure/overmap/OM)
+	OM.ftl_drive = src
 
 /obj/machinery/computer/ship/ftl_core/attack_hand(mob/user)
 	if(!has_overmap())
