@@ -1852,3 +1852,4 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/structure/overmap/small_craft/proc/toggle_canopy()
 	canopy_open = !canopy_open
 	playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
+ 
