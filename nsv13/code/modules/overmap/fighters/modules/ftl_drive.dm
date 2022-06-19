@@ -55,7 +55,6 @@
 	var/obj/structure/overmap/OM = loc
 	if(OM)
 		OM.ftl_drive = src
-		linked = OM
 	if(ftl_state == FTL_STATE_JUMPING)
 		return
 	ftl_state = FTL_STATE_SPOOLING
