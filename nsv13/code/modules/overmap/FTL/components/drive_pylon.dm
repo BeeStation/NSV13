@@ -125,7 +125,7 @@
 		if(!cable)
 			return FALSE
 	if(power_draw > cable.surplus())
-		visible_message("<span class='warning'>\The [src] lets out a metallic groan as it's power light flickers.</span>")
+		visible_message("<span class='warning'>\The [src] lets out a metallic groan as its power indicator flickers.</span>")
 		return FALSE
 	cable.add_load(power_draw)
 	return TRUE
@@ -156,6 +156,8 @@
 					visible_message(src, "<span class='danger'>\The [src]'s chassis begins to bulge!</span>")
 				if(6)
 					audible_message(src, "<span class='alert'>You hear a high pitch hiss!</span>")
+				if(7)
+					playsound(src, 'sound/magic/clockwork/fellowship_armory.ogg', 100, TRUE)
 
 		if(MAX_WASTE_STORAGE_PRESSURE to INFINITY)
 			var/turf/T = get_turf(src)

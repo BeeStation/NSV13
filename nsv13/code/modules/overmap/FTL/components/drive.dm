@@ -67,6 +67,7 @@
 /obj/machinery/computer/ship/ftl_core/Destroy()
 	QDEL_NULL(soundloop)
 	QDEL_NULL(radio)
+	linked?.ftl_drive = null
 	pylons = null
 	return ..()
 
@@ -101,7 +102,7 @@
 
 /obj/machinery/computer/ship/ftl_core/proc/spoolup()
 	if(!is_operational() || !anchored)
-		visible_message("FTL core is damaged or without power, startup procedure cancelled.")
+		visible_message("FTL core is damaged or unpowered, startup procedure cancelled.")
 		return
 	if(cooldown)
 		say("FTL core temperature beyond safety limits, please wait for cooldown cycle to complete.")
@@ -230,6 +231,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 
 /obj/machinery/computer/ship/ftl_core/attack_hand(mob/user)
 	if(!has_overmap())
+		to_chat(user, "<span class='warning'>\The [src] can't connect to the ship!<span/>")
 		return
 	if(!allowed(user))
 		var/sound/S = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')

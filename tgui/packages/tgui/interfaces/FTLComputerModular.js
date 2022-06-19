@@ -1,7 +1,6 @@
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Section, ProgressBar, Grid, Table } from '../components';
-import { GridColumn } from '../components/Grid';
+import { Box, Button, Section, ProgressBar, Table } from '../components';
 import { Window } from '../layouts';
 
 export const FTLComputerModular = (props, context) => {
