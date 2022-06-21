@@ -3796,14 +3796,12 @@
 	dir = 10
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
-/obj/structure/disposalpipe/segment,
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
 /obj/machinery/power/apc/auto_name/east,
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
-	dir = 1
-	},
+/obj/structure/disposalpipe/trunk,
+/obj/machinery/disposal/bin,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "lY" = (
@@ -3877,10 +3875,7 @@
 /area/nsv/weapons)
 "mr" = (
 /obj/structure/extinguisher_cabinet/east,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "ms" = (
@@ -9019,6 +9014,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"Ea" = (
+/obj/machinery/holopad,
+/turf/open/floor/carpet/red,
+/area/security/brig)
 "Eb" = (
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/west,
@@ -10163,7 +10162,7 @@
 /area/maintenance/nsv/deck2/port)
 "Im" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
-	dir = 8
+	dir = 9
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -11103,9 +11102,6 @@
 /obj/effect/turf_decal/box/corners{
 	dir = 4
 	},
-/obj/structure/closet/crate,
-/obj/item/storage/box/cups,
-/obj/effect/spawner/lootdrop/maintenance/four,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "Lw" = (
@@ -11527,6 +11523,9 @@
 /area/engine/engine_room)
 "MP" = (
 /obj/structure/cable,
+/obj/effect/spawner/lootdrop/maintenance/four,
+/obj/item/storage/box/cups,
+/obj/structure/closet/crate,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "MR" = (
@@ -11573,6 +11572,10 @@
 /obj/structure/sign/ship/nosmoking,
 /turf/closed/wall/r_wall,
 /area/hallway/nsv/deck2/primary)
+"Na" = (
+/obj/machinery/recharge_station,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/port)
 "Nb" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
@@ -12084,6 +12087,9 @@
 	dir = 4
 	},
 /obj/machinery/meter/atmos/atmos_waste_loop,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 6
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "OO" = (
@@ -12886,11 +12892,13 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "Ru" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 10
 	},
 /obj/machinery/light_switch/east,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "Rv" = (
@@ -13287,6 +13295,10 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/nsv/hanger/mining)
+"SR" = (
+/obj/machinery/recharge_station,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/starboard)
 "SS" = (
 /obj/machinery/light/small{
 	dir = 4
@@ -13638,14 +13650,15 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/hidden{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
+	},
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 8;
+	name = "Engine Mix to Engine"
 	},
 /turf/open/floor/monotile/steel,
 /area/engine/engine_room)
@@ -14522,9 +14535,9 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/obj/structure/disposalpipe/trunk,
-/obj/machinery/disposal/bin,
-/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "WY" = (
@@ -15105,10 +15118,10 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "Zg" = (
-/obj/machinery/rnd/production/protolathe/department/security,
 /obj/item/storage/fancy/donut_box{
 	pixel_y = 11
 	},
+/obj/machinery/rnd/production/techfab/department/security,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "Zh" = (
@@ -15187,8 +15200,6 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
-/obj/item/extinguisher/advanced/hull_repair_juice,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -43526,7 +43537,7 @@ qG
 Pl
 qI
 dx
-Ie
+SR
 ob
 vX
 Ie
@@ -44014,7 +44025,7 @@ kH
 GA
 Ol
 kH
-bh
+Na
 vi
 wd
 pZ
@@ -50699,7 +50710,7 @@ dT
 WN
 gb
 Qw
-jQ
+Ea
 pp
 tM
 WN
