@@ -2,11 +2,12 @@
 
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Section, ProgressBar, Knob } from '../components';
+import { Box, Button, Section, ProgressBar, Knob, LabeledList } from '../components';
 import { Window } from '../layouts';
 
 export const FighterControls = (props, context) => {
   const { act, data } = useBackend(context);
+  const [settingsVisible, setSettingsVisible] = useLocalState(context, 'settings', true);
   return (
     <Window
       resizable
@@ -129,9 +130,13 @@ export const FighterControls = (props, context) => {
                 bad: [-Infinity, 0.15],
               }} />
           </Section>
-
         )}
-        <Section title="Controls:">
+        <Section title="Controls:" buttons={
+          <Button
+            icon={settingsVisible ? 'times' : 'cog'}
+            selected={settingsVisible}
+            onClick={() => setSettingsVisible(!settingsVisible)} />
+        }>
           <Button
             width="150px"
             content="DRADIS"
@@ -204,42 +209,53 @@ export const FighterControls = (props, context) => {
             color={data.ignition ? "good" : "bad"}
             onClick={() => act('ignition')} />
         </Section>
-        {!!data.maintenance_mode && (
-          <Fragment>
-            <Section title="Loaded Modules:">
-              {Object.keys(data.hardpoints).map(key => {
-                let value = data.hardpoints[key];
-                return (
-                  <Fragment key={key}>
-                    <Section title={`${value.name}`}>
-                      <Button
-                        content={`Eject`}
-                        icon="eject"
-                        onClick={() => act('eject_hardpoint', { id: value.id })} />
-                      <Button
-                        content={`Dump contents`}
-                        icon="download"
-                        onClick={() => act('dump_hardpoint', { id: value.id })} />
-                    </Section>
-                  </Fragment>);
-              })}
-            </Section>
+        {!!settingsVisible && (
+          <Section title="Settings:">
+            <Button
+              content={"Set Name"}
+              onClick={() => act('set_name')} />
+            <Button
+              content={"Maintenance"}
+              onClick={() => act('toggle_maintenance')} />
+            <br />
+            {!!data.maintenance_mode && (
+              <Section title="Loaded Modules:">
+                <LabeledList>
+                  {Object.keys(data.hardpoints).map(key => {
+                    let value = data.hardpoints[key];
+                    return (
+                      <LabeledList.Item label={`${value.name}`}>
+                        <Button
+                          content={`Eject`}
+                          icon="eject"
+                          onClick={() => act('eject_hardpoint', { id: value.id })} />
+                        <Button
+                          content={`Dump contents`}
+                          icon="download"
+                          onClick={() => act('dump_hardpoint', { id: value.id })} />
+                      </LabeledList.Item>
+                    );
+                  })}
+                </LabeledList>
+              </Section>
+            )}
+            <br />
             <Section title="Occupants:">
-              {Object.keys(data.occupants_info).map(key => {
-                let value = data.occupants_info[key];
-                return (
-                  <Fragment key={key}>
-                    <Section title={`${value.name}`}>
+              <LabeledList>
+                {Object.keys(data.occupants_info).map(key => {
+                  let value = data.occupants_info[key];
+                  return (
+                    <LabeledList.Item label={`${value.name}`}>
                       <Button
                         fluid
                         content={`Eject (${value.afk})`}
                         icon="eject"
                         onClick={() => act('kick', { id: value.id })} />
-                    </Section>
-                  </Fragment>);
-              })}
+                    </LabeledList.Item>);
+                })}
+              </LabeledList>
             </Section>
-          </Fragment>
+          </Section>
         )}
       </Window.Content>
     </Window>
