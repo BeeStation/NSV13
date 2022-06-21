@@ -20,6 +20,18 @@
 	var/max_range = 50 //Short range drive
 	var/lockout = FALSE
 
+	var/obj/structure/overmap/anchored_to
+
+/obj/item/fighter_component/ftl/Initialize(mapload)
+	. = ..()
+	if(mapload)
+		return INITIALIZE_HINT_LATELOAD
+
+/obj/item/fighter_component/ftl/LateInitialize()
+	set waitfor = FALSE
+	var/obj/structure/overmap/ourfighter = get_overmap()
+	anchored_to = ourfighter.get_overmap()
+
 /obj/item/fighter_component/ftl/tier2
 	name = "class III torch drive"
 	desc = "A micro jump drive with an expanded range."

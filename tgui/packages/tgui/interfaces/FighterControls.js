@@ -106,10 +106,17 @@ export const FighterControls = (props, context) => {
         </Section>
         {!!data.ftl_capable && (
           <Section title="FTL Drive:">
+            Tracking: {data.ftl_target ? data.ftl_target : "None"}
+            <br />
             <Button
               content={data.ftl_active ? "Stop Spooling" : "Begin Spooling"}
               icon="server"
               onClick={() => act('toggle_ftl')} />
+            <Button
+              content={"Deploy Tether"}
+              icon="anchor"
+              color={data.ftl_target ? "good" : "orange"}
+              onClick={() => act('anchor_ftl')} />
             <Button
               content="Return"
               width="150px"

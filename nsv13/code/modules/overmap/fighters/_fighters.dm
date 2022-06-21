@@ -159,6 +159,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["ftl_spool_time"] = ftl ? ftl.spoolup_time : FALSE
 	data["jump_ready"] = (ftl?.progress >= ftl?.spoolup_time)
 	data["ftl_active"] = (ftl?.active)
+	data["ftl_target"] = (ftl?.anchored_to?.name)
 
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
@@ -307,8 +308,22 @@ Been a mess since 2018, we'll fix it someday (probably)
 		if("toggle_ftl")
 			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
 			if(!ftl)
+				to_chat(usr, "<span class='warning'>FTL unit not properly installed.</span>")
 				return
 			ftl.active = !ftl.active
+			relay('nsv13/sound/effects/fighters/switch.ogg')
+		if("anchor_ftl")
+			message_admins("[usr] called [src]'s anchor_ftl")
+			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
+			if(!ftl)
+				to_chat(usr, "<span class='warning'>FTL unit not properly installed.</span>")
+				return
+			var/obj/structure/overmap/new_target = get_overmap()
+			message_admins("get_overmap() returned [new_target]")
+			if(new_target)
+				ftl.anchored_to = new_target
+			else
+				to_chat(usr, "<span class='warning'>Unable to update telemetry. Ensure you are in proximity to a Seegson FTL drive.</span>")
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 		if("return_jump")
 			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
@@ -446,7 +461,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/obj/item/fighter_component/engine/engineGoesLast = null
 	if(build_components.len)
 		for(var/Ctype in build_components)
-			var/obj/item/fighter_component/FC = new Ctype(get_turf(src))
+			var/obj/item/fighter_component/FC = new Ctype(get_turf(src), mapload)
 			if(istype(FC, /obj/item/fighter_component/engine))
 				engineGoesLast = FC
 				continue

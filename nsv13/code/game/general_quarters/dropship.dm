@@ -280,9 +280,21 @@
 		if("toggle_ftl")
 			var/obj/item/fighter_component/ftl/ftl = OM.loadout.get_slot(HARDPOINT_SLOT_FTL)
 			if(!ftl)
+				to_chat(usr, "<span class='warning'>FTL unit not properly installed.</span>")
 				return
 			ftl.active = !ftl.active
-			OM.relay('nsv13/sound/effects/fighters/switch.ogg')
+		if("anchor_ftl")
+			message_admins("[usr] called [src]'s anchor_ftl")
+			var/obj/item/fighter_component/ftl/ftl = OM.loadout.get_slot(HARDPOINT_SLOT_FTL)
+			if(!ftl)
+				to_chat(usr, "<span class='warning'>FTL unit not properly installed.</span>")
+				return
+			var/obj/structure/overmap/new_target = OM.get_overmap()
+			message_admins("[OM].get_overmap() returned [new_target]")
+			if(new_target)
+				ftl.anchored_to = new_target
+			else
+				to_chat(usr, "<span class='warning'>Unable to update telemetry. Ensure you are in proximity to a Seegson FTL drive.</span>")
 		if("return_jump")
 			var/obj/item/fighter_component/ftl/ftl = OM.loadout.get_slot(HARDPOINT_SLOT_FTL)
 			if(!ftl)
@@ -291,7 +303,7 @@
 			if(ftl.ftl_state != 3)
 				to_chat(usr, "<span class='warning'>Unable to comply. FTL vector calculation still in progress.</span>")
 				return
-			var/obj/structure/overmap/mothership = SSstar_system.find_main_overmap()
+			var/obj/structure/overmap/mothership = ftl.anchored_to
 			if(!mothership)
 				to_chat(usr, "<span class='warning'>Unable to comply. FTL tether lost.</span>")
 				return
