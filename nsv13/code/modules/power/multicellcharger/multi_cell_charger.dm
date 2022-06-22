@@ -171,3 +171,4 @@
 	id = "multi_cell_charger"
 	build_path = /obj/item/circuitboard/machine/cell_charger_multi
 	category = list ("Misc. Machinery")
+ 
