@@ -270,6 +270,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			engine.try_start()
 		if("canopy_lock")
+			var/obj/item/fighter_component/canopy/canopy = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
+			if(!canopy)
+				return
 			toggle_canopy()
 		if("docking_mode")
 			var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
@@ -303,7 +306,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			set_master_caution(FALSE)
 			return
 		if("show_dradis")
-			dradis.ui_interact(usr)
+			dradis?.ui_interact(usr)
 			return
 		if("toggle_ftl")
 			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
@@ -332,7 +335,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			if(ftl.ftl_state != FTL_STATE_READY)
 				to_chat(usr, "<span class='warning'>Unable to comply. FTL vector calculation still in progress.</span>")
 				return
-			var/obj/structure/overmap/mothership = SSstar_system.find_main_overmap()
+			var/obj/structure/overmap/mothership = ftl.anchored_to
 			if(!mothership)
 				to_chat(usr, "<span class='warning'>Unable to comply. FTL tether lost.</span>")
 				return
@@ -341,6 +344,18 @@ Been a mess since 2018, we'll fix it someday (probably)
 				to_chat(usr, "<span class='warning'>Unable to comply. Target beacon is currently in FTL transit.</span>")
 				return
 			ftl.jump(dest)
+			return
+		if("set_name")
+			var/new_name = stripped_input(usr, message="What do you want to name \
+				your fighter? Keep in mind that particularly terrible names may be \
+				rejected by your employers.", max_length=MAX_CHARTER_LEN)
+			if(!new_name || length(new_name) <= 0)
+				return
+			message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
+			name = new_name
+			return
+		if("toggle_maintenance")
+			maintenance_mode = !maintenance_mode
 			return
 
 	relay('nsv13/sound/effects/fighters/switch.ogg')
@@ -742,6 +757,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 		return FALSE
 	if((target == src) && (user == pilot))
 		helm?.ui_interact(user)
+		return FALSE
+	if((target == src) && (user == gunner))
+		tactical?.ui_interact(user)
 		return FALSE
 	return ..()
 

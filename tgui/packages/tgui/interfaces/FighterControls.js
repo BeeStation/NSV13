@@ -7,7 +7,7 @@ import { Window } from '../layouts';
 
 export const FighterControls = (props, context) => {
   const { act, data } = useBackend(context);
-  const [settingsVisible, setSettingsVisible] = useLocalState(context, 'settings', true);
+  const [settingsVisible, setSettingsVisible] = useLocalState(context, 'settings', false);
   return (
     <Window
       resizable
@@ -87,40 +87,47 @@ export const FighterControls = (props, context) => {
             maxValue={data.max_countermeasures} />
           <br />
           <br />
-          Armour:
-          <ProgressBar
-            value={(data.armour_integrity / data.max_armour_integrity * 100) * 0.01}
-            ranges={{
-              good: [0.9, Infinity],
-              average: [0.15, 0.9],
-              bad: [-Infinity, 0.15],
-            }} />
-          <br />
-          Hull:
-          <ProgressBar
-            value={(data.obj_integrity / data.max_integrity * 100) * 0.01}
-            ranges={{
-              good: [0.9, Infinity],
-              average: [0.15, 0.9],
-              bad: [-Infinity, 0.15],
-            }} />
+          <LabeledList>
+            <LabeledList.Item label="Armour">
+              <ProgressBar
+                value={(data.armour_integrity / data.max_armour_integrity * 100) * 0.01}
+                ranges={{
+                  good: [0.9, Infinity],
+                  average: [0.15, 0.9],
+                  bad: [-Infinity, 0.15],
+                }} />
+            </LabeledList.Item>
+            <LabeledList.Item label="Hull">
+              <ProgressBar
+                value={(data.obj_integrity / data.max_integrity * 100) * 0.01}
+                ranges={{
+                  good: [0.9, Infinity],
+                  average: [0.15, 0.9],
+                  bad: [-Infinity, 0.15],
+                }} />
+            </LabeledList.Item>
+          </LabeledList>
         </Section>
         {!!data.ftl_capable && (
           <Section title="FTL Drive:">
             Tracking: {data.ftl_target ? data.ftl_target : "None"}
             <br />
+            <br />
             <Button
               content={data.ftl_active ? "Stop Spooling" : "Begin Spooling"}
+              width="150px"
               icon="server"
               onClick={() => act('toggle_ftl')} />
             <Button
               content={"Deploy Tether"}
+              width="150px"
               icon="anchor"
               color={data.ftl_target ? "good" : "orange"}
               onClick={() => act('anchor_ftl')} />
             <Button
               content="Return"
               width="150px"
+              icon="forward"
               onClick={() => act('return_jump')} />
             <ProgressBar
               value={(data.ftl_spool_progress / data.ftl_spool_time * 100) * 0.01}
@@ -240,7 +247,7 @@ export const FighterControls = (props, context) => {
               </Section>
             )}
             <br />
-            <Section title="Occupants:">
+{/*             <Section title="Occupants:">
               <LabeledList>
                 {Object.keys(data.occupants_info).map(key => {
                   let value = data.occupants_info[key];
@@ -254,7 +261,7 @@ export const FighterControls = (props, context) => {
                     </LabeledList.Item>);
                 })}
               </LabeledList>
-            </Section>
+            </Section> */}
           </Section>
         )}
       </Window.Content>
