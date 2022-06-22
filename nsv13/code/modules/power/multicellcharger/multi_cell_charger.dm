@@ -12,6 +12,8 @@
 	var/list/charging_batteries = list() //The list of batteries we are gonna charge!
 	var/max_batteries = 4
 	var/charge_rate = 250
+	var/charge_rate_base = 250 // Amount of charge we gain from a level one capacitor
+	var/charge_rate_max = 4000 // The highest we allow the charge rate to go
 
 /obj/machinery/cell_charger_multi/update_overlays()
 	. = ..()
@@ -29,6 +31,14 @@
 		. += new /mutable_appearance(charge_overlay)
 		. += new /mutable_appearance(cell_overlay)
 
+/obj/machinery/cell_charger_multi/CtrlShiftClick(mob/user)
+	. = ..()
+	if(!can_interact(user) || !charging_batteries.len)
+		return
+	to_chat(user, "<span class='notice'>You press the quick release as all the cells pop out!</span>")
+	for(var/i in charging_batteries)
+		removecell()
+
 /obj/machinery/cell_charger_multi/examine(mob/user)
 	. = ..()
 	if(!charging_batteries.len)
@@ -39,6 +49,7 @@
 			. += "There's [charging] cell in the charger, current charge: [round(charging.percent(), 1)]%."
 	if(in_range(user, src) || isobserver(user))
 		. += "<span class='notice'>The status display reads: Charging power: <b>[charge_rate]W</b>.</span>"
+	. += "<span class='notice'>Ctrl+shift click it to remove all the cells at once!</span>"
 
 /obj/machinery/cell_charger_multi/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/stock_parts/cell) && !panel_open)
@@ -87,10 +98,18 @@
 
 	update_icon()
 
+/obj/machinery/cell_charger_multi/attack_ai(mob/user)
+	return
+
 /obj/machinery/cell_charger_multi/RefreshParts()
-	charge_rate = 250
+	charge_rate = 0 // No, you cant get free charging speed!
 	for(var/obj/item/stock_parts/capacitor/C in component_parts)
-		charge_rate = clamp((charge_rate *= C.rating), 0, 1500)
+		charge_rate += charge_rate_base * C.rating
+		if(charge_rate >= charge_rate_max) // We've hit the charge speed cap, stop iterating.
+			charge_rate = charge_rate_max
+			break
+		if(charge_rate < charge_rate_base) // This should never happen; but we need to pretend it can.
+			charge_rate = charge_rate_base
 
 /obj/machinery/cell_charger_multi/deconstruct()
 	for(var/obj/item/stock_parts/cell/charging in charging_batteries)
@@ -117,11 +136,16 @@
 	if(!charging_batteries.len)
 		return FALSE
 	var/obj/item/stock_parts/cell/charging
-	if(charging_batteries.len > 1)
+	if(charging_batteries.len > 1 && user)
 		var/list/buttons = list()
 		for(var/obj/item/stock_parts/cell/battery in charging_batteries)
 			buttons["[battery] [battery.percent()]%"] = battery
-		var/cell_name = tgui_input_list()
+		var/cell_name = tgui_input_list(user, "Please choose what cell you'd like to remove.", "Remove a cell", buttons)
+		charging = buttons[cell_name]
+	else
+		charging = charging_batteries[1]
+	if(!charging)
+		return FALSE
 	charging.forceMove(drop_location())
 	charging.update_icon()
 	charging_batteries -= charging
