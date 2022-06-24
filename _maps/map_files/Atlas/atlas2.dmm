@@ -910,6 +910,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "ek" = (
@@ -1067,6 +1070,7 @@
 	name = "Bridge Shutters";
 	pixel_y = 2
 	},
+/obj/machinery/camera/autoname,
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "eS" = (
@@ -1193,6 +1197,9 @@
 /obj/effect/landmark/start/bridge,
 /obj/structure/chair/office{
 	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
@@ -2216,6 +2223,9 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "kh" = (
@@ -2569,6 +2579,9 @@
 /obj/machinery/squad_vendor{
 	density = 0;
 	pixel_x = -32
+	},
+/obj/effect/turf_decal/stripes/corner{
+	dir = 1
 	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
@@ -2956,10 +2969,14 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/light,
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/machinery/door/airlock/ship/command{
+	name = "Bridge";
+	req_one_access_txt = "19";
+	security_level = 6
 	},
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "nP" = (
@@ -4824,9 +4841,14 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
+/obj/machinery/door/airlock/ship/command{
+	name = "Bridge";
+	req_one_access_txt = "19";
+	security_level = 6
 	},
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "wX" = (
@@ -5380,6 +5402,9 @@
 /obj/effect/landmark/start/bridge,
 /obj/structure/chair/office{
 	dir = 8
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
@@ -6716,18 +6741,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only/directional/east,
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
-	},
-/obj/machinery/door/airlock/ship/command{
-	name = "Bridge";
-	req_one_access_txt = "19"
 	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
@@ -7079,6 +7095,9 @@
 	},
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 8
+	},
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
@@ -7466,9 +7485,16 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/effect/turf_decal/stripes/line{
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/airlock/ship/command{
+	name = "Bridge";
+	req_one_access_txt = "19";
+	security_level = 6
+	},
+/obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "Jo" = (
@@ -8658,6 +8684,10 @@
 /obj/effect/turf_decal/tile/ship/brown{
 	dir = 8
 	},
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/corner,
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "Ou" = (
@@ -8959,7 +8989,7 @@
 /area/maintenance/nsv/deck1/port)
 "PR" = (
 /obj/machinery/status_display/ai/east,
-/turf/open/floor/monotile/dark,
+/turf/closed/wall/r_wall,
 /area/bridge/cic)
 "PT" = (
 /obj/machinery/cryopod,
@@ -9716,10 +9746,20 @@
 /turf/open/floor/monotile/dark,
 /area/medical/medbay)
 "TO" = (
-/obj/machinery/camera/autoname{
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/structure/chair{
 	dir = 8
 	},
-/turf/open/floor/monotile/dark,
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/corner{
+	dir = 8
+	},
+/turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "TU" = (
 /turf/open/floor/monotile/dark,
@@ -9805,18 +9845,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
 	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/effect/landmark/zebra_interlock_point,
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
-	},
-/obj/machinery/door/airlock/ship/command{
-	name = "Bridge";
-	req_one_access_txt = "19"
 	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
@@ -10175,9 +10206,16 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/airlock/ship/command{
+	name = "Bridge";
+	req_one_access_txt = "19";
+	security_level = 6
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "VZ" = (
@@ -10445,6 +10483,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "XG" = (
@@ -10564,6 +10605,13 @@
 /turf/open/floor/bronze,
 /area/ai_monitored/turret_protected/ai)
 "Yn" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/structure/chair{
+	dir = 8
+	},
 /obj/machinery/light{
 	dir = 8
 	},
@@ -44697,7 +44745,7 @@ Sc
 Tc
 Tc
 VV
-TO
+Tc
 eP
 fF
 gW
@@ -45211,11 +45259,11 @@ YC
 Tc
 Tc
 Jn
-Yn
+Tc
 Vg
 Vg
 Vg
-Yn
+Tc
 wW
 Tc
 Tc
@@ -45468,11 +45516,11 @@ Sc
 zA
 lO
 Xz
+Yn
 Kv
 Kv
 Kv
-Kv
-Kv
+TO
 ej
 lD
 nV
