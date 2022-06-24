@@ -3186,10 +3186,6 @@
 /area/crew_quarters/bar{
 	name = "Night Club"
 	})
-"bGn" = (
-/obj/machinery/rnd/production/techfab/department/security,
-/turf/open/floor/monotile/dark,
-/area/security/prison)
 "bGB" = (
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/bar{
@@ -6946,6 +6942,8 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/ship/red,
+/obj/structure/table,
+/obj/machinery/recharger,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "dMN" = (
@@ -10912,6 +10910,13 @@
 /area/nsv/hanger{
 	name = "Dropship Bay"
 	})
+"fQp" = (
+/obj/effect/turf_decal/tile/ship/half/red{
+	dir = 1
+	},
+/obj/structure/reagent_dispensers/watertank,
+/turf/open/floor/monotile/steel,
+/area/security/prison)
 "fQu" = (
 /obj/structure/peacekeeper_barricade/metal{
 	dir = 1
@@ -31291,10 +31296,14 @@
 	name = "Dropship Bay"
 	})
 "qOV" = (
-/obj/machinery/shower{
-	dir = 4
-	},
 /obj/machinery/camera/autoname,
+/obj/structure/sink{
+	dir = 8;
+	pixel_x = -13
+	},
+/obj/structure/mirror{
+	pixel_x = -32
+	},
 /turf/open/floor/plasteel/freezer,
 /area/security/prison)
 "qPA" = (
@@ -32460,6 +32469,9 @@
 /obj/machinery/genpop_interface{
 	pixel_y = 26
 	},
+/obj/structure/table,
+/obj/structure/table,
+/obj/item/storage/toolbox/drone,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "rAZ" = (
@@ -82425,7 +82437,7 @@ iSy
 uFG
 gTX
 uFG
-jqs
+fQp
 pLv
 lGt
 gSy
@@ -83195,7 +83207,7 @@ oXO
 iSy
 uFG
 gTX
-bGn
+uFG
 thi
 pLv
 lGt
