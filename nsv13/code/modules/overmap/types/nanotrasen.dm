@@ -124,8 +124,13 @@
 	
 /obj/structure/overmap/nanotrasen/heavy_battlecruiser
 	name = "Gungnir Class Battlecruiser"
+<<<<<<< HEAD
 	icon = 'nsv13/icons/overmap/new/nanotrasen/heavy_battlecruiser.dmi'
 	icon_state = "heavy_battlecruiser"
+=======
+	icon = 'nsv13/icons/overmap/new/nanotrasen/cruiser.dmi'
+	icon_state = "cruiser"
+>>>>>>> Gungnir
 	mass = MASS_LARGE
 	sprite_size = 48
 	//damage_states = TRUE

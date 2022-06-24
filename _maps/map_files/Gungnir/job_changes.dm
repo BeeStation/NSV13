@@ -1,6 +1,9 @@
 //Removed Jobs
 MAP_REMOVE_JOB(lawyer)
+<<<<<<< HEAD
 MAP_REMOVE_JOB(curator)
+=======
+>>>>>>> Gungnir
 
 //ATC bridge Access
 /datum/job/air_traffic_controller
