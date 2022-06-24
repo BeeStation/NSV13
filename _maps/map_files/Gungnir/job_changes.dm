@@ -1,5 +1,6 @@
 //Removed Jobs
 MAP_REMOVE_JOB(lawyer)
+MAP_REMOVE_JOB(curator)
 
 //ATC bridge Access
 /datum/job/air_traffic_controller

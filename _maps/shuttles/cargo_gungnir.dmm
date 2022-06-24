@@ -63,12 +63,6 @@
 	name = "Supply Shuttle Airlock";
 	req_one_access_txt = "31;69"
 	},
-/obj/docking_port/mobile/supply{
-	dir = 4;
-	dwidth = 2;
-	name = "Supply Shuttle";
-	width = 13
-	},
 /turf/open/floor/mineral/plastitanium,
 /area/space)
 "y" = (
@@ -92,12 +86,18 @@
 /turf/open/floor/mineral/plastitanium,
 /area/space)
 "D" = (
+/obj/structure/fans/tiny,
 /obj/machinery/door/airlock/shuttle{
 	name = "Supply Shuttle Airlock";
 	req_one_access_txt = "31;69"
 	},
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/fans/tiny,
+/obj/docking_port/mobile/supply{
+	dir = 4;
+	dwidth = 4;
+	name = "Supply Shuttle";
+	width = 13;
+	id = "supply_home"
+	},
 /turf/open/floor/mineral/plastitanium,
 /area/space)
 "F" = (
