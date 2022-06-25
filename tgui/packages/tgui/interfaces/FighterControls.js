@@ -231,7 +231,7 @@ export const FighterControls = (props, context) => {
                   {Object.keys(data.hardpoints).map(key => {
                     let value = data.hardpoints[key];
                     return (
-                      <LabeledList.Item label={`${value.name}`}>
+                      <LabeledList.Item key={key} label={`${value.name}`}>
                         <Button
                           content={`Eject`}
                           icon="eject"
@@ -247,7 +247,7 @@ export const FighterControls = (props, context) => {
               </Section>
             )}
             <br />
-{/*             <Section title="Occupants:">
+            {/*             <Section title="Occupants:">
               <LabeledList>
                 {Object.keys(data.occupants_info).map(key => {
                   let value = data.occupants_info[key];
