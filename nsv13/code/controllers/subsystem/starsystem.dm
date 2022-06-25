@@ -1,6 +1,5 @@
 GLOBAL_VAR_INIT(crew_transfer_risa, FALSE)
 
-#define FACTION_VICTORY_TICKETS 1000
 #define COMBAT_CYCLE_INTERVAL 180 SECONDS	//Time between each 'combat cycle' of starsystems. Every combat cycle, every system that has opposing fleets in it gets iterated through, with the fleets firing at eachother.
 
 #define THREAT_LEVEL_NONE 0
@@ -12,7 +11,7 @@ SUBSYSTEM_DEF(star_system)
 	name = "star_system"
 	wait = 10
 	init_order = INIT_ORDER_STARSYSTEM
-	//flags = SS_NO_INIT
+
 	var/last_combat_enter = 0 //Last time an AI controlled ship attacked the players
 	var/list/systems = list()
 	var/list/traders = list()
@@ -20,7 +19,6 @@ SUBSYSTEM_DEF(star_system)
 	var/list/enemy_types = list()
 	var/list/enemy_blacklist = list()
 	var/list/ships = list() //2-d array. Format: list("ship" = ship, "x" = 0, "y" = 0, "current_system" = null, "target_system" = null, "transit_time" = 0)
-	var/tickets_to_win = FACTION_VICTORY_TICKETS
 	//Starmap 2
 	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
 	var/list/neutral_zone_systems = list()
