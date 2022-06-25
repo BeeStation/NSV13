@@ -416,36 +416,38 @@
 		objectives += destroy_objective
 		log_objective(owner, destroy_objective.explanation_text)
 	else
-		if(prob(70))
-			var/datum/objective/assassinate/kill_objective = new
-			kill_objective.owner = owner
-			if(team_mode) //No backstabbing while in a team
-				kill_objective.find_target_by_role(role = ROLE_CHANGELING, role_type = TRUE, invert = TRUE)
+		if(GLOB.joined_player_list.len >= CONFIG_GET(number/min_pop_kill_objectives)) //nsv13 - No kill objectives on low pop
+			if(prob(70))
+				var/datum/objective/assassinate/kill_objective = new
+				kill_objective.owner = owner
+				if(team_mode) //No backstabbing while in a team
+					kill_objective.find_target_by_role(role = ROLE_CHANGELING, role_type = TRUE, invert = TRUE)
+				else
+					kill_objective.find_target()
+				objectives += kill_objective
+				log_objective(owner, kill_objective.explanation_text)
 			else
-				kill_objective.find_target()
-			objectives += kill_objective
-			log_objective(owner, kill_objective.explanation_text)
-		else
-			var/datum/objective/maroon/maroon_objective = new
-			maroon_objective.owner = owner
-			if(team_mode)
-				maroon_objective.find_target_by_role(role = ROLE_CHANGELING, role_type = TRUE, invert = TRUE)
-			else
-				maroon_objective.find_target()
-			objectives += maroon_objective
-			log_objective(owner, maroon_objective.explanation_text)
+				var/datum/objective/maroon/maroon_objective = new
+				maroon_objective.owner = owner
+				if(team_mode)
+					maroon_objective.find_target_by_role(role = ROLE_CHANGELING, role_type = TRUE, invert = TRUE)
+				else
+					maroon_objective.find_target()
+				objectives += maroon_objective
+				log_objective(owner, maroon_objective.explanation_text)
 
-			if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
-				var/datum/objective/escape/escape_with_identity/identity_theft = new
-				identity_theft.owner = owner
-				identity_theft.target = maroon_objective.target
-				identity_theft.update_explanation_text()
-				objectives += identity_theft
-				log_objective(owner, identity_theft.explanation_text)
-				escape_objective_possible = FALSE
+				if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
+					var/datum/objective/escape/escape_with_identity/identity_theft = new
+					identity_theft.owner = owner
+					identity_theft.target = maroon_objective.target
+					identity_theft.update_explanation_text()
+					objectives += identity_theft
+					log_objective(owner, identity_theft.explanation_text)
+					escape_objective_possible = FALSE //nsv13 end
 
 	if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
-		if(prob(50))
+		//nsv13 - No (almost neccessarily) kill objectives on low pop
+		if(prob(50) || (GLOB.joined_player_list.len <= CONFIG_GET(number/min_pop_kill_objectives)))
 			var/datum/objective/escape/escape_objective = new
 			escape_objective.owner = owner
 			objectives += escape_objective
