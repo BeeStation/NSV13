@@ -227,7 +227,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		for(var/I = ++previous_maxz; I <= world.maxz; I++) //So let's say we started loading interior Z-levels at Z index 4 and we have 2 decks. That means that Z 5 and 6 belong to this ship's interior, so link them
 			occupying += I;
 			OM.linked_areas += SSmapping.areas_in_z["[I]"]
-			SSatoms.InitializeAtoms(block(locate(1,1,I),locate(world.maxx,world.maxy,I))) //Initializes interior space
 
 		for(var/z in occupying)
 			var/datum/space_level/SL = SSmapping.z_list[z]
