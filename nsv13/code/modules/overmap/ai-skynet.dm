@@ -30,6 +30,7 @@ Adding tasks is easy! Just define a datum for it.
 	var/list/supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
 	var/list/all_ships = list()
 	var/list/lances = list()
+	var/obj/structure/overmap/default_ghost_ship = /obj/structure/overmap/syndicate/ai
 
 	var/size = FLEET_DIFFICULTY_MEDIUM //How big is this fleet anyway?
 	var/applied_size	//How big is this fleet ACTUALLY after modifications applied by.. well. everything.
@@ -704,9 +705,10 @@ Adding tasks is easy! Just define a datum for it.
 				return
 
 			if(!length(ship_list))
-				message_admins("Failed to spawn ghost ship due to lack of valid ship types")
-				log_game("Failed to spawn ghost ship due to lack of valid ship types")
+				log_game("No valid [name] ship types found for [player_check] slayers. Using default ship type: [default_ghost_ship]")
+				ship_list += default_ghost_ship
 				return
+
 			var/target_location = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), OM.z)
 			var/obj/structure/overmap/selected_ship = pick(ship_list)
 			var/target_ghost
@@ -783,6 +785,7 @@ Adding tasks is easy! Just define a datum for it.
 	fighter_types = null
 	destroyer_types = list(/obj/structure/overmap/spacepirate/ai)
 	battleship_types = list(/obj/structure/overmap/spacepirate/ai/nt_missile, /obj/structure/overmap/spacepirate/ai/syndie_gunboat)
+	default_ghost_ship = /obj/structure/overmap/spacepirate/ai
 	supply_types = null
 	alignment = "pirate"
 	faction_id = FACTION_ID_PIRATES
@@ -914,6 +917,7 @@ Adding tasks is easy! Just define a datum for it.
 	destroyer_types = list(/obj/structure/overmap/nanotrasen/ai, /obj/structure/overmap/nanotrasen/missile_cruiser/ai)
 	battleship_types = list(/obj/structure/overmap/nanotrasen/patrol_cruiser/ai, /obj/structure/overmap/nanotrasen/heavy_cruiser/ai, /obj/structure/overmap/nanotrasen/battlecruiser/ai)
 	supply_types = list(/obj/structure/overmap/nanotrasen/carrier/ai)
+	default_ghost_ship = /obj/structure/overmap/nanotrasen/ai
 	alignment = "nanotrasen"
 	hide_movements = TRUE //Friendly fleets just move around as you'd expect.
 	faction_id = FACTION_ID_NT
