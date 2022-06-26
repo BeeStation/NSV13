@@ -89,10 +89,8 @@
 
 /obj/item/radio/headset/munitions/munitions_security
 	name = "munitions-security radio headset"
-	icon = 'nsv13/icons/obj/custom_radio.dmi'
 	desc = "The headset used by your local munitions mall cop."
 	icon_state = "munsec_headset"
-	keyslot = new /obj/item/encryptionkey/munitions_tech
 	keyslot2 = new /obj/item/encryptionkey/headset_sec
 
 ////////BACKPACKS////////
