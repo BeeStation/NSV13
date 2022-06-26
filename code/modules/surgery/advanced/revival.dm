@@ -68,6 +68,7 @@
 	if(target.revive())
 		target.visible_message("...[target] wakes up, alive and aware!")
 		target.emote("gasp")
+		to_chat(target, "<span class='warning'>You have been revived via Revival Surgery. As per our rules, you cannot remember how exactly you died.</span><b>But you may remember certain details such as the weapon used or the place of death.</b>") //NSV13
 		target.adjustOrganLoss(ORGAN_SLOT_BRAIN, 50, 199) //MAD SCIENCE
 		return TRUE
 	else
