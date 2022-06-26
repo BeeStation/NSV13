@@ -377,6 +377,11 @@ Misc projectile types, effects, think of this as the special FX file.
 	. = ..()
 	addtimer(CALLBACK(src, .proc/windup), 1 SECONDS)
 
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
 /obj/item/projectile/guided_munition/proc/windup()
 	valid_angle = 360 //Torpedoes "wind up" to hit their target
 	homing_turn_speed *= 5
