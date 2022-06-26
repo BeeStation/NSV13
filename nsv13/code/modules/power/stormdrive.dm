@@ -1590,6 +1590,14 @@ Control Rods
 	.=..()
 	freq_shift = rand(1, 10) / 10
 	code_shift = rand(1, 10) / 10
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
+/obj/effect/anomaly/stormdrive/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+	return
 
 /obj/effect/anomaly/stormdrive/attackby(obj/item/I, mob/user, params) //Not going to make this easy
 	if(I.tool_behaviour == TOOL_ANALYZER)
@@ -1621,7 +1629,7 @@ Control Rods
 		var/temperature = env.return_temperature() + 25 //Not super spicy
 		atmos_spawn_air("nucleium=15;TEMP=[temperature]")
 
-/obj/effect/anomaly/stormdrive/sheer/Crossed(mob/living/M)
+/obj/effect/anomaly/stormdrive/sheer/on_entered(datum/source, mob/living/M)
 	radiation_pulse(src, 125)
 
 /obj/effect/anomaly/stormdrive/sheer/Bump(mob/living/M)
@@ -1655,7 +1663,7 @@ Control Rods
 		for(var/mob/living/M in orange(2, src))
 			mobShock(M)
 
-/obj/effect/anomaly/stormdrive/surge/Crossed(mob/living/M)
+/obj/effect/anomaly/stormdrive/surge/on_entered(datum/source, mob/living/M)
 	mobShock(M)
 
 /obj/effect/anomaly/stormdrive/surge/Bump(mob/living/M)
@@ -1719,7 +1727,7 @@ Control Rods
 				var/atom/target = get_edge_target_turf(AM, get_dir(src, get_step_away(AM, src)))
 				AM.throw_at(target, 4, 2)
 
-/obj/effect/anomaly/stormdrive/squall/Crossed(mob/living/M)
+/obj/effect/anomaly/stormdrive/squall/on_entered(datum/source, mob/living/M)
 	polarise(M)
 
 /obj/effect/anomaly/stormdrive/squall/Bump(mob/living/M)

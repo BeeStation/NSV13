@@ -378,7 +378,7 @@
 	input_tag = "extra_2_input";
 	name = "Custom Tank 2 Control";
 	output_tag = "extra_2_output";
-	sensors = list("extra_2_sensor" = "Custom Tank 2")
+	sensors = list("extra_2_sensor"="Custom Tank 2")
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -1005,12 +1005,18 @@
 /area/hallway/nsv/deck2/primary)
 "aCt" = (
 /obj/structure/table/reinforced,
-/obj/structure/window/reinforced,
 /obj/item/paper_bin,
 /obj/item/pen,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/window/northleft{
+	name = "Operating suite";
+	req_one_access_txt = "7;29"
+	},
+/obj/machinery/door/window/southleft{
+	name = "Operating suite"
+	},
 /turf/open/floor/monotile/dark,
 /area/science/robotics/lab)
 "aCv" = (
@@ -1544,7 +1550,7 @@
 	name = "Dropship Bay"
 	})
 "aQv" = (
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame5/starboard)
 "aRd" = (
@@ -3580,7 +3586,7 @@
 /area/hallway/nsv/deck2/primary)
 "bQX" = (
 /obj/structure/lattice,
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /turf/open/space/basic,
 /area/space)
 "bQY" = (
@@ -6936,6 +6942,8 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/ship/red,
+/obj/structure/table,
+/obj/machinery/recharger,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "dMN" = (
@@ -8124,7 +8132,7 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /turf/open/space/basic,
 /area/security/prison)
 "euG" = (
@@ -8257,7 +8265,7 @@
 /turf/open/floor/monotile/steel,
 /area/security/detectives_office)
 "ewU" = (
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /obj/structure/lattice,
 /turf/open/space/basic,
 /area/space/nearstation)
@@ -10902,6 +10910,13 @@
 /area/nsv/hanger{
 	name = "Dropship Bay"
 	})
+"fQp" = (
+/obj/effect/turf_decal/tile/ship/half/red{
+	dir = 1
+	},
+/obj/structure/reagent_dispensers/watertank,
+/turf/open/floor/monotile/steel,
+/area/security/prison)
 "fQu" = (
 /obj/structure/peacekeeper_barricade/metal{
 	dir = 1
@@ -10958,7 +10973,7 @@
 	input_tag = "extra_5_input";
 	name = "Custom Tank 5 Control";
 	output_tag = "extra_5_output";
-	sensors = list("extra_5_sensor" = "Custom Tank 5")
+	sensors = list("extra_5_sensor"="Custom Tank 5")
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
@@ -11623,7 +11638,7 @@
 	input_tag = "extra_1_input";
 	name = "Custom Tank 1 Control";
 	output_tag = "extra_1_output";
-	sensors = list("extra_1_sensor" = "Custom Tank 1")
+	sensors = list("extra_1_sensor"="Custom Tank 1")
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -11854,6 +11869,12 @@
 	},
 /turf/open/floor/engine/airless,
 /area/nsv/magazine/starboard)
+"gqu" = (
+/obj/machinery/lazylift_button{
+	dir = 1
+	},
+/turf/closed/wall/steel,
+/area/shuttle/turbolift/quaternary)
 "gqC" = (
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger{
@@ -12583,7 +12604,7 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /turf/open/space/basic,
 /area/security/prison)
 "gFE" = (
@@ -14013,8 +14034,12 @@
 "huS" = (
 /turf/closed/wall/r_wall,
 /area/maintenance/nsv/deck2/frame2/starboard)
+"hvg" = (
+/obj/machinery/firealarm/directional/east,
+/turf/open/floor/plasteel/grid/steel,
+/area/quartermaster/storage)
 "hvs" = (
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /obj/structure/lattice,
 /turf/open/space/basic,
 /area/space)
@@ -14417,7 +14442,7 @@
 	input_tag = "nuclear_mix_in_3";
 	name = "Nuclear Reactor Gas Tank Control";
 	output_tag = "nuclear_min_out_3";
-	sensors = list("nuclear_mix_sensor_3" = "Nuclear Reactor Gas Mix Tank 3")
+	sensors = list("nuclear_mix_sensor_3"="Nuclear Reactor Gas Mix Tank 3")
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/reactor_core)
@@ -15966,10 +15991,10 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame2/starboard)
 "iza" = (
-/obj/machinery/vending/coffee,
 /obj/effect/turf_decal/tile/ship/half/red{
 	dir = 4
 	},
+/obj/machinery/rnd/production/techfab/department/security,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "izg" = (
@@ -16456,7 +16481,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /turf/open/space/basic,
 /area/security/prison)
 "iPP" = (
@@ -18940,7 +18965,7 @@
 	},
 /area/maintenance/nsv/deck2/frame2/starboard)
 "kfL" = (
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /obj/structure/cable{
 	icon_state = "0-10"
 	},
@@ -19140,7 +19165,7 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame5/starboard)
 "kkO" = (
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /turf/open/floor/plating,
 /area/mine/laborcamp)
 "kkT" = (
@@ -19286,11 +19311,11 @@
 	dir = 1
 	},
 /obj/structure/rack,
-/obj/item/ammo_box/magazine/nsv/flak,
-/obj/item/ammo_box/magazine/nsv/flak,
-/obj/item/ammo_box/magazine/nsv/flak,
-/obj/item/ammo_box/magazine/nsv/flak,
-/obj/item/ammo_box/magazine/nsv/flak,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "kom" = (
@@ -19563,8 +19588,7 @@
 "kwF" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/window/southright{
-	name = "Science Desk";
-	req_one_access_txt = "7;29"
+	name = "Science Desk"
 	},
 /obj/item/disk/tech_disk,
 /obj/item/disk/tech_disk,
@@ -19578,7 +19602,10 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
-/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/window/northleft{
+	name = "Science Desk";
+	req_one_access_txt = "7;29"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/science/lab)
 "kwO" = (
@@ -19762,10 +19789,10 @@
 "kCB" = (
 /obj/effect/turf_decal/tile/ship/half/orange,
 /obj/machinery/airalarm/directional/north,
-/obj/item/ammo_box/magazine/nsv/flak,
-/obj/item/ammo_box/magazine/nsv/flak,
-/obj/item/ammo_box/magazine/nsv/flak,
-/obj/item/ammo_box/magazine/nsv/flak,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
 /obj/structure/rack,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
@@ -20188,7 +20215,7 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /turf/open/space/basic,
 /area/ai_monitored/security/armory/lockup)
 "kOw" = (
@@ -23551,7 +23578,7 @@
 	input_tag = "extra_4_input";
 	name = "Custom Tank 4 Control";
 	output_tag = "extra_4_output";
-	sensors = list("extra_4_sensor" = "Custom Tank 4")
+	sensors = list("extra_4_sensor"="Custom Tank 4")
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating,
@@ -26341,13 +26368,16 @@
 /area/security/processing)
 "ojF" = (
 /obj/structure/table/reinforced,
-/obj/machinery/door/window/southright{
-	name = "Operating suite";
-	req_one_access_txt = "7;29"
-	},
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/window/southright{
+	name = "Operating suite"
+	},
+/obj/machinery/door/window/northright{
+	req_one_access_txt = "7;29";
+	name = "Operating suite"
+	},
 /turf/open/floor/monotile/dark,
 /area/science/robotics/lab)
 "oku" = (
@@ -27668,7 +27698,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /turf/open/space/basic,
 /area/security/prison)
 "oTD" = (
@@ -28717,7 +28747,7 @@
 /turf/open/floor/monotile/steel,
 /area/security/prison)
 "puU" = (
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /turf/open/floor/mineral/plastitanium,
 /area/maintenance/nsv/deck2/frame3/port)
 "puX" = (
@@ -29311,6 +29341,10 @@
 /obj/machinery/light,
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
+"pMl" = (
+/obj/machinery/lazylift_button,
+/turf/closed/wall/steel,
+/area/shuttle/turbolift/tertiary)
 "pMB" = (
 /obj/structure/frame/machine/ship_weapon,
 /obj/machinery/light/small{
@@ -29942,7 +29976,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 8
 	},
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/mine/laborcamp)
@@ -31262,10 +31296,14 @@
 	name = "Dropship Bay"
 	})
 "qOV" = (
-/obj/machinery/shower{
-	dir = 4
-	},
 /obj/machinery/camera/autoname,
+/obj/structure/sink{
+	dir = 8;
+	pixel_x = -13
+	},
+/obj/structure/mirror{
+	pixel_x = -32
+	},
 /turf/open/floor/plasteel/freezer,
 /area/security/prison)
 "qPA" = (
@@ -32431,6 +32469,9 @@
 /obj/machinery/genpop_interface{
 	pixel_y = 26
 	},
+/obj/structure/table,
+/obj/structure/table,
+/obj/item/storage/toolbox/drone,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "rAZ" = (
@@ -32605,7 +32646,7 @@
 /turf/open/floor/plasteel/grid/techfloor/grid/airless,
 /area/maintenance/nsv/deck2/frame5/port)
 "rGv" = (
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /turf/open/space/basic,
 /area/mine/laborcamp)
 "rGy" = (
@@ -34109,7 +34150,7 @@
 	input_tag = "extra_3_input";
 	name = "Custom Tank 3 Control";
 	output_tag = "extra_3_output";
-	sensors = list("extra_3_sensor" = "Custom Tank 3")
+	sensors = list("extra_3_sensor"="Custom Tank 3")
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/light{
@@ -38739,6 +38780,10 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/window/northright{
+	req_one_access_txt = "7;29";
+	name = "Science Desk"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/science/lab)
 "uTA" = (
@@ -40502,7 +40547,7 @@
 	input_tag = "stormdrive_mix_in";
 	name = "Secondary reactor Gas Tank Control";
 	output_tag = "stormdrive_mix_out";
-	sensors = list("stormdrive_mix_sensor" = "Stormdrive Gas Mix Tank")
+	sensors = list("stormdrive_mix_sensor"="Stormdrive Gas Mix Tank")
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating,
@@ -41678,7 +41723,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /turf/open/space/basic,
 /area/ai_monitored/security/armory/lockup)
 "wyu" = (
@@ -42827,10 +42872,10 @@
 	})
 "xjv" = (
 /obj/effect/turf_decal/tile/ship/half/orange,
-/obj/item/ammo_box/magazine/nsv/flak,
-/obj/item/ammo_box/magazine/nsv/flak,
-/obj/item/ammo_box/magazine/nsv/flak,
-/obj/item/ammo_box/magazine/nsv/flak,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
 /obj/structure/rack,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
@@ -44001,7 +44046,6 @@
 /obj/machinery/conveyor_switch{
 	id = "freightliftCargo"
 	},
-/obj/machinery/firealarm/directional/north,
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "xRU" = (
@@ -44602,7 +44646,7 @@
 	input_tag = "nuclear_mix_in_1";
 	name = "Primary reactor Gas Tank Control";
 	output_tag = "nuclear_min_out_1";
-	sensors = list("nuclear_mix_sensor_1" = "Nuclear Reactor Gas Mix Tank 1")
+	sensors = list("nuclear_mix_sensor_1"="Nuclear Reactor Gas Mix Tank 1")
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/violet/visible/layer3,
@@ -44753,7 +44797,7 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
-/obj/structure/grille/wall,
+/obj/structure/grille,
 /turf/open/space/basic,
 /area/security/prison)
 "ylW" = (
@@ -77276,7 +77320,7 @@ xwg
 jRa
 wSk
 lGx
-iOd
+gqu
 lgx
 lgx
 iOd
@@ -82393,7 +82437,7 @@ iSy
 uFG
 gTX
 uFG
-jqs
+fQp
 pLv
 lGt
 gSy
@@ -82420,7 +82464,7 @@ fjV
 vgY
 vgY
 vgY
-fjV
+pMl
 xRO
 aiH
 vva
@@ -83192,7 +83236,7 @@ vgA
 oXe
 vva
 mhv
-bKj
+hvg
 lxi
 ssv
 bKj
