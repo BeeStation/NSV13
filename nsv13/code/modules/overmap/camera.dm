@@ -62,6 +62,8 @@
 	if(pilot && M == pilot)
 		LAZYREMOVE(M.mousemove_intercept_objects, src)
 		pilot = null
+		keyboard_delta_angle_left = 0
+		keyboard_delta_angle_right = 0
 		if(helm)
 			playsound(helm, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
 	if(gunner && M == gunner)
