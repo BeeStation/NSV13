@@ -227,13 +227,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		for(var/I = ++previous_maxz; I <= world.maxz; I++) //So let's say we started loading interior Z-levels at Z index 4 and we have 2 decks. That means that Z 5 and 6 belong to this ship's interior, so link them
 			occupying += I;
 			OM.linked_areas += SSmapping.areas_in_z["[I]"]
-
 		for(var/z in occupying)
 			var/datum/space_level/SL = SSmapping.z_list[z]
 			SL.linked_overmap = OM
 			OM.occupying_levels += SL
 			log_game("Z-level [SL] linked to [OM].")
-		SSmapping.setup_map_transitions() // Allows both map and overmap borders to function properly
+		SSmapping.setup_map_transitions() // Allows both interior and overmap borders to function properly
 		if(midround)
 			overmap_lighting_force(OM)
 

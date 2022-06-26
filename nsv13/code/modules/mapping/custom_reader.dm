@@ -4,18 +4,7 @@
 	var/list/atom/movable/movables = list()
 	var/list/area/areas = list()
 
-	var/list/turfs = block(
-		locate(
-			bounds[MAP_MINX],
-			bounds[MAP_MINY],
-			bounds[MAP_MINZ]
-			),
-		locate(
-			bounds[MAP_MAXX],
-			bounds[MAP_MAXY],
-			bounds[MAP_MAXZ]
-			)
-		)
+	var/list/turfs = block(locate(1,1,bounds[MAP_MINZ]),locate(world.maxx,world.maxy,bounds[MAP_MAXZ])) //It's done this way in order to properly initialize space
 	for(var/turf/current_turf as anything in turfs)
 		var/area/current_turfs_area = current_turf.loc
 		areas |= current_turfs_area
