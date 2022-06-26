@@ -98,6 +98,10 @@
 
 /obj/structure/peacekeeper_barricade/Initialize()
 	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_EXIT = .proc/on_exit,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 	update_icon()
 
 /obj/structure/peacekeeper_barricade/examine(mob/user)
@@ -121,39 +125,38 @@
 			C.Stun(20) //Leaping into barbed wire is VERY bad
 	..()
 
-/obj/structure/peacekeeper_barricade/CheckExit(atom/movable/O, turf/target)
+/obj/structure/peacekeeper_barricade/proc/on_exit(datum/source, atom/movable/leaving, direction)
+	SIGNAL_HANDLER
+
 	if(closed || !anchored)
-		return TRUE
-	if(istype(O, /obj/item/projectile))
-		var/obj/item/projectile/S = O
+		return 0
+	if(istype(leaving, /obj/item/projectile))
+		var/obj/item/projectile/S = leaving
 		if(get_turf(S.firer) == get_turf(src)) //This is a pretty safe bet to say that they're allowed to shoot through us.
-			return TRUE
-		var/edir = get_dir(S.starting,target)
-		if(!(edir in GLOB.cardinals)) //Sometimes shit can come in from odd angles, so we need to strip out diagonals
-			switch(edir)
+			return 0
+		if(!(direction in GLOB.cardinals)) //Sometimes shit can come in from odd angles, so we need to strip out diagonals
+			switch(direction)
 				if(NORTHEAST)
-					edir = EAST
+					direction = EAST
 				if(NORTHWEST)
-					edir = WEST
+					direction = WEST
 				if(SOUTHEAST)
-					edir = EAST
+					direction = EAST
 				if(SOUTHWEST)
-					edir = WEST
-		if(dir & edir) //In other words, theyre shooting the way that we're facing. So that means theyre behind us, and are allowed.
-			return TRUE
-		else
-			return FALSE
+					direction = WEST
+		if(!(dir & direction)) //This means they're not shooting the direction we're facing
+			return COMPONENT_ATOM_BLOCK_EXIT
 
-	if(O.throwing)
-		if(is_wired && iscarbon(O)) //Leaping mob against barbed wire fails
-			if(get_dir(loc, target) & dir)
-				return FALSE
-		return TRUE
+	if(leaving.throwing)
+		if(is_wired && iscarbon(leaving)) //Leaping mob against barbed wire fails
+			if(direction & dir)
+				return COMPONENT_ATOM_BLOCK_EXIT
+		return 0
 
-	if(get_dir(loc, target) & dir)
-		return FALSE
+	if(direction & dir)
+		return COMPONENT_ATOM_BLOCK_EXIT
 	else
-		return TRUE
+		return 0
 
 /obj/structure/peacekeeper_barricade/CanAllowThrough(atom/movable/mover, turf/target)
 	. = ..()

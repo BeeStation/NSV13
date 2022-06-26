@@ -82,19 +82,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 		playsound(helm, 'sound/machines/buzz-sigh.ogg', 75, 1)
 		return
 	. = ..()
-	var/mob/themob = user.mob
-	switch(key)
-		if("Capslock")
-			if(themob == pilot)
-				toggle_safety()
-			if(helm && prob(80))
-				var/sound = pick(GLOB.computer_beeps)
-				playsound(helm, sound, 100, 1)
-			return TRUE
-		if("5")
-			if(themob == pilot)
-				countermeasure()
-			return TRUE
 
 /obj/structure/overmap/small_craft/ui_state(mob/user)
 	return GLOB.contained_state

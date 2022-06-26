@@ -22,6 +22,13 @@
 		force_open_above()
 		build_signal_listener()
 	update_surrounding()
+
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_EXIT = .proc/on_exit,
+	)
+
+	AddElement(/datum/element/connect_loc, loc_connections)
+
 	return ..()
 
 /obj/structure/stairs/Destroy()
@@ -34,6 +41,11 @@
 		build_signal_listener()
 	update_surrounding()
 
+// Passthrough for 0G travel
+/obj/structure/stairs/attack_hand(mob/user)
+	var/turf/T = get_turf(src)
+	T.attack_hand(user)
+
 /obj/structure/stairs/proc/update_surrounding()
 	update_icon()
 	for(var/i in GLOB.cardinals)
@@ -42,16 +54,13 @@
 		if(S)
 			S.update_icon()
 
-/obj/structure/stairs/Uncross(atom/movable/AM, turf/newloc)
-	if(!newloc || !AM)
-		return ..()
-	if(!isobserver(AM) && isTerminator() && (get_dir(src, newloc) == dir))
-		var/turf/target = get_step_multiz(get_turf(src), (dir|UP))
-		if(target == newloc) // Slightly jank, but this gets called twice mecause we move upwards out of the stair tile
-			return TRUE
-		stair_ascend(AM, target)
-		return FALSE // We don't want to cross onto the turf on the same Z as the stairs
-	return ..()
+/obj/structure/stairs/proc/on_exit(datum/source, atom/movable/leaving, direction)
+	SIGNAL_HANDLER
+
+	if(!isobserver(leaving) && isTerminator() && direction == dir)
+		INVOKE_ASYNC(src, .proc/stair_ascend, leaving)
+		leaving.Bump(src)
+		return COMPONENT_ATOM_BLOCK_EXIT
 
 /obj/structure/stairs/Cross(atom/movable/AM)
 	if(isTerminator() && (get_dir(src, AM) == dir) && (AM.z <= z))
@@ -69,10 +78,10 @@
 	if(!istype(checking))
 		return FALSE
 	if(!checking.zPassIn(AM, UP, get_turf(src)))
-		return FALSE
-	if(istype(newloc) && !newloc.can_zFall(AM, null, get_step_multiz(newloc, DOWN)))			//Don't throw them into a tile that will just dump them back down.
-		return AM.Move(newloc) || AM.forceMove(newloc)
-	return FALSE
+		return
+	var/turf/target = get_step_multiz(get_turf(src), (dir|UP))
+	if(istype(target) && !target.can_zFall(AM, null, get_step_multiz(target, DOWN)))			//Don't throw them into a tile that will just dump them back down.
+		AM.Move(target, (dir | UP))
 
 
 /obj/structure/stairs/vv_edit_var(var_name, var_value)
