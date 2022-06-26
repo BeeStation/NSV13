@@ -82,10 +82,8 @@
 
 /obj/item/radio/headset/munitions/munitions_security_alt
 	name = "munitions-security bowman headset"
-	icon = 'nsv13/icons/obj/custom_radio.dmi'
 	desc = "The headset used by your local munitions mall cop, but with ear protection! Now you won't go deaf!"
 	icon_state = "munsec_headset_alt"
-	keyslot = new /obj/item/encryptionkey/munitions_tech
 	keyslot2 = new /obj/item/encryptionkey/headset_sec
 	bang_protect = 1
 
