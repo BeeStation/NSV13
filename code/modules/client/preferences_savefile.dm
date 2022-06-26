@@ -147,6 +147,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(current_version < 27)
 		if (!(underwear in GLOB.underwear_list))
 			underwear = "Nude"
+	if(current_version < 36) //NSV13 - added some keybinds
+		key_bindings = deepCopyList(GLOB.keybinding_list_by_key)
+		WRITE_FILE(S["key_bindings"], key_bindings)
 
 /datum/preferences/proc/load_path(ckey,filename="preferences.sav")
 	if(!ckey)
