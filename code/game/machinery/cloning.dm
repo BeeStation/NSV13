@@ -258,12 +258,10 @@
 		if(grab_ghost_when == CLONER_FRESH_CLONE)
 			H.grab_ghost()
 			to_chat(H, "<span class='notice'><b>Consciousness slowly creeps over you as your body regenerates.</b><br><i>So this is what cloning feels like?</i></span>")
-			to_chat(H, "<span class='warning'>You are being cloned. As per our rules, you cannot remember how you died.</span>") //NSV13
 
 		if(grab_ghost_when == CLONER_MATURE_CLONE)
 			H.ghostize(TRUE)	//Only does anything if they were still in their old body and not already a ghost
 			to_chat(H.get_ghost(TRUE), "<span class='notice'>Your body is beginning to regenerate in a cloning pod. You will become conscious when it is complete.</span>")
-			to_chat(H, "<span class='warning'>You are being cloned. As per our rules, you cannot remember how you died.</span>") //NSV13
 
 	if(H)
 		H.faction |= factions
@@ -282,6 +280,7 @@
 		H.set_cloned_appearance()
 
 		H.set_suicide(FALSE)
+	to_chat(H, "<span class='warning'><b>You are being cloned. As per our rules, you cannot remember how you died.</b></span>") //NSV13
 	attempting = FALSE
 	return CLONING_SUCCESS
 
