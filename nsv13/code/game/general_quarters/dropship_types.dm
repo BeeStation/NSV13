@@ -67,6 +67,7 @@ Credit to TGMC for the interior sprites for all these!
 
 /obj/structure/overmap/small_craft/transport/starter
 	name = "NSV Sephora"
+	random_name = FALSE
 	possible_interior_maps = list(/datum/map_template/dropship/main)
 
 /datum/map_template/dropship/main
@@ -83,6 +84,7 @@ Credit to TGMC for the interior sprites for all these!
 
 /obj/structure/overmap/small_craft/transport/syndicate/main
 	name = "SSV Thunderbird"
+	random_name = FALSE
 
 /datum/map_template/dropship/syndicate
     name = "Syndicate Dropship"
@@ -181,3 +183,4 @@ Credit to TGMC for the interior sprites for all these!
 /datum/map_template/dropship/sabre/syndicate
     name = "SU-437 Sabre Interior (Syndicate)"
     mappath = "_maps/templates/boarding/sabre_interior_syndicate.dmm"
+ 

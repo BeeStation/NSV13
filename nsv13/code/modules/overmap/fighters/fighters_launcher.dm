@@ -107,6 +107,11 @@
 	linkup()
 	addtimer(CALLBACK(src, .proc/linkup), 45 SECONDS)//Just in case we're not done initializing
 
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
 /obj/structure/overmap/small_craft/can_brake()
 	if(mag_lock)
 		if(pilot)
@@ -114,8 +119,9 @@
 		return FALSE
 	return TRUE
 
-/obj/structure/fighter_launcher/Crossed(atom/movable/AM)
-	. = ..()
+/obj/structure/fighter_launcher/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
 	if(istype(AM, /obj/structure/overmap/small_craft) && !mag_locked && ready) //Are we able to catch this ship?
 		var/obj/structure/overmap/small_craft/OM = AM
 		mag_locked = AM

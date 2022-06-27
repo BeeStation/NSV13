@@ -56,6 +56,44 @@
 		-->
 		<div class="commit sansserif">
 
+			<h2 class="date">27 June 2022</h2>
+			<h3 class="author">Bobbanz1 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added three lists and a name generator which picks from two of these three lists and slaps them together into a single name.</li>
+				<li class="rscadd">Added a line of code to the initialization of fighters to use the name generator and give themselves a random name</li>
+				<li class="rscdel">Removed Uranus from the List, it ruins everything.</li>
+			</ul>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="admin">Added ghost ship spawning info to game.log</li>
+				<li class="bugfix">No longer tries to pick from an empty list when RNG decides not to spawn a ghost ship</li>
+			</ul>
+
+			<h2 class="date">26 June 2022</h2>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">fixed Bee's radial menu Z movement having some weird type requirements on the starting turf</li>
+				<li class="tweak">made Move-Upwards and Move-Down use the animated travel_z proc for living things</li>
+				<li class="bugfix">fixed sentient disease Z movement</li>
+				<li class="bugfix">allowed most jaunt movement types to travel multi-Z regardless of gravity (includes revenants but not ninjas)</li>
+				<li class="tweak">added a passthrough for attack_hand on stairs so the radial menu for multi-z travel would show up</li>
+				<li class="rscadd">Top row numbers 1-4 can be used to select weapons while gunning</li>
+				<li class="refactor">Moved overmap key handling into the keybind system</li>
+			</ul>
+
+			<h2 class="date">24 June 2022</h2>
+			<h3 class="author">someone543 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Galactica brig now has a toolbox and recharger</li>
+				<li class="bugfix">Galactica permabrig techfab removed.</li>
+			</ul>
+
+			<h2 class="date">23 June 2022</h2>
+			<h3 class="author">Kenionatus updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">fixed duplicate loading into payload gates and onto munitions trolleys</li>
+			</ul>
+
 			<h2 class="date">17 June 2022</h2>
 			<h3 class="author">someone543 updated:</h3>
 			<ul class="changes bgimages16">
@@ -230,27 +268,6 @@
 			<h3 class="author">someone543 updated:</h3>
 			<ul class="changes bgimages16">
 				<li class="tweak">Glock ammo crates give five magazines instead of one</li>
-			</ul>
-
-			<h2 class="date">22 April 2022</h2>
-			<h3 class="author">Bokkiewokkie updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="code_imp">deleting ship consoles now dels their references properly.</li>
-				<li class="code_imp">stops ship weapons from filling the ship's loaded weapons list with their own refs.</li>
-			</ul>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="code_imp">Knpc nodes now support having multiple possible followup nodes / branches.</li>
-			</ul>
-			<h3 class="author">Ikalpo updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="balance">the AI is smarter with the edges of the overmap, no more hiding in corners!</li>
-				<li class="bugfix">fixed firing near the edge of the overmap would shoot in the wrong direction</li>
-				<li class="tweak">radar range is no longer a square</li>
-			</ul>
-			<h3 class="author">TheFakeElon updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed Ammo Rack Control Console UI</li>
 			</ul>
 		</div>
 
