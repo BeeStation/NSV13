@@ -95,6 +95,10 @@
 		user.forceMove(T)
 	mobs_in_ship |= user
 
+/obj/structure/overmap/small_craft/transport/update_visuals()
+	if(canopy)
+		cut_overlay(canopy)
+
 /obj/structure/overmap/small_craft/transport/proc/exit(mob/user)
 	var/turf/T = get_turf(src)
 	var/atom/movable/AM

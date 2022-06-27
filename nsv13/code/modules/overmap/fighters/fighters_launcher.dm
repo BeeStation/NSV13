@@ -279,9 +279,8 @@
 			return FALSE
 		OM = SSstar_system.find_main_overmap()
 		message_admins("[src] has no overmap or last overmap during a forced exit, it will enter the overmap near [OM]")
-	var/saved_layer = layer
 	layer = LOW_OBJ_LAYER
-	addtimer(VARSET_CALLBACK(src, layer, saved_layer), 2 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
+	addtimer(VARSET_CALLBACK(src, layer, ABOVE_MOB_LAYER), 2 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	DC.docking_cooldown = TRUE
 	addtimer(VARSET_CALLBACK(DC, docking_cooldown, FALSE), 5 SECONDS) //Prevents jank.
