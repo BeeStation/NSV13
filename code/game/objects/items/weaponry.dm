@@ -821,13 +821,27 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 		if(HAS_TRAIT(user, TRAIT_HULK))
 			transform = transform.Scale(2)
 			color = COLOR_GREEN
-		user.do_attack_animation(the_table)
-		//Uncomment if we ever port table slam signals
-		//SEND_SIGNAL(user, COMSIG_LIVING_SLAM_TABLE, the_table)
-		//SEND_SIGNAL(the_table, COMSIG_TABLE_SLAMMED, user)
-		playsound(get_turf(the_table), 'sound/effects/tableslam.ogg', 110, TRUE)
-		user.visible_message("<b><span class='danger'>[user] slams [user.p_their()] fist down on [the_table]!</span></b>", "<b><span class='danger'>You slam your fist down on [the_table]!</span></b>")
-		qdel(src)
+			user.do_attack_animation(the_table)
+			//Uncomment if we ever port table slam signals
+			//SEND_SIGNAL(user, COMSIG_LIVING_SLAM_TABLE, the_table)
+			//SEND_SIGNAL(the_table, COMSIG_TABLE_SLAMMED, user)
+			playsound(get_turf(the_table), 'sound/effects/tableslam.ogg', 110, TRUE)
+			user.visible_message("<b><span class='danger'>[user] slams [user.p_their()] fist down on [the_table]!</span></b>", "<b><span class='danger'>You slam your fist down on [the_table]!</span></b>")
+			qdel(src)
+		//NSV13 CHANGE BEGIN - BONE SHATTERING FIST
+		else
+			user.do_attack_animation(the_table)
+			//Uncomment if we ever port table slam signals
+			//SEND_SIGNAL(user, COMSIG_LIVING_SLAM_TABLE, the_table)
+			//SEND_SIGNAL(the_table, COMSIG_TABLE_SLAMMED, user)
+			var/mob/living/carbon/victim = user
+			var/obj/item/bodypart/affecting = victim.get_bodypart("[(user.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
+			if(affecting?.receive_damage(50))
+				playsound(get_turf(the_table), 'sound/effects/snap.ogg', 110, TRUE)
+				user.visible_message("<b><span class='danger'>[user] slams [user.p_their()] fist down on [the_table] and screams in agony!</span></b>", "<b><span class='danger'>You slam your fist down on [the_table] and feel your arm shattering!!</span></b>")
+				victim.update_damage_overlays()
+				qdel(src)
+		//NSV13 END
 	else
 		user.do_attack_animation(the_table)
 		playsound(get_turf(the_table), 'sound/effects/tableslam.ogg', 40, TRUE)
