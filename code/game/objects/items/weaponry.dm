@@ -836,11 +836,19 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 			//SEND_SIGNAL(the_table, COMSIG_TABLE_SLAMMED, user)
 			var/mob/living/carbon/victim = user
 			var/obj/item/bodypart/affecting = victim.get_bodypart("[(user.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
-			if(affecting?.receive_damage(50))
-				playsound(get_turf(the_table), 'sound/effects/snap.ogg', 110, TRUE)
-				user.visible_message("<b><span class='danger'>[user] slams [user.p_their()] fist down on [the_table] and screams in agony!</span></b>", "<b><span class='danger'>You slam your fist down on [the_table] and feel your arm shattering!!</span></b>")
-				victim.update_damage_overlays()
-				qdel(src)
+			if(affecting)
+				if(prob(50))
+					victim.update_damage_overlays()
+					playsound(get_turf(the_table), 'sound/effects/snap.ogg', 110, TRUE)
+					user.visible_message("<b><span class='danger'>[user] slams [user.p_their()] fist down on [the_table] and screams in agony!</span></b>", "<b><span class='danger'>You slam your fist down on [the_table] and feel your arm screaming in pain!!</span></b>")
+					affecting.receive_damage(0, 0, 50)
+					qdel(src)
+				else
+					victim.update_damage_overlays()
+					playsound(get_turf(the_table), 'sound/effects/snap.ogg', 110, TRUE)
+					user.visible_message("<b><span class='danger'>[user] slams [user.p_their()] fist down on [the_table] and flinches!</span></b>", "<b><span class='danger'>You slam your fist down on [the_table] and feel your arm burning with pain!</span></b>")
+					affecting.receive_damage(0, 0, 25)
+					qdel(src)
 		//NSV13 END
 	else
 		user.do_attack_animation(the_table)
