@@ -50,6 +50,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/escape_pod_type = /obj/structure/overmap/small_craft/escapepod
 	var/mutable_appearance/canopy
+	var/random_name = TRUE
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/change_name, .verb/countermeasure)
 
 /obj/structure/overmap/small_craft/Destroy()
@@ -81,19 +82,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 		playsound(helm, 'sound/machines/buzz-sigh.ogg', 75, 1)
 		return
 	. = ..()
-	var/mob/themob = user.mob
-	switch(key)
-		if("Capslock")
-			if(themob == pilot)
-				toggle_safety()
-			if(helm && prob(80))
-				var/sound = pick(GLOB.computer_beeps)
-				playsound(helm, sound, 100, 1)
-			return TRUE
-		if("5")
-			if(themob == pilot)
-				countermeasure()
-			return TRUE
 
 /obj/structure/overmap/small_craft/ui_state(mob/user)
 	return GLOB.contained_state
@@ -434,6 +422,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/small_craft/Initialize(mapload, list/build_components=components)
 	. = ..()
+	if(random_name)
+		name = generate_fighter_name()
 	apply_weapons()
 	loadout = AddComponent(loadout_type)
 	if(dradis_type)
@@ -1849,3 +1839,4 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/structure/overmap/small_craft/proc/toggle_canopy()
 	canopy_open = !canopy_open
 	playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
+ 
