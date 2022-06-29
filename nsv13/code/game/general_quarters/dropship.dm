@@ -189,7 +189,6 @@
 	var/obj/structure/overmap/small_craft/transport/OM = get_overmap()
 	if(..() || !OM)
 		return
-	var/atom/movable/target = locate(params["id"])
 	if(action == "kick")
 		return
 	OM.ui_act(action, params, ui)
