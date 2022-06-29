@@ -83,7 +83,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	else if(interior_status != INTERIOR_NOT_LOADED)
 		message_admins("[src] tried to load boarding map while it was already loading, deleting, or had been released. Aborting!")
 		return FALSE // If we're currently loading or deleting, stop
-	if(!boarder.boarding_reservation_z || !length(possible_interior_maps) || length(occupying_levels) || !boarder.reserved_z || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
+	if(!boarder.boarding_reservation_z || !length(possible_interior_maps) || length(occupying_levels) || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
 		message_admins("[boarder] attempted to board [src], but the pre-mapload checks failed!")
 		return FALSE
 
