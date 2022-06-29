@@ -8,14 +8,7 @@
 		system_contents += OM	//Lets be safe while I cast some black magic.
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
 		if(!SSmapping.level_trait(OM.z, ZTRAIT_OVERMAP))
-			if(OM.reserved_z)
-				occupying_z = OM.reserved_z
-			else if(!length(OM.free_treadmills))
-				SSmapping.add_new_initialized_zlevel("Overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-				occupying_z = world.maxz
-			else
-				var/_z = pick_n_take(OM.free_treadmills)
-				occupying_z = _z
+			occupying_z = OM.get_reserved_z()
 		else
 			occupying_z = OM.z
 		if(OM.role == MAIN_OVERMAP) //As these events all happen to the main ship, let's check that it's not say, the nomi that's triggering this system load...

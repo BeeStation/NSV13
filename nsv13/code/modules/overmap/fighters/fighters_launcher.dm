@@ -302,12 +302,7 @@
 	current_system = OM.current_system
 	//Add a treadmill for this ship as and when needed.
 	if(!current_system.occupying_z && !reserved_z && ftl_drive)
-		if(!free_treadmills?.len)
-			SSmapping.add_new_initialized_zlevel("Dropship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-			reserved_z = world.maxz
-		else
-			var/_z = pick_n_take(free_treadmills)
-			reserved_z = _z
+		get_reserved_z()
 	if(current_system) // No I can't use ?, because if it's null we use the previous value instead
 		starting_system = current_system.name //Just fuck off it works alright?
 	SSstar_system.add_ship(src, get_turf(OM))
