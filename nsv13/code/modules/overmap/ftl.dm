@@ -91,8 +91,9 @@
 	contents_positions = null
 	contents_positions = list()
 
-/datum/star_system/proc/remove_ship(obj/structure/overmap/OM)
+/datum/star_system/proc/remove_ship(obj/structure/overmap/OM, turf/new_location)
 	var/list/other_player_ships = list()
+
 	for(var/atom/X in system_contents)
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/ship = X
@@ -104,13 +105,13 @@
 		var/temp = ship.get_reserved_z()
 		ship.reserved_z = OM.reserved_z
 		OM.reserved_z = temp
-		OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
+		OM.forceMove(new_location ? new_location : locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 		system_contents -= OM
 		ftl_pull_small_craft(OM)
 		return //Early return here. This means that another player ship is already holding the system, and we really don't need to double-check for this.
 
 	message_admins("Successfully removed [OM] from [src]")
-	OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
+	OM.forceMove(new_location ? new_location : locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 	system_contents -= OM
 
 	if(!OM.reserved_z)	//If this isn't actually a big ship with its own interior, do not pull ships, as only those get their own reserved z.

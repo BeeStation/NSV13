@@ -357,7 +357,8 @@
 	pixel_w = initial(pixel_w)
 	pixel_z = initial(pixel_z)
 	var/turf/T = get_turf(pick(OM.docking_points))
-	forceMove(T)
+	if(current_system)
+		current_system.remove_ship(src, T)
 	LAZYADD(OM.overmaps_in_ship, src)
 	bound_width = initial(bound_width)
 	bound_height = initial(bound_height)
@@ -366,9 +367,6 @@
 	if(pilot)
 		to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
-	if(current_system && LAZYFIND(current_system.system_contents, src))
-		current_system.system_contents -= src
-		current_system = null
 	if(reserved_z)
 		free_treadmills += reserved_z
 		reserved_z = null
