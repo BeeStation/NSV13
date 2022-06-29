@@ -819,3 +819,16 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/proc/can_brake()
 	return TRUE //See fighters.dm
+
+// Dynamic allocation of overmap Zs
+// DO NOT CALL THIS IF THEY'RE NOT ALLOWED TO RESERVE A Z
+/obj/structure/overmap/proc/get_reserved_z()
+	if(reserved_z)
+		return reserved_z
+	if(!free_treadmills?.len)
+		SSmapping.add_new_initialized_zlevel("Dropship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
+		reserved_z = world.maxz
+	else
+		var/_z = pick_n_take(free_treadmills)
+		reserved_z = _z
+	return reserved_z

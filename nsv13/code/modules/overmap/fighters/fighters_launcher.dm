@@ -301,7 +301,7 @@
 	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE) //Let dradis comps update their status too
 	current_system = OM.current_system
 	//Add a treadmill for this ship as and when needed.
-	if(!reserved_z && ftl_drive)
+	if(!current_system.occupying_z && !reserved_z && ftl_drive)
 		if(!free_treadmills?.len)
 			SSmapping.add_new_initialized_zlevel("Dropship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
 			reserved_z = world.maxz
