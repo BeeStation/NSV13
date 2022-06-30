@@ -1,6 +1,5 @@
 //Gamemode used during PVP
 
-//Acquire 1000 tickets for NT
 /datum/overmap_gamemode/galactic_conquest
 	name = "Galactic Conquest"
 	desc = "PVP Gamemode - Acquire 1000 victory tickets for Nanotrasen or destroy the Syndicate Flagship"
