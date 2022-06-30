@@ -67,8 +67,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	var/list/collision_positions = list() //See the collisions doc for how these work. Theyre a pain in the ass.
 	var/datum/component/physics2d/physics2d = null
 
-//Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
+/// This makes us not drift like normal objects in space do
+/obj/structure/overmap/Process_Spacemove(movement_dir = 0)
+	return 1
 
+/// Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
 /obj/structure/overmap/proc/get_center()
 	RETURN_TYPE(/turf)
 	return (bound_height > 32 && bound_height > 32) ? get_turf(locate((src.x+(pixel_collision_size_x/32)/2), src.y+((pixel_collision_size_y/32)/2), z)) : get_turf(src)

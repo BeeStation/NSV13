@@ -820,8 +820,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/proc/can_brake()
 	return TRUE //See fighters.dm
 
-// Dynamic allocation of overmap Zs
-// DON'T CALL THIS IF YOU DON'T WANT ONE TO BE ASSIGNED TO YOU
+/**
+  * Dynamic allocation of overmap Zs.
+  * DON'T CALL THIS IF YOU DON'T WANT ONE TO BE ASSIGNED TO YOU
+  */
 /obj/structure/overmap/proc/get_reserved_z()
 	if(reserved_z)
 		return reserved_z
