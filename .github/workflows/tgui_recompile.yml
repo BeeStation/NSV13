@@ -5,7 +5,8 @@ on:
     types: [rebuild-tgui]
   push:
     branches:
-      - 'master'
+      - 'development'
+      - 'production'
     paths:
       - 'tgui/**.js'
       - 'tgui/**.scss'
@@ -14,7 +15,7 @@ on:
 env:
   COMMIT_NAME: 'ss13-beebot'
   COMMIT_EMAIL: '56381746+ss13-beebot@users.noreply.github.com'
-  DEFAULT_BRANCH: 'master'
+  DEFAULT_BRANCH: 'development'
   TOKEN: '${{ secrets.CL_TOKEN }}'
 
 jobs:

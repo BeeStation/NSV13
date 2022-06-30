@@ -830,8 +830,8 @@ Returns a faction datum by its name (case insensitive!)
 	is_capital = TRUE
 	x = 70
 	y = 50
-	fleet_type = /datum/fleet/nanotrasen/earth
-	alignment = "nanotrasen"
+	fleet_type = /datum/fleet/solgov/earth
+	alignment = "solgov"
 	system_type = list(
 		tag = "planet_earth",
 		label = "Planetary system",

@@ -3,12 +3,12 @@ name: Make changelogs
 on:
   push:
     branches:
-      - master
+      - development
 
 jobs:
   MakeCL:
     runs-on: ubuntu-latest
-    if: github.repository == 'BeeStation/NSV13' && !contains(github.event.head_commit.message, '[ci skip]')
+    if: github.repository == 'Proxima-Project/Proxi-NSV13' && !contains(github.event.head_commit.message, '[ci skip]')
     steps:
       - name: Checkout
         uses: actions/checkout@v1

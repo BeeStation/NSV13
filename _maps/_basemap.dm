@@ -40,6 +40,10 @@
 		#include "map_files\Atlantis\Atlantis.dmm"
 		#include "map_files\Atlantis\Atlantis2.dmm"
 
+		//Snake
+		#include "map_files\Snake\snake_lower.dmm"
+		#include "map_files\Snake\snake_upper.dmm"
+
 		#ifdef CIBUILDING
 			#include "templates.dm"
 		#endif

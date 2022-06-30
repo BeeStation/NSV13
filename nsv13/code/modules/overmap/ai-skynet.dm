@@ -337,7 +337,7 @@ Adding tasks is easy! Just define a datum for it.
 			SSovermap_mode.modify_threat_elevation(TE_FLEET_THREAT_DYNAMIC ? (TE_FLEET_KILL_THREAT * applied_size ) : TE_FLEET_KILL_THREAT)
 	QDEL_NULL(src)
 
-/datum/fleet/nanotrasen/earth/defeat()
+/datum/fleet/solgov/earth/defeat()
 	. = ..() //If you lose sol...game over man, game over.
 	priority_announce("SolGov command do you read?! Requesting immediate assistance, we have a foothold situation, repeat, a foothold sit##----///", "White Rapids Fleet Command")
 	SSticker.mode.check_finished(TRUE)
@@ -392,7 +392,7 @@ Adding tasks is easy! Just define a datum for it.
 	for(var/a in launcher.chambered.GetAllContents())
 		if(is_type_in_typecache(a, GLOB.blacklisted_cargo_types))
 			if ( !istype( a, /mob/living/simple_animal ) ) // Allow the transfer of specimens specifically for cargo missions
-				to_chat(user, "<span class='warning'>[src] Cargo Shuttle Brand lifeform checker blinks an error, \
+				to_chat(user, "<span class='warning'>[launcher] Cargo Shuttle Brand lifeform checker blinks an error, \
 					for safety reasons it cannot transport hazardous organisms, human remains, classified nuclear weaponry, \
 					homing beacons or machinery housing any form of artificial intelligence.")
 				return FALSE
@@ -479,22 +479,20 @@ Adding tasks is easy! Just define a datum for it.
 /obj/structure/overmap/proc/make_paperwork( var/datum/freight_delivery_receipt/receipt, var/approval )
 	// Cargo DRADIS automatically synthesizes and attaches the requisition form to the cargo torp
 	var/obj/item/paper/paper = new /obj/item/paper()
-	paper.info = ""
+	paper.info = "<h2>[receipt.vessel] Shipping Manifest</h2><hr/>"
 
-	paper.info += "<h2>[receipt.vessel] Shipping Manifest</h2>"
-	paper.info += "<hr/>"
-	paper.info += ( "Order: S-[rand( 1000, 5000 )]<br/>" )
-	paper.info += "Destination: [src]<br/>"
-	if ( length( receipt.completed_objectives ) > 1 ) // If receipt has an attach objective which marks it as completed
-		paper.info += ( "Item: Assorted Shipment<br/>" )
-	else if ( length( receipt.completed_objectives ) == 1 )
+	if ( length( receipt.completed_objectives ) == 1 )
 		var/datum/overmap_objective/cargo/objective = receipt.completed_objectives[ 1 ]
-		paper.info += ( "Item: [objective.crate_name]<br/>" )
+		paper.info += "Order: #[GLOB.round_id]-[objective.objective_number]<br/> \
+			Destination: [src]<br/> \
+			Item: [objective.crate_name]<br/>"
 	else
-		paper.info += ( "Item: Unregistered Shipment<br/>" )
-	paper.info += "Contents:<br/>"
+		paper.info += "Order: N/A<br/> \
+			Destination: [src]<br/> \
+			Item: Unregistered Shipment<br/>"
 
-	paper.info += "<ul>"
+	paper.info += "Contents:<br/><ul>"
+
 	if ( istype( receipt.shipment, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
 		var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = receipt.shipment
 
@@ -505,9 +503,8 @@ Adding tasks is easy! Just define a datum for it.
 				paper.info += "<li>[item]</li>"
 	else
 		paper.info += "<li>miscellaneous unpackaged objects</li>"
-	paper.info += "</ul>"
 
-	paper.info += "<h4>Stamp below to confirm receipt of goods:</h4>"
+	paper.info += "</ul><h4>Stamp below to confirm receipt of goods:</h4>"
 
 	paper.stamped = list()
 	paper.stamps = list()
@@ -602,6 +599,10 @@ Adding tasks is easy! Just define a datum for it.
 	receipt.vessel = console.linked
 	receipt.shipment = shipment
 	receipts += receipt
+
+	if ( SSovermap_mode.mode.debug_mode )
+		speed_cargo_check = 1 SECONDS
+		speed_cargo_return = 1 SECONDS
 
 	to_chat(user, "<span class='notice'>The cargo has been sent to [src] and should be received shortly.</span>")
 	addtimer(CALLBACK(src, .proc/check_objectives, receipt), speed_cargo_check)
@@ -878,24 +879,26 @@ Adding tasks is easy! Just define a datum for it.
 	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
-/datum/fleet/syndicate/AbassisWrath
-	name = "Abassi's Wrath"
-	size = FLEET_DIFFICULTY_VERY_HARD
-	allow_difficulty_scaling = TRUE
-	battleship_types = list(/obj/structure/overmap/syndicate/ai/fistofsol, /obj/structure/overmap/syndicate/ai/kadesh)
-	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/cruiser/elite)
-	taunts = list("Do you see the scrap, the graves of your own making? You'll be in one soon enough.", "A criminal always returns to the scene of the crime...", "We are his wrath, we are his blade. We shall cut you down!", "All ships, end the war.")
-	fleet_trait = FLEET_TRAIT_DEFENSE
-
-/datum/fleet/syndicate/fistofsolo
+/datum/fleet/syndicate/fistofsol_boss
 	name = "SSV Fist of Sol"
+	faction = FACTION_ID_SYNDICATE
 	size = 1
 	allow_difficulty_scaling = FALSE
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/fistofsol)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 	taunts = list("That's it... Just you and me now, no support, no distractions... no war. Whoever wins is the best crew.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
+
+/datum/fleet/hostile/alicorn_boss
+	name = "\proper SGV Alicorn"
+	size = 1
+	hide_movements = TRUE
+	allow_difficulty_scaling = FALSE
+	fighter_types = list(/obj/structure/overmap/hostile/ai/fighter)
+	supply_types = list(/obj/structure/overmap/hostile/ai/alicorn)
+	taunts = list("Ahaha... A powerful ship, a powerful gun, powerful ammunition. The graceful slaughter of a billion lives to save billions more!")
+	fleet_trait = FLEET_TRAIT_DEFENSE
+
 
 //Nanotrasen fleets
 
@@ -1600,8 +1603,8 @@ Seek a ship thich we'll station ourselves around
 	var/nodamage = FALSE // Mob immunity equivalent for stations, used for mission critical targets. Separate var if mission critical stations need to be essential but not immortal
 	var/supply_pod_type = /obj/structure/closet/supplypod/centcompod
 	var/returns_rejected_cargo = TRUE // AI ships will return cargo that does not match their expected shipments
-	var/speed_cargo_check = 30 SECONDS
-	var/speed_cargo_return = 30 SECONDS
+	var/speed_cargo_check = 30 SECONDS // Time it takes for a ship to respond to a shipment
+	var/speed_cargo_return = 30 SECONDS // Time it takes for a ship to return shipment results (approved paperwork, rejected shipment)
 
 	var/last_decision = 0
 	var/decision_delay = 2 SECONDS

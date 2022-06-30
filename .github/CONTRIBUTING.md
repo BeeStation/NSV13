@@ -2,50 +2,56 @@
 CONTRIBUTING
 ===
 
-## Table of Contents
+## Содержание
 
-1. Introduction
-2. Getting Started - Contributing for Dummies
-3. Recommended Tools - Creating a Decent Dev Environment
-4. Code Standards
-5. Codebase-specific Policies
-6. Asset Policy
-7. Banned Content
+1. Вступление
+2. Давай начнем - Участие в проекте для чайников
+3. Рекомендуемые Инструменты - Создание приемлемой среды разработки
+4. Стандарты кода
+5. Политики кодовой базы
+6. Политика активов
+7. Запрещенный контент
 
-## 1. Introduction
-Hello and welcome to BeeStation's contributing page. You are presumably here because you are interested in contributing - thank you! Everyone is free to contribute to this project as long as they follow the simple guidelines and specifications below; at BeeStation, we strive to maintain code stability and maintainability, and to do that, we need all pull requests to meet our standards. It's in everyone's best interests - including yours!
+## 1. Вступление
+Привет и добро пожаловать на страницу участия в проекте Proxima Project. Скорее всего вы здесь потому что хотите сделать вклад - спасибо!
+Участовать в прокте может каждый, но для этого надо соблюдать несколько простых правил и особенностей ниже; на Proxima Project, мы
+пытаемся поддерживать стабильность и доступность кода, и чтобы так оно и было, нам надо чтобы все ПРы соответсовали нашим стандартам.
+Это сделано в лучших интересов каждого - включая тебя!
 
-First things first, we want to make it clear how you can contribute (if you've never contributed before), as well as the kinds of powers the team has over your additions, to avoid any unpleasant surprises if your pull request is closed for a reason you didn't foresee.
+Сперва наперво, мы хотим обьяснить как ты можешь участовать в прокете (если ты никогда не делал "контрибутинг" раньше), а так же рассказать какие права есть у команды к твоим правкам, чтобы избежать нежеланных сюрпризов, если твой ПР закроют по причине которую ты не понимаешь.
 
-## 2. Getting Started - Contributing for Dummies
+## 2. Давай начнем - Участие в проекте для чайников
 
-BeeStation doesn't have any kind of design document outlining planned changes; we instead allow freedom for contributors to suggest and create their ideas for the game. That doesn't mean we aren't determined to squash bugs, which unfortunately pop up a lot due to the deep complexity of the game.
+У Proxima Project нет какого либо проектного документа в котором запланированы все изменения на декады вперед, вместо этого мы предпочитаем свободу в разработке для всех кто предлагает и создает идеи для улучшения игры. Это не значит что мы не намерены фиксить баги, которые к сожалению появляются из-за сложности игрового кода.
 
-If you want to contribute the first thing you'll need to do is set up a decent development environment. The default tools for working with BYOND simply aren't sufficient, and the next section explains what we use. We also have a few guides to help you get started with git and making a pull request:
+Если вы хотите сделать вклад, сначала вам надо подготовить удобную среду разработки. Обычных инструментов для работы с BYOND просто недостаточно и в следующем разделе мы расскажем, что используем мы. Мы так же рекомендуем ознакомиться с гайдом одного из англоговорящих сообществв СС13, в котором обьясняются основы "системы контроля версий" - Git и рассказывают о том как создать свой первый ПР (PullRequest):
 
-* [Here](https://forums.beestation13.com/t/github-building-the-hive/1334) is a guide for setting up Git and GitKraken.
+* [Здесь](https://forums.beestation13.com/t/github-building-the-hive/1334) гайд по настройке Git а так же GitKraken.
 
-For beginners, it is strongly recommended you work on small projects like bugfixes or very minor features at first. While we are willing to assist you, we have no desire to write your code for you.
+Для начинающих, строго рекомендуется по началу работать над маленькими проектами по типу исправлению багов (Bug - Ошибки в коде) или очень незначительными фичами (Feature - улучшение, особенность, возможность). Не смотря на то что мы хотим помочь - у нас нет никакого желания делать всю работу за вас, в том числе писать ваш код.
 
-**Please note that you need to credit any code that you port from other codebases.**
+**Пожалуйста обратите внимание, вам надо указывать любой код, который вы берете из других проектов.**
 
-There are a variety of ways to give credit, here is a list of our most strongly preferred method to least preferred:
-1. Cherry-pick (Guide coming soon). May not always be feasible.
-2. Provide a link to the specific pull request(s) in your pull request's description.
-3. Mention the codebase it's from in your pull request description.
+Существует множество способов сделать это, вот список наиболее подходящих из них:
+1. Cherry-pick (Особенность Git. Гайд будет, когда нибудь). Не всегда осуществимо.
+2. Предоставить ссылку на конкретный ПР(ы) в описании вашего ПРа.
+3. Упомянуть проект, откуда вы берете код, в описании к вашему ПРу.
 
-You can of course, as always, ask for help on our discord.
+Ну и конечно вы всегда можете попросить о помощи в нашем Discord.
 
-## 3. Recommended Tools - Creating a Decent Dev Environment
+## 3. Рекомендуемые Инструменты - Создание приемлемой среды разработки
 
-By default, the only thing BYOND provides people with is Dream Maker. It is hardly sufficient, and few (if any) contributors regularly use it. Instead, we have a variety of alternative tools for different purposes that make our lives a lot easier:
+По умолчанию, единственное что BYOND предоставляет людям это Dream Maker. Из-за качества этой "среды" её почти никто не использует. Вместо этого есть большое разнообразие альтернативных инструментов для разных ситуаций, которые делают нашу жизнь лучше:
 
-* Git client - [GitKraken](https://www.gitkraken.com/)
-* Code editing - [VSCode](https://code.visualstudio.com/) (NOT THE SAME AS VISUAL STUDIO)
-* VSCode Extensions - [DM syntax highlighting](https://marketplace.visualstudio.com/items?itemName=gbasood.byond-dm-language-support), [DM language support](https://marketplace.visualstudio.com/items?itemName=platymuus.dm-langclient)
-* Map editing - [FastDMM2](https://fastdmm2.ss13.io/) or [StrongDMM](https://github.com/SpaiR/StrongDMM)
+* Клиент Git - [GitKraken](https://www.gitkraken.com/)
+* Редактор кода - [VSCode](https://code.visualstudio.com/) (НЕ ТОЖЕ САМОЕ ЧТО И VISUAL STUDIO)
+* Расширения для VSCode - [Подстветка синтаксиса DM](https://marketplace.visualstudio.com/items?itemName=gbasood.byond-dm-language-support), [Поддержка языка DM](https://marketplace.visualstudio.com/items?itemName=platymuus.dm-langclient)
+* Редакторы карт - [FastDMM2](https://fastdmm2.ss13.io/) или [StrongDMM](https://github.com/SpaiR/StrongDMM)
 
-## 4. Code Standards
+## 4. Стандарты кода
+
+# Я только что увидел сколько там текста на перевод. О боже нет, я на это не подписывался. РЬЯЯЯЯЯЯ ~Archemagus
+
 There are a variety of ways you can write valid DM code. However, BeeStation is not as lenient. Maintaining good code standards is important for performance and readability reasons. You can find details about our code standards [here](https://github.com/BeeStation/BeeStation-Hornet/wiki/Code-Standards).
 
 They are mostly the same as /tg/station's code standards, though we are not quite as strict about enforcing them. A notable example is that we don't require our code to be thoroughly documented for autodoc.
@@ -325,7 +331,7 @@ for(var/obj/item/sword/S in bag_of_swords)
 	if(!best_sword || S.damage > best_sword.damage)
 		best_sword = S
 ```
-specifies a type for DM to filter by. 
+specifies a type for DM to filter by.
 
 With the previous example that's perfectly fine, we only want swords, but here the bag only contains swords? Is DM still going to try to filter because we gave it a type to filter by? YES, and here comes the inefficiency. Wherever a list (or other container, such as an atom (in which case you're technically accessing their special contents list, but that's irrelevant)) contains datums of the same datatype or subtypes of the datatype you require for your loop's body,
 you can circumvent DM's filtering and automatic ```istype()``` checks by writing the loop as such:
@@ -362,7 +368,7 @@ mob
 ```
 This does NOT mean that you can access it everywhere like a global var. Instead, it means that that var will only exist once for all instances of its type, in this case that var will only exist once for all mobs - it's shared across everything in its type. (Much more like the keyword `static` in other languages like PHP/C++/C#/Java)
 
-Isn't that confusing? 
+Isn't that confusing?
 
 There is also an undocumented keyword called `static` that has the same behaviour as global but more correctly describes BYOND's behaviour. Therefore, we always use static instead of global where we need it, as it reduces suprise when reading BYOND code.
 

@@ -207,21 +207,21 @@
 	config_entry_value = "https://nsv.beestation13.com/wiki/Main_Page"
 
 /datum/config_entry/string/forumurl
-	config_entry_value = "https://forums-nsv.beestation13.com/"
+	config_entry_value = "https://discord.gg/5ueTAFgHUB"
 
 /datum/config_entry/string/rulesurl
-	config_entry_value = "https://nsv.beestation13.com/wiki/Rules"
+	config_entry_value = "https://discord.com/channels/836290307396993029/836301756379037767/926769052888731649"
 
 /datum/config_entry/string/githuburl
-	config_entry_value = "https://github.com/BeeStation/NSV13"
+	config_entry_value = "https://github.com/Proxima-Project/Proxi-NSV13"
 
 /datum/config_entry/string/issue_label
 
 /datum/config_entry/string/donateurl
-	config_entry_value = "https://www.patreon.com/user?u=10639001"
+	config_entry_value = "https://www.youtube.com/watch?v=MHxKm15fDHg"
 
 /datum/config_entry/string/discordurl
-	config_entry_value = "https://nsv.beestation13.com/discord"
+	config_entry_value = "https://discord.gg/5ueTAFgHUB"
 //NSV13 changes end
 
 /datum/config_entry/string/roundstatsurl
