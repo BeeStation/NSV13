@@ -83,7 +83,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	else if(interior_status != INTERIOR_NOT_LOADED)
 		message_admins("[src] tried to load boarding map while it was already loading, deleting, or had been released. Aborting!")
 		return FALSE // If we're currently loading or deleting, stop
-	if(!boarder.boarding_reservation_z || !length(possible_interior_maps) || length(occupying_levels) || !boarder.reserved_z || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
+	if(!boarder.boarding_reservation_z || !length(possible_interior_maps) || length(occupying_levels) || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
 		message_admins("[boarder] attempted to board [src], but the pre-mapload checks failed!")
 		return FALSE
 
@@ -112,11 +112,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 /obj/structure/overmap/proc/get_overmap_level()
 	//Add a treadmill for this ship as and when needed.
 	if(!reserved_z)
-		if(!length(free_treadmills))
-			SSmapping.add_new_initialized_zlevel("Captured ship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-			reserved_z = world.maxz
-		else
-			reserved_z = pick_n_take(free_treadmills)
+		get_reserved_z()
 		starting_system = current_system.name //Just fuck off it works alright?
 		SSstar_system.add_ship(src)
 

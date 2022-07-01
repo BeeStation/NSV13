@@ -301,13 +301,8 @@
 	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE) //Let dradis comps update their status too
 	current_system = OM.current_system
 	//Add a treadmill for this ship as and when needed.
-	if(!reserved_z && ftl_drive)
-		if(!free_treadmills?.len)
-			SSmapping.add_new_initialized_zlevel("Dropship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-			reserved_z = world.maxz
-		else
-			var/_z = pick_n_take(free_treadmills)
-			reserved_z = _z
+	if(!current_system.occupying_z && !reserved_z && ftl_drive)
+		get_reserved_z()
 	if(current_system) // No I can't use ?, because if it's null we use the previous value instead
 		starting_system = current_system.name //Just fuck off it works alright?
 	SSstar_system.add_ship(src, get_turf(OM))
@@ -362,7 +357,8 @@
 	pixel_w = initial(pixel_w)
 	pixel_z = initial(pixel_z)
 	var/turf/T = get_turf(pick(OM.docking_points))
-	forceMove(T)
+	if(current_system)
+		current_system.remove_ship(src, T)
 	LAZYADD(OM.overmaps_in_ship, src)
 	bound_width = initial(bound_width)
 	bound_height = initial(bound_height)
@@ -371,9 +367,6 @@
 	if(pilot)
 		to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
-	if(current_system && LAZYFIND(current_system.system_contents, src))
-		current_system.system_contents -= src
-		current_system = null
 	if(reserved_z)
 		free_treadmills += reserved_z
 		reserved_z = null
