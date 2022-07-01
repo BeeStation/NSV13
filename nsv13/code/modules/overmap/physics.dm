@@ -629,3 +629,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	else
 		stack_trace("WARNING: Projectile [type] fired without either mouse parameters, or a target atom to aim at!")
 		qdel(src)
+
+/// This makes us not drift like normal objects in space do
+/obj/structure/overmap/Process_Spacemove(movement_dir = 0)
+	return 1
