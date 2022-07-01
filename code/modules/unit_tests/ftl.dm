@@ -3,7 +3,8 @@
 
 /datum/unit_test/sabre_gets_towed/Run()
 	var/obj/structure/overmap/main = SSstar_system.find_main_overmap()
-	var/obj/structure/overmap/small_craft/transport/sabre/straggler = null
+	var/obj/structure/overmap/small_craft/transport/sabre/occupied_sabre = null
+	var/obj/structure/overmap/small_craft/transport/sabre/empty_sabre = null
 	var/datum/star_system/starting_system = main.current_system
 	var/datum/star_system/target_system
 
@@ -13,25 +14,36 @@
 		target_system = SSstar_system.system_by_id("Ida")
 
 	for(var/obj/structure/overmap/small_craft/transport/sabre/OM as() in main.overmaps_in_ship)
-		straggler = OM
+		occupied_sabre = OM
 		break
 
-	if(!straggler)
-		var/turf/center = SSmapping.get_station_center()
-		straggler = new /obj/structure/overmap/small_craft/transport(center)
-		straggler.forceMove(center)
+	var/turf/center = SSmapping.get_station_center()
+	if(!occupied_sabre)
+		occupied_sabre = new /obj/structure/overmap/small_craft/transport(center)
+		occupied_sabre.forceMove(center)
+	if(!empty_sabre)
+		empty_sabre = new /obj/structure/overmap/small_craft/transport(center)
+		occupied_sabre.forceMove(center)
 
 	var/mob/living/carbon/human/dummy = new()
-	straggler.operators += dummy
+	occupied_sabre.operators += dummy
 
-	if(!straggler.check_overmap_elegibility(ignore_position = TRUE, ignore_cooldown = TRUE))
-		Fail("Couldn't put straggler onto the overmap")
+	if(!occupied_sabre.check_overmap_elegibility(ignore_position = TRUE, ignore_cooldown = TRUE))
+		Fail("Couldn't put occupied_sabre onto the overmap")
+	if(!empty_sabre.check_overmap_elegibility(ignore_position = TRUE, ignore_cooldown = TRUE))
+		Fail("Couldn't put empty_sabre onto the overmap")
+
+	log_test("systems before jump: main: [main.current_system], occupied_sabre: [occupied_sabre.current_system], empty_sabre: [empty_sabre.current_system]")
 	main.jump_start(target_system, force=TRUE)
 
-	TEST_ASSERT(!straggler.reserved_z, "Sabre has a reserved Z")
-	TEST_ASSERT_NOTEQUAL(straggler.reserved_z, main.reserved_z, "Sabre and main ship reserved the same Z")
-	TEST_ASSERT_EQUAL(straggler.z, main.z, "Sabre is not on the main ship's Z")
+	TEST_ASSERT(!occupied_sabre.reserved_z, "occupied_sabre has a reserved Z")
+	TEST_ASSERT(!empty_sabre.reserved_z, "empty_sabre has a reserved Z")
+	TEST_ASSERT_NOTEQUAL(occupied_sabre.reserved_z, main.reserved_z, "occupied_sabre and main ship reserved the same Z")
+	TEST_ASSERT_NOTEQUAL(empty_sabre.reserved_z, main.reserved_z, "occupied_sabre and main ship reserved the same Z")
+	TEST_ASSERT_EQUAL(occupied_sabre.z, main.z, "occupied_sabre is not on the main ship's Z")
+	TEST_ASSERT(!empty_sabre.z, "empty_sabre was not put into stasis")
 
-	TEST_ASSERT_NOTEQUAL(main.current_system, straggler.current_system, "Main ship and sabre have different current_system")
+	log_test("systems after jump: main: [main.current_system], occupied_sabre: [occupied_sabre.current_system], empty_sabre: [empty_sabre.current_system]")
+	TEST_ASSERT_EQUAL(main.current_system, occupied_sabre.current_system, "Main ship and occupied_sabre have different current_system")
 
 	TEST_ASSERT(!starting_system.occupying_z, "Starting system has occupying_z")
