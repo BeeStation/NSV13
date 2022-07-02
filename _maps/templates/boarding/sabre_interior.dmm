@@ -42,6 +42,7 @@
 /obj/item/radio/intercom/directional/east,
 /obj/machinery/stasis,
 /obj/effect/turf_decal/ship/delivery/yellow,
+/obj/item/storage/firstaid,
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin15"
 	},
@@ -94,7 +95,7 @@
 /area/dropship/generic)
 "pC" = (
 /turf/open/space/transit/north,
-/area/space)
+/area/dropship/generic)
 "qn" = (
 /obj/structure/chair/comfy/dropship{
 	dir = 4
@@ -180,11 +181,9 @@
 /obj/machinery/atmospherics/components/unary/portables_connector/visible{
 	dir = 4
 	},
-/obj/structure/chair/comfy/dropship{
-	dir = 1
-	},
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/effect/landmark/trader_drop_point,
+/obj/machinery/portable_atmospherics/canister/oxygen,
+/obj/item/wrench,
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin15"
 	},
@@ -223,7 +222,7 @@
 	dir = 8;
 	pixel_x = 20
 	},
-/obj/machinery/computer/ship/navigation/public{
+/obj/structure/chair/comfy/dropship{
 	dir = 8
 	},
 /turf/open/indestructible/dropship{
@@ -296,7 +295,7 @@
 /turf/closed/indestructible/cordon{
 	alpha = 0
 	},
-/area/space)
+/area/dropship/generic)
 "WQ" = (
 /turf/closed/wall/indestructible/dropship{
 	icon_state = "70"
@@ -305,9 +304,6 @@
 "WV" = (
 /obj/machinery/atmospherics/pipe/simple/general/hidden{
 	dir = 9
-	},
-/obj/structure/chair/comfy/dropship{
-	dir = 1
 	},
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin3"
@@ -330,7 +326,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/obj/machinery/computer/ship/dradis/mining{
+/obj/machinery/computer/ship/navigation/public{
 	dir = 8
 	},
 /turf/open/indestructible/dropship{
