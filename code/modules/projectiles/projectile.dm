@@ -491,7 +491,7 @@
 //Returns true if the target atom is on our current turf and above the right layer
 //If direct target is true it's the originally clicked target.
 /obj/item/projectile/proc/can_hit_target(atom/target, direct_target = FALSE, ignore_loc = FALSE, cross_failed = FALSE)
-	if(QDELETED(target) || impacted[target])
+	if(QDELETED(target) || (LAZYFIND(impacted, target))) //NSV13 used lazyfind because this was runtiming
 		return FALSE
 	if(!ignore_loc && (loc != target.loc))
 		return FALSE

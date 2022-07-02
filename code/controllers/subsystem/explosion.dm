@@ -171,8 +171,9 @@ SUBSYSTEM_DEF(explosions)
 
 /proc/explosion(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = TRUE, ignorecap = FALSE, flame_range = 0, silent = FALSE, smoke = FALSE)
 	. = SSexplosions.explode(arglist(args))
-	if(epicenter && SSmapping.level_trait(epicenter.z, ZTRAIT_RESERVED))
+	if(epicenter && istype(get_area(epicenter), /area/dropship)) //NSV13 - remove when issue is fixed
 		message_admins("Another sabre interior might've blown up somehow")
+		stack_trace("Dropship interior explosion")
 		log_mapping("Reserved Z explosion with size ([devastation_range], [heavy_impact_range], [light_impact_range], [flame_range]) in [loc_name(epicenter)] with usr [usr]") //NSV13 - remove when sabre detonation is fixed
 
 #define CREAK_DELAY 5 SECONDS //Time taken for the creak to play after explosion, if applicable.
