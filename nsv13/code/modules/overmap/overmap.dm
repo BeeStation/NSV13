@@ -203,7 +203,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		_path = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	RETURN_TYPE(/obj/structure/overmap)
 	SSmapping.add_new_initialized_zlevel("Overmap ship level [++world.maxz]", ZTRAITS_OVERMAP)
-  	SSatoms.InitializeAtoms(block(locate(1,1,world.maxz),locate(world.maxx,world.maxy,world.maxz))) //Initializes overmap space
 	repopulate_sorted_areas()
 	smooth_zlevel(world.maxz)
 	log_game("Z-level [world.maxz] loaded for overmap treadmills.")
@@ -227,6 +226,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		for(var/datum/parsed_map/PM in loaded)
 			PM.initParsedTemplateBounds()
 		repopulate_sorted_areas()
+		SSmapping.setup_map_transitions() // Allows interior borders to function properly
 		var/list/occupying = list()
 		for(var/I = ++previous_maxz; I <= world.maxz; I++) //So let's say we started loading interior Z-levels at Z index 4 and we have 2 decks. That means that Z 5 and 6 belong to this ship's interior, so link them
 			occupying += I;
@@ -236,7 +236,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			SL.linked_overmap = OM
 			OM.occupying_levels += SL
 			log_game("Z-level [SL] linked to [OM].")
-		SSmapping.setup_map_transitions() // Allows both interior and overmap borders to function properly
 		if(midround)
 			overmap_lighting_force(OM)
 
