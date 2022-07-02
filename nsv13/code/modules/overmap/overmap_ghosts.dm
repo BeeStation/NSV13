@@ -77,6 +77,7 @@
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/show_dradis, .verb/show_tactical, .verb/toggle_move_mode, .verb/cycle_firemode)
 
 	ghost_key_check(ghost)
+	log_game("[target.key] was spawned as a [src]")
 
 /obj/structure/overmap/proc/ghost_key_check(var/mob/living/carbon/human/species/skeleton/ghost)
 	if(ai_controlled) //Exit this loop if we have put an AI back in control
