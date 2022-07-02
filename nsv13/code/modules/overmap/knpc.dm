@@ -33,6 +33,10 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/move_delay = 4
 	///How long we delay between actions
 	var/action_delay = 6
+	///Delay between attacks
+	var/attack_delay = 4
+	///world time when delay for attacking will be over
+	var/next_attack = 0
 	var/knpc_traits = KNPC_IS_DODGER | KNPC_IS_MERCIFUL | KNPC_IS_AREA_SPECIFIC
 	///Whether to ignore overmap difficulty or not
 	var/difficulty_override = FALSE
@@ -396,6 +400,9 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 
 /datum/ai_goal/human/proc/reload(datum/component/knpc/HA, obj/item/gun)
 	var/mob/living/carbon/human/ai_boarder/H = HA.parent
+	if(world.time < H.next_attack)
+		return FALSE
+	H.next_attack = world.time + H.attack_delay
 	if(istype(gun, /obj/item/gun/energy))
 		var/obj/item/gun/energy/E = gun
 		if(E.selfcharge) //Okay good, it self charges we can just wait.
