@@ -71,6 +71,7 @@
 	var/angle = 0 // degrees, clockwise
 	var/keyboard_delta_angle_left = 0 // Set by use of turning key
 	var/keyboard_delta_angle_right = 0 // Set by use of turning key
+	var/movekey_delta_angle = 0 // A&D support
 	var/desired_angle = null // set by pilot moving his mouse or by keyboard steering
 	var/angular_velocity = 0 // degrees per second
 	var/max_angular_acceleration = 180 // in degrees per second per second
@@ -624,10 +625,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	// Since they can't strafe with IAS on, they can also turn with A and D
 	if(inertial_dampeners)
 		if(direction & WEST)
-			desired_angle = angle - 15
+			movekey_delta_angle = -15
 			user_thrust_dir = direction - WEST
 		else if(direction & EAST)
-			desired_angle = angle + 15
+			movekey_delta_angle = 15
 			user_thrust_dir = direction - EAST
 
 //relay('nsv13/sound/effects/ship/rcs.ogg')
