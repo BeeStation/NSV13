@@ -166,6 +166,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 		//You can hear the sound coming out the radio...
 		user.visible_message(text, \
 							text, null, 1)
+	return TRUE
 
 /datum/component/simple_teamchat/proc/show_last_message(mob/user)
 	user.visible_message(last_message, last_message, null, 1)
@@ -210,6 +211,17 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	if(override_send_permission || (squad && equipper && (squad.leader == equipper)))
 		return TRUE
 	return FALSE
+
+/datum/component/simple_teamchat/radio_dependent/squad/proc/recursive_get_loc(atom/movable/thing)
+	if(isliving(thing.loc) || isturf(thing.loc))
+		return thing
+	return recursive_get_loc(thing.loc)
+
+/datum/component/simple_teamchat/radio_dependent/squad/receive_message(atom/movable/sender, text, list/receipt_sound_override)
+	. = ..()
+	if(!.)
+		var/atom/movable/container = recursive_get_loc(parent)
+		container.balloon_alert_to_viewers("[container] buzzes.")
 
 /datum/component/simple_teamchat/radio_dependent/squad/Able
 	name = "Able Squad"
