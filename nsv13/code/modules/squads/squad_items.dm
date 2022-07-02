@@ -86,6 +86,9 @@
 	apply_squad(squad)
 
 /obj/item/squad_pager/attack_self(mob/user)
+	if(!squad_channel && squad)
+		squad_channel = AddComponent(squad.squad_channel_type)
+		squad_channel.squad = squad
 	squad_channel.show_last_message(user)
 
 /obj/item/squad_pager/equipped(mob/equipper, slot)
@@ -98,8 +101,9 @@
 			apply_squad(H.squad)
 
 /obj/item/squad_pager/proc/apply_squad(datum/squad/squad)
-	squad_channel?.RemoveComponent()
-	QDEL_NULL(squad_channel)
+	if(squad_channel)
+		squad_channel.RemoveComponent()
+		QDEL_NULL(squad_channel)
 	cut_overlays()
 	src.squad = squad //Ahoy mr squadward! Ack ack ack.
 	name = "[squad] pager"

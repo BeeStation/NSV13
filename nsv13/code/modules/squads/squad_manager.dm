@@ -80,7 +80,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/datum/squad/stuckee = pick(possible)
 	stuckee.retask(role)
 	stuckee.lowpop_retasked = TRUE
-	assigned.access_enabled = TRUE // They won't be much help without this
+	stuckee.access_enabled = TRUE // They won't be much help without this
 	minor_announce("[stuckee] has been retasked as a [role] due to staffing issues", "WhiteRapids Bureaucratic Corps")
 
 // Method which runs just slightly after roundstart, and ensures that the ship has at least its BASIC roles filled
