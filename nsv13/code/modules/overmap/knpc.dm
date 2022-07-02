@@ -458,6 +458,12 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	var/dist = get_dist(H, target)
 	//We're holding a gun. See if we can shoot it....
 	HA.pathfind_to(target) //Walk up close and YEET SLAM
+	var/default_view = getviewsize(CONFIG_GET(string/default_view))
+	var/viewdist = list(round(default_view[1]/2), round(default_view[2]/2))
+	var/is_in_x_view = ISINRANGE(target.x, H.x - viewdist[1], H.x + viewdist[1])
+	var/is_in_y_view = ISINRANGE(target.y, H.y - viewdist[2], H.y + viewdist[2])
+	if (!(is_in_x_view && is_in_y_view))
+		return
 	var/obj/item/gun/G = null
 	if(istype(A, /obj/item/gun))
 		G = A
