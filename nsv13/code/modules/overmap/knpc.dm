@@ -34,7 +34,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	///How long we delay between actions
 	var/action_delay = 6
 	///Delay between attacks
-	var/attack_delay = 4
+	var/attack_delay = 2
 	///world time when delay for attacking will be over
 	var/next_attack = 0
 	var/knpc_traits = KNPC_IS_DODGER | KNPC_IS_MERCIFUL | KNPC_IS_AREA_SPECIFIC
@@ -58,9 +58,11 @@ GLOBAL_LIST_EMPTY(knpcs)
 			if(1) //Lowest pop, so slow them down
 				move_delay += 2
 				action_delay += 2
+				attack_delay += 2
 			if(2 to 3)
 				move_delay += 1
 				action_delay += 1
+				attack_delay += 1
 
 /datum/component/knpc/Initialize()
 	if(!iscarbon(parent))
@@ -400,9 +402,6 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 
 /datum/ai_goal/human/proc/reload(datum/component/knpc/HA, obj/item/gun)
 	var/mob/living/carbon/human/ai_boarder/H = HA.parent
-	if(world.time < H.next_attack)
-		return FALSE
-	H.next_attack = world.time + H.attack_delay
 	if(istype(gun, /obj/item/gun/energy))
 		var/obj/item/gun/energy/E = gun
 		if(E.selfcharge) //Okay good, it self charges we can just wait.
@@ -440,8 +439,11 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 /datum/ai_goal/human/engage_targets/action(datum/component/knpc/HA)
 	if(!can_action(HA))
 		return
-	HA.last_node = null //Reset their pathfinding
 	var/mob/living/carbon/human/ai_boarder/H = HA.parent
+	if(world.time < H.next_attack)
+		return
+	H.next_attack = world.time + H.attack_delay
+	HA.last_node = null //Reset their pathfinding
 	var/list/enemies = get_aggressors(HA)
 	var/obj/item/A = H.get_active_held_item()
 	var/closest_dist = 1000
