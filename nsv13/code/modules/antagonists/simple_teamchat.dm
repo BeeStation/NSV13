@@ -213,6 +213,8 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	return FALSE
 
 /datum/component/simple_teamchat/radio_dependent/squad/proc/recursive_get_loc(atom/movable/thing)
+	if(!istype(thing))
+		return
 	if(isliving(thing.loc) || isturf(thing.loc))
 		return thing
 	return recursive_get_loc(thing.loc)
@@ -221,7 +223,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	. = ..()
 	if(!.)
 		var/atom/movable/container = recursive_get_loc(parent)
-		container.balloon_alert_to_viewers("[container] buzzes.")
+		container?.balloon_alert_to_viewers("[container] buzzes.")
 
 /datum/component/simple_teamchat/radio_dependent/squad/Able
 	name = "Able Squad"

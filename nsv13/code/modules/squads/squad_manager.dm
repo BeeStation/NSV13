@@ -86,17 +86,25 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 // Method which runs just slightly after roundstart, and ensures that the ship has at least its BASIC roles filled
 /datum/squad_manager/proc/check_squad_assignments()
 	var/datum/job/job = SSjob.GetJob("Bridge Staff")
+	if(!istype(job))
+		message_admins("Could not get Bridge Staff job datum")
 	if(!job.current_positions)
 		assign_squad(CIC_OPS)
 
 	job = SSjob.GetJob("Munitions Technician")
+	if(!istype(job))
+		message_admins("Could not get Munitions Technician job datum")
 	if(!job.current_positions)
 		assign_squad(MUNITIONS_SUPPORT)
 
 	var/tally = 0
 	job = SSjob.GetJob("Station Engineer")
+	if(!istype(job))
+		message_admins("Could not get Station Engineer job datum")
 	tally += job.current_positions
 	job = SSjob.GetJob("Atmospheric Technician")
+	if(!istype(job))
+		message_admins("Could not get Atmospheric Technician job datum")
 	tally += job.current_positions
 	if(!tally)
 		assign_squad(DC_SQUAD)
