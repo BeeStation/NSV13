@@ -203,7 +203,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		_path = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	RETURN_TYPE(/obj/structure/overmap)
 	SSmapping.add_new_initialized_zlevel("Overmap ship level [++world.maxz]", ZTRAITS_OVERMAP)
-  SSatoms.InitializeAtoms(block(locate(1,1,world.maxz),locate(world.maxx,world.maxy,world.maxz))) //Initializes overmap space
+  	SSatoms.InitializeAtoms(block(locate(1,1,world.maxz),locate(world.maxx,world.maxy,world.maxz))) //Initializes overmap space
 	repopulate_sorted_areas()
 	smooth_zlevel(world.maxz)
 	log_game("Z-level [world.maxz] loaded for overmap treadmills.")
