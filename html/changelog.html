@@ -56,6 +56,66 @@
 		-->
 		<div class="commit sansserif">
 
+			<h2 class="date">02 July 2022</h2>
+			<h3 class="author">Ikalpo updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">fixed the bio bag</li>
+			</ul>
+			<h3 class="author">IndusRobot updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added glass and reinforced glass floor tiles</li>
+			</ul>
+			<h3 class="author">Vasily2013 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">Matches Atlas upper and lower deck turfs to prevent going up/down through what should be hull plating.</li>
+				<li class="rscadd">Added gas pump to Atlas reactor feed line.</li>
+				<li class="bugfix">Replaced protolathe in Atlas sec with techfab.</li>
+				<li class="rscadd">Holopad in Atlas brig control.</li>
+				<li class="tweak">Re-jigger Atlas waste cooler to be more clearly piped.</li>
+				<li class="rscadd">Borg chargers in Atlas maint south and north of the PKA room.</li>
+				<li class="tweak">Atlas: Moves one (1) hull repair juice tank to the hull armor on the bow.</li>
+				<li class="tweak">Moved one crate in Atlas sci maint to block an abandoned door. (This will be the only OSHA compliance fix of this PR)</li>
+			</ul>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Makes A & D steering work correctly</li>
+				<li class="tweak">fighter controls will now show orange docking mode button when docking is in cooldown</li>
+				<li class="tweak">added option to toggle docking mode to fighter controller</li>
+				<li class="bugfix">hitting the cordon bounding an asteroid should now ignore position when deciding whether to transfer the ship to the overmap</li>
+				<li class="bugfix">all overmap Z levels should now be set up to allow looping</li>
+				<li class="bugfix">made repair and refuel sabre modules work and fixed their descriptions</li>
+				<li class="rscdel">refueling module no longer resupplies ammo</li>
+				<li class="admin">added VV dropdown options for getting small craft onto and off of the overmap</li>
+				<li class="tweak">moved docking_points for main ships in slightly so they no longer overlapped with the area where we smoothly eject fighters</li>
+				<li class="bugfix">made mobs_in_ship list update better</li>
+				<li class="code_imp">cleaned up some stuff about docking, undocking, and collisions</li>
+			</ul>
+
+			<h2 class="date">27 June 2022</h2>
+			<h3 class="author">Bobbanz1 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added three lists and a name generator which picks from two of these three lists and slaps them together into a single name.</li>
+				<li class="rscadd">Added a line of code to the initialization of fighters to use the name generator and give themselves a random name</li>
+				<li class="rscdel">Removed Uranus from the List, it ruins everything.</li>
+			</ul>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="admin">Added ghost ship spawning info to game.log</li>
+				<li class="bugfix">No longer tries to pick from an empty list when RNG decides not to spawn a ghost ship</li>
+			</ul>
+
+			<h2 class="date">26 June 2022</h2>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">fixed Bee's radial menu Z movement having some weird type requirements on the starting turf</li>
+				<li class="tweak">made Move-Upwards and Move-Down use the animated travel_z proc for living things</li>
+				<li class="bugfix">fixed sentient disease Z movement</li>
+				<li class="bugfix">allowed most jaunt movement types to travel multi-Z regardless of gravity (includes revenants but not ninjas)</li>
+				<li class="tweak">added a passthrough for attack_hand on stairs so the radial menu for multi-z travel would show up</li>
+				<li class="rscadd">Top row numbers 1-4 can be used to select weapons while gunning</li>
+				<li class="refactor">Moved overmap key handling into the keybind system</li>
+			</ul>
+
 			<h2 class="date">24 June 2022</h2>
 			<h3 class="author">someone543 updated:</h3>
 			<ul class="changes bgimages16">
@@ -229,20 +289,6 @@
 			<h3 class="author">TheFakeElon updated:</h3>
 			<ul class="changes bgimages16">
 				<li class="bugfix">fixes galactica nucleium scrubbers/filters</li>
-			</ul>
-
-			<h2 class="date">28 April 2022</h2>
-			<h3 class="author">Bobbanz1 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscdel">That random floating button</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Made the random portion of the starmap smaller</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Glock ammo crates give five magazines instead of one</li>
 			</ul>
 		</div>
 

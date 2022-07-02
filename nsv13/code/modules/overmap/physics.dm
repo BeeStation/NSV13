@@ -67,8 +67,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	var/list/collision_positions = list() //See the collisions doc for how these work. Theyre a pain in the ass.
 	var/datum/component/physics2d/physics2d = null
 
-//Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
+/// This makes us not drift like normal objects in space do
+/obj/structure/overmap/Process_Spacemove(movement_dir = 0)
+	return 1
 
+/// Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
 /obj/structure/overmap/proc/get_center()
 	RETURN_TYPE(/turf)
 	return (bound_height > 32 && bound_height > 32) ? get_turf(locate((src.x+(pixel_collision_size_x/32)/2), src.y+((pixel_collision_size_y/32)/2), z)) : get_turf(src)
@@ -164,7 +167,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	last_offset.copy(offset)
 	var/last_angle = angle
 	if(!move_by_mouse && !ai_controlled)
-		desired_angle = angle + keyboard_delta_angle_left + keyboard_delta_angle_right
+		desired_angle = angle + keyboard_delta_angle_left + keyboard_delta_angle_right + movekey_delta_angle
+		movekey_delta_angle = 0
 	var/desired_angular_velocity = 0
 	if(isnum(desired_angle))
 		// do some finagling to make sure that our angles end up rotating the short way
@@ -407,17 +411,14 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			return
 		fire(autofire_target)
 
+/obj/structure/overmap/small_craft/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
+	addtimer(VARSET_CALLBACK(src, layer, ABOVE_MOB_LAYER), 0.5 SECONDS)
+	layer = LOW_OBJ_LAYER // Stop us from just bumping right into them after we bounce
+	if(docking_act(other))
+		return
+	return ..()
+
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
-	if(layer < other.layer || other.layer > layer)
-		return FALSE
-	if(istype(other, /obj/structure/overmap/small_craft))
-		var/obj/structure/overmap/small_craft/F = other
-		if(F.docking_act(src))
-			return FALSE
-	if(istype(src, /obj/structure/overmap/small_craft))
-		var/obj/structure/overmap/small_craft/F = src
-		if(F.docking_act(other))
-			return FALSE
 	//No colliders. But we still get a lot of info anyways!
 	if(!c_response)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
@@ -611,12 +612,6 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	if(!lateral)
 		setAngle(source.angle)
 
-	if((targloc && curloc) || !params)
-		yo = targloc.y - curloc.y
-		xo = targloc.x - curloc.x
-		if(lateral)
-			setAngle(overmap_angle(src, targloc) + spread)
-
 	if(isliving(source) && params)
 		var/list/calculated = calculate_projectile_angle_and_pixel_offsets(source, params)
 		p_x = calculated[2]
@@ -632,3 +627,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	else
 		stack_trace("WARNING: Projectile [type] fired without either mouse parameters, or a target atom to aim at!")
 		qdel(src)
+
+/// This makes us not drift like normal objects in space do
+/obj/structure/overmap/Process_Spacemove(movement_dir = 0)
+	return 1

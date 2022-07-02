@@ -8,14 +8,7 @@
 		system_contents += OM	//Lets be safe while I cast some black magic.
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
 		if(!SSmapping.level_trait(OM.z, ZTRAIT_OVERMAP))
-			if(OM.reserved_z)
-				occupying_z = OM.reserved_z
-			else if(!length(OM.free_treadmills))
-				SSmapping.add_new_zlevel("Overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-				occupying_z = world.maxz
-			else
-				var/_z = pick_n_take(OM.free_treadmills)
-				occupying_z = _z
+			occupying_z = OM.get_reserved_z()
 		else
 			occupying_z = OM.z
 		if(OM.role == MAIN_OVERMAP) //As these events all happen to the main ship, let's check that it's not say, the nomi that's triggering this system load...
@@ -98,8 +91,9 @@
 	contents_positions = null
 	contents_positions = list()
 
-/datum/star_system/proc/remove_ship(obj/structure/overmap/OM)
+/datum/star_system/proc/remove_ship(obj/structure/overmap/OM, turf/new_location)
 	var/list/other_player_ships = list()
+
 	for(var/atom/X in system_contents)
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/ship = X
@@ -108,16 +102,16 @@
 	if(OM.reserved_z == occupying_z && other_player_ships.len) //Alright, this is our Z-level but we're jumping out of it and there are still people here.
 		var/obj/structure/overmap/ship = pick(other_player_ships)
 		message_admins("Swapping [OM] and [ship]'s reserved Zs, as they overlap.")
-		var/temp = ship.reserved_z
+		var/temp = ship.get_reserved_z()
 		ship.reserved_z = OM.reserved_z
 		OM.reserved_z = temp
-		OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
+		OM.forceMove(new_location ? new_location : locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 		system_contents -= OM
 		ftl_pull_small_craft(OM)
 		return //Early return here. This means that another player ship is already holding the system, and we really don't need to double-check for this.
 
 	message_admins("Successfully removed [OM] from [src]")
-	OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
+	OM.forceMove(new_location ? new_location : locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 	system_contents -= OM
 
 	if(!OM.reserved_z)	//If this isn't actually a big ship with its own interior, do not pull ships, as only those get their own reserved z.
@@ -154,7 +148,7 @@
 		//Ships that have a Z reserved are on the active FTL plane.
 		if(OM.reserved_z)
 			continue
-		if(!OM.operators.len || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
+		if((!length(OM.operators) && !length(OM.mobs_in_ship)) || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
 			continue
 		if(same_faction_only && jumping.faction != OM.faction)	//We don't pull all small craft in the system unless we were the last ship here.
 			continue
