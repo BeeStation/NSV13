@@ -265,6 +265,20 @@
 			AS.name = new_name
 			message_admins("[key_name(usr)] renamed an ammo rack to [new_name].")
 			log_game("[key_name(usr)] renamed an ammo rack to [new_name].")
+		if("moveup")
+			if(!AS)
+				return
+			var/id = linked_sorters.Find(AS)
+			if (id <= 1)
+				return
+			linked_sorters.Swap(id,id-1)
+		if("movedown")
+			if(!AS)
+				return
+			var/id = linked_sorters.Find(AS)
+			if (id >= linked_sorters.len)
+				return
+			linked_sorters.Swap(id,id+1)
 	// update UI
 	ui_interact(usr)
 
@@ -363,20 +377,25 @@
 			load(I)
 
 /obj/machinery/ammo_sorter/multitool_act(mob/living/user, obj/item/I)
-	if(!multitool_check_buffer(user, I))
-		return
 	var/obj/item/multitool/M = I
-	M.buffer = src
-	to_chat(user, "<span class='notice'>You add [src] to multitool buffer.</span>")
+	if(M.buffer && istype(M.buffer, /obj/machinery/computer/ammo_sorter))
+		var/obj/machinery/computer/ammo_sorter/C = M.buffer
+		if(LAZYFIND(C.linked_sorters, src))
+			to_chat(user, "<span class='warning'>This sorter is already linked to [C]...")
+			return TRUE
+		C.linked_sorters += src
+		to_chat(user, "<span class='warning'>You've linked [src] to [C]...")
+	else
+		to_chat(user, "<span class='warning'>There is no control console in [M]'s buffer.")
+	return TRUE
 
 /obj/machinery/computer/ammo_sorter/multitool_act(mob/living/user, obj/item/I)
+	if(!multitool_check_buffer(user, I))
+		return TRUE
 	var/obj/item/multitool/M = I
-	if(M.buffer && istype(M.buffer, /obj/machinery/ammo_sorter))
-		if(LAZYFIND(linked_sorters, M.buffer))
-			to_chat(user, "<span class='warning'>That sorter is already linked to [src]...")
-			return FALSE
-		linked_sorters += M.buffer
-		to_chat(user, "<span class='warning'>You've linked [M.buffer] to [src]...")
+	M.buffer = src
+	to_chat(user, "<span class='notice'>You add [src] to [M]'s buffer.</span>")
+	return TRUE
 
 /obj/machinery/ammo_sorter/examine(mob/user)
 	. = ..()
@@ -394,10 +413,17 @@
 				. += "<span class='notice'>It could really do with some maintenance.</span>"
 			if(0 to 10)
 				. += "<span class='notice'>It's completely wrecked.</span>"
-	. += "<br/><span class='notice'>It's currently holding:</span>"
+	. += "<br/><span class='notice'>It's currently holding [loaded.len]/[max_capacity] items:</span>"
 	if(loaded.len)
+		var/listofitems = list()
 		for(var/obj/item/C in loaded)
-			. += "<br/><span class='notice'>[C].</span>"
+			var/path = C.type
+			if (listofitems[path])
+				listofitems[path]["amount"]++
+			else
+				listofitems[path] = list("name" = C.name, "amount" = 1)
+		for(var/i in listofitems)
+			. += "<span class='notice'>[listofitems[i]["name"]] x[listofitems[i]["amount"]]</span>"
 
 /obj/machinery/ammo_sorter/RefreshParts()
 	max_capacity = 0
