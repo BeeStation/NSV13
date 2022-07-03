@@ -16,7 +16,7 @@ export const AmmoSorter = (props, context) => {
               <Fragment key={key}>
                 <Section title={`${value.name}`} buttons={
                   <Fragment>
-                    {(key == 0) && (
+                    {(key === "0") && (
                       <Button
                         icon={settingsVisible ? 'times' : 'cog'}
                         selected={settingsVisible}
@@ -35,11 +35,11 @@ export const AmmoSorter = (props, context) => {
                           onClick={() => act('unlink', { id: value.id })} />
                         <Button
                           icon="arrow-up"
-                          disabled={(key == 0)}
+                          disabled={(key === "0")}
                           onClick={() => act('moveup', { id: value.id })} />
                         <Button
                           icon="arrow-down"
-                          disabled={(key == data.racks_info.length - 1)}
+                          disabled={(key === `${data.racks_info.length - 1}`)}
                           onClick={() => act('movedown', { id: value.id })} />
                       </Fragment>
                     )}
