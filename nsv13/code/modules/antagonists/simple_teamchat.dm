@@ -126,7 +126,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 /datum/component/simple_teamchat/proc/enter_message(datum/user)
 	if(!can_message())
 		return FALSE
-	var/str = input(user, message, title, default) as text|null
+	var/str = input(user, "Enter a message:", "[key]", null) as text|null
 	if(!str)
 		return FALSE
 	if(length(str) > max_message_length)
