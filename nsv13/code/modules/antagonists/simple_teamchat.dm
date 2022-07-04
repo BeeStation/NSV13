@@ -126,9 +126,13 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 /datum/component/simple_teamchat/proc/enter_message(datum/user)
 	if(!can_message())
 		return FALSE
-	var/str = stripped_input(user,"Enter a message:", "[key]", "", max_message_length)
+	var/str = input(user, message, title, default) as text|null
 	if(!str)
 		return FALSE
+	if(length(str) > max_message_length)
+		to_chat(user, "<span class='warning'>Your message \"[str]\" of [length(str)] characters exceeded maximum length of [max_message_length].</span>")
+		return FALSE
+	str = copytext(html_encode(str), 1, max_message_length)
 	log_say("[key]: [user] transmitted: [str]")
 	send_message(user, str)
 
