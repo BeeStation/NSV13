@@ -15,30 +15,24 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 		CIC_OPS = list(ACCESS_HEADS, ACCESS_RC_ANNOUNCE),
 	)
 	var/static/list/role_objective_map = list(
-		DC_SQUAD = "<span class='warning'><br/>During <b>General Quarters</b> you must find a squad vendor, gear up, then report to your squad leader for orders.<br/> \
-			As a <i>damage control party member</i> you are responsible for repairing the ship and ensuring that breaches are sealed, debris is cleared from the halls, and injured people are taken to the medical bay.<br/>\
-			Although your assigned duty is damage control, you must listen to your squad leader, as they may receive orders to redirect your squad to another essential duty <br/>\
-			<i>Squad vendors</i> open up during General Quarters, and allow you to acquire a kit containing tarpaulins for closing breaches, basic tools, metal foam and a distinctive uniform to tell your squad members apart.</span>",
-		MEDICAL_SQUAD = "<span class='warning'><br/>During <b>General Quarters</b> you must find a squad vendor, gear up, then report to your squad leader for orders.<br/> \
-			As a <i>medical team member</i> you are responsible for providing basic field first-aid to injured crewmen. Once the patient is out of critical condition, bring them to the medical bay.<br/>\
-			Although your assigned duty is medical aid, you must listen to your squad leader, as they may receive orders to redirect your squad to another essential duty <br/>\
-			<i>Squad vendors</i> open up during General Quarters, and allow you to acquire a kit containing tarpaulins for closing breaches, basic tools, metal foam and a distinctive uniform to tell your squad members apart.</span>",
-		SECURITY_SQUAD = "<span class='warning'><br/>During <b>General Quarters</b> you must find a squad vendor, gear up, then report to your squad leader for orders.<br/> \
-			As a <i>security fireteam member</i> you are responsible for assisting security in repelling boarders, or by partaking in boarding action.<br/>\
-			You must listen to your squad leader, as they may receive orders to redirect your squad to another essential duty. <br/>\
-			<i>Squad vendors</i> open up during General Quarters, and allow you to acquire a kit containing tarpaulins for closing breaches, basic tools, metal foam and a distinctive uniform to tell your squad members apart.</span>",
-		COMBAT_AIR_PATROL = "<span class='warning'><br/>During <b>General Quarters</b> you must find a squad vendor, gear up, then report to your squad leader for orders.<br/> \
-			As a member of the<i>auxiliary combat air patrol</i> you are responsible for manning any available fighters. If all the fighters are manned by pilots, report to the XO for re-assignment.<br/>\
-			You must listen to your squad leader, as they may receive orders to redirect your squad to another essential duty. <br/>\
-			<i>Squad vendors</i> open up during General Quarters.</span>",
-		MUNITIONS_SUPPORT = "<span class='warning'><br/>During <b>General Quarters</b> you must find a squad vendor, gear up, then report to your squad leader for orders.<br/> \
-			As a member of the<i>munitions support crew</i> you are responsible aiding the munitions technicians with firing the guns. If there are no munitions techs, then your squad must assume command of the weapons bay and ensure the guns are firing.<br/>\
-			You must listen to your squad leader, as they may receive orders to redirect your squad to another essential duty. <br/>\
-			<i>Squad vendors</i> open up during General Quarters.</span>",
-		CIC_OPS = "<span class='warning'><br/>During <b>General Quarters</b> you must find a squad vendor, gear up, then report to your squad leader for orders.<br/> \
-			As a <i>CIC operations specialist</i> you are responsible for manning the ship control consoles and ensuring that the ship is able to fight back against any threats. If all the bridge stations are manned by bridge crew, report to the XO for re-assignment.<br/>\
-			You must listen to your squad leader, as they may receive orders to redirect your squad to another essential duty. <br/>\
-			<i>Squad vendors</i> open up during General Quarters..</span>",
+		DC_SQUAD = "<span class='warning'><br/>During <b>General Quarters</b> report to the <i>squad vendors</i> to obtain your equipment.<br/>\
+			Your primary duties are to repair the ship, seal breaches, and bring injured to medbay.<br/>\
+			Listen to your squad leader, who may issue further orders.</span>",
+		MEDICAL_SQUAD = "<span class='warning'><br/>During <b>General Quarters</b> report to the <i>squad vendors</i> to obtain your equipment.<br/>\
+			Your primary duties are to provide first-aid to injured crewmen and bring stabilized patients to medbay.<br/>\
+			Listen to your squad leader, who may issue further orders.</span>",
+		SECURITY_SQUAD = "<span class='warning'><br/>During <b>General Quarters</b> report to the <i>squad vendors</i> to obtain your equipment.<br/>\
+			Your primary duties are to assist security in repelling boarders and participate in boarding actions.<br/>\
+			Listen to your squad leader, who may issue further orders.</span>",
+		COMBAT_AIR_PATROL = "<span class='warning'><br/>During <b>General Quarters</b> report to the <i>squad vendors</i> to obtain your equipment.<br/>\
+			Your primary duty is to man any available fighters. If all fighters are manned by pilots, report to the XO for re-assignment.<br/>\
+			Listen to your squad leader, who may issue further orders.</span>",
+		MUNITIONS_SUPPORT = "<span class='warning'><br/>During <b>General Quarters</b> report to the <i>squad vendors</i> to obtain your equipment.<br/>\
+			Your primary duty is to assist munitions with loading and firing the guns. If there are no munitions techs, you are acting munitions techs.<br/>\
+			Listen to your squad leader, who may issue further orders.</span>",
+		CIC_OPS = "<span class='warning'><br/>During <b>General Quarters</b> report to the <i>squad vendors</i> to obtain your equipment.<br/>\
+			Your primary duty is to ensure the navigation and tactical consoles are manned. If all stations are manned by bridge crew, report to the XO for re-assignment.<br/>\
+			Listen to your squad leader, who may issue further orders.</span>",
 	)
 
 /datum/squad_manager/New()

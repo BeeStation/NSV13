@@ -66,7 +66,8 @@
 				return
 			log_say("[S]: [usr] set primary objective: [orders]")
 			S.retask(orders)
-			S.broadcast(S, S.primary_objective, list('nsv13/sound/effects/notice2.ogg'))
+			for(var/mob/living/L in S.members)
+				to_chat(L, "<span class='sciradio'>[primary_objective]</span>")
 			ui_update()
 		if("secondary_objective")
 			if(!S)
@@ -76,7 +77,8 @@
 				return
 			log_say("[S]: [usr] set secondary objective: [orders]")
 			S.secondary_objective = orders
-			S.broadcast(S,"Secondary objective: "+orders, list('nsv13/sound/effects/notice2.ogg'))
+			for(var/mob/living/L in S.members)
+				to_chat(L, "<span class='sciradio'>Secondary squad objective: [secondary_objective]</span>")
 			ui_update()
 		if("toggle_access")
 			if(!S)
@@ -190,7 +192,8 @@
 				return
 			log_say("[S]: [usr] set primary objective: [orders]")
 			S.retask(orders)
-			S.broadcast(S, S.primary_objective, list('nsv13/sound/effects/notice2.ogg'))
+			for(var/mob/living/L in S.members)
+				to_chat(L, "<span class='sciradio'>[primary_objective]</span>")
 			ui_update()
 		if("secondary_objective")
 			if(!S)
@@ -200,7 +203,8 @@
 				return
 			log_say("[S]: [usr] set secondary objective: [orders]")
 			S.secondary_objective = orders
-			S.broadcast(S,"Secondary objective: "+orders, list('nsv13/sound/effects/notice2.ogg'))
+			for(var/mob/living/L in S.members)
+				to_chat(L, "<span class='sciradio'>Secondary squad objective: [secondary_objective]</span>")
 			ui_update()
 		if("toggle_access")
 			if(!S)
