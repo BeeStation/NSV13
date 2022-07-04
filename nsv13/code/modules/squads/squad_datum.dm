@@ -57,6 +57,9 @@
 	return (access_enabled) ? access : list()
 
 /datum/squad/proc/broadcast(mob/living/carbon/human/sender, message, list/sounds)
+	if(length(message) > squad_channel.max_message_length)
+		to_chat(usr, "<span class='warning'>Your message \"[message]\" of [length(message)] characters exceeded maximum length of [squad_channel.max_message_length].</span>")
+		return FALSE
 	squad_channel.send_message(sender, message, sounds)
 
 //Joining squads, registering people to squads.
