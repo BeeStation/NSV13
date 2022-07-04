@@ -76,14 +76,14 @@
 				return
 			log_say("[S]: [usr] set secondary objective: [orders]")
 			S.secondary_objective = orders
-			S.broadcast(S,"New Secondary Objective: "+orders, list('nsv13/sound/effects/notice2.ogg'))
+			S.broadcast(S,"Secondary objective: "+orders, list('nsv13/sound/effects/notice2.ogg'))
 			ui_update()
 		if("toggle_access")
 			if(!S)
 				return FALSE
 			S.access_enabled = !S.access_enabled
 			log_game("[S]: [usr] set squad's elevated access to [S.access_enabled]")
-			S.broadcast(S,"[S.access_enabled ? "Elevated squad access has been granted." : "Elevated squad access has been rescinded"]", list('nsv13/sound/effects/notice2.ogg'))
+			S.broadcast(S,"[S.access_enabled ? "Elevated squad access granted." : "Elevated squad access rescinded"]", list('nsv13/sound/effects/notice2.ogg'))
 			ui_update()
 		if("set_leader")
 			if(!M)
@@ -200,14 +200,14 @@
 				return
 			log_say("[S]: [usr] set secondary objective: [orders]")
 			S.secondary_objective = orders
-			S.broadcast(S,"New Secondary Objective: "+orders, list('nsv13/sound/effects/notice2.ogg'))
+			S.broadcast(S,"Secondary objective: "+orders, list('nsv13/sound/effects/notice2.ogg'))
 			ui_update()
 		if("toggle_access")
 			if(!S)
 				return FALSE
 			S.access_enabled = !S.access_enabled
 			log_game("[S]: [usr] set squad's elevated access to [S.access_enabled]")
-			S.broadcast(S,"[S.access_enabled ? "Elevated squad access has been granted." : "Elevated squad access has been rescinded"]", list('nsv13/sound/effects/notice2.ogg'))
+			S.broadcast(S,"[S.access_enabled ? "Elevated squad access granted." : "Elevated squad access rescinded."]", list('nsv13/sound/effects/notice2.ogg'))
 			ui_update()
 		if("set_leader")
 			if(!M)

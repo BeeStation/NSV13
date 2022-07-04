@@ -46,7 +46,7 @@
 	LAZYREMOVEASSOC(GLOB.squad_manager.role_squad_map, role, src)
 	role = task
 	LAZYADDASSOCLIST(GLOB.squad_manager.role_squad_map, role, src)
-	broadcast(src, "ATTENTION: Your squad has been re-assigned as [role]. Report to squad vendors to obtain your new equipment.", list('nsv13/sound/effects/notice2.ogg'))
+	broadcast(src, "NEW ASSIGNMENT: [role]", list('nsv13/sound/effects/notice2.ogg'))
 	primary_objective = GLOB.squad_manager.role_objective_map[role]
 	access = GLOB.squad_manager.role_access_map[role]
 
@@ -99,7 +99,7 @@
 	to_chat(H, "<span class='sciradio'>[primary_objective]</span>")
 	if(secondary_objective)
 		to_chat(H, "<span class='sciradio'>[secondary_objective]</span>")
-	broadcast(src,"[H.name] has been assigned to your squad.", list('nsv13/sound/effects/notice2.ogg'))
+	broadcast(src,"[H.name] assigned to squad.", list('nsv13/sound/effects/notice2.ogg'))
 
 
 /datum/squad/proc/remove_member(mob/living/carbon/human/H)
@@ -111,7 +111,7 @@
 	if(leader == H)
 		unset_leader()
 		assign_leader()
-	broadcast(src,"[H.name] has been reassigned from your squad.", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
+	broadcast(src,"[H.name] removed from squad.", list('nsv13/sound/effects/notice2.ogg')) //Change order of this when done testing.
 
 /datum/squad/proc/assign_leader()
 	//Whoever ranks highest is in charge
@@ -143,7 +143,7 @@
 	if(!(LAZYFIND(members, H)))
 		add_member(H)
 	to_chat(H, "<span class='sciradio'>You are the squad leader of [name] Squad!. You have authority over the members of this squadron, and may direct them as you see fit. In general, you should use your squad members to help you repair damaged areas during general quarters</span>")
-	broadcast(src,"[leader.name] has been assigned to your squad as leader.", list('nsv13/sound/effects/notice2.ogg'))
+	broadcast(src,"[leader.name] assigned as squad leader.", list('nsv13/sound/effects/notice2.ogg'))
 
 /datum/squad/proc/unset_leader(mob/living/carbon/human/H)
 	if(!leader || (H && H != leader))
@@ -151,7 +151,7 @@
 	if(!H && leader) //No leader passed in but we need to demote the current one
 		H = leader
 	to_chat(H, "<span class='warning'>You have been demoted from your position as [name] Squad Lead.</span>")
-	broadcast(src,"[H] has been demoted from squad lead.", list('nsv13/sound/effects/notice2.ogg'))
+	broadcast(src,"[H] demoted from squad lead.", list('nsv13/sound/effects/notice2.ogg'))
 	leader = null
 
 /datum/squad/able

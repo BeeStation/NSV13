@@ -203,7 +203,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	dupe_mode = COMPONENT_DUPE_ALLOWED //For the global squad pager.
 	telepathic = TRUE // Not really but it *is* text-based
 	sound_on_receipt = list('sound/machines/twobeep.ogg')
-	max_message_length = 50 // It's a pager, the screen's not that big
+	max_message_length = 120 // It's a pager, the screen's not that big
 	var/override_send_permission = FALSE //For AI and global pagers
 
 /datum/component/simple_teamchat/radio_dependent/squad/Initialize(override = FALSE)
