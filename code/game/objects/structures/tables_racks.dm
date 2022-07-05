@@ -118,6 +118,8 @@
 
 /obj/structure/table/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
 	. = !density
+	if(isknpc(caller)) //NSV13 - Knpcs can climb tables.
+		return TRUE
 	if(istype(caller))
 		. = . || (caller.pass_flags & PASSTABLE)
 

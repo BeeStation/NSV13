@@ -502,7 +502,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	return ..()
 
 /obj/structure/overmap/forceMove(atom/destination)
-	if(!SSmapping.level_trait(destination.z, ZTRAIT_OVERMAP))
+	if(destination && !SSmapping.level_trait(destination.z, ZTRAIT_OVERMAP))
 		return //No :)
 	return ..()
 
