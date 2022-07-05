@@ -44,9 +44,10 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	var/button_icon_state = null //The button's icon_state
 	var/background_icon_state = null
 	var/max_message_length = MAX_MESSAGE_LEN
-	var/list/sound_on_send = null //Play a sound when they're messaging this channel?
-	var/list/sound_on_receipt = null //Play a sound when a message is received by someone? (WARNING: MAY GET ANNOYING)
-	var/telepathic = TRUE //Should the user speak their message when they enter it? Or if youre mimicking radio, can it be heard "in your head" or over a comm.
+	var/list/sound_on_send = null /// Play a sound when they're messaging this channel?
+	var/list/sound_on_receipt = null /// Play a sound when a message is received by someone? (WARNING: MAY GET ANNOYING)
+	var/list/sound_on_failure = null /// Play a sound when a message cannot be received
+	var/telepathic = TRUE /// Should the user speak their message when they enter it? Or if youre mimicking radio, can it be heard "in your head" or over a comm.
 	var/text_span_style = "boldnotice"
 	var/last_message = "<span class='notice'>No new messages.</span>"
 
@@ -180,6 +181,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 /datum/component/simple_teamchat/radio_dependent
 	telepathic = FALSE
 	sound_on_receipt = list('sound/effects/radio1.ogg','sound/effects/radio2.ogg')
+	sound_on_failure = list('nsv13/sound/effects/radiostatic.ogg')
 
 /datum/component/simple_teamchat/radio_dependent/can_message()
 	var/obj/machinery/telecomms/relay/ourBroadcaster = null
@@ -194,8 +196,8 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	if(ourBroadcaster && ourBroadcaster.on)
 		return TRUE
 	//Play a static sound to signify that it failed.
-	if(isatom(get_user()))
-		playsound(get_user().loc, 'nsv13/sound/effects/radiostatic.ogg', 100, FALSE)
+	if(isatom(get_user()) && length(sound_on_failure))
+		playsound(get_user().loc, pick(sound_on_failure), 100, FALSE)
 	return FALSE
 
 /datum/component/simple_teamchat/radio_dependent/squad
@@ -203,6 +205,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	dupe_mode = COMPONENT_DUPE_ALLOWED //For the global squad pager.
 	telepathic = TRUE // Not really but it *is* text-based
 	sound_on_receipt = list('sound/machines/twobeep.ogg')
+	sound_on_failure = null
 	max_message_length = 120 // It's a pager, the screen's not that big
 	var/override_send_permission = FALSE //For AI and global pagers
 
