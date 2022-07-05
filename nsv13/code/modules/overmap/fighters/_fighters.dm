@@ -538,7 +538,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/small_craft/proc/eject(mob/living/M, force=FALSE)
 	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
-	if((!canopy_open || !C) && !force)
+	if(!canopy_open && C && !force)
 		to_chat(M, "<span class='warning'>[src]'s canopy isn't open.</span>")
 		if(prob(50))
 			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
