@@ -47,7 +47,7 @@
 	name = "Hammurabi Deck 2 Maintenance"
 
 /area/hammurabi/maintenance/exterior
-	name = "Hammurabi Exterior"
+	name = "Hammurabi exterior"
 	icon_state = "space_near"
 
 /area/shuttle/syndicate/hammurabi
