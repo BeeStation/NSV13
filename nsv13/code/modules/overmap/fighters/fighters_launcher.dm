@@ -336,6 +336,7 @@
 	if(!DC || !DC.docking_mode)
 		return FALSE
 	if(istype(OM, /obj/structure/overmap/asteroid))
+		velocity._set(0, 0) // Slow down cowboy
 		var/obj/structure/overmap/asteroid/AS = OM
 		AS.interior_mode = INTERIOR_DYNAMIC // We don't actually want it to create one until we're ready but we do need entry points
 		AS.instance_interior()
