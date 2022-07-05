@@ -371,7 +371,7 @@
 	name = "Syndicate Hydroponics"
 
 /area/ai_monitored/nuke_storage/pvp
-	name = "Syndicate vault"
+	name = "Syndicate Vault"
 
 /area/medical/medbay/pvp
 	name = "Syndicate Medbay"
