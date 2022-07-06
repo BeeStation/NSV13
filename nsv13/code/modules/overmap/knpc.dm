@@ -147,23 +147,23 @@ GLOBAL_LIST_EMPTY(knpcs)
 		else
 			H.m_intent = MOVE_INTENT_RUN
 
-		for(var/obj/machinery/door/firedoor/fuckingMonsterMos in next_turf)
-			if((fuckingMonsterMos.flags_1 & ON_BORDER_1) && !(fuckingMonsterMos.dir in dir_to_cardinal_dirs(get_dir(next_turf, this_turf))))
+		for(var/obj/machinery/door/firedoor/blocking_firelock in next_turf)
+			if((blocking_firelock.flags_1 & ON_BORDER_1) && !(blocking_firelock.dir in dir_to_cardinal_dirs(get_dir(next_turf, this_turf))))
 				continue
-			if(!fuckingMonsterMos.density || fuckingMonsterMos.operating)
+			if(!blocking_firelock.density || blocking_firelock.operating)
 				continue
-			if(fuckingMonsterMos.welded)
+			if(blocking_firelock.welded)
 				break	//If at least one firedoor in our way is welded shut, welp!
-			fuckingMonsterMos.open()	//Open one firelock per tile per try.
+			blocking_firelock.open()	//Open one firelock per tile per try.
 			break
-		for(var/obj/machinery/door/firedoor/fuckingMonsterMos in this_turf)
-			if(!((fuckingMonsterMos.flags_1 & ON_BORDER_1) && (fuckingMonsterMos.dir in dir_to_cardinal_dirs(get_dir(this_turf, next_turf))))) //Here, only firelocks on the border matter since fulltile firelocks let you exit.
+		for(var/obj/machinery/door/firedoor/blocking_firelock in this_turf)
+			if(!((blocking_firelock.flags_1 & ON_BORDER_1) && (blocking_firelock.dir in dir_to_cardinal_dirs(get_dir(this_turf, next_turf))))) //Here, only firelocks on the border matter since fulltile firelocks let you exit.
 				continue
-			if(!fuckingMonsterMos.density || fuckingMonsterMos.operating)
+			if(!blocking_firelock.density || blocking_firelock.operating)
 				continue
-			if(fuckingMonsterMos.welded)
+			if(blocking_firelock.welded)
 				break	//If at least one firedoor in our way is welded shut, welp!
-			fuckingMonsterMos.open()	//Open one firelock per tile per try.
+			blocking_firelock.open()	//Open one firelock per tile per try.
 			break
 		for(var/obj/structure/possible_barrier in next_turf) //If we're stuck
 			if(!climbable.Find(possible_barrier.type))
