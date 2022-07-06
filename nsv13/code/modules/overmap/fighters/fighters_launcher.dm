@@ -341,7 +341,12 @@
 		AS.interior_mode = INTERIOR_DYNAMIC // We don't actually want it to create one until we're ready but we do need entry points
 		AS.instance_interior()
 		AS.docking_points = AS.interior_entry_points
-		return transfer_from_overmap(OM)
+		if(transfer_from_overmap(OM))
+			for(var/turf/T as() in locs)
+				if(!isopenturf(T))
+					T.ChangeTurf(/turf/open/floor/plating/asteroid)
+			return TRUE
+		return FALSE
 	if(mass < OM.mass) //If theyre bigger than us and have docking points, and we want to dock
 		return transfer_from_overmap(OM)
 	return FALSE
