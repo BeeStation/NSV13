@@ -21,9 +21,17 @@
 
 /obj/machinery/missile_builder/examine(mob/user)
 	. = ..()
-	. += "<span class='notice'>It currently holds...</span>"
-	for(var/atom/movable/X in held_components)
-		. += "<span class='notice'>-[X]</span>"
+	if(held_components.len)
+		. += "<span class='notice'>It currently holds...</span>"
+		var/listofitems = list()
+		for(var/obj/item/C in held_components)
+			var/path = C.type
+			if (listofitems[path])
+				listofitems[path]["amount"]++
+			else
+				listofitems[path] = list("name" = C.name, "amount" = 1)
+		for(var/i in listofitems)
+			. += "<span class='notice'>[listofitems[i]["name"]] x[listofitems[i]["amount"]]</span>"
 
 /obj/machinery/missile_builder/attackby(obj/item/I, mob/user, params)
 	if(default_unfasten_wrench(user, I))
