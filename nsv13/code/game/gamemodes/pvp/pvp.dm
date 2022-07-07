@@ -13,7 +13,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	config_tag = "pvp"
 	report_type = "pvp"
 	false_report_weight = 10
-	required_players = 1 //40 // 40 to make 20 v 20
+	required_players = 24 //40 // 40 to make 20 v 20
 	required_enemies = 12 //20
 	recommended_enemies = 15
 	antag_flag = ROLE_SYNDI_CREW
@@ -42,7 +42,7 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	var/list/maps = list(
 		list(path = "hammurabiPVP.json", pop = list(0, 30)),
 		list(path = "astraeusPVP.json", pop = list(31, 39)),
-		list(path = "babylonPVP.json", pop = list(39, INFINITY))
+		list(path = "babylonPVP.json", pop = list(40, INFINITY))
 		) //Basic list of maps. Tell me (Kmc) to improve this if you decide you want to add more than 1 PVP map and i'll make it use JSON instead. ~Kmc 23/02/2021 I got called a lazy hack so I went and did this properly :(
 	var/obj/structure/overmap/syndiship = null
 	var/end_on_team_death = FALSE //Should the round end when the syndies die?
