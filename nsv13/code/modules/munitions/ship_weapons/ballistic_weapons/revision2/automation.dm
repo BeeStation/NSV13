@@ -235,7 +235,8 @@
 
 /obj/machinery/computer/ammo_sorter/Initialize(mapload, obj/item/circuitboard/C)
 	..()
-	return INITIALIZE_HINT_LATELOAD
+	if(mapload)
+		return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/computer/ammo_sorter/LateInitialize()
 	. = ..()
