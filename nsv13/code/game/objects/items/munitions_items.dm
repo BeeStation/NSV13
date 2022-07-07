@@ -80,6 +80,19 @@
 	icon_state = "mun_headset"
 	keyslot = new /obj/item/encryptionkey/munitions_tech
 
+/obj/item/radio/headset/munitions/munitions_security_alt
+	name = "munitions-security bowman headset"
+	desc = "The headset used by your local munitions mall cop, but with ear protection! Now you won't go deaf!"
+	icon_state = "munsec_headset_alt"
+	keyslot2 = new /obj/item/encryptionkey/headset_sec
+	bang_protect = 1
+
+/obj/item/radio/headset/munitions/munitions_security
+	name = "munitions-security radio headset"
+	desc = "The headset used by your local munitions mall cop."
+	icon_state = "munsec_headset"
+	keyslot2 = new /obj/item/encryptionkey/headset_sec
+
 ////////BACKPACKS////////
 
 /obj/item/storage/backpack/duffelbag/munitions
@@ -108,6 +121,16 @@
 	item_state = "satchel-mun"
 	lefthand_file = 'nsv13/icons/mob/inhands/backpack_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/backpack_righthand.dmi'
+
+
+//armband for midshipmen or security
+
+/obj/item/clothing/accessory/armband/munitions
+	name = "munitions guard armband"
+	desc = "An armband, worn by the station's security forces to display which department they're assigned to. This one is black and orange."
+	icon_state = "muniband"
+	item_color = "muniband"
+
 
 ///////BOX////////
 
