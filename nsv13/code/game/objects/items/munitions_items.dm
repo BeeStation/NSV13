@@ -153,7 +153,7 @@
 	icon_state = "wavystick"
 	item_state = "glowstick"
 	w_class = WEIGHT_CLASS_SMALL
-	brightness_on = 6
+	light_range = 6
 	color = LIGHT_COLOR_GREEN
 	color = COLOR_RED
 	grind_results = list(/datum/reagent/phenol = 15, /datum/reagent/hydrogen = 10, /datum/reagent/oxygen = 5) //Meth-in-a-stick
