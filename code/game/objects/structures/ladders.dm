@@ -11,6 +11,7 @@
 
 /obj/structure/ladder/Initialize(mapload, obj/structure/ladder/up, obj/structure/ladder/down)
 	..()
+	GLOB.ladders += src //NSV13
 	if (up)
 		src.up = up
 		up.down = src
@@ -24,6 +25,7 @@
 /obj/structure/ladder/Destroy(force)
 	if ((resistance_flags & INDESTRUCTIBLE) && !force)
 		return QDEL_HINT_LETMELIVE
+	GLOB.ladders -= src //NSV13
 	disconnect()
 	return ..()
 

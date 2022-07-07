@@ -74,6 +74,10 @@
 	var/blockcount = 0		//number of times retried a blocked path
 	var/awaiting_beacon	= 0	// count of pticks awaiting a beacon response
 
+	var/turf/last_waypoint //NSV13
+	var/bot_z_mode //NSV13 SETTINGS: 10 = AI CALLED. 20 = PATROLLING. 30 = SOMEONE CALLED.
+	var/turf/original_patrol //NSV13
+
 	var/nearest_beacon			// the nearest beacon's tag
 	var/turf/nearest_beacon_loc	// the nearest beacon's location
 
@@ -146,6 +150,7 @@
 	access_card = new /obj/item/card/id(src)
 //This access is so bots can be immediately set to patrol and leave Robotics, instead of having to be let out first.
 	access_card.access += ACCESS_ROBOTICS
+	access_card.access += ACCESS_BOT_OVERRIDE //NSV13
 	set_custom_texts()
 	Radio = new/obj/item/radio(src)
 	if(radio_key)
@@ -535,6 +540,9 @@ Pass a positive integer as an argument to override a bot's default speed.
 			return FALSE
 	else if(path.len == 1)
 		step_to(src, dest)
+		if(last_waypoint != null) //NSV13
+			if(z > last_waypoint.z || z < last_waypoint.z) //NSV13
+				bot_z_movement() //NSV13
 		set_path(null)
 	return TRUE
 
@@ -551,9 +559,20 @@ Pass a positive integer as an argument to override a bot's default speed.
 	var/datum/job/captain/All = new/datum/job/captain
 	all_access.access = All.get_access()
 
-	set_path(get_path_to(src, waypoint, 200, id=all_access))
+	//NSV13 - CHANGES START - BOT MULTI-Z MOVEMENT
 	calling_ai = caller //Link the AI to the bot!
 	ai_waypoint = waypoint
+	last_waypoint = ai_waypoint
+
+	if(!is_reserved_level(z))
+		if(z > waypoint.z || z < waypoint.z)
+			call_bot_z_move(caller, waypoint)
+			return
+
+	set_path(get_path_to(src, waypoint, 200, id=all_access))
+	//calling_ai = caller //Link the AI to the bot!
+	//ai_waypoint = waypoint
+	//NSV13 - CHANGES STOP - BOT MULTI-Z MOVEMENT
 
 	if(path && path.len) //Ensures that a valid path is calculated!
 		var/end_area = get_area_name(waypoint)
@@ -630,6 +649,10 @@ Pass a positive integer as an argument to override a bot's default speed.
 		spawn(0)
 			calc_path()		// Find a route to it
 			if(path.len == 0)
+				if(original_patrol != null) //NSV13
+					if(z > original_patrol.z || z < original_patrol.z) //NSV13
+						bot_z_movement() //NSV13
+						return //NSV13
 				patrol_target = null
 				return
 			mode = BOT_PATROL
@@ -684,12 +707,23 @@ Pass a positive integer as an argument to override a bot's default speed.
 
 /mob/living/simple_animal/bot/proc/get_next_patrol_target()
 	// search the beacon list for the next target in the list.
-	for(var/obj/machinery/navbeacon/NB in GLOB.navbeacons["[z]"])
+	//NSV13 - CHANGES START - BOT MULTI-Z MOVEMENT
+	for(var/obj/machinery/navbeacon/NB in GLOB.navbeacons["2"])
 		if(NB.location == next_destination) //Does the Beacon location text match the destination?
 			destination = new_destination //We now know the name of where we want to go.
 			patrol_target = NB.loc //Get its location and set it as the target.
+			original_patrol = patrol_target
 			next_destination = NB.codes["next_patrol"] //Also get the name of the next beacon in line.
 			return TRUE
+
+	for(var/obj/machinery/navbeacon/NB in GLOB.navbeacons["3"])
+		if(NB.location == next_destination)
+			destination = new_destination //We now know the name of where we want to go.
+			patrol_target = NB.loc //Get its location and set it as the target.
+			original_patrol = patrol_target
+			next_destination = NB.codes["next_patrol"] //Also get the name of the next beacon in line.
+			return TRUE
+	//NSV13 - CHANGES STOP - BOT MULTI-Z MOVEMENT
 
 /mob/living/simple_animal/bot/proc/find_nearest_beacon()
 	for(var/obj/machinery/navbeacon/NB in GLOB.navbeacons["[z]"])
@@ -765,6 +799,14 @@ Pass a positive integer as an argument to override a bot's default speed.
 // given an optional turf to avoid
 /mob/living/simple_animal/bot/proc/calc_path(turf/avoid)
 	check_bot_access()
+	if(!is_reserved_level(z)) //NSV13
+		if(patrol_target != null) //NSV13
+			if(z > patrol_target.z) //NSV13
+				go_up_or_down(DOWN) //NSV13
+				return //NSV13
+			if(z < patrol_target.z) //NSV13
+				go_up_or_down(UP) //NSV13
+				return //NSV13
 	set_path(get_path_to(src, patrol_target, 120, id=access_card, exclude=avoid))
 
 /mob/living/simple_animal/bot/proc/calc_summon_path(turf/avoid)
@@ -1019,7 +1061,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 			var/turf/T = newpath[i]
 			if(T == loc) //don't bother putting an image if it's where we already exist.
 				continue
-			var/direction = NORTH
+			var/direction = get_dir(src, T) //NSV13
 			if(i > 1)
 				var/turf/prevT = path[i - 1]
 				var/image/prevI = path[prevT]
@@ -1042,7 +1084,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 			MA.icon = path_image_icon
 			MA.icon_state = path_image_icon_state
 			MA.layer = ABOVE_OPEN_TURF_LAYER
-			MA.plane = 0
+			MA.plane = GAME_PLANE //NSV13
 			MA.appearance_flags = RESET_COLOR|RESET_TRANSFORM
 			MA.color = path_image_color
 			MA.dir = direction
@@ -1066,3 +1108,116 @@ Pass a positive integer as an argument to override a bot's default speed.
 
 /mob/living/simple_animal/bot/rust_heretic_act()
 	adjustBruteLoss(400)
+
+/** NSV13
+ * Finds nearest ladder or staircase either up or down.
+ *
+ * Arguments:
+ * * direciton - UP or DOWN.
+ */
+/mob/living/simple_animal/bot/proc/find_nearest_stair_or_ladder(direction)
+	if(!direction)
+		return
+	if(direction != UP && direction != DOWN)
+		return
+
+	var/target
+	var/can_reach
+	for(var/obj/structure/ladder/lad in GLOB.ladders)
+		if(lad.z != z)
+			continue
+		if(direction == UP && !lad.up)
+			continue
+		if(direction == DOWN && !lad.down)
+			continue
+		if(!target)
+			target = lad
+			continue
+		if(get_dist_euclidian(lad, src) > get_dist_euclidian(target, src))
+			continue
+		target = lad
+	return target
+
+/mob/living/simple_animal/bot/proc/bot_z_movement()
+	var/obj/structure/ladder/L = locate(/obj/structure/ladder) in get_turf(src)
+	if(bot_z_mode == 10)
+		if(L)
+			if(z > last_waypoint.z)
+				L.travel(FALSE, src, FALSE, L.down, FALSE)
+				ai_waypoint = last_waypoint
+				call_bot(calling_ai, ai_waypoint)
+			else
+				L.travel(TRUE, src, FALSE, L.up, FALSE)
+				ai_waypoint = last_waypoint
+				call_bot(calling_ai, ai_waypoint)
+
+	if(bot_z_mode == 20)
+		if(L)
+			if(z > original_patrol.z)
+				L.travel(FALSE, src, FALSE, L.down, FALSE)
+				patrol_target = original_patrol
+				calc_path()
+			else
+				L.travel(TRUE, src, FALSE, L.up, FALSE)
+				patrol_target = original_patrol
+				calc_path()
+
+//NSV13 - BOT MULTI-Z MOVEMENT
+/mob/living/simple_animal/bot/proc/call_bot_z_move(caller, turf/ori_dest, message=TRUE)
+	//For giving the bot temporary all-access.
+	var/obj/item/card/id/all_access = new /obj/item/card/id
+	var/datum/job/captain/All = new/datum/job/captain
+	all_access.access = All.get_access()
+	bot_z_mode = 10
+
+	var/target
+	var/turf/destination
+	if(!is_reserved_level(z))
+		if(z > ori_dest.z)
+			target = DOWN
+		if(z < ori_dest.z)
+			target = UP
+
+	if(target == UP || target == DOWN)
+		var/new_target = find_nearest_stair_or_ladder(target)
+
+		if(!new_target)
+			return
+
+		destination = get_turf(new_target)
+
+	set_path(get_path_to(src, destination, 200, id=all_access))
+	ai_waypoint = destination
+
+	if(path && path.len) //Ensures that a valid path is calculated!
+		var/end_area = get_area_name(destination)
+		if(!on)
+			turn_on() //Saves the AI the hassle of having to activate a bot manually.
+		access_card = all_access //Give the bot all-access while under the AI's command.
+		if(client)
+			reset_access_timer_id = addtimer(CALLBACK (src, .proc/bot_reset), 600, TIMER_UNIQUE|TIMER_OVERRIDE|TIMER_STOPPABLE) //if the bot is player controlled, they get the extra access for a limited time
+			to_chat(src, "<span class='notice'><span class='big'>Priority waypoint set by [icon2html(calling_ai, src)] <b>[caller]</b>. Proceed to <b>[end_area]</b>.</span><br>[path.len-1] meters to destination. You have been granted additional door access for 60 seconds.</span>")
+		pathset = 1
+		mode = BOT_RESPONDING
+		tries = 0
+	else
+		if(message)
+			to_chat(calling_ai, "<span class='danger'>Failed to calculate a valid route. Ensure destination is clear of obstructions and within range.</span>")
+		calling_ai = null
+		set_path(null)
+
+//NSV13
+/mob/living/simple_animal/bot/proc/go_up_or_down(direction)
+	//For giving the bot temporary all-access.
+	var/obj/item/card/id/all_access = new /obj/item/card/id
+	var/datum/job/captain/All = new/datum/job/captain
+	all_access.access = All.get_access()
+	bot_z_mode = 20
+
+	if(!is_reserved_level(z) && is_station_level(z))
+		var/new_target = find_nearest_stair_or_ladder(direction)
+
+		if(!new_target)
+			return
+		patrol_target = get_turf(new_target)
+		set_path(get_path_to(src, patrol_target, 200, id=all_access))

@@ -75,6 +75,10 @@
 #define ACCESS_PRISONER 78 //! Nsv13 - Genpop. This access is added to prisoner IDs that have served their time.
 #define ACCESS_HANGAR 79 //NSV13 - Access to the hangar
 
+
+//NSV13 Bot Access
+#define ACCESS_BOT_OVERRIDE 501
+
 /// Room and launching.
 #define ACCESS_AUX_BASE 76 //NSV13 - changed from 72 to 76 to deconflict
 

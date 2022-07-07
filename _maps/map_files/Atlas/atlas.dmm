@@ -3616,7 +3616,7 @@
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Engineering wing maintenance";
-	req_one_access_txt = "10;24"
+	req_one_access_txt = "10;24;501"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
@@ -7730,7 +7730,7 @@
 "yU" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Engineering wing maintenance";
-	req_one_access_txt = "10;24"
+	req_one_access_txt = "10;24;501"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -8634,7 +8634,7 @@
 	dir = 4
 	},
 /obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=hmain1";
+	codes_txt = "patrol;next_patrol=left";
 	location = "stairnorth"
 	},
 /turf/open/floor/plasteel/grid/mono,
@@ -10025,7 +10025,7 @@
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Engineering wing maintenance";
-	req_one_access_txt = "10;24"
+	req_one_access_txt = "10;24;501"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
@@ -12813,7 +12813,7 @@
 	name = "Reactor Mix Control";
 	output_tag = "sdmix_out";
 	pixel_x = -9;
-	sensors = list("sdmix_sensor" = "Reactor Mix Tank")
+	sensors = list("sdmix_sensor"="Reactor Mix Tank")
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
