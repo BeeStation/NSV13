@@ -31,6 +31,8 @@
 	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))
 		update_icon()
 		return
+	if(default_deconstruction_crowbar(I))
+		return
 	. = ..()
 
 /obj/item/stack/conveyor/slow
@@ -214,6 +216,7 @@
 	name = "ammo sorter (circuitboard)"
 	req_components = list(/obj/item/stock_parts/matter_bin = 3)
 	build_path = /obj/machinery/ammo_sorter
+	needs_anchored = FALSE
 
 /obj/machinery/computer/ammo_sorter
 	name = "ammo rack control console"
@@ -320,6 +323,8 @@
 		return
 	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))
 		update_icon()
+		return
+	if(default_deconstruction_crowbar(I))
 		return
 	if(panel_open && istype(I, /obj/item/reagent_containers))
 		if(!jammed)
