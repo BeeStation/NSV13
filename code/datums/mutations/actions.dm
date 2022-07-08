@@ -325,3 +325,4 @@
 	else
 		to_chat(user, "<span class='notice'>You cannot dissolve this object.</span>")
 		return FALSE
+ 
