@@ -17,6 +17,7 @@
 	req_one_access_txt = ""
 	account_type = ACCOUNT_SYN
 	circuit = /obj/item/circuitboard/computer/cargo/express/syndicate
+	cargo_landingzone = /area/quartermaster/pvp //Without this, any crates that are sent to cargo bay LZ will land in NT cargo instead.
 
 /obj/machinery/computer/cargo/express/syndicate/emag_act(mob/living/user)
 	to_chat(user, "<span class='warning'>The Syndicate would probably have you killed if you tried to interfere with this console...</span>")
