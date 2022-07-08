@@ -27,13 +27,8 @@
 	weapon_weight = WEAPON_LIGHT
 
 /obj/item/gun/energy/e_gun/mini/Initialize()
-	gun_light = new /obj/item/flashlight/seclite(src)
+	set_gun_light(new /obj/item/flashlight/seclite(src))
 	return ..()
-
-/obj/item/gun/energy/e_gun/mini/update_icon()
-	..()
-	if(gun_light?.on)
-		add_overlay("mini-light")
 
 /obj/item/gun/energy/e_gun/stun
 	name = "tactical energy gun"
