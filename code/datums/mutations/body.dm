@@ -443,3 +443,4 @@
 	owner.dna.species.punchdamage -= added_damage
 	to_chat(owner, "<span class='warning'> Your claws retract into your hand.</span>")
 	owner.dna.species.attack_verb = initial(owner.dna.species.attack_verb)
+ 
