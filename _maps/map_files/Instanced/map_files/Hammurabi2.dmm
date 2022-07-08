@@ -388,15 +388,14 @@
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/pvp)
 "ck" = (
-/obj/machinery/microwave,
-/obj/structure/table/reinforced,
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
 /obj/machinery/power/apc/auto_name/south{
 	req_access = list(150)
 	},
-/turf/open/floor/mineral/plastitanium/red,
+/obj/machinery/vending/dinnerware,
+/turf/open/floor/mineral/plastitanium,
 /area/crew_quarters/bar/pvp)
 "cl" = (
 /obj/machinery/computer/security/syndicate,
@@ -4676,6 +4675,10 @@
 "Bh" = (
 /obj/structure/table/reinforced,
 /obj/machinery/light/small,
+/obj/item/reagent_containers/food/condiment/peppermill,
+/obj/item/reagent_containers/food/condiment/saltshaker{
+	pixel_x = 5
+	},
 /turf/open/floor/mineral/plastitanium,
 /area/crew_quarters/bar/pvp)
 "Bk" = (
@@ -4751,13 +4754,13 @@
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/armoury)
 "BF" = (
-/obj/structure/closet/secure_closet/freezer/meat{
+/obj/structure/closet/secure_closet/freezer/kitchen/maintenance{
 	req_access = null
 	},
-/obj/item/storage/box/donkpockets,
-/obj/item/storage/box/donkpockets,
-/obj/item/storage/box/donkpockets,
+/obj/item/reagent_containers/food/condiment/enzyme,
+/obj/item/reagent_containers/glass/beaker,
 /obj/machinery/light/small{
+	brightness = 3;
 	dir = 8
 	},
 /turf/open/floor/mineral/plastitanium/red,
@@ -5519,11 +5522,8 @@
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/captain/pvp)
 "Hs" = (
-/obj/structure/closet/secure_closet/freezer/kitchen/maintenance{
-	req_access = null
-	},
-/obj/item/reagent_containers/glass/beaker,
-/obj/item/reagent_containers/food/condiment/enzyme,
+/obj/structure/table/reinforced,
+/obj/machinery/microwave,
 /turf/open/floor/mineral/plastitanium/red,
 /area/crew_quarters/bar/pvp)
 "Ht" = (
@@ -6178,6 +6178,9 @@
 "Mw" = (
 /obj/structure/table/reinforced,
 /obj/machinery/reagentgrinder,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/crew_quarters/bar/pvp)
 "Mx" = (
@@ -6297,16 +6300,12 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/nsv/weapons/pvp)
 "No" = (
-/obj/structure/table/reinforced,
-/obj/item/reagent_containers/food/condiment/saltshaker{
-	pixel_x = 5
+/obj/structure/closet/secure_closet/freezer/meat{
+	req_access = null
 	},
-/obj/item/reagent_containers/food/condiment/peppermill,
-/obj/item/radio/intercom/directional/west{
-	freqlock = 1;
-	frequency = 1213;
-	syndie = 1
-	},
+/obj/item/storage/box/donkpockets,
+/obj/item/storage/box/donkpockets,
+/obj/item/storage/box/donkpockets,
 /turf/open/floor/mineral/plastitanium/red,
 /area/crew_quarters/bar/pvp)
 "Nz" = (
@@ -7847,8 +7846,8 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "YL" = (
-/obj/machinery/hydroponics/constructable,
 /obj/item/radio/intercom/directional/north,
+/obj/machinery/deepfryer,
 /turf/open/floor/mineral/plastitanium/red,
 /area/crew_quarters/bar/pvp)
 "YM" = (
@@ -37970,9 +37969,9 @@ UD
 xX
 sH
 Xr
-Xr
-aa
-GS
+BF
+No
+kf
 bT
 bT
 iQ
@@ -38227,8 +38226,8 @@ UD
 xX
 Xr
 Xr
-hw
-hw
+ch
+ch
 kf
 kf
 bT
@@ -38484,8 +38483,8 @@ oX
 nJ
 Xr
 Hs
-BF
-No
+ch
+ch
 ck
 hw
 bk
