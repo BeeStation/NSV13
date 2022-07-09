@@ -381,6 +381,7 @@
 	name = "Strengthened Wings"
 	desc = "Subject's wing muscle volume rapidly increases."
 	quality = POSITIVE
+	locked = TRUE
 	difficulty = 12
 	instability = 15
 	species_allowed = list(SPECIES_APID, SPECIES_MOTH)
@@ -424,6 +425,7 @@
 	name = "Cat Claws"
 	desc = "Subject's hands grow sharpened claws."
 	quality = POSITIVE
+	locked = TRUE
 	difficulty = 12
 	instability = 25
 	species_allowed = list(SPECIES_FELINID)
@@ -433,6 +435,7 @@
 	if(..())
 		return
 	added_damage = min(17, 6 * GET_MUTATION_POWER(src) + owner.dna.species.punchdamage)
+	added_damage -= owner.dna.species.punchdamage
 	owner.dna.species.punchdamage += added_damage
 	to_chat(owner, "<span class='notice'>Claws extend from your fingertips.</span>")
 	owner.dna.species.attack_verb = "slash"
@@ -443,4 +446,4 @@
 	owner.dna.species.punchdamage -= added_damage
 	to_chat(owner, "<span class='warning'> Your claws retract into your hand.</span>")
 	owner.dna.species.attack_verb = initial(owner.dna.species.attack_verb)
- 
+
