@@ -242,7 +242,7 @@
 	. = ..()
 	for(var/obj/machinery/ammo_sorter/W in GLOB.machines)
 		if(istype(W) && W.id == id)
-			linked_sorters += W
+			linkSorter(W)
 	sortList(linked_sorters) //Alphabetise the list initially...
 
 /obj/machinery/computer/ammo_sorter/ui_interact(mob/user, datum/tgui/ui)
@@ -265,7 +265,7 @@
 		if("unlink")
 			if(!AS)
 				return
-			linked_sorters -= AS
+			unlinkSorter(AS)
 		if("rename")
 			if(!AS)
 				return
@@ -298,6 +298,14 @@
 	for(var/obj/machinery/ammo_sorter/AS as() in linked_sorters)
 		AS.unload()
 
+/obj/machinery/computer/ammo_sorter/proc/linkSorter(var/obj/machinery/ammo_sorter/AS)
+	linked_sorters += AS
+	AS.linked_consoles += src
+
+/obj/machinery/computer/ammo_sorter/proc/unlinkSorter(var/obj/machinery/ammo_sorter/AS)
+	linked_sorters -= AS
+	AS.linked_consoles -= src
+
 /obj/machinery/computer/ammo_sorter/ui_data(mob/user)
 	. = ..()
 	var/list/data = list()
@@ -320,6 +328,7 @@
 	density = TRUE
 	anchored = TRUE
 	var/id = null
+	var/list/linked_consoles = list() //to help with unlinking after destruction
 	var/list/loaded = list() //What's loaded in?
 	var/max_capacity = 12	//Max cap for holding.
 	var/loading = FALSE
@@ -397,7 +406,7 @@
 		if(LAZYFIND(C.linked_sorters, src))
 			to_chat(user, "<span class='warning'>This sorter is already linked to [C]...")
 			return TRUE
-		C.linked_sorters += src
+		C.linkSorter(src)
 		to_chat(user, "<span class='warning'>You've linked [src] to [C]...")
 	else
 		to_chat(user, "<span class='warning'>There is no control console in [M]'s buffer.")
@@ -410,6 +419,16 @@
 	M.buffer = src
 	to_chat(user, "<span class='notice'>You add [src] to [M]'s buffer.</span>")
 	return TRUE
+
+/obj/machinery/computer/ammo_sorter/Destroy()
+	for(var/obj/machinery/ammo_sorter/AS as() in linked_sorters)
+		AS.linked_consoles -= src
+	. = ..()
+
+/obj/machinery/ammo_sorter/Destroy()
+	for(var/obj/machinery/computer/ammo_sorter/AS as() in linked_consoles)
+		AS.linked_sorters -= src
+	. = ..()
 
 /obj/machinery/ammo_sorter/examine(mob/user)
 	. = ..()
