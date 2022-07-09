@@ -116,12 +116,26 @@
 	if(locate(/obj/structure/table) in get_turf(mover))
 		return TRUE
 
+//NSV13 - minor changes to support knpcs climbing tables.
 /obj/structure/table/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
 	. = !density
-	if(isknpc(caller)) //NSV13 - Knpcs can climb tables.
+	if(isknpc(caller))
 		return TRUE
 	if(istype(caller))
 		. = . || (caller.pass_flags & PASSTABLE)
+
+/obj/structure/table/glass/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
+	. = !density
+	if(istype(caller))
+		. = . || (caller.pass_flags & PASSTABLE)
+
+/obj/structure/table/glass/plasma/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller) //Unfortunately this is needed because of subtypes.
+	. = !density
+	if(isknpc(caller))
+		return TRUE
+	if(istype(caller))
+		. = . || (caller.pass_flags & PASSTABLE)
+//NSV13 end
 
 /obj/structure/table/proc/tableplace(mob/living/user, mob/living/pushed_mob)
 	pushed_mob.forceMove(loc)
