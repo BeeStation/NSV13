@@ -320,6 +320,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
 			if(!ftl)
 				return
+			if(!SSmapping.level_trait(z, ZTRAIT_OVERMAP))
+				check_overmap_elegibility(TRUE, TRUE)
 			if(ftl.ftl_state != FTL_STATE_READY)
 				to_chat(usr, "<span class='warning'>Unable to comply. FTL vector calculation still in progress.</span>")
 				return
