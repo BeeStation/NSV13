@@ -50,7 +50,7 @@
 	icon_state = "red_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship/red_carpet
 
-/turf/open/floor/plasteel/ship
+/turf/open/floor/durasteel
 	name = "durasteel hull plating"
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "durasteel"
@@ -58,28 +58,28 @@
 	broken_states = list("durasteel_dam1", "durasteel_dam2", "durasteel_dam3", "durasteel_dam4", "durasteel_dam5")
 	burnt_states = list("floorscorched1", "floorscorched2", "floorscorched3", "floorscorched4")
 
-/turf/open/floor/plasteel/ship/riveted
+/turf/open/floor/durasteel/riveted
 	name = "riveted steel hull plating"
 	icon_state = "riveted"
 	floor_tile = /obj/item/stack/tile/plasteel/ship/riveted
 	broken_states = list("riveted_dam1", "riveted_dam2", "riveted_dam3", "riveted_dam4", "riveted_dam5")
 	burnt_states = list("riveted_scorched1", "riveted_scorched2", "riveted_scorched3")
 
-/turf/open/floor/plasteel/ship/padded
+/turf/open/floor/durasteel/padded
 	name = "padded steel hull plating"
 	icon_state = "padded"
 	floor_tile = /obj/item/stack/tile/plasteel/padded
 	broken_states = list("padded_dam1", "padded_dam2", "padded_dam3", "padded_dam4", "padded_dam5")
 	burnt_states = list("padded_scorched1", "padded_scorched2", "padded_scorched3", "padded_scorched4")
 
-/turf/open/floor/plasteel/ship/techfloor //Ported from eris
+/turf/open/floor/durasteel/techfloor //Ported from eris
 	name = "embossed hull plating"
 	icon_state = "eris_techfloor"
 	floor_tile = /obj/item/stack/tile/plasteel/ship/techfloor
 	broken_states = list("eris_techfloor_dam1", "eris_techfloor_dam2", "eris_techfloor_dam3", "eris_techfloor_dam4", "eris_techfloor_dam5")
 	burnt_states = list("eris_techfloor_scorched1", "eris_techfloor_scorched2")
 
-/turf/open/floor/plasteel/ship/techfloor/alt
+/turf/open/floor/durasteel/techfloor/alt
 	name = "embossed hull plating"
 	icon_state = "eris_techfloor_alt"
 	floor_tile = /obj/item/stack/tile/plasteel/ship/techfloor/alt
@@ -111,11 +111,11 @@
 /turf/open/floor/monotile/light/telecomms
 	initial_gas_mix = TCOMMS_ATMOS
 
-/turf/open/floor/plasteel/grid/mono
+/obj/item/stack/tile/durasteel/alt
 	name = "steel hull plate"
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "steel"
-	floor_tile = /obj/item/stack/tile/plasteel/grid/mono
+	floor_tile = /obj/item/stack/tile/durasteel/alt
 	broken_states = list("steel_dam1", "steel_dam2", "steel_dam3", "steel_dam4", "steel_dam5")
 	burnt_states = list("steel_scorched1", "steel_schorched2", "steel_scorched3", "steel_scorched4")
 

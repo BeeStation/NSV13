@@ -98,7 +98,7 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 /obj/item/stack/tile/durasteel
 	name = "durasteel floor tile"
 	singular_name = "durasteel floor tile"
-	desc = "A regular dursasteel tile. Those could work as a pretty decent throwing weapon."
+	desc = "A dursasteel tile. Those could work as a pretty decent throwing weapon."
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "durasteel_tile"
 	force = 6
@@ -111,11 +111,15 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 	resistance_flags = FIRE_PROOF
 	var/list/tilelist = list( \
 	"durasteel tile", \
+	"alt durasteel tile", \
 	"riveted durasteel tile", \
 	"padded durasteel tile", \
 	"embossed durasteel tile", \
 	"alt embossed durasteel tile", \
-
+	"linoleum", \
+	"monotile", \
+	"dark monotile", \
+	"light monotile" \
 	)
 
 /obj/item/stack/tile/durasteel/examine(mob/user)
@@ -125,81 +129,76 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 /obj/item/stack/tile/durasteel/CtrlClick(mob/user)
 	. = ..()
 	if(loc == user.contents && (!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user))) && !is_cyborg)
-		var/tiletype = input(user, "Which type of tile do you want to change to?" as anything in tilelist)
+		var/tiletype = input(user, "Which type of tile do you want to change to?") as null|anything in tilelist
 		switch(tiletype)
 			if("durasteel tile")
+				turf_type = /turf/open/floor/durasteel
+				icon_state = "durasteel_tile"
+			if("alt durasteel tile")
+				turf_type = /turf/open/floor/durasteel/alt
+				icon_state = "steel_tile"
+			if("riveted durasteel tile")
+				turf_type = /turf/open/floor/durasteel/riveted
+				icon_state = "riveted_tile"
+			if("padded durasteel tile")
+				turf_type = /turf/open/floor/durasteel/padded
+				icon_state = "padded_tile"
+			if("embossed durasteel tile")
+				turf_type = /turf/open/floor/durasteel/eris_techfloor
+				icon_state = "eris_techfloor_tile"
+			if("alt embossed durasteel tile")
+				turf_type = /turf/open/floor/durasteel/alt_eris_techfloor/
+				icon_state = "eris_techfloor_alt_tile"
+			if("linoleum")
+				turf_type = /turf/open/floor/durasteel/lino
+				icon_state = "lino_tile"
+			if("techfloor tile")
+				turf_type = /turf/open/floor/durasteel/techfloor
+				icon_state = "techfloor_tile"
+			if("techfloor grid tile")
+				turf_type = /turf/open/floor/durasteel/techfloor_grid
+				icon_state = "techfloor_grid_tile"
+			if("monotile")
+				turf_type = /turf/open/floor/monotile/steel
+				icon_state = "steel_tile"
+			if("dark monotile")
+				turf_type = /turf/open/floor/monotile/dark
+				icon_state = "steel_tile"
+			if("light monotile")
+				turf_type = /turf/open/floor/monotile/light
+				icon_state = "steel_tile"
 
-
-/obj/item/stack/tile/plasteel/ship
-	name = "durasteel hull plating tile"
-	singular_name = "durasteel hull plating tile"
-	desc = "A regular durasteel hull plating tile"
-	icon = 'nsv13/icons/turf/floors.dmi'
-	icon_state = "durasteel_tile"
-	turf_type = /turf/open/floor/plasteel/ship
-
-/obj/item/stack/tile/plasteel/ship/riveted
-	name = "riveted steel hull plating tile"
-	singular_name = "riveted steel hull plating tile"
-	desc = "A regular riveted steel hull plating tile"
-	icon_state = "riveted_tile"
-	turf_type = /turf/open/floor/plasteel/ship/riveted
-
-/obj/item/stack/tile/plasteel/ship/padded
-	name = "padded steel hull plating tile"
-	singular_name = "padded steel hull plating tile"
-	desc = "A regular padded steel hull plating tile"
-	icon = 'nsv13/icons/turf/floors.dmi'
-	icon_state = "padded_tile"
-	turf_type = /turf/open/floor/plasteel/ship/padded
-
-/obj/item/stack/tile/plasteel/ship/techfloor
-	name = "embossed hull plating tile"
-	singular_name = "embossed hull plating tile"
-	desc = "A regular embossed hull plating tile"
-	icon = 'nsv13/icons/turf/floors.dmi'
-	icon_state = "eris_techfloor_tile"
-	turf_type = /turf/open/floor/plasteel/ship/techfloor
-
-/obj/item/stack/tile/plasteel/ship/techfloor/alt
-	name = "embossed hull plating tile"
-	singular_name = "embossed hull plating tile"
-	desc = "A regular embossed hull plating tile"
-	icon = 'nsv13/icons/turf/floors.dmi'
-	icon_state = "eris_techfloor_alt_tile"
-	turf_type = /turf/open/floor/plasteel/ship/techfloor/alt
-
-/obj/item/stack/tile/plasteel/grid/mono
-	name = "steel hull plating tile"
-	singular_name = "steel hull plating tile"
-	desc = "A regular steel hull plating tile"
-	icon = 'nsv13/icons/turf/floors.dmi'
+/obj/item/stack/tile/durasteel/alt
 	icon_state = "steel_tile"
-	turf_type = /turf/open/floor/plasteel/grid/mono
+	turf_type = /turf/open/floor/durasteel/alt
 
-/obj/item/stack/tile/plasteel/grid/lino
-	name = "linoleum hull plating tile"
-	singular_name = "linoleum hull plating tile"
-	desc = "A regular linoleum hull plating tile"
-	icon = 'nsv13/icons/turf/floors.dmi'
+/obj/item/stack/tile/durasteel/riveted
+	icon_state = "riveted_tile"
+	turf_type = /turf/open/floor/durasteel/riveted
+
+/obj/item/stack/tile/durasteel/padded
+	icon_state = "padded_tile"
+	turf_type = /turf/open/floor/durasteel/padded
+
+/obj/item/stack/tile/durasteel/eris_techfloor
+	icon_state = "eris_techfloor_tile"
+	turf_type = /turf/open/floor/durasteel/techfloor
+
+/obj/item/stack/tile/durasteel/alt_eris_techfloor
+	icon_state = "eris_techfloor_alt_tile"
+	turf_type = /turf/open/floor/durasteel/techfloor/alt
+
+/obj/item/stack/tile/durasteel/lino
 	icon_state = "lino_tile"
-	turf_type = /turf/open/floor/plasteel/grid/lino
+	turf_type = /turf/open/floor/durasteel/lino
 
-/obj/item/stack/tile/plasteel/grid/techfloor
-	name = "techfloor tile"
-	singular_name = "techfloor hull plating tile"
-	desc = "A regular techfloor hull plating tile"
-	icon = 'nsv13/icons/turf/floors.dmi'
+/obj/item/stack/tile/durasteel/techfloor
 	icon_state = "techfloor_tile"
-	turf_type = /turf/open/floor/plasteel/grid/lino
+	turf_type = /turf/open/floor/durasteel/techfloor
 
-/obj/item/stack/tile/plasteel/grid/techfloor/grid
-	name = "techfloor tile"
-	singular_name = "techfloor hull plating tile"
-	desc = "A regular techfloor hull plating tile"
-	icon = 'nsv13/icons/turf/floors.dmi'
+/obj/item/stack/tile/durasteel/techfloor_grid
 	icon_state = "techfloor_grid_tile"
-	turf_type = /turf/open/floor/plasteel/grid/techfloor/grid
+	turf_type = /turf/open/floor/durasteel/techfloor_grid
 
 //carpet
 
