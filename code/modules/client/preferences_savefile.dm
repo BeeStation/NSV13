@@ -77,7 +77,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		preferred_squad = "Able"
 	if(current_version < 38) //NSV13 - added some keybinds
 		key_bindings = deepCopyList(GLOB.keybinding_list_by_key)
-		//WRITE_FILE(S["key_bindings"], key_bindings)
+		WRITE_FILE(S["key_bindings"], key_bindings)
 	return
 
 /datum/preferences/proc/update_character(current_version, savefile/S)
@@ -146,7 +146,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	if(current_version < 25)
 		key_bindings = deepCopyList(GLOB.keybinding_list_by_key)
-		//WRITE_FILE(S["key_bindings"], key_bindings)
+		WRITE_FILE(S["key_bindings"], key_bindings)
 	if(current_version < 27)
 		if (!(underwear in GLOB.underwear_list))
 			underwear = "Nude"
@@ -334,7 +334,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	if (!key_bindings)
 		key_bindings = deepCopyList(GLOB.keybinding_list_by_key)
-	//WRITE_FILE(S["key_bindings"], key_bindings)
+	WRITE_FILE(S["key_bindings"], key_bindings)
 	return TRUE
 
 /datum/preferences/proc/load_character(slot)
