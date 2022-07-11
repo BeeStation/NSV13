@@ -2899,7 +2899,8 @@
 	dir = 8
 	},
 /obj/structure/ladder{
-	pixel_y = 16
+	pixel_y = 16;
+	bot_allowed = 0
 	},
 /obj/structure/sign/ship/space{
 	name = "WARNING: SPACE LADDER";
@@ -3616,7 +3617,7 @@
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Engineering wing maintenance";
-	req_one_access_txt = "10;24;501"
+	req_one_access_txt = "10;24"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
@@ -7730,7 +7731,7 @@
 "yU" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Engineering wing maintenance";
-	req_one_access_txt = "10;24;501"
+	req_one_access_txt = "10;24"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -10025,7 +10026,7 @@
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Engineering wing maintenance";
-	req_one_access_txt = "10;24;501"
+	req_one_access_txt = "10;24"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
@@ -10794,7 +10795,9 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "KB" = (
-/obj/structure/ladder,
+/obj/structure/ladder{
+	bot_allowed = 0
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "KD" = (
@@ -11285,7 +11288,9 @@
 	name = "Munitions requests console";
 	pixel_y = -32
 	},
-/obj/structure/ladder,
+/obj/structure/ladder{
+	bot_allowed = 0
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "Me" = (

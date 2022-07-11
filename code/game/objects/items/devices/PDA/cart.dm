@@ -660,15 +660,16 @@ Code:
 		menu += "<HR><A href='byond://?src=[REF(src)];op=botlist'>[PDAIMG(back)]Return to bot list</A>"
 	else
 		menu += "<BR><A href='byond://?src=[REF(src)];op=botlist'>[PDAIMG(refresh)]Scan for active bots</A><BR><BR>"
-		var/turf/current_turf = get_turf(src)
-		var/zlevel = current_turf.get_virtual_z_level()
+		//var/turf/current_turf = get_turf(src) //NSV13
+		//var/zlevel = current_turf.get_virtual_z_level() //NSV13
 		var/botcount = 0
 		for(var/B in GLOB.bots_list) //Git da botz
 			var/mob/living/simple_animal/bot/Bot = B
-			if(!Bot.on || Bot.get_virtual_z_level() != zlevel || Bot.remote_disabled || !(bot_access_flags & Bot.bot_type)) //Only non-emagged bots on the same Z-level are detected!
+			if(!Bot.on || Bot.remote_disabled || !(bot_access_flags & Bot.bot_type)) //Only non-emagged bots on the same Z-level are detected! //NSV13
 				continue //Also, the PDA must have access to the bot type.
-			menu += "<A href='byond://?src=[REF(src)];op=control;bot=[REF(Bot)]'><b>[Bot.name]</b> ([Bot.get_mode()])<BR>"
-			botcount++
+			if(Bot.get_virtual_z_level() in SSmapping.levels_by_trait(ZTRAIT_STATION)) //NSV13
+				menu += "<A href='byond://?src=[REF(src)];op=control;bot=[REF(Bot)]'><b>[Bot.name]</b> ([Bot.get_mode()])<BR>" //NSV13
+				botcount++ //NSV13
 		if(!botcount) //No bots at all? Lame.
 			menu += "No bots found.<BR>"
 			return

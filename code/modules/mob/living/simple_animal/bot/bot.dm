@@ -77,6 +77,7 @@
 	var/turf/last_waypoint //NSV13
 	var/bot_z_mode //NSV13 SETTINGS: 10 = AI CALLED. 20 = PATROLLING. 30 = SOMEONE CALLED.
 	var/turf/original_patrol //NSV13
+	var/turf/last_summon //NSV13
 
 	var/nearest_beacon			// the nearest beacon's tag
 	var/turf/nearest_beacon_loc	// the nearest beacon's location
@@ -150,7 +151,6 @@
 	access_card = new /obj/item/card/id(src)
 //This access is so bots can be immediately set to patrol and leave Robotics, instead of having to be let out first.
 	access_card.access += ACCESS_ROBOTICS
-	access_card.access += ACCESS_BOT_OVERRIDE //NSV13
 	set_custom_texts()
 	Radio = new/obj/item/radio(src)
 	if(radio_key)
@@ -812,6 +812,14 @@ Pass a positive integer as an argument to override a bot's default speed.
 /mob/living/simple_animal/bot/proc/calc_summon_path(turf/avoid)
 	check_bot_access()
 	spawn()
+		if(!is_reserved_level(z))
+			if(summon_target != null)
+				if(z > summon_target.z)
+					summon_up_or_down(DOWN)
+					return
+				if(z < summon_target.z)
+					summon_up_or_down(UP)
+					return
 		set_path(get_path_to(src, summon_target, 150, id=access_card, exclude=avoid))
 		if(!path.len) //Cannot reach target. Give up and announce the issue.
 			speak("Summon command failed, destination unreachable.",radio_channel)
@@ -823,6 +831,10 @@ Pass a positive integer as an argument to override a bot's default speed.
 		return
 
 	if(loc == summon_target)		// Arrived to summon location.
+		if(last_summon != null)
+			if(z > last_summon.z || z < last_summon.z) //NSV13
+				bot_z_movement() //NSV13
+				return //NSV13
 		bot_reset()
 		return
 
@@ -838,6 +850,9 @@ Pass a positive integer as an argument to override a bot's default speed.
 				tries = 0
 
 	else	// no path, so calculate new one
+		if(summon_target != null)
+			if(z > summon_target.z || z < summon_target.z)
+				last_summon = summon_target
 		calc_summon_path()
 
 /mob/living/simple_animal/bot/Bump(M as mob|obj) //Leave no door unopened!
@@ -1122,13 +1137,14 @@ Pass a positive integer as an argument to override a bot's default speed.
 		return
 
 	var/target
-	var/can_reach
 	for(var/obj/structure/ladder/lad in GLOB.ladders)
 		if(lad.z != z)
 			continue
 		if(direction == UP && !lad.up)
 			continue
 		if(direction == DOWN && !lad.down)
+			continue
+		if(lad.bot_allowed != TRUE)
 			continue
 		if(!target)
 			target = lad
@@ -1161,6 +1177,16 @@ Pass a positive integer as an argument to override a bot's default speed.
 				L.travel(TRUE, src, FALSE, L.up, FALSE)
 				patrol_target = original_patrol
 				calc_path()
+	if(bot_z_mode == 30)
+		if(L)
+			if(z > last_summon.z)
+				L.travel(FALSE, src, FALSE, L.down, FALSE)
+				summon_target = last_summon
+				calc_summon_path()
+			else if(z < last_summon.z)
+				L.travel(TRUE, src, FALSE, L.up, FALSE)
+				summon_target = last_summon
+				calc_summon_path()
 
 //NSV13 - BOT MULTI-Z MOVEMENT
 /mob/living/simple_animal/bot/proc/call_bot_z_move(caller, turf/ori_dest, message=TRUE)
@@ -1206,7 +1232,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 		calling_ai = null
 		set_path(null)
 
-//NSV13
+//NSV13 - PATROL SECTION
 /mob/living/simple_animal/bot/proc/go_up_or_down(direction)
 	//For giving the bot temporary all-access.
 	var/obj/item/card/id/all_access = new /obj/item/card/id
@@ -1221,5 +1247,17 @@ Pass a positive integer as an argument to override a bot's default speed.
 			return
 		patrol_target = get_turf(new_target)
 		set_path(get_path_to(src, patrol_target, 200, id=all_access))
- 
- 
+
+/mob/living/simple_animal/bot/proc/summon_up_or_down(direction)
+	bot_z_mode = 30
+
+	if(!is_reserved_level(z) && is_station_level(z))
+		var/new_target = find_nearest_stair_or_ladder(direction)
+
+		var/target
+		if(!new_target)
+			return
+		target = get_turf(new_target)
+		last_summon = summon_target
+		summon_target = target
+		set_path(get_path_to(src, summon_target, 200, id=access_card))

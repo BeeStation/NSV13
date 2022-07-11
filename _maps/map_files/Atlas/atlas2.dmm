@@ -797,7 +797,9 @@
 /area/hallway/nsv/deck1/hallway)
 "dF" = (
 /obj/structure/lattice/catwalk/over/ship,
-/obj/structure/ladder,
+/obj/structure/ladder{
+	bot_allowed = 0
+	},
 /turf/open/openspace,
 /area/maintenance/nsv/deck1/central)
 "dH" = (
@@ -5702,7 +5704,7 @@
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Engineering wing maintenance";
-	req_one_access_txt = "10;24;501"
+	req_one_access_txt = "10;24"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/central)
@@ -6118,7 +6120,9 @@
 /area/hallway/nsv/deck1/hallway)
 "Dv" = (
 /obj/structure/hull_plate,
-/obj/structure/ladder,
+/obj/structure/ladder{
+	bot_allowed = 0
+	},
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "Dx" = (
@@ -10658,7 +10662,8 @@
 "YR" = (
 /obj/structure/hull_plate,
 /obj/structure/ladder{
-	pixel_y = 16
+	pixel_y = 16;
+	bot_allowed = 0
 	},
 /turf/open/floor/engine/airless,
 /area/space/nearstation)

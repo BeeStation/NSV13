@@ -7,6 +7,7 @@
 	anchored = TRUE
 	var/obj/structure/ladder/down   //the ladder below this one
 	var/obj/structure/ladder/up     //the ladder above this one
+	var/bot_allowed = TRUE //NSV13 Bots are not allowed to go up this ladder
 	max_integrity = 100
 
 /obj/structure/ladder/Initialize(mapload, obj/structure/ladder/up, obj/structure/ladder/down)
