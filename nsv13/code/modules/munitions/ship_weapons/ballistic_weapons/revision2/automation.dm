@@ -301,10 +301,12 @@
 /obj/machinery/computer/ammo_sorter/proc/linkSorter(var/obj/machinery/ammo_sorter/AS)
 	linked_sorters += AS
 	AS.linked_consoles += src
+	ui_update()
 
 /obj/machinery/computer/ammo_sorter/proc/unlinkSorter(var/obj/machinery/ammo_sorter/AS)
 	linked_sorters -= AS
 	AS.linked_consoles -= src
+	ui_update()
 
 /obj/machinery/computer/ammo_sorter/ui_data(mob/user)
 	. = ..()
@@ -428,12 +430,13 @@
 /obj/machinery/ammo_sorter/Destroy()
 	for(var/obj/machinery/computer/ammo_sorter/AS as() in linked_consoles)
 		AS.linked_sorters -= src
+		AS.ui_update()
 	. = ..()
 
 /obj/machinery/ammo_sorter/examine(mob/user)
 	. = ..()
 	if(panel_open)
-		. += "<span class='notice'>It's maintenance panel is open, you could probably add some oil to lubricate it.</span>" //it didnt tell the players if this was the case before.
+		. += "<span class='notice'>Its maintenance panel is open, you could probably add some oil to lubricate it.</span>" //it didnt tell the players if this was the case before.
 	if(jammed)
 		. += "<span class='notice'>It's jammed shut.</span>"	//if it's jammed, don't show durability. only thing they need to know is that it's jammed.
 	else
@@ -516,6 +519,8 @@
 			loading = FALSE
 			loaded += A
 			weardown()
+			for(var/obj/machinery/computer/ammo_sorter/AS as() in linked_consoles)
+				AS.ui_update()
 			return TRUE
 		else
 			loading = FALSE
