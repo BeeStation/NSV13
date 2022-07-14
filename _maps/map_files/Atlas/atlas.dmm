@@ -99,6 +99,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/ship/blue,
+/obj/structure/bot_elevator,
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck2/primary)
 "ap" = (
@@ -3857,16 +3858,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
-"mm" = (
-/obj/effect/turf_decal/tile/ship/half/green{
-	dir = 1
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/structure/bot_elevator,
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck2/primary)
 "mp" = (
 /obj/effect/landmark/event_spawn,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
@@ -4377,6 +4368,7 @@
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 8
 	},
+/obj/structure/bot_elevator,
 /turf/open/floor/plasteel/grid/mono,
 /area/hallway/nsv/deck2/primary)
 "nT" = (
@@ -8861,6 +8853,12 @@
 /obj/machinery/airalarm/directional/west,
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Munitions"
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "Dn" = (
@@ -11215,6 +11213,7 @@
 /area/maintenance/nsv/deck2/starboard)
 "LL" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/bot_elevator,
 /turf/open/floor/plating{
 	icon_state = "platingdmg2"
 	},
@@ -48193,7 +48192,7 @@ UQ
 YT
 bY
 RN
-mm
+FI
 wq
 TG
 xE

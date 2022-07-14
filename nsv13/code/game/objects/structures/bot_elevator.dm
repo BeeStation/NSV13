@@ -54,7 +54,7 @@
 /obj/structure/bot_elevator/proc/travel(going_up, mob/user, is_ghost, obj/structure/bot_elevator/elevator, needs_do_after=TRUE)
 	var/turf/T = get_turf(elevator)
 	if(!is_ghost && isbot(user))
-		playsound(src, 'nsv13/sound/effects/footstep/ladder1.ogg')
+		user.say("Weeeeeee!")
 		if(needs_do_after)
 			if(!do_after(user, 1 SECONDS, target=src))
 				return FALSE
