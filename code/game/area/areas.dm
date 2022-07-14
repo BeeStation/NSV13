@@ -302,7 +302,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 /area/proc/atmosalert(isdangerous, obj/source)
 	if(isdangerous != atmosalm)
 		if(isdangerous==TRUE)
-
+			set_vacuum_alarm_effect() //NSV13
 			for (var/item in GLOB.silicon_mobs)
 				var/mob/living/silicon/aiPlayer = item
 				aiPlayer.triggerAlarm("Atmosphere", src, cameras, source)
@@ -317,6 +317,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 				p.triggerAlarm("Atmosphere", src, cameras, source)
 
 		else
+			unset_vacuum_alarm_effect() //NSV13
 			for (var/item in GLOB.silicon_mobs)
 				var/mob/living/silicon/aiPlayer = item
 				aiPlayer.cancelAlarm("Atmosphere", src, source)

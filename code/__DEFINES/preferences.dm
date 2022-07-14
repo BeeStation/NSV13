@@ -69,6 +69,7 @@
 #define SEC_DEPT_MEDICAL "Medical"
 #define SEC_DEPT_SCIENCE "Science"
 #define SEC_DEPT_SUPPLY "Supply"
+#define SEC_DEPT_MUNITIONS "Munitions" //NSV13
 
 //NSV13 Pilot Roles
 #define PILOT_COMBAT "Combat"
