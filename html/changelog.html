@@ -56,6 +56,76 @@
 		-->
 		<div class="commit sansserif">
 
+			<h2 class="date">07 July 2022</h2>
+			<h3 class="author">Dejaku51, jack-pie, Rohesie, PowerfulBacon, Sinestia, Froststahr, Archanial, Qustinnus, AnturK, Rukofamicom, Autisem,  updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Smooth movable lighting system implemented. Projectiles, sparks, thrown flashlights or moving mobs with lights should be much smoother and less laggy.</li>
+				<li class="balance">Light sources no longer stack in range, though they still do in intensity.</li>
+				<li class="bugfix">Fixed Security cameras not working properly with Overlay Lighting</li>
+				<li class="bugfix">Fixed Exosuits having really small light</li>
+				<li class="bugfix">Fixed kinetic Crusher Light not working</li>
+				<li class="bugfix">Fixed desword glowing even if not wielded</li>
+				<li class="bugfix">Fixed swarmer lights</li>
+				<li class="bugfix">Fixed pAI lights</li>
+				<li class="bugfix">Finally fixed hardsuit glowing</li>
+				<li class="code_imp">Overlay light sources can be set to not count towards get_lumcount calculations</li>
+				<li class="code_imp">Lasers and sparks no longer count towards get_lumcount calculations.</li>
+				<li class="balance">Nightmares will now dodge lasers</li>
+				<li class="rscadd">Lights have new overlay sprites for emergency and night modes</li>
+				<li class="bugfix">Light overlays are now functional</li>
+				<li class="bugfix">Fixes dual energy sword always being red</li>
+				<li class="bugfix">fixed null light runtime when changing species into ethereal</li>
+				<li class="bugfix">Attachments now appear on guns again</li>
+				<li class="bugfix">fixed flamethrower lighting runtime</li>
+				<li class="tweak">light eater works on wisps</li>
+				<li class="bugfix">Light eater works on mechs</li>
+				<li class="bugfix">The lighteater will now break gunlights and flashlights attached to things.</li>
+				<li class="bugfix">The lighteater will no longer break PDAs that do not have their light turned on.</li>
+			</ul>
+			<h3 class="author">SharkeeByond updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added departments to Midshipmen</li>
+				<li class="rscadd">Added Munitions department to ''Preferred Security/Midshipman Department''</li>
+				<li class="rscadd">New headsets and armbands (munsec)</li>
+				<li class="tweak">Changed ''Preferred Security Department'' to ''Preferred Security/Midshipman Department'' in the Preferences GUI</li>
+			</ul>
+
+			<h2 class="date">02 July 2022</h2>
+			<h3 class="author">Ikalpo updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">fixed the bio bag</li>
+			</ul>
+			<h3 class="author">IndusRobot updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added glass and reinforced glass floor tiles</li>
+			</ul>
+			<h3 class="author">Vasily2013 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">Matches Atlas upper and lower deck turfs to prevent going up/down through what should be hull plating.</li>
+				<li class="rscadd">Added gas pump to Atlas reactor feed line.</li>
+				<li class="bugfix">Replaced protolathe in Atlas sec with techfab.</li>
+				<li class="rscadd">Holopad in Atlas brig control.</li>
+				<li class="tweak">Re-jigger Atlas waste cooler to be more clearly piped.</li>
+				<li class="rscadd">Borg chargers in Atlas maint south and north of the PKA room.</li>
+				<li class="tweak">Atlas: Moves one (1) hull repair juice tank to the hull armor on the bow.</li>
+				<li class="tweak">Moved one crate in Atlas sci maint to block an abandoned door. (This will be the only OSHA compliance fix of this PR)</li>
+			</ul>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Makes A & D steering work correctly</li>
+				<li class="tweak">fighter controls will now show orange docking mode button when docking is in cooldown</li>
+				<li class="tweak">added option to toggle docking mode to fighter controller</li>
+				<li class="bugfix">hitting the cordon bounding an asteroid should now ignore position when deciding whether to transfer the ship to the overmap</li>
+				<li class="bugfix">all overmap Z levels should now be set up to allow looping</li>
+				<li class="bugfix">made repair and refuel sabre modules work and fixed their descriptions</li>
+				<li class="rscdel">refueling module no longer resupplies ammo</li>
+				<li class="admin">added VV dropdown options for getting small craft onto and off of the overmap</li>
+				<li class="tweak">moved docking_points for main ships in slightly so they no longer overlapped with the area where we smoothly eject fighters</li>
+				<li class="bugfix">made mobs_in_ship list update better</li>
+				<li class="code_imp">cleaned up some stuff about docking, undocking, and collisions</li>
+				<li class="bugfix">fixed docking</li>
+			</ul>
+
 			<h2 class="date">27 June 2022</h2>
 			<h3 class="author">Bobbanz1 updated:</h3>
 			<ul class="changes bgimages16">
@@ -200,74 +270,6 @@
 			<h3 class="author">covertcorvid updated:</h3>
 			<ul class="changes bgimages16">
 				<li class="server">Auxmos 0.2.11</li>
-			</ul>
-
-			<h2 class="date">12 May 2022</h2>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Doing things that annoy the Syndicate will now slowly make them allocate more forces to your part of the region, resulting in increasingly more dangerous encounters the longer you do such.</li>
-				<li class="rscadd">Enemy fleets when untouched for a long time can now request reinforcements up to the fleet's intended size.</li>
-			</ul>
-
-			<h2 class="date">09 May 2022</h2>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">overmap and overmap relayed projectiles which are piercing should no longer be intangible.</li>
-			</ul>
-
-			<h2 class="date">07 May 2022</h2>
-			<h3 class="author">TheFakeElon updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixes a few improper nouns</li>
-				<li class="code_imp">misc optimizations</li>
-				<li class="bugfix">getting forcemoved out of fighters will no longer break your UI/controls</li>
-				<li class="code_imp">Adds a mob signal for overmap changing</li>
-				<li class="code_imp">makes collision detection significantly faster during heavy load</li>
-				<li class="refactor">refactors physics collision detection to use spatial partitioning</li>
-			</ul>
-			<h3 class="author">red031000 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixes same rank text on examine</li>
-			</ul>
-
-			<h2 class="date">06 May 2022</h2>
-			<h3 class="author">TheFakeElon updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed freight consoles overriding primary dradis consoles as the ship's primary type</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed the torpcoin shop</li>
-			</ul>
-			<h3 class="author">red031000 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">felinids don't like getting wet</li>
-				<li class="rscadd">pulling someone by the tail makes them upset</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Sergeant-At-Armsky has been added to most maps currently in rotation</li>
-				<li class="code_imp">Sergeant-At-Armsky has been added as a secbot subtype</li>
-			</ul>
-
-			<h2 class="date">05 May 2022</h2>
-			<h3 class="author">TheFakeElon updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixes galactica nucleium scrubbers/filters</li>
-			</ul>
-
-			<h2 class="date">28 April 2022</h2>
-			<h3 class="author">Bobbanz1 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscdel">That random floating button</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Made the random portion of the starmap smaller</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Glock ammo crates give five magazines instead of one</li>
 			</ul>
 		</div>
 

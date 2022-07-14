@@ -50,6 +50,7 @@
 #include "timer_sanity.dm"
 #include "unit_test.dm"
 #include "random_ruin_mapsize.dm"
+#include "ftl.dm" // NSV13 FTL unit tests
 
 #undef TEST_ASSERT
 #undef TEST_ASSERT_EQUAL

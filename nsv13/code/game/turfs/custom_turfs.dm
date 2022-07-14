@@ -164,5 +164,5 @@
 		return
 	if(istype(AM, /obj/structure/overmap/small_craft))
 		var/obj/structure/overmap/small_craft/OM = AM
-		return OM.check_overmap_elegibility()
+		return OM.check_overmap_elegibility(ignore_position = TRUE)
 	return ..()
