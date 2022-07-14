@@ -1130,61 +1130,59 @@ Pass a positive integer as an argument to override a bot's default speed.
  * Arguments:
  * * direciton - UP or DOWN.
  */
-/mob/living/simple_animal/bot/proc/find_nearest_stair_or_ladder(direction)
+/mob/living/simple_animal/bot/proc/find_nearest_bot_elevator(direction)
 	if(!direction)
 		return
 	if(direction != UP && direction != DOWN)
 		return
 
 	var/target
-	for(var/obj/structure/ladder/lad in GLOB.ladders)
-		if(lad.z != z)
+	for(var/obj/structure/bot_elevator/elevat in GLOB.bot_elevator)
+		if(elevat.z != z)
 			continue
-		if(direction == UP && !lad.up)
+		if(direction == UP && !elevat.up)
 			continue
-		if(direction == DOWN && !lad.down)
-			continue
-		if(lad.bot_allowed != TRUE)
+		if(direction == DOWN && !elevat.down)
 			continue
 		if(!target)
-			target = lad
+			target = elevat
 			continue
-		if(get_dist_euclidian(lad, src) > get_dist_euclidian(target, src))
+		if(get_dist_euclidian(elevat, src) > get_dist_euclidian(target, src))
 			continue
-		target = lad
+		target = elevat
 	return target
 
 /mob/living/simple_animal/bot/proc/bot_z_movement()
-	var/obj/structure/ladder/L = locate(/obj/structure/ladder) in get_turf(src)
+	var/obj/structure/bot_elevator/E = locate(/obj/structure/bot_elevator) in get_turf(src)
 	if(bot_z_mode == 10)
-		if(L)
+		if(E)
 			if(z > last_waypoint.z)
-				L.travel(FALSE, src, FALSE, L.down, FALSE)
+				E.travel(FALSE, src, FALSE, E.down, FALSE)
 				ai_waypoint = last_waypoint
 				call_bot(calling_ai, ai_waypoint)
 			else
-				L.travel(TRUE, src, FALSE, L.up, FALSE)
+				E.travel(TRUE, src, FALSE, E.up, FALSE)
 				ai_waypoint = last_waypoint
 				call_bot(calling_ai, ai_waypoint)
 
 	if(bot_z_mode == 20)
-		if(L)
+		if(E)
 			if(z > original_patrol.z)
-				L.travel(FALSE, src, FALSE, L.down, FALSE)
+				E.travel(FALSE, src, FALSE, E.down, FALSE)
 				patrol_target = original_patrol
 				calc_path()
 			else
-				L.travel(TRUE, src, FALSE, L.up, FALSE)
+				E.travel(TRUE, src, FALSE, E.up, FALSE)
 				patrol_target = original_patrol
 				calc_path()
 	if(bot_z_mode == 30)
-		if(L)
+		if(E)
 			if(z > last_summon.z)
-				L.travel(FALSE, src, FALSE, L.down, FALSE)
+				E.travel(FALSE, src, FALSE, E.down, FALSE)
 				summon_target = last_summon
 				calc_summon_path()
 			else if(z < last_summon.z)
-				L.travel(TRUE, src, FALSE, L.up, FALSE)
+				E.travel(TRUE, src, FALSE, E.up, FALSE)
 				summon_target = last_summon
 				calc_summon_path()
 
@@ -1205,7 +1203,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 			target = UP
 
 	if(target == UP || target == DOWN)
-		var/new_target = find_nearest_stair_or_ladder(target)
+		var/new_target = find_nearest_bot_elevator(target)
 
 		if(!new_target)
 			return
@@ -1241,7 +1239,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 	bot_z_mode = 20
 
 	if(!is_reserved_level(z) && is_station_level(z))
-		var/new_target = find_nearest_stair_or_ladder(direction)
+		var/new_target = find_nearest_bot_elevator(direction)
 
 		if(!new_target)
 			return
@@ -1252,7 +1250,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 	bot_z_mode = 30
 
 	if(!is_reserved_level(z) && is_station_level(z))
-		var/new_target = find_nearest_stair_or_ladder(direction)
+		var/new_target = find_nearest_bot_elevator(direction)
 
 		var/target
 		if(!new_target)

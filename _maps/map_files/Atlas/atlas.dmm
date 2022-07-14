@@ -2798,6 +2798,16 @@
 	departmentType = 2;
 	pixel_x = 32
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 8;
+	freq = 1400;
+	location = "QM #2"
+	},
+/mob/living/simple_animal/bot/mulebot{
+	home_destination = "QM #2";
+	suffix = "#3"
+	},
 /turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "jo" = (
@@ -3840,6 +3850,16 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
+"mm" = (
+/obj/effect/turf_decal/tile/ship/half/green{
+	dir = 1
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/bot_elevator,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/primary)
 "mp" = (
 /obj/effect/landmark/event_spawn,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
@@ -48154,7 +48174,7 @@ UQ
 YT
 bY
 RN
-FI
+mm
 wq
 TG
 xE
