@@ -27,26 +27,29 @@
 	max_integrity = 200
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 70, "stamina" = 0)
 	resistance_flags = FIRE_PROOF
+	light_system = MOVABLE_LIGHT
+	light_range = 6
+	light_power = 1
+	light_on = FALSE
 	var/twohand_force = 34
 	var/hacked = FALSE
-	var/brightness_on = 6 //TWICE AS BRIGHT AS A REGULAR ESWORD
 	var/list/possible_colors = list("red", "blue", "green", "purple")
 
-/obj/item/dualsaber/Initialize()
-	. = ..()
-	RegisterSignal(src, COMSIG_TWOHANDED_WIELD, .proc/on_wield)
-	RegisterSignal(src, COMSIG_TWOHANDED_UNWIELD, .proc/on_unwield)
+/obj/item/dualsaber/Initialize(mapload)
 	if(LAZYLEN(possible_colors))
 		item_color = pick(possible_colors)
 		switch(item_color)
 			if("red")
-				light_color = LIGHT_COLOR_RED
+				set_light(l_color = LIGHT_COLOR_RED)
 			if("green")
-				light_color = LIGHT_COLOR_GREEN
+				set_light(l_color = LIGHT_COLOR_GREEN)
 			if("blue")
-				light_color = LIGHT_COLOR_LIGHT_CYAN
+				set_light(l_color = LIGHT_COLOR_LIGHT_CYAN)
 			if("purple")
-				light_color = LIGHT_COLOR_LAVENDER
+				set_light(l_color = LIGHT_COLOR_LAVENDER)
+	. = ..()
+	RegisterSignal(src, COMSIG_TWOHANDED_WIELD, .proc/on_wield)
+	RegisterSignal(src, COMSIG_TWOHANDED_UNWIELD, .proc/on_unwield)
 
 /obj/item/dualsaber/Destroy()
 	STOP_PROCESSING(SSobj, src)
@@ -70,7 +73,7 @@
 	w_class = w_class_on
 	hitsound = 'sound/weapons/blade1.ogg'
 	START_PROCESSING(SSobj, src)
-	set_light(brightness_on)
+	set_light_on(TRUE)
 
 /// Triggered on unwield of two handed item
 /// switch hitsounds
@@ -81,7 +84,7 @@
 	w_class = initial(w_class)
 	hitsound = "swing_hit"
 	STOP_PROCESSING(SSobj, src)
-	set_light(0)
+	set_light_on(FALSE)
 
 /obj/item/dualsaber/update_icon()
 	icon_state = "dualsaber0"
