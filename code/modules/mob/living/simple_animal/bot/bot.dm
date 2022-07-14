@@ -813,14 +813,14 @@ Pass a positive integer as an argument to override a bot's default speed.
 /mob/living/simple_animal/bot/proc/calc_summon_path(turf/avoid)
 	check_bot_access()
 	spawn()
-		if(!is_reserved_level(z))
-			if(summon_target != null)
-				if(z > summon_target.z)
-					summon_up_or_down(DOWN)
-					return
-				if(z < summon_target.z)
-					summon_up_or_down(UP)
-					return
+		if(!is_reserved_level(z)) //NSV13
+			if(summon_target != null) //NSV13
+				if(z > summon_target.z) //NSV13
+					summon_up_or_down(DOWN) //NSV13
+					return //NSV13
+				if(z < summon_target.z) //NSV13
+					summon_up_or_down(UP) //NSV13
+					return //NSV13
 		set_path(get_path_to(src, summon_target, 150, id=access_card, exclude=avoid))
 		if(!path.len) //Cannot reach target. Give up and announce the issue.
 			speak("Summon command failed, destination unreachable.",radio_channel)
@@ -832,7 +832,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 		return
 
 	if(loc == summon_target)		// Arrived to summon location.
-		if(last_summon != null)
+		if(last_summon != null) //NSV13
 			if(z > last_summon.z || z < last_summon.z) //NSV13
 				bot_z_movement() //NSV13
 				return //NSV13
@@ -851,9 +851,9 @@ Pass a positive integer as an argument to override a bot's default speed.
 				tries = 0
 
 	else	// no path, so calculate new one
-		if(summon_target != null)
-			if(z > summon_target.z || z < summon_target.z)
-				last_summon = summon_target
+		if(summon_target != null) //NSV13
+			if(z > summon_target.z || z < summon_target.z) //NSV13
+				last_summon = summon_target //NSV13
 		calc_summon_path()
 
 /mob/living/simple_animal/bot/Bump(M as mob|obj) //Leave no door unopened!
@@ -1125,8 +1125,12 @@ Pass a positive integer as an argument to override a bot's default speed.
 /mob/living/simple_animal/bot/rust_heretic_act()
 	adjustBruteLoss(400)
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//Multi-Z Related section for NSV13
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 /** NSV13
- * Finds nearest ladder or staircase either up or down.
+ * Finds nearest bot elevator.
  *
  * Arguments:
  * * direciton - UP or DOWN.
@@ -1153,6 +1157,11 @@ Pass a positive integer as an argument to override a bot's default speed.
 		target = elevat
 	return target
 
+/**
+ * NSV13
+ * Makes the bot move up or down a Z-level depending on the bot_z_mode
+ * and the original destination
+ */
 /mob/living/simple_animal/bot/proc/bot_z_movement()
 	var/obj/structure/bot_elevator/E = locate(/obj/structure/bot_elevator) in get_turf(src)
 	if(bot_z_mode == 10)

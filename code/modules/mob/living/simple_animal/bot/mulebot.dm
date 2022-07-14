@@ -585,14 +585,14 @@
 // calculates a path to the current destination
 // given an optional turf to avoid
 /mob/living/simple_animal/bot/mulebot/calc_path(turf/avoid = null)
-	if(!is_reserved_level(z) && is_station_level(z))
-		if(target != null)
-			if(z > target.z)
-				mule_up_or_down(DOWN)
-				return
-			if(z < target.z)
-				mule_up_or_down(UP)
-				return
+	if(!is_reserved_level(z) && is_station_level(z)) //NSV13
+		if(target != null) //NSV13
+			if(z > target.z) //NSV13
+				mule_up_or_down(DOWN) //NSV13
+				return //NSV13
+			if(z < target.z) //NSV13
+				mule_up_or_down(UP) //NSV13
+				return //NSV13
 	path = get_path_to(src, target, 250, id=access_card, exclude=avoid)
 
 //NSV13 - BOT MULTI-Z MOVEMENT

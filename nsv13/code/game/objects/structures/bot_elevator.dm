@@ -1,6 +1,6 @@
 /obj/structure/bot_elevator
 	name = "bot elevator"
-	desc = "A basic service elevator built for the various bots onboard the ship"
+	desc = "A basic service elevator built specifically for the various bots onboard the vessel."
 	icon = 'nsv13/icons/obj/structures/bot_elevator.dmi'
 	icon_state = "elevator1"
 	anchored = TRUE
