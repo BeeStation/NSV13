@@ -650,10 +650,6 @@ Pass a positive integer as an argument to override a bot's default speed.
 		spawn(0)
 			calc_path()		// Find a route to it
 			if(path.len == 0)
-				if(original_patrol != null) //NSV13
-					if(z > original_patrol.z || z < original_patrol.z) //NSV13
-						bot_z_movement() //NSV13
-						return //NSV13
 				patrol_target = null
 				return
 			mode = BOT_PATROL
@@ -671,6 +667,10 @@ Pass a positive integer as an argument to override a bot's default speed.
 		return
 
 	if(loc == patrol_target)		// reached target
+		if(original_patrol != null) //NSV13
+			if(z > original_patrol.z || z < original_patrol.z) //NSV13
+				bot_z_movement() //NSV13
+				return //NSV13
 		//Find the next beacon matching the target.
 		if(!get_next_patrol_target())
 			find_patrol_target() //If it fails, look for the nearest one instead.
@@ -713,7 +713,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 		if(NB.location == next_destination) //Does the Beacon location text match the destination?
 			destination = new_destination //We now know the name of where we want to go.
 			patrol_target = NB.loc //Get its location and set it as the target.
-			original_patrol = patrol_target
+			original_patrol = NB.loc //NSV13
 			next_destination = NB.codes["next_patrol"] //Also get the name of the next beacon in line.
 			return TRUE
 
@@ -721,7 +721,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 		if(NB.location == next_destination)
 			destination = new_destination //We now know the name of where we want to go.
 			patrol_target = NB.loc //Get its location and set it as the target.
-			original_patrol = patrol_target
+			original_patrol = NB.loc //NSV13
 			next_destination = NB.codes["next_patrol"] //Also get the name of the next beacon in line.
 			return TRUE
 	//NSV13 - CHANGES STOP - BOT MULTI-Z MOVEMENT
