@@ -280,7 +280,7 @@
 		H.set_cloned_appearance()
 
 		H.set_suicide(FALSE)
-	to_chat(H, "<span class='warning'><b>You are being cloned. As per our rules, you cannot remember how you died.</b></span>") //NSV13
+	to_chat(H, "<span class='warning'><b>You are being cloned. You cannot remember how you died.</b></span>") //NSV13
 	attempting = FALSE
 	return CLONING_SUCCESS
 
