@@ -649,7 +649,7 @@ SUBSYSTEM_DEF(ticker)
 		if(PVP_SYNDIE_LOSS)
 			news_message = "The crew of [station_name()] successfully repelled an attempted invasion by the SSV Nebuchadnezzar and have strengthened Nanotrasen's position in the Sol sector!"
 		if(PVP_SYNDIE_PIRATE_WIN)
-			news_message = "The sol sector has fallen into anarchistic piracy, as the Tortuga raiders used the chaos of a surprise attack by Syndicate forces to seize a large amount of territory unanswered." //NSV13 end
+			news_message = "The Sol sector has fallen into anarchistic piracy, as the Tortuga raiders used the chaos of a surprise attack by Syndicate forces to seize a large amount of territory unanswered." //NSV13 end
 
 	if(news_message)
 		SStopic.crosscomms_send("news_report", news_message, news_source)
