@@ -355,16 +355,17 @@
 
 /obj/machinery/light/update_overlays()
 	. = ..()
-	if(on || emergency_mode)
-		if(!lighting_overlays)
-			lighting_overlays = list()
-		var/mutable_appearance/LO = lighting_overlays["[base_state]-[light_power]-[light_color]"]
-		if(!LO)
-			LO = mutable_appearance(overlayicon, base_state, layer, EMISSIVE_PLANE)
-			LO.color = light_color
-			LO.alpha = clamp(light_power*255, 30, 200)
-			lighting_overlays["[base_state]-[light_power]-[light_color]"] = LO
-		. += LO
+	if(!on || status != LIGHT_OK)
+		return
+
+	var/area/local_area = get_area(src)
+	if(emergency_mode || (local_area?.fire) || (local_area?.vacuum) || (local_area && local_area.redalert))
+		. += mutable_appearance(overlayicon, "[base_state]_emergency")
+		return
+	if(nightshift_enabled)
+		. += mutable_appearance(overlayicon, "[base_state]_nightshift")
+		return
+	. += mutable_appearance(overlayicon, base_state)
 
 // update the icon_state and luminosity of the light depending on its state
 /obj/machinery/light/proc/update(trigger = TRUE)
@@ -884,13 +885,18 @@
 /obj/item/light/Initialize()
 	. = ..()
 	update()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/item/light/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/caltrop, force)
 
-/obj/item/light/Crossed(mob/living/L)
-	. = ..()
+/obj/item/light/proc/on_entered(datum/source, atom/movable/L)
+	SIGNAL_HANDLER
+
 	if(istype(L) && has_gravity(loc))
 		if(HAS_TRAIT(L, TRAIT_LIGHT_STEP))
 			playsound(loc, 'sound/effects/glass_step.ogg', 30, 1)

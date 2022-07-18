@@ -73,6 +73,7 @@
 	totallums /= 12 // 4 corners, each with 3 channels, get the average.
 
 	totallums = (totallums - minlum) / (maxlum - minlum)
+	totallums += dynamic_lumcount
 
 	return CLAMP01(totallums)
 
