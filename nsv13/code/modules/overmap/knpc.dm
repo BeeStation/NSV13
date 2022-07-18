@@ -264,7 +264,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 				continue
 			if(OM.occupant && !H.faction_check_mob(OM.occupant))
 				. += OM.occupant
-	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects) //Has to go through global objects due to happening on a ship's z level.
 		if(OM.z != H.z)
 			continue
 		if(get_dist(H, OM) > HA.view_range || !can_see(H, OM, HA.view_range))

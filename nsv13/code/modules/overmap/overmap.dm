@@ -708,10 +708,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		M.stop_sound_channel(channel)
 
 /obj/structure/overmap/proc/relay_to_nearby(S, message, ignore_self=FALSE, sound_range=20, faction_check=FALSE) //Sends a sound + text message to nearby ships
-	for(var/obj/structure/overmap/ship as() in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/ship as() in GLOB.overmap_objects) //Might be called in hyperspace or by fighters, so shouldn't use a system check.
 		if(ignore_self)
 			if(ship == src)
 				continue
+		if(z != ship.z)	//If we aren't on the same z level this shouldn't be happening.
+			continue
 		if(get_dist(src, ship) <= sound_range) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
 			if(faction_check)
 				if(src.faction == ship.faction)
