@@ -4123,6 +4123,15 @@
 	name = "nanoweave carpet (bluer)"
 	},
 /area/teleporter)
+"cLa" = (
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Bridge"
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck2/forward)
 "cLe" = (
 /obj/item/radio/intercom/directional/east,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -12069,6 +12078,12 @@
 "isw" = (
 /obj/machinery/light/small{
 	dir = 1
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Munitions"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/bridge)
@@ -27650,6 +27665,15 @@
 	},
 /turf/open/floor/holofloor/wood,
 /area/bridge/showroom/corporate)
+"sUe" = (
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Science"
+	},
+/turf/open/floor/carpet/ship/purple_carpet,
+/area/science/computer_lab)
 "sUq" = (
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
@@ -27855,6 +27879,21 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/nsv/atc)
+"tdC" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 8;
+	freq = 1400;
+	location = "QM #2"
+	},
+/mob/living/simple_animal/bot/mulebot{
+	home_destination = "QM #2";
+	suffix = "#3";
+	name = "Moe"
+	},
+/turf/open/floor/engine,
+/area/quartermaster/storage)
 "tek" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -61514,7 +61553,7 @@ gvQ
 bcs
 wJD
 sYj
-wJD
+tdC
 klP
 qbl
 iKg
@@ -65148,7 +65187,7 @@ hfY
 qRg
 wKz
 lUj
-ghL
+sUe
 uEM
 eGd
 bfP
@@ -74379,7 +74418,7 @@ oAO
 kmx
 hvY
 tlt
-tlt
+cLa
 mZf
 xMz
 vjC

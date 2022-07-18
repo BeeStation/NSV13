@@ -2479,6 +2479,22 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/central/hallway)
+"boQ" = (
+/obj/effect/turf_decal/delivery,
+/obj/structure/plasticflaps/opaque,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Kitchen"
+	},
+/obj/machinery/door/window/northleft{
+	dir = 8;
+	name = "MuleBot Access";
+	req_access_txt = "50"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "bpe" = (
 /obj/machinery/light_switch{
 	pixel_x = 26;
@@ -3993,6 +4009,12 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-6"
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Bar"
+	},
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "ctT" = (
@@ -4745,6 +4767,20 @@
 /obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
+"cXI" = (
+/obj/structure/plasticflaps/opaque,
+/obj/machinery/door/window/northleft{
+	name = "Security Delivery";
+	req_one_access_txt = "3;4;63"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Security"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "cXV" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -10939,6 +10975,15 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/science/storage)
+"hll" = (
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Medbay"
+	},
+/turf/open/floor/carpet/ship/blue,
+/area/medical/medbay/lobby)
 "hlw" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -17557,6 +17602,20 @@
 	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/central)
+"lIn" = (
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Engineering"
+	},
+/obj/structure/plasticflaps/opaque,
+/obj/machinery/door/window/eastleft{
+	req_access_txt = "10";
+	name = "Engineering Delivery"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "lIF" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -19942,6 +20001,10 @@
 /area/crew_quarters/heads/cmo)
 "nfw" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple,
+/obj/machinery/door/window/westleft{
+	req_access_txt = "28";
+	name = "Kitchen Delivery"
+	},
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen/coldroom)
 "nfK" = (
@@ -47709,7 +47772,7 @@ dmx
 dmx
 dmx
 dmx
-dmx
+lIn
 dmx
 dmx
 fXH
@@ -62363,7 +62426,7 @@ dmx
 yca
 dmx
 dmx
-dmx
+boQ
 dmx
 dmx
 dmx
@@ -70360,7 +70423,7 @@ fIm
 hAb
 rmW
 pAr
-qgc
+hll
 piL
 qhH
 quU
@@ -75219,7 +75282,7 @@ qOc
 kgh
 qOc
 dmF
-pQv
+cXI
 tnw
 pQv
 nGw
