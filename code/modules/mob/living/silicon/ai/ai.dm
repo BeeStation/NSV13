@@ -44,7 +44,8 @@
 	radiomod = ";" //AIs will, by default, state their laws on the internal radio.
 	var/obj/item/multitool/aiMulti
 	var/mob/living/simple_animal/bot/Bot
-	var/tracking = FALSE //this is 1 if the AI is currently tracking somebody, but the track has not yet been completed.
+	var/mob/living/ai_tracking_target = null //current tracking target
+	var/reacquire_timer = null //saves the timer id for the tracking reacquire so we can delete it/check for its existence
 	var/datum/effect_system/spark_spread/spark_system //So they can initialize sparks whenever/N
 
 	//MALFUNCTION
@@ -410,6 +411,11 @@
 	to_chat(src, "<b>You are now [is_anchored ? "" : "un"]anchored.</b>")
 	// the message in the [] will change depending whether or not the AI is anchored
 
+/mob/living/silicon/ai/cancel_camera()
+	..()
+	if(ai_tracking_target)
+		ai_stop_tracking()
+
 /mob/living/silicon/ai/update_mobility() //If the AI dies, mobs won't go through it anymore
 	if(stat != CONSCIOUS)
 		mobility_flags = NONE
@@ -470,7 +476,7 @@
 		if(name == string)
 			target += src
 		if(target.len)
-			ai_actual_track(pick(target))
+			ai_start_tracking(pick(target))
 		else
 			to_chat(src, "Target is not on or near any active cameras on the station.")
 		return
@@ -524,8 +530,8 @@
 	if(QDELETED(C))
 		return FALSE
 
-	if(!tracking)
-		cameraFollow = null
+	if(ai_tracking_target)
+		ai_stop_tracking()
 
 	if(QDELETED(eyeobj))
 		view_core()
@@ -545,19 +551,14 @@
 		to_chat(src, "<span class='warning'>Wireless control is disabled.</span>")
 		return
 	// NSV13 start -- checks if bot is in any occupied z level in the occupied overmap
-//	var/turf/ai_current_turf = get_turf(src)
-//	var/ai_Zlevel = ai_current_turf.z NSV13 -- don't need this anymore, read below
+	var/turf/ai_current_turf = get_turf(src)
+	var/ai_Zlevel = ai_current_turf.get_virtual_z_level()
+	var/valid_z = get_level_trait(ai_Zlevel)
 	var/d
 	d += "<A HREF=?src=[REF(src)];botrefresh=1>Query network status</A><br>"
 	d += "<table width='100%'><tr><td width='40%'><h3>Name</h3></td><td width='30%'><h3>Status</h3></td><td width='30%'><h3>Location</h3></td><td width='10%'><h3>Control</h3></td></tr>"
-	var/list/valid_z = list()
-	var/obj/structure/overmap/OM = get_overmap()
-	if(OM && length(OM.occupying_levels))
-		valid_z = OM.occupying_levels
-	else
-		valid_z += SSmapping.z_list[z]
 	for (Bot in GLOB.alive_mob_list)
-		if((SSmapping.z_list[Bot.z] in OM.occupying_levels) && !Bot.remote_disabled) // NSV13 end
+		if((Bot.get_virtual_z_level() in SSmapping.levels_by_trait(valid_z)) && !Bot.remote_disabled) // NSV13 end
 			var/bot_mode = Bot.get_mode()
 			d += "<tr><td width='30%'>[Bot.hacked ? "<span class='bad'>(!)</span>" : ""] [Bot.name]</A> ([Bot.model])</td>"
 			//If the bot is on, it will display the bot's current mode status. If the bot is not mode, it will just report "Idle". "Inactive if it is not on at all.
@@ -674,7 +675,6 @@
 	set category = "AI Commands"
 	set name = "Jump To Network"
 	unset_machine()
-	cameraFollow = null
 	var/cameralist[0]
 
 	if(incapacitated())
@@ -697,6 +697,8 @@
 	var/old_network = network
 	network = input(U, "Which network would you like to view?") as null|anything in sortList(cameralist)
 
+	if(ai_tracking_target)
+		ai_stop_tracking()
 	if(!U.eyeobj)
 		U.view_core()
 		return
@@ -1128,3 +1130,4 @@
 
 /mob/living/silicon/ai/zMove(dir, feedback = FALSE)
 	. = eyeobj.zMove(dir, feedback)
+ 

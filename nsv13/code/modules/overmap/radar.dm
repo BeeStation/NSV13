@@ -119,7 +119,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 /obj/machinery/computer/ship/dradis/multitool_act(mob/living/user, obj/item/I)
 	usingBeacon = !usingBeacon
 	to_chat(user, "<span class='sciradio'>You switch [src]'s trader delivery location to [usingBeacon ? "target supply beacons" : "target the default landing location on your ship"]</span>")
-	return FALSE
+	return TRUE
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge. All secondary dradis consoles should be a subtype of this
 	name = "air traffic control console"
@@ -248,20 +248,12 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	alphaSlide = CLAMP(alphaSlide, 0, 100) //Just in case we have a malformed input.
 	switch(action)
 		if("showFriendlies")
-			if(!alphaSlide)
-				return
 			showFriendlies = alphaSlide
 		if("showEnemies")
-			if(!alphaSlide)
-				return
 			showEnemies = alphaSlide
 		if("showAsteroids")
-			if(!alphaSlide)
-				return
 			showAsteroids = alphaSlide
 		if("showAnomalies")
-			if(!alphaSlide)
-				return
 			showAnomalies = alphaSlide
 		if("zoomout")
 			zoom_factor = clamp(zoom_factor - zoom_factor_min, zoom_factor_min, zoom_factor_max)
