@@ -305,7 +305,7 @@
 			continue
 		if(ship == src || ship == last_target || ship.faction == faction || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
 			continue
-		if(istype(ship, /obj/structure/overmap/asteroid)) // Please don't blow up my rocks
+		if(warcrime_blacklist[ship.type]) // Please don't blow up my rocks
 			continue
 		if ( ship.essential )
 			continue
@@ -362,7 +362,7 @@
 				continue
 			if(ship == src || ship == last_target || ship.faction == faction || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
 				continue
-			if(istype(ship, /obj/structure/overmap/asteroid)) // Please don't blow up my rocks
+			if(warcrime_blacklist[ship.type]) // Please don't blow up my rocks
 				continue
 			if ( ship.essential )
 				continue
