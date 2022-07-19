@@ -1665,9 +1665,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 //Nsv13 squads - we CM now
 				if("squad")
-					var/new_spec = input(user, "Choose your preferred squad:", "Squad Setup") as null|anything in GLOB.squad_manager.squads
+					var/datum/squad/new_spec = input(user, "Choose your preferred squad:", "Squad Setup") as null|anything in GLOB.squad_manager.squads
 					if(new_spec)
-						preferred_squad = new_spec
+						preferred_squad = new_spec.name
 				if("syndiecrew")
 					var/client/C = (istype(user, /client)) ? user : user.client
 					C.select_syndie_role()
