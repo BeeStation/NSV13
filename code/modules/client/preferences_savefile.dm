@@ -192,9 +192,15 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	READ_FILE(S["crew_objectives"], crew_objectives)
 
 	//Nsv13 squads - we CM now
-	READ_FILE(S["preferred_squad"], preferred_squad)
+	try
+		READ_FILE(S["preferred_squad"], preferred_squad)
+	catch
+		log_runtime("Savefile for [parent.ckey] was invalid")
+		message_admins("[parent.ckey]'s savefile was corrupted! Ping Corvid about this!")
+		bad_savefile = TRUE
 	READ_FILE(S["preferred_syndie_role"], preferred_syndie_role)
 	READ_FILE(S["preferred_pilot_role"], preferred_pilot_role)
+	//NSV13 end
 
 	READ_FILE(S["default_slot"], default_slot)
 	READ_FILE(S["chat_toggles"], chat_toggles)
@@ -275,6 +281,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 /datum/preferences/proc/save_preferences()
 	if(!path)
 		return FALSE
+	if(bad_savefile && fexists(path)) // NSV13 - back it up so we can restore it later, and give them a clean one in the meantime
+		fcopy(path, path + ".bad")
+		fdel(path)
 	var/savefile/S = new /savefile(path)
 	if(!S)
 		return FALSE

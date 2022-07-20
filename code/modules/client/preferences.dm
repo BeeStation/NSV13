@@ -7,6 +7,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
 	var/max_save_slots = 3
 
+	var/bad_savefile = FALSE //NSV13 - fixing some savefile stupidity
+
 	//non-preference stuff
 	var/muted = 0
 	var/last_ip
