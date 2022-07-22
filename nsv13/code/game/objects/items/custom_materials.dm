@@ -32,14 +32,18 @@ GLOBAL_LIST_INIT(duranium_recipes, list ( \
 
 GLOBAL_LIST_INIT(durasteel_recipes, list ( \
 	new/datum/stack_recipe("nanoweave plating", /obj/item/stack/tile/carpet/ship, 1, 4, 20), \
-	new/datum/stack_recipe("durasteel hull plating", /obj/item/stack/tile/plasteel/ship, 1, 4, 20), \
-	new/datum/stack_recipe("riveted hull plating", /obj/item/stack/tile/plasteel/ship/riveted, 1, 4, 20), \
-	new/datum/stack_recipe("padded steel hull plating", /obj/item/stack/tile/plasteel/padded, 1, 4, 20), \
-	new/datum/stack_recipe("embossed hull plating", /obj/item/stack/tile/plasteel/ship/techfloor, 1, 4, 20), \
-	new/datum/stack_recipe("embossed hull plating - alt", /obj/item/stack/tile/plasteel/ship/techfloor/alt, 1, 4, 20), \
-	new/datum/stack_recipe("steel monotile", /obj/item/stack/tile/mono/steel, 1, 4, 20), \
-	new/datum/stack_recipe("dark monotile", /obj/item/stack/tile/mono/dark, 1, 4, 20), \
-	new/datum/stack_recipe("light monotile", /obj/item/stack/tile/mono/light, 1, 4, 20), \
+	new/datum/stack_recipe("durasteel hull plating", /obj/item/stack/tile/durasteel, 1, 4, 20), \
+	new/datum/stack_recipe("durasteel hull plating - alt", /obj/item/stack/tile/durasteel/alt, 1, 4, 20), \
+	new/datum/stack_recipe("riveted hull plating", /obj/item/stack/tile/durasteel/riveted, 1, 4, 20), \
+	new/datum/stack_recipe("padded steel hull plating", /obj/item/stack/tile/durasteel/padded, 1, 4, 20), \
+	new/datum/stack_recipe("embossed hull plating", /obj/item/stack/tile/durasteel/eris_techfloor, 1, 4, 20), \
+	new/datum/stack_recipe("embossed hull plating - alt", /obj/item/stack/tile/durasteel/eris_techfloor_alt, 1, 4, 20), \
+	new/datum/stack_recipe("techfloor", /obj/item/stack/tile/durasteel/mono_steel, 1, 4, 20), \
+	new/datum/stack_recipe("tech plating", /obj/item/stack/tile/durasteel/mono_steel, 1, 4, 20), \
+	new/datum/stack_recipe("steel monotile", /obj/item/stack/tile/durasteel/mono_steel, 1, 4, 20), \
+	new/datum/stack_recipe("dark monotile", /obj/item/stack/tile/durasteel/mono_dark, 1, 4, 20), \
+	new/datum/stack_recipe("light monotile", /obj/item/stack/tile/durasteel/mono_light, 1, 4, 20), \
+	new/datum/stack_recipe("monofloor", /obj/item/stack/tile/durasteel/monofloor, 1, 4, 20) \
 	))
 
 /obj/item/stack/sheet/durasteel
@@ -98,8 +102,8 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 /obj/item/stack/tile/durasteel
 	name = "durasteel floor tile"
 	singular_name = "durasteel floor tile"
-	desc = "A dursasteel tile. Those could work as a pretty decent throwing weapon."
-	icon = 'nsv13/icons/turf/floors.dmi'
+	desc = "A durasteel tile. Those could work as a pretty decent throwing weapon."
+	icon = 'nsv13/icons/obj/custom_tiles.dmi'
 	icon_state = "durasteel_tile"
 	force = 6
 	materials = list(/datum/material/iron=500, /datum/material/silver=500)
@@ -111,15 +115,18 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 	resistance_flags = FIRE_PROOF
 	var/list/tilelist = list( \
 	"durasteel tile", \
-	"alt durasteel tile", \
+	"durasteel tile - alt", \
 	"riveted durasteel tile", \
 	"padded durasteel tile", \
 	"embossed durasteel tile", \
-	"alt embossed durasteel tile", \
+	"embossed durasteel tile - alt", \
 	"linoleum", \
+	"techfloor tile", \
+	"tech plating tile", \
 	"monotile", \
 	"dark monotile", \
-	"light monotile" \
+	"light monotile", \
+	"monofloor" \
 	)
 
 /obj/item/stack/tile/durasteel/examine(mob/user)
@@ -136,7 +143,7 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 				icon_state = "durasteel_tile"
 			if("alt durasteel tile")
 				turf_type = /turf/open/floor/durasteel/alt
-				icon_state = "steel_tile"
+				icon_state = "durasteel_tile_alt"
 			if("riveted durasteel tile")
 				turf_type = /turf/open/floor/durasteel/riveted
 				icon_state = "riveted_tile"
@@ -147,7 +154,7 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 				turf_type = /turf/open/floor/durasteel/eris_techfloor
 				icon_state = "eris_techfloor_tile"
 			if("alt embossed durasteel tile")
-				turf_type = /turf/open/floor/durasteel/alt_eris_techfloor/
+				turf_type = /turf/open/floor/durasteel/eris_techfloor_alt
 				icon_state = "eris_techfloor_alt_tile"
 			if("linoleum")
 				turf_type = /turf/open/floor/durasteel/lino
@@ -155,7 +162,7 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 			if("techfloor tile")
 				turf_type = /turf/open/floor/durasteel/techfloor
 				icon_state = "techfloor_tile"
-			if("techfloor grid tile")
+			if("tech plating tile")
 				turf_type = /turf/open/floor/durasteel/techfloor_grid
 				icon_state = "techfloor_grid_tile"
 			if("monotile")
@@ -167,9 +174,12 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 			if("light monotile")
 				turf_type = /turf/open/floor/monotile/light
 				icon_state = "steel_tile"
+			if("monofloor")
+				turf_type = /turf/open/floor/monofloor
+				icon_state = "steel_tile"
 
 /obj/item/stack/tile/durasteel/alt
-	icon_state = "steel_tile"
+	icon_state = "durasteel_tile_alt"
 	turf_type = /turf/open/floor/durasteel/alt
 
 /obj/item/stack/tile/durasteel/riveted
@@ -182,11 +192,11 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 
 /obj/item/stack/tile/durasteel/eris_techfloor
 	icon_state = "eris_techfloor_tile"
-	turf_type = /turf/open/floor/durasteel/techfloor
+	turf_type = /turf/open/floor/durasteel/eris_techfloor
 
-/obj/item/stack/tile/durasteel/alt_eris_techfloor
+/obj/item/stack/tile/durasteel/eris_techfloor_alt
 	icon_state = "eris_techfloor_alt_tile"
-	turf_type = /turf/open/floor/durasteel/techfloor/alt
+	turf_type = /turf/open/floor/durasteel/eris_techfloor_alt
 
 /obj/item/stack/tile/durasteel/lino
 	icon_state = "lino_tile"
@@ -200,6 +210,21 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 	icon_state = "techfloor_grid_tile"
 	turf_type = /turf/open/floor/durasteel/techfloor_grid
 
+/obj/item/stack/tile/durasteel/mono_steel
+	icon_state = "monotile_steel"
+	turf_type = /turf/open/floor/monotile/steel
+
+/obj/item/stack/tile/durasteel/mono_dark
+	icon_state = "monotile_dark"
+	turf_type = /turf/open/floor/monotile/dark
+
+/obj/item/stack/tile/durasteel/mono_light
+	icon_state = "monotile_light"
+	turf_type = /turf/open/floor/monotile/light
+
+/obj/item/stack/tile/durasteel/monofloor
+	icon_state = "monofloor_tile"
+	turf_type = /turf/open/floor/monofloor
 //carpet
 
 /obj/item/stack/tile/carpet/ship
