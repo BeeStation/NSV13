@@ -113,7 +113,8 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	//Add a treadmill for this ship as and when needed.
 	if(!reserved_z)
 		get_reserved_z()
-		current_system.add_ship(src)
+		starting_system = current_system.name //Just fuck off it works alright?
+		SSstar_system.add_ship(src)
 
 /obj/structure/overmap/proc/choose_interior(map_path_override)
 	if(map_path_override)
