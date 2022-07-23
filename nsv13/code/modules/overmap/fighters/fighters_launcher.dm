@@ -285,6 +285,9 @@
 			return FALSE
 		OM = SSstar_system.find_main_overmap()
 		message_admins("[src] has no overmap or last overmap during a forced exit, it will enter the overmap near [OM]")
+	if(!current_system && !OM.current_system)
+		message_admins("Could not determine the system to transfer into")
+		return FALSE
 	layer = LOW_OBJ_LAYER
 	addtimer(VARSET_CALLBACK(src, layer, ABOVE_MOB_LAYER), 2 SECONDS) //Gives fighters a small window of immunity from collisions with other overmaps
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
@@ -353,11 +356,12 @@
 	if(mass < OM.mass) //If theyre bigger than us and have docking points, and we want to dock
 		message_admins("transferring [src] into [OM]")
 		return transfer_from_overmap(OM)
-	message_admins("failed mass check")
+	message_admins("[src] docking with [OM] failed mass check")
 	return FALSE
 
 /obj/structure/overmap/small_craft/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	if(!length(OM.docking_points))
+		message_admins("[OM] has no docking points")
 		return FALSE
 	enemies = list() //Reset RWR warning.
 	last_overmap = OM
@@ -368,10 +372,8 @@
 	pixel_w = initial(pixel_w)
 	pixel_z = initial(pixel_z)
 	var/turf/T = get_turf(pick(OM.docking_points))
-	if(current_system)
-		current_system.remove_ship(src, T)
-	else
-		forceMove(T)
+	current_system?.remove_ship(src)
+	forceMove(T)
 	LAZYADD(OM.overmaps_in_ship, src)
 	bound_width = initial(bound_width)
 	bound_height = initial(bound_height)

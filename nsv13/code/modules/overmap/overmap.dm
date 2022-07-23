@@ -301,7 +301,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/LateInitialize()
 	. = ..()
 	if(role > NORMAL_OVERMAP)
-		var/datum/starsystem/start = SSstar_system.system_by_id(starting_system)
+		var/datum/star_system/start = SSstar_system.system_by_id(starting_system)
 		start.add_ship(src)
 	current_tracers = list()
 	GLOB.overmap_objects += src
