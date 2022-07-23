@@ -114,6 +114,9 @@
 	broken_states = list("techfloor_grid_dam1")
 	burnt_states = list("techfloor_grid_scorched1", "techfloor_grid_scorched2")
 
+/turf/open/floor/durasteel/techfloor_grid/airless
+	initial_gas_mix = AIRLESS_ATMOS
+
 /turf/open/floor/circuit/orange
 	color = "#FF8C00"
 	light_color = LIGHT_COLOR_ORANGE
