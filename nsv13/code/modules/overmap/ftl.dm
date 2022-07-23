@@ -4,6 +4,7 @@
 #define FTL_STATE_JUMPING 4
 
 /datum/star_system/proc/add_ship(obj/structure/overmap/OM, turf/target_turf)
+	SSstar_system.ships[OM] = list("ship" = OM, "x" = 0, "y" = 0, "current_system" = src, "last_system" = OM.current_system, "target_system" = null, "from_time" = 0, "to_time" = 0, "occupying_z" = OM.z)
 	if(!system_contents.Find(OM))
 		system_contents += OM	//Lets be safe while I cast some black magic.
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.

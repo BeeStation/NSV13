@@ -304,8 +304,7 @@
 	if(!current_system.occupying_z && !reserved_z && ftl_drive)
 		get_reserved_z()
 	if(current_system) // No I can't use ?, because if it's null we use the previous value instead
-		starting_system = current_system.name //Just fuck off it works alright?
-	SSstar_system.add_ship(src, get_turf(OM))
+		current_system.add_ship(src, get_turf(OM))
 
 	if(current_system && !LAZYFIND(current_system.system_contents, src))
 		LAZYADD(current_system.system_contents, src)
