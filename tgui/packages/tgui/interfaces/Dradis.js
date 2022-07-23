@@ -20,7 +20,7 @@ export const DradisContent = (props, context) => {
     };
     let markerType = "star_marker"+"_"+ship.alignment;
     return (
-      <>
+      <li key={ship.id}>
         {!!ship.name && (
           <Button unselectable="on" style={markerStyle} className={markerType}
             content="" onClick={() => act('hail', { target: ship.id })}>
@@ -29,7 +29,7 @@ export const DradisContent = (props, context) => {
             </span>
           </Button>
         )};
-      </>
+      </li>
     );
   };
 

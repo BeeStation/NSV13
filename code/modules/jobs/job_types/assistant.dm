@@ -47,3 +47,60 @@ Assistant
 		else
 			uniform = /obj/item/clothing/under/skirt/color/random
 */
+
+/datum/job/assistant/after_spawn(mob/living/carbon/human/H, mob/M)
+	. = ..()
+	// Assign department
+	var/department
+	if(M && M.client && M.client.prefs)
+		department = M.client.prefs.prefered_security_department
+		if(!LAZYLEN(GLOB.available_depts) || department == "None")
+			return
+		else if(department in GLOB.available_depts)
+			LAZYREMOVE(GLOB.available_depts, department)
+		else
+			department = pick_n_take(GLOB.available_depts)
+
+	var/ears = null
+	var/accessory = null
+	var/list/dep_access = null
+	switch(department)
+		if(SEC_DEPT_SUPPLY)
+			ears = /obj/item/radio/headset/headset_cargo
+			dep_access = list(ACCESS_MAILSORTING, ACCESS_CARGO)
+			accessory = /obj/item/clothing/accessory/armband/cargo
+		if(SEC_DEPT_ENGINEERING)
+			ears = /obj/item/radio/headset/headset_eng
+			dep_access = list(ACCESS_CONSTRUCTION, ACCESS_ENGINE, ACCESS_AUX_BASE)
+			accessory = /obj/item/clothing/accessory/armband/engine
+		if(SEC_DEPT_MEDICAL)
+			ears = /obj/item/radio/headset/headset_med
+			dep_access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_CLONING)
+			accessory =  /obj/item/clothing/accessory/armband/medblue
+		if(SEC_DEPT_SCIENCE)
+			ears = /obj/item/radio/headset/headset_sci
+			dep_access = list(ACCESS_RESEARCH)
+			accessory = /obj/item/clothing/accessory/armband/science
+		if(SEC_DEPT_MUNITIONS)
+			ears = /obj/item/radio/headset/munitions/munitions_tech
+			dep_access = list(ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE)
+			accessory = /obj/item/clothing/accessory/armband/munitions
+
+	if(accessory)
+		var/obj/item/clothing/under/U = H.w_uniform
+		U.attach_accessory(new accessory)
+	if(ears)
+		if(H.ears)
+			qdel(H.ears)
+		H.equip_to_slot_or_del(new ears(H),ITEM_SLOT_EARS)
+
+	var/obj/item/card/id/W = H.wear_id
+	W.access |= dep_access
+
+
+	if(department)
+		to_chat(M, "<b>You have been assigned to [department]!</b>")
+
+	else
+		to_chat(M, "<b>You have not been assigned to any department. Help in any way you can!</b>") //NSV13 end
+
