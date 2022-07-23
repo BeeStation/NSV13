@@ -329,11 +329,14 @@
 
 /obj/structure/overmap/small_craft/proc/docking_act(obj/structure/overmap/OM)
 	if(!ftl_drive && !OM.ftl_drive) // If no one can reserve a Z, don't do this
+		message_admins("docking: neither [src] or [OM] has an FTL")
 		return FALSE
 	if(is_docking_on_cooldown())
+		message_admins("docking: [src]'s docking is on cooldown")
 		return FALSE
 	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 	if(!DC || !DC.docking_mode)
+		message_admins("[src] has no DC or is not in docking mode")
 		return FALSE
 	if(istype(OM, /obj/structure/overmap/asteroid))
 		velocity._set(0, 0) // Slow down cowboy
@@ -346,9 +349,12 @@
 				if(!isopenturf(T))
 					T.ChangeTurf(/turf/open/floor/plating/asteroid)
 			return TRUE
+		message_admins("[src] failed to dock with asteroid [OM]")
 		return FALSE
 	if(mass < OM.mass) //If theyre bigger than us and have docking points, and we want to dock
+		message_admins("transferring [src] into [OM]")
 		return transfer_from_overmap(OM)
+	message_admins("failed mass check")
 	return FALSE
 
 /obj/structure/overmap/small_craft/proc/transfer_from_overmap(obj/structure/overmap/OM)
