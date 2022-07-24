@@ -254,7 +254,8 @@ Adding tasks is easy! Just define a datum for it.
 			if(alignment != target.owner && !federation_check(target))
 				current_system.mission_sector = TRUE
 	if(!hide_movements && !current_system.hidden)
-		(alignment != "nanotrasen") && mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
+		if((alignment == "syndicate") || (alignment == "pirate"))
+			mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	for(var/obj/structure/overmap/OM in current_system.system_contents)
 		//Boarding ships don't want to go to brasil
 		if(OM.mobs_in_ship?.len && OM.reserved_z)
