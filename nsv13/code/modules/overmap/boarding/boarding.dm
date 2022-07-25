@@ -177,7 +177,7 @@
 			log_game("[key_name(H)] became a space pirate boarder.")
 			message_admins("[ADMIN_LOOKUPFLW(H)] became a space pirate boarder.")
 			operatives += H
-		relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
+		//Crew intentionally isn't informed of boarding pirates.
 	return TRUE
 
 
