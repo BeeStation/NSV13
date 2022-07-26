@@ -75,7 +75,7 @@
  * * faction_selection: String for the faction the boarders belong to. See [/obj/structure/overmap/proc/spawn_boarders] for valid values.
  * Returns TRUE is successful, FALSE otherwise.
  */
-/obj/structure/overmap/proc/spawn_knpcs(amount = 3, faction_selection="syndicate")
+/obj/structure/overmap/proc/spawn_knpcs(amount, faction_selection="syndicate")
 	if(!amount)
 		amount = CEILING(1 + (SSovermap_mode.mode.difficulty / 2), 1)
 	var/list/knpc_types = list()
