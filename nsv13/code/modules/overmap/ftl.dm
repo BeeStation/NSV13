@@ -279,6 +279,8 @@
 			continue
 		if(SOM == src)
 			continue
+		if(!SOM.z)
+			continue
 		LAZYADD(pulled, SOM)
 	target_system.add_ship(src) //Get the system to transfer us to its location.
 	for(var/obj/structure/overmap/SOM in pulled)
