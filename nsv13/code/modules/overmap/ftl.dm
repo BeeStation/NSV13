@@ -53,6 +53,7 @@
 			priority_announce("[station_name()] has successfully returned to [src] for resupply and crew transfer, excellent work crew.", "Naval Command")
 			GLOB.crew_transfer_risa = TRUE
 			SSticker.mode.check_finished()
+			SSticker.news_report = SHIP_VICTORY
 	if(!audio_cues?.len)
 		return FALSE
 	for(var/datum/fleet/F in fleets)
@@ -277,6 +278,8 @@
 		if(SOM.z != reserved_z)
 			continue
 		if(SOM == src)
+			continue
+		if(!SOM.z)
 			continue
 		LAZYADD(pulled, SOM)
 	target_system.add_ship(src) //Get the system to transfer us to its location.
