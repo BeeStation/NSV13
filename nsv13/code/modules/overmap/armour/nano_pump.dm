@@ -122,7 +122,7 @@
 				apnw = W
 
 /obj/machinery/armour_plating_nanorepair_pump/multitool_act(mob/user, obj/item/tool)
-	. = FALSE
+	. = TRUE
 	if(!multitool_check_buffer(user, tool))
 		return
 	var/obj/item/multitool/M = tool
