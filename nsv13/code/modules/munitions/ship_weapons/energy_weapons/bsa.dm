@@ -76,11 +76,10 @@
 			break
 
 /obj/machinery/computer/sts_bsa_control/multitool_act(mob/living/user, obj/item/I)
-	..()
-	. = TRUE
+	. = ..()
 	var/obj/item/multitool/M = I
 	if(!M.buffer || !istype(M.buffer, /obj/machinery/ship_weapon/energy/beam/bsa))
-		return
+		return FALSE
 	cannon = M.buffer
 	to_chat(user, "<span class='warning'>Successfully linked to [M.buffer]...</span>")
 

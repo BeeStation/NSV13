@@ -1268,12 +1268,17 @@ Control Rods
 		return
 	if(!reactor)
 		return
-	switch(action)
-		if("control_rod_percent")
-			var/adjust = text2num(params["adjust"])
-			adjust = CLAMP(adjust, 0, 100)
+	var/adjust = text2num(params["adjust"])
+	if(action == "control_rod_percent")
+		if(adjust && isnum(adjust))
 			reactor.control_rod_percent = adjust
-			reactor.update_icon()
+			if(reactor.control_rod_percent > 100)
+				reactor.control_rod_percent = 100
+				return
+			if(reactor.control_rod_percent < 0)
+				reactor.control_rod_percent = 0
+				return
+	switch(action)
 		if("rods_1")
 			reactor.control_rod_percent = 0
 			message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")

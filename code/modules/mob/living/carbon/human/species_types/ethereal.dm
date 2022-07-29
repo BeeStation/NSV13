@@ -35,7 +35,6 @@
 	var/static/b2 = 149
 	//this is shit but how do i fix it? no clue.
 	var/drain_time = 0 //used to keep ethereals from spam draining power sources
-	inert_mutation = OVERLOAD
 	var/obj/effect/dummy/lighting_obj/ethereal_light
 
 
