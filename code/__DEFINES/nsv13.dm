@@ -93,7 +93,7 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 //These names ought to be self explanatory for any XO when he assigns them.
 #define DC_SQUAD "Damage Control Team"
 #define MEDICAL_SQUAD "Medical Team"
-#define SECURITY_SQUAD "Security Fireteam"
+#define SECURITY_SQUAD "Security Support"
 #define COMBAT_AIR_PATROL "Combat Air Patrol"
 #define MUNITIONS_SUPPORT "Munitions Support"
 #define CIC_OPS "CIC Ops"
