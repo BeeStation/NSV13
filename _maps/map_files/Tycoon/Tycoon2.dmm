@@ -5300,9 +5300,8 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 4;
-	sortType = 9;27
+	sortType = 9
 	},
-/turf/open/floor/monotile/steel,
 /area/medical/medbay/aft)
 "amJ" = (
 /obj/effect/turf_decal/tile/neutral{
@@ -31666,7 +31665,8 @@
 	name = "Virology Desk"
 	},
 /obj/machinery/door/window/northright{
-	name = "Virology Desk Interior"
+	name = "Virology Desk Interior";
+	req_one_access_txt = "39"
 	},
 /turf/open/floor/monotile/steel,
 /area/medical/virology)
@@ -40979,7 +40979,8 @@
 	name = "Virology Desk"
 	},
 /obj/machinery/door/window/northleft{
-	name = "Virology Desk Interior"
+	name = "Virology Desk Interior";
+	req_one_access_txt = "39"
 	},
 /turf/open/floor/monotile/steel,
 /area/medical/virology)
@@ -42245,7 +42246,8 @@
 	},
 /obj/machinery/door/window/northleft{
 	name = "Virology Desk Interior";
-	dir = 2
+	dir = 2;
+	req_one_access_txt = "39"
 	},
 /turf/open/floor/monotile/steel,
 /area/medical/virology)
@@ -43151,6 +43153,13 @@
 	specialfunctions = 4
 	},
 /obj/machinery/washing_machine,
+/obj/machinery/button/door{
+	id = "QTRESTSHUTTERS";
+	name = "Privacy Shutters";
+	pixel_x = 23;
+	normaldoorcontrol = 1;
+	pixel_y = -8
+	},
 /turf/open/floor/plasteel/freezer,
 /area/medical/virology)
 "fEH" = (
@@ -50219,7 +50228,7 @@
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
 	name = "Privacy Shutter";
-	id = "QTREST"
+	id = "QTRESTSHUTTERS"
 	},
 /turf/open/floor/plating,
 /area/medical/virology)
@@ -55085,6 +55094,15 @@
 /obj/effect/turf_decal/tile/blue,
 /turf/open/floor/plasteel/grid/steel,
 /area/medical/storage)
+"wnw" = (
+/obj/structure/table/reinforced,
+/obj/machinery/door/window/northright,
+/obj/machinery/door/window/southright{
+	req_one_access_txt = "39";
+	name = "Virology Desk Interior"
+	},
+/turf/open/floor/monotile/steel,
+/area/medical/virology)
 "wpd" = (
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
@@ -82266,7 +82284,7 @@ aUS
 aUS
 aly
 ade
-ero
+wnw
 bjW
 scS
 aoz
