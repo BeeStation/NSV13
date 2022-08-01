@@ -51,7 +51,7 @@
 	description = "Experimental Disruption Torpedo warheads, fresh from R&Ds reverse engineering department."
 	prereq_ids = list("advanced_torpedo_components", "emp_adv")
 	design_ids = list("proto_disruption_warhead")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 8000)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 6500)
 	export_price = 7000
 	tech_tier = 3
 

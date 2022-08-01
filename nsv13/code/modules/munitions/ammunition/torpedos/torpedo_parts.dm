@@ -42,8 +42,7 @@
 
 /obj/item/ship_weapon/parts/missile/warhead/proto_disruption
 	name = "prototype disruption torpedo warhead"
-	//icon_state = TEMP - EMPTORP
+	icon_state = "warhead_disruption"
 	desc = "A prototype warhead which carries an uranium-iron core EMP payload based on recovered syndicate duds. Causes a significant electromagnetic pulse upon detonation capable of causing havoc in ship systems."
 	fits_type = /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
 	build_path = /obj/item/ship_weapon/ammunition/torpedo/proto_disruption
-

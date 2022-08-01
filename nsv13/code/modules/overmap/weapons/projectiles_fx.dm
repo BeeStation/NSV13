@@ -363,6 +363,9 @@ Misc projectile types, effects, think of this as the special FX file.
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
 
+/obj/item/projectile/guided_munition/torpedo/hellfire/player_version
+	damage = 300	//A bit less initial damage to compensate for the /guaranteed/ hellburn effect dealing hefty damage.
+
 /obj/item/projectile/guided_munition/torpedo/disruptor
 	icon_state = "torpedo_disruptor"
 	name = "disruption torpedo"
@@ -463,6 +466,14 @@ Misc projectile types, effects, think of this as the special FX file.
 
 	//Neither of these? I guess just some visibility penalty it is.
 	target.add_sensor_profile_penalty(150, 10 SECONDS)
+
+/obj/item/projectile/guided_munition/torpedo/hellfire/spec_overmap_hit(obj/structure/overmap/target)
+	if(length(target.occupying_levels))
+		return //Ship with internal zs, let them burn
+	if(target.ai_controlled || istype(target, /obj/structure/overmap/small_craft))
+		target.hullburn += 30	//hullburn DoT for AIs. Player Fighters get it too, did you expect to just eat one of these?
+		target.hullburn_power = max(target.hullburn_power, 20)
+	
 
 /obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
 	. = ..()

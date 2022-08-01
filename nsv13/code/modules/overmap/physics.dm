@@ -124,6 +124,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			last_critprocess = world.time
 			handle_critical_failure_part_1()
 	disruption = max(0, disruption - 1)
+	if(hullburn > 0)
+		hullburn = max(0, hullburn - 1)
+		take_damage(hullburn_power, BURN, "fire", FALSE, TRUE) //If you want a ship to be resistant to hullburn, just give it fire armor.
+		if(hullburn == 0)
+			hullburn_power = 0
 	ai_process()
 	if(!cabin_air)
 		return
