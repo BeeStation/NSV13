@@ -471,8 +471,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(length(target.occupying_levels))
 		return //Ship with internal zs, let them burn
 	if(target.ai_controlled || istype(target, /obj/structure/overmap/small_craft))
-		target.hullburn += 30	//hullburn DoT for AIs. Player Fighters get it too, did you expect to just eat one of these?
-		target.hullburn_power = max(target.hullburn_power, 20)
+		target.hullburn += 60	//hullburn DoT for AIs. Player Fighters get it too, did you expect to just eat one of these?
+		target.hullburn_power = max(target.hullburn_power, 10)
 	
 
 /obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
