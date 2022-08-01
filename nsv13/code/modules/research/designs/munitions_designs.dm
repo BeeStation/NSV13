@@ -166,6 +166,16 @@
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
 
+/datum/design/proto_disruption_warhead
+	name = "Disruption Torpedo Warhead - Prototype"
+	desc = "A prototype EMP warhead for torpedoes"
+	id = "proto_disruption_warhead"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 1000, /datum/material/copper = 1500, /datum/material/plasma = 3000, /datum/material/gold = 1500, /datum/material/uranium = 10000, /datum/material/titanium = 2000, /datum/material/diamond = 200)
+	build_path = /obj/item/ship_weapon/parts/missile/warhead/proto_disruption
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
 //Naval Cannons
 /datum/design/naval_shell
 	name = "Naval Artillery Round"

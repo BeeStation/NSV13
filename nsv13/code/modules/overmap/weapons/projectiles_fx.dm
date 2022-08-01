@@ -367,6 +367,14 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "torpedo_disruptor"
 	name = "disruption torpedo"
 	damage = 140	//Lower damage, does some special stuff when it hits a target.
+	var/ai_disruption = 30
+	var/ai_disruption_cap = 120
+
+//Player-accessible version of the above. Weaker because reverse engineered ~~and balance~~
+/obj/item/projectile/guided_munition/torpedo/disruptor/prototype
+	name = "prototype disruption torpedo"
+	ai_disruption = 15 //Do you like stuncombat? Well the AI doesn't.
+	ai_disruption_cap = 30 //Very effective if applied spaced out over time against damage-resistant ships.
 
 //What you get from an incomplete torpedo.
 /obj/item/projectile/guided_munition/torpedo/dud
@@ -445,7 +453,8 @@ Misc projectile types, effects, think of this as the special FX file.
 		return	//Detonate is gonna handle this for us.
 
 	if(target.ai_controlled)
-		target.disruption += 30
+		if(target.disruption <= ai_disruption_cap)
+			target.disruption = min(target.disruption + ai_disruption, ai_disruption_cap)
 		return
 
 	if(istype(target, /obj/structure/overmap/small_craft))

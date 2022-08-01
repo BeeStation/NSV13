@@ -64,6 +64,14 @@
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/hellfire
 	volatility = 4
 
+/obj/item/ship_weapon/ammunition/torpedo/proto_disruption
+	name = "\improper NTP-I1x 'EMP' 500mm Disruption Torpedo"
+	//icon_state = TEMP - EMPTORP
+	desc = "A torpedo with an EMP payload designed for wreaking havoc in ship electronics."
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/disruptor/prototype
+	volatility = 2
+	volatile_type = /datum/component/volatile/emptorp
+
 /* Retired for the moment, this will return in a new flavour
 //The alpha torpedo
 /obj/item/ship_weapon/ammunition/torpedo/nuke

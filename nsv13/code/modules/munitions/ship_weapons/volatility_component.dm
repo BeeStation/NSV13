@@ -59,3 +59,16 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 	UnregisterSignal(parent, COMSIG_ATOM_FIRE_ACT)
 	UnregisterSignal(parent, COMSIG_PARENT_EXAMINE)
 	return ..()
+
+/datum/component/volatile/emptorp
+	desc = "<span class='warning'>It's highly volatile and risks misfires if subjected to heat!</span>"
+
+///Overrides parent proc.
+/datum/component/volatile/emptorp/explode()
+	if(!parent)
+		message_admins("Volatility component tried to explode with no attached parent. Contact a coder")
+		return FALSE
+	log_game("Volatile substance caused an electromagnetic reaction at [get_area(parent)]")
+	var/base_ex_power = explosion_scale * volatility
+	empulse(get_turf(parent), base_ex_power, base_ex_power * 2)
+	explosion(parent, 0, 1, round(base_ex_power / 2), smoke = TRUE)
