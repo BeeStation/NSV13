@@ -129,6 +129,12 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 	"monofloor" \
 	)
 
+/obj/item/stack/tile/durasteel/Initialize(mapload, amount)
+	. = ..()
+	var/static/list/options = list()
+	for(var/option in tilelist) //Just hardcoded for now!
+		options[option] = image(icon = 'nsv13/icons/turf/floors.dmi', icon_state = option)
+
 /obj/item/stack/tile/durasteel/examine(mob/user)
 	. = ..()
 	. += "<span class='notice'>Ctrl-click to change the tile type.</span>"
@@ -136,47 +142,7 @@ GLOBAL_LIST_INIT(nanocarbon_glass_recipes, list (\
 /obj/item/stack/tile/durasteel/CtrlClick(mob/user)
 	. = ..()
 	if(loc == user.contents && (!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user))) && !is_cyborg)
-		var/tiletype = input(user, "Which type of tile do you want to change to?") as null|anything in tilelist
-		switch(tiletype)
-			if("durasteel tile")
-				turf_type = /turf/open/floor/durasteel
-				icon_state = "durasteel_tile"
-			if("alt durasteel tile")
-				turf_type = /turf/open/floor/durasteel/alt
-				icon_state = "durasteel_tile_alt"
-			if("riveted durasteel tile")
-				turf_type = /turf/open/floor/durasteel/riveted
-				icon_state = "riveted_tile"
-			if("padded durasteel tile")
-				turf_type = /turf/open/floor/durasteel/padded
-				icon_state = "padded_tile"
-			if("embossed durasteel tile")
-				turf_type = /turf/open/floor/durasteel/eris_techfloor
-				icon_state = "eris_techfloor_tile"
-			if("alt embossed durasteel tile")
-				turf_type = /turf/open/floor/durasteel/eris_techfloor_alt
-				icon_state = "eris_techfloor_alt_tile"
-			if("linoleum")
-				turf_type = /turf/open/floor/durasteel/lino
-				icon_state = "lino_tile"
-			if("techfloor tile")
-				turf_type = /turf/open/floor/durasteel/techfloor
-				icon_state = "techfloor_tile"
-			if("tech plating tile")
-				turf_type = /turf/open/floor/durasteel/techfloor_grid
-				icon_state = "techfloor_grid_tile"
-			if("monotile")
-				turf_type = /turf/open/floor/monotile/steel
-				icon_state = "steel_tile"
-			if("dark monotile")
-				turf_type = /turf/open/floor/monotile/dark
-				icon_state = "steel_tile"
-			if("light monotile")
-				turf_type = /turf/open/floor/monotile/light
-				icon_state = "steel_tile"
-			if("monofloor")
-				turf_type = /turf/open/floor/monofloor
-				icon_state = "steel_tile"
+		show_radial_menu(user, user, options)
 
 /obj/item/stack/tile/durasteel/alt
 	icon_state = "durasteel_tile_alt"
