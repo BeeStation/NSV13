@@ -7183,6 +7183,13 @@
 	pixel_y = 24
 	},
 /obj/machinery/camera/autoname,
+/obj/effect/turf_decal/bot,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Engineering"
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/break_room)
 "asv" = (
@@ -27115,6 +27122,17 @@
 /obj/structure/disposalpipe/sorting/wrap/flip{
 	dir = 4
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 8;
+	freq = 1400;
+	location = "QM #2"
+	},
+/mob/living/simple_animal/bot/mulebot{
+	home_destination = "QM #2";
+	name = "Mobility Cube";
+	desc = "Some kind of weird cube. Sometimes it changes colors or shapes. We are not not sure what to think of it doing this, but it seems pretty harmless."
+	},
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "bnO" = (
@@ -40478,6 +40496,15 @@
 /obj/effect/spawner/room/fivexfour,
 /turf/template_noop,
 /area/maintenance/department/medical)
+"cOg" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=1";
+	freq = 1400;
+	location = "Research Division"
+	},
+/turf/open/floor/monotile/dark,
+/area/science)
 "cOu" = (
 /obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 4
@@ -40995,6 +41022,20 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/engine/engine_room)
+"dQA" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 8;
+	freq = 1400;
+	location = "Munitions"
+	},
+/obj/machinery/door/window/brigdoor/westright{
+	req_access_txt = "69"
+	},
+/obj/structure/plasticflaps/opaque,
+/turf/open/floor/plasteel/techmaint,
+/area/nsv/weapons/fore)
 "dRf" = (
 /obj/machinery/door/airlock/highsecurity/ship{
 	name = "Naval Artillery";
@@ -42844,6 +42885,20 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/engine/storage_shared)
+"gIQ" = (
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 8;
+	freq = 1400;
+	location = "Security"
+	},
+/obj/effect/turf_decal/bot,
+/obj/machinery/door/window/brigdoor/westright{
+	req_one_access_txt = "2"
+	},
+/obj/structure/plasticflaps/opaque,
+/turf/open/floor/plasteel/techmaint,
+/area/maintenance/department/medical)
 "gJJ" = (
 /obj/machinery/door/airlock/ship/public/glass{
 	name = "Examination Room"
@@ -43368,6 +43423,22 @@
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plating,
 /area/maintenance/department/science)
+"hxd" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=1";
+	dir = 1;
+	freq = 1400;
+	location = "Kitchen"
+	},
+/obj/machinery/door/window/eastright{
+	dir = 1;
+	name = "Kitchen Delivery";
+	req_access_txt = "28"
+	},
+/obj/structure/plasticflaps/opaque,
+/turf/open/floor/plasteel/techmaint,
+/area/crew_quarters/kitchen/coldroom)
 "hxF" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -46490,6 +46561,20 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/engine/engineering/reactor_control)
+"mib" = (
+/obj/machinery/airalarm{
+	dir = 4;
+	pixel_x = -22
+	},
+/obj/effect/turf_decal/bot,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Medbay"
+	},
+/turf/open/floor/monotile/light,
+/area/medical/medbay/lobby)
 "miE" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -75293,7 +75378,7 @@ aJx
 aKA
 boi
 aWs
-aIQ
+cOg
 ajx
 boS
 bpe
@@ -76306,7 +76391,7 @@ aZa
 aZa
 aZa
 aZa
-aZa
+gIQ
 aZa
 aZa
 aZa
@@ -80420,7 +80505,7 @@ sCC
 aCf
 ahf
 bhK
-bFU
+mib
 amb
 ahf
 ssH
@@ -90678,7 +90763,7 @@ agm
 agm
 agm
 agm
-agm
+dQA
 agm
 naO
 aSJ
@@ -94819,7 +94904,7 @@ bkd
 buE
 atp
 aMS
-abr
+hxd
 vjc
 qEO
 iuA
