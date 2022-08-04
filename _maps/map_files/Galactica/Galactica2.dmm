@@ -386,6 +386,17 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/effect/turf_decal/delivery,
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/machinery/door/window/brigdoor/northleft{
+	req_one_access_txt = "5";
+	name = "Medbay Delivery"
+	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
 "akU" = (
@@ -7524,6 +7535,19 @@
 	},
 /turf/open/floor/carpet/green,
 /area/engine/engineering/reactor_control)
+"edm" = (
+/obj/effect/turf_decal/tile/ship/half/green{
+	dir = 1
+	},
+/obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 4;
+	freq = 1400;
+	location = "Prison"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/primary)
 "edA" = (
 /obj/machinery/ship_weapon/vls,
 /obj/machinery/camera/autoname{
@@ -23008,6 +23032,15 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/effect/turf_decal/bot,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	location = "QM #1"
+	},
+/mob/living/simple_animal/bot/mulebot{
+	home_destination = "QM #1";
+	name = "Rex"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "mnA" = (
@@ -23124,6 +23157,16 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/security/brig)
+"mpy" = (
+/obj/effect/turf_decal/tile/ship/full/blue,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 4;
+	freq = 1400;
+	location = "Munitions"
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/primary)
 "mqa" = (
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 4
@@ -32569,6 +32612,16 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/lobby)
+"ryx" = (
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 4;
+	freq = 1400;
+	location = "Medbay"
+	},
+/obj/structure/plasticflaps/opaque,
+/turf/open/floor/plating,
+/area/medical/medbay)
 "ryF" = (
 /obj/structure/chair/comfy/black{
 	dir = 1
@@ -34819,6 +34872,16 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/mine/laborcamp/security)
+"sIf" = (
+/obj/structure/plasticflaps/opaque,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=1";
+	dir = 8;
+	freq = 1400;
+	location = "Science"
+	},
+/turf/open/floor/plating,
+/area/science/nsv/astronomy)
 "sIp" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable{
@@ -39337,6 +39400,24 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/mine/laborcamp)
+"vcv" = (
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 4;
+	freq = 1400;
+	location = "Kitchen"
+	},
+/turf/open/floor/monotile/dark,
+/area/crew_quarters/bar{
+	name = "Night Club"
+	})
 "vcA" = (
 /turf/open/floor/monotile/dark,
 /area/quartermaster/sorting)
@@ -40504,6 +40585,10 @@
 "vIL" = (
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 1
+	},
+/obj/machinery/door/window/brigdoor/eastleft{
+	req_one_access_txt = "47";
+	name = "Science Delivery"
 	},
 /turf/open/floor/monotile/steel,
 /area/science/nsv/astronomy)
@@ -81378,7 +81463,7 @@ ckj
 vzE
 jEc
 akI
-vlP
+ryx
 pfr
 pxk
 lGx
@@ -85473,7 +85558,7 @@ fli
 eVc
 dGV
 nSM
-gzl
+edm
 iGZ
 gCP
 jyS
@@ -87062,7 +87147,7 @@ inv
 wGu
 inv
 inv
-lGr
+vcv
 awq
 guo
 qln
@@ -88068,7 +88153,7 @@ jNa
 jNa
 jNa
 jNa
-jNa
+sIf
 jNa
 jNa
 ipS
@@ -95769,7 +95854,7 @@ sYT
 sYT
 lju
 gqS
-jaI
+mpy
 rkV
 kbY
 jaI

@@ -823,6 +823,11 @@
 	id = "tycoon_munitions";
 	next_id = "tycoon_dorms"
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=CornerUp";
+	name = "Munitions";
+	location = "Munitions"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/entry)
 "dZ" = (
@@ -1056,6 +1061,11 @@
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=IntersectionUp";
+	name = "Science";
+	location = "Science"
 	},
 /turf/open/floor/carpet/purple,
 /area/science/research)
@@ -1577,6 +1587,11 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layer3,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=ReturnToStart";
+	name = "Engineering";
+	location = "Engineering"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "hi" = (
@@ -2056,6 +2071,11 @@
 /obj/structure/disposalpipe/junction/flip{
 	dir = 8
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=Cargo";
+	name = "Gauss";
+	location = "Gauss"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/fore)
 "iP" = (
@@ -2189,7 +2209,7 @@
 	dir = 1;
 	input_tag = "o2_in_alt";
 	output_tag = "o2_out_alt";
-	sensors = list("o2_sensor_alt" = "Oxygen Tank")
+	sensors = list("o2_sensor_alt"="Oxygen Tank")
 	},
 /obj/machinery/airalarm/directional/west,
 /obj/machinery/firealarm/directional/south,
@@ -3732,6 +3752,11 @@
 /obj/structure/disposalpipe/junction{
 	dir = 8
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=IntersectionBottom";
+	name = "Cargo";
+	location = "Cargo"
+	},
 /turf/open/floor/monotile/dark,
 /area/quartermaster/warehouse)
 "pn" = (
@@ -4472,6 +4497,20 @@
 	},
 /turf/open/floor/plasteel/dark/side,
 /area/engine/engine_room)
+"sG" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=CornerBottom";
+	name = "RepairBayBottom";
+	location = "RepairBayBottom"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/primary/fore)
 "sH" = (
 /obj/structure/table/wood,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -4545,6 +4584,11 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 9
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=Gauss";
+	name = "CornerBottom";
+	location = "CornerBottom"
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/fore)
@@ -5004,6 +5048,11 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=Kitchen";
+	name = "WeedCheck";
+	location = "WeedCheck"
+	},
 /turf/open/floor/plasteel/checker,
 /area/hydroponics)
 "uT" = (
@@ -5136,17 +5185,17 @@
 "vs" = (
 /obj/structure/table/reinforced,
 /obj/item/reagent_containers/food/drinks/beer{
-	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 0);
+	list_reagents = list(/datum/reagent/consumable/ethanol/beer=0);
 	pixel_x = -6;
 	pixel_y = 5
 	},
 /obj/item/reagent_containers/food/drinks/beer{
-	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 0);
+	list_reagents = list(/datum/reagent/consumable/ethanol/beer=0);
 	pixel_x = 2;
 	pixel_y = 6
 	},
 /obj/item/reagent_containers/food/drinks/beer{
-	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 0);
+	list_reagents = list(/datum/reagent/consumable/ethanol/beer=0);
 	pixel_y = 4
 	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
@@ -5306,7 +5355,7 @@
 /obj/item/reagent_containers/food/snacks/salad/fruit{
 	bonus_reagents = null;
 	desc = "A bowl of plastic fruit. Each fruit in the bowl shines with an ominous glare that portrays an aura of foreboding in the room. You feel like it'd be a bad idea to try and eat it.";
-	list_reagents = list(/datum/reagent/toxin/lipolicide = 50);
+	list_reagents = list(/datum/reagent/toxin/lipolicide=50);
 	name = "plastic fruit bowl";
 	prevent_grinding = 1
 	},
@@ -5423,6 +5472,11 @@
 	},
 /obj/structure/disposalpipe/junction/yjunction{
 	dir = 1
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=Medical";
+	name = "IntersectionBottom";
+	location = "IntersectionBottom"
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
@@ -5570,6 +5624,24 @@
 /obj/structure/sign/poster/official/safety_internals,
 /turf/closed/wall/r_wall,
 /area/hallway/secondary/entry)
+"xl" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=WeedCheck";
+	name = "Lounge";
+	location = "Lounge"
+	},
+/turf/open/floor/monotile/dark,
+/area/crew_quarters/bar)
 "xm" = (
 /obj/machinery/light{
 	dir = 4
@@ -5884,6 +5956,11 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 1
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=Lounge";
+	name = "Toilets";
+	location = "Toilets"
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/fore)
@@ -6262,6 +6339,11 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 6
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=Arrivals";
+	name = "IntersectionUp";
+	location = "IntersectionUp"
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
@@ -6900,6 +6982,11 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=Engineering";
+	name = "Medical";
+	location = "Medical"
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/sleeper)
 "Di" = (
@@ -7308,6 +7395,19 @@
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
 /area/maintenance/fore)
+"ET" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=Toilets";
+	name = "RepairBay";
+	location = "RepairBay"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/primary/fore)
 "EV" = (
 /obj/structure/shuttle/engine/heater{
 	dir = 8
@@ -7395,7 +7495,7 @@
 	dir = 1;
 	input_tag = "n2_in_alt";
 	output_tag = "n2_out_alt";
-	sensors = list("n2_sensor_alt" = "Nitrogen Tank")
+	sensors = list("n2_sensor_alt"="Nitrogen Tank")
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold/visible,
 /obj/item/analyzer,
@@ -7737,7 +7837,7 @@
 	dir = 1;
 	input_tag = "air_in_alt";
 	output_tag = "air_out_alt";
-	sensors = list("air_sensor_alt" = "Air Mix Tank")
+	sensors = list("air_sensor_alt"="Air Mix Tank")
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold/visible,
 /obj/machinery/camera/autoname{
@@ -9209,6 +9309,11 @@
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=RepairBay";
+	name = "CornerUp";
+	location = "CornerUp"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/fore)
 "MK" = (
@@ -10133,6 +10238,26 @@
 	},
 /turf/open/floor/plasteel/checker,
 /area/hydroponics)
+"Qr" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=Munitions";
+	name = "Arrivals";
+	location = "Arrivals"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/secondary/entry)
 "Qs" = (
 /obj/machinery/door/airlock/ship/hatch{
 	id_tag = "Bathroom"
@@ -11115,6 +11240,11 @@
 	id = "tycoon_engi";
 	next_id = "tycoon_med"
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=Science";
+	name = "ReturnToStart";
+	location = "ReturnToStart"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
 "Us" = (
@@ -11252,6 +11382,11 @@
 /obj/structure/disposalpipe/junction{
 	dir = 8
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=RepairBayBottom";
+	name = "Xenobiology";
+	location = "Xenobiology"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/central)
 "UP" = (
@@ -11282,6 +11417,14 @@
 /obj/structure/closet,
 /turf/open/floor/plasteel/dark,
 /area/construction)
+"UV" = (
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=Xenobiology";
+	name = "Kitchen";
+	location = "Kitchen"
+	},
+/turf/open/floor/plasteel/checker,
+/area/crew_quarters/kitchen)
 "UW" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/plasteel/dark/side,
@@ -38826,7 +38969,7 @@ Lm
 Lm
 jr
 Pi
-jp
+Qr
 wj
 zA
 XV
@@ -42447,7 +42590,7 @@ jB
 yS
 Vu
 eL
-eM
+UV
 eM
 Rd
 lo
@@ -43209,7 +43352,7 @@ tm
 Ww
 Ww
 SE
-Kp
+xl
 vI
 Ww
 Ww
@@ -46291,10 +46434,10 @@ jl
 pK
 jl
 jl
-jl
+ET
 Dm
 Xn
-CQ
+sG
 CQ
 CQ
 CQ

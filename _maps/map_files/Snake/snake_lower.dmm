@@ -1068,6 +1068,13 @@
 	},
 /obj/item/radio/intercom/directional/east,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 4;
+	freq = 1400;
+	name = "Delivery Security";
+	location = "Security"
+	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
 "dW" = (
@@ -2760,6 +2767,16 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel/white,
 /area/science/lab)
+"jW" = (
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 4;
+	freq = 1400;
+	location = "Engineering";
+	name = "Delivery Engineering"
+	},
+/turf/open/floor/plasteel/dark,
+/area/hallway/primary/aft)
 "jX" = (
 /obj/machinery/atmospherics/pipe/manifold/general/visible,
 /obj/machinery/airalarm/directional/south,
@@ -7247,6 +7264,25 @@
 	dir = 1
 	},
 /area/hallway/primary/central)
+"AA" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	location = "centralUp";
+	codes_txt = "patrol;next_patrol=UpperEntry"
+	},
+/turf/open/floor/plasteel/dark,
+/area/hallway/primary/central)
 "AB" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -7555,6 +7591,16 @@
 	},
 /turf/open/floor/plasteel,
 /area/security/brig)
+"BI" = (
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=1";
+	dir = 1;
+	freq = 1400;
+	name = "Delivery Kitchen";
+	location = "KItchen"
+	},
+/turf/open/floor/plasteel/dark/side,
+/area/hallway/primary/central)
 "BJ" = (
 /obj/machinery/recharge_station,
 /obj/effect/landmark/start/cyborg,
@@ -8125,6 +8171,12 @@
 "Dx" = (
 /turf/closed/wall/r_wall,
 /area/engine/engineering)
+"DC" = (
+/obj/structure/bot_elevator,
+/turf/open/floor/plasteel/dark/side{
+	dir = 1
+	},
+/area/hallway/primary/central)
 "DG" = (
 /obj/effect/turf_decal/ship/nt_floor_logo{
 	icon_state = "2,1"
@@ -10694,6 +10746,13 @@
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=";
+	dir = 4;
+	freq = 1400;
+	name = "Delivery Medbay";
+	location = "Medbay"
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -13213,6 +13272,12 @@
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=1";
+	freq = 1400;
+	name = "Delivery Munitions";
+	location = "Munitions"
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -13749,7 +13814,7 @@
 	},
 /obj/machinery/navbeacon{
 	location = "fore";
-	codes_txt = "patrol;next_patrol=aft"
+	codes_txt = "patrol;next_patrol=centralUp"
 	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/fore)
@@ -14473,6 +14538,16 @@
 /obj/item/flashlight/lamp/green,
 /turf/open/floor/wood,
 /area/lawoffice)
+"YU" = (
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 4;
+	freq = 1400;
+	name = "Delivery Bar";
+	location = "Bar"
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/bar)
 "Za" = (
 /obj/structure/ladder,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
@@ -40555,7 +40630,7 @@ Kp
 td
 xF
 rQ
-ej
+jW
 Dk
 ge
 Iw
@@ -47493,7 +47568,7 @@ ua
 ze
 iD
 Yr
-OY
+BI
 RB
 Pw
 vy
@@ -50058,7 +50133,7 @@ Tm
 dR
 qW
 Iq
-yI
+YU
 mS
 yA
 yI
@@ -52891,7 +52966,7 @@ WT
 Ke
 pY
 Lq
-RB
+AA
 AU
 NL
 fK
@@ -55462,7 +55537,7 @@ OO
 pY
 OY
 RB
-AU
+DC
 Jo
 Iy
 il
