@@ -49,7 +49,6 @@
 
 /obj/item/stack/tile/durasteel/Initialize(mapload, amount)
 	. = ..()
-	var/static/list/options = list()
 	for(var/option in tilelist) //Just hardcoded for now!
 		tilelist[option] = image(icon = 'nsv13/icons/turf/floors.dmi', icon_state = option)
 
@@ -60,7 +59,7 @@
 /obj/item/stack/tile/durasteel/CtrlClick(mob/user)
 	. = ..()
 	if(loc == user.contents && (!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user))) && !is_cyborg)
-		show_radial_menu(user, user, options)
+		show_radial_menu(user, user, tilelist)
 
 /obj/item/stack/tile/durasteel/alt
 	icon_state = "durasteel_tile_alt"
