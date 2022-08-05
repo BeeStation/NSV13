@@ -19,7 +19,7 @@
 			if("Main Ship")
 				target = SSstar_system.find_main_overmap()
 			if("Choose")
-				target = input(usr, "Select target ship:", "Select Target") as null|anything in GLOB.overmap_objects
+				target = input(usr, "Select target ship:", "Select Target") as null|anything in GLOB.overmap_objects //Needs to go through global list due to requiring access to any overmap.
 
 		var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 		if(!DC)

@@ -70,10 +70,9 @@ Set up relationships.
 		return
 	next_fleet_spawn = world.time + max(fleet_spawn_rate + rand(-spawn_rate_jitter, spawn_rate_jitter), minimum_spawn_interval)
 	var/datum/star_system/current_system //Dont spawn enemies where theyre currently at
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //The ship doesnt start with a system assigned by default
-		if(OM.role != MAIN_OVERMAP)
-			continue
-		current_system = SSstar_system.ships[OM]["current_system"]
+	var/obj/structure/overmap/main_ship = SSstar_system.find_main_overmap()
+	if(main_ship)
+		current_system = SSstar_system.ships[main_ship]["current_system"]
 	var/list/possible_spawns = list()
 	for(var/datum/star_system/starsys in SSstar_system.systems)
 		if(starsys != current_system && !starsys.hidden && (lowertext(starsys.alignment) == lowertext(src.name) || starsys.alignment == "unaligned")) //Find one of our base systems and try to send a fleet out from there.
