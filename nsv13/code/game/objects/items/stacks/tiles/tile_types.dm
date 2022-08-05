@@ -22,7 +22,7 @@
 	singular_name = "durasteel floor tile"
 	desc = "A durasteel tile. Those could work as a pretty decent throwing weapon."
 	icon = 'nsv13/icons/obj/custom_tiles.dmi'
-	icon_state = "durasteel tile"
+	icon_state = "durasteel_tile"
 	force = 6
 	materials = list(/datum/material/iron=500, /datum/material/silver=500)
 	throwforce = 10
@@ -50,13 +50,13 @@
 /obj/item/stack/tile/durasteel/Initialize(mapload, amount)
 	. = ..()
 	for(var/option in tilelist) //Just hardcoded for now!
-		tilelist[option] = image(icon = 'nsv13/icons/turf/floors.dmi', icon_state = option)
+		tilelist[option] = image(icon = 'nsv13/icons/obj/custom_tiles.dmi', icon_state = option)
 
 /obj/item/stack/tile/durasteel/examine(mob/user)
 	. = ..()
 	. += "<span class='notice'>Ctrl-click to change the tile type.</span>"
 
-/obj/item/stack/tile/durasteel/CtrlClick(mob/user)
+/obj/item/stack/tile/durasteel/CtrlShiftClick(mob/user)
 	. = ..()
 	if(loc == user.contents && (!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user))) && !is_cyborg)
 		show_radial_menu(user, user, tilelist)
