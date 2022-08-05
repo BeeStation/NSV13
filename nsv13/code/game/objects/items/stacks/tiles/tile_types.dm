@@ -56,10 +56,10 @@
 	. = ..()
 	. += "<span class='notice'>Ctrl-click to change the tile type.</span>"
 
-/obj/item/stack/tile/durasteel/CtrlShiftClick(mob/user)
-	. = ..()
-	if(loc == user.contents && (!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user))) && !is_cyborg)
+/obj/item/stack/tile/durasteel/CtrlClick(mob/user)
+	if((!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user))) && !is_cyborg)
 		show_radial_menu(user, user, tilelist)
+	return ..()
 
 /obj/item/stack/tile/durasteel/alt
 	icon_state = "durasteel_tile_alt"
