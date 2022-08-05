@@ -83,7 +83,7 @@
 	id = new_id
 	if(paicard)
 		bot_name = "\improper MULEbot ([new_id])"
-	else
+	else if(name == "\improper MULEbot") //NSV13
 		name = "\improper MULEbot ([new_id])"
 
 /mob/living/simple_animal/bot/mulebot/bot_reset()
