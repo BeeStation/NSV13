@@ -508,6 +508,32 @@
 	else
 		return TRUE
 
+//NSV13 - knpcs can into firelock
+/obj/machinery/door/firedoor/border_only/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
+	if(istype(caller) && (caller.pass_flags & pass_flags_self))
+		return TRUE
+	if(!density)
+		return TRUE
+	if(!(dir in dir_to_cardinal_dirs(to_dir)))
+		return TRUE
+	if(welded)
+		return FALSE
+	if(!hasPower())
+		return isknpc(caller)
+	return TRUE
+
+/obj/machinery/door/firedoor/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
+	if(istype(caller) && (caller.pass_flags & pass_flags_self))
+		return TRUE
+	if(!density)
+		return TRUE
+	if(welded)
+		return FALSE
+	if(!hasPower())
+		return isknpc(caller)
+	return TRUE
+//NSV13 end
+
 /obj/machinery/door/firedoor/heavy
 	name = "heavy firelock"
 	icon = 'icons/obj/doors/doorfire.dmi'
