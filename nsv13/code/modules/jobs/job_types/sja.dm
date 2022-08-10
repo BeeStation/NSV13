@@ -14,9 +14,9 @@
 	exp_type = EXP_TYPE_CREW
 
 	outfit = /datum/outfit/job/staffjudgeadvocate
-
-	access = list(ACCESS_SECURITY, ACCESS_BRIG, ACCESS_SEC_RECORDS, ACCESS_FORENSICS_LOCKERS, ACCESS_SEC_DOORS, ACCESS_COURT, ACCESS_MEDICAL, ACCESS_ENGINE, ACCESS_MAINT_TUNNELS, ACCESS_BAR, ACCESS_JANITOR, ACCESS_MORGUE, ACCESS_KITCHEN, ACCESS_CARGO, ACCESS_HYDROPONICS, ACCESS_LAWYER, ACCESS_LIBRARY, ACCESS_RESEARCH, ACCESS_MINING)
-	minimal_access = list(ACCESS_SEC_DOORS, ACCESS_COURT, ACCESS_MEDICAL, ACCESS_ENGINE, ACCESS_MAINT_TUNNELS, ACCESS_BAR, ACCESS_JANITOR, ACCESS_MORGUE, ACCESS_KITCHEN, ACCESS_CARGO, ACCESS_HYDROPONICS, ACCESS_LAWYER, ACCESS_LIBRARY, ACCESS_RESEARCH, ACCESS_MINING)
+	access = list(ACCESS_LAWYER, ACCESS_COURT, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_FORENSICS_LOCKERS)
+	minimal_access = list(ACCESS_LAWYER, ACCESS_COURT, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_FORENSICS_LOCKERS)
+	
 	paycheck = PAYCHECK_EASY
 	paycheck_department = ACCOUNT_CIV
 	mind_traits = list()
@@ -34,12 +34,12 @@
 
 	belt = /obj/item/pda/lawyer
 	ears = /obj/item/radio/headset/headset_srvsec
-	uniform = /obj/item/clothing/under/ship/officer
-	shoes = /obj/item/clothing/shoes/jackboots
-	head = /obj/item/clothing/head/beret/durathread
+	uniform = /obj/item/clothing/under/suit/black
+	neck = /obj/item/clothing/neck/tie/black
+	accessory = /obj/item/clothing/accessory/lawyers_badge
+	shoes = /obj/item/clothing/shoes/laceup
 	l_hand = /obj/item/book/manual/wiki/sop/catalogue
 	l_pocket = /obj/item/laser_pointer
-	r_pocket = /obj/item/clothing/accessory/lawyers_badge
 
 	chameleon_extras = /obj/item/stamp/law
 
