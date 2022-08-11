@@ -450,3 +450,13 @@
 				if(C.number)
 					number = max(number, C.number+1)
 		c_tag = "[A.name] #[number]"
+
+/obj/item/radio/intercom/syndicate //An intercom for syndicate AIs.
+	name = "syndicate intercom"
+	syndie = 1
+	freqlock = 1
+
+/obj/item/radio/intercom/syndicate/Initialize()
+	. = ..()
+	set_frequency(FREQ_SYNDICATE)
+
