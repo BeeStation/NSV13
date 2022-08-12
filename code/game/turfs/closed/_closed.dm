@@ -60,6 +60,7 @@
 	icon_state = ""
 	layer = FLY_LAYER
 	bullet_bounce_sound = null
+	pixel_w = -32 //NSV13 fitting the widescreen-sized image on to the screen
 
 /turf/closed/indestructible/splashscreen/New()
 	SStitle.splash_turf = src

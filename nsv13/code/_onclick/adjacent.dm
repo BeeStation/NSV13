@@ -5,7 +5,7 @@
 	* If you are diagonally adjacent, ensure you can pass through at least one of the mutually adjacent square.
 		* Passing through in this case ignores anything with the LETPASSTHROW pass flag, such as tables, racks, and morgue trays.
 */
-/turf/Adjacent(atom/neighbor, atom/target = null, atom/movable/mover = null)
+/turf/Adjacent(atom/neighbor, atom/target = null, atom/movable/mover = null, ignore_objects)
 	if(neighbor == src)
 		return TRUE //don't be retarded!!
 

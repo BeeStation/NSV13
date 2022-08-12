@@ -566,7 +566,7 @@ Returns a faction datum by its name (case insensitive!)
 		research_points = 0
 		scanned = TRUE
 		minor_announce("Successfully received probe telemetry. Full astrological survey of [name] complete.", "WAYFARER subsystem")
-		for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Has to go through global overmaps due to anomalies not referencing their system - probably something to change one day.
 			if(OM && OM.z == z)
 				OM.relay('nsv13/sound/effects/ship/FTL.ogg')
 		qdel(AM)
@@ -608,7 +608,7 @@ Returns a faction datum by its name (case insensitive!)
 			for(var/obj/structure/overmap/OM in affecting)
 				stop_affecting(OM)
 		return
-	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects) //Has to go through global overmaps due to anomalies not referencing their system - probably something to change one day.
 		if(LAZYFIND(affecting, OM))
 			continue
 		if(get_dist(src, OM) <= influence_range && OM.z == z)

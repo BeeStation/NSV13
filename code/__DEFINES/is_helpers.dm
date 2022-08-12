@@ -59,6 +59,10 @@ GLOBAL_LIST_INIT(turfs_without_ground, typecacheof(list(
 
 #define ishuman(A) (istype(A, /mob/living/carbon/human))
 
+//NSV13 - knpc helper
+#define isknpc(A) (istype(A, /mob/living/carbon/human/ai_boarder))
+//NSV13 end
+
 //Human sub-species
 #define isabductor(A) (is_species(A, /datum/species/abductor))
 #define isgolem(A) (is_species(A, /datum/species/golem))
