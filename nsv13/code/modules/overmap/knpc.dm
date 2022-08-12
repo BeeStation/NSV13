@@ -19,6 +19,10 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/stealing_id = FALSE
 	var/next_internals_attempt = 0
 	var/static/list/climbable = typecacheof(list(/obj/structure/table, /obj/structure/railing)) // climbable structures
+	///If pathfinding fails, it is püt in timeout for a while to avoid spamming the server with pathfinding calls.
+	var/pathfind_timeout = 0
+	///Consecutive pathfind fails add additional delay stacks to further counteract the effects of knpcs in unreachable locations.
+	var/timeout_stacks = 0
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Neutral")
@@ -83,28 +87,28 @@ GLOBAL_LIST_EMPTY(knpcs)
 	return ..()
 
 /datum/component/knpc/proc/pathfind_to(atom/target, turf/avoid)
+	if(pathfind_timeout > 0)
+		return KNPC_PATHFIND_TIMEOUT
 	var/mob/living/carbon/human/ai_boarder/H = parent
-	if(dest && dest == get_turf(target) || H.incapacitated())
-		return FALSE //No need to recalculate this path.
+	if(target == null)
+		path = list()
+		dest = null
+		return KNPC_PATHFIND_SKIP
+	if((dest && dest == get_turf(target) && length(path)) || H.incapacitated())
+		return KNPC_PATHFIND_SKIP //No need to recalculate this path.
 	path = list()
 	dest = null
 	var/obj/item/card/id/access_card = H.wear_id
 	if(target)
 		dest = get_turf(target)
 		path = get_path_to(H, dest, 120, 0, access_card, !(H.wear_suit?.clothing_flags & STOPSPRESSUREDAMAGE && H.head?.clothing_flags & STOPSPRESSUREDAMAGE), avoid)
-
-		var/obj/structure/dense_object = locate() in get_step(H, H.dir) //If we're stuck
-		if(climbable[dense_object.type])
-			H.forceMove(get_turf(dense_object))
-			H.visible_message("<span class='warning'>[H] climbs onto [dense_object]!</span>")
-			H.Stun(2 SECONDS) //Table.
-		var/obj/machinery/door/firedoor/border_only/fuckingMonsterMos = locate() in get_step(H, H.dir)
-		if(fuckingMonsterMos)
-			fuckingMonsterMos.open()
 	//There's no valid path, try run against the wall.
 	if(!length(path) && !H.incapacitated())
-		return FALSE
-	return TRUE
+		pathfind_timeout += KNPC_TIMEOUT_BASE * (1 + timeout_stacks)
+		timeout_stacks = min(timeout_stacks+1, KNPC_TIMEOUT_STACK_CAP)
+		return KNPC_PATHFIND_FAIL
+	timeout_stacks = 0
+	return KNPC_PATHFIND_SUCCESS
 
 /datum/component/knpc/proc/next_path_step()
 	if(world.time < next_move)
@@ -112,6 +116,10 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/mob/living/carbon/human/ai_boarder/H = parent
 	next_move = world.time + H.move_delay
 	if(H.incapacitated() || H.stat == DEAD)
+		return FALSE
+	if(pathfind_timeout > 0) //Pathfinding in timeout, move around aimlessly
+		H.set_resting(FALSE, FALSE)
+		H.Move(get_step(H,pick(GLOB.cardinals)))
 		return FALSE
 	if(!path)
 		return FALSE
@@ -131,13 +139,41 @@ GLOBAL_LIST_EMPTY(knpcs)
 		last_node = null //Reset pathfinding fully.
 		return FALSE
 	if(length(path) > 1)
-		var/turf/T = path[1]
+		var/turf/next_turf = get_step_towards(H, path[1])
+		var/turf/this_turf = get_turf(H)	
 		//Walk when you see a wet floor
-		if(T.GetComponent(/datum/component/wet_floor))
+		if(next_turf.GetComponent(/datum/component/wet_floor))
 			H.m_intent = MOVE_INTENT_WALK
 		else
 			H.m_intent = MOVE_INTENT_RUN
 
+		for(var/obj/machinery/door/firedoor/blocking_firelock in next_turf)
+			if((blocking_firelock.flags_1 & ON_BORDER_1) && !(blocking_firelock.dir in dir_to_cardinal_dirs(get_dir(next_turf, this_turf))))
+				continue
+			if(!blocking_firelock.density || blocking_firelock.operating)
+				continue
+			if(blocking_firelock.welded)
+				break	//If at least one firedoor in our way is welded shut, welp!
+			blocking_firelock.open()	//Open one firelock per tile per try.
+			break
+		for(var/obj/machinery/door/firedoor/blocking_firelock in this_turf)
+			if(!((blocking_firelock.flags_1 & ON_BORDER_1) && (blocking_firelock.dir in dir_to_cardinal_dirs(get_dir(this_turf, next_turf))))) //Here, only firelocks on the border matter since fulltile firelocks let you exit.
+				continue
+			if(!blocking_firelock.density || blocking_firelock.operating)
+				continue
+			if(blocking_firelock.welded)
+				break	//If at least one firedoor in our way is welded shut, welp!
+			blocking_firelock.open()	//Open one firelock per tile per try.
+			break
+		for(var/obj/structure/possible_barrier in next_turf) //If we're stuck
+			if(!climbable.Find(possible_barrier.type))
+				continue
+			H.forceMove(next_turf)
+			H.visible_message("<span class='warning'>[H] climbs onto [possible_barrier]!</span>")
+			H.Stun(2 SECONDS) //Table.
+			if(get_turf(H) == path[1])
+				increment_path()
+			return TRUE
 		step_towards(H, path[1])
 		if(get_turf(H) == path[1]) //Successful move
 			increment_path()
@@ -213,6 +249,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 		path = list()
 		last_node = null
 		current_goal?.get_next_patrol_node(src)
+	pathfind_timeout = max(0, pathfind_timeout - 1)
 
 /datum/ai_goal/human
 	name = "Placeholder goal" //Please keep these human readable for debugging!
@@ -264,7 +301,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 				continue
 			if(OM.occupant && !H.faction_check_mob(OM.occupant))
 				. += OM.occupant
-	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects) //Has to go through global objects due to happening on a ship's z level.
 		if(OM.z != H.z)
 			continue
 		if(get_dist(H, OM) > HA.view_range || !can_see(H, OM, HA.view_range))
@@ -319,7 +356,6 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 /datum/ai_goal/human/acquire_weapon/action(datum/component/knpc/HA)
 	if(!can_action(HA))
 		return
-	HA.last_node = null //Reset their pathfinding
 	var/mob/living/carbon/human/H = HA.parent
 	var/obj/item/storage/S = H.back
 	var/obj/item/gun/target_item = null
@@ -536,7 +572,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	H.say(support_text)
 
 	// Call for other intelligent AIs
-	for(var/datum/component/knpc/HH as() in GLOB.knpcs - H)
+	for(var/datum/component/knpc/HH as() in GLOB.knpcs - HA)
 		var/mob/living/carbon/human/ai_boarder/other = HH.parent
 		var/obj/item/radio/headset/other_radio = other.ears
 		if(other.z != H.z || !other.can_hear() || other.incapacitated())

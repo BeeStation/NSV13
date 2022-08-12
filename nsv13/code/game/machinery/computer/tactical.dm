@@ -51,7 +51,9 @@
 			linked.target_lock = null
 		if("target_ship")
 			var/target_name = params["target"]
-			for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+			if(!linked?.current_system)
+				return
+			for(var/obj/structure/overmap/OM in linked.current_system.system_contents)
 				if(OM.name == target_name)
 					linked.start_lockon(OM)
 					break
@@ -85,7 +87,9 @@
 			ammo += SW.get_ammo()
 		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo))
 	data["ships"] = list()
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+	if(!linked?.current_system)
+		return data
+	for(var/obj/structure/overmap/OM in linked.current_system.system_contents)
 		if(OM.z == linked.z && OM.faction != linked.faction && get_dist(linked, OM) <= scan_range && OM.is_sensor_visible(linked) >= SENSOR_VISIBILITY_TARGETABLE)
 			data["ships"] += list(list("name" = OM.name, "integrity" = OM.obj_integrity, "max_integrity" = OM.max_integrity, "faction" = OM.faction, \
 				"quadrant_fs_armour_current" = OM.armour_quadrants["forward_starboard"]["current_armour"], \
@@ -172,7 +176,9 @@
 	data["target_name"] = (linked.target_lock) ? linked.target_lock.name : "none"
 	var/scan_range = (linked?.dradis) ? linked.dradis.sensor_range : 45 //hide targets that are outside of sensor range to avoid cheese.
 	data["ships"] = list()
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+	if(!linked?.current_system)
+		return data
+	for(var/obj/structure/overmap/OM in linked.current_system.system_contents)
 		if(OM.z == linked.z && OM.faction != linked.faction && get_dist(linked, OM) <= scan_range && OM.is_sensor_visible(linked) >= SENSOR_VISIBILITY_TARGETABLE)
 			data["ships"] += list(list("name" = OM.name, "integrity" = OM.obj_integrity, "max_integrity" = OM.max_integrity, "faction" = OM.faction, \
 				"quadrant_fs_armour_current" = OM.armour_quadrants["forward_starboard"]["current_armour"], \
