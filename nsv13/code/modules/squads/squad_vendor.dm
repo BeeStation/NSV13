@@ -31,7 +31,6 @@
 	max_integrity = 500 //Tough nut to crack, due to how it'll spit out a crap load of squad gear like a goddamned pinata.
 	resistance_flags = ACID_PROOF | FIRE_PROOF
 	req_one_access = list(ACCESS_HOP, ACCESS_HOS)
-	var/static/list/loans = list() //List of mobs who have taken a kit without returning it. To get a new kit, you have to return the old one.
 	var/static/list/loans_info = list()
 	var/static/list/loadouts = list()
 	var/static/list/requires_weapons_clearance = list(/obj/item/ammo_box, /obj/item/gun)
@@ -42,6 +41,9 @@
 		for(var/instance in subtypesof(/datum/squad_loadout))
 			loadouts += new instance
 
+/obj/machinery/squad_vendor/attackby(obj/item/I, mob/living/user, params)
+	return return_item(user, I) || ..()
+
 /obj/machinery/squad_vendor/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -51,7 +53,7 @@
 /obj/machinery/squad_vendor/ui_data(mob/user)
 	var/list/data = list()
 	data["user_name"] = (user) ? compose_rank(user)+user.name : "Unassigned"
-	data["already_loaned"] = (user in loans)
+	data["already_loaned"] = (user in loans_info)
 	var/mob/living/carbon/human/H = user
 	var/datum/squad/squad = ishuman(H) ? H?.squad : null
 	var/list/kits = list()
@@ -69,64 +71,84 @@
 /obj/machinery/squad_vendor/ui_act(action, params)
 	if(..())
 		return
-	var/datum/squad_loadout/S = locate(params["item_id"])
+	var/datum/squad_loadout/loadout = locate(params["item_id"])
 	var/mob/living/carbon/human/H = usr
 	if(!istype(H) || !H.squad)
 		return FALSE
 	switch(action)
 		if("vend")
-			if(!S)
+			if(!loadout)
 				return FALSE
 			if(!H.squad)
 				return FALSE
 			var/obj/item/storage/box/squad_kit/box = new(get_turf(src))
-			var/loaned_amount = 0 //How much gear have we loaned them?
-			for(var/path in S.items)
-				var/obj/item/I = new path(src)
-				if(!H.squad.weapons_clearance)
-					for(var/disallowed in requires_weapons_clearance)
-						if(istype(I, disallowed))
-							qdel(I)
-							continue //They don't have the clearance for that one :)
-				I.forceMove(box)
+			var/list/must_return = loadout.items.Copy()
 			//If they don't have weapons clearance, don't expect them to return guns that they don't get vended.
-			if(H.squad.weapons_clearance)
-				loaned_amount = S.must_return.len
-			else
-				loaned_amount = S.must_return.len - requires_weapons_clearance.len
+			if(!H.squad.weapons_clearance)
+				for(var/banned in requires_weapons_clearance)
+					for(var/path in must_return)
+						if(ispath(path, banned))
+							must_return -= path
+			for(var/path in must_return)
+				var/obj/item/I = new path(src)
+				I.forceMove(box)
 			playsound(src, 'sound/machines/machine_vend.ogg', 50, TRUE, extrarange = -3)
-			loans += H
-			loans_info[H] = list(S, loaned_amount)
+			loans_info[H] = must_return
 			return TRUE
 		if("return_gear")
 			if(!loans_info[usr])
 				return FALSE
-			var/list/L = loans_info[H]
-			var/datum/squad_loadout/loan = L[1]
-			var/loan_amount = L[2]
+			var/list/must_return = loans_info[H]
 			var/obj/item/storage/backpack/bag = H.get_item_by_slot(ITEM_SLOT_BACK)
-			var/list/nicked = list()
 			for(var/atom/movable/AM in bag)
-				if(LAZYFIND(loan.must_return, AM.type))
-					nicked += AM
-			if(nicked.len < loan_amount)
-				playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
-				to_chat(H, "<span class='warning'>You still have [loan_amount - nicked.len] more item(s) to return....</span>")
+				return_item(usr, AM, quiet=TRUE) // Don't spam them, we'll handle the notification ourselves
+			notify(H)
+			if(length(must_return))
 				return FALSE
-			playsound(src, 'sound/machines/terminal_insert_disc.ogg', 100, 0)
-			say("Items returned. Have a secure day.")
-			for(var/atom/movable/AM in nicked)
-				AM.forceMove(src)
-				qdel(AM)
-			loans -= H
-			loans_info[H] = null
+			loans_info -= H
 			return TRUE
+
+/obj/machinery/squad_vendor/proc/return_item(mob/living/user, obj/item/I, quiet=FALSE)
+	var/list/must_return = loans_info[user]
+	if(length(must_return) && LAZYFIND(must_return, I.type))
+		I.forceMove(src)
+		LAZYREMOVE(must_return, I.type)
+		qdel(I)
+		if(!quiet)
+			notify(user)
+		if(!length(must_return))
+			loans_info -= user
+		ui_update()
+		return TRUE
+	if(istype(I, /obj/item/storage/box/squad_kit))
+		if(length(I.contents))
+			for(var/obj/item/thing in I.contents)
+				return_item(user, thing, quiet=TRUE)
+			if(!quiet)
+				notify(user)
+		if(!length(I.contents)) // This is two blocks so I can only tell them about returned items if there were items to return
+			I.forceMove(src)
+			qdel(I)
+			if(!quiet)
+				say("Thank you for recycling.")
+		else if(!quiet)
+			to_chat(user, "<span class='warning'>The box must be empty to be returned.</span>")
+		ui_update()
+		return TRUE
+
+/obj/machinery/squad_vendor/proc/notify(mob/living/user)
+	var/list/must_return = loans_info[user]
+	if(length(must_return))
+		playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
+		to_chat(user, "<span class='warning'>You still have [length(must_return)] more item(s) to return.</span>")
+	else
+		playsound(src, 'sound/machines/terminal_insert_disc.ogg', 100, 0)
+		say("Items returned. Have a secure day.")
 
 /datum/squad_loadout
 	var/name = "Parent"
 	var/desc = "A standardised equipment set for Blue Phalanx marines. This set is designed for use in pressurized areas, it comes with lightweight armour to protect the wearer from most hazards."
 	var/list/items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/ammo_box/magazine/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
-	var/list/must_return = list()
 	var/leader_only = FALSE
 	var/list/allowed_roles = SQUAD_TYPES
 
@@ -137,11 +159,6 @@
 	name = "Squad Marine (Hazardous Environment)"
 	desc = "For hazardous, low pressure environments. This kit contains a reinforced skinsuit which, while slow, will protect marines from the elements."
 	items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad/space, /obj/item/clothing/head/helmet/ship/squad/space, /obj/item/ammo_box/magazine/glock/lethal, /obj/item/gun/ballistic/automatic/pistol/glock)
-
-/datum/squad_loadout/New()
-	. = ..()
-	if(!must_return.len)
-		must_return = items
 
 /datum/squad_loadout/leader
 	name = "Squad Leader (Standard)"
