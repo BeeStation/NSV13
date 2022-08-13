@@ -230,6 +230,20 @@
 
 /datum/holiday/firefighter/getStationPrefix()
 	return pick("Burning","Blazing","Plasma","Fire")
+	
+/datum/holiday/fridaynight //NSV13
+    name = "Friday Night"
+
+/datum/holiday/fridaynight/shouldCelebrate(dd, mm, yy, ww, ddd)
+    if(ddd == FRIDAY)
+        return TRUE
+    return FALSE
+
+/datum/holiday/fridaynight/celebrate()
+    SSticker.login_music = 'sound/ambience/fridaynight.ogg'
+    for(var/mob/dead/new_player/P in GLOB.mob_list)
+        if(P.client)
+            P.client.playtitlemusic()  
 
 /datum/holiday/bee
 	name = "Bee Day"
