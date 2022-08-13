@@ -203,7 +203,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		_path = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	RETURN_TYPE(/obj/structure/overmap)
 	SSmapping.add_new_initialized_zlevel("Overmap ship level [++world.maxz]", ZTRAITS_OVERMAP)
-
 	repopulate_sorted_areas()
 	smooth_zlevel(world.maxz)
 	log_game("Z-level [world.maxz] loaded for overmap treadmills.")
@@ -219,19 +218,19 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(folder && interior_map_files) //If this thing comes with an interior.
 		var/previous_maxz = world.maxz //Ok. Store the current number of Zs. Anything that we add on top of this due to this proc will then be conted as decks of our ship.
 		var/list/errorList = list()
-		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", interior_map_files, traits, default_traits, orbital_body_type = null)
+		var/list/loaded = SSmapping.LoadGroup(errorList, "[OM.name] interior Z level", "[folder]", interior_map_files, traits, default_traits, silent = TRUE, orbital_body_type = null)
 		if(errorList.len)	// failed to load :(
 			message_admins("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
 			log_game("[_path]'s interior failed to load! Check you used instance_overmap correctly...")
 			return OM
-		for(var/datum/map_template/PM in loaded)
-			PM.initTemplateBounds()
+		for(var/datum/parsed_map/PM in loaded)
+			PM.initParsedTemplateBounds()
 		repopulate_sorted_areas()
+		SSmapping.setup_map_transitions() // Allows interior borders to function properly
 		var/list/occupying = list()
 		for(var/I = ++previous_maxz; I <= world.maxz; I++) //So let's say we started loading interior Z-levels at Z index 4 and we have 2 decks. That means that Z 5 and 6 belong to this ship's interior, so link them
 			occupying += I;
 			OM.linked_areas += SSmapping.areas_in_z["[I]"]
-
 		for(var/z in occupying)
 			var/datum/space_level/SL = SSmapping.z_list[z]
 			SL.linked_overmap = OM
@@ -478,6 +477,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		priority_announce("WARNING: ([rand(10,100)]) Attempts to establish DRADIS uplink with [station_name()] have failed. Unable to ascertain operational status. Presumed status: TERMINATED","Central Intelligence Unit", 'nsv13/sound/effects/ship/reactor/explode.ogg')
 		Cinematic(CINEMATIC_NSV_SHIP_KABOOM,world)
 		SSticker.mode.check_finished(TRUE)
+		SSticker.news_report = SHIP_DESTROYED
 		SSticker.force_ending = 1
 	SEND_SIGNAL(src,COMSIG_SHIP_KILLED)
 	QDEL_LIST(current_tracers)
@@ -502,7 +502,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	return ..()
 
 /obj/structure/overmap/forceMove(atom/destination)
-	if(!SSmapping.level_trait(destination.z, ZTRAIT_OVERMAP))
+	if(destination && !SSmapping.level_trait(destination.z, ZTRAIT_OVERMAP))
 		return //No :)
 	return ..()
 
@@ -708,10 +708,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		M.stop_sound_channel(channel)
 
 /obj/structure/overmap/proc/relay_to_nearby(S, message, ignore_self=FALSE, sound_range=20, faction_check=FALSE) //Sends a sound + text message to nearby ships
-	for(var/obj/structure/overmap/ship as() in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/ship as() in GLOB.overmap_objects) //Might be called in hyperspace or by fighters, so shouldn't use a system check.
 		if(ignore_self)
 			if(ship == src)
 				continue
+		if(z != ship.z)	//If we aren't on the same z level this shouldn't be happening.
+			continue
 		if(get_dist(src, ship) <= sound_range) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
 			if(faction_check)
 				if(src.faction == ship.faction)

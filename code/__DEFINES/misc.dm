@@ -314,11 +314,13 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define CLOCK_SILICONS 22
 #define CLOCK_PROSELYTIZATION 23
 #define SHUTTLE_HIJACK 24
-//Nsv13 - Galactic conquest
+//NSV13
 #define PVP_SYNDIE_WIN 25
 #define PVP_SYNDIE_LOSS 26
 #define PVP_SYNDIE_PIRATE_WIN 27
-// /Nsv
+#define SHIP_VICTORY 28
+#define SHIP_DESTROYED 29
+//NSV13
 
 #define FIELD_TURF 1
 #define FIELD_EDGE 2

@@ -49,7 +49,10 @@
 	data["salvage_target_integrity"] = (linked.active_boarding_target) ? linked.active_boarding_target.obj_integrity  : 0
 	data["salvage_target_max_integrity"] = (linked.active_boarding_target) ? linked.active_boarding_target.max_integrity  : 100
 	var/list/ships = list()
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+	if(!linked?.current_system)
+		data["ships"] = ships
+		return data
+	for(var/obj/structure/overmap/OM in linked.current_system.system_contents)
 		if(OM.z != linked?.z || OM.interior_mode != INTERIOR_EXCLUSIVE || OM.is_sensor_visible(linked) <= SENSOR_VISIBILITY_FAINT || OM == linked.active_boarding_target)
 			continue
 		ships[++ships.len] = list("name"=OM.name, "desc"=OM.desc, "id"="\ref[OM]")
