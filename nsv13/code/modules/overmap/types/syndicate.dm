@@ -463,11 +463,12 @@
 /obj/structure/overmap/syndicate/ai/kadesh/on_interdict()
 	add_sensor_profile_penalty(150, 10 SECONDS)
 
-/obj/structure/overmap/syndicate/ai/fistofsol
+/obj/structure/overmap/hostile/ai/fistofsol
 	name = "\improper SSV Fist of Sol"
 	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
 	icon_state = "tuningfork"
 	desc = "A terrifying vessel packing every inch of the Syndicate's abhorrent arsenal."
+	faction = "syndicate"
 	mass = MASS_LARGE
 	sprite_size = 128
 	bound_width = 128
