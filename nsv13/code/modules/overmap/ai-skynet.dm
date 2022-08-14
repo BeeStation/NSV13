@@ -894,9 +894,9 @@ Adding tasks is easy! Just define a datum for it.
 	faction = FACTION_ID_SYNDICATE
 	size = 1
 	allow_difficulty_scaling = FALSE
-	battleship_types = list(/obj/structure/overmap/syndicate/ai/fistofsol)
+	battleship_types = list(/obj/structure/overmap/hostile/ai/fistofsol)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
-	taunts = list("That's it... Just you and me now, no support, no distractions... no war. Whoever wins is the best crew.")
+	taunts = list("What a pleasure that we should meet again. I hope you won't disapoint!")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/hostile/alicorn_boss
