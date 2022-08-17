@@ -96,7 +96,7 @@
 			loans_info[H] = must_return
 			return TRUE
 		if("return_gear")
-			if(!loans_info[usr])
+			if(!loans_info[H])
 				return FALSE
 			var/list/must_return = loans_info[H]
 			var/obj/item/storage/backpack/bag = H.get_item_by_slot(ITEM_SLOT_BACK)
@@ -107,6 +107,30 @@
 				return FALSE
 			loans_info -= H
 			return TRUE
+		if("pay_fine")
+			if(!loans_info[H])
+				return FALSE
+			var/list/must_return = loans_info[H]
+			var/total = length(must_return) * 300
+			if(alert(usr, "You will be charged [total] credits.", "Lost Item Fine", "OK", "Cancel") == "OK")
+				// Why the fuck is there no proc for this
+				var/obj/item/card/id/C = H.get_idcard(TRUE)
+				if(!C)
+					say("No ID card found.")
+					return
+				else if (!C.registered_account)
+					say("No bank account found.")
+					return
+				var/datum/bank_account/account = C.registered_account
+				if(!account.adjust_money(-total))
+					say("You do not possess the funds for this.")
+					return
+				// Success!
+				loans_info -= H
+				playsound(src, 'sound/machines/terminal_insert_disc.ogg', 100, 0)
+				say("Fee processed. Have a secure day.")
+				ui_update()
+				return TRUE
 
 /obj/machinery/squad_vendor/proc/return_item(mob/living/user, obj/item/I, quiet=FALSE)
 	var/list/must_return = loans_info[user]
