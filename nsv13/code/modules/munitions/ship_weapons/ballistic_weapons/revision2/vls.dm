@@ -50,6 +50,8 @@
 	var/obj/structure/fluff/vls_hatch/hatch = null
 
 /obj/machinery/ship_weapon/vls/proc/on_entered(datum/source, atom/movable/AM, oldloc)
+	SIGNAL_HANDLER
+
 	var/can_shoot_this = FALSE
 	for(var/_ammo_type in ammo_type)
 		if(istype(AM, _ammo_type))
@@ -86,6 +88,10 @@
 
 /obj/machinery/ship_weapon/vls/Initialize()
 	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 	var/turf/T = SSmapping.get_turf_above(src)
 	if(!T)
 		return
@@ -110,11 +116,6 @@
 		ntransform.Translate(-32,1)
 		hatch.transform = ntransform
 		return
-
-	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
-	)
-	AddElement(/datum/element/connect_loc, loc_connections)
 
 #define HT_OPEN TRUE
 #define HT_CLOSED FALSE
@@ -290,6 +291,8 @@
 		spawn(150)
 			light_shots_left = initial(light_shots_left) // make them reload like real people, sort of
 		return FALSE
+	if(!current_system)
+		return
 	var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_FLAK]
 	var/flak_left = flak_battery_amount //Multi-flak batteries!
 	if(!ai_controlled)
@@ -300,10 +303,12 @@
 			flak_left --
 			if(flak_left <= 0)
 				return
-	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/ship in current_system.system_contents)
 		if(!ship || !istype(ship))
 			continue
 		if(ship == src || ship == last_target || ship.faction == faction || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
+			continue
+		if(warcrime_blacklist[ship.type]) // Please don't blow up my rocks
 			continue
 		if ( ship.essential )
 			continue
@@ -344,7 +349,7 @@
 					break
 
 	//Not currently used, but may as well keep it for reference...
-	if(flak_battery_amount > 0)
+	if(flak_battery_amount > 0 && current_system)
 		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_FLAK]
 		var/flak_left = flak_battery_amount //Multi-flak batteries!
 		if(!ai_controlled)
@@ -355,10 +360,12 @@
 				flak_left --
 				if(flak_left <= 0)
 					return
-		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+		for(var/obj/structure/overmap/ship in current_system.system_contents)
 			if(!ship || !istype(ship))
 				continue
 			if(ship == src || ship == last_target || ship.faction == faction || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
+				continue
+			if(warcrime_blacklist[ship.type]) // Please don't blow up my rocks
 				continue
 			if ( ship.essential )
 				continue

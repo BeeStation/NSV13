@@ -299,12 +299,13 @@ SUBSYSTEM_DEF(ticker)
 	message_admins("Setting up game.")
 	var/init_start = world.timeofday
 
-	CHECK_TICK //NSV 13
-	SSovermap_mode.setup_overmap_mode() //NSV 13 - Injecting our overmap stuff here
+
 	CHECK_TICK
 	//Configure mode and assign player to special mode stuff
 	var/can_continue = 0
 	can_continue = src.mode.pre_setup()		//Choose antagonists
+	CHECK_TICK //NSV 13
+	SSovermap_mode.setup_overmap_mode() //NSV 13 - Injecting our overmap stuff here
 	CHECK_TICK
 	can_continue = can_continue && SSjob.DivideOccupations(mode.required_jobs) 				//Distribute jobs
 	CHECK_TICK

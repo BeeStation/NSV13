@@ -70,7 +70,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 		return FALSE
 	ambient_buzz = sound
 	var/list/affecting = list() //Which mobs are we about to transmit to?
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Currently needs to go through global objects due to areas not having a loc. Could probably be changed into get_overmap() for a objects within the area, although this is safer.
 		if(OM.linked_areas?.len)
 			if(src in OM.linked_areas)
 				affecting = OM.mobs_in_ship
