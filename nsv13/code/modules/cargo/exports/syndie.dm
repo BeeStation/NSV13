@@ -1,3 +1,5 @@
+
+//TODO: Seperate Syndicate ship exports from NT ship exports to prevent them selling their own kit for profit
 //Exports (selling stuff)
 /datum/export/gear/space/syndiehelmet/odst
 	cost = 300
@@ -33,7 +35,7 @@
 //Bounties
 /datum/bounty/item/syndicate_gear
 	name = "Syndicate Drop Trooper Equipment"
-	desc = "The scientists back home are very interested in Syndicate technology and kit. Send them a full set of drop trooper equipment and we'll compensate you for your effort."
+	description = "The scientists back home are very interested in Syndicate technology and kit. Send them a full set of drop trooper equipment and we'll compensate you for your effort."
 	reward = 5000
-	required_count = 5
-	wanted_types = list(/obj/item/clothing/head/helmet/space/syndicate/odst, /obj/item/clothing/suit/space/syndicate/odst, /obj/item/storage/backpack/duffelbag/syndie, /obj/item/gun/ballistic/automatic/c20r, obj/item/encryptionkey/syndicate)
+	required_count = 5 //Currently the combination of items isn't a requirement. Something to add later...
+	wanted_types = list(/obj/item/clothing/head/helmet/space/syndicate/odst, /obj/item/clothing/suit/space/syndicate/odst, /obj/item/storage/backpack/duffelbag/syndie, /obj/item/gun/ballistic/automatic/c20r, /obj/item/encryptionkey/syndicate)
