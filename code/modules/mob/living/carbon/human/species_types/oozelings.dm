@@ -22,6 +22,7 @@
 	toxic_food = NONE
 	disliked_food = NONE
 	inert_mutation = ACIDOOZE
+	ass_image = 'icons/ass/assslime.png' //NSV13
 
 /datum/species/oozeling/random_name(gender,unique,lastname)
 	if(unique)
