@@ -216,10 +216,10 @@ const Blanks = (props, context) => {
             onClick={() => act("print_blank", {
               name: blank.name,
               info: blank.info,
-             })
-            }>
-           {blank.code}
-         </Button>
+            })
+          }>
+            {blank.code}
+          </Button>
         ))}
       </Box>
     </Section>
