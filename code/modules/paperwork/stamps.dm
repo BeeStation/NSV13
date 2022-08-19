@@ -62,6 +62,12 @@
 	icon_state = "stamp-deny"
 	item_color = "redcoat"
 
+//NSV13 Paperwork Changes START
+/obj/item/stamp/void
+	name = "VOID rubber stamp"
+	icon_state = "stamp-void"
+//NSV13 Paperwork Changes END
+
 /obj/item/stamp/clown
 	name = "clown's rubber stamp"
 	icon_state = "stamp-clown"
