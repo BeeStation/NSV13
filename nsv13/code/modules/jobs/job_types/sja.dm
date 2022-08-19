@@ -9,9 +9,10 @@
 	supervisors = "the Executive Officer"
 	selection_color = "#dddddd"
 	chat_color = "#C07D7D"
-	minimal_player_age = 2
-	exp_requirements = 60
-	exp_type = EXP_TYPE_CREW
+	minimal_player_age = 14
+	exp_requirements = 900
+	exp_type = EXP_TYPE_SECURITY
+	exp_type_department = EXP_TYPE_SECURITY
 
 	outfit = /datum/outfit/job/staffjudgeadvocate
 	access = list(ACCESS_HEADS, ACCESS_BRIG, ACCESS_LAWYER, ACCESS_COURT, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_FORENSICS_LOCKERS)
