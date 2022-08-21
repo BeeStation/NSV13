@@ -240,8 +240,9 @@
 	return ..()
 
 /obj/machinery/deck_turret/multitool_act(mob/living/user, obj/item/I)
-	. = ..()
+	..()
 	update_parts()
+	return TRUE
 
 /obj/machinery/deck_turret/attackby(obj/item/I, mob/user, params)
 	if(default_unfasten_wrench(user, I))

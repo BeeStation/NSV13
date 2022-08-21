@@ -537,7 +537,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	return ..()
 
 /obj/structure/overmap/small_craft/proc/eject(mob/living/M, force=FALSE)
-	if(!canopy_open && !force)
+	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
+	if(!canopy_open && C && !force)
 		to_chat(M, "<span class='warning'>[src]'s canopy isn't open.</span>")
 		if(prob(50))
 			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
@@ -573,6 +574,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 		return
 	escape_pod.name = "[name] - escape pod"
 	escape_pod.faction = faction
+	escape_pod.last_overmap = last_overmap
+	escape_pod.current_system = current_system
+	current_system.system_contents += escape_pod
 	escape_pod.desired_angle = 0
 	escape_pod.user_thrust_dir = NORTH
 	var/obj/item/fighter_component/docking_computer/DC = escape_pod.loadout.get_slot(HARDPOINT_SLOT_DOCKING)
