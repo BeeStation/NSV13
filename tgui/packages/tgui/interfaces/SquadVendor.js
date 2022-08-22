@@ -17,12 +17,19 @@ export const SquadVendor = (props, context) => {
         <br />
         {!!data.already_loaned && (
           <Section title="You have already withdrawn kit" buttons={
-            <Button
-              color="average"
-              content="Return Loaned Equipment"
-              tooltip="Place all loaned equipment in your backpack and click this button to return your gear."
-              onClick={() => act('return_gear')}
-            />
+            <>
+              <Button
+                color="average"
+                content="Return Loaned Equipment"
+                tooltip="Place all loaned equipment in your backpack and click this button to return your gear."
+                onClick={() => act('return_gear')}
+              />
+              <Button
+                color="average"
+                content="Pay lost item fee"
+                onClick={() => act('pay_fine')}
+              />
+            </>
           } />
 
         )}
