@@ -14,6 +14,7 @@
 	exp_type = EXP_TYPE_SECURITY
 	exp_type_department = EXP_TYPE_SECURITY
 
+	//Sec&Bridge, Lawyer defaults + Med/Sec records
 	outfit = /datum/outfit/job/staffjudgeadvocate
 	access = list(ACCESS_HEADS, ACCESS_BRIG, ACCESS_LAWYER, ACCESS_COURT, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_FORENSICS_LOCKERS)
 	minimal_access = list(ACCESS_HEADS, ACCESS_BRIG, ACCESS_LAWYER, ACCESS_COURT, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_FORENSICS_LOCKERS)
