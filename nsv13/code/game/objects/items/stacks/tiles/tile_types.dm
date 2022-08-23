@@ -14,3 +14,4 @@
 	icon_state = "rglass_tile"
 	turf_type = /turf/open/floor/glass/reinforced
 	materials = list(/datum/material/glass=250, /datum/material/iron=250)
+ 
