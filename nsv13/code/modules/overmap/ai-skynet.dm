@@ -896,7 +896,7 @@ Adding tasks is easy! Just define a datum for it.
 	allow_difficulty_scaling = FALSE
 	battleship_types = list(/obj/structure/overmap/hostile/ai/fistofsol)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
-	taunts = list("What a pleasure that we should meet again. I hope you won't disapoint!")
+	taunts = list("What a pleasure that we should meet again. I hope you won't disappoint!")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/hostile/alicorn_boss
