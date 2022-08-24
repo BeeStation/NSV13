@@ -1,7 +1,5 @@
-///The "marines". These guys will attempt to stand and fight
-#define AI_TRAIT_BRAWLER 1
-///The "medics", civvies, etc. These lads will call for backup
-#define AI_TRAIT_SUPPORT 2
+#define AI_TRAIT_BRAWLER 1 //The "marines". These guys will attempt to stand and fight
+#define AI_TRAIT_SUPPORT 2 //The "medics", civvies, etc. These lads will call for backup
 
 GLOBAL_LIST_EMPTY(knpcs)
 
@@ -9,36 +7,27 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/ai_trait = AI_AGGRESSIVE
 	var/static/list/ai_goals = null
 	var/datum/ai_goal/human/current_goal = null
-	///How good is this mob's "eyes"?
-	var/view_range = 12
-	///Delay for calling for backup to avoid spam.
-	var/next_backup_call = 0
+	var/view_range = 12 //How good is this mob's "eyes"?
+	var/next_backup_call = 0 //Delay for calling for backup to avoid spam.
 	var/list/path = list()
 	var/turf/dest = null
-	///How quickly do we give up on following a path? To avoid lag...
+	var/tries = 0 //How quickly do we give up on following a path? To avoid lag...
 	var/max_tries = 10
-	var/tries = 0
 	var/next_action = 0
 	var/next_move = 0
-	///What was the last patrol node we visited?
-	var/obj/effect/landmark/patrol_node/last_node = null
+	var/obj/effect/landmark/patrol_node/last_node = null //What was the last patrol node we visited?
 	var/stealing_id = FALSE
 	var/next_internals_attempt = 0
 	var/static/list/climbable = typecacheof(list(/obj/structure/table, /obj/structure/railing)) // climbable structures
-	///If pathfinding fails, it is püt in timeout for a while to avoid spamming the server with pathfinding calls.
-	var/pathfind_timeout = 0
-	///Consecutive pathfind fails add additional delay stacks to further counteract the effects of knpcs in unreachable locations.
-	var/timeout_stacks = 0
+	var/pathfind_timeout = 0 //If pathfinding fails, it is püt in timeout for a while to avoid spamming the server with pathfinding calls.
+	var/timeout_stacks = 0 //Consecutive pathfind fails add additional delay stacks to further counteract the effects of knpcs in unreachable locations.
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Neutral")
-	///How quickly do the boys travel?
-	var/move_delay = 4
-	///How long we delay between actions
-	var/action_delay = 6
+	var/move_delay = 4 //How quickly do the boys travel?
+	var/action_delay = 6 //How long we delay between actions
 	var/knpc_traits = KNPC_IS_DODGER | KNPC_IS_MERCIFUL | KNPC_IS_AREA_SPECIFIC
-	///Whether to ignore overmap difficulty or not
-	var/difficulty_override = FALSE
+	var/difficulty_override = FALSE //Whether to ignore overmap difficulty or not
 	var/list/outfit = list (
 		/datum/outfit/job/assistant
 	)
@@ -261,11 +250,9 @@ GLOBAL_LIST_EMPTY(knpcs)
 	pathfind_timeout = max(0, pathfind_timeout - 1)
 
 /datum/ai_goal/human
-	///Please keep names human readable for debugging!
-	name = "Placeholder goal"
+	name = "Placeholder goal" //Please keep these human readable for debugging!
 	score = 0
-	///Set this if you want this task to only be achievable by certain types of ship.
-	required_ai_flags = null
+	required_ai_flags = null //Set this if you want this task to only be achievable by certain types of ship.
 
 /**
 Method to get the score of a certain action. This can change the "base" score if the score
@@ -339,7 +326,7 @@ of a specific action goes up, to encourage skynet to go for that one instead.
 Goal #1, get a weapon!
 If we don't have a weapon, we really ought to grab one...
 This is to account for sec Ju-Jitsuing boarding commandos.
-**/
+*/
 /datum/ai_goal/human/acquire_weapon
 	name = "Acquire Weapon" //Please keep these human readable for debugging!
 	score = AI_SCORE_PRIORITY //Fighting takes priority
@@ -629,14 +616,10 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	icon = 'nsv13/icons/effects/mapping_helpers.dmi'
 	icon_state = "patrol_node"
 	var/id = null
-	///id of the node that this one goes to. Alternatively, a list of ids which will all be possible next destinations.
-	var/next_id = null
-	///id of the node that precedes this one
-	var/previous_id = null
-	///-- This isn't actually used anywhere.. - Delta
-	var/obj/effect/landmark/patrol_node/previous
-	///List of possible followup nodes set by next_id. If multiple entities exist in the list, one will be chosen at random on every occasion.
-	var/list/next_nodes	= list()
+	var/next_id = null //id of the node that this one goes to. Alternatively, a list of ids which will all be possible next destinations.
+	var/previous_id = null //id of the node that precedes this one
+	var/obj/effect/landmark/patrol_node/previous //-- This isn't actually used anywhere.. - Delta
+	var/list/next_nodes	= list() //List of possible followup nodes set by next_id. If multiple entities exist in the list, one will be chosen at random on every occasion.
 
 /obj/effect/landmark/patrol_node/Initialize()
 	. = ..()
