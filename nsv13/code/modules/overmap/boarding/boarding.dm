@@ -36,7 +36,7 @@
 	if(player_check >= min_players_for_ghosts) // Remove the low pop boarder camping
 		candidates = pollCandidatesForMob("Do you want to play as a boarding team member?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
 	//No candidates? Well! Guess you get to deal with some KNPCs :))))))
-	if(!LAZYLEN(candidates))
+	if(!length(candidates))
 		return spawn_knpcs(amount, faction_selection)
 	return spawn_player_boarders(candidates, target, amount, faction_selection)
 
@@ -94,7 +94,7 @@
 		if(node.get_overmap() == src)
 			possible_spawns += node
 	//Can we establish a drop zone?
-	var/turf/LZ = (possible_spawns?.len) ? get_turf(pick(possible_spawns)) : null
+	var/turf/LZ = (length(possible_spawns)) ? get_turf(pick(possible_spawns)) : null
 	if(!LZ)
 		message_admins("KNPC boarder spawn aborted. This ship does not support KNPCs (add some patrol nodes!))")
 		return FALSE
