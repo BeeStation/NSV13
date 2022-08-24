@@ -388,12 +388,12 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		if(istype(O, /obj/structure/closet) && dist <= best_distance)
 			var/obj/structure/closet/C = O
 			var/obj/item/gun/G = locate(/obj/item/gun) in C.contents
-			if(C.allowed(H) && gun_suitable(H, G))
+			if(G && C.allowed(H) && gun_suitable(H, G))
 				target_item = G
 				best_distance = dist
 		if(istype(O, /obj/item/gun) && dist <= best_distance)
 			var/obj/item/gun/G = O
-			if(gun_suitable(H, G))
+			if(G && gun_suitable(H, G))
 				target_item = O
 				best_distance = dist
 	if(target_item)
@@ -417,9 +417,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 
 ///Checks that G exists, has ammo and that H can fire it. Returns G if yes, FALSE otherwise.
 /datum/ai_goal/human/acquire_weapon/proc/gun_suitable(mob/living/carbon/human/H, obj/item/gun/G)
-	if(!G)
-		return FALSE
-	return G.can_shoot() && G.can_trigger_gun(H) ? G : FALSE
+	return G.can_shoot() && G.can_trigger_gun(H)
 
 
 /datum/ai_goal/human/engage_targets
