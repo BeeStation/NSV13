@@ -68,8 +68,8 @@
 	SSticker.mode.update_incursion_icons_removed(owner)
 
 /datum/antagonist/incursion/proc/finalize_incursion()
-	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/tatoralert.ogg', 100, FALSE, pressure_affected = FALSE)
 	equip()
+	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/tatoralert.ogg', 100, FALSE, pressure_affected = FALSE)
 
 /datum/antagonist/incursion/admin_add(datum/mind/new_owner,mob/admin)
 	//show list of possible brothers
@@ -91,18 +91,7 @@
 	log_admin("[key_name(admin)] made [key_name(new_owner)] and [key_name(new_owner.current)] into incursion traitor team.")
 
 /datum/antagonist/incursion/proc/equip(var/silent = FALSE)
-	var/obj/item/uplink/incursion/uplink = new(get_turf(owner.current), owner.key, 15)
-	var/where
-	if(ishuman(owner.current))		//if he's not a human, uplink will spawn under his feet
-		var/mob/living/carbon/human/H = owner.current
-		var/static/list/slots = list(
-			"in your backpack" = ITEM_SLOT_BACKPACK,
-			"in your left pocket" = ITEM_SLOT_LPOCKET,
-			"in your right pocket" = ITEM_SLOT_RPOCKET,
-			"in your hands" = ITEM_SLOT_HANDS
-		)
-		where = H.equip_in_one_of_slots(uplink, slots, FALSE)
-	to_chat(owner.current, "<span class='notice'><b>You have been equipped with a syndicate uplink located [where ? where : "at your feet"]. Activate the transponder in hand to access the market.</b></span>")
+	owner.equip_traitor("The Syndicate", FALSE, src, 15)
 	var/obj/item/implant/radio/syndicate/selfdestruct/syndio = new
 	syndio.implant(owner.current)
 
@@ -177,15 +166,15 @@
 			else if(prob(32))						//~26%
 				//Kill head
 				var/datum/objective/assassinate/killchosen = new
-				var/current_heads = SSjob.get_all_heads()
-				if(!current_heads)
+				var/list/current_heads = SSjob.get_all_heads()
+				if(!current_heads.len)
 					generate_traitor_kill_objective()
 					return
 				var/datum/mind/selected = pick(current_heads)
 				if(selected.special_role)
 					generate_traitor_kill_objective()
 					return
-				killchosen.target = selected
+				killchosen.set_target(selected)
 				add_objective(killchosen, FALSE)
 			else									//~50%
 				//Kill traitor
@@ -203,11 +192,11 @@
 
 /datum/team/incursion/proc/generate_traitor_kill_objective()
 	//Spawn someone as a traitor
-	var/list/datum/mind/people = SSticker.mode.get_alive_non_antagonsist_players_for_role(ROLE_TRAITOR)
+	var/list/datum/mind/people = SSticker.mode.get_alive_non_antagonsist_players_for_role(ROLE_EXCOMM)
 	if(!LAZYLEN(people))
 		log_game("Not enough players for incursion role. [LAZYLEN(people)]")
 		return
-	var/datum/mind/target = SSticker.mode.antag_pick(people, ROLE_TRAITOR)
+	var/datum/mind/target = SSticker.mode.antag_pick(people, ROLE_EXCOMM)
 	if(!target)
 		log_game("No mind selected.")
 		return
@@ -217,7 +206,7 @@
 	target.store_memory("You have been declared an ex-communicate of the syndicate and are being hunted down by a group of traitors. Be careful!")
 	//Create objective
 	var/datum/objective/assassinate/incursion/killchosen = new
-	killchosen.target = target
+	killchosen.set_target(target)
 	add_objective(killchosen, FALSE)
 
 /datum/team/incursion/antag_listing_name()

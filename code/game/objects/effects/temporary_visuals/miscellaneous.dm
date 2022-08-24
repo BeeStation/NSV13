@@ -114,10 +114,18 @@
 	duration = 32
 	var/fades = TRUE
 
+/obj/effect/temp_visual/dir_setting/curse/long // Necro Sect Usage
+	duration = 330
+
 /obj/effect/temp_visual/dir_setting/curse/Initialize(mapload, set_dir)
 	. = ..()
 	if(fades)
 		animate(src, alpha = 0, time = 32)
+
+/obj/effect/temp_visual/dir_setting/curse/long/Initialize(mapload, set_dir)
+	. = ..()
+	if(fades)
+		animate(src, alpha = 0, time = 330)
 
 /obj/effect/temp_visual/dir_setting/curse/blob
 	icon_state = "curseblob"
@@ -534,7 +542,7 @@
 /obj/effect/temp_visual/steam_release
 	name = "all the steam"
 
-/obj/effect/temp_visual/steam_release/Initialize()
+/obj/effect/temp_visual/steam_release/Initialize(mapload)
 	..()
 	for(var/V in GLOB.cardinals)
 		var/turf/T = get_step(src, V)

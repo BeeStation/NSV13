@@ -229,7 +229,7 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 			libcomp_menu[page] = ""
 		libcomp_menu[page] += "<tr><td>[C.author]</td><td>[C.title]</td><td>[C.category]</td><td><A href='?src=[REF(src)];targetid=[C.id]'>\[Order\]</A></td></tr>\n"
 
-/obj/machinery/computer/libraryconsole/bookmanagement/Initialize()
+/obj/machinery/computer/libraryconsole/bookmanagement/Initialize(mapload)
 	. = ..()
 	if(circuit)
 		circuit.name = "Book Inventory Management Console (Machine Board)"
@@ -334,7 +334,7 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 			dat += "<h3>NTGanda(tm) Universal Printing Module</h3>"
 			dat += "What would you like to print?<BR>"
 			dat += "<A href='?src=[REF(src)];printbible=1'>\[Bible\]</A><BR>"
-			dat += "<A href='?src=[REF(src)];printspacelaw=1'>\[Space Law\]</A><BR>" //NSV13
+			dat += "<A href='?src=[REF(src)];printspacelaw=1'>\[Space Law\]</A><BR>"
 			dat += "<A href='?src=[REF(src)];printposter=1'>\[Poster\]</A><BR>"
 			dat += "<A href='?src=[REF(src)];switchscreen=0'>(Return to main menu)</A><BR>"
 		if(8)
@@ -529,7 +529,7 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 			cooldown = world.time + PRINTER_COOLDOWN
 		else
 			say("Printer currently unavailable, please wait a moment.")
-	if(href_list["printspacelaw"]) //NSV13
+	if(href_list["printspacelaw"])
 		if(cooldown < world.time)
 			new /obj/item/book/manual/wiki/security_space_law(src.loc)
 			cooldown = world.time + PRINTER_COOLDOWN

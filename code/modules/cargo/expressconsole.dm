@@ -22,7 +22,7 @@
 	var/account_type = ACCOUNT_CAR //Nsv13 - allows for a syndie express console!
 	var/area/cargo_landingzone = /area/quartermaster/storage //NSV13 - allows cargo bay LZ to be changed for syndie express consoles
 
-/obj/machinery/computer/cargo/express/Initialize()
+/obj/machinery/computer/cargo/express/Initialize(mapload)
 	. = ..()
 	packin_up()
 

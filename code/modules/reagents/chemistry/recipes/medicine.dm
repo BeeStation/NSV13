@@ -298,18 +298,18 @@
 	required_temp = 370
 	mix_message = "The mixture becomes a metallic slurry."
 
-/datum/chemical_reaction/radioactive_disinfectant
-	name = "Radioactive Disinfectant"
-	id = /datum/reagent/medicine/radioactive_disinfectant
-	results = list(/datum/reagent/medicine/radioactive_disinfectant = 5)
-	required_reagents = list(/datum/reagent/consumable/ethanol = 5, /datum/reagent/phenol = 1, /datum/reagent/iodine = 1, /datum/reagent/water = 1)
-
 /datum/chemical_reaction/carthatoline
 	name = "Carthatoline"
 	id = "carthatoline"
 	results = list(/datum/reagent/medicine/carthatoline = 3)
 	required_reagents = list(/datum/reagent/medicine/antitoxin = 1, /datum/reagent/carbon = 2)
 	required_catalysts = list(/datum/reagent/toxin/plasma = 1)
+
+/datum/chemical_reaction/meclizine
+	name = "Meclizine"
+	id = /datum/reagent/medicine/meclizine
+	results = list(/datum/reagent/medicine/meclizine = 4)
+	required_reagents = list(/datum/reagent/ammonia = 1, /datum/reagent/chlorine = 1, /datum/reagent/carbon = 2)
 
 /datum/chemical_reaction/hepanephrodaxon
 	name = "Hepanephrodaxon"

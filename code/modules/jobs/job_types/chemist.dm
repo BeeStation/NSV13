@@ -1,14 +1,13 @@
 /datum/job/chemist
-	title = "Chemist"
+	title = JOB_NAME_CHEMIST
 	flag = CHEMIST
-	department_head = list("Chief Medical Officer")
+	department_head = list(JOB_NAME_CHIEFMEDICALOFFICER)
 	department_flag = MEDSCI
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
 	supervisors = "the chief medical officer"
 	selection_color = "#d4ebf2" //NSV13
-	chat_color = "#82BDCE"
 	exp_requirements = 120
 	exp_type = EXP_TYPE_CREW
 	exp_requirements = 60
@@ -21,15 +20,18 @@
 	paycheck_department = ACCOUNT_MED
 
 	display_order = JOB_DISPLAY_ORDER_CHEMIST
-	departments = DEPARTMENT_MEDICAL
+	departments = DEPARTMENT_BITFLAG_MEDICAL
+	rpg_title = "Alchemist"
 
 	species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/chemist
 	)
-/datum/outfit/job/chemist
-	name = "Chemist"
-	jobtype = /datum/job/chemist
+	biohazard = 15
 
+/datum/outfit/job/chemist
+	name = JOB_NAME_CHEMIST
+	jobtype = /datum/job/chemist
+	id = /obj/item/card/id/job/chemist
 	glasses = /obj/item/clothing/glasses/science
 	belt = /obj/item/pda/chemist
 	ears = /obj/item/radio/headset/headset_med

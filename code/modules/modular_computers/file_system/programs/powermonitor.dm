@@ -3,6 +3,7 @@
 /datum/computer_file/program/power_monitor
 	filename = "powermonitor"
 	filedesc = "Power Monitor"
+	category = PROGRAM_CATEGORY_ENGI
 	program_icon_state = "power_monitor"
 	extended_desc = "This program connects to sensors around the station to provide information about electrical systems"
 	ui_header = "power_norm.gif"
@@ -12,6 +13,7 @@
 	network_destination = "power monitoring system"
 	size = 9
 	tgui_id = "NtosPowerMonitor"
+	program_icon = "plug"
 
 
 
@@ -94,7 +96,7 @@
 					"name" = A.area.name,
 					"charge" = A.integration_cog ? 100 : A.cell ? A.cell.percent() : 0,
 					"load" = DisplayPower(A.lastused_total),
-					"charging" = A.charging,
+					"charging" = A.integration_cog ? 2 : A.charging,
 					"eqp" = A.equipment,
 					"lgt" = A.lighting,
 					"env" = A.environ

@@ -64,6 +64,15 @@
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
 	glass_colour_type = /datum/client_colour/glass_colour/lightgreen
 
+/obj/item/clothing/glasses/meson/equipped(mob/user, slot)
+	. = ..()
+	if(ishuman(user) && slot == ITEM_SLOT_EYES)
+		ADD_TRAIT(user, TRAIT_MADNESS_IMMUNE, CLOTHING_TRAIT)
+
+/obj/item/clothing/glasses/meson/dropped(mob/user)
+	. = ..()
+	REMOVE_TRAIT(user, TRAIT_MADNESS_IMMUNE, CLOTHING_TRAIT)
+
 /obj/item/clothing/glasses/meson/suicide_act(mob/living/carbon/user)
 	user.visible_message("<span class='suicide'>[user] is putting \the [src] to [user.p_their()] eyes and overloading the brightness! It looks like [user.p_theyre()] trying to commit suicide!</span>")
 	return BRUTELOSS
@@ -237,7 +246,7 @@
 		ADD_TRAIT(user, TRAIT_BOOZE_SLIDER, CLOTHING_TRAIT)
 
 /obj/item/clothing/glasses/sunglasses/advanced/reagent/dropped(mob/user)
-	. = ..()
+	..()
 	REMOVE_TRAIT(user, TRAIT_BOOZE_SLIDER, CLOTHING_TRAIT)
 
 /obj/item/clothing/glasses/sunglasses/advanced/garb
@@ -344,7 +353,7 @@
 		add_atom_colour("#[user.eye_color]", FIXED_COLOUR_PRIORITY)
 		colored_before = TRUE
 
-/obj/item/clothing/glasses/blindfold/white/worn_overlays(isinhands = FALSE, file2use)
+/obj/item/clothing/glasses/blindfold/white/worn_overlays(mutable_appearance/standing, isinhands = FALSE, file2use)
 	. = list()
 	if(!isinhands && ishuman(loc) && !colored_before)
 		var/mob/living/carbon/human/H = loc
@@ -385,7 +394,7 @@
 
 	var/datum/action/item_action/chameleon/change/chameleon_action
 
-/obj/item/clothing/glasses/thermal/syndi/Initialize()
+/obj/item/clothing/glasses/thermal/syndi/Initialize(mapload)
 	. = ..()
 	chameleon_action = new(src)
 	chameleon_action.chameleon_type = /obj/item/clothing/glasses
@@ -456,7 +465,7 @@
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
 	resistance_flags = LAVA_PROOF | FIRE_PROOF
 
-/obj/item/clothing/glasses/godeye/Initialize()
+/obj/item/clothing/glasses/godeye/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, EYE_OF_GOD_TRAIT)
 

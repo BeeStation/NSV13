@@ -57,11 +57,11 @@
 	density = TRUE
 	var/obj/machinery/mineral/processing_unit/machine = null
 	var/machinedir = EAST
-	var/link_id = null //NSV13
+	var/link_id = null
 
-/obj/machinery/mineral/processing_unit_console/Initialize()
+/obj/machinery/mineral/processing_unit_console/Initialize(mapload)
 	. = ..()
-	if(link_id) //NSV13
+	if(link_id)
 		return INITIALIZE_HINT_LATELOAD
 	else
 		machine = locate(/obj/machinery/mineral/processing_unit, get_step(src, machinedir))
@@ -70,12 +70,13 @@
 		else
 			return INITIALIZE_HINT_QDEL
 
-/obj/machinery/mineral/processing_unit_console/LateInitialize() //NSV13
-	if(link_id) //If mappers set an ID)
-		for(var/obj/machinery/mineral/processing_unit/PU in GLOB.machines)
-			if(PU.link_id == link_id)
-				machine = PU
-				machine.CONSOLE = src
+// Only called if mappers set ID
+/obj/machinery/mineral/processing_unit_console/LateInitialize()
+	for(var/obj/machinery/mineral/processing_unit/PU in GLOB.machines)
+		if(PU.link_id == link_id)
+			machine = PU
+			machine.CONSOLE = src
+			return
 
 /obj/machinery/mineral/processing_unit_console/ui_interact(mob/user)
 	. = ..()
@@ -104,21 +105,20 @@
 		machine.selected_material = null
 		machine.selected_alloy = href_list["alloy"]
 
-	if(href_list["set_on"])
-		machine.on = (href_list["set_on"] == "on")
-		machine.begin_processing()
+	if(href_list["toggle_on"])
+		machine.toggle_on()
 
-	//NSV13 points
 	if(href_list["redeem"])
 		var/mob/M = usr
 		var/obj/item/card/id/I = M.get_idcard(TRUE)
-		if(machine.points)
-			if(I?.mining_points += machine.points)
-				machine.points = 0
-			else
-				to_chat(usr, "<span class='warning'>No ID detected.</span>")
-		else
+		if(!I)
+			to_chat(usr, "<span class='warning'>No ID detected.</span>")
+			return
+		if(!machine.points)
 			to_chat(usr, "<span class='warning'>No points to claim.</span>")
+			return
+		I.mining_points += machine.points
+		machine.points = 0
 
 	updateUsrDialog()
 	return
@@ -142,10 +142,14 @@
 	var/datum/material/selected_material = null
 	var/selected_alloy = null
 	var/datum/techweb/stored_research
-	var/link_id = null //NSV13
-	var/points = 0 //NSV13
+	var/link_id = null
+	var/points = 0
+	var/allow_point_redemption = FALSE
 
-/obj/machinery/mineral/processing_unit/Initialize()
+/obj/machinery/mineral/processing_unit/laborcamp
+	allow_point_redemption = FALSE
+
+/obj/machinery/mineral/processing_unit/Initialize(mapload)
 	. = ..()
 	proximity_monitor = new(src, 1)
 	AddComponent(/datum/component/material_container, list(/datum/material/iron, /datum/material/glass, /datum/material/copper, /datum/material/silver, /datum/material/gold, /datum/material/diamond, /datum/material/plasma, /datum/material/uranium, /datum/material/bananium, /datum/material/titanium, /datum/material/bluespace), INFINITY, TRUE, /obj/item/stack)
@@ -165,7 +169,8 @@
 	if(!materials.has_space(material_amount))
 		unload_mineral(O)
 	else
-		points += O.points * O.amount //NSV13
+		if(allow_point_redemption)
+			points += O.points * O.amount
 		materials.insert_item(O)
 		qdel(O)
 		if(CONSOLE)
@@ -174,18 +179,15 @@
 /obj/machinery/mineral/processing_unit/proc/get_machine_data()
 	var/dat = "<b>Smelter control console</b><br><br>"
 
-	//NSV13 moved this up here
-	dat += "Machine is currently "
-	if (on)
-		dat += "<A href='?src=[REF(CONSOLE)];set_on=off'>On</A> "
-	else
-		dat += "<A href='?src=[REF(CONSOLE)];set_on=on'>Off</A> "
+	//On or off - on the console so we don't fail can_interact when doing Topic
+	dat += "Machine is currently <A href='?src=[REF(CONSOLE)];toggle_on=1'>[ on ? "On" : "Off"]</A>"
+	dat += "<br><br>"
 
-	//NSV13 points
-	dat += "<br><br>"
-	dat += "Stored points: [points] "
-	dat += "<A href='?src=[REF(CONSOLE)];redeem=1'><b>Redeem</b></A> "
-	dat += "<br><br>"
+	//Points
+	if(allow_point_redemption)
+		dat += "Stored points: [points] "
+		dat += "<A href='?src=[REF(CONSOLE)];redeem=1'><b>Redeem</b></A> "
+		dat += "<br><br>"
 
 	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 	for(var/datum/material/M in materials.materials)
@@ -209,6 +211,8 @@
 			dat += " <A href='?src=[REF(CONSOLE)];alloy=[D.id]'><b>Not Smelting</b></A> "
 		dat += "<br>"
 
+	dat += "<br><br>"
+
 	return dat
 
 /obj/machinery/mineral/processing_unit/pickup_item(datum/source, atom/movable/target, atom/oldLoc)
@@ -216,6 +220,11 @@
 		return
 	if(istype(target, /obj/item/stack/ore))
 		process_ore(target)
+
+/obj/machinery/mineral/processing_unit/proc/toggle_on()
+	on = !on
+	if(on)
+		begin_processing()
 
 /obj/machinery/mineral/processing_unit/process(delta_time)
 	if(on)

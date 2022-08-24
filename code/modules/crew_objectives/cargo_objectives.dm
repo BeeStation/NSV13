@@ -27,7 +27,7 @@
 	if(petcount <= 0)
 		return TRUE
 	else
-		return FALSE
+		return ..()
 
 /datum/objective/crew/points //ported from old hippie
 	explanation_text = "Make sure the station has at least (Something broke, yell on GitHub) station credits at the end of the shift."
@@ -46,17 +46,18 @@
 	if(SSshuttle.points >= target_amount)
 		return TRUE
 	else
-		return FALSE
-/* NSV13 - we don't have bubblegum as a boss
-///datum/objective/crew/bubblegum //NSV13 - we don't have lavaland
-	//explanation_text = "Ensure Bubblegum is dead at the end of the shift."
-	//jobs = "shaftminer"
+		return ..()
 
-///datum/objective/crew/bubblegum/check_completion()
-	//for(var/mob/living/simple_animal/hostile/megafauna/bubblegum/B in GLOB.mob_list)
-		//if(!(B.stat == DEAD))
-			//return FALSE
-	//return TRUE
+/* NSV13 - we don't have bubblegum as a boss
+/datum/objective/crew/bubblegum
+	explanation_text = "Ensure Bubblegum is dead at the end of the shift."
+	jobs = "shaftminer"
+
+/datum/objective/crew/bubblegum/check_completion()
+	for(var/mob/living/simple_animal/hostile/megafauna/bubblegum/B in GLOB.mob_list)
+		if(!(B.stat == DEAD))
+			return ..()
+	return TRUE
 */
 
 /datum/objective/crew/fatstacks //ported from old hippie
@@ -79,4 +80,4 @@
 		if(istype(theID))
 			if(theID.mining_points >= target_amount)
 				return TRUE
-	return FALSE
+	return ..()

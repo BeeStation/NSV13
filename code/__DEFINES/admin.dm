@@ -56,9 +56,9 @@
 #define ADMIN_INDIVIDUALLOG(user) "(<a href='?_src_=holder;[HrefToken(TRUE)];individuallog=[REF(user)]'>LOGS</a>)"
 #define ADMIN_RETRIEVE_BOH_ITEMS(boh) "(<a href='?_src_=holder;[HrefToken(TRUE)];retrieveboh=[REF(boh)]'>RETRIEVE CONSUMED ITEMS</a>)"
 
-#define ADMIN_PUNISHMENT_ENTRAPPED "Entrap" //NSV13
 #define ADMIN_PUNISHMENT_LIGHTNING "Lightning Bolt"
 #define ADMIN_PUNISHMENT_BRAINDAMAGE "Brain Damage"
+#define ADMIN_PUNISHMENT_ENTRAPPED "Entrap" //NSV13
 #define ADMIN_PUNISHMENT_GIB "Gib"
 #define ADMIN_PUNISHMENT_BSA "Bluespace Artillery Device"
 #define ADMIN_PUNISHMENT_FIREBALL "Fireball"
@@ -75,6 +75,7 @@
 #define ADMIN_PUNISHMENT_ANARCHY "Deadchat Control (Anarchy)"
 #define ADMIN_PUNISHMENT_TOE "Stub Toe (Once)"
 #define ADMIN_PUNISHMENT_TOEPLUS "Stub Toe (Always)"
+#define ADMIN_PUNISHMENT_CRYO "Force Cryo"
 
 #define AHELP_UNCLAIMED 1
 #define AHELP_ACTIVE 2

@@ -1,46 +1,47 @@
  //Nsv13 - Deprecated, see "military_police.dm"
-
-/datum/job/officer
-	title = "Military Police"
+/datum/job/security_officer
+	title = JOB_NAME_SECURITYOFFICER
 	flag = OFFICER
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
-	department_head = list("Head of Security")
+	department_head = list(JOB_NAME_HEADOFSECURITY)
 	department_flag = ENGSEC
 	faction = "Station"
 	total_positions = 5 //Handled in /datum/controller/occupations/proc/setup_officer_positions()
 	spawn_positions = 5 //Handled in /datum/controller/occupations/proc/setup_officer_positions()
 	supervisors = "the head of security, and the head of your assigned department (if applicable)"
 	selection_color = "#ffeeee"
-	chat_color = "#E6A3A3"
 	minimal_player_age = 7
 	exp_requirements = 840
 	exp_type = EXP_TYPE_CREW
 
-	outfit = /datum/outfit/job/security
+	outfit = /datum/outfit/job/security_officer
 
 	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_BRIG, ACCESS_COURT, ACCESS_MAINT_TUNNELS,
 					ACCESS_MECH_SECURITY, ACCESS_MORGUE, ACCESS_WEAPONS, ACCESS_FORENSICS_LOCKERS,
 					ACCESS_MINERAL_STOREROOM)
 	minimal_access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_BRIG, ACCESS_COURT, ACCESS_WEAPONS,
-					ACCESS_MECH_SECURITY, ACCESS_MINERAL_STOREROOM) // See /datum/job/officer/get_access()
+					ACCESS_MECH_SECURITY, ACCESS_MINERAL_STOREROOM) // See /datum/job/security_officer/get_access()
 	paycheck = PAYCHECK_HARD
 	paycheck_department = ACCOUNT_SEC
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_SECURITY_OFFICER
-	departments = DEPARTMENT_SECURITY
+	departments = DEPARTMENT_BITFLAG_SECURITY
+	rpg_title = "Guard"
 
 	species_outfits = list(
-		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/security
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/security_officer
 	)
-/datum/job/officer/get_access()
+	biohazard = 15 //clean your baton, man
+
+/datum/job/security_officer/get_access()
 	var/list/L = list()
 	L |= ..() | check_config_for_sec_maint()
 	return L
 
 GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY))
 
-/datum/job/officer/after_spawn(mob/living/carbon/human/H, mob/M)
+/datum/job/security_officer/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
 	// Assign department security
 	var/department
@@ -117,11 +118,13 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	else
 		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
 
-/datum/outfit/job/security
-	name = "Military Police"
-	jobtype = /datum/job/officer
 
-	belt = /obj/item/storage/belt/security/full
+/datum/outfit/job/security_officer
+	name = JOB_NAME_SECURITYOFFICER
+	jobtype = /datum/job/security_officer
+
+	id = /obj/item/card/id/job/security_officer
+	belt = /obj/item/pda/security
 	ears = /obj/item/radio/headset/headset_sec/alt
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	uniform = /obj/item/clothing/under/ship/peacekeeper
@@ -133,8 +136,8 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	shoes = /obj/item/clothing/shoes/jackboots
 	l_pocket = /obj/item/restraints/handcuffs
 	r_pocket = /obj/item/assembly/flash/handheld
-	backpack_contents = list(/obj/item/gun/ballistic/tazer=1,/obj/item/ammo_box/magazine/tazer_cartridge_storage=1,/obj/item/pda/security, /obj/item/book/granter/martial/jujitsu, /obj/item/club=1) //NSV13
 	suit_store = /obj/item/gun/ballistic/tazer //NSV13
+	backpack_contents = list(/obj/item/gun/ballistic/tazer=1,/obj/item/ammo_box/magazine/tazer_cartridge_storage=1,/obj/item/pda/security, /obj/item/book/granter/martial/jujitsu, /obj/item/club=1) //NSV13)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
@@ -147,7 +150,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	//The helmet is necessary because /obj/item/clothing/head/helmet/sec is overwritten in the chameleon list by the standard helmet, which has the same name and icon state
 
 
-/obj/item/radio/headset/headset_sec/alt/department/Initialize()
+/obj/item/radio/headset/headset_sec/alt/department/Initialize(mapload)
 	. = ..()
 	wires = new/datum/wires/radio(src)
 	secure_radio_connections = new

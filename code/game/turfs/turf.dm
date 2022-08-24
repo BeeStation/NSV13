@@ -354,8 +354,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(!canPassSelf)	//Even if mover is unstoppable they need to bump us.
 		firstbump = src
 	if(firstbump)
-		if(mover.Bump(firstbump) == 2)
-			return TRUE
+		mover.Bump(firstbump)
 		return (mover.movement_type & PHASING)
 	return TRUE
 
@@ -462,7 +461,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(.)
 		return
 	if(length(src_object.contents()))
-		balloon_alert(usr, "You dump out the contents")
+		balloon_alert(usr, "You dump out the contents.")
 		if(!do_after(usr,20,target=src_object.parent))
 			return FALSE
 
@@ -510,18 +509,12 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 /turf/proc/visibilityChanged()
 	GLOB.cameranet.updateVisibility(src)
-	// The cameranet usually handles this for us, but if we've just been
-	// recreated we should make sure we have the cameranet vis_contents.
-	var/datum/camerachunk/C = GLOB.cameranet.chunkGenerated(x, y, z)
-	if(C)
-		if(C.obscuredTurfs[src])
-			vis_contents += GLOB.cameranet.vis_contents_objects
-		else
-			vis_contents -= GLOB.cameranet.vis_contents_objects
 
 /turf/proc/burn_tile()
+	return
 
 /turf/proc/is_shielded()
+	return
 
 /turf/contents_explosion(severity, target)
 	var/affecting_level
@@ -611,6 +604,12 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 /turf/proc/acid_melt()
 	return
+
+/turf/rust_heretic_act()
+	if(HAS_TRAIT(src, TRAIT_RUSTY))
+		return
+
+	AddElement(/datum/element/rust)
 
 /turf/handle_fall(mob/faller, forced)
 	if(!forced)

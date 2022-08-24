@@ -9,7 +9,6 @@
 	flags_1 = CONDUCT_1
 	force = 13
 	block_power = 20
-	block_upgrade_walk = 2
 	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
 	attack_weight = 2
 	var/force_on = 24
@@ -26,7 +25,7 @@
 	tool_behaviour = TOOL_SAW
 	toolspeed = 0.5
 
-/obj/item/chainsaw/Initialize()
+/obj/item/chainsaw/Initialize(mapload)
 	. = ..()
 
 /obj/item/chainsaw/ComponentInitialize()

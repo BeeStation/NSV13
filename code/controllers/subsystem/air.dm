@@ -30,7 +30,7 @@ SUBSYSTEM_DEF(air)
 	var/list/networks = list()
 	var/list/pipenets_needing_rebuilt = list()
 	var/list/deferred_airs = list()
-	var/cur_deferred_airs = 0
+	var/cur_deferred_airs = 0 //NSV13 - ported fastmos from Citadel
 	var/max_deferred_airs = 0
 	var/list/obj/machinery/atmos_machinery = list()
 	var/list/obj/machinery/atmos_air_machinery = list()
@@ -55,23 +55,23 @@ SUBSYSTEM_DEF(air)
 	// Max number of turfs to look for a space turf, and max number of turfs that will be decompressed.
 	var/equalize_hard_turf_limit = 400	//NSV13 - please do not eat our entire processing power kthanks. - down from 2000
 	// Whether equalization is enabled. Can be disabled for performance reasons.
-	var/equalize_enabled = TRUE
+	var/equalize_enabled = TRUE //NSV13 - set to true
 	// Whether equalization should be enabled.
-	var/should_do_equalization = TRUE
+	var/should_do_equalization = TRUE //NSV13 - set to true
 	// When above 0, won't equalize; performance handling
-	var/eq_cooldown = 0
+	var/eq_cooldown = 0 //NSV13 - ported fastmos from citadel
 	// Whether turf-to-turf heat exchanging should be enabled.
 	var/heat_enabled = FALSE
 	// Max number of times process_turfs will share in a tick.
 	var/share_max_steps = 3
 	// Target for share_max_steps; can go below this, if it determines the thread is taking too long.
-	var/share_max_steps_target = 3
+	var/share_max_steps_target = 3 //NSV13 - ported fastmos from citadel
 	// Excited group processing will try to equalize groups with total pressure difference less than this amount.
 	var/excited_group_pressure_goal = 1
 	// Target for excited_group_pressure_goal; can go below this, if it determines the thread is taking too long.
-	var/excited_group_pressure_goal_target = 1
+	var/excited_group_pressure_goal_target = 1 //NSV13 - ported fastmos from citadel
 	// If this is set to 0, monstermos won't process planet atmos
-	var/planet_equalize_enabled = 0
+	var/planet_equalize_enabled = 0 //NSV13 - ported fastmos from citadel
 
 	var/list/paused_z_levels	//Paused z-levels will not add turfs to active
 
@@ -109,7 +109,7 @@ SUBSYSTEM_DEF(air)
 	setup_atmos_machinery()
 	setup_pipenets()
 	gas_reactions = init_gas_reactions()
-	should_do_equalization = CONFIG_GET(flag/atmos_equalize_enabled)
+	should_do_equalization = CONFIG_GET(flag/atmos_equalize_enabled) //NSV13 - config for fastmos
 	auxtools_update_reactions()
 	return ..()
 
@@ -233,7 +233,7 @@ SUBSYSTEM_DEF(air)
 	// This also happens to do all the commented out stuff below, all in a single separate thread. This is mostly so that the
 	// waiting is consistent.
 	if(currentpart == SSAIR_ACTIVETURFS)
-		run_delay_heuristics()
+		run_delay_heuristics() //NSV13 - ported fastmos from citadel
 		timer = TICK_USAGE_REAL
 		process_turfs(resumed)
 		cost_turfs = MC_AVERAGE(cost_turfs, TICK_DELTA_TO_MS(TICK_USAGE_REAL - timer))
@@ -271,6 +271,39 @@ SUBSYSTEM_DEF(air)
 	*/
 	currentpart = SSAIR_REBUILD_PIPENETS
 
+/datum/controller/subsystem/air/Recover()
+	thread_wait_ticks = SSair.thread_wait_ticks
+	cur_thread_wait_ticks = SSair.cur_thread_wait_ticks
+	low_pressure_turfs = SSair.low_pressure_turfs
+	high_pressure_turfs = SSair.high_pressure_turfs
+	num_group_turfs_processed = SSair.num_group_turfs_processed
+	num_equalize_processed = SSair.num_equalize_processed
+	hotspots = SSair.hotspots
+	networks = SSair.networks
+	pipenets_needing_rebuilt = SSair.pipenets_needing_rebuilt
+	deferred_airs = SSair.deferred_airs
+	cur_deferred_airs = SSair.max_deferred_airs // NSV13 - ported fastmos from Citadel
+	max_deferred_airs = SSair.max_deferred_airs
+	atmos_machinery = SSair.atmos_machinery
+	atmos_air_machinery = SSair.atmos_air_machinery
+	pipe_init_dirs_cache = SSair.pipe_init_dirs_cache
+	gas_reactions = SSair.gas_reactions
+	high_pressure_delta = SSair.high_pressure_delta
+	currentrun = SSair.currentrun
+	currentpart = SSair.currentpart
+	map_loading = SSair.map_loading
+	log_explosive_decompression = SSair.log_explosive_decompression
+	equalize_turf_limit = SSair.equalize_turf_limit
+	equalize_hard_turf_limit = SSair.equalize_hard_turf_limit
+	equalize_enabled = SSair.equalize_enabled
+	should_do_equalization = SSair.should_do_equalization //NSV13 - ported fastmos from citadel
+	heat_enabled = SSair.heat_enabled
+	share_max_steps = SSair.share_max_steps
+	share_max_steps_target = SSair.share_max_steps_target //NSV13 - ported fastmos from citadel
+	excited_group_pressure_goal = SSair.excited_group_pressure_goal
+	excited_group_pressure_goal_target = SSair.excited_group_pressure_goal_target //NSV13 - ported fastmos from citadel
+	planet_equalize_enabled = SSair.planet_equalize_enabled //NSV13 - ported fastmos from citadel
+	paused_z_levels = SSair.paused_z_levels
 
 /datum/controller/subsystem/air/proc/process_pipenets(resumed = FALSE)
 	if (!resumed)
@@ -292,7 +325,7 @@ SUBSYSTEM_DEF(air)
 		pipenets_needing_rebuilt += atmos_machine
 
 /datum/controller/subsystem/air/proc/process_deferred_airs(resumed = 0)
-	cur_deferred_airs = deferred_airs.len
+	cur_deferred_airs = deferred_airs.len //NSV13 - ported fastmos from citadel
 	max_deferred_airs = max(cur_deferred_airs,max_deferred_airs)
 	while(deferred_airs.len)
 		var/list/cur_op = deferred_airs[deferred_airs.len]
@@ -394,6 +427,7 @@ SUBSYSTEM_DEF(air)
 			return
 	*/
 
+//NSV13 - ported fastmos from citadel
 /datum/controller/subsystem/air/proc/run_delay_heuristics()
 	if(!equalize_enabled)
 		cost_equalize = 0
@@ -410,7 +444,6 @@ SUBSYSTEM_DEF(air)
 		if(eq_cooldown > 0.5)
 			equalize_enabled = FALSE
 		excited_group_pressure_goal = max(0,excited_group_pressure_goal_target * delay_threshold)	//NSV13 - fix applied by Putnam somewhere else that previously slowed auxmos.
-
 
 /datum/controller/subsystem/air/proc/process_turfs(resumed = 0)
 	if(process_turfs_auxtools(resumed,MC_TICK_REMAINING_MS))
@@ -436,6 +469,7 @@ SUBSYSTEM_DEF(air)
 		pause()
 
 /datum/controller/subsystem/air/proc/finish_turf_processing(resumed = 0)
+	//NSV13 - added || thread_running()
 	if(finish_turf_processing_auxtools(MC_TICK_REMAINING_MS) || thread_running())
 		pause()
 
@@ -503,13 +537,14 @@ SUBSYSTEM_DEF(air)
 /datum/controller/subsystem/air/proc/setup_template_machinery(list/atmos_machines)
 	if(!initialized) // yogs - fixes randomized bars
 		return // yogs
-	for(var/A in atmos_machines)
-		var/obj/machinery/atmospherics/AM = A
+	var/obj/machinery/atmospherics/AM
+	for(var/A in 1 to atmos_machines.len)
+		AM = atmos_machines[A]
 		AM.atmosinit()
 		CHECK_TICK
 
-	for(var/A in atmos_machines)
-		var/obj/machinery/atmospherics/AM = A
+	for(var/A in 1 to atmos_machines.len)
+		AM = atmos_machines[A]
 		AM.build_network()
 		CHECK_TICK
 

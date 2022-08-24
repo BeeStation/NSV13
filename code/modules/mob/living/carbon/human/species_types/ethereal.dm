@@ -1,8 +1,6 @@
 
-#define ETHEREAL_COLORS list("#00ffff", "#ffc0cb", "#9400D3", "#4B0082", "#0000FF", "#00FF00", "#FFFF00", "#FF7F00", "#FF0000")
-
 /datum/species/ethereal
-	name = "Ethereal"
+	name = "\improper Ethereal"
 	id = "ethereal"
 	attack_verb = "burn"
 	attack_sound = 'sound/weapons/etherealhit.ogg'
@@ -20,10 +18,17 @@
 	species_language_holder = /datum/language_holder/ethereal
 	inherent_traits = list(TRAIT_POWERHUNGRY)
 	sexes = FALSE //no fetish content allowed
-	toxic_food = NONE
 	hair_color = "fixedmutcolor"
 	hair_alpha = 140
 	swimming_component = /datum/component/swimming/ethereal
+
+	species_chest = /obj/item/bodypart/chest/ethereal
+	species_head = /obj/item/bodypart/head/ethereal
+	species_l_arm = /obj/item/bodypart/l_arm/ethereal
+	species_r_arm = /obj/item/bodypart/r_arm/ethereal
+	species_l_leg = /obj/item/bodypart/l_leg/ethereal
+	species_r_leg = /obj/item/bodypart/r_leg/ethereal
+
 	var/current_color
 	var/EMPeffect = FALSE
 	var/emageffect = FALSE
@@ -44,7 +49,6 @@
 		QDEL_NULL(ethereal_light)
 	return ..()
 
-
 /datum/species/ethereal/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
 	ethereal_light = C.mob_light()
 
@@ -63,6 +67,12 @@
 	spec_updatehealth(ethereal)
 
 
+	//The following code is literally only to make admin-spawned ethereals not be black.
+	C.dna.features["mcolor"] = C.dna.features["ethcolor"] //Ethcolor and Mut color are both dogshit and will be replaced
+	for(var/obj/item/bodypart/BP as() in C.bodyparts)
+		if(BP.limb_id == SPECIES_ETHEREAL)
+			BP.update_limb(is_creating = TRUE)
+
 /datum/species/ethereal/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
 	UnregisterSignal(C, COMSIG_ATOM_EMAG_ACT)
 	UnregisterSignal(C, COMSIG_ATOM_EMP_ACT)
@@ -70,13 +80,14 @@
 	return ..()
 
 
-/datum/species/ethereal/random_name(gender,unique,lastname)
-	if(unique)
-		return random_unique_ethereal_name()
+/datum/species/ethereal/random_name(gender, unique, lastname, attempts)
+	. = "[pick(GLOB.ethereal_names)] [random_capital_letter()]"
+	if(prob(65))
+		. += "[random_capital_letter()]"
 
-	var/randname = ethereal_name()
-
-	return randname
+	if(unique && attempts < 10)
+		if(findname(.))
+			. = .(gender, TRUE, lastname, ++attempts)
 
 
 /datum/species/ethereal/spec_updatehealth(mob/living/carbon/human/H)
@@ -117,22 +128,15 @@
 	handle_emag(H)
 	addtimer(CALLBACK(src, .proc/stop_emag, H), 30 SECONDS) //Disco mode for 30 seconds! This doesn't affect the ethereal at all besides either annoying some players, or making someone look badass.
 
-
-/datum/species/ethereal/spec_life(mob/living/carbon/human/H)
-	.=..()
-	handle_charge(H)
-
-
 /datum/species/ethereal/proc/stop_emp(mob/living/carbon/human/H)
 	EMPeffect = FALSE
 	spec_updatehealth(H)
 	to_chat(H, "<span class='notice'>You feel more energized as your shine comes back.</span>")
 
-
 /datum/species/ethereal/proc/handle_emag(mob/living/carbon/human/H)
 	if(!emageffect)
 		return
-	current_color = pick(ETHEREAL_COLORS)
+	current_color = "#[GLOB.color_list_ethereal[pick(GLOB.color_list_ethereal)]]"	//Picks a random colour from the Ethereal colour list
 	spec_updatehealth(H)
 	addtimer(CALLBACK(src, .proc/handle_emag, H), 5) //Call ourselves every 0.5 seconds to change color
 

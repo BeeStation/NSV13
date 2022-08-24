@@ -43,14 +43,13 @@
 /obj/item/clothing/mask/fakemoustache/italian
 	name = "italian moustache"
 	desc = "Made from authentic Italian moustache hairs. Gives the wearer an irresistable urge to gesticulate wildly."
-	clothing_flags = SHOWEROKAY
 	modifies_speech = TRUE
 
 /obj/item/clothing/mask/fakemoustache/italian/handle_speech(datum/source, list/speech_args)
 	var/message = speech_args[SPEECH_MESSAGE]
 	if(message[1] != "*")
 		message = " [message]"
-		var/list/italian_words = strings("italian_replacement.json", "italian")
+		var/list/italian_words = strings(ITALIAN_TALK_FILE, "italian")
 
 		for(var/key in italian_words)
 			var/value = italian_words[key]
@@ -66,9 +65,36 @@
 	speech_args[SPEECH_MESSAGE] = trim(message)
 
 /obj/item/clothing/mask/joy
-	name = "joy mask"
-	desc = "Express your happiness or hide your sorrows with this laughing face with crying tears of joy cutout."
+	name = "emotion mask"
+	desc = "Express your happiness or hide your sorrows with this cultured cutout."
 	icon_state = "joy"
+	item_state = "joy"
+	flags_cover = MASKCOVERSEYES
+	resistance_flags = FLAMMABLE
+	actions_types = list(/datum/action/item_action/adjust)
+
+/obj/item/clothing/mask/joy/ui_action_click(mob/user)
+	if(!istype(user) || user.incapacitated())
+		return
+
+	var/list/options = list()
+	options["Joy"] = "joy"
+	options["Flushed"] = "flushed"
+	options["Pensive"] = "pensive"
+	options["Angry"] = "angry"
+	options["Pleading"] ="pleading"
+
+	var/choice = input(user,"To what form do you wish to Morph this mask?","Morph Mask") in sortList(options)
+
+	if(src && choice && !user.incapacitated() && in_range(user,src))
+		icon_state = options[choice]
+		user.update_inv_wear_mask()
+		for(var/X in actions)
+			var/datum/action/A = X
+			A.UpdateButtonIcon()
+		to_chat(user, "<span class='notice'>Your emotion mask has now morphed into [choice]!</span>")
+		return 1
+
 
 /obj/item/clothing/mask/pig
 	name = "pig mask"
@@ -90,7 +116,7 @@
 	flags_inv = HIDEFACIALHAIR
 	clothing_flags = NONE
 
-/obj/item/clothing/mask/pig/cursed/Initialize()
+/obj/item/clothing/mask/pig/cursed/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_MASK_TRAIT)
 	playsound(get_turf(src), 'sound/magic/pighead_curse.ogg', 50, 1)
@@ -116,7 +142,7 @@
 /obj/item/clothing/mask/frog/cursed
 	clothing_flags = NONE
 
-/obj/item/clothing/mask/frog/cursed/Initialize()
+/obj/item/clothing/mask/frog/cursed/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_MASK_TRAIT)
 
@@ -128,7 +154,6 @@
 
 /obj/item/clothing/mask/cowmask
 	name = "cow mask"
-	icon = 'icons/mob/mask.dmi'
 	icon_state = "cowmask"
 	item_state = "cowmask"
 	clothing_flags = VOICEBOX_TOGGLABLE
@@ -146,7 +171,7 @@
 	flags_inv = HIDEFACIALHAIR
 	clothing_flags = NONE
 
-/obj/item/clothing/mask/cowmask/cursed/Initialize()
+/obj/item/clothing/mask/cowmask/cursed/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_MASK_TRAIT)
 	playsound(get_turf(src), 'sound/magic/cowhead_curse.ogg', 50, 1)
@@ -171,7 +196,7 @@
 	clothing_flags = NONE
 	flags_inv = HIDEFACIALHAIR
 
-/obj/item/clothing/mask/horsehead/cursed/Initialize()
+/obj/item/clothing/mask/horsehead/cursed/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_MASK_TRAIT)
 	playsound(get_turf(src), 'sound/magic/horsehead_curse.ogg', 50, 1)
@@ -326,7 +351,7 @@
 	var/message = speech_args[SPEECH_MESSAGE]
 	if(message[1] != "*")
 		message = " [message]"
-		var/list/spurdo_words = strings("spurdo_replacement.json", "spurdo")
+		var/list/spurdo_words = strings(GONGOLA_TALK_FILE, "spurdo")
 		for(var/key in spurdo_words)
 			var/value = spurdo_words[key]
 			if(islist(value))

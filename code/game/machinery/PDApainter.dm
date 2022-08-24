@@ -10,59 +10,61 @@
 	var/obj/item/card/id/storedid = null
 	//Nsv13 - Crayon eaters & MPs
 	var/pda_icons = list(
-		"Midshipman" = "pda", //NSV13 - midshipmen
-		"Atmospheric Technician" = "pda-atmos",
-		"Bartender" = "pda-bartender",
-		"Botanist" = "pda-hydro",
-		"Captain" = "pda-captain",
-		"Cargo Technician" = "pda-cargo",
-		"Chaplain" = "pda-chaplain",
-		"Chemist" = "pda-chemistry",
-		"Chief Medical Officer" = "pda-cmo",
-		"Chief Engineer" = "pda-ce",
-		"Clown" = "pda-clown",
-		"Cook" = "pda-cook",
-		"Curator" = "pda-library",
-		"Detective" = "pda-detective",
-		"Engineer" = "pda-engineer",
-		"Geneticist" = "pda-genetics",
-		"Executive Officer" = "pda-hop", //NSV13 - XO
-		"Head of Security" = "pda-hos",
-		"Lawyer" = "pda-lawyer",
-		"Janitor" = "pda-janitor",
-		"Medical Doctor" = "pda-medical",
-		"Mime" = "pda-mime",
-		"Quartermaster" = "pda-qm",
-		"Research Director" = "pda-rd",
-		"Roboticist" = "pda-roboticist",
-		"Scienctist" = "pda-science",
-		"Military Police" = "pda-security", //NSV13 - MPs
-		"Shaft Miner" = "pda-miner",
-		"Virologist" = "pda-virology",
-		"Warden" = "pda-warden")
-	var/id_icons = list(
-		"Midshipman" = "id",
-		"Atmospheric Technician" = "atmos",
-		"Captain" = "gold",
-		"Cargo" = "cargo",
-		"Chaplain" = "chap",
-		"Chief Engineer" = "ce",
-		"Chief Medical Officer" = "cmo",
-		"Clown" = "clown",
-		"Detective" = "detective",
-		"Engineering" = "engi",
-		"Executive Officer" = "silver", //NSV13 - XO
-		"Head of Security" = "hos",
-		"Lawyer" = "lawyer",
-		"Medical" = "med",
-		"Mime" = "mime",
-		"Quartermaster" = "qm",
-		"Research Director" = "rd",
-		"Science" = "sci",
-		"Security" = "sec",
-		"Service" = "serv",
-		"Shaft Miner" = "miner",
-		"Warden" = "warden")
+		"Misc: Neutral" = "pda",
+		"Misc: Midshipman" = "pda-assistant", // NSV13 - midshipman
+		"Command (Standard)" = "pda-heads",
+		"Command: Captain" = "pda-captain",
+		"Service (Standard)" = "pda-service",
+		"Command: Executive Officer" = "pda-hop", // NSV13 - XO is command
+		"Service: Bartender" = "pda-bartender",
+		"Service: Chaplain" = "pda-chaplain",
+		"Service: Clown" = "pda-clown",
+		"Service: Cook" = "pda-cook",
+		"Service: Curator" = "pda-library",
+		"Service: Janitor" = "pda-janitor",
+		"Service: Lawyer" = "pda-lawyer",
+		"Service: Mime" = "pda-mime",
+		"Cargo (Standard)" = "pda-cargo",
+		"Cargo: Quartermaster" = "pda-qm",
+		"Cargo: Cargo Technician" = "pda-cargo",
+		"Cargo: Shaft Miner" = "pda-miner",
+		"Engineering (Standard)" = "pda-engineer",
+		"Engineering: Chief Engineer" = "pda-ce",
+		"Engineering: Station Engineer" = "pda-engineer",
+		"Engineering: Atmospheric Technician" = "pda-atmos",
+		"Science (Standard)" = "pda-science",
+		"Science: Research Director" = "pda-rd",
+		"Science: Roboticist" = "pda-roboticist",
+		"Science: Scienctist" = "pda-science",
+		"Science: Exploration Crew" = "pda-exploration",
+		"Medical (Standard)" = "pda-medical",
+		"Medical: Chief Medical Officer" = "pda-cmo",
+		"Medical: Medical Doctor" = "pda-medical",
+		"Medical: Chemist" = "pda-chemistry",
+		"Medical: Paramedic" = "pda-paramedical",
+		"Medical: Geneticist" = "pda-genetics",
+		"Medical: Virologist" = "pda-virology",
+		"Security (Standard)" = "pda-security",
+		"Security: Head of Security" = "pda-hos",
+		"Security: Warden" = "pda-warden",
+		"Security: Military Police" = "pda-security", //NSV13 - MPs
+		"Security: Detective" = "pda-detective",
+		"Security: Brig Physician" = "pda-brigphys",
+		"Security: Deputy" = "pda-deputy",
+		"Misc: Prisoner" = "pda-prisoner"
+		)
+ 	// NSV13 - moved XO to command, used job name defines for renamed jobs
+	var/valid_jobs = list(
+		"----Command----","Command (Custom)", "Captain", "Acting Captain", JOB_NAME_HEADOFPERSONNEL,
+		"----Service----","Service (Custom)", JOB_NAME_ASSISTANT, "Bartender", "Cook", "Botanist", "Janitor", "Curator",
+		"Chaplain", "Lawyer", "Clown", "Mime", "Barber", "Stage Magician",
+		"----Cargo----","Cargo (Custom)","Quartermaster", "Cargo Technician","Shaft Miner",
+		"----Engineering----","Engineering (Custom)","Chief Engineer", "Station Engineer", "Atmospheric Technician",
+		"----Science----","Science (Custom)","Research Director", "Scientist", "Roboticist", "Exploration Crew",
+		"----Medical----","Medical (Custom)","Chief Medical Officer", "Medical Doctor", "Chemist", "Geneticist", "Virologist", "Paramedic", "Psychiatrist",
+		"----Security----","Security (Custom)","Head of Security", "Warden", "Detective", JOB_NAME_SECURITYOFFICER, "Brig Physician", "Deputy",
+		"----MISC----","Unassigned","Prisoner"
+		)
 	max_integrity = 200
 	var/list/colorlist = list()
 
@@ -73,11 +75,14 @@
 		"Transparent" = "pda-clear",
 		"Syndicate" = "pda-syndi"
 		)
-	id_icons += list(
-		"CentCom" = "centcom",
-		"ERT" = "ert",
-		"Syndicate" = "syndicate",
-		"Clown Operative" = "clown_op",
+	valid_jobs += list(
+		"CentCom (Custom)",
+		"CentCom",
+		"ERT",
+		"VIP",
+		"King",
+		"Syndicate",
+		"Clown Operative"
 		)
 	to_chat(user, "<span class='warning'>You short out the design locking circuitry, allowing contraband and special designs.</span>")
 	obj_flags |= EMAGGED
@@ -101,7 +106,7 @@
 
 	return
 
-/obj/machinery/pdapainter/Initialize()
+/obj/machinery/pdapainter/Initialize(mapload)
 	. = ..()
 	var/list/blocked = list(
 		/obj/item/pda/ai/pai,
@@ -214,14 +219,23 @@
 				ejectpda()
 			if(storedid)
 				var/newidskin
-				newidskin = input(user, "Select an ID skin!", "ID  Painting") as null|anything in id_icons
+				newidskin = input(user, "Select an ID skin!", "ID  Painting") as null|anything in valid_jobs
 				if(!newidskin)
+					return
+				if(newidskin[1] == "-")
 					return
 				if(!in_range(src, user))
 					return
 				if(!storedid)//is the ID still there?
 					return
-				storedid.icon_state = id_icons[newidskin]
+				storedid.icon_state = get_cardstyle_by_jobname(newidskin)
+				storedid.hud_state = get_hud_by_jobname(newidskin)
+
+				// QoL to correct the system behavior
+				if(storedid.registered_account)
+					storedid.registered_account.account_department = get_department_by_hud(storedid.hud_state) // your true department by your hud icon color
+				GLOB.data_core.manifest_modify(storedid.registered_name, storedid.assignment, storedid.hud_state) // update crew manifest
+				// There are the same code lines in `card.dm`
 				ejectid()
 		else
 			to_chat(user, "<span class='notice'>[src] is empty.</span>")

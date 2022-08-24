@@ -17,20 +17,26 @@
 	inhand_x_dimension = 32
 	inhand_y_dimension = 32
 	w_class = WEIGHT_CLASS_SMALL
-	block_upgrade_walk = 1
 	block_power = 0
 	block_level = 0
 	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
 	force = 15
 	throwforce = 25 //NSV13 - revert cult to pre-nerf state
 	armour_penetration = 35
-	actions_types = list(/datum/action/item_action/cult_dagger)
 
-/obj/item/melee/cultblade/dagger/Initialize()
+/obj/item/melee/cultblade/dagger/Initialize(mapload)
 	. = ..()
-	var/image/I = image(icon = 'icons/effects/blood.dmi' , icon_state = null, loc = src)
-	I.override = TRUE
-	add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/silicons, "cult_dagger", I)
+	var/image/silicon_image = image(icon = 'icons/effects/blood.dmi' , icon_state = null, loc = src)
+	silicon_image.override = TRUE
+	add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/silicons, "cult_dagger", silicon_image)
+
+	var/examine_text = {"Allows the scribing of blood runes of the cult of Nar'Sie.
+Hitting a cult structure will unanchor or reanchor it. Cult Girders will be destroyed in a single blow.
+Can be used to scrape blood runes away, removing any trace of them.
+Striking another cultist with it will purge all holy water from them and transform it into unholy water.
+Striking a noncultist, however, will tear their flesh."}
+
+	AddComponent(/datum/component/cult_ritual_item, "<span class='cult'>[examine_text]</span>")
 
 /obj/item/melee/cultblade
 	name = "eldritch longsword"
@@ -44,14 +50,13 @@
 	w_class = WEIGHT_CLASS_BULKY
 	block_level = 1
 	block_upgrade_walk = 1
-	block_power = 30
 	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
 	force = 30
 	throwforce = 10
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "tore", "ripped", "diced", "rended")
 
-/obj/item/melee/cultblade/Initialize()
+/obj/item/melee/cultblade/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/butchering, 40, 100)
 
@@ -69,7 +74,7 @@
 	item_flags = NEEDS_PERMIT | DROPDEL
 	flags_1 = NONE
 
-/obj/item/melee/cultblade/ghost/Initialize()
+/obj/item/melee/cultblade/ghost/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CULT_TRAIT)
 
@@ -112,7 +117,7 @@
 	var/spin_cooldown = 250
 	var/dash_toggled = TRUE
 
-/obj/item/cult_bastard/Initialize()
+/obj/item/cult_bastard/Initialize(mapload)
 	. = ..()
 	jaunt = new(src)
 	linked_action = new(src)
@@ -142,7 +147,7 @@
 		to_chat(loc, "<span class='notice'>You lower [src] and prepare to swing it normally.</span>")
 
 /obj/item/cult_bastard/pickup(mob/living/user)
-	. = ..()
+	..()
 	if(!iscultist(user))
 		to_chat(user, "<span class='cultlarge'>\"I wouldn't advise that.\"</span>")
 		force = 5
@@ -153,7 +158,7 @@
 	user.update_icons()
 
 /obj/item/cult_bastard/dropped(mob/user)
-	. = ..()
+	..()
 	linked_action.Remove(user)
 	jaunt.Remove(user)
 	user.update_icons()
@@ -268,6 +273,11 @@
 /obj/item/restraints/legcuffs/bola/cult/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	if(iscultist(hit_atom))
 		return
+	if(ismob(hit_atom))
+		var/mob/M = hit_atom
+		if(M.anti_magic_check(holy = TRUE))
+			M.visible_message("[src] passes right through [M]!")
+			return
 	. = ..()
 
 /obj/item/clothing/head/culthood
@@ -306,7 +316,7 @@
 /obj/item/clothing/head/culthood/alt/ghost
 	item_flags = DROPDEL
 
-/obj/item/clothing/head/culthood/alt/ghost/Initialize()
+/obj/item/clothing/head/culthood/alt/ghost/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CULT_TRAIT)
 
@@ -319,7 +329,7 @@
 /obj/item/clothing/suit/cultrobes/alt/ghost
 	item_flags = DROPDEL
 
-/obj/item/clothing/suit/cultrobes/alt/ghost/Initialize()
+/obj/item/clothing/suit/cultrobes/alt/ghost/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CULT_TRAIT)
 
@@ -415,7 +425,7 @@
 		return 1
 	return 0
 
-/obj/item/clothing/suit/hooded/cultrobes/cult_shield/worn_overlays(isinhands)
+/obj/item/clothing/suit/hooded/cultrobes/cult_shield/worn_overlays(mutable_appearance/standing, isinhands)
 	. = list()
 	if(!isinhands && current_charges)
 		. += mutable_appearance('icons/effects/cult_effects.dmi', "shield-cult", MOB_LAYER + 0.01)
@@ -489,7 +499,7 @@
 	if(curselimit > 1)
 		to_chat(user, "<span class='notice'>We have exhausted our ability to curse the shuttle.</span>")
 		return
-	if(locate(/obj/singularity/narsie) in GLOB.poi_list)
+	if(locate(/obj/eldritch/narsie) in GLOB.poi_list)
 		to_chat(user, "<span class='warning'>Nar'Sie is already on this plane, there is no delaying the end of all things.</span>")
 		return
 
@@ -653,7 +663,7 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	var/datum/action/innate/cult/spear/spear_act
 
-/obj/item/cult_spear/Initialize()
+/obj/item/cult_spear/Initialize(mapload)
 	. = ..()
 
 /obj/item/cult_spear/ComponentInitialize()
@@ -749,7 +759,7 @@
 	guns_left = 24
 	mag_type = /obj/item/ammo_box/magazine/internal/boltaction/enchanted/arcane_barrage/blood
 	fire_sound = 'sound/magic/wand_teleport.ogg'
-
+	weapon_weight = WEAPON_LIGHT
 
 /obj/item/ammo_box/magazine/internal/boltaction/enchanted/arcane_barrage/blood
 	ammo_type = /obj/item/ammo_casing/magic/arcane_barrage/blood
@@ -799,7 +809,7 @@
 	var/firing = FALSE
 	var/angle
 
-/obj/item/blood_beam/Initialize()
+/obj/item/blood_beam/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CULT_TRAIT)
 

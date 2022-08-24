@@ -27,7 +27,7 @@
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON | INTERACT_MACHINE_REQUIRES_SILICON | INTERACT_MACHINE_OPEN
 	air_tight = TRUE
 	open_speed = 2
-	req_access = list(ACCESS_ENGINE)
+	req_one_access = list(ACCESS_ENGINE, ACCESS_ATMOSPHERICS)
 	processing_flags = START_PROCESSING_MANUALLY
 	var/emergency_close_timer = 0
 	var/nextstate = null
@@ -36,7 +36,7 @@
 	var/list/access_log
 	var/process_ticker //Ratelimit process to one check ~5 process ticks
 
-/obj/machinery/door/firedoor/Initialize()
+/obj/machinery/door/firedoor/Initialize(mapload)
 	. = ..()
 	CalculateAffectingAreas()
 
@@ -181,7 +181,7 @@
 	return ..()
 
 /obj/machinery/door/firedoor/try_to_activate_door(obj/item/I, mob/user)
-	if(!density)
+	if(!density || welded)
 		return
 
 	if(isidcard(I))
@@ -230,7 +230,7 @@
 /obj/machinery/door/firedoor/try_to_crowbar(obj/item/I, mob/user)
 	if(welded || operating)
 		return
-
+	
 	if(density)
 		if(!(stat & NOPOWER))
 			LAZYADD(access_log, "MOTOR_ERR:|MOTOR CONTROLLER REPORTED BACKDRIVE|T_OFFSET:[DisplayTimeText(world.time - SSticker.round_start_time)]")
@@ -420,7 +420,7 @@
 	CanAtmosPass = ATMOS_PASS_PROC
 	assemblytype = /obj/structure/firelock_frame/border
 
-/obj/machinery/door/firedoor/border_only/Initialize()
+/obj/machinery/door/firedoor/border_only/Initialize(mapload)
 	. = ..()
 
 	var/static/list/loc_connections = list(
@@ -502,26 +502,7 @@
 		leaving.Bump(src)
 		return COMPONENT_ATOM_BLOCK_EXIT
 
-/obj/machinery/door/firedoor/border_only/CanAtmosPass(turf/T)
-	if(get_dir(loc, T) == dir)
-		return !density
-	else
-		return TRUE
-
 //NSV13 - knpcs can into firelock
-/obj/machinery/door/firedoor/border_only/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
-	if(istype(caller) && (caller.pass_flags & pass_flags_self))
-		return TRUE
-	if(!density)
-		return TRUE
-	if(!(dir in dir_to_cardinal_dirs(to_dir)))
-		return TRUE
-	if(welded)
-		return FALSE
-	if(!hasPower())
-		return isknpc(caller)
-	return TRUE
-
 /obj/machinery/door/firedoor/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
 	if(istype(caller) && (caller.pass_flags & pass_flags_self))
 		return TRUE

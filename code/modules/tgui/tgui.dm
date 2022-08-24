@@ -82,7 +82,7 @@
  * return bool - TRUE if a new pooled window is opened, FALSE in all other situations including if a new pooled window didn't open because one already exists.
  */
 /datum/tgui/proc/open()
-	if(!user.client)
+	if(!user?.client)
 		return FALSE
 	if(window)
 		return FALSE
@@ -258,7 +258,7 @@
 		return
 	var/datum/host = src_object.ui_host(user)
 	// If the object or user died (or something else), abort.
-	if(!src_object || !host || !user || !window)
+	if(QDELETED(src_object) || QDELETED(host) || QDELETED(user) || QDELETED(window))
 		close(can_be_suspended = FALSE)
 		return
 	// Validate ping

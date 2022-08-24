@@ -1,17 +1,16 @@
 /datum/species/jelly
 	// Entirely alien beings that seem to be made entirely out of gel. They have three eyes and a skeleton visible within them.
-	name = "Jellyperson"
-	id = "jelly"
+	name = "\improper Jellyperson"
+	id = SPECIES_JELLYPERSON
 	default_color = "00FF90"
-	say_mod = "blorbles"
 	species_traits = list(MUTCOLORS,EYECOLOR,NOBLOOD)
 	inherent_traits = list(TRAIT_TOXINLOVER, TRAIT_NONECRODISEASE)
 	mutantlungs = /obj/item/organ/lungs/slime
+	mutanttongue = /obj/item/organ/tongue/slime
 	meat = /obj/item/reagent_containers/food/snacks/meat/slab/human/mutant/slime
 	exotic_blood = /datum/reagent/toxin/slimejelly
 	damage_overlay_type = ""
 	var/datum/action/innate/regenerate_limbs/regenerate_limbs
-	liked_food = MEAT
 	coldmod = 6   // = 3x cold damage
 	heatmod = 0.5 // = 1/4x heat damage
 	burnmod = 0.5 // = 1/2x generic burn damage
@@ -19,6 +18,14 @@
 	inherent_factions = list("slime")
 	species_language_holder = /datum/language_holder/jelly
 	swimming_component = /datum/component/swimming/dissolve
+
+
+	species_chest = /obj/item/bodypart/chest/jelly
+	species_head = /obj/item/bodypart/head/jelly
+	species_l_arm = /obj/item/bodypart/l_arm/jelly
+	species_r_arm = /obj/item/bodypart/r_arm/jelly
+	species_l_leg = /obj/item/bodypart/l_leg/jelly
+	species_r_leg = /obj/item/bodypart/r_leg/jelly
 
 /datum/species/jelly/on_species_loss(mob/living/carbon/C)
 	if(regenerate_limbs)
@@ -110,15 +117,22 @@
 
 /datum/species/jelly/slime
 	name = "Slimeperson"
-	id = "slime"
+	id = SPECIES_SLIMEPERSON
 	default_color = "00FFFF"
 	species_traits = list(MUTCOLORS,EYECOLOR,HAIR,FACEHAIR,NOBLOOD)
-	say_mod = "says"
 	hair_color = "mutcolor"
 	hair_alpha = 150
 	var/datum/action/innate/split_body/slime_split
 	var/list/mob/living/carbon/bodies
 	var/datum/action/innate/swap_body/swap_body
+
+	species_chest = /obj/item/bodypart/chest/slime
+	species_head = /obj/item/bodypart/head/slime
+	species_l_arm = /obj/item/bodypart/l_arm/slime
+	species_r_arm = /obj/item/bodypart/r_arm/slime
+	species_l_leg = /obj/item/bodypart/l_leg/slime
+	species_r_leg = /obj/item/bodypart/r_leg/slime
+
 
 /datum/species/jelly/slime/on_species_loss(mob/living/carbon/C)
 	if(slime_split)
@@ -405,8 +419,7 @@
 
 /datum/species/jelly/luminescent
 	name = "Luminescent"
-	id = "lum"
-	say_mod = "says"
+	id = SPECIES_LUMINESCENT
 	var/glow_intensity = LUMINESCENT_DEFAULT_GLOW
 	var/obj/effect/dummy/luminescent_glow/glow
 	var/obj/item/slime_extract/current_extract
@@ -414,6 +427,8 @@
 	var/datum/action/innate/use_extract/extract_minor
 	var/datum/action/innate/use_extract/major/extract_major
 	var/extract_cooldown = 0
+
+	examine_limb_id = SPECIES_JELLYPERSON
 
 //Species datums don't normally implement destroy, but JELLIES SUCK ASS OUT OF A STEEL STRAW
 /datum/species/jelly/luminescent/Destroy(force, ...)
@@ -466,7 +481,7 @@
 	light_system = MOVABLE_LIGHT
 	light_power = 2.5
 
-/obj/effect/dummy/luminescent_glow/Initialize()
+/obj/effect/dummy/luminescent_glow/Initialize(mapload)
 	. = ..()
 	if(!isliving(loc))
 		return INITIALIZE_HINT_QDEL
@@ -580,13 +595,15 @@
 
 /datum/species/jelly/stargazer
 	name = "Stargazer"
-	id = "stargazer"
+	id = SPECIES_STARGAZER
 	var/datum/action/innate/project_thought/project_thought
 	var/datum/action/innate/link_minds/link_minds
 	var/list/mob/living/linked_mobs = list()
 	var/list/datum/action/innate/linked_speech/linked_actions = list()
 	var/datum/weakref/slimelink_owner
 	var/current_link_id = 0
+
+	examine_limb_id = SPECIES_JELLYPERSON
 
 //Species datums don't normally implement destroy, but JELLIES SUCK ASS OUT OF A STEEL STRAW
 /datum/species/jelly/stargazer/Destroy()

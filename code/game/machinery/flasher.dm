@@ -131,6 +131,7 @@
 /obj/machinery/flasher/proc/flash_end()
 	set_light_on(FALSE)
 
+
 /obj/machinery/flasher/emp_act(severity)
 	. = ..()
 	if(!(stat & (BROKEN|NOPOWER)) && !(. & EMP_PROTECT_SELF))
@@ -161,7 +162,7 @@
 			new /obj/item/stack/sheet/iron (loc, 2)
 	qdel(src)
 
-/obj/machinery/flasher/portable/Initialize()
+/obj/machinery/flasher/portable/Initialize(mapload)
 	. = ..()
 	proximity_monitor = new(src, 0)
 

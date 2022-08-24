@@ -17,7 +17,7 @@
 	/// var to check if it got opened by a key
 	var/spawned_loot = FALSE
 
-/obj/structure/closet/crate/necropolis/tendril/Initialize()
+/obj/structure/closet/crate/necropolis/tendril/Initialize(mapload)
 	. = ..()
 	RegisterSignal(src, COMSIG_PARENT_ATTACKBY, .proc/try_spawn_loot)
 
@@ -93,7 +93,7 @@
 	icon_state = "datadisk1"
 	var/modkit_design = /datum/design/unique_modkit
 
-/obj/item/disk/design_disk/modkit_disc/Initialize()
+/obj/item/disk/design_disk/modkit_disc/Initialize(mapload)
 	. = ..()
 	blueprints[1] = new modkit_design
 
@@ -156,11 +156,17 @@
 	icon = 'icons/obj/lavaland/artefacts.dmi'
 	icon_state = "asclepius_dormant"
 	block_upgrade_walk = 1
-	block_level = 2
+	block_level = 1
 	block_power = 40 //blocks very well to encourage using it. Just because you're a pacifist doesn't mean you can't defend yourself
 	block_flags = null //not active, so it's null
 	var/activated = FALSE
 	var/usedHand
+
+/obj/item/rod_of_asclepius/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text, damage, attack_type)
+	if(!activated)
+		return FALSE
+	return ..()
+
 
 /obj/item/rod_of_asclepius/attack_self(mob/user)
 	if(activated)
@@ -302,7 +308,7 @@
 	. = ..()
 	wisp.lighteater_act(light_eater)
 
-/obj/item/wisp_lantern/Initialize()
+/obj/item/wisp_lantern/Initialize(mapload)
 	. = ..()
 	wisp = new(src)
 	wisp.home = src
@@ -370,15 +376,16 @@
 
 // Relic water bottle
 /obj/item/reagent_containers/glass/waterbottle/relic
+	name = "ancient bottle of unknown reagent"
 	desc = "A bottle of water filled with unknown liquids. It seems to be radiating some kind of energy."
 	flip_chance = 100 // FLIPP
 	list_reagents = list()
 
-/obj/item/reagent_containers/glass/waterbottle/relic/Initialize()
+/obj/item/reagent_containers/glass/waterbottle/relic/Initialize(mapload)
 	var/reagents = volume
 	while(reagents)
 		var/newreagent = rand(1, min(reagents, 30))
-		list_reagents += list(get_unrestricted_random_reagent_id() = newreagent)
+		list_reagents += list(get_random_reagent_id(CHEMICAL_RNG_FUN) = newreagent)
 		reagents -= newreagent
 	. = ..()
 
@@ -442,7 +449,7 @@
 	icon_state = "red_cube"
 	teleport_color = "#FD3F48"
 
-/obj/item/warp_cube/red/Initialize()
+/obj/item/warp_cube/red/Initialize(mapload)
 	. = ..()
 	if(!linked)
 		var/obj/item/warp_cube/blue = new(src.loc)
@@ -536,7 +543,7 @@
 	actions_types = list(/datum/action/item_action/immortality)
 	var/cooldown = 0
 
-/obj/item/immortality_talisman/Initialize()
+/obj/item/immortality_talisman/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/anti_magic, TRUE, TRUE)
 
@@ -619,7 +626,7 @@
 	name = "paradox bag"
 	desc = "Somehow, it's in two places at once."
 
-/obj/item/shared_storage/red/Initialize()
+/obj/item/shared_storage/red/Initialize(mapload)
 	. = ..()
 	var/datum/component/storage/STR = AddComponent(/datum/component/storage/concrete)
 	STR.max_w_class = WEIGHT_CLASS_NORMAL
@@ -676,6 +683,7 @@
 	reagent_state = LIQUID
 	process_flags = ORGANIC | SYNTHETIC
 	color = "#FFEBEB"
+	chem_flags = CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 
 /datum/reagent/flightpotion/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
 	if(iscarbon(M) && M.stat != DEAD)
@@ -777,7 +785,6 @@
 	attack_verb_on = list("cleaved", "swiped", "slashed", "chopped")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	hitsound_on = 'sound/weapons/bladeslice.ogg'
-	block_upgrade_walk = 1
 	w_class = WEIGHT_CLASS_BULKY
 	sharpness = IS_SHARP
 	faction_bonus_force = 45
@@ -882,7 +889,7 @@
 	var/summon_cooldown = 0
 	var/list/mob/dead/observer/spirits
 
-/obj/item/melee/ghost_sword/Initialize()
+/obj/item/melee/ghost_sword/Initialize(mapload)
 	. = ..()
 	spirits = list()
 	START_PROCESSING(SSobj, src)
@@ -974,7 +981,7 @@
 	switch(random)
 		if(1)
 			to_chat(user, "<span class='danger'>Your appearance morphs to that of a very small humanoid ash dragon! You get to look like a freak without the cool abilities.</span>")
-			H.dna.features = list("mcolor" = "A02720", "tail_lizard" = "Dark Tiger", "tail_human" = "None", "snout" = "Sharp", "horns" = "Curled", "ears" = "None", "wings" = "None", "frills" = "None", "spines" = "Long", "body_markings" = "Dark Tiger Body", "legs" = "Digitigrade Legs")
+			H.dna.features = list("body_size" = "Normal", "mcolor" = "A02720", "tail_lizard" = "Dark Tiger", "tail_human" = "None", "snout" = "Sharp", "horns" = "Curled", "ears" = "None", "wings" = "None", "frills" = "None", "spines" = "Long", "body_markings" = "Dark Tiger Body", "legs" = "Digitigrade Legs")
 			H.eye_color = "fee5a3"
 			H.set_species(/datum/species/lizard)
 		if(2)
@@ -1210,6 +1217,9 @@
 
 /obj/item/hierophant_club/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
+	if(user.mind.martial_art.no_guns) 
+		to_chat(user, "<span class='warning'>To use this weapon would bring dishonor to the clan.</span>")
+		return
 	var/turf/T = get_turf(target)
 	if(!T || timer > world.time)
 		return

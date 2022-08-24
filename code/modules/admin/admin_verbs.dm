@@ -41,7 +41,6 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/datum/admins/proc/set_admin_notice, /*announcement all clients see when joining the server.*/
 	/client/proc/admin_ghost,			/*allows us to ghost/reenter body at will*/
 	/client/proc/toggle_view_range,		/*changes how far we can see*/
-	/client/proc/getserverlogs,		/*for accessing server logs*/
 	/client/proc/getcurrentlogs,		/*for accessing server logs for the current round*/
 	/client/proc/cmd_admin_subtle_message,	/*send an message to somebody as a 'voice in their head'*/
 	/client/proc/cmd_admin_headset_message,	/*send an message to somebody through their headset as CentCom*/
@@ -82,6 +81,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/stabilize_atmos,
 	/client/proc/openTicketManager,
 	/client/proc/battle_royale,
+	/client/proc/delete_book,
 	/client/proc/changeranks, //NSV13 - verb to change rank structure
 	/client/proc/system_manager, //Nsv13 - Fleet + starsystem management
 	/client/proc/instance_overmap_menu, //Nsv13 - Midround ship creation.
@@ -135,11 +135,13 @@ GLOBAL_PROTECT(admin_verbs_server)
 	/client/proc/everyone_random,
 	/datum/admins/proc/toggleAI,
 	/client/proc/cmd_admin_delete,		/*delete an instance/object/mob/etc*/
+	/client/proc/getserverlogs,		/*for accessing server logs*/
 	/client/proc/cmd_debug_del_all,
 	/client/proc/toggle_random_events,
 	/client/proc/forcerandomrotate,
 	/client/proc/adminchangemap,
 	/client/proc/panicbunker,
+	/client/proc/toggle_interviews,
 	/client/proc/toggle_hub,
 	/client/proc/toggle_cdn
 	)
@@ -189,14 +191,14 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/datum/admins/proc/create_or_modify_area,
 	/datum/admins/proc/fixcorruption,
 	#ifdef TESTING
-	/client/proc/export_dynamic_json,
 	/client/proc/run_dynamic_simulations,
 	#endif
 	#ifdef SENDMAPS_PROFILE
 	/client/proc/display_sendmaps,
 	#endif
 	/client/proc/toggle_cdn,
-	/client/proc/check_timer_sources
+	/client/proc/check_timer_sources,
+	/client/proc/test_dview_to_lum_changes
 	)
 
 GLOBAL_LIST_INIT(admin_verbs_possess, list(/proc/possess, /proc/release))
@@ -265,6 +267,7 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 	/proc/release,
 	/client/proc/reload_admins,
 	/client/proc/panicbunker,
+	/client/proc/toggle_interviews,
 	/client/proc/admin_change_sec_level,
 	/client/proc/toggle_nuke,
 	/client/proc/cmd_display_del_log,
@@ -520,8 +523,8 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 				mob.alpha = 0 //JUUUUST IN CASE
 				mob.name = " "
 				mob.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-		log_admin("[key_name(usr)] has turned stealth mode [holder.fakekey ? "ON" : "OFF"]")
-		message_admins("[key_name_admin(usr)] has turned stealth mode [holder.fakekey ? "ON" : "OFF"]")
+		log_admin("[key_name(usr)] has turned stealth mode [holder.fakekey ? "ON as [holder.fakekey]" : "OFF"]")
+		message_admins("[key_name_admin(usr)] has turned stealth mode [holder.fakekey ? "ON as [holder.fakekey]" : "OFF"]")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Stealth Mode") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/drop_bomb()
@@ -654,6 +657,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set category = "Fun"
 	set name = "Give Disease"
 	set desc = "Gives a Disease to a mob."
+
 	if(!istype(T))
 		to_chat(src, "<span class='notice'>You can only give a disease to a mob of type /mob/living.</span>")
 		return
@@ -807,6 +811,41 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	for(var/obj/machinery/portable_atmospherics/canister/can in view())
 		can.valve_open = FALSE
 		can.update_icon()
+
+/client/proc/delete_book()
+	set category = "Admin"
+	set name = "Delete Book"
+
+	if(!check_rights(R_ADMIN))
+		return
+
+	var/bookid = input(usr, "What Book ID would you like to remove:", "Literally Fahrenheit 451") as null|num
+	if(!bookid)
+		return
+
+	var/datum/DBQuery/query_library_print = SSdbcore.NewQuery(
+		"SELECT * FROM [format_table_name("library")] WHERE id=:id AND isnull(deleted)",
+		list("id" = bookid)
+	)
+	if(!query_library_print.Execute() || !query_library_print.NextRow())
+		to_chat(usr, "<span class='warning'>Failed to locate book [bookid].</span>")
+		qdel(query_library_print)
+		return
+	var/author = query_library_print.item[2]
+	var/title = query_library_print.item[3]
+	var/confirmation = alert(src,"Are you sure you want to delete the book with author [author] and title [title]?","Guy Montag Incarnate","Yes","No")
+	if(confirmation == "Yes")
+		var/datum/DBQuery/query_burn_book = SSdbcore.NewQuery(
+			"UPDATE [format_table_name("library")] SET deleted = 1 WHERE id=:id",
+			list("id" = bookid)
+		)
+		if(!query_library_print.Execute())
+			to_chat(usr, "<span class='warning'>Failed to delete book.</span>")
+		else
+			message_admins("[usr] deleted book number [bookid] with title [title]")
+			log_admin("[usr] deleted book number [bookid] with title [title]")
+		qdel(query_burn_book)
+		qdel(query_library_print)
 
 #ifdef SENDMAPS_PROFILE
 /client/proc/display_sendmaps()

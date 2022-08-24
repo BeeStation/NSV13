@@ -54,6 +54,7 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	integrity_failure = 100
 	armor = list("melee" = 20, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 70, "stamina" = 0)
 	circuit = /obj/item/circuitboard/machine/vendor
+	clicksound = 'sound/machines/pda_button1.ogg'
 	payment_department = ACCOUNT_SRV
 
 	light_color = LIGHT_COLOR_BLUE
@@ -438,6 +439,8 @@ GLOBAL_LIST_EMPTY(vending_products)
 					tilt(user)
 				if(91 to 100)
 					tilt(user, crit=TRUE)
+				else
+					SWITCH_EMPTY_STATEMENT
 
 /obj/machinery/vending/proc/freebie(mob/fatty, freebies)
 	visible_message("<span class='notice'>[src] yields [freebies > 1 ? "several free goodies" : "a free goody"]!</span>")
@@ -706,13 +709,13 @@ GLOBAL_LIST_EMPTY(vending_products)
 			.["user"]["cash"] = C.registered_account.account_balance
 			if(C.registered_account.account_job)
 				.["user"]["job"] = C.registered_account.account_job.title
-				.["user"]["department"] = C.registered_account.account_job.paycheck_department
+				.["user"]["department"] = C.registered_account.account_department
 			else
 				.["user"]["job"] = "No Job"
 				.["user"]["department"] = "No Department"
 	.["stock"] = list()
 	for (var/datum/data/vending_product/R in product_records + coin_records + hidden_records)
-		.["stock"][R.name] = R.amount
+		.["stock"]["[replacetext(replacetext("[R.product_path]", "/obj/item/", ""), "/", "-")]"] = R.amount
 	.["extended_inventory"] = extended_inventory
 
 /obj/machinery/vending/ui_act(action, params)
@@ -765,7 +768,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 					vend_ready = TRUE
 					return
 				var/datum/bank_account/account = C.registered_account
-				if(account.account_job && account.account_job.paycheck_department == payment_department)
+				if(account.account_job && account.account_department == payment_department)
 					price_to_use = 0
 				if(coin_records.Find(R))
 					price_to_use = R.custom_premium_price ? R.custom_premium_price : extra_price
@@ -855,7 +858,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 /obj/machinery/vending/proc/throw_item()
 	var/obj/throw_item = null
 	var/mob/living/target = locate() in view(7,src)
-	if(!target)
+	if(!target || target.incorporeal_move >= INCORPOREAL_MOVE_BASIC)
 		return 0
 
 	for(var/datum/data/vending_product/R in shuffle(product_records))

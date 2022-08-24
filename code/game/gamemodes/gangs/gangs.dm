@@ -6,7 +6,7 @@ GLOBAL_LIST_EMPTY(gangs)
 	name = "gang war"
 	config_tag = "gang"
 	antag_flag = ROLE_GANG
-	restricted_jobs = list("Military Police", "Warden", "Detective", "AI", "Cyborg","Captain", "Executive Officer", "Head of Security") //NSV13 - renamed HoP to XO  //Nsv13 - Crayon eaters & MPs
+	restricted_jobs = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_AI, JOB_NAME_CYBORG,JOB_NAME_CAPTAIN, JOB_NAME_HEADOFPERSONNEL, JOB_NAME_HEADOFSECURITY)
 	required_players = 15 //NSV13 - down from 30
 	required_enemies = 1 //NSV13 - down from 2
 	recommended_enemies = 2 //NSV13 - down from 3
@@ -26,7 +26,7 @@ GLOBAL_LIST_EMPTY(gangs)
 		restricted_jobs += protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		restricted_jobs += JOB_NAME_ASSISTANT
 
 	//Spawn more bosses depending on server population
 	var/gangs_to_create = 2

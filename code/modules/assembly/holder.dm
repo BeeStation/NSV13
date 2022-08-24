@@ -14,7 +14,7 @@
 	var/obj/item/assembly/a_left = null
 	var/obj/item/assembly/a_right = null
 
-/obj/item/assembly_holder/Initialize()
+/obj/item/assembly_holder/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,
@@ -92,11 +92,11 @@
 		a_right.holder_movement()
 
 /obj/item/assembly_holder/dropped(mob/user)
-	. = ..()
+	..()
 	if(a_left)
-		a_left.dropped()
+		a_left.dropped(user)
 	if(a_right)
-		a_right.dropped()
+		a_right.dropped(user)
 
 /obj/item/assembly_holder/attack_hand()//Perhapse this should be a holder_pickup proc instead, can add if needbe I guess
 	. = ..()
@@ -121,7 +121,7 @@
 	return TRUE
 
 /obj/item/assembly_holder/attack_self(mob/user)
-	src.add_fingerprint(user)
+	add_fingerprint(user)
 	if(!a_left || !a_right)
 		to_chat(user, "<span class='danger'>Assembly part missing!</span>")
 		return

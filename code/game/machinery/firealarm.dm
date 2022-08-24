@@ -36,6 +36,22 @@
 	var/last_alarm = 0
 	var/area/myarea = null
 
+/obj/machinery/firealarm/directional/north
+	dir = SOUTH
+	pixel_y = 24
+
+/obj/machinery/firealarm/directional/south
+	dir = NORTH
+	pixel_y = -24
+
+/obj/machinery/firealarm/directional/east
+	dir = WEST
+	pixel_x = 24
+
+/obj/machinery/firealarm/directional/west
+	dir = EAST
+	pixel_x = -24
+
 /obj/machinery/firealarm/Initialize(mapload, dir, building)
 	. = ..()
 	if(dir)
@@ -48,6 +64,12 @@
 	update_icon()
 	myarea = get_area(src)
 	LAZYADD(myarea.firealarms, src)
+	RegisterSignal(SSdcs, COMSIG_GLOB_SECURITY_ALERT_CHANGE, .proc/handle_alert)
+
+/obj/machinery/firealarm/proc/handle_alert(datum/source, new_alert)
+	SIGNAL_HANDLER
+	if(is_station_level(z))
+		update_icon()
 
 /obj/machinery/firealarm/Destroy()
 	myarea.firereset(src)
@@ -153,6 +175,7 @@
 	if(buildstage != 2)
 		return ..()
 	add_fingerprint(user)
+	play_click_sound("button")
 	var/area/A = get_area(src)
 	if(A.fire)
 		reset(user)

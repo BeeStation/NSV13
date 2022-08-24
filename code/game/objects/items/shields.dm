@@ -14,6 +14,7 @@
 		return FALSE
 	return ..()
 
+
 /obj/item/shield/on_block(mob/living/carbon/human/owner, atom/movable/hitby, attack_text, damage, attack_type)
 	if(durability)
 		var/attackforce = 0
@@ -38,6 +39,8 @@
 			if(block_flags & BLOCKING_NASTY)
 				L.attackby(src, owner)
 				owner.visible_message("<span class='danger'>[L] injures themselves on [owner]'s [src]!</span>")
+		if(attackforce)
+			owner.changeNext_move(CLICK_CD_MELEE)
 		if (obj_integrity <= attackforce)
 			var/turf/T = get_turf(owner)
 			T.visible_message("<span class='warning'>[hitby] destroys [src]!</span>")
@@ -128,7 +131,6 @@
 
 /obj/item/shield/riot/roman/fake
 	desc = "Bears an inscription on the inside: <i>\"Romanes venio domus\"</i>. It appears to be a bit flimsy."
-	block_level = 1
 	block_upgrade_walk = 1
 	block_power = 0
 	max_integrity = 30
@@ -186,7 +188,7 @@
 	item_state = "flashshield"
 	var/obj/item/assembly/flash/handheld/embedded_flash
 
-/obj/item/shield/riot/flash/Initialize()
+/obj/item/shield/riot/flash/Initialize(mapload)
 	. = ..()
 	embedded_flash = new(src)
 
@@ -276,7 +278,7 @@
 	playsound(owner, 'sound/effects/beepskyspinsabre.ogg', 35, 1)
 	to_chat(owner, "<span class='warning'>The [src] is ready to use!.</span>")
 
-/obj/item/shield/energy/Initialize()
+/obj/item/shield/energy/Initialize(mapload)
 	. = ..()
 	icon_state = "[base_icon_state]0"
 

@@ -15,7 +15,6 @@
 #define ATMOSBOT_VENT_AIR 2
 #define ATMOSBOT_SCRUB_TOXINS 3
 #define ATMOSBOT_TEMPERATURE_CONTROL 4
-#define ATMOSBOT_SPRAY_MIASMA 5
 
 //Floorbot
 /mob/living/simple_animal/bot/atmosbot
@@ -56,7 +55,6 @@
 		GAS_BZ = 1,
 		GAS_CO2 = 1,
 		GAS_HYPERNOB = 1,
-		//GAS_MIASMA = 1, //NSV13 - no miasma
 		GAS_NITROUS = 1,
 		GAS_NITRYL = 1,
 		GAS_PLASMA = 1,
@@ -68,31 +66,12 @@
 		GAS_NUCLEIUM = 1, //NSV13
 	)
 
-	//NSV13 - for getting the proper name of things
-	var/static/list/gas_map = list(
-		GAS_O2 = /datum/gas/oxygen,
-		GAS_N2 = /datum/gas/nitrogen,
-		GAS_BZ = /datum/gas/bz,
-		GAS_CO2 = /datum/gas/carbon_dioxide,
-		GAS_HYPERNOB = /datum/gas/hypernoblium,
-		//GAS_MIASMA = /datum/gas/miasma, //NSV13 - no miasma
-		GAS_NITROUS = /datum/gas/nitrous_oxide,
-		GAS_NITRYL = /datum/gas/nitryl,
-		GAS_PLASMA = /datum/gas/plasma,
-		GAS_PLUOXIUM = /datum/gas/pluoxium,
-		GAS_STIMULUM = /datum/gas/stimulum,
-		GAS_TRITIUM = /datum/gas/tritium,
-		GAS_H2O = /datum/gas/water_vapor,
-		GAS_CONSTRICTED_PLASMA = /datum/gas/constricted_plasma, //NSV13
-		GAS_NUCLEIUM = /datum/gas/nucleium, //NSV13
-	)
-
 	//Tank type
 	var/tank_type = /obj/item/tank/internals/oxygen/empty
 
 /mob/living/simple_animal/bot/atmosbot/Initialize(mapload, new_toolbox_color)
 	. = ..()
-	var/datum/job/engineer/J = new/datum/job/engineer
+	var/datum/job/station_engineer/J = new/datum/job/station_engineer
 	access_card.access += J.get_access()
 	prev_access = access_card.access
 
@@ -217,7 +196,7 @@
 	if(pressure_delta > 0)
 		var/transfer_moles = pressure_delta*environment.return_volume()/(T20C * R_IDEAL_GAS_EQUATION)
 		if(emagged == 2)
-			environment.adjust_moles(GAS_BZ, transfer_moles) //NSV13 - swapped miasma for BZ
+			environment.adjust_moles(GAS_CO2, transfer_moles)
 		else
 			environment.adjust_moles(GAS_N2, transfer_moles * 0.7885)
 			environment.adjust_moles(GAS_O2, transfer_moles * 0.2115)
@@ -316,10 +295,9 @@
 		dat += "Temperature Control: <a href='?src=[REF(src)];toggle_temp_control=1'>[temperature_control?"Enabled":"Disabled"]</a><br>"
 		dat += "Temperature Target: <a href='?src=[REF(src)];set_ideal_temperature=[ideal_temperature]'>[ideal_temperature]C</a><br>"
 		dat += "Gas Scrubbing Controls<br>"
-		for(var/gas_id in gasses) //NSV13 - updated for auxmos
+		for(var/gas_id in gasses)
 			var/gas_enabled = gasses[gas_id]
-			var/datum/gas/gas_type = gas_map[gas_id]
-			dat += "[initial(gas_type.name)]: <a href='?src=[REF(src)];toggle_gas=[gas_id]'>[gas_enabled?"Scrubbing":"Not Scrubbing"]</a><br>"
+			dat += "[GLOB.gas_data.names[gas_id]]: <a href='?src=[REF(src)];toggle_gas=[gas_id]'>[gas_enabled?"Scrubbing":"Not Scrubbing"]</a><br>"
 		dat += "Patrol Station: <A href='?src=[REF(src)];operation=patrol'>[auto_patrol ? "Yes" : "No"]</A><BR>"
 	return dat
 
@@ -335,9 +313,9 @@
 	else if(href_list["toggle_temp_control"])
 		temperature_control = temperature_control ? FALSE : TRUE
 	else if(href_list["toggle_gas"])
-		var/gas_datum = href_list["toggle_gas"]
+		var/gas_id = href_list["toggle_gas"]
 		for(var/G in gasses)
-			if("[G]" == gas_datum)
+			if("[G]" == gas_id)
 				gasses[G] = gasses[G] ? FALSE : TRUE
 	else if(href_list["set_ideal_temperature"])
 		var/new_temp = input(usr, "Set Target Temperature ([T0C] to [T20C + 20])", "Target Temperature") as num
@@ -370,9 +348,7 @@
 	var/obj/item/tank/tank = new tank_type(Tsec)
 	var/datum/gas_mixture/GM = Tsec.return_air()
 	if(tank && GM)
-		for(var/G in tank.air_contents.get_gases()) //NSV13 - updated for auxmos
-			GM.adjust_moles(G, tank.air_contents.get_moles(G))
-			tank.air_contents.adjust_moles(G, -tank.air_contents.get_moles())
+		GM.merge(tank.air_contents)
 		new /obj/effect/temp_visual/vent_wind(Tsec)
 	if(deployed_holobarrier)
 		qdel(deployed_holobarrier.resolve())

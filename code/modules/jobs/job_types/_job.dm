@@ -35,7 +35,7 @@
 	//Supervisors, who this person answers to directly
 	var/supervisors = ""
 
-	//Sellection screen color
+	//Selection screen color
 	var/selection_color = "#ffffff"
 
 	//Overhead chat message colour
@@ -65,6 +65,14 @@
 
 	var/display_order = JOB_DISPLAY_ORDER_DEFAULT
 
+	// Goodies that can be received via the mail system.
+	// this is a weighted list.
+	// Keep the _job definition for this empty and use /obj/item/mail to define general gifts.
+	var/list/mail_goodies = list()
+
+	// If this job's mail goodies compete with generic goodies.
+	var/exclusive_mail_goodies = FALSE
+
 	var/gimmick = FALSE //least hacky way i could think of for this
 
 	var/display_rank = "" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
@@ -76,15 +84,21 @@
 	/// Should this job be allowed to be picked for the bureaucratic error event?
 	var/allow_bureaucratic_error = TRUE
 
+	///how at risk is this occupation at for being a carrier of a dormant disease
+	var/biohazard = 10
+
+	///RPG job names, for the memes
+	var/rpg_title
+
 	///A dictionary of species IDs and a path to the outfit.
 	//NSV13 - set default plasmaman outfit
 	var/list/species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman
 	)
 
+
 /datum/job/New()
 	. = ..()
-	say_span = replacetext(lowertext(title), " ", "")
 
 //Only override this proc, unless altering loadout code. Loadouts act on H but get info from M
 //H is usually a human unless an /equip override transformed it
@@ -205,7 +219,7 @@
 	if(!H)
 		return FALSE
 	if(CONFIG_GET(flag/enforce_human_authority) && (title in GLOB.command_positions))
-		if(H.dna.species.id != "human")
+		if(H.dna.species.id != SPECIES_HUMAN)
 			H.set_species(/datum/species/human)
 			H.apply_pref_name("human", preference_source)
 	if(!visualsOnly)
@@ -224,10 +238,11 @@
 	if(outfit_override || outfit)
 		H.equipOutfit(outfit_override ? outfit_override : outfit, visualsOnly)
 
-	H.dna.species.after_equip_job(src, H, visualsOnly)
+	H.dna.species.after_equip_job(src, H, visualsOnly, preference_source)
 
 	if(!visualsOnly && announce)
 		announce(H)
+	dormant_disease_check(H)
 
 /datum/job/proc/get_access()
 	if(!config)	//Needed for robots.
@@ -339,6 +354,7 @@
 		shuffle_inplace(C.access) // Shuffle access list to make NTNet passkeys less predictable
 		C.registered_name = H.real_name
 		C.assignment = J.title
+		C.set_hud_icon_on_spawn(J.title)
 		C.update_label()
 		for(var/A in SSeconomy.bank_accounts)
 			var/datum/bank_account/B = A
@@ -371,3 +387,32 @@
 //NSV13
 /datum/job/proc/get_rank()
 	return display_rank
+	
+//why is this as part of a job? because it's something every human recieves at roundstart after all other initializations and factors job in. it fits best with the equipment proc
+//this gives a dormant disease for the virologist to check for. if this disease actually does something to the mob... call me, or your local coder
+/datum/job/proc/dormant_disease_check(mob/living/carbon/human/H)
+	var/datum/symptom/guaranteed
+	var/sickrisk = 1
+	var/unfunny = 4
+	if((flag == CLOWN) || (flag == MIME))
+		unfunny = 0
+	if(islizard(H) || iscatperson(H))
+		sickrisk += 0.5 //these races like eating diseased mice, ew
+	if(MOB_INORGANIC in H.mob_biotypes)
+		sickrisk -= 0.5
+		guaranteed = /datum/symptom/inorganic_adaptation
+	else if(MOB_ROBOTIC in H.mob_biotypes)
+		sickrisk -= 0.75
+		guaranteed = /datum/symptom/robotic_adaptation
+	else if(MOB_UNDEAD in H.mob_biotypes)//this doesnt matter if it's not halloween, but...
+		sickrisk -= 0.25
+		guaranteed = /datum/symptom/undead_adaptation
+	else if(!(MOB_ORGANIC in H.mob_biotypes))
+		return //this mob cant be given a disease
+	if(prob(biohazard * sickrisk))
+		var/datum/disease/advance/scandisease = new /datum/disease/advance/random(rand(1, 4), rand(7, 9), unfunny, guaranteed, infected = H)
+		scandisease.dormant = TRUE
+		scandisease.spread_flags = DISEASE_SPREAD_NON_CONTAGIOUS
+		scandisease.spread_text = "None"
+		scandisease.visibility_flags |= HIDDEN_SCANNER
+		H.ForceContractDisease(scandisease)

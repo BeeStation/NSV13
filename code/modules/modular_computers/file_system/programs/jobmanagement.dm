@@ -1,29 +1,31 @@
 /datum/computer_file/program/job_management
 	filename = "job_manage"
 	filedesc = "Job Manager"
+	category = PROGRAM_CATEGORY_CREW
 	program_icon_state = "id"
 	extended_desc = "Program for viewing and changing job slot avalibility."
 	transfer_access = ACCESS_HEADS
 	requires_ntnet = 0
 	size = 4
 	tgui_id = "NtosJobManager"
+	program_icon = "address-book"
 
 
 
 	var/change_position_cooldown = 30
 	//Jobs you cannot open new positions for
 	var/list/blacklisted = list(
-		"AI",
-		"Midshipman" ,
-		"Cyborg",
-		"Captain",
-		"Executive Officer",
-		"Head of Security",
-		"Chief Engineer",
-		"Research Director",
-		"Chief Medical Officer",
-		"Deputy",
-		"Master At Arms") //NSV13 - added MAA, renamed HOP to XO
+		JOB_NAME_AI,
+		JOB_NAME_ASSISTANT,
+		JOB_NAME_CYBORG,
+		JOB_NAME_CAPTAIN,
+		JOB_NAME_HEADOFPERSONNEL,
+		JOB_NAME_HEADOFSECURITY,
+		JOB_NAME_CHIEFENGINEER,
+		JOB_NAME_RESEARCHDIRECTOR,
+		JOB_NAME_CHIEFMEDICALOFFICER,
+		JOB_NAME_DEPUTY,
+		JOB_NAME_MASTERATARMS) //NSV13 - added MAA
 
 	//The scaling factor of max total positions in relation to the total amount of people on board the station in %
 	var/max_relative_positions = 30 //30%: Seems reasonable, limit of 6 @ 20 players
@@ -56,14 +58,10 @@
 	if(..())
 		return
 
-	var/authed = FALSE
-	var/mob/user = usr
-	var/obj/item/card/id/user_id = user.get_idcard()
-	if(user_id)
-		if(ACCESS_CHANGE_IDS in user_id.access)
-			authed = TRUE
+	var/obj/item/computer_hardware/card_slot/card_slot = computer.all_components[MC_CARD]
+	var/obj/item/card/id/user_id = card_slot?.stored_card
 
-	if(!authed)
+	if(!user_id || !(ACCESS_CHANGE_IDS in user_id.access))
 		return
 
 	switch(action)
@@ -111,10 +109,10 @@
 	var/list/data = get_header_data()
 
 	var/authed = FALSE
-	var/obj/item/card/id/user_id = user.get_idcard(FALSE)
-	if(user_id)
-		if(ACCESS_CHANGE_IDS in user_id.access)
-			authed = TRUE
+	var/obj/item/computer_hardware/card_slot/card_slot = computer.all_components[MC_CARD]
+	var/obj/item/card/id/user_id = card_slot?.stored_card
+	if(user_id && (ACCESS_CHANGE_IDS in user_id.access))
+		authed = TRUE
 
 	data["authed"] = authed
 

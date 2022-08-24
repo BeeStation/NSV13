@@ -162,7 +162,7 @@
 
 
 /datum/outfit/centcom_official
-	name = "CentCom Official"
+	name = JOB_CENTCOM_OFFICIAL
 
 	uniform = /obj/item/clothing/under/rank/centcom/officer
 	shoes = /obj/item/clothing/shoes/sneakers/black
@@ -174,7 +174,7 @@
 	back = /obj/item/storage/backpack/satchel
 	r_pocket = /obj/item/pda/heads
 	l_hand = /obj/item/clipboard
-	id = /obj/item/card/id
+	id = /obj/item/card/id/centcom
 
 /datum/outfit/centcom_official/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
@@ -182,14 +182,15 @@
 
 	var/obj/item/pda/heads/pda = H.r_store
 	pda.owner = H.real_name
-	pda.ownjob = "CentCom Official"
+	pda.ownjob = JOB_CENTCOM_OFFICIAL
 	pda.update_label()
 
 	var/obj/item/card/id/W = H.wear_id
 	W.icon_state = "centcom"
-	W.access = get_centcom_access("CentCom Official")
+	W.access = list() // wipe access - they shouldn't get all centcom access.
+	W.access = get_centcom_access(JOB_CENTCOM_OFFICIAL)
 	W.access += ACCESS_WEAPONS
-	W.assignment = "CentCom Official"
+	W.assignment = JOB_CENTCOM_OFFICIAL
 	W.registered_name = H.real_name
 	W.update_label()
 
@@ -273,7 +274,8 @@
 		/obj/item/melee/baton/loaded=1,
 		/obj/item/mop/advanced=1,
 		/obj/item/reagent_containers/glass/bucket=1,
-		/obj/item/grenade/clusterbuster/cleaner=1)
+		/obj/item/grenade/clusterbuster/cleaner=1,
+		/obj/item/choice_beacon/janicart)
 
 /datum/outfit/ert/janitor/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
@@ -291,7 +293,8 @@
 		/obj/item/storage/box/lights/mixed=1,
 		/obj/item/melee/baton/loaded=1,
 		/obj/item/grenade/clusterbuster/cleaner=3,
-		/obj/item/reagent_containers/spray/chemsprayer/janitor=1)
+		/obj/item/reagent_containers/spray/chemsprayer/janitor=1,
+		/obj/item/choice_beacon/janicart)
 
 /datum/outfit/ert/kudzu
 	name = "ERT Weed Whacker"
@@ -341,6 +344,7 @@
 		return
 
 	var/obj/item/card/id/W = H.wear_id
+	W.access = list() //wipe access - they shouldn't get all centcom access.
 	W.access = get_centcom_access(name)
 	W.access += ACCESS_WEAPONS
 	W.assignment = name
@@ -387,6 +391,8 @@
 	R.set_frequency(FREQ_CENTCOM)
 	R.freqlock = TRUE
 
+	ADD_TRAIT(H, TRAIT_NAIVE, INNATE_TRAIT)
+
 	var/obj/item/card/id/W = H.wear_id
 	W.registered_name = H.real_name
 	W.access += ACCESS_THEATRE
@@ -412,7 +418,7 @@
 		)
 
 /datum/outfit/death_commando
-	name = "Death Commando"
+	name = JOB_ERT_DEATHSQUAD
 
 	uniform = /obj/item/clothing/under/rank/centcom/commander
 	suit = /obj/item/clothing/suit/space/hardsuit/deathsquad
@@ -426,7 +432,7 @@
 	suit_store = /obj/item/tank/internals/emergency_oxygen/double
 	belt = /obj/item/gun/ballistic/revolver/mateba
 	l_hand = /obj/item/gun/energy/pulse/loyalpin
-	id = /obj/item/card/id
+	id = /obj/item/card/id/centcom
 	ears = /obj/item/radio/headset/headset_cent/alt
 
 	backpack_contents = list(/obj/item/storage/box=1,\
@@ -450,9 +456,10 @@
 
 	var/obj/item/card/id/W = H.wear_id
 	W.icon_state = "centcom"
+	W.access = list() //wipe access first
 	W.access = get_all_accesses()//They get full station access.
-	W.access += get_centcom_access("Death Commando")//Let's add their alloted CentCom access.
-	W.assignment = "Death Commando"
+	W.access += get_centcom_access(JOB_ERT_DEATHSQUAD)//Let's add their alloted CentCom access.
+	W.assignment = JOB_ERT_DEATHSQUAD
 	W.registered_name = H.real_name
 	W.update_label(W.registered_name, W.assignment)
 
@@ -479,7 +486,6 @@
 	back = /obj/item/storage/backpack/hammerspace
 	l_pocket = /obj/item/kitchen/knife/combat
 	r_pocket = /obj/item/tank/internals/emergency_oxygen/double
-	r_hand = /obj/item/reagent_containers/hypospray/combat/supersoldier
 	backpack_contents = list(/obj/item/storage/box/engineer=1,\
 		/obj/item/reagent_containers/hypospray/combat,\
 		/obj/item/radio=1,\

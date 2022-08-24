@@ -1,6 +1,8 @@
 /mob/living/carbon/human/say_mod(input, list/message_mods = list())
-	verb_say = dna.species.say_mod
-	if(slurring)
+	var/obj/item/organ/tongue/T = getorganslot(ORGAN_SLOT_TONGUE)
+	if(T)
+		verb_say = T.say_mod
+	if(slurring || !T)
 		return "slurs"
 	else
 		. = ..()
@@ -45,8 +47,6 @@
 	return special_voice
 
 /mob/living/carbon/human/binarycheck()
-	if(..()) //NSV13- If they have the binary speaker trait. Used for synthetics
-		return TRUE
 	if(stat >= SOFT_CRIT || !ears)
 		return FALSE
 	var/obj/item/radio/headset/dongle = ears

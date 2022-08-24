@@ -180,18 +180,6 @@ Turf and target are separate in case you want to teleport some distance from a t
 			line+=locate(px,py,M.z)
 	return line
 
-/// Returns whether or not a player is a guest using their ckey as an input
-/proc/IsGuestKey(key)
-	if (findtext(key, "Guest-", 1, 7) != 1) //was findtextEx
-		return FALSE
-
-	var/i, ch, len = length(key)
-
-	for (i = 7, i <= len, ++i) //we know the first 6 chars are Guest-
-		ch = text2ascii(key, i)
-		if (ch < 48 || ch > 57) //0-9
-			return FALSE
-	return TRUE
 
 //// Generalised helper proc for letting mobs rename themselves. Used to be clname() and ainame()
 /mob/proc/apply_pref_name(role, client/C)
@@ -243,28 +231,27 @@ Turf and target are separate in case you want to teleport some distance from a t
 /// Returns a list of unslaved cyborgs
 /proc/active_free_borgs()
 	. = list()
-	for(var/mob/living/silicon/robot/R in GLOB.alive_mob_list)
-		if(R.connected_ai || R.shell)
+	for(var/mob/living/silicon/robot/borg in GLOB.silicon_mobs)
+		if(borg.connected_ai || borg.shell)
 			continue
-		if(R.stat == DEAD)
+		if(borg.stat == DEAD)
 			continue
-		if(R.emagged || R.scrambledcodes)
+		if(borg.emagged || borg.scrambledcodes)
 			continue
-		. += R
+		. += borg
 
 /// Returns a list of AI's
-/proc/active_ais(check_mind=0)
+/proc/active_ais(check_mind=FALSE)
 	. = list()
-	for(var/mob/living/silicon/ai/A in GLOB.alive_mob_list)
-		if(A.stat == DEAD)
+	for(var/mob/living/silicon/ai/ai as anything in GLOB.ai_list)
+		if(ai.stat == DEAD)
 			continue
-		if(A.control_disabled)
+		if(ai.control_disabled)
 			continue
 		if(check_mind)
-			if(!A.mind)
+			if(!ai.mind)
 				continue
-		. += A
-	return .
+		. += ai
 
 /// Find an active ai with the least borgs. VERBOSE PROCNAME HUH!
 /proc/select_active_ai_with_fewest_borgs()
@@ -1116,27 +1103,28 @@ eg2: `center_image(I, 96,96)`
 /proc/get_random_station_turf()
 	return safepick(get_area_turfs(pick(GLOB.the_station_areas)))
 
-///Gets random safe - which mean clear of dense objects and valid, turf from provided areas that are on station
-///Amount 1 makes it return turf, anything else a list of turfs
+///Returns a random turf or turf list on the station, excludes dense turfs (like walls) and areas with valid_territory set to FALSE
 /proc/get_safe_random_station_turfs(list/areas_to_pick_from = GLOB.the_station_areas, amount = 1)
 	var/list/picked_turfs = list()
-	var/list/L
+	var/list/turf_list = list()
 	for(var/area/A as() in areas_to_pick_from)
-		L += get_area_turfs(A)
-	while(L.len && length(picked_turfs) <= amount)
-		var/I = rand(1, length(L))
-		var/turf/T = L[I]
-		var/area/X = get_area(T)
-		if(!T.density && (X.area_flags & VALID_TERRITORY))
+		turf_list += get_area_turfs(A)
+	while(turf_list.len && length(picked_turfs) < amount)
+		var/I = rand(1, length(turf_list))
+		var/turf/checked_turf = turf_list[I]
+		var/area/turf_area = get_area(checked_turf)
+		if(!checked_turf.density && (turf_area.area_flags & VALID_TERRITORY) && !isgroundlessturf(checked_turf))
 			var/clear = TRUE
-			for(var/obj/O in T)
-				if(O.density)
+			for(var/obj/checked_object in checked_turf)
+				if(checked_object.density)
 					clear = FALSE
 					break
 			if(clear)
-				picked_turfs |= T
-			L.Cut(I,I+1)
+				picked_turfs |= checked_turf
+			turf_list.Cut(I,I+1)
 		CHECK_TICK
+	if(!picked_turfs.len)
+		return null
 	if(amount == 1)
 		return picked_turfs[1]
 	return picked_turfs
@@ -1239,12 +1227,18 @@ Increases delay as the server gets more overloaded, as sleeps aren't cheap and s
 
 #define RANDOM_COLOUR (rgb(rand(0,255),rand(0,255),rand(0,255)))
 
-/proc/random_nukecode()
-	var/val = rand(0, 99999)
-	var/str = "[val]"
-	while(length(str) < 5)
-		str = "0" + str
-	. = str
+/**
+ * random code generator (only numbers)
+ * This returns a string
+ * Arguments
+ * n_length - length of the random code
+ *
+**/
+/proc/random_code(n_length = 0)
+	if(!n_length) //incase someone forgets to say how long they want the code to be
+		stack_trace("No code length forwarded as argument")
+	while(length(.) < n_length)
+		. += "[rand(0, 9)]" // we directly write into the return value (.) here
 
 /atom/proc/Shake(pixelshiftx = 15, pixelshifty = 15, duration = 250)
 	var/initialpixelx = pixel_x
@@ -1294,7 +1288,7 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 	move_resist = INFINITY
 	var/ready_to_die = FALSE
 
-/mob/dview/Initialize() //Properly prevents this mob from gaining huds or joining any global lists
+/mob/dview/Initialize(mapload) //Properly prevents this mob from gaining huds or joining any global lists
 	return INITIALIZE_HINT_NORMAL
 
 /mob/dview/Destroy(force = FALSE)
@@ -1372,11 +1366,11 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 	var/user_loc = user.loc
 
 	var/drifting = FALSE
-	if(!user.Process_Spacemove(0) && user.inertia_dir)
+	if(SSmove_manager.processing_on(user, SSspacedrift))
 		drifting = TRUE
 
 	var/target_drifting = FALSE
-	if(!target.Process_Spacemove(0) && target.inertia_dir)
+	if(SSmove_manager.processing_on(user, SSspacedrift))
 		target_drifting = TRUE
 
 	var/target_loc = target.loc
@@ -1391,11 +1385,11 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 		if(uninterruptible)
 			continue
 
-		if(drifting && !user.inertia_dir)
+		if(drifting && SSmove_manager.processing_on(user, SSspacedrift))
 			drifting = FALSE
 			user_loc = user.loc
 
-		if(target_drifting && !target.inertia_dir)
+		if(target_drifting && SSmove_manager.processing_on(user, SSspacedrift))
 			target_drifting = FALSE
 			target_loc = target.loc
 
@@ -1483,7 +1477,9 @@ If it ever becomes necesary to get a more performant REF(), this lies here in wa
 		/obj/item/reagent_containers/food/snacks/clothing,
 		/obj/item/reagent_containers/food/snacks/grown/shell, //base types
 		/obj/item/reagent_containers/food/snacks/store/bread,
-		/obj/item/reagent_containers/food/snacks/grown/nettle
+		/obj/item/reagent_containers/food/snacks/grown/nettle,
+		/obj/item/reagent_containers/food/snacks/burger/roburger,
+		/obj/item/reagent_containers/food/snacks/grown/shell/gatfruit
 		)
 	blocked |= typesof(/obj/item/reagent_containers/food/snacks/customizable)
 

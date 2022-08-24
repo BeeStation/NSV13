@@ -15,6 +15,7 @@ $include comms.txt
 $include antag_rep.txt
 # Asset Transport (TGUI)
 $include resources.txt
+$include interviews.txt
 
 # You can use the @ character at the beginning of a config option to lock it from being edited in-game
 # Example usage:
@@ -166,6 +167,9 @@ LOG_MANIFEST
 ## log mecha actions
 # LOG_MECHA
 
+## Log all timers on timer auto reset
+# LOG_TIMERS_ON_BUCKET_RESET
+
 ##Log camera pictures - Must have picture logging enabled
 PICTURE_LOGGING_CAMERA
 
@@ -247,6 +251,9 @@ CHECK_RANDOMIZER
 
 ## Set to prevent anyone but those ckeys listed in config/whitelist.txt and config/admins.txt from joining your server
 #USEWHITELIST
+
+## Use the patron list as a whitelist. 'USEWHITELIST' must also be enabled. The two lists will be joined together.
+#USE_PATRONS_AS_WHITELIST
 
 ## set a server location for world reboot. Don't include the byond://, just give the address and port.
 ## Don't set this to the same server, BYOND will automatically restart players to the server when it has restarted.
@@ -334,6 +341,9 @@ AUTOMUTE_ON
 ## Uncomment this to let players see their own notes (they can still be set by admins only)
 SEE_OWN_NOTES
 
+## Uncomment this to prevent the game from creating automatically expring notes, and to skip the prompt for admins to enter an expiry time for notes. They can still be added manually.
+MANUAL_NOTE_EXPIRY
+
 ### Comment these two out to prevent notes fading out over time for admins.
 ## Notes older then this will start fading out.
 NOTE_FRESH_DAYS 91.31055
@@ -376,6 +386,14 @@ NOTIFY_NEW_PLAYER_ACCOUNT_AGE 1
 ##	Requires database
 #PANIC_BUNKER
 
+## Uncomment to enable the interview system for players who are below the living hour requirement instead of explicitly blocking them from the server
+## Note this requires the PANIC_BUNKER to be enabled to do anything.
+#PANIC_BUNKER_INTERVIEW
+
+## Uncomment to allow players to try interviewing again instead of being removed for the duration of the round
+## Note this requires the PANIC_BUNKER_INTERVIEW to be enabled to do anything.
+#PANIC_BUNKER_INTERVIEW_RETRIES
+
 ## If a player connects during a bunker with less then or this amount of living time (Minutes), we deny the connection
 #PANIC_BUNKER_LIVING 60
 
@@ -414,6 +432,10 @@ PREFERENCE_MAP_VOTING 1
 ## Starts a map vote at the end of rounds
 AUTOMAPVOTE
 
+## Sets a minimum round length (in minutes) before a map vote will be called to discourage players from forcing early round ends just to change map
+## Set to 0 to disable.
+AUTOMAPVOTE_THRESHOLD 45
+
 ## Map rotate chance delta
 ## This is the chance of map rotation factored to the round length.
 ## A value of 1 would mean the map rotation chance is the round length in minutes (hour long round == 60% rotation chance)
@@ -438,7 +460,7 @@ AUTOADMIN_RANK Admin
 CLIENT_ERROR_VERSION 514
 CLIENT_ERROR_MESSAGE Your version of byond is not supported. Please upgrade.
 ## The minimum build needed for joining the server, if using 513, a good minimum build would be 1526.
-CLIENT_ERROR_BUILD 1568
+CLIENT_ERROR_BUILD 1583
 
 ## TOPIC RATE LIMITING
 ## This allows you to limit how many topic calls (clicking on an interface window) the client can do in any given game second and/or game minute.
@@ -528,6 +550,7 @@ MAX_SHUTTLE_SIZE 300
 ## NSV13 - ranks. Comment out SHOW_RANKS to disable. RANK_FILE gives default rank list.
 SHOW_RANKS
 RANK_FILE royal_navy.txt
+=======
 
 ### Fail2Topic settings
 ### fail2topic is a system for automating IP bans for abusers of the world/Topic API.
@@ -587,3 +610,9 @@ GHOST_ROLE_COOLDOWN 3000
 
 ## ElasticSearch API key. This is formatted into the headers. Look at the ElasticSearch doc for how to make this
 #ELASTICSEARCH_METRICS_APIKEY thisIsSomethingThatsBased64Encoded==
+
+## How long in seconds after which a hard delete is treated as causing lag. This can be a float and supports a precision as low as nanoseconds.
+#HARD_DELETES_OVERRUN_THRESHOLD 0.5
+
+## Once a typepath causes overrun from hard deletes this many times, stop hard deleting it on garbage collection failures. (set to 0 to disable)
+#HARD_DELETES_OVERRUN_LIMIT 0

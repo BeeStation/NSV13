@@ -29,7 +29,7 @@
 		can_be_bought = FALSE
 	shuttle_id = "[port_id]_[suffix]"
 	if(!admin_load)
-		mappath = "[prefix][shuttle_id].dmm"
+		mappath = "[prefix][port_id]/[shuttle_id].dmm"
 	. = ..()
 
 /datum/map_template/shuttle/preload_size(path, cache)
@@ -325,11 +325,17 @@
 	credit_cost = 4000
 	description = "A smaller shuttle with area for cargo, medical and security personnel."
 
+/datum/map_template/shuttle/emergency/fland
+	suffix = "fland"
+	name = "Flandstation Wide shuttle"
+	description = "It's a fat shuttle for a rather unusual station... huh..."
+	admin_notes = "It's big to spawn, it may or may not collide with the surrounding stuff on other maps that don't have a massive emergency docking area."
+	credit_cost = 8000
+
 /datum/map_template/shuttle/emergency/donut //NSV13 - we were using that shuttle
 	suffix = "donut"
 	name = "Donut Station Emergency Shuttle"
 	credit_cost = 4000
-
 
 /datum/map_template/shuttle/emergency/mini
 	suffix = "mini"
@@ -351,6 +357,11 @@
 	description = "Looks like this shuttle may have wandered into the darkness between the stars on route to the station. Let's not think too hard about where all the bodies came from."
 	admin_notes = "Contains real cult ruins, mob eyeballs, and inactive constructs. Cult mobs will automatically be sentienced by fun balloon. \
 	Cloning pods in 'medbay' area are showcases and nonfunctional."
+
+/datum/map_template/shuttle/emergency/narnar/prerequisites_met()
+	if(SHUTTLE_UNLOCK_NARNAR in SSshuttle.shuttle_purchase_requirements_met)
+		return TRUE
+	return FALSE
 
 /datum/map_template/shuttle/emergency/pubby
 	suffix = "pubby"
@@ -576,6 +587,10 @@
 	suffix = "delta"
 	name = "delta exploration shuttle"
 
+/datum/map_template/shuttle/exploration/kilo
+	suffix = "kilo"
+	name = "kilo exploration shuttle"
+
 /datum/map_template/shuttle/labour/delta
 	suffix = "delta"
 	name = "labour shuttle (Delta)"
@@ -675,12 +690,6 @@
 	name = "primary turbolift (multi-z debug)"
 	can_be_bought = FALSE
 
-/datum/map_template/shuttle/turbolift/semmes/aircraft //NSV13
-	port_id = "aircraft"
-	suffix = "semmes"
-	name = "Aircraft elevator (NSV Semmes)"
-	can_be_bought = FALSE
-
 /datum/map_template/shuttle/tram
 	port_id = "tram"
 	can_be_bought = FALSE
@@ -688,3 +697,50 @@
 /datum/map_template/shuttle/tram/corg
 	suffix = "corg"
 	name = "corgstation transport shuttle"
+
+//---------cargo_fland.dmm
+/datum/map_template/shuttle/cargo/fland
+	suffix = "fland"
+	name = "supply shuttle (fland)"
+
+//---------labour_fland.dmm
+/datum/map_template/shuttle/cargo/fland
+	suffix = "fland"
+	name = "cargo ferry (Fland)"
+
+//---------mining_fland.dmm
+/datum/map_template/shuttle/mining/fland
+	suffix = "fland"
+	name = "mining shuttle (fland)"
+
+//---------labour_fland.dmm
+/datum/map_template/shuttle/labour/fland
+	suffix = "fland"
+	name = "labour shuttle (Fland)"
+
+//---------arrival_fland.dmm
+/datum/map_template/shuttle/arrival/fland
+	suffix = "fland"
+	name = "arrival shuttle (Fland)"
+
+//---------whiteship_fland.dmm
+/datum/map_template/shuttle/whiteship/fland
+	suffix = "fland"
+	name = "Eden Whiteship"
+
+//---------exploration_fland.dmm
+/datum/map_template/shuttle/exploration/fland
+	suffix = "fland"
+	name = "Fland exploration shuttle"
+
+//---------ferry_fland.dmm
+/datum/map_template/shuttle/ferry/fland
+	suffix = "fland"
+	name = "fland transport ferry"
+	description = "Standard issue CentCom Ferry for the fland station. Includes additional equipment and a recharger."
+
+/datum/map_template/shuttle/turbolift/semmes/aircraft //NSV13
+	port_id = "aircraft"
+	suffix = "semmes"
+	name = "Aircraft elevator (NSV Semmes)"
+	can_be_bought = FALSE

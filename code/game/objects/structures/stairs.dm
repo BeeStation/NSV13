@@ -73,16 +73,15 @@
 	else
 		icon_state = "stairs"
 
-/obj/structure/stairs/proc/stair_ascend(atom/movable/AM, turf/newloc)
+/obj/structure/stairs/proc/stair_ascend(atom/movable/AM)
 	var/turf/checking = get_step_multiz(get_turf(src), UP)
 	if(!istype(checking))
-		return FALSE
+		return
 	if(!checking.zPassIn(AM, UP, get_turf(src)))
 		return
 	var/turf/target = get_step_multiz(get_turf(src), (dir|UP))
 	if(istype(target) && !target.can_zFall(AM, null, get_step_multiz(target, DOWN)))			//Don't throw them into a tile that will just dump them back down.
 		AM.Move(target, (dir | UP))
-
 
 /obj/structure/stairs/vv_edit_var(var_name, var_value)
 	. = ..()

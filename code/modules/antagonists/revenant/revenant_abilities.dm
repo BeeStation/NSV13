@@ -10,7 +10,11 @@
 	if(modifiers["alt"])
 		AltClickNoInteract(src, A)
 		return
-
+	
+	if(modifiers["ctrl"])
+		CtrlClickOn(A)
+		return
+	
 	if(ishuman(A))
 		if(A in drained_mobs)
 			to_chat(src, "<span class='revenwarning'>[A]'s soul is dead and empty.</span>" )
@@ -124,6 +128,22 @@
 	boldnotice = "revenboldnotice"
 	holy_check = TRUE
 
+/obj/effect/proc_holder/spell/self/revenant_phase_shift
+	name = "Phase Shift"
+	desc = "Shift in and out of your corporeal form"
+	panel = "Revenant Abilities"
+	action_icon = 'icons/mob/actions/actions_revenant.dmi'
+	action_icon_state = "r_phase"
+	action_background_icon_state = "bg_revenant"
+	clothes_req = FALSE
+	charge_max = 0
+
+/obj/effect/proc_holder/spell/self/revenant_phase_shift/cast(mob/user = usr)
+	if(!isrevenant(user))
+		return FALSE
+	var/mob/living/simple_animal/revenant/revenant = user
+	revenant.phase_shift()
+
 /obj/effect/proc_holder/spell/aoe_turf/revenant
 	clothes_req = 0
 	action_icon = 'icons/mob/actions/actions_revenant.dmi'
@@ -136,7 +156,7 @@
 	var/unlock_amount = 100 //How much essence it costs to unlock
 	var/cast_amount = 50 //How much essence it costs to use
 
-/obj/effect/proc_holder/spell/aoe_turf/revenant/Initialize()
+/obj/effect/proc_holder/spell/aoe_turf/revenant/Initialize(mapload)
 	. = ..()
 	if(locked)
 		name = "[initial(name)] ([unlock_amount]SE)"
@@ -257,10 +277,10 @@
 		floor.make_plating(1)
 	if(T.type == /turf/closed/wall && prob(15))
 		new /obj/effect/temp_visual/revenant(T)
-		T.ChangeTurf(/turf/closed/wall/rust)
+		T.AddElement(/datum/element/rust)
 	if(T.type == /turf/closed/wall/r_wall && prob(10))
 		new /obj/effect/temp_visual/revenant(T)
-		T.ChangeTurf(/turf/closed/wall/r_wall/rust)
+		T.AddElement(/datum/element/rust)
 	for(var/obj/effect/decal/cleanable/food/salt/salt in T)
 		new /obj/effect/temp_visual/revenant(T)
 		qdel(salt)

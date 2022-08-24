@@ -10,77 +10,53 @@ Format:
 	default (The last map with this defined will get all votes of players who have not explicitly voted for a map)
 	voteweight [number] (How much to count each player vote as, defaults to 1, setting to 0.5 counts each vote as half a vote, 2 as double, etc, Setting to 0 disables the map but allows players to still pick it)
 	disabled (disables the map)
+	votable (allow the map to be selected in a called map vote)
+endmap
 
-map aetherwhisp
+
+#Active Rotation
+
+map corgstation
+	minplayers 15
 	votable
 endmap
 
-map tycoon
-	votable
-	voteweight 1.5
-endmap
-
-map Atlas
+map boxstation
+	maxplayers 60
 	votable
 endmap
 
-map gladius
-	votable
-	voteweight 1.5
-endmap
-
-map galactica
-	votable
-	voteweight 1.5
-endmap
-
-map Eclipse
+map metastation
+	default
 	votable
 endmap
 
-#map pegasus
-	votable
-	voteweight 1.5
-endmap
-
-map Vago
+map pubbystation
+	maxplayers 50
 	votable
 endmap
 
-map snake
+map deltastation
+	minplayers 40
 	votable
 endmap
 
-#map hammerhead
-	votable
-	voteweight 1.5
-endmap
-
-#map jollysausage
-	votable
-	voteweight 1.5
-endmap
-
-#map jeppison
+map kilostation
+	maxplayers 50
 	votable
 endmap
 
-#map runtimestation
+map flandstation
+	minplayers 40
+	votable
+endmap
+
+#Debug Maps, you probably don't want these enabled.
+
+map runtimestation
 	disabled
 endmap
 
-#map multiz_debug
+map multiz_debug
 	disabled
-endmap
-
-#map destroyer
-	votable
-endmap
-
-#map testship
-	votable
-endmap
-
-map shrike
-
 endmap

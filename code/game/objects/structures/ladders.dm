@@ -8,6 +8,7 @@
 	var/obj/structure/ladder/down   //the ladder below this one
 	var/obj/structure/ladder/up     //the ladder above this one
 	max_integrity = 100
+	obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN
 
 /obj/structure/ladder/Initialize(mapload, obj/structure/ladder/up, obj/structure/ladder/down)
 	..()
@@ -207,7 +208,7 @@
 	var/id
 	var/height = 0  // higher numbers are considered physically higher
 
-/obj/structure/ladder/unbreakable/Initialize()
+/obj/structure/ladder/unbreakable/Initialize(mapload)
 	GLOB.ladders += src
 	return ..()
 

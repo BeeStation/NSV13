@@ -71,6 +71,7 @@
 	integrity_failure = 80
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 100, "bomb" = 0, "bio" = 100, "rad" = 100, "fire" = 90, "acid" = 30, "stamina" = 0)
 	resistance_flags = FIRE_PROOF
+	clicksound = 'sound/machines/terminal_select.ogg'
 	layer = ABOVE_WINDOW_LAYER
 
 
@@ -92,7 +93,6 @@
 		GAS_O2			= new/datum/tlv(16, 19, 40, 50), // Partial pressure, kpa
 		GAS_N2			= new/datum/tlv(-1, -1, 1000, 1000),
 		GAS_CO2	= new/datum/tlv(-1, -1, 5, 10),
-		//GAS_MIASMA			= new/datum/tlv/(-1, -1, 15, 30), //NSV13 - no miasma
 		GAS_PLASMA			= new/datum/tlv/dangerous,
 		GAS_NITROUS	= new/datum/tlv/dangerous,
 		GAS_BZ				= new/datum/tlv/dangerous,
@@ -113,7 +113,6 @@
 		GAS_O2			= new/datum/tlv/no_checks,
 		GAS_N2			= new/datum/tlv/no_checks,
 		GAS_CO2	= new/datum/tlv/no_checks,
-		//GAS_MIASMA			= new/datum/tlv/no_checks, //NSV13 - no miasma
 		GAS_PLASMA			= new/datum/tlv/no_checks,
 		GAS_NITROUS	= new/datum/tlv/no_checks,
 		GAS_BZ				= new/datum/tlv/no_checks,
@@ -122,9 +121,9 @@
 		GAS_TRITIUM			= new/datum/tlv/no_checks,
 		GAS_STIMULUM			= new/datum/tlv/no_checks,
 		GAS_NITRYL			= new/datum/tlv/no_checks,
-		GAS_PLUOXIUM			= new/datum/tlv/no_checks,
 		GAS_CONSTRICTED_PLASMA			= new/datum/tlv/no_checks, //NSV13
-		GAS_NUCLEIUM			= new/datum/tlv/no_checks //NSV13
+		GAS_NUCLEIUM			= new/datum/tlv/no_checks, //NSV13
+		GAS_PLUOXIUM			= new/datum/tlv/no_checks
 	)
 
 /obj/machinery/airalarm/kitchen_cold_room // Kitchen cold rooms start off at -20°C or 253.15°K. | NSV13 - Added Constricted Plasma and Nucleium
@@ -134,7 +133,6 @@
 		GAS_O2			= new/datum/tlv(16, 19, 135, 140), // Partial pressure, kpa
 		GAS_N2			= new/datum/tlv(-1, -1, 1000, 1000),
 		GAS_CO2	= new/datum/tlv(-1, -1, 5, 10),
-		//GAS_MIASMA			= new/datum/tlv/(-1, -1, 2, 5), //NSV13 - no miasma
 		GAS_PLASMA			= new/datum/tlv/dangerous,
 		GAS_NITROUS	= new/datum/tlv/dangerous,
 		GAS_BZ				= new/datum/tlv/dangerous,
@@ -143,9 +141,9 @@
 		GAS_TRITIUM			= new/datum/tlv/dangerous,
 		GAS_STIMULUM			= new/datum/tlv/dangerous,
 		GAS_NITRYL			= new/datum/tlv/dangerous,
-		GAS_PLUOXIUM			= new/datum/tlv(-1, -1, 1000, 1000), // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
 		GAS_CONSTRICTED_PLASMA			= new/datum/tlv/dangerous, //NSV13
 		GAS_NUCLEIUM			= new/datum/tlv/dangerous, //NSV13
+		GAS_PLUOXIUM			= new/datum/tlv(-1, -1, 1000, 1000) // Unlike oxygen, pluoxium does not fuel plasma/tritium fires
 	)
 
 /obj/machinery/airalarm/unlocked
@@ -199,8 +197,8 @@
 	var/list/air_vent_info = list()
 	var/list/air_scrub_info = list()
 
-/obj/machinery/airalarm/New(loc, ndir, nbuild)
-	..()
+/obj/machinery/airalarm/Initialize(mapload, ndir, nbuild)
+	. = ..()
 	wires = new /datum/wires/airalarm(src)
 	if(ndir)
 		setDir(ndir)
@@ -215,6 +213,9 @@
 		name = "[get_area_name(src)] Air Alarm"
 
 	update_icon()
+
+	set_frequency(frequency)
+	GLOB.zclear_atoms += src
 
 /obj/machinery/airalarm/Destroy()
 	SSradio.remove_object(src, frequency)
@@ -536,7 +537,6 @@
 					"power" = 1,
 					"set_filters" = list(
 						GAS_CO2,
-						//GAS_MIASMA, //NSV13 - no miasma
 						GAS_PLASMA,
 						GAS_H2O,
 						GAS_HYPERNOB,
@@ -545,9 +545,9 @@
 						GAS_TRITIUM,
 						GAS_BZ,
 						GAS_STIMULUM,
-						GAS_PLUOXIUM,
 						GAS_CONSTRICTED_PLASMA, //NSV13
-						GAS_NUCLEIUM //NSV13
+						GAS_NUCLEIUM, //NSV13
+						GAS_PLUOXIUM
 					),
 					"scrubbing" = 1,
 					"widenet" = 1
@@ -698,7 +698,7 @@
 		return
 
 	var/datum/signal/alert_signal = new(list(
-		"zone" = get_area_name(src),
+		"zone" = get_area_name(src, TRUE),
 		"type" = "Atmospheric"
 	))
 	var/area/A = get_area(src)

@@ -78,7 +78,7 @@
 	mask_type = /obj/item/clothing/mask/gas/sechailer
 
 /obj/machinery/suit_storage_unit/hos
-	suit_type = /obj/item/clothing/suit/space/hardsuit/security/hos
+	suit_type = /obj/item/clothing/suit/space/hardsuit/security/head_of_security
 	mask_type = /obj/item/clothing/mask/gas/sechailer
 	storage_type = /obj/item/tank/internals/oxygen
 
@@ -104,7 +104,7 @@
 	mask_type = /obj/item/clothing/mask/breath
 
 /obj/machinery/suit_storage_unit/rd
-	suit_type = /obj/item/clothing/suit/space/hardsuit/rd
+	suit_type = /obj/item/clothing/suit/space/hardsuit/research_director
 	mask_type = /obj/item/clothing/mask/breath
 
 /obj/machinery/suit_storage_unit/syndicate
@@ -142,7 +142,7 @@
 	state_open = TRUE
 	density = FALSE
 
-/obj/machinery/suit_storage_unit/Initialize()
+/obj/machinery/suit_storage_unit/Initialize(mapload)
 	. = ..()
 	wires = new /datum/wires/suit_storage_unit(src)
 	if(suit_type)
@@ -156,6 +156,7 @@
 	update_icon()
 
 /obj/machinery/suit_storage_unit/Destroy()
+	QDEL_NULL(wires)
 	dump_contents()
 	return ..()
 
@@ -433,6 +434,7 @@
 		to_chat(user, "<span class='warning'>It might not be wise to fiddle with [src] while it's running...</span>")
 		return TRUE
 	return ..()
+
 
 /obj/machinery/suit_storage_unit/default_pry_open(obj/item/I)//needs to check if the storage is locked.
 	. = !(state_open || panel_open || is_operational() || locked || (flags_1 & NODECONSTRUCT_1)) && I.tool_behaviour == TOOL_CROWBAR

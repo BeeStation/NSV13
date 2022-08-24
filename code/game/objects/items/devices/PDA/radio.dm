@@ -15,7 +15,7 @@
 	radio_connection = null
 	return ..()
 
-/obj/item/integrated_signaler/Initialize()
+/obj/item/integrated_signaler/Initialize(mapload)
 	. = ..()
 	if (frequency < MIN_FREE_FREQ || frequency > MAX_FREE_FREQ)
 		frequency = sanitize_frequency(frequency)
@@ -33,6 +33,8 @@
 	var/time = time2text(world.realtime,"hh:mm:ss")
 	var/turf/T = get_turf(src)
 	GLOB.lastsignalers.Add("[time] <B>:</B> [usr.key] used [src] @ location [AREACOORD(T)] <B>:</B> [format_frequency(frequency)]/[code]")
+	log_telecomms("[time] <B>:</B> [usr.key] used [src] @ location [AREACOORD(T)] <B>:</B> with frequency: [format_frequency(frequency)]/[code]")
+	message_admins("<B>:</B> [usr.key] used [src] @ location [AREACOORD(T)] <B>:</B> with frequency: [format_frequency(frequency)]/[code]")
 
 	var/datum/signal/signal = new(list("code" = code))
 	radio_connection.post_signal(src, signal, filter = RADIO_SIGNALER)

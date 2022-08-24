@@ -1,5 +1,5 @@
 /datum/job/captain
-	title = "Captain"
+	title = JOB_NAME_CAPTAIN
 	flag = CAPTAIN
 	auto_deadmin_role_flags = DEADMIN_POSITION_HEAD|DEADMIN_POSITION_SECURITY
 	department_head = list("CentCom")
@@ -9,7 +9,6 @@
 	spawn_positions = 1
 	supervisors = "Nanotrasen officials and Space law"
 	selection_color = "#ccccff"
-	chat_color = "#FFDC9B"
 	req_admin_notify = 1
 	minimal_player_age = 14
 	exp_requirements = 1200
@@ -26,7 +25,8 @@
 	mind_traits = list(TRAIT_DISK_VERIFIER)
 
 	display_order = JOB_DISPLAY_ORDER_CAPTAIN
-	departments = DEPARTMENT_COMMAND
+	departments = DEPARTMENT_BITFLAG_COMMAND
+	rpg_title = "Star Duke"
 
 	species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/command
@@ -39,10 +39,10 @@
 	SSticker.OnRoundstart(CALLBACK(GLOBAL_PROC, .proc/minor_announce, "Captain [H.real_name] on deck!"))
 
 /datum/outfit/job/captain
-	name = "Captain"
+	name = JOB_NAME_CAPTAIN
 	jobtype = /datum/job/captain
 
-	id = /obj/item/card/id/gold
+	id = /obj/item/card/id/job/captain
 	belt = /obj/item/melee/classic_baton/telescopic/stunsword //NSV13 - stunsword
 	l_pocket = /obj/item/pda/captain //NSV13 - moved PDA to pocket
 	glasses = /obj/item/clothing/glasses/sunglasses/advanced
@@ -52,7 +52,7 @@
 	suit = /obj/item/clothing/suit/ship/officer //NSV13 - officer's uniform
 	shoes = /obj/item/clothing/shoes/jackboots //NSV13 - boots
 	head = /obj/item/clothing/head/beret/ship/captain //NSV13 - captain's beret
-	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1, /obj/item/station_charter=1, /obj/item/modular_computer/tablet/preset/advanced=1, /obj/item/squad_pager/all_channels=1) //NSV13 - added squad pager
+	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1, /obj/item/station_charter=1, /obj/item/modular_computer/tablet/preset/advanced/command=1, /obj/item/squad_pager/all_channels=1) //NSV13 - added squad pager
 
 	backpack = /obj/item/storage/backpack/captain
 	satchel = /obj/item/storage/backpack/satchel/cap

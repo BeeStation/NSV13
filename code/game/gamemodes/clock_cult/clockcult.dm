@@ -41,6 +41,7 @@ GLOBAL_VAR(clockcult_eminence)
 	<span class='danger'>Servants</span>: Convert more servants and defend the Ark of the Clockwork Justicar!\n\
 	<span class='notice'>Crew</span>: Prepare yourselfs and destroy the Ark of the Clockwork Justicar."
 
+
 	var/clock_cultists = CLOCKCULT_SERVANTS
 	var/list/selected_servants = list()
 
@@ -58,6 +59,9 @@ GLOBAL_VAR(clockcult_eminence)
 		if(!antag_candidates.len)
 			break
 		var/datum/mind/clockie = antag_pick(antag_candidates, ROLE_SERVANT_OF_RATVAR)
+		//In case antag_pick breaks
+		if(!clockie)
+			continue
 		antag_candidates -= clockie
 		selected_servants += clockie
 		clockie.assigned_role = ROLE_SERVANT_OF_RATVAR
@@ -71,6 +75,12 @@ GLOBAL_VAR(clockcult_eminence)
 	main_cult.setup_objectives()
 	//Create team
 	for(var/datum/mind/servant_mind in selected_servants)
+		//Somehow the mind has no mob, ignore them so it doesn't break everything
+		if(!(servant_mind?.current))
+			continue
+		//Somehow all spawns where used, reuse old spawns
+		if(!length(spawns))
+			spawns = GLOB.servant_spawns.Copy()
 		servant_mind.current.forceMove(pick_n_take(spawns))
 		servant_mind.current.set_species(/datum/species/human)
 		var/datum/antagonist/servant_of_ratvar/S = add_servant_of_ratvar(servant_mind.current, team=main_cult)
@@ -149,7 +159,7 @@ GLOBAL_VAR(clockcult_eminence)
 		return FALSE
 	if(!M.mind)
 		return FALSE
-	if(ishuman(M) && (M.mind.assigned_role in list("Captain", "Chaplain")))
+	if(ishuman(M) && (M.mind.assigned_role in list(JOB_NAME_CAPTAIN, JOB_NAME_CHAPLAIN)))
 		return FALSE
 	if(istype(M.get_item_by_slot(ITEM_SLOT_HEAD), /obj/item/clothing/head/foilhat))
 		return FALSE
@@ -220,7 +230,7 @@ GLOBAL_VAR(clockcult_eminence)
 				//Ew, this could be done better with a dictionary list, but this isn't much slower
 				if(role in GLOB.command_positions)
 					prefix = "High Priest"
-				else if((role in GLOB.engineering_positions) || (role in GLOB.munitions_positions)) //NSV13 - munitions
+				else if(role in GLOB.engineering_positions || role in GLOB.munitions_positions) // NSV13 - added munitions jobs
 					prefix = "Cogturner"
 				else if(role in GLOB.medical_positions)
 					prefix = "Rejuvinator"
@@ -228,11 +238,11 @@ GLOBAL_VAR(clockcult_eminence)
 					prefix = "Calculator"
 				else if(role in GLOB.supply_positions)
 					prefix = "Pathfinder"
-				else if(role in "Midshipman") //Nsv13 - Crayon eaters
+				else if(role in JOB_NAME_ASSISTANT)
 					prefix = "Helper"
-				else if(role in "Mime")
+				else if(role in JOB_NAME_MIME)
 					prefix = "Cogwatcher"
-				else if(role in "Clown")
+				else if(role in JOB_NAME_CLOWN)
 					prefix = "Clonker"
 				else if((role in GLOB.civilian_positions) || (role in GLOB.gimmick_positions))
 					prefix = "Cogworker"

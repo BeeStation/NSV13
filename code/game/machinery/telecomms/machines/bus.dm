@@ -71,7 +71,7 @@
 	freq_listening = list(FREQ_ENGINEERING, FREQ_MUNITIONS) //NSV13 - munitions added
 	autolinkers = list("processor4", "engineering", "common", "messaging", "munitions")
 
-/obj/machinery/telecomms/bus/preset_four/Initialize()
+/obj/machinery/telecomms/bus/preset_four/Initialize(mapload)
 	. = ..()
 	for(var/i = MIN_FREQ, i <= MAX_FREQ, i += 2)
 		freq_listening |= i

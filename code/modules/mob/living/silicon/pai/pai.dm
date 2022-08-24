@@ -105,7 +105,7 @@
 	GLOB.pai_list -= src
 	return ..()
 
-/mob/living/silicon/pai/Initialize()
+/mob/living/silicon/pai/Initialize(mapload)
 	var/obj/item/paicard/P = loc
 	START_PROCESSING(SSfastprocess, src)
 	GLOB.pai_list += src
@@ -116,7 +116,7 @@
 		P.setPersonality(src)
 	forceMove(P)
 	card = P
-	job = "Personal AI"
+	job = JOB_NAME_PAI
 	signaler = new(src)
 	hostscan = new /obj/item/healthanalyzer(src)
 	if(!radio)
@@ -167,7 +167,9 @@
 /mob/living/silicon/pai/Login()
 	..()
 	var/datum/asset/notes_assets = get_asset_datum(/datum/asset/simple/pAI)
-	notes_assets.send(client)
+	mind.assigned_role = JOB_NAME_PAI
+	if(!notes_assets.send(client))
+		return
 	client.perspective = EYE_PERSPECTIVE
 	if(holoform)
 		client.eye = src

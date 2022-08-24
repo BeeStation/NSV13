@@ -44,10 +44,12 @@
 			var/mob/dead/observe = M
 			if(observe.client)
 				observe.client.screen -= I
+	//Call pickup behaviour on items put on mobs
+	if(!(I.item_flags & PICKED_UP))
+		I.pickup(src)
 	I.forceMove(src)
 	I.layer = ABOVE_HUD_LAYER
 	I.plane = ABOVE_HUD_PLANE
-	I.appearance_flags |= NO_CLIENT_COLOR
 	var/not_handled = FALSE
 	switch(slot)
 		if(ITEM_SLOT_BACK)

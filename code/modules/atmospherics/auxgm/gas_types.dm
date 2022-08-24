@@ -120,16 +120,6 @@
 	oxidation_temperature = FIRE_MINIMUM_TEMPERATURE_TO_EXIST * 1000 // it is VERY stable
 	oxidation_rate = 8
 
-/* NSV13 - no miasma
-/datum/gas/miasma
-	id = GAS_MIASMA
-	specific_heat = 20
-	fusion_power = 50
-	name = "Miasma"
-	gas_overlay = "miasma"
-	moles_visible = MOLES_GAS_VISIBLE * 60
-*/
-
 /datum/gas/constricted_plasma //NSV13 - words C++ monstermos expects 14 gas types to exist, we only had 13
 	id = "constricted_plasma"
 	specific_heat = 250

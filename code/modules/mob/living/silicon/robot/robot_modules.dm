@@ -37,7 +37,7 @@
 	var/allow_riding = TRUE
 	var/canDispose = FALSE // Whether the borg can stuff itself into disposal
 
-/obj/item/robot_module/Initialize()
+/obj/item/robot_module/Initialize(mapload)
 	. = ..()
 	for(var/i in basic_modules)
 		var/obj/item/I = new i(src)
@@ -452,7 +452,7 @@
 	You are not a security module and you are expected to follow orders and prevent harm above all else. Space law means nothing to you.</span>")
 
 /obj/item/robot_module/janitor
-	name = "Janitor"
+	name = JOB_NAME_JANITOR
 	basic_modules = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/screwdriver/cyborg,
@@ -469,7 +469,8 @@
 		/obj/item/lightreplacer/cyborg,
 		/obj/item/holosign_creator/janibarrier,
 		/obj/item/reagent_containers/spray/cyborg/drying_agent,
-		/obj/item/reagent_containers/spray/cyborg/plantbgone)
+		/obj/item/reagent_containers/spray/cyborg/plantbgone,
+		/obj/item/wirebrush)
 	emag_modules = list(
 		/obj/item/reagent_containers/spray/cyborg/lube,
 		/obj/item/reagent_containers/spray/cyborg/acid)
@@ -491,7 +492,7 @@
 			LR.Charge(R)
 
 /obj/item/robot_module/clown
-	name = "Clown"
+	name = JOB_NAME_CLOWN
 	basic_modules = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/toy/crayon/rainbow,
@@ -729,7 +730,7 @@
 		/obj/item/stack/sheet/rglass/cyborg,
 		/obj/item/stack/rods/cyborg,
 		/obj/item/stack/tile/plasteel/cyborg,
-		/obj/item/destTagger/borg,
+		/obj/item/dest_tagger/borg,
 		/obj/item/stack/cable_coil/cyborg,
 		/obj/item/card/emag,
 		/obj/item/pinpointer/syndicate_cyborg,

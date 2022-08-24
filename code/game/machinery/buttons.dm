@@ -138,6 +138,7 @@
 	if(!initialized_button)
 		setup_device()
 	add_fingerprint(user)
+	play_click_sound("button")
 	if(panel_open)
 		if(device || board)
 			if(device)
@@ -165,7 +166,7 @@
 	if(device && device.next_activate > world.time)
 		return
 
-	if(!allowed(user))
+	if(!allowed(user) && !istype(user, /mob/living/simple_animal/eminence))
 		to_chat(user, "<span class='danger'>Access Denied.</span>")
 		flick("[skin]-denied", src)
 		return

@@ -192,13 +192,15 @@
 		holder.pixel_y = I.Height() - world.icon_size
 		if(HAS_TRAIT(src, TRAIT_XENO_HOST))
 			holder.icon_state = "hudxeno"
-		else if(stat == DEAD || (HAS_TRAIT(src, TRAIT_FAKEDEATH)))
+		else if(stat == DEAD)
 			if(tod)
 				var/tdelta = round(world.time - timeofdeath)
 				if(tdelta < (DEFIB_TIME_LIMIT * 10))
 					holder.icon_state = "huddefib"
 					return
 			holder.icon_state = "huddead"
+		else if(HAS_TRAIT(src, TRAIT_FAKEDEATH))
+			holder.icon_state = "huddefib"
 		else
 			switch(virus_threat)
 				if(DISEASE_PANDEMIC)
@@ -237,7 +239,7 @@
 	holder.pixel_y = I.Height() - world.icon_size
 	holder.icon_state = "hudno_id"
 	if(wear_id?.GetID())
-		holder.icon_state = "hud[ckey(wear_id.GetJobName())]"
+		holder.icon_state = "hud[ckey(wear_id.GetJobIcon())]"
 	sec_hud_set_security_status()
 
 /mob/living/proc/sec_hud_set_implants()
@@ -256,11 +258,16 @@
 			var/icon/IC = icon(icon, icon_state, dir)
 			holder.pixel_y = IC.Height() - world.icon_size
 			holder.icon_state = "hud_imp_chem"
-	if(HAS_TRAIT(src, TRAIT_MINDSHIELD) && !istype(src.get_item_by_slot(ITEM_SLOT_HEAD), /obj/item/clothing/head/foilhat)) //tinfoil hats interfere with implant detection
+	if(has_mindshield_hud_icon())
 		holder = hud_list[IMPLOYAL_HUD]
 		var/icon/IC = icon(icon, icon_state, dir)
 		holder.pixel_y = IC.Height() - world.icon_size
 		holder.icon_state = "hud_imp_loyal"
+
+/mob/living/proc/has_mindshield_hud_icon()
+	if(istype(get_item_by_slot(ITEM_SLOT_HEAD), /obj/item/clothing/head/foilhat))
+		return FALSE
+	return HAS_TRAIT(src, TRAIT_MINDSHIELD) || HAS_TRAIT(src, TRAIT_FAKE_MINDSHIELD)
 
 /mob/living/carbon/human/proc/sec_hud_set_security_status()
 	var/image/holder = hud_list[WANTED_HUD]
@@ -300,7 +307,7 @@
 	var/icon/I = icon(icon, icon_state, dir)
 	holder.pixel_y = I.Height() - world.icon_size
 	holder.icon_state = null
-	if(src in SSnanites.nanite_monitored_mobs)
+	if(HAS_TRAIT(src, TRAIT_NANITE_SENSORS))
 		holder.icon_state = "nanite_ping"
 
 //For Diag health and cell bars!

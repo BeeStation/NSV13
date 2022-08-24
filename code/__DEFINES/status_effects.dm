@@ -31,6 +31,10 @@
 
 #define STATUS_EFFECT_FLESHMEND /datum/status_effect/fleshmend //! Very fast healing; suppressed by fire, and heals less fire damage
 
+#define STATUS_EFFECT_CHANGELING_CAMO /datum/status_effect/changeling/camoflague //! Makes you slowly invisible over time, taking damage, being bumped, moving or burning removes the effect.
+
+#define STATUS_EFFECT_CHANGELING_MINDSHIELD /datum/status_effect/changeling/mindshield //! Causes you to appear to have a mindshield to security HUDs.
+
 #define STATUS_EFFECT_EXERCISED /datum/status_effect/exercised //! Prevents heart disease
 
 #define STATUS_EFFECT_HIPPOCRATIC_OATH /datum/status_effect/hippocraticOath //! Gives you an aura of healing as well as regrowing the Rod of Asclepius if lost
@@ -100,6 +104,8 @@
 #define STATUS_EFFECT_SPANISH /datum/status_effect/spanish //Robotic Tongue EMP
 
 #define STATUS_EFFECT_IPC_EMP /datum/status_effect/ipc/emp //EMP'd IPC
+
+#define STATUS_EFFECT_SLIMEGRUB /datum/status_effect/slimegrub //infected slime
 
 //---------//
 // NEUTRAL //

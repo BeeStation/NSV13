@@ -75,6 +75,8 @@
 	totallums = (totallums - minlum) / (maxlum - minlum)
 	totallums += dynamic_lumcount
 
+	totallums += dynamic_lumcount
+
 	return CLAMP01(totallums)
 
 // Returns a boolean whether the turf is on soft lighting.

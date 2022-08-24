@@ -6,7 +6,7 @@
 	var/antagonist_datum = /datum/antagonist/special
 	var/antag_name	//The datum of the antag E.G. /datum/antagonist/special/undercover
 	var/preference_type = ROLE_TRAITOR
-	var/protected_jobs = list("Military Police", "Warden", "Detective", "Head of Security", "Executive Officer", "Chief Medical Officer", "Chief Engineer", "Research Director", "Captain", "Master At Arms") //NSV13 - MPs, XO, MAA
+	var/protected_jobs = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_HEADOFSECURITY, JOB_NAME_HEADOFPERSONNEL, JOB_NAME_CHIEFMEDICALOFFICER, JOB_NAME_CHIEFENGINEER, JOB_NAME_RESEARCHDIRECTOR, JOB_NAME_CAPTAIN, JOB_NAME_MASTERATARMS) //NSV13 - MPs, XO, MAA
 
 /datum/round_event_control/spawn_special_antagonist/runEvent()
 	var/datum/round_event/create_special_antag/E = new /datum/round_event/create_special_antag
@@ -36,7 +36,7 @@
 	var/role_name
 	var/antag_datum	//The datum of the antag E.G. /datum/antagonist/special/undercover
 	var/preference_type = ROLE_TRAITOR
-	var/protected_jobs = list("Military Police", "Warden", "Detective", "Head of Security", "Executive Officer", "Chief Medical Officer", "Chief Engineer", "Research Director", "Captain", "Master At Arms") //NSV13 - XO, MAA, MP
+	var/protected_jobs = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_HEADOFSECURITY, JOB_NAME_HEADOFPERSONNEL, JOB_NAME_CHIEFMEDICALOFFICER, JOB_NAME_CHIEFENGINEER, JOB_NAME_RESEARCHDIRECTOR, JOB_NAME_CAPTAIN, JOB_NAME_MASTERATARMS) //NSV13 - XO, MAA, MP
 
 /datum/round_event/create_special_antag/start()
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))

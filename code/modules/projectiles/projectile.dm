@@ -156,7 +156,7 @@
 	///If TRUE, hit mobs even if they're on the floor and not our target
 	var/hit_stunned_targets = FALSE
 
-/obj/item/projectile/Initialize()
+/obj/item/projectile/Initialize(mapload)
 	. = ..()
 	decayedRange = range
 
@@ -240,7 +240,7 @@
 				new /obj/effect/temp_visual/dir_setting/bloodsplatter/xenosplatter(target_loca, splatter_dir)
 			var/obj/item/bodypart/B = L.get_bodypart(def_zone)
 			if(B)
-				if(B.status == BODYPART_ROBOTIC) // So if you hit a robotic, it sparks instead of bloodspatters
+				if(!IS_ORGANIC_LIMB(B)) // So if you hit a robotic, it sparks instead of bloodspatters
 					do_sparks(2, FALSE, target.loc)
 					if(prob(25))
 						new /obj/effect/decal/cleanable/oil(target_loca)
@@ -324,7 +324,7 @@
 /obj/item/projectile/Bump(atom/A)
 	SEND_SIGNAL(src, COMSIG_MOVABLE_BUMP, A)
 	if(!can_hit_target(A, A == original, TRUE, TRUE))
-		return 2
+		return
 	Impact(A)
 
 /**
@@ -491,7 +491,7 @@
 //Returns true if the target atom is on our current turf and above the right layer
 //If direct target is true it's the originally clicked target.
 /obj/item/projectile/proc/can_hit_target(atom/target, direct_target = FALSE, ignore_loc = FALSE, cross_failed = FALSE)
-	if(QDELETED(target) || (LAZYFIND(impacted, target))) //NSV13 used lazyfind because this was runtiming
+	if(QDELETED(target) || impacted[target])
 		return FALSE
 	if(!ignore_loc && (loc != target.loc))
 		return FALSE
@@ -519,6 +519,8 @@
 			return FALSE
 	else
 		var/mob/living/L = target
+		if(L.force_hit_projectile(src))
+			return TRUE
 		if(direct_target)
 			return TRUE
 		// If target not able to use items, move and stand - or if they're just dead, pass over.

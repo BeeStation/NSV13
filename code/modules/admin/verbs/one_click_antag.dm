@@ -50,7 +50,7 @@
 		temp.restricted_jobs += temp.protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		temp.restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		temp.restricted_jobs += JOB_NAME_ASSISTANT
 
 	if(CONFIG_GET(flag/protect_heads_from_antagonist))
 		temp.restricted_jobs += GLOB.command_positions
@@ -85,7 +85,7 @@
 		temp.restricted_jobs += temp.protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		temp.restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		temp.restricted_jobs += JOB_NAME_ASSISTANT
 
 	if(CONFIG_GET(flag/protect_heads_from_antagonist))
 		temp.restricted_jobs += GLOB.command_positions
@@ -118,7 +118,7 @@
 		temp.restricted_jobs += temp.protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		temp.restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		temp.restricted_jobs += JOB_NAME_ASSISTANT
 
 	var/list/mob/living/carbon/human/candidates = list()
 	var/mob/living/carbon/human/H = null
@@ -142,7 +142,7 @@
 
 /datum/admins/proc/makeWizard()
 
-	var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to be considered for the position of a Wizard Foundation 'diplomat'?", ROLE_WIZARD, null)
+	var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to be considered for the position of a Wizard Federation 'diplomat'?", ROLE_WIZARD, null)
 
 	var/mob/dead/observer/selected = pick_n_take(candidates)
 
@@ -157,7 +157,7 @@
 		temp.restricted_jobs += temp.protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		temp.restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		temp.restricted_jobs += JOB_NAME_ASSISTANT
 
 	if(CONFIG_GET(flag/protect_heads_from_antagonist))
 		temp.restricted_jobs += GLOB.command_positions
@@ -351,7 +351,7 @@
 		ertemplate.enforce_human = prefs["enforce_human"]["value"] == "Yes" ? TRUE : FALSE
 		ertemplate.opendoors = prefs["open_armory"]["value"] == "Yes" ? TRUE : FALSE
 
-		var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to be considered for [ertemplate.polldesc] ?", "deathsquad", null)
+		var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to be considered for [ertemplate.polldesc] ?", "deathsquad", null, req_hours = 50)
 		var/teamSpawned = FALSE
 
 		if(candidates.len > 0)
