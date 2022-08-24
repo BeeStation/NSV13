@@ -353,7 +353,8 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	//We already have a gun
 	if(G && istype(G))
 		return 0
-	if(locate(/obj/item/gun) in oview(HA.view_range, H))
+	var/obj/item/gun/G_New = locate(/obj/item/gun) in oview(HA.view_range, H)
+	if(G_New && gun_suitable(H, G_New))
 		return AI_SCORE_CRITICAL //There is a gun really obviously in the open....
 	return score
 
