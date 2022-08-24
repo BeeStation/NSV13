@@ -19,7 +19,12 @@
 	paycheck_department = ACCOUNT_MUN
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 	display_order = JOB_DISPLAY_ORDER_MUNITIONS_TECHNICIAN
-	departments = DEPARTMENT_MUNITIONS
+	departments = DEPARTMENT_BITFLAG_MUNITIONS
+	rpg_title = "Combustion Journeyman"
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman
+	)
 
 /datum/outfit/job/munitions_tech
 	name = "Munitions Technician"

@@ -23,7 +23,12 @@
 	paycheck_department = ACCOUNT_SEC
 
 	display_order = JOB_DISPLAY_ORDER_BRIDGE_OFFICER
-	departments = DEPARTMENT_MUNITIONS | DEPARTMENT_COMMAND
+	departments = DEPARTMENT_BITFLAG_MUNITIONS | DEPARTMENT_BITFLAG_COMMAND
+	rpg_title = "Farseer"
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman
+	)
 
 /datum/outfit/job/bridge
 	name = "Bridge Staff"

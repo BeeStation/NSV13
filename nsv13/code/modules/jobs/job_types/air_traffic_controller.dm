@@ -23,7 +23,12 @@
 
 	display_order = JOB_DISPLAY_ORDER_AIR_TRAFFIC_CONTROLLER
 	display_rank = "SGT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
-	departments = DEPARTMENT_MUNITIONS
+	departments = DEPARTMENT_BITFLAG_MUNITIONS
+	rpg_title = "Signalman"
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman
+	)
 
 /datum/outfit/job/air_traffic_controller
 	name = "Air Traffic Controller"

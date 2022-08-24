@@ -136,7 +136,7 @@ Set up relationships.
 	for(var/client/C in GLOB.clients)
 		if(!C.mob || !SSmapping.level_trait(C.mob.z, ZTRAIT_BOARDABLE))
 			continue
-		SSmedals.UnlockMedal(MEDAL_CREW_COMPETENT,C)
+		C.give_award(/datum/award/achievement/misc/crew_competent)
 	priority_announce("Attention [station_name()]. You have completed your assigned patrol and are now eligible for a crew transfer. \
 	Your navigational computers have been programmed with the coordinates of the nearest starbase where you may claim your allotted shore leave. \
 	You are under no obligation to remain in this sector, and you have been taken off of active patrol status. If you wish to continue with exploratory missions or other activities you are free to do so.", "Naval Command")

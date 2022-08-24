@@ -248,11 +248,10 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 		/datum/action/changeling/adrenaline,
 		/datum/action/changeling/augmented_eyesight,
 		/datum/action/changeling/biodegrade,
-		/datum/action/changeling/chameleon_skin,
+		/datum/action/changeling/refractive_chitin,
 		/datum/action/changeling/digitalcamo,
 		/datum/action/changeling/fleshmend,
 		/datum/action/changeling/headcrab,
-		/datum/action/changeling/hivemind_comms,
 		/datum/action/changeling/humanform,
 		/datum/action/changeling/lesserform,
 		/datum/action/changeling/mimicvoice,
@@ -388,7 +387,6 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 
 /datum/antagonist/changeling/bloodling_thrall/greet()
 	to_chat(owner.current, "<span class='boldannounce'>You are reborn as [changelingID]! We remade you in our image.</span>")
-	to_chat(owner.current, "<span class='boldannounce'>You can communicate with other ascended changelings with \"[MODE_TOKEN_CHANGELING]\". Our greater hivemind can be heard by all of the master's servants.</span>")
 	to_chat(owner.current, "<span class='boldannounce'>You must serve the master above all else, failure to do so may lead to our generous gift to you being revoked, along with your life...</span>")
 	to_chat(owner.current, "<b>Carry out the master's will above else. Your objectives are:</b>")
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ling_aler.ogg', 100, FALSE, pressure_affected = FALSE)

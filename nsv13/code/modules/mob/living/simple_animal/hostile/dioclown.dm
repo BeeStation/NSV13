@@ -56,7 +56,7 @@
 	name = "vampiric mask"
 	desc = "An strange looking stone mask with what looks like spines coming out of it. The spines seem to have been sawed off."
 	icon = 'nsv13/icons/obj/clothing/masks.dmi' //Placeholder subtype for our own iconsets
-	alternate_worn_icon = 'nsv13/icons/mob/mask.dmi'
+	worn_icon = 'nsv13/icons/mob/mask.dmi'
 	icon_state = "pillarmen"
 	item_state = "pillarmen"
 	actions_types = list(/datum/action/item_action/menacing_pose)

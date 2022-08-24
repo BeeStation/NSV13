@@ -370,7 +370,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 			return ..()
 		var/obj/machinery/door/D = A
 		if(!D.operating)
-			if(D.allowed(D.requiresID() ? return_drivers()[1] : null))
+			if(D.allowed(D.id_scan_hacked() ? return_drivers()[1] : null))
 				spawn(0)
 					D.open()
 			else

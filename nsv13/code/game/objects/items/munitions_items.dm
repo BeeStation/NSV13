@@ -129,7 +129,6 @@
 	name = "munitions guard armband"
 	desc = "An armband, worn by the station's security forces to display which department they're assigned to. This one is black and orange."
 	icon_state = "muniband"
-	item_color = "muniband"
 
 
 ///////BOX////////

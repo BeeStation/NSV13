@@ -123,7 +123,7 @@
 	desc = "A wonder material which bent our world view, now it'll bend your wallet if you want some."
 	price = 8000
 	stock = 3
-	unlock_path = /obj/item/stack/sheet/bluespace_crystal
+	unlock_path = /obj/item/stack/ore/bluespace_crystal
 
 /datum/trader_item/mac
 	name = "Magnetic Accelerator Cannon Kit"

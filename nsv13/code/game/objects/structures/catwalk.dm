@@ -7,7 +7,7 @@
 	layer = CATWALK_LAYER
 	smooth = SMOOTH_TRUE
 	canSmoothWith = null
-	obj_flags = CAN_BE_HIT | BLOCK_Z_FALL
+	obj_flags = CAN_BE_HIT
 	var/hatch_open = FALSE //To easily access wiring
 
 /obj/structure/lattice/catwalk/over/ship/dark
@@ -33,12 +33,12 @@
 	. = ..()
 	if(hatch_open)
 		icon_state = "catwalk_hatch_open"
-		obj_flags &= ~BLOCK_Z_FALL //Minecraft trap door.
+		obj_flags &= ~(BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP) //Minecraft trap door.
 		smooth = SMOOTH_FALSE
 		clear_smooth_overlays()
 	else
 		icon_state = initial(icon_state)
-		obj_flags |= BLOCK_Z_FALL
+		obj_flags |= (BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP)
 		smooth = SMOOTH_TRUE
 		queue_smooth(src)
 

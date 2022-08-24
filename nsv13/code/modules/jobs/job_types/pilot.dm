@@ -22,22 +22,12 @@
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_PILOT
-	departments = DEPARTMENT_MUNITIONS
+	departments = DEPARTMENT_BITFLAG_MUNITIONS
+	rpg_title = "Aeronaut"
 
-//FIXME: boarding
-/*
-/datum/job/pilot/after_spawn(mob/living/carbon/human/H, mob/M)
-	. = ..()
-
-	if(H && H.client && H.client.prefs)
-		var/role = H.client.prefs.preferred_pilot_role
-		var/obj/item/card/id/W = H.wear_id
-		switch(role)
-			if(PILOT_COMBAT)
-				W.access |= list(ACCESS_COMBAT_PILOT)
-			if(PILOT_TRANSPORT)
-				W.access |= list(ACCESS_TRANSPORT_PILOT)
-*/
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman
+	)
 
 /datum/outfit/job/pilot
 	name = "Pilot"
