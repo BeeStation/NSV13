@@ -116,10 +116,26 @@
 	if(locate(/obj/structure/table) in get_turf(mover))
 		return TRUE
 
+//NSV13 - minor changes to support knpcs climbing tables.
 /obj/structure/table/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
+	. = !density
+	if(isknpc(caller))
+		return TRUE
+	if(istype(caller))
+		. = . || (caller.pass_flags & PASSTABLE)
+
+/obj/structure/table/glass/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
 	. = !density
 	if(istype(caller))
 		. = . || (caller.pass_flags & PASSTABLE)
+
+/obj/structure/table/glass/plasma/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller) //Unfortunately this is needed because of subtypes.
+	. = !density
+	if(isknpc(caller))
+		return TRUE
+	if(istype(caller))
+		. = . || (caller.pass_flags & PASSTABLE)
+//NSV13 end
 
 /obj/structure/table/proc/tableplace(mob/living/user, mob/living/pushed_mob)
 	pushed_mob.forceMove(loc)
@@ -260,13 +276,18 @@
 	. = ..()
 	debris += new frame
 	debris += new /obj/item/shard
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/structure/table/glass/Destroy()
 	QDEL_LIST(debris)
 	. = ..()
 
-/obj/structure/table/glass/Crossed(atom/movable/AM)
-	. = ..()
+/obj/structure/table/glass/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
 	if(flags_1 & NODECONSTRUCT_1)
 		return
 	if(!isliving(AM))

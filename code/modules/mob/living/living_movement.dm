@@ -58,3 +58,9 @@
 
 /mob/living/canZMove(dir, turf/target)
 	return can_zTravel(target, dir) && (movement_type & (FLYING | FLOATING)) //NSV13 - added floating so that you can push up and down stairs when gravity goes out
+
+/mob/living/zMove(dir, feedback = FALSE)
+	if(dir != UP && dir != DOWN)
+		return FALSE
+	var/turf/source = get_turf(src)
+	source.travel_z(src, get_step_multiz(src, dir), (dir == UP))

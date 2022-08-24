@@ -160,6 +160,11 @@
 	. = ..()
 	decayedRange = range
 
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
 /obj/item/projectile/proc/Range()
 	range--
 	if(range <= 0 && loc)
@@ -319,7 +324,7 @@
 /obj/item/projectile/Bump(atom/A)
 	SEND_SIGNAL(src, COMSIG_MOVABLE_BUMP, A)
 	if(!can_hit_target(A, A == original, TRUE, TRUE))
-		return
+		return 2
 	Impact(A)
 
 /**
@@ -486,7 +491,7 @@
 //Returns true if the target atom is on our current turf and above the right layer
 //If direct target is true it's the originally clicked target.
 /obj/item/projectile/proc/can_hit_target(atom/target, direct_target = FALSE, ignore_loc = FALSE, cross_failed = FALSE)
-	if(QDELETED(target) || impacted[target])
+	if(QDELETED(target) || (LAZYFIND(impacted, target))) //NSV13 used lazyfind because this was runtiming
 		return FALSE
 	if(!ignore_loc && (loc != target.loc))
 		return FALSE
@@ -560,13 +565,6 @@
 			if(can_hit_target(M, M == original, TRUE))
 				Impact(M)
 				break
-
-/**
- * Projectile crossed: When something enters a projectile's tile, make sure the projectile hits it if it should be hitting it.
- */
-/obj/item/projectile/Crossed(atom/movable/AM)
-	. = ..()
-	scan_crossed_hit(AM)
 
 /**
  * Projectile can pass through
@@ -895,6 +893,11 @@
 		var/oy = round(screenviewY/2) - user.client.pixel_y //"origin" y
 		angle = ATAN2(y - oy, x - ox)
 	return list(angle, p_x, p_y)
+
+/obj/item/projectile/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
+	scan_crossed_hit(AM)
 
 /obj/item/projectile/Destroy()
 	if(hitscan)

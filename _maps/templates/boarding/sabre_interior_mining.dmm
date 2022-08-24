@@ -41,7 +41,9 @@
 "fD" = (
 /obj/item/radio/intercom/directional/east,
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/structure/ore_box,
+/obj/machinery/computer/ship/navigation/public{
+	dir = 1
+	},
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin15"
 	},
@@ -96,7 +98,7 @@
 /area/dropship/generic)
 "pC" = (
 /turf/open/space/transit/north,
-/area/space)
+/area/dropship/generic)
 "qn" = (
 /obj/machinery/atmospherics/pipe/simple/general/hidden,
 /turf/open/indestructible/dropship{
@@ -197,7 +199,7 @@
 	},
 /area/dropship/generic)
 "Es" = (
-/obj/machinery/computer/ship/navigation/public,
+/obj/machinery/computer/ship/tactical/console,
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin15"
 	},
@@ -293,7 +295,7 @@
 /turf/closed/indestructible/cordon{
 	alpha = 0
 	},
-/area/space)
+/area/dropship/generic)
 "WQ" = (
 /turf/closed/wall/indestructible/dropship{
 	icon_state = "70"
@@ -304,6 +306,7 @@
 	dir = 9
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
+/obj/structure/ore_box,
 /turf/open/indestructible/dropship{
 	icon_state = "rasputin3"
 	},

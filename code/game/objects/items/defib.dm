@@ -654,6 +654,7 @@
 					H.revive()
 					H.emote("gasp")
 					H.Jitter(100)
+					to_chat(H, "<span class='warning'><b>You have been revived via defibrillation. You cannot remember how exactly you died (or who killed you), but you may remember certain details such as the weapon used or the place of death.</b></span>") //NSV13
 					SEND_SIGNAL(H, COMSIG_LIVING_MINOR_SHOCK)
 					log_combat(user, H, "revived", defib)
 				if(req_defib)

@@ -143,7 +143,8 @@
 	return attack_hand(user)
 
 /obj/machinery/computer/anti_air/multitool_act(mob/living/user, obj/item/multitool/I)
-	. = ..()
+	..()
+	. = TRUE
 	turret = locate(/obj/machinery/ship_weapon/anti_air) in SSmapping.get_turf_above(src)
 	if ( turret )
 		to_chat(user, "<span class='warning'>Successfully linked [src] to [turret].")

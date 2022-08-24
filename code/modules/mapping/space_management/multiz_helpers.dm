@@ -80,3 +80,11 @@
 		var/total_dist = raw_dist + z_dist
 		return total_dist
 	return INFINITY
+
+//NSV13
+/proc/get_level_trait(z)
+	if(SSmapping.level_trait(z, ZTRAIT_STATION))
+		return ZTRAIT_STATION
+	if(SSmapping.level_trait(z, ZTRAIT_SYNDIE_SHIP))
+		return ZTRAIT_SYNDIE_SHIP
+ 
