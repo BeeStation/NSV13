@@ -1,7 +1,7 @@
 /obj/machinery/vending/sustenance
 	name = "\improper Sustenance Vendor"
 	desc = "A vending machine which vends food, as required by section 47-C of the NT's Prisoner Ethical Treatment Agreement."
-	product_slogans = "Enjoy your meal.;Enough calories to support strenuous labor."
+	product_slogans = "Enjoy your meal.;Enough calories to support strenuous labor.;Sufficiently healthy.;Efficiently produced tofu!;Mmm! So good!;Have a meal.;You need food to live!;Have some more candy corn!;Try our new ice cups!;Rememver: Ration packs save lifes, soldier!;Don't believe the lies about ration packs.; Ration packs: custom tailored to the Spaceman's taste!"
 	product_ads = "Sufficiently healthy.;Efficiently produced tofu!;Mmm! So good!;Have a meal.;You need food to live!;Have some more candy corn!;Try our new ice cups!;Rememver: Ration packs save lifes, soldier!;Don't believe the lies about ration packs.; Ration packs: custom tailored to the Spaceman's taste!"
 	icon_state = "sustenance"
 	light_color = LIGHT_COLOR_BLUEGREEN
