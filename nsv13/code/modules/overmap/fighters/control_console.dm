@@ -22,14 +22,21 @@
 	var/list/data = list()
 	data["fighters"] = list()
 	var/desired_trait = is_station_level(src.z) ? ZTRAIT_STATION : ZTRAIT_BOARDABLE
-	for(var/obj/structure/overmap/small_craft/OM in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/small_craft/OM in GLOB.overmap_objects) //Needs to go through global list due to having to access fighters on a ship map.
 		if(!locate(OM.z) in SSmapping.levels_by_trait(desired_trait))
 			continue
 		if(LAZYFIND(current_filters, "Only Occupied Ship") && !OM.operators.len)
 			continue
 		var/fighter_class = initial(OM.name)
 		if(istype(OM) && OM.faction == faction && LAZYFIND(current_filters, fighter_class)) //Yeah.
-			data["fighters"] += list(list("name" = OM.name, "integrity" = OM.obj_integrity, "max_integrity" = OM.max_integrity, "safeties" = OM.weapon_safety, "class" = fighter_class))
+			var/obj/item/fighter_component/docking_computer/DC = OM.loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+			data["fighters"] += list(list(
+				"name" = OM.name, \
+				"integrity" = OM.obj_integrity, \
+				"max_integrity" = OM.max_integrity, \
+				"safeties" = OM.weapon_safety, \
+				"class" = fighter_class, \
+				"docking_mode" = DC.docking_mode))
 	data["filter_types"] = list()
 	for(var/class in valid_filters)
 		data["filter_types"] += list(list("visible" = LAZYFIND(current_filters, class) ? TRUE : FALSE, "class"=class))
@@ -62,7 +69,7 @@
 				return
 			message_admins("[key_name(ui.user)] ([(ui.user.mind && ui.user.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) has force-ejected every pilot from their fighter.")
 		var/desired_trait = is_station_level(src.z) ? ZTRAIT_STATION : ZTRAIT_BOARDABLE
-		for(var/obj/structure/overmap/small_craft/OM in GLOB.overmap_objects)
+		for(var/obj/structure/overmap/small_craft/OM in GLOB.overmap_objects) //Needs to go through global list due to interacting with fighters on the ship z.
 			if(!locate(OM.z) in SSmapping.levels_by_trait(desired_trait))
 				continue
 			if(action == "global_toggle")
@@ -87,6 +94,13 @@
 						to_chat(OM.pilot, "<span class='notice'>Gun safety settings remotely overridden by an operator.</span>")
 					OM.weapon_safety = !OM.weapon_safety
 					log_game("\<span class='notice'>[key_name(ui.user)] forcefully [(OM.weapon_safety) ? "Enabled" : "Disabled"] [OM]'s weapon safeties from a [name] in [get_area(src)]!</span>")
+					break
+				if("toggle_docking")
+					if(OM.pilot)
+						to_chat(OM.pilot, "<span class='notice'>Docking computer remotely overridden by an operator.</span>")
+					var/obj/item/fighter_component/docking_computer/DC = OM.loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+					DC.docking_mode = !DC.docking_mode
+					log_game("\<span class='notice'>[key_name(ui.user)] forcefully [(OM.weapon_safety) ? "Enabled" : "Disabled"] [OM]'s docking computer from a [name] in [get_area(src)]!</span>")
 					break
 
 /obj/machinery/computer/ship/fighter_controller/ui_interact(mob/user, datum/tgui/ui)

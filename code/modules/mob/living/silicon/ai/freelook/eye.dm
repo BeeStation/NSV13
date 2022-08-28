@@ -68,15 +68,15 @@
 // Use this when setting the ai_eye's location.
 // It will also stream the chunk that the new loc is in.
 
-/mob/camera/ai_eye/proc/setLoc(T, force_update = FALSE)
+/mob/camera/ai_eye/proc/setLoc(destination, force_update = FALSE)
 	if(ai)
 		if(!isturf(ai.loc))
 			return
-		T = get_turf(T)
-		if(!force_update && (T == get_turf(src)) )
+		destination = get_turf(destination)
+		if(!force_update && (destination == get_turf(src)) )
 			return //we are already here!
-		if (T)
-			forceMove(T)
+		if (destination)
+			abstract_move(destination)
 		else
 			moveToNullspace()
 		if(use_static != USE_STATIC_NONE)
@@ -88,7 +88,7 @@
 		//Holopad
 		if(istype(ai.current, /obj/machinery/holopad))
 			var/obj/machinery/holopad/H = ai.current
-			H.move_hologram(ai, T)
+			H.move_hologram(ai, destination)
 		if(ai.camera_light_on)
 			ai.light_cameras()
 		if(ai.master_multicam)
@@ -139,13 +139,12 @@
 		QDEL_LIST(L)
 	return ..()
 
-/atom/proc/move_camera_by_click()
-	if(isAI(usr))
-		var/mob/living/silicon/ai/AI = usr
-		if(AI.eyeobj && (AI.multicam_on || (AI.client.eye == AI.eyeobj)) && (AI.eyeobj.get_virtual_z_level() == get_virtual_z_level()))
-			AI.cameraFollow = null
-			if (isturf(loc) || isturf(src))
-				AI.eyeobj.setLoc(src)
+/mob/camera/ai_eye/proc/move_camera_by_click(var/atom/target)
+	if((ai.multicam_on || (ai.client.eye == src)) && (get_virtual_z_level() == target.get_virtual_z_level()))
+		if(ai.ai_tracking_target)
+			ai.ai_stop_tracking()
+		if(isturf(target.loc) || isturf(target))
+			setLoc(target)
 
 // This will move the ai_eye. It will also cause lights near the eye to light up, if toggled.
 // This is handled in the proc below this one.
@@ -169,8 +168,8 @@
 	else
 		user.sprint = initial
 
-	if(!user.tracking)
-		user.cameraFollow = null
+	if(user.ai_tracking_target && !user.reacquire_timer)
+		user.ai_stop_tracking()
 
 // Return to the Core.
 /mob/living/silicon/ai/proc/view_core()
@@ -179,7 +178,8 @@
 		H.clear_holo(src)
 	else
 		current = null
-	cameraFollow = null
+	if(ai_tracking_target)
+		ai_stop_tracking()
 	unset_machine()
 
 	if(isturf(loc) && (QDELETED(eyeobj) || !eyeobj.loc))

@@ -17,6 +17,7 @@
 	req_one_access_txt = ""
 	account_type = ACCOUNT_SYN
 	circuit = /obj/item/circuitboard/computer/cargo/express/syndicate
+	cargo_landingzone = /area/quartermaster/pvp //Without this, any crates that are sent to cargo bay LZ will land in NT cargo instead.
 
 /obj/machinery/computer/cargo/express/syndicate/emag_act(mob/living/user)
 	to_chat(user, "<span class='warning'>The Syndicate would probably have you killed if you tried to interfere with this console...</span>")
@@ -431,3 +432,31 @@
 	network = list("syndicate")
 
 /obj/machinery/camera/syndicate/autoname
+	var/number = 0
+/obj/machinery/camera/syndicate/autoname/Initialize()
+	..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/camera/syndicate/autoname/LateInitialize()
+	. = ..()
+	number = 1
+	var/area/A = get_area(src)
+	if(A)
+		for(var/obj/machinery/camera/syndicate/autoname/C in GLOB.machines)
+			if(C == src)
+				continue
+			var/area/CA = get_area(C)
+			if(CA.type == A.type)
+				if(C.number)
+					number = max(number, C.number+1)
+		c_tag = "[A.name] #[number]"
+
+/obj/item/radio/intercom/syndicate //An intercom for syndicate AIs.
+	name = "syndicate intercom"
+	syndie = 1
+	freqlock = 1
+
+/obj/item/radio/intercom/syndicate/Initialize()
+	. = ..()
+	set_frequency(FREQ_SYNDICATE)
+

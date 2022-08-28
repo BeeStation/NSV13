@@ -29,7 +29,7 @@
 	input_tag = "astraeus_n2o_in";
 	name = "Nitrous Oxide Supply Control";
 	output_tag = "astraeus_n2o_out";
-	sensors = list("astraeus_n2o_sensor" = "Tank")
+	sensors = list("astraeus_n2o_sensor"="Tank")
 	},
 /obj/structure/window/reinforced{
 	dir = 1;
@@ -1830,7 +1830,8 @@
 "ec" = (
 /obj/machinery/ship_weapon/gauss_gun/east{
 	pixel_x = -32;
-	pixel_y = -32
+	pixel_y = -32;
+	bound_x = 0
 	},
 /turf/open/floor/plating/airless,
 /area/bridge/pvp)
@@ -2289,11 +2290,10 @@
 	name = "Custom Channel";
 	pixel_y = -31
 	},
-/obj/item/radio/intercom{
-	freerange = 1;
-	name = "Common Channel";
+/obj/item/radio/intercom/syndicate{
 	pixel_x = -27;
-	pixel_y = -9
+	pixel_y = -9;
+	name = "Syndicate Channel"
 	},
 /turf/open/floor/circuit/red,
 /area/crew_quarters/heads/captain/pvp/admiral)
@@ -5027,10 +5027,10 @@
 /obj/item/ammo_box/magazine/nsv/light_cannon,
 /obj/item/ammo_box/magazine/nsv/light_cannon,
 /obj/item/ammo_box/magazine/nsv/light_cannon,
-/obj/item/fighter_component/secondary/utility/resupply,
-/obj/item/fighter_component/secondary/utility/resupply,
-/obj/item/fighter_component/secondary/utility/resupply,
-/obj/item/fighter_component/secondary/utility/resupply,
+/obj/item/fighter_component/primary/utility/refuel,
+/obj/item/fighter_component/primary/utility/refuel,
+/obj/item/fighter_component/primary/utility/refuel,
+/obj/item/fighter_component/primary/utility/refuel,
 /turf/open/floor/engine,
 /area/nsv/hanger/pvp)
 "me" = (
@@ -5697,14 +5697,14 @@
 /obj/structure/rack,
 /obj/machinery/atmospherics/components/unary/vent_pump/on,
 /obj/effect/turf_decal/tile/ship/full/bar,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
 /obj/item/gun/ballistic/automatic/pistol/glock/makarov,
 /obj/item/gun/ballistic/automatic/pistol/glock/makarov,
 /turf/open/floor/monotile/dark,
@@ -7006,14 +7006,14 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/ship/full/bar,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
 /obj/item/gun/ballistic/automatic/pistol/glock/makarov,
 /obj/item/gun/ballistic/automatic/pistol/glock/makarov,
 /turf/open/floor/monotile/dark,
@@ -8241,20 +8241,20 @@
 /obj/structure/rack,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden,
 /obj/effect/turf_decal/tile/ship/full/bar,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
+/obj/item/ammo_box/magazine/glock/lethal,
 /obj/item/gun/ballistic/automatic/pistol/glock/makarov,
 /obj/item/gun/ballistic/automatic/pistol/glock/makarov,
 /turf/open/floor/monotile/dark,
@@ -8300,7 +8300,8 @@
 "tq" = (
 /obj/machinery/ship_weapon/gauss_gun/east{
 	pixel_x = -32;
-	pixel_y = -32
+	pixel_y = -32;
+	bound_x = 0
 	},
 /obj/effect/turf_decal/box/corners,
 /turf/open/floor/plating/airless,
@@ -9082,7 +9083,7 @@
 	input_tag = "astraeus_o2_in";
 	name = "Oxygen Supply Control";
 	output_tag = "astraeus_o2_out";
-	sensors = list("astraeus_o2_sensor" = "Tank")
+	sensors = list("astraeus_o2_sensor"="Tank")
 	},
 /obj/structure/window/reinforced,
 /turf/open/floor/engine,
@@ -10352,7 +10353,7 @@
 	input_tag = "astraeus_air_in";
 	name = "Mixed Air Supply Control";
 	output_tag = "astraeus_air_out";
-	sensors = list("astraeus_air_sensor" = "Tank")
+	sensors = list("astraeus_air_sensor"="Tank")
 	},
 /obj/structure/window/reinforced,
 /turf/open/floor/engine,
@@ -11819,7 +11820,7 @@
 	input_tag = "astraeus_co2_in";
 	name = "Carbon Dioxide Supply Control";
 	output_tag = "astraeus_co2_out";
-	sensors = list("astraeus_co2_sensor" = "Tank")
+	sensors = list("astraeus_co2_sensor"="Tank")
 	},
 /obj/structure/window/reinforced{
 	dir = 1;
@@ -14530,7 +14531,7 @@
 	icon_state = "4-8"
 	},
 /mob/living/simple_animal/bot/secbot{
-	faction = list("Syndicate", "neutral","silicon","turret")
+	faction = list("Syndicate","neutral","silicon","turret")
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/hallway/pvp)
@@ -16814,7 +16815,7 @@
 	input_tag = "astraeus_tox_in";
 	name = "Plasma Supply Control";
 	output_tag = "astraeus_tox_out";
-	sensors = list("astraeus_tox_sensor" = "Tank")
+	sensors = list("astraeus_tox_sensor"="Tank")
 	},
 /obj/structure/window/reinforced{
 	dir = 1;
@@ -18919,7 +18920,7 @@
 	input_tag = "astraeus_engine_in";
 	name = "Engine Cooling Control";
 	output_tag = "astraeus_engine_out";
-	sensors = list("astraeus_engine_sensor" = "Engine Core")
+	sensors = list("astraeus_engine_sensor"="Engine Core")
 	},
 /obj/machinery/power/apc/highcap/fifteen_k{
 	name = "Engineering APC";
@@ -19341,7 +19342,7 @@
 	input_tag = "astraeus_n2_in";
 	name = "Nitrogen Supply Control";
 	output_tag = "astraeus_n2_out";
-	sensors = list("astraeus_n2_sensor" = "Tank")
+	sensors = list("astraeus_n2_sensor"="Tank")
 	},
 /obj/structure/window/reinforced,
 /turf/open/floor/engine,
@@ -21263,7 +21264,7 @@
 /area/space)
 "Yn" = (
 /obj/machinery/porta_turret/syndicate/shuttle{
-	faction = list("Syndicate", "silicon");
+	faction = list("Syndicate","silicon");
 	name = "Anti-Air Battery"
 	},
 /turf/open/floor/plating/airless,
