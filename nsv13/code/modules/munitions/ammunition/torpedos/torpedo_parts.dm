@@ -39,3 +39,10 @@
 	desc = "An advanced warhead which carries a plasma enriched incendiary device. Torpedoes equipped with these can quickly annihilate targets with extreme prejudice, however they are extremely costly to produce."
 	fits_type = /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
 	build_path = /obj/item/ship_weapon/ammunition/torpedo/hellfire
+
+/obj/item/ship_weapon/parts/missile/warhead/plushtide
+	name = "emotional support torpedo warhead"
+	icon_state = "warhead_decoy"
+	desc = "A warhead with several plushies somehow crammed into it. For when what your enemy needs really is just a hug."
+	fits_type = /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
+	build_path = /obj/item/ship_weapon/ammunition/torpedo/plushtide
