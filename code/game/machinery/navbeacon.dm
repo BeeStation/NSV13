@@ -18,6 +18,7 @@
 	var/location = ""	// location response text
 	var/list/codes		// assoc. list of transponder codes
 	var/codes_txt = ""	// codes as set on map: "tag1;tag2" or "tag1=value;tag2=value"
+	var/obj/structure/overmap/linked //TEST NSV13
 
 	req_one_access = list(ACCESS_ENGINE, ACCESS_ROBOTICS)
 
@@ -35,6 +36,21 @@
 	if(codes?["delivery"])
 		GLOB.deliverybeacons += src
 		GLOB.deliverybeacontags += location
+
+	return INITIALIZE_HINT_LATELOAD //NSV13
+
+/obj/machinery/navbeacon/LateInitialize() //NSV13
+	has_overmap() //NSV13
+
+/obj/machinery/navbeacon/proc/has_overmap() //NSV13
+	linked = get_overmap() //NSV13
+	if(linked) //NSV13
+		set_position(linked) //NSV13
+	return linked //NSV13
+
+/obj/machinery/navbeacon/proc/set_position(obj/structure/overmap/OM) //NSV13
+	OM.beacons_in_ship += src //NSV13
+	return //NSV13
 
 /obj/machinery/navbeacon/Destroy()
 	if (GLOB.navbeacons["[z]"])
