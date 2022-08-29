@@ -11,6 +11,13 @@
 /datum/mood_event/betterhug/add_effects(mob/friend)
 	description = "<span class='nicegreen'>[friend.name] was very nice to me.</span>\n"
 
+//NSV 13 - caress the torp.
+/datum/mood_event/torphug
+	description = "<span class='nicegreen'>I really needed that..</span>\n"
+	mood_change = 1
+	timeout = 2 MINUTES
+//NSV13 end
+
 /datum/mood_event/besthug
 	description = "<span class='nicegreen'>Someone is great to be around, they make me feel so happy!</span>\n"
 	mood_change = 5

@@ -71,6 +71,17 @@
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/plushtide
 	volatility = 0
 
+/obj/item/ship_weapon/ammunition/torpedo/plushtide/attack_hand(mob/user)
+	if(!isliving(user))
+		return
+	var/mob/living/living_user = user
+	if(living_user.a_intent != INTENT_HELP)
+		return
+	living_user.visible_message("<span class='notice'>[living_user] hugs [src].</span>","<span class='notice'>You hug [src].</span>")
+	playsound(src, pick('sound/items/toysqueak1.ogg', 'sound/items/toysqueak2.ogg', 'sound/items/toysqueak3.ogg'), 30, 1, -1)
+	SEND_SIGNAL(living_user, COMSIG_ADD_MOOD_EVENT, "torphug", /datum/mood_event/torphug)
+	
+
 /* Retired for the moment, this will return in a new flavour
 //The alpha torpedo
 /obj/item/ship_weapon/ammunition/torpedo/nuke
