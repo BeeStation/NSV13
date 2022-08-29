@@ -50,6 +50,8 @@
 	var/obj/structure/fluff/vls_hatch/hatch = null
 
 /obj/machinery/ship_weapon/vls/proc/on_entered(datum/source, atom/movable/AM, oldloc)
+	SIGNAL_HANDLER
+
 	var/can_shoot_this = FALSE
 	for(var/_ammo_type in ammo_type)
 		if(istype(AM, _ammo_type))
@@ -86,6 +88,10 @@
 
 /obj/machinery/ship_weapon/vls/Initialize()
 	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 	var/turf/T = SSmapping.get_turf_above(src)
 	if(!T)
 		return
@@ -110,11 +116,6 @@
 		ntransform.Translate(-32,1)
 		hatch.transform = ntransform
 		return
-
-	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
-	)
-	AddElement(/datum/element/connect_loc, loc_connections)
 
 #define HT_OPEN TRUE
 #define HT_CLOSED FALSE

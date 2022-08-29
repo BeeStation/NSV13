@@ -169,7 +169,7 @@
 	builtInCamera.network = list("ss13")
 	//Nsv13
 	for(var/stype in subtypesof(/datum/component/simple_teamchat/radio_dependent/squad))
-		AddComponent(stype)
+		AddComponent(stype, override = TRUE)
 
 	//Nsv13 end
 
