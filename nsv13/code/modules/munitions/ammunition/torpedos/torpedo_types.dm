@@ -66,7 +66,7 @@
 
 /obj/item/ship_weapon/ammunition/torpedo/plushtide
 	name = "\improper NTP-00 'FREN' 600mm emotional support torpedo"
-	icon_state = "decoy"
+	icon_state = "plush"
 	desc = "A simple torpedo with a frankly concerning amount of plushies crammed into it. For when what your enemy needs really is just a hug."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/plushtide
 	volatility = 0
