@@ -323,3 +323,13 @@
 /obj/item/circuitboard/computer/iff
 	name = "IFF Console (circuit)"
 	build_path = /obj/machinery/computer/iff_console
+
+
+//Medical Boards
+/obj/item/circuitboard/machine/autoinject_printer
+	name = "Autoinjector Printer (Machine Board)"
+	icon_state = "medical"
+	build_path = /obj/machinery/autoinject_printer
+	req_components = list(
+		/obj/item/reagent_containers/glass/beaker = 2,
+		/obj/item/stock_parts/manipulator = 1)

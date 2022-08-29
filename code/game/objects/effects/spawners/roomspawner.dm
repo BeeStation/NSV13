@@ -34,7 +34,7 @@
 		if(template.stock <= 0)
 			template.spawned = TRUE
 		addtimer(CALLBACK(src, /obj/effect/spawner/room.proc/LateSpawn), 600)
-	else 
+	else
 		template = null
 	if(!template)
 		qdel(src)
