@@ -5,8 +5,24 @@
 	icon_state = "bookSpaceLaw"
 
 /obj/item/lawbook/ui_interact(mob/user, datum/tgui/ui)
-	. = ..()
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "LawBook", name)
+		ui = new(user, src, "CrimeBook")
+		ui.status = UI_INTERACTIVE
 		ui.open()
+
+/obj/item/lawbook/ui_status(mob/user)
+	return UI_INTERACTIVE
+
+/obj/item/lawbook/ui_state(mob/user)
+	return GLOB.physical_state
+
+/obj/item/lawbook/ui_data(mob/user)
+	var/list/data = list()
+
+	for(var/C in GLOB.crime_list)
+		var/datum/crime/crime = find_crime_object_from_type(C)
+		if(!crime)
+		else
+			data["crime"] = list("name" = crime.name, "desc" = crime.description)
+	return data
