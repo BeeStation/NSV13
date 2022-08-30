@@ -749,7 +749,7 @@
 	if(!on || wires.is_cut(WIRE_BEACON))
 		return
 
-	for(var/obj/machinery/navbeacon/NB in GLOB.deliverybeacons)
+	for(var/obj/machinery/navbeacon/NB in get_overmap().beacons_in_ship) //NSV13
 		if(NB.location == new_destination)	// if the beacon location matches the set destination
 									// the we will navigate there
 			destination = new_destination
