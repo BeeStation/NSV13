@@ -525,6 +525,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		OM.mobs_in_ship -= user
 	user.forceMove(src)
 	mobs_in_ship |= user
+	user.last_overmap = src
 	if((user.client?.prefs.toggles & SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
 		SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
 
@@ -1730,4 +1731,4 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/structure/overmap/small_craft/proc/toggle_canopy()
 	canopy_open = !canopy_open
 	playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
- 
+
