@@ -20,7 +20,7 @@ export const Limbgrower = (props, context) => {
   return (
     <Window
       title="Limb Grower"
-      width={400}
+      width={450}
       height={550}>
       {!!busy && (
         <Dimmer fontSize="32px">

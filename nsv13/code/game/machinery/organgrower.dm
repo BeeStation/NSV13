@@ -29,7 +29,7 @@
  	/// Our internal techweb for limbgrower designs.
 	var/datum/techweb/stored_research
 	/// All the categories of organs we can print.
-	var/list/categories = list("human", "lizard", "moth", "plasmaman", "ethereal", "other")
+	var/list/categories = list("human", "lizard", "plasmaman", "ethereal", "moth", "bee", "other")
 
 /obj/machinery/limbgrower/Initialize()
 	create_reagents(100, OPENCONTAINER)
@@ -223,7 +223,7 @@
 	/// Species with greyscale limbs.
 	var/list/greyscale_species = list("human", "lizard", "ethereal")
 	if(selected_category in greyscale_species) //Species with greyscale parts should be included here
-		if(selected_category == "human") //humans don't use the full colour spectrum, they use random_skin_tone
+		if(selected_category == "human" || selected_category == "lizard" || selected_category == "ethereal") //humans don't use the full colour spectrum, they use random_skin_tone
 			limb.icon = 'icons/mob/human_parts_greyscale.dmi'
 			limb.should_draw_greyscale = TRUE
 		else
