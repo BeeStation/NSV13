@@ -253,6 +253,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "emotional support torpedo"
 	speed = 3
 	penetration_fuze = 2
+	hitsound = 'sound/items/toysqueak1.ogg'
+	hitsound_wall = 'sound/items/toysqueak3.ogg'
 
 /obj/item/projectile/bullet/delayed_prime/relayed_plushtorp/fuze_trigger_value(atom/target)
 	if(isclosedturf(target))
@@ -398,6 +400,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	max_integrity = 400
 	homing_turn_speed = 40
 	speed = 2
+	hitsound = 'sound/items/toysqueak1.ogg'
+	hitsound_wall = 'sound/items/toysqueak3.ogg'
 	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_plushtorp
 
 /obj/item/projectile/guided_munition/torpedo/plushtide/detonate(atom/target)
