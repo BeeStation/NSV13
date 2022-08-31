@@ -1,12 +1,9 @@
 import { useBackend, useLocalState } from '../backend';
-import { Button, Section, Stack, LabeledList, Modal, Dropdown, Tabs, Box, Input, Flex, ProgressBar, Collapsible, Icon, Divider } from '../components';
+import { Button, Section, Stack, LabeledList, Modal, Dropdown, Tabs, Box, Input, Flex, ProgressBar, Collapsible, Icon, Divider, Table } from '../components';
 import { Window, NtosWindow } from '../layouts';
 
 export const CrimeBook = (props, context) => {
   const { act, data } = useBackend(context);
-  const {
-    crime,
-  } = data;
 
   return (
     <Window
@@ -16,21 +13,34 @@ export const CrimeBook = (props, context) => {
       <Window.Content>
         <Stack fill vertical>
           <Stack.Item grow basis={0}>
-            <Section
-              title="Crime lookup"
-              minWidth="300px">
-                <LabeledList>
-                  <LabeledList.Item label="Crime">
-                    {crime.name}
-                  </LabeledList.Item>
-                  <LabeledList.Item label="Description">
-                    {crime.desc}
-                  </LabeledList.Item>
-                </LabeledList>
-            </Section>
+            <CrimeLibrary />
           </Stack.Item>
         </Stack>
       </Window.Content>
     </Window>
+  )
+}
+
+const CrimeLibrary = (props, context) => {
+  const { act, data } = useBackend(context);
+  const {
+    crime = [],
+  } = data;
+
+  return (
+    <Section title="Crimes">
+      <Table>
+        {crime.map(offence => (
+          <Table.Row key={offence.name}>
+            <Table.Cell>
+              <Section label="Crime">
+                {offence.name}
+                {offence.desc}
+              </Section>
+            </Table.Cell>
+          </Table.Row>
+        ))}
+      </Table>
+    </Section>
   )
 }
