@@ -222,6 +222,33 @@ Misc projectile types, effects, think of this as the special FX file.
 	explosion(detonation_turf, 0, 0, 4, 7, flame_range = 4)
 	detonation_turf.atmos_spawn_air("o2=75;plasma=425;TEMP=1000")
 
+//shamelessly copied hellfire code.
+/obj/item/projectile/bullet/delayed_prime/relayed_fusion_torpedo
+	icon_state = "torpedo_fusion"
+	name = "balefire torpedo"
+	penetration_fuze = 2
+
+/obj/item/projectile/bullet/delayed_prime/relayed_fusion_torpedo/fuze_trigger_value(atom/target)
+	if(isclosedturf(target))
+		return 1
+	if(isliving(target))
+		var/mob/living/L = target
+		if(L.mind && L.mind.assigned_role == "Chief Engineer")
+			return (prob(50) ? 2 : -2) //50% chance to either explode instantly, or respect the CE.
+		return 2 //Some poor sod got hit and now gets to taste fusion.
+
+	return 0
+
+/obj/item/projectile/bullet/delayed_prime/relayed_fusion_torpedo/is_valid_to_release(atom/newloc)
+	if(penetration_fuze > 0 || !isopenturf(newloc))
+		return FALSE
+	return TRUE
+
+/obj/item/projectile/bullet/delayed_prime/relayed_fusion_torpedo/release_payload(atom/detonation_location)
+	var/turf/detonation_turf = detonation_location
+	explosion(detonation_turf, 0, 0, 4, 7, flame_range = 4)
+	detonation_turf.atmos_spawn_air("plasma=7500;tritium=5000;co2=7500;TEMP=150000") //say your prayers now.
+
 /obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo
 	icon_state = "torpedo"
 	name = "armoured torpedo"
@@ -299,7 +326,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 20
 	spread = 90
 	flag = "overmap_medium"
-	
+
 /obj/item/projectile/bullet/prototype_bsa
 	icon_state = "proto_bsa"
 	name = "Prototype BSA Round"
@@ -362,6 +389,16 @@ Misc projectile types, effects, think of this as the special FX file.
 	impact_effect_type = /obj/effect/temp_visual/nuke_impact
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
+
+/obj/item/projectile/guided_munition/torpedo/hellfire/fusion
+	icon_state = "torpedo_fusion"
+	name = "balefire torpedo"
+	damage = 350 //less external damage but it wrecks your squishy insides.
+	obj_integrity = 30
+	max_integrity = 30
+	impact_effect_type = /obj/effect/temp_visual/nuke_impact
+	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_fusion_torpedo
 
 /obj/item/projectile/guided_munition/torpedo/disruptor
 	icon_state = "torpedo_disruptor"

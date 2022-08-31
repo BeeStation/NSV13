@@ -154,6 +154,22 @@
 	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/destroyer/conflagration
 
+/obj/structure/overmap/syndicate/ai/conflagration/elite/fusion //These badboys are a rare encounter. Fusion is fun :)
+	name = "Balefire destroyer"
+	desc = "The syndicate sends their regards."
+	icon_state = "megamouth_bale"
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire/fusion
+	shots_left = 15
+	torpedoes = 10
+	missiles = 15
+	obj_integrity = 900
+	max_integrity = 900 //Max health
+	integrity_failure = 900
+	bounty = 15000
+	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_light" = 50)
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
+	combat_dice_type = /datum/combat_dice/destroyer/conflagration
+
 /datum/map_template/boarding/destroyer
     name = "Hammerhead class missile destroyer (interior)"
     mappath = "_maps/templates/boarding/syndicate/destroyer.dmm"
@@ -226,7 +242,7 @@
 	missiles = 10
 	bounty = 4000
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
-	
+
 /datum/map_template/boarding/carrier
 	name = "carrier (interior)"
 	mappath = "_maps/templates/boarding/syndicate/carrier.dmm"
@@ -499,7 +515,7 @@
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
-	
+
 /obj/structure/overmap/hostile/ai/alicorn
 	name = "The Alicorn"
 	desc = "One Billion Lives!"
@@ -553,7 +569,7 @@
 	max_integrity = 115 //Slightly less squishy!
 	integrity_failure = 115
 	ai_flags = AI_FLAG_SWARMER
-	bound_width = 32 
+	bound_width = 32
 	bound_height = 32
 	torpedoes = 1
 	missiles = 4

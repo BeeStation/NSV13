@@ -148,7 +148,7 @@ Set up relationships.
 	preset_allies = list(FACTION_ID_PIRATES) //Yar HAR it's me, captain PLASMASALT
 	preset_enemies = list(FACTION_ID_NT)
 	fleet_types = list(/datum/fleet/neutral = 5, /datum/fleet/boarding = 5, /datum/fleet/wolfpack = 5, /datum/fleet/conflagration = 5)
-	randomspawn_only_fleet_types = list(/datum/fleet/interdiction/light = 1)
+	randomspawn_only_fleet_types = list(/datum/fleet/interdiction/light = 1, /datum/fleet/fusion = 1)
 	fleet_spawn_rate = 30 MINUTES
 	id = FACTION_ID_SYNDICATE
 

@@ -773,6 +773,15 @@ Adding tasks is easy! Just define a datum for it.
 	size = 2
 	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
 
+/datum/fleet/fusion
+	name = "\improper Syndicate balefire taskforce"
+	taunts = list("Enemy ship, Surrender immediately or face evisceration.", "Arm the balefire torpedos. Show them the power of the sun.", "Burn.")
+	audio_cues = list()
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/conflagration/elite/fusion)
+	size = 3
+	fleet_trait = FLEET_TRAIT_NEUTRAL_ZONE
+	reward = 150 //they can have a little bit of a bigger reward for enduring this.
+
 /datum/fleet/elite
 	name = "\improper elite Syndicate taskforce"
 	taunts = list("Enemy ship, surrender immediately or face destruction.", "Excellent, a worthwhile target. Arm all batteries.")
@@ -1089,7 +1098,7 @@ Adding tasks is easy! Just define a datum for it.
 	applied_size = CLAMP(applied_size, FLEET_DIFFICULTY_EASY, INFINITY)
 	faction = SSstar_system.faction_by_id(faction_id)
 	reward *= applied_size //Bigger fleet = larger reward
-	if(istype(SSticker.mode, /datum/game_mode/pvp)) //Disables notoriety during Galactic Conquest. 
+	if(istype(SSticker.mode, /datum/game_mode/pvp)) //Disables notoriety during Galactic Conquest.
 		threat_elevation_allowed = FALSE
 	if(SSovermap_mode && threat_elevation_allowed)
 		applied_size += round(SSovermap_mode.threat_elevation / TE_POINTS_PER_FLEET_SIZE)	//Threat level modifies danger
