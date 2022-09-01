@@ -11,9 +11,9 @@ export const CrimeBook = (props, context) => {
 
   return (
     <Window
-     resizable
-     width={720}
-     height={850}>
+      resizable
+      width={720}
+      height={850}>
       <Window.Content>
         <Stack fill vertical>
           <Stack.Item>
@@ -40,8 +40,8 @@ export const CrimeBook = (props, context) => {
         </Stack>
       </Window.Content>
     </Window>
-  )
-}
+  );
+};
 
 const CrimeLibrary = (props, context) => {
   const { act, data } = useBackend(context);
@@ -54,29 +54,27 @@ const CrimeLibrary = (props, context) => {
       <Table>
         {crime.map(offence => (
           <Table.Row key={offence.name}>
-            <>
-              <Table.Cell bold color="label">
-                <Button
-                 mt={0.5}
-                 color={offence.level}
-                 textColor="white"
-                 content={offence.name}
-                 onClick={() => act('crime_click', {
-                  id: offence.name,
-                 })} />
-              </Table.Cell>
-            </>
+            <Table.Cell bold color="label">
+              <Button
+                mt={0.5}
+                color={offence.level}
+                textColor="white"
+                content={offence.name}
+                onClick={() => act('crime_click', {
+                id: offence.name,
+                })} />
+            </Table.Cell>
           </Table.Row>
         ))}
       </Table>
     </Section>
-  )
-}
+  );
+};
 
 const SelectedCrime = (props, context) => {
   const { crime } = props;
   const { act } = useBackend(context);
-  if(!crime) {
+  if (!crime) {
     return <Box>No crimes selected!</Box>
   }
 
@@ -95,13 +93,13 @@ const SelectedCrime = (props, context) => {
         ))}
       </LabeledList.Item>
     </LabeledList>
-  )
-}
+  );
+};
 
 const Punishment = (props, context) => {
   const { pun } = props;
   const { act } = useBackend(context);
-  if(!pun) {
+  if (!pun) {
     return <Box>No punishments, Yay!</Box>
   }
 
