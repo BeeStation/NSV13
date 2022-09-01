@@ -1,5 +1,5 @@
-import { useBackend, useLocalState } from '../backend';
-import { Button, Section, Stack, LabeledList, Modal, Dropdown, Tabs, Box, Input, Flex, ProgressBar, Collapsible, Icon, Divider, Table } from '../components';
+import { useBackend } from '../backend';
+import { Button, Section, Stack, LabeledList, Box, Table } from '../components';
 import { Window } from '../layouts';
 
 export const CrimeBook = (props, context) => {
