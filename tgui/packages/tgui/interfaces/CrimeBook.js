@@ -89,7 +89,8 @@ const SelectedCrime = (props, context) => {
             content={crimes.name}
             onClick={() => act('remove_click', {
               id: crimes.name,
-            })} />
+            })} 
+          />
         ))}
       </LabeledList.Item>
     </LabeledList>
