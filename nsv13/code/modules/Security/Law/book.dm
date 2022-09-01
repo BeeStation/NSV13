@@ -4,6 +4,7 @@
 	icon = 'icons/obj/library.dmi'
 	icon_state = "bookSpaceLaw"
 	var/ui_crime_id = list()
+	var/highest_code = null
 
 /obj/item/lawbook/Initialize()
 	. = ..()
@@ -33,8 +34,21 @@
 				ui_crime_id = null
 			else
 				data["crime_mode_lookup"] += list(list("name" = crime.name, "level" = crime.level))
+				if(!highest_code)
+					highest_code = crime.code
+				else if(crime.code > highest_code)
+					highest_code = crime.code
+		for(var/P in GLOB.punishment)
+			var/datum/punishment/punishment = find_punishment_object_from_type(P)
+			if(punishment.harshness == highest_code)
+				data["punishment"] = list("sentence" = punishment.sentence)
+				if(punishment.length > 0)
+					data["punishment"]["jail"] += list("time" = punishment.length)
+				else if(punishment.fine > 0)
+					data["punishment"]["fine"] += list("fine" = punishment.fine)
 	else
 		data["crime_mode_lookup"] = null
+		data["punishment"] = null
 
 	return data
 

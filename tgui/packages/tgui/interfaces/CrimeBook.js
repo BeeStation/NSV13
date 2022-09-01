@@ -6,6 +6,7 @@ export const CrimeBook = (props, context) => {
   const { act, data } = useBackend(context);
   const {
     crime_mode_lookup,
+    punishment,
   } = data;
 
   return (
@@ -21,7 +22,7 @@ export const CrimeBook = (props, context) => {
                 <Section
                   title="Suggested Punishments"
                   minWidth="353px">
-                  <Punishment />
+                  <Punishment pun={punishment} />
                 </Section>
               </Stack.Item>
               <Stack.Item grow basis={0}>
@@ -98,18 +99,27 @@ const SelectedCrime = (props, context) => {
 }
 
 const Punishment = (props, context) => {
-  const { act, data } = useBackend(context);
-  const {
-    punishments = [],
-  } = data;
+  const { pun } = props;
+  const { act } = useBackend(context);
+  if(!pun) {
+    return <Box>No punishments, Yay!</Box>
+  }
 
   return (
     <LabeledList>
-      <LabeledList.Item bold label="Punishments">
-        <Box>
-          Hello!
-        </Box>
+      <LabeledList.Item bold label="Sentence">
+        {pun.sentence}
       </LabeledList.Item>
+      {pun.jail && (
+        <LabeledList.Item bold label="Time">
+          {pun.jail.time} minutes
+        </LabeledList.Item>
+      )}
+      {pun.fine && (
+        <LabeledList.Item bold label="Credit Fine">
+          {pun.fine.fine}
+        </LabeledList.Item>
+      )}
     </LabeledList>
   )
 }
