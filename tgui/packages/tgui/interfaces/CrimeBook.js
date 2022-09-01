@@ -82,15 +82,15 @@ const SelectedCrime = (props, context) => {
     <LabeledList>
       <LabeledList.Item>
         {crime.map(crimes => (
-          <Button 
+          <Button
+            key={crimes.name}
             mt={0.5}
             color={crimes.level}
             textColor="white"
             content={crimes.name}
             onClick={() => act('remove_click', {
               id: crimes.name,
-            })} 
-          />
+            })} />
         ))}
       </LabeledList.Item>
     </LabeledList>
