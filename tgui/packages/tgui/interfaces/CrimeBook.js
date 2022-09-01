@@ -61,7 +61,7 @@ const CrimeLibrary = (props, context) => {
                 textColor="white"
                 content={offence.name}
                 onClick={() => act('crime_click', {
-                id: offence.name,
+                  id: offence.name,
                 })} />
             </Table.Cell>
           </Table.Row>
@@ -76,20 +76,20 @@ const SelectedCrime = (props, context) => {
   const { act } = useBackend(context);
   if (!crime) {
     return <Box>No crimes selected!</Box>
-  }
+  };
 
   return (
     <LabeledList>
       <LabeledList.Item>
         {crime.map(crimes => (
           <Button
-          mt={0.5}
-          color={crimes.level}
-          textColor="white"
-          content={crimes.name}
-          onClick={() => act('remove_click', {
-            id: crimes.name,
-          })} />
+            mt={0.5}
+            color={crimes.level}
+            textColor="white"
+            content={crimes.name}
+            onClick={() => act('remove_click', {
+              id: crimes.name,
+            })} />
         ))}
       </LabeledList.Item>
     </LabeledList>
