@@ -6,7 +6,7 @@ export const CrimeBook = (props, context) => {
   const { act, data } = useBackend(context);
   const {
     crime_mode_lookup,
-    punishment
+    punishment,
   } = data;
 
   return (
@@ -46,7 +46,7 @@ export const CrimeBook = (props, context) => {
 const CrimeLibrary = (props, context) => {
   const { act, data } = useBackend(context);
   const {
-    crime = []
+    crime = [],
   } = data;
 
   return (
@@ -82,7 +82,7 @@ const SelectedCrime = (props, context) => {
     <LabeledList>
       <LabeledList.Item>
         {crime.map(crimes => (
-          <Button
+          <Button 
             mt={0.5}
             color={crimes.level}
             textColor="white"
