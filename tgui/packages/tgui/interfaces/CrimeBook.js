@@ -75,8 +75,8 @@ const SelectedCrime = (props, context) => {
   const { crime } = props;
   const { act } = useBackend(context);
   if (!crime) {
-    return <Box>No crimes selected!</Box>
-  };
+    return <Box>No crimes selected!</Box>;
+  }
 
   return (
     <LabeledList>
@@ -100,7 +100,7 @@ const Punishment = (props, context) => {
   const { pun } = props;
   const { act } = useBackend(context);
   if (!pun) {
-    return <Box>No punishments, Yay!</Box>
+    return <Box>No punishments, Yay!</Box>;
   }
 
   return (
@@ -119,5 +119,5 @@ const Punishment = (props, context) => {
         </LabeledList.Item>
       )}
     </LabeledList>
-  )
-}
+  );
+};
