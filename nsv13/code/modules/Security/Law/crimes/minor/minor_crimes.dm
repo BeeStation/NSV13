@@ -1,14 +1,29 @@
-/datum/crime/minor
-	name = "Petty Theft"
-	description = "The act of taking someone elses stuff without asking for permission"
+/datum/crime/minor/minor_vandalism
+	name = "Minor Vandalism"
 	code = 1
-
-/datum/crime/minor/bne
-	name = "Breaking and Entering"
-	description = "The act of breaking and entering a restricted area"
-	code = 1
+	level = "green"
+	description = "To damage, destroy, or permanently deface non-critical furniture, vendors, or personal property."
 
 /datum/crime/minor/assault
-	name = "Petty Assault"
-	description = "The act of attacking someone else"
+	name = "Assault"
 	code = 1
+	level = "green"
+	description = "To use physical force against someone without the apparent intent to kill them."
+
+/datum/crime/minor/disturbing_the_peace
+	name = "Disturbing the Peace"
+	code = 1
+	level = "green"
+	description = "To knowingly organize a movement which disrupts the normal operations of a department."
+
+/datum/crime/minor/dereliction_of_duty
+	name = "Dereliction of Duty"
+	code = 1
+	level = "green"
+	description = "To willfully abandon an obligation that is critical to the vessel's continued operation."
+
+/datum/crime/minor/breaking_and_entering
+	name = "Breaking and Entering"
+	code = 1
+	level = "green"
+	description = "Forced entry to areas where the subject does not have access to. This counts for general areas only"

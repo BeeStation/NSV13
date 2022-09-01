@@ -1,4 +1,5 @@
 /datum/crime
 	var/name = "Crime"
-	var/description = ""
 	var/code = 0
+	var/description = ""
+	var/level = ""

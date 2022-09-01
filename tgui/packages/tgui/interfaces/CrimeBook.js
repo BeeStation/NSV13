@@ -1,18 +1,39 @@
 import { useBackend, useLocalState } from '../backend';
 import { Button, Section, Stack, LabeledList, Modal, Dropdown, Tabs, Box, Input, Flex, ProgressBar, Collapsible, Icon, Divider, Table } from '../components';
-import { Window, NtosWindow } from '../layouts';
+import { Window } from '../layouts';
 
 export const CrimeBook = (props, context) => {
   const { act, data } = useBackend(context);
+  const {
+    crime_mode_lookup,
+  } = data;
 
   return (
     <Window
      resizable
-     width={560}
-     height={600}>
+     width={720}
+     height={850}>
       <Window.Content>
         <Stack fill vertical>
-          <Stack.Item grow basis={0}>
+          <Stack.Item>
+            <Stack fill>
+              <Stack.Item grow basis={0}>
+                <Section
+                  title="Suggested Punishments"
+                  minWidth="353px">
+                  <Punishment />
+                </Section>
+              </Stack.Item>
+              <Stack.Item grow basis={0}>
+                <Section
+                  title="Selected Crimes"
+                  minWidth="300px">
+                  <SelectedCrime crime={crime_mode_lookup} />
+                </Section>
+              </Stack.Item>
+            </Stack>
+          </Stack.Item>
+          <Stack.Item grow={2} basis={0}>
             <CrimeLibrary />
           </Stack.Item>
         </Stack>
@@ -28,19 +49,67 @@ const CrimeLibrary = (props, context) => {
   } = data;
 
   return (
-    <Section title="Crimes">
+    <Section title="Select your crimes!">
       <Table>
         {crime.map(offence => (
           <Table.Row key={offence.name}>
-            <Table.Cell>
-              <Section label="Crime">
-                {offence.name}
-                {offence.desc}
-              </Section>
-            </Table.Cell>
+            <>
+              <Table.Cell bold color="label">
+                <Button
+                 mt={0.5}
+                 color={offence.level}
+                 textColor="white"
+                 content={offence.name}
+                 onClick={() => act('crime_click', {
+                  id: offence.name,
+                 })} />
+              </Table.Cell>
+            </>
           </Table.Row>
         ))}
       </Table>
     </Section>
+  )
+}
+
+const SelectedCrime = (props, context) => {
+  const { crime } = props;
+  const { act } = useBackend(context);
+  if(!crime) {
+    return <Box>No crimes selected!</Box>
+  }
+
+  return (
+    <LabeledList>
+      <LabeledList.Item>
+        {crime.map(crimes => (
+          <Button
+          mt={0.5}
+          color={crimes.level}
+          textColor="white"
+          content={crimes.name}
+          onClick={() => act('remove_click', {
+            id: crimes.name,
+          })} />
+        ))}
+      </LabeledList.Item>
+    </LabeledList>
+  )
+}
+
+const Punishment = (props, context) => {
+  const { act, data } = useBackend(context);
+  const {
+    punishments = [],
+  } = data;
+
+  return (
+    <LabeledList>
+      <LabeledList.Item bold label="Punishments">
+        <Box>
+          Hello!
+        </Box>
+      </LabeledList.Item>
+    </LabeledList>
   )
 }
