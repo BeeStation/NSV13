@@ -31,7 +31,7 @@
 	biohazard = 15 //clean your baton, man
 
 	species_outfits = list(
-		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/security
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/security_officer
 	)
 
 /datum/job/officer/get_access()
@@ -178,7 +178,6 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	name = "military police uniform"
 	desc = "A durable uniform worn by military police officers, who enforce ship-law."
 	icon_state = "military_police"
-	item_color = "military_police"
 	item_state = "bl_suit"
 	armor = list("melee" = 20, "bullet" = 20, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
 	can_adjust = TRUE
@@ -187,7 +186,6 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	name = "Military Police Armour"
 	desc = "A heavy-duty chestplate and shinpad combo which denotes that the user is a military police officer."
 	icon_state = "military_police"
-	item_color = "military_police"
 	w_class = 2
 	armor = list("melee" = 40, "bullet" = 50, "laser" = 15, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 35, "acid" = 50)
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
