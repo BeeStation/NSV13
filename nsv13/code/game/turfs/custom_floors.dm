@@ -3,12 +3,14 @@
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
 	icon = 'nsv13/icons/turf/dark_carpet.dmi'
 	icon_state = "dark_carpet"
+	base_icon_state = "dark_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship
 	canSmoothWith = null
 
 /turf/open/floor/black/airless
 	name = "black floor"
 	icon_state = "black"
+	base_icon_state = "black"
 	initial_gas_mix = AIRLESS_ATMOS
 
 /turf/open/floor/carpet/ship/Initialize()
@@ -29,6 +31,7 @@
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
 	icon = 'nsv13/icons/turf/blue_carpet.dmi'
 	icon_state = "blue_carpet"
+	base_icon_state = "blue_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship/blue
 
 /obj/item/stack/tile/carpet/ship/blue
@@ -45,6 +48,7 @@
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
 	icon = 'nsv13/icons/turf/orange_carpet.dmi'
 	icon_state = "orange_carpet"
+	base_icon_state = "orange_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship/orange_carpet
 
 /obj/item/stack/tile/carpet/ship/orange_carpet
@@ -61,6 +65,7 @@
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
 	icon = 'nsv13/icons/turf/purple_carpet.dmi'
 	icon_state = "purple_carpet"
+	base_icon_state = "purple_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship/purple_carpet
 
 /obj/item/stack/tile/carpet/ship/purple_carpet
@@ -77,6 +82,7 @@
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
 	icon = 'nsv13/icons/turf/beige_carpet.dmi'
 	icon_state = "beige_carpet"
+	base_icon_state = "beige_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship/beige_carpet
 
 /obj/item/stack/tile/carpet/ship/beige_carpet
@@ -93,6 +99,7 @@
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
 	icon = 'nsv13/icons/turf/red_carpet.dmi'
 	icon_state = "red_carpet"
+	base_icon_state = "red_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship/red_carpet
 
 /obj/item/stack/tile/carpet/ship/red_carpet
@@ -108,6 +115,7 @@
 	name = "durasteel hull plating"
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "durasteel"
+	base_icon_state = "durasteel"
 	floor_tile = /obj/item/stack/tile/plasteel/ship
 	broken_states = list("durasteel_dam1", "durasteel_dam2", "durasteel_dam3", "durasteel_dam4", "durasteel_dam5")
 	burnt_states = list("floorscorched1", "floorscorched2", "floorscorched3", "floorscorched4")
@@ -123,6 +131,7 @@
 /turf/open/floor/plasteel/ship/riveted
 	name = "riveted steel hull plating"
 	icon_state = "riveted"
+	base_icon_state = "riveted"
 	floor_tile = /obj/item/stack/tile/plasteel/ship/riveted
 	broken_states = list("riveted_dam1", "riveted_dam2", "riveted_dam3", "riveted_dam4", "riveted_dam5")
 	burnt_states = list("riveted_scorched1", "riveted_scorched2", "riveted_scorched3")
@@ -137,6 +146,7 @@
 /turf/open/floor/plasteel/ship/padded
 	name = "padded steel hull plating"
 	icon_state = "padded"
+	base_icon_state = "padded"
 	floor_tile = /obj/item/stack/tile/plasteel/padded
 	broken_states = list("padded_dam1", "padded_dam2", "padded_dam3", "padded_dam4", "padded_dam5")
 	burnt_states = list("padded_scorched1", "padded_scorched2", "padded_scorched3", "padded_scorched4")
@@ -152,6 +162,7 @@
 /turf/open/floor/plasteel/ship/techfloor //Ported from eris
 	name = "embossed hull plating"
 	icon_state = "eris_techfloor"
+	base_icon_state = "eris_techfloor"
 	floor_tile = /obj/item/stack/tile/plasteel/ship/techfloor
 	broken_states = list("eris_techfloor_dam1", "eris_techfloor_dam2", "eris_techfloor_dam3", "eris_techfloor_dam4", "eris_techfloor_dam5")
 	burnt_states = list("eris_techfloor_scorched1", "eris_techfloor_scorched2")
@@ -167,6 +178,7 @@
 /turf/open/floor/plasteel/ship/techfloor/alt
 	name = "embossed hull plating"
 	icon_state = "eris_techfloor_alt"
+	base_icon_state = "eris_techfloor_alt"
 	floor_tile = /obj/item/stack/tile/plasteel/ship/techfloor/alt
 	broken_states = list("eris_techfloor_alt_dam1", "eris_techfloor_alt_dam2", "eris_techfloor_alt_dam3", "eris_techfloor_alt_dam4", "eris_techfloor_alt_dam5")
 	burnt_states = list("eris_techfloor_alt_scorched1", "eris_techfloor_alt_scorched2", "eris_techfloor_alt_scorched3")
@@ -208,6 +220,7 @@
 	name = "steel hull plate"
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "steel"
+	base_icon_state = "steel"
 	floor_tile = /obj/item/stack/tile/plasteel/grid/mono
 	broken_states = list("steel_dam1", "steel_dam2", "steel_dam3", "steel_dam4", "steel_dam5")
 	burnt_states = list("steel_scorched1", "steel_schorched2", "steel_scorched3", "steel_scorched4")
@@ -224,6 +237,7 @@
 	name = "linoleum hull plate"
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "lino"
+	base_icon_state = "lino"
 	floor_tile = /obj/item/stack/tile/plasteel/grid/lino
 	broken_states = list("lino_dam1", "lino_dam2")
 	burnt_states = list("lino_scorched1")
@@ -240,6 +254,7 @@
 	name = "techfloor tile"
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "techfloor"
+	base_icon_state = "techfloor"
 	floor_tile = /obj/item/stack/tile/plasteel/grid/techfloor
 	broken_states = list("techfloor_dam1", "techfloor_dam2")
 	burnt_states = list("techfloor_scorched1", "techfloor_scorched2")
@@ -256,6 +271,7 @@
 	name = "techfloor grid"
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "techfloor_grid"
+	base_icon_state = "techfloor_grid"
 	floor_tile = /obj/item/stack/tile/plasteel/grid/techfloor
 	broken_states = list("techfloor_grid_dam1")
 	burnt_states = list("techfloor_grid_scorched1", "techfloor_grid_scorched2")
@@ -274,11 +290,13 @@
 /turf/open/floor/monofloor/corner
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "steel_monofloor_corner"
+	base_icon_state = "steel_monofloor_corner"
 
 /turf/open/floor/plating/rusty_techgrid
 	name = "rusted grid plating"
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "techfloor_rusted"
+	base_icon_state = "techfloor_rusted"
 	broken_states = list("techfloor_rusted_dam1", "techfloor_rusted_dam2")
 	burnt_states = list("techfloor_rusted_scorched1", "techfloor_rusted_scorched2")
 
@@ -286,3 +304,4 @@
 	name = "stairs"
 	icon = 'icons/obj/stairs.dmi'
 	icon_state = "stairs"
+	base_icon_state = "stairs"
