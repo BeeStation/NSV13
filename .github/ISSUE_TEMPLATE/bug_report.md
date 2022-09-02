@@ -8,9 +8,9 @@ assignees: ''
 ---
 
 <!-- Write **BELOW** The Headers and **ABOVE** The comments else it may not be viewable -->
-## Round ID:
+## Round ID & Round Date:
 
-<!--- **INCLUDE THE ROUND ID**
+<!--- **INCLUDE THE ROUND ID AND THE ROUND DATE**
 If you discovered this issue from playing beestation hosted servers:-->
 
 ## Testmerges:
