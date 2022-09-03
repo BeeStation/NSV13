@@ -50,6 +50,10 @@
 	var/max_armour_plates = 0
 	var/list/dent_decals = list() //Ships get visibly damaged as they get shot
 	var/damage_states = FALSE //Did you sprite damage states for this ship? If yes, set this to true
+	///Hullburn time, this is basically a DoT effect on ships. One day I'll have to add actual ship status effects, siiiigh.
+	var/hullburn = 0
+	///Hullburn strength is what determines the damage per tick, the strongest damage usually goes. Which means, a weaker weapon could be used to lengthen the duration of a strong but short one.
+	var/hullburn_power = 0
 	var/disruption = 0	//Causes bad effects proportional to how significant. Most significant for AI ships (or fighters) hit by disruption weapons.
 
 	var/use_armour_quadrants = FALSE //Does the object use the armour quadrant system?

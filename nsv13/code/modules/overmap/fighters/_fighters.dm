@@ -574,6 +574,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 		return
 	escape_pod.name = "[name] - escape pod"
 	escape_pod.faction = faction
+	escape_pod.last_overmap = last_overmap
+	escape_pod.current_system = current_system
+	current_system.system_contents += escape_pod
 	escape_pod.desired_angle = 0
 	escape_pod.user_thrust_dir = NORTH
 	var/obj/item/fighter_component/docking_computer/DC = escape_pod.loadout.get_slot(HARDPOINT_SLOT_DOCKING)
@@ -700,7 +703,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	return ..()
 
 
-/obj/structure/overmap/small_craft/take_damage(damage_amount, damage_type, damage_flag, sound_effect)
+/obj/structure/overmap/small_craft/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, bypasses_shields = FALSE)
 	var/obj/item/fighter_component/armour_plating/A = loadout.get_slot(HARDPOINT_SLOT_ARMOUR)
 	if(A && istype(A))
 		A.take_damage(damage_amount, damage_type, damage_flag, sound_effect)

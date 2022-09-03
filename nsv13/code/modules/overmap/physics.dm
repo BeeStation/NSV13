@@ -124,6 +124,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			last_critprocess = world.time
 			handle_critical_failure_part_1()
 	disruption = max(0, disruption - 1)
+	if(hullburn > 0)
+		hullburn = max(0, hullburn - 1)
+		take_damage(hullburn_power, BURN, "fire", FALSE, TRUE) //If you want a ship to be resistant to hullburn, just give it fire armor.
+		if(hullburn == 0)
+			hullburn_power = 0
 	ai_process()
 	if(!cabin_air)
 		return
@@ -568,6 +573,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	return ..()
 
 /obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE, ai_aim = FALSE, miss_chance=5, max_miss_distance=5) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
+	if(!z || QDELETED(src))
+		return FALSE
 	var/turf/T = get_center()
 	var/obj/item/projectile/proj = new proj_type(T)
 	if(ai_aim && !homing && !proj.hitscan)

@@ -88,4 +88,13 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define NEVER_DELETE_OCCUPIED		(1<<2) // Even if the overmap takes enough damage to be destroyed, never delete it if it's occupied. I don't know when we'd use this it just seems useful
 #define DELETE_UNOCCUPIED_ON_DEPARTURE 	(1<<3) // When a fighter/dropship leaves the map level for the overmap level, look for remaining occupants. If none exist, delete
 #define FIGHTERS_ARE_OCCUPANTS		(1<<4) // Docked overmaps count as occupants when deciding whether to delete something
-//NSV13 change end
+
+// Squads
+//These names ought to be self explanatory for any XO when he assigns them.
+#define DC_SQUAD "Damage Control Team"
+#define MEDICAL_SQUAD "Medical Team"
+#define SECURITY_SQUAD "Security Support"
+#define COMBAT_AIR_PATROL "Combat Air Patrol"
+#define MUNITIONS_SUPPORT "Munitions Support"
+#define CIC_OPS "CIC Ops"
+#define SQUAD_TYPES list(DC_SQUAD, MEDICAL_SQUAD, SECURITY_SQUAD, COMBAT_AIR_PATROL, MUNITIONS_SUPPORT, CIC_OPS)
