@@ -52,19 +52,24 @@
 		"Security: Brig Physician" = "pda-brigphys",
 		"Security: Deputy" = "pda-deputy",
 		"Misc: Prisoner" = "pda-prisoner"
-		)
- 	// NSV13 - moved XO to command, used job name defines for renamed jobs
+	)
+
+ 	// NSV13 - moved XO to command, added munitions
 	var/valid_jobs = list(
-		"----Command----","Command (Custom)", "Captain", "Acting Captain", JOB_NAME_HEADOFPERSONNEL,
-		"----Service----","Service (Custom)", JOB_NAME_ASSISTANT, "Bartender", "Cook", "Botanist", "Janitor", "Curator",
-		"Chaplain", "Lawyer", "Clown", "Mime", "Barber", "Stage Magician",
-		"----Cargo----","Cargo (Custom)","Quartermaster", "Cargo Technician","Shaft Miner",
-		"----Engineering----","Engineering (Custom)","Chief Engineer", "Station Engineer", "Atmospheric Technician",
-		"----Science----","Science (Custom)","Research Director", "Scientist", "Roboticist", "Exploration Crew",
-		"----Medical----","Medical (Custom)","Chief Medical Officer", "Medical Doctor", "Chemist", "Geneticist", "Virologist", "Paramedic", "Psychiatrist",
-		"----Security----","Security (Custom)","Head of Security", "Warden", "Detective", JOB_NAME_SECURITYOFFICER, "Brig Physician", "Deputy",
-		"----MISC----","Unassigned","Prisoner"
-		)
+		"----Command----", "Command (Custom)",JOB_NAME_CAPTAIN,"Acting Captain", JOB_NAME_HEADOFPERSONNEL,
+		"----Service----", "Service (Custom)", JOB_NAME_ASSISTANT, JOB_NAME_BARTENDER, JOB_NAME_COOK,
+			JOB_NAME_BOTANIST, JOB_NAME_JANITOR, JOB_NAME_CURATOR,JOB_NAME_CHAPLAIN, JOB_NAME_LAWYER,
+			JOB_NAME_CLOWN, JOB_NAME_MIME, JOB_NAME_BARBER, JOB_NAME_STAGEMAGICIAN,
+		"----Cargo----","Cargo (Custom)",JOB_NAME_QUARTERMASTER, JOB_NAME_CARGOTECHNICIAN,JOB_NAME_SHAFTMINER,
+		"----Engineering----","Engineering (Custom)",JOB_NAME_CHIEFENGINEER, JOB_NAME_STATIONENGINEER, JOB_NAME_ATMOSPHERICTECHNICIAN,
+		"----Science----","Science (Custom)",JOB_NAME_RESEARCHDIRECTOR, JOB_NAME_SCIENTIST, JOB_NAME_ROBOTICIST, JOB_NAME_EXPLORATIONCREW,
+		"----Medical----","Medical (Custom)",JOB_NAME_CHIEFMEDICALOFFICER, JOB_NAME_MEDICALDOCTOR, JOB_NAME_CHEMIST, JOB_NAME_GENETICIST,
+			JOB_NAME_VIROLOGIST, JOB_NAME_PARAMEDIC, JOB_NAME_PSYCHIATRIST,
+		"----Security----","Security (Custom)",JOB_NAME_HEADOFSECURITY, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_SECURITYOFFICER,
+			JOB_NAME_BRIGPHYSICIAN, JOB_NAME_DEPUTY,
+		"----Munitions----","Munitions (Custom)",JOB_NAME_MASTERATARMS, JOB_NAME_BRIDGESTAFF, JOB_NAME_ATC, JOB_NAME_MUNITIONSTECH, JOB_NAME_PILOT,
+		"----MISC----","Unassigned",JOB_NAME_PRISONER
+	)
 	max_integrity = 200
 	var/list/colorlist = list()
 
@@ -74,7 +79,7 @@
 	pda_icons += list(
 		"Transparent" = "pda-clear",
 		"Syndicate" = "pda-syndi"
-		)
+	)
 	valid_jobs += list(
 		"CentCom (Custom)",
 		"CentCom",
@@ -83,7 +88,7 @@
 		"King",
 		"Syndicate",
 		"Clown Operative"
-		)
+	)
 	to_chat(user, "<span class='warning'>You short out the design locking circuitry, allowing contraband and special designs.</span>")
 	obj_flags |= EMAGGED
 /obj/machinery/pdapainter/update_icon()
