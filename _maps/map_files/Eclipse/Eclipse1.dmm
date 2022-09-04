@@ -2058,8 +2058,7 @@
 /area/science/research)
 "iI" = (
 /obj/machinery/computer/ship/helm{
-	dir = 8;
-	req_access = null
+	dir = 8
 	},
 /turf/open/floor/monotile/steel,
 /area/bridge)
@@ -2246,7 +2245,7 @@
 	dir = 1;
 	input_tag = "o2_in_alt";
 	output_tag = "o2_out_alt";
-	sensors = list("o2_sensor_alt" = "Oxygen Tank")
+	sensors = list("o2_sensor_alt"="Oxygen Tank")
 	},
 /obj/machinery/airalarm/directional/west,
 /obj/machinery/firealarm/directional/south,
@@ -5240,17 +5239,17 @@
 "vs" = (
 /obj/structure/table/reinforced,
 /obj/item/reagent_containers/food/drinks/beer{
-	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 0);
+	list_reagents = list(/datum/reagent/consumable/ethanol/beer=0);
 	pixel_x = -6;
 	pixel_y = 5
 	},
 /obj/item/reagent_containers/food/drinks/beer{
-	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 0);
+	list_reagents = list(/datum/reagent/consumable/ethanol/beer=0);
 	pixel_x = 2;
 	pixel_y = 6
 	},
 /obj/item/reagent_containers/food/drinks/beer{
-	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 0);
+	list_reagents = list(/datum/reagent/consumable/ethanol/beer=0);
 	pixel_y = 4
 	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
@@ -5410,7 +5409,7 @@
 /obj/item/reagent_containers/food/snacks/salad/fruit{
 	bonus_reagents = null;
 	desc = "A bowl of plastic fruit. Each fruit in the bowl shines with an ominous glare that portrays an aura of foreboding in the room. You feel like it'd be a bad idea to try and eat it.";
-	list_reagents = list(/datum/reagent/toxin/lipolicide = 50);
+	list_reagents = list(/datum/reagent/toxin/lipolicide=50);
 	name = "plastic fruit bowl";
 	prevent_grinding = 1
 	},
@@ -7518,7 +7517,7 @@
 	dir = 1;
 	input_tag = "n2_in_alt";
 	output_tag = "n2_out_alt";
-	sensors = list("n2_sensor_alt" = "Nitrogen Tank")
+	sensors = list("n2_sensor_alt"="Nitrogen Tank")
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold/visible,
 /obj/item/analyzer,
@@ -7860,7 +7859,7 @@
 	dir = 1;
 	input_tag = "air_in_alt";
 	output_tag = "air_out_alt";
-	sensors = list("air_sensor_alt" = "Air Mix Tank")
+	sensors = list("air_sensor_alt"="Air Mix Tank")
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold/visible,
 /obj/machinery/camera/autoname{
@@ -9095,8 +9094,7 @@
 /area/maintenance/department/cargo)
 "LX" = (
 /obj/machinery/computer/ship/tactical{
-	dir = 8;
-	req_access = null
+	dir = 8
 	},
 /turf/open/floor/monotile/steel,
 /area/bridge)
@@ -9578,6 +9576,9 @@
 /obj/machinery/atmospherics/components/binary/drive_pylon,
 /obj/effect/turf_decal/stripes/box,
 /obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -10441,8 +10442,8 @@
 	brightness = 5;
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 1
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/lounge)
@@ -11241,7 +11242,6 @@
 /obj/effect/turf_decal/ship/techfloor,
 /obj/machinery/computer/ship/navigation{
 	dir = 1;
-	req_access = null;
 	req_one_access_txt = "31;48"
 	},
 /turf/open/floor/monotile/steel,
