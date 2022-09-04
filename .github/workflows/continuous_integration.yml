@@ -15,6 +15,7 @@ on:
 jobs:
   run_linters:
     runs-on: ubuntu-latest
+    if: github.repository == 'BeeStation/NSV13'
     steps:
       - uses: actions/checkout@v2
       - name: Python setup
