@@ -358,6 +358,7 @@
 				set_picture("ai_sal")
 			if("Red Glow")
 				set_picture("ai_hal")
+			//NSV13 code
 			if("Prototype Alert")
 				set_picture("ai_protoalert")
 			if("Prototype Frown")
@@ -366,6 +367,7 @@
 				set_picture("ai_protomischef")
 			if("Prototype Smile")
 				set_picture("ai_protosmile")
+			//end of NSV13 code
 		return PROCESS_KILL
 
 	if(mode == SD_AI_BSOD)
