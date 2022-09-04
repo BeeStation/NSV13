@@ -151,6 +151,7 @@
 					/obj/item/ship_weapon/parts/missile/warhead/decoy,
 					/obj/item/ship_weapon/parts/missile/warhead/decoy,
 					/obj/item/ship_weapon/parts/missile/warhead/decoy,
+					/obj/item/ship_weapon/parts/missile/warhead/decoy,
 					/obj/item/ship_weapon/parts/missile/warhead/decoy)
 	crate_name = "Decoy missile warheads"
 
@@ -170,6 +171,7 @@
 	desc = "A pack of 10 standard missile warheads."
 	cost = 1000
 	contains = list(/obj/item/ship_weapon/parts/missile/warhead,
+					/obj/item/ship_weapon/parts/missile/warhead,
 					/obj/item/ship_weapon/parts/missile/warhead,
 					/obj/item/ship_weapon/parts/missile/warhead,
 					/obj/item/ship_weapon/parts/missile/warhead,
