@@ -358,6 +358,14 @@
 				set_picture("ai_sal")
 			if("Red Glow")
 				set_picture("ai_hal")
+			if("Prototype Alert")
+				set_picture("ai_protoalert")
+			if("Prototype Frown")
+				set_picture("ai_protofrown")
+			if("Prototype Mischevious")
+				set_picture("ai_protomischef")
+			if("Prototype Smile")
+				set_picture("ai_protosmile")
 		return PROCESS_KILL
 
 	if(mode == SD_AI_BSOD)
@@ -370,46 +378,46 @@
 
 /obj/machinery/status_display/evac/south
 	pixel_y = -32
-	
+
 /obj/machinery/status_display/evac/west
 	pixel_x = -32
-	
+
 /obj/machinery/status_display/evac/east
-	pixel_x = 32	
+	pixel_x = 32
 
 /obj/machinery/status_display/ai/north
 	pixel_y = 32
 
 /obj/machinery/status_display/ai/south
 	pixel_y = -32
-	
+
 /obj/machinery/status_display/ai/west
 	pixel_x = -32
-	
+
 /obj/machinery/status_display/ai/east
 	pixel_x = 32
-	
+
 /obj/machinery/status_display/supply/north
 	pixel_y = 32
-	
+
 /obj/machinery/status_display/supply/south
 	pixel_y = -32
-	
+
 /obj/machinery/status_display/supply/west
 	pixel_x = -32
-	
+
 /obj/machinery/status_display/supply/east
 	pixel_x = 32
 
 /obj/machinery/status_display/shuttle/north
 	pixel_y = 32
-	
+
 /obj/machinery/status_display/shuttle/south
 	pixel_y = -32
-	
+
 /obj/machinery/status_display/shuttle/west
 	pixel_x = -32
-	
+
 /obj/machinery/status_display/shuttle/east
 	pixel_x = 32 //NSV13 End
 
