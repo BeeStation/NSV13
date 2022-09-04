@@ -805,7 +805,7 @@
 				"floating face" = 'icons/mob/ai.dmi',
 				"xeno queen" = 'icons/mob/alien.dmi',
 				"horror" = 'icons/mob/ai.dmi',
-				"microwave" = 'icons/mob/ai.dmi'
+				"microwave" = 'icons/mob/ai.dmi' //NSV13. The microwave is NSV13 specific!
 				)
 
 			input = input("Please select a hologram:") as null|anything in sortList(icon_list)
