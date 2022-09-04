@@ -86,7 +86,7 @@ GLOBAL_LIST_INIT(ai_core_display_screens, sortList(list(
 	"Triumvirate",
 	"Triumvirate-M",
 	"Weird",
-	"Prototype")))
+	"Prototype"))) //NSV13 Ai portrait. No touchy!
 
 /proc/resolve_ai_icon(input)
 	if(!input || !(input in GLOB.ai_core_display_screens))
