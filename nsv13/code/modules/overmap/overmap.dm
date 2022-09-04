@@ -421,7 +421,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	//We have a lot of types but not that many weapons per ship, so let's just worry about the ones we do have
 	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
 		var/datum/ship_weapon/SW = weapon_types[firemode]
-		if(istype(SW) && SW.selectable)
+		if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
 			weapon_numkeys_map += firemode
 
 //Method to apply weapon types to a ship. Override to your liking, this just handles generic rules and behaviours
