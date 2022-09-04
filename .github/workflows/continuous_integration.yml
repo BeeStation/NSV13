@@ -7,14 +7,15 @@ on:
       - "html/changelogs/**"
       - "html/changelog.html"
     branches:
-  pull_request:
       - master
+  pull_request:
     branches:
       - master
 
 jobs:
   run_linters:
     runs-on: ubuntu-latest
+    if: github.repository == 'BeeStation/NSV13'
     steps:
       - uses: actions/checkout@v2
       - name: Python setup
@@ -57,8 +58,8 @@ jobs:
         with:
           path: ~/BYOND
           key: ${{ runner.os }}-byond-cache-${{ hashFiles('Dockerfile') }}
-        if: steps.cache-byond.outputs.cache-hit != 'true'
       - name: Install BYOND
+        if: steps.cache-byond.outputs.cache-hit != 'true'
         run: bash tools/ci/install_byond.sh
       - name: Compile All Maps
         run: |
