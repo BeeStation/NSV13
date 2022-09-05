@@ -14,7 +14,7 @@
 	icon_state = "rglass_tile"
 	turf_type = /turf/open/floor/glass/reinforced
 	materials = list(/datum/material/glass=500, /datum/material/iron=250)
- 
+
 
 //durasteel tiles
 /obj/item/stack/tile/durasteel
@@ -46,6 +46,21 @@
 	"monotile_light", \
 	"monofloor_tile" \
 	)
+	var/list/tiletypes = list( \
+	"durasteel_tile" = /turf/open/floor/durasteel, \
+	"durasteel_tile_alt" = /turf/open/floor/durasteel/alt, \
+	"riveted_tile" = /turf/open/floor/durasteel/riveted, \
+	"padded_tile" = /turf/open/floor/durasteel/padded, \
+	"eris_techfloor_tile" = /turf/open/floor/durasteel/eris_techfloor, \
+	"eris_techfloor_alt_tile" = /turf/open/floor/durasteel/eris_techfloor_alt, \
+	"lino_tile" = /turf/open/floor/durasteel/lino, \
+	"techfloor_tile" = /turf/open/floor/durasteel/techfloor, \
+	"tech_grid_tile" = /turf/open/floor/durasteel/techfloor_grid, \
+	"monotile_steel" = /turf/open/floor/monotile/steel, \
+	"monotile_dark" = /turf/open/floor/monotile/dark, \
+	"monotile_light" = /turf/open/floor/monotile/light, \
+	"monofloor_tile" = /turf/open/floor/monofloor \
+	)
 
 /obj/item/stack/tile/durasteel/Initialize(mapload, amount)
 	. = ..()
@@ -57,8 +72,9 @@
 	. += "<span class='notice'>Ctrl-click to change the tile type.</span>"
 
 /obj/item/stack/tile/durasteel/CtrlClick(mob/user)
-	if((!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user))) && !is_cyborg)
-		show_radial_menu(user, user, tilelist)
+	if((istype(user) && user.canUseTopic(src, BE_CLOSE, ismonkey(user))) && !is_cyborg)
+		icon_state = show_radial_menu(user, user, tilelist)
+		turf_type = tiletypes[icon_state] //it JUST works
 	return ..()
 
 /obj/item/stack/tile/durasteel/alt
