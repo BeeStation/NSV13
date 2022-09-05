@@ -9,6 +9,7 @@
 	name = "rotate_left"
 	full_name = "Rotate Left"
 	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_ROTATELEFT_DOWN
 
 /datum/keybinding/overmap/rotate_left/down(client/user)
 	if(!user.mob) return
@@ -37,6 +38,7 @@
 	name = "rotate_right"
 	full_name = "Rotate Right"
 	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_ROTATERIGHT_DOWN
 
 /datum/keybinding/overmap/rotate_right/down(client/user)
 	if(!user.mob) return
@@ -66,6 +68,7 @@
 	name = "boost"
 	full_name = "Boost"
 	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_BOOST_DOWN
 
 /datum/keybinding/overmap/boost/down(client/user)
 	if(!user.mob) return
@@ -91,6 +94,7 @@
 	name = "toggle_brakes"
 	full_name = "Toggle Brakes"
 	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_TOGGLEBRAKES_DOWN
 
 /datum/keybinding/overmap/toggle_brakes/down(client/user)
 	if(!user.mob) return
@@ -120,6 +124,7 @@
 	name = "toggle_inertia"
 	full_name = "Toggle Inertial Assistance"
 	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_TOGGLEINERTIA_DOWN
 
 /datum/keybinding/overmap/toggle_inertia/down(client/user)
 	if(!user.mob) return
@@ -139,6 +144,7 @@
 	name = "toggle_move_mode"
 	full_name = "Toggle Mouse Movement"
 	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_TOGGLEMOUSEMOVE_DOWN
 
 /datum/keybinding/overmap/toggle_move_mode/down(client/user)
 	if(!user.mob) return
@@ -158,6 +164,7 @@
 	name = "cycle_firemode"
 	full_name = "Cycle Firemode"
 	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_CYCLEFIREMODE_DOWN
 
 /datum/keybinding/overmap/cycle_firemode/down(client/user)
 	if(!user.mob) return
@@ -179,6 +186,7 @@
 	name = "deploy_countermeasure"
 	full_name = "Deploy Countermeasure"
 	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_COUNTERMEASURE_DOWN
 
 /datum/keybinding/overmap/deploy_countermeasure/down(client/user)
 	if(!user.mob) return
@@ -195,6 +203,7 @@
 	name = "toggle_safety"
 	full_name = "Toggle Safeties"
 	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_TOGGLESAFETY_DOWN
 
 /datum/keybinding/overmap/toggle_safety/down(client/user)
 	if(!user.mob) return
@@ -215,6 +224,7 @@
 	name = "weapon_1"
 	full_name = "Weapon 1"
 	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_WEAPON1_DOWN
 
 /datum/keybinding/overmap/weapon_1/down(client/user)
 	if(!user.mob) return
@@ -231,6 +241,7 @@
 	name = "weapon_2"
 	full_name = "Weapon 2"
 	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_WEAPON2_DOWN
 
 /datum/keybinding/overmap/weapon_2/down(client/user)
 	if(!user.mob) return
@@ -247,6 +258,7 @@
 	name = "weapon_3"
 	full_name = "Weapon 3"
 	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_WEAPON3_DOWN
 
 /datum/keybinding/overmap/weapon_3/down(client/user)
 	if(!user.mob) return
@@ -263,6 +275,7 @@
 	name = "weapon_4"
 	full_name = "Weapon 4"
 	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_WEAPON4_DOWN
 
 /datum/keybinding/overmap/weapon_4/down(client/user)
 	if(!user.mob) return

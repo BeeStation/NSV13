@@ -87,4 +87,3 @@
 		return ZTRAIT_STATION
 	if(SSmapping.level_trait(z, ZTRAIT_SYNDIE_SHIP))
 		return ZTRAIT_SYNDIE_SHIP
- 
