@@ -34,7 +34,7 @@
 /obj/structure/overmap/proc/ghost_ship(mob/target)
 	if(!target)
 		return
-	
+
 	//Prevent the mainship being skeleton crewed
 	if(src.role == MAIN_OVERMAP)
 		message_admins("[src] is the main overmap and cannot be ghost controlled! Take manual control via the Z-level")
@@ -85,6 +85,7 @@
 
 	if(ghost.key) //Is there a player in control of our ghost?
 		start_piloting(ghost, "all_positions")
+		mobs_in_ship |= ghost //Allows players to hear hails
 		ghost_controlled = TRUE
 
 	else //Try again later
