@@ -1,0 +1,8 @@
+author: covertcorvid
+delete-after: true
+changes:
+  - refactor: Refactored the "pilot" "gunner" etc strings to use bitflags
+  - code_imp: Removed incapacitation check for fighter pilot at the hardpoint level
+      since interceptClickOn already checks if the user is incapacitated
+  - code_imp: Pilot-only weapons no longer have to be added to the interceptClickOn
+      proc by hand
