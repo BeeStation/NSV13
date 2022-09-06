@@ -18,7 +18,7 @@
 	var/location = ""	// location response text
 	var/list/codes		// assoc. list of transponder codes
 	var/codes_txt = ""	// codes as set on map: "tag1;tag2" or "tag1=value;tag2=value"
-	var/obj/structure/overmap/linked //TEST NSV13
+	var/obj/structure/overmap/linked //NSV13 - DIFFERENCE BETWEEN CODEBASE
 
 	req_one_access = list(ACCESS_ENGINE, ACCESS_ROBOTICS)
 
@@ -37,22 +37,24 @@
 		GLOB.deliverybeacons += src
 		GLOB.deliverybeacontags += location
 
-	return INITIALIZE_HINT_LATELOAD //NSV13
+	return INITIALIZE_HINT_LATELOAD //NSV13 - DIFFERENCE BETWEEN CODEBASE
 
-/obj/machinery/navbeacon/LateInitialize() //NSV13
-	has_overmap() //NSV13
+/obj/machinery/navbeacon/LateInitialize() //NSV13 - DIFFERENCE BETWEEN CODEBASE
+	has_overmap() //NSV13 - DIFFERENCE BETWEEN CODEBASE
 
-/obj/machinery/navbeacon/proc/has_overmap() //NSV13
-	linked = get_overmap() //NSV13
-	if(linked) //NSV13
-		set_position(linked) //NSV13
-	return linked //NSV13
+/obj/machinery/navbeacon/proc/has_overmap() //NSV13 - DIFFERENCE BETWEEN CODEBASE
+	linked = get_overmap() //NSV13 - DIFFERENCE BETWEEN CODEBASE
+	if(linked) //NSV13 - DIFFERENCE BETWEEN CODEBASE
+		set_position(linked) //NSV13 - DIFFERENCE BETWEEN CODEBASE
+	return linked //NSV13 - DIFFERENCE BETWEEN CODEBASE
 
-/obj/machinery/navbeacon/proc/set_position(obj/structure/overmap/OM) //NSV13
-	OM.beacons_in_ship += src //NSV13
-	return //NSV13
+/obj/machinery/navbeacon/proc/set_position(obj/structure/overmap/OM) //NSV13 - DIFFERENCE BETWEEN CODEBASE
+	OM.beacons_in_ship += src //NSV13 - DIFFERENCE BETWEEN CODEBASE
+	return //NSV13 - DIFFERENCE BETWEEN CODEBASE
 
 /obj/machinery/navbeacon/Destroy()
+	if (OM.beacons_in_ship) //NSV13 - DIFFERENCE BETWEEN CODEBASE
+		OM.beacons_in_ship -= src //NSV13 - DIFFERENCE BETWEEN CODEBASE
 	if (GLOB.navbeacons["[z]"])
 		GLOB.navbeacons["[z]"] -= src //Remove from beacon list, if in one.
 	GLOB.deliverybeacons -= src
