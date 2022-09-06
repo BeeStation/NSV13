@@ -19,11 +19,11 @@
 	if(length(spawned_splitters) >= 3)
 		to_chat(user, "<span class'warning'>You may only have three spawned splitters!</span>")
 		return
-	var/obj/effect/decal/cleanable/splitter/new_sp = new /obj/effect/decal/cleanable/splitter(get_turf(src))
+	var/obj/effect/decal/splitter/new_sp = new /obj/effect/decal/splitter(get_turf(src))
 	new_sp.parent_item = src
 	spawned_splitters += new_sp
 
-/obj/effect/decal/cleanable/splitter
+/obj/effect/decal/splitter
 	name = "Splitter"
 	desc = "This mark pushes incoming objects equally into two to three directions"
 	icon = 'nsv13/icons/effects/splitter_effect.dmi'
@@ -37,289 +37,138 @@
 	var/multi_direction = FALSE
 	var/direction_movement = null
 	var/obj/item/splitter_placer/parent_item
+	var/forbidden_split = null
+	var/iteration = 1
+	var/list/directions = list(
+		"NORTH",
+		"SOUTH",
+		"WEST",
+		"EAST"
+	)
 
 	light_range = 3
 	light_color = COLOR_RED_LIGHT
 
-/obj/effect/decal/cleanable/splitter/Destroy()
+/obj/effect/decal/splitter/Initialize(mapload)
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
+/obj/effect/decal/splitter/Destroy()
 	if(parent_item)
 		parent_item.spawned_splitters -= src
 		parent_item = null
 	return ..()
 
-/obj/effect/decal/cleanable/splitter/examine(mob/user)
+/obj/effect/decal/splitter/examine(mob/user)
 	. = ..()
 	. += "<span class='notice'>Slap with an empty hand to change the direction.</span>"
 	. += "<span class='notice'>Alt-Click to remove.</span>"
 
-/obj/effect/decal/cleanable/splitter/proc/input_choice(mob/living/user)
-	var/input_choice = tgui_input_list(user, "Choose which direction to insert from", "Input choices", list(
-		"North",
-		"South",
-		"West",
-		"East"
-	))
-	var/output = output_choice(input_choice, user)
-	return output
+/obj/effect/decal/splitter/attack_hand(mob/living/user)
+	directions = list(
+		"NORTH",
+		"SOUTH",
+		"WEST",
+		"EAST"
+	) //Reset Choices
 
-/obj/effect/decal/cleanable/splitter/proc/output_choice(intake, mob/living/user)
-	var/user_choice = null
-	if(intake == "North")
-		user_choice = tgui_input_list(user, "Choose which direction or directions to split to", "Direction choices", list(
-			"South",
-			"SouthWest",
-			"SouthEast",
-			"SouthEastWest",
-			"West",
-			"WestEast",
-			"East",
-		))
-		return user_choice
-	if(intake == "South")
-		user_choice = tgui_input_list(user, "Choose which direction or directions to split to", "Direction choices", list(
-			"North",
-			"NorthWest",
-			"NorthEast",
-			"NorthEastWest",
-			"West",
-			"WestEast",
-			"East"
-		))
-		return user_choice
-	if(intake == "West")
-		user_choice = tgui_input_list(user, "Choose which direction or directions to split to", "Direction choices", list(
-			"North",
-			"NorthSouth",
-			"NorthEast",
-			"NorthEastSouth",
-			"East",
-			"South",
-			"SouthEast"
-		))
-		return user_choice
-	if(intake == "East")
-		user_choice = tgui_input_list(user, "Choose which direction or directions to split to", "Direction choices", list(
-			"North",
-			"NorthSouth",
-			"NorthWest",
-			"NorthWestSouth",
-			"West",
-			"South",
-			"SouthWest"
-		))
-		return user_choice
-
-/obj/effect/decal/cleanable/splitter/attack_hand(mob/living/user)
-	var/option = input_choice(user)
+	var/split = tgui_input_list(user, "Choose how many outputs", "Number of Outputs", list(1, 2, 3))
+	var/option = tgui_input_list(user, "Choose which direction to insert from", "Input choices", directions)
+	directions -= option
+	switch(split)
+		if(1)
+			multi_direction = FALSE
+			var/choice = tgui_input_list(user, "Choose which direction to output to", "Output Choices", directions)
+			switch(choice)
+				if("NORTH")
+					direction_movement = NORTH
+				if("SOUTH")
+					direction_movement = SOUTH
+				if("WEST")
+					direction_movement = WEST
+				if("EAST")
+					direction_movement = EAST
+		if(2)
+			multi_direction = TRUE
+			var/forbid = tgui_input_list(user, "Choose which direction to not output to", "Choices", directions)
+			switch(forbid)
+				if("NORTH")
+					forbidden_split = NORTH
+				if("SOUTH")
+					forbidden_split = SOUTH
+				if("WEST")
+					forbidden_split = WEST
+				if("EAST")
+					forbidden_split = EAST
+		if(3)
+			multi_direction = TRUE
 
 	if(!option)
 		return ..()
-	switch(option) //ABANDON ALL FUCKING HOPE FOR A SENSIBLE WAY OF DIRECTION
-		if("North")
+
+	switch(option)
+		if("NORTH")
 			sorted_direction = NORTH
-			dir = NORTH
-		if("NorthSouth")
-			sorted_direction = "NorthSouth"
-			multi_direction = TRUE
-		if("NorthEast")
-			sorted_direction = NORTHEAST
-			multi_direction = TRUE
-		if("NorthWest")
-			sorted_direction = NORTHWEST
-			multi_direction = TRUE
-		if("NorthEastWest")
-			sorted_direction = "NorthEastWest"
-			multi_direction = TRUE
-		if("NorthEastSouth")
-			sorted_direction = "NorthEastSouth"
-			multi_direction = TRUE
-		if("NorthWestSouth")
-			sorted_direction = "NorthWestSouth"
-			multi_direction = TRUE
-		if("South")
+		if("SOUTH")
 			sorted_direction = SOUTH
-			dir = SOUTH
-		if("SouthWest")
-			sorted_direction = SOUTHWEST
-			multi_direction = TRUE
-		if("SouthEast")
-			sorted_direction = SOUTHEAST
-			multi_direction = TRUE
-		if("SouthEastWest")
-			sorted_direction = "SouthEastWest"
-			multi_direction = TRUE
-		if("West")
+		if("WEST")
 			sorted_direction = WEST
-		if("WestEast")
-			sorted_direction = "WestEast"
-			multi_direction = TRUE
-		if("East")
+		if("EAST")
 			sorted_direction = EAST
-			dir = EAST
+
 	playsound(src, 'sound/machines/ping.ogg', 30, TRUE)
 
-/obj/effect/decal/cleanable/splitter/AltClick(mob/user)
+/obj/effect/decal/splitter/AltClick(mob/user)
 	playsound(src, 'sound/machines/ping.ogg', 30, TRUE)
 	qdel(src)
 
-/obj/effect/decal/cleanable/splitter/on_entered(datum/source, atom/movable/AM)
-	. = ..()
+/obj/effect/decal/splitter/proc/on_entered(datum/source, atom/movable/AM)
 	if(multi_direction)
-		if(sorted_direction == "NorthSouth")
-			if(direction_movement == NORTH)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = SOUTH
-				dir = SOUTH
-			else if(direction_movement == SOUTH)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = NORTH
-				dir = NORTH
+		if(forbidden_split == null)
+			if(!(iteration > 3))
+				direction_movement = turn(sorted_direction, 90 * iteration)
+				if(direction_movement != sorted_direction)
+					dir = direction_movement
+					AM.Move(get_step(src, direction_movement))
+					iteration++
 			else
-				AM.Move(get_step(src, NORTH))
-				direction_movement = SOUTH
-				dir = SOUTH
-
-		if(sorted_direction == NORTHEAST)
-			if(direction_movement == NORTH)
+				iteration = 1
+				direction_movement = turn(sorted_direction, 90 * iteration)
+				dir = direction_movement
 				AM.Move(get_step(src, direction_movement))
-				direction_movement = EAST
-				dir = EAST
-			else if(direction_movement == EAST)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = NORTH
-				dir = NORTH
+				iteration++
+		else
+			if(!(iteration > 3))
+				direction_movement = turn(sorted_direction, 90 * iteration)
+				if(direction_movement != forbidden_split && direction_movement != sorted_direction)
+					dir = direction_movement
+					AM.Move(get_step(src, direction_movement))
+					iteration++
+				else
+					iteration++
+					direction_movement = turn(sorted_direction, 90 * iteration)
+					if(direction_movement == forbidden_split)
+						direction_movement = turn(forbidden_split, 90 * iteration)
+						dir = direction_movement
+						AM.Move(get_step(src, direction_movement))
+						iteration++
+					else
+						dir = direction_movement
+						AM.Move(get_step(src, direction_movement))
+						iteration++
 			else
-				AM.Move(get_step(src, NORTH))
-				direction_movement = EAST
-				dir = EAST
-
-		if(sorted_direction == NORTHWEST)
-			if(direction_movement == NORTH)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = WEST
-				dir = WEST
-			else if(direction_movement == WEST)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = NORTH
-				dir = NORTH
-			else
-				AM.Move(get_step(src, NORTH))
-				direction_movement = WEST
-				dir = WEST
-
-		if(sorted_direction == "NorthEastWest")
-			if(direction_movement == NORTH)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = EAST
-				dir = EAST
-			else if(direction_movement == EAST)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = WEST
-				dir = WEST
-			else if(direction_movement == WEST)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = NORTH
-				dir = NORTH
-			else
-				AM.Move(get_step(src, NORTH))
-				direction_movement = EAST
-				dir = EAST
-
-		if(sorted_direction == "NorthEastSouth")
-			if(direction_movement == NORTH)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = SOUTH
-				dir = SOUTH
-			else if(direction_movement == SOUTH)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = EAST
-				dir = EAST
-			else if(direction_movement == EAST)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = NORTH
-				dir = NORTH
-			else
-				AM.Move(get_step(src, NORTH))
-				direction_movement = SOUTH
-				dir = SOUTH
-
-		if(sorted_direction == "NorthWestSouth")
-			if(direction_movement == NORTH)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = SOUTH
-				dir = SOUTH
-			else if(direction_movement == WEST)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = NORTH
-				dir = NORTH
-			else if(direction_movement == SOUTH)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = WEST
-				dir = WEST
-			else
-				AM.Move(get_step(src, NORTH))
-				direction_movement = WEST
-				dir = WEST
-
-		if(sorted_direction == SOUTHWEST)
-			if(direction_movement == SOUTH)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = WEST
-				dir = WEST
-			else if(direction_movement == WEST)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = SOUTH
-				dir = SOUTH
-			else
-				AM.Move(get_step(src, SOUTH))
-				direction_movement = WEST
-				dir = WEST
-
-		if(sorted_direction == SOUTHEAST)
-			if(direction_movement == SOUTH)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = EAST
-				dir = EAST
-			else if(direction_movement == EAST)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = SOUTH
-				dir = SOUTH
-			else
-				AM.Move(get_step(src, SOUTH))
-				direction_movement = EAST
-				dir = EAST
-
-		if(sorted_direction == "SouthEastWest")
-			if(direction_movement == SOUTH)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = EAST
-				dir = EAST
-			else if(direction_movement == EAST)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = WEST
-				dir = WEST
-			else if(direction_movement == WEST)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = SOUTH
-				dir = SOUTH
-			else
-				AM.Move(get_step(src, SOUTH))
-				direction_movement = EAST
-				dir = EAST
-
-		if(sorted_direction == "WestEast")
-			if(direction_movement == WEST)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = EAST
-				dir = EAST
-			else if(direction_movement == EAST)
-				AM.Move(get_step(src, direction_movement))
-				direction_movement = WEST
-				dir = WEST
-			else
-				AM.Move(get_step(src, WEST))
-				direction_movement = EAST
-				dir = EAST
-
+				iteration = 1
+				direction_movement = turn(sorted_direction, 90 * iteration)
+				if(direction_movement == forbidden_split)
+					direction_movement = turn(forbidden_split, 90 * iteration)
+					dir = direction_movement
+					AM.Move(get_step(src, direction_movement))
+				else
+					dir = direction_movement
+					AM.Move(get_step(src, direction_movement))
+					iteration++
 	else
-		AM.Move(get_step(src, sorted_direction))
+		AM.Move(get_step(src, direction_movement))
