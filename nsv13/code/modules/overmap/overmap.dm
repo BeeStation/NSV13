@@ -421,7 +421,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	//We have a lot of types but not that many weapons per ship, so let's just worry about the ones we do have
 	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
 		var/datum/ship_weapon/SW = weapon_types[firemode]
-		if(istype(SW) && SW.selectable)
+		if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
 			weapon_numkeys_map += firemode
 
 //Method to apply weapon types to a ship. Override to your liking, this just handles generic rules and behaviours
@@ -544,18 +544,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				gauss_gunners -= user
 	if(user != gunner)
 		if(user == pilot)
-			var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_RAILGUN] //For annoying ships like whisp
-			var/list/loaded = SW?.weapons["loaded"]
-			if(length(loaded))
-				fire_weapon(target, FIRE_MODE_RAILGUN)
-			else
-				SW = weapon_types[FIRE_MODE_RED_LASER]
-				if(SW)
-					fire_weapon(target, FIRE_MODE_RED_LASER)
-				else
-					SW = weapon_types[FIRE_MODE_PDC]
-					if(SW)
-						fire_weapon(target, FIRE_MODE_PDC)
+			for(var/mode = 1; mode <= MAX_POSSIBLE_FIREMODE; mode++)
+				var/datum/ship_weapon/SW = weapon_types[mode] //For annoying ships like whisp
+				if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
+					continue
+				var/list/loaded = SW?.weapons["loaded"]
+				if(length(loaded))
+					fire_weapon(target, mode)
 		return FALSE
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
@@ -563,6 +558,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(params_list["ctrl"]) //Ctrl click to lock on to people
 		start_lockon(target)
 		return TRUE
+	if(user == gunner)
+		var/datum/ship_weapon/SW = weapon_types[fire_mode]
+		if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
+			return FALSE
 	if((length(target_painted) > 0) && mass <= MASS_TINY)
 		fire(target_painted[1]) //Fighters get an aimbot to help them out.
 		return TRUE
