@@ -48,8 +48,8 @@
 	var/auto_return = 1		// true if auto return to home beacon after unload
 	var/auto_pickup = 1 	// true if auto-pickup at beacon
 	var/report_delivery = 1 // true if bot will announce an arrival to a location.
-	var/turf/last_target //NSV13
-	var/mulebot_z_mode //NSV13
+	var/turf/last_target
+	var/mulebot_z_mode
 
 	var/obj/item/stock_parts/cell/cell
 	var/bloodiness = 0
@@ -493,10 +493,10 @@
 
 		if(BOT_DELIVER, BOT_GO_HOME, BOT_BLOCKED) // navigating to deliver,home, or blocked
 			if(loc == target) // reached target
-				if(last_target != null) //NSV13
-					if(z > last_target.z || z < last_target.z) //NSV13
-						mulebot_z_movement() //NSV13
-						return //NSV13
+				if(last_target != null)
+					if(z != last_target.z)
+						mulebot_z_movement()
+						return
 				at_target()
 				return
 
@@ -585,23 +585,23 @@
 // calculates a path to the current destination
 // given an optional turf to avoid
 /mob/living/simple_animal/bot/mulebot/calc_path(turf/avoid = null)
-	if(!is_reserved_level(z) && is_station_level(z)) //NSV13
-		if(target != null) //NSV13
-			if(z > target.z) //NSV13
-				mule_up_or_down(DOWN) //NSV13
-				return //NSV13
-			if(z < target.z) //NSV13
-				mule_up_or_down(UP) //NSV13
-				return //NSV13
+	if(!is_reserved_level(z) && is_station_level(z))
+		if(target != null)
+			if(z > target.z)
+				mule_up_or_down(DOWN)
+				return
+			if(z < target.z)
+				mule_up_or_down(UP)
+				return
 	path = get_path_to(src, target, 250, id=access_card, exclude=avoid)
 
-//NSV13 - BOT MULTI-Z MOVEMENT
+//BOT MULTI-Z MOVEMENT
 /mob/living/simple_animal/bot/mulebot/proc/mule_up_or_down(direction)
 	if(!is_reserved_level(z) && is_station_level(z))
 		var/new_target = find_nearest_bot_elevator(direction)
 
 		var/go_here
-		mulebot_z_mode = 10
+		mulebot_z_mode = MULEBOT_Z_MODE_ACTIVE
 		if(!new_target)
 			return
 		go_here = get_turf(new_target)
@@ -609,10 +609,10 @@
 		target = go_here
 		path = get_path_to(src, target, 250, id=access_card)
 
-//NSV13 - BOT MULTI-Z MOVEMENT
+//BOT MULTI-Z MOVEMENT
 /mob/living/simple_animal/bot/mulebot/proc/mulebot_z_movement()
 	var/obj/structure/bot_elevator/E = locate(/obj/structure/bot_elevator) in get_turf(src)
-	if(mulebot_z_mode == 10)
+	if(mulebot_z_mode == MULEBOT_Z_MODE_ACTIVE)
 		if(E)
 			if(z > last_target.z)
 				E.travel(FALSE, src, FALSE, E.down, FALSE)
