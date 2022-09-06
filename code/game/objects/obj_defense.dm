@@ -12,6 +12,7 @@
 	if(damage_amount <= DAMAGE_PRECISION)
 		return
 	. = damage_amount
+	SEND_SIGNAL(src, COMSIG_ATOM_DAMAGE_ACT, damage_amount)
 	var/old_integ = obj_integrity
 	obj_integrity = max(old_integ - damage_amount, 0)
 	//BREAKING FIRST
