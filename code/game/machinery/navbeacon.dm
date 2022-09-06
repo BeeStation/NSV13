@@ -53,8 +53,8 @@
 	return //NSV13 - DIFFERENCE BETWEEN CODEBASE
 
 /obj/machinery/navbeacon/Destroy()
-	if (OM.beacons_in_ship) //NSV13 - DIFFERENCE BETWEEN CODEBASE
-		OM.beacons_in_ship -= src //NSV13 - DIFFERENCE BETWEEN CODEBASE
+	if (linked.beacons_in_ship) //NSV13 - DIFFERENCE BETWEEN CODEBASE
+		linked.beacons_in_ship -= src //NSV13 - DIFFERENCE BETWEEN CODEBASE
 	if (GLOB.navbeacons["[z]"])
 		GLOB.navbeacons["[z]"] -= src //Remove from beacon list, if in one.
 	GLOB.deliverybeacons -= src
