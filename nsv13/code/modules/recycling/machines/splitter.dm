@@ -27,7 +27,7 @@
 	name = "Splitter"
 	desc = "This mark pushes incoming objects equally into two to three directions"
 	icon = 'nsv13/icons/effects/splitter_effect.dmi'
-	icon_state = "sorter"
+	icon_state = "splitter"
 	layer = OBJ_LAYER
 	plane = GAME_PLANE
 	dir = NORTH
