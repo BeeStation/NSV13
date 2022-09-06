@@ -18,7 +18,7 @@
 	var/location = ""	// location response text
 	var/list/codes		// assoc. list of transponder codes
 	var/codes_txt = ""	// codes as set on map: "tag1;tag2" or "tag1=value;tag2=value"
-	var/obj/structure/overmap/linked //NSV13 - DIFFERENCE BETWEEN CODEBASE
+	var/obj/structure/overmap/linked //NSV13
 
 	req_one_access = list(ACCESS_ENGINE, ACCESS_ROBOTICS)
 
