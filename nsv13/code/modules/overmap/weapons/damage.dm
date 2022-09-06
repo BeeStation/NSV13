@@ -190,7 +190,7 @@ Bullet reactions
 		for(var/M in mobs_in_ship)
 			if(!locate(M) in operators)
 				if(isliving(M))
-					start_piloting(M, "observer") //Make sure everyone sees the ship is exploding
+					start_piloting(M, OVERMAP_USER_ROLE_OBSERVER) //Make sure everyone sees the ship is exploding
 				else
 					if(istype(M, /mob/dead/observer))
 						var/mob/dead/observer/D = M
