@@ -587,14 +587,19 @@
 	var/armed = FALSE //Do it do the big boom?
 	var/speed = 0.5 //Needs powder to increase speed.
 
-/obj/item/ship_weapon/ammunition/naval_artillery/attack_hand(mob/user)
-	return FALSE
+/obj/item/ship_weapon/ammunition/naval_artillery/Initialize() //Sophie: Makes NAC rounds draggable in Zero-G
+	. = ..()
+	if(has_gravity())
+		move_resist = MOVE_FORCE_EXTREMELY_STRONG
+	else
+		move_resist = MOVE_FORCE_DEFAULT
 
-/obj/item/ship_weapon/ammunition/torpedo/attack_hand(mob/user)
-	return FALSE
-
-/obj/item/ship_weapon/ammunition/missile/attack_hand(mob/user)
-	return FALSE
+/obj/item/ship_weapon/ammunition/naval_artillery/can_be_pulled(mob/user)
+	if(has_gravity())
+		to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
+		return FALSE
+	else
+		return TRUE
 
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "cannon ball"
@@ -646,10 +651,6 @@
 /obj/item/ship_weapon/ammunition/naval_artillery/examine(mob/user)
 	. = ..()
 	. += "[(armed) ? "<span class='userdanger'>The shell is currently armed and ready to fire. </span>" : "<span class ='notice'>The shell must be armed before firing. </span>"]"
-
-/obj/item/ship_weapon/ammunition/missile/CtrlClick(mob/user)
-	. = ..()
-	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
 
 /obj/machinery/deck_turret/payload_gate
 	name = "payload loading gate"
