@@ -17,6 +17,14 @@ MAP_REMOVE_JOB(air_traffic_controller)
 //No explanation needed
 MAP_REMOVE_JOB(gimmick)
 
+//All other shutters will shatter the Serendipity!
+
+/datum/map_template/shuttle/New()
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	can_be_bought = FALSE
+
 /datum/uplink_item/explosives/syndicate_bomb/New()
     . = ..()
 
