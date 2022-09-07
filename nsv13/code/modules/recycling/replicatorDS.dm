@@ -8,9 +8,9 @@
 	icon_state = "replicator"
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 40
-	pixel_y = 32
 	anchored = TRUE
 	circuit = /obj/item/circuitboard/machine/replicator
+	density = TRUE
 	var/list/menutier1 = list("rice", "egg", "ration pack", "glass", "tea earl grey") //It starts off terribly so the chef isn't replaced. You can then upgrade it via RnD to give actual food.
 	var/list/menutier2 = list("burger", "steak", "fries","onion rings", "pancakes","coffee")
 	var/list/menutier3 = list("cheese pizza", "mushroom pizza", "meat pizza", "pineapple pizza", "donkpocket pizza", "vegetable pizza")
@@ -146,7 +146,7 @@
 		if(target && powered())
 			menutype = REPLICATING
 			idle_power_usage = 400
-			icon_state = "replicator-on"
+			icon_state = "replicator-replicating"
 			playsound(src, 'nsv13/sound/effects/replicator.ogg', 100, 1)
 			ready = FALSE
 			var/speed_mult = 60 //Starts off hella slow.
@@ -155,7 +155,7 @@
 			addtimer(CALLBACK(src, .proc/set_ready, TRUE), speed_mult)
 
 /obj/machinery/replicator/proc/set_ready()
-	icon_state = "replicator"
+	icon_state = "replicator-on"
 	idle_power_usage = 40
 	menutype = READY
 	ready = TRUE
@@ -168,7 +168,7 @@
 	qdel(G)
 
 /obj/machinery/replicator/attackby(obj/item/O, mob/user, params)
-	if(default_deconstruction_screwdriver(user, "replicator-o", "replicator", O))
+	if(default_deconstruction_screwdriver(user, "replicator-o", "replicator-on", O))
 		return FALSE
 	if(default_unfasten_wrench(user, O))
 		return FALSE

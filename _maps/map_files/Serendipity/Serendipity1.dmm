@@ -2845,7 +2845,6 @@
 "kb" = (
 /obj/item/wrench/medical,
 /obj/structure/table/glass/plasma,
-/obj/structure/window/plasma/reinforced/spawner/east,
 /obj/effect/turf_decal/tile/ship/blue,
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 8
@@ -2853,6 +2852,9 @@
 /obj/item/reagent_containers/glass/beaker/cryoxadone,
 /obj/item/reagent_containers/glass/beaker/cryoxadone{
 	pixel_y = 11
+	},
+/obj/machinery/door/window/eastright{
+	req_one_access_txt = "5;33;59"
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/genetics/cloning)
@@ -3659,10 +3661,6 @@
 /obj/item/banner/solgov,
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/meeting_room/council)
-"mY" = (
-/obj/item/mecha_parts/chassis,
-/turf/open/space/basic,
-/area/space)
 "mZ" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -4145,7 +4143,9 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/genetics/cloning)
 "oV" = (
-/obj/machinery/replicator,
+/obj/machinery/replicator{
+	pixel_y = 0
+	},
 /turf/open/floor/wood,
 /area/crew_quarters/kitchen)
 "pa" = (
@@ -4491,6 +4491,13 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/plating,
 /area/maintenance/department/security)
+"qf" = (
+/obj/machinery/door/window/northleft{
+	req_one_access_txt = "55"
+	},
+/obj/machinery/light/floor,
+/turf/open/floor/engine/light,
+/area/science/xenobiology)
 "qg" = (
 /obj/structure/table/glass/plasma,
 /obj/structure/cable{
@@ -7362,6 +7369,7 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/ai_monitored/turret_protected/ai_upload)
 "AD" = (
+/obj/machinery/light/floor,
 /turf/open/floor/engine/light,
 /area/science/xenobiology)
 "AE" = (
@@ -7619,17 +7627,14 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/hallway/secondary/exit)
 "Bt" = (
-/obj/machinery/door/window/eastleft{
-	req_one_access_txt = "5;33;59"
-	},
-/obj/structure/table/glass/plasma,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/structure/disposalpipe/junction{
+/obj/structure/window/plasma/reinforced/spawner/east,
+/obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/item/reagent_containers/spray/cleaner,
+/obj/structure/table/glass/plasma,
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/genetics/cloning)
 "Bv" = (
@@ -7968,17 +7973,18 @@
 /turf/open/floor/plating,
 /area/hallway/secondary/exit)
 "Cw" = (
-/obj/structure/window/plasma/reinforced/spawner/east,
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 1
-	},
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 4
 	},
+/obj/machinery/door/window/eastleft{
+	req_one_access_txt = "5;33;59";
+	name = "Cloning Desk"
+	},
+/obj/structure/table/glass/plasma,
+/obj/item/reagent_containers/spray/cleaner,
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/genetics/cloning)
 "Cy" = (
@@ -8704,11 +8710,11 @@
 "Fm" = (
 /obj/docking_port/stationary{
 	dir = 2;
-	dwidth = 9;
-	height = 25;
-	id = "emergency_celerity";
+	height = 26;
 	name = "Serendipity Evac Bay";
-	width = 29
+	width = 13;
+	dwidth = 9;
+	id = "emergency"
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
@@ -9423,7 +9429,7 @@
 /area/awaymission/snowdin/post/mining_main/robotics)
 "HP" = (
 /obj/machinery/airalarm/directional/north,
-/obj/machinery/holopad,
+/obj/machinery/blackbox_recorder,
 /turf/open/floor/engine/light,
 /area/ai_monitored/nuke_storage)
 "HR" = (
@@ -11250,6 +11256,11 @@
 "NF" = (
 /obj/machinery/biogenerator,
 /obj/machinery/newscaster/directional/north,
+/obj/item/reagent_containers/glass/beaker/large,
+/obj/item/reagent_containers/food/snacks/grown/carrot,
+/obj/item/reagent_containers/food/snacks/grown/carrot{
+	pixel_y = 6
+	},
 /turf/open/floor/grass,
 /area/hydroponics)
 "NG" = (
@@ -14367,6 +14378,7 @@
 /turf/open/floor/grass,
 /area/chapel)
 "YU" = (
+/obj/machinery/holopad,
 /turf/open/floor/engine/light,
 /area/ai_monitored/nuke_storage)
 "YW" = (
@@ -36430,9 +36442,9 @@ zP
 zP
 zP
 zP
-mY
 zP
-mY
+zP
+zP
 zP
 zP
 zP
@@ -41827,7 +41839,7 @@ Te
 QJ
 tq
 QP
-sW
+qf
 xl
 tq
 tb
@@ -42600,7 +42612,7 @@ AD
 sW
 eX
 sW
-sW
+qf
 tq
 Te
 Te

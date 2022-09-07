@@ -71,3 +71,11 @@
 	name = "Danube Class Yacht"
 	description = "A small, luxurious shuttle capable of ferrying small - medium crews in comfort and style."
 	credit_cost = 4000
+
+/datum/map_template/shuttle/emergency/celerity
+	suffix = "celerity"
+	name = "Dominion of Light Evacuation Shuttle, Celerity Class"
+	description = "The Celerity Class escape shuttle sports safety and speed, whisking away crew members to safety in record time."
+	admin_notes = "This shuttle will not work for any other ship than the Serendipity"
+	can_be_bought = FALSE
+
