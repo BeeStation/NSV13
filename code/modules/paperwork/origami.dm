@@ -1,7 +1,7 @@
 /obj/item/origami
 	name = "origami"
 	desc = "Paper folded to resemble... something."
-	icon = 'icons/obj/bureaucracy.dmi'
+	icon = 'nsv13/icons/obj/bureaucracy.dmi'
 	icon_state = "scrap"
 	throw_range = 1
 	throw_speed = 1
