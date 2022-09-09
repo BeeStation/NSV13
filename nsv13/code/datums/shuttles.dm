@@ -42,6 +42,10 @@
 	suffix = "shrike"
 	name = "arrival shuttle (Shrike)"
 
+/datum/map_template/shuttle/arrival/serendipity
+	suffix = "serendipity"
+	name = "arrival shuttle (Serendipity)"
+
 /datum/map_template/shuttle/hammurabi //This is definitely an elevator trust me.
 	prefix = "_maps/shuttles/turbolifts/"
 	port_id = "elevator"
@@ -75,7 +79,5 @@
 /datum/map_template/shuttle/emergency/celerity
 	suffix = "celerity"
 	name = "Dominion of Light Evacuation Shuttle, Celerity Class"
-	description = "The Celerity Class escape shuttle sports safety and speed, whisking away crew members to safety in record time."
 	admin_notes = "This shuttle will not work for any other ship than the Serendipity"
 	can_be_bought = FALSE
-

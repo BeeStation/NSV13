@@ -1,4 +1,8 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"cq" = (
+/obj/machinery/light/floor,
+/turf/open/floor/noslip/white,
+/area/shuttle/escape)
 "cr" = (
 /obj/machinery/button/flasher{
 	pixel_y = -21;
@@ -129,18 +133,7 @@
 /turf/open/floor/noslip/standard,
 /area/shuttle/escape)
 "ti" = (
-/obj/docking_port/mobile/emergency{
-	dir = 2;
-	name = "Celerity Main Docking";
-	dwidth = 3;
-	width = 13;
-	height = 26;
-	dheight = 2;
-	port_direction = 1
-	},
-/obj/machinery/door/airlock/shuttle/glass,
-/obj/structure/fans/tiny,
-/turf/open/floor/noslip/standard,
+/turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/escape)
 "tA" = (
 /obj/structure/table/glass/plasma,
@@ -187,12 +180,17 @@
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/noslip,
 /area/shuttle/escape)
-"yU" = (
-/obj/structure/shuttle/engine/propulsion{
-	dir = 1
-	},
-/turf/open/floor/plating,
+"xM" = (
+/obj/machinery/light/floor,
+/turf/open/floor/noslip/blue,
 /area/shuttle/escape)
+"yq" = (
+/obj/machinery/light/floor,
+/turf/open/floor/noslip/dark,
+/area/shuttle/escape)
+"yU" = (
+/turf/template_noop,
+/area/template_noop)
 "zL" = (
 /obj/structure/table/glass/plasma,
 /obj/structure/extinguisher_cabinet/east,
@@ -278,6 +276,17 @@
 	},
 /turf/closed/wall/mineral/titanium,
 /area/shuttle/escape)
+"IC" = (
+/obj/machinery/door/airlock/shuttle/glass,
+/obj/structure/fans/tiny,
+/obj/docking_port/mobile/emergency{
+	name = "Dominion of Light Evacuation Shuttle, Celerity Class";
+	width = 13;
+	dir = 2;
+	height = 26
+	},
+/turf/open/floor/noslip/standard,
+/area/shuttle/escape)
 "IG" = (
 /obj/structure/closet/radiation{
 	anchored = 1
@@ -299,12 +308,16 @@
 /obj/machinery/door/window/brigdoor/security/cell/eastright{
 	req_one_access_txt = "3;4;38;63"
 	},
+/obj/machinery/light/floor,
 /turf/open/floor/noslip/dark,
 /area/shuttle/escape)
 "KC" = (
 /turf/open/floor/noslip/blue,
 /area/shuttle/escape)
 "NH" = (
+/obj/structure/shuttle/engine/propulsion{
+	dir = 4
+	},
 /turf/template_noop,
 /area/template_noop)
 "NR" = (
@@ -317,6 +330,14 @@
 /obj/machinery/computer/crew{
 	dir = 1
 	},
+/turf/open/floor/noslip/white,
+/area/shuttle/escape)
+"Pm" = (
+/obj/structure/chair/shuttlecraft_chair{
+	dir = 4;
+	pixel_x = -8
+	},
+/obj/machinery/light/floor,
 /turf/open/floor/noslip/white,
 /area/shuttle/escape)
 "Qp" = (
@@ -343,6 +364,12 @@
 "TD" = (
 /turf/open/floor/noslip/white,
 /area/shuttle/escape)
+"VG" = (
+/obj/structure/shuttle/engine/propulsion{
+	dir = 8
+	},
+/turf/template_noop,
+/area/template_noop)
 "VU" = (
 /obj/structure/sign/departments/medbay/alt{
 	pixel_y = -32
@@ -364,70 +391,82 @@
 	},
 /turf/open/floor/noslip/blue,
 /area/shuttle/escape)
+"Zy" = (
+/obj/structure/chair/shuttlecraft_chair{
+	dir = 8;
+	pixel_x = 8
+	},
+/obj/machinery/light/floor,
+/turf/open/floor/noslip/white,
+/area/shuttle/escape)
+"ZM" = (
+/obj/machinery/light/floor,
+/turf/open/floor/noslip/standard,
+/area/shuttle/escape)
 "ZX" = (
 /obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/noslip/dark,
 /area/shuttle/escape)
 
 (1,1,1) = {"
-NH
-NH
-Dk
+yU
+yU
+ti
 pI
 Dk
 Dk
 Dk
 Dk
 pI
-Dk
+ti
 QN
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
+yU
+yU
+VG
+yU
+yU
+yU
+yU
+yU
+yU
+yU
+yU
+yU
+yU
+yU
+yU
 "}
 (2,1,1) = {"
-NH
-NH
+yU
+yU
 pI
-sT
+ZM
 ev
 ev
 ev
 ev
-sT
+ZM
 Dk
 Dk
 oA
 Dk
-Dk
+ti
 QN
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
+yU
+yU
+VG
+yU
+yU
+yU
+yU
+yU
+yU
+yU
+yU
 "}
 (3,1,1) = {"
-NH
-NH
+yU
+yU
 oA
 sT
 Aj
@@ -437,32 +476,32 @@ Aj
 sT
 Dk
 DJ
-KC
+xM
 vv
 Dk
 Dk
 Dk
 Dk
-Dk
+ti
 QN
-NH
-NH
-NH
-NH
-NH
-NH
-NH
+yU
+yU
+VG
+yU
+yU
+yU
+yU
 "}
 (4,1,1) = {"
-NH
-NH
-ti
-sT
+yU
+yU
+pI
+ZM
 IH
 IH
 IH
 IH
-sT
+ZM
 Dk
 DJ
 KC
@@ -475,15 +514,15 @@ Dk
 Dk
 oA
 oA
-Dk
+ti
 QN
-NH
-NH
-NH
+yU
+yU
+yU
 "}
 (5,1,1) = {"
-NH
-NH
+yU
+yU
 Ii
 IV
 sT
@@ -502,7 +541,7 @@ pp
 Dk
 QZ
 oy
-oy
+Pm
 Dk
 Dk
 Dk
@@ -511,7 +550,7 @@ Dk
 "}
 (6,1,1) = {"
 yU
-Dk
+yU
 Dk
 sT
 BX
@@ -539,35 +578,35 @@ oA
 "}
 (7,1,1) = {"
 yU
+yU
 Dk
-uh
 IV
 Ft
 Ii
 BG
-IV
-IV
+uh
+ZM
 Qp
+xM
 KC
-KC
-KC
+xM
 Tv
+yq
 FH
-FH
-FH
+yq
 jo
+cq
 TD
+cq
 TD
-TD
-TD
-TD
+cq
 vK
 wr
 oA
 "}
 (8,1,1) = {"
 yU
-Dk
+yU
 Dk
 sT
 tJ
@@ -594,8 +633,8 @@ Ov
 oA
 "}
 (9,1,1) = {"
-NH
-NH
+yU
+yU
 Ii
 IV
 sT
@@ -609,12 +648,12 @@ KC
 Yl
 Dk
 NR
-FH
+yq
 ZX
 Dk
 zL
 Ey
-Ey
+Zy
 Dk
 Dk
 Dk
@@ -622,15 +661,15 @@ Dk
 Dk
 "}
 (10,1,1) = {"
-NH
-NH
+yU
+yU
 pI
-sT
+ZM
 Aj
 Aj
 Aj
 Aj
-sT
+ZM
 Dk
 DJ
 KC
@@ -643,15 +682,15 @@ Dk
 Dk
 oA
 oA
-Dk
+ti
 QN
-NH
-NH
-NH
+yU
+yU
+yU
 "}
 (11,1,1) = {"
-NH
-NH
+yU
+yU
 oA
 sT
 IH
@@ -661,75 +700,75 @@ IH
 sT
 Dk
 DJ
-KC
+xM
 wn
 Dk
 Dk
 Dk
 Dk
-Dk
+ti
 QN
+yU
+yU
 NH
-NH
-NH
-NH
-NH
-NH
-NH
+yU
+yU
+yU
+yU
 "}
 (12,1,1) = {"
-NH
-NH
-pI
-sT
+yU
+yU
+IC
+ZM
 Wo
 Wo
 Wo
 Wo
-sT
+ZM
 Dk
 Dk
 oA
 Dk
-Dk
+ti
 QN
+yU
+yU
 NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
+yU
+yU
+yU
+yU
+yU
+yU
+yU
+yU
 "}
 (13,1,1) = {"
-NH
-NH
-Dk
+yU
+yU
+ti
 pI
 Dk
 Dk
 Dk
 Dk
 pI
-Dk
+ti
 QN
+yU
+yU
 NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
-NH
+yU
+yU
+yU
+yU
+yU
+yU
+yU
+yU
+yU
+yU
+yU
+yU
 "}
