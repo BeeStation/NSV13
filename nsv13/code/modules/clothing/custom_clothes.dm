@@ -764,7 +764,7 @@
 	max_heat_protection_temperature = 100
 	var/rolled_up = TRUE
 
-/obj/item/clothing/suit/space/skinsuit/mob_can_equip(mob/M, mob/living/equipper, slot)
+/obj/item/clothing/suit/space/skinsuit/mob_can_equip(mob/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	if(rolled_up && slot == ITEM_SLOT_OCLOTHING)
 		if(equipper)
 			to_chat(equipper, "<span class='warning'>You need to unroll \the [src], silly.</span>")

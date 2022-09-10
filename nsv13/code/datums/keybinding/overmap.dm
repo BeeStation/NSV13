@@ -12,6 +12,9 @@
 	keybind_signal = COMSIG_KB_OVERMAP_ROTATELEFT_DOWN
 
 /datum/keybinding/overmap/rotate_left/down(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -23,6 +26,9 @@
 	return TRUE
 
 /datum/keybinding/overmap/rotate_left/up(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -41,6 +47,9 @@
 	keybind_signal = COMSIG_KB_OVERMAP_ROTATERIGHT_DOWN
 
 /datum/keybinding/overmap/rotate_right/down(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -52,6 +61,9 @@
 	return TRUE
 
 /datum/keybinding/overmap/rotate_right/up(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -71,6 +83,9 @@
 	keybind_signal = COMSIG_KB_OVERMAP_BOOST_DOWN
 
 /datum/keybinding/overmap/boost/down(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -81,6 +96,9 @@
 	return TRUE
 
 /datum/keybinding/overmap/boost/up(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -97,6 +115,9 @@
 	keybind_signal = COMSIG_KB_OVERMAP_TOGGLEBRAKES_DOWN
 
 /datum/keybinding/overmap/toggle_brakes/down(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -110,6 +131,9 @@
 	return TRUE
 
 /datum/keybinding/overmap/toggle_brakes/up(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -127,6 +151,9 @@
 	keybind_signal = COMSIG_KB_OVERMAP_TOGGLEINERTIA_DOWN
 
 /datum/keybinding/overmap/toggle_inertia/down(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -147,6 +174,9 @@
 	keybind_signal = COMSIG_KB_OVERMAP_TOGGLEMOUSEMOVE_DOWN
 
 /datum/keybinding/overmap/toggle_move_mode/down(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -167,6 +197,9 @@
 	keybind_signal = COMSIG_KB_OVERMAP_CYCLEFIREMODE_DOWN
 
 /datum/keybinding/overmap/cycle_firemode/down(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -189,6 +222,9 @@
 	keybind_signal = COMSIG_KB_OVERMAP_COUNTERMEASURE_DOWN
 
 /datum/keybinding/overmap/deploy_countermeasure/down(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/small_craft/OM = M.overmap_ship
@@ -206,6 +242,9 @@
 	keybind_signal = COMSIG_KB_OVERMAP_TOGGLESAFETY_DOWN
 
 /datum/keybinding/overmap/toggle_safety/down(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/small_craft/OM = M.overmap_ship
@@ -227,6 +266,9 @@
 	keybind_signal = COMSIG_KB_OVERMAP_WEAPON1_DOWN
 
 /datum/keybinding/overmap/weapon_1/down(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -244,6 +286,9 @@
 	keybind_signal = COMSIG_KB_OVERMAP_WEAPON2_DOWN
 
 /datum/keybinding/overmap/weapon_2/down(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -261,6 +306,9 @@
 	keybind_signal = COMSIG_KB_OVERMAP_WEAPON3_DOWN
 
 /datum/keybinding/overmap/weapon_3/down(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
@@ -278,6 +326,9 @@
 	keybind_signal = COMSIG_KB_OVERMAP_WEAPON4_DOWN
 
 /datum/keybinding/overmap/weapon_4/down(client/user)
+	. = ..()
+	if(.)
+		return
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship

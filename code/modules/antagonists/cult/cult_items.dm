@@ -266,6 +266,7 @@ Striking a noncultist, however, will tear their flesh."}
 	knockdown = 20
 
 /obj/item/restraints/legcuffs/bola/cult/pickup(mob/living/user) //NSV13 - reverted to pre-nerf state
+	..()
 	if(!iscultist(user))
 		to_chat(user, "<span class='warning'>The bola seems to take on a life of its own!</span>")
 		ensnare(user)
