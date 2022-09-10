@@ -68,9 +68,10 @@ GLOBAL_LIST_INIT(nonhuman_positions, list(
 //NSV13 DEPARTMENT - Hidden bridge staff here for non-bold raisins - Will appear in the Munitions department for the late join screen
 GLOBAL_LIST_INIT(munitions_positions, list(
 	JOB_NAME_MASTERATARMS,
-	JOB_NAME_MUNITIONSTECH,
+	JOB_NAME_MUNITIONSTECHNICIAN,
 	JOB_NAME_PILOT,
-	JOB_NAME_ATC,
+	JOB_NAME_AIRTRAFFICCONTROLLER,
+	JOB_NAME_DECKTECHNICIAN,
 	JOB_NAME_BRIDGESTAFF))
 
 // they are for hud_icon-based crew manifest
@@ -146,6 +147,15 @@ GLOBAL_LIST_INIT(security_positions_hud, list(
 	JOB_HUD_DEPUTY,
 	JOB_HUD_RAWSECURITY))
 
+//NSV13 - Munitions
+GLOBAL_LIST_INIT(munitions_positions_hud, list(
+	JOB_HUD_MASTERATARMS,
+	JOB_HUD_BRIDGESTAFF,
+	JOB_HUD_MUNITIONSTECHNICIAN,
+	JOB_HUD_DECKTECHNICIAN,
+	JOB_HUD_PILOT,
+	JOB_HUD_AIRTRAFFICCONTROLLER))
+
 GLOBAL_LIST_INIT(exp_jobsmap, list(
 	EXP_TYPE_CREW = list("titles" = command_positions | engineering_positions | medical_positions | science_positions | supply_positions | security_positions | civilian_positions | gimmick_positions | munitions_positions | list(JOB_NAME_AI,JOB_NAME_CYBORG)), // crew positions //NSV13 - added munitions
 	EXP_TYPE_COMMAND = list("titles" = command_positions),
@@ -192,6 +202,7 @@ GLOBAL_PROTECT(exp_specialmap)
 	var/static/regex/rd_expand = new("rd")
 	var/static/regex/ce_expand = new("ce")
 	var/static/regex/qm_expand = new("qm")
+	var/static/regex/maa_expand = new("maa") //NSV13
 	var/static/regex/sec_expand = new("(?<!security )officer")
 	var/static/regex/engi_expand = new("(?<!station )engineer")
 	var/static/regex/atmos_expand = new("atmos tech")
@@ -199,6 +210,7 @@ GLOBAL_PROTECT(exp_specialmap)
 	var/static/regex/mine_expand = new("(?<!shaft )miner")
 	var/static/regex/chef_expand = new("chef")
 	var/static/regex/borg_expand = new("(?<!cy)borg")
+	var/static/regex/atc_expand = new("atc")
 
 	job = lowertext(job)
 	job = cap_expand.Replace(job, "captain")
@@ -208,6 +220,7 @@ GLOBAL_PROTECT(exp_specialmap)
 	job = rd_expand.Replace(job, "research director")
 	job = ce_expand.Replace(job, "chief engineer")
 	job = qm_expand.Replace(job, "quartermaster")
+	job = maa_expand.Replace(job, "master at arms") //NSV13
 	job = sec_expand.Replace(job, "security officer")
 	job = engi_expand.Replace(job, "station engineer")
 	job = atmos_expand.Replace(job, "atmospheric technician")
@@ -215,4 +228,5 @@ GLOBAL_PROTECT(exp_specialmap)
 	job = mine_expand.Replace(job, "shaft miner")
 	job = chef_expand.Replace(job, "cook")
 	job = borg_expand.Replace(job, "cyborg")
+	job = atc_expand.Replace(job, "air traffic controller") //NSV13
 	return job

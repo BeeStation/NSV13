@@ -1,8 +1,8 @@
 /datum/job/master_at_arms
-	title = "Master At Arms"
+	title = JOB_NAME_MASTERATARMS
 	flag = MASTER_AT_ARMS
 	auto_deadmin_role_flags = DEADMIN_POSITION_HEAD
-	department_head = list("Captain")
+	department_head = list(JOB_NAME_CAPTAIN)
 	department_flag = ENGSEC
 	head_announce = list("Munitions")
 	faction = "Station"
@@ -38,7 +38,7 @@
 	return L
 
 /datum/outfit/job/master_at_arms
-	name = "Master At Arms"
+	name = MASTER_AT_ARMS
 	jobtype = /datum/job/master_at_arms
 
 	belt = /obj/item/storage/belt/utility/full/engi
@@ -49,6 +49,7 @@
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/ship/maa_hat
 	glasses = /obj/item/clothing/glasses/sunglasses/advanced
+	id = /obj/item/card/id/job/master_at_arms
 	l_pocket = /obj/item/pda
 	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1)
 
@@ -60,5 +61,5 @@
 	pda_slot = ITEM_SLOT_LPOCKET
 
 /obj/effect/landmark/start/master_at_arms
-	name = "Master At Arms"
+	name = JOB_NAME_MASTERATARMS
 	icon_state = "Master At Arms"

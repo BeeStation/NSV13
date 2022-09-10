@@ -208,17 +208,17 @@
 			if(JOB_NAME_SHAFTMINER)
 				heirloom_type = pick(/obj/item/pickaxe/mini, /obj/item/shovel)
 			//NSV13 Munitions
-			if("Master At Arms")
+			if(JOB_NAME_MASTERATARMS)
 				heirloom_type = pick(/obj/item/wrench, /obj/item/screwdriver, /obj/item/multitool, /obj/item/clothing/head/beret/ship/pilot, /obj/item/clothing/accessory/medal/bronze_heart)
-			if("Munitions Technician")
+			if(JOB_NAME_MUNITIONSTECHNICIAN)
 				heirloom_type = pick(/obj/item/wrench, /obj/item/screwdriver, /obj/item/multitool)
-			if("Deck Technician")
+			if(JOB_NAME_DECKTECHNICIAN)
 				heirloom_type = pick(/obj/item/wrench, /obj/item/screwdriver, /obj/item/multitool)
-			if("Air Traffic Controller")
+			if(JOB_NAME_AIRTRAFFICCONTROLLER)
 				heirloom_type = pick(/obj/item/clothing/head/beret/ship/pilot, /obj/item/reagent_containers/food/drinks/mug)
-			if("Pilot")
+			if(JOB_NAME_PILOT)
 				heirloom_type = pick(/obj/item/clothing/head/beret/ship/pilot, /obj/item/clothing/accessory/medal/bronze_heart)
-			if("Bridge Staff")
+			if(JOB_NAME_BRIDGESTAFF)
 				heirloom_type = /obj/item/reagent_containers/food/drinks/mug
 
 	if(!heirloom_type)

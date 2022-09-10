@@ -184,9 +184,10 @@
 // NSV13 - Munitions etc
 #define JOB_NAME_MASTERATARMS "Master At Arms"
 #define JOB_NAME_BRIDGESTAFF "Bridge Staff"
-#define JOB_NAME_MUNITIONSTECH "Munitions Technician"
+#define JOB_NAME_MUNITIONSTECHNICIAN "Munitions Technician"
 #define JOB_NAME_PILOT "Pilot"
-#define JOB_NAME_ATC "Air Traffic Controller"
+#define JOB_NAME_AIRTRAFFICCONTROLLER "Air Traffic Controller"
+#define JOB_NAME_DECKTECHNICIAN "Deck Technician"
 
 // Silicon
 #define JOB_NAME_AI     "AI"
@@ -289,9 +290,10 @@
 #define JOB_HUD_RAWMUNITIONS "rawmunitions"
 #define JOB_HUD_MASTERATARMS "masteratarms"
 #define JOB_HUD_BRIDGESTAFF "bridgestaff"
-#define JOB_HUD_MUNITIONSTECH "munitionstechnician"
+#define JOB_HUD_MUNITIONSTECHNICIAN "munitionstechnician"
 #define JOB_HUD_PILOT "pilot"
-#define JOB_HUD_ATC "airtrafficcontroller"
+#define JOB_HUD_AIRTRAFFICCONTROLLER "airtrafficcontroller"
+#define JOB_HUD_DECKTECHNICIAN "Deck Technician"
 
 // CentCom
 #define JOB_HUD_RAWCENTCOM "rawcentcom"
@@ -365,6 +367,15 @@
 #define JOB_CHATCOLOR_DETECTIVE       "#C78B8B"
 #define JOB_CHATCOLOR_BRIGPHYSICIAN   "#B16789"
 #define JOB_CHATCOLOR_DEPUTY          "#FFEEEE"
+
+//NSV13 - Munitions
+#define JOB_CHATCOLOR_RAWMUNITIONS "rawmunitions"
+#define JOB_CHATCOLOR_MASTERATARMS "masteratarms"
+#define JOB_CHATCOLOR_BRIDGESTAFF "bridgestaff"
+#define JOB_CHATCOLOR_MUNITIONSTECHNICIAN "munitionstechnician"
+#define JOB_CHATCOLOR_PILOT "pilot"
+#define JOB_CHATCOLOR_AIRTRAFFICCONTROLLER "airtrafficcontroller"
+#define JOB_CHATCOLOR_DECKTECHNICIAN "decktechnician"
 
 // CentCom
 #define JOB_CHATCOLOR_RAWCENTCOM "#A7F08F" // custom CC Color

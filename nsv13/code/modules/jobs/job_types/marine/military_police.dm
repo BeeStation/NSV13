@@ -123,7 +123,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 		to_chat(M, "<b>You have not been assigned to any department. Patrol the halls and help where needed.</b>")
 
 /datum/outfit/job/security
-	name = "Military Police Officer"
+	name = JOB_NAME_SECURITYOFFICER
 	jobtype = /datum/job/officer
 
 	belt = /obj/item/storage/belt/security/full
@@ -136,6 +136,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/beret/sec
 	shoes = /obj/item/clothing/shoes/jackboots
+	id = /obj/item/card/id/job/security_officer
 	l_pocket = /obj/item/restraints/handcuffs
 	r_pocket = /obj/item/assembly/flash/handheld
 	backpack_contents = list(/obj/item/ammo_box/magazine/glock, /obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1,/obj/item/pda/security, /obj/item/book/granter/martial/jujitsu, /obj/item/squad_pager/all_channels, /obj/item/club=1) //NSV13

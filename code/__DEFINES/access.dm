@@ -76,7 +76,7 @@
 
 /// Room and launching.
 #define ACCESS_AUX_BASE 76 //NSV13 - changed from 72 to 76 to deconflict
-#define ACCESS_RD_SERVER 70 //! Access to the R&D server room //NSV13 - changed to 80
+#define ACCESS_RD_SERVER 80 //! Access to the R&D server room //NSV13 - changed to 80
 
 	//BEGIN CENTCOM ACCESS
 	/*Should leave plenty of room if we need to add more access levels.

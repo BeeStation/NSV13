@@ -1,7 +1,7 @@
 /datum/job/pilot
-	title = "Pilot"
+	title = JOB_NAME_PILOT
 	flag = PILOT
-	department_head = list("Master At Arms")
+	department_head = list(JOB_NAME_MASTERATARMS)
 	department_flag = ENGSEC
 	faction = "Station"
 	total_positions = 4
@@ -30,7 +30,7 @@
 	)
 
 /datum/outfit/job/pilot
-	name = "Pilot"
+	name = JOB_NAME_PILOT
 	jobtype = /datum/job/pilot
 
 	head = null
@@ -39,7 +39,7 @@
 	uniform = /obj/item/clothing/under/ship/marine
 	ears = /obj/item/radio/headset/munitions/pilot
 	shoes = /obj/item/clothing/shoes/jackboots
-
+	id = /obj/item/card/id/job/pilot
 	backpack = /obj/item/storage/backpack/munitions
 	satchel = /obj/item/storage/backpack/satchel/munitions
 	duffelbag = /obj/item/storage/backpack/duffelbag/munitions
@@ -72,5 +72,5 @@
 				new /obj/item/clothing/under/ship/pilot/transport(bag, src)
 
 /obj/effect/landmark/start/pilot
-	name = "Pilot"
+	name = JOB_NAME_PILOT
 	icon_state = "Pilot"

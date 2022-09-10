@@ -447,6 +447,7 @@ update_label("John Doe", "Clowny")
 			JOB_NAME_VIROLOGIST, JOB_NAME_PARAMEDIC, JOB_NAME_PSYCHIATRIST,
 		"----Security----","Security (Custom)",JOB_NAME_HEADOFSECURITY, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_SECURITYOFFICER,
 			JOB_NAME_BRIGPHYSICIAN, JOB_NAME_DEPUTY,
+		"----Munitions----","Munitions (Custom)",JOB_NAME_MASTERATARMS, JOB_NAME_BRIDGESTAFF, JOB_NAME_AIRTRAFFICCONTROLLER, JOB_NAME_MUNITIONSTECHNICIAN, JOB_NAME_PILOT, JOB_NAME_DECKTECHNICIAN,
 		"----MISC----","Unassigned",JOB_NAME_PRISONER,"CentCom (Custom)","CentCom","ERT",JOB_NAME_VIP,JOB_NAME_KING,"Syndicate","Clown Operative"
 	)
 	if(isliving(user) && user.mind)
@@ -1114,6 +1115,48 @@ update_label("John Doe", "Clowny")
 	icon_state = "deputy"
 	assignment = JOB_NAME_DEPUTY
 	hud_state = JOB_HUD_DEPUTY
+
+/obj/item/card/id/job/rawsecurity
+	name = "Job card (Sec) - Custom"
+	icon_state = "rawsecurity"
+	hud_state = JOB_HUD_RAWSECURITY
+
+// ---- Munitions - NSV13 ----
+/obj/item/card/id/job/master_at_arms
+	name = "Job card (Mun) - Master at Arms"
+	icon_state = "maa"
+	assignment = JOB_NAME_MASTERATARMS
+	hud_state = JOB_HUD_MASTERATARMS
+
+/obj/item/card/id/job/munitions_technician
+	name = "Job card (Mun) - Munitions Technician"
+	icon_state = "munitionstechnician"
+	assignment = JOB_NAME_MUNITIONSTECHNICIAN
+	hud_state = JOB_HUD_MUNITIONSTECHNICIAN
+
+/obj/item/card/id/job/deck_technician
+	name = "Job card (Mun) - Deck Technician"
+	icon_state = "decktechnician"
+	assignment = JOB_NAME_DECKTECHNICIAN
+	hud_state = JOB_HUD_DECKTECHNICIAN
+
+/obj/item/card/id/job/air_traffic_controller
+	name = "Job card (Mun) - Air Traffic Controller"
+	icon_state = "airtrafficcontroller"
+	assignment = JOB_NAME_AIRTRAFFICCONTROLLER
+	hud_state = JOB_HUD_AIRTRAFFICCONTROLLER
+
+/obj/item/card/id/job/pilot
+	name = "Job card (Mun) - Brig Phys"
+	icon_state = "pilot"
+	assignment = JOB_NAME_PILOT
+	hud_state = JOB_HUD_PILOT
+
+/obj/item/card/id/job/bridge_staff
+	name = "Job card (Mun) - Bridge Staff"
+	icon_state = "bridgestaff"
+	assignment = JOB_NAME_BRIDGESTAFF
+	hud_state = JOB_HUD_BRIDGESTAFF
 
 /obj/item/card/id/job/rawsecurity
 	name = "Job card (Sec) - Custom"

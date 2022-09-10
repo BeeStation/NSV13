@@ -1,7 +1,7 @@
 /datum/job/air_traffic_controller
-	title = "Air Traffic Controller"
+	title = JOB_NAME_AIRTRAFFICCONTROLLER
 	flag = AIR_TRAFFIC_CONTROLLER
-	department_head = list("Master At Arms")
+	department_head = list(JOB_NAME_MASTERATARMS)
 	department_flag = ENGSEC
 	faction = "Station"
 	total_positions = 1
@@ -31,7 +31,7 @@
 	)
 
 /datum/outfit/job/air_traffic_controller
-	name = "Air Traffic Controller"
+	name = JOB_NAME_AIRTRAFFICCONTROLLER
 	jobtype = /datum/job/air_traffic_controller
 
 	ears = /obj/item/radio/headset/munitions/atc
@@ -40,6 +40,7 @@
 	head = /obj/item/clothing/head/beret/ship/pilot
 	gloves = /obj/item/clothing/gloves/color/brown
 	shoes = /obj/item/clothing/shoes/jackboots
+	id = /obj/item/card/id/job/air_traffic_controller
 	r_pocket = /obj/item/flashlight/atc_wavy_sticks
 
 	backpack = /obj/item/storage/backpack/munitions
@@ -47,5 +48,5 @@
 	duffelbag = /obj/item/storage/backpack/duffelbag/munitions
 
 /obj/effect/landmark/start/air_traffic_controller
-	name = "Air Traffic Controller"
+	name = JOB_NAME_AIRTRAFFICCONTROLLER
 	icon_state = "Air Traffic Controller"

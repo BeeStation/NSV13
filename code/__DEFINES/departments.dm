@@ -7,3 +7,4 @@
 #define DEPT_SUPPLY "Supply"
 #define DEPT_SERVICE "Service"
 #define DEPT_COMMAND "Command"
+#define DEPT_MUNITIONS "Munitions"

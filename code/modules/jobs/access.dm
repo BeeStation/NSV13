@@ -416,7 +416,7 @@
 				// Security
 				JOB_NAME_HEADOFSECURITY, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_SECURITYOFFICER, JOB_NAME_BRIGPHYSICIAN, JOB_NAME_DEPUTY,
 				// NSV13 - munitions
-				JOB_NAME_MASTERATARMS, JOB_NAME_PILOT, JOB_NAME_MUNITIONSTECH, JOB_NAME_ATC, JOB_NAME_BRIDGESTAFF)
+				JOB_NAME_MASTERATARMS, JOB_NAME_PILOT, JOB_NAME_MUNITIONSTECHNICIAN, JOB_NAME_AIRTRAFFICCONTROLLER, JOB_NAME_DECKTECHNICIAN, JOB_NAME_BRIDGESTAFF)
 				// Each job is supposed to be in their department due to the HoP console.
 
 /proc/get_all_job_icons() //We need their HUD icons, but we don't want to give these jobs to people from the job list of HoP console.

@@ -43,7 +43,7 @@ Marine & all their unique stuff!
 		return ..()
 
 /datum/outfit/job/assistant
-	name = "Midshipman"
+	name = JOB_NAME_ASSISTANT
 	jobtype = /datum/job/assistant
 	uniform = /obj/item/clothing/under/ship/marine
 	shoes = /obj/item/clothing/shoes/jackboots
