@@ -989,10 +989,7 @@ Control Rods
 							L.flicker()
 			if(prob(1))
 				for(var/obj/machinery/light/L in orange(10, src))
-					if(prob(25))
-						L.burn_out()
-					else
-						L.flicker()
+					L.flicker()
 			if(prob(0.01))
 				for(var/obj/machinery/power/grounding_rod/R in orange(5, src))
 					R.take_damage(rand(25, 50))
@@ -1003,9 +1000,6 @@ Control Rods
 				for(var/obj/machinery/light/L in GLOB.machines)
 					if(prob(50) && shares_overmap(src, L))
 						L.flicker()
-			if(prob(5))
-				for(var/obj/machinery/light/L in orange(12, src))
-					L.burn_out() //If there are even any left by this stage
 			if(prob(0.1))
 				for(var/obj/machinery/power/grounding_rod/R in orange(8, src))
 					R.take_damage(rand(25, 75))
