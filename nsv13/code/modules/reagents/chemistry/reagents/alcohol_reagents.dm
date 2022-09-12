@@ -1,7 +1,7 @@
 /datum/reagent/consumable/ethanol/gender_fluid
 	name = "Gender Fluid"
 	description = "This fluid seems to defy genetics, the mere act of looking at it makes you question your gender."
-	color = "#0D0D0D"
+	color = "#eebc17"
 	boozepwr = 50
 	taste_description = "fluidic gender"
 	glass_icon_state = "gender_fluid"
