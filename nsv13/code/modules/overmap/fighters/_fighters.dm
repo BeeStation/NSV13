@@ -514,7 +514,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			return FALSE
 		to_chat(target, "[(user == target) ? "You start to climb into [src]'s passenger compartment" : "[user] starts to lift you into [src]'s passenger compartment"]")
 		if(do_after(user, 2 SECONDS, target=src))
-			start_piloting(user, "observer")
+			start_piloting(user, OVERMAP_USER_ROLE_OBSERVER)
 			enter(user)
 	else
 		to_chat(user, "<span class='warning'>Access denied.</span>")
@@ -590,7 +590,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 		if(last_pilot && !last_pilot.incapacitated())
 			last_pilot.doMove(escape_pod)
-			escape_pod.start_piloting(last_pilot, "pilot")
+			escape_pod.start_piloting(last_pilot, OVERMAP_USER_ROLE_PILOT)
 			escape_pod.attack_hand(last_pilot) // Bring up UI
 			mobs_in_ship -= last_pilot
 			escape_pod.mobs_in_ship |= last_pilot
@@ -599,10 +599,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 		for(var/mob/M as() in mobs_in_ship)
 			M.doMove(escape_pod)
 			if(!escape_pod.pilot || escape_pod.pilot.incapacitated()) // Someone please drive this thing
-				escape_pod.start_piloting(M, "pilot")
+				escape_pod.start_piloting(M, OVERMAP_USER_ROLE_PILOT)
 				escape_pod.ui_interact(M)
 			else
-				escape_pod.start_piloting(M, "observer")
+				escape_pod.start_piloting(M, OVERMAP_USER_ROLE_OBSERVER)
 			escape_pod.mobs_in_ship |= M
 			M.overmap_ship = escape_pod
 	mobs_in_ship.Cut()
@@ -617,7 +617,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			return FALSE
 		if(do_after(user, 2 SECONDS, target=src))
 			enter(user)
-			start_piloting(user, "all_positions")
+			start_piloting(user, (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER))
 			to_chat(user, "<span class='notice'>You climb into [src]'s cockpit.</span>")
 			ui_interact(user)
 			to_chat(user, "<span class='notice'>Small craft use directional keys (WASD in hotkey mode) to accelerate/decelerate in a given direction and the mouse to change the direction of craft.\
@@ -703,7 +703,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	return ..()
 
 
-/obj/structure/overmap/small_craft/take_damage(damage_amount, damage_type, damage_flag, sound_effect)
+/obj/structure/overmap/small_craft/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, bypasses_shields = FALSE)
 	var/obj/item/fighter_component/armour_plating/A = loadout.get_slot(HARDPOINT_SLOT_ARMOUR)
 	if(A && istype(A))
 		A.take_damage(damage_amount, damage_type, damage_flag, sound_effect)
@@ -1409,6 +1409,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/list/ammo = list()
 	var/burst_size = 1
 	var/fire_delay = 0
+	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	var/bypass_safety = FALSE
 
 /obj/item/fighter_component/primary/dump_contents()
@@ -1437,7 +1438,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	hardpoint_fire(target, FIRE_MODE_ANTI_AIR)
 
 /obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, fireMode)
-	if(istype(src, /obj/structure/overmap/small_craft) && !pilot.incapacitated())
+	if(istype(src, /obj/structure/overmap/small_craft))
 		var/obj/structure/overmap/small_craft/F = src
 		for(var/slot in F.loadout.equippable_slots)
 			var/obj/item/fighter_component/weapon = F.loadout.hardpoint_slots[slot]
@@ -1496,6 +1497,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	SW.overmap_select_sound = overmap_select_sound
 	SW.burst_size = burst_size
 	SW.fire_delay = fire_delay
+	SW.allowed_roles = allowed_roles
 
 /obj/item/fighter_component/primary/remove_from(obj/structure/overmap/target)
 	. = ..()
@@ -1535,6 +1537,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/max_ammo = 5
 	var/burst_size = 1 //Cluster torps...UNLESS?
 	var/fire_delay = 0.25 SECONDS
+	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	var/bypass_safety = FALSE
 
 /obj/item/fighter_component/secondary/dump_contents()
@@ -1559,6 +1562,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	SW.overmap_select_sound = overmap_select_sound
 	SW.burst_size = burst_size
 	SW.fire_delay = fire_delay
+	SW.allowed_roles = allowed_roles
 
 /obj/item/fighter_component/secondary/remove_from(obj/structure/overmap/target)
 	. = ..()
@@ -1658,6 +1662,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary/utility
 	name = "No :)"
 	slot = HARDPOINT_SLOT_UTILITY_PRIMARY
+	allowed_roles = OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER
 
 /obj/item/fighter_component/primary/utility/fire(obj/structure/overmap/target)
 	return FALSE
@@ -1666,6 +1671,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	name = "Utility Module"
 	slot = HARDPOINT_SLOT_UTILITY_SECONDARY
 	power_usage = 200
+	allowed_roles = OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER
 
 /obj/structure/overmap/small_craft/proc/update_visuals()
 	if(canopy)

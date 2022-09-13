@@ -21,6 +21,8 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 	log_game("Volatile substance caused an explosion at [get_area(parent)].")
 	var/ExPower = volatility * explosion_scale
 	explosion(parent, 0, round(ExPower * 0.75), round(ExPower * 1.5), round(ExPower * 2), TRUE, FALSE, round(ExPower * 1.5), FALSE, FALSE)
+	if(!QDELETED(parent))
+		qdel(parent)
 
 /datum/component/volatile/proc/burn_act()
 	SIGNAL_HANDLER
@@ -59,3 +61,34 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 	UnregisterSignal(parent, COMSIG_ATOM_FIRE_ACT)
 	UnregisterSignal(parent, COMSIG_PARENT_EXAMINE)
 	return ..()
+
+/datum/component/volatile/emptorp
+	desc = "<span class='warning'>It's highly volatile and risks misfires if subjected to heat!</span>"
+
+///Overrides parent proc.
+/datum/component/volatile/emptorp/explode()
+	if(!parent)
+		message_admins("Volatility component tried to explode with no attached parent. Contact a coder")
+		return FALSE
+	log_game("Volatile substance caused an electromagnetic reaction at [get_area(parent)]")
+	var/base_ex_power = explosion_scale * volatility
+	empulse(get_turf(parent), base_ex_power, base_ex_power * 2)
+	explosion(parent, 0, 1, round(base_ex_power / 2), smoke = TRUE)
+	if(!QDELETED(parent))
+		qdel(parent)
+
+/datum/component/volatile/helltorp //Hoo boy
+	desc = "<span class='warning'>It's extremely volatile and prone to runaway reactions if subjected to heat!</span>"
+
+///Overrides parent proc
+/datum/component/volatile/helltorp/explode()
+	if(!parent)
+		message_admins("Volatility component tried to explode with no attached parent. Contact a coder")
+		return FALSE
+	log_game("Volatile substance caused a runaway hellfire reaction at [get_area(parent)]")
+	var/base_ex_power = explosion_scale * volatility
+	explosion(parent, 0, 0, base_ex_power, base_ex_power * 2, base_ex_power)
+	var/turf/detonation_turf = get_turf(parent)
+	detonation_turf.atmos_spawn_air("o2=20;plasma=110;TEMP=700")
+	if(!QDELETED(parent))
+		qdel(parent)
