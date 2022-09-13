@@ -28,3 +28,4 @@
 	M.visible_message("<span class='boldnotice'>[M] seems to have gotten over their gender confusion!</span>", "<span class='boldwarning'>Your head suddenly clears and you remember what you define yourself as!</span>")
 	M.regenerate_icons()
 	return ..()
+ 
