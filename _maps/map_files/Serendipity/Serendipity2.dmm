@@ -1143,6 +1143,10 @@
 /obj/machinery/light/floor,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/access_corridor)
+"fS" = (
+/obj/structure/reagent_dispensers/water_cooler,
+/turf/open/floor/plasteel/grid/techfloor,
+/area/nsv/weapons/starboard)
 "fT" = (
 /obj/structure/railing{
 	dir = 4
@@ -2750,7 +2754,12 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
-/obj/machinery/portable_atmospherics/scrubber,
+/obj/machinery/space_heater{
+	anchored = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/general/hidden{
+	dir = 9
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -4304,11 +4313,11 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
-/obj/machinery/space_heater{
-	anchored = 1
-	},
 /obj/structure/sign/departments/minsky/engineering/atmospherics{
 	pixel_x = -31
+	},
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark/corner{
 	dir = 4
@@ -5637,6 +5646,7 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
+/obj/structure/reagent_dispensers/water_cooler,
 /turf/open/floor/plasteel/white,
 /area/engine/engineering)
 "BQ" = (
@@ -5689,15 +5699,17 @@
 /area/engine/gravity_generator)
 "Cc" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/effect/landmark/start/atmospheric_technician,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/general/hidden{
+	dir = 6
 	},
 /turf/open/floor/plasteel/dark,
 /area/engine/engine_room)
@@ -6250,6 +6262,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/electrical)
+"Fk" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/turf/open/floor/plasteel/dark/side,
+/area/engine/engine_room)
 "Fm" = (
 /obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/monotile/light,
@@ -6317,6 +6336,23 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
+"FE" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/machinery/power/terminal,
+/obj/machinery/atmospherics/pipe/simple/general/hidden{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/engine_room)
 "FF" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 4
@@ -8189,6 +8225,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/structure/reagent_dispensers/water_cooler,
 /turf/open/floor/plasteel/white,
 /area/crew_quarters/lounge)
 "OG" = (
@@ -8882,6 +8919,7 @@
 	name = "Engineering RC";
 	pixel_x = -30
 	},
+/obj/effect/landmark/start/atmospheric_technician,
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
@@ -39535,8 +39573,8 @@ IX
 DC
 DC
 JL
-Wv
-Pa
+Fk
+FE
 CF
 rs
 Sg
@@ -49064,8 +49102,8 @@ YY
 Xn
 gX
 uP
-um
 Yp
+fS
 No
 dD
 zg

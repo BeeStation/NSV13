@@ -281,6 +281,12 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/hallway/secondary/exit)
+"aT" = (
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/plasteel/tiled/light,
+/area/science/xenobiology)
 "aU" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plasteel/tiled/light,
@@ -1529,17 +1535,6 @@
 /obj/machinery/holopad,
 /turf/open/floor/wood,
 /area/crew_quarters/kitchen)
-"fu" = (
-/obj/structure/hull_plate,
-/obj/structure/closet/crate/large{
-	anchored = 1;
-	desc = "A magnetized crate attached to the hull of the ship. You could use a crowbar to open it.";
-	name = "Magnetized crate"
-	},
-/obj/effect/spawner/lootdrop/maintenance/four,
-/obj/effect/spawner/lootdrop/maintenance/four,
-/turf/open/floor/engine/airless/light,
-/area/space/nearstation)
 "fv" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -1918,6 +1913,10 @@
 "gP" = (
 /obj/machinery/chem_heater,
 /obj/effect/turf_decal/tile/ship/half/purple,
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/science/xenobiology)
 "gQ" = (
@@ -6785,6 +6784,17 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/chemistry)
+"xR" = (
+/obj/structure/hull_plate,
+/obj/structure/closet/crate/large{
+	anchored = 1;
+	desc = "A magnetized crate attached to the hull of the ship. You could use a crowbar to open it.";
+	name = "Magnetized crate"
+	},
+/obj/effect/spawner/lootdrop/maintenance/four,
+/obj/effect/spawner/lootdrop/maintenance/four,
+/turf/open/floor/engine/airless/light,
+/area/space/nearstation)
 "xT" = (
 /obj/machinery/computer/crew{
 	dir = 1
@@ -7004,16 +7014,15 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "yA" = (
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
-/obj/machinery/power/apc/auto_name/east,
 /obj/effect/turf_decal/tile/ship/half/purple,
 /obj/effect/turf_decal/tile/ship/purple{
 	dir = 1
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/science/xenobiology)
@@ -41297,7 +41306,7 @@ Te
 he
 Te
 Te
-fu
+xR
 Te
 Te
 vD
@@ -44388,7 +44397,7 @@ eH
 tw
 MP
 gP
-wP
+aT
 zy
 wP
 Tv
