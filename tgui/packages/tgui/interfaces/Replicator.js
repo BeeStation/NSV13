@@ -21,7 +21,7 @@ export const Replicator = (props, context) => {
           </Box>
         </Section>
         <Section
-         title="Replicatable Food">
+          title="Replicatable Food">
           <Flex>
             <Flex.Item grow={1}>
               <Section title="Nutritional supplements">
@@ -63,5 +63,5 @@ export const Replicator = (props, context) => {
         </Section>
       </Window.Content>
     </Window>
-  )
-}
+  );
+};

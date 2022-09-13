@@ -152,7 +152,7 @@ const ChemicalBufferEntry = (props, context) => {
 };
 
 const PackagingControlsItem = (props, context) => {
-  const { data } = useBackend(context)
+  const { data } = useBackend(context);
   const {
     label,
     amountUnit,
@@ -161,7 +161,7 @@ const PackagingControlsItem = (props, context) => {
     onCreate,
     sideNote,
   } = props;
-  const { MaxDispense, } = data;
+  const { MaxDispense } = data;
   return (
     <LabeledList.Item label={label}>
       <NumberInput
