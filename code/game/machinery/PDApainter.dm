@@ -17,6 +17,7 @@
 		"Service (Standard)" = "pda-service",
 		"Command: Executive Officer" = "pda-hop", // NSV13 - XO is command
 		"Service: Bartender" = "pda-bartender",
+		"Service: Botanist" = "pda-hydro", //NSV13 - we still have the botany PDA
 		"Service: Chaplain" = "pda-chaplain",
 		"Service: Clown" = "pda-clown",
 		"Service: Cook" = "pda-cook",
@@ -51,6 +52,8 @@
 		"Security: Detective" = "pda-detective",
 		"Security: Brig Physician" = "pda-brigphys",
 		"Security: Deputy" = "pda-deputy",
+		"Munitions (Standard)" = "pda-munition", // NSV13 - munitions and MAA
+		"Munitions: Master At Arms" = "pda-maa",
 		"Misc: Prisoner" = "pda-prisoner"
 	)
 

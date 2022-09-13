@@ -16,7 +16,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 /obj/item/pda
 	name = "\improper PDA"
 	desc = "A portable microcomputer by Thinktronic Systems, LTD. Functionality determined by a preprogrammed ROM cartridge."
-	icon = 'icons/obj/pda.dmi'
+	icon = 'nsv13/icons/obj/pda.dmi' //NSV13 - old sprites
 	icon_state = "pda"
 	item_state = "electronic"
 	worn_icon_state = "electronic"

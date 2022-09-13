@@ -1533,7 +1533,7 @@
 /obj/item/toy/allaccess
 	name = "captain's spare ID"
 	desc = "A replica of the glorious captain's card. Issued to annoying greytiders as a joke."
-	icon = 'icons/obj/card.dmi'
+	icon = 'nsv13/icons/obj/card.dmi' //NSV13 - old ID style
 	icon_state = "gold"
 
 /obj/item/toy/allaccess/afterattack()

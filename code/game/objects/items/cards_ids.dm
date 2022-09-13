@@ -14,7 +14,7 @@
 /obj/item/card
 	name = "card"
 	desc = "Does card things."
-	icon = 'icons/obj/card.dmi'
+	icon = 'nsv13/icons/obj/card.dmi' //NSV13 - old style
 	w_class = WEIGHT_CLASS_TINY
 
 	var/list/files = list()
@@ -44,7 +44,7 @@
 	cut_overlays()
 	if(detail_color == COLOR_FLOORTILE_GRAY)
 		return
-	var/mutable_appearance/detail_overlay = mutable_appearance('icons/obj/card.dmi', "[icon_state]-color")
+	var/mutable_appearance/detail_overlay = mutable_appearance('nsv13/icons/obj/card.dmi', "[icon_state]-color") //NSV13 - old ID style
 	detail_overlay.color = detail_color
 	add_overlay(detail_overlay)
 
