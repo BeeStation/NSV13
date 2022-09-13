@@ -951,6 +951,19 @@
 	},
 /turf/open/floor/engine/light,
 /area/science/robotics)
+"dm" = (
+/obj/machinery/computer/operating{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 4
+	},
+/obj/machinery/newscaster/directional/south,
+/turf/open/floor/plasteel/tiled/light,
+/area/medical/nsv/trauma)
 "do" = (
 /turf/closed/wall/ship,
 /area/ai_monitored/turret_protected/aisat_interior)
@@ -1665,13 +1678,6 @@
 /obj/effect/turf_decal/tile/ship/blue,
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/medbay/lobby)
-"fX" = (
-/obj/effect/turf_decal/tile/ship/half/purple{
-	dir = 1
-	},
-/obj/machinery/vending/wardrobe/science_wardrobe,
-/turf/open/floor/plasteel/tiled/light,
-/area/maintenance/department/science/central)
 "fY" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply,
@@ -1890,11 +1896,12 @@
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "gK" = (
-/obj/machinery/porta_turret/ai{
-	ai_controller = /area/ai_monitored/nuke_storage
+/obj/effect/turf_decal/tile/ship/half/purple{
+	dir = 1
 	},
-/turf/open/floor/engine/light,
-/area/ai_monitored/nuke_storage)
+/obj/machinery/vending/wardrobe/science_wardrobe,
+/turf/open/floor/plasteel/tiled/light,
+/area/maintenance/department/science/central)
 "gL" = (
 /obj/structure/railing/corner,
 /obj/structure/cable{
@@ -5017,9 +5024,6 @@
 "rS" = (
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/secondary/exit/departure_lounge)
-"rT" = (
-/turf/closed/wall/r_wall/ship,
-/area/science/robotics)
 "rU" = (
 /obj/effect/landmark/start/clown,
 /turf/open/floor/grass,
@@ -6775,6 +6779,13 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/nsv/trauma)
+"xN" = (
+/obj/machinery/porta_turret/ai{
+	ai_controller = /area/ai_monitored/nuke_storage
+	},
+/obj/machinery/camera/motion,
+/turf/open/floor/engine/light,
+/area/ai_monitored/nuke_storage)
 "xO" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -7260,6 +7271,10 @@
 /obj/machinery/holopad,
 /turf/open/floor/grass,
 /area/crew_quarters/dorms/nsv/nature_deck)
+"zD" = (
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/bridge/cic)
 "zE" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /obj/machinery/firealarm/directional/west,
@@ -8504,17 +8519,9 @@
 /area/bridge/meeting_room/council)
 "DV" = (
 /obj/structure/grille,
+/obj/machinery/light/floor,
 /turf/open/floor/plating,
 /area/bridge/cic)
-"DW" = (
-/obj/machinery/cryopod{
-	dir = 1
-	},
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
-/turf/open/floor/grass,
-/area/crew_quarters/cryopods)
 "DX" = (
 /obj/structure/cable{
 	icon_state = "4-10"
@@ -8633,11 +8640,6 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/nsv/trauma)
-"Es" = (
-/obj/structure/grille,
-/obj/machinery/light/floor,
-/turf/open/floor/plating,
-/area/bridge/cic)
 "Et" = (
 /obj/machinery/door/airlock/ship/public{
 	name = "Custodial Garage";
@@ -8757,10 +8759,6 @@
 /obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/grass,
 /area/crew_quarters/dorms/nsv/nature_deck)
-"EM" = (
-/obj/machinery/camera/autoname,
-/turf/template_noop,
-/area/maintenance/port)
 "EN" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -10846,7 +10844,6 @@
 /obj/machinery/porta_turret/ai{
 	ai_controller = /area/ai_monitored/nuke_storage
 	},
-/obj/machinery/camera/motion,
 /turf/open/floor/engine/light,
 /area/ai_monitored/nuke_storage)
 "Lz" = (
@@ -12633,6 +12630,15 @@
 /mob/living/carbon/monkey,
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/genetics)
+"RO" = (
+/obj/machinery/cryopod{
+	dir = 1
+	},
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/grass,
+/area/crew_quarters/cryopods)
 "RR" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -13393,6 +13399,7 @@
 /obj/structure/sign/poster/official/moth2{
 	pixel_x = 28
 	},
+/obj/machinery/rnd/production/circuit_imprinter/department/science,
 /turf/open/floor/plasteel/tiled/light,
 /area/maintenance/department/science/central)
 "Un" = (
@@ -13735,19 +13742,6 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/science/server)
-"VA" = (
-/obj/machinery/computer/operating{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/ship/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/ship/blue{
-	dir = 4
-	},
-/obj/machinery/newscaster/directional/south,
-/turf/open/floor/plasteel/tiled/light,
-/area/medical/nsv/trauma)
 "VB" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/machinery/door/poddoor/shutters/preopen{
@@ -14173,6 +14167,10 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/genetics/cloning)
+"Xa" = (
+/obj/machinery/camera/autoname,
+/turf/template_noop,
+/area/maintenance/port)
 "Xb" = (
 /obj/structure/bookcase/random,
 /turf/open/floor/carpet,
@@ -14459,6 +14457,9 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/maintenance/department/science/central)
+"XQ" = (
+/turf/closed/wall/r_wall/ship,
+/area/science/robotics)
 "XR" = (
 /obj/machinery/vending/wardrobe/robo_wardrobe,
 /obj/effect/turf_decal/stripes/red/line{
@@ -40311,9 +40312,9 @@ MJ
 az
 jN
 jN
-Lu
+xN
 xd
-gK
+Lu
 Hr
 am
 me
@@ -41853,7 +41854,7 @@ KP
 sA
 He
 Sy
-EM
+Xa
 WI
 tA
 DD
@@ -43667,7 +43668,7 @@ dH
 Gs
 Fz
 Ke
-DW
+RO
 DQ
 vP
 YH
@@ -45442,7 +45443,7 @@ NA
 Nh
 Id
 pA
-VA
+dm
 nv
 bl
 zj
@@ -48051,7 +48052,7 @@ Um
 XN
 KB
 co
-fX
+gK
 kT
 Pu
 Te
@@ -50097,7 +50098,7 @@ hU
 hU
 dT
 pE
-rT
+XQ
 nj
 sK
 FJ
@@ -50612,9 +50613,9 @@ dW
 rR
 pZ
 uO
-rT
-rT
-rT
+XQ
+XQ
+XQ
 pF
 pF
 Rq
@@ -50871,7 +50872,7 @@ is
 uO
 Te
 ll
-rT
+XQ
 pF
 pF
 gp
@@ -56253,10 +56254,10 @@ zP
 zP
 az
 fx
-Es
 DV
+zD
+zD
 DV
-Es
 fx
 az
 zP
