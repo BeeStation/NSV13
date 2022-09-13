@@ -26,7 +26,7 @@ export const Replicator = (props, context) => {
             <Flex.Item grow={1}>
               <Section title="Nutritional supplements">
                 {menutier1.map(food => (
-                  <Section>
+                  <Section key={food}>
                     {toTitleCase(food)}
                   </Section>
                 ))}
@@ -35,7 +35,7 @@ export const Replicator = (props, context) => {
             <Flex.Item grow={1}>
               <Section title="Basic dishes">
                 {menutier2.map(food => (
-                  <Section>
+                  <Section key={food}>
                     {toTitleCase(food)}
                   </Section>
                 ))}
@@ -44,7 +44,7 @@ export const Replicator = (props, context) => {
             <Flex.Item grow={1}>
               <Section title="Complex dishes">
                 {menutier3.map(food => (
-                  <Section>
+                  <Section key={food}>
                     {toTitleCase(food)}
                   </Section>
                 ))}
@@ -53,7 +53,7 @@ export const Replicator = (props, context) => {
             <Flex.Item grow={1}>
               <Section title="Ingredients">
                 {menutier4.map(food => (
-                  <Section>
+                  <Section key={food}>
                     {toTitleCase(food)}
                   </Section>
                 ))}

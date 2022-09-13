@@ -1204,8 +1204,12 @@
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "en" = (
-/obj/structure/grille,
-/turf/open/floor/plating,
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/door/poddoor/ship{
+	dir = 4;
+	id = "bridgewindows"
+	},
+/turf/open/space/basic,
 /area/bridge/cic)
 "eo" = (
 /turf/closed/wall/r_wall/ship,
@@ -1661,6 +1665,13 @@
 /obj/effect/turf_decal/tile/ship/blue,
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/medbay/lobby)
+"fX" = (
+/obj/effect/turf_decal/tile/ship/half/purple{
+	dir = 1
+	},
+/obj/machinery/vending/wardrobe/science_wardrobe,
+/turf/open/floor/plasteel/tiled/light,
+/area/maintenance/department/science/central)
 "fY" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply,
@@ -1879,13 +1890,11 @@
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "gK" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "bridgewindows"
+/obj/machinery/porta_turret/ai{
+	ai_controller = /area/ai_monitored/nuke_storage
 	},
-/turf/open/space/basic,
-/area/bridge/cic)
+/turf/open/floor/engine/light,
+/area/ai_monitored/nuke_storage)
 "gL" = (
 /obj/structure/railing/corner,
 /obj/structure/cable{
@@ -2451,6 +2460,7 @@
 	req_access_txt = "19";
 	req_one_access_txt = "19"
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/cic)
 "is" = (
@@ -2566,10 +2576,6 @@
 	},
 /turf/open/floor/engine/light,
 /area/science/robotics)
-"iK" = (
-/obj/machinery/camera/autoname,
-/turf/template_noop,
-/area/maintenance/port)
 "iL" = (
 /obj/machinery/dna_scannernew,
 /obj/machinery/firealarm/directional/north,
@@ -2656,6 +2662,9 @@
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/main)
 "ji" = (
@@ -3211,6 +3220,9 @@
 	dir = 1
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/main)
 "le" = (
@@ -4379,13 +4391,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/closed/wall/ship,
 /area/maintenance/department/science)
-"pw" = (
-/obj/machinery/porta_turret/ai{
-	ai_controller = /area/ai_monitored/nuke_storage
-	},
-/obj/machinery/camera/motion,
-/turf/open/floor/engine/light,
-/area/ai_monitored/nuke_storage)
 "px" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -5012,6 +5017,9 @@
 "rS" = (
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/secondary/exit/departure_lounge)
+"rT" = (
+/turf/closed/wall/r_wall/ship,
+/area/science/robotics)
 "rU" = (
 /obj/effect/landmark/start/clown,
 /turf/open/floor/grass,
@@ -7356,22 +7364,10 @@
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/kitchen)
-"zW" = (
-/turf/closed/wall/r_wall/ship,
-/area/science/robotics)
 "zY" = (
 /obj/machinery/computer/crew,
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/cmo)
-"zZ" = (
-/obj/machinery/cryopod{
-	dir = 1
-	},
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
-/turf/open/floor/grass,
-/area/crew_quarters/cryopods)
 "Ac" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -8508,9 +8504,17 @@
 /area/bridge/meeting_room/council)
 "DV" = (
 /obj/structure/grille,
-/obj/machinery/light/floor,
 /turf/open/floor/plating,
 /area/bridge/cic)
+"DW" = (
+/obj/machinery/cryopod{
+	dir = 1
+	},
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/grass,
+/area/crew_quarters/cryopods)
 "DX" = (
 /obj/structure/cable{
 	icon_state = "4-10"
@@ -8629,6 +8633,11 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/nsv/trauma)
+"Es" = (
+/obj/structure/grille,
+/obj/machinery/light/floor,
+/turf/open/floor/plating,
+/area/bridge/cic)
 "Et" = (
 /obj/machinery/door/airlock/ship/public{
 	name = "Custodial Garage";
@@ -8748,6 +8757,10 @@
 /obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/grass,
 /area/crew_quarters/dorms/nsv/nature_deck)
+"EM" = (
+/obj/machinery/camera/autoname,
+/turf/template_noop,
+/area/maintenance/port)
 "EN" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -9467,19 +9480,6 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/chemistry)
-"Hk" = (
-/obj/machinery/computer/operating{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/ship/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/ship/blue{
-	dir = 4
-	},
-/obj/machinery/newscaster/directional/south,
-/turf/open/floor/plasteel/tiled/light,
-/area/medical/nsv/trauma)
 "Hl" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -10846,15 +10846,9 @@
 /obj/machinery/porta_turret/ai{
 	ai_controller = /area/ai_monitored/nuke_storage
 	},
+/obj/machinery/camera/motion,
 /turf/open/floor/engine/light,
 /area/ai_monitored/nuke_storage)
-"Lw" = (
-/obj/effect/turf_decal/tile/ship/half/purple{
-	dir = 1
-	},
-/obj/machinery/vending/wardrobe/science_wardrobe,
-/turf/open/floor/plasteel/tiled/light,
-/area/maintenance/department/science/central)
 "Lz" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -13370,6 +13364,7 @@
 	req_access_txt = "19";
 	req_one_access_txt = "19"
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/cic)
 "Ug" = (
@@ -13740,6 +13735,19 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/science/server)
+"VA" = (
+/obj/machinery/computer/operating{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 4
+	},
+/obj/machinery/newscaster/directional/south,
+/turf/open/floor/plasteel/tiled/light,
+/area/medical/nsv/trauma)
 "VB" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/machinery/door/poddoor/shutters/preopen{
@@ -40303,9 +40311,9 @@ MJ
 az
 jN
 jN
-pw
-xd
 Lu
+xd
+gK
 Hr
 am
 me
@@ -41845,7 +41853,7 @@ KP
 sA
 He
 Sy
-iK
+EM
 WI
 tA
 DD
@@ -43659,7 +43667,7 @@ dH
 Gs
 Fz
 Ke
-zZ
+DW
 DQ
 vP
 YH
@@ -45434,7 +45442,7 @@ NA
 Nh
 Id
 pA
-Hk
+VA
 nv
 bl
 zj
@@ -48043,7 +48051,7 @@ Um
 XN
 KB
 co
-Lw
+fX
 kT
 Pu
 Te
@@ -50089,7 +50097,7 @@ hU
 hU
 dT
 pE
-zW
+rT
 nj
 sK
 FJ
@@ -50604,9 +50612,9 @@ dW
 rR
 pZ
 uO
-zW
-zW
-zW
+rT
+rT
+rT
 pF
 pF
 Rq
@@ -50863,7 +50871,7 @@ is
 uO
 Te
 ll
-zW
+rT
 pF
 pF
 gp
@@ -55988,10 +55996,10 @@ zP
 az
 az
 fx
-gK
-gK
-gK
-gK
+en
+en
+en
+en
 fx
 az
 az
@@ -56245,10 +56253,10 @@ zP
 zP
 az
 fx
+Es
 DV
-en
-en
 DV
+Es
 fx
 az
 zP
@@ -56502,10 +56510,10 @@ zP
 zP
 az
 fx
-gK
-gK
-gK
-gK
+en
+en
+en
+en
 fx
 az
 zP
