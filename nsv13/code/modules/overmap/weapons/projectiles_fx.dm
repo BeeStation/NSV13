@@ -363,10 +363,21 @@ Misc projectile types, effects, think of this as the special FX file.
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
 
+/obj/item/projectile/guided_munition/torpedo/hellfire/player_version
+	damage = 300	//A bit less initial damage to compensate for the /guaranteed/ hellburn effect dealing hefty damage.
+
 /obj/item/projectile/guided_munition/torpedo/disruptor
 	icon_state = "torpedo_disruptor"
 	name = "disruption torpedo"
 	damage = 140	//Lower damage, does some special stuff when it hits a target.
+	var/ai_disruption = 30
+	var/ai_disruption_cap = 120
+
+//Player-accessible version of the above. Weaker because reverse engineered ~~and balance~~
+/obj/item/projectile/guided_munition/torpedo/disruptor/prototype
+	name = "prototype disruption torpedo"
+	ai_disruption = 15 //Do you like stuncombat? Well the AI doesn't.
+	ai_disruption_cap = 30 //Very effective if applied spaced out over time against damage-resistant ships.
 
 //What you get from an incomplete torpedo.
 /obj/item/projectile/guided_munition/torpedo/dud
@@ -445,7 +456,8 @@ Misc projectile types, effects, think of this as the special FX file.
 		return	//Detonate is gonna handle this for us.
 
 	if(target.ai_controlled)
-		target.disruption += 30
+		if(target.disruption <= ai_disruption_cap)
+			target.disruption = min(target.disruption + ai_disruption, ai_disruption_cap)
 		return
 
 	if(istype(target, /obj/structure/overmap/small_craft))
@@ -454,6 +466,14 @@ Misc projectile types, effects, think of this as the special FX file.
 
 	//Neither of these? I guess just some visibility penalty it is.
 	target.add_sensor_profile_penalty(150, 10 SECONDS)
+
+/obj/item/projectile/guided_munition/torpedo/hellfire/spec_overmap_hit(obj/structure/overmap/target)
+	if(length(target.occupying_levels))
+		return //Ship with internal zs, let them burn
+	if(target.ai_controlled || istype(target, /obj/structure/overmap/small_craft))
+		target.hullburn += 60	//hullburn DoT for AIs. Player Fighters get it too, did you expect to just eat one of these?
+		target.hullburn_power = max(target.hullburn_power, 6)
+	
 
 /obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
 	. = ..()

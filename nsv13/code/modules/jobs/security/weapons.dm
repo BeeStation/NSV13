@@ -98,7 +98,7 @@
 /obj/item/ammo_box/magazine/glock/update_icon()
     ..()
     icon_state = "[initial(icon_state)][ammo_count() ? "" : "-0"]"
-	
+
 /obj/item/ammo_casing/c9mm/rubber
 	name = "9mm rubber bullet casing"
 	desc = "A 9mm rubber bullet casing."
@@ -115,6 +115,7 @@
 	name = "9mm bullet"
 	damage = 20
 	damage_type = STAMINA
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "pdc"
 
 /obj/item/ammo_box/magazine/tazer_cartridge

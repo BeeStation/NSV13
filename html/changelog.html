@@ -56,6 +56,46 @@
 		-->
 		<div class="commit sansserif">
 
+			<h2 class="date">06 September 2022</h2>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="refactor">Refactored the "pilot" "gunner" etc strings to use bitflags</li>
+				<li class="code_imp">Removed incapacitation check for fighter pilot at the hardpoint level since interceptClickOn already checks if the user is incapacitated</li>
+				<li class="code_imp">Pilot-only weapons no longer have to be added to the interceptClickOn proc by hand</li>
+			</ul>
+
+			<h2 class="date">05 September 2022</h2>
+			<h3 class="author">someone543 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Projectiles for rubber Glock and pulse rifle bullets are no longer invisible</li>
+			</ul>
+
+			<h2 class="date">04 September 2022</h2>
+			<h3 class="author">Bobbanz1 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Makes it so you can now recycle glass/reinforced glass tiles in Autolathes and the ORM</li>
+			</ul>
+			<h3 class="author">Kenionatus updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added ration packs to sustenance vendors</li>
+			</ul>
+			<h3 class="author">Pontenerd updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">fixed 10 count torp component crates only having 9 of the listed component</li>
+			</ul>
+			<h3 class="author">someone543 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">AIs can now hear fleet hails</li>
+			</ul>
+
+			<h2 class="date">02 September 2022</h2>
+			<h3 class="author">DeltaFire15, Pontenerd updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Volatility components should properly react to damage again.</li>
+				<li class="rscadd">Reverse engineering of the feared disruption torpedo has almost reached a breakthrough. Whiterapids is willing to transmit schematics of the research progress to any military vessels equipped with onboard research facilities.</li>
+				<li class="balance">Hellfire torpedoes when used against AI vessels now inflict hullburn, a damage over time effect melting away at a ship's hull. Player accessible torp impact damage lowered to 300 from 400. Damage over time added with 360 total damage over 60 ship processing ticks, amounting to a total 660 raw damage.</li>
+			</ul>
+
 			<h2 class="date">22 August 2022</h2>
 			<h3 class="author">covertcorvid updated:</h3>
 			<ul class="changes bgimages16">
@@ -228,114 +268,6 @@
 				<li class="imageadd">Added Quartermaster's turtleneck, spawnable through QM locker.</li>
 				<li class="rscadd">Cargodrobe now has a beret</li>
 				<li class="rscadd">Quartermaster’s locker now comes with a free beret!</li>
-			</ul>
-
-			<h2 class="date">07 July 2022</h2>
-			<h3 class="author">Dejaku51, jack-pie, Rohesie, PowerfulBacon, Sinestia, Froststahr, Archanial, Qustinnus, AnturK, Rukofamicom, Autisem,  updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Smooth movable lighting system implemented. Projectiles, sparks, thrown flashlights or moving mobs with lights should be much smoother and less laggy.</li>
-				<li class="balance">Light sources no longer stack in range, though they still do in intensity.</li>
-				<li class="bugfix">Fixed Security cameras not working properly with Overlay Lighting</li>
-				<li class="bugfix">Fixed Exosuits having really small light</li>
-				<li class="bugfix">Fixed kinetic Crusher Light not working</li>
-				<li class="bugfix">Fixed desword glowing even if not wielded</li>
-				<li class="bugfix">Fixed swarmer lights</li>
-				<li class="bugfix">Fixed pAI lights</li>
-				<li class="bugfix">Finally fixed hardsuit glowing</li>
-				<li class="code_imp">Overlay light sources can be set to not count towards get_lumcount calculations</li>
-				<li class="code_imp">Lasers and sparks no longer count towards get_lumcount calculations.</li>
-				<li class="balance">Nightmares will now dodge lasers</li>
-				<li class="rscadd">Lights have new overlay sprites for emergency and night modes</li>
-				<li class="bugfix">Light overlays are now functional</li>
-				<li class="bugfix">Fixes dual energy sword always being red</li>
-				<li class="bugfix">fixed null light runtime when changing species into ethereal</li>
-				<li class="bugfix">Attachments now appear on guns again</li>
-				<li class="bugfix">fixed flamethrower lighting runtime</li>
-				<li class="tweak">light eater works on wisps</li>
-				<li class="bugfix">Light eater works on mechs</li>
-				<li class="bugfix">The lighteater will now break gunlights and flashlights attached to things.</li>
-				<li class="bugfix">The lighteater will no longer break PDAs that do not have their light turned on.</li>
-			</ul>
-			<h3 class="author">SharkeeByond updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added departments to Midshipmen</li>
-				<li class="rscadd">Added Munitions department to ''Preferred Security/Midshipman Department''</li>
-				<li class="rscadd">New headsets and armbands (munsec)</li>
-				<li class="tweak">Changed ''Preferred Security Department'' to ''Preferred Security/Midshipman Department'' in the Preferences GUI</li>
-			</ul>
-
-			<h2 class="date">02 July 2022</h2>
-			<h3 class="author">Ikalpo updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed the bio bag</li>
-			</ul>
-			<h3 class="author">IndusRobot updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added glass and reinforced glass floor tiles</li>
-			</ul>
-			<h3 class="author">Vasily2013 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Matches Atlas upper and lower deck turfs to prevent going up/down through what should be hull plating.</li>
-				<li class="rscadd">Added gas pump to Atlas reactor feed line.</li>
-				<li class="bugfix">Replaced protolathe in Atlas sec with techfab.</li>
-				<li class="rscadd">Holopad in Atlas brig control.</li>
-				<li class="tweak">Re-jigger Atlas waste cooler to be more clearly piped.</li>
-				<li class="rscadd">Borg chargers in Atlas maint south and north of the PKA room.</li>
-				<li class="tweak">Atlas: Moves one (1) hull repair juice tank to the hull armor on the bow.</li>
-				<li class="tweak">Moved one crate in Atlas sci maint to block an abandoned door. (This will be the only OSHA compliance fix of this PR)</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Makes A & D steering work correctly</li>
-				<li class="tweak">fighter controls will now show orange docking mode button when docking is in cooldown</li>
-				<li class="tweak">added option to toggle docking mode to fighter controller</li>
-				<li class="bugfix">hitting the cordon bounding an asteroid should now ignore position when deciding whether to transfer the ship to the overmap</li>
-				<li class="bugfix">all overmap Z levels should now be set up to allow looping</li>
-				<li class="bugfix">made repair and refuel sabre modules work and fixed their descriptions</li>
-				<li class="rscdel">refueling module no longer resupplies ammo</li>
-				<li class="admin">added VV dropdown options for getting small craft onto and off of the overmap</li>
-				<li class="tweak">moved docking_points for main ships in slightly so they no longer overlapped with the area where we smoothly eject fighters</li>
-				<li class="bugfix">made mobs_in_ship list update better</li>
-				<li class="code_imp">cleaned up some stuff about docking, undocking, and collisions</li>
-				<li class="bugfix">fixed docking</li>
-			</ul>
-
-			<h2 class="date">27 June 2022</h2>
-			<h3 class="author">Bobbanz1 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added three lists and a name generator which picks from two of these three lists and slaps them together into a single name.</li>
-				<li class="rscadd">Added a line of code to the initialization of fighters to use the name generator and give themselves a random name</li>
-				<li class="rscdel">Removed Uranus from the List, it ruins everything.</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="admin">Added ghost ship spawning info to game.log</li>
-				<li class="bugfix">No longer tries to pick from an empty list when RNG decides not to spawn a ghost ship</li>
-			</ul>
-
-			<h2 class="date">26 June 2022</h2>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed Bee's radial menu Z movement having some weird type requirements on the starting turf</li>
-				<li class="tweak">made Move-Upwards and Move-Down use the animated travel_z proc for living things</li>
-				<li class="bugfix">fixed sentient disease Z movement</li>
-				<li class="bugfix">allowed most jaunt movement types to travel multi-Z regardless of gravity (includes revenants but not ninjas)</li>
-				<li class="tweak">added a passthrough for attack_hand on stairs so the radial menu for multi-z travel would show up</li>
-				<li class="rscadd">Top row numbers 1-4 can be used to select weapons while gunning</li>
-				<li class="refactor">Moved overmap key handling into the keybind system</li>
-			</ul>
-
-			<h2 class="date">24 June 2022</h2>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Galactica brig now has a toolbox and recharger</li>
-				<li class="bugfix">Galactica permabrig techfab removed.</li>
-			</ul>
-
-			<h2 class="date">23 June 2022</h2>
-			<h3 class="author">Kenionatus updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed duplicate loading into payload gates and onto munitions trolleys</li>
 			</ul>
 		</div>
 
