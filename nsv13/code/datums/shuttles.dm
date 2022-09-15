@@ -24,6 +24,10 @@
 	suffix = "shrike"
 	name = "\[NSV\] cargo ferry (Shrike)"
 
+/datum/map_template/shuttle/cargo/serendipity
+	suffix = "serendipity"
+	name = "\[NSV\] cargo ferry (Serendipity)"
+
 //Arrivals
 
 /datum/map_template/shuttle/arrival/aetherwhisp
