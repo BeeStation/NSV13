@@ -84,7 +84,7 @@
 	data["maxfuel"] = reagents.maximum_volume
 	return data
 
-/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/Initialize()
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/Initialize(mapload)
 	. = ..()
 	add_overlay("cryofuel_nozzle")
 	nozzle = new(src)
@@ -185,7 +185,7 @@
 	slot_flags = 0
 	var/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/parent
 
-/obj/item/cryofuel_nozzle/Initialize()
+/obj/item/cryofuel_nozzle/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
 

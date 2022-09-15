@@ -8,7 +8,7 @@
 	var/faction = "nanotrasen" //Change this to match the faction of your fighters.
 	var/list/current_filters = null //Defaults to showing every kind of fighter. If a fighter type is "in current_filters" then it's visible
 
-/obj/machinery/computer/ship/fighter_controller/Initialize()
+/obj/machinery/computer/ship/fighter_controller/Initialize(mapload)
 	. = ..()
 	current_filters = valid_filters.Copy()
 

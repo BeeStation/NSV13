@@ -34,7 +34,7 @@
 		"Urghhhhh..."
 	)
 
-/mob/living/carbon/human/ai_boarder/zombie/Initialize()
+/mob/living/carbon/human/ai_boarder/zombie/Initialize(mapload)
 	. = ..()
 	set_species(/datum/species/zombie/infectious)
 
@@ -56,7 +56,7 @@
 		"Unit has recieved additional asset request"
 	)
 
-/mob/living/carbon/human/ai_boarder/boarding_droid/Initialize()
+/mob/living/carbon/human/ai_boarder/boarding_droid/Initialize(mapload)
 	. = ..()
 	set_species(/datum/species/ipc)
 	icon = 'nsv13/icons/mob/boardingdroid.dmi'

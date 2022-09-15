@@ -87,7 +87,7 @@
 	resistance_flags = NONE
 	armor = list("melee" = 30, "bullet" = 40, "laser" = 0, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 60)
 
-/obj/item/clothing/suit/ship/peacekeeper/Initialize()
+/obj/item/clothing/suit/ship/peacekeeper/Initialize(mapload)
 	. = ..()
 	allowed = GLOB.security_vest_allowed
 

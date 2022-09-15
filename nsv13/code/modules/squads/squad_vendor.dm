@@ -35,7 +35,7 @@
 	var/static/list/loadouts = list()
 	var/static/list/requires_weapons_clearance = list(/obj/item/ammo_box, /obj/item/gun)
 
-/obj/machinery/squad_vendor/Initialize()
+/obj/machinery/squad_vendor/Initialize(mapload)
 	. = ..()
 	if(!length(loadouts))
 		for(var/instance in subtypesof(/datum/squad_loadout))

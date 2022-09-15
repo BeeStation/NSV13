@@ -43,7 +43,7 @@
 	var/datum/beam/current_beam = null
 	var/obj/machinery/holopad/source = null
 
-/mob/living/simple_animal/admin_holopad/Initialize()
+/mob/living/simple_animal/admin_holopad/Initialize(mapload)
 	. = ..()
 	source = locate(/obj/machinery/holopad) in get_turf(src)
 	current_beam = new(src,source,time=INFINITY,maxdistance=INFINITY, beam_icon_state="hologram",btype=/obj/effect/ebeam)

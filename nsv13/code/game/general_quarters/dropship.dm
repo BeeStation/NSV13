@@ -33,7 +33,7 @@
 	icon = 'nsv13/icons/obj/chairs.dmi'
 	icon_state = "shuttle_chair"
 
-/obj/structure/chair/fancy/dropship/Initialize()
+/obj/structure/chair/fancy/dropship/Initialize(mapload)
 	. = ..()
 	update_armrest()
 

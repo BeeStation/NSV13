@@ -12,7 +12,7 @@
 	light_color = LIGHT_COLOR_ORANGE
 
 
-/obj/structure/fluff/bleepypanel/Initialize()
+/obj/structure/fluff/bleepypanel/Initialize(mapload)
 	. = ..()
 	set_light(1)
 

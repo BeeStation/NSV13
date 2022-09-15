@@ -37,7 +37,7 @@
 		new /mob/living/simple_animal/hostile/dio_clown(get_turf(src))
 		clown_spawned = TRUE
 
-/mob/living/simple_animal/hostile/dio_clown/Initialize()
+/mob/living/simple_animal/hostile/dio_clown/Initialize(mapload)
 	. = ..()
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/move_react)
 

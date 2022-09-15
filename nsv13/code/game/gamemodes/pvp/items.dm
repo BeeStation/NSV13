@@ -70,7 +70,7 @@
 /obj/effect/landmark/start/nukeop/syndi_crew
 	name = "Syndicate crew"
 
-/obj/effect/landmark/start/nukeop/syndi_crew/Initialize()
+/obj/effect/landmark/start/nukeop/syndi_crew/Initialize(mapload)
 	..()
 	GLOB.syndi_crew_spawns += loc
 	return INITIALIZE_HINT_QDEL
@@ -78,7 +78,7 @@
 /obj/effect/landmark/start/nukeop/syndi_crew_leader
 	name = "Syndicate captain"
 
-/obj/effect/landmark/start/nukeop/syndi_crew_leader/Initialize()
+/obj/effect/landmark/start/nukeop/syndi_crew_leader/Initialize(mapload)
 	..()
 	GLOB.syndi_crew_leader_spawns += loc
 	return INITIALIZE_HINT_QDEL
@@ -135,7 +135,7 @@
 	ours.send_fleet(override=capturing, force=TRUE)
 	ours.gain_influence(points_per_capture)
 
-/obj/machinery/conquest_beacon/Initialize()
+/obj/machinery/conquest_beacon/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -289,7 +289,7 @@
 	req_one_access_txt = "150"
 	var/list/loadouts = list()
 
-/obj/item/ship_loadout_selector/Initialize()
+/obj/item/ship_loadout_selector/Initialize(mapload)
 	. = ..()
 	for(var/theType in typecacheof(/datum/ship_loadout))
 		loadouts += new theType
@@ -338,7 +338,7 @@
 /obj/effect/landmark/trader_drop_point
 	name = "Trader sending target"
 
-/obj/effect/landmark/trader_drop_point/Initialize()
+/obj/effect/landmark/trader_drop_point/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -433,7 +433,7 @@
 
 /obj/machinery/camera/syndicate/autoname
 	var/number = 0
-/obj/machinery/camera/syndicate/autoname/Initialize()
+/obj/machinery/camera/syndicate/autoname/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -456,7 +456,7 @@
 	syndie = 1
 	freqlock = 1
 
-/obj/item/radio/intercom/syndicate/Initialize()
+/obj/item/radio/intercom/syndicate/Initialize(mapload)
 	. = ..()
 	set_frequency(FREQ_SYNDICATE)
 

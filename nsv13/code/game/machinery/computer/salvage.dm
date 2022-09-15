@@ -26,7 +26,7 @@
 	name = "Mining EWAR Telemetry Scrambler (Circuit Board)"
 	build_path = /obj/machinery/computer/ship/salvage/mining
 
-/obj/machinery/computer/ship/salvage/Initialize()
+/obj/machinery/computer/ship/salvage/Initialize(mapload)
 	. = ..()
 	radio = new(src)
 	radio.keyslot = new radio_key

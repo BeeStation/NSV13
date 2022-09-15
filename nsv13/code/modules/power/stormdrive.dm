@@ -463,7 +463,7 @@ Control Rods
 	var/area/AR = get_area(src)
 	AR.ambient_buzz = 'nsv13/sound/ambience/shipambience.ogg'
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/Initialize()
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/Initialize(mapload)
 	. = ..()
 	radio = new(src)
 	radio.keyslot = new radio_key
@@ -1252,7 +1252,7 @@ Control Rods
 		return
 	. = ..() //parent should call ui_interact
 
-/obj/machinery/computer/ship/reactor_control_computer/Initialize()
+/obj/machinery/computer/ship/reactor_control_computer/Initialize(mapload)
 	. = ..()
 	new /obj/item/book/manual/wiki/stormdrive(get_turf(src))
 	return INITIALIZE_HINT_LATELOAD
@@ -1803,7 +1803,7 @@ Control Rods
 	icon_state = "crate"
 	w_class = WEIGHT_CLASS_GIGANTIC
 
-/obj/item/stormdrive_core/Initialize()
+/obj/item/stormdrive_core/Initialize(mapload)
 	.=..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 

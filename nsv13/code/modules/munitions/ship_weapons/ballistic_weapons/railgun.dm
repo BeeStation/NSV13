@@ -33,7 +33,7 @@
 /obj/machinery/ship_weapon/railgun/west
 	dir = WEST
 
-/obj/machinery/ship_weapon/railgun/Initialize()
+/obj/machinery/ship_weapon/railgun/Initialize(mapload)
 	..()
 	apply_default_parts()
 

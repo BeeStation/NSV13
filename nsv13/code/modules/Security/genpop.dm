@@ -102,7 +102,7 @@
 	else
 		return ..()
 
-/obj/machinery/turnstile/Initialize()
+/obj/machinery/turnstile/Initialize(mapload)
 	. = ..()
 	icon_state = "turnstile"
 
@@ -161,7 +161,7 @@
 	name = "Prisoner Management Interface (circuit)"
 	build_path = /obj/machinery/genpop_interface
 
-/obj/machinery/genpop_interface/Initialize()
+/obj/machinery/genpop_interface/Initialize(mapload)
 	. = ..()
 	update_icon()
 

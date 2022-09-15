@@ -440,7 +440,7 @@
 	icon_state = "wall"
 	var/inflatable_type = /obj/item/inflatable
 
-/obj/structure/inflatable/Initialize()
+/obj/structure/inflatable/Initialize(mapload)
 	. = ..()
 	air_update_turf(TRUE)
 
@@ -486,6 +486,6 @@
 		deflate()
 
 //this proc makes squad items take
-/obj/item/clothing/suit/ship/squad/Initialize()
+/obj/item/clothing/suit/ship/squad/Initialize(mapload)
 	. = ..()
 	allowed = GLOB.security_vest_allowed

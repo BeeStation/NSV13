@@ -130,7 +130,7 @@
 	. = ..()
 	. += "<span class ='notice'>Its ammo counter reads [turret.get_ammo()]/[turret.get_max_ammo()]. </span>"
 
-/obj/machinery/computer/anti_air/Initialize()
+/obj/machinery/computer/anti_air/Initialize(mapload)
 	. = ..()
 	turret = locate(/obj/machinery/ship_weapon/anti_air) in SSmapping.get_turf_above(src)
 

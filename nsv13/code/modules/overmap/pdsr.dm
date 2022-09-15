@@ -67,7 +67,7 @@
 
 //////General Procs///////
 
-/obj/machinery/atmospherics/components/trinary/defence_screen_reactor/Initialize()
+/obj/machinery/atmospherics/components/trinary/defence_screen_reactor/Initialize(mapload)
 	.=..()
 	OM = get_overmap()
 	OM?.shields = src

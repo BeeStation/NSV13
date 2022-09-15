@@ -101,7 +101,7 @@
 			if(WEST)
 				linked.docking_points |= get_turf(locate(25, y, z))
 
-/obj/structure/fighter_launcher/Initialize()
+/obj/structure/fighter_launcher/Initialize(mapload)
 	. = ..()
 	icon_state = "launcher"
 	linkup()

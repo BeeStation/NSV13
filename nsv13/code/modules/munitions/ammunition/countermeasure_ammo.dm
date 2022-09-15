@@ -22,7 +22,7 @@
 	pixel_x = -80
 	pixel_y = -80
 
-/obj/effect/temp_visual/countermeasure_cloud/Initialize()
+/obj/effect/temp_visual/countermeasure_cloud/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,

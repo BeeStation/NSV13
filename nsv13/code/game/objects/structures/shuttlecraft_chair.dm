@@ -29,11 +29,8 @@
 	. = ..()
 	if(building)
 		setDir(ndir)
-
-/obj/structure/chair/shuttlecraft_chair/Initialize()
 	armrest = GetArmrest()
 	armrest.layer = ABOVE_MOB_LAYER
-	return ..()
 
 /obj/structure/chair/shuttlecraft_chair/proc/GetArmrest()
 	return mutable_appearance('nsv13/icons/obj/structures/shuttlecraft_seat.dmi', "belt")
@@ -84,7 +81,7 @@
 	else
 		icon_state = "seat_up"
 
-/obj/structure/chair/shuttlecraft_chair/Initialize()
+/obj/structure/chair/shuttlecraft_chair/Initialize(mapload)
     . = ..()
     var/datum/component/riding/D = LoadComponent(/datum/component/riding)
     D.set_riding_offsets(RIDING_OFFSET_ALL, list(TEXT_NORTH = list(0, -10), TEXT_SOUTH = list(0, 10), TEXT_EAST = list(-10, 0), TEXT_WEST = list(10, 0)))

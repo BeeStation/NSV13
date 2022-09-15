@@ -131,7 +131,7 @@
 
 //Overrides
 
-/obj/machinery/ship_weapon/gauss_gun/Initialize()
+/obj/machinery/ship_weapon/gauss_gun/Initialize(mapload)
 	. = ..()
 	cabin_air = new()
 	cabin_air.set_temperature(T20C)
@@ -359,7 +359,7 @@
 	. = ..()
 	update_icon()
 
-/obj/structure/gauss_rack/Initialize()
+/obj/structure/gauss_rack/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -608,7 +608,7 @@ Chair + rack handling
 		update_armrest()
 		gun?.raise_chair()
 
-/obj/structure/chair/fancy/gauss/Initialize()
+/obj/structure/chair/fancy/gauss/Initialize(mapload)
 	. = ..()
 	add_overlay(armrest)
 	var/turf/above = SSmapping.get_turf_above(src)

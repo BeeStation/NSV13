@@ -39,7 +39,7 @@
 /obj/machinery/armour_plating_nanorepair_pump/forward_starboard //this is a preset for mapping
 	quadrant = "forward_starboard"
 
-/obj/machinery/armour_plating_nanorepair_pump/Initialize()
+/obj/machinery/armour_plating_nanorepair_pump/Initialize(mapload)
 	.=..()
 	OM = get_overmap()
 	addtimer(CALLBACK(src, .proc/handle_linking), 30 SECONDS)

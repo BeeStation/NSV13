@@ -87,7 +87,7 @@
 	icon = 'nsv13/icons/mob/bloodling.dmi'
 	icon_state = "tracks"
 
-/mob/living/simple_animal/bloodling/Initialize()
+/mob/living/simple_animal/bloodling/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/waddling)
 	biomass = GetComponent(/datum/component/bloodling)
@@ -976,7 +976,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	maxbodytemp = 1500
 	ventcrawler = TRUE
 
-/mob/living/simple_animal/bloodling_minion/Initialize()
+/mob/living/simple_animal/bloodling_minion/Initialize(mapload)
 	. = ..()
 	name = "[name] ([rand(0,1000)])"
 
@@ -1025,7 +1025,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	var/rat_spawn_delay = 2 MINUTES
 	var/next_rat_spawn = 0
 
-/obj/structure/ratwarren/Initialize()
+/obj/structure/ratwarren/Initialize(mapload)
 	. = ..()
 	next_rat_spawn = world.time + rat_spawn_delay/2 //First one's quicker.
 	START_PROCESSING(SSobj, src)

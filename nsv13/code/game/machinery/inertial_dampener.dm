@@ -35,7 +35,7 @@ GLOBAL_LIST_EMPTY(inertia_dampeners)
 	var/strengthMultiplier = 1
 	var/maxRange = 10
 
-/obj/machinery/inertial_dampener/Initialize()
+/obj/machinery/inertial_dampener/Initialize(mapload)
 	. = ..()
 	GLOB.inertia_dampeners += src
 	RefreshParts()

@@ -251,7 +251,7 @@ Bullet reactions
 /obj/effect/temp_visual/explosion_telegraph/New(loc, damage_amount)
 	. = ..()
 
-/obj/effect/temp_visual/explosion_telegraph/Initialize()
+/obj/effect/temp_visual/explosion_telegraph/Initialize(mapload)
 	. = ..()
 	set_light(4)
 	for(var/mob/M in orange(src, 3))

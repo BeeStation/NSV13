@@ -85,7 +85,7 @@
 				to_chat(AM, "<span class='warning'>You feel slightly nauseous as you're shot out into space...</span>")
 				AM.forceMove(P)
 
-/obj/machinery/ship_weapon/vls/Initialize()
+/obj/machinery/ship_weapon/vls/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,

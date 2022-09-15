@@ -427,7 +427,7 @@
 Preset classes of FTL drive with pre-programmed behaviours
 */
 
-/obj/machinery/computer/ship/ftl_computer/preset/Initialize()
+/obj/machinery/computer/ship/ftl_computer/preset/Initialize(mapload)
 	. = ..()
 	upgrade()
 
@@ -452,11 +452,11 @@ Preset classes of FTL drive with pre-programmed behaviours
 	req_access = null
 	req_one_access_txt = "31;48"
 
-/obj/machinery/computer/ship/ftl_computer/Initialize()
+/obj/machinery/computer/ship/ftl_computer/Initialize(mapload)
 	. = ..()
 	start_monitoring(get_overmap()) //I'm a lazy hack that can't actually be assed to deal with an if statement in react right now.
 
-/obj/machinery/computer/ship/ftl_computer/syndicate/Initialize()
+/obj/machinery/computer/ship/ftl_computer/syndicate/Initialize(mapload)
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -483,7 +483,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		var/datum/star_system/current_system = SSstar_system.ships[target]["current_system"]
 		tracking[target] = list("name" = target.name, "current_system" = current_system.name, "target_system" = target_system.name)
 
-/obj/machinery/computer/ship/ftl_computer/Initialize()
+/obj/machinery/computer/ship/ftl_computer/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, .proc/has_overmap), 5 SECONDS)
 	STOP_PROCESSING(SSmachines, src)
@@ -617,7 +617,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	return FALSE
 
 
-/obj/machinery/computer/ship/ftl_computer/Initialize()
+/obj/machinery/computer/ship/ftl_computer/Initialize(mapload)
 	. = ..()
 	radio = new(src)
 	radio.keyslot = new radio_key

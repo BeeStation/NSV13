@@ -12,7 +12,7 @@
 	var/mob/living/climber //Who is climbing on it
 	var/no_trolley = FALSE //Can be put on a trolley?
 
-/obj/item/ship_weapon/ammunition/Initialize()
+/obj/item/ship_weapon/ammunition/Initialize(mapload)
 	. = ..()
 	if(volatility > 0)
 		AddComponent(volatile_type, volatility, explode_when_hit, volatility_scale)

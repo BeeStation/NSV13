@@ -3,12 +3,12 @@
 	icon = 'nsv13/icons/effects/mapping_helpers.dmi'
 	icon_state = "zebra_interlock"
 
-/obj/effect/landmark/zebra_interlock_point/Initialize()
+/obj/effect/landmark/zebra_interlock_point/Initialize(mapload)
 	. = ..()
 	for(var/obj/machinery/door/firedoor/FD in get_turf(src))
 		FD.RegisterSignal(SSblackbox, COMSIG_ALERT_LEVEL_CHANGE, /obj/machinery/door/firedoor/proc/on_alert_level_change, override=TRUE) //In case you have a zebra spawner on a window, this instance of alert level change will override the old one.
 
-/obj/machinery/door/firedoor/window/Initialize()
+/obj/machinery/door/firedoor/window/Initialize(mapload)
 	. = ..()
 	RegisterSignal(SSblackbox, COMSIG_ALERT_LEVEL_CHANGE, /obj/machinery/door/firedoor/proc/on_alert_level_change, override=TRUE) //Condition zebra means all window firelocks should drop.
 

@@ -13,7 +13,7 @@
 	base_icon_state = "black"
 	initial_gas_mix = AIRLESS_ATMOS
 
-/turf/open/floor/carpet/ship/Initialize()
+/turf/open/floor/carpet/ship/Initialize(mapload)
 	. = ..()
 	canSmoothWith = typecacheof(/turf/open/floor/carpet/ship)
 

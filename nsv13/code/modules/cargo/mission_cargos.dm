@@ -10,7 +10,7 @@ Here we define the cargo crate, as well as the contents
   icon_state = "large_cargo_crate"
 
 
-/obj/structure/closet/crate/large/cargo/Initialize()
+/obj/structure/closet/crate/large/cargo/Initialize(mapload)
   . = ..()
   AddComponent(/datum/component/nsv_mission_cargo_label)
 
@@ -66,7 +66,7 @@ Here we define the cargo crate, as well as the contents
 //######### Not a nuke crate
 //############################################################################## 
 
-/obj/structure/closet/crate/large/cargo/nuke/Initialize()
+/obj/structure/closet/crate/large/cargo/nuke/Initialize(mapload)
   . = ..()
   AddComponent(/datum/component/radioactive, 75)
 
@@ -80,7 +80,7 @@ Here we define the cargo crate, as well as the contents
     qdel(src)
   return .
   
-/obj/machinery/nuclearbomb/nuke/fake_cargo/Initialize()
+/obj/machinery/nuclearbomb/nuke/fake_cargo/Initialize(mapload)
   . = ..()
   timer_set = 3600
   safety = FALSE	

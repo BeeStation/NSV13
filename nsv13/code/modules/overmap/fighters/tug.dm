@@ -94,7 +94,7 @@
 		return
 	hitch(load)
 
-/obj/vehicle/sealed/car/realistic/fighter_tug/Initialize()
+/obj/vehicle/sealed/car/realistic/fighter_tug/Initialize(mapload)
 	. = ..()
 	set_light(5)
 
