@@ -51,3 +51,12 @@
 			grant_language(/datum/language/beachbum, TRUE, TRUE, LANGUAGE_DRUGGY)
 		else
 			remove_language(/datum/language/beachbum, TRUE, TRUE, LANGUAGE_DRUGGY)
+
+ //NSV13 - kept hygiene
+/mob/living/carbon/human/proc/adjust_hygiene(amount)
+	hygiene = CLAMP(hygiene+amount, 0, HYGIENE_LEVEL_CLEAN)
+	update_smell()
+
+/mob/living/carbon/human/proc/set_hygiene(amount)
+	hygiene	 = CLAMP(amount, 0, HYGIENE_LEVEL_CLEAN)
+	update_smell()

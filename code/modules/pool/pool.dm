@@ -147,18 +147,18 @@ Place a pool filter somewhere in the pool if you want people to be able to modif
 /turf/open/indestructible/sound/pool/proc/check_clothes(mob/living/carbon/human/H)
 	if(!istype(H) || iscatperson(H)) //Don't care about non humans.
 		return FALSE
-	if(H.wear_suit && (H.wear_suit.clothing_flags))
+	if(H.wear_suit && (H.wear_suit.clothing_flags & SHOWEROKAY)) //NSV13 - kept SHOWEROKAY flag
 		// Do not check underclothing if the over-suit is suitable.
 		// This stops people feeling dumb if they're showering
 		// with a radiation suit on.
 		return FALSE
 
 	. = FALSE
-	if(!(H.wear_suit?.clothing_flags))
+	if(!(H.wear_suit?.clothing_flags & SHOWEROKAY))
 		return TRUE
-	if(!(H.w_uniform?.clothing_flags))
+	if(!(H.w_uniform?.clothing_flags & SHOWEROKAY))
 		return TRUE
-	if(!(H.head?.clothing_flags))
+	if(!(H.head?.clothing_flags & SHOWEROKAY))
 		return TRUE
 
 /obj/effect/turf_decal/pool

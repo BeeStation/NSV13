@@ -24,6 +24,7 @@ PROCESSING_SUBSYSTEM_DEF(quirks)
 		list("Ananas Affinity","Ananas Aversion"),
 		list("Alcohol Tolerance","Light Drinker"),
 		list("Social Anxiety","Mute"),
+		list("NEET", "Neat"), //NSV13 - retained hygiene
 	)
 	return ..()
 

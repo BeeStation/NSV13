@@ -163,7 +163,8 @@
 	SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_WEAK)
 	L.wash_cream()
 	L.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
-	SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower)
+	//NSV13 - you can't shower with clothes on. This is handled later.
+	//SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower)
 	if(iscarbon(L))
 		var/mob/living/carbon/M = L
 		. = TRUE
@@ -200,10 +201,16 @@
 
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
-			if (iscatperson(H)) //NSV felinids hate showers (all this really does is turn the +3 from neat into a +1, and doesn't give the +4 from a nice shower)
-				SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/hate_shower)
+			// NSV13 - kept hygiene
+			if(check_clothes(L))
+				if(H.hygiene <= 75)
+					to_chat(H, "<span class='warning'>You have to remove your clothes to get clean!</span>")
 			else
-				SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower) //End of NSV code
+				H.set_hygiene(HYGIENE_LEVEL_CLEAN)
+				if (iscatperson(H)) //NSV felinids hate showers (all this really does is turn the +3 from neat into a +1, and doesn't give the +4 from a nice shower)
+					SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/hate_shower)
+				else
+					SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower)
 
 			if(H.wear_suit && wash_obj(H.wear_suit))
 				H.update_inv_wear_suit()
@@ -221,8 +228,10 @@
 				H.update_inv_belt()
 		else
 			SEND_SIGNAL(M, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+			SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower) //NSV13 - handled mood separately due to clothes
 	else
 		SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+		SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower) //NSV13 - handled mood separately due to clothes
 
 /obj/machinery/shower/proc/contamination_cleanse(atom/thing)
 	var/datum/component/radioactive/healthy_green_glow = thing.GetComponent(/datum/component/radioactive)
@@ -258,6 +267,25 @@
 			C.adjust_bodytemperature(35, 0, 500)
 		L.adjustFireLoss(5)
 		to_chat(L, "<span class='danger'>[src] is searing!</span>")
+
+// NSV13 - kept hygiene
+/obj/machinery/shower/proc/check_clothes(mob/living/carbon/human/H)
+	if(H.wear_suit && (H.wear_suit.clothing_flags & SHOWEROKAY))
+		// Do not check underclothing if the over-suit is suitable.
+		// This stops people feeling dumb if they're showering
+		// with a radiation suit on.
+		return FALSE
+
+	. = FALSE
+	if(H.wear_suit && !(H.wear_suit.clothing_flags & SHOWEROKAY))
+		. = TRUE
+	else if(H.w_uniform && !(H.w_uniform.clothing_flags & SHOWEROKAY))
+		. = TRUE
+	else if(H.wear_mask && !(H.wear_mask.clothing_flags & SHOWEROKAY))
+		. = TRUE
+	else if(H.head && !(H.head.clothing_flags & SHOWEROKAY))
+		. = TRUE
+
 
 /obj/effect/mist
 	name = "mist"

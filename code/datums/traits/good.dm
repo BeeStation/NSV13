@@ -217,7 +217,7 @@
 
 /datum/quirk/neet
 	name = "NEET"
-	desc = "For some reason you qualified for social welfare."
+	desc = "For some reason you qualified for social welfare and you don't really care about your own personal hygiene." //NSV13 - kept hygiene
 	value = 1
 	mob_trait = TRAIT_NEET
 	gain_text = "<span class='notice'>You feel useless to society.</span>"
@@ -231,3 +231,11 @@
 	if(!D) //if their current mob doesn't have a bank account, likely due to them being a special role (ie nuke op)
 		return
 	D.welfare = TRUE
+
+// NSV13 - kept hygiene
+/datum/quirk/neet/on_process()
+	var/mob/living/carbon/human/H = quirk_holder
+	if (H.hygiene <= HYGIENE_LEVEL_DIRTY)
+		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "NEET", /datum/mood_event/happy_neet)
+	else
+		SEND_SIGNAL(H, COMSIG_CLEAR_MOOD_EVENT, "NEET")
