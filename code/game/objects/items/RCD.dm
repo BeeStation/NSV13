@@ -243,6 +243,7 @@ RLD
 	var/mutable_appearance/MA = mutable_appearance(ic, "closed")
 	if(!initial(proto.glass))
 		MA.overlays += "fill_closed"
+	proto.color = MA.color
 	//Not scaling these down to button size because they look horrible then, instead just bumping up radius.
 	return MA
 
@@ -267,7 +268,7 @@ RLD
 			computer_dir = 2
 		if("WEST")
 			computer_dir = 8
-
+/* NSV13 We don't use these airlocks. See nsv13/code/game/object/items/RCD.dm for NSV airlocks
 /obj/item/construction/rcd/proc/change_airlock_setting(mob/user)
 	if(!user)
 		return
@@ -404,7 +405,7 @@ RLD
 		else
 			airlock_type = /obj/machinery/door/airlock
 			airlock_glass = FALSE
-
+*/
 /obj/item/construction/rcd/proc/rcd_create(atom/A, mob/user)
 	var/list/rcd_results = A.rcd_vals(user, src)
 	if(!rcd_results)
