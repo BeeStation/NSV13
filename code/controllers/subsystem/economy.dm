@@ -14,9 +14,9 @@ SUBSYSTEM_DEF(economy)
 										ACCOUNT_SRV = ACCOUNT_SRV_NAME,
 										ACCOUNT_CAR = ACCOUNT_CAR_NAME,
 										ACCOUNT_SEC = ACCOUNT_SEC_NAME,
-										ACCOUNT_MUN = ACCOUNT_MUN_NAME,
-										ACCOUNT_SYN = ACCOUNT_SYN_NAME) //NSV13 Munitions and Syndicate Department added
-	var/list/nonstation_accounts = list(ACCOUNT_VIP = ACCOUNT_VIP_NAME)
+										ACCOUNT_MUN = ACCOUNT_MUN_NAME) //NSV13 Munitions
+	var/list/nonstation_accounts = list(ACCOUNT_VIP = ACCOUNT_VIP_NAME,
+										ACCOUNT_SYN = ACCOUNT_SYN_NAME) //NSV13 Syndicate
 	var/list/generated_accounts = list()
 	var/full_ancap = FALSE // Enables extra money charges for things that normally would be free, such as sleepers/cryo/cloning.
 							//Take care when enabling, as players will NOT respond well if the economy is set up for low cash flows.
@@ -66,7 +66,6 @@ SUBSYSTEM_DEF(economy)
 	var/datum/bank_account/civ = get_dep_account(ACCOUNT_CIV)
 	var/datum/bank_account/car = get_dep_account(ACCOUNT_CAR)
 	var/datum/bank_account/mun = get_dep_account(ACCOUNT_MUN) //NSV13
-	var/datum/bank_account/syn = get_dep_account(ACCOUNT_SYN) //NSV13
 
 	var/departments = 0
 
@@ -86,7 +85,6 @@ SUBSYSTEM_DEF(economy)
 		departments += 2
 	if(mun) //NSV13
 		departments += 2
-	//NSV13 if we added syndicate here it would make everyone get slightly less money during PVP. Wack!
 
 	var/parts = round(amount / departments)
 
@@ -98,7 +96,6 @@ SUBSYSTEM_DEF(economy)
 	var/civilian_cash = parts
 	var/cargo_cash = parts * 2
 	var/munitions_cash = parts * 2 //NSV13
-	var/syndicate_cash = parts * 4 //NSV13
 
 	eng?.adjust_money(engineering_cash)
 	sec?.adjust_money(security_cash)
@@ -108,10 +105,12 @@ SUBSYSTEM_DEF(economy)
 	civ?.adjust_money(civilian_cash)
 	car?.adjust_money(cargo_cash)
 	mun?.adjust_money(munitions_cash) //NSV13
-	syn?.adjust_money(syndicate_cash) //NSV13
 
 	// VIP budget will not dry
 	var/datum/bank_account/vip = get_dep_account(ACCOUNT_VIP)
 	vip?.adjust_money(cargo_cash)
+	// NSV13 - nor will the syndicate
+	var/datum/bank_account/syn = get_dep_account(ACCOUNT_MUN)
+	syn?.adjust_money(cargo_cash)
 
 #undef VIP_BUDGET_BASE
