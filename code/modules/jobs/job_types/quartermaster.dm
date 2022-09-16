@@ -6,7 +6,7 @@
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	supervisors = "the executive officer" //NSV13
+	supervisors = "the " + JOB_NAME_HEADOFPERSONNEL //NSV13
 	selection_color = "#d7b088"
 	exp_requirements = 600
 	exp_type = EXP_TYPE_SUPPLY

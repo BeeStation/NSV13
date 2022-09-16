@@ -6,7 +6,7 @@
 	faction = "Station"
 	total_positions = 3
 	spawn_positions = 2
-	supervisors = "the head of personnel"
+	supervisors = "the " + JOB_NAME_HEADOFPERSONNEL //NSV13
 	selection_color = "#bbe291"
 
 	outfit = /datum/outfit/job/botanist

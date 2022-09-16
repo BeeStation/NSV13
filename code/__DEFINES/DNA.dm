@@ -127,6 +127,7 @@
 #define NOHUSK			20 // Can't be husked.
 #define NOMOUTH			21
 #define NOSOCKS       22 // You cannot wear socks.
+#define DRINKSBLOOD		23 // NSV13 - moths like drinking blood
 
 //organ slots
 #define ORGAN_SLOT_BRAIN "brain"

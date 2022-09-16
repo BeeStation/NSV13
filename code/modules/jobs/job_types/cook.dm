@@ -6,7 +6,7 @@
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 1
-	supervisors = "the head of personnel"
+	supervisors = "the " + JOB_NAME_HEADOFPERSONNEL //NSV13
 	selection_color = "#bbe291"
 	var/cooks = 0 //Counts cooks amount
 

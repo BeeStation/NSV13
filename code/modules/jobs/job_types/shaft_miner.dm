@@ -6,7 +6,7 @@
 	faction = "Station"
 	total_positions = 4
 	spawn_positions = 4
-	supervisors = "the quartermaster and the Executive Officer"
+	supervisors = "the quartermaster and the " + JOB_NAME_HEADOFPERSONNEL //NSV13
 	selection_color = "#dcba97"
 
 	outfit = /datum/outfit/job/miner

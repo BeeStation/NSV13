@@ -6,7 +6,7 @@
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	supervisors = "the Executive Officer"
+	supervisors = "the " + JOB_NAME_HEADOFPERSONNEL //NSV13
 	selection_color = "#dddddd"
 
 	outfit = /datum/outfit/job/clown/delinquent //NSV13 - Modded clown outfit to be a jojo reference

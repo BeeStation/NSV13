@@ -50,7 +50,7 @@ In addition to VSCode, several other tools exist to make your life easier.
 * Icon editing - Dream Maker or your image editor of choice. Any PNG can be imported into Dream Maker.
 
 ## 4. Code Standards
-There are a variety of ways you can write valid DM code. However, BeeStation is not as lenient. Maintaining good code standards is important for performance and readability reasons. You can find details about our code standards [here](https://github.com/BeeStation/BeeStation-Hornet/wiki/Code-Standards).
+There are a variety of ways you can write valid DM code. However, BeeStation is not as lenient. Maintaining good code standards is important for performance and readability reasons. You can find details about our code standards [here](https://nsv.beestation13.com/wiki/Coding_Standards).
 
 They are mostly the same as /tg/station's code standards, though we are not quite as strict about enforcing them. A notable example is that we don't require our code to be thoroughly documented for autodoc.
 

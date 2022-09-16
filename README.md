@@ -31,12 +31,6 @@ You will find `BUILD.bat` in the root folder of NSV13, double-clicking it will i
 **You can no longer compile the codebase simply through Dream Maker**.
 **Building NSV13 in DreamMaker directly is now deprecated and might produce errors**, such as `'tgui.bundle.js': cannot find file`.
 
-<<<<<<<
-**[How to compile in VSCode and other build options](tools/build/README.md).**
-=======
-**Building Beestation in Dream Maker directly is now deprecated and might produce errors**, such as `'tgui.bundle.js': cannot find file`.
->>>>>>>
-
 ### Building with VSCode (Preferred)
 
 **[How to compile in VSCode and other build options](tools/build/README.md).**

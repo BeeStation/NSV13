@@ -13,6 +13,9 @@
 	var/obj/item/legcuffed = null  //Same as handcuffs but for legs. Bear traps use this.
 
 	var/disgust = 0
+	// NSV13 - kept hygiene but moved it to carbon so olfaction works
+	// Only human procs actually change your hygiene though
+	var/hygiene = HYGIENE_LEVEL_NORMAL
 
 //inventory slots
 	var/obj/item/back = null

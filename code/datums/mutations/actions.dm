@@ -23,7 +23,7 @@
 	var/reek = 200
 
 // NSV13 - kept hygiene
-/datum/mutation/human/olfaction/on_life()
+/datum/mutation/olfaction/on_life()
 	var/hygiene_now = owner.hygiene
 
 	if(hygiene_now < 100 && prob(3))

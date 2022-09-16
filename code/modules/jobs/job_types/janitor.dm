@@ -6,7 +6,7 @@
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 1
-	supervisors = "the executive officer" //NSV13
+	supervisors = "the " + JOB_NAME_HEADOFPERSONNEL //NSV13
 	selection_color = "#bbe291"
 
 	outfit = /datum/outfit/job/janitor

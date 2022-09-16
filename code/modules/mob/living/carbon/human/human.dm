@@ -736,7 +736,7 @@
 	set_heartattack(FALSE)
 	drunkenness = 0
 	set_hygiene(HYGIENE_LEVEL_NORMAL) //NSV13 - kept hygiene
-	for(var/datum/mutation/human/HM as() in dna.mutations)
+	for(var/datum/mutation/HM as() in dna.mutations)
 		if(HM.quality != POSITIVE)
 			dna.remove_mutation(HM.name)
 	..()
