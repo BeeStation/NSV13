@@ -1389,14 +1389,15 @@
 /turf/open/floor/plasteel/ship,
 /area/maintenance/nsv/deck2/frame5/starboard)
 "aLB" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer4{
-	dir = 1
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 4
 	},
-/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer2{
-	dir = 1
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 4
 	},
-/turf/closed/wall/r_wall,
-/area/engine/atmos)
+/turf/open/floor/plating,
+/area/nsv/weapons)
 "aLF" = (
 /obj/machinery/disposal/bin,
 /obj/structure/sign/plaques/deempisi{
@@ -4259,8 +4260,12 @@
 	},
 /area/nsv/briefingroom)
 "ckv" = (
-/obj/machinery/atmospherics/pipe/multiz/layer4,
-/obj/machinery/atmospherics/pipe/multiz/layer2,
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame5/port)
 "ckB" = (
@@ -8834,9 +8839,13 @@
 /turf/open/floor/monotile/steel,
 /area/hydroponics)
 "ePx" = (
-/obj/machinery/atmospherics/pipe/multiz/layer2,
-/obj/machinery/atmospherics/pipe/multiz/layer4,
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "eQb" = (
@@ -25798,6 +25807,12 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame2/central)
 "nVs" = (
@@ -27631,8 +27646,12 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/multiz/layer4,
-/obj/machinery/atmospherics/pipe/multiz/layer2,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/visible/layer2{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame2/starboard)
 "oSc" = (
@@ -30925,7 +30944,9 @@
 /turf/open/floor/light,
 /area/nsv/weapons/gauss/battery)
 "qDO" = (
-/obj/machinery/atmospherics/pipe/multiz/layer2,
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/mine/laborcamp/security)
 "qDX" = (
@@ -31775,8 +31796,12 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/multiz/layer4,
-/obj/machinery/atmospherics/pipe/multiz/layer2,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 8
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/maintenance/nsv/deck2/frame2/central)
 "rfi" = (
@@ -32696,7 +32721,9 @@
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger)
 "rIi" = (
-/obj/machinery/atmospherics/pipe/multiz/layer4,
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/mine/laborcamp/security)
 "rIo" = (
@@ -43310,6 +43337,15 @@
 /area/crew_quarters/bar{
 	name = "Night Club"
 	})
+"xuQ" = (
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck2/frame2/starboard)
 "xuS" = (
 /turf/closed/wall/steel,
 /area/security/processing)
@@ -68049,7 +68085,7 @@ suu
 cES
 gDF
 ckv
-aLB
+jKt
 rFj
 mUv
 gch
@@ -84274,7 +84310,7 @@ lGt
 pLt
 nZN
 wjA
-huS
+xuQ
 tKJ
 sdB
 ihU
@@ -98898,7 +98934,7 @@ wab
 qjl
 cNr
 aDc
-rMz
+aLB
 qLA
 iyu
 gUc

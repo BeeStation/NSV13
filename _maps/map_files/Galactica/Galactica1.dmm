@@ -1569,11 +1569,14 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "et" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/layer4{
-	dir = 1
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 8
 	},
-/turf/closed/wall/r_wall,
-/area/mine/laborcamp/security)
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/port/fore)
 "eu" = (
 /obj/machinery/power/port_gen/pacman,
 /obj/structure/cable{
@@ -3662,10 +3665,14 @@
 /turf/open/floor/plasteel/ship,
 /area/engine/storage_shared)
 "kr" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer4,
-/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer2,
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 4
+	},
 /turf/open/floor/plating,
-/area/maintenance/nsv/deck1/port/aft)
+/area/maintenance/nsv/hangar)
 "ks" = (
 /obj/structure/sign/directions/command{
 	dir = 4
@@ -4603,7 +4610,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/multiz/layer2,
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/mine/laborcamp/security)
 "mI" = (
@@ -6568,8 +6577,12 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/multiz/layer2,
-/obj/machinery/atmospherics/pipe/multiz/layer4,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/fore)
 "sp" = (
@@ -9697,11 +9710,14 @@
 /turf/closed/wall/steel,
 /area/maintenance/nsv/deck1/port/aft)
 "AV" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/layer2{
-	dir = 1
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 4
 	},
-/turf/closed/wall/r_wall,
-/area/mine/laborcamp/security)
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/starboard/fore)
 "AW" = (
 /obj/structure/rack,
 /obj/item/clothing/suit/ship/squad,
@@ -9734,15 +9750,6 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/engine/break_room)
-"Bb" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer4{
-	dir = 1
-	},
-/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer2{
-	dir = 1
-	},
-/turf/closed/wall/r_wall,
-/area/maintenance/nsv/deck1/starboard/fore)
 "Bc" = (
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hor)
@@ -11351,11 +11358,6 @@
 /obj/machinery/light,
 /turf/open/openspace/airless,
 /area/nsv/hanger/notkmcstupidhanger)
-"Fw" = (
-/obj/machinery/atmospherics/pipe/multiz/layer4,
-/obj/machinery/atmospherics/pipe/multiz/layer2,
-/turf/open/floor/plating,
-/area/maintenance/nsv/hangar)
 "Fx" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/carpet/green,
@@ -14629,8 +14631,12 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/central)
 "NU" = (
-/obj/machinery/atmospherics/pipe/multiz/layer2,
-/obj/machinery/atmospherics/pipe/multiz/layer4,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 9
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard/fore)
 "NV" = (
@@ -14752,10 +14758,10 @@
 /area/maintenance/nsv/deck1/port/fore)
 "Oq" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
-	dir = 8
+	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
-	dir = 8
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/hangar)
@@ -15379,7 +15385,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
 	},
-/obj/machinery/atmospherics/pipe/multiz/layer4,
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/mine/laborcamp/security)
 "PW" = (
@@ -17489,11 +17497,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
-"VN" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer4,
-/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer2,
-/turf/closed/wall/r_wall,
-/area/maintenance/nsv/hangar)
 "VO" = (
 /turf/closed/wall/r_wall,
 /area/bridge/cic)
@@ -42359,7 +42362,7 @@ xT
 Zg
 Zg
 Co
-kr
+FG
 aj
 ra
 ra
@@ -58586,7 +58589,7 @@ AO
 Gg
 jn
 jn
-jn
+AV
 jn
 jn
 Zg
@@ -58844,7 +58847,7 @@ Qd
 RA
 yV
 NU
-Bb
+jn
 Zg
 Zg
 Zg
@@ -59255,7 +59258,7 @@ Dh
 Vl
 ah
 mH
-AV
+Yf
 SM
 mf
 Sw
@@ -59512,7 +59515,7 @@ KQ
 QH
 FL
 PV
-et
+Yf
 Sw
 mf
 Sw
@@ -63178,7 +63181,7 @@ lN
 OP
 OP
 OP
-OP
+et
 OP
 OP
 gn
@@ -73211,7 +73214,7 @@ iB
 iB
 Vw
 lM
-lM
+kr
 lM
 bk
 Gf
@@ -73466,8 +73469,8 @@ Zg
 WS
 iB
 iB
-VN
-Fw
+Vw
+lM
 Oq
 Zp
 Ur

@@ -84,9 +84,11 @@
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "as" = (
-/obj/machinery/atmospherics/pipe/simple/multiz,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
@@ -264,9 +266,11 @@
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
 "bq" = (
-/obj/machinery/atmospherics/pipe/layer_manifold,
-/turf/closed/wall/r_wall,
-/area/maintenance/central)
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "bu" = (
 /obj/effect/turf_decal/tile/ship/red{
 	dir = 8
@@ -836,7 +840,9 @@
 /turf/open/floor/monotile/dark,
 /area/maintenance/department/engine)
 "eJ" = (
-/obj/machinery/atmospherics/pipe/simple/multiz,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "eP" = (
@@ -854,14 +860,12 @@
 /turf/open/floor/plasteel/white,
 /area/medical/apothecary)
 "eU" = (
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/structure/hull_plate,
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 6
-	},
-/turf/open/floor/plating,
-/area/maintenance/central)
+/turf/open/floor/engine/airless,
+/area/space/nearstation)
 "eX" = (
 /obj/structure/lattice/catwalk,
 /turf/open/openspace,
@@ -873,12 +877,12 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/miningdock)
 "fc" = (
-/obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/preopen{
 	id = "ceprivacy";
 	name = "Chief Engineer's privacy shutter"
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "fh" = (
@@ -1021,6 +1025,9 @@
 /area/medical/virology)
 "ge" = (
 /obj/machinery/light_switch/north,
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "gf" = (
@@ -1078,9 +1085,6 @@
 /turf/open/floor/monotile/steel,
 /area/maintenance/department/engine)
 "gz" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -1447,16 +1451,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
-"iv" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 10
-	},
-/obj/machinery/atmospherics/pipe/simple/multiz,
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plating,
-/area/maintenance/central)
 "iC" = (
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
@@ -1615,11 +1609,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/central)
-"jH" = (
-/obj/machinery/atmospherics/pipe/simple/multiz,
-/obj/structure/hull_plate,
-/turf/open/floor/engine/airless,
-/area/space/nearstation)
 "jK" = (
 /obj/item/ship_weapon/ammunition/torpedo/freight,
 /obj/machinery/door/window/westleft{
@@ -1706,11 +1695,14 @@
 /turf/closed/wall/r_wall,
 /area/ai_monitored/turret_protected/ai)
 "ks" = (
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/maintenance/central)
@@ -2164,10 +2156,6 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/apothecary)
-"mS" = (
-/obj/machinery/atmospherics/pipe/simple/multiz,
-/turf/open/floor/plating,
-/area/maintenance/central)
 "mV" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -3022,10 +3010,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 9
-	},
 /obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -3086,12 +3074,6 @@
 /obj/machinery/newscaster/security_unit/north,
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger)
-"sK" = (
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/maintenance/central)
 "sM" = (
 /obj/effect/turf_decal/tile/ship/red{
 	dir = 8
@@ -3192,15 +3174,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
-"tg" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 5
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 9
-	},
-/turf/open/floor/plating,
-/area/maintenance/central)
 "ti" = (
 /obj/structure/ladder,
 /obj/structure/cable{
@@ -3268,12 +3241,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/cmo)
-"tF" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 9
-	},
-/turf/open/floor/plating,
-/area/maintenance/central)
 "tH" = (
 /obj/structure/cable{
 	icon_state = "0-8"
@@ -3717,8 +3684,10 @@
 /turf/open/floor/carpet/royalblack,
 /area/crew_quarters/heads/chief)
 "wr" = (
-/obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/structure/hull_plate,
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 1
+	},
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "ws" = (
@@ -4847,10 +4816,10 @@
 /turf/open/floor/monotile/steel,
 /area/maintenance/department/engine)
 "DB" = (
-/obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "DG" = (
@@ -5794,7 +5763,6 @@
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
 "IK" = (
-/obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -5803,6 +5771,7 @@
 	id = "ceprivacy";
 	name = "Chief Engineer's privacy shutter"
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "IO" = (
@@ -8741,7 +8710,7 @@
 /turf/open/floor/plasteel/dark,
 /area/maintenance/department/engine)
 "Yp" = (
-/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "Yr" = (
@@ -28968,7 +28937,7 @@ ec
 ec
 ZT
 BN
-gM
+bq
 gM
 ZX
 vW
@@ -43865,7 +43834,7 @@ zQ
 zQ
 zQ
 Hl
-eU
+dL
 sn
 sk
 sk
@@ -44378,9 +44347,9 @@ zQ
 zQ
 zQ
 zQ
-bq
-iv
-tg
+Hl
+dL
+sk
 gm
 gm
 gm
@@ -44637,7 +44606,7 @@ zQ
 zQ
 Hl
 kJ
-sK
+sk
 gm
 sI
 rh
@@ -44892,9 +44861,9 @@ zQ
 zQ
 zQ
 zQ
-bq
-mS
-tF
+Hl
+sk
+sk
 gm
 em
 ng
@@ -59303,8 +59272,8 @@ Nf
 Nf
 dr
 wr
-jH
-wr
+vO
+vO
 vO
 Hc
 zQ
@@ -59559,9 +59528,9 @@ vO
 vO
 vO
 We
-wr
-jH
-wr
+eU
+vO
+vO
 vO
 PD
 zQ

@@ -1665,7 +1665,7 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "fE" = (
@@ -2009,9 +2009,6 @@
 	icon_state = "1-16"
 	},
 /obj/machinery/light_switch/west,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 5
-	},
 /turf/open/floor/plating{
 	icon_state = "platingdmg1"
 	},
@@ -2061,12 +2058,6 @@
 /obj/machinery/recharger,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
-"gK" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 10
-	},
-/turf/closed/wall/r_wall,
-/area/maintenance/nsv/deck2/port)
 "gN" = (
 /obj/structure/shuttle/engine/huge{
 	dir = 8
@@ -4521,7 +4512,6 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "ox" = (
@@ -4644,9 +4634,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 9
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
@@ -8950,12 +8937,6 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/nsv/hanger/mining)
-"DI" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 6
-	},
-/turf/closed/wall/r_wall,
-/area/maintenance/nsv/deck2/port)
 "DM" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -9642,9 +9623,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 9
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 5
-	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "Gt" = (
@@ -9917,7 +9895,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "Hv" = (
@@ -10258,12 +10236,6 @@
 /obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/engine,
 /area/quartermaster/storage)
-"IO" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 10
-	},
-/turf/closed/wall/r_wall,
-/area/maintenance/nsv/deck2/port)
 "IQ" = (
 /turf/open/floor/plating{
 	icon_state = "platingdmg1"
@@ -11189,7 +11161,6 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "LL" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/plating{
 	icon_state = "platingdmg2"
 	},
@@ -11390,9 +11361,6 @@
 	},
 /obj/structure/closet/crate,
 /obj/effect/spawner/lootdrop/maintenance/three,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 9
-	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "Mt" = (
@@ -11541,7 +11509,9 @@
 	},
 /area/maintenance/department/engine/atmos)
 "MV" = (
-/obj/machinery/atmospherics/pipe/simple/multiz,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 6
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "MW" = (
@@ -12347,8 +12317,11 @@
 	},
 /area/nsv/hanger/mining)
 "PL" = (
-/obj/machinery/atmospherics/pipe/simple/multiz,
 /obj/machinery/airalarm/directional/north,
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/multiz/layer4,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "PO" = (
@@ -13756,16 +13729,6 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/monotile/dark,
 /area/security/brig)
-"Uj" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck2/port)
 "Ul" = (
 /obj/structure/closet/secure_closet/genpop,
 /obj/structure/window/reinforced{
@@ -14989,12 +14952,6 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
-"YG" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden{
-	dir = 6
-	},
-/turf/closed/wall/r_wall,
-/area/maintenance/nsv/deck2/port)
 "YH" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Pressurization Chamber";
@@ -15202,7 +15159,6 @@
 	icon_state = "0-2"
 	},
 /obj/machinery/power/apc/auto_name/north,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "Zr" = (
@@ -45061,7 +45017,7 @@ kD
 kH
 bh
 wV
-YG
+kH
 Zp
 ov
 gB
@@ -45318,7 +45274,7 @@ gS
 kH
 bh
 Yt
-IO
+kH
 MV
 fD
 oR
@@ -45575,7 +45531,7 @@ gS
 kH
 ah
 dM
-DI
+kH
 PL
 Hu
 Gs
@@ -45832,9 +45788,9 @@ vj
 kH
 bh
 iw
-gK
+kH
 LL
-Uj
+fz
 Ms
 wd
 Jf
