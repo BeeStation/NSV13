@@ -463,7 +463,7 @@
 /obj/structure/overmap/syndicate/ai/kadesh/on_interdict()
 	add_sensor_profile_penalty(150, 10 SECONDS)
 
-/obj/structure/overmap/hostile/ai/fistofsol
+/obj/structure/overmap/syndicate/ai/fistofsol
 	name = "\improper SSV Fist of Sol"
 	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
 	icon_state = "tuningfork"
