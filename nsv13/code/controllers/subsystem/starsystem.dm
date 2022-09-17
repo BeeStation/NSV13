@@ -1,4 +1,4 @@
-*GLOBAL_VAR_INIT(crew_transfer_risa, FALSE)
+GLOBAL_VAR_INIT(crew_transfer_risa, FALSE)
 
 #define COMBAT_CYCLE_INTERVAL 180 SECONDS	//Time between each 'combat cycle' of starsystems. Every combat cycle, every system that has opposing fleets in it gets iterated through, with the fleets firing at eachother.
 
