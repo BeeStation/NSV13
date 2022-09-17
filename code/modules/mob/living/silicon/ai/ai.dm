@@ -170,7 +170,8 @@
 	builtInCamera.network = list("ss13")
 	//Nsv13
 	for(var/stype in subtypesof(/datum/component/simple_teamchat/radio_dependent/squad))
-		AddComponent(stype)
+		AddComponent(stype, override = TRUE)
+	update_overmap() //AIs don't move, so we do this here.
 
 	//Nsv13 end
 
