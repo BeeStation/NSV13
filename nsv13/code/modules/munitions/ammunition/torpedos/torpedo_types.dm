@@ -61,8 +61,17 @@
 	icon = 'nsv13/icons/obj/munition_types.dmi'
 	icon_state = "incendiary"
 	desc = "A plasma enriched incendiary torpedo, designed for maximum subsystem damage."
-	projectile_type = /obj/item/projectile/guided_munition/torpedo/hellfire
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/hellfire/player_version
+	volatile_type = /datum/component/volatile/helltorp
 	volatility = 4
+
+/obj/item/ship_weapon/ammunition/torpedo/proto_disruption
+	name = "\improper NTP-I1x 'EMP' 400mm Disruption Torpedo"
+	icon_state = "disruption"
+	desc = "A torpedo with an EMP payload designed for wreaking havoc in ship electronics."
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/disruptor/prototype
+	volatility = 2
+	volatile_type = /datum/component/volatile/emptorp
 
 /* Retired for the moment, this will return in a new flavour
 //The alpha torpedo
