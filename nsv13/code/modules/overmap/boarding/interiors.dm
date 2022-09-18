@@ -39,6 +39,9 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 				for(var/turf/T as () in boarding_interior.get_affected_turfs(target)) //nuke
 					T.empty()
 					CHECK_TICK
+				for(var/entry as() in interior_entry_points)
+					docking_points -= entry
+				QDEL_LIST(interior_entry_points)
 			//Free the reservation.
 			QDEL_NULL(roomReservation)
 			boarding_interior = null
