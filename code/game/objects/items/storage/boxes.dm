@@ -1326,6 +1326,7 @@
 	new /obj/item/encryptionkey/heads/ce(src)
 	new /obj/item/encryptionkey/heads/cmo(src)
 	new /obj/item/encryptionkey/heads/hop(src)
+	new /obj/item/encryptionkey/heads/master_at_arms(src) //NSV13 - added MAA
 	new /obj/item/encryptionkey/headset_com(src)
 	new /obj/item/encryptionkey/amplification(src)
 
@@ -1375,3 +1376,4 @@
 	new /obj/item/encryptionkey/heads/ce/fake(src)
 	new /obj/item/encryptionkey/heads/cmo/fake(src)
 	new /obj/item/encryptionkey/heads/hop/fake(src)
+	new /obj/item/encryptionkey/heads/master_at_arms/fake(src) //NSV13 - added MAA
