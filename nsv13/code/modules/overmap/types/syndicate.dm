@@ -524,12 +524,12 @@
 	ai_controlled = TRUE
 	armor = list("overmap_light" = 99, "overmap_medium" = 70, "overmap_heavy" = 65)
 	can_resupply = TRUE
-	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
+	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/carrier
 	ai_can_launch_fighters = TRUE
 	ai_fighter_type = list(/obj/structure/overmap/hostile/ai/fighter)
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
-	flak_battery_amount = 2
+	flak_battery_amount = 3
 
 /obj/structure/overmap/hostile/ai/alicorn/Initialize()
 	. = ..()
