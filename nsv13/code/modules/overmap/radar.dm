@@ -23,8 +23,11 @@
 	var/showEnemies= 100
 	var/showAsteroids = 100 //add planets to this eventually.
 	var/showAnomalies = 100
-	var/sensor_range = SENSOR_RANGE_DEFAULT //In tiles. How far your sensors can pick up precise info about ships.
+	var/sensor_range = 0 //Automatically set to equal base sensor range on init.
+	var/base_sensor_range = SENSOR_RANGE_DEFAULT //In tiles. How far your sensors can pick up precise info about ships.
 	var/zoom_factor = 0.5 //Lets you zoom in / out on the DRADIS for more precision, or for better info.
+	var/zoom_factor_min = 0.25
+	var/zoom_factor_max = 2
 	var/next_hail = 0
 	var/hail_range = 50 //Decent distance.
 	//For traders. Lets you link supply pod beacons to designate where traders land.
@@ -49,7 +52,7 @@
 	var/next_pulse = OM.last_radar_pulse + radar_delay
 	if(world.time >= next_pulse)
 		return TRUE
-f
+
 /obj/machinery/computer/ship/dradis/minor/can_radar_pulse()
 	return FALSE
 
@@ -87,13 +90,12 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/proc/send_radar_pulse()
 	var/obj/structure/overmap/OM = get_overmap()
-	if(!can_radar_pulse())
+	if(!OM || !can_radar_pulse())
 		return FALSE
-	OM?.send_radar_pulse()
-	var/stored = sensor_range
-	addtimer(VARSET_CALLBACK(src, sensor_range, stored), RADAR_VISIBILITY_PENALTY)
+	OM.send_radar_pulse()
+	addtimer(VARSET_CALLBACK(src, sensor_range, base_sensor_range), RADAR_VISIBILITY_PENALTY)
 	sensor_range = world.maxx
-	OM?.add_sensor_profile_penalty(sensor_range, RADAR_VISIBILITY_PENALTY)
+	OM.add_sensor_profile_penalty(sensor_range, RADAR_VISIBILITY_PENALTY)
 
 /obj/machinery/computer/ship/dradis/examine(mob/user)
 	. = ..()
@@ -105,7 +107,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	if(istype(W, /obj/item/supplypod_beacon))
 		var/obj/item/supplypod_beacon/sb = W
 		if(linked?.dradis != src)
-			to_chat(user, "<span class='warning'>Supplypod beacons can only be linked to the primary DRADIS of a ship (try the one in CIC?).")
+			to_chat(user, "<span class='warning'>Supplypod beacons can only be linked to the primary DRADIS of a ship (try the one in CIC?).</span>")
 			return FALSE
 		if (sb.express_console != src)
 			sb.link_console(src, user)
@@ -116,11 +118,54 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/multitool_act(mob/living/user, obj/item/I)
 	usingBeacon = !usingBeacon
-	to_chat(user, "<span class='sciradio'>You switch [src]'s trader delivery location to [usingBeacon ? "target supply beacons" : "target the default landing location on your ship"]")
-	return FALSE
+	to_chat(user, "<span class='sciradio'>You switch [src]'s trader delivery location to [usingBeacon ? "target supply beacons" : "target the default landing location on your ship"]</span>")
+	return TRUE
 
-/obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge.
-	name = "\improper Air traffic control console"
+/obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge. All secondary dradis consoles should be a subtype of this
+	name = "air traffic control console"
+
+/obj/machinery/computer/ship/dradis/minor/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight
+	name = "\improper Cargo freight delivery console"
+	circuit = /obj/item/circuitboard/computer/ship/dradis/cargo
+	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/linked_launcher = null
+	var/dradis_id = null
+
+/obj/machinery/computer/ship/dradis/minor/cargo/Initialize()
+	. = ..()
+	var/obj/item/paper/paper = new /obj/item/paper(get_turf(src))
+	paper.info = ""
+	paper.info += "<h2>How to perform deliveries with the Cargo DRADIS</h2>"
+	paper.info += "<hr/><br/>"
+	paper.info += "Step 1: Find or build a freight torpedo.<br/><br/>"
+	paper.info += "Step 2: Load your contents directly into the freight torpedo. Or load your contents into a crate, then load the crate into the freight torpedo (click drag the object onto the torpedo).<br/><br/>"
+	paper.info += "Step 3: Load the freight torpedo into the Cargo freight launcher (click drag the torpedo onto the launcher). You may need to use a munitions trolley to move the freight torpedo closer.<br/><br/>"
+	paper.info += "Step 4: Use the munitions console to load the payload, chamber the payload, and disable weapon safeties.<br/><br/>"
+	paper.info += "Step 5: Put on hearing protection gear, such as earmuffs.<br/><br/>"
+	paper.info += "Step 6: Navigate to the cargo DRADIS, and click on the recipient. If the payload is malformed or not chambered, an error will display. If the payload is properly chambered, a final confirmation will display. Click Yes.<br/><br/>"
+	paper.update_icon()
+	sensor_range = hail_range
+
+	if(!linked_launcher)
+		if(dradis_id) //If mappers set an ID
+			for(var/obj/machinery/ship_weapon/torpedo_launcher/cargo/W in GLOB.machines)
+				if(W.launcher_id == dradis_id && W.z == z)
+					linked_launcher = W
+					W.linked_dradis = src
+
+/obj/machinery/computer/ship/dradis/minor/cargo/multitool_act(mob/living/user, obj/item/I)
+	// Allow relinking a console's cargo launcher
+	var/obj/item/multitool/P = I
+	// Check to make sure the buffer is a valid cargo launcher before acting on it
+	if( ( multitool_check_buffer(user, I) && istype( P.buffer, /obj/machinery/ship_weapon/torpedo_launcher/cargo ) ) )
+		var/obj/machinery/ship_weapon/torpedo_launcher/cargo/launcher = P.buffer
+		launcher.linked_dradis = src
+		linked_launcher = launcher
+		P.buffer = null
+		to_chat(user, "<span class='notice'>Buffer transferred</span>")
+		return TRUE
+	// Call the parent proc and allow supply beacon swaps
+	else
+		return ..()
 
 /obj/machinery/computer/ship/dradis/mining
 	name = "mining DRADIS computer"
@@ -133,7 +178,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	name = "integrated dradis console"
 	use_power = 0
 	start_with_sound = FALSE
-	sensor_range = SENSOR_RANGE_FIGHTER
+	base_sensor_range = SENSOR_RANGE_FIGHTER
 	hail_range = 30
 
 /obj/machinery/computer/ship/dradis/internal/has_overmap()
@@ -141,7 +186,6 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/minor/set_position(obj/structure/overmap/OM)
 	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/reset_dradis_contacts, override=TRUE)
-	return
 
 /datum/looping_sound/dradis
 	mid_sounds = list('nsv13/sound/effects/ship/dradis.ogg')
@@ -160,6 +204,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/Initialize()
 	. = ..()
+	sensor_range = base_sensor_range
 
 /obj/machinery/computer/ship/dradis/attack_hand(mob/user)
 	. = ..()
@@ -179,19 +224,22 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	return TRUE
 
 /obj/machinery/computer/ship/dradis/ui_state(mob/user)
-	return  GLOB.always_state
-
+	return GLOB.always_state
 
 /obj/machinery/computer/ship/dradis/ui_interact(mob/user, datum/tgui/ui)
 	if(!has_overmap())
+		to_chat(user, "<span class='warning'>Failed to initiate ship connection.</span>")
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "Dradis")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Contact positions
 
-/obj/machinery/computer/ship/dradis/ui_act(action, params, datum/tgui/ui)
+/obj/machinery/computer/ship/dradis/ui_act(action, params)
 	. = ..()
+	if(isobserver(usr))
+		return
 	if(.)
 		return
 	if(!has_overmap())
@@ -200,27 +248,21 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	alphaSlide = CLAMP(alphaSlide, 0, 100) //Just in case we have a malformed input.
 	switch(action)
 		if("showFriendlies")
-			if(!alphaSlide)
-				return
 			showFriendlies = alphaSlide
 		if("showEnemies")
-			if(!alphaSlide)
-				return
 			showEnemies = alphaSlide
 		if("showAsteroids")
-			if(!alphaSlide)
-				return
 			showAsteroids = alphaSlide
 		if("showAnomalies")
-			if(!alphaSlide)
-				return
 			showAnomalies = alphaSlide
 		if("zoomout")
-			zoom_factor -= 0.5
-			zoom_factor = (zoom_factor >= 0.5) ? zoom_factor : 0.5
+			zoom_factor = clamp(zoom_factor - zoom_factor_min, zoom_factor_min, zoom_factor_max)
 		if("zoomin")
-			zoom_factor += 0.5
-			zoom_factor = (zoom_factor <= 2) ? zoom_factor : 2
+			zoom_factor = clamp(zoom_factor + zoom_factor_min, zoom_factor_min, zoom_factor_max)
+		if("setZoom")
+			if(!params["zoom"])
+				return
+			zoom_factor = clamp(params["zoom"] / 100, zoom_factor_min, zoom_factor_max)
 		if("hail")
 			var/obj/structure/overmap/target = locate(params["target"])
 			if(!target) //Anomalies don't count.
@@ -230,8 +272,12 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			if(target == linked)
 				return
 			next_hail = world.time + 10 SECONDS //I hate that I need to do this, but yeah.
-			if(get_dist(target, linked) <= hail_range)
-				target.try_hail(usr, linked)
+			if(overmap_dist(target, linked) <= hail_range)
+				if ( istype( src, /obj/machinery/computer/ship/dradis/minor/cargo ) )
+					var/obj/machinery/computer/ship/dradis/minor/cargo/console = src // Must cast before passing into proc
+					target.try_deliver( usr, console )
+				else
+					target.try_hail(usr, linked)
 		if("radar_pulse")
 			send_radar_pulse()
 		if("sensor_mode")
@@ -240,8 +286,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			var/newDelay = input(usr, "Set a new radar delay (seconds)", "Radar Delay", null) as num|null
 			if(!newDelay)
 				return
-			newDelay = newDelay SECONDS
-			newDelay = CLAMP(newDelay, MIN_RADAR_DELAY, MAX_RADAR_DELAY)
+			newDelay = CLAMP(newDelay SECONDS, MIN_RADAR_DELAY, MAX_RADAR_DELAY)
 			radar_delay = newDelay
 
 /obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
@@ -261,10 +306,10 @@ Called by add_sensor_profile_penalty if remove_in is used.
 //Cloaking and sensors!
 
 /obj/structure/overmap/proc/is_sensor_visible(obj/structure/overmap/observer) //How visible is this enemy ship to sensors? Sometimes ya gotta get real up close n' personal.
-	var/dist = get_dist(src, observer)
+	var/dist = overmap_dist(src, observer)
 	if(dist <= 0)
 		dist = 1
-	var/distance_factor = (1/dist) //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
+	var/distance_factor = 1 / dist //Visibility inversely scales with distance. If you get too close to a target, even with a stealth ship, you'll ping their sensors.
 	//If we fired off a radar, we're visible to _every ship_
 	if(last_radar_pulse+RADAR_VISIBILITY_PENALTY > world.time)
 		return SENSOR_VISIBILITY_FULL
@@ -279,30 +324,19 @@ Called by add_sensor_profile_penalty if remove_in is used.
 		if(251 to 255)
 			return SENSOR_VISIBILITY_FULL
 
-/obj/structure/overmap
-	var/cloak_factor = SENSOR_VISIBILITY_GHOST
-
 /obj/structure/overmap/proc/handle_cloak(state)
 	set waitfor = FALSE
 	switch(state)
 		if(TRUE)
-			while(alpha > cloak_factor)
-				stoplag()
-				alpha -= 5
+			animate(src, 15, alpha = cloak_factor)
 			mouse_opacity = FALSE
-			return
 		if(FALSE)
-			while(alpha < 255)
-				stoplag()
-				alpha += 5
+			animate(src, 15, alpha = 255)
 			mouse_opacity = TRUE
-			return
 		if(CLOAK_TEMPORARY_LOSS) //Flicker the cloak so that you can fire.
 			if(alpha >= 255) //No need to re-cloak us if we were never cloaked...
 				return
-			while(alpha < 255)
-				stoplag()
-				alpha += 15
+			animate(src, 15, alpha = 255)
 			mouse_opacity = TRUE
 			addtimer(CALLBACK(src, .proc/handle_cloak, TRUE), 15 SECONDS)
 
@@ -313,10 +347,10 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	for(var/obj/effect/overmap_anomaly/OA in linked?.current_system?.system_contents)
 		if(OA && istype(OA) && OA.z == linked?.z)
 			blips.Add(list(list("x" = OA.x, "y" = OA.y, "colour" = "#eb9534", "name" = "[(OA.scanned) ? OA.name : "anomaly"]", opacity=showAnomalies*0.01, alignment = "uncharted")))
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Iterate through overmaps in the world!
-		var/sensor_visible = (OM != linked && OM.faction != linked.faction) ? ((get_dist(linked, OM) > max(sensor_range * 2, OM.sensor_profile)) ? 0 : OM.is_sensor_visible(linked)) : SENSOR_VISIBILITY_FULL //You can always see your own ship, or allied, cloaked ships.
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Iterate through overmaps in the world! - Needs to go through global overmaps since it may be on a ship's z level or in hyperspace.
+		var/sensor_visible = (OM != linked && OM.faction != linked.faction) ? ((overmap_dist(linked, OM) > max(sensor_range * 2, OM.sensor_profile)) ? 0 : OM.is_sensor_visible(linked)) : SENSOR_VISIBILITY_FULL //You can always see your own ship, or allied, cloaked ships.
 		if(OM.z == linked.z && sensor_visible >= SENSOR_VISIBILITY_FAINT)
-			var/inRange = (get_dist(linked, OM) <= max(sensor_range,OM.sensor_profile)) || OM.faction == linked.faction	//Allies broadcast encrypted IFF so we can see them anywhere.
+			var/inRange = (overmap_dist(linked, OM) <= max(sensor_range,OM.sensor_profile)) || OM.faction == linked.faction	//Allies broadcast encrypted IFF so we can see them anywhere.
 			var/thecolour = "#FFFFFF"
 			var/filterType = showEnemies
 			if(istype(OM, /obj/structure/overmap/asteroid))
@@ -359,6 +393,8 @@ Called by add_sensor_profile_penalty if remove_in is used.
 		visible_message("<span class='warning'>[icon2html(src, viewers(src))] [delta <= 1 ? "DRADIS contact" : "Multiple DRADIS contacts"]</span>")
 		playsound(src, 'nsv13/sound/effects/ship/contact.ogg', 100, FALSE)
 	data["zoom_factor"] = zoom_factor
+	data["zoom_factor_min"] = zoom_factor_min
+	data["zoom_factor_max"] = zoom_factor_max
 	data["focus_x"] = linked.x
 	data["focus_y"] = linked.y
 	data["ships"] = blips //Create a category in data called "ships" with our 2-d arrays.
@@ -368,11 +404,14 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	data["showAnomalies"] = showAnomalies
 	data["sensor_range"] = sensor_range
 	data["width_mod"] = sensor_range / SENSOR_RANGE_DEFAULT
-	data["can_radar_pulse"] = can_radar_pulse()
 	data["sensor_mode"] = (sensor_mode == SENSOR_MODE_PASSIVE) ? "Passive Radar" : "Active Radar"
 	data["pulse_delay"] = "[radar_delay / 10]"
-	if(sensor_mode == SENSOR_MODE_RADAR)
-		send_radar_pulse()
+	if(can_radar_pulse())
+		data["can_radar_pulse"] = TRUE
+		if(sensor_mode == SENSOR_MODE_RADAR && !isobserver(user))
+			send_radar_pulse()
+	else
+		data["can_radar_pulse"] = FALSE
 	return data
 
 /datum/asset/simple/overmap_flight

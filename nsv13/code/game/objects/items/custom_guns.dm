@@ -37,7 +37,8 @@
 /obj/item/projectile/bullet/peacekeeper
 	name = "6mm tungsten round"
 	damage = 10 //Hopefully making it bias towards armorpen should make it less likely to kill people straight out.
-	armour_penetration = 60
+	armour_penetration = 30
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "pdc"
 
 /obj/item/projectile/bullet/peacekeeper/stun
@@ -56,19 +57,14 @@
 	icon_state = "peacekeeper_stun"
 	ammo_type = /obj/item/ammo_casing/peacekeeper
 	caliber = "6mm"
-	max_ammo = 30
+	max_ammo = 75
 
 /obj/item/ammo_box/magazine/peacekeeper/lethal
 	name = "pinned M2A45 pulse rifle magazine (lethal)"
 	icon_state = "peacekeeper"
 	ammo_type = /obj/item/ammo_casing/peacekeeper/lethal
 	caliber = "6mm"
-	max_ammo = 10
-
-/obj/item/ammo_box/magazine/peacekeeper/lethal/unpinned
-	name = "M2A45 pulse rifle magazine (lethal)"
-	max_ammo = 30
-
+	max_ammo = 75
 
 /obj/item/ammo_box/magazine/peacekeeper/update_icon()
 	..()
@@ -76,3 +72,70 @@
 		icon_state = "[initial(icon_state)]-20"
 	else
 		icon_state = "[initial(icon_state)]-0"
+
+/obj/item/gun/ballistic/automatic/mp_smg
+	name = "MP-16A4 'peacemaker' military police SMG"
+	desc = "A bullpup style 9mm SMG used by peacekeeping forces. While bulky, it's an imposing weapon designed to instill order into the masses."
+	icon = 'nsv13/icons/obj/guns/guns_big.dmi'
+	icon_state = "mp16"
+	item_state = "mp16"
+	mag_type = /obj/item/ammo_box/magazine/smgm9mm
+	can_suppress = TRUE
+	w_class = WEIGHT_CLASS_BULKY //Too big for a backpack. Can fit on your belt or back.
+	fire_delay = 1
+	fire_rate = 4
+	burst_size = 1
+	can_bayonet = TRUE
+	knife_x_offset = 25
+	knife_y_offset = 12
+	mag_display = TRUE
+	mag_display_ammo = FALSE
+	empty_indicator = FALSE
+	weapon_weight = WEAPON_HEAVY
+	fire_sound = 'nsv13/sound/weapons/smg_fire.ogg'
+	recoil = 0.2 //Tiny jolt when you fire it.
+	full_auto = TRUE
+
+/obj/item/gun/ballistic/automatic/marine_rifle
+	name = "M4A-16A1 assault rifle"
+	desc = "A 5.56mm caliber assault rifle used by Blue Phalanx marines in boarding operations. While it's a relatively old-fashioned design, it's proven cheap to mass produce and exceptionally reliable."
+	icon = 'nsv13/icons/obj/guns/guns_big.dmi'
+	icon_state = "m4a4"
+	item_state = "m4a4"
+	mag_type = /obj/item/ammo_box/magazine/m556
+	can_suppress = TRUE
+	w_class = WEIGHT_CLASS_HUGE //Too big for a backpack. Can fit on your belt or back.
+	fire_delay = 1
+	burst_size = 1
+	fire_rate = 4
+	can_bayonet = TRUE
+	knife_x_offset = 25
+	knife_y_offset = 12
+	mag_display = TRUE
+	mag_display_ammo = FALSE
+	empty_indicator = FALSE
+	weapon_weight = WEAPON_HEAVY
+	fire_sound = 'nsv13/sound/weapons/rifle_fire.ogg'
+	recoil = 0.5 //BANG
+	full_auto = TRUE
+	pixel_x = -4
+	pin = /obj/item/firing_pin/boarding
+/obj/item/gun/ballistic/shotgun/automatic/pistol
+	name = "\improper Solir 4 revolver hybrid"
+	desc = "A retro high-powered shotgun revolver typically used by high ranking officials. Uses shells."
+	icon_state = "shotgunpistol"
+	weapon_weight = WEIGHT_CLASS_NORMAL
+	rack_sound = 'sound/weapons/revolverdry.ogg'
+	bolt_type = BOLT_TYPE_NO_BOLT
+	semi_auto = TRUE
+	fire_rate = 1.5
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/com
+	pin = /obj/item/firing_pin/implant/pindicate
+
+/obj/item/ammo_box/shotgun_lethal
+	name = "speed loader (buckshot)"
+	desc = "Designed to quickly reload shell-based revolvers."
+	icon_state = "shotlethal"
+	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
+	max_ammo = 6
+	multiple_sprites = 1

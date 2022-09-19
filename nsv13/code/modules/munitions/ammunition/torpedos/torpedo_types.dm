@@ -48,12 +48,6 @@
 	desc = "A heavy torpedo which is enriched with depleted uranium, allowing it to penetrate heavy armour plates."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/shredder
 
-/obj/item/projectile/guided_munition/torpedo/shredder
-	icon_state = "torpedo_shredder"
-	name = "plasma charge"
-	damage = 175
-	armour_penetration = 20
-
 //A dud missile designed to exhaust flak
 /obj/item/ship_weapon/ammunition/torpedo/decoy
 	name = "\improper NTP-0x 'DCY' 530mm electronic countermeasure"
@@ -62,12 +56,24 @@
 	desc = "A simple electronic countermeasure packed inside a standard torpedo casing. This model excels at diverting enemy PDC emplacements away from friendly ships, or even another barrage of missiles."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/decoy
 
-/obj/item/projectile/guided_munition/torpedo/decoy
-	icon_state = "torpedo"
-	damage = 0
-	obj_integrity = 200
-	max_integrity = 200
+/obj/item/ship_weapon/ammunition/torpedo/hellfire
+	name = "\improper NTP-6 'HLLF' 600mm Plasma Incendiary Torpedo"
+	icon = 'nsv13/icons/obj/munition_types.dmi'
+	icon_state = "incendiary"
+	desc = "A plasma enriched incendiary torpedo, designed for maximum subsystem damage."
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/hellfire/player_version
+	volatile_type = /datum/component/volatile/helltorp
+	volatility = 4
 
+/obj/item/ship_weapon/ammunition/torpedo/proto_disruption
+	name = "\improper NTP-I1x 'EMP' 400mm Disruption Torpedo"
+	icon_state = "disruption"
+	desc = "A torpedo with an EMP payload designed for wreaking havoc in ship electronics."
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/disruptor/prototype
+	volatility = 2
+	volatile_type = /datum/component/volatile/emptorp
+
+/* Retired for the moment, this will return in a new flavour
 //The alpha torpedo
 /obj/item/ship_weapon/ammunition/torpedo/nuke
 	name = "\improper NTNK 'Oncoming Storm' 700mm thermonuclear warhead"
@@ -76,31 +82,19 @@
 	desc = "The NTX-class IV nuclear torpedo carries a fissionable payload which is capable of inflicting catastrophic damage against enemy ships, stations or dense population centers. These weapons are utterly without mercy and will annihilate indiscriminately, use with EXTREME caution."
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/nuclear
 	volatility = 5
+*/
 
-/obj/item/projectile/guided_munition/torpedo/nuclear
-	icon_state = "torpedo_nuke"
-	name = "thermonuclear cruise missile"
-	damage = 600
-	impact_effect_type = /obj/effect/temp_visual/nuke_impact
-	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
-
-//What you get from an incomplete torpedo.
-/obj/item/projectile/guided_munition/torpedo/dud
-	icon_state = "torpedo_dud"
-	damage = 0
-
-
-/obj/item/ship_weapon/ammunition/torpedo/nuke/antonio
+/obj/item/ship_weapon/ammunition/torpedo/hellfire/antonio
 	name = "Antonio"
 
-/obj/item/ship_weapon/ammunition/torpedo/nuke/antonio/examine(mob/user)
+/obj/item/ship_weapon/ammunition/torpedo/hellfire/antonio/examine(mob/user)
 	.=..()
 	. += "<span class='notice'> This is Antonio, the MAA's loyal companion.</span>"
 
-/obj/item/ship_weapon/ammunition/torpedo/nuke/fabio
+/obj/item/ship_weapon/ammunition/torpedo/hellfire/fabio
 	name = "Fabio"
 
-/obj/item/ship_weapon/ammunition/torpedo/nuke/fabio/examine(mob/user)
+/obj/item/ship_weapon/ammunition/torpedo/hellfire/fabio/examine(mob/user)
 	.=..()
 	. += "<span class='notice'> This is Fabio, Antonio's Evil Brother.</span>"
 
@@ -125,10 +119,12 @@
 
 /obj/item/ship_weapon/ammunition/torpedo/freight/MouseDrop_T(atom/dropping, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	try_load(dropping, user)
 
 /obj/item/ship_weapon/ammunition/torpedo/freight/proc/try_load(atom/movable/what, mob/user)
-	if(contents?.len >= max_stuff)
+	if(length(contents) >= max_stuff)
 		to_chat(user, "<span class='warning'>[src] is already full!</span>")
 		return
 	if(isturf(what) || what.anchored || what.move_resist > user.move_force)
@@ -137,7 +133,7 @@
 	visible_message("<span class='danger'>[user] starts to stuff [what] into [src]!</span>",\
 		"<span class='italics'>You start to stuff [user] into [src]...</span>")
 	if(do_after(user, 5 SECONDS, target = src))
-		if(contents?.len >= max_stuff)
+		if(length(contents) >= max_stuff)
 			to_chat(user, "<span class='warning'>[src] is already full!</span>")
 			return
 		if(isitem(what))
@@ -179,10 +175,9 @@
 /obj/item/projectile/guided_munition/torpedo/post/proc/foo()
 	new /mob/living/carbon/human(src)
 	for(var/obj/structure/overmap/OM in orange(5, src))
-		if(istype(OM))
-			var/angle = Get_Angle(src, OM)
-			setup_collider()
-			fire(angle)
+		var/angle = Get_Angle(src, OM)
+		setup_collider()
+		fire(angle)
 
 /obj/item/projectile/guided_munition/torpedo/post/check_faction(atom/movable/A)
 	var/obj/structure/overmap/OM = A

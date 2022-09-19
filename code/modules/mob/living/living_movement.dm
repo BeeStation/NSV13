@@ -2,20 +2,17 @@
 	. = ..()
 	update_turf_movespeed(loc)
 
-/mob/living/CanPass(atom/movable/mover, turf/target)
-	if((mover.pass_flags & PASSMOB))
-		return TRUE
-	if(istype(mover, /obj/item/projectile))
-		var/obj/item/projectile/P = mover
-		return !P.can_hit_target(src, P.permutated, src == P.original, TRUE)
+/mob/living/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(.)
+		return
 	if(mover.throwing)
 		return (!density || !(mobility_flags & MOBILITY_STAND) || (mover.throwing.thrower == src && !ismob(mover)))
 	if(buckled == mover)
 		return TRUE
-	if(ismob(mover))
-		if(mover in buckled_mobs)
-			return TRUE
-	return (!mover.density || !density || !(mobility_flags & MOBILITY_STAND))
+	if(ismob(mover) && (mover in buckled_mobs))
+		return TRUE
+	return !mover.density || !(mobility_flags & MOBILITY_STAND)
 
 /mob/living/toggle_move_intent()
 	. = ..()
@@ -60,4 +57,10 @@
 	remove_movespeed_modifier(MOVESPEED_ID_BULKY_DRAGGING)
 
 /mob/living/canZMove(dir, turf/target)
-	return can_zTravel(target, dir) && (movement_type & FLYING)
+	return can_zTravel(target, dir) && (movement_type & (FLYING | FLOATING)) //NSV13 - added floating so that you can push up and down stairs when gravity goes out
+
+/mob/living/zMove(dir, feedback = FALSE)
+	if(dir != UP && dir != DOWN)
+		return FALSE
+	var/turf/source = get_turf(src)
+	source.travel_z(src, get_step_multiz(src, dir), (dir == UP))

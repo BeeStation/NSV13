@@ -33,9 +33,16 @@
 	fits_type = /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
 	build_path = /obj/item/ship_weapon/ammunition/torpedo/freight
 
-/obj/item/ship_weapon/parts/missile/warhead/nuclear
-	name = "nuclear torpedo warhead"
+/obj/item/ship_weapon/parts/missile/warhead/hellfire
+	name = "hellfire torpedo warhead"
 	icon_state = "warhead_nuclear"
-	desc = "An advanced warhead which carries a nuclear fission explosive. Torpedoes equipped with these can quickly annihilate targets with extreme prejudice, however they are extremely costly to produce."
+	desc = "An advanced warhead which carries a plasma enriched incendiary device. Torpedoes equipped with these can quickly annihilate targets with extreme prejudice, however they are extremely costly to produce."
 	fits_type = /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
-	build_path = /obj/item/ship_weapon/ammunition/torpedo/nuke
+	build_path = /obj/item/ship_weapon/ammunition/torpedo/hellfire
+
+/obj/item/ship_weapon/parts/missile/warhead/proto_disruption
+	name = "prototype disruption torpedo warhead"
+	icon_state = "warhead_disruption"
+	desc = "A prototype warhead which carries an uranium-iron core EMP payload based on recovered syndicate duds. Causes a significant electromagnetic pulse upon detonation capable of causing havoc in ship systems."
+	fits_type = /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
+	build_path = /obj/item/ship_weapon/ammunition/torpedo/proto_disruption

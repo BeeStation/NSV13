@@ -15,6 +15,7 @@
 #define ROLE_INCURSION			"Incursion Team"
 #define ROLE_REV				"Revolutionary"
 #define ROLE_REV_HEAD			"Head Revolutionary"
+#define ROLE_REV_SUCCESSFUL		"Victorious Revolutionary"
 #define ROLE_ALIEN				"Xenomorph"
 #define ROLE_PAI				"pAI"
 #define ROLE_CULTIST			"Cultist"
@@ -44,6 +45,7 @@
 
 #define ROLE_SYNDI_CREW			"Syndicate crew" //Nsv13 - added pvp role
 #define ROLE_BLOODLING			"Bloodling" //Nsv13 - Bloodling
+#define ROLE_GHOSTSHIP			"Ghost Ship" //NSV13 - Playable "NPC" ships
 
 //Missing assignment means it's not a gamemode specific role, IT'S NOT A BUG OR ERROR.
 //The gamemode specific ones are just so the gamemodes can query whether a player is old enough
@@ -76,9 +78,9 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_HOLOPARASITE,
 	ROLE_HERETIC = /datum/game_mode/heretics,
 	ROLE_SYNDI_CREW = /datum/game_mode/pvp, //NSV13
-	ROLE_TERATOMA,
-	ROLE_SYNDI_CREW = /datum/game_mode/pvp, //NSV13
-	ROLE_BLOODLING = /datum/game_mode/bloodling //NSV13
+	ROLE_BLOODLING = /datum/game_mode/bloodling, //NSV13
+	ROLE_GHOSTSHIP, //NSV13
+	ROLE_TERATOMA
 ))
 //nsv13 - pvp + bloodling modes added here
 

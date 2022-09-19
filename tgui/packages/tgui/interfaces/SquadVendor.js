@@ -1,3 +1,5 @@
+// NSV13
+
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
 import { Box, Button, LabeledList, NumberInput, Section } from '../components';
@@ -12,46 +14,45 @@ export const SquadVendor = (props, context) => {
       width={600}
       height={800}>
       <Window.Content scrollable>
-        { !!data.debug && (
-          <Section title="Equipment Loans:">
-            {Object.keys(data.loaned_info).map(key => {
-              let value = data.loaned_info[key];
-              return (
-                <Section key={key} title={value.name+" - "+value.squad}>
-                  Loaned item:
-                  <Button
-                    fluid
-                    content={value.itemName}
-                    icon="box"
-                    color={!!value.dangerous && "bad"}
-                    tooltip={value.itemContents}
-                  />
-                  Options:
-                  <Button
-                    fluid
-                    content="Release loan"
-                    icon="times"
-                    onClick={() => act('releaseLoan', { member_id: value.id })}
-                    tooltip="Cancel this loan and allow this person to retrieve another kit." />
-                </Section>
-              );
-            })}
-          </Section>
+        <br />
+        {!!data.already_loaned && (
+          <Section title="You have already withdrawn kit" buttons={
+            <>
+              <Button
+                color="average"
+                content="Return Loaned Equipment"
+                tooltip="Place all loaned equipment in your backpack and click this button to return your gear."
+                onClick={() => act('return_gear')}
+              />
+              <Button
+                color="average"
+                content="Pay lost item fee"
+                onClick={() => act('pay_fine')}
+              />
+            </>
+          } />
+
         )}
-        <Section title="Available items:">
-          {Object.keys(data.categories).map(key => {
-            let value = data.categories[key];
+        <Section title="Available kits:">
+          {"Welcome " + data.user_name}
+          <br />
+          {Object.keys(data.kits).map(key => {
+            let value = data.kits[key];
             return (
-              <Section key={key} title={value.name}>
+              <Section key={key} title={value.name} buttons={
                 <Button
-                  fluid
+                  disabled={!!data.already_loaned}
                   content="Vend"
                   icon="eject"
-                  onClick={() => act('eject', { item_id: value.id })} />
+                  onClick={() => act('vend', { item_id: value.id })} />
+              }>
+                {value.desc}
+
               </Section>
             );
           })}
         </Section>
+
       </Window.Content>
     </Window>
   );

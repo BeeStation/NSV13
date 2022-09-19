@@ -5,8 +5,8 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 //Define your teamchat keys here. Used to index each teamchat.
 #define TEAMCHAT_KEY_DEFAULT "Default Teamchat"
 #define TEAMCHAT_KEY_BLOODLING "Alien Hivemind"
-#define TEAMCHAT_KEY_APPLES "Apples"
-#define TEAMCHAT_KEY_BUTTER "Butter"
+#define TEAMCHAT_KEY_ABLE "Able"
+#define TEAMCHAT_KEY_BAKER "Baker"
 #define TEAMCHAT_KEY_CHARLIE "Charlie"
 #define TEAMCHAT_KEY_DUFF "Duff"
 
@@ -43,9 +43,13 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	var/icon_icon = 'nsv13/icons/mob/actions/actions_teamchat.dmi'
 	var/button_icon_state = null //The button's icon_state
 	var/background_icon_state = null
-	var/list/sound_on_send = null //Play a sound when they're messaging this channel?
-	var/list/sound_on_receipt = null //Play a sound when a message is received by someone? (WARNING: MAY GET ANNOYING)
-	var/telepathic = TRUE //Should the user speak their message when they enter it? Or if youre mimicking radio, can it be heard "in your head" or over a comm.
+	var/max_message_length = MAX_MESSAGE_LEN
+	var/list/sound_on_send = null /// Play a sound when they're messaging this channel?
+	var/list/sound_on_receipt = null /// Play a sound when a message is received by someone? (WARNING: MAY GET ANNOYING)
+	var/list/sound_on_failure = null /// Play a sound when a message cannot be received
+	var/telepathic = TRUE /// Should the user speak their message when they enter it? Or if youre mimicking radio, can it be heard "in your head" or over a comm.
+	var/text_span_style = "boldnotice"
+	var/last_message = "<span class='notice'>No new messages.</span>"
 
 /datum/component/simple_teamchat/proc/get_user()
 	RETURN_TYPE(/mob/living)
@@ -84,7 +88,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	qdel(chatAction)
 
 /datum/component/simple_teamchat/proc/finalise_chat()
-	LAZYADD(GLOB.simple_teamchats[key], src)
+	LAZYOR(GLOB.simple_teamchats[key], src)
 
 //For "radios". You keep
 /datum/component/simple_teamchat/proc/on_equip(datum/source, mob/equipper, slot)
@@ -92,7 +96,11 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	if(slot && slot == ITEM_SLOT_BACKPACK)
 		on_drop(source, equipper)
 		return
-	chatAction.Grant(equipper)
+	if(has_send_permission(source, equipper))
+		chatAction.Grant(equipper)
+
+/datum/component/simple_teamchat/proc/has_send_permission(datum/source, mob/equipper)
+	return TRUE
 
 /datum/component/simple_teamchat/proc/on_drop(datum/source, mob/user)
 	chatAction.Remove(user)
@@ -109,8 +117,8 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 
 /datum/component/simple_teamchat/proc/style_message(atom/movable/sender, msg)
 	if(isatom(sender))
-		return "<span class='boldnotice'>([key]) [sender.compose_rank(sender)] [sender]: </span><span class='warning'>[msg]</span>"
-	return "<span class='boldnotice'>([key]) [sender]: </span><span class='warning'>[msg]</span>"
+		return "<span class='[text_span_style]'>([key]) [sender.compose_rank(sender)] [sender]: </span><span class='warning'>[msg]</span>"
+	return "<span class='[text_span_style]'>([key]) [sender]: </span><span class='warning'>[msg]</span>"
 
 //Overloadable method, see the radio dependent teamchat.
 /datum/component/simple_teamchat/proc/can_message()
@@ -119,9 +127,13 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 /datum/component/simple_teamchat/proc/enter_message(datum/user)
 	if(!can_message())
 		return FALSE
-	var/str = stripped_input(user,"Enter a message:", "[key]", "", MAX_MESSAGE_LEN)
+	var/str = input(user, "Enter a message:", "[key]", null) as text|null
 	if(!str)
 		return FALSE
+	if(length(str) > max_message_length)
+		to_chat(user, "<span class='warning'>Your message \"[str]\" of [length(str)] characters exceeded maximum length of [max_message_length].</span>")
+		return FALSE
+	str = copytext(html_encode(str), 1, max_message_length)
 	log_say("[key]: [user] transmitted: [str]")
 	send_message(user, str)
 
@@ -140,27 +152,36 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 
 
 /datum/component/simple_teamchat/proc/receive_message(atom/movable/sender, text, list/receipt_sound_override)
+	if(length(text) > max_message_length)
+		text = copytext(text, 1, max_message_length)
+	text = style_message(sender, text)
+	last_message = text
+
 	var/mob/user = get_user()
 	if(!isliving(user))
 		return FALSE
 
-	text = style_message(sender, text)
 	if(!receipt_sound_override)
 		receipt_sound_override = sound_on_receipt
 	if(receipt_sound_override && isatom(user))
 		playsound(user.loc, pick(receipt_sound_override), 100, 1)
 	if(telepathic)
 		to_chat(user, text)
-	else
+	else if(isliving(user))
 		//You can hear the sound coming out the radio...
 		user.visible_message(text, \
 							text, null, 1)
+	return TRUE
+
+/datum/component/simple_teamchat/proc/show_last_message(mob/user)
+	user.visible_message(last_message, last_message, null, 1)
 
 //Teamchat that behaves just like a radio would.
 
 /datum/component/simple_teamchat/radio_dependent
 	telepathic = FALSE
 	sound_on_receipt = list('sound/effects/radio1.ogg','sound/effects/radio2.ogg')
+	sound_on_failure = list('nsv13/sound/effects/radiostatic.ogg')
 
 /datum/component/simple_teamchat/radio_dependent/can_message()
 	var/obj/machinery/telecomms/relay/ourBroadcaster = null
@@ -175,41 +196,70 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	if(ourBroadcaster && ourBroadcaster.on)
 		return TRUE
 	//Play a static sound to signify that it failed.
-	if(isatom(get_user()))
-		playsound(get_user().loc, 'nsv13/sound/effects/radiostatic.ogg', 100, FALSE)
+	if(isatom(get_user()) && length(sound_on_failure))
+		playsound(get_user().loc, pick(sound_on_failure), 100, FALSE)
 	return FALSE
 
 /datum/component/simple_teamchat/radio_dependent/squad
 	var/datum/squad/squad = null
 	dupe_mode = COMPONENT_DUPE_ALLOWED //For the global squad pager.
+	telepathic = TRUE // Not really but it *is* text-based
+	sound_on_receipt = list('sound/machines/twobeep.ogg')
+	sound_on_failure = null
+	max_message_length = 120 // It's a pager, the screen's not that big
+	var/override_send_permission = FALSE //For AI and global pagers
 
-/datum/component/simple_teamchat/radio_dependent/squad/Apples
-	name = "Apples Squad"
-	button_icon_state = "Apples"
-	key = TEAMCHAT_KEY_APPLES
+/datum/component/simple_teamchat/radio_dependent/squad/Initialize(override = FALSE)
+	. = ..()
+	if(override)
+		override_send_permission = TRUE
 
-/datum/component/simple_teamchat/radio_dependent/squad/Butter
-	name = "Butter Squad"
-	button_icon_state = "Butter"
-	key = TEAMCHAT_KEY_BUTTER
+/datum/component/simple_teamchat/radio_dependent/squad/has_send_permission(datum/source, mob/equipper)
+	if(override_send_permission || (squad && equipper && (squad.leader == equipper)))
+		return TRUE
+	return FALSE
+
+/datum/component/simple_teamchat/radio_dependent/squad/proc/recursive_get_loc(atom/movable/thing)
+	if(!istype(thing))
+		return
+	if(isliving(thing.loc) || isturf(thing.loc))
+		return thing
+	return recursive_get_loc(thing.loc)
+
+/datum/component/simple_teamchat/radio_dependent/squad/receive_message(atom/movable/sender, text, list/receipt_sound_override)
+	. = ..()
+	if(!.)
+		var/atom/movable/container = recursive_get_loc(parent)
+		container?.balloon_alert_to_viewers("[container] buzzes.")
+
+/datum/component/simple_teamchat/radio_dependent/squad/Able
+	name = "Able Squad"
+	button_icon_state = "Able"
+	key = TEAMCHAT_KEY_ABLE
+	text_span_style = "ableradio"
+
+/datum/component/simple_teamchat/radio_dependent/squad/Baker
+	name = "Baker Squad"
+	button_icon_state = "Baker"
+	key = TEAMCHAT_KEY_BAKER
+	text_span_style = "bakerradio"
 
 /datum/component/simple_teamchat/radio_dependent/squad/Charlie
 	name = "Charlie Squad"
 	button_icon_state = "Charlie"
 	key = TEAMCHAT_KEY_CHARLIE
+	text_span_style = "charlieradio"
 
 /datum/component/simple_teamchat/radio_dependent/squad/Duff
 	name = "Duff Squad"
 	button_icon_state = "Duff"
 	key = TEAMCHAT_KEY_DUFF
+	text_span_style = "duffradio"
 
 /datum/component/simple_teamchat/radio_dependent/squad/style_message(atom/movable/sender, msg)
 	if(isatom(sender))
-		return "<span class='boldnotice'>([key]) [sender.compose_rank(sender)] [sender] ([sender == squad?.leader ? "SL" : "M"]): </span><span class='warning'>[msg]</span>"
-	return "<span class='boldnotice'>([key]) [sender] (Overwatch): </span><span class='warning'>[msg]</span>"
-
-//datum/component/simple_teamchat/radio_dependent/squad/style_message(atom/movable/sender, msg)
-	//return "<span style=\"color:[squad.colour]><b>([key]) [sender.compose_rank(sender)][sender == squad.leader ? " (SL) " : ""]:</b> <i>[msg]</i></span>"
+		return "<span class='[text_span_style]'><b>([key]) [sender.compose_rank(sender)][sender]</b>[sender == squad?.leader ? " <b>(SL)</b>" : ""]: [msg]</span>"
+	return "<span class='[text_span_style]'><b>([key]) [sender] (Overwatch)</b>: [msg]</span>"
 
 /datum/component/simple_teamchat/bloodling
 	background_icon_state = "bg_changeling"

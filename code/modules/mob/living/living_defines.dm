@@ -48,8 +48,6 @@
 
 	var/now_pushing = null //used by living/Bump() and living/PushAM() to prevent potential infinite loop.
 
-	var/cameraFollow = null
-
 	var/tod = null // Time of death
 
 	var/on_fire = 0 //The "Are we on fire?" var
@@ -78,6 +76,9 @@
 	var/list/butcher_results = null //these will be yielded from butchering with a probability chance equal to the butcher item's effectiveness
 	var/list/guaranteed_butcher_results = null //these will always be yielded from butchering
 	var/butcher_difficulty = 0 //effectiveness prob. is modified negatively by this amount; positive numbers make it more difficult, negative ones make it easier
+
+	//LETTING SIMPLE ANIMALS ATTACK? WHAT COULD GO WRONG. Defaults to zero so Ian can still be cuddly
+	var/melee_damage = 0
 
 	var/hellbound = 0 //People who've signed infernal contracts are unrevivable.
 
@@ -132,3 +133,7 @@
 	var/icon/held_rh = 'icons/mob/pets_held_rh.dmi'
 	var/icon/head_icon = 'icons/mob/pets_held.dmi'//what it looks like on your head
 	var/held_state = ""//icon state for the above
+
+	//is mob player controllable
+	var/playable = FALSE
+	var/flavor_text = FLAVOR_TEXT_NONE

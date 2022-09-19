@@ -8,8 +8,9 @@
 	anchored = TRUE
 	var/obj/item/pda/storedpda = null
 	var/obj/item/card/id/storedid = null
+	//Nsv13 - Crayon eaters & MPs
 	var/pda_icons = list(
-		"Assistant" = "pda",
+		"Midshipman" = "pda", //NSV13 - midshipmen
 		"Atmospheric Technician" = "pda-atmos",
 		"Bartender" = "pda-bartender",
 		"Botanist" = "pda-hydro",
@@ -25,7 +26,7 @@
 		"Detective" = "pda-detective",
 		"Engineer" = "pda-engineer",
 		"Geneticist" = "pda-genetics",
-		"Head of Personnel" = "pda-hop",
+		"Executive Officer" = "pda-hop", //NSV13 - XO
 		"Head of Security" = "pda-hos",
 		"Lawyer" = "pda-lawyer",
 		"Janitor" = "pda-janitor",
@@ -35,12 +36,12 @@
 		"Research Director" = "pda-rd",
 		"Roboticist" = "pda-roboticist",
 		"Scienctist" = "pda-science",
-		"Security Officer" = "pda-security",
+		"Military Police" = "pda-security", //NSV13 - MPs
 		"Shaft Miner" = "pda-miner",
 		"Virologist" = "pda-virology",
 		"Warden" = "pda-warden")
 	var/id_icons = list(
-		"Assistant" = "id",
+		"Midshipman" = "id",
 		"Atmospheric Technician" = "atmos",
 		"Captain" = "gold",
 		"Cargo" = "cargo",
@@ -50,7 +51,7 @@
 		"Clown" = "clown",
 		"Detective" = "detective",
 		"Engineering" = "engi",
-		"Head of Personnel" = "silver",
+		"Executive Officer" = "silver", //NSV13 - XO
 		"Head of Security" = "hos",
 		"Lawyer" = "lawyer",
 		"Medical" = "med",

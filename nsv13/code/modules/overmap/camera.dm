@@ -18,45 +18,44 @@
 
 /obj/structure/overmap/proc/start_piloting(mob/living/carbon/user, position)
 	if(!position || user.overmap_ship == src || LAZYFIND(operators, user))
-		return
-	switch(position)
-		if("pilot")
-			if(pilot)
-				to_chat(pilot, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
-				stop_piloting(pilot)
-			pilot = user
-			LAZYOR(user.mousemove_intercept_objects, src)
-		if("gunner")
-			if(gunner)
-				to_chat(gunner, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
-				stop_piloting(gunner)
-			gunner = user
-		//.if("gauss_gunner")
-		//	user.AddComponent(/datum/component/overmap_gunning)
-			//LAZYADD(gauss_gunners, user)
-		if("all_positions")
-			pilot = user
-			gunner = user
-			LAZYOR(user.mousemove_intercept_objects, src)
+		return FALSE
+	if(position & OVERMAP_USER_ROLE_PILOT)
+		if(pilot)
+			to_chat(pilot, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
+			stop_piloting(pilot)
+		pilot = user
+		LAZYOR(user.mousemove_intercept_objects, src)
+	if(position & OVERMAP_USER_ROLE_GUNNER)
+		if(gunner)
+			to_chat(gunner, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
+			stop_piloting(gunner)
+		gunner = user
 	user.set_focus(src)
 	LAZYADD(operators,user)
 	CreateEye(user) //Your body stays there but your mind stays with me - 6 (Battlestar galactica)
 	user.overmap_ship = src
 	dradis?.attack_hand(user)
 	user.click_intercept = src
+	if(position & (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER))
+		user.add_verb(overmap_verbs) //Add the ship panel verbs
 	if(mass < MASS_MEDIUM)
-		return //Don't zoom out for small ships.
+		return TRUE
 	user.client.overmap_zoomout = (mass <= MASS_MEDIUM) ? 5 : 10 //Automatically zooms you out a fair bit so you can see what's even going on.
 	user.client.rescale_view(user.client.overmap_zoomout, 0, ((40*2)+1)-15)
+	return TRUE
+
 
 /obj/structure/overmap/proc/stop_piloting(mob/living/M)
 	LAZYREMOVE(operators,M)
+	M.remove_verb(overmap_verbs)
 	M.overmap_ship = null
 	if(M.click_intercept == src)
 		M.click_intercept = null
 	if(pilot && M == pilot)
 		LAZYREMOVE(M.mousemove_intercept_objects, src)
 		pilot = null
+		keyboard_delta_angle_left = 0
+		keyboard_delta_angle_right = 0
 		if(helm)
 			playsound(helm, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
 	if(gunner && M == gunner)
@@ -137,7 +136,7 @@
 	if(!remote_eye?.origin)
 		qdel(src)
 		qdel(remote_eye)
-	if(ship.stop_piloting(target))
+	else if(ship.stop_piloting(target))
 		qdel(remote_eye)
 		qdel(src)
 

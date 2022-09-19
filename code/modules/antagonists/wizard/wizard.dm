@@ -4,6 +4,7 @@
 	antagpanel_category = "Wizard"
 	job_rank = ROLE_WIZARD
 	antag_moodlet = /datum/mood_event/focused
+	hijack_speed = 0.5
 	var/strip = TRUE //strip before equipping
 	var/allow_rename = TRUE
 	var/hud_version = "wizard"
@@ -11,7 +12,6 @@
 	var/move_to_lair = TRUE
 	var/outfit_type = /datum/outfit/wizard
 	var/wiz_age = WIZARD_AGE_MIN /* Wizards by nature cannot be too young. */
-	can_hijack = HIJACK_HIJACKER
 	show_to_ghosts = TRUE
 
 /datum/antagonist/wizard/on_gain()
@@ -63,6 +63,22 @@
 /datum/antagonist/wizard/proc/create_objectives()
 	if(!give_objectives)
 		return
+
+	//nsv13 - On lowpop, only create one steal and escape objective and then return
+	if(GLOB.joined_player_list.len < CONFIG_GET(number/min_pop_kill_objectives))
+		var/datum/objective/steal/steal_objective = new
+		steal_objective.owner = owner
+		steal_objective.find_target()
+		objectives += steal_objective
+		log_objective(owner, steal_objective.explanation_text)
+
+		if (!(locate(/datum/objective/escape) in objectives))
+			var/datum/objective/escape/escape_objective = new
+			escape_objective.owner = owner
+			objectives += escape_objective
+			log_objective(owner, escape_objective.explanation_text)
+		return //nsv13 end
+
 	switch(rand(1,100))
 		if(1 to 30)
 			var/datum/objective/assassinate/kill_objective = new

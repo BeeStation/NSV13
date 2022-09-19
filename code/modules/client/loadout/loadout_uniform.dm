@@ -266,7 +266,7 @@
 
 /datum/gear/uniform/rank/assistant
 	subtype_path = /datum/gear/uniform/rank/assistant
-	allowed_roles = list("Assistant")
+	allowed_roles = list("Midshipman")  //Nsv13 - Crayon eaters
 
 /datum/gear/uniform/rank/assistant/formal
 	display_name = "assistant's formal uniform"
@@ -311,7 +311,7 @@
 
 /datum/gear/uniform/rank/medical/nurse_dress
 	display_name = "medical, nurse's dress"
-	path = /obj/item/clothing/under/rank/medical/doctor
+	path = /obj/item/clothing/under/rank/medical/doctor/nurse
 
 /datum/gear/uniform/rank/medical/emt
 	display_name = "medical scrubs, EMT"
@@ -343,7 +343,7 @@
 
 /datum/gear/uniform/rank/security
 	subtype_path = /datum/gear/uniform/rank/security
-	allowed_roles = list("Security Officer")
+	allowed_roles = list("Military Police") //Nsv13 - Crayon eaters & MPs
 
 /datum/gear/uniform/rank/security/white
 	display_name = "security jumpsuit, white"
@@ -355,7 +355,7 @@
 */
 /datum/gear/uniform/rank/security/blueshift
 	display_name = "security jumpsuit, blue shirt and tie"
-	path = /obj/item/clothing/under/rank/security/blueshirt
+	path = /obj/item/clothing/under/rank/security/officer/blueshirt
 	cost = 7500
 
 /datum/gear/uniform/rank/security/blart

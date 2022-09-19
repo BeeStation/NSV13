@@ -13,7 +13,7 @@
 	reagent_temp = 40
 	tank_volume = 3500
 	var/obj/item/cryofuel_nozzle/nozzle = null
-	var/obj/structure/overmap/fighter/fuel_target
+	var/obj/structure/overmap/small_craft/fuel_target
 	var/datum/looping_sound/refuel/soundloop
 	var/max_range = 2
 	var/datum/beam/current_beam
@@ -69,6 +69,7 @@
 	if(!ui)
 		ui = new(user, src, "CryogenicFuel")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/ui_data(mob/user)
 	var/list/data = list()
@@ -102,7 +103,7 @@
 		ui_interact(user)
 	else
 		ui_interact(user)
-		. = ..()
+		return ..()
 
 /obj/effect/ebeam/fuel_hose
 	name = "fuel hose"
@@ -135,7 +136,7 @@
 			to_chat(user, "<span class='warning'>You transfer some of [I]'s contents to [src].</span>") //Put anything other than cryogenic fuel in here at your own risk of having to flush out the tank and possibly wreck your fighter :)
 			var/obj/item/reagent_containers/X = I
 			X.reagents.trans_to(X, X.amount_per_transfer_from_this, transfered_by = user)
-	. = ..()
+	return ..()
 
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/proc/start_fuelling(target)
 	if(!target)
@@ -190,8 +191,8 @@
 
 /obj/item/cryofuel_nozzle/afterattack(atom/target, mob/user, proximity)
 	. = ..()
-	if(istype(target, /obj/structure/overmap/fighter))
-		var/obj/structure/overmap/fighter/f16 = target
+	if(istype(target, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/f16 = target
 		var/obj/item/fighter_component/fuel_tank/sft = f16.loadout.get_slot(HARDPOINT_SLOT_FUEL)
 		if(!sft)
 			visible_message("<span class='warning'>[icon2html(src)] [f16] does not have a fuel tank installed!</span>")

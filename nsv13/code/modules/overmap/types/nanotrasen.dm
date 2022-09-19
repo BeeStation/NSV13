@@ -27,6 +27,10 @@
 	damage_states = FALSE
 	bound_height = 32
 	bound_width = 32
+	obj_integrity = 300
+	max_integrity = 300
+	integrity_failure = 300
+	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
 
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser
@@ -35,12 +39,12 @@
 	icon_state = "heavy_cruiser"
 	mass = MASS_LARGE
 	sprite_size = 48
-	obj_integrity = 1500
-	max_integrity = 1500 //Max health
-	integrity_failure = 1500
+	obj_integrity = 450
+	max_integrity = 450
+	integrity_failure = 450
 	bound_height = 96
 	bound_width = 96
-
+	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 /obj/structure/overmap/nanotrasen/missile_cruiser //This has nothing to do with missiles
 	name = "caracal class missile frigate"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
@@ -50,11 +54,11 @@
 	damage_states = FALSE
 	//pixel_z = -96
 	//pixel_w = -96
-	obj_integrity = 1000
-	max_integrity = 1000 //Max health
-	integrity_failure = 1000
+	obj_integrity = 500
+	max_integrity = 500
+	integrity_failure = 500
 	//collision_positions = list(new /datum/vector2d(-13,71), new /datum/vector2d(-25,52), new /datum/vector2d(-24,-25), new /datum/vector2d(-11,-66), new /datum/vector2d(4,-69), new /datum/vector2d(15,-28), new /datum/vector2d(15,38), new /datum/vector2d(6,61))
-	armor = list("overmap_light" = 50, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser
 	name = "corvid class tactical cruiser"
@@ -65,12 +69,12 @@
 	//damage_states = TRUE
 	//pixel_z = -32
 	//pixel_w = -32
-	obj_integrity = 1500
-	max_integrity = 1500 //Max health
-	integrity_failure = 1500
+	obj_integrity = 800
+	max_integrity = 800
+	integrity_failure = 800
 	bound_height = 96
 	bound_width = 96
-	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
+	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 30)
 
 /obj/structure/overmap/nanotrasen/battleship
 	name = "jupiter class battlestar"
@@ -82,10 +86,10 @@
 	damage_states = FALSE
 	bound_width = 192
 	bound_height = 192
-	obj_integrity = 3000
-	max_integrity = 3000 //Max health
-	integrity_failure = 3000
-	armor = list("overmap_light" = 80, "overmap_heavy" = 40)
+	obj_integrity = 1000
+	max_integrity = 1000
+	integrity_failure = 1000
+	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50)
 
 /obj/structure/overmap/nanotrasen/carrier
 	name = "enterprise class carrier"
@@ -97,10 +101,10 @@
 	mass = MASS_LARGE
 	sprite_size = 48
 	damage_states = FALSE //TODO
-	obj_integrity = 2000
-	max_integrity = 2000 //Max health
-	integrity_failure = 2000
-	armor = list("overmap_light" = 70, "overmap_heavy" = 30)
+	obj_integrity = 700
+	max_integrity = 700
+	integrity_failure = 700
+	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 10)
 
 /obj/structure/overmap/nanotrasen/battlecruiser
 	name = "corvid class tactical cruiser"
@@ -111,12 +115,12 @@
 	//damage_states = TRUE
 	//pixel_z = -32
 	//pixel_w = -32
-	obj_integrity = 1500
-	max_integrity = 1500 //Max health
-	integrity_failure = 1500
+	obj_integrity = 1000
+	max_integrity = 1000 //Max health
+	integrity_failure = 1000
 	bound_height = 96
 	bound_width = 96
-	armor = list("overmap_light" = 70, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50)
 
 //Instanced Versions
 
@@ -128,69 +132,90 @@
 	mass = MASS_LARGE //Big beefy lad with a lot of firepower.
 	sprite_size = 48
 	damage_states = FALSE //I'm lazy
-	obj_integrity = 1800
-	max_integrity = 1800 //Max health
+	obj_integrity = 1200
+	max_integrity = 1200 //Max health
 	integrity_failure = 1200
-	armor = list("overmap_light" = 75, "overmap_heavy" = 35)
+	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 10)
 	bound_height = 320
 	bound_width = 320
-	starting_system = "Argo"
 	role = INSTANCED_MIDROUND_SHIP
 
 /obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
 	. = ..()
-	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/pdc_mount/burst_phaser(src)
+	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/burst_phaser(src)
 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
 
 //Player Versions
-
+// deletion_behavior = DAMAGE_STARTS_COUNTDOWN
+// starting_system = "Staging"
 /obj/structure/overmap/nanotrasen/light_cruiser/starter //Currently assigned to Eclipse
 	role = MAIN_OVERMAP
-	obj_integrity = 1500
-	max_integrity = 1500 //Max health
-	integrity_failure = 1500
-	starting_system = "Argo"
+	obj_integrity = 1400
+	max_integrity = 1400 //Max health
+	integrity_failure = 1400
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
-/obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Vago
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE
+	icon_state = "shrike"
+
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike/apply_weapons()
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_HYBRID_RAIL] = new /datum/ship_weapon/hybrid_railgun(src)
+
+/obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Atlas
 	role = MAIN_OVERMAP
 	obj_integrity = 1000
 	max_integrity = 1000
 	integrity_failure = 1000
-	starting_system = "Argo"
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
-/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to Jolly Sausage
+/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //NOT IN CYCLE
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
-	starting_system = "Argo"
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
-/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
+/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //NOT IN CYCLE
 	role = MAIN_OVERMAP
-	obj_integrity = 1500
-	max_integrity = 1500
-	integrity_failure = 1500
-	starting_system = "Argo"
-
+	obj_integrity = 1400
+	max_integrity = 1400
+	integrity_failure = 1400
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 /obj/structure/overmap/nanotrasen/carrier/starter //NOT CURRENTLY ASSIGNED
 	role = MAIN_OVERMAP
 	obj_integrity = 2000
 	max_integrity = 2000
 	integrity_failure = 2000
-	starting_system = "Argo"
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 65, "overmap_heavy" = 20)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
-/obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon
+/obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon and Gladius
 	role = MAIN_OVERMAP
-	obj_integrity = 1500
-	max_integrity = 1500
-	integrity_failure = 1500
-	starting_system = "Argo"
+	obj_integrity = 1400
+	max_integrity = 1400
+	integrity_failure = 1400
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
 /obj/structure/overmap/nanotrasen/battleship/starter //Galactica
 	role = MAIN_OVERMAP //Player controlled variant
-	obj_integrity = 2250
-	max_integrity = 2250
-	integrity_failure = 2250
-	starting_system = "Argo"
+	obj_integrity = 2150
+	max_integrity = 2150
+	integrity_failure = 2150
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 25)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
 //AI Versions
 
@@ -205,42 +230,56 @@
 	ai_behaviour = AI_AGGRESSIVE
 	mass = MASS_MEDIUM
 	sprite_size = 48
-	ai_trait = AI_TRAIT_DESTROYER
+	ai_flags= AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/frigate
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
-	obj_integrity = 800
-	max_integrity = 800 //Max health
-	integrity_failure = 800
-	ai_trait = list(AI_TRAIT_BATTLESHIP, AI_TRAIT_DESTROYER)
+	obj_integrity = 450
+	max_integrity = 450 //Max health
+	integrity_failure = 450
+	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
+	ai_flags  = AI_FLAG_BATTLESHIP | AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/ai
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
-	obj_integrity = 1000
-	max_integrity = 1000 //Max health
-	integrity_failure = 1000
-	ai_trait = AI_TRAIT_BATTLESHIP
+	obj_integrity = 800
+	max_integrity = 800 //Max health
+	integrity_failure = 800
+	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 30)
+	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/cruiser
 
 /obj/structure/overmap/nanotrasen/battleship/ai
+	obj_integrity = 1000
+	max_integrity = 1000
+	integrity_failure = 1000
+	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50)
 	ai_controlled = TRUE
-	ai_trait = AI_TRAIT_BATTLESHIP
+	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/battleship
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/ai
 	ai_controlled = TRUE
-	ai_trait = AI_TRAIT_DESTROYER
+	ai_flags = AI_FLAG_DESTROYER
 	torpedoes = 10 //it's vago, alright?
 	missiles = 10
+	obj_integrity = 500
+	max_integrity = 500
+	integrity_failure = 500
+	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 	combat_dice_type = /datum/combat_dice/cruiser
 
 /obj/structure/overmap/nanotrasen/battlecruiser/ai
 	ai_controlled = TRUE
-	ai_trait = AI_TRAIT_BATTLESHIP
+	ai_flags = AI_FLAG_BATTLESHIP
+	obj_integrity = 450
+	max_integrity = 450
+	integrity_failure = 450
+	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 30)
 	combat_dice_type = /datum/combat_dice/cruiser
 
 /obj/structure/overmap/nanotrasen/carrier/ai
@@ -249,11 +288,15 @@
 	ai_fighter_type = list(/obj/structure/overmap/nanotrasen/ai/fighter)
 	torpedoes = 0
 	can_resupply = TRUE
-	ai_trait = AI_TRAIT_SUPPLY
+	ai_flags = AI_FLAG_SUPPLY
+	obj_integrity = 700
+	max_integrity = 700
+	integrity_failure = 700
+	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 10)
 	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/nanotrasen/carrier/ai/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount/aa_guns(src)
+	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
 	weapon_types[FIRE_MODE_RAILGUN] = null
 	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
@@ -261,7 +304,7 @@
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/nanotrasen/carrier/ai/get_max_firemode() //This boy really doesn't need a railgun
-	return FIRE_MODE_PDC
+	return FIRE_MODE_ANTI_AIR
 
 /obj/structure/overmap/nanotrasen/ai/fighter
 	name = "Viper class light fighter"
@@ -273,15 +316,15 @@
 	ai_behaviour = AI_AGGRESSIVE
 	weapon_safety = FALSE
 	faction = "nanotrasen"
-	armor = list("overmap_light" = 0, "overmap_heavy" = 0)
+	armor = list("overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 90)
 	obj_integrity = 75
 	max_integrity = 75 //Super squishy!
 	integrity_failure = 75
-	ai_trait = AI_TRAIT_SWARMER
+	ai_flags = AI_FLAG_SWARMER
 	bound_width = 32 //Change this on a per ship basis
 	bound_height = 32
 	combat_dice_type = /datum/combat_dice/fighter
 
 /obj/structure/overmap/nanotrasen/ai/fighter/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new/datum/ship_weapon/light_cannon(src)
+	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)

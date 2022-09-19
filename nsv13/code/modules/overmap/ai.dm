@@ -16,7 +16,7 @@
 /obj/structure/overmap/Initialize()
 	. = ..()
 	if(mass <= MASS_TINY)
-		weapons[FIRE_MODE_PDC] = new /datum/ship_weapon/light_cannon(src)
+		weapons[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/light_cannon(src)
 
 /**
 *
@@ -40,11 +40,11 @@
 		gunner = pilot
 	user_thrust_dir = 1
 	if(last_target || QDELETED(last_target)) //Have we got a target?
-		if(get_dist(last_target, src) > max_range) //Out of range - Give up the chase
+		if(overmap_dist(last_target, src) > max_range) //Out of range - Give up the chase
 			last_target = null
 			desired_angle = rand(0,360)
 		else //They're in our range. Calculate a path to them and fire.
-			desired_angle = Get_Angle(src, last_target)
+			desired_angle = overmap_angle(src, last_target)
 			fire(last_target) //Fire already handles things like being out of range, so we're good
 	handle_ai_behaviour()
 
@@ -52,6 +52,8 @@
 	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
 		if(ship == src || ship.faction == faction || ship.z != z)
 			continue
+		if ( ship.essential )
+			continue // These checks are literally everywhere why 
 		ai_target(ship)
 
 /**
@@ -67,16 +69,16 @@
 /obj/structure/overmap/proc/ai_target(obj/structure/overmap/ship)
 	switch(ai_behaviour)
 		if(AI_AGGRESSIVE)
-			if(get_dist(ship,src) <= max_range)
+			if(overmap_dist(ship,src) <= max_range)
 				target(ship)
 		if(AI_GUARD)
-			if(get_dist(ship,src) <= guard_range)
+			if(overmap_dist(ship,src) <= guard_range)
 				target(ship)
 		if(AI_RETALIATE)
 			if(ship in enemies)
 				target(ship)
 	if(locate(ship) in enemies)
-		if(get_dist(ship, src) <= 3)
+		if(overmap_dist(ship, src) <= 3)
 			user_thrust_dir = 0 //Don't thrust towards ships we're already close to.
 			brakes = TRUE
 			try_board(ship)
@@ -87,8 +89,8 @@
 /obj/structure/overmap/proc/try_board(obj/structure/overmap/ship)
 	if(mass <= MASS_TINY)
 		return FALSE
-	if(SSphysics_processing.next_boarding_time <= world.time)
-		SSphysics_processing.next_boarding_time = world.time + 30 MINUTES
+	if(next_boarding_time <= world.time)
+		next_boarding_time = world.time + 30 MINUTES
 		ship.spawn_boarders()
 		return TRUE
 	return FALSE
@@ -96,7 +98,7 @@
 /obj/structure/overmap/proc/retreat()
 	if(!last_target)
 		return
-	desired_angle = -Get_Angle(src, last_target) //Turn the opposite direction and run.
+	desired_angle = -overmap_angle(src, last_target) //Turn the opposite direction and run.
 	user_thrust_dir = 1
 
 /obj/structure/overmap/proc/target(atom/target)
@@ -106,7 +108,7 @@
 		retreat()
 		return
 	add_enemy(target)
-	desired_angle = Get_Angle(src, target)
+	desired_angle = overmap_angle(src, target)
 	last_target = target
 
 /obj/structure/overmap/proc/add_enemy(atom/target)
@@ -142,8 +144,8 @@
 */
 
 /obj/structure/overmap/syndicate/ai/carrier/ai_target(obj/structure/overmap/ship)
-	if(get_dist(ship,src) <= max_range)
-		if(get_dist(ship, src) <= max_range/2) //Little bit too friendly there partner.
+	if(overmap_dist(ship,src) <= max_range)
+		if(overmap_dist(ship, src) <= max_range/2) //Little bit too friendly there partner.
 			last_target = ship
 			retreat()
 		else

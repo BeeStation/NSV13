@@ -24,7 +24,7 @@
 				break
 	if(I.use_tool(src, user, 0.5 SECONDS, volume=50))
 		user.visible_message("[user] flips [hatch_open ? "closed" : "open"] [src]'s maintenance hatch.",
-			"<span class='notice'>you flip [hatch_open ? "closed" : "open"] [src]'s maintenance hatch.</span>")
+			"<span class='notice'>You flip [hatch_open ? "closed" : "open"] [src]'s maintenance hatch.</span>")
 		hatch_open = !hatch_open
 		update_icon()
 	return TRUE
@@ -41,3 +41,6 @@
 		obj_flags |= BLOCK_Z_FALL
 		smooth = SMOOTH_TRUE
 		queue_smooth(src)
+
+/obj/structure/lattice/catwalk/over/ship/can_lay_cable()
+	return hatch_open

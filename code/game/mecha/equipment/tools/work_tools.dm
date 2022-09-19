@@ -13,6 +13,7 @@
 	var/dam_force = 20
 	var/obj/mecha/working/ripley/cargo_holder
 	harmful = TRUE
+	mech_flags = EXOSUIT_MODULE_RIPLEY
 
 /obj/item/mecha_parts/mecha_equipment/hydraulic_clamp/can_attach(obj/mecha/working/ripley/M as obj)
 	if(..())
@@ -34,6 +35,10 @@
 		return
 	if(!cargo_holder)
 		return
+	//Nsv13 - No, just no :)
+	if(istype(target, /obj/structure/overmap) || istype(target, /obj/vehicle) || istype(target, /obj/mecha))
+		return
+
 	if(isobj(target))
 		var/obj/O = target
 		if(istype(O, /obj/machinery/door/firedoor))
@@ -52,14 +57,14 @@
 					cargo_holder.cargo += O
 					O.forceMove(chassis)
 					O.anchored = FALSE
-					occupant_message("<span class='notice'>[target] successfully loaded.</span>")
+					balloon_alert(chassis.occupant, "[target] loaded")
 					log_message("Loaded [O]. Cargo compartment capacity: [cargo_holder.cargo_capacity - cargo_holder.cargo.len]", LOG_MECHA)
 				else
 					O.anchored = initial(O.anchored)
 			else
-				occupant_message("<span class='warning'>Not enough room in cargo compartment!</span>")
+				balloon_alert(chassis.occupant, "Not enough room in cargo compartment")
 		else
-			occupant_message("<span class='warning'>[target] is firmly secured!</span>")
+			balloon_alert(chassis.occupant, "[target] is firmly secured")
 
 	else if(isliving(target))
 		var/mob/living/M = target
@@ -112,14 +117,14 @@
 					cargo_holder.cargo += O
 					O.forceMove(chassis)
 					O.anchored = FALSE
-					occupant_message("<span class='notice'>[target] successfully loaded.</span>")
+					balloon_alert(chassis.occupant, "[target] loaded")
 					log_message("Loaded [O]. Cargo compartment capacity: [cargo_holder.cargo_capacity - cargo_holder.cargo.len]", LOG_MECHA)
 				else
 					O.anchored = initial(O.anchored)
 			else
-				occupant_message("<span class='warning'>Not enough room in cargo compartment!</span>")
+				balloon_alert(chassis.occupant, "Not enough room in cargo compartment")
 		else
-			occupant_message("<span class='warning'>[target] is firmly secured!</span>")
+			balloon_alert(chassis.occupant, "[target] is firmly secured")
 
 	else if(isliving(target))
 		var/mob/living/M = target
@@ -180,6 +185,7 @@
 	var/ext_range = 3
 	var/precise = FALSE
 	range = MECHA_MELEE|MECHA_RANGED
+	mech_flags = EXOSUIT_MODULE_RIPLEY
 
 /obj/item/mecha_parts/mecha_equipment/extinguisher/Initialize()
 	. = ..()
@@ -243,19 +249,6 @@
 		if(istype(M))
 			return 1
 	return 0
-
-//NSV-related change
-/obj/item/mecha_parts/mecha_equipment/extinguisher/hull_repair_juice
-	name = "exosuit hull foam dispenser"
-	desc = "Equipment for engineering exosuits. Used to rapidly dispense hull foam."
-	icon_state = "mecha_exting"
-	equip_cooldown = 5
-	energy_drain = 0
-	ext_chem = /datum/reagent/hull_repair_juice
-	ext_tank_type = /obj/structure/reagent_dispensers/foamtank/hull_repair_juice
-	ext_range = 6
-	precise = TRUE
-	range = MECHA_MELEE|MECHA_RANGED
 
 /obj/item/mecha_parts/mecha_equipment/rcd
 	name = "mounted RCD"
@@ -499,6 +492,7 @@
 	name = "Ripley MK-II Conversion Kit"
 	desc = "A pressurized canopy attachment kit for an Autonomous Power Loader Unit \"Ripley\" MK-I mecha, to convert it to the slower, but space-worthy MK-II design. This kit cannot be removed, once applied."
 	icon_state = "ripleyupgrade"
+	mech_flags = EXOSUIT_MODULE_RIPLEY
 
 /obj/item/mecha_parts/mecha_equipment/ripleyupgrade/can_attach(obj/mecha/working/ripley/M)
 	if(M.type != /obj/mecha/working/ripley)

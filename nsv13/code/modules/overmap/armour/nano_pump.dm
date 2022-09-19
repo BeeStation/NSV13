@@ -42,7 +42,7 @@
 /obj/machinery/armour_plating_nanorepair_pump/Initialize()
 	.=..()
 	OM = get_overmap()
-	addtimer(CALLBACK(src, .proc/handle_linking), 10 SECONDS)
+	addtimer(CALLBACK(src, .proc/handle_linking), 30 SECONDS)
 
 	repair_records["armour"] = list()
 	repair_records["structure"] = list()
@@ -118,19 +118,19 @@
 /obj/machinery/armour_plating_nanorepair_pump/proc/handle_linking()
 	if(apnw_id) //If mappers set an ID)
 		for(var/obj/machinery/armour_plating_nanorepair_well/W in GLOB.machines)
-			if(W.apnw_id == apnw_id)
+			if(W.apnw_id == apnw_id && W.z == z)
 				apnw = W
 
 /obj/machinery/armour_plating_nanorepair_pump/multitool_act(mob/user, obj/item/tool)
-	. = FALSE
+	. = TRUE
 	if(!multitool_check_buffer(user, tool))
 		return
-	apnw?.apnp -= src
 	var/obj/item/multitool/M = tool
-	if(!isnull(M.buffer))
+	if(!isnull(M.buffer) && istype(M.buffer, /obj/machinery/armour_plating_nanorepair_well))
+		apnw?.apnp -= src
 		apnw = M.buffer
-	apnw.apnp += src
-	M.buffer = null
+		apnw.apnp += src
+		M.buffer = null
 	quadrant = input(user, "Direct nano-repair pump to which quadrant?", "[name]") as null|anything in list("forward_port", "forward_starboard", "aft_port", "aft_starboard")
 	playsound(src, 'sound/items/flashlight_on.ogg', 100, TRUE)
 	to_chat(user, "<span class='notice'>Buffer transfered</span>")
@@ -225,6 +225,7 @@
 	if(!ui)
 		ui = new(user, src, "ArmourPlatingNanorepairPump")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/armour_plating_nanorepair_pump/ui_act(action, params, datum/tgui/ui)
 	if(..())

@@ -5,6 +5,7 @@
 #define DEPT_SCI 4
 #define DEPT_ENG 5
 #define DEPT_SUP 6
+#define DEPT_MUN 7 //NSV13
 
 //Keeps track of the time for the ID console. Having it as a global variable prevents people from dismantling/reassembling it to
 //increase the slots of many jobs.
@@ -33,16 +34,17 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 	//Jobs you cannot open new positions for
 	var/list/blacklisted = list(
 		"AI",
-		"Assistant",
+		"Midshipman", //Nsv13 - Crayon eaters
 		"Cyborg",
 		"Captain",
-		"Head of Personnel",
+		"Executive Officer", //NSV13 - XO
 		"Head of Security",
 		"Chief Engineer",
 		"Research Director",
 		"Chief Medical Officer",
 		"Brig Physician",
-		"Deputy")
+		"Deputy",
+		"Master At Arms") //NSV13 - MAA
 
 	//The scaling factor of max total positions in relation to the total amount of people on board the station in %
 	var/max_relative_positions = 30 //30%: Seems reasonable, limit of 6 @ 20 players
@@ -307,6 +309,23 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 		var/list/alljobs = list("Unassigned")
 		alljobs += (istype(src, /obj/machinery/computer/card/centcom)? get_all_centcom_jobs() : get_all_jobs()) + "Custom"
 		for(var/job in alljobs)
+			if(job == "Midshipman") //NSV13
+				jobs_all += "<br/>* Service: "
+			if(job == "Quartermaster")
+				jobs_all += "<br/>* Cargo: "
+			if(job == "Chief Engineer")
+				jobs_all += "<br/>* Engineering: "
+			if(job == "Research Director")
+				jobs_all += "<br/>* R&D: "
+			if(job == "Chief Medical Officer")
+				jobs_all += "<br/>* Medical: "
+			if(job == "Head of Security")
+				jobs_all += "<br/>* Security: "
+			if(job == "Master At Arms") //NSV13
+				jobs_all += "<br/>* Munitions: "
+			if(job == "Custom")
+				jobs_all += "<br/>"
+			// these will make some separation for the department.
 			jobs_all += "<a href='?src=[REF(src)];choice=assign;assign_target=[job]'>[replacetext(job, " ", "&nbsp")]</a> " //make sure there isn't a line break in the middle of a job
 
 
@@ -425,7 +444,7 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 						if((ACCESS_HOP in scan.access) && ((target_dept==DEPT_GEN) || !target_dept))
 							region_access |= DEPT_GEN
 							region_access |= DEPT_SUP //Currently no seperation between service/civillian and supply
-							get_subordinates("Head of Personnel")
+							get_subordinates("Executive Officer") //NSV13 - XO
 						if((ACCESS_HOS in scan.access) && ((target_dept==DEPT_SEC) || !target_dept))
 							region_access |= DEPT_SEC
 							get_subordinates("Head of Security")
@@ -438,6 +457,9 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 						if((ACCESS_CE in scan.access) && ((target_dept==DEPT_ENG) || !target_dept))
 							region_access |= DEPT_ENG
 							get_subordinates("Chief Engineer")
+						if((ACCESS_MAA in scan.access) && ((target_dept==DEPT_MUN) || !target_dept)) //NSV13 - munitions
+							region_access |= DEPT_MUN
+							get_subordinates("Master At Arms")
 						if(region_access)
 							authenticated = 1
 			else if ((!( authenticated ) && issilicon(usr)) && (!modify))
@@ -497,7 +519,7 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 					modify.assignment = t1
 					playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, 0)
 		if ("demote")
-			if(modify.assignment in head_subordinates || modify.assignment == "Assistant")
+			if(modify.assignment in head_subordinates || modify.assignment == "Midshipman")
 				modify.assignment = "Unassigned"
 				log_id("[key_name(usr)] demoted [modify], unassigning the card without affecting access, using [scan] at [AREACOORD(usr)].")
 				playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, 0)
@@ -787,3 +809,4 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 #undef DEPT_SCI
 #undef DEPT_ENG
 #undef DEPT_SUP
+#undef DEPT_MUN //NSV13

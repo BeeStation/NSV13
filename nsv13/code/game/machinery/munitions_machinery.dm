@@ -35,6 +35,7 @@
 					/obj/item/clothing/under/ship/decktech = 3,
 					/obj/item/clothing/under/rank/munitions_tech = 3,
 					/obj/item/clothing/under/ship/pilot = 3,
+					/obj/item/clothing/under/ship/pilot/transport = 3,
 					/obj/item/clothing/suit/hazardvest = 3,
 					/obj/item/clothing/suit/ship/munitions_jacket = 3,
 					/obj/item/clothing/shoes/jackboots = 5,
@@ -42,7 +43,8 @@
 	contraband = list(/obj/item/clothing/head/ship/rising_sun = 5)
 	premium = list(/obj/item/clothing/head/helmet/decktech = 3,
 					/obj/item/clothing/head/beret/ship/pilot = 3,
-					/obj/item/clothing/ears/earmuffs = 3)
+					/obj/item/clothing/ears/earmuffs = 3,
+					/obj/item/clothing/accessory/bomber_jacket_accessory = 3)
 	refill_canister = /obj/item/vending_refill/wardrobe/muni_wardrobe
 	payment_department = ACCOUNT_MUN
 /obj/item/vending_refill/wardrobe/muni_wardrobe

@@ -63,6 +63,7 @@
 	else if(ghost_usable)
 		GLOB.poi_list |= src
 		LAZYADD(GLOB.mob_spawners[name], src)
+		SSmobs.update_spawners()
 
 /obj/effect/mob_spawn/Destroy()
 	GLOB.poi_list -= src
@@ -70,6 +71,7 @@
 	LAZYREMOVE(spawners, src)
 	if(!LAZYLEN(spawners))
 		GLOB.mob_spawners -= name
+	SSmobs.update_spawners()
 	return ..()
 
 /obj/effect/mob_spawn/proc/special(mob/M)
@@ -305,7 +307,7 @@
 ///////////Civilians//////////////////////
 
 /obj/effect/mob_spawn/human/corpse/assistant
-	name = "Assistant"
+	name = "Midshipman" //Nsv13 - Crayon eaters
 	outfit = /datum/outfit/job/assistant
 
 /obj/effect/mob_spawn/human/corpse/assistant/beesease_infection

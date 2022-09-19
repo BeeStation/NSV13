@@ -229,6 +229,13 @@
 	item_color = "pilot"
 	item_state = "bl_suit"
 
+/obj/item/clothing/under/ship/pilot/transport
+	name = "Pilot's transport jumpsuit"
+	desc = "A comfortable lightweight jumpsuit for non-combat positions."
+	icon_state = "transport_pilot"
+	item_color = "transport_pilot"
+	item_state = "transport_pilot"
+
 /obj/item/clothing/head/beret/ship/pilot
 	name = "pilot's beret"
 	desc = "In parts a fashion statement and a hard hat, this beret has been specially reinforced to protect its wearer against workplace accidents."
@@ -241,6 +248,26 @@
 	icon_state = "sun"
 	item_state = "sun"
 	dynamic_hair_suffix = ""
+
+/obj/item/clothing/accessory/bomber_jacket_accessory
+	name = "thin bomber jacket"
+	desc = "A cheap, wafer thin replica of a bomber jacket, this would fit on top of most things."
+	icon = 'nsv13/icons/obj/clothing/accessories.dmi'
+	icon_state = "bomberthin"
+	item_color = "bomberthin"
+	item_state = "bomberthin"
+	above_suit = TRUE
+
+/obj/item/clothing/head/helmet/transport_pilot
+	name = "Transport Pilot's Helmet"
+	desc = "A large helmet made for protecting the head and ears."
+	icon = 'nsv13/icons/obj/clothing/hats.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	icon_state = "transport_pilot"
+	item_color = null
+	flags_inv = HIDEEARS|HIDEHAIR
+	bang_protect = 1
+	armor = list("melee" = 20, "bullet" = 20, "laser" = 10,"energy" = 5, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50)
 
 /obj/item/clothing/head/helmet/space/hardsuit/syndi/peacekeeper //Ironic type path. We're inheriting the "dual mode" behaviour from the syndie hardsuit.
 	name = "SG-1 Mjolnir Helmet"
@@ -690,3 +717,80 @@
 		item_color = initial(item_color)
 		item_state = initial(item_state)
 		toggled = TRUE
+
+/obj/item/clothing/suit/armor/vest/capcarapace/syndicate/admiral
+	name = "syndicate admiral's vest"
+	desc = "A sinister looking vest of advanced armor worn over a black and red fireproof jacket. The gold collar and shoulders denote that this belongs to a high ranking syndicate officer. This one has been modified to be space proof, and highly resistant to Nanotrasen's laser based weapons."
+	icon_state = "syndievest_space"
+	armor = list("melee" = 60, "bullet" = 50, "laser" = 80, "energy" = 80, "bomb" = 40, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 100)
+	clothing_flags = THICKMATERIAL | STOPSPRESSUREDAMAGE
+	cold_protection = CHEST | GROIN | LEGS | FEET | ARMS | HANDS
+	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
+
+/obj/item/clothing/head/helmet/space/skinsuit
+	name = "skinsuit helmet"
+	icon = 'icons/obj/clothing/hats.dmi'
+	w_class = WEIGHT_CLASS_SMALL //Don't question it. We want it to fit back in the box
+	alternate_worn_icon = 'icons/mob/head.dmi'
+	icon_state = "skinsuit_helmet"
+	item_state = "skinsuit_helmet"
+	desc = "An airtight helmet meant to protect the wearer during emergency situations."
+	permeability_coefficient = 0.01
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 20, "rad" = 0, "fire" = 0, "acid" = 0, "stamina" = 0)
+	min_cold_protection_temperature = EMERGENCY_HELM_MIN_TEMP_PROTECT
+	heat_protection = NONE
+	flash_protect = 0
+	bang_protect = 0
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEHAIR|HIDEFACIALHAIR
+	clothing_flags = STOPSPRESSUREDAMAGE | SHOWEROKAY | SNUG_FIT
+	max_heat_protection_temperature = 100
+
+/obj/item/clothing/suit/space/skinsuit
+	name = "skinsuit"
+	desc = "A slim, compression-based spacesuit meant to protect the user during emergency situations. It's only a little warmer than your uniform."
+	icon = 'icons/obj/clothing/suits.dmi'
+	alternate_worn_icon = 'icons/mob/suit.dmi'
+	icon_state = "skinsuit_rolled"
+	slowdown = 3 //Higher is slower
+	w_class = WEIGHT_CLASS_SMALL
+	clothing_flags = STOPSPRESSUREDAMAGE | SHOWEROKAY
+	gas_transfer_coefficient = 0.5
+	permeability_coefficient = 0.5
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 10, "rad" = 0, "fire" = 0, "acid" = 0, "stamina" = 0)
+	min_cold_protection_temperature = EMERGENCY_SUIT_MIN_TEMP_PROTECT
+	heat_protection = NONE
+	max_heat_protection_temperature = 100
+	var/rolled_up = TRUE
+
+/obj/item/clothing/suit/space/skinsuit/mob_can_equip(mob/M, mob/living/equipper, slot)
+	if(rolled_up && slot == ITEM_SLOT_OCLOTHING)
+		if(equipper)
+			to_chat(equipper, "<span class='warning'>You need to unroll \the [src], silly.</span>")
+		else
+			to_chat(M, "<span class='warning'>You need to unroll \the [src], silly.</span>")
+		return FALSE
+	return ..()
+
+/obj/item/clothing/suit/space/skinsuit/examine(mob/user)
+	. = ..()
+	if(rolled_up)
+		. += "<span class='notice'>It is currently rolled up.</span>"
+	else
+		. += "<span class='notice'>It can be rolled up to fit in a box.</span>"
+
+
+/obj/item/clothing/suit/space/skinsuit/attack_self(mob/user)
+	if(rolled_up)
+		to_chat(user, "<span class='notice'>You unroll \the [src].</span>")
+		icon_state = "skinsuit"
+		update_icon()
+		w_class = WEIGHT_CLASS_NORMAL
+	else
+		to_chat(user, "<span class='notice'>You roll up \the [src].</span>")
+		icon_state = "skinsuit_rolled"
+		update_icon()
+		w_class = WEIGHT_CLASS_SMALL
+
+	rolled_up = !rolled_up

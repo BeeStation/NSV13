@@ -21,8 +21,8 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 
 	announce_span = "danger"
 	announce_text = "The Syndicate are planning an all out assault!\n\
-	<span class='danger'>Syndicate crew</span>: Destroy NT fleets and capture systems with your beacon.\n\
-	<span class='notice'>Crew</span>: Destroy the Syndicate crew, and defeat any Syndicate reinforcements that appear."
+	<span class='danger'>Syndicate crew</span>: Destroy NT fleets and capture systems with your beacon.</span>\n\
+	<span class='notice'>Crew</span>: Destroy the Syndicate crew, and defeat any Syndicate reinforcements that appear.</span>"
 
 	title_icon = "conquest"
 
@@ -40,9 +40,9 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	var/overflow_role = CONQUEST_ROLE_GRUNT
 	var/time_limit = 2 HOURS + 30 MINUTES //How long do you want the mode to run for? This is capped to keep it from dragging on or OOMing
 	var/list/maps = list(
-		list(path="hammurabiPVP.json", pop=list(0, 30)),
-		list(path="astraeusPVP.json", pop=list(31, 39)),
-		list(path="babylonPVP.json", pop=list(40, INFINITY))
+		list(path = "hammurabiPVP.json", pop = list(0, 30)),
+		list(path = "astraeusPVP.json", pop = list(31, 39)),
+		list(path = "babylonPVP.json", pop = list(40, INFINITY))
 		) //Basic list of maps. Tell me (Kmc) to improve this if you decide you want to add more than 1 PVP map and i'll make it use JSON instead. ~Kmc 23/02/2021 I got called a lazy hack so I went and did this properly :(
 	var/obj/structure/overmap/syndiship = null
 	var/end_on_team_death = FALSE //Should the round end when the syndies die?
@@ -100,13 +100,15 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		var/ship_file = file("_maps/map_files/Instanced/[pick(possible)]")
 		if(!isfile(ship_file)) //Why would this ever happen? Who knows, I sure don't.
 			message_admins("ERROR SETTING UP PVP: Invalid json file [ship_file]. Tell a coder to fix this.")
-			return
+			CRASH("Invalid json file \"[ship_file]\" tried to load in PVP setup.")
 		syndiship = instance_ship_from_json(ship_file)
 
 	if(n_agents > 0)
 		//Registers two signals to check either ship as being destroyed.
 		RegisterSignal(syndiship, COMSIG_PARENT_QDELETING, .proc/force_loss)
 		RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_PARENT_QDELETING, .proc/force_win)
+		SSovermap_mode.mode = new/datum/overmap_gamemode/galactic_conquest //Change the overmap gamemode
+		message_admins("Galactic Conquest in progress. Overmap gamemode is now [SSovermap_mode.mode.name]")
 		var/enemies_to_spawn = max(1, round(num_players()/2.5)) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
 		for(var/i = 0, i < enemies_to_spawn, i++)
 			var/datum/mind/new_op = pick_n_take(antag_candidates)
@@ -129,7 +131,6 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 /datum/game_mode/pvp/post_setup()
 	assign_jobs()
 	SSstar_system.time_limit = world.time + time_limit //Hard timecap to prevent this dragging on or crashing.
-	SSstar_system.nag_interval = 2 HOURS //No external pressure in this round...
 	//And now, we make it so that NT sends fleets instead of the Syndicate...
 	var/datum/faction/synd = SSstar_system.faction_by_id(FACTION_ID_SYNDICATE)
 	var/datum/faction/nt = SSstar_system.faction_by_id(FACTION_ID_NT)
@@ -160,7 +161,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 			return TRUE
 		else
 			return FALSE
-	if (nukes_left == 0)
+	if(nukes_left == 0)
 		return TRUE
 	return ..()
 
@@ -178,7 +179,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 
 /datum/game_mode/pvp/set_round_result()
 	..()
-	var result = nuke_team?.get_result()
+	var/result = nuke_team?.get_result()
 	//First off, did they manage to nuke the ship?
 	if(result == NUKE_RESULT_NUKE_WIN)
 		SSticker.mode_result = "win - syndicate nuke"

@@ -25,8 +25,6 @@
 /obj/machinery/modular_computer/console/preset/proc/install_programs()
 	return
 
-
-
 // ===== ENGINEERING CONSOLE =====
 /obj/machinery/modular_computer/console/preset/engineering
 	console_department = "Engineering"
@@ -66,6 +64,8 @@
 	var/obj/item/computer_hardware/hard_drive/hard_drive = cpu.all_components[MC_HDD]
 	hard_drive.store_file(new/datum/computer_file/program/chatclient())
 	hard_drive.store_file(new/datum/computer_file/program/card_mod())
+	//Nsv13
+	hard_drive.store_file(new/datum/computer_file/program/squad_manager())
 
 // ===== CIVILIAN CONSOLE =====
 /obj/machinery/modular_computer/console/preset/civilian
@@ -76,3 +76,14 @@
 /obj/machinery/modular_computer/console/preset/civilian/install_programs()
 	var/obj/item/computer_hardware/hard_drive/hard_drive = cpu.all_components[MC_HDD]
 	hard_drive.store_file(new/datum/computer_file/program/chatclient())
+
+// curator
+/obj/machinery/modular_computer/console/preset/curator
+	console_department = "Civilian"
+	name = "curator console"
+	desc = "A stationary computer. This one comes preloaded with art programs."
+	_has_printer = TRUE
+
+/obj/machinery/modular_computer/console/preset/curator/install_programs()
+	var/obj/item/computer_hardware/hard_drive/hard_drive = cpu.all_components[MC_HDD]
+	hard_drive.store_file(new/datum/computer_file/program/portrait_printer())

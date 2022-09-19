@@ -7,10 +7,10 @@
 
 /datum/station_goal/bluespace_cannon/get_report()
 	return {"Our military presence is inadequate in your sector.
-	 We need you to construct BSA-[rand(1,99)] Artillery position aboard your station.
+	 We need you to construct BSA-[rand(1,99)] Artillery position aboard your ship.
 
 	 Base parts are available for shipping via cargo.
-	 -Nanotrasen Naval Command"}
+	 -Nanotrasen Naval Command"} //NSV13
 
 /datum/station_goal/bluespace_cannon/on_report()
 	//Unlock BSA parts
@@ -20,8 +20,7 @@
 /datum/station_goal/bluespace_cannon/check_completion()
 	if(..())
 		return TRUE
-	//var/obj/machinery/bsa/full/B = locate() Nsv13 - Galactica moment
-	var/obj/machinery/ship_weapon/energy/beam/bsa/built/B = locate()
+	var/obj/machinery/bsa/full/B = locate()
 	if(B && !B.stat)
 		return TRUE
 	return FALSE
@@ -66,8 +65,8 @@
 	name = "Bluespace Artillery Fusor"
 	desc = "Contents classified by Nanotrasen Naval Command. Needs to be linked with the other BSA parts using multitool."
 	icon_state = "fuel_chamber"
-	var/obj/machinery/bsa/back/back
-	var/obj/machinery/bsa/front/front
+	var/datum/weakref/back_ref
+	var/datum/weakref/front_ref
 
 /obj/machinery/bsa/middle/multitool_act(mob/living/user, obj/item/I)
 	if(!multitool_check_buffer(user, I))
@@ -75,18 +74,21 @@
 	var/obj/item/multitool/M = I
 	if(M.buffer)
 		if(istype(M.buffer, /obj/machinery/bsa/back))
-			back = M.buffer
+			back_ref = WEAKREF(M.buffer)
+			to_chat(user, "<span class='notice'>You link [src] with [M.buffer].</span>")
 			M.buffer = null
-			to_chat(user, "<span class='notice'>You link [src] with [back].</span>")
+			to_chat(user, "<span class='notice'>You link [src] with [M.buffer].</span>")
 		else if(istype(M.buffer, /obj/machinery/bsa/front))
-			front = M.buffer
+			front_ref = WEAKREF(M.buffer)
+			to_chat(user, "<span class='notice'>You link [src] with [M.buffer].</span>")
 			M.buffer = null
-			to_chat(user, "<span class='notice'>You link [src] with [front].</span>")
 	else
 		to_chat(user, "<span class='warning'>[I]'s data buffer is empty!</span>")
 	return TRUE
 
 /obj/machinery/bsa/middle/proc/check_completion()
+	var/obj/machinery/bsa/front/front = front_ref?.resolve()
+	var/obj/machinery/bsa/back/back = back_ref?.resolve()
 	if(!front || !back)
 		return "No linked parts detected!"
 	if(!front.anchored || !back.anchored || !anchored)
@@ -114,6 +116,10 @@
 	return TRUE
 
 /obj/machinery/bsa/middle/proc/get_cannon_direction()
+	var/obj/machinery/bsa/front/front = front_ref?.resolve()
+	var/obj/machinery/bsa/back/back = back_ref?.resolve()
+	if(!front || !back)
+		return
 	if(front.x > x && back.x < x)
 		return EAST
 	else if(front.x < x && back.x > x)
@@ -134,6 +140,7 @@
 	bound_width = 352
 	bound_x = -192
 	appearance_flags = NONE //Removes default TILE_BOUND
+	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 
 /obj/machinery/bsa/full/wrench_act(mob/living/user, obj/item/I)
 	return FALSE
@@ -215,10 +222,12 @@
 /obj/machinery/bsa/full/proc/reload()
 	ready = FALSE
 	use_power(power_used_per_shot)
+	ui_update()
 	addtimer(CALLBACK(src,"ready_cannon"),600)
 
 /obj/machinery/bsa/full/proc/ready_cannon()
 	ready = TRUE
+	ui_update()
 
 /obj/structure/filler
 	name = "big machinery part"
@@ -239,7 +248,7 @@
 
 
 
-	var/obj/machinery/bsa/full/cannon
+	var/datum/weakref/cannon_ref
 	var/notice
 	var/target
 	var/area_aim = FALSE //should also show areas for targeting
@@ -253,8 +262,10 @@
 	if(!ui)
 		ui = new(user, src, "BluespaceArtillery")
 		ui.open()
+		//Missing updates for: target GPS name changes
 
 /obj/machinery/computer/bsa_control/ui_data()
+	var/obj/machinery/bsa/full/cannon = cannon_ref?.resolve()
 	var/list/data = list()
 	data["ready"] = cannon ? cannon.ready : FALSE
 	data["connected"] = cannon
@@ -262,6 +273,8 @@
 	data["unlocked"] = GLOB.bsa_unlock
 	if(target)
 		data["target"] = get_target_name()
+	else
+		data["target"] = null
 	return data
 
 /obj/machinery/computer/bsa_control/ui_act(action, params)
@@ -269,7 +282,7 @@
 		return
 	switch(action)
 		if("build")
-			cannon = deploy()
+			cannon_ref = WEAKREF(deploy())
 			. = TRUE
 		if("fire")
 			fire(usr)
@@ -277,7 +290,8 @@
 		if("recalibrate")
 			calibrate(usr)
 			. = TRUE
-	update_icon()
+	if(.)
+		update_icon()
 
 /obj/machinery/computer/bsa_control/proc/calibrate(mob/user)
 	if(!GLOB.bsa_unlock)
@@ -309,6 +323,10 @@
 		return get_turf(G.parent)
 
 /obj/machinery/computer/bsa_control/proc/fire(mob/user)
+	var/obj/machinery/bsa/full/cannon = cannon_ref?.resolve()
+	if(!cannon)
+		notice = "No Cannon Exists!"
+		return
 	if(cannon.stat)
 		notice = "Cannon unpowered!"
 		return
@@ -331,12 +349,8 @@
 	var/datum/effect_system/smoke_spread/s = new
 	s.set_up(4,get_turf(centerpiece))
 	s.start()
-	//Nsv13 - Galactica moment
-	var/obj/machinery/ship_weapon/energy/beam/bsa/built/cannon = new(get_turf(centerpiece),centerpiece.get_cannon_direction())
-	qdel(centerpiece.front)
-	qdel(centerpiece.back)
+	var/obj/machinery/bsa/full/cannon = new(get_turf(centerpiece),centerpiece.get_cannon_direction())
+	QDEL_NULL(centerpiece.front_ref)
+	QDEL_NULL(centerpiece.back_ref)
 	qdel(centerpiece)
-	new /obj/machinery/computer/sts_bsa_control(get_turf(src))
-	qdel(src)
-	// /Nsv13
 	return cannon

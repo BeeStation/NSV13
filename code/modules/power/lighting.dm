@@ -13,8 +13,8 @@
 #define BROKEN_SPARKS_MAX (90 SECONDS)
 
 //NSV13 added ethereal light interaction defines
-#define LIGHT_DRAIN_TIME 25
-#define LIGHT_POWER_GAIN 35
+#define LIGHT_DRAIN_TIME 35
+#define LIGHT_POWER_GAIN 50
 
 /obj/item/wallframe/light_fixture
 	name = "light fixture frame"
@@ -303,7 +303,7 @@
 			brightness = A.lighting_brightness_bulb
 		else
 			bulb_colour = A.lighting_colour_tube
-			brightness = A.lighting_brightness_bulb
+			brightness = A.lighting_brightness_tube
 
 	if(nightshift_light_color == initial(nightshift_light_color))
 		nightshift_light_color = A.lighting_colour_night
@@ -318,11 +318,11 @@
 	spawn(2)
 		switch(fitting)
 			if("tube")
-				brightness = 11
+				brightness = A.lighting_brightness_tube
 				if(prob(2))
 					break_light_tube(1)
 			if("bulb")
-				brightness = 6
+				brightness = A.lighting_brightness_bulb
 				if(prob(5))
 					break_light_tube(1)
 		spawn(1)
@@ -355,16 +355,17 @@
 
 /obj/machinery/light/update_overlays()
 	. = ..()
-	if(on || emergency_mode)
-		if(!lighting_overlays)
-			lighting_overlays = list()
-		var/mutable_appearance/LO = lighting_overlays["[base_state]-[light_power]-[light_color]"]
-		if(!LO)
-			LO = mutable_appearance(overlayicon, base_state, ABOVE_LIGHTING_LAYER, ABOVE_LIGHTING_PLANE)
-			LO.color = light_color
-			LO.alpha = clamp(light_power*255, 30, 200)
-			lighting_overlays["[base_state]-[light_power]-[light_color]"] = LO
-		. += LO
+	if(!on || status != LIGHT_OK)
+		return
+
+	var/area/local_area = get_area(src)
+	if(emergency_mode || (local_area?.fire) || (local_area?.vacuum) || (local_area && local_area.redalert))
+		. += mutable_appearance(overlayicon, "[base_state]_emergency")
+		return
+	if(nightshift_enabled)
+		. += mutable_appearance(overlayicon, "[base_state]_nightshift")
+		return
+	. += mutable_appearance(overlayicon, base_state)
 
 // update the icon_state and luminosity of the light depending on its state
 /obj/machinery/light/proc/update(trigger = TRUE)
@@ -395,7 +396,7 @@
 			if(rigged)
 				if(status == LIGHT_OK && trigger)
 					explode()
-			else if( prob( min(60, (switchcount^2)*0.01) ) )
+			else if( prob( min(60, (switchcount**2)*0.01) ) )
 				if(trigger)
 					burn_out()
 			else
@@ -668,21 +669,34 @@
 		var/mob/living/carbon/human/H = user
 
 		if(istype(H))
-			var/datum/species/ethereal/eth_species = H.dna?.species
-			if(istype(eth_species))
+			if(isethereal(H))
 				var/datum/species/ethereal/E = H.dna.species
 				if(E.drain_time > world.time)
 					return
+				var/obj/item/organ/stomach/battery/stomach = H.getorganslot(ORGAN_SLOT_STOMACH)
+				if(!istype(stomach))
+					to_chat(H, "<span class='warning'>You can't receive charge!</span>")
+					return
+				if(H.nutrition >= NUTRITION_LEVEL_ALMOST_FULL)
+					to_chat(user, "<span class='warning'>You are already fully charged!</span>")
+					return
+
 				to_chat(H, "<span class='notice'>You start channeling some power through the [fitting] into your body.</span>")
+				E.drain_time = world.time + LIGHT_DRAIN_TIME
 				while(do_after(user, LIGHT_DRAIN_TIME, target = src))
 					E.drain_time = world.time + LIGHT_DRAIN_TIME
-					var/obj/item/organ/stomach/ethereal/stomach = H.getorganslot(ORGAN_SLOT_STOMACH)
-					if(istype(stomach))
-						to_chat(H, "<span class='notice'>You receive some charge from the [fitting].</span>")
-						stomach.adjust_charge(LIGHT_POWER_GAIN)
-						use_power(LIGHT_POWER_GAIN)
-					else
-						to_chat(H, "<span class='warning'>You fail to receive charge from the [fitting]!</span>")
+					if(!istype(stomach))
+						to_chat(H, "<span class='warning'>You can't receive charge!</span>")
+						return
+					to_chat(H, "<span class='notice'>You receive some charge from the [fitting].</span>")
+					stomach.adjust_charge(LIGHT_POWER_GAIN)
+					use_power(LIGHT_POWER_GAIN)
+					if(stomach.charge >= stomach.max_charge)
+						to_chat(H, "<span class='notice'>You are now fully charged.</span>")
+						E.drain_time = 0
+						return
+				to_chat(H, "<span class='warning'>You fail to receive charge from the [fitting]!</span>")
+				E.drain_time = 0
 				return
 
 			if(H.gloves)
@@ -764,7 +778,12 @@
 
 /obj/machinery/light/tesla_act(power, tesla_flags)
 	if(tesla_flags & TESLA_MACHINE_EXPLOSIVE)
-		explosion(src,0,0,0,flame_range = 5, adminlog = 0)
+		//Fire can cause a lot of lag, just do a mini explosion.
+		explosion(src,0,0,1, adminlog = 0)
+		for(var/mob/living/L in range(3, src))
+			L.fire_stacks = max(L.fire_stacks, 3)
+			L.IgniteMob()
+			L.electrocute_act(0, "Tesla Light Zap", tesla_shock = TRUE, stun = TRUE)
 		qdel(src)
 	else
 		return ..()
@@ -866,13 +885,18 @@
 /obj/item/light/Initialize()
 	. = ..()
 	update()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/item/light/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/caltrop, force)
 
-/obj/item/light/Crossed(mob/living/L)
-	. = ..()
+/obj/item/light/proc/on_entered(datum/source, atom/movable/L)
+	SIGNAL_HANDLER
+
 	if(istype(L) && has_gravity(loc))
 		if(HAS_TRAIT(L, TRAIT_LIGHT_STEP))
 			playsound(loc, 'sound/effects/glass_step.ogg', 30, 1)

@@ -1,10 +1,5 @@
-#define MSTATE_CLOSED 0
-#define MSTATE_UNSCREWED 1
-#define MSTATE_UNBOLTED 2
-#define MSTATE_PRIEDOUT 3
-
 /obj/machinery/ship_weapon/railgun
-	name = "NT-STC4 coaxial railgun"
+	name = "\improper NT-STC4 coaxial railgun"
 	desc = "A railgun which fires directly out of the front of the ship, its projectiles are entirely unguided, so the firing solution must be perfect."
 	icon = 'nsv13/icons/obj/railgun.dmi'
 	icon_state = "OBC"
@@ -70,7 +65,7 @@
 
 /obj/machinery/ship_weapon/railgun/attack_hand(mob/user)
 	. = ..()
-	if(!(maint_state == MSTATE_PRIEDOUT))
+	if(maint_state != MSTATE_PRIEDOUT)
 		return
 
 	to_chat(user, "<span class='notice'>You start removing the loading tray from the [src].</span>")
@@ -85,9 +80,9 @@
 /obj/machinery/ship_weapon/railgun/spawn_frame(disassembled)
 	var/obj/structure/ship_weapon/railgun_assembly/M = new /obj/structure/ship_weapon/railgun_assembly(loc)
 
-	for(var/obj/O in component_parts)
+	for(var/obj/O as() in component_parts)
 		O.forceMove(M)
-	component_parts = list()
+	component_parts.len = 0
 
 	. = M
 	M.setAnchored(anchored)
@@ -100,7 +95,7 @@
 	qdel(src)
 
 /obj/machinery/ship_weapon/railgun/after_fire()
-	if(!ammo.len)
+	if(!length(ammo))
 		say("Autoloader has depleted all ammunition sources. Reload required.")
 		return
 	..()

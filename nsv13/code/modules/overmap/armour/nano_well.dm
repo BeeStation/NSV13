@@ -80,19 +80,11 @@ Starting Materials
 /obj/machinery/armour_plating_nanorepair_well/LateInitialize()
 	. = ..()
 	AddComponent(/datum/component/material_container,\
-				list(/datum/material/iron,\
-					/datum/material/silver,\
-					/datum/material/titanium,\
-					/datum/material/plasma),
-					1000000,
-					FALSE,
-					/obj/item/stack,
-					null,
-					null,
-					FALSE)
+		list(/datum/material/iron, /datum/material/silver, /datum/material/titanium, /datum/material/plasma),\
+		1000000, FALSE, /obj/item/stack, null, null, FALSE)
 
 	OM = get_overmap()
-	addtimer(CALLBACK(src, .proc/handle_linking), 10 SECONDS)
+	addtimer(CALLBACK(src, .proc/handle_linking), 30 SECONDS)
 
 /obj/machinery/armour_plating_nanorepair_well/examine(mob/user)
 	.=..()
@@ -357,6 +349,7 @@ Starting Materials
 	if(!ui)
 		ui = new(user, src, "ArmourPlatingNanorepairWell")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/armour_plating_nanorepair_well/ui_act(action, params, datum/tgui/ui)
 	if(..())

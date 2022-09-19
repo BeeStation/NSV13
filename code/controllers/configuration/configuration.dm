@@ -18,14 +18,15 @@
 	var/list/mode_reports
 	var/list/mode_false_report_weight
 
+	var/list/active_donators //NSV13 - donator code
+
 	var/motd
 
 	var/static/regex/ic_filter_regex
 	var/static/regex/ooc_filter_regex
 
 	var/list/fail2topic_whitelisted_ips
-
-	var/list/active_donators //PROTECTED
+	var/list/protected_cids
 
 /datum/controller/configuration/proc/admin_reload()
 	if(IsAdminAdvancedProcCall())
@@ -58,9 +59,8 @@
 				break
 	loadmaplist(CONFIG_MAPS_FILE)
 	LoadTopicRateWhitelist()
-	LoadMOTD()
+	LoadProtectedIDs()
 	LoadChatFilter()
-	LoadDonators()
 
 	if (Master)
 		Master.OnConfigLoad()
@@ -192,7 +192,7 @@
 	return (var_name != NAMEOF(src, entries_by_type) || !hiding_entries_by_type) && ..()
 
 /datum/controller/configuration/vv_edit_var(var_name, var_value)
-	var/list/banned_edits = list(NAMEOF(src, entries_by_type), NAMEOF(src, entries), NAMEOF(src, directory), NAMEOF(src, active_donators))
+	var/list/banned_edits = list(NAMEOF(src, entries_by_type), NAMEOF(src, entries), NAMEOF(src, directory))
 	return !(var_name in banned_edits) && ..()
 
 /datum/controller/configuration/stat_entry()
@@ -213,6 +213,8 @@
 	var/entry_is_abstract = initial(E.abstract_type) == entry_type
 	if(entry_is_abstract)
 		CRASH("Tried to retrieve an abstract config_entry: [entry_type]")
+	if(!entries_by_type)
+		CRASH("Tried to retrieve config value before it was loaded or it was nulled.")
 	E = entries_by_type[entry_type]
 	if(!E)
 		CRASH("Missing config entry for [entry_type]!")
@@ -303,7 +305,7 @@
 
 		switch (command)
 			if ("map")
-				currentmap = load_map_config("_maps/[data].json")
+				currentmap = load_map_config("[data]", MAP_DIRECTORY)
 				if(currentmap.defaulted)
 					log_config("Failed to load map config for [data]!")
 					currentmap = null
@@ -407,6 +409,16 @@
 
 		fail2topic_whitelisted_ips[line] = 1
 
+/datum/controller/configuration/proc/LoadProtectedIDs()
+	var/jsonfile = rustg_file_read("[directory]/protected_cids.json")
+	if(!jsonfile)
+		log_config("Error 404: protected_cids.json not found!")
+		return
+
+	log_config("Loading config file protected_cids.json...")
+
+	protected_cids = json_decode(jsonfile)
+
 /datum/controller/configuration/proc/LoadChatFilter()
 	var/list/in_character_filter = list()
 	var/list/ooc_filter = list()
@@ -443,11 +455,8 @@
 
 	ic_filter_regex = in_character_filter.len ? regex("\\b([jointext(in_character_filter, "|")])\\b", "i") : null
 
-
+//NSV13 - donator code
 /datum/controller/configuration/proc/LoadDonators()
-//"temporary" he says...
-//This is going to have to be the only way to load this for now.
-//Thanks KMC
 	active_donators = list()
 	for(var/line in world.file2list("[global.config.directory]/donators.txt"))
 		if(!line)

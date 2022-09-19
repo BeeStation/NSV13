@@ -1,7 +1,6 @@
-#define MSTATE_PRIEDOUT 3
 
 /obj/machinery/ship_weapon/pdc_mount
-	name = "PDC loading rack"
+	name = "\improper PDC loading rack"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "pdc"
 	desc = "Seegson's all-in-one PDC targeting computer, ammunition loader, and human interface has proven extremely popular in recent times. It's rare to see a ship without one of these."
@@ -13,7 +12,7 @@
 	circuit = /obj/item/circuitboard/machine/pdc_mount
 
 	fire_mode = FIRE_MODE_PDC
-	magazine_type = /obj/item/ammo_box/magazine/pdc
+	magazine_type = /obj/item/ammo_box/magazine/nsv/pdc
 
 	auto_load = TRUE
 	semi_auto = TRUE
@@ -35,6 +34,8 @@
 	chamber_delay_rapid = 0
 	chamber_delay = 0
 	bang = FALSE
+	var/sound/lastsound // PDCs only switch sounds after the user stops firing. (Rapidfire uses the same sound)
+	var/soundcooldown = 0
 
 /obj/machinery/ship_weapon/pdc_mount/north //Things mounted on a north wall face south, etc.
 	dir = SOUTH
@@ -106,6 +107,7 @@
 
 /obj/machinery/ship_weapon/pdc_mount/after_fire()
 	..()
+	soundcooldown = world.time + 10
 	update_icon()
 
 // Don't animate us on fire, the above takes care of all the icon updates we need
@@ -157,4 +159,7 @@
 		return TRUE
 	return default_deconstruction_crowbar(user, tool)
 
-#undef MSTATE_PRIEDOUT
+/obj/machinery/ship_weapon/pdc_mount/overmap_sound()
+	if(world.time > soundcooldown)
+		lastsound = pick(weapon_type.overmap_firing_sounds)
+	linked.relay_to_nearby(lastsound)

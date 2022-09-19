@@ -21,14 +21,33 @@
 
 /obj/item/gun/ballistic/automatic/pistol/glock
 	name = "Glock-13"
-	desc = "A small 9mm handgun used by Nanotrasen security forces. It has a polymer handle and a full durasteel body construction, giving it a nice weight."
+	desc = "A small 9mm handgun used by Nanotrasen crewmen. It has a polymer handle and a full durasteel body construction, giving it a nice weight."
+	icon = 'nsv13/icons/obj/guns/projectile.dmi'
+	icon_state = "crewglock"
+	item_state = "glock"
+	fire_sound = 'nsv13/sound/weapons/glock.ogg'
+	w_class = WEIGHT_CLASS_NORMAL
+	mag_type = /obj/item/ammo_box/magazine/glock
+	can_suppress = TRUE
+	automatic = FALSE
+	can_flashlight = TRUE
+	flight_x_offset = 15
+	flight_y_offset = 12
+	fire_rate = 2
+
+/obj/item/gun/ballistic/automatic/pistol/glock/security
+	name = "Glock-13BR"
+	desc = "A small 9mm handgun used by Nanotrasen security forces. It has burst-fire capabilities and a weighted grip to tame the recoil."
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "secglock"
 	item_state = "glock"
 	fire_sound = 'nsv13/sound/weapons/glock.ogg'
 	w_class = WEIGHT_CLASS_NORMAL
-	mag_type = /obj/item/ammo_box/magazine/pistolm9mm/glock
+	mag_type = /obj/item/ammo_box/magazine/glock
 	can_suppress = TRUE
+	burst_size = 3
+	fire_delay = 2
+	actions_types = list(/datum/action/item_action/toggle_firemode)
 	automatic = FALSE
 	can_flashlight = TRUE
 	flight_x_offset = 15
@@ -39,6 +58,9 @@
 	name = "Makarov NT"
 	desc = "An older handgun used by NT security forces, produced by H&KC but slowly being phased out by the Glock-13. One of the designers of the weapon went on record saying: 'There are no brakes on this commie fucktrain.'"
 	icon_state = "makarov"
+
+/obj/item/gun/ballistic/automatic/pistol/glock/makarov/lethal //Starts with lethal bullets loaded
+	mag_type = /obj/item/ammo_box/magazine/glock/lethal
 
 /obj/item/gun/ballistic/automatic/pistol/m1911/m9le
 	name = "\improper M9LE"
@@ -76,15 +98,25 @@
 	build_path = /obj/item/ammo_casing/tazer
 	category = list("initial", "Security")
 
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal
-	name = "9mm pistol magazine (lethal)"
-	icon = 'nsv13/icons/obj/ammo.dmi'
+/obj/item/ammo_box/magazine/glock/lethal
+	name = "pistol magazine (9mm Lethal)"
+	desc = "Loaded with lead bullets that excel in dealing with hostile threats onboard or offboard the ship."
+	icon_state = "Glock-lethal"
 	ammo_type = /obj/item/ammo_casing/c9mm
+	caliber = "9mm"
+	max_ammo = 15
 
-/obj/item/ammo_box/magazine/pistolm9mm/glock
-	name = "9mm pistol magazine (non-lethal)"
-	icon = 'nsv13/icons/obj/ammo.dmi'
+/obj/item/ammo_box/magazine/glock
+	name = "pistol magazine (9mm Non-lethal)"
+	desc = "Loaded with rubber bullets that excel in disabling limbs and pacifying at range."
+	icon_state = "Glock-nonlethal"
 	ammo_type = /obj/item/ammo_casing/c9mm/rubber
+	caliber = "9mm"
+	max_ammo = 15
+
+/obj/item/ammo_box/magazine/glock/update_icon()
+    ..()
+    icon_state = "[initial(icon_state)][ammo_count() ? "" : "-0"]"
 
 /obj/item/ammo_casing/c9mm/rubber
 	name = "9mm rubber bullet casing"
@@ -102,6 +134,7 @@
 	name = "9mm bullet"
 	damage = 20
 	damage_type = STAMINA
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "pdc"
 
 /obj/item/ammo_box/magazine/tazer_cartridge

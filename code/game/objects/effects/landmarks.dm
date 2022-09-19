@@ -58,8 +58,8 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 // START LANDMARKS FOLLOW. Don't change the names unless
 // you are refactoring shitty landmark code.
 /obj/effect/landmark/start/assistant
-	name = "Assistant"
-	icon_state = "Assistant"
+	name = "Midshipman" //Nsv13 - Crayon eaters
+	icon_state = "Midshipman" //Nsv13 - Crayon eaters
 
 /obj/effect/landmark/start/assistant/override
 	jobspawn_override = TRUE
@@ -101,9 +101,13 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Shaft Miner"
 	icon_state = "Shaft Miner"
 
+/obj/effect/landmark/start/exploration
+	name = "Exploration Crew"
+	icon_state = "Exploration Crew"
+
 /obj/effect/landmark/start/security_officer
-	name = "Security Officer"
-	icon_state = "Security Officer"
+	name = "Military Police" //Nsv13 - Crayon eaters & MPs
+	icon_state = "Military Police"
 
 /obj/effect/landmark/start/botanist
 	name = "Botanist"
@@ -212,8 +216,8 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
 /obj/effect/landmark/start/randommaint
 	name = "maintjobstart"
-	icon_state = "x3" 
-	var/job = "Gimmick" //put the title of the job here. 
+	icon_state = "x3"
+	var/job = "Gimmick" //put the title of the job here.
 
 /obj/effect/landmark/start/randommaint/New() //automatically opens up a job slot when the job's spawner loads in
 	..()
@@ -232,7 +236,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 /obj/effect/landmark/start/randommaint/hobo
 	name = "Debtor"
 	job = "Debtor"
-	
+
 /obj/effect/landmark/start/randommaint/shrink
 	name = "Psychiatrist"
 	job = "Psychiatrist"
@@ -245,7 +249,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
 /obj/effect/landmark/start/depsec
 	name = "department_sec"
-	icon_state = "Security Officer"
+	icon_state = "Military Police" //Nsv13 - Crayon eaters & MPs
 
 /obj/effect/landmark/start/depsec/New()
 	..()
@@ -339,7 +343,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	GLOB.xeno_spawn += loc
 	return INITIALIZE_HINT_QDEL
 
-//objects with the stationloving component (nuke disk) respawn here. 
+//objects with the stationloving component (nuke disk) respawn here.
 //also blobs that have their spawn forcemoved (running out of time when picking their spawn spot), santa and respawning devils
 /obj/effect/landmark/blobstart
 	name = "blobstart"

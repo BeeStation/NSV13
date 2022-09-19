@@ -1,3 +1,5 @@
+// NSV13
+
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
 import { Box, Button, LabeledList, ProgressBar, Section } from '../components';
@@ -53,6 +55,11 @@ export const FighterController = (props, context) => {
                     icon="bullseye"
                     color={value.safeties && "green"}
                     onClick={() => act('toggle_safeties', { target: value.name })} />
+                  <Button
+                    content="Toggle docking"
+                    icon="anchor"
+                    color={value.docking_mode && "green"}
+                    onClick={() => act('toggle_docking', { target: value.name })} />
                   <ProgressBar
                     value={(value.integrity/value.max_integrity * 100)* 0.01}
                     ranges={{

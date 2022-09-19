@@ -3,7 +3,6 @@
 	id = "ship_shield_tech"
 	display_name = "Experimental Shield Technology"
 	description = "Highly experimental shield technology to vastly increase survivability in ships. Although Nanotrasen researchers have had access to this technology for quite some time, the incredible amount of power required to maintain shields has proven to be the greatest challenge in implementing them."
-	prereq_ids = list("")
 	design_ids = list("shield_fan", "shield_capacitor", "shield_modulator", "shield_interface", "shield_frame")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)
 	export_price = 5000
@@ -14,7 +13,7 @@
 	display_name = "Ship computer circuitry"
 	description = "Allows you to rebuild the CIC when it inevitably gets bombed."
 	prereq_ids = list("comptech")
-	design_ids = list("helm_circuit", "navigation_console_circuit", "tactical_comp_circuit", "dradis_circuit", "mining_dradis_circuit", "astrometrics_console")
+	design_ids = list("helm_circuit", "navigation_console_circuit", "tactical_comp_circuit", "astrometrics_console", "dradis_console", "cargo_dradis_console")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
 	export_price = 1000
 
@@ -42,16 +41,26 @@
 	display_name = "Guided Munitions II"
 	description = "More advanced torpedo components"
 	prereq_ids = list("basic_torpedo_components", "exotic_ammo")
-	design_ids = list("bb_warhead", "nuke_warhead", "probe_warhead")
+	design_ids = list("bb_warhead", "hellfire_warhead", "probe_warhead")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 7500
+
+/datum/techweb_node/prototype_disruption_warheads
+	id = "prototype_disruption_warheads"
+	display_name = "Disruption Warhead Prototype"
+	description = "Experimental Disruption Torpedo warheads, fresh from R&Ds reverse engineering department."
+	prereq_ids = list("advanced_torpedo_components", "emp_adv")
+	design_ids = list("proto_disruption_warhead")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 6500)
+	export_price = 7000
+	tech_tier = 3
 
 /datum/techweb_node/advanced_ballistics
 	id = "adv_ballistics"
 	display_name = "Advanced Ballistics"
 	description = "More guns means better guns... Right?"
 	prereq_ids = list("ballistic_weapons")
-	design_ids = list("munitions_computer_circuit", "ship_firing_electronics", "ams_console", "vls_tube", "naval_shell", "fiftycal", "fiftycalcomp","deck_gun","naval_artillery_comp","artillery_loader","powder_loader","payload_gate","powder_bag","gauss_rack_upgrade")
+	design_ids = list("naval_shell", "powder_bag", "gauss_rack_upgrade")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
 
@@ -60,7 +69,7 @@
 	display_name = "Macro-Ballistics"
 	description = "Asking important questions, like what if we made even bigger guns?"
 	prereq_ids = list("adv_ballistics", "adv_plasma")
-	design_ids = list("naval_shell_ap", "plasma_accelerant", "fiftycal_super", "deck_gun_autorepair", "deck_gun_autoelevator")
+	design_ids = list("naval_shell_ap", "plasma_accelerant", "deck_gun_autorepair", "deck_gun_autoelevator")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 7500)
 	export_price = 10000
 

@@ -17,7 +17,9 @@
 	var/list/fleet_types = list()
 	var/list/randomspawn_only_fleet_types = list()	//These fleets only get spawned randomly, not by say, missions.
 	var/next_fleet_spawn = 0 //Factions spawn fleets more frequently when they're doing well with tickets.
-	var/fleet_spawn_rate = 20 MINUTES //By default, 1 / 10 minutes.
+	var/fleet_spawn_rate = 10 MINUTES //By default, 1 / 5 minutes.
+	var/spawn_rate_jitter = 3 MINUTES
+	var/minimum_spawn_interval = 5 MINUTES
 
 /**
 Procs for handling factions winning / losing
@@ -59,21 +61,18 @@ Set up relationships.
 	for(var/datum/faction/F in relationships)
 		if(relationships[F] <= RELATIONSHIP_ENEMIES)
 			F.gain_influence(value)
-	SSstar_system.check_completion()
 
 /datum/faction/proc/gain_influence(value)
 	tickets += value
-	SSstar_system.check_completion()
 
 /datum/faction/proc/send_fleet(datum/star_system/override=null, custom_difficulty=null, force=FALSE)
-	if(SSstar_system.check_completion() || !fleet_types || !force && (world.time < next_fleet_spawn))
+	if(!fleet_types || !force && (world.time < next_fleet_spawn))
 		return
-	next_fleet_spawn = world.time + fleet_spawn_rate
+	next_fleet_spawn = world.time + max(fleet_spawn_rate + rand(-spawn_rate_jitter, spawn_rate_jitter), minimum_spawn_interval)
 	var/datum/star_system/current_system //Dont spawn enemies where theyre currently at
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //The ship doesnt start with a system assigned by default
-		if(OM.role != MAIN_OVERMAP)
-			continue
-		current_system = SSstar_system.ships[OM]["current_system"]
+	var/obj/structure/overmap/main_ship = SSstar_system.find_main_overmap()
+	if(main_ship)
+		current_system = SSstar_system.ships[main_ship]["current_system"]
 	var/list/possible_spawns = list()
 	for(var/datum/star_system/starsys in SSstar_system.systems)
 		if(starsys != current_system && !starsys.hidden && (lowertext(starsys.alignment) == lowertext(src.name) || starsys.alignment == "unaligned")) //Find one of our base systems and try to send a fleet out from there.
@@ -99,6 +98,11 @@ Set up relationships.
 	if(custom_difficulty)
 		F.size = custom_difficulty
 	F.assemble(starsys)
+	if(!F.hide_movements && !starsys.hidden)
+		if((F.alignment == "nanotrasen") || (F.alignment == "solgov"))
+			mini_announce("A White Rapids fleet has been assigned to [starsys]", "White Rapids Fleet Command")
+		else
+			mini_announce("Typhoon drive signatures detected in [starsys]", "White Rapids EAS")
 	F.faction = src
 	if(!force && id == FACTION_ID_SYNDICATE && !SSstar_system.neutral_zone_systems.Find(F.current_system))	//If it isn't forced, it got spawned by the midround processing. If we didn't already spawn in the neutral zone, we head to a random system there and occupy it.
 		var/list/possible_occupation_targets = list()
@@ -143,7 +147,7 @@ Set up relationships.
 	desc = "The Abassi Syndicate are a collection of former Nanotrasen colonists who rebelled against their 'oppression' and formed their own government."
 	preset_allies = list(FACTION_ID_PIRATES) //Yar HAR it's me, captain PLASMASALT
 	preset_enemies = list(FACTION_ID_NT)
-	fleet_types = list(/datum/fleet/neutral = 5, /datum/fleet/boarding = 5, /datum/fleet/wolfpack = 5, /datum/fleet/nuclear = 5)
+	fleet_types = list(/datum/fleet/neutral = 5, /datum/fleet/boarding = 5, /datum/fleet/wolfpack = 5, /datum/fleet/conflagration = 5)
 	randomspawn_only_fleet_types = list(/datum/fleet/interdiction/light = 1)
 	fleet_spawn_rate = 30 MINUTES
 	id = FACTION_ID_SYNDICATE
@@ -155,8 +159,8 @@ Set up relationships.
 		if(SS.name == "Outpost 45")
 			SS.hidden = FALSE
 	tickets = 0
-	SSstar_system.nag_stacks = 0
-	SSstar_system.next_nag_time = world.time + 10 HOURS
+	SSovermap_mode.objective_reminder_stacks = 0
+	SSovermap_mode.next_objective_reminder = world.time + 10 HOURS
 
 /datum/faction/pirate
 	name = "Tortuga Raiders"

@@ -8,7 +8,7 @@
 	antagpanel_category = "Changeling"
 	job_rank = ROLE_CHANGELING
 	antag_moodlet = /datum/mood_event/focused
-
+	hijack_speed = 0.5
 	var/you_are_greet = TRUE
 	var/team_mode = FALSE //Should assign team objectives ?
 	var/competitive_objectives = FALSE //Should we assign objectives in competition with other lings?
@@ -366,7 +366,7 @@
 		to_chat(owner.current, "<span class='boldannounce'>You are [changelingID], a changeling! You have absorbed and taken the form of a human.</span>")
 	to_chat(owner.current, "<span class='boldannounce'>Use say \"[MODE_TOKEN_CHANGELING] message\" to communicate with your fellow changelings.</span>")
 	to_chat(owner.current, "<b>You must complete the following tasks:</b>")
-	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ling_aler.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ling_aler.ogg', 100, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
 
 	owner.announce_objectives()
 	owner.current.client?.tgui_panel?.give_antagonist_popup("Changeling",
@@ -416,36 +416,38 @@
 		objectives += destroy_objective
 		log_objective(owner, destroy_objective.explanation_text)
 	else
-		if(prob(70))
-			var/datum/objective/assassinate/kill_objective = new
-			kill_objective.owner = owner
-			if(team_mode) //No backstabbing while in a team
-				kill_objective.find_target_by_role(role = ROLE_CHANGELING, role_type = TRUE, invert = TRUE)
+		if(GLOB.joined_player_list.len >= CONFIG_GET(number/min_pop_kill_objectives)) //nsv13 - No kill objectives on low pop
+			if(prob(70))
+				var/datum/objective/assassinate/kill_objective = new
+				kill_objective.owner = owner
+				if(team_mode) //No backstabbing while in a team
+					kill_objective.find_target_by_role(role = ROLE_CHANGELING, role_type = TRUE, invert = TRUE)
+				else
+					kill_objective.find_target()
+				objectives += kill_objective
+				log_objective(owner, kill_objective.explanation_text)
 			else
-				kill_objective.find_target()
-			objectives += kill_objective
-			log_objective(owner, kill_objective.explanation_text)
-		else
-			var/datum/objective/maroon/maroon_objective = new
-			maroon_objective.owner = owner
-			if(team_mode)
-				maroon_objective.find_target_by_role(role = ROLE_CHANGELING, role_type = TRUE, invert = TRUE)
-			else
-				maroon_objective.find_target()
-			objectives += maroon_objective
-			log_objective(owner, maroon_objective.explanation_text)
+				var/datum/objective/maroon/maroon_objective = new
+				maroon_objective.owner = owner
+				if(team_mode)
+					maroon_objective.find_target_by_role(role = ROLE_CHANGELING, role_type = TRUE, invert = TRUE)
+				else
+					maroon_objective.find_target()
+				objectives += maroon_objective
+				log_objective(owner, maroon_objective.explanation_text)
 
-			if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
-				var/datum/objective/escape/escape_with_identity/identity_theft = new
-				identity_theft.owner = owner
-				identity_theft.target = maroon_objective.target
-				identity_theft.update_explanation_text()
-				objectives += identity_theft
-				log_objective(owner, identity_theft.explanation_text)
-				escape_objective_possible = FALSE
+				if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
+					var/datum/objective/escape/escape_with_identity/identity_theft = new
+					identity_theft.owner = owner
+					identity_theft.target = maroon_objective.target
+					identity_theft.update_explanation_text()
+					objectives += identity_theft
+					log_objective(owner, identity_theft.explanation_text)
+					escape_objective_possible = FALSE //nsv13 end
 
 	if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
-		if(prob(50))
+		//nsv13 - No (almost neccessarily) kill objectives on low pop
+		if(prob(50) || (GLOB.joined_player_list.len <= CONFIG_GET(number/min_pop_kill_objectives)))
 			var/datum/objective/escape/escape_objective = new
 			escape_objective.owner = owner
 			objectives += escape_objective

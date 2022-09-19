@@ -15,6 +15,7 @@ Defending fleets have priority for shooting (A turn iterates through a system's 
 /datum/star_system/proc/handle_combat()
 	if(!fleets || !fleets.len || fleets.len == 1)
 		SSstar_system.contested_systems.Remove(src)
+		already_announced_combat = FALSE
 		return COMBAT_ENDED
 
 	if(occupying_z)	//Lets not play dice games if players are watching
@@ -22,6 +23,7 @@ Defending fleets have priority for shooting (A turn iterates through a system's 
 
 	if(!check_conflict_status())
 		SSstar_system.contested_systems.Remove(src)
+		already_announced_combat = FALSE
 		return COMBAT_ENDED
 
 	//Now, do actual combat stuff
@@ -32,6 +34,9 @@ Defending fleets have priority for shooting (A turn iterates through a system's 
 			if(!EF || QDELETED(EF))
 				continue
 			if(EF.faction_id != F.faction_id)
+				if(!already_announced_combat && !hidden)
+					minor_announce("Reports indicate that \a [F] has entered combat with \a [EF] in [src].", "Whiterapids EAS")
+					already_announced_combat = TRUE
 				fleet_fire(F, EF)
 				break
 
@@ -64,7 +69,7 @@ Defending fleets have priority for shooting (A turn iterates through a system's 
 	var/datum/combat_dice/Tdice = target.npc_combat_dice
 
 	var/affinity_target = FALSE
-	if(target.has_ai_trait(Fdice.affinity))
+	if(CHECK_MULTIPLE_BITFIELDS(target.ai_flags, Fdice.affinity_flags))
 		affinity_target = TRUE
 
 	var/targetting_roll = 0

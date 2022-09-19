@@ -58,7 +58,7 @@
 	anchored = FALSE
 	var/build_state = LBS_CHASSIS
 	var/building = FALSE
-	var/output_path = /obj/structure/overmap/fighter
+	var/output_path = /obj/structure/overmap/small_craft
 
 /obj/structure/fighter_frame/heavy
 	name = "\improper Heavy Fighter Frame"
@@ -67,7 +67,7 @@
 	icon_state = "heavy_fighter"
 	pixel_x = -32
 	pixel_y = -12
-	output_path = /obj/structure/overmap/fighter/heavy
+	output_path = /obj/structure/overmap/small_craft/combat/heavy
 
 /obj/structure/fighter_frame/utility
 	name = "\improper Utility Vessel Frame"
@@ -76,7 +76,7 @@
 	icon_state = "carrier"
 	pixel_x = -32
 	pixel_y = -12
-	output_path = /obj/structure/overmap/fighter/utility
+	output_path = /obj/structure/overmap/small_craft/transport/sabre
 
 /obj/structure/fighter_frame/update_icon()
 	icon_state = "[initial(icon_state)][build_state]"

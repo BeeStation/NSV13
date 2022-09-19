@@ -167,7 +167,7 @@
 /obj/effect/mob_spawn/human/corpse/nanotrasensoldier
 	name = "\improper Nanotrasen Private Security Officer"
 	id_job = "Private Security Force"
-	id_access = "Security Officer"
+	id_access = "Military Police" //Nsv13 - Crayon eaters & MPs
 	outfit = /datum/outfit/nanotrasensoldiercorpse2
 	hair_style = "Bald"
 	facial_hair_style = "Shaved"
@@ -310,7 +310,7 @@
 
 /obj/effect/mob_spawn/human/corpse/facboss
 	name = "Factory boss"
-	mob_species = /datum/species/synth/military
+	mob_species = /datum/species/ipc
 	brute_damage = 800
 	burn_damage = 100
 	hair_style = "Crewcut"

@@ -42,6 +42,7 @@
 #define ACCESS_THEATRE 46
 #define ACCESS_RESEARCH 47
 #define ACCESS_MINING 48
+#define ACCESS_EXPLORATION 49
 #define ACCESS_MAILSORTING 50
 #define ACCESS_VAULT 53
 #define ACCESS_MINING_STATION 54
@@ -66,12 +67,13 @@
 #define ACCESS_MUNITIONS 69 //NSV13 - Departmental ACCESS
 #define ACCESS_MAA 70 //NSV13 - MAA gets an office
 #define ACCESS_MUNITIONS_STORAGE 71 //NSV13 - Access to ordinance
-#define ACCESS_FIGHTER 72 //NSV13 - Fighternerds
-#define ACCESS_FL 73 //NSV13 - FL tagged decorated fighter
+#define ACCESS_COMBAT_PILOT 72 //NSV13 - Fighternerds
+#define ACCESS_TRANSPORT_PILOT 73 //NSV13 - Imagine getting your ATPLs
 #define ACCESS_MINING_ENGINEERING 74
 #define ACCESS_MINING_BRIDGE 75
 #define ACCESS_SEC_RECORDS 77 //! Update security records //NSV13 - changed from 69
 #define ACCESS_PRISONER 78 //! Nsv13 - Genpop. This access is added to prisoner IDs that have served their time.
+#define ACCESS_HANGAR 79 //NSV13 - Access to the hangar
 
 /// Room and launching.
 #define ACCESS_AUX_BASE 76 //NSV13 - changed from 72 to 76 to deconflict

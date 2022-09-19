@@ -9,13 +9,14 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	RADIO_CHANNEL_CENTCOM = RADIO_TOKEN_CENTCOM,
 	RADIO_CHANNEL_SYNDICATE = RADIO_TOKEN_SYNDICATE,
 	RADIO_CHANNEL_SUPPLY = RADIO_TOKEN_SUPPLY,
+//	RADIO_CHANNEL_EXPLORATION = RADIO_TOKEN_EXPLORATION,
 	RADIO_CHANNEL_SERVICE = RADIO_TOKEN_SERVICE,
 	RADIO_CHANNEL_ATC = RADIO_TOKEN_ATC,
 	RADIO_CHANNEL_MUNITIONS = RADIO_TOKEN_MUNITIONS,
 	RADIO_CHANNEL_PIRATE = RADIO_CHANNEL_PIRATE,
 	MODE_BINARY = MODE_TOKEN_BINARY,
 	RADIO_CHANNEL_AI_PRIVATE = RADIO_TOKEN_AI_PRIVATE
-)) //Nsv13 - Atc chat & munitions & space pirates
+)) //Nsv13 - Atc chat & munitions & space pirates. Removed exploration
 
 /obj/item/radio/headset
 	name = "radio headset"
@@ -223,9 +224,21 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 
 /obj/item/radio/headset/headset_cargo
 	name = "supply radio headset"
-	desc = "A headset used by the QM and his slaves."
+	desc = "A headset used by the QM's slaves."
 	icon_state = "cargo_headset"
 	keyslot = new /obj/item/encryptionkey/headset_cargo
+
+/obj/item/radio/headset/headset_quartermaster
+	name = "quartermaster radio headset"
+	desc = "A headset used by the QM."
+	icon_state = "cargo_headset"
+	keyslot = new /obj/item/encryptionkey/headset_cargo
+
+/obj/item/radio/headset/headset_exploration
+	name = "exploration radio headset"
+	desc = "A headset used by exploration teams."
+	icon_state = "exploration_headset"
+	keyslot = new /obj/item/encryptionkey/headset_expteam
 
 /obj/item/radio/headset/headset_cargo/mining
 	name = "mining radio headset"
@@ -238,6 +251,12 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	desc = "Headset used by the service staff, tasked with keeping the station full, happy and clean."
 	icon_state = "srv_headset"
 	keyslot = new /obj/item/encryptionkey/headset_service
+
+/obj/item/radio/headset/headset_curator
+	name = "curator radio headset"
+	desc = "Headset used by the curator, which allows for communication with the exploration team."
+	icon_state = "srv_headset"
+	keyslot = new /obj/item/encryptionkey/headset_curator
 
 /obj/item/radio/headset/headset_cent
 	name = "\improper CentCom headset"
@@ -291,6 +310,7 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 				keyslot2 = null
 
 			recalculateChannels()
+			ui_update()
 			to_chat(user, "<span class='notice'>You pop out the encryption keys in the headset.</span>")
 
 		else
@@ -313,6 +333,7 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 
 
 		recalculateChannels()
+		ui_update()
 	else
 		return ..()
 

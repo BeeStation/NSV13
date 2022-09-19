@@ -8,7 +8,7 @@
 	resistance_flags = FLAMMABLE
 	// Possible restyles for the cutout;
 	// add an entry in change_appearance() if you add to here
-	var/list/possible_appearances = list("Assistant", "Clown", "Mime",
+	var/list/possible_appearances = list("Midshipman", "Clown", "Mime",
 		"Traitor", "Nuke Op", "Cultist", "Clockwork Cultist",
 		"Revolutionary", "Wizard", "Shadowling", "Xenomorph", "Xenomorph Maid", "Swarmer",
 		"Ash Walker", "Deathsquad Officer", "Ian", "Slaughter Demon",
@@ -65,9 +65,9 @@
 		if(prob(I.force))
 			push_over()
 
-/obj/item/cardboard_cutout/bullet_act(obj/item/projectile/P)
+/obj/item/cardboard_cutout/bullet_act(obj/item/projectile/P, def_zone, piercing_hit = FALSE)
 	if(istype(P, /obj/item/projectile/bullet/reusable))
-		P.on_hit(src, 0)
+		P.on_hit(src, 0, piercing_hit)
 	visible_message("<span class='danger'>[src] is hit by [P]!</span>")
 	playsound(src, 'sound/weapons/slice.ogg', 50, 1)
 	if(prob(P.damage))
@@ -98,7 +98,7 @@
 	if(!deceptive)
 		add_atom_colour("#FFD7A7", FIXED_COLOUR_PRIORITY)
 	switch(new_appearance)
-		if("Assistant")
+		if("Midshipman") //Nsv13 - Crayon eaters
 			name = "[pick(GLOB.first_names_male)] [pick(GLOB.last_names)]"
 			desc = "A cardboat cutout of an assistant."
 			icon_state = "cutout_greytide"
@@ -185,7 +185,7 @@
 
 /obj/item/cardboard_cutout/adaptive //Purchased by Syndicate agents, these cutouts are indistinguishable from normal cutouts but aren't discolored when their appearance is changed
 	deceptive = TRUE
-	
+
 //	--- CHESS PIECES ---
 
 // WHITE
@@ -212,7 +212,7 @@
 /obj/item/cardboard_cutout/adaptive/chess/bishop
 	name = "White Bishop"
 	icon_state = "cutout_ntsec";
-	
+
 /obj/item/cardboard_cutout/adaptive/chess/pawn
 	name = "White Pawn"
 	icon_state = "cutout_greytide";
@@ -241,7 +241,7 @@
 /obj/item/cardboard_cutout/adaptive/chess/black/bishop
 	name = "Black Bishop"
 	icon_state = "cutout_fluke";
-	
+
 /obj/item/cardboard_cutout/adaptive/chess/black/pawn
 	name = "Black Pawn"
 	icon_state = "cutout_shadowling";

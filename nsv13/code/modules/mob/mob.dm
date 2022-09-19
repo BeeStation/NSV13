@@ -3,4 +3,11 @@
 
 /mob/Move(atom/newloc, direct=0)
 	. = ..()
-	find_overmap()
+	update_overmap()
+
+// There's so many edge cases for player overmap escapes that it's just cleaner to universally check mob forcemoves.
+// use doMove if you must get around this for whatever reason
+/mob/living/forceMove(atom/destination)
+	destination = GetSafeLoc(destination)
+	. = ..()
+	update_overmap()

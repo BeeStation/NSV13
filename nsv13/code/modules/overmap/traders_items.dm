@@ -25,9 +25,8 @@
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>[pick(inhabited_trader.greetings)]</span>")
 
-//Nope!
-
 /obj/structure/overmap/trader/can_move()
+	//Nope!
 	return FALSE
 
 /obj/structure/overmap/trader/shipyard
@@ -38,6 +37,7 @@
 	name = "Arms Depot"
 	icon_state = "syndie"
 	faction = "syndicate"
+	supply_pod_type = /obj/structure/closet/supplypod/syndicate_odst
 
 /obj/structure/overmap/trader/proc/set_trader(datum/trader/bob) //The love story of alice and bob continues.
 	name = "[bob.name]"
@@ -48,6 +48,11 @@
 /obj/structure/overmap/trader/Destroy()
 	qdel(inhabited_trader)
 	. = ..()
+
+/obj/structure/overmap/trader/LateInitialize()
+	. = ..()
+	if((datum_flags & DF_ISPROCESSING) && (!current_system || !current_system.occupying_z))
+		STOP_PROCESSING(SSphysics_processing, src)
 
 
 //General items:
@@ -70,6 +75,55 @@
 
 /datum/trader_item/ship_repair/on_purchase(obj/structure/overmap/OM)
 	OM.repair_all_quadrants(repair_amount, failure_chance)
+
+/datum/trader_item/mining_point_card
+	name = "Mining point card"
+	desc = "A mining point transfer card worth 500 at your local equipment vendor."
+	price = 500                                    //1:1 price because 2000 points can turn into 1000 credits.
+	stock = 5
+	unlock_path = /obj/item/card/mining_point_card
+
+/datum/trader_item/titanium
+	name = "Titanium"
+	desc = "A necessary part of any competent combat vessels armour."
+	price = 700                             //Price for minerals is roughly 6x their export value
+	stock = 30
+	unlock_path = /obj/item/stack/sheet/mineral/titanium
+
+/datum/trader_item/silver
+	name = "Silver"
+	desc = "Shiny, and affordable!."
+	price = 600
+	stock = 10
+	unlock_path = /obj/item/stack/sheet/mineral/silver
+
+/datum/trader_item/diamond
+	name = "Diamond"
+	desc = "Unlike some other places these don't come covered in blood. Only lots of sweat and tears."
+	price = 2000
+	stock = 4
+	unlock_path = /obj/item/stack/sheet/mineral/diamond
+
+/datum/trader_item/uranium
+	name = "Uranium"
+	desc = "Slightly radioactive, handle with care."
+	price = 650
+	stock = 8
+	unlock_path = /obj/item/stack/sheet/mineral/uranium
+
+/datum/trader_item/gold
+	name = "Gold"
+	desc = "Conducts electricity wonderfully! Just ask Steve."
+	price = 800
+	stock = 5
+	unlock_path = /obj/item/stack/sheet/mineral/gold
+
+/datum/trader_item/bluespace_crystal
+	name = "Bluespace crystal"
+	desc = "A wonder material which bent our world view, now it'll bend your wallet if you want some."
+	price = 8000
+	stock = 3
+	unlock_path = /obj/item/stack/sheet/bluespace_crystal
 
 /datum/trader_item/mac
 	name = "Magnetic Accelerator Cannon Kit"
@@ -122,12 +176,12 @@
 	stock = 20
 	unlock_path = /obj/item/ship_weapon/ammunition/missile
 
-/datum/trader_item/nuke
-	name = "Thermonuclear Torpedo"
+/datum/trader_item/hellfire
+	name = "Plasma Incendiary Torpedo"
 	desc = "The alpha and the omega, shipped to you quickly and efficiently! (WARNING: HANDLE WITH CARE)."
 	price = 2500
 	stock = 4
-	unlock_path = /obj/item/ship_weapon/ammunition/torpedo/nuke
+	unlock_path = /obj/item/ship_weapon/ammunition/torpedo/hellfire
 
 /datum/trader_item/c20r
 	name = "Donk Co. C20R SMG."
@@ -155,39 +209,46 @@
 	desc = "PDC rounds for use in ship to ship guns."
 	price = 800
 	stock = 10
-	unlock_path = /obj/item/ammo_box/magazine/pdc
+	unlock_path = /obj/item/ammo_box/magazine/nsv/pdc
+
+/datum/trader_item/anti_air
+	name = "Anti-air Gun Ammo Box"
+	desc = "Anti-air rounds for use in ship to ship guns."
+	price = 800
+	stock = 10
+	unlock_path = /obj/item/ammo_box/magazine/nsv/pdc
 
 /datum/trader_item/flak
 	name = "Flak Ammo Box"
 	desc = "Flak rounds for use in ship to ship guns."
 	price = 500
 	stock = 10
-	unlock_path = /obj/item/ammo_box/magazine/pdc/flak
+	unlock_path = /obj/item/ammo_box/magazine/nsv/flak
 
 /datum/trader_item/fighter/light
 	name = "Light Fighter"
 	desc = "A pre-assembled light fighter which comes pre-equipped with everything a pilot needs to get back into the fight."
 	price = 11000
 	stock = 2
-	unlock_path = /obj/structure/overmap/fighter/light
+	unlock_path = /obj/structure/overmap/small_craft/combat/light
 
 /datum/trader_item/fighter/utility
 	name = "Utility Fighter"
 	desc = "A pre-assembled utility craft, capable of restocking and repairing other fighters."
 	price = 9000
 	stock = 5
-	unlock_path = /obj/structure/overmap/fighter/utility
+	unlock_path = /obj/structure/overmap/small_craft/transport/sabre
 
 /datum/trader_item/fighter/heavy
 	name = "Heavy Fighter"
 	desc = "A pre-assembled Scimitar class heavy fighter produced in house by our engineers."
 	price = 15000
 	stock = 2
-	unlock_path = /obj/structure/overmap/fighter/heavy
+	unlock_path = /obj/structure/overmap/small_craft/combat/heavy
 
 //Trader exclusive specialty fighters
-/obj/structure/overmap/fighter/light/judgement
-	name = "Executive Fighter"
+/obj/structure/overmap/small_craft/combat/light/judgement
+	name = "executive fighter"
 	icon_state = "judgement"
 	components = list(/obj/item/fighter_component/fuel_tank/tier2,
 						/obj/item/fighter_component/avionics,
@@ -208,16 +269,16 @@
 	desc = "A custom built light fighter tuned to perfection, attention to detail and pride fuel this beauty."
 	price = 20000
 	stock = 1
-	unlock_path = /obj/structure/overmap/fighter/light/judgement
+	unlock_path = /obj/structure/overmap/small_craft/combat/light/judgement
 
 /datum/trader_item/fighter/prototype
 	name = "SU-148 Chelyabinsk Superiority Fighter"
 	desc = "A highly experimental fighter prototype outfitted with a railgun. This absolute powerhouse balances speed, power and stealth in a package guaranteed to outclass anything the Syndicate can throw at you."
 	price = 50000
 	stock = 1
-	unlock_path = /obj/structure/overmap/fighter/light/prototype
+	unlock_path = /obj/structure/overmap/small_craft/combat/light/prototype
 
-/obj/structure/overmap/fighter/light/prototype
+/obj/structure/overmap/small_craft/combat/light/prototype
 	name = "SU-148 Chelyabinsk Superiority Fighter"
 	icon_state = "prototype"
 	components = list(/obj/item/fighter_component/fuel_tank/tier3,
@@ -239,7 +300,7 @@
 	desc = "A somewhat outdated Syndicate fighter design which may or may not be a facsimile of Nanotrasen's now defunct 'Viper' series."
 	price = 7000
 	stock = 5
-	unlock_path = /obj/structure/overmap/fighter/light/syndicate //Good luck using these without boarder IDs
+	unlock_path = /obj/structure/overmap/small_craft/combat/light/syndicate //Good luck using these without boarder IDs
 
 /datum/trader_item/taser
 	name = "Czanek corp Taser (Patent Pending)"
@@ -261,3 +322,17 @@
 	price = 100000
 	stock = 1
 	unlock_path = /obj/item/disk/design_disk/overmap_shields
+
+/datum/trader_item/deck_gun_autoelevator
+	name = "Experimental Naval Artillery Cannon Autoelevator Technology Disk"
+	desc = "A machine which can upgrade the naval artillery cannon to drastically reduce load times."
+	price = 10000
+	stock = 1
+	unlock_path = /obj/item/disk/design_disk/deck_gun_autoelevator
+
+/datum/trader_item/deck_gun_autorepair
+	name = "Experimental Naval Artillery Cannon Autorepair Technology Disk"
+	desc = "A machine which can upgrade the naval artillery cannon to let it self-repair."
+	price = 8000
+	stock = 1
+	unlock_path = /obj/item/disk/design_disk/deck_gun_autorepair

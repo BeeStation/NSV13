@@ -1,3 +1,5 @@
+// NSV13
+
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
 import { Button, Section, ProgressBar } from '../components';
@@ -12,14 +14,24 @@ export const DeckGun = (props, context) => {
       width={500}
       height={400}>
       <Window.Content scrollable>
-        <Section title={`Loaded: ${data.loaded}`} buttons={
-          <Button content="Feed Shell"
-            icon="exclamation-triangle"
-            disabled={!data.can_load}
-            onClick={() => act('load')}
-          />
-        }>
-          Shell powder content (dT):
+        <Section title="Naval Artillery Cannon">
+          <Section title="Loaded:">
+            {data.loaded}
+          </Section>
+          {!!data.parts && (
+            <Section title="Shell powder content (dT):">
+              {Object.keys(data.parts).map(key => {
+                let value = data.parts[key];
+                return (
+                  <Button key={key} content="Pack from loader"
+                    icon="box"
+                    disabled={!(value.loaded)}
+                    onClick={() => act('load_powder', { target: value.id })}
+                  />
+                );
+              })}
+            </Section>
+          )}
           <ProgressBar
             value={(data.speed / data.max_speed * 100) * 0.01}
             ranges={{
@@ -28,7 +40,15 @@ export const DeckGun = (props, context) => {
               bad: [-Infinity, 0.4],
             }} />
           <br />
-          Turret Ammunition:
+          <br />
+        </Section>
+        <Section title="Turret Ammunition:">
+          <Button content="Feed Shell"
+            icon="exclamation-triangle"
+            disabled={!data.can_load}
+            onClick={() => act('load')} />
+          <br />
+          <br />
           <ProgressBar
             value={(data.ammo / data.max_ammo * 100) * 0.01}
             ranges={{
@@ -37,20 +57,7 @@ export const DeckGun = (props, context) => {
               bad: [-Infinity, 0.4],
             }} />
         </Section>
-        {!!data.parts && (
-          <Section title="Powder Loaders:">
-            {Object.keys(data.parts).map(key => {
-              let value = data.parts[key];
-              return (
-                <Button key={key} content="Pack from loader"
-                  icon="box"
-                  disabled={!(value.loaded)}
-                  onClick={() => act('load_powder', { target: value.id })}
-                />
-              );
-            })}
-          </Section>
-        )}
+
       </Window.Content>
     </Window>
   );

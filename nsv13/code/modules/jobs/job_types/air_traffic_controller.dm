@@ -7,7 +7,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the Master At Arms"
-	selection_color = "#d692a3"
+	selection_color = "#ffd1a2"
 	chat_color = "#2681a5"
 	exp_requirements = 30
 	exp_type = EXP_TYPE_CREW
@@ -15,14 +15,15 @@
 
 	outfit = /datum/outfit/job/air_traffic_controller
 
-	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_FIGHTER) //temp
-	minimal_access = list(ACCESS_MUNITIONS) //temp
+	access = list(ACCESS_MAINT_TUNNELS, ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_HANGAR)
+	minimal_access = list(ACCESS_MUNITIONS, ACCESS_HANGAR)
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_MUN
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_AIR_TRAFFIC_CONTROLLER
 	display_rank = "SGT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
+	departments = DEPARTMENT_MUNITIONS
 
 /datum/outfit/job/air_traffic_controller
 	name = "Air Traffic Controller"

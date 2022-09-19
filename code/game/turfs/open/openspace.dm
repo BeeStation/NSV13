@@ -17,11 +17,22 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	icon_state = "transparent"
 	baseturfs = /turf/open/openspace
 	CanAtmosPassVertical = ATMOS_PASS_YES
+	allow_z_travel = TRUE
+
+	FASTDMM_PROP(\
+		pipe_astar_cost = 100\
+	)
+
 	//mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	var/can_cover_up = TRUE
 	var/can_build_on = TRUE
 
 	intact = 0
+
+	var/static/list/allowed_floors = typecacheof(list(
+			/obj/item/stack/tile/plasteel,
+			/obj/item/stack/tile/mono)) // NSV13 - allow building floor with monotiles
+
 /turf/open/openspace/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
@@ -48,6 +59,9 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 /turf/open/openspace/can_have_cabling()
 	if(locate(/obj/structure/lattice/catwalk, src))
 		return TRUE
+	var/turf/B = below()
+	if(B)
+		return B.can_lay_cable()
 	return FALSE
 
 /turf/open/openspace/update_multiz(prune_on_fail = FALSE, init = FALSE)
@@ -82,6 +96,11 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	return TRUE
 
 /turf/open/openspace/zPassOut(atom/movable/A, direction, turf/destination)
+	//Check if our fall location has gravity
+	/* NSV13 - actually yes, please let us move up and down without gravity
+	if(!A.has_gravity(destination))
+		return FALSE
+	*/
 	if(A.anchored)
 		return FALSE
 	for(var/obj/O in contents)
@@ -121,12 +140,12 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 		else
 			to_chat(user, "<span class='warning'>You need one rod to build a lattice.</span>")
 		return
-	if(istype(C, /obj/item/stack/tile/plasteel))
+	if(allowed_floors[C.type]) // NSV13 - allow building with monotiles
 		if(!CanCoverUp())
 			return
 		var/obj/structure/lattice/L = locate(/obj/structure/lattice, src)
 		if(L)
-			var/obj/item/stack/tile/plasteel/S = C
+			var/obj/item/stack/tile/S = C // NSV13 - genericized to all tile stacks allowed
 			if(S.use(1))
 				qdel(L)
 				playsound(src, 'sound/weapons/genhit.ogg', 50, 1)
@@ -157,3 +176,12 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			PlaceOnTop(/turf/open/floor/plating, flags = CHANGETURF_INHERIT_AIR)
 			return TRUE
 	return FALSE
+
+//Returns FALSE if gravity is force disabled. True if grav is possible
+/turf/open/openspace/check_gravity()
+	var/turf/T = below()
+	if(!T)
+		return TRUE
+	if(isspaceturf(T))
+		return FALSE
+	return TRUE

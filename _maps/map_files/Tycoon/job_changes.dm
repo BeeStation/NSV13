@@ -1,4 +1,4 @@
-/datum/job/fighter_pilot/New()
+/datum/job/pilot/New()
 	..()
 	MAP_JOB_CHECK
 	total_positions = 7

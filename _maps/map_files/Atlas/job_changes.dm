@@ -47,7 +47,7 @@ MAP_REMOVE_JOB(brig_phys)
     cant_discount = TRUE
     surplus = 0
 
-/datum/job/fighter_pilot/New()
+/datum/job/pilot/New()
     ..()
     MAP_JOB_CHECK
     total_positions = 1

@@ -91,11 +91,11 @@
 	var/eject_range = 5
 	var/turf/open/floor/floorturf
 
-	if(isfloorturf(T)) //intact floor, pop the tile
+	if(isfloorturf(T) && T.intact) //intact floor, pop the tile
 		floorturf = T
 		if(floorturf.floor_tile)
 			new floorturf.floor_tile(T)
-		floorturf.make_plating()
+		floorturf.make_plating(TRUE)
 
 	if(direction)		// direction is specified
 		if(isspaceturf(T)) // if ended in space, then range is unlimited
@@ -109,12 +109,25 @@
 		target = get_offset_target_turf(T, rand(5)-rand(5), rand(5)-rand(5))
 
 	playsound(src, 'sound/machines/hiss.ogg', 50, 0, 0)
+
 	for(var/A in H)
 		var/atom/movable/AM = A
-		AM.forceMove(get_turf(src))
+		//NSV13 start - nerfs disposals stacking of dense objects
+		var/turf/entryturf = get_turf(src)
+		if(!entryturf.Enter(AM)) // something is blocking the tile
+			var/turf/candidate = get_step(entryturf, direction) //Take one step past it
+			if(!candidate.Enter(AM, entryturf))
+				for(var/turf/newentry in oview(1, entryturf))
+					if(newentry.Enter(AM, entryturf))
+						entryturf = newentry
+						break
+					CHECK_TICK
+		AM.forceMove(entryturf)
+		//NSV13 end
 		AM.pipe_eject(direction)
 		if(target)
 			AM.throw_at(target, eject_range, 1)
+		CHECK_TICK
 	H.vent_gas(T)
 	qdel(H)
 

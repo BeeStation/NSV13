@@ -46,16 +46,13 @@ GLOBAL_VAR(clockcult_eminence)
 
 	var/datum/team/clock_cult/main_cult
 
+/datum/game_mode/clockcult/setup_maps()
+	//Since we are loading in pre_setup, disable map loading.
+	SSticker.gamemode_hotswap_disabled = TRUE
+	LoadReebe()
+	return TRUE
+
 /datum/game_mode/clockcult/pre_setup()
-	//Load Reebe
-	var/list/errorList = list()
-	var/list/reebe = SSmapping.LoadGroup(errorList, "Reebe", "map_files/generic", "CityOfCogs.dmm", default_traits=ZTRAITS_REEBE, silent=TRUE)
-	if(errorList.len)
-		message_admins("Reebe failed to load")
-		log_game("Reebe failed to load")
-		return FALSE
-	for(var/datum/parsed_map/map in reebe)
-		map.initTemplateBounds()
 	//Generate cultists
 	for(var/i in 1 to clock_cultists)
 		if(!antag_candidates.len)
@@ -223,7 +220,7 @@ GLOBAL_VAR(clockcult_eminence)
 				//Ew, this could be done better with a dictionary list, but this isn't much slower
 				if(role in GLOB.command_positions)
 					prefix = "High Priest"
-				else if(role in GLOB.engineering_positions)
+				else if((role in GLOB.engineering_positions) || (role in GLOB.munitions_positions)) //NSV13 - munitions
 					prefix = "Cogturner"
 				else if(role in GLOB.medical_positions)
 					prefix = "Rejuvinator"
@@ -231,7 +228,7 @@ GLOBAL_VAR(clockcult_eminence)
 					prefix = "Calculator"
 				else if(role in GLOB.supply_positions)
 					prefix = "Pathfinder"
-				else if(role in "Assistant")
+				else if(role in "Midshipman") //Nsv13 - Crayon eaters
 					prefix = "Helper"
 				else if(role in "Mime")
 					prefix = "Cogwatcher"

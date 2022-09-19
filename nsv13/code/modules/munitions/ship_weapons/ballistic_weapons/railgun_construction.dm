@@ -15,7 +15,7 @@
 // Final step - insert loading tray
 
 /obj/structure/ship_weapon/railgun_assembly
-	name = "NT-STC4 Ship railgun mount"
+	name = "\improper NT-STC4 Ship railgun mount"
 	desc = "An incomplete assembly for an NT-STC4 ship mounted railgun chamber."
 	icon = 'nsv13/icons/obj/railgun.dmi'
 	icon_state = "railgun_platform"
@@ -60,7 +60,7 @@
 			. += "The condductive rails are loose in the frame. They could be <b>pried out</b> or <i>bolted</i> down."
 		if(BS_RAILS_BOLTED)
 			var/capacitors_left = num_capacitors - capacitors_added
-			. += "The rails are <b>bolted</b> in place. There is space for <i>[capacitors_left] capacitor[(capacitors_left != 1) ? "s" : ""]</i>."
+			. += "The rails are <b>bolted</b> in place. There is space for <i>[capacitors_left] capacitor\s</i>."
 		if(BS_CAPACITORS_PLACED)
 			. += "The capacitors are in place. The <i>screws</i> are loose, and they could be <b>removed</b> by hand."
 		if(BS_CAPACITORS_SECURED)
@@ -82,7 +82,7 @@
 
 /obj/structure/ship_weapon/railgun_assembly/attackby(obj/item/W, mob/user, params)
 	add_fingerprint(user)
-	if(istype(W, /obj/item/stack/sheet/nanocarbon_glass) && (state == BS_MOUNT_WELDED))
+	if(istype(W, /obj/item/stack/sheet/nanocarbon_glass) && state == BS_MOUNT_WELDED)
 		var/obj/item/stack/sheet/nanocarbon_glass/S = W
 		if(S.get_amount() < num_sheets_insulation)
 			to_chat(user, "<span class='warning'>You need four sheets of [S] to insulate the railgun!</span>")

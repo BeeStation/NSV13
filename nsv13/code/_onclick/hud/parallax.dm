@@ -32,7 +32,7 @@
 	if(!current_mob)
 		return FALSE //Something has gone horribly wrong.
 	var/datum/space_level/SL = SSmapping.z_list[current_mob.z]
-	var/in_transit = current_mob.get_overmap() && (SSstar_system.ships[current_mob.get_overmap()]["target_system"] != null)
+	var/in_transit = current_mob.get_overmap() && (SSstar_system.ships[current_mob.get_overmap()] && SSstar_system.ships[current_mob.get_overmap()]["target_system"] != null)
 	//FTL transit parallax takes priority.
 	if(in_transit)
 		if(SL.parallax_movedir != dir)

@@ -13,17 +13,16 @@ Bullet reactions
 /obj/structure/overmap/proc/shake_everyone(severity)
 	for(var/mob/M in mobs_in_ship)
 		if(M.client)
-			shake_camera(M, severity, 1)
+			shake_with_inertia(M, severity, 1)
 
-/obj/structure/overmap/proc/e(){
-	while(1){
+/obj/structure/overmap/proc/e()
+	while(1)
 		stoplag(1)
 		add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
-	}
-}
-/obj/structure/overmap/proc/f(){
+
+/obj/structure/overmap/proc/f()
 	add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
-}
+
 
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)
 	if(istype(P, /obj/item/projectile/beam/overmap/aiming_beam))
@@ -38,10 +37,11 @@ Bullet reactions
 			impact_sound_cooldown = TRUE
 			addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
 		return FALSE //Shields absorbed the hit, so don't relay the projectile.
-	relay_damage(P?.type)
+
+	var/relayed_type = P.relay_projectile_type ? P.relay_projectile_type : P.type
+	relay_damage(relayed_type)
 	if(!use_armour_quadrants)
-		. = ..()
-		return
+		return ..()
 	else
 		playsound(src, P.hitsound, 50, 1)
 		visible_message("<span class='danger'>[src] is hit by \a [P]!</span>", null, null, COMBAT_MESSAGE_RANGE)
@@ -50,7 +50,7 @@ Bullet reactions
 			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), projectile_quadrant_impact(P)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
 
 /obj/structure/overmap/proc/relay_damage(proj_type)
-	if(!occupying_levels.len)
+	if(!length(occupying_levels))
 		return
 	var/datum/space_level/SL = pick(occupying_levels)
 	var/theZ = SL.z_value
@@ -66,10 +66,13 @@ Bullet reactions
 		proj.fire(Get_Angle(pickedstart,pickedgoal))
 		proj.set_pixel_speed(4)
 
-/obj/structure/overmap/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1)
+/obj/structure/overmap/small_craft/relay_damage(proj_type)
+	return
+
+/obj/structure/overmap/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, bypasses_shields = FALSE)
 	var/blocked = FALSE
 	var/damage_sound = pick(GLOB.overmap_impact_sounds)
-	if(shields && shields.absorb_hit(damage_amount))
+	if(!bypasses_shields && shields && shields.absorb_hit(damage_amount))
 		blocked = TRUE
 		damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
 		if(!impact_sound_cooldown)
@@ -82,17 +85,30 @@ Bullet reactions
 		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 1 SECONDS)
 	if(blocked)
 		return FALSE
-	SEND_SIGNAL(src, COMSIG_ATOM_DAMAGE_ACT, damage_amount) //Trigger to update our list of armour plates without making the server cry.
-	if(is_player_ship()) //Code for handling "superstructure crit" only applies to the player ship, nothing else.
+	if(CHECK_BITFIELD(overmap_deletion_traits, DAMAGE_STARTS_COUNTDOWN) && !(CHECK_BITFIELD(overmap_deletion_traits, DAMAGE_DELETES_UNOCCUPIED) && !has_occupants())) //Code for handling "superstructure crit" countdown
 		if(obj_integrity <= damage_amount || structure_crit) //Superstructure crit! They would explode otherwise, unable to withstand the hit.
+			SEND_SIGNAL(src, COMSIG_ATOM_DAMAGE_ACT, damage_amount) //Sending the comsig here because we do not call parent in this case.
 			obj_integrity = 10 //Automatically set them to 10 HP, so that the hit isn't totally ignored. Say if we have a nuke dealing 1800 DMG (the ship's full health) this stops them from not taking damage from it, as it's more DMG than we can handle.
 			handle_crit(damage_amount)
 			return FALSE
 	update_icon()
-	. = ..()
+	return ..()
+
+/obj/structure/overmap/proc/has_occupants()
+	if(length(mobs_in_ship))
+		for(var/mob/M in mobs_in_ship) // Hopefully we don't have to do this super often but I didn't want one list of people who have to hear noises and announcements and another list of people who matter for this
+			if(istype(M, /mob/living) && !istype(M, /mob/living/simple_animal))
+				return TRUE
+	if(length(overmaps_in_ship))
+		if(CHECK_BITFIELD(overmap_deletion_traits, FIGHTERS_ARE_OCCUPANTS))
+			return TRUE
+		for(var/obj/structure/overmap/OM as() in overmaps_in_ship)
+			if(length(OM.mobs_in_ship))
+				return TRUE
+	return FALSE
 
 /obj/structure/overmap/proc/is_player_ship() //Should this ship be considered a player ship? This doesnt count fighters because they need to actually die.
-	if(linked_areas.len || role == MAIN_OVERMAP)
+	if(length(occupying_levels) || role == MAIN_OVERMAP)
 		return TRUE
 	return FALSE
 
@@ -109,10 +125,12 @@ Bullet reactions
 	if(role == MAIN_OVERMAP)
 		var/name = pick(GLOB.teleportlocs) //Time to kill everyone
 		target = GLOB.teleportlocs[name]
-	else
+	else if(length(linked_areas))
 		target = pick(linked_areas)
-	var/turf/T = pick(get_area_turfs(target))
-	new /obj/effect/temp_visual/explosion_telegraph(T)
+
+	if(target)
+		var/turf/T = pick(get_area_turfs(target))
+		new /obj/effect/temp_visual/explosion_telegraph(T, damage_amount)
 
 /obj/structure/overmap/proc/handle_critical_failure_part_1()
 	var/ss_crit_timer = world.time - structure_crit_init
@@ -126,38 +144,38 @@ Bullet reactions
 			if(structure_crit_alert == 1)
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_alarm_15.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
 				structure_crit_alert ++
-		if(5 MINUTES to 311 SECONDS)
+		if(5 MINUTES to 5.2 MINUTES)
 			if(structure_crit_alert == 2)
 				stop_relay(channel=CHANNEL_SHIP_FX)
 				priority_announce("Warning. Total structural integrity failure will occur in T-10 minutes. The ship will reach an irreparable state in T - 5 minutes.","Automated announcement ([src])", "null")
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_10.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 				structure_crit_alert ++
-		if(311 SECONDS to 9 MINUTES)
+		if(5.2 MINUTES to 9 MINUTES)
 			if(structure_crit_alert == 3)
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_alarm_10.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
 				structure_crit_alert ++
-		if(9 MINUTES to 545 SECONDS)
+		if(9 MINUTES to 9.1 MINUTES)
 			if(structure_crit_alert == 4)
 				stop_relay(channel=CHANNEL_SHIP_FX)
 				priority_announce("DANGER. The ship will reach an irreparable state in T-1 minute.","Automated announcement ([src])", "null")
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_6.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 				structure_crit_alert ++
-		if(545 SECONDS to 10 MINUTES)
+		if(9.1 MINUTES to 10 MINUTES)
 			if(structure_crit_alert == 5)
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_alarm_10.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
 				structure_crit_alert ++
-		if(10 MINUTES to 607 SECONDS)
+		if(10 MINUTES to 10.1 MINUTES)
 			if(structure_crit_alert == 6)
 				structure_crit_no_return = TRUE //Better launch those escape pods pronto
 				stop_relay(channel=CHANNEL_SHIP_FX)
 				priority_announce("DANGER. The window for repairing the ship's superstructure has now expired. The ship will detonate in T - 5 minutes.","Automated announcement ([src])","null")
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_5.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 				structure_crit_alert ++
-		if(607 SECONDS to 870 SECONDS)
+		if(10.1 MINUTES to 14.5 MINUTES)
 			if(structure_crit_alert == 7)
 				relay('nsv13/sound/effects/ship/sscrit/hullcrit_alarm_5.ogg', message=null, loop=TRUE, channel=CHANNEL_SHIP_FX)
 				structure_crit_alert ++
-		if(870 SECONDS to 15 MINUTES)
+		if(14.5 MINUTES to 15 MINUTES)
 			if(structure_crit_alert == 8)
 				relay('nsv13/sound/effects/ship/sscrit/countdown.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 				structure_crit_alert ++
@@ -172,7 +190,7 @@ Bullet reactions
 		for(var/M in mobs_in_ship)
 			if(!locate(M) in operators)
 				if(isliving(M))
-					start_piloting(M, "observer") //Make sure everyone sees the ship is exploding
+					start_piloting(M, OVERMAP_USER_ROLE_OBSERVER) //Make sure everyone sees the ship is exploding
 				else
 					if(istype(M, /mob/dead/observer))
 						var/mob/dead/observer/D = M
@@ -228,6 +246,10 @@ Bullet reactions
 	randomdir = 0
 	light_color = LIGHT_COLOR_ORANGE
 	layer = ABOVE_MOB_LAYER
+	var/damage_amount = 1
+
+/obj/effect/temp_visual/explosion_telegraph/New(loc, damage_amount)
+	. = ..()
 
 /obj/effect/temp_visual/explosion_telegraph/Initialize()
 	. = ..()
@@ -239,5 +261,6 @@ Bullet reactions
 
 /obj/effect/temp_visual/explosion_telegraph/Destroy()
 	var/turf/T = get_turf(src)
-	explosion(T,3,4,4)
-	. = ..()
+	var/damage_level = ((damage_amount <= 20) ? 1 : ((damage_amount <= 75) ? 2 : ((damage_amount <= 150) ? 3 : 4)))
+	explosion(T,damage_level == 4 ? 0 : 2,round(damage_level*1.75),round(damage_level*2.25))
+	return ..()

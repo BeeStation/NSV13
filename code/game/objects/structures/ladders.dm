@@ -74,23 +74,25 @@
 		visible_message("<span class='danger'>[src] is torn to pieces by the gravitational pull!</span>")
 		qdel(src)
 
-/obj/structure/ladder/proc/travel(going_up, mob/user, is_ghost, obj/structure/ladder/ladder)
+/obj/structure/ladder/proc/travel(going_up, mob/user, is_ghost, obj/structure/ladder/ladder, needs_do_after=TRUE)
 	var/turf/T = get_turf(ladder)
 	var/atom/movable/AM
 	if(user.pulling)
 		AM = user.pulling
 		if(!is_ghost)
 			playsound(src, 'nsv13/sound/effects/footstep/ladder2.ogg')
-			if(!do_after(user, 5 SECONDS, target=src))
-				return FALSE
+			if(needs_do_after)
+				if(!do_after(user, 5 SECONDS, target=src))
+					return FALSE
 		AM.forceMove(T)
 		user.forceMove(T)
 		user.start_pulling(AM)
 	else
 		if(!is_ghost)
 			playsound(src, 'nsv13/sound/effects/footstep/ladder1.ogg')
-			if(!do_after(user, 1 SECONDS, target=src))
-				return FALSE
+			if(needs_do_after)
+				if(!do_after(user, 1 SECONDS, target=src))
+					return FALSE
 		user.forceMove(T)
 	if(!is_ghost)
 		show_fluff_message(going_up, user)

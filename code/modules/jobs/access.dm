@@ -16,7 +16,7 @@
 	else if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		//if they are holding or wearing a card that has access, that works
-		if(check_access(H.get_active_held_item()) || src.check_access(H.wear_id) || src.check_access(H.wear_neck))//Nsv13: added "h.wear_neck" here to allow for lanyard access checks.
+		if(check_access(H.get_active_held_item()) || src.check_access(H.wear_id) || src.check_access(H.squad))//Nsv13: added "h.wear_neck" here to allow for lanyard access checks.
 			return TRUE
 	else if(ismonkey(M) || isalienadult(M))
 		var/mob/living/carbon/george = M
@@ -137,15 +137,16 @@
 	            ACCESS_TELEPORTER, ACCESS_EVA, ACCESS_HEADS, ACCESS_CAPTAIN, ACCESS_ALL_PERSONAL_LOCKERS,
 	            ACCESS_TECH_STORAGE, ACCESS_CHAPEL_OFFICE, ACCESS_ATMOSPHERICS, ACCESS_KITCHEN,
 	            ACCESS_BAR, ACCESS_JANITOR, ACCESS_CREMATORIUM, ACCESS_ROBOTICS, ACCESS_CARGO, ACCESS_CONSTRUCTION, ACCESS_AUX_BASE,
-	            ACCESS_HYDROPONICS, ACCESS_LIBRARY, ACCESS_LAWYER, ACCESS_VIROLOGY, ACCESS_CMO, ACCESS_QM, ACCESS_SURGERY,
+	            ACCESS_HYDROPONICS, ACCESS_LIBRARY, ACCESS_LAWYER, ACCESS_VIROLOGY, ACCESS_CMO, ACCESS_QM, ACCESS_EXPLORATION, ACCESS_SURGERY,
 	            ACCESS_THEATRE, ACCESS_RESEARCH, ACCESS_MINING, ACCESS_MAILSORTING, ACCESS_WEAPONS,
 				ACCESS_MECH_MINING, ACCESS_MECH_ENGINE, ACCESS_MECH_SCIENCE, ACCESS_MECH_SECURITY, ACCESS_MECH_MEDICAL,
 	            ACCESS_VAULT, ACCESS_MINING_STATION, ACCESS_XENOBIOLOGY, ACCESS_CE, ACCESS_HOP, ACCESS_HOS, ACCESS_RC_ANNOUNCE,
 	            ACCESS_KEYCARD_AUTH, ACCESS_TCOMSAT, ACCESS_GATEWAY, ACCESS_MINERAL_STOREROOM, ACCESS_MINISAT, ACCESS_NETWORK, ACCESS_CLONING,
-	            ACCESS_MUNITIONS, ACCESS_MAA, ACCESS_MUNITIONS_STORAGE, ACCESS_FIGHTER, ACCESS_FL, ACCESS_MINING_ENGINEERING, ACCESS_MINING_BRIDGE)
+	            ACCESS_MUNITIONS, ACCESS_MAA, ACCESS_MUNITIONS_STORAGE, ACCESS_COMBAT_PILOT, ACCESS_TRANSPORT_PILOT, ACCESS_MINING_ENGINEERING,
+				ACCESS_MINING_BRIDGE, ACCESS_HANGAR)
 
 /proc/get_all_centcom_access()
-	return list(ACCESS_CENT_GENERAL, ACCESS_CENT_THUNDER, ACCESS_CENT_SPECOPS, ACCESS_CENT_MEDICAL, ACCESS_CENT_LIVING, ACCESS_CENT_STORAGE, ACCESS_CENT_TELEPORTER, ACCESS_CENT_CAPTAIN)
+	return list(ACCESS_CENT_GENERAL, ACCESS_CENT_THUNDER, ACCESS_CENT_SPECOPS, ACCESS_CENT_MEDICAL, ACCESS_CENT_LIVING, ACCESS_CENT_STORAGE, ACCESS_CENT_TELEPORTER, ACCESS_CENT_CAPTAIN, ACCESS_CENT_BAR)
 
 /proc/get_ert_access(class)
 	switch(class)
@@ -161,6 +162,12 @@
 /proc/get_all_syndicate_access()
 	return list(ACCESS_SYNDICATE, ACCESS_SYNDICATE_LEADER)
 
+/proc/get_all_away_access()
+	return list(ACCESS_AWAY_GENERAL, ACCESS_AWAY_MAINT, ACCESS_AWAY_MED, ACCESS_AWAY_SEC, ACCESS_AWAY_ENGINE, ACCESS_AWAY_GENERIC1, ACCESS_AWAY_GENERIC2, ACCESS_AWAY_GENERIC3, ACCESS_AWAY_GENERIC4)
+
+/proc/get_every_access()
+	return get_all_accesses() + get_all_centcom_access() + get_all_syndicate_access() + get_all_away_access() + ACCESS_BLOODCULT + ACCESS_CLOCKCULT
+
 /proc/get_region_accesses(code)
 	switch(code)
 		if(0)
@@ -172,7 +179,7 @@
 		if(3) //medbay
 			return list(ACCESS_MEDICAL, ACCESS_GENETICS, ACCESS_CLONING, ACCESS_MORGUE, ACCESS_CHEMISTRY, ACCESS_VIROLOGY, ACCESS_SURGERY, ACCESS_MECH_MEDICAL, ACCESS_CMO, ACCESS_APOTHECARY)
 		if(4) //research
-			return list(ACCESS_RESEARCH, ACCESS_TOX, ACCESS_TOX_STORAGE, ACCESS_GENETICS, ACCESS_ROBOTICS, ACCESS_XENOBIOLOGY, ACCESS_MECH_SCIENCE, ACCESS_MINISAT, ACCESS_RD, ACCESS_NETWORK)
+			return list(ACCESS_RESEARCH, ACCESS_TOX, ACCESS_TOX_STORAGE, ACCESS_GENETICS, ACCESS_ROBOTICS, ACCESS_XENOBIOLOGY, ACCESS_EXPLORATION, ACCESS_MECH_SCIENCE, ACCESS_MINISAT, ACCESS_RD, ACCESS_NETWORK)
 		if(5) //engineering and maintenance
 			return list(ACCESS_CONSTRUCTION, ACCESS_AUX_BASE, ACCESS_MAINT_TUNNELS, ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_TECH_STORAGE, ACCESS_ATMOSPHERICS, ACCESS_MECH_ENGINE, ACCESS_TCOMSAT, ACCESS_MINISAT, ACCESS_CE)
 		if(6) //supply
@@ -180,7 +187,7 @@
 		if(7) //command
 			return list(ACCESS_HEADS, ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH, ACCESS_CHANGE_IDS, ACCESS_AI_UPLOAD, ACCESS_TELEPORTER, ACCESS_EVA, ACCESS_GATEWAY, ACCESS_ALL_PERSONAL_LOCKERS, ACCESS_HOP, ACCESS_CAPTAIN, ACCESS_VAULT)
 		if(8) //munitions - NSV13
-			return list(ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_FIGHTER, ACCESS_FL, ACCESS_MAA)
+			return list(ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE, ACCESS_COMBAT_PILOT, ACCESS_TRANSPORT_PILOT, ACCESS_MAA, ACCESS_HANGAR)
 
 /proc/get_region_accesses_name(code)
 	switch(code)
@@ -285,6 +292,8 @@
 			return "CMO Office"
 		if(ACCESS_QM)
 			return "Quartermaster"
+		if(ACCESS_EXPLORATION)
+			return "Exploration Dock"
 		if(ACCESS_SURGERY)
 			return "Surgery"
 		if(ACCESS_THEATRE)
@@ -342,15 +351,17 @@
 		if(ACCESS_MECH_ENGINE)
 			return "Engineering Mech Access"
 		if(ACCESS_MUNITIONS) //Nsv13 - munitions
-			return "Munitions & Hangar Bay Access"
+			return "Munitions Access"
 		if(ACCESS_MAA) //NSV13 - Munitions
 			return "MAA Office"
 		if(ACCESS_MUNITIONS_STORAGE) // NSV13 - Munitions
 			return "Munitions Storage"
-		if(ACCESS_FIGHTER) //NSV13 - Munitions
-			return "Fighter Pilot Permit"
-		if(ACCESS_FL) //NSV13 - Munitions
-			return "Flight Leader Permit"
+		if(ACCESS_COMBAT_PILOT) //NSV13 - Munitions
+			return "Combat Pilot Permit"
+		if(ACCESS_TRANSPORT_PILOT) //NSV13 - Munitions
+			return "Transport Pilot Permit"
+		if(ACCESS_HANGAR) //NSV13 - Munitions
+			return "Hangar Access"
 		if(ACCESS_AUX_BASE)
 			return "Auxiliary Base"
 
@@ -375,16 +386,27 @@
 		if(ACCESS_CENT_BAR)
 			return "Code Scotch"
 
-/proc/get_all_jobs()//Nsv13 - updated with new jobs
-	return list("Assistant", "Captain", "Executive Officer", "Bartender", "Cook", "Botanist", "Quartermaster", "Cargo Technician",
-				"Shaft Miner", "Clown", "Mime", "Janitor", "Curator", "Lawyer", "Chaplain", "Chief Engineer", "Station Engineer",
-				"Atmospheric Technician", "Chief Medical Officer", "Medical Doctor", "Chemist", "Geneticist", "Virologist", "Paramedic",
-				"Research Director", "Scientist", "Roboticist", "Head of Security", "Warden", "Detective", "Security Officer", "Brig Physician",
-				"Deputy", "Air Traffic Controller", "Flight Leader","Fighter Pilot", "Munitions Technician", "Deck Technician", "Master At Arms",
-				"Bridge Staff", "Psychologist", "Barber")
+/proc/get_all_jobs()
+	return list("Captain",
+				// Service
+				"Midshipman", "Executive Officer", "Bartender", "Cook", "Botanist", "Janitor", "Curator", //NSV13 - changed HoP to XO, assistant to midshipman
+				"Chaplain", "Lawyer", "Clown", "Mime", "Barber", "Stage Magician",
+				// Cargo
+				"Quartermaster", "Cargo Technician","Shaft Miner",
+				// Engineering
+				"Chief Engineer", "Station Engineer", "Atmospheric Technician",
+				// NSV13 - munitions
+				"Air Traffic Controller", "Pilot", "Munitions Technician", "Deck Technician", "Master At Arms", "Bridge Staff",
+				// R&D
+				"Research Director", "Scientist", "Roboticist", "Exploration Crew",
+				// Medical
+				"Chief Medical Officer", "Medical Doctor", "Chemist", "Geneticist", "Virologist", "Paramedic", "Psychiatrist",
+				// Security
+				"Head of Security", "Warden", "Detective", "Military Police", "Brig Physician", "Deputy") //NSV13 - changed sec to MP
+				// Each job is supposed to be in their department due to the HoP console.
 
-/proc/get_all_job_icons() //For all existing HUD icons
-	return get_all_jobs() + list("Prisoner", "King")
+/proc/get_all_job_icons() //We need their HUD icons, but we don't want to give these jobs to people from the job list of HoP console.
+	return get_all_jobs() + list("Prisoner", "King", "VIP", "Debtor", "Acting Captain")
 
 /proc/get_all_centcom_jobs()
 	return list("VIP Guest","Custodian","Thunderdome Overseer","CentCom Official","Medical Officer","Death Commando","Research Officer","Special Ops Officer","Admiral","CentCom Commander","Emergency Response Team Commander","Security Response Officer","Engineer Response Officer", "Medical Response Officer","CentCom Bartender","Comedy Response Officer", "HONK Squad Trooper")

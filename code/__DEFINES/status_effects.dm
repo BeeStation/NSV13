@@ -97,6 +97,10 @@
 
 #define STATUS_EFFECT_SYRINGE /datum/status_effect/syringe //used to handle being injected with a syringe
 
+#define STATUS_EFFECT_SPANISH /datum/status_effect/spanish //Robotic Tongue EMP
+
+#define STATUS_EFFECT_IPC_EMP /datum/status_effect/ipc/emp //EMP'd IPC
+
 //---------//
 // NEUTRAL //
 //---------//
@@ -129,3 +133,5 @@
 #define STASIS_ASCENSION_EFFECT "heretic_ascension"
 
 #define IS_IN_STASIS(mob) (mob.has_status_effect(STATUS_EFFECT_STASIS))
+
+#define STATUS_EFFECT_OFFERING /datum/status_effect/offering // you are offering up an item to people

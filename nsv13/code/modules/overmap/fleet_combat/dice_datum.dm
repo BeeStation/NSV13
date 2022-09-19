@@ -22,7 +22,7 @@ Different ships have different combat dice, some have the same as eachother.
 	var/damage_roll = 6		//How many sides? Result 1 to X.
 	var/damage_bonus = 0	//Bonus that gets added to the damage roll total.
 
-	var/affinity = 0		//Affinity: All dice end values are increased by 50% (rounded down) if the target AI type contains the affinity type.
+	var/affinity_flags = NONE		//Affinity: All dice end values are increased by 50% (rounded down) if the target AI type contains the affinity type.
 
 /datum/combat_dice/civilian
 	name = "Civilian combat dice"
@@ -46,7 +46,7 @@ Different ships have different combat dice, some have the same as eachother.
 
 	damage_roll = 3
 
-	affinity = AI_TRAIT_SWARMER	//Great at shooting other fighters.
+	affinity_flags = AI_FLAG_SWARMER	//Great at shooting other fighters.
 
 /datum/combat_dice/bomber
 	name = "Bomber combat dice"
@@ -64,7 +64,7 @@ Different ships have different combat dice, some have the same as eachother.
 	damage_roll = 5
 	damage_bonus = 3
 
-	affinity = AI_TRAIT_BATTLESHIP	//Loves taking out capital ships.
+	affinity_flags = AI_FLAG_BATTLESHIP	//Loves taking out capital ships.
 
 
 /datum/combat_dice/carrier
@@ -96,7 +96,7 @@ Different ships have different combat dice, some have the same as eachother.
 	damage_roll = 3
 	damage_bonus = 1
 
-	affinity = AI_TRAIT_SWARMER
+	affinity_flags = AI_FLAG_SWARMER
 
 /datum/combat_dice/destroyer
 	name = "Destroyer combat dice"
@@ -112,7 +112,7 @@ Different ships have different combat dice, some have the same as eachother.
 	damage_roll = 4
 	damage_bonus = 2
 
-	affinity = AI_TRAIT_SUPPLY
+	affinity_flags = AI_FLAG_SUPPLY
 
 /datum/combat_dice/destroyer/flycatcher
 	name = "Anti-Air Destroyer combat dice"
@@ -122,10 +122,10 @@ Different ships have different combat dice, some have the same as eachother.
 	damage_dice = 2
 	damage_bonus = 0
 
-	affinity = AI_TRAIT_SWARMER
+	affinity_flags = AI_FLAG_SWARMER
 
-/datum/combat_dice/destroyer/nuclear
-	name = "Nuclear Destroyer combat dice"
+/datum/combat_dice/destroyer/conflagration
+	name = "Hellfire Destroyer combat dice"
 
 	target_bonus = 2
 
@@ -133,7 +133,7 @@ Different ships have different combat dice, some have the same as eachother.
 
 	damage_dice = 4
 
-	affinity = AI_TRAIT_BATTLESHIP
+	affinity_flags = AI_FLAG_BATTLESHIP
 
 /datum/combat_dice/cruiser
 	name = "Cruiser combat dice"
@@ -152,7 +152,7 @@ Different ships have different combat dice, some have the same as eachother.
 	damage_roll = 4
 	damage_bonus = 2
 
-	affinity = AI_TRAIT_SUPPLY
+	affinity_flags = AI_FLAG_SUPPLY
 
 /datum/combat_dice/battleship
 	name = "Battleship combat dice"
@@ -171,7 +171,7 @@ Different ships have different combat dice, some have the same as eachother.
 	damage_roll = 3
 	damage_bonus = 2
 
-	affinity = AI_TRAIT_DESTROYER
+	affinity_flags = AI_FLAG_DESTROYER
 
 /datum/combat_dice/flagship
 	name = "Flagship combat dice"
@@ -191,4 +191,4 @@ Different ships have different combat dice, some have the same as eachother.
 	damage_roll = 4
 	damage_bonus = 5
 
-	affinity = AI_TRAIT_BATTLESHIP
+	affinity_flags = AI_FLAG_BATTLESHIP

@@ -404,28 +404,28 @@
 		source.UpdateButtonIcon()
 
 //Stun
-/obj/item/melee/blood_magic/stun
-	name = "Forbidden Whispers"
-	desc = "A coil of death wrapped around your hand, anyone inflicted with this will have their mind flooded with the forbidden whispers of Nar'Sie, causing them to collapse in to a frenzy if they lack protection for their mind."
+/obj/item/melee/blood_magic/stun //NSV13 - reverted to pre-nerf state
+	name = "Stunning Aura"
+	desc = "Will stun and mute a victim on contact."
 	color = RUNE_COLOR_RED
 	invocation = "Fuu ma'jin!"
 
-/obj/item/melee/blood_magic/stun/afterattack(atom/target, mob/living/carbon/user, proximity)
+/obj/item/melee/blood_magic/stun/afterattack(atom/target, mob/living/carbon/user, proximity) //NSV13 - Reverted proc to pre-nerf state
 	if(!isliving(target) || !proximity)
 		return
 	var/mob/living/L = target
-	if(iscultist(target))
+	if(iscultist(L))
 		return
 	if(iscultist(user))
-		user.visible_message("<span class='warning'>[user] floods [L]'s mind with an eldritch energy!</span>", \
+		user.visible_message("<span class='warning'>[user] holds up [user.p_their()] hand, which explodes in a flash of red light!</span>", \
 							"<span class='cultitalic'>You attempt to stun [L] with the spell!</span>")
 
-		user.mob_light(_color = LIGHT_COLOR_BLOOD_MAGIC, _range = 3, _duration = 2)
+		user.mob_light(_range = 3, _color = LIGHT_COLOR_BLOOD_MAGIC, _duration = 0.2 SECONDS)
 
 		var/anti_magic_source = L.anti_magic_check()
 		if(anti_magic_source)
 
-			L.mob_light(_color = LIGHT_COLOR_HOLY_MAGIC, _range = 2, _duration = 100)
+			L.mob_light(_range = 2, _color = LIGHT_COLOR_HOLY_MAGIC, _duration = 10 SECONDS)
 			var/mutable_appearance/forbearance = mutable_appearance('icons/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER)
 			L.add_overlay(forbearance)
 			addtimer(CALLBACK(L, /atom/proc/cut_overlay, forbearance), 100)
@@ -445,10 +445,7 @@
 				C.silent += 6
 				C.stuttering += 15
 				C.cultslurring += 15
-				C.Jitter(15)
-		else
-			target.visible_message("<span class='warning'>You fail to corrupt [L]'s mind!</span>", \
-									   "<span class='userdanger'>Your mindshield protects you from the heresy of [user]!</span>")
+				C.Jitter(1.5 SECONDS)
 		uses--
 	..()
 
@@ -802,7 +799,7 @@
 					var/turf/T = get_turf(user)
 					qdel(src)
 					var/datum/action/innate/cult/spear/S = new(user)
-					var/obj/item/twohanded/cult_spear/rite = new(T)
+					var/obj/item/cult_spear/rite = new(T)
 					S.Grant(user, rite)
 					rite.spear_act = S
 					if(user.put_in_hands(rite))

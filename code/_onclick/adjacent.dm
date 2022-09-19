@@ -24,8 +24,9 @@
 	* If you are vertically/horizontally adjacent, ensure there are no border objects
 	* If you are diagonally adjacent, ensure you can pass through at least one of the mutually adjacent square.
 		* Passing through in this case ignores anything with the LETPASSTHROW pass flag, such as tables, racks, and morgue trays.
+	* * NSV13 additionally adds an ignore_objects arg which determines if the click cross checks are skipped.
 */
-/turf/Adjacent(atom/neighbor, atom/target = null, atom/movable/mover = null)
+/turf/Adjacent(atom/neighbor, atom/target = null, atom/movable/mover = null, ignore_objects) //NS13 - ignore objects arg
 	var/turf/T0 = get_turf(neighbor)
 
 	if(T0 == src) //same turf
@@ -34,6 +35,8 @@
 	if(get_dist(src, T0) > 1 || z != T0.z) //too far
 		return FALSE
 
+	if(ignore_objects) //NSV13 - ignore_objects skips clickcross checks
+		return TRUE
 	// Non diagonal case
 	if(T0.x == x || T0.y == y)
 		// Check for border blockages
@@ -94,7 +97,7 @@
 	for(var/obj/O in src)
 		if((mover && O.CanPass(mover,get_step(src,target_dir))) || (!mover && !O.density))
 			continue
-		if(O == target_atom || O == mover || (O.pass_flags & LETPASSTHROW)) //check if there's a dense object present on the turf
+		if(O == target_atom || O == mover || (O.pass_flags_self & LETPASSTHROW)) //check if there's a dense object present on the turf
 			continue // LETPASSTHROW is used for anything you can click through (or the firedoor special case, see above)
 
 		if( O.flags_1&ON_BORDER_1) // windows are on border, check them first

@@ -78,8 +78,8 @@ All effects don't start immediately, but rather get worse over time; the rate is
 
 			for(var/s in C.surgeries)
 				var/datum/surgery/S = s
-				S.success_multiplier = max(0.1*power_multiplier, S.success_multiplier)
-				// +10% success propability on each step, useful while operating in less-than-perfect conditions
+				S.speed_modifier = max(0.1*power_multiplier, S.speed_modifier)
+				// +10% surgery speed on each step, useful while operating in less-than-perfect conditions
 	return ..()
 
 /datum/reagent/consumable/ethanol/beer
@@ -391,7 +391,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	glass_desc = "You've really hit rock bottom now... your liver packed its bags and left last night."
 
 /datum/reagent/consumable/ethanol/hooch/on_mob_life(mob/living/carbon/M)
-	if(M.mind?.assigned_role == "Assistant")
+	if(M.mind?.assigned_role == "Midshipman") //NSV13
 		M.heal_bodypart_damage(1,1)
 		. = 1
 	return ..() || .
@@ -2342,17 +2342,36 @@ All effects don't start immediately, but rather get worse over time; the rate is
 		M.adjustFireLoss(-1.5, 0)
 		M.adjustToxLoss(-1, 0)
 	. = ..()
-	
+
+/datum/reagent/consumable/ethanol/beeffizz
+	name = "Beef Fizz"
+	description = "This is beef fizz, BEEF FIZZ, THERE IS NO GOD"
+	boozepwr = 15
+	quality = DRINK_BAD
+	taste_description = "Nice and Salty Fizzless Beef Juice with a quick bite of lemon"
+	glass_icon_state = "beef_fizz"
+	glass_name = "Beef Fizz"
+	glass_desc = "WHO THOUGHT THIS WAS A GOOD IDEA??"
+
+
+/datum/reagent/consumable/beeffizz/on_mob_metabolize(mob/living/M)
+	to_chat(M, "<span class='warning'>That drink was way too beefy! You feel sick.</span>")
+	M.adjust_disgust(30)
+	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "quality_drink", /datum/mood_event/quality_bad)
+	. = ..()
+
+//NSV13
 /datum/reagent/consumable/ethanol/torp_juice
-	name = "Torpedo Juice"
-	color = "#F9E43D"
-	description = "Attention munitions: MAKE TORP."
-	taste_description = "an explosion in your mouth"
-	glass_icon_state = "torp_juice"
-	glass_name = "glass of torpedo juice"
-	glass_desc = "Attention munitions: MAKE TORP."
-	quality = DRINK_VERYGOOD
-	boozepwr = 70
+        name = "Torpedo Juice"
+        color = "#F9E43D"
+        description = "Attention munitions: MAKE TORP."
+        taste_description = "an explosion in your mouth"
+        glass_icon_state = "torp_juice"
+        glass_name = "glass of torpedo juice"
+        glass_desc = "Attention munitions: MAKE TORP."
+        quality = DRINK_VERYGOOD
+        boozepwr = 70
+
 /datum/reagent/consumable/ethanol/torp_juice/on_mob_life(mob/living/carbon/M)
     if(HAS_TRAIT(M.mind, TRAIT_MUNITIONS_METABOLISM))
         M.heal_bodypart_damage(1, 1)
