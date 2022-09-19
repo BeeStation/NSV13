@@ -746,9 +746,7 @@ Returns a faction datum by its name (case insensitive!)
 	SSstar_system.spawn_anomaly(anomaly_type, src)
 	if(!preset_gasses)
 		setup_gas_resources()
-
-#define MAX_GAS_RNG_ITERATIONS 6
-
+	
 //In moles
 #define GAS_LOW_MIN 100
 #define GAS_LOW_MAX 400
@@ -847,8 +845,6 @@ Returns a faction datum by its name (case insensitive!)
 	gas_resources[/datum/gas/plasma] = plasma
 	gas_resources[/datum/gas/carbon_dioxide] = carbon_dioxide
 	gas_resources[/datum/gas/nitrous_oxide] = n2o
-
-#undef MAX_GAS_RNG_ITERATIONS
 
 #undef GAS_LOW_MIN
 #undef GAS_LOW_MAX
