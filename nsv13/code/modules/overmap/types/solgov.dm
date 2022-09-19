@@ -16,6 +16,7 @@
 	max_integrity = 500
 	integrity_failure = 500
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
+	gas_salvage_rating = 3
 
 /obj/structure/overmap/nanotrasen/solgov/carrier
 	name = "rio-grande class support cruiser"
@@ -30,6 +31,7 @@
 	max_integrity = 1000
 	integrity_failure = 1000
 	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 20)
+	gas_salvage_rating = 5
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp
 	name = "Aetherwhisp class light cruiser"
@@ -45,6 +47,7 @@
 	max_integrity = 750
 	integrity_failure = 750
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
+	gas_salvage_rating = 5
 
 //Player Versions
 
@@ -77,6 +80,7 @@
 	max_tracking_range = 70
 	flak_battery_amount = 2
 	combat_dice_type = /datum/combat_dice/cruiser
+	gas_salvage_rating = 7
 
 /obj/structure/overmap/nanotrasen/solgov/ai/interdictor/Initialize()
 	. = ..()
@@ -116,6 +120,7 @@
 	armor = list("overmap_light" = 5, "overmap_medium" = 5,  "overmap_heavy" = 90)
 	ai_flags = AI_FLAG_SWARMER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/fighter
+	gas_salvage_rating = 1
 
 /obj/structure/overmap/nanotrasen/solgov/ai/fighter/apply_weapons()
 	// Burst fire on solgov fighters

@@ -173,4 +173,14 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define STARSYSTEM_NO_ASTEROIDS 1<<1	//Prevents Asteroids Spawning
 #define STARSYSTEM_NO_WORMHOLE 1<<2		//Prevents Incoming Wormholes
 #define STARSYSTEM_END_ON_ENTER 1<<3  //End the round after entering this system (Outpost 45)
+
+//Starsystem (gas) resource flags.
+#define STARSYSTEM_BARREN (1<<0) //System completely barren. Skip all "natural" gas generation.
+#define STARSYSTEM_HABITABLE (1<<1) //System has one or more habitable worlds. Adds N2 / O2 / CO2 to resources. Somewhat rare.
+#define STARSYSTEM_PLASMA_GIANT (1<<2) //System has a gas giant with plasma present. Adds a massive amount of Plasma / some N2. Extremely rare.
+#define STARSYSTEM_GAS_GIANT (1<<3) //System has a gas giant without plasma. Adds a massive amount of most gasses except Plasma / CO2. Somewhat rare.
+#define STARSYSTEM_SHIP_GRAVEYARD (1<<4) //System has seen a lot of fighting, leaving a good amount of resources to be harvested. Adds Plasma / N2 / O2 / CO2 / N2O. Special and doesn't appear in randomgen.
+#define STARSYSTEM_VOLCANIC_ASH (1<<5) //System has locations with Oxygen and Volcanic activity. Adds O2 / CO2. Mildly Common.
+#define STARSYSTEM_NITROGEN (1<<6) //System has locations with decent amounts of nitrogen in atmosphere. Adds N2. Mildly Common.
+#define STARSYSTEM_RESUPPLY (1<<7) //System has resupply stations which allow access to O2 / N2 / very low Plasma / low CO2 / low N2O. Special, certain friendly systems only.
 //NSV13 change end

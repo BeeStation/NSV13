@@ -56,6 +56,9 @@
 	var/hullburn_power = 0
 	var/disruption = 0	//Causes bad effects proportional to how significant. Most significant for AI ships (or fighters) hit by disruption weapons.
 
+	//If this ship is destroyed, how much gas tends to be left behind? Effective moles tends to be ~100 rare / point, ~500 common / point
+	var/gas_salvage_rating = 0
+
 	var/use_armour_quadrants = FALSE //Does the object use the armour quadrant system?
 	var/max_armour = 0 //Max armour amount per quad
 	var/current_armour = 0 //Per quad
@@ -492,6 +495,14 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		QDEL_NULL(physics2d)
 	if(npc_combat_dice)
 		QDEL_NULL(npc_combat_dice)
+
+	if(current_system && gas_salvage_rating > 0) //Killing enemy ships allows you to resupply some gas! Alternatively you coould... ah, well, thats for you to find out, eager codediver!
+		var/list/system_gasses = current_system.gas_resources
+		system_gasses["/datum/gas/plasma"] += round((rand(5, 15) / 10) * 100 * gas_salvage_rating)
+		system_gasses["/datum/gas/oxygen"] += round((rand(5, 15) / 10) * 500 * gas_salvage_rating)
+		system_gasses["/datum/gas/nitrogen"] += round((rand(5, 15) / 10) * 500 * gas_salvage_rating)
+		system_gasses["/datum/gas/carbon_dioxide"] += round((rand(5, 15) / 10) * 100 * gas_salvage_rating)
+		system_gasses["/datum/gas/nitrous_oxide"] += round((rand(5, 15) / 10) * 100 * gas_salvage_rating)
 
 	if(deletion_teleports_occupants)
 		var/turf/T = get_turf(src) // Drop them outside if we're parked, forceMove protection will kick in if we're on the overmap

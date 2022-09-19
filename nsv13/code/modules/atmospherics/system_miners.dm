@@ -3,6 +3,12 @@
  * systems outside the commonly traversed areas generally are the main source for these, as they are usually pretty mined out otherwise.
 */
 
+#define GASMINER_POWER_NONE 0
+#define GASMINER_POWER_STATIC 1
+#define GASMINER_POWER_MOLES 2	//Scaled from here on down.
+#define GASMINER_POWER_KPA 3
+#define GASMINER_POWER_FULLSCALE 4
+
 /obj/machinery/atmospherics/miner/system
     name = "long-range gas collector"
     desc = "A marvel of engineering, these devices use highly complicated processes to collect gasses over big distances."
@@ -41,9 +47,9 @@
         return FALSE
     var/datum/gas_mixture/merger = new
     var/list/minables = attached_overmap.current_system.gas_resources
-    var/available = minables[spawn_id]
+    var/available = minables["[spawn_id]"]
     var/extracting = min(available, spawn_mol)
-    minables[spawn_id] -= extracting
+    minables["[spawn_id]"] -= extracting
     merger.set_moles(spawn_id, extracting)
     merger.set_temperature(spawn_temp)
     O.assume_air(merger)
@@ -55,9 +61,10 @@
         return
     if(!attached_overmap || !attached_overmap.current_system)
         return
-    if(!attached_overmap.current_system.gas_resources[spawn_id])
-        return
-    . += "Remaining supply in this system: <b>[attached_overmap.current_system.gas_resources[spawn_id]]</b> moles."
+    var/gas_amount = 0
+    if(attached_overmap.current_system.gas_resources["[spawn_id]"])
+        gas_amount = attached_overmap.current_system.gas_resources["[spawn_id]"]
+    . += "Remaining supply in this system: <b>[gas_amount]</b> moles."
 
 /obj/machinery/atmospherics/miner/system/n2o
 	name = "\improper N2O Gas Collector"
@@ -93,3 +100,10 @@
 	name = "\improper Water Vapor Gas Collector"
 	overlay_color = "#99928E"
 	spawn_id = /datum/gas/water_vapor
+
+
+#undef GASMINER_POWER_NONE 
+#undef GASMINER_POWER_STATIC 
+#undef GASMINER_POWER_MOLES
+#undef GASMINER_POWER_KPA 
+#undef GASMINER_POWER_FULLSCALE 

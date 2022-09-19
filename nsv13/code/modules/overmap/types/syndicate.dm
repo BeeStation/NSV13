@@ -9,6 +9,7 @@
 	faction = "syndicate"
 	supply_pod_type = /obj/structure/closet/supplypod/syndicate_odst
 	returns_rejected_cargo = FALSE // We won't send freight torpedoes to our enemies, we'll send actual torpedoes to our enemies
+	gas_salvage_rating = 1
 
 //Player Versions
 
@@ -30,6 +31,7 @@
 	role = PVP_SHIP
 	starting_system = "The Badlands" //Relatively safe start, fleets won't hotdrop you here.
 	armor = list("overmap_light" = 99, "overmap_medium" = 45, "overmap_heavy" = 20)
+	gas_salvage_rating = 5
 
 /obj/structure/overmap/syndicate/pvp/apply_weapons()
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
@@ -55,6 +57,7 @@
 	integrity_failure = 1100
 	role = PVP_SHIP
 	armor = list("overmap_light" = 99, "overmap_medium" = 55, "overmap_heavy" = 30)
+	gas_salvage_rating = 7
 
 //AI Versions
 
@@ -111,6 +114,7 @@
 	armor = list("overmap_light" = 30, "overmap_medium" = 30, "overmap_heavy" = 30)
 	combat_dice_type = /datum/combat_dice/carrier
 	possible_interior_maps = list(/datum/map_template/boarding/mako_carrier)
+	gas_salvage_rating = 1.5
 
 /obj/structure/overmap/syndicate/ai/mako_flak
 	name = "Mauler class flak frigate"
@@ -139,6 +143,7 @@
 	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_heavy" = 30)
 	combat_dice_type = /datum/combat_dice/destroyer/conflagration
 	possible_interior_maps = list(/datum/map_template/boarding/nuclear)
+	gas_salvage_rating = 3
 
 /obj/structure/overmap/syndicate/ai/conflagration/elite
 	name = "Nightmare class hellfire deterrent"
@@ -153,6 +158,7 @@
 	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_light" = 50)
 	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/destroyer/conflagration
+	gas_salvage_rating = 3.5
 
 /datum/map_template/boarding/destroyer
     name = "Hammerhead class missile destroyer (interior)"
@@ -173,6 +179,7 @@
 	bounty = 1000
 	combat_dice_type = /datum/combat_dice/destroyer
 	possible_interior_maps = list(/datum/map_template/boarding/destroyer)
+	gas_salvage_rating = 2
 
 /obj/structure/overmap/syndicate/ai/destroyer/elite
 	name = "Special Ops Torpedo Destroyer"
@@ -186,6 +193,7 @@
 	bounty = 1500
 	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/destroyer
+	gas_salvage_rating = 2.5
 
 /obj/structure/overmap/syndicate/ai/destroyer/flak
 	name = "Hammerhead class flak destroyer"
@@ -215,6 +223,7 @@
 	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/cruiser
 	possible_interior_maps = list()
+	gas_salvage_rating = 2.5
 
 /obj/structure/overmap/syndicate/ai/cruiser/elite
 	name = "Special ops tactical cruiser"
@@ -226,6 +235,7 @@
 	missiles = 10
 	bounty = 4000
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
+	gas_salvage_rating = 3
 	
 /datum/map_template/boarding/carrier
 	name = "carrier (interior)"
@@ -252,6 +262,7 @@
 	ai_flags = AI_FLAG_SUPPLY
 	combat_dice_type = /datum/combat_dice/carrier
 	possible_interior_maps = list(/datum/map_template/boarding/carrier)
+	gas_salvage_rating = 2.5
 
 /obj/structure/overmap/syndicate/ai/carrier/elite
 	name = "Special ops escort carrier"
@@ -267,6 +278,7 @@
 	ai_flags = AI_FLAG_SUPPLY | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/carrier
 	possible_interior_maps = list(/datum/map_template/boarding/carrier)
+	gas_salvage_rating = 3
 
 /obj/structure/overmap/syndicate/ai/carrier/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
@@ -296,6 +308,7 @@
 	combat_dice_type = /datum/combat_dice/battleship
 	possible_interior_maps = list()
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
+	gas_salvage_rating = 5
 
 /obj/structure/overmap/syndicate/ai/battleship/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
@@ -321,6 +334,7 @@
 	speed_limit = 3
 	combat_dice_type = /datum/combat_dice/cruiser
 	possible_interior_maps = list()
+	gas_salvage_rating = 2
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
@@ -381,6 +395,7 @@
 	damage_states = FALSE
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
 	possible_interior_maps = list()
+	gas_salvage_rating = 2
 
 /obj/structure/overmap/syndicate/ai/gunboat/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
@@ -411,6 +426,7 @@
 	combat_dice_type = /datum/combat_dice/destroyer
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/disruptor
 	possible_interior_maps = list()
+	gas_salvage_rating = 2
 
 /obj/structure/overmap/syndicate/ai/submarine/Initialize()
 	. = ..()
@@ -445,6 +461,7 @@
 	missiles = 8
 	torpedoes = 0
 	combat_dice_type = /datum/combat_dice/cruiser
+	gas_salvage_rating = 4
 
 /obj/structure/overmap/syndicate/ai/kadesh/Initialize()
 	. = ..()
@@ -491,6 +508,7 @@
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
 							/obj/structure/overmap/syndicate/ai/bomber)
+	gas_salvage_rating = 10
 
 /obj/structure/overmap/syndicate/ai/fistofsol/apply_weapons()
 	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/twinmac(src)
@@ -526,6 +544,7 @@
 	ai_fighter_type = list(/obj/structure/overmap/hostile/ai/fighter)
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
 	flak_battery_amount = 2
+	gas_salvage_rating = 12
 
 /obj/structure/overmap/hostile/ai/alicorn/Initialize()
 	. = ..()
@@ -559,6 +578,7 @@
 	missiles = 4
 	combat_dice_type = /datum/combat_dice/fighter
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/disruptor
+	gas_salvage_rating = 0
 
 /obj/structure/overmap/hostile/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
@@ -587,6 +607,7 @@
 	ai_flags = AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/fighter
 	possible_interior_maps = list()
+	gas_salvage_rating = 0
 
 /obj/structure/overmap/syndicate/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
@@ -611,6 +632,7 @@
 	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/bomber
 	possible_interior_maps = list()
+	gas_salvage_rating = 0
 
 /obj/structure/overmap/syndicate/ai/bomber/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
