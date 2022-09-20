@@ -141,6 +141,10 @@ Clean override of the navigation computer to provide scan functionality.
 
 	data["gas_resources"] = resourcing
 	data["gas_viability"] = value_zone
+	if(selected_system && linked?.current_system == selected_system)
+		data["in_system"] = TRUE
+	else
+		data["in_system"] = FALSE
 
 	
 	return data

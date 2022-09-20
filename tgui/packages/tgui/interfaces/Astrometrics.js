@@ -172,7 +172,7 @@ export const Astrometrics = (props, context) => {
               </Section>
               <Section title="Resourcing Information">
                 <LabeledList>
-                  {!!data.scanned && gasses.map(gas => (
+                  {(!!data.scanned || !!data.in_system) && gasses.map(gas => (
                     <LabeledList.Item
                       key={gas.label}
                       label={gas.name}>
