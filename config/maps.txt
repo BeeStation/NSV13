@@ -10,53 +10,118 @@ Format:
 	default (The last map with this defined will get all votes of players who have not explicitly voted for a map)
 	voteweight [number] (How much to count each player vote as, defaults to 1, setting to 0.5 counts each vote as half a vote, 2 as double, etc, Setting to 0 disables the map but allows players to still pick it)
 	disabled (disables the map)
-	votable (allow the map to be selected in a called map vote)
+	
+	#BEE WAS DUMB AND DID NOT DOCUMENT THIS
+	votable (THIS IS REQUIRED!!!!!)
+	#REMEMBER TO FUCKING USE THIS
 endmap
 
+# KMC, Put the testing maps where they fucking belong
+# KMC, Put the testing maps where they fucking belong
+# KMC, Put the testing maps where they fucking belong
+# KMC, Put the testing maps where they fucking belong
 
-#Active Rotation
-
-map corgstation
-	minplayers 15
-	votable
-endmap
-
-map boxstation
-	maxplayers 60
-	votable
-endmap
-
-map metastation
+map tycoon
 	default
+	minplayers 12
 	votable
 endmap
 
-map pubbystation
-	maxplayers 50
+map atlas
 	votable
 endmap
 
-map deltastation
-	minplayers 40
+map aetherwhisp
+	minplayers 12
+	voteweight 0.5
 	votable
 endmap
 
-map kilostation
-	maxplayers 50
+map eclipse
+	maxplayers 10
 	votable
 endmap
 
-map flandstation
-	minplayers 40
+map galactica
+	minplayers 27
 	votable
 endmap
 
-#Debug Maps, you probably don't want these enabled.
+map shrike
+	maxplayers 24
+	votable
+endmap
 
-map runtimestation
+map snake
+	votable
+endmap
+
+#--------------
+# EVENT MAPS
+#--------------
+
+map Vago
+#	votable
+endmap
+
+map gladius
+#	minplayers 20
+#	voteweight 1.5
+#	votable
+endmap
+
+#--------------
+# TESTING MAPS
+#--------------
+
+map serendipity
+	votable
+endmap
+
+#---------------
+# RETIRED MAPS
+#---------------
+
+#map jeppison
+	minplayers 20
+	maxplayers 35
+	votable
+endmap
+
+
+#map jollysausage
+	maxplayers 30
+	minplayers 10
+	votable
+endmap
+
+#map pegasus
+	minplayers 30
+	voteweight 1.5
+	votable
 	disabled
 endmap
 
-map multiz_debug
+#map hammerhead
+#	voteweight 1.5
+#	minplayers 20
+#	votable
+#endmap
+
+#map aegis
+	voteweight 0.5
+endmap
+
+#BEGIN DEBUG MAPS
+
+#map testship
+	disabled
+endmap
+
+#map runtimestation
+	disabled
+endmap
+
+#map multiz_debug
 	disabled
 endmap

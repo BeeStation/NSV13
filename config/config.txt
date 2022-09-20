@@ -26,13 +26,13 @@ $include interviews.txt
 # There are various options which are hard-locked for security reasons.
 
 ## Server name: This appears at the top of the screen in-game and in the BYOND hub. Uncomment and replace 'beestation' with the name of your choice.
-#@SERVERNAME beestation
+@SERVERNAME NSV 13 | Official | MRP | 98% Free Lag | Spaceship Combat Server
 
 ## Server SQL name: This is the name used to identify the server to the SQL DB, distinct from SERVERNAME as it must be at most 32 characters.
-#@SERVERSQLNAME ss13newbs
+@SERVERSQLNAME nsv13
 
 ## Station name: The name of the station as it is referred to in-game. If commented out, the game will generate a random name instead.
-STATIONNAME Space Station 13
+STATIONNAME [DEBUGGING TOOLS ENABLED] NSV Not Production Ready
 
 ## Put on byond hub: Uncomment this to put your server on the byond hub.
 #HUB
@@ -53,10 +53,10 @@ ROUND_END_COUNTDOWN 90
 ADMIN_LEGACY_SYSTEM
 
 ##Uncomment this to stop any admins loaded by the legacy system from having their rank edited by the permissions panel
-#PROTECT_LEGACY_ADMINS
+PROTECT_LEGACY_ADMINS
 
 ##Uncomment this to stop any ranks loaded by the legacy system from having their flags edited by the permissions panel
-#PROTECT_LEGACY_RANKS
+PROTECT_LEGACY_RANKS
 
 ##Uncomment this to have admin ranks only loaded from the legacy admin_ranks.txt
 ##If enabled, each time admins are loaded ranks the database will be updated with the current ranks and their flags
@@ -192,7 +192,7 @@ ALLOW_ADMIN_ASAYCOLOR
 ID_CONSOLE_JOBSLOT_DELAY 30
 
 ## allow players to initiate a restart vote
-#ALLOW_VOTE_RESTART
+ALLOW_VOTE_RESTART
 
 ## allow players to initate a mode-change start
 #ALLOW_VOTE_MODE
@@ -257,10 +257,10 @@ CHECK_RANDOMIZER
 
 ## set a server location for world reboot. Don't include the byond://, just give the address and port.
 ## Don't set this to the same server, BYOND will automatically restart players to the server when it has restarted.
-SERVER  byond://sage.beestation13.com:7878
+#SERVER NULL
 
 ## forum address
-FORUMURL https://nsv.beestation13.com/phpBB3
+FORUMURL https://forums-nsv.beestation13.com/
 
 ## Wiki address
 WIKIURL https://nsv.beestation13.com/wiki/Main_Page
@@ -278,7 +278,7 @@ ISSUE_LABEL Ingame Issue Report
 DONATEURL https://www.patreon.com/user?u=10639001
 
 ## Discord Invite
-DISCORDURL https://discord.gg/8rrttjN
+DISCORDURL https://nsv.beestation13.com/discord
 
 ## Round specific stats address
 ## Link to round specific parsed logs; IE statbus. It is appended with the RoundID automatically by ticker/Reboot()
@@ -297,7 +297,7 @@ DISCORDURL https://discord.gg/8rrttjN
 GITHUBREPOID 199051995
 
 ## Ban appeals URL - usually for a forum or wherever people should go to contact your admins.
-BANAPPEALS https://nsv.beestation13.com/phpBB3/viewforum.php?f=9
+BANAPPEALS https://forums-nsv.beestation13.com/c/administration/ban-appeals/6
 
 ## System command that invokes youtube-dl, used by Play Internet Sound.
 ## You can install youtube-dl with
@@ -305,7 +305,9 @@ BANAPPEALS https://nsv.beestation13.com/phpBB3/viewforum.php?f=9
 ## from https://github.com/rg3/youtube-dl/releases
 ## or your package manager
 ## The default value assumes youtube-dl is in your system PATH
-INVOKE_YOUTUBEDL C:\youtubedl\youtube-dl.exe
+#INVOKE_YOUTUBEDL C:\TGSINSTANCES\NSV\Static\youtube-dl.exe
+
+@INVOKE_YOUTUBEDL C:\youtubedl\youtube-dl.exe --no-check-certificate
 
 ## In-game features
 ##Toggle for having jobs load up from the .txt
@@ -316,7 +318,7 @@ INVOKE_YOUTUBEDL C:\youtubedl\youtube-dl.exe
 
 ## Uncomment to show a popup 'reply to' window to every non-admin that receives an adminPM.
 ## The intention is to make adminPMs more visible. (although I fnd popups annoying so this defaults to off)
-POPUP_ADMIN_PM
+#POPUP_ADMIN_PM
 
 ## Uncomment to allow special 'Easter-egg' events on special holidays such as seasonal holidays and stuff like 'Talk Like a Pirate Day' :3 YAARRR
 ALLOW_HOLIDAYS
@@ -353,22 +355,22 @@ NOTE_STALE_DAYS 365.2422
 ##Note: all population caps can be used with each other if desired.
 
 ## Uncomment for 'soft' population caps, players will be warned while joining if the living crew exceeds the listed number.
-SOFT_POPCAP 100
+SOFT_POPCAP 40
 
 ## Message for soft cap
-SOFT_POPCAP_MESSAGE Be warned that the server is currently serving a high number of users, consider using alternative game servers.
+SOFT_POPCAP_MESSAGE Be warned that the server is currently serving a high number of users, performance may be affected.
 
 ## Uncomment for 'hard' population caps, players will not be allowed to spawn if the living crew exceeds the listed number, though they may still observe or wait for the living crew to decrease in size.
-HARD_POPCAP 175
+#HARD_POPCAP 90
 
 ## Message for hard cap
 HARD_POPCAP_MESSAGE The server is currently serving a high number of users, You cannot currently join. You may wait for the number of living crew to decline, observe, or find alternative servers.
 
 ## Uncomment for 'extreme' population caps, players will not be allowed to join the server if living crew exceeds the listed number.
-EXTREME_POPCAP 200
+EXTREME_POPCAP 55
 
 ## Message for extreme cap
-EXTREME_POPCAP_MESSAGE The server is currently serving a high number of users, find alternative servers, or wait.
+EXTREME_POPCAP_MESSAGE The server is currently overloaded, please wait, or join the discord for more information.
 
 ## Notify admins when a new player connects for the first x days a player's been around. (0 for first connection only, -1 for never)
 ##	Requres database
@@ -380,7 +382,7 @@ NOTIFY_NEW_PLAYER_ACCOUNT_AGE 1
 
 ## Notify the irc channel when a new player makes their first connection
 ##	Requres database
-#IRC_FIRST_CONNECTION_ALERT
+IRC_FIRST_CONNECTION_ALERT
 
 ## Deny all new connections by ckeys we haven't seen before (exempts admins and only denies the connection if the database is enabled and connected)
 ##	Requires database
@@ -412,7 +414,7 @@ NOTIFY_NEW_PLAYER_ACCOUNT_AGE 1
 AGGRESSIVE_CHANGELOG
 
 ## Comment this out if you've used the mass conversion sql proc for notes or want to stop converting notes
-AUTOCONVERT_NOTES
+#AUTOCONVERT_NOTES
 
 ## Comment this out to stop admin messages sent anytime an admin disconnects from a round in play, you can edit the messages in admin.dm
 ANNOUNCE_ADMIN_LOGOUT
@@ -422,7 +424,7 @@ ANNOUNCE_ADMIN_LOGIN
 
 ## Map rotation
 ## You should edit maps.txt to match your configuration when you enable this.
-#MAPROTATION
+MAPROTATION
 
 ## Map voting
 ## Allows players to vote for their preffered map
@@ -454,9 +456,14 @@ AUTOADMIN_RANK Admin
 ## These trigger for any version below (non-inclusive) the given version, so 510 triggers on 509 or lower.
 ## These messages will be followed by one stating the clients current version and the required version for clarity.
 ## If CLIENT_WARN_POPUP is uncommented a popup window with the message will be displayed instead
-#CLIENT_WARN_VERSION 513
-#CLIENT_WARN_POPUP
-#CLIENT_WARN_MESSAGE 512 is no longer being directly supported as version 513 is set to become the new stable version soon. We've made a number of changes to take advantage of the improvements made in 513 which should make for a smoother experience. We will be removing support for 512 when this new version replaces it as stable, so it's recommended that you upgrade now. (You can update to the BETA via the website or directly in the BYOND client)
+
+#Warn, Allows connection but warns about possibile instability.
+CLIENT_WARN_POPUP
+CLIENT_WARN_VERSION 0
+#Wish we had a build check for this
+CLIENT_WARN_MESSAGE Currently Unused! If you see this message yell at Francinum!
+
+#Error, Blocks non-admin connection.
 CLIENT_ERROR_VERSION 514
 CLIENT_ERROR_MESSAGE Your version of byond is not supported. Please upgrade.
 ## The minimum build needed for joining the server, if using 513, a good minimum build would be 1526.
@@ -534,7 +541,7 @@ MENU_SQUARE_VIEW
 
 ## Name your perpetual currency here
 ## This is used within the metashop and earned by playing the game.
-METACURRENCY_NAME BeeCoin
+METACURRENCY_NAME Torp
 
 ## Grant metacurrency
 ## Comment this out if you don't want players to earn metacurrency
@@ -542,7 +549,7 @@ GRANT_METACURRENCY
 
 ## Respect global bans
 ## Comment this out to ignore global bans
-RESPECT_GLOBAL_BANS
+#RESPECT_GLOBAL_BANS
 
 ## Custom shuttle spam prevention. Changine these numbers allows you to change the maxsize and amount of custom shuttles.
 MAX_SHUTTLE_COUNT 6
@@ -550,7 +557,6 @@ MAX_SHUTTLE_SIZE 300
 ## NSV13 - ranks. Comment out SHOW_RANKS to disable. RANK_FILE gives default rank list.
 SHOW_RANKS
 RANK_FILE royal_navy.txt
-=======
 
 ### Fail2Topic settings
 ### fail2topic is a system for automating IP bans for abusers of the world/Topic API.
@@ -564,9 +570,9 @@ TOPIC_RULE_NAME "_DD_Fail2topic"
 ## Max world/Topic payload size
 TOPIC_MAX_SIZE 500
 ## Uncomment to enable Fail2Topic, comment-out to disable
-#TOPIC_ENABLED
+TOPIC_ENABLED
 
-## Enable automatic profiling - Byond 513.1506 and newer only.
+## Enable automatic profiling
 #AUTO_PROFILE
 
 ## Uncomment to enable global ban DB using the provided URL. The API should expect to receive a ckey at the end of the URL.
