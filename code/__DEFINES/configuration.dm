@@ -41,5 +41,6 @@
 #define DEPT_GIMMICK_OBJ_FILE "[STRING_DIRECTORY]/dept_gimmick_objectives.txt"
 #define TARGET_GIMMICK_OBJ_FILE "[STRING_DIRECTORY]/target_gimmick_objectives.txt"
 #define SPLASH_DESC_FILE "splash.json"
+#define MEDIEVAL_SPEECH_FILE "medieval_speech.json"
 // NSV13 - starmap file
 #define STARMAP_FILE "starmap/starmap.json"
