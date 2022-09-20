@@ -1,6 +1,6 @@
 /obj/item/clothing/suit/space/hardsuit/dominion
 	name = "Dominion hardsuit"
-	desc = "A Dominion hardsuit, complete with protective wing covers!"
+	desc = "A Dominion hardsuit, with room for antennae and neck fluff!"
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
 	icon_state = "hardsuit-dominion"
 	item_state = "hardsuit-dominion"
@@ -14,7 +14,7 @@
 
 /obj/item/clothing/head/helmet/space/hardsuit/dominion
 	name = "Dominion hardsuit helmet"
-	desc = "The helmet to a Dominion hardsuit with flash resistance glass."
+	desc = "The helmet to a Dominion hardsuit with flash resistance glass and room for antennae and neck fluff."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
 	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "hardsuit0-dominion"

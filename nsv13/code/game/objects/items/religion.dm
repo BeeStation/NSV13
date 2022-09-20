@@ -12,8 +12,11 @@
 /obj/item/banner/munitions/mundane
     inspiration_available = FALSE
 
+/obj/item/banner/munitions/check_inspiration(mob/living/carbon/human/H)
+	return HAS_TRAIT(H, TRAIT_DEAF)
+
 /obj/item/banner/munitions/special_inspiration(mob/living/carbon/human/H)
-    return HAS_TRAIT(H, TRAIT_DEAF)
+	H.restoreEars()
 
 /datum/crafting_recipe/munitions
     name = "People's Republic of Munistotska banner"
@@ -92,8 +95,11 @@
 				/obj/item/organ/eyes/moth = 1)
 	category = CAT_MISC
 
-/obj/item/banner/munitions/special_inspiration(mob/living/carbon/human/H)
+/obj/item/banner/dominion/check_inspiration(mob/living/carbon/human/H)
     return HAS_TRAIT(H, TRAIT_BLIND)
+
+/obj/item/banner/dominion/special_inspiration(mob/living/carbon/human/H)
+	H.reagents.add_reagent(/datum/reagent/medicine/oculine, 5)
 
 /obj/item/banner/syndicate
 	name = "Syndicate banner"

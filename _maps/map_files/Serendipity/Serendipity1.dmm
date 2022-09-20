@@ -1700,7 +1700,28 @@
 	receive_ore_updates = 1;
 	pixel_y = 27
 	},
-/turf/open/floor/engine/light,
+/obj/item/bodypart/chest/robot,
+/obj/item/bodypart/head/robot{
+	pixel_y = 11
+	},
+/obj/item/bodypart/r_arm/robot{
+	pixel_x = 4;
+	pixel_y = 2
+	},
+/obj/item/bodypart/l_arm/robot{
+	pixel_x = -5;
+	pixel_y = 2
+	},
+/obj/item/bodypart/r_leg/robot{
+	pixel_y = -5;
+	pixel_x = 6
+	},
+/obj/item/bodypart/l_leg/robot{
+	pixel_y = -5;
+	pixel_x = -5
+	},
+/obj/effect/turf_decal/stripes/red/box,
+/turf/open/floor/engine,
 /area/science/robotics)
 "gb" = (
 /obj/effect/turf_decal/tile/ship/blue{
@@ -2326,15 +2347,20 @@
 	dir = 4
 	},
 /obj/machinery/light/floor,
-/obj/machinery/camera/autoname{
-	dir = 1;
-	pixel_x = -8
-	},
 /obj/machinery/turretid{
 	pixel_y = 26;
 	icon_state = "control_stun";
 	name = "Vault turret control panel";
 	ai_controller = /area/ai_monitored/nuke_storage
+	},
+/obj/machinery/turretid{
+	pixel_y = -26;
+	icon_state = "control_stun";
+	name = "Vault turret control panel";
+	ai_controller = /area/ai_monitored/nuke_storage
+	},
+/obj/machinery/camera/autoname{
+	dir = 6
 	},
 /turf/open/floor/engine/light,
 /area/ai_monitored/nuke_storage)
@@ -4351,6 +4377,18 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/medbay/lobby)
+"pj" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/curtain/obscuring/grey,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "cap_and_xo"
+	},
+/obj/structure/sign/poster/official/no_erp{
+	pixel_y = 32
+	},
+/turf/open/floor/engine/light,
+/area/crew_quarters/heads/captain/private)
 "pk" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -4505,6 +4543,10 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/virology)
+"pJ" = (
+/obj/structure/flora/ausbushes/ywflowers,
+/turf/open/floor/grass,
+/area/chapel)
 "pK" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -5878,6 +5920,8 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/yellow,
+/obj/item/paper_bin,
+/obj/item/pen/blue,
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/cic)
 "uI" = (
@@ -5922,6 +5966,10 @@
 /obj/effect/landmark/start/botanist,
 /turf/open/floor/grass,
 /area/hydroponics)
+"uR" = (
+/obj/structure/flora/ausbushes/ppflowers,
+/turf/open/floor/grass,
+/area/chapel)
 "uT" = (
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/chemistry)
@@ -11234,7 +11282,9 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/modular_fabricator/autolathe,
+/obj/structure/table/glass/plasma,
+/obj/item/paper_bin,
+/obj/item/pen/blue,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
 "MC" = (
@@ -11781,6 +11831,7 @@
 /obj/structure/table/wood,
 /obj/machinery/airalarm/directional/north,
 /obj/structure/window/plasma/reinforced/spawner/east,
+/obj/item/reagent_containers/food/snacks/mint,
 /turf/open/floor/wood,
 /area/crew_quarters/kitchen)
 "OB" = (
@@ -14120,6 +14171,10 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
+"WM" = (
+/obj/structure/flora/ausbushes/brflowers,
+/turf/open/floor/grass,
+/area/chapel)
 "WN" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -14599,6 +14654,7 @@
 /area/crew_quarters/dorms/nsv/nature_deck)
 "YB" = (
 /obj/machinery/light/floor,
+/obj/structure/flora/ausbushes/brflowers,
 /turf/open/floor/grass,
 /area/chapel)
 "YF" = (
@@ -14881,6 +14937,7 @@
 "ZD" = (
 /obj/machinery/light/floor,
 /obj/effect/landmark/start/chaplain,
+/obj/structure/flora/ausbushes/ppflowers,
 /turf/open/floor/grass,
 /area/chapel)
 "ZE" = (
@@ -40327,7 +40384,7 @@ bt
 xd
 Lu
 Hr
-am
+pj
 me
 am
 Hr
@@ -41096,7 +41153,7 @@ jN
 gz
 gz
 ns
-gz
+jN
 DD
 Yw
 Gp
@@ -48564,8 +48621,8 @@ YT
 NR
 LS
 YB
+pJ
 Ug
-Za
 Di
 Un
 Qx
@@ -48820,9 +48877,9 @@ FM
 Pm
 MT
 NR
-NR
+pJ
+uR
 ON
-Za
 Di
 ga
 yp
@@ -49078,8 +49135,8 @@ xF
 NR
 LS
 ZD
+WM
 Sh
-Za
 Di
 jM
 fk

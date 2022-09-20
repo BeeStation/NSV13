@@ -164,6 +164,7 @@
 "aO" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
 /obj/machinery/newscaster/directional/north,
+/obj/machinery/modular_fabricator/autolathe,
 /turf/open/floor/monotile/light,
 /area/quartermaster/lobby)
 "aP" = (
@@ -258,6 +259,17 @@
 	dir = 1
 	},
 /turf/open/floor/monotile/steel,
+/area/quartermaster)
+"by" = (
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/effect/turf_decal/delivery/red,
+/obj/effect/turf_decal/stripes/red/box,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/effect/turf_decal/tile/ship/full/yellow,
+/obj/effect/turf_decal/tile/ship/full/yellow,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/turf/open/floor/monotile/light,
 /area/quartermaster)
 "bE" = (
 /obj/structure/disposalpipe/segment,
@@ -537,13 +549,6 @@
 	req_access_txt = 0;
 	req_one_access_txt = "31;48"
 	},
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/effect/turf_decal/delivery/red,
-/obj/effect/turf_decal/stripes/red/box,
-/obj/effect/landmark/zebra_interlock_point,
-/obj/effect/turf_decal/tile/ship/full/yellow,
-/obj/effect/turf_decal/tile/ship/full/yellow,
 /obj/machinery/light/floor,
 /turf/open/floor/monotile/light,
 /area/quartermaster)
@@ -1270,17 +1275,16 @@
 /turf/open/floor/plating,
 /area/maintenance/department/electrical)
 "gh" = (
-/obj/docking_port/stationary{
-	dir = 8;
-	height = 7;
-	id = "supply_home";
-	name = "Serendipity Cargo";
-	width = 7;
-	dwidth = 6;
-	dheight = 3
-	},
-/turf/open/space/basic,
-/area/space/nearstation)
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/effect/turf_decal/delivery/red,
+/obj/effect/turf_decal/stripes/red/box,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/effect/turf_decal/tile/ship/full/yellow,
+/obj/effect/turf_decal/tile/ship/full/yellow,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/turf/open/floor/monotile/light,
+/area/quartermaster)
 "gi" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -4085,13 +4089,6 @@
 	req_access_txt = 0;
 	req_one_access_txt = "31;48"
 	},
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/effect/turf_decal/delivery/red,
-/obj/effect/turf_decal/stripes/red/box,
-/obj/effect/landmark/zebra_interlock_point,
-/obj/effect/turf_decal/tile/ship/full/yellow,
-/obj/effect/turf_decal/tile/ship/full/yellow,
 /obj/machinery/light/floor,
 /turf/open/floor/monotile/light,
 /area/quartermaster)
@@ -4688,6 +4685,17 @@
 	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
+"wl" = (
+/obj/docking_port/stationary{
+	dir = 8;
+	height = 7;
+	id = "supply_home";
+	name = "Serendipity Cargo";
+	width = 7;
+	dwidth = 3
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "wn" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -7239,11 +7247,12 @@
 /area/comms)
 "IO" = (
 /obj/machinery/ship_weapon/pdc_mount/north,
-/obj/machinery/gauss_dispenser{
-	pixel_x = -32
-	},
 /obj/structure/closet/crate{
 	anchored = 1
+	},
+/obj/machinery/gauss_dispenser{
+	pixel_x = -32;
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel/grid/techfloor,
 /area/nsv/weapons/starboard)
@@ -9700,7 +9709,8 @@
 /area/comms)
 "TF" = (
 /obj/machinery/gauss_dispenser{
-	pixel_x = 32
+	pixel_x = 32;
+	pixel_y = 0
 	},
 /obj/structure/closet/crate{
 	anchored = 1
@@ -36531,7 +36541,7 @@ dD
 Ks
 Ks
 Ks
-gh
+wl
 Ks
 Ks
 Ks
@@ -37043,11 +37053,11 @@ dD
 xR
 TB
 tC
-XT
+by
 XT
 eJ
 XT
-XT
+gh
 cQ
 TB
 hY
