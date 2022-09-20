@@ -755,7 +755,7 @@ Returns a faction datum by its name (case insensitive!)
 #define GAS_MEDIUM_MAX 5000
 
 #define GAS_HIGH_MIN 10000
-#define GAS_HIGH_MAX 20000
+#define GAS_HIGH_MAX 35000
 
 #define GAS_VERY_HIGH_MIN 1000000
 #define GAS_VERY_HIGH_MAX 50000000
