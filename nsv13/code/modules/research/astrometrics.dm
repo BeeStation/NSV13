@@ -106,30 +106,37 @@ Clean override of the navigation computer to provide scan functionality.
 		var/min_bound
 		var/max_bound
 		var/color
+		var/class
 		switch(count)
-			if(100000 to INFINITY)
+			if(150000 to INFINITY)
 				min_bound = 100000
 				max_bound = 1000000
 				color = "blue"
-			if(10000 to 100000)
+				class = "V"
+			if(15000 to 100000)
 				min_bound = 10000
 				max_bound = 100000
 				color = "green"
-			if(1000 to 10000)
+				class = "IV"
+			if(1500 to 10000)
 				min_bound = 1000
 				max_bound = 10000
 				color = "yellow"
-			if(100 to 1000)
+				class = "III"
+			if(150 to 1000)
 				min_bound = 100
 				max_bound = 1000
 				color = "orange"
+				 class = "II"
 			else
 				min_bound = 0
 				max_bound = 100
 				color = "red"
+				class = "I"
 		gas_viability["min_bound"] = min_bound
 		gas_viability["max_bound"] = max_bound
 		gas_viability["color"] = color
+		gas_viability["class"] = class
 		value_zone["[gastype]"] = gas_viability
 
 	data["gas_resources"] = resourcing

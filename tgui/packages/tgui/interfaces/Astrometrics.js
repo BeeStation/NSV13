@@ -5,6 +5,7 @@ import { useBackend } from '../backend';
 import { Button, Section, ProgressBar, LabeledList } from '../components';
 import { Window } from '../layouts';
 import { drawStarmap } from './Starmap';
+import { toFixed } from 'common/math';
 
 // This entire fucking file is terrible. Turn back now. Don't look at this.
 // There are so many issues with the conditional rendering here which I do not have the time to fix.
@@ -15,25 +16,25 @@ export const Astrometrics = (props, context) => {
   
   const gasses = [
     {
-	  label: 'Oxygen',
-	  name: 'Oxygen',
+      label: 'Oxygen',
+      name: 'Oxygen',
     },
     {
-	  label: 'Nitrogen',
-	  name: 'Nitrogen',
+      label: 'Nitrogen',
+      name: 'Nitrogen',
     },
     {
-	  label: 'Plasma',
-	  name: 'Plasma',
+      label: 'Plasma',
+      name: 'Plasma',
     },
-	{
-	  label: 'Carbon_Dioxide',
-	  name: 'Carbon_Dioxide',
-	},
-	{
+    {
+      label: 'Carbon_Dioxide',
+      name: 'Carbon_Dioxide',
+    },
+    {
       label: 'Nitrous_Oxide',
-	  name: 'Nitrous_Oxide',
-	},
+      name: 'Nitrous_Oxide',
+    },
   ];
   
   let scan_target = data.scan_target;
@@ -169,21 +170,23 @@ export const Astrometrics = (props, context) => {
                   }
                 })}
               </Section>
-			  <Section title ="Resourcing Information">
-			    <LabeledList>
-			    {!!data.scanned && gasses.map(label => (
-                  <LabeledList.Item
-                    key={label.label}
-                    label={label.name}>
-                    <ProgressBar
-                      value={data.gas_resources[label.label]}
-                      minValue={data.gas_viability[label.label]['min_bound']}
-                      maxValue={data.gas_viability[label.label]['max_bound']}
-                      color={data.gas_viability[label.label]['color']} />
-                  </LabeledList.Item>
+              <Section title="Resourcing Information">
+                <LabeledList>
+                  {!!data.scanned && gasses.map(gas => (
+                    <LabeledList.Item
+                      key={gas.label}
+                      label={gas.name}>
+                      <ProgressBar
+                        value={data.gas_resources[gas.label]}
+                        minValue={data.gas_viability[gas.label]['min_bound']}
+                        maxValue={data.gas_viability[gas.label]['max_bound']}
+                        color={data.gas_viability[gas.label]['color']}>
+                        {toFixed(data.gas_resources[gas.label]) + 'moles - Class' + data.gas_viability[gas.label]['class']}
+                      </ProgressBar>
+                    </LabeledList.Item>
                   ))}
-				</LabeledList>
-			  </Section>
+                </LabeledList>
+              </Section>
             </Fragment>
           )}
         </Section>
