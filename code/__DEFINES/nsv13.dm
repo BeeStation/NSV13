@@ -1,6 +1,4 @@
 //Nsv13 - Some of our necessary defines. The rest are inline with upstream's files.
-#define STARMAP_FILE = "starmap/starmap.json"
-
 #define TRAIT_NODIGEST			"no_digest"
 #define TRAIT_SEASICK			"seasick"
 #define TRAIT_MARINE_METABOLISM "marine-metabolism"

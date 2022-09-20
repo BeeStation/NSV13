@@ -25,7 +25,7 @@
 	var/mine_path = "map_files/Mining/nsv13" //NSV13 option
 	var/list/omode_blacklist = list() //NSV13 - Blacklisted overmap modes - ie remove modes
 	var/list/omode_whitelist = list() //NSV13 - Whitelisted overmap modes - ie add modes
-	var/starmap_path = "[CONFIG_DIRECTORY]/[STARMAP_FILE]" //NSV13 - What starmap should this map load?
+	var/starmap_path = CONFIG_DIRECTORY + "/" + STARMAP_FILE //NSV13 - What starmap should this map load?
 	var/mine_traits = null
 
 	var/traits = list(
