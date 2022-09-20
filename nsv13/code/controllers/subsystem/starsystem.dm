@@ -840,11 +840,11 @@ Returns a faction datum by its name (case insensitive!)
 			if(prob(5))
 				plasma += rand(GAS_LOW_MIN, GAS_MEDIUM_MIN)
 
-	gas_resources[/datum/gas/oxygen] = oxygen
-	gas_resources[/datum/gas/nitrogen] = nitrogen
-	gas_resources[/datum/gas/plasma] = plasma
-	gas_resources[/datum/gas/carbon_dioxide] = carbon_dioxide
-	gas_resources[/datum/gas/nitrous_oxide] = n2o
+	gas_resources["/datum/gas/oxygen"] = oxygen
+	gas_resources["/datum/gas/nitrogen"] = nitrogen
+	gas_resources["/datum/gas/plasma"] = plasma
+	gas_resources["/datum/gas/carbon_dioxide"] = carbon_dioxide
+	gas_resources["/datum/gas/nitrous_oxide"] = n2o
 
 #undef GAS_LOW_MIN
 #undef GAS_LOW_MAX

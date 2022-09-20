@@ -73,6 +73,69 @@ Clean override of the navigation computer to provide scan functionality.
 	data["can_cancel"] = (scan_target) ? TRUE : FALSE
 	data["scan_progress"] = scan_progress
 	data["scan_goal"] = scan_goal
+	var/list/resourcing
+	var/list/value_zone = list()
+	var/list/system_resources = selected_system?.gas_resources
+	/*
+		system_resources["/datum/gas/oxygen"]
+		system_resources["/datum/gas/nitrogen"]
+		system_resources["/datum/gas/plasma"]
+		system_resources["/datum/gas/carbon_dioxide"]
+		system_resources["/datum/gas/nitrous_oxide"]
+
+	*/
+	if(!system_resources)
+		resourcing = list(
+			"Oxygen" = 0,
+			"Nitrogen" = 0,
+			"Plasma" = 0,
+			"Carbon_Dioxide" = 0,
+			"Nitrous_Oxide" = 0,
+		)
+	else
+		resourcing = list()
+		resourcing["Oxygen"] = system_resources["/datum/gas/oxygen"]
+		resourcing["Nitrogen"] = system_resources["/datum/gas/nitrogen"]
+		resourcing["Plasma"] = system_resources["/datum/gas/plasma"]
+		resourcing["Carbon_Dioxide"] = system_resources["/datum/gas/carbon_dioxide"]
+		resourcing["Nitrous_Oxide"] = system_resources["/datum/gas/nitrous_oxide"]
+	
+	for(var/gastype in resourcing)
+		var/count = resourcing["[gastype]"]
+		var/list/gas_viability = list()
+		var/min_bound
+		var/max_bound
+		var/color
+		switch(count)
+			if(100000 to INFINITY)
+				min_bound = 100000
+				max_bound = 1000000
+				color = "blue"
+			if(10000 to 100000)
+				min_bound = 10000
+				max_bound = 100000
+				color = "green"
+			if(1000 to 10000)
+				min_bound = 1000
+				max_bound = 10000
+				color = "yellow"
+			if(100 to 1000)
+				min_bound = 100
+				max_bound = 1000
+				color = "orange"
+			else
+				min_bound = 0
+				max_bound = 100
+				color = "red"
+		gas_viability["min_bound"] = min_bound
+		gas_viability["max_bound"] = max_bound
+		gas_viability["color"] = color
+		value_zone["[gastype]"] = gas_viability
+
+	data["gas_resources"] = resourcing
+	data["gas_viability"] = value_zone
+
+	
 	return data
 
 /obj/machinery/computer/ship/navigation/astrometrics/is_in_range(datum/star_system/current_system, datum/star_system/system)

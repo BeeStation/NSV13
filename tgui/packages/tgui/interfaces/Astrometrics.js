@@ -2,7 +2,7 @@
 
 import { Fragment } from 'inferno';
 import { useBackend } from '../backend';
-import { Button, Section, ProgressBar } from '../components';
+import { Button, Section, ProgressBar, LabeledList } from '../components';
 import { Window } from '../layouts';
 import { drawStarmap } from './Starmap';
 
@@ -12,6 +12,30 @@ import { drawStarmap } from './Starmap';
 export const Astrometrics = (props, context) => {
   const { act, data } = useBackend(context);
   const screen = data.screen;
+  
+  const gasses = [
+    {
+	  label: 'Oxygen',
+	  name: 'Oxygen',
+    },
+    {
+	  label: 'Nitrogen',
+	  name: 'Nitrogen',
+    },
+    {
+	  label: 'Plasma',
+	  name: 'Plasma',
+    },
+	{
+	  label: 'Carbon_Dioxide',
+	  name: 'Carbon_Dioxide',
+	},
+	{
+      label: 'Nitrous_Oxide',
+	  name: 'Nitrous_Oxide',
+	},
+  ];
+  
   let scan_target = data.scan_target;
 
   return (
@@ -145,6 +169,21 @@ export const Astrometrics = (props, context) => {
                   }
                 })}
               </Section>
+			  <Section title ="Resourcing Information">
+			    <LabeledList>
+			    {!!data.scanned && gasses.map(label => (
+                  <LabeledList.Item
+                    key={label.label}
+                    label={label.name}>
+                    <ProgressBar
+                      value={data.gas_resources[label.label]}
+                      minValue={data.gas_viability[label.label]['min_bound']}
+                      maxValue={data.gas_viability[label.label]['max_bound']}
+                      color={data.gas_viability[label.label]['color']} />
+                  </LabeledList.Item>
+                  ))}
+				</LabeledList>
+			  </Section>
             </Fragment>
           )}
         </Section>
