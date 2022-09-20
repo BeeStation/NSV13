@@ -181,7 +181,7 @@ export const Astrometrics = (props, context) => {
                         minValue={data.gas_viability[gas.label]['min_bound']}
                         maxValue={data.gas_viability[gas.label]['max_bound']}
                         color={data.gas_viability[gas.label]['color']}>
-                        {toFixed(data.gas_resources[gas.label]) + 'moles - Class' + data.gas_viability[gas.label]['class']}
+                        {toFixed(data.gas_resources[gas.label]) + ' moles - Class ' + data.gas_viability[gas.label]['class']}
                       </ProgressBar>
                     </LabeledList.Item>
                   ))}

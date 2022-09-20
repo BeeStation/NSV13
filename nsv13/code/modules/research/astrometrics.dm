@@ -127,7 +127,7 @@ Clean override of the navigation computer to provide scan functionality.
 				min_bound = 100
 				max_bound = 1000
 				color = "orange"
-				 class = "II"
+				class = "II"
 			else
 				min_bound = 0
 				max_bound = 100
