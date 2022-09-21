@@ -385,7 +385,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
 "abb" = (
@@ -17343,6 +17343,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 5
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "aTv" = (
@@ -20339,12 +20342,10 @@
 /area/security/brig)
 "bam" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 1
-	},
 /obj/effect/turf_decal/loading_area{
 	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "bao" = (
@@ -20470,12 +20471,12 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/fore)
 "bax" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8
-	},
 /obj/machinery/missile_builder,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/fore)
@@ -39384,11 +39385,11 @@
 /obj/effect/turf_decal/loading_area{
 	dir = 1
 	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
 	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 9
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/gauss)
@@ -41135,6 +41136,10 @@
 /obj/structure/closet/wardrobe/grey,
 /turf/open/floor/plasteel/ship/padded,
 /area/maintenance/port)
+"ecp" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer1,
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/gauss)
 "ecQ" = (
 /mob/living/simple_animal/bot/secbot/armsky,
 /turf/open/floor/monotile/steel,
@@ -41642,6 +41647,13 @@
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
+"eFK" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/deck2)
 "eGI" = (
 /obj/machinery/atmospherics/components/trinary/mixer/layer1{
 	dir = 1;
@@ -44435,6 +44447,9 @@
 	icon_state = "1-8"
 	},
 /obj/effect/landmark/start/munitions_tech,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 8
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "jha" = (
@@ -47161,6 +47176,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"nfm" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/gauss)
 "nfr" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden,
 /turf/open/floor/plating,
@@ -47618,6 +47637,9 @@
 /obj/item/ship_weapon/parts/missile/warhead,
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
@@ -51453,8 +51475,8 @@
 /obj/effect/turf_decal/loading_area{
 	dir = 1
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 9
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/gauss)
@@ -87599,7 +87621,7 @@ veM
 abV
 dDv
 bLh
-aTg
+ecp
 bYL
 aWk
 cbh
@@ -87856,7 +87878,7 @@ rkQ
 abV
 dDv
 bYv
-aTg
+nfm
 uzi
 aWl
 cbj
@@ -88862,8 +88884,8 @@ keO
 nDB
 aam
 fjX
-aat
-aat
+eFK
+aba
 aba
 abE
 aTq
