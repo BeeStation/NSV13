@@ -2189,7 +2189,7 @@
 	dir = 1;
 	input_tag = "o2_in_alt";
 	output_tag = "o2_out_alt";
-	sensors = list("o2_sensor_alt" = "Oxygen Tank")
+	sensors = list("o2_sensor_alt"="Oxygen Tank")
 	},
 /obj/machinery/airalarm/directional/west,
 /obj/machinery/firealarm/directional/south,
@@ -4160,7 +4160,9 @@
 /obj/machinery/requests_console{
 	department = "Bridge";
 	name = "Bridge RC";
-	pixel_y = -30
+	pixel_y = -30;
+	departmentType = 5;
+	announcementConsole = 1
 	},
 /turf/open/floor/monotile/steel,
 /area/bridge)
@@ -5136,17 +5138,17 @@
 "vs" = (
 /obj/structure/table/reinforced,
 /obj/item/reagent_containers/food/drinks/beer{
-	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 0);
+	list_reagents = list(/datum/reagent/consumable/ethanol/beer=0);
 	pixel_x = -6;
 	pixel_y = 5
 	},
 /obj/item/reagent_containers/food/drinks/beer{
-	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 0);
+	list_reagents = list(/datum/reagent/consumable/ethanol/beer=0);
 	pixel_x = 2;
 	pixel_y = 6
 	},
 /obj/item/reagent_containers/food/drinks/beer{
-	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 0);
+	list_reagents = list(/datum/reagent/consumable/ethanol/beer=0);
 	pixel_y = 4
 	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
@@ -5306,7 +5308,7 @@
 /obj/item/reagent_containers/food/snacks/salad/fruit{
 	bonus_reagents = null;
 	desc = "A bowl of plastic fruit. Each fruit in the bowl shines with an ominous glare that portrays an aura of foreboding in the room. You feel like it'd be a bad idea to try and eat it.";
-	list_reagents = list(/datum/reagent/toxin/lipolicide = 50);
+	list_reagents = list(/datum/reagent/toxin/lipolicide=50);
 	name = "plastic fruit bowl";
 	prevent_grinding = 1
 	},
@@ -7395,7 +7397,7 @@
 	dir = 1;
 	input_tag = "n2_in_alt";
 	output_tag = "n2_out_alt";
-	sensors = list("n2_sensor_alt" = "Nitrogen Tank")
+	sensors = list("n2_sensor_alt"="Nitrogen Tank")
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold/visible,
 /obj/item/analyzer,
@@ -7737,7 +7739,7 @@
 	dir = 1;
 	input_tag = "air_in_alt";
 	output_tag = "air_out_alt";
-	sensors = list("air_sensor_alt" = "Air Mix Tank")
+	sensors = list("air_sensor_alt"="Air Mix Tank")
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold/visible,
 /obj/machinery/camera/autoname{
