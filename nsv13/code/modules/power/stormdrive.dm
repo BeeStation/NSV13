@@ -1027,6 +1027,8 @@ Control Rods
 								OL.burn_out()
 							if(25 to 35)
 								OL.break_light_tube()
+					else
+						break
 			if(prob(0.2))
 				for(var/obj/machinery/power/grounding_rod/R in orange(8, src))
 					R.take_damage(rand(25, 75))
