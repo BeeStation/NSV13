@@ -85,7 +85,7 @@
 
 	if(ghost.key) //Is there a player in control of our ghost?
 		start_piloting(ghost, "all_positions")
-		mobs_in_ship |= ghost //Allows players to hear hails
+		mobs_in_ship += ghost //Allows players to hear hails
 		ghost_controlled = TRUE
 
 	else //Try again later
