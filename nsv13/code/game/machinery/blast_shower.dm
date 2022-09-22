@@ -11,8 +11,12 @@
 	L.wash_cream()
 	L.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
 	L.radiation -= min(L.radiation, 15)
-	L.damage_clothes(8, BRUTE)
-	L.adjustBruteLoss(0.5)
+	if(obj_flags & EMAGGED)
+		L.adjustBruteLoss(3)
+		L.damage_clothes(12, BRUTE)
+	else
+		L.adjustBruteLoss(0.5)
+		L.damage_clothes(8, BRUTE)
 	if(iscarbon(L))
 		var/mob/living/carbon/M = L
 		. = TRUE
@@ -50,7 +54,7 @@
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
 			if(check_clothes(L))
-				to_chat(H, "<span class='warning'>Your clothes will get damaged if you wear them in this shower</span>")
+				to_chat(H, "<span class='warning'>Your clothes will get damaged if you wear them in this shower!</span>")
 			else
 				H.set_hygiene(HYGIENE_LEVEL_CLEAN)
 			if(H.wear_suit && wash_obj(H.wear_suit))
@@ -68,8 +72,14 @@
 			if(H.belt && wash_obj(H.belt))
 				H.update_inv_belt()
 
+/obj/machinery/shower/blast_shower/emag_act(mob/user)
+	if(obj_flags & EMAGGED)
+		return
+	obj_flags |= EMAGGED
+	to_chat(user, "<span class='warning'>You tamper with [src]'s pressure regulator.</span>")
+
 /datum/mood_event/blast_shower
-	description = "<span class='warning'>My skin feels raw!.</span>\n"
+	description = "<span class='warning'>My skin feels raw!</span>\n"
 	mood_change = -4
 	timeout = 5 MINUTES
 
@@ -78,7 +88,7 @@
 		balloon_alert(user, "You start constructing the blast shower")
 		if(do_after(user, 4 SECONDS, target = src))
 			I.use(1)
-			balloon_alert(user, "Blast Shower created")
+			balloon_alert(user, "Blast shower created")
 			var/obj/machinery/shower/blast_shower/new_shower = new /obj/machinery/shower/blast_shower(loc)
 			new_shower.setDir(dir)
 			qdel(src)
