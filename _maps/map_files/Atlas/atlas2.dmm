@@ -60,7 +60,7 @@
 "ag" = (
 /obj/structure/curtain,
 /obj/machinery/shower{
-	dir = 8
+	pixel_y = 13
 	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/dorms)
@@ -1988,6 +1988,7 @@
 	dir = 4
 	},
 /obj/structure/window/reinforced,
+/obj/structure/window/reinforced,
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
 "jb" = (
@@ -2977,6 +2978,9 @@
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "nP" = (
@@ -4340,9 +4344,7 @@
 	pixel_x = 2;
 	pixel_y = -2
 	},
-/obj/effect/turf_decal/stripes/line,
-/obj/machinery/firealarm/directional/north,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/plasteel/grid/lino,
 /area/medical/medbay)
 "ut" = (
 /obj/machinery/computer/telecomms/server{
@@ -4849,6 +4851,9 @@
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "wX" = (
@@ -6103,6 +6108,19 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/medical/chemistry)
+"Do" = (
+/obj/machinery/computer/ship/viewscreen,
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/clonepod/prefilled{
+	dir = 1
+	},
+/obj/structure/window/reinforced,
+/obj/structure/window/reinforced{
+	dir = 8;
+	layer = 2.9
+	},
+/turf/open/floor/monotile/dark,
+/area/medical/medbay)
 "Dp" = (
 /obj/machinery/door/airlock/ship/public/glass{
 	name = "Briefing Room"
@@ -6220,14 +6238,11 @@
 /turf/open/floor/monotile/steel,
 /area/hydroponics)
 "DC" = (
-/obj/machinery/computer/ship/viewscreen,
-/obj/effect/turf_decal/stripes/line,
-/obj/machinery/clonepod/prefilled{
-	dir = 1
-	},
 /obj/machinery/shower{
 	dir = 8
 	},
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/door/window,
 /turf/open/floor/monotile/dark,
 /area/medical/medbay)
 "DE" = (
@@ -7495,6 +7510,9 @@
 	dir = 8
 	},
 /obj/machinery/door/firedoor/border_only/directional/east,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
 "Jo" = (
@@ -10216,6 +10234,9 @@
 	dir = 8
 	},
 /obj/machinery/door/firedoor/border_only/directional/east,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "VZ" = (
@@ -45271,7 +45292,7 @@ MO
 wu
 iJ
 cH
-ur
+Jw
 dO
 BD
 DQ
@@ -45528,7 +45549,7 @@ HT
 TX
 nD
 DQ
-Jw
+ep
 qK
 BD
 DQ
@@ -45785,7 +45806,7 @@ TZ
 fn
 uv
 DQ
-ep
+Do
 jH
 qS
 DQ
@@ -46044,7 +46065,7 @@ sA
 cH
 DC
 Zl
-BD
+ur
 DQ
 AY
 bi

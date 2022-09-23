@@ -1523,6 +1523,7 @@
 	dir = 10
 	},
 /obj/item/radio/intercom/directional/south,
+/obj/structure/overmap/small_craft/transport/sabre/mining,
 /turf/open/floor/monotile/steel{
 	initial_gas_mix = "TEMP=2.7"
 	},
@@ -1796,6 +1797,8 @@
 /obj/item/storage/box/monkeycubes,
 /obj/item/storage/box/monkeycubes,
 /obj/machinery/firealarm/directional/east,
+/obj/item/storage/bag/bio,
+/obj/item/storage/bag/bio,
 /turf/open/floor/monotile/steel,
 /area/science)
 "ga" = (
@@ -2461,6 +2464,9 @@
 /obj/machinery/door/firedoor/border_only,
 /obj/effect/landmark/zebra_interlock_point,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/shower{
+	dir = 8
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "ia" = (
@@ -5961,6 +5967,15 @@
 /obj/structure/closet/firecloset,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
+"sW" = (
+/obj/machinery/door/poddoor/ship{
+	dir = 4;
+	id = "atlas_mining_hangar"
+	},
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/nsv/hanger/mining)
 "sY" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable/yellow{
@@ -6219,6 +6234,7 @@
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 4
 	},
+/obj/structure/ladder,
 /obj/structure/ladder,
 /turf/open/floor/plasteel/grid/mono,
 /area/janitor)
@@ -14035,8 +14051,9 @@
 	},
 /area/nsv/hanger/notkmcstupidhanger)
 "Vg" = (
+/obj/effect/turf_decal/stripes/line,
 /obj/structure/overmap/small_craft/transport/sabre/mining,
-/turf/open/floor/plasteel/techmaint{
+/turf/open/floor/monotile/steel{
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/nsv/hanger/mining)
@@ -55125,7 +55142,7 @@ Mi
 qk
 sH
 sH
-Vg
+sH
 hJ
 Pm
 Nh
@@ -55640,7 +55657,7 @@ HP
 sH
 sH
 sH
-BF
+Vg
 Pm
 Nh
 Nh
@@ -55896,7 +55913,7 @@ Mi
 Ju
 sH
 sH
-Vg
+sH
 ga
 Pm
 Nh
@@ -56921,11 +56938,11 @@ Vk
 HF
 fI
 Pm
-Pm
+sW
 VO
 VO
 VO
-Pm
+sW
 Pm
 Nh
 Nh
