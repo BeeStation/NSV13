@@ -233,7 +233,7 @@ GLOBAL_LIST_INIT(heavyfootmob, typecacheof(list(
 
 #define ismachinery(A) (istype(A, /obj/machinery))
 
-#define isbutton(A) (istype(A, /obj/machinery/button)) //NSV13 - Fixes that freaking Shuttle Button Deletion Issue
+#define isbutton(A) (istype(A, /obj/machinery/button))
 
 #define ismecha(A) (istype(A, /obj/mecha))
 
