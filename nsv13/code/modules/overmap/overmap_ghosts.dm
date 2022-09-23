@@ -73,6 +73,9 @@
 	ghost.hud_type = /datum/hud //Mostly blank hud
 	ghost.key = target.key
 
+	//Allows player to hear hails
+	mobs_in_ship += ghost
+
 	//Add some verbs
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/show_dradis, .verb/show_tactical, .verb/toggle_move_mode, .verb/cycle_firemode)
 
@@ -85,7 +88,6 @@
 
 	if(ghost.key) //Is there a player in control of our ghost?
 		start_piloting(ghost, "all_positions")
-		mobs_in_ship += ghost //Allows players to hear hails
 		ghost_controlled = TRUE
 
 	else //Try again later
