@@ -618,7 +618,7 @@ Adding tasks is easy! Just define a datum for it.
 	if(!ship_name)
 		return
 	var/player_string = ""
-	if(player_name) // No sender means AI ship
+	if(player_name && player_name != ship_name) // No sender means AI ship, or a ghost ship if the player and ship name are the same
 		player_string = " (Sent by [player_name])"
 
 	if(outbound)
@@ -1089,7 +1089,7 @@ Adding tasks is easy! Just define a datum for it.
 	applied_size = CLAMP(applied_size, FLEET_DIFFICULTY_EASY, INFINITY)
 	faction = SSstar_system.faction_by_id(faction_id)
 	reward *= applied_size //Bigger fleet = larger reward
-	if(istype(SSticker.mode, /datum/game_mode/pvp)) //Disables notoriety during Galactic Conquest. 
+	if(istype(SSticker.mode, /datum/game_mode/pvp)) //Disables notoriety during Galactic Conquest.
 		threat_elevation_allowed = FALSE
 	if(SSovermap_mode && threat_elevation_allowed)
 		applied_size += round(SSovermap_mode.threat_elevation / TE_POINTS_PER_FLEET_SIZE)	//Threat level modifies danger
