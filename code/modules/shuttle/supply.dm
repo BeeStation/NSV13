@@ -175,7 +175,7 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 	for(var/place in shuttle_areas)
 		var/area/shuttle/shuttle_area = place
 		for(var/atom/movable/AM in shuttle_area)
-			if(iscameramob(AM))
+			if(iscameramob(AM) || isbutton(AM)) //NSV13 - Fixes that freaking Shuttle Button Deletion Issue
 				continue
 			if(bounty_ship_item_and_contents(AM, dry_run = FALSE))
 				matched_bounty = TRUE
