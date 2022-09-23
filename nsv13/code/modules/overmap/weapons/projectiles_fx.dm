@@ -304,10 +304,10 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "proto_bsa"
 	name = "Prototype BSA Round"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	speed = 0.3
-	damage = 400
+	speed = 0.7
+	damage = 325
 	spread = 1
-	armour_penetration = 35
+	armour_penetration = 30
 	flag = "overmap_heavy"
 
 /obj/item/projectile/guided_munition

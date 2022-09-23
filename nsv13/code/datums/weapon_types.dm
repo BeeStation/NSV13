@@ -43,10 +43,10 @@
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/railgun_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	screen_shake = 1
-	selectable = FALSE
 	lateral = FALSE
 	firing_arc = 45 //Broad side of a barn...
 	ai_fire_delay = 5 SECONDS
+	allowed_roles = OVERMAP_USER_ROLE_PILOT
 
 /datum/ship_weapon/railgun/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
@@ -175,10 +175,9 @@
 	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
 	screen_shake = 5
-	//Pilot operated :))
-	selectable = FALSE
 	lateral = FALSE
 	firing_arc = 45 //Yeah have fun turning the galactica to shoot this thing :)
+	allowed_roles = OVERMAP_USER_ROLE_PILOT
 
 /datum/ship_weapon/bsa/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
@@ -289,10 +288,10 @@
 	failure_alert = "<span class='warning'>DANGER: Gauss gun systems not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/gauss.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
-	selectable = FALSE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 	miss_chance = 20
 	ai_fire_delay = 2 SECONDS
+	allowed_roles = OVERMAP_USER_ROLE_SECONDARY_GUNNER
 
 /datum/ship_weapon/pdc_mount // .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets
 	name = "PDC"
@@ -304,11 +303,11 @@
 	failure_alert = "<span class='warning'>DANGER: point defense system not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
-	selectable = TRUE
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 	miss_chance = 33
 	max_miss_distance = 6
 	ai_fire_delay = 0.5 SECONDS
+	allowed_roles = OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER
 	var/sound/lastsound // Special PDC sound handling
 
 /datum/ship_weapon/pdc_mount/New()
@@ -333,11 +332,11 @@
 	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual flak control.</span>"
 	failure_alert = "<span class='warning'>DANGER: flak guns unable to fire due to lack of ammunition.</span>"
 //	special_fire_proc = /obj/structure/overmap/proc/fire_flak
-	selectable = FALSE
 	lateral = TRUE
 	miss_chance = 33
 	max_miss_distance = 8
 	ai_fire_delay = 0.5 SECONDS
+	allowed_roles = OVERMAP_USER_ROLE_PILOT
 
 
 //AI exclusive weaponry
@@ -379,11 +378,10 @@
 	name = "Prototype Bluespace Artillery"
 	default_projectile_type = /obj/item/projectile/bullet/prototype_bsa
 	burst_size = 1
-	fire_delay = 32 SECONDS
+	fire_delay = 22 SECONDS
 	range_modifier = 200
 	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
 	ai_fire_delay = 32 SECONDS
-	lateral = TRUE
 
 

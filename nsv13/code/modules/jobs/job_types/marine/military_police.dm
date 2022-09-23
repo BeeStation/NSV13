@@ -130,7 +130,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	uniform = /obj/item/clothing/under/ship/military_police
 	neck = /obj/item/clothing/neck/tie/black
 	suit = /obj/item/clothing/suit/ship/squad/military_police
-	suit_store = /obj/item/gun/ballistic/automatic/pistol/glock
+	suit_store = /obj/item/gun/ballistic/automatic/pistol/glock/security
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/beret/sec
 	shoes = /obj/item/clothing/shoes/jackboots
