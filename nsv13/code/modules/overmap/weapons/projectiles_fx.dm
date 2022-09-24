@@ -247,6 +247,36 @@ Misc projectile types, effects, think of this as the special FX file.
 	for(var/i = 1; i <= 13; i++)
 		new /mob/living/simple_animal/hostile/viscerator(detonation_turf)	//MANHACKS!1!!
 
+/obj/item/projectile/bullet/delayed_prime/relayed_plushtorp
+	damage = 0
+	icon_state = "torpedo"
+	name = "emotional support torpedo"
+	speed = 3
+	penetration_fuze = 2
+	hitsound = 'sound/items/toysqueak1.ogg'
+	hitsound_wall = 'sound/items/toysqueak3.ogg'
+
+/obj/item/projectile/bullet/delayed_prime/relayed_plushtorp/fuze_trigger_value(atom/target)
+	if(isclosedturf(target))
+		return 1
+	return 0
+
+/obj/item/projectile/bullet/delayed_prime/relayed_plushtorp/is_valid_to_release(atom/newloc)
+	if(penetration_fuze > 0 || !isopenturf(newloc))
+		return FALSE
+	return TRUE
+
+/obj/item/projectile/bullet/delayed_prime/relayed_plushtorp/release_payload(atom/detonation_location)
+	var/turf/detonation_turf = detonation_location
+	new /obj/effect/dummy/lighting_obj(detonation_turf, LIGHT_COLOR_WHITE, 9, 4, 2)
+	for(var/mob/living/L in viewers(7, detonation_turf))
+		L.flash_act(affect_silicon = TRUE)
+	var/list/throwat_turfs = RANGE_TURFS(6, detonation_turf) - RANGE_TURFS(5, detonation_turf)
+	var/list/plushtypes = subtypesof(/obj/item/toy/plush)
+	for(var/i = 1; i<= 8, i++)
+		var/plushpath = pick(plushtypes)
+		var/obj/item/toy/plush/plushie = new plushpath(detonation_turf)
+		plushie.throw_at(pick(throwat_turfs), 7, 2, spin = TRUE)
 
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "mac"
@@ -304,10 +334,10 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "proto_bsa"
 	name = "Prototype BSA Round"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	speed = 0.3
-	damage = 400
+	speed = 0.7
+	damage = 325
 	spread = 1
-	armour_penetration = 35
+	armour_penetration = 30
 	flag = "overmap_heavy"
 
 /obj/item/projectile/guided_munition
@@ -365,6 +395,20 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/torpedo/hellfire/player_version
 	damage = 300	//A bit less initial damage to compensate for the /guaranteed/ hellburn effect dealing hefty damage.
+
+/obj/item/projectile/guided_munition/torpedo/plushtide
+	name = "emotional support torpedo"
+	damage = 0
+	obj_integrity = 400
+	max_integrity = 400
+	homing_turn_speed = 40
+	speed = 2
+	hitsound = 'sound/items/toysqueak1.ogg'
+	hitsound_wall = 'sound/items/toysqueak3.ogg'
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_plushtorp
+
+/obj/item/projectile/guided_munition/torpedo/plushtide/detonate(atom/target)
+	return	//Lets be sure
 
 /obj/item/projectile/guided_munition/torpedo/disruptor
 	icon_state = "torpedo_disruptor"
