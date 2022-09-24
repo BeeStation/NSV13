@@ -9,11 +9,11 @@
 	reagent_flags = DRAWABLE
 	possible_transfer_amounts = list()
 	ignore_flags = 1
+	fill_icon_thresholds = list(100)
 	var/cap_icon_state = "injector_cap"
 	var/cap_on = TRUE
 	var/cap_lost = FALSE
 	var/mutable_appearance/cap_overlay
-
 //Putting caps on them for balance and aesthetics.
 /obj/item/reagent_containers/hypospray/autoinjector/Initialize()
 	. = ..()
@@ -82,3 +82,26 @@
 			attack(user, user)
 		else
 			return
+
+/obj/item/reagent_containers/hypospray/autoinjector/on_reagent_change(changetype)
+	update_icon()
+
+/obj/item/reagent_containers/hypospray/autoinjector/update_icon(dont_fill=FALSE)
+    if(!fill_icon_thresholds || dont_fill)
+        return ..()
+
+    cut_overlays()
+
+    if(reagents.total_volume)
+        var/fill_name = fill_icon_state? fill_icon_state : icon_state
+        var/mutable_appearance/filling = mutable_appearance('nsv13/icons/obj/nsv13_reagentfillings.dmi', "[fill_name][fill_icon_thresholds[1]]")
+
+        var/percent = round((reagents.total_volume / volume) * 100)
+        for(var/i in 1 to fill_icon_thresholds.len)
+            var/threshold = fill_icon_thresholds[i]
+            var/threshold_end = (i == fill_icon_thresholds.len)? INFINITY : fill_icon_thresholds[i+1]
+            if(threshold <= percent && percent < threshold_end)
+                filling.icon_state = "[fill_name][fill_icon_thresholds[i]]"
+
+        filling.color = mix_color_from_reagents(reagents.reagent_list)
+        add_overlay(filling)

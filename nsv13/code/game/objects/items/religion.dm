@@ -82,7 +82,7 @@
 	lefthand_file = 'nsv13/icons/mob/inhands/equipment/banners_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/equipment/banners_righthand.dmi'
 	job_loyalties = null
-	warcry = "All that the light touches is within our Dominion!"
+	warcry = "May the light of the torch guide us!"
 
 /obj/item/banner/dominion/mundane
 	inspiration_available = FALSE

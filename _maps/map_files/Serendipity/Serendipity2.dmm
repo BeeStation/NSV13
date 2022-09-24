@@ -579,6 +579,9 @@
 /obj/structure/table/glass/plasma,
 /obj/item/flashlight/lamp,
 /obj/machinery/light/floor,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
 "cX" = (
@@ -1983,10 +1986,6 @@
 /obj/structure/extinguisher_cabinet/west,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
-"iY" = (
-/obj/structure/fluff/bleepypanel,
-/turf/closed/wall/ship,
-/area/maintenance/department/electrical)
 "ja" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -2651,7 +2650,9 @@
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
 "mz" = (
-/obj/machinery/camera/autoname,
+/obj/structure/fluff/bleepypanel{
+	pixel_y = 33
+	},
 /turf/open/floor/plating,
 /area/engine/gravity_generator)
 "mA" = (
@@ -2880,6 +2881,9 @@
 	pixel_y = -31
 	},
 /obj/machinery/photocopier,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
 "nW" = (
@@ -4339,7 +4343,6 @@
 /turf/open/floor/monotile/steel,
 /area/quartermaster)
 "uL" = (
-/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "uM" = (
@@ -4608,6 +4611,9 @@
 /area/engine/engine_room)
 "vV" = (
 /obj/machinery/light/floor,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/engine/gravity_generator)
 "vW" = (
@@ -4841,6 +4847,9 @@
 /area/nsv/weapons/starboard)
 "wP" = (
 /obj/machinery/suit_storage_unit/dominion_unit,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/tiled/light,
 /area/hallway/nsv/deck1/hallway)
 "wW" = (
@@ -5656,6 +5665,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/tiled/light,
 /area/hallway/nsv/deck1/hallway)
 "AZ" = (
@@ -6208,9 +6220,13 @@
 /turf/closed/wall/ship,
 /area/maintenance/department/electrical)
 "DU" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/light/small,
 /obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plating,
-/area/maintenance/department/electrical)
+/area/maintenance/department/engine)
 "DW" = (
 /obj/machinery/firealarm/directional/north,
 /turf/open/floor/plasteel/white,
@@ -9013,6 +9029,9 @@
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "QH" = (
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/tiled/light,
 /area/hallway/nsv/deck1/hallway)
 "QJ" = (
@@ -9149,6 +9168,9 @@
 	pixel_y = -7
 	},
 /obj/structure/rack,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plasteel/tiled/light,
 /area/hallway/nsv/deck1/hallway)
 "Rq" = (
@@ -9689,6 +9711,7 @@
 	brightness = 3;
 	dir = 1
 	},
+/obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plating,
 /area/maintenance/department/electrical)
 "TB" = (
@@ -10213,6 +10236,9 @@
 /obj/item/paper_bin,
 /obj/item/pen/fountain,
 /obj/machinery/newscaster/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
 "Wf" = (
@@ -10547,6 +10573,15 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"Yb" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/hallway/nsv/deck1/hallway)
 "Yd" = (
 /obj/machinery/portable_atmospherics/canister/nitrogen{
 	anchored = 1
@@ -43195,7 +43230,7 @@ NA
 mC
 tP
 tP
-DU
+tP
 Ir
 tP
 Lz
@@ -43964,8 +43999,8 @@ SN
 RG
 NA
 qw
-iY
-RP
+Lz
+mz
 RP
 RP
 RP
@@ -44221,7 +44256,7 @@ Kn
 Kn
 Kn
 Ty
-iY
+Lz
 mz
 oq
 BX
@@ -44478,8 +44513,8 @@ Sg
 Kn
 Lz
 gi
-iY
-RP
+Lz
+mz
 RP
 RP
 XM
@@ -45505,7 +45540,7 @@ dD
 Sg
 Ll
 Mb
-NH
+DU
 Eo
 qK
 LW
@@ -45525,7 +45560,7 @@ uZ
 uZ
 VX
 cV
-zd
+Yb
 nS
 Zv
 Rs
