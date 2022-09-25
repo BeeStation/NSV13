@@ -76,6 +76,9 @@
 	//Allows player to hear hails
 	mobs_in_ship += ghost
 
+	//Make sure the ship doesn't enter countdown
+	overmap_deletion_traits = DAMAGE_ALWAYS_DELETES
+	
 	//Add some verbs
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/show_dradis, .verb/show_tactical, .verb/toggle_move_mode, .verb/cycle_firemode)
 
