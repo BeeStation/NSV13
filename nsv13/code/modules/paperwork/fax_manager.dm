@@ -10,6 +10,8 @@ GLOBAL_DATUM_INIT(fax_manager, /datum/fax_manager, new)
 /datum/fax_manager
 	/// A list that contains faxes from players and other related information. You can view the filling of its fields in the procedure receive_request.
 	var/list/requests = list()
+	//var/icon/img = null
+	//var/photo_file
 
 /datum/fax_manager/Destroy(force, ...)
 	QDEL_LIST(requests)
@@ -41,6 +43,11 @@ GLOBAL_DATUM_INIT(fax_manager, /datum/fax_manager, new)
 		data["faxes"] += list(fax_data)
 	for(var/list/REQUEST in requests)
 		var/list/request = list()
+		//var/photo_ID = null
+		//if(REQUEST["img"] != null)
+		//	var/tattletail = "tmp_photo"+REQUEST["id_message"]+".png"
+		//	user << browse_rsc(REQUEST["img"], tattletail)
+		//	photo_ID = tattletail
 		request["id_message"] = REQUEST["id_message"]
 		request["time"] = REQUEST["time"]
 		var/mob/sender = REQUEST["sender"]
@@ -48,6 +55,7 @@ GLOBAL_DATUM_INIT(fax_manager, /datum/fax_manager, new)
 		request["sender_fax_id"] = REQUEST["sender_fax_id"]
 		request["sender_fax_name"] = REQUEST["sender_fax_name"]
 		request["receiver_fax_name"] = REQUEST["receiver_fax_name"]
+		//request["photo"] = photo_ID
 		data["requests"] += list(request)
 	return data
 
@@ -115,17 +123,22 @@ GLOBAL_DATUM_INIT(fax_manager, /datum/fax_manager, new)
 		if(REQUEST["id_message"] == id_message)
 			return REQUEST
 
-/datum/fax_manager/proc/receive_request(mob/sender, obj/machinery/fax/sender_fax, receiver_fax_name, obj/item/paper/paper, receiver_color)
+/datum/fax_manager/proc/receive_request(mob/sender, obj/machinery/fax/sender_fax, receiver_fax_name, obj/item/recieve, receiver_color)
 	var/list/request = list()
-	var/obj/item/paper/request/message = new()
 	request["id_message"] = requests.len
 	request["time"] = gameTimestamp()
 	request["sender"] = sender
 	request["sender_fax_id"] = sender_fax.fax_id
 	request["sender_fax_name"] = sender_fax.fax_name
 	request["receiver_fax_name"] = receiver_fax_name
-	message.copy_properties(paper)
-	request["paper"] = message
+	if(istype(recieve, /obj/item/paper))
+		var/obj/item/paper/paper = recieve
+		var/obj/item/paper/request/message = new()
+		message.copy_properties(paper)
+		request["paper"] = message
+	//if(picture)
+	//	request["img"] = picture.picture_image
+	//	request["photo_file"] = save_photo(picture.picture_image)
 	requests += list(request)
 	var/msg = "<span class='adminnotice'><b><font color=[receiver_color]>[sanitize(receiver_fax_name)] fax</font> received a message from [sanitize(sender_fax.fax_name)][ADMIN_JMP(sender_fax)]/[ADMIN_FULLMONTY(sender)]</b></span>"
 	to_chat(GLOB.admins, msg)
@@ -133,6 +146,16 @@ GLOBAL_DATUM_INIT(fax_manager, /datum/fax_manager, new)
 		if((admin.prefs.chat_toggles & CHAT_PRAYER) && (admin.prefs.toggles & SOUND_PRAYERS))
 			SEND_SOUND(admin, sound('sound/items/poster_being_created.ogg'))
 
+/*
+/datum/fax_manager/proc/save_photo(icon/photo)
+	var/photo_file = copytext_char(md5("\icon[photo]"), 1, 6)
+	if(!fexists("[GLOB.log_directory]/photos/[photo_file].png"))
+		//Clean up repeated frames
+		var/icon/clean = new /icon()
+		clean.Insert(photo, "", SOUTH, 1, 0)
+		fcopy(clean, "[GLOB.log_directory]/photos/[photo_file].png")
+	return photo_file
+*/
 // A special piece of paper for the administrator that will open the interface no matter what.
 /obj/item/paper/request/ui_status()
 	return UI_INTERACTIVE

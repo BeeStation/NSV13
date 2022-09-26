@@ -16,6 +16,8 @@
 	var/datum/weakref/loaded_item_ref
 	/// World ticks the machine is electrified for.
 	var/seconds_electrified = MACHINE_NOT_ELECTRIFIED
+	/// An attempt at making this possible
+	//var/datum/picture/current_image
 	/// If true, the fax machine is jammed and needs cleaning
 	var/jammed = FALSE
 	/// Determines the possibility of sending papers to the additional faxes.
@@ -64,6 +66,7 @@
 /obj/machinery/fax/Destroy()
 	QDEL_NULL(loaded_item_ref)
 	QDEL_NULL(wires)
+	//current_image = null
 	return ..()
 
 /obj/machinery/fax/update_overlays()
@@ -292,6 +295,13 @@
 					loaded_item_ref = null
 					update_icon()
 					return TRUE
+			//if(istype(loaded, /obj/item/photo))
+			//	var/obj/item/photo/bansera = loaded
+			//	current_image = bansera.picture
+			//	if(send_to_additional_faxes(loaded, usr, params["name"], params["color"]))
+			//		loaded_item_ref = null
+			//		update_icon()
+			//		return TRUE
 			else
 				say("The destination fax blocks the reception of this item.")
 		if("history_clear")
@@ -322,20 +332,26 @@
 		return TRUE
 	return FALSE
 
+/*
+/obj/machinery/fax/proc/send_photo_data()
+	if(!current_image)
+		return null
+	return current_image
+*/
 /**
- * The procedure for sending a paper to virtual admins fax machine.
+ * The procedure for sending a item to virtual admins fax machine.
  *
- * This procedure is similar to the send procedure except that it sends the paper to
+ * This procedure is similar to the send procedure except that it sends the item to
  * a "virtual" fax to a special administrator list.
  * Arguments:
- * * paper - The paper to be sent.
+ * * loaded - The item to be sent.
  * * sender - Reference to the sender's substance.
  * * receiver_name - The recipient's fax name, which will be displayed in the administrator's list.
  * * receiver_color - The color the receiver_name will be colored in.
  */
-/obj/machinery/fax/proc/send_to_additional_faxes(obj/item/paper/paper, mob/sender, receiver_name, receiver_color)
-	GLOB.fax_manager.receive_request(sender, src, receiver_name, paper, receiver_color)
-	playback_sending(paper, receiver_name)
+/obj/machinery/fax/proc/send_to_additional_faxes(obj/item/loaded, mob/sender, receiver_name, receiver_color)
+	GLOB.fax_manager.receive_request(sender, src, receiver_name, loaded, receiver_color)
+	playback_sending(loaded, receiver_name)
 	return TRUE
 
 /**
