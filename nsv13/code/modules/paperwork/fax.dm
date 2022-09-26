@@ -280,7 +280,6 @@
 				return
 			var/destination = params["id"]
 			if(send(loaded, destination))
-				//log_fax(loaded, destination, params["name"])
 				loaded_item_ref = null
 				update_icon()
 				return TRUE
@@ -298,17 +297,6 @@
 		if("history_clear")
 			history_clear()
 			return TRUE
-
-/**
- * Records logs of bureacratic action
- * Arguments:
- * * sent - The object being sent
- * * destination_id - The unique ID of the fax machine
- * * name - The friendly name of the fax machine, but these can be spoofed so the ID is also required
-/obj/machinery/fax/proc/log_fax(obj/item/sent, destination_id, name)
-	if(istype(sent, /obj/item/paper))
-		var
-*/
 
 /**
  * The procedure for sending a paper to another fax machine.
