@@ -1343,7 +1343,7 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 9
 	},
-/obj/structure/chair/comfy/gauss/east,
+/obj/structure/chair/fancy/gauss/east,
 /turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/gauss/battery/deck2/port{
 	lighting_colour_bulb = "#FF3232";
@@ -1492,7 +1492,7 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 5
 	},
-/obj/structure/chair/comfy/gauss/west,
+/obj/structure/chair/fancy/gauss/west,
 /turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/gauss/battery/deck2/port{
 	lighting_colour_bulb = "#FF3232";
@@ -2808,8 +2808,7 @@
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment{
-	dir = 4;
-	icon_state = "pipe"
+	dir = 4
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
@@ -3027,12 +3026,8 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "kt" = (
-/obj/machinery/atmospherics/pipe/simple/multiz{
-	piping_layer = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/multiz{
-	piping_layer = 3
-	},
+/obj/machinery/atmospherics/pipe/multiz/layer2,
+/obj/machinery/atmospherics/pipe/multiz/layer4,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/port)
 "ku" = (
@@ -3053,8 +3048,7 @@
 	dir = 1
 	},
 /obj/structure/disposalpipe/segment{
-	dir = 4;
-	icon_state = "pipe"
+	dir = 4
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
@@ -3660,7 +3654,7 @@
 /turf/open/floor/plasteel/dark,
 /area/security)
 "nb" = (
-/obj/structure/chair/mono_sofa/left{
+/obj/structure/chair/fancy/sofa/mono/left{
 	color = "#ff0000";
 	dir = 8
 	},
@@ -4683,9 +4677,8 @@
 /turf/open/floor/plasteel/dark,
 /area/security)
 "qx" = (
-/obj/machinery/power/deck_relay,
 /obj/structure/cable/white{
-	icon_state = "0-8"
+	icon_state = "8-16"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/weapons)
@@ -4762,8 +4755,9 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "qN" = (
-/obj/machinery/power/deck_relay,
-/obj/structure/cable/white,
+/obj/structure/cable/white{
+	icon_state = "1-16"
+	},
 /obj/structure/fluff/support_beam,
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/access_corridor{
@@ -5026,8 +5020,7 @@
 /area/quartermaster/storage)
 "rF" = (
 /obj/structure/disposalpipe/segment{
-	dir = 4;
-	icon_state = "pipe"
+	dir = 4
 	},
 /obj/structure/cable/green{
 	icon_state = "4-8"
@@ -6374,9 +6367,8 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/starboard_atmos)
 "vT" = (
-/obj/machinery/power/deck_relay,
 /obj/structure/cable{
-	icon_state = "0-2"
+	icon_state = "2-16"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/port)
@@ -7237,8 +7229,7 @@
 	},
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/disposalpipe/segment{
-	dir = 4;
-	icon_state = "pipe"
+	dir = 4
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/starboard)
@@ -7358,8 +7349,7 @@
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment{
-	dir = 4;
-	icon_state = "pipe"
+	dir = 4
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/starboard)
@@ -7381,8 +7371,7 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/visible/layer2,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4,
 /obj/structure/disposalpipe/segment{
-	dir = 4;
-	icon_state = "pipe"
+	dir = 4
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/starboard)
@@ -9357,7 +9346,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "EO" = (
-/obj/structure/chair/mono_sofa{
+/obj/structure/chair/fancy/sofa/mono{
 	color = "#ff0000"
 	},
 /turf/open/floor/carpet,
@@ -9582,7 +9571,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/port_substation)
 "Fw" = (
-/obj/structure/chair/mono_sofa/corner{
+/obj/structure/chair/fancy/sofa/mono/corner/concave{
 	color = "#ff0000"
 	},
 /turf/open/floor/carpet,
@@ -10809,7 +10798,7 @@
 /turf/open/floor/plasteel/dark,
 /area/security)
 "Jr" = (
-/obj/structure/chair/mono_sofa/right{
+/obj/structure/chair/fancy/sofa/mono/right{
 	color = "#ff0000"
 	},
 /obj/item/storage/briefcase{
@@ -11020,11 +11009,6 @@
 	},
 /turf/open/floor/plasteel/ship,
 /area/engine/atmos/starboard_atmos)
-"JV" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/layer2,
-/obj/machinery/atmospherics/components/unary/portables_connector/layer4,
-/turf/closed/wall/ship,
-/area/quartermaster/storage)
 "JW" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
@@ -12238,8 +12222,7 @@
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment{
-	dir = 4;
-	icon_state = "pipe"
+	dir = 4
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
@@ -12356,8 +12339,8 @@
 /area/security)
 "NH" = (
 /obj/structure/disposalpipe/segment,
-/obj/item/clothing/head/helmet/space/plasmaman/replacement,
-/obj/item/clothing/head/helmet/space/plasmaman/replacement,
+/obj/item/clothing/head/helmet/space/plasmaman,
+/obj/item/clothing/head/helmet/space/plasmaman,
 /obj/item/clothing/under/plasmaman,
 /obj/item/clothing/under/plasmaman,
 /obj/item/clothing/suit/space/eva/plasmaman,
@@ -13158,9 +13141,8 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "PR" = (
-/obj/machinery/power/deck_relay,
 /obj/structure/cable/green{
-	icon_state = "0-2"
+	icon_state = "2-16"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/starboard)
@@ -14708,7 +14690,7 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 6
 	},
-/obj/structure/chair/comfy/gauss/west,
+/obj/structure/chair/fancy/gauss/west,
 /turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/gauss/battery/deck2/starboard{
 	lighting_colour_bulb = "#FF3232";
@@ -14936,7 +14918,6 @@
 	},
 /area/engine/supermatter)
 "Vb" = (
-/obj/machinery/power/deck_relay,
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
@@ -14945,7 +14926,7 @@
 	dir = 1
 	},
 /obj/structure/cable/yellow{
-	icon_state = "0-5"
+	icon_state = "5-16"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/port_substation)
@@ -15348,12 +15329,8 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Wg" = (
-/obj/machinery/atmospherics/pipe/simple/multiz{
-	piping_layer = 3
-	},
-/obj/machinery/atmospherics/pipe/simple/multiz{
-	piping_layer = 1
-	},
+/obj/machinery/atmospherics/pipe/multiz/layer4,
+/obj/machinery/atmospherics/pipe/multiz/layer2,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/starboard)
 "Wh" = (
@@ -15444,7 +15421,7 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 10
 	},
-/obj/structure/chair/comfy/gauss/east,
+/obj/structure/chair/fancy/gauss/east,
 /turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/gauss/battery/deck2/starboard{
 	lighting_colour_bulb = "#FF3232";
@@ -48173,7 +48150,7 @@ fy
 FA
 rI
 uU
-JV
+tX
 kt
 vU
 vn

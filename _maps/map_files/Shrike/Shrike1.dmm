@@ -101,11 +101,6 @@
 /obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
-"aB" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/layer2,
-/obj/machinery/atmospherics/components/unary/portables_connector/layer4,
-/turf/closed/wall/ship,
-/area/maintenance/department/cargo)
 "aH" = (
 /obj/docking_port/stationary{
 	dwidth = 6;
@@ -496,7 +491,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/security/locker_room)
 "cp" = (
-/obj/structure/chair/mono_sofa/left{
+/obj/structure/chair/fancy/sofa/mono/left{
 	color = "#94deff";
 	dir = 4
 	},
@@ -1172,20 +1167,20 @@
 /area/space/nearstation)
 "fx" = (
 /obj/structure/table/reinforced,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+/obj/item/ammo_box/magazine/glock/lethal{
 	pixel_x = 5;
 	pixel_y = 6
 	},
 /obj/structure/window/reinforced/spawner/east,
 /obj/machinery/door/window,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+/obj/item/ammo_box/magazine/glock/lethal{
 	pixel_x = 2;
 	pixel_y = 3
 	},
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+/obj/item/ammo_box/magazine/glock/lethal{
 	pixel_x = -1
 	},
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+/obj/item/ammo_box/magazine/glock/lethal{
 	pixel_x = -4;
 	pixel_y = -3
 	},
@@ -1193,22 +1188,22 @@
 	dir = 1;
 	icon_state = "tube"
 	},
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+/obj/item/ammo_box/magazine/glock/lethal{
 	pixel_x = 5;
 	pixel_y = 6
 	},
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+/obj/item/ammo_box/magazine/glock/lethal{
 	pixel_x = 5;
 	pixel_y = 6
 	},
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+/obj/item/ammo_box/magazine/glock/lethal{
 	pixel_x = 2;
 	pixel_y = 3
 	},
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+/obj/item/ammo_box/magazine/glock/lethal{
 	pixel_x = -1
 	},
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+/obj/item/ammo_box/magazine/glock/lethal{
 	pixel_x = -4;
 	pixel_y = -3
 	},
@@ -2423,12 +2418,8 @@
 /obj/structure/railing{
 	dir = 10
 	},
-/obj/machinery/atmospherics/pipe/simple/multiz{
-	piping_layer = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/multiz{
-	piping_layer = 3
-	},
+/obj/machinery/atmospherics/pipe/multiz/layer4,
+/obj/machinery/atmospherics/pipe/multiz/layer2,
 /turf/open/openspace,
 /area/maintenance/nsv/deck1/starboard)
 "lE" = (
@@ -3879,9 +3870,8 @@
 	})
 "sT" = (
 /obj/structure/lattice/catwalk,
-/obj/machinery/power/deck_relay,
 /obj/structure/cable{
-	icon_state = "0-2"
+	icon_state = "2-32"
 	},
 /turf/open/openspace,
 /area/maintenance/nsv/deck1/port)
@@ -4802,18 +4792,18 @@
 /obj/structure/table/reinforced,
 /obj/structure/window/reinforced/spawner/north,
 /obj/structure/window/reinforced/spawner,
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+/obj/item/ammo_box/magazine/glock/lethal{
 	pixel_x = 5;
 	pixel_y = 6
 	},
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+/obj/item/ammo_box/magazine/glock/lethal{
 	pixel_x = 2;
 	pixel_y = 3
 	},
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+/obj/item/ammo_box/magazine/glock/lethal{
 	pixel_x = -1
 	},
-/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal{
+/obj/item/ammo_box/magazine/glock/lethal{
 	pixel_x = -4;
 	pixel_y = -3
 	},
@@ -5057,7 +5047,7 @@
 	pixel_x = 5;
 	pixel_y = 3
 	},
-/obj/structure/chair/mono_sofa{
+/obj/structure/chair/fancy/sofa/mono{
 	color = "#94deff";
 	dir = 4
 	},
@@ -5971,10 +5961,9 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Cx" = (
-/obj/machinery/power/deck_relay,
 /obj/structure/lattice/catwalk,
 /obj/structure/cable/white{
-	icon_state = "0-8"
+	icon_state = "8-32"
 	},
 /obj/machinery/power/apc/auto_name/east,
 /turf/open/openspace,
@@ -7303,11 +7292,6 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
-"Iy" = (
-/obj/machinery/atmospherics/components/unary/portables_connector/layer4,
-/obj/machinery/atmospherics/components/unary/portables_connector/layer2,
-/turf/closed/wall/ship,
-/area/vacant_room)
 "Iz" = (
 /obj/structure/sink{
 	dir = 4;
@@ -7521,9 +7505,8 @@
 /turf/open/floor/plating,
 /area/crew_quarters/heads/captain/private)
 "Jx" = (
-/obj/machinery/power/deck_relay,
 /obj/structure/cable/white{
-	icon_state = "0-2"
+	icon_state = "2-32"
 	},
 /obj/structure/fluff/support_beam{
 	dir = 1
@@ -7861,15 +7844,11 @@
 /turf/open/floor/plasteel/ship/padded,
 /area/medical/chemistry)
 "KS" = (
-/obj/machinery/atmospherics/pipe/simple/multiz{
-	piping_layer = 3
-	},
-/obj/machinery/atmospherics/pipe/simple/multiz{
-	piping_layer = 1
-	},
 /obj/structure/railing{
 	dir = 10
 	},
+/obj/machinery/atmospherics/pipe/multiz/layer2,
+/obj/machinery/atmospherics/pipe/multiz/layer4,
 /turf/open/openspace,
 /area/maintenance/nsv/deck1/port)
 "KV" = (
@@ -8264,10 +8243,9 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/port)
 "MR" = (
-/obj/machinery/power/deck_relay,
 /obj/structure/lattice/catwalk,
 /obj/structure/cable/green{
-	icon_state = "0-2"
+	icon_state = "2-32"
 	},
 /turf/open/openspace,
 /area/maintenance/nsv/deck1/starboard)
@@ -8346,8 +8324,7 @@
 /area/tcommsat/computer)
 "Nm" = (
 /obj/structure/disposalpipe/segment{
-	dir = 4;
-	icon_state = "pipe"
+	dir = 4
 	},
 /obj/machinery/light/small,
 /obj/structure/cable/white{
@@ -9375,9 +9352,8 @@
 /turf/open/openspace,
 /area/engine/stormdrive/monitor)
 "QL" = (
-/obj/machinery/power/deck_relay,
 /obj/structure/cable/yellow{
-	icon_state = "0-8"
+	icon_state = "8-32"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/tcommsat/computer)
@@ -10888,18 +10864,18 @@
 /area/maintenance/department/crew_quarters/dorms)
 "Wy" = (
 /obj/structure/rack,
-/obj/item/ammo_box/magazine/pistolm9mm/glock{
+/obj/item/ammo_box/magazine/glock{
 	pixel_x = 5;
 	pixel_y = 6
 	},
-/obj/item/ammo_box/magazine/pistolm9mm/glock{
+/obj/item/ammo_box/magazine/glock{
 	pixel_x = 2;
 	pixel_y = 3
 	},
-/obj/item/ammo_box/magazine/pistolm9mm/glock{
+/obj/item/ammo_box/magazine/glock{
 	pixel_x = -1
 	},
-/obj/item/ammo_box/magazine/pistolm9mm/glock{
+/obj/item/ammo_box/magazine/glock{
 	pixel_x = -4;
 	pixel_y = -3
 	},
@@ -11218,7 +11194,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/bridge)
 "XA" = (
-/obj/structure/chair/mono_sofa/right{
+/obj/structure/chair/fancy/sofa/mono/right{
 	color = "#94deff";
 	dir = 4
 	},
@@ -43388,7 +43364,7 @@ ZC
 ZC
 ZC
 sn
-aB
+Rx
 KS
 vw
 Sz
@@ -43688,7 +43664,7 @@ We
 We
 CL
 SN
-Iy
+AA
 lB
 Fq
 bw
