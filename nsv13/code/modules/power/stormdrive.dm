@@ -488,6 +488,13 @@ Control Rods
 
 /////// REACTOR START PROCS ////////
 
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/bullet_act(obj/item/projectile/energy/accelerated_particle/P, def_zone, piercing_hit = FALSE)
+	if(istype(P))
+		heat += P.energy
+		try_start()
+	else
+		. = ..()
+
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/try_start()
 
 	if(state == REACTOR_STATE_RUNNING || state == REACTOR_STATE_MELTDOWN || state == REACTOR_STATE_MAINTENANCE)
