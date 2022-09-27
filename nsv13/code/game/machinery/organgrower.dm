@@ -8,7 +8,7 @@
 /obj/machinery/limbgrower
 	name = "limb grower"
 	desc = "It grows new limbs using Synthflesh."
-	icon = 'icons/obj/machines/limbgrowernew.dmi'
+	icon = 'nsv13/icons/obj/machinery/limbgrowernew.dmi'
 	icon_state = "limbgrower_idleoff"
 	density = TRUE
 	use_power = IDLE_POWER_USE
