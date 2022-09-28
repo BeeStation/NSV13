@@ -988,12 +988,22 @@ Control Rods
 						if(prob(25))
 							L.flicker()
 			if(prob(1))
-				for(var/obj/machinery/light/L in orange(10, src))
-					if(prob(25))
-						L.burn_out()
+				var/list/light_candidates = list()
+				for(var/obj/machinery/light/L in orange(12, src))
+					light_candidates += L
+
+				for(var/I = 0, I < 3, I++)
+					if(length(light_candidates))
+						var/obj/machinery/light/OL = pick_n_take(light_candidates)
+						var/fate = rand(1, 100)
+						switch(fate)
+							if(1 to 25)
+								OL.burn_out()
+							if(26 to 35)
+								OL.break_light_tube()
 					else
-						L.flicker()
-			if(prob(0.01))
+						break
+			if(prob(0.02))
 				for(var/obj/machinery/power/grounding_rod/R in orange(5, src))
 					R.take_damage(rand(25, 50))
 				tesla_zap(src, 5, 1000)
@@ -1004,9 +1014,22 @@ Control Rods
 					if(prob(50) && shares_overmap(src, L))
 						L.flicker()
 			if(prob(5))
+				var/list/light_candidates = list()
 				for(var/obj/machinery/light/L in orange(12, src))
-					L.burn_out() //If there are even any left by this stage
-			if(prob(0.1))
+					light_candidates += L
+
+				for(var/I = 0, I < 5, I++)
+					if(length(light_candidates))
+						var/obj/machinery/light/OL = pick_n_take(light_candidates)
+						var/fate = rand(1, 100)
+						switch(fate)
+							if(1 to 25)
+								OL.burn_out()
+							if(25 to 35)
+								OL.break_light_tube()
+					else
+						break
+			if(prob(0.2))
 				for(var/obj/machinery/power/grounding_rod/R in orange(8, src))
 					R.take_damage(rand(25, 75))
 				tesla_zap(src, 8, 2000)
