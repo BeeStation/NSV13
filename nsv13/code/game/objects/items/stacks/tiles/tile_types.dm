@@ -72,9 +72,11 @@
 	. += "<span class='notice'>Ctrl-click to change the tile type.</span>"
 
 /obj/item/stack/tile/durasteel/CtrlClick(mob/user)
-	if((istype(user) && user.canUseTopic(src, BE_CLOSE, ismonkey(user))) && !is_cyborg)
-		icon_state = show_radial_menu(user, user, tilelist)
-		turf_type = tiletypes[icon_state] //it JUST works
+	if((istype(user) && user.canUseTopic(src, BE_CLOSE, is_monkey(user))) && !is_cyborg && user.is_holding(src)) //Only activate when in your hand
+		var/choice = show_radial_menu(user, user, tilelist)
+		if(choice)
+			icon_state = choice
+			turf_type = tiletypes[icon_state] //it JUST works
 	return ..()
 
 /obj/item/stack/tile/durasteel/alt
