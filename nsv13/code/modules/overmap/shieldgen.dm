@@ -284,6 +284,7 @@
 	if(!powered() || power_input <= 0 || !try_use_power(power_input))
 		if(shield["integrity"] > 0) //If we lose power, the shield integrity steadily drains
 			shield["integrity"] -= 2
+			active = FALSE
 
 		if(shield["integrity"] <= 0) //Reset if no juice remaining
 			depower_shield()
