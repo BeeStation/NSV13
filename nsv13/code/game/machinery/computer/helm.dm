@@ -3,7 +3,7 @@
 	name = "Seegson model HLM flight control console"
 	desc = "A computerized ship piloting package which allows a user to set a ship's speed, attitude, bearing and more!"
 	icon_screen = "helm"
-	position = "pilot"
+	position = OVERMAP_USER_ROLE_PILOT
 	circuit = /obj/item/circuitboard/computer/ship/helm
 
 /obj/machinery/computer/ship/helm/syndicate
@@ -30,9 +30,10 @@
 		playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
 		to_chat(user, "<span class='warning'>Autopilot [linked.ai_controlled ? "Enabled" : "Disengaged"].</span>")
 	..()
+	return TRUE
 
-// Helm and tactical in one console, useful for debugging 
-// This console should not be made available for the player ship, looking at you mappers 
+// Helm and tactical in one console, useful for debugging
+// This console should not be made available for the player ship, looking at you mappers
 /obj/machinery/computer/ship/helm/allinone
 	name = "debug ship"
 	desc = "You shouldn't be seeing this"

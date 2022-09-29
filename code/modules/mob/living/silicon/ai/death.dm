@@ -13,7 +13,8 @@
 	if("[old_icon]_death_transition" in icon_states(icon))
 		flick("[old_icon]_death_transition", src)
 
-	cameraFollow = null
+	if(ai_tracking_target)
+		ai_stop_tracking()
 
 	anchored = FALSE //unbolt floorbolts
 	move_resist = MOVE_FORCE_NORMAL
@@ -21,7 +22,6 @@
 	if(eyeobj)
 		eyeobj.setLoc(get_turf(src))
 		set_eyeobj_visible(FALSE)
-
 
 	GLOB.shuttle_caller_list -= src
 	SSshuttle.autoEvac()
@@ -31,7 +31,7 @@
 	if(explosive)
 		var/T = get_turf(src)
 		addtimer(CALLBACK(GLOBAL_PROC, .proc/explosion, T, 3, 6, 12, 15), 10)
-		
+
 	if(src.key)
 		for(var/each in GLOB.ai_status_displays) //change status
 			var/obj/machinery/status_display/ai/O = each

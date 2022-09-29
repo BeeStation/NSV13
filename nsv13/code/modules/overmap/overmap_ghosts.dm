@@ -77,13 +77,14 @@
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/show_dradis, .verb/show_tactical, .verb/toggle_move_mode, .verb/cycle_firemode)
 
 	ghost_key_check(ghost)
+	log_game("[target.key] was spawned as a [src]")
 
 /obj/structure/overmap/proc/ghost_key_check(var/mob/living/carbon/human/species/skeleton/ghost)
 	if(ai_controlled) //Exit this loop if we have put an AI back in control
 		return
 
 	if(ghost.key) //Is there a player in control of our ghost?
-		start_piloting(ghost, "all_positions")
+		start_piloting(ghost, (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER))
 		ghost_controlled = TRUE
 
 	else //Try again later

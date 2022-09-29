@@ -240,8 +240,9 @@
 	return ..()
 
 /obj/machinery/deck_turret/multitool_act(mob/living/user, obj/item/I)
-	. = ..()
+	..()
 	update_parts()
+	return TRUE
 
 /obj/machinery/deck_turret/attackby(obj/item/I, mob/user, params)
 	if(default_unfasten_wrench(user, I))
@@ -673,11 +674,12 @@
 	if(loading)
 		to_chat(user, "<span class='notice'>[src] is already being loaded...</span>")
 		return FALSE
-	if(ammo_type && istype(A, ammo_type))
-		if(get_dist(A, src) > 1)
-			load_delay = 10.4 SECONDS
-		load(A, user)
-		load_delay = 7.2 SECONDS
+	if(!ammo_type || !istype(A, ammo_type))
+		return FALSE
+	if(get_dist(A, src) > 1)
+		load_delay = 10.4 SECONDS
+	load(A, user)
+	load_delay = 7.2 SECONDS
 
 /obj/machinery/deck_turret/payload_gate/proc/load(obj/item/A, mob/user)
 	var/temp = load_delay
@@ -697,13 +699,20 @@
 			playsound(src.loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	loading = FALSE
 
+///Updates state if the moved out obj was the loaded shell
+/obj/machinery/deck_turret/payload_gate/Exited(src)
+	. = ..()
+	if(src == shell)
+		icon_state = initial(icon_state)
+		loaded = FALSE
+		shell = null
+
+///Shorthand for moving shell to turf
 /obj/machinery/deck_turret/payload_gate/proc/unload()
-	icon_state = initial(icon_state)
-	loaded = FALSE
 	if(!shell)
-		return
-	shell.forceMove(get_turf(src))
-	shell = null
+		return FALSE
+	//Will call payload_gate.Exited which handles the actual unloading
+	return shell.forceMove(get_turf(src))
 
 /obj/machinery/deck_turret/payload_gate/proc/feed()
 	if(!shell)

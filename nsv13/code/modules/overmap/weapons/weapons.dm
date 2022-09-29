@@ -65,11 +65,16 @@
 		return FIRE_MODE_TORPEDO
 	return FIRE_MODE_MAC
 
+/obj/structure/overmap/proc/select_weapon(number)
+	if(number > 0 && number <= length(weapon_numkeys_map))
+		swap_to(weapon_numkeys_map[number])
+		return TRUE
+
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_ANTI_AIR)
 	if(!weapon_types[what])
 		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[what]
-	if(!SW.selectable)
+	if(!(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
 		return FALSE
 	fire_mode = what
 	if(world.time > switchsound_cooldown)

@@ -109,6 +109,9 @@ the new instance inside the host to be updated to the template's stats.
 /mob/camera/disease/say(message, bubble_type, var/list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
 	return
 
+/mob/camera/disease/canZMove(direction, turf/target) //NSV13 - cameras do not respect these FLOORS you speak so much of
+	return TRUE
+
 /mob/camera/disease/Move(NewLoc, Dir = 0)
 	if(freemove)
 		forceMove(NewLoc)

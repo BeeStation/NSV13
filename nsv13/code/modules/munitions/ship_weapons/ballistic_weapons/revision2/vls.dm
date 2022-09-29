@@ -22,7 +22,6 @@
 		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
-	selectable = TRUE // Capable of firing manually
 	autonomous = TRUE // Capable of firing autonomously
 
 /datum/ship_weapon/vls/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
@@ -49,8 +48,9 @@
 	circuit = /obj/item/circuitboard/machine/vls
 	var/obj/structure/fluff/vls_hatch/hatch = null
 
-/obj/machinery/ship_weapon/vls/Crossed(atom/movable/AM, oldloc)
-	. = ..()
+/obj/machinery/ship_weapon/vls/proc/on_entered(datum/source, atom/movable/AM, oldloc)
+	SIGNAL_HANDLER
+
 	var/can_shoot_this = FALSE
 	for(var/_ammo_type in ammo_type)
 		if(istype(AM, _ammo_type))
@@ -87,6 +87,10 @@
 
 /obj/machinery/ship_weapon/vls/Initialize()
 	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 	var/turf/T = SSmapping.get_turf_above(src)
 	if(!T)
 		return
@@ -111,6 +115,7 @@
 		ntransform.Translate(-32,1)
 		hatch.transform = ntransform
 		return
+
 #define HT_OPEN TRUE
 #define HT_CLOSED FALSE
 
@@ -170,8 +175,8 @@
 			continue
 		if(ship == OM || ship.faction == OM.faction || ship.z != OM.z)
 			continue
-		if ( ship.essential ) 
-			continue 
+		if ( ship.essential )
+			continue
 		var/target_range = get_dist(ship,OM)
 		if(target_range > max_range || target_range <= 0) //Random pulled from the aether
 			continue
@@ -285,6 +290,8 @@
 		spawn(150)
 			light_shots_left = initial(light_shots_left) // make them reload like real people, sort of
 		return FALSE
+	if(!current_system)
+		return
 	var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_FLAK]
 	var/flak_left = flak_battery_amount //Multi-flak batteries!
 	if(!ai_controlled)
@@ -295,10 +302,12 @@
 			flak_left --
 			if(flak_left <= 0)
 				return
-	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/ship in current_system.system_contents)
 		if(!ship || !istype(ship))
 			continue
 		if(ship == src || ship == last_target || ship.faction == faction || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
+			continue
+		if(warcrime_blacklist[ship.type]) // Please don't blow up my rocks
 			continue
 		if ( ship.essential )
 			continue
@@ -339,7 +348,7 @@
 					break
 
 	//Not currently used, but may as well keep it for reference...
-	if(flak_battery_amount > 0)
+	if(flak_battery_amount > 0 && current_system)
 		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_FLAK]
 		var/flak_left = flak_battery_amount //Multi-flak batteries!
 		if(!ai_controlled)
@@ -350,13 +359,15 @@
 				flak_left --
 				if(flak_left <= 0)
 					return
-		for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+		for(var/obj/structure/overmap/ship in current_system.system_contents)
 			if(!ship || !istype(ship))
 				continue
 			if(ship == src || ship == last_target || ship.faction == faction || ship.z != z) //No friendly fire, don't blow up wrecks that the crew may wish to loot. For AIs, do not target our active target, and risk blowing up our precious torpedoes / missiles.
 				continue
+			if(warcrime_blacklist[ship.type]) // Please don't blow up my rocks
+				continue
 			if ( ship.essential )
-				continue 
+				continue
 			var/target_range = get_dist(ship,src)
 			if(target_range > 30 || target_range <= 0) //Random pulled from the aether
 				continue

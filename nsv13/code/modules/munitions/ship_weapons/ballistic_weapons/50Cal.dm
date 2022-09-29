@@ -77,7 +77,7 @@
 		RemoveComponent() //Uh...OK?
 		CRASH("Overmap gunning component created with no attached overmap.")
 	OM.gauss_gunners.Add(holder)
-	OM.start_piloting(holder, "secondary_gunner")
+	OM.start_piloting(holder, OVERMAP_USER_ROLE_SECONDARY_GUNNER)
 	if(automatic)
 		START_PROCESSING(SSfastprocess, src)
 
@@ -143,7 +143,8 @@
 	return attack_hand(user)
 
 /obj/machinery/computer/anti_air/multitool_act(mob/living/user, obj/item/multitool/I)
-	. = ..()
+	..()
+	. = TRUE
 	turret = locate(/obj/machinery/ship_weapon/anti_air) in SSmapping.get_turf_above(src)
 	if ( turret )
 		to_chat(user, "<span class='warning'>Successfully linked [src] to [turret].")

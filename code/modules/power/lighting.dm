@@ -13,8 +13,8 @@
 #define BROKEN_SPARKS_MAX (90 SECONDS)
 
 //NSV13 added ethereal light interaction defines
-#define LIGHT_DRAIN_TIME 25
-#define LIGHT_POWER_GAIN 35
+#define LIGHT_DRAIN_TIME 35
+#define LIGHT_POWER_GAIN 50
 
 /obj/item/wallframe/light_fixture
 	name = "light fixture frame"
@@ -355,16 +355,17 @@
 
 /obj/machinery/light/update_overlays()
 	. = ..()
-	if(on || emergency_mode)
-		if(!lighting_overlays)
-			lighting_overlays = list()
-		var/mutable_appearance/LO = lighting_overlays["[base_state]-[light_power]-[light_color]"]
-		if(!LO)
-			LO = mutable_appearance(overlayicon, base_state, layer, EMISSIVE_PLANE)
-			LO.color = light_color
-			LO.alpha = clamp(light_power*255, 30, 200)
-			lighting_overlays["[base_state]-[light_power]-[light_color]"] = LO
-		. += LO
+	if(!on || status != LIGHT_OK)
+		return
+
+	var/area/local_area = get_area(src)
+	if(emergency_mode || (local_area?.fire) || (local_area?.vacuum) || (local_area && local_area.redalert))
+		. += mutable_appearance(overlayicon, "[base_state]_emergency")
+		return
+	if(nightshift_enabled)
+		. += mutable_appearance(overlayicon, "[base_state]_nightshift")
+		return
+	. += mutable_appearance(overlayicon, base_state)
 
 // update the icon_state and luminosity of the light depending on its state
 /obj/machinery/light/proc/update(trigger = TRUE)
@@ -681,15 +682,15 @@
 					return
 
 				to_chat(H, "<span class='notice'>You start channeling some power through the [fitting] into your body.</span>")
-				E.drain_time = world.time + 35
-				while(do_after(user, 30, target = src))
-					E.drain_time = world.time + 35
+				E.drain_time = world.time + LIGHT_DRAIN_TIME
+				while(do_after(user, LIGHT_DRAIN_TIME, target = src))
+					E.drain_time = world.time + LIGHT_DRAIN_TIME
 					if(!istype(stomach))
 						to_chat(H, "<span class='warning'>You can't receive charge!</span>")
 						return
 					to_chat(H, "<span class='notice'>You receive some charge from the [fitting].</span>")
-					stomach.adjust_charge(50)
-					use_power(50)
+					stomach.adjust_charge(LIGHT_POWER_GAIN)
+					use_power(LIGHT_POWER_GAIN)
 					if(stomach.charge >= stomach.max_charge)
 						to_chat(H, "<span class='notice'>You are now fully charged.</span>")
 						E.drain_time = 0
@@ -884,13 +885,18 @@
 /obj/item/light/Initialize()
 	. = ..()
 	update()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/item/light/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/caltrop, force)
 
-/obj/item/light/Crossed(mob/living/L)
-	. = ..()
+/obj/item/light/proc/on_entered(datum/source, atom/movable/L)
+	SIGNAL_HANDLER
+
 	if(istype(L) && has_gravity(loc))
 		if(HAS_TRAIT(L, TRAIT_LIGHT_STEP))
 			playsound(loc, 'sound/effects/glass_step.ogg', 30, 1)

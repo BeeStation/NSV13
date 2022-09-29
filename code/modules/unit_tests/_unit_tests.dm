@@ -37,6 +37,7 @@
 
 #include "anchored_mobs.dm"
 #include "component_tests.dm"
+#include "connect_loc.dm"
 #include "dynamic_ruleset_sanity.dm"
 #include "reagent_id_typos.dm"
 #include "reagent_recipe_collisions.dm"
@@ -49,6 +50,7 @@
 #include "timer_sanity.dm"
 #include "unit_test.dm"
 #include "random_ruin_mapsize.dm"
+#include "ftl.dm" // NSV13 FTL unit tests
 
 #undef TEST_ASSERT
 #undef TEST_ASSERT_EQUAL

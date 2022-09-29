@@ -19,32 +19,24 @@
 /obj/structure/overmap/proc/start_piloting(mob/living/carbon/user, position)
 	if(!position || user.overmap_ship == src || LAZYFIND(operators, user))
 		return FALSE
-	switch(position)
-		if("pilot")
-			if(pilot)
-				to_chat(pilot, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
-				stop_piloting(pilot)
-			pilot = user
-			LAZYOR(user.mousemove_intercept_objects, src)
-		if("gunner")
-			if(gunner)
-				to_chat(gunner, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
-				stop_piloting(gunner)
-			gunner = user
-		//.if("gauss_gunner")
-		//	user.AddComponent(/datum/component/overmap_gunning)
-			//LAZYADD(gauss_gunners, user)
-		if("all_positions")
-			pilot = user
-			gunner = user
-			LAZYOR(user.mousemove_intercept_objects, src)
+	if(position & OVERMAP_USER_ROLE_PILOT)
+		if(pilot)
+			to_chat(pilot, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
+			stop_piloting(pilot)
+		pilot = user
+		LAZYOR(user.mousemove_intercept_objects, src)
+	if(position & OVERMAP_USER_ROLE_GUNNER)
+		if(gunner)
+			to_chat(gunner, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
+			stop_piloting(gunner)
+		gunner = user
 	user.set_focus(src)
 	LAZYADD(operators,user)
 	CreateEye(user) //Your body stays there but your mind stays with me - 6 (Battlestar galactica)
 	user.overmap_ship = src
 	dradis?.attack_hand(user)
 	user.click_intercept = src
-	if(position != "observer")
+	if(position & (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER))
 		user.add_verb(overmap_verbs) //Add the ship panel verbs
 	if(mass < MASS_MEDIUM)
 		return TRUE
@@ -62,6 +54,8 @@
 	if(pilot && M == pilot)
 		LAZYREMOVE(M.mousemove_intercept_objects, src)
 		pilot = null
+		keyboard_delta_angle_left = 0
+		keyboard_delta_angle_right = 0
 		if(helm)
 			playsound(helm, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
 	if(gunner && M == gunner)

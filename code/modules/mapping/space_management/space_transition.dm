@@ -56,9 +56,12 @@
 	if(y-1 >= 1)
 		neigbours |= grid[x][y-1]
 
-/datum/controller/subsystem/mapping/proc/setup_map_transitions() //listamania
+// NSV13 - added optional argument for a specific level to set up so we didn't have to do all of them
+/datum/controller/subsystem/mapping/proc/setup_map_transitions(datum/space_level/level) //listamania
 	var/list/SLS = list()
 	var/list/cached_z_list = z_list
+	if(level) // NSV13 - this block
+		cached_z_list = list(level)
 	var/conf_set_len = 0
 	for(var/A in cached_z_list)
 		var/datum/space_level/D = A
@@ -125,7 +128,7 @@
 				S.destination_x = x_pos_transition[side] == 1 ? S.x : x_pos_transition[side]
 				S.destination_y = y_pos_transition[side] == 1 ? S.y : y_pos_transition[side]
 				S.destination_z = zdestination
-				
+
 				// Mirage border code
 				var/mirage_dir
 				if(S.x == 1 + TRANSITIONEDGE)

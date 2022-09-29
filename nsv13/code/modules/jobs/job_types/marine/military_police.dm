@@ -37,7 +37,7 @@
 	L |= ..() | check_config_for_sec_maint()
 	return L
 
-GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY))
+GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY, SEC_DEPT_MUNITIONS))
 
 /datum/job/officer/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
@@ -81,6 +81,10 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 			destination = /area/security/checkpoint/science
 			spawn_point = locate(/obj/effect/landmark/start/depsec/science) in GLOB.department_security_spawns
 			accessory = /obj/item/clothing/accessory/armband/science
+		if(SEC_DEPT_MUNITIONS) 
+			ears = /obj/item/radio/headset/munitions/munitions_security_alt
+			dep_access = list(ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE)
+			accessory = /obj/item/clothing/accessory/armband/munitions
 
 	if(accessory)
 		var/obj/item/clothing/under/U = H.w_uniform
@@ -126,13 +130,13 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	uniform = /obj/item/clothing/under/ship/military_police
 	neck = /obj/item/clothing/neck/tie/black
 	suit = /obj/item/clothing/suit/ship/squad/military_police
-	suit_store = /obj/item/gun/ballistic/automatic/pistol/glock
+	suit_store = /obj/item/gun/ballistic/automatic/pistol/glock/security
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/beret/sec
 	shoes = /obj/item/clothing/shoes/jackboots
 	l_pocket = /obj/item/restraints/handcuffs
 	r_pocket = /obj/item/assembly/flash/handheld
-	backpack_contents = list(/obj/item/ammo_box/magazine/pistolm9mm/glock, /obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1,/obj/item/pda/security, /obj/item/book/granter/martial/jujitsu, /obj/item/squad_pager/all_channels, /obj/item/club=1) //NSV13
+	backpack_contents = list(/obj/item/ammo_box/magazine/glock, /obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1,/obj/item/pda/security, /obj/item/book/granter/martial/jujitsu, /obj/item/squad_pager/all_channels, /obj/item/club=1) //NSV13
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec

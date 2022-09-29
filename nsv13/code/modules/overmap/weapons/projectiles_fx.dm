@@ -247,6 +247,36 @@ Misc projectile types, effects, think of this as the special FX file.
 	for(var/i = 1; i <= 13; i++)
 		new /mob/living/simple_animal/hostile/viscerator(detonation_turf)	//MANHACKS!1!!
 
+/obj/item/projectile/bullet/delayed_prime/relayed_plushtorp
+	damage = 0
+	icon_state = "torpedo"
+	name = "emotional support torpedo"
+	speed = 3
+	penetration_fuze = 2
+	hitsound = 'sound/items/toysqueak1.ogg'
+	hitsound_wall = 'sound/items/toysqueak3.ogg'
+
+/obj/item/projectile/bullet/delayed_prime/relayed_plushtorp/fuze_trigger_value(atom/target)
+	if(isclosedturf(target))
+		return 1
+	return 0
+
+/obj/item/projectile/bullet/delayed_prime/relayed_plushtorp/is_valid_to_release(atom/newloc)
+	if(penetration_fuze > 0 || !isopenturf(newloc))
+		return FALSE
+	return TRUE
+
+/obj/item/projectile/bullet/delayed_prime/relayed_plushtorp/release_payload(atom/detonation_location)
+	var/turf/detonation_turf = detonation_location
+	new /obj/effect/dummy/lighting_obj(detonation_turf, LIGHT_COLOR_WHITE, 9, 4, 2)
+	for(var/mob/living/L in viewers(7, detonation_turf))
+		L.flash_act(affect_silicon = TRUE)
+	var/list/throwat_turfs = RANGE_TURFS(6, detonation_turf) - RANGE_TURFS(5, detonation_turf)
+	var/list/plushtypes = subtypesof(/obj/item/toy/plush)
+	for(var/i = 1; i<= 8, i++)
+		var/plushpath = pick(plushtypes)
+		var/obj/item/toy/plush/plushie = new plushpath(detonation_turf)
+		plushie.throw_at(pick(throwat_turfs), 7, 2, spin = TRUE)
 
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "mac"
@@ -304,10 +334,10 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "proto_bsa"
 	name = "Prototype BSA Round"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	speed = 0.3
-	damage = 400
+	speed = 0.7
+	damage = 325
 	spread = 1
-	armour_penetration = 35
+	armour_penetration = 30
 	flag = "overmap_heavy"
 
 /obj/item/projectile/guided_munition
@@ -363,10 +393,35 @@ Misc projectile types, effects, think of this as the special FX file.
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
 
+/obj/item/projectile/guided_munition/torpedo/hellfire/player_version
+	damage = 300	//A bit less initial damage to compensate for the /guaranteed/ hellburn effect dealing hefty damage.
+
+/obj/item/projectile/guided_munition/torpedo/plushtide
+	name = "emotional support torpedo"
+	damage = 0
+	obj_integrity = 400
+	max_integrity = 400
+	homing_turn_speed = 40
+	speed = 2
+	hitsound = 'sound/items/toysqueak1.ogg'
+	hitsound_wall = 'sound/items/toysqueak3.ogg'
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_plushtorp
+
+/obj/item/projectile/guided_munition/torpedo/plushtide/detonate(atom/target)
+	return	//Lets be sure
+
 /obj/item/projectile/guided_munition/torpedo/disruptor
 	icon_state = "torpedo_disruptor"
 	name = "disruption torpedo"
 	damage = 140	//Lower damage, does some special stuff when it hits a target.
+	var/ai_disruption = 30
+	var/ai_disruption_cap = 120
+
+//Player-accessible version of the above. Weaker because reverse engineered ~~and balance~~
+/obj/item/projectile/guided_munition/torpedo/disruptor/prototype
+	name = "prototype disruption torpedo"
+	ai_disruption = 15 //Do you like stuncombat? Well the AI doesn't.
+	ai_disruption_cap = 30 //Very effective if applied spaced out over time against damage-resistant ships.
 
 //What you get from an incomplete torpedo.
 /obj/item/projectile/guided_munition/torpedo/dud
@@ -376,6 +431,11 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/Initialize()
 	. = ..()
 	addtimer(CALLBACK(src, .proc/windup), 1 SECONDS)
+
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/item/projectile/guided_munition/proc/windup()
 	valid_angle = 360 //Torpedoes "wind up" to hit their target
@@ -440,7 +500,8 @@ Misc projectile types, effects, think of this as the special FX file.
 		return	//Detonate is gonna handle this for us.
 
 	if(target.ai_controlled)
-		target.disruption += 30
+		if(target.disruption <= ai_disruption_cap)
+			target.disruption = min(target.disruption + ai_disruption, ai_disruption_cap)
 		return
 
 	if(istype(target, /obj/structure/overmap/small_craft))
@@ -449,6 +510,14 @@ Misc projectile types, effects, think of this as the special FX file.
 
 	//Neither of these? I guess just some visibility penalty it is.
 	target.add_sensor_profile_penalty(150, 10 SECONDS)
+
+/obj/item/projectile/guided_munition/torpedo/hellfire/spec_overmap_hit(obj/structure/overmap/target)
+	if(length(target.occupying_levels))
+		return //Ship with internal zs, let them burn
+	if(target.ai_controlled || istype(target, /obj/structure/overmap/small_craft))
+		target.hullburn += 60	//hullburn DoT for AIs. Player Fighters get it too, did you expect to just eat one of these?
+		target.hullburn_power = max(target.hullburn_power, 6)
+	
 
 /obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
 	. = ..()
