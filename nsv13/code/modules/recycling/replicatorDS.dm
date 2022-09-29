@@ -14,11 +14,12 @@
 	var/list/menutier1 = list("rice", "egg", "ration pack", "glass", "tea earl grey") //It starts off terribly so the chef isn't replaced. You can then upgrade it via RnD to give actual food.
 	var/list/menutier2 = list("burger", "steak", "fries","onion rings", "pancakes","coffee")
 	var/list/menutier3 = list("cheese pizza", "mushroom pizza", "meat pizza", "pineapple pizza", "donkpocket pizza", "vegetable pizza")
-	var/list/menutier4 = list("cake batter", "dough","egg box", "flour", "milk", "enzymes", "cheese wheel", "meat slab","an insult to pizza")
+	var/list/menutier4 = list("cake batter", "dough","egg box", "flour", "milk", "enzymes", "cheese wheel", "meat slab","an insult to pizza","activate iguana","deactivate iguana")
 	var/list/all_menus = list() //All the menu items. Built on init(). We scan for menu items that've been ordered here.
 	var/list/menualtnames = list("nutrients", "donk pizza", "veggie pizza", "surprise me", "you choose", "something", "i dont care","slab of meat","nutritional supplement")
 	var/list/temps = list("cold", "warm", "hot", "extra hot", "well done")
 	var/list/activator = list("computer", "alexa", "google", "ai", "voice")
+	var/list/iguanas = list()
 	var/menutype = READY
 	var/fuel = 50
 	var/obj/machinery/biogenerator/Biogen
@@ -293,6 +294,15 @@
 				food = new /obj/item/reagent_containers/food/snacks/store/cheesewheel(get_turf(src))
 			if("meat slab","slab of meat")
 				food = new /obj/item/reagent_containers/food/snacks/meat/slab(get_turf(src))
+			if("activate iguana")
+				if(length(iguanas) > 9)
+					say("You have reached the iguana limit!")
+					return
+				iguanas += new /mob/living/simple_animal/kalo/leonard(get_turf(src))
+			if("deactivate iguana")
+				for(var/mob/M as() in iguanas)
+					iguanas -= M
+					qdel(M)
 
 	if(food)
 		var/nutriment = food.reagents.get_reagent_amount("nutriment")
@@ -331,6 +341,10 @@
 			visible_message("<span_class='warning'> Insufficient fuel to create [food]. [src] requires [nutriment] U of biomatter.</span>")
 			qdel(food) //NO FOOD FOR YOU!
 
+
+/mob/living/simple_animal/kalo/leonard
+	name = "Leonard"
+	desc = "A holographic pet lizard. Say 'deactivate iguana' if you're a square."
 
 /datum/reagent/toxin/munchyserum //Tasteless alternative to lipolicide, less powerful. This has the reverse of the intended effect of a replicator and makes you hungrier.
 	name = "Metabolism Overide Toxin"
