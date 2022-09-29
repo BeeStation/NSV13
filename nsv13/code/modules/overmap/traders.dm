@@ -169,10 +169,10 @@
 	desc = "Ship construction deeds done cheap (for a price)"
 	shortname = "CZC"
 	faction_type = FACTION_ID_NT
-	greetings = list("Welcome to CzanekCorp, we take cash, credit, and charge. What’cha need?",\
+	greetings = list("Welcome to CzanekCorp, we take cash, credit, and charge. What'cha need?",\
 	"CzanekCorp here. We got a new shipment in, you down for talking turkey?",\
 	"CzanekCorp, we got repairs and goods on a budget, you in?")
-	on_purchase = list("Yes, we know the tazers aren’t the safest, but if you don’t like ‘em, stop buying ‘em, eh?", "Good doing business with you. Good luck out there, killer.", "About time we got somebody who knows what they’re doing. Here, free shipping!", "No refunds, no returns!")
+	on_purchase = list("Yes, we know the tazers aren't the safest, but if you don't like 'em, stop buying 'em, eh?", "Good doing business with you. Good luck out there, killer.", "About time we got somebody who knows what they're doing. Here, free shipping!", "No refunds, no returns!")
 	sold_items = list(/datum/trader_item/ship_repair,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/taser, /datum/trader_item/taser_ammo )
 	station_type = /obj/structure/overmap/trader/shipyard
 	image = "https://cdn.discordapp.com/attachments/701841640897380434/764540586732421120/unknown.png"
@@ -187,8 +187,16 @@
 	"We got minerals for you, so long as you've got a deposit for us.")
 	on_purchase = list("Maybe next time, dig it up yourself lazy gits!", "Credits have been withdrawn, Supplies inbound.", "Czanek would approve of this.", "If you're too afraid to get these yourself, I'm almost scared to give them to you. But money is money.")
 	sold_items = list(/datum/trader_item/mining_point_card, /datum/trader_item/gold, /datum/trader_item/diamond, /datum/trader_item/uranium, /datum/trader_item/silver, /datum/trader_item/bluespace_crystal, /datum/trader_item/titanium )
-	station_type = /obj/structure/overmap/trader/
+	station_type = /obj/structure/overmap/trader
 	image = "https://cdn.discordapp.com/attachments/612668662977134592/859132739147792444/unknown.png"   //I don't wanna do this but I'm also not going to break the mold as to make it hopefully easier in future to fix.
+
+/datum/trader/shallowstone/independent
+	name = "Marvin's Mineral Emporium"
+	desc = "Ready to supply everyone with the finest stones and gems!"
+	shortname = "MME"
+	faction_type = FACTION_ID_UNALIGNED
+	greetings = list("Take a look around, our stores are open to anyone!",\
+	"How goes it fellow space dwellers? Care for some of the best ore in the Rosetta Cluster?")
 
 /datum/trader/minsky
 	name = "Minsky Heavy Engineering"
@@ -251,7 +259,7 @@
 	data["greeting"] = greeting
 	data["desc"] = desc
 	data["image"] = image
-	data["theme"] = (faction_type == FACTION_ID_NT) ? "ntos" : "syndicate"
+	data["theme"] = (faction_type == FACTION_ID_NT || faction_type == FACTION_ID_UNALIGNED) ? "ntos" : "syndicate"
 	data["items_info"] = items_info
 	data["next_restock"] = "Stock: (Restocking in [round((next_restock-world.time)/600)] minutes)"
 	//Syndies use syndie budget, NT use NT cargo budget
