@@ -54,9 +54,13 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 						SSshuttle.emergency.modTimer(0.5)
 			else
 				minor_announce(CONFIG_GET(string/alert_red_downto), "Attention! Code red!")
-				toggle_gq_lights(TRUE)
-				addtimer(CALLBACK(GLOBAL_PROC, .proc/toggle_gq_lights, FALSE), 45 SECONDS)
-
+			toggle_gq_lights(TRUE)
+			addtimer(CALLBACK(GLOBAL_PROC, .proc/toggle_gq_lights, FALSE), 45 SECONDS)
+			for(var/obj/machinery/firealarm/FA in GLOB.machines)
+				if(is_station_level(FA.z))
+					FA.update_icon()
+			for(var/obj/machinery/computer/shuttle_flight/pod/pod in GLOB.machines)
+				pod.admin_controlled = 0
 				
 		if(SEC_LEVEL_ZEBRA)
 			if(GLOB.security_level < SEC_LEVEL_ZEBRA)
@@ -68,8 +72,13 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 						SSshuttle.emergency.modTimer(0.5)
 			else
 				gq_announce(CONFIG_GET(string/alert_zebra_downto), sound='nsv13/sound/effects/ship/condition_zebra.ogg') //Nsv13 - Condition Z
-				toggle_gq_lights(TRUE)
-				addtimer(CALLBACK(GLOBAL_PROC, .proc/toggle_gq_lights, FALSE), 30 SECONDS)
+			toggle_gq_lights(TRUE)
+			addtimer(CALLBACK(GLOBAL_PROC, .proc/toggle_gq_lights, FALSE), 30 SECONDS)
+			for(var/obj/machinery/firealarm/FA in GLOB.machines)
+				if(is_station_level(FA.z))
+					FA.update_icon()
+			for(var/obj/machinery/computer/shuttle_flight/pod/pod in GLOB.machines)
+				pod.admin_controlled = 0
 		//Nsv13 - end
 		if(SEC_LEVEL_DELTA)
 			minor_announce(CONFIG_GET(string/alert_delta), "Attention! Delta security level reached!",1)
@@ -78,6 +87,11 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 					SSshuttle.emergency.modTimer(0.25)
 				else if(GLOB.security_level == SEC_LEVEL_BLUE)
 					SSshuttle.emergency.modTimer(0.5)
+			for(var/obj/machinery/firealarm/FA in GLOB.machines)
+				if(is_station_level(FA.z))
+					FA.update_icon()
+			for(var/obj/machinery/computer/shuttle_flight/pod/pod in GLOB.machines)
+				pod.admin_controlled = 0
 
 	GLOB.security_level = level
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_SECURITY_ALERT_CHANGE, level)
