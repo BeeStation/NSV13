@@ -62,8 +62,8 @@
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser
 	name = "corvid class tactical cruiser"
-	icon = 'nsv13/icons/overmap/new/nanotrasen/cruiser.dmi'
-	icon_state = "cruiser"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/heavy_cruiser.dmi'
+	icon_state = "heavy_cruiser"
 	mass = MASS_LARGE
 	sprite_size = 48
 	//damage_states = TRUE
