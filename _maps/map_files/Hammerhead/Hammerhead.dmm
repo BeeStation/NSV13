@@ -4564,7 +4564,6 @@
 	department = "Science";
 	departmentType = 2;
 	name = "Science Requests Console";
-	pixel_x = 0;
 	pixel_y = 30;
 	receive_ore_updates = 1
 	},
@@ -8709,6 +8708,7 @@
 /obj/structure/chair{
 	dir = 4
 	},
+/obj/effect/landmark/start/assistant,
 /turf/open/floor/plasteel/ship,
 /area/nsv/squad)
 "aAI" = (
@@ -13030,7 +13030,6 @@
 /turf/closed/wall/r_wall/ship,
 /area/crew_quarters/heads/captain/private)
 "aOB" = (
-/obj/machinery/computer/camera_advanced/xenobio,
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
@@ -13444,14 +13443,12 @@
 /turf/open/floor/plasteel/ship,
 /area/security/prison)
 "aPS" = (
-/obj/structure/table/glass,
-/obj/item/toy/plush/slimeplushie,
-/obj/item/storage/box/beakers,
-/obj/item/storage/box/syringes{
-	pixel_y = 5
+/obj/structure/chair{
+	dir = 4
 	},
-/turf/open/floor/plasteel/white,
-/area/science/xenobiology)
+/obj/effect/landmark/start/assistant,
+/turf/open/floor/plasteel/ship,
+/area/nsv/squad)
 "aPT" = (
 /obj/structure/table,
 /obj/item/paper_bin,
@@ -18396,6 +18393,7 @@
 	},
 /obj/structure/closet/l3closet/scientist,
 /obj/machinery/firealarm/directional/west,
+/obj/item/extinguisher,
 /turf/open/floor/plasteel/ship/padded,
 /area/science/xenobiology)
 "bfo" = (
@@ -22483,16 +22481,14 @@
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
 "cIO" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/door/airlock/ship/maintenance{
-	req_one_access_txt = "55"
-	},
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/firedoor/border_only/directional/west,
-/turf/open/floor/plating,
-/area/maintenance/port/aft)
+/obj/machinery/light,
+/obj/structure/table/reinforced,
+/obj/item/clothing/head/hardhat/dblue,
+/obj/item/clothing/head/hardhat/dblue,
+/obj/item/clothing/head/hardhat/dblue,
+/obj/item/clothing/head/hardhat/dblue,
+/turf/open/floor/plasteel/ship,
+/area/nsv/squad)
 "cJj" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
@@ -25953,6 +25949,7 @@
 /obj/effect/turf_decal/tile/purple,
 /obj/structure/table/glass,
 /obj/machinery/reagentgrinder,
+/obj/machinery/camera/autoname,
 /turf/open/floor/plasteel/ship,
 /area/science/xenobiology)
 "eZT" = (
@@ -26759,11 +26756,11 @@
 /obj/effect/turf_decal/tile/purple,
 /obj/structure/table/glass,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer3,
-/obj/machinery/camera/autoname,
 /obj/item/storage/box/beakers,
 /obj/item/storage/box/syringes{
 	pixel_y = 5
 	},
+/obj/structure/extinguisher_cabinet/north,
 /turf/open/floor/plasteel/ship,
 /area/science/xenobiology)
 "fDX" = (
@@ -30964,6 +30961,7 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
+/obj/item/extinguisher,
 /turf/open/floor/plasteel/ship/padded,
 /area/science/xenobiology)
 "ivF" = (
@@ -33653,7 +33651,6 @@
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
 "klv" = (
-/obj/machinery/computer/camera_advanced/xenobio,
 /obj/item/radio/intercom{
 	pixel_y = 26
 	},
@@ -39692,9 +39689,6 @@
 /area/maintenance/department/medical/morgue)
 "obK" = (
 /obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/cable{
 	icon_state = "1-4"
 	},
 /turf/open/floor/plating,
@@ -41176,6 +41170,7 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
+/obj/structure/tank_dispenser/oxygen,
 /turf/open/floor/plasteel/ship,
 /area/nsv/squad)
 "pgN" = (
@@ -48249,6 +48244,7 @@
 /obj/structure/chair{
 	dir = 4
 	},
+/obj/effect/landmark/start/assistant,
 /turf/open/floor/plasteel/ship,
 /area/nsv/squad)
 "tEY" = (
@@ -50679,6 +50675,7 @@
 	},
 /obj/structure/table/glass,
 /obj/item/reagent_containers/dropper,
+/obj/item/toy/plush/slimeplushie,
 /turf/open/floor/monotile/steel,
 /area/science/xenobiology)
 "vhx" = (
@@ -53253,13 +53250,6 @@
 /obj/structure/chair/stool,
 /turf/open/floor/wood,
 /area/crew_quarters/theatre)
-"wTz" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/effect/spawner/lootdrop/grille_or_trash,
-/turf/open/floor/plating,
-/area/maintenance/port/aft)
 "wUc" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer1,
 /obj/machinery/atmospherics/pipe/simple/general/visible/layer3,
@@ -53539,6 +53529,7 @@
 	dir = 4
 	},
 /obj/machinery/light,
+/obj/structure/reagent_dispensers/watertank/high,
 /turf/open/floor/plasteel/ship,
 /area/science/xenobiology)
 "xfu" = (
@@ -53690,7 +53681,7 @@
 	},
 /obj/effect/turf_decal/tile/blue,
 /obj/structure/extinguisher_cabinet/west,
-/obj/structure/table/reinforced,
+/obj/machinery/conquest_beacon/nanotrasen,
 /turf/open/floor/plasteel/ship/padded,
 /area/bridge/cic)
 "xiD" = (
@@ -64773,7 +64764,7 @@ jIv
 aDP
 dRJ
 aEX
-ecL
+aEX
 rws
 awB
 ajl
@@ -65793,7 +65784,7 @@ aBl
 aaa
 awB
 ohf
-ecL
+aEX
 aEX
 dRJ
 adk
@@ -67857,7 +67848,7 @@ jIv
 aDP
 dRJ
 aEX
-ecL
+aEX
 rws
 awB
 beu
@@ -68877,7 +68868,7 @@ aBl
 aar
 aar
 awB
-aPS
+adk
 adh
 ajP
 iTC
@@ -70679,7 +70670,7 @@ jxt
 jxt
 jxt
 jxt
-cIO
+jxt
 amR
 duA
 bvC
@@ -70936,7 +70927,7 @@ aUL
 aUL
 hFE
 aJB
-wTz
+uIi
 amR
 vHu
 lDO
@@ -97157,13 +97148,13 @@ yig
 yig
 aAG
 xIM
-xIM
-xIM
+aPS
+aPS
 hgF
 fEa
 xIM
-xIM
-xIM
+aPS
+aPS
 dql
 ruM
 aTo
@@ -97670,12 +97661,12 @@ ahq
 fNx
 yig
 wBV
-xIM
-xIM
+aPS
+aPS
 xIM
 hgF
 fEa
-xIM
+aPS
 xIM
 xIM
 tEW
@@ -99731,7 +99722,7 @@ aGE
 hgF
 fEa
 hgF
-pim
+cIO
 ruM
 spw
 lYQ
@@ -99988,7 +99979,7 @@ bcf
 cTJ
 gox
 hgF
-hgF
+aXk
 ruM
 vdx
 lYQ

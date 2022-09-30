@@ -62,8 +62,8 @@
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser
 	name = "corvid class tactical cruiser"
-	icon = 'nsv13/icons/overmap/new/nanotrasen/heavy_cruiser.dmi'
-	icon_state = "heavy_cruiser"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/cruiser.dmi'
+	icon_state = "cruiser"
 	mass = MASS_LARGE
 	sprite_size = 48
 	//damage_states = TRUE
@@ -182,7 +182,9 @@
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
-/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //NOT IN CYCLE
+/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //used by Hammerhead
+	icon = 'nsv13/icons/overmap/new/nanotrasen/heavy_cruiser.dmi'
+	icon_state = "heavy_cruiser"
 	role = MAIN_OVERMAP
 	obj_integrity = 1400
 	max_integrity = 1400
