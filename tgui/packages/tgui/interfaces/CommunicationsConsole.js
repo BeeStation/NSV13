@@ -1,13 +1,14 @@
 import { sortBy } from "common/collections";
 import { capitalize } from "common/string";
 import { useBackend, useLocalState } from "../backend";
-import { Blink, Box, Button, Dimmer, Flex, Icon, Input, Modal, NoticeBox, Section, Stack, Tabs, TextArea, Tooltip } from "../components";
+import { Blink, Box, Button, Dimmer, Flex, Icon, Input, LabeledList, Modal, NoticeBox, Section, Stack, Tabs, TextArea, Tooltip } from "../components";
 import { Window } from "../layouts";
 import { sanitizeText } from "../sanitize";
 
 const STATE_BUYING_SHUTTLE = "buying_shuttle";
 const STATE_CHANGING_STATUS = "changing_status";
 const STATE_MESSAGES = "messages";
+const STATE_OBJECTIVES = "objectives"; // NSV13 - objectives
 
 // Used for whether or not you need to swipe to confirm an alert level change
 const SWIPE_NEEDED = "SWIPE_NEEDED";
@@ -410,13 +411,25 @@ const PageMain = (props, context) => {
 
             <Flex.Item>
               <AlertButton
-                alertLevel="green"
+                alertLevel="condition 3"
                 showAlertLevelConfirm={showAlertLevelConfirm}
                 setShowAlertLevelConfirm={setShowAlertLevelConfirm}
               />
 
               <AlertButton
-                alertLevel="blue"
+                alertLevel="condition 2"
+                showAlertLevelConfirm={showAlertLevelConfirm}
+                setShowAlertLevelConfirm={setShowAlertLevelConfirm}
+              />
+
+              <AlertButton
+                alertLevel="general quarters"
+                showAlertLevelConfirm={showAlertLevelConfirm}
+                setShowAlertLevelConfirm={setShowAlertLevelConfirm}
+              />
+
+              <AlertButton
+                alertLevel="condition zebra"
                 showAlertLevelConfirm={showAlertLevelConfirm}
                 setShowAlertLevelConfirm={setShowAlertLevelConfirm}
               />
@@ -667,6 +680,75 @@ const PageMessages = (props, context) => {
   );
 };
 
+// NSV13 - objective status
+const PageObjectives = (props, context) => {
+  const { act, data } = useBackend(context);
+  const statusMap = {
+    0: {
+      color: 'average',
+      icon: 'square-o',
+      statusText: 'IN PROGRESS',
+    },
+    1: {
+      color: 'good',
+      icon: 'check-square-o',
+      statusText: 'COMPLETED',
+    },
+    2: {
+      color: 'bad',
+      icon: 'window-close-o',
+      statusText: 'FAILED',
+    },
+    3: {
+      color: 'good',
+      icon: 'check-square-o',
+      statusText: 'COMPLETED',
+    },
+  };
+
+  return (
+    <Section fill scrollable title="Mission Status">
+      {!data.announced_objectives && (
+        <>
+          Standby for mission tasking.
+        </>
+      ) || (
+        <>
+          {data.mission_briefing}<br /><br />
+          <Section title="Notoriety">
+            {data.notoriety}
+          </Section>
+          <Section title="Objectives">
+            {Object.keys(data.objectives).map((key, newCurrent) => {
+              let value = data.objectives[key];
+              let status = statusMap[value.status] || statusMap[0];
+              return (
+                <tr key={value.brief}>
+                  <td>
+                    <Icon name={status.icon} mx={0.5} />
+                  </td>
+                  <Box
+                    as="td"
+                    color={status.color}
+                    px={0.5}
+                    nowrap>
+                    {status.statusText}
+                  </Box>
+                  <Box
+                    as="td"
+                    px={0.5}>
+                    {value.brief}
+                  </Box>
+                </tr>
+              );
+            })}
+          </Section>
+        </>
+      )}
+    </Section>
+  );
+};
+
 const ConditionalTooltip = (props, context) => {
   const {
     condition,
@@ -755,6 +837,13 @@ export const CommunicationsConsole = (props, context) => {
                           </Tabs.Tab>
                         </ConditionalTooltip>
                       )}
+
+                      <Tabs.Tab fluid
+                        icon="target"
+                        selected={page===STATE_OBJECTIVES}
+                        onClick={() => act("setState", { state: STATE_OBJECTIVES })}>
+                        Check Objectives
+                      </Tabs.Tab>
                     </Tabs>
                   </Section>
                 </Stack.Item>
@@ -763,6 +852,7 @@ export const CommunicationsConsole = (props, context) => {
                     page === STATE_BUYING_SHUTTLE && <PageBuyingShuttle />
                     || page === STATE_CHANGING_STATUS && <PageChangingStatus />
                     || page === STATE_MESSAGES && <PageMessages />
+                    || page === STATE_OBJECTIVES && <PageObjectives />
                     || <Box>Page not implemented: {page}</Box>
                   )}
                 </Stack.Item>

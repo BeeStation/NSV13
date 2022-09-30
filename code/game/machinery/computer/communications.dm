@@ -4,6 +4,7 @@
 #define STATE_BUYING_SHUTTLE "buying_shuttle"
 #define STATE_CHANGING_STATUS "changing_status"
 #define STATE_MESSAGES "messages"
+#define STATE_OBJECTIVES "objectives" //NSV13 - mission objectives
 
 // The communications computer
 /obj/machinery/computer/communications
@@ -78,7 +79,7 @@
 	playsound(src, 'sound/machines/terminal_alert.ogg', 50, 0)
 
 /obj/machinery/computer/communications/ui_act(action, list/params)
-	var/static/list/approved_states = list(STATE_BUYING_SHUTTLE, STATE_CHANGING_STATUS, STATE_MESSAGES)
+	var/static/list/approved_states = list(STATE_BUYING_SHUTTLE, STATE_CHANGING_STATUS, STATE_MESSAGES, STATE_OBJECTIVES) //NSV13 - added objectives
 	var/static/list/approved_status_pictures = list("biohazard", "blank", "default", "lockdown", "redalert", "shuttle")
 
 	. = ..()
@@ -129,7 +130,7 @@
 					return
 
 			var/new_sec_level = seclevel2num(params["newSecurityLevel"])
-			if (new_sec_level != SEC_LEVEL_GREEN && new_sec_level != SEC_LEVEL_BLUE)
+			if (new_sec_level != SEC_LEVEL_GREEN && new_sec_level != SEC_LEVEL_BLUE && new_sec_level != SEC_LEVEL_RED && new_sec_level != SEC_LEVEL_ZEBRA)
 				return
 			if (GLOB.security_level == new_sec_level)
 				return
@@ -330,6 +331,14 @@
 				log_game("[key_name(usr)] enabled emergency maintenance access.")
 				message_admins("[ADMIN_LOOKUPFLW(usr)] enabled emergency maintenance access.")
 				deadchat_broadcast("<span class='deadsay'><span class='name'>[usr.real_name]</span> enabled emergency maintenance access at <span class='name'>[get_area_name(usr, TRUE)]</span>.</span>", usr)
+		if("checkObjectives")
+			if (!authenticated(usr))
+				return
+			. = TRUE
+			SSovermap_mode.mode.check_completion()
+			if(SSovermap_mode.objectives_completed && SSovermap_mode.round_extended)
+				priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[SSovermap_mode.mode.reminder_origin]")
+			state = STATE_OBJECTIVES
 
 /obj/machinery/computer/communications/ui_data(mob/user)
 	var/list/data = list(
@@ -427,6 +436,31 @@
 			if (STATE_CHANGING_STATUS)
 				data["lineOne"] = last_status_display ? last_status_display[1] : ""
 				data["lineTwo"] = last_status_display ? last_status_display[2] : ""
+			if(STATE_OBJECTIVES) //NSV13 - objectives
+				switch(SSovermap_mode.threat_elevation)
+					if(800 to INFINITY)
+						data["notoriety"] = "Extreme"
+					if(600 to 800)
+						data["notoriety"] = "Very High"
+					if(300 to 600)
+						data["notoriety"] = "High"
+					if(100 to 300)
+						data["notoriety"] = "Medium"
+					if(0 to 100)
+						data["notoriety"] = "Low"
+				data["announced_objectives"] = SSovermap_mode.announced_objectives
+				data["mission_briefing"] = SSovermap_mode.mode.brief
+				if(SSovermap_mode.announced_objectives)
+					var/list/objectives = list()
+					for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+						var/list/objective_data = list()
+						if(O.binary)
+							objective_data["brief"] = O.brief
+						else
+							objective_data["brief"] = "[O.brief] ([O.tally] / [O.target])"
+						objective_data["status"] = O.status
+						objectives[++objectives.len] = objective_data
+					data["objectives"] = objectives
 
 	return data
 

@@ -93,7 +93,7 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 		if(SEC_LEVEL_RED)
 			return "general quarters"
 		if(SEC_LEVEL_ZEBRA)
-			return "condition Z"
+			return "condition zebra"
 		if(SEC_LEVEL_DELTA)
 			return "delta"
 
@@ -106,7 +106,7 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 		if(SEC_LEVEL_RED)
 			return "general quarters"
 		if(SEC_LEVEL_ZEBRA)
-			return "condition Z"
+			return "condition zebra"
 		if(SEC_LEVEL_DELTA)
 			return "delta"
 
@@ -118,7 +118,7 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 			return SEC_LEVEL_BLUE
 		if("general quarters")
 			return SEC_LEVEL_RED
-		if("condition Z")
+		if("condition zebra")
 			return SEC_LEVEL_ZEBRA
 		if("delta")
 			return SEC_LEVEL_DELTA
