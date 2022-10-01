@@ -826,7 +826,10 @@
 	core.turret = src
 	core.update_parts()
 	if(id)
-		addtimer(CALLBACK(src, .proc/link_via_id), 10 SECONDS)
+		return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/ship_weapon/deck_turret/LateInitialize()
+	link_via_id()
 
 /obj/machinery/ship_weapon/deck_turret/RefreshParts()//using this proc to create the parts instead
 	. = ..()//because otherwise you'd need to put them in the machine frame to rebuild using a board
@@ -845,13 +848,13 @@
 			component_parts += new /obj/item/assembly/igniter
 
 /obj/machinery/ship_weapon/deck_turret/proc/link_via_id()
-	for(var/obj/machinery/deck_turret/core in GLOB.machines)
-		if(!istype(core))
+	for(var/obj/machinery/deck_turret/C in GLOB.machines)
+		if(!istype(C))
 			continue
-		if(core.id && core.id == id)
-			core.turret = src
-			src.core = core
-			core.update_parts()
+		if(C?.id == id)
+			C.turret = src
+			core = C
+			C.update_parts()
 
 /obj/machinery/ship_weapon/deck_turret/setDir()
 	. = ..()
