@@ -849,9 +849,7 @@
 
 /obj/machinery/ship_weapon/deck_turret/proc/link_via_id()
 	for(var/obj/machinery/deck_turret/C in GLOB.machines)
-		if(!istype(C))
-			continue
-		if(C?.id == id)
+		if(istype(C) && C?.id == id)
 			C.turret = src
 			core = C
 			C.update_parts()
