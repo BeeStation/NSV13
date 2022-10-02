@@ -468,7 +468,6 @@
 	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
 	icon_state = "tuningfork"
 	desc = "A terrifying vessel packing every inch of the Syndicate's abhorrent arsenal."
-	faction = "syndicate"
 	mass = MASS_LARGE
 	sprite_size = 128
 	bound_width = 128
