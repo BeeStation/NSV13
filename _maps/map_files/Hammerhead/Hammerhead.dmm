@@ -4090,9 +4090,6 @@
 /turf/open/floor/plasteel/white,
 /area/medical/surgery/aux)
 "amx" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 8
@@ -19173,11 +19170,13 @@
 /turf/open/floor/plating,
 /area/maintenance/port/central)
 "bhJ" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer3{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/maintenance/port/central)
 "bhK" = (
@@ -27966,6 +27965,9 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer1,
 /obj/structure/cable{
 	icon_state = "1-4"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/plasteel/ship,
 /area/hallway/primary/aft)
@@ -37304,6 +37306,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/machinery/light,
 /turf/open/floor/plasteel/ship/techfloor/alt,
 /area/hallway/primary/central)
 "mqN" = (
@@ -49544,7 +49547,6 @@
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/computer/atmos_control/tank/incinerator,
-/obj/machinery/atmospherics/components/unary/portables_connector/visible,
 /turf/open/floor/plasteel/techmaint,
 /area/engine/atmospherics_engine)
 "tTk" = (
