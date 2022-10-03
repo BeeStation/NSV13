@@ -945,7 +945,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	target.speed_limit += weight
 	target.forward_maxthrust += weight
 	target.backward_maxthrust += weight
-	target.side_maxthrust += 0.25*weight
+	target.side_maxthrust += 0.25 * weight
 	target.max_angular_acceleration += weight*10
 	return TRUE
 

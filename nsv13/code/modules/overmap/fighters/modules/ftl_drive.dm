@@ -48,7 +48,7 @@
 		to_chat(usr, "<span class='warning'>This drive was not installed correctly.</span>")
 		message_admins("Fighter FTL drive tried to jump but could not find the linked overmap at [ADMIN_VERBOSEJMP(src)]")
 		return FALSE
-	if(!target_system || !(SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP) || SSmapping.level_trait(loc.z, ZTRAIT_RESERVED)))
+	if(!target_system || !SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP) || SSmapping.level_trait(loc.z, ZTRAIT_RESERVED))
 		to_chat(usr, "<span class='warning'>Unable to obtain positional data for jump.</span>")
 		return
 	if(linked.get_overmap())
