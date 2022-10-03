@@ -110,8 +110,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["canopy_lock"] = canopy_open
 	data["weapon_safety"] = weapon_safety
 	data["master_caution"] = master_caution
-	data["rwr"] = (enemies.len) ? TRUE : FALSE
-	data["target_lock"] = (target_painted.len) ? TRUE : FALSE
+	data["rwr"] = length(enemies) ? TRUE : FALSE
+	data["target_lock"] = length(target_painted) ? TRUE : FALSE
 	data["fuel_warning"] = get_fuel() <= get_max_fuel()*0.4
 	data["fuel"] = get_fuel()
 	data["max_fuel"] = get_max_fuel()
@@ -142,12 +142,20 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["rpm"] = engine? engine.rpm : 0
 
 	var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
-	data["ftl_capable"] = ftl ? TRUE : FALSE
-	data["ftl_spool_progress"] = ftl ? ftl.progress : FALSE
-	data["ftl_spool_time"] = ftl ? ftl.spoolup_time : FALSE
-	data["jump_ready"] = (ftl?.progress >= ftl?.spoolup_time)
-	data["ftl_active"] = (ftl?.active)
-	data["ftl_target"] = (ftl?.anchored_to?.name)
+	if(ftl)
+		data["ftl_capable"] = TRUE
+		data["ftl_spool_progress"] = ftl.progress
+		data["ftl_spool_time"] = ftl.spoolup_time
+		data["jump_ready"] = ftl.progress >= ftl.spoolup_time
+		data["ftl_active"] = ftl.active
+		data["ftl_target"] = ftl.anchored_to?.name
+	else
+		data["ftl_capable"] = FALSE
+		data["ftl_spool_progress"] = 0
+		data["ftl_spool_time"] = 0
+		data["jump_ready"] = FALSE
+		data["ftl_active"] = FALSE
+		data["ftl_target"] = FALSE
 
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
@@ -889,15 +897,15 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 /obj/structure/overmap/small_craft/get_cell()
 	return loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 
-/obj/item/fighter_component/proc/powered()
+/obj/item/fighter_component/proc/use_power(dt = 1)
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F) || !active)
 		return FALSE
 	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
-	return B?.use_power(power_usage)
+	return B?.use_power(power_usage * dt)
 
-/obj/item/fighter_component/process()
-	return powered()
+/obj/item/fighter_component/process(delta_time)
+	return use_power(delta_time)
 
 //Used for weapon style hardpoints
 /obj/item/fighter_component/proc/fire(obj/structure/overmap/target)
@@ -1730,4 +1738,4 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/structure/overmap/small_craft/proc/toggle_canopy()
 	canopy_open = !canopy_open
 	playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
- 
+

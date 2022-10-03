@@ -2,7 +2,7 @@
 Credit to TGMC for the interior sprites for all these!
 */
 /obj/structure/overmap/small_craft/transport
-	name = "Su-624 'Trafalgar' Utility Dropship"
+	name = "\improper Su-624 'Trafalgar' Utility Dropship"
 	desc = "An all-purpose troop carrier which can carry a unit of marines into the heart of darkness."
 	icon = 'nsv13/icons/overmap/new/nanotrasen/dropship.dmi'
 	icon_state = "dropship"
@@ -122,7 +122,7 @@ Credit to TGMC for the interior sprites for all these!
 		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/small_craft/transport/sabre
-	name = "Su-437 Sabre"
+	name = "\improper Su-437 Sabre"
 	desc = "A Su-437 Sabre utility vessel. Designed for robustness in deep space and as a highly modular platform, able to be fitted out for any situation. While its interior may be cramped, it's definitely functional. Drag and drop crates / ore boxes to load them into its cargo hold."
 	icon = 'nsv13/icons/overmap/nanotrasen/carrier.dmi'
 	icon_state = "carrier"
@@ -183,4 +183,4 @@ Credit to TGMC for the interior sprites for all these!
 /datum/map_template/dropship/sabre/syndicate
     name = "SU-437 Sabre Interior (Syndicate)"
     mappath = "_maps/templates/boarding/sabre_interior_syndicate.dmm"
- 
+

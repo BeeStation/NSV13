@@ -28,7 +28,6 @@
 		return INITIALIZE_HINT_LATELOAD
 
 /obj/item/fighter_component/ftl/LateInitialize()
-	set waitfor = FALSE
 	var/obj/structure/overmap/ourfighter = get_overmap()
 	anchored_to = ourfighter.get_overmap()
 
@@ -62,8 +61,8 @@
 	progress = 0
 	ftl_state = FTL_STATE_IDLE
 
-/obj/item/fighter_component/ftl/process()
-	//No need to use power here. We're already spooled.
+/obj/item/fighter_component/ftl/process(delta_time)
+	//Not calling parent here as there's no need to use power yet if we're already spooled.
 	var/obj/structure/overmap/OM = loc
 	if(OM)
 		OM.ftl_drive = src
@@ -73,9 +72,9 @@
 	if(progress >= spoolup_time)
 		ftl_state = FTL_STATE_READY
 		return
-	if(!powered())
+	if(!use_power(delta_time))
 		return
-	progress += 1 SECONDS
+	progress += delta_time
 	progress = CLAMP(progress, 0, spoolup_time)
 
 /obj/effect/temp_visual/overmap_ftl
