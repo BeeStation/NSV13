@@ -896,7 +896,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 /obj/structure/overmap/small_craft/get_cell()
 	return loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 
-/obj/item/fighter_component/proc/use_power(dt = 1)
+/obj/item/fighter_component/proc/power_tick(dt = 1)
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F) || !active)
 		return FALSE
@@ -904,7 +904,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 	return B?.use_power(power_usage * dt)
 
 /obj/item/fighter_component/process(delta_time)
-	return use_power(delta_time)
+	return power_tick(delta_time)
 
 //Used for weapon style hardpoints
 /obj/item/fighter_component/proc/fire(obj/structure/overmap/target)

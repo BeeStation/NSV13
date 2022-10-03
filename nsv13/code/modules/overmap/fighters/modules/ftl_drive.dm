@@ -75,7 +75,7 @@
 	if(progress >= spoolup_time)
 		ftl_state = FTL_STATE_READY
 		return
-	if(!use_power(delta_time))
+	if(!power_tick(delta_time))
 		return
 	progress = CLAMP(progress + delta_time, 0, spoolup_time)
 
