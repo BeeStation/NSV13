@@ -37,7 +37,7 @@
 	L |= ..() | check_config_for_sec_maint()
 	return L
 
-GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY))
+GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY, SEC_DEPT_MUNITIONS))
 
 /datum/job/officer/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
@@ -81,6 +81,10 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 			destination = /area/security/checkpoint/science
 			spawn_point = locate(/obj/effect/landmark/start/depsec/science) in GLOB.department_security_spawns
 			accessory = /obj/item/clothing/accessory/armband/science
+		if(SEC_DEPT_MUNITIONS) 
+			ears = /obj/item/radio/headset/munitions/munitions_security_alt
+			dep_access = list(ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE)
+			accessory = /obj/item/clothing/accessory/armband/munitions
 
 	if(accessory)
 		var/obj/item/clothing/under/U = H.w_uniform

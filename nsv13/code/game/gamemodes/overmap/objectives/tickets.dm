@@ -3,7 +3,7 @@
 	desc = "Acquire ticket_amount Tickets for assigned_faction"
 	binary = FALSE
 	target = 0
-	var/ticket_amount = 1000
+	var/ticket_amount = 700
 	var/assigned_faction = null
 
 /datum/overmap_objective/tickets/New()

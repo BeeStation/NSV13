@@ -9,4 +9,5 @@
 // use doMove if you must get around this for whatever reason
 /mob/living/forceMove(atom/destination)
 	destination = GetSafeLoc(destination)
-	return ..()
+	. = ..()
+	update_overmap()

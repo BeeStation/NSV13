@@ -139,7 +139,10 @@
 		if(!istype(AM, /obj/structure/overmap))
 			continue
 		var/obj/structure/overmap/OM = AM
-		if(!OM.operators.len || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
+		//Ships that have a Z reserved are on the active FTL plane.
+		if(OM.reserved_z)
+			continue
+		if((!length(OM.operators) && !length(OM.mobs_in_ship)) || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
 			continue
 		if(same_faction_only && jumping.faction != OM.faction)	//We don't pull all small craft in the system unless we were the last ship here.
 			continue
@@ -293,6 +296,8 @@
 		if(!SOM.z || SOM.z != reserved_z)
 			continue
 		if(SOM == src)
+			continue
+		if(!SOM.z)
 			continue
 		LAZYADD(pulled, SOM)
 	target_system.add_ship(src) //Get the system to transfer us to its location.

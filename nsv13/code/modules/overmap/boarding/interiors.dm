@@ -63,7 +63,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 		var/_z = pick_n_take(free_boarding_levels)
 		boarding_reservation_z = _z
 		return
-	SSmapping.add_new_zlevel("Overmap boarding reservation", ZTRAITS_BOARDABLE_SHIP)
+	SSmapping.add_new_initialized_zlevel("Overmap boarding reservation", ZTRAITS_BOARDABLE_SHIP)
 	boarding_reservation_z = world.maxz
 
 /obj/structure/overmap/proc/ai_load_interior(obj/structure/overmap/boarder, map_path_override)
@@ -83,7 +83,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	else if(interior_status != INTERIOR_NOT_LOADED)
 		message_admins("[src] tried to load boarding map while it was already loading, deleting, or had been released. Aborting!")
 		return FALSE // If we're currently loading or deleting, stop
-	if(!boarder.boarding_reservation_z || !length(possible_interior_maps) || length(occupying_levels) || !boarder.reserved_z || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
+	if(!boarder.boarding_reservation_z || !length(possible_interior_maps) || length(occupying_levels) || (boarder.active_boarding_target && !QDELETED(boarder.active_boarding_target)))
 		message_admins("[boarder] attempted to board [src], but the pre-mapload checks failed!")
 		return FALSE
 
@@ -112,11 +112,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 /obj/structure/overmap/proc/get_overmap_level()
 	//Add a treadmill for this ship as and when needed.
 	if(!reserved_z)
-		if(!length(free_treadmills))
-			SSmapping.add_new_zlevel("Captured ship overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-			reserved_z = world.maxz
-		else
-			reserved_z = pick_n_take(free_treadmills)
+		get_reserved_z()
 		starting_system = current_system.name //Just fuck off it works alright?
 		SSstar_system.add_ship(src)
 
@@ -145,6 +141,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		return FALSE
 
 	roomReservation = SSmapping.RequestBlockReservation(boarding_interior.width, boarding_interior.height)
+	roomReservation.overmap_fallback = src
 	if(!roomReservation)
 		message_admins("[src] failed to reserve space for a dropship interior!")
 		return FALSE
@@ -158,7 +155,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 			interior_entry_points += entryway
 			entryway.linked = src
 	if(!length(interior_entry_points))
-		var/turf/bottom = get_turf(locate(roomReservation.bottom_left_coords[1]+boarding_interior.width/2, roomReservation.bottom_left_coords[2] + 2, roomReservation.bottom_left_coords[3]))
+		var/turf/bottom = get_turf(locate(roomReservation.bottom_left_coords[1] + 2, roomReservation.bottom_left_coords[2] + 2, roomReservation.bottom_left_coords[3]))
 		var/obj/effect/landmark/dropship_entry/entryway = new /obj/effect/landmark/dropship_entry(bottom)
 		interior_entry_points += entryway
 		entryway.linked = src
@@ -186,11 +183,10 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		return FALSE
 	if(istype(target_area, /area/dropship/generic))
 		target_area.name = "[src.name] interior #[rand(0,999)]" //Avoid naming conflicts.
-	else
+	else if(!(target_area.area_flags & UNIQUE_AREA))
 		target_area.name = src.name
-
-	linked_areas += target_area
-	target_area.overmap_fallback = src //Set up the fallback...
+		linked_areas += target_area
+		target_area.overmap_fallback = src // We might be able to remove this since I learned how room reservations work
 	interior_status = INTERIOR_READY
 	return TRUE
 
