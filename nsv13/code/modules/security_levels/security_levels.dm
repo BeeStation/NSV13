@@ -7,11 +7,11 @@
 /obj/effect/landmark/zebra_interlock_point/Initialize(mapload)
 	. = ..()
 	for(var/obj/machinery/door/firedoor/FD in get_turf(src))
-		FD.RegisterSignal(SSblackbox, COMSIG_ALERT_LEVEL_CHANGE, /obj/machinery/door/firedoor/proc/on_alert_level_change, override=TRUE) //In case you have a zebra spawner on a window, this instance of alert level change will override the old one.
+		FD.RegisterSignal(SSblackbox, COMSIG_GLOB_SECURITY_ALERT_CHANGE, /obj/machinery/door/firedoor/proc/on_alert_level_change, override=TRUE) //In case you have a zebra spawner on a window, this instance of alert level change will override the old one.
 
 /obj/machinery/door/firedoor/Initialize(mapload)
 	. = ..()
-	RegisterSignal(SSdcs, COMSIG_ALERT_LEVEL_CHANGE, .proc/on_alert_level_change, override=TRUE) //Condition zebra means all window firelocks should drop.
+	RegisterSignal(SSdcs, COMSIG_GLOB_SECURITY_ALERT_CHANGE, .proc/on_alert_level_change, override=TRUE) //Condition zebra means all window firelocks should drop.
 
 /obj/machinery/door/firedoor/open()
 	. = ..()
