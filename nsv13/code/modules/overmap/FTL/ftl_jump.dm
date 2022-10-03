@@ -58,7 +58,7 @@
 
 /datum/star_system/proc/try_spawn_event()
 	if(possible_events && prob(event_chance))
-		if(!possible_events.len)
+		if(!length(possible_events))
 			return FALSE
 		var/event_type = pick(possible_events)
 		for(var/datum/round_event_control/E in SSevents.control)
@@ -71,7 +71,7 @@
 		for(var/X in enemy_queue)
 			SSstar_system.spawn_ship(X, src)
 			enemy_queue -= X
-	if(!contents_positions.len)
+	if(!length(contents_positions))
 		return //Nothing stored, no need to restore.
 	for(var/atom/movable/ship in system_contents)
 		if(!contents_positions[ship])
@@ -168,11 +168,8 @@
 		else
 			target_system.hidden = FALSE //Reveal where we are going
 
-			ftl_drive.ftl_state = FTL_STATE_READY //force it all to be ready
-			ftl_drive.use_power = 0
-			ftl_drive.progress = 0
 			log_runtime("DEBUG: force_return_jump: Beginning jump to outpost 45")
-			ftl_drive.jump(target_system) //Jump home
+			ftl_drive.force_jump(target_system) //Jump home
 			addtimer(CALLBACK(src, .proc/check_return_jump), SSstar_system.ships[src]["to_time"] + 35 SECONDS)
 
 	else

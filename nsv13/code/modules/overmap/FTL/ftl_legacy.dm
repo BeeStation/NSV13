@@ -3,7 +3,7 @@
 // Kept in the game for the sake of compatability and smaller ships.
 
 /obj/machinery/computer/ship/ftl_computer
-	name = "Seegson FTL drive computer"
+	name = "\improper Seegson FTL drive computer"
 	desc = "A supercomputer which is capable of calculating incalculably complex vectors which are interpreted into a simplified 4-dimensional course through which ships are able to travel. It takes some time to spool up between uses"
 	icon = 'nsv13/goonstation/icons/ftlcomp.dmi'
 	icon_state = "ftl_off"
@@ -93,7 +93,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 	tier = 3
 
 /obj/machinery/computer/ship/ftl_computer/syndicate
-	name = "Syndicate FTL computer"
+	name = "\improper Syndicate FTL computer"
 //	jump_speed_factor = 2 //Twice as fast as NT's shit so they can hunt the ship down or get ahead of them to set up an ambush of raptors
 	radio_key = /obj/item/encryptionkey/syndicate
 	radio_channel = "Syndicate"
@@ -101,7 +101,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 	req_access = list(ACCESS_SYNDICATE)
 
 /obj/machinery/computer/ship/ftl_computer/mining
-	name = "Mining FTL computer"
+	name = "mining FTL computer"
 	radio_key = /obj/item/encryptionkey/headset_mining
 	radio_channel = "Supply"
 	req_access = null
@@ -248,6 +248,13 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
 	ftl_state = FTL_STATE_JUMPING
 	addtimer(CALLBACK(src, .proc/depower), ftl_startup_time)
+
+/// Begins a jump regardless of whether we have enough fuel or power. Should only be used for debugging and round events
+/obj/machinery/computer/ship/ftl_computer/proc/force_jump(datum/star_system/target_system)
+	ftl_state = FTL_STATE_READY //force it all to be ready
+	use_power = 0
+	progress = 0
+	jump(target_system, TRUE)
 
 /obj/machinery/computer/ship/ftl_computer/proc/ready_ftl()
 	ftl_state = FTL_STATE_READY

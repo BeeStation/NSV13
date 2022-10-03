@@ -1,4 +1,4 @@
-// Don't make this any lower or else it'll conflict with the spooldown sound loop
+// Don't change this to anything lower than 260 or else it'll conflict with the spooldown sound loop
 /// Minimuim time between FTL jumps in deciseconds
 #define FTL_COOLDOWN 260
 
@@ -325,6 +325,13 @@ Preset classes of FTL drive with pre-programmed behaviours
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
 	addtimer(CALLBACK(src, .proc/depower, auto_spool_enabled), ftl_startup_time)
 
+/// Begins a jump regardless of whether we have enough fuel or power. Should only be used for debugging and round events
+/obj/machinery/computer/ship/ftl_core/proc/force_jump(datum/star_system/target_system)
+	use_power = 0
+	progress = 0
+	icon_state = "core_active"
+	jump(target_system, TRUE)
+
 /obj/machinery/computer/ship/ftl_core/proc/ready_ftl()
 	playsound(src, 'nsv13/sound/voice/ftl_ready.wav', 100, FALSE)
 	radio.talk_into(src, "FTL fuel cycle complete. Ready to commence FTL translation.", radio_channel)
@@ -340,13 +347,13 @@ Preset classes of FTL drive with pre-programmed behaviours
 	return //Override computer updates
 
 /obj/machinery/computer/ship/ftl_core/proc/depower(shutdown_pylons = TRUE)
-	if(progress <= 0)
-		return FALSE
+	use_power = 50
 	active = FALSE
 	ftl_state = FTL_STATE_IDLE
 	icon_state = "core_idle"
+	if(progress <= 0)
+		return FALSE
 	progress = 0
-	use_power = 50
 	soundloop.interrupt()
 	jump_speed_pylon = initial(jump_speed_pylon)
 	if(shutdown_pylons)
