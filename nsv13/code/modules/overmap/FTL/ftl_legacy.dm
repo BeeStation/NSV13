@@ -117,7 +117,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 
 /obj/machinery/computer/ship/ftl_computer/syndicate/LateInitialize()
 	. = ..()
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects) //Needs to go through global list due to filtering for any ship with importants not just the one main ship.
 		if(OM.role > NORMAL_OVERMAP && OM.faction != faction)
 			start_monitoring(OM)
 
