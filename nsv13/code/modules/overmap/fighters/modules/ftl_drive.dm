@@ -31,10 +31,16 @@
 	var/obj/structure/overmap/ourfighter = get_overmap()
 	anchored_to = ourfighter.get_overmap()
 
-/obj/item/fighter_component/ftl/tier2
-	name = "class III torch drive"
-	desc = "A micro jump drive with an expanded range."
-	max_range = 200
+/obj/item/fighter_component/ftl/on_install(obj/structure/overmap/target)
+	. = ..()
+	var/obj/structure/overmap/OM = loc
+	OM.ftl_drive = src
+
+/obj/item/fighter_component/ftl/remove_from(obj/structure/overmap/target, due_to_damage)
+	var/obj/structure/overmap/OM = loc
+	. = ..()
+	if(. && istype(OM) && OM.ftl_drive == src)
+		OM.ftl_drive = null
 
 /obj/item/fighter_component/ftl/proc/jump(datum/star_system/target_system, force=FALSE)
 	var/obj/structure/overmap/linked = loc
@@ -63,9 +69,6 @@
 
 /obj/item/fighter_component/ftl/process(delta_time)
 	//Not calling parent here as there's no need to use power yet if we're already spooled.
-	var/obj/structure/overmap/OM = loc
-	if(OM)
-		OM.ftl_drive = src
 	if(ftl_state == FTL_STATE_JUMPING)
 		return
 	ftl_state = FTL_STATE_SPOOLING
@@ -74,8 +77,13 @@
 		return
 	if(!use_power(delta_time))
 		return
-	progress += delta_time
-	progress = CLAMP(progress, 0, spoolup_time)
+	progress = CLAMP(progress + delta_time, 0, spoolup_time)
+
+
+/obj/item/fighter_component/ftl/tier2
+	name = "class III torch drive"
+	desc = "A micro jump drive with an expanded range."
+	max_range = 200
 
 /obj/effect/temp_visual/overmap_ftl
 	icon = 'nsv13/icons/overmap/effects.dmi'

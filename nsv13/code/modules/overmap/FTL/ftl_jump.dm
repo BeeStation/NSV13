@@ -207,7 +207,7 @@
 		else
 			log_runtime("DEBUG: jump_start: aborted jump to [target_system], drive state = [ftl_drive?.ftl_state]")
 			return
-	if((SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, src) & BEING_INTERDICTED) && (!force)) // Override interdiction if the game is over
+	if((SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, src) & BEING_INTERDICTED) && !force) // Override interdiction if the game is over
 		ftl_drive?.radio.talk_into(ftl_drive, "Warning. Local energy anomaly detected - calculated jump parameters invalid. Performing emergency reboot.", ftl_drive.radio_channel)
 		relay('sound/magic/lightning_chargeup.ogg', channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 		ftl_drive?.depower()
