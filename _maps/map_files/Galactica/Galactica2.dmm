@@ -2458,8 +2458,8 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer4{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4{
+	dir = 1
 	},
 /turf/open/floor/plasteel/grid/techfloor/grid,
 /area/engine/atmos)
@@ -10179,6 +10179,9 @@
 /turf/open/floor/plating,
 /area/engine/armour_pump)
 "fAB" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 10
+	},
 /turf/open/floor/carpet/ship,
 /area/security/detectives_office)
 "fAC" = (
@@ -16148,7 +16151,6 @@
 /turf/open/floor/monotile/dark,
 /area/security/brig)
 "iDT" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/door/airlock/ship/public/glass{
@@ -19657,6 +19659,7 @@
 	name = "Detective's Office";
 	req_one_access_txt = "4"
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/monotile/dark,
 /area/security/detectives_office)
 "kyv" = (
@@ -25015,9 +25018,7 @@
 /turf/open/floor/monotile/light,
 /area/medical/chemistry)
 "nxS" = (
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer2,
 /obj/machinery/advanced_airlock_controller/directional/east,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame4/port)
 "nxW" = (
@@ -27200,9 +27201,6 @@
 	pixel_x = -2;
 	pixel_y = 12
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 5
@@ -29209,7 +29207,6 @@
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "pHy" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 4
 	},
@@ -29220,6 +29217,9 @@
 /obj/item/toy/beach_ball/holoball{
 	desc = "Capture the sphere, kill the other team, checkmate?!";
 	name = "sportball"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 8
 	},
 /turf/open/floor/monotile/dark,
 /area/security/prison)
@@ -30358,13 +30358,6 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "qoY" = (
-/obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 8
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -30375,6 +30368,7 @@
 	id = "trash";
 	next_id = "arrivals2"
 	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "qpm" = (
@@ -31770,7 +31764,6 @@
 /turf/closed/wall/steel,
 /area/maintenance/nsv/deck2/frame2/central)
 "rdZ" = (
-/obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 5
 	},
@@ -31786,6 +31779,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "reX" = (
@@ -33938,9 +33932,6 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "sph" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 1
 	},
@@ -36297,6 +36288,7 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/carpet/red,
 /area/security/detectives_office)
 "tzt" = (
@@ -36782,6 +36774,7 @@
 	name = "Chateau Du Conoisseur '86"
 	},
 /obj/item/hand_tele,
+/obj/item/melee/chainofcommand,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/captain)
 "tQb" = (
@@ -36891,6 +36884,16 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/monotile/light,
 /area/medical/chemistry)
+"tSM" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/primary)
 "tTp" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/dark,
@@ -37846,12 +37849,10 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
-	dir = 1
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layer4,
 /turf/open/floor/monotile/dark,
 /area/security/brig)
 "utM" = (
@@ -39084,6 +39085,9 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 5
+	},
 /turf/open/floor/carpet/ship,
 /area/security/detectives_office)
 "vaH" = (
@@ -40301,7 +40305,7 @@
 /area/security/processing)
 "vIn" = (
 /obj/machinery/camera{
-	c_tag = "Hangar Exterior";
+	c_tag = "Hangar Exterior South";
 	network = list("ss13","hangar")
 	},
 /obj/machinery/button/door{
@@ -43474,6 +43478,7 @@
 	})
 "xxV" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/carpet/red,
 /area/security/detectives_office)
 "xym" = (
@@ -75570,7 +75575,7 @@ wyj
 fLa
 uoa
 lGt
-cdy
+tSM
 ebc
 aFJ
 aFJ
@@ -75827,7 +75832,7 @@ lwr
 bxU
 uoa
 tQc
-cdy
+tSM
 pOH
 aFJ
 wOl
@@ -76084,7 +76089,7 @@ nBs
 vJQ
 uoa
 lGt
-cdy
+tSM
 ebc
 dpL
 lDy
@@ -76598,7 +76603,7 @@ vDz
 tnr
 uoa
 lGt
-cdy
+tSM
 ebc
 dpL
 jYm
@@ -76855,7 +76860,7 @@ ulV
 yfq
 uoa
 miz
-cdy
+tSM
 ebc
 dpL
 lDy
@@ -77112,7 +77117,7 @@ erh
 uoa
 uoa
 bOy
-cdy
+tSM
 ebc
 dpL
 lDy
@@ -77369,7 +77374,7 @@ lqF
 pfr
 xwg
 cwB
-cdy
+tSM
 ebc
 aFJ
 cSh

@@ -2579,9 +2579,6 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 6
@@ -2770,10 +2767,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
-	dir = 1
-	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 6
+	},
 /turf/open/floor/plasteel,
 /area/ai_monitored/security/armory)
 "qP" = (
@@ -3992,7 +3989,7 @@
 /area/medical/surgery)
 "yd" = (
 /obj/machinery/camera/motion{
-	c_tag = "Armory";
+	c_tag = "Armory Exterior";
 	dir = 1
 	},
 /turf/open/space/basic,
@@ -4863,7 +4860,9 @@
 /turf/open/floor/plasteel,
 /area/maintenance/fore)
 "DP" = (
-/obj/machinery/camera/motion,
+/obj/machinery/camera/motion{
+	c_tag = "Core North"
+	},
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai)
 "DR" = (
@@ -4938,7 +4937,7 @@
 	dir = 8
 	},
 /obj/machinery/camera/motion{
-	c_tag = "secure_tech";
+	c_tag = "Core East";
 	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
@@ -5002,7 +5001,8 @@
 /area/ai_monitored/storage/eva)
 "Eu" = (
 /obj/machinery/camera/motion{
-	dir = 4
+	dir = 4;
+	c_tag = "Core West"
 	},
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai)
@@ -7549,20 +7549,12 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/qm)
 "Sh" = (
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/machinery/camera/motion{
+	dir = 1;
+	c_tag = "Core Entrance"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
-/turf/open/floor/plasteel,
-/area/security/brig)
+/turf/open/floor/plasteel/dark,
+/area/maintenance/fore)
 "Sn" = (
 /obj/machinery/firealarm/directional/south,
 /turf/open/floor/monotile/dark,
@@ -8043,7 +8035,7 @@
 /obj/item/clothing/head/beret/sec/navywarden,
 /obj/item/clothing/head/beret/sec/navyhos,
 /obj/machinery/camera/motion{
-	c_tag = "Armory"
+	c_tag = "Armory Lockup"
 	},
 /turf/open/floor/engine,
 /area/ai_monitored/security/armory)
@@ -8357,7 +8349,8 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/camera/motion{
-	dir = 1
+	dir = 1;
+	c_tag = "Core South"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -8431,7 +8424,6 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /obj/structure/disposalpipe/junction/yjunction{
 	dir = 1
 	},
@@ -8587,7 +8579,8 @@
 /area/science/xenobiology)
 "XJ" = (
 /obj/machinery/camera/motion{
-	dir = 1
+	dir = 1;
+	c_tag = "Secured Tech"
 	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/fore)
@@ -8720,7 +8713,7 @@
 /obj/structure/rack,
 /obj/effect/spawner/lootdrop/techstorage/command,
 /obj/machinery/camera/motion{
-	c_tag = "secure_tech";
+	c_tag = "Tech";
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -8785,7 +8778,8 @@
 	},
 /obj/machinery/camera/motion{
 	dir = 4;
-	network = list("aiupload")
+	network = list("aiupload");
+	c_tag = "Upload Chamber"
 	},
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai_upload)
@@ -50521,7 +50515,7 @@ vR
 sM
 gW
 NS
-Sh
+Ha
 KV
 gq
 Hl
@@ -55409,7 +55403,7 @@ kp
 Yv
 kp
 GQ
-XJ
+Sh
 XN
 Ty
 XN

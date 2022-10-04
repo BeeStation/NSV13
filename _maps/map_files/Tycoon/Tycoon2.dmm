@@ -8082,7 +8082,7 @@
 "avl" = (
 /obj/structure/lattice,
 /obj/machinery/camera/motion{
-	c_tag = "Armory";
+	c_tag = "Armory North";
 	dir = 1
 	},
 /turf/open/space/basic,
@@ -9798,8 +9798,8 @@
 "aCl" = (
 /obj/structure/lattice,
 /obj/machinery/camera/motion{
-	c_tag = "Armory";
-	dir = 8
+	dir = 8;
+	c_tag = "Armory West"
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
@@ -10253,7 +10253,7 @@
 /obj/structure/closet/l3closet/security,
 /obj/effect/turf_decal/bot,
 /obj/machinery/camera/motion{
-	c_tag = "Armory"
+	c_tag = "Armory Secure"
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
@@ -23587,7 +23587,9 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/red,
-/obj/machinery/camera/autoname,
+/obj/machinery/camera/autoname{
+	c_tag = "Prison Wing NE"
+	},
 /obj/machinery/computer/cryopod{
 	pixel_y = 32
 	},
@@ -35823,7 +35825,9 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/red,
-/obj/machinery/camera/autoname,
+/obj/machinery/camera/autoname{
+	c_tag = "Prison Wing NW"
+	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -37332,7 +37336,7 @@
 	dir = 4
 	},
 /obj/machinery/camera/motion{
-	c_tag = "Armory";
+	c_tag = "Armory South Inside";
 	dir = 1
 	},
 /obj/machinery/flasher/portable,
@@ -37585,7 +37589,7 @@
 "bIH" = (
 /obj/structure/lattice,
 /obj/machinery/camera{
-	c_tag = "Armory"
+	c_tag = "Armory Nook"
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
@@ -40559,6 +40563,10 @@
 	desc = "A vending machine normally reserved for work camps.";
 	name = "\improper sustenance vendor";
 	product_slogans = "Enjoy your meal.;Enough calories to support any worker."
+	},
+/obj/machinery/camera/autoname{
+	dir = 1;
+	c_tag = "Prison Wing South"
 	},
 /turf/open/floor/monotile/steel,
 /area/security/prison)
@@ -45485,9 +45493,6 @@
 	},
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
-	},
-/obj/machinery/camera/autoname{
-	dir = 10
 	},
 /obj/structure/cable{
 	icon_state = "1-2"

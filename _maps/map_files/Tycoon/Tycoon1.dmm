@@ -858,7 +858,9 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
 "cu" = (
-/obj/machinery/camera/autoname,
+/obj/machinery/camera/autoname{
+	c_tag = "Core NW"
+	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
 "cv" = (
@@ -888,7 +890,9 @@
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat)
 "cA" = (
-/obj/machinery/camera/autoname,
+/obj/machinery/camera/autoname{
+	c_tag = "Core NE"
+	},
 /obj/machinery/firealarm{
 	pixel_y = 24
 	},
@@ -902,7 +906,9 @@
 /area/ai_monitored/turret_protected/aisat)
 "cC" = (
 /obj/machinery/porta_turret/ai,
-/obj/machinery/camera/motion,
+/obj/machinery/camera/motion{
+	c_tag = "Upload North"
+	},
 /turf/open/floor/circuit/red,
 /area/ai_monitored/turret_protected/ai_upload)
 "cD" = (
@@ -1571,7 +1577,8 @@
 /area/hallway/nsv/deck1/hallway)
 "ej" = (
 /obj/machinery/camera/motion{
-	dir = 1
+	dir = 1;
+	c_tag = "Core SW"
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
@@ -5746,7 +5753,8 @@
 "ng" = (
 /obj/structure/table/reinforced,
 /obj/machinery/camera/autoname{
-	dir = 4
+	dir = 4;
+	c_tag = "Core W"
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
@@ -6123,7 +6131,8 @@
 /area/space/nearstation)
 "qB" = (
 /obj/machinery/camera/autoname{
-	dir = 8
+	dir = 8;
+	c_tag = "Core E"
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat)
@@ -6783,14 +6792,6 @@
 /obj/structure/rack,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
-"zM" = (
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
-/obj/machinery/porta_turret/ai,
-/obj/effect/turf_decal/stripes/box,
-/turf/open/floor/circuit/red,
-/area/ai_monitored/turret_protected/aisat)
 "zW" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /turf/open/floor/plating,
@@ -6848,7 +6849,8 @@
 	pixel_y = -25
 	},
 /obj/machinery/camera/motion{
-	dir = 1
+	dir = 1;
+	c_tag = "Upload South"
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
@@ -6874,7 +6876,8 @@
 /area/quartermaster/miningdock)
 "CA" = (
 /obj/machinery/camera/motion{
-	dir = 1
+	dir = 1;
+	c_tag = "Core SE"
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat)
@@ -7430,9 +7433,6 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "Ld" = (
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
 /obj/effect/turf_decal/stripes/box,
 /obj/machinery/porta_turret/ai,
 /turf/open/floor/circuit/red,
@@ -29611,7 +29611,7 @@ hA
 iC
 ie
 ce
-zM
+lg
 ct
 JS
 gs
