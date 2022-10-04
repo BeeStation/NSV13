@@ -255,7 +255,7 @@ SUBSYSTEM_DEF(mapping)
 	var/obj/structure/overmap/OM = instance_overmap(config.ship_type)
 	pass(OM)
 	if(!config.mine_disable)
-		instance_overmap(_path = config.mining_ship_type, folder = config.mine_path, interior_map_files = config.mine_file, traits = ZTRAITS_MINING_SHIP)
+		instance_overmap(_path = config.mining_ship_type, folder = config.mine_path, interior_map_files = config.mine_file, default_traits = ZTRAITS_MINING_SHIP)
 	// Free boarding overmap/mining level
 	add_new_zlevel("Overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
 	OM.free_treadmills += world.maxz
