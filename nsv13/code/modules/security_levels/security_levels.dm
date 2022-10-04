@@ -7,7 +7,7 @@
 /obj/effect/landmark/zebra_interlock_point/Initialize(mapload)
 	. = ..()
 	for(var/obj/machinery/door/firedoor/FD in get_turf(src))
-		FD.RegisterSignal(SSblackbox, COMSIG_GLOB_SECURITY_ALERT_CHANGE, /obj/machinery/door/firedoor/proc/on_alert_level_change, override=TRUE) //In case you have a zebra spawner on a window, this instance of alert level change will override the old one.
+		FD.RegisterSignal(SSdcs, COMSIG_GLOB_SECURITY_ALERT_CHANGE, /obj/machinery/door/firedoor/proc/on_alert_level_change, override=TRUE) //In case you have a zebra spawner on a window, this instance of alert level change will override the old one.
 
 /obj/machinery/door/firedoor/Initialize(mapload)
 	. = ..()
@@ -20,10 +20,17 @@
 		addtimer(CALLBACK(src, .proc/close), 3 SECONDS) //Snap shut again if zebra's still active.
 
 /obj/machinery/door/firedoor/proc/on_alert_level_change(level)
+	SIGNAL_HANDLER
+
+	if(!is_station_level(z))
+		return
+
 	if(level == SEC_LEVEL_ZEBRA) //Zebra is a special case. Nothing else triggers this behaviour.
-		close()
+		spawn()
+			close()
 	else
 		var/area/A = get_area(src)
 		if((A.fire) || is_holding_pressure())
 			return
-		open()
+		spawn()
+			open()

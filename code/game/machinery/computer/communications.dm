@@ -146,6 +146,7 @@
 			deadchat_broadcast("<span class='deadsay'><span class='name'>[usr.real_name]</span> has changed the security level to [params["newSecurityLevel"]] with [src] at <span class='name'>[get_area_name(usr, TRUE)]</span>.</span>", usr)
 
 			alert_level_tick += 1
+			ui_update()
 			. = TRUE
 		if ("deleteMessage")
 			if (!authenticated(usr))
