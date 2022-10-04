@@ -151,7 +151,7 @@
 
 	if("mine_disable" in json)
 		mine_disable = json["mine_disable"]
-	if(!("mine_disable" in json) || !mine_disable) //Bypass mineload so we don't load any mining vessels period.
+	if(!mine_disable) //This ship needs a mining ship!
 		mine_file = json["mine_file"]
 		mine_path = json["mine_path"]
 		if (istext(mine_file))
@@ -174,8 +174,6 @@
 			log_world("mining_ship_type missing from json!")
 			return
 
-	else
-		mine_disable = TRUE
 	//Nsv13 stuff. No CHECK_EXISTS because we don't want to yell at mappers if they don't override these two.
 	if("omode_blacklist" in json) //Which modes we want disabled on this map
 		omode_blacklist = json["omode_blacklist"]
