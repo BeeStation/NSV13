@@ -20,6 +20,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	//Direction -> if we have a conveyor belt in that direction
 	var/list/neighbors
 	var/stack_type = /obj/item/stack/conveyor //NSV13 - stack_type
+	var/conveyor_speed = 0.2 SECONDS //NSV13 - slow conveyors
 
 /obj/machinery/conveyor/centcom_auto
 	id = "round_end_belt"
@@ -209,7 +210,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	var/static/list/unconveyables = typecacheof(list(/obj/effect, /mob/dead))
 	if(!istype(moving) || is_type_in_typecache(moving, unconveyables) || moving == src)
 		return
-	moving.AddComponent(/datum/component/convey, movedir, 0.2 SECONDS)
+	moving.AddComponent(/datum/component/convey, movedir, conveyor_speed) //NSV13 - slow conveyors
 
 /obj/machinery/conveyor/proc/stop_conveying(atom/movable/thing)
 	if(!ismovable(thing))
