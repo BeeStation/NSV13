@@ -51,7 +51,7 @@
 	name = "Slow conveyor"
 	subsystem_type = /datum/controller/subsystem/machines
 	stack_type = /obj/item/stack/conveyor/slow //What does this conveyor drop when decon'd?
-	conveyor_speed = 0.75 SECONDS
+	conveyor_speed = 2 SECONDS
 
 /obj/machinery/missile_builder/wirer
 	name = "Seegson model 'Ford' robotic autowirer"
