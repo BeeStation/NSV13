@@ -431,7 +431,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		var/src_vel_mag = src.velocity.ln()
 		var/other_vel_mag = other.velocity.ln()
 		//I mean, the angle between the two objects is very likely to be the angle of incidence innit
-		var/col_angle = Get_Angle(src, other)
+		var/col_angle = get_angle(src, other)
 
 		// Elastic collision equations
 		var/new_src_vel_x = ((																	\

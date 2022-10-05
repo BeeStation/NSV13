@@ -489,7 +489,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	STOP_PROCESSING(SSmachines, src)
 
 /obj/machinery/computer/ship/ftl_computer/process()
-	if(!is_operational())
+	if(!is_operational)
 		depower()
 		return
 	if(progress < spoolup_time)

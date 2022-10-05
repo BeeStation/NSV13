@@ -20,7 +20,7 @@
 			return ARMOUR_FORWARD_STARBOARD
 
 /obj/structure/overmap/proc/projectile_quadrant_impact(obj/item/projectile/P)
-	var/shield_angle_hit = SIMPLIFY_DEGREES(Get_Angle(P, src) - angle)
+	var/shield_angle_hit = SIMPLIFY_DEGREES(get_angle(P, src) - angle)
 	switch(shield_angle_hit)
 		if(0 to 89) //0 - 90 deg is the first right quarter of the circle, it's like dividing up a pizza!
 			return ARMOUR_FORWARD_PORT

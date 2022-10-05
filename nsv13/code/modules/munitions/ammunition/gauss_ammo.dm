@@ -46,7 +46,7 @@
 
 /obj/machinery/gauss_dispenser/process()
 	cut_overlays()
-	if(stat & NOPOWER)
+	if(machine_stat & NOPOWER)
 		progress = 0 SECONDS
 		return PROCESS_KILL
 	progress += progress_rate

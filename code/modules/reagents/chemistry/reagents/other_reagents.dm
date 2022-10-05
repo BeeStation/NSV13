@@ -168,7 +168,7 @@
 	var/obj/shapeshift_holder/H = locate() in L
 	if(!H)
 		return
-	H.restore(convert_damage = TRUE)
+	H.restore()
 
 /datum/reagent/water
 	name = "Water"

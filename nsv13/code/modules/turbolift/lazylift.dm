@@ -78,7 +78,7 @@ That's it, ok bye!
 	return attack_hand(user)
 
 /obj/machinery/lazylift_button/attack_hand(mob/user)
-	if((stat & NOPOWER) || !lift)
+	if((machine_stat & NOPOWER) || !lift)
 		to_chat(user, "<span class='warning'>Nothing happens...</span>")
 		return
 	if(isliving(user) && user.mouse_opacity) //Don't display things like AIs or admin ghosts clicking the button.

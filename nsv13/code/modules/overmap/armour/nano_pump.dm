@@ -61,7 +61,7 @@
 /obj/machinery/armour_plating_nanorepair_pump/process()
 	if(!OM)
 		OM = get_overmap()
-	if(online && is_operational() && !stress_shutdown)
+	if(online && is_operational && !stress_shutdown)
 		idle_power_usage = 0 //reset power use
 		var/weight_class = OM.mass
 		if(weight_class >= MASS_TITAN)

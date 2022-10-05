@@ -38,8 +38,8 @@ BADGES
 ## To speed things up make the number negative, to slow things down, make the number positive.
 
 ## These modify the run/walk speed of all mobs before the mob-specific modifiers are applied.
-RUN_DELAY 1.5
-WALK_DELAY 3
+RUN_DELAY 2
+WALK_DELAY 3.5
 
 ## The variables below affect the movement of specific mob types. THIS AFFECTS ALL SUBTYPES OF THE TYPE YOU CHOOSE!
 ## Entries completely override all subtypes. Later entries have precedence over earlier entries.
@@ -112,6 +112,7 @@ PROBABILITY INCURSION 5
 ## Rare gamemodes -- 7% chance
 PROBABILITY HERESY 4
 PROBABILITY CULT 4
+PROBABILITY ASSIMILATION 4
 PROBABILITY NUCLEAR 4
 ## Very rare gamemodes -- 4% chance
 PROBABILITY INTERNAL_AFFAIRS 2
@@ -157,6 +158,7 @@ CONTINUOUS WIZARD
 CONTINUOUS HIVEMIND
 CONTINUOUS CLOCKCULT
 CONTINUOUS HERESY
+CONTINUOUS ASSIMILATION
 CONTINUOUS PVP
 CONTINUOUS BLOODLING
 
@@ -247,6 +249,9 @@ MIN_POP HERESY 15
 MAX_POP HERESY -1
 
 MIN_POP DYNAMIC 10
+
+MIN_POP ASSIMILATION 0
+MAX_POP ASSIMILATION -1
 
 ## The amount of time it takes for the emergency shuttle to be called, from round start.
 SHUTTLE_REFUEL_DELAY 12000

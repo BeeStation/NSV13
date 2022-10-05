@@ -187,8 +187,10 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
  */
 
 GLOBAL_LIST_INIT(plasteel_recipes, list ( \
-	new/datum/stack_recipe("AI core",									/obj/structure/AIcore, 4, time = 50, one_per_turf = TRUE), \
-	new/datum/stack_recipe("bomb assembly",								/obj/machinery/syndicatebomb/empty, 10, time = 50), \
+	new/datum/stack_recipe("AI core", /obj/structure/AIcore, 4, time = 50, one_per_turf = TRUE), \
+	new/datum/stack_recipe("bomb assembly", /obj/machinery/syndicatebomb/empty, 10, time = 50), \
+	new/datum/stack_recipe("dock tile", /obj/item/stack/tile/dock, 1, 4, 20), \
+	new/datum/stack_recipe("dry dock tile", /obj/item/stack/tile/drydock, 2, 4, 20), \
 	//NSV13 Start
 	null, \
 	new/datum/stack_recipe("plasteel barricade", /obj/structure/peacekeeper_barricade/metal/plasteel, 5, time = 8 SECONDS, one_per_turf = 1, on_floor = TRUE), \

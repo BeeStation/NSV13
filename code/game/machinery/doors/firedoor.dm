@@ -81,7 +81,7 @@
 	if(panel_open || operating)
 		return
 	//NSV13 - allow bump to open if powered
-	if(welded || (stat & NOPOWER))
+	if(welded || (machine_stat & NOPOWER))
 		return
 	if(ismob(AM))
 		var/mob/user = AM
@@ -102,10 +102,10 @@
 
 /obj/machinery/door/firedoor/power_change()
 	if(powered(power_channel))
-		stat &= ~NOPOWER
+		set_machine_stat(machine_stat & ~NOPOWER)
 		INVOKE_ASYNC(src, .proc/latetoggle)
 	else
-		stat |= NOPOWER
+		set_machine_stat(machine_stat | NOPOWER)
 
 /obj/machinery/door/firedoor/attack_hand(mob/user)
 	. = ..()
@@ -114,7 +114,7 @@
 
 	//NSV13 - allow manual operation of unpowered firelocks
 	if (!welded && !operating)
-		if (stat & NOPOWER)
+		if (machine_stat & NOPOWER)
 			user.visible_message("[user] tries to open \the [src] manually.",
 						 "You operate the manual lever on \the [src].")
 			if (!do_after(user, 30, TRUE, src))
@@ -230,9 +230,9 @@
 /obj/machinery/door/firedoor/try_to_crowbar(obj/item/I, mob/user)
 	if(welded || operating)
 		return
-	
+
 	if(density)
-		if(!(stat & NOPOWER))
+		if(!(machine_stat & NOPOWER))
 			LAZYADD(access_log, "MOTOR_ERR:|MOTOR CONTROLLER REPORTED BACKDRIVE|T_OFFSET:[DisplayTimeText(world.time - SSticker.round_start_time)]")
 			if(length(access_log) > 20) //Unless this is getting spammed this shouldn't happen.
 				access_log.Remove(access_log[1])
@@ -268,7 +268,7 @@
 
 /obj/machinery/door/firedoor/attack_ai(mob/user)
 	add_fingerprint(user)
-	if(welded || operating || stat & NOPOWER)
+	if(welded || operating || machine_stat & NOPOWER)
 		return TRUE
 	if(density)
 		open()
@@ -404,7 +404,7 @@
 
 
 /obj/machinery/door/firedoor/proc/latetoggle()
-	if(operating || stat & NOPOWER || !nextstate)
+	if(operating || machine_stat & NOPOWER || !nextstate)
 		return
 	switch(nextstate)
 		if(FIREDOOR_OPEN)
