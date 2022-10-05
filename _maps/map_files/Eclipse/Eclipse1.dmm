@@ -248,6 +248,15 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/fore/secondary)
+"bm" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/item/conveyor_switch_construct{
+	id = "Eclipse Disposals"
+	},
+/turf/open/floor/plating,
+/area/maintenance/disposal)
 "bp" = (
 /obj/structure/closet/crate/large,
 /obj/effect/spawner/lootdrop/maintenance/four,
@@ -4900,9 +4909,11 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/sleeper)
 "uy" = (
-/obj/machinery/conveyor/auto,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
+	},
+/obj/machinery/conveyor{
+	id = "Eclipse Disposals"
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
@@ -7973,7 +7984,8 @@
 /turf/open/floor/plasteel/dark/side,
 /area/engine/engine_smes)
 "Ht" = (
-/obj/machinery/conveyor/auto{
+/obj/machinery/conveyor{
+	id = "Eclipse Disposals";
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -8274,11 +8286,12 @@
 	},
 /area/hallway/secondary/entry)
 "ID" = (
-/obj/machinery/conveyor/auto{
-	dir = 4
-	},
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
+	},
+/obj/machinery/conveyor/inverted{
+	dir = 9;
+	id = "Eclipse Disposals"
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
@@ -9543,12 +9556,14 @@
 /turf/open/floor/plasteel/checker,
 /area/hydroponics)
 "NQ" = (
-/obj/machinery/conveyor/auto,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
 /obj/structure/railing{
 	dir = 4
+	},
+/obj/machinery/conveyor{
+	id = "Eclipse Disposals"
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
@@ -10183,11 +10198,12 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/fore)
 "QF" = (
-/obj/machinery/conveyor/auto{
-	dir = 4
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
+	},
+/obj/machinery/conveyor{
+	id = "Eclipse Disposals";
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
@@ -12444,9 +12460,6 @@
 /area/crew_quarters/bar)
 "ZN" = (
 /obj/machinery/recycler,
-/obj/machinery/conveyor/auto{
-	dir = 4
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
@@ -12455,6 +12468,10 @@
 	},
 /obj/structure/railing{
 	dir = 1
+	},
+/obj/machinery/conveyor{
+	id = "Eclipse Disposals";
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
@@ -43971,7 +43988,7 @@ UG
 Wh
 vc
 pj
-pj
+bm
 rp
 QF
 Rn
