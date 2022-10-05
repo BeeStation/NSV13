@@ -171,7 +171,8 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	operating = new_value
 	update_icon_state()
 	update_move_direction()
-	if(!operating) //If we ever turn off, disable moveloops
+	//If we ever turn off, disable moveloops
+	if(!operating)
 		for(var/atom/movable/movable in get_turf(src))
 			stop_conveying(movable)
 
@@ -194,10 +195,6 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	if(!operating)
 		SSmove_manager.stop_looping(convayable, SSconveyors)
 		return
-	var/datum/move_loop/move/moving_loop = SSmove_manager.processing_on(convayable, SSconveyors)
-	if(moving_loop)
-		moving_loop.direction = movedir
-		return
 	start_conveying(convayable)
 
 /obj/machinery/conveyor/proc/conveyable_exit(datum/source, atom/convayable, direction)
@@ -207,6 +204,12 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 		SSmove_manager.stop_looping(convayable, SSconveyors)
 
 /obj/machinery/conveyor/proc/start_conveying(atom/movable/moving)
+	var/datum/move_loop/move/moving_loop = SSmove_manager.processing_on(moving, SSconveyors)
+	if(moving_loop)
+		moving_loop.direction = movedir
+		moving_loop.delay = 0.2 SECONDS
+		return
+
 	var/static/list/unconveyables = typecacheof(list(/obj/effect, /mob/dead))
 	if(!istype(moving) || is_type_in_typecache(moving, unconveyables) || moving == src)
 		return
