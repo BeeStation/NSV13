@@ -408,8 +408,6 @@
 /obj/structure/sign/poster/official/moth1{
 	pixel_x = -30
 	},
-/obj/machinery/recharge_station,
-/obj/effect/landmark/start/cyborg,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
 "bA" = (
@@ -539,7 +537,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/suit_storage_unit/standard_unit,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
 "bO" = (
@@ -3340,6 +3337,7 @@
 /obj/structure/sign/poster/official/pda_ad{
 	pixel_y = 31
 	},
+/obj/machinery/suit_storage_unit/standard_unit,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
 "ll" = (
@@ -3730,7 +3728,9 @@
 	dir = 5
 	},
 /obj/machinery/airalarm/directional/south,
-/obj/machinery/suit_storage_unit/standard_unit,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
 "mF" = (
@@ -8339,6 +8339,13 @@
 /obj/effect/spawner/structure/window/reinforced/ship,
 /turf/open/floor/plasteel/tiled/light,
 /area/security/prison)
+"CO" = (
+/obj/machinery/vending/wardrobe/curator_wardrobe{
+	pixel_y = -32
+	},
+/obj/structure/bookcase/random/religion,
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/bridge/meeting_room/council)
 "CQ" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 8
@@ -8791,12 +8798,14 @@
 /turf/open/floor/plating,
 /area/maintenance/department/security)
 "Ex" = (
-/obj/machinery/door/airlock/ship/maintenance,
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/structure/table/glass/plasma,
+/obj/item/paper_bin,
+/obj/item/pen/fountain,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /obj/effect/landmark/zebra_interlock_point,
-/turf/open/floor/plating,
-/area/maintenance/department/security)
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/bridge/meeting_room/council)
 "Ey" = (
 /obj/machinery/door/window/brigdoor/security/cell/southleft{
 	req_one_access_txt = "3;4;38;63"
@@ -9093,6 +9102,13 @@
 	},
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/cmo)
+"Fv" = (
+/obj/structure/bookcase/random/nonfiction,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/bridge/meeting_room/council)
 "Fw" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -10300,6 +10316,15 @@
 /obj/structure/flora/ausbushes/brflowers,
 /turf/open/floor/grass,
 /area/crew_quarters/dorms/nsv/nature_deck)
+"JA" = (
+/obj/structure/table/glass/plasma,
+/obj/item/clothing/head/fedora/curator,
+/obj/item/flashlight/lamp/green,
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/bridge/meeting_room/council)
 "JB" = (
 /obj/structure/cable{
 	icon_state = "0-2"
@@ -10517,7 +10542,6 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
-/obj/machinery/suit_storage_unit/standard_unit,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
 "Kk" = (
@@ -10645,6 +10669,23 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/structure/table/glass/plasma,
+/obj/item/book/random{
+	pixel_x = -6
+	},
+/obj/item/book/random{
+	pixel_x = -2
+	},
+/obj/item/book/random{
+	pixel_x = 2
+	},
+/obj/item/book/random{
+	pixel_x = 6
+	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
 "KB" = (
@@ -11136,6 +11177,7 @@
 /area/medical/chemistry)
 "LQ" = (
 /obj/machinery/newscaster/directional/north,
+/obj/machinery/suit_storage_unit/standard_unit,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
 "LR" = (
@@ -12777,6 +12819,8 @@
 /obj/structure/sign/departments/minsky/security/security{
 	pixel_y = 31
 	},
+/obj/machinery/recharge_station,
+/obj/effect/landmark/start/cyborg,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
 "RN" = (
@@ -12924,7 +12968,6 @@
 /area/science)
 "St" = (
 /obj/machinery/firealarm/directional/south,
-/obj/machinery/suit_storage_unit/standard_unit,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
 "Sw" = (
@@ -13069,15 +13112,9 @@
 /turf/open/floor/carpet/purple,
 /area/crew_quarters/heads/hor)
 "SR" = (
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/airlock/ship/public{
-	name = "Custodial Garage";
-	req_one_access_txt = "25;28;35;26"
-	},
-/obj/effect/landmark/zebra_interlock_point,
-/turf/open/floor/plating,
-/area/maintenance/department/bridge)
+/obj/machinery/suit_storage_unit/standard_unit,
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/bridge/meeting_room/council)
 "SS" = (
 /obj/structure/table/wood,
 /obj/machinery/plantgenes{
@@ -51302,14 +51339,14 @@ Lq
 Lq
 Lq
 Lq
-Ex
+jI
 YF
 Ow
 YF
 kf
 Ow
 hU
-SR
+hU
 uO
 Rz
 hl
@@ -51559,14 +51596,14 @@ ZE
 YZ
 wz
 Lq
-VX
+SR
 bz
 vM
 MB
 DG
 xu
-VX
-VX
+Fv
+CO
 uO
 wS
 XK
@@ -51822,7 +51859,7 @@ sS
 Bg
 dy
 MM
-VX
+JA
 dr
 uO
 uO
@@ -52079,7 +52116,7 @@ Lz
 Tw
 dy
 cm
-VX
+Ex
 St
 Wg
 DI
