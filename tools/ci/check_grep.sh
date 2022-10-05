@@ -65,7 +65,8 @@ if grep -Pzo '"\w+" = \(\n[^)]*?/obj/machinery/door/airlock[/\w]*?,\n[^)]*?/obj/
     echo -e "${RED}ERROR: Found multiple airlocks on the same tile, please remove them.${NC}"
     st=1
 fi;
-if grep -Pzo '"\w+" = \(\n[^)]*?/obj/machinery/door/firedoor[/\w]*?,\n[^)]*?/obj/machinery/door/firedoor[/\w]*?,\n[^)]*?/area/.+\)' _maps/**/*.dmm;	then
+# NSV13 - only look for windowlocks, we need double firelocks for fastmos
+if grep -Pzo '"\w+" = \(\n[^)]*?/obj/machinery/door/firedoor/window[/\w]*?,\n[^)]*?/obj/machinery/door/firedoor/window[/\w]*?,\n[^)]*?/area/.+\)' _maps/**/*.dmm;	then
 	echo
     echo -e "${RED}ERROR: Found multiple firelocks on the same tile, please remove them.${NC}"
     st=1

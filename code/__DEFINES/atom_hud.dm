@@ -43,7 +43,7 @@
 #define DATA_HUD_ABDUCTOR				7
 #define DATA_HUD_SENTIENT_DISEASE		8
 #define DATA_HUD_AI_DETECT				9
-#define DATA_HUD_SQUAD					32 //NSV13
+#define DATA_HUD_SQUAD					31 //NSV13
 
 //antag HUD defines
 #define ANTAG_HUD_CULT			10
