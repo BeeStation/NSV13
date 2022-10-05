@@ -356,6 +356,7 @@
 
 /obj/effect/temp_visual/overmap_shield_hit/Destroy()
 	overmap?.vis_contents -= src
+	overmap = null
 	return ..()
 
 /obj/machinery/shield_generator/ui_act(action, params)
