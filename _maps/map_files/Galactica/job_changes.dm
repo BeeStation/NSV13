@@ -10,6 +10,7 @@
 
 
 */
+
 /datum/job/fighter_pilot/New()
     ..()
     MAP_JOB_CHECK
@@ -21,3 +22,9 @@
     MAP_JOB_CHECK
     total_positions = 12
     spawn_positions = 12
+
+/datum/job/staffjudgeadvocate/New() //big ship needs much oversight
+    ..()
+    MAP_JOB_CHECK
+    total_positions = 2
+    spawn_positions = 2

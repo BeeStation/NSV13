@@ -204,7 +204,7 @@
 
 //NSV13 - updated URIs
 /datum/config_entry/string/wikiurl
-	config_entry_value = "https://nsv.beestation13.com/wiki/Main_Page"
+	config_entry_value = "https://nsv.beestation13.com/wiki"
 
 /datum/config_entry/string/forumurl
 	config_entry_value = "https://forums-nsv.beestation13.com/"

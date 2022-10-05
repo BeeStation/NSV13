@@ -31,7 +31,6 @@
 MAP_REMOVE_JOB(virologist)
 //Civilian guys without an office
 MAP_REMOVE_JOB(curator)
-MAP_REMOVE_JOB(lawyer)
 //Most of security - Because these guys aren't too useful in a brig this SMALL
 MAP_REMOVE_JOB(deputy)
 MAP_REMOVE_JOB(brig_phys)

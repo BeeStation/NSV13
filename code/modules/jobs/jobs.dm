@@ -48,6 +48,7 @@ GLOBAL_LIST_INIT(civilian_positions, list(
 	"Janitor",
 	"Curator",
 	"Lawyer",
+	"Staff Judge Advocate", //nsv13
 	"Chaplain",
 	"Clown",
 	"Mime",

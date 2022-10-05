@@ -1,7 +1,7 @@
 GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"))
 
 //For code/controllers/subsystem/job.dm
-/datum/controller/subsystem/job/proc/LoadRanks(rankfile="config/ranks/royal_navy.txt")
+/datum/controller/subsystem/job/proc/LoadRanks(rankfile="config/ranks/whiterapids.txt")
 	if (fexists("[rankfile]"))
 		var/rankstext = file2text("[rankfile]")
 
