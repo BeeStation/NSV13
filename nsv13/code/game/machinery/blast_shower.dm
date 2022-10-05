@@ -4,19 +4,21 @@
 	icon = 'nsv13/icons/obj/blast_shower.dmi'
 	icon_state = "blast_shower"
 	density = FALSE
-	use_power = NO_POWER_USE
+	use_power = TRUE
+	active_power_usage = 50
 
 /obj/machinery/shower/blast_shower/wash_mob(mob/living/L)
 	SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_WEAK)
 	L.wash_cream()
 	L.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
 	L.radiation -= min(L.radiation, 15)
-	if(obj_flags & EMAGGED)
-		L.adjustBruteLoss(3)
-		L.damage_clothes(12, BRUTE)
-	else
+	L.damage_clothes(8, BRUTE)
+	if(!(obj_flags & EMAGGED))
 		L.adjustBruteLoss(0.5)
-		L.damage_clothes(8, BRUTE)
+		to_chat(L, "The water peels your outer layers of skin away!")
+	else
+		L.adjustBruteLoss(5)
+		to_chat(L, "<span class='warning'>The water peels your skin away!</span>")
 	if(iscarbon(L))
 		var/mob/living/carbon/M = L
 		. = TRUE
@@ -72,12 +74,6 @@
 			if(H.belt && wash_obj(H.belt))
 				H.update_inv_belt()
 
-/obj/machinery/shower/blast_shower/emag_act(mob/user)
-	if(obj_flags & EMAGGED)
-		return
-	obj_flags |= EMAGGED
-	to_chat(user, "<span class='warning'>You tamper with [src]'s pressure regulator.</span>")
-
 /datum/mood_event/blast_shower
 	description = "<span class='warning'>My skin feels raw!</span>\n"
 	mood_change = -4
@@ -94,3 +90,8 @@
 			qdel(src)
 			return
 	return ..()
+
+/obj/machinery/shower/blast_shower/emag_act()
+	if(obj_flags & EMAGGED)
+		return
+	obj_flags |= EMAGGED
