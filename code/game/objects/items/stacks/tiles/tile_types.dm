@@ -50,7 +50,7 @@
 				R.use(4)
 				if (!R && replace)
 					user.put_in_hands(new_item)
-			if(mineralType == "durasteel") //NSv13 added durasteel
+			if(mineralType == "durasteel") //NSV13 added durasteel
 				var/obj/item/stack/sheet/durasteel/new_item = new(user.loc)
 				user.visible_message("[user.name] shaped [src] into durasteel with the welding tool.", \
 							 "<span class='notice'>You shaped [src] into durasteel with the welding tool.</span>", \

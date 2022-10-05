@@ -13,7 +13,7 @@ GLOBAL_LIST_INIT(duranium_recipes, list ( \
 	icon_state = "sheet-duranium"
 	item_state = "sheet-duranium"
 	sheettype = "duranium"
-	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT, /datum/material/plasma = MINERAL_MATERIAL_AMOUNT/2, /datum/material/silver = MINERAL_MATERIAL_AMOUNT/2)
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT*7/40, /datum/material/plasma = MINERAL_MATERIAL_AMOUNT/20, /datum/material/silver = MINERAL_MATERIAL_AMOUNT*3/20, datum/material/titanium = MINERAL_MATERIAL_AMOUNT*5/8)
 	throwforce = 10
 	flags_1 = CONDUCT_1
 	resistance_flags = FIRE_PROOF
@@ -54,7 +54,7 @@ GLOBAL_LIST_INIT(durasteel_recipes, list ( \
 	icon_state = "sheet-durasteel"
 	item_state = "sheet-durasteel"
 	sheettype = "durasteel"
-	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT, /datum/material/silver = MINERAL_MATERIAL_AMOUNT)
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT/5, /datum/material/silver = MINERAL_MATERIAL_AMOUNT*3/20, /datum/material/titanium = MINERAL_MATERIAL_AMOUNT*12/20)
 	throwforce = 10
 	flags_1 = CONDUCT_1
 	resistance_flags = FIRE_PROOF

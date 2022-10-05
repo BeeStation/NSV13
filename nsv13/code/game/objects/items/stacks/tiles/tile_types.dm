@@ -24,7 +24,7 @@
 	icon = 'nsv13/icons/obj/custom_tiles.dmi'
 	icon_state = "durasteel_tile"
 	force = 6
-	materials = list(/datum/material/iron=500, /datum/material/silver=500)
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT/20, /datum/material/silver = MINERAL_MATERIAL_AMOUNT*3/80, /datum/material/titanium = MINERAL_MATERIAL_AMOUNT*13/80)
 	throwforce = 10
 	flags_1 = CONDUCT_1
 	turf_type = /turf/open/floor/durasteel
