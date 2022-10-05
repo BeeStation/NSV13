@@ -1,6 +1,6 @@
 //Metals
 
-GLOBAL_LIST_INIT(duranium_recipes, list (\
+GLOBAL_LIST_INIT(duranium_recipes, list ( \
 	new/datum/stack_recipe("railgun rail", /obj/item/ship_weapon/parts/railgun_rail, 1, time = 20, one_per_turf = FALSE, on_floor = TRUE), \
 	new/datum/stack_recipe("mac barrel", /obj/item/ship_weapon/parts/mac_barrel, 1, time = 20, one_per_turf = FALSE, on_floor = TRUE), \
 	))
@@ -13,7 +13,7 @@ GLOBAL_LIST_INIT(duranium_recipes, list (\
 	icon_state = "sheet-duranium"
 	item_state = "sheet-duranium"
 	sheettype = "duranium"
-	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT, /datum/material/plasma = MINERAL_MATERIAL_AMOUNT/2, /datum/material/silver = MINERAL_MATERIAL_AMOUNT/2)
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT*7/40, /datum/material/plasma = MINERAL_MATERIAL_AMOUNT/20, /datum/material/silver = MINERAL_MATERIAL_AMOUNT*3/20, /datum/material/titanium = MINERAL_MATERIAL_AMOUNT*5/8)
 	throwforce = 10
 	flags_1 = CONDUCT_1
 	resistance_flags = FIRE_PROOF
@@ -32,14 +32,18 @@ GLOBAL_LIST_INIT(duranium_recipes, list (\
 
 GLOBAL_LIST_INIT(durasteel_recipes, list ( \
 	new/datum/stack_recipe("nanoweave plating", /obj/item/stack/tile/carpet/ship, 1, 4, 20), \
-	new/datum/stack_recipe("durasteel hull plating", /obj/item/stack/tile/plasteel/ship, 1, 4, 20), \
-	new/datum/stack_recipe("riveted hull plating", /obj/item/stack/tile/plasteel/ship/riveted, 1, 4, 20), \
-	new/datum/stack_recipe("padded steel hull plating", /obj/item/stack/tile/plasteel/padded, 1, 4, 20), \
-	new/datum/stack_recipe("embossed hull plating", /obj/item/stack/tile/plasteel/ship/techfloor, 1, 4, 20), \
-	new/datum/stack_recipe("embossed hull plating - alt", /obj/item/stack/tile/plasteel/ship/techfloor/alt, 1, 4, 20), \
-	new/datum/stack_recipe("steel monotile", /obj/item/stack/tile/mono/steel, 1, 4, 20), \
-	new/datum/stack_recipe("dark monotile", /obj/item/stack/tile/mono/dark, 1, 4, 20), \
-	new/datum/stack_recipe("light monotile", /obj/item/stack/tile/mono/light, 1, 4, 20), \
+	new/datum/stack_recipe("durasteel hull plating", /obj/item/stack/tile/durasteel, 1, 4, 20), \
+	new/datum/stack_recipe("durasteel hull plating - alt", /obj/item/stack/tile/durasteel/alt, 1, 4, 20), \
+	new/datum/stack_recipe("riveted hull plating", /obj/item/stack/tile/durasteel/riveted, 1, 4, 20), \
+	new/datum/stack_recipe("padded steel hull plating", /obj/item/stack/tile/durasteel/padded, 1, 4, 20), \
+	new/datum/stack_recipe("embossed hull plating", /obj/item/stack/tile/durasteel/eris_techfloor, 1, 4, 20), \
+	new/datum/stack_recipe("embossed hull plating - alt", /obj/item/stack/tile/durasteel/eris_techfloor_alt, 1, 4, 20), \
+	new/datum/stack_recipe("techfloor", /obj/item/stack/tile/durasteel/techfloor, 1, 4, 20), \
+	new/datum/stack_recipe("tech plating", /obj/item/stack/tile/durasteel/techfloor_grid, 1, 4, 20), \
+	new/datum/stack_recipe("steel monotile", /obj/item/stack/tile/durasteel/mono_steel, 1, 4, 20), \
+	new/datum/stack_recipe("dark monotile", /obj/item/stack/tile/durasteel/mono_dark, 1, 4, 20), \
+	new/datum/stack_recipe("light monotile", /obj/item/stack/tile/durasteel/mono_light, 1, 4, 20), \
+	new/datum/stack_recipe("monofloor", /obj/item/stack/tile/durasteel/monofloor, 1, 4, 20) \
 	))
 
 /obj/item/stack/sheet/durasteel
@@ -50,7 +54,7 @@ GLOBAL_LIST_INIT(durasteel_recipes, list ( \
 	icon_state = "sheet-durasteel"
 	item_state = "sheet-durasteel"
 	sheettype = "durasteel"
-	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT, /datum/material/silver = MINERAL_MATERIAL_AMOUNT)
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT/5, /datum/material/silver = MINERAL_MATERIAL_AMOUNT*3/20, /datum/material/titanium = MINERAL_MATERIAL_AMOUNT*12/20)
 	throwforce = 10
 	flags_1 = CONDUCT_1
 	resistance_flags = FIRE_PROOF
