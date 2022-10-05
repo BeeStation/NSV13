@@ -1,7 +1,7 @@
 /obj/machinery/shower/blast_shower
 	name = "blast shower"
 	desc = "The RS-455. High pressure shower system guaranteed to remove radiation at unprecedented rates."
-	icon = 'nsv13icons/obj/blast_shower.dmi'
+	icon = 'nsv13/icons/obj/blast_shower.dmi'
 	icon_state = "blast_shower"
 	density = FALSE
 	use_power = NO_POWER_USE
@@ -54,7 +54,7 @@
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
 			if(check_clothes(L))
-				to_chat(H, "<span class='warning'>Your clothes will get damaged if you wear them in this shower!</span>")
+				to_chat(H, "<span class='warning'>Your clothes will get damaged if you wear them in this shower.</span>")
 			else
 				H.set_hygiene(HYGIENE_LEVEL_CLEAN)
 			if(H.wear_suit && wash_obj(H.wear_suit))
