@@ -191,6 +191,8 @@
 
 /obj/item/cryofuel_nozzle/afterattack(atom/target, mob/user, proximity)
 	. = ..()
+	if(!proximity)
+		return
 	if(istype(target, /obj/structure/overmap/small_craft))
 		var/obj/structure/overmap/small_craft/f16 = target
 		var/obj/item/fighter_component/fuel_tank/sft = f16.loadout.get_slot(HARDPOINT_SLOT_FUEL)
