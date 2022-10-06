@@ -87,6 +87,7 @@
 /mob/living/simple_animal/bot/mulebot/bot_reset()
 	..()
 	reached_target = 0
+	new_destination = null //NSV13
 
 /mob/living/simple_animal/bot/mulebot/attackby(obj/item/I, mob/user, params)
 	if(I.tool_behaviour == TOOL_SCREWDRIVER)
