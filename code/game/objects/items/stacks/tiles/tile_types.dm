@@ -50,7 +50,17 @@
 				R.use(4)
 				if (!R && replace)
 					user.put_in_hands(new_item)
-
+			if(mineralType == "durasteel") //NSV13 added durasteel
+				var/obj/item/stack/sheet/durasteel/new_item = new(user.loc)
+				user.visible_message("[user.name] shaped [src] into durasteel with the welding tool.", \
+							 "<span class='notice'>You shaped [src] into durasteel with the welding tool.</span>", \
+							 "<span class='italics'>You hear welding.</span>")
+				var/obj/item/stack/rods/R = src
+				src = null
+				var/replace = (user.get_inactive_held_item()==R)
+				R.use(4)
+				if (!R && replace)
+					user.put_in_hands(new_item)
 			else
 				var/sheet_type = text2path("/obj/item/stack/sheet/mineral/[mineralType]")
 				var/obj/item/stack/sheet/mineral/new_item = new sheet_type(user.loc)
@@ -146,7 +156,7 @@
 	desc = "A patch of odd, glowing pink grass."
 	turf_type = /turf/open/floor/grass/fairy/pink
 	color = "#FFB3DA"
-	
+
 /obj/item/stack/tile/fairygrass/dark
 	name = "dark fairygrass tile"
 	singular_name = "dark fairygrass floor tile"
@@ -468,30 +478,6 @@
 	materials = list() // All other Borg versions of items have no Iron or Glass - RR
 	is_cyborg = 1
 	cost = 125
-//Monotiles
-/obj/item/stack/tile/mono/steel //NSV13 Start
-	name = "steel mono tile"
-	singular_name = "steel mono tile"
-	desc = "A solid, heavy set of flooring plates."
-	icon_state = "tile"
-	materials = list(/datum/material/iron=500)
-	turf_type = /turf/open/floor/monotile
-
-/obj/item/stack/tile/mono/dark
-	name = "dark mono tile"
-	singular_name = "dark mono tile"
-	desc = "A solid, heavy set of flooring plates."
-	icon_state = "tile"
-	materials = list(/datum/material/iron=500)
-	turf_type = /turf/open/floor/monotile/dark
-
-/obj/item/stack/tile/mono/light
-	name = "light mono tile"
-	singular_name = "light mono tile"
-	desc = "A solid, heavy set of flooring plates."
-	icon_state = "tile"
-	materials = list(/datum/material/iron=500)
-	turf_type = /turf/open/floor/monotile/light
 
 //Bay grids
 /obj/item/stack/tile/grid
