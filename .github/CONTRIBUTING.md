@@ -234,6 +234,9 @@ This prevents nesting levels from getting deeper then they need to be.
 * Primary keys are inherently immutable and you must never do anything to change the primary key of a row or entity. This includes preserving auto increment numbers of rows when copying data to a table in a conversion script. No amount of bitching about gaps in ids or out of order ids will save you from this policy.
 
 ### Mapping Standards
+
+* **Talk to the Maintainers before making a map.**
+	* Formal mapping standards aren't finalised yet. In the interest of gameplay and a cohesive style, maintainers have to deny maps that differ too much from what is planned for NSV. Talk to the maintainers to avoid nastiy surprises and wasted time.
 * TGM Format & Map Merge
 	* All new maps submitted to the repo through a pull request must be in TGM format (unless there is a valid reason present to have it in the default BYOND format.) This is done using the [Map Merge](https://github.com/tgstation/tgstation/wiki/Map-Merger) utility included in the repo to convert the file to TGM format.
 	* Likewise, you MUST run Map Merge prior to opening your PR when updating existing maps to minimize the change differences (even when using third party mapping programs such as FastDMM.)
@@ -325,7 +328,7 @@ for(var/obj/item/sword/S in bag_of_swords)
 	if(!best_sword || S.damage > best_sword.damage)
 		best_sword = S
 ```
-specifies a type for DM to filter by. 
+specifies a type for DM to filter by.
 
 With the previous example that's perfectly fine, we only want swords, but here the bag only contains swords? Is DM still going to try to filter because we gave it a type to filter by? YES, and here comes the inefficiency. Wherever a list (or other container, such as an atom (in which case you're technically accessing their special contents list, but that's irrelevant)) contains datums of the same datatype or subtypes of the datatype you require for your loop's body,
 you can circumvent DM's filtering and automatic ```istype()``` checks by writing the loop as such:
@@ -362,7 +365,7 @@ mob
 ```
 This does NOT mean that you can access it everywhere like a global var. Instead, it means that that var will only exist once for all instances of its type, in this case that var will only exist once for all mobs - it's shared across everything in its type. (Much more like the keyword `static` in other languages like PHP/C++/C#/Java)
 
-Isn't that confusing? 
+Isn't that confusing?
 
 There is also an undocumented keyword called `static` that has the same behaviour as global but more correctly describes BYOND's behaviour. Therefore, we always use static instead of global where we need it, as it reduces suprise when reading BYOND code.
 
