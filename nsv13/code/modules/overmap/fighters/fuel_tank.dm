@@ -89,7 +89,7 @@
 	add_overlay("cryofuel_nozzle")
 	nozzle = new(src)
 	nozzle.parent = src
-	soundloop = new(list(src), FALSE)
+	soundloop = new(src)
 	reagents.flags |= REFILLABLE
 
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/attack_hand(mob/user)
