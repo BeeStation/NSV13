@@ -406,9 +406,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/countermeasure_dispenser)
 
-
 /obj/structure/overmap/small_craft/escapepod/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
-	if(!SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
+	if(!force && !SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
 		return FALSE
 	return ..()
 
@@ -638,7 +637,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		canopy_open = TRUE
 		playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
 	for(var/mob/M in mobs_in_ship)
-		stop_piloting(M, force)
+		stop_piloting(M, TRUE, force)
 		M.forceMove(get_turf(src))
 		to_chat(M, "<span class='warning'>You have been remotely ejected from [src]!.</span>")
 		. += M
@@ -1124,7 +1123,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	return FALSE
 
 /obj/structure/overmap/small_craft/can_move()
-	return (engines_active())
+	return engines_active()
 
 /obj/structure/overmap/small_craft/escapepod/can_move()
 	return TRUE
@@ -1736,4 +1735,4 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/structure/overmap/small_craft/proc/toggle_canopy()
 	canopy_open = !canopy_open
 	playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
- 
+
