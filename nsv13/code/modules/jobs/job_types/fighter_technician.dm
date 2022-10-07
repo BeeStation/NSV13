@@ -23,7 +23,7 @@
 	departments = DEPARTMENT_MUNITIONS
 
 /datum/outfit/job/deck_tech
-	name = JOB_NAME_MUNITIONSTECHNICIAN
+	name = JOB_NAME_DECKTECHNICIAN
 	jobtype = /datum/job/deck_tech
 
 	belt = /obj/item/storage/belt/utility/full/engi

@@ -34,6 +34,7 @@ Assistant
 	name = JOB_NAME_ASSISTANT
 	jobtype = /datum/job/assistant
 	belt = /obj/item/pda/assistant
+	id = /obj/item/card/id/job/assistant
 
 /datum/outfit/job/assistant/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -53,7 +54,3 @@ Assistant
 			uniform = /obj/item/clothing/under/color/jumpskirt/random
 		*/
 		uniform = /obj/item/clothing/under/color/random
-
-/datum/outfit/job/assistant
-	name = "Assistant"
-	id = /obj/item/card/id/job/assistant

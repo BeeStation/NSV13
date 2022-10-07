@@ -38,7 +38,7 @@
 	return L
 
 /datum/outfit/job/master_at_arms
-	name = MASTER_AT_ARMS
+	name = JOB_NAME_MASTERATARMS
 	jobtype = /datum/job/master_at_arms
 
 	belt = /obj/item/storage/belt/utility/full/engi

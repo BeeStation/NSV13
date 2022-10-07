@@ -27,7 +27,7 @@
 	)
 
 /datum/outfit/job/munitions_tech
-	name = JOB_NAME_MASTERATARMS
+	name = JOB_NAME_MUNITIONSTECHNICIAN
 	jobtype = /datum/job/munitions_tech
 
 	belt = /obj/item/storage/belt/utility/full/engi

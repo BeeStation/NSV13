@@ -48,6 +48,7 @@ Marine & all their unique stuff!
 	uniform = /obj/item/clothing/under/ship/marine
 	shoes = /obj/item/clothing/shoes/jackboots
 	head = /obj/item/clothing/head/beret/durathread
+	id = /obj/item/card/id/job/assistant
 
 //Sprite courtesy of TGMC!
 /obj/item/clothing/under/ship/marine
