@@ -64,7 +64,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		key_bindings += list("W" = list("move_north"), "A" = list("move_west"), "S" = list("move_south"), "D" = list("move_east"))
 		WRITE_FILE(S["key_bindings"], key_bindings)
 		key_bindings = S["key_bindings"]
-		key_bindings += list("Space" = list("hold_throw_mode"))
+		key_bindings += list("Space" = list("hold_throw_mode", "cycle_firemode"))
 		WRITE_FILE(S["key_bindings"], key_bindings)
 		// This isn't critical to functioning, but leaving these values around throws errors in the log
 		key_bindings = S["key_bindings"]
