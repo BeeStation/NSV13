@@ -36,7 +36,7 @@
 	new /obj/item/door_remote/captain(src)
 	new /obj/item/storage/belt/sabre(src)
 	new /obj/item/gun/ballistic/automatic/pistol/glock/command(src) //NSV13 - service weapon
-	//new /obj/item/gun/energy/e_gun/mini/heads(src)
+	//new /obj/item/gun/energy/e_gun/mini/heads(src) NSV13 No energy weapons
 
 /obj/item/storage/box/suitbox/cap/PopulateContents()
 	name = "compression box of captain outfits"

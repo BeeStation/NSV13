@@ -33,7 +33,7 @@
 	new /obj/item/assembly/flash/handheld(src)
 	new /obj/item/storage/box/suitbox/ce_tools(src)
 	new /obj/item/clothing/glasses/meson/engine(src)
-	new /obj/item/gun/energy/e_gun/mini/heads(src)
+	//new /obj/item/gun/energy/e_gun/mini/heads(src) NSV13, no energy weapons
 
 /obj/item/storage/box/suitbox/ce_tools
 	name = "compression box of chief engineer tools"

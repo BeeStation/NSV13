@@ -46,14 +46,14 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 
 		if(SEC_LEVEL_RED)
 			if(GLOB.security_level < SEC_LEVEL_RED)
-				gq_announce(CONFIG_GET(string/alert_red_upto), "Attention! Code red!",1)
+				gq_announce(CONFIG_GET(string/alert_red_upto), sound='nsv13/sound/effects/ship/general_quarters.ogg')
 				if(SSshuttle.emergency.mode == SHUTTLE_CALL || SSshuttle.emergency.mode == SHUTTLE_RECALL)
 					if(GLOB.security_level == SEC_LEVEL_GREEN)
 						SSshuttle.emergency.modTimer(0.25)
 					else
 						SSshuttle.emergency.modTimer(0.5)
 			else
-				minor_announce(CONFIG_GET(string/alert_red_downto), "Attention! Code red!")
+				minor_announce(CONFIG_GET(string/alert_red_downto), sound='nsv13/sound/effects/ship/general_quarters.ogg')
 			toggle_gq_lights(TRUE)
 			addtimer(CALLBACK(GLOBAL_PROC, .proc/toggle_gq_lights, FALSE), 45 SECONDS)
 			for(var/obj/machinery/firealarm/FA in GLOB.machines)
@@ -61,7 +61,7 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 					FA.update_icon()
 			for(var/obj/machinery/computer/shuttle_flight/pod/pod in GLOB.machines)
 				pod.admin_controlled = 0
-				
+
 		if(SEC_LEVEL_ZEBRA)
 			if(GLOB.security_level < SEC_LEVEL_ZEBRA)
 				gq_announce(CONFIG_GET(string/alert_zebra_upto), sound='nsv13/sound/effects/ship/condition_zebra.ogg')//Nsv13 - Condition Z
