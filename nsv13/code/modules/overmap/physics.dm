@@ -426,7 +426,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		var/src_vel_mag = src.velocity.ln()
 		var/other_vel_mag = other.velocity.ln()
 		//I mean, the angle between the two objects is very likely to be the angle of incidence innit
-		var/col_angle = ATAN2(src.position.x - other.position.x, src.position.y - other.position.y)
+		var/col_angle = ATAN2((other.position.x + other.pixel_collision_size_x / 2) - (src.position.x + src.pixel_collision_size_x / 2), (other.position.y + other.pixel_collision_size_y / 2) - (src.position.y + pixel_collision_size_y / 2))
+
+		//Debounce
+		if(((cos(src.velocity.angle() - col_angle) * src_vel_mag) - (cos(other.velocity.angle() - col_angle) * other_vel_mag)) < 0)
+			return
 
 		// Elastic collision equations
 		var/new_src_vel_x = ((																			\
