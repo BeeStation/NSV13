@@ -86,7 +86,7 @@ export const CloningConsole = (props, context) => {
                             <Button
                               content="Clone"
                               icon="power-off"
-                              disabled={(!record["body_only"])}
+                              disabled={(record["body_only"] && !experimental)}
                               onClick={() => act('clone', {
                                 target: record["id"],
                               })}
