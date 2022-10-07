@@ -4,6 +4,7 @@ import { Box, Button, Collapsible, NoticeBox, ProgressBar, Section } from '../co
 import { Window } from '../layouts';
 import { Fragment } from 'inferno';
 
+// NSV13 - removed last_death and experimental checks to enable prescans
 export const CloningConsole = (props, context) => {
   const { act, data } = useBackend(context);
   const {
@@ -85,7 +86,7 @@ export const CloningConsole = (props, context) => {
                             <Button
                               content="Clone"
                               icon="power-off"
-                              disabled={(!record["body_only"] && record["last_death"]<0 && !experimental)}
+                              disabled={(!record["body_only"])}
                               onClick={() => act('clone', {
                                 target: record["id"],
                               })}
