@@ -1130,7 +1130,7 @@ update_label("John Doe", "Clowny")
 
 /obj/item/card/id/job/munitions_technician
 	name = "Job card (Mun) - Munitions Technician"
-	icon_state = "munitionstechnician"
+	icon_state = "munitech"
 	assignment = JOB_NAME_MUNITIONSTECHNICIAN
 	hud_state = JOB_HUD_MUNITIONSTECHNICIAN
 
@@ -1142,7 +1142,7 @@ update_label("John Doe", "Clowny")
 
 /obj/item/card/id/job/air_traffic_controller
 	name = "Job card (Mun) - Air Traffic Controller"
-	icon_state = "airtrafficcontroller"
+	icon_state = "atc"
 	assignment = JOB_NAME_AIRTRAFFICCONTROLLER
 	hud_state = JOB_HUD_AIRTRAFFICCONTROLLER
 
@@ -1154,7 +1154,7 @@ update_label("John Doe", "Clowny")
 
 /obj/item/card/id/job/bridge_staff
 	name = "Job card (Mun) - Bridge Staff"
-	icon_state = "bridgestaff"
+	icon_state = "silver"
 	assignment = JOB_NAME_BRIDGESTAFF
 	hud_state = JOB_HUD_BRIDGESTAFF
 
