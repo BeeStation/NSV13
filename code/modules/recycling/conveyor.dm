@@ -20,7 +20,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	//Direction -> if we have a conveyor belt in that direction
 	var/list/neighbors
 	var/stack_type = /obj/item/stack/conveyor //NSV13 - stack_type
-	var/conveyor_speed = 0.2 SECONDS //NSV13 - slow conveyors
+	var/conveyor_speed = 0.2 SECONDS //NSV13 - variable to support slow conveyors
 
 /obj/machinery/conveyor/centcom_auto
 	id = "round_end_belt"
@@ -207,7 +207,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	var/datum/move_loop/move/moving_loop = SSmove_manager.processing_on(moving, SSconveyors)
 	if(moving_loop)
 		moving_loop.direction = movedir
-		moving_loop.delay = 0.2 SECONDS
+		moving_loop.delay = conveyor_speed //NSV13 - slow conveyors
 		return
 
 	var/static/list/unconveyables = typecacheof(list(/obj/effect, /mob/dead))
