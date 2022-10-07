@@ -46,14 +46,14 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 
 		if(SEC_LEVEL_RED)
 			if(GLOB.security_level < SEC_LEVEL_RED)
-				gq_announce(CONFIG_GET(string/alert_red_upto), sound='nsv13/sound/effects/ship/general_quarters.ogg')
+				gq_announce(CONFIG_GET(string/alert_red_upto), sound='nsv13/sound/effects/ship/action_stations.ogg')
 				if(SSshuttle.emergency.mode == SHUTTLE_CALL || SSshuttle.emergency.mode == SHUTTLE_RECALL)
 					if(GLOB.security_level == SEC_LEVEL_GREEN)
 						SSshuttle.emergency.modTimer(0.25)
 					else
 						SSshuttle.emergency.modTimer(0.5)
 			else
-				minor_announce(CONFIG_GET(string/alert_red_downto), sound='nsv13/sound/effects/ship/general_quarters.ogg')
+				minor_announce(CONFIG_GET(string/alert_red_downto), "Attention! General Quarters!")
 			toggle_gq_lights(TRUE)
 			addtimer(CALLBACK(GLOBAL_PROC, .proc/toggle_gq_lights, FALSE), 45 SECONDS)
 			for(var/obj/machinery/firealarm/FA in GLOB.machines)
