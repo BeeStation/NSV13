@@ -437,6 +437,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Quirks
 	READ_FILE(S["all_quirks"], all_quirks)
 
+	//Flavor Text NSV13
+	S["feature_flavour_text"]		>> features["flavour_text"]
+
 	//try to fix any outdated data if necessary
 	if(needs_update >= 0)
 		update_character(needs_update, S)		//needs_update == savefile_version if we need an update (positive integer)
@@ -499,6 +502,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	features["ipc_antenna"]	 = sanitize_inlist(features["ipc_antenna"], GLOB.ipc_antennas_list)
 	features["ipc_chassis"]	 = sanitize_inlist(features["ipc_chassis"], GLOB.ipc_chassis_list)
 	features["insect_type"]	 = sanitize_inlist(features["insect_type"], GLOB.insect_type_list)
+	features["flavour_text"]		= sanitize_text(features["flavour_text"], initial(features["flavour_text"])) //NSV13
 
 	//Validate species forced mutant parts
 	for(var/forced_part in pref_species.forced_features)
@@ -565,6 +569,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["feature_ipc_antenna"]			, features["ipc_antenna"])
 	WRITE_FILE(S["feature_ipc_chassis"]			, features["ipc_chassis"])
 	WRITE_FILE(S["feature_insect_type"]			, features["insect_type"])
+
+	//Flavor text NSV13
+	WRITE_FILE(S["feature_flavour_text"], features["flavour_text"])
 
 	//Custom names
 	for(var/custom_name_id in GLOB.preferences_custom_names)

@@ -86,7 +86,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/skin_tone = "caucasian1"		//Skin color
 	var/eye_color = "000"				//Eye color
 	var/datum/species/pref_species = new /datum/species/human()	//Mutant race
-	var/list/features = list("mcolor" = "FFF", "ethcolor" = "9c3030", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "ears" = "None", "wings" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None", "legs" = "Normal Legs", "moth_wings" = "Plain", "ipc_screen" = "Blue", "ipc_antenna" = "None", "ipc_chassis" = "Morpheus Cyberkinetics(Greyscale)", "insect_type" = "Common Fly")
+	var/list/features = list("mcolor" = "FFF", "ethcolor" = "9c3030", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "ears" = "None", "wings" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None", "legs" = "Normal Legs", "moth_wings" = "Plain", "ipc_screen" = "Blue", "ipc_antenna" = "None", "ipc_chassis" = "Morpheus Cyberkinetics(Greyscale)", "insect_type" = "Common Fly", "flavour_text" = "") //NSV13 - ADD FLAVOR TEXT
 
 	var/list/custom_names = list()
 	var/preferred_ai_core_display = "Blue"
@@ -232,7 +232,18 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender'>[gender == MALE ? "Male" : "Female"]</a><BR>"
 			dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[age]</a><BR>"
 
-			dat += "<b>Special Names:</b><BR>"
+			//NSV13 FLAVOR TEXT RELATED START
+			dat += "<a href='?_src_=prefs;preference=flavour_text;task=input'><b>Set Flavor Text</b></a>"
+			if(length(features["flavour_text"]) <= 40)
+				if(!length(features["flavour_text"]))
+					dat += "\[...\]"
+				else
+					dat += "[features["flavour_text"]]"
+			else
+				dat += "[copytext_char(features["flavour_text"], 1, 37)]...<br>"
+
+			dat += "<br><b>Special Names:</b><BR>"
+			//NSV13 FLAVOR TEXT RELATED END
 			var/old_group
 			for(var/custom_name_id in GLOB.preferences_custom_names)
 				var/namedata = GLOB.preferences_custom_names[custom_name_id]
@@ -1391,6 +1402,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(new_age)
 						age = max(min( round(text2num(new_age)), AGE_MAX),AGE_MIN)
 
+				//NSV13 START
+				if("flavour_text")
+					var/msg = sanitize(stripped_multiline_input(usr, "Set the flavor text in your 'examine' verb. This can also be used for OOC notes and preferences!", "Flavor Text", features["flavour_text"], 4096, TRUE))
+					if(msg)
+						features["flavour_text"] = html_decode(msg)
+				//NSV13 END
+
 				if("hair")
 					var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference","#"+hair_color) as color|null
 					if(new_hair)
@@ -2022,6 +2040,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	character.backbag = backbag
 	character.jumpsuit_style = jumpsuit_style
+
+	//NSV13 START
+	character.flavour_text = features["flavour_text"] //Let's update their flavor_text at least initially
+	//NSV13 STOP
 
 	var/datum/species/chosen_species
 	chosen_species = pref_species.type

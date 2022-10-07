@@ -749,6 +749,12 @@
 		unset_machine()
 		src << browse(null, t1)
 
+	//NSV13 START
+	if(href_list["flavor_more"])
+		usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", name, replacetext(flavour_text, "\n", "<BR>")), text("window=[];size=500x200", name))
+		onclose(usr, "[name]")
+	//NSV13 STOP
+
 	if(href_list["refresh"])
 		if(machine && in_range(src, usr))
 			show_inv(machine)
