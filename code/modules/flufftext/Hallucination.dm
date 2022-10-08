@@ -533,7 +533,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 				A = image('icons/effects/effects.dmi',H,"nothing")
 				A.name = "..."
 			if("monkey")//Monkey
-				A = image('icons/mob/monkey.dmi',H,"monkey1")
+				A = image('nsv13/icons/mob/legacy_monkey.dmi',H,"monkey1") //NSV13 - old sprites
 				A.name = "Monkey ([rand(1,999)])"
 			if("carp")//Carp
 				A = image('icons/mob/carp.dmi',H,"carp")
@@ -577,7 +577,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	feedback_details += "Type: [kind]"
 	switch(kind)
 		if("monkey")//Monkey
-			A = image('icons/mob/monkey.dmi',target,"monkey1")
+			A = image('nsv13/icons/mob/legacy_monkey.dmi',target,"monkey1") //NSV13 - old sprites
 		if("carp")//Carp
 			A = image('icons/mob/animal.dmi',target,"carp")
 		if("corgi")//Corgi

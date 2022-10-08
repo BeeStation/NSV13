@@ -72,9 +72,9 @@
 	var/icon/sub = icon('icons/mob/clothing/back.dmi', icon_state)
 
 	//merge the sub side with the main, after masking off the middle pixel line
-	var/icon/mask = new('icons/mob/monkey.dmi', "monkey_mask_right") //masking
+	var/icon/mask = new('nsv13/icons/mob/legacy_monkey.dmi', "monkey_mask_right") //masking //NSV13 - old sprites
 	main.AddAlphaMask(mask)
-	mask = new('icons/mob/monkey.dmi', "monkey_mask_left")
+	mask = new('nsv13/icons/mob/legacy_monkey.dmi', "monkey_mask_left") //NSV13 - old sprites
 	sub.AddAlphaMask(mask)
 	sub.Shift(EAST, 1)
 	main.Blend(sub, ICON_OVERLAY)
