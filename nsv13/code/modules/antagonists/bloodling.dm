@@ -612,7 +612,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 /datum/action/bloodling/absorb/Grant(mob/M)
 	. = ..()
 	soundloop?.stop(M)
-	soundloop = new(list(M), FALSE)
+	soundloop = new(M, FALSE)
 	soundloop.stop(M)
 
 /datum/action/bloodling/absorb/Remove(mob/M)
@@ -683,7 +683,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 
 /datum/action/bloodling/infest/Grant(mob/M)
 	. = ..()
-	soundloop = new(list(M), FALSE)
+	soundloop = new(M, FALSE)
 	soundloop.stop(M)
 
 /datum/action/bloodling/infest/Remove(mob/M)
