@@ -9,7 +9,7 @@
 #define WEIGHT_HIGHEST 0
 #define WEIGHT_CLIENT 10
 #define WEIGHT_ADMIN 20
-#define WEIGHT_OVERMAP 29 //NSV13 - overmap controls override some of the other controls, don't ask me why highest and lowest are named like this
+#define WEIGHT_OVERMAP 35 //NSV13 - overmap controls override some of the other controls, don't ask me why highest and lowest are named like this
 #define WEIGHT_MOB 30
 #define WEIGHT_LIVING 40
 #define WEIGHT_DEAD 50
