@@ -36,6 +36,10 @@
 	if(!owner)
 		Stop()
 
+/obj/item/organ/heart/cybernetic/stop_if_unowned()
+	if(!owner)
+		return
+
 /obj/item/organ/heart/attack_self(mob/user)
 	..()
 	if(!beating)
