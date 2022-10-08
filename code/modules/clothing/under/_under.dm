@@ -235,16 +235,16 @@
 
 	//Break the base down into two parts and lay it on-top of the original. This helps with clothing being too small for monkeys
 	var/icon/left = new(base)
-	var/icon/mask = new('nsv13/icons/mob/legacy_monkey.dmi', "monkey_mask_left") //NSV13 - old sprites
+	var/icon/mask = new('icons/mob/monkey.dmi', "monkey_mask_left")
 	left.AddAlphaMask(mask)
 
 	var/icon/right = new(base)
-	mask = new('nsv13/icons/mob/legacy_monkey.dmi', "monkey_mask_right") //NSV13 - old sprites
+	mask = new('icons/mob/monkey.dmi', "monkey_mask_right")
 	right.AddAlphaMask(mask)
 	right.Shift(EAST, 1)
 
 	var/icon/middle = new(base) //This part is used to correct a line of pixels
-	mask = new('nsv13/icons/mob/legacy_monkey.dmi', "monkey_mask_middle") //NSV13 - old sprites
+	mask = new('icons/mob/monkey.dmi', "monkey_mask_middle")
 	middle.AddAlphaMask(mask)
 	middle.Shift(EAST, 1)
 
@@ -254,12 +254,12 @@
 
 	//Again for the back
 	left = new(back)
-	mask = new('nsv13/icons/mob/legacy_monkey.dmi', "monkey_mask_left") //NSV13 - old sprites
+	mask = new('icons/mob/monkey.dmi', "monkey_mask_left")
 	left.AddAlphaMask(mask)
 
 	right = new(back)
 	right.Shift(EAST, 1)
-	mask = new('nsv13/icons/mob/legacy_monkey.dmi', "monkey_mask_right") //NSV13 - old sprites
+	mask = new('icons/mob/monkey.dmi', "monkey_mask_right")
 	right.AddAlphaMask(mask)
 
 	left.Blend(right, ICON_OVERLAY)
@@ -269,13 +269,13 @@
 	left = new(base)
 	left.Shift(WEST, 3)
 	base.Insert(left, dir = WEST)
-
+	
 	right = new(left)
 	right.Flip(EAST)
 	base.Insert(right, dir = EAST)
 
 	//Apply masking
-	mask = new('nsv13/icons/mob/legacy_monkey.dmi', "monkey_mask_cloth")//Roughly monkey shaped clothing //NSV13 - old sprites
+	mask = new('icons/mob/monkey.dmi', "monkey_mask_cloth")//Roughly monkey shaped clothing
 	base.AddAlphaMask(mask)
 	back.AddAlphaMask(mask)
 	base.Insert(back, dir = NORTH)//Insert faces into the base

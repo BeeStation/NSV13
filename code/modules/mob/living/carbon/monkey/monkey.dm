@@ -204,7 +204,7 @@ GLOBAL_LIST_INIT(strippable_monkey_items, create_strippable_list(list(
 	name = "living teratoma"
 	verb_say = "blabbers"
 	initial_language_holder = /datum/language_holder/monkey
-	icon = 'nsv13/icons/mob/legacy_monkey.dmi'
+	icon = 'icons/mob/monkey.dmi'
 	icon_state = null
 	butcher_results = list(/obj/effect/spawner/lootdrop/teratoma/minor = 5, /obj/effect/spawner/lootdrop/teratoma/major = 1)
 	type_of_meat = /obj/effect/spawner/lootdrop/teratoma/minor
