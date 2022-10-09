@@ -19,7 +19,7 @@
 	target_ship.name = ship_name
 	// give it a home
 	var/list/candidates = list()
-	for(var/datum/star_system/random/S in SSstar_system.systems)
+	for(var/datum/star_system/S in SSstar_system.neutral_zone_systems)
 		if(!S.hidden)
 			candidates += S
 	target_system = pick(candidates)
