@@ -1404,7 +1404,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 				//NSV13 START
 				if("flavour_text")
-					var/msg = sanitize(stripped_multiline_input(usr, "Set the flavor text in your 'examine' verb. This can also be used for OOC notes and preferences!", "Flavor Text", features["flavour_text"], 4096, TRUE))
+					var/msg = sanitize(stripped_multiline_input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character", "Flavor Text", features["flavour_text"], 4096, TRUE))
 					if(msg)
 						features["flavour_text"] = html_decode(msg)
 				//NSV13 END
