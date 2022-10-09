@@ -135,7 +135,7 @@
 /obj/item/scalpel
 	name = "scalpel"
 	desc = "Cut, cut, and once more cut."
-	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
+	icon = 'icons/obj/surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "scalpel"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
