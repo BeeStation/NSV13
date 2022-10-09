@@ -189,12 +189,17 @@ SUBSYSTEM_DEF(networks)
 
 
 /datum/controller/subsystem/networks/proc/check_relay_operation(zlevel=0)	//can be expanded later but right now it's true/false.
+	var/station_has_relay = FALSE //NSV13 - added support for on-ship ntnet
 	for(var/i in relays)
 		var/obj/machinery/ntnet_relay/n = i
+		if(n.is_operational && is_station_level(n.get_virtual_z_level()))
+			station_has_relay = TRUE
 		if(zlevel && n.get_virtual_z_level() != zlevel)
 			continue
 		if(n.is_operational)
 			return TRUE
+	if(station_has_relay && is_station_level(zlevel))
+		return TRUE
 	return FALSE
 
 /datum/controller/subsystem/networks/proc/log_data_transfer( datum/netdata/data)
