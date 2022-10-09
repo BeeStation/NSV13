@@ -89,6 +89,9 @@
 	if (!has_communication())
 		return
 
+	if(state == STATE_OBJECTIVES)
+		SSovermap_mode.mode.check_completion()
+
 	switch (action)
 		if ("answerMessage")
 			if (!authenticated(usr))
@@ -272,6 +275,8 @@
 			var/newState = params["state"]
 			if (newState == STATE_BUYING_SHUTTLE && can_buy_shuttles(usr) != TRUE)
 				return
+			if (newState == STATE_OBJECTIVES)
+				SSovermap_mode.mode.check_completion()
 			set_state(usr, newState)
 			playsound(src, "terminal_type", 50, FALSE)
 			. = TRUE

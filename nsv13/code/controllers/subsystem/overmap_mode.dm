@@ -407,10 +407,12 @@ SUBSYSTEM_DEF(overmap_mode)
 	if(SSovermap_mode.admin_override)
 		message_admins("[GLOB.station_name] has completed its objectives but round end has been overriden by admin intervention")
 		return
+	if(SSvote.mode == "Press On Or Return Home?") // We're still voting
+		return
 
 	var/datum/star_system/S = SSstar_system.system_by_id("Outpost 45")
 	S.hidden = FALSE
-	if(!SSovermap_mode.round_extended && (SSvote.mode != "Press On Or Return Home?"))	//If we haven't yet extended the round, let us vote!
+	if(!SSovermap_mode.round_extended)	//If we haven't yet extended the round, let us vote!
 		priority_announce("Mission Complete - Vote Pending") //TEMP get better words
 		SSvote.initiate_vote("Press On Or Return Home?", "Centcomm", forced=TRUE, popup=FALSE)
 	else	//Begin FTL jump to Outpost 45

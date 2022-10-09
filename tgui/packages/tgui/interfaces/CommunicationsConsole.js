@@ -839,10 +839,10 @@ export const CommunicationsConsole = (props, context) => {
                       )}
 
                       <Tabs.Tab fluid
-                        icon="target"
+                        icon="dot-circle-o"
                         selected={page===STATE_OBJECTIVES}
                         onClick={() => act("setState", { state: STATE_OBJECTIVES })}>
-                        Check Objectives
+                        Objectives
                       </Tabs.Tab>
                     </Tabs>
                   </Section>
