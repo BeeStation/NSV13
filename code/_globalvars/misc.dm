@@ -32,7 +32,7 @@ GLOBAL_VAR_INIT(total_slimes, 0)
 GLOBAL_VAR_INIT(topic_cooldown, 0)
 
 //Upload code for law changes
-GLOBAL_VAR(upload_code)
+//GLOBAL_VAR(upload_code)			//NSV13 We don't need this
 
 // Topic stuff
 GLOBAL_LIST_EMPTY(topic_commands)

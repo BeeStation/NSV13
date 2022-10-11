@@ -24,12 +24,12 @@
 		deltimer(timerid)
 	return ..()
 
-/obj/machinery/computer/robotics/proc/extraction(mob/user)
-	var/obj/item/paper/P = new /obj/item/paper(loc)
-	P.name = "Silicon Upload key"
-	P.info = "Current Upload key is: [GLOB.upload_code]"
-	extracting = FALSE
-	ui_update()
+//obj/machinery/computer/robotics/proc/extraction(mob/user)		//NSV13 We don't need this
+//	var/obj/item/paper/P = new /obj/item/paper(loc)
+//	P.name = "Silicon Upload key"
+//	P.info = "Current Upload key is: [GLOB.upload_code]"
+//	extracting = FALSE
+//	ui_update()
 
 /obj/machinery/computer/robotics/proc/can_control(mob/user, mob/living/silicon/robot/R)
 	. = FALSE
@@ -169,20 +169,20 @@
 					s.start()
 					D.visible_message("<span class='danger'>\the [D] self-destructs!</span>")
 					D.gib()
-		if("extract")
-			if(!GLOB.upload_code)
-				GLOB.upload_code = random_code(4)
-
-			message_admins("[ADMIN_LOOKUPFLW(usr)] is extracting the upload key!")
-			extracting = TRUE
-			ui_update()
-			if(allowed(usr))
-				say("Credentials successfully verified, commencing extraction.")
-				src.timerid = addtimer(CALLBACK(src, .proc/extraction,usr), 300, TIMER_STOPPABLE)
-			else
-				var/message = "ALERT: UNAUTHORIZED UPLOAD KEY EXTRACTION AT [get_area_name(loc, TRUE)]"
-				radio.talk_into(src, message, radio_channel)
-				src.timerid = addtimer(CALLBACK(src, .proc/extraction,usr), 600, TIMER_STOPPABLE)
+//		if("extract")						//NSV13 We don't need this
+//			if(!GLOB.upload_code)
+//				GLOB.upload_code = random_code(4)
+//
+//			message_admins("[ADMIN_LOOKUPFLW(usr)] is extracting the upload key!")
+//			extracting = TRUE
+//			ui_update()
+//			if(allowed(usr))
+//				say("Credentials successfully verified, commencing extraction.")
+//__CENTCOM_NETWORK_ROOT				src.timerid = addtimer(CALLBACK(src, .proc/extraction,usr), 300, TIMER_STOPPABLE)
+//			else
+//				var/message = "ALERT: UNAUTHORIZED UPLOAD KEY EXTRACTION AT [get_area_name(loc, TRUE)]"
+//				radio.talk_into(src, message, radio_channel)
+//				src.timerid = addtimer(CALLBACK(src, .proc/extraction,usr), 600, TIMER_STOPPABLE)
 
 
 
