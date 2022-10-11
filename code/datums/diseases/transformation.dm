@@ -340,14 +340,14 @@
 	spread_text = "Acute"
 	disease_flags = CURABLE|CAN_CARRY|CAN_RESIST
 	cures = list(/datum/reagent/consumable/cocoa, /datum/reagent/consumable/cocoa/hot_cocoa) //kills all the tiny cats that infected your organism
-	needs_all_cures = 0 //NSV13 - only needs hot choco or chocolate, not both.
+	needs_all_cures = FALSE //NSV13 - only needs hot choco or chocolate, not both.
 	cure_chance = 25
 	stage_prob = 3
 	agent = "Nano-feline Toxoplasmosis"
 	desc = "A lot of tiny cats in the blood that slowly turn you into a big cat."
 	is_mutagenic = TRUE //So that it won't be autocured after stage 5
 	danger = DISEASE_BIOHAZARD
-	visibility_flags = FALSE
+	visibility_flags = 0
 	stage1	= list("You feel scratching fom within.", "You hear a faint miaow somewhere really close.")
 	stage2	= list("<span class='danger'>You suppress the urge to lick yourself.</span>")
 	stage3	= list("<span class='danger'>You feel the need to cough out something fluffy.</span>", "<span class='danger'>You feel the need to scratch your neck with your foot.</span>", "<span class='danger'>You think you should adopt a cat.</span>")
