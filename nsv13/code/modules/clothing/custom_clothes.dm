@@ -207,7 +207,6 @@
 	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "hardsuit0-pilot_helmet"
 	item_state = "pilot_helmet"
-	worn_icon_state = "pilot_helmet"
 	desc = "A lightweight space-helmet designed to protect fighter pilots in combat situations."
 	armor = list("melee" = 20, "bullet" = 12, "laser" = 10, "energy" = 10, "bomb" = 10, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 75)
 
