@@ -24,14 +24,12 @@
 		deltimer(timerid)
 	return ..()
 
-//obj/machinery/computer/robotics/proc/extraction(mob/user)
-//	var/obj/item/paper/P = new /obj/item/paper(loc)
-//	P.name = "Silicon Upload key"
-//	P.info = "Current Upload key is: [GLOB.upload_code]"
-//	extracting = FALSE
-//	ui_update()
-
-//NSV13 We don't need this
+/obj/machinery/computer/robotics/proc/extraction(mob/user)
+	var/obj/item/paper/P = new /obj/item/paper(loc)
+	P.name = "Silicon Upload key"
+	P.info = "Current Upload key is: [GLOB.upload_code]"
+	extracting = FALSE
+	ui_update()
 
 /obj/machinery/computer/robotics/proc/can_control(mob/user, mob/living/silicon/robot/R)
 	. = FALSE
@@ -171,9 +169,9 @@
 					s.start()
 					D.visible_message("<span class='danger'>\the [D] self-destructs!</span>")
 					D.gib()
-//		if("extract")								//NSV13 We don't need this
-//			if(!GLOB.upload_code)
-//				GLOB.upload_code = random_code(4)
+		if("extract")
+			if(!GLOB.upload_code)
+				GLOB.upload_code = random_code(4)
 
 			message_admins("[ADMIN_LOOKUPFLW(usr)] is extracting the upload key!")
 			extracting = TRUE

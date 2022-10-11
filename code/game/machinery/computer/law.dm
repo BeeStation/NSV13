@@ -23,12 +23,12 @@
 		if(!current)
 			to_chat(user, "<span class='caution'>You haven't selected anything to transmit laws to!</span>")
 			return
-//		var/input = stripped_input(user, "Please enter the Upload code.", "Uplode Code Check") //NSV13 Don't need this
-//		if(!GLOB.upload_code)
-//			GLOB.upload_code = random_code(4)
-//		if(input != GLOB.upload_code)
-//			to_chat(user, "<span class='caution'>Upload failed!</span> The code inputted was incorrect!")
-//			return
+		var/input = stripped_input(user, "Please enter the Upload code.", "Uplode Code Check")
+		if(!GLOB.upload_code)
+			GLOB.upload_code = random_code(4)
+		if(input != GLOB.upload_code)
+			to_chat(user, "<span class='caution'>Upload failed!</span> The code inputted was incorrect!")
+			return
 		if(!can_upload_to(current))
 			to_chat(user, "<span class='caution'>Upload failed!</span> Check to make sure [current.name] is functioning properly.")
 			current = null
@@ -40,10 +40,10 @@
 			current = null
 			return
 		M.install(current.laws, user)
-//		if(alert("Do you wish to scramble the upload code?", "Scramble Code", "Yes", "No") == "No")  //NSV13 Don't need this
-//			return
-//		message_admins("[ADMIN_LOOKUPFLW(usr)] has scrambled the upload code [GLOB.upload_code]!")
-//		GLOB.upload_code = random_code(4)
+		if(alert("Do you wish to scramble the upload code?", "Scramble Code", "Yes", "No") == "No")
+			return
+		message_admins("[ADMIN_LOOKUPFLW(usr)] has scrambled the upload code [GLOB.upload_code]!")
+		GLOB.upload_code = random_code(4)
 		to_chat(user, "<span class='notice'>You scramble the upload code</span>")
 	else
 		return ..()
