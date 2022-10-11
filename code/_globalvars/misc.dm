@@ -31,8 +31,8 @@ GLOBAL_VAR_INIT(total_slimes, 0)
 ///Global var for insecure comms key rate limiting
 GLOBAL_VAR_INIT(topic_cooldown, 0)
 
-//Upload code for law changes
-GLOBAL_VAR(upload_code)
+//Upload code for law changes		//NSV13 We don't need this
+//GLOBAL_VAR(upload_code)
 
 // Topic stuff
 GLOBAL_LIST_EMPTY(topic_commands)
