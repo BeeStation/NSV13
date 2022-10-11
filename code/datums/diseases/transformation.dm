@@ -347,7 +347,7 @@
 	desc = "A lot of tiny cats in the blood that slowly turn you into a big cat."
 	is_mutagenic = TRUE //So that it won't be autocured after stage 5
 	danger = DISEASE_BIOHAZARD
-	visibility_flags = 0
+	visibility_flags = FALSE
 	stage1	= list("You feel scratching fom within.", "You hear a faint miaow somewhere really close.")
 	stage2	= list("<span class='danger'>You suppress the urge to lick yourself.</span>")
 	stage3	= list("<span class='danger'>You feel the need to cough out something fluffy.</span>", "<span class='danger'>You feel the need to scratch your neck with your foot.</span>", "<span class='danger'>You think you should adopt a cat.</span>")
