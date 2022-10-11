@@ -489,7 +489,7 @@
 			else
 				to_chat(AI, "<span class='warning'>You cannot move here</span>")
 
-	if(zMove(UP, TRUE))
+	if(isturf(loc) && zMove(UP, TRUE)) // NSV13 - No moving Z while inside another object
 		to_chat(src, "<span class='notice'>You move upwards.</span>")
 
 ///Moves a mob down a z level
@@ -508,7 +508,7 @@
 			else
 				to_chat(AI, "<span class='warning'>You cannot move here</span>")
 
-	if(zMove(DOWN, TRUE))
+	if(isturf(loc) && zMove(DOWN, TRUE)) // NSV13 - No moving Z while inside another object
 		to_chat(src, "<span class='notice'>You move down.</span>")
 
 ///Move a mob between z levels, if it's valid to move z's on this turf
