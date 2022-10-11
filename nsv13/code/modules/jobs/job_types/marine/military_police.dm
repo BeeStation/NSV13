@@ -1,4 +1,4 @@
-/datum/job/officer
+/datum/job/security_officer
 	title = JOB_NAME_SECURITYOFFICER
 	flag = OFFICER
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
@@ -34,14 +34,14 @@
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/security_officer
 	)
 
-/datum/job/officer/get_access()
+/datum/job/security_officer/get_access()
 	var/list/L = list()
 	L |= ..() | check_config_for_sec_maint()
 	return L
 
 GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY, SEC_DEPT_MUNITIONS))
 
-/datum/job/officer/after_spawn(mob/living/carbon/human/H, mob/M)
+/datum/job/security_officer/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
 	// Assign department security
 	var/department
@@ -124,7 +124,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 
 /datum/outfit/job/security
 	name = JOB_NAME_SECURITYOFFICER
-	jobtype = /datum/job/officer
+	jobtype = /datum/job/security_officer
 
 	belt = /obj/item/storage/belt/security/full
 	ears = /obj/item/radio/headset/headset_sec/alt

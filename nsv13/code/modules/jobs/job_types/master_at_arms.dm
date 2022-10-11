@@ -32,7 +32,7 @@
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman
 	)
 
-/datum/job/masteratarms/get_access()
+/datum/job/master_at_arms/get_access()
 	var/list/L = list()
 	L = ..() | check_config_for_sec_maint()
 	return L

@@ -128,7 +128,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /obj/item/card/id/syndi_crew/captain
 	name = "\improper Captain's ID"
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_LEADER, ACCESS_SYNDICATE_ENGINEERING, ACCESS_SYNDICATE_REQUISITIONS, ACCESS_SYNDICATE_MARINE_ARMOURY)
-	assignment = "Captain"
+	assignment = JOB_NAME_CAPTAIN
 
 /obj/item/card/id/syndi_crew/admiral
 	name = "\improper Strategist's ID"
@@ -155,7 +155,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 /obj/item/card/id/syndi_crew/pilot
 	name = "\improper Pilot's ID"
-	assignment = "Pilot"
+	assignment = JOB_NAME_PILOT
 
 /obj/item/card/id/syndi_crew/marine_sergeant
 	name = "\improper Marine Sergeant's ID"
@@ -167,7 +167,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 /obj/item/card/id/syndi_crew/marine
 	name = "\improper Marine's ID"
-	assignment = "Midshipman"
+	assignment = JOB_NAME_ASSISTANT
 
 //Syndicate crew outfits
 
