@@ -417,7 +417,7 @@
 
 	if(animal_origin) //Cringe ass animal-specific code.
 		if(IS_ORGANIC_LIMB(src))
-			limb.icon = 'icons/mob/animal_parts.dmi'
+			//limb.icon = 'icons/mob/animal_parts.dmi' //NSV13 - actually, we don't need this
 			if(is_husked)
 				limb.icon_state = "[animal_origin]_husk_[body_zone]"
 			else
@@ -494,12 +494,13 @@
 	..()
 
 /obj/item/bodypart/chest/monkey
-	icon = 'icons/mob/animal_parts.dmi'
+	icon = 'nsv13/icons/mob/legacy_monkey.dmi' //NSV13 - old monkey sprites
 	icon_state = "default_monkey_chest"
 	limb_id = SPECIES_MONKEY
 	animal_origin = MONKEY_BODYPART
 
 /obj/item/bodypart/chest/monkey/teratoma
+	icon = 'icons/mob/animal_parts.dmi' //NSV13 - old monkey sprites
 	icon_state = "teratoma_chest"
 	limb_id = "teratoma"
 	animal_origin = TERATOMA_BODYPART
@@ -569,7 +570,7 @@
 			L.update_icon()
 
 /obj/item/bodypart/l_arm/monkey
-	icon = 'icons/mob/animal_parts.dmi'
+	icon = 'nsv13/icons/mob/legacy_monkey.dmi' //NSV13 - old monkey sprites
 	icon_state = "default_monkey_l_arm"
 	limb_id = SPECIES_MONKEY
 	animal_origin = MONKEY_BODYPART
@@ -577,6 +578,7 @@
 	px_y = -3
 
 /obj/item/bodypart/l_arm/monkey/teratoma
+	icon = 'icons/mob/animal_parts.dmi' //NSV13 - old monkey sprites
 	icon_state = "teratoma_l_arm"
 	animal_origin = TERATOMA_BODYPART
 
@@ -638,7 +640,7 @@
 			R.update_icon()
 
 /obj/item/bodypart/r_arm/monkey
-	icon = 'icons/mob/animal_parts.dmi'
+	icon = 'nsv13/icons/mob/legacy_monkey.dmi' //NSV13 - old monkey sprites
 	icon_state = "default_monkey_r_arm"
 	limb_id = SPECIES_MONKEY
 	animal_origin = MONKEY_BODYPART
@@ -646,6 +648,7 @@
 	px_y = -3
 
 /obj/item/bodypart/r_arm/monkey/teratoma
+	icon = 'icons/mob/animal_parts.dmi' //NSV13 - old monkey sprites
 	icon_state = "teratoma_r_arm"
 	limb_id = "teratoma"
 	animal_origin = TERATOMA_BODYPART
@@ -698,13 +701,14 @@
 
 
 /obj/item/bodypart/l_leg/monkey
-	icon = 'icons/mob/animal_parts.dmi'
+	icon = 'nsv13/icons/mob/legacy_monkey.dmi' //NSV13 - old monkey sprites
 	icon_state = "default_monkey_l_leg"
 	limb_id = SPECIES_MONKEY
 	animal_origin = MONKEY_BODYPART
 	px_y = 4
 
 /obj/item/bodypart/l_leg/monkey/teratoma
+	icon = 'icons/mob/animal_parts.dmi' //NSV13 - old monkey sprites
 	icon_state = "teratoma_l_leg"
 	limb_id = "teratoma"
 	animal_origin = TERATOMA_BODYPART
@@ -759,13 +763,14 @@
 
 
 /obj/item/bodypart/r_leg/monkey
-	icon = 'icons/mob/animal_parts.dmi'
+	icon = 'nsv13/icons/mob/legacy_monkey.dmi' //NSV13 - old monkey sprites
 	icon_state = "default_monkey_r_leg"
 	limb_id = SPECIES_MONKEY
 	animal_origin = MONKEY_BODYPART
 	px_y = 4
 
 /obj/item/bodypart/r_leg/monkey/teratoma
+	icon = 'icons/mob/animal_parts.dmi' //NSV13 - old monkey sprites
 	icon_state = "teratoma_r_leg"
 	limb_id = "teratoma"
 	animal_origin = TERATOMA_BODYPART

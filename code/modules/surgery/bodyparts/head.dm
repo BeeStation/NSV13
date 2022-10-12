@@ -249,12 +249,13 @@
 					eyes_overlay.color = "#" + eyes.eye_color
 
 /obj/item/bodypart/head/monkey
-	icon = 'icons/mob/animal_parts.dmi'
+	icon = 'nsv13/icons/mob/legacy_monkey.dmi' //NSV13 - old monkey sprites
 	icon_state = "default_monkey_head"
 	limb_id = SPECIES_MONKEY
 	animal_origin = MONKEY_BODYPART
 
 /obj/item/bodypart/head/monkey/teratoma
+	icon = 'icons/mob/animal_parts.dmi' //NSV13 - old monkey sprites
 	icon_state = "teratoma_head"
 	limb_id = "teratoma"
 	animal_origin = TERATOMA_BODYPART
