@@ -253,6 +253,7 @@
 	SSstar_system.ships[src]["from_time"] = world.time
 	SSstar_system.ships[src]["current_system"] = null
 	addtimer(CALLBACK(src, .proc/jump_end, target_system), speed MINUTES)
+	ftl_drive.depower()
 	jump_handle_shake()
 	force_parallax_update(TRUE)
 
@@ -592,7 +593,6 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
 	ftl_state = FTL_STATE_JUMPING
-	addtimer(CALLBACK(src, .proc/depower), ftl_startup_time)
 
 /obj/machinery/computer/ship/ftl_computer/proc/ready_ftl()
 	ftl_state = FTL_STATE_READY
