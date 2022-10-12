@@ -594,4 +594,6 @@
 
 /datum/emote/living/hiss/get_sound(mob/living/user)
 	if(islizard(user))
-		return pick('sound/voice/hiss1.ogg', 'sound/voice/hiss2.ogg', 'sound/voice/hiss3.ogg', 'sound/voice/hiss4.ogg', 'sound/voice/hiss5.ogg', 'sound/voice/hiss6.ogg')
+		return 'nsv13/sound/voice/lizard/liz_hiss.ogg'
+	if(iscatperson(user))
+		return 'nsv13/sound/voice/felinid/cat_hiss.ogg'
