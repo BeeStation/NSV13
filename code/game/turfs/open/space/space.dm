@@ -29,7 +29,7 @@
 
 	var/static/list/allowed_floors = typecacheof(list(
 			/obj/item/stack/tile/plasteel,
-			/obj/item/stack/tile/mono)) // NSV13 - allow building floor with monotiles
+			/obj/item/stack/tile/durasteel)) // NSV13 - allow building floor with durasteel tiles
 
 /turf/open/space/basic/New()	//Do not convert to Initialize
 	//This is used to optimize the map loader
