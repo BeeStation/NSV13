@@ -23,7 +23,7 @@
 	/// Determines the possibility of sending papers to the additional faxes.
 	var/access_additional_faxes = FALSE
 	/// Defines a list of accesses whose owners can open a connection with the additional faxes.
-	var/static/access_additional_faxes_required = list(ACCESS_CAPTAIN)
+	var/static/access_additional_faxes_required = list(ACCESS_HEADS, ACCESS_LAWYER, ACCESS_SECURITY)
 	/// Necessary to hide syndicate faxes from the general list. Doesn't mean he's EMAGGED!
 	var/syndicate_network = FALSE
 	/// True if the fax machine should be visible to other fax machines in general.
