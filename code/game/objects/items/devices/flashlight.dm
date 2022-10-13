@@ -172,6 +172,7 @@
 	item_state = ""
 	flags_1 = CONDUCT_1
 	light_range = 2
+	w_class = WEIGHT_CLASS_TINY //NSV13 Pls let us put our penlights in our PDAs
 	var/holo_cooldown = 0
 
 /obj/item/flashlight/pen/afterattack(atom/target, mob/user, proximity_flag)
