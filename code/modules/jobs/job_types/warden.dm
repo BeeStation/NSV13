@@ -50,7 +50,7 @@
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	r_pocket = /obj/item/assembly/flash/handheld
 	l_pocket = /obj/item/restraints/handcuffs
-	suit_store = /obj/item/gun/ballistic/automatic/pistol/glock //NSV13
+	suit_store = /obj/item/gun/ballistic/automatic/pistol/glock/security //NSV13
 	backpack_contents = list(/obj/item/melee/baton/loaded=1,
 							/obj/item/gun/ballistic/tazer, /obj/item/ammo_box/magazine/tazer_cartridge_storage, /obj/item/ammo_box/magazine/glock, /obj/item/squad_pager/all_channels, /obj/item/club=1) //NSV13
 
