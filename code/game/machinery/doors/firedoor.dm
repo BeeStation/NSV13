@@ -417,11 +417,17 @@
 /obj/machinery/door/firedoor/border_only
 	icon = 'icons/obj/doors/edge_Doorfire.dmi'
 	flags_1 = ON_BORDER_1
-	CanAtmosPass = ATMOS_PASS_DENSITY
+	CanAtmosPass = ATMOS_PASS_PROC
 	assemblytype = /obj/structure/firelock_frame/border
+	opacity = FALSE
+	var/ini_dir
 
-/obj/machinery/door/firedoor/border_only/Initialize(mapload)
+/obj/machinery/door/firedoor/border_only/Initialize(mapload, loc, set_dir)
 	. = ..()
+	if(set_dir)
+		setDir(set_dir)
+	ini_dir = dir
+	air_update_turf(1)
 
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_EXIT = .proc/on_exit,
@@ -436,12 +442,13 @@
 
 /obj/machinery/door/firedoor/border_only/closed
 	icon_state = "door_closed"
-	opacity = TRUE
+	opacity = 1
 	density = TRUE
 
 /obj/machinery/door/firedoor/border_only/close()
 	if(density)
 		return TRUE
+	set_opacity(1)
 	if(operating || welded)
 		return
 	var/turf/T1 = get_turf(src)
@@ -513,6 +520,12 @@
 	if(!hasPower())
 		return isknpc(caller)
 	return TRUE
+
+/obj/machinery/door/firedoor/border_only/CanAtmosPass(turf/T)
+	if(get_dir(loc, T) == dir)
+		return !density
+	else
+		return 1
 //NSV13 end
 
 /obj/machinery/door/firedoor/heavy
