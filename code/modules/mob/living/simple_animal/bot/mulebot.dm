@@ -132,6 +132,7 @@
 
 /mob/living/simple_animal/bot/mulebot/bot_reset()
 	..()
+	new_destination = null //NSV13
 	reached_target = FALSE
 
 /mob/living/simple_animal/bot/mulebot/attackby(obj/item/I, mob/user, params)

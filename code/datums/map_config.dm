@@ -149,15 +149,15 @@
 		log_world("map_config space_empty_levels is not a number!")
 		return
 
-	if(!("mine_disable" in json)) //Bypass mineload so we don't load any mining vessels period.
+	if("mine_disable" in json)
+		mine_disable = json["mine_disable"]
+	if(!mine_disable) //This ship needs a mining ship!
 		mine_file = json["mine_file"]
 		mine_path = json["mine_path"]
-		// "map_file": "BoxStation.dmm"
 		if (istext(mine_file))
 			if (!fexists("_maps/[mine_path]/[mine_file]"))
 				log_world("Map file ([mine_path]/[mine_file]) does not exist!")
 				return
-		// "map_file": ["Lower.dmm", "Upper.dmm"]
 		else if (islist(mine_file))
 			for (var/file in mine_file)
 				if (!fexists("_maps/[mine_path]/[file]"))
@@ -174,8 +174,6 @@
 			log_world("mining_ship_type missing from json!")
 			return
 
-	else
-		mine_disable = TRUE
 	//Nsv13 stuff. No CHECK_EXISTS because we don't want to yell at mappers if they don't override these two.
 	if("omode_blacklist" in json) //Which modes we want disabled on this map
 		omode_blacklist = json["omode_blacklist"]
