@@ -3,7 +3,7 @@
 	typepath = /datum/round_event/ghost_role/alien_infestation
 	weight = 5
 
-	min_players = 20
+	min_players = 20 //NSV13 - increased to 20
 
 	dynamic_should_hijack = TRUE
 	cannot_spawn_after_shuttlecall = TRUE
