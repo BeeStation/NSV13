@@ -587,6 +587,7 @@
 	key_third_person = "hums"
 	message = "hums"
 
+//NSV13
 /datum/emote/living/hiss
 	key = "hiss"
 	key_third_person = "hisses"
@@ -597,3 +598,4 @@
 		return 'nsv13/sound/voice/lizard/liz_hiss.ogg'
 	if(iscatperson(user))
 		return 'nsv13/sound/voice/felinid/cat_hiss.ogg'
+//NSV13
