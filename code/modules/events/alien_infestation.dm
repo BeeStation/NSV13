@@ -19,7 +19,7 @@
 			return FALSE
 
 /datum/round_event/ghost_role/alien_infestation
-	announceWhen	= 400
+	announceWhen	= 300 //NSV13 - changed from 400 to 300
 
 	minimum_required = 1
 	role_name = "alien larva"
