@@ -39,6 +39,9 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 				for(var/turf/T as () in boarding_interior.get_affected_turfs(target)) //nuke
 					T.empty()
 					CHECK_TICK
+				for(var/entry as() in interior_entry_points)
+					docking_points -= entry
+				QDEL_LIST(interior_entry_points)
 			//Free the reservation.
 			QDEL_NULL(roomReservation)
 			boarding_interior = null
@@ -152,6 +155,14 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 /obj/structure/overmap/proc/add_entrypoints(area/target_area)
 	for(var/obj/effect/landmark/dropship_entry/entryway in GLOB.landmarks_list)
 		if(!entryway.linked && get_area(entryway) == target_area)
+			// Please fix asteroids
+			if(roomReservation && \
+				((entryway.z != roomReservation.bottom_left_coords[3]) || \
+				(entryway.x < roomReservation.bottom_left_coords[1]) || \
+				(entryway.y < roomReservation.bottom_left_coords[2]) || \
+				(entryway.x > roomReservation.top_right_coords[1]) || \
+				(entryway.y > roomReservation.top_right_coords[2])))
+				continue
 			interior_entry_points += entryway
 			entryway.linked = src
 	if(!length(interior_entry_points))
