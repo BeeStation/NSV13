@@ -22,6 +22,7 @@
 	new /obj/item/storage/box/radiokey/pilot(src)
 	new /obj/item/encryptionkey/atc(src)
 	new /obj/item/circuitboard/machine/techfab/department/munitions(src)
+	new /obj/item/stamp/maa(src)
 
 /obj/structure/closet/secure_closet/munitions_technician
 	name = "munitions technician's locker"
