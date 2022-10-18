@@ -17,22 +17,26 @@
 					/obj/item/storage/backpack/security = 3,
 					/obj/item/storage/backpack/satchel/sec = 3,
 					/obj/item/storage/backpack/duffelbag/sec = 3,
-					/obj/item/clothing/under/rank/security = 3,
+					/obj/item/clothing/under/rank/security/officer = 3,
 					/obj/item/clothing/under/plasmaman/security = 3,
+					/obj/item/clothing/suit/armor/vest/corporate = 3,
+					/obj/item/clothing/under/rank/security/officer/corporate = 3,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/security = 3,
+					/obj/item/clothing/head/beret/corpsec = 3,
 					/obj/item/clothing/shoes/jackboots = 3,
 					/obj/item/clothing/head/beret/sec = 3,
 					/obj/item/clothing/head/soft/sec = 3,
 					/obj/item/clothing/mask/bandana/red = 3,
-					/obj/item/clothing/under/rank/security/skirt = 3,
-					/obj/item/clothing/under/rank/security/white = 3,
+					/obj/item/clothing/mask/gas/sechailer = 6,
+					//obj/item/clothing/under/rank/security/officer/skirt = 3, //NSV13 no skirts
+					/obj/item/clothing/under/rank/security/officer/white = 3,
 					/obj/item/clothing/under/pants/khaki = 3,
-					/obj/item/clothing/under/rank/security/blueshirt = 3,
-					/obj/item/clothing/under/rank/security/mallcop = 3,
+					/obj/item/clothing/under/rank/security/officer/blueshirt = 3,
+					/obj/item/clothing/under/rank/security/officer/mallcop = 3,
 					/obj/item/clothing/neck/tie/red = 6,
-					/obj/item/clothing/neck/tie/black = 6,
-					/obj/item/clothing/head/beret/corpsec = 3)
-	premium = list(/obj/item/clothing/under/rank/security/navyblue = 3,
+					/obj/item/clothing/neck/tie/black = 6,)
+	contraband = list(/obj/item/clothing/suit/hooded/wintercoat/security/old = 3)
+	premium = list(/obj/item/clothing/under/rank/security/officer/formal = 3,
 					/obj/item/clothing/suit/security/officer = 3,
 					/obj/item/clothing/head/beret/sec/navyofficer = 3)
 	refill_canister = /obj/item/vending_refill/wardrobe/sec_wardrobe
@@ -53,12 +57,16 @@
 					/obj/item/storage/backpack/medic = 4,
 					/obj/item/storage/backpack/satchel/med = 4,
 					/obj/item/clothing/suit/hooded/wintercoat/medical = 4,
-					/obj/item/clothing/under/rank/nursesuit = 4,
+					/obj/item/clothing/under/rank/medical/emt = 4,
+					//obj/item/clothing/under/rank/medical/emt/skirt = 4, //NSV13 no skirts
+					/obj/item/clothing/under/rank/medical/doctor/nurse = 4,
 					/obj/item/clothing/head/nursehat = 4,
-					/obj/item/clothing/under/rank/medical/blue = 4,
-					/obj/item/clothing/under/rank/medical/green = 4,
-					/obj/item/clothing/under/rank/medical/purple = 4,
-					/obj/item/clothing/under/rank/medical = 4,
+					/obj/item/clothing/head/beret/med = 4,
+					/obj/item/clothing/under/rank/medical/doctor/blue = 4,
+					/obj/item/clothing/under/rank/medical/doctor/green = 4,
+					/obj/item/clothing/under/rank/medical/doctor/purple = 4,
+					/obj/item/clothing/under/rank/medical/doctor = 4,
+					//obj/item/clothing/under/rank/medical/doctor/skirt= 4, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/medical = 4,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/medical = 4,
 					/obj/item/clothing/suit/toggle/labcoat = 4,
@@ -67,6 +75,7 @@
 					/obj/item/clothing/head/soft/emt = 4,
 					/obj/item/clothing/suit/apron/surgical = 4,
 					/obj/item/clothing/mask/surgical = 4)
+	contraband = list(/obj/item/clothing/suit/hooded/wintercoat/medical/old = 3)
 	refill_canister = /obj/item/vending_refill/wardrobe/medi_wardrobe
 	payment_department = ACCOUNT_MED
 /obj/item/vending_refill/wardrobe/medi_wardrobe
@@ -83,16 +92,17 @@
 					/obj/item/storage/backpack/duffelbag/engineering = 3,
 					/obj/item/storage/backpack/industrial = 3,
 					/obj/item/storage/backpack/satchel/eng = 3,
-					/obj/item/clothing/suit/hooded/wintercoat/engineering = 3,
-					/obj/item/clothing/under/rank/engineer = 3,
-					/obj/item/clothing/under/rank/engineer/hazard = 3,
 					/obj/item/clothing/under/plasmaman/engineering = 3,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/engineering = 3,
+					/obj/item/clothing/suit/hooded/wintercoat/engineering = 3,
+					/obj/item/clothing/under/rank/engineering/engineer = 3,
+					/obj/item/clothing/under/rank/engineering/engineer/hazard = 3,
 					/obj/item/clothing/suit/hazardvest = 3,
 					/obj/item/clothing/shoes/workboots = 3,
 					/obj/item/clothing/head/hardhat = 3,
 					/obj/item/clothing/head/hardhat/weldhat = 3,
 					/obj/item/clothing/head/beret/eng = 3)
+	contraband = list(/obj/item/clothing/suit/hooded/wintercoat/engineering/old = 3)
 	refill_canister = /obj/item/vending_refill/wardrobe/engi_wardrobe
 	payment_department = ACCOUNT_ENG
 /obj/item/vending_refill/wardrobe/engi_wardrobe
@@ -109,12 +119,12 @@
 					/obj/item/storage/backpack/duffelbag/engineering = 2,
 					/obj/item/storage/backpack/satchel/eng = 2,
 					/obj/item/storage/backpack/industrial = 2,
+					/obj/item/clothing/under/plasmaman/engineering/atmospherics = 3,
+					/obj/item/clothing/head/helmet/space/plasmaman/replacement/engineering/atmospherics = 3,
 					/obj/item/clothing/suit/hooded/wintercoat/engineering/atmos = 3,
-					/obj/item/clothing/under/rank/atmospheric_technician = 3,
-					/obj/item/clothing/under/plasmaman/atmospherics = 3,
-					/obj/item/clothing/head/helmet/space/plasmaman/replacement/atmospherics = 3,
-					/obj/item/clothing/shoes/sneakers/black = 3,
-					/obj/item/clothing/head/beret/atmos = 3)
+					/obj/item/clothing/under/rank/engineering/atmospheric_technician = 3,
+					/obj/item/clothing/shoes/sneakers/black = 3)
+	contraband = list(/obj/item/clothing/suit/hooded/wintercoat/engineering/atmos/old = 3)
 	refill_canister = /obj/item/vending_refill/wardrobe/atmos_wardrobe
 	payment_department = ACCOUNT_ENG
 /obj/item/vending_refill/wardrobe/atmos_wardrobe
@@ -128,14 +138,17 @@
 	vend_reply = "Thank you for using the CargoDrobe!"
 	light_color = LIGHT_COLOR_YELLOW
 	products = list(/obj/item/clothing/suit/hooded/wintercoat/cargo = 3,
-					/obj/item/clothing/under/rank/cargotech = 3,
+					/obj/item/clothing/under/rank/cargo/tech = 3,
+					//obj/item/clothing/under/rank/cargo/tech/skirt = 3, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/cargo = 3,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/cargo = 3,
 					/obj/item/clothing/shoes/sneakers/black = 3,
 					/obj/item/clothing/gloves/fingerless = 3,
 					/obj/item/clothing/head/soft = 3,
+					/obj/item/clothing/head/beret/supply = 3,
 					/obj/item/radio/headset/headset_cargo = 3)
-	premium = list(/obj/item/clothing/under/rank/miner = 3)
+	premium = list(/obj/item/clothing/under/rank/cargo/miner = 3)
+	contraband = list(/obj/item/radio/headset/headset_quartermaster = 1)
 	refill_canister = /obj/item/vending_refill/wardrobe/cargo_wardrobe
 	payment_department = ACCOUNT_CAR
 /obj/item/vending_refill/wardrobe/cargo_wardrobe
@@ -149,7 +162,9 @@
 	vend_reply = "Thank you for using the RoboDrobe!"
 	light_color = LIGHT_COLOR_WHITE
 	products = list(/obj/item/clothing/glasses/hud/diagnostic = 2,
-					/obj/item/clothing/under/rank/roboticist = 2,
+					/obj/item/reagent_containers/medspray/sterilizine = 3,
+					/obj/item/clothing/under/rank/rnd/roboticist = 2,
+					//obj/item/clothing/under/rank/rnd/roboticist/skirt = 2, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/robotics = 2,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/robotics = 2,
 					/obj/item/clothing/suit/toggle/labcoat = 2,
@@ -158,6 +173,7 @@
 					/obj/item/clothing/head/soft/black = 2,
 					/obj/item/clothing/mask/bandana/skull = 2,
 					/obj/item/clothing/head/beret/sci = 2)
+
 	contraband = list(/obj/item/clothing/suit/hooded/techpriest = 2,
 					/obj/item/organ/tongue/robot = 2)
 	refill_canister = /obj/item/vending_refill/wardrobe/robo_wardrobe
@@ -177,7 +193,8 @@
 					/obj/item/storage/backpack/science = 3,
 					/obj/item/storage/backpack/satchel/tox = 3,
 					/obj/item/clothing/suit/hooded/wintercoat/science = 3,
-					/obj/item/clothing/under/rank/scientist = 3,
+					/obj/item/clothing/under/rank/rnd/scientist = 3,
+					//obj/item/clothing/under/rank/rnd/scientist/skirt = 3, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/science = 3,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/science = 3,
 					/obj/item/clothing/suit/toggle/labcoat/science = 3,
@@ -185,6 +202,7 @@
 					/obj/item/radio/headset/headset_sci = 3,
 					/obj/item/clothing/mask/gas = 3,
 					/obj/item/clothing/head/beret/sci = 3)
+	contraband = list(/obj/item/clothing/suit/hooded/wintercoat/science/old = 3)
 	refill_canister = /obj/item/vending_refill/wardrobe/science_wardrobe
 	payment_department = ACCOUNT_SCI
 /obj/item/vending_refill/wardrobe/science_wardrobe
@@ -202,11 +220,13 @@
 					/obj/item/clothing/suit/hooded/wintercoat/hydro = 2,
 					/obj/item/clothing/suit/apron = 2,
 					/obj/item/clothing/suit/apron/overalls = 3,
-					/obj/item/clothing/under/rank/hydroponics = 3,
+					/obj/item/clothing/under/rank/civilian/hydroponics = 3,
+					//obj/item/clothing/under/rank/civilian/hydroponics/skirt = 3, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/botany = 3,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/botany = 3,
 					/obj/item/clothing/mask/bandana = 3,
 					/obj/item/clothing/accessory/armband/hydro = 3)
+	contraband = list(/obj/item/clothing/suit/hooded/wintercoat/hydro/old = 3)
 	refill_canister = /obj/item/vending_refill/wardrobe/hydro_wardrobe
 	payment_department = ACCOUNT_SRV
 /obj/item/vending_refill/wardrobe/hydro_wardrobe
@@ -219,7 +239,8 @@
 	product_ads = "Glasses for your eyes and literature for your soul, Curadrobe has it all!; Impress & enthrall your library guests with Curadrobe's extended line of pens!"
 	vend_reply = "Thank you for using the CuraDrobe!"
 	light_color = LIGHT_COLOR_WHITE
-	products = list(/obj/item/pen = 4,
+	products = list(//obj/item/clothing/under/rank/civilian/curator/skirt = 2, //NSV13 no skirts
+					/obj/item/pen = 4,
 					/obj/item/pen/red = 2,
 					/obj/item/pen/blue = 2,
 					/obj/item/pen/fourcolor = 1,
@@ -245,9 +266,10 @@
 	light_color = LIGHT_COLOR_WHITE
 	products = list(/obj/item/clothing/head/that = 2,
 					/obj/item/radio/headset/headset_srv = 2,
-					/obj/item/clothing/under/sl_suit = 2,
-					/obj/item/clothing/under/rank/bartender = 2,
-					/obj/item/clothing/under/rank/bartender/purple = 2,
+					/obj/item/clothing/under/suit/sl = 2,
+					/obj/item/clothing/under/rank/civilian/bartender = 2,
+					/obj/item/clothing/under/rank/civilian/bartender/purple = 2,
+					//obj/item/clothing/under/rank/civilian/bartender/skirt = 2, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/enviroslacks = 2,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/white = 2,
 					/obj/item/clothing/accessory/waistcoat = 2,
@@ -258,7 +280,7 @@
 					/obj/item/storage/box/beanbag = 1,
 					/obj/item/clothing/suit/armor/vest/alt = 1,
 					/obj/item/circuitboard/machine/dish_drive = 1,
-					/obj/item/clothing/glasses/sunglasses/reagent = 1,
+					/obj/item/clothing/glasses/sunglasses/advanced/reagent = 1,
 					/obj/item/clothing/neck/petcollar = 1,
 					/obj/item/storage/belt/bandolier = 1,
 					/obj/item/clothing/neck/tie/black = 2,
@@ -275,8 +297,7 @@
 	icon_state = "chefdrobe"
 	product_ads = "Our clothes are guaranteed to protect you from food splatters!"
 	vend_reply = "Thank you for using the ChefDrobe!"
-	light_color = LIGHT_COLOR_WHITE
-	products = list(/obj/item/clothing/under/waiter = 2,
+	products = list(/obj/item/clothing/under/suit/waiter = 2,
 					/obj/item/radio/headset/headset_srv = 2,
 					/obj/item/clothing/accessory/waistcoat = 2,
 					/obj/item/clothing/suit/apron/chef = 3,
@@ -284,11 +305,12 @@
 					/obj/item/storage/box/mousetraps = 2,
 					/obj/item/circuitboard/machine/dish_drive = 1,
 					/obj/item/clothing/suit/toggle/chef = 1,
-					/obj/item/clothing/under/rank/chef = 3,
-					/obj/item/clothing/under/rank/altchef = 3,
 					/obj/item/clothing/under/plasmaman/chef = 1,
-					/obj/item/clothing/head/chefhat = 3,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/white = 1,
+					/obj/item/clothing/under/rank/civilian/chef = 1,
+					//obj/item/clothing/under/rank/civilian/chef/skirt = 2, //NSV13 no skirts
+					/obj/item/clothing/under/rank/civilian/altchef = 1,
+					/obj/item/clothing/head/chefhat = 3,
 					/obj/item/reagent_containers/glass/rag = 1,
 					/obj/item/clothing/suit/hooded/wintercoat = 2)
 	refill_canister = /obj/item/vending_refill/wardrobe/chef_wardrobe
@@ -302,17 +324,18 @@
 	icon_state = "janidrobe"
 	product_ads = "Come and get your janitorial clothing, now endorsed by lizard janitors everywhere!"
 	vend_reply = "Thank you for using the JaniDrobe!"
-	light_color = LIGHT_COLOR_PURPLE
-	products = list(/obj/item/clothing/under/rank/janitor = 2,
+	products = list(/obj/item/clothing/under/rank/civilian/janitor = 2,
+					//obj/item/clothing/under/rank/civilian/janitor/skirt = 2, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/janitor = 2,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/janitor = 2,
 					/obj/item/cartridge/janitor = 2,
 					/obj/item/clothing/gloves/color/black = 2,
 					/obj/item/clothing/head/soft/purple = 2,
+					/obj/item/pushbroom = 2,
 					/obj/item/paint/paint_remover = 2,
 					/obj/item/melee/flyswatter = 2,
 					/obj/item/flashlight = 2,
-					/obj/item/caution = 8,
+					/obj/item/clothing/suit/caution = 6,
 					/obj/item/holosign_creator/janibarrier = 2,
 					/obj/item/lightreplacer = 2,
 					/obj/item/soap/nanotrasen = 2,
@@ -331,16 +354,29 @@
 	icon_state = "lawdrobe"
 	product_ads = "OBJECTION! Get the rule of law for yourself!"
 	vend_reply = "Thank you for using the LawDrobe!"
-	light_color = LIGHT_COLOR_WHITE
-	products = list(/obj/item/clothing/under/lawyer/female = 1,
-					/obj/item/clothing/under/lawyer/black = 1,
-					/obj/item/clothing/under/lawyer/red = 1,
-					/obj/item/clothing/under/lawyer/bluesuit = 1,
+	products = list(/obj/item/clothing/under/rank/civilian/lawyer/bluesuit = 1,
+					//obj/item/clothing/under/rank/civilian/lawyer/bluesuit/skirt = 1, //NSV13 no skirts
 					/obj/item/clothing/suit/toggle/lawyer = 1,
-					/obj/item/clothing/under/lawyer/purpsuit = 1,
+					/obj/item/clothing/under/rank/civilian/lawyer/purpsuit = 1,
 					/obj/item/clothing/suit/toggle/lawyer/purple = 1,
-					/obj/item/clothing/under/lawyer/blacksuit = 1,
+					//obj/item/clothing/under/lawyer/civilian/lawyer/purpsuit/skirt = 1, //NSV13 no skirts
+					/obj/item/clothing/under/suit/black = 1,
+					//obj/item/clothing/under/suit/black/skirt = 1, //NSV13 no skirts
 					/obj/item/clothing/suit/toggle/lawyer/black = 1,
+					/obj/item/clothing/under/rank/civilian/lawyer/female = 1,
+					//obj/item/clothing/under/lawyer/civilian/lawyer/female/skirt = 1, //NSV13 no skirts
+					/obj/item/clothing/under/suit/black_really = 1,
+					//obj/item/clothing/under/suit/black_really/skirt = 1, //NSV13 no skirts
+					/obj/item/clothing/under/rank/civilian/lawyer/blue = 1,
+					//obj/item/clothing/under/rank/civilian/lawyer/blue/skirt = 1, //NSV13 no skirts
+					/obj/item/clothing/under/rank/civilian/lawyer/red = 1,
+					//obj/item/clothing/under/rank/civilian/lawyer/red/skirt = 1, //NSV13 no skirts
+					/obj/item/clothing/under/rank/civilian/lawyer/black = 1,
+					//obj/item/clothing/under/rank/civilian/lawyer/black/skirt = 1, //NSV13 no skirts
+					/obj/item/clothing/suit/aristo_orange = 1,
+				   	/obj/item/clothing/suit/aristo_red = 1,
+				   	/obj/item/clothing/suit/aristo_brown = 1,
+				   	/obj/item/clothing/suit/aristo_blue = 1,
 					/obj/item/clothing/shoes/laceup = 2,
 					/obj/item/clothing/neck/tie/red = 6,
 					/obj/item/clothing/neck/tie/black = 6,
@@ -360,7 +396,8 @@
 	products = list(/obj/item/choice_beacon/holy = 1,
 					/obj/item/storage/backpack/cultpack = 1,
 					/obj/item/clothing/accessory/pocketprotector/cosmetology = 1,
-					/obj/item/clothing/under/rank/chaplain = 1,
+					/obj/item/clothing/under/rank/civilian/chaplain = 1,
+					//obj/item/clothing/under/rank/civilian/chaplain/skirt = 1, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/chaplain = 1,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/chaplain = 1,
 					/obj/item/clothing/shoes/sneakers/black = 1,
@@ -369,6 +406,7 @@
 					/obj/item/clothing/suit/chaplainsuit/holidaypriest = 1,
 					/obj/item/storage/fancy/candle_box = 2,
 					/obj/item/clothing/head/kippah = 3,
+					/obj/item/clothing/suit/hooded/hastur = 1,
 					/obj/item/clothing/suit/chaplainsuit/whiterobe = 1,
 					/obj/item/clothing/head/taqiyahwhite = 1,
 					/obj/item/clothing/head/taqiyahred = 3,
@@ -377,8 +415,10 @@
 					/obj/item/toy/plush/narplush = 1,
 					/obj/item/clothing/head/medievaljewhat = 3,
 					/obj/item/clothing/suit/chaplainsuit/clownpriest = 1,
-					/obj/item/clothing/head/clownmitre = 1)		
+					/obj/item/clothing/head/clownmitre = 1,
+					/obj/item/clothing/neck/cloak/chap/bishop = 1)
 	premium = list(/obj/item/clothing/suit/chaplainsuit/bishoprobe = 1,
+					/obj/item/clothing/neck/crucifix/rosary = 1,
 					/obj/item/clothing/head/bishopmitre = 1)
 	refill_canister = /obj/item/vending_refill/wardrobe/chap_wardrobe
 	payment_department = ACCOUNT_CIV
@@ -391,8 +431,8 @@
 	icon_state = "chemdrobe"
 	product_ads = "Our clothes are 0.5% more resistant to acid spills! Get yours now!"
 	vend_reply = "Thank you for using the ChemDrobe!"
-	light_color = LIGHT_COLOR_WHITE
-	products = list(/obj/item/clothing/under/rank/chemist = 2,
+	products = list(/obj/item/clothing/under/rank/medical/chemist = 2,
+					//obj/item/clothing/under/rank/medical/chemist/skirt = 2, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/chemist = 2,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/chemist = 2,
 					/obj/item/clothing/shoes/sneakers/white = 2,
@@ -412,8 +452,8 @@
 	icon_state = "genedrobe"
 	product_ads = "Perfect for the mad scientist in you!"
 	vend_reply = "Thank you for using the GeneDrobe!"
-	light_color = LIGHT_COLOR_WHITE
-	products = list(/obj/item/clothing/under/rank/geneticist = 2,
+	products = list(/obj/item/clothing/under/rank/medical/geneticist = 2,
+					//obj/item/clothing/under/rank/medical/geneticist/skirt = 2, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/genetics = 2,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/genetics = 2,
 					/obj/item/clothing/shoes/sneakers/white = 2,
@@ -431,8 +471,8 @@
 	icon_state = "virodrobe"
 	product_ads = " Viruses getting you down? Then upgrade to sterilized clothing today!"
 	vend_reply = "Thank you for using the ViroDrobe"
-	light_color = LIGHT_COLOR_WHITE
-	products = list(/obj/item/clothing/under/rank/virologist = 2,
+	products = list(/obj/item/clothing/under/rank/medical/virologist = 2,
+					//obj/item/clothing/under/rank/medical/virologist/skirt = 2, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/viro = 2,
 					/obj/item/clothing/head/helmet/space/plasmaman/replacement/viro = 2,
 					/obj/item/clothing/shoes/sneakers/white = 2,
@@ -447,3 +487,33 @@
 	payment_department = ACCOUNT_MED
 /obj/item/vending_refill/wardrobe/viro_wardrobe
 	machine_name = "ViroDrobe"
+
+/obj/machinery/vending/wardrobe/det_wardrobe
+	name = "\improper DetDrobe"
+	desc = "A machine for all your detective needs, as long as you need clothes."
+	icon_state = "detdrobe"
+	product_ads = "Apply your brilliant deductive methods in style!"
+	vend_reply = "Thank you for using the DetDrobe!"
+	products = list(/obj/item/clothing/under/rank/security/detective = 2,
+					//obj/item/clothing/under/rank/security/detective/skirt = 2, //NSV13 no skirts
+					/obj/item/clothing/shoes/sneakers/brown = 2,
+					/obj/item/clothing/suit/det_suit = 2,
+					/obj/item/clothing/head/fedora/det_hat = 2,
+					/obj/item/clothing/under/rank/security/detective/grey = 2,
+					//obj/item/clothing/under/rank/security/detective/grey/skirt = 2, //NSV13 no skirts
+					/obj/item/clothing/accessory/waistcoat = 2,
+					/obj/item/clothing/shoes/laceup = 2,
+					/obj/item/clothing/suit/det_suit/grey = 1,
+					/obj/item/clothing/suit/det_suit/noir = 1,
+					/obj/item/clothing/head/fedora = 2,
+					/obj/item/clothing/gloves/color/black = 2,
+					/obj/item/clothing/gloves/color/latex = 2,
+					/obj/item/reagent_containers/food/drinks/flask/det = 2,
+					/obj/item/storage/fancy/cigarettes = 5)
+	premium = list(/obj/item/clothing/head/flatcap = 1)
+	refill_canister = /obj/item/vending_refill/wardrobe/det_wardrobe
+	extra_price = 350
+	payment_department = ACCOUNT_SEC
+
+/obj/item/vending_refill/wardrobe/det_wardrobe
+	machine_name = "DetDrobe"

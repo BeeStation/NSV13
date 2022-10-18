@@ -18,22 +18,20 @@
 		var/mob/living/carbon/human/H = host_mob
 		H.physiology.stun_mod *= 2
 
-/datum/nanite_program/triggered/adrenaline
+/datum/nanite_program/adrenaline
 	name = "Adrenaline Burst"
-	desc = "The nanites cause a burst of adrenaline when triggered, waking the host from stuns and temporarily increasing their speed."
-	trigger_cost = 25
+	desc = "The nanites cause a burst of adrenaline when triggered, allowing the user to push their body past its normal limits."
+	can_trigger = TRUE
+	trigger_cost = 20
 	trigger_cooldown = 1200
 	rogue_types = list(/datum/nanite_program/toxic, /datum/nanite_program/nerve_decay)
 
-/datum/nanite_program/triggered/adrenaline/trigger()
-	if(!..())
-		return
+/datum/nanite_program/adrenaline/on_trigger()
 	to_chat(host_mob, "<span class='notice'>You feel a sudden surge of energy!</span>")
 	host_mob.SetAllImmobility(0)
 	host_mob.adjustStaminaLoss(-75)
 	host_mob.set_resting(FALSE)
 	host_mob.update_mobility()
-	host_mob.reagents.add_reagent(/datum/reagent/medicine/stimulants, 1.5)
 
 /datum/nanite_program/hardening
 	name = "Dermal Hardening"
@@ -118,7 +116,7 @@
 
 /datum/nanite_program/mindshield/enable_passive_effect()
 	. = ..()
-	if(!host_mob.mind.has_antag_datum(/datum/antagonist/rev, TRUE) && !is_hivemember(host_mob) && !host_mob.is_wokevessel()) //won't work if on a rev, to avoid having implanted revs. same applies for hivemind members.
+	if(!host_mob.mind.has_antag_datum(/datum/antagonist/rev, TRUE)) //won't work if on a rev, to avoid having implanted revs.
 		ADD_TRAIT(host_mob, TRAIT_MINDSHIELD, "nanites")
 		host_mob.sec_hud_set_implants()
 
@@ -126,3 +124,16 @@
 	. = ..()
 	REMOVE_TRAIT(host_mob, TRAIT_MINDSHIELD, "nanites")
 	host_mob.sec_hud_set_implants()
+
+/datum/nanite_program/haste
+	name = "Amphetamine Injection"
+	desc = "The nanites synthesize amphetamine when triggered, which temporarily increases the host's running speed."
+	can_trigger = TRUE
+	trigger_cost = 10
+	trigger_cooldown = 1200
+	rogue_types = list(/datum/nanite_program/toxic, /datum/nanite_program/nerve_decay)
+
+/datum/nanite_program/haste/on_trigger()
+	to_chat(host_mob, "<span class='notice'>Your body feels lighter and your legs feel relaxed!</span>")
+	host_mob.set_resting(FALSE)
+	host_mob.reagents.add_reagent(/datum/reagent/medicine/amphetamine, 3)

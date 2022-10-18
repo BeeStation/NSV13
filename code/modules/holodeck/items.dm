@@ -154,7 +154,7 @@
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 2
 	active_power_usage = 6
-	power_channel = ENVIRON
+	power_channel = AREA_USAGE_ENVIRON
 
 /obj/machinery/readybutton/attack_ai(mob/user as mob)
 	to_chat(user, "The station AI is not to interact with these devices.")
@@ -227,3 +227,20 @@
 /obj/item/paper/fluff/holodeck/disclaimer
 	name = "Holodeck Disclaimer"
 	info = "Bruises sustained in the holodeck can be healed simply by sleeping."
+
+/obj/vehicle/ridden/scooter/skateboard/pro/holodeck
+	name = "holographic skateboard"
+	desc = "A holographic copy of the EightO brand professional skateboard."
+	instability = 6
+
+/obj/vehicle/ridden/scooter/skateboard/pro/holodeck/screwdriver_act(mob/living/user, obj/item/I)
+	return FALSE
+
+/obj/vehicle/ridden/scooter/skateboard/pro/holodeck/pick_up_board() //picking up normal skateboards spawned in the holodeck gets rid of the holo flag, now you cant pick them up.
+	return
+
+/obj/vehicle/ridden/scooter/skateboard/pro/holodeck/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/stack/rods))
+		return
+	else
+		return ..()

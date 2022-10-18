@@ -19,7 +19,7 @@
 
 /obj/item/projectile/bullet/a84mm/on_hit(atom/target, blocked = FALSE)
 	..()
-	explosion(target, -1, 1, 3, 1, flame_range = 4)
+	explosion(target, -1, 1, 3, 1, 0, flame_range = 4)
 
 	if(ismecha(target))
 		var/obj/mecha/M = target

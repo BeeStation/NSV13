@@ -1,5 +1,8 @@
 
 /mob/living/simple_animal/revenant/ClickOn(atom/A, params) //revenants can't interact with the world directly.
+	if(check_click_intercept(params,A))
+		return
+
 	var/list/modifiers = params2list(params)
 	if(modifiers["shift"])
 		ShiftClickOn(A)
@@ -13,6 +16,11 @@
 			to_chat(src, "<span class='revenwarning'>[A]'s soul is dead and empty.</span>" )
 		else if(in_range(src, A))
 			Harvest(A)
+
+	if(isturf(A))
+		var/turf/T = A
+		if(T == get_turf(src))
+			T.check_z_travel(src)
 
 
 //Harvest; activated by clicking the target, will try to drain their essence.
@@ -209,7 +217,7 @@
 	if(!L.on) //wait, wait, don't shock me
 		return
 	flick("[L.base_state]2", L)
-	for(var/mob/living/carbon/human/M in view(shock_range, L))
+	for(var/mob/living/carbon/human/M in hearers(shock_range, L))
 		if(M == user)
 			continue
 		L.Beam(M,icon_state="purple_lightning",time=5)

@@ -5,7 +5,7 @@
 	density = FALSE
 	layer = SIGN_LAYER
 	max_integrity = 100
-	armor = list("melee" = 50, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50)
+	armor = list("melee" = 50, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 0)
 	var/buildable_sign = 1 //unwrenchable and modifiable
 	rad_flags = RAD_PROTECT_CONTENTS | RAD_NO_CONTAMINATE
 
@@ -43,7 +43,7 @@
 		var/list/sign_types = list("Secure Area", "Biohazard", "High Voltage", "Radiation", "Hard Vacuum Ahead", "Disposal: Leads To Space", "Danger: Fire", "No Smoking", "Medbay", "Science", "Chemistry", \
 		"Hydroponics", "Xenobiology")
 		var/obj/structure/sign/sign_type
-		switch(input(user, "Select a sign type.", "Sign Customization") as null|anything in sign_types)
+		switch(input(user, "Select a sign type.", "Sign Customization") as null|anything in sortList(sign_types))
 			if("Blank")
 				sign_type = /obj/structure/sign/basic
 			if("Secure Area")
@@ -121,11 +121,11 @@
 	setDir(turn(dir, 90))
 
 /obj/structure/sign/nanotrasen
-	name = "\improper Nanotrasen Logo"
-	desc = "A sign with the Nanotrasen Logo on it. Glory to Nanotrasen!"
+	name = "\improper Nanotrasen logo"
+	desc = "A sign with the Nanotrasen logo on it. Glory to Nanotrasen!"
 	icon_state = "nanotrasen"
 
 /obj/structure/sign/logo
-	name = "nanotrasen logo"
+	name = "\improper Nanotrasen logo"
 	desc = "The Nanotrasen corporate logo."
 	icon_state = "nanotrasen_sign1"

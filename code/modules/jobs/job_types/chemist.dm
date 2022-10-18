@@ -8,6 +8,8 @@
 	spawn_positions = 2
 	supervisors = "the chief medical officer"
 	selection_color = "#d4ebf2" //NSV13
+	chat_color = "#82BDCE"
+	exp_requirements = 120
 	exp_type = EXP_TYPE_CREW
 	exp_requirements = 60
 
@@ -19,7 +21,11 @@
 	paycheck_department = ACCOUNT_MED
 
 	display_order = JOB_DISPLAY_ORDER_CHEMIST
+	departments = DEPARTMENT_MEDICAL
 
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/chemist
+	)
 /datum/outfit/job/chemist
 	name = "Chemist"
 	jobtype = /datum/job/chemist
@@ -27,7 +33,7 @@
 	glasses = /obj/item/clothing/glasses/science
 	belt = /obj/item/pda/chemist
 	ears = /obj/item/radio/headset/headset_med
-	uniform = /obj/item/clothing/under/rank/chemist
+	uniform = /obj/item/clothing/under/rank/medical/chemist
 	shoes = /obj/item/clothing/shoes/sneakers/white
 	suit =  /obj/item/clothing/suit/toggle/labcoat/chemist
 	backpack = /obj/item/storage/backpack/chemistry

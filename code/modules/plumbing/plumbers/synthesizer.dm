@@ -7,6 +7,7 @@
 	icon = 'icons/obj/plumbing/plumbers.dmi'
 	rcd_cost = 25
 	rcd_delay = 15
+	active_power_usage = 500
 
 	///Amount we produce for every process. Ideally keep under 5 since thats currently the standard duct capacity
 	var/amount = 1
@@ -48,24 +49,28 @@
 		/datum/reagent/fuel
 	)
 
-	ui_x = 300
-	ui_y = 360
+
+
 
 /obj/machinery/plumbing/synthesizer/Initialize(mapload, bolt)
 	. = ..()
 	AddComponent(/datum/component/plumbing/simple_supply, bolt)
 
-/obj/machinery/plumbing/synthesizer/process()
+/obj/machinery/plumbing/synthesizer/process(delta_time)
 	if(stat & NOPOWER || !reagent_id || !amount)
 		return
-	if(reagents.total_volume >= amount) //otherwise we get leftovers, and we need this to be precise
+	if(reagents.total_volume >= amount*delta_time*0.5) //otherwise we get leftovers, and we need this to be precise
 		return
-	reagents.add_reagent(reagent_id, amount)
+	reagents.add_reagent(reagent_id, amount*delta_time*0.5)
 
-/obj/machinery/plumbing/synthesizer/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+
+/obj/machinery/plumbing/synthesizer/ui_state(mob/user)
+	return GLOB.default_state
+
+/obj/machinery/plumbing/synthesizer/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "synthesizer", name, 300, 435, master_ui, state)
+		ui = new(user, src, "ChemSynthesizer")
 		ui.open()
 
 /obj/machinery/plumbing/synthesizer/ui_data(mob/user)
@@ -91,7 +96,6 @@
 /obj/machinery/plumbing/synthesizer/ui_act(action, params)
 	if(..())
 		return
-	. = TRUE
 	switch(action)
 		if("amount")
 			var/new_amount = text2num(params["target"])
@@ -103,8 +107,9 @@
 			if(new_reagent in dispensable_reagents)
 				reagent_id = new_reagent
 				. = TRUE
-	update_icon()
-	reagents.clear_reagents()
+	if(.)
+		update_icon()
+		reagents.clear_reagents()
 
 /obj/machinery/plumbing/synthesizer/update_icon()
 	if(!r_overlay)

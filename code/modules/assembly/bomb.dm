@@ -51,7 +51,7 @@
 		return
 	if(I.use_tool(src, user, 0, volume=40))
 		status = TRUE
-		log_bomber(user, "welded a single tank bomb,", src, "| Temp: [bombtank.air_contents.temperature-T0C]")
+		log_bomber(user, "welded a single tank bomb,", src, "| Temp: [bombtank.air_contents.return_temperature()-T0C]")
 		to_chat(user, "<span class='notice'>A pressure hole has been bored to [bombtank] valve. \The [bombtank] can now be ignited.</span>")
 		add_fingerprint(user)
 		return TRUE
@@ -71,13 +71,6 @@
 		bombtank.ignite()	//if its not a dud, boom (or not boom if you made shitty mix) the ignite proc is below, in this file
 	else
 		bombtank.release()
-
-//Assembly / attached device memes
-
-/obj/item/onetankbomb/Crossed(atom/movable/AM as mob|obj) //for mousetraps
-	. = ..()
-	if(bombassembly)
-		bombassembly.Crossed(AM)
 
 /obj/item/onetankbomb/on_found(mob/finder) //for mousetraps
 	if(bombassembly)
@@ -138,9 +131,7 @@
 	return
 
 /obj/item/tank/proc/ignite()	//This happens when a bomb is told to explode
-	air_contents.assert_gases(/datum/gas/plasma, /datum/gas/oxygen)
-	var/fuel_moles = air_contents.gases[/datum/gas/plasma][MOLES] + air_contents.gases[/datum/gas/oxygen][MOLES]/6
-	air_contents.garbage_collect()
+	var/fuel_moles = air_contents.get_moles(GAS_PLASMA) + air_contents.get_moles(GAS_O2)/6
 	var/datum/gas_mixture/bomb_mixture = air_contents.copy()
 	var/strength = 1
 
@@ -150,7 +141,7 @@
 		qdel(master)
 	qdel(src)
 
-	if(bomb_mixture.temperature > (T0C + 400))
+	if(bomb_mixture.return_temperature() > (T0C + 400))
 		strength = (fuel_moles/15)
 
 		if(strength >=2)
@@ -165,7 +156,7 @@
 			ground_zero.assume_air(bomb_mixture)
 			ground_zero.hotspot_expose(1000, 125)
 
-	else if(bomb_mixture.temperature > (T0C + 250))
+	else if(bomb_mixture.return_temperature() > (T0C + 250))
 		strength = (fuel_moles/20)
 
 		if(strength >=1)
@@ -176,7 +167,7 @@
 			ground_zero.assume_air(bomb_mixture)
 			ground_zero.hotspot_expose(1000, 125)
 
-	else if(bomb_mixture.temperature > (T0C + 100))
+	else if(bomb_mixture.return_temperature() > (T0C + 100))
 		strength = (fuel_moles/25)
 
 		if(strength >=1)
@@ -192,11 +183,10 @@
 	ground_zero.air_update_turf()
 
 /obj/item/tank/proc/release()	//This happens when the bomb is not welded. Tank contents are just spat out.
-	var/datum/gas_mixture/removed = air_contents.remove(air_contents.total_moles())
 	var/turf/T = get_turf(src)
 	if(!T)
 		return
-	T.assume_air(removed)
+	T.assume_air(air_contents)
 	air_update_turf()
 
 /obj/item/onetankbomb/return_analyzable_air()

@@ -13,6 +13,7 @@ Contains:
  - Freedom's spacesuit (freedom from vacuum's oppression)
  - Carp hardsuit
  - Bounty hunter hardsuit
+ - Emergency skinsuit
 */
 
 	//Death squad armored space suits, not hardsuits!
@@ -21,7 +22,7 @@ Contains:
 	desc = "An advanced tactical space helmet."
 	icon_state = "deathsquad"
 	item_state = "deathsquad"
-	armor = list("melee" = 80, "bullet" = 80, "laser" = 50, "energy" = 50, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100)
+	armor = list("melee" = 80, "bullet" = 80, "laser" = 50, "energy" = 50, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -36,12 +37,13 @@ Contains:
 	icon_state = "deathsquad"
 	item_state = "swat_suit"
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/kitchen/knife/combat)
-	armor = list("melee" = 80, "bullet" = 80, "laser" = 50, "energy" = 50, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100)
+	armor = list("melee" = 80, "bullet" = 80, "laser" = 50, "energy" = 50, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/deathsquad
 	dog_fashion = /datum/dog_fashion/back/deathsquad
+	move_sound = list('sound/effects/suitstep1.ogg', 'sound/effects/suitstep2.ogg')
 
 	//NEW SWAT suit
 /obj/item/clothing/suit/space/swat
@@ -50,9 +52,10 @@ Contains:
 	icon_state = "heavy"
 	item_state = "swat_suit"
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/kitchen/knife/combat)
-	armor = list("melee" = 40, "bullet" = 30, "laser" = 30,"energy" = 30, "bomb" = 50, "bio" = 90, "rad" = 20, "fire" = 100, "acid" = 100)
+	armor = list("melee" = 40, "bullet" = 30, "laser" = 30,"energy" = 30, "bomb" = 50, "bio" = 90, "rad" = 20, "fire" = 100, "acid" = 100, "stamina" = 60)
 	strip_delay = 120
 	resistance_flags = FIRE_PROOF | ACID_PROOF
+	move_sound = list('sound/effects/suitstep1.ogg', 'sound/effects/suitstep2.ogg')
 
 /obj/item/clothing/head/helmet/space/beret
 	name = "officer's beret"
@@ -61,7 +64,7 @@ Contains:
 	dynamic_hair_suffix = "+generic"
 	dynamic_fhair_suffix = "+generic"
 	flags_inv = 0
-	armor = list("melee" = 80, "bullet" = 80, "laser" = 50, "energy" = 50, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100)
+	armor = list("melee" = 80, "bullet" = 80, "laser" = 50, "energy" = 50, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -76,7 +79,7 @@ Contains:
 	flags_inv = 0
 	w_class = WEIGHT_CLASS_NORMAL
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
-	armor = list("melee" = 80, "bullet" = 80, "laser" = 50, "energy" = 50, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100)
+	armor = list("melee" = 80, "bullet" = 80, "laser" = 50, "energy" = 50, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -133,7 +136,7 @@ Contains:
 	desc = "Yarr."
 	icon_state = "pirate"
 	item_state = "pirate"
-	armor = list("melee" = 30, "bullet" = 50, "laser" = 30,"energy" = 15, "bomb" = 30, "bio" = 30, "rad" = 30, "fire" = 60, "acid" = 75)
+	armor = list("melee" = 30, "bullet" = 50, "laser" = 30,"energy" = 15, "bomb" = 30, "bio" = 30, "rad" = 30, "fire" = 60, "acid" = 75, "stamina" = 20)
 	flags_inv = HIDEHAIR
 	strip_delay = 40
 	equip_delay_other = 20
@@ -153,7 +156,7 @@ Contains:
 	flags_inv = 0
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/melee/transforming/energy/sword/pirate, /obj/item/clothing/glasses/eyepatch, /obj/item/reagent_containers/food/drinks/bottle/rum)
 	slowdown = 0
-	armor = list("melee" = 30, "bullet" = 50, "laser" = 30,"energy" = 15, "bomb" = 30, "bio" = 30, "rad" = 30, "fire" = 60, "acid" = 75)
+	armor = list("melee" = 30, "bullet" = 50, "laser" = 30,"energy" = 15, "bomb" = 30, "bio" = 30, "rad" = 30, "fire" = 60, "acid" = 75, "stamina" = 20)
 	strip_delay = 40
 	equip_delay_other = 20
 
@@ -164,15 +167,48 @@ Contains:
 	icon_state = "hardsuit0-ert_commander"
 	item_state = "hardsuit0-ert_commander"
 	item_color = "ert_commander"
-	armor = list("melee" = 65, "bullet" = 50, "laser" = 50, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80)
+	armor = list("melee" = 65, "bullet" = 50, "laser" = 50, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80, "stamina" = 70)
 	strip_delay = 130
-	brightness_on = 7
+	light_range = 7
 	resistance_flags = FIRE_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
+	actions_types = list(
+		/datum/action/item_action/toggle_helmet_light,
+		/datum/action/item_action/toggle_beacon_hud
+	)
+	var/beacon_colour = "#4b48ec"
 
 /obj/item/clothing/head/helmet/space/hardsuit/ert/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, LOCKED_HELMET_TRAIT)
+	//Link
+	if(istype(loc, /obj/item/clothing/suit/space/hardsuit/ert))
+		var/obj/linkedsuit = loc
+		//NOTE FOR COPY AND PASTING: BEACON MUST BE MADE FIRST
+		//Add the monitor (Default to null - No tracking)
+		var/datum/component/tracking_beacon/component_beacon = linkedsuit.AddComponent(/datum/component/tracking_beacon, "cent", null, null, TRUE, beacon_colour)
+		//Add the monitor (Default to null - No tracking)
+		component_beacon.attached_monitor = AddComponent(/datum/component/team_monitor, "cent", null, component_beacon)
+	else
+		AddComponent(/datum/component/team_monitor, "cent", null)
+
+/obj/item/clothing/head/helmet/space/hardsuit/ert/ui_action_click(mob/user, datum/action)
+	switch(action.type)
+		if(/datum/action/item_action/toggle_helmet_light)
+			toggle_helmlight()
+		if(/datum/action/item_action/toggle_beacon_hud)
+			toggle_hud(user)
+
+/obj/item/clothing/head/helmet/space/hardsuit/ert/proc/toggle_hud(mob/user)
+	var/datum/component/team_monitor/monitor = GetComponent(/datum/component/team_monitor)
+	if(!monitor)
+		to_chat(user, "<span class='notice'>The suit is not fitted with a tracking beacon.</span>")
+		return
+	monitor.toggle_hud(!monitor.hud_visible, user)
+	if(monitor.hud_visible)
+		to_chat(user, "<span class='notice'>You toggle the heads up display of your suit.</span>")
+	else
+		to_chat(user, "<span class='warning'>You disable the heads up display of your suit.</span>")
 
 /obj/item/clothing/suit/space/hardsuit/ert
 	name = "emergency response team commander hardsuit"
@@ -181,12 +217,44 @@ Contains:
 	item_state = "ert_command"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
-	armor = list("melee" = 65, "bullet" = 50, "laser" = 50, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80)
+	armor = list("melee" = 65, "bullet" = 50, "laser" = 50, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80, "stamina" = 70)
 	slowdown = 0
 	strip_delay = 130
 	resistance_flags = FIRE_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	jetpack = /obj/item/tank/jetpack/suit
+	actions_types = list(
+		/datum/action/item_action/toggle_helmet,
+		/datum/action/item_action/toggle_beacon,
+		/datum/action/item_action/toggle_beacon_frequency
+	)
+
+/obj/item/clothing/suit/space/hardsuit/ert/ui_action_click(mob/user, datum/actiontype)
+	switch(actiontype.type)
+		if(/datum/action/item_action/toggle_helmet)
+			ToggleHelmet()
+		if(/datum/action/item_action/toggle_beacon)
+			toggle_beacon(user)
+		if(/datum/action/item_action/toggle_beacon_frequency)
+			set_beacon_freq(user)
+
+/obj/item/clothing/suit/space/hardsuit/ert/proc/toggle_beacon(mob/user)
+	var/datum/component/tracking_beacon/beacon = GetComponent(/datum/component/tracking_beacon)
+	if(!beacon)
+		to_chat(user, "<span class='notice'>The suit is not fitted with a tracking beacon.</span>")
+		return
+	beacon.toggle_visibility(!beacon.visible)
+	if(beacon.visible)
+		to_chat(user, "<span class='notice'>You enable the tracking beacon on [src]. Anybody on the same frequency will now be able to track your location.</span>")
+	else
+		to_chat(user, "<span class='warning'>You disable the tracking beacon on [src].</span>")
+
+/obj/item/clothing/suit/space/hardsuit/ert/proc/set_beacon_freq(mob/user)
+	var/datum/component/tracking_beacon/beacon = GetComponent(/datum/component/tracking_beacon)
+	if(!beacon)
+		to_chat(user, "<span class='notice'>The suit is not fitted with a tracking beacon.</span>")
+		return
+	beacon.change_frequency(user)
 
 	//ERT Security
 /obj/item/clothing/head/helmet/space/hardsuit/ert/sec
@@ -195,6 +263,7 @@ Contains:
 	icon_state = "hardsuit0-ert_security"
 	item_state = "hardsuit0-ert_security"
 	item_color = "ert_security"
+	beacon_colour = "#ec4848"
 
 /obj/item/clothing/suit/space/hardsuit/ert/sec
 	name = "emergency response team security hardsuit"
@@ -211,6 +280,7 @@ Contains:
 	icon_state = "hardsuit0-ert_engineer"
 	item_state = "hardsuit0-ert_engineer"
 	item_color = "ert_engineer"
+	beacon_colour = "#ecaa48"
 
 /obj/item/clothing/suit/space/hardsuit/ert/engi
 	name = "emergency response team engineering hardsuit"
@@ -227,6 +297,7 @@ Contains:
 	icon_state = "hardsuit0-ert_medical"
 	item_state = "hardsuit0-ert_medical"
 	item_color = "ert_medical"
+	beacon_colour = "#88ecec"
 
 /obj/item/clothing/suit/space/hardsuit/ert/med
 	name = "emergency response team medical hardsuit"
@@ -234,7 +305,6 @@ Contains:
 	icon_state = "ert_medical"
 	item_state = "ert_medical"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/med
-	species_exception = list(/datum/species/angel)
 	jetpack = /obj/item/tank/jetpack/suit
 
 	//ERT Janitor
@@ -244,6 +314,7 @@ Contains:
 	icon_state = "hardsuit0-ert_janitor"
 	item_state = "hardsuit0-ert_janitor"
 	item_color = "ert_janitor"
+	beacon_colour = "#be43ce"
 
 /obj/item/clothing/suit/space/hardsuit/ert/jani
 	name = "emergency response team janitorial hardsuit"
@@ -256,24 +327,24 @@ Contains:
 /obj/item/clothing/suit/space/eva
 	name = "EVA suit"
 	icon_state = "space"
-	item_state = "s_suit"
+	item_state = "eva_suit"
 	desc = "A lightweight space suit with the basic ability to protect the wearer from the vacuum of space during emergencies."
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 100, "rad" = 20, "fire" = 50, "acid" = 65)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 100, "rad" = 20, "fire" = 50, "acid" = 65, "stamina" = 0)
 
 /obj/item/clothing/head/helmet/space/eva
 	name = "EVA helmet"
 	icon_state = "space"
-	item_state = "space"
+	item_state = "eva_helmet"
 	desc = "A lightweight space helmet with the basic ability to protect the wearer from the vacuum of space during emergencies."
 	flash_protect = 0
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 100, "rad" = 20, "fire" = 50, "acid" = 65)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 100, "rad" = 20, "fire" = 50, "acid" = 65, "stamina" = 0)
 
 /obj/item/clothing/head/helmet/space/freedom
 	name = "eagle helmet"
 	desc = "An advanced, space-proof helmet. It appears to be modeled after an old-world eagle."
 	icon_state = "griffinhat"
 	item_state = "griffinhat"
-	armor = list("melee" = 20, "bullet" = 40, "laser" = 30, "energy" = 25, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80)
+	armor = list("melee" = 20, "bullet" = 40, "laser" = 30, "energy" = 25, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80, "stamina" = 10)
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = ACID_PROOF | FIRE_PROOF
@@ -284,7 +355,7 @@ Contains:
 	icon_state = "freedom"
 	item_state = "freedom"
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
-	armor = list("melee" = 20, "bullet" = 40, "laser" = 30,"energy" = 25, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80)
+	armor = list("melee" = 20, "bullet" = 40, "laser" = 30,"energy" = 25, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 80, "stamina" = 10)
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = ACID_PROOF | FIRE_PROOF
@@ -296,8 +367,9 @@ Contains:
 	desc = "Spaceworthy and it looks like a space carp's head, smells like one too."
 	icon_state = "carp_helm"
 	item_state = "syndicate"
-	armor = list("melee" = 20, "bullet" = 10, "laser" = 20, "energy" = 20, "bomb" = 30, "bio" = 100, "rad" = 75, "fire" = 60, "acid" = 75)
-	brightness_on = 0 //luminosity when on
+	armor = list("melee" = 20, "bullet" = 10, "laser" = 20, "energy" = 20, "bomb" = 30, "bio" = 100, "rad" = 75, "fire" = 60, "acid" = 75, "stamina" = 40)
+	light_system = NO_LIGHT_SUPPORT
+	light_range = 0 //luminosity when on
 	actions_types = list()
 
 /obj/item/clothing/head/helmet/space/hardsuit/carp/Initialize()
@@ -310,13 +382,13 @@ Contains:
 	icon_state = "carp_suit"
 	item_state = "space_suit_syndicate"
 	slowdown = 0	//Space carp magic, never stop believing
-	armor = list("melee" = 20, "bullet" = 10, "laser" = 20, "energy" = 20, "bomb" = 30, "bio" = 100, "rad" = 75, "fire" = 60, "acid" = 75)
+	armor = list("melee" = 20, "bullet" = 10, "laser" = 20, "energy" = 20, "bomb" = 30, "bio" = 100, "rad" = 75, "fire" = 60, "acid" = 75, "stamina" = 40)
 	allowed = list(/obj/item/tank/internals, /obj/item/pneumatic_cannon/speargun, /obj/item/toy/plush/carpplushie/dehy_carp, /obj/item/toy/plush/carpplushie, /obj/item/reagent_containers/food/snacks/carpmeat)	//I'm giving you a hint here
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/carp
 
 /obj/item/clothing/head/helmet/space/hardsuit/carp/equipped(mob/living/carbon/human/user, slot)
 	..()
-	if (slot == SLOT_HEAD)
+	if (slot == ITEM_SLOT_HEAD)
 		user.faction |= "carp"
 
 /obj/item/clothing/head/helmet/space/hardsuit/carp/dropped(mob/living/carbon/human/user)
@@ -333,6 +405,7 @@ Contains:
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	actions_types = list()
 	resistance_flags = FIRE_PROOF
+	beacon_colour = "#9ddb56"
 
 /obj/item/clothing/suit/space/hardsuit/ert/paranormal
 	name = "paranormal response team hardsuit"
@@ -347,6 +420,41 @@ Contains:
 	. = ..()
 	AddComponent(/datum/component/anti_magic, TRUE, TRUE)
 
+//Lavaland suits
+
+/obj/item/clothing/suit/space/hardsuit/ert/paranormal/lavaland
+	desc = "Powerful wards are built into this hardsuit, protecting the user from all manner of paranormal threats with armor designed specifically for low pressures."
+	high_pressure_multiplier = 0.4
+
+/obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal/lavaland
+	high_pressure_multiplier = 0.4
+
+/obj/item/clothing/suit/space/hardsuit/ert/paranormal/lavaland/beserker
+	name = "champion's hardsuit"
+	desc = "Voices echo from the hardsuit, driving the user insane."
+	icon_state = "hardsuit-beserker"
+	item_state = "hardsuit-beserker"
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal/lavaland/beserker
+
+/obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal/lavaland/beserker
+	name = "champion's helmet"
+	desc = "Peering into the eyes of the helmet is enough to seal damnation."
+	icon_state = "hardsuit0-beserker"
+	item_state = "hardsuit0-beserker"
+
+/obj/item/clothing/suit/space/hardsuit/ert/paranormal/lavaland/inquisitor
+	name = "inquisitor's hardsuit"
+	icon_state = "hardsuit-inq"
+	item_state = "hardsuit-inq"
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal/lavaland/inquisitor
+
+/obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal/lavaland/inquisitor
+	name = "inquisitor's helmet"
+	icon_state = "hardsuit0-inq"
+	item_state = "hardsuit0-inq"
+
+//End lavaland suits
+
 /obj/item/clothing/suit/space/hardsuit/ert/paranormal/inquisitor
 	name = "inquisitor's hardsuit"
 	icon_state = "hardsuit-inq"
@@ -358,26 +466,14 @@ Contains:
 	icon_state = "hardsuit0-inq"
 	item_state = "hardsuit0-inq"
 
-/obj/item/clothing/suit/space/hardsuit/ert/paranormal/beserker
-	name = "champion's hardsuit"
-	desc = "Voices echo from the hardsuit, driving the user insane."
-	icon_state = "hardsuit-beserker"
-	item_state = "hardsuit-beserker"
-	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal/beserker
-
-/obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal/beserker
-	name = "champion's helmet"
-	desc = "Peering into the eyes of the helmet is enough to seal damnation."
-	icon_state = "hardsuit0-beserker"
-	item_state = "hardsuit0-beserker"
-
 /obj/item/clothing/head/helmet/space/fragile
 	name = "emergency space helmet"
 	desc = "A bulky, air-tight helmet meant to protect the user during emergency situations. It doesn't look very durable."
 	icon_state = "syndicate-helm-orange"
 	item_state = "syndicate-helm-orange"
-	armor = list("melee" = 5, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 10, "fire" = 0, "acid" = 0)
+	armor = list("melee" = 5, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 10, "rad" = 10, "fire" = 0, "acid" = 0, "stamina" = 0)
 	strip_delay = 65
+	flash_protect = 0
 
 /obj/item/clothing/suit/space/fragile
 	name = "emergency space suit"
@@ -386,14 +482,15 @@ Contains:
 	icon_state = "syndicate-orange"
 	item_state = "syndicate-orange"
 	slowdown = 2
-	armor = list("melee" = 5, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 10, "fire" = 0, "acid" = 0)
+	armor = list("melee" = 5, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 10, "rad" = 10, "fire" = 0, "acid" = 0, "stamina" = 0)
 	strip_delay = 65
+	w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/clothing/suit/space/fragile/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
 	if(!torn && prob(50))
 		to_chat(owner, "<span class='warning'>[src] tears from the damage, breaking the air-tight seal!</span>")
 		clothing_flags &= ~STOPSPRESSUREDAMAGE
-		name = "torn [src]."
+		name = "torn [src]"
 		desc = "A bulky suit meant to protect the user during emergency situations, at least until someone tore a hole in the suit."
 		torn = TRUE
 		playsound(loc, 'sound/weapons/slashmiss.ogg', 50, 1)
@@ -405,6 +502,53 @@ Contains:
 	icon_state = "hunter"
 	item_state = "swat_suit"
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/kitchen/knife/combat)
-	armor = list(melee = 60, bullet = 40, laser = 40, energy = 50, bomb = 100, bio = 100, rad = 100, fire = 100, acid = 100)
+	armor = list(melee = 60, bullet = 40, laser = 40, energy = 50, bomb = 100, bio = 100, rad = 100, fire = 100, acid = 100, stamina = 70)
 	strip_delay = 130
 	resistance_flags = FIRE_PROOF | ACID_PROOF
+
+/obj/item/clothing/head/helmet/space/hardsuit/skinsuit
+	name = "skinsuit helmet"
+	icon = 'icons/obj/clothing/hats.dmi'
+	alternate_worn_icon = 'icons/mob/head.dmi'
+	icon_state = "skinsuit_helmet"
+	item_state = "skinsuit_helmet"
+	max_integrity = 200
+	desc = "An airtight helmet meant to protect the wearer during emergency situations."
+	permeability_coefficient = 0.01
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 20, "rad" = 0, "fire" = 0, "acid" = 0, "stamina" = 0)
+	min_cold_protection_temperature = EMERGENCY_HELM_MIN_TEMP_PROTECT
+	heat_protection = NONE
+	flash_protect = 0
+	bang_protect = 0
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEHAIR|HIDEFACIALHAIR
+	clothing_flags = STOPSPRESSUREDAMAGE | SHOWEROKAY | SNUG_FIT
+	max_heat_protection_temperature = 100
+	actions_types = null
+
+/obj/item/clothing/head/helmet/space/hardsuit/skinsuit/attack_self(mob/user)
+	return
+
+/obj/item/clothing/head/helmet/space/hardsuit/skinsuit/emp_act(severity)
+	return
+
+/obj/item/clothing/suit/space/hardsuit/skinsuit
+	name = "skinsuit"
+	desc = "A slim, compression-based spacesuit meant to protect the user during emergency situations. It's only a little warmer than your uniform."
+	icon = 'icons/obj/clothing/suits.dmi'
+	alternate_worn_icon = 'icons/mob/suit.dmi'
+	icon_state = "skinsuit"
+	item_state = "s_suit"
+	max_integrity = 200
+	slowdown = 3 //Higher is slower
+	clothing_flags = STOPSPRESSUREDAMAGE | SHOWEROKAY
+	gas_transfer_coefficient = 0.5
+	permeability_coefficient = 0.5
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 10, "rad" = 0, "fire" = 0, "acid" = 0, "stamina" = 0)
+	allowed = list(/obj/item/flashlight, /obj/item/tank/internals)
+	min_cold_protection_temperature = EMERGENCY_SUIT_MIN_TEMP_PROTECT
+	heat_protection = NONE
+	max_heat_protection_temperature = 100
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/skinsuit
+
+/obj/item/clothing/suit/space/hardsuit/skinsuit/attackby(obj/item/I, mob/user, params)
+	return

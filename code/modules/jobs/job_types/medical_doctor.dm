@@ -8,6 +8,9 @@
 	spawn_positions = 3
 	supervisors = "the chief medical officer"
 	selection_color = "#d4ebf2" //NSV13
+	chat_color = "#6CB1C5"
+	exp_requirements = 120
+	exp_type = EXP_TYPE_CREW
 
 	outfit = /datum/outfit/job/doctor
 
@@ -17,6 +20,11 @@
 	paycheck_department = ACCOUNT_MED
 
 	display_order = JOB_DISPLAY_ORDER_MEDICAL_DOCTOR
+	departments = DEPARTMENT_MEDICAL
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/medical
+	)
 
 /datum/outfit/job/doctor
 	name = "Medical Doctor"
@@ -28,7 +36,8 @@
 	uniform = /obj/item/clothing/under/ship/medical
 	shoes = /obj/item/clothing/shoes/sneakers/white
 	suit =  /obj/item/clothing/suit/toggle/labcoat
-	l_hand = /obj/item/storage/firstaid/regular
+	gloves = /obj/item/clothing/gloves/color/latex/nitrile
+	l_hand = /obj/item/storage/firstaid/medical
 	suit_store = /obj/item/flashlight/pen
 
 	backpack = /obj/item/storage/backpack/medic

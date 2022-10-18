@@ -189,7 +189,7 @@ GLOBAL_VAR(medibot_unique_id_gen)
 		if(tech_boosters)
 			heal_amount = (round(tech_boosters/2,0.1)*initial(heal_amount))+initial(heal_amount) //every 2 tend wounds tech gives you an extra 100% healing, adjusting for unique branches (combo is bonus)
 			if(oldheal_amount < heal_amount)
-				speak("Surgerical Knowledge Found! Efficiency is increased by [round(heal_amount/oldheal_amount*100)]%!")
+				speak("Surgical research data found! Efficiency increased by [round(heal_amount/oldheal_amount*100)]%!")
 	update_controls()
 	return
 
@@ -276,10 +276,10 @@ GLOBAL_VAR(medibot_unique_id_gen)
 		return
 
 	if(patient && path.len == 0 && (get_dist(src,patient) > 1))
-		path = get_path_to(src, get_turf(patient), /turf/proc/Distance_cardinal, 0, 30,id=access_card)
+		path = get_path_to(src, patient, 30,id=access_card)
 		mode = BOT_MOVING
 		if(!path.len) //try to get closer if you can't reach the patient directly
-			path = get_path_to(src, get_turf(patient), /turf/proc/Distance_cardinal, 0, 30,1,id=access_card)
+			path = get_path_to(src, patient, 30,1,id=access_card)
 			if(!path.len) //Do not chase a patient we cannot reach.
 				soft_reset()
 
@@ -306,7 +306,7 @@ GLOBAL_VAR(medibot_unique_id_gen)
 	//Time to see if they need medical help!
 	if(C.stat == DEAD || (HAS_TRAIT(C, TRAIT_FAKEDEATH)))
 		return FALSE	//welp too late for them!
-	
+
 	var/can_inject = FALSE
 	for(var/X in C.bodyparts)
 		var/obj/item/bodypart/part = X
@@ -332,7 +332,7 @@ GLOBAL_VAR(medibot_unique_id_gen)
 
 	if(ishuman(C))
 		var/mob/living/carbon/human/H = C
-		if (H.wear_suit && H.head && istype(H.wear_suit, /obj/item/clothing) && istype(H.head, /obj/item/clothing))
+		if (H.wear_suit && H.head && isclothing(H.wear_suit) && isclothing(H.head))
 			var/obj/item/clothing/CS = H.wear_suit
 			var/obj/item/clothing/CH = H.head
 			if (CS.clothing_flags & CH.clothing_flags & THICKMATERIAL)
@@ -421,8 +421,12 @@ GLOBAL_VAR(medibot_unique_id_gen)
 				if((get_dist(src, patient) <= 1) && (on) && assess_patient(patient))
 					var/healies = heal_amount
 					var/obj/item/storage/firstaid/FA = firstaid
+					if(treatment_method == TOX && isoozeling(patient))
+						healies *= -1.5
 					if(treatment_method == initial(FA.damagetype_healed)) //using the damage specific medkits give bonuses when healing this type of damage.
 						healies *= 1.5
+					if(treatment_method == TOX && HAS_TRAIT(patient, TRAIT_TOXINLOVER))
+						healies *= -1.5
 					if(emagged == 2)
 						patient.reagents.add_reagent(/datum/reagent/toxin/chloralhydrate, 5)
 						patient.apply_damage_type((healies*1),treatment_method)

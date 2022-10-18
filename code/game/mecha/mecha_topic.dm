@@ -5,7 +5,9 @@
 
 /obj/mecha/proc/get_stats_html()
 	. = {"<html>
-			<head><title>[name] data</title>
+			<head>
+				<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+				<title>[name] data</title>
 				<style>
 					body {color: #00ff00; background: #000000; font-family:"Lucida Console",monospace; font-size: 12px;}
 					hr {border: 1px solid #0f0; color: #0f0; background-color: #0f0;}
@@ -60,15 +62,15 @@
 	if (internal_tank)
 		int_tank_air = internal_tank.return_air()
 		tank_pressure = internal_tank ? round(int_tank_air.return_pressure(),0.01) : "None"
-		tank_temperature = internal_tank ? int_tank_air.temperature : "Unknown"
+		tank_temperature = internal_tank ? int_tank_air.return_temperature() : "Unknown"
 		cabin_pressure = round(return_pressure(),0.01)
 	. =	{"[report_internal_damage()]
-		[integrity<30?"<span class='userdanger'>DAMAGE LEVEL CRITICAL</span><br>":null]
+		[integrity<30?"<span class='userdanger'>DAMAGE LEVEL CRITICAL!</span><br>":null]
 		<b>Integrity: </b> [integrity]%<br>
-		<b>Powercell charge: </b>[isnull(cell_charge)?"No powercell installed":"[cell.percent()]%"]<br>
+		<b>Power cell charge: </b>[isnull(cell_charge)?"No power cell installed.":"[cell.percent()]%"]<br>
 		<b>Air source: </b>[internal_tank?"[use_internal_tank?"Internal Airtank":"Environment"]":"Environment"]<br>
-		<b>Airtank pressure: </b>[internal_tank?"[tank_pressure]kPa":"N/A"]<br>
-		<b>Airtank temperature: </b>[internal_tank?"[tank_temperature]&deg;K|[tank_temperature - T0C]&deg;C":"N/A"]<br>
+		<b>Air tank pressure: </b>[internal_tank?"[tank_pressure]kPa":"N/A"]<br>
+		<b>Air tank temperature: </b>[internal_tank?"[tank_temperature]&deg;K|[tank_temperature - T0C]&deg;C":"N/A"]<br>
 		<b>Cabin pressure: </b>[internal_tank?"[cabin_pressure>WARNING_HIGH_PRESSURE ? "<span class='danger'>[cabin_pressure]</span>": cabin_pressure]kPa":"N/A"]<br>
 		<b>Cabin temperature: </b> [internal_tank?"[return_temperature()]&deg;K|[return_temperature() - T0C]&deg;C":"N/A"]<br>
 		[dna_lock?"<b>DNA-locked:</b><br> <span style='font-size:10px;letter-spacing:-1px;'>[dna_lock]</span> \[<a href='?src=[REF(src)];reset_dna=1'>Reset</a>\]<br>":""]<br>"}
@@ -77,22 +79,22 @@
 ///Returns HTML for mech actions. Ideally, this proc would be empty for the base mecha. Segmented for easy refactoring.
 /obj/mecha/proc/get_actions()
 	. = ""
-	. += "[defense_action.owner ? "<b>Defense Mode: </b> [defense_mode ? "Enabled" : "Disabled"]<br>" : ""]"
-	. += "[overload_action.owner ? "<b>Leg Actuators Overload: </b> [leg_overload_mode ? "Enabled" : "Disabled"]<br>" : ""]"
-	. += "[smoke_action.owner ? "<b>Smoke: </b> [smoke]<br>" : ""]"
-	. += "[zoom_action.owner ? "<b>Zoom: </b> [zoom_mode ? "Enabled" : "Disabled"]<br>" : ""]"
-	. += "[switch_damtype_action.owner ? "<b>Damtype: </b> [damtype]<br>" : ""]"
-	. += "[phasing_action.owner ? "<b>Phase Modulator: </b> [phasing ? "Enabled" : "Disabled"]<br>" : ""]"
+	. += "[defense_action.owner ? "<b>Defense Mode: </b> [defense_mode ? "Enabled" : "Disabled"].<br>" : ""]"
+	. += "[overload_action.owner ? "<b>Leg Actuators Overload: </b> [leg_overload_mode ? "Enabled" : "Disabled"].<br>" : ""]"
+	. += "[smoke_action.owner ? "<b>Smoke: </b> [smoke].<br>" : ""]"
+	. += "[zoom_action.owner ? "<b>Zoom: </b> [zoom_mode ? "Enabled" : "Disabled"].<br>" : ""]"
+	. += "[switch_damtype_action.owner ? "<b>Damtype: </b> [damtype].<br>" : ""]"
+	. += "[phasing_action.owner ? "<b>Phase Modulator: </b> [phasing ? "Enabled" : "Disabled"].<br>" : ""]"
 
 ///HTML for internal damage.
 /obj/mecha/proc/report_internal_damage()
 	. = ""
-	var/static/list/dam_reports = list(
-		"[MECHA_INT_FIRE]" = "<span class='userdanger'>INTERNAL FIRE</span>",
-		"[MECHA_INT_TEMP_CONTROL]" = "<span class='userdanger'>LIFE SUPPORT SYSTEM MALFUNCTION</span>",
-		"[MECHA_INT_TANK_BREACH]" = "<span class='userdanger'>GAS TANK BREACH</span>",
-		"[MECHA_INT_CONTROL_LOST]" = "<span class='userdanger'>COORDINATION SYSTEM CALIBRATION FAILURE</span> - <a href='?src=[REF(src)];repair_int_control_lost=1'>Recalibrate</a>",
-		"[MECHA_INT_SHORT_CIRCUIT]" = "<span class='userdanger'>SHORT CIRCUIT</span>"
+	var/list/dam_reports = list(
+		"[MECHA_INT_FIRE]" = "<span class='userdanger'>INTERNAL FIRE.</span>",
+		"[MECHA_INT_TEMP_CONTROL]" = "<span class='userdanger'>LIFE SUPPORT SYSTEM MALFUNCTION.</span>",
+		"[MECHA_INT_TANK_BREACH]" = "<span class='userdanger'>GAS TANK BREACH.</span>",
+		"[MECHA_INT_CONTROL_LOST]" = "<span class='userdanger'>COORDINATION SYSTEM CALIBRATION FAILURE.</span> - <a href='?src=[REF(src)];repair_int_control_lost=1'>Recalibrate</a>",
+		"[MECHA_INT_SHORT_CIRCUIT]" = "<span class='userdanger'>SHORT CIRCUIT.</span>"
 								)
 	for(var/tflag in dam_reports)
 		var/intdamflag = text2num(tflag)
@@ -100,7 +102,7 @@
 			. += dam_reports[tflag]
 			. += "<br />"
 	if(return_pressure() > WARNING_HIGH_PRESSURE)
-		. += "<span class='userdanger'>DANGEROUSLY HIGH CABIN PRESSURE</span><br />"
+		. += "<span class='userdanger'>DANGEROUSLY HIGH CABIN PRESSURE.</span><br />"
 
 /obj/mecha/proc/get_equipment_list() //outputs mecha equipment list in html
 	if(!equipment.len)
@@ -161,6 +163,7 @@
 		return
 	. = {"<html>
 			<head>
+				<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
 				<style>
 					h1 {font-size:15px;margin-bottom:4px;}
 					body {color: #00ff00; background: #000000; font-family:"Courier New", Courier, monospace; font-size: 12px;}
@@ -168,7 +171,7 @@
 				</style>
 			</head>
 			<body>
-				<h1>Following keycodes are present in this system:</h1>"}
+				<h1>Keycodes present in this system:</h1>"}
 	for(var/a in operation_req_access)
 		. += "[get_access_desc(a)] - <a href='?src=[REF(src)];del_req_access=[a];user=[REF(user)];id_card=[REF(id_card)]'>Delete</a><br>"
 	. += "<hr><h1>Following keycodes were detected on portable device:</h1>"
@@ -192,6 +195,7 @@
 		return
 	. = {"<html>
 			<head>
+				<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
 				<style>
 					body {color: #00ff00; background: #000000; font-family:"Courier New", Courier, monospace; font-size: 12px;}
 					a {padding:2px 5px; background:#32CD32;color:#000;display:block;margin:2px;text-align:center;text-decoration:none;}
@@ -199,8 +203,13 @@
 			</head>
 			<body>
 				[add_req_access?"<a href='?src=[REF(src)];req_access=1;id_card=[REF(id_card)];user=[REF(user)]'>Edit operation keycodes</a>":null]
-				[maint_access?"<a href='?src=[REF(src)];maint_access=1;id_card=[REF(id_card)];user=[REF(user)]'>[(state>0) ? "Terminate" : "Initiate"] maintenance protocol</a>":null]
-				[(state>0) ?"<a href='?src=[REF(src)];set_internal_tank_valve=1;user=[REF(user)]'>Set Cabin Air Pressure</a>":null]
+				[maint_access?"<a href='?src=[REF(src)];maint_access=1;id_card=[REF(id_card)];user=[REF(user)]'>[(construction_state > MECHA_LOCKED) ? "Terminate" : "Initiate"] maintenance protocol</a>":null]
+				[(construction_state == MECHA_OPEN_HATCH) ?"--------------------</br>":null]
+				[(construction_state == MECHA_OPEN_HATCH) ?"[cell?"<a href='?src=[REF(src)];drop_cell=1;id_card=[REF(id_card)];user=[REF(user)]'>Drop power cell</a>":"No cell installed</br>"]":null]
+				[(construction_state == MECHA_OPEN_HATCH) ?"[scanmod?"<a href='?src=[REF(src)];drop_scanmod=1;id_card=[REF(id_card)];user=[REF(user)]'>Drop scanning module</a>":"No scanning module installed</br>"]":null]
+				[(construction_state == MECHA_OPEN_HATCH) ?"[capacitor?"<a href='?src=[REF(src)];drop_cap=1;id_card=[REF(id_card)];user=[REF(user)]'>Drop capacitor</a>":"No capacitor installed</br>"]":null]
+				[(construction_state == MECHA_OPEN_HATCH) ?"--------------------</br>":null]
+				[(construction_state > MECHA_LOCKED) ?"<a href='?src=[REF(src)];set_internal_tank_valve=1;user=[REF(user)]'>Set Cabin Air Pressure</a>":null]
 			</body>
 		</html>"}
 	user << browse(., "window=exosuit_maint_console")
@@ -242,12 +251,30 @@
 			if(href_list["maint_access"])
 				if(!maint_access)
 					return
-				if(state==0)
-					state = 1
+				if(construction_state == MECHA_LOCKED)
+					construction_state = MECHA_SECURE_BOLTS
 					to_chat(usr, "The securing bolts are now exposed.")
-				else if(state==1)
-					state = 0
+				else if(construction_state == MECHA_SECURE_BOLTS)
+					construction_state = MECHA_LOCKED
 					to_chat(usr, "The securing bolts are now hidden.")
+				output_maintenance_dialog(id_card,usr)
+				return
+			if(href_list["drop_cell"])
+				if(construction_state == MECHA_OPEN_HATCH)
+					cell.forceMove(get_turf(src))
+					cell = null
+				output_maintenance_dialog(id_card,usr)
+				return
+			if(href_list["drop_scanmod"])
+				if(construction_state == MECHA_OPEN_HATCH)
+					scanmod.forceMove(get_turf(src))
+					scanmod = null
+				output_maintenance_dialog(id_card,usr)
+				return
+			if(href_list["drop_cap"])
+				if(construction_state == MECHA_OPEN_HATCH)
+					capacitor.forceMove(get_turf(src))
+					capacitor = null
 				output_maintenance_dialog(id_card,usr)
 				return
 
@@ -273,9 +300,9 @@
 			return
 
 		//Set pressure.
-		if(href_list["set_internal_tank_valve"] && state)
+		if(href_list["set_internal_tank_valve"] && construction_state)
 			var/new_pressure = input(usr,"Input new output pressure","Pressure setting",internal_tank_valve) as num|null
-			if(isnull(new_pressure) || usr.incapacitated() || !state)
+			if(isnull(new_pressure) || usr.incapacitated() || !construction_state)
 				return
 			internal_tank_valve = new_pressure
 			to_chat(usr, "<span class='notice'>The internal pressure valve has been set to [internal_tank_valve]kPa.</span>")
@@ -295,8 +322,8 @@
 		if(!equip || !equip.selectable)
 			return
 		selected = equip
-		occupant_message("You switch to [equip]")
-		visible_message("[src] raises [equip]")
+		occupant_message("You switch to [equip].")
+		visible_message("[src] raises [equip].")
 		send_byjax(usr, "exosuit.browser", "eq_list", get_equipment_list())
 		return
 
@@ -321,12 +348,10 @@
 
 	//Changes the exosuit name.
 	if(href_list["change_name"])
-		var/userinput = input(usr, "Choose a new exosuit name.", "Rename exosuit", "") as null|text
-		if(usr != occupant || usr.incapacitated())
+		var/userinput = stripped_input(usr, "Choose a new exosuit name.", "Rename exosuit", "", MAX_NAME_LEN)
+		if(!userinput || usr != occupant || usr.incapacitated())
 			return
-		if(!isnull(userinput))
-			var/newname = copytext(sanitize_name(userinput),1,MAX_NAME_LEN)
-			name = newname ? newname : initial(name)
+		name = userinput
 		return
 
 	//Toggles ID upload.
@@ -337,7 +362,7 @@
 
 	//Toggles main access.
 	if(href_list["toggle_maint_access"])
-		if(state)
+		if(construction_state)
 			occupant_message("<span class='danger'>Maintenance protocols in effect</span>")
 			return
 		maint_access = !maint_access
@@ -366,11 +391,14 @@
 
 	//Turns on the DNA lock
 	if(href_list["dna_lock"])
+		if(obj_flags & EMAGGED)
+			occupant_message("The control console lights up red, failing to bind to your DNA.")
+			return
 		if(!iscarbon(occupant) || !occupant.dna)
-			occupant_message("You feel a prick as the needle takes your DNA sample.")
+			occupant_message("The controls console flashes brightly, binding to your DNA.")
 			return
 		dna_lock = occupant.dna.unique_enzymes
-		occupant_message("You feel a prick as the needle takes your DNA sample.")
+		occupant_message("The controls console flashes brightly, binding to your DNA.")
 		return
 
 	//Resets the DNA lock
@@ -380,7 +408,7 @@
 
 	//Repairs internal damage
 	if(href_list["repair_int_control_lost"])
-		occupant_message("Recalibrating coordination system...")
+		occupant_message("Recalibrating coordination system.")
 		log_message("Recalibration of coordination system started.", LOG_MECHA)
 		addtimer(CALLBACK(src, .proc/stationary_repair, loc), 100, TIMER_UNIQUE)
 

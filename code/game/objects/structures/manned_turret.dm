@@ -11,7 +11,7 @@
 	max_integrity = 100
 	buckle_lying = FALSE
 	layer = ABOVE_MOB_LAYER
-	var/view_range = 10
+	var/view_range = 2.5
 	var/cooldown = 0
 	var/projectile_type = /obj/item/projectile/bullet/manned_turret
 	var/rate_of_fire = 1
@@ -38,12 +38,13 @@
 		buckled_mob.pixel_x = 0
 		buckled_mob.pixel_y = 0
 		if(buckled_mob.client)
-			buckled_mob.client.check_view()
+			buckled_mob.client.view_size.resetToDefault()
 	anchored = FALSE
 	. = ..()
 	STOP_PROCESSING(SSfastprocess, src)
+	LAZYREMOVE(buckled_mob, src)
 
-/obj/machinery/manned_turret/user_buckle_mob(mob/living/M, mob/living/carbon/user)
+/obj/machinery/manned_turret/user_buckle_mob(mob/living/M, mob/living/carbon/user, check_loc = TRUE)
 	if(user.incapacitated() || !istype(user))
 		return
 	M.forceMove(get_turf(src))
@@ -65,14 +66,14 @@
 	playsound(src,'sound/mecha/mechmove01.ogg', 50, 1)
 	anchored = TRUE
 	if(M.client)
-		M.client.change_view(view_range)
+		M.client.view_size.setTo(view_range)
 	START_PROCESSING(SSfastprocess, src)
 
 /obj/machinery/manned_turret/process()
 	if (!update_positioning())
 		return PROCESS_KILL
 
-/obj/machinery/manned_turret/proc/update_positioning()
+/obj/machinery/manned_turret/proc/update_positioning(mouseObject, params)
 	if (!LAZYLEN(buckled_mobs))
 		return FALSE
 	var/mob/living/controller = buckled_mobs[1]
@@ -80,11 +81,11 @@
 		return FALSE
 	var/client/C = controller.client
 	if(C)
-		var/atom/A = C.mouseObject
+		var/atom/A = mouseObject
 		var/turf/T = get_turf(A)
 		if(istype(T))	//They're hovering over something in the map.
 			direction_track(controller, T)
-			calculated_projectile_vars = calculate_projectile_angle_and_pixel_offsets(controller, C.mouseParams)
+			calculated_projectile_vars = calculate_projectile_angle_and_pixel_offsets(controller, params)
 
 /obj/machinery/manned_turret/proc/direction_track(mob/user, atom/targeted)
 	if(user.incapacitated())
@@ -147,7 +148,7 @@
 /obj/machinery/manned_turret/proc/fire_helper(mob/user)
 	if(user.incapacitated() || !(user in buckled_mobs))
 		return
-	update_positioning()						//REFRESH MOUSE TRACKING!!
+	update_positioning()
 	var/turf/targets_from = get_turf(src)
 	if(QDELETED(target))
 		target = target_turf

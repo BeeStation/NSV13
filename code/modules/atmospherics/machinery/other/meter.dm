@@ -4,12 +4,12 @@
 	icon = 'icons/obj/atmospherics/pipes/meter.dmi'
 	icon_state = "meterX"
 	layer = GAS_PUMP_LAYER
-	power_channel = ENVIRON
+	power_channel = AREA_USAGE_ENVIRON
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 2
 	active_power_usage = 4
 	max_integrity = 150
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 100, "bomb" = 0, "bio" = 100, "rad" = 100, "fire" = 40, "acid" = 0)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 100, "bomb" = 0, "bio" = 100, "rad" = 100, "fire" = 40, "acid" = 0, "stamina" = 0)
 	var/frequency = 0
 	var/atom/target
 	var/id_tag
@@ -103,7 +103,7 @@
 	if (target)
 		var/datum/gas_mixture/environment = target.return_air()
 		if(environment)
-			. = "The pressure gauge reads [round(environment.return_pressure(), 0.01)] kPa; [round(environment.temperature,0.01)] K ([round(environment.temperature-T0C,0.01)]&deg;C)."
+			. = "The pressure gauge reads [round(environment.return_pressure(), 0.01)] kPa; [round(environment.return_temperature(),0.01)] K ([round(environment.return_temperature()-T0C,0.01)]&deg;C)."
 		else
 			. = "The sensor error light is blinking."
 	else

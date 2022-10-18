@@ -20,13 +20,15 @@
 			return FALSE
 		if(specific_cult && specific_cult.is_sacrifice_target(M.mind))
 			return FALSE
+		if(is_servant_of_ratvar(M))
+			return FALSE
 		if(M.mind.enslaved_to && !iscultist(M.mind.enslaved_to))
 			return FALSE
 		if(M.mind.unconvertable)
 			return FALSE
 	else
 		return FALSE
-	if(HAS_TRAIT(M, TRAIT_MINDSHIELD) || issilicon(M) || isbot(M) || isdrone(M) || is_servant_of_ratvar(M) || !M.client)
+	if(HAS_TRAIT(M, TRAIT_MINDSHIELD) || issilicon(M) || isbot(M) || isdrone(M) || !M.client)
 		return FALSE //can't convert machines, shielded, braindead, or ratvar's dogs
 	return TRUE
 
@@ -36,7 +38,7 @@
 	report_type = "cult"
 	antag_flag = ROLE_CULTIST
 	false_report_weight = 1
-	restricted_jobs = list("Chaplain","AI", "Cyborg", "Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel", "Brig Physician")
+	restricted_jobs = list("Chaplain","AI", "Cyborg", "Military Police", "Warden", "Detective", "Head of Security", "Captain", "Executive Officer") //Nsv13 - XO, Crayon eaters & MPs
 	protected_jobs = list()
 	required_players = 29
 	required_enemies = 4
@@ -49,6 +51,7 @@
 	<span class='notice'>Crew</span>: Prevent the cult from expanding and drive it out."
 
 	title_icon = "cult"
+
 
 	var/finished = 0
 
@@ -65,7 +68,10 @@
 		restricted_jobs += protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Assistant"
+		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+
+	if(CONFIG_GET(flag/protect_heads_from_antagonist))
+		restricted_jobs += GLOB.command_positions
 
 	//cult scaling goes here
 	recommended_enemies = 1 + round(num_players()/CULT_SCALING_COEFFICIENT)
@@ -73,12 +79,16 @@
 	if(prob(remaining))
 		recommended_enemies++
 
+	recommended_enemies = max(recommended_enemies, required_enemies)
 
 	for(var/cultists_number = 1 to recommended_enemies)
 		if(!antag_candidates.len)
 			break
 		var/datum/mind/cultist = antag_pick(antag_candidates, ROLE_CULTIST)
 		antag_candidates -= cultist
+		if(!cultist)
+			cultists_number--
+			continue
 		cultists_to_cult += cultist
 		cultist.special_role = ROLE_CULTIST
 		cultist.restricted_roles = restricted_jobs

@@ -30,6 +30,8 @@
 	owner.announce_objectives()
 	equip_overthrow()
 	owner.special_role = ROLE_OVERTHROW
+	for(var/datum/objective/O in team.objectives)
+		log_objective(owner, O.explanation_text)
 
 /datum/antagonist/overthrow/on_removal()
 	owner.special_role = null
@@ -126,9 +128,9 @@
 	// Give AI hacking board
 	var/obj/item/aiModule/core/full/overthrow/O = new(H)
 	var/list/slots = list (
-		"backpack" = SLOT_IN_BACKPACK,
-		"left pocket" = SLOT_L_STORE,
-		"right pocket" = SLOT_R_STORE
+		"backpack" = ITEM_SLOT_BACKPACK,
+		"left pocket" = ITEM_SLOT_LPOCKET,
+		"right pocket" = ITEM_SLOT_RPOCKET
 	)
 	var/where = H.equip_in_one_of_slots(O, slots)
 	if (!where)

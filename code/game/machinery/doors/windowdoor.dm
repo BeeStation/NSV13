@@ -9,10 +9,11 @@
 	var/base_state = "left"
 	max_integrity = 150 //If you change this, consider changing ../door/window/brigdoor/ max_integrity at the bottom of this .dm file
 	integrity_failure = 0
-	armor = list("melee" = 20, "bullet" = 50, "laser" = 50, "energy" = 50, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 70, "acid" = 100)
+	armor = list("melee" = 20, "bullet" = 50, "laser" = 50, "energy" = 50, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 70, "acid" = 100, "stamina" = 0)
 	visible = FALSE
 	flags_1 = ON_BORDER_1
-	opacity = 0
+	opacity = FALSE
+	pass_flags_self = PASSGLASS
 	CanAtmosPass = ATMOS_PASS_PROC
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON | INTERACT_MACHINE_REQUIRES_SILICON | INTERACT_MACHINE_OPEN
 	var/obj/item/electronics/airlock/electronics = null
@@ -36,12 +37,19 @@
 	if(cable)
 		debris += new /obj/item/stack/cable_coil(src, cable)
 
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_EXIT = .proc/on_exit,
+	)
+
+	AddElement(/datum/element/connect_loc, loc_connections)
+
 /obj/machinery/door/window/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/ntnet_interface)
 
 /obj/machinery/door/window/Destroy()
 	density = FALSE
+	air_update_turf(1)
 	QDEL_LIST(debris)
 	if(obj_integrity == 0)
 		playsound(src, "shatter", 70, 1)
@@ -96,11 +104,12 @@
 		do_animate("deny")
 	return
 
-/obj/machinery/door/window/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover) && (mover.pass_flags & PASSGLASS))
-		return 1
+/obj/machinery/door/window/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(.)
+		return
 	if(get_dir(loc, target) == dir) //Make sure looking at appropriate border
-		return !density
+		return
 	if(istype(mover, /obj/structure/window))
 		var/obj/structure/window/W = mover
 		if(!valid_window_location(loc, W.ini_dir))
@@ -112,7 +121,7 @@
 	else if(istype(mover, /obj/machinery/door/window) && !valid_window_location(loc, mover.dir))
 		return FALSE
 	else
-		return 1
+		return TRUE
 
 /obj/machinery/door/window/CanAtmosPass(turf/T)
 	if(get_dir(loc, T) == dir)
@@ -124,13 +133,15 @@
 /obj/machinery/door/window/CanAStarPass(obj/item/card/id/ID, to_dir)
 	return !density || (dir != to_dir) || (check_access(ID) && hasPower())
 
-/obj/machinery/door/window/CheckExit(atom/movable/mover as mob|obj, turf/target)
-	if(istype(mover) && (mover.pass_flags & PASSGLASS))
-		return 1
-	if(get_dir(loc, target) == dir)
-		return !density
-	else
-		return 1
+/obj/machinery/door/window/proc/on_exit(datum/source, atom/movable/leaving, direction)
+	SIGNAL_HANDLER
+
+	if(istype(leaving) && (leaving.pass_flags & PASSGLASS))
+		return
+
+	if(direction == dir && density)
+		leaving.Bump(src)
+		return COMPONENT_ATOM_BLOCK_EXIT
 
 /obj/machinery/door/window/open(forced=FALSE)
 	if (operating) //doors can still open when emag-disabled
@@ -284,9 +295,9 @@
 	return ..()
 
 /obj/machinery/door/window/interact(mob/user)		//for sillycones
-	try_to_activate_door(user)
+	try_to_activate_door(null, user)
 
-/obj/machinery/door/window/try_to_activate_door(mob/user)
+/obj/machinery/door/window/try_to_activate_door(obj/item/I, mob/user)
 	if (..())
 		autoclose = FALSE
 
@@ -314,6 +325,10 @@
 /obj/machinery/door/window/ntnet_receive(datum/netdata/data)
 	// Check if the airlock is powered.
 	if(!hasPower())
+		return
+
+	//Check radio signal jamming
+	if(is_jammed())
 		return
 
 	// Check packet access level.
@@ -354,7 +369,7 @@
 
 /obj/machinery/door/window/brigdoor/security/holding
 	name = "holding cell door"
-	req_one_access = list(ACCESS_SEC_DOORS, ACCESS_LAWYER) //love for the lawyer
+	req_one_access = list(ACCESS_SEC_DOORS, ACCESS_LAWYER, ACCESS_BRIGPHYS) //love for the lawyer and Brig Phys
 
 /obj/machinery/door/window/clockwork
 	name = "brass windoor"
@@ -363,6 +378,8 @@
 	base_state = "clockwork"
 	shards = 0
 	rods = 0
+	max_integrity = 50
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 70, "acid" = 100, "stamina" = 0)
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	var/made_glow = FALSE
 
@@ -370,7 +387,6 @@
 	. = ..()
 	for(var/i in 1 to 2)
 		debris += new/obj/item/clockwork/alloy_shards/medium/gear_bit/large(src)
-	change_construction_value(2)
 
 /obj/machinery/door/window/clockwork/setDir(direct)
 	if(!made_glow)
@@ -380,19 +396,19 @@
 	..()
 
 /obj/machinery/door/window/clockwork/Destroy()
-	change_construction_value(-2)
 	return ..()
 
 /obj/machinery/door/window/clockwork/emp_act(severity)
 	if(prob(80/severity))
 		open()
 
-/obj/machinery/door/window/clockwork/ratvar_act()
-	if(GLOB.ratvar_awakens)
-		obj_integrity = max_integrity
-
 /obj/machinery/door/window/clockwork/hasPower()
 	return TRUE //yup that's power all right
+
+/obj/machinery/door/window/clockwork/allowed(mob/M)
+	if(is_servant_of_ratvar(M))
+		return TRUE
+	return FALSE
 
 /obj/machinery/door/window/clockwork/narsie_act()
 	take_damage(rand(30, 60), BRUTE)
@@ -402,10 +418,31 @@
 		animate(src, color = previouscolor, time = 8)
 		addtimer(CALLBACK(src, /atom/proc/update_atom_colour), 8)
 
-/obj/machinery/door/window/clockwork/allowed(mob/M)
-	if(is_servant_of_ratvar(M))
-		return 1
-	return 0
+/obj/machinery/door/window/clockwork/ratvar_act()
+	return FALSE
+
+/obj/machinery/door/window/clockwork/attackby(obj/item/I, mob/living/user, params)
+
+	if(operating)
+		return
+
+	add_fingerprint(user)
+	if(!(flags_1&NODECONSTRUCT_1))
+		if(I.tool_behaviour == TOOL_SCREWDRIVER)
+			I.play_tool_sound(src)
+			panel_open = !panel_open
+			to_chat(user, "<span class='notice'>You [panel_open ? "open":"close"] the maintenance panel of the [name].</span>")
+			return
+
+		if(I.tool_behaviour == TOOL_CROWBAR)
+			if(panel_open && !density && !operating)
+				user.visible_message("[user] begins to deconstruct [name].", \
+									 "<span class='notice'>You start to deconstruct from the [name]...</span>")
+				if(I.use_tool(src, user, 40, volume=50))
+					if(panel_open && !density && !operating && loc)
+						qdel(src)
+				return
+	return ..()
 
 /obj/machinery/door/window/northleft
 	dir = NORTH

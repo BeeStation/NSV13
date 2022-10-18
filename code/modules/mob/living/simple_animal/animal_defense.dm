@@ -20,7 +20,7 @@
 			visible_message("<span class='danger'>[M] [response_harm] [src]!</span>",\
 				"<span class='userdanger'>[M] [response_harm] you!</span>", null, COMBAT_MESSAGE_RANGE)
 			playsound(loc, attacked_sound, 25, 1, -1)
-			attack_threshold_check(harm_intent_damage)
+			attack_threshold_check(M.dna.species.punchdamage)
 			log_combat(M, src, "attacked")
 			updatehealth()
 			return TRUE
@@ -77,14 +77,16 @@
 /mob/living/simple_animal/attack_animal(mob/living/simple_animal/M)
 	. = ..()
 	if(.)
-		var/damage = rand(M.melee_damage_lower, M.melee_damage_upper)
+		var/damage = M.melee_damage
 		return attack_threshold_check(damage, M.melee_damage_type)
 
 /mob/living/simple_animal/attack_slime(mob/living/simple_animal/slime/M)
 	if(..()) //successful slime attack
-		var/damage = rand(15, 25)
+		var/damage = 20
 		if(M.is_adult)
-			damage = rand(20, 35)
+			damage = 30
+		if(M.transformeffects & SLIME_EFFECT_RED)
+			damage *= 1.1
 		return attack_threshold_check(damage)
 
 /mob/living/simple_animal/attack_drone(mob/living/simple_animal/drone/M)
@@ -106,15 +108,17 @@
 		apply_damage(damage, damagetype, null, getarmor(null, armorcheck))
 		return TRUE
 
-/mob/living/simple_animal/bullet_act(obj/item/projectile/Proj)
+/mob/living/simple_animal/bullet_act(obj/item/projectile/Proj, def_zone, piercing_hit = FALSE)
 	apply_damage(Proj.damage, Proj.damage_type)
-	Proj.on_hit(src)
+	Proj.on_hit(src, 0, piercing_hit)
 	return BULLET_ACT_HIT
 
 /mob/living/simple_animal/ex_act(severity, target, origin)
 	if(origin && istype(origin, /datum/spacevine_mutation) && isvineimmune(src))
 		return
 	..()
+	if(QDELETED(src))
+		return
 	var/bomb_armor = getarmor(null, "bomb")
 	switch (severity)
 		if (EXPLODE_DEVASTATE)
@@ -140,8 +144,8 @@
 	return
 
 /mob/living/simple_animal/do_attack_animation(atom/A, visual_effect_icon, used_item, no_effect)
-	if(!no_effect && !visual_effect_icon && melee_damage_upper)
-		if(melee_damage_upper < 10)
+	if(!no_effect && !visual_effect_icon && melee_damage)
+		if(melee_damage < 10)
 			visual_effect_icon = ATTACK_EFFECT_PUNCH
 		else
 			visual_effect_icon = ATTACK_EFFECT_SMASH

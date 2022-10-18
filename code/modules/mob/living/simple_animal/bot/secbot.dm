@@ -21,6 +21,7 @@
 	data_hud_type = DATA_HUD_SECURITY_ADVANCED
 	path_image_color = "#FF0000"
 
+	var/noloot = FALSE
 	var/baton_type = /obj/item/melee/baton
 	var/mob/living/carbon/target
 	var/oldtarget_name
@@ -73,6 +74,10 @@
 	//SECHUD
 	var/datum/atom_hud/secsensor = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
 	secsensor.add_hud_to(src)
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /mob/living/simple_animal/bot/secbot/update_icon()
 	if(mode == BOT_HUNT)
@@ -151,14 +156,14 @@ Auto Patrol: []"},
 			update_controls()
 
 /mob/living/simple_animal/bot/secbot/proc/retaliate(mob/living/carbon/human/H)
-	var/judgement_criteria = judgement_criteria()
-	threatlevel = H.assess_threat(judgement_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+	var/judgment_criteria = judgment_criteria()
+	threatlevel = H.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
 	threatlevel += 6
 	if(threatlevel >= 4)
 		target = H
 		mode = BOT_HUNT
 
-/mob/living/simple_animal/bot/secbot/proc/judgement_criteria()
+/mob/living/simple_animal/bot/secbot/proc/judgment_criteria()
     var/final = FALSE
     if(idcheck)
         final = final|JUDGE_IDCHECK
@@ -222,8 +227,9 @@ Auto Patrol: []"},
 /mob/living/simple_animal/bot/secbot/hitby(atom/movable/AM, skipcatch = FALSE, hitpush = TRUE, blocked = FALSE, datum/thrownthing/throwingdatum)
 	if(istype(AM, /obj/item))
 		var/obj/item/I = AM
-		if(I.throwforce < src.health && I.thrownby && ishuman(I.thrownby))
-			var/mob/living/carbon/human/H = I.thrownby
+		var/mob/thrown_by = I.thrownby?.resolve()
+		if(I.throwforce < src.health && thrown_by && ishuman(thrown_by))
+			var/mob/living/carbon/human/H = thrown_by
 			retaliate(H)
 	..()
 
@@ -244,20 +250,24 @@ Auto Patrol: []"},
 		back_to_idle()
 
 /mob/living/simple_animal/bot/secbot/proc/stun_attack(mob/living/carbon/C)
-	var/judgement_criteria = judgement_criteria()
+	if(ishuman(C))
+		var/mob/living/carbon/human/H = C
+		if(H.check_shields(src, 0))
+			return
+	var/judgment_criteria = judgment_criteria()
 	playsound(src, 'sound/weapons/egloves.ogg', 50, TRUE, -1)
-	icon_state = "secbot-c"
-	addtimer(CALLBACK(src, .proc/update_icon), 2)
+	icon_state = "[initial(icon_state)]-c"
+	addtimer(CALLBACK(src, /atom/.proc/update_icon), 2)
 	var/threat = 5
 	if(ishuman(C))
 		C.stuttering = 5
 		C.Paralyze(100)
 		var/mob/living/carbon/human/H = C
-		threat = H.assess_threat(judgement_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+		threat = H.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
 	else
 		C.Paralyze(100)
 		C.stuttering = 5
-		threat = C.assess_threat(judgement_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+		threat = C.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
 
 	log_combat(src,C,"stunned")
 	if(declare_arrests)
@@ -371,7 +381,7 @@ Auto Patrol: []"},
 
 /mob/living/simple_animal/bot/secbot/proc/look_for_perp()
 	anchored = FALSE
-	var/judgement_criteria = judgement_criteria()
+	var/judgment_criteria = judgment_criteria()
 	for (var/mob/living/carbon/C in view(7,src)) //Let's find us a criminal
 		if((C.stat) || (C.handcuffed))
 			continue
@@ -379,7 +389,7 @@ Auto Patrol: []"},
 		if((C.name == oldtarget_name) && (world.time < last_found + 100))
 			continue
 
-		threatlevel = C.assess_threat(judgement_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+		threatlevel = C.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
 
 		if(!threatlevel)
 			continue
@@ -412,7 +422,8 @@ Auto Patrol: []"},
 	Sa.add_overlay("hs_hole")
 	Sa.created_name = name
 	new /obj/item/assembly/prox_sensor(Tsec)
-	drop_part(baton_type, Tsec)
+	if(!noloot)
+		drop_part(baton_type, Tsec)
 
 	if(prob(50))
 		drop_part(robot_arm, Tsec)
@@ -428,14 +439,15 @@ Auto Patrol: []"},
 		target = user
 		mode = BOT_HUNT
 
-/mob/living/simple_animal/bot/secbot/Crossed(atom/movable/AM)
+/mob/living/simple_animal/bot/secbot/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
 	if(has_gravity() && ismob(AM) && target)
 		var/mob/living/carbon/C = AM
 		if(!istype(C) || !C || in_range(src, target))
 			return
 		knockOver(C)
 		return
-	..()
 
 /obj/machinery/bot_core/secbot
 	req_access = list(ACCESS_SECURITY)

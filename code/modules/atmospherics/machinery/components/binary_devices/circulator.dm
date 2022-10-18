@@ -46,15 +46,15 @@
 	var/input_starting_pressure = air2.return_pressure()
 
 	if(output_starting_pressure >= input_starting_pressure-10)
-		//Need at least 10 KPa difference to overcome friction in the mechanism
+		//Need at least 10 kPa difference to overcome friction in the mechanism
 		last_pressure_delta = 0
 		return null
 
 	//Calculate necessary moles to transfer using PV = nRT
-	if(air2.temperature>0)
+	if(air2.return_temperature()>0)
 		var/pressure_delta = (input_starting_pressure - output_starting_pressure)/2
 
-		var/transfer_moles = pressure_delta*air1.volume/(air2.temperature * R_IDEAL_GAS_EQUATION)
+		var/transfer_moles = pressure_delta*air1.return_volume()/(air2.return_temperature() * R_IDEAL_GAS_EQUATION)
 
 		last_pressure_delta = pressure_delta
 
@@ -116,7 +116,7 @@
 		if(node2)
 			node2.atmosinit()
 			node2.addMember(src)
-		build_network()
+		SSair.add_to_rebuild_queue(src)
 
 	return TRUE
 

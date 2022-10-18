@@ -1,5 +1,5 @@
 /obj/item/wallframe/pdc_frame
-	name = "PDC loading rack frame"
+	name = "\improper PDC loading rack frame"
 	desc = "Used for building PDC loading racks."
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "pdc_frame"
@@ -7,7 +7,7 @@
 	materials = list(/datum/material/iron=MINERAL_MATERIAL_AMOUNT*5)
 
 /obj/structure/frame/machine/ship_weapon/pdc_mount
-	name = "PDC loading rack frame"
+	name = "\improper PDC loading rack frame"
 	desc = "Used for building PDC loading racks."
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "pdc_frame"
@@ -16,18 +16,19 @@
 
 /obj/structure/frame/machine/ship_weapon/pdc_mount/examine(mob/user)
 	. = ..()
-	if(state == 2)
-		. += "The frame is <b>wired</b> but missing its <i>circuitboard</i>."
-	else if((state == 1) && anchored)
-		. += "It is <b>bolted</b> to the wall, but lacks <i>wires</i>."
-	else if(state == 1)
-		. += "The <i>bolts</i> are loose. You could probably <b>lift</b> it off."
+	switch(state)
+		if(1)
+			if(anchored)
+				. += "It is <b>bolted</b> to the wall, but lacks <i>wires</i>."
+			else
+				. += "The <i>bolts</i> are loose. You could probably <b>lift</b> it off."
+		if(2)
+			. += "The frame is <b>wired</b> but missing its <i>circuitboard</i>."
 
 /obj/structure/frame/machine/ship_weapon/pdc_mount/New(loc, ndir=dir)
 	. = ..()
 	if(ndir)
 		setDir(ndir)
-
 	update_icon()
 
 /obj/structure/frame/machine/ship_weapon/pdc_mount/setDir(newdir)
@@ -51,7 +52,7 @@
 	if(circuit)
 		to_chat(user, "<span class='warning'>Remove the circuitboard first!</span>")
 		return TRUE
-	. = ..()
+	return ..()
 
 /obj/structure/frame/machine/ship_weapon/pdc_mount/attack_robot(mob/user)
 	. = ..()
@@ -59,17 +60,17 @@
 
 /obj/structure/frame/machine/ship_weapon/pdc_mount/attack_hand(mob/user)
 	. = ..()
-
-	if(state == 1)
-		if(!do_after(user, 2 SECONDS, target=src))
+	switch(state)
+		if(1)
+			if(!do_after(user, 2 SECONDS, target=src))
+				return TRUE
+			to_chat(user, "<span class='notice'>You remove the frame from the wall.</span>")
+			new /obj/item/wallframe/pdc_frame(loc)
+			qdel(src)
 			return TRUE
-		to_chat(user, "<span class='notice'>You remove the frame from the wall.</span>")
-		new /obj/item/wallframe/pdc_frame(loc)
-		qdel(src)
-		return TRUE
-	else if((state == 2) && !anchored)
-		to_chat(user, "<span class='warning'>Remove the wires first!</span>")
-		return TRUE
-	else if(state == 2)
-		to_chat(user, "<span class='warning'>You need to unbolt the frame to do that!</span>")
-		return TRUE
+		if(2)
+			if(anchored)
+				to_chat(user, "<span class='warning'>You need to unbolt the frame to do that!</span>")
+			else
+				to_chat(user, "<span class='warning'>Remove the wires first!</span>")
+			return TRUE

@@ -4,14 +4,15 @@
 	icon = 'icons/mob/blob.dmi'
 	light_range = 2
 	desc = "A thick wall of writhing tendrils."
-	density = FALSE //this being false causes two bugs, being able to attack blob tiles behind other blobs and being unable to move on blob tiles in no gravity, but turning it to 1 causes the blob mobs to be unable to path through blobs, which is probably worse.
+	density = TRUE
 	opacity = 0
 	anchored = TRUE
 	layer = BELOW_MOB_LAYER
+	pass_flags_self = PASSBLOB
 	CanAtmosPass = ATMOS_PASS_PROC
 	var/point_return = 0 //How many points the blob gets back when it removes a blob of that type. If less than 0, blob cannot be removed.
 	max_integrity = 30
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 70)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 70, "stamina" = 0, "overmap_light" = 80) //NSV13
 	var/health_regen = 2 //how much health this blob regens when pulsed
 	var/pulse_timestamp = 0 //we got pulsed when?
 	var/heal_timestamp = 0 //we got healed when?
@@ -25,7 +26,7 @@
 	if(owner_overmind)
 		overmind = owner_overmind
 		var/area/Ablob = get_area(src)
-		if(Ablob.blob_allowed) //Is this area allowed for winning as blob?
+		if(Ablob.area_flags & BLOBS_ALLOWED) //Is this area allowed for winning as blob?
 			overmind.blobs_legit += src
 	GLOB.blobs += src //Keep track of the blob in the normal list either way
 	setDir(pick(GLOB.cardinals))
@@ -64,22 +65,11 @@
 						result++
 		. -= result - 1
 
-/obj/structure/blob/BlockSuperconductivity()
+/obj/structure/blob/BlockThermalConductivity()
 	return atmosblock
-
-/obj/structure/blob/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover) && (mover.pass_flags & PASSBLOB))
-		return 1
-	return 0
 
 /obj/structure/blob/CanAtmosPass(turf/T)
 	return !atmosblock
-
-/obj/structure/blob/CanAStarPass(ID, dir, caller)
-	. = 0
-	if(ismovableatom(caller))
-		var/atom/movable/mover = caller
-		. = . || (mover.pass_flags & PASSBLOB)
 
 /obj/structure/blob/update_icon() //Updates color based on overmind color if we have an overmind.
 	if(overmind)
@@ -181,7 +171,7 @@
 	if(make_blob) //well, can we?
 		var/obj/structure/blob/B = new /obj/structure/blob/normal(src.loc, (controller || overmind))
 		B.density = TRUE
-		if(T.Enter(B,src)) //NOW we can attempt to move into the tile
+		if(T.Enter(B)) //NOW we can attempt to move into the tile
 			B.density = initial(B.density)
 			B.forceMove(T)
 			B.update_icon()
@@ -241,17 +231,17 @@
 	RETURN_TYPE(/list)
 	. = list()
 	if(overmind)
-		. += {"<b>Material: <font color=\"[overmind.blobstrain.color]\">[overmind.blobstrain.name]</font><span class='notice'>.</span></b>\n
-				<b>Material Effects:</b> <span class='notice'>[overmind.blobstrain.analyzerdescdamage]</span>\n
-				<b>Material Properties:</b> <span class='notice'>[overmind.blobstrain.analyzerdesceffect]</span>"}
+		. += list("<b>Material: <font color=\"[overmind.blobstrain.color]\">[overmind.blobstrain.name]</font><span class='notice'>.</span></b>",
+		"<b>Material Effects:</b> <span class='notice'>[overmind.blobstrain.analyzerdescdamage]</span>",
+		"<b>Material Properties:</b> <span class='notice'>[overmind.blobstrain.analyzerdesceffect || "N/A"]</span>")
 	else
-		. += "<b>No Material Detected!</b><br>"
+		. += "<b>No Material Detected!</b>"
 
 /obj/structure/blob/proc/typereport(mob/user)
 	RETURN_TYPE(/list)
-	return list({"<b>Blob Type:</b> <span class='notice'>[uppertext(initial(name))]</span>\n
-		<b>Health:</b> <span class='notice'>[obj_integrity]/[max_integrity]</span>\n
-		<b>Effects:</b> <span class='notice'>[scannerreport()]</span>"})
+	return list("<b>Blob Type:</b> <span class='notice'>[uppertext(initial(name))]</span>",
+		"<b>Health:</b> <span class='notice'>[obj_integrity]/[max_integrity]</span>",
+		"<b>Effects:</b> <span class='notice'>[scannerreport()]</span>")
 
 
 /obj/structure/blob/attack_animal(mob/living/simple_animal/M)
@@ -312,14 +302,14 @@
 	if(user.research_scanner || hud_to_check.hudusers[user])
 		. += "<b>Your HUD displays an extensive report...</b><br>"
 		if(overmind)
-			. += "<b>Progress to Critical Mass:</b> <span class='notice'>[overmind.blobs_legit.len]/[overmind.blobwincount].</span>"
+			. += overmind.blobstrain.examine(user)
 		else
 			. += "<b>Core neutralized. Critical mass no longer attainable.</b>"
 		. += chemeffectreport(user)
 		. += typereport(user)
 	else
-		if(isobserver(user) && overmind)
-			. += "<b>Progress to Critical Mass:</b> <span class='notice'>[overmind.blobs_legit.len]/[overmind.blobwincount].</span>"
+		if((user == overmind || isobserver(user)) && overmind)
+			. += overmind.blobstrain.examine(user)
 		. += "It seems to be made of [get_chem_name()]."
 
 /obj/structure/blob/proc/scannerreport()

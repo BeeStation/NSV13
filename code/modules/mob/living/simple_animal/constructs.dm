@@ -33,6 +33,7 @@
 	initial_language_holder = /datum/language_holder/construct
 	deathmessage = "collapses in a shattered heap."
 	hud_type = /datum/hud/constructs
+	hardattacks = TRUE
 	var/list/construct_spells = list()
 	var/playstyle_string = "<span class='big bold'>You are a generic construct!</span><b> Your job is to not exist, and you should probably adminhelp this.</b>"
 	var/master = null
@@ -40,7 +41,17 @@
 	var/can_repair_constructs = FALSE
 	var/can_repair_self = FALSE
 	var/runetype
+	var/datum/action/innate/cult/create_rune/our_rune
 	var/holy = FALSE
+	chat_color = "#FF6262"
+	mobchatspan = "cultmobsay"
+	discovery_points = 1000
+
+/mob/living/simple_animal/hostile/construct/get_num_legs()
+	return 0
+
+/mob/living/simple_animal/hostile/construct/get_num_arms()
+	return 0
 
 /mob/living/simple_animal/hostile/construct/Initialize()
 	. = ..()
@@ -57,11 +68,15 @@
 		S.action.button.moved = "6:[pos],4:-2"
 		spellnum++
 	if(runetype)
-		var/datum/action/innate/cult/create_rune/CR = new runetype(src)
-		CR.Grant(src)
+		our_rune = new runetype(src)
+		our_rune.Grant(src)
 		var/pos = 2+spellnum*31
-		CR.button.screen_loc = "6:[pos],4:-2"
-		CR.button.moved = "6:[pos],4:-2"
+		our_rune.button.screen_loc = "6:[pos],4:-2"
+		our_rune.button.moved = "6:[pos],4:-2"
+
+/mob/living/simple_animal/hostile/construct/Destroy()
+	QDEL_NULL(our_rune)
+	return ..()
 
 /mob/living/simple_animal/hostile/construct/Login()
 	..()
@@ -122,16 +137,16 @@
 	icon_living = "behemoth"
 	maxHealth = 150
 	health = 150
-	response_harm = "harmlessly punches"
-	harm_intent_damage = 0
+	response_harm = "punches"
+
 	obj_damage = 90
-	melee_damage_lower = 25
-	melee_damage_upper = 25
+	melee_damage = 25
 	attacktext = "smashes their armored gauntlet into"
 	speed = 2.5
 	environment_smash = ENVIRONMENT_SMASH_WALLS
 	attack_sound = 'sound/weapons/punch3.ogg'
 	status_flags = 0
+	move_resist = MOVE_FORCE_STRONG
 	mob_size = MOB_SIZE_LARGE
 	force_threshold = 10
 	construct_spells = list(/obj/effect/proc_holder/spell/targeted/forcewall/cult,
@@ -177,8 +192,9 @@
 /mob/living/simple_animal/hostile/construct/armored/angelic
 	icon_state = "behemoth_angelic"
 	icon_living = "behemoth_angelic"
-	holy = TRUE	
+	holy = TRUE
 	loot = list(/obj/item/ectoplasm/angelic)
+	chat_color = "#AED2FF"
 
 /mob/living/simple_animal/hostile/construct/armored/noncult
 
@@ -191,8 +207,7 @@
 	icon_living = "floating"
 	maxHealth = 65
 	health = 65
-	melee_damage_lower = 20
-	melee_damage_upper = 20
+	melee_damage = 20
 	retreat_distance = 2 //AI wraiths will move in and out of combat
 	attacktext = "slashes"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
@@ -212,7 +227,7 @@
 
 	. = ..()
 
-	if(. && isnum(prev_stat))
+	if(. && isnum_safe(prev_stat))
 		var/mob/living/L = target
 		var/refund = 0
 		if(QDELETED(L) || (L.stat == DEAD && prev_stat != DEAD)) //they're dead, you killed them
@@ -233,6 +248,7 @@
 	icon_living = "floating_angelic"
 	holy = TRUE
 	loot = list(/obj/item/ectoplasm/angelic)
+	chat_color = "#AED2FF"
 
 /mob/living/simple_animal/hostile/construct/wraith/noncult
 
@@ -246,10 +262,8 @@
 	maxHealth = 50
 	health = 50
 	response_harm = "viciously beats"
-	harm_intent_damage = 5
 	obj_damage = 60
-	melee_damage_lower = 5
-	melee_damage_upper = 5
+	melee_damage = 5
 	retreat_distance = 10
 	minimum_distance = 10 //AI artificers will flee like fuck
 	attacktext = "rams"
@@ -257,10 +271,10 @@
 	attack_sound = 'sound/weapons/punch2.ogg'
 	construct_spells = list(/obj/effect/proc_holder/spell/aoe_turf/conjure/wall,
 							/obj/effect/proc_holder/spell/aoe_turf/conjure/floor,
+							/obj/effect/proc_holder/spell/aoe_turf/conjure/door,
 							/obj/effect/proc_holder/spell/aoe_turf/conjure/soulstone,
 							/obj/effect/proc_holder/spell/aoe_turf/conjure/construct/lesser,
 							/obj/effect/proc_holder/spell/targeted/projectile/magic_missile/lesser)
-	runetype = /datum/action/innate/cult/create_rune/revive
 	playstyle_string = "<b>You are an Artificer. You are incredibly weak and fragile, but you are able to construct fortifications, \
 
 						use magic missile, repair allied constructs, shades, and yourself (by clicking on them), \
@@ -292,7 +306,7 @@
 		if(isconstruct(L) && L.health >= L.maxHealth) //is this target an unhurt construct? stop trying to heal it
 			LoseTarget()
 			return 0
-		if(L.health <= melee_damage_lower+melee_damage_upper) //ey bucko you're hurt as fuck let's go hit you
+		if(L.health <= melee_damage) //ey bucko you're hurt as fuck let's go hit you
 			retreat_distance = null
 			minimum_distance = 1
 
@@ -317,6 +331,7 @@
 	icon_state = "artificer_angelic"
 	icon_living = "artificer_angelic"
 	holy = TRUE
+	chat_color = "#AED2FF"
 	loot = list(/obj/item/ectoplasm/angelic)
 	construct_spells = list(/obj/effect/proc_holder/spell/aoe_turf/conjure/soulstone/noncult/purified,
 							/obj/effect/proc_holder/spell/aoe_turf/conjure/construct/lesser,
@@ -339,8 +354,7 @@
 	maxHealth = 40
 	health = 40
 	sight = SEE_MOBS
-	melee_damage_lower = 15
-	melee_damage_upper = 20
+	melee_damage = 15
 	attacktext = "butchers"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	construct_spells = list(/obj/effect/proc_holder/spell/aoe_turf/area_conversion,
@@ -441,15 +455,11 @@
 	background_icon_state = "bg_demon"
 	buttontooltipstyle = "cult"
 	button_icon_state = "cult_mark"
-	var/mob/living/simple_animal/hostile/construct/harvester/the_construct
-
-/datum/action/innate/seek_prey/Grant(var/mob/living/C)
-	the_construct = C
-	..()
 
 /datum/action/innate/seek_prey/Activate()
 	if(GLOB.cult_narsie == null)
 		return
+	var/mob/living/simple_animal/hostile/construct/harvester/the_construct = owner
 	if(the_construct.seeking)
 		desc = "None can hide from Nar'Sie, activate to track a survivor attempting to flee the red harvest!"
 		button_icon_state = "cult_mark"

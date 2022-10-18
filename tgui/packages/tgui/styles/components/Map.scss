@@ -1,0 +1,261 @@
+@use '../base.scss';
+@use '../colors.scss';
+@use '../functions.scss' as *;
+
+.outerbg{
+  overflow:hidden;
+  position: relative;
+  width: 100%;
+  height: 600px;
+  overflow: hidden;
+  background-image: url('../../assets/space.png');
+  border: 1px solid #40628a;
+  transition: all 0.5s ease-out;
+}
+
+.innerbg{
+  position: relative;
+  width: 2000px;
+  height: 2000px;
+}
+
+.outerbgdradis{
+  overflow:hidden;
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  background-image: url('../../assets/space.png');
+  border: 1px solid #40628a;
+  transition: all 0.5s ease-out;
+}
+
+.innerbgdradis{
+  position: relative;
+  width: 500%;
+  height: 500%;
+  background-size: 40px 40px;
+  background-image: radial-gradient(circle at center, #360 1px, rgba(0, 0, 0, 0) 1px);
+}
+
+div#planetMap {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  margin: auto;
+  overflow: hidden;
+  border: 1px solid #40628a;
+}
+div#rangeCircle {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid #360;
+  width: 480px;
+  height: 480px;
+  margin-bottom: -240px;
+  margin-left: -240px;
+  transition: all 0.5s ease-out;
+}
+.star_marker_null {
+  display: inline-block;
+  padding: 0px 5px 0px 5px;
+  color: rgba(0,0,0,0);
+  line-height: 25px;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  margin-left: -12px;
+  margin-bottom: -12px;
+  border-radius: 50%;
+  z-index: 3;
+  background: radial-gradient(ellipse at center, #fff 0%, #fff 20%, rgba(255,255,255,0.71) 40%, rgba(255,255,255,0) 60%);
+  outline: 0px;
+}
+.star_marker_whiterapids {
+  display: inline-block;
+  padding: 0px 5px 0px 5px;
+  color: rgba(0,0,0,0);
+  line-height: 25px;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  margin-left: -12px;
+  margin-bottom: -12px;
+  border-radius: 50%;
+  z-index: 3;
+  background: radial-gradient(ellipse at center, #fff 0%, #fff 20%, rgba(255,255,255,0.71) 40%, rgba(255,255,255,0) 60%);
+  outline: 0px;
+}
+.star_marker_solgov {
+  display: inline-block;
+  padding: 0px 5px 0px 5px;
+  color: rgba(0,0,0,0);
+  line-height: 25px;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  margin-left: -12px;
+  margin-bottom: -12px;
+  border-radius: 50%;
+  z-index: 3;
+  background: radial-gradient(ellipse at center, cornflowerblue 0%, cornflowerblue 20%, rgba(100,149,237,0.71) 40%, rgba(100,149,237,0) 60%);
+  outline: 0px;
+}
+.star_marker_syndicate {
+  display: inline-block;
+  padding: 0px 5px 0px 5px;
+  color: rgba(0,0,0,0);
+  line-height: 25px;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  margin-left: -12px;
+  margin-bottom: -12px;
+  border-radius: 50%;
+  z-index: 3;
+  background: radial-gradient(ellipse at center, #a30000 0%, #a30000 20%, rgba(163,0,0,0.71) 40%, rgba(163,0,0,0) 60%);
+  outline: 0px;
+}
+.star_marker_unaligned {
+  display: inline-block;
+  padding: 0px 5px 0px 5px;
+  color: rgba(0,0,0,0);
+  line-height: 25px;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  margin-left: -12px;
+  margin-bottom: -12px;
+  border-radius: 50%;
+  z-index: 3;
+  background: radial-gradient(ellipse at center, #a66300 0%, #a66300 20%, rgba(166,99,0,0.71) 40%, rgba(166,99,0,0) 60%);
+  outline: 0px;
+}
+.star_marker_nanotrasen {
+  display: inline-block;
+  padding: 0px 5px 0px 5px;
+  color: rgba(0,0,0,0);
+  line-height: 25px;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  margin-left: -12px;
+  margin-bottom: -12px;
+  border-radius: 50%;
+  z-index: 3;
+  background: radial-gradient(ellipse at center, #193a7a 0%, #193a7a 20%, rgba(25,58,122,0.71) 40%, rgba(25,58,122,0) 60%);
+  outline: 0px;
+}
+.star_marker_pirate {
+ display: inline-block;
+ padding: 0px 5px 0px 5px;
+ color: rgba(0,0,0,0);
+ line-height: 25px;
+ width: 25px;
+ height: 25px;
+ min-width: 25px;
+ min-height: 25px;
+ margin-left: -12px;
+ margin-bottom: -12px;
+ border-radius: 50%;
+ z-index: 3;
+ background: radial-gradient(ellipse at center, #7b2ca8 0%, #7b2ca8 20%, rgba(123,44,168,0.71) 40%, rgba(25,58,122,0) 60%);
+ outline: 0px;
+}
+.star_marker_uncharted {
+  display: inline-block;
+  padding: 0px 5px 0px 5px;
+  color: rgba(0,0,0,0);
+  line-height: 25px;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  margin-left: -12px;
+  margin-bottom: -12px;
+  border-radius: 50%;
+  z-index: 3;
+  background: radial-gradient(ellipse at center, #000 0%, #000 20%, rgba(0,0,0,0.71) 40%, rgba(0,0,0,0) 60%);
+  outline: 0px;
+}
+
+.star_marker_visited_solgov {
+  background: radial-gradient(ellipse at center, #400080 0%, #400080 19%, #fff 20%, rgba(255,255,255,0.71) 40%, rgba(255,255,255,0) 60%);
+}
+.star_marker_visited_syndicate {
+  background: radial-gradient(ellipse at center, #400080 0%, #400080 19%, #a30000 20%, rgba(163,0,0,0.71) 40%, rgba(163,0,0,0) 60%);
+}
+.star_marker_visited_unaligned {
+  background: radial-gradient(ellipse at center, #400080 0%, #400080 19%, #a66300 20%, rgba(166,99,0,0.71) 40%, rgba(166,99,0,0) 60%);
+}
+.star_marker_visited_nanotrasen {
+  background: radial-gradient(ellipse at center, #400080 0%, #400080 19%, #193a7a 20%, rgba(25,58,122,0.71) 40%, rgba(25,58,122,0) 60%);
+}
+.star_marker_visited_uncharted {
+  background: radial-gradient(ellipse at center, #000 0%, #000 20%, rgba(0,0,0,0.71) 40%, rgba(0,0,0,0) 60%);
+}
+.star_marker_outline_green {
+  border: 1px solid #008000;
+}
+.star_marker_outline_yellow {
+  border: 1px solid #a66300;
+}
+.star_marker_outline_red {
+  border: 1px solid #a30000;
+}
+.star_marker_outline_blue {
+  border: 1px solid #193a7a;
+}
+.planet_marker {
+  display: inline-block;
+  padding: 0px 5px 0px 5px;
+  color: rgba(0,0,0,0);
+  line-height: 25px;
+  width: 25px;
+  height: 25px;
+  margin-left: -12px;
+  margin-bottom: -12px;
+  border-radius: 50%;
+}
+.planet_icon {
+  position: absolute;
+  left: 50%;
+  margin-left: -16px;
+  top: 50%;
+  margin-top: -16px;
+  width: 32px;
+  height: 32px;
+}
+.orbitCircle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  left: 300px;
+  bottom: 300px;
+}
+.line {
+  background-color: #211;
+  border-color: #211;
+  position: absolute;
+  height: 1px;
+  transform-origin: center left;
+}
+span.star_label {
+  position: relative;
+  color: #fff;
+  white-space: nowrap;
+  left: 5px;
+  bottom: -25px;
+}
+span.star_label p {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -15px);
+  text-shadow: 1px 1px 0px #0ff;
+}

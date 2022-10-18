@@ -47,3 +47,13 @@
 			return TRUE
 
 	return FALSE
+
+/obj/item/ammo_box/magazine/internal/cylinder/mime
+	name = "fingergun cylinder"
+	ammo_type = /obj/item/ammo_casing/caseless/mime
+	caliber = "mime"
+	max_ammo = 6
+
+/obj/item/ammo_box/magazine/internal/cylinder/mime/lethal
+	ammo_type = /obj/item/ammo_casing/caseless/mime/lethal
+	max_ammo = 3 //Because that's how many this is supposed to have from what I gather

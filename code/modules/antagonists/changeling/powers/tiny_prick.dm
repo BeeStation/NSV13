@@ -1,6 +1,7 @@
 /datum/action/changeling/sting//parent path, not meant for users afaik
 	name = "Tiny Prick"
 	desc = "Stabby stabby"
+	var/stealthy = FALSE
 
 /datum/action/changeling/sting/Trigger()
 	var/mob/user = owner
@@ -48,7 +49,7 @@
 		return
 	if(!isturf(user.loc))
 		return
-	if(!AStar(user, target.loc, /turf/proc/Distance, changeling.sting_range, simulated_only = FALSE))
+	if(!length(get_path_to(user, target, max_distance = changeling.sting_range, simulated_only = FALSE)))
 		return
 	if(target.mind && target.mind.has_antag_datum(/datum/antagonist/changeling))
 		sting_feedback(user, target)
@@ -59,8 +60,8 @@
 	if(!target)
 		return
 	to_chat(user, "<span class='notice'>We stealthily sting [target.name].</span>")
-	if(target.mind && target.mind.has_antag_datum(/datum/antagonist/changeling))
-		to_chat(target, "<span class='warning'>You feel a tiny prick.</span>")
+	if((target.mind && target.mind.has_antag_datum(/datum/antagonist/changeling)) || !stealthy)
+		to_chat(target, "<span class='warning'>You feel a tiny prick!</span>")
 	return 1
 
 
@@ -107,7 +108,7 @@
 		C.real_name = NewDNA.real_name
 		NewDNA.transfer_identity(C)
 		if(ismonkey(C))
-			C.humanize(TR_KEEPITEMS | TR_KEEPIMPLANTS | TR_KEEPORGANS | TR_KEEPDAMAGE | TR_KEEPVIRUS | TR_DEFAULTMSG)
+			C.humanize(TR_KEEPITEMS | TR_KEEPIMPLANTS | TR_KEEPORGANS | TR_KEEPDAMAGE | TR_KEEPVIRUS | TR_DEFAULTMSG | TR_KEEPAI)
 		C.updateappearance(mutcolor_update=1)
 
 
@@ -170,6 +171,7 @@
 	button_icon_state = "sting_extract"
 	chemical_cost = 25
 	dna_cost = 0
+	stealthy = TRUE
 
 /datum/action/changeling/sting/extract_dna/can_sting(mob/user, mob/target)
 	if(..())
@@ -219,6 +221,7 @@
 	button_icon_state = "sting_lsd"
 	chemical_cost = 10
 	dna_cost = 1
+	stealthy = TRUE
 
 /datum/action/changeling/sting/LSD/sting_action(mob/user, mob/living/carbon/target)
 	log_combat(user, target, "stung", "LSD sting")
@@ -236,6 +239,7 @@
 	button_icon_state = "sting_cryo"
 	chemical_cost = 10
 	dna_cost = 2
+	stealthy = TRUE
 
 /datum/action/changeling/sting/cryo/sting_action(mob/user, mob/target)
 	log_combat(user, target, "stung", "cryo sting")

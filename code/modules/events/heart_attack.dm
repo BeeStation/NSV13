@@ -3,7 +3,8 @@
 	typepath = /datum/round_event/heart_attack
 	weight = 20
 	max_occurrences = 2
-	min_players = 40 // To avoid shafting lowpop
+	earliest_start = 10 MINUTES		//NSV13
+	min_players = 15				//NSV13
 
 /datum/round_event/heart_attack/start()
 	var/list/heart_attack_contestants = list()

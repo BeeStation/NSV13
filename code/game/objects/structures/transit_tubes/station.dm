@@ -1,3 +1,5 @@
+#define OPEN_DURATION 6
+#define CLOSE_DURATION 6
 
 // A place where tube pods stop, and people can get in or out.
 // Mappers: use "Generate Instances from Directions" for this
@@ -18,9 +20,6 @@
 	var/reverse_launch = 0
 	var/base_icon = "station0"
 	var/boarding_dir //from which direction you can board the tube
-
-	var/const/OPEN_DURATION = 6
-	var/const/CLOSE_DURATION = 6
 
 /obj/structure/transit_tube/station/New()
 	..()
@@ -154,9 +153,7 @@
 		pod_moving = 0
 		if(!QDELETED(pod))
 			var/datum/gas_mixture/floor_mixture = loc.return_air()
-			floor_mixture.archive()
-			pod.air_contents.archive()
-			pod.air_contents.share(floor_mixture, 1) //mix the pod's gas mixture with the tile it's on
+			equalize_all_gases_in_list(list(pod.air_contents,floor_mixture))
 			air_update_turf()
 
 /obj/structure/transit_tube/station/init_tube_dirs()

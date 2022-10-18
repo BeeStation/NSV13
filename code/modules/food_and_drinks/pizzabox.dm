@@ -25,9 +25,11 @@
 	var/obj/item/bombcore/miniature/pizza/bomb
 	var/bomb_active = FALSE // If the bomb is counting down.
 	var/bomb_defused = TRUE // If the bomb is inert.
-	var/bomb_timer = 1 // How long before blowing the bomb.
-	var/const/BOMB_TIMER_MIN = 1
-	var/const/BOMB_TIMER_MAX = 10
+	var/bomb_timer = 1 // How long before blowing the bomb, in seconds.
+	/// Min bomb timer allowed in seconds
+	var/bomb_timer_min = 1
+	/// Max bomb timer allower in seconds
+	var/bomb_timer_max = 20
 
 /obj/item/pizzabox/Initialize()
 	. = ..()
@@ -103,6 +105,7 @@
 	if(open && !bomb_defused)
 		audible_message("<span class='warning'>[icon2html(src, hearers(src))] *beep*</span>")
 		bomb_active = TRUE
+		wires.ui_update()
 		START_PROCESSING(SSobj, src)
 	update_icon()
 
@@ -124,11 +127,16 @@
 				update_icon()
 				return
 			else
-				bomb_timer = input(user, "Set the [bomb] timer from [BOMB_TIMER_MIN] to [BOMB_TIMER_MAX].", bomb, bomb_timer) as num
-				bomb_timer = CLAMP(CEILING(bomb_timer / 2, 1), BOMB_TIMER_MIN, BOMB_TIMER_MAX)
-				bomb_defused = FALSE
+				bomb_timer = input(user, "Set the [bomb] timer from [bomb_timer_min] to [bomb_timer_max].", bomb, bomb_timer) as num|null
 
-				log_bomber(user, "has trapped a", src, "with [bomb] set to [bomb_timer * 2] seconds")
+				if (isnull(bomb_timer))
+					return
+
+				bomb_timer = clamp(CEILING(bomb_timer, 1), bomb_timer_min, bomb_timer_max)
+				bomb_defused = FALSE
+				wires.ui_update()
+
+				log_bomber(user, "has trapped a", src, "with [bomb] set to [bomb_timer] seconds")
 				bomb.adminlog = "The [bomb.name] in [src.name] that [key_name(user)] activated has detonated!"
 
 				to_chat(user, "<span class='warning'>You trap [src] with [bomb].</span>")
@@ -207,10 +215,10 @@
 		to_chat(user, "<span class='warning'>That's not a pizza!</span>")
 	..()
 
-/obj/item/pizzabox/process()
+/obj/item/pizzabox/process(delta_time)
 	if(bomb_active && !bomb_defused && (bomb_timer > 0))
-		playsound(loc, 'sound/items/timer.ogg', 50, 0)
-		bomb_timer--
+		playsound(loc, 'sound/items/timer.ogg', 50, FALSE)
+		bomb_timer -= delta_time
 	if(bomb_active && !bomb_defused && (bomb_timer <= 0))
 		if(bomb in src)
 			bomb.detonate()
@@ -220,6 +228,7 @@
 		if(bomb_defused && (bomb in src))
 			bomb.defuse()
 			bomb_active = FALSE
+			wires.ui_update()
 			unprocess()
 	return
 

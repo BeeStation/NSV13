@@ -14,20 +14,23 @@
 	construction_type = /obj/item/pipe/trinary/flippable
 	pipe_state = "filter"
 
-	ui_x = 390
-	ui_y = 187
+
+
 
 /obj/machinery/atmospherics/components/trinary/filter/CtrlClick(mob/user)
-	if(user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
+	if(can_interact(user))
 		on = !on
 		update_icon()
+		ui_update()
 	return ..()
 
 /obj/machinery/atmospherics/components/trinary/filter/AltClick(mob/user)
-	if(user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
+	if(can_interact(user))
 		transfer_rate = MAX_TRANSFER_RATE
+		balloon_alert(user, "Set to [transfer_rate] L/s")
 		update_icon()
-	return ..()
+		ui_update()
+	return
 
 /obj/machinery/atmospherics/components/trinary/filter/proc/set_frequency(new_frequency)
 	SSradio.remove_object(src, frequency)
@@ -73,7 +76,7 @@
 
 	//Early return
 	var/datum/gas_mixture/air1 = airs[1]
-	if(!air1 || air1.temperature <= 0)
+	if(!air1 || air1.return_temperature() <= 0)
 		return
 
 	var/datum/gas_mixture/air2 = airs[2]
@@ -85,39 +88,17 @@
 		//No need to transfer if target is already full!
 		return
 
-	var/transfer_ratio = transfer_rate/air1.volume
+	var/transfer_ratio = transfer_rate / air1.return_volume()
 
 	//Actually transfer the gas
 
 	if(transfer_ratio <= 0)
 		return
 
-	var/datum/gas_mixture/removed = air1.remove_ratio(transfer_ratio)
-
-	if(!removed)
-		return
-
-	var/filtering = TRUE
-	if(!ispath(filter_type))
-		if(filter_type)
-			filter_type = gas_id2path(filter_type) //support for mappers so they don't need to type out paths
-		else
-			filtering = FALSE
-
-	if(filtering && removed.gases[filter_type])
-		var/datum/gas_mixture/filtered_out = new
-
-		filtered_out.temperature = removed.temperature
-		filtered_out.add_gas(filter_type)
-		filtered_out.gases[filter_type][MOLES] = removed.gases[filter_type][MOLES]
-
-		removed.gases[filter_type][MOLES] = 0
-		removed.garbage_collect()
-
-		var/datum/gas_mixture/target = (air2.return_pressure() < MAX_OUTPUT_PRESSURE ? air2 : air1) //if there's no room for the filtered gas; just leave it in air1
-		target.merge(filtered_out)
-
-	air3.merge(removed)
+	if(filter_type && air2.return_pressure() <= 9000)
+		air1.scrub_into(air2, transfer_ratio, list(filter_type))
+	if(air3.return_pressure() <= 9000)
+		air1.transfer_ratio_to(air3, transfer_ratio)
 
 	update_parents()
 
@@ -125,11 +106,14 @@
 	set_frequency(frequency)
 	return ..()
 
-/obj/machinery/atmospherics/components/trinary/filter/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
-																	datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+
+/obj/machinery/atmospherics/components/trinary/filter/ui_state(mob/user)
+	return GLOB.default_state
+
+/obj/machinery/atmospherics/components/trinary/filter/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "atmos_filter", name, 475, 195, master_ui, state)
+		ui = new(user, src, "AtmosFilter")
 		ui.open()
 
 /obj/machinery/atmospherics/components/trinary/filter/ui_data()
@@ -139,10 +123,9 @@
 	data["max_rate"] = round(MAX_TRANSFER_RATE)
 
 	data["filter_types"] = list()
-	data["filter_types"] += list(list("name" = "Nothing", "path" = "", "selected" = !filter_type))
-	for(var/path in GLOB.meta_gas_info)
-		var/list/gas = GLOB.meta_gas_info[path]
-		data["filter_types"] += list(list("name" = gas[META_GAS_NAME], "id" = gas[META_GAS_ID], "selected" = (path == gas_id2path(filter_type))))
+	data["filter_types"] += list(list("name" = "Nothing", "id" = "", "selected" = !filter_type))
+	for(var/id in GLOB.gas_data.ids)
+		data["filter_types"] += list(list("name" = GLOB.gas_data.names[id], "id" = id, "selected" = (id == filter_type)))
 
 	return data
 
@@ -167,18 +150,19 @@
 				rate = text2num(rate)
 				. = TRUE
 			if(.)
-				transfer_rate = CLAMP(rate, 0, MAX_TRANSFER_RATE)
+				transfer_rate = clamp(rate, 0, MAX_TRANSFER_RATE)
 				investigate_log("was set to [transfer_rate] L/s by [key_name(usr)]", INVESTIGATE_ATMOS)
 		if("filter")
 			filter_type = null
 			var/filter_name = "nothing"
-			var/gas = gas_id2path(params["mode"])
-			if(gas in GLOB.meta_gas_info)
+			var/gas = params["mode"]
+			if(gas in GLOB.gas_data.names)
 				filter_type = gas
-				filter_name	= GLOB.meta_gas_info[gas][META_GAS_NAME]
+				filter_name	= GLOB.gas_data.names[gas]
 			investigate_log("was set to filter [filter_name] by [key_name(usr)]", INVESTIGATE_ATMOS)
 			. = TRUE
-	update_icon()
+	if(.)
+		update_icon()
 
 /obj/machinery/atmospherics/components/trinary/filter/can_unwrench(mob/user)
 	. = ..()

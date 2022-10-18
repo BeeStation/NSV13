@@ -9,7 +9,7 @@
 	base_speed = 4 //he's a fast fucker
 	var/obj/item/weapon
 	var/block_chance = 50
-	var/noloot = FALSE
+	noloot = FALSE
 
 
 /mob/living/simple_animal/bot/secbot/grievous/toy //A toy version of general beepsky!
@@ -24,18 +24,23 @@
 	desc = "The Syndicate sends their regards."
 	emagged = 2
 	noloot = TRUE
+	faction = list(ROLE_SYNDICATE)
+
+/mob/living/simple_animal/bot/secbot/grievous/nullcrate/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/empprotection, EMP_PROTECT_SELF | EMP_PROTECT_CONTENTS | EMP_PROTECT_WIRES)
 
 /mob/living/simple_animal/bot/secbot/grievous/bullet_act(obj/item/projectile/P)
 	visible_message("[src] deflects [P] with its energy swords!")
 	playsound(src, 'sound/weapons/blade1.ogg', 50, TRUE)
 	return BULLET_ACT_BLOCK
 
-/mob/living/simple_animal/bot/secbot/grievous/Crossed(atom/movable/AM)
-	..()
+/mob/living/simple_animal/bot/secbot/grievous/on_entered(datum/source, atom/movable/AM)
+	. = ..()
 	if(ismob(AM) && AM == target)
 		visible_message("[src] flails his swords and cuts [AM]!")
 		playsound(src,'sound/effects/beepskyspinsabre.ogg',100,TRUE,-1)
-		stun_attack(AM)
+		INVOKE_ASYNC(src, .proc/stun_attack, AM)
 
 /mob/living/simple_animal/bot/secbot/grievous/Initialize()
 	. = ..()
@@ -58,7 +63,7 @@
 	weapon.attack(C, src)
 	playsound(src, 'sound/weapons/blade1.ogg', 50, TRUE, -1)
 	if(C.stat == DEAD)
-		addtimer(CALLBACK(src, .proc/update_icon), 2)
+		addtimer(CALLBACK(src, /atom/.proc/update_icon), 2)
 		back_to_idle()
 
 
@@ -106,7 +111,7 @@
 
 /mob/living/simple_animal/bot/secbot/grievous/look_for_perp()
 	anchored = FALSE
-	var/judgement_criteria = judgement_criteria()
+	var/judgment_criteria = judgment_criteria()
 	for (var/mob/living/carbon/C in view(7,src)) //Let's find us a criminal
 		if((C.stat) || (C.handcuffed))
 			continue
@@ -114,7 +119,7 @@
 		if((C.name == oldtarget_name) && (world.time < last_found + 100))
 			continue
 
-		threatlevel = C.assess_threat(judgement_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+		threatlevel = C.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
 
 		if(!threatlevel)
 			continue

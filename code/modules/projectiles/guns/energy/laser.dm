@@ -3,7 +3,8 @@
 	desc = "A basic energy-based laser gun that fires concentrated beams of light which pass through glass and thin metal."
 	icon_state = "laser"
 	item_state = "laser"
-	w_class = WEIGHT_CLASS_NORMAL
+	block_upgrade_walk = 1
+	w_class = WEIGHT_CLASS_BULKY
 	materials = list(/datum/material/iron=2000)
 	ammo_type = list(/obj/item/ammo_casing/energy/lasergun)
 	ammo_x_offset = 1
@@ -33,11 +34,13 @@
 	name = "antique laser gun"
 	icon_state = "caplaser"
 	item_state = "caplaser"
-	desc = "This is an antique laser gun. All craftsmanship is of the highest quality. It is decorated with assistant leather and chrome. The object menaces with spikes of energy. On the item is an image of Space Station 13. The station is exploding."
+	w_class = WEIGHT_CLASS_NORMAL
+	desc = "This is an antique laser gun. All craftsmanship is of the highest quality. It is decorated with assistant leather and chrome. The object menaces with spikes of energy. On the item is an image of Space Station 13 with the words NTSSGolden engraved. The station is exploding."
 	force = 10
 	ammo_x_offset = 3
 	selfcharge = 1
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
+	weapon_weight = WEAPON_LIGHT
 
 /obj/item/gun/energy/laser/captain/scattershot
 	name = "scatter shot laser rifle"
@@ -108,6 +111,7 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/xray)
 	pin = null
 	ammo_x_offset = 3
+	w_class = WEIGHT_CLASS_BULKY
 
 ////////Laser Tag////////////////////
 

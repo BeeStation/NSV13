@@ -39,7 +39,7 @@
 	if(M.stat == DEAD)
 		soundloop?.stop()
 		return
-	if(slot == SLOT_WEAR_MASK)
+	if(slot == ITEM_SLOT_MASK)
 		soundloop?.start()
 	else
 		soundloop?.stop()

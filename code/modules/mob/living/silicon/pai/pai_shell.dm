@@ -4,10 +4,6 @@
 		to_chat(src, "<span class='warning'>Your holochassis emitters are still too unstable! Please wait for automatic repair.</span>")
 		return FALSE
 
-	if(istype(remote_control,/obj/item/integrated_circuit/input/pAI_connector))
-		to_chat(src,"<span class='notice'>The connector is too small to allow you to change form in it.</span>")
-		return FALSE
-
 	if(!canholo && !force)
 		to_chat(src, "<span class='warning'>Your master or another force has disabled your holochassis emitters!</span>")
 		return FALSE
@@ -38,8 +34,9 @@
 	if(client)
 		client.perspective = EYE_PERSPECTIVE
 		client.eye = src
-	set_light(0)
+	set_light_on(FALSE)
 	icon_state = "[chassis]"
+	held_state = "[chassis]"
 	visible_message("<span class='boldnotice'>[src] folds out its holochassis emitter and forms a holoshell around itself!</span>")
 	holoform = TRUE
 
@@ -66,7 +63,7 @@
 	forceMove(card)
 	mobility_flags = NONE
 	density = FALSE
-	set_light(0)
+	set_light_on(FALSE)
 	holoform = FALSE
 	set_resting(resting)
 
@@ -74,12 +71,14 @@
 	if(!isturf(loc) && loc != card)
 		to_chat(src, "<span class='boldwarning'>You can not change your holochassis composite while not on the ground or in your card!</span>")
 		return FALSE
-	var/choice = input(src, "What would you like to use for your holochassis composite?") as null|anything in possible_chassis
+	var/choice = input(src, "What would you like to use for your holochassis composite?") as null|anything in sortList(possible_chassis)
 	if(!choice)
 		return FALSE
 	chassis = choice
+	icon_state = "[chassis]"
+	held_state = "[chassis]"
 	update_resting()
-	to_chat(src, "<span class='boldnotice'>You switch your holochassis projection composite to [chassis]</span>")
+	to_chat(src, "<span class='boldnotice'>You switch your holochassis projection composite to [chassis].</span>")
 
 /mob/living/silicon/pai/update_resting()
 	. = ..()
@@ -88,25 +87,18 @@
 	else
 		icon_state = "[chassis]"
 	if(loc != card)
-		visible_message("<span class='notice'>[src] [resting? "lays down for a moment..." : "perks up from the ground"]</span>")
+		visible_message("<span class='notice'>[src] [resting? "lays down for a moment." : "perks up from the ground."]</span>")
 
 /mob/living/silicon/pai/start_pulling(atom/movable/AM, state, force = move_force, supress_message = FALSE)
 	return FALSE
 
 /mob/living/silicon/pai/proc/toggle_integrated_light()
-	if(!light_range)
-		set_light(brightness_power)
+	if(!light_on)
+		set_light_on(TRUE)
 		to_chat(src, "<span class='notice'>You enable your integrated light.</span>")
 	else
-		set_light(0)
+		set_light_on(FALSE)
 		to_chat(src, "<span class='notice'>You disable your integrated light.</span>")
-
-/mob/living/silicon/pai/mob_pickup(mob/living/L)
-	var/obj/item/clothing/head/mob_holder/holder = new(get_turf(src), src, chassis, item_head_icon, item_lh_icon, item_rh_icon)
-	if(!L.put_in_hands(holder))
-		qdel(holder)
-	else
-		L.visible_message("<span class='warning'>[L] scoops up [src]!</span>")
 
 /mob/living/silicon/pai/mob_try_pickup(mob/living/user)
 	if(!possible_chassis[chassis])

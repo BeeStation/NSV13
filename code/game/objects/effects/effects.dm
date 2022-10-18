@@ -6,6 +6,8 @@
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	move_resist = INFINITY
 	obj_flags = 0
+	vis_flags = VIS_INHERIT_PLANE
+	var/forensic_protected = FALSE
 
 /obj/effect/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
 	return
@@ -45,9 +47,6 @@
 /obj/effect/singularity_act()
 	qdel(src)
 	return 0
-
-/obj/effect/ConveyorMove()
-	return
 
 /obj/effect/abstract/ex_act(severity, target)
 	return

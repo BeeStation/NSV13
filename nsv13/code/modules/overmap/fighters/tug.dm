@@ -1,5 +1,5 @@
 /obj/vehicle/sealed/car/realistic/fighter_tug
-	name = "M575 Aircraft Tug"
+	name = "\improper M575 Aircraft Tug"
 	desc = "A variant of an armoured personnel carrier which is able to tow fighters around. <b>Ctrl</b> click it to grab the hitch"
 	icon = 'nsv13/icons/obj/vehicles.dmi'
 	icon_state = "tug"
@@ -41,15 +41,19 @@
 	abort_launch()
 	. = ..()
 
-/obj/vehicle/sealed/car/realistic/fighter_tug/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.contained_state) // Remember to use the appropriate state.
-  ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
-  if(!ui)
-    ui = new(user, src, ui_key, "fighter_tug", name, 400, 400, master_ui, state)
-    ui.open()
+/obj/vehicle/sealed/car/realistic/fighter_tug/ui_state(mob/user)
+	return GLOB.contained_state
+
+/obj/vehicle/sealed/car/realistic/fighter_tug/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "FighterTug")
+		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_data(mob/user)
 	var/list/data = ..()
-	var/obj/structure/overmap/tugged = locate(/obj/structure/overmap/fighter) in contents
+	var/obj/structure/overmap/tugged = locate(/obj/structure/overmap/small_craft) in contents
 	data["loaded"] = (tugged) ? TRUE : FALSE
 	data["loaded_name"] = (tugged) ? tugged.name : "No fighter loaded"
 	data["ready"] = ready
@@ -58,6 +62,8 @@
 /obj/vehicle/sealed/car/realistic/fighter_tug/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
+	if(!isliving(usr))
+		return FALSE
 	var/list/drivers = return_drivers()
 	if(!LAZYFIND(drivers, ui.user))
 		to_chat(ui.user, "<span class='warning'>You can't reach the controls from back here...</span>")
@@ -67,7 +73,7 @@
 		if("launch")
 			start_launch()
 		if("load")
-			var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in loaded
+			var/obj/structure/overmap/load = locate(/obj/structure/overmap/small_craft) in loaded
 			if(load)
 				abort_launch()
 				return
@@ -82,9 +88,9 @@
 	return TRUE
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/load()
-	var/obj/structure/overmap/load = locate(/obj/structure/overmap/fighter) in orange(get_turf(get_step(src, angle2dir(angle))), 1)
+	var/obj/structure/overmap/load = locate(/obj/structure/overmap/small_craft) in orange(get_turf(get_step(src, angle2dir(angle))), 1)
 	if(!load)
-		load = locate(/obj/structure/overmap/fighter) in orange(1, src) //Failing a dir check, try this
+		load = locate(/obj/structure/overmap/small_craft) in orange(1, src) //Failing a dir check, try this
 		return
 	hitch(load)
 
@@ -92,11 +98,11 @@
 	. = ..()
 	set_light(5)
 
-/obj/vehicle/sealed/car/realistic/fighter_tug/proc/hitch(obj/structure/overmap/fighter/target)
+/obj/vehicle/sealed/car/realistic/fighter_tug/proc/hitch(obj/structure/overmap/small_craft/target)
 	if(!target || LAZYFIND(loaded, target) || target.mag_lock)//No sucking
 		return FALSE
 	loaded += target
-	STOP_PROCESSING(SSovermap, target)
+	STOP_PROCESSING(SSphysics_processing, target)
 	target.forceMove(src)
 	vis_contents += target
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/crane_1.wav', 100, FALSE)
@@ -107,7 +113,7 @@
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/process(time)
 	. = ..()
-	for(var/obj/structure/overmap/fighter/target in loaded)
+	for(var/obj/structure/overmap/small_craft/target in loaded)
 		if(target.loc != src)
 			vis_contents -= target
 			loaded -= target
@@ -116,7 +122,7 @@
 		target.desired_angle = 0
 		target.angle = 0
 		for(var/mob/living/M in target.operators)
-			var/mob/camera/aiEye/remote/overmap_observer/eyeobj = M.remote_control
+			var/mob/camera/ai_eye/remote/overmap_observer/eyeobj = M.remote_control
 			eyeobj.forceMove(get_turf(src))
 			if(M.client)
 				M.client.pixel_x = pixel_x
@@ -128,7 +134,7 @@
 	canmove = FALSE
 	playsound(src.loc, 'nsv13/sound/effects/ship/fighter_launch.ogg', 100, FALSE)
 	add_overlay("launcher_charge")
-	for(var/obj/structure/overmap/fighter/target in contents)
+	for(var/obj/structure/overmap/small_craft/target in contents)
 		target.relay('nsv13/sound/effects/ship/fighter_launch.ogg')
 		ready = FALSE
 		addtimer(CALLBACK(src, .proc/finish_launch), 10 SECONDS)
@@ -138,7 +144,7 @@
 	density = FALSE
 	var/stored_layer = layer
 	layer = LOW_OBJ_LAYER
-	for(var/obj/structure/overmap/fighter/target in contents)
+	for(var/obj/structure/overmap/small_craft/target in contents)
 		abort_launch(silent=TRUE)
 		sleep(0.5)
 		target.prime_launch() //Gets us ready to move at PACE.
@@ -169,7 +175,7 @@
 	canmove = TRUE
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/abort_launch(silent=FALSE)
-	for(var/obj/structure/overmap/fighter/target in loaded)
+	for(var/obj/structure/overmap/small_craft/target in loaded)
 		if(!silent)
 			visible_message("<span class='warning'>[target] drops down off of [src]!</span>")
 			playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
@@ -184,7 +190,7 @@
 		if(FL)
 			targetLoc = get_turf(FL)
 		target.forceMove(targetLoc)
-		START_PROCESSING(SSovermap, target)
+		START_PROCESSING(SSphysics_processing, target)
 
 /obj/item/key/fighter_tug
 	name = "fighter tug key"

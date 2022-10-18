@@ -18,14 +18,15 @@
 	var/list/mode_reports
 	var/list/mode_false_report_weight
 
+	var/list/active_donators //NSV13 - donator code
+
 	var/motd
 
 	var/static/regex/ic_filter_regex
 	var/static/regex/ooc_filter_regex
 
 	var/list/fail2topic_whitelisted_ips
-
-	var/list/active_donators //PROTECTED
+	var/list/protected_cids
 
 /datum/controller/configuration/proc/admin_reload()
 	if(IsAdminAdvancedProcCall())
@@ -58,9 +59,12 @@
 				break
 	loadmaplist(CONFIG_MAPS_FILE)
 	LoadTopicRateWhitelist()
-	LoadMOTD()
+	LoadProtectedIDs()
 	LoadChatFilter()
-	LoadDonators()
+
+	if (Master)
+		Master.OnConfigLoad()
+
 /datum/controller/configuration/proc/full_wipe()
 	if(IsAdminAdvancedProcCall())
 		return
@@ -119,13 +123,13 @@
 		if(!L)
 			continue
 
-		var/firstchar = copytext(L, 1, 2)
+		var/firstchar = L[1]
 		if(firstchar == "#")
 			continue
 
 		var/lockthis = firstchar == "@"
 		if(lockthis)
-			L = copytext(L, 2)
+			L = copytext(L, length(firstchar) + 1)
 
 		var/pos = findtext(L, " ")
 		var/entry = null
@@ -133,7 +137,7 @@
 
 		if(pos)
 			entry = lowertext(copytext(L, 1, pos))
-			value = copytext(L, pos + 1)
+			value = copytext(L, pos + length(L[pos]))
 		else
 			entry = lowertext(L)
 
@@ -188,19 +192,29 @@
 	return (var_name != NAMEOF(src, entries_by_type) || !hiding_entries_by_type) && ..()
 
 /datum/controller/configuration/vv_edit_var(var_name, var_value)
-	var/list/banned_edits = list(NAMEOF(src, entries_by_type), NAMEOF(src, entries), NAMEOF(src, directory), NAMEOF(src, active_donators))
+	var/list/banned_edits = list(NAMEOF(src, entries_by_type), NAMEOF(src, entries), NAMEOF(src, directory))
 	return !(var_name in banned_edits) && ..()
 
 /datum/controller/configuration/stat_entry()
-	if(!statclick)
-		statclick = new/obj/effect/statclick/debug(null, "Edit", src)
-	stat("[name]:", statclick)
+	var/list/tab_data = list()
+	tab_data["[name]"] = list(
+		text="Edit",
+		action = "statClickDebug",
+		params=list(
+			"targetRef" = REF(src),
+			"class"="config",
+		),
+		type=STAT_BUTTON,
+	)
+	return tab_data
 
 /datum/controller/configuration/proc/Get(entry_type)
 	var/datum/config_entry/E = entry_type
 	var/entry_is_abstract = initial(E.abstract_type) == entry_type
 	if(entry_is_abstract)
 		CRASH("Tried to retrieve an abstract config_entry: [entry_type]")
+	if(!entries_by_type)
+		CRASH("Tried to retrieve config value before it was loaded or it was nulled.")
 	E = entries_by_type[entry_type]
 	if(!E)
 		CRASH("Missing config entry for [entry_type]!")
@@ -252,7 +266,7 @@
 	votable_modes += "secret"
 
 /datum/controller/configuration/proc/LoadMOTD()
-	motd = file2text("[directory]/motd.txt")
+	motd = rustg_file_read("[directory]/motd.txt")
 	var/tm_info = GLOB.revdata.GetTestMergeInfo()
 	if(motd || tm_info)
 		motd = motd ? "[motd]<br>[tm_info]" : tm_info
@@ -270,7 +284,7 @@
 		t = trim(t)
 		if(length(t) == 0)
 			continue
-		else if(copytext(t, 1, 2) == "#")
+		else if(t[1] == "#")
 			continue
 
 		var/pos = findtext(t, " ")
@@ -279,7 +293,7 @@
 
 		if(pos)
 			command = lowertext(copytext(t, 1, pos))
-			data = copytext(t, pos + 1)
+			data = copytext(t, pos + length(t[pos]))
 		else
 			command = lowertext(t)
 
@@ -291,7 +305,7 @@
 
 		switch (command)
 			if ("map")
-				currentmap = load_map_config("_maps/[data].json")
+				currentmap = load_map_config("[data]", MAP_DIRECTORY)
 				if(currentmap.defaulted)
 					log_config("Failed to load map config for [data]!")
 					currentmap = null
@@ -395,6 +409,16 @@
 
 		fail2topic_whitelisted_ips[line] = 1
 
+/datum/controller/configuration/proc/LoadProtectedIDs()
+	var/jsonfile = rustg_file_read("[directory]/protected_cids.json")
+	if(!jsonfile)
+		log_config("Error 404: protected_cids.json not found!")
+		return
+
+	log_config("Loading config file protected_cids.json...")
+
+	protected_cids = json_decode(jsonfile)
+
 /datum/controller/configuration/proc/LoadChatFilter()
 	var/list/in_character_filter = list()
 	var/list/ooc_filter = list()
@@ -431,12 +455,8 @@
 
 	ic_filter_regex = in_character_filter.len ? regex("\\b([jointext(in_character_filter, "|")])\\b", "i") : null
 
-	syncChatRegexes()
-
+//NSV13 - donator code
 /datum/controller/configuration/proc/LoadDonators()
-//"temporary" he says...
-//This is going to have to be the only way to load this for now.
-//Thanks KMC
 	active_donators = list()
 	for(var/line in world.file2list("[global.config.directory]/donators.txt"))
 		if(!line)

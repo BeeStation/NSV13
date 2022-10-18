@@ -102,7 +102,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	id_select += "</select>"
 
 	var/dat = {"
-	<html><head><title>Create Outfit</title></head><body>
+	<html><head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8'><title>Create Outfit</title></head><body>
 	<form name="outfit" action="byond://?src=[REF(src)];[HrefToken()]" method="get">
 	<input type="hidden" name="src" value="[REF(src)]">
 	[HrefTokenFormField()]
@@ -241,3 +241,4 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 
 	GLOB.custom_outfits.Add(O)
 	message_admins("[key_name(usr)] created \"[O.name]\" outfit!")
+	

@@ -107,8 +107,10 @@
 	var/target_B = B.drop_location()
 
 	//TODO: add a sound effect or visual effect
-	if(do_teleport(A, target_B, forceMove = TRUE, channel = TELEPORT_CHANNEL_QUANTUM))
-		do_teleport(B, target_A, forceMove = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
+	if(do_teleport(A, target_B, channel = TELEPORT_CHANNEL_QUANTUM))
+		do_teleport(B, target_A, channel = TELEPORT_CHANNEL_QUANTUM)
 		if(ismob(B))
 			var/mob/M = B
 			to_chat(M, "<span class='warning'>[linked_swapper] activates, and you find yourself somewhere else.</span>")
+			log_combat(user, B, "swapped to [AREACOORD(B)]")
+			log_game("[key_name(B)] has been swapped to [AREACOORD(B)]! Quantum Spin Inverter activated by [key_name(user)].")

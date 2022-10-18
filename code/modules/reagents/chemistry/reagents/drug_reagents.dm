@@ -71,6 +71,14 @@
 	overdose_threshold = 20
 	addiction_threshold = 10
 
+/datum/reagent/drug/crank/on_mob_metabolize(mob/living/L)
+	ADD_TRAIT(L, TRAIT_NOBLOCK, type)
+	..()
+
+/datum/reagent/drug/crank/on_mob_end_metabolize(mob/living/L)
+	REMOVE_TRAIT(L, TRAIT_NOBLOCK, type)
+	..()
+
 /datum/reagent/drug/crank/on_mob_life(mob/living/carbon/M)
 	if(prob(5))
 		var/high_message = pick("You feel jittery.", "You feel like you gotta go fast.", "You feel like you need to step it up.")
@@ -90,14 +98,14 @@
 	. = 1
 
 /datum/reagent/drug/crank/overdose_process(mob/living/M)
-	M.adjustBrainLoss(2*REM)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2*REM)
 	M.adjustToxLoss(2*REM, 0)
 	M.adjustBruteLoss(2*REM, FALSE, FALSE, BODYPART_ORGANIC)
 	..()
 	. = 1
 
 /datum/reagent/drug/crank/addiction_act_stage1(mob/living/M)
-	M.adjustBrainLoss(5*REM)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 5*REM)
 	..()
 
 /datum/reagent/drug/crank/addiction_act_stage2(mob/living/M)
@@ -111,7 +119,7 @@
 	. = 1
 
 /datum/reagent/drug/crank/addiction_act_stage4(mob/living/M)
-	M.adjustBrainLoss(3*REM)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 3*REM)
 	M.adjustToxLoss(5*REM, 0)
 	M.adjustBruteLoss(5*REM, 0)
 	..()
@@ -133,13 +141,13 @@
 	..()
 
 /datum/reagent/drug/krokodil/overdose_process(mob/living/M)
-	M.adjustBrainLoss(0.25*REM)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.25*REM)
 	M.adjustToxLoss(0.25*REM, 0)
 	..()
 	. = 1
 
 /datum/reagent/drug/krokodil/addiction_act_stage1(mob/living/M)
-	M.adjustBrainLoss(2*REM)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2*REM)
 	M.adjustToxLoss(2*REM, 0)
 	..()
 	. = 1
@@ -158,12 +166,17 @@
 
 /datum/reagent/drug/krokodil/addiction_act_stage4(mob/living/carbon/human/M)
 	CHECK_DNA_AND_SPECIES(M)
-	if(!istype(M.dna.species, /datum/species/krokodil_addict))
-		to_chat(M, "<span class='userdanger'>Your skin falls off easily!</span>")
-		M.adjustBruteLoss(50*REM, 0) // holy shit your skin just FELL THE FUCK OFF
-		M.set_species(/datum/species/krokodil_addict)
+	if(ishumanbasic(M))
+		if(!istype(M.dna.species, /datum/species/krokodil_addict))
+			to_chat(M, "<span class='userdanger'>Your skin falls off easily!</span>")
+			M.adjustBruteLoss(50*REM, 0) // holy shit your skin just FELL THE FUCK OFF
+			M.set_species(/datum/species/krokodil_addict)
+		else
+			M.adjustBruteLoss(5*REM, 0)
 	else
-		M.adjustBruteLoss(5*REM, 0)
+		to_chat(M, "<span class='danger'>Your skin peels and tears!</span>")
+		M.adjustBruteLoss(5*REM, 0) // repeats 5 times and then you get over it
+
 	..()
 	. = 1
 
@@ -177,13 +190,17 @@
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
 
 /datum/reagent/drug/methamphetamine/on_mob_metabolize(mob/living/L)
+	ADD_TRAIT(L, TRAIT_NOBLOCK, type)
 	..()
 	if (L.client)
 		SSmedals.UnlockMedal(MEDAL_APPLY_REAGENT_METH,L.client)
 
-	L.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-2, blacklisted_movetypes=(FLYING|FLOATING))
+	L.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-1.25, blacklisted_movetypes=(FLYING|FLOATING))
+	ADD_TRAIT(L, TRAIT_SLEEPIMMUNE, type)
 
 /datum/reagent/drug/methamphetamine/on_mob_end_metabolize(mob/living/L)
+	REMOVE_TRAIT(L, TRAIT_NOBLOCK, type)
+	REMOVE_TRAIT(L, TRAIT_SLEEPIMMUNE, type)
 	L.remove_movespeed_modifier(type)
 	..()
 
@@ -196,9 +213,10 @@
 	M.AdjustUnconscious(-40, FALSE)
 	M.AdjustParalyzed(-40, FALSE)
 	M.AdjustImmobilized(-40, FALSE)
-	M.adjustStaminaLoss(-30, 0)
+	M.adjustStaminaLoss(-40, 0)
+	M.drowsyness = max(0,M.drowsyness-30)
 	M.Jitter(2)
-	M.adjustBrainLoss(rand(1,4))
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 1)
 	if(prob(5))
 		M.emote(pick("twitch", "shiver"))
 	..()
@@ -215,7 +233,7 @@
 		M.drop_all_held_items()
 	..()
 	M.adjustToxLoss(1, 0)
-	M.adjustBrainLoss(pick(0.5, 0.6, 0.7, 0.8, 0.9, 1))
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, pick(0.5, 0.6, 0.7, 0.8, 0.9, 1))
 	. = 1
 
 /datum/reagent/drug/methamphetamine/addiction_act_stage1(mob/living/M)
@@ -270,6 +288,7 @@
 	ADD_TRAIT(L, TRAIT_IGNOREDAMAGESLOWDOWN, type)
 	ADD_TRAIT(L, TRAIT_NOSTAMCRIT, type)
 	ADD_TRAIT(L, TRAIT_NOLIMBDISABLE, type)
+	ADD_TRAIT(L, TRAIT_NOBLOCK, type)
 	if(iscarbon(L))
 		var/mob/living/carbon/C = L
 		rage = new()
@@ -281,6 +300,7 @@
 	REMOVE_TRAIT(L, TRAIT_IGNOREDAMAGESLOWDOWN, type)
 	REMOVE_TRAIT(L, TRAIT_NOSTAMCRIT, type)
 	REMOVE_TRAIT(L, TRAIT_NOLIMBDISABLE, type)
+	REMOVE_TRAIT(L, TRAIT_NOBLOCK, type)
 	if(rage)
 		QDEL_NULL(rage)
 	..()
@@ -290,7 +310,7 @@
 	if(prob(5))
 		to_chat(M, "<span class='notice'>[high_message]</span>")
 	M.adjustStaminaLoss(-5, 0)
-	M.adjustBrainLoss(4)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 4)
 	M.hallucination += 5
 	if((M.mobility_flags & MOBILITY_MOVE) && !ismovableatom(M.loc))
 		step(M, pick(GLOB.cardinals))
@@ -315,7 +335,7 @@
 		for(var/i = 0, i < 8, i++)
 			step(M, pick(GLOB.cardinals))
 	M.Jitter(5)
-	M.adjustBrainLoss(10)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 10)
 	if(prob(20))
 		M.emote(pick("twitch","drool","moan"))
 	..()
@@ -327,7 +347,7 @@
 			step(M, pick(GLOB.cardinals))
 	M.Jitter(10)
 	M.Dizzy(10)
-	M.adjustBrainLoss(10)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 10)
 	if(prob(30))
 		M.emote(pick("twitch","drool","moan"))
 	..()
@@ -339,7 +359,7 @@
 			step(M, pick(GLOB.cardinals))
 	M.Jitter(15)
 	M.Dizzy(15)
-	M.adjustBrainLoss(10)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 10)
 	if(prob(40))
 		M.emote(pick("twitch","drool","moan"))
 	..()
@@ -352,7 +372,7 @@
 	M.Jitter(50)
 	M.Dizzy(50)
 	M.adjustToxLoss(5, 0)
-	M.adjustBrainLoss(10)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 10)
 	if(prob(50))
 		M.emote(pick("twitch","drool","moan"))
 	..()
@@ -363,6 +383,14 @@
 	description = "Amps you up, gets you going, and rapidly restores stamina damage. Side effects include breathlessness and toxicity."
 	reagent_state = LIQUID
 	color = "#78FFF0"
+
+/datum/reagent/drug/aranesp/on_mob_metabolize(mob/living/L)
+	ADD_TRAIT(L, TRAIT_NOBLOCK, type)
+	..()
+
+/datum/reagent/drug/aranesp/on_mob_end_metabolize(mob/living/L)
+	REMOVE_TRAIT(L, TRAIT_NOBLOCK, type)
+	..()
 
 /datum/reagent/drug/aranesp/on_mob_life(mob/living/carbon/M)
 	var/high_message = pick("You feel amped up.", "You feel ready.", "You feel like you can push it to the limit.")
@@ -398,7 +426,7 @@
 	M.jitteriness = 0
 	M.confused = 0
 	M.disgust = 0
-	M.adjustBrainLoss(0.2)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.2)
 	..()
 	. = 1
 
@@ -415,7 +443,7 @@
 			if(3)
 				M.emote("frown")
 				SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "happiness_drug", /datum/mood_event/happiness_drug_bad_od)
-	M.adjustBrainLoss(0.5)
+	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.5)
 	..()
 	. = 1
 
@@ -451,3 +479,85 @@
 		M.emote(pick("twitch","laugh","frown"))
 	..()
 	. = 1
+
+//I had to do too much research on this to make this a thing. Hopefully the FBI won't kick my door down.
+/datum/reagent/drug/ketamine
+	name = "Ketamine"
+	description = "A heavy duty tranquilizer found to also invoke feelings of euphoria, and assist with pain. Popular at parties and amongst small frogmen who drive Honda Civics."
+	reagent_state = LIQUID
+	color = "#c9c9c9"
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	addiction_threshold = 8
+	overdose_threshold = 16
+
+/datum/reagent/drug/ketamine/on_mob_metabolize(mob/living/L)
+	ADD_TRAIT(L, TRAIT_IGNOREDAMAGESLOWDOWN, type)
+	. = ..()
+
+/datum/reagent/drug/ketamine/on_mob_delete(mob/living/L)
+	REMOVE_TRAIT(L, TRAIT_IGNOREDAMAGESLOWDOWN, type)
+	. = ..()
+
+/datum/reagent/drug/ketamine/on_mob_life(mob/living/carbon/M)
+	//Friendly Reminder: Ketamine is a tranquilizer and will sleep you.
+	switch(current_cycle)
+		if(10)
+			to_chat(M, "<span class='warning'>You start to feel tired...</span>" )
+		if(11 to 25)
+			M.drowsyness ++
+		if(26 to INFINITY)
+			M.Sleeping(60, 0)
+			. = 1
+	//Providing a Mood Boost
+	M.confused -= 3
+	M.jitteriness -= 5
+	M.disgust -= 3
+	//Ketamine is also a dissociative anasthetic which means Hallucinations!
+	M.hallucination += 5
+	..()
+
+/datum/reagent/drug/ketamine/overdose_process(mob/living/M)
+	//Dissociative anesthetics? Overdosing? Time to dissociate hard.
+	var/obj/item/organ/brain/B = M.getorgan(/obj/item/organ/brain)
+	if(B.can_gain_trauma(/datum/brain_trauma/severe/split_personality, 5))
+		B.brain_gain_trauma(/datum/brain_trauma/severe/split_personality, 5)
+		. = 1
+	M.hallucination += 10
+	//Uh Oh Someone is tired
+	if(prob(40))
+		if(HAS_TRAIT(M, TRAIT_IGNOREDAMAGESLOWDOWN))
+			REMOVE_TRAIT(M, TRAIT_IGNOREDAMAGESLOWDOWN, type)
+		if(prob(33))
+			to_chat(M, "<span class='warning'>Your limbs begin to feel heavy...</span>")
+		else if(prob(33))
+			to_chat(M, "<span class='warning'>It feels hard to move...</span>")
+		else
+			to_chat(M, "<span class='warning'>You feel like you your limbs won't move...</span>")
+		M.drop_all_held_items()
+		M.Dizzy(5)
+	..()
+
+//Addiction Gradient
+/datum/reagent/drug/ketamine/addiction_act_stage1(mob/living/M)
+	if(prob(20))
+		M.drop_all_held_items()
+		M.Jitter(2)
+	..()
+
+/datum/reagent/drug/ketamine/addiction_act_stage2(mob/living/M)
+	if(prob(30))
+		M.drop_all_held_items()
+		M.adjustToxLoss(2*REM, 0)
+		. = 1
+		M.Jitter(3)
+		M.Dizzy(3)
+	..()
+
+/datum/reagent/drug/ketamine/addiction_act_stage3(mob/living/M)
+	if(prob(40))
+		M.drop_all_held_items()
+		M.adjustToxLoss(3*REM, 0)
+		. = 1
+		M.Jitter(4)
+		M.Dizzy(4)
+	..()

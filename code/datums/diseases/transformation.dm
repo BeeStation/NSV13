@@ -6,10 +6,11 @@
 	cure_text = "A coder's love (theoretical)."
 	agent = "Shenanigans"
 	viable_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey, /mob/living/carbon/alien)
-	severity = DISEASE_SEVERITY_BIOHAZARD
+	danger = DISEASE_BIOHAZARD
 	stage_prob = 10
 	visibility_flags = HIDDEN_SCANNER|HIDDEN_PANDEMIC
 	disease_flags = CURABLE
+	var/is_mutagenic = FALSE
 	var/list/stage1 = list("You feel unremarkable.")
 	var/list/stage2 = list("You feel boring.")
 	var/list/stage3 = list("You feel utterly plain.")
@@ -44,6 +45,9 @@
 			if (prob(stage_prob*2) && stage4)
 				to_chat(affected_mob, pick(stage4))
 		if(5)
+			if(is_mutagenic)	//we don't do it normally
+				form_mutagen(affected_mob)
+				return
 			do_disease_transformation(affected_mob)
 
 /datum/disease/transformation/proc/do_disease_transformation(mob/living/affected_mob)
@@ -73,22 +77,22 @@
 		new_mob.real_name = new_mob.name
 		qdel(affected_mob)
 
+/datum/disease/transformation/proc/form_mutagen(mob/living/affected_mob)
+	return //default if something goes wrong
+
 /datum/disease/transformation/proc/replace_banned_player(var/mob/living/new_mob) // This can run well after the mob has been transferred, so need a handle on the new mob to kill it if needed.
 	set waitfor = FALSE
+
+	affected_mob.ghostize(TRUE,SENTIENCE_FORCE)
+	to_chat(affected_mob, "Your mob has been taken over by a ghost! Appeal your job ban if you want to avoid this in the future!")
 
 	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as [affected_mob.name]?", bantype, null, bantype, 50, affected_mob)
 	if(LAZYLEN(candidates))
 		var/mob/dead/observer/C = pick(candidates)
-		to_chat(affected_mob, "Your mob has been taken over by a ghost! Appeal your job ban if you want to avoid this in the future!")
 		message_admins("[key_name_admin(C)] has taken control of ([key_name_admin(affected_mob)]) to replace a jobbanned player.")
-		affected_mob.ghostize(0)
 		affected_mob.key = C.key
 	else
-		to_chat(new_mob, "Your mob has been claimed by death! Appeal your job ban if you want to avoid this in the future!")
-		new_mob.death()
-		if (!QDELETED(new_mob))
-			new_mob.ghostize(can_reenter_corpse = FALSE)
-			new_mob.key = null
+		to_chat(new_mob, "Your mob has been offered to ghosts! Appeal your job ban if you want to avoid this in the future!")
 
 /datum/disease/transformation/jungle_fever
 	name = "Jungle Fever"
@@ -101,11 +105,11 @@
 	cure_chance = 1
 	disease_flags = CAN_CARRY|CAN_RESIST
 	desc = "Monkeys with this disease will bite humans, causing humans to mutate into a monkey."
-	severity = DISEASE_SEVERITY_BIOHAZARD
+	danger = DISEASE_BIOHAZARD
 	stage_prob = 4
 	visibility_flags = 0
 	agent = "Kongey Vibrion M-909"
-	new_form = /mob/living/carbon/monkey
+	new_form = null
 	bantype = ROLE_MONKEY
 
 
@@ -119,10 +123,14 @@
 /datum/disease/transformation/jungle_fever/do_disease_transformation(mob/living/carbon/affected_mob)
 	if(affected_mob.mind && !is_monkey(affected_mob.mind))
 		add_monkey(affected_mob.mind)
-	if(ishuman(affected_mob))
-		var/mob/living/carbon/monkey/M = affected_mob.monkeyize(TR_KEEPITEMS | TR_KEEPIMPLANTS | TR_KEEPORGANS | TR_KEEPDAMAGE | TR_KEEPVIRUS | TR_KEEPSE)
-		M.ventcrawler = VENTCRAWLER_ALWAYS
-
+	if(affected_mob && ishuman(affected_mob))
+		if((is_monkey_leader(affected_mob.mind) || prob(4)))
+			affected_mob.junglegorillize()
+		else
+			var/mob/living/carbon/monkey/M = affected_mob.monkeyize(TR_KEEPITEMS | TR_KEEPIMPLANTS | TR_KEEPVIRUS | TR_KEEPSE)
+			M.ventcrawler = VENTCRAWLER_ALWAYS
+			var/datum/atom_hud/H = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED]
+			H.add_hud_to(M)
 
 /datum/disease/transformation/jungle_fever/stage_act()
 	..()
@@ -159,8 +167,8 @@
 	cures = list(/datum/reagent/copper)
 	cure_chance = 5
 	agent = "R2D2 Nanomachines"
-	desc = "This disease, actually acute nanomachine infection, converts the victim into a cyborg."
-	severity = DISEASE_SEVERITY_BIOHAZARD
+	desc = "An acute nanomachine infection which converts its host into a cyborg."
+	danger = DISEASE_BIOHAZARD
 	visibility_flags = 0
 	stage1	= list()
 	stage2	= list("Your joints feel stiff.", "<span class='danger'>Beep...boop..</span>")
@@ -193,7 +201,7 @@
 	cure_chance = 5
 	agent = "Rip-LEY Alien Microbes"
 	desc = "This disease changes the victim into a xenomorph."
-	severity = DISEASE_SEVERITY_BIOHAZARD
+	danger = DISEASE_BIOHAZARD
 	visibility_flags = 0
 	stage1	= list()
 	stage2	= list("Your throat feels scratchy.", "<span class='danger'>Kill...</span>")
@@ -222,7 +230,7 @@
 	cure_chance = 80
 	agent = "Advanced Mutation Toxin"
 	desc = "This highly concentrated extract converts anything into more of itself."
-	severity = DISEASE_SEVERITY_BIOHAZARD
+	danger = DISEASE_BIOHAZARD
 	visibility_flags = 0
 	stage1	= list("You don't feel very well.")
 	stage2	= list("Your skin feels a little slimy.")
@@ -250,7 +258,7 @@
 	cures = list(/datum/reagent/medicine/adminordrazine)
 	agent = "Fell Doge Majicks"
 	desc = "This disease transforms the victim into a corgi."
-	severity = DISEASE_SEVERITY_BIOHAZARD
+	danger = DISEASE_BIOHAZARD
 	visibility_flags = 0
 	stage1	= list("BARK.")
 	stage2	= list("You feel the need to wear silly hats.")
@@ -276,7 +284,7 @@
 	agent = "Gluttony's Blessing"
 	desc = "A 'gift' from somewhere terrible."
 	stage_prob = 20
-	severity = DISEASE_SEVERITY_BIOHAZARD
+	danger = DISEASE_BIOHAZARD
 	visibility_flags = 0
 	stage1	= list("Your stomach rumbles.")
 	stage2	= list("Your skin feels saggy.")
@@ -294,7 +302,7 @@
 	stage_prob = 5
 	agent = "Tranquility"
 	desc = "Consuming the flesh of a Gondola comes at a terrible price."
-	severity = DISEASE_SEVERITY_BIOHAZARD
+	danger = DISEASE_BIOHAZARD
 	visibility_flags = 0
 	stage1	= list("You seem a little lighter in your step.")
 	stage2	= list("You catch yourself smiling for no reason.")
@@ -326,16 +334,119 @@
 				var/obj/item/I = affected_mob.get_active_held_item()
 				affected_mob.dropItemToGround(I)
 
+/datum/disease/transformation/felinid
+	name = "Nano-Feline Assimilative Toxoplasmosis"
+	cure_text = "Something that would kill off the tiny cats."
+	spread_text = "Acute"
+	disease_flags = CURABLE|CAN_CARRY|CAN_RESIST
+	cures = list(/datum/reagent/consumable/cocoa, /datum/reagent/consumable/cocoa/hot_cocoa) //kills all the tiny cats that infected your organism
+	needs_all_cures = FALSE //NSV13 - only needs hot choco or chocolate, not both.
+	cure_chance = 25
+	stage_prob = 3
+	agent = "Nano-feline Toxoplasmosis"
+	desc = "A lot of tiny cats in the blood that slowly turn you into a big cat."
+	is_mutagenic = TRUE //So that it won't be autocured after stage 5
+	danger = DISEASE_BIOHAZARD
+	visibility_flags = 0
+	stage1	= list("You feel scratching fom within.", "You hear a faint miaow somewhere really close.")
+	stage2	= list("<span class='danger'>You suppress the urge to lick yourself.</span>")
+	stage3	= list("<span class='danger'>You feel the need to cough out something fluffy.</span>", "<span class='danger'>You feel the need to scratch your neck with your foot.</span>", "<span class='danger'>You think you should adopt a cat.</span>")
+	stage4	= list("<span class='danger'>You start thinking that felinids are not that bad after all!</span>", "<span class='danger'>You feel scared at the thought of eating chocolate.</span>")
+	stage5	= list("<span class='danger'>You have become a catperson.</span>")
+	infectable_biotypes = list(MOB_ORGANIC, MOB_INORGANIC, MOB_UNDEAD) //Nothing evades the curse!
+	new_form = /mob/living/carbon/human/species/felinid
+
+/datum/disease/transformation/felinid/stage_act()
+	..()
+	switch(stage)
+		if(2)
+			if (prob(1))
+				affected_mob.visible_message("<span class='danger'>[affected_mob] licks [affected_mob.p_their()] hand.</span>")
+		if(3)
+			if (prob(8))
+				affected_mob.say(pick("Nya", "MIAOW", "Ny- NYAAA", "meow", "NYAAA", "nya", "Ny- meow", "mrrrr", "Mew- Nya") + pick("!", "!!", "~!!", "!~", "", "", "", ""), forced = "felinid transformation")
+			if (prob(2))
+				affected_mob.visible_message("<span class='danger'>[affected_mob] licks [affected_mob.p_their()] hand.</span>")
+			if (prob(1))
+				affected_mob.visible_message("<span class='danger'>[affected_mob] coughs out a furball.</span>")
+				to_chat(affected_mob, "<span class='danger'>You cough out a furball.</span>")
+		if(4)
+			if (prob(10))
+				affected_mob.say(pick("", ";", ".h")+pick("Nya", "MIAOW", "Ny- NYAAA", "meow", "NYAAA", "nya", "Ny- meow", "mrrrr", "Mew- Nya")+pick("!", "!!", "~!!", "!~", "", "", "", ""), forced = "felinid transformation")
+			if (prob(1))
+				affected_mob.visible_message("<span class='danger'>[affected_mob] coughs out a furball.</span>")
+				to_chat(affected_mob, "<span class='danger'>You cough out a furball.</span>")
+
+/datum/disease/transformation/felinid/after_add()
+	RegisterSignal(affected_mob, COMSIG_MOB_SAY, .proc/handle_speech)
+
+/datum/disease/transformation/felinid/proc/handle_speech(datum/source, list/speech_args)
+	SIGNAL_HANDLER
+
+	var/message = speech_args[SPEECH_MESSAGE]
+	if(message[1] != "*")
+		message = " [message]"
+		var/list/whole_words = strings("owo_talk.json", "wowds")
+		var/list/owo_sounds = strings("owo_talk.json", "sounds")
+
+		for(var/key in whole_words)
+			var/value = whole_words[key]
+			if(islist(value))
+				value = pick(value)
+
+			message = replacetextEx(message, " [uppertext(key)]", " [uppertext(value)]")
+			message = replacetextEx(message, " [capitalize(key)]", " [capitalize(value)]")
+			message = replacetextEx(message, " [key]", " [value]")
+
+		for(var/key in owo_sounds)
+			var/value = owo_sounds[key]
+			if(islist(value))
+				value = pick(value)
+
+			message = replacetextEx(message, "[uppertext(key)]", "[uppertext(value)]")
+			message = replacetextEx(message, "[capitalize(key)]", "[capitalize(value)]")
+			message = replacetextEx(message, "[key]", "[value]")
+
+		if(prob(3))
+			message += pick(" Nya!"," Meow!"," OwO!!", " Nya-nya!")
+	speech_args[SPEECH_MESSAGE] = trim(message)
+
+/datum/disease/transformation/felinid/Destroy()
+	UnregisterSignal(affected_mob, COMSIG_MOB_SAY)
+	return ..()
+
+/datum/disease/transformation/felinid/remove_disease()
+	UnregisterSignal(affected_mob, COMSIG_MOB_SAY)
+	return ..()
+
+/datum/disease/transformation/felinid/contagious
+	spread_text = "Blood, Fluids, Contact"
+	is_mutagenic = TRUE //So that it won't be autocured after stage 5
+	spread_flags = DISEASE_SPREAD_BLOOD | DISEASE_SPREAD_CONTACT_SKIN | DISEASE_SPREAD_CONTACT_FLUIDS
+
+/datum/disease/transformation/felinid/contagious/form_mutagen(mob/living/affected_mob)
+	if(ishuman(affected_mob))
+		var/mob/living/carbon/human/affected_human = affected_mob
+		if(iscatperson(affected_human))
+			if (prob(10))
+				affected_mob.say(pick("", ";", ".h")+pick("Nya", "MIAOW", "Ny- NYAAA", "meow", "NYAAA", "nya", "Ny- meow", "mrrrr", "Mew- Nya")+pick("!", "!!", "~!!", "!~", "", "", "", ""), forced = "felinid transformation")
+			if (prob(3))
+				affected_mob.visible_message("<span class='danger'>[affected_mob] licks [affected_mob.p_their()] hand.</span>")
+			if (prob(1))
+				affected_mob.visible_message("<span class='danger'>[affected_mob] coughs out a furball.</span>")
+				to_chat(affected_mob, "<span class='danger'>You cough out a furball.</span>")
+			return
+	affected_mob.reagents.add_reagent_list(list(/datum/reagent/mutationtoxin/felinid = 1, /datum/reagent/medicine/mutadone = 1))
 
 /datum/disease/transformation/legion
 	name = "Necropolis Infestation"
 	cure_text = "The healing Vitrium Froth of some Lavaland flora"
 	cures = list(/datum/reagent/consumable/vitfro)
-	cure_chance = 5 //about 20 seconds/5 units of Froth to heal. Takes a decent gathering period but just shy of the amount that'll fatten you
+	cure_chance = 10 //about 10 seconds/5 units of Froth to heal. Takes a decent gathering period but just shy of the amount that'll fatten you
 	stage_prob = 5
 	agent = "Legion droppings"
 	desc = "Who knew that spreading the primordial goop of a vile entity would take a toll on the body?"
-	severity = DISEASE_SEVERITY_BIOHAZARD
+	danger = DISEASE_BIOHAZARD
 	visibility_flags = 0
 	stage1	= list("Your skin seems ashy.")
 	stage2	= list("You wonder what it would be like to live on Lavaland forever...")

@@ -22,13 +22,15 @@
 	C.gain_trauma(/datum/brain_trauma/special/obsessed)//ZAP
 
 /datum/antagonist/obsessed/greet()
-	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/creepalert.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/creepalert.ogg', 100, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
 	to_chat(owner, "<span class='userdanger'>You are the Obsessed!</span>")
 	to_chat(owner, "<B>The Voices have reached out to you, and are using you to complete their evil deeds.</B>")
 	to_chat(owner, "<B>You don't know their connection, but The Voices compel you to stalk [trauma.obsession], forcing them into a state of constant paranoia.</B>")
 	to_chat(owner, "<B>The Voices will retaliate if you fail to complete your tasks or spend too long away from your target.</B>")
 	to_chat(owner, "<span class='boldannounce'>This role does NOT enable you to otherwise surpass what's deemed creepy behavior per the rules.</span>")//ironic if you know the history of the antag
 	owner.announce_objectives()
+	owner.current.client?.tgui_panel?.give_antagonist_popup("Obsession",
+		"Stalk [trauma.obsession] and force them into a constant state of paranoia.")
 
 /datum/antagonist/obsessed/Destroy()
 	if(trauma)
@@ -69,29 +71,35 @@
 				spendtime.owner = owner
 				spendtime.target = obsessionmind
 				objectives += spendtime
+				log_objective(owner, spendtime.explanation_text)
 			if("polaroid")
 				var/datum/objective/polaroid/polaroid = new
 				polaroid.owner = owner
 				polaroid.target = obsessionmind
 				objectives += polaroid
+				log_objective(owner, polaroid.explanation_text)
 			if("hug")
 				var/datum/objective/hug/hug = new
 				hug.owner = owner
 				hug.target = obsessionmind
 				objectives += hug
+				log_objective(owner, hug.explanation_text)
 			if("heirloom")
 				var/datum/objective/steal/heirloom_thief/heirloom_thief = new
 				heirloom_thief.owner = owner
 				heirloom_thief.target = obsessionmind//while you usually wouldn't need this for stealing, we need the name of the obsession
 				heirloom_thief.steal_target = family_heirloom.heirloom
 				objectives += heirloom_thief
+				log_objective(owner, heirloom_thief.explanation_text)
 			if("jealous")
 				var/datum/objective/assassinate/jealous/jealous = new
 				jealous.owner = owner
 				jealous.target = obsessionmind//will reroll into a coworker on the objective itself
 				objectives += jealous
+				log_objective(owner, jealous.explanation_text)
 
 	objectives += kill//finally add the assassinate last, because you'd have to complete it last to greentext.
+	log_objective(owner, kill.explanation_text)
 	for(var/datum/objective/O in objectives)
 		O.update_explanation_text()
 
@@ -175,6 +183,8 @@
 		chosen_department = "civilian"
 	if(oldmind.assigned_role in GLOB.munitions_positions) //NSV13 munitions department
 		chosen_department = "munitions"
+	if(oldmind.assigned_role in GLOB.gimmick_positions)
+		chosen_department = "civilian"
 	for(var/mob/living/carbon/human/H in GLOB.alive_mob_list)
 		if(!H.mind)
 			continue
@@ -194,6 +204,10 @@
 			their_chosen_department = "supply"
 		if(H.mind.assigned_role in GLOB.civilian_positions)
 			their_chosen_department = "civilian"
+		if(H.mind.assigned_role in GLOB.munitions_positions) //NSV13 munitions department
+			their_chosen_department = "munitions"
+		if(H.mind.assigned_role in GLOB.gimmick_positions)
+			chosen_department = "civilian"
 		if(their_chosen_department != chosen_department)
 			continue
 		viable_coworkers += H.mind
@@ -247,8 +261,8 @@
 
 /datum/objective/polaroid/update_explanation_text()
 	..()
-	if(target?.current)
-		explanation_text = "Take a photo with [target.name] while they're alive."
+	if(target && target.current)
+		explanation_text = "Take a photo of [target.name] while they're alive."
 	else
 		explanation_text = "Free Objective"
 
@@ -261,7 +275,7 @@
 		for(var/obj/I in all_items) //Check for wanted items
 			if(istype(I, /obj/item/photo))
 				var/obj/item/photo/P = I
-				if(P.picture.mobs_seen.Find(owner) && P.picture.mobs_seen.Find(target) && !P.picture.dead_seen.Find(target))//you are in the picture, they are but they are not dead.
+				if(P.picture && (target.current in P.picture.mobs_seen) && !(target.current in P.picture.dead_seen)) //Does the picture exist and is the target in it and is the target not dead
 					return TRUE
 	return FALSE
 

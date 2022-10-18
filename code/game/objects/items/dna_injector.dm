@@ -14,7 +14,7 @@
 	var/list/add_mutations = list()
 	var/list/remove_mutations = list()
 
-	var/used = 0
+	var/used = FALSE
 
 /obj/item/dnainjector/attack_paw(mob/user)
 	return attack_hand(user)
@@ -75,7 +75,7 @@
 	if(!inject(target, user))	//Now we actually do the heavy lifting.
 		to_chat(user, "<span class='notice'>It appears that [target] does not have compatible DNA.</span>")
 
-	used = 1
+	used = TRUE
 	icon_state = "dnainjector0"
 	desc += " This one is used up."
 
@@ -150,7 +150,7 @@
 	name = "\improper DNA injector (Anti-Clumsy)"
 	desc = "Apply this for Security Clown."
 	remove_mutations = list(CLOWNMUT)
-	
+
 /obj/item/dnainjector/cluwnemut
 	name = "\improper DNA injector (Cluwneify)"
 	desc = "This is your last chance to turn back."
@@ -370,12 +370,12 @@
 	name = "\improper DNA injector (Anti-Shock Touch)"
 	remove_mutations = list(SHOCKTOUCH)
 
-/obj/item/dnainjector/spacialinstability
-	name = "\improper DNA injector (Spacial Instability)"
+/obj/item/dnainjector/spatialinstability
+	name = "\improper DNA injector (Spatial Instability)"
 	add_mutations = list(BADBLINK)
 
-/obj/item/dnainjector/antispacialinstability
-	name = "\improper DNA injector (Anti-Spacial Instability)"
+/obj/item/dnainjector/antispatialinstability
+	name = "\improper DNA injector (Anti-Spatial Instability)"
 	remove_mutations = list(BADBLINK)
 
 /obj/item/dnainjector/acidflesh
@@ -449,6 +449,38 @@
 /obj/item/dnainjector/removeantiglow
 	name = "\improper DNA injector (Anti-Antiglowy)"
 	remove_mutations = list(ANTIGLOWY)
+
+/obj/item/dnainjector/strongwings
+	name = "\improper DNA injector (Strong Wings)"
+	add_mutations = list(STRONGWINGS)
+
+/obj/item/dnainjector/antistrongwings
+	name = "\improper DNA injector (Anti-Strong Wings)"
+	remove_mutations = list(STRONGWINGS)
+
+/obj/item/dnainjector/catclaws
+	name = "\improper DNA injector (Cat Claws)"
+	add_mutations = list(CATCLAWS)
+
+/obj/item/dnainjector/anticatclaws
+	name = "\improper DNA injector (Anti-Cat Claws)"
+	remove_mutations = list(CATCLAWS)
+
+/obj/item/dnainjector/overload
+	name = "\improper DNA injector (Overload)"
+	add_mutations = list(OVERLOAD)
+
+/obj/item/dnainjector/antioverload
+	name = "\improper DNA injector (Anti-Overload)"
+	remove_mutations = list(OVERLOAD)
+
+/obj/item/dnainjector/acidooze
+	name = "\improper DNA injector (Acid Ooze)"
+	add_mutations = list(ACIDOOZE)
+
+/obj/item/dnainjector/antiacidooze
+	name = "\improper DNA injector (Pepto-Bismol)"
+	remove_mutations = list(ACIDOOZE)
 
 /obj/item/dnainjector/timed
 	var/duration = 600
@@ -532,13 +564,13 @@
 					log_msg += "(FAILED)"
 				else
 					M.dna.add_mutation(HM, MUT_EXTRA)
-					name = "expended [name]"
 			else if(research && M.client)
 				filled = TRUE
-				name = "filled [name]"
-			else
-				name = "expended [name]"
 			log_msg += "([mutation])"
+		if(filled)
+			name = "filled [name]"
+		else
+			name = "expended [name]"
 		log_attack("[log_msg] [loc_name(user)]")
 		return TRUE
 	return FALSE

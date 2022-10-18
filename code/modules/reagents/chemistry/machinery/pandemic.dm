@@ -7,12 +7,14 @@
 	density = TRUE
 	icon = 'icons/obj/chemical.dmi'
 	icon_state = "mixer0"
-	circuit = /obj/item/circuitboard/computer/pandemic
 	use_power = TRUE
 	idle_power_usage = 20
 	resistance_flags = ACID_PROOF
+	circuit = /obj/item/circuitboard/computer/pandemic
+
+
+
 	var/wait
-	var/mode = MAIN_SCREEN
 	var/datum/symptom/selected_symptom
 	var/obj/item/reagent_containers/beaker
 
@@ -36,7 +38,6 @@
 		. += "<span class='info'>Alt-click to eject [is_close ? beaker : "the beaker"].</span>"
 
 /obj/machinery/computer/pandemic/AltClick(mob/user)
-	. = ..()
 	if(user.canUseTopic(src, BE_CLOSE))
 		eject_beaker()
 
@@ -72,28 +73,27 @@
 		if(istype(D, /datum/disease/advance))
 			var/datum/disease/advance/A = D
 			var/disease_name = SSdisease.get_disease_name(A.GetDiseaseID())
-			if((disease_name == "Unknown") && A.mutable)
-				this["can_rename"] = TRUE
+			this["can_rename"] = ((disease_name == "Unknown") && A.mutable)
 			this["name"] = disease_name
 			this["is_adv"] = TRUE
 			this["symptoms"] = list()
-			var/symptom_index = 1
 			for(var/symptom in A.symptoms)
 				var/datum/symptom/S = symptom
 				var/list/this_symptom = list()
-				this_symptom["name"] = S.name
-				this_symptom["sym_index"] = symptom_index
-				symptom_index++
+				this_symptom = get_symptom_data(S)
 				this["symptoms"] += list(this_symptom)
-			this["resistance"] = A.totalResistance()
-			this["stealth"] = A.totalStealth()
-			this["stage_speed"] = A.totalStageSpeed()
-			this["transmission"] = A.totalTransmittable()
+			this["resistance"] = A.resistance
+			this["stealth"] = A.stealth
+			this["stage_speed"] = A.stage_rate
+			this["transmission"] = A.transmission
+			this["symptom_severity"] = A.severity
+
 		this["index"] = index++
 		this["agent"] = D.agent
 		this["description"] = D.desc || "none"
 		this["spread"] = D.spread_text || "none"
 		this["cure"] = D.cure_text || "none"
+		this["danger"] = D.danger || "none"
 
 		. += list(this)
 
@@ -105,10 +105,11 @@
 	this["stealth"] = S.stealth
 	this["resistance"] = S.resistance
 	this["stage_speed"] = S.stage_speed
-	this["transmission"] = S.transmittable
+	this["transmission"] = S.transmission
 	this["level"] = S.level
 	this["neutered"] = S.neutered
 	this["threshold_desc"] = S.threshold_desc
+	this["severity"] = S.severity
 	. += this
 
 /obj/machinery/computer/pandemic/proc/get_resistance_data(datum/reagent/blood/B)
@@ -128,6 +129,7 @@
 /obj/machinery/computer/pandemic/proc/reset_replicator_cooldown()
 	wait = FALSE
 	update_icon()
+	SStgui.update_uis(src)
 	playsound(src, 'sound/machines/ping.ogg', 30, TRUE)
 
 /obj/machinery/computer/pandemic/update_icon()
@@ -146,33 +148,37 @@
 		beaker.forceMove(drop_location())
 		beaker = null
 		update_icon()
+		ui_update()
 
-/obj/machinery/computer/pandemic/ui_interact(mob/user, ui_key = "main", datum/tgui/ui, force_open = FALSE, datum/tgui/master_ui, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+
+/obj/machinery/computer/pandemic/ui_state(mob/user)
+	return GLOB.default_state
+
+/obj/machinery/computer/pandemic/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "pandemic", name, 700, 500, master_ui, state)
+		ui = new(user, src, "Pandemic")
 		ui.open()
 
 /obj/machinery/computer/pandemic/ui_data(mob/user)
 	var/list/data = list()
 	data["is_ready"] = !wait
-	data["mode"] = mode
-	switch(mode)
-		if(MAIN_SCREEN)
-			if(beaker)
-				data["has_beaker"] = TRUE
-				if(!beaker.reagents.total_volume || !beaker.reagents.reagent_list)
-					data["beaker_empty"] = TRUE
-				var/datum/reagent/blood/B = locate() in beaker.reagents.reagent_list
-				if(B)
-					data["has_blood"] = TRUE
-					data[/datum/reagent/blood] = list()
-					data[/datum/reagent/blood]["dna"] = B.data["blood_DNA"] || "none"
-					data[/datum/reagent/blood]["type"] = B.data["blood_type"] || "none"
-					data["viruses"] = get_viruses_data(B)
-					data["resistances"] = get_resistance_data(B)
-		if(SYMPTOM_DETAILS)
-			data["symptom"] = get_symptom_data(selected_symptom)
+	if(beaker)
+		data["has_beaker"] = TRUE
+		data["beaker_empty"] = (!beaker.reagents.total_volume || !beaker.reagents.reagent_list)
+		var/datum/reagent/blood/B = locate() in beaker.reagents.reagent_list
+		if(B)
+			data["has_blood"] = TRUE
+			data[/datum/reagent/blood] = list()
+			data[/datum/reagent/blood]["dna"] = B.data["blood_DNA"] || "none"
+			data[/datum/reagent/blood]["type"] = B.data["blood_type"] || "none"
+			data["viruses"] = get_viruses_data(B)
+			data["resistances"] = get_resistance_data(B)
+		else
+			data["has_blood"] = FALSE
+	else
+		data["has_beaker"] = FALSE
+		data["has_blood"] = FALSE
 
 	return data
 
@@ -198,7 +204,7 @@
 			if(!A.mutable)
 				return
 			if(A)
-				var/new_name = sanitize_name(stripped_input(usr, "Name the disease", "New name", "", MAX_NAME_LEN))
+				var/new_name = sanitize_name(html_encode(params["name"]))
 				if(!new_name || ..())
 					return
 				A.AssignName(new_name)
@@ -235,18 +241,6 @@
 			update_icon()
 			addtimer(CALLBACK(src, .proc/reset_replicator_cooldown), 200)
 			. = TRUE
-		if("symptom_details")
-			var/picked_symptom_index = text2num(params["picked_symptom"])
-			var/index = text2num(params["index"])
-			var/datum/disease/advance/A = get_by_index("viruses", index)
-			var/datum/symptom/S = A.symptoms[picked_symptom_index]
-			mode = SYMPTOM_DETAILS
-			selected_symptom = S
-			. = TRUE
-		if("back")
-			mode = MAIN_SCREEN
-			selected_symptom = null
-			. = TRUE
 
 
 /obj/machinery/computer/pandemic/attackby(obj/item/I, mob/user, params)
@@ -263,6 +257,7 @@
 		beaker = I
 		to_chat(user, "<span class='notice'>You insert [I] into [src].</span>")
 		update_icon()
+		ui_update()
 	else
 		return ..()
 

@@ -260,7 +260,7 @@
 		var/copy_amount = T.volume * part
 		if(preserve_data)
 			trans_data = T.data
-		R.add_reagent(T.type, copy_amount * multiplier, trans_data)
+		R.add_reagent(T.type, copy_amount * multiplier, trans_data, chem_temp)
 
 	src.update_total()
 	R.update_total()
@@ -297,7 +297,7 @@
 	return amount
 
 /datum/reagents/proc/metabolize(mob/living/carbon/C, can_overdose = FALSE, liverless = FALSE)
-	if(NOREAGENTS in C.dna.species.species_traits)
+	if(C?.dna?.species && (NOREAGENTS in C.dna.species.species_traits))
 		return 0
 	var/list/cached_reagents = reagent_list
 	var/list/cached_addictions = addiction_list
@@ -308,42 +308,17 @@
 		var/datum/reagent/R = reagent
 		if(QDELETED(R.holder))
 			continue
-		if(liverless && !R.self_consuming) //need to be metabolized
-			continue
+
 		if(!C)
 			C = R.holder.my_atom
-		if(ishuman(C))
-			var/mob/living/carbon/human/H = C
-			//Check if this mob's species is set and can process this type of reagent
-			var/can_process = FALSE
-			//If we somehow avoided getting a species or reagent_tag set, we'll assume we aren't meant to process ANY reagents (CODERS: SET YOUR SPECIES AND TAG!)
-			if(H.dna && H.dna.species.reagent_tag)
-				if((R.process_flags & SYNTHETIC) && (H.dna.species.reagent_tag & PROCESS_SYNTHETIC))		//SYNTHETIC-oriented reagents require PROCESS_SYNTHETIC
-					can_process = TRUE
-				if((R.process_flags & ORGANIC) && (H.dna.species.reagent_tag & PROCESS_ORGANIC))		//ORGANIC-oriented reagents require PROCESS_ORGANIC
-					can_process = TRUE
-
-			//If handle_reagents returns 0, it's doing the reagent removal on its own
-			var/species_handled = !(H.dna.species.handle_reagents(H, R))
-			can_process = can_process && !species_handled
-			//If the mob can't process it, remove the reagent at it's normal rate without doing any addictions, overdoses, or on_mob_life() for the reagent
-			if(!can_process)
-				if(!species_handled)
-					R.holder.remove_reagent(R.type, R.metabolization_rate)
-				continue
-		//We'll assume that non-human mobs lack the ability to process synthetic-oriented reagents (adjust this if we need to change that assumption)
-		else
-			if(R.process_flags == SYNTHETIC)
-				R.holder.remove_reagent(R.type, R.metabolization_rate)
-				continue
-		//If you got this far, that means we can process whatever reagent this iteration is for. Handle things normally from here.
-
-		if(!R.metabolizing)
-			R.metabolizing = TRUE
-			R.on_mob_metabolize(C)
 
 		if(C && R)
-			if(C.reagent_check(R) != 1)
+			if(C.reagent_check(R) != TRUE) //Most relevant to Humans, this handles species-specific chem interactions.
+				if(liverless && !R.self_consuming) //need to be metabolized
+					continue
+				if(!R.metabolizing)
+					R.metabolizing = TRUE
+					R.on_mob_metabolize(C)
 				if(can_overdose)
 					if(R.overdose_threshold)
 						if(R.volume >= R.overdose_threshold && !R.overdosed)
@@ -509,7 +484,7 @@
 				remove_reagent(B, (multiplier * cached_required_reagents[B]), safety = 1)
 
 			for(var/P in selected_reaction.results)
-				multiplier = max(multiplier, 1) //this shouldnt happen ...
+				multiplier = max(multiplier, 1) //this shouldn't happen ...
 				SSblackbox.record_feedback("tally", "chemical_reaction", cached_results[P]*multiplier, P)
 				add_reagent(P, cached_results[P]*multiplier, null, chem_temp)
 
@@ -520,14 +495,14 @@
 					if(selected_reaction.mix_sound)
 						playsound(get_turf(cached_my_atom), selected_reaction.mix_sound, 80, 1)
 
-					for(var/mob/M in seen)
+					for(var/mob/M as() in seen)
 						to_chat(M, "<span class='notice'>[iconhtml] [selected_reaction.mix_message]</span>")
 
 				if(istype(cached_my_atom, /obj/item/slime_extract))
 					var/obj/item/slime_extract/ME2 = my_atom
 					ME2.Uses--
 					if(ME2.Uses <= 0) // give the notification that the slime core is dead
-						for(var/mob/M in seen)
+						for(var/mob/M as() in seen)
 							to_chat(M, "<span class='notice'>[iconhtml] \The [my_atom]'s power is consumed in the reaction.</span>")
 							ME2.name = "used slime extract"
 							ME2.desc = "This extract has been used up."
@@ -652,7 +627,7 @@
 	chem_temp = CLAMP(chem_temp + (J / (S * total_volume)), 2.7, 1000)
 
 /datum/reagents/proc/add_reagent(reagent, amount, list/data=null, reagtemp = 300, no_react = 0)
-	if(!isnum(amount) || !amount)
+	if(!isnum_safe(amount) || !amount)
 		return FALSE
 
 	if(amount <= 0)
@@ -727,7 +702,7 @@
 		amount = 0
 		CRASH("null amount passed to reagent code")
 
-	if(!isnum(amount))
+	if(!isnum_safe(amount))
 		return FALSE
 
 	if(amount < 0)
@@ -789,7 +764,7 @@
 	return jointext(names, ",")
 
 /datum/reagents/proc/remove_all_type(reagent_type, amount, strict = 0, safety = 1) // Removes all reagent of X type. @strict set to 1 determines whether the childs of the type are included.
-	if(!isnum(amount))
+	if(!isnum_safe(amount))
 		return 1
 	var/list/cached_reagents = reagent_list
 	var/has_removed_reagent = 0

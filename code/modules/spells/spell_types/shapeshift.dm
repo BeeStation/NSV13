@@ -36,7 +36,7 @@
 			for(var/path in possible_shapes)
 				var/mob/living/simple_animal/A = path
 				animal_list[initial(A.name)] = path
-			var/new_shapeshift_type = input(M, "Choose Your Animal Form!", "It's Morphing Time!", null) as null|anything in animal_list
+			var/new_shapeshift_type = input(M, "Choose Your Animal Form!", "It's Morphing Time!", null) as null|anything in sortList(animal_list)
 			if(shapeshift_type)
 				return
 			shapeshift_type = new_shapeshift_type
@@ -78,7 +78,7 @@
 	desc = "Take on the shape a lesser ash drake."
 	invocation = "RAAAAAAAAWR!"
 	convert_damage = FALSE
-	
+
 
 	shapeshift_type = /mob/living/simple_animal/hostile/megafauna/dragon/lesser
 
@@ -128,8 +128,9 @@
 	if(A == stored && !restoring)
 		restore()
 
-/obj/shapeshift_holder/Exited(atom/movable/AM)
-	if(AM == stored && !restoring)
+/obj/shapeshift_holder/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(stored == gone && !restoring)
 		restore()
 
 /obj/shapeshift_holder/proc/casterDeath()

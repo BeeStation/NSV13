@@ -9,6 +9,7 @@
 	max_integrity = 300
 	var/tank_volume = 1000 //In units, how much the dispenser can hold
 	var/reagent_id = /datum/reagent/water //The ID of the reagent that the dispenser uses
+	var/reagent_temp = 300 // NSV -- reagent spawn temps to avoid cryo explosions
 
 /obj/structure/reagent_dispensers/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
 	. = ..()
@@ -25,7 +26,7 @@
 /obj/structure/reagent_dispensers/Initialize()
 	create_reagents(tank_volume, DRAINABLE | AMOUNT_VISIBLE)
 	if(reagent_id)
-		reagents.add_reagent(reagent_id, tank_volume)
+		reagents.add_reagent(reagent_id, tank_volume, reagtemp = reagent_temp) // NSV -- reagent spawn temps to avoid cryo explosions
 	. = ..()
 
 /obj/structure/reagent_dispensers/proc/boom()
@@ -65,7 +66,10 @@
 	reagent_id = /datum/reagent/fuel
 
 /obj/structure/reagent_dispensers/fueltank/boom()
-	explosion(get_turf(src), 0, 1, 5, flame_range = 5)
+	var/light_explosion_range = CLAMP(round(reagents.get_reagent_amount(/datum/reagent/fuel)/200, 1), 1, 5) //explosion range should decrease when there is less fuel in the tank
+	var/flame_explosion_range = CLAMP(light_explosion_range + 1, 1, 5) //Fire explosion is always one bigger than light explosion
+	var/heavy_explosion_range = round(light_explosion_range/5, 1) //if there is less than 500 fuel in the tank, no heavy explosion
+	explosion(get_turf(src), 0, heavy_explosion_range, light_explosion_range, flame_range = flame_explosion_range)
 	qdel(src)
 
 /obj/structure/reagent_dispensers/fueltank/blob_act(obj/structure/blob/B)
@@ -94,7 +98,7 @@
 			to_chat(user, "<span class='warning'>[src] is out of fuel!</span>")
 			return
 		var/obj/item/weldingtool/W = I
-		if(!W.welding)
+		if(istype(W) && !W.welding)
 			if(W.reagents.has_reagent(/datum/reagent/fuel, W.max_fuel))
 				to_chat(user, "<span class='warning'>Your [W.name] is already full!</span>")
 				return
@@ -103,14 +107,11 @@
 			playsound(src, 'sound/effects/refill.ogg', 50, 1)
 			W.update_icon()
 		else
-			user.visible_message("<span class='warning'>[user] catastrophically fails at refilling [user.p_their()] [W.name]!</span>", "<span class='userdanger'>That was stupid of you.</span>")
-
+			user.visible_message("<span class='warning'>[user] catastrophically fails at refilling [user.p_their()] [I.name]!</span>", "<span class='userdanger'>That was stupid of you.</span>")
 			log_bomber(user, "detonated a", src, "via welding tool")
 
-			
 			if (user.client)
 				SSmedals.UnlockMedal(MEDAL_DETONATE_WELDERBOMB,user.client)
-			
 
 			boom()
 		return
@@ -123,6 +124,7 @@
 	icon_state = "pepper"
 	anchored = TRUE
 	density = FALSE
+	layer = ABOVE_WINDOW_LAYER
 	reagent_id = /datum/reagent/consumable/condensedcapsaicin
 
 /obj/structure/reagent_dispensers/peppertank/Initialize()
@@ -179,6 +181,7 @@
 	icon_state = "virus_food"
 	anchored = TRUE
 	density = FALSE
+	layer = ABOVE_WINDOW_LAYER
 	reagent_id = /datum/reagent/consumable/virus_food
 
 

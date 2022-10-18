@@ -27,7 +27,7 @@
 					sleep(6)
 				continue
 
-			if(isnum(item))
+			if(isnum_safe(item))
 				var/length = min(item, 10)
 				if (length == 0)
 					// "verbalise" long spaces
@@ -38,7 +38,7 @@
 	var/path = "sound/chatter/[phomeme]_[length].ogg"
 
 	playsound(loc, path,
-		vol = 40, vary = 0, extrarange = 3, falloff = FALSE)
+		vol = 40, vary = 0, extrarange = 3)
 
 	sleep((length + 1) * chatter_get_sleep_multiplier(phomeme))
 

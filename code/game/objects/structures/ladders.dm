@@ -74,26 +74,42 @@
 		visible_message("<span class='danger'>[src] is torn to pieces by the gravitational pull!</span>")
 		qdel(src)
 
-/obj/structure/ladder/proc/travel(going_up, mob/user, is_ghost, obj/structure/ladder/ladder)
-	if(!is_ghost)
-		show_fluff_message(going_up, user)
-		ladder.add_fingerprint(user)
-
+/obj/structure/ladder/proc/travel(going_up, mob/user, is_ghost, obj/structure/ladder/ladder, needs_do_after=TRUE)
 	var/turf/T = get_turf(ladder)
 	var/atom/movable/AM
 	if(user.pulling)
 		AM = user.pulling
+		if(!is_ghost)
+			playsound(src, 'nsv13/sound/effects/footstep/ladder2.ogg')
+			if(needs_do_after)
+				if(!do_after(user, 5 SECONDS, target=src))
+					return FALSE
 		AM.forceMove(T)
-	user.forceMove(T)
-	if(AM)
+		user.forceMove(T)
 		user.start_pulling(AM)
+	else
+		if(!is_ghost)
+			playsound(src, 'nsv13/sound/effects/footstep/ladder1.ogg')
+			if(needs_do_after)
+				if(!do_after(user, 1 SECONDS, target=src))
+					return FALSE
+		user.forceMove(T)
+	if(!is_ghost)
+		show_fluff_message(going_up, user)
+		ladder.add_fingerprint(user)
+
 
 /obj/structure/ladder/proc/use(mob/user, is_ghost=FALSE)
 	if (!is_ghost && !in_range(src, user))
 		return
 
+	var/list/tool_list = list(
+		"Up" = image(icon = 'icons/testing/turf_analysis.dmi', icon_state = "red_arrow", dir = NORTH),
+		"Down" = image(icon = 'icons/testing/turf_analysis.dmi', icon_state = "red_arrow", dir = SOUTH)
+		)
+
 	if (up && down)
-		var/result = alert("Go up or down [src]?", "Ladder", "Up", "Down", "Cancel")
+		var/result = show_radial_menu(user, src, tool_list, custom_check = CALLBACK(src, .proc/check_menu, user), require_near = TRUE, tooltips = TRUE)
 		if (!is_ghost && !in_range(src, user))
 			return  // nice try
 		switch(result)
@@ -112,6 +128,11 @@
 
 	if(!is_ghost)
 		add_fingerprint(user)
+
+/obj/structure/ladder/proc/check_menu(mob/user)
+	if(user.incapacitated() || !user.Adjacent(src))
+		return FALSE
+	return TRUE
 
 /obj/structure/ladder/attack_hand(mob/user)
 	. = ..()
@@ -148,7 +169,7 @@
 		if(I.tool_behaviour == TOOL_WELDER)
 			if(!I.tool_start_check(user, amount=0))
 				return FALSE
-		
+
 			to_chat(user, "<span class='notice'>You begin cutting [src]...</span>")
 			if(I.use_tool(src, user, 50, volume=100))
 				user.visible_message("<span class='notice'>[user] cuts [src].</span>", \

@@ -36,13 +36,15 @@
 			user.do_attack_animation(src)
 			if (user.name == master)
 				visible_message("<span class='notice'>Responding to its master's touch, [src] disengages its holochassis emitter, rapidly losing coherence.</span>")
-				spawn(10)
-					fold_in()
-					if(user.put_in_hands(card))
-						user.visible_message("<span class='notice'>[user] promptly scoops up [user.p_their()] pAI's card.</span>")
+				addtimer(CALLBACK(src, .proc/fold_into_hand, user), 10)
 			else
 				visible_message("<span class='danger'>[user] stomps on [src]!.</span>")
 				take_holo_damage(2)
+
+/mob/living/silicon/pai/proc/fold_into_hand(mob/user)
+	fold_in()
+	if(user.put_in_hands(card))
+		user.visible_message("<span class='notice'>[user] promptly scoops up [user.p_their()] pAI's card.</span>")
 
 /mob/living/silicon/pai/bullet_act(obj/item/projectile/Proj)
 	if(Proj.stun)
@@ -87,9 +89,6 @@
 	else
 		take_holo_damage(amount * 0.25)
 
-/mob/living/silicon/pai/adjustBrainLoss(amount)
-	Paralyze(amount * 0.2)
-
 /mob/living/silicon/pai/getBruteLoss()
 	return emittermaxhealth - emitterhealth
 
@@ -105,16 +104,10 @@
 /mob/living/silicon/pai/getCloneLoss()
 	return FALSE
 
-/mob/living/silicon/pai/getBrainLoss()
-	return FALSE
-
 /mob/living/silicon/pai/getStaminaLoss()
 	return FALSE
 
 /mob/living/silicon/pai/setCloneLoss()
-	return FALSE
-
-/mob/living/silicon/pai/setBrainLoss()
 	return FALSE
 
 /mob/living/silicon/pai/setStaminaLoss(amount, updating_health = TRUE)

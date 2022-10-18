@@ -8,6 +8,8 @@
 	spawn_positions = 2
 	supervisors = "the chief medical officer and research director"
 	selection_color = "#d4ebf2" //NSV13
+	chat_color = "#83BBBF"
+	exp_requirements = 120
 	exp_type = EXP_TYPE_CREW
 	exp_requirements = 60
 
@@ -19,14 +21,18 @@
 	paycheck_department = ACCOUNT_MED
 
 	display_order = JOB_DISPLAY_ORDER_GENETICIST
+	departments = DEPARTMENT_MEDICAL
 
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/genetics
+	)
 /datum/outfit/job/geneticist
 	name = "Geneticist"
 	jobtype = /datum/job/geneticist
 
 	belt = /obj/item/pda/geneticist
 	ears = /obj/item/radio/headset/headset_medsci
-	uniform = /obj/item/clothing/under/rank/geneticist
+	uniform = /obj/item/clothing/under/rank/medical/geneticist
 	shoes = /obj/item/clothing/shoes/sneakers/white
 	suit =  /obj/item/clothing/suit/toggle/labcoat/genetics
 	suit_store =  /obj/item/flashlight/pen

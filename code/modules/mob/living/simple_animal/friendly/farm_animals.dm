@@ -24,12 +24,12 @@
 	health = 40
 	maxHealth = 40
 	minbodytemp = 180
-	melee_damage_lower = 1
-	melee_damage_upper = 2
+	melee_damage = 5
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	stop_automated_movement_when_pulled = 1
 	blood_volume = BLOOD_VOLUME_NORMAL
 	var/obj/item/udder/udder = null
+	chat_color = "#B2CEB3"
 
 	do_footstep = TRUE
 
@@ -50,7 +50,7 @@
 			Retaliate()
 
 		if(enemies.len && prob(10))
-			enemies = list()
+			clear_enemies()
 			LoseTarget()
 			src.visible_message("<span class='notice'>[src] calms down.</span>")
 	if(stat == CONSCIOUS)
@@ -85,7 +85,7 @@
 		eaten = TRUE
 
 	if(eaten && prob(10))
-		say("Nom")
+		INVOKE_ASYNC(src, /atom/movable/proc/say, "Nom")
 
 /mob/living/simple_animal/hostile/retaliate/goat/attackby(obj/item/O, mob/user, params)
 	if(stat == CONSCIOUS && istype(O, /obj/item/reagent_containers/glass))
@@ -132,6 +132,7 @@
 	var/obj/item/udder/udder = null
 	gold_core_spawnable = FRIENDLY_SPAWN
 	blood_volume = BLOOD_VOLUME_NORMAL
+	chat_color = "#FFFFFF"
 
 	do_footstep = TRUE
 
@@ -163,24 +164,27 @@
 		to_chat(src, "<span class='userdanger'>You are tipped over by [M]!</span>")
 		Paralyze(60, ignore_canstun = TRUE)
 		icon_state = icon_dead
-		spawn(rand(20,50))
-			if(!stat && M)
-				icon_state = icon_living
-				var/external
-				var/internal
-				switch(pick(1,2,3,4))
-					if(1,2,3)
-						var/text = pick("imploringly.", "pleadingly.",
-							"with a resigned expression.")
-						external = "[src] looks at [M] [text]"
-						internal = "You look at [M] [text]"
-					if(4)
-						external = "[src] seems resigned to its fate."
-						internal = "You resign yourself to your fate."
-				visible_message("<span class='notice'>[external]</span>",
-					"<span class='revennotice'>[internal]</span>")
+		addtimer(CALLBACK(src, .proc/tip_back, M), rand(20,50))
 	else
 		..()
+
+/mob/living/simple_animal/cow/proc/tip_back(mob/living/carbon/M)
+	if(stat && M)
+		return
+	icon_state = icon_living
+	var/external
+	var/internal
+	switch(pick(1,2,3,4))
+		if(1,2,3)
+			var/text = pick("imploringly.", "pleadingly.",
+				"with a resigned expression.")
+			external = "[src] looks at [M] [text]"
+			internal = "You look at [M] [text]"
+		if(4)
+			external = "[src] seems resigned to its fate."
+			internal = "You resign yourself to your fate."
+	visible_message("<span class='notice'>[external]</span>",
+		"<span class='revennotice'>[internal]</span>")
 
 /mob/living/simple_animal/chick
 	name = "\improper chick"
@@ -189,6 +193,9 @@
 	icon_living = "chick"
 	icon_dead = "chick_dead"
 	icon_gib = "chick_gib"
+	can_be_held = TRUE
+	worn_slot_flags = ITEM_SLOT_HEAD
+	held_state = "chick"
 	gender = FEMALE
 	mob_biotypes = list(MOB_ORGANIC, MOB_BEAST)
 	speak = list("Cherp.","Cherp?","Chirrup.","Cheep!")
@@ -198,7 +205,7 @@
 	density = FALSE
 	speak_chance = 2
 	turns_per_move = 2
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab = 1)
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab/chicken = 1)
 	response_help  = "pets"
 	response_disarm = "gently pushes aside"
 	response_harm   = "kicks"
@@ -210,6 +217,7 @@
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
 	mob_size = MOB_SIZE_TINY
 	gold_core_spawnable = FRIENDLY_SPAWN
+	chat_color = "#FFDC9B"
 
 	do_footstep = TRUE
 
@@ -257,7 +265,7 @@
 	density = FALSE
 	speak_chance = 2
 	turns_per_move = 3
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab = 2)
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab/chicken = 2)
 	var/egg_type = /obj/item/reagent_containers/food/snacks/egg
 	var/food_type = /obj/item/reagent_containers/food/snacks/grown/wheat
 	response_help  = "pets"
@@ -271,6 +279,8 @@
 	var/eggsFertile = TRUE
 	var/body_color
 	var/icon_prefix = "chicken"
+	can_be_held = TRUE
+	worn_slot_flags = ITEM_SLOT_HEAD
 	pass_flags = PASSTABLE | PASSMOB
 	mob_size = MOB_SIZE_SMALL
 	var/list/feedMessages = list("It clucks happily.","It clucks happily.")
@@ -278,6 +288,8 @@
 	var/list/validColors = list("brown","black","white")
 	gold_core_spawnable = FRIENDLY_SPAWN
 	var/static/chicken_count = 0
+	chat_color = "#FFDC9B"
+	mobchatspan = "stationengineer"
 
 	do_footstep = TRUE
 
@@ -288,6 +300,8 @@
 	icon_state = "[icon_prefix]_[body_color]"
 	icon_living = "[icon_prefix]_[body_color]"
 	icon_dead = "[icon_prefix]_[body_color]_dead"
+	held_state = "[icon_prefix]_[body_color]"
+	head_icon = 'icons/mob/pets_held_large.dmi'
 	pixel_x = rand(-6, 6)
 	pixel_y = rand(0, 10)
 	GLOB.total_chickens++
@@ -328,10 +342,10 @@
 				START_PROCESSING(SSobj, E)
 
 /obj/item/reagent_containers/food/snacks/egg/var/amount_grown = 0
-/obj/item/reagent_containers/food/snacks/egg/process()
+/obj/item/reagent_containers/food/snacks/egg/process(delta_time)
 	if(isturf(loc))
-		amount_grown += rand(1,2)
-		if(amount_grown >= 100)
+		amount_grown += rand(1,2) * delta_time
+		if(amount_grown >= 200)
 			visible_message("[src] hatches with a quiet cracking sound.")
 			new /mob/living/simple_animal/chick(get_turf(src))
 			STOP_PROCESSING(SSobj, src)
@@ -360,6 +374,7 @@
 	feedMessages = list("It gobbles up the food voraciously.","It clucks happily.")
 	validColors = list("plain")
 	gold_core_spawnable = FRIENDLY_SPAWN
+	chat_color = "#FFDC9B"
 
 /obj/item/udder
 	name = "udder"

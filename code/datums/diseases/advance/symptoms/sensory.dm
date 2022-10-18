@@ -4,10 +4,12 @@
 	stealth = -1
 	resistance = -2
 	stage_speed = 1
-	transmittable = -3
+	transmission = -3
 	level = 5
+	severity = -1
 	symptom_delay_min = 5
 	symptom_delay_max = 10
+	bodies = list("Neuron")
 	var/purge_alcohol = FALSE
 	var/trauma_heal_mild = FALSE
 	var/trauma_heal_severe = FALSE
@@ -18,11 +20,11 @@
 /datum/symptom/mind_restoration/Start(datum/disease/advance/A)
 	if(!..())
 		return
-	if(A.properties["resistance"] >= 6) //heal brain damage
+	if(A.resistance >= 6) //heal brain damage
 		trauma_heal_mild = TRUE
-	if(A.properties["resistance"] >= 9) //heal severe traumas
-		trauma_heal_severe = TRUE
-	if(A.properties["transmittable"] >= 8) //purge alcohol
+		if(A.resistance >= 9) //heal severe traumas
+			trauma_heal_severe = TRUE
+	if(A.transmission >= 8) //purge alcohol
 		purge_alcohol = TRUE
 
 /datum/symptom/mind_restoration/Activate(var/datum/disease/advance/A)
@@ -51,7 +53,7 @@
 		M.hallucination = max(0, M.hallucination - 10)
 
 	if(A.stage >= 5)
-		M.adjustBrainLoss(-3)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -3)
 		if(trauma_heal_mild && iscarbon(M))
 			var/mob/living/carbon/C = M
 			if(prob(10))
@@ -68,8 +70,9 @@
 	stealth = 0
 	resistance = 1
 	stage_speed = -2
-	transmittable = 2
+	transmission = 2
 	level = 4
+	severity = -1
 	base_message_chance = 7
 	symptom_delay_min = 1
 	symptom_delay_max = 1

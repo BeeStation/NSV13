@@ -11,10 +11,9 @@
 
 /obj/structure/transit_tube_pod/Initialize()
 	. = ..()
-	air_contents.add_gases(/datum/gas/oxygen, /datum/gas/nitrogen)
-	air_contents.gases[/datum/gas/oxygen][MOLES] = MOLES_O2STANDARD
-	air_contents.gases[/datum/gas/nitrogen][MOLES] = MOLES_N2STANDARD
-	air_contents.temperature = T20C
+	air_contents.set_moles(GAS_O2, MOLES_O2STANDARD)
+	air_contents.set_moles(GAS_N2, MOLES_N2STANDARD)
+	air_contents.set_temperature(T20C)
 
 
 /obj/structure/transit_tube_pod/Destroy()
@@ -58,8 +57,14 @@
 		empty_pod()
 
 /obj/structure/transit_tube_pod/contents_explosion(severity, target)
-	for(var/atom/movable/AM in contents)
-		AM.ex_act(severity, target)
+	for(var/thing in contents)
+		switch(severity)
+			if(EXPLODE_DEVASTATE)
+				SSexplosions.high_mov_atom += thing
+			if(EXPLODE_HEAVY)
+				SSexplosions.med_mov_atom += thing
+			if(EXPLODE_LIGHT)
+				SSexplosions.low_mov_atom += thing
 
 /obj/structure/transit_tube_pod/singularity_pull(S, current_size)
 	..()
@@ -159,8 +164,23 @@
 /obj/structure/transit_tube_pod/assume_air(datum/gas_mixture/giver)
 	return air_contents.merge(giver)
 
+/obj/structure/transit_tube_pod/assume_air_moles(datum/gas_mixture/giver, moles)
+	return giver.transfer_to(air_contents, moles)
+
+/obj/structure/transit_tube_pod/assume_air_ratio(datum/gas_mixture/giver, ratio)
+	return giver.transfer_ratio_to(air_contents, ratio)
+
 /obj/structure/transit_tube_pod/remove_air(amount)
 	return air_contents.remove(amount)
+
+/obj/structure/transit_tube_pod/remove_air_ratio(ratio)
+	return air_contents.remove_ratio(ratio)
+
+/obj/structure/transit_tube_pod/transfer_air(datum/gas_mixture/taker, moles)
+	return air_contents.transfer_to(taker, moles)
+
+/obj/structure/transit_tube_pod/transfer_air_ratio(datum/gas_mixture/taker, ratio)
+	return air_contents.transfer_ratio_to(taker, ratio)
 
 /obj/structure/transit_tube_pod/relaymove(mob/mob, direction)
 	if(istype(mob) && mob.client)
@@ -186,4 +206,4 @@
 						return
 
 /obj/structure/transit_tube_pod/return_temperature()
-	return air_contents.temperature
+	return air_contents.return_temperature()

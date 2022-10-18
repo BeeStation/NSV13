@@ -17,7 +17,7 @@
 /mob/living/silicon/ai/IsVocal()
 	return !CONFIG_GET(flag/silent_ai)
 
-/mob/living/silicon/ai/radio(message, message_mode, list/spans, language)
+/mob/living/silicon/ai/radio(message, list/message_mods = list(), list/spans, language)
 	if(incapacitated())
 		return FALSE
 	if(!radio_enabled) //AI cannot speak if radio is disabled (via intellicard) or depowered.
@@ -25,16 +25,8 @@
 		return FALSE
 	..()
 
-/mob/living/silicon/ai/get_message_mode(message)
-	if(copytext(message, 1, 3) in list(":h", ":H", ".h", ".H", "#h", "#H"))
-		return MODE_HOLOPAD
-	else
-		return ..()
-
 //For holopads only. Usable by AI.
 /mob/living/silicon/ai/proc/holopad_talk(message, language)
-
-
 	message = trim(message)
 
 	if (!message)
@@ -49,7 +41,7 @@
 		else
 			padloc = "(UNKNOWN)"
 		src.log_talk(message, LOG_SAY, tag="HOLOPAD in [padloc]")
-		send_speech(message, 7, T, "robot", get_spans(), language)
+		send_speech(message, 7, T, MODE_ROBOT, message_language = language)
 		to_chat(src, "<i><span class='game say'>Holopad transmitted, <span class='name'>[real_name]</span> <span class='message robot'>\"[message]\"</span></span></i>")
 	else
 		to_chat(src, "No holopad connected.")
@@ -96,7 +88,7 @@
 		to_chat(src, "<span class='notice'>Please wait [DisplayTimeText(announcing_vox - world.time)].</span>")
 		return
 
-	var/message = input(src, "WARNING: Misuse of this verb can result in you being job banned. More help is available in 'Announcement Help'", "Announcement", src.last_announcement) as text
+	var/message = capped_input(src, "WARNING: Misuse of this verb can result in you being job banned. More help is available in 'Announcement Help'", "Announcement", src.last_announcement)
 
 	last_announcement = message
 
@@ -133,7 +125,7 @@
 	log_game("[key_name(src)] made a vocal announcement with the following message: [message].")
 
 	for(var/word in words)
-		play_vox_word(word, src.z, null)
+		play_vox_word(word, src.get_virtual_z_level(), null)
 
 
 /proc/play_vox_word(word, z_level, mob/only_listener)
@@ -152,7 +144,7 @@
 			for(var/mob/M in GLOB.player_list)
 				if(M.client && M.can_hear() && (M.client.prefs.toggles & SOUND_ANNOUNCEMENTS))
 					var/turf/T = get_turf(M)
-					if(T.z == z_level)
+					if(T.get_virtual_z_level() == z_level)
 						SEND_SOUND(M, voice)
 		else
 			SEND_SOUND(only_listener, voice)
@@ -161,10 +153,3 @@
 
 #undef VOX_DELAY
 #endif
-
-/mob/living/silicon/ai/could_speak_in_language(datum/language/dt)
-	if(is_servant_of_ratvar(src))
-		// Ratvarian AIs can only speak Ratvarian
-		. = ispath(dt, /datum/language/ratvar)
-	else
-		. = ..()

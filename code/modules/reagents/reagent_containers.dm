@@ -14,10 +14,11 @@
 	var/spillable = FALSE
 	var/list/fill_icon_thresholds = null
 	var/fill_icon_state = null // Optional custom name for reagent fill icon_state prefix
+	var/prevent_grinding = FALSE //used for ungrindable stuff
 
 /obj/item/reagent_containers/Initialize(mapload, vol)
 	. = ..()
-	if(isnum(vol) && vol > 0)
+	if(isnum_safe(vol) && vol > 0)
 		volume = vol
 	create_reagents(volume, reagent_flags)
 	if(spawned_disease)
@@ -41,7 +42,7 @@
 					amount_per_transfer_from_this = possible_transfer_amounts[i+1]
 				else
 					amount_per_transfer_from_this = possible_transfer_amounts[1]
-				to_chat(user, "<span class='notice'>[src]'s transfer amount is now [amount_per_transfer_from_this] units.</span>")
+				balloon_alert(user, "Transferring [amount_per_transfer_from_this]u")
 				return
 
 /obj/item/reagent_containers/attack(mob/M, mob/user, def_zone)
@@ -50,24 +51,24 @@
 
 /obj/item/reagent_containers/proc/canconsume(mob/eater, mob/user)
 	if(!iscarbon(eater))
-		return 0
+		return FALSE
 	var/mob/living/carbon/C = eater
 	var/covered = ""
 	if(C.is_mouth_covered(head_only = 1))
 		covered = "headgear"
 	else if(C.is_mouth_covered(mask_only = 1))
 		covered = "mask"
-	if(covered)
+	if(covered && user.a_intent != INTENT_HARM)
 		var/who = (isnull(user) || eater == user) ? "your" : "[eater.p_their()]"
-		to_chat(user, "<span class='warning'>You have to remove [who] [covered] first!</span>")
-		return 0
+		balloon_alert(user, "Remove [who] [covered] first")
+		return FALSE
 	if(!eater.has_mouth())
 		if(eater == user)
-			to_chat(eater, "<span class='warning'>You have no mouth, and cannot eat.</span>")
+			balloon_alert(eater, "You have no mouth")
 		else
-			to_chat(user, "<span class='warning'>You can't feed [eater], because they have no mouth!</span>")
-		return 0
-	return 1
+			balloon_alert(user, "[eater] has no mouth")
+		return FALSE
+	return TRUE
 
 /obj/item/reagent_containers/ex_act()
 	if(reagents)
@@ -86,12 +87,14 @@
 
 /obj/item/reagent_containers/proc/bartender_check(atom/target)
 	. = FALSE
-	if(target.CanPass(src, get_turf(src)) && thrownby && HAS_TRAIT(thrownby, TRAIT_BOOZE_SLIDER))
+	var/mob/thrown_by = thrownby?.resolve()
+	if(target.CanPass(src, get_turf(src)) && thrown_by && HAS_TRAIT(thrown_by, TRAIT_BOOZE_SLIDER))
 		. = TRUE
 
 /obj/item/reagent_containers/proc/SplashReagents(atom/target, thrown = FALSE)
 	if(!reagents || !reagents.total_volume || !spillable)
 		return
+	var/mob/thrown_by = thrownby?.resolve()
 
 	if(ismob(target) && target.reagents)
 		if(thrown)
@@ -104,7 +107,7 @@
 			R += "[A.type]  ([num2text(A.volume)]),"
 
 		if(thrownby)
-			log_combat(thrownby, M, "splashed", R)
+			log_combat(thrown_by, M, "splashed", R)
 		reagents.reaction(target, TOUCH)
 
 	else if(bartender_check(target) && thrown)
@@ -112,10 +115,10 @@
 		return
 
 	else
-		if(isturf(target) && reagents.reagent_list.len && thrownby)
-			log_combat(thrownby, target, "splashed (thrown) [english_list(reagents.reagent_list)]", "in [AREACOORD(target)]")
-			log_game("[key_name(thrownby)] splashed (thrown) [english_list(reagents.reagent_list)] on [target] in [AREACOORD(target)].")
-			message_admins("[ADMIN_LOOKUPFLW(thrownby)] splashed (thrown) [english_list(reagents.reagent_list)] on [target] in [ADMIN_VERBOSEJMP(target)].")
+		if(isturf(target) && reagents.reagent_list.len && thrown_by)
+			log_combat(thrown_by, target, "splashed (thrown) [english_list(reagents.reagent_list)]", "in [AREACOORD(target)]")
+			log_game("[key_name(thrown_by)] splashed (thrown) [english_list(reagents.reagent_list)] on [target] in [AREACOORD(target)].")
+			message_admins("[ADMIN_LOOKUPFLW(thrown_by)] splashed (thrown) [english_list(reagents.reagent_list)] on [target] in [ADMIN_VERBOSEJMP(target)].")
 		visible_message("<span class='notice'>[src] spills its contents all over [target].</span>")
 		reagents.reaction(target, TOUCH)
 		if(QDELETED(src))
@@ -153,3 +156,14 @@
 		filling.color = mix_color_from_reagents(reagents.reagent_list)
 		add_overlay(filling)
 	. = ..()
+
+/obj/item/reagent_containers/extrapolator_act(mob/user, var/obj/item/extrapolator/E, scan = FALSE)
+	var/datum/reagent/blood/B = locate() in reagents.reagent_list
+	if(!B)
+		return FALSE
+	if(scan)
+		E.scan(src, B.get_diseases(), user)
+		return TRUE
+	else
+		E.extrapolate(src, B.get_diseases(), user, TRUE)
+		return TRUE

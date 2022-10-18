@@ -25,6 +25,7 @@
 	var/volume = 100
 	var/max_loops
 	var/direct
+	var/extra_range
 
 	var/timerid
 
@@ -57,7 +58,7 @@
 	if(!timerid)
 		return
 	on_stop()
-	deltimer(timerid)
+	deltimer(timerid, SSsound_loops)
 	timerid = null
 
 /datum/looping_sound/proc/sound_loop(starttime)
@@ -67,20 +68,20 @@
 	if(!chance || prob(chance))
 		play(get_sound(starttime))
 	if(!timerid)
-		timerid = addtimer(CALLBACK(src, .proc/sound_loop, world.time), mid_length, TIMER_CLIENT_TIME | TIMER_STOPPABLE | TIMER_LOOP)
+		timerid = addtimer(CALLBACK(src, .proc/sound_loop, world.time), mid_length, TIMER_CLIENT_TIME | TIMER_STOPPABLE | TIMER_LOOP, SSsound_loops)
 
 /datum/looping_sound/proc/play(soundfile)
 	var/list/atoms_cache = output_atoms
 	var/sound/S = sound(soundfile)
 	if(direct)
-		S.channel = open_sound_channel()
+		S.channel = SSsounds.random_available_channel()
 		S.volume = volume
 	for(var/i in 1 to atoms_cache.len)
 		var/atom/thing = atoms_cache[i]
 		if(direct)
 			SEND_SOUND(thing, S)
 		else
-			playsound(thing, S, volume)
+			playsound(thing, S, volume, extra_range)
 
 /datum/looping_sound/proc/get_sound(starttime, _mid_sounds)
 	. = _mid_sounds || mid_sounds
@@ -92,7 +93,7 @@
 	if(start_sound)
 		play(start_sound)
 		start_wait = start_length
-	addtimer(CALLBACK(src, .proc/sound_loop), start_wait, TIMER_CLIENT_TIME)
+	addtimer(CALLBACK(src, .proc/sound_loop), start_wait, TIMER_CLIENT_TIME, SSsound_loops)
 
 /datum/looping_sound/proc/on_stop()
 	if(end_sound)

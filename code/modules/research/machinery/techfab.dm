@@ -27,12 +27,15 @@
 								"Research Machinery",
 								"Misc. Machinery",
 								"Computer Parts",
-								"Advanced Munitions",
-								"Ship Components"
+								"Advanced Munitions", //NSV13
+								"Asteroid Mining", //NSV13
+								"Ship Components", //NSV13
+								"Vehicles", //NSV13
+								"Circuitry"
 								)
 	console_link = FALSE
 	production_animation = "protolathe_n"
 	requires_console = FALSE
 	consoleless_interface = TRUE
 	allowed_buildtypes = PROTOLATHE | IMPRINTER
-//nsv13 added Advanced Munitions, Ship Components list above
+//nsv13 added Advanced Munitions, Ship Components, Vehicles and Asteroid Mining to list above

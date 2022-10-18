@@ -14,9 +14,9 @@
 		return
 
 	if(ismob(A))
-		ai_actual_track(A)
-	else
-		A.move_camera_by_click()
+		ai_start_tracking(A)
+	else if(!ismachinery(A)) //Getting the camera moved just because you double click on something to interact with it is annoying as hell
+		eyeobj.move_camera_by_click(A)
 
 /mob/living/silicon/ai/ClickOn(var/atom/A, params)
 	if(world.time <= next_click)
@@ -29,7 +29,7 @@
 	if(multicam_on)
 		var/turf/T = get_turf(A)
 		if(T)
-			for(var/obj/screen/movable/pic_in_pic/ai/P in T.vis_locs)
+			for(var/atom/movable/screen/movable/pic_in_pic/ai/P in T.vis_locs)
 				if(P.ai == src)
 					P.Click(params)
 					break
@@ -51,7 +51,7 @@
 		log_admin(message)
 		if(REALTIMEOFDAY >= chnotify + 9000)
 			chnotify = REALTIMEOFDAY
-			send2irc_adminless_only("NOCHEAT", message)
+			send2tgs_adminless_only("NOCHEAT", message)
 		return
 
 	var/list/modifiers = params2list(params)

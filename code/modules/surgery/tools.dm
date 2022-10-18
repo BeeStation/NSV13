@@ -80,6 +80,21 @@
 	attack_verb = list("burnt")
 
 
+/obj/item/blood_filter
+	name = "blood filter"
+	desc = "For filtering the blood."
+	icon = 'icons/obj/surgery.dmi'
+	icon_state = "bloodfilter"
+	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
+	custom_materials = list(/datum/material/iron=2000, /datum/material/glass=1500, /datum/material/silver=500)
+	flags_1 = CONDUCT_1
+	w_class = WEIGHT_CLASS_NORMAL
+	attack_verb = list("pumps", "siphons")
+	tool_behaviour = TOOL_BLOODFILTER
+	toolspeed = 1
+
+
 /obj/item/surgicaldrill
 	name = "surgical drill"
 	desc = "You can drill using this item. You dig?"
@@ -102,7 +117,7 @@
 	user.SpinAnimation(3, 10)
 	playsound(user, 'sound/machines/juicer.ogg', 20, TRUE)
 	return (MANUAL_SUICIDE)
-	
+
 /obj/item/surgicaldrill/augment
 	name = "surgical drill"
 	desc = "Effectively a small power drill contained within your arm, edges dulled to prevent tissue damage. May or may not pierce the heavens."
@@ -132,7 +147,7 @@
 	throw_speed = 3
 	throw_range = 5
 	materials = list(/datum/material/iron=4000, /datum/material/glass=1000)
-	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "tore", "ripped", "diced", "cut")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	sharpness = IS_SHARP_ACCURATE
 	tool_behaviour = TOOL_SCALPEL
@@ -154,7 +169,7 @@
 	throw_speed = 3
 	throw_range = 5
 	materials = list(/datum/material/iron=4000, /datum/material/glass=1000)
-	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "tore", "ripped", "diced", "cut")
 	toolspeed = 0.5
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	sharpness = IS_SHARP_ACCURATE
@@ -302,29 +317,28 @@
 	hitsound = 'sound/weapons/blade1.ogg'
 	force = 16
 	toolspeed = 0.7
+	light_system = MOVABLE_LIGHT
+	light_range = 1
 	light_color = LIGHT_COLOR_GREEN
 	sharpness = IS_SHARP_ACCURATE
-
-/obj/item/scalpel/advanced/Initialize()
-	. = ..()
-	set_light(1)
 
 /obj/item/scalpel/advanced/attack_self(mob/user)
 	playsound(get_turf(user), 'sound/machines/click.ogg', 50, TRUE)
 	if(tool_behaviour == TOOL_SCALPEL)
 		tool_behaviour = TOOL_SAW
 		to_chat(user, "<span class='notice'>You increase the power of [src], now it can cut bones.</span>")
-		set_light(2)
+		set_light_range(2)
 		force += 1 //we don't want to ruin sharpened stuff
 		icon_state = "saw_a"
 	else
 		tool_behaviour = TOOL_SCALPEL
 		to_chat(user, "<span class='notice'>You lower the power of [src], it can no longer cut bones.</span>")
-		set_light(1)
+		set_light_range(1)
 		force -= 1
 		icon_state = "scalpel_a"
 
 /obj/item/scalpel/advanced/examine()
+	. = ..()
 	. += " It's set to [tool_behaviour == TOOL_SCALPEL ? "scalpel" : "saw"] mode."
 
 /obj/item/retractor/advanced
@@ -346,6 +360,7 @@
 		icon_state = "retractor_a"
 
 /obj/item/retractor/advanced/examine()
+	. = ..()
 	. += " It resembles a retractor[tool_behaviour == TOOL_RETRACTOR ? "retractor" : "hemostat"]."
 
 /obj/item/surgicaldrill/advanced
@@ -356,10 +371,10 @@
 	hitsound = 'sound/items/welder.ogg'
 	toolspeed = 0.7
 	light_color = LIGHT_COLOR_RED
+	w_class = WEIGHT_CLASS_SMALL
+	light_system = MOVABLE_LIGHT
+	light_range = 1
 
-/obj/item/surgicaldrill/advanced/Initialize()
-	. = ..()
-	set_light(1)
 
 /obj/item/surgicaldrill/advanced/attack_self(mob/user)
 	playsound(get_turf(user), 'sound/weapons/tap.ogg', 50, TRUE)
@@ -373,4 +388,5 @@
 		icon_state = "surgicaldrill_a"
 
 /obj/item/surgicaldrill/advanced/examine()
+	. = ..()
 	. += " It's set to [tool_behaviour == TOOL_DRILL ? "drilling" : "mending"] mode."

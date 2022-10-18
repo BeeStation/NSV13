@@ -1,41 +1,64 @@
-/obj/structure/overmap/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
+/obj/structure/overmap/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
+	aiming_target = over_object
+	aiming_params = params
+	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
+	if(user_gun)
+		user_gun.onMouseDrag(src_object, over_object, src_location, over_location, params, M)
+		return TRUE
 	if(aiming)
 		lastangle = getMouseAngle(params, M)
 		draw_beam()
+	else
+		autofire_target = over_object
 
 /obj/structure/overmap/proc/onMouseDown(object, location, params, mob/M)
-	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
+	if(istype(object, /atom/movable/screen) && !istype(object, /atom/movable/screen/click_catcher))
 		return
 	if((object in M.contents) || (object == M))
 		return
-	if(fire_mode == FIRE_MODE_RAILGUN)
+	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
+	if(user_gun)
+		user_gun?.onMouseDown(object)
+		return TRUE
+	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER || fire_mode == FIRE_MODE_HYBRID_RAIL)
 		start_aiming(params, M)
+	else
+		autofire_target = object
 
 /obj/structure/overmap/proc/onMouseUp(object, location, params, mob/M)
-	if(istype(object, /obj/screen) && !istype(object, /obj/screen/click_catcher))
+	if(istype(object, /atom/movable/screen) && !istype(object, /atom/movable/screen/click_catcher))
 		return
+	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
+	if(user_gun)
+		user_gun?.onMouseUp(object)
+		return TRUE
+	autofire_target = null
 	lastangle = getMouseAngle(params, M)
 	stop_aiming()
-	if(fire_mode == FIRE_MODE_RAILGUN)
+	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER || fire_mode == FIRE_MODE_HYBRID_RAIL)
 		fire_weapon(object)
 	QDEL_LIST(current_tracers)
+
+/obj/structure/overmap
+	var/next_beam = 0
 
 /obj/structure/overmap/proc/draw_beam(force_update = FALSE)
 	var/diff = abs(aiming_lastangle - lastangle)
 	check_user()
-	if(diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD && !force_update)
+	if(diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD || world.time < next_beam && !force_update)
 		return
+	next_beam = world.time + 0.05 SECONDS
 	aiming_lastangle = lastangle
 	var/obj/item/projectile/beam/overmap/aiming_beam/P = new
 	P.gun = src
 	P.color = "#99ff99"
 	var/turf/curloc = get_turf(src)
-	var/turf/targloc = get_turf(gunner.client.mouseObject)
+	var/turf/targloc = get_turf(aiming_target)
 	if(!istype(targloc))
 		if(!istype(curloc))
 			return
 		targloc = get_turf_in_angle(lastangle, curloc, 10)
-	P.preparePixelProjectile(targloc, src, gunner.client.mouseParams, 0)
+	P.preparePixelProjectile(targloc, src, aiming_params, 0)
 	P.layer = BULLET_HOLE_LAYER
 	P.fire(lastangle)
 
@@ -58,9 +81,9 @@
 /obj/structure/overmap/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover, /obj/item/projectile/beam/overmap/aiming_beam))
 		var/obj/item/projectile/beam/overmap/aiming_beam/AB = mover
-		if (src == AB.gun)
+		if(src == AB.gun)
 			return TRUE
-	. = ..()
+	return ..()
 
 
 /obj/item/projectile/beam/overmap/aiming_beam

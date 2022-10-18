@@ -30,11 +30,7 @@
 #define BLOB_SPREAD_COST 4
 #define BLOB_ATTACK_REFUND 2 //blob refunds this much if it attacks and doesn't spread
 #define BLOB_REFLECTOR_COST 15
-
-//Shuttle hijacking
-#define HIJACK_NEUTRAL 0 //Does not stop hijacking but itself won't hijack
-#define HIJACK_HIJACKER 1 //Needs to be present for shuttle to be hijacked
-#define HIJACK_PREVENT 2 //Prevents hijacking same way as non-antags
+#define BLOB_STRAIN_COLOR_LIST list("#BE5532", "#7D6EB4", "#EC8383", "#00E5B1", "#00668B", "#FFF68", "#BBBBAA", "#CD7794", "#57787B", "#3C6EC8", "#AD6570", "#823ABB")
 
 //Overthrow time to update heads obj
 #define OBJECTIVE_UPDATING_TIME 300
@@ -49,7 +45,15 @@
 //gang dominators
 #define NOT_DOMINATING			-1
 #define MAX_LEADERS_GANG		3
-#define INITIAL_DOM_ATTEMPTS	3 
+#define INITIAL_DOM_ATTEMPTS	3
+
+//Shuttle elimination hijacking
+/// Does not stop elimination hijacking but itself won't elimination hijack
+#define ELIMINATION_NEUTRAL 0
+/// Needs to be present for shuttle to be elimination hijacked
+#define ELIMINATION_ENABLED 1
+/// Prevents elimination hijack same way as non-antags
+#define ELIMINATION_PREVENT 2
 
 //Syndicate Contracts
 #define CONTRACT_STATUS_INACTIVE 1
@@ -65,3 +69,21 @@
 
 #define CONTRACT_UPLINK_PAGE_CONTRACTS "CONTRACTS"
 #define CONTRACT_UPLINK_PAGE_HUB "HUB"
+
+//Special Antagonists
+#define SPAWNTYPE_ROUNDSTART "roundstart"
+#define SPAWNTYPE_MIDROUND "midround"
+#define SPAWNTYPE_EITHER "either"
+
+///It is faster as a macro than a proc
+#define IS_HERETIC(mob) (mob.mind?.has_antag_datum(/datum/antagonist/heretic))
+#define IS_HERETIC_MONSTER(mob) (mob.mind?.has_antag_datum(/datum/antagonist/heretic_monster))
+
+#define PATH_SIDE "Side"
+
+#define PATH_ASH "Ash"
+#define PATH_RUST "Rust"
+#define PATH_FLESH "Flesh"
+
+/// How much does it cost to reroll strains?
+#define BLOB_REROLL_COST 40

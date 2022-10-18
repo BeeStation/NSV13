@@ -4,8 +4,9 @@
 	name = "prebuilt missile-casing"
 	icon_state = "case"
 	desc = "The outer casing of a 30mm missile."
-	anchored = TRUE
 	density = TRUE
+	move_resist = MOVE_FORCE_EXTREMELY_STRONG
+	claimable_gulag_points = 0
 	var/state = 0
 	var/obj/item/ship_weapon/parts/missile/warhead/wh = null
 	var/obj/item/ship_weapon/parts/missile/guidance_system/gs = null
@@ -42,6 +43,10 @@
 /obj/item/ship_weapon/ammunition/missile/missile_casing/attackby(obj/item/W, mob/user, params)
 	add_fingerprint(user)
 	if(istype(W, /obj/item/ship_weapon/parts/missile/warhead))
+		var/obj/item/ship_weapon/parts/missile/warhead/WW = W
+		if(WW.fits_type && !istype(src, WW.fits_type))
+			to_chat(user, "<span class='notice'>That warhead won't fit onto [src].</span>")
+			return FALSE
 		if(state == 6)
 			to_chat(user, "<span class='notice'>You start adding [W] to [src]...</span>")
 			if(!do_after(user, 2 SECONDS, target=src))
@@ -190,13 +195,19 @@
 		return TRUE
 	. = ..()
 
+/obj/item/ship_weapon/ammunition/missile/missile_casing/proc/check_completion()
+	update_icon()
+	if(state >= 11)
+		new_missile(wh, gs, ps, iff)
+		return TRUE
+
 /obj/item/ship_weapon/ammunition/missile/missile_casing/welder_act(mob/user, obj/item/tool)
 	switch(state)
 		if(0)
 			to_chat(user, "<span class='notice'>You start disassembling [src]...</span>")
 			if(tool.use_tool(src, user, 40, amount=1, volume=100))
 				to_chat(user, "<span class='notice'>You disassmeble [src].</span>")
-				new /obj/item/stack/sheet/iron(loc, 15)
+				new /obj/item/stack/sheet/iron(loc, 5)
 				add_fingerprint(user)
 				qdel(src)
 			return TRUE
@@ -204,8 +215,8 @@
 			to_chat(user, "<span class='notice'>You start sealing the casing on [src]...</span>")
 			if(tool.use_tool(src, user, 40, amount=1, volume=100))
 				to_chat(user, "<span class='notice'You seal the casing on [src].</span>")
-				new_missile(wh, gs, ps, iff)
-				qdel(src)
+				state = 11
+				check_completion()
 			return TRUE
 	. = ..()
 
@@ -279,11 +290,10 @@
 			obj/item/ship_weapon/parts/missile/propulsion_system,
 			obj/item/ship_weapon/parts/missile/iff_card)
 
-	var/warhead_type = warhead.type
-	for(var/I in contents)
-		qdel(I) //Change this if we ever need to add more component factoring in to performance. This avoids infinite missile parts because the missile gets Qdel'd
 
-	if(istype(warhead, /obj/item/ship_weapon/parts/missile/warhead))
-		switch(warhead_type)
-			if(/obj/item/ship_weapon/parts/missile/warhead)
-				return new /obj/item/ship_weapon/ammunition/missile(get_turf(src))
+	wh = locate(/obj/item/ship_weapon/parts/missile/warhead) in src
+	new wh.build_path(get_turf(src))
+	for(var/I in contents)
+		qdel(I) //Change this if we ever need to add more component factoring in to performance. This avoids infinite torpedo parts because the torpedo gets Qdel'd
+	qdel(src)
+

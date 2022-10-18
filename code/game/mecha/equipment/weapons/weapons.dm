@@ -1,6 +1,7 @@
 /obj/item/mecha_parts/mecha_equipment/weapon
 	name = "mecha weapon"
-	range = RANGED
+	range = MECHA_RANGED
+	destroy_sound = 'sound/mecha/weapdestr.ogg'
 	var/projectile
 	var/fire_sound
 	var/projectiles_per_shot = 1
@@ -9,6 +10,7 @@
 	var/projectile_delay = 0
 	var/firing_effect_type = /obj/effect/temp_visual/dir_setting/firing_effect	//the visual effect appearing when the weapon is fired.
 	var/kickback = TRUE //Will using this weapon in no grav push mecha back.
+	mech_flags = EXOSUIT_MODULE_COMBAT
 
 /obj/item/mecha_parts/mecha_equipment/weapon/can_attach(obj/mecha/M)
 	if(!..())
@@ -92,6 +94,14 @@
 	projectile = /obj/item/projectile/beam/disabler
 	fire_sound = 'sound/weapons/taser2.ogg'
 
+/obj/item/mecha_parts/mecha_equipment/weapon/energy/disabler/emag_act(mob/user)
+	if(!(obj_flags & EMAGGED))
+		obj_flags |= EMAGGED
+		to_chat(user, "<span class='notice'>You disable [src]'s safety procedures, making it shoot harmful lasers.</span>")
+		projectile = /obj/item/projectile/beam/laser
+		harmful = TRUE
+
+
 /obj/item/mecha_parts/mecha_equipment/weapon/energy/laser/heavy
 	equip_cooldown = 15
 	name = "\improper CH-LC \"Solaris\" laser cannon"
@@ -143,7 +153,7 @@
 	fire_sound = 'sound/weapons/plasma_cutter.ogg'
 	harmful = TRUE
 
-/obj/item/mecha_parts/mecha_equipment/weapon/energy/plasma/can_attach(obj/mecha/working/M)
+/obj/item/mecha_parts/mecha_equipment/weapon/energy/plasma/can_attach(obj/mecha/M)
 	if(..()) //combat mech
 		return 1
 	else if(M.equipment.len < M.max_equip && istype(M))
@@ -166,8 +176,9 @@
 	icon_state = "mecha_honker"
 	energy_drain = 200
 	equip_cooldown = 150
-	range = MELEE|RANGED
+	range = MECHA_MELEE|MECHA_RANGED
 	kickback = FALSE
+	mech_flags = EXOSUIT_MODULE_HONK
 
 /obj/item/mecha_parts/mecha_equipment/weapon/honker/can_attach(obj/mecha/combat/honker/M)
 	if(..())
@@ -373,6 +384,7 @@
 	missile_speed = 1.5
 	projectile_energy_cost = 100
 	equip_cooldown = 20
+	mech_flags = EXOSUIT_MODULE_HONK
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/launcher/banana_mortar/can_attach(obj/mecha/combat/honker/M)
 	if(..())
@@ -390,6 +402,7 @@
 	missile_speed = 1.5
 	projectile_energy_cost = 100
 	equip_cooldown = 10
+	mech_flags = EXOSUIT_MODULE_HONK
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/launcher/mousetrap_mortar/can_attach(obj/mecha/combat/honker/M)
 	if(..())
@@ -408,13 +421,14 @@
 	icon_state = "mecha_punching_glove"
 	energy_drain = 250
 	equip_cooldown = 20
-	range = MELEE|RANGED
+	range = MECHA_MELEE|MECHA_RANGED
 	missile_range = 5
 	projectile = /obj/item/punching_glove
 	fire_sound = 'sound/items/bikehorn.ogg'
 	projectiles = 10
 	projectile_energy_cost = 500
 	diags_first = TRUE
+	mech_flags = EXOSUIT_MODULE_HONK
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/launcher/punching_glove/can_attach(obj/mecha/combat/honker/M)
 	if(..())

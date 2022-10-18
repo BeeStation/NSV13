@@ -1,29 +1,19 @@
-#define MECHA_INT_FIRE			(1<<0)
-#define MECHA_INT_TEMP_CONTROL	(1<<1)
-#define MECHA_INT_SHORT_CIRCUIT	(1<<2)
-#define MECHA_INT_TANK_BREACH	(1<<3)
-#define MECHA_INT_CONTROL_LOST	(1<<4)
-
-#define MELEE 1
-#define RANGED 2
-
-#define FRONT_ARMOUR 1
-#define SIDE_ARMOUR 2
-#define BACK_ARMOUR 3
-
-
 /obj/mecha
 	name = "mecha"
 	desc = "Exosuit"
 	icon = 'icons/mecha/mecha.dmi'
 	density = TRUE //Dense. To raise the heat.
 	opacity = 1 ///opaque. Menacing.
-	move_resist = MOVE_FORCE_OVERPOWERING //no pulling around. //NSV13
+	move_force = MOVE_FORCE_VERY_STRONG
+	move_resist = MOVE_FORCE_EXTREMELY_STRONG
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	layer = BELOW_MOB_LAYER//icon draw layer
 	infra_luminosity = 15 //byond implementation is bugged.
 	force = 5
-	flags_1 = HEAR_1
+	light_system = MOVABLE_LIGHT
+	light_on = FALSE
+	light_power = 1
+	light_range = 5
 	var/ruin_mecha = FALSE //if the mecha starts on a ruin, don't automatically give it a tracking beacon to prevent metagaming.
 	var/can_move = 0 //time of next allowed movement
 	var/mob/living/carbon/occupant = null
@@ -35,11 +25,13 @@
 	var/overload_step_energy_drain_min = 100
 	max_integrity = 300 //max_integrity is base health
 	var/deflect_chance = 10 //chance to deflect the incoming projectiles, hits, or lesser the effect of ex_act.
-	armor = list("melee" = 20, "bullet" = 10, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 100)
-	var/list/facing_modifiers = list(FRONT_ARMOUR = 1.5, SIDE_ARMOUR = 1, BACK_ARMOUR = 0.5)
+	armor = list("melee" = 20, "bullet" = 10, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 100, "stamina" = 0)
+	var/list/facing_modifiers = list(MECHA_FRONT_ARMOUR = 1.5, MECHA_SIDE_ARMOUR = 1, MECHA_BACK_ARMOUR = 0.5)
 	var/equipment_disabled = 0 //disabled due to EMP
-	var/obj/item/stock_parts/cell/cell
-	var/state = 0
+	var/obj/item/stock_parts/cell/cell ///Keeps track of the mech's cell
+	var/obj/item/stock_parts/scanning_module/scanmod ///Keeps track of the mech's scanning module
+	var/obj/item/stock_parts/capacitor/capacitor ///Keeps track of the mech's capacitor
+	var/construction_state = MECHA_LOCKED
 	var/last_message = 0
 	var/add_req_access = 1
 	var/maint_access = 0
@@ -90,7 +82,7 @@
 	var/destruction_sleep_duration = 20 //Time that mech pilot is put to sleep for if mech is destroyed
 	var/enclosed = TRUE //Set to false for open-cockpit mechs
 	var/silicon_icon_state = null //if the mech has a different icon when piloted by an AI or MMI
-	var/is_currently_ejecting = FALSE //Mech cannot use equiptment when true, set to true if pilot is trying to exit mech
+	var/is_currently_ejecting = FALSE //Mech cannot use equipment when true, set to true if pilot is trying to exit mech
 
 	//Action datums
 	var/datum/action/innate/mecha/mech_eject/eject_action = new
@@ -144,6 +136,8 @@
 	smoke_system.set_up(3, src)
 	smoke_system.attach(src)
 	add_cell()
+	add_scanmod()
+	add_capacitor()
 	START_PROCESSING(SSobj, src)
 	GLOB.poi_list |= src
 	log_message("[src.name] created.", LOG_MECHA)
@@ -154,6 +148,7 @@
 	diag_hud_set_mechhealth()
 	diag_hud_set_mechcell()
 	diag_hud_set_mechstat()
+	become_hearing_sensitive(trait_source = ROUNDSTART_TRAIT)
 
 /obj/mecha/update_icon()
 	if (silicon_pilot && silicon_icon_state)
@@ -162,6 +157,9 @@
 
 /obj/mecha/get_cell()
 	return cell
+
+/obj/mecha/rust_heretic_act()
+	take_damage(500,  BRUTE)
 
 /obj/mecha/Destroy()
 	if(occupant)
@@ -174,43 +172,27 @@
 			AI = M //AIs are loaded into the mech computer itself. When the mech dies, so does the AI. They can be recovered with an AI card from the wreck.
 		else
 			M.forceMove(loc)
-	if(wreckage)
-		var/obj/structure/mecha_wreckage/WR = new wreckage(loc, AI)
-		for(var/obj/item/mecha_parts/mecha_equipment/E in equipment)
-			if(E.salvageable && prob(30))
-				WR.crowbar_salvage += E
-				E.detach(WR) //detaches from src into WR
-				E.equip_ready = 1
-			else
-				E.detach(loc)
-				qdel(E)
-		if(cell)
-			WR.crowbar_salvage += cell
-			cell.forceMove(WR)
-			cell.charge = rand(0, cell.charge)
-		if(internal_tank)
-			WR.crowbar_salvage += internal_tank
-			internal_tank.forceMove(WR)
-	else
-		for(var/obj/item/mecha_parts/mecha_equipment/E in equipment)
-			E.detach(loc)
-			qdel(E)
-		if(cell)
-			qdel(cell)
-		if(internal_tank)
-			qdel(internal_tank)
-		if(AI)
-			AI.gib() //No wreck, no AI to recover
+	for(var/obj/item/mecha_parts/mecha_equipment/E in equipment)
+		E.detach(loc)
+		qdel(E)
+	if(cell)
+		qdel(cell)
+	if(scanmod)
+		qdel(scanmod)
+	if(capacitor)
+		qdel(capacitor)
+	if(internal_tank)
+		qdel(internal_tank)
+	if(AI)
+		AI.gib() //No wreck, no AI to recover
 	STOP_PROCESSING(SSobj, src)
 	GLOB.poi_list.Remove(src)
 	equipment.Cut()
 	cell = null
+	scanmod = null
+	capacitor = null
 	internal_tank = null
-	if(loc)
-		loc.assume_air(cabin_air)
-		air_update_turf()
-	else
-		qdel(cabin_air)
+	assume_air(cabin_air)
 	cabin_air = null
 	qdel(spark_system)
 	spark_system = null
@@ -222,8 +204,6 @@
 
 /obj/mecha/proc/restore_equipment()
 	equipment_disabled = 0
-	if(istype(src, /obj/mecha/combat))
-		mouse_pointer = 'icons/mecha/mecha_mouse.dmi'
 	if(occupant)
 		SEND_SOUND(occupant, sound('sound/items/timer.ogg', volume=50))
 		to_chat(occupant, "<span=notice>Equipment control unit has been rebooted successfuly.</span>")
@@ -232,15 +212,22 @@
 /obj/mecha/CheckParts(list/parts_list)
 	..()
 	cell = locate(/obj/item/stock_parts/cell) in contents
-	var/obj/item/stock_parts/scanning_module/SM = locate() in contents
-	var/obj/item/stock_parts/capacitor/CP = locate() in contents
-	if(SM)
-		normal_step_energy_drain = 20 - (5 * SM.rating) //10 is normal, so on lowest part its worse, on second its ok and on higher its real good up to 0 on best
+	scanmod = locate(/obj/item/stock_parts/scanning_module) in contents
+	capacitor = locate(/obj/item/stock_parts/capacitor) in contents
+	update_part_values()
+
+/obj/mecha/proc/update_part_values() ///Updates the values given by scanning module and capacitor tier, called when a part is removed or inserted.
+	if(scanmod)
+		normal_step_energy_drain = 20 - (5 * scanmod.rating) //10 is normal, so on lowest part its worse, on second its ok and on higher its real good up to 0 on best
 		step_energy_drain = normal_step_energy_drain
-		qdel(SM)
-	if(CP)
-		armor = armor.modifyRating(energy = (CP.rating * 5)) //Each level of capacitor protects the mech against emp by 5%
-		qdel(CP)
+	else
+		normal_step_energy_drain = 500
+		step_energy_drain = normal_step_energy_drain
+	if(capacitor)
+		armor = armor.modifyRating(energy = (capacitor.rating * 5)) //Each level of capacitor protects the mech against emp by 5%
+	else //because we can still be hit without a cap, even if we can't move
+		armor = armor.setRating(energy = 0)
+
 
 ////////////////////////
 ////// Helpers /////////
@@ -250,20 +237,39 @@
 	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
 	return internal_tank
 
+///Adds a cell, for use in Map-spawned mechs, Nuke Ops mechs, and admin-spawned mechs. Mechs built by hand will replace this.
 /obj/mecha/proc/add_cell(var/obj/item/stock_parts/cell/C=null)
+	QDEL_NULL(cell)
 	if(C)
 		C.forceMove(src)
 		cell = C
 		return
 	cell = new /obj/item/stock_parts/cell/high/plus(src)
 
+///Adds a scanning module, for use in Map-spawned mechs, Nuke Ops mechs, and admin-spawned mechs. Mechs built by hand will replace this.
+/obj/mecha/proc/add_scanmod(var/obj/item/stock_parts/scanning_module/sm=null)
+	QDEL_NULL(scanmod)
+	if(sm)
+		sm.forceMove(src)
+		scanmod = sm
+		return
+	scanmod = new /obj/item/stock_parts/scanning_module(src)
+
+///Adds a capacitor, for use in Map-spawned mechs, Nuke Ops mechs, and admin-spawned mechs. Mechs built by hand will replace this.
+/obj/mecha/proc/add_capacitor(var/obj/item/stock_parts/capacitor/cap=null)
+	QDEL_NULL(capacitor)
+	if(cap)
+		cap.forceMove(src)
+		capacitor = cap
+		return
+	capacitor = new /obj/item/stock_parts/capacitor(src)
+
 /obj/mecha/proc/add_cabin()
 	cabin_air = new
-	cabin_air.temperature = T20C
-	cabin_air.volume = 200
-	cabin_air.add_gases(/datum/gas/oxygen, /datum/gas/nitrogen)
-	cabin_air.gases[/datum/gas/oxygen][MOLES] = O2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
-	cabin_air.gases[/datum/gas/nitrogen][MOLES] = N2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
+	cabin_air.set_temperature(T20C)
+	cabin_air.set_volume(200)
+	cabin_air.set_moles(GAS_O2, O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
+	cabin_air.set_moles(GAS_N2, N2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 	return cabin_air
 
 /obj/mecha/proc/add_radio()
@@ -329,9 +335,9 @@
 				if(int_tank_air.return_pressure() > internal_tank.maximum_pressure && !(internal_damage & MECHA_INT_TANK_BREACH))
 					setInternalDamage(MECHA_INT_TANK_BREACH)
 				if(int_tank_air && int_tank_air.return_volume() > 0) //heat the air_contents
-					int_tank_air.temperature = min(6000+T0C, int_tank_air.temperature+rand(10,15))
+					int_tank_air.set_temperature(min(6000+T0C, int_tank_air.return_temperature()+rand(10,15)))
 			if(cabin_air && cabin_air.return_volume()>0)
-				cabin_air.temperature = min(6000+T0C, cabin_air.return_temperature()+rand(10,15))
+				cabin_air.set_temperature(min(6000+T0C, cabin_air.return_temperature()+rand(10,15)))
 				if(cabin_air.return_temperature() > max_temperature/2)
 					take_damage(4/round(max_temperature/cabin_air.return_temperature(),0.1), BURN, 0, 0)
 
@@ -340,13 +346,7 @@
 
 		if(internal_damage & MECHA_INT_TANK_BREACH) //remove some air from internal tank
 			if(internal_tank)
-				var/datum/gas_mixture/int_tank_air = internal_tank.return_air()
-				var/datum/gas_mixture/leaked_gas = int_tank_air.remove_ratio(0.1)
-				if(loc)
-					loc.assume_air(leaked_gas)
-					air_update_turf()
-				else
-					qdel(leaked_gas)
+				assume_air_ratio(internal_tank.return_air(), 0.1)
 
 		if(internal_damage & MECHA_INT_SHORT_CIRCUIT)
 			if(get_charge())
@@ -356,8 +356,8 @@
 
 	if(internal_temp_regulation)
 		if(cabin_air && cabin_air.return_volume() > 0)
-			var/delta = cabin_air.temperature - T20C
-			cabin_air.temperature -= max(-10, min(10, round(delta/4,0.1)))
+			var/delta = cabin_air.return_temperature() - T20C
+			cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
 
 	if(internal_tank)
 		var/datum/gas_mixture/tank_air = internal_tank.return_air()
@@ -369,8 +369,7 @@
 		if(pressure_delta > 0) //cabin pressure lower than release pressure
 			if(tank_air.return_temperature() > 0)
 				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
-				var/datum/gas_mixture/removed = tank_air.remove(transfer_moles)
-				cabin_air.merge(removed)
+				tank_air.transfer_to(cabin_air,transfer_moles)
 		else if(pressure_delta < 0) //cabin pressure higher than release pressure
 			var/datum/gas_mixture/t_air = return_air()
 			pressure_delta = cabin_pressure - release_pressure
@@ -378,11 +377,7 @@
 				pressure_delta = min(cabin_pressure - t_air.return_pressure(), pressure_delta)
 			if(pressure_delta > 0) //if location pressure is lower than cabin pressure
 				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
-				var/datum/gas_mixture/removed = cabin_air.remove(transfer_moles)
-				if(t_air)
-					t_air.merge(removed)
-				else //just delete the cabin gas, we're in space or some shit
-					qdel(removed)
+				cabin_air.transfer_to(t_air, transfer_moles)
 
 	if(occupant)
 		if(cell)
@@ -391,22 +386,22 @@
 				if(0.75 to INFINITY)
 					occupant.clear_alert("charge")
 				if(0.5 to 0.75)
-					occupant.throw_alert("charge", /obj/screen/alert/lowcell, 1)
+					occupant.throw_alert("charge", /atom/movable/screen/alert/lowcell, 1)
 				if(0.25 to 0.5)
-					occupant.throw_alert("charge", /obj/screen/alert/lowcell, 2)
+					occupant.throw_alert("charge", /atom/movable/screen/alert/lowcell, 2)
 				if(0.01 to 0.25)
-					occupant.throw_alert("charge", /obj/screen/alert/lowcell, 3)
+					occupant.throw_alert("charge", /atom/movable/screen/alert/lowcell, 3)
 				else
-					occupant.throw_alert("charge", /obj/screen/alert/emptycell)
+					occupant.throw_alert("charge", /atom/movable/screen/alert/emptycell)
 
 		var/integrity = obj_integrity/max_integrity*100
 		switch(integrity)
 			if(30 to 45)
-				occupant.throw_alert("mech damage", /obj/screen/alert/low_mech_integrity, 1)
+				occupant.throw_alert("mech damage", /atom/movable/screen/alert/low_mech_integrity, 1)
 			if(15 to 35)
-				occupant.throw_alert("mech damage", /obj/screen/alert/low_mech_integrity, 2)
+				occupant.throw_alert("mech damage", /atom/movable/screen/alert/low_mech_integrity, 2)
 			if(-INFINITY to 15)
-				occupant.throw_alert("mech damage", /obj/screen/alert/low_mech_integrity, 3)
+				occupant.throw_alert("mech damage", /atom/movable/screen/alert/low_mech_integrity, 3)
 			else
 				occupant.clear_alert("mech damage")
 		var/atom/checking = occupant.loc
@@ -448,17 +443,28 @@
 /obj/mecha/proc/drop_item()//Derpfix, but may be useful in future for engineering exosuits.
 	return
 
-/obj/mecha/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode)
+/obj/mecha/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, list/message_mods = list())
 	. = ..()
 	if(speaker == occupant)
-		if(radio?.broadcasting)
-			radio.talk_into(speaker, text, , spans, message_language)
 		//flick speech bubble
 		var/list/speech_bubble_recipients = list()
-		for(var/mob/M in get_hearers_in_view(7,src))
+		for(var/mob/M as() in hearers(7,src))
 			if(M.client)
 				speech_bubble_recipients.Add(M.client)
 		INVOKE_ASYNC(GLOBAL_PROC, /proc/flick_overlay, image('icons/mob/talk.dmi', src, "machine[say_test(raw_message)]",MOB_LAYER+1), speech_bubble_recipients, 30)
+
+/obj/mecha/emag_act(mob/user)
+	. = ..()
+	if(obj_flags & EMAGGED)
+		to_chat(user, "<span class='warning'>The mech suit's internal controls are damaged beyond repair!</span>")
+		return
+	obj_flags |= EMAGGED
+	playsound(src, "sparks", 100, 1)
+	to_chat(user, "<span class='warning'>You short out the mech suit's internal controls.</span>")
+	dna_lock = null
+	equipment_disabled = TRUE
+	log_message("System emagged detected", LOG_MECHA, color="red")
+	addtimer(CALLBACK(src, /obj/mecha/proc/restore_equipment), 15 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 ////////////////////////////
 ///// Action processing ////
@@ -475,11 +481,11 @@
 	if(is_currently_ejecting)
 		return
 	if(phasing)
-		occupant_message("Unable to interact with objects while phasing")
+		occupant_message("Unable to interact with objects while phasing.")
 		return
 	if(user.incapacitated())
 		return
-	if(state)
+	if(construction_state)
 		occupant_message("<span class='warning'>Maintenance protocols in effect.</span>")
 		return
 	if(!get_charge())
@@ -537,16 +543,19 @@
 /obj/mecha/Process_Spacemove(var/movement_dir = 0)
 	. = ..()
 	if(.)
-		return TRUE
+		return
 
-	var/atom/movable/backup = get_spacemove_backup()
-	if(backup)
-		if(istype(backup) && movement_dir && !backup.anchored)
-			if(backup.newtonian_move(turn(movement_dir, 180)))
+	var/atom/backup = get_spacemove_backup()
+	if(backup && movement_dir)
+		if(isturf(backup)) //get_spacemove_backup() already checks if a returned turf is solid, so we can just go
+			return TRUE
+		if(istype(backup, /atom/movable))
+			var/atom/movable/movable_backup = backup
+			if((!movable_backup.anchored) && (movable_backup.newtonian_move(turn(movement_dir, 180))))
 				step_silent = TRUE
 				if(occupant)
-					to_chat(occupant, "<span class='info'>You push off of [backup] to propel yourself.</span>")
-		return TRUE
+					to_chat(occupant, "<span class='info'>You push off of [movable_backup] to propel yourself.</span>")
+			return TRUE
 
 	if(can_move <= world.time && active_thrusters && movement_dir && active_thrusters.thrust(movement_dir))
 		step_silent = TRUE
@@ -568,8 +577,10 @@
 			occupant_message("<span class='warning'>Unable to move while connected to the air system port!</span>")
 			last_message = world.time
 		return 0
-	if(state)
-		occupant_message("<span class='danger'>Maintenance protocols in effect.</span>")
+	if(construction_state)
+		if(world.time - last_message > 20)
+			occupant_message("<span class='danger'>Maintenance protocols are in effect.</span>")
+			last_message = world.time
 		return
 	return domove(direction)
 
@@ -583,6 +594,16 @@
 	if(zoom_mode)
 		if(world.time - last_message > 20)
 			occupant_message("Unable to move while in zoom mode.")
+			last_message = world.time
+		return 0
+	if(!cell)
+		if(world.time - last_message > 20)
+			occupant_message("<span class='warning'>Missing power cell.</span>")
+			last_message = world.time
+		return 0
+	if(!scanmod || !capacitor)
+		if(world.time - last_message > 20)
+			occupant_message("<span class='warning'>Missing [scanmod? "capacitor" : "scanning module"].</span>")
 			last_message = world.time
 		return 0
 
@@ -630,8 +651,15 @@
 				can_move = 0
 				if(phase_state)
 					flick(phase_state, src)
-				forceMove(get_step(src,dir))
-				use_power(phasing_energy_drain)
+				var/turf/target = get_step(src, dir)
+				if(target.flags_1 & NOJAUNT_1)
+					occupant_message("Phasing anomaly detected, emergency deactivation initiated.")
+					sleep(step_in*3)
+					can_move = 1
+					phasing = FALSE
+					return
+				if(do_teleport(src, get_step(src, dir), no_effects = TRUE))
+					use_power(phasing_energy_drain)
 				sleep(step_in*3)
 				can_move = 1
 	else
@@ -645,11 +673,11 @@
 					step(src,dir)
 		if(isobj(obstacle))
 			var/obj/O = obstacle
-			if(!O.anchored)
+			if(!O.anchored && O.move_resist <= move_force)
 				step(obstacle, dir)
 		else if(ismob(obstacle))
 			var/mob/M = obstacle
-			if(!M.anchored)
+			if(M.move_resist <= move_force)
 				step(obstacle, dir)
 
 
@@ -661,7 +689,7 @@
 ///////////////////////////////////
 
 /obj/mecha/proc/check_for_internal_damage(list/possible_int_damage,ignore_threshold=null)
-	if(!islist(possible_int_damage) || isemptylist(possible_int_damage))
+	if(!islist(possible_int_damage) || !length(possible_int_damage))
 		return
 	if(prob(20))
 		if(ignore_threshold || obj_integrity*100/max_integrity < internal_damage_threshold)
@@ -691,7 +719,7 @@
 			if(MECHA_INT_TEMP_CONTROL)
 				occupant_message("<span class='boldnotice'>Life support system reactivated.</span>")
 			if(MECHA_INT_FIRE)
-				occupant_message("<span class='boldnotice'>Internal fire extinquished.</span>")
+				occupant_message("<span class='boldnotice'>Internal fire extinguished.</span>")
 			if(MECHA_INT_TANK_BREACH)
 				occupant_message("<span class='boldnotice'>Damaged internal tank has been sealed.</span>")
 	internal_damage &= ~int_dam_flag
@@ -721,7 +749,7 @@
 		var/can_control_mech = 0
 		for(var/obj/item/mecha_parts/mecha_tracking/ai_control/A in trackers)
 			can_control_mech = 1
-			to_chat(user, "<span class='notice'>[icon2html(src, user)] Status of [name]:</span>\n[A.get_mecha_info()]")
+			to_chat(user, "<span class='notice'>[icon2html(src, user)] Status of [name]:</span>\n[A.get_mecha_info()].")
 			break
 		if(!can_control_mech)
 			to_chat(user, "<span class='warning'>You cannot control exosuits without AI control beacons installed.</span>")
@@ -735,7 +763,7 @@
  //Transfer from core or card to mech. Proc is called by mech.
 	switch(interaction)
 		if(AI_TRANS_TO_CARD) //Upload AI from mech to AI card.
-			if(!state) //Mech must be in maint mode to allow carding.
+			if(!construction_state) //Mech must be in maint mode to allow carding.
 				to_chat(user, "<span class='warning'>[name] must have maintenance protocols active in order to allow a transfer.</span>")
 				return
 			AI = occupant
@@ -840,6 +868,11 @@
 		return cabin_air.remove(amount)
 	return ..()
 
+/obj/mecha/remove_air_ratio(ratio)
+	if(use_internal_tank)
+		return cabin_air.remove_ratio(ratio)
+	return ..()
+
 /obj/mecha/return_air()
 	if(use_internal_tank)
 		return cabin_air
@@ -915,7 +948,7 @@
 	return
 
 /obj/mecha/proc/moved_inside(mob/living/carbon/human/H)
-	if(H && H.client && (H in range(1)))
+	if(H?.client && get_dist(H, src) <= 1)
 		occupant = H
 		H.forceMove(src)
 		H.update_mouse_pointer()
@@ -989,17 +1022,31 @@
 
 /obj/mecha/container_resist(mob/living/user)
 	is_currently_ejecting = TRUE
-	to_chat(occupant, "<span class='notice'>You begin the ejection procedure. Equipment is disabled during this process. Hold still to finish ejecting.<span>")
+	to_chat(occupant, "<span class='notice'>You begin the ejection procedure. Equipment is disabled during this process. Hold still to finish ejecting.</span>")
 	if(do_after(occupant,exit_delay, target = src))
-		to_chat(occupant, "<span class='notice'>You exit the mech.<span>")
+		to_chat(occupant, "<span class='notice'>You exit the mech.</span>")
 		go_out()
 	else
-		to_chat(occupant, "<span class='notice'>You stop exiting the mech. Weapons are enabled again.<span>")
+		to_chat(occupant, "<span class='notice'>You stop exiting the mech. Weapons are enabled again.</span>")
 	is_currently_ejecting = FALSE
 
 /obj/mecha/Exited(atom/movable/M, atom/newloc)
+	. = ..()
 	if(occupant && occupant == M) // The occupant exited the mech without calling go_out()
 		go_out(TRUE, newloc)
+
+	if(cell && cell == M)
+		cell = null
+		return
+	if(scanmod && scanmod == M)
+		scanmod = null
+		update_part_values()
+		return
+	if(capacitor && capacitor == M)
+		armor = armor.modifyRating(energy = (capacitor.rating * -5)) //lose the energy armor if we lose this cap
+		capacitor = null
+		update_part_values()
+		return
 
 /obj/mecha/proc/go_out(forced, atom/newloc = loc)
 	if(!occupant)
@@ -1056,7 +1103,7 @@
 
 	if(L?.client)
 		L.update_mouse_pointer()
-		L.client.check_view()
+		L.client.view_size.resetToDefault()
 		zoom_mode = 0
 
 /////////////////////////
@@ -1118,3 +1165,16 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 	if(occupant_sight_flags)
 		if(user == occupant)
 			user.sight |= occupant_sight_flags
+
+/obj/mecha/rust_heretic_act()
+	take_damage(500,  BRUTE)
+
+/obj/mecha/lighteater_act(obj/item/light_eater/light_eater)
+	..()
+	if(!lights_power)
+		return
+	lights = FALSE
+	lights_power = 0
+	set_light_on(FALSE)
+	visible_message(src, "<span class='danger'>The lights on [src] short out!</span>")
+	playsound(src, 'sound/items/welder.ogg', 50, 1)

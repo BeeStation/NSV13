@@ -6,6 +6,19 @@
 	slot = ORGAN_SLOT_EYES
 	gender = PLURAL
 
+	healing_factor = STANDARD_ORGAN_HEALING
+	decay_factor = STANDARD_ORGAN_DECAY
+	maxHealth = 0.5 * STANDARD_ORGAN_THRESHOLD		//half the normal health max since we go blind at 30, a permanent blindness at 50 therefore makes sense unless medicine is administered
+	high_threshold = 0.3 * STANDARD_ORGAN_THRESHOLD	//threshold at 30
+	low_threshold = 0.2 * STANDARD_ORGAN_THRESHOLD	//threshold at 20
+
+	low_threshold_passed = "<span class='info'>Distant objects become somewhat less tangible.</span>"
+	high_threshold_passed = "<span class='info'>Everything starts to look a lot less clear.</span>"
+	now_failing = "<span class='warning'>Darkness envelopes you, as your eyes go blind!</span>"
+	now_fixed = "<span class='info'>Color and shapes are once again perceivable.</span>"
+	high_threshold_cleared = "<span class='info'>Your vision functions passably once more.</span>"
+	low_threshold_cleared = "<span class='info'>Your vision is cleared of any ailment.</span>"
+
 	var/sight_flags = 0
 	var/see_in_dark = 2
 	var/tint = 0
@@ -17,9 +30,6 @@
 	var/lighting_alpha
 	var/no_glasses
 	var/damaged	= FALSE	//damaged indicates that our eyes are undergoing some level of negative effect
-	maxHealth = 50		//half the normal health max since we go blind at 30, a permanent blindness at 50 therefore makes sense unless medicine is administered
-	high_threshold = 20
-	low_threshold = 10
 
 /obj/item/organ/eyes/Insert(mob/living/carbon/M, special = FALSE, drop_if_replaced = FALSE, initialising)
 	. = ..()
@@ -47,22 +57,23 @@
 	M.update_tint()
 	M.update_sight()
 
+
 /obj/item/organ/eyes/on_life()
 	..()
 	var/mob/living/carbon/C = owner
 	//since we can repair fully damaged eyes, check if healing has occurred
-	if(failing && (damage < maxHealth))
-		failing = FALSE
+	if((organ_flags & ORGAN_FAILING) && (damage < maxHealth))
+		organ_flags &= ~ORGAN_FAILING
 		C.cure_blind(EYE_DAMAGE)
 	//various degrees of "oh fuck my eyes", from "point a laser at your eye" to "staring at the Sun" intensities
 	if(damage > 20)
 		damaged = TRUE
-		if(failing)
+		if((organ_flags & ORGAN_FAILING))
 			C.become_blind(EYE_DAMAGE)
 		else if(damage > 30)
-			C.overlay_fullscreen("eye_damage", /obj/screen/fullscreen/impaired, 2)
+			C.overlay_fullscreen("eye_damage", /atom/movable/screen/fullscreen/impaired, 2)
 		else
-			C.overlay_fullscreen("eye_damage", /obj/screen/fullscreen/impaired, 1)
+			C.overlay_fullscreen("eye_damage", /atom/movable/screen/fullscreen/impaired, 1)
 	//called once since we don't want to keep clearing the screen of eye damage for people who are below 20 damage
 	else if(damaged)
 		damaged = FALSE
@@ -117,6 +128,7 @@
 	icon_state = "cybernetic_eyeballs"
 	desc = "A very basic set of optical sensors with no extra vision modes or functions."
 	status = ORGAN_ROBOTIC
+	organ_flags = ORGAN_SYNTHETIC
 
 /obj/item/organ/eyes/robotic/emp_act(severity)
 	. = ..()
@@ -133,6 +145,12 @@
 	eye_color = "000"
 	see_in_dark = 8
 	sight_flags = SEE_MOBS | SEE_OBJS | SEE_TURFS
+	flash_protect = -INFINITY
+	tint = -INFINITY
+
+/obj/item/organ/eyes/robotic/xray/syndicate
+	desc = "These cybernetic eyes will give you X-ray vision. Blinking is futile. On closer look, they have been modified to protect from sudden bright flashes."
+	flash_protect = 0
 
 /obj/item/organ/eyes/robotic/thermals
 	name = "thermal eyes"
@@ -182,7 +200,7 @@
 /obj/item/organ/eyes/robotic/shield/emp_act(severity)
 	return
 
-#define RGB2EYECOLORSTRING(definitionvar) ("[copytext(definitionvar,2,3)][copytext(definitionvar,4,5)][copytext(definitionvar,6,7)]")
+#define RGB2EYECOLORSTRING(definitionvar) ("[copytext_char(definitionvar, 2, 3)][copytext_char(definitionvar, 4, 5)][copytext_char(definitionvar, 6, 7)]")
 
 /obj/item/organ/eyes/robotic/glow
 	name = "High Luminosity Eyes"
@@ -193,7 +211,7 @@
 	var/active = FALSE
 	var/max_light_beam_distance = 5
 	var/light_beam_distance = 5
-	var/light_object_range = 1
+	var/light_object_range = 2
 	var/light_object_power = 2
 	var/list/obj/effect/abstract/eye_lighting/eye_lighting
 	var/obj/effect/abstract/eye_lighting/on_mob
@@ -267,26 +285,20 @@
 		return
 	deactivate(silent = TRUE)
 
-/obj/item/organ/eyes/robotic/glow/Insert(mob/living/carbon/M, special = FALSE, drop_if_replaced = FALSE)
-	. = ..()
-	RegisterSignal(M, COMSIG_ATOM_DIR_CHANGE, .proc/update_visuals)
-
-/obj/item/organ/eyes/robotic/glow/Remove(mob/living/carbon/M, special = FALSE)
-	. = ..()
-	UnregisterSignal(M, COMSIG_ATOM_DIR_CHANGE)
-
 /obj/item/organ/eyes/robotic/glow/Destroy()
 	QDEL_NULL(mobhook) // mobhook is not our component
 	return ..()
 
 /obj/item/organ/eyes/robotic/glow/proc/activate(silent = FALSE)
 	start_visuals()
+	RegisterSignal(owner, COMSIG_ATOM_DIR_CHANGE, .proc/update_visuals)
 	if(!silent)
 		to_chat(owner, "<span class='warning'>Your [src] clicks and makes a whining noise, before shooting out a beam of light!</span>")
 	active = TRUE
 	cycle_mob_overlay()
 
 /obj/item/organ/eyes/robotic/glow/proc/deactivate(silent = FALSE)
+	UnregisterSignal(owner, COMSIG_ATOM_DIR_CHANGE)
 	clear_visuals()
 	if(!silent)
 		to_chat(owner, "<span class='warning'>Your [src] shuts off!</span>")
@@ -294,6 +306,8 @@
 	remove_mob_overlay()
 
 /obj/item/organ/eyes/robotic/glow/proc/update_visuals(datum/source, olddir, newdir)
+	SIGNAL_HANDLER
+
 	if((LAZYLEN(eye_lighting) < light_beam_distance) || !on_mob)
 		regenerate_light_effects()
 	var/turf/scanfrom = get_turf(owner)
@@ -304,6 +318,7 @@
 		clear_visuals()
 	var/turf/scanning = scanfrom
 	var/stop = FALSE
+	on_mob.set_light_flags(on_mob.light_flags & ~LIGHT_ATTACHED)
 	on_mob.forceMove(scanning)
 	for(var/i in 1 to light_beam_distance)
 		scanning = get_step(scanning, scandir)
@@ -324,6 +339,7 @@
 			var/obj/effect/abstract/eye_lighting/L = i
 			L.forceMove(src)
 		if(!QDELETED(on_mob))
+			on_mob.set_light_flags(on_mob.light_flags | LIGHT_ATTACHED)
 			on_mob.forceMove(src)
 
 /obj/item/organ/eyes/robotic/glow/proc/start_visuals()
@@ -340,26 +356,40 @@
 
 /obj/item/organ/eyes/robotic/glow/proc/regenerate_light_effects()
 	clear_visuals(TRUE)
-	on_mob = new(src)
+	on_mob = new (src, light_object_range, light_object_power, current_color_string, LIGHT_ATTACHED)
 	for(var/i in 1 to light_beam_distance)
-		LAZYADD(eye_lighting,new /obj/effect/abstract/eye_lighting(src))
+		LAZYADD(eye_lighting, new /obj/effect/abstract/eye_lighting(src, light_object_range, light_object_power, current_color_string))
 	sync_light_effects()
 
+
 /obj/item/organ/eyes/robotic/glow/proc/sync_light_effects()
-	for(var/I in eye_lighting)
-		var/obj/effect/abstract/eye_lighting/L = I
-		L.set_light(light_object_range, light_object_power, current_color_string)
-	if(on_mob)
-		on_mob.set_light(1, 1, current_color_string)
+	for(var/e in eye_lighting)
+		var/obj/effect/abstract/eye_lighting/eye_lighting = e
+		eye_lighting.set_light_color(current_color_string)
+	on_mob?.set_light_color(current_color_string)
+
 
 /obj/effect/abstract/eye_lighting
+	light_system = MOVABLE_LIGHT
 	var/obj/item/organ/eyes/robotic/glow/parent
 
-/obj/effect/abstract/eye_lighting/Initialize()
+
+/obj/effect/abstract/eye_lighting/Initialize(mapload, light_object_range, light_object_power, current_color_string, light_flags)
 	. = ..()
 	parent = loc
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	if(!istype(parent))
+		stack_trace("/obj/effect/abstract/eye_lighting added to improper parent ([loc]). Deleting.")
 		return INITIALIZE_HINT_QDEL
+	if(!isnull(light_object_range))
+		set_light_range(light_object_range)
+	if(!isnull(light_object_power))
+		set_light_power(light_object_power)
+	if(!isnull(current_color_string))
+		set_light_color(current_color_string)
+	if(!isnull(light_flags))
+		set_light_flags(light_flags)
+
 
 /obj/item/organ/eyes/moth
 	name = "moth eyes"
@@ -372,3 +402,7 @@
 	eye_icon_state = "snail_eyes"
 	icon_state = "snail_eyeballs"
 
+/obj/item/organ/eyes/apid
+	name = "apid eyes"
+	desc = "Designed for navigating dark hives, these eyes have improvement to low light vision."
+	see_in_dark = 8

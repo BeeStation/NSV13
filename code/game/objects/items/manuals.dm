@@ -14,6 +14,7 @@
 	//book contents below
 	dat = {"<html>
 				<head>
+				<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
 				<style>
 				h1 {font-size: 18px; margin: 15px 0px 5px;}
 				h2 {font-size: 15px; margin: 15px 0px 5px;}
@@ -49,6 +50,7 @@
 	title = "APLU \"Ripley\" Construction and Operation Manual"
 	dat = {"<html>
 				<head>
+				<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
 				<style>
 				h1 {font-size: 18px; margin: 15px 0px 5px;}
 				h2 {font-size: 15px; margin: 15px 0px 5px;}
@@ -71,47 +73,47 @@
 				<li><b>Width:</b> 1.8m</li>
 				<li><b>Top speed:</b> 5km/hour</li>
 				<li><b>Operation in vacuum/hostile environment:</b> Possible</b>
-				<li><b>Airtank Volume:</b> 500liters</li>
+				<li><b>Airtank Volume:</b> 500 liters</li>
 				<li><b>Devices:</b>
 					<ul>
 					<li>Hydraulic Clamp</li>
 					<li>High-speed Drill</li>
 					</ul>
 				</li>
-				<li><b>Propulsion Device:</b> Powercell-powered electro-hydraulic system.</li>
-				<li><b>Powercell capacity:</b> Varies.</li>
+				<li><b>Propulsion Device:</b> Electro-hydraulic system.</li>
+				<li><b>Power cell capacity:</b> Varies.</li>
 				</ul>
 
 				<h2>Construction:</h2>
 				<ol>
-				<li>Connect all exosuit parts to the chassis frame</li>
-				<li>Connect all hydraulic fittings and tighten them up with a wrench</li>
-				<li>Adjust the servohydraulics with a screwdriver</li>
-				<li>Wire the chassis. (Cable is not included.)</li>
+				<li>Connect all exosuit parts to the chassis frame.</li>
+				<li>Connect all hydraulic fittings and tighten them up with a wrench.</li>
+				<li>Adjust the servohydraulics with a screwdriver.</li>
+				<li>Wire the chassis (cable is not included).</li>
 				<li>Use the wirecutters to remove the excess cable if needed.</li>
-				<li>Install the central control module (Not included. Use supplied datadisk to create one).</li>
+				<li>Install the central control module (not included. Use supplied datadisk to create one).</li>
 				<li>Secure the mainboard with a screwdriver.</li>
-				<li>Install the peripherals control module (Not included. Use supplied datadisk to create one).</li>
-				<li>Secure the peripherals control module with a screwdriver</li>
-				<li>Install the internal armor plating (Not included due to Nanotrasen regulations. Can be made using 5 iron sheets.)</li>
-				<li>Secure the internal armor plating with a wrench</li>
-				<li>Weld the internal armor plating to the chassis</li>
-				<li>Install the external reinforced armor plating (Not included due to Nanotrasen regulations. Can be made using 5 reinforced iron sheets.)</li>
-				<li>Secure the external reinforced armor plating with a wrench</li>
-				<li>Weld the external reinforced armor plating to the chassis</li>
+				<li>Install the peripherals control module (not included. Use supplied datadisk to create one).</li>
+				<li>Secure the peripherals control module with a screwdriver.</li>
+				<li>Install the internal armor plating (not included due to Nanotrasen regulations. Can be made using 5 iron sheets).</li>
+				<li>Secure the internal armor plating with a wrench.</li>
+				<li>Weld the internal armor plating to the chassis.</li>
+				<li>Install the external reinforced armor plating (not included due to Nanotrasen regulations. Can be made using 5 reinforced iron sheets).</li>
+				<li>Secure the external reinforced armor plating with a wrench.</li>
+				<li>Weld the external reinforced armor plating to the chassis.</li>
 				<li></li>
 				<li>Additional Information:</li>
 				<li>The firefighting variation is made in a similar fashion.</li>
 				<li>A firesuit must be connected to the Firefighter chassis for heat shielding.</li>
 				<li>Internal armor is plasteel for additional strength.</li>
 				<li>External armor must be installed in 2 parts, totaling 10 sheets.</li>
-				<li>Completed mech is more resiliant against fire, and is a bit more durable overall</li>
+				<li>Completed mech is more resiliant against fire, and is a bit more durable overall.</li>
 				<li>Nanotrasen is determined to the safety of its <s>investments</s> employees.</li>
 				</ol>
 				</body>
 				</html>
 
-				<h2>Operation</h2>
+				<h2>Operation:</h2>
 				Please consult the Nanotrasen compendium "Robotics for Dummies".
 			"}
 
@@ -122,6 +124,7 @@
 	title = "Chef Recipes"
 	dat = {"<html>
 				<head>
+				<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
 				<style>
 				h1 {font-size: 18px; margin: 15px 0px 5px;}
 				h2 {font-size: 15px; margin: 15px 0px 5px;}
@@ -202,6 +205,10 @@
 	author = "Syndicate"
 	title = "Fission Mailed: Nuclear Sabotage 101"
 	dat = {"<html>
+			<head>
+			<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+			</head>
+			<body>
 			Nuclear Explosives 101:<br>
 			Hello and thank you for choosing the Syndicate for your nuclear information needs.<br>
 			Today's crash course will deal with the operation of a Fusion Class Nanotrasen made Nuclear Device.<br>
@@ -229,6 +236,7 @@
 			<b>Disk, Code, Safety, Timer, Disk, RUN!</b><br>
 			Intelligence Analysts believe that normal Nanotrasen procedure is for the Captain to secure the nuclear authorisation disk.<br>
 			Good luck!
+			</body>
 			</html>"}
 
 // Wiki books that are linked to the configured wiki link.
@@ -248,7 +256,9 @@
 	if(wikiurl)
 		dat = {"
 
-			<html><head>
+			<html>
+			<head>
+			<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
 			<style>
 				iframe {
 					display: none;
@@ -422,6 +432,78 @@
 	author = "Cuban Pete"
 	title = "Toxins or: How I Learned to Stop Worrying and Love the Maxcap"
 	page_link = "Guide_to_toxins"
+
+//NSV13 - Change
+//Standard operating procedure books. Inherited of wiki books.
+
+/obj/item/book/manual/wiki/sop
+	author = "Ta-Go Clown Resources"
+	icon = 'nsv13/icons/obj/nsv_bureaucracy.dmi' //created own dmi for the books
+
+/obj/item/book/manual/wiki/sop/security
+	name = "Standard operating Procedure: Security"
+	title = "Standard operating Procedure: Security"
+	page_link = "Department_Standard_Operating_Procedure:_Security"
+	icon_state = "sop_sec"
+
+/obj/item/book/manual/wiki/sop/science
+	name = "Standard operating Procedure: Science"
+	title = "Standard operating Procedure: Science"
+	page_link = "Department_Standard_Operating_Procedure:_Science"
+	icon_state = "sop_sci"
+
+/obj/item/book/manual/wiki/sop/service
+	name = "Standard operating Procedure: Service"
+	title = "Standard operating Procedure: Service"
+	page_link = "Department_Standard_Operating_Procedure:_Service/Civilian"
+	icon_state = "sop_service"
+
+/obj/item/book/manual/wiki/sop/command
+	name = "Standard operating Procedure: Command"
+	title = "Standard operating Procedure: Command"
+	page_link = "Department_Standard_Operating_Procedure:_Command"
+	icon_state = "sop_comdom"
+
+/obj/item/book/manual/wiki/sop/engineering
+	name = "Standard operating Procedure: Engineering"
+	title = "Standard operating Procedure: Engineering"
+	page_link = "Department_Standard_Operating_Procedure:_Engineering"
+	icon_state = "sop_engi"
+
+/obj/item/book/manual/wiki/sop/supply
+	name = "Standard operating Procedure: Supply"
+	title = "Standard operating Procedure: Supply"
+	page_link = "Department_Standard_Operating_Procedure:_Supply"
+	icon_state = "sop_cargo"
+
+/obj/item/book/manual/wiki/sop/medical
+	name = "Standard operating Procedure: Medical"
+	title = "Standard operating Procedure: Medical"
+	page_link = "Department_Standard_Operating_Procedure:_Medical"
+	icon_state = "sop_med"
+
+/obj/item/book/manual/wiki/sop/munitions
+	name = "Standard operating Procedure: Munitions"
+	title = "Standard operating Procedure: Munitions"
+	page_link = "Department_Standard_Operating_Procedure:_Munitions"
+	icon_state = "sop_muni"
+
+	//Should only be used as maint loot / easter eggs
+/obj/item/book/manual/wiki/sop/munitions/puce
+	icon_state = "sop_muni_puce"
+
+/obj/item/book/manual/wiki/sop/catalogue //Directs to standard SoP page. Able to check any department at will. For command / lawyer
+	name = "Standard operating Procedure: Catalogue"
+	title = "Standard operating Procedure: Catalogue"
+	page_link = "Standard_Operating_Procedure"
+	icon_state = "sop_catalogue"
+
+/obj/item/book/manual/wiki/supermatter_guide //NSV13
+	name = "Supermatter Textbook"
+	icon_state ="bookEngineering2"
+	author = "Engineering Encyclopedia"
+	title = "Supermatter Textbook"
+	page_link = "Guide_to_the_Supermatter"
 
 /obj/item/book/manual/wiki/toxins/suicide_act(mob/user)
 	var/mob/living/carbon/human/H = user

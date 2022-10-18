@@ -34,6 +34,13 @@ SUBSYSTEM_DEF(weather)
 		addtimer(CALLBACK(src, .proc/make_eligible, z, possible_weather), randTime + initial(W.weather_duration_upper), TIMER_UNIQUE) //Around 5-10 minutes between weathers
 		next_hit_by_zlevel["[z]"] = world.time + randTime + initial(W.telegraph_duration)
 
+
+/datum/controller/subsystem/weather/get_metrics()
+	. = ..()
+	var/list/cust = list()
+	cust["processing"] = length(processing)
+	.["custom"] = cust
+
 /datum/controller/subsystem/weather/Initialize(start_timeofday)
 	for(var/V in subtypesof(/datum/weather))
 		var/datum/weather/W = V
@@ -59,7 +66,7 @@ SUBSYSTEM_DEF(weather)
 
 	if (isnull(z_levels))
 		z_levels = SSmapping.levels_by_trait(initial(weather_datum_type.target_trait))
-	else if (isnum(z_levels))
+	else if (isnum_safe(z_levels))
 		z_levels = list(z_levels)
 	else if (!islist(z_levels))
 		CRASH("run_weather called with invalid z_levels: [z_levels || "null"]")

@@ -1,35 +1,30 @@
 
 /mob/living/carbon/get_eye_protection()
-	var/number = ..()
-
-	if(istype(src.head, /obj/item/clothing/head))			//are they wearing something on their head
-		var/obj/item/clothing/head/HFP = src.head			//if yes gets the flash protection value from that item
-		number += HFP.flash_protect
-
-	if(istype(src.glasses, /obj/item/clothing/glasses))		//glasses
-		var/obj/item/clothing/glasses/GFP = src.glasses
-		number += GFP.flash_protect
-
-	if(istype(src.wear_mask, /obj/item/clothing/mask))		//mask
-		var/obj/item/clothing/mask/MFP = src.wear_mask
-		number += MFP.flash_protect
-
+	. = ..()
 	var/obj/item/organ/eyes/E = getorganslot(ORGAN_SLOT_EYES)
 	if(!E)
-		number = INFINITY //Can't get flashed without eyes
-	else
-		number += E.flash_protect
-
-	return number
+		return INFINITY //Can't get flashed without eyes
+	. += E.flash_protect
+	if(isclothing(head)) //Adds head protection
+		. += head.flash_protect
+	if(isclothing(glasses)) //Glasses
+		. += glasses.flash_protect
+	if(isclothing(wear_mask)) //Mask
+		. += wear_mask.flash_protect
 
 /mob/living/carbon/get_ear_protection()
-	var/number = ..()
+	. = ..()
 	var/obj/item/organ/ears/E = getorganslot(ORGAN_SLOT_EARS)
 	if(!E)
-		number = INFINITY
-	else
-		number += E.bang_protect
-	return number
+		return INFINITY
+	. += E.bang_protect
+	if(isclothing(head)) //Adds head protection
+		. += head.bang_protect
+	if(isclothing(ears)) //ear slot
+		. += ears.bang_protect
+	else if(istype(ears, /obj/item/radio/headset))
+		var/obj/item/radio/headset/headset_in_ear = ears
+		. += headset_in_ear.bang_protect
 
 /mob/living/carbon/is_mouth_covered(head_only = 0, mask_only = 0)
 	if( (!mask_only && head && (head.flags_cover & HEADCOVERSMOUTH)) || (!head_only && wear_mask && (wear_mask.flags_cover & MASKCOVERSMOUTH)) )
@@ -42,11 +37,6 @@
 		return wear_mask
 	if(check_glasses && glasses && (glasses.flags_cover & GLASSESCOVERSEYES))
 		return glasses
-/mob/living/carbon/is_pepper_proof(check_head = TRUE, check_mask = TRUE)
-	if(check_head &&(head?.flags_cover & PEPPERPROOF))
-		return head
-	if(check_mask &&(wear_mask?.flags_cover & PEPPERPROOF))
-		return wear_mask
 
 /mob/living/carbon/check_projectile_dismemberment(obj/item/projectile/P, def_zone)
 	var/obj/item/bodypart/affecting = get_bodypart(def_zone)
@@ -77,15 +67,12 @@
 										"<span class='userdanger'>You catch [I] in mid-air!</span>")
 						throw_mode_off()
 						return 1
-	..()
+	..(AM, skipcatch, hitpush, blocked, throwingdatum)
 
 
 /mob/living/carbon/attacked_by(obj/item/I, mob/living/user)
 	var/obj/item/bodypart/affecting
-	if(user == src)
-		affecting = get_bodypart(check_zone(user.zone_selected)) //we're self-mutilating! yay!
-	else
-		affecting = get_bodypart(ran_zone(user.zone_selected))
+	affecting = get_bodypart(check_zone(user.zone_selected))
 	if(!affecting) //missing limb? we select the first bodypart (you can never have zero, because of chest)
 		affecting = bodyparts[1]
 	SEND_SIGNAL(I, COMSIG_ITEM_ATTACK_ZONE, src, user, affecting)
@@ -93,7 +80,7 @@
 	if(I.force)
 		apply_damage(I.force, I.damtype, affecting)
 		if(I.damtype == BRUTE && affecting.status == BODYPART_ORGANIC)
-			if(prob(33))
+			if(I.is_sharp() || I.force >= 10)
 				I.add_mob_blood(src)
 				var/turf/location = get_turf(src)
 				add_splatter_floor(location)
@@ -114,8 +101,14 @@
 						update_inv_head()
 
 		//dismemberment
-		var/probability = I.get_dismemberment_chance(affecting)
-		if(prob(probability))
+		var/dismemberthreshold = (((affecting.max_damage * 2) / max(I.is_sharp(), 0.5)) - (affecting.get_damage() + ((I.w_class - 3) * 10) + ((I.attack_weight - 1) * 15)))
+		if(HAS_TRAIT(src, TRAIT_EASYDISMEMBER))
+			dismemberthreshold -= 50
+		if(I.is_sharp())
+			dismemberthreshold = min(((affecting.max_damage * 2) - affecting.get_damage()), dismemberthreshold) //makes it so limbs wont become immune to being dismembered if the item is sharp
+			if(stat == DEAD)
+				dismemberthreshold = dismemberthreshold / 3
+		if(I.force >= dismemberthreshold && I.force >= 10)
 			if(affecting.dismember(I.damtype))
 				I.add_mob_blood(src)
 				playsound(get_turf(src), I.get_dismember_sound(), 80, 1)
@@ -126,6 +119,9 @@
 
 //ATTACK HAND IGNORING PARENT RETURN VALUE
 /mob/living/carbon/attack_hand(mob/living/carbon/human/user)
+
+	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_HAND, user) & COMPONENT_CANCEL_ATTACK_CHAIN)
+		. = TRUE
 
 	for(var/thing in diseases)
 		var/datum/disease/D = thing
@@ -162,7 +158,7 @@
 		help_shake_act(M)
 		return 0
 
-	if(..()) //successful monkey bite.
+	if(..() && can_inject(M, TRUE)) //successful monkey bite.
 		for(var/thing in M.diseases)
 			var/datum/disease/D = thing
 			ForceContractDisease(D)
@@ -172,24 +168,19 @@
 /mob/living/carbon/attack_slime(mob/living/simple_animal/slime/M)
 	if(..()) //successful slime attack
 		if(M.powerlevel > 0)
-			var/stunprob = M.powerlevel * 7 + 10  // 17 at level 1, 80 at level 10
-			if(prob(stunprob))
-				M.powerlevel -= 3
-				if(M.powerlevel < 0)
-					M.powerlevel = 0
-
-				visible_message("<span class='danger'>The [M.name] has shocked [src]!</span>", \
+			M.powerlevel--
+			visible_message("<span class='danger'>The [M.name] has shocked [src]!</span>", \
 				"<span class='userdanger'>The [M.name] has shocked you!</span>")
-
-				do_sparks(5, TRUE, src)
-				var/power = M.powerlevel + rand(0,3)
-				Paralyze(power*20)
-				if(stuttering < power)
-					stuttering = power
-				if (prob(stunprob) && M.powerlevel >= 8)
-					adjustFireLoss(M.powerlevel * rand(6,10))
-					updatehealth()
-		return 1
+			do_sparks(5, TRUE, src)
+			Knockdown(M.powerlevel*5)
+			if(stuttering < M.powerlevel)
+				stuttering = M.powerlevel
+			if(M.transformeffects & SLIME_EFFECT_ORANGE)
+				adjust_fire_stacks(2)
+				IgniteMob()
+			adjustFireLoss(M.powerlevel * 3)
+			updatehealth()
+		return TRUE
 
 /mob/living/carbon/proc/dismembering_strike(mob/living/attacker, dam_zone)
 	if(!attacker.limb_destroyer)
@@ -241,6 +232,7 @@
 		return 0
 	if(reagents.has_reagent(/datum/reagent/teslium))
 		shock_damage *= 1.5 //If the mob has teslium in their body, shocks are 50% more damaging!
+	SEND_SIGNAL(src, COMSIG_LIVING_ELECTROCUTE_ACT, shock_damage, source, siemens_coeff, safety, tesla_shock, illusion, stun)
 	if(illusion)
 		adjustStaminaLoss(shock_damage)
 	else
@@ -275,6 +267,9 @@
 		to_chat(M, "<span class='warning'>You can't put [p_them()] out with just your bare hands!</span>")
 		return
 
+	if(M == src && check_self_for_injuries())
+		return
+
 	if(!(mobility_flags & MOBILITY_STAND))
 		if(buckled)
 			to_chat(M, "<span class='warning'>You need to unbuckle [src] first to do that!")
@@ -296,6 +291,7 @@
 	else if(M.zone_selected == BODY_ZONE_HEAD)
 		M.visible_message("<span class='notice'>[M] pats [src] on the head.</span>", \
 					"<span class='notice'>You pat [src] on the head.</span>")
+		SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, "headpat", /datum/mood_event/headpat, M)
 	else if((M.zone_selected == BODY_ZONE_L_ARM) || (M.zone_selected == BODY_ZONE_R_ARM))
 		if(!get_bodypart(check_zone(M.zone_selected)))
 			to_chat(M, "<span class='warning'>[src] does not have a [M.zone_selected == BODY_ZONE_L_ARM ? "left" : "right"] arm!</span>")
@@ -314,14 +310,33 @@
 
 	playsound(loc, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 
+/// Check ourselves to see if we've got any shrapnel, return true if we do. This is a much simpler version of what humans do, we only indicate we're checking ourselves if there's actually shrapnel
+/mob/living/carbon/proc/check_self_for_injuries()
+	if(stat == DEAD || stat == UNCONSCIOUS)
+		return
+
+	var/embeds = FALSE
+	for(var/X in bodyparts)
+		var/obj/item/bodypart/LB = X
+		for(var/obj/item/I in LB.embedded_objects)
+			if(!embeds)
+				embeds = TRUE
+				// this way, we only visibly try to examine ourselves if we have something embedded, otherwise we'll still hug ourselves :)
+				visible_message("<span class='notice'>[src] examines [p_them()]self.</span>", \
+					"<span class='notice'>You check yourself for shrapnel.</span>")
+			if(I.isEmbedHarmless())
+				to_chat(src, "\t <a href='?src=[REF(src)];embedded_object=[REF(I)];embedded_limb=[REF(LB)]' class='warning'>There is \a [I] stuck to your [LB.name]!</a>")
+			else
+				to_chat(src, "\t <a href='?src=[REF(src)];embedded_object=[REF(I)];embedded_limb=[REF(LB)]' class='warning'>There is \a [I] embedded in your [LB.name]!</a>")
+
+	return embeds
 
 /mob/living/carbon/flash_act(intensity = 1, override_blindness_check = 0, affect_silicon = 0, visual = 0)
 	if(NOFLASH in dna?.species?.species_traits)
 		return
 	var/obj/item/organ/eyes/eyes = getorganslot(ORGAN_SLOT_EYES)
-	if(!eyes) //can't flash what can't see!
+	if(!eyes || HAS_TRAIT(src, TRAIT_BLIND)) //can't flash what can't see!
 		return
-
 	. = ..()
 
 	var/damage = intensity - get_eye_protection()
@@ -377,8 +392,9 @@
 	var/obj/item/organ/ears/ears = getorganslot(ORGAN_SLOT_EARS)
 	var/effect_amount = intensity - ear_safety
 	if(effect_amount > 0)
-		if(stun_pwr)
-			Paralyze(stun_pwr*effect_amount)
+		if(stun_pwr && !ears?.deaf) //NSV13 - doesn't work if they're already deaf
+			Paralyze((stun_pwr*effect_amount)*0.1)
+			Knockdown(stun_pwr*effect_amount)
 
 		if(istype(ears) && (deafen_pwr || damage_pwr))
 			var/ear_damage = damage_pwr * effect_amount

@@ -49,7 +49,7 @@
 /obj/machinery/hydroponics/constructable/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-		. += "<span class='notice'>The status display reads: Tray efficiency at <b>[rating*100]%</b>.<span>"
+		. += "<span class='notice'>The status display reads: Tray efficiency at <b>[rating*100]%</b>.</span>"
 
 
 /obj/machinery/hydroponics/Destroy()
@@ -101,18 +101,18 @@
 	else
 		return ..()
 
-/obj/machinery/hydroponics/process()
+/obj/machinery/hydroponics/process(delta_time)
 	var/needs_update = 0 // Checks if the icon needs updating so we don't redraw empty trays every time
 
 	if(myseed && (myseed.loc != src))
 		myseed.forceMove(src)
 
 	if(self_sustaining)
-		adjustNutri(1)
-		adjustWater(rand(3,5))
-		adjustWeeds(-2)
-		adjustPests(-2)
-		adjustToxic(-2)
+		adjustNutri(0.5 * delta_time)
+		adjustWater(rand(1,2) * delta_time * 0.5)
+		adjustWeeds(-1 * delta_time)
+		adjustPests(-1 * delta_time)
+		adjustToxic(-1 * delta_time)
 
 	if(world.time > (lastcycle + cycledelay))
 		lastcycle = world.time
@@ -123,6 +123,7 @@
 				lastproduce = age
 
 			needs_update = 1
+
 
 //Nutrients//////////////////////////////////////////////////////////////
 			// Nutrients deplete slowly
@@ -175,8 +176,27 @@
 
 //Pests & Weeds//////////////////////////////////////////////////////////
 
-			else if(pestlevel >= 5)
-				adjustHealth(-1 / rating)
+			if(pestlevel >= 8)
+				if(!myseed.get_gene(/datum/plant_gene/trait/plant_type/carnivory))
+					adjustHealth(-2 / rating)
+
+				else
+					adjustHealth(2 / rating)
+					adjustPests(-1 / rating)
+
+			else if(pestlevel >= 4)
+				if(!myseed.get_gene(/datum/plant_gene/trait/plant_type/carnivory))
+					adjustHealth(-1 / rating)
+
+				else
+					adjustHealth(1 / rating)
+					if(prob(50))
+						adjustPests(-1 / rating)
+
+			else if(pestlevel < 4 && myseed.get_gene(/datum/plant_gene/trait/plant_type/carnivory))
+				adjustHealth(-2 / rating)
+				if(prob(5))
+					adjustPests(-1 / rating)
 
 			// If it's a weed, it doesn't stunt the growth
 			if(weedlevel >= 5 && !myseed.get_gene(/datum/plant_gene/trait/plant_type/weed_hardy))
@@ -216,6 +236,12 @@
 			needs_update = 1
 		if (needs_update)
 			update_icon()
+
+		if(myseed && prob(5 * (11-myseed.production)))
+			for(var/g in myseed.genes)
+				if(istype(g, /datum/plant_gene/trait))
+					var/datum/plant_gene/trait/selectedtrait = g
+					selectedtrait.on_grow(src)
 	return
 
 /obj/machinery/hydroponics/proc/nutrimentMutation()
@@ -282,7 +308,7 @@
 		else
 			plant_overlay.icon_state = myseed.icon_harvest
 	else
-		var/t_growthstate = min(round((age / myseed.maturation) * myseed.growthstages), myseed.growthstages)
+		var/t_growthstate = clamp(round((age / myseed.maturation) * myseed.growthstages), 1, myseed.growthstages)
 		plant_overlay.icon_state = "[myseed.icon_grow][t_growthstate]"
 	add_overlay(plant_overlay)
 
@@ -313,8 +339,8 @@
 		. += "<span class='info'>It's empty.</span>"
 
 	if(!self_sustaining)
-		. += {"<span class='info'>Water: [waterlevel]/[maxwater].</span>\n
-		<span class='info'>Nutrient: [nutrilevel]/[maxnutri].</span>"}
+		. += "<span class='info'>Water: [waterlevel]/[maxwater].</span>\n"+\
+		"<span class='info'>Nutrient: [nutrilevel]/[maxnutri].</span>"
 		if(self_sufficiency_progress > 0)
 			var/percent_progress = round(self_sufficiency_progress * 100 / self_sufficiency_req)
 			. += "<span class='info'>Treatment for self-sustenance are [percent_progress]% complete.</span>"
@@ -354,7 +380,8 @@
 			myseed = new /obj/item/seeds/plump(src)
 		else
 			myseed = new /obj/item/seeds/starthistle(src)
-	age = 0
+	age = 1
+	lastproduce = 1
 	plant_health = myseed.endurance
 	lastcycle = world.time
 	harvest = 0
@@ -394,10 +421,8 @@
 	harvest = 0
 	weedlevel = 0 // Reset
 
-	sleep(5) // Wait a while
-	update_icon()
-	visible_message("<span class='warning'>[oldPlantName] suddenly mutates into [myseed.plantname]!</span>")
-	update_name()
+	var/message = "<span class='warning'>[oldPlantName] suddenly mutates into [myseed.plantname]!</span>"
+	addtimer(CALLBACK(src, .proc/after_mutation, message), 0.5 SECONDS)
 
 
 /obj/machinery/hydroponics/proc/mutateweed() // If the weeds gets the mutagent instead. Mind you, this pretty much destroys the old plant
@@ -415,13 +440,17 @@
 		harvest = 0
 		weedlevel = 0 // Reset
 
-		sleep(5) // Wait a while
-		update_icon()
-		visible_message("<span class='warning'>The mutated weeds in [src] spawn some [myseed.plantname]!</span>")
-		update_name()
+		var/message = "<span class='warning'>The mutated weeds in [src] spawn some [myseed.plantname]!</span>"
+		addtimer(CALLBACK(src, .proc/after_mutation, message), 0.5 SECONDS)
 	else
 		to_chat(usr, "<span class='warning'>The few weeds in [src] seem to react, but only for a moment...</span>")
 
+
+//Called after plant mutation, update the appearance of the tray content and send a visible_message()
+/obj/machinery/hydroponics/proc/after_mutation(message)
+	update_icon()
+	update_name()
+	visible_message(message)
 
 /obj/machinery/hydroponics/proc/plantdies() // OH NOES!!!!! I put this all in one function to make things easier
 	plant_health = 0
@@ -568,7 +597,7 @@
 		adjustHealth(round(S.get_reagent_amount(/datum/reagent/consumable/sodawater) * 0.1))
 		adjustNutri(round(S.get_reagent_amount(/datum/reagent/consumable/sodawater) * 0.1))
 
-	// Man, you guys are retards
+	// Man, you guys are stupid
 	if(S.has_reagent(/datum/reagent/toxin/acid, 1))
 		adjustHealth(-round(S.get_reagent_amount(/datum/reagent/toxin/acid) * 1))
 		adjustToxic(round(S.get_reagent_amount(/datum/reagent/toxin/acid) * 1.5))
@@ -760,6 +789,7 @@
 			myseed = O
 			update_name()
 			age = 1
+			lastproduce = 1
 			plant_health = myseed.endurance
 			lastcycle = world.time
 			update_icon()
@@ -791,7 +821,7 @@
 			to_chat(user, "<span class='warning'>This plot is completely devoid of weeds! It doesn't need uprooting.</span>")
 
 	else if(istype(O, /obj/item/storage/bag/plants))
-		attack_hand(user)
+		harvest_plant(user)
 		for(var/obj/item/reagent_containers/food/snacks/grown/G in locate(user.x,user.y,user.z))
 			SEND_SIGNAL(O, COMSIG_TRY_STORAGE_INSERT, G, user, TRUE)
 
@@ -849,6 +879,9 @@
 		return
 	if(issilicon(user)) //How does AI know what plant is?
 		return
+	harvest_plant(user)
+
+/obj/machinery/hydroponics/proc/harvest_plant(mob/user)
 	if(harvest)
 		return myseed.harvest(user)
 
@@ -877,6 +910,8 @@
 		myseed = null
 		update_name()
 		dead = 0
+		age = 0
+		lastproduce = 0
 	update_icon()
 
 /// Tray Setters - The following procs adjust the tray or plants variables, and make sure that the stat doesn't go out of bounds.///

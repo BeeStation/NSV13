@@ -7,6 +7,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
 	var/max_save_slots = 3
 
+	var/bad_savefile = FALSE //NSV13 - fixing some savefile stupidity
+
 	//non-preference stuff
 	var/muted = 0
 	var/last_ip
@@ -26,8 +28,20 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 										//autocorrected this round, not that you'd need to check that.
 
 	var/UI_style = null
+	var/outline_enabled = TRUE
+	var/outline_color = COLOR_BLUE_GRAY
 	var/buttons_locked = FALSE
 	var/hotkeys = FALSE
+
+	///Runechat preference. If true, certain messages will be displayed on the map, not ust on the chat area. Boolean.
+	var/chat_on_map = TRUE
+	///Whether non-mob messages will be displayed, such as machine vendor announcements. Requires chat_on_map to have effect. Boolean.
+	var/see_chat_non_mob = TRUE
+	///Whether emotes will be displayed on runechat. Requires chat_on_map to have effect. Boolean.
+	var/see_rc_emotes = TRUE
+	///Whether we want balloon alerts displayed alone, with chat or not displayed at all
+	var/see_balloon_alerts = BALLOON_ALERT_ALWAYS
+
 	var/tgui_fancy = TRUE
 	var/tgui_lock = TRUE
 	var/windowflashing = TRUE
@@ -64,6 +78,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/undershirt = "Nude"				//undershirt type
 	var/socks = "Nude"					//socks type
 	var/backbag = DBACKPACK				//backpack type
+	var/jumpsuit_style = PREF_SUIT		//suit/skirt
 	var/hair_style = "Bald"				//Hair type
 	var/hair_color = "000"				//Hair color
 	var/facial_hair_style = "Shaved"	//Face hair type
@@ -99,7 +114,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/parallax
 
 	var/ambientocclusion = TRUE
-	var/auto_fit_viewport = FALSE
+	///Should we automatically fit the viewport?
+	var/auto_fit_viewport = TRUE
+	///What size should pixels be displayed as? 0 is strech to fit
+	var/pixel_size = 0
+	///What scaling method should we use?
+	var/scaling_method = "normal"
 	var/widescreenpref = TRUE
 
 	var/uplink_spawn_loc = UPLINK_PDA
@@ -114,6 +134,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/gear_tab = "General"
 
 	var/action_buttons_screen_locs = list()
+	//Nsv13 squads - we CM now
+	var/preferred_squad = "Able"
+	//Nsv13 - Syndicate role select
+	var/preferred_syndie_role = CONQUEST_ROLE_GRUNT
+
+	//NSV13 - Pilots
+	var/preferred_pilot_role = PILOT_COMBAT
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -130,7 +157,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				max_save_slots = 8
 	var/loaded_preferences_successfully = load_preferences()
 	if(loaded_preferences_successfully)
-		if("extra character slot" in purchased_gear)
+		if("6030fe461e610e2be3a2c3e75c06067e" in purchased_gear) //MD5 hash of, "extra character slot"
 			max_save_slots += 1
 		if(load_character())
 			return
@@ -219,8 +246,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<b>Custom Job Preferences:</b><BR>"
 			dat += "<a href='?_src_=prefs;preference=ai_core_icon;task=input'><b>Preferred AI Core Display:</b> [preferred_ai_core_display]</a><br>"
-			dat += "<a href='?_src_=prefs;preference=sec_dept;task=input'><b>Preferred Security Department:</b> [prefered_security_department]</a><BR></td>"
+			dat += "<a href='?_src_=prefs;preference=sec_dept;task=input'><b>Preferred Security/Midshipman Department:</b> [prefered_security_department]</a><br>"
+			dat += "<a href='?_src_=prefs;preference=pilot_role;task=input'><b>Preferred Pilot Role:</b> [preferred_pilot_role]</a><br>"
 
+			dat += "<b>Syndicate Crew Preferences:</b><BR>"//Nsv13
+			dat += "<a href='?_src_=prefs;preference=syndiecrew;task=input'><b>Preferred Syndicate Role:</b> [preferred_syndie_role]</a><br>" //Nsv13
+
+			dat += "<b>Squad Preferences:</b><BR>"
+			dat += "<a href='?_src_=prefs;preference=squad;task=input'><b>Preferred GQ Squad:</b> [preferred_squad]</a><br>" //Nsv13 squads - we CM now.
 			dat += "</tr></table>"
 
 			dat += "<h2>Body</h2>"
@@ -236,6 +269,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Undershirt:</b><BR><a href ='?_src_=prefs;preference=undershirt;task=input'>[undershirt]</a><BR>"
 			dat += "<b>Socks:</b><BR><a href ='?_src_=prefs;preference=socks;task=input'>[socks]</a><BR>"
 			dat += "<b>Backpack:</b><BR><a href ='?_src_=prefs;preference=bag;task=input'>[backbag]</a><BR>"
+			dat += "<b>Jumpsuit:</b><BR><a href ='?_src_=prefs;preference=suit;task=input'>[jumpsuit_style]</a><BR>"
 			dat += "<b>Uplink Spawn Location:</b><BR><a href ='?_src_=prefs;preference=uplink_loc;task=input'>[uplink_spawn_loc]</a><BR></td>"
 
 			var/use_skintones = pref_species.use_skintones
@@ -514,8 +548,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
 			dat += "<h2>General Settings</h2>"
 			dat += "<b>UI Style:</b> <a href='?_src_=prefs;task=input;preference=ui'>[UI_style]</a><br>"
+			dat += "<b>Outline:</b> <a href='?_src_=prefs;preference=outline_enabled'>[outline_enabled ? "Enabled" : "Disabled"]</a><br>"
+			dat += "<b>Outline Color:</b> <span style='border:1px solid #161616; background-color: [outline_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=outline_color'>Change</a><BR>"
 			dat += "<b>tgui Monitors:</b> <a href='?_src_=prefs;preference=tgui_lock'>[(tgui_lock) ? "Primary" : "All"]</a><br>"
 			dat += "<b>tgui Style:</b> <a href='?_src_=prefs;preference=tgui_fancy'>[(tgui_fancy) ? "Fancy" : "No Frills"]</a><br>"
+			dat += "<b>Show Runechat Chat Bubbles:</b> <a href='?_src_=prefs;preference=chat_on_map'>[chat_on_map ? "Enabled" : "Disabled"]</a><br>"
+			dat += "<b>See Runechat for non-mobs:</b> <a href='?_src_=prefs;preference=see_chat_non_mob'>[see_chat_non_mob ? "Enabled" : "Disabled"]</a><br>"
+			dat += "<b>See Runechat emotes:</b> <a href='?_src_=prefs;preference=see_rc_emotes'>[see_rc_emotes ? "Enabled" : "Disabled"]</a><br>"
+			dat += "<b>See Balloon alerts: </b> <a href='?_src_=prefs;preference=see_balloon_alerts;task=input'>[see_balloon_alerts]</a>"
 			dat += "<br>"
 			dat += "<b>Action Buttons:</b> <a href='?_src_=prefs;preference=action_buttons'>[(buttons_locked) ? "Locked In Place" : "Unlocked"]</a><br>"
 			dat += "<b>Hotkey Mode:</b> <a href='?_src_=prefs;preference=hotkeys'>[(hotkeys) ? "Hotkeys" : "Default"]</a><br>"
@@ -530,6 +570,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Ghost Sight:</b> <a href='?_src_=prefs;preference=ghost_sight'>[(chat_toggles & CHAT_GHOSTSIGHT) ? "All Emotes" : "Nearest Creatures"]</a><br>"
 			dat += "<b>Ghost Whispers:</b> <a href='?_src_=prefs;preference=ghost_whispers'>[(chat_toggles & CHAT_GHOSTWHISPER) ? "All Speech" : "Nearest Creatures"]</a><br>"
 			dat += "<b>Ghost PDA:</b> <a href='?_src_=prefs;preference=ghost_pda'>[(chat_toggles & CHAT_GHOSTPDA) ? "All Messages" : "Nearest Creatures"]</a><br>"
+			dat += "<b>Ghost Law Changes:</b> <a href='?_src_=prefs;preference=ghost_laws'>[(chat_toggles & CHAT_GHOSTLAWS) ? "All Law Changes" : "No Law Changes"]</a><br>"
 
 			if(unlock_content)
 				dat += "<b>Ghost Form:</b> <a href='?_src_=prefs;task=input;preference=ghostform'>[ghost_form]</a><br>"
@@ -578,8 +619,20 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<b>Ambient Occlusion:</b> <a href='?_src_=prefs;preference=ambientocclusion'>[ambientocclusion ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Fit Viewport:</b> <a href='?_src_=prefs;preference=auto_fit_viewport'>[auto_fit_viewport ? "Auto" : "Manual"]</a><br>"
-			if (CONFIG_GET(flag/widescreen))
+			if (CONFIG_GET(flag/widescreen)) //Nsv13 - widescreen
 				dat += "<b>Widescreen:</b> <a href='?_src_=prefs;preference=widescreenpref'>[widescreenpref ? "Enabled" : "Disabled"]</a><br>"
+
+			button_name = pixel_size
+			dat += "<b>Pixel Scaling:</b> <a href='?_src_=prefs;preference=pixel_size'>[(button_name) ? "Pixel Perfect [button_name]x" : "Stretch to fit"]</a><br>"
+
+			switch(scaling_method)
+				if(SCALING_METHOD_NORMAL)
+					button_name = "Nearest Neighbor"
+				if(SCALING_METHOD_DISTORT)
+					button_name = "Point Sampling"
+				if(SCALING_METHOD_BLUR)
+					button_name = "Bilinear"
+			dat += "<b>Scaling Method:</b> <a href='?_src_=prefs;preference=scaling_method'>[button_name]</a><br>"
 
 			if (CONFIG_GET(flag/maprotation))
 				var/p_map = preferred_map
@@ -649,6 +702,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			var/firstcat = 1
 			for(var/category in GLOB.loadout_categories)
+				if(category == "Donator" && (!LAZYLEN(GLOB.patrons) || !CONFIG_GET(flag/donator_items)))
+					continue
 				if(firstcat)
 					firstcat = 0
 				else
@@ -666,29 +721,32 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<tr><td colspan=4><hr></td></tr>"
 			dat += "<tr><td><b>Name</b></td>"
-			dat += "<td><b>Cost</b></td>"
+			if(LC.category != "Donator")
+				dat += "<td><b>Cost</b></td>"
 			dat += "<td><b>Restricted Jobs</b></td>"
 			dat += "<td><b>Description</b></td></tr>"
 			dat += "<tr><td colspan=4><hr></td></tr>"
-			for(var/gear_name in LC.gear)
-				var/datum/gear/G = LC.gear[gear_name]
-				var/ticked = (G.display_name in equipped_gear)
+			for(var/gear_id in LC.gear)
+				var/datum/gear/G = LC.gear[gear_id]
+				var/ticked = (G.id in equipped_gear)
 
 				if((G.unlocktype == GEAR_DONATOR) && !(usr.ckey == G.ckey))
 					continue //Not assigned to this user, skip.
 				dat += "<tr style='vertical-align:top;'><td width=15%>[G.display_name]\n"
-				if(G.display_name in purchased_gear)
+				var/donator = G.sort_category == "Donator" // purchase box and cost coloumns doesn't appear on donator items
+				if(G.id in purchased_gear)
 					if(G.sort_category == "OOC")
 						dat += "<i>[G.unlocktype == GEAR_METACOIN ? "Unlocked" : "Purchased"].</i></td>"
 					else
-						dat += "<a style='white-space:normal;' [ticked ? "class='linkOn' " : ""]href='?_src_=prefs;preference=gear;toggle_gear=[G.display_name]'>Equip</a></td>"
+						dat += "<a style='white-space:normal;' [ticked ? "class='linkOn' " : ""]href='?_src_=prefs;preference=gear;toggle_gear=[G.id]'>Equip</a></td>"
 				else
-					dat += "<a style='white-space:normal;' href='?_src_=prefs;preference=gear;purchase_gear=[G.display_name]'>[G.unlocktype == GEAR_METACOIN ? "Unlock" : "Purchase"]</a></td>"
-				dat += "<td width = 5% style='vertical-align:top'>[G.cost]</td><td>"
+					dat += "<a style='white-space:normal;' href='?_src_=prefs;preference=gear;purchase_gear=[G.id]'>[donator ? "Donator" : "Purchase"]</a></td>"
+				dat += "<td width = 5% style='vertical-align:top'>[donator ? "" : "[G.cost]"]</td><td>"
+
 				if(G.allowed_roles)
 					dat += "<font size=2>"
 					for(var/role in G.allowed_roles)
-						dat += role + " "
+						dat += role + ",	 "
 					dat += "</font>"
 				dat += "</td><td><font size=2><i>[G.description]</i></font></td></tr>"
 			dat += "</table>"
@@ -780,6 +838,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 #undef APPEARANCE_CATEGORY_COLUMN
 #undef MAX_MUTANT_ROWS
 
+
 /datum/preferences/proc/SetChoices(mob/user, limit = 18, list/splitJobs = list("Head of Security"), widthPerColumn = 295, height = 620) //NSV13
 	if(!SSjob)
 		return
@@ -811,7 +870,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		var/datum/job/overflow = SSjob.GetJob(SSjob.overflow_role)
 
 		for(var/datum/job/job in sortList(SSjob.occupations, /proc/cmp_job_display_asc))
-
+			if(job.gimmick) //Gimmick jobs run off of a single pref
+				continue
 			index += 1
 			if((index >= limit) || (job.title in splitJobs))
 				width += widthPerColumn
@@ -996,7 +1056,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		ShowChoices(user)
 		return
 
-	if (!isnum(desiredLvl))
+	if (!isnum_safe(desiredLvl))
 		to_chat(user, "<span class='danger'>UpdateJobPreference - desired level was not a number. Please notify coders!</span>")
 		ShowChoices(user)
 		return
@@ -1170,7 +1230,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						return
 					all_quirks -= quirk
 				else
-					if(GetPositiveQuirkCount() >= MAX_QUIRKS)
+					var/is_positive_quirk = SSquirks.quirk_points[quirk] > 0
+					if(is_positive_quirk && GetPositiveQuirkCount() >= MAX_QUIRKS)
 						to_chat(user, "<span class='warning'>You can't have more than [MAX_QUIRKS] positive quirks!</span>")
 						return
 					if(balance - value < 0)
@@ -1188,10 +1249,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	if(href_list["preference"] == "gear")
 		if(href_list["purchase_gear"])
 			var/datum/gear/TG = GLOB.gear_datums[href_list["purchase_gear"]]
-			switch(TG.unlocktype)
+			switch(TG.unlocktype) //NSV13 - unlockable gear
 				if(GEAR_METACOIN)
-					if(TG.cost < user.client.get_metabalance())
-						purchased_gear += TG.display_name
+					if(TG.sort_category == "Donator")
+						if(CONFIG_GET(flag/donator_items) && alert(parent, "This item is only accessible to our patrons. Would you like to subscribe?", "Patron Locked", "Yes", "No") == "Yes")
+							parent.donate()
+					else if(TG.cost < user.client.get_metabalance())
+						purchased_gear += TG.id
 						TG.purchase(user.client)
 						user.client.inc_metabalance((TG.cost * -1), TRUE, "Purchased [TG.display_name].")
 						save_preferences()
@@ -1208,23 +1272,24 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						save_preferences()
 					else
 						to_chat(user,"<span class='warning'>Your donation has expired or is not yet valid! Donation status is refreshed at round end.</span>")
+			// end NSV13
 		if(href_list["toggle_gear"])
 			var/datum/gear/TG = GLOB.gear_datums[href_list["toggle_gear"]]
-			if(TG.display_name in equipped_gear)
-				equipped_gear -= TG.display_name
+			if(TG.id in equipped_gear)
+				equipped_gear -= TG.id
 			else
 				var/list/type_blacklist = list()
 				var/list/slot_blacklist = list()
-				for(var/gear_name in equipped_gear)
-					var/datum/gear/G = GLOB.gear_datums[gear_name]
+				for(var/gear_id in equipped_gear)
+					var/datum/gear/G = GLOB.gear_datums[gear_id]
 					if(istype(G))
 						if(!(G.subtype_path in type_blacklist))
 							type_blacklist += G.subtype_path
 						if(!(G.slot in slot_blacklist))
 							slot_blacklist += G.slot
-				if((TG.display_name in purchased_gear))
+				if((TG.id in purchased_gear))
 					if(!(TG.subtype_path in type_blacklist) || !(TG.slot in slot_blacklist))
-						equipped_gear += TG.display_name
+						equipped_gear += TG.id
 					else
 						to_chat(user, "<span class='warning'>Can't equip [TG.display_name]. It conflicts with an already-equipped item.</span>")
 				else
@@ -1277,6 +1342,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if(href_list["preference"] in GLOB.preferences_custom_names)
 				ask_for_custom_name(user,href_list["preference"])
 
+			if(href_list["preference"] in pref_species.forced_features)
+				alert("You cannot change that bodypart for your selected species!")
+				features[href_list["preference"]] = pref_species.forced_features[href_list["preference"]]
+				return
 
 			switch(href_list["preference"])
 				if("ghostform")
@@ -1403,7 +1472,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(new_socks)
 						socks = new_socks
 
-				if(BODY_ZONE_PRECISE_EYES)
+				if("eyes")
 					var/new_eyes = input(user, "Choose your character's eye colour:", "Character Preference","#"+eye_color) as color|null
 					if(new_eyes)
 						eye_color = sanitize_hexcolor(new_eyes)
@@ -1413,12 +1482,25 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/result = input(user, "Select a species", "Species Selection") as null|anything in GLOB.roundstart_races
 
 					if(result)
-						var/newtype = GLOB.species_list[result]
-						pref_species = new newtype()
-						//Now that we changed our species, we must verify that the mutant colour is still allowed.
-						var/temp_hsv = RGBtoHSV(features["mcolor"])
-						if(features["mcolor"] == "#000" || (!(MUTCOLORS_PARTSONLY in pref_species.species_traits) && ReadHSV(temp_hsv)[3] < ReadHSV("#7F7F7F")[3]))
-							features["mcolor"] = pref_species.default_color
+						var/new_species_type = GLOB.species_list[result]
+						var/datum/species/new_species = new new_species_type()
+
+						if (!CONFIG_GET(keyed_list/paywall_races)[new_species.id] || IS_PATRON(parent.ckey) || parent.holder)
+							pref_species = new_species
+							//Now that we changed our species, we must verify that the mutant colour is still allowed.
+							var/temp_hsv = RGBtoHSV(features["mcolor"])
+							if(features["mcolor"] == "#000" || (!(MUTCOLORS_PARTSONLY in pref_species.species_traits) && ReadHSV(temp_hsv)[3] < ReadHSV("#7F7F7F")[3]))
+								features["mcolor"] = pref_species.default_color
+							//Set our forced bodyparts
+							for(var/forced_part in pref_species.forced_features)
+								//Get the forced type
+								var/forced_type = pref_species.forced_features[forced_part]
+								//Apply the forced bodypart.
+								features[forced_part] = forced_type
+						else
+							if(alert(parent, "This species is only accessible to our patrons. Would you like to subscribe?", "Patron Locked", "Yes", "No") == "Yes")
+								parent.donate()
+
 
 				if("mutant_color")
 					var/new_mutantcolor = input(user, "Choose your character's alien/mutant color:", "Character Preference","#"+features["mcolor"]) as color|null
@@ -1557,13 +1639,19 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(new_backbag)
 						backbag = new_backbag
 
+				if("suit")
+					if(jumpsuit_style == PREF_SUIT)
+						jumpsuit_style = PREF_SKIRT
+					else
+						jumpsuit_style = PREF_SUIT
+
 				if("uplink_loc")
 					var/new_loc = input(user, "Choose your character's traitor uplink spawn location:", "Character Preference") as null|anything in GLOB.uplink_spawn_loc_list
 					if(new_loc)
 						uplink_spawn_loc = new_loc
 
 				if("ai_core_icon")
-					var/ai_core_icon = input(user, "Choose your preferred AI core display screen:", "AI Core Display Screen Selection") as null|anything in GLOB.ai_core_display_screens
+					var/ai_core_icon = input(user, "Choose your preferred AI core display screen:", "AI Core Display Screen Selection") as null|anything in GLOB.ai_core_display_screens - "Portrait"
 					if(ai_core_icon)
 						preferred_ai_core_display = ai_core_icon
 
@@ -1572,6 +1660,20 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(department)
 						prefered_security_department = department
 
+				if("pilot_role") //NSV13
+					var/p_role = input(user, "Choose your preferred pilot role:", "Pilot Roles") as null|anything in GLOB.pilot_role_prefs
+					if(p_role)
+						preferred_pilot_role = p_role
+
+//Nsv13 squads - we CM now
+				if("squad")
+					var/datum/squad/new_spec = input(user, "Choose your preferred squad:", "Squad Setup") as null|anything in GLOB.squad_manager.squads
+					if(new_spec)
+						preferred_squad = new_spec.name
+				if("syndiecrew")
+					var/client/C = (istype(user, /client)) ? user : user.client
+					C.select_syndie_role()
+//Nsv13 end
 				if ("preferred_map")
 					var/maplist = list()
 					var/default = "Default"
@@ -1586,7 +1688,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							friendlyname += " (disabled)"
 						maplist[friendlyname] = VM.map_name
 					maplist[default] = null
-					var/pickedmap = input(user, "Choose your preferred map. This will be used to help weight random map selection.", "Character Preference")  as null|anything in maplist
+					var/pickedmap = input(user, "Choose your preferred map. This will be used to help weight random map selection.", "Character Preference")  as null|anything in sortList(maplist)
 					if (pickedmap)
 						preferred_map = maplist[pickedmap]
 
@@ -1606,9 +1708,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(pickedPDAStyle)
 						pda_style = pickedPDAStyle
 				if("pda_color")
-					var/pickedPDAColor = input(user, "Choose your PDA Interface color.", "Character Preference",pda_color) as color|null
+					var/pickedPDAColor = input(user, "Choose your PDA Interface color.", "Character Preference", pda_color) as color|null
 					if(pickedPDAColor)
 						pda_color = pickedPDAColor
+				if ("see_balloon_alerts")
+					var/pickedstyle = input(user, "Choose how you want balloon alerts displayed", "Balloon alert preference", BALLOON_ALERT_ALWAYS) as null|anything in list(BALLOON_ALERT_ALWAYS, BALLOON_ALERT_WITH_CHAT, BALLOON_ALERT_NEVER)
+					if (!isnull(pickedstyle))
+						see_balloon_alerts = pickedstyle
 
 		else
 			switch(href_list["preference"])
@@ -1636,6 +1742,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					buttons_locked = !buttons_locked
 				if("tgui_fancy")
 					tgui_fancy = !tgui_fancy
+				if("outline_enabled")
+					outline_enabled = !outline_enabled
+				if("outline_color")
+					var/pickedOutlineColor = input(user, "Choose your outline color.", "General Preference", outline_color) as color|null
+					if(pickedOutlineColor)
+						outline_color = pickedOutlineColor
 				if("tgui_lock")
 					tgui_lock = !tgui_lock
 				if("winflash")
@@ -1708,6 +1820,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("ghost_pda")
 					chat_toggles ^= CHAT_GHOSTPDA
 
+				if("ghost_laws")
+					chat_toggles ^= CHAT_GHOSTLAWS
+
 				if("income_pings")
 					chat_toggles ^= CHAT_BANKCARD
 
@@ -1730,7 +1845,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("ambientocclusion")
 					ambientocclusion = !ambientocclusion
 					if(parent && parent.screen && parent.screen.len)
-						var/obj/screen/plane_master/game_world/PM = locate(/obj/screen/plane_master/game_world) in parent.screen
+						var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in parent.screen
 						PM.backdrop(parent.mob)
 
 				if("auto_fit_viewport")
@@ -1738,9 +1853,35 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(auto_fit_viewport && parent)
 						parent.fit_viewport()
 
-				if("widescreenpref")
+				if("widescreenpref")//Nsv13 - Widescreen
+					var/client/C = (istype(user, /client)) ? user : user.client
 					widescreenpref = !widescreenpref
-					user.client.check_view()
+					C.change_view(getScreenSize(widescreenpref))
+					C.view_size.default = (widescreenpref) ? CONFIG_GET(string/default_view) : "15x15" // This view size wrapper is extremely inconsistent and we need to finagle it a bit.
+
+				if("pixel_size")
+					switch(pixel_size)
+						if(PIXEL_SCALING_AUTO)
+							pixel_size = PIXEL_SCALING_1X
+						if(PIXEL_SCALING_1X)
+							pixel_size = PIXEL_SCALING_1_2X
+						if(PIXEL_SCALING_1_2X)
+							pixel_size = PIXEL_SCALING_2X
+						if(PIXEL_SCALING_2X)
+							pixel_size = PIXEL_SCALING_3X
+						if(PIXEL_SCALING_3X)
+							pixel_size = PIXEL_SCALING_AUTO
+					user.client.view_size.resetToDefault(getScreenSize(user))	//Fix our viewport size so it doesn't reset on change
+
+				if("scaling_method")
+					switch(scaling_method)
+						if(SCALING_METHOD_NORMAL)
+							scaling_method = SCALING_METHOD_DISTORT
+						if(SCALING_METHOD_DISTORT)
+							scaling_method = SCALING_METHOD_BLUR
+						if(SCALING_METHOD_BLUR)
+							scaling_method = SCALING_METHOD_NORMAL
+					user.client.view_size.setZoomMode()
 
 				if("save")
 					save_preferences()
@@ -1811,7 +1952,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						new_key = "Numpad[new_key]"
 
 					var/full_key = "[AltMod][CtrlMod][ShiftMod][new_key]"
-					if(old_key)
+					if(old_key && (old_key in key_bindings))
 						key_bindings[old_key] -= kb_name
 					key_bindings[full_key] += list(kb_name)
 					key_bindings[full_key] = sortList(key_bindings[full_key])
@@ -1829,6 +1970,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					save_preferences()
 					ShowKeybindings(user)
 					return
+
+				if("chat_on_map")
+					chat_on_map = !chat_on_map
+				if("see_chat_non_mob")
+					see_chat_non_mob = !see_chat_non_mob
+				if("see_rc_emotes")
+					see_rc_emotes = !see_rc_emotes
 
 	ShowChoices(user)
 	return 1
@@ -1873,6 +2021,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	character.socks = socks
 
 	character.backbag = backbag
+	character.jumpsuit_style = jumpsuit_style
 
 	var/datum/species/chosen_species
 	chosen_species = pref_species.type
@@ -1918,7 +2067,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	if(!namedata)
 		return
 
-	var/raw_name = input(user, "Choose your character's [namedata["qdesc"]]:","Character Preference") as text|null
+	var/raw_name = capped_input(user, "Choose your character's [namedata["qdesc"]]:","Character Preference")
 	if(!raw_name)
 		if(namedata["allow_null"])
 			custom_names[name_id] = get_default_name(name_id)
@@ -1931,3 +2080,23 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			return
 		else
 			custom_names[name_id] = sanitized_name
+
+/// Handles adding and removing donator items from clients
+/datum/preferences/proc/handle_donator_items()
+	var/datum/loadout_category/DLC = GLOB.loadout_categories["Donator"] // stands for donator loadout category but the other def for DLC works too xD
+	if(!LAZYLEN(GLOB.patrons) || !CONFIG_GET(flag/donator_items)) // donator items are only accesibile by servers with a patreon
+		return
+	if(IS_PATRON(parent.ckey) || (parent in GLOB.admins))
+		for(var/gear_id in DLC.gear)
+			var/datum/gear/AG = DLC.gear[gear_id]
+			if(AG.id in purchased_gear)
+				continue
+			purchased_gear += AG.id
+			AG.purchase(parent)
+		save_preferences()
+	else if(purchased_gear.len || equipped_gear.len)
+		for(var/gear_id in DLC.gear)
+			var/datum/gear/RG = DLC.gear[gear_id]
+			equipped_gear -= RG.id
+			purchased_gear -= RG.id
+		save_preferences()

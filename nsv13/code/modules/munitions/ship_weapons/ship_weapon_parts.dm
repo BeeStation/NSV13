@@ -1,28 +1,21 @@
-/**
- * Munitions computer circuitboard
- */
-/obj/item/circuitboard/computer/ship/munitions_computer
-	name = "circuit board (munitions control computer)"
-	build_path = /obj/machinery/computer/ship/munitions_computer
+/obj/item/ship_weapon/parts //Base item
+	name = "weapon electronics"
+	desc = "This piece of equipment is a figment of your imagination, let the coders know how you got it!"
+	icon = 'icons/obj/module.dmi'
+	icon_state = "mcontroller"
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+
+/obj/item/ship_weapon/parts/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 /**
- * PDC mount circuitboard
- */
-/obj/item/circuitboard/machine/pdc_mount
-	name = "circuit board (pdc mount)"
-	build_path = /obj/machinery/ship_weapon/pdc_mount
-	req_components = list(
-		/obj/item/stock_parts/manipulator = 4,
-		/obj/item/stock_parts/capacitor = 2,
-		/obj/item/stock_parts/matter_bin = 3,
-		/obj/item/ship_weapon/parts/firing_electronics = 1
-	)
-
-/**
- * Firing electronics - used for pdcs, torp tubes, and railguns
+ * Firing electronics - used in construction of <s>new</s> old munitions machinery
  */
 /obj/item/ship_weapon/parts/firing_electronics
 	name = "firing electronics"
+	desc = "The firing circuitry for a large weapon."
 	icon = 'icons/obj/module.dmi'
 	icon_state = "mcontroller"
 
@@ -31,6 +24,7 @@
  */
 /obj/item/ship_weapon/parts/loading_tray
 	name = "loading tray"
+	desc = "A loading tray for a large weapon."
 	icon = 'nsv13/icons/obj/items_and_weapons.dmi'
 	icon_state = "railgun_tray"
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
@@ -38,13 +32,14 @@
 
 /obj/item/ship_weapon/parts/loading_tray/Initialize()
 	..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /**
  * Railgun rail
  */
 /obj/item/ship_weapon/parts/railgun_rail
 	name = "rail"
+	desc = "A magnetic rail for a railgun."
 	icon = 'nsv13/icons/obj/items_and_weapons.dmi'
 	icon_state = "railgun_rail"
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
@@ -52,4 +47,19 @@
 
 /obj/item/ship_weapon/parts/railgun_rail/Initialize()
 	..()
-	AddComponent(/datum/component/twohanded/required)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
+
+/**
+ * MAC Barrel
+ */
+/obj/item/ship_weapon/parts/mac_barrel
+	name = "barrel"
+	desc = "The barrel for a MAC."
+	icon = 'nsv13/icons/obj/items_and_weapons.dmi'
+	icon_state = "mac_barrel"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
+
+/obj/item/ship_weapon/parts/mac_barrel/Initialize()
+	..()
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)

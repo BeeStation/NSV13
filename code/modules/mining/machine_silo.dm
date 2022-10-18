@@ -15,14 +15,22 @@ GLOBAL_LIST_EMPTY(silo_access_logs)
 
 /obj/machinery/ore_silo/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/material_container,
-		list(/datum/material/iron, /datum/material/glass, /datum/material/copper, /datum/material/silver, /datum/material/gold, /datum/material/diamond, /datum/material/plasma, /datum/material/uranium, /datum/material/bananium, /datum/material/titanium, /datum/material/bluespace, /datum/material/plastic),
-		INFINITY,
-		FALSE,
-		/obj/item/stack,
-		null,
-		null,
-		TRUE)
+	var/static/list/materials_list = list(
+		/datum/material/iron,
+		/datum/material/glass,
+		/datum/material/copper,
+		/datum/material/silver,
+		/datum/material/gold,
+		/datum/material/diamond,
+		/datum/material/plasma,
+		/datum/material/uranium,
+		/datum/material/bananium,
+		/datum/material/titanium,
+		/datum/material/bluespace,
+		/datum/material/plastic,
+		)
+	AddComponent(/datum/component/material_container, materials_list, INFINITY, allowed_types=/obj/item/stack, _disable_attackby=TRUE)
+
 	if (!GLOB.ore_silo_default && mapload && is_station_level(z))
 		GLOB.ore_silo_default = src
 
@@ -43,6 +51,7 @@ GLOBAL_LIST_EMPTY(silo_access_logs)
 
 /obj/machinery/ore_silo/proc/remote_attackby(obj/machinery/M, mob/user, obj/item/stack/I)
 	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+
 	// stolen from /datum/component/material_container/proc/OnAttackBy
 	if(user.a_intent != INTENT_HELP)
 		return
@@ -62,8 +71,19 @@ GLOBAL_LIST_EMPTY(silo_access_logs)
 	return TRUE
 
 /obj/machinery/ore_silo/attackby(obj/item/W, mob/user, params)
-	if (istype(W, /obj/item/stack))
+	if(default_deconstruction_screwdriver(user, icon_state, icon_state, W))
+		updateUsrDialog()
+		return
+
+	if(default_deconstruction_crowbar(W))
+		return
+
+	if(!powered())
+		return ..()
+
+	if(istype(W, /obj/item/stack))
 		return remote_attackby(src, user, W)
+
 	return ..()
 
 /obj/machinery/ore_silo/ui_interact(mob/user)
@@ -82,7 +102,7 @@ GLOBAL_LIST_EMPTY(silo_access_logs)
 		var/sheets = round(amount) / MINERAL_MATERIAL_AMOUNT
 		var/ref = REF(M)
 		if (sheets)
-			if (sheets >= 1)	
+			if (sheets >= 1)
 				ui += "<a href='?src=[REF(src)];ejectsheet=[ref];eject_amt=1'>Eject</a>"
 			else
 				ui += "<span class='linkOff'>Eject</span>"
@@ -101,7 +121,7 @@ GLOBAL_LIST_EMPTY(silo_access_logs)
 		var/atom/parent = mats.parent
 		var/hold_key = "[get_area(parent)]/[mats.category]"
 		ui += "<a href='?src=[REF(src)];remove=[REF(mats)]'>Remove</a>"
-		ui += "<a href='?src=[REF(src)];hold[!holds[hold_key]]=[url_encode(hold_key)]'>[holds[hold_key] ? "Allow" : "Hold"]</a>"
+		ui += "<a href='?src=[REF(src)];hold[!holds[hold_key]]=[rustg_url_encode(hold_key)]'>[holds[hold_key] ? "Allow" : "Hold"]</a>"
 		ui += " <b>[parent.name]</b> in [get_area_name(parent, TRUE)]<br>"
 	if(!connected.len)
 		ui += "Nothing!"
@@ -188,6 +208,20 @@ GLOBAL_LIST_EMPTY(silo_access_logs)
 	. = ..()
 	. += "<span class='notice'>[src] can be linked to techfabs, circuit printers and protolathes with a multitool.</span>"
 
+/obj/machinery/ore_silo/on_object_saved(var/depth = 0)
+	if(depth >= 10)
+		return ""
+	var/dat
+	var/datum/component/material_container/material_holder = GetComponent(/datum/component/material_container)
+	for(var/each in material_holder.materials)
+		var/amount = material_holder.materials[each] / MINERAL_MATERIAL_AMOUNT
+		var/datum/material/material_datum = each
+		while(amount > 0)
+			var/amount_in_stack = max(1, min(50, amount))
+			amount -= amount_in_stack
+			dat += "[dat ? ",\n" : ""][material_datum.sheet_type]{\n\tamount = [amount_in_stack]\n\t}"
+	return dat
+
 /datum/ore_silo_log
 	var/name  // for VV
 	var/formatted  // for display
@@ -231,8 +265,9 @@ GLOBAL_LIST_EMPTY(silo_access_logs)
 	var/list/msg = list("([timestamp]) <b>[machine_name]</b> in [area_name]<br>[action] [abs(amount)]x [noun]<br>")
 	var/sep = ""
 	for(var/key in materials)
+		var/datum/material/M = key
 		var/val = round(materials[key]) / MINERAL_MATERIAL_AMOUNT
 		msg += sep
 		sep = ", "
-		msg += "[amount < 0 ? "-" : "+"][val] [copytext(key, 2)]"
+		msg += "[amount < 0 ? "-" : "+"][val] [M.name]"
 	formatted = msg.Join()

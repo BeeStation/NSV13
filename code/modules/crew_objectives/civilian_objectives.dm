@@ -36,7 +36,7 @@
 /datum/objective/crew/foodhoard
 	var/datum/crafting_recipe/food/targetfood
 	var/obj/item/reagent_containers/food/foodpath
-	explanation_text = "Personally deliver at least (Something broke, yell on GitHub) to Centcom."
+	explanation_text = "Personally deliver at least (Something broke, yell on GitHub) to CentCom."
 	jobs = "cook"
 
 /datum/objective/crew/foodhoard/New()
@@ -50,7 +50,7 @@
 
 /datum/objective/crew/foodhoard/update_explanation_text()
 	. = ..()
-	explanation_text = "Personally deliver at least [target_amount] [initial(foodpath.name)]s to Centcom."
+	explanation_text = "Personally deliver at least [target_amount] [initial(foodpath.name)]s to CentCom."
 
 /datum/objective/crew/foodhoard/check_completion()
 	if(owner.current && owner.current.check_contents_for(foodpath) && SSshuttle.emergency.shuttle_areas[get_area(owner.current)])
@@ -281,7 +281,7 @@
 		var/mob/living/carbon/human/H = owner.current
 		var/obj/item/card/id/theID = H.get_idcard()
 		if(istype(theID))
-			if(!(H.get_assignment() == "Assistant") && !(H.get_assignment() == "No id") && !(H.get_assignment() == "No job"))
+			if(!(H.get_assignment() == "Midshipman") && !(H.get_assignment() == "No id") && !(H.get_assignment() == "No job"))
 				return TRUE
 	return FALSE
 
@@ -293,6 +293,7 @@
 	if(owner?.current)
 		for(var/datum/mind/M in SSticker.minds)
 			if(M.current && isliving(M.current))
-				if(!M.special_role && !(M.assigned_role == "Security Officer") && !(M.assigned_role == "Detective") && !(M.assigned_role == "Head of Security") && !(M.assigned_role == "Internal Affairs Agent") && !(M.assigned_role == "Warden") && get_area(M.current) != typesof(/area/security/prison))
+				 //Nsv13 - Crayon eaters & MPs
+				if(!M.special_role && !(M.assigned_role == "Military Police") && !(M.assigned_role == "Detective") && !(M.assigned_role == "Head of Security") && !(M.assigned_role == "Internal Affairs Agent") && !(M.assigned_role == "Warden") && get_area(M.current) != typesof(/area/security/prison))
 					return FALSE
 		return TRUE

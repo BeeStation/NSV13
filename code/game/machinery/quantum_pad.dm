@@ -22,6 +22,7 @@
 
 /obj/machinery/quantumpad/Initialize()
 	. = ..()
+	wires = new /datum/wires/quantum_pad(src)
 	if(map_pad_id)
 		mapped_quantum_pads[map_pad_id] = src
 
@@ -53,6 +54,9 @@
 /obj/machinery/quantumpad/attackby(obj/item/I, mob/user, params)
 	if(default_deconstruction_screwdriver(user, "pad-idle-o", "qpad-idle", I))
 		return
+	else if(panel_open && I.tool_behaviour == TOOL_WIRECUTTER)
+		wires.interact(user)
+		return TRUE
 
 	if(panel_open)
 		if(I.tool_behaviour == TOOL_MULTITOOL)
@@ -159,9 +163,9 @@
 			target_pad.sparks()
 
 			flick("qpad-beam", src)
-			playsound(get_turf(src), 'sound/weapons/emitter2.ogg', 25, 1, extrarange = 3, falloff = 5)
+			playsound(get_turf(src), 'sound/weapons/emitter2.ogg', 25, 1, extrarange = 3, falloff_exponent = 5)
 			flick("qpad-beam", target_pad)
-			playsound(get_turf(target_pad), 'sound/weapons/emitter2.ogg', 25, 1, extrarange = 3, falloff = 5)
+			playsound(get_turf(target_pad), 'sound/weapons/emitter2.ogg', 25, 1, extrarange = 3, falloff_exponent = 5)
 			for(var/atom/movable/ROI in get_turf(src))
 				if(QDELETED(ROI))
 					continue //sleeps in CHECK_TICK
@@ -177,7 +181,7 @@
 					else if(!isobserver(ROI))
 						continue
 
-				do_teleport(ROI, get_turf(target_pad),null,TRUE,null,null,null,null,TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
+				do_teleport(ROI, get_turf(target_pad),null,null,null,null,null,TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
 				CHECK_TICK
 
 /obj/machinery/quantumpad/proc/initMappedLink()

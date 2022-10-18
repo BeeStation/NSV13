@@ -174,13 +174,13 @@
 /obj/item/bodypart/chest/robot/examine(mob/user)
 	. = ..()
 	if(cell)
-		. += {"It has a [cell] inserted.\n
-		<span class='info'>You can use a <b>screwdriver</b> to remove [cell].</span>"}
+		. += "It has a [cell] inserted.\n"+\
+		"<span class='info'>You can use a <b>screwdriver</b> to remove [cell].</span>"
 	else
 		. += "<span class='info'>It has an empty port for a <b>power cell</b>.</span>"
 	if(wired)
-		. += {"Its all wired up[cell ? " and ready for usage" : ""].\n
-		<span class='info'>You can use <b>wirecutters</b> to remove the wiring.</span>"}
+		. += "Its all wired up[cell ? " and ready for usage" : ""].\n"+\
+		"<span class='info'>You can use <b>wirecutters</b> to remove the wiring.</span>"
 	else
 		. += "<span class='info'>It has a couple spots that still need to be <b>wired</b>.</span>"
 
@@ -238,8 +238,8 @@
 		var/single_flash = FALSE
 		if(!flash1 || !flash2)
 			single_flash = TRUE
-			. += {"One of its eye sockets is currently occupied by a flash.\n
-			<span class='info'>It has an empty eye socket for another <b>flash</b>.</span>"}
+			. += "One of its eye sockets is currently occupied by a flash.\n"+\
+			"<span class='info'>It has an empty eye socket for another <b>flash</b>.</span>"
 		else
 			. += "It has two eye sockets occupied by flashes."
 		. += "<span class='notice'>You can remove the seated flash[single_flash ? "":"es"] with a <b>crowbar</b>.</span>"
@@ -250,8 +250,8 @@
 		if(flash1 && flash2)
 			to_chat(user, "<span class='warning'>You have already inserted the eyes!</span>")
 			return
-		else if(F.burnt_out)
-			to_chat(user, "<span class='warning'>You can't use a broken flash!</span>")
+		else if(F.burnt_out || !F.bulb)
+			to_chat(user, "<span class='warning'>You need a functional flash!</span>")
 			return
 		else
 			if(!user.transferItemToLoc(F, src))

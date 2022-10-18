@@ -14,9 +14,9 @@
 		return
 	if(obj_flags & IN_USE)
 		return
-	if(isIPC(user))
+	if(isipc(user))
 		user.visible_message("<span class='warning'> As [user] tries to pull \the [src]'s lever, the machine seems to hesitate a bit.</span>", "<span class='warning'>You feel as if you are trying to put at stake something you don't even have...\ You suddenly feel your mind... Suboptimal?</span>")
-		user.adjustBrainLoss(10)
+		user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 10)
 	else
 		user.adjustCloneLoss(20)
 	obj_flags |= IN_USE
@@ -85,7 +85,8 @@
 	icon = 'icons/mob/blob.dmi'
 	color = rgb(145, 150, 0)
 
-/obj/effect/gluttony/CanPass(atom/movable/mover, turf/target)//So bullets will fly over and stuff.
+/obj/effect/gluttony/CanAllowThrough(atom/movable/mover, turf/target)//So bullets will fly over and stuff.
+	. = ..()
 	if(ishuman(mover))
 		var/mob/living/carbon/human/H = mover
 		if(H.nutrition >= NUTRITION_LEVEL_FAT)
@@ -95,8 +96,6 @@
 			to_chat(H, "<span class='warning'>You're repulsed by even looking at [src]. Only a pig could force themselves to go through it.</span>")
 	if(istype(mover, /mob/living/simple_animal/hostile/morph))
 		return TRUE
-	else
-		return FALSE
 
 /obj/structure/mirror/magic/pride //Pride's mirror: Used in the Pride ruin.
 	name = "pride's mirror"
@@ -115,12 +114,12 @@
 	"<span class='notice'>Perfect. Much better! Now <i>nobody</i> will be able to resist yo-</span>")
 
 	var/turf/T = get_turf(user)
-	var/list/levels = SSmapping.levels_by_trait(ZTRAIT_SPACE_RUINS)
+	var/list/levels = SSmapping.levels_by_trait(ZTRAIT_DYNAMIC_LEVEL)
 	var/turf/dest
 	if (levels.len)
 		dest = locate(T.x, T.y, pick(levels))
 
-	T.ChangeTurf(/turf/open/chasm)
+	T.ChangeTurf(/turf/open/chasm, flags = CHANGETURF_INHERIT_AIR)
 	var/turf/open/chasm/C = T
 	C.set_target(dest)
 	C.drop(user)

@@ -42,7 +42,7 @@ Charged extracts:
 	effect_desc = "Instantly makes a large burst of flame for a moment."
 
 /obj/item/slimecross/charged/orange/do_effect(mob/user)
-	for(var/turf/turf in range(5,get_turf(user)))
+	for(var/turf/open/turf in RANGE_TURFS(5, user))
 		if(!locate(/obj/effect/hotspot) in turf)
 			new /obj/effect/hotspot(turf)
 	..()
@@ -168,7 +168,7 @@ Charged extracts:
 	if(!istype(H))
 		to_chat(user, "<span class='warning'>You must be a humanoid to use this!</span>")
 		return
-	var/racechoice = input(H, "Choose your slime subspecies.", "Slime Selection") as null|anything in subtypesof(/datum/species/jelly)
+	var/racechoice = input(H, "Choose your slime subspecies.", "Slime Selection") as null|anything in sortList(subtypesof(/datum/species/jelly), /proc/cmp_typepaths_asc)
 	if(!racechoice)
 		to_chat(user, "<span class='notice'>You decide not to become a slime for now.</span>")
 		return

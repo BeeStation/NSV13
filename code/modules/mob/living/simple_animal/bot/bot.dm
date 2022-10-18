@@ -4,9 +4,7 @@
 	layer = MOB_LAYER
 	gender = NEUTER
 	mob_biotypes = list(MOB_ROBOTIC)
-	light_range = 3
-	stop_automated_movement = 1
-	wander = 0
+	wander = FALSE
 	healable = 0
 	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
@@ -21,8 +19,15 @@
 	verb_yell = "alarms"
 	initial_language_holder = /datum/language_holder/synthetic
 	bubble_icon = "machine"
-
+	speech_span = SPAN_ROBOT
 	faction = list("neutral", "silicon" , "turret")
+	hardattacks = TRUE
+	light_system = MOVABLE_LIGHT
+	light_range = 3
+	light_power = 0.9
+
+	mobchatspan = "mime"
+	discovery_points = 0
 
 	var/obj/machinery/bot_core/bot_core = null
 	var/bot_core_type = /obj/machinery/bot_core
@@ -106,12 +111,25 @@
 	else
 		return "<span class='average'>[mode_name[mode]]</span>"
 
+/**
+  * Returns a status string about the bot's current status, if it's moving, manually controlled, or idle.
+  */
+/mob/living/simple_animal/bot/proc/get_mode_ui()
+	if(client) //Player bots do not have modes, thus the override. Also an easy way for PDA users/AI to know when a bot is a player.
+		return paicard ? "pAI Controlled" : "Autonomous"
+	else if(!on)
+		return "Inactive"
+	else if(!mode)
+		return "Idle"
+	else
+		return "[mode_name[mode]]"
+
 /mob/living/simple_animal/bot/proc/turn_on()
 	if(stat)
 		return FALSE
 	on = TRUE
 	update_mobility()
-	set_light(initial(light_range))
+	set_light_on(on)
 	update_icon()
 	diag_hud_set_botstat()
 	return TRUE
@@ -119,7 +137,7 @@
 /mob/living/simple_animal/bot/proc/turn_off()
 	on = FALSE
 	update_mobility()
-	set_light(0)
+	set_light_on(on)
 	bot_reset() //Resets an AI's call, should it exist.
 	update_icon()
 
@@ -167,9 +185,9 @@
 	GLOB.bots_list -= src
 	if(paicard)
 		ejectpai()
-	qdel(Radio)
-	qdel(access_card)
-	qdel(bot_core)
+	QDEL_NULL(Radio)
+	QDEL_NULL(access_card)
+	QDEL_NULL(bot_core)
 	return ..()
 
 /mob/living/simple_animal/bot/bee_friendly()
@@ -352,29 +370,20 @@
 	if((!on) || (!message))
 		return
 	if(channel && Radio.channels[channel])// Use radio if we have channel key
-		Radio.talk_into(src, message, channel, get_spans(), get_default_language())
+		Radio.talk_into(src, message, channel)
 	else
 		say(message)
 
-/mob/living/simple_animal/bot/get_spans()
-	return ..() | SPAN_ROBOT
-
-/mob/living/simple_animal/bot/radio(message, message_mode, list/spans, language)
+/mob/living/simple_animal/bot/radio(message, list/message_mods = list(), list/spans, language)
 	. = ..()
 	if(. != 0)
 		return
 
-	switch(message_mode)
-		if(MODE_HEADSET)
-			Radio.talk_into(src, message, , spans, language)
-			return REDUCE_RANGE
-
-		if(MODE_DEPARTMENT)
-			Radio.talk_into(src, message, message_mode, spans, language)
-			return REDUCE_RANGE
-
-	if(message_mode in GLOB.radiochannels)
-		Radio.talk_into(src, message, message_mode, spans, language)
+	if(message_mods[MODE_HEADSET])
+		Radio.talk_into(src, message, , spans, language, message_mods)
+		return REDUCE_RANGE
+	else if(message_mods[RADIO_EXTENSION] == MODE_DEPARTMENT || (message_mods[RADIO_EXTENSION] in GLOB.radiochannels))
+		Radio.talk_into(src, message, message_mods[RADIO_EXTENSION], spans, language, message_mods)
 		return REDUCE_RANGE
 
 /mob/living/simple_animal/bot/proc/drop_part(obj/item/drop_item, dropzone)
@@ -416,30 +425,50 @@ Pass the desired type path itself, declaring a temporary var beforehand is not r
 	if(!T)
 		return
 	var/list/adjacent = T.GetAtmosAdjacentTurfs(1)
+	var/atom/final_result
+	var/static/list/turf_typecache = typecacheof(/turf)
 	if(shuffle)	//If we were on the same tile as another bot, let's randomize our choices so we dont both go the same way
 		adjacent = shuffle(adjacent)
 		shuffle = FALSE
-	for(var/scan in adjacent)//Let's see if there's something right next to us first!
+	for(var/turf/scan as() in adjacent)//Let's see if there's something right next to us first!
 		if(check_bot(scan))	//Is there another bot there? Then let's just skip it
 			continue
-		if(isturf(scan_type))	//If we're lookeing for a turf we can just run the checks directly!
-			var/final_result = checkscan(scan,scan_type,old_target)
+		if(turf_typecache[scan_type])	//If we're lookeing for a turf we can just run the checks directly!
+			if(!istype(scan, scan_type))
+				continue
+			final_result = checkscan(scan,old_target)
 			if(final_result)
 				return final_result
 		else
-			var/turf/turfy = scan
-			for(var/deepscan in turfy.contents)//Check the contents since adjacent is turfs
-				var/final_result = checkscan(deepscan,scan_type,old_target)
+			for(var/deepscan in scan.contents)//Check the contents since adjacent is turfs
+				if(!istype(deepscan, scan_type))
+					continue
+				final_result = checkscan(deepscan,old_target)
 				if(final_result)
 					return final_result
-	for (var/scan in shuffle(view(scan_range, src))-adjacent) //Search for something in range!
-		var/final_result = checkscan(scan,scan_type,old_target)
-		if(final_result)
-			return final_result
 
-/mob/living/simple_animal/bot/proc/checkscan(scan, scan_type, old_target)
-	if(!istype(scan, scan_type)) //Check that the thing we found is the type we want!
-		return FALSE //If not, keep searching!
+	var/list/wider_search_list = list()
+	for(var/turf/RT in oview(scan_range, src))
+		if(!(RT in adjacent))
+			wider_search_list += RT
+	wider_search_list = shuffle(wider_search_list) // Do we *really* need shuffles? Future coders should decide this.
+	if(turf_typecache[scan_type])
+		for(var/turf/scan as() in wider_search_list)
+			if(!istype(scan, scan_type))
+				continue
+			final_result = checkscan(scan,old_target)
+			if(final_result)
+				return final_result
+	else
+		for(var/turf/scan as() in wider_search_list)
+			for(var/deepscan in scan.contents) // view() barely checks contents of contents of turfs anyway
+				if(!istype(deepscan, scan_type))
+					continue
+				final_result = checkscan(deepscan,old_target)
+				if(final_result)
+					return final_result
+
+/mob/living/simple_animal/bot/proc/checkscan(scan, old_target)
 	if( (REF(scan) in ignore_list) || (scan == old_target) ) //Filter for blacklisted elements, usually unreachable or previously processed oness
 		return FALSE
 
@@ -523,7 +552,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 	var/datum/job/captain/All = new/datum/job/captain
 	all_access.access = All.get_access()
 
-	set_path(get_path_to(src, waypoint, /turf/proc/Distance_cardinal, 0, 200, id=all_access))
+	set_path(get_path_to(src, waypoint, 200, id=all_access))
 	calling_ai = caller //Link the AI to the bot!
 	ai_waypoint = waypoint
 
@@ -737,12 +766,12 @@ Pass a positive integer as an argument to override a bot's default speed.
 // given an optional turf to avoid
 /mob/living/simple_animal/bot/proc/calc_path(turf/avoid)
 	check_bot_access()
-	set_path(get_path_to(src, patrol_target, /turf/proc/Distance_cardinal, 0, 120, id=access_card, exclude=avoid))
+	set_path(get_path_to(src, patrol_target, 120, id=access_card, exclude=avoid))
 
 /mob/living/simple_animal/bot/proc/calc_summon_path(turf/avoid)
 	check_bot_access()
 	spawn()
-		set_path(get_path_to(src, summon_target, /turf/proc/Distance_cardinal, 0, 150, id=access_card, exclude=avoid))
+		set_path(get_path_to(src, summon_target, 150, id=access_card, exclude=avoid))
 		if(!path.len) //Cannot reach target. Give up and announce the issue.
 			speak("Summon command failed, destination unreachable.",radio_channel)
 			bot_reset()
@@ -829,6 +858,8 @@ Pass a positive integer as an argument to override a bot's default speed.
 				hacked = TRUE
 				locked = TRUE
 				to_chat(usr, "<span class='warning'>[text_hack]</span>")
+				message_admins("Safety lock of [ADMIN_LOOKUPFLW(src)] was disabled by [ADMIN_LOOKUPFLW(usr)] in [ADMIN_VERBOSEJMP(src)]")
+				log_game("Safety lock of [src] was disabled by [key_name(usr)] in [AREACOORD(src)]")
 				bot_reset()
 			else if(!hacked)
 				to_chat(usr, "<span class='boldannounce'>[text_dehack_fail]</span>")
@@ -836,6 +867,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 				emagged = FALSE
 				hacked = FALSE
 				to_chat(usr, "<span class='notice'>[text_dehack]</span>")
+				log_game("Safety lock of [src] was re-enabled by [key_name(usr)] in [AREACOORD(src)]")
 				bot_reset()
 		if("ejectpai")
 			if(paicard && (!locked || issilicon(usr) || IsAdminGhost(usr)))
@@ -843,22 +875,23 @@ Pass a positive integer as an argument to override a bot's default speed.
 				ejectpai(usr)
 	update_controls()
 
-/mob/living/simple_animal/bot/proc/update_icon()
+/mob/living/simple_animal/bot/update_icon_state()
 	icon_state = "[initial(icon_state)][on]"
 
 // Machinery to simplify topic and access calls
 /obj/machinery/bot_core
 	use_power = NO_POWER_USE
 	anchored = FALSE
-	var/mob/living/simple_animal/bot/owner = null
 
 /obj/machinery/bot_core/Initialize()
 	. = ..()
-	owner = loc
-	if(!istype(owner))
+	if(!isbot(loc))
 		return INITIALIZE_HINT_QDEL
 
 /mob/living/simple_animal/bot/proc/topic_denied(mob/user) //Access check proc for bot topics! Remember to place in a bot's individual Topic if desired.
+	//Silicons cannot remotely interfact with robots while the robot is jammed
+	if(issilicon(user) && is_jammed())
+		return TRUE
 	if(!user.canUseTopic(src, !issilicon(user)))
 		return TRUE
 	// 0 for access, 1 for denied.
@@ -911,7 +944,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 				bot_name = name
 				name = paicard.pai.name
 				faction = user.faction.Copy()
-				language_holder = paicard.pai.language_holder.copy(src)
+				copy_languages(paicard.pai)
 				log_combat(user, paicard.pai, "uploaded to [bot_name],")
 				return TRUE
 			else
@@ -919,7 +952,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 		else
 			to_chat(user, "<span class='warning'>The personality slot is locked.</span>")
 	else
-		to_chat(user, "<span class='warning'>[src] is not compatible with [card]</span>")
+		to_chat(user, "<span class='warning'>[src] is not compatible with [card].</span>")
 
 /mob/living/simple_animal/bot/proc/ejectpai(mob/user = null, announce = 1)
 	if(paicard)
@@ -1031,3 +1064,6 @@ Pass a positive integer as an argument to override a bot's default speed.
 	if(I)
 		I.icon_state = null
 	path.Cut(1, 2)
+
+/mob/living/simple_animal/bot/rust_heretic_act()
+	adjustBruteLoss(400)

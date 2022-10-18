@@ -10,24 +10,30 @@
 	spawn_positions = 1
 	supervisors = "the captain"
 	selection_color = "#cae1e8" //NSV13
+	chat_color = "#7A97DA"
 	req_admin_notify = 1
 	minimal_player_age = 7
-	exp_requirements = 180
-	exp_type = EXP_TYPE_CREW
+	exp_requirements = 1200
+	exp_type = EXP_TYPE_MEDICAL
 	exp_type_department = EXP_TYPE_MEDICAL
 
 	outfit = /datum/outfit/job/cmo
 
 	access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_GENETICS, ACCESS_CLONING, ACCESS_HEADS, ACCESS_MINERAL_STOREROOM,
 			ACCESS_CHEMISTRY, ACCESS_VIROLOGY, ACCESS_CMO, ACCESS_SURGERY, ACCESS_RC_ANNOUNCE, ACCESS_MECH_MEDICAL,
-			ACCESS_KEYCARD_AUTH, ACCESS_SEC_DOORS, ACCESS_MAINT_TUNNELS)
-	minimal_access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_GENETICS, ACCESS_CLONING, ACCESS_HEADS, ACCESS_MINERAL_STOREROOM,
+			ACCESS_KEYCARD_AUTH, ACCESS_SEC_DOORS, ACCESS_MAINT_TUNNELS, ACCESS_BRIGPHYS)
+	minimal_access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_GENETICS, ACCESS_CLONING, ACCESS_APOTHECARY, ACCESS_HEADS, ACCESS_MINERAL_STOREROOM,
 			ACCESS_CHEMISTRY, ACCESS_VIROLOGY, ACCESS_CMO, ACCESS_SURGERY, ACCESS_RC_ANNOUNCE, ACCESS_MECH_MEDICAL,
-			ACCESS_KEYCARD_AUTH, ACCESS_SEC_DOORS, ACCESS_MAINT_TUNNELS)
+			ACCESS_KEYCARD_AUTH, ACCESS_SEC_DOORS, ACCESS_MAINT_TUNNELS, ACCESS_BRIGPHYS)
 	paycheck = PAYCHECK_COMMAND
 	paycheck_department = ACCOUNT_MED
 
 	display_order = JOB_DISPLAY_ORDER_CHIEF_MEDICAL_OFFICER
+	departments = DEPARTMENT_MEDICAL | DEPARTMENT_COMMAND
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/cmo
+	)
 
 /datum/outfit/job/cmo
 	name = "Chief Medical Officer"
@@ -41,9 +47,9 @@
 	uniform = /obj/item/clothing/under/ship/medical
 	shoes = /obj/item/clothing/shoes/sneakers/white
 	suit = /obj/item/clothing/suit/toggle/labcoat/cmo
-	l_hand = /obj/item/storage/firstaid/regular
+	l_hand = /obj/item/storage/firstaid/medical
 	suit_store = /obj/item/flashlight/pen
-	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1)
+	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1)
 
 	backpack = /obj/item/storage/backpack/medic
 	satchel = /obj/item/storage/backpack/satchel/med
@@ -55,7 +61,6 @@
 	name = "Chief Medical Officer (Hardsuit)"
 
 	mask = /obj/item/clothing/mask/breath
-	suit = /obj/item/clothing/suit/space/hardsuit/medical
+	suit = /obj/item/clothing/suit/space/hardsuit/medical/cmo
 	suit_store = /obj/item/tank/internals/oxygen
 	r_pocket = /obj/item/flashlight/pen
-

@@ -4,6 +4,7 @@
 	desc = "An apparently sentient virus, extremely adaptable and resistant to outside sources of mutation."
 	viable_mobtypes = list(/mob/living/carbon/human)
 	mutable = FALSE
+	sentient = TRUE
 	var/mob/camera/disease/overmind
 
 /datum/disease/advance/sentient_disease/New()
@@ -12,6 +13,7 @@
 
 /datum/disease/advance/sentient_disease/Destroy()
 	. = ..()
+	overmind = null
 	GLOB.sentient_disease_instances -= src
 
 /datum/disease/advance/sentient_disease/remove_disease()

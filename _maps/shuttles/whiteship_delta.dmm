@@ -605,8 +605,7 @@
 	environment_smash = 0;
 	health = 60;
 	maxHealth = 60;
-	melee_damage_lower = 5;
-	melee_damage_upper = 10;
+	melee_damage = 10;
 	name = "scrawny spider"
 	},
 /turf/open/floor/plasteel,
@@ -749,14 +748,8 @@
 	dir = 1
 	},
 /obj/item/storage/wallet/random,
-/obj/item/clothing/under/rank/centcom_officer{
-	desc = "A badge on the arm indicates that it's meant to be worn by CentCom recovery teams. This one seems dusty and clearly hasn't been cleaned in some time.";
-	name = "\improper dusty old CentCom jumpsuit"
-	},
-/obj/item/clothing/under/rank/centcom_commander{
-	desc = "A badge on the arm indicates that it's meant to be worn by CentCom recovery teams. This one seems dusty and clearly hasn't been cleaned in some time.";
-	name = "\improper dusty old CentCom jumpsuit"
-	},
+/obj/item/clothing/under/rank/centcom/officer,
+/obj/item/clothing/under/rank/centcom/commander,
 /obj/effect/turf_decal/tile/blue,
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
@@ -1257,8 +1250,7 @@
 	environment_smash = 0;
 	health = 150;
 	maxHealth = 150;
-	melee_damage_lower = 20;
-	melee_damage_upper = 25;
+	melee_damage = 20;
 	name = "scrawny tarantula"
 	},
 /turf/open/floor/plasteel/dark,
@@ -1275,7 +1267,7 @@
 /turf/open/floor/plasteel/dark,
 /area/shuttle/abandoned/bridge)
 "ch" = (
-/obj/machinery/computer/shuttle/white_ship{
+/obj/machinery/computer/shuttle_flight/white_ship{
 	dir = 8
 	},
 /obj/effect/decal/cleanable/dirt/dust,
@@ -1389,11 +1381,6 @@
 /turf/open/floor/plasteel/dark,
 /area/shuttle/abandoned/bridge)
 "cp" = (
-/obj/machinery/computer/camera_advanced/shuttle_docker/whiteship{
-	dir = 8;
-	x_offset = -2;
-	y_offset = -8
-	},
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
@@ -1836,7 +1823,7 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/turf_decal/box/white/corners,
 /obj/structure/closet/crate{
-	icon_state = "crateopen"
+	opened = 1
 	},
 /obj/effect/spawner/lootdrop/maintenance{
 	lootcount = 3;
@@ -2242,8 +2229,7 @@
 	environment_smash = 0;
 	health = 60;
 	maxHealth = 60;
-	melee_damage_lower = 5;
-	melee_damage_upper = 10;
+	melee_damage = 10;
 	name = "scrawny spider"
 	},
 /turf/open/floor/plasteel,
@@ -2446,7 +2432,7 @@
 "dX" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/structure/closet/crate{
-	icon_state = "crateopen"
+	opened = 1
 	},
 /obj/effect/spawner/lootdrop/maintenance{
 	lootcount = 3;

@@ -3,11 +3,14 @@
 	icon_state = "pscrubber:0"
 	density = TRUE
 
+
+
 	var/on = FALSE
 	var/volume_rate = 1000
+	var/overpressure_m = 80
 	volume = 1000
 
-	var/list/scrubbing = list(/datum/gas/plasma, /datum/gas/carbon_dioxide, /datum/gas/nitrous_oxide, /datum/gas/bz, /datum/gas/nitryl, /datum/gas/tritium, /datum/gas/hypernoblium, /datum/gas/water_vapor)
+	var/list/scrubbing = list(GAS_PLASMA, GAS_CO2, GAS_NITROUS, GAS_BZ, GAS_NITRYL, GAS_TRITIUM, GAS_HYPERNOB, GAS_H2O, GAS_CONSTRICTED_PLASMA, GAS_NUCLEIUM) //NSV13 - constricted plasma and nucleium
 
 /obj/machinery/portable_atmospherics/scrubber/Destroy()
 	var/turf/T = get_turf(src)
@@ -36,22 +39,10 @@
 		scrub(T.return_air())
 
 /obj/machinery/portable_atmospherics/scrubber/proc/scrub(var/datum/gas_mixture/mixture)
-	var/transfer_moles = min(1, volume_rate / mixture.volume) * mixture.total_moles()
-
-	var/datum/gas_mixture/filtering = mixture.remove(transfer_moles) // Remove part of the mixture to filter.
-	var/datum/gas_mixture/filtered = new
-	if(!filtering)
+	if(air_contents.return_pressure() >= overpressure_m * ONE_ATMOSPHERE)
 		return
 
-	filtered.temperature = filtering.temperature
-	for(var/gas in filtering.gases & scrubbing)
-		filtered.add_gas(gas)
-		filtered.gases[gas][MOLES] = filtering.gases[gas][MOLES] // Shuffle the "bad" gasses to the filtered mixture.
-		filtering.gases[gas][MOLES] = 0
-	filtering.garbage_collect() // Now that the gasses are set to 0, clean up the mixture.
-
-	air_contents.merge(filtered) // Store filtered out gasses.
-	mixture.merge(filtering) // Returned the cleaned gas.
+	mixture.scrub_into(air_contents, volume_rate / mixture.return_volume(), scrubbing)
 	if(!holding)
 		air_update_turf()
 
@@ -64,12 +55,16 @@
 			on = !on
 		update_icon()
 
-/obj/machinery/portable_atmospherics/scrubber/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
-														datum/tgui/master_ui = null, datum/ui_state/state = GLOB.physical_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+
+/obj/machinery/portable_atmospherics/scrubber/ui_state(mob/user)
+	return GLOB.physical_state
+
+/obj/machinery/portable_atmospherics/scrubber/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "portable_scrubber", name, 420, 435, master_ui, state)
+		ui = new(user, src, "PortableScrubber")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Air pressure, tank pressure
 
 /obj/machinery/portable_atmospherics/scrubber/ui_data()
 	var/data = list()
@@ -79,14 +74,15 @@
 
 	data["id_tag"] = -1 //must be defined in order to reuse code between portable and vent scrubbers
 	data["filter_types"] = list()
-	for(var/path in GLOB.meta_gas_info)
-		var/list/gas = GLOB.meta_gas_info[path]
-		data["filter_types"] += list(list("gas_id" = gas[META_GAS_ID], "gas_name" = gas[META_GAS_NAME], "enabled" = (path in scrubbing)))
+	for(var/id in GLOB.gas_data.ids)
+		data["filter_types"] += list(list("gas_id" = id, "gas_name" = GLOB.gas_data.names[id], "enabled" = (id in scrubbing)))
 
 	if(holding)
 		data["holding"] = list()
 		data["holding"]["name"] = holding.name
 		data["holding"]["pressure"] = round(holding.air_contents.return_pressure())
+	else
+		data["holding"] = null
 	return data
 
 /obj/machinery/portable_atmospherics/scrubber/replace_tank(mob/living/user, close_valve)
@@ -97,7 +93,7 @@
 				on = FALSE
 				update_icon()
 		else if(on && holding)
-			investigate_log("[key_name(user)] started a transfer into [holding].<br>", INVESTIGATE_ATMOS)
+			investigate_log("[key_name(user)] started a transfer into [holding].", INVESTIGATE_ATMOS)
 
 /obj/machinery/portable_atmospherics/scrubber/ui_act(action, params)
 	if(..())
@@ -111,9 +107,10 @@
 				replace_tank(usr, FALSE)
 				. = TRUE
 		if("toggle_filter")
-			scrubbing ^= gas_id2path(params["val"])
+			scrubbing ^= params["val"]
 			. = TRUE
-	update_icon()
+	if(.)
+		update_icon()
 
 /obj/machinery/portable_atmospherics/scrubber/huge
 	name = "huge air scrubber"
@@ -122,6 +119,7 @@
 	active_power_usage = 500
 	idle_power_usage = 10
 
+	overpressure_m = 200
 	volume_rate = 1500
 	volume = 50000
 

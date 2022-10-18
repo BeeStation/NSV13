@@ -1,3 +1,9 @@
+/proc/apid_name(gender)
+	if(gender == MALE)
+		return "[pick(GLOB.apid_names_male)] [pick(GLOB.apid_names_last)]"
+	else
+		return "[pick(GLOB.apid_names_female)] [pick(GLOB.apid_names_last)]"
+
 /proc/lizard_name(gender)
 	if(gender == MALE)
 		return "[pick(GLOB.lizard_names_male)]-[pick(GLOB.lizard_names_male)]"
@@ -19,7 +25,10 @@
 /proc/moth_name()
 	return "[pick(GLOB.moth_first)] [pick(GLOB.moth_last)]"
 
-proc/squid_name(gender)
+/proc/ooze_name()
+	return "[pick(GLOB.oozeling_first_names)] [pick(GLOB.oozeling_last_names)]"
+
+/proc/squid_name(gender)
 	if(gender == MALE)
 		return "[pick(GLOB.squid_names_male)] [pick(GLOB.last_names)]"
 	else
@@ -56,6 +65,9 @@ GLOBAL_VAR(command_name)
 
 /proc/set_station_name(newname)
 	GLOB.station_name = newname
+	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+	if(OM)
+		OM.name = GLOB.station_name
 
 	var/config_server_name = CONFIG_GET(string/servername)
 	if(config_server_name)
@@ -64,6 +76,11 @@ GLOBAL_VAR(command_name)
 		world.name = GLOB.station_name
 
 /* NSv13 - Moved to nsv subfolder for ship names.
+	//Rename the station on the orbital charter.
+	if(SSorbits.station_instance)
+		SSorbits.station_instance.name = newname
+
+
 /proc/new_station_name()
 	var/random = rand(1,5)
 	var/name = ""
@@ -76,11 +93,12 @@ GLOBAL_VAR(command_name)
 		name = ""
 
 	// Prefix
-	for(var/holiday_name in SSevents.holidays)
-		if(holiday_name == "Friday the 13th")
-			random = 13
+	var/holiday_name = pick(SSevents.holidays)
+	if(holiday_name)
 		var/datum/holiday/holiday = SSevents.holidays[holiday_name]
 		name = holiday.getStationPrefix()
+		if(istype(holiday, /datum/holiday/friday_thirteenth))
+			random = 13
 		//get normal name
 	if(!name)
 		name = pick(GLOB.station_names)

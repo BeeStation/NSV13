@@ -21,10 +21,14 @@
 	var/list/parsed_bounds
 	/// Offset bounds. Same as parsed_bounds until load().
 	var/list/bounds
+	var/did_expand = FALSE
+
+	///any turf in this list is skipped inside of build_coordinate
+	var/list/turf_blacklist = list()
 
 	// raw strings used to represent regexes more accurately
 	// '' used to avoid confusing syntax highlighting
-	var/static/regex/dmmRegex = new(@'"([a-zA-Z]+)" = \(((?:.|\n)*?)\)\n(?!\t)|\((\d+),(\d+),(\d+)\) = \{"([a-zA-Z\n]*)"\}', "g")
+	var/regex/dmmRegex = new(@'"([a-zA-Z]+)" = \(((?:.|\n)*?)\)\n(?!\t)|\((\d+),(\d+),(\d+)\) = \{"([a-zA-Z\n]*)"\}', "g") //NSV13 - not static so I can parse more than one thing at a time
 	var/static/regex/trimQuotesRegex = new(@'^[\s\n]+"?|"?[\s\n]+$|^"|"$', "g")
 	var/static/regex/trimRegex = new(@'^[\s\n]+|[\s\n]+$', "g")
 
@@ -51,7 +55,11 @@
 /datum/parsed_map/New(tfile, x_lower = -INFINITY, x_upper = INFINITY, y_lower = -INFINITY, y_upper=INFINITY, measureOnly=FALSE)
 	if(isfile(tfile))
 		original_path = "[tfile]"
-		tfile = file2text(tfile)
+		var/temp_hack_garbage = tfile
+		tfile = rustg_file_read(tfile)
+		//This is hacky garbage
+		if(tfile == "") //Might be an upload, try raw loading it.
+			tfile = file2text(temp_hack_garbage)
 	else if(isnull(tfile))
 		// create a new datum without loading a map
 		return
@@ -150,6 +158,7 @@
 		var/zcrd = gset.zcrd + z_offset - 1
 		if(!cropMap && ycrd > world.maxy)
 			world.maxy = ycrd // Expand Y here.  X is expanded in the loop below
+			did_expand = TRUE
 		var/zexpansion = zcrd > world.maxz
 		if(zexpansion)
 			if(cropMap)
@@ -157,6 +166,7 @@
 			else
 				while (zcrd > world.maxz) //create a new z_level if needed
 					world.incrementMaxZ()
+					did_expand = FALSE
 			if(!no_changeturf)
 				WARNING("Z-level expansion occurred without no_changeturf set, this may cause problems when /turf/AfterChange is called")
 
@@ -175,6 +185,7 @@
 							break
 						else
 							world.maxx = xcrd
+							did_expand = TRUE
 
 					if(xcrd >= 1)
 						var/model_key = copytext(line, tpos, tpos + key_len)
@@ -198,6 +209,7 @@
 						#endif
 						CHECK_TICK
 					++xcrd
+				CHECK_TICK //NSV13 - midround mapload support
 			--ycrd
 
 		CHECK_TICK
@@ -212,6 +224,9 @@
 	if(turfsSkipped)
 		testing("Skipped loading [turfsSkipped] default turfs")
 	#endif
+
+	if(did_expand)
+		world.refresh_atmos_grid()
 
 	return TRUE
 
@@ -241,7 +256,8 @@
 			var/variables_start = findtext(full_def, "{")
 			var/path_text = trim_text(copytext(full_def, 1, variables_start))
 			var/atom_def = text2path(path_text) //path definition, e.g /obj/foo/bar
-			old_position = dpos + 1
+			if(dpos)
+				old_position = dpos + length(model[dpos])
 
 			if(!ispath(atom_def, /atom)) // Skip the item if the path does not exist.  Fix your crap, mappers!
 				if(bad_paths)
@@ -253,7 +269,7 @@
 			var/list/fields = list()
 
 			if(variables_start)//if there's any variable
-				full_def = copytext(full_def,variables_start+1,length(full_def))//removing the last '}'
+				full_def = copytext(full_def, variables_start + length(full_def[variables_start]), -length(copytext_char(full_def, -1))) //removing the last '}'
 				fields = readlist(full_def, ";")
 				if(fields.len)
 					if(!trim(fields[fields.len]))
@@ -302,10 +318,17 @@
 	//Instanciation
 	////////////////
 
+	for (var/turf_in_blacklist in turf_blacklist)
+		if (crds == turf_in_blacklist) //if the given turf is blacklisted, dont do anything with it
+			return
+
+	//Keep a reference to the original area in case we need to tell it to generate this turf later
+	var/area/orig_area = crds.loc
+
 	//The next part of the code assumes there's ALWAYS an /area AND a /turf on a given tile
 	//first instance the /area and remove it from the members list
 	index = members.len
-	if(members[index] != /area/template_noop)		
+	if(members[index] != /area/template_noop)
 		var/atype = members[index]
 		world.preloader_setup(members_attributes[index], atype)//preloader for assigning  set variables on atom creation
 		var/atom/instance = areaCache[atype]
@@ -319,6 +342,8 @@
 
 		if(GLOB.use_preloader && instance)
 			world.preloader_load(instance)
+	else
+		orig_area = null // We won't be messing with the old area, null it
 
 	//then instance the /turf and, if multiple tiles are presents, simulates the DMM underlays piling effect
 
@@ -330,8 +355,23 @@
 	SSatoms.map_loader_begin()
 	//instanciate the first /turf
 	var/turf/T
-	if(members[first_turf_index] != /turf/template_noop)
-		T = instance_atom(members[first_turf_index],members_attributes[first_turf_index],crds,no_changeturf,placeOnTop)
+	if(ispath(members[first_turf_index], /turf/template_noop))
+		if(istype(crds, /turf/open/genturf))
+			var/turf/open/genturf/genturf = crds
+			//If the new area is different from the original area, ensure the new turfs are generated as part of the original area
+			if(orig_area && orig_area.type != members[index])
+				LAZYADD(orig_area.additional_genturfs, crds)
+			//Cave generation checks current area flags for generation; ignore them
+			genturf.force_generation = TRUE
+			//Pass on any hints for whether the turf should be open or closed
+			if(ispath(members[first_turf_index], /turf/template_noop/closed))
+				genturf.genturf_hint = GENTURF_HINT_CLOSED
+			else if(ispath(members[first_turf_index], /turf/template_noop/open))
+				genturf.genturf_hint = GENTURF_HINT_OPEN
+	else
+		///Disable placeOnTop for genturfs, instead making sure to replace them
+		var/shouldPlaceOnTop = placeOnTop && !istype(crds, /turf/open/genturf)
+		T = instance_atom(members[first_turf_index],members_attributes[first_turf_index],crds,no_changeturf,shouldPlaceOnTop)
 
 	if(T)
 		//if others /turf are presents, simulates the underlays piling effect
@@ -423,12 +463,13 @@
 
 		var/trim_left = trim_text(copytext(text,old_position,(equal_position ? equal_position : position)))
 		var/left_constant = delimiter == ";" ? trim_left : parse_constant(trim_left)
-		old_position = position + 1
+		if(position)
+			old_position = position + length(text[position])
 
-		if(equal_position && !isnum(left_constant))
+		if(equal_position && !isnum_safe(left_constant))
 			// Associative var, so do the association.
 			// Note that numbers cannot be keys - the RHS is dropped if so.
-			var/trim_right = trim_text(copytext(text,equal_position+1,position))
+			var/trim_right = trim_text(copytext(text, equal_position + length(text[equal_position]), position))
 			var/right_constant = parse_constant(trim_right)
 			.[left_constant] = right_constant
 
@@ -438,16 +479,16 @@
 /datum/parsed_map/proc/parse_constant(text)
 	// number
 	var/num = text2num(text)
-	if(isnum(num))
+	if(isnum_safe(num))
 		return num
 
 	// string
-	if(findtext(text,"\"",1,2))
-		return copytext(text,2,findtext(text,"\"",3,0))
+	if(text[1] == "\"")
+		return copytext(text, length(text[1]) + 1, findtext(text, "\"", length(text[1]) + 1))
 
 	// list
-	if(copytext(text,1,6) == "list(")
-		return readlist(copytext(text,6,length(text)))
+	if(copytext(text, 1, 6) == "list(")//6 == length("list(") + 1
+		return readlist(copytext(text, 6, -1))
 
 	// typepath
 	var/path = text2path(text)
@@ -455,8 +496,8 @@
 		return path
 
 	// file
-	if(copytext(text,1,2) == "'")
-		return file(copytext(text,2,length(text)))
+	if(text[1] == "'")
+		return file(copytext_char(text, 2, -1))
 
 	// null
 	if(text == "null")
@@ -471,4 +512,9 @@
 
 /datum/parsed_map/Destroy()
 	..()
+	turf_blacklist.Cut()
+	parsed_bounds.Cut()
+	bounds.Cut()
+	grid_models.Cut()
+	gridSets.Cut()
 	return QDEL_HINT_HARDDEL_NOW

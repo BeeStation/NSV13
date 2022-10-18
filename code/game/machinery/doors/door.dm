@@ -7,15 +7,18 @@
 	density = TRUE
 	move_resist = MOVE_FORCE_VERY_STRONG
 	layer = OPEN_DOOR_LAYER
-	power_channel = ENVIRON
+	power_channel = AREA_USAGE_ENVIRON
+	pass_flags_self = PASSDOORS
 	max_integrity = 350
-	armor = list("melee" = 30, "bullet" = 30, "laser" = 20, "energy" = 20, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 70)
+	armor = list("melee" = 30, "bullet" = 30, "laser" = 20, "energy" = 20, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 70, "stamina" = 0)
 	CanAtmosPass = ATMOS_PASS_DENSITY
 	flags_1 = PREVENT_CLICK_UNDER_1
+	ricochet_chance_mod = 0.8
 	damage_deflection = 10
 
 	interaction_flags_atom = INTERACT_ATOM_UI_INTERACT
 
+	var/air_tight = FALSE	//TRUE means density will be set as soon as the door begins to close
 	var/secondsElectrified = MACHINE_NOT_ELECTRIFIED
 	var/shockedby
 	var/visible = TRUE
@@ -36,6 +39,7 @@
 	var/red_alert_access = FALSE //if TRUE, this door will always open on red alert
 	var/poddoor = FALSE
 	var/unres_sides = 0 //Unrestricted sides. A bitflag for which direction (if any) can open the door with no access
+	var/open_speed = 5
 
 /obj/machinery/door/examine(mob/user)
 	. = ..()
@@ -84,6 +88,7 @@
 	return ..()
 
 /obj/machinery/door/Bumped(atom/movable/AM)
+	. = ..()
 	if(operating || (obj_flags & EMAGGED))
 		return
 	if(ismob(AM))
@@ -128,10 +133,14 @@
 	. = ..()
 	move_update_air(T)
 
-/obj/machinery/door/CanPass(atom/movable/mover, turf/target)
+/obj/machinery/door/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(.)
+		return
+	// Snowflake handling for PASSGLASS.
 	if(istype(mover) && (mover.pass_flags & PASSGLASS))
 		return !opacity
-	return !density
+	return (mover.pass_flags & PASSDOOR) //nsv13 - bloodling passdoor
 
 /obj/machinery/door/proc/bumpopen(mob/user)
 	if(operating)
@@ -151,14 +160,14 @@
 	. = ..()
 	if(.)
 		return
-	return try_to_activate_door(user)
+	return try_to_activate_door(null, user)
 
 /obj/machinery/door/attack_tk(mob/user)
 	if(requiresID() && !allowed(null))
 		return
 	..()
 
-/obj/machinery/door/proc/try_to_activate_door(mob/user)
+/obj/machinery/door/proc/try_to_activate_door(obj/item/I, mob/user)
 	add_fingerprint(user)
 	if(operating || (obj_flags & EMAGGED))
 		return
@@ -189,15 +198,40 @@
 /obj/machinery/door/proc/try_to_crowbar(obj/item/I, mob/user)
 	return
 
+/obj/machinery/door/proc/is_holding_pressure()
+	var/turf/open/T = loc
+	if(!T)
+		return FALSE
+	if(!density)
+		return FALSE
+	// alrighty now we check for how much pressure we're holding back
+	var/min_moles = T.air.total_moles()
+	var/max_moles = min_moles
+	// okay this is a bit hacky. First, we set density to 0 and recalculate our adjacent turfs
+	density = FALSE
+	T.ImmediateCalculateAdjacentTurfs()
+	// then we use those adjacent turfs to figure out what the difference between the lowest and highest pressures we'd be holding is
+	for(var/turf/open/T2 in T.atmos_adjacent_turfs)
+		if((flags_1 & ON_BORDER_1) && get_dir(src, T2) != dir)
+			continue
+		var/moles = T2.air.total_moles()
+		if(moles < min_moles)
+			min_moles = moles
+		if(moles > max_moles)
+			max_moles = moles
+	density = TRUE
+	T.ImmediateCalculateAdjacentTurfs() // alright lets put it back
+	return max_moles - min_moles > 20
+
 /obj/machinery/door/attackby(obj/item/I, mob/user, params)
-	if(user.a_intent != INTENT_HARM && (I.tool_behaviour == TOOL_CROWBAR || istype(I, /obj/item/twohanded/fireaxe)))
+	if(user.a_intent != INTENT_HARM && (I.tool_behaviour == TOOL_CROWBAR || istype(I, /obj/item/fireaxe)))
 		try_to_crowbar(I, user)
 		return 1
 	else if(I.tool_behaviour == TOOL_WELDER)
 		try_to_weld(I, user)
 		return 1
 	else if(!(I.item_flags & NOBLUDGEON) && user.a_intent != INTENT_HARM)
-		try_to_activate_door(user)
+		try_to_activate_door(I, user)
 		return 1
 	return ..()
 
@@ -265,9 +299,9 @@
 	operating = TRUE
 	do_animate("opening")
 	set_opacity(0)
-	sleep(5)
+	sleep(open_speed)
 	density = FALSE
-	sleep(5)
+	sleep(open_speed)
 	layer = initial(layer)
 	update_icon()
 	set_opacity(0)
@@ -295,9 +329,11 @@
 
 	do_animate("closing")
 	layer = closingLayer
-	sleep(5)
+	if(air_tight)
+		density = TRUE
+	sleep(open_speed)
 	density = TRUE
-	sleep(5)
+	sleep(open_speed)
 	update_icon()
 	if(visible && !glass)
 		set_opacity(1)
@@ -306,7 +342,7 @@
 	update_freelook_sight()
 	if(safe)
 		CheckForMobs()
-	else
+	else if(!(flags_1 & ON_BORDER_1))
 		crush()
 	return 1
 
@@ -322,20 +358,25 @@
 			L.adjustBruteLoss(DOOR_CRUSH_DAMAGE * 1.5) //Xenos go into crit after aproximately the same amount of crushes as humans.
 			L.emote("roar")
 		else if(ishuman(L)) //For humans
-			L.adjustBruteLoss(DOOR_CRUSH_DAMAGE)
+			var/armour = L.run_armor_check(BODY_ZONE_CHEST, "melee")
+			var/multiplier = CLAMP(1 - (armour * 0.01), 0, 1)
+			L.adjustBruteLoss(multiplier * DOOR_CRUSH_DAMAGE)
 			L.emote("scream")
-			L.Paralyze(100)
+			if(!L.IsParalyzed())
+				L.Paralyze(60)
 		else if(ismonkey(L)) //For monkeys
 			L.adjustBruteLoss(DOOR_CRUSH_DAMAGE)
-			L.Paralyze(100)
+			if(!L.IsParalyzed())
+				L.Paralyze(60)
 		else //for simple_animals & borgs
 			L.adjustBruteLoss(DOOR_CRUSH_DAMAGE)
 		var/turf/location = get_turf(src)
 		//add_blood doesn't work for borgs/xenos, but add_blood_floor does.
 		L.add_splatter_floor(location)
+		log_combat(src, L, "crushed")
 	for(var/obj/mecha/M in get_turf(src))
 		M.take_damage(DOOR_CRUSH_DAMAGE)
-
+		log_combat(src, M, "crushed")
 /obj/machinery/door/proc/autoclose()
 	if(!QDELETED(src) && !density && !operating && !locked && !welded && autoclose)
 		close()
@@ -353,7 +394,7 @@
 	if(!glass && GLOB.cameranet)
 		GLOB.cameranet.updateVisibility(src, 0)
 
-/obj/machinery/door/BlockSuperconductivity() // All non-glass airlocks block heat, this is intended.
+/obj/machinery/door/BlockThermalConductivity() // All non-glass airlocks block heat, this is intended.
 	if(opacity || heat_proof)
 		return 1
 	return 0

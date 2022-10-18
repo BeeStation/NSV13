@@ -5,11 +5,16 @@
 	icon_keyboard = "teleport_key"
 	light_color = LIGHT_COLOR_BLUE
 	circuit = /obj/item/circuitboard/computer/teleporter
+
+
 	var/regime_set = "Teleporter"
 	var/id
 	var/obj/machinery/teleport/station/power_station
 	var/calibrating
-	var/turf/target
+	///Weakref to the target atom we're pointed at currently
+	var/datum/weakref/target_ref
+
+	var/target_area_name
 
 /obj/machinery/computer/teleporter/Initialize()
 	. = ..()
@@ -29,36 +34,52 @@
 		power_station = locate(/obj/machinery/teleport/station, get_step(src, direction))
 		if(power_station)
 			break
+	ui_update()
 	return power_station
 
-/obj/machinery/computer/teleporter/ui_interact(mob/user)
-	. = ..()
-	var/data = "<h3>Teleporter Status</h3>"
-	if(!power_station)
-		data += "<div class='statusDisplay'>No power station linked.</div>"
-	else if(!power_station.teleporter_hub)
-		data += "<div class='statusDisplay'>No hub linked.</div>"
+
+/obj/machinery/computer/teleporter/ui_requires_update(mob/user, datum/tgui/ui)
+	// Using ui_update here so the changes apply to all viewers, since ui_data updates those vars
+	if(target_ref)
+		var/atom/target = target_ref.resolve()
+		if(!target)
+			ui_update() // Update once if target is gone. There is probably a better way to do this.
+		else if(target_area_name != "[get_area(target)]")
+			ui_update() // Update if the area name changed. This should be fine, because autoupdate stringifies area every process anyways.
+	. = ..() // Call parent proc last so ui_update takes effect immediately
+
+/obj/machinery/computer/teleporter/ui_state(mob/user)
+	return GLOB.default_state
+
+/obj/machinery/computer/teleporter/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "Teleporter")
+		ui.open()
+
+/obj/machinery/computer/teleporter/ui_data(mob/user)
+	var/atom/target
+	if(target_ref)
+		target = target_ref.resolve()
+	if(!target)
+		target_ref = null
+	var/list/data = list()
+	data["power_station"] = power_station ? TRUE : FALSE
+	data["teleporter_hub"] = power_station?.teleporter_hub ? TRUE : FALSE
+	data["regime_set"] = regime_set
+	if(target)
+		target_area_name = "[get_area(target)]"
+	data["target"] = !target ? "None" : "[target_area_name] [(regime_set != "Gate") ? "" : "Teleporter"]"
+	data["calibrating"] = calibrating
+
+	if(power_station?.teleporter_hub?.calibrated || power_station?.teleporter_hub?.accuracy >= 4)
+		data["calibrated"] = TRUE
 	else
-		data += "<div class='statusDisplay'>Current regime: [regime_set]<BR>"
-		data += "Current target: [(!target) ? "None" : "[get_area(target)] [(regime_set != "Gate") ? "" : "Teleporter"]"]<BR>"
-		if(calibrating)
-			data += "Calibration: <font color='yellow'>In Progress</font>"
-		else if(power_station.teleporter_hub.calibrated || power_station.teleporter_hub.accuracy >= 3)
-			data += "Calibration: <font color='green'>Optimal</font>"
-		else
-			data += "Calibration: <font color='red'>Sub-Optimal</font>"
-		data += "</div><BR>"
+		data["calibrated"] = FALSE
 
-		data += "<A href='?src=[REF(src)];regimeset=1'>Change regime</A><BR>"
-		data += "<A href='?src=[REF(src)];settarget=1'>Set target</A><BR>"
+	return data
 
-		data += "<BR><A href='?src=[REF(src)];calibrate=1'>Calibrate Hub</A>"
-
-	var/datum/browser/popup = new(user, "teleporter", name, 400, 400)
-	popup.set_content(data)
-	popup.open()
-
-/obj/machinery/computer/teleporter/Topic(href, href_list)
+/obj/machinery/computer/teleporter/ui_act(action, params)
 	if(..())
 		return
 
@@ -69,38 +90,42 @@
 		say("Error: Calibration in progress. Stand by.")
 		return
 
-	if(href_list["regimeset"])
-		power_station.engaged = 0
-		power_station.teleporter_hub.update_icon()
-		power_station.teleporter_hub.calibrated = 0
-		reset_regime()
-	if(href_list["settarget"])
-		power_station.engaged = 0
-		power_station.teleporter_hub.update_icon()
-		power_station.teleporter_hub.calibrated = 0
-		set_target(usr)
-	if(href_list["calibrate"])
-		if(!target)
-			say("Error: No target set to calibrate to.")
-			return
-		if(power_station.teleporter_hub.calibrated || power_station.teleporter_hub.accuracy >= 3)
-			say("Hub is already calibrated!")
-			return
-		say("Processing hub calibration to target...")
+	switch(action)
+		if("regimeset")
+			power_station.engaged = FALSE
+			power_station.teleporter_hub.update_icon()
+			power_station.teleporter_hub.calibrated = FALSE
+			reset_regime()
+			. = TRUE
+		if("settarget")
+			power_station.engaged = FALSE
+			power_station.teleporter_hub.update_icon()
+			power_station.teleporter_hub.calibrated = FALSE
+			set_target(usr)
+			. = TRUE
+		if("calibrate")
+			if(!target_ref)
+				say("Error: No target set to calibrate to.")
+				return
+			if(power_station.teleporter_hub.calibrated || power_station.teleporter_hub.accuracy >= 4)
+				say("Hub is already calibrated!")
+				return
 
-		calibrating = 1
-		power_station.update_icon()
-		spawn(50 * (3 - power_station.teleporter_hub.accuracy)) //Better parts mean faster calibration
-			calibrating = 0
-			if(check_hub_connection())
-				power_station.teleporter_hub.calibrated = 1
-				say("Calibration complete.")
-			else
-				say("Error: Unable to detect hub.")
+			say("Processing hub calibration to target...")
+			calibrating = TRUE
 			power_station.update_icon()
-			updateDialog()
+			var/calibrationtime = 50 * (3 - power_station.teleporter_hub.accuracy)
+			addtimer(CALLBACK(src, .proc/calibrate), calibrationtime)
+			. = TRUE
 
-	updateDialog()
+/obj/machinery/computer/teleporter/proc/calibrate()
+	calibrating = FALSE
+	if(check_hub_connection())
+		power_station.teleporter_hub.calibrated = TRUE
+		say("Calibration complete.")
+	else
+		say("Error: Unable to detect hub.")
+	power_station.update_icon()
 
 /obj/machinery/computer/teleporter/proc/check_hub_connection()
 	if(!power_station)
@@ -110,7 +135,7 @@
 	return TRUE
 
 /obj/machinery/computer/teleporter/proc/reset_regime()
-	target = null
+	target_ref = null
 	if(regime_set == "Teleporter")
 		regime_set = "Gate"
 	else
@@ -139,10 +164,10 @@
 				if(is_eligible(I))
 					L[avoid_assoc_duplicate_keys("[M.real_name] ([get_area(M)])", areaindex)] = I
 
-		var/desc = input("Please select a location to lock in.", "Locking Computer") as null|anything in L
-		target = L[desc]
-		var/turf/T = get_turf(target)
-		log_game("[key_name(user)] has set the teleporter target to [target] at [AREACOORD(T)]")
+		var/desc = input("Please select a location to lock in.", "Locking Computer") as null|anything in sortList(L)
+		target_ref = WEAKREF(L[desc])
+		var/turf/T = get_turf(L[desc])
+		log_game("[key_name(user)] has set the teleporter target to [L[desc]] at [AREACOORD(T)]")
 
 	else
 		var/list/S = power_station.linked_stations
@@ -153,13 +178,13 @@
 		if(!L.len)
 			to_chat(user, "<span class='alert'>No active connected stations located.</span>")
 			return
-		var/desc = input("Please select a station to lock in.", "Locking Computer") as null|anything in L
+		var/desc = input("Please select a station to lock in.", "Locking Computer") as null|anything in sortList(L)
 		var/obj/machinery/teleport/station/target_station = L[desc]
 		if(!target_station || !target_station.teleporter_hub)
 			return
 		var/turf/T = get_turf(target_station)
 		log_game("[key_name(user)] has set the teleporter target to [target_station] at [AREACOORD(T)]")
-		target = target_station.teleporter_hub
+		target_ref = WEAKREF(target_station.teleporter_hub)
 		target_station.linked_stations |= power_station
 		target_station.stat &= ~NOPOWER
 		if(target_station.teleporter_hub)
@@ -176,6 +201,6 @@
 	if(is_centcom_level(T.z) || is_away_level(T.z))
 		return FALSE
 	var/area/A = get_area(T)
-	if(!A || A.noteleport)
+	if(!A || A.teleport_restriction)
 		return FALSE
 	return TRUE

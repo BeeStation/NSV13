@@ -30,6 +30,13 @@
 
 	var/attached = 0
 
+/obj/item/clothing/mask/facehugger/Initialize(mapload)
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
 /obj/item/clothing/mask/facehugger/lamarr
 	name = "Lamarr"
 	sterile = 1
@@ -87,7 +94,9 @@
 /obj/item/clothing/mask/facehugger/equipped(mob/M)
 	Attach(M)
 
-/obj/item/clothing/mask/facehugger/Crossed(atom/target)
+/obj/item/clothing/mask/facehugger/proc/on_entered(datum/source, atom/target)
+	SIGNAL_HANDLER
+
 	HasProximity(target)
 	return
 
@@ -101,7 +110,7 @@
 		return Leap(AM)
 	return 0
 
-/obj/item/clothing/mask/facehugger/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback)
+/obj/item/clothing/mask/facehugger/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, quickstart = TRUE)
 	if(!..())
 		return
 	if(stat == CONSCIOUS)
@@ -169,7 +178,7 @@
 			if(target.dropItemToGround(W))
 				target.visible_message("<span class='danger'>[src] tears [W] off of [target]'s face!</span>", \
 									"<span class='userdanger'>[src] tears [W] off of your face!</span>")
-		target.equip_to_slot_if_possible(src, SLOT_WEAR_MASK, 0, 1, 1)
+		target.equip_to_slot_if_possible(src, ITEM_SLOT_MASK, 0, 1, 1)
 	return TRUE // time for a smoke
 
 /obj/item/clothing/mask/facehugger/proc/Attach(mob/living/M)
@@ -256,7 +265,7 @@
 		return 1
 
 	var/mob/living/carbon/C = M
-	if(ishuman(C) && !(SLOT_WEAR_MASK in C.dna.species.no_equip))
+	if(ishuman(C) && !(ITEM_SLOT_MASK in C.dna.species.no_equip))
 		var/mob/living/carbon/human/H = C
 		if(H.is_mouth_covered(head_only = 1))
 			return 0

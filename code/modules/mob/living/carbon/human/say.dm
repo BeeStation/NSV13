@@ -1,32 +1,9 @@
-/mob/living/carbon/human/say_mod(input, message_mode)
+/mob/living/carbon/human/say_mod(input, list/message_mods = list())
 	verb_say = dna.species.say_mod
 	if(slurring)
 		return "slurs"
 	else
 		. = ..()
-
-/mob/living/carbon/human/treat_message(message)
-	message = dna.species.handle_speech(message,src)
-	if(diseases.len)
-		for(var/datum/disease/pierrot_throat/D in diseases)
-			var/list/temp_message = splittext(message, " ") //List each word in the message
-			var/list/pick_list = list()
-			for(var/i = 1, i <= temp_message.len, i++) //Create a second list for excluding words down the line
-				pick_list += i
-			for(var/i=1, ((i <= D.stage) && (i <= temp_message.len)), i++) //Loop for each stage of the disease or until we run out of words
-				if(prob(3 * D.stage)) //Stage 1: 3% Stage 2: 6% Stage 3: 9% Stage 4: 12%
-					var/H = pick(pick_list)
-					if(findtext(temp_message[H], "*") || findtext(temp_message[H], ";") || findtext(temp_message[H], ":"))
-						continue
-					temp_message[H] = "HONK"
-					pick_list -= H //Make sure that you dont HONK the same word twice
-				message = jointext(temp_message, " ")
-	message = ..(message)
-	message = dna.mutations_say_mods(message)
-	return message
-
-/mob/living/carbon/human/get_spans()
-	return ..() | dna.mutations_get_spans() | dna.species_get_spans()
 
 /mob/living/carbon/human/GetVoice()
 	if(istype(wear_mask, /obj/item/clothing/mask/chameleon))
@@ -70,35 +47,28 @@
 /mob/living/carbon/human/binarycheck()
 	if(..()) //NSV13- If they have the binary speaker trait. Used for synthetics
 		return TRUE
-	if(ears)
-		var/obj/item/radio/headset/dongle = ears
-		if(!istype(dongle))
-			return FALSE
-		if(dongle.translate_binary)
-			return TRUE
+	if(stat >= SOFT_CRIT || !ears)
+		return FALSE
+	var/obj/item/radio/headset/dongle = ears
+	if(!istype(dongle))
+		return FALSE
+	return dongle.translate_binary
 
-/mob/living/carbon/human/radio(message, message_mode, list/spans, language)
+/mob/living/carbon/human/radio(message, list/message_mods = list(), list/spans, language)
 	. = ..()
-	if(. != 0)
+	if(. != FALSE)
 		return .
 
-	switch(message_mode)
-		if(MODE_HEADSET)
-			if (ears)
-				ears.talk_into(src, message, , spans, language)
-			return ITALICS | REDUCE_RANGE
-
-		if(MODE_DEPARTMENT)
-			if (ears)
-				ears.talk_into(src, message, message_mode, spans, language)
-			return ITALICS | REDUCE_RANGE
-
-	if(message_mode in GLOB.radiochannels)
+	if(message_mods[MODE_HEADSET])
 		if(ears)
-			ears.talk_into(src, message, message_mode, spans, language)
+			ears.talk_into(src, message, , spans, language, message_mods)
+		return ITALICS | REDUCE_RANGE
+	else if(message_mods[RADIO_EXTENSION] == MODE_DEPARTMENT || (GLOB.radiochannels[message_mods[RADIO_EXTENSION]]))
+		if(ears)
+			ears.talk_into(src, message, message_mods[RADIO_EXTENSION], spans, language, message_mods)
 			return ITALICS | REDUCE_RANGE
 
-	return 0
+	return FALSE
 
 /mob/living/carbon/human/get_alt_name()
 	if(name != GetVoice())
@@ -107,30 +77,22 @@
 /mob/living/carbon/human/proc/forcesay(list/append) //this proc is at the bottom of the file because quote fuckery makes notepad++ cri
 	if(stat == CONSCIOUS)
 		if(client)
-			var/virgin = 1	//has the text been modified yet?
 			var/temp = winget(client, "input", "text")
-			if(findtextEx(temp, "Say \"", 1, 7) && length(temp) > 5)	//"case sensitive means
+			var/say_starter = "Say \"" //"
+			if(findtextEx(temp, say_starter, 1, length(say_starter) + 1) && length(temp) > length(say_starter))	//case sensitive means
 
-				temp = replacetext(temp, ";", "")	//general radio
+				temp = trim_left(copytext(temp, length(say_starter) + 1))
+				temp = replacetext(temp, ";", "", 1, 2)	//general radio
+				while(trim_left(temp)[1] == ":")	//dept radio again (necessary)
+					temp = copytext_char(trim_left(temp), 3)
 
-				if(findtext(trim_left(temp), ":", 6, 7))	//dept radio
-					temp = copytext(trim_left(temp), 8)
-					virgin = 0
-
-				if(virgin)
-					temp = copytext(trim_left(temp), 6)	//normal speech
-					virgin = 0
-
-				while(findtext(trim_left(temp), ":", 1, 2))	//dept radio again (necessary)
-					temp = copytext(trim_left(temp), 3)
-
-				if(findtext(temp, "*", 1, 2))	//emotes
+				if(temp[1] == "*")	//emotes
 					return
 
 				var/trimmed = trim_left(temp)
 				if(length(trimmed))
 					if(append)
-						temp += pick(append)
+						trimmed  += pick(append)
 
-					say(temp)
+					say(trimmed)
 				winset(client, "input", "text=[null]")

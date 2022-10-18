@@ -6,9 +6,8 @@ on:
 
 jobs:
   stale:
-
     runs-on: ubuntu-latest
-
+    if: github.repository == 'BeeStation/NSV13'
     steps:
     - uses: actions/stale@v1
       with:

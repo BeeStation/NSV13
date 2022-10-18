@@ -40,6 +40,7 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 	var/mob/affecting = null
 	var/deity_name = "Christ"
 	force_string = "holy"
+	block_upgrade_walk = 1
 
 /obj/item/storage/book/bible/Initialize()
 	. = ..()
@@ -55,8 +56,8 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 	if(!H.can_read(src))
 		return FALSE
 	// If H is the Chaplain, we can set the icon_state of the bible (but only once!)
-	if(!GLOB.bible_icon_state && H.job == "Chaplain")
-		var/dat = "<html><head><title>Pick Bible Style</title></head><body><center><h2>Pick a bible style</h2></center><table>"
+	if(!GLOB.bible_icon_state && H.mind.holy_role == HOLY_ROLE_HIGHPRIEST)
+		var/dat = "<html><head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8'><title>Pick Bible Style</title></head><body><center><h2>Pick a bible style</h2></center><table>"
 		for(var/i in 1 to GLOB.biblestates.len)
 			var/icon/bibleicon = icon('icons/obj/storage.dmi', GLOB.biblestates[i])
 			var/nicename = GLOB.biblenames[i]
@@ -77,15 +78,21 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 		if(icon_state == "honk1" || icon_state == "honk2")
 			var/mob/living/carbon/human/H = usr
 			H.dna.add_mutation(CLOWNMUT)
-			H.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/clown_hat(H), SLOT_WEAR_MASK)
-
+			H.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/clown_hat(H), ITEM_SLOT_MASK)
 		GLOB.bible_icon_state = icon_state
 		GLOB.bible_item_state = item_state
 
 		SSblackbox.record_feedback("text", "religion_book", 1, "[biblename]")
 		usr << browse(null, "window=editicon")
 
-/obj/item/storage/book/bible/proc/bless(mob/living/carbon/human/H, mob/living/user)
+/obj/item/storage/book/bible/proc/bless(mob/living/L, mob/living/user)
+	if(GLOB.religious_sect)
+		return GLOB.religious_sect.sect_bless(L,user)
+	if(!ishuman(L))
+		return
+
+	var/mob/living/carbon/human/H = L
+
 	for(var/X in H.bodyparts)
 		var/obj/item/bodypart/BP = X
 		if(BP.status == BODYPART_ROBOTIC)
@@ -119,7 +126,7 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 		return
 
 	var/chaplain = 0
-	if(user.mind && (user.mind.isholy))
+	if(user?.mind?.holy_role)
 		chaplain = 1
 
 	if(!chaplain)
@@ -137,12 +144,12 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 			to_chat(user, "<span class='warning'>You can't heal yourself!</span>")
 			return
 
-		if(ishuman(M) && prob(60) && bless(M, user))
+		if(prob(60) && bless(M, user))
 			smack = 0
 		else if(iscarbon(M))
 			var/mob/living/carbon/C = M
 			if(!istype(C.head, /obj/item/clothing/head/helmet))
-				C.adjustBrainLoss(5, 60)
+				C.adjustOrganLoss(ORGAN_SLOT_BRAIN, 5, 60)
 				to_chat(C, "<span class='danger'>You feel dumber.</span>")
 
 		if(smack)
@@ -161,10 +168,10 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 		return
 	if(isfloorturf(A))
 		to_chat(user, "<span class='notice'>You hit the floor with the bible.</span>")
-		if(user.mind && (user.mind.isholy))
+		if(user?.mind?.holy_role)
 			for(var/obj/effect/rune/R in orange(2,user))
 				R.invisibility = 0
-	if(user.mind && (user.mind.isholy))
+	if(user?.mind?.holy_role)
 		if(A.reagents && A.reagents.has_reagent(/datum/reagent/water)) // blesses all the water in the holder
 			to_chat(user, "<span class='notice'>You bless [A].</span>")
 			var/water2holy = A.reagents.get_reagent_amount(/datum/reagent/water)
@@ -181,8 +188,8 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 			B.name = name
 			B.icon_state = icon_state
 			B.item_state = item_state
-	if(istype(A, /obj/item/twohanded/required/cult_bastard) && !iscultist(user))
-		var/obj/item/twohanded/required/cult_bastard/sword = A
+	if(istype(A, /obj/item/cult_bastard) && !iscultist(user))
+		var/obj/item/cult_bastard/sword = A
 		to_chat(user, "<span class='notice'>You begin to exorcise [sword].</span>")
 		playsound(src,'sound/hallucinations/veryfar_noise.ogg',40,1)
 		if(do_after(user, 40, target = sword))
@@ -217,9 +224,9 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 						SSticker.mode.remove_cultist(M.mind, FALSE, FALSE)
 			for(var/mob/living/simple_animal/shade/EX in SS)
 				EX.icon_state = "ghost1"
-				EX.name = "Purified [initial(EX.name)]"				
+				EX.name = "Purified [initial(EX.name)]"
 			user.visible_message("<span class='notice'>[user] has purified [SS]!</span>")
-			
+
 /obj/item/storage/book/bible/booze
 	desc = "To be applied to the head repeatedly."
 
@@ -241,7 +248,7 @@ GLOBAL_LIST_INIT(bibleitemstates, list("bible", "koran", "scrapbook", "burning",
 
 /obj/item/storage/book/bible/syndicate/attack_self(mob/living/carbon/human/H)
 	if (uses)
-		H.mind.isholy = TRUE
+		H.mind.holy_role = HOLY_ROLE_PRIEST
 		uses -= 1
 		to_chat(H, "<span class='userdanger'>You try to open the book AND IT BITES YOU!</span>")
 		playsound(src.loc, 'sound/effects/snap.ogg', 50, 1)

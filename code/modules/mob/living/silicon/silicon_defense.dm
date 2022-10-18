@@ -26,7 +26,7 @@
 /mob/living/silicon/attack_animal(mob/living/simple_animal/M)
 	. = ..()
 	if(.)
-		var/damage = rand(M.melee_damage_lower, M.melee_damage_upper)
+		var/damage = M.melee_damage
 		if(prob(damage))
 			for(var/mob/living/N in buckled_mobs)
 				N.Paralyze(20)
@@ -76,10 +76,21 @@
 		if("grab")
 			grabbedby(M)
 		else
+			if(HAS_TRAIT(M, TRAIT_PACIFISM))
+				to_chat(M, "<span class='notice'>You don't want to hurt [src]!</span>")
+				return
+			if(M.dna.species.punchdamage >= 10)
+				adjustBruteLoss(M.dna.species.punchdamage)
+				playsound(loc, "punch", 25, 1, -1)
+				visible_message("<span class='danger'>[M] punches [src]!</span>", \
+					"<span class='userdanger'>[M] punches you!</span>", null, COMBAT_MESSAGE_RANGE)
+				log_combat(M, src, "attacked")
+				return
 			M.do_attack_animation(src, ATTACK_EFFECT_PUNCH)
 			playsound(src.loc, 'sound/effects/bang.ogg', 10, 1)
 			visible_message("<span class='danger'>[M] punches [src], but doesn't leave a dent!</span>", \
 				"<span class='warning'>[M] punches you, but doesn't leave a dent!</span>", null, COMBAT_MESSAGE_RANGE)
+			log_combat(M, src, "tried to punch")
 
 /mob/living/silicon/attack_drone(mob/living/simple_animal/drone/M)
 	if(M.a_intent == INTENT_HARM)
@@ -111,7 +122,7 @@
 			M.visible_message("<span class='boldwarning'>[M] is thrown off of [src]!</span>")
 	flash_act(affect_silicon = 1)
 
-/mob/living/silicon/bullet_act(obj/item/projectile/Proj, def_zone)
+/mob/living/silicon/bullet_act(obj/item/projectile/Proj, def_zone, piercing_hit = FALSE)
 	SEND_SIGNAL(src, COMSIG_ATOM_BULLET_ACT, Proj, def_zone)
 	if((Proj.damage_type == BRUTE || Proj.damage_type == BURN))
 		adjustBruteLoss(Proj.damage)
@@ -124,9 +135,9 @@
 		for(var/mob/living/M in buckled_mobs)
 			unbuckle_mob(M)
 			M.visible_message("<span class='boldwarning'>[M] is knocked off of [src] by the [Proj]!</span>")
-	Proj.on_hit(src)
+	Proj.on_hit(src, 0, piercing_hit)
 	return BULLET_ACT_HIT
 
-/mob/living/silicon/flash_act(intensity = 1, override_blindness_check = 0, affect_silicon = 0, visual = 0, type = /obj/screen/fullscreen/flash/static)
+/mob/living/silicon/flash_act(intensity = 1, override_blindness_check = 0, affect_silicon = 0, visual = 0, type = /atom/movable/screen/fullscreen/flash/static)
 	if(affect_silicon)
 		return ..()

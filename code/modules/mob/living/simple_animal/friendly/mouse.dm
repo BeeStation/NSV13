@@ -25,6 +25,11 @@
 	var/body_color //brown, gray and white, leave blank for random
 	gold_core_spawnable = FRIENDLY_SPAWN
 	var/chew_probability = 1
+	chat_color = "#82AF84"
+	var/list/ratdisease = list()
+	can_be_held = TRUE
+	worn_slot_flags = ITEM_SLOT_HEAD
+
 
 /mob/living/simple_animal/mouse/Initialize()
 	. = ..()
@@ -34,6 +39,23 @@
 	icon_state = "mouse_[body_color]"
 	icon_living = "mouse_[body_color]"
 	icon_dead = "mouse_[body_color]_dead"
+	held_state = "mouse_[body_color]"
+	if(prob(75))
+		var/datum/disease/advance/R = new /datum/disease/advance/random(rand(3, 6), 9, rand(3,4), infected = src)
+		ratdisease += R
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
+/mob/living/simple_animal/mouse/extrapolator_act(mob/user, var/obj/item/extrapolator/E, scan = TRUE)
+	if(!ratdisease.len)
+		return FALSE
+	if(scan)
+		E.scan(src, ratdisease, user)
+	else
+		E.extrapolate(src, ratdisease, user)
+	return TRUE
 
 
 /mob/living/simple_animal/mouse/proc/splat()
@@ -42,12 +64,14 @@
 	death()
 
 /mob/living/simple_animal/mouse/death(gibbed, toast)
+	var/list/data = list("donor" = src.type, "viruses" = ratdisease) // NSV13 - Add mouse donor field for tracking later
 	if(!ckey)
 		..(1)
 		if(!gibbed)
 			var/obj/item/reagent_containers/food/snacks/deadmouse/M = new(loc)
 			M.icon_state = icon_dead
 			M.name = name
+			M.reagents.add_reagent(/datum/reagent/blood, 2, data)
 			if(toast)
 				M.add_atom_colour("#3A3A3A", FIXED_COLOUR_PRIORITY)
 				M.desc = "It's toast."
@@ -55,12 +79,13 @@
 	else
 		..(gibbed)
 
-/mob/living/simple_animal/mouse/Crossed(AM as mob|obj)
+/mob/living/simple_animal/mouse/proc/on_entered(datum/source, AM as mob|obj)
+	SIGNAL_HANDLER
+
 	if( ishuman(AM) )
 		if(!stat)
 			var/mob/M = AM
 			to_chat(M, "<span class='notice'>[icon2html(src, M)] Squeak!</span>")
-	..()
 
 /mob/living/simple_animal/mouse/handle_automated_action()
 	if(prob(chew_probability))
@@ -84,6 +109,7 @@
 /mob/living/simple_animal/mouse/white
 	body_color = "white"
 	icon_state = "mouse_white"
+	held_state = "mouse_white"
 
 /mob/living/simple_animal/mouse/gray
 	body_color = "gray"
@@ -92,6 +118,7 @@
 /mob/living/simple_animal/mouse/brown
 	body_color = "brown"
 	icon_state = "mouse_brown"
+	held_state = "mouse_brown"
 
 //TOM IS ALIVE! SQUEEEEEEEE~K :)
 /mob/living/simple_animal/mouse/brown/Tom
@@ -104,7 +131,7 @@
 
 /obj/item/reagent_containers/food/snacks/deadmouse
 	name = "dead mouse"
-	desc = "It looks like somebody dropped the bass on it. A lizard's favorite meal."
+	desc = "It looks like somebody dropped the bass on it. A lizard's favorite meal. May contain diseases."
 	icon = 'icons/mob/animal.dmi'
 	icon_state = "mouse_gray_dead"
 	bitesize = 3
@@ -112,6 +139,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = 3, /datum/reagent/consumable/nutriment/vitamin = 2)
 	foodtype = GROSS | MEAT | RAW
 	grind_results = list(/datum/reagent/blood = 20, /datum/reagent/liquidgibs = 5)
+
 
 /obj/item/reagent_containers/food/snacks/deadmouse/attackby(obj/item/I, mob/user, params)
 	if(I.is_sharp() && user.a_intent == INTENT_HARM)

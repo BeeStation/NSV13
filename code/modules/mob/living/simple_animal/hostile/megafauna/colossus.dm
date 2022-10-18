@@ -35,8 +35,7 @@ Difficulty: Very Hard
 	icon = 'icons/mob/lavaland/96x96megafauna.dmi'
 	speak_emote = list("roars")
 	armour_penetration = 40
-	melee_damage_lower = 40
-	melee_damage_upper = 40
+	melee_damage = 40
 	speed = 10
 	move_to_delay = 10
 	ranged = TRUE
@@ -45,7 +44,7 @@ Difficulty: Very Hard
 	gps_name = "Angelic Signal"
 	medal_type = BOSS_MEDAL_COLOSSUS
 	score_type = COLOSSUS_SCORE
-	crusher_loot = list(/obj/structure/closet/crate/necropolis/colossus/crusher)
+	crusher_loot = list(/obj/structure/closet/crate/necropolis/colossus, /obj/item/crusher_trophy/blaster_tubes)
 	loot = list(/obj/structure/closet/crate/necropolis/colossus)
 	deathmessage = "disintegrates, leaving a glowing core in its wake."
 	deathsound = 'sound/magic/demon_dies.ogg'
@@ -141,7 +140,7 @@ Difficulty: Very Hard
 	telegraph()
 	if(health < maxHealth/3)
 		return double_spiral()
-	visible_message("<span class='colossus'>\"<b>Judgement.</b>\"</span>")
+	visible_message("<span class='colossus'>\"<b>Judgment.</b>\"</span>")
 	return spiral_shoot()
 
 /mob/living/simple_animal/hostile/megafauna/colossus/proc/double_spiral()
@@ -168,7 +167,7 @@ Difficulty: Very Hard
 		sleep(1)
 
 /mob/living/simple_animal/hostile/megafauna/colossus/proc/shoot_projectile(turf/marker, set_angle)
-	if(!isnum(set_angle) && (!marker || marker == loc))
+	if(!isnum_safe(set_angle) && (!marker || marker == loc))
 		return
 	var/turf/startloc = get_turf(src)
 	var/obj/item/projectile/P = new /obj/item/projectile/colossus(startloc)
@@ -192,7 +191,7 @@ Difficulty: Very Hard
 	playsound(src, 'sound/magic/clockwork/invoke_general.ogg', 200, 1, 2)
 	newtonian_move(get_dir(target_turf, src))
 	var/angle_to_target = Get_Angle(src, target_turf)
-	if(isnum(set_angle))
+	if(isnum_safe(set_angle))
 		angle_to_target = set_angle
 	var/static/list/colossus_shotgun_shot_angles = list(12.5, 7.5, 2.5, -2.5, -7.5, -12.5)
 	for(var/i in colossus_shotgun_shot_angles)
@@ -224,6 +223,7 @@ Difficulty: Very Hard
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "at_shield2"
 	layer = FLY_LAYER
+	light_system = MOVABLE_LIGHT
 	light_range = 2
 	duration = 8
 	var/target
@@ -256,9 +256,14 @@ Difficulty: Very Hard
 /obj/item/projectile/colossus/on_hit(atom/target, blocked = FALSE)
 	. = ..()
 	if(isturf(target) || isobj(target))
-		target.ex_act(EXPLODE_HEAVY)
+		if(isobj(target))
+			SSexplosions.med_mov_atom += target
+		else
+			SSexplosions.medturf += target
 
 
+//There can only ever be one blackbox, and we want to know if there already is one when we spawn
+GLOBAL_DATUM(blackbox, /obj/machinery/smartfridge/black_box)
 
 //Black Box
 
@@ -289,11 +294,9 @@ Difficulty: Very Hard
 
 /obj/machinery/smartfridge/black_box/Initialize()
 	. = ..()
-	var/static/obj/machinery/smartfridge/black_box/current
-	if(current && current != src)
-		qdel(src, force=TRUE)
-		return
-	current = src
+	if(GLOB.blackbox != src)
+		return INITIALIZE_HINT_QDEL_FORCE
+	GLOB.blackbox = src
 	ReadMemory()
 
 /obj/machinery/smartfridge/black_box/process()
@@ -322,7 +325,7 @@ Difficulty: Very Hard
 		var/json_file = file("data/npc_saves/Blackbox.json")
 		if(!fexists(json_file))
 			return
-		var/list/json = json_decode(file2text(json_file))
+		var/list/json = json_decode(rustg_file_read(json_file))
 		stored_items = json["data"]
 	if(isnull(stored_items))
 		stored_items = list()
@@ -338,6 +341,8 @@ Difficulty: Very Hard
 
 /obj/machinery/smartfridge/black_box/Destroy(force = FALSE)
 	if(force)
+		if(GLOB.blackbox == src)
+			GLOB.blackbox = null
 		for(var/thing in src)
 			qdel(thing)
 		return ..()
@@ -387,7 +392,6 @@ Difficulty: Very Hard
 	use_power = NO_POWER_USE
 	anchored = FALSE
 	density = TRUE
-	flags_1 = HEAR_1
 	var/activation_method
 	var/list/possible_methods = list(ACTIVATE_TOUCH, ACTIVATE_SPEECH, ACTIVATE_HEAT, ACTIVATE_BULLET, ACTIVATE_ENERGY, ACTIVATE_BOMB, ACTIVATE_MOB_BUMP, ACTIVATE_WEAPON, ACTIVATE_MAGIC)
 
@@ -401,6 +405,7 @@ Difficulty: Very Hard
 	. = ..()
 	if(!activation_method)
 		activation_method = pick(possible_methods)
+	become_hearing_sensitive(trait_source = ROUNDSTART_TRAIT)
 
 /obj/machinery/anomalous_crystal/examine(mob/user)
 	. = ..()
@@ -408,7 +413,7 @@ Difficulty: Very Hard
 		. += observer_desc
 		. += "It is activated by [activation_method]."
 
-/obj/machinery/anomalous_crystal/Hear(message, atom/movable/speaker, message_langs, raw_message, radio_freq, spans, message_mode)
+/obj/machinery/anomalous_crystal/Hear(message, atom/movable/speaker, message_langs, raw_message, radio_freq, spans, list/message_mods = list())
 	..()
 	if(isliving(speaker))
 		ActivationReaction(speaker, ACTIVATE_SPEECH)
@@ -518,10 +523,7 @@ Difficulty: Very Hard
 				if(isturf(Stuff))
 					var/turf/T = Stuff
 					if((isspaceturf(T) || isfloorturf(T)) && NewTerrainFloors)
-						var/turf/open/O = T.ChangeTurf(NewTerrainFloors)
-						if(O.air)
-							var/datum/gas_mixture/G = O.air
-							G.copy_from_turf(O)
+						var/turf/open/O = T.ChangeTurf(NewTerrainFloors, flags = CHANGETURF_INHERIT_AIR)
 						if(prob(florachance) && NewFlora.len && !is_blocked_turf(O, TRUE))
 							var/atom/Picked = pick(NewFlora)
 							new Picked(O)
@@ -639,7 +641,6 @@ Difficulty: Very Hard
 	speak_emote = list("oscillates")
 	maxHealth = 2
 	health = 2
-	harm_intent_damage = 1
 	friendly = "mends"
 	density = FALSE
 	movement_type = FLYING
@@ -668,8 +669,8 @@ Difficulty: Very Hard
 
 /mob/living/simple_animal/hostile/lightgeist/Initialize()
 	. = ..()
-	verbs -= /mob/living/verb/pulled
-	verbs -= /mob/verb/me_verb
+	remove_verb(/mob/living/verb/pulled)
+	remove_verb(/mob/verb/me_verb)
 	var/datum/atom_hud/medsensor = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED]
 	medsensor.add_hud_to(src)
 
@@ -681,11 +682,13 @@ Difficulty: Very Hard
 			L.heal_overall_damage(heal_power, heal_power)
 			new /obj/effect/temp_visual/heal(get_turf(target), "#80F5FF")
 
-/mob/living/simple_animal/hostile/lightgeist/ghostize()
+/mob/living/simple_animal/hostile/lightgeist/ghostize(can_reenter_corpse, sentience_retention)
 	. = ..()
 	if(.)
 		death()
 
+/mob/living/simple_animal/hostile/lightgeist/slime
+	name = "crystalline lightgeist"
 
 /obj/machinery/anomalous_crystal/refresher //Deletes and recreates a copy of the item, "refreshing" it.
 	observer_desc = "This crystal \"refreshes\" items that it affects, rendering them as new."
@@ -717,8 +720,8 @@ Difficulty: Very Hard
 	if(..())
 		if(ishuman(user))
 			var/mobcheck = FALSE
-			for(var/mob/living/simple_animal/A in range(1, src))
-				if(A.melee_damage_upper > 5 || A.mob_size >= MOB_SIZE_LARGE || A.ckey || A.stat)
+			for(var/mob/living/simple_animal/A in viewers(1, src))
+				if(A.melee_damage > 5 || A.mob_size >= MOB_SIZE_LARGE || A.ckey || A.stat)
 					break
 				var/obj/structure/closet/stasis/S = new /obj/structure/closet/stasis(A)
 				user.forceMove(S)
@@ -749,16 +752,17 @@ Difficulty: Very Hard
 		holder_animal = loc
 	START_PROCESSING(SSobj, src)
 
-/obj/structure/closet/stasis/Entered(atom/A)
-	if(isliving(A) && holder_animal)
-		var/mob/living/L = A
+/obj/structure/closet/stasis/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+	. = ..()
+	if(isliving(arrived) && holder_animal)
+		var/mob/living/L = arrived
 		L.notransform = 1
 		ADD_TRAIT(L, TRAIT_MUTE, STASIS_MUTE)
 		L.status_flags |= GODMODE
 		L.mind.transfer_to(holder_animal)
 		var/obj/effect/proc_holder/spell/targeted/exit_possession/P = new /obj/effect/proc_holder/spell/targeted/exit_possession
 		holder_animal.mind.AddSpell(P)
-		holder_animal.verbs -= /mob/living/verb/pulled
+		holder_animal.remove_verb(/mob/living/verb/pulled)
 
 /obj/structure/closet/stasis/dump_contents(var/kill = 1)
 	STOP_PROCESSING(SSobj, src)

@@ -37,7 +37,7 @@
 /area/ruin/unpowered/syndicate_lava_base
 	name = "Secret Base"
 	icon_state = "dk_yellow"
-	ambientsounds = HIGHSEC
+	ambience_index = AMBIENCE_DANGER
 
 /area/ruin/unpowered/syndicate_lava_base/engineering
 	name = "Syndicate Lavaland Engineering"
@@ -71,6 +71,10 @@
 
 /area/ruin/unpowered/syndicate_lava_base/telecomms
 	name = "Syndicate Lavaland Telecommunications"
+
+/area/ruin/unpowered/standruin
+	name = "Forgotten Ruin"
+	icon_state = "dk_yellow"
 
 //Xeno Nest
 

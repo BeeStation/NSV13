@@ -35,6 +35,9 @@ GLOBAL_LIST_INIT(atmos_pipe_recipes, list(
 		new /datum/pipe_info/meter("Meter"),
 		new /datum/pipe_info/pipe("Gas Filter",			/obj/machinery/atmospherics/components/trinary/filter),
 		new /datum/pipe_info/pipe("Gas Mixer",			/obj/machinery/atmospherics/components/trinary/mixer),
+		new /datum/pipe_info/pipe("Pressure Valve",		/obj/machinery/atmospherics/components/binary/pressure_valve),
+		new /datum/pipe_info/pipe("Temperature Gate",	/obj/machinery/atmospherics/components/binary/temperature_gate),
+		new /datum/pipe_info/pipe("Temperature Pump",	/obj/machinery/atmospherics/components/binary/temperature_pump),
 	),
 	"Heat Exchange" = list(
 		new /datum/pipe_info/pipe("Pipe",				/obj/machinery/atmospherics/pipe/heat_exchanging/simple),
@@ -203,7 +206,7 @@ GLOBAL_LIST_INIT(fluid_duct_recipes, list(
 	w_class = WEIGHT_CLASS_NORMAL
 	slot_flags = ITEM_SLOT_BELT
 	materials = list(/datum/material/iron=75000, /datum/material/glass=37500)
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 50)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 50, "stamina" = 0)
 	resistance_flags = FIRE_PROOF
 	var/datum/effect_system/spark_spread/spark_system
 	var/working = 0
@@ -255,18 +258,19 @@ GLOBAL_LIST_INIT(fluid_duct_recipes, list(
 	playsound(get_turf(user), 'sound/items/deconstruct.ogg', 50, 1)
 	return(BRUTELOSS)
 
-/obj/item/pipe_dispenser/ui_base_html(html)
-	var/datum/asset/spritesheet/assets = get_asset_datum(/datum/asset/spritesheet/pipes)
-	. = replacetext(html, "<!--customheadhtml-->", assets.css_tag())
+/obj/item/pipe_dispenser/ui_assets(mob/user)
+	return list(
+		get_asset_datum(/datum/asset/spritesheet/pipes),
+	)
 
-/obj/item/pipe_dispenser/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
-									datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+
+/obj/item/pipe_dispenser/ui_state(mob/user)
+	return GLOB.default_state
+
+/obj/item/pipe_dispenser/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		var/datum/asset/assets = get_asset_datum(/datum/asset/spritesheet/pipes)
-		assets.send(user)
-
-		ui = new(user, src, ui_key, "rpd", name, 425, 472, master_ui, state)
+		ui = new(user, src, "RapidPipeDispenser")
 		ui.open()
 
 /obj/item/pipe_dispenser/ui_data(mob/user)
@@ -305,12 +309,11 @@ GLOBAL_LIST_INIT(fluid_duct_recipes, list(
 /obj/item/pipe_dispenser/ui_act(action, params)
 	if(..())
 		return
-	if(!usr.canUseTopic(src, BE_CLOSE))
-		return
 	var/playeffect = TRUE
 	switch(action)
 		if("color")
 			paint_color = params["paint_color"]
+			. = TRUE
 		if("category")
 			category = text2num(params["category"])
 			switch(category)
@@ -324,32 +327,37 @@ GLOBAL_LIST_INIT(fluid_duct_recipes, list(
 					recipe = first_plumbing
 			p_dir = NORTH
 			playeffect = FALSE
+			. = TRUE
 		if("piping_layer")
 			piping_layer = text2num(params["piping_layer"])
 			playeffect = FALSE
+			. = TRUE
 		if("ducting_layer")
 			ducting_layer = text2num(params["ducting_layer"])
 			playeffect = FALSE
+			. = TRUE
 		if("pipe_type")
 			var/static/list/recipes
 			if(!recipes)
 				recipes = GLOB.disposal_pipe_recipes + GLOB.atmos_pipe_recipes + GLOB.transit_tube_recipes + GLOB.fluid_duct_recipes
 			recipe = recipes[params["category"]][text2num(params["pipe_type"])]
 			p_dir = NORTH
+			. = TRUE
 		if("setdir")
 			p_dir = text2dir(params["dir"])
 			p_flipped = text2num(params["flipped"])
 			playeffect = FALSE
+			. = TRUE
 		if("mode")
 			var/n = text2num(params["mode"])
+			. = TRUE
 			if(mode & n)
 				mode &= ~n
 			else
 				mode |= n
-	if(playeffect)
+	if(playeffect && .)
 		spark_system.start()
 		playsound(get_turf(src), 'sound/effects/pop.ogg', 50, FALSE)
-	return TRUE
 
 /obj/item/pipe_dispenser/pre_attack(atom/A, mob/user)
 	if(!user.IsAdvancedToolUser() || istype(A, /turf/open/space/transit))

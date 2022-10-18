@@ -13,7 +13,7 @@
 	throw_range = 4
 	materials = list(/datum/material/iron = 500)
 	actions_types = list(/datum/action/item_action/set_internals)
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 30)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 30, "stamina" = 0)
 	var/datum/gas_mixture/air_contents = null
 	var/distribute_pressure = ONE_ATMOSPHERE
 	var/integrity = 3
@@ -55,7 +55,7 @@
 	. = ..()
 
 	air_contents = new(volume) //liters
-	air_contents.temperature = T20C
+	air_contents.set_temperature(T20C)
 
 	populate_gas()
 
@@ -66,7 +66,7 @@
 
 /obj/item/tank/Destroy()
 	if(air_contents)
-		qdel(air_contents)
+		QDEL_NULL(air_contents)
 
 	STOP_PROCESSING(SSobj, src)
 	. = ..()
@@ -83,7 +83,7 @@
 
 	. += "<span class='notice'>The gauge reads [round(air_contents.total_moles(), 0.01)] mol at [round(src.air_contents.return_pressure(),0.01)] kPa.</span>"	//yogs can read mols
 
-	var/celsius_temperature = src.air_contents.temperature-T0C
+	var/celsius_temperature = src.air_contents.return_temperature()-T0C
 	var/descriptive
 
 	if (celsius_temperature < 20)
@@ -148,12 +148,16 @@
 	else
 		. = ..()
 
-/obj/item/tank/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
-									datum/tgui/master_ui = null, datum/ui_state/state = GLOB.hands_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+
+/obj/item/tank/ui_state(mob/user)
+	return GLOB.hands_state
+
+/obj/item/tank/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "tanks", name, 400, 120, master_ui, state)
+		ui = new(user, src, "Tank")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/item/tank/ui_data(mob/user)
 	var/list/data = list()
@@ -202,6 +206,9 @@
 /obj/item/tank/remove_air(amount)
 	return air_contents.remove(amount)
 
+/obj/item/tank/remove_air_ratio(ratio)
+	return air_contents.remove_ratio(ratio)
+
 /obj/item/tank/return_air()
 	return air_contents
 
@@ -214,6 +221,18 @@
 	check_status()
 	return 1
 
+/obj/item/tank/assume_air_moles(datum/gas_mixture/giver, moles)
+	giver.transfer_to(air_contents, moles)
+
+	check_status()
+	return 1
+
+/obj/item/tank/assume_air_ratio(datum/gas_mixture/giver, ratio)
+	giver.transfer_ratio_to(air_contents, ratio)
+
+	check_status()
+	return 1
+
 /obj/item/tank/proc/remove_air_volume(volume_to_return)
 	if(!air_contents)
 		return null
@@ -222,13 +241,13 @@
 	if(tank_pressure < distribute_pressure)
 		distribute_pressure = tank_pressure
 
-	var/moles_needed = distribute_pressure*volume_to_return/(R_IDEAL_GAS_EQUATION*air_contents.temperature)
+	var/moles_needed = distribute_pressure*volume_to_return/(R_IDEAL_GAS_EQUATION*air_contents.return_temperature())
 
 	return remove_air(moles_needed)
 
 /obj/item/tank/process()
 	//Allow for reactions
-	air_contents.react()
+	air_contents.react(src)
 	check_status()
 
 /obj/item/tank/proc/check_status()
@@ -242,7 +261,7 @@
 
 	if(pressure > TANK_FRAGMENT_PRESSURE)
 		if(!istype(src.loc, /obj/item/transfer_valve))
-			log_bomber(get_mob_by_key(fingerprintslast), "was last key to touch", src, "which ruptured explosively")
+			log_bomber(get_mob_by_ckey(fingerprintslast), "was last key to touch", src, "which ruptured explosively")
 		//Give the gas a chance to build up more pressure through reacting
 		air_contents.react(src)
 		air_contents.react(src)

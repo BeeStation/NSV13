@@ -2,8 +2,9 @@
 	name = "infrared emitter"
 	desc = "Emits a visible or invisible beam and is triggered when the beam is interrupted."
 	icon_state = "infrared"
-	materials = list(/datum/material/iron=1000, /datum/material/glass=500)
+	custom_materials = list(/datum/material/iron=1000, /datum/material/glass=500)
 	is_position_sensitive = TRUE
+
 
 	var/on = FALSE
 	var/visible = FALSE
@@ -20,13 +21,8 @@
 
 /obj/item/assembly/infra/ComponentInitialize()
 	. = ..()
-	AddComponent(
-		/datum/component/simple_rotation,
-		ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_FLIP | ROTATION_VERBS,
-		null,
-		null,
-		CALLBACK(src,.proc/after_rotation)
-		)
+	var/static/rotation_flags = ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_FLIP | ROTATION_VERBS
+	AddComponent(/datum/component/simple_rotation, rotation_flags, after_rotation=CALLBACK(src,.proc/after_rotation))
 
 /obj/item/assembly/infra/proc/after_rotation()
 	refreshBeam()
@@ -43,7 +39,7 @@
 
 /obj/item/assembly/infra/activate()
 	if(!..())
-		return FALSE//Cooldown check
+		return FALSE //Cooldown check
 	on = !on
 	refreshBeam()
 	update_icon()
@@ -138,7 +134,7 @@
 	. = ..()
 	setDir(t)
 
-/obj/item/assembly/infra/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, force)
+/obj/item/assembly/infra/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, force, gentle = FALSE, quickstart = TRUE)
 	. = ..()
 	olddir = dir
 
@@ -156,10 +152,7 @@
 		return FALSE
 	pulse(FALSE)
 	audible_message("[icon2html(src, hearers(src))] *beep* *beep* *beep*", null, hearing_range)
-	for(var/CHM in get_hearers_in_view(hearing_range, src))
-		if(ismob(CHM))
-			var/mob/LM = CHM
-			LM.playsound_local(get_turf(src), 'sound/machines/triple_beep.ogg', ASSEMBLY_BEEP_VOLUME, TRUE)
+	playsound(get_turf(src), 'sound/machines/triple_beep.ogg', ASSEMBLY_BEEP_VOLUME, TRUE)
 	next_activate =  world.time + 30
 
 /obj/item/assembly/infra/proc/switchListener(turf/newloc)
@@ -170,54 +163,59 @@
 	RegisterSignal(newloc, COMSIG_ATOM_EXITED, .proc/check_exit)
 	listeningTo = newloc
 
-/obj/item/assembly/infra/proc/check_exit(datum/source, atom/movable/offender)
+/obj/item/assembly/infra/proc/check_exit(datum/source, atom/movable/gone, direction)
+	SIGNAL_HANDLER
+
 	if(QDELETED(src))
 		return
-	if(offender == src || istype(offender,/obj/effect/beam/i_beam))
+	if(src == gone || istype(gone, /obj/effect/beam/i_beam))
 		return
-	if (offender && isitem(offender))
-		var/obj/item/I = offender
+	if(isitem(gone))
+		var/obj/item/I = gone
 		if (I.item_flags & ABSTRACT)
 			return
-	return refreshBeam()
-
-/obj/item/assembly/infra/ui_interact(mob/user)//TODO: change this this to the wire control panel
-	. = ..()
-	if(is_secured(user))
-		user.set_machine(src)
-		var/dat = "<TT><B>Infrared Laser</B></TT>"
-		dat += "<BR><B>Status</B>: [on ? "<A href='?src=[REF(src)];state=0'>On</A>" : "<A href='?src=[REF(src)];state=1'>Off</A>"]"
-		dat += "<BR><B>Visibility</B>: [visible ? "<A href='?src=[REF(src)];visible=0'>Visible</A>" : "<A href='?src=[REF(src)];visible=1'>Invisible</A>"]"
-		dat += "<BR><BR><A href='?src=[REF(src)];refresh=1'>Refresh</A>"
-		dat += "<BR><BR><A href='?src=[REF(src)];close=1'>Close</A>"
-		user << browse(dat, "window=infra")
-		onclose(user, "infra")
-		return
-
-/obj/item/assembly/infra/Topic(href, href_list)
-	..()
-	if(!usr.canUseTopic(src, BE_CLOSE))
-		usr << browse(null, "window=infra")
-		onclose(usr, "infra")
-		return
-
-	if(href_list["state"])
-		on = !(on)
-		update_icon()
-		refreshBeam()
-	if(href_list["visible"])
-		visible = !(visible)
-		update_icon()
-		refreshBeam()
-	if(href_list["close"])
-		usr << browse(null, "window=infra")
-		return
-	if(usr)
-		attack_self(usr)
+	INVOKE_ASYNC(src, .proc/refreshBeam)
 
 /obj/item/assembly/infra/setDir()
 	. = ..()
 	refreshBeam()
+
+/obj/item/assembly/infra/ui_status(mob/user)
+	if(is_secured(user))
+		return ..()
+	return UI_CLOSE
+
+
+/obj/item/assembly/infra/ui_state(mob/user)
+	return GLOB.hands_state
+
+/obj/item/assembly/infra/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "InfraredEmitter")
+		ui.open()
+
+/obj/item/assembly/infra/ui_data(mob/user)
+	var/list/data = list()
+	data["on"] = on
+	data["visible"] = visible
+	return data
+
+/obj/item/assembly/infra/ui_act(action, params)
+	if(..())
+		return
+
+	switch(action)
+		if("power")
+			on = !on
+			. = TRUE
+		if("visibility")
+			visible = !visible
+			. = TRUE
+
+	if(.)
+		update_icon()
+		refreshBeam()
 
 /***************************IBeam*********************************/
 
@@ -225,16 +223,26 @@
 	name = "infrared beam"
 	icon = 'icons/obj/projectiles.dmi'
 	icon_state = "ibeam"
-	var/obj/item/assembly/infra/master
 	anchored = TRUE
 	density = FALSE
-	pass_flags = PASSTABLE|PASSGLASS|PASSGRILLE|LETPASSTHROW
+	pass_flags = PASSTABLE|PASSGLASS|PASSGRILLE
+	pass_flags_self = LETPASSTHROW
+	var/obj/item/assembly/infra/master
 
-/obj/effect/beam/i_beam/Crossed(atom/movable/AM as mob|obj)
+/obj/effect/beam/i_beam/Initialize(mapload)
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
+/obj/effect/beam/i_beam/proc/on_entered(datum/source, atom/movable/AM as mob|obj)
+	SIGNAL_HANDLER
+
 	if(istype(AM, /obj/effect/beam))
 		return
 	if (isitem(AM))
 		var/obj/item/I = AM
 		if (I.item_flags & ABSTRACT)
 			return
-	master.trigger_beam(AM, get_turf(src))
+	INVOKE_ASYNC(master, /obj/item/assembly/infra.proc/trigger_beam, AM, get_turf(src))

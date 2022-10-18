@@ -37,9 +37,10 @@
 
 	name = "vent controller"
 	density = FALSE
+	layer = ABOVE_WINDOW_LAYER
 
 	frequency = FREQ_ATMOS_CONTROL
-	power_channel = ENVIRON
+	power_channel = AREA_USAGE_ENVIRON
 
 	// Setup parameters only
 	var/airpump_tag

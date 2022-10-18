@@ -46,8 +46,7 @@
 	P.info = "<center><font size='6'><B>Scanner Report</B></font></center><HR><BR>"
 	P.info += jointext(log, "<BR>")
 	P.info += "<HR><B>Notes:</B><BR>"
-	P.info_links = P.info
-	P.updateinfolinks()
+	P.update_icon()
 
 	if(ismob(loc))
 		var/mob/M = loc
@@ -67,9 +66,11 @@
 	set waitfor = 0
 	if(!scanning)
 		// Can remotely scan objects and mobs.
-		if((get_dist(A, user) > range) || (!(A in view(range, user)) && view_check) || (loc != user))
+		if((get_dist(A, user) > range) || (loc != user))
 			return
-
+		if(!can_see(A, user, range))
+			to_chat(user, "<span class='notice'>You can't scan \the [A] through solid material.</span>")
+			return
 		scanning = 1
 
 		user.visible_message("\The [user] points the [src.name] at \the [A] and performs a forensic scan.")
@@ -92,26 +93,35 @@
 
 			var/mob/living/carbon/human/H = A
 			if(!H.gloves)
-				fingerprints += md5(H.dna.uni_identity)
+				fingerprints += rustg_hash_string(RUSTG_HASH_MD5, H.dna.uni_identity)
 
 		else if(!ismob(A))
 
-			fingerprints = A.return_fingerprints()
+			var/obj/effect/targeteffect = A
+			if (targeteffect && istype(targeteffect) && targeteffect.forensic_protected)
+				fingerprints = list()				
+				for(var/i in 1 to 2)
+					LAZYADD(fingerprints,pick("#$^@&#*$H3LP&$(@US^$&#^@#","&$(T@&#C@ME5@##$^@&","^@(#&$ET@US&FR^E#^$&#","#$^@&M*N$US^$(@&#^$&#^@#","&$(@&#^$&#^@##$^@&","^@R(#E$(D@(R&$U&#M^&#","$TH@Y#*$KN@W(@&#^$&#^@#","#$M^DN*S$^@(#&$(@&#^$&#^@##","#","#$^@&#*$^@(#&$(@","#","#$^@&#&#^@","#","@(#&$(@&#^$&#^@"))
+				blood = list("#$^@&LO0K&#@#" = "&$(@AW@Y#$^&")
+				to_chat(user, "<span class='warning'>Your [src] glitched out!</span>")
 
-			// Only get reagents from non-mobs.
-			if(A.reagents && A.reagents.reagent_list.len)
+			else
+				fingerprints = A.return_fingerprints()
 
-				for(var/datum/reagent/R in A.reagents.reagent_list)
-					reagents[R.name] = R.volume
+				// Only get reagents from non-mobs.
+				if(A.reagents && A.reagents.reagent_list.len)
 
-					// Get blood data from the blood reagent.
-					if(istype(R, /datum/reagent/blood))
+					for(var/datum/reagent/R in A.reagents.reagent_list)
+						reagents[R.name] = R.volume
 
-						if(R.data["blood_DNA"] && R.data["blood_type"])
-							var/blood_DNA = R.data["blood_DNA"]
-							var/blood_type = R.data["blood_type"]
-							LAZYINITLIST(blood)
-							blood[blood_DNA] = blood_type
+						// Get blood data from the blood reagent.
+						if(istype(R, /datum/reagent/blood))
+
+							if(R.data["blood_DNA"] && R.data["blood_type"])
+								var/blood_DNA = R.data["blood_DNA"]
+								var/blood_type = R.data["blood_type"]
+								LAZYINITLIST(blood)
+								blood[blood_DNA] = blood_type
 
 		// We gathered everything. Create a fork and slowly display the results to the holder of the scanner.
 

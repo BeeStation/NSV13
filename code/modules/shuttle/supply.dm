@@ -15,11 +15,9 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 		/obj/effect/mob_spawn,
 		/obj/effect/hierophant,
 		/obj/structure/receiving_pad,
-		/obj/effect/clockwork/spatial_gateway,
-		/obj/structure/destructible/clockwork/powered/clockwork_obelisk,
 		/obj/item/warp_cube,
 		/obj/machinery/rnd/production, //print tracking beacons, send shuttle
-		/obj/machinery/autolathe, //same
+		/obj/machinery/modular_fabricator/autolathe, //same
 		/obj/item/projectile/beam/wormhole,
 		/obj/effect/portal,
 		/obj/item/shared_storage,
@@ -99,7 +97,7 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 	for(var/datum/supply_order/SO in SSshuttle.shoppinglist)
 		if(!empty_turfs.len)
 			break
-		var/price = SO.pack.cost
+		var/price = SO.pack.get_cost()
 		var/datum/bank_account/D
 		if(SO.paying_account) //Someone paid out of pocket
 			D = SO.paying_account
@@ -115,8 +113,8 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 		if(SO.paying_account)
 			D.bank_card_talk("Cargo order #[SO.id] has shipped. [price] credits have been charged to your bank account.")
 			var/datum/bank_account/department/cargo = SSeconomy.get_dep_account(ACCOUNT_CAR)
-			cargo.adjust_money(price - SO.pack.cost) //Cargo gets the handling fee
-		value += SO.pack.cost
+			cargo.adjust_money(price - SO.pack.get_cost()) //Cargo gets the handling fee
+		value += SO.pack.get_cost()
 		SSshuttle.shoppinglist -= SO
 		SSshuttle.orderhistory += SO
 
@@ -126,9 +124,12 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 					miscboxes[D.account_holder] = new /obj/structure/closet/crate/secure/owned(pick_n_take(empty_turfs), SO.paying_account)
 					miscboxes[D.account_holder].name = "small items crate - purchased by [D.account_holder]"
 					misc_contents[D.account_holder] = list()
+					miscboxes[D.account_holder].req_access = list()
 				for (var/item in SO.pack.contains)
 					misc_contents[D.account_holder] += item
 				misc_order_num[D.account_holder] = "[misc_order_num[D.account_holder]]#[SO.id]  "
+				if(SO.pack.access)
+					miscboxes[D.account_holder].req_access += SO.pack.access
 			else //No private payment, so we just stuff it all into a generic crate
 				if(!miscboxes.len || !miscboxes["Cargo"])
 					miscboxes["Cargo"] = new /obj/structure/closet/crate/secure(pick_n_take(empty_turfs))
@@ -144,7 +145,7 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 		else
 			SO.generate(pick_n_take(empty_turfs))
 
-		SSblackbox.record_feedback("nested tally", "cargo_imports", 1, list("[SO.pack.cost]", "[SO.pack.name]"))
+		SSblackbox.record_feedback("nested tally", "cargo_imports", 1, list("[SO.pack.get_cost()]", "[SO.pack.name]"))
 		investigate_log("Order #[SO.id] ([SO.pack.name], placed by [key_name(SO.orderer_ckey)]), paid by [D.account_holder] has shipped.", INVESTIGATE_CARGO)
 		if(SO.pack.dangerous)
 			message_admins("\A [SO.pack.name] ordered by [ADMIN_LOOKUPFLW(SO.orderer_ckey)], paid by [D.account_holder] has shipped.")
@@ -180,6 +181,9 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 				matched_bounty = TRUE
 			if(!AM.anchored || istype(AM, /obj/mecha))
 				export_item_and_contents(AM, export_categories , dry_run = FALSE, external_report = ex)
+			else if(!ismachinery(AM))
+				//Exports the contents of things but not the item itself, so you can have conveyor belt that won't get sold
+				export_contents(AM, export_categories , dry_run = FALSE, external_report = ex)
 
 	if(ex.exported_atoms)
 		ex.exported_atoms += "." //ugh

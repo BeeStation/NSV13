@@ -8,6 +8,7 @@
 	spawn_positions = 1
 	supervisors = "the Executive Officer"
 	selection_color = "#dddddd"
+	chat_color = "#FF83D7"
 
 	outfit = /datum/outfit/job/clown/delinquent //NSV13 - Modded clown outfit to be a jojo reference
 
@@ -17,7 +18,11 @@
 	paycheck_department = ACCOUNT_SRV
 
 	display_order = JOB_DISPLAY_ORDER_CLOWN
+	departments = DEPARTMENT_SERVICE
 
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/honk
+	)
 
 /datum/job/clown/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
@@ -29,7 +34,7 @@
 
 	belt = /obj/item/pda/clown
 	ears = /obj/item/radio/headset/headset_srv
-	uniform = /obj/item/clothing/under/rank/clown
+	uniform = /obj/item/clothing/under/rank/civilian/clown
 	shoes = /obj/item/clothing/shoes/clown_shoes
 	mask = /obj/item/clothing/mask/gas/clown_hat
 	l_pocket = /obj/item/bikehorn
@@ -49,6 +54,11 @@
 	box = /obj/item/storage/box/hug/survival
 
 	chameleon_extras = /obj/item/stamp/clown
+
+/datum/outfit/job/clown/pre_equip(mob/living/carbon/human/H, visualsOnly)
+	. = ..()
+	if(HAS_TRAIT(SSstation, STATION_TRAIT_BANANIUM_SHIPMENTS))
+		backpack_contents[/obj/item/stack/sheet/mineral/bananium/five] = 1
 
 /datum/outfit/job/clown/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()

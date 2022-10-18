@@ -1,5 +1,5 @@
 /obj/item/ship_weapon/ammunition/gauss //Medium sized slugs to be loaded into a gauss gun.
-	name = "M4 NTRS 300mm teflon coated tungsten round"
+	name = "\improper M4 NTRS 300mm teflon coated tungsten round"
 	desc = "A large slug designed to be magnetically accelerated via a gauss gun. These rounds are lighter than those fired out of railguns, but are still extremely heavy duty."
 	icon_state = "gauss"
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
@@ -14,19 +14,26 @@
 	req_components = list(
 		/obj/item/stock_parts/capacitor = 1,
 		/obj/item/ship_weapon/parts/loading_tray = 1)
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+
+/obj/item/circuitboard/machine/gauss_dispenser/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 /obj/machinery/gauss_dispenser
-	name = "Gauss ammunition dispenser"
+	name = "\improper Gauss ammunition dispenser"
 	desc = "A machine which can delve deep into the ship's ammunition stores and dispense whatever it finds."
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "gauss_dispenser"
 	req_one_access = ACCESS_MUNITIONS
 	circuit = /obj/item/circuitboard/machine/gauss_dispenser
 	pixel_y = 26
+	var/dispense_amount = 12 //Fully fills one gauss gun.
 	var/active = TRUE
 	var/progress = 0 SECONDS
 	var/progress_rate = 1 SECONDS
-	var/goal = 1 MINUTES
+	var/goal = 45 SECONDS
 	var/ready = FALSE
 
 /obj/machinery/gauss_dispenser/Initialize()
@@ -60,11 +67,12 @@
 		return
 	ui_interact(user)
 
-/obj/machinery/gauss_dispenser/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/gauss_dispenser/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "gauss_dispenser", name, 560, 600, master_ui, state)
+		ui = new(user, src, "GaussDispenser")
 		ui.open()
+		ui.set_autoupdate(TRUE) // progress bar
 
 /obj/machinery/gauss_dispenser/ui_act(action, params, datum/tgui/ui)
 	if(..())
@@ -80,7 +88,7 @@
 				return FALSE
 			flick("gauss_dispenser_dispense", src)
 			playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-			for(var/I = 0, I < 6, I++)
+			for(var/I = 0, I < dispense_amount, I++)
 				new /obj/item/ship_weapon/ammunition/gauss(get_turf(src))
 			cut_overlays()
 			ready = FALSE
@@ -103,8 +111,7 @@
 
 /obj/machinery/gauss_dispenser/default_deconstruction_screwdriver(mob/user, icon_state_open, icon_state_closed, obj/item/I)
 	. = ..()
-	var/state = !panel_open
-	check_active(state)
+	check_active(!panel_open)
 
 /obj/machinery/gauss_dispenser/ui_data(mob/user)
 	var/list/data = list()

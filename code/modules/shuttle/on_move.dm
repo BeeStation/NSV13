@@ -26,6 +26,8 @@ All ShuttleMove procs go here
 		if(ismob(thing))
 			if(isliving(thing))
 				var/mob/living/M = thing
+				if(M.incorporeal_move)
+					return
 				if(M.buckled)
 					M.buckled.unbuckle_mob(M, 1)
 				if(M.pulledby)
@@ -53,15 +55,18 @@ All ShuttleMove procs go here
 	if(!shuttle_boundary)
 		CRASH("A turf queued to move via shuttle somehow had no skipover in baseturfs. [src]([type]):[loc]")
 	var/depth = baseturfs.len - shuttle_boundary + 1
+
 	newT.CopyOnTop(src, 1, depth, TRUE)
+
+	if(isopenturf(src))
+		var/turf/open/after_src_terf = src
+		update_air_ref(isspaceturf(src) ? 0 : (after_src_terf.planetary_atmos ? 1 : 2))
+	else
+		update_air_ref(-1)
+
 	//Air stuff
-	newT.blocks_air = TRUE
 	newT.air_update_turf(TRUE)
-	blocks_air = TRUE
 	air_update_turf(TRUE)
-	if(isopenturf(newT))
-		var/turf/open/new_open = newT
-		new_open.copy_air_with_tile(src)
 
 	return TRUE
 
@@ -69,9 +74,11 @@ All ShuttleMove procs go here
 /turf/proc/afterShuttleMove(turf/oldT, rotation)
 	//Dealing with the turf we left behind
 	oldT.TransferComponents(src)
+	SSexplosions.wipe_turf(src)
+	SEND_SIGNAL(oldT, COMSIG_TURF_AFTER_SHUTTLE_MOVE, src) //Mostly for decals
 	var/shuttle_boundary = baseturfs.Find(/turf/baseturf_skipover/shuttle)
 	if(shuttle_boundary)
-		oldT.ScrapeAway(baseturfs.len - shuttle_boundary + 1)
+		oldT.ScrapeAway(baseturfs.len - shuttle_boundary + 1, flags = CHANGETURF_FORCEOP)
 
 	if(rotation)
 		shuttleRotate(rotation) //see shuttle_rotate.dm
@@ -101,7 +108,7 @@ All ShuttleMove procs go here
 	if(loc != oldT) // This is for multi tile objects
 		return
 
-	loc = newT
+	abstract_move(newT)
 
 	return TRUE
 
@@ -183,6 +190,8 @@ All ShuttleMove procs go here
 
 /obj/machinery/door/airlock/afterShuttleMove(turf/oldT, list/movement_force, shuttle_dir, shuttle_preferred_direction, move_dir, rotation)
 	. = ..()
+	update_aac_docked(oldT)
+	update_aac_docked()
 	var/current_area = get_area(src)
 	for(var/obj/machinery/door/airlock/A in orange(1, src))  // does not include src
 		if(get_area(A) != current_area)  // does not include double-wide airlocks unless actually docked
@@ -249,7 +258,7 @@ All ShuttleMove procs go here
 			A.atmosinit()
 			if(A.returnPipenet())
 				A.addMember(src)
-		build_network()
+		SSair.add_to_rebuild_queue(src)
 	else
 		// atmosinit() calls update_icon(), so we don't need to call it
 		update_icon()

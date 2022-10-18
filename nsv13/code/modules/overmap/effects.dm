@@ -6,8 +6,7 @@
 	duration = 2 SECONDS
 
 /obj/effect/temp_visual/impact_effect/torpedo/Initialize()
-	var/states = list("explosion", "explosion2")
-	icon_state = pick(states)
+	icon_state = pick("explosion", "explosion2")
 	. = ..()
 
 /obj/effect/temp_visual/nuke_impact

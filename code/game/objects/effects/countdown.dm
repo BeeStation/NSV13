@@ -24,7 +24,9 @@
 
 /obj/effect/countdown/proc/attach(atom/A)
 	attached_to = A
-	forceMove(get_turf(A))
+	var/turf/T = get_turf(A)
+	if(T)
+		forceMove(T)
 
 /obj/effect/countdown/proc/start()
 	if(!started)
@@ -51,7 +53,7 @@
 	displayed_text = new_val
 
 	if(displayed_text)
-		maptext = "<font size = [text_size]>[displayed_text]</font>"
+		maptext = MAPTEXT("<font size = [text_size]>[displayed_text]</font>")
 	else
 		maptext = null
 
@@ -102,19 +104,6 @@
 	else if(C.occupant)
 		var/completion = round(C.get_completion())
 		return completion
-
-/obj/effect/countdown/clockworkgate
-	name = "gateway countdown"
-	text_size = 1
-	color = "#BE8700"
-	layer = POINT_LAYER
-
-/obj/effect/countdown/clockworkgate/get_value()
-	var/obj/structure/destructible/clockwork/massive/celestial_gateway/G = attached_to
-	if(!istype(G))
-		return
-	else if(G.obj_integrity && !G.purpose_fulfilled)
-		return "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'>[G.get_arrival_time(FALSE)]</div>"
 
 /obj/effect/countdown/supermatter
 	name = "supermatter damage"
@@ -170,20 +159,6 @@
 	else
 		var/time_left = max(0, (H.finish_time - world.time) / 10)
 		return round(time_left)
-
-/obj/effect/countdown/dominator
-	name = "dominator countdown"
-	text_size = 1
-	color = "#ff00ff" // Overwritten when the dominator starts
-
-/obj/effect/countdown/dominator/get_value()
-	var/obj/machinery/dominator/D = attached_to
-	if(!istype(D))
-		return
-	else if(D.gang && D.gang.domination_time != NOT_DOMINATING)
-		return D.gang.domination_time_remaining()
-	else
-		return "OFFLINE"
 
 /obj/effect/countdown/arena
 	invisibility = 0

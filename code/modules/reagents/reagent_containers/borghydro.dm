@@ -21,8 +21,8 @@ Borg Hypospray
 	possible_transfer_amounts = list()
 	var/mode = 1
 	var/charge_cost = 50
-	var/charge_tick = 0
-	var/recharge_time = 5 //Time it takes for shots to recharge (in seconds)
+	var/charge_timer = 0
+	var/recharge_time = 10 //Time it takes for shots to recharge (in seconds)
 	var/bypass_protection = 0 //If the hypospray can go through armor or thick material
 
 	var/list/datum/reagents/reagent_list = list()
@@ -44,14 +44,14 @@ Borg Hypospray
 
 /obj/item/reagent_containers/borghypo/Destroy()
 	STOP_PROCESSING(SSobj, src)
+	QDEL_LIST(reagent_list)
 	return ..()
 
-
-/obj/item/reagent_containers/borghypo/process() //Every [recharge_time] seconds, recharge some reagents for the cyborg
-	charge_tick++
-	if(charge_tick >= recharge_time)
+/obj/item/reagent_containers/borghypo/process(delta_time) //Every [recharge_time] seconds, recharge some reagents for the cyborg
+	charge_timer += delta_time
+	if(charge_timer >= recharge_time)
 		regenerate_reagents()
-		charge_tick = 0
+		charge_timer = 0
 
 	//update_icon()
 	return 1
@@ -117,7 +117,7 @@ Borg Hypospray
 	log_combat(user, M, "injected", src, "(CHEMICALS: [english_list(injected)])")
 
 /obj/item/reagent_containers/borghypo/attack_self(mob/user)
-	var/chosen_reagent = modes[reagent_names[input(user, "What reagent do you want to dispense?") as null|anything in reagent_names]]
+	var/chosen_reagent = modes[reagent_names[input(user, "What reagent do you want to dispense?") as null|anything in sortList(reagent_names)]]
 	if(!chosen_reagent)
 		return
 	mode = chosen_reagent
@@ -181,12 +181,13 @@ Borg Shaker
 	possible_transfer_amounts = list(5,10,20)
 	charge_cost = 20 //Lots of reagents all regenerating at once, so the charge cost is lower. They also regenerate faster.
 	recharge_time = 3
+	volume = 50
 	accepts_reagent_upgrades = FALSE
 
 	reagent_ids = list(
 			/datum/reagent/consumable/ethanol/absinthe,
-			/datum/reagent/consumable/ethanol/ale, 
-			/datum/reagent/consumable/ethanol/beer, 
+			/datum/reagent/consumable/ethanol/ale,
+			/datum/reagent/consumable/ethanol/beer,
 			/datum/reagent/consumable/ethanol/cognac,
 			/datum/reagent/consumable/ethanol/gin,
 			/datum/reagent/consumable/ethanol/kahlua,
@@ -205,10 +206,10 @@ Borg Shaker
 			/datum/reagent/consumable/lemonjuice,
 			/datum/reagent/consumable/limejuice,
 			/datum/reagent/consumable/milk,
-			/datum/reagent/consumable/orangejuice, 
-			/datum/reagent/consumable/sodawater, 
-			/datum/reagent/consumable/space_cola, 
-			/datum/reagent/consumable/tomatojuice, 
+			/datum/reagent/consumable/orangejuice,
+			/datum/reagent/consumable/sodawater,
+			/datum/reagent/consumable/space_cola,
+			/datum/reagent/consumable/tomatojuice,
 			/datum/reagent/consumable/tonic)
 
 /obj/item/reagent_containers/borghypo/borgshaker/attack(mob/M, mob/user)
@@ -266,13 +267,13 @@ Borg Shaker
 /obj/item/reagent_containers/borghypo/peace
 	name = "Peace Hypospray"
 
-	reagent_ids = list(/datum/reagent/peaceborg/confuse,/datum/reagent/peaceborg/tire,/datum/reagent/pax/peaceborg)
+	reagent_ids = list(/datum/reagent/peaceborg/inabizine,/datum/reagent/peaceborg/tire,/datum/reagent/pax/peaceborg)
 	accepts_reagent_upgrades = FALSE
 
 /obj/item/reagent_containers/borghypo/peace/hacked
 	desc = "Everything's peaceful in death!"
 	icon_state = "borghypo_s"
-	reagent_ids = list(/datum/reagent/peaceborg/confuse,/datum/reagent/peaceborg/tire,/datum/reagent/pax/peaceborg,/datum/reagent/toxin/staminatoxin,/datum/reagent/toxin/sulfonal,/datum/reagent/toxin/sodium_thiopental,/datum/reagent/toxin/cyanide,/datum/reagent/toxin/fentanyl)
+	reagent_ids = list(/datum/reagent/peaceborg/inabizine,/datum/reagent/peaceborg/tire,/datum/reagent/pax/peaceborg,/datum/reagent/toxin/staminatoxin,/datum/reagent/toxin/sulfonal,/datum/reagent/toxin/sodium_thiopental,/datum/reagent/toxin/cyanide,/datum/reagent/toxin/fentanyl)
 	accepts_reagent_upgrades = FALSE
 
 /obj/item/reagent_containers/borghypo/epi

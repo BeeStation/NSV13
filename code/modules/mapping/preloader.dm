@@ -24,7 +24,7 @@ GLOBAL_DATUM_INIT(_preloader, /datum/map_preloader, new)
 			value = deepCopyList(value)
 		#ifdef TESTING
 		if(what.vars[attribute] == value)
-			var/message = "<font color=green>[what.type]</font> at [AREACOORD(what)] - <b>VAR:</b> <font color=red>[attribute] = [isnull(value) ? "null" : (isnum(value) ? value : "\"[value]\"")]</font>"
+			var/message = "<font color=green>[what.type]</font> at [AREACOORD(what)] - <b>VAR:</b> <font color=red>[attribute] = [isnull(value) ? "null" : (isnum_safe(value) ? value : "\"[value]\"")]</font>"
 			log_mapping("DIRTY VAR: [message]")
 			GLOB.dirty_vars += message
 		#endif
@@ -37,3 +37,12 @@ GLOBAL_DATUM_INIT(_preloader, /datum/map_preloader, new)
 	name = "Turf Passthrough"
 	icon_state = "noop"
 	bullet_bounce_sound = null
+
+//The following two turfs can be used to hint if any genturfs below should be generated as closed or open
+/turf/template_noop/closed
+	name = "Area Passthrough (prefer closed)"
+	icon_state = "noop_closed"
+
+/turf/template_noop/open
+	name = "Area Passthrough (prefer open)"
+	icon_state = "noop_open"

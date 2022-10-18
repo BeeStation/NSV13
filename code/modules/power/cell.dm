@@ -1,3 +1,8 @@
+//NSV13 added defines for ethereal cell interactions
+#define CELL_DRAIN_TIME 25
+#define CELL_POWER_GAIN 75
+#define CELL_POWER_DRAIN 300
+
 /obj/item/stock_parts/cell
 	name = "power cell"
 	desc = "A rechargeable electrochemical power cell."
@@ -48,9 +53,9 @@
 				STOP_PROCESSING(SSobj, src)
 	. = ..()
 
-/obj/item/stock_parts/cell/process()
+/obj/item/stock_parts/cell/process(delta_time)
 	if(self_recharge)
-		give(chargerate * 0.25)
+		give(chargerate * 0.125 * delta_time)
 	else
 		return PROCESS_KILL
 
@@ -148,9 +153,49 @@
 				if(prob(25))
 					corrupt()
 
+//NSV13 added ethereal cell interaction defines
+/obj/item/stock_parts/cell/attack_self(mob/user)
+	if(isethereal(user))
+		var/mob/living/carbon/human/H = user
+		var/datum/species/ethereal/E = H.dna.species
+		if(E.drain_time > world.time)
+			return
+		var/obj/item/organ/stomach/battery/stomach = H.getorganslot(ORGAN_SLOT_STOMACH)
+		if(!istype(stomach))
+			to_chat(H, "<span class='warning'>You can't receive charge!</span>")
+			return
+		if(H.nutrition >= NUTRITION_LEVEL_ALMOST_FULL)
+			to_chat(user, "<span class='warning'>You are already fully charged!</span>")
+			return
+
+		to_chat(H, "<span class='notice'>You clumsily channel power through the [src] and into your body, wasting some in the process.</span>")
+		E.drain_time = world.time + CELL_DRAIN_TIME
+		while(do_after(user, CELL_DRAIN_TIME, target = src))
+			if(!istype(stomach))
+				to_chat(H, "<span class='warning'>You can't receive charge!</span>")
+				return
+			E.drain_time = world.time + CELL_DRAIN_TIME
+			if(charge > CELL_POWER_DRAIN)
+				stomach.adjust_charge(CELL_POWER_GAIN)
+				charge -= CELL_POWER_DRAIN //you waste way more than you receive, so that ethereals cant just steal one cell and forget about hunger
+				to_chat(H, "<span class='notice'>You receive some charge from the [src].</span>")
+			else
+				stomach.adjust_charge(charge/4)
+				charge = 0
+				to_chat(H, "<span class='notice'>You drain the [src].</span>")
+				E.drain_time = 0
+				return
+
+			if(stomach.charge >= stomach.max_charge)
+				to_chat(H, "<span class='notice'>You are now fully charged.</span>")
+				E.drain_time = 0
+				return
+		to_chat(H, "<span class='warning'>You fail to receive charge from the [src]!</span>")
+		E.drain_time = 0
+	return
 
 /obj/item/stock_parts/cell/blob_act(obj/structure/blob/B)
-	ex_act(EXPLODE_DEVASTATE)
+	SSexplosions.high_mov_atom += src
 
 /obj/item/stock_parts/cell/proc/get_electrocute_damage()
 	if(charge >= 1000)
@@ -355,3 +400,7 @@
 	var/area/A = get_area(src)
 	if(!A.lightswitch || !A.light_power)
 		charge = 0 //For naturally depowered areas, we start with no power
+
+#undef CELL_DRAIN_TIME
+#undef CELL_POWER_GAIN
+#undef CELL_POWER_DRAIN

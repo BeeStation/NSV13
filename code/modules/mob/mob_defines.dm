@@ -11,11 +11,12 @@
 	density = TRUE
 	layer = MOB_LAYER
 	animate_movement = SLIDE_STEPS
-	flags_1 = HEAR_1
 	hud_possible = list(ANTAG_HUD)
 	pressure_resistance = 8
 	mouse_drag_pointer = MOUSE_ACTIVE_POINTER
 	throwforce = 10
+	blocks_emissive = EMISSIVE_BLOCK_GENERIC
+	pass_flags_self = PASSMOB
 
 	var/lighting_alpha = LIGHTING_PLANE_ALPHA_VISIBLE
 	var/datum/mind/mind
@@ -25,11 +26,17 @@
 	var/list/movespeed_modification				//Lazy list, see mob_movespeed.dm
 	/// The calculated mob speed slowdown based on the modifiers list
 	var/cached_multiplicative_slowdown
+	/// List of action speed modifiers applying to this mob
+	var/list/actionspeed_modification				//Lazy list, see mob_movespeed.dm
+	/// List of action speed modifiers ignored by this mob. List -> List (id) -> List (sources)
+	var/list/actionspeed_mod_immunities			//Lazy list, see mob_movespeed.dm
+	/// The calculated mob action speed slowdown based on the modifiers list
+	var/cached_multiplicative_actions_slowdown
 	/// List of action hud items the user has
 	var/list/datum/action/actions = list()
 	/// A special action? No idea why this lives here
 	var/list/datum/action/chameleon_item_actions
-	
+
 	/// Whether a mob is alive or dead. TODO: Move this to living - Nodrak (2019, still here)
 	var/stat = CONSCIOUS
 
@@ -41,7 +48,7 @@
 	*/
 
 	/// The zone this mob is currently targeting
-	var/zone_selected = null
+	var/zone_selected = BODY_ZONE_CHEST
 
 	var/computer_id = null
 	var/list/logging = list()
@@ -51,12 +58,12 @@
 
 	/// Tick time the mob can next move
 	var/next_move = null
-	
+
 	///prevents area creation spam
 	var/create_area_cooldown
 	/**
 	  * Magic var that stops you moving and interacting with anything
-	  * 
+	  *
 	  * Set when you're being turned into something else and also used in a bunch of places
 	  * it probably shouldn't really be
 	  */
@@ -74,7 +81,7 @@
 
 	/**
 	  * back up of the real name during admin possession
-	  * 
+	  *
 	  * If an admin possesses an object it's real name is set to the admin name and this
 	  * stores whatever the real name was previously. When possession ends, the real name
 	  * is reset to this value
@@ -117,12 +124,12 @@
 	var/active_hand_index = 1
 	/**
 	  * list of items held in hands
-	  * 
+	  *
 	  * len = number of hands, eg: 2 nulls is 2 empty hands, 1 item and 1 null is 1 full hand
 	  * and 1 empty hand.
-	  * 
+	  *
 	  * NB: contains nulls!
-	  * 
+	  *
 	  * held_items[active_hand_index] is the actively held item, but please use
 	  * get_active_held_item() instead, because OOP
 	  */
@@ -149,8 +156,8 @@
 	/// Can this mob enter shuttles
 	var/move_on_shuttle = 1
 
-	///The last mob/living/carbon to push/drag/grab this mob (exclusively used by slimes friend recognition)
-	var/mob/living/carbon/LAssailant = null
+	///A weakref to the last mob/living/carbon to push/drag/grab this mob (exclusively used by slimes friend recognition)
+	var/datum/weakref/LAssailant = null
 
 	/**
 	  * construct spells and mime spells.
@@ -160,14 +167,10 @@
 	  */
 	var/list/mob_spell_list = list()
 
-	
+
 	/// bitflags defining which status effects can be inflicted (replaces canknockdown, canstun, etc)
 	var/status_flags = CANSTUN|CANKNOCKDOWN|CANUNCONSCIOUS|CANPUSH
 
-	/// Can they be tracked by the AI?
-	var/digitalcamo = 0
-	///Are they ivisible to the AI?
-	var/digitalinvis = 0
 	///what does the AI see instead of them?
 	var/image/digitaldisguise = null
 
@@ -196,12 +199,25 @@
 	///List of progress bars this mob is currently seeing for actions
 	var/list/progressbars = null	//for stacking do_after bars
 
-	var/list/mousemove_intercept_objects
+	var/list/mousemove_intercept_objects //NSV13 - Overmap movement
+
+	///For storing what do_after's someone has, in case we want to restrict them to only one of a certain do_after at a time
+	var/list/do_afters
 
 	///Allows a datum to intercept all click calls this mob is the source of
 	var/datum/click_intercept
 
 	///THe z level this mob is currently registered in
 	var/registered_z = null
-	
+
 	var/memory_throttle_time = 0
+
+	vis_flags = VIS_INHERIT_PLANE //when this be added to vis_contents of something it inherit something.plane, important for visualisation of mob in openspace.
+
+	var/list/mob_properties
+
+	/// A mock client, provided by tests and friends
+	var/datum/client_interface/mock_client
+
+	///Override for sound_environments. If this is set the user will always hear a specific type of reverb (Instead of the area defined reverb)
+	var/sound_environment_override = SOUND_ENVIRONMENT_NONE

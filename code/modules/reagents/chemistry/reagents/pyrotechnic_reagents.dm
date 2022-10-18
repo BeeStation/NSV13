@@ -50,7 +50,7 @@
 	if(isplatingturf(T))
 		var/turf/open/floor/plating/F = T
 		if(prob(10 + F.burnt + 5*F.broken)) //broken or burnt plating is more susceptible to being destroyed
-			F.ScrapeAway()
+			F.ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
 	if(isfloorturf(T))
 		var/turf/open/floor/F = T
 		if(prob(reac_volume))
@@ -58,7 +58,7 @@
 		else if(prob(reac_volume))
 			F.burn_tile()
 		if(isfloorturf(F))
-			for(var/turf/turf in range(1,F))
+			for(var/turf/open/turf in RANGE_TURFS(1,F))
 				if(!locate(/obj/effect/hotspot) in turf)
 					new /obj/effect/hotspot(F)
 	if(iswallturf(T))
@@ -245,6 +245,28 @@
 			L.extract_cooldown = max(0, L.extract_cooldown - 20)
 	..()
 
+/datum/reagent/teslium/energized_jelly/energized_ooze
+	name = "Energized Ooze"
+	description = "Electrically-charged Ooze. Boosts Oozeling's nervous system, but only shocks other lifeforms."
+	reagent_state = LIQUID
+	color = "#CAFF43"
+	taste_description = "slime"
+	overdose_threshold = 30
+
+/datum/reagent/teslium/energized_jelly/energized_ooze/on_mob_life(mob/living/carbon/M)
+	if(isoozeling(M))
+		shock_timer = 0 //immune to shocks
+		M.AdjustAllImmobility(-40, FALSE)
+		M.adjustStaminaLoss(-2, 0)
+	..()
+
+/datum/reagent/teslium/energized_jelly/energized_ooze/overdose_process(mob/living/carbon/M)
+	if(isoozeling(M) || isjellyperson(M))
+		if(prob(25))
+			M.electrocute_act(rand(5,20), "Energized Jelly overdose in their body", 1, 1) //Override because it's caused from INSIDE of you
+			playsound(M, "sparks", 50, 1)
+	..()
+
 /datum/reagent/firefighting_foam
 	name = "Firefighting Foam"
 	description = "A historical fire suppressant. Originally believed to simply displace oxygen to starve fires, it actually interferes with the combustion reaction itself. Vastly superior to the cheap water-based extinguishers found on NT vessels."
@@ -267,8 +289,8 @@
 	if(hotspot && !isspaceturf(T))
 		if(T.air)
 			var/datum/gas_mixture/G = T.air
-			if(G.temperature > T20C)
-				G.temperature = max(G.temperature/2,T20C)
+			if(G.return_temperature() > T20C)
+				G.set_temperature(max(G.return_temperature()/2,T20C))
 			G.react(src)
 			qdel(hotspot)
 

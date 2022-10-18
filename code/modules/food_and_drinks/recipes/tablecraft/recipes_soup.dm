@@ -140,7 +140,7 @@
 		/datum/reagent/water = 10,
 		/obj/item/reagent_containers/glass/bowl = 1,
 		/obj/item/reagent_containers/food/snacks/grown/banana = 1,
-		/obj/item/stack/ore/bananium = 1
+		/obj/item/stack/sheet/mineral/bananium = 1
 	)
 	result = /obj/item/reagent_containers/food/snacks/soup/clownstears
 	subcategory = CAT_SOUP
@@ -246,4 +246,27 @@
 		/obj/item/reagent_containers/food/snacks/salad/boiledrice = 1
 	)
 	result = /obj/item/reagent_containers/food/snacks/soup/bisque
+	subcategory = CAT_SOUP
+
+/datum/crafting_recipe/food/bungocurry
+	name = "Bungo Curry"
+	reqs = list(
+		/datum/reagent/water = 5,
+		/datum/reagent/consumable/cream = 5,
+		/obj/item/reagent_containers/glass/bowl = 1,
+		/obj/item/reagent_containers/food/snacks/grown/chili = 1,
+		/obj/item/reagent_containers/food/snacks/grown/bungofruit = 1
+	)
+	result = /obj/item/reagent_containers/food/snacks/soup/bungocurry
+	subcategory = CAT_SOUP
+
+/datum/crafting_recipe/food/electron
+	name = "Electron Soup"
+	reqs = list(
+		/datum/reagent/water = 10,
+		/datum/reagent/consumable/sodiumchloride = 5,
+		/obj/item/reagent_containers/glass/bowl = 1,
+		/obj/item/reagent_containers/food/snacks/grown/mushroom/jupitercup = 1
+	)
+	result = /obj/item/reagent_containers/food/snacks/soup/electron
 	subcategory = CAT_SOUP

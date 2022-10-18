@@ -31,6 +31,7 @@
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/wings, GLOB.r_wings_list,roundstart = TRUE)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/caps, GLOB.caps_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/moth_wings, GLOB.moth_wings_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/moth_wingsopen, GLOB.moth_wingsopen_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/ipc_screens, GLOB.ipc_screens_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/ipc_antennas, GLOB.ipc_antennas_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/ipc_chassis, GLOB.ipc_chassis_list)
@@ -40,10 +41,12 @@
 	for(var/spath in subtypesof(/datum/species))
 		var/datum/species/S = new spath()
 		GLOB.species_list[S.id] = spath
+	sortList(GLOB.species_list)
 
 	//Surgeries
 	for(var/path in subtypesof(/datum/surgery))
 		GLOB.surgeries_list += new path()
+	sortList(GLOB.surgeries_list)
 
 	GLOB.emote_list = init_emote_list()
 

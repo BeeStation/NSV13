@@ -43,6 +43,7 @@
 	//Get the clone body ready
 	maim_clone(H)
 	ADD_TRAIT(H, TRAIT_STABLEHEART, CLONING_POD_TRAIT)
+	ADD_TRAIT(H, TRAIT_STABLELIVER, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_EMOTEMUTE, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_MUTE, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_NOBREATH, CLONING_POD_TRAIT)
@@ -215,7 +216,6 @@
 
 	var/datum/browser/popup = new(user, "cloning", "Prototype Cloning System Control")
 	popup.set_content(dat)
-	popup.set_title_image(user.browse_rsc_icon(src.icon, src.icon_state))
 	popup.open()
 
 /obj/machinery/computer/prototype_cloning/Topic(href, href_list)

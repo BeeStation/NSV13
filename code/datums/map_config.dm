@@ -5,7 +5,7 @@
 
 /datum/map_config //NSV EDITED START
 	// Metadata
-	var/config_filename = "_maps/hammerhead.json"
+	var/config_filename = "_maps/atlas.json"
 	var/defaulted = TRUE  // set to FALSE by LoadConfig() succeeding
 	// Config from maps.txt
 	var/config_max_users = 0
@@ -13,38 +13,58 @@
 	var/voteweight = 1
 	var/votable = FALSE
 
-	// Config actually from the JSON - should default to Hammerhead //NSV EDITS
-	var/map_name = "NSV Hammerhead - DEFAULTED"
+	//NSV edits all over
+	var/map_name = "NSV Atlas - DEFAULTED"
 	var/map_link = null //This is intentionally wrong, this will make it not link to webmap.
-	var/map_path = "map_files/Hammerhead"
-	var/map_file = "Hammerhead.dmm"
-	var/ship_type = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
-	var/mining_ship_type = /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
-	var/mine_file = "nostromo.dmm" //Nsv13. Heavy changes to this file
-	var/mine_path = "map_files/Mining/nsv13"
+	var/map_path = "map_files/Atlas"
+	var/map_file = list("atlas.dmm", "atlas2.dmm")
+	var/ship_type = /obj/structure/overmap/nanotrasen/battlecruiser/starter
+	var/mining_ship_type = null
+	var/mine_disable = TRUE //NSV13 option - Allow disabling of mineship loading.
+	var/mine_file = "Rocinante.dmm" //Nsv13 option
+	var/mine_path = "map_files/Mining/nsv13" //NSV13 option
+	var/list/omode_blacklist = list() //NSV13 - Blacklisted overmap modes - ie remove modes
+	var/list/omode_whitelist = list() //NSV13 - Whitelisted overmap modes - ie add modes
+	var/starmap_path = "config/starmap/starmap_default.json" //NSV13 - What starmap should this map load?
 	var/mine_traits = null
 
-	var/traits = null
+	var/traits = list(
+		list(
+			"Up" = 1,
+			"Linkage" = "Self",
+			"Station" = 1,
+			"Boardable Ship" = 1),
+		list(
+			"Down" = -1,
+			"Linkage" = "Self",
+			"Station" = 1,
+			"Boardable Ship" = 1)
+		)
 	var/space_ruin_levels = -1
 	var/space_empty_levels = 1
 
 	var/allow_custom_shuttles = TRUE
+	var/allow_night_lighting = TRUE
 	var/shuttles = list(
-		"cargo" = "cargo_box",
-		"ferry" = "ferry_fancy",
-		"whiteship" = "whiteship_box",
-		"emergency" = "emergency_box")
+		"cargo" = "cargo_gladius",
+		"ferry" = "ferry_kilo",
+		"emergency" = "emergency_atlas")
 
 //NSV EDITED END
 
-/proc/load_map_config(filename = "data/next_map.json", default_to_box, delete_after, error_if_missing = TRUE)
+/proc/load_map_config(filename = "next_map", foldername = DATA_DIRECTORY, default_to_box, delete_after, error_if_missing = TRUE)
+	if(IsAdminAdvancedProcCall())
+		return
+
+	filename = "[foldername]/[SANITIZE_FILENAME(filename)].json"
 	var/datum/map_config/config = new
 	if (default_to_box)
 		return config
 	if (!config.LoadConfig(filename, error_if_missing))
 		qdel(config)
 		config = new /datum/map_config  // Fall back to Box
-	if (delete_after)
+		//config.LoadConfig(config.config_filename)
+	else if (delete_after)
 		fdel(filename)
 	return config
 
@@ -60,7 +80,7 @@
 		log_world("Could not open map_config: [filename]")
 		return
 
-	json = file2text(json)
+	json = rustg_file_read(json)
 	if(!json)
 		log_world("map_config is not text: [filename]")
 		return
@@ -116,49 +136,57 @@
 		return
 
 	var/temp = json["space_ruin_levels"]
-	if (isnum(temp))
+	if (isnum_safe(temp))
 		space_ruin_levels = temp
 	else if (!isnull(temp))
 		log_world("map_config space_ruin_levels is not a number!")
 		return
 
 	temp = json["space_empty_levels"]
-	if (isnum(temp))
+	if (isnum_safe(temp))
 		space_empty_levels = temp
 	else if (!isnull(temp))
 		log_world("map_config space_empty_levels is not a number!")
 		return
 
-	mine_file = json["mine_file"]
-	CHECK_EXISTS("mine_path")
-	mine_path = json["mine_path"]
-	// "map_file": "BoxStation.dmm"
-	if (istext(mine_file))
-		if (!fexists("_maps/[mine_path]/[mine_file]"))
-			log_world("Map file ([mine_path]/[mine_file]) does not exist!")
-			return
-	// "map_file": ["Lower.dmm", "Upper.dmm"]
-	else if (islist(mine_file))
-		for (var/file in mine_file)
-			if (!fexists("_maps/[mine_path]/[file]"))
-				log_world("Map file ([mine_path]/[file]) does not exist!")
+	if("mine_disable" in json)
+		mine_disable = json["mine_disable"]
+	if(!mine_disable) //This ship needs a mining ship!
+		mine_file = json["mine_file"]
+		mine_path = json["mine_path"]
+		if (istext(mine_file))
+			if (!fexists("_maps/[mine_path]/[mine_file]"))
+				log_world("Map file ([mine_path]/[mine_file]) does not exist!")
 				return
-	else
-		log_world("mine_file missing from json!")
-		return
+		else if (islist(mine_file))
+			for (var/file in mine_file)
+				if (!fexists("_maps/[mine_path]/[file]"))
+					log_world("Map file ([mine_path]/[file]) does not exist!")
+					return
+		else
+			log_world("mine_file missing from json!")
+			return
+
+		CHECK_EXISTS("mining_ship_type")
+		if("mining_ship_type" in json)
+			mining_ship_type = text2path(json["mining_ship_type"])
+		else
+			log_world("mining_ship_type missing from json!")
+			return
+
+	//Nsv13 stuff. No CHECK_EXISTS because we don't want to yell at mappers if they don't override these two.
+	if("omode_blacklist" in json) //Which modes we want disabled on this map
+		omode_blacklist = json["omode_blacklist"]
+	if("omode_whitelist" in json) //Which extra modes we want enabled on this map
+		omode_whitelist = json["omode_whitelist"]
+	if("starmap_path" in json)
+		starmap_path = json["starmap_path"]
 
 	CHECK_EXISTS("ship_type")
 	if("ship_type" in json)
 		ship_type = text2path(json["ship_type"])
 	else
 		log_world("ship_type missing from json!")
-		return
-
-	CHECK_EXISTS("mining_ship_type")
-	if("mining_ship_type" in json)
-		mining_ship_type = text2path(json["mining_ship_type"])
-	else
-		log_world("mining_ship_type missing from json!")
 		return
 
 	mine_traits = json["mine_traits"]
@@ -180,6 +208,8 @@
 		map_link = json["map_link"]
 	else
 		log_world("map_link missing from json!")	// NSV Changes end
+
+	allow_night_lighting = json["allow_night_lighting"] != FALSE
 
 	defaulted = FALSE
 	return TRUE

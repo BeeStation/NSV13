@@ -25,6 +25,8 @@
 		E += M.rating
 	range = initial(range)
 	range *= E
+	//Update to viewers
+	ui_update()
 
 /obj/machinery/launchpad/Initialize()
 	. = ..()
@@ -43,13 +45,14 @@
 	update_indicator()
 
 /obj/machinery/launchpad/Destroy()
-	qdel(hud_list[DIAG_LAUNCHPAD_HUD])
+	for(var/datum/atom_hud/data/diagnostic/diag_hud in GLOB.huds)
+		diag_hud.remove_from_hud(src)
 	return ..()
 
 /obj/machinery/launchpad/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-		. += "<span class='notice'>The status display reads: Maximum range: <b>[range]</b> units.<span>"
+		. += "<span class='notice'>The status display reads: Maximum range: <b>[range]</b> units.</span>"
 
 /obj/machinery/launchpad/attackby(obj/item/I, mob/user, params)
 	if(stationary)
@@ -98,6 +101,15 @@
 	else
 		holder.icon_state = null
 
+/obj/machinery/launchpad/proc/set_offset(x, y)
+	if(teleporting)
+		return
+	if(!isnull(x))
+		x_offset = clamp(x, -range, range)
+	if(!isnull(y))
+		y_offset = clamp(y, -range, range)
+	update_indicator()
+
 /obj/machinery/launchpad/proc/doteleport(mob/user, sending)
 	if(teleporting)
 		to_chat(user, "<span class='warning'>ERROR: Launchpad busy.</span>")
@@ -123,7 +135,7 @@
 		indicator_icon = "launchpad_pull"
 	update_indicator()
 
-	playsound(get_turf(src), 'sound/weapons/flash.ogg', 25, 1)
+	playsound(get_turf(src), 'sound/weapons/flash.ogg', 25, TRUE)
 	teleporting = TRUE
 
 
@@ -149,7 +161,7 @@
 		source = dest
 		dest = target
 
-	playsound(get_turf(src), 'sound/weapons/emitter2.ogg', 25, 1)
+	playsound(get_turf(src), 'sound/weapons/emitter2.ogg', 25, TRUE)
 	var/first = TRUE
 	for(var/atom/movable/ROI in source)
 		if(ROI == src)
@@ -167,6 +179,8 @@
 					on_chair = " (on a chair)"
 				else
 					continue
+			else
+				continue
 		if(!first)
 			log_msg += ", "
 		if(ismob(ROI))
@@ -246,9 +260,9 @@
 /obj/machinery/launchpad/briefcase/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/launchpad_remote))
 		var/obj/item/launchpad_remote/L = I
-		if(L.pad == src) //do not attempt to link when already linked
+		if(L.pad == WEAKREF(src)) //do not attempt to link when already linked
 			return ..()
-		L.pad = src
+		L.pad = WEAKREF(src)
 		to_chat(user, "<span class='notice'>You link [src] to [L].</span>")
 	else
 		return ..()
@@ -285,9 +299,9 @@
 /obj/item/storage/briefcase/launchpad/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/launchpad_remote))
 		var/obj/item/launchpad_remote/L = I
-		if(L.pad == src.pad) //do not attempt to link when already linked
+		if(L.pad == WEAKREF(src.pad)) //do not attempt to link when already linked
 			return ..()
-		L.pad = src.pad
+		L.pad = WEAKREF(src.pad)
 		to_chat(user, "<span class='notice'>You link [pad] to [L].</span>")
 	else
 		return ..()
@@ -299,39 +313,42 @@
 	icon_state = "folder"
 	w_class = WEIGHT_CLASS_SMALL
 	var/sending = TRUE
-	var/obj/machinery/launchpad/briefcase/pad
+	//A weakref to our linked pad
+	var/datum/weakref/pad
 
 /obj/item/launchpad_remote/Initialize(mapload, pad) //remote spawns linked to the briefcase pad
 	. = ..()
-	src.pad = pad
+	src.pad = WEAKREF(pad)
 
 /obj/item/launchpad_remote/attack_self(mob/user)
 	. = ..()
 	ui_interact(user)
 	to_chat(user, "<span class='notice'>[src] projects a display onto your retina.</span>")
 
-/obj/item/launchpad_remote/ui_interact(mob/user, ui_key = "launchpad_remote", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
-	if(!ui)
-		ui = new(user, src, ui_key, "launchpad_remote", "Briefcase Launchpad Remote", 550, 400, master_ui, state) //width, height
-		ui.set_style("syndicate")
-		ui.open()
 
-	ui.set_autoupdate(TRUE)
+/obj/item/launchpad_remote/ui_state(mob/user)
+	return GLOB.default_state
+
+/obj/item/launchpad_remote/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "LaunchpadRemote") //width, height
+		ui.set_autoupdate(TRUE) // Autoupdate because handling changes to launchpad would be hell unless I figure out and add a bunch of signals
+		ui.open()
 
 /obj/item/launchpad_remote/ui_data(mob/user)
 	var/list/data = list()
-	data["has_pad"] = pad ? TRUE : FALSE
-	if(pad)
-		data["pad_closed"] = pad.closed
-	if(!pad || pad.closed)
+	var/obj/machinery/launchpad/briefcase/our_pad = pad?.resolve()
+	data["has_pad"] = our_pad ? TRUE : FALSE
+	if(our_pad)
+		data["pad_closed"] = our_pad.closed
+	if(!our_pad || our_pad.closed)
 		return data
 
-	data["pad_name"] = pad.display_name
-	data["abs_x"] = abs(pad.x_offset)
-	data["abs_y"] = abs(pad.y_offset)
-	data["north_south"] = pad.y_offset > 0 ? "N":"S"
-	data["east_west"] = pad.x_offset > 0 ? "E":"W"
+	data["pad_name"] = our_pad.display_name
+	data["range"] = our_pad.range
+	data["x"] = our_pad.x_offset
+	data["y"] = our_pad.y_offset
 	return data
 
 /obj/item/launchpad_remote/proc/teleport(mob/user, obj/machinery/launchpad/pad)
@@ -346,96 +363,39 @@
 /obj/item/launchpad_remote/ui_act(action, params)
 	if(..())
 		return
+	var/obj/machinery/launchpad/briefcase/our_pad = pad?.resolve()
+	if(!our_pad)
+		pad = null
+		return TRUE
 	switch(action)
-		if("right")
-			if(!pad.teleporting)
-				if(pad.x_offset < pad.range)
-					pad.x_offset++
-					pad.update_indicator()
+		if("set_pos")
+			var/new_x = text2num(params["x"])
+			var/new_y = text2num(params["y"])
+			our_pad.set_offset(new_x, new_y)
 			. = TRUE
-
-		if("left")
-			if(!pad.teleporting)
-				if(pad.x_offset > (pad.range * -1))
-					pad.x_offset--
-					pad.update_indicator()
+		if("move_pos")
+			var/plus_x = text2num(params["x"])
+			var/plus_y = text2num(params["y"])
+			our_pad.set_offset(
+				x = our_pad.x_offset + plus_x,
+				y = our_pad.y_offset + plus_y
+			)
 			. = TRUE
-
-		if("up")
-			if(!pad.teleporting)
-				if(pad.y_offset < pad.range)
-					pad.y_offset++
-					pad.update_indicator()
-			. = TRUE
-
-		if("down")
-			if(!pad.teleporting)
-				if(pad.y_offset > (pad.range * -1))
-					pad.y_offset--
-					pad.update_indicator()
-			. = TRUE
-
-		if("up-right")
-			if(!pad.teleporting)
-				if(pad.y_offset < pad.range)
-					pad.y_offset++
-				if(pad.x_offset < pad.range)
-					pad.x_offset++
-				pad.update_indicator()
-			. = TRUE
-
-		if("up-left")
-			if(!pad.teleporting)
-				if(pad.y_offset < pad.range)
-					pad.y_offset++
-				if(pad.x_offset > (pad.range * -1))
-					pad.x_offset--
-				pad.update_indicator()
-			. = TRUE
-
-		if("down-right")
-			if(!pad.teleporting)
-				if(pad.y_offset > (pad.range * -1))
-					pad.y_offset--
-				if(pad.x_offset < pad.range)
-					pad.x_offset++
-				pad.update_indicator()
-			. = TRUE
-
-		if("down-left")
-			if(!pad.teleporting)
-				if(pad.y_offset > (pad.range * -1))
-					pad.y_offset--
-				if(pad.x_offset > (pad.range * -1))
-					pad.x_offset--
-				pad.update_indicator()
-			. = TRUE
-
-		if("reset")
-			if(!pad.teleporting)
-				pad.y_offset = 0
-				pad.x_offset = 0
-				pad.update_indicator()
-			. = TRUE
-
 		if("rename")
-			. = TRUE
-			var/new_name = stripped_input(usr, "How do you want to rename the launchpad?", "Launchpad", pad.display_name, 15)
+			var/new_name = params["name"]
 			if(!new_name)
 				return
-			pad.display_name = new_name
-
+			our_pad.display_name = new_name
+			. = TRUE
 		if("remove")
 			. = TRUE
 			if(usr && alert(usr, "Are you sure?", "Unlink Launchpad", "I'm Sure", "Abort") != "Abort")
 				pad = null
-
 		if("launch")
 			sending = TRUE
-			teleport(usr, pad)
+			teleport(usr, our_pad)
 			. = TRUE
-
 		if("pull")
 			sending = FALSE
-			teleport(usr, pad)
+			teleport(usr, our_pad)
 			. = TRUE

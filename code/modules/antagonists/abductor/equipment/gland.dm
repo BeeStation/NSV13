@@ -59,7 +59,7 @@
 	active_mind_control = TRUE
 	log_admin("[key_name(user)] sent an abductor mind control message to [key_name(owner)]: [command]")
 	update_gland_hud()
-	var/obj/screen/alert/mind_control/mind_alert = owner.throw_alert("mind_control", /obj/screen/alert/mind_control)
+	var/atom/movable/screen/alert/mind_control/mind_alert = owner.throw_alert("mind_control", /atom/movable/screen/alert/mind_control)
 	mind_alert.command = command
 	addtimer(CALLBACK(src, .proc/clear_mind_control), mind_control_duration)
 
@@ -133,15 +133,20 @@
 /obj/item/organ/heart/gland/slime/Insert(mob/living/carbon/M, special = 0)
 	..()
 	owner.faction |= "slime"
-	owner.grant_language(/datum/language/slime)
+	owner.grant_language(/datum/language/slime, TRUE, TRUE, LANGUAGE_GLAND)
+
+/obj/item/organ/heart/gland/slime/Remove(mob/living/carbon/M, special = 0)
+	..()
+	owner.faction -= "slime"
+	owner.remove_language(/datum/language/slime, TRUE, TRUE, LANGUAGE_GLAND)
 
 /obj/item/organ/heart/gland/slime/activate()
 	to_chat(owner, "<span class='warning'>You feel nauseated!</span>")
 	owner.vomit(20)
 
 	var/mob/living/simple_animal/slime/Slime = new(get_turf(owner), "grey")
-	Slime.Friends = list(owner)
-	Slime.Leader = owner
+	Slime.set_friends(list(owner))
+	Slime.set_leader(owner)
 
 /obj/item/organ/heart/gland/mindshock
 	true_name = "neural crosstalk uninhibitor"
@@ -166,7 +171,7 @@
 			if(2)
 				to_chat(H, "<span class='warning'>You hear an annoying buzz in your head.</span>")
 				H.confused += 15
-				H.adjustBrainLoss(10, 160)
+				H.adjustOrganLoss(ORGAN_SLOT_BRAIN, 10, 160)
 			if(3)
 				H.hallucination += 60
 
@@ -232,6 +237,7 @@
 			var/datum/symptom/S = new chosen_symptom
 			A.symptoms += S
 	A.Refresh() //just in case someone already made and named the same disease
+	A.Finalize()
 	return A
 
 /obj/item/organ/heart/gland/trauma

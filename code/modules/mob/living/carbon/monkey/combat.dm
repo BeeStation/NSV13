@@ -20,6 +20,13 @@
 	var/next_battle_screech = 0
 	var/battle_screech_cooldown = 50
 
+/mob/living/carbon/monkey/Initialize(mapload, cubespawned, mob/spawner)
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
 /mob/living/carbon/monkey/proc/IsStandingStill()
 	return resisting || pickpocketing || disposing_body
 
@@ -64,8 +71,8 @@
 
 /mob/living/carbon/monkey/proc/battle_screech()
 	if(next_battle_screech < world.time)
-		emote(pick("roar","screech"))
-		for(var/mob/living/carbon/monkey/M in view(7,src))
+		INVOKE_ASYNC(src, /mob.proc/emote, pick("roar","screech"))
+		for(var/mob/living/carbon/monkey/M in hearers(7,src))
 			M.next_battle_screech = world.time + battle_screech_cooldown
 
 /mob/living/carbon/monkey/proc/equip_item(obj/item/I)
@@ -85,7 +92,7 @@
 			return TRUE
 
 	// CLOTHING
-	else if(istype(I, /obj/item/clothing))
+	else if(isclothing(I))
 		var/obj/item/clothing/C = I
 		monkeyDrop(C)
 		addtimer(CALLBACK(src, .proc/pickup_and_wear, C), 5)
@@ -139,7 +146,7 @@
 				blacklistItems[pickupTarget] ++
 				pickupTarget = null
 				pickupTimer = 0
-			else
+			else if(!IsDeadOrIncap())
 				INVOKE_ASYNC(src, .proc/walk2derpless, pickupTarget.loc)
 				if(Adjacent(pickupTarget) || Adjacent(pickupTarget.loc)) // next to target
 					drop_all_held_items() // who cares about these items, i want that one!
@@ -158,7 +165,7 @@
 	switch(mode)
 		if(MONKEY_IDLE)		// idle
 			if(enemies.len)
-				var/list/around = view(src, MONKEY_ENEMY_VISION) // scan for enemies
+				var/list/around = view(MONKEY_ENEMY_VISION, src) // scan for enemies
 				for(var/mob/living/L in around)
 					if( should_target(L) )
 						if(L.stat == CONSCIOUS)
@@ -199,7 +206,7 @@
 					pickupTarget = W
 
 			// recruit other monkies
-			var/list/around = view(src, MONKEY_ENEMY_VISION)
+			var/list/around = view(MONKEY_ENEMY_VISION, src)
 			for(var/mob/living/carbon/monkey/M in around)
 				if(M.mode == MONKEY_IDLE && prob(MONKEY_RECRUIT_PROB))
 					M.battle_screech()
@@ -249,11 +256,10 @@
 				back_to_idle()
 
 		if(MONKEY_FLEE)
-			var/list/around = view(src, MONKEY_FLEE_VISION)
 			target = null
 
 			// flee from anyone who attacked us and we didn't beat down
-			for(var/mob/living/L in around)
+			for(var/mob/living/L in view(MONKEY_FLEE_VISION, src))
 				if( enemies[L] && L.stat == CONSCIOUS )
 					target = L
 
@@ -388,6 +394,26 @@
 		retaliate(L)
 	return ..()
 
+/mob/living/carbon/monkey/attack_animal(mob/living/simple_animal/M)
+	. = ..()
+	if(. && prob(MONKEY_RETALIATE_HARM_PROB))
+		retaliate(M)
+
+/mob/living/carbon/monkey/attack_alien(mob/living/carbon/alien/humanoid/M)
+	. = ..()
+	if(. && prob(MONKEY_RETALIATE_HARM_PROB))
+		retaliate(M)
+
+/mob/living/carbon/monkey/attack_larva(mob/living/carbon/alien/larva/L)
+	. = ..()
+	if(. && prob(MONKEY_RETALIATE_HARM_PROB))
+		retaliate(L)
+
+/mob/living/carbon/monkey/attack_slime(mob/living/simple_animal/slime/M)
+	. = ..()
+	if(. && prob(MONKEY_RETALIATE_HARM_PROB))
+		retaliate(M)
+
 /mob/living/carbon/monkey/attackby(obj/item/W, mob/user, params)
 	..()
 	if((W.force) && (!target) && (W.damtype != STAMINA) )
@@ -408,14 +434,15 @@
 			retaliate(H)
 	..()
 
-/mob/living/carbon/monkey/Crossed(atom/movable/AM)
+/mob/living/carbon/monkey/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
 	if(!IsDeadOrIncap() && ismob(AM) && target)
 		var/mob/living/carbon/monkey/M = AM
 		if(!istype(M) || !M)
 			return
 		knockOver(M)
 		return
-	..()
 
 /mob/living/carbon/monkey/proc/monkeyDrop(var/obj/item/A)
 	if(A)

@@ -2,7 +2,7 @@
 name: Map Issue - Galactica
 about: Bugs related to the Galactica Map
 title: ''
-labels: Map Issue, Galactica
+labels: Galactica, Map Issue
 assignees: ''
 
 ---

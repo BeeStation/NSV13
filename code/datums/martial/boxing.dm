@@ -16,7 +16,7 @@
 
 	var/atk_verb = pick("left hook","right hook","straight punch")
 
-	var/damage = rand(5, 8) + A.dna.species.punchdamagelow
+	var/damage = 6 + A.dna.species.punchdamage
 	if(!damage)
 		playsound(D.loc, A.dna.species.miss_sound, 25, 1, -1)
 		D.visible_message("<span class='warning'>[A]'s [atk_verb] misses [D]!</span>", \
@@ -54,7 +54,7 @@
 /obj/item/clothing/gloves/boxing/equipped(mob/user, slot)
 	if(!ishuman(user))
 		return
-	if(slot == SLOT_GLOVES)
+	if(slot == ITEM_SLOT_GLOVES)
 		var/mob/living/carbon/human/H = user
 		style.teach(H,1)
 	return
@@ -63,6 +63,6 @@
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
-	if(H.get_item_by_slot(SLOT_GLOVES) == src)
+	if(H.get_item_by_slot(ITEM_SLOT_GLOVES) == src)
 		style.remove(H)
 	return

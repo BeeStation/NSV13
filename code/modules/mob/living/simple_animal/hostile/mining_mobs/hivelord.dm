@@ -16,9 +16,7 @@
 	speed = 3
 	maxHealth = 75
 	health = 75
-	harm_intent_damage = 5
-	melee_damage_lower = 0
-	melee_damage_upper = 0
+	melee_damage = 0
 	attacktext = "lashes out at"
 	speak_emote = list("telepathically cries")
 	attack_sound = 'sound/weapons/pierce.ogg'
@@ -32,6 +30,7 @@
 	pass_flags = PASSTABLE
 	loot = list(/obj/item/organ/regenerative_core)
 	var/brood_type = /mob/living/simple_animal/hostile/asteroid/hivelordbrood
+	discovery_points = 3000
 
 /mob/living/simple_animal/hostile/asteroid/hivelord/OpenFire(the_target)
 	if(world.time >= ranged_cooldown)
@@ -72,9 +71,7 @@
 	maxHealth = 1
 	health = 1
 	movement_type = FLYING
-	harm_intent_damage = 5
-	melee_damage_lower = 2
-	melee_damage_upper = 2
+	melee_damage = 2
 	attacktext = "slashes"
 	speak_emote = list("telepathically cries")
 	attack_sound = 'sound/weapons/pierce.ogg'
@@ -82,7 +79,7 @@
 	obj_damage = 0
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	pass_flags = PASSTABLE
-	del_on_death = 1
+	del_on_death = TRUE
 
 /mob/living/simple_animal/hostile/asteroid/hivelordbrood/Initialize()
 	. = ..()
@@ -101,8 +98,7 @@
 	mob_biotypes = list(MOB_ORGANIC, MOB_HUMANOID)
 	mouse_opacity = MOUSE_OPACITY_ICON
 	obj_damage = 60
-	melee_damage_lower = 15
-	melee_damage_upper = 15
+	melee_damage = 15
 	attacktext = "lashes out at"
 	speak_emote = list("echoes")
 	attack_sound = 'sound/weapons/pierce.ogg'
@@ -110,7 +106,7 @@
 	crusher_loot = /obj/item/crusher_trophy/legion_skull
 	loot = list(/obj/item/organ/regenerative_core/legion)
 	brood_type = /mob/living/simple_animal/hostile/asteroid/hivelordbrood/legion
-	del_on_death = 1
+	del_on_death = TRUE
 	stat_attack = UNCONSCIOUS
 	robust_searching = 1
 	var/dwarf_mob = FALSE
@@ -167,9 +163,7 @@
 	vision_range = 10
 	maxHealth = 1
 	health = 5
-	harm_intent_damage = 5
-	melee_damage_lower = 12
-	melee_damage_upper = 12
+	melee_damage = 12
 	attacktext = "bites"
 	speak_emote = list("echoes")
 	attack_sound = 'sound/weapons/pierce.ogg'
@@ -182,7 +176,7 @@
 
 /mob/living/simple_animal/hostile/asteroid/hivelordbrood/legion/Life()
 	if(isturf(loc))
-		for(var/mob/living/carbon/human/H in view(src,1)) //Only for corpse right next to/on same tile
+		for(var/mob/living/carbon/human/H in viewers(1, src)) //Only for corpse right next to/on same tile
 			if(H.stat == UNCONSCIOUS || (can_infest_dead && H.stat == DEAD))
 				infest(H)
 	..()
@@ -226,8 +220,7 @@
 	icon_dead = "legion"
 	health = 450
 	maxHealth = 450
-	melee_damage_lower = 20
-	melee_damage_upper = 20
+	melee_damage = 20
 	anchored = FALSE
 	AIStatus = AI_ON
 	stop_automated_movement = FALSE
@@ -279,7 +272,7 @@
 				head = /obj/item/clothing/head/helmet/space/plasmaman
 				belt = /obj/item/tank/internals/plasmaman/belt
 			else
-				uniform = /obj/item/clothing/under/rank/miner/lavaland
+				uniform = /obj/item/clothing/under/rank/cargo/miner/lavaland
 				if (prob(4))
 					belt = pickweight(list(/obj/item/storage/belt/mining = 2, /obj/item/storage/belt/mining/alt = 2))
 				else if(prob(10))
@@ -298,7 +291,7 @@
 				l_pocket = pickweight(list(/obj/item/stack/spacecash/c1000 = 7, /obj/item/reagent_containers/hypospray/medipen/survival = 2, /obj/item/borg/upgrade/modkit/cooldown = 1 ))
 		if("Ashwalker")
 			mob_species = /datum/species/lizard/ashwalker
-			uniform = /obj/item/clothing/under/gladiator/ash_walker
+			uniform = /obj/item/clothing/under/costume/gladiator/ash_walker
 			if(prob(95))
 				head = /obj/item/clothing/head/helmet/gladiator
 			else
@@ -306,7 +299,7 @@
 				suit = /obj/item/clothing/suit/armor/bone
 				gloves = /obj/item/clothing/gloves/bracer
 			if(prob(5))
-				back = pickweight(list(/obj/item/twohanded/bonespear = 3, /obj/item/twohanded/fireaxe/boneaxe = 2))
+				back = pickweight(list(/obj/item/spear/bonespear = 3, /obj/item/fireaxe/boneaxe = 2))
 			if(prob(10))
 				belt = /obj/item/storage/belt/mining/primitive
 			if(prob(30))
@@ -335,10 +328,10 @@
 			if(prob(50))
 				neck = /obj/item/bedsheet/rd/royal_cape
 			if(prob(10))
-				l_pocket = pick(list(/obj/item/crowbar/power, /obj/item/wrench/power, /obj/item/weldingtool/experimental))
+				l_pocket = pick(list(/obj/item/powertool/jaws_of_life, /obj/item/powertool/hand_drill, /obj/item/weldingtool/experimental))
 		if("YeOlde")
 			mob_gender = FEMALE
-			uniform = /obj/item/clothing/under/maid
+			uniform = /obj/item/clothing/under/costume/maid
 			gloves = /obj/item/clothing/gloves/color/white
 			shoes = /obj/item/clothing/shoes/laceup
 			head = /obj/item/clothing/head/helmet/knight
@@ -361,16 +354,12 @@
 			back = /obj/item/tank/internals/oxygen
 			mask = /obj/item/clothing/mask/breath
 		if("Cultist")
-			uniform = /obj/item/clothing/under/roman
+			uniform = /obj/item/clothing/under/costume/roman
 			suit = /obj/item/clothing/suit/cultrobes
-			head = /obj/item/clothing/head/culthood
 			suit_store = /obj/item/tome
+			shoes = /obj/item/clothing/shoes/cult
 			r_pocket = /obj/item/restraints/legcuffs/bola/cult
 			l_pocket = /obj/item/melee/cultblade/dagger
 			glasses =  /obj/item/clothing/glasses/hud/health/night/cultblind
 			backpack_contents = list(/obj/item/reagent_containers/glass/beaker/unholywater = 1, /obj/item/cult_shift = 1, /obj/item/flashlight/flare/culttorch = 1, /obj/item/stack/sheet/runed_metal = 15)
 	. = ..()
-
-
-
-

@@ -11,6 +11,7 @@
 	item_state = "knife"
 	lefthand_file = 'icons/mob/inhands/equipment/kitchen_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/kitchen_righthand.dmi'
+	block_upgrade_walk = 1
 	force = 15
 	throwforce = 10
 	w_class = WEIGHT_CLASS_NORMAL
@@ -105,12 +106,13 @@
 	desc = "This isn't right."
 	icon = 'icons/effects/224x224.dmi'
 	icon_state = "reality"
+	is_real = FALSE
 	pixel_x = -96
 	pixel_y = -96
 	dissipate = 0
 	move_self = 0
-	consume_range = 3
-	grav_pull = 4
+	consume_range = 0
+	grav_pull = 5
 	current_size = STAGE_FOUR
 	allowed_size = STAGE_FOUR
 
@@ -138,8 +140,41 @@
 	C.spew_organ(3, 2)
 	C.death()
 
+//Dont eat turfs
+/obj/singularity/wizard/eat()
+	for(var/turf/T as() in spiral_range_turfs(grav_pull, src))
+		if(!T || !isturf(loc))
+			continue
+		for(var/thing in T)
+			if(isturf(loc) && thing != src)
+				var/atom/movable/X = thing
+				X.singularity_pull(src, current_size)
+			CHECK_TICK
+
 /obj/singularity/wizard/mapped/admin_investigate_setup()
 	return
+
+/obj/singularity/wizard/Bump(atom/A)
+	if(ismovableatom(A))
+		free(A)
+
+/obj/singularity/wizard/Bumped(atom/movable/AM)
+	free(AM)
+
+/obj/singularity/wizard/consume(atom/A)
+	if(ismovableatom(A))
+		free(A)
+
+/obj/singularity/wizard/proc/free(atom/movable/A)
+	if(!LAZYLEN(GLOB.destabliization_exits))
+		if(ismob(A))
+			to_chat(A, "<span class='warning'>There is no way out of this place...</span>")
+		return
+	var/atom/return_thing = pick(GLOB.destabliization_exits)
+	var/turf/T = get_turf(return_thing)
+	if(!T)
+		return
+	A.forceMove(T)
 
 /////////////////////////////////////////Scrying///////////////////
 
@@ -188,7 +223,7 @@
 
 /obj/item/scrying/attack_self(mob/user)
 	visible_message("<span class='danger'>[user] stares into [src], their eyes glazing over.</span>")
-	user.ghostize(1)
+	user.ghostize(TRUE)
 
 /////////////////////////////////////////Necromantic Stone///////////////////
 
@@ -263,12 +298,12 @@
 		H.dropItemToGround(I)
 
 	var/hat = pick(/obj/item/clothing/head/helmet/roman, /obj/item/clothing/head/helmet/roman/legionnaire)
-	H.equip_to_slot_or_del(new hat(H), SLOT_HEAD)
-	H.equip_to_slot_or_del(new /obj/item/clothing/under/roman(H), SLOT_W_UNIFORM)
-	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roman(H), SLOT_SHOES)
+	H.equip_to_slot_or_del(new hat(H), ITEM_SLOT_HEAD)
+	H.equip_to_slot_or_del(new /obj/item/clothing/under/costume/roman(H), ITEM_SLOT_ICLOTHING)
+	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roman(H), ITEM_SLOT_FEET)
 	H.put_in_hands(new /obj/item/shield/riot/roman(H), TRUE)
 	H.put_in_hands(new /obj/item/claymore(H), TRUE)
-	H.equip_to_slot_or_del(new /obj/item/twohanded/spear(H), SLOT_BACK)
+	H.equip_to_slot_or_del(new /obj/item/spear(H), ITEM_SLOT_BACK)
 
 
 /obj/item/voodoo
@@ -319,7 +354,7 @@
 
 /obj/item/voodoo/attack_self(mob/user)
 	if(!target && possible.len)
-		target = input(user, "Select your victim!", "Voodoo") as null|anything in possible
+		target = input(user, "Select your victim!", "Voodoo") as null|anything in sortNames(possible)
 		return
 
 	if(user.zone_selected == BODY_ZONE_CHEST)
@@ -334,7 +369,7 @@
 	if(target && cooldown < world.time)
 		switch(user.zone_selected)
 			if(BODY_ZONE_PRECISE_MOUTH)
-				var/wgw =  sanitize(input(user, "What would you like the victim to say", "Voodoo", null)  as text)
+				var/wgw =  stripped_input(user, "What would you like the victim to say", "Voodoo")
 				target.say(wgw, forced = "voodoo doll")
 				log_game("[key_name(user)] made [key_name(target)] say [wgw] with a voodoo doll.")
 			if(BODY_ZONE_PRECISE_EYES)
@@ -365,7 +400,7 @@
 	if(!length(prints))
 		return FALSE
 	for(var/mob/living/carbon/human/H in GLOB.alive_mob_list)
-		if(prints[md5(H.dna.uni_identity)])
+		if(prints[rustg_hash_string(RUSTG_HASH_MD5, H.dna.uni_identity)])
 			possible |= H
 
 /obj/item/voodoo/proc/GiveHint(mob/victim,force=0)
@@ -437,7 +472,7 @@
 	var/breakout = 0
 	while(breakout < 50)
 		var/turf/potential_T = find_safe_turf()
-		if(T.z != potential_T.z || abs(get_dist_euclidian(potential_T,T)) > 50 - breakout)
+		if(T.get_virtual_z_level() != potential_T.get_virtual_z_level() || abs(get_dist_euclidian(potential_T,T)) > 50 - breakout)
 			do_teleport(user, potential_T, channel = TELEPORT_CHANNEL_MAGIC)
 			user.mobility_flags &= ~MOBILITY_MOVE
 			T = potential_T

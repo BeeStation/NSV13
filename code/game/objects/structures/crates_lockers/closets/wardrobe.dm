@@ -7,6 +7,10 @@
 	..()
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/under/color/blue(src)
+	/* NSV13 no skirts
+	for(var/i in 1 to 3)
+		new /obj/item/clothing/under/skirt/color/blue(src)
+	*/
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/shoes/sneakers/brown(src)
 	return
@@ -19,6 +23,10 @@
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/under/color/pink(src)
 	for(var/i in 1 to 3)
+	/* NSV13 no skirts
+		new /obj/item/clothing/under/skirt/color/pink(src)
+	*/
+	for(var/i in 1 to 3)
 		new /obj/item/clothing/shoes/sneakers/brown(src)
 	return
 
@@ -29,6 +37,10 @@
 /obj/structure/closet/wardrobe/black/PopulateContents()
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/under/color/black(src)
+	/* NSV13 no skirts
+	for(var/i in 1 to 3)
+		new /obj/item/clothing/under/skirt/color/black(src)
+	*/
 	if(prob(25))
 		new /obj/item/clothing/suit/jacket/leather(src)
 	if(prob(20))
@@ -53,6 +65,10 @@
 /obj/structure/closet/wardrobe/green/PopulateContents()
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/under/color/green(src)
+	/* NSV13 no skirts
+	for(var/i in 1 to 3)
+		new /obj/item/clothing/under/skirt/color/green(src)
+	*/
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/shoes/sneakers/black(src)
 	new /obj/item/clothing/mask/bandana/green(src)
@@ -80,6 +96,10 @@
 /obj/structure/closet/wardrobe/yellow/PopulateContents()
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/under/color/yellow(src)
+	/* NSV13 no skirts
+	for(var/i in 1 to 3)
+		new /obj/item/clothing/under/skirt/color/yellow(src)
+	*/
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/shoes/sneakers/orange(src)
 	new /obj/item/clothing/mask/bandana/gold(src)
@@ -94,6 +114,10 @@
 /obj/structure/closet/wardrobe/white/PopulateContents()
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/under/color/white(src)
+	/* NSV13 no skirts
+	for(var/i in 1 to 3)
+		new /obj/item/clothing/under/skirt/color/white(src)
+	*/
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/shoes/sneakers/white(src)
 	for(var/i in 1 to 3)
@@ -105,10 +129,10 @@
 	icon_door = "white"
 
 /obj/structure/closet/wardrobe/pjs/PopulateContents()
-	new /obj/item/clothing/under/pj/red(src)
-	new /obj/item/clothing/under/pj/red(src)
-	new /obj/item/clothing/under/pj/blue(src)
-	new /obj/item/clothing/under/pj/blue(src)
+	new /obj/item/clothing/under/misc/pj/red(src)
+	new /obj/item/clothing/under/misc/pj/red(src)
+	new /obj/item/clothing/under/misc/pj/blue(src)
+	new /obj/item/clothing/under/misc/pj/blue(src)
 	for(var/i in 1 to 4)
 		new /obj/item/clothing/shoes/sneakers/white(src)
 	return
@@ -121,6 +145,10 @@
 /obj/structure/closet/wardrobe/grey/PopulateContents()
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/under/color/grey(src)
+	/* NSV13 no skirts
+	for(var/i in 1 to 3)
+		new /obj/item/clothing/under/skirt/color/grey(src)
+	*/
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/shoes/sneakers/black(src)
 	for(var/i in 1 to 3)
@@ -131,9 +159,9 @@
 		new /obj/item/clothing/mask/bandana/black(src)
 		new /obj/item/clothing/mask/bandana/black(src)
 	if(prob(40))
-		new /obj/item/clothing/under/assistantformal(src)
+		new /obj/item/clothing/under/misc/assistantformal(src)
 	if(prob(40))
-		new /obj/item/clothing/under/assistantformal(src)
+		new /obj/item/clothing/under/misc/assistantformal(src)
 	if(prob(30))
 		new /obj/item/clothing/suit/hooded/wintercoat(src)
 		new /obj/item/clothing/shoes/winterboots(src)
@@ -152,16 +180,27 @@
 	if(prob(40))
 		new /obj/item/clothing/suit/jacket(src)
 	new /obj/item/clothing/under/color/white(src)
+	//new /obj/item/clothing/under/skirt/color/white(src) //NSV13 no skirts
 	new /obj/item/clothing/under/color/blue(src)
+	//new /obj/item/clothing/under/skirt/color/blue(src) //NSV13 no skirts
 	new /obj/item/clothing/under/color/yellow(src)
+	//new /obj/item/clothing/under/skirt/color/yellow(src) //NSV13 no skirts
 	new /obj/item/clothing/under/color/green(src)
+	//new /obj/item/clothing/under/skirt/color/green(src) //NSV13 no skirts
 	new /obj/item/clothing/under/color/orange(src)
+	//new /obj/item/clothing/under/skirt/color/orange(src) //NSV13 no skirts
 	new /obj/item/clothing/under/color/pink(src)
+	//new /obj/item/clothing/under/skirt/color/pink(src) //NSV13 no skirts
 	new /obj/item/clothing/under/color/red(src)
+	//new /obj/item/clothing/under/skirt/color/red(src) //NSV13 no skirts
 	new /obj/item/clothing/under/color/darkblue(src)
+	//new /obj/item/clothing/under/skirt/color/darkblue(src) //NSV13 no skirts
 	new /obj/item/clothing/under/color/teal(src)
+	//new /obj/item/clothing/under/skirt/color/teal(src) //NSV13 no skirts
 	new /obj/item/clothing/under/color/lightpurple(src)
+	//new /obj/item/clothing/under/skirt/color/lightpurple(src) //NSV13 no skirts
 	new /obj/item/clothing/under/color/green(src)
+	//new /obj/item/clothing/under/skirt/color/green(src) //NSV13 no skirts
 	new /obj/item/clothing/mask/bandana/red(src)
 	new /obj/item/clothing/mask/bandana/red(src)
 	new /obj/item/clothing/mask/bandana/blue(src)
@@ -174,4 +213,6 @@
 	if(prob(30))
 		new /obj/item/clothing/suit/hooded/wintercoat(src)
 		new /obj/item/clothing/shoes/winterboots(src)
+	if(prob(40))
+		new /obj/item/clothing/suit/toggle/softshell(src)
 	return

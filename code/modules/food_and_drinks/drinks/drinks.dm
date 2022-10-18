@@ -14,6 +14,7 @@
 	volume = 50
 	resistance_flags = NONE
 	var/isGlass = TRUE //Whether the 'bottle' is made of glass or not so that milk cartons dont shatter when someone gets hit by it
+	var/beingChugged = FALSE //We don't want people downing 100u super fast with drinking glasses
 
 /obj/item/reagent_containers/food/drinks/on_reagent_change(changetype)
 	. = ..()
@@ -31,10 +32,23 @@
 	if (!is_drainable())
 		to_chat(user, "<span class='warning'>[src]'s lid hasn't been opened!</span>")
 		return 0
-
+	var/gulp_amount = gulp_size
 	if(M == user)
-		user.visible_message("<span class='notice'>[user] swallows a gulp of [src].</span>", \
-			"<span class='notice'>You swallow a gulp of [src].</span>")
+		if(user.zone_selected == BODY_ZONE_PRECISE_MOUTH && !beingChugged)
+			beingChugged = TRUE
+			user.visible_message("<span class='notice'>[user] starts chugging [src].</span>", \
+				"<span class='notice'>You start chugging [src].</span>")
+			if(!do_mob(user, M))
+				return
+			if(!reagents || !reagents.total_volume)
+				return
+			gulp_amount = 50
+			user.visible_message("<span class='notice'>[user] chugs [src].</span>", \
+				"<span class='notice'>You chug [src].</span>")
+			beingChugged = FALSE
+		else
+			user.visible_message("<span class='notice'>[user] swallows a gulp of [src].</span>", \
+				"<span class='notice'>You swallow a gulp of [src].</span>")
 		if(HAS_TRAIT(M, TRAIT_VORACIOUS))
 			M.changeNext_move(CLICK_CD_MELEE * 0.5) //chug! chug! chug!
 
@@ -49,10 +63,10 @@
 			"<span class='userdanger'>[user] fed you the contents of [src].</span>")
 		log_combat(user, M, "fed", reagents.log_list())
 
-	var/fraction = min(gulp_size/reagents.total_volume, 1)
+	var/fraction = min(gulp_amount/reagents.total_volume, 1)
 	checkLiked(fraction, M)
 	reagents.reaction(M, INGEST, fraction)
-	reagents.trans_to(M, gulp_size, transfered_by = user)
+	reagents.trans_to(M, gulp_amount, transfered_by = user)
 	playsound(M.loc,'sound/items/drink.ogg', rand(10,50), 1)
 	return 1
 
@@ -206,6 +220,7 @@
 	spillable = TRUE
 	resistance_flags = FREEZE_PROOF
 	isGlass = FALSE
+	foodtype = BREAKFAST
 
 /obj/item/reagent_containers/food/drinks/ice
 	name = "ice cup"
@@ -239,10 +254,10 @@
 	desc = "An insult to Duke Purple is an insult to the Space Queen! Any proper gentleman will fight you, if you sully this tea."
 	list_reagents = list(/datum/reagent/consumable/tea = 30)
 
-/obj/item/reagent_containers/food/drinks/mug/coco
-	name = "Dutch hot coco"
+/obj/item/reagent_containers/food/drinks/mug/cocoa
+	name = "Dutch hot cocoa"
 	desc = "Made in Space South America."
-	list_reagents = list(/datum/reagent/consumable/hot_coco = 15, /datum/reagent/consumable/sugar = 5)
+	list_reagents = list(/datum/reagent/consumable/cocoa/hot_cocoa = 15, /datum/reagent/consumable/sugar = 5)
 	foodtype = SUGAR
 	resistance_flags = FREEZE_PROOF
 	custom_price = 42
@@ -263,6 +278,29 @@
 	icon_state = "beer"
 	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 30)
 	foodtype = GRAIN | ALCOHOL
+
+/obj/item/reagent_containers/food/drinks/beer/almost_empty
+	var/amount
+	list_reagents = null
+
+/obj/item/reagent_containers/food/drinks/beer/almost_empty/Initialize()
+	. = ..()
+	amount = rand(1,4)
+	reagents.add_reagent(/datum/reagent/consumable/ethanol/beer, amount)
+
+/obj/item/reagent_containers/food/drinks/syndicatebeer
+	name = "syndicate beer"
+	desc = "Consumed only by the finest syndicate agents. There is a round warning label stating 'Don't drink more than one in quick succession!'"
+	icon_state = "syndicatebeer"
+	list_reagents = list(/datum/reagent/consumable/ethanol/beer = 10, /datum/reagent/medicine/antitoxin = 20)
+	foodtype = GRAIN | ALCOHOL
+
+/obj/item/reagent_containers/food/drinks/ftliver
+	name = "Faster-Than-Liver"
+	desc = "They've gone into plaid!"
+	icon_state = "ftliver"
+	list_reagents = list(/datum/reagent/consumable/ethanol/ftliver = 30)
+	foodtype = ALCOHOL
 
 /obj/item/reagent_containers/food/drinks/beer/light
 	name = "Carp Lite"
@@ -322,12 +360,12 @@
 				icon_state = "orangebox"
 				name = "orange juice box"
 				desc = "A great source of vitamins. Stay healthy!"
-				foodtype = FRUIT
+				foodtype = FRUIT | BREAKFAST
 			if(/datum/reagent/consumable/milk)
 				icon_state = "milkbox"
 				name = "carton of milk"
 				desc = "An excellent source of calcium for growing space explorers."
-				foodtype = DAIRY
+				foodtype = DAIRY | BREAKFAST
 			if(/datum/reagent/consumable/applejuice)
 				icon_state = "juicebox"
 				name = "apple juice box"
@@ -353,7 +391,21 @@
 		name = "small carton"
 		desc = "A small carton, intended for holding drinks."
 
+/obj/item/reagent_containers/food/drinks/honeycomb
+	name = "Honeycomb"
+	desc = "A honeycomb made by an apid. It seems to be made out of beeswax and fairly weak."
+	icon = 'icons/obj/hydroponics/harvest.dmi'
+	icon_state = "honeycomb"
+	list_reagents = list(/datum/reagent/consumable/honey = 25)
 
+/obj/item/reagent_containers/food/drinks/honeycomb/attack_self(mob/user)
+	if(!reagents.total_volume)
+		user.visible_message("<span class='warning'>[user] snaps the [src] into 2 pieces!</span>",
+		"<span class='notice'>You snap [src] in half.</span>")
+		new /obj/item/stack/sheet/mineral/wax(user.loc, 2)
+		qdel(src)
+		return
+	return ..()
 
 //////////////////////////drinkingglass and shaker//
 //Note by Darem: This code handles the mixing of drinks. New drinks go in three places: In Chemistry-Reagents.dm (for the drink
@@ -397,6 +449,7 @@
 	volume = 30
 	spillable = TRUE
 
+
 //////////////////////////soda_cans//
 //These are in their own group to be used as IED's in /obj/item/grenade/ghettobomb.dm
 
@@ -420,7 +473,7 @@
 	playsound(H,'sound/items/drink.ogg', 80, 1)
 	reagents.trans_to(H, src.reagents.total_volume, transfered_by = H) //a big sip
 	sleep(5)
-	H.say(pick("Now, Outbomb Cuban Pete, THAT was a game.", "All these new fangled arcade games are too slow. I prefer the classics.", "They don't make 'em like Orion Trail anymore.", "You know what they say. Worst day of spess carp fishing is better than the best day at work.", "They don't make 'em like good old fashioned singularity engines anymore."))
+	H.say(pick("Now, Outbomb Cuban Pete, THAT was a game.", "All these new fangled arcade games are too slow. I prefer the classics.", "They don't make 'em like Orion Trail anymore.", "You know what they say. Worst day of spess carp fishing is better than the best day at work.", "They don't make 'em like good old-fashioned singularity engines anymore."))
 	if(H.age >= 30)
 		H.Stun(50)
 		sleep(50)
@@ -544,6 +597,13 @@
 	desc = "Grey Bull, it gives you gloves!"
 	icon_state = "energy_drink"
 	list_reagents = list(/datum/reagent/consumable/grey_bull = 20)
+	foodtype = SUGAR | JUNKFOOD
+
+/obj/item/reagent_containers/food/drinks/soda_cans/monkey_energy
+	name = "Monkey Energy"
+	desc = "Unleash the ape!"
+	icon_state = "monkey_energy"
+	list_reagents = list(/datum/reagent/consumable/monkey_energy = 50)
 	foodtype = SUGAR | JUNKFOOD
 
 /obj/item/reagent_containers/food/drinks/soda_cans/air

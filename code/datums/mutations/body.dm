@@ -71,7 +71,7 @@
 	desc = "Subject is easily terrified, and may suffer from hallucinations."
 	quality = NEGATIVE
 	text_gain_indication = "<span class='danger'>You feel screams echo through your mind...</span>"
-	text_lose_indication = "<span class'notice'>The screaming in your mind fades.</span>"
+	text_lose_indication = "<span class='notice'>The screaming in your mind fades.</span>"
 
 /datum/mutation/human/paranoia/on_life()
 	if(prob(5) && owner.stat == CONSCIOUS)
@@ -93,14 +93,14 @@
 	if(..())
 		return
 	owner.transform = owner.transform.Scale(1, 0.8)
-	owner.pass_flags |= PASSTABLE
+	passtable_on(owner, GENETIC_MUTATION)
 	owner.visible_message("<span class='danger'>[owner] suddenly shrinks!</span>", "<span class='notice'>Everything around you seems to grow..</span>")
 
 /datum/mutation/human/dwarfism/on_losing(mob/living/carbon/human/owner)
 	if(..())
 		return
 	owner.transform = owner.transform.Scale(1, 1.25)
-	owner.pass_flags &= ~PASSTABLE
+	passtable_off(owner, GENETIC_MUTATION)
 	owner.visible_message("<span class='danger'>[owner] suddenly grows!</span>", "<span class='notice'>Everything around you seems to shrink..</span>")
 
 
@@ -157,6 +157,7 @@
 	if(..())
 		return
 	ADD_TRAIT(owner, TRAIT_DEAF, GENETIC_MUTATION)
+	SEND_SOUND(owner, sound(null)) //NSV13 - stop current sounds when you go deaf
 
 /datum/mutation/human/deaf/on_losing(mob/living/carbon/human/owner)
 	if(..())
@@ -175,11 +176,11 @@
 /datum/mutation/human/race/on_acquiring(mob/living/carbon/human/owner)
 	if(..())
 		return
-	. = owner.monkeyize(TR_KEEPITEMS | TR_KEEPIMPLANTS | TR_KEEPORGANS | TR_KEEPDAMAGE | TR_KEEPVIRUS | TR_KEEPSE)
+	. = owner.monkeyize(TR_KEEPITEMS | TR_KEEPIMPLANTS | TR_KEEPORGANS | TR_KEEPDAMAGE | TR_KEEPVIRUS | TR_KEEPSE | TR_KEEPAI)
 
 /datum/mutation/human/race/on_losing(mob/living/carbon/monkey/owner)
 	if(owner && istype(owner) && owner.stat != DEAD && (owner.dna.mutations.Remove(src)))
-		. = owner.humanize(TR_KEEPITEMS | TR_KEEPIMPLANTS | TR_KEEPORGANS | TR_KEEPDAMAGE | TR_KEEPVIRUS | TR_KEEPSE)
+		. = owner.humanize(TR_KEEPITEMS | TR_KEEPIMPLANTS | TR_KEEPORGANS | TR_KEEPDAMAGE | TR_KEEPVIRUS | TR_KEEPSE | TR_KEEPAI)
 
 /datum/mutation/human/glow
 	name = "Glowy"
@@ -204,7 +205,7 @@
 	if(!glowth)
 		return
 	var/power = GET_MUTATION_POWER(src)
-	glowth.set_light(range * power, glow * power, "#[dna.features["mcolor"]]")
+	glowth.set_light_range_power_color(range * power, glow * power, "#[dna.features["mcolor"]]")
 
 /datum/mutation/human/glow/on_losing(mob/living/carbon/human/owner)
 	. = ..()
@@ -251,7 +252,7 @@
 	desc = "The user's skin will randomly combust, but is generally alot more resilient to burning."
 	quality = NEGATIVE
 	text_gain_indication = "<span class='warning'>You feel hot.</span>"
-	text_lose_indication = "<span class'notice'>You feel a lot cooler.</span>"
+	text_lose_indication = "<span class='notice'>You feel a lot cooler.</span>"
 	difficulty = 14
 	synchronizer_coeff = 1
 	power_coeff = 1
@@ -276,7 +277,7 @@
 	desc = "The victim of the mutation has a very weak link to spatial reality, and may be displaced. Often causes extreme nausea."
 	quality = NEGATIVE
 	text_gain_indication = "<span class='warning'>The space around you twists sickeningly.</span>"
-	text_lose_indication = "<span class'notice'>The space around you settles back to normal.</span>"
+	text_lose_indication = "<span class='notice'>The space around you settles back to normal.</span>"
 	difficulty = 18//high so it's hard to unlock and abuse
 	instability = 10
 	synchronizer_coeff = 1
@@ -306,7 +307,7 @@
 	desc = "Subject has acidic chemicals building up underneath their skin. This is often lethal."
 	quality = NEGATIVE
 	text_gain_indication = "<span class='userdanger'>A horrible burning sensation envelops you as your flesh turns to acid!</span>"
-	text_lose_indication = "<span class'notice'>A feeling of relief covers you as your flesh goes back to normal.</span>"
+	text_lose_indication = "<span class='notice'>A feeling of relief covers you as your flesh goes back to normal.</span>"
 	difficulty = 18//high so it's hard to unlock and use on others
 	var/msgcooldown = 0
 
@@ -346,7 +347,7 @@
 	desc = "Subject suffers from muscle spasms."
 	quality = NEGATIVE
 	text_gain_indication = "<span class='warning'>You flinch.</span>"
-	text_lose_indication = "<span class'notice'>Your flinching subsides.</span>"
+	text_lose_indication = "<span class='notice'>Your flinching subsides.</span>"
 	difficulty = 16
 
 /datum/mutation/human/spastic/on_acquiring()
@@ -364,7 +365,7 @@
 	desc = "A mutation that replaces the right foot with another left foot. It makes standing up after getting knocked down very difficult."
 	quality = NEGATIVE
 	text_gain_indication = "<span class='warning'>Your right foot feels... left.</span>"
-	text_lose_indication = "<span class'notice'>Your right foot feels alright.</span>"
+	text_lose_indication = "<span class='notice'>Your right foot feels alright.</span>"
 	difficulty = 16
 	var/stun_cooldown = 0
 
@@ -375,3 +376,74 @@
 			owner.SetStun(owner.AmountStun()*2)
 			owner.visible_message("<span class='danger'>[owner] tries to stand up, but trips!</span>", "<span class='userdanger'>You trip over your own feet!</span>")
 			stun_cooldown = world.time + 300
+
+/datum/mutation/human/strongwings
+	name = "Strengthened Wings"
+	desc = "Subject's wing muscle volume rapidly increases."
+	quality = POSITIVE
+	locked = TRUE
+	difficulty = 12
+	instability = 15
+	species_allowed = list(SPECIES_APID, SPECIES_MOTH)
+
+/datum/mutation/human/strongwings/on_acquiring()
+	if(..())
+		return
+	var/obj/item/organ/wings/wings = locate(/obj/item/organ/wings) in owner.internal_organs
+	if(!wings)
+		to_chat(owner, "<span class='warning'>You don't have wings to strengthen!</span>")
+		return
+	if(istype(wings, /obj/item/organ/wings/moth))
+		var/obj/item/organ/wings/moth/moth_wings = wings
+		moth_wings.flight_level += 1
+		moth_wings.Refresh(owner)
+	else if(istype(wings, /obj/item/organ/wings/bee))
+		var/obj/item/organ/wings/bee/bee_wings = wings
+		bee_wings.jumpdist += (6 * GET_MUTATION_POWER(src)) - 3
+	else
+		to_chat(owner, "<span class='warning'>Those wings are incompatible with the mutation!</span>")
+		return
+	to_chat(owner, "<span class='notice'>Your wings feel stronger.</span>")
+
+/datum/mutation/human/strongwings/on_losing()
+	if(..())
+		return
+	var/obj/item/organ/wings/wings = locate(/obj/item/organ/wings) in owner.internal_organs
+	if(!wings)
+		return
+	if(istype(wings, /obj/item/organ/wings/moth))
+		var/obj/item/organ/wings/moth/moth_wings = wings
+		moth_wings.flight_level -= 1
+		moth_wings.Refresh(owner)
+		to_chat(owner, "<span class='warning'>Your wings feel weak.</span>")
+	else if(istype(wings, /obj/item/organ/wings/bee))
+		var/obj/item/organ/wings/bee/bee_wings = wings
+		bee_wings.jumpdist -= (6 * GET_MUTATION_POWER(src)) - 3
+		to_chat(owner, "<span class='warning'>Your wings feel weak.</span>")
+
+/datum/mutation/human/catclaws
+	name = "Cat Claws"
+	desc = "Subject's hands grow sharpened claws."
+	quality = POSITIVE
+	locked = TRUE
+	difficulty = 12
+	instability = 25
+	species_allowed = list(SPECIES_FELINID)
+	var/added_damage = 6
+
+/datum/mutation/human/catclaws/on_acquiring()
+	if(..())
+		return
+	added_damage = min(17, 6 * GET_MUTATION_POWER(src) + owner.dna.species.punchdamage)
+	added_damage -= owner.dna.species.punchdamage
+	owner.dna.species.punchdamage += added_damage
+	to_chat(owner, "<span class='notice'>Claws extend from your fingertips.</span>")
+	owner.dna.species.attack_verb = "slash"
+
+/datum/mutation/human/catclaws/on_losing()
+	if(..())
+		return
+	owner.dna.species.punchdamage -= added_damage
+	to_chat(owner, "<span class='warning'> Your claws retract into your hand.</span>")
+	owner.dna.species.attack_verb = initial(owner.dna.species.attack_verb)
+

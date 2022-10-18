@@ -73,6 +73,7 @@
 	totallums /= 12 // 4 corners, each with 3 channels, get the average.
 
 	totallums = (totallums - minlum) / (maxlum - minlum)
+	totallums += dynamic_lumcount
 
 	return CLAMP01(totallums)
 
@@ -109,16 +110,6 @@
 				lighting_build_overlay()
 			else
 				lighting_clear_overlay()
-
-/turf/proc/get_corners()
-	if (!IS_DYNAMIC_LIGHTING(src) && !light_sources)
-		return null
-	if (!lighting_corners_initialised)
-		generate_missing_corners()
-	if (has_opaque_atom)
-		return null // Since this proc gets used in a for loop, null won't be looped though.
-
-	return corners
 
 /turf/proc/generate_missing_corners()
 	if (!IS_DYNAMIC_LIGHTING(src) && !light_sources)

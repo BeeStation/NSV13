@@ -1,6 +1,12 @@
 /obj/vehicle/sealed
+	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
 	var/enter_delay = 20
 	var/mouse_pointer
+
+/obj/vehicle/sealed/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(mover in buckled_mobs)
+		return TRUE
 
 /obj/vehicle/sealed/generate_actions()
 	. = ..()
@@ -19,10 +25,10 @@
 		mob_try_enter(M)
 	return ..()
 
-/obj/vehicle/sealed/Exited(atom/movable/AM, atom/newLoc)
+/obj/vehicle/sealed/Exited(atom/movable/gone, direction)
 	. = ..()
-	if(ismob(AM))
-		remove_occupant(AM)
+	if(ismob(gone))
+		remove_occupant(gone)
 
 /obj/vehicle/sealed/proc/mob_try_enter(mob/M)
 	if(!istype(M))
@@ -100,6 +106,7 @@
 		if(iscarbon(i))
 			var/mob/living/carbon/Carbon = i
 			Carbon.Paralyze(40)
+			Carbon.uncuff()
 
 /obj/vehicle/sealed/proc/DumpSpecificMobs(flag, randomstep = TRUE)
 	for(var/i in occupants)
@@ -108,6 +115,7 @@
 			if(iscarbon(i))
 				var/mob/living/carbon/C = i
 				C.Paralyze(40)
+				C.uncuff()
 
 
 /obj/vehicle/sealed/AllowDrop()

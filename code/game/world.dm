@@ -5,36 +5,36 @@ GLOBAL_VAR(restart_counter)
 //This happens after the Master subsystem new(s) (it's a global datum)
 //So subsystems globals exist, but are not initialised
 /world/New()
-	if(fexists("byond-extools.dll"))
-		call("byond-extools.dll", "maptick_initialize")()
+	//Keep the auxtools stuff at the top
+	AUXTOOLS_CHECK(AUXMOS)
 
-	//Early profile for auto-profiler - will be stopped on profiler init if necessary.
-#if DM_VERSION >= 513 && DM_BUILD >= 1506
-	world.Profile(PROFILE_START)
-#endif
+	enable_debugger()
 
 	log_world("World loaded at [time_stamp()]!")
-
-	SetupExternalRSC()
-
-	GLOB.config_error_log = GLOB.world_manifest_log = GLOB.world_pda_log = GLOB.world_job_debug_log = GLOB.sql_error_log = GLOB.world_href_log = GLOB.world_runtime_log = GLOB.world_attack_log = GLOB.world_game_log = "data/logs/config_error.[GUID()].log" //temporary file used to record errors with loading config, moved to log directory once logging is set bl
+	SSmetrics.world_init_time = REALTIMEOFDAY // Important
 
 	make_datum_references_lists()	//initialises global lists for referencing frequently used datums (so that we only ever do it once)
 
-	TgsNew(minimum_required_security_level = TGS_SECURITY_TRUSTED)
-
-	GLOB.revdata = new
+	GLOB.config_error_log = GLOB.world_manifest_log = GLOB.world_pda_log = GLOB.world_job_debug_log = GLOB.sql_error_log = GLOB.world_href_log = GLOB.world_runtime_log = GLOB.world_attack_log = GLOB.world_game_log = "data/logs/config_error.[GUID()].log" //temporary file used to record errors with loading config, moved to log directory once logging is set bl
 
 	config.Load(params[OVERRIDE_CONFIG_DIRECTORY_PARAMETER])
 
+	GLOB.revdata = new
+
+	InitTgs()
+
+	config.LoadMOTD()
+
 	load_admins()
 	load_mentors()
+	load_badge_ranks()
 
 	//SetupLogs depends on the RoundID, so lets check
 	//DB schema and set RoundID if we can
 	SSdbcore.CheckSchemaVersion()
 	SSdbcore.SetRoundID()
 	SetupLogs()
+	load_poll_data()
 
 	populate_gear_list()
 
@@ -44,14 +44,11 @@ GLOBAL_VAR(restart_counter)
 	if (TgsAvailable())
 		world.log = file("[GLOB.log_directory]/dd.log") //not all runtimes trigger world/Error, so this is the only way to ensure we can see all of them.
 #endif
-	LoadVerbs(/datum/verbs/menu)
 	if(CONFIG_GET(flag/usewhitelist))
 		load_whitelist()
 
-	GLOB.timezoneOffset = text2num(time2text(0,"hh")) * 36000
-
 	if(fexists(RESTART_COUNTER_PATH))
-		GLOB.restart_counter = text2num(trim(file2text(RESTART_COUNTER_PATH)))
+		GLOB.restart_counter = text2num(trim(rustg_file_read(RESTART_COUNTER_PATH)))
 		fdel(RESTART_COUNTER_PATH)
 
 	if(NO_INIT_PARAMETER in params)
@@ -59,8 +56,13 @@ GLOBAL_VAR(restart_counter)
 
 	Master.Initialize(10, FALSE, TRUE)
 
-	if(TEST_RUN_PARAMETER in params)
-		HandleTestRun()
+	#ifdef UNIT_TESTS
+	HandleTestRun()
+	#endif
+
+/world/proc/InitTgs()
+	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_TRUSTED)
+	GLOB.revdata.load_tgs_info()
 
 /world/proc/HandleTestRun()
 	//trigger things to run the whole process
@@ -73,18 +75,7 @@ GLOBAL_VAR(restart_counter)
 #else
 	cb = VARSET_CALLBACK(SSticker, force_ending, TRUE)
 #endif
-	SSticker.OnRoundstart(CALLBACK(GLOBAL_PROC, /proc/addtimer, cb, 10 SECONDS))
-
-/world/proc/SetupExternalRSC()
-#if (PRELOAD_RSC == 0)
-	GLOB.external_rsc_urls = world.file2list("[global.config.directory]/external_rsc_urls.txt","\n")
-	var/i=1
-	while(i<=GLOB.external_rsc_urls.len)
-		if(GLOB.external_rsc_urls[i])
-			i++
-		else
-			GLOB.external_rsc_urls.Cut(i,i+1)
-#endif
+	SSticker.OnRoundstart(CALLBACK(GLOBAL_PROC, /proc/_addtimer, cb, 10 SECONDS))
 
 /world/proc/SetupLogs()
 	var/override_dir = params[OVERRIDE_LOG_DIRECTORY_PARAMETER]
@@ -109,9 +100,11 @@ GLOBAL_VAR(restart_counter)
 		GLOB.picture_log_directory = "data/picture_logs/[override_dir]"
 
 	GLOB.world_game_log = "[GLOB.log_directory]/game.log"
+	GLOB.world_objective_log = "[GLOB.log_directory]/objectives.log"
 	GLOB.world_mecha_log = "[GLOB.log_directory]/mecha.log"
 	GLOB.world_virus_log = "[GLOB.log_directory]/virus.log"
 	GLOB.world_cloning_log = "[GLOB.log_directory]/cloning.log"
+	GLOB.world_id_log = "[GLOB.log_directory]/id.log"
 	GLOB.world_asset_log = "[GLOB.log_directory]/asset.log"
 	GLOB.world_attack_log = "[GLOB.log_directory]/attack.log"
 	GLOB.world_pda_log = "[GLOB.log_directory]/pda.log"
@@ -140,6 +133,7 @@ GLOBAL_VAR(restart_counter)
 	start_log(GLOB.world_qdel_log)
 	start_log(GLOB.world_runtime_log)
 	start_log(GLOB.world_job_debug_log)
+	start_log(GLOB.world_id_log)
 	start_log(GLOB.tgui_log)
 
 	GLOB.changelog_hash = md5('html/changelog.html') //for telling if the changelog has changed recently
@@ -156,37 +150,64 @@ GLOBAL_VAR(restart_counter)
 	log_runtime(GLOB.revdata.get_log_message())
 
 /world/Topic(T, addr, master, key)
+	TGS_TOPIC	//*THIS NEEDS TO BE AT THE TOP OF /world/Topic()* - Redirect to server tools if necessary
+
 
 	var/list/response[] = list()
-	if (SSfail2topic?.IsRateLimited(addr))
-		response["statuscode"] = 429
-		response["response"] = "Rate limited."
-		return json_encode(response)
 
 	if (length(T) > CONFIG_GET(number/topic_max_size))
 		response["statuscode"] = 413
-		response["response"] = "Payload too large."
+		response["response"] = "Payload too large"
 		return json_encode(response)
 
-	TGS_TOPIC	//redirect to server tools if necessary
+	if (SSfail2topic?.IsRateLimited(addr))
+		response["statuscode"] = 429
+		response["response"] = "Rate limited"
+		return json_encode(response)
 
-	var/static/list/topic_handlers = TopicHandlers()
+	var/list/params[] = json_decode(rustg_url_decode(T))
+	params["addr"] = addr
+	var/query = params["query"]
+	var/auth = params["auth"]
+	var/source = params["source"]
 
-	var/list/input = params2list(T)
-	var/datum/world_topic/handler
-	for(var/I in topic_handlers)
-		if(I in input)
-			handler = topic_handlers[I]
-			break
+	if(CONFIG_GET(flag/log_world_topic))
+		var/list/censored_params = params.Copy()
+		censored_params["auth"] = "***[copytext(params["auth"], -4)]"
+		log_topic("\"[json_encode(censored_params)]\", from:[addr], master:[master], auth:[censored_params["auth"]], key:[key], source:[source]")
 
-	if((!handler || initial(handler.log)) && config && CONFIG_GET(flag/log_world_topic))
-		log_topic("\"[T]\", from:[addr], master:[master], key:[key]")
+	if(!source)
+		response["statuscode"] = 400
+		response["response"] = "Bad Request - No source specified"
+		return json_encode(response)
 
-	if(!handler)
-		return
+	if(!query)
+		response["statuscode"] = 400
+		response["response"] = "Bad Request - No endpoint specified"
+		return json_encode(response)
 
-	handler = new handler()
-	return handler.TryRun(input, addr)
+	if(!LAZYACCESS(GLOB.topic_tokens["[auth]"], "[query]"))
+		response["statuscode"] = 401
+		response["response"] = "Unauthorized - Bad auth"
+		return json_encode(response)
+
+	var/datum/world_topic/command = GLOB.topic_commands["[query]"]
+	if(!command)
+		response["statuscode"] = 501
+		response["response"] = "Not Implemented"
+		return json_encode(response)
+
+	if(command.CheckParams(params))
+		response["statuscode"] = command.statuscode
+		response["response"] = command.response
+		response["data"] = command.data
+		return json_encode(response)
+	else
+		command.Run(params)
+		response["statuscode"] = command.statuscode
+		response["response"] = command.response
+		response["data"] = command.data
+		return json_encode(response)
 
 /world/proc/AnnouncePR(announcement, list/payload)
 	var/static/list/PRcounts = list()	//PR id -> number of times announced this round
@@ -217,7 +238,7 @@ GLOBAL_VAR(restart_counter)
 	else
 		fail_reasons = list("Missing GLOB!")
 	if(!fail_reasons)
-		text2file("Success!", "[GLOB.log_directory]/clean_run.lk")
+		rustg_file_append("Success!", "[GLOB.log_directory]/clean_run.lk")
 	else
 		log_world("Test run failed!\n[fail_reasons.Join("\n")]")
 	sleep(0)	//yes, 0, this'll let Reboot finish and prevent byond memes
@@ -225,19 +246,21 @@ GLOBAL_VAR(restart_counter)
 
 /world/Reboot(reason = 0, fast_track = FALSE)
 	if (reason || fast_track) //special reboot, do none of the normal stuff
+		SSdbcore.Disconnect()
 		if (usr)
 			log_admin("[key_name(usr)] Has requested an immediate world restart via client side debugging tools")
 			message_admins("[key_name_admin(usr)] Has requested an immediate world restart via client side debugging tools")
-		to_chat(world, "<span class='boldannounce'>Rebooting World immediately due to host request</span>")
+		to_chat(world, "<span class='boldannounce'>Rebooting World immediately due to host request.</span>")
 	else
 		to_chat(world, "<span class='boldannounce'>Rebooting world...</span>")
 		Master.Shutdown()	//run SS shutdowns
 
 	TgsReboot()
 
-	if(TEST_RUN_PARAMETER in params)
-		FinishTestRun()
-		return
+	#ifdef UNIT_TESTS
+	FinishTestRun()
+	return
+	#endif
 
 	if(TgsAvailable())
 		var/do_hard_reboot
@@ -252,7 +275,7 @@ GLOBAL_VAR(restart_counter)
 				if(GLOB.restart_counter >= ruhr)
 					do_hard_reboot = TRUE
 				else
-					text2file("[++GLOB.restart_counter]", RESTART_COUNTER_PATH)
+					rustg_file_append("[++GLOB.restart_counter]", RESTART_COUNTER_PATH)
 					do_hard_reboot = FALSE
 
 		if(do_hard_reboot)
@@ -262,6 +285,15 @@ GLOBAL_VAR(restart_counter)
 
 	log_world("World rebooted at [time_stamp()]")
 	shutdown_logging() // Past this point, no logging procs can be used, at risk of data loss.
+	AUXTOOLS_SHUTDOWN(AUXMOS)
+	..()
+
+/world/Del()
+	shutdown_logging() // makes sure the thread is closed before end, else we terminate
+	AUXTOOLS_SHUTDOWN(AUXMOS)
+	var/debug_server = world.GetConfig("env", "AUXTOOLS_DEBUG_DLL")
+	if (debug_server)
+		call(debug_server, "auxtools_shutdown")()
 	..()
 
 /world/proc/update_status()
@@ -321,3 +353,6 @@ GLOBAL_VAR(restart_counter)
 	maxz++
 	SSmobs.MaxZChanged()
 	SSidlenpcpool.MaxZChanged()
+	world.refresh_atmos_grid()
+
+/world/proc/refresh_atmos_grid()

@@ -11,9 +11,9 @@
 	requires_ntnet = 0
 	network_destination = "power monitoring system"
 	size = 9
-	tgui_id = "ntos_power_monitor"
-	ui_x = 550
-	ui_y = 700
+	tgui_id = "NtosPowerMonitor"
+
+
 
 	var/has_alert = 0
 	var/obj/structure/cable/attached_wire
@@ -92,7 +92,7 @@
 			if(istype(A))
 				data["areas"] += list(list(
 					"name" = A.area.name,
-					"charge" = A.cell ? A.cell.percent() : 0,
+					"charge" = A.integration_cog ? 100 : A.cell ? A.cell.percent() : 0,
 					"load" = DisplayPower(A.lastused_total),
 					"charging" = A.charging,
 					"eqp" = A.equipment,

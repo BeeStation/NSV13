@@ -1,3 +1,4 @@
+
 #define CART_SECURITY			(1<<0)
 #define CART_ENGINE				(1<<1)
 #define CART_ATMOS				(1<<2)
@@ -5,14 +6,13 @@
 #define CART_MANIFEST			(1<<4)
 #define CART_CLOWN				(1<<5)
 #define CART_MIME				(1<<6)
-#define CART_JANITOR			(1<<7)
-#define CART_REAGENT_SCANNER	(1<<8)
-#define CART_NEWSCASTER			(1<<9)
-#define CART_REMOTE_DOOR		(1<<10)
-#define CART_STATUS_DISPLAY		(1<<11)
-#define CART_QUARTERMASTER		(1<<12)
-#define CART_HYDROPONICS		(1<<13)
-#define CART_DRONEPHONE			(1<<14)
+#define CART_REAGENT_SCANNER	(1<<7)
+#define CART_NEWSCASTER			(1<<8)
+#define CART_REMOTE_DOOR		(1<<9)
+#define CART_STATUS_DISPLAY		(1<<10)
+#define CART_QUARTERMASTER		(1<<11)
+#define CART_HYDROPONICS		(1<<12)
+#define CART_DRONEPHONE			(1<<13)
 
 
 /obj/item/cartridge
@@ -95,7 +95,7 @@
 	name = "\improper CustodiPRO cartridge"
 	desc = "The ultimate in clean-room design."
 	icon_state = "cart-j"
-	access = CART_JANITOR | CART_DRONEPHONE
+	access = CART_DRONEPHONE
 	bot_access_flags = CLEAN_BOT
 
 /obj/item/cartridge/lawyer
@@ -146,7 +146,7 @@
 /obj/item/cartridge/hop
 	name = "\improper HumanResources9001 cartridge"
 	icon_state = "cart-h"
-	access = CART_MANIFEST | CART_STATUS_DISPLAY | CART_JANITOR | CART_SECURITY | CART_NEWSCASTER | CART_QUARTERMASTER | CART_DRONEPHONE
+	access = CART_MANIFEST | CART_STATUS_DISPLAY | CART_SECURITY | CART_NEWSCASTER | CART_QUARTERMASTER | CART_DRONEPHONE
 	bot_access_flags = MULE_BOT | CLEAN_BOT
 
 /obj/item/cartridge/hos
@@ -190,6 +190,11 @@
 	. = ..()
 	radio = new(src)
 
+/obj/item/cartridge/annoyance //the only purpose of this cartridge is to allow the VIP to be annoying
+	name = "\improper TWIT cartridge"
+	icon_state = "cart-c"
+	spam_enabled = 1
+
 /obj/item/cartridge/proc/post_status(command, data1, data2)
 
 	var/datum/radio_frequency/frequency = SSradio.return_frequency(FREQ_STATUS_DISPLAYS)
@@ -231,8 +236,7 @@ Code:
 <a href='byond://?src=[REF(src)];choice=Signal Code;scode=5'>+</a><br>"}
 		if (41) //crew manifest
 			menu = "<h4>[PDAIMG(notes)] Crew Manifest</h4>"
-			menu += "<center>[GLOB.data_core.get_manifest(monochrome=TRUE)]</center>"
-
+			menu += "<center>[GLOB.data_core.get_manifest_html(monochrome=TRUE)]</center>"
 
 		if (42) //status displays
 			menu = "<h4>[PDAIMG(status)] Station Status Display Interlink</h4>"
@@ -259,7 +263,7 @@ Code:
 			for(var/obj/machinery/computer/monitor/pMon in GLOB.machines)
 				if(pMon.stat & (NOPOWER | BROKEN)) //check to make sure the computer is functional
 					continue
-				if(pda_turf.z != pMon.z) //and that we're on the same zlevel as the computer (lore: limited signal strength)
+				if(pda_turf.get_virtual_z_level() != pMon.get_virtual_z_level()) //and that we're on the same zlevel as the computer (lore: limited signal strength)
 					continue
 				if(pMon.is_secret_monitor) //make sure it isn't a secret one (ie located on a ruin), allowing people to metagame that the location exists
 					continue
@@ -300,10 +304,17 @@ Code:
 
 					var/list/S = list(" Off","AOff","  On", " AOn")
 					var/list/chg = list("N","C","F")
-
+//Neither copytext nor copytext_char is appropriate here; neither 30 UTF-8 code units nor 30 code points equates to 30 columns of output.
+//Some glyphs are very tall or very wide while others are small or even take up no space at all.
+//Emojis can take modifiers which are many characters but render as only one glyph.
+//A proper solution here (as far as Unicode goes, maybe not ideal as far as markup goes, a table would be better)
+//would be to use <span style="width: NNNpx; overflow: none;">[A.area.name]</span>
 					for(var/obj/machinery/power/apc/A in L)
-						menu += copytext(add_tspace(A.area.name, 30), 1, 30)
-						menu += " [S[A.equipment+1]] [S[A.lighting+1]] [S[A.environ+1]] [add_lspace(DisplayPower(A.lastused_total), 6)]  [A.cell ? "[add_lspace(round(A.cell.percent()), 3)]% [chg[A.charging+1]]" : "  N/C"]<BR>"
+						menu += copytext_char(add_trailing(A.area.name, 30, " "), 1, 30)
+						if(A.integration_cog)
+							menu += " [S[A.equipment+1]] [S[A.lighting+1]] [S[A.environ+1]] [add_leading(DisplayPower(A.lastused_total), 6, " ")]  100% F<BR>"
+						else
+							menu += " [S[A.equipment+1]] [S[A.lighting+1]] [S[A.environ+1]] [add_leading(DisplayPower(A.lastused_total), 6, " ")]  [A.cell ? "[add_leading("[round(A.cell.percent())]", 3, " ")]% [chg[A.charging+1]]" : "  N/C"]<BR>"
 
 				menu += "</FONT></PRE>"
 
@@ -377,7 +388,7 @@ Code:
 			if(active3 in GLOB.data_core.security)
 				menu += "Criminal Status: [active3.fields["criminal"]]<br>"
 
-				menu += text("<BR>\nMinor Crimes:")
+				menu += text("<BR>\nCrimes:")
 
 				menu +={"<table style="text-align:center;" border="1" cellspacing="0" width="100%">
 <tr>
@@ -386,24 +397,7 @@ Code:
 <th>Author</th>
 <th>Time Added</th>
 </tr>"}
-				for(var/datum/data/crime/c in active3.fields["mi_crim"])
-					menu += "<tr><td>[c.crimeName]</td>"
-					menu += "<td>[c.crimeDetails]</td>"
-					menu += "<td>[c.author]</td>"
-					menu += "<td>[c.time]</td>"
-					menu += "</tr>"
-				menu += "</table>"
-
-				menu += text("<BR>\nMajor Crimes:")
-
-				menu +={"<table style="text-align:center;" border="1" cellspacing="0" width="100%">
-<tr>
-<th>Crime</th>
-<th>Details</th>
-<th>Author</th>
-<th>Time Added</th>
-</tr>"}
-				for(var/datum/data/crime/c in active3.fields["ma_crim"])
+				for(var/datum/data/crime/c in active3.fields["crim"])
 					menu += "<tr><td>[c.crimeName]</td>"
 					menu += "<td>[c.crimeDetails]</td>"
 					menu += "<td>[c.author]</td>"
@@ -467,68 +461,6 @@ Code:
 				menu += "<b>No ore silo detected!</b>"
 			menu = jointext(menu, "")
 
-		if (49) //janitorial locator
-			menu = "<h4>[PDAIMG(bucket)] Persistent Custodial Object Locator</h4>"
-
-			var/turf/cl = get_turf(src)
-			if (cl)
-				menu += "Current Orbital Location: <b>\[[cl.x],[cl.y]\]</b>"
-
-				menu += "<h4>Located Mops:</h4>"
-
-				var/ldat
-				for (var/obj/item/mop/M in world)
-					var/turf/ml = get_turf(M)
-
-					if(ml)
-						if (ml.z != cl.z)
-							continue
-						var/direction = get_dir(src, M)
-						ldat += "Mop - <b>\[[ml.x],[ml.y] ([uppertext(dir2text(direction))])\]</b> - [M.reagents.total_volume ? "Wet" : "Dry"]<br>"
-
-				if (!ldat)
-					menu += "None"
-				else
-					menu += "[ldat]"
-
-				menu += "<h4>Located Janitorial Cart:</h4>"
-
-				ldat = null
-				for (var/obj/structure/janitorialcart/B in world)
-					var/turf/bl = get_turf(B)
-
-					if(bl)
-						if (bl.z != cl.z)
-							continue
-						var/direction = get_dir(src, B)
-						ldat += "Cart - <b>\[[bl.x],[bl.y] ([uppertext(dir2text(direction))])\]</b> - Water level: [B.reagents.total_volume]/100<br>"
-
-				if (!ldat)
-					menu += "None"
-				else
-					menu += "[ldat]"
-
-				menu += "<h4>Located Cleanbots:</h4>"
-
-				ldat = null
-				for (var/mob/living/simple_animal/bot/cleanbot/B in GLOB.alive_mob_list)
-					var/turf/bl = get_turf(B)
-
-					if(bl)
-						if (bl.z != cl.z)
-							continue
-						var/direction = get_dir(src, B)
-						ldat += "Cleanbot - <b>\[[bl.x],[bl.y] ([uppertext(dir2text(direction))])\]</b> - [B.on ? "Online" : "Offline"]<br>"
-
-				if (!ldat)
-					menu += "None"
-				else
-					menu += "[ldat]"
-
-			else
-				menu += "ERROR: Unable to determine current location."
-			menu += "<br><br><A href='byond://?src=[REF(src)];choice=49'>Refresh GPS Locator</a>"
-
 		if (53) // Newscaster
 			menu = "<h4>[PDAIMG(notes)] Newscaster Access</h4>"
 			menu += "<br> Current Newsfeed: <A href='byond://?src=[REF(src)];choice=Newscaster Switch Channel'>[current_channel ? current_channel : "None"]</a> <br>"
@@ -554,6 +486,22 @@ Code:
 		if (54) // Beepsky, Medibot, Floorbot, and Cleanbot access
 			menu = "<h4>[PDAIMG(medbot)] Bots Interlink</h4>"
 			bot_control()
+		if (55) // Emoji Guidebook for mimes
+			menu = "<h4>[PDAIMG(emoji)] Emoji Guidebook</h4>"
+			var/static/list/emoji_icon_states
+			var/static/emoji_table
+			if(!emoji_table)
+				var/datum/asset/spritesheet/sheet = get_asset_datum(/datum/asset/spritesheet/chat)
+				var/list/collate = list("<br><table>")
+				for(var/emoji in sortList(icon_states(icon('icons/emoji.dmi'))))
+					var/tag = sheet.icon_tag("emoji-[emoji]")
+					collate += "<tr><td>[emoji]</td><td>[tag]</td></tr>"
+				collate += "</table><br>"
+				emoji_table = collate.Join()
+
+			menu += "<br> To use an emoji in a pda message, refer to the guide and add \":\" around the emoji. Your PDA supports the following emoji:<br>"
+			menu += emoji_table
+
 		if (99) //Newscaster message permission error
 			menu = "<h5> ERROR : NOT AUTHORIZED [host_pda.id ? "" : "- ID SLOT EMPTY"] </h5>"
 
@@ -604,10 +552,10 @@ Code:
 				if("alert")
 					post_status("alert", href_list["alert"])
 				if("setmsg1")
-					message1 = reject_bad_text(input("Line 1", "Enter Message Text", message1) as text|null, 40)
+					message1 = reject_bad_text(capped_input(usr, "Line 1", "Enter Message Text", message1), 40)
 					updateSelfDialog()
 				if("setmsg2")
-					message2 = reject_bad_text(input("Line 2", "Enter Message Text", message2) as text|null, 40)
+					message2 = reject_bad_text(capped_input(usr, "Line 2", "Enter Message Text", message2), 40)
 					updateSelfDialog()
 				else
 					post_status(href_list["statdisp"])
@@ -641,6 +589,11 @@ Code:
 			current_channel = host_pda.msg_input()
 			host_pda.Topic(null,list("choice"=num2text(host_pda.mode)))
 			return
+
+	//emoji previews
+	if(href_list["emoji"])
+		var/parse = emoji_parse(":[href_list["emoji"]]:")
+		to_chat(usr, parse)
 
 	//Bot control section! Viciously ripped from radios for being laggy and terrible.
 	if(href_list["op"])
@@ -708,11 +661,11 @@ Code:
 	else
 		menu += "<BR><A href='byond://?src=[REF(src)];op=botlist'>[PDAIMG(refresh)]Scan for active bots</A><BR><BR>"
 		var/turf/current_turf = get_turf(src)
-		var/zlevel = current_turf.z
+		var/zlevel = current_turf.get_virtual_z_level()
 		var/botcount = 0
 		for(var/B in GLOB.bots_list) //Git da botz
 			var/mob/living/simple_animal/bot/Bot = B
-			if(!Bot.on || Bot.z != zlevel || Bot.remote_disabled || !(bot_access_flags & Bot.bot_type)) //Only non-emagged bots on the same Z-level are detected!
+			if(!Bot.on || Bot.get_virtual_z_level() != zlevel || Bot.remote_disabled || !(bot_access_flags & Bot.bot_type)) //Only non-emagged bots on the same Z-level are detected!
 				continue //Also, the PDA must have access to the bot type.
 			menu += "<A href='byond://?src=[REF(src)];op=control;bot=[REF(Bot)]'><b>[Bot.name]</b> ([Bot.get_mode()])<BR>"
 			botcount++

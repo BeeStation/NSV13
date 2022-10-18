@@ -1,6 +1,6 @@
 /obj/structure/peacekeeper_barricade //CREDIT TO CM FOR THIS. Cleanup up by Kmc.
 	icon = 'nsv13/icons/obj/barricades.dmi'
-	climbable = TRUE
+	climbable = FALSE //Disable climbing.
 	anchored = TRUE
 	density = TRUE
 	layer = BELOW_OBJ_LAYER
@@ -58,6 +58,7 @@
 	anchored = FALSE
 	build_state = 0
 
+/* You can reenable this when you fix it, KMC.
 /obj/structure/peacekeeper_barricade/do_climb(var/mob/living/user)
 	if(is_wired) //Ohhh boy this is gonna hurt...
 		user.apply_damage(10)
@@ -66,7 +67,7 @@
 		usr.forceMove(get_step(src, src.dir))
 	else
 		usr.forceMove(get_turf(src))
-
+*/
 /obj/structure/peacekeeper_barricade/metal/plasteel/attack_hand(mob/user as mob)
 	. = ..()
 	if(.)
@@ -97,6 +98,10 @@
 
 /obj/structure/peacekeeper_barricade/Initialize()
 	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_EXIT = .proc/on_exit,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 	update_icon()
 
 /obj/structure/peacekeeper_barricade/examine(mob/user)
@@ -120,41 +125,26 @@
 			C.Stun(20) //Leaping into barbed wire is VERY bad
 	..()
 
-/obj/structure/peacekeeper_barricade/CheckExit(atom/movable/O, turf/target)
+/obj/structure/peacekeeper_barricade/proc/on_exit(datum/source, atom/movable/leaving, direction)
+	SIGNAL_HANDLER
+
 	if(closed || !anchored)
-		return TRUE
-	if(istype(O, /obj/item/projectile))
-		var/obj/item/projectile/S = O
-		if(get_turf(S.firer) == get_turf(src)) //This is a pretty safe bet to say that they're allowed to shoot through us.
-			return TRUE
-		var/edir = get_dir(S.starting,target)
-		if(!(edir in GLOB.cardinals)) //Sometimes shit can come in from odd angles, so we need to strip out diagonals
-			switch(edir)
-				if(NORTHEAST)
-					edir = EAST
-				if(NORTHWEST)
-					edir = WEST
-				if(SOUTHEAST)
-					edir = EAST
-				if(SOUTHWEST)
-					edir = WEST
-		if(edir == dir) //In other words, theyre shooting the way that we're facing. So that means theyre behind us, and are allowed.
-			return TRUE
-		else
-			return FALSE
+		return 0
+	if(istype(leaving, /obj/item/projectile))
+		return 0 //who cares lol
 
-	if(O.throwing)
-		if(is_wired && iscarbon(O)) //Leaping mob against barbed wire fails
-			if(get_dir(loc, target) & dir)
-				return FALSE
-		return TRUE
+	if(leaving.throwing)
+		if(is_wired && iscarbon(leaving)) //Leaping mob against barbed wire fails
+			if(direction & dir)
+				return COMPONENT_ATOM_BLOCK_EXIT
+		return 0
 
-	if(get_dir(loc, target) & dir)
-		return FALSE
+	if(direction & dir)
+		return COMPONENT_ATOM_BLOCK_EXIT
 	else
-		return TRUE
+		return 0
 
-/obj/structure/peacekeeper_barricade/CanPass(atom/movable/mover, turf/target)
+/obj/structure/peacekeeper_barricade/CanAllowThrough(atom/movable/mover, turf/target)
 	. = ..()
 	if(closed)
 		return TRUE
@@ -179,7 +169,7 @@
 
 /obj/structure/peacekeeper_barricade/attack_animal(mob/living/simple_animal/M)
 	M.do_attack_animation(src)
-	obj_integrity -= rand(M.melee_damage_lower, M.melee_damage_upper)
+	obj_integrity -= M.melee_damage
 	if(barricade_hitsound)
 		playsound(src, barricade_hitsound, 25, 1)
 	if(obj_integrity <= 0)

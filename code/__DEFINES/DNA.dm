@@ -51,6 +51,11 @@
 #define GELADIKINESIS		/datum/mutation/human/geladikinesis
 #define CRYOKINESIS /datum/mutation/human/cryokinesis
 #define CLUWNEMUT   /datum/mutation/human/cluwne
+#define WAXSALIVA   /datum/mutation/human/wax_saliva
+#define STRONGWINGS	/datum/mutation/human/strongwings
+#define CATCLAWS	/datum/mutation/human/catclaws
+#define OVERLOAD	/datum/mutation/human/overload
+#define ACIDOOZE	/datum/mutation/human/acidooze
 
 #define UI_CHANGED "ui changed"
 #define UE_CHANGED "ue changed"
@@ -95,7 +100,7 @@
 #define TR_KEEPSE		(1<<5)	// changelings shouldn't edit the DNA's SE when turning into a monkey
 #define TR_DEFAULTMSG	(1<<6)
 #define TR_KEEPORGANS	(1<<8)
-
+#define TR_KEEPAI 		(1<<9)
 
 #define CLONER_FRESH_CLONE "fresh"
 #define CLONER_MATURE_CLONE "mature"
@@ -125,7 +130,9 @@
 #define NOHUSK			22 // Can't be husked.
 #define ROBOTIC_LIMBS	23 //limbs start out as robotic; but also use organic icons. If you want to use the default ones, you'll have to use on_species_gain
 #define NOMOUTH			24
+#define NOSOCKS       25 // You cannot wear socks.
 
+//organ slots
 #define ORGAN_SLOT_BRAIN "brain"
 #define ORGAN_SLOT_APPENDIX "appendix"
 #define ORGAN_SLOT_RIGHT_ARM_AUG "r_arm_device"
@@ -148,9 +155,18 @@
 #define ORGAN_SLOT_BRAIN_ANTIDROP "brain_antidrop"
 #define ORGAN_SLOT_BRAIN_ANTISTUN "brain_antistun"
 #define ORGAN_SLOT_TAIL "tail"
+#define ORGAN_SLOT_WINGS "wings"
 
+//organ defines
+#define STANDARD_ORGAN_THRESHOLD 	100
+#define STANDARD_ORGAN_HEALING 		0.001
+#define STANDARD_ORGAN_DECAY		0.00074	//designed to fail organs when left to decay for ~45 minutes
 
 // used for the can_chromosome var on mutations
 #define CHROMOSOME_NEVER 0
 #define CHROMOSOME_NONE 1
 #define CHROMOSOME_USED 2
+
+#define G_MALE 1
+#define G_FEMALE 2
+#define G_PLURAL 3

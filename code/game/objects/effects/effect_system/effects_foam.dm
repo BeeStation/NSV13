@@ -39,12 +39,13 @@
 	if(hotspot && istype(T) && T.air)
 		qdel(hotspot)
 		var/datum/gas_mixture/G = T.air
-		var/plas_amt = min(30,G.gases[/datum/gas/plasma][MOLES]) //Absorb some plasma
-		G.gases[/datum/gas/plasma][MOLES] -= plas_amt
+		var/plas_amt = min(30,G.get_moles(GAS_PLASMA)) //Absorb some plasma
+		G.adjust_moles(GAS_PLASMA, -plas_amt)
+		var/cplas_amt = min(30,G.get_moles(GAS_CONSTRICTED_PLASMA)) //NSV13
+		G.adjust_moles(GAS_CONSTRICTED_PLASMA, -cplas_amt)
 		absorbed_plasma += plas_amt
-		if(G.temperature > T20C)
-			G.temperature = max(G.temperature/2,T20C)
-		G.garbage_collect()
+		if(G.return_temperature() > T20C)
+			G.set_temperature(max(G.return_temperature()/2,T20C))
 		T.air_update_turf()
 
 /obj/effect/particle_effect/foam/firefighting/kill_foam()
@@ -120,8 +121,8 @@
 	STOP_PROCESSING(SSfastprocess, src)
 	if(metal)
 		var/turf/T = get_turf(src)
-		if(isspaceturf(T)) //Block up any exposed space
-			T.PlaceOnTop(/turf/open/floor/plating/foam)
+		if(isspaceturf(T) || istype(T, /turf/open/openspace)) //Block up any exposed space - NSV13: Also accounts for openspace.
+			T.PlaceOnTop(/turf/open/floor/plating/foam, flags = CHANGETURF_INHERIT_AIR)
 		for(var/direction in GLOB.cardinals)
 			var/turf/cardinal_turf = get_step(T, direction)
 			if(get_area(cardinal_turf) != get_area(T)) //We're at an area boundary, so let's block off this turf!
@@ -147,7 +148,7 @@
 		if(lifetime % reagent_divisor)
 			reagents.reaction(O, VAPOR, fraction)
 	var/hit = 0
-	for(var/mob/living/L in range(0,src))
+	for(var/mob/living/L in get_turf(src))
 		hit += foam_mob(L)
 	if(hit)
 		lifetime++ //this is so the decrease from mobs hit and the natural decrease don't cumulate.
@@ -292,9 +293,6 @@
 	to_chat(user, "<span class='warning'>You hit [src] but bounce off it!</span>")
 	playsound(src.loc, 'sound/weapons/tap.ogg', 100, 1)
 
-/obj/structure/foamedmetal/CanPass(atom/movable/mover, turf/target)
-	return !density
-
 /obj/structure/foamedmetal/iron
 	max_integrity = 50
 	icon_state = "ironfoam"
@@ -307,6 +305,7 @@
 	icon_state = "atmos_resin"
 	alpha = 120
 	max_integrity = 10
+	pass_flags_self = PASSGLASS
 
 /obj/structure/foamedmetal/resin/Initialize()
 	. = ..()
@@ -315,15 +314,13 @@
 		O.ClearWet()
 		if(O.air)
 			var/datum/gas_mixture/G = O.air
-			G.temperature = 293.15
+			G.set_temperature(293.15)
 			for(var/obj/effect/hotspot/H in O)
 				qdel(H)
-			var/list/G_gases = G.gases
-			for(var/I in G_gases)
-				if(I == /datum/gas/oxygen || I == /datum/gas/nitrogen)
+			for(var/I in G.get_gases())
+				if(I == GAS_O2 || I == GAS_N2)
 					continue
-				G_gases[I][MOLES] = 0
-			G.garbage_collect()
+				G.set_moles(I, 0)
 			O.air_update_turf()
 		for(var/obj/machinery/atmospherics/components/unary/U in O)
 			if(!U.welded)
@@ -334,11 +331,6 @@
 			L.ExtinguishMob()
 		for(var/obj/item/Item in O)
 			Item.extinguish()
-
-/obj/structure/foamedmetal/resin/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover) && (mover.pass_flags & PASSGLASS))
-		return TRUE
-	. = ..()
 
 #undef ALUMINUM_FOAM
 #undef IRON_FOAM

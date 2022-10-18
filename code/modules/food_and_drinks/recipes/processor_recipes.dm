@@ -40,6 +40,10 @@
 	input = /obj/item/reagent_containers/food/snacks/grown/corn
 	output = /obj/item/reagent_containers/food/snacks/tortilla
 
+/datum/food_processor_process/tortilla
+	input = /obj/item/reagent_containers/food/snacks/tortilla
+	output = /obj/item/reagent_containers/food/snacks/cornchips
+
 /datum/food_processor_process/parsnip
 	input = /obj/item/reagent_containers/food/snacks/grown/parsnip
 	output = /obj/item/reagent_containers/food/snacks/roastparsnip
@@ -48,3 +52,7 @@
 	input = /mob/living/simple_animal/slime
 	output = null
 	required_machine = /obj/machinery/processor/slime
+
+/datum/food_processor_process/fish
+	input = /obj/item/fish
+	output = /obj/item/reagent_containers/food/snacks/carpmeat/icantbeliveitsnotcarp

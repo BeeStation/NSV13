@@ -10,10 +10,10 @@
 	throwforce = 7
 	w_class = WEIGHT_CLASS_NORMAL
 	attack_verb = list("enforced the law upon")
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 50, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 80)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 50, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 80, "stamina" = 0)
 
-	var/stunforce = 90
-	var/status = 0
+	var/stunforce = 75
+	var/turned_on = FALSE
 	var/obj/item/stock_parts/cell/cell
 	var/hitcost = 1000
 	var/throw_hit_chance = 35
@@ -35,10 +35,24 @@
 			cell = new preload_cell_type(src)
 	update_icon()
 
+
+/obj/item/melee/baton/Destroy()
+	if(cell)
+		QDEL_NULL(cell)
+	return ..()
+
+/obj/item/melee/baton/handle_atom_del(atom/A)
+	if(A == cell)
+		cell = null
+		turned_on = FALSE
+		update_icon()
+	return ..()
+
+
 /obj/item/melee/baton/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	..()
 	//Only mob/living types have stun handling
-	if(status && prob(throw_hit_chance) && iscarbon(hit_atom))
+	if(turned_on && prob(throw_hit_chance) && iscarbon(hit_atom))
 		baton_stun(hit_atom)
 
 /obj/item/melee/baton/loaded //this one starts with a cell pre-installed.
@@ -49,15 +63,15 @@
 		//Note this value returned is significant, as it will determine
 		//if a stun is applied or not
 		. = cell.use(chrgdeductamt)
-		if(status && cell.charge < hitcost)
+		if(turned_on && cell.charge < hitcost)
 			//we're below minimum, turn off
-			status = 0
+			turned_on = FALSE
 			update_icon()
-			playsound(loc, "sparks", 75, 1, -1)
+			playsound(src, "sparks", 75, TRUE, -1)
 
 
 /obj/item/melee/baton/update_icon()
-	if(status)
+	if(turned_on)
 		icon_state = "[initial(icon_state)]_active"
 	else if(!cell)
 		icon_state = "[initial(icon_state)]_nocell"
@@ -75,15 +89,15 @@
 	if(istype(W, /obj/item/stock_parts/cell))
 		var/obj/item/stock_parts/cell/C = W
 		if(cell)
-			to_chat(user, "<span class='notice'>[src] already has a cell.</span>")
+			balloon_alert(user, "[src] already has a cell")
 		else
 			if(C.maxcharge < hitcost)
-				to_chat(user, "<span class='notice'>[src] requires a higher capacity cell.</span>")
+				balloon_alert(user, "[src] requires a higher capacity cell")
 				return
 			if(!user.transferItemToLoc(W, src))
 				return
 			cell = W
-			to_chat(user, "<span class='notice'>You install a cell in [src].</span>")
+			balloon_alert(user, "Cell installed")
 			update_icon()
 
 	else if(W.tool_behaviour == TOOL_SCREWDRIVER)
@@ -91,28 +105,28 @@
 			cell.update_icon()
 			cell.forceMove(get_turf(src))
 			cell = null
-			to_chat(user, "<span class='notice'>You remove the cell from [src].</span>")
-			status = 0
+			balloon_alert(user, "Cell removed")
+			turned_on = FALSE
 			update_icon()
 	else
 		return ..()
 
 /obj/item/melee/baton/attack_self(mob/user)
 	if(cell && cell.charge > hitcost)
-		status = !status
-		to_chat(user, "<span class='notice'>[src] is now [status ? "on" : "off"].</span>")
-		playsound(loc, "sparks", 75, 1, -1)
+		turned_on = !turned_on
+		balloon_alert(user, "[src] [turned_on ? "on" : "off"]")
+		playsound(src, "sparks", 75, TRUE, -1)
 	else
-		status = 0
+		turned_on = FALSE
 		if(!cell)
-			to_chat(user, "<span class='warning'>[src] does not have a power source!</span>")
+			balloon_alert(user, "No power source")
 		else
-			to_chat(user, "<span class='warning'>[src] is out of charge.</span>")
+			balloon_alert(user, "Out of charge")
 	update_icon()
 	add_fingerprint(user)
 
 /obj/item/melee/baton/attack(mob/M, mob/living/carbon/human/user)
-	if(status && HAS_TRAIT(user, TRAIT_CLUMSY) && prob(50))
+	if(turned_on && HAS_TRAIT(user, TRAIT_CLUMSY) && prob(50))
 		user.visible_message("<span class='danger'>[user] accidentally hits [user.p_them()]self with [src], electrocuting themselves badly!</span>", \
 							"<span class='userdanger'>You accidentally hit yourself with [src], electrocuting yourself badly!</span>")
 		user.adjustStaminaLoss(stunforce*3)
@@ -130,7 +144,7 @@
 			return
 
 	if(user.a_intent != INTENT_HARM)
-		if(status)
+		if(turned_on)
 			if(baton_stun(M, user))
 				user.do_attack_animation(M)
 				return
@@ -138,39 +152,41 @@
 			M.visible_message("<span class='warning'>[user] has prodded [M] with [src]. Luckily it was off.</span>", \
 							"<span class='warning'>[user] has prodded you with [src]. Luckily it was off</span>")
 	else
-		if(status)
+		if(turned_on)
 			baton_stun(M, user)
 		..()
 
-
-/obj/item/melee/baton/proc/baton_stun(mob/living/L, mob/user)
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
+/obj/item/melee/baton/proc/baton_stun(mob/living/target, mob/living/user)
+	if(ishuman(target))
+		var/mob/living/carbon/human/H = target
 		if(H.check_shields(src, 0, "[user]'s [name]", MELEE_ATTACK)) //No message; check_shields() handles that
-			playsound(L, 'sound/weapons/genhit.ogg', 50, 1)
-			return 0
+			playsound(H, 'sound/weapons/genhit.ogg', 50, TRUE)
+			return FALSE
 	if(iscyborg(loc))
 		var/mob/living/silicon/robot/R = loc
 		if(!R || !R.cell || !R.cell.use(hitcost))
-			return 0
+			return FALSE
 	else
 		if(!deductcharge(hitcost))
-			return 0
+			return FALSE
 
-	L.adjustStaminaLoss(stunforce)
-	L.apply_effect(EFFECT_STUTTER, stunforce)
-	SEND_SIGNAL(L, COMSIG_LIVING_MINOR_SHOCK)
+	var/obj/item/bodypart/affecting = target.get_bodypart(ran_zone(user.zone_selected))
+	var/armor_block = target.run_armor_check(affecting, "stamina")
+	// L.adjustStaminaLoss(stunforce)
+	target.apply_damage(stunforce, STAMINA, affecting, armor_block)
+	target.apply_effect(EFFECT_STUTTER, stunforce)
+	SEND_SIGNAL(target, COMSIG_LIVING_MINOR_SHOCK)
 	if(user)
-		L.lastattacker = user.real_name
-		L.lastattackerckey = user.ckey
-		L.visible_message("<span class='danger'>[user] has electrocuted [L] with [src]!</span>", \
+		target.lastattacker = user.real_name
+		target.lastattackerckey = user.ckey
+		target.visible_message("<span class='danger'>[user] has electrocuted [target] with [src]!</span>", \
 								"<span class='userdanger'>[user] has electrocuted you with [src]!</span>")
-		log_combat(user, L, "stunned")
+		log_combat(user, target, "stunned")
 
-	playsound(loc, 'sound/weapons/egloves.ogg', 50, 1, -1)
+	playsound(src, 'sound/weapons/egloves.ogg', 50, TRUE, -1)
 
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
+	if(ishuman(target))
+		var/mob/living/carbon/human/H = target
 		H.forcesay(GLOB.hit_appends)
 
 
@@ -205,3 +221,8 @@
 /obj/item/melee/baton/cattleprod/baton_stun()
 	if(sparkler.activate())
 		..()
+
+/obj/item/melee/baton/cattleprod/Destroy()
+	if(sparkler)
+		QDEL_NULL(sparkler)
+	return ..()

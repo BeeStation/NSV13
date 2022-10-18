@@ -12,6 +12,9 @@
 	idle_power_usage = 5
 	active_power_usage = 100
 	circuit = /obj/item/circuitboard/machine/smartfridge
+
+
+
 	var/max_n_of_items = 1500
 	var/allow_ai_retrieve = FALSE
 	var/list/initial_contents
@@ -36,7 +39,7 @@
 /obj/machinery/smartfridge/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-		. += "<span class='notice'>The status display reads: This unit can hold a maximum of <b>[max_n_of_items]</b> items.<span>"
+		. += "<span class='notice'>The status display reads: This unit can hold a maximum of <b>[max_n_of_items]</b> items.</span>"
 
 /obj/machinery/smartfridge/power_change()
 	..()
@@ -70,7 +73,7 @@
 		cut_overlays()
 		if(panel_open)
 			add_overlay("[initial(icon_state)]-panel")
-		updateUsrDialog()
+		ui_update()
 		return
 
 	if(default_pry_open(O))
@@ -81,7 +84,6 @@
 		return
 
 	if(default_deconstruction_crowbar(O))
-		updateUsrDialog()
 		return
 
 	if(!stat)
@@ -93,7 +95,6 @@
 		if(accept_check(O))
 			load(O)
 			user.visible_message("[user] has added \the [O] to \the [src].", "<span class='notice'>You add \the [O] to \the [src].</span>")
-			updateUsrDialog()
 			if (visible_contents)
 				update_icon()
 			return TRUE
@@ -107,7 +108,6 @@
 				if(accept_check(G))
 					load(G)
 					loaded++
-			updateUsrDialog()
 
 			if(loaded)
 				if(contents.len >= max_n_of_items)
@@ -125,13 +125,44 @@
 				to_chat(user, "<span class='warning'>There is nothing in [O] to put in [src]!</span>")
 				return FALSE
 
+		if(istype(O, /obj/item/organ_storage))
+			var/obj/item/organ_storage/S = O
+			if(S.contents.len)
+				var/obj/item/I = S.contents[1]
+				if(accept_check(I))
+					load(I)
+					user.visible_message("[user] inserts \the [I] into \the [src].", \
+									 "<span class='notice'>You insert \the [I] into \the [src].</span>")
+					O.cut_overlays()
+					O.icon_state = "evidenceobj"
+					O.desc = "A container for holding body parts."
+					if(visible_contents)
+						update_icon()
+					return TRUE
+				else
+					to_chat(user, "<span class='warning'>[src] does not accept [I]!</span>")
+					return FALSE
+			else
+				to_chat(user, "<span class='warning'>There is nothing in [O] to put into [src]!</span>")
+				return FALSE
+
 	if(user.a_intent != INTENT_HARM)
 		to_chat(user, "<span class='warning'>\The [src] smartly refuses [O].</span>")
-		updateUsrDialog()
 		return FALSE
 	else
 		return ..()
 
+
+/obj/machinery/smartfridge/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
+	if(!stat)
+		if (istype(AM, /obj/item))
+			var/obj/item/O = AM
+			if(contents.len < max_n_of_items && accept_check(O))
+				load(O)
+				if (visible_contents)
+					update_icon()
+				return TRUE
+	return ..()
 
 
 /obj/machinery/smartfridge/proc/accept_check(obj/item/O)
@@ -146,18 +177,32 @@
 			to_chat(usr, "<span class='warning'>\the [O] is stuck to your hand, you cannot put it in \the [src]!</span>")
 			return FALSE
 		else
-			return TRUE
+			. = TRUE
 	else
 		if(SEND_SIGNAL(O.loc, COMSIG_CONTAINS_STORAGE))
-			return SEND_SIGNAL(O.loc, COMSIG_TRY_STORAGE_TAKE, O, src)
+			. = SEND_SIGNAL(O.loc, COMSIG_TRY_STORAGE_TAKE, O, src)
 		else
 			O.forceMove(src)
-			return TRUE
+			. = TRUE
 
-/obj/machinery/smartfridge/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(.)
+		ui_update()
+
+///Really simple proc, just moves the object "O" into the hands of mob "M" if able, done so I could modify the proc a little for the organ fridge
+/obj/machinery/smartfridge/proc/dispense(obj/item/O, var/mob/M)
+	if(!M.put_in_hands(O))
+		O.forceMove(drop_location())
+		adjust_item_drop_location(O)
+
+
+
+/obj/machinery/smartfridge/ui_state(mob/user)
+	return GLOB.default_state
+
+/obj/machinery/smartfridge/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "smartvend", name, 440, 550, master_ui, state)
+		ui = new(user, src, "SmartVend")
 		ui.set_autoupdate(FALSE)
 		ui.open()
 
@@ -168,7 +213,7 @@
 	for (var/I in src)
 		var/atom/movable/O = I
 		if (!QDELETED(O))
-			var/md5name = md5(O.name)				// This needs to happen because of a bug in a TGUI component, https://github.com/ractivejs/ractive/issues/744
+			var/md5name = rustg_hash_string(RUSTG_HASH_MD5, O.name)				// This needs to happen because of a bug in a TGUI component, https://github.com/ractivejs/ractive/issues/744
 			if (listofitems[md5name])				// which is fixed in a version we cannot use due to ie8 incompatibility
 				listofitems[md5name]["amount"]++	// The good news is, #30519 made smartfridge UIs non-auto-updating
 			else
@@ -200,31 +245,21 @@
 			else
 				desired = input("How many items?", "How many items would you like to take out?", 1) as null|num
 
-			if(QDELETED(src) || QDELETED(usr) || !usr.Adjacent(src)) // Sanity checkin' in case stupid stuff happens while we wait for input()
-				return FALSE
+			if(!isnum_safe(desired) || desired <= 0)
+				return
 
-			if(desired == 1 && Adjacent(usr) && !issilicon(usr))
-				for(var/obj/item/O in src)
-					if(O.name == params["name"])
-						if(!usr.put_in_hands(O))
-							O.forceMove(drop_location())
-							adjust_item_drop_location(O)
-						break
-				if (visible_contents)
-					update_icon()
-				return TRUE
+			if(QDELETED(src) || QDELETED(usr) || !usr.Adjacent(src)) // Sanity checkin' in case stupid stuff happens while we wait for input()
+				return
 
 			for(var/obj/item/O in src)
-				if(desired <= 0)
-					break
 				if(O.name == params["name"])
-					O.forceMove(drop_location())
-					adjust_item_drop_location(O)
+					dispense(O, usr)
 					desired--
-			if (visible_contents)
+					. = TRUE
+					if(desired <= 0)
+						break
+			if (visible_contents && .)
 				update_icon()
-			return TRUE
-	return FALSE
 
 
 // ----------------------------
@@ -235,9 +270,7 @@
 	desc = "A wooden contraption, used to dry plant products, food and leather."
 	icon = 'icons/obj/hydroponics/equipment.dmi'
 	icon_state = "drying_rack"
-	use_power = IDLE_POWER_USE
-	idle_power_usage = 5
-	active_power_usage = 200
+	use_power = NO_POWER_USE
 	visible_contents = FALSE
 	var/drying = FALSE
 
@@ -277,14 +310,6 @@
 			return TRUE
 	return FALSE
 
-/obj/machinery/smartfridge/drying_rack/power_change()
-	if(powered() && anchored)
-		stat &= ~NOPOWER
-	else
-		stat |= NOPOWER
-		toggle_drying(TRUE)
-	update_icon()
-
 /obj/machinery/smartfridge/drying_rack/load() //For updating the filled overlay
 	..()
 	update_icon()
@@ -316,10 +341,8 @@
 /obj/machinery/smartfridge/drying_rack/proc/toggle_drying(forceoff)
 	if(drying || forceoff)
 		drying = FALSE
-		use_power = IDLE_POWER_USE
 	else
 		drying = TRUE
-		use_power = ACTIVE_POWER_USE
 	update_icon()
 
 /obj/machinery/smartfridge/drying_rack/proc/rack_dry()
@@ -330,7 +353,11 @@
 			S.forceMove(drop_location())
 		else
 			var/dried = S.dried_type
-			new dried(drop_location())
+			dried = new dried(drop_location())
+			if(istype(dried, /obj/item/reagent_containers)) // If the product is a reagent container, transfer reagents
+				var/obj/item/reagent_containers/R = dried
+				R.reagents.clear_reagents()
+				S.reagents.copy_to(R)
 			qdel(S)
 		return TRUE
 	for(var/obj/item/stack/sheet/wetleather/WL in src)
@@ -387,6 +414,45 @@
 /obj/machinery/smartfridge/extract/preloaded
 	initial_contents = list(/obj/item/slime_scanner = 2)
 
+// -------------------------
+// Organ Surgery Smartfridge
+// -------------------------
+/obj/machinery/smartfridge/organ
+	name = "smart organ storage"
+	desc = "A refrigerated storage unit for organ storage."
+	max_n_of_items = 20	//vastly lower to prevent processing too long
+	var/repair_rate = 0
+
+/obj/machinery/smartfridge/organ/accept_check(obj/item/O)
+	if(istype(O, /obj/item/organ))
+		return TRUE
+	return FALSE
+
+/obj/machinery/smartfridge/organ/load(obj/item/O)
+	. = ..()
+	if(!.)	//if the item loads, clear can_decompose
+		return
+	var/obj/item/organ/organ = O
+	organ.organ_flags |= ORGAN_FROZEN
+
+/obj/machinery/smartfridge/organ/RefreshParts()
+	for(var/obj/item/stock_parts/matter_bin/B in component_parts)
+		max_n_of_items = 20 * B.rating
+		repair_rate = max(0, STANDARD_ORGAN_HEALING * (B.rating - 1) * 0.5)
+
+/obj/machinery/smartfridge/organ/process(delta_time)
+	for(var/organ in contents)
+		var/obj/item/organ/O = organ
+		if(!istype(O))
+			return
+		O.applyOrganDamage(-repair_rate * delta_time)
+
+/obj/machinery/smartfridge/organ/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(istype(gone))
+		var/obj/item/organ/organ = gone
+		organ.organ_flags &= ~ORGAN_FROZEN
+
 // -----------------------------
 // Chemistry Medical Smartfridge
 // -----------------------------
@@ -435,7 +501,7 @@
 		/obj/item/reagent_containers/glass/bottle/plasma = 1,
 		/obj/item/reagent_containers/glass/bottle/synaptizine = 1,
 		/obj/item/reagent_containers/glass/bottle/formaldehyde = 1,
-		/obj/item/reagent_containers/glass/bottle/viralbase = 1)
+		/obj/item/reagent_containers/glass/bottle/cryostylane = 1)
 
 // ----------------------------
 // Disk """fridge"""

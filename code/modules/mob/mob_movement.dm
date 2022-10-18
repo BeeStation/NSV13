@@ -1,7 +1,3 @@
-///Can the atom pass this mob (always true for /mob)
-/mob/CanPass(atom/movable/mover, turf/target)
-	return TRUE				//There's almost no cases where non /living mobs should be used in game as actual mobs, other than ghosts.
-
 /**
   * Get the current movespeed delay of the mob
   *
@@ -152,7 +148,7 @@
 	. = ..()
 
 	if((direct & (direct - 1)) && mob.loc == n) //moved diagonally successfully
-		add_delay *= 2
+		add_delay *= 1.414214 // sqrt(2)
 	move_delay += add_delay
 	if(.) // If mob is null here, we deserve the runtime
 		if(mob.throwing)
@@ -178,6 +174,9 @@
 			move_delay = world.time + 10
 			to_chat(src, "<span class='warning'>You're restrained! You can't move!</span>")
 			return TRUE
+		else if(mob.pulledby.grab_state == GRAB_AGGRESSIVE)
+			move_delay = world.time + 10
+			return TRUE
 		else
 			return mob.resist_grab(1)
 
@@ -191,9 +190,11 @@
   * * INCORPOREAL_MOVE_BASIC - forceMoved to the next tile with no stop
   * * INCORPOREAL_MOVE_SHADOW  - the same but leaves a cool effect path
   * * INCORPOREAL_MOVE_JAUNT - the same but blocked by holy tiles
+  * * INCORPOREAL_MOVE_EMINCENCE - was invented so that only Eminence can pass through clockwalls
   *
   * You'll note this is another mob living level proc living at the client level
   */
+
 /client/proc/Process_Incorpmove(direct)
 	var/turf/mobloc = get_turf(mob)
 	if(!isliving(mob))
@@ -201,9 +202,11 @@
 	var/mob/living/L = mob
 	switch(L.incorporeal_move)
 		if(INCORPOREAL_MOVE_BASIC)
-			var/T = get_step(L,direct)
+			var/T = get_step_multiz(mobloc, direct)
 			if(T)
 				L.forceMove(T)
+			else
+				to_chat(L, "<span class='warning'>There's nothing in that direction!</span>")
 			L.setDir(direct)
 		if(INCORPOREAL_MOVE_SHADOW)
 			if(prob(50))
@@ -234,7 +237,7 @@
 						return
 				var/target = locate(locx,locy,mobloc.z)
 				if(target)
-					L.loc = target
+					L.forceMove(target)
 					var/limit = 2//For only two trailing shadows.
 					for(var/turf/T in getline(mobloc, L.loc))
 						new /obj/effect/temp_visual/dir_setting/ninja/shadow(T, L.dir)
@@ -248,7 +251,7 @@
 					L.forceMove(T)
 			L.setDir(direct)
 		if(INCORPOREAL_MOVE_JAUNT) //Incorporeal move, but blocked by holy-watered tiles and salt piles.
-			var/turf/open/floor/stepTurf = get_step(L, direct)
+			var/turf/open/floor/stepTurf = get_step_multiz(mobloc, direct)
 			if(stepTurf)
 				for(var/obj/effect/decal/cleanable/food/salt/S in stepTurf)
 					to_chat(L, "<span class='warning'>[S] bars your passage!</span>")
@@ -260,14 +263,33 @@
 				if(stepTurf.flags_1 & NOJAUNT_1)
 					to_chat(L, "<span class='warning'>Some strange aura is blocking the way.</span>")
 					return
-				if (locate(/obj/effect/blessing, stepTurf))
+				if(locate(/obj/effect/blessing, stepTurf))
 					to_chat(L, "<span class='warning'>Holy energies block your path!</span>")
 					return
-
 				L.forceMove(stepTurf)
+			else
+				to_chat(L, "<span class='warning'>There's nothing in that direction!</span>")
+			L.setDir(direct)
+
+		if(INCORPOREAL_MOVE_EMINENCE) //Incorporeal move for emincence. Blocks move like Jaunt but lets it pass through clockwalls
+			var/turf/open/floor/stepTurf = get_step_multiz(mobloc, direct)
+			var/turf/loccheck = get_turf(stepTurf)
+			if(stepTurf)
+				for(var/obj/effect/decal/cleanable/food/salt/S in stepTurf)
+					to_chat(L, "<span class='warning'>[S] bars your passage!</span>")
+					return
+				if(stepTurf.flags_1 & NOJAUNT_1)
+					if(!is_reebe(loccheck.z))
+						to_chat(L, "<span class='warning'>Some strange aura is blocking the way.</span>")
+						return
+				if(locate(/obj/effect/blessing, stepTurf))
+					to_chat(L, "<span class='warning'>Holy energies block your path!</span>")
+					return
+				L.forceMove(stepTurf)
+			else
+				to_chat(L, "<span class='warning'>There's nothing in that direction!</span>")
 			L.setDir(direct)
 	return TRUE
-
 
 /**
   * Handles mob/living movement in space (or no gravity)
@@ -298,9 +320,7 @@
 			continue
 		else if(isturf(A))
 			var/turf/turf = A
-			if(isspaceturf(turf))
-				continue
-			if(!turf.density && !mob_negates_gravity())
+			if(!turf.density)
 				continue
 			return A
 		else
@@ -317,14 +337,6 @@
 				if(pulling == AM)
 					continue
 				. = AM
-
-/**
-  * Returns true if a mob has gravity
-  *
-  * I hate that this exists
-  */
-/mob/proc/mob_has_gravity()
-	return has_gravity()
 
 /**
   * Does this mob ignore gravity
@@ -347,7 +359,7 @@
 
 ///Validate the client's mob has a valid zone selected
 /client/proc/check_has_body_select()
-	return mob && mob.hud_used && mob.hud_used.zone_select && istype(mob.hud_used.zone_select, /obj/screen/zone_sel)
+	return mob && mob.hud_used && mob.hud_used.zone_select && istype(mob.hud_used.zone_select, /atom/movable/screen/zone_sel)
 
 /**
   * Hidden verb to set the target zone of a mob to the head
@@ -370,7 +382,7 @@
 		else
 			next_in_line = BODY_ZONE_HEAD
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(next_in_line, mob)
 
 ///Hidden verb to target the right arm, bound to 4
@@ -381,7 +393,7 @@
 	if(!check_has_body_select())
 		return
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(BODY_ZONE_R_ARM, mob)
 
 ///Hidden verb to target the chest, bound to 5
@@ -392,7 +404,7 @@
 	if(!check_has_body_select())
 		return
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(BODY_ZONE_CHEST, mob)
 
 ///Hidden verb to target the left arm, bound to 6
@@ -403,7 +415,7 @@
 	if(!check_has_body_select())
 		return
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(BODY_ZONE_L_ARM, mob)
 
 ///Hidden verb to target the right leg, bound to 1
@@ -414,7 +426,7 @@
 	if(!check_has_body_select())
 		return
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(BODY_ZONE_R_LEG, mob)
 
 ///Hidden verb to target the groin, bound to 2
@@ -425,7 +437,7 @@
 	if(!check_has_body_select())
 		return
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(BODY_ZONE_PRECISE_GROIN, mob)
 
 ///Hidden verb to target the left leg, bound to 3
@@ -436,7 +448,7 @@
 	if(!check_has_body_select())
 		return
 
-	var/obj/screen/zone_sel/selector = mob.hud_used.zone_select
+	var/atom/movable/screen/zone_sel/selector = mob.hud_used.zone_select
 	selector.set_selected_zone(BODY_ZONE_L_LEG, mob)
 
 ///Verb to toggle the walk or run status
@@ -458,8 +470,8 @@
 	else
 		m_intent = MOVE_INTENT_RUN
 	if(hud_used && hud_used.static_inventory)
-		for(var/obj/screen/mov_intent/selector in hud_used.static_inventory)
-			selector.update_icon(src)
+		for(var/atom/movable/screen/mov_intent/selector in hud_used.static_inventory)
+			selector.update_icon()
 
 ///Moves a mob upwards in z level
 /mob/verb/up()
@@ -474,10 +486,12 @@
 				return FALSE
 			if(T && is_station_level(T.z))//Multiz AI viewing of boardable ship is not currently supported.
 				AI.eyeobj.forceMove(T)
+				return TRUE
 			else
 				to_chat(AI, "<span class='warning'>You cannot move here</span>")
+		return FALSE
 
-	if(zMove(UP, TRUE))
+	if(isturf(loc) && zMove(UP, TRUE)) // NSV13 - No moving Z while inside another object
 		to_chat(src, "<span class='notice'>You move upwards.</span>")
 
 ///Moves a mob down a z level
@@ -493,17 +507,23 @@
 				return FALSE
 			if(T && is_station_level(T.z))//Multiz AI viewing of boardable ship is not currently supported.
 				AI.eyeobj.forceMove(T)
+				return TRUE
 			else
 				to_chat(AI, "<span class='warning'>You cannot move here</span>")
+		return FALSE
 
-	if(zMove(DOWN, TRUE))
+	if(isturf(loc) && zMove(DOWN, TRUE)) // NSV13 - No moving Z while inside another object
 		to_chat(src, "<span class='notice'>You move down.</span>")
 
 ///Move a mob between z levels, if it's valid to move z's on this turf
 /mob/proc/zMove(dir, feedback = FALSE)
 	if(dir != UP && dir != DOWN)
 		return FALSE
+	var/turf/source = get_turf(src)
 	var/turf/target = get_step_multiz(src, dir)
+	if(isliving(src)) //NSV13 - let living things do the fancy animation
+		source.travel_z(src, target, (dir == UP))
+		return
 	if(!target)
 		if(feedback)
 			to_chat(src, "<span class='warning'>There's nothing in that direction!</span>")

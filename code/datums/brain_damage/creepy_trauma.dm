@@ -42,7 +42,7 @@
 		viewing = FALSE //they are further than our viewrange they are not viewing us
 		out_of_view()
 		return//so we're not searching everything in view every tick
-	if(obsession in view(7, owner))
+	if(owner in oviewers(7, obsession))
 		viewing = TRUE
 	else
 		viewing = FALSE
@@ -66,17 +66,12 @@
 	..()
 	owner.mind.remove_antag_datum(/datum/antagonist/obsessed)
 
-/datum/brain_trauma/special/obsessed/on_say(message)
+/datum/brain_trauma/special/obsessed/handle_speech(datum/source, list/speech_args)
 	if(!viewing)
-		return message
-	var/choked_up
+		return
 	var/datum/component/mood/mood = owner.GetComponent(/datum/component/mood)
-	if(mood)
-		if(mood.sanity >= SANITY_GREAT)
-			choked_up = social_interaction()
-	if(choked_up)
-		return ""
-	return message
+	if(mood && mood.sanity >= SANITY_GREAT && social_interaction())
+		speech_args[SPEECH_MESSAGE] = ""
 
 /datum/brain_trauma/special/obsessed/on_hug(mob/living/hugger, mob/living/hugged)
 	if(hugged == obsession)
@@ -92,7 +87,7 @@
 			owner.vomit()
 			fail = TRUE
 		if(2)
-			owner.emote("cough")
+			INVOKE_ASYNC(owner, /mob.proc/emote, "cough")
 			owner.dizziness += 10
 			fail = TRUE
 		if(3)

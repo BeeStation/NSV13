@@ -132,13 +132,13 @@
 	log_combat(A, D, "punched")
 	var/obj/item/bodypart/affecting = D.get_bodypart(ran_zone(A.zone_selected))
 	var/armor_block = D.run_armor_check(affecting, "melee")
-	var/picked_hit_type = pick("punch", "kick")
+	var/picked_hit_type = pick("punched", "kicked")
 	var/bonus_damage = 0
 	if(!(D.mobility_flags & MOBILITY_STAND))
 		bonus_damage += 5
-		picked_hit_type = "stomp"
+		picked_hit_type = "stomped"
 	D.apply_damage(rand(5,10) + bonus_damage, A.dna.species.attack_type, affecting, armor_block)
-	if(picked_hit_type == "kick" || picked_hit_type == "stomp")
+	if(picked_hit_type == "kicked" || picked_hit_type == "stomped")
 		A.do_attack_animation(D, ATTACK_EFFECT_KICK)
 		playsound(get_turf(D), 'sound/effects/hit_kick.ogg', 50, 1, -1)
 	else
@@ -183,7 +183,7 @@
 /obj/item/clothing/gloves/krav_maga/equipped(mob/user, slot)
 	if(!ishuman(user))
 		return
-	if(slot == SLOT_GLOVES)
+	if(slot == ITEM_SLOT_GLOVES)
 		var/mob/living/carbon/human/H = user
 		style.teach(H,1)
 
@@ -191,7 +191,7 @@
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
-	if(H.get_item_by_slot(SLOT_GLOVES) == src)
+	if(H.get_item_by_slot(ITEM_SLOT_GLOVES) == src)
 		style.remove(H)
 
 /obj/item/clothing/gloves/krav_maga/sec//more obviously named, given to sec
@@ -218,4 +218,4 @@
 	heat_protection = HANDS
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
 	resistance_flags = NONE
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 50)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 50, "stamina" = 0)

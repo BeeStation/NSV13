@@ -1,7 +1,6 @@
 //Toy
 /mob/living/simple_animal/hostile/guardian/toy
-	melee_damage_lower = 0
-	melee_damage_upper = 0
+	melee_damage = 0
 	obj_damage = 0
 	next_move_modifier = 0.1 //attacks 90% faster
 	playstyle_string = "<span class='holoparasite'>As a <b>toy</b> type you are absolutely useless in every way, and a total liability to your owner. but you look cool!</span>"
@@ -9,6 +8,7 @@
 	tech_fluff_string = "<span class='holoparasite'>Boot sequence complete. Standard combat modules locked. Holoparasite swarm online.</span>"
 	carp_fluff_string = "<span class='holoparasite'>CARP CARP CARP! You caught one! It's weak and useless. Can I have a refund?.</span>"
 	var/battlecry = "HONK"
+	discovery_points = 0
 
 /mob/living/simple_animal/hostile/guardian/toy/verb/Battlecry()
 	set name = "Set Battlecry"

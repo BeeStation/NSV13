@@ -13,6 +13,7 @@
 	var/dam_force = 20
 	var/obj/mecha/working/ripley/cargo_holder
 	harmful = TRUE
+	mech_flags = EXOSUIT_MODULE_RIPLEY
 
 /obj/item/mecha_parts/mecha_equipment/hydraulic_clamp/can_attach(obj/mecha/working/ripley/M as obj)
 	if(..())
@@ -34,6 +35,10 @@
 		return
 	if(!cargo_holder)
 		return
+	//Nsv13 - No, just no :)
+	if(istype(target, /obj/structure/overmap) || istype(target, /obj/vehicle) || istype(target, /obj/mecha))
+		return
+
 	if(isobj(target))
 		var/obj/O = target
 		if(istype(O, /obj/machinery/door/firedoor))
@@ -52,14 +57,14 @@
 					cargo_holder.cargo += O
 					O.forceMove(chassis)
 					O.anchored = FALSE
-					occupant_message("<span class='notice'>[target] successfully loaded.</span>")
+					balloon_alert(chassis.occupant, "[target] loaded")
 					log_message("Loaded [O]. Cargo compartment capacity: [cargo_holder.cargo_capacity - cargo_holder.cargo.len]", LOG_MECHA)
 				else
 					O.anchored = initial(O.anchored)
 			else
-				occupant_message("<span class='warning'>Not enough room in cargo compartment!</span>")
+				balloon_alert(chassis.occupant, "Not enough room in cargo compartment")
 		else
-			occupant_message("<span class='warning'>[target] is firmly secured!</span>")
+			balloon_alert(chassis.occupant, "[target] is firmly secured")
 
 	else if(isliving(target))
 		var/mob/living/M = target
@@ -112,14 +117,14 @@
 					cargo_holder.cargo += O
 					O.forceMove(chassis)
 					O.anchored = FALSE
-					occupant_message("<span class='notice'>[target] successfully loaded.</span>")
+					balloon_alert(chassis.occupant, "[target] loaded")
 					log_message("Loaded [O]. Cargo compartment capacity: [cargo_holder.cargo_capacity - cargo_holder.cargo.len]", LOG_MECHA)
 				else
 					O.anchored = initial(O.anchored)
 			else
-				occupant_message("<span class='warning'>Not enough room in cargo compartment!</span>")
+				balloon_alert(chassis.occupant, "Not enough room in cargo compartment")
 		else
-			occupant_message("<span class='warning'>[target] is firmly secured!</span>")
+			balloon_alert(chassis.occupant, "[target] is firmly secured")
 
 	else if(isliving(target))
 		var/mob/living/M = target
@@ -175,21 +180,26 @@
 	icon_state = "mecha_exting"
 	equip_cooldown = 5
 	energy_drain = 0
-	range = MELEE|RANGED
+	var/ext_chem = /datum/reagent/water
+	var/ext_tank_type = /obj/structure/reagent_dispensers/watertank
+	var/ext_range = 3
+	var/precise = FALSE
+	range = MECHA_MELEE|MECHA_RANGED
+	mech_flags = EXOSUIT_MODULE_RIPLEY
 
 /obj/item/mecha_parts/mecha_equipment/extinguisher/Initialize()
 	. = ..()
 	create_reagents(1000)
-	reagents.add_reagent(/datum/reagent/water, 1000)
+	reagents.add_reagent(ext_chem, 1000)
 
 /obj/item/mecha_parts/mecha_equipment/extinguisher/action(atom/target) //copypasted from extinguisher. TODO: Rewrite from scratch.
-	if(!action_checks(target) || get_dist(chassis, target)>3)
+	if(!action_checks(target) || get_dist(chassis, target) > ext_range)
 		return
 
-	if(istype(target, /obj/structure/reagent_dispensers/watertank) && get_dist(chassis,target) <= 1)
-		var/obj/structure/reagent_dispensers/watertank/WT = target
-		WT.reagents.trans_to(src, 1000)
-		occupant_message("<span class='notice'>Extinguisher refilled.</span>")
+	if(istype(target, ext_tank_type) && get_dist(chassis,target) <= 1)
+		var/obj/structure/reagent_dispensers/R = target
+		R.reagents.trans_to(src, 1000)
+		occupant_message("<span class='notice'>[src] has been refilled.</span>")
 		playsound(chassis, 'sound/effects/refill.ogg', 50, 1, -6)
 	else
 		if(reagents.total_volume > 0)
@@ -200,12 +210,18 @@
 			var/turf/T2 = get_step(T,turn(direction, -90))
 
 			var/list/the_targets = list(T,T1,T2)
+			if(precise)
+				var/turf/T3 = get_step(T1, turn(direction, 90))
+				var/turf/T4 = get_step(T2,turn(direction, -90))
+				the_targets.Add(T3,T4)
 			spawn(0)
-				for(var/a=0, a<5, a++)
+				for(var/a=0, a < 5, a++)
 					var/obj/effect/particle_effect/water/W = new /obj/effect/particle_effect/water(get_turf(chassis))
 					if(!W)
 						return
 					var/turf/my_target = pick(the_targets)
+					if(precise)
+						the_targets -= my_target
 					var/datum/reagents/R = new/datum/reagents(5)
 					W.reagents = R
 					R.my_atom = W
@@ -234,15 +250,13 @@
 			return 1
 	return 0
 
-
-
 /obj/item/mecha_parts/mecha_equipment/rcd
 	name = "mounted RCD"
 	desc = "An exosuit-mounted Rapid Construction Device."
 	icon_state = "mecha_rcd"
 	equip_cooldown = 10
 	energy_drain = 250
-	range = MELEE|RANGED
+	range = MECHA_MELEE|MECHA_RANGED
 	item_flags = NO_MAT_REDEMPTION
 	var/mode = 0 //0 - deconstruct, 1 - wall or floor, 2 - airlock.
 
@@ -271,14 +285,14 @@
 				occupant_message("Deconstructing [W]...")
 				if(do_after_cooldown(W))
 					chassis.spark_system.start()
-					W.ScrapeAway()
+					W.ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
 					playsound(W, 'sound/items/deconstruct.ogg', 50, 1)
 			else if(isfloorturf(target))
 				var/turf/open/floor/F = target
 				occupant_message("Deconstructing [F]...")
 				if(do_after_cooldown(target))
 					chassis.spark_system.start()
-					F.ScrapeAway()
+					F.ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
 					playsound(F, 'sound/items/deconstruct.ogg', 50, 1)
 			else if (istype(target, /obj/machinery/door/airlock))
 				occupant_message("Deconstructing [target]...")
@@ -291,7 +305,7 @@
 				var/turf/open/space/S = target
 				occupant_message("Building Floor...")
 				if(do_after_cooldown(S))
-					S.PlaceOnTop(/turf/open/floor/plating)
+					S.PlaceOnTop(/turf/open/floor/plating, flags = CHANGETURF_INHERIT_AIR)
 					playsound(S, 'sound/items/deconstruct.ogg', 50, 1)
 					chassis.spark_system.start()
 			else if(isfloorturf(target))
@@ -478,6 +492,7 @@
 	name = "Ripley MK-II Conversion Kit"
 	desc = "A pressurized canopy attachment kit for an Autonomous Power Loader Unit \"Ripley\" MK-I mecha, to convert it to the slower, but space-worthy MK-II design. This kit cannot be removed, once applied."
 	icon_state = "ripleyupgrade"
+	mech_flags = EXOSUIT_MODULE_RIPLEY
 
 /obj/item/mecha_parts/mecha_equipment/ripleyupgrade/can_attach(obj/mecha/working/ripley/M)
 	if(M.type != /obj/mecha/working/ripley)
@@ -506,8 +521,17 @@
 		N.cell = M.cell
 		M.cell.forceMove(N)
 		M.cell = null
-	N.step_energy_drain = M.step_energy_drain //For the scanning module
-	N.armor = N.armor.setRating(energy = M.armor["energy"]) //for the capacitor
+	QDEL_NULL(N.scanmod)
+	if (M.scanmod)
+		N.scanmod = M.scanmod
+		M.scanmod.forceMove(N)
+		M.scanmod = null
+	QDEL_NULL(N.capacitor)
+	if (M.capacitor)
+		N.capacitor = M.capacitor
+		M.capacitor.forceMove(N)
+		M.capacitor = null
+	N.update_part_values()
 	for(var/obj/item/mecha_parts/E in M.contents)
 		if(istype(E, /obj/item/mecha_parts/concealed_weapon_bay)) //why is the bay not just a variable change who did this
 			E.forceMove(N)

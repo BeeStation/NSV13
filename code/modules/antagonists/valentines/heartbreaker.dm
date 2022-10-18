@@ -9,9 +9,14 @@
 	var/datum/objective/martyr/normiesgetout = new
 	normiesgetout.owner = owner
 	objectives += normiesgetout
+	log_objective(owner, normiesgetout.explanation_text)
 
 /datum/antagonist/heartbreaker/on_gain()
 	forge_objectives()
+	if(issilicon(owner))
+		var/mob/living/silicon/S = owner
+		var/laws = list("Accomplish your objectives by ruining everyone's date!")
+		S.set_valentines_laws(laws)
 	. = ..()
 
 /datum/antagonist/heartbreaker/greet()

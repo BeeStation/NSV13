@@ -4,11 +4,12 @@
 	max_buckled_mobs = 1
 	buckle_lying = FALSE
 	default_driver_move = FALSE
+	pass_flags_self = PASSTABLE
 	var/legs_required = 2
 	var/arms_required = 1	//why not?
 	var/fall_off_if_missing_arms = FALSE //heh...
 	var/message_cooldown
-	
+
 /obj/vehicle/ridden/Initialize()
 	. = ..()
 	LoadComponent(/datum/component/riding)
@@ -56,7 +57,7 @@
 		inserted_key.forceMove(drop_location())
 		user.put_in_hands(inserted_key)
 		inserted_key = null
-	return ..()
+	return
 
 /obj/vehicle/ridden/driver_move(mob/user, direction)
 	if(key_type && !is_key(inserted_key))
@@ -96,3 +97,9 @@
 	if(!force && occupant_amount() >= max_occupants)
 		return FALSE
 	return ..()
+
+/obj/vehicle/ridden/onZImpact(turf/newloc, levels)
+	if(levels > 1)
+		for(var/mob/M in occupants)
+			unbuckle_mob(M) // Even though unbuckle_all_mobs exists we may as well only iterate once
+			M.onZImpact(newloc, levels)

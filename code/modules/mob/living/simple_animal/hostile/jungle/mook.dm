@@ -17,12 +17,11 @@
 	pixel_x = -16
 	maxHealth = 45
 	health = 45
-	melee_damage_lower = 30
-	melee_damage_upper = 30
+	melee_damage = 30
 	pixel_y = -8
 	ranged = TRUE
 	ranged_cooldown_time = 10
-	pass_flags = LETPASSTHROW
+	pass_flags_self = LETPASSTHROW
 	robust_searching = TRUE
 	stat_attack = UNCONSCIOUS
 	attack_sound = 'sound/weapons/rapierhit.ogg'
@@ -33,12 +32,12 @@
 
 	do_footstep = TRUE
 
-/mob/living/simple_animal/hostile/jungle/mook/CanPass(atom/movable/O)
+/mob/living/simple_animal/hostile/jungle/mook/CanAllowThrough(atom/movable/O)
+	. = ..()
 	if(istype(O, /mob/living/simple_animal/hostile/jungle/mook))
 		var/mob/living/simple_animal/hostile/jungle/mook/M = O
 		if(M.attack_state == MOOK_ATTACK_ACTIVE && M.throwing)
 			return TRUE
-	return ..()
 
 /mob/living/simple_animal/hostile/jungle/mook/death()
 	desc = "A deceased primitive. Upon closer inspection, it was suffering from severe cellular degeneration and its garments are machine made..."//Can you guess the twist
@@ -89,12 +88,12 @@
 
 /mob/living/simple_animal/hostile/jungle/mook/proc/SlashAttack()
 	if(target && !stat && attack_state == MOOK_ATTACK_ACTIVE)
-		melee_damage_lower = 15
-		melee_damage_upper = 15
+		melee_damage = 15
 		var/mob_direction = get_dir(src,target)
+		var/atom/target_from = GET_TARGETS_FROM(src)
 		if(get_dist(src,target) > 1)
 			step(src,mob_direction)
-		if(targets_from && isturf(targets_from.loc) && target.Adjacent(targets_from) && isliving(target))
+		if(isturf(target_from.loc) && target.Adjacent(target_from) && isliving(target))
 			var/mob/living/L = target
 			L.attack_animal(src)
 			return
@@ -106,8 +105,7 @@
 	if(target && !stat && attack_state == MOOK_ATTACK_WARMUP)
 		attack_state = MOOK_ATTACK_ACTIVE
 		density = FALSE
-		melee_damage_lower = 30
-		melee_damage_upper = 30
+		melee_damage = 30
 		update_icons()
 		new /obj/effect/temp_visual/mook_dust(get_turf(src))
 		playsound(src, 'sound/weapons/thudswoosh.ogg', 25, 1)

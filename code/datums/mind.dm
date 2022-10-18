@@ -55,7 +55,9 @@
 	var/damnation_type = 0
 	var/datum/mind/soulOwner //who owns the soul.  Under normal circumstances, this will point to src
 	var/hasSoul = TRUE // If false, renders the character unable to sell their soul.
-	var/isholy = FALSE //is this person a chaplain or admin role allowed to use bibles
+	var/holy_role = NONE //is this person a chaplain or admin role allowed to use bibles, Any rank besides 'NONE' allows for this.
+	var/isAntagTarget = FALSE
+	var/no_cloning_at_all = FALSE
 
 	var/mob/living/enslaved_to //If this mind's master is another mob (i.e. adamantine golems)
 	var/datum/language_holder/language_holder
@@ -68,6 +70,9 @@
 
 	var/list/learned_recipes //List of learned recipe TYPES.
 	var/list/crew_objectives = list()
+
+	/// A lazy list of statuses to add next to this mind in the traitor panel
+	var/list/special_statuses
 
 /datum/mind/New(var/key)
 	src.key = key
@@ -82,13 +87,26 @@
 			if(antag_datum.delete_on_mind_deletion)
 				qdel(i)
 		antag_datums = null
+	QDEL_NULL(language_holder)
+	set_current(null)
 	return ..()
+
+/datum/mind/proc/set_current(mob/new_current)
+	if(new_current && QDELING(new_current))
+		CRASH("Tried to set a mind's current var to a qdeleted mob, what the fuck")
+	if(current)
+		UnregisterSignal(src, COMSIG_PARENT_QDELETING)
+	current = new_current
+	if(current)
+		RegisterSignal(src, COMSIG_PARENT_QDELETING, .proc/clear_current)
+
+/datum/mind/proc/clear_current(datum/source)
+	SIGNAL_HANDLER
+	set_current(null)
 
 /datum/mind/proc/get_language_holder()
 	if(!language_holder)
-		var/datum/language_holder/L = current.get_language_holder(shadow=FALSE)
-		language_holder = L.copy(src)
-
+		language_holder = new (src)
 	return language_holder
 
 /datum/mind/proc/transfer_to(mob/new_character, var/force_key_move = 0)
@@ -97,24 +115,20 @@
 		UnregisterSignal(current, COMSIG_MOB_DEATH)
 		SStgui.on_transfer(current, new_character)
 
-	if(!language_holder)
-		var/datum/language_holder/mob_holder = new_character.get_language_holder(shadow = FALSE)
-		language_holder = mob_holder.copy(src)
-
 	if(key)
 		if(new_character.key != key)					//if we're transferring into a body with a key associated which is not ours
-			new_character.ghostize(1)						//we'll need to ghostize so that key isn't mobless.
+			new_character.ghostize(TRUE,SENTIENCE_ERASE)						//we'll need to ghostize so that key isn't mobless.
 	else
 		key = new_character.key
 
 	if(new_character.mind)								//disassociate any mind currently in our new body's mind variable
-		new_character.mind.current = null
+		new_character.mind.set_current(null)
 
 	var/datum/atom_hud/antag/hud_to_transfer = antag_hud//we need this because leave_hud() will clear this list
 	var/mob/living/old_current = current
 	if(current)
 		current.transfer_observers_to(new_character)	//transfer anyone observing the old character to the new one
-	current = new_character								//associate ourself with our new body
+	set_current(new_character)								//associate ourself with our new body
 	new_character.mind = src							//and associate our new body with ourself
 	for(var/a in antag_datums)	//Makes sure all antag datums effects are applied in the new body
 		var/datum/antagonist/A = a
@@ -128,13 +142,17 @@
 	RegisterSignal(new_character, COMSIG_MOB_DEATH, .proc/set_death_time)
 	if(active || force_key_move)
 		new_character.key = key		//now transfer the key to link the client to our new body
+	current.update_atom_languages()
+	SEND_SIGNAL(src, COMSIG_MIND_TRANSFER_TO, old_current, new_character)
 
 /datum/mind/proc/set_death_time()
+	SIGNAL_HANDLER
+
 	last_death = world.time
 
 /datum/mind/proc/store_memory(new_text)
 	var/newlength = length(memory) + length(new_text)
-	if (newlength > MAX_MESSAGE_LEN * 100)
+	if(newlength > MAX_MESSAGE_LEN * 100)
 		memory = copytext(memory, -newlength-MAX_MESSAGE_LEN * 100)
 	memory += "[new_text]<BR>"
 
@@ -167,6 +185,7 @@
 	if(antag_team)
 		antag_team.add_member(src)
 	A.on_gain()
+	log_game("[key_name(src)] has gained antag datum [A.name]([A.type])")
 	return A
 
 /datum/mind/proc/remove_antag_datum(datum_type)
@@ -186,7 +205,7 @@
 /datum/mind/proc/has_antag_datum(datum_type, check_subtypes = TRUE)
 	if(!datum_type)
 		return
-	. = FALSE
+
 	for(var/a in antag_datums)
 		var/datum/antagonist/A = a
 		if(check_subtypes && istype(A, datum_type))
@@ -252,7 +271,7 @@
 	remove_rev()
 	SSticker.mode.update_cult_icons_removed(src)
 
-/datum/mind/proc/equip_traitor(employer = "The Syndicate", silent = FALSE, datum/antagonist/uplink_owner)
+/datum/mind/proc/equip_traitor(employer = "The Syndicate", silent = FALSE, datum/antagonist/uplink_owner, telecrystals = 20, datum/game_mode/gamemode)
 	if(!current)
 		return
 	var/mob/living/carbon/human/traitor_mob = current
@@ -306,7 +325,7 @@
 		. = 0
 	else
 		. = uplink_loc
-		var/datum/component/uplink/U = uplink_loc.AddComponent(/datum/component/uplink, traitor_mob.key)
+		var/datum/component/uplink/U = uplink_loc.AddComponent(/datum/component/uplink, traitor_mob.key, TRUE, FALSE, gamemode, telecrystals)
 		if(!U)
 			CRASH("Uplink creation failed.")
 		U.setup_unlock_code()
@@ -329,12 +348,12 @@
 	if(iscultist(creator))
 		SSticker.mode.add_cultist(src)
 
+	else if(is_servant_of_ratvar(creator))
+		add_servant_of_ratvar(current)
+
 	else if(is_revolutionary(creator))
 		var/datum/antagonist/rev/converter = creator.mind.has_antag_datum(/datum/antagonist/rev,TRUE)
 		converter.add_revolutionary(src,FALSE)
-
-	else if(is_servant_of_ratvar(creator))
-		add_servant_of_ratvar(current)
 
 	else if(is_nuclear_operative(creator))
 		var/datum/antagonist/nukeop/converter = creator.mind.has_antag_datum(/datum/antagonist/nukeop,TRUE)
@@ -349,9 +368,10 @@
 	current.faction |= creator.faction
 	creator.faction |= current.faction
 
-	if(creator.mind.special_role)
+	var/mob/living/carbon/C = creator
+	if(creator.mind?.special_role || (istype(C) && C.last_mind?.special_role))
 		message_admins("[ADMIN_LOOKUPFLW(current)] has been created by [ADMIN_LOOKUPFLW(creator)], an antagonist.")
-		to_chat(current, "<span class='userdanger'>Despite your creators current allegiances, your true master remains [creator.real_name]. If their loyalties change, so do yours. This will never change unless your creator's body is destroyed.</span>")
+		to_chat(current, "<span class='userdanger'>Despite your creator's current allegiances, your true master remains [creator.real_name]. If their loyalties change, so do yours. This will never change unless your creator's body is destroyed.</span>")
 
 /datum/mind/proc/show_memory(mob/recipient, window=1)
 	if(!recipient)
@@ -398,13 +418,13 @@
 		A.admin_remove(usr)
 
 	if (href_list["role_edit"])
-		var/new_role = input("Select new role", "Assigned role", assigned_role) as null|anything in get_all_jobs()
+		var/new_role = input("Select new role", "Assigned role", assigned_role) as null|anything in sortList(get_all_jobs())
 		if (!new_role)
 			return
 		assigned_role = new_role
 
 	else if (href_list["memory_edit"])
-		var/new_memo = copytext(sanitize(input("Write new memory", "Memory", memory) as null|message),1,MAX_MESSAGE_LEN)
+		var/new_memo = stripped_multiline_input(usr, "Write new memory", "Memory", memory, MAX_MESSAGE_LEN)
 		if (isnull(new_memo))
 			return
 		memory = new_memo
@@ -438,7 +458,7 @@
 					if(1)
 						target_antag = antag_datums[1]
 					else
-						var/datum/antagonist/target = input("Which antagonist gets the objective:", "Antagonist", "(new custom antag)") as null|anything in antag_datums + "(new custom antag)"
+						var/datum/antagonist/target = input("Which antagonist gets the objective:", "Antagonist", "(new custom antag)") as null|anything in sortList(antag_datums) + "(new custom antag)"
 						if (QDELETED(target))
 							return
 						else if(target == "(new custom antag)")
@@ -466,6 +486,7 @@
 			target_antag.objectives += new_objective
 			message_admins("[key_name_admin(usr)] added a new objective for [current]: [new_objective.explanation_text]")
 			log_admin("[key_name(usr)] added a new objective for [current]: [new_objective.explanation_text]")
+			log_objective(new_objective.owner, new_objective.explanation_text, usr)
 		else
 			if(old_objective.type == selected_type)
 				//Edit the old
@@ -684,6 +705,11 @@
 	if(G)
 		G.reenter_corpse()
 
+/// Sets our can_hijack to the fastest speed our antag datums allow.
+/datum/mind/proc/get_hijack_speed()
+	. = 0
+	for(var/datum/antagonist/A in antag_datums)
+		. = max(., A.hijack_speed())
 
 /datum/mind/proc/has_objective(objective_type)
 	for(var/datum/antagonist/A in antag_datums)
@@ -716,7 +742,7 @@
 		SSticker.minds += mind
 	if(!mind.name)
 		mind.name = real_name
-	mind.current = src
+	mind.set_current(src)
 
 /mob/living/carbon/mind_initialize()
 	..()

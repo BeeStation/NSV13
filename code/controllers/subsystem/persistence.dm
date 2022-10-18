@@ -13,7 +13,9 @@ SUBSYSTEM_DEF(persistence)
 	var/list/antag_rep_change = list()
 	var/list/picture_logging_information = list()
 	var/list/obj/structure/sign/picture_frame/photo_frames
+	var/list/obj/structure/sign/painting/painting_frames = list()
 	var/list/obj/item/storage/photo_album/photo_albums
+	var/list/paintings = list()
 
 /datum/controller/subsystem/persistence/Initialize()
 	LoadPoly()
@@ -23,6 +25,7 @@ SUBSYSTEM_DEF(persistence)
 	LoadPhotoPersistence()
 	if(CONFIG_GET(flag/use_antag_rep))
 		LoadAntagReputation()
+	LoadPaintings()
 	return ..()
 
 /datum/controller/subsystem/persistence/proc/LoadPoly()
@@ -44,7 +47,7 @@ SUBSYSTEM_DEF(persistence)
 		var/json_file = file("data/npc_saves/ChiselMessages[SSmapping.config.map_name].json")
 		if(!fexists(json_file))
 			return
-		var/list/json = json_decode(file2text(json_file))
+		var/list/json = json_decode(rustg_file_read(json_file))
 
 		if(!json)
 			return
@@ -88,7 +91,7 @@ SUBSYSTEM_DEF(persistence)
 		var/json_file = file("data/npc_saves/TrophyItems.json")
 		if(!fexists(json_file))
 			return
-		var/list/json = json_decode(file2text(json_file))
+		var/list/json = json_decode(rustg_file_read(json_file))
 		if(!json)
 			return
 		saved_trophies = json["data"]
@@ -98,13 +101,13 @@ SUBSYSTEM_DEF(persistence)
 	var/json_file = file("data/RecentModes.json")
 	if(!fexists(json_file))
 		return
-	var/list/json = json_decode(file2text(json_file))
+	var/list/json = json_decode(rustg_file_read(json_file))
 	if(!json)
 		return
 	saved_modes = json["data"]
 
 /datum/controller/subsystem/persistence/proc/LoadAntagReputation()
-	var/json = file2text(FILE_ANTAG_REP)
+	var/json = rustg_file_read(FILE_ANTAG_REP)
 	if(!json)
 		var/json_file = file(FILE_ANTAG_REP)
 		if(!fexists(json_file))
@@ -127,7 +130,7 @@ SUBSYSTEM_DEF(persistence)
 
 		var/list/chosen_trophy = trophy_data
 
-		if(!chosen_trophy || isemptylist(chosen_trophy)) //Malformed
+		if(!chosen_trophy || !length(chosen_trophy)) //Malformed
 			continue
 
 		var/path = text2path(chosen_trophy["path"]) //If the item no longer exist, this returns null
@@ -146,22 +149,23 @@ SUBSYSTEM_DEF(persistence)
 	SavePhotoPersistence()						//THIS IS PERSISTENCE, NOT THE LOGGING PORTION.
 	if(CONFIG_GET(flag/use_antag_rep))
 		CollectAntagReputation()
+	SavePaintings()
 
 /datum/controller/subsystem/persistence/proc/GetPhotoAlbums()
 	var/album_path = file("data/photo_albums.json")
 	if(fexists(album_path))
-		return json_decode(file2text(album_path))
+		return json_decode(rustg_file_read(album_path))
 
 /datum/controller/subsystem/persistence/proc/GetPhotoFrames()
 	var/frame_path = file("data/photo_frames.json")
 	if(fexists(frame_path))
-		return json_decode(file2text(frame_path))
+		return json_decode(rustg_file_read(frame_path))
 
 /datum/controller/subsystem/persistence/proc/LoadPhotoPersistence()
 	var/album_path = file("data/photo_albums.json")
 	var/frame_path = file("data/photo_frames.json")
 	if(fexists(album_path))
-		var/list/json = json_decode(file2text(album_path))
+		var/list/json = json_decode(rustg_file_read(album_path))
 		if(json.len)
 			for(var/i in photo_albums)
 				var/obj/item/storage/photo_album/A = i
@@ -171,7 +175,7 @@ SUBSYSTEM_DEF(persistence)
 					A.populate_from_id_list(json[A.persistence_id])
 
 	if(fexists(frame_path))
-		var/list/json = json_decode(file2text(frame_path))
+		var/list/json = json_decode(rustg_file_read(frame_path))
 		if(json.len)
 			for(var/i in photo_frames)
 				var/obj/structure/sign/picture_frame/PF = i
@@ -188,7 +192,7 @@ SUBSYSTEM_DEF(persistence)
 	var/list/album_json = list()
 
 	if(fexists(album_path))
-		album_json = json_decode(file2text(album_path))
+		album_json = json_decode(rustg_file_read(album_path))
 		fdel(album_path)
 
 	for(var/i in photo_albums)
@@ -203,7 +207,7 @@ SUBSYSTEM_DEF(persistence)
 	WRITE_FILE(album_path, album_json)
 
 	if(fexists(frame_path))
-		frame_json = json_decode(file2text(frame_path))
+		frame_json = json_decode(rustg_file_read(frame_path))
 		fdel(frame_path)
 
 	for(var/i in photo_frames)
@@ -280,5 +284,20 @@ SUBSYSTEM_DEF(persistence)
 	antag_rep_change = list()
 
 	fdel(FILE_ANTAG_REP)
-	text2file(json_encode(antag_rep), FILE_ANTAG_REP)
+	rustg_file_append(json_encode(antag_rep), FILE_ANTAG_REP)
 
+/datum/controller/subsystem/persistence/proc/LoadPaintings()
+	var/json_file = file("data/paintings.json")
+	if(fexists(json_file))
+		paintings = json_decode(file2text(json_file))
+
+	for(var/obj/structure/sign/painting/P in painting_frames)
+		P.load_persistent()
+
+/datum/controller/subsystem/persistence/proc/SavePaintings()
+	for(var/obj/structure/sign/painting/P in painting_frames)
+		P.save_persistent()
+
+	var/json_file = file("data/paintings.json")
+	fdel(json_file)
+	WRITE_FILE(json_file, json_encode(paintings))

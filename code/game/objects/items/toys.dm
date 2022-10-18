@@ -22,6 +22,7 @@
  *		Snowballs
  *		Clockwork Watches
  *		Toy Daggers
+ *		Eldrich stuff
  */
 
 
@@ -151,7 +152,7 @@
 	icon_state = "singularity_s1"
 
 /*
- * Toy gun: Why isnt this an /obj/item/gun?
+ * Toy gun: Why isn't this an /obj/item/gun?
  */
 /obj/item/toy/gun
 	name = "cap gun"
@@ -203,7 +204,7 @@
 		return
 	src.add_fingerprint(user)
 	if (src.bullets < 1)
-		user.show_message("<span class='warning'>*click*</span>", 2)
+		user.show_message("<span class='warning'>*click*</span>", MSG_AUDIBLE)
 		playsound(src, 'sound/weapons/gun_dry_fire.ogg', 30, TRUE)
 		return
 	playsound(user, 'sound/weapons/gunshot.ogg', 100, 1)
@@ -243,6 +244,8 @@
 	w_class = WEIGHT_CLASS_SMALL
 	attack_verb = list("attacked", "struck", "hit")
 	var/hacked = FALSE
+	block_upgrade_walk = 1
+	block_power = -200
 
 /obj/item/toy/sword/attack_self(mob/user)
 	active = !( active )
@@ -272,7 +275,7 @@
 			return
 		else
 			to_chat(user, "<span class='notice'>You attach the ends of the two plastic swords, making a single double-bladed toy! You're fake-cool.</span>")
-			var/obj/item/twohanded/dualsaber/toy/newSaber = new /obj/item/twohanded/dualsaber/toy(user.loc)
+			var/obj/item/dualsaber/toy/newSaber = new /obj/item/dualsaber/toy(user.loc)
 			if(hacked) // That's right, we'll only check the "original" "sword".
 				newSaber.hacked = TRUE
 				newSaber.item_color = "rainbow"
@@ -306,6 +309,8 @@
 	attack_verb = list("pricked", "absorbed", "gored")
 	w_class = WEIGHT_CLASS_SMALL
 	resistance_flags = FLAMMABLE
+	block_upgrade_walk = 1
+	block_power = -200
 
 
 /obj/item/toy/windupToolbox
@@ -356,24 +361,27 @@
 /*
  * Subtype of Double-Bladed Energy Swords
  */
-/obj/item/twohanded/dualsaber/toy
+/obj/item/dualsaber/toy
 	name = "double-bladed toy sword"
 	desc = "A cheap, plastic replica of TWO energy swords.  Double the fun!"
 	force = 0
 	throwforce = 0
 	throw_speed = 3
 	throw_range = 5
+	twohand_force = 0
 	attack_verb = list("attacked", "struck", "hit")
+	block_upgrade_walk = 1
+	block_power = -100
 
-/obj/item/twohanded/dualsaber/toy/Initialize()
-	. = ..()
-	AddComponent(/datum/component/twohanded, 0, 0)
-
-/obj/item/twohanded/dualsaber/toy/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+/obj/item/dualsaber/toy/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
 	return 0
 
-/obj/item/twohanded/dualsaber/toy/IsReflect()//Stops Toy Dualsabers from reflecting energy projectiles
+/obj/item/dualsaber/toy/IsReflect() //Stops Toy Dualsabers from reflecting energy projectiles
 	return 0
+
+/obj/item/dualsaber/toy/impale(mob/living/user)//Stops Toy Dualsabers from injuring clowns
+	to_chat(user, "<span class='warning'>You twirl around a bit before losing your balance and impaling yourself on [src].</span>")
+	user.adjustStaminaLoss(25)
 
 /obj/item/toy/katana
 	name = "replica katana"
@@ -390,6 +398,10 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced")
 	hitsound = 'sound/weapons/bladeslice.ogg'
+	block_upgrade_walk = 1
+	block_level = 1
+	block_flags = BLOCKING_ACTIVE | BLOCKING_PROJECTILE
+	block_power = -500 //not to be used on anything more effective than nerf darts
 
 /*
  * Snap pops
@@ -420,7 +432,15 @@
 	if(!..())
 		pop_burst()
 
-/obj/item/toy/snappop/Crossed(H as mob|obj)
+/obj/item/toy/snappop/Initialize()
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
+/obj/item/toy/snappop/proc/on_entered(datum/source, H as mob|obj)
+	SIGNAL_HANDLER
 	if(ishuman(H) || issilicon(H)) //i guess carp and shit shouldn't set them off
 		var/mob/living/carbon/M = H
 		if(issilicon(H) || M.m_intent == MOVE_INTENT_RUN)
@@ -637,8 +657,6 @@
 || A Deck of Cards for playing various games of chance ||
 */
 
-
-
 /obj/item/toy/cards
 	resistance_flags = FLAMMABLE
 	max_integrity = 50
@@ -650,6 +668,7 @@
 	var/card_throw_speed = 3
 	var/card_throw_range = 7
 	var/list/card_attack_verb = list("attacked")
+	var/card_sharpness
 
 /obj/item/toy/cards/suicide_act(mob/living/carbon/user)
 	user.visible_message("<span class='suicide'>[user] is slitting [user.p_their()] wrists with \the [src]! It looks like [user.p_they()] [user.p_have()] a crummy hand!</span>")
@@ -670,6 +689,7 @@
 	var/cooldown = 0
 	var/obj/machinery/computer/holodeck/holo = null // Holodeck cards should not be infinite
 	var/list/cards = list()
+	var/original_size = 52
 
 /obj/item/toy/cards/deck/Initialize()
 	. = ..()
@@ -710,7 +730,7 @@
 		if(!(L.mobility_flags & MOBILITY_PICKUP))
 			return
 	var/choice = null
-	if(cards.len == 0)
+	if(!LAZYLEN(cards))
 		to_chat(user, "<span class='warning'>There are no more cards to draw!</span>")
 		return
 	var/obj/item/toy/cards/singlecard/H = new/obj/item/toy/cards/singlecard(user.loc)
@@ -721,27 +741,27 @@
 	H.parentdeck = src
 	var/O = src
 	H.apply_card_vars(H,O)
-	src.cards -= choice
+	cards.Cut(1,2) //Removes the top card from the list
 	H.pickup(user)
 	user.put_in_hands(H)
-	user.visible_message("[user] draws a card from the deck.", "<span class='notice'>You draw a card from the deck.</span>")
+	user.visible_message("<span class='notice'>[user] draws a card from the deck.</span>", "<span class='notice'>You draw a card from the deck.</span>")
 	update_icon()
 
 /obj/item/toy/cards/deck/update_icon()
-	if(cards.len > 26)
+	if(LAZYLEN(cards) > original_size/2)
 		icon_state = "deck_[deckstyle]_full"
-	else if(cards.len > 10)
+	else if(LAZYLEN(cards) > original_size/4)
 		icon_state = "deck_[deckstyle]_half"
-	else if(cards.len > 0)
+	else if(LAZYLEN(cards))
 		icon_state = "deck_[deckstyle]_low"
-	else if(cards.len == 0)
+	else if(!LAZYLEN(cards))
 		icon_state = "deck_[deckstyle]_empty"
 
 /obj/item/toy/cards/deck/attack_self(mob/user)
 	if(cooldown < world.time - 50)
 		cards = shuffle(cards)
 		playsound(src, 'sound/items/cardshuffle.ogg', 50, 1)
-		user.visible_message("[user] shuffles the deck.", "<span class='notice'>You shuffle the deck.</span>")
+		user.visible_message("<span class='notice'>[user] shuffles the deck.</span>", "<span class='notice'>You shuffle the deck.</span>")
 		cooldown = world.time
 
 /obj/item/toy/cards/deck/attackby(obj/item/I, mob/living/user, params)
@@ -752,7 +772,7 @@
 				to_chat(user, "<span class='warning'>The card is stuck to your hand, you can't add it to the deck!</span>")
 				return
 			cards += SC.cardname
-			user.visible_message("[user] adds a card to the bottom of the deck.","<span class='notice'>You add the card to the bottom of the deck.</span>")
+			user.visible_message("<span class='notice'>[user] adds a card to the bottom of the deck.</span>","<span class='notice'>You add the card to the bottom of the deck.</span>")
 			qdel(SC)
 		else
 			to_chat(user, "<span class='warning'>You can't mix cards from other decks!</span>")
@@ -764,7 +784,7 @@
 				to_chat(user, "<span class='warning'>The hand of cards is stuck to your hand, you can't add it to the deck!</span>")
 				return
 			cards += CH.currenthand
-			user.visible_message("[user] puts [user.p_their()] hand of cards in the deck.", "<span class='notice'>You put the hand of cards in the deck.</span>")
+			user.visible_message("<span class='notice'>[user] puts [user.p_their()] hand of cards in the deck.</span>", "<span class='notice'>You put the hand of cards in the deck.</span>")
 			qdel(CH)
 		else
 			to_chat(user, "<span class='warning'>You can't mix cards from other decks!</span>")
@@ -782,8 +802,8 @@
 			M.put_in_hands(src)
 			to_chat(usr, "<span class='notice'>You pick up the deck.</span>")
 
-		else if(istype(over_object, /obj/screen/inventory/hand))
-			var/obj/screen/inventory/hand/H = over_object
+		else if(istype(over_object, /atom/movable/screen/inventory/hand))
+			var/atom/movable/screen/inventory/hand/H = over_object
 			if(M.putItemFromInventoryInHandIfPossible(src, H.held_index))
 				to_chat(usr, "<span class='notice'>You pick up the deck.</span>")
 
@@ -796,7 +816,7 @@
 	name = "hand of cards"
 	desc = "A number of cards not in a deck, customarily held in ones hand."
 	icon = 'icons/obj/toy.dmi'
-	icon_state = "nanotrasen_hand2"
+	icon_state = "none"
 	w_class = WEIGHT_CLASS_TINY
 	var/list/currenthand = list()
 	var/choice = null
@@ -813,10 +833,8 @@
 		dat += "<A href='?src=[REF(src)];pick=[t]'>A [t].</A><BR>"
 	dat += "Which card will you remove next?"
 	var/datum/browser/popup = new(user, "cardhand", "Hand of Cards", 400, 240)
-	popup.set_title_image(user.browse_rsc_icon(src.icon, src.icon_state))
 	popup.set_content(dat)
 	popup.open()
-
 
 /obj/item/toy/cards/cardhand/Topic(href, href_list)
 	if(..())
@@ -840,12 +858,7 @@
 			cardUser.visible_message("<span class='notice'>[cardUser] draws a card from [cardUser.p_their()] hand.</span>", "<span class='notice'>You take the [C.cardname] from your hand.</span>")
 
 			interact(cardUser)
-			if(src.currenthand.len < 3)
-				src.icon_state = "[deckstyle]_hand2"
-			else if(src.currenthand.len < 4)
-				src.icon_state = "[deckstyle]_hand3"
-			else if(src.currenthand.len < 5)
-				src.icon_state = "[deckstyle]_hand4"
+			update_sprite()
 			if(src.currenthand.len == 1)
 				var/obj/item/toy/cards/singlecard/N = new/obj/item/toy/cards/singlecard(src.loc)
 				N.parentdeck = src.parentdeck
@@ -862,15 +875,10 @@
 	if(istype(C))
 		if(C.parentdeck == src.parentdeck)
 			src.currenthand += C.cardname
-			user.visible_message("[user] adds a card to [user.p_their()] hand.", "<span class='notice'>You add the [C.cardname] to your hand.</span>")
+			user.visible_message("<span class='notice'>[user] adds a card to [user.p_their()] hand.</span>", "<span class='notice'>You add the [C.cardname] to your hand.</span>")
 			qdel(C)
 			interact(user)
-			if(currenthand.len > 4)
-				src.icon_state = "[deckstyle]_hand5"
-			else if(currenthand.len > 3)
-				src.icon_state = "[deckstyle]_hand4"
-			else if(currenthand.len > 2)
-				src.icon_state = "[deckstyle]_hand3"
+			update_sprite()
 		else
 			to_chat(user, "<span class='warning'>You can't mix cards from other decks!</span>")
 	else
@@ -879,7 +887,7 @@
 /obj/item/toy/cards/cardhand/apply_card_vars(obj/item/toy/cards/newobj,obj/item/toy/cards/sourceobj)
 	..()
 	newobj.deckstyle = sourceobj.deckstyle
-	newobj.icon_state = "[deckstyle]_hand2" // Another dumb hack, without this the hand is invisible (or has the default deckstyle) until another card is added.
+	update_sprite()
 	newobj.card_hitsound = sourceobj.card_hitsound
 	newobj.card_force = sourceobj.card_force
 	newobj.card_throwforce = sourceobj.card_throwforce
@@ -888,23 +896,38 @@
 	newobj.card_attack_verb = sourceobj.card_attack_verb
 	newobj.resistance_flags = sourceobj.resistance_flags
 
+/obj/item/toy/cards/cardhand/proc/update_sprite()
+	cut_overlays()
+	var/overlay_cards = currenthand.len
+
+	var/k = overlay_cards == 2 ? 1 : overlay_cards - 2
+	for(var/i = k; i <= overlay_cards; i++)
+		var/card_overlay = image(icon=src.icon,icon_state="sc_[currenthand[i]]_[deckstyle]",pixel_x=(1-i+k)*3,pixel_y=(1-i+k)*3)
+		add_overlay(card_overlay)
+
 /obj/item/toy/cards/singlecard
 	name = "card"
 	desc = "a card"
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "singlecard_down_nanotrasen"
-	w_class = WEIGHT_CLASS_TINY
+	w_class = WEIGHT_CLASS_SMALL
 	var/cardname = null
 	var/flipped = 0
 	pixel_x = -5
 
+/obj/item/toy/cards/singlecard/apply_card_vars(obj/item/toy/cards/singlecard/newobj,obj/item/toy/cards/sourceobj)
+	..()
+	newobj.embedding = sourceobj.embedding
+	newobj.card_sharpness = sourceobj.card_sharpness
+	newobj.sharpness = sourceobj.card_sharpness
+	newobj.updateEmbedding()
 
 /obj/item/toy/cards/singlecard/examine(mob/user)
 	. = ..()
 	if(ishuman(user))
 		var/mob/living/carbon/human/cardUser = user
 		if(cardUser.is_holding(src))
-			cardUser.visible_message("[cardUser] checks [cardUser.p_their()] card.", "<span class='notice'>The card reads: [cardname].</span>")
+			cardUser.visible_message("<span class='notice'>[cardUser] checks [cardUser.p_their()] card.</span>", "<span class='notice'>The card reads: [cardname].</span>")
 		else
 			. += "<span class='warning'>You need to have the card in your hand to check it!</span>"
 
@@ -951,15 +974,10 @@
 		var/obj/item/toy/cards/cardhand/H = I
 		if(H.parentdeck == parentdeck)
 			H.currenthand += cardname
-			user.visible_message("[user] adds a card to [user.p_their()] hand.", "<span class='notice'>You add the [cardname] to your hand.</span>")
+			user.visible_message("<span class='notice'>[user] adds a card to [user.p_their()] hand.</span>", "<span class='notice'>You add the [cardname] to your hand.</span>")
 			qdel(src)
 			H.interact(user)
-			if(H.currenthand.len > 4)
-				H.icon_state = "[deckstyle]_hand5"
-			else if(H.currenthand.len > 3)
-				H.icon_state = "[deckstyle]_hand4"
-			else if(H.currenthand.len > 2)
-				H.icon_state = "[deckstyle]_hand3"
+			H.update_sprite()
 		else
 			to_chat(user, "<span class='warning'>You can't mix cards from other decks!</span>")
 	else
@@ -999,8 +1017,10 @@
 	deckstyle = "syndicate"
 	card_hitsound = 'sound/weapons/bladeslice.ogg'
 	card_force = 5
-	card_throwforce = 10
-	card_throw_speed = 3
+	card_throwforce = 12
+	card_throw_speed = 6
+	embedding = list("pain_mult" = 1, "embed_chance" = 80, "max_damage_mult" = 8, "fall_chance" = 0, "embed_chance_turf_mod" = 15, "armour_block" = 60) //less painful than throwing stars
+	card_sharpness = IS_SHARP
 	card_throw_range = 7
 	card_attack_verb = list("attacked", "sliced", "diced", "slashed", "cut")
 	resistance_flags = NONE
@@ -1167,9 +1187,7 @@
 		var/list/possible_sounds = list('sound/voice/hiss1.ogg', 'sound/voice/hiss2.ogg', 'sound/voice/hiss3.ogg', 'sound/voice/hiss4.ogg')
 		var/chosen_sound = pick(possible_sounds)
 		playsound(get_turf(src), chosen_sound, 50, 1)
-		spawn(45)
-			if(src)
-				icon_state = "[initial(icon_state)]"
+		addtimer(VARSET_CALLBACK(src, icon_state, initial(icon_state)), 45)
 	else
 		to_chat(user, "<span class='warning'>The string on [src] hasn't rewound all the way!</span>")
 		return
@@ -1389,7 +1407,8 @@
 /obj/item/toy/figure/virologist
 	name = "Virologist action figure"
 	icon_state = "virologist"
-	toysay = "The cure is potassium!"
+	toysay = "It's beneficial! Mostly."
+	toysound = 'sound/ambience/antag/ling_aler.ogg'
 
 /obj/item/toy/figure/warden
 	name = "Warden action figure"
@@ -1414,7 +1433,7 @@
 	to_chat(user, "You name the dummy as \"[doll_name]\"")
 	name = "[initial(name)] - [doll_name]"
 
-/obj/item/toy/dummy/talk_into(atom/movable/A, message, channel, list/spans, datum/language/language)
+/obj/item/toy/dummy/talk_into(atom/movable/A, message, channel, list/spans, datum/language/language, list/message_mods)
 	var/mob/M = A
 	if (istype(M))
 		M.log_talk(message, LOG_SAY, tag="dummy toy")
@@ -1424,3 +1443,238 @@
 
 /obj/item/toy/dummy/GetVoice()
 	return doll_name
+
+/*
+ * Eldrich Toys
+ */
+
+/obj/item/toy/eldrich_book
+	name = "Codex Cicatrix"
+	desc = "A toy book that closely resembles the Codex Cicatrix. Covered in fake polyester human flesh and has a huge goggly eye attached to the cover. The runes are gibberish and cannot be used to summon demons... Hopefully?"
+	icon = 'icons/obj/eldritch.dmi'
+	icon_state = "book"
+	w_class = WEIGHT_CLASS_SMALL
+	attack_verb = list("sacrificed", "transmuted", "grasped", "cursed")
+	var/open = FALSE
+
+/obj/item/toy/eldrich_book/attack_self(mob/user)
+	open = !open
+	update_icon()
+
+/obj/item/toy/eldrich_book/update_icon()
+	icon_state = open ? "book_open" : "book"
+
+/*
+ * Fake tear
+ */
+
+/obj/item/toy/reality_pierce
+	name = "Pierced reality"
+	desc = "Hah. You thought it was the real deal!"
+	icon = 'icons/effects/eldritch.dmi'
+	icon_state = "pierced_illusion"
+
+/obj/item/storage/box/heretic_asshole
+	name = "box of pierced realities"
+	desc = "A box containing toys resembling pierced realities."
+
+/obj/item/storage/box/heretic_asshole/PopulateContents()
+	for(var/i in 1 to rand(1,4))
+		new /obj/item/toy/reality_pierce(src)
+
+// Serviceborg items
+
+/*
+|| Cyborg playing cards module. ||
+*/
+
+/obj/item/toy/cards/deck/cyborg
+	name = "dealer module"
+	desc = "A module for handling, fabricating cards and tricking suckers into gambling awaya their money. Ctrl Click to fabricate a new set of cards."
+
+/obj/item/toy/cards/deck/cyborg/update_icon()
+	icon_state = "deck_[deckstyle]_full"
+
+/obj/item/toy/cards/deck/cyborg/CtrlClick(mob/user)
+	..()
+	if(iscyborg(user))
+		var/mob/living/silicon/robot/R = user
+		if(R.cell?.use(300))
+			populate_deck()
+			to_chat(user, "<span class='notice'>You fabricate a new set of cards.</span>")
+
+/obj/item/toy/cards/deck/cyborg/afterattack(atom/A, mob/user, proximity)
+	. = ..()
+	if (istype(A, /obj/item/toy/cards/singlecard))
+		var/obj/item/toy/cards/singlecard/SC = A
+		if(SC.parentdeck == src)
+			if(!user.temporarilyRemoveItemFromInventory(SC))
+				to_chat(user, "<span class='warning'>The card is stuck to your hand, you can't add it to the deck!</span>")
+				return
+			cards += SC.cardname
+			user.visible_message("<span class='notice'>[user] adds a card to the bottom of the deck.</span>","<span class='notice'>You add the card to the bottom of the deck.</span>")
+			qdel(SC)
+		else
+			to_chat(user, "<span class='warning'>You can't mix cards from other decks!</span>")
+		update_icon()
+	else if (istype(A, /obj/item/toy/cards/cardhand))
+		var/obj/item/toy/cards/cardhand/CH = A
+		if(CH.parentdeck == src)
+			cards += CH.currenthand
+			user.visible_message("<span class='notice'>[user] puts [user.p_their()] hand of cards in the deck.</span>", "<span class='notice'>You put the hand of cards in the deck.</span>")
+			qdel(CH)
+		else
+			to_chat(user, "<span class='warning'>You can't mix cards from other decks!</span>")
+		update_icon()
+
+	var/choice = null
+	if(!LAZYLEN(cards))
+		to_chat(user, "<span class='warning'>There are no more cards to draw!</span>")
+		return
+
+	choice = cards[1]
+	var/obj/item/toy/cards/singlecard/H = new/obj/item/toy/cards/singlecard(get_turf(A))
+	H.cardname = choice
+	H.parentdeck = src
+	var/O = src
+	H.apply_card_vars(H,O)
+	cards.Cut(1,2) //Removes the top card from the list
+
+	if(!proximity)
+		H.forceMove(get_turf(src))
+		H.throw_at(get_turf(A), 10 , 1 , user)
+
+////////////////////
+//money eater/maker//
+////////////////////
+
+/obj/item/gobbler
+	name = "Coin Gobbler"
+	desc = "Feed it credits, and activate it, with a chance to spit out DOUBLE the amount!"
+	icon = 'icons/obj/plushes.dmi'
+	icon_state = "debug"
+	var/money = 0
+	var/moneyeaten = 0
+	var/cooldown = 0
+	var/cooldowndelay = 20
+	w_class = WEIGHT_CLASS_NORMAL
+
+/obj/item/gobbler/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>The Coin Gobbler holds [money] credits.</span>"
+
+/obj/item/gobbler/attackby()
+	return
+
+/obj/item/gobbler/attack_self(mob/user)
+	if(cooldown > world.time)
+		return
+	cooldown = world.time + cooldowndelay
+	if (money<=0)
+		to_chat(user, "<span class='notice'>The [src] has no money stored.</span>")
+		return
+
+	playsound(src.loc, 'sound/creatures/rattle.ogg', 10, 1)
+	user.visible_message("<span class='notice'>[src]'s eyes start spinning! What will happen?</span>", \
+		"<span class='notice'>You activate [src].</span>")
+	sleep(10)
+
+	if(prob(33*(777+moneyeaten-money)/777))
+		playsound(src.loc, 'sound/arcade/win.ogg', 10, 1)
+		user.visible_message("<span class='warning'>[src] cashes out! [user] starts spitting credits!</span>", \
+		"<span class='notice'>[src] cashes out!</span>")
+		var/obj/item/holochip/payout = new (user.drop_location(), money*2)
+		payout.throw_at( get_step(loc,user.dir) ,3,1,user)
+		moneyeaten-=money
+		money=0
+	else
+		user.visible_message("<span class='notice'>[src] gobbles up all the money!</span>", \
+		"<span class='notice'>[src] gobbles up all the money!</span>")
+		moneyeaten+=money
+		money=0
+		playsound(src.loc, 'sound/machines/buzz-sigh.ogg', 10, 1)
+
+/obj/item/gobbler/afterattack(atom/A, mob/user, proximity)
+	. = ..()
+	if(!proximity)
+		return
+	var/cash_money = 0
+
+	if(istype(A, /obj/item/holochip))
+		var/obj/item/holochip/HC = A
+		cash_money = HC.get_item_credit_value()
+	else if(istype(A, /obj/item/stack/spacecash))
+		var/obj/item/stack/spacecash/SC = A
+		cash_money = SC.get_item_credit_value()
+	else if(istype(A, /obj/item/coin))
+		var/obj/item/coin/CN = A
+		cash_money = CN.get_item_credit_value()
+
+	if (!cash_money)
+		to_chat(user, "<span class='warning'>[src] spits out [A] as it is not worth anything!</span>")
+		return
+	money+=cash_money
+	to_chat(user, "<span class='notice'>[src] quicky gobbles up [A], and the value goes up by [cash_money].</span>")
+	qdel(A)
+
+/obj/item/dance_trance
+	name = "Dance Fever"
+	desc = "Makes everyone dance!"
+	icon = 'icons/obj/grenade.dmi'
+	icon_state = "disco_active"
+	var/flip_cooldown = 0
+
+/obj/item/dance_trance/attack()
+	if(flip_cooldown < world.time)
+		flip_mobs()
+	return ..()
+
+/obj/item/dance_trance/attack_self(mob/user)
+	if(flip_cooldown < world.time)
+		flip_mobs()
+	..()
+
+/obj/item/dance_trance/proc/flip_mobs(mob/living/carbon/M, mob/user)
+	for(M in ohearers(7, get_turf(src)))
+		if(ishuman(M) && M.can_hear())
+			var/mob/living/carbon/human/H = M
+			if(istype(H.ears, /obj/item/clothing/ears/earmuffs))
+				continue
+		switch (rand(1,3))
+			if (1)
+				M.emote("flip")
+				M.emote("spin")
+			if (2)
+				M.emote("flip")
+			if (3)
+				M.emote("spin")
+	flip_cooldown = world.time + 20
+
+
+/obj/item/storage/pill_bottle/dice_cup/cyborg
+	desc = "The house always wins..."
+/obj/item/storage/pill_bottle/dice_cup/cyborg/Initialize()
+	. = ..()
+	new /obj/item/dice/d6(src)
+	new /obj/item/dice/d6(src)
+
+
+/obj/item/storage/box/yatzy
+	name = "Game of Yatzy"
+	desc = "Contains all the pieces required to play a game of Yatzy with up to 4 friends!"
+
+/obj/item/storage/box/yatzy/PopulateContents()
+	new /obj/item/storage/pill_bottle/dice_cup/yatzy(src)
+	new /obj/item/paper/yatzy(src)
+	new /obj/item/paper/yatzy(src)
+	new /obj/item/paper/yatzy(src)
+	new /obj/item/paper/yatzy(src)
+
+/obj/item/storage/pill_bottle/dice_cup/yatzy/Initialize()
+	. = ..()
+	for(var/dice in 1 to 5)
+		new /obj/item/dice/d6(src)
+
+/obj/item/paper/yatzy
+	name = "paper - Yatzy Table"
+	info = "<table><tr><th>Upper</th><th>Game 1</th><th>Game 2</th><th>Game 3</th></tr><tr><th>Aces</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>Twos</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>Threes</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>Fours</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>Fives</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>Sixes</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>Total</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>Upper Total</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th><b>Bonus</b></th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>1 Pair</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>2 Pairs</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th><th>3 of a Kind</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th><th>4 of a Kind</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>Full House</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>Sm. Straight</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>Lg. Straight</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>Yatzy</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>Chance</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th>Lower Total</th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr><th><b>Grand Total</b></th><th>\[___\]</th><th>\[___\]</th><th>\[___\]</th></tr></table>"

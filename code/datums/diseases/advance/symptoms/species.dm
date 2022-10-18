@@ -2,11 +2,12 @@
 	name = "Necrotic Metabolism"
 	desc = "The virus is able to thrive and act even within dead hosts."
 	stealth = 2
-	resistance = -2
-	stage_speed = 1
-	transmittable = 0
+	resistance = 2
+	stage_speed = 2
+	transmission = 0
 	level = 5
 	severity = 0
+	prefixes = list("Zombie ")
 
 /datum/symptom/undead_adaptation/OnAdd(datum/disease/advance/A)
 	A.process_dead = TRUE
@@ -22,13 +23,14 @@
 	stealth = -1
 	resistance = 4
 	stage_speed = -2
-	transmittable = 3
+	transmission = 3
 	level = 5
 	severity = 0
+	prefixes = list("Crystalline ")
+
 
 /datum/symptom/inorganic_adaptation/OnAdd(datum/disease/advance/A)
 	A.infectable_biotypes |= MOB_INORGANIC
 
 /datum/symptom/inorganic_adaptation/OnRemove(datum/disease/advance/A)
 	A.infectable_biotypes -= MOB_INORGANIC
-

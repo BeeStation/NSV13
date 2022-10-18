@@ -35,6 +35,7 @@ GLOBAL_LIST_EMPTY(wings_list)
 GLOBAL_LIST_EMPTY(wings_open_list)
 GLOBAL_LIST_EMPTY(r_wings_list)
 GLOBAL_LIST_EMPTY(moth_wings_list)
+GLOBAL_LIST_EMPTY(moth_wingsopen_list)
 GLOBAL_LIST_EMPTY(caps_list)
 GLOBAL_LIST_EMPTY(ipc_screens_list)
 GLOBAL_LIST_EMPTY(ipc_antennas_list)
@@ -46,7 +47,7 @@ GLOBAL_LIST_INIT(color_list_ethereal, list("F Class(Green)" = "97ee63", "F2 Clas
 GLOBAL_LIST_INIT(ghost_forms_with_directions_list, list("ghost")) //stores the ghost forms that support directional sprites
 GLOBAL_LIST_INIT(ghost_forms_with_accessories_list, list("ghost")) //stores the ghost forms that support hair and other such things
 
-GLOBAL_LIST_INIT(ai_core_display_screens, list(
+GLOBAL_LIST_INIT(ai_core_display_screens, sortList(list(
 	":thinking:",
 	"Alien",
 	"Angel",
@@ -72,6 +73,7 @@ GLOBAL_LIST_INIT(ai_core_display_screens, list(
 	"Murica",
 	"Nanotrasen",
 	"Not Malf",
+	"Portrait",
 	"President",
 	"Random",
 	"Rainbow",
@@ -83,7 +85,7 @@ GLOBAL_LIST_INIT(ai_core_display_screens, list(
 	"Too Deep",
 	"Triumvirate",
 	"Triumvirate-M",
-	"Weird"))
+	"Weird")))
 
 /proc/resolve_ai_icon(input)
 	if(!input || !(input in GLOB.ai_core_display_screens))
@@ -91,9 +93,16 @@ GLOBAL_LIST_INIT(ai_core_display_screens, list(
 	else
 		if(input == "Random")
 			input = pick(GLOB.ai_core_display_screens - "Random")
+		if(input == "Portrait")
+			var/datum/portrait_picker/tgui  = new(usr)//create the datum
+			tgui.ui_interact(usr)//datum has a tgui component, here we open the window
+			return "ai-portrait" //just take this until they decide
 		return "ai-[lowertext(input)]"
 
-GLOBAL_LIST_INIT(security_depts_prefs, list(SEC_DEPT_RANDOM, SEC_DEPT_NONE, SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY))
+GLOBAL_LIST_INIT(security_depts_prefs, sortList(list(SEC_DEPT_RANDOM, SEC_DEPT_NONE, SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, SEC_DEPT_SCIENCE, SEC_DEPT_SUPPLY, SEC_DEPT_MUNITIONS)))
+
+	//NSV13 Pilots
+GLOBAL_LIST_INIT(pilot_role_prefs, sortList(list(PILOT_COMBAT, PILOT_TRANSPORT)))
 
 	//Backpacks
 #define GBACKPACK "Grey Backpack"
@@ -104,6 +113,11 @@ GLOBAL_LIST_INIT(security_depts_prefs, list(SEC_DEPT_RANDOM, SEC_DEPT_NONE, SEC_
 #define DSATCHEL "Department Satchel"
 #define DDUFFELBAG "Department Duffel Bag"
 GLOBAL_LIST_INIT(backbaglist, list(DBACKPACK, DSATCHEL, DDUFFELBAG, GBACKPACK, GSATCHEL, GDUFFELBAG, LSATCHEL))
+
+	//Suit/Skirt
+#define PREF_SUIT "Jumpsuit"
+#define PREF_SKIRT "Jumpskirt"
+GLOBAL_LIST_INIT(jumpsuitlist, list(PREF_SUIT, PREF_SKIRT))
 
 //Uplink spawn loc
 #define UPLINK_PDA		"PDA"
@@ -178,7 +192,7 @@ GLOBAL_LIST_INIT(TAGGERLOCATIONS, list("Disposals",
 
 GLOBAL_LIST_INIT(station_prefixes, world.file2list("strings/station_prefixes.txt") + "")
 
-GLOBAL_LIST_INIT(station_names, world.file2list("strings/station_names.txt" + ""))
+GLOBAL_LIST_INIT(station_names, world.file2list("strings/station_names.txt") + "")
 
 GLOBAL_LIST_INIT(station_suffixes, world.file2list("strings/station_suffixes.txt"))
 
@@ -191,8 +205,8 @@ GLOBAL_LIST_INIT(numbers_as_words, world.file2list("strings/numbers_as_words.txt
 /proc/generate_number_strings()
 	var/list/L[198]
 	for(var/i in 1 to 99)
-		L += "[i]"
-		L += "\Roman[i]"
+		L[i] = "[i]"
+		L[i+99] = "\Roman[i]"
 	return L
 
 GLOBAL_LIST_INIT(station_numerals, greek_letters + phonetic_alphabet + numbers_as_words + generate_number_strings())

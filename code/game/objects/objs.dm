@@ -1,6 +1,6 @@
-
 /obj
 	animate_movement = SLIDE_STEPS
+	speech_span = SPAN_ROBOT
 	var/obj_flags = CAN_BE_HIT
 
 	/// ONLY FOR MAPPING: Sets flags from a string list, handled in Initialize. Usage: set_obj_flags = "EMAGGED;!CAN_BE_HIT" to set EMAGGED and clear CAN_BE_HIT.
@@ -33,11 +33,15 @@
 	var/req_access_txt = "0"
 	var/list/req_one_access
 	var/req_one_access_txt = "0"
+	/// Custom fire overlay icon
+	var/custom_fire_overlay
 
 	/// Set when a player uses a pen on a renamable object
 	var/renamedByPlayer = FALSE
 
 	var/drag_slowdown // Amont of multiplicative slowdown applied if pulled. >1 makes you slower, <1 makes you faster.
+
+	vis_flags = VIS_INHERIT_PLANE //when this be added to vis_contents of something it inherit something.plane, important for visualisation of obj in openspace.
 
 /obj/vv_edit_var(vname, vval)
 	switch(vname)
@@ -68,19 +72,19 @@
 		var/flagslist = splittext(set_obj_flags,";")
 		var/list/string_to_objflag = GLOB.bitfields["obj_flags"]
 		for (var/flag in flagslist)
-			if (findtext(flag,"!",1,2))
-				flag = copytext(flag,1-(length(flag))) // Get all but the initial !
+			if(flag[1] == "!")
+				flag = copytext(flag, length(flag[1]) + 1) // Get all but the initial !
 				obj_flags &= ~string_to_objflag[flag]
 			else
 				obj_flags |= string_to_objflag[flag]
+
 	if((obj_flags & ON_BLUEPRINTS) && isturf(loc))
 		var/turf/T = loc
 		T.add_blueprints_preround(src)
 
-
 /obj/Destroy(force=FALSE)
-	if(!ismachinery(src))
-		STOP_PROCESSING(SSobj, src) // TODO: Have a processing bitflag to reduce on unnecessary loops through the processing lists
+	if(!ismachinery(src) && (datum_flags & DF_ISPROCESSING))
+		STOP_PROCESSING(SSobj, src)
 	SStgui.close_uis(src)
 	. = ..()
 
@@ -88,7 +92,7 @@
 	SEND_SIGNAL(src, COMSIG_OBJ_SETANCHORED, anchorvalue)
 	anchored = anchorvalue
 
-/obj/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, force)
+/obj/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, force, quickstart = TRUE)
 	..()
 	if(obj_flags & FROZEN)
 		visible_message("<span class='danger'>[src] shatters into a million pieces!</span>")
@@ -101,9 +105,39 @@
 	else
 		return null
 
+/obj/assume_air_moles(datum/gas_mixture/giver, moles)
+	if(loc)
+		return loc.assume_air_moles(giver, moles)
+	else
+		return null
+
+/obj/assume_air_ratio(datum/gas_mixture/giver, ratio)
+	if(loc)
+		return loc.assume_air_ratio(giver, ratio)
+	else
+		return null
+
+/obj/transfer_air(datum/gas_mixture/taker, moles)
+	if(loc)
+		return loc.transfer_air(taker, moles)
+	else
+		return null
+
+/obj/transfer_air_ratio(datum/gas_mixture/taker, ratio)
+	if(loc)
+		return loc.transfer_air_ratio(taker, ratio)
+	else
+		return null
+
 /obj/remove_air(amount)
 	if(loc)
 		return loc.remove_air(amount)
+	else
+		return null
+
+/obj/remove_air_ratio(ratio)
+	if(loc)
+		return loc.remove_air_ratio(ratio)
 	else
 		return null
 
@@ -121,8 +155,7 @@
 
 	if(breath_request>0)
 		var/datum/gas_mixture/environment = return_air()
-		var/breath_percentage = BREATH_VOLUME / environment.return_volume()
-		return remove_air(environment.total_moles() * breath_percentage)
+		return remove_air_ratio(BREATH_VOLUME / environment.return_volume())
 	else
 		return null
 
@@ -130,7 +163,7 @@
 	if((obj_flags & IN_USE) && !(obj_flags & USES_TGUI))
 		var/is_in_use = FALSE
 		var/list/nearby = viewers(1, src)
-		for(var/mob/M in nearby)
+		for(var/mob/M as() in nearby)
 			if ((M.client && M.machine == src))
 				is_in_use = TRUE
 				ui_interact(M)
@@ -159,7 +192,7 @@
 	if(obj_flags & IN_USE)
 		var/is_in_use = FALSE
 		if(update_viewers)
-			for(var/mob/M in viewers(1, src))
+			for(var/mob/M as() in viewers(1, src))
 				if ((M.client && M.machine == src))
 					is_in_use = TRUE
 					src.interact(M)
@@ -178,26 +211,24 @@
 		return
 	ui_interact(user)
 
-/obj/proc/container_resist(mob/living/user)
-	return
-
-/obj/proc/update_icon()
-	SEND_SIGNAL(src, COMSIG_OBJ_UPDATE_ICON)
-	return
-
 /mob/proc/unset_machine()
-	if(machine)
-		machine.on_unset_machine(src)
-		machine = null
+	SIGNAL_HANDLER
+
+	if(!machine)
+		return
+	UnregisterSignal(machine, COMSIG_PARENT_QDELETING)
+	machine.on_unset_machine(src)
+	machine = null
 
 //called when the user unsets the machine.
 /atom/movable/proc/on_unset_machine(mob/user)
 	return
 
 /mob/proc/set_machine(obj/O)
-	if(src.machine)
+	if(machine)
 		unset_machine()
-	src.machine = O
+	machine = O
+	RegisterSignal(O, COMSIG_PARENT_QDELETING, .proc/unset_machine)
 	if(istype(O))
 		O.obj_flags |= IN_USE
 
@@ -214,13 +245,23 @@
 	if(!anchored || current_size >= STAGE_FIVE)
 		step_towards(src,S)
 
-/obj/get_spans()
-	return ..() | SPAN_ROBOT
-
 /obj/get_dumping_location(datum/component/storage/source,mob/user)
 	return get_turf(src)
 
-/obj/proc/CanAStarPass()
+/**
+ * This proc is used for telling whether something can pass by this object in a given direction, for use by the pathfinding system.
+ *
+ * Trying to generate one long path across the station will call this proc on every single object on every single tile that we're seeing if we can move through, likely
+ * multiple times per tile since we're likely checking if we can access said tile from multiple directions, so keep these as lightweight as possible.
+ *
+ * Arguments:
+ * * ID- An ID card representing what access we have (and thus if we can open things like airlocks or windows to pass through them). The ID card's physical location does not matter, just the reference
+ * * to_dir- What direction we're trying to move in, relevant for things like directional windows that only block movement in certain directions
+ * * caller- The movable we're checking pass flags for, if we're making any such checks
+ **/
+/obj/proc/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
+	if(istype(caller) && (caller.pass_flags & pass_flags_self))
+		return TRUE
 	. = !density
 
 /obj/proc/check_uplink_validity()
@@ -228,9 +269,78 @@
 
 /obj/vv_get_dropdown()
 	. = ..()
-	.["Delete all of type"] = "?_src_=vars;[HrefToken()];delall=[REF(src)]"
-	.["Osay"] = "?_src_=vars;[HrefToken()];osay[REF(src)]"
-	.["Modify armor values"] = "?_src_=vars;[HrefToken()];modarmor=[REF(src)]"
+	VV_DROPDOWN_OPTION("", "---")
+	VV_DROPDOWN_OPTION(VV_HK_MASS_DEL_TYPE, "Delete all of type")
+	VV_DROPDOWN_OPTION(VV_HK_OSAY, "Object Say")
+	VV_DROPDOWN_OPTION(VV_HK_ARMOR_MOD, "Modify armor values")
+
+/obj/vv_do_topic(list/href_list)
+	if(!(. = ..()))
+		return
+	if(href_list[VV_HK_OSAY])
+		if(check_rights(R_FUN, FALSE))
+			usr.client.object_say(src)
+	if(href_list[VV_HK_ARMOR_MOD])
+		var/list/pickerlist = list()
+		var/list/armorlist = armor.getList()
+
+		for (var/i in armorlist)
+			pickerlist += list(list("value" = armorlist[i], "name" = i))
+
+		var/list/result = presentpicker(usr, "Modify armor", "Modify armor: [src]", Button1="Save", Button2 = "Cancel", Timeout=FALSE, inputtype = "text", values = pickerlist)
+
+		if (islist(result))
+			if (result["button"] != 2) // If the user pressed the cancel button
+				// text2num conveniently returns a null on invalid values
+				armor = armor.setRating(melee = text2num(result["values"]["melee"]),\
+			                  bullet = text2num(result["values"]["bullet"]),\
+			                  laser = text2num(result["values"]["laser"]),\
+			                  energy = text2num(result["values"]["energy"]),\
+			                  bomb = text2num(result["values"]["bomb"]),\
+			                  bio = text2num(result["values"]["bio"]),\
+			                  rad = text2num(result["values"]["rad"]),\
+			                  fire = text2num(result["values"]["fire"]),\
+			                  acid = text2num(result["values"]["acid"]))
+				log_admin("[key_name(usr)] modified the armor on [src] ([type]) to melee: [armor.melee], bullet: [armor.bullet], laser: [armor.laser], energy: [armor.energy], bomb: [armor.bomb], bio: [armor.bio], rad: [armor.rad], fire: [armor.fire], acid: [armor.acid]")
+				message_admins("<span class='notice'>[key_name_admin(usr)] modified the armor on [src] ([type]) to melee: [armor.melee], bullet: [armor.bullet], laser: [armor.laser], energy: [armor.energy], bomb: [armor.bomb], bio: [armor.bio], rad: [armor.rad], fire: [armor.fire], acid: [armor.acid]</span>")
+	if(href_list[VV_HK_MASS_DEL_TYPE])
+		if(check_rights(R_DEBUG|R_SERVER))
+			var/action_type = alert("Strict type ([type]) or type and all subtypes?",,"Strict type","Type and subtypes","Cancel")
+			if(action_type == "Cancel" || !action_type)
+				return
+
+			if(alert("Are you really sure you want to delete all objects of type [type]?",,"Yes","No") != "Yes")
+				return
+
+			if(alert("Second confirmation required. Delete?",,"Yes","No") != "Yes")
+				return
+
+			var/O_type = type
+			switch(action_type)
+				if("Strict type")
+					var/i = 0
+					for(var/obj/Obj in world)
+						if(Obj.type == O_type)
+							i++
+							qdel(Obj)
+						CHECK_TICK
+					if(!i)
+						to_chat(usr, "No objects of this type exist")
+						return
+					log_admin("[key_name(usr)] deleted all objects of type [O_type] ([i] objects deleted) ")
+					message_admins("<span class='notice'>[key_name(usr)] deleted all objects of type [O_type] ([i] objects deleted) </span>")
+				if("Type and subtypes")
+					var/i = 0
+					for(var/obj/Obj in world)
+						if(istype(Obj,O_type))
+							i++
+							qdel(Obj)
+						CHECK_TICK
+					if(!i)
+						to_chat(usr, "No objects of this type exist")
+						return
+					log_admin("[key_name(usr)] deleted all objects of type or subtype of [O_type] ([i] objects deleted) ")
+					message_admins("<span class='notice'>[key_name(usr)] deleted all objects of type or subtype of [O_type] ([i] objects deleted) </span>")
 
 /obj/examine(mob/user)
 	. = ..()
@@ -252,7 +362,7 @@
 		var/output = icon2html(src, M, unique_reskin[V])
 		to_chat(M, "[V]: <span class='reallybig'>[output]</span>")
 
-	var/choice = input(M,"Warning, you can only reskin [src] once!","Reskin Object") as null|anything in unique_reskin
+	var/choice = input(M,"Warning, you can only reskin [src] once!","Reskin Object") as null|anything in sortList(unique_reskin)
 	if(!QDELETED(src) && choice && !current_skin && !M.incapacitated() && in_range(M,src))
 		if(!unique_reskin[choice])
 			return
@@ -267,3 +377,38 @@
 
 /obj/proc/plunger_act(obj/item/plunger/P, mob/living/user, reinforced)
 	return
+
+//For returning special data when the object is saved
+//For example, or silos will return a list of their materials which will be dumped on top of them
+//Can be customised if you have something that contains something you want saved
+//If you put an incorrect format it will break outputting, so don't use this if you don't know what you are doing
+//NOTE: Contents is automatically saved, so if you store your things in the contents var, don't worry about this
+//====Output Format Examples====:
+//===Single Object===
+//	"/obj/item/folder/blue"
+//===Multiple Objects===
+//	"/obj/item/folder/blue,\n
+//	/obj/item/folder/red"
+//===Single Object with metadata===
+//	"/obj/item/folder/blue{\n
+//	\tdir = 8;\n
+//	\tname = "special folder"\n
+//	\t}"
+//===Multiple Objects with metadata===
+//	"/obj/item/folder/blue{\n
+//	\tdir = 8;\n
+//	\tname = "special folder"\n
+//	\t},\n
+//	/obj/item/folder/red"
+//====How to save easily====:
+//	return "[thing.type][generate_tgm_metadata(thing)]"
+//Where thing is the additional thing you want to same (For example ores inside an ORM)
+//Just add ,\n between each thing
+//generate_tgm_metadata(thing) handles everything inside the {} for you
+/obj/proc/on_object_saved(var/depth = 0)
+	return ""
+
+/obj/handle_ricochet(obj/item/projectile/P)
+	. = ..()
+	if(. && ricochet_damage_mod)
+		take_damage(P.damage * ricochet_damage_mod, P.damage_type, P.flag, 0, turn(P.dir, 180), P.armour_penetration) // pass along ricochet_damage_mod damage to the structure for the ricochet

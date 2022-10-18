@@ -17,7 +17,7 @@
 /area/awaymission/centcomAway/thunderdome
 	name = "XCC-P5831 Thunderdome"
 	icon_state = "away2"
-	ambientsounds = list('sound/ambience/ambisin2.ogg')
+	ambientsounds  = list('sound/ambience/ambisin2.ogg')
 
 /area/awaymission/centcomAway/cafe
 	name = "XCC-P5831 Kitchen Arena"

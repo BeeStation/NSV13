@@ -1,13 +1,15 @@
 /datum/job/chaplain
 	title = "Chaplain"
 	flag = CHAPLAIN
-	department_head = list("Executive Officer")
+	department_head = list("Executive Officer") //NSV13 - XO
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	supervisors = "the Executive Officer"
+	supervisors = "the executive officer" //NSV13
 	selection_color = "#dddddd"
+	chat_color = "#8AB48C"
+
 
 	outfit = /datum/outfit/job/chaplain
 
@@ -17,25 +19,31 @@
 	paycheck_department = ACCOUNT_CIV
 
 	display_order = JOB_DISPLAY_ORDER_CHAPLAIN
+	departments = DEPARTMENT_SERVICE
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/chaplain
+	)
 
 /datum/job/chaplain/after_spawn(mob/living/H, mob/M)
 	. = ..()
-	if(H.mind)
-		H.mind.isholy = TRUE
 
 	var/obj/item/storage/book/bible/booze/B = new
 
 	if(GLOB.religion)
+		H.mind?.holy_role = HOLY_ROLE_PRIEST
 		B.deity_name = GLOB.deity
 		B.name = GLOB.bible_name
 		B.icon_state = GLOB.bible_icon_state
 		B.item_state = GLOB.bible_item_state
 		to_chat(H, "There is already an established religion onboard the station. You are an acolyte of [GLOB.deity]. Defer to the Chaplain.")
-		H.equip_to_slot_or_del(B, SLOT_IN_BACKPACK)
+		H.equip_to_slot_or_del(B, ITEM_SLOT_BACKPACK)
 		var/nrt = GLOB.holy_weapon_type || /obj/item/nullrod
 		var/obj/item/nullrod/N = new nrt(H)
 		H.put_in_hands(N)
+		GLOB.religious_sect?.on_conversion(H)
 		return
+	H.mind?.holy_role = HOLY_ROLE_HIGHPRIEST
 
 	var/new_religion = DEFAULT_RELIGION
 	if(M.client && M.client.prefs.custom_names["religion"])
@@ -61,8 +69,6 @@
 			B.name = "The Necronomicon"
 		if("hinduism")
 			B.name = "The Vedas"
-		if("homosexuality")
-			B.name = pick("Guys Gone Wild","Coming Out of The Closet")
 		if("imperium")
 			B.name = "Uplifting Primer"
 		if("islam")
@@ -71,9 +77,6 @@
 			B.name = "The Torah"
 		if("lampism")
 			B.name = "Fluorescent Incandescence"
-		if("lol", "wtf", "gay", "penis", "ass", "poo", "badmin", "shitmin", "deadmin", "cock", "cocks", "meme", "memes")
-			B.name = pick("Woodys Got Wood: The Aftermath", "War of the Cocks", "Sweet Bro and Hella Jef: Expanded Edition","F.A.T.A.L. Rulebook")
-			H.adjustBrainLoss(100) // starts off retarded as fuck
 		if("monkeyism","apism","gorillism","primatism")
 			B.name = pick("Going Bananas", "Bananas Out For Harambe")
 		if("mormonism")
@@ -105,7 +108,7 @@
 	GLOB.bible_name = B.name
 	GLOB.deity = B.deity_name
 
-	H.equip_to_slot_or_del(B, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(B, ITEM_SLOT_BACKPACK)
 
 	SSblackbox.record_feedback("text", "religion_name", 1, "[new_religion]", 1)
 	SSblackbox.record_feedback("text", "religion_deity", 1, "[new_deity]", 1)
@@ -114,9 +117,10 @@
 	name = "Chaplain"
 	jobtype = /datum/job/chaplain
 
+	id = /obj/item/card/id/job/chap
 	belt = /obj/item/pda/chaplain
 	ears = /obj/item/radio/headset/headset_srv
-	uniform = /obj/item/clothing/under/rank/chaplain
+	uniform = /obj/item/clothing/under/rank/civilian/chaplain
 	backpack_contents = list(/obj/item/camera/spooky = 1)
 	backpack = /obj/item/storage/backpack/cultpack
 	satchel = /obj/item/storage/backpack/cultpack

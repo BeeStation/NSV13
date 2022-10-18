@@ -9,7 +9,7 @@
 	else //I'm not removing that shitton of tabs, unneeded as they are. -- Urist
 		//Being dead doesn't mean your temperature never changes
 
-		update_gravity(mob_has_gravity())
+		update_gravity(has_gravity())
 
 		handle_status_effects()
 
@@ -40,8 +40,8 @@
 
 		if(!lacks_power())
 			var/area/home = get_area(src)
-			if(home.powered(EQUIP))
-				home.use_power(1000, EQUIP)
+			if(home.powered(AREA_USAGE_EQUIP))
+				home.use_power(1000, AREA_USAGE_EQUIP)
 
 			if(aiRestorePowerRoutine >= POWER_RESTORATION_SEARCH_APC)
 				ai_restore_power()
@@ -58,10 +58,6 @@
 			return FALSE
 		if(POWER_REQ_ALL)
 			return !T || !A || ((!A.power_equip || isspaceturf(T)) && !is_type_in_list(loc, list(/obj/item, /obj/mecha)))
-		if(POWER_REQ_CLOCKCULT)
-			for(var/obj/effect/clockwork/sigil/transmission/ST in range(src, SIGIL_ACCESS_RANGE))
-				return FALSE
-			return !T || !A || (!istype(T, /turf/open/floor/clockwork) && (!A.power_equip || isspaceturf(T)) && !is_type_in_list(loc, list(/obj/item, /obj/mecha)))
 
 /mob/living/silicon/ai/updatehealth()
 	if(status_flags & GODMODE)
@@ -79,7 +75,7 @@
 			death()
 			return
 		else if(stat == UNCONSCIOUS)
-			stat = CONSCIOUS
+			set_stat(CONSCIOUS)
 			adjust_blindness(-1)
 	diag_hud_set_status()
 
@@ -154,9 +150,8 @@
 				sleep(50)
 				to_chat(src, "Receiving control information from APC.")
 				sleep(2)
-				apc_override = 1
-				theAPC.ui_interact(src, state = GLOB.conscious_state)
-				apc_override = 0
+				apc_override = theAPC
+				theAPC.ui_interact(src)
 				aiRestorePowerRoutine = POWER_RESTORATION_APC_FOUND
 		sleep(50)
 		theAPC = null

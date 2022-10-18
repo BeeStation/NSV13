@@ -259,7 +259,7 @@
 				to_chat(user, "<span class='warning'>Sticking a dead brain into the frame would sort of defeat the purpose!</span>")
 				return
 
-			if(M.brain?.damaged_brain)
+			if(M.brain?.organ_flags & ORGAN_FAILING)
 				to_chat(user, "<span class='warning'>The MMI indicates that the brain is damaged!</span>")
 				return
 
@@ -293,13 +293,11 @@
 				if(forced_ai)
 					O.connected_ai = forced_ai
 			if(!lawsync)
-				O.lawupdate = 0
+				O.lawupdate = FALSE
 				if(M.laws.id == DEFAULT_AI_LAWID)
 					O.make_laws()
 
 			SSticker.mode.remove_antag_for_borging(BM.mind)
-			if(!istype(M.laws, /datum/ai_laws/ratvar))
-				remove_servant_of_ratvar(BM, TRUE)
 
 			O.job = "Cyborg"
 
@@ -335,6 +333,9 @@
 	else if(istype(W, /obj/item/borg/upgrade/ai))
 		var/obj/item/borg/upgrade/ai/M = W
 		if(check_completion())
+			if(!chest.cell)
+				to_chat(user, "<span class='warning'>The endoskeleton still needs a power cell!</span>")
+				return
 			if(!isturf(loc))
 				to_chat(user, "<span class='warning'>You cannot install[M], the frame has to be standing on the ground to be perfectly precise!</span>")
 				return
@@ -400,6 +401,7 @@
 			return
 		if(new_name)
 			created_name = new_name
+			log_game("[key_name(usr)] have set \"[new_name]\" as a cyborg shell name at [loc_name(usr)]")
 		else
 			created_name = ""
 

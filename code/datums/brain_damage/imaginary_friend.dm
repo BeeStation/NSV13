@@ -43,6 +43,9 @@
 
 /datum/brain_trauma/special/imaginary_friend/proc/get_ghost()
 	set waitfor = FALSE
+	if(owner.stat == DEAD || !owner.mind)
+		qdel(src)
+		return
 	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as [owner]'s imaginary friend?", ROLE_PAI, null, null, 75, friend, POLL_IGNORE_IMAGINARYFRIEND)
 	if(LAZYLEN(candidates))
 		var/mob/dead/observer/C = pick(candidates)
@@ -78,16 +81,16 @@
 	Show()
 
 /mob/camera/imaginary_friend/proc/greet()
-		to_chat(src, "<span class='notice'><b>You are the imaginary friend of [owner]!</b></span>")
-		to_chat(src, "<span class='notice'>You are absolutely loyal to your friend, no matter what.</span>")
-		to_chat(src, "<span class='notice'>You cannot directly influence the world around you, but you can see what [owner] cannot.</span>")
+	to_chat(src, "<span class='notice'><b>You are the imaginary friend of [owner]!</b></span>")
+	to_chat(src, "<span class='notice'>You are absolutely loyal to your friend, no matter what.</span>")
+	to_chat(src, "<span class='notice'>You cannot directly influence the world around you, but you can see what [owner] cannot.</span>")
 
 /mob/camera/imaginary_friend/Initialize(mapload, _trauma)
 	. = ..()
 
 	trauma = _trauma
 	owner = trauma.owner
-	copy_known_languages_from(owner, TRUE)
+	copy_languages(owner, LANGUAGE_FRIEND)
 
 	setup_friend()
 
@@ -145,11 +148,8 @@
 
 	friend_talk(message)
 
-/mob/camera/imaginary_friend/Hear(message, atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, message_mode)
-	to_chat(src, compose_message(speaker, message_language, raw_message, radio_freq, spans, message_mode))
-
 /mob/camera/imaginary_friend/proc/friend_talk(message)
-	message = capitalize(trim(copytext(sanitize(message), 1, MAX_MESSAGE_LEN)))
+	message = capitalize(trim(copytext_char(sanitize(message), 1, MAX_MESSAGE_LEN)))
 
 	if(!message)
 		return
@@ -179,18 +179,17 @@
 		recall()
 		move_delay = world.time + 10
 		return FALSE
-	forceMove(NewLoc)
+	abstract_move(NewLoc)
 	move_delay = world.time + 1
 
-/mob/camera/imaginary_friend/forceMove(atom/destination)
-	dir = get_dir(get_turf(src), destination)
-	loc = destination
+/mob/camera/imaginary_friend/abstract_move(atom/destination)
+	. = ..()
 	Show()
 
 /mob/camera/imaginary_friend/proc/recall()
 	if(!owner || loc == owner)
 		return FALSE
-	forceMove(owner)
+	abstract_move(owner)
 
 /datum/action/innate/imaginary_join
 	name = "Join"

@@ -6,6 +6,7 @@
 	w_class = WEIGHT_CLASS_TINY
 	var/translate_binary = FALSE
 	var/syndie = FALSE
+	var/hearall = FALSE
 	var/independent = FALSE
 	var/list/channels = list()
 
@@ -27,7 +28,14 @@
 	name = "syndicate encryption key"
 	icon_state = "syn_cypherkey"
 	channels = list(RADIO_CHANNEL_SYNDICATE = 1)
-	syndie = TRUE//Signifies that it de-crypts Syndicate transmissions
+	syndie = TRUE
+
+/obj/item/encryptionkey/hearall
+	name = "universal decryption key"
+	icon_state = "universal_cypherkey"
+	channels = list(RADIO_CHANNEL_SYNDICATE = 1)
+	hearall = TRUE
+	syndie = TRUE
 
 /obj/item/encryptionkey/binary
 	name = "binary translator key"
@@ -79,7 +87,7 @@
 	icon_state = "com_cypherkey"
 	channels = list(RADIO_CHANNEL_COMMAND = 1)
 
-/obj/item/encryptionkey/heads/captain //NSV13 - added ATC & Munitions
+/obj/item/encryptionkey/heads/captain //NSV13 - added ATC & Munitions, removed exploration
 	name = "\proper the captain's encryption key"
 	icon_state = "cap_cypherkey"
 	independent = TRUE
@@ -88,7 +96,7 @@
 /obj/item/encryptionkey/heads/rd
 	name = "\proper the research director's encryption key"
 	icon_state = "rd_cypherkey"
-	channels = list(RADIO_CHANNEL_SCIENCE = 1, RADIO_CHANNEL_COMMAND = 1)
+	channels = list(RADIO_CHANNEL_SCIENCE = 1, RADIO_CHANNEL_EXPLORATION = 1, RADIO_CHANNEL_COMMAND = 1)
 
 /obj/item/encryptionkey/heads/hos
 	name = "\proper the head of security's encryption key"
@@ -107,8 +115,8 @@
 
 /obj/item/encryptionkey/heads/xo //nsv13 - changed HoP to XO
 	name = "\proper the executive officer's encryption key"
-	icon_state = "xo_cypherkey"
-	channels = list(RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_SERVICE = 1, RADIO_CHANNEL_COMMAND = 1)
+	icon_state = "hop_cypherkey"
+	channels = list(RADIO_CHANNEL_MUNITIONS=1, RADIO_CHANNEL_ENGINEERING=1, RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_SERVICE = 1, RADIO_CHANNEL_COMMAND = 1)
 
 /obj/item/encryptionkey/headset_cargo
 	name = "supply radio encryption key"
@@ -120,10 +128,25 @@
 	icon_state = "cargo_cypherkey"
 	channels = list(RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_SCIENCE = 1)
 
+/obj/item/encryptionkey/headset_exp
+	name = "exploration encryption key"
+	icon_state = "exp_cypherkey"
+	channels = list(RADIO_CHANNEL_EXPLORATION = 1)
+
+/obj/item/encryptionkey/headset_expteam
+	name = "exploration team encryption key"
+	icon_state = "expteam_cypherkey"
+	channels = list(RADIO_CHANNEL_EXPLORATION = 1, RADIO_CHANNEL_SCIENCE = 1)
+
 /obj/item/encryptionkey/headset_service
 	name = "service radio encryption key"
 	icon_state = "srv_cypherkey"
 	channels = list(RADIO_CHANNEL_SERVICE = 1)
+
+/obj/item/encryptionkey/headset_curator
+	name = "curator radio encryption key"
+	icon_state = "srv_cypherkey"
+	channels = list(RADIO_CHANNEL_SERVICE = 1, RADIO_CHANNEL_EXPLORATION = 1)
 
 /obj/item/encryptionkey/headset_cent
 	name = "\improper CentCom radio encryption key"
@@ -131,7 +154,7 @@
 	independent = TRUE
 	channels = list(RADIO_CHANNEL_CENTCOM = 1)
 
-/obj/item/encryptionkey/ai //ported from NT, this goes 'inside' the AI. NSV13 - added munitions & ATC
+/obj/item/encryptionkey/ai //ported from NT, this goes 'inside' the AI. NSV13 - added munitions & ATC, removed exploration
 	independent = TRUE
 	channels = list(RADIO_CHANNEL_COMMAND = 1, RADIO_CHANNEL_SECURITY = 1, RADIO_CHANNEL_ENGINEERING = 1, RADIO_CHANNEL_SCIENCE = 1, RADIO_CHANNEL_MEDICAL = 1, RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_SERVICE = 1, RADIO_CHANNEL_AI_PRIVATE = 1, RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_ATC = 1)
 

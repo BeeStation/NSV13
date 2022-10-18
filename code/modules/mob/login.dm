@@ -22,7 +22,7 @@
   * * send signal COMSIG_MOB_CLIENT_LOGIN
   */
 /mob/Login()
-	GLOB.player_list |= src
+	add_to_player_list()
 	lastKnownIP	= client.address
 	computer_id	= client.computer_id
 	log_access("Mob Login: [key_name(src)] was assigned to a [type]")
@@ -39,12 +39,18 @@
 	next_move = 1
 
 	..()
+
+	//We do this here to prevent hanging refs from ghostize or whatever, since if we were in another mob before this'll take care of it
+	clear_client_in_contents()
+
 	if (client && key != client.key)
 		key = client.key
 	reset_perspective(loc)
 
 	if(loc)
 		loc.on_log(TRUE)
+
+	SEND_SIGNAL(src, COMSIG_MOB_LOGIN)
 
 	//readd this mob's HUDs (antag, med, etc)
 	reload_huds()
@@ -65,7 +71,15 @@
 	update_client_colour()
 	update_mouse_pointer()
 	if(client)
-		client.check_view() // Resets the client.view in case it was changed.
+		if(client.view_size)
+			client.view_size.default = (client.prefs.widescreenpref) ? CONFIG_GET(string/default_view) : "15x15" //Nsv13: This view size wrapper is extremely inconsistent and we need to finagle it a bit.
+			//client.view_size.resetToDefault(getScreenSize(src))	// Sets the defaul view_size because it can be different to what it was on the lobby.
+		else
+			client.change_view(getScreenSize(src)) // Resets the client.view in case it was changed.
+
+		//Reset verb information, give verbs accessible to the mob.
+		if(client.tgui_panel)
+			client.tgui_panel.set_verb_infomation(client)
 
 		if(client.player_details.player_actions.len)
 			for(var/datum/action/A in client.player_details.player_actions)
@@ -76,6 +90,9 @@
 			CB.Invoke()
 		log_played_names(client.ckey,name,real_name)
 		auto_deadmin_on_login()
+
+	//Sort verbs
+	add_verb(verbs.Copy(), TRUE)	//verbs.Copy() because otherwise you can't see the list
 
 	log_message("Client [key_name(src)] has taken ownership of mob [src]([src.type])", LOG_OWNERSHIP)
 	SEND_SIGNAL(src, COMSIG_MOB_CLIENT_LOGIN, client)
@@ -100,3 +117,4 @@
 		return client.holder.auto_deadmin()
 	if(job)
 		return SSjob.handle_auto_deadmin_roles(client, job)
+

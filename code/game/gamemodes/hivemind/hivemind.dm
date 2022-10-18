@@ -4,7 +4,7 @@
 	report_type = "hivemind"
 	antag_flag = ROLE_HIVE
 	false_report_weight = 5
-	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain")
+	protected_jobs = list("Military Police", "Warden", "Detective", "Head of Security", "Captain") //Nsv13 - Crayon eaters & MPs
 	restricted_jobs = list("Cyborg","AI")
 	required_players = 24
 	required_enemies = 2
@@ -75,7 +75,10 @@
 		restricted_jobs += protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Assistant"
+		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+
+	if(CONFIG_GET(flag/protect_heads_from_antagonist))
+		restricted_jobs += GLOB.command_positions
 
 	var/num_hosts = max( 1 , rand(0,1) + min(8, round(num_players() / 8) ) ) //1 host for every 8 players up to 64, with a 50% chance of an extra
 

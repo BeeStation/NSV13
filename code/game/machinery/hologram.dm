@@ -33,12 +33,11 @@ Possible to do for anyone motivated enough:
 	icon_state = "holopad0"
 	layer = LOW_OBJ_LAYER
 	plane = FLOOR_PLANE
-	flags_1 = HEAR_1
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 5
 	active_power_usage = 100
 	max_integrity = 300
-	armor = list("melee" = 50, "bullet" = 20, "laser" = 20, "energy" = 20, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 0)
+	armor = list("melee" = 50, "bullet" = 20, "laser" = 20, "energy" = 20, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 0, "stamina" = 0)
 	circuit = /obj/item/circuitboard/machine/holopad
 	var/list/masters //List of living mobs that use the holopad
 	var/list/holorays //Holoray-mob link.
@@ -60,6 +59,10 @@ Possible to do for anyone motivated enough:
 	var/ringing = FALSE
 	var/offset = FALSE
 	var/on_network = TRUE
+
+/obj/machinery/holopad/Initialize()
+	. = ..()
+	become_hearing_sensitive()
 
 /obj/machinery/holopad/tutorial
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
@@ -145,7 +148,7 @@ Possible to do for anyone motivated enough:
 /obj/machinery/holopad/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-		. += "<span class='notice'>The status display reads: Current projection range: <b>[holo_range]</b> units.<span>"
+		. += "<span class='notice'>The status display reads: Current projection range: <b>[holo_range]</b> units.</span>"
 
 /obj/machinery/holopad/attackby(obj/item/P, mob/user, params)
 	if(default_deconstruction_screwdriver(user, "holopad_open", "holopad0", P))
@@ -228,7 +231,6 @@ Possible to do for anyone motivated enough:
 
 	var/datum/browser/popup = new(user, "holopad", name, 300, 175)
 	popup.set_content(dat)
-	popup.set_title_image(user.browse_rsc_icon(src.icon, src.icon_state))
 	popup.open()
 
 //Stop ringing the AI!!
@@ -271,7 +273,7 @@ Possible to do for anyone motivated enough:
 					LAZYADD(callnames[A], I)
 			callnames -= get_area(src)
 
-			var/result = input(usr, "Choose an area to call", "Holocall") as null|anything in callnames
+			var/result = input(usr, "Choose an area to call", "Holocall") as null|anything in sortNames(callnames)
 			if(QDELETED(usr) || !result || outgoing_call)
 				return
 
@@ -374,6 +376,10 @@ Possible to do for anyone motivated enough:
 	update_icon()
 
 /obj/machinery/holopad/proc/activate_holo(mob/living/user)
+	if ( user.overmap_ship ) // NSV13 - Fixes an overmap access by holopad exploit
+		var/obj/structure/overmap/playerShip = user.overmap_ship
+		playerShip.stop_piloting( user )
+
 	var/mob/living/silicon/ai/AI = user
 	if(!istype(AI))
 		AI = null
@@ -395,7 +401,6 @@ Possible to do for anyone motivated enough:
 			Hologram.add_atom_colour("#77abff", FIXED_COLOUR_PRIORITY)
 			Hologram.Impersonation = user
 
-		Hologram.copy_known_languages_from(user,replace = TRUE)
 		Hologram.mouse_opacity = MOUSE_OPACITY_TRANSPARENT//So you can't click on it.
 		Hologram.layer = FLY_LAYER//Above all the other objects/mobs. Or the vast majority of them.
 		Hologram.setAnchored(TRUE)//So space wind cannot drag it.
@@ -412,17 +417,19 @@ Possible to do for anyone motivated enough:
 
 /*This is the proc for special two-way communication between AI and holopad/people talking near holopad.
 For the other part of the code, check silicon say.dm. Particularly robot talk.*/
-/obj/machinery/holopad/Hear(message, atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, message_mode)
+/obj/machinery/holopad/Hear(message, atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, list/message_mods = list())
 	. = ..()
 	if(speaker && LAZYLEN(masters) && !radio_freq)//Master is mostly a safety in case lag hits or something. Radio_freq so AIs dont hear holopad stuff through radios.
 		for(var/mob/living/silicon/ai/master in masters)
 			if(masters[master] && speaker != master)
-				master.relay_speech(message, speaker, message_language, raw_message, radio_freq, spans, message_mode)
+				master.relay_speech(message, speaker, message_language, raw_message, radio_freq, spans, message_mods)
 
 	for(var/I in holo_calls)
 		var/datum/holocall/HC = I
 		if(HC.connected_holopad == src && speaker != HC.hologram)
-			HC.user.Hear(message, speaker, message_language, raw_message, radio_freq, spans, message_mode)
+			HC.user.Hear(message, speaker, message_language, raw_message, radio_freq, spans, message_mods)
+			if(HC.user.should_show_chat_message(speaker, message_language, FALSE, is_heard = TRUE))
+				create_chat_message(speaker, message_language, list(HC.user), raw_message, spans, message_mods)
 
 	if(outgoing_call && speaker == outgoing_call.user)
 		outgoing_call.hologram.say(raw_message)
@@ -499,7 +506,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 //Can we display holos there
 //Area check instead of line of sight check because this is a called a lot if AI wants to move around.
 /obj/machinery/holopad/proc/validate_location(turf/T,check_los = FALSE)
-	if(T.z == z && get_dist(T, src) <= holo_range && T.loc == get_area(src))
+	if(T.get_virtual_z_level() == get_virtual_z_level() && get_dist(T, src) <= holo_range && T.loc == get_area(src))
 		return TRUE
 	else
 		return FALSE
@@ -515,7 +522,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 			else
 				transfered = TRUE
 		//All is good.
-		holo.forceMove(new_turf)
+		holo.abstract_move(new_turf)
 		if(!transfered)
 			update_holoray(user,new_turf)
 	return TRUE
@@ -552,9 +559,8 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 	Hologram.alpha = 170
 	Hologram.add_atom_colour("#77abff", FIXED_COLOUR_PRIORITY)
 	Hologram.dir = SOUTH //for now
-	Hologram.grant_all_languages(omnitongue=TRUE)
 	var/datum/language_holder/holder = Hologram.get_language_holder()
-	holder.selected_default_language = record.language
+	holder.selected_language = record.language
 	Hologram.mouse_opacity = MOUSE_OPACITY_TRANSPARENT//So you can't click on it.
 	Hologram.layer = FLY_LAYER//Above all the other objects/mobs. Or the vast majority of them.
 	Hologram.setAnchored(TRUE)//So space wind cannot drag it.
@@ -646,7 +652,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 			return
 		if(HOLORECORD_LANGUAGE)
 			var/datum/language_holder/holder = replay_holo.get_language_holder()
-			holder.selected_default_language = entry[2]
+			holder.selected_language = entry[2]
 		if(HOLORECORD_PRESET)
 			var/preset_type = entry[2]
 			var/datum/preset_holoimage/H = new preset_type
@@ -669,6 +675,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 	updateDialog()
 
 /obj/effect/overlay/holo_pad_hologram
+	initial_language_holder = /datum/language_holder/universal
 	var/mob/living/Impersonation
 	var/datum/holocall/HC
 
@@ -676,6 +683,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 	Impersonation = null
 	if(!QDELETED(HC))
 		HC.Disconnect(HC.calling_holopad)
+	HC = null
 	return ..()
 
 /obj/effect/overlay/holo_pad_hologram/Process_Spacemove(movement_dir = 0)

@@ -57,12 +57,12 @@
 			visible_message("<span class='warning'>\The [src] has been broken by [user] with an electromagnetic card!</span>")
 			return
 
-/obj/item/storage/lockbox/Entered()
+/obj/item/storage/lockbox/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	. = ..()
 	open = TRUE
 	update_icon()
 
-/obj/item/storage/lockbox/Exited()
+/obj/item/storage/lockbox/Exited(atom/movable/gone, direction)
 	. = ..()
 	open = TRUE
 	update_icon()
@@ -115,7 +115,6 @@
 		if(!SEND_SIGNAL(src, COMSIG_IS_STORAGE_LOCKED))
 			open = (open ? FALSE : TRUE)
 			update_icon()
-		..()
 
 /obj/item/storage/lockbox/medal/PopulateContents()
 	new /obj/item/clothing/accessory/medal/gold/captain(src)
@@ -176,7 +175,7 @@
 
 /obj/item/storage/lockbox/medal/service/PopulateContents()
 		new /obj/item/clothing/accessory/medal/silver/excellence(src)
-		
+
 /obj/item/storage/lockbox/medal/sci
 	name = "science medal box"
 	desc = "A locked box used to store medals to be given to members of the science department."

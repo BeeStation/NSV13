@@ -16,39 +16,114 @@ Slimecrossing Items
 	default_picture_name = "A nostalgic picture"
 	var/used = FALSE
 
+/datum/saved_bodypart
+	var/obj/item/bodypart/old_part
+	var/bodypart_type
+	var/brute_dam
+	var/burn_dam
+	var/stamina_dam
+
+/datum/saved_bodypart/New(obj/item/bodypart/part)
+	old_part = part
+	bodypart_type = part.type
+	brute_dam = part.brute_dam
+	burn_dam = part.burn_dam
+	stamina_dam = part.stamina_dam
+
+/mob/living/carbon/proc/apply_saved_bodyparts(list/datum/saved_bodypart/parts)
+	var/list/dont_chop = list()
+	for(var/zone in parts)
+		var/datum/saved_bodypart/saved_part = parts[zone]
+		var/obj/item/bodypart/already = get_bodypart(zone)
+		if(QDELETED(saved_part.old_part))
+			saved_part.old_part = new saved_part.bodypart_type
+		if(!already || already != saved_part.old_part)
+			saved_part.old_part.replace_limb(src, TRUE)
+		saved_part.old_part.heal_damage(INFINITY, INFINITY, INFINITY, null, FALSE)
+		saved_part.old_part.receive_damage(saved_part.brute_dam, saved_part.burn_dam, saved_part.stamina_dam)
+		dont_chop[zone] = TRUE
+	for(var/_part in bodyparts)
+		var/obj/item/bodypart/part = _part
+		if(dont_chop[part.body_zone])
+			continue
+		part.drop_limb(TRUE)
+
+/mob/living/carbon/proc/save_bodyparts()
+	var/list/datum/saved_bodypart/ret = list()
+	for(var/_part in bodyparts)
+		var/obj/item/bodypart/part = _part
+		var/datum/saved_bodypart/saved_part = new(part)
+
+		ret[part.body_zone] = saved_part
+	return ret
+
+
+
 /datum/component/dejavu
-	var/health	//health for simple animals, and integrity for objects
+	var/integrity	//for objects
+	var/brute_loss //for simple animals
+	var/list/datum/saved_bodypart/saved_bodyparts //maps bodypart slots to health
+	var/clone_loss = 0
+	var/tox_loss = 0
+	var/oxy_loss = 0
+	var/brain_loss = 0
 	var/x
 	var/y
 	var/z
-	var/rewinds_remaining = 1
+	var/rewinds_remaining
 
-/datum/component/dejavu/Initialize()
+/datum/component/dejavu/Initialize(rewinds = 1)
+	rewinds_remaining = rewinds
 	var/turf/T = get_turf(parent)
 	if(T)
 		x = T.x
 		y = T.y
 		z = T.z
-	if(istype(parent, /mob/living/simple_animal))
+	if(isliving(parent))
+		var/mob/living/L = parent
+		clone_loss = L.getCloneLoss()
+		tox_loss = L.getToxLoss()
+		oxy_loss = L.getOxyLoss()
+		brain_loss = L.getOrganLoss(ORGAN_SLOT_BRAIN)
+	if(iscarbon(parent))
+		var/mob/living/carbon/C = parent
+		saved_bodyparts = C.save_bodyparts()
+	else if(isanimal(parent))
 		var/mob/living/simple_animal/M = parent
-		health = M.health
-	else if(istype(parent, /obj))
+		brute_loss = M.bruteloss
+	else if(isobj(parent))
 		var/obj/O = parent
-		health = O.obj_integrity
+		integrity = O.obj_integrity
 	addtimer(CALLBACK(src, .proc/rewind), DEJAVU_REWIND_INTERVAL)
 
 /datum/component/dejavu/proc/rewind()
 	to_chat(parent, "<span class=notice>You remember a time not so long ago...</span>")
+
+	if(isliving(parent))
+		var/mob/living/L = parent
+		L.setCloneLoss(clone_loss)
+		L.setToxLoss(tox_loss)
+		L.setOxyLoss(oxy_loss)
+		L.setOrganLoss(ORGAN_SLOT_BRAIN, brain_loss)
+
+	if(iscarbon(parent))
+		if(saved_bodyparts)
+			var/mob/living/carbon/C = parent
+			C.apply_saved_bodyparts(saved_bodyparts)
+	else if(isanimal(parent))
+		var/mob/living/simple_animal/M = parent
+		M.bruteloss = brute_loss
+		M.updatehealth()
+	else if(isobj(parent))
+		var/obj/O = parent
+		O.obj_integrity = integrity
+
+	//comes after healing so new limbs comically drop to the floor
 	if(!isnull(x) && istype(parent, /atom/movable))
 		var/atom/movable/AM = parent
 		var/turf/T = locate(x,y,z)
 		AM.forceMove(T)
-	if(istype(parent, /mob/living/simple_animal))
-		var/mob/living/simple_animal/M = parent
-		M.adjustHealth(health)
-	else if(istype(parent, /obj))
-		var/obj/O = parent
-		O.obj_integrity = health
+
 	rewinds_remaining --
 	if(rewinds_remaining)
 		addtimer(CALLBACK(src, .proc/rewind), DEJAVU_REWIND_INTERVAL)
@@ -67,13 +142,13 @@ Slimecrossing Items
 			to_chat(user, "<span class=notice>You take a photo with [target]!</span>")
 			to_chat(target, "<span class=notice>[user] takes a photo with you!</span>")
 		to_chat(target, "<span class=notice>You'll remember this moment forever!</span>")
-			
+
 		used = TRUE
-		target.AddComponent(/datum/component/dejavu)
+		target.AddComponent(/datum/component/dejavu, 2)
 	.=..()
-		
-		
-	
+
+
+
 //Timefreeze camera - Old Burning Sepia result. Kept in case admins want to spawn it
 /obj/item/camera/timefreeze
 	name = "sepia-tinted camera"
@@ -173,7 +248,7 @@ Slimecrossing Items
 	icon_state = "frozen"
 	density = TRUE
 	max_integrity = 100
-	armor = list("melee" = 30, "bullet" = 50, "laser" = -50, "energy" = -50, "bomb" = 0, "bio" = 100, "rad" = 100, "fire" = -80, "acid" = 30)
+	armor = list("melee" = 30, "bullet" = 50, "laser" = -50, "energy" = -50, "bomb" = 0, "bio" = 100, "rad" = 100, "fire" = -80, "acid" = 30, "stamina" = 0)
 
 /obj/structure/ice_stasis/Initialize()
 	. = ..()
@@ -201,24 +276,28 @@ Slimecrossing Items
 		to_chat(user, "<span class='warning'>The capture device only works on simple creatures.</span>")
 		return
 	if(M.mind)
-		to_chat(user, "<span class='notice'>You offer the device to [M].</span>")
-		if(alert(M, "Would you like to enter [user]'s capture device?", "Gold Capture Device", "Yes", "No") == "Yes")
-			if(user.canUseTopic(src, BE_CLOSE) && user.canUseTopic(M, BE_CLOSE))
-				to_chat(user, "<span class='notice'>You store [M] in the capture device.</span>")
-				to_chat(M, "<span class='notice'>The world warps around you, and you're suddenly in an endless void, with a window to the outside floating in front of you.</span>")
-				store(M, user)
-			else
-				to_chat(user, "<span class='warning'>You were too far away from [M].</span>")
-				to_chat(M, "<span class='warning'>You were too far away from [user].</span>")
-		else
-			to_chat(user, "<span class='warning'>[M] refused to enter the device.</span>")
-			return
+		INVOKE_ASYNC(src, .proc/offer_entry, M, user)
+		return
 	else
 		if(istype(M, /mob/living/simple_animal/hostile) && !("neutral" in M.faction))
 			to_chat(user, "<span class='warning'>This creature is too aggressive to capture.</span>")
 			return
 	to_chat(user, "<span class='notice'>You store [M] in the capture device.</span>")
 	store(M)
+
+/obj/item/capturedevice/proc/offer_entry(mob/living/M, mob/user)
+	to_chat(user, "<span class='notice'>You offer the device to [M].</span>")
+	if(alert(M, "Would you like to enter [user]'s capture device?", "Gold Capture Device", "Yes", "No") != "Yes")
+		to_chat(user, "<span class='warning'>[M] refused to enter the device.</span>")
+		return
+	if(!user.canUseTopic(src, BE_CLOSE) || !user.canUseTopic(M, BE_CLOSE))
+		to_chat(user, "<span class='warning'>You were too far away from [M].</span>")
+		to_chat(M, "<span class='warning'>You were too far away from [user].</span>")
+		return
+
+	to_chat(user, "<span class='notice'>You store [M] in the capture device.</span>")
+	to_chat(M, "<span class='notice'>The world warps around you, and you're suddenly in an endless void, with a window to the outside floating in front of you.</span>")
+	store(M, user)
 
 /obj/item/capturedevice/attack_self(mob/user)
 	if(contents.len)
@@ -233,3 +312,25 @@ Slimecrossing Items
 /obj/item/capturedevice/proc/release()
 	for(var/atom/movable/M in contents)
 		M.forceMove(get_turf(loc))
+
+/obj/item/cerulean_slime_crystal
+	name = "Cerulean slime poly-crystal"
+	desc = "Translucent and irregular, it can duplicate matter on a whim"
+	icon = 'icons/obj/slimecrossing.dmi'
+	icon_state = "cerulean_item_crystal"
+	var/amt = 0
+
+/obj/item/cerulean_slime_crystal/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	. = ..()
+	if(!istype(target,/obj/item/stack) || !istype(user,/mob/living/carbon) || !proximity_flag)
+		return
+	var/obj/item/stack/stack_item = target
+
+	if(istype(stack_item,/obj/item/stack/telecrystal))
+		to_chat(user,"<span class='notice'>The crystal disappears!</span>")
+		qdel(src)
+		return
+
+	stack_item.add(amt)
+
+	qdel(src)

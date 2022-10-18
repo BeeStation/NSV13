@@ -18,23 +18,30 @@ Bonus
 	stealth = 1
 	resistance = -2
 	stage_speed = -3
-	transmittable = -2
+	transmission = -2
 	level = 6
 	symptom_delay_min = 10
 	symptom_delay_max = 30
-	severity = 4
+	severity = 2
+	prefixes = list("Lazy ", "Yawning ")
+	bodies = list("Sleep")
 	var/sleep_level = 0
 	var/sleepy_ticks = 0
 	var/stamina = FALSE
 	threshold_desc = "<b>Transmission 7:</b> Also relaxes the muscles, weakening and slowing the host.<br>\
 					  <b>Resistance 10:</b> Causes narcolepsy more often, increasing the chance of the host falling asleep."
 
+/datum/symptom/narcolepsy/severityset(datum/disease/advance/A)
+	. = ..()
+	if(A.resistance >= 10) //act more often
+		severity += 1
+
 /datum/symptom/narcolepsy/Start(datum/disease/advance/A)
 	if(!..())
 		return
-	if(A.properties["transmittable"] >= 7) //stamina damage
+	if(A.transmission >= 7) //stamina damage
 		stamina = TRUE
-	if(A.properties["resistance"] >= 10) //act more often
+	if(A.resistance >= 10) //act more often
 		symptom_delay_min = 5
 		symptom_delay_max = 20
 

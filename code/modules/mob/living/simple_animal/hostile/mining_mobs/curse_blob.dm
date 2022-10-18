@@ -12,8 +12,7 @@
 	aggro_vision_range = 20
 	maxHealth = 40 //easy to kill, but oh, will you be seeing a lot of them.
 	health = 40
-	melee_damage_lower = 10
-	melee_damage_upper = 10
+	melee_damage = 10
 	melee_damage_type = BURN
 	attacktext = "slashes"
 	attack_sound = 'sound/effects/curseattack.ogg'
@@ -70,14 +69,14 @@
 		return
 
 //if it's not our target, we ignore it
-/mob/living/simple_animal/hostile/asteroid/curseblob/CanPass(atom/movable/mover, turf/target)
+/mob/living/simple_animal/hostile/asteroid/curseblob/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
 	if(mover == set_target)
 		return FALSE
 	if(istype(mover, /obj/item/projectile))
 		var/obj/item/projectile/P = mover
 		if(P.firer == set_target)
 			return FALSE
-	return TRUE
 
 #define IGNORE_PROC_IF_NOT_TARGET(X) /mob/living/simple_animal/hostile/asteroid/curseblob/##X(AM) { if (AM == set_target) return ..(); }
 

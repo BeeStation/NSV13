@@ -13,8 +13,16 @@
 	maxHealth = 500
 	layer = BELOW_MOB_LAYER
 	can_be_held = TRUE
+	worn_slot_flags = ITEM_SLOT_HEAD
+	held_lh = 'icons/mob/pai_item_lh.dmi'
+	held_rh = 'icons/mob/pai_item_rh.dmi'
+	head_icon = 'icons/mob/pai_item_head.dmi'
 	var/network = "ss13"
 	var/obj/machinery/camera/current = null
+	light_system = MOVABLE_LIGHT
+	light_power = 1
+	light_range = 5
+	light_on = FALSE
 
 	var/ram = 100	// Used as currency to purchase different abilities
 	var/list/software = list()
@@ -63,14 +71,14 @@
 	var/can_receive = TRUE
 	var/obj/item/card/id/access_card = null
 	var/chassis = "repairbot"
-	var/list/possible_chassis = list("cat" = TRUE, "mouse" = TRUE, "monkey" = TRUE, "corgi" = FALSE, "fox" = FALSE, "repairbot" = TRUE, "rabbit" = TRUE, "bat" = FALSE, "butterfly" = FALSE, "hawk" = FALSE, "lizard" = FALSE, "duffel" = TRUE)		//assoc value is whether it can be picked up.
+	var/list/possible_chassis = list("bat" = TRUE, "bee" = TRUE, "butterfly" = TRUE, "carp" = TRUE, "cat" = TRUE, "corgi" = TRUE, "corgi_puppy" = TRUE, "crow" = TRUE, "duffel" = TRUE, "fox" = TRUE, "frog" = TRUE, "hawk" = TRUE, "lizard" = TRUE, "monkey" = TRUE, "mouse" = TRUE, "mushroom" = TRUE, "phantom" = TRUE, "rabbit" = TRUE, "repairbot" = TRUE, "snake" = TRUE, "spider" = TRUE)		//assoc value is whether it can be picked up.
 	var/static/item_head_icon = 'icons/mob/pai_item_head.dmi'
 	var/static/item_lh_icon = 'icons/mob/pai_item_lh.dmi'
 	var/static/item_rh_icon = 'icons/mob/pai_item_rh.dmi'
 
 	var/emitterhealth = 20
 	var/emittermaxhealth = 20
-	var/emitterregen = 0.25
+	var/emitterregen = 0.50
 	var/emittercd = 50
 	var/emitteroverloadcd = 100
 	var/emittersemicd = FALSE
@@ -79,7 +87,7 @@
 	var/overload_bulletblock = 0	//Why is this a good idea?
 	var/overload_maxhealth = 0
 	var/silent = FALSE
-	var/brightness_power = 5
+
 
 /mob/living/silicon/pai/can_unbuckle()
 	return FALSE
@@ -158,21 +166,21 @@
 
 /mob/living/silicon/pai/Login()
 	..()
-	usr << browse_rsc('html/paigrid.png')			// Go ahead and cache the interface resources as early as possible
-	if(client)
-		client.perspective = EYE_PERSPECTIVE
-		if(holoform)
-			client.eye = src
-		else
-			client.eye = card
+	var/datum/asset/notes_assets = get_asset_datum(/datum/asset/simple/pAI)
+	notes_assets.send(client)
+	client.perspective = EYE_PERSPECTIVE
+	if(holoform)
+		client.eye = src
+	else
+		client.eye = card
 
-/mob/living/silicon/pai/Stat()
-	..()
-	if(statpanel("Status"))
-		if(!stat)
-			stat(null, text("Emitter Integrity: [emitterhealth * (100/emittermaxhealth)]"))
-		else
-			stat(null, text("Systems nonfunctional"))
+/mob/living/silicon/pai/get_stat_tab_status()
+	var/list/tab_data = ..()
+	if(!stat)
+		tab_data["Emitter Integrity"] = GENERATE_STAT_TEXT("[emitterhealth * (100/emittermaxhealth)]")
+	else
+		tab_data["Systems"] = GENERATE_STAT_TEXT("nonfunctional")
+	return tab_data
 
 /mob/living/silicon/pai/restrained(ignore_grab)
 	. = FALSE
@@ -283,16 +291,26 @@
 	health = maxHealth - getBruteLoss() - getFireLoss()
 	update_stat()
 
-/mob/living/silicon/pai/process()
-	emitterhealth = CLAMP((emitterhealth + emitterregen), -50, emittermaxhealth)
+/mob/living/silicon/pai/process(delta_time)
+	emitterhealth = CLAMP((emitterhealth + (emitterregen * delta_time)), -50, emittermaxhealth)
 
 /obj/item/paicard/attackby(obj/item/W, mob/user, params)
 	..()
 	user.set_machine(src)
-	if(pai.encryptmod == TRUE)
+	if(pai?.encryptmod == TRUE)
 		if(W.tool_behaviour == TOOL_SCREWDRIVER)
 			pai.radio.attackby(W, user, params)
 		else if(istype(W, /obj/item/encryptionkey))
 			pai.radio.attackby(W, user, params)
 	else
 		to_chat(user, "Encryption Key ports not configured.")
+
+/obj/item/paicard/emag_act(mob/user) // Emag to wipe the master DNA and supplemental directive
+	if(!pai)
+		return
+	to_chat(user, "<span class='notice'>You override [pai]'s directive system, clearing its master string and supplied directive.</span>")
+	to_chat(pai, "<span class='danger'>Warning: System override detected, check directive sub-system for any changes.'</span>")
+	log_game("[key_name(user)] emagged [key_name(pai)], wiping their master DNA and supplemental directive.")
+	pai.master = null
+	pai.master_dna = null
+	pai.laws.supplied[1] = "None." // Sets supplemental directive to this

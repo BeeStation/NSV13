@@ -15,9 +15,7 @@
 	friendly = "harmlessly rolls into"
 	maxHealth = 45
 	health = 45
-	harm_intent_damage = 5
-	melee_damage_lower = 0
-	melee_damage_upper = 0
+	melee_damage = 0
 	attacktext = "barrels into"
 	attack_sound = 'sound/weapons/punch1.ogg'
 	a_intent = INTENT_HELP
@@ -40,7 +38,7 @@
 		i--
 
 /mob/living/simple_animal/hostile/asteroid/goldgrub/GiveTarget(new_target)
-	target = new_target
+	add_target(new_target)
 	if(target != null)
 		if(istype(target, /obj/item/stack/ore) && loot.len < 10)
 			visible_message("<span class='notice'>The [name] looks at [target.name] with hungry eyes.</span>")

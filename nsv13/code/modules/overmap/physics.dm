@@ -12,24 +12,74 @@
 	alpha = 0
 	layer = WALL_OBJ_LAYER
 
+/**
+
+ATTENTION ADMINS. This proc is important, EXTREMELY important. In fact, welcome to your new religion.
+
+This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATEVER. You should no longer have to use the ancient chimp technique to unfuck people, use this instead, way cleaner, AND no monkies to boot!
+
+*/
+#define VV_HK_UNFUCK_OVERMAP "unFuckOvermap"
+
+/mob/living/proc/unfuck_overmap()
+	if(overmap_ship)
+		overmap_ship.stop_piloting(src)
+	for(var/datum/action/innate/camera_off/overmap/fuckYOU in actions)
+		if(!istype(fuckYOU))
+			continue
+		qdel(fuckYOU) //Because this is a thing. Sure. Ok buddy.
+	sleep(1) //Ok, are they still scuffed? Time to manually fix them...
+	if(!overmap_ship)
+		return //OK cool we're done here.
+	remote_control = null
+	overmap_ship = null
+	cancel_camera()
+	focus = src
+	if(!client)
+		return //Early return instead of possibly making 4 worthless reads. Is this a dumb microopt? Yes.
+	client.pixel_x = 0
+	client.pixel_y = 0
+	client.overmap_zoomout = 0
+	client.view_size.resetToDefault()
+
+/mob/living/vv_get_dropdown()
+	. = ..()
+	VV_DROPDOWN_OPTION(VV_HK_UNFUCK_OVERMAP, "Unfuck Overmap")
+
+/mob/living/vv_do_topic(list/href_list)
+	. = ..()
+	if(href_list[VV_HK_UNFUCK_OVERMAP])
+		if(!check_rights(NONE))
+			return
+		unfuck_overmap()
+
 /obj/structure/overmap
 	var/last_process = 0
 	var/processing_failsafe = FALSE //Has the game lagged to shit and we need to handle our own processing until it clears up?
 	var/obj/vector_overlay/vector_overlay
 	var/pixel_collision_size_x = 0
 	var/pixel_collision_size_y = 0
-	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
 	var/datum/vector2d/offset
 	var/datum/vector2d/last_offset
 	var/datum/vector2d/position
 	var/datum/vector2d/velocity
 	var/datum/vector2d/overlap // Will be subtracted from the ships offset as soon as possible, then set to 0
 	var/list/collision_positions = list() //See the collisions doc for how these work. Theyre a pain in the ass.
+	var/datum/component/physics2d/physics2d = null
 
-//Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
+/// This makes us not drift like normal objects in space do
+/obj/structure/overmap/Process_Spacemove(movement_dir = 0)
+	return 1
 
+/// Helper proc to get the actual center of the ship, if the ship's hitbox is placed in the bottom left corner like they usually are.
 /obj/structure/overmap/proc/get_center()
-	return get_turf(locate((src.x+(pixel_collision_size_x/32)/2), src.y+((pixel_collision_size_y/32)/2), z))
+	RETURN_TYPE(/turf)
+	return (bound_height > 32 && bound_height > 32) ? get_turf(locate((src.x+(pixel_collision_size_x/32)/2), src.y+((pixel_collision_size_y/32)/2), z)) : get_turf(src)
+	/*
+	if(bound_width <= 64)
+		return get_turf(src)
+	return locs[round(locs.len / 2)+1]
+	*/
 
 /obj/structure/overmap/proc/get_pixel_bounds()
 	for(var/turf/T in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
@@ -61,34 +111,35 @@
 		var/obj/effect/overmap_hitbox_marker/H = new(src, point.x, point.y, abs(pixel_z), abs(pixel_w))
 		vis_contents += H
 
-/obj/structure/overmap/Initialize()
-	. = ..()
-	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
-	pixel_collision_size_x = I.Width()
-	pixel_collision_size_y = I.Height()
-	offset = new /datum/vector2d()
-	last_offset = new /datum/vector2d()
-	position = new /datum/vector2d(x*32,y*32)
-	velocity = new /datum/vector2d(0, 0)
-	overlap = new /datum/vector2d(0, 0)
-	if(collision_positions.len)
-		collider2d = new /datum/shape(position, collision_positions, angle) // -TORADIANS(src.angle-90)
-	else
-		message_admins("[src] does not have collision points set! It will float through everything.")
-
 /obj/structure/overmap/proc/can_move()
 	return mass < MASS_IMMOBILE //Placeholder for everything but fighters. We can later extend this if / when we want to code in ship engines.
 
-/obj/structure/overmap/slowprocess()
-	. = ..()
-	if(cabin_air && cabin_air.volume > 0)
-		var/delta = cabin_air.temperature - T20C
-		cabin_air.temperature -= max(-10, min(10, round(delta/4,0.1)))
-	if(internal_tank && cabin_air)
+#define RELEASE_PRESSURE ONE_ATMOSPHERE
+
+/obj/structure/overmap/proc/slowprocess()
+	set waitfor = FALSE
+	//SS Crit Timer
+	if(structure_crit)
+		if(world.time > last_critprocess + 1 SECONDS)
+			last_critprocess = world.time
+			handle_critical_failure_part_1()
+	disruption = max(0, disruption - 1)
+	if(hullburn > 0)
+		hullburn = max(0, hullburn - 1)
+		take_damage(hullburn_power, BURN, "fire", FALSE, TRUE) //If you want a ship to be resistant to hullburn, just give it fire armor.
+		if(hullburn == 0)
+			hullburn_power = 0
+	ai_process()
+	if(!cabin_air)
+		return
+	//Atmos stuff, this updates once every tick
+	if(cabin_air.return_volume() > 0)
+		var/delta = cabin_air.return_temperature() - T20C
+		cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
+	if(internal_tank)
 		var/datum/gas_mixture/tank_air = internal_tank.return_air()
-		var/release_pressure = ONE_ATMOSPHERE
 		var/cabin_pressure = cabin_air.return_pressure()
-		var/pressure_delta = min(release_pressure - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
+		var/pressure_delta = min(RELEASE_PRESSURE - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
 		var/transfer_moles = 0
 		if(pressure_delta > 0) //cabin pressure lower than release pressure
 			if(tank_air.return_temperature() > 0)
@@ -96,48 +147,33 @@
 				var/datum/gas_mixture/removed = tank_air.remove(transfer_moles)
 				cabin_air.merge(removed)
 		else if(pressure_delta < 0) //cabin pressure higher than release pressure
-			var/turf/T = get_turf(src)
+			var/turf/T = get_center()
+			if(!T)
+				return
 			var/datum/gas_mixture/t_air = T.return_air()
-			pressure_delta = cabin_pressure - release_pressure
+			pressure_delta = cabin_pressure - RELEASE_PRESSURE
 			if(t_air)
 				pressure_delta = min(cabin_pressure - t_air.return_pressure(), pressure_delta)
 			if(pressure_delta > 0) //if location pressure is lower than cabin pressure
 				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
 				var/datum/gas_mixture/removed = cabin_air.remove(transfer_moles)
-				if(T)
-					T.assume_air(removed)
-				else //just delete the cabin gas, we're in space or some shit
-					qdel(removed)
+				T.assume_air(removed)
 
-/*
-
-This proc allows overmaps to survive even in the laggiest of server conditions. Overmaps MUST always process, and sometimes the game will throttle the subsystems during lag. We cannot, however, live without them. That's where this beauty comes into play.
-Basically, when we process, we store the last time we were able to be processed. If the last time we were processed was 1 or more seconds ago, then we take control of our own processing with a while() loop.
-The while loop runs at a programatic level and is thus separated from any throttling that the server may put in place. 5 minutes after starting the failsafe processing, we'll see if the game is ready to take back control or not.
-
-*/
-
-/obj/structure/overmap/proc/start_failsafe_processing()
-	set waitfor = FALSE //Don't hang the process call.
-	processing_failsafe = TRUE
-	addtimer(VARSET_CALLBACK(src, processing_failsafe, FALSE), 10 MINUTES) //At this point, the game is under immense strain. In a few minutes time we'll attempt to hand back control to processing, but for now, we're going to handle it ourselves.
-	while(processing_failsafe)
-		stoplag() //Lock up the thread for a bit, throttle the process down to whatever the server can handle right now.
-		if(last_process < world.time - 0.5 SECONDS)
-			process()
+#undef RELEASE_PRESSURE
 
 /obj/structure/overmap/process()
 	set waitfor = FALSE
 	var/time = min(world.time - last_process, 10)
-	time /= 10 // fuck off deciseconds
-//	if(last_process > 0 && (last_process < world.time - 1 SECONDS) && !processing_failsafe) //Alright looks like the game's shat itself. Time to engage "failsafe mode". The logic of this is that if we've not been processed for over 1 second, then ship piloting starts to become unbearable and we need to step in and do our own processing, until the game's back on its feet again.
-//		start_failsafe_processing()
+	time /= 10 // fuck off deciseconds - I don't even know what you were thinking here Monster, but okay.
 	last_process = world.time
-	if(world.time > last_slowprocess + 10)
+	if(world.time > last_slowprocess + 0.7 SECONDS)
 		last_slowprocess = world.time
 		slowprocess()
 	last_offset.copy(offset)
 	var/last_angle = angle
+	if(!move_by_mouse && !ai_controlled)
+		desired_angle = angle + keyboard_delta_angle_left + keyboard_delta_angle_right + movekey_delta_angle
+		movekey_delta_angle = 0
 	var/desired_angular_velocity = 0
 	if(isnum(desired_angle))
 		// do some finagling to make sure that our angles end up rotating the short way
@@ -161,26 +197,24 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	else
 		last_rotate = 0
 	angle += angular_velocity * time
-	if(collider2d)
-		collider2d.set_angle(angle) //Turn the box collider //-TORADIANS(angle-90)
-
 	// calculate drag and shit
 
 	var/velocity_mag = velocity.ln() // magnitude
-	if(velocity_mag)
+	if(velocity_mag > 0 && !SSmapping.level_trait(src.z, ZTRAIT_OVERMAP))
 		var/drag = 0
+		var/has_gravity = get_center()?.has_gravity()
 		for(var/turf/T in locs)
 			if(isspaceturf(T))
 				continue
 			drag += 0.001
-			var/floating = FALSE
-			if(T.has_gravity() && velocity_mag >= 4)
+			var/floating = (movement_type & FLYING)
+			if(has_gravity && velocity_mag >= 4)
 				floating = TRUE // Count them as "flying" if theyre going fast enough indoors. If you slow down, you start to scrape due to no lift or something
 			var/datum/gas_mixture/env = T.return_air()
 			var/pressure = env.return_pressure()
 			drag += velocity_mag * pressure * 0.001 // 1 atmosphere should shave off 10% of velocity per tile
 			if(pressure >= 10) //Space doesn't have air resistance or much gravity, so we'll assume theyre floating if theyre in space.
-				if((!floating && T.has_gravity())) // brakes are a kind of magboots okay?
+				if((!floating && has_gravity)) // brakes are a kind of magboots okay?
 					drag += 0.5 // some serious drag. Damn.
 					if(velocity_mag <= 2 && istype(T, /turf/open/floor) && prob(30))
 						var/turf/open/floor/TF = T
@@ -190,10 +224,9 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		if(velocity_mag > 20)
 			drag = max(drag, (velocity_mag - 20) / time)
 		if(drag)
-			if(velocity_mag)
-				var/drag_factor = 1 - CLAMP(drag * time / velocity_mag, 0, 1)
-				velocity.x *= drag_factor
-				velocity.y *= drag_factor
+			var/drag_factor = 1 - CLAMP(drag * time / velocity_mag, 0, 1)
+			velocity.x *= drag_factor
+			velocity.y *= drag_factor
 			if(angular_velocity != 0)
 				var/drag_factor_spin = 1 - CLAMP(drag * 30 * time / abs(angular_velocity), 0, 1)
 				angular_velocity *= drag_factor_spin
@@ -237,29 +270,27 @@ The while loop runs at a programatic level and is thus separated from any thrott
 				last_thrust_right = -side_maxthrust
 
 	//Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
-	velocity.x = max(min(velocity.x, speed_limit), -speed_limit)
-	velocity.y = max(min(velocity.y, speed_limit), -speed_limit)
+	velocity.x = clamp(velocity.x, -speed_limit, speed_limit)
+	velocity.y = clamp(velocity.y, -speed_limit, speed_limit)
 
 	velocity.x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
 	velocity.y += thrust_y * time
 	if(inertial_dampeners) //An optional toggle to make capital ships more "fly by wire" and help you steer in only the direction you want to go.
 		var/side_movement = (sx*velocity.x) + (sy*velocity.y)
-		var/friction_impulse = side_maxthrust * time
+		var/friction_impulse = ((mass / 10) + side_maxthrust) * time //Weighty ships generate more space friction
 		var/clamped_side_movement = CLAMP(side_movement, -friction_impulse, friction_impulse)
 		velocity.x -= clamped_side_movement * sx
 		velocity.y -= clamped_side_movement * sy
 
-	offset.x += velocity.x * time
-	offset.y += velocity.y * time
+	offset._set(offset.x + velocity.x * time, offset.y +  velocity.y * time, TRUE)
 
 	position._set(x * 32 + offset.x * 32, y * 32 + offset.y * 32)
 
-	if(collider2d)
-		collider2d.position.copy(position)
-		handle_collisions()
+	if(physics2d)
+		physics2d.update(position.x, position.y, angle)
 
 	// alright so now we reconcile the offsets with the in-world position.
-	while((offset.x > 0 && velocity.x > 0) || (offset.y > 0 && velocity.y > 0) || (offset.x < 0 && velocity.x < 0) || (offset.y < 0 && velocity.y < 0))
+	while((offset.x != 0 && velocity.x != 0) || (offset.y != 0 && velocity.y != 0))
 		var/failed_x = FALSE
 		var/failed_y = FALSE
 		if(offset.x > 0 && velocity.x > 0)
@@ -359,6 +390,7 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	pixel_y = last_offset.y*32
 
 	animate(src, transform=mat_to, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
+	/*
 	if(last_target)
 		var/target_angle = Get_Angle(src,last_target)
 		var/matrix/final = matrix()
@@ -367,8 +399,9 @@ The while loop runs at a programatic level and is thus separated from any thrott
 			last_fired.transform = final
 	else if(last_fired)
 		last_fired.transform = mat_to
+	*/ //We don't use these overlays for now, but we may wish to later.
 
-	for(var/mob/living/M in operators)
+	for(var/mob/living/M as() in operators)
 		var/client/C = M.client
 		if(!C)
 			continue
@@ -377,69 +410,116 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		animate(C, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
 	user_thrust_dir = 0
 	update_icon()
+	if(autofire_target && !aiming)
+		if(!gunner) //Just...just no. If we don't have this, you can get shot to death by your own fighter after youve already left it :))
+			autofire_target = null
+			return
+		fire(autofire_target)
 
-/obj/structure/overmap/proc/handle_collisions()
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
-		if(src == OM || OM.z != src.z || !OM.collider2d)
-			continue // Wondered why objects were always colliding for an entire 9 hours
-
-		var/datum/collision_response/c_response = new /datum/collision_response()
-
-		if(src.collider2d.collides(OM.collider2d, c_response))
-			Bump(OM, c_response)
+/obj/structure/overmap/small_craft/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
+	addtimer(VARSET_CALLBACK(src, layer, ABOVE_MOB_LAYER), 0.5 SECONDS)
+	layer = LOW_OBJ_LAYER // Stop us from just bumping right into them after we bounce
+	if(docking_act(other))
+		return
+	return ..()
 
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
-	if(layer < other.layer || other.layer > layer)
-		return FALSE
-	if(istype(other, /obj/structure/overmap/fighter))
-		var/obj/structure/overmap/fighter/F = other
-		if(F.docking_act(src))
-			return FALSE
-	if(istype(src, /obj/structure/overmap/fighter))
-		var/obj/structure/overmap/fighter/F = src
-		if(F.docking_act(other))
-			return FALSE
+	//No colliders. But we still get a lot of info anyways!
+	if(!c_response)
+		handle_cloak(CLOAK_TEMPORARY_LOSS)
 
-	var/datum/vector2d/point_of_collision = src.collider2d.get_collision_point(other.collider2d)
+		var/src_vel_mag = src.velocity.ln()
+		var/other_vel_mag = other.velocity.ln()
+		//I mean, the angle between the two objects is very likely to be the angle of incidence innit
+		var/col_angle = ATAN2((other.position.x + other.pixel_collision_size_x / 2) - (src.position.x + src.pixel_collision_size_x / 2), (other.position.y + other.pixel_collision_size_y / 2) - (src.position.y + pixel_collision_size_y / 2))
 
+		//Debounce
+		if(((cos(src.velocity.angle() - col_angle) * src_vel_mag) - (cos(other.velocity.angle() - col_angle) * other_vel_mag)) < 0)
+			return
+
+		// Elastic collision equations
+		var/new_src_vel_x = ((																			\
+			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (src.mass - other.mass)) +			\
+			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))					\
+		) / (src.mass + other.mass)) * cos(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * cos(col_angle + 90))
+
+		var/new_src_vel_y = ((																			\
+			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (src.mass - other.mass)) +			\
+			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))					\
+		) / (src.mass + other.mass)) * sin(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * sin(col_angle + 90))
+
+		var/new_other_vel_x = ((																		\
+			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (other.mass - src.mass)) +		\
+			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
+		) / (other.mass + src.mass)) * cos(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * cos(col_angle + 90))
+
+		var/new_other_vel_y = ((																		\
+			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (other.mass - src.mass)) +		\
+			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
+		) / (other.mass + src.mass)) * sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90))
+
+		src.velocity._set(new_src_vel_x, new_src_vel_y)
+		other.velocity._set(new_other_vel_x, new_other_vel_y)
+
+		var/bonk = src_vel_mag//How much we got bonked
+		var/bonk2 = other_vel_mag //Vs how much they got bonked
+		//Prevent ultra spam.
+		if(!impact_sound_cooldown && (bonk > 2 || bonk2 > 2))
+			bonk *= 5 //The rammer gets an innate penalty, to discourage ramming metas.
+			bonk2 *= 5
+			take_quadrant_hit(bonk, projectile_quadrant_impact(other)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
+			other.take_quadrant_hit(bonk2, projectile_quadrant_impact(src)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
+
+			log_game("[key_name(pilot)] has impacted an overmap ship into [other] with velocity [bonk]")
+
+		return TRUE
+
+	//Update the colliders before we do any kind of calc.
+	if(physics2d)
+		physics2d.update(position.x, position.y, angle)
+	if(other.physics2d)
+		other.physics2d.update(other.position.x, other.position.y, angle)
+	var/datum/vector2d/point_of_collision = physics2d?.collider2d.get_collision_point(other.physics2d?.collider2d)
+	check_quadrant(point_of_collision)
+
+	//So what this does is it'll calculate a vector (overlap_vector) that makes the two objects no longer colliding, then applies extra velocity to make the collision smooth to avoid teleporting. If you want to tone down collisions even more
+	//Be sure that you change the 0.25/32 bit as well, otherwise, if the cancelled out vector is too large compared to the speed jump, you just get teleportation and it looks really jank ~K
 	if (point_of_collision)
 		var/col_angle = c_response.overlap_normal.angle()
 		var/src_vel_mag = src.velocity.ln()
 		var/other_vel_mag = other.velocity.ln()
 
 		// Elastic collision equations
-		var/new_src_vel_x = ((																	\
-			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
-			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
-		) / (src.mass + other.mass)) * (cos(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * cos(col_angle + 90)))
+		var/new_src_vel_x = ((																			\
+			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (src.mass - other.mass)) +			\
+			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))					\
+		) / (src.mass + other.mass)) * cos(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * cos(col_angle + 90))
 
-		var/new_src_vel_y = ((																	\
-			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
-			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
-		) / (src.mass + other.mass)) * (sin(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * sin(col_angle + 90)))
+		var/new_src_vel_y = ((																			\
+			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (src.mass - other.mass)) +			\
+			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))					\
+		) / (src.mass + other.mass)) * sin(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * sin(col_angle + 90))
 
 		var/new_other_vel_x = ((																		\
-			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
+			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (other.mass - src.mass)) +		\
 			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
-		) / (other.mass + src.mass)) * (cos(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * cos(col_angle + 90)))
+		) / (other.mass + src.mass)) * cos(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * cos(col_angle + 90))
 
 		var/new_other_vel_y = ((																		\
-			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
+			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (other.mass - src.mass)) +		\
 			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
-		) / (other.mass + src.mass)) * (sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90)))
+		) / (other.mass + src.mass)) * sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90))
 
-		if(mass < MASS_IMMOBILE)
-			src.velocity._set(new_src_vel_x, new_src_vel_y)
-		if(other.mass < MASS_IMMOBILE)
-			other.velocity._set(new_other_vel_x, new_other_vel_y)
-
-	var/datum/vector2d/output = c_response.overlap_vector * (0.5 / 32)
+		src.velocity._set(new_src_vel_x*bounce_factor, new_src_vel_y*bounce_factor)
+		other.velocity._set(new_other_vel_x*other.bounce_factor, new_other_vel_y*other.bounce_factor)
+	var/datum/vector2d/output = c_response.overlap_vector * (0.25 / 32)
 	src.offset -= output
 	other.offset += output
 
 /obj/structure/overmap/Bumped(atom/movable/A)
-	if(brakes || ismob(A)) //No :)
+	if(brakes || isovermap(A)) //No :)
 		return FALSE
+	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	if(A.dir & NORTH)
 		velocity.y += bump_impulse
 	if(A.dir & SOUTH)
@@ -467,6 +547,12 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	if(layer < A.layer) //Allows ships to "Layer under" things and not hit them. Especially useful for fighters.
 		return ..()
 	// if a bump is that fast then it's not a bump. It's a collision.
+	if(istype(A, /obj/structure/overmap))
+		collide(A, c_response, bump_velocity)
+		return FALSE
+	if(isprojectile(A)) //Clears up some weirdness with projectiles doing MEGA damage.
+		return ..()
+	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	if(bump_velocity >= 3 && !impact_sound_cooldown && isobj(A)) //Throttled collision damage a bit
 		var/obj/O = A
 		var/strength = bump_velocity
@@ -478,9 +564,6 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		O.take_damage(strength*5, BRUTE, "melee", TRUE)
 		log_game("[key_name(pilot)] has impacted an overmap ship into [A] with velocity [bump_velocity]")
 		visible_message("<span class='danger'>The force of the impact causes a shockwave</span>")
-	if(istype(A, /obj/structure/overmap) && c_response)
-		collide(A, c_response, bump_velocity)
-		return FALSE
 	var/atom/movable/AM = A
 	if(istype(AM) && !AM.anchored && bump_velocity > 1)
 		step(AM, dir)
@@ -494,103 +577,13 @@ The while loop runs at a programatic level and is thus separated from any thrott
 		log_combat(pilot, M, "impacted", src, "with velocity of [bump_velocity]")
 	return ..()
 
-/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=10, explosive = FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
-	var/fx = cos(90 - angle)
-	var/fy = sin(90 - angle)
-	var/sx = fy
-	var/sy = -fx
-	var/new_offset = sprite_size/4
-	var/ox = (offset.x * 32) + new_offset
-	var/oy = (offset.y * 32) + new_offset
-	var/list/origins = list(list(ox + fx - sx, oy + fy - sy))
-	for(var/list/origin in origins)
-		var/this_x = origin[1]
-		var/this_y = origin[2]
-		var/turf/T = get_turf(src)
-		while(this_x > 16)
-			T = get_step(T, EAST)
-			this_x -= 32
-		while(this_x < -16)
-			T = get_step(T, WEST)
-			this_x += 32
-		while(this_y > 16)
-			T = get_step(T, NORTH)
-			this_y -= 32
-		while(this_y < -16)
-			T = get_step(T, SOUTH)
-			this_y += 32
-		if(!T)
-			continue
-		var/obj/item/projectile/proj = new proj_type(T)
-		proj.starting = T
-		if(gunner)
-			proj.firer = gunner
-		else
-			proj.firer = src
-		proj.def_zone = "chest"
-		proj.original = target
-		proj.overmap_firer = src
-		proj.pixel_x = round(this_x)
-		proj.pixel_y = round(this_y)
-		proj.setup_collider()
-		proj.faction = faction
-		if(isovermap(target) && explosive) //If we're firing a torpedo, the enemy's PDCs need to worry about it.
-			var/obj/structure/overmap/OM = target
-			OM.torpedoes_to_target += proj //We're firing a torpedo, their PDCs will need to shoot it down, so notify them of its existence
-		if(homing)
-			proj.set_homing_target(target)
-		spawn()
-			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
-			proj.fire(angle)
-		return proj
-
-/obj/structure/overmap/proc/fire_projectiles(proj_type, target) // if spacepods of other sizes are added override this or something
-	var/fx = cos(90 - angle)
-	var/fy = sin(90 - angle)
-	var/sx = fy
-	var/sy = -fx
-	var/new_offset = sprite_size/4
-	var/ox = (offset.x * 32) + new_offset
-	var/oy = (offset.y * 32) + new_offset
-	var/list/origins = list(list(ox + fx*new_offset - sx*new_offset, oy + fy*new_offset - sy*new_offset), list(ox + fx*new_offset + sx*new_offset, oy + fy*new_offset + sy*new_offset))
-	for(var/list/origin in origins)
-		var/this_x = origin[1]
-		var/this_y = origin[2]
-		var/turf/T = get_turf(src)
-		while(this_x > 16)
-			T = get_step(T, EAST)
-			this_x -= 32
-		while(this_x < -16)
-			T = get_step(T, WEST)
-			this_x += 32
-		while(this_y > 16)
-			T = get_step(T, NORTH)
-			this_y -= 32
-		while(this_y < -16)
-			T = get_step(T, SOUTH)
-			this_y += 32
-		if(!T)
-			continue
-		var/obj/item/projectile/proj = new proj_type(T)
-		proj.starting = T
-		if(gunner)
-			proj.firer = gunner
-		else
-			proj.firer = src
-		proj.def_zone = "chest"
-		proj.original = target
-		proj.overmap_firer = src
-		proj.pixel_x = round(this_x)
-		proj.pixel_y = round(this_y)
-		proj.setup_collider()
-		proj.faction = faction
-		spawn()
-			proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
-			proj.fire(angle)
-
-/obj/structure/overmap/proc/fire_lateral_projectile(proj_type,target,speed=null, mob/living/user_override=null)
-	var/turf/T = get_turf(src)
+/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE, ai_aim = FALSE, miss_chance=5, max_miss_distance=5) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
+	if(!z || QDELETED(src))
+		return FALSE
+	var/turf/T = get_center()
 	var/obj/item/projectile/proj = new proj_type(T)
+	if(ai_aim && !homing && !proj.hitscan)
+		target = calculate_intercept(target, proj, miss_chance=miss_chance, max_miss_distance=max_miss_distance)
 	proj.starting = T
 	proj.firer = (!user_override && gunner) ? gunner : user_override
 	proj.def_zone = "chest"
@@ -598,12 +591,55 @@ The while loop runs at a programatic level and is thus separated from any thrott
 	proj.overmap_firer = src
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
-	proj.setup_collider()
 	proj.faction = faction
+	if(physics2d && physics2d.collider2d)
+		proj.setup_collider()
+	if(homing && !isturf(target))	//Lets not have projectiles home in on some random tile someone clicked on to launch
+		proj.set_homing_target(target)
 	if(gunner)
 		proj.firer = gunner
 	else
 		proj.firer = src
 	spawn()
-		proj.preparePixelProjectile(target, src, null, round((rand() - 0.5) * proj.spread))
+		proj.preparePixelProjectileOvermap(target, src, null, round((rand() - 0.5) * proj.spread), lateral=lateral)
 		proj.fire()
+		if(!lateral)
+			proj.setAngle(src.angle)
+		//Sometimes we want to override speed.
+		if(speed)
+			proj.set_pixel_speed(speed)
+	//	else
+	//		proj.set_pixel_speed(proj.speed)
+	return proj
+
+//Jank as hell. This needs to happen to properly set the visual offset :/
+/obj/item/projectile/proc/preparePixelProjectileOvermap(obj/structure/overmap/target, obj/structure/overmap/source, params, spread = 0, lateral=TRUE)
+	var/turf/curloc = source.get_center()
+	var/turf/targloc = istype(target, /obj/structure/overmap) ? target.get_center() : get_turf(target)
+	trajectory_ignore_forcemove = TRUE
+	doMove(curloc)
+	trajectory_ignore_forcemove = FALSE
+	starting = curloc
+	original = target
+	if(!lateral)
+		setAngle(source.angle)
+
+	if(isliving(source) && params)
+		var/list/calculated = calculate_projectile_angle_and_pixel_offsets(source, params)
+		p_x = calculated[2]
+		p_y = calculated[3]
+
+		if(lateral)
+			setAngle(calculated[1] + spread)
+	else if(targloc && curloc)
+		yo = targloc.y - curloc.y
+		xo = targloc.x - curloc.x
+		if(lateral)
+			setAngle(overmap_angle(src, targloc) + spread)
+	else
+		stack_trace("WARNING: Projectile [type] fired without either mouse parameters, or a target atom to aim at!")
+		qdel(src)
+
+/// This makes us not drift like normal objects in space do
+/obj/structure/overmap/Process_Spacemove(movement_dir = 0)
+	return 1

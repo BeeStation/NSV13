@@ -13,7 +13,6 @@
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_items = 4
-	STR.cant_hold = typecacheof(list(/obj/item/screwdriver/power)) //Must be specifically called out since normal screwdrivers can fit but not the wrench form of the drill
 	STR.can_hold = typecacheof(list(
 		/obj/item/stack/spacecash,
 		/obj/item/holochip,
@@ -38,7 +37,7 @@
 		/obj/item/screwdriver,
 		/obj/item/stamp))
 
-/obj/item/storage/wallet/Exited(atom/movable/AM)
+/obj/item/storage/wallet/Exited(atom/movable/gone, direction)
 	. = ..()
 	refreshID()
 
@@ -57,7 +56,7 @@
 			H.sec_hud_set_ID()
 	update_icon()
 
-/obj/item/storage/wallet/Entered(atom/movable/AM)
+/obj/item/storage/wallet/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	. = ..()
 	refreshID()
 

@@ -91,6 +91,7 @@ GLOBAL_LIST_INIT(devil_suffix, list(" the Red", " the Soulless", " the Master", 
 	job_rank = ROLE_DEVIL
 	//Don't delete upon mind destruction, otherwise soul re-selling will break.
 	delete_on_mind_deletion = FALSE
+	show_to_ghosts = TRUE
 	var/obligation
 	var/ban
 	var/bane
@@ -219,7 +220,7 @@ GLOBAL_LIST_INIT(devil_suffix, list(" the Red", " the Soulless", " the Master", 
 		H.set_species(/datum/species/human, 1)
 		H.regenerate_icons()
 	give_appropriate_spells()
-	if(istype(owner.current.loc, /obj/effect/dummy/phased_mob/slaughter/))
+	if(istype(owner.current.loc, /obj/effect/dummy/phased_mob/slaughter))
 		owner.current.forceMove(get_turf(owner.current))//Fixes dying while jaunted leaving you permajaunted.
 	form = BASIC_DEVIL
 
@@ -414,11 +415,11 @@ GLOBAL_LIST_INIT(devil_suffix, list(" the Red", " the Soulless", " the Master", 
 		if(BANISH_FUNERAL_GARB)
 			if(ishuman(body))
 				var/mob/living/carbon/human/H = body
-				if(H.w_uniform && istype(H.w_uniform, /obj/item/clothing/under/burial))
+				if(H.w_uniform && istype(H.w_uniform, /obj/item/clothing/under/misc/burial))
 					return 1
 				return 0
 			else
-				for(var/obj/item/clothing/under/burial/B in range(0,body))
+				for(var/obj/item/clothing/under/misc/burial/B in range(0,body))
 					if(B.loc == get_turf(B)) //Make sure it's not in someone's inventory or something.
 						return 1
 				return 0
@@ -456,10 +457,10 @@ GLOBAL_LIST_INIT(devil_suffix, list(" the Red", " the Soulless", " the Master", 
 			return -1
 		currentMob.change_mob_type( /mob/living/carbon/human, targetturf, null, 1)
 		var/mob/living/carbon/human/H = owner.current
-		H.equip_to_slot_or_del(new /obj/item/clothing/under/lawyer/black(H), SLOT_W_UNIFORM)
-		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(H), SLOT_SHOES)
-		H.equip_to_slot_or_del(new /obj/item/storage/briefcase(H), SLOT_HANDS)
-		H.equip_to_slot_or_del(new /obj/item/pen(H), SLOT_L_STORE)
+		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/civilian/lawyer/black(H), ITEM_SLOT_ICLOTHING)
+		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(H), ITEM_SLOT_FEET)
+		H.equip_to_slot_or_del(new /obj/item/storage/briefcase(H), ITEM_SLOT_HANDS)
+		H.equip_to_slot_or_del(new /obj/item/pen(H), ITEM_SLOT_LPOCKET)
 		if(SOULVALUE >= BLOOD_THRESHOLD)
 			H.set_species(/datum/species/lizard, 1)
 			H.underwear = "Nude"
@@ -497,6 +498,14 @@ GLOBAL_LIST_INIT(devil_suffix, list(" the Red", " the Soulless", " the Master", 
 	to_chat(owner.current, GLOB.lawlorify[LAW][banish])
 	to_chat(owner.current, "<span class='warning'>Remember, the crew can research your weaknesses if they find out your devil name.</span><br>")
 	.=..()
+	owner.current.client?.tgui_panel?.give_antagonist_popup("Devil",
+		"Summon contracts to purchase the souls of the crew.\n\
+		You may not use violence to coerce someone into selling their soul.\n\
+		You may not directly and knowingly physically harm a devil, other than yourself.\n\
+		[GLOB.lawlorify[LAW][bane]]\n\
+		[GLOB.lawlorify[LAW][ban]]\n\
+		[GLOB.lawlorify[LAW][obligation]]\n\
+		[GLOB.lawlorify[LAW][banish]]")
 
 /datum/antagonist/devil/on_gain()
 	truename = randomDevilName()
@@ -524,7 +533,7 @@ GLOBAL_LIST_INIT(devil_suffix, list(" the Red", " the Soulless", " the Master", 
 
 /datum/antagonist/devil/apply_innate_effects(mob/living/mob_override)
 	give_appropriate_spells()
-	owner.current.grant_all_languages(TRUE)
+	owner.current.grant_all_languages(TRUE, TRUE, TRUE, LANGUAGE_DEVIL)
 	update_hud()
 	.=..()
 
@@ -533,6 +542,7 @@ GLOBAL_LIST_INIT(devil_suffix, list(" the Red", " the Soulless", " the Master", 
 		var/obj/effect/proc_holder/spell/S = X
 		if(is_type_in_typecache(S, devil_spells))
 			owner.RemoveSpell(S)
+	owner.current.remove_all_languages(LANGUAGE_DEVIL)
 	.=..()
 
 /datum/antagonist/devil/proc/printdevilinfo()

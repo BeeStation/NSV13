@@ -8,8 +8,7 @@
 	icon_living = "arachnid"
 	icon_dead = "arachnid_dead"
 	mob_biotypes = list(MOB_ORGANIC, MOB_BUG)
-	melee_damage_lower = 30
-	melee_damage_upper = 30
+	melee_damage = 30
 	maxHealth = 300
 	health = 300
 	speed = 1
@@ -23,6 +22,7 @@
 	projectiletype = /obj/item/projectile/mega_arachnid
 	projectilesound = 'sound/weapons/pierce.ogg'
 	alpha = 50
+	discovery_points = 5000
 
 	do_footstep = TRUE
 
@@ -57,8 +57,8 @@
 /obj/item/projectile/mega_arachnid/on_hit(atom/target, blocked = FALSE)
 	if(iscarbon(target) && blocked < 100)
 		var/obj/item/restraints/legcuffs/beartrap/mega_arachnid/B = new /obj/item/restraints/legcuffs/beartrap/mega_arachnid(get_turf(target))
-		B.Crossed(target)
-	..()
+		B.spring_trap(null, target)
+	return ..()
 
 /obj/item/restraints/legcuffs/beartrap/mega_arachnid
 	name = "fleshy restraints"

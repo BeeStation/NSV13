@@ -3,7 +3,7 @@
 	desc = "How someone could even fit in there is beyond me."
 	icon_state = "clowncar"
 	max_integrity = 150
-	armor = list("melee" = 70, "bullet" = 40, "laser" = 40, "energy" = 0, "bomb" = 30, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 80)
+	armor = list("melee" = 70, "bullet" = 40, "laser" = 40, "energy" = 0, "bomb" = 30, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 80, "stamina" = 0)
 	enter_delay = 20
 	max_occupants = 50
 	movedelay = 0.6
@@ -64,6 +64,12 @@
 		to_chat(user, "<span class='danger'>You use the [banana] to repair the [src]!</span>")
 		qdel(banana)
 
+/obj/vehicle/sealed/car/clowncar/remove_occupant(mob/M)
+	. = ..()
+	if(iscarbon(M))
+		var/mob/living/carbon/C = M
+		C.uncuff()
+
 /obj/vehicle/sealed/car/clowncar/Bump(atom/movable/M)
 	. = ..()
 	if(isliving(M))
@@ -73,6 +79,7 @@
 		if(iscarbon(L))
 			var/mob/living/carbon/C = L
 			C.Paralyze(40) //I play to make sprites go horizontal
+			restraintarget(C)
 		L.visible_message("<span class='warning'>[src] rams into [L] and sucks him up!</span>") //fuck off shezza this isn't ERP.
 		mob_forced_enter(L)
 		playsound(src, pick('sound/vehicles/clowncar_ram1.ogg', 'sound/vehicles/clowncar_ram2.ogg', 'sound/vehicles/clowncar_ram3.ogg'), 75)
@@ -82,6 +89,23 @@
 		playsound(src, 'sound/vehicles/clowncar_crashpins.ogg', 75)
 		DumpMobs(TRUE)
 
+/obj/vehicle/sealed/car/clowncar/RunOver(mob/living/carbon/human/H)
+	mob_forced_enter(H)
+	H.visible_message("<span class='warning'>[src] drives over [H] and sucks him up!</span>")
+	restraintarget(H)
+
+/obj/vehicle/sealed/car/clowncar/proc/restraintarget(mob/living/carbon/C)
+	if(istype(C))
+		if(!C.handcuffed)
+			if(C.get_num_arms(FALSE) >= 2 || C.get_arm_ignore())
+				C.handcuffed = new /obj/item/restraints/handcuffs/energy/used(C)
+				C.update_handcuffed()
+				to_chat(C, "<span class = 'danger'> Your hands are restrained by the sheer volume of occupants in the car!</span>")
+
+/obj/item/restraints/handcuffs/energy/used/clown
+	name = "tangle of limbs"
+	desc = "You are restrained in a tangle of bodies!"
+
 /obj/vehicle/sealed/car/clowncar/emag_act(mob/user)
 	if(obj_flags & EMAGGED)
 		return
@@ -90,7 +114,7 @@
 	initialize_controller_action_type(/datum/action/vehicle/sealed/RollTheDice, VEHICLE_CONTROL_DRIVE)
 	initialize_controller_action_type(/datum/action/vehicle/sealed/Cannon, VEHICLE_CONTROL_DRIVE)
 	AddComponent(/datum/component/waddling)
-	
+
 /obj/vehicle/sealed/car/clowncar/Destroy()
   playsound(src, 'sound/vehicles/clowncar_fart.ogg', 100)
   return ..()
@@ -139,7 +163,7 @@
 		if(6)
 			visible_message("<span class='danger'>[user] has pressed one of the colorful buttons on [src] and the clown car lets out a comedic toot.</span>")
 			playsound(src, 'sound/vehicles/clowncar_fart.ogg', 100)
-			for(var/mob/living/L in orange(loc, 6))
+			for(var/mob/living/L in oviewers(6, loc))
 				L.emote("laughs")
 			for(var/mob/living/L in occupants)
 				L.emote("laughs")
@@ -184,6 +208,8 @@
 		L.update_mouse_pointer()
 
 /obj/vehicle/sealed/car/clowncar/proc/FireCannon(mob/user, atom/A, params)
+	SIGNAL_HANDLER
+
 	if(cannonmode && return_controllers_with_flag(VEHICLE_CONTROL_KIDNAPPED).len)
 		var/mob/living/L = pick(return_controllers_with_flag(VEHICLE_CONTROL_KIDNAPPED))
 		mob_exit(L, TRUE)

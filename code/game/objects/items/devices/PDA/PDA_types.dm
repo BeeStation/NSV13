@@ -18,12 +18,33 @@
 		var/obj/item/cartridge/virus/clown/cart = cartridge
 		if(istype(cart) && cart.charges < 5)
 			cart.charges++
+			playsound(src,'sound/machines/ping.ogg', 30, TRUE)
+
+//Mime PDA sends "silent" messages.
+/obj/item/pda/mime
+	name = "mime PDA"
+	default_cartridge = /obj/item/cartridge/virus/mime
+	inserted_item = /obj/item/toy/crayon/mime
+	icon_state = "pda-mime"
+	desc = "A portable microcomputer by Thinktronic Systems, LTD. The hardware has been modified for compliance with the vows of silence."
+	allow_emojis = TRUE
+	silent = TRUE
+	ttone = "silence"
+
+/obj/item/pda/mime/msg_input(mob/living/U = usr)
+	if(emped || toff)
+		return
+	var/emojis = emoji_sanitize(stripped_input(U, "Please enter emojis", name))
+	if(!emojis)
+		return
+	if(!U.canUseTopic(src, BE_CLOSE))
+		return
+	return emojis
 
 // Special AI/pAI PDAs that cannot explode.
 /obj/item/pda/ai
 	icon = null
 	ttone = "data"
-	fon = FALSE
 	detonatable = FALSE
 
 /obj/item/pda/ai/attack_self(mob/user)
@@ -79,13 +100,6 @@
 	icon_state = "pda-science"
 	ttone = "boom"
 
-/obj/item/pda/mime
-	name = "mime PDA"
-	default_cartridge = /obj/item/cartridge/virus/mime
-	inserted_item = /obj/item/toy/crayon/mime
-	icon_state = "pda-mime"
-	silent = TRUE
-	ttone = "silence"
 
 /obj/item/pda/heads
 	default_cartridge = /obj/item/cartridge/head
@@ -138,6 +152,10 @@
 /obj/item/pda/shaftminer
 	name = "shaft miner PDA"
 	icon_state = "pda-miner"
+
+/obj/item/pda/exploration
+	name = "exploration PDA"
+	icon_state = "pda-exploration"
 
 /obj/item/pda/syndicate
 	default_cartridge = /obj/item/cartridge/virus/syndicate
@@ -208,3 +226,18 @@
 	name = "geneticist PDA"
 	default_cartridge = /obj/item/cartridge/medical
 	icon_state = "pda-genetics"
+
+/obj/item/pda/unlicensed
+	name = "unlicensed PDA"
+	desc = "A shitty knockoff of a portable microcomputer by Thinktronic Systems, LTD. Complete with a cracked operating system."
+	note = "Error: Unlicensed OS. Please contact your supervisor."
+	icon_state = "pda-knockoff"
+	inserted_item = /obj/item/pen/charcoal
+
+/obj/item/pda/celebrity
+	name = "fancy PDA"
+	default_cartridge = /obj/item/cartridge/annoyance //so they can send messages to everyone and be generally obnoxious
+	inserted_item = /obj/item/pen/fountain
+	desc = "A portable microcomputer by Thinktronic Systems, LTD. This model is gold-plated, and probably quite expensive."
+	icon_state = "pda-gold"
+	ttone = "ch-CHING"

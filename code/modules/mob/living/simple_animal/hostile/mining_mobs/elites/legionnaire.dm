@@ -26,8 +26,7 @@
 	icon_gib = "syndicate_gib"
 	maxHealth = 800
 	health = 800
-	melee_damage_lower = 30
-	melee_damage_upper = 30
+	melee_damage = 30
 	attacktext = "slashes its arms at"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	throw_message = "doesn't affect the sturdiness of"
@@ -151,11 +150,9 @@
 		myhead = newhead
 		myhead.body = src
 		if(health < maxHealth * 0.25)
-			myhead.melee_damage_lower = 30
-			myhead.melee_damage_upper = 30
+			myhead.melee_damage = 30
 		else if(health < maxHealth * 0.5)
-			myhead.melee_damage_lower = 20
-			myhead.melee_damage_upper = 20
+			myhead.melee_damage = 20
 
 /mob/living/simple_animal/hostile/asteroid/elite/legionnaire/proc/onHeadDeath()
 	myhead = null
@@ -221,14 +218,13 @@
 	icon_gib = "syndicate_gib"
 	maxHealth = 80
 	health = 80
-	melee_damage_lower = 10
-	melee_damage_upper = 10
+	melee_damage = 10
 	attacktext = "bites at"
 	attack_sound = 'sound/effects/curse1.ogg'
 	throw_message = "simply misses"
 	speed = 0
 	move_to_delay = 2
-	del_on_death = 1
+	del_on_death = TRUE
 	deathmessage = "crumbles away!"
 	faction = list()
 	ranged = FALSE
@@ -253,13 +249,23 @@
 	light_color = LIGHT_COLOR_RED
 	var/mob/living/simple_animal/hostile/asteroid/elite/legionnaire/myowner = null
 
+/obj/structure/legionnaire_bonfire/Initialize()
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
-/obj/structure/legionnaire_bonfire/Entered(atom/movable/mover, turf/target)
+/obj/structure/legionnaire_bonfire/proc/on_entered(datum/source, atom/movable/mover)
+	SIGNAL_HANDLER
+
+	if(isobj(mover))
+		var/obj/object = mover
+		object.fire_act(1000, 500)
 	if(isliving(mover))
 		var/mob/living/L = mover
 		L.adjust_fire_stacks(3)
 		L.IgniteMob()
-	. = ..()
 
 /obj/structure/legionnaire_bonfire/Destroy()
 	if(myowner != null)

@@ -1,5 +1,5 @@
 /obj/machinery/computer/ship/fighter_controller
-	name = "Fighter control console"
+	name = "fighter control console"
 	desc = "A computer which allows you to remotely modify fighter system settings. Its power should not be understated."
 	icon_screen = "fighter_control"
 	req_access = list(ACCESS_MAA)
@@ -12,19 +12,6 @@
 	. = ..()
 	current_filters = valid_filters.Copy()
 
-/obj/item/circuitboard/computer/ship/fighter_controller
-	name = "circuit board (fighter control computer)"
-	build_path = /obj/machinery/computer/ship/fighter_controller
-
-/datum/design/board/fighter_controller
-	name = "Computer Design (Fighter Control Console)"
-	desc = "Allows for the construction of a fighter control console."
-	id = "fighter_computer_circuit"
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000)
-	build_path = /obj/item/circuitboard/computer/ship/fighter_controller
-	category = list("Computer Boards")
-	departmental_flags = DEPARTMENTAL_FLAG_CARGO | DEPARTMENTAL_FLAG_SCIENCE
-
 /obj/machinery/computer/ship/fighter_controller/emag_act(mob/user)
 	if(obj_flags & EMAGGED)
 		return
@@ -35,14 +22,21 @@
 	var/list/data = list()
 	data["fighters"] = list()
 	var/desired_trait = is_station_level(src.z) ? ZTRAIT_STATION : ZTRAIT_BOARDABLE
-	for(var/obj/structure/overmap/fighter/OM in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/small_craft/OM in GLOB.overmap_objects) //Needs to go through global list due to having to access fighters on a ship map.
 		if(!locate(OM.z) in SSmapping.levels_by_trait(desired_trait))
 			continue
 		if(LAZYFIND(current_filters, "Only Occupied Ship") && !OM.operators.len)
 			continue
 		var/fighter_class = initial(OM.name)
 		if(istype(OM) && OM.faction == faction && LAZYFIND(current_filters, fighter_class)) //Yeah.
-			data["fighters"] += list(list("name" = OM.name, "integrity" = OM.obj_integrity, "max_integrity" = OM.max_integrity, "safeties" = OM.weapon_safety, "class" = fighter_class))
+			var/obj/item/fighter_component/docking_computer/DC = OM.loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+			data["fighters"] += list(list(
+				"name" = OM.name, \
+				"integrity" = OM.obj_integrity, \
+				"max_integrity" = OM.max_integrity, \
+				"safeties" = OM.weapon_safety, \
+				"class" = fighter_class, \
+				"docking_mode" = DC.docking_mode))
 	data["filter_types"] = list()
 	for(var/class in valid_filters)
 		data["filter_types"] += list(list("visible" = LAZYFIND(current_filters, class) ? TRUE : FALSE, "class"=class))
@@ -75,7 +69,7 @@
 				return
 			message_admins("[key_name(ui.user)] ([(ui.user.mind && ui.user.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) has force-ejected every pilot from their fighter.")
 		var/desired_trait = is_station_level(src.z) ? ZTRAIT_STATION : ZTRAIT_BOARDABLE
-		for(var/obj/structure/overmap/fighter/OM in GLOB.overmap_objects)
+		for(var/obj/structure/overmap/small_craft/OM in GLOB.overmap_objects) //Needs to go through global list due to interacting with fighters on the ship z.
 			if(!locate(OM.z) in SSmapping.levels_by_trait(desired_trait))
 				continue
 			if(action == "global_toggle")
@@ -101,9 +95,17 @@
 					OM.weapon_safety = !OM.weapon_safety
 					log_game("\<span class='notice'>[key_name(ui.user)] forcefully [(OM.weapon_safety) ? "Enabled" : "Disabled"] [OM]'s weapon safeties from a [name] in [get_area(src)]!</span>")
 					break
+				if("toggle_docking")
+					if(OM.pilot)
+						to_chat(OM.pilot, "<span class='notice'>Docking computer remotely overridden by an operator.</span>")
+					var/obj/item/fighter_component/docking_computer/DC = OM.loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+					DC.docking_mode = !DC.docking_mode
+					log_game("\<span class='notice'>[key_name(ui.user)] forcefully [(OM.weapon_safety) ? "Enabled" : "Disabled"] [OM]'s docking computer from a [name] in [get_area(src)]!</span>")
+					break
 
-/obj/machinery/computer/ship/fighter_controller/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state) // Remember to use the appropriate state.
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/ship/fighter_controller/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "fighter_controller", name, 560, 600, master_ui, state)
+		ui = new(user, src, "FighterController")
 		ui.open()
+		ui.set_autoupdate(TRUE)

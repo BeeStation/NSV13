@@ -1,3 +1,16 @@
+#define STATE_DEFAULT 1
+#define STATE_CALLSHUTTLE 2
+#define STATE_CANCELSHUTTLE 3
+#define STATE_MESSAGELIST 4
+#define STATE_VIEWMESSAGE 5
+#define STATE_DELMESSAGE 6
+#define STATE_STATUSDISPLAY 7
+#define STATE_ALERT_LEVEL 8
+#define STATE_CONFIRM_LEVEL 9
+#define STATE_TOGGLE_EMERGENCY 10
+#define STATE_PURCHASE 11
+#define STATE_OBJECTIVES 12 //NSV13
+
 // The communications computer
 /obj/machinery/computer/communications
 	name = "communications console"
@@ -16,17 +29,6 @@
 	var/message_cooldown = 0
 	var/ai_message_cooldown = 0
 	var/tmp_alertlevel = 0
-	var/const/STATE_DEFAULT = 1
-	var/const/STATE_CALLSHUTTLE = 2
-	var/const/STATE_CANCELSHUTTLE = 3
-	var/const/STATE_MESSAGELIST = 4
-	var/const/STATE_VIEWMESSAGE = 5
-	var/const/STATE_DELMESSAGE = 6
-	var/const/STATE_STATUSDISPLAY = 7
-	var/const/STATE_ALERT_LEVEL = 8
-	var/const/STATE_CONFIRM_LEVEL = 9
-	var/const/STATE_TOGGLE_EMERGENCY = 10
-	var/const/STATE_PURCHASE = 11
 
 	var/stat_msg1
 	var/stat_msg2
@@ -48,7 +50,7 @@
 		return
 	if(!usr.canUseTopic(src, !issilicon(usr)))
 		return
-	if(!is_station_level(z) && !is_reserved_level(z)) //Can only use in transit and on SS13
+	if(!is_station_level(z) && !is_reserved_level(z) && !is_centcom_level(z)) //Can only use in transit, on Central Command and on SS13
 		to_chat(usr, "<span class='boldannounce'>Unable to establish a connection</span>: \black You're too far away from the station!")
 		return
 	usr.set_machine(src)
@@ -100,8 +102,8 @@
 						tmp_alertlevel = SEC_LEVEL_GREEN
 					if(tmp_alertlevel < SEC_LEVEL_GREEN)
 						tmp_alertlevel = SEC_LEVEL_GREEN
-					if(tmp_alertlevel > SEC_LEVEL_BLUE)
-						tmp_alertlevel = SEC_LEVEL_BLUE //Cannot engage delta with this
+					if(tmp_alertlevel > SEC_LEVEL_ZEBRA)
+						tmp_alertlevel = SEC_LEVEL_ZEBRA //Cannot engage delta with this
 					set_security_level(tmp_alertlevel)
 					if(GLOB.security_level != old_level)
 						to_chat(usr, "<span class='notice'>Authorization confirmed. Modifying security level.</span>")
@@ -133,15 +135,15 @@
 					playsound(src, 'sound/machines/terminal_prompt_deny.ogg', 50, 0)
 					return
 				var/input = stripped_multiline_input(usr, "Please choose a message to transmit to allied stations.  Please be aware that this process is very expensive, and abuse will lead to... termination.", "Send a message to an allied station.", "")
-				if(!input || !(usr in view(1,src)) || !checkCCcooldown())
+				if(!input || get_dist(usr, src) > 1 || !checkCCcooldown())
 					return
+				CM.lastTimeUsed = world.time
 				playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, 0)
-				send2otherserver("[station_name()]", input,"Comms_Console")
-				minor_announce(input, title = "Outgoing message to allied station")
+				SStopic.crosscomms_send("comms_console", input, station_name())
+				minor_announce(input, title = "Outgoing message to allied station", html_encode = FALSE)
 				usr.log_talk(input, LOG_SAY, tag="message to the other server")
 				message_admins("[ADMIN_LOOKUPFLW(usr)] has sent a message to the other server.")
 				deadchat_broadcast("<span class='deadsay bold'>[usr.real_name] has sent an outgoing message to the other station(s).</span>", usr)
-				CM.lastTimeUsed = world.time
 
 		if("purchase_menu")
 			state = STATE_PURCHASE
@@ -152,33 +154,29 @@
 				var/datum/map_template/shuttle/S = locate(href_list["chosen_shuttle"]) in shuttles
 				if(S && istype(S))
 					if(SSshuttle.emergency.mode != SHUTTLE_RECALL && SSshuttle.emergency.mode != SHUTTLE_IDLE)
-						to_chat(usr, "It's a bit late to buy a new shuttle, don't you think?")
+						to_chat(usr, "<span class='alert'>It's a bit late to buy a new shuttle, don't you think?</span>")
 						return
 					if(SSshuttle.shuttle_purchased)
-						to_chat(usr, "A replacement shuttle has already been purchased.")
+						to_chat(usr, "<span class='alert'>A replacement shuttle has already been purchased.</span>")
 					else if(!S.prerequisites_met())
-						to_chat(usr, "You have not met the requirements for purchasing this shuttle.")
+						to_chat(usr, "<span class='alert'>You have not met the requirements for purchasing this shuttle.</span>")
 					else
 						var/points_to_check
 						var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
 						if(D)
 							points_to_check = D.account_balance
 						if(points_to_check >= S.credit_cost)
-							var/obj/machinery/shuttle_manipulator/M = locate() in GLOB.machines
-							if(M)
-								SSshuttle.shuttle_purchased = TRUE
-								M.unload_preview()
-								M.load_template(S)
-								M.existing_shuttle = SSshuttle.emergency
-								M.action_load(S)
-								D.adjust_money(-S.credit_cost)
-								minor_announce("[usr.real_name] has purchased [S.name] for [S.credit_cost] credits." , "Shuttle Purchase")
-								message_admins("[ADMIN_LOOKUPFLW(usr)] purchased [S.name].")
-								SSblackbox.record_feedback("text", "shuttle_purchase", 1, "[S.name]")
-							else
-								to_chat(usr, "Something went wrong! The shuttle exchange system seems to be down.")
+							SSshuttle.shuttle_purchased = TRUE
+							SSshuttle.unload_preview()
+							SSshuttle.existing_shuttle = SSshuttle.emergency
+							SSshuttle.action_load(S)
+							D.adjust_money(-S.credit_cost)
+							minor_announce("[S.name] has been purchased for [S.credit_cost] credits! Purchase authorized by [auth_id] [S.extra_desc ? " [S.extra_desc]" : ""]" , "Shuttle Purchase")
+							message_admins("[ADMIN_LOOKUPFLW(usr)] purchased [S.name].")
+							log_game("[key_name(usr)] has purchased [S.name].")
+							SSblackbox.record_feedback("text", "shuttle_purchase", 1, "[S.name]")
 						else
-							to_chat(usr, "Not enough credits.")
+							to_chat(usr, "<span class='alert'>Insufficient credits.</span>")
 
 		if("callshuttle")
 			state = STATE_DEFAULT
@@ -270,10 +268,10 @@
 					post_status(href_list["statdisp"])
 
 		if("setmsg1")
-			stat_msg1 = reject_bad_text(input("Line 1", "Enter Message Text", stat_msg1) as text|null, 40)
+			stat_msg1 = reject_bad_text(capped_input(usr, "Line 1", "Enter Message Text", stat_msg1), 40)
 			updateDialog()
 		if("setmsg2")
-			stat_msg2 = reject_bad_text(input("Line 2", "Enter Message Text", stat_msg2) as text|null, 40)
+			stat_msg2 = reject_bad_text(capped_input(usr, "Line 2", "Enter Message Text", stat_msg2), 40)
 			updateDialog()
 
 		// OMG CENTCOM LETTERHEAD
@@ -283,7 +281,7 @@
 					to_chat(usr, "<span class='warning'>Arrays recycling.  Please stand by.</span>")
 					return
 				var/input = stripped_input(usr, "Please choose a message to transmit to CentCom via quantum entanglement.  Please be aware that this process is very expensive, and abuse will lead to... termination.  Transmission does not guarantee a response.", "Send a message to CentCom.", "")
-				if(!input || !(usr in view(1,src)) || !checkCCcooldown())
+				if(!input || get_dist(usr, src) > 1 || !checkCCcooldown())
 					return
 				playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, 0)
 				CentCom_announce(input, usr)
@@ -300,7 +298,7 @@
 					playsound(src, 'sound/machines/terminal_prompt_deny.ogg', 50, 0)
 					return
 				var/input = stripped_input(usr, "Please choose a message to transmit to \[ABNORMAL ROUTING COORDINATES\] via quantum entanglement.  Please be aware that this process is very expensive, and abuse will lead to... termination. Transmission does not guarantee a response.", "Send a message to /??????/.", "")
-				if(!input || !(usr in view(1,src)) || !checkCCcooldown())
+				if(!input || get_dist(usr, src) > 1 || !checkCCcooldown())
 					return
 				playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, 0)
 				Syndicate_announce(input, usr)
@@ -321,14 +319,26 @@
 					to_chat(usr, "<span class='warning'>Arrays recycling. Please stand by.</span>")
 					return
 				var/input = stripped_input(usr, "Please enter the reason for requesting the nuclear self-destruct codes. Misuse of the nuclear request system will not be tolerated under any circumstances.  Transmission does not guarantee a response.", "Self Destruct Code Request.","")
-				if(!input || !(usr in view(1,src)) || !checkCCcooldown())
+				if(!input || get_dist(usr, src) > 1 || !checkCCcooldown())
 					return
 				Nuke_request(input, usr)
 				to_chat(usr, "<span class='notice'>Request sent.</span>")
 				usr.log_message("has requested the nuclear codes from CentCom", LOG_SAY)
-				priority_announce("The codes for the on-station nuclear self-destruct have been requested by [usr]. Confirmation or denial of this request will be sent shortly.", "Nuclear Self Destruct Codes Requested",'sound/ai/commandreport.ogg')
+				priority_announce("The codes for the on-station nuclear self-destruct have been requested by [usr]. Confirmation or denial of this request will be sent shortly.", "Nuclear Self-Destruct Codes Requested", SSstation.announcer.get_rand_report_sound())
 				CM.lastTimeUsed = world.time
 
+		//NSV13 - Objective Button
+		if("objectives")
+			SSovermap_mode.mode.check_completion()
+			if(SSovermap_mode.objectives_completed && SSovermap_mode.round_extended)
+				priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[SSovermap_mode.mode.reminder_origin]")
+			state = STATE_OBJECTIVES
+		if("ai-objectives")
+			SSovermap_mode.mode.check_completion()
+			if(SSovermap_mode.objectives_completed && SSovermap_mode.round_extended)
+				priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[SSovermap_mode.mode.reminder_origin]")
+			aistate = STATE_OBJECTIVES
+		// End NSV objectives button
 
 		// AI interface
 		if("ai-main")
@@ -383,8 +393,8 @@
 				tmp_alertlevel = SEC_LEVEL_GREEN
 			if(tmp_alertlevel < SEC_LEVEL_GREEN)
 				tmp_alertlevel = SEC_LEVEL_GREEN
-			if(tmp_alertlevel > SEC_LEVEL_BLUE)
-				tmp_alertlevel = SEC_LEVEL_BLUE //Cannot engage delta with this
+			if(tmp_alertlevel > SEC_LEVEL_ZEBRA)
+				tmp_alertlevel = SEC_LEVEL_ZEBRA //Cannot engage delta with this
 			set_security_level(tmp_alertlevel)
 			if(GLOB.security_level != old_level)
 				//Only notify people if an actual change happened
@@ -437,11 +447,10 @@
 	var/dat = ""
 	if(SSshuttle.emergency.mode == SHUTTLE_CALL)
 		var/timeleft = SSshuttle.emergency.timeLeft()
-		dat += "<B>Emergency shuttle</B>\n<BR>\nETA: [timeleft / 60 % 60]:[add_zero(num2text(timeleft % 60), 2)]"
+		dat += "<B>Emergency shuttle</B>\n<BR>\nETA: [timeleft / 60 % 60]:[add_leading(num2text(timeleft % 60), 2, "0")]"
 
 
 	var/datum/browser/popup = new(user, "communications", "Communications Console", 400, 500)
-	popup.set_title_image(user.browse_rsc_icon(icon, icon_state))
 
 	if(issilicon(user))
 		var/dat2 = interact_ai(user) // give the AI a different interact proc to limit its access
@@ -471,6 +480,7 @@
 						dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=cancelshuttle'>Cancel Shuttle Call</A> \]"
 
 				dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=status'>Set Status Display</A> \]"
+				dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=objectives'>Check Objectives</A> \]" //NSV13 - Added Objective Button
 				if (authenticated==2)
 					dat += "<BR><BR><B>Captain Functions</B>"
 					dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=announce'>Make a Captain's Announcement</A> \]"
@@ -536,12 +546,14 @@
 			dat += " <A HREF='?src=[REF(src)];operation=setstat;statdisp=alert;alert=biohazard'>Biohazard</A> \]<BR><HR>"
 			playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, 0)
 		if(STATE_ALERT_LEVEL)
-			dat += "Current alert level: [get_security_level()]<BR>"
+			dat += "Current defense condition: [get_security_level()]<BR>" //Nsv13 : General quarters
 			if(GLOB.security_level == SEC_LEVEL_DELTA)
 				dat += "<font color='red'><b>The self-destruct mechanism is active. Find a way to deactivate the mechanism to lower the alert level or evacuate.</b></font>"
-			else
-				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_BLUE]'>Blue</A><BR>"
-				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_GREEN]'>Green</A>"
+			else //Nsv13 - General Quarters
+				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_ZEBRA]'>Condition Zebra</A><BR>"
+				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_RED]'>General Quarters</A><BR>"
+				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_BLUE]'>Standard Operation</A><BR>"
+				dat += "<A HREF='?src=[REF(src)];operation=securitylevel;newalertlevel=[SEC_LEVEL_GREEN]'>Relaxed Operation</A>"
 		if(STATE_CONFIRM_LEVEL)
 			dat += "Current alert level: [get_security_level()]<BR>"
 			dat += "Confirm the change to: [num2seclevel(tmp_alertlevel)]<BR>"
@@ -557,18 +569,64 @@
 
 		if(STATE_PURCHASE)
 			var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+			var/obj/item/circuitboard/computer/communications/CM = circuit
 			dat += "Budget: [D.account_balance] Credits.<BR>"
 			dat += "<BR>"
-			dat += "<b>Caution: Purchasing dangerous shuttles may lead to mutiny and/or death.</b><br>"
-			dat += "<BR>"
+			if((obj_flags & EMAGGED) || CM.insecure)
+				dat += "<b>WARNING: Safety features disabled. Non-certified shuttles included. Order at your own peril.</b><BR><BR>"
+			else
+				dat += "<b>Safety protocols in effect: These shuttles all fulfill NT safety standards.</b><BR><BR>" //not that they're very high but these won't kill everyone aboard
 			for(var/shuttle_id in SSmapping.shuttle_templates)
 				var/datum/map_template/shuttle/S = SSmapping.shuttle_templates[shuttle_id]
-				if(S.can_be_bought && S.credit_cost < INFINITY)
+				if(S.can_be_bought && S.credit_cost < INFINITY &! S.illegal_shuttle)
 					dat += "[S.name] | [S.credit_cost] Credits<BR>"
 					dat += "[S.description]<BR>"
 					if(S.prerequisites)
 						dat += "Prerequisites: [S.prerequisites]<BR>"
 					dat += "<A href='?src=[REF(src)];operation=buyshuttle;chosen_shuttle=[REF(S)]'>(<font color=red><i>Purchase</i></font>)</A><BR><BR>"
+			if((obj_flags & EMAGGED) || CM.insecure)
+				dat += "<b>NON-CERTIFIED SHUTTLES APPENDED BELOW.</b><BR><BR>"
+				for(var/shuttle_id in SSmapping.shuttle_templates)
+					var/datum/map_template/shuttle/S = SSmapping.shuttle_templates[shuttle_id]
+					if(S.illegal_shuttle && S.credit_cost < INFINITY)
+						dat += "[S.name] | [S.credit_cost] Credits<BR>"
+						dat += "[S.description]<BR>"
+						if(S.prerequisites)
+							dat += "Prerequisites: [S.prerequisites]<BR>"
+						dat += "<A href='?src=[REF(src)];operation=buyshuttle;chosen_shuttle=[REF(S)]'>(<font color=red><i>Purchase</i></font>)</A><BR><BR>"
+
+		if(STATE_OBJECTIVES) //NSV13 - Objectives
+			var/notoriety
+			switch(SSovermap_mode.threat_elevation)
+				if(800 to INFINITY)
+					notoriety = "<font color=purple>Extreme</font>"
+				if(600 to 800)
+					notoriety = "<font color=red>Very High</font>"
+				if(300 to 600)
+					notoriety = "<font color=orange>High</font>"
+				if(100 to 300)
+					notoriety = "<font color=yellow>Medium</font>"
+				if(0 to 100)
+					notoriety = "<font color=green>Low</font>"
+			dat += "Current Notoriety: [notoriety]<BR>"
+			dat += "Current Objectives:<BR>"
+			if(SSovermap_mode.announced_objectives)
+				for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+					if(O.binary)
+						dat += "[O.brief] : "
+					else
+						dat += "[O.brief] ([O.tally] / [O.target]) : "
+					switch(O.status)
+						if(0)
+							dat += "<font color=yellow><b>IN-PROGRESS</b></font><BR>"
+						if(1)
+							dat += "<font color=green><b>COMPLETED</b></font><BR>"
+						if(2)
+							dat += "<font color=red><b>FAILED</b></font><BR>"
+						if(3)
+							dat += "<font color=green><b>COMPLETED</b></font><BR>"
+			else
+				dat += "Standby for mission tasking."
 
 	dat += "<BR><BR>\[ [(state != STATE_DEFAULT) ? "<A HREF='?src=[REF(src)];operation=main'>Main Menu</A> | " : ""]<A HREF='?src=[REF(user)];mach_close=communications'>Close</A> \]"
 
@@ -630,6 +688,7 @@
 			if(SSshuttle.emergency.mode == SHUTTLE_IDLE)
 				dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-callshuttle'>Call Emergency Shuttle</A> \]"
 			dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-status'>Set Status Display</A> \]"
+			dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-objectives'>Check Objectives</A> \]" //NSV13 - Added Objective Button
 			dat += "<BR><BR><B>Special Functions</B>"
 			dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-announce'>Make an Announcement</A> \]"
 			dat += "<BR>\[ <A HREF='?src=[REF(src)];operation=ai-changeseclevel'>Change Alert Level</A> \]"
@@ -677,12 +736,14 @@
 			dat += " <A HREF='?src=[REF(src)];operation=setstat;statdisp=alert;alert=biohazard'>Biohazard</A> \]<BR><HR>"
 
 		if(STATE_ALERT_LEVEL)
-			dat += "Current alert level: [get_security_level()]<BR>"
+			dat += "Current defense condition: [get_security_level()]<BR>" //Nsv13 : General quarters
 			if(GLOB.security_level == SEC_LEVEL_DELTA)
 				dat += "<font color='red'><b>The self-destruct mechanism is active. Find a way to deactivate the mechanism to lower the alert level or evacuate.</b></font>"
-			else
-				dat += "<A HREF='?src=[REF(src)];operation=ai-securitylevel;newalertlevel=[SEC_LEVEL_BLUE]'>Blue</A><BR>"
-				dat += "<A HREF='?src=[REF(src)];operation=ai-securitylevel;newalertlevel=[SEC_LEVEL_GREEN]'>Green</A>"
+			else //Nsv13 - General Quarters
+				dat += "<A HREF='?src=[REF(src)];operation=ai-securitylevel;newalertlevel=[SEC_LEVEL_ZEBRA]'>Condition Zebra</A><BR>"
+				dat += "<A HREF='?src=[REF(src)];operation=ai-securitylevel;newalertlevel=[SEC_LEVEL_RED]'>General Quarters</A><BR>"
+				dat += "<A HREF='?src=[REF(src)];operation=ai-securitylevel;newalertlevel=[SEC_LEVEL_BLUE]'>Standard Operation</A><BR>"
+				dat += "<A HREF='?src=[REF(src)];operation=ai-securitylevel;newalertlevel=[SEC_LEVEL_GREEN]'>Relaxed Operation</A>"
 
 		if(STATE_TOGGLE_EMERGENCY)
 			if(GLOB.emergency_access == 1)
@@ -691,6 +752,27 @@
 			else
 				dat += "<b>Emergency Maintenance Access is currently <font color='green'>DISABLED</font></b>"
 				dat += "<BR>Lift access restrictions on maintenance and external airlocks? <BR>\[ <A HREF='?src=[REF(src)];operation=ai-enableemergency'>OK</A> | <A HREF='?src=[REF(src)];operation=ai-viewmessage'>Cancel</A> \]"
+
+		if(STATE_OBJECTIVES) //NSV13 - Objectives
+			dat += "Current Objectives:<BR>"
+			if(SSovermap_mode.announced_objectives)
+				for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
+					if(O.binary)
+						dat += "[O.brief] : "
+					else
+						dat += "[O.brief] ([O.tally] / [O.target]) : "
+					switch(O.status)
+						if(0)
+							dat += "<font color=yellow><b>IN-PROGRESS</b></font><BR>"
+						if(1)
+							dat += "<font color=green><b>COMPLETED</b></font><BR>"
+						if(2)
+							dat += "<font color=red><b>FAILED</b></font><BR>"
+						if(3)
+							dat += "<font color=green><b>COMPLETED</b></font><BR>"
+			else
+				dat += "Standby for mission tasking."
+		// End NSV objectives
 
 	dat += "<BR><BR>\[ [(aistate != STATE_DEFAULT) ? "<A HREF='?src=[REF(src)];operation=ai-main'>Main Menu</A> | " : ""]<A HREF='?src=[REF(user)];mach_close=communications'>Close</A> \]"
 	return dat
@@ -705,7 +787,7 @@
 	if(CHAT_FILTER_CHECK(input))
 		to_chat(user, "<span class='warning'>You cannot send an announcement that contains prohibited words.</span>")
 		return
-	SScommunications.make_announcement(user, is_silicon, input)
+	SScommunications.make_announcement(user, is_silicon, input, auth_id)
 	deadchat_broadcast("<span class='deadsay'><span class='name'>[user.real_name]</span> made a priority announcement from <span class='name'>[get_area_name(usr, TRUE)]</span>.</span>", user)
 
 /obj/machinery/computer/communications/proc/post_status(command, data1, data2)
@@ -753,3 +835,16 @@
 		content = new_content
 	if(new_possible_answers)
 		possible_answers = new_possible_answers
+
+#undef STATE_DEFAULT
+#undef STATE_CALLSHUTTLE
+#undef STATE_CANCELSHUTTLE
+#undef STATE_MESSAGELIST
+#undef STATE_VIEWMESSAGE
+#undef STATE_DELMESSAGE
+#undef STATE_STATUSDISPLAY
+#undef STATE_ALERT_LEVEL
+#undef STATE_CONFIRM_LEVEL
+#undef STATE_TOGGLE_EMERGENCY
+#undef STATE_PURCHASE
+#undef STATE_OBJECTIVES //NSV13

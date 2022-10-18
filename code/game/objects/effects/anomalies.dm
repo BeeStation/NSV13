@@ -1,5 +1,8 @@
 //Anomalies, used for events. Note that these DO NOT work by themselves; their procs are called by the event datum.
 
+/// Chance of taking a step per second
+#define ANOMALY_MOVECHANCE 45
+
 /obj/effect/anomaly
 	name = "anomaly"
 	desc = "A mysterious anomaly, seen commonly only in the region of space that the station orbits..."
@@ -7,8 +10,8 @@
 	density = FALSE
 	anchored = TRUE
 	light_range = 3
-	var/movechance = 70
-	var/obj/item/assembly/signaler/anomaly/aSignal
+
+	var/obj/item/assembly/signaler/anomaly/aSignal = /obj/item/assembly/signaler/anomaly
 	var/area/impact_area
 
 	var/lifespan = 990
@@ -41,8 +44,8 @@
 		countdown.color = countdown_colour
 	countdown.start()
 
-/obj/effect/anomaly/process()
-	anomalyEffect()
+/obj/effect/anomaly/process(delta_time)
+	anomalyEffect(delta_time)
 	if(death_time < world.time)
 		if(loc)
 			detonate()
@@ -51,11 +54,11 @@
 /obj/effect/anomaly/Destroy()
 	GLOB.poi_list.Remove(src)
 	STOP_PROCESSING(SSobj, src)
-	qdel(countdown)
+	QDEL_NULL(countdown)
 	return ..()
 
-/obj/effect/anomaly/proc/anomalyEffect()
-	if(prob(movechance))
+/obj/effect/anomaly/proc/anomalyEffect(delta_time)
+	if(DT_PROB(ANOMALY_MOVECHANCE, delta_time))
 		step(src,pick(GLOB.alldirs))
 
 /obj/effect/anomaly/proc/detonate()
@@ -86,25 +89,34 @@
 	density = FALSE
 	var/boing = 0
 
+/obj/effect/anomaly/grav/Initialize(mapload, new_lifespan, drops_core)
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
 /obj/effect/anomaly/grav/anomalyEffect()
 	..()
 	boing = 1
 	for(var/obj/O in orange(4, src))
 		if(!O.anchored)
 			step_towards(O,src)
-	for(var/mob/living/M in range(0, src))
+	for(var/mob/living/M in get_turf(src))
 		gravShock(M)
-	for(var/mob/living/M in orange(4, src))
+	for(var/mob/living/M in orange(4, get_turf(src)))
 		if(!M.mob_negates_gravity())
 			step_towards(M,src)
-	for(var/obj/O in range(0,src))
+	for(var/obj/O in get_turf(src))
 		if(!O.anchored)
-			var/mob/living/target = locate() in view(4,src)
+			var/mob/living/target = locate() in hearers(4,src)
 			if(target && !target.stat)
 				O.throw_at(target, 5, 10)
 
-/obj/effect/anomaly/grav/Crossed(mob/A)
-	gravShock(A)
+/obj/effect/anomaly/grav/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
+	gravShock(AM)
 
 /obj/effect/anomaly/grav/Bump(mob/A)
 	gravShock(A)
@@ -143,14 +155,24 @@
 	var/shockdamage = 20
 	var/explosive = TRUE
 
+/obj/effect/anomaly/flux/Initialize(mapload, new_lifespan, drops_core = TRUE, _explosive = TRUE)
+	. = ..()
+	explosive = _explosive
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
 /obj/effect/anomaly/flux/anomalyEffect()
 	..()
 	canshock = 1
-	for(var/mob/living/M in range(0, src))
+	for(var/mob/living/M in get_turf(src))
 		mobShock(M)
 
-/obj/effect/anomaly/flux/Crossed(mob/living/M)
-	mobShock(M)
+/obj/effect/anomaly/flux/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
+	mobShock(AM)
 
 /obj/effect/anomaly/flux/Bump(mob/living/M)
 	mobShock(M)
@@ -176,6 +198,8 @@
 /obj/effect/anomaly/flux/detonate()
 	if(explosive)
 		explosion(src, 1, 4, 16, 18) //Low devastation, but hits a lot of stuff.
+		log_game("A flux anomaly has detonated at [loc].")
+		message_admins("A flux anomaly has detonated at [ADMIN_VERBOSEJMP(loc)].")
 	else
 		new /obj/effect/particle_effect/sparks(loc)
 
@@ -190,7 +214,7 @@
 
 /obj/effect/anomaly/bluespace/anomalyEffect()
 	..()
-	for(var/mob/living/M in range(1,src))
+	for(var/mob/living/M in hearers(1,src))
 		do_teleport(M, locate(M.x, M.y, M.z), 4, channel = TELEPORT_CHANNEL_BLUESPACE)
 
 /obj/effect/anomaly/bluespace/Bumped(atom/movable/AM)
@@ -216,10 +240,10 @@
 			var/turf/TO = get_turf(chosen) // the turf of origin we're travelling TO
 
 			playsound(TO, 'sound/effects/phasein.ogg', 100, 1)
-			priority_announce("Massive bluespace translocation detected.", "Anomaly Alert")
+			priority_announce("Massive bluespace translocation detected.", "Anomaly Alert", SSstation.announcer.get_rand_alert_sound())
 
 			var/list/flashers = list()
-			for(var/mob/living/carbon/C in viewers(TO, null))
+			for(var/mob/living/carbon/C in viewers(TO))
 				if(C.flash_act())
 					flashers += C
 
@@ -256,15 +280,18 @@
 /obj/effect/anomaly/pyro
 	name = "pyroclastic anomaly"
 	icon_state = "mustard"
-	var/ticks = 4
+	var/ticks = 0
+	/// How many seconds between each gas release
+	var/releasedelay = 10
+	aSignal = /obj/item/assembly/signaler/anomaly/pyro
 
-/obj/effect/anomaly/pyro/anomalyEffect()
+/obj/effect/anomaly/pyro/anomalyEffect(delta_time)
 	..()
-	ticks++
-	if(ticks < 5)
+	ticks += delta_time
+	if(ticks < releasedelay)
 		return
 	else
-		ticks = 0
+		ticks -= releasedelay
 	var/turf/open/T = get_turf(src)
 	if(istype(T))
 		T.atmos_spawn_air("o2=5;plasma=5;TEMP=1000")
@@ -276,16 +303,15 @@
 	var/turf/open/T = get_turf(src)
 	if(istype(T))
 		T.atmos_spawn_air("o2=500;plasma=500;TEMP=1000") //Make it hot and burny for the new slime
+		log_game("A pyroclastic anomaly has detonated at [loc].")
+		message_admins("A pyroclastic anomaly has detonated at [ADMIN_VERBOSEJMP(loc)].")
 	var/new_colour = pick("red", "orange")
 	var/mob/living/simple_animal/slime/S = new(T, new_colour)
 	S.rabid = TRUE
 	S.amount_grown = SLIME_EVOLUTION_THRESHOLD
 	S.Evolve()
-	
-	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as a pyroclastic anomaly slime?", ROLE_PAI, null, null, 100, S, POLL_IGNORE_PYROSLIME)
-	if(LAZYLEN(candidates))
-		var/mob/dead/observer/chosen = pick(candidates)
-		S.key = chosen.key
+	S.flavor_text = FLAVOR_TEXT_EVIL
+	S.set_playable()
 
 /////////////////////
 
@@ -303,15 +329,13 @@
 	grav(rand(0,3), rand(2,3), 50, 25)
 
 	//Throwing stuff around!
-	for(var/obj/O in range(2,src))
-		if(O == src)
-			return //DON'T DELETE YOURSELF GOD DAMN
+	for(var/obj/O in orange(2,src))
 		if(!O.anchored)
-			var/mob/living/target = locate() in view(4,src)
+			var/mob/living/target = locate() in hearers(4,src)
 			if(target && !target.stat)
 				O.throw_at(target, 7, 5)
 		else
-			O.ex_act(EXPLODE_HEAVY)
+			SSexplosions.med_mov_atom += O
 
 /obj/effect/anomaly/bhole/proc/grav(r, ex_act_force, pull_chance, turf_removal_chance)
 	for(var/t = -r, t < r, t++)
@@ -330,7 +354,13 @@
 	if(prob(pull_chance))
 		for(var/obj/O in T.contents)
 			if(O.anchored)
-				O.ex_act(ex_act_force)
+				switch(ex_act_force)
+					if(EXPLODE_DEVASTATE)
+						SSexplosions.high_mov_atom += O
+					if(EXPLODE_HEAVY)
+						SSexplosions.med_mov_atom += O
+					if(EXPLODE_LIGHT)
+						SSexplosions.low_mov_atom += O
 			else
 				step_towards(O,src)
 		for(var/mob/living/M in T.contents)
@@ -338,4 +368,10 @@
 
 	//Damaging the turf
 	if( T && prob(turf_removal_chance) )
-		T.ex_act(ex_act_force)
+		switch(ex_act_force)
+			if(EXPLODE_DEVASTATE)
+				SSexplosions.highturf += T
+			if(EXPLODE_HEAVY)
+				SSexplosions.medturf += T
+			if(EXPLODE_LIGHT)
+				SSexplosions.lowturf += T

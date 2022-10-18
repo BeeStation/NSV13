@@ -25,12 +25,13 @@
 	var/title
 	var/category = "Any"
 	var/author
-	var/SQLquery
+	var/search_page = 0
 	clockwork = TRUE //it'd look weird
+	broken_overlay_emissive = TRUE
 
 /obj/machinery/computer/libraryconsole/ui_interact(mob/user)
 	. = ..()
-	var/dat = "" // <META HTTP-EQUIV='Refresh' CONTENT='10'>
+	var/list/dat = list() // <META HTTP-EQUIV='Refresh' CONTENT='10'>
 	switch(screenstate)
 		if(0)
 			dat += "<h2>Search Settings</h2><br>"
@@ -43,13 +44,48 @@
 				dat += "<font color=red><b>ERROR</b>: Unable to contact External Archive. Please contact your system administrator for assistance.</font><BR>"
 			else if(QDELETED(user))
 				return
-			else if(!SQLquery)
-				dat += "<font color=red><b>ERROR</b>: Malformed search request. Please contact your system administrator for assistance.</font><BR>"
 			else
 				dat += "<table>"
 				dat += "<tr><td>AUTHOR</td><td>TITLE</td><td>CATEGORY</td><td>SS<sup>13</sup>BN</td></tr>"
-
-				var/datum/DBQuery/query_library_list_books = SSdbcore.NewQuery(SQLquery)
+				var/SQLsearch = "isnull(deleted) AND "
+				if(category == "Any")
+					SQLsearch += "author LIKE '%[author]%' AND title LIKE '%[title]%'"
+				else
+					SQLsearch += "author LIKE '%[author]%' AND title LIKE '%[title]%' AND category='[category]'"
+				var/bookcount = 0
+				var/booksperpage = 20
+				var/datum/DBQuery/query_library_count_books = SSdbcore.NewQuery({"
+					SELECT COUNT(id) FROM [format_table_name("library")]
+					WHERE isnull(deleted)
+						AND author LIKE '%' + :author + '%'
+						AND title LIKE '%' + :title + '%'
+						AND (:category = 'Any' OR category = :category)
+				"}, list("author" = author, "title" = title, "category" = category))
+				if(!query_library_count_books.warn_execute())
+					qdel(query_library_count_books)
+					return
+				if(query_library_count_books.NextRow())
+					bookcount = text2num(query_library_count_books.item[1])
+				qdel(query_library_count_books)
+				if(bookcount > booksperpage)
+					dat += "<b>Page: </b>"
+					var/pagecount = 1
+					var/list/pagelist = list()
+					while(bookcount > 0)
+						pagelist += "<a href='?src=[REF(src)];bookpagecount=[pagecount - 1]'>[pagecount == search_page + 1 ? "<b>\[[pagecount]\]</b>" : "\[[pagecount]\]"]</a>"
+						bookcount -= booksperpage
+						pagecount++
+					dat += pagelist.Join(" | ")
+				search_page = text2num(search_page)
+				var/datum/DBQuery/query_library_list_books = SSdbcore.NewQuery({"
+					SELECT author, title, category, id
+					FROM [format_table_name("library")]
+					WHERE isnull(deleted)
+						AND author LIKE '%' + :author + '%'
+						AND title LIKE '%' + :title + '%'
+						AND (:category = 'Any' OR category = :category)
+					LIMIT :skip, :take
+				"}, list("author" = author, "title" = title, "category" = category, "skip" = booksperpage * search_page, "take" = booksperpage))
 				if(!query_library_list_books.Execute())
 					dat += "<font color=red><b>ERROR</b>: Unable to retrieve book listings. Please contact your system administrator for assistance.</font><BR>"
 				else
@@ -65,8 +101,7 @@
 				dat += "</table><BR>"
 			dat += "<A href='?src=[REF(src)];back=1'>\[Go Back\]</A><BR>"
 	var/datum/browser/popup = new(user, "publiclibrary", name, 600, 400)
-	popup.set_content(dat)
-	popup.set_title_image(user.browse_rsc_icon(src.icon, src.icon_state))
+	popup.set_content(jointext(dat, ""))
 	popup.open()
 
 /obj/machinery/computer/libraryconsole/Topic(href, href_list)
@@ -77,33 +112,28 @@
 		return
 
 	if(href_list["settitle"])
-		var/newtitle = input("Enter a title to search for:") as text|null
+		var/newtitle = capped_input(usr, "Enter a title to search for:")
 		if(newtitle)
 			title = sanitize(newtitle)
 		else
 			title = null
-		title = sanitizeSQL(title)
 	if(href_list["setcategory"])
 		var/newcategory = input("Choose a category to search for:") in list("Any", "Fiction", "Non-Fiction", "Adult", "Reference", "Religion")
 		if(newcategory)
 			category = sanitize(newcategory)
 		else
 			category = "Any"
-		category = sanitizeSQL(category)
 	if(href_list["setauthor"])
-		var/newauthor = input("Enter an author to search for:") as text|null
+		var/newauthor = capped_input(usr, "Enter an author to search for:")
 		if(newauthor)
 			author = sanitize(newauthor)
 		else
 			author = null
-		author = sanitizeSQL(author)
 	if(href_list["search"])
-		SQLquery = "SELECT author, title, category, id FROM [format_table_name("library")] WHERE isnull(deleted) AND "
-		if(category == "Any")
-			SQLquery += "author LIKE '%[author]%' AND title LIKE '%[title]%'"
-		else
-			SQLquery += "author LIKE '%[author]%' AND title LIKE '%[title]%' AND category='[category]'"
 		screenstate = 1
+
+	if(href_list["bookpagecount"])
+		search_page = text2num(href_list["bookpagecount"])
 
 	if(href_list["back"])
 		screenstate = 0
@@ -304,6 +334,7 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 			dat += "<h3>NTGanda(tm) Universal Printing Module</h3>"
 			dat += "What would you like to print?<BR>"
 			dat += "<A href='?src=[REF(src)];printbible=1'>\[Bible\]</A><BR>"
+			dat += "<A href='?src=[REF(src)];printspacelaw=1'>\[Space Law\]</A><BR>" //NSV13
 			dat += "<A href='?src=[REF(src)];printposter=1'>\[Poster\]</A><BR>"
 			dat += "<A href='?src=[REF(src)];switchscreen=0'>(Return to main menu)</A><BR>"
 		if(8)
@@ -314,22 +345,22 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 
 	var/datum/browser/popup = new(user, "library", name, 600, 400)
 	popup.set_content(dat)
-	popup.set_title_image(user.browse_rsc_icon(src.icon, src.icon_state))
 	popup.open()
 
 /obj/machinery/computer/libraryconsole/bookmanagement/proc/findscanner(viewrange)
-	for(var/obj/machinery/libraryscanner/S in range(viewrange, get_turf(src)))
-		return S
-	return null
+	return locate(/obj/machinery/libraryscanner) in range(viewrange, get_turf(src))
 
 /obj/machinery/computer/libraryconsole/bookmanagement/proc/print_forbidden_lore(mob/user)
-	if (prob(50))
-		new /obj/item/melee/cultblade/dagger(get_turf(src))
-		to_chat(user, "<span class='warning'>Your sanity barely endures the seconds spent in the vault's browsing window. The only thing to remind you of this when you stop browsing is a sinister dagger sitting on the desk. You don't even remember where it came from...</span>")
-	else
-		new /obj/item/clockwork/slab(get_turf(src))
-		to_chat(user, "<span class='warning'>Your sanity barely endures the seconds spent in the vault's browsing window. The only thing to remind you of this when you stop browsing is a strange metal tablet sitting on the desk. You don't even remember where it came from...</span>")
-
+	switch(rand(1,3))
+		if(1)
+			new /obj/item/melee/cultblade/dagger(get_turf(src))
+			to_chat(user, "<span class='warning'>Your sanity barely endures the seconds spent in the vault's browsing window. The only thing to remind you of this when you stop browsing is a sinister dagger sitting on the desk. You don't even remember where it came from...</span>")
+		if(2)
+			new /obj/item/clockwork/clockwork_slab(get_turf(src))
+			to_chat(user, "<span class='warning'>Your sanity barely endures the seconds spent in the vault's browsing window. The only thing to remind you of this when you stop browsing is a strange metal tablet sitting on the desk. You don't even remember where it came from...</span>")
+		if(3)
+			new /obj/item/forbidden_book(get_turf(src))
+			to_chat(user, "<span class='warning'>Your sanity barely endures the seconds spent in the vault's browsing window. The only thing to remind you of this when you stop browsing is an ominous book, bound by a chain, sitting on the desk. You don't even remember where it came from...</span>")
 	user.visible_message("[user] stares at the blank screen for a few moments, [user.p_their()] expression frozen in fear. When [user.p_they()] finally awaken[user.p_s()] from it, [user.p_they()] look[user.p_s()] a lot older.", 2)
 
 /obj/machinery/computer/libraryconsole/bookmanagement/attackby(obj/item/W, mob/user, params)
@@ -383,9 +414,9 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 		if(checkoutperiod < 1)
 			checkoutperiod = 1
 	if(href_list["editbook"])
-		buffer_book = copytext(sanitize(input("Enter the book's title:") as text|null),1,MAX_MESSAGE_LEN)
+		buffer_book = stripped_input(usr, "Enter the book's title:")
 	if(href_list["editmob"])
-		buffer_mob = copytext(sanitize(input("Enter the recipient's name:") as text|null),1,MAX_NAME_LEN)
+		buffer_mob = stripped_input(usr, "Enter the recipient's name:", max_length=MAX_NAME_LEN)
 	if(href_list["checkout"])
 		var/datum/borrowbook/b = new /datum/borrowbook
 		b.bookname = sanitize(buffer_book)
@@ -402,9 +433,12 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 		if(b && istype(b))
 			inventory.Remove(b)
 	if(href_list["setauthor"])
-		var/newauthor = copytext(sanitize(input("Enter the author's name: ") as text|null),1,MAX_MESSAGE_LEN)
+		var/newauthor = stripped_input(usr, "Enter the author's name: ")
 		if(newauthor)
-			scanner.cache.author = newauthor
+			if(length(newauthor) <= 45)
+				scanner.cache.author = newauthor
+			else
+				alert("Unable to set author. The field must be fewer than 45 characters.")
 	if(href_list["setcategory"])
 		var/newcategory = input("Choose a category: ") in list("Fiction", "Non-Fiction", "Adult", "Reference", "Religion","Technical")
 		if(newcategory)
@@ -416,15 +450,15 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 				if(choice == "Confirm")
 					if (!SSdbcore.Connect())
 						alert("Connection to Archive has been severed. Aborting.")
+					else if((length(scanner.cache.name) > 45) || (length(scanner.cache.author) > 45))
+						alert("The title and author fields must each be 45 characters or fewer. Check your entry and try again.")
+						return
 					else
-
-						var/sqltitle = sanitizeSQL(scanner.cache.name)
-						var/sqlauthor = sanitizeSQL(scanner.cache.author)
-						var/sqlcontent = sanitizeSQL(scanner.cache.dat)
-						var/sqlcategory = sanitizeSQL(upload_category)
-						var/sqlckey = sanitizeSQL(usr.ckey)
 						var/msg = "[key_name(usr)] has uploaded the book titled [scanner.cache.name], [length(scanner.cache.dat)] signs"
-						var/datum/DBQuery/query_library_upload = SSdbcore.NewQuery("INSERT INTO [format_table_name("library")] (author, title, content, category, ckey, datetime, round_id_created) VALUES ('[sqlauthor]', '[sqltitle]', '[sqlcontent]', '[sqlcategory]', '[sqlckey]', Now(), '[GLOB.round_id]')")
+						var/datum/DBQuery/query_library_upload = SSdbcore.NewQuery({"
+							INSERT INTO [format_table_name("library")] (author, title, content, category, ckey, datetime, round_id_created)
+							VALUES (:author, :title, :content, :category, :ckey, Now(), :round_id)
+						"}, list("title" = scanner.cache.name, "author" = scanner.cache.author, "content" = scanner.cache.dat, "category" = upload_category, "ckey" = usr.ckey, "round_id" = GLOB.round_id))
 						if(!query_library_upload.Execute())
 							qdel(query_library_upload)
 							alert("Database error encountered uploading to Archive")
@@ -451,18 +485,21 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 		else
 			var/orderid = input("Enter your order:") as num|null
 			if(orderid)
-				if(isnum(orderid) && ISINTEGER(orderid))
+				if(isnum_safe(orderid) && ISINTEGER(orderid))
 					href_list["targetid"] = num2text(orderid)
 
 	if(href_list["targetid"])
-		var/sqlid = sanitizeSQL(href_list["targetid"])
+		var/id = href_list["targetid"]
 		if (!SSdbcore.Connect())
 			alert("Connection to Archive has been severed. Aborting.")
 		if(cooldown > world.time)
 			say("Printer unavailable. Please allow a short time before attempting to print.")
 		else
 			cooldown = world.time + PRINTER_COOLDOWN
-			var/datum/DBQuery/query_library_print = SSdbcore.NewQuery("SELECT * FROM [format_table_name("library")] WHERE id=[sqlid] AND isnull(deleted)")
+			var/datum/DBQuery/query_library_print = SSdbcore.NewQuery(
+				"SELECT * FROM [format_table_name("library")] WHERE id=:id AND isnull(deleted)",
+				list("id" = id)
+			)
 			if(!query_library_print.Execute())
 				qdel(query_library_print)
 				say("PRINTER ERROR! Failed to print document (0x0000000F)")
@@ -489,6 +526,12 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 				B.item_state = GLOB.bible_item_state
 				B.name = GLOB.bible_name
 				B.deity_name = GLOB.deity
+			cooldown = world.time + PRINTER_COOLDOWN
+		else
+			say("Printer currently unavailable, please wait a moment.")
+	if(href_list["printspacelaw"]) //NSV13
+		if(cooldown < world.time)
+			new /obj/item/book/manual/wiki/security_space_law(src.loc)
 			cooldown = world.time + PRINTER_COOLDOWN
 		else
 			say("Printer currently unavailable, please wait a moment.")
@@ -536,7 +579,6 @@ GLOBAL_LIST(cachedbooks) // List of our cached book datums
 		dat += "<BR>"
 	var/datum/browser/popup = new(user, "scanner", name, 600, 400)
 	popup.set_content(dat)
-	popup.set_title_image(user.browse_rsc_icon(src.icon, src.icon_state))
 	popup.open()
 
 /obj/machinery/libraryscanner/Topic(href, href_list)

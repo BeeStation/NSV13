@@ -35,10 +35,13 @@ require only minor tweaks.
 #define ZTRAIT_REEBE "Reebe"
 #define ZTRAIT_RESERVED "Transit/Reserved"
 #define ZTRAIT_AWAY "Away Mission"
-#define ZTRAIT_SPACE_RUINS "Space Ruins"
+#define ZTRAIT_DYNAMIC_LEVEL "Dynamic Level"
 #define ZTRAIT_LAVA_RUINS "Lava Ruins"
+#define ZTRAIT_POCKETDIM "Pocket Dimension"
+
 #define ZTRAIT_OVERMAP "Overmap" //NSV13
 #define ZTRAIT_BOARDABLE "Boardable Ship" //NSV13 - System defines blah
+#define ZTRAIT_SYNDIE_SHIP "Syndicate Ship" //NSV13 - System defines blah
 #define ZTRAIT_MINING_SHIP "Mining ship" //NSV13 - System defines blah
 
 /// number - bombcap is multiplied by this before being applied to bombs
@@ -65,19 +68,18 @@ require only minor tweaks.
 
 /// default trait definitions, used by SSmapping
 #define ZTRAITS_CENTCOM list(ZTRAIT_CENTCOM = TRUE)
-#define ZTRAITS_STATION list( ZTRAIT_STATION = TRUE, ZTRAIT_BOARDABLE = TRUE) //Nsv13 - Added ZTRAIT_BOARDABLE HERE, removed default to have z linking be handled by JSON until I properly fix this -Jalleo.
-#define ZTRAITS_SPACE list(ZTRAIT_LINKAGE = CROSSLINKED, ZTRAIT_SPACE_RUINS = TRUE, ZTRAIT_BOARDABLE = TRUE)//Nsv13 - Added ZTRAIT_BOARDABLE HERE
+#define ZTRAITS_STATION list(ZTRAIT_STATION = TRUE, ZTRAIT_BOARDABLE = TRUE) //Nsv13 - Added ZTRAIT_BOARDABLE HERE, removed default to have z linking be handled by JSON until I properly fix this -Jalleo.
+#define ZTRAITS_SPACE list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_DYNAMIC_LEVEL = TRUE, ZTRAIT_BOARDABLE = TRUE) //Nsv13 - Added ZTRAIT_BOARDABLE HERE
 #define ZTRAITS_LAVALAND list(\
     ZTRAIT_MINING = TRUE, \
     ZTRAIT_LAVA_RUINS = TRUE, \
     ZTRAIT_BOMBCAP_MULTIPLIER = 2, \
     ZTRAIT_BASETURF = /turf/open/lava/smooth/lava_land_surface)
-#define ZTRAITS_REEBE list(ZTRAIT_REEBE = TRUE, ZTRAIT_BOMBCAP_MULTIPLIER = 0.5)
-
-#define ZTRAITS_OVERMAP list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_OVERMAP = TRUE, ZTRAIT_BOARDABLE = FALSE) //NSV13
+#define ZTRAITS_OVERMAP list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_OVERMAP = TRUE, ZTRAIT_BOARDABLE = FALSE, ZTRAIT_CENTCOM = TRUE) //NSV13
 #define ZTRAITS_BOARDABLE_SHIP list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_STATION = FALSE, ZTRAIT_BOARDABLE = TRUE) //NSV13
+#define ZTRAITS_MINING_SHIP list(ZTRAIT_LINKAGE = SELFLOOPING, ZTRAIT_STATION = FALSE, ZTRAIT_BOARDABLE = TRUE, ZTRAIT_MINING_SHIP = TRUE) //NSV13
 
-
+#define ZTRAITS_REEBE list(ZTRAIT_REEBE = TRUE, ZTRAIT_BOMBCAP_MULTIPLIER = 0.5)
 #define DL_NAME "name"
 #define DL_TRAITS "traits"
 #define DECLARE_LEVEL(NAME, TRAITS) list(DL_NAME = NAME, DL_TRAITS = TRAITS)
@@ -104,3 +106,23 @@ require only minor tweaks.
 #define PLACE_SAME_Z "same"
 #define PLACE_SPACE_RUIN "space"
 #define PLACE_LAVA_RUIN "lavaland"
+
+
+///Map generation defines
+#define PERLIN_LAYER_HEIGHT "perlin_height"
+#define PERLIN_LAYER_HUMIDITY "perlin_humidity"
+#define PERLIN_LAYER_HEAT "perlin_heat"
+
+#define BIOME_LOW_HEAT "low_heat"
+#define BIOME_LOWMEDIUM_HEAT "lowmedium_heat"
+#define BIOME_HIGHMEDIUM_HEAT "highmedium_heat"
+#define BIOME_HIGH_HEAT "high_heat"
+
+#define BIOME_LOW_HUMIDITY "low_humidity"
+#define BIOME_LOWMEDIUM_HUMIDITY "lowmedium_humidity"
+#define BIOME_HIGHMEDIUM_HUMIDITY "highmedium_humidity"
+#define BIOME_HIGH_HUMIDITY "high_humidity"
+
+///Hint for whether a genturf should generate as a closed or open turf. null for default.
+#define GENTURF_HINT_OPEN "open"
+#define GENTURF_HINT_CLOSED "closed"

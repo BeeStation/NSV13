@@ -116,6 +116,13 @@
 		if(!findname(.))
 			break
 
+/proc/random_unique_apid_name(gender, attempts_to_find_unique_name=10)
+	for(var/i in 1 to attempts_to_find_unique_name)
+		. = capitalize(apid_name(gender))
+
+		if(!findname(.))
+			break
+
 /proc/random_unique_plasmaman_name(attempts_to_find_unique_name=10)
 	for(var/i in 1 to attempts_to_find_unique_name)
 		. = capitalize(plasmaman_name())
@@ -145,10 +152,18 @@
 		if(!findname(.))
 			break
 
+/proc/random_unique_ooze_name(attempts_to_find_unique_name=10)
+	for(var/i in 1 to attempts_to_find_unique_name)
+		. = capitalize(pick(GLOB.oozeling_first_names)) + " " + capitalize(pick(GLOB.oozeling_last_names))
+
+		if(!findname(.))
+			break
+
+
 /proc/random_skin_tone()
 	return pick(GLOB.skin_tones)
 
-GLOBAL_LIST_INIT(skin_tones, list(
+GLOBAL_LIST_INIT(skin_tones, sortList(list(
 	"albino",
 	"caucasian1",
 	"caucasian2",
@@ -161,7 +176,7 @@ GLOBAL_LIST_INIT(skin_tones, list(
 	"indian",
 	"african1",
 	"african2"
-	))
+	)))
 
 GLOBAL_LIST_EMPTY(species_list)
 
@@ -249,6 +264,10 @@ GLOBAL_LIST_EMPTY(species_list)
 	if(target && !isturf(target))
 		Tloc = target.loc
 
+	if(target)
+		LAZYADD(user.do_afters, target)
+		LAZYADD(target.targeted_by, user)
+
 	var/atom/Uloc = user.loc
 
 	var/drifting = 0
@@ -261,7 +280,7 @@ GLOBAL_LIST_EMPTY(species_list)
 	if(holding)
 		holdingnull = 0 //Users hand started holding something, check to see if it's still holding that
 
-	delay *= user.do_after_coefficent()
+	delay *= user.cached_multiplicative_actions_slowdown
 
 	var/datum/progressbar/progbar
 	if (progress)
@@ -294,6 +313,10 @@ GLOBAL_LIST_EMPTY(species_list)
 				. = 0
 				break
 
+		if(target && !(target in user.do_afters))
+			. = 0
+			break
+
 		if(needhand)
 			//This might seem like an odd check, but you can still need a hand even when it's empty
 			//i.e the hand is used to pull some item/tool out of the construction
@@ -306,10 +329,11 @@ GLOBAL_LIST_EMPTY(species_list)
 				break
 	if (progress)
 		qdel(progbar)
+	
+	if(!QDELETED(target))
+		LAZYREMOVE(user.do_afters, target)
+		LAZYREMOVE(target.targeted_by, user)
 
-/mob/proc/do_after_coefficent() // This gets added to the delay on a do_after, default 1
-	. = 1
-	return
 
 /proc/do_after_mob(mob/user, list/targets, time = 30, uninterruptible = 0, progress = 1, datum/callback/extra_checks, required_mobility_flags = MOBILITY_STAND)
 	if(!user || !targets)
@@ -318,7 +342,9 @@ GLOBAL_LIST_EMPTY(species_list)
 		targets = list(targets)
 	var/user_loc = user.loc
 
-	var/drifting = 0
+	time *= user.cached_multiplicative_actions_slowdown
+
+	var/drifting = FALSE
 	if(!user.Process_Spacemove(0) && user.inertia_dir)
 		drifting = 1
 
@@ -421,30 +447,39 @@ GLOBAL_LIST_EMPTY(species_list)
 /proc/deadchat_broadcast(message, mob/follow_target=null, turf/turf_target=null, speaker_key=null, message_type=DEADCHAT_REGULAR)
 	message = "<span class='linkify'>[message]</span>"
 	for(var/mob/M in GLOB.player_list)
-		var/datum/preferences/prefs
-		if(M.client?.prefs)
-			prefs = M.client.prefs
-		else
-			prefs = new
+		var/chat_toggles = TOGGLES_DEFAULT_CHAT
+		var/toggles = TOGGLES_DEFAULT
+		var/list/ignoring
+		if(M?.client.prefs)
+			var/datum/preferences/prefs = M.client.prefs
+			chat_toggles = prefs.chat_toggles
+			toggles = prefs.toggles
+			ignoring = prefs.ignoring
+
 
 		var/override = FALSE
-		if(M.client && M.client.holder && (prefs.chat_toggles & CHAT_DEAD))
+		if(M?.client.holder && (chat_toggles & CHAT_DEAD))
 			override = TRUE
 		if(HAS_TRAIT(M, TRAIT_SIXTHSENSE))
+			override = TRUE
+		if(SSticker.current_state == GAME_STATE_FINISHED)
 			override = TRUE
 		if(isnewplayer(M) && !override)
 			continue
 		if(M.stat != DEAD && !override)
 			continue
-		if(speaker_key && (speaker_key in prefs.ignoring))
+		if(speaker_key && (speaker_key in ignoring))
 			continue
 
 		switch(message_type)
 			if(DEADCHAT_DEATHRATTLE)
-				if(prefs.toggles & DISABLE_DEATHRATTLE)
+				if(toggles & DISABLE_DEATHRATTLE)
 					continue
 			if(DEADCHAT_ARRIVALRATTLE)
-				if(prefs.toggles & DISABLE_ARRIVALRATTLE)
+				if(toggles & DISABLE_ARRIVALRATTLE)
+					continue
+			if(DEADCHAT_LAWCHANGE)
+				if(!(chat_toggles & CHAT_GHOSTLAWS))
 					continue
 
 		if(isobserver(M))
@@ -486,3 +521,48 @@ GLOBAL_LIST_EMPTY(species_list)
 		chosen = pick(mob_spawn_meancritters)
 	var/mob/living/simple_animal/C = new chosen(spawn_location)
 	return C
+
+/proc/passtable_on(target, source)
+	var/mob/living/L = target
+	if (!HAS_TRAIT(L, TRAIT_PASSTABLE) && L.pass_flags & PASSTABLE)
+		ADD_TRAIT(L, TRAIT_PASSTABLE, INNATE_TRAIT)
+	ADD_TRAIT(L, TRAIT_PASSTABLE, source)
+	L.pass_flags |= PASSTABLE
+
+/proc/passtable_off(target, source)
+	var/mob/living/L = target
+	REMOVE_TRAIT(L, TRAIT_PASSTABLE, source)
+	if(!HAS_TRAIT(L, TRAIT_PASSTABLE))
+		L.pass_flags &= ~PASSTABLE
+
+//Gets the sentient mobs that are not on centcom and are alive
+/proc/get_sentient_mobs()
+	. = list()
+	for(var/mob/living/player in GLOB.mob_living_list)
+		if(player.stat != DEAD && player.mind && !is_centcom_level(player.z) && !isnewplayer(player) && !isbrain(player))
+			. |= player
+
+//Gets all sentient humans that are alive
+/proc/get_living_crew()
+	. = list()
+	for(var/mob/living/carbon/human/player in GLOB.mob_living_list)
+		if(player.stat != DEAD && player.mind)
+			. |= player
+
+//Gets all sentient humans that are on the station
+/proc/get_living_station_crew()
+	. = list()
+	for(var/mob/living/carbon/human/player in GLOB.mob_living_list)
+		if(player.stat != DEAD && player.mind && is_station_level(player.z))
+			. |= player
+
+//Gets all the minds of humans that are on station
+/proc/get_living_station_minds()
+	. = list()
+	for(var/mob/living/carbon/human/player in GLOB.mob_living_list)
+		if(player.stat != DEAD && player.mind && is_station_level(player.z))
+			. |= player.mind
+
+/// Gets the client of the mob, allowing for mocking of the client.
+/// You only need to use this if you know you're going to be mocking clients somewhere else.
+#define GET_CLIENT(mob) (##mob.client || ##mob.mock_client)

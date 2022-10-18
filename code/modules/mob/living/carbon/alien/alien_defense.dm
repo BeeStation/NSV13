@@ -1,4 +1,3 @@
-
 /mob/living/carbon/alien/get_eye_protection()
 	return ..() + 2 //potential cyber implants + natural eye protection
 
@@ -21,6 +20,8 @@ In all, this is a lot like the monkey code. /N
 	switch(M.a_intent)
 
 		if ("help")
+			if(M == src && check_self_for_injuries())
+				return
 			set_resting(FALSE)
 			AdjustStun(-60)
 			AdjustKnockdown(-60)
@@ -60,6 +61,9 @@ In all, this is a lot like the monkey code. /N
 		if("grab")
 			grabbedby(M)
 		if ("harm")
+			if(HAS_TRAIT(M, TRAIT_PACIFISM))
+				to_chat(M, "<span class='notice'>You don't want to hurt [src]!</span>")
+				return 0
 			M.do_attack_animation(src, ATTACK_EFFECT_PUNCH)
 			return 1
 		if("disarm")
@@ -72,13 +76,13 @@ In all, this is a lot like the monkey code. /N
 	if(..())
 		if (stat != DEAD)
 			var/obj/item/bodypart/affecting = get_bodypart(ran_zone(M.zone_selected))
-			apply_damage(rand(1, 3), BRUTE, affecting)
+			apply_damage(rand(3), BRUTE, affecting)
 
 
 /mob/living/carbon/alien/attack_animal(mob/living/simple_animal/M)
 	. = ..()
 	if(.)
-		var/damage = rand(M.melee_damage_lower, M.melee_damage_upper)
+		var/damage = M.melee_damage
 		switch(M.melee_damage_type)
 			if(BRUTE)
 				adjustBruteLoss(damage)
@@ -95,9 +99,11 @@ In all, this is a lot like the monkey code. /N
 
 /mob/living/carbon/alien/attack_slime(mob/living/simple_animal/slime/M)
 	if(..()) //successful slime attack
-		var/damage = rand(5, 35)
+		var/damage = rand(20)
 		if(M.is_adult)
-			damage = rand(10, 40)
+			damage = rand(30)
+		if(M.transformeffects & SLIME_EFFECT_RED)
+			damage *= 1.1
 		adjustBruteLoss(damage)
 		log_combat(M, src, "attacked")
 		updatehealth()
@@ -106,6 +112,8 @@ In all, this is a lot like the monkey code. /N
 	if(origin && istype(origin, /datum/spacevine_mutation) && isvineimmune(src))
 		return
 	..()
+	if(QDELETED(src))
+		return
 	switch (severity)
 		if (EXPLODE_DEVASTATE)
 			gib()

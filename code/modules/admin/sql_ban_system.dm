@@ -3,7 +3,7 @@
 
 //checks client ban cache or DB ban table if ckey is banned from one or more roles
 //doesn't return any details, use only for if statements
-/proc/is_banned_from(player_ckey, roles)
+/proc/is_banned_from(player_ckey, list/roles)
 	if(!player_ckey)
 		return
 	var/client/C = GLOB.directory[player_ckey]
@@ -17,23 +17,36 @@
 		else if(roles in C.ban_cache)
 			return TRUE
 	else
-		player_ckey = sanitizeSQL(player_ckey)
-		var/admin_where
-		if(GLOB.admin_datums[player_ckey] || GLOB.deadmins[player_ckey])
-			admin_where = " AND applies_to_admins = 1"
-		var/sql_roles
-		if(islist(roles))
-			sql_roles = jointext(roles, "', '")
-		else
-			sql_roles = roles
-		sql_roles = sanitizeSQL(sql_roles)
-		var/ssqlname = sanitizeSQL(CONFIG_GET(string/serversqlname))
+		var/values = list(
+			"player_ckey" = player_ckey,
+			"must_apply_to_admins" = !!(GLOB.admin_datums[player_ckey] || GLOB.deadmins[player_ckey]),
+		)
+		var/ssqlname = CONFIG_GET(string/serversqlname)
 		var/server_check
 		if(CONFIG_GET(flag/respect_global_bans))
 			server_check = "(server_name = '[ssqlname]' OR global_ban = '1')"
 		else
 			server_check = "server_name = '[ssqlname]'"
-		var/datum/DBQuery/query_check_ban = SSdbcore.NewQuery("SELECT 1 FROM [format_table_name("ban")] WHERE ckey = '[player_ckey]' AND role IN ('[sql_roles]') AND unbanned_datetime IS NULL AND (expiration_time IS NULL OR expiration_time > NOW()) AND [server_check][admin_where]")
+		var/sql_roles
+		if(islist(roles))
+			var/list/sql_roles_list = list()
+			for (var/i in 1 to roles.len)
+				values["role[i]"] = roles[i]
+				sql_roles_list += ":role[i]"
+			sql_roles = sql_roles_list.Join(", ")
+		else
+			sql_roles = "'[roles]'"
+		var/datum/DBQuery/query_check_ban = SSdbcore.NewQuery({"
+			SELECT 1
+			FROM [format_table_name("ban")]
+			WHERE
+				ckey = :player_ckey AND
+				role IN ([sql_roles]) AND
+				unbanned_datetime IS NULL
+				AND (expiration_time IS NULL OR expiration_time > NOW())
+				AND [server_check]
+				AND (NOT :must_apply_to_admins OR applies_to_admins = 1)
+		"}, values)
 		if(!query_check_ban.warn_execute())
 			qdel(query_check_ban)
 			return
@@ -47,25 +60,35 @@
 /proc/is_banned_from_with_details(player_ckey, player_ip, player_cid, role)
 	if(!player_ckey && !player_ip && !player_cid)
 		return
-	role = sanitizeSQL(role)
-	var/list/where_list = list()
-	if(player_ckey)
-		player_ckey = sanitizeSQL(player_ckey)
-		where_list += "ckey = '[player_ckey]'"
-	if(player_ip)
-		player_ip = sanitizeSQL(player_ip)
-		where_list += "ip = INET_ATON('[player_ip]')"
-	if(player_cid)
-		player_cid = sanitizeSQL(player_cid)
-		where_list += "computerid = '[player_cid]'"
-	var/where = "([where_list.Join(" OR ")])"
-	var/ssqlname = sanitizeSQL(CONFIG_GET(string/serversqlname))
+	var/ssqlname = CONFIG_GET(string/serversqlname)
 	var/server_check
 	if(CONFIG_GET(flag/respect_global_bans))
 		server_check = "(server_name = '[ssqlname]' OR global_ban = '1')"
 	else
 		server_check = "server_name = '[ssqlname]'"
-	var/datum/DBQuery/query_check_ban = SSdbcore.NewQuery("SELECT id, bantime, round_id, expiration_time, TIMESTAMPDIFF(MINUTE, bantime, expiration_time), applies_to_admins, reason, server_name, global_ban, IFNULL((SELECT byond_key FROM [format_table_name("player")] WHERE [format_table_name("player")].ckey = [format_table_name("ban")].ckey), ckey), INET_NTOA(ip), computerid, IFNULL((SELECT byond_key FROM [format_table_name("player")] WHERE [format_table_name("player")].ckey = [format_table_name("ban")].a_ckey), a_ckey) FROM [format_table_name("ban")] WHERE role = '[role]' AND [server_check] AND [where] AND unbanned_datetime IS NULL AND (expiration_time IS NULL OR expiration_time > NOW()) ORDER BY bantime DESC")
+	var/datum/DBQuery/query_check_ban = SSdbcore.NewQuery({"
+		SELECT
+			id,
+			bantime,
+			round_id,
+			expiration_time,
+			TIMESTAMPDIFF(MINUTE, bantime, expiration_time),
+			applies_to_admins,
+			reason,
+			server_name,
+			global_ban,
+			IFNULL((SELECT byond_key FROM [format_table_name("player")] WHERE [format_table_name("player")].ckey = [format_table_name("ban")].ckey), ckey),
+			INET_NTOA(ip),
+			computerid,
+			IFNULL((SELECT byond_key FROM [format_table_name("player")] WHERE [format_table_name("player")].ckey = [format_table_name("ban")].a_ckey), a_ckey)
+		FROM [format_table_name("ban")]
+		WHERE role = :role
+			AND (ckey = :ckey OR ip = INET_ATON(:ip) OR computerid = :computerid)
+			AND unbanned_datetime IS NULL
+			AND [server_check]
+			AND (expiration_time IS NULL OR expiration_time > NOW())
+		ORDER BY bantime DESC
+	"}, list("role" = role, "ckey" = player_ckey, "ip" = player_ip, "computerid" = player_cid))
 	if(!query_check_ban.warn_execute())
 		qdel(query_check_ban)
 		return
@@ -79,19 +102,20 @@
 		return
 	if(C && istype(C))
 		C.ban_cache = list()
-		var/player_key = sanitizeSQL(C.ckey)
 		var/is_admin = FALSE
 		if(GLOB.admin_datums[C.ckey] || GLOB.deadmins[C.ckey])
 			is_admin = TRUE
 
-		var/ssqlname = sanitizeSQL(CONFIG_GET(string/serversqlname))
+		var/ssqlname = CONFIG_GET(string/serversqlname)
 		var/server_check
 		if(CONFIG_GET(flag/respect_global_bans))
 			server_check = "(server_name = '[ssqlname]' OR global_ban = '1')"
 		else
 			server_check = "server_name = '[ssqlname]'"
 
-		var/datum/DBQuery/query_build_ban_cache = SSdbcore.NewQuery("SELECT role, applies_to_admins FROM [format_table_name("ban")] WHERE ckey = '[player_key]' AND unbanned_datetime IS NULL AND (expiration_time IS NULL OR expiration_time > NOW()) AND [server_check]")
+		var/datum/DBQuery/query_build_ban_cache = SSdbcore.NewQuery(
+			"SELECT role, applies_to_admins FROM [format_table_name("ban")] WHERE ckey = :ckey AND unbanned_datetime IS NULL AND (expiration_time IS NULL OR expiration_time > NOW()) AND [server_check]",
+			list("ckey" = C.ckey))
 		if(!query_build_ban_cache.warn_execute())
 			qdel(query_build_ban_cache)
 			return
@@ -101,14 +125,18 @@
 			C.ban_cache[query_build_ban_cache.item[1]] = TRUE
 		qdel(query_build_ban_cache)
 
-/datum/admins/proc/ban_panel(player_key, player_ip, player_cid, role, duration = 1440, applies_to_admins, reason, edit_id, page, admin_key, global_ban)
+/datum/admins/proc/ban_panel(player_key, player_ip, player_cid, role, duration = 1440, applies_to_admins, reason, edit_id, page, admin_key, global_ban = TRUE)
+	var/suppressor
+	if(check_rights(R_SUPPRESS, FALSE))
+		suppressor = TRUE
 	var/panel_height = 620
 	if(edit_id)
 		panel_height = 240
 	var/datum/browser/panel = new(usr, "banpanel", "Banning Panel", 910, panel_height)
+	panel.add_stylesheet("admin_panelscss", 'html/admin/admin_panels.css')
 	panel.add_stylesheet("banpanelcss", 'html/admin/banpanel.css')
 	if(usr.client.prefs.tgui_fancy) //some browsers (IE8) have trouble with unsupported css3 elements and DOM methods that break the panel's functionality, so we won't load those if a user is in no frills tgui mode since that's for similar compatability support
-		panel.add_stylesheet("banpanelcss3", 'html/admin/banpanel_css3.css')
+		panel.add_stylesheet("admin_panelscss3", 'html/admin/admin_panels_css3.css')
 		panel.add_script("banpaneljs", 'html/admin/banpanel.js')
 	var/list/output = list("<form method='get' action='?src=[REF(src)]'>[HrefTokenFormField()]")
 	output += {"<input type='hidden' name='src' value='[REF(src)]'>
@@ -124,12 +152,17 @@
 	<input type='checkbox' id='cidcheck' name='cidcheck' value='1' checked>
 	<div class='inputbox'></div></label>
 	<input type='text' name='cidtext' size='14' value='[player_cid]'>
+	[(suppressor && !edit_id) ? "" : "<!--"]
+	<label class='inputlabel checkbox banned'>Enable Suppression
+	<input type='checkbox' id='redactioncheck' name='redactioncheck' value='1' onClick='suppression_lock(this)'>
+	<div class='inputbox'></div></label>
+	[(suppressor && !edit_id) ? "" : "-->"]
 	<br>
 	<label class='inputlabel checkbox'>Use IP and CID from last connection of key
 	<input type='checkbox' id='lastconn' name='lastconn' value='1' [(isnull(duration) && !player_ip) || (!player_cid) ? " checked": ""]>
 	<div class='inputbox'></div></label>
 	<label class='inputlabel checkbox'>Applies to Admins
-	<input type='checkbox' id='applyadmins' name='applyadmins' value='1'[applies_to_admins ? " checked": ""]>
+	<input class='redact_incompatible' type='checkbox' id='applyadmins' name='applyadmins' value='1'[applies_to_admins ? " checked": ""]>
 	<div class='inputbox'></div></label>
 	<input type='submit' value='Submit'>
 	<br>
@@ -161,39 +194,39 @@
 			Ban type
 			<br>
 			<label class='inputlabel radio'>Server
-			<input type='radio' id='server' name='radioban' value='server'[role == "Server" ? " checked" : ""][edit_id ? " disabled" : ""]>
+			<input class='redact_force_checked' type='radio' id='server' name='radioban' value='server'[role == "Server" ? " checked" : ""][edit_id ? " disabled" : ""]>
 			<div class='inputbox'></div></label>
 			<br>
 			<label class='inputlabel radio'>Role
-			<input type='radio' id='role' name='radioban' value='role'[role == "Server" ? "" : " checked"][edit_id ? " disabled" : ""]>
+			<input class='redact_incompatible' type='radio' id='role' name='radioban' value='role'[role == "Server" ? "" : " checked"][edit_id ? " disabled" : ""]>
 			<div class='inputbox'></div></label>
 		</div>
 		<div class='column middle'>
 			Severity
 			<br>
 			<label class='inputlabel radio'>None
-			<input type='radio' id='none' name='radioseverity' value='none'[edit_id ? " disabled" : ""]>
+			<input class='redact_incompatible' type='radio' id='none' name='radioseverity' value='none'[edit_id ? " disabled" : ""]>
 			<div class='inputbox'></div></label>
 			<label class='inputlabel radio'>Medium
-			<input type='radio' id='medium' name='radioseverity' value='medium'[edit_id ? " disabled" : ""]>
+			<input class='redact_incompatible' type='radio' id='medium' name='radioseverity' value='medium'[edit_id ? " disabled" : ""]>
 			<div class='inputbox'></div></label>
 			<br>
 			<label class='inputlabel radio'>Minor
-			<input type='radio' id='minor' name='radioseverity' value='minor'[edit_id ? " disabled" : ""]>
+			<input class='redact_incompatible' type='radio' id='minor' name='radioseverity' value='minor'[edit_id ? " disabled" : ""]>
 			<div class='inputbox'></div></label>
 			<label class='inputlabel radio'>High
-			<input type='radio' id='high' name='radioseverity' value='high'[edit_id ? " disabled" : ""]>
+			<input class='redact_force_checked' type='radio' id='high' name='radioseverity' value='high'[edit_id ? " disabled" : ""]>
 			<div class='inputbox'></div></label>
 		</div>
 		<div class='column right'>
 			Location
 			<br>
 			<label class='inputlabel radio'>Local
-			<input type='radio' id='servban' name='radioservban' value='local'[isnull(global_ban) ? " checked" : ""]>
+			<input class='redact_incompatible' type='radio' id='servban' name='radioservban' value='local'[isnull(global_ban) ? " checked" : ""]>
 			<div class='inputbox'></div></label>
 			<br>
 			<label class='inputlabel radio'>Global
-			<input type='radio' id='servban' name='radioservban' value='global'[(global_ban) ? " checked" : ""]>
+			<input class='redact_force_checked' type='radio' id='servban' name='radioservban' value='global'[(global_ban) ? " checked" : ""]>
 			<div class='inputbox'></div></label>
 		</div>
 		<div class='column'>
@@ -226,8 +259,15 @@
 		//there's not always a client to use the bancache of so to avoid many individual queries from using is_banned_form we'll build a cache to use here
 		var/banned_from = list()
 		if(player_key)
-			var/player_ckey = sanitizeSQL(ckey(player_key))
-			var/datum/DBQuery/query_get_banned_roles = SSdbcore.NewQuery("SELECT role FROM [format_table_name("ban")] WHERE ckey = '[player_ckey]' AND role <> 'server' AND unbanned_datetime IS NULL AND (expiration_time IS NULL OR expiration_time > NOW())")
+			var/datum/DBQuery/query_get_banned_roles = SSdbcore.NewQuery({"
+				SELECT role
+				FROM [format_table_name("ban")]
+				WHERE
+					ckey = :player_ckey AND
+					role <> 'server'
+					AND unbanned_datetime IS NULL
+					AND (expiration_time IS NULL OR expiration_time > NOW())
+			"}, list("player_ckey" = ckey(player_key)))
 			if(!query_get_banned_roles.warn_execute())
 				qdel(query_get_banned_roles)
 				return
@@ -247,13 +287,12 @@
 			"}
 			break_counter++
 		output += "</div></div>"
-		//standard departments all have identical handling - NSV13 Munitions added
+		//standard departments all have identical handling
 		var/list/job_lists = list("Security" = GLOB.security_positions,
 							"Engineering" = GLOB.engineering_positions,
 							"Medical" = GLOB.medical_positions,
 							"Science" = GLOB.science_positions,
-							"Supply" = GLOB.supply_positions,
-							"Munitions" = GLOB.munitions_positions)
+							"Supply" = GLOB.supply_positions)
 		for(var/department in job_lists)
 			//the first element is the department head so they need the same javascript call as above
 			output += "<div class='column'><label class='rolegroup [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
@@ -273,7 +312,7 @@
 			output += "</div></div>"
 		//departments/groups that don't have command staff would throw a javascript error since there's no corresponding reference for toggle_head()
 		var/list/headless_job_lists = list("Silicon" = GLOB.nonhuman_positions,
-										"Abstract" = list("Appearance", "Emote", "OOC"))
+										"Abstract" = list("Appearance", "Emote", "OOC", "DSAY"))
 		for(var/department in headless_job_lists)
 			output += "<div class='column'><label class='rolegroup [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
 			break_counter = 0
@@ -286,15 +325,16 @@
 				"}
 				break_counter++
 			output += "</div></div>"
-		var/list/long_job_lists = list("Civilian" = GLOB.civilian_positions,
+		var/list/long_job_lists = list(("Civilian" = GLOB.civilian_positions | "Gimmick"),
 									"Ghost and Other Roles" = list(ROLE_BRAINWASHED, ROLE_DEATHSQUAD, ROLE_DRONE, ROLE_LAVALAND, ROLE_MIND_TRANSFER, ROLE_POSIBRAIN, ROLE_SENTIENCE),
 									"Antagonist Positions" = list(ROLE_ABDUCTOR, ROLE_ALIEN, ROLE_BLOB,
-									ROLE_BROTHER, ROLE_CHANGELING, ROLE_CULTIST,
+									ROLE_BROTHER, ROLE_CHANGELING, ROLE_CULTIST, ROLE_HERETIC,
 									ROLE_DEVIL, ROLE_INTERNAL_AFFAIRS, ROLE_MALF,
 									ROLE_MONKEY, ROLE_NINJA, ROLE_OPERATIVE,
+									ROLE_SERVANT_OF_RATVAR,
 									ROLE_OVERTHROW, ROLE_REV, ROLE_REVENANT,
-									ROLE_REV_HEAD, ROLE_SERVANT_OF_RATVAR, ROLE_SYNDICATE,
-									ROLE_TRAITOR, ROLE_WIZARD, ROLE_HIVE, ROLE_GANG)) //ROLE_REV_HEAD is excluded from this because rev jobbans are handled by ROLE_REV
+									ROLE_REV_HEAD, ROLE_SYNDICATE,
+									ROLE_TRAITOR, ROLE_WIZARD, ROLE_HIVE, ROLE_GANG, ROLE_TERATOMA)) //ROLE_REV_HEAD is excluded from this because rev jobbans are handled by ROLE_REV
 		for(var/department in long_job_lists)
 			output += "<div class='column'><label class='rolegroup long [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
 			break_counter = 0
@@ -326,7 +366,7 @@
 	var/player_cid
 	var/use_last_connection = FALSE
 	var/applies_to_admins = FALSE
-	var/global_ban = FALSE
+	var/global_ban = TRUE
 	var/duration
 	var/interval
 	var/severity
@@ -340,8 +380,18 @@
 	var/old_globalban
 	var/page
 	var/admin_key
+	var/redact
 	var/list/changes = list()
 	var/list/roles_to_ban = list()
+	if(href_list["redactioncheck"])
+		if(check_rights(R_SUPPRESS))
+			if(!edit_id)
+				redact = TRUE
+			else
+				error_state += "Bans may not have their suppression flag edited. If a ban requiring suppression was accidently issued without it, contact [CONFIG_GET(string/hostedby)] immediately."
+		else
+			error_state += "You have attempted to issue a suppressed ban without permission, This incident has been logged."
+			log_admin_private("SUPPRESS: [key_name(usr)] ATTEMPTED TO ISSUE A SUPPRESSED BAN WITHOUT THE REQUISITE RIGHT!")
 	if(href_list["keycheck"])
 		player_key = href_list["keytext"]
 		if(!player_key)
@@ -367,10 +417,14 @@
 	if(use_last_connection && !ip_check && !cid_check)
 		error_state += "Use last connection was ticked, but neither IP nor CID was."
 	if(href_list["applyadmins"])
+		if(redact)
+			error_state += "Admin bans can not be suppressed."
 		applies_to_admins = TRUE
 	switch(href_list["radioservban"])
 		if("local")
 			global_ban = FALSE
+			if(redact)
+				error_state += "Suppressed bans must be global."
 		if("global")
 			global_ban = TRUE
 	switch(href_list["radioduration"])
@@ -431,25 +485,38 @@
 						roles_to_ban |= key
 			else
 				error_state += "No ban type was selected."
+	if((href_list["radioban"] != "server") && redact)
+		error_state += "Suppression may only be applied to server bans."
 	if(error_state.len)
 		to_chat(usr, "<span class='danger'>Ban not [edit_id ? "edited" : "created"] because the following errors were present:\n[error_state.Join("\n")]</span>")
 		return
 	if(edit_id)
 		edit_ban(edit_id, player_key, ip_check, player_ip, cid_check, player_cid, use_last_connection, applies_to_admins, duration, interval, reason, global_ban, mirror_edit, old_key, old_ip, old_cid, old_applies, old_globalban, page, admin_key, changes)
 	else
-		create_ban(player_key, ip_check, player_ip, cid_check, player_cid, use_last_connection, applies_to_admins, duration, interval, severity, reason, global_ban, roles_to_ban)
+		create_ban(player_key, ip_check, player_ip, cid_check, player_cid, use_last_connection, applies_to_admins, duration, interval, severity, reason, global_ban, roles_to_ban, redact)
 
-/datum/admins/proc/create_ban(player_key, ip_check, player_ip, cid_check, player_cid, use_last_connection, applies_to_admins, duration, interval, severity, reason, global_ban, list/roles_to_ban)
+/datum/admins/proc/create_ban(player_key, ip_check, player_ip, cid_check, player_cid, use_last_connection, applies_to_admins, duration, interval, severity, reason, global_ban, list/roles_to_ban, redact = 0)
 	if(!check_rights(R_BAN))
 		return
 	if(!SSdbcore.Connect())
 		to_chat(usr, "<span class='danger'>Failed to establish database connection.</span>")
 		return
-	var/player_ckey = sanitizeSQL(ckey(player_key))
-	player_ip = sanitizeSQL(player_ip)
-	player_cid = sanitizeSQL(player_cid)
+
+	if(cid_check && config.protected_cids.Find(player_cid))
+		if(alert(usr, "CID [player_cid] is listed as protected for the following reason: [config.protected_cids[player_cid]], Are you sure you want to restrict this CID? THIS WILL PROBABLY CATCH LEGITIMATE PLAYERS.", "Protected CID", "Yes", "No", "Cancel") != "Yes")
+			return
+		var/kn = key_name(usr)
+		//Log the shit out of this and scream bloody murder to anyone who will listen.
+		send2tgs("CID PROTECTION BYPASS", "[kn] Has overridden CID protection for a ban on CID [player_cid]!")
+		message_admins("<span class='danger'>[kn] Has overridden CID protection for a ban on CID [player_cid]!</span>")
+		log_admin_private("[kn] Has overridden CID protection for a ban on CID [player_cid]!")
+	if(redact && alert(usr, "You are about to issue a Suppressed ban, This will require direct database editing to revoke, ARE YOU SURE?", "Protected CID", "Yes", "No", "Cancel") != "Yes")
+		return
+	var/player_ckey = ckey(player_key)
 	if(player_ckey)
-		var/datum/DBQuery/query_create_ban_get_player = SSdbcore.NewQuery("SELECT byond_key, INET_NTOA(ip), computerid FROM [format_table_name("player")] WHERE ckey = '[player_ckey]'")
+		var/datum/DBQuery/query_create_ban_get_player = SSdbcore.NewQuery({"
+			SELECT byond_key, INET_NTOA(ip), computerid FROM [format_table_name("player")] WHERE ckey = :player_ckey
+		"}, list("player_ckey" = player_ckey))
 		if(!query_create_ban_get_player.warn_execute())
 			qdel(query_create_ban_get_player)
 			return
@@ -470,9 +537,17 @@
 					qdel(query_create_ban_get_player)
 					return
 		qdel(query_create_ban_get_player)
-	var/admin_ckey = sanitizeSQL(usr.client.ckey)
+	var/admin_ckey = usr.client.ckey
 	if(applies_to_admins)
-		var/datum/DBQuery/query_check_adminban_count = SSdbcore.NewQuery("SELECT COUNT(DISTINCT bantime) FROM [format_table_name("ban")] WHERE a_ckey = '[admin_ckey]' AND applies_to_admins = 1 AND unbanned_datetime IS NULL AND (expiration_time IS NULL OR expiration_time > NOW())")
+		var/datum/DBQuery/query_check_adminban_count = SSdbcore.NewQuery({"
+			SELECT COUNT(DISTINCT bantime)
+			FROM [format_table_name("ban")]
+			WHERE
+				a_ckey = :admin_ckey AND
+				applies_to_admins = 1 AND
+				unbanned_datetime IS NULL AND
+				(expiration_time IS NULL OR expiration_time > NOW())
+		"}, list("admin_ckey" = admin_ckey))
 		if(!query_check_adminban_count.warn_execute()) //count distinct bantime to treat rolebans made at the same time as one ban
 			qdel(query_check_adminban_count)
 			return
@@ -486,18 +561,15 @@
 				qdel(query_check_adminban_count)
 				return
 		qdel(query_check_adminban_count)
-	var/admin_ip = sanitizeSQL(usr.client.address)
-	var/admin_cid = sanitizeSQL(usr.client.computer_id)
+	var/admin_ip = usr.client.address
+	var/admin_cid = usr.client.computer_id
 	duration = text2num(duration)
-	if(interval)
-		interval = sanitizeSQL(interval)
-	else
+	if (!(interval in list("SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "YEAR")))
 		interval = "MINUTE"
 	var/time_message = "[duration] [lowertext(interval)]" //no DisplayTimeText because our duration is of variable interval type
 	if(duration > 1) //pluralize the interval if necessary
 		time_message += "s"
 	var/note_reason = "Banned from [roles_to_ban[1] == "Server" ? "the server" : " Roles: [roles_to_ban.Join(", ")]"] [isnull(duration) ? "permanently" : "for [time_message]"] - [reason]"
-	reason = sanitizeSQL(reason)
 	var/list/clients_online = GLOB.clients.Copy()
 	var/list/admins_online = list()
 	for(var/client/C in clients_online)
@@ -508,47 +580,76 @@
 	var/kn = key_name(usr)
 	var/kna = key_name_admin(usr)
 
-	var/ssqlname = sanitizeSQL(CONFIG_GET(string/serversqlname))
-
-	var/sql_ban
+	var/special_columns = list(
+		"bantime" = "NOW()",
+		"server_ip" = "INET_ATON(?)",
+		"ip" = "INET_ATON(?)",
+		"a_ip" = "INET_ATON(?)",
+		"expiration_time" = "IF(? IS NULL, NULL, NOW() + INTERVAL ? [interval])"
+	)
+	var/sql_ban = list()
+	//I'm going to crosscheck this one last time because this is playing with fire.
+	if(redact)
+		if(!check_rights(R_SUPPRESS))
+			to_chat(usr, "<span class='danger'>You have attempted to register a suppressed ban without the correct access, this incident has been logged, and the ban has been aborted.</span>")
+			log_admin_private("SUPPRESS: [key_name(usr)] ATTEMPTED TO ISSUE A SUPPRESSED BAN WITHOUT THE REQUISITE RIGHT!")
+			return
+		if(roles_to_ban[1] != "Server") //This should never happen. Still checking it.
+			to_chat(usr, "<span class='danger'>You have attempted to directly register a suppressed ban that is not a server ban, this incident has been logged, and the ban has been aborted.</span>")
+			log_admin_private("SUPPRESS: [key_name(usr)] ATTEMPTED TO MANUALLY ISSUE A SUPPRESSED NON-SERVER BAN!")
+			return
+		if(applies_to_admins)
+			to_chat(usr, "<span class='danger'>You have attempted to directly register a suppressed ban that affects admins, this incident has been logged, and the ban has been aborted.</span>")
+			log_admin_private("SUPPRESS: [key_name(usr)] ATTEMPTED TO MANUALLY ISSUE A SUPPRESSED ADMIN BAN!")
+			return
 	for(var/role in roles_to_ban)
-		sql_ban += list(list("bantime" = "NOW()",
-		"server_name" = "'[ssqlname]'",
-		"server_ip" = "INET_ATON(IF('[world.internet_address]' LIKE '', '0', '[world.internet_address]'))",
-		"server_port" = sanitizeSQL(world.port),
-		"round_id" = sanitizeSQL(GLOB.round_id),
-		"role" = "'[sanitizeSQL(role)]'",
-		"expiration_time" = "IF('[duration]' LIKE '', NULL, NOW() + INTERVAL [duration ? "[duration]" : "0"] [interval])",
-		"applies_to_admins" = sanitizeSQL(applies_to_admins),
-		"reason" = "'[reason]'",
-		"ckey" = "IF('[player_ckey]' LIKE '', NULL, '[player_ckey]')",
-		"ip" = "INET_ATON(IF('[player_ip]' LIKE '', NULL, '[player_ip]'))",
-		"computerid" = "IF('[player_cid]' LIKE '', NULL, '[player_cid]')",
-		"a_ckey" = "'[admin_ckey]'",
-		"a_ip" = "INET_ATON(IF('[admin_ip]' LIKE '', NULL, '[admin_ip]'))",
-		"a_computerid" = "'[admin_cid]'",
-		"who" = "'[who]'",
-		"adminwho" = "'[adminwho]'",
-		"global_ban" = "'[global_ban]'"
+		sql_ban += list(list(
+			"server_name" = CONFIG_GET(string/serversqlname),
+			"server_ip" = world.internet_address || 0,
+			"server_port" = world.port,
+			"round_id" = GLOB.round_id,
+			"role" = role,
+			"expiration_time" = duration,
+			"applies_to_admins" = applies_to_admins,
+			"reason" = reason,
+			"ckey" = player_ckey || null,
+			"ip" = player_ip || null,
+			"computerid" = player_cid || null,
+			"a_ckey" = admin_ckey,
+			"a_ip" = admin_ip || null,
+			"a_computerid" = admin_cid,
+			"who" = who,
+			"adminwho" = adminwho,
+			"global_ban" = global_ban,
+			"hidden" = redact
 		))
-	if(!SSdbcore.MassInsert(format_table_name("ban"), sql_ban, warn = 1))
+	if(!SSdbcore.MassInsert(format_table_name("ban"), sql_ban, warn = TRUE, special_columns = special_columns))
 		return
 	var/target = ban_target_string(player_key, player_ip, player_cid)
 	var/msg = "has created a [global_ban ? "global" : "local"] [isnull(duration) ? "permanent" : "temporary [time_message]"] [applies_to_admins ? "admin " : ""][roles_to_ban[1] == "Server" ? "server ban" : "role ban from [roles_to_ban.len] roles"] for [target]."
-	log_admin_private("[kn] [msg][roles_to_ban[1] == "Server" ? "" : " Roles: [roles_to_ban.Join(", ")]"] Reason: [reason]")
-	message_admins("[kna] [msg][roles_to_ban[1] == "Server" ? "" : " Roles: [roles_to_ban.Join("\n")]"]\nReason: [reason]")
-	if(applies_to_admins)
-		send2irc("BAN ALERT","[kn] [msg]")
-	if(player_ckey)
-		create_message("note", player_ckey, admin_ckey, note_reason, null, null, 0, 0, null, 0, severity)
+	if(!redact)
+		log_admin_private("[kn] [msg][roles_to_ban[1] == "Server" ? "" : " Roles: [roles_to_ban.Join(", ")]"] Reason: [reason]")
+		message_admins("[kna] [msg][roles_to_ban[1] == "Server" ? "" : " Roles: [roles_to_ban.Join("\n")]"]\nReason: [reason]")
+	else
+		log_admin_private("SUPPRESS: [kn] has created a suppressed ban.")
+		to_chat(usr, "Ban issued successfuly, This has not been announced to other admins.")
+	if(applies_to_admins && !redact) //Should never happen.
+		send2tgs("BAN ALERT","[kn] [msg]")
+	if(player_ckey && !redact)
+		create_message("note", player_ckey, admin_ckey, note_reason, null, null, 0, 0, null, -1, severity)
 	var/client/C = GLOB.directory[player_ckey]
 	var/datum/admin_help/AH = admin_ticket_log(player_ckey, msg)
 	var/appeal_url = "No ban appeal url set!"
 	appeal_url = CONFIG_GET(string/banappeals)
 	var/is_admin = FALSE
+	var/special_prefix = ""
+	if(redact)
+		special_prefix = "hard "
+	if(applies_to_admins)
+		special_prefix = "admin "
 	if(C)
 		build_ban_cache(C)
-		to_chat(C, "<span class='boldannounce'>You have been [applies_to_admins ? "admin " : ""]banned by [usr.client.key] from [roles_to_ban[1] == "Server" ? "the server" : " Roles: [roles_to_ban.Join(", ")]"].\nReason: [reason]</span><br><span class='danger'>This ban is [isnull(duration) ? "permanent." : "temporary, it will be removed in [time_message]."] [global_ban ? "This ban applies to all of our servers." : "This is a single-server ban, and only applies to this server."] The round ID is [GLOB.round_id].</span><br><span class='danger'>To appeal this ban go to [appeal_url]</span>")
+		to_chat(C, "<span class='boldannounce'>You have been [special_prefix]banned by [usr.client.key] from [roles_to_ban[1] == "Server" ? "the server" : " Roles: [roles_to_ban.Join(", ")]"].\nReason: [reason]</span><br><span class='danger'>This ban is [isnull(duration) ? "permanent." : "temporary, it will be removed in [time_message]."] [global_ban ? "This ban applies to all of our servers." : "This is a single-server ban, and only applies to this server."] The round ID is [GLOB.round_id].</span><br><span class='danger'>[redact ? "This ban may not be appealed." : "To appeal this ban go to [appeal_url]"]</span>")
 		if(GLOB.admin_datums[C.ckey] || GLOB.deadmins[C.ckey])
 			is_admin = TRUE
 		if(roles_to_ban[1] == "Server" && (!is_admin || (is_admin && applies_to_admins)))
@@ -558,7 +659,7 @@
 	for(var/client/i in GLOB.clients - C)
 		if(i.address == player_ip || i.computer_id == player_cid)
 			build_ban_cache(i)
-			to_chat(i, "<span class='boldannounce'>You have been [applies_to_admins ? "admin " : ""]banned by [usr.client.key] from [roles_to_ban[1] == "Server" ? "the server" : " Roles: [roles_to_ban.Join(", ")]"].\nReason: [reason]</span><br><span class='danger'>This ban is [isnull(duration) ? "permanent." : "temporary, it will be removed in [time_message]."] [global_ban ? "This ban applies to all of our servers." : "This is a single-server ban, and only applies to this server."] The round ID is [GLOB.round_id].</span><br><span class='danger'>To appeal this ban go to [appeal_url]</span>")
+			to_chat(i, "<span class='boldannounce'>You have been [special_prefix]banned by [usr.client.key] from [roles_to_ban[1] == "Server" ? "the server" : " Roles: [roles_to_ban.Join(", ")]"].\nReason: [reason]</span><br><span class='danger'>This ban is [isnull(duration) ? "permanent." : "temporary, it will be removed in [time_message]."] [global_ban ? "This ban applies to all of our servers." : "This is a single-server ban, and only applies to this server."] The round ID is [GLOB.round_id].</span><br><span class='danger'>To appeal this ban go to [appeal_url]</span>")
 			if(GLOB.admin_datums[i.ckey] || GLOB.deadmins[i.ckey])
 				is_admin = TRUE
 			if(roles_to_ban[1] == "Server" && (!is_admin || (is_admin && applies_to_admins)))
@@ -585,20 +686,24 @@
 	<div class='main'>
 	"}
 	if(player_key || admin_key || player_ip || player_cid)
-		var/list/searchlist = list()
-		if(player_key)
-			searchlist += "ckey = '[sanitizeSQL(ckey(player_key))]'"
-		if(admin_key)
-			searchlist += "a_ckey = '[sanitizeSQL(ckey(admin_key))]'"
-		if(player_ip)
-			searchlist += "ip = INET_ATON('[sanitizeSQL(player_ip)]')"
-		if(player_cid)
-			searchlist += "computerid = '[sanitizeSQL(player_cid)]'"
-		var/search = searchlist.Join(" AND ")
 		var/bancount = 0
 		var/bansperpage = 10
 		page = text2num(page)
-		var/datum/DBQuery/query_unban_count_bans = SSdbcore.NewQuery("SELECT COUNT(id) FROM [format_table_name("ban")] WHERE [search]")
+		var/datum/DBQuery/query_unban_count_bans = SSdbcore.NewQuery({"
+			SELECT COUNT(id)
+			FROM [format_table_name("ban")]
+			WHERE
+				(:player_key IS NULL OR ckey = :player_key) AND
+				(:admin_key IS NULL OR a_ckey = :admin_key) AND
+				(:player_ip IS NULL OR ip = INET_ATON(:player_ip)) AND
+				(:player_cid IS NULL OR computerid = :player_cid) AND
+				hidden = 0
+		"}, list(
+			"player_key" = ckey(player_key),
+			"admin_key" = ckey(admin_key),
+			"player_ip" = player_ip || null,
+			"player_cid" = player_cid || null,
+		))
 		if(!query_unban_count_bans.warn_execute())
 			qdel(query_unban_count_bans)
 			return
@@ -614,8 +719,54 @@
 				bancount -= bansperpage
 				pagecount++
 			output += pagelist.Join(" | ")
-		var/limit = " LIMIT [bansperpage * page], [bansperpage]"
-		var/datum/DBQuery/query_unban_search_bans = SSdbcore.NewQuery({"SELECT id, bantime, round_id, role, expiration_time, TIMESTAMPDIFF(MINUTE, bantime, expiration_time), IF(expiration_time < NOW(), 1, NULL), applies_to_admins, reason, IFNULL((SELECT byond_key FROM [format_table_name("player")] WHERE [format_table_name("player")].ckey = [format_table_name("ban")].ckey), ckey), INET_NTOA(ip), computerid, IFNULL((SELECT byond_key FROM [format_table_name("player")] WHERE [format_table_name("player")].ckey = [format_table_name("ban")].a_ckey), a_ckey), IF(edits IS NOT NULL, 1, NULL), unbanned_datetime, IFNULL((SELECT byond_key FROM [format_table_name("player")] WHERE [format_table_name("player")].ckey = [format_table_name("ban")].unbanned_ckey), unbanned_ckey), unbanned_round_id FROM [format_table_name("ban")] WHERE [search] ORDER BY id DESC[limit]"})
+		var/datum/DBQuery/query_unban_search_bans = SSdbcore.NewQuery({"
+			SELECT
+				id,
+				bantime,
+				round_id,
+				role,
+				expiration_time,
+				TIMESTAMPDIFF(MINUTE, bantime, expiration_time),
+				IF(expiration_time < NOW(), 1, NULL),
+				applies_to_admins,
+				reason,
+				IFNULL((
+					SELECT byond_key
+					FROM [format_table_name("player")]
+					WHERE [format_table_name("player")].ckey = [format_table_name("ban")].ckey
+				), ckey),
+				INET_NTOA(ip),
+				computerid,
+				IFNULL((
+					SELECT byond_key
+					FROM [format_table_name("player")]
+					WHERE [format_table_name("player")].ckey = [format_table_name("ban")].a_ckey
+				), a_ckey),
+				IF(edits IS NOT NULL, 1, NULL),
+				unbanned_datetime,
+				IFNULL((
+					SELECT byond_key
+					FROM [format_table_name("player")]
+					WHERE [format_table_name("player")].ckey = [format_table_name("ban")].unbanned_ckey
+				), unbanned_ckey),
+				unbanned_round_id
+			FROM [format_table_name("ban")]
+			WHERE
+				(:player_key IS NULL OR ckey = :player_key) AND
+				(:admin_key IS NULL OR a_ckey = :admin_key) AND
+				(:player_ip IS NULL OR ip = INET_ATON(:player_ip)) AND
+				(:player_cid IS NULL OR computerid = :player_cid) AND
+				hidden = 0
+			ORDER BY id DESC
+			LIMIT :skip, :take
+		"}, list(
+			"player_key" = ckey(player_key),
+			"admin_key" = ckey(admin_key),
+			"player_ip" = player_ip || null,
+			"player_cid" = player_cid || null,
+			"skip" = bansperpage * page,
+			"take" = bansperpage,
+		))
 		if(!query_unban_search_bans.warn_execute())
 			qdel(query_unban_search_bans)
 			return
@@ -649,8 +800,7 @@
 			if(unban_datetime)
 				output += "<br>Unbanned by <b>[unban_key]</b> on <b>[unban_datetime]</b> during round <b>#[unban_round_id]</b>."
 			output += "</div><div class='container'><div class='reason'>[reason]</div><div class='edit'>"
-			if(!expired && !unban_datetime)
-				output += "<a href='?_src_=holder;[HrefToken()];editbanid=[ban_id];editbankey=[player_key];editbanip=[player_ip];editbancid=[player_cid];editbanrole=[role];editbanduration=[duration];editbanadmins=[applies_to_admins];editbanreason=[url_encode(reason)];editbanpage=[page];editbanadminkey=[admin_key]'>Edit</a><br>[unban_href]"
+			output += "<a href='?_src_=holder;[HrefToken()];editbanid=[ban_id];editbankey=[player_key];editbanip=[player_ip];editbancid=[player_cid];editbanrole=[role];editbanduration=[duration];editbanadmins=[applies_to_admins];editbanreason=[rustg_url_encode(reason)];editbanpage=[page];editbanadminkey=[admin_key]'>Edit</a><br>[unban_href]"
 			if(edits)
 				output += "<br><a href='?_src_=holder;[HrefToken()];unbanlog=[ban_id]'>Edit log</a>"
 			output += "</div></div></div>"
@@ -668,13 +818,17 @@
 	var/target = ban_target_string(player_key, player_ip, player_cid)
 	if(alert(usr, "Please confirm unban of [target] from [role].", "Unban confirmation", "Yes", "No") == "No")
 		return
-	ban_id = sanitizeSQL(ban_id)
-	var/admin_ckey = sanitizeSQL(usr.client.ckey)
-	var/admin_ip = sanitizeSQL(usr.client.address)
-	var/admin_cid = sanitizeSQL(usr.client.computer_id)
 	var/kn = key_name(usr)
 	var/kna = key_name_admin(usr)
-	var/datum/DBQuery/query_unban = SSdbcore.NewQuery("UPDATE [format_table_name("ban")] SET unbanned_datetime = NOW(), unbanned_ckey = '[admin_ckey]', unbanned_ip = INET_ATON('[admin_ip]'), unbanned_computerid = '[admin_cid]', unbanned_round_id = '[GLOB.round_id]' WHERE id = [ban_id]")
+	var/datum/DBQuery/query_unban = SSdbcore.NewQuery({"
+		UPDATE [format_table_name("ban")] SET
+			unbanned_datetime = NOW(),
+			unbanned_ckey = :admin_ckey,
+			unbanned_ip = INET_ATON(:admin_ip),
+			unbanned_computerid = :admin_cid,
+			unbanned_round_id = :round_id
+		WHERE id = :ban_id
+	"}, list("ban_id" = ban_id, "admin_ckey" = usr.client.ckey, "admin_ip" = usr.client.address, "admin_cid" = usr.client.computer_id, "round_id" = GLOB.round_id))
 	if(!query_unban.warn_execute())
 		qdel(query_unban)
 		return
@@ -697,13 +851,28 @@
 	if(!SSdbcore.Connect())
 		to_chat(usr, "<span class='danger'>Failed to establish database connection.</span>")
 		return
-	ban_id = sanitizeSQL(ban_id)
-	var/player_ckey = sanitizeSQL(ckey(player_key))
-	player_ip = sanitizeSQL(player_ip)
-	player_cid = sanitizeSQL(player_cid)
+
+	if(cid_check && config.protected_cids.Find(player_cid))
+		if(alert(usr, "CID [player_cid] is listed as protected for the following reason: [config.protected_cids[player_cid]], Are you sure you want to restrict this CID? THIS WILL PROBABLY CATCH LEGITIMATE PLAYERS.", "Protected CID", "Yes", "No", "Cancel") != "Yes")
+			return
+		var/kn = key_name(usr)
+		//Log the shit out of this and scream bloody murder to anyone who will listen.
+		send2tgs("CID PROTECTION BYPASS", "[kn] Has overridden CID protection for a ban on CID [player_cid]!")
+		message_admins("<span class='danger'>[kn] Has overridden CID protection for a ban on CID [player_cid]!</span>")
+		log_admin_private("[kn] Has overridden CID protection for a ban on CID [player_cid]!")
+
+	var/player_ckey = ckey(player_key)
 	var/bantime
 	if(player_ckey)
-		var/datum/DBQuery/query_edit_ban_get_player = SSdbcore.NewQuery("SELECT byond_key, (SELECT bantime FROM [format_table_name("ban")] WHERE id = [ban_id]), ip, computerid FROM [format_table_name("player")] WHERE ckey = '[player_ckey]'")
+		var/datum/DBQuery/query_edit_ban_get_player = SSdbcore.NewQuery({"
+			SELECT
+				byond_key,
+				(SELECT bantime FROM [format_table_name("ban")] WHERE id = :ban_id),
+				ip,
+				computerid
+			FROM [format_table_name("player")]
+			WHERE ckey = :player_ckey
+		"}, list("player_ckey" = player_ckey, "ban_id" = ban_id))
 		if(!query_edit_ban_get_player.warn_execute())
 			qdel(query_edit_ban_get_player)
 			return
@@ -726,8 +895,14 @@
 					return
 		qdel(query_edit_ban_get_player)
 	if(applies_to_admins && (applies_to_admins != old_applies))
-		var/admin_ckey = sanitizeSQL(usr.client.ckey)
-		var/datum/DBQuery/query_check_adminban_count = SSdbcore.NewQuery("SELECT COUNT(DISTINCT bantime) FROM [format_table_name("ban")] WHERE a_ckey = '[admin_ckey]' AND applies_to_admins = 1 AND unbanned_datetime IS NULL AND (expiration_time IS NULL OR expiration_time > NOW())")
+		var/datum/DBQuery/query_check_adminban_count = SSdbcore.NewQuery({"
+			SELECT COUNT(DISTINCT bantime)
+			FROM [format_table_name("ban")]
+			WHERE a_ckey = :admin_ckey
+				AND applies_to_admins = 1
+				AND unbanned_datetime IS NULL
+				AND (expiration_time IS NULL OR expiration_time > NOW())
+		"}, list("admin_ckey" = usr.client.ckey))
 		if(!query_check_adminban_count.warn_execute()) //count distinct bantime to treat rolebans made at the same time as one ban
 			qdel(query_check_adminban_count)
 			return
@@ -741,41 +916,69 @@
 				qdel(query_check_adminban_count)
 				return
 		qdel(query_check_adminban_count)
-	applies_to_admins = sanitizeSQL(applies_to_admins)
-	duration = sanitizeSQL(duration)
-	if(interval)
-		interval = sanitizeSQL(interval)
-	else
+
+	if (!(interval in list("SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "YEAR")))
 		interval = "MINUTE"
-	reason = sanitizeSQL(reason)
-	var/kn = key_name(usr)
-	var/kna = key_name_admin(usr)
-	var/list/changes_text= list()
+
+	var/list/changes_text = list()
 	var/list/changes_keys = list()
 	for(var/i in changes)
-		changes_text += "[sanitizeSQL(i)]: [sanitizeSQL(changes[i])]"
+		changes_text += "[i]: [changes[i]]"
 		changes_keys += i
-	var/where = "id = [sanitizeSQL(ban_id)]"
+	var/change_message = "[usr.client.key] edited the following [jointext(changes_text, ", ")]<hr>"
+
+	var/list/arguments = list(
+		"duration" = duration || null,
+		"reason" = reason,
+		"applies_to_admins" = applies_to_admins,
+		"ckey" = player_ckey || null,
+		"ip" = player_ip || null,
+		"cid" = player_cid || null,
+		"change_message" = change_message,
+		"global_ban" = global_ban
+	)
+	var/where
 	if(text2num(mirror_edit))
 		var/list/wherelist = list("bantime = '[bantime]'")
 		if(old_key)
-			wherelist += "ckey = '[sanitizeSQL(ckey(old_key))]'"
+			wherelist += "ckey = :old_ckey"
+			arguments["old_ckey"] = ckey(old_key)
 		if(old_ip)
-			old_ip = sanitizeSQL(old_ip)
-			wherelist += "ip = INET_ATON(IF('[old_ip]' LIKE '', NULL, '[old_ip]'))"
+			wherelist += "ip = INET_ATON(:old_ip)"
+			arguments["old_ip"] = old_ip || null
 		if(old_cid)
-			wherelist += "computerid = '[sanitizeSQL(old_cid)]'"
+			wherelist += "computerid = :old_cid"
+			arguments["old_cid"] = old_cid
 		where = wherelist.Join(" AND ")
-	var/datum/DBQuery/query_edit_ban = SSdbcore.NewQuery("UPDATE [format_table_name("ban")] SET expiration_time = IF('[duration]' LIKE '', NULL, bantime + INTERVAL [duration ? "[duration]" : "0"] [interval]), applies_to_admins = [applies_to_admins], reason = '[reason]', global_ban = [global_ban], ckey = IF('[player_ckey]' LIKE '', NULL, '[player_ckey]'), ip = INET_ATON(IF('[player_ip]' LIKE '', NULL, '[player_ip]')), computerid = IF('[player_cid]' LIKE '', NULL, '[player_cid]'), edits = CONCAT(IFNULL(edits,''),'[sanitizeSQL(usr.client.key)] edited the following [jointext(changes_text, ", ")]<hr>') WHERE [where]")
+	else
+		where = "id = :ban_id"
+		arguments["ban_id"] = ban_id
+
+	var/datum/DBQuery/query_edit_ban = SSdbcore.NewQuery({"
+		UPDATE [format_table_name("ban")]
+		SET
+			expiration_time = IF(:duration IS NULL, NULL, bantime + INTERVAL :duration [interval]),
+			applies_to_admins = :applies_to_admins,
+			reason = :reason,
+			global_ban = :global_ban,
+			ckey = :ckey,
+			ip = INET_ATON(:ip),
+			computerid = :cid,
+			edits = CONCAT(IFNULL(edits,''), :change_message)
+		WHERE [where]
+	"}, arguments)
 	if(!query_edit_ban.warn_execute())
 		qdel(query_edit_ban)
 		return
 	qdel(query_edit_ban)
+
 	var/changes_keys_text = jointext(changes_keys, ", ")
+	var/kn = key_name(usr)
+	var/kna = key_name_admin(usr)
 	log_admin_private("[kn] has edited the [changes_keys_text] of a ban for [old_key ? "[old_key]" : "[old_ip]-[old_cid]"].") //if a ban doesn't have a key it must have an ip and/or a cid to have reached this point normally
 	message_admins("[kna] has edited the [changes_keys_text] of a ban for [old_key ? "[old_key]" : "[old_ip]-[old_cid]"].")
 	if(changes["Applies to admins"])
-		send2irc("BAN ALERT","[kn] has edited a ban for [old_key ? "[old_key]" : "[old_ip]-[old_cid]"] to [applies_to_admins ? "" : "not"]affect admins")
+		send2tgs("BAN ALERT","[kn] has edited a ban for [old_key ? "[old_key]" : "[old_ip]-[old_cid]"] to [applies_to_admins ? "" : "not"]affect admins")
 	var/client/C = GLOB.directory[old_key]
 	if(C)
 		build_ban_cache(C)
@@ -792,8 +995,9 @@
 	if(!SSdbcore.Connect())
 		to_chat(usr, "<span class='danger'>Failed to establish database connection.</span>")
 		return
-	ban_id = sanitizeSQL(ban_id)
-	var/datum/DBQuery/query_get_ban_edits = SSdbcore.NewQuery("SELECT edits FROM [format_table_name("ban")] WHERE id = '[ban_id]'")
+	var/datum/DBQuery/query_get_ban_edits = SSdbcore.NewQuery({"
+		SELECT edits FROM [format_table_name("ban")] WHERE id = :ban_id
+	"}, list("ban_id" = ban_id))
 	if(!query_get_ban_edits.warn_execute())
 		qdel(query_get_ban_edits)
 		return

@@ -40,7 +40,7 @@
 	var/has_job_loyalties = LAZYLEN(job_loyalties)
 	var/has_role_loyalties = LAZYLEN(role_loyalties)
 	inspired += user //The user is always inspired, regardless of loyalties
-	for(var/mob/living/carbon/human/H in range(4, get_turf(src)))
+	for(var/mob/living/carbon/human/H in viewers(4, get_turf(src)))
 		if(H.stat == DEAD || H == user)
 			continue
 		if(H.mind && (has_job_loyalties || has_role_loyalties))
@@ -81,7 +81,7 @@
 	item_state = "banner_security"
 	lefthand_file = 'icons/mob/inhands/equipment/banners_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/banners_righthand.dmi'
-	job_loyalties = list("Security Officer", "Warden", "Detective", "Head of Security", "Brig Physician")
+	job_loyalties = list("Military Police", "Warden", "Detective", "Head of Security", "Brig Physician", "Deputy")  //Nsv13 - Crayon eaters & MPs
 	warcry = "EVERYONE DOWN ON THE GROUND!!"
 
 /obj/item/banner/security/mundane
@@ -92,7 +92,7 @@
 	result = /obj/item/banner/security/mundane
 	time = 40
 	reqs = list(/obj/item/stack/rods = 2,
-				/obj/item/clothing/under/rank/security = 1)
+				/obj/item/clothing/under/rank/security/officer = 1)
 	category = CAT_MISC
 
 /obj/item/banner/medical
@@ -120,7 +120,7 @@
 	category = CAT_MISC
 
 /obj/item/banner/medical/special_inspiration(mob/living/carbon/human/H)
-	H.adjustToxLoss(-15)
+	H.adjustToxLoss(-15, FALSE, TRUE)
 	H.setOxyLoss(0)
 	H.reagents.add_reagent(/datum/reagent/medicine/inaprovaline, 5)
 
@@ -145,7 +145,7 @@
 	result = /obj/item/banner/science/mundane
 	time = 40
 	reqs = list(/obj/item/stack/rods = 2,
-				/obj/item/clothing/under/rank/scientist = 1)
+				/obj/item/clothing/under/rank/rnd/scientist = 1)
 	category = CAT_MISC
 
 /obj/item/banner/cargo
@@ -166,7 +166,7 @@
 	result = /obj/item/banner/cargo/mundane
 	time = 40
 	reqs = list(/obj/item/stack/rods = 2,
-				/obj/item/clothing/under/rank/cargotech = 1)
+				/obj/item/clothing/under/rank/cargo/tech = 1)
 	category = CAT_MISC
 
 /obj/item/banner/engineering
@@ -190,14 +190,14 @@
 	result = /obj/item/banner/engineering/mundane
 	time = 40
 	reqs = list(/obj/item/stack/rods = 2,
-				/obj/item/clothing/under/rank/engineer = 1)
+				/obj/item/clothing/under/rank/engineering/engineer = 1)
 	category = CAT_MISC
 
 /obj/item/banner/command
 	name = "command banner"
 	desc = "The banner of Command, a staunch and ancient line of bueraucratic kings and queens."
 	//No icon state here since the default one is the NT banner
-	job_loyalties = list("Captain", "Head of Personnel", "Chief Engineer", "Head of Security", "Research Director", "Chief Medical Officer")
+	job_loyalties = list("Captain", "Executive Officer", "Chief Engineer", "Head of Security", "Research Director", "Chief Medical Officer", "Master At Arms") //NSV13 - XO and MAA
 	warcry = "Hail Nanotrasen!"
 
 /obj/item/banner/command/mundane
@@ -211,7 +211,7 @@
 	result = /obj/item/banner/command/mundane
 	time = 40
 	reqs = list(/obj/item/stack/rods = 2,
-				/obj/item/clothing/under/captainparade = 1)
+				/obj/item/clothing/under/rank/captain/parade = 1)
 	category = CAT_MISC
 
 /obj/item/banner/red
@@ -254,7 +254,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	slowdown = 2.0 //gotta pretend we're balanced.
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	armor = list("melee" = 50, "bullet" = 50, "laser" = 50, "energy" = 40, "bomb" = 60, "bio" = 0, "rad" = 0, "fire" = 60, "acid" = 60)
+	armor = list("melee" = 50, "bullet" = 50, "laser" = 50, "energy" = 40, "bomb" = 60, "bio" = 0, "rad" = 0, "fire" = 60, "acid" = 60, "stamina" = 50)
 
 /obj/item/clothing/suit/armor/plate/crusader/red
 	icon_state = "crusader-red"
@@ -268,7 +268,7 @@
 	icon_state = "crusader"
 	w_class = WEIGHT_CLASS_NORMAL
 	flags_inv = HIDEHAIR|HIDEEARS|HIDEFACE
-	armor = list("melee" = 50, "bullet" = 50, "laser" = 50, "energy" = 40, "bomb" = 60, "bio" = 0, "rad" = 0, "fire" = 60, "acid" = 60)
+	armor = list("melee" = 50, "bullet" = 50, "laser" = 50, "energy" = 40, "bomb" = 60, "bio" = 0, "rad" = 0, "fire" = 60, "acid" = 60, "stamina" = 50)
 
 /obj/item/clothing/head/helmet/plate/crusader/blue
 	icon_state = "crusader-blue"
@@ -282,7 +282,7 @@
 	desc = "A religious-looking hat."
 	alternate_worn_icon = 'icons/mob/large-worn-icons/64x64/head.dmi'
 	flags_1 = 0
-	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 50, "bomb" = 70, "bio" = 50, "rad" = 50, "fire" = 60, "acid" = 60) //religion protects you from disease and radiation, honk.
+	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 50, "bomb" = 70, "bio" = 50, "rad" = 50, "fire" = 60, "acid" = 60, "stamina" = 60) //religion protects you from disease and radiation, honk.
 	worn_x_dimension = 64
 	worn_y_dimension = 64
 
@@ -342,7 +342,7 @@
 	desc = "Metal boots, they look heavy."
 	icon_state = "crusader"
 	w_class = WEIGHT_CLASS_NORMAL
-	armor = list("melee" = 50, "bullet" = 50, "laser" = 50, "energy" = 40, "bomb" = 60, "bio" = 0, "rad" = 0, "fire" = 60, "acid" = 60) //does this even do anything on boots?
+	armor = list("melee" = 50, "bullet" = 50, "laser" = 50, "energy" = 40, "bomb" = 60, "bio" = 0, "rad" = 0, "fire" = 60, "acid" = 60, "stamina" = 30) //does this even do anything on boots?
 	clothing_flags = NOSLIP
 	cold_protection = FEET
 	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT
@@ -379,10 +379,13 @@
 /obj/item/claymore/weak
 	desc = "This one is rusted."
 	force = 30
+	block_level = 1
+	block_upgrade_walk = 1
+	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
 	armour_penetration = 15
 
 /obj/item/claymore/weak/ceremonial
 	desc = "A rusted claymore, once at the heart of a powerful scottish clan struck down and oppressed by tyrants, it has been passed down the ages as a symbol of defiance."
 	force = 15
-	block_chance = 30
+	block_power = 30
 	armour_penetration = 5

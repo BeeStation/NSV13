@@ -1,8 +1,9 @@
 GLOBAL_LIST_INIT(possible_changeling_IDs, list("Alpha","Beta","Gamma","Delta","Epsilon","Zeta","Eta","Theta","Iota","Kappa","Lambda","Mu","Nu","Xi","Omicron","Pi","Rho","Sigma","Tau","Upsilon","Phi","Chi","Psi","Omega"))
 GLOBAL_LIST_INIT(slots, list("head", "wear_mask", "back", "wear_suit", "w_uniform", "shoes", "belt", "gloves", "glasses", "ears", "wear_id", "s_store"))
-GLOBAL_LIST_INIT(slot2slot, list("head" = SLOT_HEAD, "wear_mask" = SLOT_WEAR_MASK, "neck" = SLOT_NECK, "back" = SLOT_BACK, "wear_suit" = SLOT_WEAR_SUIT, "w_uniform" = SLOT_W_UNIFORM, "shoes" = SLOT_SHOES, "belt" = SLOT_BELT, "gloves" = SLOT_GLOVES, "glasses" = SLOT_GLASSES, "ears" = SLOT_EARS, "wear_id" = SLOT_WEAR_ID, "s_store" = SLOT_S_STORE))
-GLOBAL_LIST_INIT(slot2type, list("head" = /obj/item/clothing/head/changeling, "wear_mask" = /obj/item/clothing/mask/changeling, "back" = /obj/item/changeling, "wear_suit" = /obj/item/clothing/suit/changeling, "w_uniform" = /obj/item/clothing/under/changeling, "shoes" = /obj/item/clothing/shoes/changeling, "belt" = /obj/item/changeling, "gloves" = /obj/item/clothing/gloves/changeling, "glasses" = /obj/item/clothing/glasses/changeling, "ears" = /obj/item/changeling, "wear_id" = /obj/item/changeling, "s_store" = /obj/item/changeling))
-GLOBAL_VAR(changeling_team_objective_type) //If this is not null, we hand our this objective to all lings
+
+GLOBAL_LIST_INIT(slot2slot, list("head" = ITEM_SLOT_HEAD, "wear_mask" = ITEM_SLOT_MASK, "neck" = ITEM_SLOT_NECK, "back" = ITEM_SLOT_BACK, "wear_suit" = ITEM_SLOT_OCLOTHING, "w_uniform" = ITEM_SLOT_ICLOTHING, "shoes" = ITEM_SLOT_FEET, "belt" = ITEM_SLOT_BELT, "gloves" = ITEM_SLOT_GLOVES, "glasses" = ITEM_SLOT_EYES, "ears" = ITEM_SLOT_EARS, "wear_id" = ITEM_SLOT_ID, "s_store" = ITEM_SLOT_SUITSTORE))
+GLOBAL_LIST_INIT(slot2type, list("head" = /obj/item/clothing/head/changeling, "wear_mask" = /obj/item/clothing/mask/changeling, "back" = /obj/item/changeling, "wear_suit" = /obj/item/clothing/suit/changeling, "w_uniform" = /obj/item/clothing/under/changeling, "shoes" = /obj/item/clothing/shoes/changeling, "belt" = /obj/item/changeling, "gloves" = /obj/item/clothing/gloves/changeling, "glasses" = /obj/item/clothing/glasses/changeling, "ears" = /obj/item/changeling, "wear_id" = /obj/item/changeling/id, "s_store" = /obj/item/changeling))
+
 
 
 /datum/game_mode/changeling
@@ -12,7 +13,7 @@ GLOBAL_VAR(changeling_team_objective_type) //If this is not null, we hand our th
 	antag_flag = ROLE_CHANGELING
 	false_report_weight = 10
 	restricted_jobs = list("AI", "Cyborg")
-	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Brig Physician")
+	protected_jobs = list("Military Police", "Warden", "Detective", "Head of Security", "Captain") //Nsv13 - Crayon eaters & MPs
 	required_players = 15
 	required_enemies = 1
 	recommended_enemies = 4
@@ -34,7 +35,10 @@ GLOBAL_VAR(changeling_team_objective_type) //If this is not null, we hand our th
 		restricted_jobs += protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Assistant"
+		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+
+	if(CONFIG_GET(flag/protect_heads_from_antagonist))
+		restricted_jobs += GLOB.command_positions
 
 	var/num_changelings = 1
 
@@ -59,23 +63,9 @@ GLOBAL_VAR(changeling_team_objective_type) //If this is not null, we hand our th
 		return 0
 
 /datum/game_mode/changeling/post_setup()
-	//Decide if it's ok for the lings to have a team objective
-	//And then set it up to be handed out in forge_changeling_objectives
-	var/list/team_objectives = subtypesof(/datum/objective/changeling_team_objective)
-	var/list/possible_team_objectives = list()
-	for(var/T in team_objectives)
-		var/datum/objective/changeling_team_objective/CTO = T
-
-		if(changelings.len >= initial(CTO.min_lings))
-			possible_team_objectives += T
-
-	if(possible_team_objectives.len && prob(20*changelings.len))
-		GLOB.changeling_team_objective_type = pick(possible_team_objectives)
-
 	for(var/datum/mind/changeling in changelings)
 		log_game("[key_name(changeling)] has been selected as a changeling")
 		var/datum/antagonist/changeling/new_antag = new()
-		new_antag.team_mode = TRUE
 		changeling.add_antag_datum(new_antag)
 	..()
 
@@ -125,6 +115,9 @@ GLOBAL_VAR(changeling_team_objective_type) //If this is not null, we hand our th
 		if((user.vars[slot] && !istype(user.vars[slot], GLOB.slot2type[slot])) || !(chosen_prof.exists_list[slot]))
 			continue
 
+		if(istype(user.vars[slot], GLOB.slot2type[slot]) && slot == "wear_id") //always remove old flesh IDs, so they get properly updated
+			qdel(user.vars[slot])
+
 		var/obj/item/C
 		var/equip = 0
 		if(!user.vars[slot])
@@ -140,8 +133,15 @@ GLOBAL_VAR(changeling_team_objective_type) //If this is not null, we hand our th
 		C.flags_cover = chosen_prof.flags_cover_list[slot]
 		C.item_color = chosen_prof.item_color_list[slot]
 		C.item_state = chosen_prof.item_state_list[slot]
+
+		if(istype(C, /obj/item/changeling/id) && chosen_prof.id_icon)
+			var/obj/item/changeling/id/flesh_id = C
+			flesh_id.hud_icon = chosen_prof.id_icon
+
 		if(equip)
 			user.equip_to_slot_or_del(C, GLOB.slot2slot[slot])
+			if(!QDELETED(C))
+				ADD_TRAIT(C, TRAIT_NODROP, CHANGELING_TRAIT)
 
 	user.regenerate_icons()
 

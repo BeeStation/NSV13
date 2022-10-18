@@ -31,7 +31,10 @@
 		restricted_jobs += protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Assistant"
+		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+
+	if(CONFIG_GET(flag/protect_heads_from_antagonist))
+		restricted_jobs += GLOB.command_positions
 
 	var/list/datum/mind/possible_changelings = get_players_for_role(ROLE_CHANGELING)
 

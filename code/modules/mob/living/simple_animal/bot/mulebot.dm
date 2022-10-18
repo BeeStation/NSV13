@@ -20,6 +20,7 @@
 	damage_coeff = list(BRUTE = 0.5, BURN = 0.7, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
 	a_intent = INTENT_HARM //No swapping
 	buckle_lying = 0
+	buckle_prevents_pull = TRUE // No pulling loaded shit
 	mob_size = MOB_SIZE_LARGE
 
 	radio_key = /obj/item/encryptionkey/headset_cargo
@@ -28,6 +29,9 @@
 	bot_type = MULE_BOT
 	model = "MULE"
 	bot_core_type = /obj/machinery/bot_core/mulebot
+
+
+
 
 	var/id
 
@@ -47,6 +51,8 @@
 
 	var/obj/item/stock_parts/cell/cell
 	var/bloodiness = 0
+	///The amount of steps we should take until we rest for a time.
+	var/num_steps = 0
 
 /mob/living/simple_animal/bot/mulebot/Initialize()
 	. = ..()
@@ -81,6 +87,7 @@
 /mob/living/simple_animal/bot/mulebot/bot_reset()
 	..()
 	reached_target = 0
+	new_destination = null //NSV13
 
 /mob/living/simple_animal/bot/mulebot/attackby(obj/item/I, mob/user, params)
 	if(I.tool_behaviour == TOOL_SCREWDRIVER)
@@ -98,7 +105,7 @@
 		cell.forceMove(loc)
 		cell = null
 		visible_message("[user] crowbars out the power cell from [src].",
-						"<span class='notice'>You pry the powercell out of [src].</span>")
+						"<span class='notice'>You pry the power cell out of [src].</span>")
 	else if(is_wire_tool(I) && open)
 		return attack_hand(user)
 	else if(load && ismob(load))  // chance to knock off rider
@@ -150,7 +157,7 @@
 
 /mob/living/simple_animal/bot/mulebot/bullet_act(obj/item/projectile/Proj)
 	. = ..()
-	if(.)
+	if(. && !QDELETED(src)) //Got hit and not blown up yet.
 		if(prob(50) && !isnull(load))
 			unload(0)
 		if(prob(25))
@@ -165,12 +172,16 @@
 			return
 		ui_interact(user)
 
-/mob/living/simple_animal/bot/mulebot/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
-										datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+
+/mob/living/simple_animal/bot/mulebot/ui_state(mob/user)
+	return GLOB.default_state
+
+/mob/living/simple_animal/bot/mulebot/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "mulebot", name, 600, 375, master_ui, state)
+		ui = new(user, src, "Mule")
 		ui.open()
+		ui.set_autoupdate(TRUE) // Cell charge, modeStatus
 
 /mob/living/simple_animal/bot/mulebot/ui_data(mob/user)
 	var/list/data = list()
@@ -189,12 +200,15 @@
 		else
 	data["load"] = load ? load.name : null
 	data["destination"] = destination ? destination : null
+	data["home"] = home_destination
+	data["destinations"] = GLOB.deliverybeacontags
 	data["cell"] = cell ? TRUE : FALSE
 	data["cellPercent"] = cell ? cell.percent() : null
 	data["autoReturn"] = auto_return
 	data["autoPickup"] = auto_pickup
 	data["reportDelivery"] = report_delivery
 	data["haspai"] = paicard ? TRUE : FALSE
+	data["id"] = id
 	return data
 
 /mob/living/simple_animal/bot/mulebot/ui_act(action, params)
@@ -214,10 +228,9 @@
 					return
 			. = TRUE
 		else
-			bot_control(action, usr) // Kill this later.
-			. = TRUE
+			. = bot_control(action, usr, params) // Kill this later.
 
-/mob/living/simple_animal/bot/mulebot/bot_control(command, mob/user, pda = FALSE)
+/mob/living/simple_animal/bot/mulebot/bot_control(command, mob/user, list/params = list(), pda = FALSE)
 	if(pda && wires.is_cut(WIRE_RX)) // MULE wireless is controlled by wires.
 		return
 
@@ -225,38 +238,61 @@
 		if("stop")
 			if(mode >= BOT_DELIVER)
 				bot_reset()
+				. = TRUE
 		if("go")
 			if(mode == BOT_IDLE)
 				start()
+				. = TRUE
 		if("home")
 			if(mode == BOT_IDLE || mode == BOT_DELIVER)
 				start_home()
+				. = TRUE
 		if("destination")
-			var/new_dest = input(user, "Enter Destination:", name, destination) as null|anything in GLOB.deliverybeacontags
+			var/new_dest
+			if(pda)
+				new_dest = input(user, "Enter Destination:", name, destination) as null|anything in GLOB.deliverybeacontags
+			else
+				new_dest = params["value"]
 			if(new_dest)
 				set_destination(new_dest)
+				. = TRUE
 		if("setid")
-			var/new_id = stripped_input(user, "Enter ID:", name, id, MAX_NAME_LEN)
+			var/new_id
+			if(pda)
+				new_id = stripped_input(user, "Enter ID:", name, id, MAX_NAME_LEN)
+			else
+				new_id = params["value"]
 			if(new_id)
 				set_id(new_id)
+				. = TRUE
 		if("sethome")
-			var/new_home = input(user, "Enter Home:", name, home_destination) as null|anything in GLOB.deliverybeacontags
+			var/new_home
+			if(pda)
+				new_home = input(user, "Enter Home:", name, home_destination) as null|anything in GLOB.deliverybeacontags
+			else
+				new_home = params["value"]
 			if(new_home)
 				home_destination = new_home
+				. = TRUE
 		if("unload")
 			if(load && mode != BOT_HUNT)
 				if(loc == target)
 					unload(loaddir)
 				else
 					unload(0)
+				. = TRUE
 		if("autoret")
 			auto_return = !auto_return
+			. = TRUE
 		if("autopick")
 			auto_pickup = !auto_pickup
+			. = TRUE
 		if("report")
 			report_delivery = !report_delivery
+			. = TRUE
 		if("ejectpai")
 			ejectpairemote(user)
+			. = TRUE
 
 // TODO: remove this; PDAs currently depend on it
 /mob/living/simple_animal/bot/mulebot/get_controls(mob/user)
@@ -336,7 +372,7 @@
 	if(user.incapacitated() || (istype(L) && !(L.mobility_flags & MOBILITY_STAND)))
 		return
 
-	if(!istype(AM))
+	if(!istype(AM) || isdead(AM) || iscameramob(AM) || istype(AM, /obj/effect/dummy/phased_mob))
 		return
 
 	load(AM)
@@ -436,27 +472,16 @@
 		return
 	if(on)
 		var/speed = (wires.is_cut(WIRE_MOTOR1) ? 0 : 1) + (wires.is_cut(WIRE_MOTOR2) ? 0 : 2)
-		var/num_steps = 0
-		switch(speed)
-			if(0)
-				// do nothing
-			if(1)
-				num_steps = 10
-			if(2)
-				num_steps = 5
-			if(3)
-				num_steps = 3
+		if(!speed)//Devide by zero man bad
+			return
+		num_steps = round(10/speed) //10, 5, or 3 steps, depending on how many wires we have cut
+		if(mode != BOT_IDLE)
+			START_PROCESSING(SSfastprocess, src)
 
-		if(num_steps)
-			process_bot()
-			num_steps--
-			if(mode != BOT_IDLE)
-				spawn(0)
-					for(var/i=num_steps,i>0,i--)
-						sleep(2)
-						process_bot()
-
-/mob/living/simple_animal/bot/mulebot/proc/process_bot()
+/mob/living/simple_animal/bot/mulebot/process()
+	if(num_steps <= 0)
+		return PROCESS_KILL
+	num_steps--
 	if(!on || client)
 		return
 	update_icon()
@@ -518,11 +543,7 @@
 							buzz(SIGH)
 							mode = BOT_WAIT_FOR_NAV
 							blockcount = 0
-							spawn(20)
-								calc_path(avoid=next)
-								if(path.len > 0)
-									buzz(DELIGHT)
-								mode = BOT_BLOCKED
+							addtimer(CALLBACK(src, .proc/process_blocked, next), 2 SECONDS)
 							return
 						return
 				else
@@ -535,23 +556,31 @@
 
 		if(BOT_NAV)	// calculate new path
 			mode = BOT_WAIT_FOR_NAV
-			spawn(0)
-				calc_path()
+			INVOKE_ASYNC(src, .proc/process_nav)
 
-				if(path.len > 0)
-					blockcount = 0
-					mode = BOT_BLOCKED
-					buzz(DELIGHT)
+/mob/living/simple_animal/bot/mulebot/proc/process_blocked(turf/next)
+	calc_path(avoid=next)
+	if(path.len > 0)
+		buzz(DELIGHT)
+	mode = BOT_BLOCKED
 
-				else
-					buzz(SIGH)
+/mob/living/simple_animal/bot/mulebot/proc/process_nav()
+	calc_path()
 
-					mode = BOT_NO_ROUTE
+	if(path.len > 0)
+		blockcount = 0
+		mode = BOT_BLOCKED
+		buzz(DELIGHT)
+
+	else
+		buzz(SIGH)
+
+		mode = BOT_NO_ROUTE
 
 // calculates a path to the current destination
 // given an optional turf to avoid
 /mob/living/simple_animal/bot/mulebot/calc_path(turf/avoid = null)
-	path = get_path_to(src, target, /turf/proc/Distance_cardinal, 0, 250, id=access_card, exclude=avoid)
+	path = get_path_to(src, target, 250, id=access_card, exclude=avoid)
 
 // sets the current destination
 // signals all beacons matching the delivery code
@@ -576,10 +605,12 @@
 /mob/living/simple_animal/bot/mulebot/proc/start_home()
 	if(!on)
 		return
-	spawn(0)
-		set_destination(home_destination)
-		mode = BOT_BLOCKED
+	INVOKE_ASYNC(src, .proc/do_start_home)
 	update_icon()
+
+/mob/living/simple_animal/bot/mulebot/proc/do_start_home()
+	set_destination(home_destination)
+	mode = BOT_BLOCKED
 
 // called when bot reaches current target
 /mob/living/simple_animal/bot/mulebot/proc/at_target()
@@ -720,6 +751,12 @@
 /mob/living/simple_animal/bot/mulebot/remove_air(amount) //To prevent riders suffocating
 	if(loc)
 		return loc.remove_air(amount)
+	else
+		return null
+
+/mob/living/simple_animal/bot/mulebot/remove_air_ratio(ratio)
+	if(loc)
+		return loc.remove_air_ratio(ratio)
 	else
 		return null
 

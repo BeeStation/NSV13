@@ -65,7 +65,7 @@
 /obj/machinery/mecha_part_fabricator/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-		. += "<span class='notice'>The status display reads: Storing up to <b>[rmat.local_size]</b> material units.<br>Material consumption at <b>[component_coeff*100]%</b>.<br>Build time reduced by <b>[100-time_coeff*100]%</b>.<span>"
+		. += "<span class='notice'>The status display reads: Storing up to <b>[rmat.local_size]</b> material units.<br>Material consumption at <b>[component_coeff*100]%</b>.<br>Build time reduced by <b>[100-time_coeff*100]%</b>.</span>"
 
 /obj/machinery/mecha_part_fabricator/emag_act()
 	if(obj_flags & EMAGGED)
@@ -196,7 +196,7 @@
 	return queue.len
 
 /obj/machinery/mecha_part_fabricator/proc/remove_from_queue(index)
-	if(!isnum(index) || !ISINTEGER(index) || !istype(queue) || (index<1 || index>queue.len))
+	if(!isnum_safe(index) || !ISINTEGER(index) || !istype(queue) || (index<1 || index>queue.len))
 		return FALSE
 	queue.Cut(index,++index)
 	return TRUE
@@ -217,7 +217,7 @@
 			remove_from_queue(1)
 		else
 			return FALSE
-		D = listgetindex(queue, 1)
+		D = LAZYACCESS(queue, 1)
 	say("Queue processing finished successfully.")
 
 /obj/machinery/mecha_part_fabricator/proc/list_queue()
@@ -245,7 +245,8 @@
 	updateUsrDialog()
 	sleep(30) //only sleep if called by user
 
-	for(var/obj/machinery/computer/rdconsole/RDC in oview(7,src))
+	var/obj/machinery/computer/rdconsole/RDC = locate() in oview(7,src)
+	if(RDC)
 		RDC.stored_research.copy_research_to(stored_research)
 		temp = "Processed equipment designs.<br>"
 		//check if the tech coefficients have changed
@@ -290,8 +291,9 @@
 				left_part += output_parts_list(part_set)
 				left_part += "<hr><a href='?src=[REF(src)];screen=main'>Return</a>"
 	dat = {"<html>
-			  <head>
-			  <title>[name]</title>
+			<head>
+			<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+			<title>[name]</title>
 				<style>
 				.res_name {font-weight: bold; text-transform: capitalize;}
 				.red {color: #f00;}
@@ -363,7 +365,7 @@
 	if(href_list["process_queue"])
 		spawn(0)
 			if(processing_queue || being_built)
-				return FALSE
+				return
 			processing_queue = 1
 			process_queue()
 			processing_queue = 0
@@ -374,7 +376,7 @@
 	if(href_list["queue_move"] && href_list["index"])
 		var/index = text2num(href_list["index"])
 		var/new_index = index + text2num(href_list["queue_move"])
-		if(isnum(index) && isnum(new_index) && ISINTEGER(index) && ISINTEGER(new_index))
+		if(isnum_safe(index) && isnum_safe(new_index) && ISINTEGER(index) && ISINTEGER(new_index))
 			if(ISINRANGE(new_index,1,queue.len))
 				queue.Swap(index,new_index)
 		return update_queue_on_page()
@@ -397,17 +399,17 @@
 					break
 
 	if(href_list["remove_mat"] && href_list["material"])
-		var/datum/material/Mat = locate(href_list["material"])
-		eject_sheets(Mat, text2num(href_list["remove_mat"]))
+		var/datum/material/mat = locate(href_list["material"])
+		eject_sheets(mat, text2num(href_list["remove_mat"]))
 
 	updateUsrDialog()
 	return
 
-/obj/machinery/mecha_part_fabricator/proc/do_process_queue()		
-	if(processing_queue || being_built)		
-		return FALSE		
+/obj/machinery/mecha_part_fabricator/proc/do_process_queue()
+	if(processing_queue || being_built)
+		return FALSE
 	processing_queue = 1
-	process_queue()		
+	process_queue()
 	processing_queue = 0
 
 /obj/machinery/mecha_part_fabricator/proc/eject_sheets(eject_sheet, eject_amt)

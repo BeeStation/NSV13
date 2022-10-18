@@ -3,8 +3,8 @@
 
 /*
 field_generator power level display
-   The icon used for the field_generator need to have 'num_power_levels' number of icon states
-   named 'Field_Gen +p[num]' where 'num' ranges from 1 to 'num_power_levels'
+   The icon used for the field_generator need to have 6 icon states
+   named 'Field_Gen +p[num]' where 'num' ranges from 1 to 6
 
    The power level is displayed using overlays. The current displayed power level is stored in 'powerlevel'.
    The overlay in use and the powerlevel variable must be kept in sync.  A powerlevel equal to 0 means that
@@ -33,8 +33,7 @@ field_generator power level display
 	use_power = NO_POWER_USE
 	max_integrity = 500
 	//100% immune to lasers and energy projectiles since it absorbs their energy.
-	armor = list("melee" = 25, "bullet" = 10, "laser" = 100, "energy" = 100, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 70)
-	var/const/num_power_levels = 6	// Total number of power level icon has
+	armor = list("melee" = 25, "bullet" = 10, "laser" = 100, "energy" = 100, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 70, "stamina" = 0)
 	var/power_level = 0
 	var/active = FG_OFFLINE
 	var/power = 20  // Current amount of power
@@ -78,7 +77,7 @@ field_generator power level display
 					"<span class='notice'>You turn on [src].</span>", \
 					"<span class='italics'>You hear heavy droning.</span>")
 				turn_on()
-				investigate_log("<font color='green'>activated</font> by [key_name(user)].", INVESTIGATE_SINGULO)
+				investigate_log("<font color='green'>activated</font> by [key_name(user)].", INVESTIGATE_ENGINES)
 
 				add_fingerprint(user)
 	else
@@ -168,9 +167,14 @@ field_generator power level display
 	cleanup()
 	return ..()
 
+/*
+   The power level is displayed using overlays. The current displayed power level is stored in 'powerlevel'.
+   The overlay in use and the powerlevel variable must be kept in sync.  A powerlevel equal to 0 means that
+   no power level overlay is currently in the overlays list.
+   */
 
 /obj/machinery/field/generator/proc/check_power_level()
-	var/new_level = round(num_power_levels * power / field_generator_max_power)
+	var/new_level = round(6 * power / field_generator_max_power)
 	if(new_level != power_level)
 		power_level = new_level
 		update_icon()
@@ -206,7 +210,7 @@ field_generator power level display
 	else
 		visible_message("<span class='danger'>The [name] shuts down!</span>", "<span class='italics'>You hear something shutting down.</span>")
 		turn_off()
-		investigate_log("ran out of power and <font color='red'>deactivated</font>", INVESTIGATE_SINGULO)
+		investigate_log("ran out of power and <font color='red'>deactivated</font>", INVESTIGATE_ENGINES)
 		power = 0
 		check_power_level()
 		return 0
@@ -246,16 +250,13 @@ field_generator power level display
 		turn_off()
 		return
 	move_resist = INFINITY
-	spawn(1)
-		setup_field(1)
-	spawn(2)
-		setup_field(2)
-	spawn(3)
-		setup_field(4)
-	spawn(4)
-		setup_field(8)
-	spawn(5)
-		active = FG_ONLINE
+	CanAtmosPass = ATMOS_PASS_NO
+	air_update_turf(TRUE)
+	addtimer(CALLBACK(src, .proc/setup_field, 1), 1)
+	addtimer(CALLBACK(src, .proc/setup_field, 2), 2)
+	addtimer(CALLBACK(src, .proc/setup_field, 4), 3)
+	addtimer(CALLBACK(src, .proc/setup_field, 8), 4)
+	addtimer(VARSET_CALLBACK(src, active, FG_ONLINE), 5)
 
 
 /obj/machinery/field/generator/proc/setup_field(NSEW)
@@ -302,7 +303,7 @@ field_generator power level display
 			fields += CF
 			G.fields += CF
 			for(var/mob/living/L in T)
-				CF.Crossed(L)
+				CF.on_entered(null, L)
 
 	connected_gens |= G
 	G.connected_gens |= src
@@ -329,12 +330,12 @@ field_generator power level display
 	spawn(1)
 		var/temp = 1 //stops spam
 		for(var/obj/singularity/O in GLOB.singularities)
-			if(O.last_warning && temp)
+			if(O.last_warning && temp && O.is_real)
 				if((world.time - O.last_warning) > 50) //to stop message-spam
 					temp = 0
 					var/turf/T = get_turf(src)
 					message_admins("A singulo exists and a containment field has failed at [ADMIN_VERBOSEJMP(T)].")
-					investigate_log("has <font color='red'>failed</font> whilst a singulo exists at [AREACOORD(T)].", INVESTIGATE_SINGULO)
+					investigate_log("has <font color='red'>failed</font> whilst a singulo exists at [AREACOORD(T)].", INVESTIGATE_ENGINES)
 					notify_ghosts("IT'S LOOSE", source = src, action = NOTIFY_ORBIT, flashwindow = FALSE, ghost_sound = 'sound/machines/warning-buzzer.ogg', header = "IT'S LOOSE", notify_volume = 75)
 			O.last_warning = world.time
 

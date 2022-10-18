@@ -162,7 +162,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 		NEWSCASTER.update_icon()
 
 /datum/newscaster/feed_network/proc/save_photo(icon/photo)
-	var/photo_file = copytext(md5("\icon[photo]"), 1, 6)
+	var/photo_file = copytext_char(md5("/icon[photo]"), 1, 6)
 	if(!fexists("[GLOB.log_directory]/photos/[photo_file].png"))
 		//Clean up repeated frames
 		var/icon/clean = new /icon()
@@ -186,9 +186,10 @@ GLOBAL_LIST_EMPTY(allCasters)
 	verb_say = "beeps"
 	verb_ask = "beeps"
 	verb_exclaim = "beeps"
-	armor = list("melee" = 50, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 30)
+	armor = list("melee" = 50, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 30, "stamina" = 0)
 	max_integrity = 200
 	integrity_failure = 50
+	layer = ABOVE_WINDOW_LAYER
 	var/screen = 0
 	var/paper_remaining = 15
 	var/securityCaster = 0
@@ -295,7 +296,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 				dat+="<BR><HR>The newscaster recognises you as: <FONT COLOR='green'>[scanned_user]</FONT>"
 			if(1)
 				dat+= "Station Feed Channels<HR>"
-				if( isemptylist(GLOB.news_network.network_channels) )
+				if(!length(GLOB.news_network.network_channels) )
 					dat+="<I>No active channels found...</I>"
 				else
 					for(var/datum/newscaster/feed_channel/CHANNEL in GLOB.news_network.network_channels)
@@ -375,7 +376,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 					dat+="<FONT COLOR='red'><B>ATTENTION: </B></FONT>This channel has been deemed as threatening to the welfare of the station, and marked with a Nanotrasen D-Notice.<BR>"
 					dat+="No further feed story additions are allowed while the D-Notice is in effect.</FONT><BR><BR>"
 				else
-					if( isemptylist(viewing_channel.messages) )
+					if( !length(viewing_channel.messages) )
 						dat+="<I>No feed messages found in channel...</I><BR>"
 					else
 						var/i = 0
@@ -403,7 +404,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 				dat+="<FONT SIZE=1>NOTE: Due to the nature of news Feeds, total deletion of a Feed Story is not possible.<BR>"
 				dat+="Keep in mind that users attempting to view a censored feed will instead see the \[REDACTED\] tag above it.</FONT>"
 				dat+="<HR>Select Feed channel to get Stories from:<BR>"
-				if(isemptylist(GLOB.news_network.network_channels))
+				if(!length(GLOB.news_network.network_channels))
 					dat+="<I>No feed channels found active...</I><BR>"
 				else
 					for(var/datum/newscaster/feed_channel/CHANNEL in GLOB.news_network.network_channels)
@@ -414,7 +415,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 				dat+="<FONT SIZE=1>A D-Notice is to be bestowed upon the channel if the handling Authority deems it as harmful for the station's"
 				dat+="morale, integrity or disciplinary behaviour. A D-Notice will render a channel unable to be updated by anyone, without deleting any feed"
 				dat+="stories it might contain at the time. You can lift a D-Notice if you have the required access at any time.</FONT><HR>"
-				if(isemptylist(GLOB.news_network.network_channels))
+				if(!length(GLOB.news_network.network_channels))
 					dat+="<I>No feed channels found active...</I><BR>"
 				else
 					for(var/datum/newscaster/feed_channel/CHANNEL in GLOB.news_network.network_channels)
@@ -423,7 +424,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 			if(12)
 				dat+="<B>[viewing_channel.channel_name]: </B><FONT SIZE=1>\[ created by: <FONT COLOR='maroon'>[viewing_channel.returnAuthor(-1)]</FONT> \]</FONT><BR>"
 				dat+="<FONT SIZE=2><A href='?src=[REF(src)];censor_channel_author=[REF(viewing_channel)]'>[(viewing_channel.authorCensor) ? ("Undo Author censorship") : ("Censor channel Author")]</A></FONT><HR>"
-				if(isemptylist(viewing_channel.messages))
+				if(!length(viewing_channel.messages))
 					dat+="<I>No feed messages found in channel...</I><BR>"
 				else
 					for(var/datum/newscaster/feed_message/MESSAGE in viewing_channel.messages)
@@ -440,7 +441,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 					dat+="<FONT COLOR='red'><B>ATTENTION: </B></FONT>This channel has been deemed as threatening to the welfare of the station, and marked with a Nanotrasen D-Notice.<BR>"
 					dat+="No further feed story additions are allowed while the D-Notice is in effect.</FONT><BR><BR>"
 				else
-					if(isemptylist(viewing_channel.messages))
+					if(!length(viewing_channel.messages))
 						dat+="<I>No feed messages found in channel...</I><BR>"
 					else
 						for(var/datum/newscaster/feed_message/MESSAGE in viewing_channel.messages)
@@ -507,7 +508,6 @@ GLOBAL_LIST_EMPTY(allCasters)
 				dat+="<A href='?src=[REF(src)];setScreen=[0]'>Return</A>"
 		var/datum/browser/popup = new(human_or_robot_user, "newscaster_main", "Newscaster Unit #[unit_no]", 400, 600)
 		popup.set_content(dat)
-		popup.set_title_image(human_or_robot_user.browse_rsc_icon(icon, icon_state))
 		popup.open()
 
 /obj/machinery/newscaster/Topic(href, href_list)
@@ -518,8 +518,6 @@ GLOBAL_LIST_EMPTY(allCasters)
 		scan_user(usr)
 		if(href_list["set_channel_name"])
 			channel_name = stripped_input(usr, "Provide a Feed Channel Name", "Network Channel Handler", "", MAX_NAME_LEN)
-			while (findtext(channel_name," ") == 1)
-				channel_name = copytext(channel_name,2,length(channel_name)+1)
 			updateUsrDialog()
 		else if(href_list["set_channel_lock"])
 			c_locked = !c_locked
@@ -551,7 +549,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 			for(var/datum/newscaster/feed_channel/F in GLOB.news_network.network_channels)
 				if( (!F.locked || F.author == scanned_user) && !F.censored)
 					available_channels += F.channel_name
-			channel_name = input(usr, "Choose receiving Feed Channel", "Network Channel Handler") in available_channels
+			channel_name = input(usr, "Choose receiving Feed Channel", "Network Channel Handler") in sortList(available_channels)
 			updateUsrDialog()
 		else if(href_list["set_new_message"])
 			var/temp_message = trim(stripped_multiline_input(usr, "Write your Feed story", "Network Channel Handler", msg))
@@ -694,7 +692,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 			updateUsrDialog()
 		else if(href_list["new_comment"])
 			var/datum/newscaster/feed_message/FM = locate(href_list["new_comment"]) in viewing_channel.messages
-			var/cominput = copytext(stripped_input(usr, "Write your message:", "New comment", null),1,141)
+			var/cominput = stripped_input(usr, "Write your message:", "New comment", null, 140)
 			if(cominput)
 				scan_user(usr)
 				var/datum/newscaster/feed_comment/FC = new/datum/newscaster/feed_comment
@@ -807,7 +805,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 		else
 			to_chat(user, "<span class='warning'>You cannot interface with silicon photo uploading!</span>")
 		if(!targetcam.stored.len)
-			to_chat(usr, "<span class='boldannounce'>No images saved</span>")
+			to_chat(usr, "<span class='boldannounce'>No images saved.</span>")
 			return
 		var/datum/picture/selection = targetcam.selectpicture(user)
 		if(selection)
@@ -877,6 +875,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 	righthand_file = 'icons/mob/inhands/misc/books_righthand.dmi'
 	w_class = WEIGHT_CLASS_SMALL
 	attack_verb = list("bapped")
+	resistance_flags = FLAMMABLE
 	var/screen = 0
 	var/pages = 0
 	var/curr_page = 0
@@ -909,7 +908,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 			if(0) //Cover
 				dat+="<DIV ALIGN='center'><B><FONT SIZE=6>The Griffon</FONT></B></div>"
 				dat+="<DIV ALIGN='center'><FONT SIZE=2>Nanotrasen-standard newspaper, for use on Nanotrasen? Space Facilities</FONT></div><HR>"
-				if(isemptylist(news_content))
+				if(!length(news_content))
 					if(wantedAuthor)
 						dat+="Contents:<BR><ul><B><FONT COLOR='red'>**</FONT>Important Security Announcement<FONT COLOR='red'>**</FONT></B> <FONT SIZE=2>\[page [pages+2]\]</FONT><BR></ul>"
 					else
@@ -936,7 +935,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 				if(notContent(C.DclassCensorTime))
 					dat+="This channel was deemed dangerous to the general welfare of the station and therefore marked with a <B><FONT COLOR='red'>D-Notice</B></FONT>. Its contents were not transferred to the newspaper at the time of printing."
 				else
-					if(isemptylist(C.messages))
+					if(!length(C.messages))
 						dat+="No Feed stories stem from this channel..."
 					else
 						var/i = 0
@@ -1023,7 +1022,10 @@ GLOBAL_LIST_EMPTY(allCasters)
 		if(ismob(loc))
 			attack_self(loc)
 
-/obj/item/newspaper/attackby(obj/item/W, mob/user, params)
+/obj/item/newspaper/attackby(obj/item/W, mob/living/user, params)
+	if(burn_paper_product_attackby_check(W, user))
+		return
+
 	if(istype(W, /obj/item/pen))
 		if(!user.is_literate())
 			to_chat(user, "<span class='notice'>You scribble illegibly on [src]!</span>")
@@ -1039,6 +1041,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 			scribble_page = curr_page
 			scribble = s
 			attack_self(user)
+			add_fingerprint(user)
 	else
 		return ..()
 

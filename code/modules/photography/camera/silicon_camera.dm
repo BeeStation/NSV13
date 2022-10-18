@@ -14,6 +14,9 @@
 	else
 		camera_mode_on(user)
 
+/obj/item/camera/siliconcam/burn()
+	return
+
 /obj/item/camera/siliconcam/proc/camera_mode_off(mob/user)
 	in_camera_mode = FALSE
 	to_chat(user, "<B>Camera Mode deactivated</B>")
@@ -26,7 +29,7 @@
 	var/list/nametemp = list()
 	var/find
 	if(!stored.len)
-		to_chat(usr, "<span class='boldannounce'>No images saved</span>")
+		to_chat(usr, "<span class='boldannounce'>No images saved.</span>")
 		return
 	var/list/temp = list()
 	for(var/i in stored)
@@ -47,7 +50,7 @@
 	var/number = stored.len
 	picture.picture_name = "Image [number] (taken by [loc.name])"
 	stored[picture] = TRUE
-	to_chat(usr, "<span class='unconscious'>Image recorded</span>")
+	to_chat(usr, "<span class='unconscious'>Image recorded.</span>")
 
 /obj/item/camera/siliconcam/robot_camera
 	name = "Cyborg photo camera"
@@ -59,7 +62,7 @@
 		var/number = C.connected_ai.aicamera.stored.len
 		picture.picture_name = "Image [number] (taken by [loc.name])"
 		C.connected_ai.aicamera.stored[picture] = TRUE
-		to_chat(usr, "<span class='unconscious'>Image recorded and saved to remote database</span>")
+		to_chat(usr, "<span class='unconscious'>Image recorded and saved to remote database.</span>")
 	else
 		var/number = stored.len
 		picture.picture_name = "Image [number] (taken by [loc.name])"

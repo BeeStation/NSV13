@@ -97,18 +97,18 @@
 
 /datum/action/innate/origami
 	name = "Origami Folding"
-	desc = "Toggles your ability to fold and catch robust paper airplanes."
+	desc = "Toggles your ability to catch robust paper airplanes."
 	button_icon_state = "origami_off"
 	check_flags = NONE
 
 /datum/action/innate/origami/Activate()
-	to_chat(owner, "<span class='notice'>You will now fold origami planes.</span>")
+	to_chat(owner, "<span class='notice'>You will now catch origami planes.</span>")
 	button_icon_state = "origami_on"
 	active = TRUE
 	UpdateButtonIcon()
 
 /datum/action/innate/origami/Deactivate()
-	to_chat(owner, "<span class='notice'>You will no longer fold origami planes.</span>")
+	to_chat(owner, "<span class='notice'>You will no longer catch origami planes.</span>")
 	button_icon_state = "origami_off"
 	active = FALSE
 	UpdateButtonIcon()
@@ -188,11 +188,11 @@
 			user.set_nutrition(0)
 
 /obj/item/book/granter/spell/blind
-	spell = /obj/effect/proc_holder/spell/targeted/trigger/blind
+	spell = /obj/effect/proc_holder/spell/targeted/blind
 	spellname = "blind"
 	icon_state ="bookblind"
 	desc = "This book looks blurry, no matter how you look at it."
-	remarks = list("Well I can't learn anything if I can't read the damn thing!", "Why would you use a dark font on a dark background...", "Ah, I can't see an Oh, I'm fine...", "I can't see my hand...!", "I'm manually blinking, damn you book...", "I can't read this page, but somehow I feel like I learned something from it...", "Hey, who turned off the lights?")
+	remarks = list("Well I can't learn anything if I can't read the damn thing!", "Why would you use a dark font on a dark background...", "Ah, I can't see an- Oh, I'm fine...", "I can't see my hand...!", "I'm manually blinking, damn you book...", "I can't read this page, but somehow I feel like I learned something from it...", "Hey, who turned off the lights?")
 
 /obj/item/book/granter/spell/blind/recoil(mob/user)
 	..()
@@ -244,7 +244,7 @@
 	..()
 	to_chat(user,"<span class='warning'>You suddenly feel very solid!</span>")
 	user.Stun(40, ignore_canstun = TRUE)
-	user.petrify(30)
+	user.petrify(60)
 
 /obj/item/book/granter/spell/knock
 	spell = /obj/effect/proc_holder/spell/aoe_turf/knock
@@ -271,7 +271,7 @@
 		var/obj/item/clothing/magichead = new /obj/item/clothing/mask/horsehead/cursed(user.drop_location())
 		if(!user.dropItemToGround(user.wear_mask))
 			qdel(user.wear_mask)
-		user.equip_to_slot_if_possible(magichead, SLOT_WEAR_MASK, TRUE, TRUE)
+		user.equip_to_slot_if_possible(magichead, ITEM_SLOT_MASK, TRUE, TRUE)
 		qdel(src)
 	else
 		to_chat(user,"<span class='notice'>I say thee neigh</span>") //It still lives here
@@ -377,6 +377,32 @@
 		name = "empty scroll"
 		icon_state = "blankscroll"
 
+/obj/item/book/granter/martial/tribal_claw
+	martial = /datum/martial_art/tribal_claw
+	name = "old scroll"
+	martialname = "tribal claw"
+	desc = "A scroll filled with ancient draconic markings."
+	greet = "<span class='sciradio'>You have learned the ancient martial art of the Tribal Claw! You are now able to use your tail and claws in a fight much better than before. \
+	Check the combos you are now able to perform using the Recall Teachings verb in the Tribal Claw tab</span>"
+	icon = 'icons/obj/wizard.dmi'
+	icon_state = "scroll2"
+	remarks = list("I must prove myself worthy to the masters of the Knoises clan...", "Use your tail to surprise any enemy...", "Your sharp claws can disorient them...", "I don't think this would combine with other martial arts...", "Ooga Booga...")
+
+/obj/item/book/granter/martial/tribal_claw/onlearned(mob/living/carbon/user)
+	..()
+	if(!oneuse)
+		return
+	desc = "It's completely blank."
+	name = "empty scroll"
+	icon_state = "blankscroll"
+
+/obj/item/book/granter/martial/tribal_claw/already_known(mob/user)
+	if(islizard(user))
+		return FALSE
+	else
+		to_chat(user, "<span class='warning'>You try to read the scroll but can't comprehend any of it.</span>")
+		return TRUE
+
 /obj/item/book/granter/martial/plasma_fist
 	martial = /datum/martial_art/plasma_fist
 	name = "frayed scroll"
@@ -395,8 +421,25 @@
 		name = "empty scroll"
 		icon_state = "blankscroll"
 
-// I did not include mushpunch's grant, it is not a book and the item does it just fine.
+/obj/item/book/granter/martial/karate
+	martial = /datum/martial_art/karate
+	name = "dusty scroll"
+	martialname = "karate"
+	desc = "A dusty scroll filled with martial lessons. There seems to be drawings of some sort of martial art."
+	greet = "<span class='sciradio'>You have learned the ancient martial art of Karate! Your hand-to-hand combat has become more effective but require skill to combo effectively.\
+	You can learn more about your newfound art by using the Recall Teachings verb in the Karate tab.</span>"
+	icon = 'icons/obj/wizard.dmi'
+	icon_state = "scroll2"
+	remarks = list("I must prove myself worthy to the masters of Karate...", "Disable their legs so they can't escape...", "Strike at pressure points to daze my foes...", "Stomp their head for maximum damage...", "I don't think this would combine with other martial arts...", "Wind them with a flying knee...", "I must practice to fully grasp these teachings...")
 
+/obj/item/book/granter/martial/karate/onlearned(mob/living/carbon/user)
+	..()
+	if(oneuse == TRUE)
+		desc = "It's completely blank."
+		name = "empty scroll"
+		icon_state = "blankscroll"
+
+// I did not include mushpunch's grant, it is not a book and the item does it just fine.
 
 //Crafting Recipe books
 
@@ -411,3 +454,17 @@
 		var/datum/crafting_recipe/R = crafting_recipe_type
 		user.mind.teach_crafting_recipe(crafting_recipe_type)
 		to_chat(user,"<span class='notice'>You learned how to make [initial(R.name)].</span>")
+
+/obj/item/book/granter/crafting_recipe/cooking_sweets_101
+	name = "Cooking Desserts 101"
+	desc = "A cook book that teaches you some more of the newest desserts. AI approved, and a best seller on Honkplanet."
+	crafting_recipe_types = list(
+		/datum/crafting_recipe/food/mimetart,
+		/datum/crafting_recipe/food/berrytart,
+		/datum/crafting_recipe/food/cocoalavatart,
+		/datum/crafting_recipe/food/clowncake,
+		/datum/crafting_recipe/food/vanillacake
+	)
+	icon_state = "cooking_learing_sweets"
+	oneuse = FALSE
+	remarks = list("So that is how icing is made!", "Placing fruit on top? How simple...", "Huh layering cake seems harder then this...", "This book smells like candy", "A clown must have made this page, or they forgot to spell check it before printing...", "Wait, a way to cook slime to be safe?")

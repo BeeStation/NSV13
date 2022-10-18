@@ -916,7 +916,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/structure/piano{
+/obj/structure/musician/piano{
 	desc = "Very theatrical.";
 	icon_state = "piano";
 	name = "theatre piano"
@@ -1198,8 +1198,7 @@
 "dw" = (
 /mob/living/simple_animal/hostile/bear/snow{
 	desc = "It's a polar bear, in space, but not actually in space. It's actually on a planet. This is a planet.";
-	melee_damage_lower = 10;
-	melee_damage_upper = 20;
+	melee_damage = 15;
 	name = "fat space polar bear";
 	speed = 3;
 	wander = 1
@@ -1361,8 +1360,7 @@
 	},
 /mob/living/simple_animal/hostile/bear/snow{
 	desc = "It's a polar bear, in space, but not actually in space. It's actually on a planet. This is a planet.";
-	melee_damage_lower = 10;
-	melee_damage_upper = 20;
+	melee_damage = 15;
 	name = "fat space polar bear";
 	speed = 3;
 	wander = 1
@@ -1457,11 +1455,11 @@
 /area/awaymission/cabin)
 "eo" = (
 /obj/structure/table/wood,
-/obj/item/reagent_containers/food/drinks/mug/coco{
+/obj/item/reagent_containers/food/drinks/mug/cocoa{
 	desc = "Still hot!";
 	pixel_y = -2
 	},
-/obj/item/reagent_containers/food/drinks/mug/coco{
+/obj/item/reagent_containers/food/drinks/mug/cocoa{
 	desc = "Still hot!";
 	pixel_x = 8;
 	pixel_y = 8
@@ -1560,7 +1558,7 @@
 /area/awaymission/cabin/snowforest)
 "eA" = (
 /obj/structure/table/wood,
-/obj/item/twohanded/required/chainsaw,
+/obj/item/chainsaw,
 /turf/open/floor/wood/cold,
 /area/awaymission/cabin/lumbermill)
 "eB" = (
@@ -1913,7 +1911,7 @@
 /turf/open/floor/plasteel/dark,
 /area/awaymission/cabin/caves/mountain)
 "fu" = (
-/obj/machinery/computer/prisoner{
+/obj/machinery/computer/prisoner/management{
 	desc = "Used to manage tracking implants placed inside criminals and the prison cells.";
 	dir = 4
 	},
@@ -2213,8 +2211,7 @@
 "ga" = (
 /mob/living/simple_animal/hostile/bear/snow{
 	desc = "It's a polar bear, in space, but not actually in space. It's actually on a planet. This is a planet.";
-	melee_damage_lower = 10;
-	melee_damage_upper = 20;
+	melee_damage = 15;
 	name = "fat space polar bear";
 	speed = 3;
 	wander = 0
@@ -2458,6 +2455,7 @@
 "gt" = (
 /obj/structure/sign/poster/contraband/pwr_game{
 	pixel_x = 32;
+	
 	},
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/engine,
@@ -3037,7 +3035,7 @@
 /area/awaymission/cabin)
 "hF" = (
 /obj/structure/table/wood,
-/obj/item/reagent_containers/food/drinks/mug/coco{
+/obj/item/reagent_containers/food/drinks/mug/cocoa{
 	desc = "Still hot!";
 	pixel_y = 2
 	},
@@ -3116,7 +3114,7 @@
 "hS" = (
 /mob/living/simple_animal/hostile/tree{
 	desc = "I am death. I will have my vengeance upon my enemies.";
-	melee_damage_upper = 8;
+	melee_damage = 8;
 	wander = 0
 	},
 /turf/open/floor/plating/asteroid/snow,
@@ -3140,7 +3138,7 @@
 	name = "Who"
 	},
 /obj/item/clothing/head/helmet/knight/yellow{
-	armor = list("melee" = 11, "bullet" = 2, "laser" = 1, "energy" = 1, "bomb" = 5, "bio" = 2, "rad" = 0, "fire" = 0, "acid" = 10);
+	armor = list("melee" = 11, "bullet" = 2, "laser" = 1, "energy" = 1, "bomb" = 5, "bio" = 2, "rad" = 0, "fire" = 0, "acid" = 10, "stamina" = 6);
 	desc = "A classic metal helmet. The cold has made it unreliable though.";
 	name = "old medieval helmet";
 	pixel_y = 7
@@ -3278,6 +3276,7 @@
 "io" = (
 /obj/structure/extinguisher_cabinet{
 	pixel_x = -24;
+	
 	},
 /turf/open/floor/wood,
 /area/awaymission/cabin)
@@ -3425,7 +3424,7 @@
 /area/awaymission/cabin/caves)
 "iR" = (
 /obj/structure/table/wood,
-/obj/item/reagent_containers/food/drinks/mug/coco{
+/obj/item/reagent_containers/food/drinks/mug/cocoa{
 	desc = "Still hot!";
 	pixel_x = -7;
 	pixel_y = -2
@@ -3434,7 +3433,7 @@
 /area/awaymission/cabin)
 "iS" = (
 /obj/structure/table/wood,
-/obj/item/reagent_containers/food/drinks/mug/coco{
+/obj/item/reagent_containers/food/drinks/mug/cocoa{
 	desc = "Still hot!";
 	pixel_x = 7;
 	pixel_y = 2
@@ -3443,7 +3442,7 @@
 /area/awaymission/cabin)
 "iT" = (
 /obj/structure/table/wood,
-/obj/item/reagent_containers/food/drinks/mug/coco{
+/obj/item/reagent_containers/food/drinks/mug/cocoa{
 	desc = "Still hot!";
 	pixel_x = -4;
 	pixel_y = 4
@@ -3452,12 +3451,12 @@
 /area/awaymission/cabin)
 "iU" = (
 /obj/structure/table/wood,
-/obj/item/reagent_containers/food/drinks/mug/coco{
+/obj/item/reagent_containers/food/drinks/mug/cocoa{
 	desc = "Still hot!";
 	pixel_x = -5;
 	pixel_y = 2
 	},
-/obj/item/reagent_containers/food/drinks/mug/coco{
+/obj/item/reagent_containers/food/drinks/mug/cocoa{
 	desc = "Still hot!";
 	pixel_x = 7;
 	pixel_y = -2
@@ -4507,8 +4506,7 @@
 	icon_state = "snowman";
 	loot = list(/obj/item/dnainjector/geladikinesis);
 	maxHealth = 5000;
-	melee_damage_lower = 65;
-	melee_damage_upper = 65;
+	melee_damage = 65;
 	name = "Frosty"
 	},
 /turf/open/floor/plating/asteroid/snow,
@@ -4564,7 +4562,7 @@
 	name = "icy wind"
 	},
 /obj/item/clothing/head/helmet/skull{
-	armor = list("melee" = 15, "bullet" = 5, "laser" = 5, "energy" = 2, "bomb" = 10, "bio" = 5, "rad" = 20, "fire" = 20, "acid" = 20);
+	armor = list("melee" = 15, "bullet" = 5, "laser" = 5, "energy" = 2, "bomb" = 10, "bio" = 5, "rad" = 20, "fire" = 20, "acid" = 20, "stamina" = 8);
 	desc = "It's not bloody for some reason. Dear god.";
 	name = "human skull"
 	},
@@ -4705,7 +4703,7 @@
 /obj/effect/turf_decal/tile/blue,
 /obj/item/clothing/shoes/sneakers/brown,
 /obj/item/clothing/head/helmet/police{
-	armor = list("melee" = 5, "bullet" = 5, "laser" = 5, "energy" = 2, "bomb" = 15, "bio" = 0, "rad" = 0, "fire" = 20, "acid" = 20);
+	armor = list("melee" = 5, "bullet" = 5, "laser" = 5, "energy" = 2, "bomb" = 15, "bio" = 0, "rad" = 0, "fire" = 20, "acid" = 20, "stamina" = 5);
 	desc = "I am the law!"
 	},
 /obj/structure/closet{
@@ -4857,7 +4855,7 @@
 /mob/living/simple_animal/hostile/bear/russian{
 	desc = "He'll hold the line against you!";
 	light_range = 3;
-	melee_damage_upper = 25;
+	melee_damage = 30;
 	name = "Artyom";
 	speak = list("Blyat!","Rawr!","GRR!","Growl!");
 	wander = 0
@@ -5097,8 +5095,7 @@
 /mob/living/simple_animal/hostile/skeleton/ice{
 	desc = "A reanimated skeleton covered in thick sheet of natural ice. It is obvious to tell that they look really slow.";
 	maxHealth = 20;
-	melee_damage_lower = 5;
-	melee_damage_upper = 5;
+	melee_damage = 5;
 	name = "frozen skeleton";
 	speed = 7;
 	wander = 0
@@ -5190,8 +5187,7 @@
 /mob/living/simple_animal/hostile/skeleton/ice{
 	desc = "A reanimated skeleton covered in thick sheet of natural ice. It is obvious to tell that they look really slow.";
 	maxHealth = 20;
-	melee_damage_lower = 5;
-	melee_damage_upper = 5;
+	melee_damage = 5;
 	name = "frozen skeleton";
 	speed = 7;
 	wander = 0

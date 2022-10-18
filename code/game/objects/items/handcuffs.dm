@@ -36,7 +36,7 @@
 	throw_range = 5
 	materials = list(/datum/material/iron=500)
 	breakouttime = 1 MINUTES
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 0)
 	var/cuffsound = 'sound/weapons/handcuffs.ogg'
 	var/trashtype = null //for disposable cuffs
 
@@ -44,16 +44,12 @@
 	if(!istype(C))
 		return
 
+	SEND_SIGNAL(C, COMSIG_CARBON_CUFF_ATTEMPTED, user)
+
 	if(iscarbon(user) && (HAS_TRAIT(user, TRAIT_CLUMSY) && prob(50)))
 		to_chat(user, "<span class='warning'>Uh... how do those things work?!</span>")
 		apply_cuffs(user,user)
 		return
-
-	// chance of monkey retaliation
-	if(ismonkey(C) && prob(MONKEY_CUFF_RETALIATION_PROB))
-		var/mob/living/carbon/monkey/M
-		M = C
-		M.retaliate(user)
 
 	if(!C.handcuffed)
 		if(C.get_num_arms(FALSE) >= 2 || C.get_arm_ignore())
@@ -61,7 +57,7 @@
 								"<span class='userdanger'>[user] is trying to put [src.name] on you!</span>")
 
 			playsound(loc, cuffsound, 30, 1, -2)
-			if(do_mob(user, C, 30) && (C.get_num_arms(FALSE) >= 2 || C.get_arm_ignore()))
+			if(do_mob(user, C, 40) && (C.get_num_arms(FALSE) >= 2 || C.get_arm_ignore()))
 				if(iscyborg(user))
 					apply_cuffs(C, user, TRUE)
 				else
@@ -250,6 +246,10 @@
 /obj/item/restraints/legcuffs/beartrap/Initialize()
 	. = ..()
 	update_icon()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/spring_trap,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/item/restraints/legcuffs/beartrap/update_icon()
 	icon_state = "[initial(icon_state)][armed]"
@@ -271,7 +271,8 @@
 	update_icon()
 	playsound(src, 'sound/effects/snap.ogg', 50, TRUE)
 
-/obj/item/restraints/legcuffs/beartrap/Crossed(AM as mob|obj)
+/obj/item/restraints/legcuffs/beartrap/proc/spring_trap(datum/source, AM as mob|obj)
+	SIGNAL_HANDLER
 	if(armed && isturf(loc))
 		if(isliving(AM))
 			var/mob/living/L = AM
@@ -281,7 +282,6 @@
 				if(!ridden_vehicle.are_legs_exposed) //close the trap without injuring/trapping the rider if their legs are inside the vehicle at all times.
 					close_trap()
 					ridden_vehicle.visible_message("<span class='danger'>[ridden_vehicle] triggers \the [src].</span>")
-					return ..()
 
 			if(L.movement_type & (FLYING|FLOATING)) //don't close the trap if they're flying/floating over it.
 				snap = FALSE
@@ -306,7 +306,6 @@
 				L.visible_message("<span class='danger'>[L] triggers \the [src].</span>", \
 						"<span class='userdanger'>You trigger \the [src]!</span>")
 				L.apply_damage(trap_damage, BRUTE, def_zone)
-	..()
 
 /obj/item/restraints/legcuffs/beartrap/energy
 	name = "energy snare"
@@ -326,8 +325,8 @@
 		do_sparks(1, TRUE, src)
 		qdel(src)
 
-/obj/item/restraints/legcuffs/beartrap/energy/attack_hand(mob/user)
-	Crossed(user) //honk
+/obj/item/restraints/legcuffs/beartrap/energy/attack_hand(mob/user, list/modifiers)
+	spring_trap(null, user)
 	return ..()
 
 /obj/item/restraints/legcuffs/beartrap/energy/cyborg
@@ -340,11 +339,11 @@
 	item_state = "bola"
 	lefthand_file = 'icons/mob/inhands/weapons/thrown_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/thrown_righthand.dmi'
-	breakouttime = 35//easy to apply, easy to break out of
+	breakouttime = 20//easy to apply, easy to break out of
 	gender = NEUTER
 	var/knockdown = 0
 
-/obj/item/restraints/legcuffs/bola/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback)
+/obj/item/restraints/legcuffs/bola/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, quickstart = TRUE)
 	if(!..())
 		return
 	playsound(src.loc,'sound/weapons/bolathrow.ogg', 75, 1)
@@ -368,7 +367,8 @@
 		C.update_inv_legcuffed()
 		SSblackbox.record_feedback("tally", "handcuffs", 1, type)
 		to_chat(C, "<span class='userdanger'>\The [src] ensnares you!</span>")
-		C.Paralyze(knockdown)
+		if(knockdown)
+			C.Paralyze(knockdown)
 		playsound(src, 'sound/effects/snap.ogg', 50, TRUE)
 
 /obj/item/restraints/legcuffs/bola/tactical//traitor variant
@@ -378,6 +378,13 @@
 	item_state = "bola_r"
 	breakouttime = 70
 	knockdown = 20
+
+/obj/item/restraints/legcuffs/bola/watcher //tribal bola for tribal lizards
+	name = "watcher Bola"
+	desc = "A Bola made from the stretchy sinew of fallen watchers."
+	icon_state = "bola_watcher"
+	item_state = "bola_watcher"
+	breakouttime = 45
 
 /obj/item/restraints/legcuffs/bola/energy //For Security
 	name = "energy bola"
@@ -391,9 +398,9 @@
 /obj/item/restraints/legcuffs/bola/energy/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	if(iscarbon(hit_atom))
 		var/obj/item/restraints/legcuffs/beartrap/B = new /obj/item/restraints/legcuffs/beartrap/energy/cyborg(get_turf(hit_atom))
-		B.Crossed(hit_atom)
+		B.spring_trap(null, hit_atom)
 		qdel(src)
-	..()
+	. = ..()
 
 /obj/item/restraints/legcuffs/bola/gonbola
 	name = "gonbola"

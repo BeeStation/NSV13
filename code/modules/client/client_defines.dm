@@ -25,15 +25,16 @@
 	var/total_message_count = 0
 	/// Next tick to reset the total message counter
 	var/total_count_reset = 0
-	var/ircreplyamount = 0
+	var/externalreplyamount = 0
 	var/cryo_warned = -3000//when was the last time we warned them about not cryoing without an ahelp, set to -5 minutes so that rounstart cryo still warns
-
+	var/staff_check_rate = 0 //when was the last time they checked online staff
 		/////////
 		//OTHER//
 		/////////
 	/// The client's preferences
 	var/datum/preferences/prefs = null
 	var/list/keybindings[0]
+	var/movement_locked = FALSE
 
 	/// The last world.time that the client's mob turned
 	var/last_turn = 0
@@ -42,11 +43,9 @@
 	var/move_delay = 0
 	var/area			= null
 
-		///////////////
-		//SOUND STUFF//
-		///////////////
-	var/ambience_playing= null
-	var/played			= 0
+	var/buzz_playing = null
+	var/ambient_effect_last_played = 0 // Nsv13 -  What was the last time we played an ambient effect noise?
+	var/music_last_played = 0 // Nsv13 - What was the last time we played an ambient music track?
 		////////////
 		//SECURITY//
 		////////////
@@ -70,7 +69,7 @@
 
 	preload_rsc = PRELOAD_RSC
 
-	var/obj/screen/click_catcher/void
+	var/atom/movable/screen/click_catcher/void
 
 	//These two vars are used to make a special mouse cursor, with a unique icon for clicking
 	/// Mouse icon while not clicking
@@ -96,14 +95,28 @@
 	var/list/topiclimiter
 	var/list/clicklimiter
 
-	var/datum/chatOutput/chatOutput
-
 	/// These persist between logins/logouts during the same round.
 	var/datum/player_details/player_details
 
-	var/list/char_render_holders			//Should only be a key-value list of north/south/east/west = obj/screen.
+	var/list/char_render_holders			//Should only be a key-value list of north/south/east/west = atom/movable/screen.
 
 	var/client_keysend_amount = 0
 	var/next_keysend_reset = 0
 	var/next_keysend_trip_reset = 0
 	var/keysend_tripped = FALSE
+
+	var/datum/viewData/view_size
+
+	// List of all asset filenames sent to this client by the asset cache, along with their assoicated md5s
+	var/list/sent_assets = list()
+	/// List of all completed blocking send jobs awaiting acknowledgement by send_asset
+	var/list/completed_asset_jobs = list()
+	/// Last asset send job id.
+	var/last_asset_job = 0
+	var/last_completed_asset_job = 0
+
+	/// rate limiting for the crew manifest
+	var/crew_manifest_delay
+
+	//Tick when ghost roles are useable again
+	var/next_ghost_role_tick = 0

@@ -15,11 +15,15 @@
 								"Research Machinery",
 								"Misc. Machinery",
 								"Computer Parts",
-								"Advanced Munitions",
-								"Ship Components"
+								"Shuttle Machinery",
+								"Advanced Munitions",//NSV13
+								"Ship Components", //NSV13
+								"Circuitry"
 								)
 	production_animation = "circuit_imprinter_ani"
 	allowed_buildtypes = IMPRINTER
+	consoleless_interface = TRUE
+	requires_console = FALSE
 //nsv13 added Advanced Munitions, Ship Components list above
 
 /obj/machinery/rnd/production/circuit_imprinter/disconnect_console()

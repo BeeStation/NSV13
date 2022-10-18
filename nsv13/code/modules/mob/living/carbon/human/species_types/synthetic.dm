@@ -18,8 +18,7 @@ Synths follow the AIs laws, this means you can hack the captain if you play your
 	brutemod = 1.35 //They quickly fall apart under duress
 	coldmod = 0.1 //They're really good for sending into space
 	burnmod = 1.35 //Fire really fucks themup because of their flesh
-	punchdamagelow = 8
-	punchdamagehigh = 15//Inhumanly strong
+	punchdamage = 12
 	damage_overlay_type = "synth"
 	species_traits = list(AGENDER, NO_UNDERWEAR)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT

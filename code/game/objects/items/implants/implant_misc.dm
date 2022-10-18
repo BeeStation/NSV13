@@ -45,7 +45,7 @@
 
 	imp_in.reagents.add_reagent(/datum/reagent/medicine/synaptizine, 10)
 	imp_in.reagents.add_reagent(/datum/reagent/medicine/omnizine, 10)
-	imp_in.reagents.add_reagent(/datum/reagent/medicine/stimulants, 10)
+	imp_in.reagents.add_reagent(/datum/reagent/medicine/amphetamine, 10)
 	if(!uses)
 		qdel(src)
 
@@ -78,17 +78,28 @@
 	name = "health implant"
 	activated = 0
 	var/healthstring = ""
+	var/list/raw_data = list()
 
-/obj/item/implant/health/proc/sensehealth()
+/obj/item/implant/health/proc/sensehealth(get_list = FALSE)
 	if (!imp_in)
 		return "ERROR"
 	else
 		if(isliving(imp_in))
 			var/mob/living/L = imp_in
 			healthstring = "<small>Oxygen Deprivation Damage => [round(L.getOxyLoss())]<br />Fire Damage => [round(L.getFireLoss())]<br />Toxin Damage => [round(L.getToxLoss())]<br />Brute Force Damage => [round(L.getBruteLoss())]</small>"
-		if (!healthstring)
+			raw_data = list() //Reset list
+			raw_data["oxy"] = list("[round(L.getOxyLoss())]")		//Suffocation
+			raw_data["burn"] = list("[round(L.getFireLoss())]")		//Burn
+			raw_data["tox"] = list("[round(L.getToxLoss())]")		//Tox
+			raw_data["brute"] = list("[round(L.getBruteLoss())]")	//Brute
+		if(!healthstring)											//I have no idea who made it go this order but okay.
 			healthstring = "ERROR"
-		return healthstring
+		if(!length(raw_data))
+			raw_data = list("ERROR")
+		if(!get_list)
+			return healthstring
+		else
+			return raw_data
 
 /obj/item/implant/radio
 	name = "internal radio implant"
@@ -96,6 +107,7 @@
 	var/obj/item/radio/radio
 	var/radio_key
 	var/subspace_transmission = FALSE
+	var/radio_silent = TRUE
 	icon = 'icons/obj/radio.dmi'
 	icon_state = "walkietalkie"
 
@@ -112,10 +124,15 @@
 	// "must be in ears to hear" restriction.
 	radio.name = "internal radio"
 	radio.subspace_transmission = subspace_transmission
-	radio.canhear_range = 0
+	radio.canhear_range = -1
+	radio.radio_silent = radio_silent
 	if(radio_key)
 		radio.keyslot = new radio_key
 	radio.recalculateChannels()
+
+/obj/item/implant/radio/Destroy()
+	QDEL_NULL(radio)
+	return ..()
 
 /obj/item/implant/radio/mining
 	radio_key = /obj/item/encryptionkey/headset_cargo
@@ -139,6 +156,17 @@
 				<b>Implant Details:</b> Allows user to use an internal radio, useful if user expects equipment loss, or cannot equip conventional radios."}
 	return dat
 
+/obj/item/implant/radio/syndicate/selfdestruct
+	name = "hacked internal radio implant"
+
+/obj/item/implant/radio/syndicate/selfdestruct/on_implanted(mob/living/user)
+	if(!user.mind.has_antag_datum(/datum/antagonist/incursion))
+		user.visible_message("<span class='warning'>[imp_in] starts beeping ominously!</span>", "<span class='userdanger'>You have a sudden feeling of dread. The implant is rigged to explode!</span>")
+		playsound(user, 'sound/items/timer.ogg', 30, 0)
+		explosion(src,0,0,2,2, flame_range = 2)
+		user.gib(1)
+		qdel(src)
+
 /obj/item/implanter/radio
 	name = "implanter (internal radio)"
 	imp_type = /obj/item/implant/radio
@@ -147,3 +175,6 @@
 	name = "implanter (internal syndicate radio)"
 	imp_type = /obj/item/implant/radio/syndicate
 
+/obj/item/implanter/radio/syndicate/selfdestruct
+	name = "implanter (modified internal syndicate radio)"
+	imp_type = /obj/item/implant/radio/syndicate/selfdestruct

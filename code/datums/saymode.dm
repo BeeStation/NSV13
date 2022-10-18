@@ -24,16 +24,20 @@
 					var/link = FOLLOW_LINK(M, user)
 					to_chat(M, "[link] [msg]")
 				else
-					switch(M.lingcheck())
-						if (LINGHIVE_LING)
-							var/mob/living/L = M
-							if (!HAS_TRAIT(L, CHANGELING_HIVEMIND_MUTE))
+					if(M)
+						switch(M.lingcheck())
+							if (LINGHIVE_LING)
+								var/mob/living/L = M
+								if (!HAS_TRAIT(L, CHANGELING_HIVEMIND_MUTE))
+									to_chat(M, msg)
+							if(LINGHIVE_LINK)
 								to_chat(M, msg)
-						if(LINGHIVE_LINK)
-							to_chat(M, msg)
-						if(LINGHIVE_OUTSIDER)
-							if(prob(40))
-								to_chat(M, "<span class='changeling'>We can faintly sense an outsider trying to communicate through the hivemind...</span>")
+							if(LINGHIVE_OUTSIDER)
+								var/mob/living/L = M
+								if (!HAS_TRAIT(L, CHANGELING_HIVEMIND_MUTE) && prob(70))
+									to_chat(M, msg)
+								else
+									to_chat(M, "<span class='changeling'>We hear a faint chittering from within our mind...</span>")
 		if(LINGHIVE_LING)
 			if (HAS_TRAIT(user, CHANGELING_HIVEMIND_MUTE))
 				to_chat(user, "<span class='warning'>The poison in the air hinders our ability to interact with the hivemind.</span>")
@@ -47,16 +51,20 @@
 					var/link = FOLLOW_LINK(M, user)
 					to_chat(M, "[link] [msg]")
 				else
-					switch(M.lingcheck())
-						if(LINGHIVE_LINK)
-							to_chat(M, msg)
-						if(LINGHIVE_LING)
-							var/mob/living/L = M
-							if (!HAS_TRAIT(L, CHANGELING_HIVEMIND_MUTE))
+					if(M)
+						switch(M.lingcheck())
+							if(LINGHIVE_LINK)
 								to_chat(M, msg)
-						if(LINGHIVE_OUTSIDER)
-							if(prob(40))
-								to_chat(M, "<span class='changeling'>We can faintly sense another of our kind trying to communicate through the hivemind...</span>")
+							if(LINGHIVE_LING)
+								var/mob/living/L = M
+								if (!HAS_TRAIT(L, CHANGELING_HIVEMIND_MUTE))
+									to_chat(M, msg)
+							if(LINGHIVE_OUTSIDER)
+								var/mob/living/L = M
+								if (!HAS_TRAIT(L, CHANGELING_HIVEMIND_MUTE) && prob(70))
+									to_chat(M, msg)
+								else
+									to_chat(M, "<span class='changeling'>We hear a faint chittering from within our mind...</span>")
 		if(LINGHIVE_OUTSIDER)
 			to_chat(user, "<span class='changeling'>Our senses have not evolved enough to be able to communicate this way...</span>")
 	return FALSE
@@ -86,7 +94,7 @@
 	return FALSE
 
 
-/datum/saymode/binary //everything that uses .b (silicons, drones, blobbernauts/spores, swarmers)
+/datum/saymode/binary //everything that uses .b (silicons, drones, swarmers)
 	key = MODE_KEY_BINARY
 	mode = MODE_BINARY
 
@@ -94,10 +102,6 @@
 	if(isswarmer(user))
 		var/mob/living/simple_animal/hostile/swarmer/S = user
 		S.swarmer_chat(message)
-		return FALSE
-	if(isblobmonster(user))
-		var/mob/living/simple_animal/hostile/blob/B = user
-		B.blob_chat(message)
 		return FALSE
 	if(isdrone(user))
 		var/mob/living/simple_animal/drone/D = user

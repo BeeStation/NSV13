@@ -248,9 +248,9 @@
 		if(path.len == 0)
 			if(!isturf(target))
 				var/turf/TL = get_turf(target)
-				path = get_path_to(src, TL, /turf/proc/Distance_cardinal, 0, 30, id=access_card,simulated_only = FALSE)
+				path = get_path_to(src, TL, 30, id=access_card,simulated_only = FALSE)
 			else
-				path = get_path_to(src, target, /turf/proc/Distance_cardinal, 0, 30, id=access_card,simulated_only = FALSE)
+				path = get_path_to(src, target, 30, id=access_card,simulated_only = FALSE)
 
 			if(!bot_move(target))
 				add_to_ignore(target)
@@ -268,7 +268,7 @@
 
 /mob/living/simple_animal/bot/floorbot/proc/is_hull_breach(turf/t) //Ignore space tiles not considered part of a structure, also ignores shuttle docking areas.
 	var/area/t_area = get_area(t)
-	if(t_area && (t_area.name == "Space" || findtext(t_area.name, "huttle")))
+	if(istype(t_area, /area/space) || istype(t_area, /area/solar) || istype(t_area, /area/asteroid))
 		return FALSE
 	else
 		return TRUE
@@ -292,7 +292,7 @@
 				result = F
 		if(REPLACE_TILE)
 			F = scan_target
-			if(isfloorturf(F) && !isplatingturf(F)) //The floor must already have a tile.
+			if(isfloorturf(F) && !isplatingturf(F) && F.type != initial(tiletype.turf_type)) //The floor must already have a tile.
 				result = F
 		if(FIX_TILE)	//Selects only damaged floors.
 			F = scan_target
@@ -323,37 +323,42 @@
 		sleep(50)
 		if(mode == BOT_REPAIRING && src.loc == target_turf)
 			if(autotile) //Build the floor and include a tile.
-				target_turf.PlaceOnTop(/turf/open/floor/plasteel)
+				target_turf.PlaceOnTop(/turf/open/floor/plasteel, flags = CHANGETURF_INHERIT_AIR)
 			else //Build a hull plating without a floor tile.
-				target_turf.PlaceOnTop(/turf/open/floor/plating)
+				target_turf.PlaceOnTop(/turf/open/floor/plating, flags = CHANGETURF_INHERIT_AIR)
 
 	else
 		var/turf/open/floor/F = target_turf
 
-		if(F.type != initial(tiletype.turf_type) && (F.broken || F.burnt || isplatingturf(F)) || F.type == (initial(tiletype.turf_type) && (F.broken || F.burnt)))
-			anchored = TRUE
-			icon_state = "[toolbox_color]floorbot-c"
-			mode = BOT_REPAIRING
-			visible_message("<span class='notice'>[src] begins repairing the floor.</span>")
-			sleep(50)
-			if(mode == BOT_REPAIRING && F && src.loc == F)
-				F.broken = FALSE 
-				F.burnt = FALSE
-				F.PlaceOnTop(/turf/open/floor/plasteel)
+		switch(process_type) // Other process types have no business here
+			if(REPLACE_TILE)
+				if(!isplatingturf(F) && F.type != initial(tiletype.turf_type))
+					anchored = TRUE
+					icon_state = "[toolbox_color]floorbot-c"
+					mode = BOT_REPAIRING
+					visible_message("<span class='notice'>[src] begins replacing the floor tiles.</span>")
+					F.make_plating()
+					sleep(50)
+					if(mode == BOT_REPAIRING && F && src.loc == F && isplatingturf(F))
+						F.broken = FALSE
+						F.burnt = FALSE
+						F.PlaceOnTop(initial(tiletype.turf_type), flags = CHANGETURF_INHERIT_AIR)
+						specialtiles -= 1
+						if(specialtiles == 0)
+							speak("Requesting refill of custom floor tiles to continue replacing.")
+			if(PLACE_TILE, FIX_TILE)
+				if(isplatingturf(F) || F.broken || F.burnt)
+					anchored = TRUE
+					icon_state = "[toolbox_color]floorbot-c"
+					mode = BOT_REPAIRING
+					visible_message("<span class='notice'>[src] begins repairing the floor.</span>")
+					sleep(50)
+					if(mode == BOT_REPAIRING && F && src.loc == F)
+						F.broken = FALSE
+						F.burnt = FALSE
+						if(isplatingturf(F))
+							F.PlaceOnTop(/turf/open/floor/plasteel, flags = CHANGETURF_INHERIT_AIR)
 
-		if(replacetiles && F.type != initial(tiletype.turf_type) && specialtiles && !isplatingturf(F))
-			anchored = TRUE
-			icon_state = "[toolbox_color]floorbot-c"
-			mode = BOT_REPAIRING
-			visible_message("<span class='notice'>[src] begins replacing the floor tiles.</span>")
-			sleep(50)
-			if(mode == BOT_REPAIRING && F && src.loc == F)
-				F.broken = FALSE
-				F.burnt = FALSE
-				F.PlaceOnTop(initial(tiletype.turf_type))
-				specialtiles -= 1
-				if(specialtiles == 0)
-					speak("Requesting refill of custom floortiles to continue replacing.")
 	mode = BOT_IDLE
 	update_icon()
 	anchored = FALSE

@@ -34,14 +34,18 @@
     "Bwoink" = "selected_sound=sound/effects/adminhelp.ogg&shiftpitch=1&volume=50",
     "Double Beep" = "selected_sound=sound/machines/twobeep.ogg&shiftpitch=1&volume=50",
     "Flush" = "selected_sound=sound/machines/disposalflush.ogg&shiftpitch=1&volume=40",
-    "Kawaii" = "selected_sound=sound/AI/animes.ogg&shiftpitch=0&volume=60",
+    "Kawaii" = "selected_sound=sound/ai/default/animes.ogg&shiftpitch=0&volume=60",
     "Startup" = "selected_sound=sound/mecha/nominal.ogg&shiftpitch=0&volume=50",
     "Welding Noises" = "selected_sound=sound/items/welder.ogg&shiftpitch=1&volume=55",
     "Short Slide Whistle" = "selected_sound=sound/effects/slide_whistle_short.ogg&shiftpitch=1&volume=50",
     "Long Slide Whistle" = "selected_sound=sound/effects/slide_whistle_long.ogg&shiftpitch=1&volume=50",
     "YEET" = "selected_sound=sound/effects/yeet.ogg&shiftpitch=1&volume=50",
     "Time Stop" = "selected_sound=sound/magic/timeparadox2.ogg&shiftpitch=0&volume=80",
-    "Click" = "selected_sound=sound/machines/click.ogg&shiftpitch=0&volume=80"
+    "Click" = "selected_sound=sound/machines/click.ogg&shiftpitch=0&volume=80",
+    "Booing" = "selected_sound=sound/effects/audience-boo.ogg&shiftpitch=0&volume=80",
+    "Awwing" = "selected_sound=sound/effects/audience-aww.ogg&shiftpitch=0&volume=80",
+    "Gasping" = "selected_sound=sound/effects/audience-gasp.ogg&shiftpitch=0&volume=80",
+    "Oohing" = "selected_sound=sound/effects/audience-ooh.ogg&shiftpitch=0&volume=80"
     )
 
 /obj/item/soundsynth/verb/pick_sound()
@@ -60,6 +64,9 @@
     if(spam_flag + 2 SECONDS < world.timeofday)
         playsound(src, selected_sound, volume, shiftpitch)
         spam_flag = world.timeofday
+
+/obj/item/soundsynth/AltClick(mob/living/carbon/user)
+	pick_sound()
 
 /obj/item/soundsynth/attack(mob/living/M as mob, mob/living/user as mob, def_zone)
     if(M == user)

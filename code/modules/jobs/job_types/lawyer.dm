@@ -8,6 +8,7 @@
 	spawn_positions = 2
 	supervisors = "the Executive Officer"
 	selection_color = "#dddddd"
+	chat_color = "#C07D7D"
 	var/lawyers = 0 //Counts lawyer amount
 
 	outfit = /datum/outfit/job/lawyer
@@ -19,6 +20,11 @@
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_LAWYER
+	departments = DEPARTMENT_SERVICE
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman //they dont have one.
+	)
 
 /datum/outfit/job/lawyer
 	name = "Lawyer"
@@ -43,5 +49,5 @@
 	var/datum/job/lawyer/J = SSjob.GetJobType(jobtype)
 	J.lawyers++
 	if(J.lawyers>1)
-		uniform = /obj/item/clothing/under/lawyer/purpsuit
+		uniform = /obj/item/clothing/under/rank/civilian/lawyer/purpsuit
 		suit = /obj/item/clothing/suit/toggle/lawyer/purple

@@ -17,7 +17,7 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 	circuit = /obj/item/circuitboard/machine/announcement_system
 
 	var/obj/item/radio/headset/radio
-	var/arrival = "%PERSON has signed up as %RANK"
+	var/arrival = "%PERSON has signed up as %RANK."
 	var/arrivalToggle = 1
 	var/newhead = "%PERSON, %RANK, is the department head."
 	var/newheadToggle = 1
@@ -93,65 +93,70 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 	else if(message_type == "CRYOSTORAGE")
 		message = CompileText("%PERSON, %RANK has been moved to cryo storage.", user, rank)
 	else if(message_type == "ARRIVALS_BROKEN")
-		message = "The arrivals shuttle has been damaged. Docking for repairs..."
+		message = "The arrivals shuttle has been damaged. Docking for repairs."
 
 	if(channels.len == 0)
-		radio.talk_into(src, message, null, list(SPAN_ROBOT), get_default_language())
+		radio.talk_into(src, message, null)
 	else
 		for(var/channel in channels)
-			radio.talk_into(src, message, channel, list(SPAN_ROBOT), get_default_language())
+			radio.talk_into(src, message, channel)
 
 //config stuff
 
-/obj/machinery/announcement_system/ui_interact(mob/user)
+
+/obj/machinery/announcement_system/ui_state(mob/user)
+	return GLOB.default_state
+
+/obj/machinery/announcement_system/ui_interact(mob/user, datum/tgui/ui)
 	. = ..()
-	if(!user.canUseTopic(src, !issilicon(user)))
-		return
-	if(stat & BROKEN)
-		visible_message("<span class='warning'>[src] buzzes.</span>", "<span class='italics'>You hear a faint buzz.</span>")
-		playsound(src.loc, 'sound/machines/buzz-two.ogg', 50, 1)
-		return
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "AutomatedAnnouncement")
+		ui.open()
 
+/obj/machinery/announcement_system/ui_data()
+	var/list/data = list()
+	data["arrival"] = arrival
+	data["arrivalToggle"] = arrivalToggle
+	data["newhead"] = newhead
+	data["newheadToggle"] = newheadToggle
+	return data
 
-	var/contents = "Arrival Announcement:  <A href='?src=[REF(src)];ArrivalT-Topic=1'>([(arrivalToggle ? "On" : "Off")])</a><br>\n<A href='?src=[REF(src)];ArrivalTopic=1'>[arrival]</a><br><br>\n"
-	contents += "Departmental Head Announcement:  <A href='?src=[REF(src)];NewheadT-Topic=1'>([(newheadToggle ? "On" : "Off")])</a><br>\n<A href='?src=[REF(src)];NewheadTopic=1'>[newhead]</a><br><br>\n"
-
-	var/datum/browser/popup = new(user, "announcement_config", "Automated Announcement Configuration", 370, 220)
-	popup.set_content(contents)
-	popup.open()
-
-/obj/machinery/announcement_system/Topic(href, href_list)
-	if(..())
+/obj/machinery/announcement_system/ui_act(action, param)
+	. = ..()
+	if(.)
 		return
 	if(!usr.canUseTopic(src, !issilicon(usr)))
 		return
 	if(stat & BROKEN)
-		visible_message("<span class='warning'>[src] buzzes.</span>", "<span class='italics'>You hear a faint buzz.</span>")
-		playsound(src.loc, 'sound/machines/buzz-two.ogg', 50, 1)
+		visible_message("<span class='warning'>[src] buzzes.</span>", "<span class='hear'>You hear a faint buzz.</span>")
+		playsound(src.loc, 'sound/machines/buzz-two.ogg', 50, TRUE)
 		return
-
-	if(href_list["ArrivalTopic"])
-		var/NewMessage = stripped_input(usr, "Enter in the arrivals announcement configuration.", "Arrivals Announcement Config", arrival)
-		if(!usr.canUseTopic(src, !issilicon(usr)))
-			return
-		if(NewMessage)
-			arrival = NewMessage
-	else if(href_list["NewheadTopic"])
-		var/NewMessage = stripped_input(usr, "Enter in the departmental head announcement configuration.", "Head Departmental Announcement Config", newhead)
-		if(!usr.canUseTopic(src, !issilicon(usr)))
-			return
-		if(NewMessage)
-			newhead = NewMessage
-
-	else if(href_list["NewheadT-Topic"])
-		newheadToggle = !newheadToggle
-		update_icon()
-	else if(href_list["ArrivalT-Topic"])
-		arrivalToggle = !arrivalToggle
-		update_icon()
-
-	add_fingerprint(usr)
-	interact(usr)
+	switch(action)
+		if("ArrivalText")
+			var/NewMessage = trim(html_encode(param["newText"]), MAX_MESSAGE_LEN)
+			if(!usr.canUseTopic(src, !issilicon(usr)))
+				return
+			if(NewMessage)
+				arrival = NewMessage
+				log_game("The arrivals announcement was updated: [NewMessage] by:[key_name(usr)]")
+				. = TRUE
+		if("NewheadText")
+			var/NewMessage = trim(html_encode(param["newText"]), MAX_MESSAGE_LEN)
+			if(!usr.canUseTopic(src, !issilicon(usr)))
+				return
+			if(NewMessage)
+				newhead = NewMessage
+				log_game("The head announcement was updated: [NewMessage] by:[key_name(usr)]")
+				. = TRUE
+		if("NewheadToggle")
+			newheadToggle = !newheadToggle
+			update_icon()
+			. = TRUE
+		if("ArrivalToggle")
+			arrivalToggle = !arrivalToggle
+			update_icon()
+			. = TRUE
 
 /obj/machinery/announcement_system/attack_robot(mob/living/silicon/user)
 	. = attack_ai(user)
@@ -170,6 +175,7 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 
 	arrival = pick("#!@%ERR-34%2 CANNOT LOCAT@# JO# F*LE!", "CRITICAL ERROR 99.", "ERR)#: DA#AB@#E NOT F(*ND!")
 	newhead = pick("OV#RL()D: \[UNKNOWN??\] DET*#CT)D!", "ER)#R - B*@ TEXT F*O(ND!", "AAS.exe is not responding. NanoOS is searching for a solution to the problem.")
+	ui_update()
 
 /obj/machinery/announcement_system/emp_act(severity)
 	. = ..()

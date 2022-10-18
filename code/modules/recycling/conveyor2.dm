@@ -2,29 +2,31 @@
 //note that corner pieces transfer stuff clockwise when running forward, and anti-clockwise backwards.
 
 GLOBAL_LIST_EMPTY(conveyors_by_id)
-
+#define MAX_CONVEYOR_ITEMS_MOVE 30
 /obj/machinery/conveyor
 	icon = 'icons/obj/recycling.dmi'
 	icon_state = "conveyor_map"
 	name = "conveyor belt"
 	desc = "A conveyor belt."
 	layer = BELOW_OPEN_DOOR_LAYER
+	processing_flags = START_PROCESSING_MANUALLY
+	subsystem_type = /datum/controller/subsystem/processing/fastprocess
+	var/stack_type = /obj/item/stack/conveyor //NSV13 - What does this conveyor drop when decon'd?
 	var/operating = 0	// 1 if running forward, -1 if backwards, 0 if off
 	var/operable = 1	// true if can operate (no broken segments in this belt run)
 	var/forwards		// this is the default (forward) direction, set by the map dir
 	var/backwards		// hopefully self-explanatory
 	var/movedir			// the actual direction to move stuff in
 
-	var/list/affecting	// the list of all items that will be moved this ptick
 	var/id = ""			// the control ID	- must match controller ID
 	var/verted = 1		// Inverts the direction the conveyor belt moves.
-	speed_process = TRUE
+	var/conveying = FALSE
 
 /obj/machinery/conveyor/centcom_auto
 	id = "round_end_belt"
 
 
-/obj/machinery/conveyor/inverted //Directions inverted so you can use different corner peices.
+/obj/machinery/conveyor/inverted //Directions inverted so you can use different corner pieces.
 	icon_state = "conveyor_map_inverted"
 	verted = -1
 
@@ -39,6 +41,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	. = ..()
 	operating = TRUE
 	update_move_direction()
+	begin_processing() //NSV13 - make them actually start
 
 /obj/machinery/conveyor/auto/update()
 	if(stat & BROKEN)
@@ -127,21 +130,47 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 		operating = FALSE
 	icon_state = "conveyor[operating * verted]"
 
-	// machine process
-	// move items to the target location
+// machine process
+// move items to the target location
 /obj/machinery/conveyor/process()
 	if(stat & (BROKEN | NOPOWER))
 		return
+
 	if(!operating)
 		return
-	use_power(6)
-	affecting = loc.contents - src		// moved items will be all in loc
-	addtimer(CALLBACK(src, .proc/convey, affecting), 1)
 
-/obj/machinery/conveyor/proc/convey(list/affecting)
-	for(var/atom/movable/A in affecting)
-		if((A.loc == loc) && A.has_gravity())
-			A.ConveyorMove(movedir)
+	var/turf/T = get_turf(src)
+
+	use_power(6)
+
+	//get the first 30 items in contents
+	var/i = 0
+	var/list/affected = list()
+	for(var/atom/movable/M in T)
+		if(M == src)
+			continue
+		i++
+		if(!QDELETED(M) && (M.loc == loc) && !M.anchored && M.move_resist != INFINITY && M.has_gravity())
+			if(isliving(M))
+				var/mob/living/L = M
+				if((L.movement_type & FLYING) && !L.stat)
+					continue
+			affected.Add(M)
+		if(i >= MAX_CONVEYOR_ITEMS_MOVE)
+			break
+		CHECK_TICK
+	if(affected.len)
+		//moving is slightly delayed to prevent moving to a conveyor which has yet to be ticked, creating bluespace-tier conveyor speeds
+		addtimer(CALLBACK(src, .proc/convey, affected), 0)
+
+/obj/machinery/conveyor/proc/convey(items)
+	if(operating) //the problem with slightly delaying movement is that stuff gets confused right after the conveyors are turned off
+		var/turf/T = get_turf(src) //NSV13 Edit Start
+		if(!T)
+			return
+		for(var/M in items)
+			if(M in T.contents) //The item being moved is still on the same spot when the callback was added.
+				step(M, movedir) //NSV13 Edit End
 
 // attack with item, place item on conveyor
 /obj/machinery/conveyor/attackby(obj/item/I, mob/user, params)
@@ -150,7 +179,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 		"<span class='notice'>You struggle to pry up \the [src] with \the [I].</span>")
 		if(I.use_tool(src, user, 40, volume=40))
 			if(!(stat & BROKEN))
-				var/obj/item/stack/conveyor/C = new /obj/item/stack/conveyor(loc, 1, TRUE, id)
+				var/obj/item/stack/conveyor/C = new stack_type(loc, 1, TRUE, id) //NSV13 - stack_type for slow conveyors
 				transfer_fingerprints_to(C)
 			to_chat(user, "<span class='notice'>You remove the conveyor belt.</span>")
 			qdel(src)
@@ -219,13 +248,12 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 /obj/machinery/conveyor_switch
 	name = "conveyor switch"
 	desc = "A conveyor control switch."
-	icon = 'icons/obj/recycling.dmi'
+	icon = 'nsv13/icons/obj/recycling.dmi' //Credit to eris for this spriteset!
 	icon_state = "switch-off"
-	speed_process = TRUE
+	processing_flags = START_PROCESSING_MANUALLY
 
 	var/position = 0			// 0 off, -1 reverse, 1 forward
 	var/last_pos = -1			// last direction setting
-	var/operated = 1			// true if just operated
 	var/oneway = FALSE			// if the switch only operates the conveyor belts in a single direction.
 	var/invert_icon = FALSE		// If the level points the opposite direction when it's turned on.
 
@@ -267,23 +295,28 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	else
 		icon_state = "switch-off"
 
-
-// timed process
-// if the switch changed, update the linked conveyors
-
-/obj/machinery/conveyor_switch/process()
-	if(!operated)
-		return
-	operated = 0
-
+/// Updates all conveyor belts that are linked to this switch, and tells them to start processing.
+/obj/machinery/conveyor_switch/proc/update_linked_conveyors()
 	for(var/obj/machinery/conveyor/C in GLOB.conveyors_by_id[id])
 		C.operating = position
 		C.update_move_direction()
+		C.update_icon()
+		if(C.operating)
+			C.begin_processing()
+		else
+			C.end_processing()
 		CHECK_TICK
 
-// attack with hand, switch position
-/obj/machinery/conveyor_switch/interact(mob/user)
-	add_fingerprint(user)
+/// Finds any switches with same `id` as this one, and set their position and icon to match us.
+/obj/machinery/conveyor_switch/proc/update_linked_switches()
+	for(var/obj/machinery/conveyor_switch/S in GLOB.conveyors_by_id[id])
+		S.invert_icon = invert_icon
+		S.position = position
+		S.update_icon()
+		CHECK_TICK
+
+/// Updates the switch's `position` and `last_pos` variable. Useful so that the switch can properly cycle between the forwards, backwards and neutral positions.
+/obj/machinery/conveyor_switch/proc/update_position()
 	if(position == 0)
 		if(oneway)   //is it a oneway switch
 			position = oneway
@@ -298,15 +331,14 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 		last_pos = position
 		position = 0
 
-	operated = 1
+/// Called when a user clicks on this switch with an open hand.
+/obj/machinery/conveyor_switch/interact(mob/user)
+	add_fingerprint(user)
+	update_position()
 	update_icon()
+	update_linked_conveyors()
+	update_linked_switches()
 
-	// find any switches with same id as this one, and set their positions to match us
-	for(var/obj/machinery/conveyor_switch/S in GLOB.conveyors_by_id[id])
-		S.invert_icon = invert_icon
-		S.position = position
-		S.update_icon()
-		CHECK_TICK
 
 /obj/machinery/conveyor_switch/attackby(obj/item/I, mob/user, params)
 	if(I.tool_behaviour == TOOL_CROWBAR)
@@ -329,7 +361,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 /obj/item/conveyor_switch_construct
 	name = "conveyor switch assembly"
 	desc = "A conveyor control switch assembly."
-	icon = 'icons/obj/recycling.dmi'
+	icon = 'nsv13/icons/obj/recycling.dmi' //Credit to eris for this spriteset!
 	icon_state = "switch-off"
 	w_class = WEIGHT_CLASS_BULKY
 	var/id = "" //inherited by the switch
@@ -362,11 +394,13 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 /obj/item/stack/conveyor
 	name = "conveyor belt assembly"
 	desc = "A conveyor belt assembly."
-	icon = 'icons/obj/recycling.dmi'
+	icon = 'nsv13/icons/obj/recycling.dmi' //Credit to eris for this spriteset!
 	icon_state = "conveyor_construct"
 	max_amount = 30
 	singular_name = "conveyor belt"
 	w_class = WEIGHT_CLASS_BULKY
+	var/conveyor_type = /obj/machinery/conveyor //NSV13 - allow for fast and slow conveyors
+	merge_type = /obj/item/stack/conveyor
 	///id for linking
 	var/id = ""
 
@@ -382,7 +416,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	if(A == user.loc)
 		to_chat(user, "<span class='warning'>You cannot place a conveyor belt under yourself!</span>")
 		return
-	var/obj/machinery/conveyor/C = new/obj/machinery/conveyor(A, cdir, id)
+	var/obj/machinery/conveyor/C = new conveyor_type(A, cdir, id)
 	transfer_fingerprints_to(C)
 	use(1)
 
@@ -402,3 +436,4 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 /obj/item/paper/guides/conveyor
 	name = "paper- 'Nano-it-up U-build series, #9: Build your very own conveyor belt, in SPACE'"
 	info = "<h1>Congratulations!</h1><p>You are now the proud owner of the best conveyor set available for space mail order! We at Nano-it-up know you love to prepare your own structures without wasting time, so we have devised a special streamlined assembly procedure that puts all other mail-order products to shame!</p><p>Firstly, you need to link the conveyor switch assembly to each of the conveyor belt assemblies. After doing so, you simply need to install the belt assemblies onto the floor, et voila, belt built. Our special Nano-it-up smart switch will detected any linked assemblies as far as the eye can see! This convenience, you can only have it when you Nano-it-up. Stay nano!</p>"
+#undef MAX_CONVEYOR_ITEMS_MOVE

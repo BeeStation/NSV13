@@ -8,6 +8,7 @@
 	spawn_positions = 1
 	supervisors = "the Executive Officer"
 	selection_color = "#dddddd"
+	chat_color = "#BAD3BB"
 
 	outfit = /datum/outfit/job/mime
 
@@ -17,6 +18,11 @@
 	paycheck_department = ACCOUNT_SRV
 
 	display_order = JOB_DISPLAY_ORDER_MIME
+	departments = DEPARTMENT_SERVICE
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/mime
+	)
 
 /datum/job/mime/after_spawn(mob/living/carbon/human/H, mob/M)
 	H.apply_pref_name("mime", M.client)
@@ -27,7 +33,7 @@
 
 	belt = /obj/item/pda/mime
 	ears = /obj/item/radio/headset/headset_srv
-	uniform = /obj/item/clothing/under/rank/mime
+	uniform = /obj/item/clothing/under/rank/civilian/mime
 	mask = /obj/item/clothing/mask/gas/mime
 	gloves = /obj/item/clothing/gloves/color/white
 	head = /obj/item/clothing/head/frenchberet

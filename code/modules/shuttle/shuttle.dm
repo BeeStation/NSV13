@@ -11,19 +11,33 @@
 
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	anchored = TRUE
-//
+	/// The identifier of the port or ship.
+	/// This will be used in numerous other places like the console,
+	/// stationary ports and whatnot to tell them your ship's mobile
+	/// port can be used in these places, or the docking port is compatible, etc.
 	var/id
-	// this should point -away- from the dockingport door, ie towards the ship
+	///Common standard is for this to point -away- from the dockingport door, ie towards the ship
 	dir = NORTH
-	var/width = 0	//size of covered area, perpendicular to dir
-	var/height = 0	//size of covered area, parallel to dir
-	var/dwidth = 0	//position relative to covered area, perpendicular to dir
-	var/dheight = 0	//position relative to covered area, parallel to dir
+	///size of covered area, perpendicular to dir. You shouldn't modify this for mobile dockingports, set automatically.
+	var/width = 0
+	///size of covered area, parallel to dir. You shouldn't modify this for mobile dockingports, set automatically.
+	var/height = 0
+	///position relative to covered area, perpendicular to dir. You shouldn't modify this for mobile dockingports, set automatically.
+	var/dwidth = 0
+	///position relative to covered area, parallel to dir. You shouldn't modify this for mobile dockingports, set automatically.
+	var/dheight = 0
+
+	//NSV13 SUPER NOTE: You have to modify these for mobile docking ports on MINING SHUTTLES - IGNORE ABOVE
 
 	var/area_type
-	var/hidden = FALSE //are we invisible to shuttle navigation computers?
+	///are we invisible to shuttle navigation computers?
+	var/hidden = FALSE
 
-	var/delete_after = FALSE ///Delete this port after ship fly off.
+	///Delete this port after ship fly off.
+	var/delete_after = FALSE
+
+/obj/docking_port/get_save_vars()
+	return list("pixel_x", "pixel_y", "dir", "name", "req_access", "req_access_txt", "piping_layer", "color", "icon_state", "pipe_color", "amount", "width", "height", "dwidth", "dheight")
 
 	//these objects are indestructible
 /obj/docking_port/Destroy(force)
@@ -207,7 +221,7 @@
 			CRASH("Invalid path ([roundstart_template]) passed to docking port.")
 
 	if(roundstart_template)
-		SSshuttle.manipulator.action_load(roundstart_template, src)
+		SSshuttle.action_load(roundstart_template, src)
 
 //returns first-found touching shuttleport
 /obj/docking_port/stationary/get_docked()
@@ -245,18 +259,25 @@
 
 	var/list/shuttle_areas
 
-	var/timer						//used as a timer (if you want time left to complete move, use timeLeft proc)
+	///used as a timer (if you want time left to complete move, use timeLeft proc)
+	var/timer
 	var/last_timer_length
+	///current shuttle mode
+	var/mode = SHUTTLE_IDLE
+	///time spent in transit (deciseconds). Should not be lower then 10 seconds without editing the animation of the hyperspace ripples.
+	var/callTime = 100
+	/// time spent "starting the engines". Also rate limits how often we try to reserve transit space if its ever full of transiting shuttles.
+	var/ignitionTime = 55
+	/// time spent after arrival before being able to begin ignition
+	var/rechargeTime = 0
+	/// time spent after transit 'landing' before actually arriving
+	var/prearrivalTime = 0
 
-	var/mode = SHUTTLE_IDLE			//current shuttle mode
-	var/callTime = 100				//time spent in transit (deciseconds). Should not be lower then 10 seconds without editing the animation of the hyperspace ripples.
-	var/ignitionTime = 55			// time spent "starting the engines". Also rate limits how often we try to reserve transit space if its ever full of transiting shuttles.
-	var/rechargeTime = 0		// time spent after arrival before being able to begin ignition
-	var/prearrivalTime = 0		// time spent after transit 'landing' before actually arriving
-
-	// The direction the shuttle prefers to travel in
+	/// The direction the shuttle prefers to travel in, ie what direction
+	/// the animation will cause it to appear to be traveling in
 	var/preferred_direction = NORTH
-	// And the angle from the front of the shuttle to the port
+	/// relative direction of the docking port from the front of the shuttle
+	/// NORTH is towards front, EAST would be starboard side, WEST port, etc.
 	var/port_direction = NORTH
 
 	var/obj/docking_port/stationary/destination
@@ -266,15 +287,22 @@
 
 	var/launch_status = NOLAUNCH
 
+	///Whether or not you want your ship to knock people down, and also whether it will throw them several tiles upon launching.
 	var/list/movement_force = list("KNOCKDOWN" = 3, "THROW" = 0)
 
 	var/list/ripples = list()
-	var/engine_coeff = 1 //current engine coeff
-	var/current_engines = 0 //current engine power
-	var/initial_engines = 0 //initial engine power
+	var/engine_coeff = 1
+	var/current_engines = 0
+	var/initial_engines = 0
 	var/list/engine_list = list()
-	var/can_move_docking_ports = FALSE //if this shuttle can move docking ports other than the one it is docked at
+	///if this shuttle can move docking ports other than the one it is docked at
+	var/can_move_docking_ports = FALSE
 	var/list/hidden_turfs = list()
+
+	//The virtual Z-Value of the shuttle
+	var/virtual_z
+
+	var/shuttle_object_type = /datum/orbital_object/shuttle
 
 /obj/docking_port/mobile/proc/register()
 	SSshuttle.mobile += src
@@ -301,12 +329,16 @@
 	var/list/all_turfs = return_ordered_turfs(x, y, z, dir)
 	for(var/i in 1 to all_turfs.len)
 		var/turf/curT = all_turfs[i]
-		var/area/cur_area = curT.loc
+		var/area/shuttle/cur_area = curT.loc
 		if(istype(cur_area, area_type))
 			shuttle_areas[cur_area] = TRUE
+			if(!cur_area.mobile_port)
+				cur_area.link_to_shuttle(src)
 
 	initial_engines = count_engines()
 	current_engines = initial_engines
+
+	virtual_z = get_new_virtual_z()
 
 	#ifdef DOCKING_PORT_HIGHLIGHT
 	highlight("#0f0")
@@ -468,7 +500,7 @@
 		oldT.change_area(old_area, underlying_area)
 		oldT.empty(FALSE)
 
-		// Here we locate the bottomost shuttle boundary and remove all turfs above it
+		// Here we locate the bottommost shuttle boundary and remove all turfs above it
 		var/list/baseturf_cache = oldT.baseturfs
 		for(var/k in 1 to length(baseturf_cache))
 			if(ispath(baseturf_cache[k], /turf/baseturf_skipover/shuttle))
@@ -605,17 +637,16 @@
 	for(var/place in shuttle_areas)
 		var/area/shuttle/shuttle_area = place
 		shuttle_area.parallax_movedir = FALSE
-	if(assigned_transit?.assigned_area)
+	if(assigned_transit && assigned_transit.assigned_area)
 		assigned_transit.assigned_area.parallax_movedir = FALSE
 	var/list/L0 = return_ordered_turfs(x, y, z, dir)
 	for (var/thing in L0)
 		var/turf/T = thing
 		if(!T || !istype(T.loc, area_type))
 			continue
-		for (var/thing2 in T)
-			var/atom/movable/AM = thing2
-			if (length(AM.client_mobs_in_contents))
-				AM.update_parallax_contents()
+		for (var/atom/movable/movable as anything in T)
+			if (length(movable.client_mobs_in_contents))
+				movable.update_parallax_contents()
 
 /obj/docking_port/mobile/proc/check_transit_zone()
 	if(assigned_transit)
@@ -686,7 +717,7 @@
 	if(timeleft > 1 HOURS)
 		return "--:--"
 	else if(timeleft > 0)
-		return "[add_zero(num2text((timeleft / 60) % 60),2)]:[add_zero(num2text(timeleft % 60), 2)]"
+		return "[add_leading(num2text((timeleft / 60) % 60), 2, "0")]:[add_leading(num2text(timeleft % 60), 2, "0")]"
 	else
 		return "00:00"
 
@@ -733,7 +764,7 @@
 /obj/docking_port/mobile/proc/getControlConsole()
 	for(var/place in shuttle_areas)
 		var/area/shuttle/shuttle_area = place
-		for(var/obj/machinery/computer/shuttle/S in shuttle_area)
+		for(var/obj/machinery/computer/shuttle_flight/S in shuttle_area)
 			if(S.shuttleId == id)
 				return S
 	return null
@@ -755,8 +786,16 @@
 	var/range = (engine_coeff * max(width, height))
 	var/long_range = range * 2.5
 	var/atom/distant_source
-	if(engine_list[1])
-		distant_source = engine_list[1]
+	var/list/engines = list()
+	for(var/datum/weakref/engine in engine_list)
+		var/obj/structure/shuttle/engine/real_engine = engine.resolve()
+		if(!real_engine)
+			engine_list -= engine
+			continue
+		engines += real_engine
+
+	if(LAZYLEN(engines))
+		distant_source = engines[1]
 	else
 		for(var/A in areas)
 			distant_source = locate(/obj/machinery/door) in A
@@ -764,22 +803,22 @@
 				break
 
 	if(distant_source)
-		for(var/mob/M in SSmobs.clients_by_zlevel[z])
+		for(var/mob/M as() in SSmobs.clients_by_zlevel[z])
 			var/dist_far = get_dist(M, distant_source)
 			if(dist_far <= long_range && dist_far > range)
-				M.playsound_local(distant_source, "sound/effects/[selected_sound]_distance.ogg", 100, falloff = 20)
+				M.playsound_local(distant_source, "sound/effects/[selected_sound]_distance.ogg", 100, falloff_exponent = 20)
 			else if(dist_far <= range)
 				var/source
-				if(engine_list.len == 0)
+				if(engines.len == 0)
 					source = distant_source
 				else
 					var/closest_dist = 10000
-					for(var/obj/O in engine_list)
+					for(var/obj/O in engines)
 						var/dist_near = get_dist(M, O)
 						if(dist_near < closest_dist)
 							source = O
 							closest_dist = dist_near
-				M.playsound_local(source, "sound/effects/[selected_sound].ogg", 100, falloff = range / 2)
+				M.playsound_local(source, "sound/effects/[selected_sound].ogg", 100, falloff_exponent = range / 2)
 
 // Losing all initial engines should get you 2
 // Adding another set of engines at 0.5 time
@@ -795,12 +834,17 @@
 
 /obj/docking_port/mobile/proc/count_engines()
 	. = 0
+	engine_list.Cut()
 	for(var/thing in shuttle_areas)
 		var/area/shuttle/areaInstance = thing
 		for(var/obj/structure/shuttle/engine/E in areaInstance.contents)
 			if(!QDELETED(E))
-				engine_list += E
+				engine_list += WEAKREF(E)
 				. += E.engine_power
+		for(var/obj/machinery/shuttle/engine/E in areaInstance.contents)
+			if(!QDELETED(E))
+				engine_list += E
+				. += E.thruster_active ? 1 : 0
 
 // Double initial engines to get to 0.5 minimum
 // Lose all initial engines to get to 2
@@ -814,13 +858,13 @@
 		var/change_per_engine = (1 - ENGINE_COEFF_MIN) / ENGINE_DEFAULT_MAXSPEED_ENGINES // 5 by default
 		if(initial_engines > 0)
 			change_per_engine = (1 - ENGINE_COEFF_MIN) / initial_engines // or however many it had
-		return CLAMP(1 - delta * change_per_engine,ENGINE_COEFF_MIN,ENGINE_COEFF_MAX)
+		return clamp(1 - delta * change_per_engine,ENGINE_COEFF_MIN,ENGINE_COEFF_MAX)
 	if(new_value < initial_engines)
 		var/delta = initial_engines - new_value
 		var/change_per_engine = 1 //doesn't really matter should not be happening for 0 engine shuttles
 		if(initial_engines > 0)
 			change_per_engine = (ENGINE_COEFF_MAX -  1) / initial_engines //just linear drop to max delay
-		return CLAMP(1 + delta * change_per_engine,ENGINE_COEFF_MIN,ENGINE_COEFF_MAX)
+		return clamp(1 + delta * change_per_engine,ENGINE_COEFF_MIN,ENGINE_COEFF_MAX)
 
 
 /obj/docking_port/mobile/proc/in_flight()

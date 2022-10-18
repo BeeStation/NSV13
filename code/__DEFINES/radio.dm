@@ -33,10 +33,15 @@
 #define RADIO_KEY_SERVICE "v"
 #define RADIO_TOKEN_SERVICE ":v"
 
+// NSV13 - we need this one, sorry
+/*
+#define RADIO_CHANNEL_EXPLORATION "Exploration"
+#define RADIO_KEY_EXPLORATION "q"
+#define RADIO_TOKEN_EXPLORATION ":q"
+*/
 #define RADIO_CHANNEL_AI_PRIVATE "AI Private"
 #define RADIO_KEY_AI_PRIVATE "o"
 #define RADIO_TOKEN_AI_PRIVATE ":o"
-
 
 #define RADIO_CHANNEL_SYNDICATE "Syndicate"
 #define RADIO_KEY_SYNDICATE "t"
@@ -46,13 +51,17 @@
 #define RADIO_KEY_CENTCOM "y"
 #define RADIO_TOKEN_CENTCOM ":y"
 
-#define RADIO_CHANNEL_ATC "Air Traffic Control" //Nsv13 - Air traffic  control chat
+#define RADIO_CHANNEL_ATC "Air Traffic Control" //Nsv13 - Air traffic control chat
 #define RADIO_KEY_ATC "q"
 #define RADIO_TOKEN_ATC ":q"
 
 #define RADIO_CHANNEL_MUNITIONS "Munitions" //NSV13 - Munitions department
 #define RADIO_KEY_MUNITIONS "w"
 #define RADIO_TOKEN_MUNITIONS ":w"
+
+#define RADIO_CHANNEL_PIRATE "Space Pirate" //NSV13 - Space Pirates
+#define RADIO_KEY_PIRATE "z"
+#define RADIO_TOKEN_PIRATE ":z"
 
 #define RADIO_CHANNEL_CTF_RED "Red Team"
 #define RADIO_CHANNEL_CTF_BLUE "Blue Team"
@@ -62,18 +71,20 @@
 // Frequencies are always odd numbers and range from 1201 to 1599.
 
 #define FREQ_SYNDICATE 1213  //!  Nuke op comms frequency, dark brown
+#define FREQ_PIRATE 1214 //! NSV13 - Space Pirates, PURPLE
 #define FREQ_CTF_RED 1215  //!  CTF red team comms frequency, red
 #define FREQ_CTF_BLUE 1217  //!  CTF blue team comms frequency, blue
 #define FREQ_ATC 1237  //! NSV13 - Air traffic control comms frequency, grey
 #define FREQ_CENTCOM 1337  //!  CentCom comms frequency, gray
-#define FREQ_MUNITIONS 1345 //! NSV13 - Munitions comm frequency, 'puce'(temp)
+#define FREQ_MUNITIONS 1345 //! NSV13 - Munitions comm frequency, ORANGE
 #define FREQ_SUPPLY 1347  //!  Supply comms frequency, light brown
 #define FREQ_SERVICE 1349  //! Service comms frequency, green
 #define FREQ_SCIENCE 1351  //! Science comms frequency, plum
 #define FREQ_COMMAND 1353  //! Command comms frequency, gold
 #define FREQ_MEDICAL 1355  //! Medical comms frequency, soft blue
-#define FREQ_ENGINEERING 1357  //! Engineering comms frequency, orange
+#define FREQ_ENGINEERING 1357  //! Engineering comms frequency, NSV13 - yellowish
 #define FREQ_SECURITY 1359  //! Security comms frequency, red
+#define FREQ_EXPLORATION 1361 //! Exploration comms frequency, cyan
 
 #define FREQ_STATUS_DISPLAYS 1435
 #define FREQ_ATMOS_ALARMS 1437  //! air alarms <-> alert computers

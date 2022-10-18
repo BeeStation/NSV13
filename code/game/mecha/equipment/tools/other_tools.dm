@@ -10,7 +10,7 @@
 	icon_state = "mecha_teleport"
 	equip_cooldown = 150
 	energy_drain = 1000
-	range = RANGED
+	range = MECHA_RANGED
 
 /obj/item/mecha_parts/mecha_equipment/teleporter/action(atom/target)
 	if(!action_checks(target) || is_centcom_level(loc.z))
@@ -30,7 +30,7 @@
 	icon_state = "mecha_wholegen"
 	equip_cooldown = 50
 	energy_drain = 300
-	range = RANGED
+	range = MECHA_RANGED
 
 
 /obj/item/mecha_parts/mecha_equipment/wormhole_generator/action(atom/target)
@@ -43,7 +43,7 @@
 	var/list/L = list()
 	var/turf/pos = get_turf(src)
 	for(var/turf/T in get_area_turfs(thearea.type))
-		if(!T.density && pos.z == T.z)
+		if(!T.density && pos.get_virtual_z_level() == T.get_virtual_z_level())
 			var/clear = 1
 			for(var/obj/O in T)
 				if(O.density)
@@ -73,7 +73,7 @@
 	icon_state = "mecha_teleport"
 	equip_cooldown = 10
 	energy_drain = 100
-	range = MELEE|RANGED
+	range = MECHA_MELEE|MECHA_RANGED
 	var/atom/movable/locked
 	var/mode = 1 //1 - gravsling 2 - gravpush
 
@@ -277,7 +277,7 @@
 	energy_drain = 0
 	range = 0
 	var/coeff = 100
-	var/list/use_channels = list(EQUIP,ENVIRON,LIGHT)
+	var/list/use_channels = list(AREA_USAGE_EQUIP,AREA_USAGE_ENVIRON,AREA_USAGE_LIGHT)
 	selectable = 0
 
 /obj/item/mecha_parts/mecha_equipment/tesla_energy_relay/Destroy()
@@ -334,13 +334,13 @@
 	if(isnull(cur_charge) || !chassis.cell)
 		STOP_PROCESSING(SSobj, src)
 		set_ready_state(1)
-		occupant_message("No powercell detected.")
+		occupant_message("No power cell detected.")
 		return
 	if(cur_charge < chassis.cell.maxcharge)
 		var/area/A = get_area(chassis)
 		if(A)
 			var/pow_chan
-			for(var/c in list(EQUIP,ENVIRON,LIGHT))
+			for(var/c in use_channels)
 				if(A.powered(c))
 					pow_chan = c
 					break
@@ -359,7 +359,7 @@
 	name = "exosuit plasma converter"
 	desc = "An exosuit module that generates power using solid plasma as fuel. Pollutes the environment."
 	icon_state = "tesla"
-	range = MELEE
+	range = MECHA_MELEE
 	var/coeff = 100
 	var/obj/item/stack/sheet/fuel
 	var/max_fuel = 150000
@@ -437,7 +437,7 @@
 	var/cur_charge = chassis.get_charge()
 	if(isnull(cur_charge))
 		set_ready_state(1)
-		occupant_message("No powercell detected.")
+		occupant_message("No power cell detected.")
 		log_message("Deactivated.", LOG_MECHA)
 		STOP_PROCESSING(SSobj, src)
 		return
@@ -541,7 +541,7 @@
 
 /obj/item/mecha_parts/mecha_equipment/thrusters/gas
 	name = "RCS thruster package"
-	desc = "A set of thrusters that allow for exosuit movement in zero-gravity enviroments, by expelling gas from the internal life support tank."
+	desc = "A set of thrusters that allow for exosuit movement in zero-gravity environments, by expelling gas from the internal life support tank."
 	effect_type = /obj/effect/particle_effect/smoke
 	var/move_cost = 20 //moles per step
 
@@ -566,7 +566,7 @@
 
 /obj/item/mecha_parts/mecha_equipment/thrusters/ion //for mechs with built-in thrusters, should never really exist un-attached to a mech
 	name = "Ion thruster package"
-	desc = "A set of thrusters that allow for exosuit movement in zero-gravity enviroments."
+	desc = "A set of thrusters that allow for exosuit movement in zero-gravity environments."
 	detachable = FALSE
 	salvageable = FALSE
 	effect_type = /obj/effect/particle_effect/ion_trails

@@ -23,6 +23,11 @@
 	name = "chips"
 	icon_state = "chips"
 
+/obj/item/trash/boritos
+	name = "boritos bag"
+	icon_state = "boritos"
+	grind_results = list(/datum/reagent/aluminium = 1) //from the mylar bag
+
 /obj/item/trash/popcorn
 	name = "popcorn"
 	icon_state = "popcorn"
@@ -80,6 +85,11 @@
 /obj/item/trash/can/food/peaches/maint
 	name = "Maintenance Peaches"
 	icon_state = "peachcanmaint_empty"
+
+/obj/item/trash/can/food/beefbroth
+	name = "canned beef broth"
+	icon = 'icons/obj/food/food.dmi'
+	icon_state = "beefcan_empty"
 
 /obj/item/trash/can/food/beans
 	name = "tin of beans"
