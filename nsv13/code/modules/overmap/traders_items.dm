@@ -293,7 +293,8 @@
 						/obj/item/fighter_component/canopy/tier2,
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/battery/tier2,
-						/obj/item/fighter_component/primary/cannon/heavy)
+						/obj/item/fighter_component/primary/cannon/heavy,
+						/obj/item/disk/design_disk/hybrid_rail_slugs)
 
 /datum/trader_item/fighter/syndicate
 	name = "AV-41 'Corvid' Syndicate Light Fighter"
