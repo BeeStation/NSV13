@@ -2406,6 +2406,13 @@
 /obj/machinery/newscaster/directional/south,
 /obj/item/radio/intercom/directional/east,
 /obj/item/storage/part_replacer/bluespace,
+/obj/machinery/button/door{
+	pixel_x = 24;
+	name = "Tesla Silencing";
+	id = "tesla";
+	req_one_access_txt = "56";
+	pixel_y = -9
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/crew_quarters/heads/chief)
 "kW" = (
@@ -3213,6 +3220,13 @@
 	},
 /turf/open/floor/mineral/titanium/yellow,
 /area/hallway/nsv/deck1/hallway)
+"pp" = (
+/obj/machinery/door/poddoor/shutters/ship{
+	id = "tesla";
+	name = "Tesla Silencing Shutters"
+	},
+/turf/open/floor/engine,
+/area/nsv/engine/engine_room/core)
 "pr" = (
 /obj/structure/falsewall/durasteel{
 	desc = "IT'SINYOURWALLSIT'SINYOURWALLSIT'SINYOURWALLSIT'SINYOURWALLSIT'SINYOURWALLSIT'SINYOURWALLSIT'SINYOURWALLSIT'SINYOURWALLS."
@@ -3389,7 +3403,6 @@
 	name = "Mining Hangar RC";
 	pixel_y = 26
 	},
-/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
 /turf/open/floor/plasteel/dark/airless,
 /area/nsv/hanger/mining)
 "qo" = (
@@ -4224,6 +4237,9 @@
 /obj/structure/closet/radiation{
 	anchored = 1
 	},
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
 "tS" = (
@@ -4263,8 +4279,8 @@
 /area/quartermaster/warehouse)
 "tY" = (
 /obj/machinery/mineral/ore_redemption{
-	input_dir = 8;
-	output_dir = 8
+	input_dir = 2;
+	output_dir = 1
 	},
 /obj/structure/window/plasma/reinforced{
 	dir = 4
@@ -4284,6 +4300,9 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer1{
 	dir = 4
+	},
+/obj/machinery/computer/card/minor/ce{
+	dir = 1
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/crew_quarters/heads/chief)
@@ -4341,9 +4360,6 @@
 /turf/open/floor/engine,
 /area/engine/atmos)
 "uA" = (
-/obj/machinery/computer/cargo/request{
-	dir = 1
-	},
 /obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/carpet/orange,
 /area/nsv/crew_quarters/heads/maa)
@@ -5460,7 +5476,8 @@
 /obj/structure/table/reinforced,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
 	dir = 4;
-	id = "qm_office"
+	id = "qm_office";
+	name = "QM Office"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -5475,11 +5492,6 @@
 	req_one_access_txt = "31;48"
 	},
 /obj/machinery/door/window/eastleft,
-/obj/machinery/door/poddoor/shutters/preopen{
-	req_one_access_txt = "31;48";
-	id = "qm_office";
-	name = "QM Office Shutters"
-	},
 /turf/open/floor/monotile/steel,
 /area/quartermaster/lobby)
 "zU" = (
@@ -6304,7 +6316,7 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
-/turf/open/space/basic,
+/turf/open/floor/carpet/ship/orange_carpet,
 /area/crew_quarters/heads/chief)
 "Eh" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/visible{
@@ -6746,6 +6758,14 @@
 /obj/structure/cable,
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
+	},
+/obj/structure/table,
+/obj/item/storage/belt/utility{
+	pixel_y = 3
+	},
+/obj/item/storage/belt/utility,
+/obj/item/storage/belt/utility{
+	pixel_y = -4
 	},
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
@@ -8388,6 +8408,7 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
 /turf/open/floor/plasteel/dark/airless,
 /area/nsv/hanger/mining)
 "NL" = (
@@ -9633,7 +9654,7 @@
 /area/quartermaster/lobby)
 "SG" = (
 /obj/machinery/newscaster/directional/west,
-/obj/structure/closet/secure_closet/miner,
+/obj/machinery/vendor/mining,
 /turf/open/floor/plasteel/ship,
 /area/quartermaster/miningoffice)
 "SH" = (
@@ -10448,6 +10469,9 @@
 /obj/structure/table,
 /obj/item/radio/intercom/directional/west,
 /obj/item/storage/toolbox/mechanical,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
 /turf/open/floor/monotile/steel,
 /area/comms)
 "WB" = (
@@ -10997,7 +11021,6 @@
 	dir = 10
 	},
 /obj/effect/landmark/start/munitions_tech,
-/obj/machinery/light/floor,
 /turf/open/floor/plasteel/grid/techfloor,
 /area/nsv/weapons)
 "Zy" = (
@@ -39481,7 +39504,7 @@ Ks
 Ks
 Ks
 dD
-UF
+pp
 VE
 Um
 LC
@@ -41023,7 +41046,7 @@ Ks
 Ks
 Ks
 dD
-UF
+pp
 VE
 ek
 LC

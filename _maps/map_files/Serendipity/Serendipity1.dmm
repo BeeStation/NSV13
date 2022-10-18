@@ -1719,6 +1719,9 @@
 	pixel_x = -5
 	},
 /obj/effect/turf_decal/stripes/red/box,
+/obj/item/robot_suit{
+	pixel_y = 5
+	},
 /turf/open/floor/engine,
 /area/science/robotics)
 "gb" = (
@@ -2930,13 +2933,6 @@
 /turf/closed/wall/r_wall/ship,
 /area/ai_monitored/nuke_storage)
 "jS" = (
-/obj/machinery/turretid{
-	icon_state = "control_stun";
-	name = "AI Chamber turret control";
-	pixel_x = 5;
-	pixel_y = -22;
-	control_area = /area/ai_monitored/turret_protected/aisat_interior
-	},
 /obj/machinery/computer/teleporter{
 	dir = 1
 	},
@@ -5642,7 +5638,7 @@
 /mob/living/simple_animal/pet/fox/Renault,
 /obj/structure/bed/dogbed/renault,
 /turf/open/floor/carpet,
-/area/crew_quarters/heads/captain/private)
+/area/ai_monitored/nuke_storage)
 "tu" = (
 /obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
@@ -5779,6 +5775,9 @@
 	},
 /obj/machinery/power/apc/auto_name/north,
 /obj/machinery/camera/autoname{
+	dir = 8
+	},
+/obj/machinery/computer/card/minor/cmo{
 	dir = 8
 	},
 /turf/open/floor/carpet/blue,
@@ -5963,7 +5962,7 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/cic)
 "uI" = (
-/obj/item/banner/science,
+/obj/machinery/computer/card/minor/rd,
 /turf/open/floor/carpet/purple,
 /area/crew_quarters/heads/hor)
 "uL" = (
@@ -7606,7 +7605,9 @@
 "Ar" = (
 /obj/item/radio/intercom/directional/east,
 /obj/structure/disposalpipe/segment,
-/obj/structure/table/glass/plasma,
+/obj/machinery/computer/card/minor/hos{
+	dir = 8
+	},
 /turf/open/floor/carpet/red,
 /area/security/warden)
 "As" = (
@@ -8575,10 +8576,6 @@
 	pixel_x = 6;
 	pixel_y = 8
 	},
-/obj/item/storage/toolbox/electrical{
-	pixel_x = 6;
-	pixel_y = 8
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -8808,7 +8805,7 @@
 /area/bridge/meeting_room/council)
 "Ey" = (
 /obj/machinery/door/window/brigdoor/security/cell/southleft{
-	req_one_access_txt = "3;4;38;63"
+	req_one_access_txt = null
 	},
 /obj/effect/landmark/start/head_of_security,
 /turf/open/floor/fakespace,
@@ -9016,9 +9013,6 @@
 /area/crew_quarters/dorms/nsv/nature_deck)
 "Ff" = (
 /obj/machinery/deepfryer,
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
 /turf/open/floor/wood,
 /area/crew_quarters/kitchen)
 "Fg" = (
@@ -11478,6 +11472,7 @@
 "MS" = (
 /obj/machinery/firealarm/directional/north,
 /obj/machinery/light/floor,
+/obj/item/banner/science,
 /turf/open/floor/carpet/purple,
 /area/crew_quarters/heads/hor)
 "MT" = (
@@ -12071,12 +12066,6 @@
 	pixel_x = 7;
 	pixel_y = 13
 	},
-/obj/machinery/turretid{
-	icon_state = "control_stun";
-	name = "AI Chamber turret control";
-	pixel_x = 5;
-	pixel_y = -22
-	},
 /obj/machinery/newscaster/directional/south{
 	pixel_x = -7;
 	pixel_y = 24
@@ -12096,6 +12085,12 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/turretid{
+	icon_state = "control_stun";
+	name = "AI Chamber turret control";
+	control_area = /area/ai_monitored/turret_protected/aisat_interior;
+	pixel_y = -22
 	},
 /turf/open/floor/circuit/red,
 /area/ai_monitored/turret_protected/aisat_interior)
@@ -12699,6 +12694,20 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
+"Rf" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/light/floor,
+/obj/machinery/camera/autoname,
+/turf/open/floor/plasteel/tiled/light,
+/area/hallway/secondary/exit)
 "Rh" = (
 /obj/structure/flora/junglebush,
 /turf/open/floor/grass,
@@ -14371,6 +14380,15 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/genetics/cloning)
+"Xa" = (
+/obj/machinery/turretid{
+	icon_state = "control_stun";
+	name = "AI Chamber turret control";
+	pixel_x = 26;
+	control_area = /area/ai_monitored/turret_protected/aisat_interior
+	},
+/turf/open/floor/circuit,
+/area/ai_monitored/turret_protected/aisat_interior)
 "Xb" = (
 /obj/structure/bookcase/random,
 /obj/machinery/computer/ship/viewscreen,
@@ -14393,7 +14411,9 @@
 /area/chapel)
 "Xe" = (
 /obj/machinery/firealarm/directional/south,
-/obj/machinery/disposal/bin,
+/obj/machinery/disposal/bin{
+	req_one_access_txt = "2;34"
+	},
 /obj/structure/disposalpipe/trunk{
 	dir = 1
 	},
@@ -14567,6 +14587,7 @@
 /area/security/warden)
 "XD" = (
 /obj/machinery/vending/wardrobe/bar_wardrobe,
+/obj/machinery/camera/autoname,
 /turf/open/floor/wood,
 /area/crew_quarters/kitchen)
 "XE" = (
@@ -39519,7 +39540,7 @@ oC
 pK
 xT
 Hr
-ni
+Rf
 qI
 dL
 kh
@@ -40028,7 +40049,7 @@ jN
 mh
 wY
 IZ
-Hr
+jN
 tt
 HY
 Af
@@ -49563,7 +49584,7 @@ pF
 bw
 Rq
 Xs
-Rq
+Xa
 jS
 pF
 pF
