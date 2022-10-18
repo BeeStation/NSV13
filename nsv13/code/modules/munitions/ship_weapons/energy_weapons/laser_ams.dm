@@ -35,6 +35,6 @@
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg', 'nsv13/sound/effects/ship/burst_phaser2.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	weapon_class = WEAPON_CLASS_LIGHT
-	selectable = FALSE
 	autonomous = TRUE
 	permitted_ams_modes = list( "Anti-missile countermeasures" = 1 )
+	allowed_roles = 0

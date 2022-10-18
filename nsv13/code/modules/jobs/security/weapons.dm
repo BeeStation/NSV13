@@ -21,7 +21,23 @@
 
 /obj/item/gun/ballistic/automatic/pistol/glock
 	name = "Glock-13"
-	desc = "A small 9mm handgun used by Nanotrasen security forces. It has a polymer handle and a full durasteel body construction, giving it a nice weight."
+	desc = "A small 9mm handgun used by Nanotrasen crewmen. It has a polymer handle and a full durasteel body construction, giving it a nice weight."
+	icon = 'nsv13/icons/obj/guns/projectile.dmi'
+	icon_state = "crewglock"
+	item_state = "glock"
+	fire_sound = 'nsv13/sound/weapons/glock.ogg'
+	w_class = WEIGHT_CLASS_NORMAL
+	mag_type = /obj/item/ammo_box/magazine/glock
+	can_suppress = TRUE
+	automatic = FALSE
+	can_flashlight = TRUE
+	flight_x_offset = 15
+	flight_y_offset = 12
+	fire_rate = 2
+
+/obj/item/gun/ballistic/automatic/pistol/glock/security
+	name = "Glock-13BR"
+	desc = "A small 9mm handgun used by Nanotrasen security forces. It has burst-fire capabilities and a weighted grip to tame the recoil."
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "secglock"
 	item_state = "glock"
@@ -29,6 +45,9 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	mag_type = /obj/item/ammo_box/magazine/glock
 	can_suppress = TRUE
+	burst_size = 3
+	fire_delay = 2
+	actions_types = list(/datum/action/item_action/toggle_firemode)
 	automatic = FALSE
 	can_flashlight = TRUE
 	flight_x_offset = 15
@@ -53,6 +72,16 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	mag_type = /obj/item/ammo_box/magazine/m45
 	can_suppress = FALSE
+
+/datum/design/gulagpack
+	name = "Gulagpack"
+	id = "gulagpack"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron=10000, /datum/material/glass=2500)
+	build_path = /obj/item/storage/backpack/gulagpack
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+	category = list("Equipment")
+
 
 /obj/item/gun/ballistic/automatic/pistol/glock/command
 	name = "Command Glock-13"
@@ -98,7 +127,7 @@
 /obj/item/ammo_box/magazine/glock/update_icon()
     ..()
     icon_state = "[initial(icon_state)][ammo_count() ? "" : "-0"]"
-	
+
 /obj/item/ammo_casing/c9mm/rubber
 	name = "9mm rubber bullet casing"
 	desc = "A 9mm rubber bullet casing."
@@ -115,6 +144,7 @@
 	name = "9mm bullet"
 	damage = 20
 	damage_type = STAMINA
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "pdc"
 
 /obj/item/ammo_box/magazine/tazer_cartridge

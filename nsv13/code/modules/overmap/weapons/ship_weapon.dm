@@ -22,7 +22,6 @@
 	var/requires_physical_guns = TRUE //Set this to false for any fighter weapons we may have
 	var/lateral = TRUE //Does this weapon need you to face the enemy? Mostly no.
 	var/special_fire_proc = null //Override this if you need to replace the firing weapons behaviour with a custom proc. See torpedoes and missiles for this.
-	var/selectable = TRUE //Is this a gun you can manually fire? Or do you want it for example, be an individually manned thing..?
 	var/screen_shake = 0
 	var/firing_arc = null //If this weapon only fires in an arc (for ai ships)
 	var/weapon_class = WEAPON_CLASS_HEAVY //Do AIs need to resupply with ammo to use this weapon?
@@ -30,6 +29,7 @@
 	var/max_miss_distance = 4 // Maximum number of tiles the AI will miss by
 	var/autonomous = FALSE // Is this a gun that can automatically fire? Keep in mind variables selectable and autonomous can both be TRUE
 	var/permitted_ams_modes = list( "Anti-ship" = 1, "Anti-missile countermeasures" = 1 ) // Overwrite the list with a specific firing mode if you want to restrict its targets
+	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
 
 	var/next_firetime = 0
 

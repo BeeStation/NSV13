@@ -234,6 +234,9 @@ This prevents nesting levels from getting deeper then they need to be.
 * Primary keys are inherently immutable and you must never do anything to change the primary key of a row or entity. This includes preserving auto increment numbers of rows when copying data to a table in a conversion script. No amount of bitching about gaps in ids or out of order ids will save you from this policy.
 
 ### Mapping Standards
+
+* **Talk to the Maintainers before making a map.**
+	* Formal mapping standards aren't finalised yet. In the interest of gameplay and a cohesive style, maintainers have to deny maps that differ too much from what is planned for NSV. Talk to the maintainers to avoid nastiy surprises and wasted time.
 * TGM Format & Map Merge
 	* All new maps submitted to the repo through a pull request must be in TGM format (unless there is a valid reason present to have it in the default BYOND format.) This is done using the [Map Merge](https://github.com/tgstation/tgstation/wiki/Map-Merger) utility included in the repo to convert the file to TGM format.
 	* Likewise, you MUST run Map Merge prior to opening your PR when updating existing maps to minimize the change differences (even when using third party mapping programs such as FastDMM.)
