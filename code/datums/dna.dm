@@ -4,6 +4,7 @@
 	var/unique_enzymes
 	var/uni_identity
 	var/blood_type
+	var/datum/species/original_species
 	var/datum/species/species = new /datum/species/human //The type of mutant race the player is if applicable (i.e. potato-man)
 	var/list/features = list("FFF") //first value is mutant color
 	var/real_name //Stores the real name of the person who originally got this dna datum. Used primarely for changelings,
@@ -21,6 +22,7 @@
 /datum/dna/New(mob/living/new_holder)
 	if(istype(new_holder))
 		holder = new_holder
+		original_species = species
 
 /datum/dna/Destroy()
 	if(iscarbon(holder))
@@ -45,6 +47,7 @@
 	destination.dna.uni_identity = uni_identity
 	destination.dna.blood_type = blood_type
 	destination.set_species(species.type, icon_update=0)
+	destination.dna.original_species = original_species
 	destination.dna.features = features.Copy()
 	destination.dna.real_name = real_name
 	destination.dna.temporary_mutations = temporary_mutations.Copy()
@@ -63,6 +66,7 @@
 	new_dna.blood_type = blood_type
 	new_dna.features = features.Copy()
 	new_dna.species = new species.type
+	new_dna.original_species = original_species
 	new_dna.real_name = real_name
 	new_dna.update_body_size() //Must come after features.Copy()
 	new_dna.mutations = mutations.Copy()

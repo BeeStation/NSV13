@@ -446,8 +446,9 @@
 		else if(O.ai_controller)
 			QDEL_NULL(O.ai_controller)
 
-	if(O.dna.species && !istype(O.dna.species, /datum/species/monkey))
-		O.set_species(O.dna.species)
+	if(dna.original_species && !istype(dna.original_species, /datum/species/monkey))
+		message_admins("setting species to [dna.original_species]")
+		O.set_species(dna.original_species)
 	else
 		O.set_species(/datum/species/human)
 
