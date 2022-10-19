@@ -378,11 +378,10 @@
 	name = "Prototype Bluespace Artillery"
 	default_projectile_type = /obj/item/projectile/bullet/prototype_bsa
 	burst_size = 1
-	fire_delay = 32 SECONDS
+	fire_delay = 22 SECONDS
 	range_modifier = 200
 	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
 	ai_fire_delay = 32 SECONDS
-	lateral = TRUE
 
 

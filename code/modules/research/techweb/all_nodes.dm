@@ -172,7 +172,7 @@
 	display_name = "Advanced Engineering"
 	description = "Pushing the boundaries of physics, one chainsaw-fist at a time."
 	prereq_ids = list("engineering", "emp_basic")
-	design_ids = list("engine_goggles", "magboots", "forcefield_projector", "weldingmask", "rcd_loaded", "rpd_loaded", "ranged_analyzer") //NSV13 - kept atmos holofan
+	design_ids = list("engine_goggles", "magboots", "forcefield_projector", "weldingmask", "rcd_loaded", "rpd_loaded", "ranged_analyzer", "multi_cell_charger") //NSV13 - kept atmos holofan
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
@@ -771,7 +771,7 @@
 	tech_tier = 1
 	display_name = "Basic Security Equipment"
 	description = "Standard equipment used by security."
-	design_ids = list("seclite", "pepperspray", "bola_energy", "zipties", "evidencebag", "flashbulb")
+	design_ids = list("seclite", "pepperspray", "bola_energy", "gulagpack", "zipties", "evidencebag", "flashbulb") //NSV13 added gulagpack
 	prereq_ids = list("base")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)
 	export_price = 5000

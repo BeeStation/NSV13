@@ -486,10 +486,12 @@
 				return FALSE
 			if(T && is_station_level(T.z))//Multiz AI viewing of boardable ship is not currently supported.
 				AI.eyeobj.forceMove(T)
+				return TRUE
 			else
 				to_chat(AI, "<span class='warning'>You cannot move here</span>")
+		return FALSE
 
-	if(zMove(UP, TRUE))
+	if(isturf(loc) && zMove(UP, TRUE)) // NSV13 - No moving Z while inside another object
 		to_chat(src, "<span class='notice'>You move upwards.</span>")
 
 ///Moves a mob down a z level
@@ -505,10 +507,12 @@
 				return FALSE
 			if(T && is_station_level(T.z))//Multiz AI viewing of boardable ship is not currently supported.
 				AI.eyeobj.forceMove(T)
+				return TRUE
 			else
 				to_chat(AI, "<span class='warning'>You cannot move here</span>")
+		return FALSE
 
-	if(zMove(DOWN, TRUE))
+	if(isturf(loc) && zMove(DOWN, TRUE)) // NSV13 - No moving Z while inside another object
 		to_chat(src, "<span class='notice'>You move down.</span>")
 
 ///Move a mob between z levels, if it's valid to move z's on this turf
