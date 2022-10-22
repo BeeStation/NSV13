@@ -736,10 +736,11 @@ Been a mess since 2018, we'll fix it someday (probably)
 	relay('nsv13/sound/effects/ship/reactor/gasmask.ogg', "<span class='warning'>The air around you rushes out of the breached canopy!</span>", loop = FALSE, channel = CHANNEL_SHIP_ALERT)
 
 /obj/structure/overmap/small_craft/welder_act(mob/living/user, obj/item/I)
-	. = ..()
+	if(user.a_intent == INTENT_HARM)
+		return FALSE
 	if(obj_integrity >= max_integrity)
 		to_chat(user, "<span class='notice'>[src] isn't in need of repairs.</span>")
-		return FALSE
+		return TRUE
 	to_chat(user, "<span class='notice'>You start welding some dents out of [src]'s hull...</span>")
 	if(I.use_tool(src, user, 4 SECONDS, volume=100))
 		to_chat(user, "<span class='notice'>You weld some dents out of [src]'s hull.</span>")
@@ -951,18 +952,26 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	obj_integrity = 250
 	max_integrity = 250
 	armor = list("melee" = 50, "bullet" = 40, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //Armour's pretty tough.
+	var/repair_speed = 25 // How much integrity you can repair per second
+	var/busy = FALSE
 
 //Sometimes you need to repair your physical armour plates.
 /obj/item/fighter_component/armour_plating/welder_act(mob/living/user, obj/item/I)
-	. = ..()
+	if(user.a_intent == INTENT_HARM)
+		return FALSE
 	if(obj_integrity >= max_integrity)
 		to_chat(user, "<span class='notice'>[src] isn't in need of repairs.</span>")
-		return FALSE
-	to_chat(user, "<span class='notice'>You start welding some dents out of [src]...</span>")
-	if(I.use_tool(src, user, 4 SECONDS, volume=100))
-		to_chat(user, "<span class='notice'>You weld some dents out of [src].</span>")
-		obj_integrity += min(10, max_integrity-obj_integrity)
 		return TRUE
+	if(busy)
+		to_chat(user, "<span class='warning'>Someone's already repairing [src]!</span>")
+	busy = TRUE
+	to_chat(user, "<span class='notice'>You start welding some dents out of [src]...</span>")
+	if(I.use_tool(src, user, ((max_integrity-obj_integrity) / repair_speed) SECONDS, volume=100))
+		to_chat(user, "<span class='notice'>You repair [src].</span>")
+		obj_integrity = max_integrity
+		busy = FALSE
+		return TRUE
+	busy = FALSE
 
 /obj/item/fighter_component/armour_plating/tier2
 	name = "ultra heavy fighter armour"
@@ -1736,4 +1745,4 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/structure/overmap/small_craft/proc/toggle_canopy()
 	canopy_open = !canopy_open
 	playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
- 
+
