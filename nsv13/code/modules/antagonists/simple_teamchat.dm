@@ -186,7 +186,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 /datum/component/simple_teamchat/radio_dependent/can_message(mob/user)
 	if(isliving(user))
 		var/mob/living/living_user = user
-		if(living_user.stat)
+		if(living_user.incapacitated())
 			return FALSE
 	var/obj/machinery/telecomms/relay/ourBroadcaster = null
 	//Precondition: Comms must be online.
