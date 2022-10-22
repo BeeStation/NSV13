@@ -52,6 +52,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/mutable_appearance/canopy
 	var/random_name = TRUE
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/change_name, .verb/countermeasure)
+	var/repair_speed = 25 // How much integrity you can repair per second
+	var/busy = FALSE
 
 /obj/structure/overmap/small_craft/Destroy()
 	var/mob/last_pilot = pilot // Old pilot gets first shot
@@ -741,11 +743,13 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(obj_integrity >= max_integrity)
 		to_chat(user, "<span class='notice'>[src] isn't in need of repairs.</span>")
 		return TRUE
+	busy = TRUE
 	to_chat(user, "<span class='notice'>You start welding some dents out of [src]'s hull...</span>")
-	if(I.use_tool(src, user, 4 SECONDS, volume=100))
+	if(I.use_tool(src, user, ((max_integrity-obj_integrity) / repair_speed) SECONDS, volume=100))
 		to_chat(user, "<span class='notice'>You weld some dents out of [src]'s hull.</span>")
-		obj_integrity += min(10, max_integrity-obj_integrity)
-		return TRUE
+		obj_integrity = max_integrity
+	busy = FALSE
+	return TRUE
 
 /obj/structure/overmap/small_craft/InterceptClickOn(mob/user, params, atom/target)
 	if(user.incapacitated() || !isliving(user))
