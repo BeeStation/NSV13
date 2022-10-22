@@ -415,11 +415,6 @@
 
 /obj/structure/peacekeeper_barricade/AltClick(mob/user)
 	. = ..()
-	if(!isliving(user))
-		return
-	var/mob/living/living_user
-	if(!Adjacent(living_user) || living_user.incapacitated())
-		return
 	revrotate()
 
 /obj/structure/peacekeeper_barricade/verb/rotate()
@@ -427,6 +422,11 @@
 	set category = "Object"
 	set src in oview(1)
 
+	if(!isliving(usr))
+		return FALSE
+	var/mob/living/living_user = usr
+	if(!Adjacent(living_user) || living_user.incapacitated())
+		return FALSE
 	if(anchored)
 		to_chat(usr, "<span class='warning'>It is fastened to the floor, you can't rotate it!</span>")
 		return FALSE
@@ -439,6 +439,11 @@
 	set category = "Object"
 	set src in oview(1)
 
+	if(!isliving(usr))
+		return FALSE
+	var/mob/living/living_user = usr
+	if(!Adjacent(living_user) || living_user.incapacitated())
+		return FALSE
 	if(anchored)
 		to_chat(usr, "<span class='warning'>It is fastened to the floor, you can't rotate it!</span>")
 		return FALSE
