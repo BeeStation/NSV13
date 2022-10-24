@@ -37,3 +37,8 @@
 	description = "<span class='nicegreen'>I really needed that..</span>\n"
 	mood_change = 1
 	timeout = 2 MINUTES
+
+/datum/mood_event/drink_navy_coffee
+	description = "<span class='nicegreen'><b>THIS SHIT TASTED FUCKING DELICIOUS AND I'M READY TO GO FUCK SOME SYNDICATE SHIPS UP, NAVY FOR LIFE WOOOOOO!!</b></span>\n"
+	mood_change = 10
+	timeout = 10 MINUTES

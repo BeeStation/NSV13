@@ -643,3 +643,40 @@
 					/obj/item/reagent_containers/glass/bottle/sacid,
 					/obj/item/reagent_containers/glass/bottle/sacid)
 	crate_name = "Chemical Supply Crate - Chalcogens"
+
+/datum/supply_pack/service/coffee_kit
+	name = "Emergency Coffee Resupply Kit"
+	desc = "Did the Marines drink the last of the ships coffee and is now fertilizing the hydroponic trays? Did the clown destroy your coffee mugs while Runtime knocked the coffee pot into the floor making it shatter? Fear not, this crate contains everything you might need to get that liquid ambrosia flowing again!"
+	cost = 1000 //It's a starter pack, so we're not completely greedy, unlike the grill.
+	contains = list(/obj/item/reagent_containers/food/drinks/mug,
+					/obj/item/reagent_containers/food/drinks/mug,
+					/obj/item/reagent_containers/food/drinks/mug,
+					/obj/item/coffee_cartridge,
+					/obj/item/reagent_containers/glass/coffeepot)
+	crate_type = /obj/structure/closet/crate/secure // We don't fuck around when it comes to those desperate for coffee.
+	crate_name = "Emergency Coffee Supply Crate"
+
+/datum/supply_pack/service/coffee_cartridge
+	name = "Navy Coffee Cartridge Resupply"
+	desc = "A few cartridges, containing our finest navy coffee beans for the glorious coffeemaker. Contains 6 cartridges."
+	cost = 3000 //Two thousand more than the Emergency kit, because it's a refill.
+	contains = list(/obj/item/coffee_cartridge,
+					/obj/item/coffee_cartridge,
+					/obj/item/coffee_cartridge,
+					/obj/item/coffee_cartridge,
+					/obj/item/coffee_cartridge,
+					/obj/item/coffee_cartridge)
+	crate_type = /obj/structure/closet/crate/secure // We still don't fuck around with our coffee supply, this thing is getting to that machine one way or another
+	crate_name = "Coffee Cartridge Supply Crate"
+
+/datum/supply_pack/service/coffee_cartridge_fancy
+	name = "Fancy Garbage Coffee Cartridge Resupply"
+	desc = "We don't know why you would possibly want this garbage tasting coffee compared to the glorious ambrosia taste of Navy Coffee, but here you go. Contains 5 cartridges."
+	cost = 5000 //It's fancy coffee, so it's pretty expensive because the Navy wants to hoard it all from you.
+	contains = list(/obj/item/coffee_cartridge/fancy,
+					/obj/item/coffee_cartridge/fancy,
+					/obj/item/coffee_cartridge/fancy,
+					/obj/item/coffee_cartridge/fancy,
+					/obj/item/coffee_cartridge/fancy)
+	crate_type = /obj/structure/closet/crate/secure
+	crate_name = "Garbage Coffee Supply Crate"

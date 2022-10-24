@@ -323,3 +323,15 @@
 /obj/item/circuitboard/computer/iff
 	name = "IFF Console (circuit)"
 	build_path = /obj/machinery/computer/iff_console
+
+//Coffee Machine - Navy's Lifeblood
+/obj/item/circuitboard/machine/coffeemaker
+	name = "Coffeemaker (Machine Board)"
+	icon_state = "service"
+	build_path = /obj/machinery/coffeemaker
+	req_components = list(
+		/obj/item/stack/sheet/glass = 1,
+		/obj/item/reagent_containers/glass/beaker = 2,
+		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/stock_parts/micro_laser = 1,
+	)
