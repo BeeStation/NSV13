@@ -46,7 +46,8 @@
 	l_pocket = /obj/item/pda/heads/chief_engineer
 	ears = /obj/item/radio/headset/heads/chief_engineer
 	uniform = /obj/item/clothing/under/rank/engineering/chief_engineer
-	shoes = /obj/item/clothing/shoes/sneakers/brown
+	suit = /obj/item/clothing/suit/ship/engineer
+	shoes = /obj/item/clothing/shoes/jackboots
 	head = /obj/item/clothing/head/beret/ce //NSV13 Give us our cool beret back
 	gloves = /obj/item/clothing/gloves/color/black
 	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1,
