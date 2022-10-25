@@ -308,15 +308,25 @@
 	user.put_in_hands(new_pack)
 	creamer_packs--
 
+
+///Updates the smoke state to something else, setting particles if relevant
+/obj/machinery/coffeemaker/proc/toggle_steam()
+	QDEL_NULL(particles)
+	if(brewing)
+		particles = new /particles/smoke/steam/mild()
+		particles.position = list(-6, 0, 0)
+
 /obj/machinery/coffeemaker/proc/operate_for(time, silent = FALSE)
 	brewing = TRUE
 	if(!silent)
 		playsound(src, 'nsv13/sound/machines/coffeemaker_brew.ogg', 20, vary = TRUE)
+	toggle_steam()
 	use_power(active_power_usage * time * 0.1) // .1 needed here to convert time (in deciseconds) to seconds such that watts * seconds = joules
 	addtimer(CALLBACK(src, .proc/stop_operating), time / speed)
 
 /obj/machinery/coffeemaker/proc/stop_operating()
 	brewing = FALSE
+	toggle_steam()
 
 /obj/machinery/coffeemaker/proc/brew()
 	power_change()
