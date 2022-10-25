@@ -54,6 +54,8 @@
 		"stimulum" = /obj/machinery/portable_atmospherics/canister/stimulum,
 		"pluoxium" = /obj/machinery/portable_atmospherics/canister/pluoxium,
 		"caution" = /obj/machinery/portable_atmospherics/canister,
+		"nucleium" = /obj/machinery/portable_atmospherics/canister/nucleium,	//NSV13
+		"constricted plasma" = /obj/machinery/portable_atmospherics/canister/constricted_plasma, //NSV13
 	)
 
 /obj/machinery/portable_atmospherics/canister/interact(mob/user)
