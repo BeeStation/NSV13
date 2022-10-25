@@ -36,7 +36,7 @@
 	idle_power_usage = 10
 	active_power_usage = 400
 	light_color = LIGHT_COLOR_BLUE
-	req_access = list(ACCESS_GENETICS)
+	req_access = null //NSV13 Need anyone to be able to mess with these
 	clicksound = null
 
 	var/datum/techweb/stored_research
