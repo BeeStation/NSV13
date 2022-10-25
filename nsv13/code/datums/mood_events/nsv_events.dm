@@ -39,6 +39,6 @@
 	timeout = 2 MINUTES
 
 /datum/mood_event/drink_navy_coffee
-	description = "<span class='nicegreen'><b>THIS SHIT TASTED FUCKING DELICIOUS AND I'M READY TO GO FUCK SOME SYNDICATE SHIPS UP, NAVY FOR LIFE WOOOOOO!!</b></span>\n"
+	description = "<span class='nicegreen'><b>THAT SHIT TASTED FUCKING DELICIOUS LET'S GO FUCK SOME SYNDICATE SHIPS UP, NAVY FOR LIFE WOOOOOO!!</b></span>\n"
 	mood_change = 10
 	timeout = 10 MINUTES

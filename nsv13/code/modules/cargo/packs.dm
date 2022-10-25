@@ -644,6 +644,8 @@
 					/obj/item/reagent_containers/glass/bottle/sacid)
 	crate_name = "Chemical Supply Crate - Chalcogens"
 
+
+//Coffee Related Packs
 /datum/supply_pack/service/coffee_kit
 	name = "Emergency Coffee Resupply Kit"
 	desc = "Did the Marines drink the last of the ships coffee and is now fertilizing the hydroponic trays? Did the clown destroy your coffee mugs while Runtime knocked the coffee pot into the floor making it shatter? Fear not, this crate contains everything you might need to get that liquid ambrosia flowing again!"
@@ -651,17 +653,17 @@
 	contains = list(/obj/item/reagent_containers/food/drinks/mug,
 					/obj/item/reagent_containers/food/drinks/mug,
 					/obj/item/reagent_containers/food/drinks/mug,
+					/obj/item/reagent_containers/glass/coffeepot,
 					/obj/item/coffee_cartridge,
-					/obj/item/reagent_containers/glass/coffeepot)
+					/obj/item/coffee_cartridge)
 	crate_type = /obj/structure/closet/crate/secure // We don't fuck around when it comes to those desperate for coffee.
 	crate_name = "Emergency Coffee Supply Crate"
 
 /datum/supply_pack/service/coffee_cartridge
 	name = "Navy Coffee Cartridge Resupply"
-	desc = "A few cartridges, containing our finest navy coffee beans for the glorious coffeemaker. Contains 6 cartridges."
+	desc = "A few cartridges, containing our finest navy coffee beans for the glorious coffeemaker. Contains 5 cartridges."
 	cost = 3000 //Two thousand more than the Emergency kit, because it's a refill.
 	contains = list(/obj/item/coffee_cartridge,
-					/obj/item/coffee_cartridge,
 					/obj/item/coffee_cartridge,
 					/obj/item/coffee_cartridge,
 					/obj/item/coffee_cartridge,
@@ -680,3 +682,37 @@
 					/obj/item/coffee_cartridge/fancy)
 	crate_type = /obj/structure/closet/crate/secure
 	crate_name = "Garbage Coffee Supply Crate"
+
+/datum/supply_pack/service/coffeekit
+	name = "Coffee Equippment Crate"
+	desc = "A complete kit to setup your own cozy coffee shop, the coffeemaker is for some reason not included."
+	cost = 2000
+	contains = list(/obj/item/storage/box/coffeepack/robusta,
+					/obj/item/storage/box/coffeepack/arabica,
+					/obj/item/reagent_containers/glass/coffeepot,
+					/obj/item/storage/fancy/coffee_condi_display,
+					/obj/item/reagent_containers/food/drinks/bottle/cream,
+					/obj/item/reagent_containers/food/condiment/milk,
+					/obj/item/reagent_containers/food/condiment/soymilk,
+					/obj/item/reagent_containers/food/condiment/sugar,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/caramel)
+	crate_name = "coffee equpment crate"
+
+/datum/supply_pack/service/coffeemaker
+	name = "Impressa Coffeemaker Crate"
+	desc = "An assembled Impressa model coffeemaker."
+	cost = 4000
+	contains = list(/obj/machinery/coffeemaker/impressa)
+	crate_name = "coffeemaker crate"
+	crate_type = /obj/structure/closet/crate/large
+
+/datum/supply_pack/organic/syrup
+	name = "Coffee Syrups Box"
+	desc = "A packaged box of various syrups, perfect to make your delicious coffee even more diabetic."
+	cost = 2000
+	contains = list(/obj/item/reagent_containers/glass/bottle/syrup_bottle/caramel,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/caramel,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/liqueur,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/liqueur)
+	crate_name = "coffee syrups box"
+	crate_type = /obj/structure/closet/cardboard

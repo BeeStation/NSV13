@@ -17,7 +17,7 @@
 	description = "The lifeblood of the Navy and Militaries everywhere, this coffee is strong enough to keep you awake for days, ruin your tastebuds and wake the freaking dead."
 	color = "#241000"
 	nutriment_factor = 0
-	addiction_threshold = 5 //One sip and you ruin your tastebuds for life
+	addiction_threshold = 40 //Downing two cups in one go will make you addicted to it.
 	taste_description = "extreme bitterness with a hint of fuel"
 	glass_icon_state = "glass_brown"
 	glass_name = "glass of navy coffee"
@@ -28,4 +28,5 @@
 	M.drowsyness = max(0,M.drowsyness-3)
 	M.AdjustSleeping(-40, FALSE)
 	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "navy_coffee", /datum/mood_event/drink_navy_coffee)
+	..()
 	. = 1

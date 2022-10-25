@@ -215,6 +215,7 @@
 /obj/item/reagent_containers/food/drinks/coffee
 	name = "robust coffee"
 	desc = "Careful, the beverage you're about to enjoy is extremely hot."
+	icon = 'nsv13/icons/obj/coffee.dmi' //NSV13 - COFFEE ICON
 	icon_state = "coffee"
 	list_reagents = list(/datum/reagent/consumable/coffee = 30)
 	spillable = TRUE
