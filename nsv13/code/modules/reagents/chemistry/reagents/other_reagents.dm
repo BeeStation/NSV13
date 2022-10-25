@@ -13,12 +13,12 @@
 	nutriment_factor = 1.5 * REAGENTS_METABOLISM
 
 /datum/reagent/consumable/navy_coffee
-	name = "Naval-Grade Coffee"
+	name = "Naval Coffee"
 	description = "The lifeblood of the Navy and Militaries everywhere, this coffee is strong enough to keep you awake for days, ruin your tastebuds and wake the freaking dead."
 	color = "#241000"
 	nutriment_factor = 0
 	addiction_threshold = 5 //One sip and you ruin your tastebuds for life
-	taste_description = "extreme bitterness and a hint of fuel"
+	taste_description = "extreme bitterness with a hint of fuel"
 	glass_icon_state = "glass_brown"
 	glass_name = "glass of navy coffee"
 	glass_desc = "Don't drop it, or you'll get busted back down to midshipman!"

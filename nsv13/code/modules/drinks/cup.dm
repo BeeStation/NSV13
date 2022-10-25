@@ -6,7 +6,5 @@
 	possible_transfer_amounts = list(10)
 	volume = 30
 	spillable = TRUE
-
-/obj/item/reagent_containers/cup/glass/coffee_cup/update_icon_state()
-	icon_state = reagents.total_volume ? "coffee_cup" : "coffee_cup_e"
-	return ..()
+	fill_icon_state = "coffee_cup"
+	fill_icon_thresholds = list(0, 1)

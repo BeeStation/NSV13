@@ -2,7 +2,8 @@
 	name = "coffeemaker"
 	desc = "A Modello 3 Coffeemaker that brews coffee and holds it at the perfect temperature of 176 fahrenheit. Made by Piccionaia Home Appliances."
 	icon = 'nsv13/icons/obj/coffee.dmi'
-	icon_state = "coffeemaker"
+	icon_state = "coffeemaker_nopot_nocart"
+	var/base_icon_state = "coffeemaker"
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	circuit = /obj/item/circuitboard/machine/coffeemaker
 	pixel_y = 4 //needed to make it sit nicely on tables
@@ -37,6 +38,7 @@
 	if(mapload)
 		coffeepot = new /obj/item/reagent_containers/glass/coffeepot(src)
 		cartridge = new /obj/item/coffee_cartridge(src)
+		update_icon()
 
 /obj/machinery/coffeemaker/deconstruct(disassembled)
 	coffeepot?.forceMove(drop_location())
@@ -84,7 +86,7 @@
 
 	if(!(stat & (NOPOWER|BROKEN)))
 		. += "<span class='notice'>The status display reads:</span>\n"+\
-		"<span class='notice'>- Brewing coffee at <b>[speed*100]%</b>."
+		"<span class='notice'>- Brewing coffee at <b>[speed*100]%</b>.</span>"
 		if(coffeepot)
 			for(var/datum/reagent/consumable/cawfee as anything in coffeepot.reagents.reagent_list)
 				. += "<span class='notice>- [cawfee.volume] units of coffee in pot.</span>"
@@ -95,7 +97,7 @@
 				. += "<span class='notice'>- grounds cartridge has [cartridge.charges] charges remaining.</span>"
 
 	if(coffee_cups >= 1)
-		. += "<span class='notice'>There are [coffee_cups == 1 ? "is" : "are"] [coffee_cups] coffee cup[coffee_cups != 1 && "s"] left.</span>"
+		. += "<span class='notice'>There [coffee_cups == 1 ? "is" : "are"] [coffee_cups] coffee cup[coffee_cups != 1 && "s"] left.</span>"
 	else
 		. += "<span class='notice'>There are no cups left.</span>"
 
@@ -120,8 +122,6 @@
 		return
 	if(brewing)
 		return
-	replace_pot(user)
-	return
 
 /obj/machinery/coffeemaker/handle_atom_del(atom/A)
 	. = ..()
@@ -132,7 +132,7 @@
 	update_icon()
 
 /obj/machinery/coffeemaker/update_icon_state()
-	icon_state = "coffeemaker[!!coffeepot][!!cartridge]"
+	icon_state = "[base_icon_state][coffeepot ? "_pot" : "_nopot"][cartridge ? "_cart": "_nocart"]"
 	return ..()
 
 /obj/machinery/coffeemaker/proc/replace_pot(mob/living/user, obj/item/reagent_containers/glass/coffeepot/new_coffeepot)
