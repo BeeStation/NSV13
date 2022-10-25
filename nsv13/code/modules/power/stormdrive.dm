@@ -1546,14 +1546,16 @@ Control Rods
 /obj/machinery/portable_atmospherics/canister/constricted_plasma
 	name = "constricted plasma canister"
 	desc = "Highly volatile plasma which has been magnetically constricted. The fuel which nuclear storm drives run off of."
-	icon_state = "orange"
 	gas_type = GAS_CONSTRICTED_PLASMA
+	greyscale_config = /datum/greyscale_config/canister/hazard
+	greyscale_colors = "#aa18c7#000000"
 
 /obj/machinery/portable_atmospherics/canister/nucleium
 	name = "nucleium canister"
 	desc = "A waste plasma biproduct produced in the Stormdrive, used in quantum waveform generation."
-	icon_state = "miasma"
 	gas_type = GAS_NUCLEIUM
+	greyscale_colors = "#66C88F#000000"
+	greyscale_config = /datum/greyscale_config/canister/hazard
 
 /datum/weather/nuclear_fallout
 	name = "nuclear fallout"
