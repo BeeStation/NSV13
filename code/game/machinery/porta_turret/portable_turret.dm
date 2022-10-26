@@ -457,7 +457,7 @@
 			for(var/obj/structure/blob/B in view(scan_range, T))
 				targets += B
 	//Nsv13 start
-	for(var/A in GLOB.overmap_objects)
+	for(var/A in GLOB.overmap_objects) //Has to go through global list due to occuring on a ship's z, not the overmap.
 		var/obj/structure/overmap/target = A
 		if((get_dist(A, base) < scan_range) && can_see(base, A, scan_range) && istype(A, /obj/structure/overmap) && target.z == z)
 			if(target.pilot && !in_faction(target.pilot)) //If there is a user and they're not in our faction

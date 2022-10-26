@@ -392,7 +392,13 @@ SUBSYSTEM_DEF(overmap_mode)
 	if(successes > SSovermap_mode.highest_objective_completion)
 		SSovermap_mode.modify_threat_elevation(-TE_OBJECTIVE_THREAT_NEGATION * (successes - SSovermap_mode.highest_objective_completion))
 		SSovermap_mode.highest_objective_completion = successes
-
+	if(istype(SSticker.mode, /datum/game_mode/pvp)) //If the gamemode is PVP and a faction has over a 700 points, they win.
+		for(var/X in SSstar_system.factions)
+			var/datum/game_mode/pvp/mode = SSticker.mode
+			var/datum/faction/F = X
+			if(F.tickets >= 700)
+				mode.winner = F //This should allow the mode to finish up by itself
+				mode.check_finished()
 	if((objective_check >= objective_length) && !failed)
 		victory()
 

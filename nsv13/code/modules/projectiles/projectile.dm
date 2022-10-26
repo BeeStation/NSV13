@@ -8,9 +8,6 @@ GLOBAL_LIST_INIT(projectile_hitbox, list(new /datum/vector2d(-2,16),\
 	var/datum/component/physics2d/physics2d = null
 	var/obj/structure/overmap/overmap_firer = null
 
-/obj/item/projectile/forceMove(atom/destination)
-	return doMove(destination)
-
 /obj/item/projectile/proc/setup_collider()
 	physics2d = AddComponent(/datum/component/physics2d)
 	physics2d.setup(GLOB.projectile_hitbox, Angle)

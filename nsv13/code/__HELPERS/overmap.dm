@@ -1,4 +1,4 @@
-/atom/proc/get_overmap() //Helper proc to get the overmap ship representing a given area.
+/atom/proc/get_overmap(failsafe = FALSE) //Helper proc to get the overmap ship representing a given area.
 	RETURN_TYPE(/obj/structure/overmap)
 	if(isovermap(loc))
 		return loc
@@ -6,6 +6,10 @@
 		if(!loc) // Or not...
 			return FALSE
 		return loc.get_overmap() // Begin recursion!
+	if(!SSmapping.z_list) //Being called by pre-mapping init call
+		if(!failsafe) //Only retry once
+			addtimer(CALLBACK(src, .proc/get_overmap, TRUE), 30 SECONDS)
+		return FALSE
 	var/datum/space_level/SL = SSmapping.z_list[z] // Overmaps linked to Zs, like the main ship
 	if(SL?.linked_overmap)
 		return SL.linked_overmap
@@ -28,7 +32,8 @@ Helper method to get what ship an observer belongs to for stuff like parallax.
 	if(last_overmap)
 		last_overmap.mobs_in_ship -= src
 	last_overmap = OM
-	OM?.mobs_in_ship += src
+	if(OM)
+		OM.mobs_in_ship += src
 	SEND_SIGNAL(src, COMSIG_MOB_OVERMAP_CHANGE, src, OM)
 
 /// Finds a turf outside of the overmap

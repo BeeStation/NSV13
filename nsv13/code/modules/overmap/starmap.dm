@@ -19,6 +19,10 @@
 	var/current_sector = 2
 	circuit = /obj/item/circuitboard/computer/ship/navigation
 
+/obj/machinery/computer/ship/navigation/LateInitialize()
+	addtimer(CALLBACK(src, .proc/has_overmap), 15 SECONDS)
+
+
 /obj/machinery/computer/ship/navigation/can_interact(mob/user) //Override this code to allow people to use consoles when flying the ship.
 	if(user in linked?.operators)
 		return TRUE

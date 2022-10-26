@@ -172,6 +172,11 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 //Syndicate crew outfits
 
 /datum/outfit/syndicate/no_crystals/syndi_crew/post_equip(mob/living/carbon/human/H)
+	var/obj/item/radio/R = H.ears
+	R.set_frequency(FREQ_SYNDICATE)
+	R.freqlock = TRUE
+	if(command_radio)
+		R.command = TRUE
 	H.faction += "Syndicate"
 	var/obj/item/card/id/W = H.wear_id
 	implants = list(/obj/item/implant/weapons_auth)

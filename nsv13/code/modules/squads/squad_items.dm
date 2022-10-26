@@ -76,7 +76,7 @@
 	. = ..()
 	//Lets you choose any squad to message, at any time.
 	for(var/datum/squad/S in GLOB.squad_manager.squads)
-		squad_channel = src.AddComponent(S.squad_channel_type)
+		squad_channel = AddComponent(S.squad_channel_type, override = TRUE)
 		squad_channel.squad = squad
 
 /obj/item/squad_pager/Initialize(mapload, datum/squad/squad)
@@ -84,6 +84,12 @@
 	if(!squad)
 		return
 	apply_squad(squad)
+
+/obj/item/squad_pager/attack_self(mob/user)
+	if(!squad_channel && squad)
+		squad_channel = AddComponent(squad.squad_channel_type)
+		squad_channel.squad = squad
+	squad_channel.show_last_message(user)
 
 /obj/item/squad_pager/equipped(mob/equipper, slot)
 	. = ..()
@@ -95,8 +101,9 @@
 			apply_squad(H.squad)
 
 /obj/item/squad_pager/proc/apply_squad(datum/squad/squad)
-	squad_channel?.RemoveComponent()
-	qdel(squad_channel)
+	if(squad_channel)
+		squad_channel.RemoveComponent()
+		QDEL_NULL(squad_channel)
 	cut_overlays()
 	src.squad = squad //Ahoy mr squadward! Ack ack ack.
 	name = "[squad] pager"
@@ -106,7 +113,7 @@
 	stripes.color = squad.colour
 	add_overlay(new /mutable_appearance(stripes))
 	if(squad)
-		squad_channel = src.AddComponent(squad.squad_channel_type)
+		squad_channel = AddComponent(squad.squad_channel_type)
 		squad_channel.squad = squad
 
 /obj/item/clothing/suit/ship/squad
@@ -298,9 +305,9 @@
 	name = "[squad] [initial(name)]"
 	icon_state = "hudsquad"
 	if ( user && ishuman( user ) )
-		if ( user.squad_role == SQUAD_MEDIC )
+		if ( user.squad.role == MEDICAL_SQUAD )
 			icon_state = "hudsquad_medic"
-		else if ( user.squad_role == SQUAD_ENGI )
+		else if ( user.squad.role == DC_SQUAD )
 			icon_state = "hudsquad_engineer"
 	item_color = "hudsquad"
 	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)

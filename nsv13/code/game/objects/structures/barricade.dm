@@ -131,21 +131,7 @@
 	if(closed || !anchored)
 		return 0
 	if(istype(leaving, /obj/item/projectile))
-		var/obj/item/projectile/S = leaving
-		if(get_turf(S.firer) == get_turf(src)) //This is a pretty safe bet to say that they're allowed to shoot through us.
-			return 0
-		if(!(direction in GLOB.cardinals)) //Sometimes shit can come in from odd angles, so we need to strip out diagonals
-			switch(direction)
-				if(NORTHEAST)
-					direction = EAST
-				if(NORTHWEST)
-					direction = WEST
-				if(SOUTHEAST)
-					direction = EAST
-				if(SOUTHWEST)
-					direction = WEST
-		if(!(dir & direction)) //This means they're not shooting the direction we're facing
-			return COMPONENT_ATOM_BLOCK_EXIT
+		return 0 //who cares lol
 
 	if(leaving.throwing)
 		if(is_wired && iscarbon(leaving)) //Leaping mob against barbed wire fails

@@ -139,10 +139,6 @@
 	id = /obj/item/card/id
 	var/rank_title = "Admiral"
 
-/datum/outfit/centcom_admiral/pre_equip(mob/living/carbon/human/H, visualsOnly)
-	. = ..()
-	H.squad_rank = rank_title
-
 /datum/outfit/centcom_admiral/fleet
 	name = "Admiral (Fleet)"
 	uniform = /obj/item/clothing/under/ship/officer/admiral/fleet

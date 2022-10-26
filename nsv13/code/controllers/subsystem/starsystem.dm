@@ -1,6 +1,5 @@
 GLOBAL_VAR_INIT(crew_transfer_risa, FALSE)
 
-#define FACTION_VICTORY_TICKETS 1000
 #define COMBAT_CYCLE_INTERVAL 180 SECONDS	//Time between each 'combat cycle' of starsystems. Every combat cycle, every system that has opposing fleets in it gets iterated through, with the fleets firing at eachother.
 
 #define THREAT_LEVEL_NONE 0
@@ -12,15 +11,14 @@ SUBSYSTEM_DEF(star_system)
 	name = "star_system"
 	wait = 10
 	init_order = INIT_ORDER_STARSYSTEM
-	//flags = SS_NO_INIT
+
 	var/last_combat_enter = 0 //Last time an AI controlled ship attacked the players
 	var/list/systems = list()
 	var/list/traders = list()
 	var/bounty_pool = 0 //Bounties pool to be delivered for destroying syndicate ships
 	var/list/enemy_types = list()
-	var/list/enemy_blacklist = list()
+	var/list/enemy_blacklist = list(/obj/structure/overmap/syndicate/ai/fistofsol, /obj/structure/overmap/syndicate/ai/battleship)
 	var/list/ships = list() //2-d array. Format: list("ship" = ship, "x" = 0, "y" = 0, "current_system" = null, "target_system" = null, "transit_time" = 0)
-	var/tickets_to_win = FACTION_VICTORY_TICKETS
 	//Starmap 2
 	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
 	var/list/neutral_zone_systems = list()
@@ -568,7 +566,7 @@ Returns a faction datum by its name (case insensitive!)
 		research_points = 0
 		scanned = TRUE
 		minor_announce("Successfully received probe telemetry. Full astrological survey of [name] complete.", "WAYFARER subsystem")
-		for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Has to go through global overmaps due to anomalies not referencing their system - probably something to change one day.
 			if(OM && OM.z == z)
 				OM.relay('nsv13/sound/effects/ship/FTL.ogg')
 		qdel(AM)
@@ -610,7 +608,7 @@ Returns a faction datum by its name (case insensitive!)
 			for(var/obj/structure/overmap/OM in affecting)
 				stop_affecting(OM)
 		return
-	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects) //Has to go through global overmaps due to anomalies not referencing their system - probably something to change one day.
 		if(LAZYFIND(affecting, OM))
 			continue
 		if(get_dist(src, OM) <= influence_range && OM.z == z)

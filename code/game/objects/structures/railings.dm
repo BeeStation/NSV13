@@ -127,3 +127,15 @@
 	air_update_turf(1)
 	ini_dir = dir
 	add_fingerprint(user)
+
+//NSV13 - railings don't completely block the turf for A* purposes
+/obj/structure/railing/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
+	. = ..()
+	if(.)
+		return
+	if(!(dir in dir_to_cardinal_dirs(to_dir)))
+		return TRUE
+	if(isknpc(caller))	//They can climb
+		return TRUE
+	return FALSE
+//NSV13 end

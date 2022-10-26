@@ -187,6 +187,7 @@
 		"<span class='italics'>You hear a heavy electrical crack.</span>")
 
 /obj/machinery/ship_weapon/hybrid_rail/multitool_act(mob/living/user, obj/item/I)
+	. = TRUE
 	if(maint_state < 2)
 		to_chat(user, "<span class='notice'>You must first open the maintenance panel before realigning the magnetic coils.</span>")
 	else

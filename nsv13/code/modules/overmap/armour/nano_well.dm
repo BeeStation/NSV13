@@ -84,7 +84,7 @@ Starting Materials
 		1000000, FALSE, /obj/item/stack, null, null, FALSE)
 
 	OM = get_overmap()
-	addtimer(CALLBACK(src, .proc/handle_linking), 10 SECONDS)
+	addtimer(CALLBACK(src, .proc/handle_linking), 30 SECONDS)
 
 /obj/machinery/armour_plating_nanorepair_well/examine(mob/user)
 	.=..()

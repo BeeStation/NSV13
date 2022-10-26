@@ -19,6 +19,7 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 #define REQ_SCREEN_VIEW_MSGS 		8
 #define REQ_SCREEN_AUTHENTICATE 	9
 #define REQ_SCREEN_ANNOUNCE 		10
+#define REQ_SCREEN_WRITE_SQUAD		11 //NSV13
 
 #define REQ_EMERGENCY_SECURITY 1
 #define REQ_EMERGENCY_ENGINEERING 2
@@ -68,6 +69,7 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 	var/emergency //If an emergency has been called by this device. Acts as both a cooldown and lets the responder know where it the emergency was triggered from
 	var/receive_ore_updates = FALSE //If ore redemption machines will send an update when it receives new ores.
 	var/auth_id = "Unknown" //Will contain the name and and job of the person who verified it
+	var/static/list/departments_with_squads = list("bridge", "cic", "medbay", "medical", "engineering", "security", "munitions", "hangar")
 	max_integrity = 300
 	armor = list("melee" = 70, "bullet" = 30, "laser" = 30, "energy" = 30, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 90, "acid" = 90, "stamina" = 0)
 
@@ -147,6 +149,8 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 
 				dat += "<A href='?src=[REF(src)];setScreen=[REQ_SCREEN_REQ_ASSISTANCE]'>Request Assistance</A><BR>"
 				dat += "<A href='?src=[REF(src)];setScreen=[REQ_SCREEN_REQ_SUPPLIES]'>Request Supplies</A><BR>"
+				if(lowertext(department) in departments_with_squads) //NSV13 - squad messaging
+					dat += "<A href='?src=[REF(src)];writeSquad=1'>Page Squad Members</A><BR>"
 				dat += "<A href='?src=[REF(src)];setScreen=[REQ_SCREEN_RELAY]'>Relay Anonymous Information</A><BR><BR>"
 
 				if(!emergency)
@@ -219,6 +223,16 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 					dat += "<span class='linkOff'>Announce Message</span><BR>"
 				dat += "<BR><A href='?src=[REF(src)];setScreen=[REQ_SCREEN_MAIN]'><< Back</A><BR>"
 
+			//NSV13 - squad messaging
+			if(REQ_SCREEN_WRITE_SQUAD)
+				dat += "<B>Message Squads</B><BR><BR>"
+				dat += "<b>Message: </b>[message]<BR><BR>"
+				dat += "<div class='notice'>You may authenticate your message now by scanning your ID or your stamp</div><BR>"
+				dat += "<b>Validated by:</b> [msgVerified ? msgVerified : "<i>Not Validated</i>"]<br>"
+				dat += "<b>Stamped by:</b> [msgStamped ? msgStamped : "<i>Not Stamped</i>"]<br><br>"
+				dat += "<A href='?src=[REF(src)];sendSquadMessage=[TRUE]'>Send Message</A><BR>"
+				dat += "<BR><A href='?src=[REF(src)];setScreen=[REQ_SCREEN_MAIN]'><< Discard Message</A><BR>"
+
 		if(!dat)
 			CRASH("No UI for src. Screen var is: [screen]")
 		var/datum/browser/popup = new(user, "req_console", "[department] Requests Console", 450, 440)
@@ -285,21 +299,29 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 	if(href_list["emergency"])
 		if(!emergency)
 			var/radio_freq
+			var/squad_type //NSV13 - squad alerts
 			switch(text2num(href_list["emergency"]))
 				if(REQ_EMERGENCY_SECURITY) //Security
 					radio_freq = FREQ_SECURITY
 					emergency = "Security"
+					squad_type = SECURITY_SQUAD //NSV13 - squad alerts
 				if(REQ_EMERGENCY_ENGINEERING) //Engineering
 					radio_freq = FREQ_ENGINEERING
 					emergency = "Engineering"
+					squad_type = DC_SQUAD //NSV13 - squad alerts
 				if(REQ_EMERGENCY_MEDICAL) //Medical
 					radio_freq = FREQ_MEDICAL
 					emergency = "Medical"
+					squad_type = MEDICAL_SQUAD //NSV13 - squad alerts
 			if(radio_freq)
 				Radio.set_frequency(radio_freq)
 				Radio.talk_into(src,"[emergency] emergency in [department]!!",radio_freq)
 				update_icon()
 				addtimer(CALLBACK(src, .proc/clear_emergency), 5 MINUTES)
+			if(squad_type) //NSV13 - squad alerts
+				var/list/squads = GLOB.squad_manager.role_squad_map[squad_type]
+				for(var/datum/squad/S as() in squads)
+					S.broadcast(null, "[emergency] emergency in [department]!!")
 
 	if(href_list["send"] && message && to_department && priority)
 
@@ -317,6 +339,8 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 				radio_freq = FREQ_SECURITY
 			if("cargobay" || "mining")
 				radio_freq = FREQ_SUPPLY
+			if("munitions") //NSV13 - added munitions
+				radio_freq = FREQ_MUNITIONS
 
 		var/datum/signal/subspace/messaging/rc/signal = new(src, list(
 			"sender" = department,
@@ -350,6 +374,38 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 	//Handle silencing the console
 	if(href_list["setSilent"])
 		silent = text2num(href_list["setSilent"]) ? TRUE : FALSE
+
+	//NSV13 - squad messaging
+	if(href_list["writeSquad"])
+		var/new_message = stripped_input(usr, "Write your message:", "Awaiting Input", "", MAX_MESSAGE_LEN)
+		if(new_message)
+			message = new_message
+			screen = REQ_SCREEN_WRITE_SQUAD
+
+	if(href_list["sendSquadMessage"] && message)
+		var/squad_type
+		switch(lowertext(department))
+			if("bridge", "cic")
+				squad_type = CIC_OPS
+			if("munitions")
+				squad_type = MUNITIONS_SUPPORT
+			if("security")
+				squad_type = SECURITY_SQUAD
+			if("medical", "medbay")
+				squad_type = MEDICAL_SQUAD
+			if("engineering")
+				squad_type = DC_SQUAD
+			if("hangar")
+				squad_type = COMBAT_AIR_PATROL
+
+		if(!squad_type)
+			screen = REQ_SCREEN_ERR
+		else
+			var/list/squads = GLOB.squad_manager.role_squad_map[squad_type]
+			for(var/datum/squad/S as() in squads)
+				S.broadcast(department, message)
+			screen = REQ_SCREEN_SENT
+		//NSV13 end
 
 	updateUsrDialog()
 

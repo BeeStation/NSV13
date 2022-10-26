@@ -50,7 +50,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate thrust parameters, no registered ship stored in microprocessor.</span>")
 		return FALSE
-	if((position == "pilot" || position == "gunner") && linked.ai_controlled)
+	if((position & (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER)) && linked.ai_controlled)
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Automated flight protocols are still active. Unable to comply.</span>")
@@ -113,7 +113,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		O.ManualFollow(linked)
 		return
 	playsound(src, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-	linked.start_piloting(user, "observer")
+	linked.start_piloting(user, OVERMAP_USER_ROLE_OBSERVER)
 
 /obj/machinery/computer/ship/viewscreen/ui_interact(mob/user)
 	if(!has_overmap())
@@ -123,4 +123,4 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		O.ManualFollow(linked)
 		return
 	playsound(src, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-	linked.start_piloting(user, "observer")
+	linked.start_piloting(user, OVERMAP_USER_ROLE_OBSERVER)

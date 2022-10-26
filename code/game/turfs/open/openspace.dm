@@ -31,7 +31,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 
 	var/static/list/allowed_floors = typecacheof(list(
 			/obj/item/stack/tile/plasteel,
-			/obj/item/stack/tile/mono)) // NSV13 - allow building floor with monotiles
+			/obj/item/stack/tile/durasteel)) // NSV13 - allow building floor with durasteel tiles
 
 /turf/open/openspace/airless
 	initial_gas_mix = AIRLESS_ATMOS

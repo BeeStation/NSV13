@@ -53,6 +53,7 @@
 			priority_announce("[station_name()] has successfully returned to [src] for resupply and crew transfer, excellent work crew.", "Naval Command")
 			GLOB.crew_transfer_risa = TRUE
 			SSticker.mode.check_finished()
+			SSticker.news_report = SHIP_VICTORY
 	if(!audio_cues?.len)
 		return FALSE
 	for(var/datum/fleet/F in fleets)
@@ -147,6 +148,8 @@
 		var/obj/structure/overmap/OM = AM
 		//Ships that have a Z reserved are on the active FTL plane.
 		if(OM.reserved_z)
+			continue
+		if(isasteroid(OM))
 			continue
 		if((!length(OM.operators) && !length(OM.mobs_in_ship)) || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
 			continue
@@ -273,10 +276,12 @@
 	relay(ftl_drive.ftl_exit, "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
 
 	var/list/pulled = list()
-	for(var/obj/structure/overmap/SOM in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/SOM in GLOB.overmap_objects) //Needs to go through global objects due to being in jumpspace not a system.
 		if(SOM.z != reserved_z)
 			continue
 		if(SOM == src)
+			continue
+		if(!SOM.z)
 			continue
 		LAZYADD(pulled, SOM)
 	target_system.add_ship(src) //Get the system to transfer us to its location.
@@ -459,7 +464,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 
 /obj/machinery/computer/ship/ftl_computer/syndicate/LateInitialize()
 	. = ..()
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Needs to go through global list due to filtering for any ship with importants not just the one main ship.
 		if(OM.role > NORMAL_OVERMAP && OM.faction != faction)
 			start_monitoring(OM)
 

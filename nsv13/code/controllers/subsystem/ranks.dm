@@ -112,10 +112,7 @@ Checks two text ranks, see which one outranks the other. Used for squad rank ass
 	if (istype(speaker, /mob/living/carbon/human))
 		var/mob/living/carbon/human/speakerMob = speaker
 		//Squads can override our ranks to be beyond our station.
-		if(speakerMob.squad_rank)
-			rank = "[speakerMob.squad_rank] "
-		else
-			job = speakerMob.get_assignment("", "")
+		job = speakerMob.get_assignment("", "")
 	//Or it's radiocode jank shitcode.
 	else if (istype(speaker, /atom/movable/virtualspeaker))
 		var/atom/movable/virtualspeaker/VS = speaker

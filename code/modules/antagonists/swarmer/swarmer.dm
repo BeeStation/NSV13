@@ -341,6 +341,18 @@
 	to_chat(S, "<span class='warning'>This bluespace source will be important to us later. Aborting.</span>")
 	return FALSE
 
+/obj/machinery/armour_plating_nanorepair_pump/swarmer_act(mob/living/simple_animal/hostile/swarmer/S) //NSV13 START swarmers should not be able to break these
+	to_chat(S, "<span class='warning'>Disrupting the repair wells of this vessel would bring no benefit to us. Aborting.</span>")
+	return FALSE
+
+/obj/machinery/armour_plating_nanorepair_well/swarmer_act(mob/living/simple_animal/hostile/swarmer/S)
+	to_chat(S, "<span class='warning'>Disrupting the repair wells of this vessel would bring no benefit to us. Aborting.</span>")
+	return FALSE
+
+/obj/machinery/computer/ship/ftl_computer/swarmer_act(mob/living/simple_animal/hostile/swarmer/S)
+	to_chat(S, "<span class='warning'>This FTL computer should be preserved, it will be a useful resource to our masters in the future. Aborting.</span>")
+	return FALSE //NSV13 END
+
 /turf/closed/wall/swarmer_act(mob/living/simple_animal/hostile/swarmer/S)
 	var/isonshuttle = istype(loc, /area/shuttle)
 	for(var/turf/T as() in RANGE_TURFS(1, src))

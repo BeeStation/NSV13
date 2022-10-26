@@ -88,6 +88,7 @@
 /datum/antagonist/nukeop/proc/give_alias()
 	if(nuke_team && nuke_team.syndicate_name)
 		var/mob/living/carbon/human/H = owner.current
+		H.set_species(/datum/species/human) //NSV13 allows players with a non-human species in their prefs to get a human name in Galactic Conquest.
 		if(istype(H)) // Reinforcements get a real name
 			var/chosen_name = H.dna.species.random_name(H.gender,0,nuke_team.syndicate_name)
 			H.fully_replace_character_name(H.real_name,chosen_name)

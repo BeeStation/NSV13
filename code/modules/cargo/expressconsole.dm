@@ -20,6 +20,7 @@
 	var/locked = TRUE //is the console locked? unlock with ID
 	var/usingBeacon = FALSE //is the console in beacon mode? exists to let beacon know when a pod may come in
 	var/account_type = ACCOUNT_CAR //Nsv13 - allows for a syndie express console!
+	var/area/cargo_landingzone = /area/quartermaster/storage //NSV13 - allows cargo bay LZ to be changed for syndie express consoles
 
 /obj/machinery/computer/cargo/express/Initialize()
 	. = ..()
@@ -194,7 +195,7 @@
 						LZ = get_turf(beacon)
 						beacon.update_status(SP_LAUNCH)
 					else if (!usingBeacon)//find a suitable supplypod landing zone in cargobay
-						landingzone = GLOB.areas_by_type[/area/quartermaster/storage]
+						landingzone = GLOB.areas_by_type[cargo_landingzone] //NSV13
 						if (!landingzone)
 							WARNING("[src] couldnt find a Quartermaster/Storage (aka cargobay) area on the station, and as such it has set the supplypod landingzone to the area it resides in.")
 							landingzone = get_area(src)

@@ -5,7 +5,7 @@
 //	You do not need to raise this if you are adding new values that have sane defaults.
 //	Only raise this value when changing the meaning/format/name/layout of an existing value
 //	where you would want the updater procs below to run
-#define SAVEFILE_VERSION_MAX	36
+#define SAVEFILE_VERSION_MAX	38
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -64,7 +64,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			if(n_gear)
 				purchased_gear += n_gear
 	if(current_version < 34)
-		squad_specialisation = "Midshipman"
+		preferred_squad = "Able"
 		preferred_pilot_role = PILOT_COMBAT
 	if(current_version < 35)
 		chat_on_map = TRUE
@@ -73,6 +73,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		see_rc_emotes = TRUE
 		S.dir.Remove("overhead_chat")
 		see_balloon_alerts = BALLOON_ALERT_ALWAYS
+	if(current_version < 37)
+		preferred_squad = "Able"
+	if(current_version < 38) //NSV13 - added some keybinds
+		key_bindings = deepCopyList(GLOB.keybinding_list_by_key)
+		WRITE_FILE(S["key_bindings"], key_bindings)
 	return
 
 /datum/preferences/proc/update_character(current_version, savefile/S)
@@ -145,9 +150,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(current_version < 27)
 		if (!(underwear in GLOB.underwear_list))
 			underwear = "Nude"
-	if(current_version < 36) //NSV13 - added some keybinds
-		key_bindings = deepCopyList(GLOB.keybinding_list_by_key)
-		WRITE_FILE(S["key_bindings"], key_bindings)
 
 /datum/preferences/proc/load_path(ckey,filename="preferences.sav")
 	if(!ckey)
@@ -189,10 +191,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	READ_FILE(S["crew_objectives"], crew_objectives)
 
-	//Nsv13 squads - we CM now
-	READ_FILE(S["squad_specialisation"], squad_specialisation)
 	READ_FILE(S["preferred_syndie_role"], preferred_syndie_role)
 	READ_FILE(S["preferred_pilot_role"], preferred_pilot_role)
+	//NSV13 end
 
 	READ_FILE(S["default_slot"], default_slot)
 	READ_FILE(S["chat_toggles"], chat_toggles)
@@ -268,12 +269,22 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(!equipped_gear)
 		equipped_gear = list()
 
+	//Nsv13 squads - we CM now
+	try
+		READ_FILE(S["preferred_squad"], preferred_squad)
+	catch
+		bad_savefile = TRUE
 	return TRUE
 
 /datum/preferences/proc/save_preferences()
 	if(!path)
 		return FALSE
 	var/savefile/S = new /savefile(path)
+	if(bad_savefile) // NSV13 - back it up so we can restore it later, and give them a clean one in the meantime
+		fcopy(S, path + ".bad")
+		S = null
+		fdel(path)
+		S = new /savefile(path)
 	if(!S)
 		return FALSE
 	S.cd = "/"
@@ -326,7 +337,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["purchased_gear"], purchased_gear)
 	WRITE_FILE(S["equipped_gear"], equipped_gear)
 	//Nsv13 squads - we CM now
-	WRITE_FILE(S["squad_specialisation"], squad_specialisation)
+	WRITE_FILE(S["preferred_squad"], preferred_squad)
 	WRITE_FILE(S["preferred_syndie_role"], preferred_syndie_role)
 	WRITE_FILE(S["preferred_pilot_role"], preferred_pilot_role)
 

@@ -254,7 +254,8 @@ Adding tasks is easy! Just define a datum for it.
 			if(alignment != target.owner && !federation_check(target))
 				current_system.mission_sector = TRUE
 	if(!hide_movements && !current_system.hidden)
-		(alignment != "nanotrasen") && mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
+		if((alignment == "syndicate") || (alignment == "pirate"))
+			mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
 	for(var/obj/structure/overmap/OM in current_system.system_contents)
 		//Boarding ships don't want to go to brasil
 		if(OM.mobs_in_ship?.len && OM.reserved_z)
@@ -895,7 +896,7 @@ Adding tasks is easy! Just define a datum for it.
 	allow_difficulty_scaling = FALSE
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/fistofsol)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
-	taunts = list("That's it... Just you and me now, no support, no distractions... no war. Whoever wins is the best crew.")
+	taunts = list("What a pleasure that we should meet again. I hope you won't disappoint!")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/hostile/alicorn_boss
@@ -905,7 +906,7 @@ Adding tasks is easy! Just define a datum for it.
 	allow_difficulty_scaling = FALSE
 	fighter_types = list(/obj/structure/overmap/hostile/ai/fighter)
 	supply_types = list(/obj/structure/overmap/hostile/ai/alicorn)
-	taunts = list("Ahaha... A powerful ship, a powerful gun, powerful ammunition. The graceful slaughter of a billion lives to save billions more!")
+	taunts = list("A powerful ship, a powerful gun, powerful ammunition. The graceful slaughter of a billion lives to save billions more, you'll be the first of many.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 
@@ -1088,6 +1089,8 @@ Adding tasks is easy! Just define a datum for it.
 	applied_size = CLAMP(applied_size, FLEET_DIFFICULTY_EASY, INFINITY)
 	faction = SSstar_system.faction_by_id(faction_id)
 	reward *= applied_size //Bigger fleet = larger reward
+	if(istype(SSticker.mode, /datum/game_mode/pvp)) //Disables notoriety during Galactic Conquest. 
+		threat_elevation_allowed = FALSE
 	if(SSovermap_mode && threat_elevation_allowed)
 		applied_size += round(SSovermap_mode.threat_elevation / TE_POINTS_PER_FLEET_SIZE)	//Threat level modifies danger
 	if(current_system)
@@ -2239,7 +2242,7 @@ Seek a ship thich we'll station ourselves around
 		return FALSE
 
 	var/list/choices = flist("_maps/map_files/Instanced/")
-	var/ship_file = input(usr, "What ship would you like to load?","Ship Instancing", null) as null|anything in choices
+	var/ship_file = file("_maps/map_files/Instanced/"+input(usr, "What ship would you like to load?","Ship Instancing", null) as null|anything in choices)
 	if(!ship_file)
 		return
 	if(instance_ship_from_json(ship_file))

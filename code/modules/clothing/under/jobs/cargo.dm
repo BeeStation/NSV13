@@ -15,6 +15,15 @@
 	can_adjust = FALSE
 	fitted = FEMALE_UNIFORM_TOP
 
+/obj/item/clothing/under/rank/cargo/qm/turtleneck
+	name = "quartermaster's turtleneck"
+	desc = "A snug turtleneck sweater worn by the Quartermaster, characterized by the expensive-looking pair of suit pants."
+	icon_state = "qmturtle"
+	item_state = "qmturtle"
+	item_color = "qmturtle"
+	body_parts_covered = CHEST|GROIN|ARMS
+	can_adjust = FALSE
+
 /obj/item/clothing/under/rank/cargo/tech
 	name = "cargo technician's jumpsuit"
 	desc = "Shooooorts! They're comfy and easy to wear!"
