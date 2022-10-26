@@ -110,7 +110,8 @@
 		log_combat(user, target, "splashed", src)
 		reagents.reaction(target, TOUCH)
 		reagents.clear_reagents()
-	else if(ishuman(target) && (istype(target.get_active_held_item(), /obj/item/reagent_containers/food/drinks/drinkingglass))) //NSV13 Start
+		return //NSV13 Start
+	else if(ishuman(target) && (istype(target.get_active_held_item(), /obj/item/reagent_containers/food/drinks/drinkingglass)))
 		user.visible_message("[user] and [target] clink glasses!", "<span class='notice'>You clink glasses with [target]!</span>", "<span class='italics'>You hear a clink!</span>")
 		user.do_attack_animation(target)
 		target.do_attack_animation(user)
