@@ -709,10 +709,13 @@
 /datum/supply_pack/organic/syrup
 	name = "Coffee Syrups Box"
 	desc = "A packaged box of various syrups, perfect to make your delicious coffee even more diabetic."
-	cost = 2000
+	cost = 3000
 	contains = list(/obj/item/reagent_containers/glass/bottle/syrup_bottle/caramel,
-					/obj/item/reagent_containers/glass/bottle/syrup_bottle/caramel,
 					/obj/item/reagent_containers/glass/bottle/syrup_bottle/liqueur,
-					/obj/item/reagent_containers/glass/bottle/syrup_bottle/liqueur)
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/honey,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/vanilla,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/tea,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/creme_de_cacao,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/creme_de_menthe)
 	crate_name = "coffee syrups box"
 	crate_type = /obj/structure/closet/cardboard

@@ -80,11 +80,36 @@
 //types of syrups
 
 /obj/item/reagent_containers/glass/bottle/syrup_bottle/caramel
-	name = "bottle of caramel syrup"
-	desc = "A pump bottle containing caramalized sugar, also known as caramel. Do not lick."
+	name = "bottle of Caramel syrup"
+	desc = "A pump bottle containing caramalized sugar, also known as Caramel. Do not lick."
 	list_reagents = list(/datum/reagent/consumable/caramel = 50)
 
 /obj/item/reagent_containers/glass/bottle/syrup_bottle/liqueur
-	name = "bottle of coffee liqueur syrup"
+	name = "bottle of Coffee liqueur syrup"
 	desc = "A pump bottle containing mexican coffee-flavoured liqueur syrup. In production since 1936, HONK."
 	list_reagents = list(/datum/reagent/consumable/ethanol/kahlua = 50)
+
+/obj/item/reagent_containers/glass/bottle/syrup_bottle/honey
+	name = "bottle of Honey syrup"
+	desc = "A pump bottle containing Honey, very sticky. Do not lick."
+	list_reagents = list(/datum/reagent/consumable/honey = 50)
+
+/obj/item/reagent_containers/glass/bottle/syrup_bottle/vanilla
+	name = "bottle of Vanilla syrup"
+	desc = "A pump bottle containing Vanilla. Do not lick."
+	list_reagents = list(/datum/reagent/consumable/vanilla = 50)
+
+/obj/item/reagent_containers/glass/bottle/syrup_bottle/tea
+	name = "bottle of Tea-flavored syrup"
+	desc = "A pump bottle containing Tea-flavored syrup. Don't you dare."
+	list_reagents = list(/datum/reagent/consumable/tea = 50)
+
+/obj/item/reagent_containers/glass/bottle/syrup_bottle/creme_de_cacao
+	name = "bottle of Creme de Cacao syrup"
+	desc = "A pump bottle containing Creme de Cacao. Do not lick."
+	list_reagents = list(/datum/reagent/consumable/ethanol/creme_de_cacao = 50)
+
+/obj/item/reagent_containers/glass/bottle/syrup_bottle/creme_de_menthe
+	name = "bottle of Creme de Menthe syrup"
+	desc = "A pump bottle containing Creme de Menthe. Do not lick."
+	list_reagents = list(/datum/reagent/consumable/ethanol/creme_de_menthe = 50)
