@@ -15,22 +15,13 @@ Bullet reactions
 		if(M.client)
 			shake_with_inertia(M, severity, 1)
 
-/obj/structure/overmap/proc/e()
-	while(1)
-		stoplag(1)
-		add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
-
-/obj/structure/overmap/proc/f()
-	add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
-
-
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)
 	if(istype(P, /obj/item/projectile/beam/overmap/aiming_beam))
 		return
 	if(shields && shields.absorb_hit(P.damage))
 		var/damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
 		if(!impact_sound_cooldown)
-			add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
+			new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src)
 			relay(damage_sound)
 			if(P.damage >= 15) //Flak begone
 				shake_everyone(5)
