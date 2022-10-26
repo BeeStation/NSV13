@@ -398,7 +398,7 @@
 	QDEL_NULL(particles)
 	if(brewing)
 		particles = new /particles/smoke/steam/mild()
-		particles.position = list(-6, 0, 0)
+		particles?.position = list(-6, 0, 0)
 
 /obj/machinery/coffeemaker/proc/operate_for(time, silent = FALSE)
 	brewing = TRUE
@@ -656,7 +656,7 @@
 	QDEL_NULL(particles)
 	if(brewing)
 		particles = new /particles/smoke/steam/mild()
-		particles.position = list(-2, 1, 0)
+		particles?.position = list(-2, 1, 0)
 
 /obj/machinery/coffeemaker/impressa/brew()
 	power_change()
