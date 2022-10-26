@@ -103,13 +103,18 @@
 	else
 		..()
 
-/obj/item/reagent_containers/food/drinks/drinkingglass/attack(obj/target, mob/user)
+/obj/item/reagent_containers/food/drinks/drinkingglass/attack(mob/target, mob/user) //NSV13 changed to mob/target
 	if(user.a_intent == INTENT_HARM && ismob(target) && target.reagents && reagents.total_volume)
 		target.visible_message("<span class='danger'>[user] splashes the contents of [src] onto [target]!</span>", \
 						"<span class='userdanger'>[user] splashes the contents of [src] onto you!</span>")
 		log_combat(user, target, "splashed", src)
 		reagents.reaction(target, TOUCH)
 		reagents.clear_reagents()
+	else if(ishuman(target) && (istype(target.get_active_held_item(), /obj/item/reagent_containers/food/drinks/drinkingglass))) //NSV13 Start
+		user.visible_message("[user] and [target] clink glasses!", "<span class='notice'>You clink glasses with [target]!</span>", "<span class='italics'>You hear a clink!</span>")
+		user.do_attack_animation(target)
+		target.do_attack_animation(user)
+		playsound(src, 'nsv13/sound/misc/clink.ogg', 50, 0) //NSV13 End
 		return
 	..()
 
