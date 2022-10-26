@@ -200,7 +200,7 @@
 	var/regenPriority = 50
 	var/maxHealthPriority = 50 //50/50 split
 	var/max_power_input = 1.5e+7 //15 MW theoretical maximum. This much power means your shield is going to be insanely good.
-	var/active = FALSE; //Are we projecting out our shields? This lets you offline the shields for a recharge period so that they become useful again.
+	var/active = FALSE; //Are we projecting out our shields? This lets you offline the shields for a recharge period so that they become useful again. This function needs a rework as there is no penalty for shields collapsing, and recharge rate is linear.
 	var/obj/structure/cable/cable = null //Connected cable
 	var/mutable_appearance/c_screen
 
@@ -282,7 +282,13 @@
 //Every tick, the shield generator updates its stats based on the amount of power it's being allowed to chug.
 /obj/machinery/shield_generator/process()
 	if(!powered() || power_input <= 0 || !try_use_power(power_input))
-		depower_shield()
+		if(shield["integrity"] > 0) //If we lose power, the shield integrity steadily drains
+			shield["integrity"] -= 2
+			active = FALSE
+
+		if(shield["integrity"] <= 0) //Reset if no juice remaining
+			depower_shield()
+
 		return FALSE
 	c_screen.alpha = 255
 	var/megawatts = power_input / 1e+6 //I'm lazy.
@@ -352,14 +358,11 @@
 	desired.Scale(resize_x,resize_y)
 	desired.Turn(overmap.angle)
 	transform = desired
-	RegisterSignal(overmap, COMSIG_MOVABLE_MOVED, .proc/track)
-
-/obj/effect/temp_visual/overmap_shield_hit/proc/track(datum/source)
-	// SIGNAL_HANDLER -- we can't use the Signal handler because parallax updating (called later down the proc chain) uses callback datums which call admin proc wrapping (contains stoplag()) for some reason, uncomment the handler if this is ever fixed/changed
-	doMove(get_turf(source))
+	overmap.vis_contents += src
 
 /obj/effect/temp_visual/overmap_shield_hit/Destroy()
-	UnregisterSignal(overmap, COMSIG_MOVABLE_MOVED)
+	overmap?.vis_contents -= src
+	overmap = null
 	return ..()
 
 /obj/machinery/shield_generator/ui_act(action, params)
