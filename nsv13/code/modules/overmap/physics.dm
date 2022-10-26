@@ -124,6 +124,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			last_critprocess = world.time
 			handle_critical_failure_part_1()
 	disruption = max(0, disruption - 1)
+	if(hullburn > 0)
+		hullburn = max(0, hullburn - 1)
+		take_damage(hullburn_power, BURN, "fire", FALSE, TRUE) //If you want a ship to be resistant to hullburn, just give it fire armor.
+		if(hullburn == 0)
+			hullburn_power = 0
 	ai_process()
 	if(!cabin_air)
 		return
@@ -426,28 +431,33 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		var/src_vel_mag = src.velocity.ln()
 		var/other_vel_mag = other.velocity.ln()
 		//I mean, the angle between the two objects is very likely to be the angle of incidence innit
-		var/col_angle = Get_Angle(src, other)
+		var/col_angle = ATAN2((other.position.x + other.pixel_collision_size_x / 2) - (src.position.x + src.pixel_collision_size_x / 2), (other.position.y + other.pixel_collision_size_y / 2) - (src.position.y + pixel_collision_size_y / 2))
+
+		//Debounce
+		if(((cos(src.velocity.angle() - col_angle) * src_vel_mag) - (cos(other.velocity.angle() - col_angle) * other_vel_mag)) < 0)
+			return
 
 		// Elastic collision equations
-		var/new_src_vel_x = ((																	\
-			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
-			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
-		) / (src.mass + other.mass)) * (cos(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * cos(col_angle + 90)))
+		var/new_src_vel_x = ((																			\
+			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (src.mass - other.mass)) +			\
+			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))					\
+		) / (src.mass + other.mass)) * cos(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * cos(col_angle + 90))
 
-		var/new_src_vel_y = ((																	\
-			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
-			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
-		) / (src.mass + other.mass)) * (sin(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * sin(col_angle + 90)))
+		var/new_src_vel_y = ((																			\
+			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (src.mass - other.mass)) +			\
+			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))					\
+		) / (src.mass + other.mass)) * sin(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * sin(col_angle + 90))
 
 		var/new_other_vel_x = ((																		\
-			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
+			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (other.mass - src.mass)) +		\
 			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
-		) / (other.mass + src.mass)) * (cos(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * cos(col_angle + 90)))
+		) / (other.mass + src.mass)) * cos(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * cos(col_angle + 90))
 
 		var/new_other_vel_y = ((																		\
-			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
+			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (other.mass - src.mass)) +		\
 			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
-		) / (other.mass + src.mass)) * (sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90)))
+		) / (other.mass + src.mass)) * sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90))
+
 		src.velocity._set(new_src_vel_x, new_src_vel_y)
 		other.velocity._set(new_other_vel_x, new_other_vel_y)
 
@@ -480,25 +490,25 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		var/other_vel_mag = other.velocity.ln()
 
 		// Elastic collision equations
-		var/new_src_vel_x = ((																	\
-			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
-			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
-		) / (src.mass + other.mass)) * (cos(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * cos(col_angle + 90)))
+		var/new_src_vel_x = ((																			\
+			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (src.mass - other.mass)) +			\
+			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))					\
+		) / (src.mass + other.mass)) * cos(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * cos(col_angle + 90))
 
-		var/new_src_vel_y = ((																	\
-			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (other.mass - src.mass)) +	\
-			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))			\
-		) / (src.mass + other.mass)) * (sin(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * sin(col_angle + 90)))
+		var/new_src_vel_y = ((																			\
+			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (src.mass - other.mass)) +			\
+			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))					\
+		) / (src.mass + other.mass)) * sin(col_angle) + (src_vel_mag * sin(src.velocity.angle() - col_angle) * sin(col_angle + 90))
 
 		var/new_other_vel_x = ((																		\
-			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
+			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (other.mass - src.mass)) +		\
 			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
-		) / (other.mass + src.mass)) * (cos(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * cos(col_angle + 90)))
+		) / (other.mass + src.mass)) * cos(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * cos(col_angle + 90))
 
 		var/new_other_vel_y = ((																		\
-			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (src.mass - other.mass)) +		\
+			(other_vel_mag * cos(other.velocity.angle() - col_angle) * (other.mass - src.mass)) +		\
 			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
-		) / (other.mass + src.mass)) * (sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90)))
+		) / (other.mass + src.mass)) * sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90))
 
 		src.velocity._set(new_src_vel_x*bounce_factor, new_src_vel_y*bounce_factor)
 		other.velocity._set(new_other_vel_x*other.bounce_factor, new_other_vel_y*other.bounce_factor)
@@ -568,6 +578,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	return ..()
 
 /obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE, ai_aim = FALSE, miss_chance=5, max_miss_distance=5) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
+	if(!z || QDELETED(src))
+		return FALSE
 	var/turf/T = get_center()
 	var/obj/item/projectile/proj = new proj_type(T)
 	if(ai_aim && !homing && !proj.hitscan)

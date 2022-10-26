@@ -22,7 +22,6 @@
 		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
-	selectable = TRUE // Capable of firing manually
 	autonomous = TRUE // Capable of firing autonomously
 
 /datum/ship_weapon/vls/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
@@ -50,6 +49,8 @@
 	var/obj/structure/fluff/vls_hatch/hatch = null
 
 /obj/machinery/ship_weapon/vls/proc/on_entered(datum/source, atom/movable/AM, oldloc)
+	SIGNAL_HANDLER
+
 	var/can_shoot_this = FALSE
 	for(var/_ammo_type in ammo_type)
 		if(istype(AM, _ammo_type))
@@ -86,6 +87,10 @@
 
 /obj/machinery/ship_weapon/vls/Initialize()
 	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 	var/turf/T = SSmapping.get_turf_above(src)
 	if(!T)
 		return
@@ -110,11 +115,6 @@
 		ntransform.Translate(-32,1)
 		hatch.transform = ntransform
 		return
-
-	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
-	)
-	AddElement(/datum/element/connect_loc, loc_connections)
 
 #define HT_OPEN TRUE
 #define HT_CLOSED FALSE

@@ -7,3 +7,15 @@
 	time = 30
 	category = CAT_MISC
 	always_available = FALSE
+
+/datum/crafting_recipe/plush_warhead
+	name = "Plush-filled warhead"
+	result = /obj/item/ship_weapon/parts/missile/warhead/plushtide
+	time = 50
+	reqs = list(/obj/item/stack/sheet/iron = 10,
+				/obj/item/stack/cable_coil = 10,
+				/obj/item/stock_parts/matter_bin = 2,
+				/obj/item/toy/plush = 8)
+	tools = list(TOOL_SCREWDRIVER, TOOL_WRENCH, TOOL_WIRECUTTER, TOOL_MULTITOOL)
+	category = CAT_WEAPONRY
+	subcategory = CAT_AMMO

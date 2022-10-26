@@ -37,7 +37,7 @@ export const PDSRMainframe = (props, context) => {
           <Section title="Reactor Containment Statistics">
             <Flex spacing={1}>
               <Flex.Item grow={1}>
-                <Section position="relative" height="100%">
+                <Section fill position="relative" height="100%">
                   <Chart.Line
                     fillPositionedParent
                     data={r_reaction_polarityData}

@@ -313,7 +313,7 @@
 				if (isnull(stamped))
 					stamped = list()
 				if(stamped.len < MAX_PAPER_STAMPS_OVERLAYS)
-					var/mutable_appearance/stampoverlay = mutable_appearance('icons/obj/bureaucracy.dmi', "paper_[stamp_icon_state]")
+					var/mutable_appearance/stampoverlay = mutable_appearance('nsv13/icons/obj/bureaucracy.dmi', "paper_[stamp_icon_state]") //NSV13 use nsv copy of bureaucracy.dmi
 					stampoverlay.pixel_x = rand(-2, 2)
 					stampoverlay.pixel_y = rand(-3, 2)
 					add_overlay(stampoverlay)
