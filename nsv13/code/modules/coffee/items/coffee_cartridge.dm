@@ -4,6 +4,7 @@
 	desc = "A coffee cartridge manufactured by Piccionaia Coffee, for use with the Modello 3 system."
 	icon = 'nsv13/icons/obj/coffee.dmi'
 	icon_state = "cartridge_basic"
+	w_class = WEIGHT_CLASS_TINY
 	var/charges = 4
 	var/list/drink_type = list(/datum/reagent/consumable/navy_coffee = 120)
 //To-Do Later, make a new reagent called Navy Coffee which gives a moodboost to people who drink it,

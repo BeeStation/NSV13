@@ -3,7 +3,7 @@
 	icon_state = "coffee_condi_display"
 	name = "coffee condiments display"
 	desc = "A neat small wooden box, holding all your favorite coffee condiments."
-	icon_type = "coffee condiment"
+	//icon_type = "coffee condiment"
 	fancy_open = TRUE
 
 /obj/item/storage/fancy/coffee_condi_display/Initialize(mapload)
@@ -16,32 +16,50 @@
 												/obj/item/reagent_containers/food/condiment/chocolate))
 	STR.can_hold = can_hold
 
-/obj/item/storage/fancy/coffee_condi_display/update_overlays()
-	. = ..()
 
-	for(var/_sugar in contents)
-		if(istype(_sugar, /obj/item/reagent_containers/food/condiment/pack/sugar))
-			. += "condi_display_sugar"
-			break
 
-	for(var/_sweetener in contents)
-		var/obj/item/reagent_containers/food/condiment/pack/astrotame/sweetener = _sweetener
-		if(istype(sweetener))
-			. += "condi_display_sweetener"
-			break
+/obj/item/storage/fancy/coffee_condi_display/update_icon()
+	cut_overlays()
+	icon_state = "coffee_condi_display"
+	if(!contents.len)
+		return
+	else
+		var/mutable_appearance/inserted_overlay = mutable_appearance(icon)
 
-	for(var/_creamer in contents)
-		var/obj/item/reagent_containers/food/condiment/creamer/creamer = _creamer
-		if(istype(creamer))
-			. += "condi_display_creamer"
-			break
+		if(locate(/obj/item/reagent_containers/food/condiment/pack/sugar) in contents)
+			inserted_overlay.icon_state = "condi_display_sugar"
+			add_overlay(inserted_overlay)
+		if(locate(/obj/item/reagent_containers/food/condiment/pack/astrotame) in contents)
+			inserted_overlay.icon_state = "condi_display_sweetener"
+			add_overlay(inserted_overlay)
+		if(locate(/obj/item/reagent_containers/food/condiment/creamer) in contents)
+			inserted_overlay.icon_state = "condi_display_creamer"
+			add_overlay(inserted_overlay)
+		if(locate(/obj/item/reagent_containers/food/condiment/chocolate) in contents)
+			inserted_overlay.icon_state = "condi_display_chocolate"
+			add_overlay(inserted_overlay)
 
-	for(var/_chocolate in contents)
-		var/obj/item/reagent_containers/food/condiment/chocolate/chocolate = _chocolate
-		if(istype(chocolate))
-			. += "condi_display_chocolate"
-			break
+/*
+/obj/item/storage/fancy/coffee_condi_display/update_icon()
+	cut_overlays()
+	icon_state = "coffee_condi_display"
+	if(!contents.len)
+		return
+	else
+		for(var/condiment in contents)
+			var/mutable_appearance/inserted_overlay = mutable_appearance(icon)
 
+			if(istype(condiment, /obj/item/reagent_containers/food/condiment/pack/sugar))
+				inserted_overlay.icon_state = "condi_display_sugar"
+			else if(istype(condiment, /obj/item/reagent_containers/food/condiment/pack/astrotame))
+				inserted_overlay.icon_state = "condi_display_sweetener"
+			else if(istype(condiment, /obj/item/reagent_containers/food/condiment/creamer))
+				inserted_overlay.icon_state = "condi_display_creamer"
+			else if(istype(condiment, /obj/item/reagent_containers/food/condiment/chocolate))
+				inserted_overlay.icon_state = "condi_display_chocolate"
+			add_overlay(inserted_overlay)
+
+*/
 /obj/item/storage/fancy/coffee_condi_display/PopulateContents()
 	for(var/i = 1 to 4)
 		new /obj/item/reagent_containers/food/condiment/pack/sugar(src)

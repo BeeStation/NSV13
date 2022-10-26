@@ -13,7 +13,7 @@
 ///Technically condiment packs but they are non transparent
 /obj/item/reagent_containers/food/condiment/creamer
 	name = "coffee creamer pack"
-	desc = "better not wonder what they are making this from"
+	desc = "Better not wonder what they are making this from"
 	icon = 'nsv13/icons/obj/coffee.dmi'
 	icon_state = "condi_creamer"
 	volume = 5
@@ -88,32 +88,3 @@
 	name = "bottle of coffee liqueur syrup"
 	desc = "A pump bottle containing mexican coffee-flavoured liqueur syrup. In production since 1936, HONK."
 	list_reagents = list(/datum/reagent/consumable/ethanol/kahlua = 50)
-
-/obj/item/reagent_containers/food/drinks/coffee/empty
-	name = "robust coffee"
-	desc = "Careful, the beverage you're about to enjoy is extremely hot."
-	icon = 'nsv13/icons/obj/coffee.dmi'
-	icon_state = "coffee_empty"
-	list_reagents = null
-	var/lid_open = 0
-	spillable = TRUE
-	resistance_flags = FREEZE_PROOF
-	isGlass = FALSE
-	foodtype = BREAKFAST
-
-/obj/item/reagent_containers/food/drinks/coffee/empty/examine(mob/user)
-	. = ..()
-	. += "<span class='notice'>Alt-click to toggle cup lid.</span>"
-	return
-
-/obj/item/reagent_containers/food/drinks/coffee/empty/AltClick(mob/user)
-	lid_open = lid_open ? 0 : 1
-	update_icon_state()
-	return ..()
-
-/obj/item/reagent_containers/food/drinks/coffee/empty/update_icon_state()
-	if(lid_open)
-		icon_state = reagents.total_volume ? "coffee_full" : "coffee_empty"
-	else
-		icon_state = "coffee"
-	return ..()
