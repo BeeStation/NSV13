@@ -397,8 +397,7 @@
 /obj/machinery/coffeemaker/proc/toggle_steam()
 	QDEL_NULL(particles)
 	if(brewing)
-		particles = new /particles/smoke/steam/mild()
-		particles?.position = list(-6, 0, 0)
+		particles = new /particles/smoke/steam/mild/coffeemaker()
 
 /obj/machinery/coffeemaker/proc/operate_for(time, silent = FALSE)
 	brewing = TRUE
@@ -655,8 +654,7 @@
 /obj/machinery/coffeemaker/impressa/toggle_steam()
 	QDEL_NULL(particles)
 	if(brewing)
-		particles = new /particles/smoke/steam/mild()
-		particles?.position = list(-2, 1, 0)
+		particles = new /particles/smoke/steam/mild/impressa()
 
 /obj/machinery/coffeemaker/impressa/brew()
 	power_change()

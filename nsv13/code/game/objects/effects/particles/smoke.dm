@@ -22,3 +22,9 @@
 	spawning = 1
 	velocity = list(0, 0.3, 0)
 	friction = 0.25
+
+/particles/smoke/steam/mild/impressa
+	position = list(-2, 1, 0)
+
+/particles/smoke/steam/mild/coffeemaker
+	position = list(-6, 0, 0)
