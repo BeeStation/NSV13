@@ -1,3 +1,4 @@
+//NSV13 makes RCDs use our own airlocks
 /obj/item/construction/rcd/proc/change_airlock_setting(mob/user)
 	if(!user)
 		return
