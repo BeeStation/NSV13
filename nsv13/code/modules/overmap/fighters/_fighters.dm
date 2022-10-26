@@ -499,24 +499,29 @@ Been a mess since 2018, we'll fix it someday (probably)
 	. = ..()
 	if(!isliving(user))
 		return FALSE
-	for(var/slot in loadout.equippable_slots)
-		var/obj/item/fighter_component/FC = loadout.get_slot(slot)
-		if(FC?.load(src, target))
+	if(isobj(target))
+		if(operators && LAZYFIND(operators, user))
+			to_chat(user, "<span class='warning'>You can't reach [src]'s exterior from in here..</span>")
 			return FALSE
-	if(allowed(user))
-		if(!canopy_open)
-			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
-			user.visible_message("<span class='warning'>You bang on the canopy.</span>", "<span class='warning'>[user] bangs on [src]'s canopy.</span>")
-			return FALSE
-		if(operators.len >= max_passengers)
-			to_chat(user, "<span class='warning'>[src]'s passenger compartment is full!")
-			return FALSE
-		to_chat(target, "[(user == target) ? "You start to climb into [src]'s passenger compartment" : "[user] starts to lift you into [src]'s passenger compartment"]")
-		if(do_after(user, 2 SECONDS, target=src))
-			start_piloting(user, OVERMAP_USER_ROLE_OBSERVER)
-			enter(user)
-	else
-		to_chat(user, "<span class='warning'>Access denied.</span>")
+		for(var/slot in loadout.equippable_slots)
+			var/obj/item/fighter_component/FC = loadout.get_slot(slot)
+			if(FC?.load(src, target))
+				return FALSE
+	else if(isliving(target))
+		if(allowed(user))
+			if(!canopy_open)
+				playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
+				user.visible_message("<span class='warning'>You bang on the canopy.</span>", "<span class='warning'>[user] bangs on [src]'s canopy.</span>")
+				return FALSE
+			if(operators.len >= max_passengers)
+				to_chat(user, "<span class='warning'>[src]'s passenger compartment is full!")
+				return FALSE
+			to_chat(target, "[(user == target) ? "You start to climb into [src]'s passenger compartment" : "[user] starts to lift you into [src]'s passenger compartment"]")
+			if(do_after(user, 2 SECONDS, target=src))
+				start_piloting(user, OVERMAP_USER_ROLE_OBSERVER)
+				enter(user)
+		else
+			to_chat(user, "<span class='warning'>Access denied.</span>")
 
 /obj/structure/overmap/small_craft/proc/enter(mob/user)
 	var/obj/structure/overmap/OM = user.get_overmap()
