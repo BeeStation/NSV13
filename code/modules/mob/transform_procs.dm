@@ -453,7 +453,7 @@
 
 	O.a_intent = INTENT_HELP
 	if (tr_flags & TR_DEFAULTMSG)
-		to_chat(O, "<B>You are now a human.</B>")
+		to_chat(O, "<B>You are now humanoid.</B>")
 
 	transfer_observers_to(O)
 

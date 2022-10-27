@@ -375,7 +375,7 @@
 	if(mrace || newfeatures || ui)
 		update_body()
 		update_hair()
-		update_body_parts()
+		update_body_parts(TRUE)
 		update_mutations_overlay()
 
 	if(LAZYLEN(mutations))
@@ -408,7 +408,7 @@
 		update_body()
 		update_hair()
 		if(mutcolor_update)
-			update_body_parts()
+			update_body_parts(TRUE)
 		if(mutations_overlay_update)
 			update_mutations_overlay()
 
