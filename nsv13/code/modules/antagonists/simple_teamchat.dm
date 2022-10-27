@@ -125,7 +125,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	return TRUE
 
 /datum/component/simple_teamchat/proc/enter_message(datum/user)
-	if(!can_message())
+	if(!can_message(user))
 		return FALSE
 	var/str = input(user, "Enter a message:", "[key]", null) as text|null
 	if(!str)
@@ -138,7 +138,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	send_message(user, str)
 
 /datum/component/simple_teamchat/proc/send_message(atom/movable/user, text, list/receipt_sound_override)
-	if(!can_message())
+	if(!can_message(user))
 		return FALSE
 	if(sound_on_send && isatom(user))
 		playsound(user.loc, pick(sound_on_send), 100, 1)
@@ -183,21 +183,25 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	sound_on_receipt = list('sound/effects/radio1.ogg','sound/effects/radio2.ogg')
 	sound_on_failure = list('nsv13/sound/effects/radiostatic.ogg')
 
-/datum/component/simple_teamchat/radio_dependent/can_message()
+/datum/component/simple_teamchat/radio_dependent/can_message(mob/user)
+	if(isliving(user))
+		var/mob/living/living_user = user
+		if(living_user.incapacitated())
+			return FALSE
 	var/obj/machinery/telecomms/relay/ourBroadcaster = null
 	//Precondition: Comms must be online.
 	for(var/obj/machinery/telecomms/B in GLOB.telecomms_list)
 		if(istype(B, /obj/machinery/telecomms/relay) || istype(B, /obj/machinery/telecomms/hub)  || istype(B, /obj/machinery/telecomms/server))
 			if(B.is_operational() && B.on)
-				if(isatom(get_user()) && B.z != get_user().z)
+				if(istype(user) && B.z != user.z)
 					continue
 				ourBroadcaster = B
 				break
 	if(ourBroadcaster && ourBroadcaster.on)
 		return TRUE
 	//Play a static sound to signify that it failed.
-	if(isatom(get_user()) && length(sound_on_failure))
-		playsound(get_user().loc, pick(sound_on_failure), 100, FALSE)
+	if(istype(user) && length(sound_on_failure))
+		playsound(user.loc, pick(sound_on_failure), 100, FALSE)
 	return FALSE
 
 /datum/component/simple_teamchat/radio_dependent/squad
