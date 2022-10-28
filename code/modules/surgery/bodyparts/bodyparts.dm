@@ -417,7 +417,7 @@
 
 	if(animal_origin) //Cringe ass animal-specific code.
 		if(IS_ORGANIC_LIMB(src))
-			//limb.icon = 'icons/mob/animal_parts.dmi' //NSV13 - actually, we don't need this
+			limb.icon = icon //NSV13 - use whatever our base icon is, not animal_parts.dmi
 			if(is_husked)
 				limb.icon_state = "[animal_origin]_husk_[body_zone]"
 			else
