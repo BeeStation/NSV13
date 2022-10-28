@@ -240,11 +240,11 @@ RLD
 /obj/item/construction/rcd/proc/get_airlock_image(airlock_type)
 	var/obj/machinery/door/airlock/proto = airlock_type
 	var/ic = initial(proto.icon)
-	var/color = initial(proto.color) //NSV13 allows airlocks with color vars (mining airlocks) to be colored
+	var/co = initial(proto.color) //NSV13 allows airlocks with color vars (mining airlocks) to be colored
 	var/mutable_appearance/MA = mutable_appearance(ic, "closed")
 	if(!initial(proto.glass))
 		MA.overlays += "fill_closed"
-	MA.color = color //NSV13 colors airlocks
+	MA.color = co //NSV13 colors airlocks
 	//Not scaling these down to button size because they look horrible then, instead just bumping up radius.
 	return MA
 
