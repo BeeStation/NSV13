@@ -48,6 +48,7 @@
 #define AI_GUARD 4
 
 #define isovermap(A) (istype(A, /obj/structure/overmap))
+#define isasteroid(A) (istype(A, /obj/structure/overmap/asteroid))
 
 //Assigning player ships goes here
 
