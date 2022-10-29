@@ -37,24 +37,24 @@
 		GLOB.deliverybeacons += src
 		GLOB.deliverybeacontags += location
 
-	return INITIALIZE_HINT_LATELOAD //NSV13 - DIFFERENCE BETWEEN CODEBASE
+	return INITIALIZE_HINT_LATELOAD //NSV13 start - Overmap ship compatibility
 
-/obj/machinery/navbeacon/LateInitialize() //NSV13 - DIFFERENCE BETWEEN CODEBASE
-	has_overmap() //NSV13 - DIFFERENCE BETWEEN CODEBASE
+/obj/machinery/navbeacon/LateInitialize()
+	has_overmap()
 
-/obj/machinery/navbeacon/proc/has_overmap() //NSV13 - DIFFERENCE BETWEEN CODEBASE
-	linked = get_overmap() //NSV13 - DIFFERENCE BETWEEN CODEBASE
-	if(linked) //NSV13 - DIFFERENCE BETWEEN CODEBASE
-		set_position(linked) //NSV13 - DIFFERENCE BETWEEN CODEBASE
-	return linked //NSV13 - DIFFERENCE BETWEEN CODEBASE
+/obj/machinery/navbeacon/proc/has_overmap()
+	linked = get_overmap()
+	if(linked)
+		set_position(linked)
+	return linked
 
-/obj/machinery/navbeacon/proc/set_position(obj/structure/overmap/OM) //NSV13 - DIFFERENCE BETWEEN CODEBASE
-	OM.beacons_in_ship += src //NSV13 - DIFFERENCE BETWEEN CODEBASE
-	return //NSV13 - DIFFERENCE BETWEEN CODEBASE
+/obj/machinery/navbeacon/proc/set_position(obj/structure/overmap/OM)
+	OM.beacons_in_ship += src
+	return
 
 /obj/machinery/navbeacon/Destroy()
-	if (linked.beacons_in_ship) //NSV13 - DIFFERENCE BETWEEN CODEBASE
-		linked.beacons_in_ship -= src //NSV13 - DIFFERENCE BETWEEN CODEBASE
+	if (linked.beacons_in_ship)
+		linked.beacons_in_ship -= src //NSV13 end
 	if (GLOB.navbeacons["[z]"])
 		GLOB.navbeacons["[z]"] -= src //Remove from beacon list, if in one.
 	GLOB.deliverybeacons -= src
