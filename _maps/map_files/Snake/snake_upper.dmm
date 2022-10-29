@@ -424,6 +424,25 @@
 /obj/machinery/camera/autoname,
 /turf/open/floor/plasteel/white,
 /area/medical/surgery)
+"cz" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	location = "UpperExit";
+	codes_txt = "patrol;next_patrol=Aft"
+	},
+/turf/open/floor/plasteel/dark,
+/area/maintenance/central)
 "cB" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/manifold{
 	dir = 1
@@ -478,6 +497,14 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/apothecary)
+"cI" = (
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=";
+	dir = 4;
+	freq = 1400
+	},
+/turf/open/space/basic,
+/area/space)
 "cM" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 10
@@ -1376,6 +1403,12 @@
 	dir = 8
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=1";
+	freq = 1400;
+	name = "Delivery Hangar";
+	location = "Hangar"
+	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
 "hS" = (
@@ -6224,6 +6257,10 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/navbeacon{
+	location = "UpperEntry";
+	codes_txt = "patrol;next_patrol=UpperCargo"
+	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
 "Le" = (
@@ -6737,6 +6774,25 @@
 /obj/machinery/light_switch/north,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai_upload)
+"NB" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	location = "UpperHangar";
+	codes_txt = "patrol;next_patrol=UpperExit"
+	},
+/turf/open/floor/plasteel/dark,
+/area/maintenance/central)
 "NC" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
@@ -7204,6 +7260,25 @@
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
+/area/maintenance/fore)
+"Qk" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	location = "UpperCargo";
+	codes_txt = "patrol;next_patrol=UpperHangar"
+	},
+/turf/open/floor/plasteel,
 /area/maintenance/fore)
 "Ql" = (
 /obj/effect/turf_decal/tile/ship/red,
@@ -7852,6 +7927,15 @@
 /area/maintenance/aft)
 "Uf" = (
 /obj/machinery/airalarm/directional/east,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	location = "QM #1"
+	},
+/obj/effect/turf_decal/bot,
+/mob/living/simple_animal/bot/mulebot{
+	home_destination = "QM #1";
+	name = "Wall-O"
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "Ui" = (
@@ -7922,6 +8006,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/science)
+"UT" = (
+/obj/structure/bot_elevator,
+/turf/open/floor/plating,
+/area/maintenance/central)
 "UV" = (
 /obj/machinery/computer/camera_advanced/xenobio{
 	dir = 1
@@ -35636,7 +35724,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+cI
 zQ
 zQ
 zQ
@@ -43322,7 +43410,7 @@ sk
 sk
 sk
 KB
-lE
+cz
 OG
 RJ
 RJ
@@ -45892,7 +45980,7 @@ Hl
 Ab
 lz
 Hl
-lE
+NB
 OG
 RJ
 DR
@@ -49748,7 +49836,7 @@ Wm
 gq
 Hl
 Ld
-sk
+UT
 KB
 sk
 sk
@@ -57200,7 +57288,7 @@ zG
 DU
 mH
 Oz
-aa
+Qk
 WB
 yQ
 Lx

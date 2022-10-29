@@ -678,7 +678,7 @@ Code:
 				if(zlevel in SSmapping.levels_by_trait(ZTRAIT_STATION))
 					menu += "<A href='byond://?src=[REF(src)];op=control;bot=[REF(Bot)]'><b>[Bot.name]</b> ([Bot.get_mode()])<BR>"
 					botcount++
-			else if (Bot.get_virtual_z_level() == zlevel)
+			else if(Bot.get_virtual_z_level() == zlevel)
 				if(!(zlevel in SSmapping.levels_by_trait(ZTRAIT_STATION)))
 					menu += "<A href='byond://?src=[REF(src)];op=control;bot=[REF(Bot)]'><b>[Bot.name]</b> ([Bot.get_mode()])<BR>"
 					botcount++

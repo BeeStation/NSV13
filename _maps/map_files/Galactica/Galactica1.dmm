@@ -708,9 +708,7 @@
 /turf/open/floor/plating,
 /area/engine/storage)
 "bX" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	req_access_txt = "12"
-	},
+/obj/machinery/door/airlock/ship/maintenance,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -2267,6 +2265,11 @@
 	dir = 8
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=down";
+	location = "engiLob";
+	name = "deck1engiLob"
+	},
 /turf/open/floor/engine,
 /area/hallway/nsv/deck1/frame1/central)
 "gw" = (
@@ -3238,6 +3241,15 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/aisat/service)
+"ja" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck1Lounge";
+	location = "deck1Dorm"
+	},
+/turf/open/floor/monotile/dark,
+/area/crew_quarters/dorms)
 "jb" = (
 /obj/effect/turf_decal/tile/ship/half/neutral{
 	dir = 1
@@ -4144,6 +4156,11 @@
 	},
 /obj/structure/disposalpipe/segment,
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck1CIC";
+	location = "deck1CentralUp2";
+	name = "deck1CentralUp2"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/frame1/central)
 "ly" = (
@@ -5492,6 +5509,11 @@
 	id = "deck1_cic";
 	next_id = "deck1_ladder"
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck1Medical";
+	location = "deck1CIC";
+	name = "deck1CIC"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/frame1/central)
 "pk" = (
@@ -6215,6 +6237,28 @@
 	},
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
+"ri" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 4;
+	freq = 1400;
+	location = "Engineering Lobby"
+	},
+/turf/open/floor/engine,
+/area/hallway/nsv/deck1/frame1/central)
 "rj" = (
 /obj/structure/window/reinforced{
 	dir = 1;
@@ -8108,6 +8152,10 @@
 	},
 /obj/structure/cable{
 	icon_state = "2-4"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=engiLob";
+	location = "deck1Lounge"
 	},
 /turf/open/floor/durasteel,
 /area/crew_quarters/dorms)
@@ -12860,6 +12908,19 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
+"Jf" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/disposalpipe/segment,
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck1CentralUp2";
+	location = "deck1CentralUp";
+	name = "deck1CentralUp"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck1/frame1/central)
 "Jg" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 8
@@ -12958,6 +13019,11 @@
 	dir = 5
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck1CentralLadder";
+	location = "deck1CentralT1";
+	name = "deck1CentralT1"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/frame1/central)
 "Jr" = (
@@ -14202,6 +14268,8 @@
 /obj/structure/cable{
 	icon_state = "8-32"
 	},
+/obj/machinery/power/deck_relay,
+/obj/structure/bot_elevator,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard/fore)
 "MA" = (
@@ -15783,6 +15851,11 @@
 	id = "deck1_ladder";
 	next_id = "deck2_ladder"
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck1CentralT2";
+	location = "deck1CentralLadder";
+	name = "deck1CentralLadder"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/frame1/central)
 "QX" = (
@@ -16178,6 +16251,11 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck1CentralT1";
+	location = "deck1Medical";
+	name = "deck1Medical"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/frame1/central)
 "Sb" = (
@@ -17241,6 +17319,11 @@
 	dir = 10
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck1CentralHall";
+	location = "deck1CentralT2";
+	name = "deck1CentralT2"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/frame1/central)
 "Ve" = (
@@ -17334,6 +17417,11 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck1Dorm";
+	location = "deck1CentralHall";
+	name = "deck1CentralHall"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/frame1/central)
 "Vt" = (
@@ -18755,6 +18843,17 @@
 /obj/machinery/camera/autoname,
 /turf/open/openspace,
 /area/security/brig)
+"YU" = (
+/obj/effect/turf_decal/tile/ship/half/green{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Down";
+	location = "down";
+	name = "deck1Down"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck1/frame1/central)
 "YV" = (
 /obj/effect/turf_decal/tile/ship/half/yellow{
 	dir = 1
@@ -43945,7 +44044,7 @@ gS
 Fb
 vg
 kG
-Br
+ri
 Gy
 vg
 do
@@ -50102,7 +50201,7 @@ KR
 EC
 la
 la
-la
+ja
 wv
 Ub
 Ul
@@ -62210,7 +62309,7 @@ Uc
 Uc
 Uc
 Uc
-Uc
+Jf
 Xc
 Ts
 Ts
@@ -62467,7 +62566,7 @@ by
 by
 by
 by
-nJ
+YU
 Au
 Ts
 Ts
