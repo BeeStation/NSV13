@@ -85,8 +85,7 @@ export const CloningConsole = (props, context) => {
                             Scan ID {record["id"]}<br />
                             <Button
                               content="Clone"
-                              icon="power-off"
-                              disabled={(record["body_only"] && !experimental)}
+                              icon="power-off" // NSV13, makes empty clones possible again, removed "disable=body-only && !experimental"
                               onClick={() => act('clone', {
                                 target: record["id"],
                               })}
