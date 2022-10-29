@@ -92,6 +92,7 @@ GLOBAL_VAR(medibot_unique_id_gen)
 	. = ..()
 	var/datum/job/doctor/J = new /datum/job/doctor
 	access_card.access += J.get_access()
+	access_card.access += ACCESS_MAINT_TUNNELS //NSV13 - Added maintenance access for bots
 	prev_access = access_card.access
 	qdel(J)
 	skin = new_skin

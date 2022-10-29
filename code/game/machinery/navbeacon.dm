@@ -18,6 +18,7 @@
 	var/location = ""	// location response text
 	var/list/codes		// assoc. list of transponder codes
 	var/codes_txt = ""	// codes as set on map: "tag1;tag2" or "tag1=value;tag2=value"
+	var/obj/structure/overmap/linked //NSV13 - DIFFERENCE BETWEEN CODEBASE
 
 	req_one_access = list(ACCESS_ENGINE, ACCESS_ROBOTICS)
 
@@ -28,15 +29,32 @@
 
 	var/turf/T = loc
 	hide(T.intact)
-	if(codes["patrol"])
+	if(codes?["patrol"])
 		if(!GLOB.navbeacons["[z]"])
 			GLOB.navbeacons["[z]"] = list()
 		GLOB.navbeacons["[z]"] += src //Register with the patrol list!
-	if(codes["delivery"])
+	if(codes?["delivery"])
 		GLOB.deliverybeacons += src
 		GLOB.deliverybeacontags += location
 
+	return INITIALIZE_HINT_LATELOAD //NSV13 start - Overmap ship compatibility
+
+/obj/machinery/navbeacon/LateInitialize()
+	has_overmap()
+
+/obj/machinery/navbeacon/proc/has_overmap()
+	linked = get_overmap()
+	if(linked)
+		set_position(linked)
+	return linked
+
+/obj/machinery/navbeacon/proc/set_position(obj/structure/overmap/OM)
+	OM.beacons_in_ship += src
+	return
+
 /obj/machinery/navbeacon/Destroy()
+	if (linked.beacons_in_ship)
+		linked.beacons_in_ship -= src //NSV13 end
 	if (GLOB.navbeacons["[z]"])
 		GLOB.navbeacons["[z]"] -= src //Remove from beacon list, if in one.
 	GLOB.deliverybeacons -= src

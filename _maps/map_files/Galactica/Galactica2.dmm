@@ -386,6 +386,17 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/effect/turf_decal/delivery,
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/machinery/door/window/brigdoor/northleft{
+	req_one_access_txt = "5";
+	name = "Medbay Delivery"
+	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
 "akU" = (
@@ -6433,6 +6444,27 @@
 /obj/structure/chair/office/light,
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering)
+"dvW" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2ToolStorage";
+	location = "deck2CargoLobby";
+	name = "deck2CargoLobby"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/primary)
 "dwi" = (
 /turf/closed/wall/r_wall,
 /area/nsv/hanger/notkmcstupidhanger)
@@ -7503,6 +7535,19 @@
 	},
 /turf/open/floor/carpet/green,
 /area/engine/engineering/reactor_control)
+"edm" = (
+/obj/effect/turf_decal/tile/ship/half/green{
+	dir = 1
+	},
+/obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 4;
+	freq = 1400;
+	location = "Prison"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/primary)
 "edA" = (
 /obj/machinery/ship_weapon/vls,
 /obj/machinery/camera/autoname{
@@ -8417,6 +8462,11 @@
 /obj/effect/landmark/patrol_node{
 	id = "briefing_central";
 	next_id = "arrivals"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Cross1";
+	location = "deck2Briefing";
+	name = "deck2Briefing"
 	},
 /turf/open/floor/light,
 /area/nsv/briefingroom)
@@ -10727,6 +10777,16 @@
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer1,
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/atmos)
+"fLX" = (
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2MessExit";
+	location = "deck2Kitchen";
+	name = "deck2Kitchen"
+	},
+/turf/open/floor/plasteel/grid/techfloor/grid,
+/area/crew_quarters/bar{
+	name = "Night Club"
+	})
 "fMd" = (
 /obj/machinery/button/flasher{
 	id = "unga_armoury";
@@ -12057,6 +12117,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Science";
+	location = "deck2MessExit";
+	name = "deck2MessExit"
+	},
 /turf/open/floor/durasteel,
 /area/hallway/nsv/deck2/primary)
 "guu" = (
@@ -14118,6 +14183,11 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Prison";
+	location = "deck2Ladder1";
+	name = "deck2Ladder1"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "hxx" = (
@@ -15185,6 +15255,7 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
+/obj/structure/bot_elevator,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame2/central)
 "ico" = (
@@ -18147,6 +18218,15 @@
 "jJy" = (
 /turf/closed/wall/steel,
 /area/storage/primary)
+"jJI" = (
+/obj/effect/turf_decal/tile/ship/half/purple,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2CargoLobby";
+	location = "deck2Science";
+	name = "deck2Science"
+	},
+/turf/open/floor/monotile/steel,
+/area/science/lab)
 "jKf" = (
 /obj/structure/table/reinforced,
 /obj/item/flashlight/lamp/bananalamp,
@@ -18905,6 +18985,11 @@
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck1CentralUp";
+	location = "deck2CentralUp";
+	name = "deck2CentralUp"
 	},
 /turf/open/floor/durasteel,
 /area/hallway/nsv/deck2/primary)
@@ -20676,6 +20761,20 @@
 /obj/structure/sign/ship/radiation,
 /turf/closed/wall/r_wall,
 /area/crew_quarters/heads/chief)
+"lcT" = (
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 1
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2HallT1Up";
+	location = "deck2Down";
+	name = "deck2Down"
+	},
+/turf/open/floor/durasteel,
+/area/hallway/nsv/deck2/primary)
 "ldh" = (
 /obj/machinery/light{
 	dir = 4
@@ -21110,6 +21209,11 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss/battery)
 "lpt" = (
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Ladder1";
+	location = "deck2Medical";
+	name = "deck2Medical"
+	},
 /turf/open/floor/monotile/dark,
 /area/medical/medbay/lobby)
 "lpy" = (
@@ -21171,6 +21275,11 @@
 	dir = 2;
 	name = "weapons bay sorting disposal pipe";
 	sortType = 33
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Medical";
+	location = "deck2Stairway1";
+	name = "deck2Stairway1"
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
@@ -21530,6 +21639,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Gauss";
+	location = "deck2Prison";
+	name = "deck2Prison"
 	},
 /turf/open/floor/durasteel,
 /area/hallway/nsv/deck2/primary)
@@ -22918,6 +23032,15 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/effect/turf_decal/bot,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	location = "QM #1"
+	},
+/mob/living/simple_animal/bot/mulebot{
+	home_destination = "QM #1";
+	name = "Rex"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "mnA" = (
@@ -23034,6 +23157,16 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/security/brig)
+"mpy" = (
+/obj/effect/turf_decal/tile/ship/full/blue,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 4;
+	freq = 1400;
+	location = "Munitions"
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/primary)
 "mqa" = (
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 4
@@ -23863,6 +23996,11 @@
 /obj/effect/landmark/patrol_node{
 	id = "briefing";
 	next_id = "briefing_central"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Briefing";
+	location = "deck2Squad";
+	name = "deck2Squad"
 	},
 /turf/open/floor/light,
 /area/hallway/nsv/deck2/primary)
@@ -24837,6 +24975,18 @@
 "npk" = (
 /turf/open/floor/mineral/plastitanium/red,
 /area/maintenance/nsv/deck2/frame3/port)
+"npP" = (
+/obj/effect/turf_decal/tile/ship/green,
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Departure";
+	location = "deck2HallT2Down";
+	name = "deck2HallT2Down"
+	},
+/turf/open/floor/durasteel,
+/area/hallway/nsv/deck2/primary)
 "nqT" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
@@ -27880,6 +28030,11 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Arrivals";
+	location = "deck2Cross1";
+	name = "deck2Cross1"
+	},
 /turf/open/floor/durasteel,
 /area/hallway/nsv/deck2/primary)
 "oWl" = (
@@ -30580,6 +30735,11 @@
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2HallT2Down";
+	location = "deck2Cross2";
+	name = "deck2Cross2"
+	},
 /turf/open/floor/durasteel,
 /area/hallway/nsv/deck2/primary)
 "quJ" = (
@@ -30965,6 +31125,18 @@
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/primary)
+"qEP" = (
+/obj/effect/turf_decal/tile/ship/green,
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 8
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Bar";
+	location = "deck2MessEntry";
+	name = "deck2MessEntry"
+	},
+/turf/open/floor/durasteel,
 /area/hallway/nsv/deck2/primary)
 "qEQ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
@@ -31438,6 +31610,11 @@
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 1
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Squad";
+	location = "deck2HallT1Up";
+	name = "deck2HallT1Up"
+	},
 /turf/open/floor/durasteel,
 /area/hallway/nsv/deck2/primary)
 "qTM" = (
@@ -31767,6 +31944,11 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2CentralUp";
+	location = "deck2Janitorial";
+	name = "deck2Janitorial"
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
@@ -32430,6 +32612,16 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/lobby)
+"ryx" = (
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 4;
+	freq = 1400;
+	location = "Medbay"
+	},
+/obj/structure/plasticflaps/opaque,
+/turf/open/floor/plating,
+/area/medical/medbay)
 "ryF" = (
 /obj/structure/chair/comfy/black{
 	dir = 1
@@ -33388,6 +33580,11 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Cross2";
+	location = "deck2Gauss";
+	name = "deck2Gauss"
+	},
 /turf/open/floor/durasteel,
 /area/hallway/nsv/deck2/primary)
 "sdB" = (
@@ -33465,6 +33662,11 @@
 	},
 /obj/structure/cable{
 	icon_state = "1-4"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Theater";
+	location = "deck2Arcade";
+	name = "deck2Arcade"
 	},
 /turf/open/floor/eighties,
 /area/crew_quarters/theatre)
@@ -33601,6 +33803,22 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3,
 /turf/open/floor/carpet,
 /area/bridge/showroom/corporate)
+"sjj" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Kitchen";
+	location = "deck2Theater";
+	name = "deck2Theater"
+	},
+/turf/open/floor/monotile/dark,
+/area/crew_quarters/bar{
+	name = "Night Club"
+	})
 "sjt" = (
 /obj/structure/sign/ship/securearea{
 	dir = 8
@@ -34654,6 +34872,16 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/mine/laborcamp/security)
+"sIf" = (
+/obj/structure/plasticflaps/opaque,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=1";
+	dir = 8;
+	freq = 1400;
+	location = "Science"
+	},
+/turf/open/floor/plating,
+/area/science/nsv/astronomy)
 "sIp" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable{
@@ -35291,6 +35519,17 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/security/prison)
+"sYK" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Arcade";
+	location = "deck2Bar";
+	name = "deck2Bar"
+	},
+/turf/open/floor/plasteel/grid/techfloor/grid,
+/area/crew_quarters/bar{
+	name = "Night Club"
+	})
 "sYP" = (
 /obj/structure/window/reinforced{
 	dir = 4
@@ -35642,6 +35881,20 @@
 	},
 /turf/open/floor/durasteel/techfloor_grid,
 /area/maintenance/disposal)
+"tis" = (
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/green{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2MessEntry";
+	location = "deck2Departure";
+	name = "deck2Departure"
+	},
+/turf/open/floor/durasteel,
+/area/hallway/nsv/deck2/primary)
 "tiA" = (
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
@@ -36119,6 +36372,18 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/maintenance/nsv/deck2/frame4/starboard)
+"tus" = (
+/obj/effect/turf_decal/tile/ship/half/neutral,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Stairway1";
+	location = "deck2Arrivals";
+	name = "deck2Arrivals"
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/secondary/entry/arrivals)
 "tuC" = (
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
@@ -39135,6 +39400,24 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/mine/laborcamp)
+"vcv" = (
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 8
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 4;
+	freq = 1400;
+	location = "Kitchen"
+	},
+/turf/open/floor/monotile/dark,
+/area/crew_quarters/bar{
+	name = "Night Club"
+	})
 "vcA" = (
 /turf/open/floor/monotile/dark,
 /area/quartermaster/sorting)
@@ -40303,6 +40586,10 @@
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 1
 	},
+/obj/machinery/door/window/brigdoor/eastleft{
+	req_one_access_txt = "47";
+	name = "Science Delivery"
+	},
 /turf/open/floor/monotile/steel,
 /area/science/nsv/astronomy)
 "vJk" = (
@@ -40312,6 +40599,11 @@
 	},
 /obj/effect/landmark/event_spawn,
 /obj/effect/landmark/nuclear_waste_spawner,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=deck2Janitorial";
+	location = "deck2ToolStorage";
+	name = "deck2ToolStorage"
+	},
 /turf/open/floor/monotile/dark,
 /area/storage/primary)
 "vJq" = (
@@ -40418,9 +40710,7 @@
 /turf/open/space/basic,
 /area/maintenance/nsv/deck2/frame4/starboard)
 "vMJ" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	req_access_txt = "12"
-	},
+/obj/machinery/door/airlock/ship/maintenance,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -81171,7 +81461,7 @@ ckj
 vzE
 jEc
 akI
-vlP
+ryx
 pfr
 pxk
 lGx
@@ -82990,7 +83280,7 @@ ttP
 cRj
 mAS
 lGt
-pLt
+dvW
 ebc
 jJy
 erG
@@ -84529,7 +84819,7 @@ rpj
 oVK
 rWi
 fWy
-buX
+jJI
 erP
 lGt
 ngi
@@ -85266,7 +85556,7 @@ fli
 eVc
 dGV
 nSM
-gzl
+edm
 iGZ
 gCP
 jyS
@@ -86855,7 +87145,7 @@ inv
 wGu
 inv
 inv
-lGr
+vcv
 awq
 guo
 qln
@@ -87110,7 +87400,7 @@ kiH
 hGy
 kiH
 kiH
-kiH
+fLX
 kiH
 wuw
 pdP
@@ -87861,7 +88151,7 @@ jNa
 jNa
 jNa
 jNa
-jNa
+sIf
 jNa
 jNa
 ipS
@@ -88902,7 +89192,7 @@ ipS
 wjA
 jij
 abe
-ebc
+qEP
 pEd
 xDL
 kiH
@@ -89170,7 +89460,7 @@ sMs
 ijs
 vLA
 aUl
-hLx
+sjj
 bgr
 nIW
 hHl
@@ -90193,7 +90483,7 @@ xDL
 pBX
 wCj
 wCj
-wCj
+sYK
 wCj
 wCj
 tkI
@@ -91470,7 +91760,7 @@ kmb
 fZw
 fZw
 wjA
-lGt
+lcT
 rQZ
 ebc
 wnT
@@ -95070,7 +95360,7 @@ fAH
 qmr
 ugJ
 ipw
-kuD
+npP
 qro
 lzF
 ebc
@@ -95286,7 +95576,7 @@ orh
 qrL
 orh
 eqj
-aGF
+tus
 jUY
 srI
 iQB
@@ -95562,7 +95852,7 @@ sYT
 sYT
 lju
 gqS
-jaI
+mpy
 rkV
 kbY
 jaI
@@ -96870,7 +97160,7 @@ fgw
 wHh
 eKt
 lju
-fgn
+tis
 lzF
 ebc
 lfn

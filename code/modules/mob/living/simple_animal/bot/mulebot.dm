@@ -48,6 +48,8 @@
 	var/auto_return = 1		// true if auto return to home beacon after unload
 	var/auto_pickup = 1 	// true if auto-pickup at beacon
 	var/report_delivery = 1 // true if bot will announce an arrival to a location.
+	var/turf/last_target
+	var/mulebot_z_mode
 
 	var/obj/item/stock_parts/cell/cell
 	var/bloodiness = 0
@@ -81,7 +83,7 @@
 	id = new_id
 	if(paicard)
 		bot_name = "\improper MULEbot ([new_id])"
-	else
+	else if(name == "\improper MULEbot") //NSV13
 		name = "\improper MULEbot ([new_id])"
 
 /mob/living/simple_animal/bot/mulebot/bot_reset()
@@ -492,6 +494,10 @@
 
 		if(BOT_DELIVER, BOT_GO_HOME, BOT_BLOCKED) // navigating to deliver,home, or blocked
 			if(loc == target) // reached target
+				if(last_target != null)
+					if(z != last_target.z)
+						mulebot_z_movement()
+						return
 				at_target()
 				return
 
@@ -580,7 +586,43 @@
 // calculates a path to the current destination
 // given an optional turf to avoid
 /mob/living/simple_animal/bot/mulebot/calc_path(turf/avoid = null)
+	if(!is_reserved_level(z) && is_station_level(z))
+		if(target != null)
+			if(z > target.z)
+				mule_up_or_down(DOWN)
+				return
+			if(z < target.z)
+				mule_up_or_down(UP)
+				return
 	path = get_path_to(src, target, 250, id=access_card, exclude=avoid)
+
+//BOT MULTI-Z MOVEMENT - DIFFERENCE BETWEEN CODEBASE
+/mob/living/simple_animal/bot/mulebot/proc/mule_up_or_down(direction)
+	if(!is_reserved_level(z) && is_station_level(z))
+		var/new_target = find_nearest_bot_elevator(direction)
+
+		var/go_here
+		mulebot_z_mode = MULEBOT_Z_MODE_ACTIVE
+		if(!new_target)
+			return
+		go_here = get_turf(new_target)
+		last_target = target
+		target = go_here
+		path = get_path_to(src, target, 250, id=access_card)
+
+//BOT MULTI-Z MOVEMENT - DIFFERENCE BETWEEN CODEBASE
+/mob/living/simple_animal/bot/mulebot/proc/mulebot_z_movement()
+	var/obj/structure/bot_elevator/E = locate(/obj/structure/bot_elevator) in get_turf(src)
+	if(mulebot_z_mode == MULEBOT_Z_MODE_ACTIVE)
+		if(E)
+			if(z > last_target.z)
+				E.travel(FALSE, src, FALSE, E.down, FALSE)
+				target = last_target
+				calc_path()
+			else
+				E.travel(TRUE, src, FALSE, E.up, FALSE)
+				target = last_target
+				calc_path()
 
 // sets the current destination
 // signals all beacons matching the delivery code
@@ -708,7 +750,7 @@
 	if(!on || wires.is_cut(WIRE_BEACON))
 		return
 
-	for(var/obj/machinery/navbeacon/NB in GLOB.deliverybeacons)
+	for(var/obj/machinery/navbeacon/NB in get_overmap().beacons_in_ship) //NSV13
 		if(NB.location == new_destination)	// if the beacon location matches the set destination
 									// the we will navigate there
 			destination = new_destination

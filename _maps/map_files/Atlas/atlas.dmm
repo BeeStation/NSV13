@@ -99,6 +99,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/ship/blue,
+/obj/structure/bot_elevator,
 /turf/open/floor/durasteel/alt,
 /area/hallway/nsv/deck2/primary)
 "ap" = (
@@ -2815,6 +2816,19 @@
 	departmentType = 2;
 	pixel_x = 32
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 8;
+	freq = 1400;
+	location = "QM #2"
+	},
+/mob/living/simple_animal/bot/mulebot{
+	home_destination = "QM #2";
+	suffix = "#3";
+	name = "Chonker";
+	desc = "Oh lawd he is coming!!";
+	gender = "male"
+	},
 /turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "jo" = (
@@ -4356,6 +4370,7 @@
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 8
 	},
+/obj/structure/bot_elevator,
 /turf/open/floor/durasteel/alt,
 /area/hallway/nsv/deck2/primary)
 "nT" = (
@@ -8628,7 +8643,7 @@
 	dir = 4
 	},
 /obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=hmain1";
+	codes_txt = "patrol;next_patrol=left";
 	location = "stairnorth"
 	},
 /turf/open/floor/durasteel/alt,
@@ -8840,6 +8855,12 @@
 /obj/machinery/airalarm/directional/west,
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Munitions"
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "Dn" = (

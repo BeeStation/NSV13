@@ -2479,6 +2479,22 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/central/hallway)
+"boQ" = (
+/obj/effect/turf_decal/delivery,
+/obj/structure/plasticflaps/opaque,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Kitchen"
+	},
+/obj/machinery/door/window/northleft{
+	dir = 8;
+	name = "MuleBot Access";
+	req_access_txt = "50"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "bpe" = (
 /obj/machinery/light_switch{
 	pixel_x = 26;
@@ -2984,7 +3000,7 @@
 	input_tag = "constricted_tox_in";
 	name = "Constricted Plasma Supply Control";
 	output_tag = "constricted_tox_out";
-	sensors = list("constricted_tox_sensor" = "Constricted Plasma Tank")
+	sensors = list("constricted_tox_sensor"="Constricted Plasma Tank")
 	},
 /obj/machinery/light{
 	dir = 1
@@ -3993,6 +4009,12 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-6"
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Bar"
+	},
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "ctT" = (
@@ -4745,6 +4767,20 @@
 /obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
+"cXI" = (
+/obj/structure/plasticflaps/opaque,
+/obj/machinery/door/window/northleft{
+	name = "Security Delivery";
+	req_one_access_txt = "3;4;63"
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Security"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/medical)
 "cXV" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -9850,7 +9886,7 @@
 	input_tag = "extra_1_input";
 	name = "Custom Tank 1 Control";
 	output_tag = "extra_1_output";
-	sensors = list("extra_1_sensor" = "Custom Tank 1")
+	sensors = list("extra_1_sensor"="Custom Tank 1")
 	},
 /obj/machinery/light{
 	dir = 1
@@ -10270,7 +10306,7 @@
 /obj/machinery/computer/atmos_control{
 	dir = 1;
 	name = "Supermatter Core Sensor";
-	sensors = list("sm_sense" = "Supermatter Core")
+	sensors = list("sm_sense"="Supermatter Core")
 	},
 /obj/machinery/camera/autoname{
 	dir = 1
@@ -10939,6 +10975,15 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
 /turf/open/floor/plating,
 /area/science/storage)
+"hll" = (
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Medbay"
+	},
+/turf/open/floor/carpet/ship/blue,
+/area/medical/medbay/lobby)
 "hlw" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -13543,7 +13588,7 @@
 	input_tag = "viro_in_alt";
 	name = "Virology Quarantine Control";
 	output_tag = "viro_out_alt";
-	sensors = list("viro_sensor_alt" = "Virology Quarantine Tank")
+	sensors = list("viro_sensor_alt"="Virology Quarantine Tank")
 	},
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#99FF99"
@@ -16172,7 +16217,7 @@
 	dir = 1;
 	input_tag = "supermatter_fusion_in";
 	output_tag = "supermatter_fusion_out";
-	sensors = list("supermatter_fusion_sensor" = "Supermatter Fusion Chamber")
+	sensors = list("supermatter_fusion_sensor"="Supermatter Fusion Chamber")
 	},
 /obj/machinery/light,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -17557,6 +17602,20 @@
 	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/central)
+"lIn" = (
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	dir = 4;
+	freq = 1400;
+	location = "Engineering"
+	},
+/obj/structure/plasticflaps/opaque,
+/obj/machinery/door/window/eastleft{
+	req_access_txt = "10";
+	name = "Engineering Delivery"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "lIF" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -19942,6 +20001,10 @@
 /area/crew_quarters/heads/cmo)
 "nfw" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple,
+/obj/machinery/door/window/westleft{
+	req_access_txt = "28";
+	name = "Kitchen Delivery"
+	},
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen/coldroom)
 "nfK" = (
@@ -20542,7 +20605,7 @@
 	dir = 4;
 	input_tag = "stormdrive_chamber_in";
 	output_tag = "stormdrive_chamber_out";
-	sensors = list("stormdrive_chamber_sensor" = "Stormdrive Chamber")
+	sensors = list("stormdrive_chamber_sensor"="Stormdrive Chamber")
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
@@ -20715,7 +20778,7 @@
 	input_tag = "extra_4_input";
 	name = "Custom Tank 4 Control";
 	output_tag = "extra_4_output";
-	sensors = list("extra_4_sensor" = "Custom Tank 4")
+	sensors = list("extra_4_sensor"="Custom Tank 4")
 	},
 /obj/machinery/light,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -20838,7 +20901,7 @@
 	dir = 4;
 	input_tag = "stormdrive_in";
 	output_tag = "stormdrive_out";
-	sensors = list("stormdrive_sensor" = "Stormdrive Fuel Tank")
+	sensors = list("stormdrive_sensor"="Stormdrive Fuel Tank")
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
@@ -21228,7 +21291,7 @@
 /obj/machinery/computer/atmos_control{
 	dir = 8;
 	name = "Ship Miscellaneous Monitoring";
-	sensors = list("distro-loop_meter" = "Distribution Loop", "atmos-waste_loop_meter" = "Atmos Waste Loop", "toxinslab_sensor" = "Toxins Mixing Chamber", "viro_sensor_alt" = "Virology Quarantine Tank", "stormdrive_sensor" = "Stormdrive Fuel Tank", "stormdrive_chamber_sensor" = "Stormdrive Chamber", "sm_sense" = "Supermatter Core", "supermatter_fusion_sensor" = "Supermatter Fusion Chamber", "nuclear_sensor" = "Nuclear Reactor Gas Mix Tank")
+	sensors = list("distro-loop_meter"="Distribution Loop","atmos-waste_loop_meter"="Atmos Waste Loop","toxinslab_sensor"="Toxins Mixing Chamber","viro_sensor_alt"="Virology Quarantine Tank","stormdrive_sensor"="Stormdrive Fuel Tank","stormdrive_chamber_sensor"="Stormdrive Chamber","sm_sense"="Supermatter Core","supermatter_fusion_sensor"="Supermatter Fusion Chamber","nuclear_sensor"="Nuclear Reactor Gas Mix Tank")
 	},
 /obj/structure/cable{
 	icon_state = "1-6"
@@ -21377,7 +21440,7 @@
 /area/security/brig)
 "odB" = (
 /obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=loc1";
+	codes_txt = "patrol;next_patrol=loc14";
 	location = "loc12"
 	},
 /obj/structure/disposalpipe/segment{
@@ -23402,6 +23465,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
+"pqD" = (
+/obj/structure/bot_elevator,
+/turf/open/floor/carpet/ship,
+/area/hallway/secondary/entry/arrivals)
 "pqJ" = (
 /obj/machinery/power/apc/auto_name/east{
 	nightshift_lights = 1
@@ -25432,7 +25499,7 @@
 	input_tag = "extra_3_input";
 	name = "Custom Tank 3 Control";
 	output_tag = "extra_3_output";
-	sensors = list("extra_3_sensor" = "Custom Tank 3")
+	sensors = list("extra_3_sensor"="Custom Tank 3")
 	},
 /obj/machinery/light,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -27436,7 +27503,7 @@
 	input_tag = "extra_2_input";
 	name = "Custom Tank 2 Control";
 	output_tag = "extra_2_output";
-	sensors = list("extra_2_sensor" = "Custom Tank 2")
+	sensors = list("extra_2_sensor"="Custom Tank 2")
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
@@ -29739,7 +29806,7 @@
 /obj/machinery/computer/atmos_control{
 	dir = 8;
 	name = "Atmospherics Core Monitoring";
-	sensors = list("distro-loop_meter" = "Distribution Loop", "atmos-waste_loop_meter" = "Atmos Waste Loop", "n2_sensor" = "Nitrogen Tank", "o2_sensor" = "Oxygen Tank", "co2_sensor" = "Carbon Dioxide Tank", "tox_sensor" = "Plasma Tank", "n2o_sensor" = "Nitrous Oxide Tank", "extra_1_sensor" = "Custom Tank 1", "extra_2_sensor" = "Custom Tank 2", "extra_3_sensor" = "Custom Tank 3", "extra_4_sensor" = "Custom Tank 4", "air_sensor" = "Pure Air Tank", "mix_sensor" = "Ship Air Supply Tank")
+	sensors = list("distro-loop_meter"="Distribution Loop","atmos-waste_loop_meter"="Atmos Waste Loop","n2_sensor"="Nitrogen Tank","o2_sensor"="Oxygen Tank","co2_sensor"="Carbon Dioxide Tank","tox_sensor"="Plasma Tank","n2o_sensor"="Nitrous Oxide Tank","extra_1_sensor"="Custom Tank 1","extra_2_sensor"="Custom Tank 2","extra_3_sensor"="Custom Tank 3","extra_4_sensor"="Custom Tank 4","air_sensor"="Pure Air Tank","mix_sensor"="Ship Air Supply Tank")
 	},
 /obj/structure/cable{
 	icon_state = "0-2"
@@ -30427,7 +30494,7 @@
 	input_tag = "nuclear_in";
 	name = "Nuclear Reactor Gas Tank Control";
 	output_tag = "nuclear_out";
-	sensors = list("nuclear_sensor" = "Nuclear Reactor Gas Mix Tank")
+	sensors = list("nuclear_sensor"="Nuclear Reactor Gas Mix Tank")
 	},
 /obj/machinery/computer/reactor/pump/rbmk_output{
 	density = 0;
@@ -33774,6 +33841,7 @@
 	icon_state = "1-2"
 	},
 /obj/structure/cable/yellow,
+/obj/structure/bot_elevator,
 /turf/open/floor/plating,
 /area/maintenance/central/secondary)
 "wEX" = (
@@ -34265,7 +34333,7 @@
 /obj/structure/table,
 /obj/item/chair,
 /obj/item/toy/plush/lizardplushie{
-	squeak_override = list('sound/items/bikehorn.ogg' = 1)
+	squeak_override = list('sound/items/bikehorn.ogg'=1)
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/cafeteria)
@@ -47704,7 +47772,7 @@ dmx
 dmx
 dmx
 dmx
-dmx
+lIn
 dmx
 dmx
 fXH
@@ -62358,7 +62426,7 @@ dmx
 yca
 dmx
 dmx
-dmx
+boQ
 dmx
 dmx
 dmx
@@ -66455,7 +66523,7 @@ jGa
 gsI
 ebk
 oCV
-jex
+pqD
 jgU
 txp
 mNB
@@ -70355,7 +70423,7 @@ fIm
 hAb
 rmW
 pAr
-qgc
+hll
 piL
 qhH
 quU
@@ -75214,7 +75282,7 @@ qOc
 kgh
 qOc
 dmF
-pQv
+cXI
 tnw
 pQv
 nGw
