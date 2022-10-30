@@ -704,7 +704,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 
 /mob/living/simple_animal/bot/proc/get_next_patrol_target()
 	// search the beacon list for the next target in the list.
-	for(var/obj/machinery/navbeacon/NB in get_overmap().beacons_in_ship) //NSV13 - Navbeacons are in the Overmap Ship - DIFFERENCE BETWEEN CODEBASE
+	for(var/obj/machinery/navbeacon/NB in get_overmap().beacons_in_ship) //NSV13 - Navbeacons are in the Overmap Ship
 		if(NB.codes["next_patrol"] != null) //NSV13
 			if(NB.location == next_destination) //Does the Beacon location text match the destination?
 				destination = new_destination //We now know the name of where we want to go.
@@ -714,7 +714,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 				return TRUE
 
 /mob/living/simple_animal/bot/proc/find_nearest_beacon()
-	for(var/obj/machinery/navbeacon/NB in get_overmap().beacons_in_ship) //NSV13 - Navbeacons are in the Overmap Ship - DIFFERENCE BETWEEN CODEBASE
+	for(var/obj/machinery/navbeacon/NB in get_overmap().beacons_in_ship) //NSV13 - Navbeacons are in the Overmap Ship
 		if(NB.codes["next_patrol"] != null) //NSV13
 			var/dist = get_dist(src, NB)
 			if(nearest_beacon) //Loop though the beacon net to find the true closest beacon.
