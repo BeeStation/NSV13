@@ -76,7 +76,7 @@
 	var/awaiting_beacon	= 0	// count of pticks awaiting a beacon response
 
 	var/turf/last_waypoint
-	var/bot_z_mode 	//SETTINGS: 10 = AI CALLED. 20 = PATROLLING. 30 = SOMEONE CALLED.
+	var/bot_z_mode //SETTINGS: 10 = AI CALLED. 20 = PATROLLING. 30 = SOMEONE CALLED.
 	var/turf/original_patrol
 	var/turf/last_summon
 
@@ -569,7 +569,6 @@ Pass a positive integer as an argument to override a bot's default speed.
 			call_bot_z_move(caller, waypoint)
 			return
 
-
 	set_path(get_path_to(src, waypoint, 200, id=all_access))
 
 	if(path && path.len) //Ensures that a valid path is calculated!
@@ -705,18 +704,17 @@ Pass a positive integer as an argument to override a bot's default speed.
 
 /mob/living/simple_animal/bot/proc/get_next_patrol_target()
 	// search the beacon list for the next target in the list.
-	for(var/Zlevel in SSmapping.levels_by_trait(ZTRAIT_STATION))
-		for(var/obj/machinery/navbeacon/NB in GLOB.navbeacons["[Zlevel]"])
-			if(NB.location == next_destination) //Does the Beacon location text match the destination?
-				destination = new_destination //We now know the name of where we want to go.
-				patrol_target = NB.loc //Get its location and set it as the target.
-				original_patrol = NB.loc // Original Patrol Destination
-				next_destination = NB.codes["next_patrol"] //Also get the name of the next beacon in line.
-				return TRUE
+	for(var/obj/machinery/navbeacon/NB in get_overmap().beacons_in_ship) //NSV13 - Navbeacons are in the Overmap Ship - DIFFERENCE BETWEEN CODEBASE
+		if(NB.location == next_destination) //Does the Beacon location text match the destination?
+			destination = new_destination //We now know the name of where we want to go.
+			patrol_target = NB.loc //Get its location and set it as the target.
+			original_patrol = NB.loc
+			next_destination = NB.codes["next_patrol"] //Also get the name of the next beacon in line.
+			return TRUE
 
 /mob/living/simple_animal/bot/proc/find_nearest_beacon()
-	for(var/Zlevel in SSmapping.levels_by_trait(ZTRAIT_STATION))
-		for(var/obj/machinery/navbeacon/NB in GLOB.navbeacons["[Zlevel]"])
+	for(var/obj/machinery/navbeacon/NB in get_overmap().beacons_in_ship) //NSV13 - Navbeacons are in the Overmap Ship - DIFFERENCE BETWEEN CODEBASE
+		if(NB.codes["next_patrol"] != null) //NSV13
 			var/dist = get_dist(src, NB)
 			if(nearest_beacon) //Loop though the beacon net to find the true closest beacon.
 				//Ignore the beacon if were are located on it.
@@ -729,6 +727,8 @@ Pass a positive integer as an argument to override a bot's default speed.
 			else if(dist > 1) //Begin the search, save this one for comparison on the next loop.
 				nearest_beacon = NB.location
 				nearest_beacon_loc = NB.loc
+		else //NSV13
+			continue //NSV13
 	patrol_target = nearest_beacon_loc
 	destination = nearest_beacon
 
@@ -1113,7 +1113,6 @@ Pass a positive integer as an argument to override a bot's default speed.
 
 /mob/living/simple_animal/bot/rust_heretic_act()
 	adjustBruteLoss(400)
-
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //Multi-Z Related section
