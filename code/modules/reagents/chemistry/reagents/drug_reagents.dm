@@ -34,7 +34,7 @@
 		M.hallucination += 5
 	..()
 /datum/reagent/drug/highjack //NSV13
-	name = "highjack"
+	name = "Highjack"
 	description = "Repairs brain damage in synthetics."
 	color = "#271509"
 	taste_description = "metallic"
@@ -50,7 +50,9 @@
 
 /datum/reagent/drug/highjack/overdose_process(mob/living/M)
 	var/obj/item/bodypart/head/head = M.get_bodypart("head")
-	head.dismember()
+	if(prob(30))
+		to_chat(M, "<span class='userdanger'>You feel really lightheaded...</span>")
+		head.dismember()
 
 
 /datum/reagent/drug/nicotine
