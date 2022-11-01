@@ -165,7 +165,7 @@ Returns a faction datum by its name (case insensitive!)
 <param></param>
 */
 
-/datum/controller/subsystem/star_system/proc/save(_destination_path = "config/starmap/starmap.json")
+/datum/controller/subsystem/star_system/proc/save(_destination_path = CONFIG_DIRECTORY + "/" + STARMAP_FILE) 
 	// No :)
 	_destination_path = SANITIZE_FILENAME(_destination_path)
 	var/list/directory = splittext(_destination_path, "/")
@@ -549,7 +549,7 @@ Returns a faction datum by its name (case insensitive!)
 	var/scanned = FALSE
 	var/specialist_research_type = null //Special techweb node unlocking.
 
-/obj/effect/overmap_anomaly/Initialize()
+/obj/effect/overmap_anomaly/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,
@@ -598,7 +598,7 @@ Returns a faction datum by its name (case insensitive!)
 	var/influence_range = 100
 	var/base_pull_strength = 0.10
 
-/obj/effect/overmap_anomaly/singularity/Initialize()
+/obj/effect/overmap_anomaly/singularity/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSfastprocess, src)
 
@@ -651,7 +651,7 @@ Returns a faction datum by its name (case insensitive!)
 		for(var/mob/M in OM.mobs_in_ship)
 			M?.client?.color = null
 
-/obj/effect/overmap_anomaly/wormhole/Initialize()
+/obj/effect/overmap_anomaly/wormhole/Initialize(mapload)
 	. = ..()
 	icon = pick('nsv13/goonstation/icons/effects/overmap_anomalies/tearhuge.dmi', 'nsv13/goonstation/icons/effects/overmap_anomalies/tearmed.dmi', 'nsv13/goonstation/icons/effects/overmap_anomalies/tearsmall.dmi')
 

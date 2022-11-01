@@ -32,14 +32,14 @@
 	individually_wrapped_presents.target = 3
 	individually_wrapped_presents.item_name = "any item"
 	individually_wrapped_presents.approve_inner_contents = TRUE
-	individually_wrapped_presents.require_loc = /obj/item/smallDelivery
+	individually_wrapped_presents.require_loc = /obj/item/small_delivery
 	individually_wrapped_presents.require_loc_name = "a wrapped parcel"
 
 	var/datum/freight_type/single/object/crate_with_presents = new /datum/freight_type/single/object( /obj )
 	crate_with_presents.target = 3
 	crate_with_presents.item_name = "any item"
 	crate_with_presents.approve_inner_contents = TRUE
-	crate_with_presents.require_loc = /obj/structure/bigDelivery
+	crate_with_presents.require_loc = /obj/structure/big_delivery
 	crate_with_presents.require_loc_name = "a wrapped crate"
 	// I hate social supplies i HATE SOCIAL SUPPLIES
 

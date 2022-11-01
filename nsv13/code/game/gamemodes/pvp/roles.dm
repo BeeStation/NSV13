@@ -128,7 +128,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /obj/item/card/id/syndi_crew/captain
 	name = "\improper Captain's ID"
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_LEADER, ACCESS_SYNDICATE_ENGINEERING, ACCESS_SYNDICATE_REQUISITIONS, ACCESS_SYNDICATE_MARINE_ARMOURY)
-	assignment = "Captain"
+	assignment = JOB_NAME_CAPTAIN
 
 /obj/item/card/id/syndi_crew/admiral
 	name = "\improper Strategist's ID"
@@ -155,7 +155,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 /obj/item/card/id/syndi_crew/pilot
 	name = "\improper Pilot's ID"
-	assignment = "Pilot"
+	assignment = JOB_NAME_PILOT
 
 /obj/item/card/id/syndi_crew/marine_sergeant
 	name = "\improper Marine Sergeant's ID"
@@ -167,7 +167,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 /obj/item/card/id/syndi_crew/marine
 	name = "\improper Marine's ID"
-	assignment = "Midshipman"
+	assignment = JOB_NAME_ASSISTANT
 
 //Syndicate crew outfits
 
@@ -268,7 +268,6 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	name = "Syndicate Requisitions Officer's Jacket"
 	desc = "A suit worn by the man who decides whether the ship has enough budget to buy another fighter because you exploded yours."
 	icon_state = "syndicate_requisitions"
-	item_color = "syndicate_requisitions"
 
 /datum/outfit/syndicate/no_crystals/syndi_crew/requisitions
 	name = "Syndicate requisitions officer"
@@ -422,12 +421,10 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /obj/item/clothing/suit/space/syndicate/odst/marine
 	icon_state = "syndiemarine"
 	item_state = "syndiemarine"
-	item_color = "syndiemarine"
 
 /obj/item/clothing/head/helmet/space/syndicate/odst/marine
 	icon_state = "syndiemarine"
 	item_state = "syndiemarine"
-	item_color = "syndiemarine"
 
 /datum/antagonist/nukeop/syndi_crew/marine
 	name = "Syndicate Marine"

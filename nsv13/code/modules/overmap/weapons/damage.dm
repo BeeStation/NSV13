@@ -54,7 +54,7 @@ Bullet reactions
 	proj.def_zone = "chest"
 	proj.original = pickedgoal
 	spawn()
-		proj.fire(Get_Angle(pickedstart,pickedgoal))
+		proj.fire(get_angle(pickedstart,pickedgoal))
 		proj.set_pixel_speed(4)
 
 /obj/structure/overmap/small_craft/relay_damage(proj_type)
@@ -242,7 +242,7 @@ Bullet reactions
 /obj/effect/temp_visual/explosion_telegraph/New(loc, damage_amount)
 	. = ..()
 
-/obj/effect/temp_visual/explosion_telegraph/Initialize()
+/obj/effect/temp_visual/explosion_telegraph/Initialize(mapload)
 	. = ..()
 	set_light(4)
 	for(var/mob/M in orange(src, 3))

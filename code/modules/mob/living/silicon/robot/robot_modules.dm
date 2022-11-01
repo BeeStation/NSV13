@@ -37,7 +37,7 @@
 	var/allow_riding = TRUE
 	var/canDispose = FALSE // Whether the borg can stuff itself into disposal
 
-/obj/item/robot_module/Initialize()
+/obj/item/robot_module/Initialize(mapload)
 	. = ..()
 	for(var/i in basic_modules)
 		var/obj/item/I = new i(src)
@@ -198,6 +198,7 @@
 	R.module = RM
 	R.update_module_innate()
 	RM.rebuild_modules()
+	R.set_modularInterface_theme()
 	INVOKE_ASYNC(RM, .proc/do_transform_animation)
 	qdel(src)
 	return RM
@@ -226,6 +227,7 @@
 	R.notransform = TRUE
 	R.SetLockdown(TRUE)
 	R.anchored = TRUE
+	R.logevent("Chassis configuration has been set to [name].")
 	sleep(1)
 	for(var/i in 1 to 4)
 		playsound(R, pick('sound/items/drill_use.ogg', 'sound/items/jaws_cut.ogg', 'sound/items/jaws_pry.ogg', 'sound/items/welder.ogg', 'sound/items/ratchet.ogg'), 80, 1, -1)
@@ -235,7 +237,7 @@
 	R.setDir(SOUTH)
 	R.anchored = FALSE
 	R.notransform = FALSE
-	R.update_headlamp()
+	R.update_icons()
 	R.notify_ai(NEW_MODULE)
 	if(R.hud_used)
 		R.hud_used.update_robot_modules_display()
@@ -452,7 +454,7 @@
 	You are not a security module and you are expected to follow orders and prevent harm above all else. Space law means nothing to you.</span>")
 
 /obj/item/robot_module/janitor
-	name = "Janitor"
+	name = JOB_NAME_JANITOR
 	basic_modules = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/screwdriver/cyborg,
@@ -469,7 +471,8 @@
 		/obj/item/lightreplacer/cyborg,
 		/obj/item/holosign_creator/janibarrier,
 		/obj/item/reagent_containers/spray/cyborg/drying_agent,
-		/obj/item/reagent_containers/spray/cyborg/plantbgone)
+		/obj/item/reagent_containers/spray/cyborg/plantbgone,
+		/obj/item/wirebrush)
 	emag_modules = list(
 		/obj/item/reagent_containers/spray/cyborg/lube,
 		/obj/item/reagent_containers/spray/cyborg/acid)
@@ -491,7 +494,7 @@
 			LR.Charge(R)
 
 /obj/item/robot_module/clown
-	name = "Clown"
+	name = JOB_NAME_CLOWN
 	basic_modules = list(
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/toy/crayon/rainbow,
@@ -729,7 +732,7 @@
 		/obj/item/stack/sheet/rglass/cyborg,
 		/obj/item/stack/rods/cyborg,
 		/obj/item/stack/tile/plasteel/cyborg,
-		/obj/item/destTagger/borg,
+		/obj/item/dest_tagger/borg,
 		/obj/item/stack/cable_coil/cyborg,
 		/obj/item/card/emag,
 		/obj/item/pinpointer/syndicate_cyborg,

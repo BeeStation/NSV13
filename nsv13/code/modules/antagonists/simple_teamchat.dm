@@ -192,7 +192,7 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 	//Precondition: Comms must be online.
 	for(var/obj/machinery/telecomms/B in GLOB.telecomms_list)
 		if(istype(B, /obj/machinery/telecomms/relay) || istype(B, /obj/machinery/telecomms/hub)  || istype(B, /obj/machinery/telecomms/server))
-			if(B.is_operational() && B.on)
+			if(B.is_operational && B.on)
 				if(istype(user) && B.z != user.z)
 					continue
 				ourBroadcaster = B

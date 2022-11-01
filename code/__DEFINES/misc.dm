@@ -1,14 +1,3 @@
-// Byond direction defines, because I want to put them somewhere.
-// #define NORTH 1
-// #define SOUTH 2
-// #define EAST 4
-// #define WEST 8
-
-#define TEXT_NORTH			"[NORTH]"
-#define TEXT_SOUTH			"[SOUTH]"
-#define TEXT_EAST			"[EAST]"
-#define TEXT_WEST			"[WEST]"
-
 //  The highest number of "for()" loop iterations before infinite loop detection triggers
 // +1 for "while()" loops, for some reason
 #define INFINITE_LOOP_DETECTION_THRESHOLD 1048574
@@ -40,7 +29,7 @@
 #define LEGCUFF_LAYER			7
 #define HANDS_LAYER				6
 #define BODY_FRONT_LAYER		5
-#define SMELL_LAYER				4
+#define SMELL_LAYER				4		//! NSV13 - kept hygiene, and everything above this is +1
 #define HALO_LAYER				3		//! blood cult ascended halo, because there's currently no better solution for adding/removing
 #define TYPING_LAYER			2
 #define FIRE_LAYER				1		//! If you're on fire
@@ -142,6 +131,7 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 
 //suit sensors: sensor_mode defines
 
+#define SENSOR_NOT_SET -1
 #define SENSOR_OFF 0
 #define SENSOR_LIVING 1
 #define SENSOR_VITALS 2
@@ -171,8 +161,6 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 #define POLLTYPE_RATING		"NUMVAL"
 #define POLLTYPE_MULTI		"MULTICHOICE"
 #define POLLTYPE_IRV		"IRV"
-
-
 
 //subtypesof(), typesof() without the parent path
 #define subtypesof(typepath) ( typesof(typepath) - typepath )
@@ -339,11 +327,6 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define BEAT_SLOW 2
 #define BEAT_NONE 0
 
-//https://secure.byond.com/docs/ref/info.html#/atom/var/mouse_opacity
-#define MOUSE_OPACITY_TRANSPARENT 0
-#define MOUSE_OPACITY_ICON 1
-#define MOUSE_OPACITY_OPAQUE 2
-
 //world/proc/shelleo
 #define SHELLEO_ERRORLEVEL 1
 #define SHELLEO_STDOUT 2
@@ -383,14 +366,6 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 //stack recipe placement check types
 #define STACK_CHECK_CARDINALS "cardinals" //! checks if there is an object of the result type in any of the cardinal directions
 #define STACK_CHECK_ADJACENT "adjacent" //! checks if there is an object of the result type within one tile
-
-//text files
-#define BRAIN_DAMAGE_FILE "traumas.json"
-#define ION_FILE "ion_laws.json"
-#define PIRATE_NAMES_FILE "pirates.json"
-#define REDPILL_FILE "redpill.json"
-#define WANTED_FILE "wanted_message.json"
-
 
 //Fullscreen overlay resolution in tiles.
 #define FULLSCREEN_OVERLAY_RESOLUTION_X 15
@@ -477,14 +452,22 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define FALL_NO_MESSAGE			(1<<1) //Used to suppress the "[A] falls through [old_turf]" messages where it'd make little sense at all, like going downstairs.
 #define FALL_STOP_INTERCEPTING	(1<<2) //Used in situations where halting the whole "intercept" loop would be better, like supermatter dusting (and thus deleting) the atom.
 
-//Gear purchase types
+//NSV13 - Gear purchase types
 #define GEAR_METACOIN 1
 #define GEAR_DONATOR  2
 //Religion
 
-#define HOLY_ROLE_PRIEST 1 //default priestly role
-#define HOLY_ROLE_HIGHPRIEST 2 //the one who designates the religion
+#define HOLY_ROLE_DEACON 1 //role below priests, for losing most powers of priests but still being holy.
+#define HOLY_ROLE_PRIEST 2 //default priestly role
+#define HOLY_ROLE_HIGHPRIEST 3 //the one who designates the religion
 
 #define ALIGNMENT_GOOD "good"
 #define ALIGNMENT_NEUT "neutral"
 #define ALIGNMENT_EVIL "evil"
+
+///List of monkey_icons for clothing
+GLOBAL_LIST_EMPTY(monkey_icon_cache)
+
+// Pirates threat
+#define PIRATE_RESPONSE_NO_PAY "pirate_answer_no_pay"
+#define PIRATE_RESPONSE_PAY "pirate_answer_pay"
