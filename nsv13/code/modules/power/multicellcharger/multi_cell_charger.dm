@@ -53,7 +53,7 @@
 
 /obj/machinery/cell_charger_multi/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/stock_parts/cell) && !panel_open)
-		if(stat & BROKEN)
+		if(machine_stat & BROKEN)
 			to_chat(user, "<span class='warning'>[src] is broken!</span>")
 		if(!anchored)
 			to_chat(user, "<span class='warning'>[src] isn't attached to the ground!</span>")
@@ -84,7 +84,7 @@
 		return ..()
 
 /obj/machinery/cell_charger_multi/process(delta_time)
-	if(!charging_batteries.len || !anchored || (stat & (BROKEN|NOPOWER)))
+	if(!charging_batteries.len || !anchored || (machine_stat & (BROKEN|NOPOWER)))
 		return
 
 	for(var/obj/item/stock_parts/cell/charging in charging_batteries)

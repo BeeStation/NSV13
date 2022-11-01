@@ -274,7 +274,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/weapon_overlay/laser/do_animation()
 	flick("laser",src)
 
-/obj/structure/overmap/Initialize()	//If I see one more Destroy() or Initialize() split into multiple files I'm going to lose my mind.
+/obj/structure/overmap/Initialize(mapload)	//If I see one more Destroy() or Initialize() split into multiple files I'm going to lose my mind.
 	. = ..()
 	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
 	pixel_collision_size_x = I.Width()

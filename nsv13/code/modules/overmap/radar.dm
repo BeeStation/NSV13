@@ -130,7 +130,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	var/obj/machinery/ship_weapon/torpedo_launcher/cargo/linked_launcher = null
 	var/dradis_id = null
 
-/obj/machinery/computer/ship/dradis/minor/cargo/Initialize()
+/obj/machinery/computer/ship/dradis/minor/cargo/Initialize(mapload)
 	. = ..()
 	var/obj/item/paper/paper = new /obj/item/paper(get_turf(src))
 	paper.info = ""

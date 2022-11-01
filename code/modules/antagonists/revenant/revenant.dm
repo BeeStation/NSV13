@@ -4,7 +4,6 @@
 //Admin-spawn or random event
 
 #define INVISIBILITY_REVENANT 50
-#define REVENANT_NAME_FILE "revenant_names.json"
 
 /mob/living/simple_animal/revenant
 	name = "revenant"
@@ -72,6 +71,7 @@
 /mob/living/simple_animal/revenant/Initialize(mapload)
 	. = ..()
 	AddSpell(new /obj/effect/proc_holder/spell/targeted/night_vision/revenant(null))
+	AddSpell(new /obj/effect/proc_holder/spell/self/revenant_phase_shift(null))
 	AddSpell(new /obj/effect/proc_holder/spell/targeted/telepathy/revenant(null))
 	AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/revenant/defile(null))
 	AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/revenant/overload(null))
@@ -163,6 +163,10 @@
 /mob/living/simple_animal/revenant/say(message, bubble_type, var/list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
 	if(!message)
 		return
+	if(CHAT_FILTER_CHECK(message))
+		to_chat(usr, "<span class='warning'>Your message contains forbidden words.</span>")
+		return
+	message = treat_message_min(message)
 	src.log_talk(message, LOG_SAY)
 	var/rendered = "<span class='revennotice'><b>[src]</b> says, \"[message]\"</span>"
 	for(var/mob/M in GLOB.mob_list)
@@ -192,6 +196,9 @@
 	if(!revealed || stasis)
 		return BULLET_ACT_FORCE_PIERCE
 	return ..()
+
+/mob/living/simple_animal/revenant/rad_act(amount)
+	return
 
 //damage, gibbing, and dying
 /mob/living/simple_animal/revenant/attackby(obj/item/W, mob/living/user, params)
@@ -250,6 +257,24 @@
 
 
 //reveal, stun, icon updates, cast checks, and essence changing
+/mob/living/simple_animal/revenant/proc/phase_shift()
+	if(unreveal_time) //An ability has forced the revenant to be vulnerable and this should not override that
+		to_chat(src, "<span class='revenwarning'>You cannot become incorporeal yet!</span>")
+		return FALSE
+
+	else if(revealed) //Okay, the revenant wasn't forced to be revealed, are they currently vulnerable
+		revealed = FALSE
+		incorporeal_move = INCORPOREAL_MOVE_JAUNT
+		invisibility = INVISIBILITY_REVENANT
+
+
+	else //Revenant isn't revealed, whether by force or their own will, so this means they are currently invisible
+		revealed = TRUE
+		incorporeal_move = FALSE
+		invisibility = 0
+	update_spooky_icon()
+	return TRUE
+
 /mob/living/simple_animal/revenant/proc/reveal(time)
 	if(!src)
 		return
@@ -362,7 +387,7 @@
 	var/old_key //key of the previous revenant, will have first pick on reform.
 	var/mob/living/simple_animal/revenant/revenant
 
-/obj/item/ectoplasm/revenant/Initialize()
+/obj/item/ectoplasm/revenant/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, .proc/try_reform), 600)
 
@@ -461,13 +486,13 @@
 
 /datum/objective/revenant/check_completion()
 	if(!isrevenant(owner.current))
-		return FALSE
+		return ..()
 	var/mob/living/simple_animal/revenant/R = owner.current
 	if(!R || R.stat == DEAD)
-		return FALSE
+		return ..()
 	var/essence_stolen = R.essence_accumulated
 	if(essence_stolen < targetAmount)
-		return FALSE
+		return ..()
 	return TRUE
 
 /datum/objective/revenantFluff

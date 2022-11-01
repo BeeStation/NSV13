@@ -27,20 +27,20 @@
 	if(OM && istype(OM) && !(SSmapping.level_trait(OM.z, ZTRAIT_OVERMAP)))
 		OM.exit(AM)
 
-/obj/structure/chair/comfy/dropship
+/obj/structure/chair/fancy/dropship
 	name = "acceleration chair"
 	desc = "A seat which clamps down onto its occupant to keep them safe during flight."
 	icon = 'nsv13/icons/obj/chairs.dmi'
 	icon_state = "shuttle_chair"
 
-/obj/structure/chair/comfy/dropship/Initialize()
+/obj/structure/chair/fancy/dropship/Initialize(mapload)
 	. = ..()
 	update_armrest()
 
-/obj/structure/chair/comfy/dropship/GetArmrest()
+/obj/structure/chair/fancy/dropship/GetArmrest()
 	return mutable_appearance('nsv13/icons/obj/chairs.dmi', "[initial(icon_state)]_[has_buckled_mobs() ? "closed" : "open"]")
 
-/obj/structure/chair/comfy/dropship/update_armrest()
+/obj/structure/chair/fancy/dropship/update_armrest()
 	cut_overlay(armrest)
 	QDEL_NULL(armrest)
 	armrest = GetArmrest()
