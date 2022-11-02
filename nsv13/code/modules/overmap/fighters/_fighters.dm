@@ -877,7 +877,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 /obj/item/fighter_component/proc/get_max_ammo()
 	return FALSE
 
-/obj/item/fighter_component/Initialize()
+/obj/item/fighter_component/Initialize(mapload)
 	.=..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE) //These all require two hands to pick up
 
@@ -1153,7 +1153,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	var/fuel_capacity = 1000
 	slot = HARDPOINT_SLOT_FUEL
 
-/obj/item/fighter_component/fuel_tank/Initialize()
+/obj/item/fighter_component/fuel_tank/Initialize(mapload)
 	. = ..()
 	create_reagents(fuel_capacity, DRAINABLE | AMOUNT_VISIBLE)
 	reagents.chem_temp = 40

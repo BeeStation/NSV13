@@ -193,10 +193,10 @@
 	build_path = /obj/item/circuit_component/trig/hyper_trig
 	category = list(WIREMOD_CIRCUITRY, WIREMOD_MATH_COMPONENTS)
 
-/datum/design/component/typecheck
-	name = "Typecheck Component"
-	id = "comp_typecheck"
-	build_path = /obj/item/circuit_component/compare/typecheck
+/datum/design/component/typecast
+	name = "Typecast Component"
+	id = "comp_typecast"
+	build_path = /obj/item/circuit_component/compare/typecast
 	category = list(WIREMOD_CIRCUITRY, WIREMOD_LOGIC_COMPONENTS)
 
 /datum/design/component/concat
@@ -387,5 +387,17 @@
 		/datum/material/iron = 15000,
 	)
 	build_path = /obj/item/shell/airlock
+	build_type = PROTOLATHE | COMPONENT_PRINTER
+	category = list(WIREMOD_CIRCUITRY, WIREMOD_SHELLS)
+
+/datum/design/assembly_shell
+	name = "Modular Assembly Shell"
+	desc = "A shell that functions as an assembly."
+	id = "assembly_shell"
+	materials = list(
+		/datum/material/glass = 2000,
+		/datum/material/iron = 5000,
+	)
+	build_path = /obj/item/assembly/modular
 	build_type = PROTOLATHE | COMPONENT_PRINTER
 	category = list(WIREMOD_CIRCUITRY, WIREMOD_SHELLS)

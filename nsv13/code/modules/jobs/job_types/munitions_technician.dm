@@ -1,7 +1,7 @@
 /datum/job/munitions_tech
-	title = "Munitions Technician"
+	title = JOB_NAME_MUNITIONSTECHNICIAN
 	flag = MUNITIONS_TECHNICIAN
-	department_head = list("Master At Arms")
+	department_head = list(JOB_NAME_MASTERATARMS)
 	department_flag = ENGSEC
 	faction = "Station"
 	total_positions = 8
@@ -19,10 +19,15 @@
 	paycheck_department = ACCOUNT_MUN
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 	display_order = JOB_DISPLAY_ORDER_MUNITIONS_TECHNICIAN
-	departments = DEPARTMENT_MUNITIONS
+	departments = DEPARTMENT_BITFLAG_MUNITIONS
+	rpg_title = "Combustion Journeyman"
+
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman
+	)
 
 /datum/outfit/job/munitions_tech
-	name = "Munitions Technician"
+	name = JOB_NAME_MUNITIONSTECHNICIAN
 	jobtype = /datum/job/munitions_tech
 
 	belt = /obj/item/storage/belt/utility/full/engi
@@ -31,6 +36,7 @@
 	suit = /obj/item/clothing/suit/ship/munitions_jacket
 	head = /obj/item/clothing/head/helmet/decktech
 	gloves = /obj/item/clothing/gloves/color/brown
+	id = /obj/item/card/id/job/munitions_technician
 	l_pocket = /obj/item/pda
 
 	backpack = /obj/item/storage/backpack/munitions
@@ -38,5 +44,5 @@
 	duffelbag = /obj/item/storage/backpack/duffelbag/munitions
 
 /obj/effect/landmark/start/munitions_tech
-	name = "Munitions Technician"
+	name = JOB_NAME_MUNITIONSTECHNICIAN
 	icon_state = "Munitions Technician"

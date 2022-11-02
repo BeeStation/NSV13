@@ -96,7 +96,7 @@
 	update_icon()
 	update_overlay()
 
-/obj/structure/peacekeeper_barricade/Initialize()
+/obj/structure/peacekeeper_barricade/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_EXIT = .proc/on_exit,

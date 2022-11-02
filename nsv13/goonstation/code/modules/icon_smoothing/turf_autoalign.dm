@@ -8,7 +8,7 @@
 /atom
 	var/smoothing_d_state = 0 //Smoothing stuff
 
-/turf/closed/wall/ship/Initialize()
+/turf/closed/wall/ship/Initialize(mapload)
 	. = ..()
 	if(connect_universally)
 		canSmoothWith += typecacheof(/turf/closed/wall/ship)

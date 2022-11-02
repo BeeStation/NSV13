@@ -98,7 +98,7 @@
 		style = customStyle
 	setStyle(style) //Upon initialization, give the supplypod an iconstate, name, and description based on the "style" variable. This system is important for the centcom_podlauncher to function correctly
 
-/obj/structure/closet/supplypod/extractionpod/Initialize()
+/obj/structure/closet/supplypod/extractionpod/Initialize(mapload)
 	. = ..()
 	var/turf/picked_turf = pick(GLOB.holdingfacility)
 	reverse_dropoff_coords = list(picked_turf.x, picked_turf.y, picked_turf.z)
@@ -613,7 +613,7 @@
 	var/angle = effectCircle ? rand(0,360) : rand(70,110) //The angle that we can come in from
 	pod.pixel_x = cos(angle)*32*length(smoke_effects) //Use some ADVANCED MATHEMATICS to set the animated pod's position to somewhere on the edge of a circle with the center being the target
 	pod.pixel_z = sin(angle)*32*length(smoke_effects)
-	var/rotation = Get_Pixel_Angle(pod.pixel_z, pod.pixel_x) //CUSTOM HOMEBREWED proc that is just arctan with extra steps
+	var/rotation = get_pixel_angle(pod.pixel_z, pod.pixel_x) //CUSTOM HOMEBREWED proc that is just arctan with extra steps
 	setupSmoke(rotation)
 	pod.transform = matrix().Turn(rotation)
 	pod.layer = FLY_LAYER

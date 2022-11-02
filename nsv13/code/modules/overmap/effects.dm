@@ -5,7 +5,7 @@
 	icon_state = "explosion"
 	duration = 2 SECONDS
 
-/obj/effect/temp_visual/impact_effect/torpedo/Initialize()
+/obj/effect/temp_visual/impact_effect/torpedo/Initialize(mapload)
 	icon_state = pick("explosion", "explosion2")
 	. = ..()
 

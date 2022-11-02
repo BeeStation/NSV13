@@ -25,7 +25,7 @@
 	var/serial_number = 1 //Fluff. Gives it a "rare" collector's feel
 	var/max_serial_number = 20
 
-/obj/item/melee/classic_baton/telescopic/stunsword/Initialize()
+/obj/item/melee/classic_baton/telescopic/stunsword/Initialize(mapload)
 	. = ..()
 	serial_number = rand(1,max_serial_number)
 
