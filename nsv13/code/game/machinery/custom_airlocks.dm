@@ -25,7 +25,7 @@
 	glass_type = /obj/machinery/door/airlock/ship/glass
 	airlock_type = /obj/machinery/door/airlock/ship
 
-/obj/machinery/door/airlock/ship/Initialize()
+/obj/machinery/door/airlock/ship/Initialize(mapload)
 	. = ..()
 	set_smooth_dir()
 	if((dir != NORTH) && (dir != SOUTH))
@@ -233,7 +233,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 	anim_parts = "left=-10,0;right=10,0"
 	assemblytype = /obj/structure/door_assembly/ship/highsecurity
 
-/obj/machinery/door/airlock/highsecurity/ship/Initialize()
+/obj/machinery/door/airlock/highsecurity/ship/Initialize(mapload)
 	. = ..()
 	set_smooth_dir()
 	if((dir != NORTH) && (dir != SOUTH))
@@ -265,7 +265,7 @@ odir = EAST / WEST. We need it to face forwards so you can get through
 	anim_parts = "left=-10,0;right=10,0"
 	assemblytype = /obj/structure/door_assembly/ship/vault
 
-/obj/machinery/door/airlock/vault/ship/Initialize()
+/obj/machinery/door/airlock/vault/ship/Initialize(mapload)
 	. = ..()
 	set_smooth_dir()
 	if((dir != NORTH) && (dir != SOUTH))

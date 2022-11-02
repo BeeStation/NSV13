@@ -7,7 +7,7 @@
 	light_color = LIGHT_COLOR_CYAN
 	color = "#ff9eff"
 
-/obj/effect/decal/nuclear_waste/Initialize()
+/obj/effect/decal/nuclear_waste/Initialize(mapload)
 	. = ..()
 	set_light(3)
 
@@ -43,6 +43,6 @@
 	name = "dense nuclear sludge"
 
 
-/obj/effect/decal/nuclear_waste/epicenter/Initialize()
+/obj/effect/decal/nuclear_waste/epicenter/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/radioactive, 1500, src, 0)

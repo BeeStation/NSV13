@@ -5,7 +5,7 @@
 	antag_flag = ROLE_BLOODLING
 	false_report_weight = 10
 	restricted_jobs = list("AI", "Cyborg")
-	protected_jobs = list("Military Police", "Warden", "Detective", "Head of Security", "Captain", "Brig Physician")
+	protected_jobs = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN, JOB_NAME_BRIGPHYSICIAN)
 	required_players = 20
 	required_enemies = 2 //Requires at LEAST 1 to play the master. Anything over 1 means how many thralls it should start with.
 	recommended_enemies = 2
