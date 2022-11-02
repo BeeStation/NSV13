@@ -102,7 +102,7 @@
 		"insect_type" = pick(GLOB.insect_type_list),
 		"flavour_text" = ""
 		)
-	)
+	) //NSV13 - ADD FLAVOR TEXT
 
 /proc/random_hair_style(gender)
 	switch(gender)
