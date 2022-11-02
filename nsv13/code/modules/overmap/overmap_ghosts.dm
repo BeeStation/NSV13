@@ -34,7 +34,7 @@
 /obj/structure/overmap/proc/ghost_ship(mob/target)
 	if(!target)
 		return
-	
+
 	//Prevent the mainship being skeleton crewed
 	if(src.role == MAIN_OVERMAP)
 		message_admins("[src] is the main overmap and cannot be ghost controlled! Take manual control via the Z-level")
@@ -73,6 +73,12 @@
 	ghost.hud_type = /datum/hud //Mostly blank hud
 	ghost.key = target.key
 
+	//Allows player to hear hails
+	mobs_in_ship += ghost
+
+	//Make sure the ship doesn't enter countdown
+	overmap_deletion_traits = DAMAGE_ALWAYS_DELETES
+	
 	//Add some verbs
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/show_dradis, .verb/show_tactical, .verb/toggle_move_mode, .verb/cycle_firemode)
 

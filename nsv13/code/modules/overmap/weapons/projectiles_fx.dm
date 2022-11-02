@@ -52,7 +52,7 @@ Misc projectile types, effects, think of this as the special FX file.
 			projectile_piercing = base_piercing_type
 	. = ..()
 
-/obj/item/projectile/bullet/mac_round/Initialize()
+/obj/item/projectile/bullet/mac_round/Initialize(mapload)
 	. = ..()
 	base_piercing_type = projectile_piercing
 	if(homing_benefit_time)
@@ -428,7 +428,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "torpedo_dud"
 	damage = 0
 
-/obj/item/projectile/guided_munition/Initialize()
+/obj/item/projectile/guided_munition/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, .proc/windup), 1 SECONDS)
 

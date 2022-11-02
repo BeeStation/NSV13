@@ -195,7 +195,7 @@
 	desc = "Corporate approved aftermarket shipyard."
 	shortname = "MHE"
 	faction_type = FACTION_ID_NT
-	sold_items = list(/datum/trader_item/ship_repair/tier2, /datum/trader_item/flak,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/fighter/judgement, /datum/trader_item/fighter/prototype)
+	sold_items = list(/datum/trader_item/ship_repair/tier2, /datum/trader_item/flak,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/fighter/judgement, /datum/trader_item/fighter/prototype, /datum/trader_item/railgun_disk)
 	station_type = /obj/structure/overmap/trader/shipyard
 
 // HIM

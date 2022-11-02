@@ -4,7 +4,7 @@
 	icon_state = "datadisk2"
 	max_blueprints = 1
 
-/obj/item/disk/design_disk/deck_gun_autoelevator/Initialize()
+/obj/item/disk/design_disk/deck_gun_autoelevator/Initialize(mapload)
 	. = ..()
 	blueprints[1] = new /datum/design/board/deck_gun_autoelevator
 
@@ -14,6 +14,6 @@
 	icon_state = "datadisk0"
 	max_blueprints = 1
 
-/obj/item/disk/design_disk/deck_gun_autorepair/Initialize()
+/obj/item/disk/design_disk/deck_gun_autorepair/Initialize(mapload)
 	. = ..()
 	blueprints[1] = new /datum/design/board/deck_gun_autorepair

@@ -47,15 +47,17 @@
 	for(var/path in subtypesof(/datum/surgery))
 		GLOB.surgeries_list += new path()
 	sortList(GLOB.surgeries_list)
-
 	GLOB.emote_list = init_emote_list()
 
-
+	// Hair Gradients - Initialise all /datum/sprite_accessory/hair_gradient into an list indexed by gradient-style name
+	for(var/path in subtypesof(/datum/sprite_accessory/hair_gradient))
+		var/datum/sprite_accessory/hair_gradient/H = new path()
+		GLOB.hair_gradients_list[H.name] = H
 
 	// Keybindings
 	for(var/KB in subtypesof(/datum/keybinding))
 		var/datum/keybinding/keybinding = KB
-		if(!initial(keybinding.key))
+		if(!initial(keybinding.key) || !initial(keybinding.keybind_signal))
 			continue
 		var/datum/keybinding/instance = new keybinding
 		GLOB.keybindings_by_name[initial(instance.name)] = instance
@@ -86,3 +88,47 @@
 		for(var/path in subtypesof(prototype))
 			L+= path
 		return L
+
+/*
+Checks if that loc and dir has an item on the wall
+*/
+// Wall mounted machinery which are visually on the wall.
+GLOBAL_LIST_INIT(WALLITEMS_INTERIOR, typecacheof(list(
+	/obj/machinery/power/apc,
+	/obj/machinery/airalarm,
+	/obj/item/radio/intercom,
+	/obj/structure/extinguisher_cabinet,
+	/obj/structure/reagent_dispensers/peppertank,
+	/obj/machinery/status_display,
+	/obj/machinery/requests_console,
+	/obj/machinery/light_switch,
+	/obj/structure/sign,
+	/obj/machinery/newscaster,
+	/obj/machinery/firealarm,
+	/obj/structure/noticeboard,
+	/obj/machinery/button,
+	/obj/machinery/computer/security/telescreen,
+	/obj/machinery/embedded_controller/radio/simple_vent_controller,
+	/obj/item/storage/secure/safe,
+	/obj/machinery/door_timer,
+	/obj/machinery/flasher,
+	/obj/machinery/keycard_auth,
+	/obj/structure/mirror,
+	/obj/structure/fireaxecabinet,
+	/obj/machinery/computer/security/telescreen/entertainment,
+	/obj/structure/sign/picture_frame
+	)))
+
+// Wall mounted machinery which are visually coming out of the wall.
+// These do not conflict with machinery which are visually placed on the wall.
+GLOBAL_LIST_INIT(WALLITEMS_EXTERIOR, typecacheof(list(
+	/obj/machinery/camera,
+	/obj/structure/camera_assembly,
+	/obj/structure/light_construct,
+	/obj/machinery/light
+	)))
+
+GLOBAL_LIST_INIT(WALLITEMS_INVERSE, typecacheof(list(
+	/obj/structure/light_construct,
+	/obj/machinery/light
+	)))

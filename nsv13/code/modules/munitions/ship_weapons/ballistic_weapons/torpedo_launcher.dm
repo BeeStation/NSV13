@@ -38,7 +38,7 @@
 	pixel_y = -74
 	bound_x = -64
 
-/obj/machinery/ship_weapon/torpedo_launcher/Initialize()
+/obj/machinery/ship_weapon/torpedo_launcher/Initialize(mapload)
 	..()
 	component_parts = list()
 	component_parts += new/obj/item/ship_weapon/parts/firing_electronics
