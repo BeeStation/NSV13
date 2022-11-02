@@ -1,14 +1,13 @@
 /datum/job/curator
-	title = "Curator"
+	title = JOB_NAME_CURATOR
 	flag = CURATOR
-	department_head = list("Executive Officer")
+	department_head = list(JOB_NAME_HEADOFPERSONNEL)
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	supervisors = "the Executive Officer"
+	supervisors = "the " + JOB_NAME_HEADOFPERSONNEL //NSV13
 	selection_color = "#dddddd"
-	chat_color = "#88c999"
 
 	outfit = /datum/outfit/job/curator
 
@@ -18,15 +17,20 @@
 	paycheck_department = ACCOUNT_CIV
 
 	display_order = JOB_DISPLAY_ORDER_CURATOR
-	departments = DEPARTMENT_SERVICE
+	departments = DEPARTMENT_BITFLAG_SERVICE
+	rpg_title = "Veteran Adventurer"
 
 	species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/curator
 	)
+	//they doesnt get out that much
+	biohazard = 5
+
 /datum/outfit/job/curator
-	name = "Curator"
+	name = JOB_NAME_CURATOR
 	jobtype = /datum/job/curator
 
+	id = /obj/item/card/id/job/curator
 	shoes = /obj/item/clothing/shoes/laceup
 	belt = /obj/item/pda/curator
 	ears = /obj/item/radio/headset/headset_curator

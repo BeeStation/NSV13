@@ -35,7 +35,7 @@ GLOBAL_LIST_EMPTY(inertia_dampeners)
 	var/strengthMultiplier = 1
 	var/maxRange = 10
 
-/obj/machinery/inertial_dampener/Initialize()
+/obj/machinery/inertial_dampener/Initialize(mapload)
 	. = ..()
 	GLOB.inertia_dampeners += src
 	RefreshParts()
@@ -73,9 +73,9 @@ GLOBAL_LIST_EMPTY(inertia_dampeners)
 	var/turf/T = get_turf(src)
 	C = T.get_cable_node()
 	if ( C?.surplus() > power_input )
-		. += "<span class='notice'>Its LED display states: [DisplayPower(power_input)]</span>"
+		. += "<span class='notice'>Its LED display states: [display_power(power_input)]</span>"
 	else
-		. += "<span class='warning'>Its LED display flashes: [DisplayPower(power_input)]</span>"
+		. += "<span class='warning'>Its LED display flashes: [display_power(power_input)]</span>"
 
 /obj/machinery/inertial_dampener/emag_act(mob/user)
 	if ( !emagged )
@@ -95,7 +95,7 @@ GLOBAL_LIST_EMPTY(inertia_dampeners)
 	data["max_range"] = EfficiencyToRange(max_scanner_rating)
 	data["min_range"] = EfficiencyToRange(min_scanner_rating)
 	data["range"] = EfficiencyToRange(scanner_setting)
-	data["power_usage"] = DisplayPower(power_input)
+	data["power_usage"] = display_power(power_input)
 	data["on"] = on
 	return data
 

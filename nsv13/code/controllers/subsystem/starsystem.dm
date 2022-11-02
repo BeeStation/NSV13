@@ -17,7 +17,7 @@ SUBSYSTEM_DEF(star_system)
 	var/list/traders = list()
 	var/bounty_pool = 0 //Bounties pool to be delivered for destroying syndicate ships
 	var/list/enemy_types = list()
-	var/list/enemy_blacklist = list(/obj/structure/overmap/syndicate/ai/fistofsol)
+	var/list/enemy_blacklist = list(/obj/structure/overmap/syndicate/ai/fistofsol, /obj/structure/overmap/syndicate/ai/battleship)
 	var/list/ships = list() //2-d array. Format: list("ship" = ship, "x" = 0, "y" = 0, "current_system" = null, "target_system" = null, "transit_time" = 0)
 	//Starmap 2
 	var/list/factions = list() //List of all factions in play on this starmap, instantiated on init.
@@ -165,7 +165,7 @@ Returns a faction datum by its name (case insensitive!)
 <param></param>
 */
 
-/datum/controller/subsystem/star_system/proc/save(_destination_path = "config/starmap/starmap.json")
+/datum/controller/subsystem/star_system/proc/save(_destination_path = CONFIG_DIRECTORY + "/" + STARMAP_FILE) 
 	// No :)
 	_destination_path = SANITIZE_FILENAME(_destination_path)
 	var/list/directory = splittext(_destination_path, "/")
@@ -549,7 +549,7 @@ Returns a faction datum by its name (case insensitive!)
 	var/scanned = FALSE
 	var/specialist_research_type = null //Special techweb node unlocking.
 
-/obj/effect/overmap_anomaly/Initialize()
+/obj/effect/overmap_anomaly/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,
@@ -598,7 +598,7 @@ Returns a faction datum by its name (case insensitive!)
 	var/influence_range = 100
 	var/base_pull_strength = 0.10
 
-/obj/effect/overmap_anomaly/singularity/Initialize()
+/obj/effect/overmap_anomaly/singularity/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSfastprocess, src)
 
@@ -651,7 +651,7 @@ Returns a faction datum by its name (case insensitive!)
 		for(var/mob/M in OM.mobs_in_ship)
 			M?.client?.color = null
 
-/obj/effect/overmap_anomaly/wormhole/Initialize()
+/obj/effect/overmap_anomaly/wormhole/Initialize(mapload)
 	. = ..()
 	icon = pick('nsv13/goonstation/icons/effects/overmap_anomalies/tearhuge.dmi', 'nsv13/goonstation/icons/effects/overmap_anomalies/tearmed.dmi', 'nsv13/goonstation/icons/effects/overmap_anomalies/tearsmall.dmi')
 
