@@ -58,7 +58,7 @@
 /obj/machinery/fax/Initialize(mapload)
 	. = ..()
 	if(!fax_id)
-		fax_id = SSnetworks.make_address()
+		fax_id = SSnetworks.assign_random_name()
 	if(!fax_name)
 		fax_name = "Unregistered fax " + fax_id
 	wires = new /datum/wires/fax(src)
@@ -88,7 +88,7 @@
 		seconds_electrified -= delta_time
 
 /obj/machinery/fax/attack_hand(mob/user)
-	if(seconds_electrified && !(stat & NOPOWER))
+	if(seconds_electrified && !(machine_stat & NOPOWER))
 		if(shock(user, 100))
 			return
 	return ..()
@@ -480,7 +480,7 @@
  * * chance - probability the shock happens
  */
 /obj/machinery/fax/proc/shock(mob/living/user, chance)
-	if(!istype(user) || stat & (BROKEN|NOPOWER))
+	if(!istype(user) || machine_stat & (BROKEN|NOPOWER))
 		return FALSE
 	if(!prob(chance))
 		return FALSE
