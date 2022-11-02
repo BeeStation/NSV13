@@ -53,7 +53,7 @@
 	description = "<span class='warning'>The stench of rotting carcasses is unbearable!</span>\n"
 	mood_change = -12
 
-//Hygiene Events
+//NSV13 - Hygiene Events
 /datum/mood_event/neat
 	description = "<span class='nicegreen'>I'm so clean, I love it.</span>\n"
 	mood_change = 3

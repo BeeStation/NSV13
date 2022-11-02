@@ -192,7 +192,7 @@
 /obj/item/projectile/guided_munition/torpedo/post/proc/foo()
 	new /mob/living/carbon/human(src)
 	for(var/obj/structure/overmap/OM in orange(5, src))
-		var/angle = Get_Angle(src, OM)
+		var/angle = get_angle(src, OM)
 		setup_collider()
 		fire(angle)
 

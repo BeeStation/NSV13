@@ -1,8 +1,8 @@
-/datum/job/hop
-	title = "Executive Officer"
+/datum/job/head_of_personnel
+	title = JOB_NAME_HEADOFPERSONNEL
 	flag = HOP
 	auto_deadmin_role_flags = DEADMIN_POSITION_HEAD
-	department_head = list("Captain")
+	department_head = list(JOB_NAME_CAPTAIN)
 	department_flag = CIVILIAN
 	head_announce = list(RADIO_CHANNEL_SUPPLY, RADIO_CHANNEL_SERVICE)
 	faction = "Station"
@@ -10,14 +10,13 @@
 	spawn_positions = 1
 	supervisors = "the captain"
 	selection_color = "#ddddff"
-	chat_color = "#7979d3"
 	req_admin_notify = 1
 	minimal_player_age = 10
 	exp_requirements = 1200 //NSV START - Due to how critical this job is on NSV, this is an unfortunate but necessary change.
 	exp_type = EXP_TYPE_CREW
 	exp_type_department = EXP_TYPE_CREW //NSV END
 
-	outfit = /datum/outfit/job/hop
+	outfit = /datum/outfit/job/head_of_personnel
 
 	access = list(ACCESS_SEC_DOORS, ACCESS_COURT, ACCESS_WEAPONS,
 			            ACCESS_MEDICAL, ACCESS_ENGINE, ACCESS_CHANGE_IDS, ACCESS_AI_UPLOAD, ACCESS_EVA, ACCESS_HEADS,
@@ -37,25 +36,28 @@
 	paycheck_department = ACCOUNT_SRV
 
 	display_order = JOB_DISPLAY_ORDER_HEAD_OF_PERSONNEL
-	departments = DEPARTMENT_COMMAND | DEPARTMENT_SERVICE
+	departments = DEPARTMENT_BITFLAG_COMMAND | DEPARTMENT_BITFLAG_SERVICE
+	rpg_title = "Guild Questgiver"
 
 	species_outfits = list(
-		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/hop
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/head_of_personnel
 	)
 
-/datum/outfit/job/hop
-	name = "Executive Officer"
-	jobtype = /datum/job/hop
+/datum/outfit/job/head_of_personnel
+	name = JOB_NAME_HEADOFPERSONNEL
+	jobtype = /datum/job/head_of_personnel
 
-	id = /obj/item/card/id/silver
+	id = /obj/item/card/id/job/head_of_personnel
+	r_pocket = /obj/item/pda/heads/head_of_personnel
 	belt = /obj/item/melee/classic_baton/telescopic/stunsword
 	ears = /obj/item/radio/headset/heads/xo //NSV13 - update to XO
 	uniform = /obj/item/clothing/under/ship/officer
-	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/ship/officer
+	shoes = /obj/item/clothing/shoes/sneakers/brown
 	head = /obj/item/clothing/head/beret/ship/xo //NSV13 - update to XO
-	l_pocket = /obj/item/pda/heads/hop
-	backpack_contents = list(/obj/item/storage/box/ids=1, /obj/item/storage/box/squad_lanyards=1,\
-		/obj/item/melee/classic_baton/police/telescopic=1, /obj/item/modular_computer/tablet/preset/advanced = 1, /obj/item/squad_pager/all_channels=1)
+	backpack_contents = list(/obj/item/storage/box/ids=1,
+		/obj/item/melee/classic_baton/police/telescopic=1,
+		/obj/item/modular_computer/tablet/preset/advanced/command=1,
+		/obj/item/squad_pager/all_channels=1, /obj/item/storage/box/squad_lanyards=1) // NSV13 - added squad lanyards and pager
 
-	chameleon_extras = list(/obj/item/gun/energy/e_gun, /obj/item/stamp/hop)
+	chameleon_extras = list(/obj/item/gun/energy/e_gun, /obj/item/stamp/head_of_personnel)

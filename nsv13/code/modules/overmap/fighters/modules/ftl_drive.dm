@@ -43,7 +43,7 @@
 		to_chat(usr, "<span class='warning'>This drive was not installed correctly.</span>")
 		message_admins("Fighter FTL drive tried to jump but could not find the linked overmap at [ADMIN_VERBOSEJMP(src)]")
 		return FALSE
-	if(!target_system || !(SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP) || SSmapping.level_trait(loc.z, ZTRAIT_RESERVED)))
+	if(!target_system || !SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP) || SSmapping.level_trait(loc.z, ZTRAIT_RESERVED))
 		to_chat(usr, "<span class='warning'>Unable to obtain positional data for jump.</span>")
 		return
 	if(linked.get_overmap())
@@ -53,7 +53,6 @@
 	linked.begin_jump(target_system, force)
 	linked.relay('nsv13/sound/effects/ship/freespace2/computer/escape.wav')
 	progress = 0
-	addtimer(CALLBACK(src, .proc/depower), ftl_startup_time)
 
 /obj/item/fighter_component/ftl/proc/cancel_ftl()
 	depower()

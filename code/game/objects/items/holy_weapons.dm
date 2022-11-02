@@ -1,10 +1,10 @@
 // CHAPLAIN CUSTOM ARMORS //
 
-/obj/item/clothing/suit/armor/riot/chaplain/Initialize()
+/obj/item/clothing/suit/armor/riot/chaplain/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/anti_magic, TRUE, TRUE, null, FALSE)
 
-/obj/item/clothing/suit/hooded/chaplain_hoodie/leader/Initialize()
+/obj/item/clothing/suit/hooded/chaplain_hoodie/leader/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/anti_magic, TRUE, TRUE, null, FALSE) //makes the leader hoodie immune without giving the follower hoodies immunity
 
@@ -51,15 +51,9 @@
 	return holy_item_list
 
 /obj/item/choice_beacon/holy/spawn_option(obj/choice,mob/living/M)
-	if(!GLOB.holy_armor_type)
-		..()
-		playsound(src, 'sound/effects/pray_chaplain.ogg', 40, 1)
-		SSblackbox.record_feedback("tally", "chaplain_armor", 1, "[choice]")
-		GLOB.holy_armor_type = choice
-	else
-		to_chat(M, "<span class='warning'>A selection has already been made. Self-Destructing...</span>")
-		return
-
+	..()
+	playsound(src, 'sound/effects/pray_chaplain.ogg', 40, 1)
+	SSblackbox.record_feedback("tally", "chaplain_armor", 1, "[choice]")
 
 /obj/item/storage/box/holy
 	name = "Templar Kit"
@@ -86,7 +80,7 @@
 /obj/item/clothing/head/helmet/chaplain/cage
 	name = "cage"
 	desc = "A cage that restrains the will of the self, allowing one to see the profane world for what it is."
-	alternate_worn_icon = 'icons/mob/large-worn-icons/64x64/head.dmi'
+	worn_icon = 'icons/mob/large-worn-icons/64x64/head.dmi'
 	icon_state = "cage"
 	item_state = "cage"
 	worn_x_dimension = 64
@@ -175,7 +169,7 @@
 	desc = "A shirt and some leather pants in poor condition."
 	icon_state = "graverobber_under"
 	item_state = "graverobber_under"
-	item_color = "graverobber_under"
+	can_adjust = FALSE
 
 /obj/item/storage/box/holy/adept
 	name = "Divine Adept Kit"
@@ -255,9 +249,14 @@
 	var/reskinned = FALSE
 	var/chaplain_spawnable = TRUE
 
-/obj/item/nullrod/Initialize()
+/obj/item/nullrod/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/anti_magic, TRUE, TRUE, null, FALSE)
+	AddComponent(/datum/component/effect_remover, \
+	success_feedback = "You disrupt the magic of %THEEFFECT with %THEWEAPON.", \
+	success_forcesay = "BEGONE FOUL MAGIKS!!", \
+	on_clear_callback = CALLBACK(src, .proc/on_cult_rune_removed), \
+	effects_we_clear = list(/obj/effect/rune, /obj/effect/eldritch))
 
 /obj/item/nullrod/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is killing [user.p_them()]self with [src]! It looks like [user.p_theyre()] trying to get closer to god!</span>")
@@ -268,8 +267,6 @@
 		reskin_holy_weapon(user)
 
 /obj/item/nullrod/proc/reskin_holy_weapon(mob/M)
-	if(GLOB.holy_weapon_type)
-		return
 	var/obj/item/nullrod/holy_weapon
 	var/list/holy_weapons_list = typesof(/obj/item/nullrod)
 	var/list/display_names = list()
@@ -285,14 +282,22 @@
 	var/A = display_names[choice] // This needs to be on a separate var as list member access is not allowed for new
 	holy_weapon = new A
 
-	GLOB.holy_weapon_type = holy_weapon.type
-
 	SSblackbox.record_feedback("tally", "chaplain_weapon", 1, "[choice]")
 
 	if(holy_weapon)
 		holy_weapon.reskinned = TRUE
 		qdel(src)
 		M.put_in_active_hand(holy_weapon)
+
+/obj/item/nullrod/proc/on_cult_rune_removed(obj/effect/target, mob/living/user)
+	if(!istype(target, /obj/effect/rune))
+		return
+
+	var/obj/effect/rune/target_rune = target
+	if(target_rune.log_when_erased)
+		log_game("[target_rune.cultist_name] rune erased by [key_name(user)] using a null rod.")
+		message_admins("[ADMIN_LOOKUPFLW(user)] erased a [target_rune.cultist_name] rune with a null rod.")
+	SSshuttle.shuttle_purchase_requirements_met[SHUTTLE_UNLOCK_NARNAR] = TRUE
 
 /obj/item/nullrod/godhand
 	icon_state = "disintegrate"
@@ -308,7 +313,7 @@
 	attack_verb = list("punched", "cross countered", "pummeled")
 	block_upgrade_walk = 0
 
-/obj/item/nullrod/godhand/Initialize()
+/obj/item/nullrod/godhand/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, HAND_REPLACEMENT_TRAIT)
 
@@ -327,10 +332,10 @@
 	block_power = 20
 	var/shield_icon = "shield-red"
 
-/obj/item/nullrod/staff/worn_overlays(isinhands)
+/obj/item/nullrod/staff/worn_overlays(mutable_appearance/standing, isinhands)
 	. = list()
 	if(isinhands)
-		. += mutable_appearance('icons/effects/effects.dmi', shield_icon, MOB_LAYER + 0.01)
+		. += mutable_appearance('icons/effects/effects.dmi', shield_icon, MOB_SHIELD_LAYER)
 
 /obj/item/nullrod/staff/blue
 	name = "blue holy staff"
@@ -389,6 +394,7 @@
 	desc = "Capable of cutting clean through a holy claymore."
 	icon_state = "katana"
 	item_state = "katana"
+	worn_icon_state = "katana"
 	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY | BLOCKING_PROJECTILE
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_BACK
 	block_power = 0
@@ -463,7 +469,7 @@
 	sharpness = IS_SHARP
 	attack_verb = list("chopped", "sliced", "cut", "reaped")
 
-/obj/item/nullrod/scythe/Initialize()
+/obj/item/nullrod/scythe/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/butchering, 70, 110) //the harvest gives a high bonus chance
 
@@ -578,10 +584,10 @@
 	tool_behaviour = TOOL_SAW
 	toolspeed = 2 //slower than a real saw
 	attack_weight = 2
-	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
+	block_upgrade_walk = 0
 
 
-/obj/item/nullrod/chainsaw/Initialize()
+/obj/item/nullrod/chainsaw/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, HAND_REPLACEMENT_TRAIT)
 	AddComponent(/datum/component/butchering, 30, 100, 0, hitsound)
@@ -655,9 +661,10 @@
 	w_class = WEIGHT_CLASS_HUGE
 	sharpness = IS_SHARP
 
-/obj/item/nullrod/armblade/Initialize()
+/obj/item/nullrod/armblade/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, HAND_REPLACEMENT_TRAIT)
+//	ADD_TRAIT(src, TRAIT_DOOR_PRYER, INNATE_TRAIT)	//uncomment if you want chaplains to have AA as a null rod option. The armblade will behave even more like a changeling one then!
 	AddComponent(/datum/component/butchering, 80, 70)
 
 /obj/item/nullrod/armblade/tentacle

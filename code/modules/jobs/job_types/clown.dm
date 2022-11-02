@@ -1,14 +1,13 @@
 /datum/job/clown
-	title = "Clown"
+	title = JOB_NAME_CLOWN
 	flag = CLOWN
-	department_head = list("Executive Officer")
+	department_head = list(JOB_NAME_HEADOFPERSONNEL)
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	supervisors = "the Executive Officer"
+	supervisors = "the " + JOB_NAME_HEADOFPERSONNEL //NSV13
 	selection_color = "#dddddd"
-	chat_color = "#FF83D7"
 
 	outfit = /datum/outfit/job/clown/delinquent //NSV13 - Modded clown outfit to be a jojo reference
 
@@ -18,7 +17,8 @@
 	paycheck_department = ACCOUNT_SRV
 
 	display_order = JOB_DISPLAY_ORDER_CLOWN
-	departments = DEPARTMENT_SERVICE
+	departments = DEPARTMENT_BITFLAG_SERVICE
+	rpg_title = "Jester"
 
 	species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/honk
@@ -29,7 +29,7 @@
 	H.apply_pref_name("clown", M.client)
 
 /datum/outfit/job/clown
-	name = "Clown"
+	name = JOB_NAME_CLOWN
 	jobtype = /datum/job/clown
 
 	belt = /obj/item/pda/clown
@@ -67,5 +67,4 @@
 
 	H.fully_replace_character_name(H.real_name, pick(GLOB.clown_names)) //rename the mob AFTER they're equipped so their ID gets updated properly.
 	H.dna.add_mutation(CLOWNMUT)
-	for(var/datum/mutation/human/clumsy/M in H.dna.mutations)
-		M.mutadone_proof = TRUE
+	ADD_TRAIT(H, TRAIT_NAIVE, JOB_TRAIT)
