@@ -39,10 +39,10 @@
 	var/extinguish_fires = TRUE
 	var/stationary_mode = FALSE
 
-/mob/living/simple_animal/bot/firebot/Initialize()
+/mob/living/simple_animal/bot/firebot/Initialize(mapload)
 	. = ..()
 	update_icon()
-	var/datum/job/engineer/J = new/datum/job/engineer
+	var/datum/job/station_engineer/J = new/datum/job/station_engineer
 	access_card.access += J.get_access()
 	prev_access = access_card.access
 

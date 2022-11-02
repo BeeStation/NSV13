@@ -25,7 +25,7 @@
 	outfit = /datum/outfit/death_commando
 
 /mob/living/carbon/human/ai_boarder/assistant
-	outfit = /datum/outfit/job/assistant_ship
+	outfit = /datum/outfit/job/assistant
 	faction = list("neutral", "Nanotrasen")
 
 /mob/living/carbon/human/ai_boarder/ert/deathsquad/commander

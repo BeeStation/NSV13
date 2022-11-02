@@ -29,7 +29,7 @@
 	assignedrole = "Syndicate Crew"
 
 
-/obj/effect/mob_spawn/human/syndicate/boarding/Initialize()
+/obj/effect/mob_spawn/human/syndicate/boarding/Initialize(mapload)
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD
 

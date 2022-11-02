@@ -34,7 +34,7 @@
 		"Urghhhhh..."
 	)
 
-/mob/living/carbon/human/ai_boarder/zombie/Initialize()
+/mob/living/carbon/human/ai_boarder/zombie/Initialize(mapload)
 	. = ..()
 	set_species(/datum/species/zombie/infectious)
 
@@ -42,7 +42,6 @@
 	faction = list("silicon")
 	difficulty_override = TRUE
 	outfit = /datum/outfit/boarding_droid
-	icon_render_key = ""
 	move_delay = 2
 	action_delay = 2
 	taunts = list(
@@ -57,7 +56,7 @@
 		"Unit has recieved additional asset request"
 	)
 
-/mob/living/carbon/human/ai_boarder/boarding_droid/Initialize()
+/mob/living/carbon/human/ai_boarder/boarding_droid/Initialize(mapload)
 	. = ..()
 	set_species(/datum/species/ipc)
 	icon = 'nsv13/icons/mob/boardingdroid.dmi'
@@ -68,3 +67,7 @@
 /mob/living/carbon/human/ai_boarder/boarding_droid/apply_damage(damage, damagetype, def_zone, blocked, forced)
 	. = ..()
 	cut_overlays()
+
+// I hope this works
+/mob/living/carbon/human/ai_boarder/boarding_droid/generate_icon_key(obj/item/bodypart/BP)
+	return ""

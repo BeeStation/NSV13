@@ -5,7 +5,7 @@
 	desc = "A large trolley designed for ferrying munitions around. It has slots for traditional ammo magazines as well as a rack for loading torpedoes. To load it, click and drag the desired munition onto the rack."
 	anchored = FALSE
 	density = TRUE
-	layer = 3
+	layer = 2.9
 	var/static/list/allowed = typecacheof(list(
 		/obj/item/ship_weapon/ammunition,
 		/obj/item/powder_bag))
