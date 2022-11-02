@@ -42,6 +42,7 @@
 		"smmon_4.gif" = 'icons/program_icons/smmon_4.gif',
 		"smmon_5.gif" = 'icons/program_icons/smmon_5.gif',
 		"smmon_6.gif" = 'icons/program_icons/smmon_6.gif',
+		"borg_self_monitor.gif" = 'icons/program_icons/borg_self_monitor.gif'
 	)
 
 /datum/asset/simple/circuit_assets
@@ -230,6 +231,12 @@
 		"boss6.gif" = 'icons/UI_Icons/Arcade/boss6.gif',
 		)
 
+/datum/asset/spritesheet/simple/achievements
+	name ="achievements"
+	assets = list(
+		"default" = 'icons/UI_Icons/Achievements/default.png'
+	)
+
 /datum/asset/spritesheet/simple/pills
 	name ="pills"
 	assets = list(
@@ -350,7 +357,14 @@
 				if (machine)
 					item = machine
 
-			icon_file = initial(item.icon)
+			// Check for GAGS support where necessary
+			var/greyscale_config = initial(item.greyscale_config)
+			var/greyscale_colors = initial(item.greyscale_colors)
+			if (greyscale_config && greyscale_colors)
+				icon_file = SSgreyscale.GetColoredIconByType(greyscale_config, greyscale_colors)
+			else
+				icon_file = initial(item.icon)
+
 			icon_state = initial(item.icon_state)
 
 			if(!(icon_state in icon_states(icon_file)))
@@ -381,7 +395,11 @@
 		if (!ispath(item, /atom))
 			continue
 
-		var/icon_file = initial(item.icon)
+		var/icon_file
+		if (initial(item.greyscale_colors) && initial(item.greyscale_config))
+			icon_file = SSgreyscale.GetColoredIconByType(initial(item.greyscale_config), initial(item.greyscale_colors))
+		else
+			icon_file = initial(item.icon)
 		var/icon_state = initial(item.icon_state)
 		var/icon/I
 

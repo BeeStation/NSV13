@@ -10,40 +10,45 @@ Format:
 	default (The last map with this defined will get all votes of players who have not explicitly voted for a map)
 	voteweight [number] (How much to count each player vote as, defaults to 1, setting to 0.5 counts each vote as half a vote, 2 as double, etc, Setting to 0 disables the map but allows players to still pick it)
 	disabled (disables the map)
-
-map aetherwhisp
-	votable
+	
+	#BEE WAS DUMB AND DID NOT DOCUMENT THIS
+	votable (THIS IS REQUIRED!!!!!)
+	#REMEMBER TO FUCKING USE THIS
 endmap
+
+# KMC, Put the testing maps where they fucking belong
+# KMC, Put the testing maps where they fucking belong
+# KMC, Put the testing maps where they fucking belong
+# KMC, Put the testing maps where they fucking belong
 
 map tycoon
-	votable
-	voteweight 1.5
-endmap
-
-map Atlas
+	default
+	minplayers 12
 	votable
 endmap
 
-map gladius
+map atlas
 	votable
-	voteweight 1.5
+endmap
+
+map aetherwhisp
+	minplayers 12
+	voteweight 0.5
+	votable
+endmap
+
+map eclipse
+	maxplayers 10
+	votable
 endmap
 
 map galactica
-	votable
-	voteweight 1.5
-endmap
-
-map Eclipse
+	minplayers 27
 	votable
 endmap
 
-#map pegasus
-	votable
-	voteweight 1.5
-endmap
-
-map Vago
+map shrike
+	maxplayers 24
 	votable
 endmap
 
@@ -51,18 +56,66 @@ map snake
 	votable
 endmap
 
-#map hammerhead
-	votable
-	voteweight 1.5
+#--------------
+# EVENT MAPS
+#--------------
+
+map Vago
+#	votable
 endmap
 
-#map jollysausage
-	votable
-	voteweight 1.5
+map gladius
+#	minplayers 20
+#	voteweight 1.5
+#	votable
 endmap
+
+#--------------
+# TESTING MAPS
+#--------------
+
+map serendipity
+	votable
+endmap
+
+#---------------
+# RETIRED MAPS
+#---------------
 
 #map jeppison
+	minplayers 20
+	maxplayers 35
 	votable
+endmap
+
+
+#map jollysausage
+	maxplayers 30
+	minplayers 10
+	votable
+endmap
+
+#map pegasus
+	minplayers 30
+	voteweight 1.5
+	votable
+	disabled
+endmap
+
+#map hammerhead
+#	voteweight 1.5
+#	minplayers 20
+#	votable
+#endmap
+
+#map aegis
+	voteweight 0.5
+endmap
+
+#BEGIN DEBUG MAPS
+
+#map testship
+	disabled
 endmap
 
 #map runtimestation
@@ -71,16 +124,4 @@ endmap
 
 #map multiz_debug
 	disabled
-endmap
-
-#map destroyer
-	votable
-endmap
-
-#map testship
-	votable
-endmap
-
-map shrike
-
 endmap

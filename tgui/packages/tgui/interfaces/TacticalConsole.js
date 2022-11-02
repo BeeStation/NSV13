@@ -11,7 +11,7 @@ export const TacticalConsole = (props, context) => {
   return (
     <Window
       resizable
-      theme="retro"
+      theme="nanotrasen"
       width={560}
       height={600}>
       <Window.Content scrollable>
@@ -28,7 +28,7 @@ export const TacticalConsole = (props, context) => {
             </Section>
             <Section title="Armour:">
               <LabeledList>
-                <LabeledList.Item label="Forward Port">
+                <LabeledList.Item label="Forward Port" labelColor="#ffffff">
                   <ProgressBar
                     value={(data.quadrant_fp_armour_current / data.quadrant_fp_armour_max)}
                     ranges={{
@@ -37,7 +37,7 @@ export const TacticalConsole = (props, context) => {
                       bad: [-Infinity, 0.33],
                     }} />
                 </LabeledList.Item>
-                <LabeledList.Item label="Forward Starboard">
+                <LabeledList.Item label="Forward Starboard" labelColor="#ffffff">
                   <ProgressBar
                     value={(data.quadrant_fs_armour_current / data.quadrant_fs_armour_max)}
                     ranges={{
@@ -46,7 +46,7 @@ export const TacticalConsole = (props, context) => {
                       bad: [-Infinity, 0.33],
                     }} />
                 </LabeledList.Item>
-                <LabeledList.Item label="Aft Port">
+                <LabeledList.Item label="Aft Port" labelColor="#ffffff">
                   <ProgressBar
                     value={(data.quadrant_ap_armour_current / data.quadrant_ap_armour_max)}
                     ranges={{
@@ -55,7 +55,7 @@ export const TacticalConsole = (props, context) => {
                       bad: [-Infinity, 0.33],
                     }} />
                 </LabeledList.Item>
-                <LabeledList.Item label="Aft Starboard">
+                <LabeledList.Item label="Aft Starboard" labelColor="#ffffff">
                   <ProgressBar
                     value={(data.quadrant_as_armour_current / data.quadrant_as_armour_max)}
                     ranges={{
@@ -74,7 +74,7 @@ export const TacticalConsole = (props, context) => {
                 return (
                   <Fragment key={key}>
                     {!!value.maxammo && (
-                      <LabeledList.Item label={`${value.name}`} labelColor="#000000">
+                      <LabeledList.Item label={`${value.name}`} labelColor="#ffffff">
                         <ProgressBar
                           value={(value.ammo/value.maxammo * 100)* 0.01}
                           ranges={{

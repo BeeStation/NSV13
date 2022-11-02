@@ -28,7 +28,7 @@
 	icon_state = "datadisk2"
 	max_blueprints = 5
 
-/obj/item/disk/design_disk/overmap_shields/Initialize()
+/obj/item/disk/design_disk/overmap_shields/Initialize(mapload)
 	. = ..()
 	var/datum/design/shield_fan/A = new
 	var/datum/design/shield_capacitor/B = new
@@ -242,7 +242,7 @@
 
 
 //Constructor of objects of class shield_generator. No params
-/obj/machinery/shield_generator/Initialize()
+/obj/machinery/shield_generator/Initialize(mapload)
 	. = ..()
 	var/obj/structure/overmap/ours = get_overmap()
 	ours?.shields = src
