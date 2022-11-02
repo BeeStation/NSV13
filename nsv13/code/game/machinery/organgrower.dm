@@ -6,7 +6,7 @@
 /// The limbgrower. Makes organs and limbs with synthflesh and chems.
 /// See [limbgrower_Designs.dm] for everything we can make.
 /obj/machinery/limbgrower
-	name = "limb grower"
+	name = "organ grower"
 	desc = "It grows new limbs using Synthflesh."
 	icon = 'nsv13/icons/obj/machinery/limbgrowernew.dmi'
 	icon_state = "limbgrower_idleoff"
