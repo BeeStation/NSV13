@@ -88,13 +88,6 @@
 		to_chat(user, "<span class='warning'>You corrupt the chemical processors.</span>")
 		emagged = TRUE
 
-/obj/machinery/replicator/power_change()
-	if(powered())
-		stat &= ~NOPOWER
-	else
-		stat |= NOPOWER
-		idle_power_usage = 40
-
 /obj/item/circuitboard/machine/replicator
 	name = "Food Replicator (Machine Board)"
 	build_path = /obj/machinery/replicator

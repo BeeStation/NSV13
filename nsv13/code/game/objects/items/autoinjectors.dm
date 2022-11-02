@@ -82,6 +82,7 @@
 			attack(user, user)
 		else
 			return
+	. = ..()
 
 /obj/item/reagent_containers/hypospray/autoinjector/on_reagent_change(changetype)
 	update_icon()
