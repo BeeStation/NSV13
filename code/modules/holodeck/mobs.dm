@@ -5,7 +5,7 @@
 /mob/living/simple_animal/holodeck_monkey
 	name = "monkey"
 	desc = "A holographic creature fond of bananas."
-	icon = 'icons/mob/monkey.dmi'
+	icon = 'nsv13/icons/mob/legacy_monkey.dmi'
 	icon_state = "monkey1"
 	icon_living = "monkey1"
 	icon_dead = "monkey1_dead"

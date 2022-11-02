@@ -94,7 +94,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	bound_width = 128
 	mass = MASS_MEDIUM_LARGE
 
-/obj/structure/overmap/asteroid/Initialize()
+/obj/structure/overmap/asteroid/Initialize(mapload)
 	. = ..()
 	icon_state = "[rand(1,5)]"
 	angle = rand(0,360)
@@ -204,7 +204,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 /obj/machinery/computer/ship/mineral_magnet/stupidfuckingbabyaetherwhispmagnetvariantfortoproofdeckbecauseFUCKYOU
 	turf_type = /turf/open/floor/plating/airless
 
-/obj/machinery/computer/ship/mineral_magnet/Initialize()
+/obj/machinery/computer/ship/mineral_magnet/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 

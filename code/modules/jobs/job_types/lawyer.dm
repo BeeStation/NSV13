@@ -1,14 +1,13 @@
 /datum/job/lawyer
-	title = "Lawyer"
+	title = JOB_NAME_LAWYER
 	flag = LAWYER
-	department_head = list("Executive Officer")
+	department_head = list(JOB_NAME_HEADOFPERSONNEL)
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
-	supervisors = "the Executive Officer"
+	supervisors = "the " + JOB_NAME_HEADOFPERSONNEL //NSV13
 	selection_color = "#dddddd"
-	chat_color = "#C07D7D"
 	var/lawyers = 0 //Counts lawyer amount
 
 	outfit = /datum/outfit/job/lawyer
@@ -20,26 +19,29 @@
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_LAWYER
-	departments = DEPARTMENT_SERVICE
+	departments = DEPARTMENT_BITFLAG_SERVICE
+	rpg_title = "Magistrate"
 
 	species_outfits = list(
-		SPECIES_PLASMAMAN = /datum/outfit/plasmaman //they dont have one.
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/lawyer
 	)
 
 /datum/outfit/job/lawyer
-	name = "Lawyer"
+	name = JOB_NAME_LAWYER
 	jobtype = /datum/job/lawyer
 
+	id = /obj/item/card/id/job/lawyer
 	belt = /obj/item/pda/lawyer
 	ears = /obj/item/radio/headset/headset_srvsec
-	uniform = /obj/item/clothing/under/ship/officer
-	shoes = /obj/item/clothing/shoes/jackboots
-	head = /obj/item/clothing/head/beret/durathread
+	uniform = /obj/item/clothing/under/rank/civilian/lawyer/bluesuit
+	suit = /obj/item/clothing/suit/toggle/lawyer
+	shoes = /obj/item/clothing/shoes/laceup
 	l_hand = /obj/item/storage/briefcase/lawyer
 	l_pocket = /obj/item/laser_pointer
 	r_pocket = /obj/item/clothing/accessory/lawyers_badge
 
 	chameleon_extras = /obj/item/stamp/law
+
 
 /datum/outfit/job/lawyer/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()

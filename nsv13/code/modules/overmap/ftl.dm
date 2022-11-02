@@ -255,6 +255,7 @@
 	SSstar_system.ships[src]["from_time"] = world.time
 	SSstar_system.ships[src]["current_system"] = null
 	addtimer(CALLBACK(src, .proc/jump_end, target_system), speed MINUTES)
+	ftl_drive.depower()
 	jump_handle_shake()
 	force_parallax_update(TRUE)
 
@@ -429,7 +430,7 @@
 Preset classes of FTL drive with pre-programmed behaviours
 */
 
-/obj/machinery/computer/ship/ftl_computer/preset/Initialize()
+/obj/machinery/computer/ship/ftl_computer/preset/Initialize(mapload)
 	. = ..()
 	upgrade()
 
@@ -454,11 +455,11 @@ Preset classes of FTL drive with pre-programmed behaviours
 	req_access = null
 	req_one_access_txt = "31;48"
 
-/obj/machinery/computer/ship/ftl_computer/Initialize()
+/obj/machinery/computer/ship/ftl_computer/Initialize(mapload)
 	. = ..()
 	start_monitoring(get_overmap()) //I'm a lazy hack that can't actually be assed to deal with an if statement in react right now.
 
-/obj/machinery/computer/ship/ftl_computer/syndicate/Initialize()
+/obj/machinery/computer/ship/ftl_computer/syndicate/Initialize(mapload)
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -485,13 +486,13 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		var/datum/star_system/current_system = SSstar_system.ships[target]["current_system"]
 		tracking[target] = list("name" = target.name, "current_system" = current_system.name, "target_system" = target_system.name)
 
-/obj/machinery/computer/ship/ftl_computer/Initialize()
+/obj/machinery/computer/ship/ftl_computer/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, .proc/has_overmap), 5 SECONDS)
 	STOP_PROCESSING(SSmachines, src)
 
 /obj/machinery/computer/ship/ftl_computer/process()
-	if(!is_operational())
+	if(!is_operational)
 		depower()
 		return
 	if(progress < spoolup_time)
@@ -594,7 +595,6 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
 	ftl_state = FTL_STATE_JUMPING
-	addtimer(CALLBACK(src, .proc/depower), ftl_startup_time)
 
 /obj/machinery/computer/ship/ftl_computer/proc/ready_ftl()
 	ftl_state = FTL_STATE_READY
@@ -619,7 +619,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	return FALSE
 
 
-/obj/machinery/computer/ship/ftl_computer/Initialize()
+/obj/machinery/computer/ship/ftl_computer/Initialize(mapload)
 	. = ..()
 	radio = new(src)
 	radio.keyslot = new radio_key

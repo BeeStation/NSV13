@@ -69,12 +69,12 @@
 /datum/game_mode/proc/can_start()
 	var/playerC = 0
 	for(var/mob/dead/new_player/player in GLOB.player_list)
-		if(player.client && (player.ready == PLAYER_READY_TO_PLAY) && player.has_valid_preferences(TRUE))
+		if(player.client && (player.ready == PLAYER_READY_TO_PLAY) && player.check_preferences())
 			playerC++
 	if(!GLOB.Debug2)
 		if(playerC < required_players || (maximum_players >= 0 && playerC > maximum_players))
 			return FALSE
-	antag_candidates = get_players_for_role(antag_flag)
+	setup_antag_candidates()
 	if(!GLOB.Debug2)
 		if(antag_candidates.len < required_enemies)
 			return FALSE
@@ -85,6 +85,9 @@
 
 /datum/game_mode/proc/setup_maps()
 	return 1
+
+/datum/game_mode/proc/setup_antag_candidates()
+	antag_candidates = get_players_for_role(antag_flag)
 
 ///Attempts to select players for special roles the mode might have.
 /datum/game_mode/proc/pre_setup()
@@ -265,7 +268,7 @@
 	if(CONFIG_GET(flag/protect_roles_from_antagonist))
 		replacementmode.restricted_jobs += replacementmode.protected_jobs
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		replacementmode.restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		replacementmode.restricted_jobs += JOB_NAME_ASSISTANT
 	if(CONFIG_GET(flag/protect_heads_from_antagonist))
 		replacementmode.restricted_jobs += GLOB.command_positions
 
@@ -443,6 +446,9 @@
 	for(var/datum/mind/mind in candidates)
 		p_ckey = ckey(mind.key)
 		var/mob/dead/new_player/player = get_mob_by_ckey(p_ckey)
+		if(!player)
+			candidates -= mind
+			continue
 		total_tickets += min(((role in player.client.prefs.be_special) ? SSpersistence.antag_rep[p_ckey] : 0) + DEFAULT_ANTAG_TICKETS, MAX_TICKETS_PER_ROLL)
 
 	var/antag_select = rand(1,total_tickets)
@@ -541,7 +547,7 @@
 							//			Less if there are not enough valid players in the game entirely to make recommended_enemies.
 
 
-/datum/game_mode/proc/get_alive_non_antagonsist_players_for_role(role)
+/datum/game_mode/proc/get_alive_non_antagonsist_players_for_role(role, list/restricted_roles)
 	var/list/candidates = list()
 
 	for(var/mob/living/carbon/human/player in GLOB.player_list)
@@ -551,9 +557,10 @@
 					if(age_check(player.client) && !player.mind.special_role) //Must be older than the minimum age
 						candidates += player.mind				// Get a list of all the people who want to be the antagonist for this round
 
-	if(restricted_jobs)
+	var/restricted_list = length(restricted_roles) ? restricted_roles : restricted_jobs
+	if(restricted_list)
 		for(var/datum/mind/player in candidates)
-			for(var/job in restricted_jobs)					// Remove people who want to be antagonist but have a job already that precludes it
+			for(var/job in restricted_list)					// Remove people who want to be antagonist but have a job already that precludes it
 				if(player.assigned_role == job)
 					candidates -= player
 
@@ -856,7 +863,7 @@
 	round_credits += "<center><h1>The Hardy Civilians:</h1>"
 	len_before_addition = round_credits.len
 	for(var/datum/mind/current in SSticker.mode.get_all_by_department(GLOB.civilian_positions | GLOB.gimmick_positions))
-		if(current.assigned_role == "Midshipman")//Nsv13 - Crayon eaters
+		if(current.assigned_role == JOB_NAME_ASSISTANT)
 			human_garbage += current
 		else
 			round_credits += "<center><h2>[current.name] as the [current.assigned_role]</h2>"

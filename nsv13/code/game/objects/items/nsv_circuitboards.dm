@@ -135,7 +135,7 @@
 	)
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/machine/pdc_mount/Initialize()
+/obj/item/circuitboard/machine/pdc_mount/Initialize(mapload)
 	. = ..()
 	if(!build_path)
 		if(prob(50))
