@@ -8,7 +8,7 @@
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/synthflesh = 25)
 	build_path = /obj/item/bodypart/l_arm
-	category = list("initial","human","lizard","moth","bee","plasmaman","ethereal")
+	category = list("initial","human","lizard","moth","apid","plasmaman","ethereal")
 
 /datum/design/rightarm
 	name = "Right Arm"
@@ -16,7 +16,7 @@
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/synthflesh = 25)
 	build_path = /obj/item/bodypart/r_arm
-	category = list("initial","human","lizard","moth","bee","plasmaman","ethereal")
+	category = list("initial","human","lizard","moth","apid","plasmaman","ethereal")
 
 /datum/design/leftleg
 	name = "Left Leg"
@@ -24,7 +24,7 @@
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/synthflesh = 25)
 	build_path = /obj/item/bodypart/l_leg
-	category = list("initial","human","lizard","moth","bee","plasmaman","ethereal")
+	category = list("initial","human","lizard","moth","apid","plasmaman","ethereal")
 
 /datum/design/rightleg
 	name = "Right Leg"
@@ -32,7 +32,7 @@
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/synthflesh = 25)
 	build_path = /obj/item/bodypart/r_leg
-	category = list("initial","human","lizard","moth","bee","plasmaman","ethereal")
+	category = list("initial","human","lizard","moth","apid","plasmaman","ethereal")
 
 /datum/design/digi_leftleg
 	name = "Digitigrade Left Leg"
@@ -84,7 +84,7 @@
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/synthflesh = 10, /datum/reagent/consumable/honey = 20)
 	build_path = /obj/item/organ/lungs/apid
-	category = list("bee")
+	category = list("apid")
 
 //Liver
 /datum/design/liver
@@ -160,7 +160,7 @@
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/synthflesh = 25)
 	build_path = /obj/item/organ/eyes/apid
-	category = list("bee")
+	category = list("apid")
 
 //Ears
 /datum/design/ears
@@ -252,7 +252,7 @@
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/synthflesh = 25)
 	build_path = /obj/item/organ/wings/bee
-	category = list("bee")
+	category = list("apid")
 
 
 // Intentionally not growable by normal means - for balance conerns.

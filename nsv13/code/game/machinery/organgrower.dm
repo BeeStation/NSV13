@@ -29,7 +29,7 @@
  	/// Our internal techweb for limbgrower designs.
 	var/datum/techweb/stored_research
 	/// All the categories of organs we can print.
-	var/list/categories = list("human", "lizard", "plasmaman", "ethereal", "moth", "bee", "other")
+	var/list/categories = list("human", "lizard", "plasmaman", "ethereal", "moth", "apid", "other")
 
 /obj/machinery/limbgrower/Initialize()
 	create_reagents(100, OPENCONTAINER)
@@ -220,19 +220,25 @@
 /obj/machinery/limbgrower/proc/build_limb(buildpath)
 	/// The limb we're making with our buildpath, so we can edit it.
 	var/obj/item/bodypart/limb = new buildpath(loc)
-	/// Species with greyscale limbs.
-	var/list/greyscale_species = list("human", "lizard", "ethereal")
-	if(selected_category in greyscale_species) //Species with greyscale parts should be included here
-		if(selected_category == "human" || selected_category == "lizard" || selected_category == "ethereal") //humans don't use the full colour spectrum, they use random_skin_tone
+	switch(selected_category)
+		if("human")
 			limb.icon = 'icons/mob/human_parts_greyscale.dmi'
-			limb.should_draw_greyscale = TRUE
-		else
-			limb.icon = 'icons/mob/human_parts.dmi'
+		if("lizard")
+			limb.icon = 'icons/mob/species/lizard/bodyparts.dmi'
+		if("plasmaman")
+			limb.icon ='icons/mob/species/plasmaman/bodyparts.dmi'
+		if("ethereal")
+			limb.icon ='icons/mob/species/ethereal/bodyparts.dmi'
+		if("moth")
+			limb.icon ='icons/mob/species/moth/bodyparts.dmi'
+		if("apid")
+			limb.icon ='icons/mob/species/apid/bodyparts.dmi'
+
 	// Set this limb up using the specias name and body zone
 	limb.icon_state = "[selected_category]_[limb.body_zone]"
 	limb.name = "\improper synthetic [selected_category] [parse_zone(limb.body_zone)]"
 	limb.desc = "A synthetic [selected_category] limb that will morph on its first use in surgery. This one is for the [parse_zone(limb.body_zone)]."
-	limb.species_id = selected_category
+	limb.limb_id = selected_category
 	limb.update_icon_dropped()
 
 /obj/machinery/limbgrower/RefreshParts()

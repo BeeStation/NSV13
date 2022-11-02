@@ -4,7 +4,7 @@
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
 	icon_state = "hardsuit-dominion"
 	item_state = "hardsuit-dominion"
-	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi' //NSV13
+	worn_icon = 'nsv13/icons/mob/suit.dmi'
 	lefthand_file = 'nsv13/icons/mob/inhands/nsvclothing_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/nsvclothing_righthand.dmi'
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/dominion
@@ -16,10 +16,10 @@
 	name = "Dominion hardsuit helmet"
 	desc = "The helmet to a Dominion hardsuit with flash resistance glass and room for antennae and neck fluff."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "hardsuit0-dominion"
-	item_state = "dominion"
-	item_color = "dominion"
+	item_state = "hardsuit0-dominion"
+	hardsuit_type = "dominion"
 
 /obj/item/clothing/suit/space/hardsuit/dominion/engi
 	name = "Dominion Engineering hardsuit"
@@ -27,7 +27,7 @@
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
 	icon_state = "hardsuit-dominion-engi"
 	item_state = "hardsuit-dominion-engi"
-	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi' //NSV13
+	worn_icon = 'nsv13/icons/mob/suit.dmi'
 	lefthand_file = 'nsv13/icons/mob/inhands/nsvclothing_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/nsvclothing_righthand.dmi'
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/dominion/engi
@@ -39,10 +39,10 @@
 	name = "Dominion engineering helmet"
 	desc = "The helmet to a Dominion engineering hardsuit."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "hardsuit0-dominion-engi"
-	item_state = "dominion-engi"
-	item_color = "dominion-engi"
+	item_state = "hardsuit0-dominion-engi"
+	hardsuit_type = "dominion-engi"
 
 /obj/item/clothing/suit/space/hardsuit/dominion/atmo
 	name = "Dominion Atmospherics hardsuit"
@@ -50,7 +50,7 @@
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
 	icon_state = "hardsuit-dominion-atmo"
 	item_state = "hardsuit-dominion-atmo"
-	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi' //NSV13
+	worn_icon = 'nsv13/icons/mob/suit.dmi'
 	lefthand_file = 'nsv13/icons/mob/inhands/nsvclothing_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/nsvclothing_righthand.dmi'
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/dominion/atmo
@@ -62,10 +62,11 @@
 	name = "Dominion atmospherics helmet"
 	desc = "The helmet to a Dominion atmospherics hardsuit."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "hardsuit0-dominion-atmo"
-	item_state = "dominion-atmo"
-	item_color = "dominion-atmo"
+	item_state = "hardsuit0-dominion-atmo"
+	hardsuit_type = "dominion-atmo"
+
 
 /obj/item/clothing/suit/space/hardsuit/dominion/mining
 	icon_state = "hardsuit-dominion-mining"
@@ -89,8 +90,8 @@
 	name = "Dominion mining hardsuit helmet"
 	desc = "A specially designed helmet for the Dominion mining hardsuit."
 	icon_state = "hardsuit0-dominion-mining"
-	item_state = "dominion-mining"
-	item_color = "dominion-mining"
+	item_state = "hardsuit0-dominion-mining"
+	hardsuit_type = "dominion-mining"
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF
 	heat_protection = HEAD

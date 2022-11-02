@@ -5,7 +5,7 @@
 	icon_state = "install_package"
 	materials = list(/datum/material/iron = 10000)
 	w_class = WEIGHT_CLASS_BULKY
-	result_path = /obj/structure/chair/shuttlecraft_chair
+	result_path = /obj/structure/chair/shuttlecraft_chair/shifted
 	pixel_shift = -10
 
 /obj/structure/chair/shuttlecraft_chair
@@ -24,6 +24,8 @@
 	buildstackamount = 5
 	item_chair = null
 	layer = OBJ_LAYER
+
+/obj/structure/chair/shuttlecraft_chair/shifted
 
 /obj/structure/chair/shuttlecraft_chair/Initialize(mapload, ndir, building)
 	. = ..()
@@ -81,7 +83,7 @@
 	else
 		icon_state = "seat_up"
 
-/obj/structure/chair/shuttlecraft_chair/Initialize(mapload)
+/obj/structure/chair/shuttlecraft_chair/shifted/Initialize(mapload)
     . = ..()
     var/datum/component/riding/D = LoadComponent(/datum/component/riding)
     D.set_riding_offsets(RIDING_OFFSET_ALL, list(TEXT_NORTH = list(0, -10), TEXT_SOUTH = list(0, 10), TEXT_EAST = list(-10, 0), TEXT_WEST = list(10, 0)))

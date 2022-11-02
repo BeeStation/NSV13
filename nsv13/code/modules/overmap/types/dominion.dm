@@ -18,7 +18,7 @@
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
 
-/obj/structure/overmap/nanotrasen/serendipity/starter //Currently assigned to Jeppison and Atlas
+/obj/structure/overmap/nanotrasen/serendipity/starter
 	role = MAIN_OVERMAP
 	obj_integrity = 900
 	max_integrity = 900

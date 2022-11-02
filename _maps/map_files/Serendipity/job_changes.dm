@@ -10,8 +10,6 @@
 
 //The Serendipity has a too extensive of a medbay to justify a brig physician
 MAP_REMOVE_JOB(brig_phys)
-//Though the Serendipity is a research vessel, there is no place for recreational reading
-MAP_REMOVE_JOB(curator)
 //There is an ATC console in the bridge but the position is relegated to the executive officer
 MAP_REMOVE_JOB(air_traffic_controller)
 
