@@ -115,7 +115,9 @@
 		user.visible_message("[user] and [target] clink glasses!", "<span class='notice'>You clink glasses with [target]!</span>", "<span class='italics'>You hear a clink!</span>")
 		user.do_attack_animation(target)
 		target.do_attack_animation(user)
-		playsound(src, 'nsv13/sound/misc/clink.ogg', 50, 0) //NSV13 End
+		playsound(src, 'nsv13/sound/misc/clink.ogg', 50, 0)
+		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "cheers", /datum/mood_event/cheers)
+		SEND_SIGNAL(target, COMSIG_ADD_MOOD_EVENT, "cheers", /datum/mood_event/cheers) //NSV13 end
 		return
 	..()
 
