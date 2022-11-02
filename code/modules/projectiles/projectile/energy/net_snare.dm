@@ -7,7 +7,7 @@
 	hitsound = 'sound/weapons/taserhit.ogg'
 	range = 10
 
-/obj/item/projectile/energy/net/Initialize(mapload)
+/obj/item/projectile/energy/net/Initialize()
 	. = ..()
 	SpinAnimation()
 
@@ -30,7 +30,7 @@
 	light_range = 3
 	anchored = TRUE
 
-/obj/effect/nettingportal/Initialize(mapload)
+/obj/effect/nettingportal/Initialize()
 	. = ..()
 	var/obj/item/beacon/teletarget = null
 
@@ -109,9 +109,5 @@
 	. = ..()
 
 /obj/item/projectile/energy/trap/cyborg/on_range()
-	do_sparks(1, TRUE, src)
-	qdel(src)
-
-/obj/item/projectile/energy/trap/cyborg/emp_act(severity)
 	do_sparks(1, TRUE, src)
 	qdel(src)

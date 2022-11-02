@@ -21,4 +21,3 @@
 	new /obj/item/reagent_containers/food/snacks/pie/cream(src)
 	new /obj/item/storage/crayons(src)
 	new /obj/item/soundsynth(src)
-	new /obj/item/storage/box/radiokey/clown(src)

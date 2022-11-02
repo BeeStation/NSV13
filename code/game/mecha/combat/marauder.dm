@@ -28,7 +28,7 @@
 	smoke_action.Remove(user)
 	zoom_action.Remove(user)
 
-/obj/mecha/combat/marauder/loaded/Initialize(mapload)
+/obj/mecha/combat/marauder/loaded/Initialize()
 	. = ..()
 	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/thrusters/ion(src)
 	ME.attach(src)
@@ -54,7 +54,7 @@
 	force = 55
 	max_equip = 6
 
-/obj/mecha/combat/marauder/seraph/Initialize(mapload)
+/obj/mecha/combat/marauder/seraph/Initialize()
 	. = ..()
 	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/thrusters/ion(src)
 	ME.attach(src)
@@ -79,12 +79,12 @@
 	max_equip = 6
 	destruction_sleep_duration = 20
 
-/obj/mecha/combat/marauder/mauler/Initialize(mapload)
+/obj/mecha/combat/marauder/mauler/Initialize()
 	. = ..()
 	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/thrusters/ion(src)
 	ME.attach(src)
 
-/obj/mecha/combat/marauder/mauler/loaded/Initialize(mapload)
+/obj/mecha/combat/marauder/mauler/loaded/Initialize()
 	. = ..()
 	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/lmg(src)
 	ME.attach(src)

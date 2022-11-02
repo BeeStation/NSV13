@@ -59,10 +59,6 @@
 	randomiseLightColor()
 
 /obj/item/grenade/discogrenade/subgrenade/prime(mob/living/lanced_by)
-	if(dud_flags)
-		active = FALSE
-		update_icon()
-		return FALSE
 	update_mob()
 	var/current_turf = get_turf(src)
 	if(!current_turf)

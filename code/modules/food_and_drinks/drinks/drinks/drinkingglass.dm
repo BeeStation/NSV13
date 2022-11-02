@@ -73,7 +73,7 @@
 		desc = "A shot glass - the universal symbol for bad decisions."
 		return
 
-/obj/item/reagent_containers/food/drinks/drinkingglass/filled/Initialize(mapload)
+/obj/item/reagent_containers/food/drinks/drinkingglass/filled/Initialize()
 	. = ..()
 	on_reagent_change(ADD_REAGENT)
 

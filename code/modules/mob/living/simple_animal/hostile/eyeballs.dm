@@ -25,4 +25,3 @@
 
 	faction = list("spooky")
 	del_on_death = TRUE
-	random_color = FALSE

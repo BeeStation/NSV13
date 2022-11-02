@@ -227,14 +227,10 @@
 		return
 	attack_self(user)
 
-//Beds
+//Bed
 /obj/structure/bed/pod
 	icon = 'icons/obj/lavaland/survival_pod.dmi'
 	icon_state = "bed"
-
-/obj/structure/bed/double/pod
-	icon = 'icons/obj/lavaland/survival_pod.dmi'
-	icon_state = "bed_double"
 
 //Survival Storage Unit
 /obj/machinery/smartfridge/survival_pod
@@ -366,7 +362,7 @@
 						/obj/item/phylactery,
 						/obj/item/banhammer)
 
-/obj/item/fakeartefact/Initialize(mapload)
+/obj/item/fakeartefact/Initialize()
 	. = ..()
 	var/obj/item/I = pick(possible)
 	name = initial(I.name)

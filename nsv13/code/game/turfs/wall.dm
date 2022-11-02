@@ -8,7 +8,7 @@
 	var/image/texture = null //EG: Concrete. Lets you texture a wall with one texture tile rather than making a new wall..every..single...time
 	var/texture_state = null
 
-/turf/closed/wall/Initialize(mapload)
+/turf/closed/wall/Initialize()
 	. = ..()
 	if(texture_state)
 		texture = image(icon, texture_state)
@@ -27,7 +27,7 @@
 	var/image/texture = null //EG: Concrete. Lets you texture a wall with one texture tile rather than making a new wall..every..single...time
 	var/texture_state = null
 
-/obj/structure/falsewall/Initialize(mapload)
+/obj/structure/falsewall/Initialize()
 	. = ..()
 	if(texture_state)
 		texture = image(icon, texture_state)

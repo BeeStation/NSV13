@@ -1,13 +1,14 @@
 /datum/job/mime
-	title = JOB_NAME_MIME
+	title = "Mime"
 	flag = MIME
-	department_head = list(JOB_NAME_HEADOFPERSONNEL)
+	department_head = list("Executive Officer")
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	supervisors = "the " + JOB_NAME_HEADOFPERSONNEL
+	supervisors = "the Executive Officer"
 	selection_color = "#dddddd"
+	chat_color = "#BAD3BB"
 
 	outfit = /datum/outfit/job/mime
 
@@ -17,22 +18,19 @@
 	paycheck_department = ACCOUNT_SRV
 
 	display_order = JOB_DISPLAY_ORDER_MIME
-	departments = DEPARTMENT_BITFLAG_SERVICE
-	rpg_title = "Fool"
+	departments = DEPARTMENT_SERVICE
 
 	species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/mime
 	)
 
 /datum/job/mime/after_spawn(mob/living/carbon/human/H, mob/M)
-	. = ..()
 	H.apply_pref_name("mime", M.client)
 
 /datum/outfit/job/mime
-	name = JOB_NAME_MIME
+	name = "Mime"
 	jobtype = /datum/job/mime
 
-	id = /obj/item/card/id/job/mime
 	belt = /obj/item/pda/mime
 	ears = /obj/item/radio/headset/headset_srv
 	uniform = /obj/item/clothing/under/rank/civilian/mime

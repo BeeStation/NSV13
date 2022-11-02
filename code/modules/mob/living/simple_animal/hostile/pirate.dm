@@ -53,7 +53,7 @@
 	spacewalk = TRUE
 	hardattacks = TRUE
 
-/mob/living/simple_animal/hostile/pirate/melee/Initialize(mapload)
+/mob/living/simple_animal/hostile/pirate/melee/Initialize()
 	. = ..()
 	sord = new(src)
 
@@ -61,7 +61,7 @@
 	QDEL_NULL(sord)
 	return ..()
 
-/mob/living/simple_animal/hostile/pirate/melee/Initialize(mapload)
+/mob/living/simple_animal/hostile/pirate/melee/Initialize()
 	. = ..()
 	set_light(2)
 

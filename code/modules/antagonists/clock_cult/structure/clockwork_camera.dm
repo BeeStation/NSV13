@@ -62,7 +62,7 @@
 	broken_overlay_emissive = TRUE
 	var/datum/action/innate/clockcult/warp/warp_action
 
-/obj/machinery/computer/camera_advanced/ratvar/Initialize(mapload)
+/obj/machinery/computer/camera_advanced/ratvar/Initialize()
 	. = ..()
 	START_PROCESSING(SSobj, src)
 	warp_action = new

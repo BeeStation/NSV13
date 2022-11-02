@@ -101,11 +101,11 @@ SUBSYSTEM_DEF(fail2topic)
 	. = shell("netsh advfirewall firewall add rule name=\"[CONFIG_GET(string/topic_rule_name)]\" dir=in interface=any action=block remoteip=[ip]")
 
 	if (.)
-		log_topic("ERROR: Fail2topic failed to ban [ip]. Exit code: [.].")
+		WARNING("Fail2topic failed to ban [ip]. Exit code: [.].")
 	else if (isnull(.))
-		log_topic("ERROR: Fail2topic failed to invoke ban script.")
+		WARNING("Fail2topic failed to invoke ban script.")
 	else
-		log_topic("Fail2topic banned [ip].")
+		log_world("Fail2topic banned [ip].")
 
 /datum/controller/subsystem/fail2topic/proc/DropFirewallRule()
 	if (!enabled)
@@ -116,8 +116,8 @@ SUBSYSTEM_DEF(fail2topic)
 	. = shell("netsh advfirewall firewall delete rule name=\"[CONFIG_GET(string/topic_rule_name)]\"")
 
 	if (.)
-		log_topic("ERROR: Fail2topic failed to drop firewall rule. Exit code: [.].")
+		WARNING("Fail2topic failed to drop firewall rule. Exit code: [.].")
 	else if (isnull(.))
-		log_topic("ERROR: Fail2topic failed to invoke ban script.")
+		WARNING("Fail2topic failed to invoke ban script.")
 	else
-		log_topic("Fail2topic firewall rule dropped.")
+		log_world("Fail2topic firewall rule dropped.")

@@ -2,6 +2,7 @@
 
 // This code allows for airlocks to be controlled externally by setting an id_tag and comm frequency (disables ID access)
 /obj/machinery/door/airlock
+	var/id_tag
 	var/frequency
 	var/datum/radio_frequency/radio_connection
 
@@ -91,6 +92,7 @@
 
 	power_channel = AREA_USAGE_ENVIRON
 
+	var/id_tag
 	var/master_tag
 	var/frequency = FREQ_AIRLOCK_CONTROL
 
@@ -153,7 +155,7 @@
 	frequency = new_frequency
 	radio_connection = SSradio.add_object(src, frequency, RADIO_AIRLOCK)
 
-/obj/machinery/airlock_sensor/Initialize(mapload)
+/obj/machinery/airlock_sensor/Initialize()
 	. = ..()
 	set_frequency(frequency)
 

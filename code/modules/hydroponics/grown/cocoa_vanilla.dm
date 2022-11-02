@@ -50,7 +50,6 @@
 	foodtype = FRUIT
 	tastes = list("vanilla" = 1)
 	distill_reagent = /datum/reagent/consumable/vanilla //Takes longer, but you can get even more vanilla from it.
-	discovery_points = 300
 
 /obj/item/seeds/cocoapod/bungotree
 	name = "pack of bungo tree seeds"
@@ -83,7 +82,6 @@
 	juice_results = list(/datum/reagent/consumable/bungojuice = 0)
 	tastes = list("bungo" = 2, "tropical fruitiness" = 1)
 	distill_reagent = null
-	discovery_points = 300
 
 /obj/item/reagent_containers/food/snacks/grown/bungopit
 	seed = /obj/item/seeds/cocoapod/bungotree
@@ -97,7 +95,7 @@
 	foodtype = TOXIC
 	tastes = list("acrid bitterness" = 1)
 
-/obj/item/reagent_containers/food/snacks/grown/bungopit/Initialize(mapload)
+/obj/item/reagent_containers/food/snacks/grown/bungopit/Initialize()
 	. =..()
 	reagents.clear_reagents()
 	reagents.add_reagent(/datum/reagent/toxin/bungotoxin, seed.potency * 0.10) //More than this will kill at too low potency

@@ -21,7 +21,6 @@ export const FishCatalog = (props, context) => {
   ] = useLocalState(context, 'currentFish', null);
   return (
     <Window
-      theme="generic"
       width={500}
       height={300}
       resizable>

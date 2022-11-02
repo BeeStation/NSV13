@@ -54,7 +54,7 @@
 	do_footstep = TRUE
 	discovery_points = 1000
 
-/mob/living/simple_animal/hostile/poison/giant_spider/Initialize(mapload)
+/mob/living/simple_animal/hostile/poison/giant_spider/Initialize()
 	. = ..()
 	lay_web = new
 	lay_web.Grant(src)
@@ -66,10 +66,10 @@
 /mob/living/simple_animal/hostile/poison/giant_spider/Login()
 	..()
 	if(directive)
-		to_chat(src, "<span class='spiderlarge'>Your mother left you a directive! Follow it at all costs.</span>")
-		to_chat(src, "<span class='spiderlarge'><b>Directive: [directive]</b></span>")
+		to_chat(src, "<span class='spider'>Your mother left you a directive! Follow it at all costs.</span>")
+		to_chat(src, "<span class='spider'><b>[directive]</b></span>")
 		if(mind)
-			mind.store_memory("<span class='spiderlarge'><b>Directive: [directive]</b></span>")
+			mind.store_memory("<span class='spider'><b>[directive]</b></span>")
 
 /mob/living/simple_animal/hostile/poison/giant_spider/give_mind(mob/user)
 	..()
@@ -97,7 +97,7 @@
 	var/static/list/consumed_mobs = list() //the tags of mobs that have been consumed by nurse spiders to lay eggs
 	gold_core_spawnable = NO_SPAWN
 
-/mob/living/simple_animal/hostile/poison/giant_spider/nurse/Initialize(mapload)
+/mob/living/simple_animal/hostile/poison/giant_spider/nurse/Initialize()
 	. = ..()
 	wrap = new
 	AddAbility(wrap)
@@ -123,7 +123,7 @@
 	health = 40
 	var/datum/action/innate/spider/comm/letmetalkpls
 
-/mob/living/simple_animal/hostile/poison/giant_spider/nurse/midwife/Initialize(mapload)
+/mob/living/simple_animal/hostile/poison/giant_spider/nurse/midwife/Initialize()
 	. = ..()
 	letmetalkpls = new
 	letmetalkpls.Grant(src)
@@ -224,7 +224,7 @@
 
 /mob/living/simple_animal/hostile/poison/giant_spider/proc/do_action()
 	stop_automated_movement = FALSE
-	SSmove_manager.stop_looping(src)
+	walk(src,0)
 
 /mob/living/simple_animal/hostile/poison/giant_spider/nurse/proc/GiveUp(C)
 	if(busy == MOVING_TO_TARGET)
@@ -295,7 +295,7 @@
 		busy = SPINNING_COCOON
 		visible_message("<span class='notice'>[src] begins to secrete a sticky substance around [cocoon_target].</span>","<span class='notice'>You begin wrapping [cocoon_target] into a cocoon.</span>")
 		stop_automated_movement = TRUE
-		SSmove_manager.stop_looping(src)
+		walk(src,0)
 		if(do_after(src, 50, target = cocoon_target))
 			if(busy == SPINNING_COCOON)
 				var/obj/structure/spider/cocoon/C = new(cocoon_target.loc)
@@ -503,11 +503,8 @@
 /datum/action/innate/spider/comm/proc/spider_command(mob/living/user, message)
 	if(!message)
 		return
-	if(CHAT_FILTER_CHECK(message))
-		to_chat(usr, "<span class='warning'>Your message contains forbidden words.</span>")
-		return
-	message = user.treat_message_min(message)
-	var/my_message = "<span class='spider'><b>Command from [user]:</b> [message]</span>"
+	var/my_message
+	my_message = "<span class='spider'><b>Command from [user]:</b> [message]</span>"
 	for(var/mob/living/simple_animal/hostile/poison/giant_spider/M in GLOB.spidermobs)
 		to_chat(M, my_message)
 	for(var/M in GLOB.dead_mob_list)

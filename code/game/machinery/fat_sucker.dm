@@ -28,9 +28,9 @@
 	"Unsaturated fat, that is monounsaturated fats, polyunsaturated fats and omega-3 fatty acids, is found in plant foods and fish." \
 	)
 
-/obj/machinery/fat_sucker/Initialize(mapload)
+/obj/machinery/fat_sucker/Initialize()
 	. = ..()
-	soundloop = new(src,  FALSE)
+	soundloop = new(list(src),  FALSE)
 	update_icon()
 
 /obj/machinery/fat_sucker/Destroy()
@@ -61,12 +61,10 @@
 	..()
 	playsound(src, 'sound/machines/click.ogg', 50)
 	if(occupant)
-		var/mob/living/L = occupant
-		if(!iscarbon(L) || HAS_TRAIT(L, TRAIT_POWERHUNGRY) || !(MOB_ORGANIC in L?.mob_biotypes))
+		if(!iscarbon(occupant))
 			occupant.forceMove(drop_location())
 			occupant = null
 			return
-
 		to_chat(occupant, "<span class='notice'>You enter [src]</span>")
 		addtimer(CALLBACK(src, .proc/start_extracting), 20, TIMER_OVERRIDE|TIMER_UNIQUE)
 		update_icon()
@@ -140,7 +138,7 @@
 /obj/machinery/fat_sucker/process(delta_time)
 	if(!processing)
 		return
-	if(!is_operational || !occupant || !iscarbon(occupant))
+	if(!is_operational() || !occupant || !iscarbon(occupant))
 		open_machine()
 		return
 
@@ -161,7 +159,7 @@
 	use_power(500)
 
 /obj/machinery/fat_sucker/proc/start_extracting()
-	if(state_open || !occupant || processing || !is_operational)
+	if(state_open || !occupant || processing || !is_operational())
 		return
 	if(iscarbon(occupant))
 		var/mob/living/carbon/C = occupant
@@ -184,13 +182,6 @@
 	if(occupant && iscarbon(occupant))
 		var/mob/living/carbon/C = occupant
 		if(C.type_of_meat)
-			// Someone changed component rating high enough so it requires negative amount of nutrients to create a meat slab
-			if(nutrient_to_meat < 0)
-				occupant.forceMove(drop_location())
-				occupant = null
-				explosion(loc, 0, 1, 2, 3, TRUE)
-				qdel(src)
-				return
 			if(nutrients >= nutrient_to_meat * 2)
 				C.put_in_hands(new /obj/item/reagent_containers/food/snacks/cookie (), TRUE)
 			while(nutrients >= nutrient_to_meat)

@@ -32,7 +32,7 @@
 
 /obj/machinery/power/generator/update_icon()
 
-	if(machine_stat & (NOPOWER|BROKEN))
+	if(stat & (NOPOWER|BROKEN))
 		cut_overlays()
 	else
 		cut_overlays()
@@ -115,7 +115,7 @@
 
 		t += "<div class='statusDisplay'>"
 
-		t += "Output: [display_power(lastgenlev)]"
+		t += "Output: [DisplayPower(lastgenlev)]"
 
 		t += "<BR>"
 

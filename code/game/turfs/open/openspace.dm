@@ -40,12 +40,12 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	..()
 	return TRUE
 
-/turf/open/openspace/Initialize(mapload) // handle plane and layer here so that they don't cover other obs/turfs in Dream Maker
+/turf/open/openspace/Initialize() // handle plane and layer here so that they don't cover other obs/turfs in Dream Maker
 	. = ..()
 	plane = OPENSPACE_PLANE
 	layer = OPENSPACE_LAYER
 
-	overlays += GLOB.openspace_backdrop_one_for_all //Special grey square for projecting backdrop darkness filter on it.
+	vis_contents += GLOB.openspace_backdrop_one_for_all //Special grey square for projecting backdrop darkness filter on it.
 
 	return INITIALIZE_HINT_LATELOAD
 
@@ -93,17 +93,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	return TRUE
 
 /turf/open/openspace/zPassIn(atom/movable/A, direction, turf/source)
-	if(direction == DOWN)
-		for(var/obj/O in contents)
-			if(O.obj_flags & BLOCK_Z_IN_DOWN)
-				return FALSE
-		return TRUE
-	if(direction == UP)
-		for(var/obj/O in contents)
-			if(O.obj_flags & BLOCK_Z_IN_UP)
-				return FALSE
-		return TRUE
-	return FALSE
+	return TRUE
 
 /turf/open/openspace/zPassOut(atom/movable/A, direction, turf/destination)
 	//Check if our fall location has gravity
@@ -113,17 +103,10 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	*/
 	if(A.anchored)
 		return FALSE
-	if(direction == DOWN)
-		for(var/obj/O in contents)
-			if(O.obj_flags & BLOCK_Z_OUT_DOWN)
-				return FALSE
-		return TRUE
-	if(direction == UP)
-		for(var/obj/O in contents)
-			if(O.obj_flags & BLOCK_Z_OUT_UP)
-				return FALSE
-		return TRUE
-	return FALSE
+	for(var/obj/O in contents)
+		if(O.obj_flags & BLOCK_Z_FALL)
+			return FALSE
+	return TRUE
 
 /turf/open/openspace/proc/CanCoverUp()
 	return can_cover_up
@@ -192,9 +175,6 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			to_chat(user, "<span class='notice'>You build a floor.</span>")
 			PlaceOnTop(/turf/open/floor/plating, flags = CHANGETURF_INHERIT_AIR)
 			return TRUE
-	return FALSE
-
-/turf/open/openspace/rust_heretic_act()
 	return FALSE
 
 //Returns FALSE if gravity is force disabled. True if grav is possible

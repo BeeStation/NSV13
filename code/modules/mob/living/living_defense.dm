@@ -359,7 +359,7 @@
 
 
 	if (client)
-		client.give_award(/datum/award/achievement/misc/singularity_death, client.mob)
+		SSmedals.UnlockMedal(MEDAL_SINGULARITY_DEATH,client)
 
 
 	investigate_log("([key_name(src)]) has been consumed by the singularity.", INVESTIGATE_ENGINES) //Oh that's where the clown ended up!
@@ -424,16 +424,3 @@
 		return TRUE
 	else
 		return FALSE
-
-/mob/living/proc/sethellbound()
-	if(mind)
-		mind.hellbound = TRUE
-		med_hud_set_status()
-		return TRUE
-	return FALSE
-
-/mob/living/proc/ishellbound()
-	return mind?.hellbound
-
-/mob/living/proc/force_hit_projectile(obj/item/projectile/projectile)
-	return FALSE

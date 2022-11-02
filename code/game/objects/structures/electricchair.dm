@@ -6,19 +6,19 @@
 	var/last_time = 1
 	item_chair = null
 
-/obj/structure/chair/e_chair/Initialize(mapload)
+/obj/structure/chair/e_chair/Initialize()
 	. = ..()
-	add_overlay(mutable_appearance('icons/obj/beds_chairs/chairs.dmi', "echair_over", MOB_LAYER + 1))
+	add_overlay(mutable_appearance('icons/obj/chairs.dmi', "echair_over", MOB_LAYER + 1))
 
 /obj/structure/chair/e_chair/attackby(obj/item/W, mob/user, params)
 	if(W.tool_behaviour == TOOL_WRENCH)
 		var/obj/structure/chair/C = new /obj/structure/chair(loc)
 		W.play_tool_sound(src)
 		C.setDir(dir)
-		qdel(src)
 		part.forceMove(loc)
-		return
-	. = ..()
+		part.master = null
+		part = null
+		qdel(src)
 
 /obj/structure/chair/e_chair/proc/shock()
 	if(last_time + 50 > world.time)

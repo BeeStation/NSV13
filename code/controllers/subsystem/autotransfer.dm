@@ -7,7 +7,7 @@ SUBSYSTEM_DEF(autotransfer)
 	var/targettime
 
 /datum/controller/subsystem/autotransfer/Initialize(timeofday)
-	starttime = REALTIMEOFDAY
+	starttime = world.time
 	targettime = starttime + CONFIG_GET(number/vote_autotransfer_initial)
 
 	if(!CONFIG_GET(flag/vote_autotransfer_enabled))
@@ -16,6 +16,6 @@ SUBSYSTEM_DEF(autotransfer)
 	. = ..()
 
 /datum/controller/subsystem/autotransfer/fire()
-	if(REALTIMEOFDAY > targettime)
+	if(world.time > targettime)
 		SSvote.initiate_vote("transfer", null)
 		targettime = targettime + CONFIG_GET(number/vote_autotransfer_interval)

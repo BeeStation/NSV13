@@ -68,7 +68,7 @@ export const TicketMenu = (props, context) => {
       title={name}>
       <Table>
         {ticket_list.map(ticket => (
-          <Section independent
+          <Section
             key={ticket.name} >
             <Table.Row>
               <Table.Cell

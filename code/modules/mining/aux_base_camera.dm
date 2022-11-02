@@ -6,7 +6,7 @@
 	icon_state = "construction_drone"
 	var/area/starting_area
 
-/mob/camera/ai_eye/remote/base_construction/Initialize(mapload)
+/mob/camera/ai_eye/remote/base_construction/Initialize()
 	. = ..()
 	starting_area = get_area(loc)
 
@@ -49,7 +49,7 @@
 
 	light_color = LIGHT_COLOR_PINK
 
-/obj/machinery/computer/camera_advanced/base_construction/Initialize(mapload)
+/obj/machinery/computer/camera_advanced/base_construction/Initialize()
 	. = ..()
 	RCD = new(src)
 

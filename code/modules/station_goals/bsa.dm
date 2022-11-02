@@ -21,7 +21,7 @@
 	if(..())
 		return TRUE
 	var/obj/machinery/bsa/full/B = locate()
-	if(B && !B.machine_stat)
+	if(B && !B.stat)
 		return TRUE
 	return FALSE
 
@@ -327,7 +327,7 @@
 	if(!cannon)
 		notice = "No Cannon Exists!"
 		return
-	if(cannon.machine_stat)
+	if(cannon.stat)
 		notice = "Cannon unpowered!"
 		return
 	notice = null

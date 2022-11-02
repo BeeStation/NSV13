@@ -20,7 +20,7 @@
 	///volume of our internal buffer
 	var/volume = 200
 
-/obj/machinery/power/liquid_pump/Initialize(mapload)
+/obj/machinery/power/liquid_pump/Initialize()
 	. = ..()
 	create_reagents(volume)
 	AddComponent(/datum/component/plumbing/simple_supply, TRUE)

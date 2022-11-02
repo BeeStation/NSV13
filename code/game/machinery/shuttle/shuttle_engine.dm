@@ -51,7 +51,7 @@
 	needs_heater = FALSE
 	cooldown = 90
 
-/obj/machinery/shuttle/engine/Initialize(mapload)
+/obj/machinery/shuttle/engine/Initialize()
 	. = ..()
 	check_setup()
 
@@ -77,7 +77,6 @@
 	attached_heater = null
 	var/obj/machinery/atmospherics/components/unary/shuttle/heater/as_heater = locate() in heater_turf
 	if(!as_heater)
-		update_engine()
 		return
 	if(as_heater.dir != dir)
 		return
@@ -90,10 +89,6 @@
 	return
 
 /obj/machinery/shuttle/engine/proc/update_engine()
-	if(panel_open)
-		thruster_active = FALSE
-		icon_state = icon_state_open
-		return
 	if(!needs_heater)
 		icon_state = icon_state_closed
 		thruster_active = TRUE
@@ -103,12 +98,23 @@
 		thruster_active = FALSE
 		return
 	var/obj/machinery/atmospherics/components/unary/shuttle/heater/resolved_heater = attached_heater.resolve()
-	if(resolved_heater?.hasFuel(1))
+	if(panel_open)
+		thruster_active = FALSE
+	else if(resolved_heater?.hasFuel(1))
 		icon_state = icon_state_closed
 		thruster_active = TRUE
 	else
 		thruster_active = FALSE
 		icon_state = icon_state_off
+	return
+
+/obj/machinery/shuttle/engine/void/update_engine()
+	if(panel_open)
+		thruster_active = FALSE
+		return
+	thruster_active = TRUE
+	icon_state = icon_state_closed
+	return
 
 //Thanks to spaceheater.dm for inspiration :)
 /obj/machinery/shuttle/engine/proc/fireEngine()

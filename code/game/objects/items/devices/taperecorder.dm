@@ -288,6 +288,6 @@
 /obj/item/tape/random
 	icon_state = "random_tape"
 
-/obj/item/tape/random/Initialize(mapload)
+/obj/item/tape/random/Initialize()
 	. = ..()
 	icon_state = "tape_[pick("white", "blue", "red", "yellow", "purple")]"

@@ -12,7 +12,7 @@
 	var/panel_open = FALSE
 	var/datum/barsign/chosen_sign
 
-/obj/structure/sign/barsign/Initialize(mapload)
+/obj/structure/sign/barsign/Initialize()
 	. = ..()
 	set_sign(new /datum/barsign/hiddensigns/signoff)
 

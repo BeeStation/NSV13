@@ -34,5 +34,3 @@
 			to_chat(parent, "<span class='userdanger'>You feel like you are never going to get out...</span>")
 		if(15 to 17)
 			L.emote("cry")
-		else
-			SWITCH_EMPTY_STATEMENT

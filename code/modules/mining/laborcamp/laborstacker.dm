@@ -8,16 +8,18 @@ GLOBAL_LIST(labor_sheet_values)
 	icon = 'icons/obj/machines/mining_machines.dmi'
 	icon_state = "console"
 	density = FALSE
-	var/obj/machinery/mineral/stacking_machine/laborstacker/stacking_machine
-	//needed to send messages to sec radio
-	var/obj/item/radio/integrated_radio
+
+
+
+	var/obj/machinery/mineral/stacking_machine/laborstacker/stacking_machine = null
 	var/machinedir = SOUTH
+	//needed to send messages to sec radio
+	var/obj/item/radio/Radio
 
-
-/obj/machinery/mineral/labor_claim_console/Initialize(mapload)
+/obj/machinery/mineral/labor_claim_console/Initialize()
 	. = ..()
-	integrated_radio = new /obj/item/radio(src)
-	integrated_radio.listening = FALSE
+	Radio = new /obj/item/radio(src)
+	Radio.listening = FALSE
 	locate_stacking_machine()
 	//If we can't find a stacking machine end it all ok?
 	if(!stacking_machine)
@@ -33,7 +35,7 @@ GLOBAL_LIST(labor_sheet_values)
 		GLOB.labor_sheet_values = sortList(sheet_list, /proc/cmp_sheet_list)
 
 /obj/machinery/mineral/labor_claim_console/Destroy()
-	QDEL_NULL(integrated_radio)
+	QDEL_NULL(Radio)
 	if(stacking_machine)
 		stacking_machine.console = null
 		stacking_machine = null
@@ -58,6 +60,11 @@ GLOBAL_LIST(labor_sheet_values)
 	data["ores"] = GLOB.labor_sheet_values
 	return data
 
+/obj/machinery/mineral/labor_claim_console/ui_static_data(mob/user)
+	var/list/data = list()
+	data["ores"] = GLOB.labor_sheet_values
+	return data
+
 /obj/machinery/mineral/labor_claim_console/ui_data(mob/user)
 	var/list/data = list()
 	var/can_go_home = FALSE
@@ -69,15 +76,13 @@ GLOBAL_LIST(labor_sheet_values)
 
 	var/obj/item/card/id/I = user.get_idcard(TRUE)
 	if(istype(I, /obj/item/card/id/prisoner))
-		var/obj/item/card/id/prisoner/prisonerID = I
-		data["id_points"] = prisonerID.points
-		if(prisonerID.points >= prisonerID.goal && !prisonerID.permanent)
+		var/obj/item/card/id/prisoner/P = I
+		data["id_points"] = P.points
+		if(P.points >= P.goal)
 			can_go_home = TRUE
 			data["status_info"] = "Goal met!"
-		else if(prisonerID.permanent)
-			data["status_info"] = "Your sentence is permanent."
 		else
-			data["status_info"] = "You are [(prisonerID.goal - prisonerID.points)] points away."
+			data["status_info"] = "You are [(P.goal - P.points)] points away."
 	else
 		data["status_info"] = "No Prisoner ID detected."
 		data["id_points"] = 0
@@ -117,8 +122,8 @@ GLOBAL_LIST(labor_sheet_values)
 					to_chat(M, "<span class='alert'>No permission to dock could be granted.</span>")
 				else
 					if(!(obj_flags & EMAGGED))
-						integrated_radio.set_frequency(FREQ_SECURITY)
-						integrated_radio.talk_into(src, "A prisoner has returned to the station. Minerals and Prisoner ID card ready for retrieval.", FREQ_SECURITY)
+						Radio.set_frequency(FREQ_SECURITY)
+						Radio.talk_into(src, "A prisoner has returned to the station. Minerals and Prisoner ID card ready for retrieval.", FREQ_SECURITY)
 					to_chat(M, "<span class='notice'>Shuttle received message and will be sent shortly.</span>")
 					return TRUE
 
@@ -136,8 +141,8 @@ GLOBAL_LIST(labor_sheet_values)
 
 /obj/machinery/mineral/stacking_machine/laborstacker
 	force_connect = TRUE
-	damage_deflection = 21
 	var/points = 0 //The unclaimed value of ore stacked.
+	damage_deflection = 21
 /obj/machinery/mineral/stacking_machine/laborstacker/process_sheet(obj/item/stack/sheet/inp)
 	points += inp.point_value * inp.amount
 	..()
@@ -155,6 +160,7 @@ GLOBAL_LIST(labor_sheet_values)
 	desc = "A console used by prisoners to check the progress on their quotas. Simply swipe a prisoner ID."
 	icon = 'icons/obj/machines/mining_machines.dmi'
 	icon_state = "console"
+	density = FALSE
 
 /obj/machinery/mineral/labor_points_checker/attack_hand(mob/user)
 	. = ..()

@@ -35,18 +35,33 @@
 #EVERYTHING = Simply gives you everything without having to type every flag.
 #@ = special keyword for the current permission type that adds all the keywords that the preceding rank has of the same type.
 
-Name = Server Ops Team
-Include = EVERYTHING
+Name = Admin Observer
+Include =
+Exclude = AUTOADMIN
+Edit =
+
+Name = Moderator
+Include = ADMIN
 Exclude =
-Edit = EVERYTHING
+Edit =
+
+Name = Admin Candidate
+Include = @
+Exclude =
+Edit =
 
 Name = Trial Admin
-Include = ADMIN BAN SPAWN VAREDIT
+Include = @ SPAWN VAREDIT BAN
+Exclude =
+Edit =
+
+Name = Badmin
+Include = @ POSSESS POLL BUILD SERVER FUN
 Exclude =
 Edit =
 
 Name = Admin
-Include = ADMIN BAN BUILD DEBUG FUN POLL POSSESS SERVER SOUND SPAWN STEALTH VAREDIT 
+Include = @ STEALTH SOUND DEBUG
 Exclude =
 Edit =
 
@@ -55,7 +70,17 @@ Include = EVERYTHING
 Exclude =
 Edit = EVERYTHING
 
+Name = Lazy Master
+Include = EVERYTHING
+Exclude = AUTOADMIN
+Edit = EVERYTHING
+
 Name = Host
+Include = EVERYTHING
+Exclude =
+Edit = EVERYTHING
+
+Name = Lurker
 Include = EVERYTHING
 Exclude =
 Edit = EVERYTHING
@@ -66,11 +91,11 @@ Exclude =
 Edit = EVERYTHING
 
 Name = Coder
-Include = DEBUG POLL SERVER SPAWN VAREDIT
+Include = DEBUG VAREDIT SERVER SPAWN POLL
 Exclude = AUTOADMIN
 Edit =
 
-Name = Project Lead
+Name = CouncilMember
 Include = EVERYTHING
 Exclude =
 Edit = EVERYTHING

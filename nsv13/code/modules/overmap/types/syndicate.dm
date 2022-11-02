@@ -58,7 +58,7 @@
 
 //AI Versions
 
-/obj/structure/overmap/syndicate/ai/Initialize(mapload)
+/obj/structure/overmap/syndicate/ai/Initialize()
 	. = ..()
 	name = "[name] ([rand(0,999)])"
 	
@@ -416,7 +416,7 @@
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/disruptor
 	possible_interior_maps = list()
 
-/obj/structure/overmap/syndicate/ai/submarine/Initialize(mapload)
+/obj/structure/overmap/syndicate/ai/submarine/Initialize()
 	. = ..()
 	handle_cloak(TRUE)
 
@@ -450,7 +450,7 @@
 	torpedoes = 0
 	combat_dice_type = /datum/combat_dice/cruiser
 
-/obj/structure/overmap/syndicate/ai/kadesh/Initialize(mapload)
+/obj/structure/overmap/syndicate/ai/kadesh/Initialize()
 	. = ..()
 	AddComponent(/datum/component/interdiction)
 
@@ -531,7 +531,7 @@
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
 	flak_battery_amount = 3
 
-/obj/structure/overmap/hostile/ai/alicorn/Initialize(mapload)
+/obj/structure/overmap/hostile/ai/alicorn/Initialize()
 	. = ..()
 	handle_cloak(TRUE)
 

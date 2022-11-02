@@ -24,9 +24,8 @@
 	//two variables necessary for calculating whether we get a brain trauma or not
 	var/damage_delta = 0
 
-	var/list/datum/brain_trauma/traumas = list()
 
-	investigate_flags = ADMIN_INVESTIGATE_TARGET
+	var/list/datum/brain_trauma/traumas = list()
 
 /obj/item/organ/brain/Insert(mob/living/carbon/C, special = 0,no_id_transfer = FALSE)
 	..()
@@ -224,7 +223,7 @@
 		var/mob/living/carbon/human/H = C
 		if(H.dna?.species)
 			if(REVIVESBYHEALING in H.dna.species.species_traits)
-				if(H.health > 0 && !H.ishellbound())
+				if(H.health > 0 && !H.hellbound)
 					H.revive(0)
 
 /obj/item/organ/brain/positron/emp_act(severity)

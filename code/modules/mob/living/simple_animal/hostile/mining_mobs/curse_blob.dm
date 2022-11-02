@@ -21,60 +21,40 @@
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	sentience_type = SENTIENCE_BOSS
 	layer = LARGE_MOB_LAYER
+	var/doing_move_loop = FALSE
 	var/mob/living/set_target
-	var/datum/move_loop/has_target/force_move/our_loop
+	var/timerid
 
 /mob/living/simple_animal/hostile/asteroid/curseblob/Initialize(mapload)
 	. = ..()
-	QDEL_IN(src, 60 SECONDS)
+	timerid = QDEL_IN(src, 600)
 	playsound(src, 'sound/effects/curse1.ogg', 100, 1, -1)
 
 /mob/living/simple_animal/hostile/asteroid/curseblob/Destroy()
 	new /obj/effect/temp_visual/dir_setting/curse/blob(loc, dir)
-	set_target = null
+	doing_move_loop = FALSE
 	return ..()
 
-/mob/living/simple_animal/hostile/asteroid/curseblob/Goto(move_target, delay, minimum_distance) //Observe
-	if(check_for_target())
-		return
+/mob/living/simple_animal/hostile/asteroid/curseblob/Goto(move_target, delay, minimum_distance)
 	move_loop(target, delay)
 
 /mob/living/simple_animal/hostile/asteroid/curseblob/proc/move_loop(move_target, delay)
-	if(our_loop)
+	set waitfor = FALSE
+	if(doing_move_loop)
 		return
-	our_loop = SSmove_manager.force_move(src, move_target, delay, priority = MOVEMENT_ABOVE_SPACE_PRIORITY)
-	if(!our_loop)
+	doing_move_loop = TRUE
+	if(check_for_target())
 		return
-	RegisterSignal(move_target, COMSIG_MOB_STATCHANGE, .proc/stat_change)
-	RegisterSignal(move_target, COMSIG_MOVABLE_Z_CHANGED, .proc/target_z_change)
-	RegisterSignal(src, COMSIG_MOVABLE_Z_CHANGED, .proc/our_z_change)
-	RegisterSignal(our_loop, COMSIG_PARENT_QDELETING, .proc/handle_loop_end)
-
-/mob/living/simple_animal/hostile/asteroid/curseblob/proc/stat_change(datum/source, new_stat)
-	SIGNAL_HANDLER
-	if(new_stat != CONSCIOUS)
-		qdel(src)
-
-/mob/living/simple_animal/hostile/asteroid/curseblob/proc/target_z_change(datum/source, old_z, new_z)
-	SIGNAL_HANDLER
-	qdel(src)
-
-/mob/living/simple_animal/hostile/asteroid/curseblob/proc/our_z_change(datum/source, old_z, new_z)
-	SIGNAL_HANDLER
-	qdel(src)
-
-/mob/living/simple_animal/hostile/asteroid/curseblob/proc/handle_loop_end()
-	SIGNAL_HANDLER
-	if(QDELETED(src))
-		return
-	qdel(src)
-
-/mob/living/simple_animal/hostile/asteroid/curseblob/handle_target_del(datum/source)
-	. = ..()
-	qdel(src)
+	while(!QDELETED(src) && doing_move_loop && isturf(loc) && !check_for_target())
+		var/step_turf = get_step(src, get_dir(src, set_target))
+		if(step_turf != get_turf(set_target))
+			forceMove(step_turf)
+		sleep(delay)
+	doing_move_loop = FALSE
 
 /mob/living/simple_animal/hostile/asteroid/curseblob/proc/check_for_target()
-	if(QDELETED(src) || !set_target || set_target.stat != CONSCIOUS || set_target.z != z)
+	if(QDELETED(set_target) || set_target.stat != CONSCIOUS || z != set_target.z)
+		qdel(src)
 		return TRUE
 
 /mob/living/simple_animal/hostile/asteroid/curseblob/GiveTarget(new_target)

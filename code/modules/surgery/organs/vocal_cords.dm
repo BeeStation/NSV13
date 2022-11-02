@@ -1,7 +1,7 @@
-#define COOLDOWN_STUN 2 MINUTES
-#define COOLDOWN_DAMAGE 1 MINUTES
-#define COOLDOWN_MEME 30 SECONDS
-#define COOLDOWN_NONE 10 SECONDS
+#define COOLDOWN_STUN 1200
+#define COOLDOWN_DAMAGE 600
+#define COOLDOWN_MEME 300
+#define COOLDOWN_NONE 100
 
 /obj/item/organ/vocal_cords //organs that are activated through speech with the :x/MODE_KEY_VOCALCORDS channel
 	name = "vocal cords"
@@ -161,13 +161,13 @@
 
 	if(user.mind)
 		//Chaplains are very good at speaking with the voice of god
-		if(user.mind.assigned_role == JOB_NAME_CHAPLAIN)
+		if(user.mind.assigned_role == "Chaplain")
 			power_multiplier *= 2
-		//Curators are very good at speaking in other languages, but not as good as Chaplain with this one
-		if(user.mind.assigned_role == "Curator")
-			power_multiplier *= 1.5
+		//Command staff has authority
+		if(user.mind.assigned_role in GLOB.command_positions)
+			power_multiplier *= 1.4
 		//Why are you speaking
-		if(user.mind.assigned_role == JOB_NAME_MIME)
+		if(user.mind.assigned_role == "Mime")
 			power_multiplier *= 0.5
 
 	//Cultists are closer to their gods and are more powerful, but they'll give themselves away
@@ -261,32 +261,34 @@
 		cooldown = COOLDOWN_STUN
 		for(var/V in listeners)
 			var/mob/living/L = V
-			L.Stun(1 SECONDS * power_multiplier)
+			L.Stun(60 * power_multiplier)
 
 	//KNOCKDOWN
 	else if(findtext(message, knockdown_words))
 		cooldown = COOLDOWN_STUN
 		for(var/V in listeners)
 			var/mob/living/L = V
-			L.Knockdown(2 SECONDS * power_multiplier)
+			L.Paralyze(60 * power_multiplier)
 
 	//SLEEP
 	else if((findtext(message, sleep_words)))
 		cooldown = COOLDOWN_STUN
 		for(var/mob/living/carbon/C in listeners)
-			C.Sleeping(1 SECONDS * power_multiplier)
+			C.Sleeping(40 * power_multiplier)
 
 	//VOMIT
 	else if((findtext(message, vomit_words)))
-		cooldown = COOLDOWN_DAMAGE
+		cooldown = COOLDOWN_STUN
 		for(var/mob/living/carbon/C in listeners)
-			C.vomit(10 * power_multiplier, stun = FALSE, distance = power_multiplier)
+			C.vomit(10 * power_multiplier, distance = power_multiplier)
 
 	//SILENCE
 	else if((findtext(message, silence_words)))
 		cooldown = COOLDOWN_STUN
 		for(var/mob/living/carbon/C in listeners)
-			C.silent += (10 SECONDS * power_multiplier)
+			if(user.mind && (user.mind.assigned_role == "Curator" || user.mind.assigned_role == "Mime"))
+				power_multiplier *= 3
+			C.silent += (10 * power_multiplier)
 
 	//HALLUCINATE
 	else if((findtext(message, hallucinate_words)))
@@ -463,7 +465,7 @@
 	else if((findtext(message, throwmode_words)))
 		cooldown = COOLDOWN_MEME
 		for(var/mob/living/carbon/C in listeners)
-			C.throw_mode_on(THROW_MODE_TOGGLE)
+			C.throw_mode_on()
 
 	//FLIP
 	else if((findtext(message, flip_words)))
@@ -551,7 +553,7 @@
 	else if((findtext(message, honk_words)))
 		cooldown = COOLDOWN_MEME
 		addtimer(CALLBACK(GLOBAL_PROC, .proc/playsound, get_turf(user), 'sound/items/bikehorn.ogg', 300, 1), 25)
-		if(user.mind?.assigned_role == JOB_NAME_CLOWN)
+		if(user.mind?.assigned_role == "Clown")
 			for(var/mob/living/carbon/C in listeners)
 				C.slip(140 * power_multiplier)
 			cooldown = COOLDOWN_MEME

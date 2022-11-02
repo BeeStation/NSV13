@@ -16,7 +16,6 @@
 	/obj/structure/falsewall)
 	smooth = SMOOTH_MORE
 	//	flags = CONDUCT_1
-	obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN
 
 /obj/structure/lattice/examine(mob/user)
 	. = ..()

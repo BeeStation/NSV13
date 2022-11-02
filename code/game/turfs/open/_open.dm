@@ -21,21 +21,11 @@
 
 //direction is direction of travel of A
 /turf/open/zPassIn(atom/movable/A, direction, turf/source)
-	if(direction == DOWN)
-		for(var/obj/O in contents)
-			if(O.obj_flags & BLOCK_Z_IN_DOWN)
-				return FALSE
-		return TRUE
-	return FALSE
+	return (direction == DOWN)
 
 //direction is direction of travel of A
 /turf/open/zPassOut(atom/movable/A, direction, turf/destination)
-	if(direction == UP)
-		for(var/obj/O in contents)
-			if(O.obj_flags & BLOCK_Z_OUT_UP)
-				return FALSE
-		return TRUE
-	return FALSE
+	return (direction == UP)
 
 //direction is direction of travel of air
 /turf/open/zAirIn(direction, turf/source)
@@ -92,7 +82,7 @@
 	heavyfootstep = FOOTSTEP_LAVA
 	tiled_dirt = FALSE
 
-/turf/open/indestructible/necropolis/Initialize(mapload)
+/turf/open/indestructible/necropolis/Initialize()
 	. = ..()
 	if(prob(12))
 		icon_state = "necro[rand(2,3)]"
@@ -194,50 +184,51 @@
 			qdel(O)
 	return TRUE
 
-/turf/open/handle_slip(mob/living/carbon/slipper, knockdown_amount, obj/O, lube, paralyze_amount, force_drop)
-	if(slipper.movement_type & FLYING)
+/turf/open/handle_slip(mob/living/carbon/C, knockdown_amount, obj/O, lube, paralyze_amount, force_drop)
+	if(C.movement_type & FLYING)
 		return 0
 	if(has_gravity(src))
 		var/obj/buckled_obj
-		if(slipper.buckled)
-			buckled_obj = slipper.buckled
+		if(C.buckled)
+			buckled_obj = C.buckled
 			if(!(lube&GALOSHES_DONT_HELP)) //can't slip while buckled unless it's lube.
 				return 0
 		else
-			if(!(lube & SLIP_WHEN_CRAWLING) && (!(slipper.mobility_flags & MOBILITY_STAND) || !(slipper.status_flags & CANKNOCKDOWN))) // can't slip unbuckled mob if they're lying or can't fall.
+			if(!(lube & SLIP_WHEN_CRAWLING) && (!(C.mobility_flags & MOBILITY_STAND) || !(C.status_flags & CANKNOCKDOWN))) // can't slip unbuckled mob if they're lying or can't fall.
 				return 0
-			if(slipper.m_intent == MOVE_INTENT_WALK && (lube&NO_SLIP_WHEN_WALKING))
+			if(C.m_intent == MOVE_INTENT_WALK && (lube&NO_SLIP_WHEN_WALKING))
 				return 0
 		if(!(lube&SLIDE_ICE))
-			to_chat(slipper, "<span class='notice'>You slipped[ O ? " on the [O.name]" : ""]!</span>")
-			playsound(slipper.loc, 'sound/misc/slip.ogg', 50, 1, -3)
+			to_chat(C, "<span class='notice'>You slipped[ O ? " on the [O.name]" : ""]!</span>")
+			playsound(C.loc, 'sound/misc/slip.ogg', 50, 1, -3)
 
-		SEND_SIGNAL(slipper, COMSIG_ADD_MOOD_EVENT, "slipped", /datum/mood_event/slipped)
+		SEND_SIGNAL(C, COMSIG_ADD_MOOD_EVENT, "slipped", /datum/mood_event/slipped)
 		if(force_drop)
-			for(var/obj/item/I in slipper.held_items)
-				slipper.accident(I)
+			for(var/obj/item/I in C.held_items)
+				C.accident(I)
 
-		var/olddir = slipper.dir
-		slipper.moving_diagonally = 0 //If this was part of diagonal move slipping will stop it.
+		var/olddir = C.dir
+		C.moving_diagonally = 0 //If this was part of diagonal move slipping will stop it.
 		if(!(lube & SLIDE_ICE))
-			slipper.Knockdown(knockdown_amount)
-			slipper.drop_all_held_items()
-			slipper.Paralyze(paralyze_amount)
-			slipper.stop_pulling()
+			C.Knockdown(knockdown_amount)
+			C.drop_all_held_items()
+			C.Paralyze(paralyze_amount)
+			C.stop_pulling()
 		else
-			slipper.Knockdown(15)
-			slipper.drop_all_held_items()
+			C.Knockdown(15)
+			C.drop_all_held_items()
 
 		if(buckled_obj)
-			buckled_obj.unbuckle_mob(slipper)
+			buckled_obj.unbuckle_mob(C)
 			lube |= SLIDE_ICE
 
-		var/turf/target = get_ranged_target_turf(slipper, olddir, 4)
-		if(lube & SLIDE)
-			slipper.AddComponent(/datum/component/force_move, target, TRUE)
+		if(lube&SLIDE)
+			new /datum/forced_movement(C, get_ranged_target_turf(C, olddir, 4), 1, FALSE, CALLBACK(C, /mob/living/carbon/.proc/spin, 1, 1))
 		else if(lube&SLIDE_ICE)
-			slipper.AddComponent(/datum/component/force_move, target, FALSE)//spinning would be bad for ice, fucks up the next dir
-		return TRUE
+			if(C.force_moving) //If we're already slipping extend it
+				qdel(C.force_moving)
+			new /datum/forced_movement(C, get_ranged_target_turf(C, olddir, 1), 1, FALSE)	//spinning would be bad for ice, fucks up the next dir
+		return 1
 
 /turf/open/proc/MakeSlippery(wet_setting = TURF_WET_WATER, min_wet_time = 0, wet_time_to_add = 0, max_wet_time = MAXIMUM_WET_TIME, permanent)
 	AddComponent(/datum/component/wet_floor, wet_setting, min_wet_time, wet_time_to_add, max_wet_time, permanent)

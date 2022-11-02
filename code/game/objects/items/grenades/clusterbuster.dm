@@ -16,8 +16,6 @@
 
 /obj/item/grenade/clusterbuster/prime(mob/living/lanced_by)
 	. = ..()
-	if(!.)
-		return
 	update_mob()
 	var/numspawned = rand(min_spawned,max_spawned)
 	var/again = 0
@@ -63,10 +61,6 @@
 	addtimer(CALLBACK(src, .proc/prime), rand(15,60))
 
 /obj/item/grenade/clusterbuster/segment/prime(mob/living/lanced_by)
-	if(dud_flags)
-		active = FALSE
-		update_icon()
-		return FALSE
 	new payload_spawner(drop_location(), payload, rand(min_spawned,max_spawned))
 	playsound(src, prime_sound, 75, TRUE, -3)
 	qdel(src)
@@ -180,7 +174,7 @@
 /obj/item/grenade/clusterbuster/random
 	icon_state = "random_clusterbang"
 
-/obj/item/grenade/clusterbuster/random/Initialize(mapload)
+/obj/item/grenade/clusterbuster/random/Initialize()
 	..()
 	var/real_type = pick(subtypesof(/obj/item/grenade/clusterbuster))
 	new real_type(loc)

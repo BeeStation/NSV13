@@ -1,5 +1,3 @@
-#define MOTION_SENSOR_MINIMUM_ALPHA 200
-
 /obj/machinery/camera
 
 	var/list/datum/weakref/localMotionTargets = list()
@@ -12,7 +10,7 @@
 	if(!isMotion())
 		. = PROCESS_KILL
 		return
-	if(machine_stat & EMPED)
+	if(stat & EMPED)
 		return
 	if (detectTime > 0)
 		var/elapsed = world.time - detectTime
@@ -74,8 +72,7 @@
 /obj/machinery/camera/HasProximity(atom/movable/AM as mob|obj)
 	// Motion cameras outside of an "ai monitored" area will use this to detect stuff.
 	if (!area_motion)
-		//Target must be living and visible enough to the camera
-		if(isliving(AM) && AM.invisibility <= SEE_INVISIBLE_LIVING && AM.alpha >= MOTION_SENSOR_MINIMUM_ALPHA)
+		if(isliving(AM))
 			newTarget(AM)
 
 /obj/machinery/camera/motion/thunderdome
@@ -84,7 +81,7 @@
 	c_tag = "Arena"
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF | FREEZE_PROOF
 
-/obj/machinery/camera/motion/thunderdome/Initialize(mapload)
+/obj/machinery/camera/motion/thunderdome/Initialize()
 	. = ..()
 	proximity_monitor.SetRange(7)
 
@@ -112,5 +109,3 @@
 		detectTime = 0
 		for(var/obj/machinery/computer/security/telescreen/entertainment/TV in GLOB.machines)
 			TV.notify(FALSE)
-
-#undef MOTION_SENSOR_MINIMUM_ALPHA

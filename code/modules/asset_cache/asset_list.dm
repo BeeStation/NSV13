@@ -31,10 +31,7 @@ GLOBAL_LIST_EMPTY(asset_datums)
 	return
 
 /datum/asset/proc/send(client)
-	SHOULD_CALL_PARENT(TRUE)
-	if(!client)
-		return FALSE
-	return TRUE
+	return
 
 
 /// If you don't need anything complicated.
@@ -63,10 +60,7 @@ GLOBAL_LIST_EMPTY(asset_datums)
 		assets[asset_name] = ACI
 
 /datum/asset/simple/send(client)
-	if(!..())
-		return FALSE
-	SSassets.transport.send_assets(client, assets)
-	return TRUE
+	. = SSassets.transport.send_assets(client, assets)
 
 /datum/asset/simple/get_url_mappings()
 	. = list()
@@ -84,8 +78,6 @@ GLOBAL_LIST_EMPTY(asset_datums)
 		get_asset_datum(type)
 
 /datum/asset/group/send(client/C)
-	if(!..())
-		return FALSE
 	for(var/type in children)
 		var/datum/asset/A = get_asset_datum(type)
 		. = A.send(C) || .
@@ -126,15 +118,12 @@ GLOBAL_LIST_EMPTY(asset_datums)
 	fdel(fname)
 
 /datum/asset/spritesheet/send(client/C)
-	if(!..())
-		return FALSE
 	if (!name)
-		return FALSE
+		return
 	var/all = list("spritesheet_[name].css")
 	for(var/size_id in sizes)
 		all += "[name]_[size_id].png"
-	SSassets.transport.send_assets(C, all)
-	return TRUE
+	. = SSassets.transport.send_assets(C, all)
 
 /datum/asset/spritesheet/get_url_mappings()
 	if (!name)

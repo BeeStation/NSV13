@@ -32,7 +32,7 @@
 	)
 	options = component_options
 
-/obj/item/circuit_component/multiplexer/Initialize(mapload)
+/obj/item/circuit_component/multiplexer/Initialize()
 	. = ..()
 	current_option = COMP_TYPE_ANY
 	current_type = COMP_TYPE_ANY

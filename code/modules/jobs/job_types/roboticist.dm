@@ -1,13 +1,14 @@
 /datum/job/roboticist
-	title = JOB_NAME_ROBOTICIST
+	title = "Roboticist"
 	flag = ROBOTICIST
-	department_head = list(JOB_NAME_RESEARCHDIRECTOR)
+	department_head = list("Research Director")
 	department_flag = MEDSCI
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
 	supervisors = "the research director"
 	selection_color = "#ffeeff"
+	chat_color = "#AC71BA"
 	exp_requirements = 120
 	exp_type = EXP_TYPE_CREW
 
@@ -21,18 +22,17 @@
 	paycheck_department = ACCOUNT_SCI
 
 	display_order = JOB_DISPLAY_ORDER_ROBOTICIST
-	departments = DEPARTMENT_BITFLAG_SCIENCE
-	rpg_title = "Golemancer"
+	departments = DEPARTMENT_SCIENCE
 
 	species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/robotics
 	)
 
 /datum/outfit/job/roboticist
-	name = JOB_NAME_ROBOTICIST
+	name = "Roboticist"
 	jobtype = /datum/job/roboticist
 
-	id = /obj/item/card/id/job/roboticist
+	id = /obj/item/card/id/job/sci
 	belt = /obj/item/storage/belt/utility/full
 	l_pocket = /obj/item/pda/roboticist
 	ears = /obj/item/radio/headset/headset_sci
@@ -41,6 +41,5 @@
 
 	backpack = /obj/item/storage/backpack/science
 	satchel = /obj/item/storage/backpack/satchel/tox
-	backpack_contents = list(/obj/item/modular_computer/tablet/preset/science=1)
 
 	pda_slot = ITEM_SLOT_LPOCKET

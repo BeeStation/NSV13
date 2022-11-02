@@ -35,16 +35,9 @@
 	SEND_TEXT(world.log, text)
 #endif
 
-#if defined(REFERENCE_DOING_IT_LIVE)
-#define log_reftracker(msg) log_harddel("## REF SEARCH [msg]")
-
-/proc/log_harddel(text)
-	WRITE_LOG(GLOB.harddel_log, text)
-
-#elif defined(REFERENCE_TRACKING) // Doing it locally
+#ifdef REFERENCE_TRACKING_LOG
 #define log_reftracker(msg) log_world("## REF SEARCH [msg]")
-
-#else //Not tracking at all
+#else
 #define log_reftracker(msg)
 #endif
 

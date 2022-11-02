@@ -26,7 +26,7 @@
 	gold_core_spawnable = HOSTILE_SPAWN
 	var/stepped_sound = 'sound/effects/huuu.ogg'
 
-/mob/living/simple_animal/hostile/retaliate/frog/Initialize(mapload)
+/mob/living/simple_animal/hostile/retaliate/frog/Initialize()
 	. = ..()
 	if(prob(1))
 		name = "rare frog"

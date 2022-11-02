@@ -43,7 +43,6 @@
 
 /** Treat wait as a tick count, not DS, run every wait ticks. */
 /// (also forces it to run first in the tick (unless SS_BACKGROUND))
-/// (We don't want to be choked out by other subsystems queuing into us)
 /// (implies all runlevels because of how it works)
 /// This is designed for basically anything that works as a mini-mc (like SStimer)
 #define SS_TICKER 16
@@ -80,14 +79,6 @@
 	ss_id="timer_[#X]";\
 }\
 /datum/controller/subsystem/timer/##X
-
-#define MOVEMENT_SUBSYSTEM_DEF(X) GLOBAL_REAL(SS##X, /datum/controller/subsystem/movement/##X);\
-/datum/controller/subsystem/movement/##X/New(){\
-	NEW_SS_GLOBAL(SS##X);\
-	PreInit();\
-	ss_id="movement_[#X]";\
-}\
-/datum/controller/subsystem/movement/##X
 
 #define PROCESSING_SUBSYSTEM_DEF(X) GLOBAL_REAL(SS##X, /datum/controller/subsystem/processing/##X);\
 /datum/controller/subsystem/processing/##X/New(){\

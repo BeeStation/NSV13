@@ -28,7 +28,7 @@
 	//Update to viewers
 	ui_update()
 
-/obj/machinery/launchpad/Initialize(mapload)
+/obj/machinery/launchpad/Initialize()
 	. = ..()
 	prepare_huds()
 	for(var/datum/atom_hud/data/diagnostic/diag_hud in GLOB.huds)
@@ -84,7 +84,7 @@
 	ghost.forceMove(target)
 
 /obj/machinery/launchpad/proc/isAvailable()
-	if(machine_stat & NOPOWER)
+	if(stat & NOPOWER)
 		return FALSE
 	if(panel_open)
 		return FALSE
@@ -235,9 +235,7 @@
     src.briefcase = briefcase
 
 /obj/machinery/launchpad/briefcase/Destroy()
-	if(!QDELETED(briefcase))
-		qdel(briefcase)
-	briefcase = null
+	QDEL_NULL(briefcase)
 	return ..()
 
 /obj/machinery/launchpad/briefcase/isAvailable()
@@ -273,7 +271,7 @@
 /obj/item/storage/briefcase/launchpad
 	var/obj/machinery/launchpad/briefcase/pad
 
-/obj/item/storage/briefcase/launchpad/Initialize(mapload)
+/obj/item/storage/briefcase/launchpad/Initialize()
 	pad = new(null, src) //spawns pad in nullspace to hide it from briefcase contents
 	. = ..()
 

@@ -38,7 +38,7 @@
 	var/num_cables = 4
 	var/output_path = /obj/machinery/ship_weapon/deck_turret
 
-/obj/structure/ship_weapon/artillery_frame/Initialize(mapload)
+/obj/structure/ship_weapon/artillery_frame/Initialize()
 	..()
 	LAZYINITLIST(contents)
 

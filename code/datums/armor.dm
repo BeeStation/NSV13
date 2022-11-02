@@ -1,5 +1,4 @@
-//NSV13 - added overmap_light, overmap_medium, and overmap_heavy
-#define ARMORID "armor-[melee]-[bullet]-[laser]-[energy]-[bomb]-[bio]-[rad]-[fire]-[acid]-[magic]-[stamina]-[overmap_light]-[overmap_medium]-[overmap_heavy]"
+#define ARMORID "armor-[melee]-[bullet]-[laser]-[energy]-[bomb]-[bio]-[rad]-[fire]-[acid]-[magic]-[stamina]-[overmap_light]-[overmap_medium]-[overmap_heavy]" //NSV13 overmap light, medium and heavy added to numerious places in this file
 
 /proc/getArmor(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0, fire = 0, acid = 0, magic = 0, stamina = 0, overmap_light = 0, overmap_medium = 0, overmap_heavy = 0)
   . = locate(ARMORID)
@@ -46,7 +45,7 @@
 /datum/armor/proc/modifyAllRatings(modifier = 0)
   return getArmor(melee+modifier, bullet+modifier, laser+modifier, energy+modifier, bomb+modifier, bio+modifier, rad+modifier, fire+modifier, acid+modifier, magic+modifier, stamina+modifier, overmap_light+modifier, overmap_medium+modifier, overmap_heavy+modifier)
 
-/datum/armor/proc/setRating(melee, bullet, laser, energy, bomb, bio, rad, fire, acid, magic, stamina, overmap_light, overmap_medium, overmap_heavy)
+/datum/armor/proc/setRating(melee, bullet, laser, energy, bomb, bio, rad, fire, acid, magic, overmap_light, overmap_medium, overmap_heavy)
   return getArmor((isnull(melee) ? src.melee : melee),\
                   (isnull(bullet) ? src.bullet : bullet),\
                   (isnull(laser) ? src.laser : laser),\
@@ -58,9 +57,9 @@
                   (isnull(acid) ? src.acid : acid),\
 				  (isnull(magic) ? src.magic : magic),\
 				  (isnull(stamina) ? src.stamina : stamina),\
-          (isnull(overmap_light) ? src.overmap_light : overmap_light), \
-          (isnull(overmap_medium) ? src.overmap_medium : overmap_medium), \
-          (isnull(overmap_heavy) ? src.overmap_heavy : overmap_heavy))
+				  (isnull(overmap_light) ? src.overmap_light : overmap_light),\
+				  (isnull(overmap_medium) ? src.overmap_medium : overmap_medium),\
+				  (isnull(overmap_heavy) ? src.overmap_heavy : overmap_heavy))
 
 /datum/armor/proc/getRating(rating)
   return vars[rating]

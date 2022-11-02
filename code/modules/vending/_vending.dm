@@ -54,7 +54,6 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	integrity_failure = 100
 	armor = list("melee" = 20, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 70, "stamina" = 0)
 	circuit = /obj/item/circuitboard/machine/vendor
-	clicksound = 'sound/machines/pda_button1.ogg'
 	payment_department = ACCOUNT_SRV
 
 	light_color = LIGHT_COLOR_BLUE
@@ -239,30 +238,32 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 		..()
 
 /obj/machinery/vending/obj_break(damage_flag)
-	. = ..()
-	if(!.)
-		return
-	var/dump_amount = 0
-	var/found_anything = TRUE
-	while (found_anything)
-		found_anything = FALSE
-		for(var/record in shuffle(product_records))
-			var/datum/data/vending_product/R = record
-			if(R.amount <= 0) //Try to use a record that actually has something to dump.
-				continue
-			var/dump_path = R.product_path
-			if(!dump_path)
-				continue
-			R.amount--
-			// busting open a vendor will destroy some of the contents
-			if(found_anything && prob(80))
-				continue
-			var/obj/O = new dump_path(loc)
-			step(O, pick(GLOB.alldirs))
-			found_anything = TRUE
-			dump_amount++
-			if (dump_amount >= 16)
-				return
+	if(!(stat & BROKEN) && !(flags_1 & NODECONSTRUCT_1))
+		stat |= BROKEN
+		icon_state = "[initial(icon_state)]-broken"
+		set_light(0)
+		var/dump_amount = 0
+		var/found_anything = TRUE
+		while (found_anything)
+			found_anything = FALSE
+			for(var/record in shuffle(product_records))
+				var/datum/data/vending_product/R = record
+				if(R.amount <= 0) //Try to use a record that actually has something to dump.
+					continue
+				var/dump_path = R.product_path
+				if(!dump_path)
+					continue
+				R.amount--
+				// busting open a vendor will destroy some of the contents
+				if(found_anything && prob(80))
+					continue
+
+				var/obj/O = new dump_path(loc)
+				step(O, pick(GLOB.alldirs))
+				found_anything = TRUE
+				dump_amount++
+				if (dump_amount >= 16)
+					return
 
 GLOBAL_LIST_EMPTY(vending_products)
 /**
@@ -385,7 +386,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 	if(refill_canister && istype(I, refill_canister))
 		if (!panel_open)
 			to_chat(user, "<span class='notice'>You should probably unscrew the service panel first.</span>")
-		else if (machine_stat & (BROKEN|NOPOWER))
+		else if (stat & (BROKEN|NOPOWER))
 			to_chat(user, "<span class='notice'>[src] does not respond.</span>")
 		else
 			//if the panel is open we attempt to refill the machine
@@ -437,8 +438,6 @@ GLOBAL_LIST_EMPTY(vending_products)
 					tilt(user)
 				if(91 to 100)
 					tilt(user, crit=TRUE)
-				else
-					SWITCH_EMPTY_STATEMENT
 
 /obj/machinery/vending/proc/freebie(mob/fatty, freebies)
 	visible_message("<span class='notice'>[src] yields [freebies > 1 ? "several free goodies" : "a free goody"]!</span>")
@@ -630,7 +629,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 	to_chat(user, "<span class='notice'>You short out the product lock on [src].</span>")
 
 /obj/machinery/vending/_try_interact(mob/user)
-	if(seconds_electrified && !(machine_stat & NOPOWER))
+	if(seconds_electrified && !(stat & NOPOWER))
 		if(shock(user, 100))
 			return
 
@@ -707,13 +706,13 @@ GLOBAL_LIST_EMPTY(vending_products)
 			.["user"]["cash"] = C.registered_account.account_balance
 			if(C.registered_account.account_job)
 				.["user"]["job"] = C.registered_account.account_job.title
-				.["user"]["department"] = C.registered_account.account_department
+				.["user"]["department"] = C.registered_account.account_job.paycheck_department
 			else
 				.["user"]["job"] = "No Job"
 				.["user"]["department"] = "No Department"
 	.["stock"] = list()
 	for (var/datum/data/vending_product/R in product_records + coin_records + hidden_records)
-		.["stock"]["[replacetext(replacetext("[R.product_path]", "/obj/item/", ""), "/", "-")]"] = R.amount
+		.["stock"][R.name] = R.amount
 	.["extended_inventory"] = extended_inventory
 
 /obj/machinery/vending/ui_act(action, params)
@@ -766,7 +765,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 					vend_ready = TRUE
 					return
 				var/datum/bank_account/account = C.registered_account
-				if(account.account_job && account.account_department == payment_department)
+				if(account.account_job && account.account_job.paycheck_department == payment_department)
 					price_to_use = 0
 				if(coin_records.Find(R))
 					price_to_use = R.custom_premium_price ? R.custom_premium_price : extra_price
@@ -798,7 +797,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 			vend_ready = TRUE
 
 /obj/machinery/vending/process(delta_time)
-	if(machine_stat & (BROKEN|NOPOWER))
+	if(stat & (BROKEN|NOPOWER))
 		return PROCESS_KILL
 	if(!active)
 		return
@@ -825,7 +824,7 @@ GLOBAL_LIST_EMPTY(vending_products)
   * * message - the message to speak
   */
 /obj/machinery/vending/proc/speak(message)
-	if(machine_stat & (BROKEN|NOPOWER))
+	if(stat & (BROKEN|NOPOWER))
 		return
 	if(!message)
 		return
@@ -833,17 +832,17 @@ GLOBAL_LIST_EMPTY(vending_products)
 	say(message)
 
 /obj/machinery/vending/power_change()
-	if(machine_stat & BROKEN)
+	if(stat & BROKEN)
 		icon_state = "[initial(icon_state)]-broken"
 	else
 		if(powered())
 			icon_state = initial(icon_state)
-			machine_stat &= ~NOPOWER
+			stat &= ~NOPOWER
 			START_PROCESSING(SSmachines, src)
 			set_light(2)
 		else
 			icon_state = "[initial(icon_state)]-off"
-			machine_stat |= NOPOWER
+			stat |= NOPOWER
 			set_light(0)
 
 //Somebody cut an important wire and now we're following a new definition of "pitch."
@@ -856,7 +855,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 /obj/machinery/vending/proc/throw_item()
 	var/obj/throw_item = null
 	var/mob/living/target = locate() in view(7,src)
-	if(!target || target.incorporeal_move >= INCORPOREAL_MOVE_BASIC)
+	if(!target)
 		return 0
 
 	for(var/datum/data/vending_product/R in shuffle(product_records))
@@ -899,7 +898,7 @@ GLOBAL_LIST_EMPTY(vending_products)
   * * prb - probability the shock happens
   */
 /obj/machinery/vending/proc/shock(mob/user, prb)
-	if(machine_stat & (BROKEN|NOPOWER))		// unpowered, no shock
+	if(stat & (BROKEN|NOPOWER))		// unpowered, no shock
 		return FALSE
 	if(!prob(prb))
 		return FALSE
@@ -975,7 +974,7 @@ GLOBAL_LIST_EMPTY(vending_products)
 						if(base64_cache[T.type])
 							base64 = base64_cache[T.type]
 						else
-							base64 = icon2base64(icon(T.icon, T.icon_state, frame=1))
+							base64 = icon2base64(icon(T.icon, T.icon_state))
 							base64_cache[T.type] = base64
 					break
 			var/list/data = list(

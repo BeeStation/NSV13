@@ -48,14 +48,13 @@
 	grind_results = list(/datum/reagent/consumable/flour = 0)
 	tastes = list("oat" = 1)
 	distill_reagent = /datum/reagent/consumable/ethanol/ale
-	discovery_points = 300
 
 // Rice
 /obj/item/seeds/wheat/rice
 	name = "pack of rice seeds"
 	desc = "These may, or may not, grow into rice."
 	icon_state = "seed-rice"
-	species = "rice"
+	species = /datum/reagent/consumable/rice
 	plantname = "Rice Stalks"
 	product = /obj/item/reagent_containers/food/snacks/grown/rice
 	mutatelist = list()
@@ -96,7 +95,6 @@
 	grind_results = list(/datum/reagent/consumable/flour = 0, /datum/reagent/blood = 0)
 	tastes = list("meatwheat" = 1)
 	can_distill = FALSE
-	discovery_points = 300
 
 /obj/item/reagent_containers/food/snacks/grown/meatwheat/attack_self(mob/living/user)
 	user.visible_message("<span class='notice'>[user] crushes [src] into meat.</span>", "<span class='notice'>You crush [src] into something that resembles meat.</span>")

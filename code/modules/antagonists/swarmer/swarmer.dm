@@ -29,7 +29,7 @@
 	3. Biological resources will be harvested at a later date; do not harm them.
 	"}
 
-/obj/effect/mob_spawn/swarmer/Initialize(mapload)
+/obj/effect/mob_spawn/swarmer/Initialize()
 	. = ..()
 	var/area/A = get_area(src)
 	if(A)
@@ -108,7 +108,7 @@
 	light_on = TRUE
 	light_color = LIGHT_COLOR_CYAN
 
-/mob/living/simple_animal/hostile/swarmer/Initialize(mapload)
+/mob/living/simple_animal/hostile/swarmer/Initialize()
 	. = ..()
 	remove_verb(/mob/living/verb/pulled)
 	for(var/datum/atom_hud/data/diagnostic/diag_hud in GLOB.huds)
@@ -551,7 +551,7 @@
 	icon_state = "disintegrate"
 	duration = 10
 
-/obj/effect/temp_visual/swarmer/disintegration/Initialize(mapload)
+/obj/effect/temp_visual/swarmer/disintegration/Initialize()
 	. = ..()
 	playsound(loc, "sparks", 100, 1)
 
@@ -649,7 +649,6 @@
 	icon_state = "barricade"
 	light_range = MINIMUM_USEFUL_LIGHT_RANGE
 	max_integrity = 50
-	density = TRUE
 
 /obj/structure/swarmer/blockade/CanAllowThrough(atom/movable/O)
 	. = ..()

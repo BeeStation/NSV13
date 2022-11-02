@@ -19,7 +19,6 @@ export const EngravedMessage = (props, context) => {
   } = data;
   return (
     <Window
-      theme="generic"
       width={600}
       height={300}>
       <Window.Content scrollable>

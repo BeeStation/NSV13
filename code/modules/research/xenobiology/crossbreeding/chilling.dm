@@ -9,7 +9,7 @@ Chilling extracts:
 	effect = "chilling"
 	icon_state = "chilling"
 
-/obj/item/slimecross/chilling/Initialize(mapload)
+/obj/item/slimecross/chilling/Initialize()
 	. = ..()
 	create_reagents(10, INJECTABLE | DRAWABLE)
 

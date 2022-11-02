@@ -45,7 +45,7 @@
 
 //-----WANDERING - Time to mosey around
 	else
-		SSmove_manager.stop_looping(src)
+		walk(src, 0)
 
 		if(prob(10))
 			step(src, pick(GLOB.cardinals))

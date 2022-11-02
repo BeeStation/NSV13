@@ -11,12 +11,13 @@
 	item_state = "knife"
 	lefthand_file = 'icons/mob/inhands/equipment/kitchen_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/kitchen_righthand.dmi'
+	block_upgrade_walk = 1
 	force = 15
 	throwforce = 10
 	w_class = WEIGHT_CLASS_NORMAL
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	var/charges = 1
-	var/spawn_type = /obj/tear_in_reality
+	var/spawn_type = /obj/singularity/wizard
 	var/spawn_amt = 1
 	var/activate_descriptor = "reality"
 	var/rend_desc = "You should run now."
@@ -41,13 +42,13 @@
 	var/spawn_amt_left = 20
 	var/spawn_fast = 0
 
-/obj/effect/rend/Initialize(mapload, var/spawn_type, var/spawn_amt, var/desc, var/spawn_fast)
-	. = ..()
+/obj/effect/rend/New(loc, var/spawn_type, var/spawn_amt, var/desc, var/spawn_fast)
 	src.spawn_path = spawn_type
 	src.spawn_amt_left = spawn_amt
 	src.desc = desc
 	src.spawn_fast = spawn_fast
 	START_PROCESSING(SSobj, src)
+	return
 
 /obj/effect/rend/process()
 	if(!spawn_fast)
@@ -98,38 +99,29 @@
 	rend_desc = "Gently wafting with the sounds of mirthful grunting."
 	icon_state = "clownrender"
 
-#define TEAR_IN_REALITY_CONSUME_RANGE 3
-#define TEAR_IN_REALITY_SINGULARITY_SIZE STAGE_FOUR
+////TEAR IN REALITY
 
-/// Tear in reality, spawned by the veil render
-/obj/tear_in_reality
+/obj/singularity/wizard
 	name = "tear in the fabric of reality"
 	desc = "This isn't right."
 	icon = 'icons/effects/224x224.dmi'
 	icon_state = "reality"
+	is_real = FALSE
 	pixel_x = -96
 	pixel_y = -96
-	anchored = TRUE
-	density = TRUE
-	move_resist = INFINITY
-	layer = MASSIVE_OBJ_LAYER
-	light_range = 6
-	appearance_flags = LONG_GLIDE
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
-	obj_flags = CAN_BE_HIT | DANGEROUS_POSSESSION
+	dissipate = 0
+	move_self = 0
+	consume_range = 0
+	grav_pull = 5
+	current_size = STAGE_FOUR
+	allowed_size = STAGE_FOUR
 
-/obj/tear_in_reality/Initialize(mapload)
-	. = ..()
-	AddComponent(
-		/datum/component/singularity, \
-		consume_callback = CALLBACK(src, .proc/consume), \
-		consume_range = TEAR_IN_REALITY_CONSUME_RANGE, \
-		notify_admins = FALSE, \
-		roaming = FALSE, \
-		singularity_size = TEAR_IN_REALITY_SINGULARITY_SIZE, \
-	)
+/obj/singularity/wizard/process()
+	move()
+	eat()
+	return
 
-/obj/tear_in_reality/attack_tk(mob/user)
+/obj/singularity/wizard/attack_tk(mob/user)
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
 		var/datum/component/mood/insaneinthemembrane = C.GetComponent(/datum/component/mood)
@@ -139,27 +131,41 @@
 		insaneinthemembrane.sanity = 0
 		for(var/lore in typesof(/datum/brain_trauma/severe))
 			C.gain_trauma(lore)
-		addtimer(CALLBACK(src, .proc/deranged, C), 100)
+		addtimer(CALLBACK(src, /obj/singularity/wizard.proc/deranged, C), 100)
 
-/obj/tear_in_reality/proc/deranged(mob/living/carbon/C)
+/obj/singularity/wizard/proc/deranged(mob/living/carbon/C)
 	if(!C || C.stat == DEAD)
 		return
 	C.vomit(0, TRUE, TRUE, 3, TRUE)
 	C.spew_organ(3, 2)
 	C.death()
 
-/obj/tear_in_reality/Bump(atom/A)
+//Dont eat turfs
+/obj/singularity/wizard/eat()
+	for(var/turf/T as() in spiral_range_turfs(grav_pull, src))
+		if(!T || !isturf(loc))
+			continue
+		for(var/thing in T)
+			if(isturf(loc) && thing != src)
+				var/atom/movable/X = thing
+				X.singularity_pull(src, current_size)
+			CHECK_TICK
+
+/obj/singularity/wizard/mapped/admin_investigate_setup()
+	return
+
+/obj/singularity/wizard/Bump(atom/A)
 	if(ismovableatom(A))
 		free(A)
 
-/obj/tear_in_reality/Bumped(atom/movable/AM)
+/obj/singularity/wizard/Bumped(atom/movable/AM)
 	free(AM)
 
-/obj/tear_in_reality/proc/consume(atom/A)
+/obj/singularity/wizard/consume(atom/A)
 	if(ismovableatom(A))
 		free(A)
 
-/obj/tear_in_reality/proc/free(atom/movable/A)
+/obj/singularity/wizard/proc/free(atom/movable/A)
 	if(!LAZYLEN(GLOB.destabliization_exits))
 		if(ismob(A))
 			to_chat(A, "<span class='warning'>There is no way out of this place...</span>")
@@ -169,9 +175,6 @@
 	if(!T)
 		return
 	A.forceMove(T)
-
-#undef TEAR_IN_REALITY_CONSUME_RANGE
-#undef TEAR_IN_REALITY_SINGULARITY_SIZE
 
 /////////////////////////////////////////Scrying///////////////////
 
@@ -271,8 +274,6 @@
 	to_chat(M, "<span class='userdanger'>[user.p_theyre(TRUE)] your master now, assist [user.p_them()] even if it costs you your new life!</span>")
 
 	equip_roman_skeleton(M)
-	
-	log_combat(user, M, "used a necromantic stone to reanimate")
 
 	desc = "A shard capable of resurrecting humans as skeleton thralls[unlimited ? "." : ", [spooky_scaries.len]/3 active thralls."]"
 
@@ -501,6 +502,6 @@
 	duration = 40
 	pixel_x = 500
 
-/obj/effect/temp_visual/tornado/Initialize(mapload)
+/obj/effect/temp_visual/tornado/Initialize()
 	. = ..()
 	animate(src, pixel_x = -500, time = 40)

@@ -32,7 +32,7 @@
 	else
 		. += "<span class='notice'>You might be able to build ontop of it with some <i>tiles</i>...</span>"
 
-/turf/open/floor/plating/Initialize(mapload)
+/turf/open/floor/plating/Initialize()
 	if (!broken_states)
 		broken_states = list("platingdmg1", "platingdmg2", "platingdmg3")
 	if (!burnt_states)
@@ -116,7 +116,7 @@
 /turf/open/floor/plating/rust_heretic_act()
 	if(prob(70))
 		new /obj/effect/temp_visual/glowing_rune(src)
-	return ..()
+	ChangeTurf(/turf/open/floor/plating/rust)
 
 /turf/open/floor/plating/foam
 	name = "metal foam plating"

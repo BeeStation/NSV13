@@ -1,14 +1,15 @@
 /datum/job/warden
-	title = JOB_NAME_WARDEN
+	title = "Warden"
 	flag = WARDEN
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
-	department_head = list(JOB_NAME_HEADOFSECURITY)
+	department_head = list("Head of Security")
 	department_flag = ENGSEC
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the head of security"
 	selection_color = "#ffeeee"
+	chat_color = "#EA545E"
 	minimal_player_age = 7
 	exp_requirements = 600
 	exp_type = EXP_TYPE_SECURITY
@@ -23,8 +24,7 @@
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_WARDEN
-	departments = DEPARTMENT_BITFLAG_SECURITY
-	rpg_title = "Jailor"
+	departments = DEPARTMENT_SECURITY
 
 	species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/warden
@@ -36,7 +36,7 @@
 	return L
 
 /datum/outfit/job/warden
-	name = JOB_NAME_WARDEN
+	name = "Warden"
 	jobtype = /datum/job/warden
 
 	id = /obj/item/card/id/job/warden

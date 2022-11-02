@@ -61,7 +61,6 @@
 	hearall = FALSE
 	syndie = FALSE
 	independent = FALSE
-	command = initial(command)
 
 	if(keyslot)
 		for(var/ch_name in keyslot.channels)
@@ -76,11 +75,6 @@
 			syndie = TRUE
 		if(keyslot.independent)
 			independent = TRUE
-		if(keyslot.amplification)
-			command = TRUE
-
-	if(!command)
-		use_command = FALSE
 
 	for(var/ch_name in channels)
 		secure_radio_connections[ch_name] = add_radio(src, GLOB.radiochannels[ch_name])
@@ -104,7 +98,7 @@
 	QDEL_NULL(keyslot)
 	return ..()
 
-/obj/item/radio/Initialize(mapload)
+/obj/item/radio/Initialize()
 	wires = new /datum/wires/radio(src)
 	if(prison_radio)
 		wires.cut(WIRE_TX) // OH GOD WHY
@@ -148,13 +142,11 @@
 /obj/item/radio/ui_state(mob/user)
 	return GLOB.inventory_state
 
-/obj/item/radio/ui_interact(mob/user, datum/tgui/ui, datum/ui_state/state)
+/obj/item/radio/ui_interact(mob/user, datum/tgui/ui)
 	. = ..()
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "Radio")
-		if(state)
-			ui.state = state
 		ui.open()
 
 /obj/item/radio/ui_data(mob/user)
@@ -235,7 +227,6 @@
 		spans = list(M.speech_span)
 	if(!language)
 		language = M.get_selected_language()
-	SEND_SIGNAL(src, COMSIG_RADIO_MESSAGE, M, message, channel)
 	INVOKE_ASYNC(src, .proc/talk_into_impl, M, message, channel, spans.Copy(), language, message_mods)
 	return ITALICS | REDUCE_RANGE
 
@@ -423,7 +414,7 @@
 	syndie = 1
 	keyslot = new /obj/item/encryptionkey/syndicate
 
-/obj/item/radio/borg/syndicate/Initialize(mapload)
+/obj/item/radio/borg/syndicate/Initialize()
 	. = ..()
 	set_frequency(FREQ_SYNDICATE)
 

@@ -98,7 +98,7 @@
 	stat_attack = UNCONSCIOUS
 	robust_searching = 1
 
-/mob/living/simple_animal/hostile/asteroid/goliath/beast/random/Initialize(mapload)
+/mob/living/simple_animal/hostile/asteroid/goliath/beast/random/Initialize()
 	. = ..()
 	if(prob(1))
 		new /mob/living/simple_animal/hostile/asteroid/goliath/beast/ancient(loc)

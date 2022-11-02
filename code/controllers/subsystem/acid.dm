@@ -26,7 +26,7 @@ SUBSYSTEM_DEF(acid)
 	while (currentrun.len)
 		var/obj/O = currentrun[currentrun.len]
 		currentrun.len--
-		if (QDELETED(O))
+		if (!O || QDELETED(O))
 			processing -= O
 			if (MC_TICK_CHECK)
 				return

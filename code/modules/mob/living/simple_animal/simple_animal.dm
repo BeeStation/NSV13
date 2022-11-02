@@ -97,7 +97,7 @@
 	//Discovery
 	var/discovery_points = 200
 
-/mob/living/simple_animal/Initialize(mapload)
+/mob/living/simple_animal/Initialize()
 	. = ..()
 	GLOB.simple_animals[AIStatus] += src
 	if(gender == PLURAL)
@@ -141,16 +141,6 @@
 /mob/living/simple_animal/updatehealth()
 	..()
 	health = CLAMP(health, 0, maxHealth)
-	update_health_hud()
-
-/mob/living/simple_animal/update_health_hud()
-	if(!hud_used)
-		return
-	var/severity = 5 - CLAMP(FLOOR((health / maxHealth) * 5, 1), 0, 5)
-	if(severity > 0)
-		overlay_fullscreen("brute", /atom/movable/screen/fullscreen/brute, severity)
-	else
-		clear_fullscreen("brute")
 
 /mob/living/simple_animal/update_stat()
 	if(status_flags & GODMODE)
@@ -198,7 +188,7 @@
 						length += emote_see.len
 					var/randomValue = rand(1,length)
 					if(randomValue <= speak.len)
-						say(pick(speak), forced = "simple_animal")
+						say(pick(speak), forced = "poly")
 					else
 						randomValue -= speak.len
 						if(emote_see && randomValue <= emote_see.len)
@@ -206,7 +196,7 @@
 						else
 							emote("me [pick(emote_hear)]", 2)
 				else
-					say(pick(speak), forced = "simple_animal")
+					say(pick(speak), forced = "poly")
 			else
 				if(!(emote_hear && emote_hear.len) && (emote_see && emote_see.len))
 					emote("me", 1, pick(emote_see))
@@ -472,7 +462,7 @@
 		else
 			mobility_flags = NONE
 	if(!(mobility_flags & MOBILITY_MOVE))
-		SSmove_manager.stop_looping(src) //stop mid walk
+		walk(src, 0) //stop mid walk
 
 	update_transform()
 	update_action_buttons_icon()

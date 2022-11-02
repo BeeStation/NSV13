@@ -235,11 +235,11 @@
 
 				else if(issilicon(M)) //silicon
 					if(isAI(M))
-						M_job = JOB_NAME_AI
+						M_job = "AI"
 					else if(ispAI(M))
 						M_job = ROLE_PAI
 					else if(iscyborg(M))
-						M_job = JOB_NAME_CYBORG
+						M_job = "Cyborg"
 					else
 						M_job = "Silicon-based"
 

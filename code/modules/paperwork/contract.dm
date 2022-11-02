@@ -34,9 +34,9 @@
 /obj/item/paper/contract/employment/attack(mob/living/M, mob/living/carbon/human/user)
 	var/deconvert = FALSE
 	if(M.mind == target && !M.owns_soul())
-		if(user.mind && (user.mind.assigned_role == JOB_NAME_LAWYER))
+		if(user.mind && (user.mind.assigned_role == "Lawyer"))
 			deconvert = TRUE
-		else if (user.mind && (user.mind.assigned_role ==JOB_NAME_HEADOFPERSONNEL) || (user.mind.assigned_role == JOB_CENTCOM_COMMANDER))
+		else if (user.mind && (user.mind.assigned_role =="Executive Officer") || (user.mind.assigned_role == "CentCom Commander")) //NSV13 - XO
 			deconvert = prob (25) // the HoP doesn't have AS much legal training
 		else
 			deconvert = prob (5)
@@ -90,10 +90,8 @@
 	name = "paper- infernal contract"
 	contractType = CONTRACT_UNWILLING
 
-/obj/item/paper/contract/infernal/Initialize(mapload, mob/living/nTarget, datum/mind/nOwner)
-	. = ..()
-	if(!istype(nOwner))
-		return INITIALIZE_HINT_QDEL
+/obj/item/paper/contract/infernal/New(atom/loc, mob/living/nTarget, datum/mind/nOwner)
+	..()
 	owner = nOwner
 	devil_datum = owner.has_antag_datum(/datum/antagonist/devil)
 	target = nTarget
@@ -256,7 +254,7 @@
 		var/datum/antagonist/devil/ownerDevilInfo = user.mind.soulOwner.has_antag_datum(/datum/antagonist/devil)
 		ownerDevilInfo.remove_soul(user.mind) //Then they lose their claim.
 	user.mind.soulOwner = owner
-	user.sethellbound()
+	user.hellbound = contractType
 	user.mind.damnation_type = contractType
 	var/datum/antagonist/devil/devilInfo = owner.has_antag_datum(/datum/antagonist/devil)
 	devilInfo.add_soul(user.mind)
@@ -270,7 +268,7 @@
 	update_text("your name", blood)
 
 /obj/item/paper/contract/infernal/power/fulfillContract(mob/living/carbon/human/user = target.current, blood = FALSE)
-	if(!user.has_dna())
+	if(!user.dna)
 		return -1
 	user.dna.add_mutation(HULK)
 	var/obj/item/organ/regenerative_core/organ = new /obj/item/organ/regenerative_core
@@ -292,13 +290,13 @@
 	if(id)
 		id.icon_state = "gold"
 		id.access = get_all_accesses()+get_all_centcom_access()
-		id.assignment = JOB_NAME_CAPTAIN
+		id.assignment = "Captain"
 		id.update_label()
 	else
 		id = new /obj/item/card/id/gold(user.loc)
 		id.registered_name = user.real_name
 		id.access = get_all_accesses()+get_all_centcom_access()
-		id.assignment = JOB_NAME_CAPTAIN
+		id.assignment = "Captain"
 		id.update_label()
 		if(worn)
 			if(istype(worn, /obj/item/pda))

@@ -32,7 +32,7 @@
 /datum/objective/overthrow
 
 /datum/objective/overthrow/check_completion()
-	return (get_points() ? TRUE : FALSE) || ..()
+	return get_points() ? TRUE : FALSE
 
 /datum/objective/overthrow/proc/get_points()
 	return 0 // int, not bool
@@ -90,17 +90,17 @@
 			var/target_points
 			var/role = targets[M]
 			switch(role)
-				if(JOB_NAME_CAPTAIN)
+				if("Captain")
 					target_points = CAPPTS
-				if(JOB_NAME_HEADOFPERSONNEL)
+				if("Executive Officer") //NSV13 - XO
 					target_points = HOPPTS
-				if(JOB_NAME_HEADOFSECURITY)
+				if("Head of Security")
 					target_points = HOSPTS
-				if(JOB_NAME_CHIEFENGINEER)
+				if("Chief Engineer")
 					target_points = CEPTS
-				if(JOB_NAME_RESEARCHDIRECTOR)
+				if("Research Director")
 					target_points = RDPTS
-				if(JOB_NAME_CHIEFMEDICALOFFICER)
+				if("Chief Medical Officer")
 					target_points = CMOPTS
 				if("Master At Arms") //NSV13 - MAA
 					target_points = MAAPTS
@@ -141,7 +141,7 @@
 	else
 		explanation_text = "Nothing."
 
-/datum/objective/overthrow/target/is_unique_objective(datum/mind/possible_target, list/dupe_search_range)
+/datum/objective/overthrow/target/is_unique_objective(datum/mind/possible_target,dupe_search_range)
 	if(possible_target.assigned_role in GLOB.command_positions)
 		return FALSE
 	return TRUE

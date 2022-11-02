@@ -30,18 +30,25 @@
 
 #define BUCKET_LIMIT (world.time + TICKS2DS(min(BUCKET_LEN - (SSrunechat.practical_offset - DS2TICKS(world.time - SSrunechat.head_offset)) - 1, BUCKET_LEN - 1)))
 #define BALLOON_TEXT_WIDTH 200
-#define BALLOON_TEXT_SPAWN_TIME (0.3 SECONDS)
-#define BALLOON_TEXT_FADE_TIME (0.4 SECONDS)
-#define BALLOON_TEXT_FULLY_VISIBLE_TIME (0.9 SECONDS)
+#define BALLOON_TEXT_SPAWN_TIME (0.2 SECONDS)
+#define BALLOON_TEXT_FADE_TIME (0.1 SECONDS)
+#define BALLOON_TEXT_FULLY_VISIBLE_TIME (0.7 SECONDS)
 #define BALLOON_TEXT_TOTAL_LIFETIME(mult) (BALLOON_TEXT_SPAWN_TIME + BALLOON_TEXT_FULLY_VISIBLE_TIME*mult + BALLOON_TEXT_FADE_TIME)
 /// The increase in duration per character in seconds
 #define BALLOON_TEXT_CHAR_LIFETIME_INCREASE_MULT (0.05)
 /// The amount of characters needed before this increase takes into effect
 #define BALLOON_TEXT_CHAR_LIFETIME_INCREASE_MIN 10
 
+#define COLOR_JOB_UNKNOWN "#dda583"
 #define COLOR_PERSON_UNKNOWN "#999999"
 #define COLOR_CHAT_EMOTE "#727272"
 
+//For jobs that aren't roundstart but still need colours
+GLOBAL_LIST_INIT(job_colors_pastel, list(
+	"Prisoner" = 		"#d38a5c",
+	"CentCom" = 		"#90FD6D",
+	"Unknown"=			COLOR_JOB_UNKNOWN,
+))
 
 /**
   * # Chat Message Overlay
@@ -69,10 +76,6 @@
 	var/static/current_z_idx = 0
 	/// Color of the message
 	var/tgt_color
-	/// Contains ID of assigned timer for end_of_life fading event
-	var/fadertimer = null
-	/// States if end_of_life is being executed
-	var/isFading = FALSE
 
 /**
   * Constructs a chat message overlay
@@ -102,6 +105,7 @@
 	hearers = null
 	message_loc = null
 	message = null
+	leave_subsystem()
 	return ..()
 
 /**
@@ -157,9 +161,12 @@
 			if(ishuman(target))
 				var/mob/living/carbon/human/H = target
 				if(H.wear_id?.GetID())
-					var/obj/item/card/id/idcard = H.wear_id.GetID()
-					if(idcard)
-						tgt_color = get_chatcolor_by_hud(idcard.hud_state)
+					var/obj/item/card/id/idcard = H.wear_id
+					var/datum/job/wearer_job = SSjob.GetJob(idcard.GetJobName())
+					if(wearer_job)
+						tgt_color = wearer_job.chat_color
+					else
+						tgt_color = GLOB.job_colors_pastel[idcard.GetJobName()]
 				else
 					tgt_color = COLOR_PERSON_UNKNOWN
 			else
@@ -218,22 +225,17 @@
 	if (LAZYLEN(message_loc.chat_messages))
 		var/idx = 1
 		var/combined_height = approx_lines
-		for(var/datum/chatmessage/m as() in message_loc.chat_messages)
-			if(!m?.message)
-				continue
+		for(var/msg in message_loc.chat_messages)
+			var/datum/chatmessage/m = msg
 			animate(m.message, pixel_y = m.message.pixel_y + mheight, time = CHAT_MESSAGE_SPAWN_TIME)
 			combined_height += m.approx_lines
 
 			// When choosing to update the remaining time we have to be careful not to update the
-			// scheduled time once the EOL has been executed.
-			if (!m.isFading)
-				var/sched_remaining = timeleft(m.fadertimer, SSrunechat)
+			// scheduled time once the EOL completion time has been set.
+			var/sched_remaining = m.scheduled_destruction - world.time
+			if (!m.eol_complete)
 				var/remaining_time = (sched_remaining) * (CHAT_MESSAGE_EXP_DECAY ** idx++) * (CHAT_MESSAGE_HEIGHT_DECAY ** CEILING(combined_height, 1))
-				if (remaining_time)
-					deltimer(m.fadertimer, SSrunechat)
-					m.fadertimer = addtimer(CALLBACK(m, .proc/end_of_life), remaining_time, TIMER_STOPPABLE|TIMER_DELETE_ME, SSrunechat)
-				else
-					m.end_of_life()
+				m.enter_subsystem(world.time + remaining_time) // push updated time to runechat SS
 
 	// Reset z index if relevant
 	if (current_z_idx >= CHAT_LAYER_MAX_Z)
@@ -266,8 +268,8 @@
 	LAZYADD(message_loc.chat_messages, src)
 
 	// Register with the runechat SS to handle EOL and destruction
-	var/duration = lifespan - CHAT_MESSAGE_EOL_FADE
-	fadertimer = addtimer(CALLBACK(src, .proc/end_of_life), duration, TIMER_STOPPABLE|TIMER_DELETE_ME, SSrunechat)
+	scheduled_destruction = world.time + (lifespan - CHAT_MESSAGE_EOL_FADE)
+	enter_subsystem()
 
 /datum/chatmessage/proc/client_deleted(client/source)
 	SIGNAL_HANDLER
@@ -275,15 +277,15 @@
 
 /**
   * Applies final animations to overlay CHAT_MESSAGE_EOL_FADE deciseconds prior to message deletion,
-  * sets timer for scheduling deletion
+  * sets time for scheduling deletion and re-enters the runechat SS for qdeling
   *
   * Arguments:
   * * fadetime - The amount of time to animate the message's fadeout for
   */
 /datum/chatmessage/proc/end_of_life(fadetime = CHAT_MESSAGE_EOL_FADE)
-	isFading = TRUE
+	eol_complete = scheduled_destruction + fadetime
 	animate(message, alpha = 0, pixel_y = message.pixel_y + MESSAGE_FADE_PIXEL_Y, time = fadetime, flags = ANIMATION_PARALLEL)
-	addtimer(CALLBACK(GLOBAL_PROC, /proc/qdel, src), fadetime, TIMER_DELETE_ME, SSrunechat)
+	enter_subsystem(eol_complete) // re-enter the runechat SS with the EOL completion time to QDEL self
 
 /mob/proc/should_show_chat_message(atom/movable/speaker, datum/language/message_language, is_emote = FALSE, is_heard = FALSE)
 	if(!client)
@@ -306,9 +308,6 @@
 		//Dont create the overhead radio chat if we heard the speaker speak
 		if(get_dist(get_turf(v.source), get_turf(src)) <= 1)
 			return CHATMESSAGE_CANNOT_HEAR
-		//The AI shouldn't be able to see the overhead chat trough the static
-		if(isAI(src) && !GLOB.cameranet.checkCameraVis(v.source))
-			return CHATMESSAGE_CANNOT_HEAR
 	var/datum/language/language_instance = GLOB.language_datum_instances[message_language]
 	if(language_instance?.display_icon(src))
 		return CHATMESSAGE_SHOW_LANGUAGE_ICON
@@ -329,13 +328,6 @@
 	// Ensure the list we are using, if present, is a copy so we don't modify the list provided to us
 	spans = spans ? spans.Copy() : list()
 
-	var/handled_message = raw_message
-
-	// Message language override, if no language was spoken emote 'makes a strange noise'
-	if(!message_language && !message_mods[CHATMESSAGE_EMOTE])
-		message_mods[CHATMESSAGE_EMOTE] = TRUE
-		handled_message = "makes a strange sound."
-
 	// Check for virtual speakers (aka hearing a message through a radio)
 	if (istype(speaker, /atom/movable/virtualspeaker))
 		var/atom/movable/virtualspeaker/v = speaker
@@ -355,7 +347,7 @@
 		for(var/mob/M as() in hearers)
 			if(M?.should_show_chat_message(speaker, message_language, TRUE))
 				clients += M.client
-		new /datum/chatmessage(handled_message, speaker, clients, message_language, list("emote"))
+		new /datum/chatmessage(raw_message, speaker, clients, message_language, list("emote"))
 	else
 		//4 Possible chat message states:
 		//Show Icon, Understand (Most other languages)
@@ -381,13 +373,13 @@
 		var/scrambled_message
 		var/datum/language/language_instance = message_language ? GLOB.language_datum_instances[message_language] : null
 		if(LAZYLEN(show_icon_scrambled) || LAZYLEN(hide_icon_scrambled))
-			scrambled_message = language_instance?.scramble(handled_message) || scramble_message_replace_chars(handled_message, 100)
+			scrambled_message = language_instance?.scramble(raw_message) || scramble_message_replace_chars(raw_message, 100)
 		//Show the correct message to people who should see the icon and understand the language
 		if(LAZYLEN(show_icon_understand))
-			new /datum/chatmessage(handled_message, speaker, show_icon_understand, message_language, spans)
+			new /datum/chatmessage(raw_message, speaker, show_icon_understand, message_language, spans)
 		//Show the correct message to people who should see the icon but not understand the language
 		if(LAZYLEN(hide_icon_understand))
-			new /datum/chatmessage(handled_message, speaker, hide_icon_understand, message_language, spans)
+			new /datum/chatmessage(raw_message, speaker, hide_icon_understand, message_language, spans)
 		//Show the correct message to people who don't understand the language and should see the icon
 		if(LAZYLEN(show_icon_scrambled))
 			new /datum/chatmessage(scrambled_message, speaker, show_icon_scrambled, message_language, spans)
@@ -459,14 +451,14 @@
 		if(5)
 			return "#[num2hex(c, 2)][num2hex(m, 2)][num2hex(x, 2)]"
 
-/atom/proc/balloon_alert(mob/viewer, text, color = null)
+/atom/proc/balloon_alert(mob/viewer, text)
 	if(!viewer?.client)
 		return
 	switch(viewer.client.prefs.see_balloon_alerts)
 		if(BALLOON_ALERT_ALWAYS)
-			new /datum/chatmessage/balloon_alert(text, src, viewer, color)
+			new /datum/chatmessage/balloon_alert(text, src, viewer)
 		if(BALLOON_ALERT_WITH_CHAT)
-			new /datum/chatmessage/balloon_alert(text, src, viewer, color)
+			new /datum/chatmessage/balloon_alert(text, src, viewer)
 			to_chat(viewer, "<span class='notice'>[text].</span>")
 		if(BALLOON_ALERT_NEVER)
 			to_chat(viewer, "<span class='notice'>[text].</span>")
@@ -482,29 +474,16 @@
 		balloon_alert(hearer, (hearer == src && self_message) || message)
 
 /datum/chatmessage/balloon_alert
-	tgt_color = "#ffffff" //default color
+	tgt_color = "#ffffff"
 
-/datum/chatmessage/balloon_alert/New(text, atom/target, mob/owner, color)
+/datum/chatmessage/balloon_alert/New(text, atom/target, mob/owner)
 	if (!istype(target))
 		CRASH("Invalid target given for chatmessage")
 	if(QDELETED(owner) || !istype(owner) || !owner.client)
 		stack_trace("/datum/chatmessage created with [isnull(owner) ? "null" : "invalid"] mob owner")
 		qdel(src)
 		return
-	//handle color
-	if(color)
-		tgt_color = color
 	INVOKE_ASYNC(src, .proc/generate_image, text, target, owner)
-
-/datum/chatmessage/balloon_alert/Destroy()
-	if(!QDELETED(message_loc))
-		LAZYREMOVE(message_loc.balloon_alerts, src)
-	return ..()
-
-/datum/chatmessage/balloon_alert/end_of_life(fadetime = BALLOON_TEXT_FADE_TIME)
-	isFading = TRUE
-	animate(message, alpha = 0, pixel_y = message.pixel_y + MESSAGE_FADE_PIXEL_Y, time = fadetime, flags = ANIMATION_PARALLEL)
-	addtimer(CALLBACK(GLOBAL_PROC, /proc/qdel, src), fadetime, TIMER_DELETE_ME, SSrunechat)
 
 /datum/chatmessage/balloon_alert/generate_image(text, atom/target, mob/owner)
 	// Register client who owns this message
@@ -521,19 +500,10 @@
 	else
 		message_loc = get_atom_on_turf(target)
 
-	if(LAZYLEN(message_loc.balloon_alerts))
-		for(var/datum/chatmessage/balloon_alert/m as() in message_loc.balloon_alerts)  //We get rid of old alerts so it doesn't clutter up the screen
-			if (!m.isFading)
-				var/sched_remaining = timeleft(m.fadertimer, SSrunechat)
-				if (sched_remaining)
-					deltimer(m.fadertimer, SSrunechat)
-				m.end_of_life()
-
 	// Build message image
 	message = image(loc = message_loc, layer = CHAT_LAYER)
 	message.plane = BALLOON_CHAT_PLANE
 	message.alpha = 0
-	message.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA | KEEP_APART
 	message.maptext_width = BALLOON_TEXT_WIDTH
 	message.maptext_height = WXH_TO_HEIGHT(owned_by?.MeasureText(text, null, BALLOON_TEXT_WIDTH))
 	message.maptext_x = (BALLOON_TEXT_WIDTH - bound_width) * -0.5
@@ -549,13 +519,29 @@
 		duration_mult += duration_length * BALLOON_TEXT_CHAR_LIFETIME_INCREASE_MULT
 
 	// Animate the message
-	animate(message, alpha = 255, pixel_y = world.icon_size * 1.1, time = BALLOON_TEXT_SPAWN_TIME)
+	animate(
+		message,
+		pixel_y = world.icon_size * 1.2,
+		time = BALLOON_TEXT_TOTAL_LIFETIME(1),
+		easing = SINE_EASING | EASE_OUT,
+	)
 
-	LAZYADD(message_loc.balloon_alerts, src)
+	animate(
+		alpha = 255,
+		time = BALLOON_TEXT_SPAWN_TIME,
+		easing = CUBIC_EASING | EASE_OUT,
+		flags = ANIMATION_PARALLEL,
+	)
+
+	animate(
+		alpha = 0,
+		time = BALLOON_TEXT_FULLY_VISIBLE_TIME * duration_mult,
+		easing = CUBIC_EASING | EASE_IN,
+	)
 
 	// Register with the runechat SS to handle EOL and destruction
-	var/duration = BALLOON_TEXT_TOTAL_LIFETIME(duration_mult)
-	fadertimer = addtimer(CALLBACK(src, .proc/end_of_life), duration, TIMER_STOPPABLE|TIMER_DELETE_ME, SSrunechat)
+	scheduled_destruction = world.time + BALLOON_TEXT_TOTAL_LIFETIME(duration_mult)
+	enter_subsystem()
 
 
 #undef BALLOON_TEXT_CHAR_LIFETIME_INCREASE_MIN

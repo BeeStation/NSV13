@@ -36,7 +36,6 @@
 	name = "shuttle console"
 	shuttleId = "huntership"
 	possible_destinations = "huntership_home;huntership_custom;whiteship_home;syndicate_nw"
-	req_access = list(ACCESS_HUNTERS)
 
 /obj/structure/closet/crate/eva
 	name = "EVA crate"

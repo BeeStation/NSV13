@@ -1,32 +1,29 @@
 /datum/computer_file/program/job_management
 	filename = "job_manage"
 	filedesc = "Job Manager"
-	category = PROGRAM_CATEGORY_CREW
 	program_icon_state = "id"
 	extended_desc = "Program for viewing and changing job slot avalibility."
 	transfer_access = ACCESS_HEADS
 	requires_ntnet = 0
 	size = 4
 	tgui_id = "NtosJobManager"
-	program_icon = "address-book"
 
 
 
 	var/change_position_cooldown = 30
 	//Jobs you cannot open new positions for
 	var/list/blacklisted = list(
-		JOB_NAME_AI,
-		JOB_NAME_ASSISTANT,
-		JOB_NAME_CYBORG,
-		JOB_NAME_CAPTAIN,
-		JOB_NAME_HEADOFPERSONNEL,
-		JOB_NAME_HEADOFSECURITY,
-		JOB_NAME_CHIEFENGINEER,
-		JOB_NAME_RESEARCHDIRECTOR,
-		JOB_NAME_CHIEFMEDICALOFFICER,
-		JOB_NAME_BRIGPHYSICIAN,
-		JOB_NAME_DEPUTY,
-		JOB_NAME_MASTERATARMS) //NSV13 - added MAA
+		"AI",
+		"Midshipman" ,
+		"Cyborg",
+		"Captain",
+		"Executive Officer",
+		"Head of Security",
+		"Chief Engineer",
+		"Research Director",
+		"Chief Medical Officer",
+		"Deputy",
+		"Master At Arms") //NSV13 - added MAA, renamed HOP to XO
 
 	//The scaling factor of max total positions in relation to the total amount of people on board the station in %
 	var/max_relative_positions = 30 //30%: Seems reasonable, limit of 6 @ 20 players
@@ -59,10 +56,14 @@
 	if(..())
 		return
 
-	var/obj/item/computer_hardware/card_slot/card_slot = computer.all_components[MC_CARD]
-	var/obj/item/card/id/user_id = card_slot?.stored_card
+	var/authed = FALSE
+	var/mob/user = usr
+	var/obj/item/card/id/user_id = user.get_idcard()
+	if(user_id)
+		if(ACCESS_CHANGE_IDS in user_id.access)
+			authed = TRUE
 
-	if(!user_id || !(ACCESS_CHANGE_IDS in user_id.access))
+	if(!authed)
 		return
 
 	switch(action)
@@ -90,6 +91,8 @@
 			playsound(computer, 'sound/machines/terminal_prompt_confirm.ogg', 50, FALSE)
 			return TRUE
 		if("PRG_priority")
+			if(length(SSjob.prioritized_jobs) >= 5)
+				return
 			var/priority_target = params["target"]
 			var/datum/job/j = SSjob.GetJob(priority_target)
 			if(!j)
@@ -99,10 +102,7 @@
 			if(j in SSjob.prioritized_jobs)
 				SSjob.prioritized_jobs -= j
 			else
-				if(length(SSjob.prioritized_jobs) < 5)
-					SSjob.prioritized_jobs += j
-				else
-					computer.say("Error: CentCom employment protocols restrict prioritising more than 5 jobs.")
+				SSjob.prioritized_jobs += j
 			playsound(computer, 'sound/machines/terminal_prompt_confirm.ogg', 50, FALSE)
 			return TRUE
 
@@ -111,10 +111,10 @@
 	var/list/data = get_header_data()
 
 	var/authed = FALSE
-	var/obj/item/computer_hardware/card_slot/card_slot = computer.all_components[MC_CARD]
-	var/obj/item/card/id/user_id = card_slot?.stored_card
-	if(user_id && (ACCESS_CHANGE_IDS in user_id.access))
-		authed = TRUE
+	var/obj/item/card/id/user_id = user.get_idcard(FALSE)
+	if(user_id)
+		if(ACCESS_CHANGE_IDS in user_id.access)
+			authed = TRUE
 
 	data["authed"] = authed
 

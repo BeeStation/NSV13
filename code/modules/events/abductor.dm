@@ -1,9 +1,9 @@
 /datum/round_event_control/abductor
 	name = "Abductors"
 	typepath = /datum/round_event/ghost_role/abductor
-	weight = 9
+	weight = 12
 	max_occurrences = 1
-	min_players = 24
+	min_players = 20
 	earliest_start = 8 MINUTES //not particularly dangerous, gives abductors time to do their objective
 	dynamic_should_hijack = TRUE
 	gamemode_blacklist = list("nuclear","wizard","revolution")

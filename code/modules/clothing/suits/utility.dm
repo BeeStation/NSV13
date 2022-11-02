@@ -94,6 +94,7 @@
 	equip_delay_other = 70
 	resistance_flags = NONE
 
+
 /obj/item/clothing/head/bomb_hood/security
 	icon_state = "bombsuit_sec"
 	item_state = "bombsuit_sec"
@@ -120,12 +121,13 @@
 	name = "radiation hood"
 	icon_state = "rad"
 	desc = "A hood with radiation protective properties. The label reads, 'Made with lead. Please do not consume insulation.'"
-	clothing_flags = THICKMATERIAL	| SHOWEROKAY | SNUG_FIT //NSV13 - kept SHOWEROKAY
+	clothing_flags = THICKMATERIAL	| SHOWEROKAY | SNUG_FIT
 	flags_inv = HIDEMASK|HIDEEARS|HIDEFACE|HIDEEYES|HIDEHAIR|HIDEFACIALHAIR
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 60, "rad" = 100, "fire" = 30, "acid" = 30, "stamina" = 10)
 	strip_delay = 60
 	equip_delay_other = 60
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	resistance_flags = NONE
 	rad_flags = RAD_PROTECT_CONTENTS
 
 /obj/item/clothing/suit/radiation
@@ -136,7 +138,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	gas_transfer_coefficient = 0.9
 	permeability_coefficient = 0.5
-	clothing_flags = THICKMATERIAL|SHOWEROKAY //NSV13 - kept SHOWEROKAY
+	clothing_flags = THICKMATERIAL|SHOWEROKAY
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman, /obj/item/geiger_counter)
 	slowdown = 1.5
@@ -144,8 +146,5 @@
 	strip_delay = 60
 	equip_delay_other = 60
 	flags_inv = HIDEJUMPSUIT
+	resistance_flags = NONE
 	rad_flags = RAD_PROTECT_CONTENTS
-
-/obj/item/clothing/suit/radiation/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/anti_artifact, INFINITY, FALSE, 100)

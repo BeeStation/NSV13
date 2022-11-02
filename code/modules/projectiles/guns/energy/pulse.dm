@@ -5,6 +5,7 @@
 	item_state = null
 	w_class = WEIGHT_CLASS_BULKY
 	force = 10
+	block_upgrade_walk = 1
 	modifystate = TRUE
 	flags_1 =  CONDUCT_1
 	slot_flags = ITEM_SLOT_BACK
@@ -13,10 +14,13 @@
 	fire_rate = 3
 	automatic = 1
 
+/obj/item/gun/energy/pulse/emp_act(severity)
+	return
+
 /obj/item/gun/energy/pulse/prize
 	pin = /obj/item/firing_pin
 
-/obj/item/gun/energy/pulse/prize/Initialize(mapload)
+/obj/item/gun/energy/pulse/prize/Initialize()
 	. = ..()
 	GLOB.poi_list += src
 	var/turf/T = get_turf(src)

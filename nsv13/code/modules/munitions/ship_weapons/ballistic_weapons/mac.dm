@@ -28,7 +28,7 @@
 /obj/machinery/ship_weapon/mac/west
 	dir = WEST
 
-/obj/machinery/ship_weapon/mac/Initialize(mapload)
+/obj/machinery/ship_weapon/mac/Initialize()
 	..()
 	apply_default_parts()
 

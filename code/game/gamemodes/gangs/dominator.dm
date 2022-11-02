@@ -21,7 +21,7 @@
 	var/datum/effect_system/spark_spread/spark_system
 	var/obj/effect/countdown/dominator/countdown
 
-/obj/machinery/dominator/Initialize(mapload)
+/obj/machinery/dominator/Initialize()
 	. = ..()
 	set_light(2)
 	GLOB.poi_list |= src

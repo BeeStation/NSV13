@@ -22,7 +22,7 @@
 	knockdown = 0
 	irradiate = 400
 
-/obj/item/projectile/energy/bolt/radbolt/Initialize(mapload)
+/obj/item/projectile/energy/bolt/radbolt/Initialize()
 	. = ..()
 	create_reagents(30, NO_REACT)
 	reagents.add_reagent(/datum/reagent/toxin/polonium, 10)

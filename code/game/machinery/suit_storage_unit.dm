@@ -78,7 +78,7 @@
 	mask_type = /obj/item/clothing/mask/gas/sechailer
 
 /obj/machinery/suit_storage_unit/hos
-	suit_type = /obj/item/clothing/suit/space/hardsuit/security/head_of_security
+	suit_type = /obj/item/clothing/suit/space/hardsuit/security/hos
 	mask_type = /obj/item/clothing/mask/gas/sechailer
 	storage_type = /obj/item/tank/internals/oxygen
 
@@ -104,7 +104,7 @@
 	mask_type = /obj/item/clothing/mask/breath
 
 /obj/machinery/suit_storage_unit/rd
-	suit_type = /obj/item/clothing/suit/space/hardsuit/research_director
+	suit_type = /obj/item/clothing/suit/space/hardsuit/rd
 	mask_type = /obj/item/clothing/mask/breath
 
 /obj/machinery/suit_storage_unit/syndicate
@@ -142,7 +142,7 @@
 	state_open = TRUE
 	density = FALSE
 
-/obj/machinery/suit_storage_unit/Initialize(mapload)
+/obj/machinery/suit_storage_unit/Initialize()
 	. = ..()
 	wires = new /datum/wires/suit_storage_unit(src)
 	if(suit_type)
@@ -156,7 +156,6 @@
 	update_icon()
 
 /obj/machinery/suit_storage_unit/Destroy()
-	QDEL_NULL(wires)
 	dump_contents()
 	return ..()
 
@@ -171,7 +170,7 @@
 		else
 			add_overlay("uv")
 	else if(state_open)
-		if(machine_stat & BROKEN)
+		if(stat & BROKEN)
 			add_overlay("broken")
 		else
 			add_overlay("open")
@@ -186,7 +185,7 @@
 
 /obj/machinery/suit_storage_unit/power_change()
 	. = ..()
-	if(!is_operational && state_open)
+	if(!is_operational() && state_open)
 		open_machine()
 		dump_contents()
 	update_icon()
@@ -229,7 +228,7 @@
 	if(!state_open)
 		to_chat(user, "<span class='warning'>The unit's doors are shut!</span>")
 		return
-	if(!is_operational)
+	if(!is_operational())
 		to_chat(user, "<span class='warning'>The unit is not operational!</span>")
 		return
 	if(occupant || helmet || suit || storage)
@@ -377,7 +376,7 @@
 		open_machine()
 
 /obj/machinery/suit_storage_unit/attackby(obj/item/I, mob/user, params)
-	if(state_open && is_operational)
+	if(state_open && is_operational())
 		if(istype(I, /obj/item/clothing/suit))
 			if(suit)
 				to_chat(user, "<span class='warning'>The unit already contains a suit!.</span>")
@@ -435,9 +434,8 @@
 		return TRUE
 	return ..()
 
-
 /obj/machinery/suit_storage_unit/default_pry_open(obj/item/I)//needs to check if the storage is locked.
-	. = !(state_open || panel_open || is_operational || locked || (flags_1 & NODECONSTRUCT_1)) && I.tool_behaviour == TOOL_CROWBAR
+	. = !(state_open || panel_open || is_operational() || locked || (flags_1 & NODECONSTRUCT_1)) && I.tool_behaviour == TOOL_CROWBAR
 	if(.)
 		I.play_tool_sound(src, 50)
 		visible_message("<span class='notice'>[usr] pries open \the [src].</span>", "<span class='notice'>You pry open \the [src].</span>")

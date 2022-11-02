@@ -17,5 +17,3 @@
 
 #define JOB_MODIFICATION_MAP_NAME "NSV Galactica"
 #include "..\..\..\..\_maps\map_files\Galactica\job_changes.dm"
-
-#undef JOB_MODIFICATION_MAP_NAME

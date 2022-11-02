@@ -1,13 +1,14 @@
-/datum/job/botanist
-	title = JOB_NAME_BOTANIST
+/datum/job/hydro
+	title = "Botanist"
 	flag = BOTANIST
-	department_head = list(JOB_NAME_HEADOFPERSONNEL)
+	department_head = list("Executive Officer")
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 3
 	spawn_positions = 2
-	supervisors = "the " + JOB_NAME_HEADOFPERSONNEL //NSV13
+	supervisors = "the Executive Officer"
 	selection_color = "#bbe291"
+	chat_color = "#95DE85"
 
 	outfit = /datum/outfit/job/botanist
 
@@ -16,19 +17,16 @@
 	paycheck = PAYCHECK_EASY
 	paycheck_department = ACCOUNT_SRV
 	display_order = JOB_DISPLAY_ORDER_BOTANIST
-	departments = DEPARTMENT_BITFLAG_SERVICE
-	rpg_title = "Gardener"
+	departments = DEPARTMENT_SERVICE
 
 	species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/botany
 	)
-
 /datum/outfit/job/botanist
-	name = JOB_NAME_BOTANIST
-	jobtype = /datum/job/botanist
+	name = "Botanist"
+	jobtype = /datum/job/hydro
 
-	id = /obj/item/card/id/job/botanist
-	belt = /obj/item/pda/service
+	belt = /obj/item/pda/botanist
 	ears = /obj/item/radio/headset/headset_srv
 	uniform = /obj/item/clothing/under/rank/civilian/hydroponics
 	suit = /obj/item/clothing/suit/apron

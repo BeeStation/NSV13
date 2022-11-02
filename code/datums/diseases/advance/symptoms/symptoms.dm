@@ -27,8 +27,6 @@
 	var/power = 1
 	//A neutered symptom has no effect, and only affects statistics.
 	var/neutered = FALSE
-	//used for viral suspended animation. dont use this elsewhere. Stops a symptom without neutering it
-	var/stopped = FALSE
 	var/list/thresholds
 	var/naturally_occuring = TRUE //if this symptom can appear from /datum/disease/advance/GenerateSymptoms()
 	var/list/prefixes = list()
@@ -63,7 +61,7 @@
 /datum/symptom/proc/Activate(datum/disease/advance/A)
 	if(!A)
 		return FALSE //prevents a niche runtime where a disease procs on the same tick it is cured
-	if(neutered || stopped)
+	if(neutered)
 		return FALSE
 	if(world.time < next_activation)
 		return FALSE
@@ -72,7 +70,7 @@
 		return TRUE
 
 /datum/symptom/proc/on_stage_change(new_stage, datum/disease/advance/A)
-	if(neutered || stopped)
+	if(neutered)
 		return FALSE
 	return TRUE
 

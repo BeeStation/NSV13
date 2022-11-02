@@ -42,7 +42,6 @@
 	var/dual_wield_spread = 24			//additional spread when dual wielding
 	var/spread = 0						//Spread induced by the gun itself.
 	var/spread_multiplier = 1			//Multiplier for shotgun spread
-	var/requires_wielding = TRUE
 	var/spread_unwielded				//Spread induced by holding the gun with 1 hand. (40 for light weapons, 60 for medium by default)
 	var/randomspread = 1				//Set to 0 for shotguns. This is used for weapons that don't fire all their bullets at once.
 
@@ -85,7 +84,7 @@
 	var/pb_knockback = 0
 	var/ranged_cooldown = 0
 
-/obj/item/gun/Initialize(mapload)
+/obj/item/gun/Initialize()
 	. = ..()
 	if(pin)
 		if(no_pin_required)
@@ -97,18 +96,15 @@
 	if(!canMouseDown) //Some things like beam rifles override this.
 		canMouseDown = automatic //Nsv13 / Bee change.
 	build_zooming()
-	if(isnull(spread_unwielded))
+	if(!spread_unwielded)
 		spread_unwielded = weapon_weight * 20 + 20
-	if(requires_wielding)
-		RegisterSignal(src, COMSIG_TWOHANDED_WIELD, .proc/wield)
-		RegisterSignal(src, COMSIG_TWOHANDED_UNWIELD, .proc/unwield)
+	RegisterSignal(src, COMSIG_TWOHANDED_WIELD, .proc/wield)
+	RegisterSignal(src, COMSIG_TWOHANDED_UNWIELD, .proc/unwield)
 
 /obj/item/gun/ComponentInitialize()
 	. = ..()
 	//Smaller weapons are better when used in a single hand.
-	if(requires_wielding)
-		AddComponent(/datum/component/two_handed, unwield_on_swap = TRUE, auto_wield = TRUE, ignore_attack_self = TRUE, force_wielded = force, force_unwielded = force, block_power_wielded = block_power, block_power_unwielded = block_power)
-	AddComponent(/datum/component/aiming)
+	AddComponent(/datum/component/two_handed, unwield_on_swap = TRUE, auto_wield = TRUE, ignore_attack_self = TRUE, force_wielded = force, force_unwielded = force, block_power_wielded = block_power, block_power_unwielded = block_power, wieldsound = 'sound/effects/suitstep1.ogg', unwieldsound = 'sound/effects/suitstep2.ogg')
 
 /obj/item/gun/proc/wield()
 	is_wielded = TRUE
@@ -144,13 +140,14 @@
 
 /obj/item/gun/examine(mob/user)
 	. = ..()
+	if(no_pin_required)
+		return
 
-	if(!no_pin_required)
-		if(pin)
-			. += "It has \a [pin] installed."
-			. += "<span class='info'>[pin] looks like it could be removed with some <b>tools</b>.</span>"
-		else
-			. += "It doesn't have a <b>firing pin</b> installed, and won't fire."
+	if(pin)
+		. += "It has \a [pin] installed."
+		. += "<span class='info'>[pin] looks like it could be removed with some <b>tools</b>.</span>"
+	else
+		. += "It doesn't have a <b>firing pin</b> installed, and won't fire."
 
 	if(gun_light)
 		. += "It has \a [gun_light] [can_flashlight ? "" : "permanently "]mounted on it."
@@ -166,10 +163,6 @@
 	else if(can_bayonet)
 		. += "It has a <b>bayonet</b> lug on it."
 
-	if(weapon_weight == WEAPON_HEAVY)
-		. += "This weapon is too heavy to use with just 1 hand!"
-
-
 /obj/item/gun/equipped(mob/living/user, slot)
 	. = ..()
 	if(zoomed && user.get_active_held_item() != src)
@@ -184,65 +177,41 @@
 /obj/item/gun/proc/can_shoot()
 	return TRUE
 
-/obj/item/gun/proc/tk_firing(mob/living/user)
-	return loc != user ? TRUE : FALSE
-
 /obj/item/gun/proc/shoot_with_empty_chamber(mob/living/user as mob|obj)
-	balloon_alert(user, "[src] clicks.")
+	balloon_alert(user, "Gun clicks")
 	playsound(src, dry_fire_sound, 30, TRUE)
 
-/obj/item/gun/proc/fire_sounds()
-	if(suppressed)
-		playsound(src, suppressed_sound, suppressed_volume, vary_fire_sound)
-	else
-		playsound(src, fire_sound, fire_sound_volume, vary_fire_sound)
 
 /obj/item/gun/proc/shoot_live_shot(mob/living/user, pointblank = 0, atom/pbtarget = null, message = 1)
-	if(recoil && !tk_firing(user))
+	if(recoil)
 		shake_camera(user, recoil + 1, recoil)
-	fire_sounds()
-	if(!suppressed)
-		if(message)
-			if(tk_firing(user))
-				user.visible_message(
-					"<span class='danger'>[src] fires itself[pointblank ? " point blank at [pbtarget]!" : "!"]</span>", \
-					null ,\
-					"<span class='hear'>You hear a gunshot!</span>", \
-					COMBAT_MESSAGE_RANGE
-					)
 
-			else if(pointblank)
-				user.visible_message(
-					"<span class='danger'>[user] fires [src] point blank at [pbtarget]!</span>", \
-					"<span class='danger'>You fire [src] point blank at [pbtarget]!</span>", \
-					"<span class='hear'>You hear a gunshot!</span>", \
-					COMBAT_MESSAGE_RANGE, \
-					pbtarget
-				)
-				to_chat(pbtarget, "<span class='danger'>[user] fires [src] point blank at you!</span>")
+	if(suppressed)
+		playsound(user, suppressed_sound, suppressed_volume, vary_fire_sound)
+	else
+		playsound(user, fire_sound, fire_sound_volume, vary_fire_sound)
+		if(message)
+			if(pointblank)
+				user.visible_message("<span class='danger'>[user] fires [src] point blank at [pbtarget]!</span>", \
+								"<span class='danger'>You fire [src] point blank at [pbtarget]!</span>", \
+								"<span class='hear'>You hear a gunshot!</span>", COMBAT_MESSAGE_RANGE, pbtarget)
+				to_chat(pbtarget, "<span class='userdanger'>[user] fires [src] point blank at you!</span>")
 				if(pb_knockback > 0 && ismob(pbtarget))
-					var/mob/PBT = pbtarget
+					var/mob/PBT= pbtarget
 					var/atom/throw_target = get_edge_target_turf(PBT, user.dir)
 					PBT.throw_at(throw_target, pb_knockback, 2)
-			else if(!tk_firing(user))
-				user.visible_message(
-					"<span class='danger'>[user] fires [src]!</span>", \
-					"<span class='danger'>You fire [src]!</span>", \
-					"<span class='hear'>You hear a gunshot!</span>", \
-					COMBAT_MESSAGE_RANGE, \
-					user
-				)
+			else
+				user.visible_message("<span class='danger'>[user] fires [src]!</span>", \
+								"<span class='danger'>You fire [src]!</span>", \
+								"<span class='hear'>You hear a gunshot!</span>", COMBAT_MESSAGE_RANGE)
 
 /obj/item/gun/emp_act(severity)
 	. = ..()
 	if(!(. & EMP_PROTECT_CONTENTS))
 		for(var/obj/O in contents)
-			//Ignore cells, as we handle them ourselves.
-			if(istype(O, /obj/item/stock_parts/cell))
-				continue
 			O.emp_act(severity)
 
-/obj/item/gun/afterattack(atom/target, mob/living/user, flag, params, aimed)
+/obj/item/gun/afterattack(atom/target, mob/living/user, flag, params, aimed)//Nsv13 - Overrided this proc to add "aimed" to work with the aiming component.
 	. = ..()
 	if(!target)
 		return
@@ -282,8 +251,9 @@
 				user.dropItemToGround(src, TRUE)
 				return
 
-	if(weapon_weight == WEAPON_HEAVY && !is_wielded)
-		balloon_alert(user, "You need both hands free to fire [src]!")
+	var/obj/item/bodypart/other_hand = user.has_hand_for_held_index(user.get_inactive_hand_index()) //returns non-disabled inactive hands
+	if(weapon_weight == WEAPON_HEAVY && (!istype(user.get_inactive_held_item(), /obj/item/offhand) || !other_hand))
+		balloon_alert(user, "You need both hands free to fire")
 		return
 
 	//DUAL (or more!) WIELDING
@@ -301,8 +271,6 @@
 	//Nsv13 aiming component
 	process_fire(target, user, TRUE, params, null, bonus_spread, aimed)
 
-	process_fire(target, user, TRUE, params, null, bonus_spread, aimed)
-
 /obj/item/gun/can_trigger_gun(mob/living/user)
 	. = ..()
 	if(!handle_pins(user))
@@ -318,7 +286,7 @@
 			pin.auth_fail(user)
 			return FALSE
 	else
-		balloon_alert(user, "[src] doesn't seem to have a firing pin installed..")
+		balloon_alert(user, "No firing pin installed")
 	return FALSE
 
 /obj/item/gun/proc/recharge_newshot()
@@ -361,7 +329,7 @@
 	update_icon()
 	return TRUE
 
-/obj/item/gun/proc/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0, aimed = FALSE)
+/obj/item/gun/proc/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0, aimed=FALSE) //NSV13 added aimed
 	add_fingerprint(user)
 	if(fire_rate)
 		ranged_cooldown = world.time + 10 / fire_rate
@@ -377,7 +345,7 @@
 		randomized_gun_spread =	rand(0,spread)
 	if(HAS_TRAIT(user, TRAIT_POOR_AIM)) //nice shootin' tex
 		bonus_spread += 25
-	if(!is_wielded && requires_wielding)
+	if(!is_wielded)
 		bonus_spread += spread_unwielded
 	var/randomized_bonus_spread = rand(0, bonus_spread)
 
@@ -392,7 +360,7 @@
 					to_chat(user, "<span class='notice'> [src] is lethally chambered! You don't want to risk harming anyone...</span>")
 					return
 			sprd = round((rand() - 0.5) * DUALWIELD_PENALTY_EXTRA_MULTIPLIER * (randomized_gun_spread + randomized_bonus_spread))
-			before_firing(target, user, aimed)
+			before_firing(target,user)
 			if(!chambered.fire_casing(target, user, params, , suppressed, zone_override, sprd, spread_multiplier, src))
 				shoot_with_empty_chamber(user)
 				return
@@ -466,7 +434,7 @@
 		if(!gun_light)
 			if(!user.transferItemToLoc(I, src))
 				return
-			balloon_alert(user, "You attach [S] to [src].")
+			balloon_alert(user, "[S] attached")
 			set_gun_light(S)
 			update_gunlight()
 			alight = new(src)
@@ -478,7 +446,7 @@
 			return ..()
 		if(!user.transferItemToLoc(I, src))
 			return
-		balloon_alert(user, "You attach [K] to [src].")
+		balloon_alert(user, "[K] attached to [src]")
 		bayonet = K
 		var/state = "bayonet"							//Generic state.
 		if(bayonet.icon_state in icon_states('icons/obj/guns/bayonets.dmi'))		//Snowflake state?
@@ -559,7 +527,7 @@
 /obj/item/gun/proc/remove_gun_attachment(mob/living/user, obj/item/tool_item, obj/item/item_to_remove, removal_verb)
 	if(tool_item)
 		tool_item.play_tool_sound(src)
-	balloon_alert(user, "You remove [item_to_remove] from [src].")
+	balloon_alert(user, "[item_to_remove] removed")
 	item_to_remove.forceMove(drop_location())
 
 	if(Adjacent(user) && !issilicon(user))
@@ -620,7 +588,7 @@
 	var/mob/living/carbon/human/user = usr
 	gun_light.on = !gun_light.on
 	gun_light.update_brightness()
-	balloon_alert(user, "You turn the flashlight [gun_light.on ? "on" : "off"].")
+	balloon_alert(user, "Flashlight [gun_light.on ? "on":"off"]")
 
 	playsound(user, 'sound/weapons/empty.ogg', 100, TRUE)
 	update_gunlight()
@@ -637,7 +605,7 @@
 		azoom.Grant(user)
 
 /obj/item/gun/dropped(mob/user)
-	..()
+	. = ..()
 	if(azoom)
 		azoom.Remove(user)
 	if(zoomed)
@@ -686,10 +654,9 @@
 	pin = new /obj/item/firing_pin
 
 //Happens before the actual projectile creation
-/obj/item/gun/proc/before_firing(atom/target, mob/user, aimed)
-	if(aimed && chambered?.BB)
-		chambered.BB.speed = initial(chambered.BB.speed) *= 0.75 // Faster bullets to account for the fact you've given the target a big warning they're about to be shot
-		chambered.BB.damage = initial(chambered.BB.damage) *= 1.25
+//NSV13 - added aimed for aiming component
+/obj/item/gun/proc/before_firing(atom/target,mob/user, aimed)
+	return
 
 /////////////
 // ZOOMING //

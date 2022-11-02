@@ -9,8 +9,7 @@ import { NtosWindow } from '../layouts';
 export const NtosAtmos = (props, context) => {
   const { act, data } = useBackend(context);
   const {
-    AirTempC,
-    AirTempK,	
+    AirTemp,
     AirPressure,
   } = data;
   const gases = flow([
@@ -26,7 +25,7 @@ export const NtosAtmos = (props, context) => {
         <Section>
           <LabeledList>
             <LabeledList.Item label="Temperature">
-              {AirTempC}°C | {AirTempK}K
+              {AirTemp}°C
             </LabeledList.Item>
             <LabeledList.Item label="Pressure">
               {AirPressure} kPa

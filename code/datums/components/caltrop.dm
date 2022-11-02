@@ -47,7 +47,7 @@
 		var/obj/item/bodypart/O = H.get_bodypart(picked_def_zone)
 		if(!istype(O))
 			return
-		if(!IS_ORGANIC_LIMB(O))
+		if(O.status == BODYPART_ROBOTIC)
 			return
 
 		var/feetCover = (H.wear_suit && (H.wear_suit.body_parts_covered & FEET)) || (H.w_uniform && (H.w_uniform.body_parts_covered & FEET))
@@ -61,7 +61,8 @@
 		var/damage = rand(min_damage, max_damage)
 		if(HAS_TRAIT(H, TRAIT_LIGHT_STEP))
 			damage *= 0.5
-
+		if(is_species(H, /datum/species/squid))
+			damage *= 1.3
 		H.apply_damage(damage, BRUTE, picked_def_zone)
 
 		if(COOLDOWN_FINISHED(src, caltrop_cooldown))
@@ -73,7 +74,10 @@
 				H.visible_message("<span class='danger'>[H] slides on [A]!</span>", \
 						"<span class='userdanger'>You slide on [A]!</span>")
 
-		H.Paralyze(40)
+		if(is_species(H, /datum/species/squid))
+			H.Paralyze(10)
+		else
+			H.Paralyze(40)
 
 /datum/component/caltrop/UnregisterFromParent()
 	. = ..()

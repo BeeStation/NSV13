@@ -1,4 +1,4 @@
-/proc/empulse(turf/epicenter, heavy_range, light_range, log=0, magic=FALSE, holy=FALSE)
+/proc/empulse(turf/epicenter, heavy_range, light_range, log=0)
 	if(!epicenter)
 		return
 
@@ -15,22 +15,7 @@
 	if(heavy_range > light_range)
 		light_range = heavy_range
 
-	var/list/empulse_atoms = list()
-
-	for(var/turf/T as() in spiral_range_turfs(light_range, epicenter))
-		//Blessing protects from holy EMPS
-		if(holy && (locate(/obj/effect/blessing) in T))
-			continue
-		for(var/atom/A as() in T)
-			//Magic check.
-			if(ismob(A))
-				var/mob/M = A
-				if(M.anti_magic_check(magic, holy, TRUE, T==epicenter))
-					continue
-			empulse_atoms += A
-		empulse_atoms += T
-
-	for(var/atom/A as() in empulse_atoms)
+	for(var/atom/A as() in spiral_range(light_range, epicenter))
 		var/distance = get_dist(epicenter, A)
 		if(distance < 0)
 			distance = 0

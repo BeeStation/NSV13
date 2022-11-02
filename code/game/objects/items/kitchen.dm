@@ -79,6 +79,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 10
 	hitsound = 'sound/weapons/bladeslice.ogg'
+	block_upgrade_walk = 1
 	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
 	throw_speed = 3
 	throw_range = 6
@@ -89,9 +90,8 @@
 	var/bayonet = FALSE	//Can this be attached to a gun?
 	custom_price = 30
 
-/obj/item/kitchen/knife/Initialize(mapload)
+/obj/item/kitchen/knife/Initialize()
 	. = ..()
-
 	AddComponent(/datum/component/butchering, 80 - force, 100, force - 10) //bonus chance increases depending on force
 
 /obj/item/kitchen/knife/attack(mob/living/carbon/M, mob/living/carbon/user)
@@ -130,13 +130,6 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	custom_price = 60
 
-/obj/item/kitchen/knife/hunting
-	name = "hunting knife"
-	desc = "Despite its name, it's mainly used for cutting meat from dead prey rather than actual hunting."
-	item_state = "huntingknife"
-	icon_state = "huntingknife"
-	force = 12
-
 /obj/item/kitchen/knife/poison
 	name = "venom knife"
 	icon_state = "poisonknife"
@@ -149,7 +142,7 @@
 	desc = "An infamous knife of syndicate design, it has a tiny hole going through the blade to the handle which stores toxins."
 	materials = null
 
-/obj/item/kitchen/knife/poison/Initialize(mapload)
+/obj/item/kitchen/knife/poison/Initialize()
 	. = ..()
 	create_reagents(40,OPENCONTAINER)
 	possible_transfer_amounts = list(3,5)

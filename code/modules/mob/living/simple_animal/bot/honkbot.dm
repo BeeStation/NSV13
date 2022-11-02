@@ -37,7 +37,7 @@
 	var/weaponscheck = TRUE
 	var/bikehorn = /obj/item/bikehorn
 
-/mob/living/simple_animal/bot/honkbot/Initialize(mapload)
+/mob/living/simple_animal/bot/honkbot/Initialize()
 	. = ..()
 	update_icon()
 	auto_patrol = TRUE
@@ -73,7 +73,7 @@
 	target = null
 	oldtarget_name = null
 	anchored = FALSE
-	SSmove_manager.stop_looping(src)
+	walk_to(src,0)
 	last_found = world.time
 	spam_flag = FALSE
 
@@ -232,7 +232,7 @@ Maintenance panel panel is [open ? "opened" : "closed"]"},
 
 		if(BOT_IDLE)		// idle
 
-			SSmove_manager.stop_looping(src)
+			walk_to(src,0)
 			look_for_perp()
 			if(!mode && auto_patrol)
 				mode = BOT_START_PATROL
@@ -241,7 +241,7 @@ Maintenance panel panel is [open ? "opened" : "closed"]"},
 
 			// if can't reach perp for long enough, go idle
 			if(frustration >= 5) //gives up easier than beepsky
-				SSmove_manager.stop_looping(src)
+				walk_to(src,0)
 				back_to_idle()
 				return
 
@@ -260,7 +260,7 @@ Maintenance panel panel is [open ? "opened" : "closed"]"},
 
 				else	// not next to perp
 					var/turf/olddist = get_dist(src, target)
-					SSmove_manager.move_to(src, target, 1, 4)
+					walk_to(src, target,1,4)
 					if((get_dist(src, target)) >= (olddist))
 						frustration++
 					else
@@ -325,6 +325,8 @@ Maintenance panel panel is [open ? "opened" : "closed"]"},
 				continue
 
 /mob/living/simple_animal/bot/honkbot/explode()
+
+	walk_to(src,0)
 	visible_message("<span class='boldannounce'>[src] blows apart!</span>")
 	var/atom/Tsec = drop_location()
 	//doesn't drop cardboard nor its assembly, since its a very frail material.

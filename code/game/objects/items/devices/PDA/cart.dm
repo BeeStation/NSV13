@@ -32,7 +32,7 @@
 	var/remote_door_id = ""
 
 	var/bot_access_flags = 0 //Bit flags. Selection: SEC_BOT | MULE_BOT | FLOOR_BOT | CLEAN_BOT | MED_BOT | FIRE_BOT
-	var/spam_delay = 0 //Enables "Send to All" Option. 1=1 min, 2=2mins, 2.5=2 min 30 seconds
+	var/spam_enabled = 0 //Enables "Send to All" Option
 
 	var/obj/item/pda/host_pda = null
 	var/menu
@@ -49,7 +49,7 @@
 	var/mob/living/simple_animal/bot/active_bot
 	var/list/botlist = list()
 
-/obj/item/cartridge/Initialize(mapload)
+/obj/item/cartridge/Initialize()
 	. = ..()
 	var/obj/item/pda/pda = loc
 	if(istype(pda))
@@ -57,19 +57,19 @@
 
 /obj/item/cartridge/engineering
 	name = "\improper Power-ON cartridge"
-	icon_state = "cart-engie"
+	icon_state = "cart-e"
 	access = CART_ENGINE | CART_DRONEPHONE
 	bot_access_flags = FLOOR_BOT
 
 /obj/item/cartridge/atmos
 	name = "\improper BreatheDeep cartridge"
-	icon_state = "cart-atmos"
+	icon_state = "cart-a"
 	access = CART_ATMOS | CART_DRONEPHONE
 	bot_access_flags = FLOOR_BOT | FIRE_BOT
 
 /obj/item/cartridge/medical
 	name = "\improper Med-U cartridge"
-	icon_state = "cart-med"
+	icon_state = "cart-m"
 	access = CART_MEDICAL
 	bot_access_flags = MED_BOT
 
@@ -81,45 +81,42 @@
 
 /obj/item/cartridge/security
 	name = "\improper R.O.B.U.S.T. cartridge"
-	icon_state = "cart-sec"
+	icon_state = "cart-s"
 	access = CART_SECURITY | CART_MANIFEST
 	bot_access_flags = SEC_BOT
 
 /obj/item/cartridge/detective
 	name = "\improper D.E.T.E.C.T. cartridge"
-	icon_state = "cart-det"
+	icon_state = "cart-s"
 	access = CART_SECURITY | CART_MEDICAL | CART_MANIFEST
 	bot_access_flags = SEC_BOT
 
 /obj/item/cartridge/janitor
 	name = "\improper CustodiPRO cartridge"
 	desc = "The ultimate in clean-room design."
-	icon_state = "cart-jan"
+	icon_state = "cart-j"
 	access = CART_DRONEPHONE
 	bot_access_flags = CLEAN_BOT
 
 /obj/item/cartridge/lawyer
 	name = "\improper P.R.O.V.E. cartridge"
-	icon_state = "cart-prove"
+	icon_state = "cart-s"
 	access = CART_SECURITY
-	spam_delay = 2.5
+	spam_enabled = 1
 
 /obj/item/cartridge/curator
 	name = "\improper Lib-Tweet cartridge"
-	icon_state = "cart-cur"
+	icon_state = "cart-s"
 	access = CART_NEWSCASTER
-	spam_delay = 3.5
 
 /obj/item/cartridge/roboticist
 	name = "\improper B.O.O.P. Remote Control cartridge"
 	desc = "Packed with heavy duty quad-bot interlink!"
-	icon_state = "cart-robo"
 	bot_access_flags = FLOOR_BOT | CLEAN_BOT | MED_BOT | FIRE_BOT
 	access = CART_DRONEPHONE
 
 /obj/item/cartridge/signal
 	name = "generic signaler cartridge"
-	icon_state = "cart-signal"
 	desc = "A data cartridge with an integrated radio signaler module."
 
 /obj/item/cartridge/signal/toxins
@@ -128,25 +125,27 @@
 	icon_state = "cart-tox"
 	access = CART_REAGENT_SCANNER | CART_ATMOS
 
-/obj/item/cartridge/signal/Initialize(mapload)
+/obj/item/cartridge/signal/Initialize()
 	. = ..()
 	radio = new(src)
+
+
 
 /obj/item/cartridge/quartermaster
 	name = "space parts & space vendors cartridge"
 	desc = "Perfect for the Quartermaster on the go!"
-	icon_state = "cart-qm"
+	icon_state = "cart-q"
 	access = CART_QUARTERMASTER
 	bot_access_flags = MULE_BOT
 
 /obj/item/cartridge/head
 	name = "\improper Easy-Record DELUXE cartridge"
-	icon_state = "cart-val"
+	icon_state = "cart-h"
 	access = CART_MANIFEST | CART_STATUS_DISPLAY
 
 /obj/item/cartridge/hop
 	name = "\improper HumanResources9001 cartridge"
-	icon_state = "cart-hop"
+	icon_state = "cart-h"
 	access = CART_MANIFEST | CART_STATUS_DISPLAY | CART_SECURITY | CART_NEWSCASTER | CART_QUARTERMASTER | CART_DRONEPHONE
 	bot_access_flags = MULE_BOT | CLEAN_BOT
 
@@ -155,6 +154,7 @@
 	icon_state = "cart-hos"
 	access = CART_MANIFEST | CART_STATUS_DISPLAY | CART_SECURITY
 	bot_access_flags = SEC_BOT
+
 
 /obj/item/cartridge/ce
 	name = "\improper Power-On DELUXE cartridge"
@@ -174,31 +174,26 @@
 	access = CART_MANIFEST | CART_STATUS_DISPLAY | CART_REAGENT_SCANNER | CART_ATMOS | CART_DRONEPHONE
 	bot_access_flags = FLOOR_BOT | CLEAN_BOT | MED_BOT | FIRE_BOT
 
-/obj/item/cartridge/rd/Initialize(mapload)
+/obj/item/cartridge/rd/Initialize()
 	. = ..()
 	radio = new(src)
 
 /obj/item/cartridge/captain
 	name = "\improper Value-PAK cartridge"
 	desc = "Now with 350% more value!" //Give the Captain...EVERYTHING! (Except Mime, Clown, and Syndie)
-	icon_state = "cart-cap"
+	icon_state = "cart-c"
 	access = ~(CART_CLOWN | CART_MIME | CART_REMOTE_DOOR)
 	bot_access_flags = SEC_BOT | MULE_BOT | FLOOR_BOT | CLEAN_BOT | MED_BOT | FIRE_BOT
-	spam_delay = 2
+	spam_enabled = 1
 
-/obj/item/cartridge/captain/Initialize(mapload)
+/obj/item/cartridge/captain/Initialize()
 	. = ..()
 	radio = new(src)
 
 /obj/item/cartridge/annoyance //the only purpose of this cartridge is to allow the VIP to be annoying
 	name = "\improper TWIT cartridge"
-	icon_state = "cart-twit"
-	spam_delay = 1.5
-
-/obj/item/cartridge/annoyance/lesser //HoP can give you this
-	name = "\improper FACEBUCKS cartridge"
-	icon_state = "cart-signal" // might need a new sprite
-	spam_delay = 5
+	icon_state = "cart-c"
+	spam_enabled = 1
 
 /obj/item/cartridge/proc/post_status(command, data1, data2)
 
@@ -212,8 +207,6 @@
 		if("message")
 			status_signal.data["msg1"] = data1
 			status_signal.data["msg2"] = data2
-			message_admins("[ADMIN_LOOKUPFLW(usr)] changed the Status Message to - [data1], [data2] - From a PDA.")
-			log_game("[key_name(usr)] changed the Status Message to - [data1], [data2] - From a PDA.")
 		if("alert")
 			status_signal.data["picture_state"] = data1
 
@@ -268,7 +261,7 @@ Code:
 
 			var/turf/pda_turf = get_turf(src)
 			for(var/obj/machinery/computer/monitor/pMon in GLOB.machines)
-				if(pMon.machine_stat & (NOPOWER | BROKEN)) //check to make sure the computer is functional
+				if(pMon.stat & (NOPOWER | BROKEN)) //check to make sure the computer is functional
 					continue
 				if(pda_turf.get_virtual_z_level() != pMon.get_virtual_z_level()) //and that we're on the same zlevel as the computer (lore: limited signal strength)
 					continue
@@ -302,7 +295,7 @@ Code:
 						var/obj/machinery/power/apc/A = term.master
 						L += A
 
-				menu += "<PRE>Location: [get_area_name(powmonitor, TRUE)]<BR>Total power: [display_power(connected_powernet.viewavail)]<BR>Total load:  [display_power(connected_powernet.viewload)]<BR>"
+				menu += "<PRE>Location: [get_area_name(powmonitor, TRUE)]<BR>Total power: [DisplayPower(connected_powernet.viewavail)]<BR>Total load:  [DisplayPower(connected_powernet.viewload)]<BR>"
 
 				menu += "<FONT SIZE=-1>"
 
@@ -319,9 +312,9 @@ Code:
 					for(var/obj/machinery/power/apc/A in L)
 						menu += copytext_char(add_trailing(A.area.name, 30, " "), 1, 30)
 						if(A.integration_cog)
-							menu += " [S[A.equipment+1]] [S[A.lighting+1]] [S[A.environ+1]] [add_leading(display_power(A.lastused_total), 6, " ")]  100% F<BR>"
+							menu += " [S[A.equipment+1]] [S[A.lighting+1]] [S[A.environ+1]] [add_leading(DisplayPower(A.lastused_total), 6, " ")]  100% F<BR>"
 						else
-							menu += " [S[A.equipment+1]] [S[A.lighting+1]] [S[A.environ+1]] [add_leading(display_power(A.lastused_total), 6, " ")]  [A.cell ? "[add_leading("[round(A.cell.percent())]", 3, " ")]% [chg[A.charging+1]]" : "  N/C"]<BR>"
+							menu += " [S[A.equipment+1]] [S[A.lighting+1]] [S[A.environ+1]] [add_leading(DisplayPower(A.lastused_total), 6, " ")]  [A.cell ? "[add_leading("[round(A.cell.percent())]", 3, " ")]% [chg[A.charging+1]]" : "  N/C"]<BR>"
 
 				menu += "</FONT></PRE>"
 
@@ -672,16 +665,10 @@ Code:
 		var/botcount = 0
 		for(var/B in GLOB.bots_list) //Git da botz
 			var/mob/living/simple_animal/bot/Bot = B
-			if(!Bot.on || Bot.remote_disabled || !(bot_access_flags & Bot.bot_type)) //Only non-emagged bots are detected!
+			if(!Bot.on || Bot.get_virtual_z_level() != zlevel || Bot.remote_disabled || !(bot_access_flags & Bot.bot_type)) //Only non-emagged bots on the same Z-level are detected!
 				continue //Also, the PDA must have access to the bot type.
-			if(Bot.get_virtual_z_level() in SSmapping.levels_by_trait(ZTRAIT_STATION))
-				if(zlevel in SSmapping.levels_by_trait(ZTRAIT_STATION))
-					menu += "<A href='byond://?src=[REF(src)];op=control;bot=[REF(Bot)]'><b>[Bot.name]</b> ([Bot.get_mode()])<BR>"
-					botcount++
-			else if(Bot.get_virtual_z_level() == zlevel)
-				if(!(zlevel in SSmapping.levels_by_trait(ZTRAIT_STATION)))
-					menu += "<A href='byond://?src=[REF(src)];op=control;bot=[REF(Bot)]'><b>[Bot.name]</b> ([Bot.get_mode()])<BR>"
-					botcount++
+			menu += "<A href='byond://?src=[REF(src)];op=control;bot=[REF(Bot)]'><b>[Bot.name]</b> ([Bot.get_mode()])<BR>"
+			botcount++
 		if(!botcount) //No bots at all? Lame.
 			menu += "No bots found.<BR>"
 			return

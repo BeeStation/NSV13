@@ -1,7 +1,6 @@
 /datum/computer_file/program/bounty
 	filename = "bounty"
 	filedesc = "Nanotrasen Bounty Hunter"
-	category = PROGRAM_CATEGORY_SUPL
 	program_icon_state = "bounty"
 	extended_desc = "A basic interface for supply personnel to check and claim bounties."
 	requires_ntnet = TRUE
@@ -9,8 +8,7 @@
 	network_destination = "cargo claims interface"
 	size = 10
 	tgui_id = "NtosBountyConsole"
-	program_icon = "tags"
-
+	
 	///cooldown var for printing paper sheets.
 	var/printer_ready = 0
 	///The cargo account for grabbing the cargo account's credits.
@@ -45,12 +43,12 @@
 			"priority" = B.high_priority,
 			"bounty_ref" = REF(B)
 		))
-
+	
 	data["has_printer"] = printer ? TRUE : FALSE
 
 	data["stored_cash"] = cargocash.account_balance
 	data["bountydata"] = bountyinfo
-
+	
 	return data
 
 /datum/computer_file/program/bounty/ui_act(action,params)
@@ -66,7 +64,7 @@
 			var/obj/item/computer_hardware/printer/printer
 			if(computer)
 				printer = computer.all_components[MC_PRINT]
-
+			
 			if(printer)
 				if(!printer.print_type(/obj/item/paper/bounty_printout))
 					to_chat(usr, "<span class='notice'>Hardware error: Printer was unable to print the file. It may be out of paper.</span>")

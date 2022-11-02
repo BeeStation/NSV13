@@ -73,9 +73,7 @@
 			to_chat(user, "<span class='notice'>You start adding [I] to [src]...</span>")
 			if(do_after(user, 50, target=src))
 				W.use(5)
-				var/turf/T = get_turf(src)
-				T.PlaceOnTop(/turf/closed/wall/mineral/wood/nonmetal)
-				transfer_fingerprints_to(T)
+				new /turf/closed/wall/mineral/wood/nonmetal(get_turf(src))
 				qdel(src)
 				return
 	return ..()
@@ -125,7 +123,7 @@
 	var/deploy_message = TRUE
 
 
-/obj/structure/barricade/security/Initialize(mapload)
+/obj/structure/barricade/security/Initialize()
 	. = ..()
 	addtimer(CALLBACK(src, .proc/deploy), deploy_time)
 
@@ -168,8 +166,6 @@
 
 /obj/item/grenade/barrier/prime(mob/living/lanced_by)
 	. = ..()
-	if(!.)
-		return
 	new /obj/structure/barricade/security(get_turf(src.loc))
 	switch(mode)
 		if(VERTICAL)

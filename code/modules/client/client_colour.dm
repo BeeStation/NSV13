@@ -156,37 +156,37 @@
 	colour = "red"
 
 /datum/client_colour/glass_colour/green
-	colour = "#eeffee"
+	colour = "#aaffaa"
 
 /datum/client_colour/glass_colour/lightgreen
-	colour = "#f5fff5"
+	colour = "#ccffcc"
 
 /datum/client_colour/glass_colour/blue
-	colour = "#eeeeff"
+	colour = "#aaaaff"
 
 /datum/client_colour/glass_colour/lightblue
-	colour = "#f5f5ff"
+	colour = "#ccccff"
 
 /datum/client_colour/glass_colour/yellow
-	colour = "#ffffee"
+	colour = "#ffff66"
 
 /datum/client_colour/glass_colour/red
-	colour = "#ffeeee"
+	colour = "#ffaaaa"
 
 /datum/client_colour/glass_colour/darkred
-	colour = "#ffe7e7"
+	colour = "#bb5555"
 
 /datum/client_colour/glass_colour/orange
-	colour = "#fff3ee"
+	colour = "#ffbb99"
 
 /datum/client_colour/glass_colour/lightorange
-	colour = "#fffaf5"
+	colour = "#ffddaa"
 
 /datum/client_colour/glass_colour/purple
-	colour = "#ffeeff"
+	colour = "#ff99ff"
 
 /datum/client_colour/glass_colour/gray
-	colour = "#e7e7e7"
+	colour = "#cccccc"
 
 
 /datum/client_colour/monochrome

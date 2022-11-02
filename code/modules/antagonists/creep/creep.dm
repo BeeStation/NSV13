@@ -5,7 +5,6 @@
 	job_rank = ROLE_OBSESSED
 	show_name_in_check_antagonists = TRUE
 	roundend_category = "obsessed"
-	count_against_dynamic_roll_chance = FALSE
 	silent = TRUE //not actually silent, because greet will be called by the trauma anyway.
 	var/datum/brain_trauma/special/obsessed/trauma
 
@@ -23,8 +22,6 @@
 	C.gain_trauma(/datum/brain_trauma/special/obsessed)//ZAP
 
 /datum/antagonist/obsessed/greet()
-	if(!trauma?.obsession)
-		return
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/creepalert.ogg', 100, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
 	to_chat(owner, "<span class='userdanger'>You are the Obsessed!</span>")
 	to_chat(owner, "<B>The Voices have reached out to you, and are using you to complete their evil deeds.</B>")
@@ -52,7 +49,7 @@
 	var/list/objectives_left = list("spendtime", "polaroid", "hug")
 	var/datum/objective/assassinate/obsessed/kill = new
 	kill.owner = owner
-	kill.set_target(obsessionmind)
+	kill.target = obsessionmind
 	var/datum/quirk/family_heirloom/family_heirloom
 
 	for(var/datum/quirk/quirky in obsessionmind.current.roundstart_quirks)
@@ -62,7 +59,7 @@
 	if(family_heirloom)//oh, they have an heirloom? Well you know we have to steal that.
 		objectives_left += "heirloom"
 
-	if(obsessionmind.assigned_role && obsessionmind.assigned_role != JOB_NAME_CAPTAIN)
+	if(obsessionmind.assigned_role && obsessionmind.assigned_role != "Captain")
 		objectives_left += "jealous"//if they have no coworkers, jealousy will pick someone else on the station. this will never be a free objective, nice.
 
 	for(var/i in 1 to 3)
@@ -72,33 +69,32 @@
 			if("spendtime")
 				var/datum/objective/spendtime/spendtime = new
 				spendtime.owner = owner
-				spendtime.set_target(obsessionmind)
+				spendtime.target = obsessionmind
 				objectives += spendtime
 				log_objective(owner, spendtime.explanation_text)
 			if("polaroid")
 				var/datum/objective/polaroid/polaroid = new
 				polaroid.owner = owner
-				polaroid.set_target(obsessionmind)
+				polaroid.target = obsessionmind
 				objectives += polaroid
 				log_objective(owner, polaroid.explanation_text)
 			if("hug")
 				var/datum/objective/hug/hug = new
 				hug.owner = owner
-				hug.set_target(obsessionmind)
+				hug.target = obsessionmind
 				objectives += hug
 				log_objective(owner, hug.explanation_text)
 			if("heirloom")
 				var/datum/objective/steal/heirloom_thief/heirloom_thief = new
 				heirloom_thief.owner = owner
-				heirloom_thief.set_target(obsessionmind)//while you usually wouldn't need this for stealing, we need the name of the obsession
+				heirloom_thief.target = obsessionmind//while you usually wouldn't need this for stealing, we need the name of the obsession
 				heirloom_thief.steal_target = family_heirloom.heirloom
 				objectives += heirloom_thief
 				log_objective(owner, heirloom_thief.explanation_text)
 			if("jealous")
 				var/datum/objective/assassinate/jealous/jealous = new
 				jealous.owner = owner
-				jealous.obsession = obsessionmind
-				jealous.find_target()//will reroll into a coworker on the objective itself
+				jealous.target = obsessionmind//will reroll into a coworker on the objective itself
 				objectives += jealous
 				log_objective(owner, jealous.explanation_text)
 
@@ -154,63 +150,73 @@
 		message_admins("WARNING! [ADMIN_LOOKUPFLW(owner)] obsessed objectives forged without an obsession!")
 		explanation_text = "Free Objective"
 
-/datum/objective/assassinate/obsessed/on_target_cryo()
-	qdel(src) //trauma will give replacement objectives
-
-/datum/objective/assassinate/jealous //assassinate, but it changes the target to someone else in the obsession's department. cool, right?
-	var/datum/mind/obsession //the target the coworker is picked from.
+/datum/objective/assassinate/jealous //assassinate, but it changes the target to someone else in the previous target's department. cool, right?
+	var/datum/mind/old //the target the coworker was picked from.
 
 /datum/objective/assassinate/jealous/update_explanation_text()
 	..()
-	if(obsession && target?.current)
-		explanation_text = "Murder [target.name], [obsession]'s coworker."
-	else if(target?.current)
-		explanation_text = "Murder [target.name]."
+	old = find_coworker(target)
+	if(target && target.current && old)
+		explanation_text = "Murder [target.name], [old]'s coworker."
 	else
 		explanation_text = "Free Objective"
 
-/datum/objective/assassinate/jealous/find_target(list/dupe_search_range, list/blacklist)//returning null = free objective
-	if(!obsession?.assigned_role)
-		set_target(null)
-		update_explanation_text()
+/datum/objective/assassinate/jealous/proc/find_coworker(datum/mind/oldmind)//returning null = free objective
+	if(!oldmind.assigned_role)
 		return
 	var/list/viable_coworkers = list()
 	var/list/all_coworkers = list()
-	var/list/chosen_department
+	var/chosen_department
+	var/their_chosen_department
 	//note that command and sillycone are gone because borgs can't be obsessions and the heads have their respective department. Sorry cap, your place is more with centcom or something
-	if(obsession.assigned_role in GLOB.security_positions)
-		chosen_department = GLOB.security_positions
-	else if(obsession.assigned_role in GLOB.engineering_positions)
-		chosen_department = GLOB.engineering_positions
-	else if(obsession.assigned_role in GLOB.medical_positions)
-		chosen_department = GLOB.medical_positions
-	else if(obsession.assigned_role in GLOB.science_positions)
-		chosen_department = GLOB.science_positions
-	else if(obsession.assigned_role in GLOB.supply_positions)
-		chosen_department = GLOB.supply_positions
-	else if(obsession.assigned_role in (GLOB.civilian_positions | GLOB.gimmick_positions))
-		chosen_department = GLOB.civilian_positions | GLOB.gimmick_positions
-	else if(obsession.assigned_role in GLOB.munitions_positions) //NSV13 munitions department
-		chosen_department = GLOB.munitions_positions
-	else
-		set_target(null)
-		update_explanation_text()
-		return
-	for(var/datum/mind/possible_target as() in get_crewmember_minds())
-		if(!SSjob.GetJob(possible_target.assigned_role) || possible_target == obsession || possible_target.has_antag_datum(/datum/antagonist/obsessed) || (possible_target in blacklist))
+	if(oldmind.assigned_role in GLOB.security_positions)
+		chosen_department = "security"
+	if(oldmind.assigned_role in GLOB.engineering_positions)
+		chosen_department = "engineering"
+	if(oldmind.assigned_role in GLOB.medical_positions)
+		chosen_department = "medical"
+	if(oldmind.assigned_role in GLOB.science_positions)
+		chosen_department = "science"
+	if(oldmind.assigned_role in GLOB.supply_positions)
+		chosen_department = "supply"
+	if(oldmind.assigned_role in GLOB.civilian_positions)
+		chosen_department = "civilian"
+	if(oldmind.assigned_role in GLOB.munitions_positions) //NSV13 munitions department
+		chosen_department = "munitions"
+	if(oldmind.assigned_role in GLOB.gimmick_positions)
+		chosen_department = "civilian"
+	for(var/mob/living/carbon/human/H in GLOB.alive_mob_list)
+		if(!H.mind)
+			continue
+		if(!SSjob.GetJob(H.mind.assigned_role) || H == oldmind.current || H.mind.has_antag_datum(/datum/antagonist/obsessed))
 			continue //the jealousy target has to have a job, and not be the obsession or obsessed.
-		all_coworkers += possible_target
-		if(possible_target.assigned_role in chosen_department)
-			viable_coworkers += possible_target
+		all_coworkers += H.mind
+		//this won't be called often thankfully.
+		if(H.mind.assigned_role in GLOB.security_positions)
+			their_chosen_department = "security"
+		if(H.mind.assigned_role in GLOB.engineering_positions)
+			their_chosen_department = "engineering"
+		if(H.mind.assigned_role in GLOB.medical_positions)
+			their_chosen_department = "medical"
+		if(H.mind.assigned_role in GLOB.science_positions)
+			their_chosen_department = "science"
+		if(H.mind.assigned_role in GLOB.supply_positions)
+			their_chosen_department = "supply"
+		if(H.mind.assigned_role in GLOB.civilian_positions)
+			their_chosen_department = "civilian"
+		if(H.mind.assigned_role in GLOB.munitions_positions) //NSV13 munitions department
+			their_chosen_department = "munitions"
+		if(H.mind.assigned_role in GLOB.gimmick_positions)
+			chosen_department = "civilian"
+		if(their_chosen_department != chosen_department)
+			continue
+		viable_coworkers += H.mind
 
-	if(viable_coworkers.len)//find someone in the same department
-		set_target(pick(viable_coworkers))
-	else if(all_coworkers.len)//find someone who works on the station
-		set_target(pick(all_coworkers))
-	else
-		set_target(null)
-	update_explanation_text()
-	return target
+	if(viable_coworkers.len > 0)//find someone in the same department
+		target = pick(viable_coworkers)
+	else if(all_coworkers.len > 0)//find someone who works on the station
+		target = pick(all_coworkers)
+	return oldmind
 
 /datum/objective/spendtime //spend some time around someone, handled by the obsessed trauma since that ticks
 	name = "spendtime"
@@ -227,10 +233,8 @@
 		explanation_text = "Free Objective"
 
 /datum/objective/spendtime/check_completion()
-	return timer <= 0 || explanation_text == "Free Objective" || ..()
+	return timer <= 0 || explanation_text == "Free Objective"
 
-/datum/objective/spendtime/on_target_cryo()
-	qdel(src)
 
 /datum/objective/hug//this objective isn't perfect. hugging the correct amount of times, then switching bodies, might fail the objective anyway. maybe i'll come back and fix this sometime.
 	name = "hugs"
@@ -250,10 +254,7 @@
 	var/datum/antagonist/obsessed/creeper = owner.has_antag_datum(/datum/antagonist/obsessed)
 	if(!creeper || !creeper.trauma || !hugs_needed)
 		return TRUE//free objective
-	return (creeper.trauma.obsession_hug_count >= hugs_needed) || ..()
-
-/datum/objective/hug/on_target_cryo()
-	qdel(src)
+	return creeper.trauma.obsession_hug_count >= hugs_needed
 
 /datum/objective/polaroid //take a picture of the target with you in it.
 	name = "polaroid"
@@ -276,10 +277,8 @@
 				var/obj/item/photo/P = I
 				if(P.picture && (target.current in P.picture.mobs_seen) && !(target.current in P.picture.dead_seen)) //Does the picture exist and is the target in it and is the target not dead
 					return TRUE
-	return ..()
+	return FALSE
 
-/datum/objective/polaroid/on_target_cryo()
-	qdel(src)
 
 /datum/objective/steal/heirloom_thief //exactly what it sounds like, steal someone's heirloom.
 	name = "heirloomthief"

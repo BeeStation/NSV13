@@ -54,19 +54,21 @@
 		lasercolor = created_lasercolor
 	icon_state = "[lasercolor]ed209[on]"
 	set_weapon() //giving it the right projectile and firing sound.
-	var/datum/job/detective/J = new/datum/job/detective
-	access_card.access += J.get_access()
-	prev_access = access_card.access
-	if(lasercolor)
-		shot_delay = 6//Longer shot delay because JESUS CHRIST
-		check_records = 0//Don't actively target people set to arrest
-		arrest_type = 1//Don't even try to cuff
-		bot_core.req_access = list(ACCESS_MAINT_TUNNELS, ACCESS_THEATRE)
-		arrest_type = 1
-		if((lasercolor == "b") && (name == "\improper ED-209 Security Robot"))//Picks a name if there isn't already a custome one
-			name = pick("BLUE BALLER","SANIC","BLUE KILLDEATH MURDERBOT")
-		if((lasercolor == "r") && (name == "\improper ED-209 Security Robot"))
-			name = pick("RED RAMPAGE","RED ROVER","RED KILLDEATH MURDERBOT")
+	spawn(3)
+		var/datum/job/detective/J = new/datum/job/detective
+		access_card.access += J.get_access()
+		prev_access = access_card.access
+
+		if(lasercolor)
+			shot_delay = 6//Longer shot delay because JESUS CHRIST
+			check_records = 0//Don't actively target people set to arrest
+			arrest_type = 1//Don't even try to cuff
+			bot_core.req_access = list(ACCESS_MAINT_TUNNELS, ACCESS_THEATRE)
+			arrest_type = 1
+			if((lasercolor == "b") && (name == "\improper ED-209 Security Robot"))//Picks a name if there isn't already a custome one
+				name = pick("BLUE BALLER","SANIC","BLUE KILLDEATH MURDERBOT")
+			if((lasercolor == "r") && (name == "\improper ED-209 Security Robot"))
+				name = pick("RED RAMPAGE","RED ROVER","RED KILLDEATH MURDERBOT")
 
 	//SECHUD
 	var/datum/atom_hud/secsensor = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
@@ -86,7 +88,7 @@
 	target = null
 	oldtarget_name = null
 	anchored = FALSE
-	SSmove_manager.stop_looping(src)
+	walk_to(src,0)
 	last_found = world.time
 	set_weapon()
 
@@ -241,7 +243,7 @@ Auto Patrol[]"},
 	switch(mode)
 
 		if(BOT_IDLE)		// idle
-			SSmove_manager.stop_looping(src)
+			walk_to(src,0)
 			if(!lasercolor) //lasertag bots don't want to arrest anyone
 				look_for_perp()	// see if any criminals are in range
 			if(!mode && auto_patrol)	// still idle, and set to patrol
@@ -250,7 +252,7 @@ Auto Patrol[]"},
 		if(BOT_HUNT)		// hunting for perp
 			// if can't reach perp for long enough, go idle
 			if(frustration >= 8)
-				SSmove_manager.stop_looping(src)
+				walk_to(src,0)
 				back_to_idle()
 
 			if(target)		// make sure target exists
@@ -264,7 +266,7 @@ Auto Patrol[]"},
 
 				else								// not next to perp
 					var/turf/olddist = get_dist(src, target)
-					SSmove_manager.move_to(src, target, 1, 4)
+					walk_to(src, target,1,4)
 					if((get_dist(src, target)) >= (olddist))
 						frustration++
 					else
@@ -373,7 +375,7 @@ Auto Patrol[]"},
 	return 0
 
 /mob/living/simple_animal/bot/ed209/explode()
-	SSmove_manager.stop_looping(src)
+	walk_to(src,0)
 	visible_message("<span class='boldannounce'>[src] blows apart!</span>")
 	var/atom/Tsec = drop_location()
 

@@ -11,12 +11,13 @@
 	w_class = WEIGHT_CLASS_HUGE
 	materials = list(/datum/material/iron=10000, /datum/material/glass=2500)
 
+
 	var/on = TRUE
 	var/code = 2
 	var/frequency = FREQ_ELECTROPACK
 	var/shock_cooldown = FALSE
 
-/obj/item/electropack/Initialize(mapload)
+/obj/item/electropack/Initialize()
 	. = ..()
 	set_frequency(frequency)
 
@@ -46,11 +47,11 @@
 			to_chat(user, "<span class='warning'>[W] is stuck to your hand, you cannot attach it to [src]!</span>")
 			return
 		W.master = A
-		A.helmet_part = W
+		A.part1 = W
 
 		user.transferItemToLoc(src, A, TRUE)
 		master = A
-		A.electropack_part = src
+		A.part2 = src
 
 		user.put_in_hands(A)
 		A.add_fingerprint(user)

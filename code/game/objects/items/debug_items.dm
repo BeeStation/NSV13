@@ -67,8 +67,7 @@
 		"Saw" = image(icon = 'icons/obj/surgery.dmi', icon_state = "saw"),
 		"Pickaxe" = image(icon = 'icons/obj/mining.dmi', icon_state = "minipick"),
 		"Shovel" = image(icon = 'icons/obj/mining.dmi', icon_state = "spade"),
-		"Blood Filter" = image(icon = 'icons/obj/surgery.dmi', icon_state = "bloodfilter"),
-		"Wire Brush" = image(icon = 'icons/obj/tools.dmi', icon_state = "wirebrush")
+		"Blood Filter" = image(icon = 'icons/obj/surgery.dmi', icon_state = "bloodfilter")
 	)
 
 	var/tool_result = show_radial_menu(user, src, tool_list, custom_check = CALLBACK(src, .proc/check_menu, user), require_near = TRUE, tooltips = TRUE)
@@ -109,5 +108,3 @@
 			tool_behaviour = TOOL_MINING
 		if("Shovel")
 			tool_behaviour = TOOL_SHOVEL
-		if("Wire Brush")
-			tool_behaviour = TOOL_RUSTSCRAPER

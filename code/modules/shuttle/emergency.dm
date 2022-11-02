@@ -303,6 +303,7 @@
 	height = 11
 	dir = EAST
 	port_direction = WEST
+	var/sound_played = 0 //If the launch sound has been sent to all players on the shuttle itself
 	var/hijack_status = NOT_BEGUN
 
 /obj/docking_port/mobile/emergency/canDock(obj/docking_port/stationary/S)
@@ -348,7 +349,7 @@
 	else
 		SSshuttle.emergencyLastCallLoc = null
 
-	priority_announce("The emergency shuttle has been called. [redAlert ? "Red Alert state confirmed: Dispatching priority shuttle. " : "" ]It will arrive in [timeLeft(600)] minutes.[reason][SSshuttle.emergencyLastCallLoc ? "\n\nCall signal traced. Results can be viewed on any communications console." : "" ][SSshuttle.adminEmergencyNoRecall ? "\n\nWarning: Shuttle recall subroutines disabled; Recall not possible." : ""]", null, ANNOUNCER_SHUTTLECALLED, "Priority", null, TRUE)
+	priority_announce("The emergency shuttle has been called. [redAlert ? "Red Alert state confirmed: Dispatching priority shuttle. " : "" ]It will arrive in [timeLeft(600)] minutes.[reason][SSshuttle.emergencyLastCallLoc ? "\n\nCall signal traced. Results can be viewed on any communications console." : "" ][SSshuttle.adminEmergencyNoRecall ? "\n\nWarning: Shuttle recall subroutines disabled; Recall not possible." : ""]", null, ANNOUNCER_SHUTTLECALLED, "Priority")
 
 /obj/docking_port/mobile/emergency/cancel(area/signalOrigin)
 	if(mode != SHUTTLE_CALL)
@@ -603,7 +604,7 @@
 
 /obj/machinery/computer/shuttle_flight/pod
 	name = "pod control computer"
-	admin_controlled = TRUE
+	admin_controlled = 1
 	recall_docking_port_id = "null"
 	request_shuttle_message = "Override Escape"
 	possible_destinations = "pod_asteroid"
@@ -612,14 +613,6 @@
 	light_color = LIGHT_COLOR_BLUE
 	density = FALSE
 	clockwork = TRUE //it'd look weird
-
-/obj/machinery/computer/shuttle_flight/pod/Initialize()
-	. = ..()
-	RegisterSignal(SSdcs, COMSIG_GLOB_SECURITY_ALERT_CHANGE, .proc/handle_alert)
-
-/obj/machinery/computer/shuttle_flight/pod/proc/handle_alert(datum/source, new_alert)
-	SIGNAL_HANDLER
-	admin_controlled = (new_alert < SEC_LEVEL_RED) // admin_controlled is FALSE if its red or delta
 
 /obj/machinery/computer/shuttle_flight/pod/update_icon()
 	return
@@ -671,7 +664,6 @@
 	name = "emergency space helmet"
 	icon_state = "syndicate-helm-orange"
 	item_state = "syndicate-helm-orange"
-	flash_protect = 0
 
 /obj/item/clothing/suit/space/orange
 	name = "emergency space suit"
@@ -738,7 +730,7 @@
 	height = 8
 	dir = EAST
 
-/obj/docking_port/mobile/emergency/backup/Initialize(mapload)
+/obj/docking_port/mobile/emergency/backup/Initialize()
 	// We want to be a valid emergency shuttle
 	// but not be the main one, keep whatever's set
 	// valid.

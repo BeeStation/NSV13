@@ -30,7 +30,7 @@
 /obj/machinery/computer/ship/munitions_computer/west
 	dir = WEST
 
-/obj/machinery/computer/ship/munitions_computer/Initialize(mapload)
+/obj/machinery/computer/ship/munitions_computer/Initialize()
 	. = ..()
 	get_linked_weapon()
 

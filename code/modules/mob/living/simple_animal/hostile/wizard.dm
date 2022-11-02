@@ -38,7 +38,7 @@
 	do_footstep = TRUE
 	discovery_points = 3000
 
-/mob/living/simple_animal/hostile/wizard/Initialize(mapload)
+/mob/living/simple_animal/hostile/wizard/Initialize()
 	. = ..()
 	fireball = new /obj/effect/proc_holder/spell/aimed/fireball
 	fireball.clothes_req = 0

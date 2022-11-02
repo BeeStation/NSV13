@@ -21,9 +21,10 @@
 		mood.mood_modifier -= 0.2
 
 /datum/quirk/apathetic/remove()
-	var/datum/component/mood/mood = quirk_holder.GetComponent(/datum/component/mood)
-	if(mood)
-		mood.mood_modifier += 0.2
+	if(quirk_holder)
+		var/datum/component/mood/mood = quirk_holder.GetComponent(/datum/component/mood)
+		if(mood)
+			mood.mood_modifier += 0.2
 
 /datum/quirk/drunkhealing
 	name = "Drunken Resilience"
@@ -65,7 +66,6 @@
 	value = 1
 	mob_trait = TRAIT_JOLLY
 	mood_quirk = TRUE
-	process = TRUE
 
 /datum/quirk/jolly/on_process(delta_time)
 	if(DT_PROB(0.05, delta_time))
@@ -106,17 +106,16 @@
 
 /datum/quirk/multilingual/on_spawn()
 	var/mob/living/carbon/human/H = quirk_holder
-	if(H.job == JOB_NAME_CURATOR)
-		return
-	var/obj/item/organ/tongue/T = H.getorganslot(ORGAN_SLOT_TONGUE)
-	var/list/languages_possible = T.languages_possible
-	languages_possible = languages_possible - typecacheof(/datum/language/codespeak) - typecacheof(/datum/language/narsie) - typecacheof(/datum/language/ratvar)
-	languages_possible = languages_possible - H.language_holder.understood_languages
-	languages_possible = languages_possible - H.language_holder.spoken_languages
-	languages_possible = languages_possible - H.language_holder.blocked_languages
-	if(length(languages_possible))
-		var/datum/language/random_language = pick(languages_possible)
-		H.grant_language(random_language, TRUE, TRUE, LANGUAGE_MULTILINGUAL)
+	if(H.job != "Curator")
+		var/obj/item/organ/tongue/T = H.getorganslot(ORGAN_SLOT_TONGUE)
+		var/list/languages_possible = T.languages_possible
+		languages_possible = languages_possible - typecacheof(/datum/language/codespeak) - typecacheof(/datum/language/narsie) - typecacheof(/datum/language/ratvar)
+		languages_possible = languages_possible - H.language_holder.understood_languages
+		languages_possible = languages_possible - H.language_holder.spoken_languages
+		languages_possible = languages_possible - H.language_holder.blocked_languages
+		if(LAZYLEN(languages_possible))
+			var/datum/language/random_language = pick(languages_possible)
+			H.grant_language(random_language, TRUE, TRUE, LANGUAGE_MULTILINGUAL)
 //Credit To Yowii/Yoworii/Yorii for a much more streamlined method of language library building
 
 /datum/quirk/night_vision
@@ -174,7 +173,6 @@
 	mob_trait = TRAIT_SPIRITUAL
 	gain_text = "<span class='notice'>You have faith in a higher power.</span>"
 	lose_text = "<span class='danger'>You lose faith!</span>"
-	process = TRUE
 
 /datum/quirk/spiritual/on_spawn()
 	var/mob/living/carbon/human/H = quirk_holder
@@ -217,13 +215,12 @@
 
 /datum/quirk/neet
 	name = "NEET"
-	desc = "For some reason you qualified for social welfare and you don't really care about your own personal hygiene." //NSV13 - kept hygiene
+	desc = "For some reason you qualified for social welfare and you don't really care about your own personal hygiene."
 	value = 1
 	mob_trait = TRAIT_NEET
 	gain_text = "<span class='notice'>You feel useless to society.</span>"
 	lose_text = "<span class='danger'>You no longer feel useless to society.</span>"
 	mood_quirk = TRUE
-	process = TRUE
 
 /datum/quirk/neet/on_spawn()
 	var/mob/living/carbon/human/H = quirk_holder
@@ -232,7 +229,6 @@
 		return
 	D.welfare = TRUE
 
-// NSV13 - kept hygiene
 /datum/quirk/neet/on_process()
 	var/mob/living/carbon/human/H = quirk_holder
 	if (H.hygiene <= HYGIENE_LEVEL_DIRTY)

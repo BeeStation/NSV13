@@ -11,7 +11,7 @@
 	density = FALSE
 	light_range = FALSE
 
-/obj/structure/bot/Initialize(mapload)
+/obj/structure/bot/Initialize()
 	. = ..()
 	AddComponent( \
 		/datum/component/shell, \
@@ -27,7 +27,7 @@
 	/// Called when attack_hand is called on the shell.
 	var/datum/port/output/signal
 
-/obj/item/circuit_component/bot/Initialize(mapload)
+/obj/item/circuit_component/bot/Initialize()
 	. = ..()
 	signal = add_output_port("Signal", PORT_TYPE_SIGNAL)
 

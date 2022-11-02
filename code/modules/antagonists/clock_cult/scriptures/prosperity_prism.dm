@@ -28,7 +28,7 @@
 	var/toggled_on = TRUE
 	var/datum/reagents/holder
 
-/obj/structure/destructible/clockwork/gear_base/prosperityprism/Initialize(mapload)
+/obj/structure/destructible/clockwork/gear_base/prosperityprism/Initialize()
 	. = ..()
 	START_PROCESSING(SSobj, src)
 	holder = new /datum/reagents(1000)

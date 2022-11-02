@@ -1,14 +1,15 @@
 /datum/job/detective
-	title = JOB_NAME_DETECTIVE
+	title = "Detective"
 	flag = DETECTIVE
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
-	department_head = list(JOB_NAME_HEADOFSECURITY)
+	department_head = list("Head of Security")
 	department_flag = ENGSEC
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the head of security"
 	selection_color = "#ffeeee"
+	chat_color = "#C78B8B"
 	minimal_player_age = 7
 	exp_requirements = 180
 	exp_type = EXP_TYPE_CREW
@@ -23,15 +24,13 @@
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	display_order = JOB_DISPLAY_ORDER_DETECTIVE
-	departments = DEPARTMENT_BITFLAG_SECURITY
-	rpg_title = "Thiefcatcher"
+	departments = DEPARTMENT_SECURITY
 
 	species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/detective
 	)
-
 /datum/outfit/job/detective
-	name = JOB_NAME_DETECTIVE
+	name = "Detective"
 	jobtype = /datum/job/detective
 
 	id = /obj/item/card/id/job/detective
@@ -51,6 +50,8 @@
 		/obj/item/detective_scanner=1,\
 		/obj/item/melee/classic_baton/police=1)
 	mask = /obj/item/clothing/mask/cigarette
+
+	implants = list(/obj/item/implant/mindshield)
 
 	chameleon_extras = list(/obj/item/gun/ballistic/revolver/detective, /obj/item/clothing/glasses/sunglasses/advanced)
 

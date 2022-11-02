@@ -30,7 +30,7 @@
 		return
 	..()
 
-/obj/structure/chair/noose/Initialize(mapload)
+/obj/structure/chair/noose/Initialize()
 	. = ..()
 	pixel_y += 16 //Noose looks like it's "hanging" in the air
 	overlay = image(icon, "noose_overlay")

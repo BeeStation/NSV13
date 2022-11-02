@@ -1,7 +1,7 @@
 /obj/item/storage/backpack/gulagpack
 	name = "gulagpack"
 	desc = "A spraypainted electropack painted in security colors to signal the wearer is serving the ship under surveillance."
-	worn_icon = 'nsv13/icons/mob/back.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/back.dmi'
 	icon = 'nsv13/icons/obj/gulagpack.dmi'
 	icon_state = "gulagpack0"
 	item_state = "gulagpack1"
@@ -57,11 +57,11 @@
 			to_chat(user, "<span class='warning'>[W] is stuck to your hand, you cannot attach it to [src]!</span>")
 			return
 		W.master = A
-		A.helmet_part = W
+		A.part1 = W
 
 		user.transferItemToLoc(src, A, TRUE)
 		master = A
-		A.electropack_part = src
+		A.part2 = src
 
 		user.put_in_hands(A)
 		A.add_fingerprint(user)

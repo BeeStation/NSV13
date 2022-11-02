@@ -21,7 +21,7 @@
 	var/scan_state = "" //Holder for the image we display when we're pinged by a mining scanner
 	var/defer_change = 0
 
-/turf/closed/mineral/Initialize(mapload)
+/turf/closed/mineral/Initialize()
 	if (!canSmoothWith)
 		canSmoothWith = list(/turf/closed/mineral, /turf/closed/indestructible)
 	var/matrix/M = new
@@ -144,7 +144,7 @@
 		//Currently, Adamantine won't spawn as it has no uses. -Durandan
 	var/mineralChance = 13
 
-/turf/closed/mineral/random/Initialize(mapload)
+/turf/closed/mineral/random/Initialize()
 
 	mineralSpawnChanceList = typelist("mineralSpawnChanceList", mineralSpawnChanceList)
 
@@ -423,7 +423,7 @@
 	var/activated_name = null
 	var/mutable_appearance/activated_overlay
 
-/turf/closed/mineral/gibtonite/Initialize(mapload)
+/turf/closed/mineral/gibtonite/Initialize()
 	det_time = rand(8,10) //So you don't know exactly when the hot potato will explode
 	. = ..()
 

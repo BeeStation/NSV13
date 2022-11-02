@@ -14,7 +14,7 @@
 	output_name = "New List"
 	output_port_type = PORT_TYPE_LIST
 
-/obj/item/circuit_component/indexer/write/Initialize(mapload)
+/obj/item/circuit_component/indexer/write/Initialize()
 	. = ..()
 	value_port = add_input_port("Value", PORT_TYPE_ANY)
 

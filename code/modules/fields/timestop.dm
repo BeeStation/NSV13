@@ -166,7 +166,7 @@
 		immune += L
 		return
 	L.Stun(20, 1, 1)
-	SSmove_manager.stop_looping(src) //stops them mid pathing even if they're stunimmune //This is really dumb
+	walk(L, 0) //stops them mid pathing even if they're stunimmune
 	if(isanimal(L))
 		var/mob/living/simple_animal/S = L
 		S.toggle_ai(AI_OFF)

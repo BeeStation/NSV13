@@ -10,7 +10,7 @@
 	/// instead of the switch's location.
 	var/area/area = null
 
-/obj/machinery/light_switch/Initialize(mapload)
+/obj/machinery/light_switch/Initialize()
 	. = ..()
 	if(istext(area))
 		area = text2path(area)
@@ -25,7 +25,7 @@
 	update_icon()
 
 /obj/machinery/light_switch/update_icon()
-	if(machine_stat & NOPOWER)
+	if(stat & NOPOWER)
 		icon_state = "light-p"
 	else
 		if(area.lightswitch)
@@ -41,7 +41,6 @@
 	. = ..()
 
 	area.lightswitch = !area.lightswitch
-	play_click_sound("button")
 	area.update_icon()
 
 	for(var/obj/machinery/light_switch/L in area)
@@ -52,9 +51,9 @@
 /obj/machinery/light_switch/power_change()
 	if(area == get_area(src))
 		if(powered(AREA_USAGE_LIGHT))
-			set_machine_stat(machine_stat & ~NOPOWER)
+			stat &= ~NOPOWER
 		else
-			set_machine_stat(machine_stat | NOPOWER)
+			stat |= NOPOWER
 
 		update_icon()
 
@@ -62,7 +61,7 @@
 	. = ..()
 	if (. & EMP_PROTECT_SELF)
 		return
-	if(!(machine_stat & (BROKEN|NOPOWER)))
+	if(!(stat & (BROKEN|NOPOWER)))
 		power_change()
 
 /obj/machinery/light_switch/north //NSV13 Start

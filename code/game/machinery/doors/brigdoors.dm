@@ -44,13 +44,13 @@
 
 
 
-/obj/machinery/door_timer/Initialize(mapload)
+/obj/machinery/door_timer/Initialize()
 	. = ..()
 
 	Radio = new/obj/item/radio(src)
 	Radio.listening = 0
 
-/obj/machinery/door_timer/Initialize(mapload)
+/obj/machinery/door_timer/Initialize()
 	. = ..()
 	if(id != null)
 		for(var/obj/machinery/door/window/brigdoor/M in urange(20, src))
@@ -66,7 +66,7 @@
 				closets += WEAKREF(C)
 
 	if(!length(doors) && !length(flashers) && length(closets))
-		set_machine_stat(machine_stat | BROKEN)
+		stat |= BROKEN
 	update_icon()
 
 
@@ -74,11 +74,11 @@
 // if it's less than 0, open door, reset timer
 // update the door_timer window and the icon
 /obj/machinery/door_timer/process()
-	if(machine_stat & (NOPOWER|BROKEN))
+	if(stat & (NOPOWER|BROKEN))
 		return
 
 	if(timing)
-		if(REALTIMEOFDAY - activation_time >= timer_duration)
+		if(world.time - activation_time >= timer_duration)
 			timer_end() // open doors, reset timer, clear status screen
 		update_icon()
 
@@ -90,10 +90,10 @@
 // open/closedoor checks if door_timer has power, if so it checks if the
 // linked door is open/closed (by density) then opens it/closes it.
 /obj/machinery/door_timer/proc/timer_start()
-	if(machine_stat & (NOPOWER|BROKEN))
+	if(stat & (NOPOWER|BROKEN))
 		return 0
 
-	activation_time = REALTIMEOFDAY
+	activation_time = world.time
 	timing = TRUE
 
 	for(var/datum/weakref/door_ref as anything in doors)
@@ -121,7 +121,7 @@
 
 /obj/machinery/door_timer/proc/timer_end(forced = FALSE)
 
-	if(machine_stat & (NOPOWER|BROKEN))
+	if(stat & (NOPOWER|BROKEN))
 		return 0
 
 	if(!forced)
@@ -159,7 +159,7 @@
 
 
 /obj/machinery/door_timer/proc/time_left(seconds = FALSE)
-	. = max(0,timer_duration - (activation_time ? REALTIMEOFDAY - activation_time : 0))
+	. = max(0,timer_duration - (activation_time ? world.time - activation_time : 0))
 	if(seconds)
 		. /= 10
 
@@ -188,11 +188,11 @@
 // if BROKEN, display blue screen of death icon AI uses
 // if timing=true, run update display function
 /obj/machinery/door_timer/update_icon()
-	if(machine_stat & (NOPOWER))
+	if(stat & (NOPOWER))
 		icon_state = "frame"
 		return
 
-	if(machine_stat & (BROKEN))
+	if(stat & (BROKEN))
 		set_picture("ai_bsod")
 		return
 
@@ -293,7 +293,7 @@
 			investigate_log("[key_name(usr)] set cell [id]'s timer to [preset_time/10] seconds", INVESTIGATE_RECORDS)
 			user.log_message("set cell [id]'s timer to [preset_time/10] seconds", LOG_ATTACK)
 			if(timing)
-				activation_time = REALTIMEOFDAY
+				activation_time = world.time
 		else
 			. = FALSE
 

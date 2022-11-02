@@ -74,7 +74,3 @@
 
 /obj/vehicle/ridden/janicart/upgraded
 	floorbuffer = TRUE
-
-/obj/vehicle/ridden/janicart/upgraded/keyless
-	floorbuffer = TRUE
-	key_type = null

@@ -7,25 +7,6 @@
  * Fake space
  */
 
-/turf/open/floor/bamboo
-	desc = "A bamboo mat with a decorative trim."
-	icon = 'icons/turf/floors/bamboo_mat.dmi'
-	icon_state = "bamboo"
-	floor_tile = /obj/item/stack/tile/bamboo
-	broken_states = list("damaged")
-	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/turf/open/floor/bamboo)
-	flags_1 = NONE
-	footstep = FOOTSTEP_WOOD
-	barefootstep = FOOTSTEP_WOOD_BAREFOOT
-	clawfootstep = FOOTSTEP_WOOD_CLAW
-	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	tiled_dirt = FALSE
-
-/turf/open/floor/carpet/examine(mob/user)
-	. = ..()
-	. += "<span class='notice'>There's a <b>small crack</b> on the edge of it.</span>"
-
 /turf/open/floor/wood
 	desc = "Stylish dark wood."
 	icon_state = "wood"
@@ -102,7 +83,7 @@
 	var/turfverb = "uproot"
 	tiled_dirt = FALSE
 
-/turf/open/floor/grass/Initialize(mapload)
+/turf/open/floor/grass/Initialize()
 	. = ..()
 	update_icon()
 
@@ -164,7 +145,7 @@
 	floor_tile = /obj/item/stack/tile/fairygrass/pink
 	light_color = "#FFB3DA"
 	color = "#FFB3DA"
-
+	
 /turf/open/floor/grass/fairy/dark
 	name = "dark fairygrass patch"
 	floor_tile = /obj/item/stack/tile/fairygrass/dark
@@ -205,7 +186,7 @@
 	initial_gas_mix = OPENTURF_LOW_PRESSURE
 	slowdown = 0
 
-/turf/open/floor/grass/snow/basalt/Initialize(mapload)
+/turf/open/floor/grass/snow/basalt/Initialize()
 	. = ..()
 	if(prob(15))
 		icon_state = "basalt[rand(0, 12)]"
@@ -230,7 +211,7 @@
 	clawfootstep = FOOTSTEP_SAND
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 
-/turf/open/floor/grass/fakebasalt/Initialize(mapload)
+/turf/open/floor/grass/fakebasalt/Initialize()
 	. = ..()
 	if(prob(15))
 		icon_state = "basalt[rand(0, 12)]"
@@ -258,7 +239,7 @@
 	. = ..()
 	. += "<span class='notice'>There's a <b>small crack</b> on the edge of it.</span>"
 
-/turf/open/floor/carpet/Initialize(mapload)
+/turf/open/floor/carpet/Initialize()
 	. = ..()
 	update_icon()
 
@@ -318,13 +299,6 @@
 	floor_tile = /obj/item/stack/tile/carpet/royalblue
 	canSmoothWith = list(/turf/open/floor/carpet/royalblue)
 
-/turf/open/floor/carpet/grimy
-	name = "grimy carpet"
-	desc = "Hold on, wasn't this made with steel once?"
-	icon = 'icons/turf/floors/carpet_grimy.dmi'
-	floor_tile = /obj/item/stack/tile/carpet/grimy
-	canSmoothWith = list(/turf/open/floor/carpet/grimy)
-
 /turf/open/floor/eighties
 	name = "retro floor"
 	desc = "This one takes you back."
@@ -374,7 +348,7 @@
 	plane = PLANE_SPACE
 	tiled_dirt = FALSE
 
-/turf/open/floor/fakespace/Initialize(mapload)
+/turf/open/floor/fakespace/Initialize()
 	. = ..()
 	icon_state = SPACE_ICON_STATE
 

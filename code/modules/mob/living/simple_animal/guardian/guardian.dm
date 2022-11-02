@@ -323,7 +323,11 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 	var/obj/item/r_hand = get_item_for_held_index(2)
 
 	if(r_hand)
-		hands_overlays += r_hand.build_worn_icon(default_layer = GUARDIAN_HANDS_LAYER, default_icon_file = r_hand.righthand_file, isinhands = TRUE)
+		var/r_state = r_hand.item_state
+		if(!r_state)
+			r_state = r_hand.icon_state
+
+		hands_overlays += r_hand.build_worn_icon(state = r_state, default_layer = GUARDIAN_HANDS_LAYER, default_icon_file = r_hand.righthand_file, isinhands = TRUE)
 
 		if(client && hud_used && hud_used.hud_version != HUD_STYLE_NOHUD)
 			r_hand.layer = ABOVE_HUD_LAYER
@@ -332,7 +336,11 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 			client.screen |= r_hand
 
 	if(l_hand)
-		hands_overlays +=  l_hand.build_worn_icon(default_layer = GUARDIAN_HANDS_LAYER, default_icon_file = l_hand.lefthand_file, isinhands = TRUE)
+		var/l_state = l_hand.item_state
+		if(!l_state)
+			l_state = l_hand.icon_state
+
+		hands_overlays +=  l_hand.build_worn_icon(state = l_state, default_layer = GUARDIAN_HANDS_LAYER, default_icon_file = l_hand.lefthand_file, isinhands = TRUE)
 
 		if(client && hud_used && hud_used.hud_version != HUD_STYLE_NOHUD)
 			l_hand.layer = ABOVE_HUD_LAYER
@@ -395,10 +403,7 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 		var/input = stripped_input(src, "Please enter a message to tell your summoner.", "Guardian", "")
 		if(!input)
 			return
-		if(CHAT_FILTER_CHECK(input))
-			to_chat(usr, "<span class='warning'>Your message contains forbidden words.</span>")
-			return
-		input = treat_message_min(input)
+
 		var/preliminary_message = "<span class='holoparasite bold'>[input]</span>" //apply basic color/bolding
 		var/my_message = "<font color=\"[guardiancolor]\"><b><i>[src]:</i></b></font> [preliminary_message]" //add source, color source with the guardian's color
 
@@ -419,10 +424,7 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 	var/input = stripped_input(src, "Please enter a message to tell your guardian.", "Message", "")
 	if(!input)
 		return
-	if(CHAT_FILTER_CHECK(input))
-		to_chat(usr, "<span class='warning'>Your message contains forbidden words.</span>")
-		return
-	input = treat_message_min(input)
+
 	var/preliminary_message = "<span class='holoparasite bold'>[input]</span>" //apply basic color/bolding
 	var/my_message = "<span class='holoparasite bold'><i>[src]:</i> [preliminary_message]</span>" //add source, color source with default grey...
 

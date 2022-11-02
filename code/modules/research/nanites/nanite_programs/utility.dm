@@ -32,27 +32,13 @@
 	rogue_types = list(/datum/nanite_program/toxic)
 
 /datum/nanite_program/monitoring/enable_passive_effect()
-
 	. = ..()
-
-	if(!ishuman(host_mob))
-		return
-
-	ADD_TRAIT(host_mob, TRAIT_NANITE_SENSORS, TRACKED_SENSORS_TRAIT)
-	if(!HAS_TRAIT(host_mob, TRAIT_SUIT_SENSORS))
-		GLOB.suit_sensors_list += host_mob
+	SSnanites.nanite_monitored_mobs |= host_mob
 	host_mob.hud_set_nanite_indicator()
 
 /datum/nanite_program/monitoring/disable_passive_effect()
-
 	. = ..()
-
-	if(!ishuman(host_mob))
-		return
-
-	REMOVE_TRAIT(host_mob, TRAIT_NANITE_SENSORS, TRACKED_SENSORS_TRAIT)
-	if(!HAS_TRAIT(host_mob, TRAIT_SUIT_SENSORS))
-		GLOB.suit_sensors_list -= host_mob
+	SSnanites.nanite_monitored_mobs -= host_mob
 	host_mob.hud_set_nanite_indicator()
 
 /datum/nanite_program/self_scan

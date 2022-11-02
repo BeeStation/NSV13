@@ -18,14 +18,14 @@
 	. += "<span class='notice'>It has <b>[uses]</b> uses of foam remaining.</span>"
 
 /obj/machinery/ai_slipper/power_change()
-	if(machine_stat & BROKEN)
+	if(stat & BROKEN)
 		return
 	else
 		if(powered())
-			set_machine_stat(machine_stat & ~NOPOWER)
+			stat &= ~NOPOWER
 		else
-			set_machine_stat(machine_stat | NOPOWER)
-		if((machine_stat & (NOPOWER|BROKEN)) || cooldown_time > world.time || !uses)
+			stat |= NOPOWER
+		if((stat & (NOPOWER|BROKEN)) || cooldown_time > world.time || !uses)
 			icon_state = "ai-slipper0"
 		else
 			icon_state = "ai-slipper1"

@@ -11,7 +11,6 @@
 	hardware_flag = PROGRAM_LAPTOP
 	max_hardware_size = 2
 	w_class = WEIGHT_CLASS_NORMAL
-	max_bays = 4
 
 	// No running around with open laptops in hands.
 	item_flags = SLOWS_WHILE_IN_HAND
@@ -27,7 +26,7 @@
 	if(screen_on)
 		. += "<span class='notice'>Alt-click to close it.</span>"
 
-/obj/item/modular_computer/laptop/Initialize(mapload)
+/obj/item/modular_computer/laptop/Initialize()
 	. = ..()
 
 	if(start_open && !screen_on)

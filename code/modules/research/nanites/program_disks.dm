@@ -7,7 +7,7 @@
 	var/program_type
 	var/datum/nanite_program/program
 
-/obj/item/disk/nanite_program/Initialize(mapload)
+/obj/item/disk/nanite_program/Initialize()
 	. = ..()
 	if(program_type)
 		program = new program_type

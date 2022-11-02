@@ -53,7 +53,7 @@
 /mob/living/simple_animal/hostile/construct/get_num_arms()
 	return 0
 
-/mob/living/simple_animal/hostile/construct/Initialize(mapload)
+/mob/living/simple_animal/hostile/construct/Initialize()
 	. = ..()
 	update_health_hud()
 	var/spellnum = 1
@@ -402,7 +402,7 @@
 		return FALSE
 	. = ..()
 
-/mob/living/simple_animal/hostile/construct/harvester/Initialize(mapload)
+/mob/living/simple_animal/hostile/construct/harvester/Initialize()
 	. = ..()
 	var/datum/action/innate/seek_prey/seek = new()
 	seek.Grant(src)

@@ -11,7 +11,6 @@
 /datum/computer_file/program/portrait_printer
 	filename = "PortraitPrinter"
 	filedesc = "Marlowe Treeby's Art Galaxy"
-	category = PROGRAM_CATEGORY_MISC
 	program_icon_state = "dummy"
 	extended_desc = "This program connects to a Spinward Sector community art site for viewing and printing art."
 	transfer_access = ACCESS_LIBRARY
@@ -19,7 +18,6 @@
 	requires_ntnet = TRUE
 	size = 9
 	tgui_id = "NtosPortraitPrinter"
-	program_icon = "print"
 
 /datum/computer_file/program/portrait_printer/ui_data(mob/user)
 	var/list/data = list()

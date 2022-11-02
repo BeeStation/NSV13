@@ -1,5 +1,4 @@
 GLOBAL_LIST_EMPTY(station_turfs)
-GLOBAL_LIST_EMPTY(created_baseturf_lists)
 /turf
 	icon = 'icons/turf/floors.dmi'
 	level = 1
@@ -242,26 +241,6 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 
 /turf/proc/multiz_turf_new(turf/T, dir)
 
-/// Returns TRUE if the turf cannot be moved onto
-/proc/is_blocked_turf(turf/T, exclude_mobs)
-	if(T.density)
-		return 1
-	for(var/i in T)
-		var/atom/A = i
-		if(A.density && (!exclude_mobs || !ismob(A)))
-			return 1
-	return 0
-
-/proc/is_anchored_dense_turf(turf/T) //like the older version of the above, fails only if also anchored
-	if(T.density)
-		return 1
-	for(var/i in T)
-		var/atom/movable/A = i
-		if(A.density && A.anchored)
-			return 1
-	return 0
-
-
 //zPassIn doesn't necessarily pass an atom!
 //direction is direction of travel of air
 /turf/proc/zPassIn(atom/movable/A, direction, turf/source)
@@ -375,7 +354,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 	if(!canPassSelf)	//Even if mover is unstoppable they need to bump us.
 		firstbump = src
 	if(firstbump)
-		if(mover.Bump(firstbump) == 2) //NSV13 - fixes for overmap projectiles
+		if(mover.Bump(firstbump) == 2)
 			return TRUE
 		return (mover.movement_type & PHASING)
 	return TRUE
@@ -402,6 +381,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 
 // A proc in case it needs to be recreated or badmins want to change the baseturfs
 /turf/proc/assemble_baseturfs(turf/fake_baseturf_type)
+	var/static/list/created_baseturf_lists = list()
 	var/turf/current_target
 	if(fake_baseturf_type)
 		if(length(fake_baseturf_type)) // We were given a list, just apply it and move on
@@ -418,8 +398,8 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 			current_target = baseturfs
 
 	// If we've made the output before we don't need to regenerate it
-	if(GLOB.created_baseturf_lists[current_target])
-		var/list/premade_baseturfs = GLOB.created_baseturf_lists[current_target]
+	if(created_baseturf_lists[current_target])
+		var/list/premade_baseturfs = created_baseturf_lists[current_target]
 		if(length(premade_baseturfs))
 			baseturfs = premade_baseturfs.Copy()
 		else
@@ -430,7 +410,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 	//Most things only have 1 baseturf so this loop won't run in most cases
 	if(current_target == next_target)
 		baseturfs = current_target
-		GLOB.created_baseturf_lists[current_target] = current_target
+		created_baseturf_lists[current_target] = current_target
 		return current_target
 	var/list/new_baseturfs = list(current_target)
 	for(var/i=0;current_target != next_target;i++)
@@ -445,7 +425,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 		next_target = initial(current_target.baseturfs)
 
 	baseturfs = new_baseturfs
-	GLOB.created_baseturf_lists[new_baseturfs[new_baseturfs.len]] = new_baseturfs.Copy()
+	created_baseturf_lists[new_baseturfs[new_baseturfs.len]] = new_baseturfs.Copy()
 	return new_baseturfs
 
 /turf/proc/levelupdate()
@@ -482,7 +462,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 	if(.)
 		return
 	if(length(src_object.contents()))
-		balloon_alert(usr, "You dump out the contents.")
+		balloon_alert(usr, "You dump out the contents")
 		if(!do_after(usr,20,target=src_object.parent))
 			return FALSE
 
@@ -530,12 +510,18 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 
 /turf/proc/visibilityChanged()
 	GLOB.cameranet.updateVisibility(src)
+	// The cameranet usually handles this for us, but if we've just been
+	// recreated we should make sure we have the cameranet vis_contents.
+	var/datum/camerachunk/C = GLOB.cameranet.chunkGenerated(x, y, z)
+	if(C)
+		if(C.obscuredTurfs[src])
+			vis_contents += GLOB.cameranet.vis_contents_objects
+		else
+			vis_contents -= GLOB.cameranet.vis_contents_objects
 
 /turf/proc/burn_tile()
-	return
 
 /turf/proc/is_shielded()
-	return
 
 /turf/contents_explosion(severity, target)
 	var/affecting_level
@@ -625,12 +611,6 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 
 /turf/proc/acid_melt()
 	return
-
-/turf/rust_heretic_act()
-	if(HAS_TRAIT(src, TRAIT_RUSTY))
-		return
-
-	AddElement(/datum/element/rust)
 
 /turf/handle_fall(mob/faller, forced)
 	if(!forced)

@@ -87,7 +87,7 @@ Checks two text ranks, see which one outranks the other. Used for squad rank ass
 
 /datum/controller/subsystem/job/proc/select_substitute_rank()
 	//Try assistant first
-	var/datum/job/A = SSjob.GetJob(JOB_NAME_ASSISTANT)
+	var/datum/job/A = SSjob.GetJob("Midshipman")
 	if(A && A.display_rank)
 		return A
 

@@ -5,7 +5,7 @@
 	var/obj/item/clothing/head/hooded/hood
 	var/hoodtype = /obj/item/clothing/head/hooded/winterhood //so the chaplain hoodie or other hoodies can override this
 
-/obj/item/clothing/suit/hooded/Initialize(mapload)
+/obj/item/clothing/suit/hooded/Initialize()
 	. = ..()
 	MakeHood()
 
@@ -94,14 +94,15 @@
 //Toggle exosuits for different aesthetic styles (hoodies, suit jacket buttons, etc)
 
 /obj/item/clothing/suit/toggle/AltClick(mob/user)
-	SEND_SIGNAL(src, COMSIG_CLICK_ALT, user)
+	if(!user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
+		return
+	else
+		suit_toggle(user)
 
 /obj/item/clothing/suit/toggle/ui_action_click()
 	suit_toggle()
 
-/obj/item/clothing/suit/toggle/verb/suit_toggle()
-	set name = "Toggle Suit Style"
-	set category = "Object"
+/obj/item/clothing/suit/toggle/proc/suit_toggle()
 	set src in usr
 
 	if(!can_use(usr))
@@ -110,13 +111,9 @@
 	to_chat(usr, "<span class='notice'>You toggle [src]'s [togglename].</span>")
 	if(src.suittoggled)
 		src.icon_state = "[initial(icon_state)]"
-		if(src.worn_icon_state)
-			src.worn_icon_state = "[initial(icon_state)]"
 		src.suittoggled = FALSE
 	else if(!src.suittoggled)
 		src.icon_state = "[initial(icon_state)]_t"
-		if(src.worn_icon_state)
-			src.worn_icon_state = "[initial(icon_state)]_t"
 		src.suittoggled = TRUE
 	usr.update_inv_wear_suit()
 	for(var/X in actions)
@@ -128,7 +125,7 @@
 	. += "Alt-click on [src] to toggle the [togglename]."
 
 //Hardsuit toggle code
-/obj/item/clothing/suit/space/hardsuit/Initialize(mapload)
+/obj/item/clothing/suit/space/hardsuit/Initialize()
 	MakeHelmet()
 	. = ..()
 

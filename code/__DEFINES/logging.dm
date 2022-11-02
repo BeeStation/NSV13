@@ -15,11 +15,6 @@
 #define INVESTIGATE_EXONET			"exonet"
 #define INVESTIGATE_NANITES			"nanites"
 #define INVESTIGATE_PRESENTS		"presents"
-#define INVESTIGATE_ITEMS			"items"
-
-#define INVESTIGATE_VERB_PICKEDUP	"picked up"
-#define INVESTIGATE_VERB_DROPPED	"dropped"
-#define INVESTIGATE_VERB_EQUIPPED   "equipped"
 
 // Logging types for log_message()
 #define LOG_ATTACK			(1 << 0)
@@ -53,7 +48,3 @@
 
 #define LOGSRC_CLIENT "Client"
 #define LOGSRC_MOB "Mob"
-
-
-// object admin notice flags
-#define ADMIN_INVESTIGATE_TARGET   (1<<0) // used for investigate_log

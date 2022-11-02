@@ -1,7 +1,7 @@
 /datum/controller/configuration
 	name = "Configuration"
 
-	var/directory = CONFIG_DIRECTORY
+	var/directory = "config"
 
 	var/warned_deprecated_configs = FALSE
 	var/hiding_entries_by_type = TRUE	//Set for readability, admins can set this to FALSE if they want to debug it

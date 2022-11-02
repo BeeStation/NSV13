@@ -2,7 +2,6 @@
 	var/description ///For descriptions, use the span classes bold nicegreen, nicegreen, none, warning and boldwarning in order from great to horrible.
 	var/mood_change = 0
 	var/timeout = 0
-	var/timer //Timer ID for this event (if it has a timeout)
 	var/hidden = FALSE//Not shown on examine
 	var/category //string of what category this mood was added in as
 	var/special_screen_obj //if it isn't null, it will replace or add onto the mood icon with this (same file). see happiness drug for example
@@ -15,9 +14,6 @@
 
 /datum/mood_event/Destroy()
 	remove_effects()
-	owner = null
-	if(timer)
-		deltimer(timer)
 	return ..()
 
 /datum/mood_event/proc/add_effects(param)

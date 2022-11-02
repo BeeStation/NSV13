@@ -32,11 +32,11 @@
 	var/static/list/radial_options = list("eject" = radial_eject, "use" = radial_use)
 	var/static/list/ai_radial_options = list("eject" = radial_eject, "use" = radial_use, "examine" = radial_examine)
 
-/obj/machinery/microwave/Initialize(mapload)
+/obj/machinery/microwave/Initialize()
 	. = ..()
 	wires = new /datum/wires/microwave(src)
 	create_reagents(100)
-	soundloop = new(src, FALSE)
+	soundloop = new(list(src), FALSE)
 
 /obj/machinery/microwave/Destroy()
 	eject()
@@ -83,7 +83,7 @@
 	else
 		. += "<span class='notice'>\The [src] is empty.</span>"
 
-	if(!(machine_stat & (NOPOWER|BROKEN)))
+	if(!(stat & (NOPOWER|BROKEN)))
 		. += "<span class='notice'>The status display reads:</span>\n"+\
 		"<span class='notice'>- Capacity: <b>[max_n_of_items]</b> items.<span>\n"+\
 		"<span class='notice'>- Cook time reduced by <b>[(efficiency - 1) * 25]%</b>.</span>"
@@ -200,7 +200,7 @@
 
 	if(operating || panel_open || !anchored || !user.canUseTopic(src, !issilicon(user)))
 		return
-	if(isAI(user) && (machine_stat & NOPOWER))
+	if(isAI(user) && (stat & NOPOWER))
 		return
 
 	if(!length(ingredients))
@@ -215,7 +215,7 @@
 	// post choice verification
 	if(operating || panel_open || !anchored || !user.canUseTopic(src, !issilicon(user)))
 		return
-	if(isAI(user) && (machine_stat & NOPOWER))
+	if(isAI(user) && (stat & NOPOWER))
 		return
 
 	usr.set_machine(src)
@@ -234,7 +234,7 @@
 	ingredients.Cut()
 
 /obj/machinery/microwave/proc/cook()
-	if(machine_stat & (NOPOWER|BROKEN))
+	if(stat & (NOPOWER|BROKEN))
 		return
 	if(operating || broken > 0 || panel_open || !anchored || dirty == 100)
 		return
@@ -290,11 +290,9 @@
 	loop(MICROWAVE_MUCK, 4)
 
 /obj/machinery/microwave/proc/loop(type, time, wait = max(12 - 2 * efficiency, 2)) // standard wait is 10
-	if(machine_stat & (NOPOWER|BROKEN))
-		operating = FALSE
+	if(stat & (NOPOWER|BROKEN))
 		if(type == MICROWAVE_PRE)
 			pre_fail()
-		after_finish_loop()
 		return
 	if(!time)
 		switch(type)
@@ -331,7 +329,9 @@
 
 /obj/machinery/microwave/proc/pre_fail()
 	broken = 2
+	operating = FALSE
 	spark()
+	after_finish_loop()
 
 /obj/machinery/microwave/proc/pre_success()
 	loop(MICROWAVE_NORMAL, 10)

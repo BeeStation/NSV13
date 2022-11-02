@@ -12,7 +12,7 @@
 	// Run speed delay is multiplied with this for vehicle move delay.
 	var/delay_multiplier = 6.7
 
-/obj/vehicle/ridden/wheelchair/Initialize(mapload)
+/obj/vehicle/ridden/wheelchair/Initialize()
 	. = ..()
 	var/datum/component/riding/D = LoadComponent(/datum/component/riding)
 	D.vehicle_move_delay = 0

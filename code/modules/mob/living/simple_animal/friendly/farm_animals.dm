@@ -33,7 +33,7 @@
 
 	do_footstep = TRUE
 
-/mob/living/simple_animal/hostile/retaliate/goat/Initialize(mapload)
+/mob/living/simple_animal/hostile/retaliate/goat/Initialize()
 	udder = new()
 	. = ..()
 
@@ -136,7 +136,7 @@
 
 	do_footstep = TRUE
 
-/mob/living/simple_animal/cow/Initialize(mapload)
+/mob/living/simple_animal/cow/Initialize()
 	udder = new()
 	. = ..()
 
@@ -221,7 +221,7 @@
 
 	do_footstep = TRUE
 
-/mob/living/simple_animal/chick/Initialize(mapload)
+/mob/living/simple_animal/chick/Initialize()
 	. = ..()
 	pixel_x = rand(-6, 6)
 	pixel_y = rand(0, 10)
@@ -293,7 +293,7 @@
 
 	do_footstep = TRUE
 
-/mob/living/simple_animal/chicken/Initialize(mapload)
+/mob/living/simple_animal/chicken/Initialize()
 	. = ..()
 	if(!body_color)
 		body_color = pick(validColors)
@@ -379,7 +379,7 @@
 /obj/item/udder
 	name = "udder"
 
-/obj/item/udder/Initialize(mapload)
+/obj/item/udder/Initialize()
 	create_reagents(50)
 	reagents.add_reagent(/datum/reagent/consumable/milk, 20)
 	. = ..()

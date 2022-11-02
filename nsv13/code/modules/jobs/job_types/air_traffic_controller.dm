@@ -1,7 +1,7 @@
 /datum/job/air_traffic_controller
-	title = JOB_NAME_AIRTRAFFICCONTROLLER
+	title = "Air Traffic Controller"
 	flag = AIR_TRAFFIC_CONTROLLER
-	department_head = list(JOB_NAME_MASTERATARMS)
+	department_head = list("Master At Arms")
 	department_flag = ENGSEC
 	faction = "Station"
 	total_positions = 1
@@ -23,15 +23,10 @@
 
 	display_order = JOB_DISPLAY_ORDER_AIR_TRAFFIC_CONTROLLER
 	display_rank = "SGT" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
-	departments = DEPARTMENT_BITFLAG_MUNITIONS
-	rpg_title = "Signalman"
-
-	species_outfits = list(
-		SPECIES_PLASMAMAN = /datum/outfit/plasmaman
-	)
+	departments = DEPARTMENT_MUNITIONS
 
 /datum/outfit/job/air_traffic_controller
-	name = JOB_NAME_AIRTRAFFICCONTROLLER
+	name = "Air Traffic Controller"
 	jobtype = /datum/job/air_traffic_controller
 
 	ears = /obj/item/radio/headset/munitions/atc
@@ -40,7 +35,6 @@
 	head = /obj/item/clothing/head/beret/ship/pilot
 	gloves = /obj/item/clothing/gloves/color/brown
 	shoes = /obj/item/clothing/shoes/jackboots
-	id = /obj/item/card/id/job/air_traffic_controller
 	r_pocket = /obj/item/flashlight/atc_wavy_sticks
 
 	backpack = /obj/item/storage/backpack/munitions
@@ -48,5 +42,5 @@
 	duffelbag = /obj/item/storage/backpack/duffelbag/munitions
 
 /obj/effect/landmark/start/air_traffic_controller
-	name = JOB_NAME_AIRTRAFFICCONTROLLER
+	name = "Air Traffic Controller"
 	icon_state = "Air Traffic Controller"

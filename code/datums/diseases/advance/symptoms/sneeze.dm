@@ -28,17 +28,13 @@ Bonus
 	symptom_delay_max = 35
 	prefixes = list("Nasal ")
 	bodies = list("Cold")
-	var/infective = FALSE
-	threshold_desc = "<b>Stealth 4:</b> The symptom remains hidden until active.<br>\
-					  <b>Transmission 12:</b> The host may spread the disease through sneezing."
+	threshold_desc = "<b>Stealth 4:</b> The symptom remains hidden until active."
 
 /datum/symptom/sneeze/Start(datum/disease/advance/A)
 	if(!..())
 		return
 	if(A.stealth >= 4)
 		suppress_warning = TRUE
-	if(A.transmission >= 12)
-		infective = TRUE
 
 /datum/symptom/sneeze/Activate(datum/disease/advance/A)
 	if(!..())
@@ -50,5 +46,3 @@ Bonus
 				M.emote("sniff")
 		else
 			M.emote("sneeze")
-			if(infective && !(A.spread_flags & DISEASE_SPREAD_FALTERED))
-				addtimer(CALLBACK(A, /datum/disease/.proc/spread, 4), 20)

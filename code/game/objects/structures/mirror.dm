@@ -10,7 +10,6 @@
 	integrity_failure = 100
 	flags_ricochet = RICOCHET_SHINY
 	layer = ABOVE_WINDOW_LAYER
-	var/magical = FALSE
 
 /obj/structure/mirror/Initialize(mapload)
 	. = ..()
@@ -24,7 +23,7 @@
 	if(broken || !Adjacent(user))
 		return
 
-	if(ishuman(user) && !magical)
+	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 
 		//see code/modules/mob/dead/new_player/preferences.dm at approx line 545 for comments!
@@ -95,32 +94,32 @@
 		if(BURN)
 			playsound(src, 'sound/effects/hit_on_shattered_glass.ogg', 70, 1)
 
+
 /obj/structure/mirror/magic
 	name = "magic mirror"
 	desc = "Turn and face the strange... face."
 	icon_state = "magic_mirror"
 	var/list/choosable_races = list()
-	magical = TRUE
 
-/obj/structure/mirror/magic/Initialize(mapload)
-	. = ..()
+/obj/structure/mirror/magic/New()
 	if(!choosable_races.len)
 		for(var/speciestype in subtypesof(/datum/species))
 			var/datum/species/S = speciestype
 			if(initial(S.changesource_flags) & MIRROR_MAGIC)
 				choosable_races += initial(S.id)
 		choosable_races = sortList(choosable_races)
+	..()
 
-/obj/structure/mirror/magic/lesser/Initialize(mapload)
+/obj/structure/mirror/magic/lesser/New()
 	choosable_races = GLOB.roundstart_races.Copy()
-	return ..()
+	..()
 
-/obj/structure/mirror/magic/badmin/Initialize(mapload)
+/obj/structure/mirror/magic/badmin/New()
 	for(var/speciestype in subtypesof(/datum/species))
 		var/datum/species/S = speciestype
 		if(initial(S.changesource_flags) & MIRROR_BADMIN)
 			choosable_races += initial(S.id)
-	return ..()
+	..()
 
 /obj/structure/mirror/magic/attack_hand(mob/user)
 	. = ..()
@@ -186,7 +185,7 @@
 
 			H.update_body()
 			H.update_hair()
-			H.update_body_parts(TRUE)
+			H.update_body_parts()
 			H.update_mutations_overlay() // no hulk lizard
 
 		if("gender")

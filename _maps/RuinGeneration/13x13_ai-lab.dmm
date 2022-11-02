@@ -79,6 +79,11 @@
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 1
 	},
+/obj/machinery/camera{
+	c_tag = "Telecomms - Server Room - Aft-Port";
+	dir = 6;
+	network = list("ss13","tcomms")
+	},
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/unpowered)
 "nN" = (
@@ -90,7 +95,7 @@
 "py" = (
 /obj/structure/sign/warning/electricshock,
 /turf/closed/wall/r_wall,
-/area/ruin/unpowered)
+/area/space)
 "qg" = (
 /obj/effect/decal/cleanable/oil/slippery,
 /obj/effect/turf_decal/stripes/red/line{
@@ -171,6 +176,14 @@
 	},
 /turf/open/floor/circuit/red,
 /area/ruin/unpowered)
+"vA" = (
+/obj/machinery/camera{
+	c_tag = "Telecomms - Server Room - Aft-Port";
+	dir = 1;
+	network = list("ss13","tcomms")
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/ruin/unpowered)
 "vX" = (
 /obj/effect/spawner/structure/window/plasma/reinforced,
 /obj/machinery/door/poddoor/shutters/preopen,
@@ -213,6 +226,14 @@
 "Dy" = (
 /obj/item/ammo_casing/c9mm,
 /turf/open/floor/carpet/black,
+/area/ruin/unpowered)
+"Fo" = (
+/obj/machinery/camera{
+	c_tag = "Telecomms - Server Room - Aft-Port";
+	dir = 9;
+	network = list("ss13","tcomms")
+	},
+/turf/open/floor/circuit/red,
 /area/ruin/unpowered)
 "Fw" = (
 /turf/open/floor/circuit/red/anim,
@@ -312,6 +333,7 @@
 /area/ruin/unpowered)
 "Pw" = (
 /obj/structure/table/glass,
+/obj/item/robot_module/borgi,
 /obj/item/aiModule/core/full/damaged{
 	pixel_x = 5;
 	pixel_y = 5
@@ -319,7 +341,6 @@
 /obj/item/aicard{
 	pixel_x = -10
 	},
-/obj/item/borg/upgrade/transform/borgi,
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/unpowered)
 "Qa" = (
@@ -367,6 +388,18 @@
 	},
 /turf/open/floor/circuit/red,
 /area/ruin/unpowered)
+"YE" = (
+/obj/machinery/camera{
+	c_tag = "Telecomms - Server Room - Aft-Port";
+	dir = 6;
+	network = list("ss13","tcomms")
+	},
+/obj/machinery/computer{
+	desc = "A computer long since rendered non-functional due to lack of maintenance. Spitting out error messages.";
+	name = "Broken Computer"
+	},
+/turf/open/floor/monofloor,
+/area/ruin/unpowered)
 "Zy" = (
 /obj/effect/decal/cleanable/blood/tracks{
 	dir = 4;
@@ -394,6 +427,14 @@
 	name = "Officer Buzzsky"
 	},
 /turf/open/floor/plasteel/tech/grid,
+/area/ruin/unpowered)
+"ZY" = (
+/obj/machinery/camera{
+	c_tag = "Telecomms - Server Room - Aft-Port";
+	dir = 6;
+	network = list("ss13","tcomms")
+	},
+/turf/open/floor/circuit/red,
 /area/ruin/unpowered)
 
 (1,1,1) = {"
@@ -428,7 +469,7 @@ JS
 "}
 (3,1,1) = {"
 JS
-tJ
+YE
 SV
 SV
 SV
@@ -468,7 +509,7 @@ to
 SV
 vj
 SV
-SV
+vA
 JS
 "}
 (6,1,1) = {"
@@ -488,7 +529,7 @@ JS
 "}
 (7,1,1) = {"
 JS
-tO
+ZY
 Fw
 Gh
 Fw
@@ -536,7 +577,7 @@ JS
 vv
 sx
 tA
-tO
+Fo
 tO
 KU
 za

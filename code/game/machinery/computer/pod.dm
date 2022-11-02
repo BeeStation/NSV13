@@ -9,7 +9,7 @@
 	var/range = 4
 
 
-/obj/machinery/computer/pod/Initialize(mapload)
+/obj/machinery/computer/pod/Initialize()
 	. = ..()
 	for(var/obj/machinery/mass_driver/M in range(range, src))
 		if(M.id == id)
@@ -17,7 +17,7 @@
 
 
 /obj/machinery/computer/pod/proc/alarm()
-	if(machine_stat & (NOPOWER|BROKEN))
+	if(stat & (NOPOWER|BROKEN))
 		return
 
 	if(!connected)

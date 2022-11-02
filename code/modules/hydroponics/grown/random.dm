@@ -12,7 +12,7 @@
 	icon_harvest = "xpod-harvest"
 	growthstages = 4
 
-/obj/item/seeds/random/Initialize(mapload)
+/obj/item/seeds/random/Initialize()
 	. = ..()
 	randomize_stats()
 	if(prob(60))
@@ -27,9 +27,8 @@
 	desc = "What could this even be?"
 	icon_state = "crunchy"
 	bitesize_mod = 2
-	discovery_points = 300
 
-/obj/item/reagent_containers/food/snacks/grown/random/Initialize(mapload)
+/obj/item/reagent_containers/food/snacks/grown/random/Initialize()
 	. = ..()
 	wine_power = rand(10,150)
 	if(prob(1))

@@ -30,9 +30,6 @@ const hotKeysAcquired = [
 // State of passed-through keys.
 const keyState = {};
 
-// Is hotkey mode on?
-let hotkeyMode;
-
 /**
  * Converts a browser keycode to BYOND keycode.
  */
@@ -76,10 +73,6 @@ const handlePassthrough = key => {
   }
   // Prevent passthrough on Ctrl+F
   if (key.ctrl && key.code === KEY_F) {
-    return;
-  }
-  // Prevent passthrough on old non-hotkey mode
-  if (!hotkeyMode) {
     return;
   }
   // NOTE: Alt modifier is pretty bad and sticky in IE11.
@@ -142,12 +135,6 @@ export const releaseHeldKeys = () => {
   }
 };
 
-export const updateHotkeyMode = () => 
-  Byond.winget("mainwindow", "macro")
-    .then(macro => {
-      hotkeyMode = macro !== "old_default";
-    });
-
 export const setupHotKeys = () => {
   // Read macros
   Byond.winget('default.*').then(data => {
@@ -175,10 +162,6 @@ export const setupHotKeys = () => {
       byondMacros[byondKeyName] = unescape(macro.command);
     }
     logger.debug('loaded macros', byondMacros);
-  });
-  updateHotkeyMode();
-  globalEvents.on('window-focus', () => {
-    updateHotkeyMode();
   });
   // Setup event handlers
   globalEvents.on('window-blur', () => {

@@ -17,6 +17,10 @@
 
 	begin_orbit(orbiter, radius, clockwise, rotation_speed, rotation_segments, pre_rotation)
 
+/datum/component/orbiter/PostTransfer()
+	if(!isatom(parent) || isarea(parent))
+		return COMPONENT_INCOMPATIBLE
+
 /datum/component/orbiter/RegisterWithParent()
 	var/atom/target = parent
 
@@ -31,7 +35,7 @@
 
 /datum/component/orbiter/Destroy()
 	var/atom/master = parent
-	master?.orbiters = null
+	master.orbiters = null
 	for(var/i in orbiters)
 		end_orbit(i)
 	orbiters = null
@@ -47,7 +51,7 @@
 /datum/component/orbiter/PostTransfer()
 	if(!isatom(parent) || isarea(parent) || !get_turf(parent))
 		return COMPONENT_INCOMPATIBLE
-	move_react(parent)
+	move_react()
 
 /datum/component/orbiter/proc/begin_orbit(atom/movable/orbiter, radius, clockwise, rotation_speed, rotation_segments, pre_rotation)
 	if(orbiter.orbiting)

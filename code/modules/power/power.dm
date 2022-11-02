@@ -78,8 +78,7 @@
 		return FALSE
 	if(!use_power)
 		return TRUE
-	if(machine_stat & EMPED)
-		return FALSE
+
 	var/area/A = get_area(src)		// make sure it's in an area
 	if(!A)
 		return FALSE					// if not, then not powered
@@ -112,9 +111,10 @@
 	SIGNAL_HANDLER
 
 	if(powered(power_channel))
-		machine_stat &= ~NOPOWER
+		stat &= ~NOPOWER
 	else
-		machine_stat |= NOPOWER
+
+		stat |= NOPOWER
 	return
 
 // connect the machine to a powernet if a node cable is present on the turf

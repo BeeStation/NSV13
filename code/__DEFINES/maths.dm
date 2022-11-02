@@ -2,16 +2,12 @@
 // This file is quadruple wrapped for your pleasure
 // (
 
-#define NUM_E 2.718282
+#define NUM_E 2.71828183
 
 #define PI						3.1416
 #define INFINITY				1e31	//closer then enough
-#define SYSTEM_TYPE_INFINITY					1.#INF //only for isinf check
 
 #define SHORT_REAL_LIMIT 16777216
-
-/// A 32 bit single-precision floating point number's mantissa gives us 7 significant digits
-#define SIGNIFICANT_PRECISION 7
 
 //"fancy" math for calculating time in ms from tick_usage percentage and the length of ticks
 //percent_of_tick_used * (ticklag * 100(to convert to ms)) / 100(percent ratio)
@@ -27,12 +23,9 @@
 #define REALTIMEOFDAY (world.timeofday + (MIDNIGHT_ROLLOVER * MIDNIGHT_ROLLOVER_CHECK))
 #define MIDNIGHT_ROLLOVER_CHECK ( GLOB.rollovercheck_last_timeofday != world.timeofday ? update_midnight_rollover() : GLOB.midnight_rollovers )
 
-/// Gets the sign of x, returns -1 if negative, 0 if 0, 1 if positive
-#define SIGN(x) ( ((x) > 0) - ((x) < 0) )
+#define SIGN(x) ( (x)!=0 ? (x) / abs(x) : 0 )
 
 #define CEILING(x, y) ( -round(-(x) / (y)) * (y) )
-
-#define ROUND_UP(x) ( -round(-(x)))
 
 /// `round()` acts like `floor(x, 1)` by default but can't handle other values
 #define FLOOR(x, y) ( round((x) / (y)) * (y) )
@@ -43,7 +36,7 @@
 #define WRAP(val, min, max) ( min == max ? min : (val) - (round(((val) - (min))/((max) - (min))) * ((max) - (min))) )
 
 /// Real modulus that handles decimals
-#define MODULUS(x, y) ( (x) - FLOOR(x, y))
+#define MODULUS(x, y) ( (x) - (y) * round((x) / (y)) )
 
 /// Tangent
 #define TAN(x) tan(x)
@@ -117,8 +110,7 @@
 #define TORADIANS(degrees) ((degrees) * 0.0174532925)
 
 /// Gets shift x that would be required the bitflag (1<<x)
-/// We need the round because log has floating-point inaccuracy, and if we undershoot at all on list indexing we'll get the wrong index.
-#define TOBITSHIFT(bit) ( round(log(2, bit), 1) )
+#define TOBITSHIFT(bit) ( log(2, bit) )
 
 // Will filter out extra rotations and negative rotations
 // E.g: 540 becomes 180. -180 becomes 180.

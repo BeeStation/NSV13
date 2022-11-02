@@ -49,9 +49,9 @@
 				t_prod.forceMove(seedloc)
 				t_amount++
 			qdel(O)
-			return seeds
+		return 1
 
-	return FALSE
+	return 0
 
 
 /obj/machinery/seed_extractor

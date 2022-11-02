@@ -1,13 +1,14 @@
 /datum/job/janitor
-	title = JOB_NAME_JANITOR
+	title = "Janitor"
 	flag = JANITOR
-	department_head = list(JOB_NAME_HEADOFPERSONNEL)
+	department_head = list("Executive Officer") //NSV13 - XO
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 1
-	supervisors = "the " + JOB_NAME_HEADOFPERSONNEL //NSV13
+	supervisors = "the executive officer" //NSV13
 	selection_color = "#bbe291"
+	chat_color = "#97FBEA"
 
 	outfit = /datum/outfit/job/janitor
 
@@ -17,19 +18,17 @@
 	paycheck_department = ACCOUNT_SRV
 
 	display_order = JOB_DISPLAY_ORDER_JANITOR
-	departments = DEPARTMENT_BITFLAG_SERVICE
-	rpg_title = "Groundskeeper"
-	biohazard = 20//cleaning up hazardous messes puts janitors at extra risk
+	departments = DEPARTMENT_SERVICE
 
 	species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/janitor
 	)
 
 /datum/outfit/job/janitor
-	name = JOB_NAME_JANITOR
+	name = "Janitor"
 	jobtype = /datum/job/janitor
 
-	id = /obj/item/card/id/job/janitor
+	id = /obj/item/card/id/job/serv
 	belt = /obj/item/pda/janitor
 	ears = /obj/item/radio/headset/headset_srv
 	uniform = /obj/item/clothing/under/rank/civilian/janitor

@@ -6,7 +6,6 @@
 	They are used with the client/screen list and the screen_loc var.
 	For more information, see the byond documentation on the screen_loc and screen vars.
 */
-
 /atom/movable/screen
 	name = ""
 	icon = 'icons/mob/screen_gen.dmi'
@@ -176,7 +175,7 @@
 	var/image/item_overlay = image(holding)
 	item_overlay.alpha = 92
 
-	if(!user.can_equip(holding, slot_id, TRUE, bypass_equip_delay_self = TRUE))
+	if(!user.can_equip(holding, slot_id, TRUE))
 		item_overlay.color = "#FF0000"
 	else
 		item_overlay.color = "#00ff00"
@@ -619,10 +618,6 @@
 	icon = 'icons/mob/screen_cyborg.dmi'
 	screen_loc = ui_borg_health
 
-/atom/movable/screen/healths/minebot
-	icon = 'icons/mob/screen_cyborg.dmi'
-	screen_loc = ui_health
-
 /atom/movable/screen/healths/blob
 	name = "blob health"
 	icon_state = "block"
@@ -709,12 +704,8 @@
 	plane = SPLASHSCREEN_PLANE
 	var/client/holder
 
-INITIALIZE_IMMEDIATE(/atom/movable/screen/splash)
-
-/atom/movable/screen/splash/Initialize(mapload, client/C, visible, use_previous_title)
+/atom/movable/screen/splash/New(client/C, visible, use_previous_title) //TODO: Make this use INITIALIZE_IMMEDIATE, except its not easy
 	. = ..()
-	if(!istype(C))
-		return
 
 	holder = C
 
@@ -726,7 +717,8 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/splash)
 			icon = SStitle.icon
 	else
 		if(!SStitle.previous_icon)
-			return INITIALIZE_HINT_QDEL
+			qdel(src)
+			return
 		icon = SStitle.previous_icon
 
 	holder.screen += src

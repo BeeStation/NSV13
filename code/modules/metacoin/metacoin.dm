@@ -1,23 +1,24 @@
 /client/proc/process_endround_metacoin()
-	if(!mob)    return
+	if(!mob)	return
 	var/mob/M = mob
 	if(M.mind && !isnewplayer(M))
 		if(M.stat != DEAD && !isbrain(M))
 			if(EMERGENCY_ESCAPED_OR_ENDGAMED)
 				if(!M.onCentCom() && !M.onSyndieBase())
-					var/reward_type = ((isAI(M)|| iscyborg(M) ? METACOIN_ESCAPE_REWARD : METACOIN_SURVIVE_REWARD))
-					inc_metabalance(reward_type, reason="Survived the shift.")
+					inc_metabalance(METACOIN_SURVIVE_REWARD, reason="Survived the shift.")
 				else
 					inc_metabalance(METACOIN_ESCAPE_REWARD, reason="Survived the shift and escaped!")
-			else if(GLOB.crew_transfer_risa) //Nsv13 - added win condition for being competent.
-				inc_metabalance(METACOIN_ESCAPE_REWARD*2, reason="Successfully completed patrol.")
 			else
-				inc_metabalance(METACOIN_ESCAPE_REWARD, reason="Survived the shift.")
+				if(GLOB.crew_transfer_risa) //Nsv13 - added win condition for being competent.
+					inc_metabalance(METACOIN_ESCAPE_REWARD*2, reason="Successfully completed patrol.")
+				else
+					inc_metabalance(METACOIN_ESCAPE_REWARD, reason="Survived the shift.")
 		else
 			inc_metabalance(METACOIN_NOTSURVIVE_REWARD, reason="You tried.")
 
 /client/proc/process_greentext()
-	src.give_award(/datum/award/achievement/misc/greentext, src.mob)
+	inc_metabalance(METACOIN_GREENTEXT_REWARD, reason="Greentext!")
+	SSmedals.UnlockMedal(MEDAL_COMPLETE_ALL_OBJECTIVES,src)
 
 /client/proc/process_ten_minute_living()
 	inc_metabalance(METACOIN_TENMINUTELIVING_REWARD, FALSE)
@@ -38,7 +39,7 @@
 /client/proc/set_metacoin_count(mc_count, ann=TRUE)
 	var/datum/DBQuery/query_set_metacoins = SSdbcore.NewQuery(
 		"UPDATE [format_table_name("player")] SET metacoins = :mc_count WHERE ckey = :ckey",
-		list("mc_count" = mc_count, "ckey" = ckey)
+		list("mc_count" = mc_count, "ckey" = ckey)	
 	)
 	query_set_metacoins.warn_execute()
 	qdel(query_set_metacoins)
@@ -50,7 +51,7 @@
 		return
 	var/datum/DBQuery/query_inc_metacoins = SSdbcore.NewQuery(
 		"UPDATE [format_table_name("player")] SET metacoins = metacoins + :mc_count WHERE ckey = :ckey",
-		list("mc_count" = mc_count, "ckey" = ckey)
+		list("mc_count" = mc_count, "ckey" = ckey)	
 	)
 	query_inc_metacoins.warn_execute()
 	qdel(query_inc_metacoins)

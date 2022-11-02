@@ -10,7 +10,7 @@
 	//light_system = MOVABLE_LIGHT_DIRECTIONAL
 	light_range = FALSE
 
-/mob/living/circuit_drone/Initialize(mapload)
+/mob/living/circuit_drone/Initialize()
 	. = ..()
 	AddComponent(/datum/component/shell, list(
 		new /obj/item/circuit_component/bot_circuit()
@@ -43,7 +43,7 @@
 	/// Delay between each movement
 	var/move_delay = 0.2 SECONDS
 
-/obj/item/circuit_component/bot_circuit/Initialize(mapload)
+/obj/item/circuit_component/bot_circuit/Initialize()
 	. = ..()
 	north = add_input_port("Move North", PORT_TYPE_SIGNAL)
 	east = add_input_port("Move East", PORT_TYPE_SIGNAL)

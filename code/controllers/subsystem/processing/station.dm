@@ -23,8 +23,8 @@ PROCESSING_SUBSYSTEM_DEF(station)
 	//If doing unit tests we don't do none of that trait shit ya know?
 	#ifndef UNIT_TESTS
 	if(CONFIG_GET(flag/station_traits))
-		setup_traits()
-		prepare_report()
+		SetupTraits()
+		PrepareReport()
 	#endif
 
 	announcer = new announcer() //Initialize the station's announcer datum
@@ -32,7 +32,7 @@ PROCESSING_SUBSYSTEM_DEF(station)
 	return ..()
 
 ///Rolls for the amount of traits and adds them to the traits list
-/datum/controller/subsystem/processing/station/proc/setup_traits()
+/datum/controller/subsystem/processing/station/proc/SetupTraits()
 	for(var/i in subtypesof(/datum/station_trait))
 		var/datum/station_trait/trait_typepath = i
 		if(initial(trait_typepath.trait_flags) & STATION_TRAIT_ABSTRACT)
@@ -46,6 +46,7 @@ PROCESSING_SUBSYSTEM_DEF(station)
 	pick_traits(STATION_TRAIT_POSITIVE, positive_trait_count)
 	pick_traits(STATION_TRAIT_NEUTRAL, neutral_trait_count)
 	pick_traits(STATION_TRAIT_NEGATIVE, negative_trait_count)
+
 
 ///Picks traits of a specific category (e.g. bad or good) and a specified amount, then initializes them and adds them to the list of traits.
 /datum/controller/subsystem/processing/station/proc/pick_traits(trait_type, amount)
@@ -64,7 +65,7 @@ PROCESSING_SUBSYSTEM_DEF(station)
 			var/datum/station_trait/trait_to_remove = i
 			selectable_traits_by_types[initial(trait_to_remove.trait_type)] -= trait_to_remove
 
-/datum/controller/subsystem/processing/station/proc/prepare_report()
+/datum/controller/subsystem/processing/station/proc/PrepareReport()
 	if(!station_traits.len)		//no active traits why bother
 		return
 

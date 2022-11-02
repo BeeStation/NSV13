@@ -135,7 +135,6 @@ export class TextArea extends Component {
       onBlur,
       onEnter,
       value,
-      maxLength,
       placeholder,
       ...boxProps
     } = this.props;
@@ -162,8 +161,7 @@ export class TextArea extends Component {
           onKeyPress={this.handleKeyPress}
           onInput={this.handleOnInput}
           onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          maxLength={maxLength} />
+          onBlur={this.handleBlur} />
       </Box>
     );
   }

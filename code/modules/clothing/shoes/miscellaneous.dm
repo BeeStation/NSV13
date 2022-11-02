@@ -3,7 +3,8 @@
 
 /obj/item/clothing/shoes/sneakers/mime
 	name = "mime shoes"
-	greyscale_colors = "#ffffff#ffffff"
+	icon_state = "mime"
+	item_color = "mime"
 
 /obj/item/clothing/shoes/combat //basic syndicate combat boots for nuke ops and mob corpses
 	name = "combat boots"
@@ -34,16 +35,10 @@
 	permeability_coefficient = 0.9
 	strip_delay = 5
 
-/obj/item/clothing/shoes/sneakers/marisa
+/obj/item/clothing/shoes/sandal/marisa
 	desc = "A pair of magic black shoes."
 	name = "magic shoes"
-	worn_icon_state = "marisa"
-	greyscale_colors = "#545454#ffffff"
-	greyscale_config = /datum/greyscale_config/sneakers_marisa
-	greyscale_config_worn = null
-	strip_delay = 5
-	equip_delay_other = 50
-	permeability_coefficient = 0.9
+	icon_state = "black"
 	resistance_flags = FIRE_PROOF |  ACID_PROOF
 
 /obj/item/clothing/shoes/sandal/magic
@@ -80,11 +75,12 @@
 	icon_state = "clown"
 	item_state = "clown_shoes"
 	slowdown = SHOES_SLOWDOWN+1
+	item_color = "clown"
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/shoes/clown
 	var/datum/component/waddle
 	var/enabled_waddle = TRUE
 
-/obj/item/clothing/shoes/clown_shoes/Initialize(mapload)
+/obj/item/clothing/shoes/clown_shoes/Initialize()
 	. = ..()
 	LoadComponent(/datum/component/squeak, list('sound/effects/clownstep1.ogg'=1,'sound/effects/clownstep2.ogg'=1), 50)
 
@@ -93,13 +89,13 @@
 	if(slot == ITEM_SLOT_FEET)
 		if(enabled_waddle)
 			waddle = user.AddComponent(/datum/component/waddling)
-		if(user.mind && user.mind.assigned_role == JOB_NAME_CLOWN)
+		if(user.mind && user.mind.assigned_role == "Clown")
 			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "clownshoes", /datum/mood_event/clownshoes)
 
 /obj/item/clothing/shoes/clown_shoes/dropped(mob/user)
-	..()
+	. = ..()
 	QDEL_NULL(waddle)
-	if(user.mind && user.mind.assigned_role == JOB_NAME_CLOWN)
+	if(user.mind && user.mind.assigned_role == "Clown")
 		SEND_SIGNAL(user, COMSIG_CLEAR_MOOD_EVENT, "clownshoes")
 
 /obj/item/clothing/shoes/clown_shoes/CtrlClick(mob/living/user)
@@ -127,6 +123,7 @@
 	item_state = "jackboots"
 	lefthand_file = 'icons/mob/inhands/equipment/security_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/security_righthand.dmi'
+	item_color = "hosred"
 	strip_delay = 30
 	equip_delay_other = 50
 	resistance_flags = NONE
@@ -147,19 +144,6 @@
 	heat_protection = FEET|LEGS
 	max_heat_protection_temperature = SHOES_MAX_TEMP_PROTECT
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/shoes
-
-/obj/item/clothing/shoes/winterboots/noslip
-	name = "high-traction winter boots"
-	desc = "Boots lined with 'synthetic' animal fur and coated with a special freeze resistant anti-slip coating."
-
-/obj/item/clothing/shoes/winterboots/noslip/equipped(mob/user, slot)
-	. = ..()
-	if(slot == ITEM_SLOT_FEET)
-		ADD_TRAIT(user, TRAIT_NOSLIPALL, CLOTHING_FEET_TRAIT)
-
-/obj/item/clothing/shoes/winterboots/noslip/dropped(mob/user)
-	. = ..()
-	REMOVE_TRAIT(user, TRAIT_NOSLIPALL, CLOTHING_FEET_TRAIT)
 
 /obj/item/clothing/shoes/workboots
 	name = "work boots"
@@ -184,6 +168,7 @@
 	desc = "A pair of boots worn by the followers of Nar'Sie."
 	icon_state = "cult"
 	item_state = "cult"
+	item_color = "cult"
 	cold_protection = FEET
 	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT
 	heat_protection = FEET
@@ -196,14 +181,14 @@
 /obj/item/clothing/shoes/cult/alt/ghost
 	item_flags = DROPDEL
 
-/obj/item/clothing/shoes/cult/alt/ghost/Initialize(mapload)
+/obj/item/clothing/shoes/cult/alt/ghost/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CULT_TRAIT)
 
-/obj/item/clothing/shoes/sneakers/cyborg
+/obj/item/clothing/shoes/cyborg
 	name = "cyborg boots"
 	desc = "Shoes for a cyborg costume."
-	greyscale_colors = "#4e4e4e#4e4e4e"
+	icon_state = "boots"
 
 /obj/item/clothing/shoes/laceup
 	name = "laceup shoes"
@@ -232,6 +217,7 @@
 	desc = "A specialized pair of combat boots with a built-in propulsion system for rapid foward movement."
 	icon_state = "jetboots"
 	item_state = "jetboots"
+	item_color = "hosred"
 	resistance_flags = FIRE_PROOF
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/shoes
 	actions_types = list(/datum/action/item_action/bhop)
@@ -277,23 +263,20 @@
 	icon = 'icons/obj/clothing/clockwork_garb.dmi'
 	icon_state = "clockwork_treads"
 
-/obj/item/clothing/shoes/bronze/Initialize(mapload)
+/obj/item/clothing/shoes/bronze/Initialize()
 	. = ..()
 	AddComponent(/datum/component/squeak, list('sound/machines/clockcult/integration_cog_install.ogg' = 1, 'sound/magic/clockwork/fellowship_armory.ogg' = 1), 50)
 
 /obj/item/clothing/shoes/wheelys
 	name = "Wheely-Heels"
 	desc = "Uses patented retractable wheel technology. Never sacrifice speed for style - not that this provides much of either." //Thanks Fel
+	icon_state = "wheelys"
 	item_state = "wheelys"
-	greyscale_colors = "#545454#ffffff"
-	greyscale_config = /datum/greyscale_config/sneakers_wheelys
-	icon_state = "sneakers"
-	worn_icon_state = "wheelys"
 	actions_types = list(/datum/action/item_action/wheelys)
 	var/wheelToggle = FALSE //False means wheels are not popped out
 	var/obj/vehicle/ridden/scooter/wheelys/W
 
-/obj/item/clothing/shoes/wheelys/Initialize(mapload)
+/obj/item/clothing/shoes/wheelys/Initialize()
 	. = ..()
 	W = new /obj/vehicle/ridden/scooter/wheelys(null)
 
@@ -314,10 +297,10 @@
 	wheelToggle = TRUE
 
 /obj/item/clothing/shoes/wheelys/dropped(mob/user)
-	..()
 	if(wheelToggle)
 		W.unbuckle_mob(user)
 		wheelToggle = FALSE
+	..()
 
 /obj/item/clothing/shoes/wheelys/Destroy()
 	QDEL_NULL(W)
@@ -353,7 +336,6 @@
 		lightCycle = 0
 		active = FALSE
 		set_light_on(active)
-
 /obj/item/clothing/shoes/russian
 	name = "russian boots"
 	desc = "Comfy shoes."

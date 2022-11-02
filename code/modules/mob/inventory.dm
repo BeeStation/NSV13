@@ -178,8 +178,6 @@
 			return FALSE
 		if(get_item_for_held_index(hand_index) != null)
 			dropItemToGround(get_item_for_held_index(hand_index), force = TRUE)
-		if(!(I.item_flags & PICKED_UP))
-			I.pickup(src)
 		I.forceMove(src)
 		held_items[hand_index] = I
 		I.layer = ABOVE_HUD_LAYER
@@ -326,6 +324,7 @@
 			client.screen -= I
 		I.layer = initial(I.layer)
 		I.plane = initial(I.plane)
+		I.appearance_flags &= ~NO_CLIENT_COLOR
 		if(!no_move && !(I.item_flags & DROPDEL))	//item may be moved/qdel'd immedietely, don't bother moving it
 			if (isnull(newloc))
 				I.moveToNullspace()
@@ -349,10 +348,6 @@
 		items += wear_mask
 	if(wear_neck)
 		items += wear_neck
-	if(handcuffed)
-		items += handcuffed
-	if(legcuffed)
-		items += legcuffed
 	return items
 
 /mob/living/carbon/human/get_equipped_items(include_pockets = FALSE)
@@ -391,7 +386,7 @@
 
 
 /mob/living/carbon/proc/check_obscured_slots(transparent_protection)
-	var/obscured = NONE
+	var/list/obscured = list()
 	var/hidden_slots = NONE
 
 	for(var/obj/item/I in get_equipped_items())

@@ -76,14 +76,14 @@
 
 // the inlet stage of the gas turbine electricity generator
 
-/obj/machinery/power/compressor/Initialize(mapload)
+/obj/machinery/power/compressor/Initialize()
 	. = ..()
 	// The inlet of the compressor is the direction it faces
 	gas_contained = new
 	inturf = get_step(src, dir)
 	locate_machinery()
 	if(!turbine)
-		set_machine_stat(machine_stat | BROKEN)
+		stat |= BROKEN
 
 
 #define COMPFRICTION 5e5
@@ -116,10 +116,10 @@
 		locate_machinery()
 		if(turbine)
 			to_chat(user, "<span class='notice'>Turbine connected.</span>")
-			set_machine_stat(machine_stat & ~BROKEN)
+			stat &= ~BROKEN
 		else
 			to_chat(user, "<span class='alert'>Turbine not connected.</span>")
-			set_machine_stat(machine_stat | BROKEN)
+			stat |= BROKEN
 		return
 
 	default_deconstruction_crowbar(I)
@@ -127,9 +127,9 @@
 /obj/machinery/power/compressor/process()
 	if(!starter)
 		return
-	if(!turbine || (turbine.machine_stat & BROKEN))
+	if(!turbine || (turbine.stat & BROKEN))
 		starter = FALSE
-	if(machine_stat & BROKEN || panel_open)
+	if(stat & BROKEN || panel_open)
 		starter = FALSE
 		return
 	cut_overlays()
@@ -146,7 +146,7 @@
 	rpm = min(rpm, (COMPFRICTION*efficiency)/2)
 	rpm = max(0, rpm - (rpm*rpm)/(COMPFRICTION*efficiency))
 
-	if(starter && !(machine_stat & NOPOWER))
+	if(starter && !(stat & NOPOWER))
 		use_power(2800)
 		if(rpm<1000)
 			rpmtarget = 1000
@@ -170,13 +170,13 @@
 #define TURBGENQ 100000
 #define TURBGENG 0.5
 
-/obj/machinery/power/turbine/Initialize(mapload)
+/obj/machinery/power/turbine/Initialize()
 	. = ..()
 // The outlet is pointed at the direction of the turbine component
 	outturf = get_step(src, dir)
 	locate_machinery()
 	if(!compressor)
-		set_machine_stat(machine_stat | BROKEN)
+		stat |= BROKEN
 	connect_to_network()
 
 /obj/machinery/power/turbine/RefreshParts()
@@ -200,9 +200,9 @@
 /obj/machinery/power/turbine/process()
 
 	if(!compressor)
-		machine_stat = BROKEN
+		stat = BROKEN
 
-	if((machine_stat & BROKEN) || panel_open)
+	if((stat & BROKEN) || panel_open)
 		return
 	if(!compressor.starter)
 		return
@@ -227,7 +227,7 @@
 	if(compressor.gas_contained.total_moles()>0)
 		var/oamount = min(compressor.gas_contained.total_moles(), (compressor.rpm+100)/35000*compressor.capacity)
 		if(destroy_output)
-			compressor.gas_contained.remove(oamount)
+			compressor.gas_contained.set_moles(compressor.gas_contained.get_moles() - oamount)
 		else
 			outturf.assume_air_moles(compressor.gas_contained, oamount)
 
@@ -246,10 +246,10 @@
 		locate_machinery()
 		if(compressor)
 			to_chat(user, "<span class='notice'>Compressor connected.</span>")
-			set_machine_stat(machine_stat & ~BROKEN)
+			stat &= ~BROKEN
 		else
 			to_chat(user, "<span class='alert'>Compressor not connected.</span>")
-			set_machine_stat(machine_stat | BROKEN)
+			stat |= BROKEN
 		return
 
 	default_deconstruction_crowbar(I)
@@ -268,11 +268,11 @@
 /obj/machinery/power/turbine/ui_data(mob/user)
 	var/list/data = list()
 	data["compressor"] = compressor ? TRUE : FALSE
-	data["compressor_broke"] = (!compressor || (compressor.machine_stat & BROKEN)) ? TRUE : FALSE
+	data["compressor_broke"] = (!compressor || (compressor.stat & BROKEN)) ? TRUE : FALSE
 	data["turbine"] = compressor?.turbine ? TRUE : FALSE
-	data["turbine_broke"] = (!compressor || !compressor.turbine || (compressor.turbine.machine_stat & BROKEN)) ? TRUE : FALSE
+	data["turbine_broke"] = (!compressor || !compressor.turbine || (compressor.turbine.stat & BROKEN)) ? TRUE : FALSE
 	data["online"] = compressor?.starter
-	data["power"] = display_power(compressor?.turbine?.lastgen)
+	data["power"] = DisplayPower(compressor?.turbine?.lastgen)
 	data["rpm"] = compressor?.rpm
 	data["temp"] = compressor?.gas_contained.return_temperature()
 	return data
@@ -307,7 +307,7 @@
 	var/obj/machinery/power/compressor/compressor
 	var/id = 0
 
-/obj/machinery/computer/turbine_computer/Initialize(mapload)
+/obj/machinery/computer/turbine_computer/Initialize()
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -334,11 +334,11 @@
 /obj/machinery/computer/turbine_computer/ui_data(mob/user)
 	var/list/data = list()
 	data["compressor"] = compressor ? TRUE : FALSE
-	data["compressor_broke"] = (!compressor || (compressor.machine_stat & BROKEN)) ? TRUE : FALSE
+	data["compressor_broke"] = (!compressor || (compressor.stat & BROKEN)) ? TRUE : FALSE
 	data["turbine"] = compressor?.turbine ? TRUE : FALSE
-	data["turbine_broke"] = (!compressor || !compressor.turbine || (compressor.turbine.machine_stat & BROKEN)) ? TRUE : FALSE
+	data["turbine_broke"] = (!compressor || !compressor.turbine || (compressor.turbine.stat & BROKEN)) ? TRUE : FALSE
 	data["online"] = compressor?.starter
-	data["power"] = display_power(compressor?.turbine?.lastgen)
+	data["power"] = DisplayPower(compressor?.turbine?.lastgen)
 	data["rpm"] = compressor?.rpm
 	data["temp"] = compressor?.gas_contained.return_temperature()
 	return data

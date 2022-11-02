@@ -17,7 +17,7 @@
 /obj/structure/hull_plate/end
 	icon_state = "tgmc_outerhull_dir"
 
-/obj/structure/hull_plate/Initialize(mapload)
+/obj/structure/hull_plate/Initialize()
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD
 

@@ -37,7 +37,7 @@
 	var/icon_empty = ""
 	fill_icon_thresholds = list(0, 10, 25, 50, 75, 100)
 
-/obj/item/reagent_containers/food/condiment/Initialize(mapload)
+/obj/item/reagent_containers/food/condiment/Initialize()
 	. = ..()
 	possible_states = typelist("possible_states", possible_states)
 

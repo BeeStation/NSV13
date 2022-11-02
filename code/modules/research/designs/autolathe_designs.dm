@@ -264,15 +264,6 @@
 	category = list("initial","Tools","Tool Designs")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
-/datum/design/airlock_painter/decal/tile
-	name = "Tile Sprayer"
-	id = "tile_sprayer"
-	build_type = AUTOLATHE | PROTOLATHE
-	materials = list(/datum/material/iron = 50, /datum/material/glass = 50)
-	build_path = /obj/item/airlock_painter/decal/tile
-	category = list("initial","Tools","Tool Designs")
-	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SERVICE
-
 /datum/design/emergency_oxygen
 	name = "Emergency Oxygen Tank"
 	id = "emergency_oxygen"
@@ -577,7 +568,7 @@
 	category = list("initial", "Security")
 
 /datum/design/c38b
-	name = "Speed Loader (.38 Rubber)"
+	name = "Speed Loader (.38)"
 	id = "c38b"
 	build_type = AUTOLATHE
 	materials = list(/datum/material/iron = 16000)
@@ -883,12 +874,12 @@
 	build_path = /obj/item/toy/crayon/spraycan
 	category = list("initial", "Tools")
 
-/datum/design/dest_tagger
+/datum/design/desttagger
 	name = "Destination Tagger"
-	id = "dest_tagger"
+	id = "desttagger"
 	build_type = AUTOLATHE | PROTOLATHE
 	materials = list(/datum/material/iron = 250, /datum/material/glass = 125)
-	build_path = /obj/item/dest_tagger
+	build_path = /obj/item/destTagger
 	category = list("initial", "Electronics")
 
 /datum/design/handlabeler
@@ -972,12 +963,12 @@
 	build_path = /obj/item/stock_parts/cell/emergency_light
 	category = list("initial", "Electronics")
 
-/datum/design/package_wrap
+/datum/design/packageWrap
 	name = "Package Wrapping"
-	id = "package_wrap"
+	id = "packagewrap"
 	build_type = AUTOLATHE | PROTOLATHE
 	materials = list(/datum/material/iron = 200, /datum/material/glass = 200)
-	build_path = /obj/item/stack/package_wrap
+	build_path = /obj/item/stack/packageWrap
 	category = list("initial", "Misc", "Equipment")
 	maxstack = 30
 
@@ -1064,11 +1055,3 @@
 	materials = list(/datum/material/iron = 50, /datum/material/glass = 50)
 	build_path = /obj/item/airlock_painter/decal
 	category = list("initial","Tools","Tool Designs")
-
-/datum/design/cautionsign
-	name = "Wet Floor Sign"
-	id = "wetfloorsign"
-	build_type = AUTOLATHE
-	materials = list(/datum/material/iron = 50)
-	build_path = /obj/item/clothing/suit/caution
-	category = list("initial","Misc")

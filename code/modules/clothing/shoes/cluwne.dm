@@ -3,13 +3,14 @@
 	name = "clown shoes"
 	icon_state = "cluwne"
 	item_state = "cluwne"
+	item_color = "cluwne"
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	item_flags = DROPDEL
 	slowdown = SHOES_SLOWDOWN+1
 	var/footstep = 1
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/shoes/clown
 
-/obj/item/clothing/shoes/cluwne/Initialize(mapload)
+/obj/item/clothing/shoes/cluwne/Initialize()
 	.=..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
@@ -21,9 +22,9 @@
 		footstep++
 
 /obj/item/clothing/shoes/cluwne/equipped(mob/user, slot)
-	if(!user.has_dna())
+	if(!ishuman(user))
 		return
 	if(slot == ITEM_SLOT_FEET)
-		var/mob/living/carbon/C = user
-		C.dna.add_mutation(CLUWNEMUT)
+		var/mob/living/carbon/human/H = user
+		H.dna.add_mutation(CLUWNEMUT)
 	return

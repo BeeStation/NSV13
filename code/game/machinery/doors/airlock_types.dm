@@ -498,16 +498,19 @@
 	var/stealthy = FALSE
 	allow_repaint = FALSE
 
-/obj/machinery/door/airlock/cult/Initialize(mapload)
+/obj/machinery/door/airlock/cult/Initialize()
 	. = ..()
 	new openingoverlaytype(loc)
 
 /obj/machinery/door/airlock/cult/canAIControl(mob/user)
 	return (iscultist(user) && !isAllPowerCut())
 
-/obj/machinery/door/airlock/cult/on_break()
-	if(!panel_open)
-		panel_open = TRUE
+/obj/machinery/door/airlock/cult/obj_break(damage_flag)
+	if(!(flags_1 & BROKEN) && !(flags_1 & NODECONSTRUCT_1))
+		stat |= BROKEN
+		if(!panel_open)
+			panel_open = TRUE
+		update_icon()
 
 /obj/machinery/door/airlock/cult/isElectrified()
 	return FALSE

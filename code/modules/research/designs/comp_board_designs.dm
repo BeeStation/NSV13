@@ -30,14 +30,6 @@
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_ALL
 
-/datum/design/board/amputation_adventure
-	name = "Computer Design (Mediborg's Amputation Adventure)"
-	desc = "Allows for the construction of circuit boards used to build a new Mediborg's Amputation Adventure machine."
-	id = "arcade_amputation"
-	build_path = /obj/item/circuitboard/computer/arcade/amputation
-	category = list("Computer Boards")
-	departmental_flags = DEPARTMENTAL_FLAG_ALL
-
 /datum/design/board/seccamera
 	name = "Computer Design (Security Camera)"
 	desc = "Allows for the construction of circuit boards used to build security camera computers."

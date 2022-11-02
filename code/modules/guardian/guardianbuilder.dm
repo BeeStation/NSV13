@@ -285,7 +285,7 @@
 	var/allowspecial = FALSE
 	var/debug_mode = FALSE
 
-/obj/item/guardiancreator/Initialize(mapload)
+/obj/item/guardiancreator/Initialize()
 	. = ..()
 	builder = new(mob_name, theme, failure_message, max_points, allowspecial, debug_mode)
 

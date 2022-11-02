@@ -1,4 +1,4 @@
-/obj/structure/big_delivery
+/obj/structure/bigDelivery
 	name = "large parcel"
 	desc = "A large delivery parcel."
 	icon = 'icons/obj/storage.dmi'
@@ -8,21 +8,17 @@
 	var/giftwrapped = FALSE
 	var/sortTag = 0
 
-/obj/structure/big_delivery/Initialize()
-	. = ..()
-	RegisterSignal(src, COMSIG_MOVABLE_DISPOSING, .proc/disposal_handling)
-
-/obj/structure/big_delivery/interact(mob/user)
+/obj/structure/bigDelivery/interact(mob/user)
 	playsound(src.loc, 'sound/items/poster_ripped.ogg', 50, 1)
 	qdel(src)
 
-/obj/structure/big_delivery/Destroy()
+/obj/structure/bigDelivery/Destroy()
 	var/turf/T = get_turf(src)
 	for(var/atom/movable/AM in contents)
 		AM.forceMove(T)
 	return ..()
 
-/obj/structure/big_delivery/contents_explosion(severity, target)
+/obj/structure/bigDelivery/contents_explosion(severity, target)
 	for(var/thing in contents)
 		switch(severity)
 			if(EXPLODE_DEVASTATE)
@@ -32,9 +28,9 @@
 			if(EXPLODE_LIGHT)
 				SSexplosions.low_mov_atom += thing
 
-/obj/structure/big_delivery/attackby(obj/item/W, mob/user, params)
-	if(istype(W, /obj/item/dest_tagger))
-		var/obj/item/dest_tagger/O = W
+/obj/structure/bigDelivery/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/destTagger))
+		var/obj/item/destTagger/O = W
 
 		if(sortTag != O.currTag)
 			var/tag = uppertext(GLOB.TAGGERLOCATIONS[O.currTag])
@@ -66,7 +62,7 @@
 	else
 		return ..()
 
-/obj/structure/big_delivery/relay_container_resist(mob/living/user, obj/O)
+/obj/structure/bigDelivery/relay_container_resist(mob/living/user, obj/O)
 	if(ismovableatom(loc))
 		var/atom/movable/AM = loc //can't unwrap the wrapped container if it's inside something.
 		AM.relay_container_resist(user, O)
@@ -84,12 +80,7 @@
 			to_chat(user, "<span class='warning'>You fail to remove [O]'s wrapping!</span>")
 
 
-/obj/structure/big_delivery/proc/disposal_handling(disposal_source, obj/structure/disposalholder/disposal_holder, obj/machinery/disposal/disposal_machine, hasmob)
-	SIGNAL_HANDLER
-	if(!hasmob)
-		disposal_holder.destinationTag = sortTag
-
-/obj/item/small_delivery
+/obj/item/smallDelivery
 	name = "parcel"
 	desc = "A brown paper delivery parcel."
 	icon = 'icons/obj/storage.dmi'
@@ -98,7 +89,7 @@
 	var/giftwrapped = 0
 	var/sortTag = 0
 
-/obj/item/small_delivery/contents_explosion(severity, target)
+/obj/item/smallDelivery/contents_explosion(severity, target)
 	for(var/thing in contents)
 		switch(severity)
 			if(EXPLODE_DEVASTATE)
@@ -108,7 +99,7 @@
 			if(EXPLODE_LIGHT)
 				SSexplosions.low_mov_atom += thing
 
-/obj/item/small_delivery/attack_self(mob/user)
+/obj/item/smallDelivery/attack_self(mob/user)
 	user.temporarilyRemoveItemFromInventory(src, TRUE)
 	for(var/X in contents)
 		var/atom/movable/AM = X
@@ -116,7 +107,7 @@
 	playsound(src.loc, 'sound/items/poster_ripped.ogg', 50, 1)
 	qdel(src)
 
-/obj/item/small_delivery/attack_self_tk(mob/user)
+/obj/item/smallDelivery/attack_self_tk(mob/user)
 	if(ismob(loc))
 		var/mob/M = loc
 		M.temporarilyRemoveItemFromInventory(src, TRUE)
@@ -130,9 +121,9 @@
 	playsound(src.loc, 'sound/items/poster_ripped.ogg', 50, 1)
 	qdel(src)
 
-/obj/item/small_delivery/attackby(obj/item/W, mob/user, params)
-	if(istype(W, /obj/item/dest_tagger))
-		var/obj/item/dest_tagger/O = W
+/obj/item/smallDelivery/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/destTagger))
+		var/obj/item/destTagger/O = W
 
 		if(sortTag != O.currTag)
 			var/tag = uppertext(GLOB.TAGGERLOCATIONS[O.currTag])
@@ -162,16 +153,8 @@
 		else
 			to_chat(user, "<span class='warning'>You need more paper!</span>")
 
-/obj/item/small_delivery/Initialize(mapload)
-	. = ..()
-	RegisterSignal(src, COMSIG_MOVABLE_DISPOSING, .proc/disposal_handling)
 
-/obj/item/small_delivery/proc/disposal_handling(disposal_source, obj/structure/disposalholder/disposal_holder, obj/machinery/disposal/disposal_machine, hasmob)
-	SIGNAL_HANDLER
-	if(!hasmob)
-		disposal_holder.destinationTag = sortTag
-
-/obj/item/dest_tagger
+/obj/item/destTagger
 	name = "destination tagger"
 	desc = "Used to set the destination of properly wrapped packages."
 	icon = 'icons/obj/device.dmi'
@@ -185,11 +168,11 @@
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BELT
 
-/obj/item/dest_tagger/borg
+/obj/item/destTagger/borg
 	name = "cyborg destination tagger"
 	desc = "Used to fool the disposal mail network into thinking that you're a harmless parcel. Does actually work as a regular destination tagger as well."
 
-/obj/item/dest_tagger/suicide_act(mob/living/user)
+/obj/item/destTagger/suicide_act(mob/living/user)
 	user.visible_message("<span class='suicide'>[user] begins tagging [user.p_their()] final destination!  It looks like [user.p_theyre()] trying to commit suicide!</span>")
 	if (islizard(user))
 		to_chat(user, "<span class='notice'>*HELL*</span>")//lizard nerf
@@ -198,7 +181,7 @@
 	playsound(src, 'sound/machines/twobeep_high.ogg', 100, 1)
 	return BRUTELOSS
 
-/obj/item/dest_tagger/proc/openwindow(mob/user)
+/obj/item/destTagger/proc/openwindow(mob/user)
 	var/dat = "<tt><center><h1><b>TagMaster 2.2</b></h1></center>"
 
 	dat += "<table style='width:100%; padding:4px;'><tr>"
@@ -213,12 +196,12 @@
 	user << browse(dat, "window=destTagScreen;size=450x350")
 	onclose(user, "destTagScreen")
 
-/obj/item/dest_tagger/attack_self(mob/user)
+/obj/item/destTagger/attack_self(mob/user)
 	if(!locked_destination)
 		openwindow(user)
 		return
 
-/obj/item/dest_tagger/Topic(href, href_list)
+/obj/item/destTagger/Topic(href, href_list)
 	add_fingerprint(usr)
 	if(href_list["nextTag"])
 		var/n = text2num(href_list["nextTag"])

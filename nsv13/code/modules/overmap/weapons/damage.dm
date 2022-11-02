@@ -15,13 +15,22 @@ Bullet reactions
 		if(M.client)
 			shake_with_inertia(M, severity, 1)
 
+/obj/structure/overmap/proc/e()
+	while(1)
+		stoplag(1)
+		add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
+
+/obj/structure/overmap/proc/f()
+	add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
+
+
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)
 	if(istype(P, /obj/item/projectile/beam/overmap/aiming_beam))
 		return
 	if(shields && shields.absorb_hit(P.damage))
 		var/damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
 		if(!impact_sound_cooldown)
-			new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src)
+			add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
 			relay(damage_sound)
 			if(P.damage >= 15) //Flak begone
 				shake_everyone(5)
@@ -54,7 +63,7 @@ Bullet reactions
 	proj.def_zone = "chest"
 	proj.original = pickedgoal
 	spawn()
-		proj.fire(get_angle(pickedstart,pickedgoal))
+		proj.fire(Get_Angle(pickedstart,pickedgoal))
 		proj.set_pixel_speed(4)
 
 /obj/structure/overmap/small_craft/relay_damage(proj_type)
@@ -242,7 +251,7 @@ Bullet reactions
 /obj/effect/temp_visual/explosion_telegraph/New(loc, damage_amount)
 	. = ..()
 
-/obj/effect/temp_visual/explosion_telegraph/Initialize(mapload)
+/obj/effect/temp_visual/explosion_telegraph/Initialize()
 	. = ..()
 	set_light(4)
 	for(var/mob/M in orange(src, 3))

@@ -19,7 +19,7 @@ GLOBAL_LIST_EMPTY(sechailers)
 	GLOB.sechailers -= src
 	. = ..()
 
-/obj/item/clothing/mask/gas/sechailer/Initialize(mapload)
+/obj/item/clothing/mask/gas/sechailer/Initialize()
 	. = ..()
 	GLOB.sechailers += src
 	radio = new(src)

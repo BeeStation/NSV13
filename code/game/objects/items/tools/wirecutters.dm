@@ -32,7 +32,7 @@
 	)
 
 
-/obj/item/wirecutters/Initialize(mapload)
+/obj/item/wirecutters/Initialize()
 	. = ..()
 	if(random_color) //random colors!
 		icon_state = "cutters"

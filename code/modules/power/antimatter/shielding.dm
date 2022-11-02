@@ -28,7 +28,7 @@
 	var/dirs = 0
 
 
-/obj/machinery/am_shielding/Initialize(mapload)
+/obj/machinery/am_shielding/Initialize()
 	. = ..()
 	addtimer(CALLBACK(src, .proc/controllerscan), 10)
 

@@ -1,6 +1,6 @@
 #define TRANSFORMATION_DURATION 22
 
-/mob/living/carbon/proc/monkeyize(tr_flags = (TR_KEEPITEMS | TR_KEEPVIRUS | TR_DEFAULTMSG | TR_KEEPAI), skip_animation = FALSE)
+/mob/living/carbon/proc/monkeyize(tr_flags = (TR_KEEPITEMS | TR_KEEPVIRUS | TR_DEFAULTMSG | TR_KEEPAI))
 	if (notransform || transformation_timer)
 		return
 
@@ -22,7 +22,10 @@
 		CH.cavity_item = null
 
 	if(tr_flags & TR_KEEPITEMS)
-		unequip_everything()
+		var/Itemlist = get_equipped_items(TRUE)
+		Itemlist += held_items
+		for(var/obj/item/W in Itemlist)
+			dropItemToGround(W)
 
 	//Make mob invisible and spawn animation
 	notransform = TRUE
@@ -31,12 +34,11 @@
 	cut_overlays()
 	invisibility = INVISIBILITY_MAXIMUM
 
-	if(!skip_animation)
-		new /obj/effect/temp_visual/monkeyify(loc)
+	new /obj/effect/temp_visual/monkeyify(loc)
 
-		transformation_timer = TRUE
-		sleep(TRANSFORMATION_DURATION)
-		transformation_timer = FALSE
+	transformation_timer = TRUE
+	sleep(TRANSFORMATION_DURATION)
+	transformation_timer = FALSE
 
 	var/mob/living/carbon/monkey/O = new /mob/living/carbon/monkey( loc )
 
@@ -46,13 +48,18 @@
 		O.real_name = "monkey ([copytext_char(rustg_hash_string(RUSTG_HASH_MD5, real_name), 2, 6)])"
 
 	//handle DNA and other attributes
-	dna.transfer_identity(O, tr_flags & TR_KEEPSE)
-	O.set_species(/datum/species/monkey)
-	O.dna.set_se(TRUE, GET_INITIALIZED_MUTATION(RACEMUT))
+	dna.transfer_identity(O)
 	O.updateappearance(icon_update=0)
+
+	if(tr_flags & TR_KEEPSE)
+		O.dna.mutation_index = dna.mutation_index
+		O.dna.default_mutation_genes = dna.default_mutation_genes
+		O.dna.set_se(1, GET_INITIALIZED_MUTATION(RACEMUT))
 
 	if(suiciding)
 		O.set_suicide(suiciding)
+	if(hellbound)
+		O.hellbound = hellbound
 	O.a_intent = INTENT_HARM
 
 	//keep viruses?
@@ -144,7 +151,6 @@
 		if(loc.vars[A] == src)
 			loc.vars[A] = O
 
-	O.update_sight()
 	transfer_observers_to(O)
 
 	. = O
@@ -178,7 +184,10 @@
 		CH.cavity_item = null
 
 	if(tr_flags & TR_KEEPITEMS)
-		unequip_everything()
+		var/Itemlist = get_equipped_items(TRUE)
+		Itemlist += held_items
+		for(var/obj/item/W in Itemlist)
+			dropItemToGround(W)
 
 	//Make mob invisible and spawn animation
 	notransform = TRUE
@@ -211,6 +220,8 @@
 
 	if(suiciding)
 		O.set_suicide(suiciding)
+	if(hellbound)
+		O.hellbound = hellbound
 	O.a_intent = INTENT_HARM
 
 	//keep viruses?
@@ -328,7 +339,14 @@
 
 	//now the rest
 	if (tr_flags & TR_KEEPITEMS)
-		unequip_everything()
+		var/Itemlist = get_equipped_items(TRUE)
+		Itemlist += held_items
+		for(var/obj/item/W in Itemlist)
+			dropItemToGround(W, TRUE)
+			if (client)
+				client.screen -= W
+
+
 
 	//Make mob invisible and spawn animation
 	notransform = TRUE
@@ -349,14 +367,7 @@
 			continue
 		O.equip_to_appropriate_slot(C)
 
-	dna.transfer_identity(O, tr_flags & TR_KEEPSE)
-	O.dna.set_se(FALSE, GET_INITIALIZED_MUTATION(RACEMUT))
-	if(dna.original_species && !ispath(dna.original_species, /datum/species/monkey))
-		O.set_species(dna.original_species)
-	else
-		O.set_species(/datum/species/human)
-	//Reset offsets to match human settings, in-case they have been changed
-	O.dna.species.offset_features = list(OFFSET_UNIFORM = list(0,0), OFFSET_ID = list(0,0), OFFSET_GLOVES = list(0,0), OFFSET_GLASSES = list(0,0), OFFSET_EARS = list(0,0), OFFSET_SHOES = list(0,0), OFFSET_S_STORE = list(0,0), OFFSET_FACEMASK = list(0,0), OFFSET_HEAD = list(0,0), OFFSET_FACE = list(0,0), OFFSET_BELT = list(0,0), OFFSET_BACK = list(0,0), OFFSET_SUIT = list(0,0), OFFSET_NECK = list(0,0), OFFSET_RIGHT_HAND = list(0,0), OFFSET_LEFT_HAND = list(0,0))
+	dna.transfer_identity(O)
 	O.updateappearance(mutcolor_update=1)
 
 	if(findtext(O.dna.real_name, "monkey", 1, 7)) //7 == length("monkey") + 1
@@ -366,8 +377,16 @@
 		O.real_name = O.dna.real_name
 	O.name = O.real_name
 
+	if(tr_flags & TR_KEEPSE)
+		O.dna.mutation_index = dna.mutation_index
+		O.dna.default_mutation_genes = dna.default_mutation_genes
+		O.dna.set_se(0, GET_INITIALIZED_MUTATION(RACEMUT))
+		O.domutcheck()
+
 	if(suiciding)
 		O.set_suicide(suiciding)
+	if(hellbound)
+		O.hellbound = hellbound
 
 	//keep viruses?
 	if (tr_flags & TR_KEEPVIRUS)
@@ -453,7 +472,7 @@
 
 	O.a_intent = INTENT_HELP
 	if (tr_flags & TR_DEFAULTMSG)
-		to_chat(O, "<B>You are now humanoid.</B>")
+		to_chat(O, "<B>You are now a human.</B>")
 
 	transfer_observers_to(O)
 
@@ -465,26 +484,25 @@
 
 	qdel(src)
 
-//A common proc to start an -ize transformation
-/mob/living/carbon/proc/pre_transform(delete_items = FALSE)
-	if(notransform)
-		return TRUE
-	notransform = TRUE
-	Paralyze(1, ignore_canstun = TRUE)
-
-	if(delete_items)
-		for(var/obj/item/W in get_equipped_items(TRUE) | held_items)
-			qdel(W)
-	else
-		unequip_everything()
-	regenerate_icons()
-	icon = null
-	invisibility = INVISIBILITY_MAXIMUM
+/mob/living/carbon/human/AIize(transfer_after = TRUE, client/preference_source)
+	if (notransform)
+		return
 	for(var/t in bodyparts)
 		qdel(t)
 
+	return ..()
+
 /mob/living/carbon/AIize(transfer_after = TRUE, client/preference_source)
-	return pre_transform() ? null : ..()
+	if (notransform)
+		return
+	notransform = TRUE
+	Paralyze(1, ignore_canstun = TRUE)
+	for(var/obj/item/W in src)
+		dropItemToGround(W)
+	regenerate_icons()
+	icon = null
+	invisibility = INVISIBILITY_MAXIMUM
+	return ..()
 
 /mob/proc/AIize(transfer_after = TRUE, client/preference_source)
 	var/list/turf/landmark_loc = list()
@@ -519,8 +537,21 @@
 	qdel(src)
 
 /mob/living/carbon/human/proc/Robotize(delete_items = 0, transfer_after = TRUE)
-	if(pre_transform(delete_items))
+	if (notransform)
 		return
+	notransform = TRUE
+	Paralyze(1, ignore_canstun = TRUE)
+
+	for(var/obj/item/W in src)
+		if(delete_items)
+			qdel(W)
+		else
+			dropItemToGround(W)
+	regenerate_icons()
+	icon = null
+	invisibility = INVISIBILITY_MAXIMUM
+	for(var/t in bodyparts)
+		qdel(t)
 
 	var/mob/living/silicon/robot/R = new /mob/living/silicon/robot(loc)
 
@@ -545,7 +576,7 @@
 			R.mmi.brainmob.real_name = real_name //the name of the brain inside the cyborg is the robotized human's name.
 			R.mmi.brainmob.name = real_name
 
-	R.job = JOB_NAME_CYBORG
+	R.job = "Cyborg"
 	R.notify_ai(NEW_BORG)
 
 	. = R
@@ -553,8 +584,17 @@
 
 //human -> alien
 /mob/living/carbon/human/proc/Alienize()
-	if(pre_transform())
+	if (notransform)
 		return
+	notransform = TRUE
+	mobility_flags = NONE
+	for(var/obj/item/W in src)
+		dropItemToGround(W)
+	regenerate_icons()
+	icon = null
+	invisibility = INVISIBILITY_MAXIMUM
+	for(var/t in bodyparts)
+		qdel(t)
 
 	var/alien_caste = pick("Hunter","Sentinel","Drone")
 	var/mob/living/carbon/alien/humanoid/new_xeno
@@ -574,8 +614,17 @@
 	qdel(src)
 
 /mob/living/carbon/human/proc/slimeize(reproduce as num)
-	if(pre_transform())
+	if (notransform)
 		return
+	notransform = TRUE
+	mobility_flags = NONE
+	for(var/obj/item/W in src)
+		dropItemToGround(W)
+	regenerate_icons()
+	icon = null
+	invisibility = INVISIBILITY_MAXIMUM
+	for(var/t in bodyparts)
+		qdel(t)
 
 	var/mob/living/simple_animal/slime/new_slime
 	if(reproduce)
@@ -603,9 +652,18 @@
 	qdel(src)
 
 
-/mob/living/carbon/proc/corgize()
-	if(pre_transform())
+/mob/living/carbon/human/proc/corgize()
+	if (notransform)
 		return
+	notransform = TRUE
+	Paralyze(1, ignore_canstun = TRUE)
+	for(var/obj/item/W in src)
+		dropItemToGround(W)
+	regenerate_icons()
+	icon = null
+	invisibility = INVISIBILITY_MAXIMUM
+	for(var/t in bodyparts)	//this really should not be necessary
+		qdel(t)
 
 	var/mob/living/simple_animal/pet/dog/corgi/new_corgi = new /mob/living/simple_animal/pet/dog/corgi (loc)
 	new_corgi.a_intent = INTENT_HARM
@@ -616,8 +674,21 @@
 	qdel(src)
 
 /mob/living/carbon/proc/gorillize()
-	if(pre_transform())
+	if(notransform)
 		return
+	notransform = TRUE
+	Paralyze(1, ignore_canstun = TRUE)
+
+	SSblackbox.record_feedback("amount", "gorillas_created", 1)
+
+	var/Itemlist = get_equipped_items(TRUE)
+	Itemlist += held_items
+	for(var/obj/item/W in Itemlist)
+		dropItemToGround(W, TRUE)
+
+	regenerate_icons()
+	icon = null
+	invisibility = INVISIBILITY_MAXIMUM
 	var/mob/living/simple_animal/hostile/gorilla/new_gorilla = new (get_turf(src))
 	new_gorilla.a_intent = INTENT_HARM
 	if(mind)
@@ -629,8 +700,21 @@
 	qdel(src)
 
 /mob/living/carbon/proc/junglegorillize()
-	if(pre_transform())
+	if(notransform)
 		return
+	notransform = TRUE
+	Paralyze(1, ignore_canstun = TRUE)
+
+	SSblackbox.record_feedback("amount", "gorillas_created", 1)
+
+	var/Itemlist = get_equipped_items(TRUE)
+	Itemlist += held_items
+	for(var/obj/item/W in Itemlist)
+		dropItemToGround(W, TRUE)
+
+	regenerate_icons()
+	icon = null
+	invisibility = INVISIBILITY_MAXIMUM
 	var/mob/living/simple_animal/hostile/gorilla/rabid/new_gorilla = new (get_turf(src))
 	new_gorilla.a_intent = INTENT_HARM
 	var/datum/atom_hud/H = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED]
@@ -652,8 +736,20 @@
 		to_chat(usr, "<span class='danger'>Sorry but this mob type is currently unavailable.</span>")
 		return
 
-	if(pre_transform())
+	if(notransform)
 		return
+	notransform = TRUE
+	Paralyze(1, ignore_canstun = TRUE)
+
+	for(var/obj/item/W in src)
+		dropItemToGround(W)
+
+	regenerate_icons()
+	icon = null
+	invisibility = INVISIBILITY_MAXIMUM
+
+	for(var/t in bodyparts)
+		qdel(t)
 
 	var/mob/new_mob = new mobpath(src.loc)
 

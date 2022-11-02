@@ -13,6 +13,7 @@ The console is located at computer/gulag_teleporter.dm
 	icon_state = "implantchair"
 	state_open = FALSE
 	density = TRUE
+	use_power = IDLE_POWER_USE
 	idle_power_usage = 200
 	active_power_usage = 5000
 	circuit = /obj/item/circuitboard/machine/gulag_teleporter
@@ -31,7 +32,7 @@ The console is located at computer/gulag_teleporter.dm
 		/obj/item/clothing/mask/breath,
 		/obj/item/clothing/mask/gas/old))	//makes more sense to give prisoners older models of masks
 
-/obj/machinery/gulag_teleporter/Initialize(mapload)
+/obj/machinery/gulag_teleporter/Initialize()
 	. = ..()
 	locate_reclaimer()
 
@@ -49,7 +50,7 @@ The console is located at computer/gulag_teleporter.dm
 	if(locked)
 		to_chat(user, "<span class='warning'>[src] is locked!</span>")
 		return
-	toggle_open(user)
+	toggle_open()
 
 /obj/machinery/gulag_teleporter/updateUsrDialog()
 	return
@@ -70,13 +71,13 @@ The console is located at computer/gulag_teleporter.dm
 /obj/machinery/gulag_teleporter/update_icon()
 	icon_state = initial(icon_state) + (state_open ? "_open" : "")
 	//no power or maintenance
-	if(machine_stat & (NOPOWER|BROKEN))
+	if(stat & (NOPOWER|BROKEN))
 		icon_state += "_unpowered"
-		if((machine_stat & MAINT) || panel_open)
+		if((stat & MAINT) || panel_open)
 			icon_state += "_maintenance"
 		return
 
-	if((machine_stat & MAINT) || panel_open)
+	if((stat & MAINT) || panel_open)
 		icon_state += "_maintenance"
 		return
 
@@ -105,7 +106,7 @@ The console is located at computer/gulag_teleporter.dm
 	user.visible_message("<span class='notice'>You see [user] kicking against the door of [src]!</span>", \
 		"<span class='notice'>You lean on the back of [src] and start pushing the door open... (this will take about [DisplayTimeText(breakout_time)].)</span>", \
 		"<span class='italics'>You hear a metallic creaking from [src].</span>")
-	if(do_after(user, breakout_time, target = src))
+	if(do_after(user,(breakout_time), target = src))
 		if(!user || user.stat != CONSCIOUS || user.loc != src || state_open || !locked)
 			return
 		locked = FALSE
@@ -118,15 +119,14 @@ The console is located at computer/gulag_teleporter.dm
 	if(linked_reclaimer)
 		linked_reclaimer.linked_teleporter = src
 
-/obj/machinery/gulag_teleporter/proc/toggle_open(mob/user)
+/obj/machinery/gulag_teleporter/proc/toggle_open()
 	if(panel_open)
-		to_chat(user, "<span class='notice'>Close the maintenance panel first.</span>")
+		to_chat(usr, "<span class='notice'>Close the maintenance panel first.</span>")
 		return
 
 	if(state_open)
 		close_machine()
 		return
-
 	if(!locked)
 		open_machine()
 
@@ -177,7 +177,7 @@ The console is located at computer/gulag_teleporter.dm
 /obj/structure/gulag_beacon
 	name = "labor camp bluespace beacon"
 	desc = "A receiving beacon for bluespace teleportations."
-	icon = 'icons/obj/device.dmi'
-	icon_state = "Prison_beacon"
+	icon = 'icons/turf/floors.dmi'
+	icon_state = "light_on-w"
 	resistance_flags = INDESTRUCTIBLE
 	anchored = TRUE

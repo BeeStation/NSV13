@@ -116,6 +116,6 @@
 	environment_smash = ENVIRONMENT_SMASH_WALLS
 	loot = list(/obj/effect/decal/remains/plasma, /obj/item/pickaxe/drill/jackhammer)
 
-/mob/living/simple_animal/hostile/skeleton/plasmaminer/Initialize(mapload)
+/mob/living/simple_animal/hostile/skeleton/plasmaminer/Initialize()
 	. = ..()
 	set_light(2)

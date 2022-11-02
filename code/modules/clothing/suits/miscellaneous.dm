@@ -192,7 +192,7 @@
 	body_parts_covered = ARMS|CHEST
 	actions_types = list(/datum/action/item_action/toggle_wings)
 
-/obj/item/clothing/suit/toggle/owlwings/Initialize(mapload)
+/obj/item/clothing/suit/toggle/owlwings/Initialize()
 	. = ..()
 	allowed = GLOB.security_vest_allowed
 
@@ -263,7 +263,7 @@
 	icon_state = "ponchoshame"
 	item_state = "ponchoshame"
 
-/obj/item/clothing/suit/poncho/ponchoshame/Initialize(mapload)
+/obj/item/clothing/suit/poncho/ponchoshame/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, SHAMEBRERO_TRAIT)
 
@@ -570,7 +570,6 @@
 	icon_state = "caution"
 	lefthand_file = 'icons/mob/inhands/equipment/custodial_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/custodial_righthand.dmi'
-	custom_price = 10
 	force = 1
 	throwforce = 3
 	throw_speed = 2
@@ -611,7 +610,7 @@
 	armor = list("melee" = 25, "bullet" = 30, "laser" = 30, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 50, "stamina" = 20)
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/captain
 
-/obj/item/clothing/suit/hooded/wintercoat/captain/Initialize(mapload)
+/obj/item/clothing/suit/hooded/wintercoat/captain/Initialize()
 	. = ..()
 	allowed = GLOB.security_wintercoat_allowed
 
@@ -625,7 +624,7 @@
 	armor = list("melee" = 25, "bullet" = 15, "laser" = 30, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 45, "stamina" = 20)
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/security
 
-/obj/item/clothing/suit/hooded/wintercoat/security/Initialize(mapload)
+/obj/item/clothing/suit/hooded/wintercoat/security/Initialize()
 	. = ..()
 	allowed = GLOB.security_wintercoat_allowed
 
@@ -721,7 +720,7 @@
 	icon_state = "old_coatsecurity"
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/security/old
 
-/obj/item/clothing/suit/hooded/wintercoat/security/old/Initialize(mapload)
+/obj/item/clothing/suit/hooded/wintercoat/security/old/Initialize()
 	. = ..()
 	allowed = GLOB.security_wintercoat_allowed
 
@@ -798,16 +797,18 @@
 
 /obj/item/clothing/under/costume/joker
 	name = "comedian suit"
-	desc = "The worst part of having a mental illness is people expect you to behave as if you don't."
+	desc = "The worst part of having a mental illness is people expect you to behave as if you don’t."
 	icon_state = "joker"
 	item_state = "joker"
+	item_color = "joker"
 	can_adjust = FALSE
 
 /obj/item/clothing/suit/joker
 	name = "comedian coat"
-	desc = "I mean, don't you have to be funny to be a comedian?"
+	desc = "I mean, don’t you have to be funny to be a comedian?"
 	icon_state = "joker_coat"
 	item_state = "joker_coat"
+	item_color = "joker_coat"
 
 /obj/item/clothing/suit/toggle/softshell
 	name = "softshell jacket"

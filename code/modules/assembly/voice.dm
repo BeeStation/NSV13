@@ -20,7 +20,7 @@
 								 "recognizer",
 								 "voice sensor")
 
-/obj/item/assembly/voice/Initialize(mapload)
+/obj/item/assembly/voice/Initialize()
 	. = ..()
 	become_hearing_sensitive(ROUNDSTART_TRAIT)
 

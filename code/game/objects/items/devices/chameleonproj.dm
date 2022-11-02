@@ -17,7 +17,7 @@
 	var/saved_appearance = null
 	var/list/vis_overlay_data = list()
 
-/obj/item/chameleon/Initialize(mapload)
+/obj/item/chameleon/Initialize()
 	. = ..()
 	var/obj/item/cigbutt/butt = /obj/item/cigbutt
 	saved_appearance = initial(butt.appearance)
@@ -184,5 +184,5 @@
 	return
 
 /obj/effect/dummy/chameleon/Destroy()
-	master?.disrupt(0)
+	master.disrupt(0)
 	return ..()

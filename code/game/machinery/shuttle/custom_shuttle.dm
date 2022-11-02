@@ -12,7 +12,7 @@
 	var/icon_state_open = "burst_plasma_open"
 	var/icon_state_off = "burst_plasma_off"
 
-/obj/machinery/shuttle/Initialize(mapload)
+/obj/machinery/shuttle/Initialize()
 	. = ..()
 	GLOB.custom_shuttle_machines += src
 

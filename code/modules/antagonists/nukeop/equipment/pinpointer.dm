@@ -67,7 +67,7 @@
 	desc = "An integrated tracking device, jury-rigged to search for living Syndicate operatives."
 	flags_1 = NONE
 
-/obj/item/pinpointer/syndicate_cyborg/Initialize(mapload)
+/obj/item/pinpointer/syndicate_cyborg/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CYBORG_ITEM_TRAIT)
 

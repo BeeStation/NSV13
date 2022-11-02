@@ -97,7 +97,8 @@
 				if(P.use_tool(src, user, 40, volume=50))
 					if(state == 1)
 						to_chat(user, "<span class='notice'>You disassemble the frame.</span>")
-						new /obj/item/stack/sheet/iron(drop_location(), 5, TRUE, user)
+						var/obj/item/stack/sheet/iron/M = new (loc, 5)
+						M.add_fingerprint(user)
 						qdel(src)
 				return
 			if(P.tool_behaviour == TOOL_WRENCH)

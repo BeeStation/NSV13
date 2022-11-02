@@ -1,11 +1,6 @@
 /mob/living/carbon/human/say_mod(input, list/message_mods = list())
-	var/obj/item/organ/tongue/T = getorganslot(ORGAN_SLOT_TONGUE)
-	if(T)
-		verb_say = pick(T.say_mod)
-		verb_ask = pick(T.ask_mod)
-		verb_yell = pick(T.yell_mod)
-		verb_exclaim = pick(T.exclaim_mod)
-	if(slurring || !T)
+	verb_say = dna.species.say_mod
+	if(slurring)
 		return "slurs"
 	else
 		. = ..()
@@ -33,9 +28,6 @@
 	// how do species that don't breathe talk? magic, that's what.
 	if(!HAS_TRAIT_FROM(src, TRAIT_NOBREATH, SPECIES_TRAIT) && !getorganslot(ORGAN_SLOT_LUNGS))
 		return FALSE
-	if(dna?.species && !dna?.species.speak_no_tongue)
-		if(!getorganslot(ORGAN_SLOT_TONGUE))
-			return FALSE
 	if(mind)
 		return !mind.miming
 	return TRUE
@@ -53,6 +45,8 @@
 	return special_voice
 
 /mob/living/carbon/human/binarycheck()
+	if(..()) //NSV13- If they have the binary speaker trait. Used for synthetics
+		return TRUE
 	if(stat >= SOFT_CRIT || !ears)
 		return FALSE
 	var/obj/item/radio/headset/dongle = ears

@@ -36,22 +36,6 @@
 	var/last_alarm = 0
 	var/area/myarea = null
 
-/obj/machinery/firealarm/directional/north
-	dir = SOUTH
-	pixel_y = 24
-
-/obj/machinery/firealarm/directional/south
-	dir = NORTH
-	pixel_y = -24
-
-/obj/machinery/firealarm/directional/east
-	dir = WEST
-	pixel_x = 24
-
-/obj/machinery/firealarm/directional/west
-	dir = EAST
-	pixel_x = -24
-
 /obj/machinery/firealarm/Initialize(mapload, dir, building)
 	. = ..()
 	if(dir)
@@ -64,12 +48,6 @@
 	update_icon()
 	myarea = get_area(src)
 	LAZYADD(myarea.firealarms, src)
-	RegisterSignal(SSdcs, COMSIG_GLOB_SECURITY_ALERT_CHANGE, .proc/handle_alert)
-
-/obj/machinery/firealarm/proc/handle_alert(datum/source, new_alert)
-	SIGNAL_HANDLER
-	if(is_station_level(z))
-		update_icon()
 
 /obj/machinery/firealarm/Destroy()
 	myarea.firereset(src)
@@ -88,13 +66,13 @@
 		icon_state = "fire_b[buildstage]"
 		return
 
-	if(machine_stat & BROKEN)
+	if(stat & BROKEN)
 		icon_state = "firex"
 		return
 
 	icon_state = "fire0"
 
-	if(machine_stat & NOPOWER)
+	if(stat & NOPOWER)
 		return
 
 	add_overlay("fire_overlay")
@@ -149,12 +127,12 @@
 		attack_hand(eminence)
 
 /obj/machinery/firealarm/temperature_expose(datum/gas_mixture/air, temperature, volume)
-	if((temperature > T0C + 200 || temperature < BODYTEMP_COLD_DAMAGE_LIMIT) && (last_alarm+FIREALARM_COOLDOWN < world.time) && !(obj_flags & EMAGGED) && detecting && !machine_stat)
+	if((temperature > T0C + 200 || temperature < BODYTEMP_COLD_DAMAGE_LIMIT) && (last_alarm+FIREALARM_COOLDOWN < world.time) && !(obj_flags & EMAGGED) && detecting && !stat)
 		alarm()
 	..()
 
 /obj/machinery/firealarm/proc/alarm(mob/user)
-	if(!is_operational || (last_alarm+FIREALARM_COOLDOWN > world.time))
+	if(!is_operational() || (last_alarm+FIREALARM_COOLDOWN > world.time))
 		return
 	last_alarm = world.time
 	var/area/A = get_area(src)
@@ -164,7 +142,7 @@
 		log_game("[user] triggered a fire alarm at [COORD(src)]")
 
 /obj/machinery/firealarm/proc/reset(mob/user)
-	if(!is_operational)
+	if(!is_operational())
 		return
 	var/area/A = get_area(src)
 	A.firereset()
@@ -175,7 +153,6 @@
 	if(buildstage != 2)
 		return ..()
 	add_fingerprint(user)
-	play_click_sound("button")
 	var/area/A = get_area(src)
 	if(A.fire)
 		reset(user)
@@ -255,9 +232,9 @@
 										"<span class='notice'>You start prying out the circuit...</span>")
 					if(W.use_tool(src, user, 20, volume=50))
 						if(buildstage == 1)
-							if(machine_stat & BROKEN)
+							if(stat & BROKEN)
 								to_chat(user, "<span class='notice'>You remove the destroyed circuit.</span>")
-								set_machine_stat(machine_stat & ~BROKEN)
+								stat &= ~BROKEN
 							else
 								to_chat(user, "<span class='notice'>You pry out the circuit.</span>")
 								new /obj/item/electronics/firealarm(user.loc)
@@ -311,7 +288,7 @@
 /obj/machinery/firealarm/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
 	. = ..()
 	if(.) //damage received
-		if(obj_integrity > 0 && !(machine_stat & BROKEN) && buildstage != 0)
+		if(obj_integrity > 0 && !(stat & BROKEN) && buildstage != 0)
 			if(prob(33))
 				alarm()
 
@@ -321,16 +298,15 @@
 	..()
 
 /obj/machinery/firealarm/obj_break(damage_flag)
-	if(buildstage == 0) //can't break the electronics if there isn't any inside.
-		return
-	. = ..()
-	if(.)
+	if(!(stat & BROKEN) && !(flags_1 & NODECONSTRUCT_1) && buildstage != 0) //can't break the electronics if there isn't any inside.
 		LAZYREMOVE(myarea.firealarms, src)
+		stat |= BROKEN
+		update_icon()
 
 /obj/machinery/firealarm/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
 		new /obj/item/stack/sheet/iron(loc, 1)
-		if(!(machine_stat & BROKEN))
+		if(!(stat & BROKEN))
 			var/obj/item/I = new /obj/item/electronics/firealarm(loc)
 			if(!disassembled)
 				I.obj_integrity = I.max_integrity * 0.5
@@ -368,7 +344,7 @@
 		alarm(user)
 
 /obj/machinery/firealarm/partyalarm/reset()
-	if (machine_stat & (NOPOWER|BROKEN))
+	if (stat & (NOPOWER|BROKEN))
 		return
 	var/area/A = get_area(src)
 	if (!A || !A.party)
@@ -377,7 +353,7 @@
 	A.cut_overlay(party_overlay)
 
 /obj/machinery/firealarm/partyalarm/alarm()
-	if (machine_stat & (NOPOWER|BROKEN))
+	if (stat & (NOPOWER|BROKEN))
 		return
 	var/area/A = get_area(src)
 	if (!A || A.party || A.name == "Space")

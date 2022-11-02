@@ -28,7 +28,7 @@
 	You gain charges by either collecting influences or sacrificing people tracked by the living heart<br> \
 	You can find a basic guide at : https://wiki.beestation13.com/view/Heretics </span>")
 	owner.current.client?.tgui_panel?.give_antagonist_popup("Heretic",
-		"Collect influences or sacrifice targets to expand your forbidden knowledge.")
+		"Collect influences or sacrafice targets to expand your forbidden knowledge.")
 
 /datum/antagonist/heretic/on_gain()
 	var/mob/living/current = owner.current
@@ -74,17 +74,10 @@
 
 	var/T = new item_path(H)
 	var/item_name = initial(item_path.name)
-	var/where = H.equip_in_one_of_slots(T, slots, qdel_on_fail = FALSE)
+	var/where = H.equip_in_one_of_slots(T, slots)
 	if(!where)
-		//Our last attempt, we force the item into the backpack
-		if(istype(H.back, /obj/item/storage/backpack))
-			var/obj/item/storage/backpack/B = H.back
-			SEND_SIGNAL(B, COMSIG_TRY_STORAGE_INSERT, T, null, TRUE, TRUE)
-			to_chat(H, "<span class='danger'>You have a [item_name] in your backpack.</span>")
-			return TRUE
-		else
-			message_admins("[ADMIN_FULLMONTY(H)] the heretic couldn't be equipped.")
-			return FALSE
+		to_chat(H, "<span class='userdanger'>Unfortunately, you weren't able to get a [item_name]. This is very bad and you should adminhelp immediately (press F1).</span>")
+		return FALSE
 	else
 		to_chat(H, "<span class='danger'>You have a [item_name] in your [where].</span>")
 		if(where == "backpack")
@@ -258,7 +251,7 @@
 		explanation_text = "Free Objective"
 
 /datum/objective/stalk/check_completion()
-	return timer <= 0 || explanation_text == "Free Objective" || ..()
+	return timer <= 0 || explanation_text == "Free Objective"
 
 /datum/objective/sacrifice_ecult
 	name = "sacrifice"
@@ -272,11 +265,11 @@
 
 /datum/objective/sacrifice_ecult/check_completion()
 	if(!owner)
-		return ..()
+		return FALSE
 	var/datum/antagonist/heretic/cultie = owner.has_antag_datum(/datum/antagonist/heretic)
 	if(!cultie)
-		return ..()
-	return (cultie.total_sacrifices >= target_amount) || ..()
+		return FALSE
+	return cultie.total_sacrifices >= target_amount
 
 /datum/objective/ascend
 	name = "ascend"
@@ -284,6 +277,6 @@
 
 /datum/objective/ascend/check_completion()
 	if(!owner)
-		return ..()
+		return FALSE
 	var/datum/antagonist/heretic/cultie = owner.has_antag_datum(/datum/antagonist/heretic)
-	return cultie?.ascended || ..()
+	return cultie?.ascended

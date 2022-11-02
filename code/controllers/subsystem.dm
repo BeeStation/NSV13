@@ -70,8 +70,7 @@
 	dequeue()
 	can_fire = 0
 	flags |= SS_NO_FIRE
-	if (Master)
-		Master.subsystems -= src
+	Master.subsystems -= src
 	return ..()
 
 //Queue it to run.
@@ -140,9 +139,9 @@
 		queue_next.queue_prev = queue_prev
 	if (queue_prev)
 		queue_prev.queue_next = queue_next
-	if (Master && (src == Master.queue_tail))
+	if (src == Master.queue_tail)
 		Master.queue_tail = queue_prev
-	if (Master && (src == Master.queue_head))
+	if (src == Master.queue_head)
 		Master.queue_head = queue_next
 	queued_time = 0
 	if (state == SS_QUEUED)
@@ -219,12 +218,12 @@
 
 /datum/controller/subsystem/vv_edit_var(var_name, var_value)
 	switch (var_name)
-		if (NAMEOF(src, can_fire))
+		if ("can_fire")
 			//this is so the subsystem doesn't rapid fire to make up missed ticks causing more lag
 			if (var_value)
 				next_fire = world.time + wait
-		if (NAMEOF(src, queued_priority)) //editing this breaks things.
-			return FALSE
+		if ("queued_priority") //editing this breaks things.
+			return 0
 	. = ..()
 
 

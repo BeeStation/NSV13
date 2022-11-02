@@ -18,12 +18,11 @@ export const NtosFileManager = (props, context) => {
             usbconnected={usbconnected}
             onUpload={file => act('PRG_copytousb', { name: file })}
             onDelete={file => act('PRG_deletefile', { name: file })}
-            onRename={(file, newName) => act('PRG_renamefile', {
+            onRename={(file, newName) => act('PRG_rename', {
               name: file,
               new_name: newName,
             })}
-            onDuplicate={file => act('PRG_clone', { file: file })}
-            onToggleSilence={file => act('PRG_togglesilence', { name: file })} />
+            onDuplicate={file => act('PRG_clone', { file: file })} />
         </Section>
         {usbconnected && (
           <Section title="Data Disk">
@@ -32,8 +31,8 @@ export const NtosFileManager = (props, context) => {
               files={usbfiles}
               usbconnected={usbconnected}
               onUpload={file => act('PRG_copyfromusb', { name: file })}
-              onDelete={file => act('PRG_usbdeletefile', { name: file })}
-              onRename={(file, newName) => act('PRG_usbrenamefile', {
+              onDelete={file => act('PRG_deletefile', { name: file })}
+              onRename={(file, newName) => act('PRG_rename', {
                 name: file,
                 new_name: newName,
               })}
@@ -53,7 +52,6 @@ const FileTable = props => {
     onUpload,
     onDelete,
     onRename,
-    onToggleSilence,
   } = props;
   return (
     <Table>
@@ -89,13 +87,6 @@ const FileTable = props => {
             {file.size}
           </Table.Cell>
           <Table.Cell collapsing>
-            {!!file.alert_able && (
-              <Button
-                icon={file.alert_silenced ? 'bell-slash' : 'bell'}
-                color={file.alert_silenced ? 'red' : 'default'}
-                tooltip={file.alert_silenced ? 'Unmute Alerts' : 'Mute Alerts'}
-                onClick={() => onToggleSilence(file.name)} />
-            )}
             {!file.undeletable && (
               <>
                 <Button.Confirm

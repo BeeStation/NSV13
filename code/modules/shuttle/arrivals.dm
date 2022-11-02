@@ -13,6 +13,7 @@
 
 	movement_force = list("KNOCKDOWN" = 3, "THROW" = 0)
 
+	var/sound_played
 	var/damaged	//too damaged to undock?
 	var/list/areas	//areas in our shuttle
 	var/list/queued_announces	//people coming in that we have to announce
@@ -200,6 +201,6 @@
 
 /obj/docking_port/mobile/arrivals/vv_edit_var(var_name, var_value)
 	switch(var_name)
-		if(NAMEOF(src, perma_docked))
+		if("perma_docked")
 			SSblackbox.record_feedback("nested tally", "admin_secrets_fun_used", 1, list("arrivals shuttle", "[var_value ? "stopped" : "started"]"))
 	return ..()

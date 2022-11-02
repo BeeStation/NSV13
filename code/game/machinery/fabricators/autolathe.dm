@@ -35,15 +35,15 @@
 
 	stored_research_type = /datum/techweb/specialized/autounlocking/autolathe
 
-/obj/machinery/modular_fabricator/autolathe/Initialize(mapload)
+/obj/machinery/modular_fabricator/autolathe/Initialize()
 	. = ..()
 	wires = new /datum/wires/autolathe(src)
 
 /obj/machinery/modular_fabricator/autolathe/ui_interact(mob/user, datum/tgui/ui = null)
-	if(!is_operational)
+	if(!is_operational())
 		return
 
-	if(shocked && !(machine_stat & NOPOWER))
+	if(shocked && !(stat & NOPOWER))
 		shock(user,50)
 
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -105,7 +105,7 @@
 	if(user.a_intent == INTENT_HARM) //so we can hit the machine
 		return ..()
 
-	if(machine_stat)
+	if(stat)
 		return TRUE
 
 	if(istype(O, /obj/item/disk/design_disk))
@@ -133,7 +133,7 @@
 	wires.ui_update()
 
 /obj/machinery/modular_fabricator/autolathe/proc/shock(mob/user, prb)
-	if(machine_stat & (BROKEN|NOPOWER))		// unpowered, no shock
+	if(stat & (BROKEN|NOPOWER))		// unpowered, no shock
 		return FALSE
 	if(!prob(prb))
 		return FALSE
@@ -165,7 +165,7 @@
 	playsound(src, "sparks", 100, 1)
 	obj_flags |= EMAGGED
 
-/obj/machinery/modular_fabricator/autolathe/hacked/Initialize(mapload)
+/obj/machinery/modular_fabricator/autolathe/hacked/Initialize()
 	. = ..()
 	adjust_hacked(TRUE)
 

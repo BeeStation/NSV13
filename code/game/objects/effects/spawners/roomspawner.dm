@@ -5,36 +5,39 @@
 	icon = 'icons/effects/landmarks_static.dmi'
 	icon_state = "random_room"
 	dir = NORTH
+	var/datum/map_template/random_room/template
 	var/room_width = 0
 	var/room_height = 0
 
-/obj/effect/spawner/room/New(loc, ...)
-	. = ..()
-	if(!isnull(SSmapping.random_room_spawners))
-		SSmapping.random_room_spawners += src
+/obj/effect/spawner/room/proc/LateSpawn()
+	template.load(get_turf(src), centered = template.centerspawner)
+	qdel(src)
 
-/obj/effect/spawner/room/Initialize(mapload)
+/obj/effect/spawner/room/Initialize()
 	..()
-	if(!length(SSmapping.random_room_templates))
-		message_admins("Room spawner created with no templates available. This shouldn't happen.")
-		return INITIALIZE_HINT_QDEL
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/effect/spawner/room/LateInitialize()
 	var/list/possibletemplates = list()
-	var/datum/map_template/random_room/candidate
+	var/datum/map_template/random_room/cantidate = null
 	shuffle_inplace(SSmapping.random_room_templates)
 	for(var/ID in SSmapping.random_room_templates)
-		candidate = SSmapping.random_room_templates[ID]
-		if(candidate.spawned || room_height != candidate.template_height || room_width != candidate.template_width)
-			candidate = null
-			continue
-		possibletemplates[candidate] = candidate.weight
+		cantidate = SSmapping.random_room_templates[ID]
+		if(istype(cantidate, /datum/map_template/random_room) && room_height == cantidate.template_height && room_width == cantidate.template_width)
+			if(!cantidate.spawned)
+				possibletemplates[cantidate] = cantidate.weight
+		cantidate = null
 	if(possibletemplates.len)
-		var/datum/map_template/random_room/template = pickweight(possibletemplates)
+		template = pickweight(possibletemplates)
 		template.stock --
 		template.weight = (template.weight / 2)
 		if(template.stock <= 0)
 			template.spawned = TRUE
-		template.load(get_turf(src), centered = template.centerspawner)
-	return INITIALIZE_HINT_QDEL
+		addtimer(CALLBACK(src, /obj/effect/spawner/room.proc/LateSpawn), 600)
+	else 
+		template = null
+	if(!template)
+		qdel(src)
 
 /obj/effect/spawner/room/fivexfour
 	name = "5x4 room spawner"
@@ -65,10 +68,3 @@
 	name = "3x3 room spawner"
 	room_width = 3
 	room_height = 3
-
-/obj/effect/spawner/room/fland
-	name = "Special Room (5x11)"
-	icon_state = "random_room_alternative"
-	room_width = 5
-	room_height = 11
-

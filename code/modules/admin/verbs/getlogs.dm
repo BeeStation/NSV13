@@ -3,8 +3,6 @@
 	set name = "Get Server Logs"
 	set desc = "View/retrieve logfiles."
 	set category = "Admin"
-	if(!check_rights(R_SERVER))
-		return
 
 	browseserverlogs()
 

@@ -37,7 +37,7 @@
 	var/num_sheets_insulation = 4
 	var/num_cables = 4
 
-/obj/structure/ship_weapon/railgun_assembly/Initialize(mapload)
+/obj/structure/ship_weapon/railgun_assembly/Initialize()
 	..()
 	if(!contents)
 		contents = list()

@@ -6,6 +6,7 @@
 	item_state = "blastcannon_empty"
 	w_class = WEIGHT_CLASS_NORMAL
 	force = 10
+	block_upgrade_walk = 1
 	fire_sound = 'sound/weapons/blastcannon.ogg'
 	item_flags = NONE
 	clumsy_check = FALSE
@@ -26,7 +27,7 @@
 	debug_power = 80
 	bombcheck = FALSE
 
-/obj/item/gun/blastcannon/Initialize(mapload)
+/obj/item/gun/blastcannon/Initialize()
 	. = ..()
 	if(!pin)
 		pin = new

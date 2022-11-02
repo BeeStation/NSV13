@@ -4,7 +4,6 @@
 	radius = 200
 	static_object = TRUE
 	collision_flags = ALL
-	priority = 100
 
 /datum/orbital_object/star/collision(datum/orbital_object/other)
 	//You got lucky this time

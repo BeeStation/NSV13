@@ -16,10 +16,17 @@
 	var/static/list/allowed_areas
 	if(!allowed_areas)
 		//Places that shouldn't explode
-		var/list/safe_area_types = typecacheof(ANOMALY_AREA_BLACKLIST)
+		var/list/safe_area_types = typecacheof(list(
+		/area/ai_monitored/turret_protected/ai,
+		/area/ai_monitored/turret_protected/ai_upload,
+		/area/engine,
+		/area/solar,
+		/area/holodeck,
+		/area/shuttle)
+		)
 
 		//Subtypes from the above that actually should explode.
-		var/list/unsafe_area_subtypes = typecacheof(ANOMALY_AREA_SUBTYPE_WHITELIST)
+		var/list/unsafe_area_subtypes = typecacheof(list(/area/engine/break_room))
 
 		allowed_areas = make_associative(GLOB.the_station_areas) - safe_area_types + unsafe_area_subtypes
 

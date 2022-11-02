@@ -7,7 +7,7 @@
 
 	light_color = LIGHT_COLOR_CYAN
 
-/obj/machinery/computer/station_alert/Initialize(mapload)
+/obj/machinery/computer/station_alert/Initialize()
 	. = ..()
 	GLOB.alert_consoles += src
 
@@ -39,7 +39,7 @@
 /obj/machinery/computer/station_alert/proc/triggerAlarm(class, area/home, cameras, obj/source)
 	if(source.get_virtual_z_level() != get_virtual_z_level())
 		return
-	if(machine_stat & (BROKEN))
+	if(stat & (BROKEN))
 		return
 
 	var/list/our_sort = GLOB.alarms[class]
@@ -81,7 +81,7 @@
 	ui_update()
 
 /obj/machinery/computer/station_alert/proc/cancelAlarm(class, area/A, obj/origin)
-	if(machine_stat & (BROKEN))
+	if(stat & (BROKEN))
 		return
 	var/list/L = GLOB.alarms[class]
 	var/cleared = 0
@@ -99,7 +99,7 @@
 
 /obj/machinery/computer/station_alert/update_icon()
 	..()
-	if(machine_stat & (NOPOWER|BROKEN))
+	if(stat & (NOPOWER|BROKEN))
 		return
 	var/active_alarms = FALSE
 	for(var/cat in GLOB.alarms)

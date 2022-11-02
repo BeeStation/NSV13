@@ -26,11 +26,11 @@
 	var/fail_to_receive = 0
 	var/current_warning = 1
 
-/obj/item/geiger_counter/Initialize(mapload)
+/obj/item/geiger_counter/Initialize()
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
-	soundloop = new(src, FALSE)
+	soundloop = new(list(src), FALSE)
 
 /obj/item/geiger_counter/Destroy()
 	QDEL_NULL(soundloop)
@@ -219,7 +219,7 @@
 	rad_act(amount)
 
 /obj/item/geiger_counter/cyborg/dropped()
-	..()
+	. = ..()
 	if(listeningTo)
 		UnregisterSignal(listeningTo, COMSIG_ATOM_RAD_ACT)
 

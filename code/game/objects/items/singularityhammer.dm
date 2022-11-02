@@ -17,7 +17,7 @@
 	force_string = "LORD SINGULOTH HIMSELF"
 	var/charged = 5
 
-/obj/item/singularityhammer/Initialize(mapload)
+/obj/item/singularityhammer/Initialize()
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
@@ -93,7 +93,7 @@
 	attack_weight = 3
 	w_class = WEIGHT_CLASS_HUGE
 
-/obj/item/mjollnir/Initialize(mapload)
+/obj/item/mjollnir/Initialize()
 	. = ..()
 
 /obj/item/mjollnir/ComponentInitialize()

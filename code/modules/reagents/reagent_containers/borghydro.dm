@@ -33,7 +33,7 @@ Borg Hypospray
 	var/list/reagent_names = list()
 
 
-/obj/item/reagent_containers/borghypo/Initialize(mapload)
+/obj/item/reagent_containers/borghypo/Initialize()
 	. = ..()
 
 	for(var/R in reagent_ids)

@@ -39,11 +39,14 @@
 	if(!gang)
 		create_team()
 	..()
-	handle_clown_mutation(owner.current, "Your training has allowed you to overcome your clownish nature, allowing you to wield weapons without harming yourself.")
+	var/mob/living/carbon/human/H = owner.current
+	if(istype(H))
+		if(owner.assigned_role == "Clown")
+			to_chat(owner, "Your training has allowed you to overcome your clownish nature, allowing you to wield weapons without harming yourself.")
+			H.dna.remove_mutation(CLOWNMUT)
 	add_to_gang()
 
 /datum/antagonist/gang/on_removal()
-	handle_clown_mutation(owner.current, removing=FALSE)
 	remove_from_gang()
 	..()
 

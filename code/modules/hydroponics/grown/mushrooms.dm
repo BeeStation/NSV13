@@ -83,7 +83,6 @@
 	icon_state = "angel"
 	filling_color = "#C0C0C0"
 	wine_power = 60
-	discovery_points = 300
 
 // Liberty Cap
 /obj/item/seeds/liberty
@@ -160,7 +159,6 @@
 	icon_state = "walkingmushroom"
 	filling_color = "#9370DB"
 	can_distill = FALSE
-	discovery_points = 300
 
 /obj/item/reagent_containers/food/snacks/grown/mushroom/walkingmushroom/attack_self(mob/user)
 	if(isspaceturf(user.loc))
@@ -230,7 +228,6 @@
 	desc = "A strange red mushroom, its surface is moist and slick. You wonder how many tiny worms have met their fate inside."
 	icon_state = "jupitercup"
 	filling_color = "#B5003D"
-	discovery_points = 300
 
 // Glowshroom
 /obj/item/seeds/glowshroom
@@ -261,7 +258,6 @@
 	filling_color = "#00FA9A"
 	var/effect_path = /obj/structure/glowshroom
 	wine_power = 50
-	discovery_points = 300
 
 /obj/item/reagent_containers/food/snacks/grown/mushroom/glowshroom/attack_self(mob/user)
 	if(isspaceturf(user.loc))
@@ -292,6 +288,7 @@
 	desc = "This mycelium -powers- into mushrooms!"
 	icon_state = "mycelium-glowcap"
 	species = "glowcap"
+	icon_harvest = "glowcap-harvest"
 	plantname = "Glowcaps"
 	product = /obj/item/reagent_containers/food/snacks/grown/mushroom/glowshroom/glowcap
 	genes = list(/datum/plant_gene/trait/glow/red, /datum/plant_gene/trait/cell_charge, /datum/plant_gene/trait/plant_type/fungal_metabolism)
@@ -307,7 +304,7 @@
 	filling_color = "#00FA9A"
 	effect_path = /obj/structure/glowshroom/glowcap
 	tastes = list("glowcap" = 1)
-	discovery_points = 300
+
 
 //Shadowshroom
 /obj/item/seeds/glowshroom/shadowshroom
@@ -315,6 +312,8 @@
 	desc = "This mycelium will grow into something shadowy."
 	icon_state = "mycelium-shadowshroom"
 	species = "shadowshroom"
+	icon_grow = "shadowshroom-grow"
+	icon_dead = "shadowshroom-dead"
 	plantname = "Shadowshrooms"
 	product = /obj/item/reagent_containers/food/snacks/grown/mushroom/glowshroom/shadowshroom
 	genes = list(/datum/plant_gene/trait/glow/shadow, /datum/plant_gene/trait/plant_type/fungal_metabolism)
@@ -330,7 +329,6 @@
 	effect_path = /obj/structure/glowshroom/shadowshroom
 	tastes = list("shadow" = 1, "mushroom" = 1)
 	wine_power = 60
-	discovery_points = 300
 
 /obj/item/reagent_containers/food/snacks/grown/mushroom/glowshroom/shadowshroom/attack_self(mob/user)
 	. = ..()

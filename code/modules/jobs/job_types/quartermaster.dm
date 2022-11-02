@@ -1,13 +1,14 @@
-/datum/job/quartermaster
-	title = JOB_NAME_QUARTERMASTER
+/datum/job/qm
+	title = "Quartermaster"
 	flag = QUARTERMASTER
-	department_head = list(JOB_NAME_HEADOFPERSONNEL)
+	department_head = list("Executive Officer") //NSV13 - XO
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	supervisors = "the " + JOB_NAME_HEADOFPERSONNEL //NSV13
+	supervisors = "the executive officer" //NSV13
 	selection_color = "#d7b088"
+	chat_color = "#C79C52"
 	exp_requirements = 600
 	exp_type = EXP_TYPE_SUPPLY
 	exp_type_department = EXP_TYPE_SUPPLY
@@ -20,24 +21,23 @@
 	paycheck_department = ACCOUNT_CAR
 
 	display_order = JOB_DISPLAY_ORDER_QUARTERMASTER
-	departments = DEPARTMENT_BITFLAG_CARGO
-	rpg_title = "Steward"
+	departments = DEPARTMENT_CARGO
 
 	species_outfits = list(
-		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/cargo_technician
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/cargo
 	)
 
 /datum/outfit/job/quartermaster
-	name = JOB_NAME_QUARTERMASTER
-	jobtype = /datum/job/quartermaster
+	name = "Quartermaster"
+	jobtype = /datum/job/qm
 
-	id = /obj/item/card/id/job/quartermaster
+	id = /obj/item/card/id/job/qm
 	belt = /obj/item/pda/quartermaster
 	ears = /obj/item/radio/headset/headset_quartermaster
-	uniform = /obj/item/clothing/under/rank/cargo/quartermaster
+	uniform = /obj/item/clothing/under/rank/cargo/qm
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	glasses = /obj/item/clothing/glasses/sunglasses/advanced
 	l_hand = /obj/item/clipboard
 
-	chameleon_extras = /obj/item/stamp/quartermaster
+	chameleon_extras = /obj/item/stamp/qm
 

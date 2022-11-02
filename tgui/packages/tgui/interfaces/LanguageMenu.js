@@ -13,7 +13,6 @@ export const LanguageMenu = (props, context) => {
   } = data;
   return (
     <Window
-      theme="generic"
       width={700}
       height={600}>
       <Window.Content scrollable>

@@ -12,7 +12,7 @@
 	max_amount = 5
 	allowAntagTargets = TRUE
 	latejoin_allowed = TRUE
-	protected_jobs = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN)
+	protected_jobs = list("Military Police", "Warden", "Detective", "Head of Security", "Captain") //Nsv13 - Crayon eaters & MPs
 
 	special_role_flag = ROLE_TRAITOR
 	role_name = ROLE_TRAITOR

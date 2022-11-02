@@ -28,7 +28,7 @@
 
 	//Gondolas don't make footstep sounds
 
-/mob/living/simple_animal/pet/gondola/Initialize(mapload)
+/mob/living/simple_animal/pet/gondola/Initialize()
 	. = ..()
 	if (!(istype(src, /mob/living/simple_animal/pet/gondola/gondolapod)))
 		CreateGondola()

@@ -36,7 +36,7 @@
 	var/num_cables = 4
 	var/output_path = /obj/machinery/ship_weapon/mac
 
-/obj/structure/ship_weapon/mac_assembly/Initialize(mapload)
+/obj/structure/ship_weapon/mac_assembly/Initialize()
 	..()
 	if(!contents)
 		contents = list()

@@ -50,9 +50,15 @@
 	if(!H)
 		return
 
-	pipe_eject(H, dir, TRUE, target, eject_range, throw_range)
+	var/turf/T = get_turf(src)
 
-	H.vent_gas(loc)
+	for(var/A in H)
+		var/atom/movable/AM = A
+		AM.forceMove(T)
+		AM.pipe_eject(dir)
+		AM.throw_at(target, eject_range, 1)
+
+	H.vent_gas(T)
 	qdel(H)
 
 /obj/structure/disposaloutlet/welder_act(mob/living/user, obj/item/I)

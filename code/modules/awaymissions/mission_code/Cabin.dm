@@ -44,7 +44,7 @@
 	density = FALSE
 	var/active = 1
 
-/obj/structure/firepit/Initialize(mapload)
+/obj/structure/firepit/Initialize()
 	. = ..()
 	toggleFirepit()
 

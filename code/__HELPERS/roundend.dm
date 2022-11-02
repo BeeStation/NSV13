@@ -109,7 +109,7 @@
 
 	var/list/greentexters = list()
 
-	for(var/datum/antagonist/A as() in GLOB.antagonists)
+	for(var/datum/antagonist/A in GLOB.antagonists)
 		if(!A.owner)
 			continue
 
@@ -132,7 +132,7 @@
 		var/greentexted = TRUE
 
 		if(A.objectives.len)
-			for(var/datum/objective/O as() in A.objectives)
+			for(var/datum/objective/O in A.objectives)
 				var/result = O.check_completion() ? "SUCCESS" : "FAIL"
 
 				if (result == "FAIL")
@@ -217,7 +217,7 @@
 			if(CONFIG_GET(flag/allow_crew_objectives))
 				var/mob/M = C?.mob
 				if(M?.mind?.current && LAZYLEN(M.mind.crew_objectives))
-					for(var/datum/objective/crew/CO as() in M.mind.crew_objectives)
+					for(var/datum/objective/crew/CO in M.mind.crew_objectives)
 						if(!C) //Yes, the client can be null here. BYOND moment.
 							break
 						if(CO.check_completion())
@@ -269,20 +269,6 @@
 
 	CHECK_TICK
 
-	//Process veteran achievements
-	for(var/client/C as() in GLOB.clients)
-		var/hours = round(C?.get_exp_living(TRUE)/60)
-		if(hours > 1000)
-			C?.give_award(/datum/award/achievement/misc/onekhours, C.mob)
-		if(hours > 2000)
-			C?.give_award(/datum/award/achievement/misc/twokhours, C.mob)
-		if(hours > 3000)
-			C?.give_award(/datum/award/achievement/misc/threekhours, C.mob)
-		if(hours > 4000)
-			C?.give_award(/datum/award/achievement/misc/fourkhours, C.mob)
-
-	CHECK_TICK
-
 	//Now print them all into the log!
 	log_game("Antagonists at round end were...")
 	for(var/antag_name in total_antagonists)
@@ -299,8 +285,7 @@
 	SSblackbox.Seal()
 
 	if(CONFIG_GET(flag/automapvote))
-		if((world.time - SSticker.round_start_time) >= (CONFIG_GET(number/automapvote_threshold) MINUTES))
-			SSvote.initiate_vote("map", "BeeBot", forced=TRUE, popup=TRUE) //automatic map voting
+		SSvote.initiate_vote("map", "BeeBot", forced=TRUE, popup=TRUE) //automatic map voting
 
 	sleep(50)
 	ready_for_reboot = TRUE
@@ -373,10 +358,6 @@
 		var/datum/game_mode/dynamic/mode = SSticker.mode
 		parts += "[FOURSPACES]Threat level: [mode.threat_level]"
 		parts += "[FOURSPACES]Threat left: [mode.mid_round_budget]"
-		if(mode.roundend_threat_log.len)
-			parts += "[FOURSPACES]Threat edits:"
-			for(var/entry as anything in mode.roundend_threat_log)
-				parts += "[FOURSPACES][FOURSPACES][entry]<BR>"
 		parts += "[FOURSPACES]Executed rules:"
 		for(var/datum/dynamic_ruleset/rule in mode.executed_rules)
 			parts += "[FOURSPACES][FOURSPACES][rule.ruletype] - <b>[rule.name]</b>: -[rule.cost + rule.scaled_times * rule.scaling_cost] threat"
@@ -431,7 +412,7 @@
 
 		if(CONFIG_GET(flag/allow_crew_objectives))
 			if(M.mind.current && LAZYLEN(M.mind.crew_objectives))
-				for(var/datum/objective/crew/CO as() in M.mind.crew_objectives)
+				for(var/datum/objective/crew/CO in M.mind.crew_objectives)
 					if(CO.check_completion())
 						parts += "<br><br><B>Your optional objective</B>: [CO.explanation_text] <span class='greentext'><B>Success!</B></span><br>"
 					else
@@ -501,7 +482,7 @@
 
 		if(aiPlayer.law_change_counter >= 15)
 			if (aiPlayer.client)
-				aiPlayer.client.give_award(/datum/award/achievement/misc/laws)
+				SSmedals.UnlockMedal(MEDAL_15_AI_LAW_CHANGES,aiPlayer.client)
 
 
 		if (aiPlayer.connected_robots.len)
@@ -660,7 +641,7 @@
 		return
 	var/list/objective_parts = list()
 	var/count = 1
-	for(var/datum/objective/objective as() in objectives)
+	for(var/datum/objective/objective in objectives)
 		if(objective.check_completion())
 			objective_parts += "<b>Objective #[count]</b>: [objective.explanation_text] <span class='greentext'>Success!</span>"
 		else
@@ -739,7 +720,6 @@
 /datum/controller/subsystem/ticker/proc/sendtodiscord(var/survivors, var/escapees, var/integrity)
     var/discordmsg = ""
     discordmsg += "--------------ROUND END--------------\n"
-    discordmsg += "Server: [CONFIG_GET(string/servername)]\n"
     discordmsg += "Round Number: [GLOB.round_id]\n"
     discordmsg += "Duration: [DisplayTimeText(world.time - SSticker.round_start_time)]\n"
     discordmsg += "Players: [GLOB.player_list.len]\n"

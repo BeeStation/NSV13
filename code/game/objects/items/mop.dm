@@ -8,6 +8,8 @@
 	force = 8
 	throwforce = 10
 	block_upgrade_walk = 1
+	block_level = 1
+	block_power = 20
 	throw_speed = 3
 	throw_range = 7
 	w_class = WEIGHT_CLASS_NORMAL
@@ -20,7 +22,7 @@
 	force_string = "robust... against germs"
 	var/insertable = TRUE
 
-/obj/item/mop/Initialize(mapload)
+/obj/item/mop/Initialize()
 	. = ..()
 	create_reagents(mopcap)
 
@@ -54,6 +56,14 @@
 		if(do_after(user, src.mopspeed, target = T))
 			to_chat(user, "<span class='notice'>You finish mopping.</span>")
 			clean(T)
+
+
+/obj/effect/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/mop) || istype(I, /obj/item/soap))
+		return
+	else
+		return ..()
+
 
 /obj/item/mop/proc/janicart_insert(mob/user, obj/structure/janitorialcart/J)
 	if(insertable)

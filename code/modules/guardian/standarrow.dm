@@ -14,7 +14,7 @@
 	var/uses = 3
 	var/users = list()
 
-/obj/item/stand_arrow/Initialize(mapload)
+/obj/item/stand_arrow/Initialize()
 	. = ..()
 	GLOB.poi_list += src
 

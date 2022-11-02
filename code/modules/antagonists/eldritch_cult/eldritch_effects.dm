@@ -9,7 +9,7 @@
 	///Used mainly for summoning ritual to prevent spamming the rune to create millions of monsters.
 	var/is_in_use = FALSE
 
-/obj/effect/eldritch/Initialize(mapload)
+/obj/effect/eldritch/Initialize()
 	. = ..()
 	var/image/I = image(icon = 'icons/effects/eldritch.dmi', icon_state = null, loc = src)
 	I.override = TRUE
@@ -26,6 +26,11 @@
 		return
 	if(!is_in_use)
 		INVOKE_ASYNC(src, .proc/activate , user)
+
+/obj/effect/eldritch/attacked_by(obj/item/I, mob/living/user)
+	. = ..()
+	if(istype(I,/obj/item/nullrod))
+		qdel(src)
 
 /obj/effect/eldritch/proc/activate(mob/living/user)
 	is_in_use = TRUE
@@ -147,7 +152,7 @@
 /obj/effect/broken_illusion/ComponentInitialize()
 	AddComponent(/datum/component/discoverable, 5000)
 
-/obj/effect/broken_illusion/Initialize(mapload)
+/obj/effect/broken_illusion/Initialize()
 	. = ..()
 	addtimer(CALLBACK(src,.proc/show_presence),15 SECONDS)
 
@@ -221,7 +226,7 @@
 	resistance_flags = FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	invisibility = INVISIBILITY_OBSERVER
 
-/obj/effect/reality_smash/Initialize(mapload)
+/obj/effect/reality_smash/Initialize()
 	. = ..()
 	var/img = image(icon, src, "reality_smash", OBJ_LAYER)
 	generate_name()

@@ -38,7 +38,7 @@
 	else
 		..()
 
-/mob/living/simple_animal/pet/Initialize(mapload)
+/mob/living/simple_animal/pet/Initialize()
 	. = ..()
 	if(pcollar)
 		pcollar = new(src)

@@ -15,15 +15,6 @@
 	var/precision_coeff
 	var/message_cooldown
 	var/breakout_time = 1200
-	var/ignore_id = FALSE
-
-/obj/machinery/dna_scannernew/Initialize()
-	. = ..()
-	wires = new /datum/wires/dna_scanner(src)
-
-/obj/machinery/dna_scannernew/Destroy()
-	QDEL_NULL(wires)
-	return ..()
 
 /obj/machinery/dna_scannernew/RefreshParts()
 	scan_level = 0
@@ -44,17 +35,15 @@
 			. += "<span class='notice'>Scanner has been upgraded to support autoprocessing.</span>"
 
 /obj/machinery/dna_scannernew/update_icon()
-	cut_overlays()
-
-	if((machine_stat & MAINT) || panel_open)
-		add_overlay("maintenance")
 
 	//no power or maintenance
-	if(machine_stat & (NOPOWER|BROKEN))
+	if(stat & (NOPOWER|BROKEN))
 		icon_state = initial(icon_state)+ (state_open ? "_open" : "") + "_unpowered"
 		return
-	else if(locked)
-		add_overlay("locked")
+
+	if((stat & MAINT) || panel_open)
+		icon_state = initial(icon_state)+ (state_open ? "_open" : "") + "_maintenance"
+		return
 
 	//running and someone in there
 	if(occupant)
@@ -69,12 +58,16 @@
 	update_icon()
 
 /obj/machinery/dna_scannernew/proc/toggle_open(mob/user)
-	if(locked)
-		to_chat(user, "<span class='notice'>The bolts are locked down, securing the door [state_open ? "open" : "shut"].</span>")
+	if(panel_open)
+		to_chat(user, "<span class='notice'>Close the maintenance panel first.</span>")
 		return
 
 	if(state_open)
 		close_machine()
+		return
+
+	else if(locked)
+		to_chat(user, "<span class='notice'>The bolts are locked down, securing the door shut.</span>")
 		return
 
 	open_machine()
@@ -120,7 +113,7 @@
 	return TRUE
 
 /obj/machinery/dna_scannernew/relaymove(mob/user as mob)
-	if(user.stat || (locked && !state_open))
+	if(user.stat || locked)
 		if(message_cooldown <= world.time)
 			message_cooldown = world.time + 50
 			to_chat(user, "<span class='warning'>[src]'s door won't budge!</span>")
@@ -129,7 +122,7 @@
 
 /obj/machinery/dna_scannernew/attackby(obj/item/I, mob/user, params)
 
-	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))//sent icon_state is irrelevant...
+	if(!occupant && default_deconstruction_screwdriver(user, icon_state, icon_state, I))//sent icon_state is irrelevant...
 		update_icon()//..since we're updating the icon here, since the scanner can be unpowered when opened/closed
 		return
 
@@ -139,10 +132,6 @@
 	if(default_deconstruction_crowbar(I))
 		return
 
-	if(panel_open && is_wire_tool(I))
-		wires.interact(user)
-		return
-
 	return ..()
 
 /obj/machinery/dna_scannernew/interact(mob/user)
@@ -150,45 +139,6 @@
 
 /obj/machinery/dna_scannernew/MouseDrop_T(mob/target, mob/user)
 	var/mob/living/L = user
-	if(user.stat || (isliving(user) && (!(L.mobility_flags & MOBILITY_STAND) || !(L.mobility_flags & MOBILITY_UI))) || !Adjacent(user) || !user.Adjacent(target) || !iscarbon(target) || !user.IsAdvancedToolUser() || locked)
+	if(user.stat || (isliving(user) && (!(L.mobility_flags & MOBILITY_STAND) || !(L.mobility_flags & MOBILITY_UI))) || !Adjacent(user) || !user.Adjacent(target) || !iscarbon(target) || !user.IsAdvancedToolUser())
 		return
 	close_machine(target)
-
-/obj/machinery/dna_scannernew/proc/irradiate(mob/living/carbon/target)
-	if(HAS_TRAIT(target, TRAIT_RADIMMUNE))
-		return
-	to_chat(target, "<span class='danger'>You feel warm.</span>")
-	target.rad_act(250/(damage_coeff ** 2))
-
-	if(!target.has_dna() || HAS_TRAIT(target, TRAIT_BADDNA))
-		return
-
-	var/resist = target.getarmor(null, "rad")
-	if(prob(max(0,100-resist)))
-		target.randmuti()
-		if(prob(20))
-			if(prob(90))
-				target.easy_randmut(NEGATIVE+MINOR_NEGATIVE)
-			else
-				target.easy_randmut(POSITIVE)
-			target.domutcheck()
-
-/obj/machinery/dna_scannernew/proc/shock(mob/user, prb)
-	if(machine_stat & (BROKEN|NOPOWER))		// unpowered, no shock
-		return FALSE
-	if(!prob(prb))
-		return FALSE
-	do_sparks(5, TRUE, src)
-	var/check_range = TRUE
-	if(electrocute_mob(user, get_area(src), src, 0.7, check_range))
-		return TRUE
-	else
-		return FALSE
-
-/obj/machinery/dna_scannernew/proc/reset(wire)
-	switch(wire)
-		if(WIRE_IDSCAN)
-			ignore_id = FALSE
-		if(WIRE_BOLTS)
-			locked = FALSE
-			update_icon()

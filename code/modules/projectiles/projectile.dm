@@ -156,7 +156,7 @@
 	///If TRUE, hit mobs even if they're on the floor and not our target
 	var/hit_stunned_targets = FALSE
 
-/obj/item/projectile/Initialize(mapload)
+/obj/item/projectile/Initialize()
 	. = ..()
 	decayedRange = range
 
@@ -240,7 +240,7 @@
 				new /obj/effect/temp_visual/dir_setting/bloodsplatter/xenosplatter(target_loca, splatter_dir)
 			var/obj/item/bodypart/B = L.get_bodypart(def_zone)
 			if(B)
-				if(!IS_ORGANIC_LIMB(B)) // So if you hit a robotic, it sparks instead of bloodspatters
+				if(B.status == BODYPART_ROBOTIC) // So if you hit a robotic, it sparks instead of bloodspatters
 					do_sparks(2, FALSE, target.loc)
 					if(prob(25))
 						new /obj/effect/decal/cleanable/oil(target_loca)
@@ -303,13 +303,13 @@
 	for(var/mob/living/L in range(ricochet_auto_aim_range, src.loc))
 		if(L.stat == DEAD || !isInSight(src, L))
 			continue
-		var/our_angle = abs(closer_angle_difference(Angle, get_angle(src.loc, L.loc)))
+		var/our_angle = abs(closer_angle_difference(Angle, Get_Angle(src.loc, L.loc)))
 		if(our_angle < best_angle)
 			best_angle = our_angle
 			unlucky_sob = L
 
 	if(unlucky_sob)
-		setAngle(get_angle(src, unlucky_sob.loc))
+		setAngle(Get_Angle(src, unlucky_sob.loc))
 
 /obj/item/projectile/proc/store_hitscan_collision(datum/point/pcache)
 	beam_segments[beam_index] = pcache
@@ -324,7 +324,7 @@
 /obj/item/projectile/Bump(atom/A)
 	SEND_SIGNAL(src, COMSIG_MOVABLE_BUMP, A)
 	if(!can_hit_target(A, A == original, TRUE, TRUE))
-		return 2 //NSV13 - return 2 for overmap projectile fixes
+		return 2
 	Impact(A)
 
 /**
@@ -491,7 +491,7 @@
 //Returns true if the target atom is on our current turf and above the right layer
 //If direct target is true it's the originally clicked target.
 /obj/item/projectile/proc/can_hit_target(atom/target, direct_target = FALSE, ignore_loc = FALSE, cross_failed = FALSE)
-	if(QDELETED(target) || impacted[target])
+	if(QDELETED(target) || (LAZYFIND(impacted, target))) //NSV13 used lazyfind because this was runtiming
 		return FALSE
 	if(!ignore_loc && (loc != target.loc))
 		return FALSE
@@ -519,8 +519,6 @@
 			return FALSE
 	else
 		var/mob/living/L = target
-		if(L.force_hit_projectile(src))
-			return TRUE
 		if(direct_target)
 			return TRUE
 		// If target not able to use items, move and stand - or if they're just dead, pass over.
@@ -687,7 +685,7 @@
 			qdel(src)
 			return
 		var/turf/target = locate(CLAMP(starting + xo, 1, world.maxx), CLAMP(starting + yo, 1, world.maxy), starting.z)
-		setAngle(get_angle(src, target))
+		setAngle(Get_Angle(src, target))
 	original_angle = Angle
 	if(!nondirectional_sprite)
 		var/matrix/M = new
@@ -820,7 +818,7 @@
 /obj/item/projectile/proc/process_homing() //Nsv13 - Enhanced the performance of this entire proc.
 	if(QDELETED(homing_target)) //NSV13 - Changed proc to be less performance intensive
 		return FALSE
-	var/targetAngle = get_angle(src, homing_target)
+	var/targetAngle = Get_Angle(src, homing_target)
 	var/angle = closer_angle_difference(Angle, targetAngle)
 	next_homing_process = world.time + homing_delay
 	setAngle(Angle + CLAMP(angle, -homing_turn_speed, homing_turn_speed))
@@ -849,7 +847,7 @@
 	if(targloc || !params)
 		yo = targloc.y - curloc.y
 		xo = targloc.x - curloc.x
-		setAngle(get_angle(src, targloc) + spread)
+		setAngle(Get_Angle(src, targloc) + spread)
 
 	if(isliving(source) && params)
 		var/list/calculated = calculate_projectile_angle_and_pixel_offsets(source, params)
@@ -860,7 +858,7 @@
 	else if(targloc)
 		yo = targloc.y - curloc.y
 		xo = targloc.x - curloc.x
-		setAngle(get_angle(src, targloc) + spread)
+		setAngle(Get_Angle(src, targloc) + spread)
 	else
 		stack_trace("WARNING: Projectile [type] fired without either mouse parameters, or a target atom to aim at!")
 		qdel(src)

@@ -4,17 +4,17 @@
 /proc/generate_clothing_overlay(obj/item/clothing/target, decal, colour)
 	//Firstly, paint the stripes on the icon_state.
 	target.cut_overlays()
-	target.worn_icon = initial(target.worn_icon)
+	target.alternate_worn_icon = initial(target.alternate_worn_icon)
 	var/mutable_appearance/stripes = new()
 	stripes.icon = target.icon
 	stripes.icon_state = decal
 	stripes.color = colour
 	target.add_overlay(new /mutable_appearance(stripes))
 	//Next, paint the stripes onto the actual worn icon of the clothes.
-	stripes.icon = target.worn_icon
+	stripes.icon = target.alternate_worn_icon
 	//How this works is, we're basically making a dummy clothing item that takes the appearance of the worn icon. We then rotate it around to all 4 dirs and take snapshots of it, with its overlays on. Finally, we get an icon out of it with icon_states filled with the output.
 	var/obj/item/clothing/D = new()
-	D.icon = target.worn_icon
+	D.icon = target.alternate_worn_icon
 	D.icon_state = target.icon_state
 	var/icon/final = icon()
 	for(var/dir in list(2, 1, 4, 8)) //A little bit hacky, but does the trick. BYOND's icon format starts with a south facing dir, while cardinals starts with NORTH.
@@ -26,7 +26,7 @@
 		COMPILE_OVERLAYS(D) //Prepare it for an image capture
 		var/icon/I = icon(getFlatIcon(D), frame = 1) //And finally clone the appearance of our new dummy character.
 		final.Insert(I, target.icon_state, frame=1, dir=dir) //Then, we add this new icon_state and direction to the icon we're generating. This is then cleanly applied to the dummy mob to give it its appearance.
-	target.worn_icon = fcopy_rsc(final) //Manually copy over the newly generated icon, so that everyone will see it.
+	target.alternate_worn_icon = fcopy_rsc(final) //Manually copy over the newly generated icon, so that everyone will see it.
 	return final
 
 // Squad merch! Show off that squad pride baby.
@@ -120,8 +120,9 @@
 	name = "Armour"
 	desc = "A light piece of armour, designed to protect its wearer from basic workplace hazards during general quarters. It has been lined with protective materials to allow the wearer to survive in space for slightly longer than usual."
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
-	worn_icon = 'nsv13/icons/mob/suit.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "squad"
+	item_color = "squad"
 	w_class = 2
 	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
@@ -131,10 +132,11 @@
 /obj/item/clothing/suit/ship/squad/space
 	name = "Armoured Skinsuit"
 	icon_state = "skinsuit_squad"
+	item_color = "skinsuit_squad"
 	w_class = WEIGHT_CLASS_NORMAL
 	gas_transfer_coefficient = 0.01
 	permeability_coefficient = 0.02
-	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL
+	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | SHOWEROKAY
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals)
 	slowdown = 1
@@ -152,8 +154,9 @@
 	name = "Helmet"
 	desc = "A bulky helmet that's designed to keep your head in-tact while you perform essential repairs on the ship."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
-	worn_icon = 'nsv13/icons/mob/head.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "squad"
+	item_color = null
 	w_class = WEIGHT_CLASS_NORMAL
 	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 25, "acid" = 50)
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
@@ -165,7 +168,7 @@
 	icon_state = "skinsuit_squad"
 	item_state = "spaceold"
 	desc = "A special helmet with solar UV shielding to protect your eyes from harmful rays. It bears a squad's insignia."
-	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | SNUG_FIT
+	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | SHOWEROKAY | SNUG_FIT
 	permeability_coefficient = 0.01
 	armor = list("melee" = 15, "bullet" = 10, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 70, "stamina" = 10)
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
@@ -199,8 +202,9 @@
 	name = "Lanyard"
 	desc = "A holographic lanyard which, when passed to someone who isn't in a squad, will allow them to join the squad registered to it!"
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
-	worn_icon = 'nsv13/icons/mob/suit.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "hudsquad"
+	item_color = "hudsquad"
 	w_class = 1
 	var/datum/squad/squad = null
 
@@ -295,6 +299,7 @@
 	if(user && squad.leader == user)
 		name = "[squad] Leader Lanyard"
 		icon_state = "hudsquad_lead"
+		item_color = "hudsquad_lead"
 		generate_clothing_overlay(src, "hudsquad_lead_stripes", squad.colour)
 		return
 	name = "[squad] [initial(name)]"
@@ -304,6 +309,7 @@
 			icon_state = "hudsquad_medic"
 		else if ( user.squad.role == DC_SQUAD )
 			icon_state = "hudsquad_engineer"
+	item_color = "hudsquad"
 	generate_clothing_overlay(src, "[icon_state]_stripes", squad.colour)
 
 //If your squad hat doesnt get stripes, but merely gets recoloured.
@@ -344,6 +350,7 @@
 /obj/item/clothing/head/ship/squad/colouronly/headband
 	name = "Headband"
 	icon_state = "squadheadband"
+	item_color = "squadheadband"
 	desc = "A headband which bears the colour of the wearer's squad."
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
 	dynamic_hair_suffix = "" //So it doesn't hide your hair
@@ -352,6 +359,7 @@
 /obj/item/clothing/head/ship/squad/colouronly/cap
 	name = "Cap"
 	icon_state = "squadsoft"
+	item_color = "squadsoft"
 	desc = "A stylish, coloured cap which bears the colour and insignia of the wearer's squad."
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
 
@@ -360,8 +368,9 @@
 /obj/item/clothing/suit/ship/squad/bomber
 	name = "Jacket"
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
-	worn_icon = 'nsv13/icons/mob/suit.dmi'
+	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "squadbomber"
+	item_color = "squadbomber"
 	desc = "A stylish jacket bearing a squad's insignia and distinctive colours."
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
 	body_parts_covered = CHEST
@@ -440,7 +449,7 @@
 	icon_state = "wall"
 	var/inflatable_type = /obj/item/inflatable
 
-/obj/structure/inflatable/Initialize(mapload)
+/obj/structure/inflatable/Initialize()
 	. = ..()
 	air_update_turf(TRUE)
 
@@ -486,6 +495,6 @@
 		deflate()
 
 //this proc makes squad items take
-/obj/item/clothing/suit/ship/squad/Initialize(mapload)
+/obj/item/clothing/suit/ship/squad/Initialize()
 	. = ..()
 	allowed = GLOB.security_vest_allowed

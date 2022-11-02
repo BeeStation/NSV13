@@ -173,8 +173,7 @@
 
 		L.transform = newtransform
 
-		animate(L, transform = matrix(), time = T, loop = -1)
-		animate(transform = newtransform, time = 0, loop = -1)
+		animate(L, transform = matrix(), time = T, loop = -1, flags = ANIMATION_END_NOW)
 
 /datum/hud/proc/update_parallax(force = FALSE) //Nsv13 - Allowed force updating parallax via overmap ships
 	var/client/C = mymob.client

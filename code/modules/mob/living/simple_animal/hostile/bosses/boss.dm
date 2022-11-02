@@ -13,7 +13,7 @@
 	discovery_points = 5000
 
 
-/mob/living/simple_animal/hostile/boss/Initialize(mapload)
+/mob/living/simple_animal/hostile/boss/Initialize()
 	. = ..()
 
 	atb = new()

@@ -56,9 +56,8 @@ Difficulty: Hard
 	var/enrage_time = 70
 	var/revving_charge = FALSE
 	gps_name = "Bubbly Signal"
-	achievement_type = /datum/award/achievement/boss/bubblegum_kill
-	crusher_achievement_type = /datum/award/achievement/boss/bubblegum_crusher
-	score_achievement_type = /datum/award/score/bubblegum_score
+	medal_type = BOSS_MEDAL_BUBBLEGUM
+	score_type = BUBBLEGUM_SCORE
 	deathmessage = "sinks into a pool of blood, fleeing the battle. You've won, for now... "
 	deathsound = 'sound/magic/enter_blood.ogg'
 	attack_action_types = list(/datum/action/innate/megafauna_attack/triple_charge,
@@ -67,7 +66,7 @@ Difficulty: Hard
 							   /datum/action/innate/megafauna_attack/blood_warp)
 	small_sprite_type = /datum/action/small_sprite/megafauna/bubblegum
 
-/mob/living/simple_animal/hostile/megafauna/bubblegum/Initialize(mapload)
+/mob/living/simple_animal/hostile/megafauna/bubblegum/Initialize()
 	. = ..()
 	if(true_spawn)
 		for(var/mob/living/simple_animal/hostile/megafauna/bubblegum/B in GLOB.mob_living_list)
@@ -176,16 +175,16 @@ Difficulty: Hard
 	charging = TRUE
 	revving_charge = TRUE
 	DestroySurroundings()
-	SSmove_manager.stop_looping(src)
+	walk(src, 0)
 	setDir(dir)
 	var/obj/effect/temp_visual/decoy/D = new /obj/effect/temp_visual/decoy(loc,src)
 	animate(D, alpha = 0, color = "#FF0000", transform = matrix()*2, time = 3)
 	SLEEP_CHECK_DEATH(delay)
 	revving_charge = FALSE
 	var/movespeed = 0.7
-	SSmove_manager.move_towards(src, T, movespeed)
+	walk_towards(src, T, movespeed)
 	SLEEP_CHECK_DEATH(get_dist(src, T) * movespeed)
-	SSmove_manager.stop_looping(src) // cancel the movement
+	walk(src, 0) // cancel the movement
 	try_bloodattack()
 	charging = FALSE
 
@@ -520,14 +519,13 @@ Difficulty: Hard
 	alpha = 127.5
 	crusher_loot = null
 	loot = null
-	achievement_type = null
-	crusher_achievement_type = null
-	score_achievement_type = null
+	medal_type = null
+	score_type = null
 	deathmessage = "Explodes into a pool of blood!"
 	deathsound = 'sound/effects/splat.ogg'
 	true_spawn = FALSE
 
-/mob/living/simple_animal/hostile/megafauna/bubblegum/hallucination/Initialize(mapload)
+/mob/living/simple_animal/hostile/megafauna/bubblegum/hallucination/Initialize()
 	. = ..()
 	toggle_ai(AI_OFF)
 

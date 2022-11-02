@@ -7,14 +7,14 @@
     item_flags = DROPDEL
     can_adjust = 0
 
-/obj/item/clothing/under/cluwne/Initialize(mapload)
+/obj/item/clothing/under/cluwne/Initialize()
     .=..()
     ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
 /obj/item/clothing/under/cluwne/equipped(mob/living/carbon/user, slot)
-    if(!user.has_dna())
+    if(!ishuman(user))
         return
     if(slot == ITEM_SLOT_ICLOTHING)
-        var/mob/living/carbon/C = user
-        C.dna.add_mutation(CLUWNEMUT)
+        var/mob/living/carbon/human/H = user
+        H.dna.add_mutation(CLUWNEMUT)
     return ..()

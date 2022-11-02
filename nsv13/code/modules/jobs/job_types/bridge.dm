@@ -1,14 +1,15 @@
 /datum/job/bridge
-	title = JOB_NAME_BRIDGESTAFF
+	title = "Bridge Staff"
 	flag = BRIDGE_OFFICER
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
-	department_head = list(JOB_NAME_HEADOFPERSONNEL)
-	department_flag = ENGSEC 
+	department_head = list("Executive Officer")
+	department_flag = ENGSEC
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
 	supervisors = "The executive officer"
 	selection_color = "#ddddff"
+	chat_color = "#2681a5"
 	req_admin_notify = 1
 	minimal_player_age = 2
 	exp_requirements = 60
@@ -19,21 +20,16 @@
 	access = list(ACCESS_HEADS, ACCESS_MAINT_TUNNELS, ACCESS_CONSTRUCTION, ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH)
 	minimal_access = list(ACCESS_HEADS, ACCESS_MAINT_TUNNELS, ACCESS_RC_ANNOUNCE, ACCESS_KEYCARD_AUTH)
 	paycheck = PAYCHECK_MEDIUM
-	paycheck_department = ACCOUNT_MUN
+	paycheck_department = ACCOUNT_SEC
 
 	display_order = JOB_DISPLAY_ORDER_BRIDGE_OFFICER
-	departments = DEPARTMENT_BITFLAG_MUNITIONS | DEPARTMENT_BITFLAG_COMMAND
-	rpg_title = "Farseer"
-
-	species_outfits = list(
-		SPECIES_PLASMAMAN = /datum/outfit/plasmaman
-	)
+	departments = DEPARTMENT_MUNITIONS | DEPARTMENT_COMMAND
 
 /datum/outfit/job/bridge
-	name = JOB_NAME_BRIDGESTAFF
+	name = "Bridge Staff"
 	jobtype = /datum/job/bridge
 
-	id = /obj/item/card/id/job/bridge_staff
+	id = /obj/item/card/id/silver
 	glasses = /obj/item/clothing/glasses/sunglasses/advanced
 	ears = /obj/item/radio/headset/headset_bridge
 	uniform = /obj/item/clothing/under/ship/officer
@@ -41,5 +37,5 @@
 	head = /obj/item/clothing/head/beret/durathread
 
 /obj/effect/landmark/start/bridge
-	name = JOB_NAME_BRIDGESTAFF
+	name = "Bridge Staff"
 	icon_state = "Bridge Staff"

@@ -4,7 +4,6 @@ import { Box, Button, Collapsible, NoticeBox, ProgressBar, Section } from '../co
 import { Window } from '../layouts';
 import { Fragment } from 'inferno';
 
-// NSV13 - removed last_death and experimental checks to enable prescans
 export const CloningConsole = (props, context) => {
   const { act, data } = useBackend(context);
   const {
@@ -16,7 +15,6 @@ export const CloningConsole = (props, context) => {
     scannerLocked,
     hasOccupant,
     recordsLength,
-    experimental,
   } = data;
   const lacksMachine = data.lacksMachine || [];
   const diskData = data.diskData || [];
@@ -24,6 +22,20 @@ export const CloningConsole = (props, context) => {
   return (
     <Window width="400" height="600" resizable>
       <Window.Content scrollable>
+        {useRecords ? (
+          <Section
+            title="Autoclone"
+            buttons={
+              <Button
+                content={autoprocess ? "Enabled" : "Disabled"}
+                color={autoprocess ? "green" : "default"}
+                icon={autoprocess ? "toggle-on" : "toggle-off"}
+                disabled={!hasAutoprocess}
+                onClick={() => act('toggle_autoprocess')}
+              />
+            }
+          />
+        ) : (null) }
         <Section>
           <Section title="Cloning Pod Status">
             <Box backgroundColor="#40638a" p="1px">
@@ -40,18 +52,18 @@ export const CloningConsole = (props, context) => {
                 </Box>
               </Box><br />
               <Button
-                content={"Full Scan"}
-                icon={"search"}
+                content={useRecords ? "Start Scan" : "Clone"}
+                icon={useRecords ? "search" : "power-off"}
                 disabled={!hasOccupant}
                 onClick={() => act('scan')}
               />
-              {(!experimental ? (
+              {!! useRecords && (
                 <Button
                   content={"Body only"}
                   disabled={!hasOccupant}
                   icon={"search"}
                   onClick={() => act('scan_body_only')}
-                />):"")}
+                />)}
               <Button
                 content={scannerLocked ? "Unlock Scanner" : "Lock Scanner"}
                 icon={scannerLocked ? "lock" : "lock-open"}
@@ -77,15 +89,15 @@ export const CloningConsole = (props, context) => {
                     {records.map(record => (
                       <Section backgroundColor="#191919" color="white" key={record}>
                         <Collapsible
-                          title={record["name"] + (record["body_only"] ? " (Body Only)" : (record["last_death"]<0 ? " (Presaved)" : ""))}
-                          color={record["body_only"] ? "yellow" : (record["last_death"]<0 ? "green" : "blue")}>
+                          title={record["name"] + (record["body_only"] ? " (Body Only)" : "")}
+                          color={record["body_only"] ? "yellow" : "blue"}>
                           <div key={record["name"]} style={{
                             'word-break': 'break-all',
                           }}>
                             Scan ID {record["id"]}<br />
                             <Button
                               content="Clone"
-                              icon="power-off" // NSV13, makes empty clones possible again, removed "disable=body-only && !experimental"
+                              icon="power-off"
                               onClick={() => act('clone', {
                                 target: record["id"],
                               })}
@@ -106,7 +118,7 @@ export const CloningConsole = (props, context) => {
                               })}
                             />
                             <br />
-                            {(record["damages"] ? (
+                            {!record["body_only"] ? (
                               <Fragment>
                                 Health Implant Data<br />
 
@@ -125,7 +137,7 @@ export const CloningConsole = (props, context) => {
                               <Fragment>
                                 Health implant data not available<br />
                               </Fragment>
-                            ))}
+                            )}
                             Unique Identifier:<br />
                             {record["UI"]}<br />
                             Unique Enzymes:<br />
@@ -158,9 +170,7 @@ export const CloningConsole = (props, context) => {
                   </Box>
                 }>
                 {diskData.length !== 0 ? (
-                  <Collapsible
-                    title={diskData["name"] ? diskData["name"]+(diskData["body_only"] ? " (Body Only)" : diskData["last_death"]<0 ? " (Presaved)" : "") :"Empty Disk"}
-                    color={diskData["name"] ? (diskData["body_only"] ? "yellow" : (diskData["last_death"]<0 ? "green" : "blue")) : "grey"}>
+                  <Collapsible title={diskData["name"] ? diskData["name"] : "Empty Disk"}>
                     {diskData["id"] ? (
                       <Box style={{
                         'word-break': 'break-all',

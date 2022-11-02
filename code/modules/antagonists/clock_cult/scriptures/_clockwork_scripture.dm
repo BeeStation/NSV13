@@ -170,11 +170,10 @@
 
 /datum/clockcult/scripture/slab/Destroy()
 	if(progress)
-		QDEL_NULL(progress)
-	if(!QDELETED(PH))
+		qdel(progress)
+	if(PH && !QDELETED(PH))
 		PH.remove_ranged_ability()
 		QDEL_NULL(PH)
-	return ..()
 
 /datum/clockcult/scripture/slab/invoke()
 	progress = new(invoker, use_time)
@@ -248,7 +247,6 @@
 	var/datum/clockcult/scripture/scripture
 
 /datum/action/innate/clockcult/quick_bind/Destroy()
-	activation_slab = null
 	Remove(owner)
 	. = ..()
 

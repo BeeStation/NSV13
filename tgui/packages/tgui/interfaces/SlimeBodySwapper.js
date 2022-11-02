@@ -60,7 +60,6 @@ export const SlimeBodySwapper = (props, context) => {
 
   return (
     <Window
-      theme="generic"
       width={400}
       height={400}>
       <Window.Content scrollable>

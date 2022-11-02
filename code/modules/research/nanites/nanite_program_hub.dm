@@ -24,7 +24,7 @@
 						list(name = "Protocols")
 						)
 
-/obj/machinery/nanite_program_hub/Initialize(mapload)
+/obj/machinery/nanite_program_hub/Initialize()
 	. = ..()
 	linked_techweb = SSresearch.science_tech
 

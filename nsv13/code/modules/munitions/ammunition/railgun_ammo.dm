@@ -8,7 +8,7 @@
 	w_class = 4
 	projectile_type = /obj/item/projectile/bullet/railgun_slug
 
-/obj/item/ship_weapon/ammunition/railgun_ammo/Initialize(mapload)
+/obj/item/ship_weapon/ammunition/railgun_ammo/Initialize()
 	..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 

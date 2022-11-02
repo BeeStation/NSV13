@@ -26,6 +26,7 @@
 	cartridge_wording = "shell"
 	tac_reloads = FALSE
 	fire_rate = 1 //reee
+	block_upgrade_walk = 1
 	recoil = 1
 	pb_knockback = 2
 
@@ -114,7 +115,7 @@
 	. = ..()
 	. += "<span class='notice'>Alt-click to pump it.</span>"
 
-/obj/item/gun/ballistic/shotgun/automatic/dual_tube/Initialize(mapload)
+/obj/item/gun/ballistic/shotgun/automatic/dual_tube/Initialize()
 	. = ..()
 	if (!alternate_magazine)
 		alternate_magazine = new mag_type(src)
@@ -148,10 +149,6 @@
 	desc = "A semi-auto, mag-fed shotgun for combat in narrow corridors with a built in recoil dampening system, nicknamed 'Bulldog' by boarding parties. Compatible only with specialized 8-round drum magazines."
 	icon_state = "bulldog"
 	item_state = "bulldog"
-	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
-	inhand_x_dimension = 32
-	inhand_y_dimension = 32
 	w_class = WEIGHT_CLASS_NORMAL
 	weapon_weight = WEAPON_MEDIUM
 	mag_type = /obj/item/ammo_box/magazine/m12g
@@ -172,7 +169,6 @@
 	automatic = 1
 	recoil = 0
 	bolt_type = BOLT_TYPE_STANDARD	//Not using a pump
-	full_auto = TRUE
 
 /obj/item/gun/ballistic/shotgun/bulldog/unrestricted
 	pin = /obj/item/firing_pin
@@ -286,7 +282,7 @@
 	var/obj/item/gun/magic/hook/bounty/hook
 	var/toggled = FALSE
 
-/obj/item/gun/ballistic/shotgun/doublebarrel/hook/Initialize(mapload)
+/obj/item/gun/ballistic/shotgun/doublebarrel/hook/Initialize()
 	. = ..()
 	hook = new /obj/item/gun/magic/hook/bounty(src)
 

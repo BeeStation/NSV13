@@ -7,7 +7,7 @@
 
 
 
-/obj/machinery/computer/nanite_chamber_control/Initialize(mapload)
+/obj/machinery/computer/nanite_chamber_control/Initialize()
 	. = ..()
 	find_chamber()
 

@@ -44,7 +44,7 @@
 	var/unwrench_path = /obj/item/wallframe/clocktrap
 	var/component_datum = /datum/component/clockwork_trap
 
-/obj/structure/destructible/clockwork/trap/Initialize(mapload)
+/obj/structure/destructible/clockwork/trap/Initialize()
 	. = ..()
 	AddComponent(component_datum)
 

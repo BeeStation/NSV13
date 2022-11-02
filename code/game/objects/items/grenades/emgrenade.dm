@@ -6,8 +6,6 @@
 
 /obj/item/grenade/empgrenade/prime(mob/living/lanced_by)
 	. = ..()
-	if(!.)
-		return
 	update_mob()
 	for(var/obj/machinery/light/L in range(10, src))
 		L.on = 1

@@ -1,6 +1,8 @@
 // Valentine's Day events //
 // why are you playing spessmens on valentine's day you wizard //
 
+#define VALENTINE_FILE "valentines.json"
+
 //Assoc list
 // Key: Sender
 // Value: Receiever
@@ -71,7 +73,7 @@ GLOBAL_LIST(valentine_mobs)
 	var/mob/sender = null
 	var/used = FALSE
 
-/obj/item/valentine/Initialize(mapload)
+/obj/item/valentine/Initialize()
 	. = ..()
 	message = pick(strings(VALENTINE_FILE, "valentines"))
 
@@ -167,7 +169,7 @@ GLOBAL_LIST(valentine_mobs)
 	list_reagents = list(/datum/reagent/consumable/sugar = 2)
 	junkiness = 5
 
-/obj/item/reagent_containers/food/snacks/candyheart/Initialize(mapload)
+/obj/item/reagent_containers/food/snacks/candyheart/Initialize()
 	. = ..()
 	desc = pick(strings(VALENTINE_FILE, "candyhearts"))
 	icon_state = pick("candyheart", "candyheart2", "candyheart3", "candyheart4")

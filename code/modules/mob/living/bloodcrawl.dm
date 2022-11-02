@@ -141,7 +141,7 @@
 	icon = 'icons/effects/blood.dmi'
 	item_flags = ABSTRACT | DROPDEL
 
-/obj/item/bloodcrawl/Initialize(mapload)
+/obj/item/bloodcrawl/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
 

@@ -34,6 +34,6 @@
 	proj.def_zone = "chest"
 	proj.original = pickedgoal
 	spawn()
-		proj.fire(get_angle(pickedstart,pickedgoal))
+		proj.fire(Get_Angle(pickedstart,pickedgoal))
 		proj.set_pixel_speed(4)
 */

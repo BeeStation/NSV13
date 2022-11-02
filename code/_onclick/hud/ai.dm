@@ -150,6 +150,9 @@
 	if(isAI(usr))
 		var/mob/living/silicon/ai/AI = usr
 		AI.aicamera.viewpictures(usr)
+	else if(iscyborg(usr))
+		var/mob/living/silicon/robot/R = usr
+		R.aicamera.viewpictures(usr)
 
 /atom/movable/screen/ai/sensors
 	name = "Sensor Augmentation"

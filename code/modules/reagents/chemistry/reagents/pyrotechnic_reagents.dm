@@ -4,7 +4,6 @@
 	description = "Thermite produces an aluminothermic reaction known as a thermite reaction. Can be used to melt walls."
 	reagent_state = SOLID
 	color = "#550000"
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	taste_description = "sweet tasting metal"
 	process_flags = ORGANIC | SYNTHETIC
 
@@ -21,7 +20,6 @@
 	name = "Nitroglycerin"
 	description = "Nitroglycerin is a heavy, colorless, oily, explosive liquid obtained by nitrating glycerol."
 	color = "#808080" // rgb: 128, 128, 128
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	taste_description = "oil"
 
 /datum/reagent/stabilizing_agent
@@ -29,15 +27,14 @@
 	description = "Keeps unstable chemicals stable. This does not work on everything."
 	reagent_state = LIQUID
 	color = "#FFFF00"
-	chem_flags = NONE
 	taste_description = "metal"
+	random_unrestricted = FALSE
 
 /datum/reagent/clf3
 	name = "Chlorine Trifluoride"
 	description = "Makes a temporary 3x3 fireball when it comes into existence, so be careful when mixing. ClF3 applied to a surface burns things that wouldn't otherwise burn, sometimes through the very floors of the station and exposing it to the vacuum of space."
 	reagent_state = LIQUID
 	color = "#FFC8C8"
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	metabolization_rate = 4
 	taste_description = "burning"
 	process_flags = ORGANIC | SYNTHETIC
@@ -53,7 +50,7 @@
 	if(isplatingturf(T))
 		var/turf/open/floor/plating/F = T
 		if(prob(10 + F.burnt + 5*F.broken)) //broken or burnt plating is more susceptible to being destroyed
-			F.ex_act(EXPLODE_DEVASTATE)
+			F.ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
 	if(isfloorturf(T))
 		var/turf/open/floor/F = T
 		if(prob(reac_volume))
@@ -67,7 +64,7 @@
 	if(iswallturf(T))
 		var/turf/closed/wall/W = T
 		if(prob(reac_volume))
-			W.ex_act(EXPLODE_DEVASTATE)
+			W.ScrapeAway()
 
 /datum/reagent/clf3/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
 	if(istype(M))
@@ -82,7 +79,6 @@
 	description = "Sends everything flying from the detonation point."
 	reagent_state = LIQUID
 	color = "#5A64C8"
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	taste_description = "air and bitterness"
 
 /datum/reagent/liquid_dark_matter
@@ -90,7 +86,6 @@
 	description = "Sucks everything into the detonation point."
 	reagent_state = LIQUID
 	color = "#210021"
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	taste_description = "compressed bitterness"
 
 /datum/reagent/blackpowder
@@ -98,7 +93,6 @@
 	description = "Explodes. Violently."
 	reagent_state = LIQUID
 	color = "#000000"
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	metabolization_rate = 0.05
 	taste_description = "salt"
 
@@ -119,7 +113,6 @@
 	description = "Makes a very bright flash."
 	reagent_state = LIQUID
 	color = "#C8C8C8"
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	taste_description = "salt"
 
 /datum/reagent/smoke_powder
@@ -127,7 +120,6 @@
 	description = "Makes a large cloud of smoke that can carry reagents."
 	reagent_state = LIQUID
 	color = "#C8C8C8"
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	taste_description = "smoke"
 
 /datum/reagent/sonic_powder
@@ -135,7 +127,6 @@
 	description = "Makes a deafening noise."
 	reagent_state = LIQUID
 	color = "#C8C8C8"
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	taste_description = "loud noises"
 
 /datum/reagent/phlogiston
@@ -143,7 +134,6 @@
 	description = "Catches you on fire and makes you ignite."
 	reagent_state = LIQUID
 	color = "#FA00AF"
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	taste_description = "burning"
 	self_consuming = TRUE
 	process_flags = ORGANIC | SYNTHETIC
@@ -167,7 +157,6 @@
 	description = "Very flammable."
 	reagent_state = LIQUID
 	color = "#FA00AF"
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	taste_description = "burning"
 	self_consuming = TRUE
 	process_flags = ORGANIC | SYNTHETIC
@@ -185,11 +174,11 @@
 	name = "Cryostylane"
 	description = "Comes into existence at 20K. As long as there is sufficient oxygen for it to react with, Cryostylane slowly cools all other reagents in the container 0K."
 	color = "#0000DC"
-	chem_flags = CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	taste_description = "bitterness"
 	self_consuming = TRUE
 	process_flags = ORGANIC | SYNTHETIC
+	random_unrestricted = FALSE
 
 
 /datum/reagent/cryostylane/on_mob_life(mob/living/carbon/M) //TODO: code freezing into an ice cube
@@ -207,12 +196,11 @@
 	name = "Pyrosium"
 	description = "Comes into existence at 20K. As long as there is sufficient oxygen for it to react with, Pyrosium slowly heats all other reagents in the container."
 	color = "#64FAC8"
-	chem_flags = CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	taste_description = "bitterness"
 	self_consuming = TRUE
 	process_flags = ORGANIC | SYNTHETIC
-
+	random_unrestricted = FALSE
 
 /datum/reagent/pyrosium/on_mob_life(mob/living/carbon/M)
 	if(M.reagents.has_reagent(/datum/reagent/oxygen))
@@ -225,7 +213,6 @@
 	description = "An unstable, electrically-charged metallic slurry. Periodically electrocutes its victim, and makes electrocutions against them more deadly. Excessively heating teslium results in dangerous destabilization. Do not allow to come into contact with water."
 	reagent_state = LIQUID
 	color = "#20324D" //RGB: 32, 50, 77
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_GOAL_BOTANIST_HARVEST
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	taste_description = "charged metal"
 	self_consuming = TRUE
@@ -245,7 +232,6 @@
 	description = "Electrically-charged jelly. Boosts jellypeople's nervous system, but only shocks other lifeforms."
 	reagent_state = LIQUID
 	color = "#CAFF43"
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	taste_description = "jelly"
 
 /datum/reagent/teslium/energized_jelly/on_mob_life(mob/living/carbon/M)
@@ -264,7 +250,6 @@
 	description = "Electrically-charged Ooze. Boosts Oozeling's nervous system, but only shocks other lifeforms."
 	reagent_state = LIQUID
 	color = "#CAFF43"
-	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	taste_description = "slime"
 	overdose_threshold = 30
 
@@ -287,7 +272,6 @@
 	description = "A historical fire suppressant. Originally believed to simply displace oxygen to starve fires, it actually interferes with the combustion reaction itself. Vastly superior to the cheap water-based extinguishers found on NT vessels."
 	reagent_state = LIQUID
 	color = "#A6FAFF55"
-	chem_flags = NONE
 	taste_description = "the inside of a fire extinguisher"
 
 /datum/reagent/firefighting_foam/reaction_turf(turf/open/T, reac_volume)

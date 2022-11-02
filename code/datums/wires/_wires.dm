@@ -52,7 +52,7 @@
 
 /datum/wires/Destroy()
 	holder = null
-	assemblies.Cut()
+	assemblies = list()
 	return ..()
 
 /datum/wires/proc/add_duds(duds)
@@ -253,7 +253,7 @@
 		reveal_wires = TRUE
 
 	// Station blueprints do that too, but only if the wires are not randomized.
-	else if(user.is_holding_item_of_type(/obj/item/areaeditor/blueprints) && (!randomize || holder_type == /obj/machinery/door/airlock))
+	else if(user.is_holding_item_of_type(/obj/item/areaeditor/blueprints) && !randomize)
 		reveal_wires = TRUE
 
 	for(var/color in colors)

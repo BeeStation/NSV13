@@ -269,7 +269,8 @@ const Recipe = (props, context) => {
     const reagent = reagents[id];
     const total = reagent?.volume || 0;
     const recipeReagent = recipe.reagents[id];
-    const amountNeeded = Math.floor(recipeReagent.volume);
+    const amountNeeded = Math.floor(recipeReagent.volume 
+      / (recipe.efficiency_affects ? efficiency : 1));
     const mat_max = Math.floor(total/amountNeeded);
     max = Math.min(max, mat_max);
     return (

@@ -14,5 +14,3 @@
 		. += clockwork_desc
 	else if(desc)
 		. += desc
-
-	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)

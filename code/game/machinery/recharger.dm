@@ -16,7 +16,6 @@
 		/obj/item/gun/energy,
 		/obj/item/melee/baton,
 		/obj/item/ammo_box/magazine/recharge,
-		/obj/item/toy/batong,
 		/obj/item/modular_computer))
 
 /obj/machinery/recharger/RefreshParts()
@@ -33,15 +32,12 @@
 		. += "<span class='notice'>\The [src] contains:</span>\n"+\
 		"<span class='notice'>- \A [charging].</span>"
 
-	if(!(machine_stat & (NOPOWER|BROKEN)))
+	if(!(stat & (NOPOWER|BROKEN)))
 		. += "<span class='notice'>The status display reads:</span>"
 		. += "<span class='notice'>- Recharging <b>[recharge_coeff*10]%</b> cell charge per cycle.</span>"
 		if(charging)
 			var/obj/item/stock_parts/cell/C = charging.get_cell()
-			if(C)
-				. += "<span class='notice'>- \The [charging]'s cell is at <b>[C.percent()]%</b>.</span>"
-			else
-				. += "<span class='notice'>- \The [charging] has no power cell installed.</span>"
+			. += "<span class='notice'>- \The [charging]'s cell is at <b>[C.percent()]%</b>.</span>"
 
 
 /obj/machinery/recharger/proc/setCharging(new_charging)
@@ -121,7 +117,7 @@
 		setCharging(null)
 
 /obj/machinery/recharger/process(delta_time)
-	if(machine_stat & (NOPOWER|BROKEN) || !anchored)
+	if(stat & (NOPOWER|BROKEN) || !anchored)
 		return PROCESS_KILL
 
 	using_power = FALSE
@@ -153,7 +149,7 @@
 	. = ..()
 	if (. & EMP_PROTECT_CONTENTS)
 		return
-	if(!(machine_stat & (NOPOWER|BROKEN)) && anchored)
+	if(!(stat & (NOPOWER|BROKEN)) && anchored)
 		if(istype(charging,  /obj/item/gun/energy))
 			var/obj/item/gun/energy/E = charging
 			if(E.cell)
@@ -166,7 +162,7 @@
 
 
 /obj/machinery/recharger/update_icon(scan)	//we have an update_icon() in addition to the stuff in process to make it feel a tiny bit snappier.
-	if(machine_stat & (NOPOWER|BROKEN) || !anchored)
+	if(stat & (NOPOWER|BROKEN) || !anchored)
 		icon_state = "rechargeroff"
 		return
 	if(scan)

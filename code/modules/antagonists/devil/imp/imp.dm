@@ -41,7 +41,7 @@
 	mobchatspan = "cultmobsay"
 	discovery_points = 10000
 
-/mob/living/simple_animal/imp/Initialize(mapload)
+/mob/living/simple_animal/imp/Initialize()
 	..()
 	boost = world.time + 30
 

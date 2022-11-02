@@ -3,8 +3,6 @@
 // Wabbajack statue, a sleeping frog statue that shoots bolts of change if
 // living carbons are put on its altar/tables
 
-#define BASE_BEAR_DIVISOR 20 //the number of players for Fight Pit Bears to scale to, standard stats at this number
-
 /obj/machinery/power/emitter/energycannon/magical
 	name = "wabbajack statue"
 	desc = "Who am I? What is my purpose in life? What do I mean by who am I?"
@@ -17,7 +15,7 @@
 	var/list/active_tables = list()
 	var/tables_required = 2
 
-/obj/machinery/power/emitter/energycannon/magical/Initialize(mapload)
+/obj/machinery/power/emitter/energycannon/magical/Initialize()
 	. = ..()
 	if(prob(50))
 		desc = "Oh no, not again."
@@ -146,12 +144,9 @@
 	unique_name = FALSE // disables the (123) number suffix
 	initial_language_holder = /datum/language_holder/universal
 
-/mob/living/simple_animal/drone/snowflake/bardrone/Initialize(mapload)
+/mob/living/simple_animal/drone/snowflake/bardrone/Initialize()
 	. = ..()
 	access_card.access |= ACCESS_CENT_BAR
-	ADD_TRAIT(src, TRAIT_BARMASTER, ROUNDSTART_TRAIT)
-	ADD_TRAIT(src, TRAIT_SOMMELIER, ROUNDSTART_TRAIT)
-
 
 /mob/living/simple_animal/hostile/alien/maid/barmaid
 	gold_core_spawnable = NO_SPAWN
@@ -164,15 +159,13 @@
 	stop_automated_movement = TRUE
 	initial_language_holder = /datum/language_holder/universal
 
-/mob/living/simple_animal/hostile/alien/maid/barmaid/Initialize(mapload)
+/mob/living/simple_animal/hostile/alien/maid/barmaid/Initialize()
 	. = ..()
 	access_card = new /obj/item/card/id(src)
 	var/datum/job/captain/C = new /datum/job/captain
 	access_card.access = C.get_access()
 	access_card.access |= ACCESS_CENT_BAR
 	ADD_TRAIT(access_card, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
-	ADD_TRAIT(src, TRAIT_BARMASTER, ROUNDSTART_TRAIT)
-	ADD_TRAIT(src, TRAIT_SOMMELIER, ROUNDSTART_TRAIT)
 
 /mob/living/simple_animal/hostile/alien/maid/barmaid/Destroy()
 	qdel(access_card)
@@ -210,7 +203,7 @@
 	. = FALSE
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
-		if(H.mind?.assigned_role == JOB_NAME_BARTENDER)
+		if(H.mind?.assigned_role == "Bartender")
 			return TRUE
 
 	var/obj/item/card/id/ID = user.get_idcard(FALSE)
@@ -317,14 +310,6 @@
 	name = "fight pit bear"
 	desc = "This bear's trained through ancient Russian secrets to fear the walls of its glass prison."
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	gold_core_spawnable = NO_SPAWN
-
-/mob/living/simple_animal/hostile/bear/fightpit/Initialize(mapload)
-	. = ..()
-	var/multiplier = max(round(length(SSticker.mode.current_players[CURRENT_LIVING_PLAYERS]) / BASE_BEAR_DIVISOR, 0.1), 1)
-	maxHealth *= multiplier
-	health *= multiplier
-	melee_damage *= multiplier
 
 /obj/effect/decal/hammerandsickle
 	name = "hammer and sickle"
@@ -337,5 +322,3 @@
 
 /obj/effect/decal/hammerandsickle/shuttleRotate(rotation)
 	setDir(angle2dir(rotation+dir2angle(dir))) // No parentcall, rest of the rotate code breaks the pixel offset.
-
-#undef BASE_BEAR_DIVISOR

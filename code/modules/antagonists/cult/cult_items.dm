@@ -17,26 +17,20 @@
 	inhand_x_dimension = 32
 	inhand_y_dimension = 32
 	w_class = WEIGHT_CLASS_SMALL
+	block_upgrade_walk = 1
 	block_power = 0
 	block_level = 0
 	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
 	force = 15
 	throwforce = 25 //NSV13 - revert cult to pre-nerf state
 	armour_penetration = 35
+	actions_types = list(/datum/action/item_action/cult_dagger)
 
-/obj/item/melee/cultblade/dagger/Initialize(mapload)
+/obj/item/melee/cultblade/dagger/Initialize()
 	. = ..()
-	var/image/silicon_image = image(icon = 'icons/effects/blood.dmi' , icon_state = null, loc = src)
-	silicon_image.override = TRUE
-	add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/silicons, "cult_dagger", silicon_image)
-
-	var/examine_text = {"Allows the scribing of blood runes of the cult of Nar'Sie.
-Hitting a cult structure will unanchor or reanchor it. Cult Girders will be destroyed in a single blow.
-Can be used to scrape blood runes away, removing any trace of them.
-Striking another cultist with it will purge all holy water from them and transform it into unholy water.
-Striking a noncultist, however, will tear their flesh."}
-
-	AddComponent(/datum/component/cult_ritual_item, "<span class='cult'>[examine_text]</span>")
+	var/image/I = image(icon = 'icons/effects/blood.dmi' , icon_state = null, loc = src)
+	I.override = TRUE
+	add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/silicons, "cult_dagger", I)
 
 /obj/item/melee/cultblade
 	name = "eldritch longsword"
@@ -50,13 +44,14 @@ Striking a noncultist, however, will tear their flesh."}
 	w_class = WEIGHT_CLASS_BULKY
 	block_level = 1
 	block_upgrade_walk = 1
+	block_power = 30
 	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
 	force = 30
 	throwforce = 10
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "tore", "ripped", "diced", "rended")
 
-/obj/item/melee/cultblade/Initialize(mapload)
+/obj/item/melee/cultblade/Initialize()
 	. = ..()
 	AddComponent(/datum/component/butchering, 40, 100)
 
@@ -74,7 +69,7 @@ Striking a noncultist, however, will tear their flesh."}
 	item_flags = NEEDS_PERMIT | DROPDEL
 	flags_1 = NONE
 
-/obj/item/melee/cultblade/ghost/Initialize(mapload)
+/obj/item/melee/cultblade/ghost/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CULT_TRAIT)
 
@@ -117,7 +112,7 @@ Striking a noncultist, however, will tear their flesh."}
 	var/spin_cooldown = 250
 	var/dash_toggled = TRUE
 
-/obj/item/cult_bastard/Initialize(mapload)
+/obj/item/cult_bastard/Initialize()
 	. = ..()
 	jaunt = new(src)
 	linked_action = new(src)
@@ -147,7 +142,7 @@ Striking a noncultist, however, will tear their flesh."}
 		to_chat(loc, "<span class='notice'>You lower [src] and prepare to swing it normally.</span>")
 
 /obj/item/cult_bastard/pickup(mob/living/user)
-	..()
+	. = ..()
 	if(!iscultist(user))
 		to_chat(user, "<span class='cultlarge'>\"I wouldn't advise that.\"</span>")
 		force = 5
@@ -158,7 +153,7 @@ Striking a noncultist, however, will tear their flesh."}
 	user.update_icons()
 
 /obj/item/cult_bastard/dropped(mob/user)
-	..()
+	. = ..()
 	linked_action.Remove(user)
 	jaunt.Remove(user)
 	user.update_icons()
@@ -266,7 +261,6 @@ Striking a noncultist, however, will tear their flesh."}
 	knockdown = 20
 
 /obj/item/restraints/legcuffs/bola/cult/pickup(mob/living/user) //NSV13 - reverted to pre-nerf state
-	..()
 	if(!iscultist(user))
 		to_chat(user, "<span class='warning'>The bola seems to take on a life of its own!</span>")
 		ensnare(user)
@@ -274,11 +268,6 @@ Striking a noncultist, however, will tear their flesh."}
 /obj/item/restraints/legcuffs/bola/cult/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	if(iscultist(hit_atom))
 		return
-	if(ismob(hit_atom))
-		var/mob/M = hit_atom
-		if(M.anti_magic_check(holy = TRUE))
-			M.visible_message("[src] passes right through [M]!")
-			return
 	. = ..()
 
 /obj/item/clothing/head/culthood
@@ -317,7 +306,7 @@ Striking a noncultist, however, will tear their flesh."}
 /obj/item/clothing/head/culthood/alt/ghost
 	item_flags = DROPDEL
 
-/obj/item/clothing/head/culthood/alt/ghost/Initialize(mapload)
+/obj/item/clothing/head/culthood/alt/ghost/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CULT_TRAIT)
 
@@ -330,7 +319,7 @@ Striking a noncultist, however, will tear their flesh."}
 /obj/item/clothing/suit/cultrobes/alt/ghost
 	item_flags = DROPDEL
 
-/obj/item/clothing/suit/cultrobes/alt/ghost/Initialize(mapload)
+/obj/item/clothing/suit/cultrobes/alt/ghost/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CULT_TRAIT)
 
@@ -395,19 +384,8 @@ Striking a noncultist, however, will tear their flesh."}
 	armor = list("melee" = 40, "bullet" = 30, "laser" = 40,"energy" = 30, "bomb" = 50, "bio" = 30, "rad" = 30, "fire" = 50, "acid" = 60, "stamina" = 40)
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	allowed = list(/obj/item/tome, /obj/item/melee/cultblade)
+	var/current_charges = 3
 	hoodtype = /obj/item/clothing/head/hooded/cult_hoodie
-
-/obj/item/clothing/suit/hooded/cultrobes/cult_shield/Initialize()
-	. = ..()
-	// note that these charges don't regenerate
-	AddComponent(/datum/component/shielded, recharge_start_delay = 0, shield_icon_file = 'icons/effects/cult_effects.dmi', shield_icon = "shield-cult", run_hit_callback = CALLBACK(src, .proc/shield_damaged))
-
-/// A proc for callback when the shield breaks, since cult robes are stupid and have different effects
-/obj/item/clothing/suit/hooded/cultrobes/cult_shield/proc/shield_damaged(mob/living/wearer, attack_text, new_current_charges)
-	wearer.visible_message("<span class='danger'>[wearer]'s robes neutralize [attack_text] in a burst of blood-red sparks!</span>")
-	new /obj/effect/temp_visual/cult/sparks(get_turf(wearer))
-	if(new_current_charges == 0)
-		wearer.visible_message("<span class='danger'>The runed shield around [wearer] suddenly disappears!</span>")
 
 /obj/item/clothing/head/hooded/cult_hoodie
 	name = "empowered cultist helmet"
@@ -425,6 +403,22 @@ Striking a noncultist, however, will tear their flesh."}
 		user.dropItemToGround(src, TRUE)
 		user.Dizzy(30)
 		user.Paralyze(100)
+
+/obj/item/clothing/suit/hooded/cultrobes/cult_shield/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+	if(current_charges)
+		owner.visible_message("<span class='danger'>\The [attack_text] is deflected in a burst of blood-red sparks!</span>")
+		current_charges--
+		new /obj/effect/temp_visual/cult/sparks(get_turf(owner))
+		if(!current_charges)
+			owner.visible_message("<span class='danger'>The runed shield around [owner] suddenly disappears!</span>")
+			owner.update_inv_wear_suit()
+		return 1
+	return 0
+
+/obj/item/clothing/suit/hooded/cultrobes/cult_shield/worn_overlays(isinhands)
+	. = list()
+	if(!isinhands && current_charges)
+		. += mutable_appearance('icons/effects/cult_effects.dmi', "shield-cult", MOB_LAYER + 0.01)
 
 /obj/item/clothing/suit/hooded/cultrobes/berserker
 	name = "flagellant's robes"
@@ -495,7 +489,7 @@ Striking a noncultist, however, will tear their flesh."}
 	if(curselimit > 1)
 		to_chat(user, "<span class='notice'>We have exhausted our ability to curse the shuttle.</span>")
 		return
-	if(locate(/obj/eldritch/narsie) in GLOB.poi_list)
+	if(locate(/obj/singularity/narsie) in GLOB.poi_list)
 		to_chat(user, "<span class='warning'>Nar'Sie is already on this plane, there is no delaying the end of all things.</span>")
 		return
 
@@ -659,7 +653,7 @@ Striking a noncultist, however, will tear their flesh."}
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	var/datum/action/innate/cult/spear/spear_act
 
-/obj/item/cult_spear/Initialize(mapload)
+/obj/item/cult_spear/Initialize()
 	. = ..()
 
 /obj/item/cult_spear/ComponentInitialize()
@@ -755,7 +749,7 @@ Striking a noncultist, however, will tear their flesh."}
 	guns_left = 24
 	mag_type = /obj/item/ammo_box/magazine/internal/boltaction/enchanted/arcane_barrage/blood
 	fire_sound = 'sound/magic/wand_teleport.ogg'
-	weapon_weight = WEAPON_LIGHT
+
 
 /obj/item/ammo_box/magazine/internal/boltaction/enchanted/arcane_barrage/blood
 	ammo_type = /obj/item/ammo_casing/magic/arcane_barrage/blood
@@ -805,7 +799,7 @@ Striking a noncultist, however, will tear their flesh."}
 	var/firing = FALSE
 	var/angle
 
-/obj/item/blood_beam/Initialize(mapload)
+/obj/item/blood_beam/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CULT_TRAIT)
 
@@ -815,7 +809,7 @@ Striking a noncultist, however, will tear their flesh."}
 		return
 	var/C = user.client
 	if(ishuman(user) && C)
-		angle = get_angle(get_turf(src), get_turf(A))
+		angle = Get_Angle(get_turf(src), get_turf(A))
 	else
 		qdel(src)
 		return

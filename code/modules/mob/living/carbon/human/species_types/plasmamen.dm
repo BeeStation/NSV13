@@ -1,7 +1,8 @@
 /datum/species/plasmaman
-	name = "\improper Plasmaman"
+	name = "Plasmaman"
 	id = SPECIES_PLASMAMAN
 	bodyflag = FLAG_PLASMAMAN
+	say_mod = "rattles"
 	sexes = 0
 	meat = /obj/item/stack/sheet/mineral/plasma
 	species_traits = list(NOBLOOD,NOTRANSSTING)
@@ -17,17 +18,12 @@
 	breathid = "tox"
 	damage_overlay_type = ""//let's not show bloody wounds or burns over bones.
 	var/internal_fire = FALSE //If the bones themselves are burning clothes won't help you much
+	disliked_food = FRUIT
+	liked_food = VEGETABLES
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC
 	outfit_important_for_life = /datum/outfit/plasmaman
 	species_language_holder = /datum/language_holder/skeleton
 	ass_image = 'icons/ass/assplasma.png' //NSV13
-
-	species_chest = /obj/item/bodypart/chest/plasmaman
-	species_head = /obj/item/bodypart/head/plasmaman
-	species_l_arm = /obj/item/bodypart/l_arm/plasmaman
-	species_r_arm = /obj/item/bodypart/r_arm/plasmaman
-	species_l_leg = /obj/item/bodypart/l_leg/plasmaman
-	species_r_leg = /obj/item/bodypart/r_leg/plasmaman
 
 /datum/species/plasmaman/spec_life(mob/living/carbon/human/H)
 	var/atmos_sealed = FALSE
@@ -65,34 +61,28 @@
 		no_protection = TRUE
 	. = ..()
 
-/datum/species/plasmaman/after_equip_job(datum/job/J, mob/living/carbon/human/H, visualsOnly = FALSE, client/preference_source = null)
+/datum/species/plasmaman/after_equip_job(datum/job/J, mob/living/carbon/human/H, visualsOnly = FALSE)
 	H.internal = H.get_item_for_held_index(2)
 	H.update_internals_hud_icon(1)
-
-	if(!preference_source)
-		return
-	var/path = J.species_outfits[SPECIES_PLASMAMAN]
-	var/datum/outfit/plasmaman/O = new path
-	var/datum/preferences/prefs = preference_source.prefs
-	if(prefs.helmet_style != HELMET_DEFAULT)
-		if(O.helmet_variants[prefs.helmet_style])
-			var/helmet = O.helmet_variants[prefs.helmet_style]
-			qdel(H.head)
-			H.equip_to_slot(new helmet, ITEM_SLOT_HEAD)
+	return FALSE
 
 /datum/species/plasmaman/qualifies_for_rank(rank, list/features)
 	if(rank in GLOB.security_positions)
 		return 0
-	if(rank == JOB_NAME_CLOWN || rank == JOB_NAME_MIME)//No funny bussiness
+	if(rank == "Clown" || rank == "Mime")//No funny bussiness
 		return 0
 	return ..()
 
-/datum/species/plasmaman/random_name(gender, unique, lastname, attempts)
-	. = "[pick(GLOB.plasmaman_names)] \Roman[rand(1,99)]"
+/datum/species/plasmaman/random_name(gender,unique,lastname)
+	if(unique)
+		return random_unique_plasmaman_name()
 
-	if(unique && attempts < 10)
-		if(findname(.))
-			. = .(gender, TRUE, lastname, ++attempts)
+	var/randname = plasmaman_name()
+
+	if(lastname)
+		randname += " [lastname]"
+
+	return randname
 
 /datum/species/plasmaman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
 	if(chem.type == /datum/reagent/consumable/milk)

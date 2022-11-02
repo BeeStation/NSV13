@@ -34,7 +34,7 @@
 	loot = list(/obj/item/fugu_gland{layer = ABOVE_MOB_LAYER})
 	hardattacks = TRUE
 
-/mob/living/simple_animal/hostile/asteroid/fugu/Initialize(mapload)
+/mob/living/simple_animal/hostile/asteroid/fugu/Initialize()
 	. = ..()
 	E = new
 	E.Grant(src)
@@ -93,7 +93,7 @@
 
 /mob/living/simple_animal/hostile/asteroid/fugu/proc/Deflate()
 	if(wumbo)
-		SSmove_manager.stop_looping(src)
+		walk(src, 0)
 		wumbo = 0
 		icon_state = "Fugu0"
 		obj_damage = 0

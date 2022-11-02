@@ -28,7 +28,7 @@
 	. = ..()
 	. += create_ui_notice("Maximum Range: [max_range] tiles", "orange", "info")
 
-/obj/item/circuit_component/direction/Initialize(mapload)
+/obj/item/circuit_component/direction/Initialize()
 	. = ..()
 	input_port = add_input_port("Organism", PORT_TYPE_ATOM)
 

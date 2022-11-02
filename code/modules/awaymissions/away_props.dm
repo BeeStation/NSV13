@@ -21,7 +21,7 @@
 	invisibility = INVISIBILITY_MAXIMUM
 	var/strength = 30
 
-/obj/effect/wind/Initialize(mapload)
+/obj/effect/wind/Initialize()
 	. = ..()
 	START_PROCESSING(SSobj,src)
 
@@ -40,7 +40,7 @@
 	var/list/blocked_types = list()
 	var/reverse = FALSE //Block if path not present
 
-/obj/effect/path_blocker/Initialize(mapload)
+/obj/effect/path_blocker/Initialize()
 	. = ..()
 	if(blocked_types.len)
 		blocked_types = typecacheof(blocked_types)
@@ -53,3 +53,4 @@
 			if(blocked_types[thing.type])
 				return reverse
 	return !reverse
+	

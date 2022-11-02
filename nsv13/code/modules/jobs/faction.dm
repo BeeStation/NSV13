@@ -10,191 +10,198 @@
 //Ok congrats, youre done.
 
 /datum/outfit/job/pilot/solgov
-	name = JOB_NAME_PILOT + " (SolGov)"
+	name = "Pilot (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/pilot
 	accessory = /obj/item/clothing/accessory/solgov_jacket
 
 /datum/outfit/job/bridge/solgov
-	name = JOB_NAME_BRIDGESTAFF + " (SolGov)"
+	name = "Bridge Assistant (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/command
 	accessory = /obj/item/clothing/accessory/solgov_jacket/command
 
 /datum/outfit/job/air_traffic_controller/solgov
-	name = JOB_NAME_AIRTRAFFICCONTROLLER + " (SolGov)"
+	name = "ATC (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/command
 	accessory = /obj/item/clothing/accessory/solgov_jacket/command
 	shoes = /obj/item/clothing/shoes/jackboots //White shoes look awful with this
 
 /datum/outfit/job/master_at_arms/solgov
-	name = JOB_NAME_MASTERATARMS + " (SolGov)"
+	name = "MAA (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/command
 	accessory = /obj/item/clothing/accessory/solgov_jacket/command
 
 /datum/outfit/job/munitions_tech/solgov
-	name = JOB_NAME_MUNITIONSTECHNICIAN + " (SolGov)"
+	name = "MT (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	suit = null
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
 
 /datum/outfit/job/assistant/solgov
-	name = JOB_NAME_ASSISTANT + " (SolGov)"
+	name = "Assistant (SolGov)"
+	uniform = /obj/item/clothing/under/ship/solgov
+	suit = null
+	head = null
+	shoes = /obj/item/clothing/shoes/jackboots //White shoes look awful with this
+
+/datum/outfit/job/assistant_ship/solgov
+	name = "Assistant (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov
 	suit = null
 	head = null
 	shoes = /obj/item/clothing/shoes/jackboots //White shoes look awful with this
 
 /datum/outfit/job/atmos/solgov
-	name = JOB_NAME_ATMOSPHERICTECHNICIAN + " (SolGov)"
+	name = "Atmos Tech (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
 
 /datum/outfit/job/bartender/solgov
-	name = JOB_NAME_BARTENDER + " (SolGov)"
+	name = "Bartender (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 
 /datum/outfit/job/botanist/solgov
-	name = JOB_NAME_BOTANIST + " (SolGov)"
+	name = "Botanist (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 
 /datum/outfit/job/brig_phys/solgov
-	name = JOB_NAME_BRIGPHYSICIAN + " (SolGov)"
+	name = "Brig Physician (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
 
 /datum/outfit/job/captain/solgov
-	name = JOB_NAME_CAPTAIN + " (SolGov)"
+	name = "Captain (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/command
 	accessory = /obj/item/clothing/accessory/solgov_jacket/formal/captain
 	suit = null
 	gloves = /obj/item/clothing/gloves/color/black
 
 /datum/outfit/job/cargo_tech/solgov
-	name = JOB_NAME_CARGOTECHNICIAN + " (SolGov)"
+	name = "Cargo Technician (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
 
 /datum/outfit/job/chaplain/solgov
-	name = JOB_NAME_CHAPLAIN + " (SolGov)"
+	name = "Chaplain (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 
 /datum/outfit/job/chemist/solgov
-	name = JOB_NAME_CHEMIST + " (SolGov)"
+	name = "Chemist (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 
 /datum/outfit/job/ce/solgov
-	name = JOB_NAME_CHIEFENGINEER + " (SolGov)"
+	name = "Chief Engineer (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
 
 /datum/outfit/job/cmo/solgov
-	name = JOB_NAME_CHIEFMEDICALOFFICER + " (SolGov)"
+	name = "Chief Medical Officer (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 	shoes = /obj/item/clothing/shoes/jackboots //White shoes look awful with this
 
 /datum/outfit/job/cook/solgov
-	name = JOB_NAME_COOK + " (SolGov)"
+	name = "Cook (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 
 /datum/outfit/job/curator/solgov
-	name = JOB_NAME_CURATOR + " (SolGov)"
+	name = "Curator (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 
 /datum/outfit/job/deputy/solgov
-	name = JOB_NAME_DEPUTY + " (SolGov)"
+	name = "Deputy (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
 	shoes = /obj/item/clothing/shoes/jackboots //White shoes look awful with this
 
 /datum/outfit/job/emt/solgov
-	name = JOB_NAME_PARAMEDIC + " (SolGov)"
+	name = "EMT (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 
 /datum/outfit/job/geneticist/solgov
-	name = JOB_NAME_GENETICIST + " (SolGov)"
+	name = "Geneticist (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 
 /datum/outfit/job/hop/solgov
-	name = JOB_NAME_HEADOFPERSONNEL + " (SolGov)"
+	name = "Executive Officer (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/command
 	accessory = /obj/item/clothing/accessory/solgov_jacket/formal
 	suit = null
 	gloves = /obj/item/clothing/gloves/color/black
 
 /datum/outfit/job/hos/solgov
-	name = JOB_NAME_HEADOFSECURITY + " (SolGov)"
+	name = "Head Of Security (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/command
 	accessory = /obj/item/clothing/accessory/solgov_jacket/command
 	suit = null
 	gloves = /obj/item/clothing/gloves/color/black
 
 /datum/outfit/job/janitor/solgov
-	name = JOB_NAME_JANITOR + " (SolGov)"
+	name = "Janitor (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 
 /datum/outfit/job/lawyer/solgov
-	name = JOB_NAME_LAWYER + " (SolGov)"
+	name = "Lawyer (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
 
 /datum/outfit/job/doctor/solgov
-	name = JOB_NAME_MEDICALDOCTOR + " (SolGov)"
+	name = "Doctor (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 	shoes = /obj/item/clothing/shoes/jackboots //White shoes look awful with this
 
 /datum/outfit/job/qm/solgov
-	name = JOB_NAME_QUARTERMASTER + " (SolGov)"
+	name = "Quartermaster (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
 
 /datum/outfit/job/rd/solgov
-	name = JOB_NAME_RESEARCHDIRECTOR + " (SolGov)"
+	name = "Research Director (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/command
 	accessory = /obj/item/clothing/accessory/solgov_jacket/command
 	shoes = /obj/item/clothing/shoes/jackboots //White shoes look awful with this
 
 /datum/outfit/job/roboticist/solgov
-	name = JOB_NAME_ROBOTICIST + " (SolGov)"
+	name = "Roboticist (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 
 /datum/outfit/job/scientist/solgov
-	name = JOB_NAME_SCIENTIST + " (SolGov)"
+	name = "Scientist (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 	shoes = /obj/item/clothing/shoes/jackboots //White shoes look awful with this
 
 /datum/outfit/job/security/solgov
-	name = JOB_NAME_SECURITYOFFICER + " (SolGov)"
+	name = "Security Officer (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
 
 /datum/outfit/job/miner/solgov
-	name = JOB_NAME_SHAFTMINER + " (SolGov)"
+	name = "Miner (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 
 /datum/outfit/job/engineer/solgov
-	name = JOB_NAME_STATIONENGINEER + " (SolGov)"
+	name = "Engineer (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
 
 /datum/outfit/job/virologist/solgov
-	name = JOB_NAME_VIROLOGIST + " (SolGov)"
+	name = "Virologist (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/medsci
 	accessory = /obj/item/clothing/accessory/solgov_jacket/medsci
 
 /datum/outfit/job/warden/solgov
-	name = JOB_NAME_WARDEN + " (SolGov)"
+	name = "Warden (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec

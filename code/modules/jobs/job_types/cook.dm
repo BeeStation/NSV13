@@ -1,13 +1,14 @@
 /datum/job/cook
-	title = JOB_NAME_COOK
+	title = "Cook"
 	flag = COOK
-	department_head = list(JOB_NAME_HEADOFPERSONNEL)
+	department_head = list("Executive Officer")
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 1
-	supervisors = "the " + JOB_NAME_HEADOFPERSONNEL //NSV13
+	supervisors = "the Executive Officer"
 	selection_color = "#bbe291"
+	chat_color = "#A2FBB9"
 	var/cooks = 0 //Counts cooks amount
 
 	outfit = /datum/outfit/job/cook
@@ -18,18 +19,15 @@
 	paycheck_department = ACCOUNT_SRV
 
 	display_order = JOB_DISPLAY_ORDER_COOK
-	departments = DEPARTMENT_BITFLAG_SERVICE
-	rpg_title = "Tavern Chef"
+	departments = DEPARTMENT_SERVICE
 
 	species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/chef
 	)
-
 /datum/outfit/job/cook
-	name = JOB_NAME_COOK
+	name = "Cook"
 	jobtype = /datum/job/cook
 
-	id = /obj/item/card/id/job/cook
 	belt = /obj/item/pda/cook
 	ears = /obj/item/radio/headset/headset_srv
 	uniform = /obj/item/clothing/under/rank/civilian/chef
@@ -44,7 +42,7 @@
 	if(J) // Fix for runtime caused by invalid job being passed
 		if(J.cooks>0)//Cooks
 			suit = /obj/item/clothing/suit/apron/chef
-			head = /obj/item/clothing/head/soft
+			head = /obj/item/clothing/head/soft/mime
 		if(!visualsOnly)
 			J.cooks++
 

@@ -18,7 +18,7 @@
 	var/list/allowed_projectile_typecache = list(/obj/item/projectile/beam)
 	var/rotation_angle = -1
 
-/obj/structure/reflector/Initialize(mapload)
+/obj/structure/reflector/Initialize()
 	. = ..()
 	icon_state = "reflector_base"
 	allowed_projectile_typecache = typecacheof(allowed_projectile_typecache)
@@ -44,18 +44,14 @@
 			else
 				. += "<span class='notice'>Use screwdriver to unlock the rotation.</span>"
 
-/obj/structure/reflector/proc/setAngle(new_angle, force_rotate = FALSE)
-	if(can_rotate || force_rotate)
+/obj/structure/reflector/proc/setAngle(new_angle)
+	if(can_rotate)
 		rotation_angle = new_angle
 		if(deflector_overlay)
 			cut_overlay(deflector_overlay)
 			deflector_overlay.transform = turn(matrix(), new_angle)
 			add_overlay(deflector_overlay)
 
-/obj/structure/reflector/shuttleRotate(rotation, params=ROTATE_DIR|ROTATE_SMOOTH|ROTATE_OFFSET)
-	. = ..()
-	if(params & ROTATE_DIR)
-		setAngle(rotation_angle + rotation, TRUE)
 
 /obj/structure/reflector/setDir(new_dir)
 	return ..(NORTH)

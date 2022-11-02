@@ -98,8 +98,7 @@
 	randomise()
 
 /datum/rpg_loot/Destroy()
-	QDEL_NULL(attached)
-	return ..()
+	attached = null
 
 /datum/rpg_loot/proc/randomise()
 	var/static/list/prefixespositive = list("greater", "major", "blessed", "superior", "empowered", "honed", "true", "glorious", "robust")

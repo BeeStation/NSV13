@@ -1,7 +1,7 @@
 /obj/structure/alien_artifact
 	name = "alien artifact structure"
 	icon = 'icons/obj/artifact.dmi'
-	max_integrity = 100
+	max_integrity = 200
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	anchored = TRUE
 
@@ -15,14 +15,12 @@
 	desc = "It sends a shiver down your spine."
 	icon_state = "watcher"
 	var/cooldown = 0
-	var/range //Trigger range
 
-/obj/structure/alien_artifact/watcher/Initialize(mapload)
+/obj/structure/alien_artifact/watcher/Initialize()
 	. = ..()
-	range = rand(3, 6)
-	proximity_monitor = new(src, range)
+	proximity_monitor = new(src, rand(3, 6))
 	var/turf/T = get_turf(src)
-	var/list/turfs = RANGE_TURFS(2, T)
+	var/list/turfs = RANGE_TURFS(5, T)
 	var/list/valid_turfs = list()
 	for(var/turf/open/floor/F in turfs)
 		if(locate(/obj/structure) in F)
@@ -33,7 +31,9 @@
 	new /obj/structure/alien_artifact/protector(valid_turfs[1])
 
 /obj/structure/alien_artifact/watcher/HasProximity(atom/movable/AM)
-	if(cooldown > world.time || iseffect(AM) || isprojectile(AM) || !(locate(AM) in view(range ,src)))
+	if(cooldown > world.time)
+		return
+	if (istype(AM, /obj/effect))
 		return
 	cooldown = world.time + 50
 	//Trigger nearby protectors
@@ -45,11 +45,11 @@
 	name = "protector"
 	desc = "A strange artifact developed centuries ago by beings that are now beyond us."
 	icon_state = "protector"
-	max_integrity = 200
+	max_integrity = 500
 	var/active = FALSE
 	var/datum/protector_effect/effect
 
-/obj/structure/alien_artifact/protector/Initialize(mapload)
+/obj/structure/alien_artifact/protector/Initialize()
 	. = ..()
 	var/effect_type = pick(subtypesof(/datum/protector_effect))
 	effect = new effect_type()
@@ -59,62 +59,39 @@
 		return
 	active = TRUE
 	flick("protector_pulse", src)
-	var/turf/target_location = get_turf(target)
-	addtimer(CALLBACK(effect, .proc/trigger, src, get_turf(src), target, target_location), 1 SECONDS)
-	addtimer(CALLBACK(src, .proc/reset_cooldown), 1.5 SECONDS)
-
-/obj/structure/alien_artifact/protector/proc/reset_cooldown()
+	sleep(7.2)
+	effect.trigger(src, get_turf(src), target)
+	sleep(3.6)
 	active = FALSE
 
 //Protector effects
 
-/datum/protector_effect/proc/trigger(obj/source, turf/source_location, atom/movable/target, turf/target_location)
+/datum/protector_effect/proc/trigger(obj/source, turf/T, atom/movable/target)
 	return
 
-/datum/protector_effect/hierophant_chasers/trigger(obj/source, turf/source_location, atom/movable/target, turf/target_location)
-	playsound(source_location,'sound/machines/airlockopen.ogg', 200, 1)
+/datum/protector_effect/hierophant_chasers/trigger(obj/source, turf/T, atom/movable/target)
+	playsound(T,'sound/machines/airlockopen.ogg', 200, 1)
 	source.visible_message("<span class='hierophant'>\"Mx gerrsx lmhi.\"</span>")
-	var/obj/effect/temp_visual/hierophant/chaser/C = new(source_location, source, target, 3, FALSE)
+	var/obj/effect/temp_visual/hierophant/chaser/C = new(T, source, target, 3, FALSE)
 	C.moving = 3
 	C.moving_dir = pick(GLOB.cardinals)
-	C.damage = 10
+	C.damage = 20
 
-/datum/protector_effect/hierophant_burst/trigger(obj/source, turf/source_location, atom/movable/target, turf/target_location)
-	playsound(source_location,'sound/machines/airlockopen.ogg', 200, 1)
+/datum/protector_effect/hierophant_burst/trigger(obj/source, turf/T, atom/movable/target)
+	playsound(T,'sound/machines/airlockopen.ogg', 200, 1)
 	source.visible_message("<span class='hierophant'>\"Irkekmrk hijirwmzi tvsxsgspw.\"</span>")
-	INVOKE_ASYNC(src, .proc/protector_burst, null, get_turf(target), 1)
+	hierophant_burst(null, get_turf(target), 4)
 
-/datum/protector_effect/hierophant_burst_self/trigger(obj/source, turf/source_location, atom/movable/target, turf/target_location)
-	playsound(source_location,'sound/machines/airlockopen.ogg', 200, 1)
+/datum/protector_effect/hierophant_burst_self/trigger(obj/source, turf/T, atom/movable/target)
+	playsound(T,'sound/machines/airlockopen.ogg', 200, 1)
 	source.visible_message("<span class='hierophant'>\"Yrorsar irxmxc hixigxih.\"</span>")
-	INVOKE_ASYNC(src, .proc/protector_burst, null, source_location, 2)
+	hierophant_burst(null, T, 7)
 
-/datum/protector_effect/emp_attack/trigger(obj/source, turf/source_location, atom/movable/target, turf/target_location)
-	playsound(source_location,'sound/machines/airlockopen.ogg', 200, 1)
-	source_location.visible_message("<span class='hierophant'>\"Svhivw vigmizih.\"</span>")
-	new /obj/effect/temp_visual/hierophant/blast/defenders/emp(target_location, src, FALSE)
-
-//expanding square designed for the artifact defenders
-/datum/protector_effect/proc/protector_burst(mob/caster, turf/original, burst_range)
-	playsound(original,'sound/machines/airlockopen.ogg', 200, 1)
-	var/last_dist = 0
-	for(var/turf/T as() in spiral_range_turfs(burst_range, original))
-		if(!T)
-			continue
-		var/dist = get_dist(original, T)
-		if(dist > last_dist)
-			last_dist = dist
-			sleep(1 + min(burst_range - last_dist, 12)) //gets faster as it gets further out
-		new /obj/effect/temp_visual/hierophant/blast/defenders(T, caster, FALSE)
-
-//Weakened Blasts for artifacts.
-/obj/effect/temp_visual/hierophant/blast/defenders
-	damage = 7
-	duration = 1.2 SECONDS
-
-/obj/effect/temp_visual/hierophant/blast/defenders/emp
-	duration = 1 SECONDS
-
-/obj/effect/temp_visual/hierophant/blast/defenders/emp/Initialize(mapload, new_caster, friendly_fire)
-	. = ..()
-	addtimer(CALLBACK(GLOBAL_PROC, /proc/empulse, src.loc, 1, 2), 1 SECONDS)
+/datum/protector_effect/emp_stun/trigger(obj/source, turf/T, atom/movable/target)
+	playsound(TAIL_SWEEP_COMBO,'sound/machines/airlockopen.ogg', 200, 1)
+	T.visible_message("<span class='hierophant'>\"Svhivw vigmizih.\"</span>")
+	empulse(T, 2, 6)
+	if(isliving(target))
+		var/mob/living/L = target
+		L.Paralyze(50)
+		L.take_overall_damage(burn=10, stamina=30)

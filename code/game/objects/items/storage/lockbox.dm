@@ -2,14 +2,16 @@
 	name = "lockbox"
 	desc = "A locked box."
 	icon_state = "lockbox+l"
-	item_state = "lockbox+l"
-	lefthand_file = 'icons/mob/inhands/equipment/case_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/equipment/case_righthand.dmi'
+	item_state = "syringe_kit"
+	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	w_class = WEIGHT_CLASS_BULKY
 	req_access = list(ACCESS_ARMORY)
 	var/broken = FALSE
 	var/open = FALSE
-	var/base_icon_state = "lockbox"
+	var/icon_locked = "lockbox+l"
+	var/icon_closed = "lockbox"
+	var/icon_broken = "lockbox+b"
 
 /obj/item/storage/lockbox/ComponentInitialize()
 	. = ..()
@@ -29,14 +31,12 @@
 			SEND_SIGNAL(src, COMSIG_TRY_STORAGE_SET_LOCKSTATE, !locked)
 			locked = SEND_SIGNAL(src, COMSIG_IS_STORAGE_LOCKED)
 			if(locked)
-				icon_state = "[base_icon_state]+l"
-				item_state = "[base_icon_state]+l"
+				icon_state = icon_locked
 				to_chat(user, "<span class='danger'>You lock the [src.name]!</span>")
 				SEND_SIGNAL(src, COMSIG_TRY_STORAGE_HIDE_ALL)
 				return
 			else
-				icon_state = "[base_icon_state]"
-				item_state = "[base_icon_state]"
+				icon_state = icon_closed
 				to_chat(user, "<span class='danger'>You unlock the [src.name]!</span>")
 				return
 		else
@@ -52,8 +52,7 @@
 		broken = TRUE
 		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_SET_LOCKSTATE, FALSE)
 		desc += "It appears to be broken."
-		icon_state = "[src.base_icon_state]+b"
-		item_state = "[src.base_icon_state]+b"
+		icon_state = src.icon_broken
 		if(user)
 			visible_message("<span class='warning'>\The [src] has been broken by [user] with an electromagnetic card!</span>")
 			return
@@ -77,14 +76,26 @@
 		new /obj/item/implantcase/mindshield(src)
 	new /obj/item/implanter/mindshield(src)
 
+/obj/item/storage/lockbox/clusterbang
+	name = "lockbox of clusterbangs"
+	desc = "You have a bad feeling about opening this."
+	req_access = list(ACCESS_SECURITY)
+
+/obj/item/storage/lockbox/clusterbang/PopulateContents()
+	new /obj/item/grenade/clusterbuster(src)
+
 /obj/item/storage/lockbox/medal
 	name = "medal box"
 	desc = "A locked box used to store medals of honor."
 	icon_state = "medalbox+l"
-	item_state = "medalbox+l"
-	base_icon_state = "medalbox"
+	item_state = "syringe_kit"
+	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	w_class = WEIGHT_CLASS_NORMAL
 	req_access = list(ACCESS_CAPTAIN)
+	icon_locked = "medalbox+l"
+	icon_closed = "medalbox"
+	icon_broken = "medalbox+b"
 
 /obj/item/storage/lockbox/medal/ComponentInitialize()
 	. = ..()
@@ -120,26 +131,24 @@
 	cut_overlays()
 	var/locked = SEND_SIGNAL(src, COMSIG_IS_STORAGE_LOCKED)
 	if(locked)
-		icon_state = "[base_icon_state]+l"
-		item_state = "[base_icon_state]+l"
+		icon_state = "medalbox+l"
 		open = FALSE
 	else
-		icon_state = "[base_icon_state]"
-		item_state = "[base_icon_state]"
+		icon_state = "medalbox"
 		if(open)
 			icon_state += "open"
 		if(broken)
 			icon_state += "+b"
-			item_state = "[base_icon_state]+b"
 		if(contents && open)
 			for (var/i in 1 to contents.len)
 				var/obj/item/clothing/accessory/medal/M = contents[i]
 				var/mutable_appearance/medalicon = mutable_appearance(initial(icon), M.medaltype)
 				if(i > 1 && i <= 5)
-					medalicon.pixel_x += ((i-1)*4)
+					medalicon.pixel_x += ((i-1)*3)
 				else if(i > 5)
 					medalicon.pixel_y -= 7
-					medalicon.pixel_x += ((i-6)*4)
+					medalicon.pixel_x -= 2
+					medalicon.pixel_x += ((i-6)*3)
 				add_overlay(medalicon)
 
 /obj/item/storage/lockbox/medal/sec
@@ -175,12 +184,3 @@
 /obj/item/storage/lockbox/medal/sci/PopulateContents()
 	for(var/i in 1 to 3)
 		new /obj/item/clothing/accessory/medal/plasma/nobel_science(src)
-
-/obj/item/storage/lockbox/medal/med
-	name = "medical medal box"
-	desc = "A locked box used to store medals to be given to members of the medical department."
-	req_access = list(ACCESS_CMO)
-
-/obj/item/storage/lockbox/medal/med/PopulateContents()
-	new /obj/item/clothing/accessory/medal/med_medal(src)
-	new /obj/item/clothing/accessory/medal/med_medal2(src)

@@ -13,7 +13,7 @@
 	pressure_resistance = 200
 
 
-/obj/structure/alien/resin/flower_bud_enemy/Initialize(mapload)
+/obj/structure/alien/resin/flower_bud_enemy/Initialize()
 	. = ..()
 	var/list/anchors = list()
 	anchors += locate(x-2,y+2,z)

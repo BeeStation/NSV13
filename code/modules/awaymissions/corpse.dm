@@ -142,8 +142,8 @@
 	var/disable_pda = TRUE
 	var/disable_sensors = TRUE
 	//All of these only affect the ID that the outfit has placed in the ID slot
-	var/id_job = null			//Such as JOB_NAME_CLOWN or "Chef." This just determines what the ID reads as, not their access
-	var/id_access = null		//This is for access. See access.dm for which jobs give what access. Use JOB_NAME_CAPTAIN if you want it to be all access.
+	var/id_job = null			//Such as "Clown" or "Chef." This just determines what the ID reads as, not their access
+	var/id_access = null		//This is for access. See access.dm for which jobs give what access. Use "Captain" if you want it to be all access.
 	var/id_access_list = null	//Allows you to manually add access to an ID card.
 	assignedrole = "Ghost Role"
 
@@ -173,7 +173,7 @@
 	var/facial_hair_style
 	var/skin_tone
 
-/obj/effect/mob_spawn/human/Initialize(mapload)
+/obj/effect/mob_spawn/human/Initialize()
 	if(ispath(outfit))
 		outfit = new outfit()
 	if(!outfit)
@@ -220,7 +220,7 @@
 			// Using crew monitors to find corpses while creative makes finding certain ruins too easy.
 			var/obj/item/clothing/under/C = H.w_uniform
 			if(istype(C))
-				C.update_sensors(NO_SENSORS)
+				C.sensor_mode = NO_SENSORS
 
 	var/obj/item/card/id/W = H.wear_id
 	if(W)
@@ -307,7 +307,7 @@
 ///////////Civilians//////////////////////
 
 /obj/effect/mob_spawn/human/corpse/assistant
-	name = JOB_NAME_ASSISTANT
+	name = "Midshipman" //Nsv13 - Crayon eaters
 	outfit = /datum/outfit/job/assistant
 
 /obj/effect/mob_spawn/human/corpse/assistant/beesease_infection
@@ -321,16 +321,16 @@
 
 /obj/effect/mob_spawn/human/corpse/cargo_tech
 	name = "Cargo Tech"
-	outfit = /datum/outfit/job/cargo_technician
+	outfit = /datum/outfit/job/cargo_tech
 
 /obj/effect/mob_spawn/human/cook
-	name = JOB_NAME_COOK
+	name = "Cook"
 	outfit = /datum/outfit/job/cook
 
 
 /obj/effect/mob_spawn/human/doctor
 	name = "Doctor"
-	outfit = /datum/outfit/job/medical_doctor
+	outfit = /datum/outfit/job/doctor
 
 
 /obj/effect/mob_spawn/human/doctor/alive
@@ -360,15 +360,15 @@
 	outfit = /datum/outfit/job/engineer/gloved/rig
 
 /obj/effect/mob_spawn/human/clown
-	name = JOB_NAME_CLOWN
+	name = "Clown"
 	outfit = /datum/outfit/job/clown
 
 /obj/effect/mob_spawn/human/scientist
-	name = JOB_NAME_SCIENTIST
+	name = "Scientist"
 	outfit = /datum/outfit/job/scientist
 
 /obj/effect/mob_spawn/human/miner
-	name = JOB_NAME_SHAFTMINER
+	name = "Shaft Miner"
 	outfit = /datum/outfit/job/miner
 
 /obj/effect/mob_spawn/human/miner/rig
@@ -385,7 +385,7 @@
 
 /obj/effect/mob_spawn/human/bartender
 	name = "Space Bartender"
-	id_job = JOB_NAME_BARTENDER
+	id_job = "Bartender"
 	id_access_list = list(ACCESS_BAR)
 	outfit = /datum/outfit/spacebartender
 
@@ -399,7 +399,7 @@
 	short_desc = "You are a space bartender!"
 	flavour_text = "Time to mix drinks and change lives. Smoking space drugs makes it easier to understand your patrons' odd dialect."
 	assignedrole = "Space Bartender"
-	id_job = JOB_NAME_BARTENDER
+	id_job = "Bartender"
 	use_cooldown = TRUE
 
 /datum/outfit/spacebartender
@@ -410,14 +410,6 @@
 	suit = /obj/item/clothing/suit/armor/vest
 	glasses = /obj/item/clothing/glasses/sunglasses/advanced/reagent
 	id = /obj/item/card/id
-
-/datum/outfit/spacebartender/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	..()
-
-	if(visualsOnly)
-		return
-
-	ADD_TRAIT(H, TRAIT_SOMMELIER, ROUNDSTART_TRAIT)
 
 /obj/effect/mob_spawn/human/beach
 	outfit = /datum/outfit/beachbum
@@ -467,7 +459,7 @@
 
 /datum/outfit/nanotrasenbridgeofficercorpse
 	name = "Bridge Officer Corpse"
-	ears = /obj/item/radio/headset/heads/xo
+	ears = /obj/item/radio/headset/headset_bridge
 	uniform = /obj/item/clothing/under/rank/centcom/officer
 	suit = /obj/item/clothing/suit/armor/bulletproof
 	shoes = /obj/item/clothing/shoes/sneakers/black
@@ -492,7 +484,7 @@
 	gloves = /obj/item/clothing/gloves/combat
 	shoes = /obj/item/clothing/shoes/combat/swat
 	r_pocket = /obj/item/lighter
-	id = /obj/item/card/id/job/head_of_security
+	id = /obj/item/card/id/job/hos
 
 
 /obj/effect/mob_spawn/human/nanotrasensoldier
@@ -510,7 +502,7 @@
 	mask = /obj/item/clothing/mask/gas/sechailer/swat
 	head = /obj/item/clothing/head/helmet/swat/nanotrasen
 	back = /obj/item/storage/backpack/security
-	id = /obj/item/card/id/job/security_officer
+	id = /obj/item/card/id/job/sec
 
 
 /obj/effect/mob_spawn/human/commander/alive

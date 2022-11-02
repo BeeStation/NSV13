@@ -32,9 +32,8 @@
 	hardattacks = TRUE
 	discovery_points = 10000
 	var/list/crusher_loot
-	var/achievement_type
-	var/crusher_achievement_type
-	var/score_achievement_type
+	var/medal_type
+	var/score_type = BOSS_SCORE
 	var/elimination = 0
 	var/anger_modifier = 0
 	var/gps_name = null
@@ -44,8 +43,6 @@
 	var/chosen_attack = 1 // chosen attack num
 	var/list/attack_action_types = list()
 	var/small_sprite_type
-	/// Determines what a megafauna will say or do to telegraph its next attack. (Currently only used by Colossus). Set to 1 by default so the opening attack will always be the same. 
-	var/random_attack_num = 1
 
 /mob/living/simple_animal/hostile/megafauna/Initialize(mapload)
 	. = ..()
@@ -86,7 +83,7 @@
 			if(crusher_kill)
 				tab = "megafauna_kills_crusher"
 			if(!elimination)	//used so the achievment only occurs for the last legion to die.
-				grant_achievement(achievement_type, score_achievement_type, crusher_kill, force_grant)
+				grant_achievement(medal_type, score_type, crusher_kill, force_grant)
 				SSblackbox.record_feedback("tally", tab, 1, "[initial(name)]")
 		..()
 
@@ -147,7 +144,7 @@
 	ranged_cooldown = world.time + buffer_time
 
 /mob/living/simple_animal/hostile/megafauna/proc/grant_achievement(medaltype, scoretype, crusher_kill, var/list/grant_achievement = list())
-	if(!achievement_type || (flags_1 & ADMIN_SPAWNED_1) || !SSachievements.achievements_enabled) //Don't award medals if the medal type isn't set
+	if(!medal_type || (flags_1 & ADMIN_SPAWNED_1) || !SSmedals.hub_enabled) //Don't award medals if the medal type isn't set
 		return FALSE
 	if(!grant_achievement.len)
 		for(var/mob/living/L in oviewers(7,src))
@@ -155,12 +152,13 @@
 	for(var/mob/living/L in grant_achievement)
 		if(L.stat || !L.client)
 			continue
-		L.client.give_award(/datum/award/achievement/boss/boss_killer, L)
-		L.client.give_award(achievement_type, L)
+		var/client/C = L.client
+		SSmedals.UnlockMedal("Boss [BOSS_KILL_MEDAL]", C)
+		SSmedals.UnlockMedal("[medaltype] [BOSS_KILL_MEDAL]", C)
 		if(crusher_kill && istype(L.get_active_held_item(), /obj/item/kinetic_crusher))
-			L.client.give_award(crusher_achievement_type, L)
-		L.client.give_award(/datum/award/score/boss_score, L) //Score progression for bosses killed in general
-		L.client.give_award(score_achievement_type, L) //Score progression for specific boss killed
+			SSmedals.UnlockMedal("[medaltype] [BOSS_KILL_MEDAL_CRUSHER]", C)
+		SSmedals.SetScore(BOSS_SCORE, C, 1)
+		SSmedals.SetScore(score_type, C, 1)
 	return TRUE
 
 /datum/action/innate/megafauna_attack

@@ -63,7 +63,7 @@
 
 /obj/machinery/chem_heater/process(delta_time)
 	..()
-	if(machine_stat & NOPOWER)
+	if(stat & NOPOWER)
 		return
 	if(on)
 		if(beaker && beaker.reagents.total_volume)

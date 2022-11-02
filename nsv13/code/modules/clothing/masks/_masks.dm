@@ -5,10 +5,10 @@
 /obj/item/clothing/mask/breath
 	breathing_sound = TRUE
 
-/obj/item/clothing/mask/Initialize(mapload)
+/obj/item/clothing/mask/Initialize()
 	. = ..()
 	if(breathing_sound)
-		soundloop = new(src)
+		soundloop = new(list(src), FALSE)
 
 /obj/item/clothing/mask/gas
 	breathing_sound = TRUE

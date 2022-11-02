@@ -360,7 +360,7 @@ AI MODULES
 /obj/item/aiModule/core/full
 	var/law_id // if non-null, loads the laws from the ai_laws datums
 
-/obj/item/aiModule/core/full/Initialize(mapload)
+/obj/item/aiModule/core/full/Initialize()
 	. = ..()
 	if(!law_id)
 		return
@@ -435,7 +435,7 @@ AI MODULES
 /obj/item/aiModule/core/full/custom
 	name = "Default Core AI Module"
 
-/obj/item/aiModule/core/full/custom/Initialize(mapload)
+/obj/item/aiModule/core/full/custom/Initialize()
 	. = ..()
 	for(var/line in world.file2list("[global.config.directory]/silicon_laws.txt"))
 		if(!line)

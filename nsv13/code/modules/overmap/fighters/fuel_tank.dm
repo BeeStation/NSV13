@@ -84,12 +84,12 @@
 	data["maxfuel"] = reagents.maximum_volume
 	return data
 
-/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/Initialize(mapload)
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/Initialize()
 	. = ..()
 	add_overlay("cryofuel_nozzle")
 	nozzle = new(src)
 	nozzle.parent = src
-	soundloop = new(src)
+	soundloop = new(list(src), FALSE)
 	reagents.flags |= REFILLABLE
 
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/attack_hand(mob/user)
@@ -186,7 +186,7 @@
 	slot_flags = 0
 	var/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/parent
 
-/obj/item/cryofuel_nozzle/Initialize(mapload)
+/obj/item/cryofuel_nozzle/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
 

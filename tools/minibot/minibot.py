@@ -149,7 +149,7 @@ def irc_handler():
 
 def signal_handler(signum, frame):
 	global irc, running, con_attempts, logger
-	logger.info("Received term kill, closing")
+	logger.info("Recieved term kill, closing")
 	running = False
 
 if __name__ == "__main__":

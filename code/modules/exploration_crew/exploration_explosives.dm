@@ -15,7 +15,7 @@
 	var/devastation_range = 0
 	var/list/attached_detonators = list()
 
-/obj/item/grenade/exploration/Initialize(mapload)
+/obj/item/grenade/exploration/Initialize()
 	. = ..()
 	plastic_overlay = mutable_appearance(icon, "[item_state]2", HIGH_OBJ_LAYER)
 
@@ -75,8 +75,6 @@
 
 /obj/item/grenade/exploration/prime(mob/living/lanced_by)
 	. = ..()
-	if(!.)
-		return
 	var/turf/location
 	if(target)
 		if(!QDELETED(target))

@@ -22,7 +22,6 @@
 #define POLL_IGNORE_CONTRACTOR_SUPPORT "contractor_support"
 #define POLL_IGNORE_CLOCKWORK "clockwork"
 #define POLL_IGNORE_GHOSTSHIP "ghost ships" //NSV13
-#define POLL_IGNORE_EXPERIMENTAL_CLONE "experimental_clone"
 
 GLOBAL_LIST_INIT(poll_ignore_desc, list(
 	POLL_IGNORE_SENTIENCE_POTION = "Sentience potion",
@@ -45,8 +44,7 @@ GLOBAL_LIST_INIT(poll_ignore_desc, list(
 	POLL_IGNORE_IMAGINARYFRIEND = "Imaginary Friend",
 	POLL_IGNORE_SPLITPERSONALITY = "Split Personality",
 	POLL_IGNORE_CONTRACTOR_SUPPORT = "Contractor Support Unit",
-	POLL_IGNORE_GHOSTSHIP = "Ghost Ship", //NSV13
-	POLL_IGNORE_EXPERIMENTAL_CLONE = "Experimental clone"
+	POLL_IGNORE_GHOSTSHIP = "Ghost Ship" //NSV13
 ))
 GLOBAL_LIST_INIT(poll_ignore, init_poll_ignore())
 

@@ -9,7 +9,7 @@
 	var/printer_ready = 0 //cooldown var
 	var/static/datum/bank_account/cargocash
 
-/obj/machinery/computer/bounty/Initialize(mapload)
+/obj/machinery/computer/bounty/Initialize()
 	. = ..()
 	printer_ready = world.time + PRINTER_TIMEOUT
 	cargocash = SSeconomy.get_dep_account(ACCOUNT_CAR)
@@ -20,7 +20,7 @@
 /obj/item/paper/bounty_printout
 	name = "paper - Bounties"
 
-/obj/item/paper/bounty_printout/Initialize(mapload)
+/obj/item/paper/bounty_printout/Initialize()
 	. = ..()
 	info = "<h2>Nanotrasen Cargo Bounties</h2></br>"
 	update_icon()

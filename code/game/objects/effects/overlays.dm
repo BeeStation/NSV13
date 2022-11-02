@@ -13,7 +13,7 @@
 	icon_state="b_beam"
 	var/atom/BeamSource
 
-/obj/effect/overlay/beam/Initialize(mapload)
+/obj/effect/overlay/beam/Initialize()
 	. = ..()
 	QDEL_IN(src, 10)
 

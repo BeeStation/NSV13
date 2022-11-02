@@ -123,7 +123,7 @@
 
 /obj/item/radio/mech //this has to go somewhere
 
-/obj/mecha/Initialize(mapload)
+/obj/mecha/Initialize()
 	. = ..()
 	events = new
 	icon_state += "-open"
@@ -440,6 +440,9 @@
 			occupant.fire_stacks += 1
 		occupant.IgniteMob()
 
+/obj/mecha/proc/drop_item()//Derpfix, but may be useful in future for engineering exosuits.
+	return
+
 /obj/mecha/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, list/message_mods = list())
 	. = ..()
 	if(speaker == occupant)
@@ -542,7 +545,7 @@
 	if(.)
 		return
 
-	var/atom/backup = get_spacemove_backup(movement_dir)
+	var/atom/backup = get_spacemove_backup()
 	if(backup && movement_dir)
 		if(isturf(backup)) //get_spacemove_backup() already checks if a returned turf is solid, so we can just go
 			return TRUE

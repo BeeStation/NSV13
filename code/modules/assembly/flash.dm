@@ -101,7 +101,7 @@
 /obj/item/assembly/flash/handheld/strong
 	bulb = /obj/item/flashbulb/recharging/revolution
 
-/obj/item/assembly/flash/Initialize(mapload)
+/obj/item/assembly/flash/Initialize()
 	. = ..()
 	bulb = new bulb
 
@@ -160,7 +160,6 @@
 	return TRUE
 
 /obj/item/assembly/flash/proc/burn_out() //Made so you can override it if you want to have an invincible flash from R&D or something.
-	bulb.charges_left = 0
 	if(!burnt_out)
 		burnt_out = TRUE
 		update_icon()
@@ -227,7 +226,6 @@
 	if(user && !clown_check(user))
 		return FALSE
 	return TRUE
-
 
 /obj/item/assembly/flash/proc/flash_end()
 	set_light_on(FALSE)

@@ -5,7 +5,7 @@
 	var/piercing = FALSE
 	var/obj/item/reagent_containers/syringe/syringe = null
 
-/obj/item/projectile/bullet/dart/Initialize(mapload)
+/obj/item/projectile/bullet/dart/Initialize()
 	. = ..()
 	create_reagents(50, NO_REACT)
 
@@ -34,7 +34,7 @@
 	reagents.handle_reactions()
 	return BULLET_ACT_HIT
 
-/obj/item/projectile/bullet/dart/metalfoam/Initialize(mapload)
+/obj/item/projectile/bullet/dart/metalfoam/Initialize()
 	. = ..()
 	reagents.add_reagent(/datum/reagent/aluminium, 15)
 	reagents.add_reagent(/datum/reagent/foaming_agent, 5)
@@ -90,18 +90,18 @@
 /obj/item/projectile/bullet/dart/tranq
 	name = "tranquilizer dart"
 
-/obj/item/projectile/bullet/dart/tranq/Initialize(mapload)
+/obj/item/projectile/bullet/dart/tranq/Initialize()
 	. = ..()
 	reagents.add_reagent(/datum/reagent/toxin/chloralhydrate, 4) //these'll get the victim wallslamming and then sleep em, but it will take awhile before it puts the victim to sleep
 
 /obj/item/projectile/bullet/dart/tranq/plus
 
-/obj/item/projectile/bullet/dart/tranq/plus/Initialize(mapload)
+/obj/item/projectile/bullet/dart/tranq/plus/Initialize()
 	. = ..()
 	reagents.add_reagent(/datum/reagent/pax, 1)
 
 /obj/item/projectile/bullet/dart/tranq/plusplus
 
-/obj/item/projectile/bullet/dart/tranq/plusplus/Initialize(mapload)
+/obj/item/projectile/bullet/dart/tranq/plusplus/Initialize()
 	. = ..()
 	reagents.add_reagent(/datum/reagent/pax, 3)

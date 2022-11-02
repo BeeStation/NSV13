@@ -4,9 +4,8 @@
 	var/datum/dynamic_simulation_config/config
 	var/list/mock_candidates = list()
 
-/datum/dynamic_simulation/proc/initialize_gamemode(forced_threat, roundstart_players)
+/datum/dynamic_simulation/proc/initialize_gamemode(forced_threat)
 	gamemode = new
-	gamemode.roundstart_pop_ready = roundstart_players
 
 	if (forced_threat)
 		gamemode.create_threat(forced_threat)
@@ -43,7 +42,7 @@
 /datum/dynamic_simulation/proc/simulate(datum/dynamic_simulation_config/config)
 	src.config = config
 
-	initialize_gamemode(config.forced_threat_level, config.roundstart_players)
+	initialize_gamemode(config.forced_threat_level)
 	create_candidates(config.roundstart_players)
 	gamemode.pre_setup()
 
@@ -120,5 +119,19 @@
 
 	return export
 
+/client/proc/export_dynamic_json()
+	set name = "Export dynamic.json"
+	set category = "Debug"
+
+	var/datum/game_mode/dynamic/dynamic = SSticker.mode
+
+	var/list/export = list()
+	export["Roundstart"] = export_dynamic_json_of(dynamic.roundstart_rules)
+	export["Midround"] = export_dynamic_json_of(dynamic.midround_rules)
+	export["Latejoin"] = export_dynamic_json_of(dynamic.latejoin_rules)
+
+	message_admins("Writing file...")
+	WRITE_FILE(file("[GLOB.log_directory]/dynamic.json"), json_encode(export))
+	message_admins("Writing complete.")
 
 #endif

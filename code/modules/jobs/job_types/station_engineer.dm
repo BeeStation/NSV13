@@ -1,13 +1,14 @@
-/datum/job/station_engineer
-	title = JOB_NAME_STATIONENGINEER
+/datum/job/engineer
+	title = "Station Engineer"
 	flag = ENGINEER
-	department_head = list(JOB_NAME_CHIEFENGINEER)
+	department_head = list("Chief Engineer")
 	department_flag = ENGSEC
 	faction = "Station"
 	total_positions = 5
 	spawn_positions = 5
 	supervisors = "the chief engineer"
 	selection_color = "#fff5cc"
+	chat_color = "#D9BC89"
 	exp_requirements = 120
 	exp_type = EXP_TYPE_CREW
 
@@ -22,20 +23,19 @@
 	paycheck_department = ACCOUNT_ENG
 
 	display_order = JOB_DISPLAY_ORDER_STATION_ENGINEER
-	departments = DEPARTMENT_BITFLAG_ENGINEERING
-	rpg_title = "Crystallomancer"
+	departments = DEPARTMENT_ENGINEERING
 
 	species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/engineering
 	)
 
 /datum/outfit/job/engineer
-	name = JOB_NAME_STATIONENGINEER
-	jobtype = /datum/job/station_engineer
+	name = "Station Engineer"
+	jobtype = /datum/job/engineer
 
-	id =  /obj/item/card/id/job/station_engineer
+	id = /obj/item/card/id/job/engi
 	belt = /obj/item/storage/belt/utility/full/engi
-	l_pocket = /obj/item/pda/station_engineer
+	l_pocket = /obj/item/pda/engineering
 	ears = /obj/item/radio/headset/headset_eng
 	uniform = /obj/item/clothing/under/ship/engineer //NSV13 uniforms
 	shoes = /obj/item/clothing/shoes/workboots

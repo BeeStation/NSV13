@@ -103,7 +103,7 @@
 	var/obj/item/held_item = null
 
 
-/mob/living/simple_animal/parrot/Initialize(mapload)
+/mob/living/simple_animal/parrot/Initialize()
 	. = ..()
 	if(!ears)
 		var/headset = pick(/obj/item/radio/headset/headset_sec, \
@@ -111,7 +111,7 @@
 						/obj/item/radio/headset/headset_med, \
 						/obj/item/radio/headset/headset_sci, \
 						/obj/item/radio/headset/headset_cargo, \
-						/obj/item/radio/headset/munitions/munitions_tech) // NSV13 - replaced exploration with munitions
+						/obj/item/radio/headset/headset_exploration)
 		ears = new headset(src)
 
 	parrot_sleep_dur = parrot_sleep_max //In case someone decides to change the max without changing the duration var
@@ -122,7 +122,7 @@
 			  /mob/living/simple_animal/parrot/proc/perch_player, \
 			  /mob/living/simple_animal/parrot/proc/toggle_mode,
 			  /mob/living/simple_animal/parrot/proc/perch_mob_player))
-	AddElement(/datum/element/strippable, GLOB.strippable_parrot_items)
+
 
 /mob/living/simple_animal/parrot/examine(mob/user)
 	. = ..()
@@ -133,7 +133,7 @@
 	if(held_item)
 		held_item.forceMove(drop_location())
 		held_item = null
-	SSmove_manager.stop_looping(src)
+	walk(src,0)
 
 	if(buckled)
 		buckled.unbuckle_mob(src,force=1)
@@ -142,11 +142,6 @@
 	pixel_y = initial(pixel_y)
 
 	..(gibbed)
-
-/mob/living/simple_animal/parrot/Process_Spacemove()
-	if(!stat) //Birds can fly, fun fact. No I don't care that space doesn't have air. Space parrots bitch
-		return TRUE
-	return ..()
 
 /mob/living/simple_animal/parrot/get_stat_tab_status()
 	var/list/tab_data = ..()
@@ -158,11 +153,9 @@
 	. = ..()
 	if(speaker != src && prob(50)) //Dont imitate ourselves
 		if(!radio_freq || prob(10))
-			// No being problematic, Poly!
-			if(!CHAT_FILTER_CHECK(raw_message))
-				if(speech_buffer.len >= 500)
-					speech_buffer -= pick(speech_buffer)
-				speech_buffer |= html_decode(raw_message)
+			if(speech_buffer.len >= 500)
+				speech_buffer -= pick(speech_buffer)
+			speech_buffer |= html_decode(raw_message)
 	if(speaker == src && !client) //If a parrot squawks in the woods and no one is around to hear it, does it make a sound? This code says yes!
 		return message
 
@@ -185,101 +178,93 @@
 /*
  * Inventory
  */
-GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
-	/datum/strippable_item/parrot_headset
-)))
+/mob/living/simple_animal/parrot/show_inv(mob/user)
+	user.set_machine(src)
 
-/datum/strippable_item/parrot_headset
-	key = STRIPPABLE_ITEM_PARROT_HEADSET
+	var/dat = 	"<div align='center'><b>Inventory of [name]</b></div><p>"
+	dat += "<br><B>Headset:</B> <A href='?src=[REF(src)];[ears ? "remove_inv=ears'>[ears]" : "add_inv=ears'>Nothing"]</A>"
 
-/datum/strippable_item/parrot_headset/get_item(atom/source)
-	var/mob/living/simple_animal/parrot/parrot_source = source
-	return istype(parrot_source) ? parrot_source.ears : null
+	user << browse(dat, "window=mob[REF(src)];size=325x500")
+	onclose(user, "window=mob[REF(src)]")
 
-/datum/strippable_item/parrot_headset/try_equip(atom/source, obj/item/equipping, mob/user)
-	. = ..()
-	if(!.)
-		return FALSE
 
-	if(!istype(equipping, /obj/item/radio/headset))
-		to_chat(user, "<span class='warning'>[equipping] won't fit!</span>")
-		return FALSE
-
-	return TRUE
-
-// There is no delay for putting a headset on a parrot.
-/datum/strippable_item/parrot_headset/start_equip(atom/source, obj/item/equipping, mob/user)
-	return TRUE
-
-/datum/strippable_item/parrot_headset/finish_equip(atom/source, obj/item/equipping, mob/user)
-	var/obj/item/radio/headset/radio = equipping
-	if(!istype(radio))
+/mob/living/simple_animal/parrot/Topic(href, href_list)
+	if(!(iscarbon(usr) || iscyborg(usr)) || !usr.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
+		usr << browse(null, "window=mob[REF(src)]")
+		usr.unset_machine()
 		return
 
-	var/mob/living/simple_animal/parrot/parrot_source = source
-	if(!istype(parrot_source))
-		return
+	//Removing from inventory
+	if(href_list["remove_inv"])
+		var/remove_from = href_list["remove_inv"]
+		switch(remove_from)
+			if("ears")
+				if(!ears)
+					to_chat(usr, "<span class='warning'>There is nothing to remove from its [remove_from]!</span>")
+					return
+				if(!stat)
+					say("[available_channels.len ? "[pick(available_channels)] " : null]BAWWWWWK LEAVE THE HEADSET BAWKKKKK!")
+				ears.forceMove(drop_location())
+				ears = null
+				for(var/possible_phrase in speak)
+					if(copytext_char(possible_phrase, 2, 3) in GLOB.department_radio_keys)
+						possible_phrase = copytext_char(possible_phrase, 3)
 
-	if(!user.transferItemToLoc(radio, source))
-		return
+	//Adding things to inventory
+	else if(href_list["add_inv"])
+		var/add_to = href_list["add_inv"]
+		if(!usr.get_active_held_item())
+			to_chat(usr, "<span class='warning'>You have nothing in your hand to put on its [add_to]!</span>")
+			return
+		switch(add_to)
+			if("ears")
+				if(ears)
+					to_chat(usr, "<span class='warning'>It's already wearing something!</span>")
+					return
+				else
+					var/obj/item/item_to_add = usr.get_active_held_item()
+					if(!item_to_add)
+						return
 
-	parrot_source.ears = radio
+					if( !istype(item_to_add,  /obj/item/radio/headset) )
+						to_chat(usr, "<span class='warning'>This object won't fit!</span>")
+						return
 
-	to_chat(user, "<span class='notice'>You fit [radio] onto [source].</span>")
+					var/obj/item/radio/headset/headset_to_add = item_to_add
 
-	parrot_source.available_channels.Cut()
+					if(!usr.transferItemToLoc(headset_to_add, src))
+						return
+					ears = headset_to_add
+					to_chat(usr, "<span class='notice'>You fit the headset onto [src].</span>")
 
-	for(var/channel in radio.channels)
-		var/channel_to_add
+					available_channels.Cut()
+					for(var/ch in headset_to_add.channels)
+						switch(ch)
+							if(RADIO_CHANNEL_ENGINEERING)
+								available_channels.Add(RADIO_TOKEN_ENGINEERING)
+							if(RADIO_CHANNEL_COMMAND)
+								available_channels.Add(RADIO_TOKEN_COMMAND)
+							if(RADIO_CHANNEL_SECURITY)
+								available_channels.Add(RADIO_TOKEN_SECURITY)
+							if(RADIO_CHANNEL_SCIENCE)
+								available_channels.Add(RADIO_TOKEN_SCIENCE)
+							if(RADIO_CHANNEL_MEDICAL)
+								available_channels.Add(RADIO_TOKEN_MEDICAL)
+							if(RADIO_CHANNEL_SUPPLY)
+								available_channels.Add(RADIO_TOKEN_SUPPLY)
+//							if(RADIO_CHANNEL_EXPLORATION) NSV13 - stole the exploration channel
+//								available_channels.Add(RADIO_TOKEN_EXPLORATION)
+							if(RADIO_CHANNEL_SERVICE)
+								available_channels.Add(RADIO_TOKEN_SERVICE)
 
-		switch(channel)
-			if(RADIO_CHANNEL_ENGINEERING)
-				channel_to_add = RADIO_TOKEN_ENGINEERING
-			if(RADIO_CHANNEL_COMMAND)
-				channel_to_add = RADIO_TOKEN_COMMAND
-			if(RADIO_CHANNEL_SECURITY)
-				channel_to_add = RADIO_TOKEN_SECURITY
-			if(RADIO_CHANNEL_SCIENCE)
-				channel_to_add = RADIO_TOKEN_SCIENCE
-			if(RADIO_CHANNEL_MEDICAL)
-				channel_to_add = RADIO_TOKEN_MEDICAL
-			if(RADIO_CHANNEL_SUPPLY)
-				channel_to_add = RADIO_TOKEN_SUPPLY
-			if(RADIO_CHANNEL_MUNITIONS) //NSV13 - replaced exploration with munitions
-				channel_to_add = RADIO_TOKEN_MUNITIONS 
-			if(RADIO_CHANNEL_SERVICE)
-				channel_to_add = RADIO_TOKEN_SERVICE
+					if(headset_to_add.translate_binary)
+						available_channels.Add(MODE_TOKEN_BINARY)
+	else
+		return ..()
 
-		if(channel_to_add)
-			parrot_source.available_channels += channel_to_add
-
-	if(radio.translate_binary)
-		parrot_source.available_channels.Add(MODE_TOKEN_BINARY)
-
-/datum/strippable_item/parrot_headset/start_unequip(atom/source, mob/user)
-	. = ..()
-	if(!.)
-		return FALSE
-
-	var/mob/living/simple_animal/parrot/parrot_source = source
-	if(!istype(parrot_source))
-		return
-
-	if(!parrot_source.stat)
-		parrot_source.say("[parrot_source.available_channels.len ? "[pick(parrot_source.available_channels)] " : null]BAWWWWWK LEAVE THE HEADSET BAWKKKKK!")
-
-	return TRUE
-
-/datum/strippable_item/parrot_headset/finish_unequip(atom/source, mob/user)
-	var/mob/living/simple_animal/parrot/parrot_source = source
-	if(!istype(parrot_source))
-		return
-
-	parrot_source.ears.forceMove(parrot_source.drop_location())
-	parrot_source.ears = null
 
 /*
- * Attack responses
+ * Attack responces
  */
 //Humans, monkeys, aliens
 /mob/living/simple_animal/parrot/attack_hand(mob/living/carbon/M)
@@ -428,8 +413,6 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 
 				if(available_channels.len && src.ears)
 					for(var/possible_phrase in speak)
-						if(CHAT_FILTER_CHECK(possible_phrase))
-							continue
 
 						//50/50 chance to not use the radio at all
 						var/useradio = 0
@@ -445,8 +428,6 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 
 				else //If we have no headset or channels to use, dont try to use any!
 					for(var/possible_phrase in speak)
-						if(CHAT_FILTER_CHECK(possible_phrase))
-							continue
 						if((possible_phrase[1] in GLOB.department_radio_prefixes) && (copytext_char(possible_phrase, 2, 3) in GLOB.department_radio_keys))
 							possible_phrase = copytext_char(possible_phrase, 3) //crop out the channel prefix
 						newspeak.Add(possible_phrase)
@@ -463,7 +444,7 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 //-----WANDERING - This is basically a 'I dont know what to do yet' state
 	else if(parrot_state == PARROT_WANDER)
 		//Stop movement, we'll set it later
-		SSmove_manager.stop_looping(src)
+		walk(src, 0)
 		parrot_interest = null
 
 		//Wander around aimlessly. This will help keep the loops from searches down
@@ -501,7 +482,7 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 				return
 //-----STEALING
 	else if(parrot_state == (PARROT_SWOOP | PARROT_STEAL))
-		SSmove_manager.stop_looping(src)
+		walk(src,0)
 		if(!parrot_interest || held_item)
 			parrot_state = PARROT_SWOOP | PARROT_RETURN
 			return
@@ -524,7 +505,8 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 			parrot_interest = null
 			parrot_state = PARROT_SWOOP | PARROT_RETURN
 			return
-		SSmove_manager.move_to(src, parrot_interest, 1, parrot_speed)
+
+		walk_to(src, parrot_interest, 1, parrot_speed)
 		if(isStuck())
 			return
 
@@ -532,7 +514,7 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 
 //-----RETURNING TO PERCH
 	else if(parrot_state == (PARROT_SWOOP | PARROT_RETURN))
-		SSmove_manager.stop_looping(src)
+		walk(src, 0)
 		if(!parrot_perch || !isturf(parrot_perch.loc)) //Make sure the perch exists and somehow isn't inside of something else.
 			parrot_perch = null
 			parrot_state = PARROT_WANDER
@@ -545,7 +527,7 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 			icon_state = icon_sit
 			return
 
-		SSmove_manager.move_to(src, parrot_perch, 1, parrot_speed)
+		walk_to(src, parrot_perch, 1, parrot_speed)
 		if(isStuck())
 			return
 
@@ -553,11 +535,11 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 
 //-----FLEEING
 	else if(parrot_state == (PARROT_SWOOP | PARROT_FLEE))
-		SSmove_manager.stop_looping(src)
+		walk(src,0)
 		if(!parrot_interest || !isliving(parrot_interest)) //Sanity
 			parrot_state = PARROT_WANDER
 
-		SSmove_manager.move_away(src, parrot_interest, 1, parrot_speed)
+		walk_away(src, parrot_interest, 1, parrot_speed)
 		if(isStuck())
 			return
 
@@ -597,14 +579,14 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 			L.attack_animal(src)//Time for the hurt to begin!
 		//Otherwise, fly towards the mob!
 		else
-			SSmove_manager.move_to(src, parrot_interest, 1, parrot_speed)
+			walk_to(src, parrot_interest, 1, parrot_speed)
 			if(isStuck())
 				return
 
 		return
 //-----STATE MISHAP
 	else //This should not happen. If it does lets reset everything and try again
-		SSmove_manager.stop_looping(src)
+		walk(src,0)
 		parrot_interest = null
 		parrot_perch = null
 		drop_held_item()
@@ -891,7 +873,7 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 	var/longest_survival = 0
 	var/longest_deathstreak = 0
 
-/mob/living/simple_animal/parrot/Poly/Initialize(mapload)
+/mob/living/simple_animal/parrot/Poly/Initialize()
 	ears = new /obj/item/radio/headset/headset_eng(src)
 	available_channels = list(":e")
 	Read_Memory()
@@ -980,7 +962,7 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 	incorporeal_move = INCORPOREAL_MOVE_BASIC
 	butcher_results = list(/obj/item/ectoplasm = 1)
 
-/mob/living/simple_animal/parrot/Poly/ghost/Initialize(mapload)
+/mob/living/simple_animal/parrot/Poly/ghost/Initialize()
 	memory_saved = TRUE //At this point nothing is saved
 	. = ..()
 
@@ -994,7 +976,7 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 		if(!ishuman(parrot_interest))
 			parrot_interest = null
 		else if(parrot_state == (PARROT_SWOOP | PARROT_ATTACK) && Adjacent(parrot_interest))
-			SSmove_manager.move_to(src, parrot_interest, 0, parrot_speed)
+			walk_to(src, parrot_interest, 0, parrot_speed)
 			Possess(parrot_interest)
 	..()
 

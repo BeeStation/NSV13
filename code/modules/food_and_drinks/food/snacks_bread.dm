@@ -191,7 +191,6 @@
 	icon = 'icons/obj/food/burgerbread.dmi'
 	icon_state = "baguette"
 	item_state = "baguette"
-	worn_icon_state = "baguette"
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/consumable/nutriment/vitamin = 2)
 	list_reagents = list(/datum/reagent/consumable/nutriment = 6, /datum/reagent/consumable/nutriment/vitamin = 1)
 	bitesize = 3
@@ -246,25 +245,20 @@
 	item_flags = fried.item_flags
 	obj_flags = fried.obj_flags
 
-	RegisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT, .proc/clean_batter)
-
 	if(istype(fried, /obj/item/reagent_containers/food/snacks))
 		fried.reagents.trans_to(src, fried.reagents.total_volume)
 		qdel(fried)
 	else
 		fried.forceMove(src)
 
-/obj/item/reagent_containers/food/snacks/deepfryholder/proc/clean_batter()
-	qdel(src)
-
 /obj/item/reagent_containers/food/snacks/deepfryholder/Destroy()
-	UnregisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT)
+	if(contents)
+		QDEL_LIST(contents)
 	. = ..()
 
 /obj/item/reagent_containers/food/snacks/deepfryholder/On_Consume(mob/living/eater)
-	if(length(contents) && !reagents.total_volume)
-		for(var/atom/movable/A in contents)
-			A.forceMove(eater.loc)
+	if(contents)
+		QDEL_LIST(contents)
 	..()
 
 /obj/item/reagent_containers/food/snacks/deepfryholder/proc/fry(cook_time = 30)

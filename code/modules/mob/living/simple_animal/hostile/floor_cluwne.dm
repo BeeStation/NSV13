@@ -49,7 +49,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 	hud_possible = list(ANTAG_HUD)
 	mobchatspan = "rainbow"
 
-/mob/living/simple_animal/hostile/floor_cluwne/Initialize(mapload)
+/mob/living/simple_animal/hostile/floor_cluwne/Initialize()
 	. = ..()
 	access_card = new /obj/item/card/id(src)
 	access_card.access = get_all_accesses()//THERE IS NO ESCAPE
@@ -131,9 +131,9 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 /mob/living/simple_animal/hostile/floor_cluwne/Goto(target, delay, minimum_distance)
 	var/area/A = get_area(current_victim.loc)
 	if(!manifested && !is_type_in_typecache(A, invalid_area_typecache) && is_station_level(current_victim.z))
-		SSmove_manager.move_to(src, target, minimum_distance, delay)
+		walk_to(src, target, minimum_distance, delay)
 	else
-		SSmove_manager.stop_looping(src)
+		walk_to(src,0)
 
 
 /mob/living/simple_animal/hostile/floor_cluwne/FindTarget()
@@ -432,7 +432,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 	duration = 600
 	randomdir = FALSE
 
-/obj/effect/temp_visual/fcluwne_manifest/Initialize(mapload)
+/obj/effect/temp_visual/fcluwne_manifest/Initialize()
 	. = ..()
 	playsound(src, 'sound/misc/floor_cluwne_emerge.ogg', 100, 1)
 	flick("fcluwne_manifest",src)
@@ -441,7 +441,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 	name = "floor cluwne"
 	desc = "If you have this, tell a coder or admin!"
 
-/obj/effect/dummy/floorcluwne_orbit/Initialize(mapload)
+/obj/effect/dummy/floorcluwne_orbit/Initialize()
 	. = ..()
 	GLOB.floor_cluwnes++
 	name += " ([GLOB.floor_cluwnes])"

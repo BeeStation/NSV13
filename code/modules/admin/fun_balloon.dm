@@ -6,7 +6,7 @@
 	anchored = TRUE
 	var/popped = FALSE
 
-/obj/effect/fun_balloon/Initialize(mapload)
+/obj/effect/fun_balloon/Initialize()
 	. = ..()
 	SSobj.processing |= src
 
@@ -92,7 +92,7 @@
 	icon_state = "syndballoon"
 	anchored = TRUE
 
-/obj/effect/station_crash/Initialize(mapload)
+/obj/effect/station_crash/Initialize()
 	..()
 	for(var/S in SSshuttle.stationary)
 		var/obj/docking_port/stationary/SM = S
@@ -110,7 +110,7 @@
 	timeleft = 0
 	var/list/warp_points = list()
 
-/obj/effect/forcefield/arena_shuttle/Initialize(mapload)
+/obj/effect/forcefield/arena_shuttle/Initialize()
 	. = ..()
 	for(var/obj/effect/landmark/shuttle_arena_safe/exit in GLOB.landmarks_list)
 		warp_points += exit
