@@ -1,6 +1,3 @@
-/obj/item/gun
-	var/atom/autofire_target = null //What are we aiming at? This will change if you move your mouse whilst spraying.
-
 /obj/item/gun/proc/can_fire_at(atom/target, mob/user)
 	if(!target)
 		return FALSE

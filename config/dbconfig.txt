@@ -13,7 +13,7 @@ ADDRESS localhost
 PORT 3306
 
 ## Database for all SQL functions, not just feedback.
-FEEDBACK_DATABASE ss13beedb
+FEEDBACK_DATABASE nsv13
 
 ## Prefix to be added to the name of every table, older databases will require this be set to erro_
 ## Note, this does not change the table names in the database, you will have to do that yourself.
@@ -21,10 +21,10 @@ FEEDBACK_DATABASE ss13beedb
 ##	FEEDBACK_TABLEPREFIX
 ##	FEEDBACK_TABLEPREFIX SS13_
 ## Remove "SS13_" if you are using the standard schema file.
-FEEDBACK_TABLEPREFIX SS13_
+FEEDBACK_TABLEPREFIX 
 
 ## Username/Login used to access the database.
-FEEDBACK_LOGIN ss13dbuser
+FEEDBACK_LOGIN nsv13
 
 ## Password used to access the database.
 FEEDBACK_PASSWORD password1
@@ -33,7 +33,7 @@ FEEDBACK_PASSWORD password1
 ## Set to 0 for infinite
 ASYNC_QUERY_TIMEOUT 10
 
-## Time in seconds for blocking queries to execute before slow query timeout
+## Time in seconds for blocking queries to execute before slow query timeout 
 ## Set to 0 for infinite
 ## Must be less than or equal to ASYNC_QUERY_TIMEOUT
 BLOCKING_QUERY_TIMEOUT 5

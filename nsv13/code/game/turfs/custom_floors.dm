@@ -3,15 +3,17 @@
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
 	icon = 'nsv13/icons/turf/dark_carpet.dmi'
 	icon_state = "dark_carpet"
+	base_icon_state = "dark_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship
 	canSmoothWith = null
 
 /turf/open/floor/black/airless
 	name = "black floor"
 	icon_state = "black"
+	base_icon_state = "black"
 	initial_gas_mix = AIRLESS_ATMOS
 
-/turf/open/floor/carpet/ship/Initialize()
+/turf/open/floor/carpet/ship/Initialize(mapload)
 	. = ..()
 	canSmoothWith = typecacheof(/turf/open/floor/carpet/ship)
 
@@ -20,6 +22,7 @@
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
 	icon = 'nsv13/icons/turf/blue_carpet.dmi'
 	icon_state = "blue_carpet"
+	base_icon_state = "blue_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship/blue
 
 /turf/open/floor/carpet/ship/orange_carpet
@@ -27,6 +30,7 @@
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
 	icon = 'nsv13/icons/turf/orange_carpet.dmi'
 	icon_state = "orange_carpet"
+	base_icon_state = "orange_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship/orange_carpet
 
 /turf/open/floor/carpet/ship/purple_carpet
@@ -34,6 +38,7 @@
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
 	icon = 'nsv13/icons/turf/purple_carpet.dmi'
 	icon_state = "purple_carpet"
+	base_icon_state = "purple_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship/purple_carpet
 
 /turf/open/floor/carpet/ship/beige_carpet
@@ -41,6 +46,7 @@
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
 	icon = 'nsv13/icons/turf/beige_carpet.dmi'
 	icon_state = "beige_carpet"
+	base_icon_state = "beige_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship/beige_carpet
 
 /turf/open/floor/carpet/ship/red_carpet
@@ -48,6 +54,7 @@
 	desc = "A padded piece of hull plating which can make a space based installation feel more homely."
 	icon = 'nsv13/icons/turf/red_carpet.dmi'
 	icon_state = "red_carpet"
+	base_icon_state = "red_carpet"
 	floor_tile = /obj/item/stack/tile/carpet/ship/red_carpet
 
 /turf/open/floor/durasteel
@@ -148,11 +155,13 @@
 /turf/open/floor/monofloor/corner
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "steel_monofloor_corner"
+	base_icon_state = "steel_monofloor_corner"
 
 /turf/open/floor/plating/rusty_techgrid
 	name = "rusted grid plating"
 	icon = 'nsv13/icons/turf/floors.dmi'
 	icon_state = "techfloor_rusted"
+	base_icon_state = "techfloor_rusted"
 	broken_states = list("techfloor_rusted_dam1", "techfloor_rusted_dam2")
 	burnt_states = list("techfloor_rusted_scorched1", "techfloor_rusted_scorched2")
 
@@ -160,3 +169,4 @@
 	name = "stairs"
 	icon = 'icons/obj/stairs.dmi'
 	icon_state = "stairs"
+	base_icon_state = "stairs"

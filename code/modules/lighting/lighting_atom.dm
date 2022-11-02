@@ -38,7 +38,6 @@
 	if(light_system != STATIC_LIGHT)
 		CRASH("update_light() for [src] with following light_system value: [light_system]")
 
-
 	if (!light_power || !light_range) // We won't emit light anyways, destroy the light source.
 		QDEL_NULL(light)
 	else
@@ -93,7 +92,7 @@
 
 /atom/vv_edit_var(var_name, var_value)
 	switch (var_name)
-		if ("light_range")
+		if (NAMEOF(src, light_range))
 			if(light_system == STATIC_LIGHT)
 				set_light(l_range = var_value)
 			else
@@ -101,7 +100,7 @@
 			datum_flags |= DF_VAR_EDITED
 			return TRUE
 
-		if ("light_power")
+		if (NAMEOF(src, light_power))
 			if(light_system == STATIC_LIGHT)
 				set_light(l_power = var_value)
 			else
@@ -109,7 +108,7 @@
 			datum_flags |= DF_VAR_EDITED
 			return TRUE
 
-		if ("light_color")
+		if (NAMEOF(src, light_color))
 			if(light_system == STATIC_LIGHT)
 				set_light(l_color = var_value)
 			else
@@ -128,6 +127,7 @@
 	if(!_duration)
 		stack_trace("Lighting FX obj created on a turf without a duration")
 	new /obj/effect/dummy/lighting_obj (src, _range, _power, _color, _duration)
+
 
 /obj/flash_lighting_fx(_range = FLASH_LIGHT_RANGE, _power = FLASH_LIGHT_POWER, _color = COLOR_WHITE, _duration = FLASH_LIGHT_DURATION)
 	if(!_duration)

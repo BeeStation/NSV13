@@ -60,7 +60,7 @@
 /turf/closed/wall/r_wall,
 /area/hammurabi/hangar)
 "bC" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -92,7 +92,7 @@
 /turf/open/floor/mineral/plastitanium/airless,
 /area/hammurabi/hangar)
 "ci" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 10
 	},
 /obj/structure/cable{
@@ -194,7 +194,7 @@
 /turf/open/floor/plating,
 /area/hammurabi/maintenance/secondary)
 "fl" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 9
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -259,7 +259,7 @@
 /obj/machinery/atmospherics/components/binary/dp_vent_pump/high_volume{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -278,7 +278,7 @@
 /area/hammurabi/hangar)
 "hW" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 1
 	},
 /obj/structure/cable{
@@ -320,7 +320,7 @@
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/bar)
 "ki" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -413,9 +413,9 @@
 /obj/machinery/computer/ship/fighter_controller{
 	dir = 8;
 	faction = "syndicate";
-	valid_filters = list("Only Occupied Ship","Syndicate Light Fighter","Syndicate Utility Vessel");
 	req_access = null;
-	req_one_access_txt = "150"
+	req_one_access_txt = "150";
+	valid_filters = list("Only Occupied Ship","Syndicate Light Fighter","Syndicate Utility Vessel")
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/hammurabi/atc_tower)
@@ -468,9 +468,8 @@
 /turf/open/floor/mineral/plastitanium/airless,
 /area/hammurabi/hangar)
 "pD" = (
-/obj/machinery/power/deck_relay,
 /obj/structure/cable{
-	icon_state = "0-8"
+	icon_state = "8-32"
 	},
 /obj/machinery/light/small{
 	dir = 4
@@ -483,7 +482,7 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 8
 	},
 /obj/structure/cable{
@@ -508,7 +507,7 @@
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/hammurabi/hangar)
 "qW" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -544,7 +543,7 @@
 /turf/open/floor/mineral/plastitanium/airless,
 /area/hammurabi/hangar)
 "rz" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -583,7 +582,7 @@
 /obj/machinery/door/airlock/ship/maintenance,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -594,7 +593,7 @@
 /obj/machinery/atmospherics/components/binary/dp_vent_pump/high_volume{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/structure/cable{
@@ -619,16 +618,17 @@
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/hammurabi/hangar)
 "tS" = (
-/obj/machinery/atmospherics/components/unary/portables_connector{
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/atmospherics/pipe/multiz{
 	dir = 4
 	},
-/turf/closed/wall/r_wall,
+/turf/open/floor/plating,
 /area/hammurabi/maintenance/secondary)
 "tY" = (
-/obj/machinery/atmospherics/pipe/simple/multiz{
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/atmospherics/pipe/multiz/layer4{
 	dir = 4
 	},
-/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/plating,
 /area/hammurabi/maintenance/secondary)
 "ul" = (
@@ -638,7 +638,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -653,7 +653,7 @@
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/hammurabi/hangar)
 "vi" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -756,8 +756,8 @@
 /turf/closed/wall/r_wall,
 /area/hammurabi/hangar)
 "yo" = (
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/hammurabi/maintenance/secondary)
@@ -816,7 +816,7 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -834,7 +834,7 @@
 /turf/open/floor/engine/airless,
 /area/nsv/weapons/pvp)
 "Cp" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -918,7 +918,7 @@
 /area/hammurabi/bar)
 "GW" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
@@ -940,7 +940,7 @@
 /turf/open/floor/engine/airless,
 /area/hammurabi/maintenance/exterior)
 "It" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 5
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -984,7 +984,7 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -992,7 +992,7 @@
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/atc_tower)
 "Ky" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -1031,7 +1031,7 @@
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/hammurabi/hangar)
 "Mj" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -1042,7 +1042,7 @@
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/atc_tower)
 "Mk" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/light/small{
@@ -1073,7 +1073,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -1147,7 +1147,7 @@
 /turf/open/floor/engine/airless,
 /area/hammurabi/hangar)
 "OX" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -1195,7 +1195,7 @@
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/hammurabi/hangar)
 "Qs" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/structure/cable{
@@ -1223,7 +1223,7 @@
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/hammurabi/hangar)
 "QG" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -1260,7 +1260,7 @@
 /turf/open/floor/mineral/plastitanium/airless,
 /area/hammurabi/hangar)
 "RX" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 10
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -1282,7 +1282,7 @@
 	req_access = null;
 	req_one_access_txt = "150"
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer3{
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
 /turf/open/floor/mineral/plastitanium,
@@ -1306,7 +1306,7 @@
 /turf/open/floor/engine/airless,
 /area/hammurabi/maintenance/exterior)
 "SR" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 10
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -1385,7 +1385,7 @@
 /area/hammurabi/bar)
 "US" = (
 /obj/effect/turf_decal/stripes/line,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 10
 	},
@@ -1428,8 +1428,7 @@
 /obj/machinery/camera/syndicate/autoname,
 /obj/machinery/firealarm/directional/west,
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
-	dir = 4;
-	icon_state = "vent_map_on-2"
+	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/atc_tower)
@@ -1437,7 +1436,7 @@
 /turf/closed/wall/r_wall,
 /area/hammurabi/hangar)
 "Zr" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer3,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/bar)
@@ -26490,9 +26489,9 @@ MD
 gy
 MD
 mv
-tS
 mv
-tS
+mv
+mv
 mv
 rr
 fJ
@@ -26749,7 +26748,7 @@ MD
 mv
 tY
 Ae
-tY
+tS
 mv
 jc
 Qj
