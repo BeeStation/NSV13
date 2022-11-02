@@ -13,7 +13,7 @@
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
 
-/obj/structure/overmap/Initialize()
+/obj/structure/overmap/Initialize(mapload)
 	. = ..()
 	if(mass <= MASS_TINY)
 		weapons[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/light_cannon(src)

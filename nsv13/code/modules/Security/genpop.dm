@@ -102,7 +102,7 @@
 	else
 		return ..()
 
-/obj/machinery/turnstile/Initialize()
+/obj/machinery/turnstile/Initialize(mapload)
 	. = ..()
 	icon_state = "turnstile"
 
@@ -161,7 +161,7 @@
 	name = "Prisoner Management Interface (circuit)"
 	build_path = /obj/machinery/genpop_interface
 
-/obj/machinery/genpop_interface/Initialize()
+/obj/machinery/genpop_interface/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -170,11 +170,11 @@
 	Radio.set_frequency(FREQ_SECURITY)
 
 /obj/machinery/genpop_interface/update_icon()
-	if(stat & (NOPOWER))
+	if(machine_stat & (NOPOWER))
 		icon_state = "frame"
 		return
 
-	if(stat & (BROKEN))
+	if(machine_stat & (BROKEN))
 		set_picture("ai_bsod")
 		return
 	set_picture("genpop")

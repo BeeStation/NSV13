@@ -3,7 +3,7 @@
 	icon = 'icons/obj/device.dmi'
 	icon_state = "pinonfar"
 
-/obj/effect/abstract/open_area_marker/Initialize()
+/obj/effect/abstract/open_area_marker/Initialize(mapload)
 	return INITIALIZE_HINT_QDEL
 
 /obj/effect/abstract/doorway_marker
@@ -11,7 +11,7 @@
 	icon = 'icons/obj/device.dmi'
 	icon_state = "pinonmedium"
 
-/obj/effect/abstract/doorway_marker/Initialize()
+/obj/effect/abstract/doorway_marker/Initialize(mapload)
 	return INITIALIZE_HINT_QDEL
 
 //Basic loot, utility and maybe some weapons
@@ -148,8 +148,8 @@
 		/obj/item/grenade/exploration = 1,
 	)
 
-//Armoury stuff
-/obj/effect/spawner/lootdrop/ruinloot/armoury
+//Armory stuff
+/obj/effect/spawner/lootdrop/ruinloot/armory
 	loot = list(
 		"" = 30,
 		/obj/item/gun/energy/disabler = 5,
@@ -186,7 +186,7 @@
 	loot = list(
 		"" = 4,
 		/obj/item/disk/tech_disk/research/random = 24,
-		/obj/item/alienartifact = 6,
+		/obj/item/xenoartifact = 6,
 		/obj/item/gun/energy/vortex = 3,
 		/obj/item/gun/energy/alien = 1
 	)

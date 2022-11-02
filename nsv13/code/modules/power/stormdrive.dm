@@ -463,7 +463,7 @@ Control Rods
 	var/area/AR = get_area(src)
 	AR.ambient_buzz = 'nsv13/sound/ambience/shipambience.ogg'
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/Initialize()
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/Initialize(mapload)
 	. = ..()
 	radio = new(src)
 	radio.keyslot = new radio_key
@@ -487,6 +487,13 @@ Control Rods
 	gas_records["nucleium"] = list()
 
 /////// REACTOR START PROCS ////////
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/bullet_act(obj/item/projectile/energy/accelerated_particle/P, def_zone, piercing_hit = FALSE)
+	if(istype(P))
+		heat += P.energy
+		try_start()
+	else
+		. = ..()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/try_start()
 
@@ -1275,7 +1282,7 @@ Control Rods
 		return
 	. = ..() //parent should call ui_interact
 
-/obj/machinery/computer/ship/reactor_control_computer/Initialize()
+/obj/machinery/computer/ship/reactor_control_computer/Initialize(mapload)
 	. = ..()
 	new /obj/item/book/manual/wiki/stormdrive(get_turf(src))
 	return INITIALIZE_HINT_LATELOAD
@@ -1539,14 +1546,16 @@ Control Rods
 /obj/machinery/portable_atmospherics/canister/constricted_plasma
 	name = "constricted plasma canister"
 	desc = "Highly volatile plasma which has been magnetically constricted. The fuel which nuclear storm drives run off of."
-	icon_state = "orange"
 	gas_type = GAS_CONSTRICTED_PLASMA
+	greyscale_config = /datum/greyscale_config/canister/hazard
+	greyscale_colors = "#aa18c7#000000"
 
 /obj/machinery/portable_atmospherics/canister/nucleium
 	name = "nucleium canister"
 	desc = "A waste plasma biproduct produced in the Stormdrive, used in quantum waveform generation."
-	icon_state = "miasma"
 	gas_type = GAS_NUCLEIUM
+	greyscale_colors = "#66C88F#000000"
+	greyscale_config = /datum/greyscale_config/canister/hazard
 
 /datum/weather/nuclear_fallout
 	name = "nuclear fallout"
@@ -1826,7 +1835,7 @@ Control Rods
 	icon_state = "crate"
 	w_class = WEIGHT_CLASS_GIGANTIC
 
-/obj/item/stormdrive_core/Initialize()
+/obj/item/stormdrive_core/Initialize(mapload)
 	.=..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 

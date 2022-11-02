@@ -27,7 +27,7 @@
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON | INTERACT_MACHINE_REQUIRES_SILICON | INTERACT_MACHINE_OPEN
 	air_tight = TRUE
 	open_speed = 2
-	req_access = list(ACCESS_ENGINE)
+	req_one_access = list(ACCESS_ENGINE, ACCESS_ATMOSPHERICS)
 	processing_flags = START_PROCESSING_MANUALLY
 	var/emergency_close_timer = 0
 	var/nextstate = null
@@ -36,7 +36,7 @@
 	var/list/access_log
 	var/process_ticker //Ratelimit process to one check ~5 process ticks
 
-/obj/machinery/door/firedoor/Initialize()
+/obj/machinery/door/firedoor/Initialize(mapload)
 	. = ..()
 	CalculateAffectingAreas()
 
@@ -81,7 +81,7 @@
 	if(panel_open || operating)
 		return
 	//NSV13 - allow bump to open if powered
-	if(welded || (stat & NOPOWER))
+	if(welded || (machine_stat & NOPOWER))
 		return
 	if(ismob(AM))
 		var/mob/user = AM
@@ -102,10 +102,10 @@
 
 /obj/machinery/door/firedoor/power_change()
 	if(powered(power_channel))
-		stat &= ~NOPOWER
+		set_machine_stat(machine_stat & ~NOPOWER)
 		INVOKE_ASYNC(src, .proc/latetoggle)
 	else
-		stat |= NOPOWER
+		set_machine_stat(machine_stat | NOPOWER)
 
 /obj/machinery/door/firedoor/attack_hand(mob/user)
 	. = ..()
@@ -114,7 +114,7 @@
 
 	//NSV13 - allow manual operation of unpowered firelocks
 	if (!welded && !operating)
-		if (stat & NOPOWER)
+		if (machine_stat & NOPOWER)
 			user.visible_message("[user] tries to open \the [src] manually.",
 						 "You operate the manual lever on \the [src].")
 			if (!do_after(user, 30, TRUE, src))
@@ -181,7 +181,7 @@
 	return ..()
 
 /obj/machinery/door/firedoor/try_to_activate_door(obj/item/I, mob/user)
-	if(!density)
+	if(!density || welded)
 		return
 
 	if(isidcard(I))
@@ -232,7 +232,7 @@
 		return
 
 	if(density)
-		if(!(stat & NOPOWER))
+		if(!(machine_stat & NOPOWER))
 			LAZYADD(access_log, "MOTOR_ERR:|MOTOR CONTROLLER REPORTED BACKDRIVE|T_OFFSET:[DisplayTimeText(world.time - SSticker.round_start_time)]")
 			if(length(access_log) > 20) //Unless this is getting spammed this shouldn't happen.
 				access_log.Remove(access_log[1])
@@ -268,7 +268,7 @@
 
 /obj/machinery/door/firedoor/attack_ai(mob/user)
 	add_fingerprint(user)
-	if(welded || operating || stat & NOPOWER)
+	if(welded || operating || machine_stat & NOPOWER)
 		return TRUE
 	if(density)
 		open()
@@ -404,7 +404,7 @@
 
 
 /obj/machinery/door/firedoor/proc/latetoggle()
-	if(operating || stat & NOPOWER || !nextstate)
+	if(operating || machine_stat & NOPOWER || !nextstate)
 		return
 	switch(nextstate)
 		if(FIREDOOR_OPEN)
@@ -419,9 +419,15 @@
 	flags_1 = ON_BORDER_1
 	CanAtmosPass = ATMOS_PASS_PROC
 	assemblytype = /obj/structure/firelock_frame/border
+	opacity = FALSE
+	var/ini_dir
 
-/obj/machinery/door/firedoor/border_only/Initialize()
+/obj/machinery/door/firedoor/border_only/Initialize(mapload, loc, set_dir)
 	. = ..()
+	if(set_dir)
+		setDir(set_dir)
+	ini_dir = dir
+	air_update_turf(1)
 
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_EXIT = .proc/on_exit,
@@ -436,12 +442,13 @@
 
 /obj/machinery/door/firedoor/border_only/closed
 	icon_state = "door_closed"
-	opacity = TRUE
+	opacity = 1
 	density = TRUE
 
 /obj/machinery/door/firedoor/border_only/close()
 	if(density)
 		return TRUE
+	set_opacity(1)
 	if(operating || welded)
 		return
 	var/turf/T1 = get_turf(src)
@@ -502,26 +509,7 @@
 		leaving.Bump(src)
 		return COMPONENT_ATOM_BLOCK_EXIT
 
-/obj/machinery/door/firedoor/border_only/CanAtmosPass(turf/T)
-	if(get_dir(loc, T) == dir)
-		return !density
-	else
-		return TRUE
-
 //NSV13 - knpcs can into firelock
-/obj/machinery/door/firedoor/border_only/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
-	if(istype(caller) && (caller.pass_flags & pass_flags_self))
-		return TRUE
-	if(!density)
-		return TRUE
-	if(!(dir in dir_to_cardinal_dirs(to_dir)))
-		return TRUE
-	if(welded)
-		return FALSE
-	if(!hasPower())
-		return isknpc(caller)
-	return TRUE
-
 /obj/machinery/door/firedoor/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
 	if(istype(caller) && (caller.pass_flags & pass_flags_self))
 		return TRUE
@@ -532,6 +520,12 @@
 	if(!hasPower())
 		return isknpc(caller)
 	return TRUE
+
+/obj/machinery/door/firedoor/border_only/CanAtmosPass(turf/T)
+	if(get_dir(loc, T) == dir)
+		return !density
+	else
+		return 1
 //NSV13 end
 
 /obj/machinery/door/firedoor/heavy

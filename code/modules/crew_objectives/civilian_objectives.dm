@@ -9,11 +9,7 @@
 /datum/objective/crew/druglordbot/New()
 	. = ..()
 	target_amount = rand(3,20)
-	var/blacklist = list(/datum/reagent/drug, /datum/reagent/consumable/menthol, /datum/reagent/medicine, /datum/reagent/medicine/adminordrazine, /datum/reagent/medicine/mine_salve, /datum/reagent/medicine/syndicate_nanites, /datum/reagent/medicine/strange_reagent, /datum/reagent/medicine/changelingadrenaline)
-	var/drugs = typesof(/datum/reagent/drug) - blacklist
-	var/meds = typesof(/datum/reagent/medicine) - blacklist
-	var/chemlist = drugs + meds
-	chempath = pick(chemlist)
+	chempath = get_random_reagent_id(CHEMICAL_GOAL_BOTANIST_HARVEST)
 	targetchem = chempath
 	update_explanation_text()
 
@@ -31,7 +27,7 @@
 	if(pillcount <= 0)
 		return TRUE
 	else
-		return FALSE
+		return ..()
 
 /datum/objective/crew/foodhoard
 	var/datum/crafting_recipe/food/targetfood
@@ -56,18 +52,43 @@
 	if(owner.current && owner.current.check_contents_for(foodpath) && SSshuttle.emergency.shuttle_areas[get_area(owner.current)])
 		return TRUE
 	else
-		return FALSE
+		return ..()
 
-/datum/objective/crew/responsibility
-	explanation_text = "Make sure nobody dies with alcohol poisoning."
+/datum/objective/crew/cocktail
+	explanation_text = "Have a bottle(any type) that contains 'something' when the shift ends. Each of them must be at least 'something'u."
 	jobs = "bartender"
+	var/targetchems = list()
+	var/list/chemnames = list()
+	var/chemsize
+	var/datum/reagent/chempath
 
-/datum/objective/crew/responsibility/check_completion()
-	for(var/mob/living/carbon/human/H in GLOB.mob_list)
-		if(H.stat == DEAD && H.drunkenness >= 80)
-			if((H.z in SSmapping.levels_by_trait(ZTRAIT_STATION)) || SSshuttle.emergency.shuttle_areas[get_area(H)])
-				return FALSE
-	return TRUE
+/datum/objective/crew/cocktail/New()
+	. = ..()
+	for(var/i in 1 to 5)
+		chempath = get_random_reagent_id(CHEMICAL_GOAL_BARTENDER_SERVING)
+		if(!(chempath in targetchems))
+			targetchems += chempath
+			chemnames += "[initial(chempath.name)]"
+	// chems may reaction, but there's no reactionable recipe from CHEMICAL_GOAL_BARTENDER_SERVING. Just don't put basic chems there.
+	chemsize = 4+(5-length(targetchems))
+	update_explanation_text()
+
+/datum/objective/crew/cocktail/update_explanation_text()
+	. = ..()
+	explanation_text = "Have a bottle(any type) that contains '[english_list(chemnames, and_text = ", and ")]' when the shift ends. Each of them must be at least [chemsize]u."
+
+/datum/objective/crew/cocktail/check_completion()
+	if(owner?.current)
+		if(owner.current.contents)
+			// check every bottle in your bag.
+			for(var/obj/item/reagent_containers/B in owner.current.get_contents())
+				var/count = length(targetchems) // a bottle should have the all desired chems. reset the count for every try.
+				for(var/each in targetchems)
+					if(B.reagents.has_reagent(each, chemsize))
+						count--
+						if(!count) // if it is legit, it completes.
+							return TRUE
+	return ..()
 
 /datum/objective/crew/clean //ported from old Hippie
 	var/list/areas = list()
@@ -107,7 +128,7 @@
 /datum/objective/crew/clean/check_completion()
 	for(var/area/A in areas)
 		for(var/obj/effect/decal/cleanable/C in A.contents)
-			return FALSE
+			return ..()
 	return TRUE
 
 /datum/objective/crew/exterminator
@@ -130,7 +151,7 @@
 			num_mice++
 	if(num_mice <= target_amount)
 		return TRUE
-	return FALSE
+	return ..()
 
 /datum/objective/crew/lostkeys
 	explanation_text = "Don't lose the janicart keys. Have them with you when the shift ends."
@@ -139,7 +160,7 @@
 /datum/objective/crew/lostkeys/check_completion()
 	if(owner && owner.current && owner.current.check_contents_for(/obj/item/key/janitor))
 		return TRUE
-	return FALSE
+	return ..()
 
 /datum/objective/crew/slipster //ported from old Hippie with adjustments
 	explanation_text = "Slip at least (Yell on GitHub if you see this) different people with your PDA, and have it on you at the end of the shift."
@@ -163,7 +184,7 @@
 	if(uniqueslips.len >= target_amount)
 		return TRUE
 	else
-		return FALSE
+		return ..()
 
 /datum/objective/crew/shoethief
 	explanation_text = "Steal at least (Yell on github, this objective broke) pairs of shoes, and have them in your bag at the end of the shift. Bonus points if they are stolen from crewmembers instead of ClothesMates."
@@ -186,7 +207,7 @@
 				shoes |= S
 	if(shoes.len >= target_amount)
 		return TRUE
-	return FALSE
+	return ..()
 
 /datum/objective/crew/vow //ported from old Hippie
 	explanation_text = "Never break your vow of silence."
@@ -196,7 +217,7 @@
 	if(owner?.current)
 		var/list/say_log = owner.current.logging[INDIVIDUAL_SAY_LOG]
 		if(say_log.len > 0)
-			return FALSE
+			return ..()
 	return TRUE
 
 /datum/objective/crew/nothingreallymatterstome
@@ -206,7 +227,7 @@
 /datum/objective/crew/nothingreallymatterstome/check_completion()
 	if(owner && owner.current && owner.current.check_contents_for(/obj/item/reagent_containers/food/drinks/bottle/bottleofnothing))
 		return TRUE
-	return FALSE
+	return ..()
 
 /datum/objective/crew/nullrod
 	explanation_text = "Don't lose your nullrod. You can still transform it into another item."
@@ -217,7 +238,7 @@
 		for(var/nullrodtypes in typesof(/obj/item/nullrod))
 			if(owner.current.check_contents_for(nullrodtypes))
 				return TRUE
-	return FALSE
+	return ..()
 
 /datum/objective/crew/reporter //ported from old hippie
 	var/charcount = 100
@@ -245,7 +266,7 @@
 	if(target_amount <= 0)
 		return TRUE
 	else
-		return FALSE
+		return ..()
 
 /datum/objective/crew/pwrgame //ported from Goon with adjustments
 	var/obj/item/clothing/targettidegarb
@@ -269,8 +290,7 @@
 		for(var/tidegarbtypes in typesof(targettidegarb))
 			if(owner.current.check_contents_for(tidegarbtypes))
 				return TRUE
-
-	return FALSE
+	return ..()
 
 /datum/objective/crew/promotion //ported from Goon
 	explanation_text = "Have a non-assistant ID registered to you at the end of the shift."
@@ -281,9 +301,11 @@
 		var/mob/living/carbon/human/H = owner.current
 		var/obj/item/card/id/theID = H.get_idcard()
 		if(istype(theID))
-			if(!(H.get_assignment() == "Midshipman") && !(H.get_assignment() == "No id") && !(H.get_assignment() == "No job"))
+			if(!(H.get_assignment() == JOB_NAME_ASSISTANT) && !(H.get_assignment() == "No id") && !(H.get_assignment() == "No job"))
 				return TRUE
-	return FALSE
+			if(theID.hud_state != JOB_HUD_ASSISTANT) // non-assistant HUD counts too
+				return TRUE
+	return ..()
 
 /datum/objective/crew/justicecrew
 	explanation_text = "Ensure there are no members of security in the prison wing when the shift ends."
@@ -293,7 +315,6 @@
 	if(owner?.current)
 		for(var/datum/mind/M in SSticker.minds)
 			if(M.current && isliving(M.current))
-				 //Nsv13 - Crayon eaters & MPs
-				if(!M.special_role && !(M.assigned_role == "Military Police") && !(M.assigned_role == "Detective") && !(M.assigned_role == "Head of Security") && !(M.assigned_role == "Internal Affairs Agent") && !(M.assigned_role == "Warden") && get_area(M.current) != typesof(/area/security/prison))
-					return FALSE
+				if(!M.special_role && !(M.assigned_role == JOB_NAME_SECURITYOFFICER) && !(M.assigned_role == JOB_NAME_DETECTIVE) && !(M.assigned_role == JOB_NAME_HEADOFSECURITY) && !(M.assigned_role == "Internal Affairs Agent") && !(M.assigned_role == JOB_NAME_WARDEN) && get_area(M.current) != typesof(/area/security/prison))
+					return ..()
 		return TRUE

@@ -83,7 +83,7 @@
  * If the weapon requires maintenance, generates initial maintenance countdown.
  * Caches icon state list for sanity checking when updating icons.
  */
-/obj/machinery/ship_weapon/Initialize()
+/obj/machinery/ship_weapon/Initialize(mapload)
 	. = ..()
 	PostInitialize()
 	addtimer(CALLBACK(src, .proc/get_ship), 15 SECONDS) //This takes a minute to load...

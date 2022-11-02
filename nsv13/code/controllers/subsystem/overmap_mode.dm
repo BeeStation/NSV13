@@ -407,6 +407,8 @@ SUBSYSTEM_DEF(overmap_mode)
 	if(SSovermap_mode.admin_override)
 		message_admins("[GLOB.station_name] has completed its objectives but round end has been overriden by admin intervention")
 		return
+	if(SSvote.mode == "Press On Or Return Home?") // We're still voting
+		return
 
 	var/datum/star_system/S = SSstar_system.system_by_id("Outpost 45")
 	S.hidden = FALSE
