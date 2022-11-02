@@ -51,6 +51,7 @@
 	name = "Slow conveyor"
 	subsystem_type = /datum/controller/subsystem/machines
 	stack_type = /obj/item/stack/conveyor/slow //What does this conveyor drop when decon'd?
+	conveyor_speed = 2 SECONDS
 
 /obj/machinery/missile_builder/wirer
 	name = "Seegson model 'Ford' robotic autowirer"
@@ -71,7 +72,7 @@
 	. = ..()
 	setDir(turn(src.dir, -90))
 
-/obj/machinery/missile_builder/Initialize()
+/obj/machinery/missile_builder/Initialize(mapload)
 	. = ..()
 	arm = new /obj/item(src)
 	arm.icon = icon
@@ -395,7 +396,7 @@
 		X.ex_act(severity, target)
 	. = ..()
 
-/obj/machinery/ammo_sorter/Initialize()
+/obj/machinery/ammo_sorter/Initialize(mapload)
 	. = ..()
 	for(var/obj/item/I in get_turf(src))
 		if(istype(I, /obj/item/ship_weapon/ammunition) || istype(I, /obj/item/powder_bag))

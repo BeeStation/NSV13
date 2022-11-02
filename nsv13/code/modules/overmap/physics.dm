@@ -539,7 +539,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	if(istype(A, /obj/machinery/door/airlock) && should_open_doors) // try to open doors
 		var/obj/machinery/door/D = A
 		if(!D.operating)
-			if(D.allowed(D.requiresID() ? pilot : null))
+			if(D.allowed(D.id_scan_hacked() ? pilot : null))
 				spawn(0)
 					D.open()
 			else

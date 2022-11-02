@@ -285,7 +285,7 @@
 	icon_state = "datadisk2"
 	max_blueprints = 2
 
-/obj/item/disk/design_disk/hybrid_rail_slugs/Initialize()
+/obj/item/disk/design_disk/hybrid_rail_slugs/Initialize(mapload)
 	. = ..()
 	var/datum/design/slug_cold_iron/A = new
 	var/datum/design/slug_uranium/B = new

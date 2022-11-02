@@ -123,7 +123,7 @@
 	desc = "A wonder material which bent our world view, now it'll bend your wallet if you want some."
 	price = 8000
 	stock = 3
-	unlock_path = /obj/item/stack/sheet/bluespace_crystal
+	unlock_path = /obj/item/stack/ore/bluespace_crystal
 
 /datum/trader_item/mac
 	name = "Magnetic Accelerator Cannon Kit"
@@ -273,7 +273,7 @@
 
 /datum/trader_item/fighter/prototype
 	name = "SU-148 Chelyabinsk Superiority Fighter"
-	desc = "A highly experimental fighter prototype outfitted with a railgun. This absolute powerhouse balances speed, power and stealth in a package guaranteed to outclass anything the Syndicate can throw at you."
+	desc = "A highly experimental fighter prototype outfitted with a railgun. This absolute powerhouse balances speed, power and stealth in a package guaranteed to outclass anything the Syndicate can throw at you. Ammo blueprints sold seperately!"
 	price = 50000
 	stock = 1
 	unlock_path = /obj/structure/overmap/small_craft/combat/light/prototype
@@ -294,6 +294,13 @@
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/battery/tier2,
 						/obj/item/fighter_component/primary/cannon/heavy)
+
+/datum/trader_item/railgun_disk
+	name = "Outdated Railgun Slug Design Disk"
+	desc = "A disk containing railgun slug blueprints."
+	price = 5000
+	stock = 1
+	unlock_path = /obj/item/disk/design_disk/hybrid_rail_slugs
 
 /datum/trader_item/fighter/syndicate
 	name = "AV-41 'Corvid' Syndicate Light Fighter"

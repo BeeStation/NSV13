@@ -1,8 +1,8 @@
-/datum/job/hos
-	title = "Head of Security"
+/datum/job/head_of_security
+	title = JOB_NAME_HEADOFSECURITY
 	flag = HOS
 	auto_deadmin_role_flags = DEADMIN_POSITION_HEAD|DEADMIN_POSITION_SECURITY
-	department_head = list("Captain")
+	department_head = list(JOB_NAME_CAPTAIN)
 	department_flag = ENGSEC
 	head_announce = list(RADIO_CHANNEL_SECURITY)
 	faction = "Station"
@@ -10,14 +10,13 @@
 	spawn_positions = 1
 	supervisors = "the captain"
 	selection_color = "#ffdddd"
-	chat_color = "#D33049"
 	req_admin_notify = 1
 	minimal_player_age = 14
 	exp_requirements = 1200
 	exp_type = EXP_TYPE_SECURITY
 	exp_type_department = EXP_TYPE_SECURITY
 
-	outfit = /datum/outfit/job/hos
+	outfit = /datum/outfit/job/head_of_security
 	mind_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
 
 	access = list(ACCESS_SECURITY, ACCESS_SEC_DOORS, ACCESS_SEC_RECORDS, ACCESS_BRIG, ACCESS_BRIGPHYS, ACCESS_ARMORY, ACCESS_COURT, ACCESS_WEAPONS, ACCESS_MECH_SECURITY,
@@ -32,28 +31,31 @@
 	paycheck_department = ACCOUNT_SEC
 
 	display_order = JOB_DISPLAY_ORDER_HEAD_OF_SECURITY
-	departments = DEPARTMENT_SECURITY | DEPARTMENT_COMMAND
+	departments = DEPARTMENT_BITFLAG_SECURITY | DEPARTMENT_BITFLAG_COMMAND
+	rpg_title = "Guard Leader"
 
 	species_outfits = list(
-		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/hos
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman/head_of_security
 	)
 
-/datum/outfit/job/hos
-	name = "Head of Security"
-	jobtype = /datum/job/hos
+/datum/outfit/job/head_of_security
+	name = JOB_NAME_HEADOFSECURITY
+	jobtype = /datum/job/head_of_security
 
-	id = /obj/item/card/id/silver
-	belt = /obj/item/pda/heads/hos
+	id = /obj/item/card/id/job/head_of_security
+	belt = /obj/item/pda/heads/head_of_security
 	ears = /obj/item/radio/headset/heads/hos/alt
-	uniform = /obj/item/clothing/under/ship/peacekeeper
+	uniform = /obj/item/clothing/under/ship/peacekeeper //NSV13
 	shoes = /obj/item/clothing/shoes/jackboots
-	suit = /obj/item/clothing/suit/ship/peacekeeper/jacket
-	gloves = /obj/item/clothing/gloves/color/black/hos
+	suit = /obj/item/clothing/suit/ship/peacekeeper/jacket //NSV13
+	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/HoS/beret
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
+	// suit_store = /obj/item/gun/energy/e_gun/mini/heads //NSV13 - no lasers
 	r_pocket = /obj/item/assembly/flash/handheld
 	l_pocket = /obj/item/restraints/handcuffs
 	backpack_contents = list(/obj/item/melee/baton/loaded=1,
+		/obj/item/modular_computer/tablet/preset/advanced/command=1,
 		/obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1, /obj/item/book/granter/martial/jujitsu, /obj/item/club=1) //NSV13 this line)
 
 	backpack = /obj/item/storage/backpack/security
@@ -65,11 +67,11 @@
 
 	chameleon_extras = list(/obj/item/gun/ballistic/automatic/pistol/glock/command/hos, /obj/item/stamp/hos)
 
-/datum/outfit/job/hos/hardsuit
+/datum/outfit/job/head_of_security/hardsuit
 	name = "Head of Security (Hardsuit)"
 
 	mask = /obj/item/clothing/mask/gas/sechailer
-	suit = /obj/item/clothing/suit/space/hardsuit/security/hos
+	suit = /obj/item/clothing/suit/space/hardsuit/security/head_of_security
 	suit_store = /obj/item/tank/internals/oxygen
 	backpack_contents = list(/obj/item/melee/baton/loaded=1)
 

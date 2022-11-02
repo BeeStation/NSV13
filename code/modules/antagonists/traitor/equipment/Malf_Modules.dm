@@ -331,7 +331,7 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 	var/detonation_timer
 	var/next_announce
 
-/obj/machinery/doomsday_device/Initialize()
+/obj/machinery/doomsday_device/Initialize(mapload)
 	. = ..()
 	countdown = new(src)
 
@@ -860,7 +860,41 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 
 /datum/AI_Module/large/eavesdrop/upgrade(mob/living/silicon/ai/AI)
 	if(AI.eyeobj)
-		AI.eyeobj.relay_speech = TRUE
+		AI.eyeobj.set_relay_speech(TRUE)
+
+
+//Fake Alert: Overloads a random number of lights across the station. Three uses.
+/datum/AI_Module/small/fake_alert
+	module_name = "Fake Alert"
+	mod_pick_name = "fake_alert"
+	description = "Assess the most probable threats to the station, and send a distracting fake alert by hijacking the station's alert and threat identification systems."
+	cost = 20
+	power_type = /datum/action/innate/ai/fake_alert
+	unlock_text = "<span class='notice'>You gain control of the station's alert system.</span>"
+	unlock_sound = "sparks"
+
+/datum/action/innate/ai/fake_alert
+	name = "Fake Alert"
+	desc = "Scare the crew with a fake alert."
+	button_icon_state = "fake_alert"
+	uses = 1
+
+/datum/action/innate/ai/fake_alert/Activate()
+	var/list/events_to_chose = list()
+	for(var/datum/round_event_control/E in SSevents.control)
+		if(!E.can_malf_fake_alert)
+			continue
+		events_to_chose[E.name] = E
+	var/chosen_event = input(owner,"Send fake alert","Fake Alert") in events_to_chose
+	if (!chosen_event)
+		return FALSE
+	var/datum/round_event_control/event_control = events_to_chose[chosen_event]
+	if (!event_control)
+		return FALSE
+	var/datum/round_event/event_announcement = new event_control.typepath()
+	event_announcement.kill()
+	event_announcement.announce(TRUE)
+	return TRUE
 
 
 //Fake Alert: Overloads a random number of lights across the station. Three uses.
