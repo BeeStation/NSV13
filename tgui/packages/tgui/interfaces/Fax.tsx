@@ -88,38 +88,36 @@ export const Fax = (props, context) => {
             </Button>
           }>
           <Box mt={0.4}>
-            {!!data.access_additional_faxes &&
-              data.additional_faxes_list.map((fax: AdditionalFaxesList) => (
-                <Button
-                  key={fax.fax_name}
-                  title={fax.fax_name}
-                  disabled={!data.has_paper}
-                  backgroundColor={fax.button_color}
-                  onClick={() =>
-                    act('send_to_additional_fax', {
-                      name: fax.fax_name,
-                      color: fax.button_color,
-                    })
-                  }>
-                  {fax.fax_name}
-                </Button>
-              ))}
-            {!!data.syndicate_network &&
-              data.syndicate_faxes_list.map((fax: AdditionalFaxesList) => (
-                <Button
-                  key={fax.fax_name}
-                  title={fax.fax_name}
-                  disabled={!data.has_paper}
-                  backgroundColor={fax.button_color}
-                  onClick={() =>
-                    act('send_to_additional_fax', {
-                      name: fax.fax_name,
-                      color: fax.button_color,
-                    })
-                  }>
-                  {fax.fax_name}
-                </Button>
-              ))}
+            {!!data.access_additional_faxes
+            && data.additional_faxes_list.map((fax: AdditionalFaxesList) => (
+              <Button
+                key={fax.fax_name}
+                title={fax.fax_name}
+                disabled={!data.has_paper}
+                backgroundColor={fax.button_color}
+                onClick={() =>
+                  act('send_to_additional_fax', {
+                    name: fax.fax_name,
+                    color: fax.button_color,
+                  })}>
+                {fax.fax_name}
+              </Button>
+            ))}
+            {!!data.syndicate_network
+            && data.syndicate_faxes_list.map((fax: AdditionalFaxesList) => (
+              <Button
+                key={fax.fax_name}
+                title={fax.fax_name}
+                disabled={!data.has_paper}
+                backgroundColor={fax.button_color}
+                onClick={() =>
+                  act('send_to_additional_fax', {
+                    name: fax.fax_name,
+                    color: fax.button_color,
+                  })}>
+                {fax.fax_name}
+              </Button>
+            ))}
             {faxes.map((fax: FaxInfo) => (
               <Button
                 key={fax.fax_id}
@@ -130,8 +128,7 @@ export const Fax = (props, context) => {
                   act('send', {
                     id: fax.fax_id,
                     name: fax.fax_name,
-                  })
-                }>
+                  })}>
                 {fax.fax_name}
               </Button>
             ))}

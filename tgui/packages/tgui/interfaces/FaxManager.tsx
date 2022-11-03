@@ -75,23 +75,23 @@ export const FaxManager = (props, context) => {
         </Section>
         <Section title="Messages">
           <Flex direction="column">
-            {!!data.requests &&
-              data.requests.map((request: RequestsList) => (
-                <Flex.Item key={request.id_message}>
-                  <RequestControl
-                    id_message={request.id_message}
-                    sender_fax_id={request.sender_fax_id}
-                    receiver_fax_name={request.receiver_fax_name}
-                    time={request.time}
-                    sender_name={request.sender_name}
-                    sender_fax_name={request.sender_fax_name}
-                    paper_raw_text={request.paper_raw_text}
-                    onRead={(paper_raw_text) => {
-                      setMessageText(paper_raw_text);
-                    }}
-                  />
-                </Flex.Item>
-              ))}
+            {!!data.requests
+            && data.requests.map((request: RequestsList) => (
+              <Flex.Item key={request.id_message}>
+                <RequestControl
+                  id_message={request.id_message}
+                  sender_fax_id={request.sender_fax_id}
+                  receiver_fax_name={request.receiver_fax_name}
+                  time={request.time}
+                  sender_name={request.sender_name}
+                  sender_fax_name={request.sender_fax_name}
+                  paper_raw_text={request.paper_raw_text}
+                  onRead={(paper_raw_text) => {
+                    setMessageText(paper_raw_text);
+                  }}
+                />
+              </Flex.Item>
+            ))}
           </Flex>
         </Section>
       </Window.Content>
@@ -250,8 +250,7 @@ const RequestControl = (props, context) => {
         <>
           <Button
             onClick={() =>
-              act('read_message', { id_message: props.id_message })
-            }
+              act('read_message', { id_message: props.id_message })}
             color="good">
             Read
           </Button>
