@@ -1,10 +1,10 @@
-/datum/overmap_objective/cargo/donation/food 
+/datum/overmap_objective/cargo/donation/food
 	name = "Donate food"
 	desc = "Donate food"
 	crate_name = "Buffet crate"
 
 /datum/overmap_objective/cargo/donation/food/New()
-	// Must create a specific list of foods. Using parent types may turn up "snack" on communications console which is misleading, and using subtypes loops may turn up uncraftable foods 
+	// Must create a specific list of foods. Using parent types may turn up "snack" on communications console which is misleading, and using subtypes loops may turn up uncraftable foods
 	// var/picked = get_random_food()
 	var/picked = pick( list(
 		/obj/item/reagent_containers/food/snacks/store/bread/plain,
@@ -48,6 +48,6 @@
 		/obj/item/reagent_containers/food/snacks/salad/oatmeal,
 		/obj/item/reagent_containers/food/snacks/deadmouse
 	) )
-	var/datum/freight_type/object/C = new /datum/freight_type/object( picked )
+	var/datum/freight_type/single/object/C = new( picked )
 	C.target = rand( 3, 5 )
-	freight_types += C
+	freight_type_group = new( list( C ) )

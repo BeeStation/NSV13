@@ -9,6 +9,9 @@
 /area/space
 	ambient_buzz = null
 
+/area/space/instanced
+	area_flags = HIDDEN_AREA
+
 /area/maintenance
 	ambient_buzz = 'nsv13/sound/ambience/maintenance.ogg'
 	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/wind2.ogg','nsv13/sound/ambience/wind3.ogg','nsv13/sound/ambience/wind4.ogg','nsv13/sound/ambience/wind5.ogg','nsv13/sound/ambience/wind6.ogg')
@@ -730,12 +733,6 @@
 	name = "Rocinante security"
 	icon_state = "security"
 	ambience_index = AMBIENCE_DANGER
-
-
-
-/area/Exited(atom/movable/M)
-	SEND_SIGNAL(src, COMSIG_AREA_EXITED, M)
-	SEND_SIGNAL(M, COMSIG_EXIT_AREA, src) //The atom that exits the area
 
 /area/engine/engineering/reactor_core
 	name = "Nuclear Reactor Core"

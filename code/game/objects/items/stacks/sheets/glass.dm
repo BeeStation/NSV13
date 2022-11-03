@@ -13,7 +13,8 @@ GLOBAL_LIST_INIT(glass_recipes, list ( \
 	new/datum/stack_recipe("glass shard", /obj/item/shard, time = 0, on_floor = FALSE), \
 	new/datum/stack_recipe("directional window", /obj/structure/window/unanchored, time = 0, on_floor = TRUE, window_checks = TRUE), \
 	new/datum/stack_recipe("standard fighter canopy", /obj/item/fighter_component/canopy, 10, time = 10, on_floor = FALSE, window_checks = FALSE), \
-	new/datum/stack_recipe("fulltile window", /obj/structure/window/fulltile/unanchored, 2, time = 0, on_floor = TRUE, window_checks = TRUE) \
+	new/datum/stack_recipe("fulltile window", /obj/structure/window/fulltile/unanchored, 2, time = 0, on_floor = TRUE, window_checks = TRUE), \
+	new/datum/stack_recipe("glass floor tile", /obj/item/stack/tile/glass, 1, 4, 20) \
 ))
 
 /obj/item/stack/sheet/glass
@@ -56,18 +57,15 @@ GLOBAL_LIST_INIT(glass_recipes, list ( \
 		CC.use(5)
 		use(1)
 		to_chat(user, "<span class='notice'>You attach wire to the [name].</span>")
-		var/obj/item/stack/light_w/new_tile = new(user.loc)
-		new_tile.add_fingerprint(user)
+		new /obj/item/stack/light_w(user.loc, 5, TRUE, user)
 	else if(istype(W, /obj/item/stack/rods))
 		var/obj/item/stack/rods/V = W
 		if (V.get_amount() >= 1 && get_amount() >= 1)
-			var/obj/item/stack/sheet/rglass/RG = new (get_turf(user))
-			if(!QDELETED(RG))
-				RG.add_fingerprint(user)
-			var/replace = user.get_inactive_held_item()==src
+			var/obj/item/stack/sheet/rglass/RG = new (get_turf(user), null, TRUE, user)
+			var/replace = user.get_inactive_held_item() == src
 			V.use(1)
 			use(1)
-			if(QDELETED(src) && replace && !QDELETED(RG))
+			if(QDELETED(src) && !QDELETED(RG) && replace)
 				user.put_in_hands(RG)
 		else
 			to_chat(user, "<span class='warning'>You need one rod and one sheet of glass to make reinforced glass!</span>")
@@ -109,8 +107,7 @@ GLOBAL_LIST_INIT(pglass_recipes, list ( \
 	if(istype(W, /obj/item/stack/rods))
 		var/obj/item/stack/rods/V = W
 		if (V.get_amount() >= 1 && get_amount() >= 1)
-			var/obj/item/stack/sheet/plasmarglass/RG = new (get_turf(user))
-			RG.add_fingerprint(user)
+			var/obj/item/stack/sheet/plasmarglass/RG = new (get_turf(user), null, TRUE, user)
 			var/replace = user.get_inactive_held_item()==src
 			V.use(1)
 			use(1)
@@ -134,7 +131,8 @@ GLOBAL_LIST_INIT(reinforced_glass_recipes, list ( \
 	new/datum/stack_recipe("directional reinforced window", /obj/structure/window/reinforced/unanchored, time = 0, on_floor = TRUE, window_checks = TRUE), \
 	//NSV13 - changed path to ship window
 	new/datum/stack_recipe("fulltile reinforced window", /obj/structure/window/reinforced/fulltile/ship/interior/unanchored, 2, time = 0, on_floor = TRUE, window_checks = TRUE), \
-	new/datum/stack_recipe("window firelock frame", /obj/structure/firelock_frame/window, 2, time = 50, one_per_turf = TRUE, on_floor = TRUE, window_checks = FALSE) \
+	new/datum/stack_recipe("window firelock frame", /obj/structure/firelock_frame/window, 2, time = 50, one_per_turf = TRUE, on_floor = TRUE, window_checks = FALSE), \
+	new/datum/stack_recipe("reinforced glass tile", /obj/item/stack/tile/glass/reinforced, 1, 4, 20) \
 ))
 
 
@@ -263,7 +261,7 @@ GLOBAL_LIST_INIT(plastitaniumglass_recipes, list(
 	return (BRUTELOSS)
 
 
-/obj/item/shard/Initialize()
+/obj/item/shard/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/caltrop, force)
 	AddComponent(/datum/component/butchering, 150, 65)
@@ -280,6 +278,11 @@ GLOBAL_LIST_INIT(plastitaniumglass_recipes, list(
 			pixel_y = rand(-5, 5)
 	if (icon_prefix)
 		icon_state = "[icon_prefix][icon_state]"
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
 
 /obj/item/shard/afterattack(atom/A as mob|obj, mob/user, proximity)
 	. = ..()
@@ -321,13 +324,14 @@ GLOBAL_LIST_INIT(plastitaniumglass_recipes, list(
 		qdel(src)
 	return TRUE
 
-/obj/item/shard/Crossed(mob/living/L)
+/obj/item/shard/proc/on_entered(datum/source, mob/living/L)
+	SIGNAL_HANDLER
+
 	if(istype(L) && has_gravity(loc))
 		if(HAS_TRAIT(L, TRAIT_LIGHT_STEP))
 			playsound(loc, 'sound/effects/glass_step.ogg', 30, 1)
 		else
 			playsound(loc, 'sound/effects/glass_step.ogg', 50, 1)
-	return ..()
 
 /obj/item/shard/plasma
 	name = "purple shard"

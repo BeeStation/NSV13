@@ -838,6 +838,65 @@
 	name = "Wisp"
 	icon_state = "hair_wisp"
 
+/*
+/////////////////////////////////////
+/  =---------------------------=    /
+/  == Gradient Hair Definitions ==  /
+/  =---------------------------=    /
+/////////////////////////////////////
+*/
+
+/datum/sprite_accessory/hair_gradient
+	icon = 'icons/mob/hair_gradients.dmi'
+
+/datum/sprite_accessory/hair_gradient/none
+	name = "None"
+	icon_state = "none"
+
+/datum/sprite_accessory/hair_gradient/fadeup
+	name = "Fade Up"
+	icon_state = "fadeup"
+
+/datum/sprite_accessory/hair_gradient/fadedown
+	name = "Fade Down"
+	icon_state = "fadedown"
+
+/datum/sprite_accessory/hair_gradient/vertical_split
+	name = "Vertical Split"
+	icon_state = "vsplit"
+
+/datum/sprite_accessory/hair_gradient/horizontal_split
+	name = "Horizontal Split"
+	icon_state = "bottomflat"
+
+/datum/sprite_accessory/hair_gradient/reflected
+	name = "Reflected"
+	icon_state = "reflected_high"
+
+/datum/sprite_accessory/hair_gradient/reflected_inverse
+	name = "Reflected Inverse"
+	icon_state = "reflected_inverse_high"
+
+/datum/sprite_accessory/hair_gradient/wavy
+	name = "Wavy"
+	icon_state = "wavy"
+
+/datum/sprite_accessory/hair_gradient/long_fade_up
+	name = "Long Fade Up"
+	icon_state = "long_fade_up"
+
+/datum/sprite_accessory/hair_gradient/long_fade_down
+	name = "Long Fade Down"
+	icon_state = "long_fade_down"
+
+/datum/sprite_accessory/hair_gradient/short_fade_up
+	name = "Short Fade Up"
+	icon_state = "short_fade_up"
+
+/datum/sprite_accessory/hair_gradient/short_fade_down
+	name = "Short Fade Down"
+	icon_state = "short_fade_down"
+
 /////////////////////////////
 // Facial Hair Definitions //
 /////////////////////////////
@@ -1019,7 +1078,7 @@
 ///////////////////////////
 
 /datum/sprite_accessory/underwear
-	icon = 'icons/mob/underwear.dmi'
+	icon = 'icons/mob/clothing/underwear.dmi'
 	use_static = FALSE
 
 
@@ -1196,7 +1255,7 @@
 ////////////////////////////
 
 /datum/sprite_accessory/undershirt
-	icon = 'icons/mob/underwear.dmi'
+	icon = 'icons/mob/clothing/underwear.dmi'
 
 /datum/sprite_accessory/undershirt/nude
 	name = "Nude"
@@ -1480,7 +1539,7 @@
 ///////////////////////
 
 /datum/sprite_accessory/socks
-	icon = 'icons/mob/underwear.dmi'
+	icon = 'icons/mob/clothing/underwear.dmi'
 
 /datum/sprite_accessory/socks/nude
 	name = "Nude"
@@ -1913,7 +1972,17 @@
 	icon = 'icons/mob/moth_wings.dmi'
 	color_src = null
 
+/datum/sprite_accessory/moth_wingsopen
+	icon = 'icons/mob/moth_wingsopen.dmi'
+	color_src = null
+	dimension_x = 76
+	center = TRUE
+
 /datum/sprite_accessory/moth_wings/plain
+	name = "Plain"
+	icon_state = "plain"
+
+/datum/sprite_accessory/moth_wingsopen/plain
 	name = "Plain"
 	icon_state = "plain"
 
@@ -1921,7 +1990,15 @@
 	name = "Monarch"
 	icon_state = "monarch"
 
+/datum/sprite_accessory/moth_wingsopen/monarch
+	name = "Monarch"
+	icon_state = "monarch"
+
 /datum/sprite_accessory/moth_wings/luna
+	name = "Luna"
+	icon_state = "luna"
+
+/datum/sprite_accessory/moth_wingsopen/luna
 	name = "Luna"
 	icon_state = "luna"
 
@@ -1929,7 +2006,15 @@
 	name = "Atlas"
 	icon_state = "atlas"
 
+/datum/sprite_accessory/moth_wingsopen/atlas
+	name = "Atlas"
+	icon_state = "atlas"
+
 /datum/sprite_accessory/moth_wings/reddish
+	name = "Reddish"
+	icon_state = "redish"
+
+/datum/sprite_accessory/moth_wingsopen/reddish
 	name = "Reddish"
 	icon_state = "redish"
 
@@ -1937,7 +2022,15 @@
 	name = "Royal"
 	icon_state = "royal"
 
+/datum/sprite_accessory/moth_wingsopen/royal
+	name = "Royal"
+	icon_state = "royal"
+
 /datum/sprite_accessory/moth_wings/gothic
+	name = "Gothic"
+	icon_state = "gothic"
+
+/datum/sprite_accessory/moth_wingsopen/gothic
 	name = "Gothic"
 	icon_state = "gothic"
 
@@ -1945,7 +2038,15 @@
 	name = "Lovers"
 	icon_state = "lovers"
 
+/datum/sprite_accessory/moth_wingsopen/lovers
+	name = "Lovers"
+	icon_state = "lovers"
+
 /datum/sprite_accessory/moth_wings/whitefly
+	name = "White Fly"
+	icon_state = "whitefly"
+
+/datum/sprite_accessory/moth_wingsopen/whitefly
 	name = "White Fly"
 	icon_state = "whitefly"
 
@@ -1963,7 +2064,15 @@
 	name = "Firewatch"
 	icon_state = "firewatch"
 
+/datum/sprite_accessory/moth_wingsopen/firewatch
+	name = "Firewatch"
+	icon_state = "firewatch"
+
 /datum/sprite_accessory/moth_wings/deathhead
+	name = "Deathshead"
+	icon_state = "deathhead"
+
+/datum/sprite_accessory/moth_wingsopen/deathhead
 	name = "Deathshead"
 	icon_state = "deathhead"
 
@@ -1971,7 +2080,15 @@
 	name = "Poison"
 	icon_state = "poison"
 
+/datum/sprite_accessory/moth_wingsopen/poison
+	name = "Poison"
+	icon_state = "poison"
+
 /datum/sprite_accessory/moth_wings/ragged
+	name = "Ragged"
+	icon_state = "ragged"
+
+/datum/sprite_accessory/moth_wingsopen/ragged
 	name = "Ragged"
 	icon_state = "ragged"
 
@@ -1979,7 +2096,15 @@
 	name = "Moon Fly"
 	icon_state = "moonfly"
 
+/datum/sprite_accessory/moth_wingsopen/moonfly
+	name = "Moon Fly"
+	icon_state = "moonfly"
+
 /datum/sprite_accessory/moth_wings/snow
+	name = "Snow"
+	icon_state = "snow"
+
+/datum/sprite_accessory/moth_wingsopen/snow
 	name = "Snow"
 	icon_state = "snow"
 
@@ -2194,7 +2319,7 @@
 	limbs_id = "bee"
 
 /datum/sprite_accessory/ipc_chassis/mcgreyscale
-	name = "Morpheus Cyberkinetics(Greyscale)"
+	name = "Morpheus Cyberkinetics (Custom)"
 	limbs_id = "mcgipc"
 	color_src = MUTCOLORS
 

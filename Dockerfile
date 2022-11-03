@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM beestation/byond:514.1569 as base
+FROM beestation/byond:514.1583 as base
 
 # Install the tools needed to compile our rust dependencies
 FROM base as rust-build
@@ -30,7 +30,7 @@ RUN git init \
 # Build auxmos
 FROM rust-build as auxmos
 RUN git init \
-    && git remote add origin https://github.com/BeeStation/auxmos \
+    && git remote add origin https://github.com/Putnam3145/auxmos \
     && /bin/bash -c "source dependencies.sh \
     && git fetch --depth 1 origin \$AUXMOS_VERSION" \
     && git checkout FETCH_HEAD \

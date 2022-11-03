@@ -23,7 +23,7 @@ you build.
 	var/radio_key = /obj/item/encryptionkey/headset_sci
 	var/channel = "Science"
 
-/obj/machinery/computer/ship/navigation/astrometrics/Initialize()
+/obj/machinery/computer/ship/navigation/astrometrics/Initialize(mapload)
 	. = ..()
 	radio = new(src)
 	radio.keyslot = new radio_key
@@ -139,3 +139,7 @@ Clean override of the navigation computer to provide scan functionality.
 				OA.scanned = TRUE
 			scan_target = null
 			scan_progress = 0
+
+/obj/machinery/computer/ship/navigation/astrometrics/Destroy()
+	QDEL_NULL(radio)
+	return ..()

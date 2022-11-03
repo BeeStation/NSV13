@@ -9,6 +9,7 @@
 	var/top_right_coords[3]
 	var/wipe_reservation_on_release = TRUE
 	var/turf_type = /turf/open/space
+	var/obj/structure/overmap/overmap_fallback // NSV13 - for get_overmap()
 
 /datum/turf_reservation/transit
 	turf_type = /turf/open/space/transit

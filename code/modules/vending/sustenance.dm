@@ -1,11 +1,12 @@
 /obj/machinery/vending/sustenance
 	name = "\improper Sustenance Vendor"
 	desc = "A vending machine which vends food, as required by section 47-C of the NT's Prisoner Ethical Treatment Agreement."
-	product_slogans = "Enjoy your meal.;Enough calories to support strenuous labor."
-	product_ads = "Sufficiently healthy.;Efficiently produced tofu!;Mmm! So good!;Have a meal.;You need food to live!;Have some more candy corn!;Try our new ice cups!"
+	product_slogans = "Enjoy your meal.;Enough calories to support strenuous labor.;Sufficiently healthy.;Efficiently produced tofu!;Mmm! So good!;Have a meal.;You need food to live!;Have some more candy corn!;Try our new ice cups!;Rememver: Ration packs save lifes, soldier!;Don't believe the lies about ration packs.; Ration packs: custom tailored to the Spaceman's taste!" //NSV13 added lines referencing ration packs
+	product_ads = "Sufficiently healthy.;Efficiently produced tofu!;Mmm! So good!;Have a meal.;You need food to live!;Have some more candy corn!;Try our new ice cups!;Remember: Ration packs save lifes, soldier!;Don't believe the lies about ration packs.; Ration packs: custom tailored to the Spaceman's taste!" //NSV13 added lines referencing ration packs
 	icon_state = "sustenance"
 	light_color = LIGHT_COLOR_BLUEGREEN
-	products = list(/obj/item/reagent_containers/food/snacks/tofu/prison = 24,
+	products = list(/obj/item/reagent_containers/food/snacks/tofu/prison = 12, //NSV13 halved available tofu
+					/obj/item/reagent_containers/food/snacks/rationpack = 12, //NSV13 added ration packs
 					/obj/item/reagent_containers/food/drinks/ice/prison = 12,
 					/obj/item/reagent_containers/food/snacks/candy_corn/prison = 6)
 	contraband = list(/obj/item/kitchen/knife = 6,

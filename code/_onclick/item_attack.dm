@@ -120,7 +120,7 @@
 				add_splatter_floor(location)
 				if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 					user.add_mob_blood(src)
-					if(ishuman(user))
+					if(ishuman(user)) // NSV13 - kept hygiene
 						var/mob/living/carbon/human/dirtyboy = user
 						dirtyboy.adjust_hygiene(-10)
 		return TRUE //successful attack

@@ -13,8 +13,8 @@
 
 
 /mob/living/silicon/ai
-	name = "AI"
-	real_name = "AI"
+	name = JOB_NAME_AI
+	real_name = JOB_NAME_AI
 	icon = 'icons/mob/ai.dmi'
 	icon_state = "ai"
 	move_resist = MOVE_FORCE_VERY_STRONG
@@ -37,14 +37,15 @@
 	var/requires_power = POWER_REQ_ALL
 	var/can_be_carded = TRUE
 	var/alarms = list("Motion"=list(), "Fire"=list(), "Atmosphere"=list(), "Power"=list(), "Camera"=list(), "Burglar"=list())
-	var/viewalerts = 0
-	var/icon/holo_icon//Default is assigned when AI is created.
+	var/datum/weakref/alerts_popup = null
+	var/icon/holo_icon //Default is assigned when AI is created.
 	var/obj/mecha/controlled_mech //For controlled_mech a mech, to determine whether to relaymove or use the AI eye.
 	var/radio_enabled = TRUE //Determins if a carded AI can speak with its built in radio or not.
 	radiomod = ";" //AIs will, by default, state their laws on the internal radio.
 	var/obj/item/multitool/aiMulti
 	var/mob/living/simple_animal/bot/Bot
-	var/tracking = FALSE //this is 1 if the AI is currently tracking somebody, but the track has not yet been completed.
+	var/mob/living/ai_tracking_target = null //current tracking target
+	var/reacquire_timer = null //saves the timer id for the tracking reacquire so we can delete it/check for its existence
 	var/datum/effect_system/spark_spread/spark_system //So they can initialize sparks whenever/N
 
 	//MALFUNCTION
@@ -98,6 +99,7 @@
 	var/cam_prev
 
 /mob/living/silicon/ai/Initialize(mapload, datum/ai_laws/L, mob/target_ai)
+	default_access_list = get_all_accesses()
 	. = ..()
 	if(!target_ai) //If there is no player/brain inside.
 		new/obj/structure/AIcore/deactivated(loc) //New empty terminal.
@@ -126,7 +128,7 @@
 	show_laws()
 	to_chat(src, "<b>These laws may be changed by other players, or by you being the traitor.</b>")
 
-	job = "AI"
+	job = JOB_NAME_AI
 
 	create_eye()
 	if(client)
@@ -145,7 +147,7 @@
 
 	aiPDA = new/obj/item/pda/ai(src)
 	aiPDA.owner = real_name
-	aiPDA.ownjob = "AI"
+	aiPDA.ownjob = JOB_NAME_AI
 	aiPDA.name = real_name + " (" + aiPDA.ownjob + ")"
 
 	aiMulti = new(src)
@@ -167,7 +169,8 @@
 	builtInCamera.network = list("ss13")
 	//Nsv13
 	for(var/stype in subtypesof(/datum/component/simple_teamchat/radio_dependent/squad))
-		AddComponent(stype)
+		AddComponent(stype, override = TRUE)
+	update_overmap() //AIs don't move, so we do this here.
 
 	//Nsv13 end
 
@@ -267,9 +270,10 @@
 		tab_data["Systems"] = GENERATE_STAT_TEXT("nonfunctional")
 	return tab_data
 
-/mob/living/silicon/ai/proc/ai_alerts()
-	var/dat = "<HEAD><TITLE>Current Station Alerts</TITLE><META HTTP-EQUIV='Refresh' CONTENT='10'></HEAD><BODY>\n"
-	dat += "<A HREF='?src=[REF(src)];mach_close=aialerts'>Close</A><BR><BR>"
+/mob/living/silicon/ai/proc/update_ai_alerts()
+	if(!alerts_popup || !alerts_popup.resolve())
+		return
+	var/dat
 	for (var/cat in alarms)
 		dat += text("<B>[]</B><BR>\n", cat)
 		var/list/L = alarms[cat]
@@ -296,13 +300,27 @@
 		else
 			dat += "-- All Systems Nominal<BR>\n"
 		dat += "<BR>\n"
+	var/datum/browser/popup = alerts_popup.resolve()
+	popup.set_content(dat)
+	popup.open()
 
-	viewalerts = 1
-	src << browse(dat, "window=aialerts&can_close=0")
+/mob/living/silicon/ai/proc/ai_alerts()
+	var/datum/browser/popup
+	if(!alerts_popup || !alerts_popup.resolve())
+		popup = new(src, "aialerts", "Current Station Alerts", 387, 420, src) // additional src argument allows calls to our Topic() proc via onclose - is wrapped internally as weakref
+		alerts_popup = WEAKREF(popup) // wrap to prevent harddel
+	update_ai_alerts()
+	popup = alerts_popup.resolve()
+	popup.open()
 
 /mob/living/silicon/ai/proc/ai_call_shuttle()
 	if(control_disabled)
 		to_chat(usr, "<span class='warning'>Wireless control is disabled!</span>")
+		return
+
+	var/can_evac_or_fail_reason = SSshuttle.canEvac(src)
+	if(can_evac_or_fail_reason != TRUE)
+		to_chat(usr, "<span class='alert'>[can_evac_or_fail_reason]</span>")
 		return
 
 	var/reason = input(src, "What is the nature of your emergency? ([CALL_SHUTTLE_REASON_LENGTH] characters required.)", "Confirm Shuttle Call") as null|text
@@ -375,16 +393,13 @@
 
 	SSjob.FreeRole(mind.assigned_role)
 
-	if(mind.objectives.len)
-		mind.objectives.Cut()
-		mind.special_role = null
-
 	if(!get_ghost(1))
 		if(world.time < 30 * 600)//before the 30 minute mark
 			ghostize(FALSE,SENTIENCE_ERASE) // Players despawned too early may not re-enter the game
 	else
 		ghostize(TRUE,SENTIENCE_ERASE)
 
+	SEND_SIGNAL(mind, COMSIG_MIND_CRYOED)
 	QDEL_NULL(src)
 
 /mob/living/silicon/ai/verb/toggle_anchor()
@@ -410,6 +425,11 @@
 	to_chat(src, "<b>You are now [is_anchored ? "" : "un"]anchored.</b>")
 	// the message in the [] will change depending whether or not the AI is anchored
 
+/mob/living/silicon/ai/cancel_camera()
+	..()
+	if(ai_tracking_target)
+		ai_stop_tracking()
+
 /mob/living/silicon/ai/update_mobility() //If the AI dies, mobs won't go through it anymore
 	if(stat != CONSCIOUS)
 		mobility_flags = NONE
@@ -428,11 +448,13 @@
 
 /mob/living/silicon/ai/Topic(href, href_list)
 	..()
-	if(usr != src || incapacitated())
+	if(usr != src)
+		return
+	if (href_list["close"])
+		alerts_popup = null
+	if (incapacitated())
 		return
 	if (href_list["mach_close"])
-		if (href_list["mach_close"] == "aialerts")
-			viewalerts = 0
 		var/t1 = text("window=[]", href_list["mach_close"])
 		unset_machine()
 		src << browse(null, t1)
@@ -470,7 +492,7 @@
 		if(name == string)
 			target += src
 		if(target.len)
-			ai_actual_track(pick(target))
+			ai_start_tracking(pick(target))
 		else
 			to_chat(src, "Target is not on or near any active cameras on the station.")
 		return
@@ -524,8 +546,8 @@
 	if(QDELETED(C))
 		return FALSE
 
-	if(!tracking)
-		cameraFollow = null
+	if(ai_tracking_target)
+		ai_stop_tracking()
 
 	if(QDELETED(eyeobj))
 		view_core()
@@ -545,19 +567,14 @@
 		to_chat(src, "<span class='warning'>Wireless control is disabled.</span>")
 		return
 	// NSV13 start -- checks if bot is in any occupied z level in the occupied overmap
-//	var/turf/ai_current_turf = get_turf(src)
-//	var/ai_Zlevel = ai_current_turf.z NSV13 -- don't need this anymore, read below
+	var/turf/ai_current_turf = get_turf(src)
+	var/ai_Zlevel = ai_current_turf.get_virtual_z_level()
+	var/valid_z = get_level_trait(ai_Zlevel)
 	var/d
 	d += "<A HREF=?src=[REF(src)];botrefresh=1>Query network status</A><br>"
 	d += "<table width='100%'><tr><td width='40%'><h3>Name</h3></td><td width='30%'><h3>Status</h3></td><td width='30%'><h3>Location</h3></td><td width='10%'><h3>Control</h3></td></tr>"
-	var/list/valid_z = list()
-	var/obj/structure/overmap/OM = get_overmap()
-	if(OM && length(OM.occupying_levels))
-		valid_z = OM.occupying_levels
-	else
-		valid_z += SSmapping.z_list[z]
 	for (Bot in GLOB.alive_mob_list)
-		if((SSmapping.z_list[Bot.z] in OM.occupying_levels) && !Bot.remote_disabled) // NSV13 end
+		if((Bot.get_virtual_z_level() in SSmapping.levels_by_trait(valid_z)) && !Bot.remote_disabled) // NSV13 end
 			var/bot_mode = Bot.get_mode()
 			d += "<tr><td width='30%'>[Bot.hacked ? "<span class='bad'>(!)</span>" : ""] [Bot.name]</A> ([Bot.model])</td>"
 			//If the bot is on, it will display the bot's current mode status. If the bot is not mode, it will just report "Idle". "Inactive if it is not on at all.
@@ -631,8 +648,7 @@
 			queueAlarm(text("--- [] alarm detected in []! (No Camera)", class, home.name), class)
 	else
 		queueAlarm(text("--- [] alarm detected in []! (No Camera)", class, home.name), class)
-	if (viewalerts)
-		ai_alerts()
+	update_ai_alerts()
 	return 1
 
 /mob/living/silicon/ai/freeCamera(area/home, obj/machinery/camera/cam)
@@ -664,7 +680,7 @@
 				L -= I
 	if (cleared)
 		queueAlarm("--- [class] alarm in [A.name] has been cleared.", class, 0)
-		if (viewalerts) ai_alerts()
+		update_ai_alerts()
 	return !cleared
 
 //Replaces /mob/living/silicon/ai/verb/change_network() in ai.dm & camera.dm
@@ -674,7 +690,6 @@
 	set category = "AI Commands"
 	set name = "Jump To Network"
 	unset_machine()
-	cameraFollow = null
 	var/cameralist[0]
 
 	if(incapacitated())
@@ -696,7 +711,8 @@
 				cameralist[i] = i
 	var/old_network = network
 	network = input(U, "Which network would you like to view?") as null|anything in sortList(cameralist)
-
+	if(ai_tracking_target)
+		ai_stop_tracking()
 	if(!U.eyeobj)
 		U.view_core()
 		return
@@ -943,12 +959,12 @@
 	var/hrefpart = "<a href='?src=[REF(src)];track=[html_encode(namepart)]'>"
 	var/jobpart = "Unknown"
 
-	if (iscarbon(speaker))
-		var/mob/living/carbon/S = speaker
-		if(S.job)
-			jobpart = "[S.job]"
-	else
-		jobpart = "Unknown"
+	if (ishuman(speaker))
+		var/mob/living/carbon/human/S = speaker
+		if(S.wear_id)
+			var/obj/item/card/id/I = S.wear_id.GetID()
+			if(I)
+				jobpart = "[I.assignment]"
 
 	var/rendered = "<i><span class='game say'>[start]<span class='name'>[hrefpart][namepart] ([jobpart])</a> </span><span class='message'>[treated_message]</span></span></i>"
 
@@ -1019,7 +1035,7 @@
 	malfhacking = 0
 	clear_alert("hackingapc")
 
-	if(!istype(apc) || QDELETED(apc) || apc.stat & BROKEN)
+	if(!istype(apc) || QDELETED(apc) || apc.machine_stat & BROKEN)
 		to_chat(src, "<span class='danger'>Hack aborted. The designated APC no longer exists on the power network.</span>")
 		playsound(get_turf(src), 'sound/machines/buzz-two.ogg', 50, 1, ignore_walls = FALSE)
 	else if(apc.aidisabled)
@@ -1119,7 +1135,7 @@
 	. = ..() //This needs to be lower so we have a chance to actually update the assigned target_ai.
 
 /mob/living/silicon/ai/proc/camera_visibility(mob/camera/ai_eye/moved_eye)
-	GLOB.cameranet.visibility(moved_eye, client, all_eyes, USE_STATIC_OPAQUE)
+	GLOB.cameranet.visibility(moved_eye, client, all_eyes, TRUE)
 
 /mob/living/silicon/ai/forceMove(atom/destination)
 	. = ..()
@@ -1128,3 +1144,4 @@
 
 /mob/living/silicon/ai/zMove(dir, feedback = FALSE)
 	. = eyeobj.zMove(dir, feedback)
+

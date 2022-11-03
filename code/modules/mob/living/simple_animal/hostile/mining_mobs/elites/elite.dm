@@ -82,10 +82,6 @@ While using this makes the system rely on OnFire, it still gives options for tim
 	elite_owner.chosen_attack = chosen_attack_num
 	to_chat(elite_owner, chosen_message)
 
-/mob/living/simple_animal/hostile/asteroid/elite/updatehealth()
-	. = ..()
-	update_health_hud()
-
 /mob/living/simple_animal/hostile/asteroid/elite/update_health_hud()
 	if(hud_used)
 		var/severity = 0
@@ -353,8 +349,7 @@ While using this makes the system rely on OnFire, it still gives options for tim
 	ourelite = null
 	return ..()
 
-/obj/effect/temp_visual/elite_tumor_wall/CanPass(atom/movable/mover, turf/target)
+/obj/effect/temp_visual/elite_tumor_wall/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
 	if(mover == ourelite || mover == activator)
 		return FALSE
-	else
-		return TRUE

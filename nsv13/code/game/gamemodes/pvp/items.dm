@@ -17,6 +17,7 @@
 	req_one_access_txt = ""
 	account_type = ACCOUNT_SYN
 	circuit = /obj/item/circuitboard/computer/cargo/express/syndicate
+	cargo_landingzone = /area/quartermaster/pvp //Without this, any crates that are sent to cargo bay LZ will land in NT cargo instead.
 
 /obj/machinery/computer/cargo/express/syndicate/emag_act(mob/living/user)
 	to_chat(user, "<span class='warning'>The Syndicate would probably have you killed if you tried to interfere with this console...</span>")
@@ -69,7 +70,7 @@
 /obj/effect/landmark/start/nukeop/syndi_crew
 	name = "Syndicate crew"
 
-/obj/effect/landmark/start/nukeop/syndi_crew/Initialize()
+/obj/effect/landmark/start/nukeop/syndi_crew/Initialize(mapload)
 	..()
 	GLOB.syndi_crew_spawns += loc
 	return INITIALIZE_HINT_QDEL
@@ -77,7 +78,7 @@
 /obj/effect/landmark/start/nukeop/syndi_crew_leader
 	name = "Syndicate captain"
 
-/obj/effect/landmark/start/nukeop/syndi_crew_leader/Initialize()
+/obj/effect/landmark/start/nukeop/syndi_crew_leader/Initialize(mapload)
 	..()
 	GLOB.syndi_crew_leader_spawns += loc
 	return INITIALIZE_HINT_QDEL
@@ -101,6 +102,8 @@
 	var/time_left = 300 //5 min
 	var/active = FALSE
 	var/next_activation = 0
+	var/activation_delay = 7 MINUTES //How long until we can activate it again?
+	var/datum/star_system/capturing //System we are currently capturing
 
 /obj/machinery/conquest_beacon/examine(mob/user)
 	. = ..()
@@ -111,6 +114,9 @@
 		set_active(FALSE)
 		return FALSE
 	if(active)
+		if(capturing != get_overmap().current_system)
+			set_active(FALSE)
+			return FALSE
 		time_left -= 2
 		playsound(loc, 'sound/items/timer.ogg', 100, FALSE)
 		if(time_left <= 0)
@@ -118,17 +124,18 @@
 
 /obj/machinery/conquest_beacon/proc/capture_system()
 	set_active(FALSE, TRUE)
-	var/datum/star_system/SS = get_overmap().current_system
 	var/datum/faction/ours = SSstar_system.faction_by_id(faction_type)
 	if(!ours)
 		message_admins("WARNING: Invalid Lighthouse beacon faction set! (no faction with ID: [faction_type])")
 		return
 	get_overmap().relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg')
 	//Annnd send the reinforcements!
-	ours.send_fleet(override=SS, force=TRUE)
+	capturing.owner = alignment
+	capturing.alignment = alignment
+	ours.send_fleet(override=capturing, force=TRUE)
 	ours.gain_influence(points_per_capture)
 
-/obj/machinery/conquest_beacon/Initialize()
+/obj/machinery/conquest_beacon/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -140,42 +147,88 @@
 	RegisterSignal(get_overmap(), COMSIG_FTL_STATE_CHANGE, .proc/deactivate)
 
 /obj/machinery/conquest_beacon/proc/deactivate()
-	set_active(FALSE, FALSE)
+	set_active(FALSE)
 
-/obj/machinery/conquest_beacon/proc/set_active(state, voluntarily=FALSE)
+/obj/machinery/conquest_beacon/proc/set_active(state, voluntarily=FALSE, mob/user=usr)
+	if(user)
+		if(!allowed(user))
+			to_chat(user, "<span class='notice'>Access denied.</span>")
+			return
+		if(world.time < next_activation)
+			to_chat(user, "<span class='sciradio'>[src] is on cooldown.</span>")
+			return
+		if(!powered())
+			return
+		if(alert(user, "Begin calling for reinforcements with [src]? This is a loud process and will alert enemies to your location!","Confirm","Yes","No")=="No")
+			return
+		var/datum/star_system/SS = get_overmap().current_system
+		if(SS.alignment == alignment) //Todo: add federation check here.
+			to_chat(user, "<span class='sciradio'>You can't claim systems that your faction already owns...</span>")
+			return
+		next_activation = world.time + activation_delay
+		capturing = get_overmap().current_system
+		priority_announce("DANGER: [get_overmap()] is attempting to establish a jump bridge in [get_overmap().current_system]. Incursion underway", "WhiteRapids EAS", 'nsv13/sound/effects/ship/lighthouse_alarm.ogg')
 	if(active && !state && !voluntarily) //Great, they ran away! Good job stopping that capture crew. Now let's alert everyone.
+		visible_message("[src] spontaneously turns off!")
 		priority_announce("Jump bridge collapsing. Incursion halted.", "WhiteRapids EAS", 'nsv13/sound/effects/ship/lighthouse_alarm.ogg')
 	active = state
-	icon_state = "lighthouse[active ? "_on" : ""]"
+	icon_state = "[initial(icon_state)][active ? "_on" : ""]"
 	time_left = initial(time_left)
 
 /obj/machinery/conquest_beacon/attack_ai(mob/user)
 	. = ..()
-	attack_hand(user)
+	set_active(TRUE, TRUE, user)
 
 /obj/machinery/conquest_beacon/attack_robot(mob/user)
 	. = ..()
-	attack_hand(user)
+	set_active(TRUE, TRUE, user)
 
 /obj/machinery/conquest_beacon/attack_hand(mob/user)
 	. = ..()
-	if(!allowed(user))
-		to_chat(user, "<span class='notice'>Access denied.</span>")
-		return FALSE
-	if(world.time < next_activation)
-		to_chat(user, "<span class='sciradio'>[src] is on cooldown.</span>")
-		return FALSE
-	if(!powered())
-		return FALSE
-	if(alert(user, "Begin calling for reinforcements with [src]? This is a loud process and will alert enemies to your location!","Confirm","Yes","No")=="No")
-		return FALSE
-	var/datum/star_system/SS = get_overmap().current_system
-	if(SS.alignment == alignment)
-		to_chat(user, "<span class='sciradio'>You can't claim systems that your faction already owns...</span>")
-		return FALSE
-	priority_announce("DANGER: [get_overmap()] is attempting to establish a jump bridge in [get_overmap().current_system]. Incursion underway", "WhiteRapids EAS", 'nsv13/sound/effects/ship/lighthouse_alarm.ogg')
-	set_active(TRUE)
-	next_activation = world.time + 7 MINUTES
+	set_active(TRUE, TRUE, user)
+
+//NT beacon
+/obj/machinery/conquest_beacon/nanotrasen //Pretty much just a glorified space phone.
+	name = "\proper F.L.A.R.E. device"
+	desc = "A simple beacon designed to communicate the capturing of territory across large distances at extreme speeds."
+	icon_state = "lighthouse_nt"
+	idle_power_usage = 10
+	req_one_access = list(ACCESS_CAPTAIN)
+	faction_type = FACTION_ID_NT
+	alignment = "nanotrasen"
+	activation_delay = 13 MINUTES
+	time_left = 120
+
+/obj/machinery/conquest_beacon/nanotrasen/capture_system()
+	set_active(FALSE, TRUE)
+	var/datum/faction/ours = SSstar_system.faction_by_id(faction_type)
+	priority_announce("\proper [capturing] has been succesfully captured by [get_overmap()]!", "WhiteRapids EAS", )
+	capturing.owner = alignment
+	capturing.alignment = alignment
+	ours.gain_influence(points_per_capture)
+
+/obj/machinery/conquest_beacon/nanotrasen/set_active(state, voluntarily=FALSE, mob/user)
+	if(user)
+		if(!allowed(user))
+			to_chat(user, "<span class='notice'>Access denied.</span>")
+			return
+		if(world.time < next_activation)
+			to_chat(user, "<span class='sciradio'>[src] is on cooldown.</span>")
+			return
+		if(!powered())
+			return
+		if(alert(user, "Activate the [src]? Sending the transmission will take two minutes and permanently mark the system as captured!","Confirm","Yes","No")=="No")
+			return
+		capturing = get_overmap().current_system
+		if(capturing.alignment == alignment || capturing.alignment == "solgov") //Todo: add federation check here.
+			to_chat(user, "<span class='sciradio'>You can't claim systems that your faction already owns...</span>")
+			return
+		next_activation = world.time + activation_delay
+	if(active && !state && !voluntarily)
+		visible_message("[src] spontaneously turns off!")
+	active = state
+	icon_state = "[initial(icon_state)][active ? "_on" : ""]"
+	time_left = initial(time_left)
 
 /**
 * Lets the captain customize the feel and role of their ship.
@@ -236,7 +289,7 @@
 	req_one_access_txt = "150"
 	var/list/loadouts = list()
 
-/obj/item/ship_loadout_selector/Initialize()
+/obj/item/ship_loadout_selector/Initialize(mapload)
 	. = ..()
 	for(var/theType in typecacheof(/datum/ship_loadout))
 		loadouts += new theType
@@ -285,13 +338,14 @@
 /obj/effect/landmark/trader_drop_point
 	name = "Trader sending target"
 
-/obj/effect/landmark/trader_drop_point/Initialize()
+/obj/effect/landmark/trader_drop_point/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/effect/landmark/trader_drop_point/LateInitialize()
 	..()
-	addtimer(CALLBACK(src, .proc/add_to_ship), 1 MINUTES)
+	// addtimer(CALLBACK(src, .proc/add_to_ship), 1 MINUTES)
+	add_to_ship() // I don't understand why we're delaying this
 
 /obj/effect/landmark/trader_drop_point/proc/add_to_ship()
 	LAZYADD(get_overmap()?.trader_beacons, src)
@@ -378,3 +432,31 @@
 	network = list("syndicate")
 
 /obj/machinery/camera/syndicate/autoname
+	var/number = 0
+/obj/machinery/camera/syndicate/autoname/Initialize(mapload)
+	..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/camera/syndicate/autoname/LateInitialize()
+	. = ..()
+	number = 1
+	var/area/A = get_area(src)
+	if(A)
+		for(var/obj/machinery/camera/syndicate/autoname/C in GLOB.machines)
+			if(C == src)
+				continue
+			var/area/CA = get_area(C)
+			if(CA.type == A.type)
+				if(C.number)
+					number = max(number, C.number+1)
+		c_tag = "[A.name] #[number]"
+
+/obj/item/radio/intercom/syndicate //An intercom for syndicate AIs.
+	name = "syndicate intercom"
+	syndie = 1
+	freqlock = 1
+
+/obj/item/radio/intercom/syndicate/Initialize(mapload)
+	. = ..()
+	set_frequency(FREQ_SYNDICATE)
+

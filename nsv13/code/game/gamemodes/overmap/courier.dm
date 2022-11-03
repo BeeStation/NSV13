@@ -17,18 +17,26 @@
 	max_players = 10
 	random_objective_amount = 3
 
+	debug_mode = FALSE
+
 /datum/overmap_gamemode/courier/New()
-	random_objectives = list(
-		/datum/overmap_objective/cargo/donation/chems,
-		/datum/overmap_objective/cargo/donation/blood,
-		/datum/overmap_objective/cargo/donation/food,
-		/datum/overmap_objective/cargo/donation/minerals,
-		/datum/overmap_objective/cargo/donation/munitions,
-		/datum/overmap_objective/cargo/donation/social_supplies,
-		/datum/overmap_objective/cargo/transfer/credits,
-		/datum/overmap_objective/cargo/transfer/data,
-		/datum/overmap_objective/cargo/transfer/documents,
-		/datum/overmap_objective/cargo/transfer/emergency_supplies,
-		/datum/overmap_objective/cargo/transfer/fighter_parts,
-		/datum/overmap_objective/cargo/transfer/specimen,
-	)
+	random_objectives = subtypesof( /datum/overmap_objective/cargo/donation ) + subtypesof( /datum/overmap_objective/cargo/transfer )
+
+	if ( debug_mode ) // I upend your code for my personal pleasure
+		random_objective_amount = length( random_objectives )
+
+		// selection_weight = INFINITY
+		selection_weight = 999
+		SSovermap_mode.announce_delay = 10 SECONDS
+
+		for( var/obj/machinery/computer/ship/dradis/dradis in GLOB.machines )
+			dradis.hail_range = 500
+		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
+		MO.essential = TRUE
+		MO.nodamage = TRUE
+
+		for ( var/i = 0; i < length( random_objectives ); i++ )
+			MO.send_supplypod( /obj/item/ship_weapon/ammunition/torpedo/freight )
+		MO.send_supplypod( /obj/item/crowbar )
+
+		message_admins( "Courier gamemode DEBUG is enabled for testing. If this is on the production server, un-testmerge the last branch that touched courier code immediately!" )

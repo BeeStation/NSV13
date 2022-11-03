@@ -1,5 +1,6 @@
 #define FIRE_INTERCEPTED 2 //For special_fire()
 
+//These procs should *really* not be here
 /obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
 	if(weapon_types[weapon.fire_mode])
 		var/datum/ship_weapon/SW = weapon_types[weapon.fire_mode]
@@ -21,7 +22,6 @@
 	var/requires_physical_guns = TRUE //Set this to false for any fighter weapons we may have
 	var/lateral = TRUE //Does this weapon need you to face the enemy? Mostly no.
 	var/special_fire_proc = null //Override this if you need to replace the firing weapons behaviour with a custom proc. See torpedoes and missiles for this.
-	var/selectable = TRUE //Is this a gun you can manually fire? Or do you want it for example, be an individually manned thing..?
 	var/screen_shake = 0
 	var/firing_arc = null //If this weapon only fires in an arc (for ai ships)
 	var/weapon_class = WEAPON_CLASS_HEAVY //Do AIs need to resupply with ammo to use this weapon?
@@ -29,6 +29,7 @@
 	var/max_miss_distance = 4 // Maximum number of tiles the AI will miss by
 	var/autonomous = FALSE // Is this a gun that can automatically fire? Keep in mind variables selectable and autonomous can both be TRUE
 	var/permitted_ams_modes = list( "Anti-ship" = 1, "Anti-missile countermeasures" = 1 ) // Overwrite the list with a specific firing mode if you want to restrict its targets
+	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
 
 	var/next_firetime = 0
 
@@ -63,7 +64,7 @@
 		next_firetime = world.time + fire_delay
 	if(!requires_physical_guns)
 		if(special_fire_proc)
-			CallAsync(source=holder, proctype=special_fire_proc, arguments=list(target=target, ai_aim=ai_aim, burst=burst_size)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
+			call_async(source=holder, proctype=special_fire_proc, arguments=list(target=target, ai_aim=ai_aim, burst=burst_size)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
 		else
 			weapon_sound()
 			if(ai_aim && prob(miss_chance)) // Apply bad aim here so the whole burst goes the same way

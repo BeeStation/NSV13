@@ -42,9 +42,10 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/ftl,
-						/obj/item/fighter_component/secondary/utility/resupply,
+						/obj/item/fighter_component/primary/utility/refuel,
 						/obj/item/fighter_component/countermeasure_dispenser)
 	interior_mode = INTERIOR_DYNAMIC
+	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/countermeasure)
 
 /obj/structure/overmap/small_craft/transport/Initialize(mapload, list/build_components)
 	return ..()
@@ -66,6 +67,7 @@ Credit to TGMC for the interior sprites for all these!
 
 /obj/structure/overmap/small_craft/transport/starter
 	name = "NSV Sephora"
+	random_name = FALSE
 	possible_interior_maps = list(/datum/map_template/dropship/main)
 
 /datum/map_template/dropship/main
@@ -82,6 +84,7 @@ Credit to TGMC for the interior sprites for all these!
 
 /obj/structure/overmap/small_craft/transport/syndicate/main
 	name = "SSV Thunderbird"
+	random_name = FALSE
 
 /datum/map_template/dropship/syndicate
     name = "Syndicate Dropship"
@@ -149,11 +152,10 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/armour_plating,
 						/obj/item/fighter_component/targeting_sensor,
 						/obj/item/fighter_component/engine,
-						/obj/item/fighter_component/canopy,
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/ftl,
-						/obj/item/fighter_component/secondary/utility/resupply,
+						/obj/item/fighter_component/primary/utility/refuel,
 						/obj/item/fighter_component/countermeasure_dispenser)
 
 /datum/map_template/dropship/sabre
@@ -181,3 +183,4 @@ Credit to TGMC for the interior sprites for all these!
 /datum/map_template/dropship/sabre/syndicate
     name = "SU-437 Sabre Interior (Syndicate)"
     mappath = "_maps/templates/boarding/sabre_interior_syndicate.dmm"
+ 

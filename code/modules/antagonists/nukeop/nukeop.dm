@@ -25,7 +25,7 @@
 	var/mob/living/M = mob_override || owner.current
 	update_synd_icons_added(M)
 	ADD_TRAIT(owner, TRAIT_DISK_VERIFIER, NUKEOP_TRAIT)
-	M.remove_quirk(/datum/quirk/nonviolent)
+	M.remove_all_quirks()
 
 /datum/antagonist/nukeop/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
@@ -70,7 +70,7 @@
 
 /datum/antagonist/nukeop/proc/assign_nuke()
 	if(nuke_team && !nuke_team.tracked_nuke)
-		nuke_team.memorized_code = random_nukecode()
+		nuke_team.memorized_code = random_code(5)
 		var/obj/machinery/nuclearbomb/syndicate/nuke = locate() in GLOB.nuke_list
 		if(nuke)
 			nuke_team.tracked_nuke = nuke
@@ -88,6 +88,7 @@
 /datum/antagonist/nukeop/proc/give_alias()
 	if(nuke_team && nuke_team.syndicate_name)
 		var/mob/living/carbon/human/H = owner.current
+		H.set_species(/datum/species/human) //NSV13 allows players with a non-human species in their prefs to get a human name in Galactic Conquest.
 		if(istype(H)) // Reinforcements get a real name
 			var/chosen_name = H.dna.species.random_name(H.gender,0,nuke_team.syndicate_name)
 			H.fully_replace_character_name(H.real_name,chosen_name)
@@ -240,7 +241,7 @@
 
 /datum/antagonist/nukeop/lone/assign_nuke()
 	if(nuke_team && !nuke_team.tracked_nuke)
-		nuke_team.memorized_code = random_nukecode()
+		nuke_team.memorized_code = random_code(5)
 		var/obj/machinery/nuclearbomb/selfdestruct/nuke = locate() in GLOB.nuke_list
 		if(nuke)
 			nuke_team.tracked_nuke = nuke

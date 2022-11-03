@@ -14,6 +14,9 @@
 	else
 		camera_mode_on(user)
 
+/obj/item/camera/siliconcam/burn()
+	return
+
 /obj/item/camera/siliconcam/proc/camera_mode_off(mob/user)
 	in_camera_mode = FALSE
 	to_chat(user, "<B>Camera Mode deactivated</B>")
@@ -73,14 +76,6 @@
 		return R.connected_ai.aicamera.selectpicture(user)
 	else
 		return ..()
-
-/obj/item/camera/siliconcam/robot_camera/verb/borgprinting()
-	set category ="Robot Commands"
-	set name = "Print Image"
-	set src in usr
-	if(usr.stat == DEAD)
-		return
-	borgprint(usr)
 
 /obj/item/camera/siliconcam/robot_camera/proc/borgprint(mob/user)
 	var/mob/living/silicon/robot/C = loc

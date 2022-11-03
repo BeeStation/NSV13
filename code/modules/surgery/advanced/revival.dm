@@ -18,7 +18,7 @@
 		return FALSE
 	if(target.stat != DEAD)
 		return FALSE
-	if(target.suiciding || target.hellbound || HAS_TRAIT(target, TRAIT_HUSK))
+	if(target.suiciding || target.ishellbound() || HAS_TRAIT(target, TRAIT_HUSK))
 		return FALSE
 	var/obj/item/organ/brain/B = target.getorganslot(ORGAN_SLOT_BRAIN)
 	if(!B)
@@ -68,6 +68,7 @@
 	if(target.revive())
 		target.visible_message("...[target] wakes up, alive and aware!")
 		target.emote("gasp")
+		to_chat(target, "<span class='warning'><b>You have been revived via Revival Surgery. You cannot remember how exactly you died (or who killed you), but you may remember certain details such as the weapon used or the place of death.</b></span>") //NSV13
 		target.adjustOrganLoss(ORGAN_SLOT_BRAIN, 50, 199) //MAD SCIENCE
 		return TRUE
 	else

@@ -2,8 +2,9 @@
 // If you're writing new cargo objectives please perform these test cases:
 // Objective approves when supplying all and only items requested
 // Objective rejects when supplying items requested and any additional trash
-// For objectives with multiple cargo item types or targets greater than 1, rejects when supplying only some of items requested
-// For objectives that send prepackaged items, approves when supplying items that have been removed from its original cargo crate, unless the objective is written to automatically fail on tamper
+// For objectives with multiple cargo item types or targets greater than 1: objective rejects when supplying only some of items requested
+// For objectives that send prepackaged items, and the objective is written to automatically fail on tamper: objective fails on comms console
+// For objectives that send prepackaged items: objective approves when supplying items that have been removed from its original cargo crate
 
 /datum/overmap_objective/cargo
 	name = "cargo objective"
@@ -18,7 +19,7 @@
 	target = 0
 	tally = 0
 
-	var/destination = null // For knowing who wants what by looking at this objective datum
+	var/obj/structure/overmap/destination = null // For knowing who wants what by looking at this objective datum
 
 	// On proc pick_station, pick_same_destination attempts to find a station that is already expecting cargo. This avoids situations where players are trekking halfway across the universe to deliver two separate items
 	// Set to FALSE if you always want random stations to be picked
@@ -33,10 +34,8 @@
 	var/obj/structure/overmap/pickup_destination = null
 
 	// Cargo objectives handle the station's requisitioned item in a special datum so we can control how to check contents
-	// Reminder! Freight torpedoes can only hold 4 slots worth of items! This means cargo objectives should not be requiring more than 4 prepackaged item types
-	var/list/freight_types = list()
-	var/last_check_cargo_items_requested = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station approved for cargo objectives
-	var/last_check_cargo_items_all = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station rejected for cargo objectives. Leftover items in this list means the station found garbage not related to the current objective
+	var/datum/freight_type/group/freight_type_group = null
+	var/datum/freight_type_check/last_freight_type_check = null // admin/coder in-round debugging. In the last shipment, displays all contents that the station approved/rejected for cargo objectives
 	var/roundstart_packages_handled = FALSE
 	var/delivered_package = FALSE
 
@@ -47,11 +46,13 @@
 		roundstart_deliver_package()
 		roundstart_packages_handled = TRUE
 	update_brief()
+	update_freight_type_group()
+
+	. = ..()
 
 /datum/overmap_objective/cargo/proc/get_target()
-	if ( length( freight_types ) )
-		for( var/datum/freight_type/type in freight_types )
-			target += type.target
+	if ( freight_type_group )
+		target = freight_type_group.get_target()
 	else
 		message_admins( "BUG: A cargo objective was assigned with no delivery item types set! Automatically marking as completed" )
 		brief = "Succeed"
@@ -85,16 +86,16 @@
 /datum/overmap_objective/cargo/proc/roundstart_deliver_package()
 	if ( send_to_station_pickup_point )
 		pick_station_pickup_point()
-		return TRUE
+		if ( !SSovermap_mode.mode.debug_mode )
+			return TRUE
 
 	deliver_package()
 
 /datum/overmap_objective/cargo/proc/deliver_package() // Called when picking up prepackaged crates at station pickup points
 	if ( !delivered_package ) // Do not resend prepackaged contents
-		for ( var/datum/freight_type/T in freight_types )
-			if ( !T.deliver_package() )
-				message_admins( "BUG: A cargo objective failed to deliver a prepackaged item to the ship! Automatically marking the objective as completed." )
-				status = 1
+		if ( !freight_type_group.deliver_package() )
+			message_admins( "BUG: A cargo objective failed to deliver a prepackaged item to the ship! Automatically marking the objective as completed." )
+			status = 1
 		delivered_package = TRUE
 		SSovermap_mode.update_reminder(objective=TRUE) // Picking up objective cargo resets the timer
 
@@ -118,38 +119,52 @@
 	S.add_holding_cargo( src )
 
 /datum/overmap_objective/cargo/proc/update_brief()
-	if ( length( freight_types ) )
-		var/list/segments = list()
-		for( var/datum/freight_type/type in freight_types )
-			segments += type.get_brief_segment()
+	if ( freight_type_group )
+		// var/list/segments = list()
+		// for( var/datum/freight_type/type in freight_types )
+		// 	segments += type.get_brief_segment()
 
 		var/obj/structure/overmap/S = destination
-		brief = "Deliver [segments.Join( ", " )] to station [S] in system [S.current_system]"
+		brief = "Complete supply request form #[GLOB.round_id]-[objective_number] by delivering its contents to station [S] (system [S.current_system])"
 
-/datum/overmap_objective/cargo/donation/update_brief()
-	if ( length( freight_types ) )
-		var/list/segments = list()
-		for( var/datum/freight_type/type in freight_types )
-			segments += type.get_brief_segment()
+/datum/overmap_objective/cargo/print_objective_report()
+	var/title = "Secure Supply Request Form: #[GLOB.round_id]-[objective_number]"
 
-		var/obj/structure/overmap/S = destination
-		brief = "Source and donate [segments.Join( ", " )] to station [S] in system [S.current_system]"
+	var/info = "<strong>[title]</strong><br/> \
+		Destination: [destination]<br/> \
+		Destination system: [destination.current_system]<br/> \
+		Shipment name: [crate_name]<br/> \
+		Deliver the following in a freight torpedo:<br/><br/> \
+		<ul> \
+		[freight_type_group.get_supply_request_form_segment()] \
+		</ul>"
 
-/datum/overmap_objective/cargo/transfer/update_brief()
-	if ( length( freight_types ) )
-		var/list/segments = list()
-		for( var/datum/freight_type/type in freight_types )
-			segments += type.get_brief_segment()
+	print_command_report(info, title, FALSE)
 
-		var/obj/structure/overmap/S = destination
-		if ( send_to_station_pickup_point )
-			brief = "Pick up [segments.Join( ", " )] from station [pickup_destination] in system [pickup_destination.current_system], and tranfer the contents to station [S] in system [S.current_system]"
-		else
-			brief = "Transfer [segments.Join( ", " )] prepackaged and delivered to cargo, to station [S] in system [S.current_system]"
+	if ( SSovermap_mode.mode.debug_mode )
+		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
+		if ( MO.current_system != destination.current_system )
+			MO.current_system.remove_ship(MO)
+			MO.jump_end(destination.current_system)
+
+/datum/overmap_objective/cargo/proc/update_freight_type_group()
+	freight_type_group.set_objective( src )
+
+/datum/freight_type_check
+	// At the start of a check, the raw container and its contents go here
+	var/obj/container
+	var/list/untracked_contents = list()
+
+	// At the end of a check, untracked contents are filtered into approved contents and a global status is set in this datum
+	var/list/approved_contents = list()
+	var/list/groups_refused = list()
+
+	// If one group doesn't like the results of the shipment, the whole check is cancelled and rejection kicks in
+	var/group_status = TRUE
 
 /datum/overmap_objective/cargo/proc/check_cargo( var/obj/shipment )
-	if ( length( freight_types ) )
-		var/all_accounted_for = TRUE
+	if ( freight_type_group )
+		// var/all_accounted_for = TRUE
 
 		// Cargo objectives with multiple freight types need to be checked individually,
 		// then the entire container needs checked for non-objective related trash.
@@ -160,22 +175,16 @@
 			if( !is_type_in_typecache( a.type, GLOB.blacklisted_paperwork_itemtypes ) )
 				allContents += a
 
-		last_check_cargo_items_requested = list()
-		last_check_cargo_items_all = allContents // Separate all cargo items from checked contents, for debugging
-		for( var/datum/freight_type/freight_type in freight_types )
-			var/list/item_results = freight_type.check_contents( shipment )
-			if ( item_results )
-				for ( var/atom/i in item_results )
-					last_check_cargo_items_requested += i
-					allContents -= i
-			else
-				// There are missing items in this freight type, we're not going to bother checking the rest
-				all_accounted_for = FALSE
-				break
+		// Start a new freight_type check
+		last_freight_type_check = new()
+		last_freight_type_check.container = shipment
+		last_freight_type_check.untracked_contents = allContents
+		freight_type_group.check_contents( last_freight_type_check )
 
 		// If there are additional trash items that were not requested, we won't mark this shipment as an objective completion
 		// This prevents a scenario where the crew piles all their objective related cargo into a freight torpedo, completes 2 out of 3 applicable objectives, and can't get the incomplete shipment back for objective #3
-		if ( all_accounted_for && !length( allContents ) )
-			tally = target // Target is set when the freight_type is assigned
+		// No, I will not implement soft approvals where the players' trash is auto shipped back. If players can't follow basic directions on supply requests they shouldn't be allowed to greentext their basic objectives.
+		if ( last_freight_type_check.group_status && !length( last_freight_type_check.untracked_contents ) )
+			tally = target
 			status = 1
 			return TRUE

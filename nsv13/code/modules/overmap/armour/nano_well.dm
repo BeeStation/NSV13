@@ -73,7 +73,7 @@ Starting Materials
 	var/material_tier = 0 //The selected tier recipe producing RR
 	var/apnw_id = null //The ID by which we identify our child devices - These should match the child devices and follow the formula: 1 - Main Ship, 2 - Secondary Ship, 3 - Syndie PvP Ship
 
-/obj/machinery/armour_plating_nanorepair_well/Initialize()
+/obj/machinery/armour_plating_nanorepair_well/Initialize(mapload)
 	.=..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -84,7 +84,7 @@ Starting Materials
 		1000000, FALSE, /obj/item/stack, null, null, FALSE)
 
 	OM = get_overmap()
-	addtimer(CALLBACK(src, .proc/handle_linking), 10 SECONDS)
+	addtimer(CALLBACK(src, .proc/handle_linking), 30 SECONDS)
 
 /obj/machinery/armour_plating_nanorepair_well/examine(mob/user)
 	.=..()
@@ -108,7 +108,7 @@ Starting Materials
 			update_icon()
 			return FALSE
 
-		if(is_operational())
+		if(is_operational)
 			handle_repair_resources()
 			handle_repair_efficiency()
 			update_icon()

@@ -51,8 +51,6 @@
 	var/maintainable = TRUE //Does the weapon require maintenance?
 	var/bang = TRUE //Is firing loud?
 	var/bang_range = 8
-	var/last_bang = 0 // performance reasons, rapid range/hearers checking is terrible
-	var/bang_list // :flushed:
 	var/auto_load = FALSE //Does the weapon feed and chamber the round once we load it?
 	var/semi_auto = FALSE //Does the weapon re-chamber for us after firing?
 
@@ -85,7 +83,7 @@
  * If the weapon requires maintenance, generates initial maintenance countdown.
  * Caches icon state list for sanity checking when updating icons.
  */
-/obj/machinery/ship_weapon/Initialize()
+/obj/machinery/ship_weapon/Initialize(mapload)
 	. = ..()
 	PostInitialize()
 	addtimer(CALLBACK(src, .proc/get_ship), 15 SECONDS) //This takes a minute to load...
@@ -194,6 +192,8 @@
  */
 /obj/machinery/ship_weapon/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	if(islist(ammo_type))
 		for(var/at in ammo_type)
 			if(istype(A, at))
@@ -372,9 +372,9 @@
 /obj/machinery/ship_weapon/proc/update()
 	if(weapon_type) // Who would've thought creating a weapon with no weapon_type would break everything!
 		if(!safety && chambered)
-			LAZYADD(weapon_type.weapons["loaded"] , src)
+			weapon_type.weapons["loaded"] |= src //OR to avoid duplicating refs
 		else
-			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
+			weapon_type.weapons["loaded"] -= src
 
 /obj/machinery/ship_weapon/proc/lazyload()
 	if(magazine_type)
@@ -515,7 +515,7 @@
 	if(firing_sound)
 		playsound(src, firing_sound, 100, 1)
 	if(bang)
-		for(var/mob/living/M in hearers(bang_range, src)) //Burst unprotected eardrums
+		for(var/mob/living/M in get_hearers_in_view(bang_range, src)) //Burst unprotected eardrums
 			if(M.stat != DEAD && M.get_ear_protection() < 1) //checks for protection - why was this not here before???
 				M.soundbang_act(1,200,10,15)
 

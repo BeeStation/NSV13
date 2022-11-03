@@ -31,6 +31,18 @@ export const OvermapGamemodeController = (props, context) => {
                       onClick={() => act('change_gamemode')} />
                   </LabeledList.Item>
                   <br />
+                  <LabeledList.Item label="Threat">
+                    {"Current threat points: " + data.threat_elevation}
+                    <br />
+                    {"Points required per fleet size point: " + data.threat_per_size_point + " | effective fleet size bonus: " + Math.floor(data.threat_elevation / data.threat_per_size_point)}
+                    <br /><br />
+                    <Button
+                      icon="exchange-alt"
+                      content="Adjust threat"
+                      color="grey"
+                      onClick={() => act('adjust_threat')} />
+                  </LabeledList.Item>
+                  <br />
                   <LabeledList.Item label="Difficulty">
                     Current Global Difficulty: {data.current_difficulty}
                     <br />
@@ -60,7 +72,7 @@ export const OvermapGamemodeController = (props, context) => {
                       </Flex.Item>
                       <Flex.Item width="220px">
                         <Button
-                          icon={data.toggle_override ? "check" : "times"}
+                          icon={data.toggle_reminder ? "check" : "times"}
                           content={data.toggle_reminder ? "Enable Reminder" : "Disable Reminder"}
                           color={data.toggle_reminder ? "green" : "red"}
                           onClick={() => act('toggle_reminder')} />
@@ -76,6 +88,23 @@ export const OvermapGamemodeController = (props, context) => {
                           onClick={() => act('reset_stage')} />
                       </Flex.Item>
                     </Flex>
+                  </LabeledList.Item>
+                  <LabeledList.Item label="Other">
+                    <Button
+                      icon="ghost"
+                      content="Spawn Ghost Ship"
+                      color="orange"
+                      onClick={() => act('spawn_ghost_ship')} />
+                    <Button
+                      icon={data.toggle_ghost_ships ? "check" : "times"}
+                      content={data.toggle_ghost_ships ? "Enable Ghost Ships" : "Disable Ghost Ships"}
+                      color={data.toggle_ghost_ships ? "green" : "red"}
+                      onClick={() => act('toggle_ghost_ships')} />
+                    <Button
+                      icon={data.toggle_ghost_boarders ? "check" : "times"}
+                      content={data.toggle_ghost_boarders ? "Enable Ghost Boarders" : "Disable Ghost Boarders"}
+                      color={data.toggle_ghost_boarders ? "green" : "red"}
+                      onClick={() => act('toggle_ghost_boarders')} />
                   </LabeledList.Item>
                 </LabeledList>
               </Section>

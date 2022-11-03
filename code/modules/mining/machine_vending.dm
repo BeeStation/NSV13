@@ -10,7 +10,7 @@
 	var/obj/item/card/id/inserted_id
 	var/list/prize_list = list()
 
-/obj/machinery/vendor/Initialize()
+/obj/machinery/vendor/Initialize(mapload)
 	. = ..()
 	build_inventory()
 
@@ -152,10 +152,12 @@
 		new /datum/data/vendor_equipment("Silver Pickaxe",				/obj/item/pickaxe/silver,											500),
 		new /datum/data/vendor_equipment("Diamond Pickaxe",				/obj/item/pickaxe/diamond,											1000),
 		new /datum/data/vendor_equipment("Mining Bot Companion",		/mob/living/simple_animal/hostile/mining_drone,						800),
-		new /datum/data/vendor_equipment("Minebot Upgrade: Melee",		/obj/item/mine_bot_upgrade,											400),
-		new /datum/data/vendor_equipment("Minebot Upgrade: Armor",		/obj/item/mine_bot_upgrade/health,									400),
+		new /datum/data/vendor_equipment("Minebot Upgrade: Armor",		/obj/item/minebot_upgrade/health,									400),
+		new /datum/data/vendor_equipment("Minebot Upgrade: Ore Scoop",	/obj/item/minebot_upgrade/ore_pickup,								400),
 		new /datum/data/vendor_equipment("Minebot Upgrade: Cooldown",	/obj/item/borg/upgrade/modkit/cooldown/minebot,						600),
+		new /datum/data/vendor_equipment("Minebot Upgrade: Medical",	/obj/item/minebot_upgrade/medical,									800),
 		new /datum/data/vendor_equipment("Minebot Upgrade: A.I.",		/obj/item/slimepotion/slime/sentience/mining,						1000),
+		new /datum/data/vendor_equipment("Minebot Weatherproof Chassis",/obj/item/minebot_upgrade/antiweather,								1200),
 		new /datum/data/vendor_equipment("P-KA Upgrade: Bot-Friendly",	/obj/item/borg/upgrade/modkit/minebot_passthrough,					100),
 		new /datum/data/vendor_equipment("P-KA Upgrade: Tracer Shots",	/obj/item/borg/upgrade/modkit/tracer,								200),
 		new /datum/data/vendor_equipment("P-KA Upgrade: Adj. T. Shots",	/obj/item/borg/upgrade/modkit/tracer/adjustable,					300),
@@ -239,7 +241,7 @@
 	name = "golem ship equipment vendor"
 	circuit = /obj/item/circuitboard/machine/mining_equipment_vendor/golem
 
-/obj/machinery/vendor/mining/golem/Initialize()
+/obj/machinery/vendor/mining/golem/Initialize(mapload)
 	. = ..()
 	desc += "\nIt seems a few selections have been added."
 	prize_list += list(

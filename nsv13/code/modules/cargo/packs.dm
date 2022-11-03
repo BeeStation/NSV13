@@ -151,6 +151,7 @@
 					/obj/item/ship_weapon/parts/missile/warhead/decoy,
 					/obj/item/ship_weapon/parts/missile/warhead/decoy,
 					/obj/item/ship_weapon/parts/missile/warhead/decoy,
+					/obj/item/ship_weapon/parts/missile/warhead/decoy,
 					/obj/item/ship_weapon/parts/missile/warhead/decoy)
 	crate_name = "Decoy missile warheads"
 
@@ -170,6 +171,7 @@
 	desc = "A pack of 10 standard missile warheads."
 	cost = 1000
 	contains = list(/obj/item/ship_weapon/parts/missile/warhead,
+					/obj/item/ship_weapon/parts/missile/warhead,
 					/obj/item/ship_weapon/parts/missile/warhead,
 					/obj/item/ship_weapon/parts/missile/warhead,
 					/obj/item/ship_weapon/parts/missile/warhead,
@@ -265,8 +267,8 @@
 					/obj/item/fighter_component/canopy,
 					/obj/item/fighter_component/docking_computer,
 					/obj/item/fighter_component/battery,
-					/obj/item/fighter_component/primary/utility/hold,
-					/obj/item/fighter_component/secondary/utility/resupply,
+					/obj/item/fighter_component/secondary/utility/hold,
+					/obj/item/fighter_component/primary/utility/refuel,
 					/obj/item/fighter_component/countermeasure_dispenser)
 
 /datum/supply_pack/munitions/light_cannon
@@ -301,7 +303,7 @@
 					/obj/item/ammo_box/magazine/nsv/heavy_cannon)
 	crate_name = "Heavy cannon ammunition crate"
 
-/datum/supply_pack/security/peacekeeper_rifles
+/datum/supply_pack/security/armory/peacekeeper_rifles
 	name = "M2A45 pulse rifles (x3)"
 	desc = "A pack of 3 M2A45 pulse rifles, preloaded with nonlethal stun slugs."
 	cost = 9000
@@ -310,7 +312,7 @@
 					/obj/item/gun/ballistic/automatic/peacekeeper)
 	crate_name = "M2A45 crate"
 
-/datum/supply_pack/security/peacekeeper_rifles_single
+/datum/supply_pack/security/armory/peacekeeper_rifles_single
 	name = "M2A45 Pulse Rifle Single-Pack"
 	desc = "A single M2A45 pulse rifle, preloaded with nonlethal stun slugs."
 	cost = 3500
@@ -344,24 +346,24 @@
 	name = "Glock-13 ammo (nonlethal)"
 	desc = "5 magazines of nonlethal ammo for security sidearms."
 	cost = 1500
-	contains = list(/obj/item/ammo_box/c9mm/rubber,
-					/obj/item/ammo_box/c9mm/rubber,
-					/obj/item/ammo_box/c9mm/rubber,
-					/obj/item/ammo_box/c9mm/rubber,
-					/obj/item/ammo_box/c9mm/rubber,
-					/obj/item/ammo_box/magazine/pistolm9mm/glock)
+	contains = list(/obj/item/ammo_box/magazine/glock,
+					/obj/item/ammo_box/magazine/glock,
+					/obj/item/ammo_box/magazine/glock,
+					/obj/item/ammo_box/magazine/glock,
+					/obj/item/ammo_box/magazine/glock,
+					/obj/item/ammo_box/c9mm/rubber)
 	crate_name = "Glock-13 nonlethal ammunition crate"
 
 /datum/supply_pack/security/glock_lethal
 	name = "Glock-13 ammo (lethal)"
 	desc = "5 magazines of lethal ammo for security sidearms."
 	cost = 1500
-	contains = list(/obj/item/ammo_box/c9mm,
-					/obj/item/ammo_box/c9mm,
-					/obj/item/ammo_box/c9mm,
-					/obj/item/ammo_box/c9mm,
-					/obj/item/ammo_box/c9mm,
-					/obj/item/ammo_box/magazine/pistolm9mm/glock/lethal)
+	contains = list(/obj/item/ammo_box/magazine/glock/lethal,
+					/obj/item/ammo_box/magazine/glock/lethal,
+					/obj/item/ammo_box/magazine/glock/lethal,
+					/obj/item/ammo_box/magazine/glock/lethal,
+					/obj/item/ammo_box/magazine/glock/lethal,
+					/obj/item/ammo_box/c9mm)
 	crate_name = "Glock-13 lethal ammunition crate"
 	access = ACCESS_ARMORY
 
@@ -375,7 +377,7 @@
 					/obj/item/gun/ballistic/tazer)
 	crate_name = "Czanek corp tazer crate"
 
-/datum/supply_pack/security/peacekeeper_ammo
+/datum/supply_pack/security/armory/peacekeeper_ammo
 	name = "M2A45 pulse rifle ammo (nonlethal)"
 	desc = "5 magazines of nonlethal ammo for peacekeeper rifles."
 	cost = 800
@@ -386,7 +388,7 @@
 					/obj/item/ammo_box/magazine/peacekeeper)
 	crate_name = "M2A45 nonlethal ammunition crate"
 
-/datum/supply_pack/security/peacekeeper_ammo_lethal
+/datum/supply_pack/security/armory/peacekeeper_ammo_lethal
 	name = "M2A45 pulse rifle ammo (lethal)"
 	desc = "5 magazines of lethal ammunition for peacekeeper rifles."
 	cost = 1200

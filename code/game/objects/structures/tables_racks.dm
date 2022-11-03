@@ -20,9 +20,9 @@
 	icon_state = "table"
 	density = TRUE
 	anchored = TRUE
+	pass_flags_self = PASSTABLE | LETPASSTHROW
 	layer = TABLE_LAYER
 	climbable = TRUE
-	pass_flags = LETPASSTHROW //You can throw objects over this, despite it's density.")
 	var/frame = /obj/structure/table_frame
 	var/framestack = /obj/item/stack/rods
 	var/buildstack = /obj/item/stack/sheet/iron
@@ -107,20 +107,34 @@
 /obj/structure/table/attack_tk()
 	return FALSE
 
-/obj/structure/table/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover) && (mover.pass_flags & PASSTABLE))
-		return 1
+/obj/structure/table/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(.)
+		return
 	if(mover.throwing)
-		return 1
+		return TRUE
 	if(locate(/obj/structure/table) in get_turf(mover))
-		return 1
-	else
-		return !density
+		return TRUE
 
 /obj/structure/table/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
 	. = !density
+	if(isknpc(caller))
+		return TRUE
 	if(istype(caller))
 		. = . || (caller.pass_flags & PASSTABLE)
+
+/obj/structure/table/glass/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
+	. = !density
+	if(istype(caller))
+		. = . || (caller.pass_flags & PASSTABLE)
+
+/obj/structure/table/glass/plasma/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller) //Unfortunately this is needed because of subtypes.
+	. = !density
+	if(isknpc(caller))
+		return TRUE
+	if(istype(caller))
+		. = . || (caller.pass_flags & PASSTABLE)
+//NSV13 end
 
 /obj/structure/table/proc/tableplace(mob/living/user, mob/living/pushed_mob)
 	pushed_mob.forceMove(loc)
@@ -257,17 +271,22 @@
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 100, "stamina" = 0)
 	var/list/debris = list()
 
-/obj/structure/table/glass/Initialize()
+/obj/structure/table/glass/Initialize(mapload)
 	. = ..()
 	debris += new frame
 	debris += new /obj/item/shard
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/structure/table/glass/Destroy()
 	QDEL_LIST(debris)
 	. = ..()
 
-/obj/structure/table/glass/Crossed(atom/movable/AM)
-	. = ..()
+/obj/structure/table/glass/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
 	if(flags_1 & NODECONSTRUCT_1)
 		return
 	if(!isliving(AM))
@@ -331,7 +350,7 @@
     max_integrity = 270
     armor = list("melee" = 10, "bullet" = 5, "laser" = 0, "energy" = 0, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 100)
 
-/obj/structure/table/glass/plasma/Initialize()
+/obj/structure/table/glass/plasma/Initialize(mapload)
     . = ..()
     debris += new /obj/item/shard/plasma
 
@@ -390,7 +409,7 @@
 		/obj/structure/table/wood/fancy/royalblue)
 	var/smooth_icon = 'icons/obj/smooth_structures/fancy_table.dmi' // see Initialize()
 
-/obj/structure/table/wood/fancy/Initialize()
+/obj/structure/table/wood/fancy/Initialize(mapload)
 	. = ..()
 	// Needs to be set dynamically because table smooth sprites are 32x34,
 	// which the editor treats as a two-tile-tall object. The sprites are that
@@ -530,7 +549,7 @@
 /obj/structure/table/optable
 	name = "operating table"
 	desc = "Used for advanced medical procedures."
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "optable"
 	buildstack = /obj/item/stack/sheet/mineral/silver
 	smooth = SMOOTH_FALSE
@@ -540,7 +559,7 @@
 	var/mob/living/carbon/human/patient = null
 	var/obj/machinery/computer/operating/computer = null
 
-/obj/structure/table/optable/Initialize()
+/obj/structure/table/optable/Initialize(mapload)
 	. = ..()
 	for(var/direction in GLOB.cardinals)
 		computer = locate(/obj/machinery/computer/operating) in get_step(src, direction)
@@ -550,7 +569,7 @@
 
 /obj/structure/table/optable/Destroy()
 	. = ..()
-	if(computer && computer.table == src)
+	if(computer?.table == src)
 		computer.table = null
 
 /obj/structure/table/optable/tablepush(mob/living/user, mob/living/pushed_mob)
@@ -598,26 +617,20 @@
 	layer = TABLE_LAYER
 	density = TRUE
 	anchored = TRUE
-	pass_flags = LETPASSTHROW //You can throw objects over this, despite it's density.
+	pass_flags_self = LETPASSTHROW //You can throw objects over this, despite it's density.
 	max_integrity = 20
 
 /obj/structure/rack/examine(mob/user)
 	. = ..()
 	. += "<span class='notice'>It's held together by a couple of <b>bolts</b>.</span>"
 
-/obj/structure/rack/CanPass(atom/movable/mover, turf/target)
+/obj/structure/rack/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
 	if(src.density == 0) //Because broken racks -Agouri |TODO: SPRITE!|
-		return 1
+		return TRUE
 	if(istype(mover) && (mover.pass_flags & PASSTABLE))
-		return 1
-	else
-		return 0
-
-/obj/structure/rack/CanAStarPass(ID, dir, caller)
-	. = !density
-	if(ismovableatom(caller))
-		var/atom/movable/mover = caller
-		. = . || (mover.pass_flags & PASSTABLE)
+		return TRUE
+	return FALSE
 
 /obj/structure/rack/MouseDrop_T(obj/O, mob/user)
 	. = ..()

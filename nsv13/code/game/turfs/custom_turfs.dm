@@ -154,7 +154,7 @@
 	name = "ship interior cordon"
 	icon_state = "cordon"
 
-/turf/closed/indestructible/boarding_cordon/Initialize()
+/turf/closed/indestructible/boarding_cordon/Initialize(mapload)
 	. = ..()
 	alpha = 0
 	mouse_opacity = FALSE
@@ -164,5 +164,5 @@
 		return
 	if(istype(AM, /obj/structure/overmap/small_craft))
 		var/obj/structure/overmap/small_craft/OM = AM
-		return OM.check_overmap_elegibility()
+		return OM.check_overmap_elegibility(ignore_position = TRUE)
 	return ..()

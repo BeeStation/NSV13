@@ -8,14 +8,7 @@
 		system_contents += OM	//Lets be safe while I cast some black magic.
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
 		if(!SSmapping.level_trait(OM.z, ZTRAIT_OVERMAP))
-			if(OM.reserved_z)
-				occupying_z = OM.reserved_z
-			else if(!length(OM.free_treadmills))
-				SSmapping.add_new_zlevel("Overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-				occupying_z = world.maxz
-			else
-				var/_z = pick_n_take(OM.free_treadmills)
-				occupying_z = _z
+			occupying_z = OM.get_reserved_z()
 		else
 			occupying_z = OM.z
 		if(OM.role == MAIN_OVERMAP) //As these events all happen to the main ship, let's check that it's not say, the nomi that's triggering this system load...
@@ -54,6 +47,13 @@
 		OM.relay(null, "<span class='notice'><h2>Now entering [name]...</h2></span>")
 		OM.relay(null, "<span class='notice'>[desc]</span>")
 		//If we have an audio cue, ensure it doesn't overlap with a fleet's one...
+	//End the round upon entering O45.
+	if(CHECK_BITFIELD(system_traits, STARSYSTEM_END_ON_ENTER))
+		if(OM.role == MAIN_OVERMAP)
+			priority_announce("[station_name()] has successfully returned to [src] for resupply and crew transfer, excellent work crew.", "Naval Command")
+			GLOB.crew_transfer_risa = TRUE
+			SSticker.mode.check_finished()
+			SSticker.news_report = SHIP_VICTORY
 	if(!audio_cues?.len)
 		return FALSE
 	for(var/datum/fleet/F in fleets)
@@ -92,8 +92,9 @@
 	contents_positions = null
 	contents_positions = list()
 
-/datum/star_system/proc/remove_ship(obj/structure/overmap/OM)
+/datum/star_system/proc/remove_ship(obj/structure/overmap/OM, turf/new_location)
 	var/list/other_player_ships = list()
+
 	for(var/atom/X in system_contents)
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/ship = X
@@ -102,16 +103,16 @@
 	if(OM.reserved_z == occupying_z && other_player_ships.len) //Alright, this is our Z-level but we're jumping out of it and there are still people here.
 		var/obj/structure/overmap/ship = pick(other_player_ships)
 		message_admins("Swapping [OM] and [ship]'s reserved Zs, as they overlap.")
-		var/temp = ship.reserved_z
+		var/temp = ship.get_reserved_z()
 		ship.reserved_z = OM.reserved_z
 		OM.reserved_z = temp
-		OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
+		OM.forceMove(new_location ? new_location : locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 		system_contents -= OM
 		ftl_pull_small_craft(OM)
 		return //Early return here. This means that another player ship is already holding the system, and we really don't need to double-check for this.
 
 	message_admins("Successfully removed [OM] from [src]")
-	OM.forceMove(locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
+	OM.forceMove(new_location ? new_location : locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 	system_contents -= OM
 
 	if(!OM.reserved_z)	//If this isn't actually a big ship with its own interior, do not pull ships, as only those get their own reserved z.
@@ -148,7 +149,9 @@
 		//Ships that have a Z reserved are on the active FTL plane.
 		if(OM.reserved_z)
 			continue
-		if(!OM.operators.len || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
+		if(isasteroid(OM))
+			continue
+		if((!length(OM.operators) && !length(OM.mobs_in_ship)) || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
 			continue
 		if(same_faction_only && jumping.faction != OM.faction)	//We don't pull all small craft in the system unless we were the last ship here.
 			continue
@@ -252,6 +255,7 @@
 	SSstar_system.ships[src]["from_time"] = world.time
 	SSstar_system.ships[src]["current_system"] = null
 	addtimer(CALLBACK(src, .proc/jump_end, target_system), speed MINUTES)
+	ftl_drive.depower()
 	jump_handle_shake()
 	force_parallax_update(TRUE)
 
@@ -273,10 +277,12 @@
 	relay(ftl_drive.ftl_exit, "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
 
 	var/list/pulled = list()
-	for(var/obj/structure/overmap/SOM in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/SOM in GLOB.overmap_objects) //Needs to go through global objects due to being in jumpspace not a system.
 		if(SOM.z != reserved_z)
 			continue
 		if(SOM == src)
+			continue
+		if(!SOM.z)
 			continue
 		LAZYADD(pulled, SOM)
 	target_system.add_ship(src) //Get the system to transfer us to its location.
@@ -424,7 +430,7 @@
 Preset classes of FTL drive with pre-programmed behaviours
 */
 
-/obj/machinery/computer/ship/ftl_computer/preset/Initialize()
+/obj/machinery/computer/ship/ftl_computer/preset/Initialize(mapload)
 	. = ..()
 	upgrade()
 
@@ -449,17 +455,17 @@ Preset classes of FTL drive with pre-programmed behaviours
 	req_access = null
 	req_one_access_txt = "31;48"
 
-/obj/machinery/computer/ship/ftl_computer/Initialize()
+/obj/machinery/computer/ship/ftl_computer/Initialize(mapload)
 	. = ..()
 	start_monitoring(get_overmap()) //I'm a lazy hack that can't actually be assed to deal with an if statement in react right now.
 
-/obj/machinery/computer/ship/ftl_computer/syndicate/Initialize()
+/obj/machinery/computer/ship/ftl_computer/syndicate/Initialize(mapload)
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/computer/ship/ftl_computer/syndicate/LateInitialize()
 	. = ..()
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Needs to go through global list due to filtering for any ship with importants not just the one main ship.
 		if(OM.role > NORMAL_OVERMAP && OM.faction != faction)
 			start_monitoring(OM)
 
@@ -480,13 +486,13 @@ A way for syndies to track where the player ship is going in advance, so they ca
 		var/datum/star_system/current_system = SSstar_system.ships[target]["current_system"]
 		tracking[target] = list("name" = target.name, "current_system" = current_system.name, "target_system" = target_system.name)
 
-/obj/machinery/computer/ship/ftl_computer/Initialize()
+/obj/machinery/computer/ship/ftl_computer/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, .proc/has_overmap), 5 SECONDS)
 	STOP_PROCESSING(SSmachines, src)
 
 /obj/machinery/computer/ship/ftl_computer/process()
-	if(!is_operational())
+	if(!is_operational)
 		depower()
 		return
 	if(progress < spoolup_time)
@@ -589,7 +595,6 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)
 	visible_message("<span class='notice'>Initiating FTL jump.</span>")
 	ftl_state = FTL_STATE_JUMPING
-	addtimer(CALLBACK(src, .proc/depower), ftl_startup_time)
 
 /obj/machinery/computer/ship/ftl_computer/proc/ready_ftl()
 	ftl_state = FTL_STATE_READY
@@ -614,7 +619,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	return FALSE
 
 
-/obj/machinery/computer/ship/ftl_computer/Initialize()
+/obj/machinery/computer/ship/ftl_computer/Initialize(mapload)
 	. = ..()
 	radio = new(src)
 	radio.keyslot = new radio_key

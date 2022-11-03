@@ -21,7 +21,7 @@
 	maintainable = FALSE //Due to the amount of rounds that this thing fires, this would just get suuuper irritating.
 	var/mob/gunner = null
 	var/next_sound = 0
-	var/obj/structure/chair/comfy/gauss/gunner_chair = null
+	var/obj/structure/chair/fancy/gauss/gunner_chair = null
 	var/obj/structure/gauss_rack/ammo_rack
 	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
 	var/climbing_in = FALSE //Stop it. Just stop.
@@ -34,16 +34,18 @@
 
 /obj/machinery/ship_weapon/gauss_gun/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	if(istype(A, /obj/structure/closet))
 		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/ammunition/gauss))
 			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
 			return FALSE
-		if(ammo?.len >= max_ammo)
+		if(length(ammo) >= max_ammo)
 			return FALSE
 		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
 		if(do_after(user, 4 SECONDS , target = src))
 			for(var/obj/item/ship_weapon/ammunition/gauss/G in A)
-				if(ammo?.len < max_ammo)
+				if(length(ammo) < max_ammo)
 					G.forceMove(src)
 					ammo += G
 			if(load_sound)
@@ -63,6 +65,8 @@
 		if(!check_rights(NONE))
 			return
 		remove_gunner()
+
+#undef VV_HK_REMOVE_GAUSS_GUNNER
 
 /obj/machinery/ship_weapon/gauss_gun/powered(chan)
 	if(!loc)
@@ -127,9 +131,9 @@
 
 //Overrides
 
-/obj/machinery/ship_weapon/gauss_gun/Initialize()
+/obj/machinery/ship_weapon/gauss_gun/Initialize(mapload)
 	. = ..()
-	cabin_air = new
+	cabin_air = new()
 	cabin_air.set_temperature(T20C)
 	cabin_air.set_volume(200)
 	cabin_air.set_moles(GAS_O2, O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
@@ -139,7 +143,7 @@
 	ammo_rack.gun = src
 
 	var/turf/below = SSmapping.get_turf_below(src)
-	var/obj/structure/chair/comfy/gauss/gauss_chair = locate(/obj/structure/chair/comfy/gauss) in below
+	var/obj/structure/chair/fancy/gauss/gauss_chair = locate(/obj/structure/chair/fancy/gauss) in below
 	if(gauss_chair && istype(gauss_chair))
 		add_chair(gauss_chair)
 		gauss_chair.gun = src
@@ -157,7 +161,7 @@
 	QDEL_NULL(ammo_rack)
 	QDEL_NULL(cabin_air)
 	QDEL_NULL(internal_tank)
-	. = ..()
+	return ..()
 
 /obj/machinery/ship_weapon/gauss_gun/attack_hand(mob/user)
 	if(climbing_in)
@@ -355,7 +359,7 @@
 	. = ..()
 	update_icon()
 
-/obj/structure/gauss_rack/Initialize()
+/obj/structure/gauss_rack/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -401,6 +405,8 @@
 
 /obj/structure/gauss_rack/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return
 	if(istype(A, /obj/structure/closet))
 		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/ammunition/gauss))
 			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
@@ -526,11 +532,11 @@
 Chair + rack handling
 
 */
-
-/obj/machinery/ship_weapon/gauss_gun/proc/add_chair(obj/structure/chair/comfy/gauss/chair)
+// random comment
+/obj/machinery/ship_weapon/gauss_gun/proc/add_chair(obj/structure/chair/fancy/gauss/chair)
 	gunner_chair = chair
 
-/obj/structure/chair/comfy/gauss
+/obj/structure/chair/fancy/gauss
 	name = "Gunner chair"
 	desc = "A chair which can be lowered down from the ceiling to feed into a gauss gun, allowing for easy access to the gun's cockpit."
 	icon = 'nsv13/icons/obj/chairs.dmi'
@@ -540,35 +546,37 @@ Chair + rack handling
 	var/mob/living/occupant
 	var/feed_direction = SOUTH //Where does the ammo feed drop down to? By default, south of the chair by one tile.
 
-/obj/structure/chair/comfy/gauss/Destroy()
+/obj/structure/chair/fancy/gauss/Destroy()
 	if(gun)
 		gun.gunner_chair = null
 	return ..()
 
-/obj/structure/chair/comfy/gauss/north
+/obj/structure/chair/fancy/gauss/north
 	feed_direction = NORTH
 
-/obj/structure/chair/comfy/gauss/east
+/obj/structure/chair/fancy/gauss/east
 	feed_direction = EAST
 
-/obj/structure/chair/comfy/gauss/west
+/obj/structure/chair/fancy/gauss/west
 	feed_direction = WEST
 
-/obj/structure/chair/comfy/gauss/unbuckle_mob(mob/buckled_mob, force=FALSE)
+/obj/structure/chair/fancy/gauss/unbuckle_mob(mob/buckled_mob, force=FALSE)
 	if(locked)
 		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
 		return FALSE
 	. = ..()
-	occupant = null
+	if(.)
+		occupant = null
 
-/obj/structure/chair/comfy/gauss/user_unbuckle_mob(mob/buckled_mob, mob/user)
+/obj/structure/chair/fancy/gauss/user_unbuckle_mob(mob/buckled_mob, mob/user)
 	if(locked)
 		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
 		return FALSE
 	. = ..()
-	occupant = null
+	if(.)
+		occupant = null
 
-/obj/structure/chair/comfy/gauss/user_buckle_mob(mob/living/M, mob/user, check_loc = TRUE)
+/obj/structure/chair/fancy/gauss/user_buckle_mob(mob/living/M, mob/user, check_loc = TRUE)
 	if((gun && !gun.allowed(M)) || !M.client)
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
@@ -586,20 +594,21 @@ Chair + rack handling
 		return
 
 	var/mob/living/carbon/C = M
-	if(istype(C) && !C.get_bodypart(BODY_ZONE_L_ARM) && !C.get_bodypart(BODY_ZONE_R_ARM)) //Can't shoot the gun if you have no hands, borgs get a pass on this
+	if(istype(C) && ((!C.get_bodypart(BODY_ZONE_L_ARM) && !C.get_bodypart(BODY_ZONE_R_ARM)) || C.restrained(TRUE))) //Can't shoot the gun if you have no hands, borgs get a pass on this
 		if(M == user)
 			to_chat(user, "<span class='warning'>You can't operate the gauss gun without hands!!</span>")
 		else
 			to_chat(user,"<span class='warning'>[M] can't operate the gauss gun without hands!!</span>")
 		return
 
-	to_chat(M, "<span class='warning'>[src]'s restraints clamp down onto you!</span>")
-	occupant = M
+	to_chat(C, "<span class='warning'>[src]'s restraints clamp down onto you!</span>")
+	occupant = C
 	. = ..()
-	update_armrest()
-	gun?.raise_chair()
+	if(.)
+		update_armrest()
+		gun?.raise_chair()
 
-/obj/structure/chair/comfy/gauss/Initialize()
+/obj/structure/chair/fancy/gauss/Initialize(mapload)
 	. = ..()
 	add_overlay(armrest)
 	var/turf/above = SSmapping.get_turf_above(src)
@@ -608,10 +617,10 @@ Chair + rack handling
 		gun.add_chair(src)
 		src.gun = gun //GUN IS GUN.
 
-/obj/structure/chair/comfy/gauss/GetArmrest()
+/obj/structure/chair/fancy/gauss/GetArmrest()
 	return mutable_appearance(src.icon, "[initial(icon_state)]_[has_buckled_mobs() ? "closed" : "open"]")
 
-/obj/structure/chair/comfy/gauss/update_armrest()
+/obj/structure/chair/fancy/gauss/update_armrest()
 	cut_overlay(armrest)
 	QDEL_NULL(armrest)
 	armrest = GetArmrest()
@@ -667,7 +676,7 @@ Chair + rack handling
 	playsound(gunner_chair, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 
 /obj/machinery/ship_weapon/gauss_gun/proc/raise_rack()
-	if(!ammo_rack || ammo?.len >= max_ammo)
+	if(!ammo_rack || length(ammo) >= max_ammo)
 		return
 	playsound(ammo_rack.loc, 'nsv13/sound/effects/ship/freespace2/crane_2.wav', 100, FALSE)
 	ammo_rack.pixel_y = 0
@@ -713,7 +722,7 @@ Chair + rack handling
 
 ///Makes the gunner chair swivel forwards/backwards slowly, just like in {{redacted movie name}}
 
-/obj/structure/chair/comfy/gauss/proc/animate_swivel(dir)
+/obj/structure/chair/fancy/gauss/proc/animate_swivel(dir)
 	set waitfor = FALSE //Animation proc. Don't wait for it.
 	if(dir == NORTH)
 		setDir(EAST)

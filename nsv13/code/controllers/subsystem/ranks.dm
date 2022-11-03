@@ -17,9 +17,9 @@ GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"
 				message_admins("No rank found for: [J.title]")
 				missed += J
 				J.display_rank = ""
-		if(missed.len == 0)
+		if(!length(missed))
 			return
-		else if(missed.len < occupations.len)
+		else if(length(missed) < length(occupations))
 			//Try to default rank-less jobs to another rank
 			var/datum/job/A = select_substitute_rank()
 			if(A)
@@ -49,7 +49,6 @@ GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"
 		var/theRank = GLOB.pecking_order[I]
 		if(theRank == myRank)
 			myClout = I
-			continue
 		if(theRank == theirRank)
 			theirClout = I
 	//We live in a clout based society :(
@@ -58,7 +57,7 @@ GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"
 	if(myClout > theirClout)
 		return "<span class='boldnotice'>You outrank them as a [theirRank].</span>"
 	if(myClout < theirClout)
-		return "<span class='boldwarning'>They outrank you as a [myRank]</span>"
+		return "<span class='boldwarning'>They outrank you as a [myRank].</span>"
 	return "<span class='warning'>You've forgotten how ranks work.</span>"
 
 /**
@@ -88,7 +87,7 @@ Checks two text ranks, see which one outranks the other. Used for squad rank ass
 
 /datum/controller/subsystem/job/proc/select_substitute_rank()
 	//Try assistant first
-	var/datum/job/A = SSjob.GetJob("Midshipman")
+	var/datum/job/A = SSjob.GetJob(JOB_NAME_ASSISTANT)
 	if(A && A.display_rank)
 		return A
 
@@ -113,10 +112,7 @@ Checks two text ranks, see which one outranks the other. Used for squad rank ass
 	if (istype(speaker, /mob/living/carbon/human))
 		var/mob/living/carbon/human/speakerMob = speaker
 		//Squads can override our ranks to be beyond our station.
-		if(speakerMob.squad_rank)
-			rank = "[speakerMob.squad_rank] "
-		else
-			job = speakerMob.get_assignment("", "")
+		job = speakerMob.get_assignment("", "")
 	//Or it's radiocode jank shitcode.
 	else if (istype(speaker, /atom/movable/virtualspeaker))
 		var/atom/movable/virtualspeaker/VS = speaker

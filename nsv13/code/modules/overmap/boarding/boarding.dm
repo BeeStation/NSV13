@@ -33,7 +33,7 @@
 	if(!target)
 		message_admins("Failed to spawn boarders for [name], does it have an interior?")
 		return FALSE //Cut off here to avoid polling people for a spawn that will never work.
-	if(SSstar_system.admin_boarding_override)
+	if(SSovermap_mode.override_ghost_boarders)
 		message_admins("Failed to spawn boarders for [name] due to admin boarding override.")
 		return FALSE //Allows the admins to disable boarders for event rounds
 	var/list/candidates = list()

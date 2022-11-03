@@ -5,7 +5,7 @@
 	desc = "A large trolley designed for ferrying munitions around. It has slots for traditional ammo magazines as well as a rack for loading torpedoes. To load it, click and drag the desired munition onto the rack."
 	anchored = FALSE
 	density = TRUE
-	layer = 3
+	layer = 2.9
 	var/static/list/allowed = typecacheof(list(
 		/obj/item/ship_weapon/ammunition,
 		/obj/item/powder_bag))
@@ -37,20 +37,24 @@
 
 /obj/structure/munitions_trolley/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	if(istype(A, /obj/item/ship_weapon/ammunition))
 		var/obj/item/ship_weapon/ammunition/M = A
 		if(M.no_trolley)
 			return FALSE
-	if(allowed[A.type])
-		if(loading)
-			to_chat(user, "<span class='notice'>You're already loading something onto [src]!</span>")
-			return
-		to_chat(user, "<span class='notice'>You start to load [A] onto [src]...</span>")
-		loading = TRUE
-		if(do_after(user,20, target = src))
-			load_trolley(A, user)
-			to_chat(user, "<span class='notice'>You load [A] onto [src].</span>")
-		loading = FALSE
+	if(!allowed[A.type])
+		return FALSE
+	if(loading)
+		to_chat(user, "<span class='notice'>Someone is already loading something onto [src]!</span>")
+		return FALSE
+	to_chat(user, "<span class='notice'>You start to load [A] onto [src]...</span>")
+	loading = TRUE
+	if(do_after(user,20, target = src))
+		load_trolley(A, user)
+		to_chat(user, "<span class='notice'>You load [A] onto [src].</span>")
+	loading = FALSE
+	return TRUE
 
 /obj/structure/munitions_trolley/proc/load_trolley(atom/movable/A, mob/user)
 	if(istype(A, /obj/item/ship_weapon/ammunition))
@@ -99,7 +103,15 @@
 	data["loaded"] = loaded
 	return data
 
+
+//Calls unload_munition if necessary to adjust visuals
+/obj/structure/munitions_trolley/Exited(src)
+	if(src in vis_contents)
+		unload_munition(src)
+	. = ..()
+
 /obj/structure/munitions_trolley/proc/unload_munition(atom/movable/A)
+	//Remove from vis_contents before moving to avoid endless loop. See /obj/structure/munitions_trolley/proc/Exited for why
 	vis_contents -= A
 	//This is a super weird edgecase where TGUI doesn't update quickly enough in laggy situations. Prevents the shell from being unloaded when it's not supposed to.
 	if(A.loc == src)
@@ -111,9 +123,9 @@
 	A.layer = initial(A.layer)
 	if(allowed[A.type]) //If a munition, allow them to load other munitions onto us.
 		amount--
-	if(contents.len)
+	if(length(contents))
 		var/count = amount
-		for(var/atom/movable/AM in contents)
+		for(var/atom/movable/AM as() in contents)
 			if(allowed[AM.type])
 				AM.pixel_y = count*5
 				count--

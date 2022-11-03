@@ -30,7 +30,7 @@
 	else
 		remove_atom_colour(FIXED_COLOUR_PRIORITY)
 
-/mob/living/simple_animal/hostile/blob/Initialize()
+/mob/living/simple_animal/hostile/blob/Initialize(mapload)
 	. = ..()
 	if(!independent) //no pulling people deep into the blob
 		remove_verb(/mob/living/verb/pulled)
@@ -59,10 +59,10 @@
 	else
 		adjustFireLoss(5)
 
-/mob/living/simple_animal/hostile/blob/CanPass(atom/movable/mover, turf/target)
+/mob/living/simple_animal/hostile/blob/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
 	if(istype(mover, /obj/structure/blob))
-		return 1
-	return ..()
+		return TRUE
 
 /mob/living/simple_animal/hostile/blob/Process_Spacemove(movement_dir = 0)
 	for(var/obj/structure/blob/B in range(1, src))
@@ -72,6 +72,11 @@
 /mob/living/simple_animal/hostile/blob/say(message, bubble_type, var/list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
 	if(!overmind)
 		return ..()
+	if(CHAT_FILTER_CHECK(message))
+		to_chat(usr, "<span class='warning'>Your message contains forbidden words.</span>")
+		return
+	message = treat_message_min(message)
+	log_talk(message, LOG_SAY, tag="blob")
 	var/spanned_message = say_quote(message)
 	var/rendered = "<font color=\"#EE4000\"><b>\[Blob Telepathy\] [real_name]</b> [spanned_message]</font>"
 	for(var/M in GLOB.mob_list)
@@ -208,6 +213,13 @@
 			blob_head_overlay.color = overmind.blobstrain.complementary_color
 		color = initial(color)//looks better.
 		add_overlay(blob_head_overlay)
+
+/mob/living/simple_animal/hostile/blob/blobspore/Goto(target, delay, minimum_distance)
+	if(target == src.target)
+		approaching_target = TRUE
+	else
+		approaching_target = FALSE
+	SSmove_manager.hostile_jps_move(src, target,delay, minimum_distance = minimum_distance)
 
 /mob/living/simple_animal/hostile/blob/blobspore/weak
 	name = "fragile blob spore"

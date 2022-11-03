@@ -463,7 +463,7 @@ Control Rods
 	var/area/AR = get_area(src)
 	AR.ambient_buzz = 'nsv13/sound/ambience/shipambience.ogg'
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/Initialize()
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/Initialize(mapload)
 	. = ..()
 	radio = new(src)
 	radio.keyslot = new radio_key
@@ -487,6 +487,13 @@ Control Rods
 	gas_records["nucleium"] = list()
 
 /////// REACTOR START PROCS ////////
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/bullet_act(obj/item/projectile/energy/accelerated_particle/P, def_zone, piercing_hit = FALSE)
+	if(istype(P))
+		heat += P.energy
+		try_start()
+	else
+		. = ..()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/try_start()
 
@@ -988,12 +995,22 @@ Control Rods
 						if(prob(25))
 							L.flicker()
 			if(prob(1))
-				for(var/obj/machinery/light/L in orange(10, src))
-					if(prob(25))
-						L.burn_out()
+				var/list/light_candidates = list()
+				for(var/obj/machinery/light/L in orange(12, src))
+					light_candidates += L
+
+				for(var/I = 0, I < 3, I++)
+					if(length(light_candidates))
+						var/obj/machinery/light/OL = pick_n_take(light_candidates)
+						var/fate = rand(1, 100)
+						switch(fate)
+							if(1 to 25)
+								OL.burn_out()
+							if(26 to 35)
+								OL.break_light_tube()
 					else
-						L.flicker()
-			if(prob(0.01))
+						break
+			if(prob(0.02))
 				for(var/obj/machinery/power/grounding_rod/R in orange(5, src))
 					R.take_damage(rand(25, 50))
 				tesla_zap(src, 5, 1000)
@@ -1004,9 +1021,22 @@ Control Rods
 					if(prob(50) && shares_overmap(src, L))
 						L.flicker()
 			if(prob(5))
+				var/list/light_candidates = list()
 				for(var/obj/machinery/light/L in orange(12, src))
-					L.burn_out() //If there are even any left by this stage
-			if(prob(0.1))
+					light_candidates += L
+
+				for(var/I = 0, I < 5, I++)
+					if(length(light_candidates))
+						var/obj/machinery/light/OL = pick_n_take(light_candidates)
+						var/fate = rand(1, 100)
+						switch(fate)
+							if(1 to 25)
+								OL.burn_out()
+							if(25 to 35)
+								OL.break_light_tube()
+					else
+						break
+			if(prob(0.2))
 				for(var/obj/machinery/power/grounding_rod/R in orange(8, src))
 					R.take_damage(rand(25, 75))
 				tesla_zap(src, 8, 2000)
@@ -1252,7 +1282,7 @@ Control Rods
 		return
 	. = ..() //parent should call ui_interact
 
-/obj/machinery/computer/ship/reactor_control_computer/Initialize()
+/obj/machinery/computer/ship/reactor_control_computer/Initialize(mapload)
 	. = ..()
 	new /obj/item/book/manual/wiki/stormdrive(get_turf(src))
 	return INITIALIZE_HINT_LATELOAD
@@ -1268,17 +1298,12 @@ Control Rods
 		return
 	if(!reactor)
 		return
-	var/adjust = text2num(params["adjust"])
-	if(action == "control_rod_percent")
-		if(adjust && isnum(adjust))
-			reactor.control_rod_percent = adjust
-			if(reactor.control_rod_percent > 100)
-				reactor.control_rod_percent = 100
-				return
-			if(reactor.control_rod_percent < 0)
-				reactor.control_rod_percent = 0
-				return
 	switch(action)
+		if("control_rod_percent")
+			var/adjust = text2num(params["adjust"])
+			adjust = CLAMP(adjust, 0, 100)
+			reactor.control_rod_percent = adjust
+			reactor.update_icon()
 		if("rods_1")
 			reactor.control_rod_percent = 0
 			message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
@@ -1521,14 +1546,16 @@ Control Rods
 /obj/machinery/portable_atmospherics/canister/constricted_plasma
 	name = "constricted plasma canister"
 	desc = "Highly volatile plasma which has been magnetically constricted. The fuel which nuclear storm drives run off of."
-	icon_state = "orange"
 	gas_type = GAS_CONSTRICTED_PLASMA
+	greyscale_config = /datum/greyscale_config/canister/hazard
+	greyscale_colors = "#aa18c7#000000"
 
 /obj/machinery/portable_atmospherics/canister/nucleium
 	name = "nucleium canister"
 	desc = "A waste plasma biproduct produced in the Stormdrive, used in quantum waveform generation."
-	icon_state = "miasma"
 	gas_type = GAS_NUCLEIUM
+	greyscale_colors = "#66C88F#000000"
+	greyscale_config = /datum/greyscale_config/canister/hazard
 
 /datum/weather/nuclear_fallout
 	name = "nuclear fallout"
@@ -1590,6 +1617,14 @@ Control Rods
 	.=..()
 	freq_shift = rand(1, 10) / 10
 	code_shift = rand(1, 10) / 10
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
+/obj/effect/anomaly/stormdrive/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+	return
 
 /obj/effect/anomaly/stormdrive/attackby(obj/item/I, mob/user, params) //Not going to make this easy
 	if(I.tool_behaviour == TOOL_ANALYZER)
@@ -1621,7 +1656,7 @@ Control Rods
 		var/temperature = env.return_temperature() + 25 //Not super spicy
 		atmos_spawn_air("nucleium=15;TEMP=[temperature]")
 
-/obj/effect/anomaly/stormdrive/sheer/Crossed(mob/living/M)
+/obj/effect/anomaly/stormdrive/sheer/on_entered(datum/source, mob/living/M)
 	radiation_pulse(src, 125)
 
 /obj/effect/anomaly/stormdrive/sheer/Bump(mob/living/M)
@@ -1655,7 +1690,7 @@ Control Rods
 		for(var/mob/living/M in orange(2, src))
 			mobShock(M)
 
-/obj/effect/anomaly/stormdrive/surge/Crossed(mob/living/M)
+/obj/effect/anomaly/stormdrive/surge/on_entered(datum/source, mob/living/M)
 	mobShock(M)
 
 /obj/effect/anomaly/stormdrive/surge/Bump(mob/living/M)
@@ -1719,7 +1754,7 @@ Control Rods
 				var/atom/target = get_edge_target_turf(AM, get_dir(src, get_step_away(AM, src)))
 				AM.throw_at(target, 4, 2)
 
-/obj/effect/anomaly/stormdrive/squall/Crossed(mob/living/M)
+/obj/effect/anomaly/stormdrive/squall/on_entered(datum/source, mob/living/M)
 	polarise(M)
 
 /obj/effect/anomaly/stormdrive/squall/Bump(mob/living/M)
@@ -1800,7 +1835,7 @@ Control Rods
 	icon_state = "crate"
 	w_class = WEIGHT_CLASS_GIGANTIC
 
-/obj/item/stormdrive_core/Initialize()
+/obj/item/stormdrive_core/Initialize(mapload)
 	.=..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 

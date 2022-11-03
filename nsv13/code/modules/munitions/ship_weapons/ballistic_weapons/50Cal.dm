@@ -1,7 +1,7 @@
 // The point defense system! A neat crew served weapon which replaces the .50 cal
 // This file has so much borrowed code and name swaps from previous iterations of PDC
 /obj/machinery/ship_weapon/anti_air
-	name = "AA turret"
+	name = "\improper AA turret"
 	desc = "A formidable weapon operated by a gunner below deck, extremely effective at anti-fighter defense though they struggle to damage larger targets."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "deck_gun"
@@ -22,7 +22,7 @@
 
 
 /obj/machinery/ship_weapon/anti_air/heavy
-	name = "HAA turret"
+	name = "\improper HAA turret"
 	desc = "For when you need more bullets spat out more quickly."
 	icon_state = "deck_gun_super"
 	circuit = /obj/item/circuitboard/machine/anti_air/heavy
@@ -77,7 +77,7 @@
 		RemoveComponent() //Uh...OK?
 		CRASH("Overmap gunning component created with no attached overmap.")
 	OM.gauss_gunners.Add(holder)
-	OM.start_piloting(holder, "secondary_gunner")
+	OM.start_piloting(holder, OVERMAP_USER_ROLE_SECONDARY_GUNNER)
 	if(automatic)
 		START_PROCESSING(SSfastprocess, src)
 
@@ -120,7 +120,7 @@
 	return
 
 /obj/machinery/computer/anti_air
-	name = "Anti-air turret console"
+	name = "anti-air turret console"
 	desc = "A computer that allows you to control an anti-air turret, when paired with a compatible turret directly above deck."
 	icon_screen = "50cal"
 	circuit = /obj/item/circuitboard/computer/anti_air
@@ -130,7 +130,7 @@
 	. = ..()
 	. += "<span class ='notice'>Its ammo counter reads [turret.get_ammo()]/[turret.get_max_ammo()]. </span>"
 
-/obj/machinery/computer/anti_air/Initialize()
+/obj/machinery/computer/anti_air/Initialize(mapload)
 	. = ..()
 	turret = locate(/obj/machinery/ship_weapon/anti_air) in SSmapping.get_turf_above(src)
 
@@ -143,7 +143,8 @@
 	return attack_hand(user)
 
 /obj/machinery/computer/anti_air/multitool_act(mob/living/user, obj/item/multitool/I)
-	. = ..()
+	..()
+	. = TRUE
 	turret = locate(/obj/machinery/ship_weapon/anti_air) in SSmapping.get_turf_above(src)
 	if ( turret )
 		to_chat(user, "<span class='warning'>Successfully linked [src] to [turret].")

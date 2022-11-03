@@ -65,9 +65,9 @@
 		if(prob(I.force))
 			push_over()
 
-/obj/item/cardboard_cutout/bullet_act(obj/item/projectile/P)
+/obj/item/cardboard_cutout/bullet_act(obj/item/projectile/P, def_zone, piercing_hit = FALSE)
 	if(istype(P, /obj/item/projectile/bullet/reusable))
-		P.on_hit(src, 0)
+		P.on_hit(src, 0, piercing_hit)
 	visible_message("<span class='danger'>[src] is hit by [P]!</span>")
 	playsound(src, 'sound/weapons/slice.ogg', 50, 1)
 	if(prob(P.damage))
@@ -153,7 +153,7 @@
 			desc = "A cardboard cutout of a swarmer."
 			icon_state = "cutout_swarmer"
 		if("Ash Walker")
-			name = lizard_name(pick(MALE, FEMALE))
+			name = random_lizard_name(pick(MALE, FEMALE))
 			desc = "A cardboard cutout of an ash walker."
 			icon_state = "cutout_free_antag"
 		if("Deathsquad Officer")
