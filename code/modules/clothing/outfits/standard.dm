@@ -17,7 +17,8 @@
 		/obj/item/melee/transforming/energy/axe=1,\
 		/obj/item/storage/part_replacer/bluespace/tier4=1,\
 		/obj/item/debug/human_spawner=1,\
-		/obj/item/debug/omnitool=1
+		/obj/item/debug/omnitool=1,\
+		/obj/item/xenoartifact_labeler/debug=1
 		)
 
 /datum/outfit/space
@@ -113,15 +114,14 @@
 
 	suit = /obj/item/clothing/suit/space/pirate
 	head = /obj/item/clothing/head/helmet/space/pirate/bandana
-	mask = /obj/item/clothing/mask/breath
-	suit_store = /obj/item/tank/internals/oxygen
-	ears = /obj/item/radio/headset/syndicate
-	id = /obj/item/card/id
+	ears = /obj/item/radio/headset/syndicate/alt
+	id = /obj/item/card/id/pirate
 
 /datum/outfit/pirate/space/captain
 	name = "Space Pirate - Captain" //NSV13 - prevent overwriting of space pirate outfit in admin equip
 
 	head = /obj/item/clothing/head/helmet/space/pirate
+	ears = /obj/item/radio/headset/syndicate/alt/leader
 
 /datum/outfit/pirate/post_equip(mob/living/carbon/human/H)
 	H.faction |= "pirate"
@@ -227,7 +227,7 @@
 	W.update_label(H.real_name)
 
 /datum/outfit/centcom/commander
-	name = "CentCom Commander"
+	name = JOB_CENTCOM_COMMANDER
 
 	uniform = /obj/item/clothing/under/rank/centcom/commander
 	suit = /obj/item/clothing/suit/armor/bulletproof
@@ -241,7 +241,7 @@
 	r_pocket = /obj/item/lighter
 	l_pocket = /obj/item/ammo_box/a357
 	back = /obj/item/storage/backpack/satchel/leather
-	id = /obj/item/card/id
+	id = /obj/item/card/id/centcom
 
 /datum/outfit/centcom/commander/plasmaman
 	name = "CentCom Commander Plasmaman"
@@ -260,13 +260,13 @@
 	var/obj/item/card/id/W = H.wear_id
 	W.icon_state = "centcom"
 	W.access = get_all_accesses()
-	W.access += get_centcom_access("CentCom Commander")
-	W.assignment = "CentCom Commander"
+	W.access += get_centcom_access(JOB_CENTCOM_COMMANDER)
+	W.assignment = JOB_CENTCOM_COMMANDER
 	W.registered_name = H.real_name
 	W.update_label()
 
 /datum/outfit/admiral
-	name = "Admiral"
+	name = JOB_CENTCOM_ADMIRAL
 
 	uniform = /obj/item/clothing/under/syndicate
 	suit = /obj/item/clothing/suit/space/officer
@@ -279,7 +279,8 @@
 	belt = /obj/item/gun/energy/pulse/pistol/m1911
 	r_pocket = /obj/item/lighter
 	back = /obj/item/storage/backpack/satchel/leather
-	id = /obj/item/card/id
+	id = /obj/item/card/id/centcom
+	r_hand = /obj/item/megaphone/command
 
 /datum/outfit/admiral/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
@@ -288,8 +289,8 @@
 	var/obj/item/card/id/W = H.wear_id
 	W.icon_state = "centcom"
 	W.access = get_all_accesses()
-	W.access += get_centcom_access("Admiral")
-	W.assignment = "Admiral"
+	W.access += get_centcom_access(JOB_CENTCOM_ADMIRAL)
+	W.assignment = JOB_CENTCOM_ADMIRAL
 	W.registered_name = H.real_name
 	W.update_label()
 
@@ -344,7 +345,7 @@
 	name = "Marisa Wizard"
 
 	suit = /obj/item/clothing/suit/wizrobe/marisa
-	shoes = /obj/item/clothing/shoes/sandal/marisa
+	shoes = /obj/item/clothing/shoes/sneakers/marisa
 	head = /obj/item/clothing/head/wizard/marisa
 
 /datum/outfit/soviet
@@ -360,17 +361,17 @@
 	back = /obj/item/storage/backpack/satchel/leather
 	belt = /obj/item/gun/ballistic/revolver/mateba
 
-	id = /obj/item/card/id
+	id = /obj/item/card/id/silver
 
 /datum/outfit/soviet/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
 		return
 
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/silver/W = H.wear_id
 	W.icon_state = "centcom"
 	W.access = get_all_accesses()
-	W.access += get_centcom_access("Admiral")
-	W.assignment = "Admiral"
+	W.access += get_centcom_access(JOB_CENTCOM_ADMIRAL)
+	W.assignment = JOB_CENTCOM_ADMIRAL
 	W.registered_name = H.real_name
 	W.update_label()
 
@@ -391,11 +392,14 @@
 		return
 
 	var/obj/item/card/id/W = H.wear_id
-	W.assignment = "Midshipman" //Nsv13 - Crayon eaters
+	W.assignment = JOB_NAME_ASSISTANT
 	W.registered_name = H.real_name
 	W.update_label()
 
 /datum/outfit/plasmaman
+	var/list/helmet_variants = list(HELMET_MK2 = /obj/item/clothing/head/helmet/space/plasmaman/mark2,
+									HELMET_PROTECTIVE = /obj/item/clothing/head/helmet/space/plasmaman/protective)
+
 	name = "Plasmaman"
 
 	head = /obj/item/clothing/head/helmet/space/plasmaman
@@ -443,3 +447,12 @@
 		/obj/item/debug/human_spawner=1,\
 		/obj/item/debug/omnitool=1
 		)
+
+/datum/outfit/joker/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
+	var/obj/item/card/id/I = H.wear_id
+	I.assignment = "Joker"
+	I.registered_name = H.real_name
+	I.update_label()

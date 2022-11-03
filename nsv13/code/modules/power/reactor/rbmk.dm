@@ -232,7 +232,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	for(var/obj/item/fuel_rod/FR in fuel_rods)
 		FR.depletion = 100
 
-/obj/machinery/atmospherics/components/trinary/nuclear_reactor/Initialize()
+/obj/machinery/atmospherics/components/trinary/nuclear_reactor/Initialize(mapload)
 	. = ..()
 	icon_state = "reactor_off"
 	gas_absorption_effectiveness = rand(5, 6)/10 //All reactors are slightly different. This will result in you having to figure out what the balance is for K.
@@ -549,7 +549,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	temperature = 0
 	update_icon()
 
-/obj/item/fuel_rod/Initialize()
+/obj/item/fuel_rod/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 	AddComponent(/datum/component/radioactive, 350 , src)
@@ -728,7 +728,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 
 /obj/machinery/computer/reactor/pump/attack_hand(mob/living/user)
 	. = ..()
-	if(!is_operational())
+	if(!is_operational)
 		return FALSE
 	playsound(loc, pick('nsv13/sound/effects/rbmk/switch.ogg','nsv13/sound/effects/rbmk/switch2.ogg','nsv13/sound/effects/rbmk/switch3.ogg'), 100, FALSE)
 	visible_message("<span class='notice'>[src]'s switch flips [on ? "off" : "on"].</span>")

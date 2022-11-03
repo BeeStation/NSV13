@@ -59,7 +59,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 		if(2)
 			take_damage(25)
 
-/obj/vehicle/sealed/car/realistic/Initialize()
+/obj/vehicle/sealed/car/realistic/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSfastprocess, src)
 	for(var/HPtype in default_hardpoints)
@@ -370,7 +370,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 			return ..()
 		var/obj/machinery/door/D = A
 		if(!D.operating)
-			if(D.allowed(D.requiresID() ? return_drivers()[1] : null))
+			if(D.allowed(D.id_scan_hacked() ? return_drivers()[1] : null))
 				spawn(0)
 					D.open()
 			else
@@ -401,7 +401,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 
 //Atmos handling copypasta
 
-/obj/vehicle/sealed/car/realistic/Initialize()
+/obj/vehicle/sealed/car/realistic/Initialize(mapload)
 	. = ..()
 	cabin_air = new
 	cabin_air.set_temperature(T20C)

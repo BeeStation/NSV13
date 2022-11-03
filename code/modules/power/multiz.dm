@@ -12,7 +12,6 @@
 	var/broken_status = RELAY_OK
 	var/obj/machinery/power/deck_relay/below ///The relay that's below us (for bridging powernets)
 	var/obj/machinery/power/deck_relay/above ///The relay that's above us (for bridging powernets)
-	var/last_process = 0
 	anchored = TRUE
 	density = FALSE
 
@@ -99,28 +98,20 @@
 		to_chat(user, "<span class='danger'>The [src] isn't in proper shape to get a reading!</span>")
 		return TRUE
 	if(powernet && (above || below))//we have a powernet and at least one connected relay
-		to_chat(user, "<span class='danger'>Total power: [DisplayPower(powernet.avail)]\nLoad: [DisplayPower(powernet.load)]\nExcess power: [DisplayPower(surplus())]</span>")
+		to_chat(user, "<span class='danger'>Total power: [display_power(powernet.avail)]\nLoad: [display_power(powernet.load)]\nExcess power: [display_power(surplus())]</span>")
 	if(!above && !below)
 		to_chat(user, "<span class='danger'>Cannot access valid powernet. Attempting to re-establish. Ensure any relays above and below are aligned properly and on cable nodes.</span>")
 		find_relays()
 		addtimer(CALLBACK(src, .proc/refresh), 20) //Wait a bit so we can find the one below, then get powering
 	return TRUE
 
-/obj/machinery/power/deck_relay/Initialize()
+/obj/machinery/power/deck_relay/Initialize(mapload)
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/power/deck_relay/LateInitialize()
 	. = ..()
 	find_relays()
-	refresh()
-
-//Sometimes the powernets get dropped, updated, whatever. We need to check more often. This is a quick bodge that'll almost undoubtedly never get fixed, but w/e
-
-/obj/machinery/power/deck_relay/process()
-	if(world.time < last_process+5 SECONDS)
-		return
-	last_process = world.time
 	refresh()
 
 ///Handles re-acquiring + merging powernets found by find_relays()

@@ -25,7 +25,7 @@
 	var/mine_path = "map_files/Mining/nsv13" //NSV13 option
 	var/list/omode_blacklist = list() //NSV13 - Blacklisted overmap modes - ie remove modes
 	var/list/omode_whitelist = list() //NSV13 - Whitelisted overmap modes - ie add modes
-	var/starmap_path = "config/starmap/starmap_default.json" //NSV13 - What starmap should this map load?
+	var/starmap_path = CONFIG_DIRECTORY + "/" + STARMAP_FILE //NSV13 - What starmap should this map load?
 	var/mine_traits = null
 
 	var/traits = list(
@@ -51,12 +51,11 @@
 		"emergency" = "emergency_atlas")
 
 //NSV EDITED END
-
 /proc/load_map_config(filename = "next_map", foldername = DATA_DIRECTORY, default_to_box, delete_after, error_if_missing = TRUE)
 	if(IsAdminAdvancedProcCall())
 		return
 
-	filename = "[foldername]/[SANITIZE_FILENAME(filename)].json"
+	filename = "[foldername]/[filename].json"
 	var/datum/map_config/config = new
 	if (default_to_box)
 		return config
@@ -64,6 +63,7 @@
 		qdel(config)
 		config = new /datum/map_config  // Fall back to Box
 		//config.LoadConfig(config.config_filename)
+	else if (delete_after)
 	else if (delete_after)
 		fdel(filename)
 	return config
@@ -149,15 +149,15 @@
 		log_world("map_config space_empty_levels is not a number!")
 		return
 
-	if(!("mine_disable" in json)) //Bypass mineload so we don't load any mining vessels period.
+	if("mine_disable" in json)
+		mine_disable = json["mine_disable"]
+	if(!mine_disable) //This ship needs a mining ship!
 		mine_file = json["mine_file"]
 		mine_path = json["mine_path"]
-		// "map_file": "BoxStation.dmm"
 		if (istext(mine_file))
 			if (!fexists("_maps/[mine_path]/[mine_file]"))
 				log_world("Map file ([mine_path]/[mine_file]) does not exist!")
 				return
-		// "map_file": ["Lower.dmm", "Upper.dmm"]
 		else if (islist(mine_file))
 			for (var/file in mine_file)
 				if (!fexists("_maps/[mine_path]/[file]"))
@@ -174,8 +174,6 @@
 			log_world("mining_ship_type missing from json!")
 			return
 
-	else
-		mine_disable = TRUE
 	//Nsv13 stuff. No CHECK_EXISTS because we don't want to yell at mappers if they don't override these two.
 	if("omode_blacklist" in json) //Which modes we want disabled on this map
 		omode_blacklist = json["omode_blacklist"]
