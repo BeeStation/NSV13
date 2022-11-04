@@ -1163,7 +1163,9 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/delivery,
-/obj/structure/overmap/small_craft/transport/sabre/mining,
+/obj/structure/overmap/small_craft/transport/sabre/mining{
+	random_name = 0
+	},
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "fx" = (
@@ -1572,6 +1574,9 @@
 	pixel_x = -5;
 	pixel_y = 4
 	},
+/obj/item/disk/nuclear{
+	pixel_x = 6
+	},
 /turf/open/floor/carpet/black,
 /area/crew_quarters/heads/captain/private)
 "hd" = (
@@ -1831,7 +1836,6 @@
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "io" = (
-/obj/item/storage/box/beakers,
 /obj/item/storage/box/syringes{
 	pixel_x = 3;
 	pixel_y = 3
@@ -1841,6 +1845,7 @@
 	dir = 1
 	},
 /obj/item/radio/intercom/directional/south,
+/obj/item/storage/box/beakers/large_mix,
 /turf/open/floor/plasteel/white/side,
 /area/medical/storage)
 "ir" = (
@@ -2826,6 +2831,13 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/item/gun/energy/laser/captain{
+	cell_type = /obj/item/stock_parts/cell/empty;
+	desc = "This is a futuristic laser gun. All craftsmanship is of the highest quality. It is decorated with assistant leather and chrome. The object menaces with spikes of energy. On the item is an image of Space Station 13. The station is exploding.";
+	name = "futuristic laser gun model";
+	pin = null;
+	selfcharge = 0
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/heads/captain/private)
 "nz" = (
@@ -3548,15 +3560,6 @@
 "rt" = (
 /turf/open/floor/plating/foam,
 /area/maintenance/nsv/deck1/starboard)
-"ru" = (
-/obj/structure/table/glass,
-/obj/item/cigbutt/cigarbutt,
-/turf/open/floor/carpet/black,
-/area/crew_quarters/nsv/observation{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "ry" = (
 /obj/structure/rack,
 /obj/item/clothing/suit/armor/riot,
@@ -5048,10 +5051,6 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/port)
 "xV" = (
-/obj/item/disk/nuclear{
-	pixel_x = 5;
-	pixel_y = 3
-	},
 /obj/structure/chair/fancy/sofa/mono{
 	color = "#94deff";
 	dir = 4
@@ -9379,7 +9378,8 @@
 	})
 "QO" = (
 /obj/structure/overmap/small_craft/transport/sabre{
-	angle = 90
+	angle = 90;
+	random_name = 0
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
@@ -10411,28 +10411,6 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/bridge{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
-"UW" = (
-/obj/structure/table/glass,
-/obj/item/reagent_containers/food/drinks/beer{
-	list_reagents = list(/datum/reagent/consumable/ethanol/beer=0);
-	pixel_x = -6;
-	pixel_y = 5
-	},
-/obj/item/gun/energy/laser/captain{
-	cell_type = /obj/item/stock_parts/cell/empty;
-	desc = "This is a futuristic laser gun. All craftsmanship is of the highest quality. It is decorated with assistant leather and chrome. The object menaces with spikes of energy. On the item is an image of Space Station 13. The station is exploding.";
-	name = "futuristic laser gun model";
-	pin = null;
-	pixel_x = 9;
-	pixel_y = -12;
-	selfcharge = 0
-	},
-/turf/open/floor/carpet/black,
-/area/crew_quarters/nsv/observation{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
@@ -51871,8 +51849,8 @@ Bh
 Bh
 No
 XT
-UW
-ru
+Gb
+Gb
 Gb
 XT
 No

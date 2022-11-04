@@ -6562,9 +6562,6 @@
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "wF" = (
-/obj/machinery/door/airlock/ship/medical{
-	name = "Medical"
-	},
 /obj/effect/turf_decal/trimline/blue/arrow_ccw{
 	dir = 8
 	},
@@ -6573,6 +6570,9 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/airlock/ship/medical/glass{
+	name = "Medical"
+	},
 /turf/open/floor/monofloor{
 	dir = 8
 	},
@@ -8760,6 +8760,18 @@
 "Dq" = (
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable/orange,
+/obj/machinery/button/massdriver{
+	id = "SM_EJECT";
+	name = "supermatter emergency jettison";
+	pixel_x = 7;
+	pixel_y = -25
+	},
+/obj/machinery/button/door{
+	id = "SM_EJECT_DOORS";
+	name = "supermatter emergency jettison doors";
+	pixel_x = -5;
+	pixel_y = -25
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/supermatter)
 "Dr" = (
@@ -10935,15 +10947,15 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "JN" = (
-/obj/machinery/door/airlock/ship/medical{
-	name = "Medical"
-	},
 /obj/effect/turf_decal/trimline/blue/line{
 	dir = 8
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/airlock/ship/medical/glass{
+	name = "Medical"
+	},
 /turf/open/floor/monofloor{
 	dir = 8
 	},
@@ -11153,12 +11165,12 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Ko" = (
-/obj/machinery/door/airlock/ship/medical{
-	name = "Medical"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/airlock/ship/medical/glass{
+	name = "Medical"
+	},
 /turf/open/floor/monofloor{
 	dir = 4
 	},
@@ -11275,6 +11287,13 @@
 	})
 "KI" = (
 /turf/open/space/basic,
+/area/space/nearstation)
+"KJ" = (
+/obj/machinery/door/poddoor/ship{
+	dir = 4;
+	id = "SM_EJECT_DOORS"
+	},
+/turf/open/floor/plating,
 /area/space/nearstation)
 "KK" = (
 /obj/structure/disposalpipe/segment,
@@ -11793,6 +11812,13 @@
 /obj/machinery/space_heater,
 /turf/open/floor/plating,
 /area/medical/surgery/aux)
+"LY" = (
+/obj/machinery/door/poddoor/ship{
+	dir = 4;
+	id = "SM_EJECT_DOORS"
+	},
+/turf/open/floor/plating,
+/area/engine/supermatter)
 "LZ" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
@@ -12614,14 +12640,14 @@
 /turf/open/floor/plating/foam,
 /area/maintenance/department/crew_quarters/bar)
 "Ow" = (
-/obj/machinery/door/airlock/ship/medical{
-	name = "Medical"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
 	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/airlock/ship/medical/glass{
+	name = "Medical"
+	},
 /turf/open/floor/monofloor{
 	dir = 4
 	},
@@ -14275,6 +14301,10 @@
 "Ts" = (
 /obj/effect/turf_decal/stripes/box,
 /obj/machinery/power/supermatter_crystal,
+/obj/machinery/mass_driver{
+	dir = 8;
+	id = "SM_EJECT"
+	},
 /turf/open/floor/engine/vacuum{
 	initial_gas_mix = "n2=10;TEMP=50"
 	},
@@ -41997,13 +42027,13 @@ KI
 KI
 KI
 KI
-PK
-KI
 KI
 PK
 KI
 KI
+KI
 PK
+KI
 KI
 gi
 gi
@@ -42508,6 +42538,7 @@ gi
 KI
 KI
 KI
+xv
 KI
 KI
 KI
@@ -42518,8 +42549,7 @@ KI
 KI
 KI
 KI
-KI
-KI
+xv
 KI
 gi
 gi
@@ -42770,7 +42800,7 @@ vb
 vb
 vb
 vb
-vb
+KJ
 vb
 vb
 vb
@@ -43284,7 +43314,7 @@ LO
 NN
 PY
 PY
-PY
+LY
 PY
 PY
 XI
