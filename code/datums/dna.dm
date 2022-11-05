@@ -22,7 +22,7 @@
 /datum/dna/New(mob/living/new_holder)
 	if(istype(new_holder))
 		holder = new_holder
-		original_species = species
+		original_species = species.type
 
 /datum/dna/Destroy()
 	if(iscarbon(holder))

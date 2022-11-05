@@ -2110,6 +2110,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	character.dna.features = features.Copy()
 	character.set_species(chosen_species, icon_update = FALSE, pref_load = TRUE)
+	character.dna.original_species = chosen_species
 	//Because of how set_species replaces all bodyparts with new ones, hair needs to be set AFTER species.
 	character.dna.real_name = character.real_name
 	character.hair_color = hair_color
