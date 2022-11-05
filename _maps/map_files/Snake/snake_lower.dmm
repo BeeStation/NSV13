@@ -312,9 +312,11 @@
 /area/hallway/primary/central)
 "bo" = (
 /obj/machinery/atmospherics/pipe/manifold4w/yellow/visible/layer2,
-/obj/machinery/atmospherics/pipe/simple/violet/visible,
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer4{
 	dir = 5
+	},
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
@@ -796,15 +798,13 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering/reactor_control)
 "cY" = (
+/obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "1-10"
+	},
 /obj/machinery/door/airlock/ship/command{
 	name = "Telecommunications";
 	security_level = 6
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/structure/cable{
-	icon_state = "0-2"
 	},
 /turf/open/floor/plasteel/dark,
 /area/tcommsat/computer)
@@ -2788,6 +2788,10 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/power/smes/engineering,
+/obj/structure/cable{
+	icon_state = "0-5"
+	},
 /turf/open/floor/plasteel/dark,
 /area/tcommsat/computer)
 "kc" = (
@@ -2957,10 +2961,10 @@
 /turf/open/floor/plasteel,
 /area/crew_quarters/kitchen)
 "kQ" = (
-/obj/structure/chair/fancy/bench/pew/right{
+/obj/effect/landmark/start/clown,
+/obj/structure/chair/fancy/bench/pew/left{
 	dir = 1
 	},
-/obj/effect/landmark/start/clown,
 /turf/open/floor/plasteel/chapel,
 /area/chapel/main)
 "kT" = (
@@ -4263,10 +4267,10 @@
 /turf/open/floor/plasteel,
 /area/security/brig)
 "pK" = (
-/obj/structure/chair/fancy/bench/pew/left{
+/obj/effect/landmark/start/chaplain,
+/obj/structure/chair/fancy/bench/pew/right{
 	dir = 1
 	},
-/obj/effect/landmark/start/chaplain,
 /turf/open/floor/plasteel/chapel{
 	dir = 1
 	},
@@ -5022,11 +5026,11 @@
 /turf/open/floor/circuit/green,
 /area/tcommsat/server)
 "sW" = (
-/obj/structure/chair/fancy/bench/pew/left{
-	dir = 1
-	},
 /obj/machinery/light{
 	dir = 8
+	},
+/obj/structure/chair/fancy/bench/pew/right{
+	dir = 1
 	},
 /turf/open/floor/plasteel/chapel{
 	dir = 8
@@ -7332,10 +7336,10 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/gravity_generator)
 "AL" = (
-/obj/structure/chair/fancy/bench/pew/left{
+/obj/effect/landmark/start/clown,
+/obj/structure/chair/fancy/bench/pew/right{
 	dir = 1
 	},
-/obj/effect/landmark/start/clown,
 /turf/open/floor/plasteel/chapel{
 	dir = 8
 	},
@@ -8245,11 +8249,11 @@
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "DY" = (
-/obj/structure/chair/fancy/bench/pew/right{
-	dir = 1
-	},
 /obj/machinery/light{
 	dir = 4
+	},
+/obj/structure/chair/fancy/bench/pew/left{
+	dir = 1
 	},
 /turf/open/floor/plasteel/chapel,
 /area/chapel/main)
@@ -9321,7 +9325,6 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/ecto_sniffer,
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/aft)
 "HA" = (
@@ -10120,10 +10123,10 @@
 /turf/open/floor/plasteel,
 /area/security/brig)
 "Kg" = (
-/obj/structure/chair/fancy/bench/pew/left{
+/obj/machinery/airalarm/directional/west,
+/obj/structure/chair/fancy/bench/pew/right{
 	dir = 1
 	},
-/obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel/chapel{
 	dir = 1
 	},
@@ -10777,13 +10780,16 @@
 /area/hallway/primary/central)
 "Mm" = (
 /obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/structure/cable{
 	icon_state = "2-8"
 	},
 /obj/structure/cable{
 	icon_state = "2-4"
+	},
+/obj/machinery/power/terminal{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plasteel/dark,
 /area/tcommsat/computer)
@@ -12390,7 +12396,7 @@
 /turf/open/floor/carpet/orange,
 /area/nsv/crew_quarters/heads/maa)
 "Rq" = (
-/obj/structure/chair/fancy/bench/pew/left{
+/obj/structure/chair/fancy/bench/pew/right{
 	dir = 1
 	},
 /turf/open/floor/plasteel/chapel{
@@ -12468,7 +12474,7 @@
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "RE" = (
-/obj/structure/chair/fancy/bench/pew/right{
+/obj/structure/chair/fancy/bench/pew/left{
 	dir = 1
 	},
 /turf/open/floor/plasteel/chapel{
@@ -13121,10 +13127,10 @@
 	},
 /area/hallway/primary/fore)
 "Uk" = (
-/obj/structure/chair/fancy/bench/pew/right{
+/obj/effect/landmark/start/mime,
+/obj/structure/chair/fancy/bench/pew/left{
 	dir = 1
 	},
-/obj/effect/landmark/start/mime,
 /turf/open/floor/plasteel/chapel{
 	dir = 4
 	},
@@ -13368,7 +13374,6 @@
 "UX" = (
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/ecto_sniffer,
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/aft)
 "UY" = (
@@ -13837,10 +13842,10 @@
 /turf/open/floor/plasteel/dark,
 /area/chapel/main)
 "Wm" = (
-/obj/structure/chair/fancy/bench/pew/right{
+/obj/effect/landmark/start/chaplain,
+/obj/structure/chair/fancy/bench/pew/left{
 	dir = 1
 	},
-/obj/effect/landmark/start/chaplain,
 /turf/open/floor/plasteel/chapel{
 	dir = 4
 	},
@@ -13939,7 +13944,6 @@
 /obj/structure/disposalpipe/junction/flip{
 	dir = 4
 	},
-/obj/machinery/ecto_sniffer,
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/aft)
 "WJ" = (
