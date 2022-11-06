@@ -12,7 +12,7 @@
 	selection_color = "#ffdddd"
 	req_admin_notify = 1
 	minimal_player_age = 14
-	exp_requirements = 1200
+	exp_requirements = 1800 //NSV13 changed to 30 hours
 	exp_type = EXP_TYPE_SECURITY
 	exp_type_department = EXP_TYPE_SECURITY
 
