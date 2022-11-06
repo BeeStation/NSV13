@@ -37,7 +37,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/list/call_lines = list("Enemy spotted!")
 	var/list/response_lines = list("On my way!")
 
-/mob/living/carbon/human/ai_boarder/Initialize()
+/mob/living/carbon/human/ai_boarder/Initialize(mapload)
 	. = ..()
 	var/outfit_path = pick(outfit)
 	var/datum/outfit/O = new outfit_path
@@ -616,7 +616,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	var/obj/effect/landmark/patrol_node/previous //-- This isn't actually used anywhere.. - Delta
 	var/list/next_nodes	= list() //List of possible followup nodes set by next_id. If multiple entities exist in the list, one will be chosen at random on every occasion.
 
-/obj/effect/landmark/patrol_node/Initialize()
+/obj/effect/landmark/patrol_node/Initialize(mapload)
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD
 

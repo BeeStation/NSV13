@@ -1,4 +1,4 @@
-/datum/mutation/human/telepathy
+/datum/mutation/telepathy
 	name = "Telepathy"
 	desc = "A rare mutation that allows the user to telepathically communicate to others."
 	quality = POSITIVE
@@ -10,7 +10,7 @@
 	energy_coeff = 1
 
 
-/datum/mutation/human/olfaction
+/datum/mutation/olfaction
 	name = "Transcendent Olfaction"
 	desc = "Your sense of smell is comparable to that of a canine."
 	quality = POSITIVE
@@ -22,7 +22,8 @@
 	synchronizer_coeff = 1
 	var/reek = 200
 
-/datum/mutation/human/olfaction/on_life()
+// NSV13 - kept hygiene
+/datum/mutation/olfaction/on_life()
 	var/hygiene_now = owner.hygiene
 
 	if(hygiene_now < 100 && prob(3))
@@ -99,7 +100,7 @@
 	if(direction_text)
 		to_chat(user,"<span class='notice'>You consider [tracking_target]'s scent. The trail leads <b>[direction_text].</b></span>")
 
-/datum/mutation/human/firebreath
+/datum/mutation/firebreath
 	name = "Fire Breath"
 	desc = "An ancient mutation that gives lizards breath of fire."
 	quality = POSITIVE
@@ -113,7 +114,8 @@
 	power_coeff = 1
 	species_allowed = list(SPECIES_LIZARD)
 
-/datum/mutation/human/firebreath/modify()
+/datum/mutation/firebreath/modify()
+	..()
 	if(power)
 		var/obj/effect/proc_holder/spell/aimed/firebreath/S = power
 		S.strength = GET_MUTATION_POWER(src)
@@ -125,7 +127,7 @@
 	charge_max = 600
 	clothes_req = FALSE
 	range = 20
-	projectile_type = /obj/item/projectile/magic/aoe/fireball/firebreath
+	projectile_type = /obj/item/projectile/magic/fireball/firebreath
 	base_icon_state = "fireball"
 	action_icon_state = "fireball0"
 	sound = 'sound/magic/demon_dies.ogg' //horrifying lizard noises
@@ -144,24 +146,21 @@
 			return FALSE
 
 /obj/effect/proc_holder/spell/aimed/firebreath/ready_projectile(obj/item/projectile/P, atom/target, mob/user, iteration)
-	if(!istype(P, /obj/item/projectile/magic/aoe/fireball))
+	if(!istype(P, /obj/item/projectile/magic/fireball))
 		return
-	var/obj/item/projectile/magic/aoe/fireball/F = P
-	switch(strength)
-		if(1 to 3)
-			F.exp_light = strength-1
-		if(4 to INFINITY)
-			F.exp_heavy = strength-3
+	var/obj/item/projectile/magic/fireball/F = P
+	F.exp_light = strength-1
 	F.exp_fire += strength
 
-/obj/item/projectile/magic/aoe/fireball/firebreath
+/obj/item/projectile/magic/fireball/firebreath
 	name = "fire breath"
 	exp_heavy = 0
 	exp_light = 0
 	exp_flash = 0
 	exp_fire= 4
+	magic = FALSE
 
-/datum/mutation/human/void
+/datum/mutation/void
 	name = "Void Magnet"
 	desc = "A rare genome that attracts odd forces not usually observed."
 	quality = MINOR_NEGATIVE //upsides and downsides
@@ -171,7 +170,7 @@
 	energy_coeff = 1
 	synchronizer_coeff = 1
 
-/datum/mutation/human/void/on_life()
+/datum/mutation/void/on_life()
 	if(!isturf(owner.loc))
 		return
 	if(prob((0.5+((100-dna.stability)/20))) * GET_MUTATION_SYNCHRONIZER(src)) //very rare, but enough to annoy you hopefully. +0.5 probability for every 10 points lost in stability
@@ -196,7 +195,7 @@
 	. = ..()
 	new /obj/effect/immortality_talisman/void(get_turf(user), user)
 
-/datum/mutation/human/self_amputation
+/datum/mutation/self_amputation
 	name = "Autotomy"
 	desc = "Allows a creature to voluntary discard a random appendage."
 	quality = POSITIVE
@@ -224,8 +223,7 @@
 		return
 
 	var/list/parts = list()
-	for(var/X in C.bodyparts)
-		var/obj/item/bodypart/BP = X
+	for(var/obj/item/bodypart/BP as() in C.bodyparts)
 		if(BP.body_part != HEAD && BP.body_part != CHEST)
 			if(BP.dismemberable)
 				parts += BP
@@ -236,7 +234,7 @@
 	var/obj/item/bodypart/BP = pick(parts)
 	BP.dismember()
 
-/datum/mutation/human/overload
+/datum/mutation/overload
 	name = "Overload"
 	desc = "Allows an Ethereal to overload their skin to cause a bright flash."
 	quality = POSITIVE
@@ -265,12 +263,12 @@
 		if(C.flash_act(1))
 			C.Paralyze(10 + (5*max_distance))
 
-/datum/mutation/human/overload/modify()
+/datum/mutation/overload/modify()
 	if(power)
 		var/obj/effect/proc_holder/spell/self/overload/S = power
 		S.max_distance = 4 * GET_MUTATION_POWER(src)
 
-/datum/mutation/human/acidooze
+/datum/mutation/acidooze
 	name = "Acidic Hands"
 	desc = "Allows an Oozeling to metabolize some of their blood into acid, concentrated on their hands."
 	quality = POSITIVE
@@ -314,17 +312,16 @@
 /obj/item/melee/touch_attack/acidooze/afterattack(atom/target, mob/living/carbon/user, proximity)
 	if(!proximity || !isoozeling(user))
 		return
-	var/mob/living/carbon/human/H = user
+	var/mob/living/carbon/C = user
 	if(!target || user.incapacitated())
 		return FALSE
-	if(H.blood_volume < 40)
+	if(C.blood_volume < 40)
 		to_chat(user, "<span class='warning'>You don't have enough blood to do that!</span>")
 		return FALSE
 	if(target.acid_act(50, 15))
 		user.visible_message("<span class='warning'>[user] rubs globs of vile stuff all over [target].</span>")
-		H.blood_volume = max(H.blood_volume - 20, 0)
+		C.blood_volume = max(C.blood_volume - 20, 0)
 		return ..()
 	else
 		to_chat(user, "<span class='notice'>You cannot dissolve this object.</span>")
 		return FALSE
-

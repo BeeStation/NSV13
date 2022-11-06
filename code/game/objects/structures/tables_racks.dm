@@ -116,7 +116,6 @@
 	if(locate(/obj/structure/table) in get_turf(mover))
 		return TRUE
 
-//NSV13 - minor changes to support knpcs climbing tables.
 /obj/structure/table/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
 	. = !density
 	if(isknpc(caller))
@@ -272,7 +271,7 @@
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 100, "stamina" = 0)
 	var/list/debris = list()
 
-/obj/structure/table/glass/Initialize()
+/obj/structure/table/glass/Initialize(mapload)
 	. = ..()
 	debris += new frame
 	debris += new /obj/item/shard
@@ -351,7 +350,7 @@
     max_integrity = 270
     armor = list("melee" = 10, "bullet" = 5, "laser" = 0, "energy" = 0, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 100)
 
-/obj/structure/table/glass/plasma/Initialize()
+/obj/structure/table/glass/plasma/Initialize(mapload)
     . = ..()
     debris += new /obj/item/shard/plasma
 
@@ -410,7 +409,7 @@
 		/obj/structure/table/wood/fancy/royalblue)
 	var/smooth_icon = 'icons/obj/smooth_structures/fancy_table.dmi' // see Initialize()
 
-/obj/structure/table/wood/fancy/Initialize()
+/obj/structure/table/wood/fancy/Initialize(mapload)
 	. = ..()
 	// Needs to be set dynamically because table smooth sprites are 32x34,
 	// which the editor treats as a two-tile-tall object. The sprites are that
@@ -550,7 +549,7 @@
 /obj/structure/table/optable
 	name = "operating table"
 	desc = "Used for advanced medical procedures."
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "optable"
 	buildstack = /obj/item/stack/sheet/mineral/silver
 	smooth = SMOOTH_FALSE
@@ -560,7 +559,7 @@
 	var/mob/living/carbon/human/patient = null
 	var/obj/machinery/computer/operating/computer = null
 
-/obj/structure/table/optable/Initialize()
+/obj/structure/table/optable/Initialize(mapload)
 	. = ..()
 	for(var/direction in GLOB.cardinals)
 		computer = locate(/obj/machinery/computer/operating) in get_step(src, direction)
@@ -570,7 +569,7 @@
 
 /obj/structure/table/optable/Destroy()
 	. = ..()
-	if(computer && computer.table == src)
+	if(computer?.table == src)
 		computer.table = null
 
 /obj/structure/table/optable/tablepush(mob/living/user, mob/living/pushed_mob)

@@ -78,7 +78,7 @@
 	flak_battery_amount = 2
 	combat_dice_type = /datum/combat_dice/cruiser
 
-/obj/structure/overmap/nanotrasen/solgov/ai/interdictor/Initialize()
+/obj/structure/overmap/nanotrasen/solgov/ai/interdictor/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/interdiction)
 

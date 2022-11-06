@@ -172,7 +172,6 @@
 		if(health <= 0)
 			mod += 2
 	add_movespeed_modifier(MOVESPEED_ID_SLIME_HEALTHMOD, TRUE, 100, multiplicative_slowdown = mod, override = TRUE)
-	update_health_hud()
 
 /mob/living/simple_animal/slime/update_health_hud()
 	if(hud_used)
@@ -241,7 +240,7 @@
 	return 2
 
 /mob/living/simple_animal/slime/get_stat_tab_status()
-	var/list/tab_data = list()
+	var/list/tab_data = ..()
 	if(!docile)
 		tab_data["Nutrition"] = GENERATE_STAT_TEXT("[nutrition]/[get_max_nutrition()]")
 	if(amount_grown >= SLIME_EVOLUTION_THRESHOLD)

@@ -37,7 +37,7 @@
 		new /mob/living/simple_animal/hostile/dio_clown(get_turf(src))
 		clown_spawned = TRUE
 
-/mob/living/simple_animal/hostile/dio_clown/Initialize()
+/mob/living/simple_animal/hostile/dio_clown/Initialize(mapload)
 	. = ..()
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/move_react)
 
@@ -56,7 +56,7 @@
 	name = "vampiric mask"
 	desc = "An strange looking stone mask with what looks like spines coming out of it. The spines seem to have been sawed off."
 	icon = 'nsv13/icons/obj/clothing/masks.dmi' //Placeholder subtype for our own iconsets
-	alternate_worn_icon = 'nsv13/icons/mob/mask.dmi'
+	worn_icon = 'nsv13/icons/mob/mask.dmi'
 	icon_state = "pillarmen"
 	item_state = "pillarmen"
 	actions_types = list(/datum/action/item_action/menacing_pose)

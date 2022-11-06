@@ -20,7 +20,7 @@
 	ai_flags = AI_FLAG_ANTI_FIGHTER //You didn't expect identical tactics, did you?
 	combat_dice_type = /datum/combat_dice/frigate
 
-/obj/structure/overmap/spacepirate/ai/Initialize()
+/obj/structure/overmap/spacepirate/ai/Initialize(mapload)
 	. = ..()
 	name = "[name] ([rand(0,999)])" //pirate names go here
 

@@ -12,15 +12,6 @@
 			 You can order the satellites and control systems at cargo.
 			 "} //NSV13
 
-
-/datum/station_goal/station_shield/on_report()
-	//Unlock
-	var/datum/supply_pack/P = SSshuttle.supply_packs[/datum/supply_pack/engineering/shield_sat]
-	P.special_enabled = TRUE
-
-	P = SSshuttle.supply_packs[/datum/supply_pack/engineering/shield_sat_control]
-	P.special_enabled = TRUE
-
 /datum/station_goal/station_shield/check_completion()
 	if(..())
 		return TRUE
@@ -103,7 +94,7 @@
 	var/static/gid = 0
 	var/id = 0
 
-/obj/machinery/satellite/Initialize()
+/obj/machinery/satellite/Initialize(mapload)
 	. = ..()
 	id = gid++
 
