@@ -669,12 +669,6 @@
 /obj/machinery/airalarm/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/dorms)
-"dl" = (
-/obj/structure/sign/warning/vacuum/external{
-	pixel_y = -30
-	},
-/turf/closed/wall/ship,
-/area/quartermaster/miningdock)
 "dn" = (
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 5
@@ -1538,12 +1532,6 @@
 	name = "Engineering Wing";
 	req_one_access_txt = "10;24"
 	},
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/trimline/yellow/line{
-	dir = 4
-	},
 /turf/open/floor/durasteel,
 /area/engine/stormdrive/monitor)
 "gZ" = (
@@ -1676,8 +1664,12 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
 	},
-/obj/effect/turf_decal/trimline/yellow/line{
-	dir = 8
+/obj/effect/turf_decal/guideline/guideline_out/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
 	},
 /turf/open/floor/monofloor{
 	dir = 8
@@ -1694,7 +1686,11 @@
 /turf/open/floor/plasteel/white/side,
 /area/medical/medbay/zone2)
 "hG" = (
-/obj/effect/turf_decal/trimline/yellow/arrow_cw{
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/brown{
+	color = "#FF7F00";
 	dir = 8
 	},
 /turf/open/floor/monofloor{
@@ -1932,15 +1928,19 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/starboard)
 "iO" = (
-/obj/effect/turf_decal/trimline/yellow/line{
-	dir = 8
-	},
 /obj/machinery/light{
 	color = "#c1e1ff";
 	dir = 8
 	},
 /obj/structure/sign/directions/evac{
 	pixel_x = -30
+	},
+/obj/effect/turf_decal/guideline/guideline_out/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
 	},
 /turf/open/floor/monofloor{
 	dir = 8
@@ -2018,13 +2018,13 @@
 /turf/open/floor/durasteel,
 /area/crew_quarters/dorms)
 "jk" = (
-/obj/effect/turf_decal/trimline/red/line{
+/obj/machinery/door/airlock/ship/public,
+/obj/effect/turf_decal/guideline/guideline_out/blue{
 	dir = 8
 	},
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 4
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 8
 	},
-/obj/machinery/door/airlock/ship/public,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
@@ -2084,10 +2084,14 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/miningoffice)
 "jE" = (
-/obj/effect/turf_decal/trimline/yellow/line{
-	dir = 8
-	},
 /obj/machinery/camera/autoname{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_out/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
 	dir = 4
 	},
 /turf/open/floor/monofloor{
@@ -2201,6 +2205,10 @@
 /area/maintenance/department/crew_quarters/dorms)
 "kh" = (
 /obj/item/radio/intercom/directional/west,
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
 /turf/open/floor/monofloor{
 	dir = 8
 	},
@@ -2399,6 +2407,21 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/miningdock)
+"lz" = (
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
+	dir = 1
+	},
+/turf/open/floor/monofloor{
+	dir = 4
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "lA" = (
 /obj/structure/cable/green{
 	icon_state = "4-8"
@@ -2562,6 +2585,10 @@
 	},
 /obj/item/reagent_containers/dropper{
 	pixel_x = 5
+	},
+/obj/item/reagent_containers/dropper{
+	pixel_x = 5;
+	pixel_y = -2
 	},
 /turf/open/floor/plasteel/white/corner,
 /area/medical/storage)
@@ -3162,10 +3189,8 @@
 /turf/open/floor/carpet/black,
 /area/crew_quarters/dorms)
 "oX" = (
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 1
-	},
-/obj/effect/turf_decal/trimline/red/line,
+/obj/effect/turf_decal/guideline/guideline_out/blue,
+/obj/effect/turf_decal/guideline/guideline_in/red,
 /turf/open/floor/monofloor{
 	dir = 1
 	},
@@ -3304,6 +3329,18 @@
 /obj/item/circuitboard/machine/hydroponics,
 /turf/open/floor/durasteel,
 /area/storage/tech)
+"pS" = (
+/obj/effect/turf_decal/guideline/guideline_in_alt/brown{
+	color = "#FF7F00"
+	},
+/turf/open/floor/monofloor{
+	dir = 1
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "pT" = (
 /obj/structure/cable/green{
 	icon_state = "1-4"
@@ -3939,20 +3976,21 @@
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "tf" = (
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 4
-	},
-/obj/effect/turf_decal/trimline/red/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/trimline/blue/corner,
-/obj/effect/turf_decal/trimline/red/line{
-	dir = 9
-	},
 /obj/structure/sign/directions/command{
 	dir = 4;
 	pixel_x = 32;
 	pixel_y = 32
+	},
+/obj/effect/turf_decal/guideline/guideline_out_T/blue{
+	dir = 10
+	},
+/obj/effect/turf_decal/guideline/guideline_in_T/red{
+	dir = 10
+	},
+/obj/structure/sign/directions/supply{
+	dir = 1;
+	pixel_x = 32;
+	pixel_y = 26
 	},
 /turf/open/floor/monofloor/corner{
 	dir = 5
@@ -4221,12 +4259,6 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/crew_quarters/dorms)
 "tZ" = (
-/obj/effect/turf_decal/trimline/blue/corner{
-	dir = 1
-	},
-/obj/effect/turf_decal/trimline/yellow/line{
-	dir = 6
-	},
 /turf/open/floor/durasteel,
 /area/engine/stormdrive/monitor)
 "ua" = (
@@ -4971,10 +5003,14 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/port)
 "xH" = (
-/obj/effect/turf_decal/trimline/yellow/line{
-	dir = 8
-	},
 /obj/machinery/door/airlock/ship/public,
+/obj/effect/turf_decal/guideline/guideline_out/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
@@ -6134,7 +6170,11 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/starboard)
 "Dq" = (
-/obj/effect/turf_decal/trimline/yellow/corner{
+/obj/effect/turf_decal/guideline/guideline_out_alt/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_in_alt/brown{
+	color = "#FF7F00";
 	dir = 8
 	},
 /turf/open/floor/monofloor,
@@ -6698,10 +6738,6 @@
 	req_one_access_txt = "10;24"
 	},
 /obj/structure/lattice/catwalk,
-/obj/effect/turf_decal/trimline/blue/arrow_cw{
-	dir = 1
-	},
-/obj/effect/turf_decal/trimline/yellow/arrow_cw,
 /turf/open/floor/durasteel,
 /area/engine/stormdrive/monitor)
 "Gb" = (
@@ -7024,11 +7060,11 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/genetics/cloning)
 "Hm" = (
-/obj/effect/turf_decal/trimline/red/arrow_ccw{
-	dir = 8
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
+	dir = 1
 	},
-/obj/effect/turf_decal/trimline/blue/arrow_cw{
-	dir = 4
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
+	dir = 1
 	},
 /turf/open/floor/monofloor{
 	dir = 1
@@ -7536,9 +7572,11 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/storage/tools)
 "JF" = (
-/obj/effect/turf_decal/trimline/blue/corner,
-/obj/effect/turf_decal/trimline/red/line{
-	dir = 9
+/obj/effect/turf_decal/guideline/guideline_in_alt/red{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_out_alt/blue{
+	dir = 4
 	},
 /turf/open/floor/monofloor/corner{
 	dir = 6
@@ -7553,8 +7591,10 @@
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
 "JK" = (
-/obj/effect/turf_decal/trimline/blue/line,
-/obj/effect/turf_decal/trimline/red/line{
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/guideline/guideline_out/blue{
 	dir = 1
 	},
 /turf/open/floor/monofloor,
@@ -7697,10 +7737,10 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 4
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 8
 	},
-/obj/effect/turf_decal/trimline/red/line{
+/obj/effect/turf_decal/guideline/guideline_out/blue{
 	dir = 8
 	},
 /turf/open/floor/monofloor{
@@ -8094,6 +8134,10 @@
 	dir = 8;
 	pixel_x = -30
 	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
 /turf/open/floor/monofloor{
 	dir = 8
 	},
@@ -8387,6 +8431,10 @@
 	color = "#c1e1ff";
 	dir = 8
 	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/brown{
+	color = "#FF7F00";
+	dir = 8
+	},
 /turf/open/floor/monofloor{
 	dir = 8
 	},
@@ -8473,6 +8521,10 @@
 /area/medical/storage)
 "NK" = (
 /obj/machinery/door/airlock/ship/public,
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
@@ -8768,6 +8820,10 @@
 	})
 "OR" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
 	dir = 4
 	},
 /turf/open/floor/monofloor{
@@ -9079,11 +9135,11 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "PL" = (
-/obj/effect/turf_decal/trimline/red/arrow_ccw{
-	dir = 8
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
+	dir = 1
 	},
-/obj/effect/turf_decal/trimline/blue/arrow_cw{
-	dir = 4
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
+	dir = 1
 	},
 /turf/open/floor/monofloor,
 /area/hallway/nsv/deck1/frame1/central{
@@ -9292,6 +9348,10 @@
 /area/tcommsat/server)
 "Qz" = (
 /obj/machinery/camera/autoname{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
 	dir = 4
 	},
 /turf/open/floor/monofloor{
@@ -9524,9 +9584,11 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/miningdock)
 "Ru" = (
-/obj/effect/turf_decal/trimline/blue/arrow_cw,
-/obj/effect/turf_decal/trimline/red/arrow_ccw{
-	dir = 1
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
+	dir = 4
 	},
 /turf/open/floor/monofloor{
 	dir = 1
@@ -9750,6 +9812,11 @@
 	name = "cryoxadone bottle";
 	pixel_x = 8
 	},
+/obj/item/reagent_containers/glass/bottle/diphenhydramine{
+	list_reagents = list(/datum/reagent/medicine/rezadone = 30);
+	name = "rezadone bottle";
+	pixel_x = -4
+	},
 /turf/open/floor/durasteel/eris_techfloor_alt,
 /area/medical/chemistry)
 "Sr" = (
@@ -9832,10 +9899,16 @@
 /turf/open/floor/plasteel/dark/telecomms,
 /area/tcommsat/server)
 "SK" = (
-/obj/effect/turf_decal/trimline/yellow/arrow_cw,
 /obj/structure/sign/ship/deck{
 	dir = 1;
 	pixel_y = -34
+	},
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/brown{
+	color = "#FF7F00";
+	dir = 4
 	},
 /turf/open/floor/monofloor,
 /area/hallway/nsv/deck1/frame1/central{
@@ -9885,11 +9958,11 @@
 /turf/open/floor/circuit/green/telecomms/mainframe,
 /area/tcommsat/server)
 "SU" = (
-/obj/effect/turf_decal/trimline/red/line{
-	dir = 10
+/obj/effect/turf_decal/guideline/guideline_out_alt/blue{
+	dir = 1
 	},
-/obj/effect/turf_decal/trimline/blue/corner{
-	dir = 4
+/obj/effect/turf_decal/guideline/guideline_in_alt/red{
+	dir = 1
 	},
 /turf/open/floor/monofloor/corner{
 	dir = 5
@@ -10255,6 +10328,10 @@
 /turf/open/floor/plating,
 /area/engine/storage)
 "Uu" = (
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
 /turf/open/floor/monofloor{
 	dir = 8
 	},
@@ -10699,6 +10776,10 @@
 /area/medical/genetics/cloning)
 "Wc" = (
 /obj/structure/extinguisher_cabinet/west,
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
 /turf/open/floor/monofloor{
 	dir = 8
 	},
@@ -10725,10 +10806,10 @@
 /turf/open/floor/plating,
 /area/vacant_room)
 "Wf" = (
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 4
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 8
 	},
-/obj/effect/turf_decal/trimline/red/line{
+/obj/effect/turf_decal/guideline/guideline_out/blue{
 	dir = 8
 	},
 /turf/open/floor/monofloor{
@@ -10747,12 +10828,6 @@
 /turf/open/floor/plating,
 /area/engine/stormdrive/monitor)
 "Wh" = (
-/obj/effect/turf_decal/trimline/blue/arrow_cw{
-	dir = 4
-	},
-/obj/effect/turf_decal/trimline/red/arrow_ccw{
-	dir = 8
-	},
 /obj/effect/landmark/nuclear_waste_spawner,
 /obj/structure/sign/directions/command{
 	dir = 4;
@@ -10763,6 +10838,12 @@
 	dir = 1;
 	pixel_x = 32;
 	pixel_y = -38
+	},
+/obj/effect/turf_decal/guideline/guideline_out/blue{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 8
 	},
 /turf/open/floor/monofloor/corner{
 	dir = 6
@@ -11129,8 +11210,10 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/tcommsat/computer)
 "Xs" = (
-/obj/effect/turf_decal/trimline/blue/line,
-/obj/effect/turf_decal/trimline/red/line{
+/obj/effect/turf_decal/guideline/guideline_out/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/guideline/guideline_in/red{
 	dir = 1
 	},
 /turf/open/floor/monofloor{
@@ -11565,8 +11648,12 @@
 /turf/open/openspace,
 /area/medical/medbay/zone2)
 "YU" = (
-/obj/effect/turf_decal/trimline/yellow/line{
-	dir = 8
+/obj/effect/turf_decal/guideline/guideline_out/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
 	},
 /turf/open/floor/monofloor{
 	dir = 8
@@ -11601,11 +11688,11 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/security/locker_room)
 "Zf" = (
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 5
+/obj/effect/turf_decal/guideline/guideline_out/blue{
+	dir = 6
 	},
-/obj/effect/turf_decal/trimline/red/corner{
-	dir = 8
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 6
 	},
 /turf/open/floor/monofloor{
 	dir = 1
@@ -11639,36 +11726,30 @@
 /turf/open/openspace,
 /area/engine/stormdrive/monitor)
 "Zn" = (
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 9
-	},
-/obj/effect/turf_decal/trimline/yellow/corner,
 /obj/machinery/light/small{
 	dir = 8
 	},
 /turf/open/floor/durasteel,
 /area/hallway/nsv/deck1/frame1/central)
 "Zo" = (
-/obj/effect/turf_decal/trimline/blue/arrow_cw{
-	dir = 1
-	},
-/obj/effect/turf_decal/trimline/yellow/arrow_cw,
 /obj/structure/sign/departments/minsky/engineering/atmospherics{
 	pixel_y = -30
+	},
+/obj/effect/turf_decal/guideline/guideline_out_arrow/yellow{
+	dir = 10
 	},
 /turf/open/floor/durasteel,
 /area/hallway/nsv/deck1/frame1/central)
 "Zt" = (
-/obj/effect/turf_decal/trimline/yellow/arrow_cw,
 /obj/machinery/door/airlock/ship/engineering{
 	dir = 4;
 	req_one_access_txt = "10;24"
 	},
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 1
-	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
+/obj/effect/turf_decal/guideline/guideline_out/yellow{
+	dir = 1
+	},
 /turf/open/floor/durasteel,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
@@ -11691,11 +11772,12 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/medbay/zone2)
 "Zv" = (
-/obj/effect/turf_decal/trimline/yellow/corner{
+/obj/effect/turf_decal/guideline/guideline_out_alt/yellow{
 	dir = 8
 	},
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 1
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
 	},
 /turf/open/floor/monofloor{
 	dir = 8
@@ -11728,14 +11810,11 @@
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/zone2)
 "ZB" = (
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 4
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
+	dir = 1
 	},
-/obj/effect/turf_decal/trimline/red/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 5
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
+	dir = 1
 	},
 /turf/open/floor/monofloor{
 	dir = 4
@@ -11852,11 +11931,11 @@
 	})
 "ZU" = (
 /obj/machinery/airalarm/directional/south,
-/obj/effect/turf_decal/trimline/red/corner{
-	dir = 1
+/obj/effect/turf_decal/guideline/guideline_out/blue{
+	dir = 9
 	},
-/obj/effect/turf_decal/trimline/blue/line{
-	dir = 6
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 9
 	},
 /turf/open/floor/monofloor,
 /area/hallway/nsv/deck1/frame1/central{
@@ -45673,11 +45752,11 @@ Wp
 Wp
 Wp
 NK
-bk
+pS
 Cv
 JF
 Wf
-Wf
+lz
 Km
 Wf
 tf
@@ -46419,7 +46498,7 @@ TA
 YJ
 lr
 Jo
-dl
+YJ
 jl
 jl
 jl
