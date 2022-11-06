@@ -16,6 +16,13 @@
 	explode_when_hit = TRUE //Yeah, this can't ever end well for you.
 	var/claimable_gulag_points = 75
 
+/obj/item/ship_weapon/ammunition/torpedo/Initialize()
+	. = ..()
+	if(has_gravity())
+		move_resist = MOVE_FORCE_EXTREMELY_STRONG
+	else
+		move_resist = MOVE_FORCE_DEFAULT
+
 /obj/item/ship_weapon/ammunition/torpedo/examine(mob/user)
 	. = ..()
 	if(claimable_gulag_points)
@@ -32,9 +39,12 @@
 
 /obj/item/card/id/prisoner
 
-/obj/item/ship_weapon/ammunition/torpedo/can_be_pulled(mob/user)
-	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
-	return FALSE
+/obj/item/ship_weapon/ammunition/torpedo/can_be_pulled(mob/user) //Sophie: Makes Torps dragable in Zero G
+	if(has_gravity())
+		to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
+		return FALSE
+	else
+		return TRUE
 
 /obj/item/ship_weapon/ammunition/torpedo/examine(mob/user)
 	. = ..()
@@ -81,7 +91,7 @@
 	living_user.visible_message("<span class='notice'>[living_user] hugs [src].</span>","<span class='notice'>You hug [src].</span>")
 	playsound(src, pick('sound/items/toysqueak1.ogg', 'sound/items/toysqueak2.ogg', 'sound/items/toysqueak3.ogg'), 30, 1, -1)
 	SEND_SIGNAL(living_user, COMSIG_ADD_MOOD_EVENT, "torphug", /datum/mood_event/torphug)
-	
+
 /obj/item/ship_weapon/ammunition/torpedo/proto_disruption
 	name = "\improper NTP-I1x 'EMP' 400mm Disruption Torpedo"
 	icon_state = "disruption"

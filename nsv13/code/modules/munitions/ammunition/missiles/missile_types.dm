@@ -29,9 +29,19 @@
 		//This one's been claimed!
 		claimable_gulag_points = 0
 
-/obj/item/ship_weapon/ammunition/missile/CtrlClick(mob/user)
+/obj/item/ship_weapon/ammunition/missile/Initialize() ////Sophie: Makes missiles draggable in Zero-G
 	. = ..()
-	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
+	if(has_gravity())
+		move_resist = MOVE_FORCE_EXTREMELY_STRONG
+	else
+		move_resist = MOVE_FORCE_DEFAULT
+
+/obj/item/ship_weapon/ammunition/missile/can_be_pulled(mob/user)
+	if(has_gravity())
+		to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
+		return FALSE
+	else
+		return TRUE
 
 /obj/item/ship_weapon/ammunition/missile/examine(mob/user)
 	. = ..()
