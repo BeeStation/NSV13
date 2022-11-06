@@ -541,6 +541,7 @@ Chair + rack handling
 	desc = "A chair which can be lowered down from the ceiling to feed into a gauss gun, allowing for easy access to the gun's cockpit."
 	icon = 'nsv13/icons/obj/chairs.dmi'
 	icon_state = "shuttle_chair"
+	item_chair = null
 	var/locked = FALSE
 	var/obj/machinery/ship_weapon/gauss_gun/gun
 	var/mob/living/occupant
