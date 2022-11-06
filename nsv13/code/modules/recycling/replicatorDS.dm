@@ -340,7 +340,7 @@
 	desc = "A holographic pet lizard. Say 'deactivate iguana' if you're a square."
 
 /datum/reagent/toxin/munchyserum //Tasteless alternative to lipolicide, less powerful. This has the reverse of the intended effect of a replicator and makes you hungrier.
-	name = "Metabolism Overide Toxin"
+	name = "Metabolism Override Toxin"
 	description = "A strong toxin that increases the appetite of their victim while dampening their ability to absorb nutrients for as long as it is in their system."
 	silent_toxin = TRUE
 	reagent_state = LIQUID
