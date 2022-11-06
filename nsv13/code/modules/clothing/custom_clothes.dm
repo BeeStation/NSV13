@@ -1,9 +1,9 @@
 /obj/item/clothing/under/ship
 	name = "Placeholder"
 	icon = 'nsv13/icons/obj/clothing/uniforms.dmi' //Placeholder subtype for our own iconsets
-	alternate_worn_icon = 'nsv13/icons/mob/uniform.dmi'
+	worn_icon = 'nsv13/icons/mob/uniform.dmi'
 	icon_state = "nothing" //References uniforms.dmi
-	item_color = "nothing" //Icon state for its worn icon, references uniform.dmi
+	worn_icon_state = "nothing" //Icon state for its worn icon, references uniform.dmi
 	item_state = "bl_suit"
 	can_adjust = FALSE //Can you roll its sleeves down? Default to no to avoid missing icons
 
@@ -11,7 +11,7 @@
 	name = "Officer's uniform"
 	desc = "A reasonably comfortable piece of clothing made of sweat absorbing materials. This piece of clothing is designed to keep you cool even when sitting at your station for hours on end."
 	icon_state = "officer"
-	item_color = "officer"
+	worn_icon_state = "officer"
 	item_state = "bl_suit"
 	sensor_mode = SENSOR_COORDS
 	random_sensor = FALSE
@@ -21,7 +21,7 @@
 	name = "Space cop uniform"
 	desc = "A smart shirt and pants combo with several badges stitched to it, 'To protect and serve'."
 	icon_state = "peacekeeper"
-	item_color = "peacekeeper"
+	worn_icon_state = "peacekeeper"
 	item_state = "bl_suit"
 	armor = list("melee" = 10, "bullet" = 10, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
 	strip_delay = 50
@@ -33,7 +33,7 @@
 	name = "Engineer's jumpsuit"
 	desc = "A thick jumpsuit made of insulated materials which is worn by NT's engineering corps, it's rare to see one of these that isn't covered in layers of engine grease."
 	icon_state = "engine"
-	item_color = "engine"
+	worn_icon_state = "engine"
 	item_state = "bl_suit"
 	can_adjust = TRUE
 
@@ -41,33 +41,33 @@
 	name = "Doctor's jumpsuit"
 	desc = "A durable jumpsuit made of hydrophobic materials which should help keep the blood off."
 	icon_state = "medical"
-	item_color = "medical"
+	worn_icon_state = "medical"
 	item_state = "bl_suit"
 
 /obj/item/clothing/under/ship/assistant
 	name = "Utilitarian coveralls"
 	desc = "A slightly ragged but reliable jumpsuit fitted with padding and a few small pockets which has been designed with cost-effectiveness in mind."
 	icon_state = "assistant"
-	item_color = "assistant"
+	worn_icon_state = "assistant"
 	item_state = "bl_suit"
 
 /obj/item/clothing/under/ship/kiryujumpsuit
 	name = "Kiryu jumpsuit"
 	desc = "A jumpsuit for detectives that wish to look more to the mafia side, however the cigar smell is obvious."
 	icon_state = "kiryujumpsuit"
-	item_color = "kiryujumpsuit"
+	worn_icon_state = "kiryujumpsuit"
 	item_state = "bl_suit"
 	can_adjust = TRUE
 
 /obj/item/clothing/suit/ship
 	name = "Placeholder"
 	icon = 'nsv13/icons/obj/clothing/suits.dmi' //Placeholder subtype for our own iconsets
-	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	worn_icon = 'nsv13/icons/mob/suit.dmi'
 
 /obj/item/clothing/suit/ship/assistant_jacket
 	name = "Utility jacket"
 	icon_state = "assistant_jacket"
-	item_color = "assistant_jacket"
+	worn_icon_state = "assistant_jacket"
 	desc = "A stylish but heavy jacket designed to protect its wearer from common hazards when serving aboard a ship."
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 10, "bio" = 0, "rad" = 10, "fire" = 10, "acid" = 10)
 
@@ -87,7 +87,7 @@
 	resistance_flags = NONE
 	armor = list("melee" = 30, "bullet" = 40, "laser" = 0, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 60)
 
-/obj/item/clothing/suit/ship/peacekeeper/Initialize()
+/obj/item/clothing/suit/ship/peacekeeper/Initialize(mapload)
 	. = ..()
 	allowed = GLOB.security_vest_allowed
 
@@ -136,34 +136,34 @@
 /obj/item/clothing/head/ship
 	name = "placeholder"
 	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "beret"
-	item_color = null
+	worn_icon_state = null
 
 /obj/item/clothing/head/soft/assistant_soft
 	name = "Utility cap"
 	desc = "A rough and uncomfortable cap worn by the unwashed masses of Nanotrasen's naval forces."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "assistantsoft"
-	item_color = "assistant"
+	worn_icon_state = "assistant"
 
 /obj/item/clothing/head/ship/marine
 	name = "Nt-4 Marine helmet"
 	desc = "A large helmet made out of damage resistant materials."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "marine"
-	item_color = null
+	worn_icon_state = null
 	armor = list("melee" = 20, "bullet" = 20, "laser" = 10,"energy" = 5, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50)
 
 /obj/item/clothing/head/beret/ship
 	name = "beret"
 	desc = "A beret, a mime's favorite headwear."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "beret"
-	item_color = null
+	worn_icon_state = null
 
 /obj/item/clothing/head/beret/ship/captain
 	name = "captain's beret"
@@ -193,21 +193,21 @@
 	name = "hazmat hood"
 	desc = "A lead lined hood which is guaranteed to keep you safe from harmful nuclear emissions. Recommended by 9/10 nuclear engineers."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 
 /obj/item/clothing/suit/radiation //CREDIT TO GOON FOR THE SPRITE!
 	name = "hazmat suit"
 	icon = 'nsv13/icons/obj/clothing/suits.dmi' //Placeholder subtype for our own iconsets
-	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	worn_icon = 'nsv13/icons/mob/suit.dmi'
 
 	//Hardsuits
 /obj/item/clothing/head/helmet/space/hardsuit/pilot
 	name = "fighter pilot helmet"
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
-	icon_state = "hardsuit0-pilot_helmet"
-	item_state = "pilot_helmet"
-	item_color = "pilot_helmet"
+	worn_icon = 'nsv13/icons/mob/head.dmi'
+	icon_state = "hardsuit0-pilot"
+	item_state = "hardsuit0-pilot"
+	hardsuit_type = "pilot"
 	desc = "A lightweight space-helmet designed to protect fighter pilots in combat situations."
 	armor = list("melee" = 20, "bullet" = 12, "laser" = 10, "energy" = 10, "bomb" = 10, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 75)
 
@@ -215,10 +215,10 @@
 	name = "fighter pilot flightsuit"
 	desc = "A space-proof flightsuit worn by fighter pilots in the Nanotrasen navy. It has been specially reinforced to protect its wearer against most threats."
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "pilot"
 	item_state = "pilot"
-	item_color = "pilot"
+	worn_icon_state = "pilot"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/pilot
 	armor = list("melee" = 20, "bullet" = 12, "laser" = 10, "energy" = 10, "bomb" = 10, "bio" = 100, "rad" = 50, "fire" = 90, "acid" = 75)
 
@@ -226,14 +226,14 @@
 	name = "Pilot's combat jumpsuit"
 	desc = "A lightweight jumpsuit with harness points and carabiners which is designed to be worn with a pilot's flightsuit."
 	icon_state = "pilot"
-	item_color = "pilot"
+	worn_icon_state = "pilot"
 	item_state = "bl_suit"
 
 /obj/item/clothing/under/ship/pilot/transport
 	name = "Pilot's transport jumpsuit"
 	desc = "A comfortable lightweight jumpsuit for non-combat positions."
 	icon_state = "transport_pilot"
-	item_color = "transport_pilot"
+	worn_icon_state = "transport_pilot"
 	item_state = "transport_pilot"
 
 /obj/item/clothing/head/beret/ship/pilot
@@ -254,7 +254,7 @@
 	desc = "A cheap, wafer thin replica of a bomber jacket, this would fit on top of most things."
 	icon = 'nsv13/icons/obj/clothing/accessories.dmi'
 	icon_state = "bomberthin"
-	item_color = "bomberthin"
+	worn_icon_state = "bomberthin"
 	item_state = "bomberthin"
 	above_suit = TRUE
 
@@ -262,9 +262,9 @@
 	name = "Transport Pilot's Helmet"
 	desc = "A large helmet made for protecting the head and ears."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "transport_pilot"
-	item_color = null
+	worn_icon_state = null
 	flags_inv = HIDEEARS|HIDEHAIR
 	bang_protect = 1
 	armor = list("melee" = 20, "bullet" = 20, "laser" = 10,"energy" = 5, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50)
@@ -272,10 +272,10 @@
 /obj/item/clothing/head/helmet/space/hardsuit/syndi/peacekeeper //Ironic type path. We're inheriting the "dual mode" behaviour from the syndie hardsuit.
 	name = "SG-1 Mjolnir Helmet"
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "hardsuit1-peacekeeper_space"
 	item_state = "peacekeeper_space"
-	item_color = "peacekeeper_space"
+	worn_icon_state = "peacekeeper_space"
 	desc = "A hardsuit helmet fitted with highly experimental magnetic interlocks, allowing it to create a vacuum seal around the user, permitting usage in a hard vacuum. It is currently in EVA mode."
 	alt_desc = "A hardsuit helmet fitted with highly experimental magnetic interlocks, allowing it to create a vacuum seal around the user, permitting usage in a hard vacuum. It is currently in IVA mode."
 	armor = list("melee" = 20, "bullet" = 30, "laser" = 10, "energy" = 10, "bomb" = 70, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100)
@@ -289,10 +289,10 @@
 	desc = "An extremely bulky suit of armour fitted with highly experimental magnetic interlocks, allowing it to create a vacuum seal around the user, permitting usage in a hard vacuum. It is currently in EVA mode."
 	alt_desc = "An extremely bulky suit of armour fitted with highly experimental magnetic interlocks, allowing it to create a vacuum seal around the user, permitting usage in a hard vacuum. It is currently in IVA mode."
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "peacekeeper_space"
 	item_state = "peacekeeper_space"
-	item_color = "peacekeeper_space"
+	worn_icon_state = "peacekeeper_space"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/peacekeeper
 	armor = list("melee" = 40, "bullet" = 60, "laser" = 50, "energy" = 25, "bomb" = 50, "bio" = 100, "rad" = 40, "fire" = 100, "acid" = 100)
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -340,10 +340,10 @@
 	name = "drop trooper space suit"
 	desc = "A bulky and somewhat primitive space suit with armour plates bolted on. Despite its primitive and jury rigged nature, these suits are worn by Syndicate shock troopers on CQC boarding operations."
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "syndicate-space"
 	item_state = "syndicate-space"
-	item_color = "syndicate-space"
+	worn_icon_state = "syndicate-space"
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/stock_parts/cell)
 	slowdown = 1
 	resistance_flags = ACID_PROOF
@@ -353,10 +353,10 @@
 	name = "drop trooper space suit"
 	desc = "An ominous space helmet littered with blood red decals and motifs. Wearers of helmets like this should not be taken lightly."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "syndicate-space"
 	item_state = "syndicate-space"
-	item_color = "syndicate-space"
+	worn_icon_state = "syndicate-space"
 
 /obj/item/storage/belt/utility/syndicate
 	name = "syndicate utility belt"
@@ -380,7 +380,7 @@
 /obj/item/clothing/shoes/ship
 	name = "Placeholder"
 	icon = 'nsv13/icons/obj/clothing/shoes.dmi' //Placeholder subtype for our own iconsets
-	alternate_worn_icon = 'nsv13/icons/mob/feet.dmi'
+	worn_icon = 'nsv13/icons/mob/feet.dmi'
 
 /obj/item/clothing/shoes/ship/kiryushoes
 	name = "Kiryu shoes"
@@ -392,7 +392,7 @@
 	name = "Delinquent's shoes"
 	icon = 'nsv13/icons/obj/clothing/shoes.dmi'
 	icon_state = "clown_shoes"
-	alternate_worn_icon = 'nsv13/icons/mob/feet.dmi'
+	worn_icon = 'nsv13/icons/mob/feet.dmi'
 	desc = "A set of pristine white sneakers. Good grief."
 
 /obj/item/clothing/suit/ship/delinquent
@@ -442,7 +442,7 @@
 	name = "Delinquent's uniform"
 	desc = "An extremely smart looking uniform consisting of a shirt, jumper and pants. Good grief."
 	icon_state = "clown_uniform"
-	item_color = "clown_uniform"
+	worn_icon_state = "clown_uniform"
 	item_state = "bl_suit"
 
 /obj/effect/temp_visual/menacing
@@ -457,7 +457,7 @@
 	desc = "A green military camouflage uniform worn by specialists."
 	icon_state = "camogreen"
 	item_state = "g_suit"
-	item_color = "camogreen"
+	worn_icon_state = "camogreen"
 	can_adjust = FALSE
 
 /obj/item/clothing/under/rank/master_at_arms
@@ -472,14 +472,14 @@
 	desc = "a pair of hard worn overalls worn by those in charge of firing the ship's guns. These wouldn't be complete without a thick layer of grease."
 	icon_state = "deck_tech"
 	item_state = "bl_suit"
-	item_color = "deck_tech"
+	worn_icon_state = "deck_tech"
 	can_adjust = TRUE
 
 /obj/item/clothing/head/helmet/decktech
 	name = "Munitions Technician's Helmet"
 	desc = "A welding helmet for protecting technicians in a hazardous environment."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "decktech_helmet"
 	item_state = "decktech_helmet"
 	actions_types = list(/datum/action/item_action/toggle)
@@ -515,10 +515,10 @@
 	name = "Master-At-Arm's Bombsuit Helmet"
 	desc = "Use in case of bomb."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "hardsuit0_maa_bombsuit"
 	item_state = "maa_bombsuit"
-	item_color = "maa_bombsuit"
+	worn_icon_state = "maa_bombsuit"
 	armor = list("melee" = 25, "bullet" = 15, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 85, "acid" = 50)
 	min_cold_protection_temperature = EMERGENCY_HELM_MIN_TEMP_PROTECT
 
@@ -526,7 +526,7 @@
 	name = "Master-At-Arm's Bombsuit"
 	desc = "An advanced suit designed for safety when handling explosives."
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "maa_bombsuit"
 	item_state = "maa_bombsuit"
 	armor = list("melee" = 25, "bullet" = 15, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 85, "acid" = 50)
@@ -542,7 +542,7 @@
 	name = "Syndicate technician jumpsuit"
 	desc = "A jumpsuit worn by Syndicate technicians, it's been armour plated to protect the wearer in combat scenarios."
 	icon_state = "syndicate_tech"
-	item_color = "syndicate_tech"
+	worn_icon_state = "syndicate_tech"
 	item_state = "bl_suit"
 	armor = list("melee" = 10, "bullet" = 10, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
 	can_adjust = TRUE
@@ -551,7 +551,7 @@
 	name = "Syndicate jacket"
 	desc = "A comfortable, but padded jacket worn by elite officers in the Syndicate navy. Where there would likely be medals on its Nanotrasen counterpart, it instead has space for marking kills."
 	icon_state = "syndicate_officer"
-	item_color = "syndicate_officer"
+	worn_icon_state = "syndicate_officer"
 
 /obj/item/clothing/under/ship/pilot/syndicate
 	name = "Syndicate combat jumpsuit"
@@ -560,9 +560,9 @@
 /obj/item/clothing/neck/cloak/ship
 	name = "Placeholder"
 	icon = 'nsv13/icons/obj/clothing/neck.dmi' //Placeholder subtype for our own iconsets
-	alternate_worn_icon = 'nsv13/icons/mob/neck.dmi'
+	worn_icon = 'nsv13/icons/mob/neck.dmi'
 	icon_state = "nothing" //References uniforms.dmi
-	item_color = "nothing" //Icon state for its worn icon, references uniform.dmi
+	worn_icon_state = "nothing" //Icon state for its worn icon, references uniform.dmi
 	item_state = ""	//no inhands
 
 //Admiral kit. Credit to Idinuum from Yogstation for most of this!
@@ -572,7 +572,7 @@
 	name = "Admiral's hat"
 	desc = "An imposing cap worn by those who are extremely high-up in Nanotrasen's naval corps."
 	icon_state = "fleet_admiral"
-	item_color = "fleet_admiral"
+	worn_icon_state = "fleet_admiral"
 
 /obj/item/clothing/head/beret/ship/admiral
 	name = "Admiral's beret"
@@ -585,7 +585,7 @@
 	name = "Grand admiral's cloak"
 	desc = "A flowing cloak worn by fleet admirals. These cloaks are worn by the absolute elite of Nanotrasen's naval corps. Encountering someone with such a rank is both an extreme priviledge, and a bad omen."
 	icon_state = "fleet_admiral"
-	item_color = "fleet_admiral"
+	worn_icon_state = "fleet_admiral"
 
 /obj/item/clothing/suit/ship/officer/admiral
 	name = "Admiral's dress jacket"
@@ -603,57 +603,57 @@
 /obj/item/clothing/under/ship/officer/admiral
 	name = "Admiral's uniform"
 	icon_state = "admiral"
-	item_color = "admiral"
+	worn_icon_state = "admiral"
 
 /obj/item/clothing/under/ship/officer/admiral/fleet
 	name = "Fleet admiral's uniform"
 	icon_state = "fleet_admiral"
-	item_color = "fleet_admiral"
+	worn_icon_state = "fleet_admiral"
 
 /obj/item/clothing/under/ship/officer/admiral/grand
 	name = "Grand admiral's uniform"
 	icon_state = "grand_admiral"
-	item_color = "grand_admiral"
+	worn_icon_state = "grand_admiral"
 
 //Solgov uniforms.
 /obj/item/clothing/under/ship/solgov
 	name = "Solgov cadet uniform"
 	desc = "A comfortable uniform worn by officers serving under SolGov's exploratory corps."
 	icon_state = "solgov_cadet"
-	item_color = "solgov_cadet"
+	worn_icon_state = "solgov_cadet"
 
 /obj/item/clothing/under/ship/solgov/command
 	name = "Solgov command uniform"
 	icon_state = "solgov_command"
-	item_color = "solgov_command"
+	worn_icon_state = "solgov_command"
 
 /obj/item/clothing/under/ship/solgov/engsec
 	name = "Solgov engsec uniform"
 	icon_state = "solgov_engsec"
-	item_color = "solgov_engsec"
+	worn_icon_state = "solgov_engsec"
 
 /obj/item/clothing/under/ship/solgov/medsci
 	name = "Solgov medsci uniform"
 	icon_state = "solgov_medsci"
-	item_color = "solgov_medsci"
+	worn_icon_state = "solgov_medsci"
 
 /obj/item/clothing/under/ship/solgov/pilot
 	name = "Solgov pilot uniform"
 	icon_state = "solgov_pilot"
-	item_color = "solgov_pilot"
+	worn_icon_state = "solgov_pilot"
 
 /obj/item/clothing/under/ship/solgov/admiral
 	name = "Solgov admiral uniform"
 	icon_state = "solgov_admiral"
-	item_color = "solgov_admiral"
+	worn_icon_state = "solgov_admiral"
 
 /obj/item/clothing/accessory/solgov_jacket
 	name = "uniform jacket"
 	desc = "An extremely comfortable jacket with some storage pockets for tools."
 	icon = 'nsv13/icons/obj/clothing/accessories.dmi'
-//	alternate_worn_icon = 'nsv13/icons/mob/accessories.dmi' For some reason this doesn't just work :(
+//	worn_icon = 'nsv13/icons/mob/accessories.dmi' For some reason this doesn't just work :(
 	icon_state = "trekjacket"
-	item_color = "trekjacket"
+	worn_icon_state = "trekjacket"
 	item_state = "trekjacket"
 	actions_types = list(/datum/action/item_action/nsv13_jacket_swap)
 	var/toggled = TRUE //Starts by displaying your departmental colours
@@ -662,35 +662,35 @@
 	name = "uniform jacket"
 	desc = "An extremely comfortable jacket with some storage pockets for tools."
 	icon_state = "trekjacket_command"
-	item_color = "trekjacket_command"
+	worn_icon_state = "trekjacket_command"
 	item_state = "trekjacket_command"
 
 /obj/item/clothing/accessory/solgov_jacket/engsec
 	name = "uniform jacket"
 	desc = "An extremely comfortable jacket with some storage pockets for tools."
 	icon_state = "trekjacket_engsec"
-	item_color = "trekjacket_engsec"
+	worn_icon_state = "trekjacket_engsec"
 	item_state = "trekjacket_engsec"
 
 /obj/item/clothing/accessory/solgov_jacket/medsci
 	name = "uniform jacket"
 	desc = "An extremely comfortable jacket with some storage pockets for tools"
 	icon_state = "trekjacket_medsci"
-	item_color = "trekjacket_medsci"
+	worn_icon_state = "trekjacket_medsci"
 	item_state = "trekjacket_medsci"
 
 /obj/item/clothing/accessory/solgov_jacket/formal
 	name = "XO's dress jacket"
 	desc = "An extremely comfortable jacket laced with gold silk, such a piece is usually reserved for diplomatic occasions."
 	icon_state = "trekjacket_captain"
-	item_color = "trekjacket_captain"
+	worn_icon_state = "trekjacket_captain"
 	item_state = "trekjacket_captain"
 
 /obj/item/clothing/accessory/solgov_jacket/formal/captain
 	name = "captain's dress jacket"
 	desc = "An extremely comfortable jacket laced with gold silk. Reserved for starship captains and above, it's emblazened with Solgov's crest and signifies grace."
 	icon_state = "trekjacket_formal"
-	item_color = "trekjacket_formal"
+	worn_icon_state = "trekjacket_formal"
 	item_state = "trekjacket_formal"
 
 /datum/action/item_action/nsv13_jacket_swap
@@ -708,13 +708,13 @@
 	if(toggled)
 		to_chat(user, "<span class='notice'>You cover up [src]'s departmental colours.</span>")
 		icon_state = "trekjacket"
-		item_color = "trekjacket"
+		worn_icon_state = "trekjacket"
 		item_state = "trekjacket"
 		toggled = FALSE
 	else
 		to_chat(user, "<span class='notice'>You display [src]'s departmental colours.</span>")
 		icon_state = initial(icon_state)
-		item_color = initial(item_color)
+		worn_icon_state = initial(worn_icon_state)
 		item_state = initial(item_state)
 		toggled = TRUE
 
@@ -733,7 +733,7 @@
 	name = "skinsuit helmet"
 	icon = 'icons/obj/clothing/hats.dmi'
 	w_class = WEIGHT_CLASS_SMALL //Don't question it. We want it to fit back in the box
-	alternate_worn_icon = 'icons/mob/head.dmi'
+	worn_icon = 'icons/mob/head.dmi'
 	icon_state = "skinsuit_helmet"
 	item_state = "skinsuit_helmet"
 	desc = "An airtight helmet meant to protect the wearer during emergency situations."
@@ -744,18 +744,18 @@
 	flash_protect = 0
 	bang_protect = 0
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEHAIR|HIDEFACIALHAIR
-	clothing_flags = STOPSPRESSUREDAMAGE | SHOWEROKAY | SNUG_FIT
+	clothing_flags = STOPSPRESSUREDAMAGE | SNUG_FIT
 	max_heat_protection_temperature = 100
 
 /obj/item/clothing/suit/space/skinsuit
 	name = "skinsuit"
 	desc = "A slim, compression-based spacesuit meant to protect the user during emergency situations. It's only a little warmer than your uniform."
 	icon = 'icons/obj/clothing/suits.dmi'
-	alternate_worn_icon = 'icons/mob/suit.dmi'
+	worn_icon = 'icons/mob/suit.dmi'
 	icon_state = "skinsuit_rolled"
 	slowdown = 3 //Higher is slower
 	w_class = WEIGHT_CLASS_SMALL
-	clothing_flags = STOPSPRESSUREDAMAGE | SHOWEROKAY
+	clothing_flags = STOPSPRESSUREDAMAGE
 	gas_transfer_coefficient = 0.5
 	permeability_coefficient = 0.5
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 10, "rad" = 0, "fire" = 0, "acid" = 0, "stamina" = 0)
@@ -764,7 +764,7 @@
 	max_heat_protection_temperature = 100
 	var/rolled_up = TRUE
 
-/obj/item/clothing/suit/space/skinsuit/mob_can_equip(mob/M, mob/living/equipper, slot)
+/obj/item/clothing/suit/space/skinsuit/mob_can_equip(mob/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	if(rolled_up && slot == ITEM_SLOT_OCLOTHING)
 		if(equipper)
 			to_chat(equipper, "<span class='warning'>You need to unroll \the [src], silly.</span>")

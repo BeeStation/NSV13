@@ -87,7 +87,7 @@
 	icon = 'nsv13/icons/mob/bloodling.dmi'
 	icon_state = "tracks"
 
-/mob/living/simple_animal/bloodling/Initialize()
+/mob/living/simple_animal/bloodling/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/waddling)
 	biomass = GetComponent(/datum/component/bloodling)
@@ -248,11 +248,10 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 		/datum/action/changeling/adrenaline,
 		/datum/action/changeling/augmented_eyesight,
 		/datum/action/changeling/biodegrade,
-		/datum/action/changeling/chameleon_skin,
+		/datum/action/changeling/refractive_chitin,
 		/datum/action/changeling/digitalcamo,
 		/datum/action/changeling/fleshmend,
 		/datum/action/changeling/headcrab,
-		/datum/action/changeling/hivemind_comms,
 		/datum/action/changeling/humanform,
 		/datum/action/changeling/lesserform,
 		/datum/action/changeling/mimicvoice,
@@ -388,7 +387,6 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 
 /datum/antagonist/changeling/bloodling_thrall/greet()
 	to_chat(owner.current, "<span class='boldannounce'>You are reborn as [changelingID]! We remade you in our image.</span>")
-	to_chat(owner.current, "<span class='boldannounce'>You can communicate with other ascended changelings with \"[MODE_TOKEN_CHANGELING]\". Our greater hivemind can be heard by all of the master's servants.</span>")
 	to_chat(owner.current, "<span class='boldannounce'>You must serve the master above all else, failure to do so may lead to our generous gift to you being revoked, along with your life...</span>")
 	to_chat(owner.current, "<b>Carry out the master's will above else. Your objectives are:</b>")
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ling_aler.ogg', 100, FALSE, pressure_affected = FALSE)
@@ -614,7 +612,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 /datum/action/bloodling/absorb/Grant(mob/M)
 	. = ..()
 	soundloop?.stop(M)
-	soundloop = new(list(M), FALSE)
+	soundloop = new(M, FALSE)
 	soundloop.stop(M)
 
 /datum/action/bloodling/absorb/Remove(mob/M)
@@ -685,7 +683,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 
 /datum/action/bloodling/infest/Grant(mob/M)
 	. = ..()
-	soundloop = new(list(M), FALSE)
+	soundloop = new(M, FALSE)
 	soundloop.stop(M)
 
 /datum/action/bloodling/infest/Remove(mob/M)
@@ -978,7 +976,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	maxbodytemp = 1500
 	ventcrawler = TRUE
 
-/mob/living/simple_animal/bloodling_minion/Initialize()
+/mob/living/simple_animal/bloodling_minion/Initialize(mapload)
 	. = ..()
 	name = "[name] ([rand(0,1000)])"
 
@@ -1027,7 +1025,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	var/rat_spawn_delay = 2 MINUTES
 	var/next_rat_spawn = 0
 
-/obj/structure/ratwarren/Initialize()
+/obj/structure/ratwarren/Initialize(mapload)
 	. = ..()
 	next_rat_spawn = world.time + rat_spawn_delay/2 //First one's quicker.
 	START_PROCESSING(SSobj, src)

@@ -40,6 +40,13 @@
 	fits_type = /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
 	build_path = /obj/item/ship_weapon/ammunition/torpedo/hellfire
 
+/obj/item/ship_weapon/parts/missile/warhead/plushtide
+	name = "emotional support torpedo warhead"
+	icon_state = "warhead_decoy"
+	desc = "A warhead with several plushies somehow crammed into it. For when what your enemy needs really is just a hug."
+	fits_type = /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing
+	build_path = /obj/item/ship_weapon/ammunition/torpedo/plushtide
+
 /obj/item/ship_weapon/parts/missile/warhead/proto_disruption
 	name = "prototype disruption torpedo warhead"
 	icon_state = "warhead_disruption"

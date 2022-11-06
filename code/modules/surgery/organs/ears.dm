@@ -81,7 +81,7 @@
 	if(ears)
 		ears.adjustEarDamage(ddmg, ddeaf)
 		if(ears.deaf)
-			SEND_SOUND(src, sound(null)) //NSV13 - stop current sounds when you go deaf
+			SEND_SOUND(src, sound(null))
 
 /mob/proc/minimumDeafTicks()
 

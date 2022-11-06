@@ -169,12 +169,8 @@ SUBSYSTEM_DEF(explosions)
 // 5 explosion power is a (0, 1, 3) explosion.
 // 1 explosion power is a (0, 0, 1) explosion.
 
-/proc/explosion(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = TRUE, ignorecap = FALSE, flame_range = 0, silent = FALSE, smoke = FALSE)
+/proc/explosion(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = TRUE, ignorecap = FALSE, flame_range = 0, silent = FALSE, smoke = FALSE, magic = FALSE, holy = FALSE)
 	. = SSexplosions.explode(arglist(args))
-	if(epicenter && istype(get_area(epicenter), /area/dropship)) //NSV13 - remove when issue is fixed
-		message_admins("Another sabre interior might've blown up somehow")
-		stack_trace("Dropship interior explosion")
-		log_mapping("Reserved Z explosion with size ([devastation_range], [heavy_impact_range], [light_impact_range], [flame_range]) in [loc_name(epicenter)] with usr [usr]") //NSV13 - remove when sabre detonation is fixed
 
 #define CREAK_DELAY 5 SECONDS //Time taken for the creak to play after explosion, if applicable.
 #define DEVASTATION_PROB 30 //The probability modifier for devistation, maths!
@@ -186,7 +182,7 @@ SUBSYSTEM_DEF(explosions)
 #define FREQ_UPPER 40 //The upper limit for the randomly selected frequency.
 #define FREQ_LOWER 25 //The lower of the above.
 
-/datum/controller/subsystem/explosions/proc/explode(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog, ignorecap, flame_range, silent, smoke, explode_z = TRUE)
+/datum/controller/subsystem/explosions/proc/explode(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog, ignorecap, flame_range, silent, smoke, magic, holy, explode_z = TRUE)
 	epicenter = get_turf(epicenter)
 	if(!epicenter)
 		return
@@ -220,6 +216,8 @@ SUBSYSTEM_DEF(explosions)
 	if(adminlog)
 		message_admins("Explosion with size ([devastation_range], [heavy_impact_range], [light_impact_range], [flame_range]) in [ADMIN_VERBOSEJMP(epicenter)]")
 		log_game("Explosion with size ([devastation_range], [heavy_impact_range], [light_impact_range], [flame_range]) in [loc_name(epicenter)]")
+		if(SSmapping.level_trait(epicenter.z, ZTRAIT_BOARDABLE)) //nsv13 - changed is_station_level to a boardable ztrait
+			deadchat_broadcast("<span class='ghostalert'>Explosion with size ([devastation_range], [heavy_impact_range], [light_impact_range], [flame_range]) in [get_area(epicenter)]!</span>", turf_target = epicenter)
 
 	var/x0 = epicenter.x
 	var/y0 = epicenter.y
@@ -302,6 +300,8 @@ SUBSYSTEM_DEF(explosions)
 	//flash mobs
 	if(flash_range)
 		for(var/mob/living/L in viewers(flash_range, epicenter))
+			if(L.anti_magic_check(magic, holy))
+				continue
 			L.flash_act()
 
 	var/list/affected_turfs = GatherSpiralTurfs(max_range, epicenter)
@@ -318,6 +318,10 @@ SUBSYSTEM_DEF(explosions)
 		var/turf/T = TI
 		var/init_dist = cheap_hypotenuse(T.x, T.y, x0, y0)
 		var/dist = init_dist
+
+		//Phew, that was a close one.
+		if(holy && (locate(/obj/effect/blessing) in T))
+			continue
 
 		if(reactionary)
 			var/turf/Trajectory = T
@@ -342,6 +346,11 @@ SUBSYSTEM_DEF(explosions)
 			var/list/items = list()
 			for(var/I in T)
 				var/atom/A = I
+				//Ignore magic protected things.
+				if(ismob(A))
+					var/mob/M = A
+					if(M.anti_magic_check(magic, holy, TRUE, TRUE))
+						continue
 				if (length(A.contents) && !(A.flags_1 & PREVENT_CONTENTS_EXPLOSION_1)) //The atom/contents_explosion() proc returns null if the contents ex_acting has been handled by the atom, and TRUE if it hasn't.
 					items += A.GetAllContents(ignore_flag_1 = PREVENT_CONTENTS_EXPLOSION_1)
 			for(var/thing in items)
@@ -355,6 +364,16 @@ SUBSYSTEM_DEF(explosions)
 						SSexplosions.med_mov_atom += movable_thing
 					if(EXPLODE_LIGHT)
 						SSexplosions.low_mov_atom += movable_thing
+
+		//Protect turfs if there is holyness on them
+		if(magic || holy)
+			var/divine_protection = FALSE
+			for(var/mob/living/L in T.contents)
+				if(L.anti_magic_check(magic, holy, TRUE))
+					divine_protection = TRUE
+					break
+			if(divine_protection)
+				continue
 
 		switch(dist)
 			if(EXPLODE_DEVASTATE)
@@ -390,12 +409,10 @@ SUBSYSTEM_DEF(explosions)
 		var/max_z_range = max(devastation_range, heavy_impact_range, light_impact_range, flash_range, flame_range) / (MULTI_Z_DISTANCE + 1)
 		var/list/z_list = get_zs_in_range(epicenter.z, max_z_range)
 		//Dont blow up our level again
-		//NSV13 begin - fixes multiz explosion runtimes and maybe even issues.
-		z_list -= epicenter	
-		for(var/turf/affecting_z in z_list)
-			var/z_reduction = abs(epicenter.z - affecting_z.z) * (MULTI_Z_DISTANCE + 1)
-			var/turf/T = locate(epicenter.x, epicenter.y, affecting_z.z)	
-			//NSV13 end.
+		z_list -= epicenter.z
+		for(var/affecting_z in z_list)
+			var/z_reduction = abs(epicenter.z - affecting_z) * (MULTI_Z_DISTANCE + 1)
+			var/turf/T = locate(epicenter.x, epicenter.y, affecting_z)
 			if(!T)
 				continue
 			SSexplosions.explode(T,
