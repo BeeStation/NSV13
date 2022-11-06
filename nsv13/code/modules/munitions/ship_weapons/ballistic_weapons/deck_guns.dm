@@ -587,6 +587,20 @@
 	var/armed = FALSE //Do it do the big boom?
 	var/speed = 0.5 //Needs powder to increase speed.
 
+/obj/item/ship_weapon/ammunition/naval_artillery/Initialize() //Sophie: Makes NAC rounds draggable in Zero-G
+	. = ..()
+	if(has_gravity())
+		move_resist = MOVE_FORCE_EXTREMELY_STRONG
+	else
+		move_resist = MOVE_FORCE_DEFAULT
+
+/obj/item/ship_weapon/ammunition/naval_artillery/can_be_pulled(mob/user)
+	if(has_gravity())
+		to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
+		return FALSE
+	else
+		return TRUE
+
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "cannon ball"
 	desc = "The QM blew the cargo budget on corgis, the clown stole all our ammo, we've got half a tank of plasma and are halfway to Dolos. Hit it."
