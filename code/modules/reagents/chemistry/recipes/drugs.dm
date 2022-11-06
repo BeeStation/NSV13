@@ -4,7 +4,6 @@
 	results = list(/datum/reagent/drug/space_drugs = 3)
 	required_reagents = list(/datum/reagent/mercury = 1, /datum/reagent/consumable/sugar = 1, /datum/reagent/lithium = 1)
 
-
 /datum/chemical_reaction/crank
 	name = "Crank"
 	id = /datum/reagent/drug/crank

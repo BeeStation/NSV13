@@ -12,3 +12,9 @@
 	if(prob(7))
 		M.emote(pick("buzz","beep","ping","buzz2"))
 	..()
+
+/datum/reagent/drug/highjack/overdose_process(mob/living/M)
+	var/obj/item/bodypart/head/head = M.get_bodypart("head")
+	if(prob(30))
+		to_chat(M, "<span class='userdanger'>You feel really lightheaded...</span>")
+		head.dismember()
