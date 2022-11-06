@@ -31,6 +31,9 @@
 
 	if (!message)
 		return
+	if(CHAT_FILTER_CHECK(message))
+		to_chat(usr, "<span class='warning'>Your message contains forbidden words.</span>")
+		return
 
 	var/obj/machinery/holopad/T = current
 	if(istype(T) && T.masters[src])//If there is a hologram and its master is the user.
@@ -123,6 +126,7 @@
 	announcing_vox = world.time + VOX_DELAY
 
 	log_game("[key_name(src)] made a vocal announcement with the following message: [message].")
+	message_admins("[key_name(src)] made a vocal announcement with the following message: [message].")
 
 	for(var/word in words)
 		play_vox_word(word, src.get_virtual_z_level(), null)

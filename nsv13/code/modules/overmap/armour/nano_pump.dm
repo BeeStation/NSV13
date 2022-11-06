@@ -39,7 +39,7 @@
 /obj/machinery/armour_plating_nanorepair_pump/forward_starboard //this is a preset for mapping
 	quadrant = "forward_starboard"
 
-/obj/machinery/armour_plating_nanorepair_pump/Initialize()
+/obj/machinery/armour_plating_nanorepair_pump/Initialize(mapload)
 	.=..()
 	OM = get_overmap()
 	addtimer(CALLBACK(src, .proc/handle_linking), 30 SECONDS)
@@ -61,7 +61,7 @@
 /obj/machinery/armour_plating_nanorepair_pump/process()
 	if(!OM)
 		OM = get_overmap()
-	if(online && is_operational() && !stress_shutdown)
+	if(online && is_operational && !stress_shutdown)
 		idle_power_usage = 0 //reset power use
 		var/weight_class = OM.mass
 		if(weight_class >= MASS_TITAN)

@@ -30,7 +30,7 @@
 	pixel_y = -74
 	bound_x = -64
 
-/obj/machinery/ship_weapon/torpedo_launcher/cargo/Initialize()
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/Initialize(mapload)
 	..()
 
 	if(!linked_dradis)

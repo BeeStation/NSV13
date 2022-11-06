@@ -59,7 +59,7 @@
 	name = "space pirate vested spacesuit"
 	desc = "Yarr."
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/suit.dmi'
+	worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "spacepirate_vest"
 	item_state = "spacepirate_vest"
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL
@@ -75,7 +75,7 @@
 	name = "space pirate hatted space helmet"
 	desc = "Yarr."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "spacepirate_hat"
 	item_state = "spacepirate_hat"
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
@@ -85,7 +85,7 @@
 	name = "space pirate bandanaed space helmet"
 	desc = "Yarr."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
-	alternate_worn_icon = 'nsv13/icons/mob/head.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "spacepirate_bandana"
 	item_state = "spacepirate_bandana"
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR

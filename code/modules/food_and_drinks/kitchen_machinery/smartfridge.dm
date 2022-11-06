@@ -20,7 +20,7 @@
 	var/list/initial_contents
 	var/visible_contents = TRUE
 
-/obj/machinery/smartfridge/Initialize()
+/obj/machinery/smartfridge/Initialize(mapload)
 	. = ..()
 	create_reagents(100, NO_REACT)
 
@@ -46,7 +46,7 @@
 	update_icon()
 
 /obj/machinery/smartfridge/update_icon()
-	if(!stat)
+	if(!machine_stat)
 		if (visible_contents)
 			switch(contents.len)
 				if(0)
@@ -86,7 +86,7 @@
 	if(default_deconstruction_crowbar(O))
 		return
 
-	if(!stat)
+	if(!machine_stat)
 
 		if(contents.len >= max_n_of_items)
 			to_chat(user, "<span class='warning'>\The [src] is full!</span>")
@@ -154,7 +154,7 @@
 
 
 /obj/machinery/smartfridge/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
-	if(!stat)
+	if(!machine_stat)
 		if (istype(AM, /obj/item))
 			var/obj/item/O = AM
 			if(contents.len < max_n_of_items && accept_check(O))
@@ -274,7 +274,7 @@
 	visible_contents = FALSE
 	var/drying = FALSE
 
-/obj/machinery/smartfridge/drying_rack/Initialize()
+/obj/machinery/smartfridge/drying_rack/Initialize(mapload)
 	. = ..()
 	if(component_parts?.len)
 		component_parts.Cut()
@@ -502,6 +502,37 @@
 		/obj/item/reagent_containers/glass/bottle/synaptizine = 1,
 		/obj/item/reagent_containers/glass/bottle/formaldehyde = 1,
 		/obj/item/reagent_containers/glass/bottle/cryostylane = 1)
+
+/obj/machinery/smartfridge/chemistry/virology/preloaded/debug
+	name = "debug virus storage"
+	desc = "Oh boy, badmin at it again with the Toxoplasmosis!"
+
+/obj/machinery/smartfridge/chemistry/virology/preloaded/debug/Initialize(mapload)
+	. = ..()
+	for(var/symptom in subtypesof(/datum/symptom))
+		var/datum/symptom/S = new symptom
+		var/datum/disease/advance/symptomholder = new
+		symptomholder.name = S.name
+		symptomholder.symptoms += S
+		symptomholder.Finalize()
+		symptomholder.Refresh()
+		var/list/data = list("viruses" = list(symptomholder))
+		var/obj/item/reagent_containers/glass/bottle/B = new
+		B.name = "[symptomholder.name] culture bottle"
+		B.desc = "A small bottle. Contains [symptomholder.agent] culture in synthblood medium."
+		B.reagents.add_reagent(/datum/reagent/blood, 20, data)
+		B.forceMove(src)
+	for(var/disease in subtypesof(/datum/disease))
+		if(!istype(disease, /datum/disease/advance))
+			var/datum/disease/target = new disease
+			var/list/data = list("viruses" = list(target))
+			var/obj/item/reagent_containers/glass/bottle/B = new
+			B.name = "[target.name] culture bottle"
+			B.desc = "A small bottle. Contains [target.agent] culture in synthblood medium."
+			B.reagents.add_reagent(/datum/reagent/blood, 20, data)
+			B.forceMove(src)
+
+
 
 // ----------------------------
 // Disk """fridge"""
