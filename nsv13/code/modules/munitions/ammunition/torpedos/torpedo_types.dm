@@ -16,13 +16,6 @@
 	explode_when_hit = TRUE //Yeah, this can't ever end well for you.
 	var/claimable_gulag_points = 75
 
-/obj/item/ship_weapon/ammunition/torpedo/Initialize()
-	. = ..()
-	if(has_gravity())
-		move_resist = MOVE_FORCE_EXTREMELY_STRONG
-	else
-		move_resist = MOVE_FORCE_DEFAULT
-
 /obj/item/ship_weapon/ammunition/torpedo/examine(mob/user)
 	. = ..()
 	if(claimable_gulag_points)
