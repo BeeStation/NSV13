@@ -173,6 +173,7 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+	broadside = TRUE
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //NOT IN CYCLE
 	role = MAIN_OVERMAP
