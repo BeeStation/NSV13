@@ -7,7 +7,7 @@
 	power_channel = AREA_USAGE_EQUIP
 	max_integrity = 100
 	pass_flags = PASSTABLE
-	//circuit = /obj/item/circuitboard/machine/fax
+	circuit = /obj/item/circuitboard/machine/fax
 	/// The unique ID by which the fax will build a list of existing faxes.
 	var/fax_id
 	/// The name of the fax displayed in the list. Not necessarily unique to some EMAG jokes.
@@ -16,8 +16,6 @@
 	var/datum/weakref/loaded_item_ref
 	/// World ticks the machine is electrified for.
 	var/seconds_electrified = MACHINE_NOT_ELECTRIFIED
-	/// An attempt at making this possible
-	//var/datum/picture/current_image
 	/// If true, the fax machine is jammed and needs cleaning
 	var/jammed = FALSE
 	/// Determines the possibility of sending papers to the additional faxes.
@@ -66,7 +64,6 @@
 /obj/machinery/fax/Destroy()
 	QDEL_NULL(loaded_item_ref)
 	QDEL_NULL(wires)
-	//current_image = null
 	return ..()
 
 /obj/machinery/fax/update_overlays()
@@ -295,13 +292,6 @@
 					loaded_item_ref = null
 					update_icon()
 					return TRUE
-			//if(istype(loaded, /obj/item/photo))
-			//	var/obj/item/photo/bansera = loaded
-			//	current_image = bansera.picture
-			//	if(send_to_additional_faxes(loaded, usr, params["name"], params["color"]))
-			//		loaded_item_ref = null
-			//		update_icon()
-			//		return TRUE
 			else
 				say("The destination fax blocks the reception of this item.")
 		if("history_clear")
@@ -332,12 +322,6 @@
 		return TRUE
 	return FALSE
 
-/*
-/obj/machinery/fax/proc/send_photo_data()
-	if(!current_image)
-		return null
-	return current_image
-*/
 /**
  * The procedure for sending a item to virtual admins fax machine.
  *
