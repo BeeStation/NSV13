@@ -74,7 +74,7 @@
 	if(!weapon_types[what])
 		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[what]
-	if(!SW.selectable)
+	if(!(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
 		return FALSE
 	fire_mode = what
 	if(world.time > switchsound_cooldown)

@@ -9,9 +9,10 @@
 	if((resistance_flags & INDESTRUCTIBLE) || obj_integrity <= 0)
 		return
 	damage_amount = run_obj_armor(damage_amount, damage_type, damage_flag, attack_dir, armour_penetration)
-	if(damage_amount <= DAMAGE_PRECISION)
+	if(damage_amount < DAMAGE_PRECISION)
 		return
 	. = damage_amount
+	SEND_SIGNAL(src, COMSIG_ATOM_DAMAGE_ACT, damage_amount)
 	var/old_integ = obj_integrity
 	obj_integrity = max(old_integ - damage_amount, 0)
 	//BREAKING FIRST
@@ -93,6 +94,8 @@
 	return 0
 
 /obj/blob_act(obj/structure/blob/B)
+	if (!..())
+		return
 	if(isturf(loc))
 		var/turf/T = loc
 		if(T.intact && level == 1) //the blob doesn't destroy thing below the floor
@@ -176,7 +179,7 @@ GLOBAL_DATUM_INIT(acid_overlay, /mutable_appearance, mutable_appearance('icons/e
 
 //the obj's reaction when touched by acid
 /obj/acid_act(acidpwr, acid_volume)
-	if(!(resistance_flags & UNACIDABLE) && acid_volume)
+	if(!(resistance_flags & (UNACIDABLE | INDESTRUCTIBLE)) && acid_volume)
 
 		if(!acid_level)
 			SSacid.processing[src] = src

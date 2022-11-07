@@ -37,6 +37,10 @@
 	channels = list(RADIO_CHANNEL_MUNITIONS = 1, RADIO_CHANNEL_SUPPLY = 1, RADIO_CHANNEL_COMMAND = 1, RADIO_CHANNEL_ATC = 1)
 	independent = TRUE
 
+/obj/item/encryptionkey/heads/master_at_arms/fake
+	channels = list(RADIO_CHANNEL_SERVICE = 1)
+	independent = FALSE
+
 /obj/item/encryptionkey/munitions_tech
 	name = "munitions department encryption key"
 	icon = 'nsv13/icons/obj/custom_radio.dmi'
@@ -129,21 +133,18 @@
 	name = "munitions guard armband"
 	desc = "An armband, worn by the station's security forces to display which department they're assigned to. This one is black and orange."
 	icon_state = "muniband"
-	item_color = "muniband"
 
 
 ///////BOX////////
+/obj/item/storage/box/radiokey/mun
+	name = "box of munitions radio keys"
+	desc = "Grants access to munitions and supply radio."
+	radio_key = /obj/item/encryptionkey/munitions_tech
 
-/obj/item/storage/box/spare_munitions_keys
-	name = "Spare Munitions Radio Keys"
-
-/obj/item/storage/box/spare_munitions_keys/PopulateContents()
-	new /obj/item/radio/headset/munitions/pilot(src)
-	new /obj/item/radio/headset/munitions/munitions_tech(src)
-	new /obj/item/encryptionkey/atc(src)
-	new /obj/item/encryptionkey/pilot(src)
-	new /obj/item/encryptionkey/pilot(src)
-	new /obj/item/encryptionkey/munitions_tech(src)
+/obj/item/storage/box/radiokey/pilot
+	name = "box of pilot radio keys"
+	desc = "Grants access to air traffic control and munitions radio."
+	radio_key = /obj/item/encryptionkey/pilot
 
 ///////ATC STICKS///////
 /obj/item/flashlight/atc_wavy_sticks //I dont know what theyre actually called :)
