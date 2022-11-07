@@ -254,14 +254,14 @@
 	metabolization_rate = 2.5 * REAGENTS_METABOLISM
 	overdose_threshold = 100
 
-/datum/reagent/medicine/silver_sulfadiazine/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
+/datum/reagent/medicine/silver_sulfadiazine/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1) //NSV 13 - Gameplay too fast, reverted to old application
 	if(iscarbon(M) && M.stat != DEAD)
 		if(method in list(INGEST, VAPOR, INJECT))
 			M.adjustToxLoss(0.5*reac_volume)
 			if(show_message)
 				to_chat(M, "<span class='warning'>You don't feel so good...</span>")
 		else if(M.getFireLoss() && method == PATCH)
-			M.adjustFireLoss(-reac_volume)
+			M.adjustFireLoss(-reac_volume) //NSV 13 - Gameplay too fast, reverted to old application
 			M.adjustStaminaLoss(reac_volume*2)
 			if(show_message)
 				to_chat(M, "<span class='danger'>You feel your burns healing! It stings like hell!</span>")
@@ -310,14 +310,14 @@
 	metabolization_rate = 2.5 * REAGENTS_METABOLISM
 	overdose_threshold = 100
 
-/datum/reagent/medicine/styptic_powder/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
+/datum/reagent/medicine/styptic_powder/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1) //NSV 13 - Gameplay too fast, reverted to old application
 	if(iscarbon(M) && M.stat != DEAD)
 		if(method in list(INGEST, VAPOR, INJECT))
 			M.adjustToxLoss(0.5*reac_volume)
 			if(show_message)
 				to_chat(M, "<span class='warning'>You don't feel so good...</span>")
 		else if(M.getBruteLoss() && method == PATCH)
-			M.adjustBruteLoss(-reac_volume)
+			M.adjustBruteLoss(-reac_volume) //NSV 13 - Gameplay too fast, reverted to old application
 			M.adjustStaminaLoss(reac_volume*2)
 			if(show_message)
 				to_chat(M, "<span class='danger'>You feel your bruises healing! It stings like hell!</span>")
@@ -425,13 +425,13 @@
 	metabolization_rate = 2.5 * REAGENTS_METABOLISM
 	overdose_threshold = 125
 
-/datum/reagent/medicine/synthflesh/reaction_mob(mob/living/M, method=TOUCH, reac_volume,show_message = 1)
+/datum/reagent/medicine/synthflesh/reaction_mob(mob/living/M, method=TOUCH, reac_volume,show_message = 1) //NSV 13 - Gameplay too fast, reverted to old application
 	if(iscarbon(M))
 		if (M.stat == DEAD)
 			show_message = 0
 		if(method in list(PATCH))
-			M.adjustBruteLoss(-1 * reac_volume)
-			M.adjustFireLoss(-1 * reac_volume)
+			M.adjustBruteLoss(-1 * reac_volume) //NSV 13 - Gameplay too fast, reverted to old application
+			M.adjustFireLoss(-1 * reac_volume) //NSV 13 - Gameplay too fast, reverted to old application
 			M.adjustStaminaLoss(reac_volume*2)
 			if(show_message)
 				to_chat(M, "<span class='danger'>You feel your burns and bruises healing! It stings like hell!</span>")
