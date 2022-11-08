@@ -129,20 +129,15 @@
 	projectile_type = /obj/item/projectile/bullet/broadside/plasma
 
 /obj/item/projectile/bullet/broadside
-	icon_state = "broadside"
 	name = "broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "broadside"
 	damage = 80
 	obj_integrity = 500
 	flag = "overmap_medium"
 	spread = 25
 
 /obj/item/projectile/bullet/broadside/plasma
-	icon_state = "broadside-plasma"
-	name = "uranium broadside shell"
-	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	name = "plasma-packed broadside shell"
 	damage = 120
 	armour_penetration = 10
-	obj_integrity = 500
-	flag = "overmap_medium"
-	spread = 25
