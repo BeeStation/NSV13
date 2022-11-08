@@ -7536,12 +7536,11 @@
 /area/engine/armour_pump)
 "Jt" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
-	dir = 4;
-	id = "captains_shutters";
-	tag = null
-	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/poddoor/shutters/ship{
+	dir = 4;
+	id = "captains_shutters"
+	},
 /turf/open/floor/plating,
 /area/crew_quarters/heads/captain/private)
 "Jx" = (
@@ -8263,6 +8262,31 @@
 "MF" = (
 /turf/open/floor/plating,
 /area/storage/tools)
+"MH" = (
+/obj/structure/table/glass,
+/obj/item/storage/bag/tray,
+/obj/item/reagent_containers/food/snacks/raisincookie{
+	pixel_x = 4;
+	pixel_y = -4
+	},
+/obj/item/reagent_containers/food/snacks/raisincookie,
+/obj/item/reagent_containers/food/snacks/cookie{
+	pixel_y = -8
+	},
+/obj/item/reagent_containers/food/snacks/cookie{
+	pixel_x = -5;
+	pixel_y = -5
+	},
+/obj/item/reagent_containers/food/snacks/raisincookie{
+	pixel_x = 2;
+	pixel_y = -2
+	},
+/turf/open/floor/carpet/black,
+/area/crew_quarters/nsv/observation{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "MJ" = (
 /obj/structure/curtain/obscuring/grey{
 	density = 1;
@@ -9699,10 +9723,10 @@
 /area/ai_monitored/security/armory)
 "RT" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/door/poddoor/shutters/ship/preopen{
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/poddoor/shutters/ship{
 	id = "captains_shutters"
 	},
-/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/crew_quarters/heads/captain/private)
 "RV" = (
@@ -9788,6 +9812,7 @@
 /obj/machinery/door/window{
 	req_one_access_txt = "70"
 	},
+/obj/item/stamp/maa,
 /turf/open/floor/plasteel/ridged/steel,
 /area/crew_quarters/locker{
 	lighting_colour_bulb = "#c1e1ff";
@@ -51930,7 +51955,7 @@ No
 XT
 Gb
 Gb
-Gb
+MH
 XT
 No
 Bh
