@@ -74,8 +74,8 @@
 /obj/machinery/ship_weapon/broadside/do_animation()
 	return
 
-/obj/machinery/ship_weapon/broadside/animate_projectile(atom/target, lateral=TRUE)
-	. = ..()
+/obj/machinery/ship_weapon/broadside/animate_projectile(atom/target)
+	linked.fire_projectile(weapon_type.default_projectile_type, target, FALSE, null, null, TRUE, null, 5, 5, TRUE)
 
 /obj/machinery/ship_weapon/broadside/examine()
 	. = ..()
@@ -136,8 +136,12 @@
 	obj_integrity = 500
 	flag = "overmap_medium"
 	spread = 25
+	speed = 1
 
 /obj/item/projectile/bullet/broadside/plasma
 	name = "plasma-packed broadside shell"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "broadside-plasma"
 	damage = 120
 	armour_penetration = 10
+	speed = 0.4
