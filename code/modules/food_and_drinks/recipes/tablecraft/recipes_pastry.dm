@@ -398,67 +398,6 @@
 	result = /obj/item/reagent_containers/food/snacks/donkpocket/gondola
 	subcategory = CAT_PASTRY
 
-/datum/crafting_recipe/food/donkpocket/spicy
-	time = 15
-	name = "Spicy-pocket"
-	reqs = list(
-		/obj/item/reagent_containers/food/snacks/pastrybase = 1,
-		/obj/item/reagent_containers/food/snacks/grown/chili
-	)
-	result = /obj/item/reagent_containers/food/snacks/donkpocket/spicy
-	subcategory = CAT_PASTRY
-
-/datum/crafting_recipe/food/donkpocket/teriyaki
-	time = 15
-	name = "Teriyaki-pocket"
-	reqs = list(
-		/obj/item/reagent_containers/food/snacks/pastrybase = 1,
-		/datum/reagent/consumable/soysauce = 3
-	)
-	result = /obj/item/reagent_containers/food/snacks/donkpocket/teriyaki
-	subcategory = CAT_PASTRY
-
-/datum/crafting_recipe/food/donkpocket/pizza
-	time = 15
-	name = "Pizza-pocket"
-	reqs = list(
-		/obj/item/reagent_containers/food/snacks/pastrybase = 1,
-		/obj/item/reagent_containers/food/snacks/grown/tomato = 1
-	)
-	result = /obj/item/reagent_containers/food/snacks/donkpocket/pizza
-	subcategory = CAT_PASTRY
-
-/datum/crafting_recipe/food/donkpocket/honk
-	time = 15
-	name = "Honk-Pocket"
-	reqs = list(
-		/obj/item/reagent_containers/food/snacks/pastrybase = 1,
-		/obj/item/reagent_containers/food/snacks/grown/banana = 1,
-		/datum/reagent/consumable/sugar = 3
-	)
-	result = /obj/item/reagent_containers/food/snacks/donkpocket/honk
-	subcategory = CAT_PASTRY
-
-/datum/crafting_recipe/food/donkpocket/berry
-	time = 15
-	name = "Berry-pocket"
-	reqs = list(
-		/obj/item/reagent_containers/food/snacks/pastrybase = 1,
-		/obj/item/reagent_containers/food/snacks/grown/berries = 1
-	)
-	result = /obj/item/reagent_containers/food/snacks/donkpocket/berry
-	subcategory = CAT_PASTRY
-
-/datum/crafting_recipe/food/donkpocket/gondola
-	time = 15
-	name = "Gondola-pocket"
-	reqs = list(
-		/obj/item/reagent_containers/food/snacks/pastrybase = 1,
-		/datum/reagent/tranquility = 5
-	)
-	result = /obj/item/reagent_containers/food/snacks/donkpocket/gondola
-	subcategory = CAT_PASTRY
-
 ////////////////////////////////////////////////MUFFINS////////////////////////////////////////////////
 
 /datum/crafting_recipe/food/muffin
