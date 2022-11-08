@@ -1,4 +1,3 @@
-
 /obj/machinery/ship_weapon/broadside
 	name = "\improper Space Naval Broadside Cannon"
 	icon = 'nsv13/icons/obj/railgun.dmi' //Temp
@@ -11,46 +10,65 @@
 	bound_width = 128
 	bound_height = 64
 	pixel_y = -64
-	ammo_type = /obj/item/ship_weapon/ammunition/gauss
-	circuit = /obj/item/circuitboard/machine/pdc_mount //Temp
+	ammo_type = /obj/item/ship_weapon/ammunition/broadside_shell
+	circuit = /obj/item/circuitboard/machine/broadside
 
 	fire_mode = FIRE_MODE_BROADSIDE
-	firing_sound = 'nsv13/sound/effects/ship/mac_fire.ogg'
 
 	auto_load = TRUE
 	semi_auto = TRUE
 	maintainable = TRUE
-	max_ammo = 3
+	max_ammo = 5
 
-	// We're fully automatic, so just the loading sound is enough
 	feeding_sound = 'nsv13/sound/effects/ship/mac_load.ogg'
+	fed_sound = null
+	chamber_sound = null
 
 	load_delay = 20
 	unload_delay = 20
 
-	// No added delay between shots or for feeding rounds
 	feed_delay = 0
 	chamber_delay_rapid = 0
 	chamber_delay = 0
 	bang = TRUE
 	bang_range = 5
+	var/next_sound = 0
+
+/obj/item/circuitboard/machine/broadside
+	name = "circuit board (broadside)"
+	desc = "Man the cannons!"
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 20,
+		/obj/item/stack/sheet/iron = 50,
+		/obj/item/stock_parts/manipulator = 2,
+		/obj/item/stock_parts/capacitor = 2,
+		/obj/item/stock_parts/matter_bin = 6,
+		/obj/item/ship_weapon/parts/firing_electronics = 1
+	)
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	build_path = /obj/machinery/ship_weapon/broadside
+
+/obj/item/circuitboard/machine/broadside/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
 
 /datum/ship_weapon/broadside
 	name = "SNBC"
-	default_projectile_type = /obj/item/projectile/bullet/broadside
-	burst_size = 3
-	fire_delay = 3 SECONDS
+	burst_size = 5
+	fire_delay = 5 SECONDS
 	range_modifier = 10
+	default_projectile_type = /obj/item/projectile/bullet/broadside
 	select_alert = "<span class='notice'>Locking Broadside Cannons...</span>"
-	failure_alert = "<span class='warning'>DANGER: No Shells In Loaded In Broadside Cannons!</span>"
-	overmap_firing_sounds = 'nsv13/sound/effects/ship/mac_fire.ogg'
+	failure_alert = "<span class='warning'>DANGER: No Shells Loaded In Broadside Cannons!</span>"
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/broadside.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_charge.ogg'
 	weapon_class = WEAPON_CLASS_HEAVY
 	miss_chance = 10
 	max_miss_distance = 6
 	ai_fire_delay = 10 SECONDS
 	allowed_roles = OVERMAP_USER_ROLE_GUNNER
-	broadside = TRUE
+	screen_shake = 10
 
 // Don't animate us on fire, the above takes care of all the icon updates we need
 /obj/machinery/ship_weapon/broadside/do_animation()
@@ -82,10 +100,49 @@
 	. = ..()
 	addtimer(CALLBACK(src, .proc/RefreshParts), world.tick_lag)
 
+/obj/machinery/ship_weapon/broadside/overmap_fire(atom/target)
+	if(world.time >= next_sound) //Prevents ear destruction from soundspam
+		overmap_sound()
+		next_sound = world.time + 1 SECONDS
+	if(overlay)
+		overlay.do_animation()
+	animate_projectile(target)
+
+/obj/item/ship_weapon/ammunition/broadside_shell
+	name = "\improper SNBC Type 1 Shell"
+	desc = "A large packed shell, complete with powder and projectile, ready to be loaded and fired."
+	icon_state = "broadside"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	w_class = 4
+	projectile_type = /obj/item/projectile/bullet/broadside
+
+/obj/item/ship_weapon/ammunition/broadside_shell/plasma
+	name = "\improper SNBC Type 2 Shell"
+	desc = "A large packed shell, complete with plasma and projectile, ready to be loaded and fired."
+	icon_state = "broadside-plasma"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	w_class = 4
+	projectile_type = /obj/item/projectile/bullet/broadside/plasma
+
 /obj/item/projectile/bullet/broadside
 	icon_state = "broadside"
 	name = "broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	damage = 150
+	damage = 80
 	obj_integrity = 500
 	flag = "overmap_medium"
+	spread = 25
+
+/obj/item/projectile/bullet/broadside/plasma
+	icon_state = "broadside-plasma"
+	name = "uranium broadside shell"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	damage = 120
+	armour_penetration = 10
+	obj_integrity = 500
+	flag = "overmap_medium"
+	spread = 25
