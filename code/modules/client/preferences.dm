@@ -76,13 +76,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/gear_tab = "General"
 
 	var/action_buttons_screen_locs = list()
-	//Nsv13 squads - we CM now
-	var/preferred_squad = "Able"
 	//Nsv13 - Syndicate role select
 	var/preferred_syndie_role = CONQUEST_ROLE_GRUNT
-
-	//NSV13 - Pilots
-	var/preferred_pilot_role = PILOT_COMBAT
 
 /datum/preferences/proc/set_max_character_slots(newmax)
 	max_usable_slots = min(TRUE_MAX_SAVE_SLOTS, newmax) // Make sure they dont go over
@@ -199,13 +194,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Custom Job Preferences:</b><BR>"
 			dat += "<a href='?_src_=prefs;preference=ai_core_icon;task=input'><b>Preferred AI Core Display:</b> [active_character.preferred_ai_core_display]</a><br>"
 			dat += "<a href='?_src_=prefs;preference=sec_dept;task=input'><b>Preferred Security Department:</b> [active_character.preferred_security_department]</a><BR></td>"
-			dat += "<a href='?_src_=prefs;preference=pilot_role;task=input'><b>Preferred Pilot Role:</b> [preferred_pilot_role]</a><br>"
+			dat += "<a href='?_src_=prefs;preference=pilot_role;task=input'><b>Preferred Pilot Role:</b> [active_character.preferred_pilot_role]</a><br>"
 
 			dat += "<b>Syndicate Crew Preferences:</b><BR>"//Nsv13
 			dat += "<a href='?_src_=prefs;preference=syndiecrew;task=input'><b>Preferred Syndicate Role:</b> [preferred_syndie_role]</a><br>" //Nsv13
 
 			dat += "<b>Squad Preferences:</b><BR>"
-			dat += "<a href='?_src_=prefs;preference=squad;task=input'><b>Preferred GQ Squad:</b> [preferred_squad]</a><br>" //Nsv13 squads - we CM now.
+			dat += "<a href='?_src_=prefs;preference=squad;task=input'><b>Preferred GQ Squad:</b> [active_character.preferred_squad]</a><br>" //Nsv13 squads - we CM now.
 			dat += "</tr></table>"
 
 			dat += "<h2>Body</h2>"
@@ -1685,13 +1680,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("pilot_role") //NSV13
 					var/p_role = input(user, "Choose your preferred pilot role:", "Pilot Roles") as null|anything in GLOB.pilot_role_prefs
 					if(p_role)
-						preferred_pilot_role = p_role
+						active_character.preferred_pilot_role = p_role
 
 				//Nsv13 squads - we CM now
 				if("squad")
 					var/datum/squad/new_spec = input(user, "Choose your preferred squad:", "Squad Setup") as null|anything in GLOB.squad_manager.squads
 					if(new_spec)
-						preferred_squad = new_spec.name
+						active_character.preferred_squad = new_spec.name
 				if("syndiecrew")
 					var/client/C = (istype(user, /client)) ? user : user.client
 					C.select_syndie_role()

@@ -65,6 +65,10 @@
 	var/list/equipped_gear = list()
 	var/joblessrole = BERANDOMJOB  //defaults to 1 for fewer assistants
 	var/uplink_spawn_loc = UPLINK_PDA
+	//Nsv13 squads - we CM now
+	var/preferred_squad = "Able"
+	//NSV13 - Pilots
+	var/preferred_pilot_role = PILOT_COMBAT
 
 
 /datum/character_save/New()
