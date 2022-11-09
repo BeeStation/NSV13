@@ -73,7 +73,7 @@
 	update_mouse_pointer()
 	if(client)
 		if(client.view_size)
-			client.view_size.default = (client.prefs.widescreenpref) ? CONFIG_GET(string/default_view) : "15x15" //Nsv13: This view size wrapper is extremely inconsistent and we need to finagle it a bit.
+			client.view_size.default = (client.prefs.toggles2 & PREFTOGGLE_2_WIDESCREEN) ? CONFIG_GET(string/default_view) : "15x15" //Nsv13: This view size wrapper is extremely inconsistent and we need to finagle it a bit.
 			//client.view_size.resetToDefault(getScreenSize(src))	// Sets the defaul view_size because it can be different to what it was on the lobby.
 		else
 			client.change_view(getScreenSize(src)) // Resets the client.view in case it was changed.
