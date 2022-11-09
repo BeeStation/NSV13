@@ -79,6 +79,7 @@
 	READPREF_RAW(ghost_others, PREFERENCE_TAG_GHOST_OTHERS)
 	READPREF_RAW(pda_style, PREFERENCE_TAG_PDA_STYLE)
 	READPREF_RAW(pda_color, PREFERENCE_TAG_PDA_COLOUR)
+	READPREF_RAW(preferred_syndie_role, PREFERENCE_TAG_PREFERRED_SYNDIE_ROLE) //NSV13
 
 	READPREF_JSONDEC(ignoring, PREFERENCE_TAG_IGNORING)
 	READPREF_JSONDEC(key_bindings, PREFERENCE_TAG_KEYBINDS)
@@ -107,6 +108,7 @@
 
 	pda_style		= sanitize_inlist(pda_style, GLOB.pda_styles, initial(pda_style))
 	pda_color		= sanitize_hexcolor(pda_color, 6, TRUE, initial(pda_color))
+	preferred_syndie_role = sanitize_text(preferred_syndie_role, CONQUEST_ROLE_GRUNT) //NSV13
 
 	key_bindings 	= sanitize_islist(key_bindings, deepCopyList(GLOB.keybinding_list_by_key))
 	if (!length(key_bindings))
@@ -147,6 +149,7 @@
 	PREP_WRITEPREF_RAW(tip_delay, PREFERENCE_TAG_TIP_DELAY)
 	PREP_WRITEPREF_RAW(pda_style, PREFERENCE_TAG_PDA_STYLE)
 	PREP_WRITEPREF_RAW(pda_color, PREFERENCE_TAG_PDA_COLOUR)
+	PREP_WRITEPREF_RAW(preferred_syndie_role, PREFERENCE_TAG_PREFERRED_SYNDIE_ROLE) //NSV13
 
 	PREP_WRITEPREF_RAW(asaycolor, PREFERENCE_TAG_ASAY_COLOUR)
 	PREP_WRITEPREF_RAW(ooccolor, PREFERENCE_TAG_OOC_COLOUR)
@@ -176,6 +179,7 @@
 /datum/preferences/proc/load_characters()
 	// Do NOT remove stuff from the start of this query. Only append to the end.
 	// If you delete an entry, god help you as you have to update all the indexes
+	// NSV13 - added preferred_syndie_role
 	var/datum/DBQuery/read_chars = SSdbcore.NewQuery({"
 		SELECT
 			slot,
@@ -208,7 +212,8 @@
 			joblessrole,
 			job_preferences,
 			all_quirks,
-			equipped_gear
+			equipped_gear,
+			preferred_syndie_role
 		FROM [format_table_name("characters")] WHERE
 			ckey=:ckey
 	"}, list("ckey" = parent.ckey))
