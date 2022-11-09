@@ -456,7 +456,7 @@
 		client.prefs.active_character.real_name = client.prefs.active_character.pref_species.random_name(gender,1)
 	client.prefs.active_character.copy_to(H)
 	H.dna.update_dna_identity()
-	H.dna.original_species = client.prefs.pref_species.type
+	H.dna.original_species = client.prefs.active_character.pref_species.type
 	if(mind)
 		if(transfer_after)
 			mind.late_joiner = TRUE
