@@ -26,6 +26,7 @@
 #define PREFERENCE_TAG_KEYBINDS			"24"
 #define PREFERENCE_TAG_PURCHASED_GEAR	"25"
 #define PREFERENCE_TAG_BE_SPECIAL		"26"
+#define PREFERENCE_TAG_PREFERRED_SYNDIE_ROLE	"27" //NSV13
 
 #define NEW_QUERY(thepkey, theckey, thevalue) queries += NewDBQuery("INSERT INTO SS13_preferences (ckey, preference_tag, preference_value) VALUES (:ckey, :pkey, :pval)", list("ckey" = theckey, "pkey" = thepkey, "pval" = thevalue))
 
@@ -80,6 +81,7 @@
 		#define PREFTOGGLE_2_ENABLE_TIPS				(1<<10)
 		#define PREFTOGGLE_2_SHOW_CREDITS				(1<<11)
 		#define PREFTOGGLE_2_HOTKEYS					(1<<12)
+		#define PREFTOGGLE_2_WIDESCREEN					(1<<13)
 	*/
 
 	// These should defalt to ON if the key doesnt exist.
@@ -97,6 +99,7 @@
 	READ_FILE(S["enable_tips"], enable_tips, TRUE)
 	READ_FILE(S["show_credits"], show_credits, TRUE)
 	READ_FILE(S["hotkeys"], hotkeys, TRUE) // This is a boolean not a list
+	READ_FILE(S["widescreen"], widescreen, TRUE) //NSV13
 
 	var/toggles2_out = 0
 	if(tgui_fancy)
@@ -125,6 +128,8 @@
 		toggles2_out += (1<<11)
 	if(hotkeys)
 		toggles2_out += (1<<12)
+	if(widescreen) //NSV13
+		toggles2_out += (1<<13)
 
 	// And save these to the DB
 
@@ -211,6 +216,10 @@
 	// ugh
 	var/special_json = json_encode(be_special)
 	NEW_QUERY(PREFERENCE_TAG_BE_SPECIAL, owning_ckey, special_json)
+
+	//NSV13
+	READ_FILE(S["preferred_syndie_role"], preferred_syndie_role, "Autofill")
+	NEW_QUERY(PREFERENCE_TAG_PREFERRED_SYNDIE_ROLE, owning_ckey, preferred_syndie_role)
 
 	for(var/datum/DBQuery/query in queries)
 		query.Execute()

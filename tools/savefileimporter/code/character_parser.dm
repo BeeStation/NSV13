@@ -42,6 +42,9 @@ var/global/list/custom_name_types = list(
 		// I will kill whoever couldnt spell this
 		READ_FILE(S["prefered_security_department"], prefered_security_department, "Random")
 		READ_FILE(S["joblessrole"], joblessrole, 2)
+		// NSV13 - squad and pilot role
+		READ_FILE(S["preferred_squad"], preferred_squad, "Able")
+		READ_FILE(S["preferred_pilot_role"], preferred_pilot_role, "Combat")
 
 		var/list/features = list()
 		READ_FILE_EXVAR(S["body_size"], features["body_size"])
@@ -89,6 +92,7 @@ var/global/list/custom_name_types = list(
 		var/list/slot_list = splittext(character_dir, "character")
 		var/slot_number = text2num(slot_list[2])
 
+		// NSV13 - added preferred squad and preferred pilot role
 		var/querytext = {"
 		INSERT INTO SS13_characters (
 			slot,
@@ -122,7 +126,9 @@ var/global/list/custom_name_types = list(
 			joblessrole,
 			job_preferences,
 			all_quirks,
-			equipped_gear
+			equipped_gear,
+			preferred_squad,
+			preferred_pilot_role
 		) VALUES (
 			:slotnum,
 			:ckey,
@@ -155,7 +161,9 @@ var/global/list/custom_name_types = list(
 			:joblessrole,
 			:jobprefs,
 			:allquirks,
-			:gear
+			:gear,
+			:preferredsquad,
+			:preferredpilotrole
 		)
 		"}
 
@@ -191,7 +199,9 @@ var/global/list/custom_name_types = list(
 			"joblessrole" = joblessrole,
 			"jobprefs" = json_encode(job_preferences),
 			"allquirks" = json_encode(all_quirks),
-			"gear" = json_encode(equipped_gear)
+			"gear" = json_encode(equipped_gear),
+			"preferredsquad" = preferred_squad,
+			"preferredpilotrole" = preferred_pilot_role
 		)
 
 		var/datum/DBQuery/query = NewDBQuery(querytext, qargs)
