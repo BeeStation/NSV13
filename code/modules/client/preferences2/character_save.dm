@@ -148,6 +148,12 @@
 	SAFE_READ_QUERY(31, loadout_tmp)
 	equipped_gear = json_decode(loadout_tmp)
 
+	//NSV13 squads
+	SAFE_READ_QUERY(32, preferred_squad)
+
+	//NSV13 pilot role
+	SAFE_READ_QUERY(33, preferred_pilot_role)
+
 	//Sanitize. Please dont put query reads below this point. Please.
 
 	real_name = reject_bad_name(real_name, pref_species.allow_numbers_in_name)
@@ -399,8 +405,8 @@
 		"job_preferences" = json_encode(job_preferences),
 		"all_quirks" = json_encode(all_quirks),
 		"equipped_gear" = json_encode(equipped_gear),
-		"preferred_squad" = json_encode(preferred_squad),
-		"preferred_pilot_role" = json_encode(preferred_pilot_role)
+		"preferred_squad" = preferred_squad,
+		"preferred_pilot_role" = preferred_pilot_role
 	))
 
 	if(!insert_query.warn_execute())
