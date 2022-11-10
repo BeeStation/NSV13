@@ -20,6 +20,10 @@ var/global/list/custom_name_types = list(
 	if(!equipped_gear)
 		equipped_gear = list()
 	
+	// NSV13 - squad and pilot role
+	READ_FILE(S["preferred_squad"], preferred_squad, "Able")
+	READ_FILE(S["preferred_pilot_role"], preferred_pilot_role, "Combat")
+
 	for(var/character_dir in cdirs)
 		S.cd = "/[character_dir]"
 
@@ -49,9 +53,6 @@ var/global/list/custom_name_types = list(
 		// I will kill whoever couldnt spell this
 		READ_FILE(S["prefered_security_department"], prefered_security_department, "Random")
 		READ_FILE(S["joblessrole"], joblessrole, 2)
-		// NSV13 - squad and pilot role
-		READ_FILE(S["preferred_squad"], preferred_squad, "Able")
-		READ_FILE(S["preferred_pilot_role"], preferred_pilot_role, "Combat")
 
 		var/list/features = list()
 		READ_FILE_EXVAR(S["body_size"], features["body_size"])
