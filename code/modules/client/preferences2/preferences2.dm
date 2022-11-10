@@ -179,7 +179,7 @@
 /datum/preferences/proc/load_characters()
 	// Do NOT remove stuff from the start of this query. Only append to the end.
 	// If you delete an entry, god help you as you have to update all the indexes
-	// NSV13 - added preferred_syndie_role
+	// NSV13 - added preferred_squad and preferred_pilot_role
 	var/datum/DBQuery/read_chars = SSdbcore.NewQuery({"
 		SELECT
 			slot,
@@ -213,7 +213,8 @@
 			job_preferences,
 			all_quirks,
 			equipped_gear,
-			preferred_syndie_role
+			preferred_squad,
+			preferred_pilot_role
 		FROM [format_table_name("characters")] WHERE
 			ckey=:ckey
 	"}, list("ckey" = parent.ckey))
