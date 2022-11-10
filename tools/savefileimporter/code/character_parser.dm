@@ -19,9 +19,9 @@ var/global/list/custom_name_types = list(
 	READ_FILE_EXVAR(S["equipped_gear"], equipped_gear)
 	if(!equipped_gear)
 		equipped_gear = list()
-	
+
 	// NSV13 - squad and pilot role
-	READ_FILE(S["preferred_squad"], preferred_squad, "Able")
+	READ_FILE(S["preferred_squad"], preferred_squad, "Able") //Change this line to '	var/preferred_squad = "Able" ' in case of errors when converting files
 	READ_FILE(S["preferred_pilot_role"], preferred_pilot_role, "Combat")
 
 	for(var/character_dir in cdirs)
