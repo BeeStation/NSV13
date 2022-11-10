@@ -509,9 +509,18 @@
 /turf/open/floor/durasteel/alt,
 /area/hallway/nsv/deck2/primary)
 "bE" = (
-/obj/machinery/ship_weapon/broadside{
-	dir = 4
-	},
+/obj/item/ship_weapon/ammunition/broadside_shell,
+/obj/item/ship_weapon/ammunition/broadside_shell,
+/obj/item/ship_weapon/ammunition/broadside_shell,
+/obj/item/ship_weapon/ammunition/broadside_shell,
+/obj/item/ship_weapon/ammunition/broadside_shell,
+/obj/item/ship_weapon/ammunition/broadside_shell,
+/obj/item/ship_weapon/ammunition/broadside_shell,
+/obj/item/ship_weapon/ammunition/broadside_shell,
+/obj/item/ship_weapon/ammunition/broadside_shell,
+/obj/item/ship_weapon/ammunition/broadside_shell,
+/obj/item/ship_weapon/ammunition/broadside_shell,
+/obj/item/ship_weapon/ammunition/broadside_shell,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "bG" = (
@@ -1512,7 +1521,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "ff" = (
-/obj/structure/munitions_trolley,
+/obj/machinery/computer/ship/tactical{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "fj" = (
@@ -5352,6 +5363,25 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons)
+"qS" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/item/ship_weapon/parts/broadside_shell,
+/obj/item/ship_weapon/parts/broadside_shell,
+/obj/item/ship_weapon/parts/broadside_shell,
+/obj/item/ship_weapon/parts/broadside_shell,
+/obj/item/ship_weapon/parts/broadside_shell,
+/obj/item/ship_weapon/parts/broadside_shell,
+/obj/item/ship_weapon/parts/broadside_shell,
+/obj/item/ship_weapon/parts/broadside_shell,
+/obj/item/ship_weapon/parts/broadside_shell,
+/obj/item/ship_weapon/parts/broadside_shell,
+/turf/open/floor/monotile/steel,
+/area/nsv/weapons)
 "qT" = (
 /turf/closed/wall/steel,
 /area/nsv/weapons/gauss/battery/deck2/starboard)
@@ -6634,16 +6664,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
 	},
-/obj/item/ship_weapon/ammunition/broadside_shell,
-/obj/item/ship_weapon/ammunition/broadside_shell,
-/obj/item/ship_weapon/ammunition/broadside_shell,
-/obj/item/ship_weapon/ammunition/broadside_shell,
-/obj/item/ship_weapon/ammunition/broadside_shell,
-/obj/item/ship_weapon/ammunition/broadside_shell,
-/obj/item/ship_weapon/ammunition/broadside_shell,
-/obj/item/ship_weapon/ammunition/broadside_shell,
-/obj/item/ship_weapon/ammunition/broadside_shell,
-/obj/item/ship_weapon/ammunition/broadside_shell,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "vd" = (
@@ -7905,17 +7925,8 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "zt" = (
-/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
-/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
-/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
-/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
-/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
-/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
-/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
-/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
-/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
-/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
-/turf/open/floor/monotile/dark,
+/obj/machinery/ship_weapon/broadside,
+/turf/closed/wall/r_wall,
 /area/nsv/weapons)
 "zw" = (
 /obj/structure/rack,
@@ -8313,6 +8324,17 @@
 "Bd" = (
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/extinguisher_cabinet/south,
+/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
+/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
+/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
+/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
+/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
+/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
+/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
+/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
+/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
+/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
+/obj/item/ship_weapon/ammunition/broadside_shell/plasma,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "Be" = (
@@ -8877,9 +8899,7 @@
 	freq = 1400;
 	location = "Munitions"
 	},
-/obj/machinery/computer/ship/tactical{
-	dir = 4
-	},
+/obj/machinery/broadside_shell_packer,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "Dn" = (
@@ -12452,6 +12472,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
+/obj/machinery/computer/ship/helm{
+	dir = 4
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "Qa" = (
@@ -14312,9 +14335,17 @@
 /obj/machinery/light_switch/west,
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/disposalpipe/segment,
-/obj/machinery/computer/ship/helm{
-	dir = 4
-	},
+/obj/item/ship_weapon/parts/broadside_projectile,
+/obj/item/ship_weapon/parts/broadside_projectile,
+/obj/item/ship_weapon/parts/broadside_projectile,
+/obj/item/ship_weapon/parts/broadside_projectile,
+/obj/item/ship_weapon/parts/broadside_projectile,
+/obj/item/ship_weapon/parts/broadside_projectile,
+/obj/item/ship_weapon/parts/broadside_projectile,
+/obj/item/ship_weapon/parts/broadside_projectile,
+/obj/item/ship_weapon/parts/broadside_projectile,
+/obj/item/ship_weapon/parts/broadside_projectile,
+/obj/item/ship_weapon/parts/broadside_projectile,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "VY" = (
@@ -51778,7 +51809,7 @@ rl
 kP
 Pr
 kP
-kP
+qS
 pJ
 Te
 XF
@@ -52035,7 +52066,7 @@ DT
 mP
 fa
 uZ
-zt
+mP
 Fq
 Te
 Eu
@@ -52292,7 +52323,7 @@ mP
 mP
 gc
 mk
-bE
+ff
 PX
 qB
 gk
@@ -52549,7 +52580,7 @@ hI
 HR
 nw
 mP
-mP
+bE
 Bd
 eY
 Mi
@@ -52808,7 +52839,7 @@ nw
 Te
 Te
 xT
-eY
+zt
 Mi
 Qg
 Fm
@@ -53064,7 +53095,7 @@ TX
 nw
 mP
 mP
-ff
+mP
 eY
 Mi
 xh

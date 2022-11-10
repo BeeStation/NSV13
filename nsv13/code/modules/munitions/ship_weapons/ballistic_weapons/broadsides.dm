@@ -1,15 +1,14 @@
 /obj/machinery/ship_weapon/broadside
 	name = "\improper SN 'Sucker Punch' Broadside Cannon"
-	icon = 'nsv13/icons/obj/railgun.dmi' //Temp
-	icon_state = "OBC" //Temp
+	icon = 'nsv13/icons/obj/broadside.dmi'
+	icon_state = "broadside"
 	desc = "Line 'em up, knock 'em down." //Temp
 	anchored = TRUE
 	density = TRUE
-	safety = FALSE //Temp
+	safety = FALSE
 
-	bound_width = 128
-	bound_height = 64
-	pixel_y = -64
+	bound_width = 64
+	bound_height = 128
 	ammo_type = /obj/item/ship_weapon/ammunition/broadside_shell
 	circuit = /obj/item/circuitboard/machine/broadside
 
@@ -70,18 +69,10 @@
 	allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	screen_shake = 10
 
-// Don't animate us on fire, the above takes care of all the icon updates we need
-/obj/machinery/ship_weapon/broadside/do_animation()
-	return
-
 /obj/machinery/ship_weapon/broadside/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/broadside_shell/T = chambered
 	if(T)
 		linked.fire_projectile(T.projectile_type, target, FALSE, null, null, TRUE, null, 5, 5, TRUE)
-
-
-/obj/machinery/ship_weapon/broadside/after_fire()
-	new/obj/item/ship_weapon/parts/broadside_shell
 
 /obj/machinery/ship_weapon/broadside/examine()
 	. = ..()
@@ -125,9 +116,9 @@
 	projectile_type = /obj/item/projectile/bullet/broadside
 
 /obj/item/ship_weapon/ammunition/broadside_shell/plasma
-	name = "\improper SNBC Type 2 Shell"
+	name = "\improper SNBC Type P Shell"
 	desc = "A large packed shell, complete with plasma and projectile, ready to be loaded and fired."
-	icon_state = "broadside-plasma"
+	icon_state = "broadside_plasma"
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
 	icon = 'nsv13/icons/obj/munitions.dmi'
@@ -147,7 +138,7 @@
 /obj/item/projectile/bullet/broadside/plasma
 	name = "plasma-packed broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	icon_state = "broadside-plasma"
+	icon_state = "broadside_plasma"
 	damage = 150
 	armour_penetration = 10
 	speed = 0.4
@@ -170,10 +161,10 @@
 	name = "broadside shell casing"
 	desc = "An empty shell casing for the Broadside Cannon. Load it into the Shell Packer!"
 	icon = 'nsv13/icons/obj/munitions.dmi'
-	icon_state = "broadside-casing"
+	icon_state = "broadside_casing"
 
-/obj/item/ship_weapon/parts/broadside_projectile
-	name = "broadisde shell projectile"
-	desc = "A loose projectile meant for a Broadside shell. Load it into the Shell Packer!"
+/obj/item/ship_weapon/parts/broadside_load
+	name = "broadisde shell load"
+	desc = "A loose load meant for a Broadside shell. Load it into the Shell Packer!"
 	icon = 'nsv13/icons/obj/munitions.dmi'
-	icon_state = "broadside-projectile"
+	icon_state = "broadside_load"
