@@ -80,11 +80,7 @@
 		. += "The maintenance panel is <b>unscrewed</b> and the machinery could be <i>pried out</i>."
 
 /obj/machinery/ship_weapon/broadside/screwdriver_act(mob/user, obj/item/tool)
-	var/icon_state_open = initial(icon_state)
-	var/icon_state_closed
-	if(!panel_open)
-		icon_state_closed = icon_state
-	return default_deconstruction_screwdriver(user, icon_state_open, icon_state_closed, tool)
+	return default_deconstruction_screwdriver(user, "broadside_open", "broadside", tool)
 
 /obj/machinery/ship_weapon/broadside/crowbar_act(mob/user, obj/item/tool)
 	if(panel_open)
