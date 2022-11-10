@@ -25,6 +25,7 @@
 
 	load_delay = 20
 	unload_delay = 20
+	fire_animation_length = 2 SECONDS
 
 	feed_delay = 0
 	chamber_delay_rapid = 0
@@ -139,23 +140,9 @@
 	armour_penetration = 10
 	speed = 0.4
 
-//Temp Disable incase a better system is found
-/*obj/item/ship_weapon/ammunition/broadside_shell/casing
-	name = "\improper SNBC Shell Casing"
-	desc = "An empty shell meant for a Broadside Cannon Shell"
-	icon = 'nsv13/icons/obj/munitions.dmi'
-	icon_state = "broadside-casing"
-	projectile_type = /obj/item/projectile/bullet/broadisde/dud
-
-/obj/item/projectile/bullet/broadisde/dud
-	icon_state = "broadside-dud"
-	damage = 0
-	speed = 100
-*/
-
-/obj/item/ship_weapon/parts/broadside_shell
+/obj/item/ship_weapon/parts/broadside_casing
 	name = "broadside shell casing"
-	desc = "An empty shell casing for the Broadside Cannon. Load it into the Shell Packer!"
+	desc = "An empty casing for the Broadside Cannon. Load it into the Shell Packer!"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "broadside_casing"
 

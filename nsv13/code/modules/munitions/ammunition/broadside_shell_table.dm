@@ -13,7 +13,7 @@
 	var/obj/item/powder_bag/plasma/plasma = FALSE
 	var/obj/item/powder_bag/gunpowder = FALSE
 	var/static/list/thingy = typecacheof(list(
-		/obj/item/ship_weapon/parts/broadside_shell,
+		/obj/item/ship_weapon/parts/broadside_casing,
 		/obj/item/ship_weapon/parts/broadside_load,
 		/obj/item/powder_bag))
 
@@ -25,9 +25,9 @@
 /obj/machinery/broadside_shell_packer/attackby(obj/item/I, mob/living/user, params)
 	. = ..()
 	if(thingy[I.type])
-		if(istype(I, /obj/item/ship_weapon/parts/broadside_shell))
+		if(istype(I, /obj/item/ship_weapon/parts/broadside_casing))
 			//if(shell_amount == 0)
-			//add_overlay("broadside_shell")
+			//add_overlay("broadside_casing")
 			if(shell_amount < amount_to_pack)
 				shell_amount++
 				to_chat(user, "<span class='notice'>You add a shell to the table.</span>")
