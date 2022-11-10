@@ -292,7 +292,7 @@
 	if(IS_GUEST_KEY(C.ckey))
 		return
 
-	// Get ready for a disgusting query
+	// Get ready for a disgusting query //NSV13 adds squads and pilot role prefs
 	var/datum/DBQuery/insert_query = SSdbcore.NewQuery({"
 		REPLACE INTO [format_table_name("characters")] (
 			slot,
@@ -326,7 +326,9 @@
 			joblessrole,
 			job_preferences,
 			all_quirks,
-			equipped_gear
+			equipped_gear,
+			preferred_squad,
+			preferred_pilot_role
 		) VALUES (
 			:slot,
 			:ckey,
@@ -359,7 +361,9 @@
 			:joblessrole,
 			:job_preferences,
 			:all_quirks,
-			:equipped_gear
+			:equipped_gear,
+			:preferred_squad,
+			:preferred_pilot_role
 		)
 	"}, list(
 		// Now for the above but in a fucking monsterous list
@@ -394,7 +398,9 @@
 		"joblessrole" = joblessrole,
 		"job_preferences" = json_encode(job_preferences),
 		"all_quirks" = json_encode(all_quirks),
-		"equipped_gear" = json_encode(equipped_gear)
+		"equipped_gear" = json_encode(equipped_gear),
+		"preferred_squad" = json_encode(preferred_squad),
+		"preferred_pilot_role" = json_encode(preferred_pilot_role)
 	))
 
 	if(!insert_query.warn_execute())
