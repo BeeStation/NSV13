@@ -505,6 +505,9 @@
 				chamber(rapidfire = TRUE)
 			sleep(0.75)
 			after_fire()
+		if(fire_mode == FIRE_MODE_BROADSIDE) //For the broadside cannons, we want to eject spent casings
+			for(var/i in 1 to max_ammo)
+				new /obj/item/ship_weapon/parts/broadside_shell(get_turf(src))
 		return TRUE
 	return FALSE
 
