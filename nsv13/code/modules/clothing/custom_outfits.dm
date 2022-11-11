@@ -218,7 +218,7 @@ For when the marines are being irritating.
 	name = "blue phalanx general uniform"
 	desc = "A durable uniform worn by generals in the blue phalanx PMC corp serving under WhiteRapids."
 	icon_state = "general"
-	item_color = "general"
+	worn_icon_state = "general"
 	item_state = "bl_suit"
 	armor = list("melee" = 20, "bullet" = 20, "laser" = 10,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
 

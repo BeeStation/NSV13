@@ -26,7 +26,6 @@
 								"Subspace Telecomms",
 								"Research Machinery",
 								"Misc. Machinery",
-								"Computer Parts",
 								"Advanced Munitions", //NSV13
 								"Asteroid Mining", //NSV13
 								"Ship Components", //NSV13

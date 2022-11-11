@@ -406,9 +406,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/countermeasure_dispenser)
 
-
 /obj/structure/overmap/small_craft/escapepod/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
-	if(!SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
+	if(!force && !SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
 		return FALSE
 	return ..()
 
@@ -500,24 +499,29 @@ Been a mess since 2018, we'll fix it someday (probably)
 	. = ..()
 	if(!isliving(user))
 		return FALSE
-	for(var/slot in loadout.equippable_slots)
-		var/obj/item/fighter_component/FC = loadout.get_slot(slot)
-		if(FC?.load(src, target))
+	if(isobj(target))
+		if(operators && LAZYFIND(operators, user))
+			to_chat(user, "<span class='warning'>You can't reach [src]'s exterior from in here..</span>")
 			return FALSE
-	if(allowed(user))
-		if(!canopy_open)
-			playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
-			user.visible_message("<span class='warning'>You bang on the canopy.</span>", "<span class='warning'>[user] bangs on [src]'s canopy.</span>")
-			return FALSE
-		if(operators.len >= max_passengers)
-			to_chat(user, "<span class='warning'>[src]'s passenger compartment is full!")
-			return FALSE
-		to_chat(target, "[(user == target) ? "You start to climb into [src]'s passenger compartment" : "[user] starts to lift you into [src]'s passenger compartment"]")
-		if(do_after(user, 2 SECONDS, target=src))
-			start_piloting(user, "observer")
-			enter(user)
-	else
-		to_chat(user, "<span class='warning'>Access denied.</span>")
+		for(var/slot in loadout.equippable_slots)
+			var/obj/item/fighter_component/FC = loadout.get_slot(slot)
+			if(FC?.load(src, target))
+				return FALSE
+	else if(isliving(target))
+		if(allowed(user))
+			if(!canopy_open)
+				playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
+				user.visible_message("<span class='warning'>You bang on the canopy.</span>", "<span class='warning'>[user] bangs on [src]'s canopy.</span>")
+				return FALSE
+			if(operators.len >= max_passengers)
+				to_chat(user, "<span class='warning'>[src]'s passenger compartment is full!")
+				return FALSE
+			to_chat(target, "[(user == target) ? "You start to climb into [src]'s passenger compartment" : "[user] starts to lift you into [src]'s passenger compartment"]")
+			if(do_after(user, 2 SECONDS, target=src))
+				start_piloting(user, OVERMAP_USER_ROLE_OBSERVER)
+				enter(user)
+		else
+			to_chat(user, "<span class='warning'>Access denied.</span>")
 
 /obj/structure/overmap/small_craft/proc/enter(mob/user)
 	var/obj/structure/overmap/OM = user.get_overmap()
@@ -525,7 +529,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		OM.mobs_in_ship -= user
 	user.forceMove(src)
 	mobs_in_ship |= user
-	if((user.client?.prefs.toggles & SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
+	if((user.client?.prefs.toggles & PREFTOGGLE_SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
 		SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
 
 /obj/structure/overmap/small_craft/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
@@ -590,7 +594,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 		if(last_pilot && !last_pilot.incapacitated())
 			last_pilot.doMove(escape_pod)
-			escape_pod.start_piloting(last_pilot, "pilot")
+			escape_pod.start_piloting(last_pilot, OVERMAP_USER_ROLE_PILOT)
 			escape_pod.attack_hand(last_pilot) // Bring up UI
 			mobs_in_ship -= last_pilot
 			escape_pod.mobs_in_ship |= last_pilot
@@ -599,10 +603,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 		for(var/mob/M as() in mobs_in_ship)
 			M.doMove(escape_pod)
 			if(!escape_pod.pilot || escape_pod.pilot.incapacitated()) // Someone please drive this thing
-				escape_pod.start_piloting(M, "pilot")
+				escape_pod.start_piloting(M, OVERMAP_USER_ROLE_PILOT)
 				escape_pod.ui_interact(M)
 			else
-				escape_pod.start_piloting(M, "observer")
+				escape_pod.start_piloting(M, OVERMAP_USER_ROLE_OBSERVER)
 			escape_pod.mobs_in_ship |= M
 			M.overmap_ship = escape_pod
 	mobs_in_ship.Cut()
@@ -617,7 +621,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			return FALSE
 		if(do_after(user, 2 SECONDS, target=src))
 			enter(user)
-			start_piloting(user, "all_positions")
+			start_piloting(user, (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER))
 			to_chat(user, "<span class='notice'>You climb into [src]'s cockpit.</span>")
 			ui_interact(user)
 			to_chat(user, "<span class='notice'>Small craft use directional keys (WASD in hotkey mode) to accelerate/decelerate in a given direction and the mouse to change the direction of craft.\
@@ -638,7 +642,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		canopy_open = TRUE
 		playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
 	for(var/mob/M in mobs_in_ship)
-		stop_piloting(M, force)
+		stop_piloting(M, TRUE, force)
 		M.forceMove(get_turf(src))
 		to_chat(M, "<span class='warning'>You have been remotely ejected from [src]!.</span>")
 		. += M
@@ -873,7 +877,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 /obj/item/fighter_component/proc/get_max_ammo()
 	return FALSE
 
-/obj/item/fighter_component/Initialize()
+/obj/item/fighter_component/Initialize(mapload)
 	.=..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE) //These all require two hands to pick up
 
@@ -1124,7 +1128,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	return FALSE
 
 /obj/structure/overmap/small_craft/can_move()
-	return (engines_active())
+	return engines_active()
 
 /obj/structure/overmap/small_craft/escapepod/can_move()
 	return TRUE
@@ -1149,7 +1153,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	var/fuel_capacity = 1000
 	slot = HARDPOINT_SLOT_FUEL
 
-/obj/item/fighter_component/fuel_tank/Initialize()
+/obj/item/fighter_component/fuel_tank/Initialize(mapload)
 	. = ..()
 	create_reagents(fuel_capacity, DRAINABLE | AMOUNT_VISIBLE)
 	reagents.chem_temp = 40
@@ -1409,6 +1413,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/list/ammo = list()
 	var/burst_size = 1
 	var/fire_delay = 0
+	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	var/bypass_safety = FALSE
 
 /obj/item/fighter_component/primary/dump_contents()
@@ -1437,7 +1442,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	hardpoint_fire(target, FIRE_MODE_ANTI_AIR)
 
 /obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, fireMode)
-	if(istype(src, /obj/structure/overmap/small_craft) && !pilot.incapacitated())
+	if(istype(src, /obj/structure/overmap/small_craft))
 		var/obj/structure/overmap/small_craft/F = src
 		for(var/slot in F.loadout.equippable_slots)
 			var/obj/item/fighter_component/weapon = F.loadout.hardpoint_slots[slot]
@@ -1496,6 +1501,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	SW.overmap_select_sound = overmap_select_sound
 	SW.burst_size = burst_size
 	SW.fire_delay = fire_delay
+	SW.allowed_roles = allowed_roles
 
 /obj/item/fighter_component/primary/remove_from(obj/structure/overmap/target)
 	. = ..()
@@ -1535,6 +1541,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/max_ammo = 5
 	var/burst_size = 1 //Cluster torps...UNLESS?
 	var/fire_delay = 0.25 SECONDS
+	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	var/bypass_safety = FALSE
 
 /obj/item/fighter_component/secondary/dump_contents()
@@ -1559,6 +1566,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	SW.overmap_select_sound = overmap_select_sound
 	SW.burst_size = burst_size
 	SW.fire_delay = fire_delay
+	SW.allowed_roles = allowed_roles
 
 /obj/item/fighter_component/secondary/remove_from(obj/structure/overmap/target)
 	. = ..()
@@ -1658,6 +1666,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary/utility
 	name = "No :)"
 	slot = HARDPOINT_SLOT_UTILITY_PRIMARY
+	allowed_roles = OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER
 
 /obj/item/fighter_component/primary/utility/fire(obj/structure/overmap/target)
 	return FALSE
@@ -1666,6 +1675,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	name = "Utility Module"
 	slot = HARDPOINT_SLOT_UTILITY_SECONDARY
 	power_usage = 200
+	allowed_roles = OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER
 
 /obj/structure/overmap/small_craft/proc/update_visuals()
 	if(canopy)
@@ -1730,4 +1740,4 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/structure/overmap/small_craft/proc/toggle_canopy()
 	canopy_open = !canopy_open
 	playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
- 
+

@@ -21,10 +21,10 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 /obj/machinery/computer/lore_terminal/awaymission //Example for having a terminal preloaded with only a set list of files.
 	access_tag = "awaymission_default"
 
-/obj/machinery/computer/lore_terminal/Initialize()
+/obj/machinery/computer/lore_terminal/Initialize(mapload)
 	. = ..()
 	get_entries()
-	soundloop = new(list(src), FALSE)
+	soundloop = new(src)
 
 /datum/looping_sound/computer_click
 	mid_sounds = list('nsv13/sound/effects/computer/scroll1.ogg','nsv13/sound/effects/computer/scroll2.ogg','nsv13/sound/effects/computer/scroll3.ogg','nsv13/sound/effects/computer/scroll5.ogg')

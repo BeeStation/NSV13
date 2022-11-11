@@ -22,7 +22,6 @@
 		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
-	selectable = TRUE // Capable of firing manually
 	autonomous = TRUE // Capable of firing autonomously
 
 /datum/ship_weapon/vls/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
@@ -86,7 +85,7 @@
 				to_chat(AM, "<span class='warning'>You feel slightly nauseous as you're shot out into space...</span>")
 				AM.forceMove(P)
 
-/obj/machinery/ship_weapon/vls/Initialize()
+/obj/machinery/ship_weapon/vls/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,
@@ -146,18 +145,18 @@
 	icon_state = "vls_closed"
 	CanAtmosPass = FALSE
 	CanAtmosPassVertical = FALSE
-	obj_flags = CAN_BE_HIT | BLOCK_Z_FALL
+	obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP
 	anchored = TRUE
 	obj_integrity = 1000
 	max_integrity = 1000
 
 /obj/structure/fluff/vls_hatch/proc/toggle(state)
 	if(state == HT_OPEN)
-		obj_flags &= ~BLOCK_Z_FALL
+		obj_flags &= ~(BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP)
 		icon_state = "vls"
 		density = FALSE
 		return
-	obj_flags |= BLOCK_Z_FALL
+	obj_flags |= (BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP)
 	icon_state = "vls_closed"
 	density = TRUE
 

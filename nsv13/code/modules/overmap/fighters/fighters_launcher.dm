@@ -101,7 +101,7 @@
 			if(WEST)
 				linked.docking_points |= get_turf(locate(25, y, z))
 
-/obj/structure/fighter_launcher/Initialize()
+/obj/structure/fighter_launcher/Initialize(mapload)
 	. = ..()
 	icon_state = "launcher"
 	linkup()
@@ -360,7 +360,7 @@
 	forceMove(T)
 	if(current_system)
 		current_system.remove_ship(src, T)
-	LAZYADD(OM.overmaps_in_ship, src)
+	OM.overmaps_in_ship += src
 	bound_width = initial(bound_width)
 	bound_height = initial(bound_height)
 	DC.docking_mode = FALSE

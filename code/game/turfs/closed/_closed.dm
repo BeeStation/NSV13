@@ -7,7 +7,7 @@
 	rad_insulation = RAD_MEDIUM_INSULATION
 	pass_flags_self = PASSCLOSEDTURF
 
-/turf/closed/Initialize()
+/turf/closed/Initialize(mapload)
 	. = ..()
 
 /turf/closed/AfterChange()
@@ -62,18 +62,24 @@
 	bullet_bounce_sound = null
 	pixel_w = -32 //NSV13 fitting the widescreen-sized image on to the screen
 
-/turf/closed/indestructible/splashscreen/New()
+INITIALIZE_IMMEDIATE(/turf/closed/indestructible/splashscreen)
+
+/turf/closed/indestructible/splashscreen/Initialize(mapload)
+	. = ..()
 	SStitle.splash_turf = src
 	if(SStitle.icon)
 		icon = SStitle.icon
-	..()
 
 /turf/closed/indestructible/splashscreen/vv_edit_var(var_name, var_value)
 	. = ..()
 	if(.)
 		switch(var_name)
-			if("icon")
+			if(NAMEOF(src, icon))
 				SStitle.icon = icon
+
+/turf/closed/indestructible/splashscreen/examine(mob/user)
+	desc = pick(strings(SPLASH_DESC_FILE, "splashes"))
+	. = ..()
 
 /turf/closed/indestructible/riveted
 	icon = 'icons/turf/walls/riveted.dmi'
@@ -102,7 +108,7 @@
 	smooth = SMOOTH_TRUE
 	icon = 'icons/obj/smooth_structures/reinforced_window.dmi'
 
-/turf/closed/indestructible/fakeglass/Initialize()
+/turf/closed/indestructible/fakeglass/Initialize(mapload)
 	. = ..()
 	icon_state = null //set the icon state to null, so our base state isn't visible
 	underlays += mutable_appearance('icons/obj/structures.dmi', "grille") //add a grille underlay
@@ -115,7 +121,7 @@
 	smooth = SMOOTH_TRUE
 	icon = 'icons/obj/smooth_structures/plastitanium_window.dmi'
 
-/turf/closed/indestructible/opsglass/Initialize()
+/turf/closed/indestructible/opsglass/Initialize(mapload)
 	. = ..()
 	icon_state = null
 	underlays += mutable_appearance('icons/obj/structures.dmi', "grille")
