@@ -1323,8 +1323,8 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		var/randy_valid = FALSE
 
 		while(!randy_valid)
-			randy.x = (rand(1, 10)/10)+rand(-30, 15) // Buffer space for readability
-			randy.y = (rand(1, 10)/10)+rand(1, 30)+4 // Offset vertically for viewing 'pleasure'
+			randy.x = (rand(1, 10)/10)+rand(-30, 15)+56 // Buffer space for readability
+			randy.y = (rand(1, 10)/10)+rand(1, 30)+125 // Offset vertically for viewing 'pleasure'
 			var/syscheck_pass = TRUE
 			for(var/datum/star_system/S in (generated + rubicon + src))
 				if(!syscheck_pass)
