@@ -50,11 +50,21 @@
 	volume = 50
 	amount_per_transfer_from_this = 5
 	spillable = FALSE
+	///variable to tell if the bottle can be refilled
+	var/cap_on = TRUE
+
+/obj/item/reagent_containers/glass/bottle/syrup_bottle/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>Alt-click to toggle the pump cap.</span>"
+	return
 
 //when you attack the syrup bottle with a container it refills it
 /obj/item/reagent_containers/glass/bottle/syrup_bottle/attackby(obj/item/attacking_item, mob/user, params)
 	SHOULD_CALL_PARENT(FALSE)
-	if(!check_allowed_items(attacking_item, target_self = 1))
+	if(!cap_on)
+		return ..()
+
+	if(!check_allowed_items(attacking_item, target_self = TRUE))
 		return
 
 	if(attacking_item.is_refillable())
@@ -68,14 +78,23 @@
 		var/trans = reagents.trans_to(attacking_item, amount_per_transfer_from_this, transfered_by = user)
 		to_chat(user, "<span class='notice>You transfer [trans] unit\s of the solution to [attacking_item].</span>")
 		flick("syrup_anim", src)
-
 	attacking_item.update_icon()
-
 	return TRUE
 
 /obj/item/reagent_containers/glass/bottle/syrup_bottle/afterattack(obj/target, mob/user, proximity)
 	SHOULD_CALL_PARENT(FALSE)
 	return TRUE
+
+/obj/item/reagent_containers/glass/bottle/syrup_bottle/AltClick(mob/user)
+	cap_on = !cap_on
+	if(!cap_on)
+		icon_state = "syrup_open"
+		to_chat(user, "<span class='notice'>You remove the pump cap.</span>")
+	else
+		icon_state = "syrup"
+		to_chat(user, "<span class='notice'>You put the pump cap on.</span>")
+	update_icon_state()
+	return ..()
 
 //types of syrups
 

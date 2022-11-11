@@ -16,8 +16,6 @@
 												/obj/item/reagent_containers/food/condiment/chocolate))
 	STR.can_hold = can_hold
 
-
-
 /obj/item/storage/fancy/coffee_condi_display/update_icon()
 	cut_overlays()
 	icon_state = "coffee_condi_display"
@@ -25,7 +23,6 @@
 		return
 	else
 		var/mutable_appearance/inserted_overlay = mutable_appearance(icon)
-
 		if(locate(/obj/item/reagent_containers/food/condiment/pack/sugar) in contents)
 			inserted_overlay.icon_state = "condi_display_sugar"
 			add_overlay(inserted_overlay)
@@ -39,27 +36,6 @@
 			inserted_overlay.icon_state = "condi_display_chocolate"
 			add_overlay(inserted_overlay)
 
-/*
-/obj/item/storage/fancy/coffee_condi_display/update_icon()
-	cut_overlays()
-	icon_state = "coffee_condi_display"
-	if(!contents.len)
-		return
-	else
-		for(var/condiment in contents)
-			var/mutable_appearance/inserted_overlay = mutable_appearance(icon)
-
-			if(istype(condiment, /obj/item/reagent_containers/food/condiment/pack/sugar))
-				inserted_overlay.icon_state = "condi_display_sugar"
-			else if(istype(condiment, /obj/item/reagent_containers/food/condiment/pack/astrotame))
-				inserted_overlay.icon_state = "condi_display_sweetener"
-			else if(istype(condiment, /obj/item/reagent_containers/food/condiment/creamer))
-				inserted_overlay.icon_state = "condi_display_creamer"
-			else if(istype(condiment, /obj/item/reagent_containers/food/condiment/chocolate))
-				inserted_overlay.icon_state = "condi_display_chocolate"
-			add_overlay(inserted_overlay)
-
-*/
 /obj/item/storage/fancy/coffee_condi_display/PopulateContents()
 	for(var/i = 1 to 4)
 		new /obj/item/reagent_containers/food/condiment/pack/sugar(src)
