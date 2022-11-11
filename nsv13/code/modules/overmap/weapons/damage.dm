@@ -246,7 +246,7 @@ Bullet reactions
 	. = ..()
 	set_light(4)
 	for(var/mob/M in orange(src, 3))
-		if(isliving(M) && (M.client?.prefs.toggles & SOUND_AMBIENCE) && M.can_hear_ambience())
+		if(isliving(M) && (M.client?.prefs.toggles & PREFTOGGLE_SOUND_AMBIENCE) && M.can_hear_ambience())
 			to_chat(M, "<span class='userdanger'>You hear a loud creak coming from above you. Take cover!</span>")
 			SEND_SOUND(M, pick('nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg'))
 

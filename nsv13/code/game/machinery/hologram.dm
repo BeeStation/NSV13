@@ -4,9 +4,9 @@
 	var/icon/final = icon()
 	var/mob/living/carbon/human/dummy/D = new(locate(1,1,1)) //spawn on 1,1,1 so we don't have runtimes when items are deleted
 	var/new_name = null //Name for the hologram. Can be defaulted to your char name otherwise.
-	if(alert("Do you want to use your character slot ([C.prefs.real_name]) or choose a new name and have a random appearance?",src,"Yes","No") == "Yes")
-		C.prefs.copy_to(D)
-		new_name = C.prefs.real_name
+	if(alert("Do you want to use your character slot ([C.prefs.active_character.real_name]) or choose a new name and have a random appearance?",src,"Yes","No") == "Yes")
+		C.prefs.active_character.copy_to(D)
+		new_name = C.prefs.active_character.real_name
 	else
 		randomize_human(D)
 		new_name = input(C, "Select a name for your communications hologram (leave blank to just be called hologram)", "Robust hologram creator") as text
