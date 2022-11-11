@@ -1,4 +1,3 @@
-
 /datum/reagent/drug
 	name = "Drug"
 	chem_flags = CHEMICAL_NOT_DEFINED
