@@ -632,7 +632,7 @@
 // calculates a path to the current destination
 // given an optional turf to avoid
 /mob/living/simple_animal/bot/mulebot/calc_path(turf/avoid = null)
-	if(!is_reserved_level(z) && is_station_level(z))
+	if(!is_reserved_level(z) && get_overmap()) //NSV13 start - Overmap ship compatibility
 		if(target != null)
 			if(z > target.z)
 				mule_up_or_down(DOWN)
@@ -642,8 +642,9 @@
 				return
 	path = get_path_to(src, target, 250, id=access_card, exclude=avoid)
 
+//BOT MULTI-Z MOVEMENT
 /mob/living/simple_animal/bot/mulebot/proc/mule_up_or_down(direction)
-	if(!is_reserved_level(z) && is_station_level(z))
+	if(!is_reserved_level(z) && get_overmap()) //NSV13 start - Overmap ship compatibility
 		var/new_target = find_nearest_bot_elevator(direction)
 
 		var/go_here
@@ -655,6 +656,7 @@
 		target = go_here
 		path = get_path_to(src, target, 250, id=access_card)
 
+//BOT MULTI-Z MOVEMENT
 /mob/living/simple_animal/bot/mulebot/proc/mulebot_z_movement()
 	var/obj/structure/bot_elevator/E = locate(/obj/structure/bot_elevator) in get_turf(src)
 	if(mulebot_z_mode == MULEBOT_Z_MODE_ACTIVE)
