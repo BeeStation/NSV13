@@ -1123,13 +1123,12 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 			),
 		)
 		randy.apply_system_effects()
-		var/list/sys_randy = randy.system_type
-		randy.name = (sys_randy.tag != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
+		randy.name = (randy.system_type[tag] != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
 		var/randy_valid = FALSE
 
 		while(!randy_valid)
-			randy.x = (rand(1, 10)/10)+rand(1, 80)+20 // Buffer space for readability
-			randy.y = (rand(1, 10)/10)+rand(1, 50)+30 // Offset vertically for viewing 'pleasure'
+			randy.x = ((rand(1, 10)/10)+rand(1, 80)+20) // Buffer space for readability
+			randy.y = ((rand(1, 10)/10)+rand(1, 50)+30) // Offset vertically for viewing 'pleasure'
 			var/syscheck_pass = TRUE
 			for(var/datum/star_system/S in (generated + rubicon + src))
 				if(!syscheck_pass)
@@ -1273,10 +1272,11 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 	var/time = (REALTIMEOFDAY - start_timeofday) / 10
 	//There we go.
 	message_admins("Badlands has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorithm and [random_jumpline_count] random connections have been created!")
+	log_game("Badlands has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorithm and [random_jumpline_count] random connections have been created!")
 
 /datum/star_system/proc/generate_litelands()
 	var/list/generated = list()
-	var/amount = rand(5, 10)
+	var/amount = rand(8, 15)
 	var/toocloseconflict = 0
 	message_admins("Generating Badlands Lite with [amount] systems.")
 	var/start_timeofday = REALTIMEOFDAY
@@ -1318,13 +1318,12 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 			),
 		)
 		randy.apply_system_effects()
-		var/list/sys_randy = randy.system_type
-		randy.name = (sys_randy.tag != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
+		randy.name = (randy.system_type[tag] != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
 		var/randy_valid = FALSE
 
 		while(!randy_valid)
-			randy.x = (rand(1, 10)/10)+rand(-30, 15)+56 // Buffer space for readability
-			randy.y = (rand(1, 10)/10)+rand(1, 30)+125 // Offset vertically for viewing 'pleasure'
+			randy.x = ((rand(1, 10)/10)+rand(-30, 15)+56)
+			randy.y = ((rand(1, 10)/10)+rand(1, 30)+125)
 			var/syscheck_pass = TRUE
 			for(var/datum/star_system/S in (generated + rubicon + src))
 				if(!syscheck_pass)
@@ -1465,6 +1464,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 	var/time = (REALTIMEOFDAY - start_timeofday) / 10
 	//There we go.
 	message_admins("Badlands Lite has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorithm and [random_jumpline_count] random connections have been created!")
+	log_game("Badlands has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorithm and [random_jumpline_count] random connections have been created!")
 
 #undef NONRELAXATION_PENALTY
 #undef MAX_RANDOM_CONNECTION_LENGTH
