@@ -16,13 +16,6 @@
 	explode_when_hit = TRUE //Yeah, this can't ever end well for you.
 	var/claimable_gulag_points = 75
 
-/obj/item/ship_weapon/ammunition/torpedo/Initialize()
-	. = ..()
-	if(has_gravity())
-		move_resist = MOVE_FORCE_EXTREMELY_STRONG
-	else
-		move_resist = MOVE_FORCE_DEFAULT
-
 /obj/item/ship_weapon/ammunition/torpedo/examine(mob/user)
 	. = ..()
 	if(claimable_gulag_points)
@@ -38,13 +31,6 @@
 		claimable_gulag_points = 0
 
 /obj/item/card/id/prisoner
-
-/obj/item/ship_weapon/ammunition/torpedo/can_be_pulled(mob/user) //Sophie: Makes Torps dragable in Zero G
-	if(has_gravity())
-		to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
-		return FALSE
-	else
-		return TRUE
 
 /obj/item/ship_weapon/ammunition/torpedo/examine(mob/user)
 	. = ..()
