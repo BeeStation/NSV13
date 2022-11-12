@@ -6,6 +6,7 @@
 	anchored = TRUE
 	density = FALSE
 	max_integrity = 1
+	obj_flags = UNIQUE_RENAME
 	/// What object created this projection? Can be null as a projector isn't required for this to exist
 	var/obj/item/wargame_projector/projector
 

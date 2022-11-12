@@ -46,8 +46,12 @@
 
 /obj/item/wargame_projector/Initialize(mapload)
 	. = ..()
+	AddElement(/datum/element/openspace_item_click_handler)
 	set_greyscale(holosign_color)
 	populate_radial_choice_lists()
+
+/obj/item/wargame_projector/handle_openspace_click(turf/target, mob/user, proximity_flag, click_parameters)
+	afterattack(target, user, proximity_flag, click_parameters)
 
 /obj/item/wargame_projector/examine(mob/user)
 	. = ..()
@@ -92,7 +96,7 @@
 
 
 /obj/item/wargame_projector/CtrlClick(mob/user)
-	if(alert(usr,"Clear all currently active holograms?", "Hologram Removal", list("Yes", "No")) == "Yes")
+	if(alert(usr,"Clear all currently active holograms?", "Hologram Removal", "Yes", "No") == "Yes")
 		for(var/hologram as anything in projections)
 			qdel(hologram)
 
@@ -103,7 +107,7 @@
 	if(!check_allowed_items(target, not_inside = TRUE))
 		return FALSE
 	var/turf/target_turf = get_turf(target)
-	if(!(is_blocked_turf(target_turf)))
+	if(is_blocked_turf(target_turf))
 		return FALSE
 	if(LAZYLEN(projections) >= max_signs)
 		balloon_alert(user, "max capacity!")
