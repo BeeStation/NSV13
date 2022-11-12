@@ -154,7 +154,7 @@
 	name = "ship interior cordon"
 	icon_state = "cordon"
 
-/turf/closed/indestructible/boarding_cordon/Initialize()
+/turf/closed/indestructible/boarding_cordon/Initialize(mapload)
 	. = ..()
 	alpha = 0
 	mouse_opacity = FALSE

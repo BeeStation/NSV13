@@ -36,7 +36,7 @@
 	var/goal = 45 SECONDS
 	var/ready = FALSE
 
-/obj/machinery/gauss_dispenser/Initialize()
+/obj/machinery/gauss_dispenser/Initialize(mapload)
 	. = ..()
 
 /obj/machinery/gauss_dispenser/RefreshParts()
@@ -46,7 +46,7 @@
 
 /obj/machinery/gauss_dispenser/process()
 	cut_overlays()
-	if(stat & NOPOWER)
+	if(machine_stat & NOPOWER)
 		progress = 0 SECONDS
 		return PROCESS_KILL
 	progress += progress_rate

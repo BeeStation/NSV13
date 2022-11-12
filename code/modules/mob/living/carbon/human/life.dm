@@ -29,11 +29,6 @@
 		return 0
 
 	if(!IsInStasis())
-		if(.) //not dead
-			//Handle active genes
-			for(var/datum/mutation/human/HM in dna.mutations)
-				HM.on_life()
-
 		if(stat != DEAD && undergoing_cardiac_arrest())
 			//heart attack stuff
 			var/we_breath = !HAS_TRAIT_FROM(src, TRAIT_NOBREATH, SPECIES_TRAIT)
@@ -45,7 +40,7 @@
 			adjustBruteLoss(2)
 
 		if(stat != DEAD)
-			//Handle hygiene
+			//NSV13 - Handle hygiene
 			if(HAS_TRAIT(src, TRAIT_ALWAYS_CLEAN))
 				set_hygiene(HYGIENE_LEVEL_CLEAN)
 

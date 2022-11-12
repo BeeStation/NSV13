@@ -73,6 +73,16 @@
 	mag_type = /obj/item/ammo_box/magazine/m45
 	can_suppress = FALSE
 
+/datum/design/gulagpack
+	name = "Gulagpack"
+	id = "gulagpack"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron=10000, /datum/material/glass=2500)
+	build_path = /obj/item/storage/backpack/gulagpack
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+	category = list("Equipment")
+
+
 /obj/item/gun/ballistic/automatic/pistol/glock/command
 	name = "Command Glock-13"
 	desc = "A small 9mm handgun used by high ranking Nanotrasen officers, it's been customized with a nice wooden handle painted with a small emblem and blue stripes."
