@@ -1,8 +1,8 @@
 /obj/machinery/broadside_shell_packer
 	name = "\improper Broadside Shell Packer Bench"
 	desc = "An automated table that packs broadside shell casings, just add components!"
-	icon = 'icons/obj/cryogenic2.dmi' //TEMP
-	icon_state = "bscanner_open" //TEMP
+	icon = 'nsv13/icons/obj/munitions/packing_bench.dmi'
+	icon_state = "packing_bench"
 	density = TRUE
 	anchored = TRUE
 	circuit = /obj/item/circuitboard/machine/broadside_shell_packer
