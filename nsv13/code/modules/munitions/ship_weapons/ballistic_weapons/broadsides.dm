@@ -113,9 +113,14 @@
 	new /obj/effect/particle_effect/muzzleflash(loc)
 
 /obj/machinery/ship_weapon/broadside/local_fire(shots = weapon_type.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
-	var/obj/B = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4))
-	var/turf/T = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5))
-	B.throw_at(T, 12, 20)
+	var/obj/R = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4)) //Right
+	var/obj/L = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, SOUTH, 1)) //Left
+	var/turf/S = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5)) //Starboard
+	var/turf/P = get_offset_target_turf(src, rand(5)-rand(5), 0-rand(5)) //Port
+	if(dir == 2)
+		R.throw_at(S, 12, 20)
+	if(dir == 1)
+		L.throw_at(P, 12, 20)
 	..()
 
 /obj/item/ship_weapon/ammunition/broadside_shell
