@@ -2,7 +2,7 @@
 	name = "\improper SN 'Sucker Punch' Broadside Cannon"
 	icon = 'nsv13/icons/obj/broadside.dmi'
 	icon_state = "broadside"
-	desc = "Line 'em up, knock 'em down." //Temp
+	desc = "Line 'em up, knock 'em down."
 	anchored = TRUE
 	density = TRUE
 	safety = FALSE
