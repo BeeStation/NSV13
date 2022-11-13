@@ -3,7 +3,7 @@
 	flag = BRIDGE_OFFICER
 	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
 	department_head = list(JOB_NAME_HEADOFPERSONNEL)
-	department_flag = ENGSEC 
+	department_flag = ENGSEC
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
@@ -11,7 +11,7 @@
 	selection_color = "#ddddff"
 	req_admin_notify = 1
 	minimal_player_age = 2
-	exp_requirements = 60
+	exp_requirements = 900
 	exp_type = EXP_TYPE_CREW
 
 	outfit = /datum/outfit/job/bridge
