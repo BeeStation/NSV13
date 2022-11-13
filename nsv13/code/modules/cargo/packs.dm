@@ -325,7 +325,7 @@
 	crate_name = "Empty broadside casings crate"
 
 /datum/supply_pack/munitions/broadside_loads
-	name = "Empty Broadside Loads"
+	name = "Broadside Loads"
 	desc = "15 loads for broadside shells."
 	cost = 1000
 	contains = list(/obj/item/ship_weapon/parts/broadside_load,
@@ -343,7 +343,7 @@
 					/obj/item/ship_weapon/parts/broadside_load,
 					/obj/item/ship_weapon/parts/broadside_load,
 					/obj/item/ship_weapon/parts/broadside_load)
-	crate_name = "Empty broadside loads crate"
+	crate_name = "Broadside loads crate"
 
 /datum/supply_pack/munitions/broadside_pack
 	name = "Broadside Pack"
