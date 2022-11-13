@@ -102,8 +102,8 @@
 		overlay.do_animation()
 	animate_projectile(target)
 
-/obj/machinery/ship_weapon/broadside/fire()
-	. = ..()
+/obj/machinery/ship_weapon/broadside/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+	..()
 	set_light(2, 5)
 	sleep(0.1 SECONDS)
 	set_light(0, 0)
