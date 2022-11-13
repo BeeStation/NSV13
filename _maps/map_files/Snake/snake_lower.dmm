@@ -633,6 +633,9 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
 	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "co" = (
@@ -1347,8 +1350,10 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "eZ" = (
-/obj/machinery/ship_weapon/broadside,
-/turf/closed/wall/r_wall,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "fa" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
@@ -1881,7 +1886,10 @@
 /turf/open/floor/plasteel/white,
 /area/science/server)
 "gV" = (
-/obj/machinery/rnd/production/techfab/department/munitions,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
+	},
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "gW" = (
@@ -2045,6 +2053,7 @@
 /obj/structure/sign/ship/nosmoking{
 	dir = 1
 	},
+/obj/machinery/ship_weapon/broadside,
 /turf/closed/wall/r_wall,
 /area/nsv/weapons/fore)
 "hq" = (
@@ -2209,10 +2218,6 @@
 /obj/effect/landmark/start/roboticist,
 /turf/open/floor/plasteel,
 /area/science/robotics)
-"hW" = (
-/obj/machinery/computer/ams,
-/turf/open/floor/engine,
-/area/nsv/weapons/fore)
 "hX" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -2428,7 +2433,7 @@
 /area/engine/engineering)
 "iG" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/stripes/corner,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "iK" = (
@@ -2568,7 +2573,6 @@
 	},
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/west,
-/obj/machinery/vending/wardrobe/muni_wardrobe,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "jn" = (
@@ -2712,7 +2716,6 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/structure/closet/secure_closet/munitions_technician,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "jG" = (
@@ -3141,8 +3144,7 @@
 /turf/open/floor/circuit,
 /area/tcommsat/server)
 "lC" = (
-/obj/effect/turf_decal/loading_area,
-/obj/effect/turf_decal/stripes/white/corner,
+/obj/structure/closet/secure_closet/munitions_technician,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "lD" = (
@@ -3166,6 +3168,9 @@
 /area/bridge/cic)
 "lG" = (
 /obj/item/radio/intercom/directional/west,
+/obj/machinery/computer/ams{
+	dir = 4
+	},
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "lH" = (
@@ -3560,8 +3565,17 @@
 /turf/open/floor/plasteel/white,
 /area/medical/sleeper)
 "ng" = (
-/obj/structure/table/reinforced,
-/obj/item/multitool,
+/obj/structure/closet/crate,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "nh" = (
@@ -3862,7 +3876,7 @@
 /turf/closed/wall/r_wall,
 /area/nsv/weapons/fore)
 "nX" = (
-/obj/effect/turf_decal/stripes/white/line{
+/obj/machinery/ship_weapon/broadside{
 	dir = 1
 	},
 /turf/open/floor/engine,
@@ -3957,8 +3971,8 @@
 	})
 "op" = (
 /obj/machinery/ship_weapon/pdc_mount/north,
-/obj/effect/turf_decal/stripes/white/corner{
-	dir = 1
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
 	},
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
@@ -7212,7 +7226,7 @@
 /area/engine/engineering)
 "Ap" = (
 /obj/effect/turf_decal/stripes/corner{
-	dir = 4
+	dir = 1
 	},
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
@@ -7918,6 +7932,7 @@
 /turf/open/floor/plasteel/white,
 /area/medical/sleeper)
 "CN" = (
+/obj/item/radio/intercom/directional/west,
 /obj/machinery/broadside_shell_packer,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
@@ -8246,8 +8261,8 @@
 /area/science/server)
 "DV" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
-/obj/effect/turf_decal/stripes/white/line{
-	dir = 1
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
@@ -8376,22 +8391,9 @@
 /area/crew_quarters/kitchen)
 "Eq" = (
 /obj/machinery/camera/autoname,
-/obj/structure/closet/crate,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "Er" = (
@@ -9386,9 +9388,6 @@
 /area/security/brig)
 "HH" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
-/obj/effect/turf_decal/stripes/white/corner{
-	dir = 4
-	},
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "HI" = (
@@ -10420,17 +10419,9 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/structure/closet/crate,
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag,
-/obj/item/powder_bag,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "Lk" = (
@@ -10814,6 +10805,22 @@
 /turf/open/floor/plasteel/dark,
 /area/tcommsat/computer)
 "Mo" = (
+/obj/structure/closet/crate,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
+/obj/item/ammo_box/magazine/nsv/pdc,
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
@@ -11490,9 +11497,10 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "Oy" = (
-/obj/effect/turf_decal/stripes/white/line{
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/closet/crate,
+/obj/item/powder_bag,
+/obj/item/powder_bag,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "Oz" = (
@@ -12110,7 +12118,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/effect/landmark/start/munitions_tech,
+/obj/machinery/rnd/production/techfab/department/munitions,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "Qt" = (
@@ -13151,8 +13159,7 @@
 	},
 /area/engine/engineering)
 "Uf" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/effect/turf_decal/stripes/corner,
+/obj/machinery/vending/wardrobe/muni_wardrobe,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "Ug" = (
@@ -13657,7 +13664,6 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/firealarm/directional/west,
-/obj/structure/closet/secure_closet/munitions_technician,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "VD" = (
@@ -13957,9 +13963,6 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 1
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "Ww" = (
@@ -14188,6 +14191,7 @@
 /obj/machinery/computer/ammo_sorter{
 	dir = 1
 	},
+/obj/item/multitool,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "XD" = (
@@ -14778,6 +14782,7 @@
 /obj/structure/cable{
 	icon_state = "1-16"
 	},
+/obj/structure/closet/secure_closet/munitions_technician,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "ZD" = (
@@ -64859,10 +64864,10 @@ VA
 jm
 jF
 Tq
-lG
+CN
 SP
-SP
-eZ
+Ja
+jb
 oe
 qJ
 aJ
@@ -65105,7 +65110,7 @@ jb
 yP
 SP
 SP
-SP
+fJ
 SP
 fJ
 SP
@@ -65118,7 +65123,7 @@ fJ
 kw
 yS
 qM
-SP
+Sf
 jb
 oe
 qJ
@@ -65373,9 +65378,9 @@ SP
 SP
 SP
 tW
-ND
+Oy
 zJ
-SP
+lC
 jb
 oe
 qJ
@@ -65889,8 +65894,8 @@ Ik
 SP
 SP
 SP
-SP
-eZ
+lC
+jb
 oe
 qJ
 aJ
@@ -66131,9 +66136,9 @@ qJ
 oe
 jb
 EL
-lC
-Oy
-Oy
+Al
+SP
+SP
 HH
 yS
 yS
@@ -66141,12 +66146,12 @@ yS
 yS
 vn
 yS
-Uf
+yS
 Wt
-Vu
-Vu
-Ap
 SP
+SP
+SP
+Uf
 jb
 oe
 qJ
@@ -66390,9 +66395,9 @@ jb
 jb
 jb
 Eq
-SP
+Vu
 DV
-ND
+gV
 ND
 ND
 ND
@@ -66400,7 +66405,7 @@ wY
 ND
 iG
 cl
-SP
+Vu
 Lh
 jb
 jb
@@ -66646,19 +66651,19 @@ oe
 oe
 oe
 nV
-gV
+SP
 fJ
 nX
-SP
+eZ
 SP
 SP
 KG
 lp
 SP
 VK
-CN
 SP
-Ja
+SP
+SP
 hp
 oe
 oe
@@ -66903,10 +66908,10 @@ qJ
 qJ
 oe
 jb
-hW
 SP
-nX
 SP
+SP
+eZ
 SP
 SP
 SP
@@ -66915,7 +66920,7 @@ SP
 VK
 SP
 SP
-Sf
+SP
 jb
 oe
 qJ
@@ -67163,7 +67168,7 @@ jb
 jb
 jb
 op
-SP
+Ap
 SP
 no
 Np
