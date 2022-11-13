@@ -110,7 +110,7 @@
 	..()
 	new /obj/effect/particle_effect/muzzleflash(loc)
 
-/obj/machinery/ship_weapon/broadside/local_fire() //For the broadside cannons, we want to eject spent casings
+/obj/machinery/ship_weapon/broadside/local_fire(shots = weapon_type.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
 	var/obj/B = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4))
 	var/turf/T = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5))
 	B.throw_at(T, 12, 20)
@@ -140,7 +140,7 @@
 	name = "broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "broadside"
-	damage = 120
+	damage = 75
 	obj_integrity = 500
 	flag = "overmap_heavy"
 	spread = 25
@@ -150,7 +150,7 @@
 	name = "plasma-packed broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "broadside_plasma"
-	damage = 180
+	damage = 125
 	armour_penetration = 10
 	speed = 0.4
 
