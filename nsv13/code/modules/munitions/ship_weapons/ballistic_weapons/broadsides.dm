@@ -1,9 +1,10 @@
-/obj/machinery/ship_weapon/broadside
+/obj/machinery/ship_weapon/broadside //THERE IS A NORTH FACING VARIANT, IT DOES NOT FUNCTION AS INTENDED, ONLY USE SOUTH FACING GUN
 	name = "\improper SN 'Sucker Punch' Broadside Cannon"
 	icon = 'nsv13/icons/obj/broadside.dmi'
 	icon_state = "broadside"
 	desc = "Line 'em up, knock 'em down."
 	anchored = TRUE
+
 	density = TRUE
 	safety = FALSE
 
