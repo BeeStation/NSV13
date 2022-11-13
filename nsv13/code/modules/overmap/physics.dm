@@ -378,11 +378,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			mat_from.Scale(0.5,0.5)
 			mat_to.Scale(0.5,0.5)
 			targetAngle.Scale(0.5,0.5) //Scale down their movement indicator too so it doesnt look comically big
-	if(pilot?.client && desired_angle && !move_by_mouse)//Preconditions: Pilot is logged in and exists, there is a desired angle, we are NOT moving by mouse (dont need to see where we're steering if it follows mousemovement)
+	if(pilot?.client && desired_angle && !move_by_mouse && vector_overlay)//Preconditions: Pilot is logged in and exists, there is a desired angle, we are NOT moving by mouse (dont need to see where we're steering if it follows mousemovement)
 		vector_overlay.transform = targetAngle
 		vector_overlay.alpha = 255
 	else
-		vector_overlay.alpha = 0
+		vector_overlay?.alpha = 0
 		targetAngle = null
 	transform = mat_from
 
