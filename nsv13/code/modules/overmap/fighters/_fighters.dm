@@ -745,6 +745,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		return TRUE
 	if(busy)
 		to_chat(user, "<span class='warning'>Someone's already repairing [src]!</span>")
+		return TRUE
 	busy = TRUE
 	to_chat(user, "<span class='notice'>You start welding some dents out of [src]'s hull...</span>")
 	if(I.use_tool(src, user, ((max_integrity-obj_integrity) / repair_speed) SECONDS, volume=100))
@@ -970,6 +971,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 		return TRUE
 	if(busy)
 		to_chat(user, "<span class='warning'>Someone's already repairing [src]!</span>")
+		return TRUE
 	busy = TRUE
 	to_chat(user, "<span class='notice'>You start welding some dents out of [src]...</span>")
 	if(I.use_tool(src, user, ((max_integrity-obj_integrity) / repair_speed) SECONDS, volume=100))
