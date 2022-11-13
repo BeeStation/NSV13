@@ -45,6 +45,7 @@
 	bound_height = 96
 	bound_width = 96
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
+
 /obj/structure/overmap/nanotrasen/missile_cruiser //This has nothing to do with missiles
 	name = "caracal class missile frigate"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
@@ -178,6 +179,8 @@
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
+	bound_width = 64
+	bound_height = 64
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
