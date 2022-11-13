@@ -134,7 +134,7 @@
 	icon_state = "broadside"
 	damage = 120
 	obj_integrity = 500
-	flag = "overmap_medium"
+	flag = "overmap_heavy"
 	spread = 25
 	speed = 1
 
@@ -142,7 +142,7 @@
 	name = "plasma-packed broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "broadside_plasma"
-	damage = 150
+	damage = 180
 	armour_penetration = 10
 	speed = 0.4
 
