@@ -329,7 +329,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 20
 	spread = 90
 	flag = "overmap_medium"
-	
+
 /obj/item/projectile/bullet/prototype_bsa
 	icon_state = "proto_bsa"
 	name = "Prototype BSA Round"
@@ -517,7 +517,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(target.ai_controlled || istype(target, /obj/structure/overmap/small_craft))
 		target.hullburn += 60	//hullburn DoT for AIs. Player Fighters get it too, did you expect to just eat one of these?
 		target.hullburn_power = max(target.hullburn_power, 6)
-	
+
 
 /obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
 	. = ..()
@@ -577,3 +577,21 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/beam/laser/phaser
 	damage = 30
 	flag = "overmap_medium"
+
+/obj/item/projectile/bullet/broadside
+	name = "broadside shell"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "broadside"
+	damage = 75
+	obj_integrity = 500
+	flag = "overmap_heavy"
+	spread = 25
+	speed = 1
+
+/obj/item/projectile/bullet/broadside/plasma
+	name = "plasma-packed broadside shell"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "broadside_plasma"
+	damage = 125
+	armour_penetration = 10
+	speed = 0.4

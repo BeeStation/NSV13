@@ -123,57 +123,7 @@
 		L.throw_at(P, 12, 20)
 	..()
 
-/obj/item/ship_weapon/ammunition/broadside_shell
-	name = "\improper SNBC Type 1 Shell"
-	desc = "A large packed shell, complete with powder and projectile, ready to be loaded and fired."
-	icon_state = "broadside"
-	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
-	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
-	icon = 'nsv13/icons/obj/munitions.dmi'
-	w_class = WEIGHT_CLASS_BULKY
-	projectile_type = /obj/item/projectile/bullet/broadside
-
-/obj/item/ship_weapon/ammunition/broadside_shell/plasma
-	name = "\improper SNBC Type P Shell"
-	desc = "A large packed shell, complete with plasma and projectile, ready to be loaded and fired."
-	icon_state = "broadside_plasma"
-	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
-	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
-	icon = 'nsv13/icons/obj/munitions.dmi'
-	w_class = WEIGHT_CLASS_BULKY
-	projectile_type = /obj/item/projectile/bullet/broadside/plasma
-
-/obj/item/projectile/bullet/broadside
-	name = "broadside shell"
-	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	icon_state = "broadside"
-	damage = 75
-	obj_integrity = 500
-	flag = "overmap_heavy"
-	spread = 25
-	speed = 1
-
-/obj/item/projectile/bullet/broadside/plasma
-	name = "plasma-packed broadside shell"
-	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	icon_state = "broadside_plasma"
-	damage = 125
-	armour_penetration = 10
-	speed = 0.4
-
-/obj/item/ship_weapon/parts/broadside_casing
-	name = "broadside shell casing"
-	desc = "An empty casing for the Broadside Cannon. Load it into the Shell Packer!"
-	icon = 'nsv13/icons/obj/munitions.dmi'
-	icon_state = "broadside_casing"
-
-/obj/item/ship_weapon/parts/broadside_load
-	name = "broadside shell load"
-	desc = "A loose load meant for a Broadside shell. Load it into the Shell Packer!"
-	icon = 'nsv13/icons/obj/munitions.dmi'
-	icon_state = "broadside_load"
-
-/obj/effect/particle_effect/muzzleflash
+/obj/effect/particle_effect/muzzleflash //Flash Effect when the weapon fires
 	name = "muzzleflash"
 	light_range = 3
 	light_power = 30

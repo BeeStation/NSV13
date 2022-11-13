@@ -1,3 +1,23 @@
+/obj/item/ship_weapon/ammunition/broadside_shell
+	name = "\improper SNBC Type 1 Shell"
+	desc = "A large packed shell, complete with powder and projectile, ready to be loaded and fired."
+	icon_state = "broadside"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	w_class = WEIGHT_CLASS_BULKY
+	projectile_type = /obj/item/projectile/bullet/broadside
+
+/obj/item/ship_weapon/ammunition/broadside_shell/plasma
+	name = "\improper SNBC Type P Shell"
+	desc = "A large packed shell, complete with plasma and projectile, ready to be loaded and fired."
+	icon_state = "broadside_plasma"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	w_class = WEIGHT_CLASS_BULKY
+	projectile_type = /obj/item/projectile/bullet/broadside/plasma
+
 /obj/machinery/broadside_shell_packer
 	name = "\improper Broadside Shell Packer Bench"
 	desc = "An automated table that packs broadside shell casings, just add components!"
