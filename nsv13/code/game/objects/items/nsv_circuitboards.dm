@@ -364,6 +364,17 @@
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	build_path = /obj/machinery/ship_weapon/plasma_caster
 
+// Laser PD console
+/obj/item/circuitboard/computer/laser_pd
+	name = "point defense laser console (circuit)"
+	build_path = /obj/machinery/computer/laser_pd
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+
+/obj/item/circuitboard/computer/laser_pd/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
+
 //Non-magic chem dispenser
 /obj/item/circuitboard/machine/refillable_chem_dispenser
 	name = "refillable chem dispenser (machine board)"

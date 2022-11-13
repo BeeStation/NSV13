@@ -164,6 +164,21 @@
 		return FALSE
 	return TRUE
 
+/datum/ship_weapon/phaser_pd // Gauss laser
+	name = "Point-Defense Phaser"
+	default_projectile_type = /obj/item/projectile/beam/laser/heavylaser/phaser/pd
+	burst_size = 1
+	fire_delay = 1 SECONDS
+	range_modifier = 20
+	weapon_class = WEAPON_CLASS_LIGHT
+	select_alert = "<span class='notice'>Light phaser banks standing by...</span>"
+	failure_alert = "<span class='warning'>Unable to comply. Capacitor banks recharging.</span>"
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/phaser.ogg')
+	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg'
+	miss_chance = 20
+	ai_fire_delay = 1 SECONDS
+	allowed_roles = OVERMAP_USER_ROLE_SECONDARY_GUNNER
+
 /datum/ship_weapon/bsa
 	name = "Bluespace Artillery"
 	default_projectile_type = /obj/item/projectile/beam/laser/heavylaser/bsa

@@ -563,6 +563,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	muzzle_type = /obj/effect/projectile/muzzle/disabler
 	impact_type = /obj/effect/projectile/impact/disabler
 
+/obj/item/projectile/beam/laser/heavylaser/phaser/pd
+	name = "light phaser beam"
+	damage = 80
+	flag = "overmap_light"
+	light_color = LIGHT_COLOR_BLUEGREEN
+
 /obj/item/projectile/beam/laser/point_defense
 	name = "laser pointer"
 	damage = 30
