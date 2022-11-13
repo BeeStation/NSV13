@@ -53,11 +53,8 @@
 		return FALSE
 	if(SW?.fire(target, ai_aim=ai_aim))
 		return TRUE
-	else
-		if(user_override && SW) //Tell them we failed
-			if(world.time < SW.next_firetime) //Silence, SPAM.
-				return FALSE
-			to_chat(user_override, SW.failure_alert)
+	else if(user_override && SW) //Tell them we failed
+		to_chat(user_override, SW.failure_alert)
 	return FALSE
 
 /obj/structure/overmap/proc/get_max_firemode()

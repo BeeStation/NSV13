@@ -18,7 +18,6 @@
 	semi_auto = TRUE
 	maintainable = FALSE
 	max_ammo = 5
-
 	feeding_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
 	fed_sound = null
 	chamber_sound = null
@@ -33,6 +32,9 @@
 	bang = TRUE
 	bang_range = 5
 	var/next_sound = 0
+
+/obj/machinery/ship_weapon/broadside/north
+	dir = 1
 
 /obj/item/circuitboard/machine/broadside
 	name = "circuit board (broadside)"
@@ -79,6 +81,8 @@
 	. = ..()
 	if(panel_open)
 		. += "The maintenance panel is <b>unscrewed</b> and the machinery could be <i>pried out</i>."
+	else
+		. += "The maintenance panel is <b>closed</b> and could be <i>screwed open</i>."
 
 /obj/machinery/ship_weapon/broadside/screwdriver_act(mob/user, obj/item/tool)
 	return default_deconstruction_screwdriver(user, "broadside_open", "broadside", tool)
@@ -103,10 +107,16 @@
 	animate_projectile(target)
 
 /obj/machinery/ship_weapon/broadside/fire()
-	. = ..()
+	..()
 	set_light(2, 5)
 	sleep(0.1 SECONDS)
 	set_light(0, 0)
+
+/obj/machinery/ship_weapon/broadside/local_fire() //For the broadside cannons, we want to eject spent casings
+	var/obj/B = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4))
+	var/turf/T = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5))
+		B.throw_at(T, 12, 20)
+	..()
 
 /obj/item/ship_weapon/ammunition/broadside_shell
 	name = "\improper SNBC Type 1 Shell"
@@ -115,7 +125,7 @@
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
 	icon = 'nsv13/icons/obj/munitions.dmi'
-	w_class = 4
+	w_class = WEIGHT_CLASS_BULKY
 	projectile_type = /obj/item/projectile/bullet/broadside
 
 /obj/item/ship_weapon/ammunition/broadside_shell/plasma
@@ -125,7 +135,7 @@
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
 	icon = 'nsv13/icons/obj/munitions.dmi'
-	w_class = 4
+	w_class = WEIGHT_CLASS_BULKY
 	projectile_type = /obj/item/projectile/bullet/broadside/plasma
 
 /obj/item/projectile/bullet/broadside
@@ -153,7 +163,7 @@
 	icon_state = "broadside_casing"
 
 /obj/item/ship_weapon/parts/broadside_load
-	name = "broadisde shell load"
+	name = "broadside shell load"
 	desc = "A loose load meant for a Broadside shell. Load it into the Shell Packer!"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "broadside_load"

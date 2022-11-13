@@ -51,6 +51,7 @@
 	var/maintainable = TRUE //Does the weapon require maintenance?
 	var/bang = TRUE //Is firing loud?
 	var/bang_range = 8
+	var/broadside = FALSE //Does the weapon only fire to the sides?
 	var/auto_load = FALSE //Does the weapon feed and chamber the round once we load it?
 	var/semi_auto = FALSE //Does the weapon re-chamber for us after firing?
 
@@ -436,7 +437,9 @@
  * Checks if the weapon is able to fire the given number of shots.
  * Need to have a round in the chamber, not already be shooting, not be in maintenance, not be malfunctioning, and have enough shots in our ammo pool.
  */
-/obj/machinery/ship_weapon/proc/can_fire(shots = weapon_type.burst_size)
+/obj/machinery/ship_weapon/proc/can_fire(shots = weapon_type.burst_size, atom/target)
+	if(broadside)
+		return dir == angle2dir_ship(overmap_angle(linked, target)) ? TRUE : FALSE
 	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
 	if (maint_state > MSTATE_UNSCREWED) //Are we in maintenance?
@@ -500,10 +503,6 @@
 				state = STATE_FED
 			else
 				state = STATE_NOTLOADED
-			if(fire_mode == FIRE_MODE_BROADSIDE) //For the broadside cannons, we want to eject spent casings
-				var/obj/B = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4))
-				var/turf/T = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5))
-				B.throw_at(T, 12, 20)
 
 			if(semi_auto)
 				chamber(rapidfire = TRUE)
