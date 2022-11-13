@@ -12,7 +12,7 @@
 		if(SOUTHWEST)
 			return list(SOUTH, WEST)
 
-//Whether the angle is on the port or starboard side of the ship (facing north or south on the map)
+///Whether the angle is on the port or starboard side of the ship (facing north or south on the map)
 /proc/angle2dir_ship(angle)
 	if(0 < angle <= 180)
 		return SOUTH

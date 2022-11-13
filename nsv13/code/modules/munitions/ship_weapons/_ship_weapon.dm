@@ -435,10 +435,10 @@
 
 /**
  * Checks if the weapon is able to fire the given number of shots.
- * Need to have a round in the chamber, not already be shooting, not be in maintenance, not be malfunctioning, and have enough shots in our ammo pool.
+ * Need to have a round in the chamber, not already be shooting, not be in maintenance, not be malfunctioning, and have enough shots in our ammo pool. Also checks if the direction of a broadside gun is correct.
  */
-/obj/machinery/ship_weapon/proc/can_fire(shots = weapon_type.burst_size, atom/target)
-	if(broadside)
+/obj/machinery/ship_weapon/proc/can_fire(atom/target, shots = weapon_type.burst_size)
+	if(broadside && target)
 		return dir == angle2dir_ship(overmap_angle(linked, target)) ? TRUE : FALSE
 	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
@@ -469,7 +469,7 @@
 
 	// Energy weapons fire behavior
 	if(istype(src, /obj/machinery/ship_weapon/energy)) // Now 100% more modular!
-		if(can_fire(shots))
+		if(can_fire(target, shots))
 			if(manual)
 				linked.last_fired = overlay
 			for(var/i = 0, i < shots, i++)
@@ -484,7 +484,7 @@
 		return FALSE
 
 	// Default weapons fire behavior
-	if(can_fire(shots))
+	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
 

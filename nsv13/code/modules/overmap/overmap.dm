@@ -524,9 +524,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
 	if(user.incapacitated() || !isliving(user))
 		return FALSE
-	if(istype(target, /obj/machinery/button/door) || istype(target, /obj/machinery/turbolift_button))
-		target.attack_hand(user)
-		return FALSE
 	if(weapon_safety && !can_friendly_fire())
 		return FALSE
 	var/list/params_list = params2list(params)
