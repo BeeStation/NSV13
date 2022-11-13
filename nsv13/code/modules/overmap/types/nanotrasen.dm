@@ -173,15 +173,15 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
-	broadside = TRUE
 
-/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //NOT IN CYCLE
+/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to the Snake
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+	broadside = TRUE
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter //NOT IN CYCLE
 	role = MAIN_OVERMAP

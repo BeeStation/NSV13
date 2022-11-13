@@ -19,7 +19,7 @@
 	maintainable = FALSE
 	max_ammo = 5
 
-	feeding_sound = 'nsv13/sound/effects/ship/mac_load.ogg'
+	feeding_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
 	fed_sound = null
 	chamber_sound = null
 
@@ -62,7 +62,7 @@
 	select_alert = "<span class='notice'>Locking Broadside Cannons...</span>"
 	failure_alert = "<span class='warning'>DANGER: No Shells Loaded In Broadside Cannons!</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/broadside.ogg')
-	overmap_select_sound = 'nsv13/sound/effects/ship/mac_charge.ogg'
+	overmap_select_sound = 'nsv13/sound/effects/ship/mac_load_unjam.ogg'
 	weapon_class = WEAPON_CLASS_HEAVY
 	miss_chance = 10
 	max_miss_distance = 6
@@ -101,6 +101,12 @@
 	if(overlay)
 		overlay.do_animation()
 	animate_projectile(target)
+
+/obj/machinery/ship_weapon/broadside/fire()
+	. = ..()
+	set_light(2, 5)
+	sleep(0.1 SECONDS)
+	set_light(0, 0)
 
 /obj/item/ship_weapon/ammunition/broadside_shell
 	name = "\improper SNBC Type 1 Shell"
