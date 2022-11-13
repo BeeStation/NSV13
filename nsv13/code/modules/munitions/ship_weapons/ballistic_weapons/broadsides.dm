@@ -104,9 +104,7 @@
 
 /obj/machinery/ship_weapon/broadside/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
 	..()
-	set_light(2, 5)
-	sleep(0.1 SECONDS)
-	set_light(0, 0)
+	new /obj/effect/particle_effect/muzzleflash(loc)
 
 /obj/item/ship_weapon/ammunition/broadside_shell
 	name = "\improper SNBC Type 1 Shell"
@@ -157,3 +155,21 @@
 	desc = "A loose load meant for a Broadside shell. Load it into the Shell Packer!"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "broadside_load"
+
+/obj/effect/particle_effect/muzzleflash
+	name = "muzzleflash"
+	light_range = 3
+	light_power = 30
+	light_color = LIGHT_COLOR_ORANGE
+	light_flags = LIGHT_NO_LUMCOUNT
+	light_system = STATIC_LIGHT
+
+/obj/effect/particle_effect/muzzleflash/Initialize(mapload)
+	..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/effect/particle_effect/muzzleflash/LateInitialize()
+	QDEL_IN(src, 3)
+
+/obj/effect/particle_effect/muzzleflash/Destroy()
+	return ..()

@@ -179,6 +179,8 @@
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
+	bound_width = 64
+	bound_height = 64
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
