@@ -180,13 +180,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			//NSV13 FLAVOR TEXT RELATED START
 			dat += "<a href='?_src_=prefs;preference=flavour_text;task=input'><b>Set Flavor Text</b></a>"
-			if(length(features["flavour_text"]) <= 40)
-				if(!length(features["flavour_text"]))
+			if(length(active_character.features["flavour_text"]) <= 40)
+				if(!length(active_character.features["flavour_text"]))
 					dat += "\[...\]"
 				else
-					dat += "[features["flavour_text"]]"
+					dat += "[active_character.features["flavour_text"]]"
 			else
-				dat += "[copytext_char(features["flavour_text"], 1, 37)]...<br>"
+				dat += "[copytext_char(active_character.features["flavour_text"], 1, 37)]...<br>"
 
 			dat += "<br><b>Special Names:</b><BR>"
 			//NSV13 FLAVOR TEXT RELATED END
@@ -1393,9 +1393,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 				//NSV13 START
 				if("flavour_text")
-					var/msg = sanitize(stripped_multiline_input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character", "Flavor Text", features["flavour_text"], 4096, TRUE))
+					var/msg = sanitize(stripped_multiline_input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character", "Flavor Text", active_character.features["flavour_text"], 4096, TRUE))
 					if(msg)
-						features["flavour_text"] = html_decode(msg)
+						active_character.features["flavour_text"] = html_decode(msg)
 				//NSV13 END
 
 				if("hair_color")
