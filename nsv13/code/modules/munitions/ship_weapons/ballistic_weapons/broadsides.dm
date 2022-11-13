@@ -1,4 +1,4 @@
-/obj/machinery/ship_weapon/broadside //THERE IS A NORTH FACING VARIANT, IT DOES NOT FUNCTION AS INTENDED, ONLY USE SOUTH FACING GUN
+/obj/machinery/ship_weapon/broadside
 	name = "\improper SN 'Sucker Punch' Broadside Cannon"
 	icon = 'nsv13/icons/obj/broadside.dmi'
 	icon_state = "broadside"
@@ -22,6 +22,7 @@
 	feeding_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
 	fed_sound = null
 	chamber_sound = null
+	broadside = TRUE
 
 	load_delay = 20
 	unload_delay = 20
@@ -35,7 +36,7 @@
 	var/next_sound = 0
 
 /obj/machinery/ship_weapon/broadside/north
-	dir = 1
+	dir = NORTH
 
 /obj/item/circuitboard/machine/broadside
 	name = "circuit board (broadside)"
