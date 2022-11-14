@@ -46,7 +46,7 @@
 // Overmap gunning component for laser PD
 /datum/component/overmap_gunning/laser_pd
 	fire_mode = FIRE_MODE_LASER_PD
-	fire_delay = 1 SECONDS
+	fire_delay = 1.5 SECONDS
 
 // The laser PD turret itself
 /obj/machinery/ship_weapon/energy/laser_pd
@@ -65,16 +65,15 @@
 	fire_mode = FIRE_MODE_LASER_PD
 	energy_weapon_type = /datum/ship_weapon/phaser_pd
 	charge = 0
-	charge_rate = 200000
-	charge_per_shot = 500000 // requires 2 MW to fire a burst
-	max_charge = 2000000 // Stores 1 burst base
-	power_modifier_cap = 2 // PL cap of 2
+	charge_rate = 500000
+	charge_per_shot = 1000000 // requires 2 MW to fire a burst
+	max_charge = 4000000 // Stores 1 burst base
+	power_modifier_cap = 1 // PL cap of 2
 	static_charge = TRUE
 
 	circuit = /obj/item/circuitboard/machine/laser_pd
 	var/gunning_component_type = /datum/component/overmap_gunning/laser_pd
 	var/mob/gunner = null
-	var/next_sound = 0
 	var/gun_id = 0 // Used for map linkage
 
 /obj/machinery/ship_weapon/energy/laser_pd/proc/start_gunning(mob/user)
@@ -91,5 +90,4 @@
 	for(var/obj/item/stock_parts/capacitor/C in component_parts)
 		temp_cell_increase += (C.rating)
 	power_modifier_cap = round(initial(power_modifier_cap) + (temp_cell_increase * 0.2)) // 5 capacitors
-	max_charge = initial(max_charge) + ((temp_cell_increase * 0.2) - 1) * 1000000 // Max upgraded powermod of 5, max upgraded charge of 5 MW
-
+	max_charge = initial(max_charge) + ((temp_cell_increase * 0.2) - 1) * 5000000 // Max upgraded powermod of 5, max upgraded charge of 5 MW
