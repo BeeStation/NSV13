@@ -114,8 +114,8 @@
 		return
 	var/mob/living/carbon/human/human = H
 	var/list/gear_leftovers = list()
-	if(M.client && LAZYLEN(M.client.prefs.equipped_gear))
-		for(var/gear in M.client.prefs.equipped_gear)
+	if(M.client && LAZYLEN(M.client.prefs.active_character.equipped_gear))
+		for(var/gear in M.client.prefs.active_character.equipped_gear)
 			var/datum/gear/G = GLOB.gear_datums[gear]
 			if(G)
 				var/permitted = FALSE
@@ -139,12 +139,12 @@
 					if(M.client.ckey != G.ckey)
 						to_chat(M, "<span class='warning'>You somehow have someone else's donator item! Call a coder. Item: [gear]</span>")
 						message_admins("[ADMIN_LOOKUPFLW(M)] Somehow equipped the donator gear of [G.ckey]. It has been removed.")
-						M.client.prefs.equipped_gear -= gear
+						M.client.prefs.active_character.equipped_gear -= gear
 						M.client.prefs.purchased_gear -= gear
 						permitted = FALSE
 					if(!(M.client.ckey in config.active_donators))
 						to_chat(M, "<span class='warning'>Your patreon has expired! Your donator item has been removed. Item: [gear]</span>")
-						M.client.prefs.equipped_gear -= gear
+						M.client.prefs.active_character.equipped_gear -= gear
 						M.client.prefs.purchased_gear -= gear
 						permitted = FALSE
 
@@ -162,11 +162,11 @@
 					gear_leftovers += G
 
 			else
-				M.client.prefs.equipped_gear -= gear
+				M.client.prefs.active_character.equipped_gear -= gear
 
 	if(gear_leftovers.len)
 		for(var/datum/gear/G in gear_leftovers)
-			var/metadata = M.client.prefs.equipped_gear[G.id]
+			var/metadata = M.client.prefs.active_character.equipped_gear[G.id]
 			var/item = G.spawn_item(null, metadata)
 			var/atom/placed_in = human.equip_or_collect(item)
 

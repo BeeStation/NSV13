@@ -386,7 +386,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	job_rank = ROLE_SYNDI_CREW
 
 /datum/antagonist/nukeop/syndi_crew/clown/give_alias()
-	owner.current.fully_replace_character_name(owner.current.real_name,owner.current.client.prefs.custom_names["clown"])
+	owner.current.fully_replace_character_name(owner.current.real_name, owner.current.client.prefs.active_character.custom_names["clown"])
 
 /datum/outfit/syndicate/clownop/no_crystals/jojo_reference
 	name = "Syndicate Clown (Jojo Reference)"
