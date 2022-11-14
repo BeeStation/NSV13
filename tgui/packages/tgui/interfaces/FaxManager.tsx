@@ -1,6 +1,6 @@
 import { sortBy } from '../../common/collections';
 import { useBackend, useLocalState } from '../backend';
-import { Button, LabeledList, Flex, Dropdown, Section, Modal, TextArea, Input } from '../components';
+import { Box, Button, LabeledList, Flex, Dropdown, Section, Modal, TextArea, Input } from '../components';
 import { Window } from '../layouts';
 
 type FaxManagerData = {
@@ -33,7 +33,11 @@ type RequestsList = {
 export const FaxManager = (props, context) => {
   const { act } = useBackend(context);
   const { data } = useBackend<FaxManagerData>(context);
-  const faxes = sortBy((sortFax: FaxInfo) => sortFax.fax_name)(data.faxes);
+  const faxes = data.faxes
+    ? sortBy((sortFax: FaxInfo) => sortFax.fax_name)(
+      data.faxes
+    )
+    : [];
 
   const [messagingAssociates, setMessagingAssociates] = useLocalState(
     context,
@@ -59,19 +63,25 @@ export const FaxManager = (props, context) => {
     <Window title="Fax Manager" width={600} height={700} theme="admin">
       <Window.Content scrollable>
         <Section title="Send">
-          {faxes.map((fax: FaxInfo) => (
-            <Button
-              key={fax.fax_id}
-              title={fax.fax_name}
-              color={fax.syndicate_network ? 'red' : 'blue'}
-              onClick={() => {
-                setSelectedFaxId(fax.fax_id);
-                setSelectedFaxName(fax.fax_name);
-                setMessagingAssociates(true);
-              }}>
-              {fax.fax_name}/{fax.fax_id}
-            </Button>
-          ))}
+          {faxes.length !== 0 ? (
+            <Box mt={0.4}>
+              {faxes.map((fax: FaxInfo) => (
+                <Button
+                  key={fax.fax_id}
+                  title={fax.fax_name}
+                  color={fax.syndicate_network ? 'red' : 'blue'}
+                  onClick={() => {
+                    setSelectedFaxId(fax.fax_id);
+                    setSelectedFaxName(fax.fax_name);
+                    setMessagingAssociates(true);
+                  }}>
+                  {fax.fax_name}/{fax.fax_id}
+                </Button>
+              ))}
+            </Box>
+          ) : (
+            "The fax manager couldn't detect any other fax machines on the network."
+          )}
         </Section>
         <Section title="Messages">
           <Flex direction="column">
