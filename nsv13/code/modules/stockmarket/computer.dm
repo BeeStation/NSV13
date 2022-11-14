@@ -5,6 +5,7 @@
 	icon_state = "stockmarket"
 	icon_screen = "stocks"
 	icon_keyboard = "stockmarket_key"
+	circuit = /obj/item/circuitboard/computer/stockexchange
 	var/logged_in = "Cargo Department"
 	var/vmode = 1
 
