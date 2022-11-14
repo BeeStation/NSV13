@@ -91,6 +91,7 @@
 		icon_state = "packing_bench_loading"
 		cut_overlays()
 		to_chat(user, "<span class='notice'>The table starts to stuff the shell casings!</span>")
+		play_click_sound("switch")
 		playsound(user, 'nsv13/sound/effects/ship/mac_load.ogg', 20)
 		sleep(0.5 SECONDS)
 		for(var/i in 1 to amount_to_pack)
