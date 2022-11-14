@@ -458,6 +458,23 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
+"by" = (
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 8;
+	freq = 1400;
+	location = "QM #2"
+	},
+/mob/living/simple_animal/bot/mulebot{
+	home_destination = "QM #2";
+	suffix = "#3";
+	name = "Chonker";
+	desc = "Oh lawd he is coming!!";
+	gender = "male"
+	},
+/turf/open/floor/engine,
+/area/quartermaster/storage)
 "bz" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -2808,18 +2825,8 @@
 	departmentType = 2;
 	pixel_x = 32
 	},
-/obj/machinery/navbeacon{
-	codes_txt = "delivery;dir=8";
-	dir = 8;
-	freq = 1400;
-	location = "QM #2"
-	},
-/mob/living/simple_animal/bot/mulebot{
-	home_destination = "QM #2";
-	suffix = "#3";
-	name = "Chonker";
-	desc = "Oh lawd he is coming!!";
-	gender = "male"
+/obj/machinery/computer/stockexchange{
+	dir = 8
 	},
 /turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
@@ -51502,7 +51509,7 @@ bf
 Zj
 ox
 YW
-CT
+by
 if
 qm
 qm

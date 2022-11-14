@@ -57,6 +57,10 @@
 /datum/browser/proc/set_content(ncontent)
 	content = ncontent
 
+//NSV13
+/datum/browser/proc/set_title_image(ntitle_image)
+	//title_image = ntitle_image
+
 /datum/browser/proc/add_content(ncontent)
 	content += ncontent
 
