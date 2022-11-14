@@ -56,6 +56,7 @@
 #define LIGHT_COLOR_ORANGE     "#FA9632" //! Mostly pure orange. rgb(250, 150, 50)
 #define LIGHT_COLOR_PURPLE     "#952CF4" //! Light Purple. rgb(149, 44, 244)
 #define LIGHT_COLOR_LAVENDER   "#9B51FF" //! Less-saturated light purple. rgb(155, 81, 255)
+#define LIGHT_COLOR_PUCE	   "#CC8899" //! Puce.
 
 #define LIGHT_COLOR_HOLY_MAGIC	"#FFF743" //! slightly desaturated bright yellow.
 #define LIGHT_COLOR_BLOOD_MAGIC	"#D00000" //! deep crimson

@@ -563,11 +563,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	muzzle_type = /obj/effect/projectile/muzzle/disabler
 	impact_type = /obj/effect/projectile/impact/disabler
 
-/obj/item/projectile/beam/laser/heavylaser/phaser/pd
-	name = "light phaser beam"
-	damage = 80
-	flag = "overmap_light"
-	light_color = LIGHT_COLOR_BLUEGREEN
+/obj/item/projectile/beam/laser/phaser/pd
+	name = "point defense phaser"
+	damage = 60 // Doesn't scale with power input, but fires fairly quickly especially when upgraded
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "pdphaser"
+	light_color = LIGHT_COLOR_PUCE
 
 /obj/item/projectile/beam/laser/point_defense
 	name = "laser pointer"
