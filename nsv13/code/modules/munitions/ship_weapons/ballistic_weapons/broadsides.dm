@@ -82,12 +82,24 @@
 /obj/machinery/ship_weapon/broadside/examine()
 	. = ..()
 	if(panel_open)
-		. += "The maintenance panel is <b>unscrewed</b> and the machinery could be <i>pried out</i>."
+		. += "The maintenance panel is <b>unscrewed</b> and the machinery could be <i>pried out</i>. You could flip the cannon by rotating the <u>bolts<u>."
 	else
 		. += "The maintenance panel is <b>closed</b> and could be <i>screwed open</i>."
 
 /obj/machinery/ship_weapon/broadside/screwdriver_act(mob/user, obj/item/tool)
 	return default_deconstruction_screwdriver(user, "broadside_open", "broadside", tool)
+
+/obj/machinery/ship_weapon/broadside/wrench_act(mob/user, obj/item/tool)
+	if(panel_open)
+		tool.play_tool_sound(src, 50)
+		switch(dir)
+			if(NORTH)
+				setDir(SOUTH)
+				to_chat(user, "<span class='notice'>You rotate the bolts, swiveling the cannon to Port</span>")
+			if(SOUTH)
+				setDir(NORTH)
+				to_chat(user, "<span class='notice'>You rotate the bolts, swiveling the cannon to Starboard</span>")
+		return TRUE
 
 /obj/machinery/ship_weapon/broadside/crowbar_act(mob/user, obj/item/tool)
 	if(panel_open)
