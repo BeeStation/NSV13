@@ -375,6 +375,15 @@
 		return QDEL_HINT_LETMELIVE
 	return ..()
 
+// Laser PD
+/obj/item/circuitboard/machine/laser_pd
+	name = "point defense laser turret (circuitboard)"
+	build_path = /obj/machinery/ship_weapon/energy/laser_pd
+	req_components = list(
+		/obj/item/stock_parts/capacitor = 5,
+		/obj/item/stock_parts/cell = 5,
+		/obj/item/stack/ore/bluespace_crystal = 5)
+
 //Non-magic chem dispenser
 /obj/item/circuitboard/machine/refillable_chem_dispenser
 	name = "refillable chem dispenser (machine board)"

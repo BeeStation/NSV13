@@ -5,10 +5,14 @@
 	icon_screen = "50cal"
 	circuit = /obj/item/circuitboard/computer/laser_pd
 	var/obj/machinery/ship_weapon/energy/laser_pd/turret
+	var/gun_id = 0 // Used for map linkage
 
 /obj/machinery/computer/laser_pd/Initialize(mapload)
 	. = ..()
-	turret = locate(/obj/machinery/ship_weapon/energy/laser_pd) in get_step(src, dir)
+	for(var/obj/machinery/ship_weapon/energy/laser_pd/pd_gun in GLOB.machines)
+		if(gun_id && pd_gun.gun_id == gun_id)
+			turret = pd_gun
+			break
 
 /obj/machinery/computer/laser_pd/attack_robot(mob/user)
 	. = ..()
@@ -44,26 +48,29 @@
 /obj/machinery/ship_weapon/energy/laser_pd
 	name = "laser point defense turret"
 	desc = "A low-wattage laser designed to provide close-combat relief to large ships."
-	icon = 'nsv13/icons/obj/railgun.dmi'
-	icon_state = "gauss"
-	bound_width = 96
-	bound_height = 96
-	bound_x = -32
-	bound_y = -32
-	pixel_x = -44
-	obj_integrity = 500
-	max_integrity = 500
+	icon ='nsv13/icons/obj/energy_weapons.dmi'
+	icon_state = "missile_cannon"
+	bound_width = 64
+	pixel_x = -32
+	pixel_y = -32
+	dir = EAST
+	safety = FALSE
+	idle_power_usage = 2500
+	active = FALSE
 
 	fire_mode = FIRE_MODE_LASER_PD
 	energy_weapon_type = /datum/ship_weapon/phaser_pd
 	charge = 0
-	charge_rate = 330000 //How quickly do we charge?
-	charge_per_shot = 660000 //How much power per shot do we have to use?
+	charge_rate = 500000 // 1 MW/tick at PL 2
+	charge_per_shot = 1000000 // requires 1 MW to fire
+	max_charge = 2000000 // Stores 2 charges
+	power_modifier_cap = 2 // PL cap of 2
 
 	circuit = /obj/item/circuitboard/machine/laser_pd
 	var/gunning_component_type = /datum/component/overmap_gunning/laser_pd
 	var/mob/gunner = null
 	var/next_sound = 0
+	var/gun_id = 0 // Used for map linkage
 
 /obj/machinery/ship_weapon/energy/laser_pd/proc/start_gunning(mob/user)
 	if(gunner)
@@ -73,3 +80,16 @@
 
 /obj/machinery/ship_weapon/energy/laser_pd/proc/remove_gunner()
 	get_overmap().stop_piloting(gunner)
+
+/obj/machinery/ship_weapon/energy/laser_pd/RefreshParts()
+	power_modifier_cap = initial(power_modifier_cap)
+	max_charge = initial(max_charge)
+	var/temp_mod_increase = 0
+	var/temp_cell_increase = 0
+	for(var/obj/item/stock_parts/cell/C in component_parts)
+		temp_mod_increase += (C.rating - 1)
+	for(var/obj/item/stock_parts/capacitor/C in component_parts)
+		temp_cell_increase += (C.rating - 1)
+	power_modifier_cap += (temp_mod_increase * 0.2) // 5 capacitors/cells
+	max_charge += (temp_cell_increase * 0.2) * 100000 // Max upgraded powermod of 5, max upgraded charge of 5 MW
+
