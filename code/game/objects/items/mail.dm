@@ -53,6 +53,7 @@
 			/obj/item/reagent_containers/glass/bottle/random_virus,
 			/obj/item/gun/ballistic/revolver/nagant,
 			/obj/item/vibro_weapon, //NSV13
+			/obj/item/storage/pill_bottle/floorpill, //NSV13
 		)
 
 	/// Overlays (pure fluff), Does the letter have the postmark overlay?

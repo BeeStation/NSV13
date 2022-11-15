@@ -6,6 +6,7 @@
 	mail_goodies = list(
 		/obj/item/reagent_containers/food/snacks/donkpocket/random = 10,
 		/obj/item/clothing/mask/gas/old = 10,
+		/obj/item/storage/pill_bottle/floorpill = 10,
 		/obj/item/clothing/gloves/color/fyellow = 7,
 		/obj/item/choice_beacon/music = 5,
 		/obj/item/toy/crayon/spraycan = 3,
@@ -223,6 +224,8 @@
 //PARAMEDIC
 /datum/job/paramedic
 	mail_goodies = list(
+		//I'm lookin' at you, Tori ಠ_ಠ //NSV13
+		/obj/item/paper/fluff/jobs/medical/hippocratic = 15, //NSV13
 		/obj/item/reagent_containers/hypospray/medipen = 20,
 		/obj/item/reagent_containers/medspray/silver_sulf = 10,
 		/obj/item/reagent_containers/medspray/styptic = 10,
@@ -428,10 +431,18 @@
 //SHAFT MINER
 /datum/job/shaft_miner
 	mail_goodies = list(
+		//Authentic to the Lavaland Experience! //NSV13
+		/obj/item/crusher_trophy/legion_skull = 22, //NSV13
 		/obj/item/reagent_containers/hypospray/medipen/survival = 10,
+		/obj/item/skeleton_key = 8, //NSV13
 		/obj/item/tank/internals/emergency_oxygen/double = 7,
+		/obj/item/crusher_trophy/goliath_tentacle = 6, //NSV13
+		/obj/item/crusher_trophy/watcher_wing = 6, //NSV13
+		/obj/item/crusher_trophy/blaster_tubes/magma_wing = 6, //NSV13
+		/obj/item/crusher_trophy/watcher_wing/ice_wing = 6, //NSV13
 		/obj/item/storage/pill_bottle/mining = 5,
 		/obj/item/storage/belt/mining/alt = 5,
+		/obj/item/kinetic_crusher = 5, //NSV13
 		//THE DRIP!!!
 		/obj/item/clothing/glasses/material/mining/gar = 1,
 	)
