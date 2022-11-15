@@ -224,9 +224,9 @@
 //PARAMEDIC
 /datum/job/paramedic
 	mail_goodies = list(
+		/obj/item/reagent_containers/hypospray/medipen = 20,
 		//I'm lookin' at you, Tori ಠ_ಠ //NSV13
 		/obj/item/paper/fluff/jobs/medical/hippocratic = 15, //NSV13
-		/obj/item/reagent_containers/hypospray/medipen = 20,
 		/obj/item/reagent_containers/medspray/silver_sulf = 10,
 		/obj/item/reagent_containers/medspray/styptic = 10,
 		/obj/item/reagent_containers/hypospray/medipen/dexalin = 10,
