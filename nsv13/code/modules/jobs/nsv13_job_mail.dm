@@ -23,6 +23,9 @@
 		/obj/item/powder_bag = 10,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
 		/obj/item/lighter = 5,
+		//Just like how the MAA used to make 'em!
+		/obj/item/slime_cookie/oil = 4,
+		/obj/structure/sign/poster/contraband/have_a_puff = 3,
 		/obj/item/powder_bag/plasma = 2,
 		/obj/item/clothing/head/ship/rising_sun = 1,
 		)

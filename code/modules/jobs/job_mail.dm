@@ -9,6 +9,8 @@
 		/obj/item/clothing/gloves/color/fyellow = 7,
 		/obj/item/choice_beacon/music = 5,
 		/obj/item/toy/crayon/spraycan = 3,
+		//Greytide Worldwide, baby //NSV13
+		/obj/structure/sign/poster/contraband/grey_tide = 3, //NSV13
 		/obj/item/crowbar/large = 2,
 	)
 
@@ -70,6 +72,7 @@
 		/obj/item/coin/plasma = 7,
 		/obj/item/storage/fancy/cigarettes/cigars/havana = 5,
 		/obj/item/reagent_containers/food/drinks/bottle/champagne = 5,
+		/obj/item/megaphone/command/rudiger = 4, //NSV13
 		/obj/item/ammo_box/n762 = 2,
 		/obj/item/gun/ballistic/revolver/nagant = 1,
 	)
