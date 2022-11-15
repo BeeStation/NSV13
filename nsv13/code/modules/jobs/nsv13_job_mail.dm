@@ -23,8 +23,8 @@
 //Munitions Technician
 /datum/job/munitions_tech
 	mail_goodies = list(
-		/obj/item/radio/headset/munitions/munitions_tech/alt = 15,
-		/obj/item/powder_bag = 10,
+		/obj/item/powder_bag = 15,
+		/obj/item/radio/headset/munitions/munitions_tech/alt = 10,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
 		/obj/item/lighter = 5,
 		//Just like how the MAA used to make 'em!
