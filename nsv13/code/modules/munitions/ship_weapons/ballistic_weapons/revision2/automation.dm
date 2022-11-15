@@ -227,6 +227,9 @@
 	build_path = /obj/machinery/ammo_sorter
 	needs_anchored = FALSE
 
+/obj/item/circuitboard/machine/ammo_sorter/upgraded
+	def_components = list(/obj/item/stock_parts/matter_bin = /obj/item/stock_parts/matter_bin/bluespace) //item capacity of 21 (12+9)
+
 /obj/machinery/computer/ammo_sorter
 	name = "ammo rack control console"
 	icon_screen = "ammorack"
@@ -400,7 +403,7 @@
 	. = ..()
 	for(var/obj/item/I in get_turf(src))
 		if(istype(I, /obj/item/ship_weapon/ammunition) || istype(I, /obj/item/powder_bag))
-			load(I)
+			load(I, force = TRUE)
 
 /obj/machinery/ammo_sorter/multitool_act(mob/living/user, obj/item/I)
 	var/obj/item/multitool/M = I
@@ -466,6 +469,8 @@
 	max_capacity = 0
 	for(var/obj/item/stock_parts/matter_bin/MB in component_parts)
 		max_capacity += MB.rating+3
+	if(max_capacity < length(loaded))
+		pop()
 
 /obj/machinery/ammo_sorter/MouseDrop_T(atom/movable/A, mob/user)
 	. = ..()
@@ -501,7 +506,13 @@
 		weardown()
 
 
-/obj/machinery/ammo_sorter/proc/load(atom/movable/A, mob/user)
+/obj/machinery/ammo_sorter/proc/load(atom/movable/A, mob/user, force)
+	if(force && length(loaded) < max_capacity)
+		A.forceMove(src)
+		loaded += A
+		for(var/obj/machinery/computer/ammo_sorter/AS as() in linked_consoles)
+			AS.ui_update()
+		return TRUE
 	if(length(loaded) >= max_capacity)
 		if(user)
 			to_chat(user, "<span class='warning'>[src] is full!</span>")
@@ -536,3 +547,7 @@
 	jamchance = CLAMP(-50*log(50, durability/50), 0, 100) //logarithmic function; at 50 it starts increasing from 0
 	if(prob(jamchance))
 		jammed = TRUE
+
+/obj/machinery/ammo_sorter/upgraded
+	circuit = /obj/item/circuitboard/machine/ammo_sorter/upgraded
+	max_capacity = 21

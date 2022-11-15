@@ -1,7 +1,7 @@
 /datum/job/master_at_arms
 	title = JOB_NAME_MASTERATARMS
 	flag = MASTER_AT_ARMS
-	auto_deadmin_role_flags = DEADMIN_POSITION_HEAD
+	auto_deadmin_role_flags = PREFTOGGLE_DEADMIN_POSITION_HEAD
 	department_head = list(JOB_NAME_CAPTAIN)
 	department_flag = ENGSEC
 	head_announce = list("Munitions")
@@ -12,8 +12,8 @@
 	selection_color = "#ffbc79"
 	chat_color = "#ff7f00"
 	minimal_player_age = 7
-	exp_requirements = 180
-	exp_type = EXP_TYPE_CREW
+	exp_requirements = 1200
+	exp_type = EXP_TYPE_MUNITIONS
 	exp_type_department = EXP_TYPE_MUNITIONS
 
 	outfit = /datum/outfit/job/master_at_arms

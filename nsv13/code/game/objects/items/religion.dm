@@ -70,7 +70,8 @@
 	result = /obj/item/banner/draconic/mundane
 	time = 40
 	reqs = list(/obj/item/stack/rods = 2,
-				/obj/item/organ/tail/lizard = 1)
+				/obj/item/stack/sheet/durathread = 10,
+				/obj/item/reagent_containers/food/snacks/grown/moonflower = 1)
 	category = CAT_MISC
 
 /obj/item/banner/dominion
@@ -92,7 +93,8 @@
 	result = /obj/item/banner/dominion/mundane
 	time = 40
 	reqs = list(/obj/item/stack/rods = 2,
-				/obj/item/organ/eyes/moth = 1)
+				/obj/item/candle = 1,
+				/obj/item/stack/sheet/durathread = 10)
 	category = CAT_MISC
 
 /obj/item/banner/dominion/check_inspiration(mob/living/carbon/human/H)
