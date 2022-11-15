@@ -379,6 +379,7 @@
 /obj/item/circuitboard/machine/laser_pd
 	name = "point defense laser turret (circuitboard)"
 	build_path = /obj/machinery/ship_weapon/energy/laser_pd
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	req_components = list(
 		/obj/item/stock_parts/capacitor = 5,
 		/obj/item/stock_parts/cell = 5,
