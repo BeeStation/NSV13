@@ -51,7 +51,8 @@
 			/obj/item/melee/classic_baton/police/telescopic,
 			/obj/item/reagent_containers/glass/bottle/random_virus/minor,
 			/obj/item/reagent_containers/glass/bottle/random_virus,
-			/obj/item/gun/ballistic/revolver/nagant
+			/obj/item/gun/ballistic/revolver/nagant,
+			/obj/item/vibro_weapon, //NSV13
 		)
 
 	/// Overlays (pure fluff), Does the letter have the postmark overlay?
