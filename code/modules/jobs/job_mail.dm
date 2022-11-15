@@ -56,9 +56,8 @@
 		/obj/item/reagent_containers/hypospray/medipen = 15,
 		/obj/item/reagent_containers/medspray/silver_sulf = 10,
 		/obj/item/reagent_containers/medspray/styptic = 10,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8, //NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
 		/obj/item/reagent_containers/hypospray/medipen/survival = 5,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4, //NSV13
 		//The ultimate validhunter tool
 		/obj/item/clothing/glasses/hud/medsec = 2,
 		/obj/item/healthanalyzer/advanced = 2,
@@ -120,6 +119,7 @@
 		/obj/item/control_rod/superior = 7, //NSV13
 		//All hail lord Singuloth!!! //NSV13
 		/obj/item/banner/engineering = 5, //NSV13
+		/obj/item/megaphone/command/rudiger = 4, //NSV13
 		/obj/item/wrench/caravan = 3,
 		/obj/item/wirecutters/caravan = 3,
 		/obj/item/screwdriver/caravan = 3,
@@ -142,6 +142,7 @@
 		/obj/item/banner/medical = 5, //NSV13
 		/obj/item/sensor_device = 5,
 		/obj/effect/spawner/mail/advmedtool = 4,
+		/obj/item/megaphone/command/rudiger = 4, //NSV13
 		/obj/effect/spawner/mail/ayymedtool = 1,
 	)
 
@@ -263,6 +264,7 @@
 		/obj/item/assembly/flash/handheld = 5,
 		/obj/item/mining_voucher = 5,
 		/obj/item/stack/sheet/bone = 5,
+		/obj/item/megaphone/command/rudiger = 4, //NSV13
 		//a slim chance for reviving ian... how exicting
 		/obj/item/lazarus_injector = 1,
 	)
@@ -280,6 +282,7 @@
 		//VERYONE DOWN ON THE GROUND!! //NSV13
 		/obj/item/banner/security = 5, //NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4, //NSV13
+		/obj/item/megaphone/command/rudiger = 4, //NSV13
 		//hey, always come in handy!
 		/obj/item/storage/lockbox/loyalty = 2,
 	)
@@ -378,6 +381,7 @@
 		/obj/item/banner/science = 5, //NSV13
 		/obj/item/taperecorder = 7,
 		/obj/item/disk/tech_disk/research/random  = 4,
+		/obj/item/megaphone/command/rudiger = 4, //NSV13
 		/obj/item/borg/upgrade/ai = 2,
 	)
 

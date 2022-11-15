@@ -7,13 +7,15 @@
 //Bridge Officer
 /datum/job/bridge
 	mail_goodies = list(
-
+		/obj/item/megaphone = 7,
+		/obj/item/paicard = 5,
 	)
 
 //Master At Arms
 /datum/job/master_at_arms
 	mail_goodies = list(
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
+		/obj/item/banner/munitions = 5,
 	)
 
 //Munitions Technician
