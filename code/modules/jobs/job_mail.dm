@@ -421,7 +421,6 @@
 		/obj/item/stock_parts/scanning_module/phasic = 5,
 		//hampter.
 		/obj/item/choice_beacon/pet/hamster = 5,
-
 	)
 
 //VIP / VIP GIMMICK
