@@ -52,6 +52,7 @@
 	var/bang = TRUE //Is firing loud?
 	var/bang_range = 8
 	var/broadside = FALSE //Does the weapon only fire to the sides?
+	var/broadside_angle // How much of an angle from the broadside should this gun be limited to?
 	var/auto_load = FALSE //Does the weapon feed and chamber the round once we load it?
 	var/semi_auto = FALSE //Does the weapon re-chamber for us after firing?
 
@@ -439,7 +440,18 @@
  */
 /obj/machinery/ship_weapon/proc/can_fire(atom/target, shots = weapon_type.burst_size)
 	if(broadside && target)
-		return dir == angle2dir_ship(overmap_angle(linked, target)) ? TRUE : FALSE
+		if(dir == angle2dir_ship(overmap_angle(linked, target)))
+			message_admins("Starting range check with angle: [overmap_angle(linked, target)]")
+			if(dir == NORTH && (ISINRANGE(overmap_angle(linked, target), 270 - broadside_angle, 270 + broadside_angle)))
+				message_admins("In range check A [ISINRANGE(overmap_angle(linked, target), 270 - broadside_angle, 270 + broadside_angle)]")
+				return TRUE
+			else if(ISINRANGE(overmap_angle(linked, target), 90 - broadside_angle, 90 + broadside_angle))
+				message_admins("In range check B [ISINRANGE(overmap_angle(linked, target), 90 - broadside_angle, 90 + broadside_angle)]")
+				return TRUE
+			else
+				return FALSE
+		else
+			return FALSE
 	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
 	if (maint_state > MSTATE_UNSCREWED) //Are we in maintenance?

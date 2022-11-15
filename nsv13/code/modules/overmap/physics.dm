@@ -577,9 +577,10 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		log_combat(pilot, M, "impacted", src, "with velocity of [bump_velocity]")
 	return ..()
 
-/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE, ai_aim = FALSE, miss_chance=5, max_miss_distance=5, broadside=FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
+/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE, ai_aim = FALSE, miss_chance=5, max_miss_distance=5) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
 	if(!z || QDELETED(src))
 		return FALSE
+	message_admins("Begin firing")
 	var/turf/T = get_center()
 	var/obj/item/projectile/proj = new proj_type(T)
 	if(ai_aim && !homing && !proj.hitscan)
@@ -605,11 +606,6 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		proj.fire()
 		if(!lateral)
 			proj.setAngle(src.angle)
-		if(broadside)
-			if(angle2dir_ship(overmap_angle(src, target)) == SOUTH)
-				proj.setAngle(src.angle + rand(70, 110))
-			else
-				proj.setAngle(src.angle + rand(250, 290))
 		//Sometimes we want to override speed.
 		if(speed)
 			proj.set_pixel_speed(speed)

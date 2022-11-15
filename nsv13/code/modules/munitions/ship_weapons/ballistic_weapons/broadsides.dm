@@ -23,6 +23,7 @@
 	fed_sound = null
 	chamber_sound = null
 	broadside = TRUE
+	broadside_angle = 10
 
 	load_delay = 20
 	unload_delay = 20
@@ -73,11 +74,6 @@
 	ai_fire_delay = 10 SECONDS
 	allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	screen_shake = 10
-
-/obj/machinery/ship_weapon/broadside/animate_projectile(atom/target, lateral=TRUE)
-	var/obj/item/ship_weapon/ammunition/broadside_shell/T = chambered
-	if(T)
-		linked.fire_projectile(T.projectile_type, target, FALSE, null, null, TRUE, null, 5, 5, TRUE)
 
 /obj/machinery/ship_weapon/broadside/examine()
 	. = ..()
