@@ -1,12 +1,14 @@
 //ATC
 /datum/job/air_traffic_controller
 	mail_goodies = list(
+		/obj/item/clothing/glasses/sunglasses/advanced/gar = 10,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
 	)
 
 //Bridge Officer
 /datum/job/bridge
 	mail_goodies = list(
+		/obj/item/clothing/glasses/sunglasses/advanced/garb = 10,
 		/obj/item/megaphone = 7,
 		/obj/item/paicard = 5,
 	)
@@ -35,5 +37,6 @@
 //Pilot
 /datum/job/pilot
 	mail_goodies = list(
+		/obj/item/clothing/glasses/sunglasses = 10,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
 	)

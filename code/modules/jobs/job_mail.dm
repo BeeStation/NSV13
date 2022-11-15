@@ -348,6 +348,7 @@
 		/obj/item/book/mimery = 2,
 		//when you thought it could get worse...
 		/obj/item/book/granter/spell/mimery_blockade = 1,
+		/obj/structure/mecha_wreckage/reticence = 1, //NSV13
 	)
 
 //PSYCHOLOGIST / PSYCHIATRIST GIMMICK
@@ -369,6 +370,7 @@
 		/obj/item/ammo_box/a762 = 3,
 		//URAAAAHH
 		/obj/item/gun/ballistic/rifle/boltaction = 1,
+		/obj/structure/mecha_wreckage/ripley = 1, //NSV13
 	)
 
 //RESEARCH DIRECTOR
@@ -383,6 +385,7 @@
 		/obj/item/disk/tech_disk/research/random  = 4,
 		/obj/item/megaphone/command/rudiger = 4, //NSV13
 		/obj/item/borg/upgrade/ai = 2,
+		/obj/structure/mecha_wreckage/seraph = 1, //NSV13
 	)
 
 //ROBOTICIST
@@ -396,6 +399,7 @@
 		/obj/item/borg/upgrade/rename = 5,
 		//do anyone ever use this???
 		/obj/item/modular_computer/tablet/preset/advanced = 5,
+		/obj/structure/mecha_wreckage/phazon = 1, //NSV13
 	)
 
 //SCIENTIST
