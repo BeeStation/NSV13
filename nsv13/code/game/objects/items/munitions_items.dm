@@ -85,7 +85,7 @@
 	keyslot = new /obj/item/encryptionkey/munitions_tech
 
 /obj/item/radio/headset/munitions/munitions_tech/alt
-	name = 'munitions technician bowmans headset'
+	name = "munitions technician bowmans headset"
 	desc = "Use :w to access the department frequency. Use :u to access the supply frequency"
 	icon_state = "mun_headset_alt"
 	bang_protect = 1

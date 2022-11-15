@@ -18,6 +18,7 @@
 		/obj/item/book/manual/wiki/atmospherics = 12,
 		/obj/item/tank/internals/emergency_oxygen/engi = 10,
 		/obj/item/clothing/mask/gas = 10,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/screwdrivercocktail = 8, //NSV13
 		/obj/effect/spawner/mail/maintloot = 7,
 		/obj/item/tank/internals/plasma/empty = 5,
 		/obj/item/crowbar/large = 3,
@@ -53,7 +54,9 @@
 		/obj/item/reagent_containers/hypospray/medipen = 15,
 		/obj/item/reagent_containers/medspray/silver_sulf = 10,
 		/obj/item/reagent_containers/medspray/styptic = 10,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8, //NSV13
 		/obj/item/reagent_containers/hypospray/medipen/survival = 5,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4, //NSV13
 		//The ultimate validhunter tool
 		/obj/item/clothing/glasses/hud/medsec = 2,
 		/obj/item/healthanalyzer/advanced = 2,
@@ -99,6 +102,7 @@
 		/obj/item/reagent_containers/dropper = 10,
 		/obj/item/reagent_containers/glass/beaker/large = 10,
 		/obj/item/reagent_containers/glass/beaker/plastic = 10,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
 		/obj/item/reagent_containers/glass/bottle/ketamine = 5,
 	)
 
@@ -109,6 +113,10 @@
 		/obj/item/reagent_containers/food/snacks/cracker = 15,
 		/obj/item/reagent_containers/food/drinks/soda_cans/thirteenloko = 15,
 		/obj/item/rcd_ammo = 10,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/screwdrivercocktail = 8, //NSV13
+		/obj/item/control_rod/superior = 7, //NSV13
+		//All hail lord Singuloth!!! //NSV13
+		/obj/item/banner/engineering = 5, //NSV13
 		/obj/item/wrench/caravan = 3,
 		/obj/item/wirecutters/caravan = 3,
 		/obj/item/screwdriver/caravan = 3,
@@ -123,7 +131,12 @@
 		//it's just a memo, just sayin'...
 		/obj/item/paper/fluff/jobs/medical/hippocratic = 15,
 		/obj/effect/spawner/mail/organminor = 12,
+		//1 out of 10 CMO recommended! //NSV13
+		/obj/item/storage/fancy/cigarettes/cigpack_uplift = 10, //NSV13
 		/obj/effect/spawner/mail/organmajor = 8,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
+		//No wounds cannot be healed!!! //NSV13
+		/obj/item/banner/medical = 5, //NSV13
 		/obj/item/sensor_device = 5,
 		/obj/effect/spawner/mail/advmedtool = 4,
 		/obj/effect/spawner/mail/ayymedtool = 1,
@@ -192,11 +205,13 @@
 		/obj/item/storage/fancy/cigarettes = 15,
 		/obj/item/ammo_box/c38 = 10,
 		/obj/item/reagent_containers/food/drinks/bottle/rum = 10,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8, //NSV13
 		/obj/item/ammo_box/c38/dumdum = 5,
 		/obj/item/ammo_box/c38/hotshot = 5,
 		/obj/item/ammo_box/c38/iceblox = 5,
 		/obj/item/ammo_box/c38/match = 5,
 		/obj/item/ammo_box/c38/trac = 5,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4, //NSV13
 		//you'll get this inevitably when you don't need it.
 		/obj/item/clothing/accessory/holster/detective = 1,
 	)
@@ -208,6 +223,7 @@
 		/obj/item/reagent_containers/medspray/silver_sulf = 10,
 		/obj/item/reagent_containers/medspray/styptic = 10,
 		/obj/item/reagent_containers/hypospray/medipen/dexalin = 10,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
 		/obj/item/sensor_device = 7,
 		/obj/item/pinpointer/crew = 7,
 		/obj/item/reagent_containers/hypospray/medipen/survival = 5,
@@ -233,6 +249,7 @@
 		/obj/item/reagent_containers/pill/mutadone = 15,
 		/obj/item/storage/pill_bottle/mannitol = 10,
 		/obj/item/reagent_containers/food/snacks/monkeycube = 10,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
 		/obj/effect/spawner/mail/genes = 5,
 	)
 
@@ -253,9 +270,13 @@
 		/obj/effect/spawner/mail/donut = 20,
 		/obj/effect/spawner/mail/rdonut = 15,
 		/obj/item/firing_pin = 10,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8, //NSV13
 		/obj/item/implantcase/mindshield = 7,
 		//Vile, vile person...
 		/obj/item/clothing/head/kitty = 5,
+		//VERYONE DOWN ON THE GROUND!! //NSV13
+		/obj/item/banner/security = 5, //NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4, //NSV13
 		//hey, always come in handy!
 		/obj/item/storage/lockbox/loyalty = 2,
 	)
@@ -282,8 +303,10 @@
 		/obj/item/gavelhammer = 10,
 		//What else are you gonna do as a lawyer? Fancy a game of solitaire?
 		/obj/item/toy/cards/deck = 10,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8, //NSV13
 		/obj/item/clothing/glasses/sunglasses/advanced/big = 5,
 		/obj/item/book/manual/wiki/security_space_law = 5,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4, //NSV13
 		//Harrassing security has never been this fun
 		/obj/item/megaphone = 3,
 	)
@@ -303,6 +326,7 @@
 	mail_goodies = list(
 		/obj/item/healthanalyzer/advanced = 10,
 		/obj/item/storage/pill_bottle/epinephrine = 8,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
 		/obj/item/reagent_containers/glass/bottle/formaldehyde = 6,
 		/obj/effect/spawner/mail/advmedtool = 4,
 		/obj/effect/spawner/mail/organminor = 5,
@@ -347,6 +371,8 @@
 		/obj/item/storage/box/monkeycubes = 15,
 		// it's hard to not look cool
 		/obj/item/clothing/glasses/science/sciencesun = 10,
+		//For Cuban Pete! //NSV13
+		/obj/item/banner/science = 5, //NSV13
 		/obj/item/taperecorder = 7,
 		/obj/item/disk/tech_disk/research/random  = 4,
 		/obj/item/borg/upgrade/ai = 2,
@@ -379,9 +405,11 @@
 	mail_goodies = list(
 		/obj/item/reagent_containers/food/snacks/donut/plain = 15,
 		/obj/effect/spawner/mail/donut = 10,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8, //NSV13
 		//just in case...
 		/obj/item/assembly/flash/handheld = 7,
 		/obj/effect/spawner/mail/rdonut = 5,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4, //NSV13
 		//we don't have boomerangs here, ask ausstation
 		/obj/item/melee/classic_baton/police/telescopic = 1,
 	)
@@ -404,6 +432,7 @@
 		/obj/item/reagent_containers/food/drinks/soda_cans/thirteenloko = 15,
 		/obj/item/lightreplacer = 10,
 		/obj/item/holosign_creator/engineering = 8,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/screwdrivercocktail = 8, //NSV13
 		//An assistant can only dream of those...
 		/obj/item/clothing/gloves/color/yellow = 4,
 	)
@@ -417,6 +446,7 @@
 		/obj/item/reagent_containers/food/snacks/monkeycube = 10,
 		/obj/item/reagent_containers/glass/bottle/formaldehyde = 10,
 		/obj/item/reagent_containers/glass/bottle/random_virus/minor = 10,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
 		/obj/item/reagent_containers/glass/bottle/random_virus = 5,
 		/obj/item/stock_parts/scanning_module/phasic = 5,
 		//hampter.
@@ -447,7 +477,9 @@
 		/obj/effect/spawner/mail/rdonut= 10,
 		/obj/item/storage/box/teargas = 10,
 		/obj/item/storage/box/rubbershot = 10,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8, //NSV13
 		/obj/item/storage/box/lethalshot = 5,
 		/obj/item/storage/box/handcuffs = 5,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4, //NSV13
 		/obj/item/melee/classic_baton/police/telescopic = 1,
 		)
