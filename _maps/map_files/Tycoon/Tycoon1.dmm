@@ -1819,6 +1819,7 @@
 "eS" = (
 /obj/structure/closet/secure_closet/hop,
 /obj/machinery/airalarm/directional/north,
+/obj/item/storage/secure/briefcase,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -2145,13 +2146,6 @@
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
 	})
-"fE" = (
-/obj/item/storage/secure/briefcase,
-/obj/structure/table/reinforced,
-/turf/open/floor/carpet/blue,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's Office"
-	})
 "fF" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -2463,6 +2457,7 @@
 	},
 /obj/structure/chair/stool,
 /mob/living/simple_animal/hostile/retaliate/goose,
+/obj/item/clothing/suit/ship/squad/bomber,
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -2538,6 +2533,7 @@
 	dir = 8
 	},
 /obj/structure/table/reinforced,
+/obj/item/phone,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
 "gt" = (
@@ -6526,7 +6522,6 @@
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
-/obj/item/paper_bin,
 /obj/machinery/power/apc/highcap/fifteen_k{
 	auto_name = 1;
 	dir = 8;
@@ -6544,6 +6539,11 @@
 	departmentType = 5;
 	pixel_x = -30;
 	pixel_y = -30
+	},
+/obj/machinery/fax{
+	name = "AIs Special Fax Machine";
+	fax_name = "AI";
+	desc = "Equality"
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
@@ -6580,6 +6580,16 @@
 "wG" = (
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/deck1/central)
+"wH" = (
+/obj/structure/table/reinforced,
+/obj/machinery/fax{
+	name = "Executive Officers Fax Machine";
+	fax_name = "XO"
+	},
+/turf/open/floor/carpet/blue,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's Office"
+	})
 "wK" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -7133,7 +7143,10 @@
 /area/quartermaster/miningdock)
 "GS" = (
 /obj/structure/table/reinforced,
-/obj/item/clothing/suit/ship/squad/bomber,
+/obj/machinery/fax{
+	name = "Anti-Boredom Toy Machine";
+	fax_name = "Pilot Breakroom"
+	},
 /turf/open/floor/carpet/blue,
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
@@ -7846,7 +7859,7 @@
 /area/space/nearstation)
 "QL" = (
 /obj/structure/table/reinforced,
-/obj/item/phone,
+/obj/item/paper_bin,
 /obj/item/pen/fourcolor,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
@@ -39390,7 +39403,7 @@ cb
 eG
 lm
 fk
-jH
+wH
 fD
 fj
 fN
@@ -39905,7 +39918,7 @@ eG
 fc
 fj
 aO
-fE
+jH
 fj
 eY
 gZ

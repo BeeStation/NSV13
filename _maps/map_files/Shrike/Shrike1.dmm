@@ -1572,6 +1572,14 @@
 	pixel_x = -5;
 	pixel_y = 4
 	},
+/obj/item/paper_bin{
+	pixel_x = 8;
+	pixel_y = 7
+	},
+/obj/item/pen/fountain/captain{
+	pixel_x = 8;
+	pixel_y = 5
+	},
 /turf/open/floor/carpet/black,
 /area/crew_quarters/heads/captain/private)
 "hd" = (
@@ -2252,6 +2260,10 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
+/obj/machinery/fax{
+	name = "Public Usage Fax Machine";
+	fax_name = "Public Fax"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/dorms)
 "ks" = (
@@ -2843,13 +2855,9 @@
 /area/crew_quarters/dorms)
 "nF" = (
 /obj/structure/table/glass,
-/obj/item/paper_bin{
-	pixel_x = 8;
-	pixel_y = 7
-	},
-/obj/item/pen/fountain/captain{
-	pixel_x = 8;
-	pixel_y = 5
+/obj/machinery/fax{
+	name = "Captains Fax Machine";
+	fax_name = "Captains Office"
 	},
 /turf/open/floor/carpet/black,
 /area/crew_quarters/heads/captain/private)
@@ -4132,6 +4140,10 @@
 /obj/structure/extinguisher_cabinet/west,
 /obj/machinery/camera/autoname{
 	dir = 5
+	},
+/obj/item/kirbyplants{
+	icon_state = "plant-32";
+	pixel_y = 11
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/bridge{
@@ -5684,6 +5696,11 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/machinery/fax{
+	name = "AIs Special Fax Machine";
+	fax_name = "AI";
+	desc = "Equality"
+	},
 /turf/open/floor/engine,
 /area/ai_monitored/turret_protected/ai)
 "AL" = (
@@ -6753,6 +6770,14 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"Gg" = (
+/obj/machinery/fax{
+	fax_name = "Medical";
+	name = "Medical Fax Machine"
+	},
+/obj/structure/table/glass,
+/turf/open/floor/plasteel/white/side,
+/area/medical/medbay/zone2)
 "Gh" = (
 /obj/structure/cable/white{
 	icon_state = "1-4"
@@ -7904,10 +7929,7 @@
 /area/tcommsat/computer)
 "Lc" = (
 /obj/structure/table/reinforced,
-/obj/item/kirbyplants{
-	icon_state = "plant-32";
-	pixel_y = 11
-	},
+/obj/item/book/manual/wiki/sop/command,
 /turf/open/floor/plasteel/ridged/steel,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -9904,6 +9926,10 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/machinery/fax{
+	name = "Security Fax Machine";
+	fax_name = "Security"
+	},
 /turf/open/floor/plasteel/dark,
 /area/security/locker_room)
 "SY" = (
@@ -10048,9 +10074,12 @@
 	},
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/table/reinforced,
-/obj/item/book/manual/wiki/sop/command,
 /obj/structure/cable/white{
 	icon_state = "4-8"
+	},
+/obj/machinery/fax{
+	name = "Bridge Fax Machine";
+	fax_name = "Bridge"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/bridge{
@@ -46510,7 +46539,7 @@ KZ
 AB
 Kh
 Xa
-hL
+Gg
 fr
 KZ
 YT

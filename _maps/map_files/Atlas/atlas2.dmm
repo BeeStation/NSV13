@@ -747,7 +747,10 @@
 "dy" = (
 /obj/structure/table/reinforced,
 /obj/structure/railing,
-/obj/machinery/fax,
+/obj/machinery/fax{
+	name = "Bridge Fax Machine";
+	fax_name = "Bridge"
+	},
 /turf/open/floor/carpet/royalblack,
 /area/bridge/cic)
 "dz" = (
@@ -1463,6 +1466,14 @@
 /obj/item/paper_bin,
 /turf/open/floor/carpet/royalblack,
 /area/bridge/cic)
+"gP" = (
+/obj/structure/table/reinforced,
+/obj/machinery/fax{
+	name = "Public Usage Fax Machine";
+	fax_name = "Public Fax"
+	},
+/turf/open/floor/monotile/dark,
+/area/crew_quarters/bar/mess_hall)
 "gQ" = (
 /obj/structure/disposalpipe/trunk{
 	dir = 8
@@ -2188,10 +2199,14 @@
 /area/hallway/nsv/deck1/hallway)
 "jX" = (
 /obj/structure/table/wood/fancy,
-/obj/item/camera,
 /obj/machinery/light/small{
 	brightness = 3;
 	dir = 1
+	},
+/obj/machinery/fax{
+	name = "The Remote Honk Machine";
+	fax_name = "Clown Office";
+	desc = "WE LIVE IN A SOCIETY WHERE MADMEN GET ACCESS TO FAX MACHINES!!"
 	},
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/bar/mess_hall)
@@ -2622,6 +2637,11 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
 "lL" = (
+/obj/machinery/fax{
+	fax_name = "Wardens Office";
+	name = "Wardens Office Fax Machine"
+	},
+/obj/structure/table/reinforced,
 /turf/open/floor/bronze,
 /area/ai_monitored/turret_protected/ai)
 "lM" = (
@@ -6755,6 +6775,7 @@
 	dir = 4
 	},
 /obj/machinery/camera/autoname,
+/obj/item/camera,
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/bar/mess_hall)
 "FP" = (
@@ -6900,6 +6921,12 @@
 	},
 /turf/open/floor/engine,
 /area/ai_monitored/turret_protected/aisat)
+"GE" = (
+/obj/structure/table/reinforced,
+/obj/item/reagent_containers/food/snacks/rationpack,
+/obj/item/reagent_containers/food/snacks/rationpack,
+/turf/open/floor/monotile/dark,
+/area/crew_quarters/bar/mess_hall)
 "GG" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -47557,7 +47584,7 @@ KS
 Zs
 Pf
 aT
-td
+GE
 FC
 LG
 Ea
@@ -48071,7 +48098,7 @@ mC
 fs
 cW
 aT
-td
+gP
 hJ
 hJ
 rN

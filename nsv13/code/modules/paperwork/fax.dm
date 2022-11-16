@@ -50,7 +50,8 @@
 		/obj/item/throwing_star,
 		/obj/item/stack/spacecash,
 		/obj/item/holochip,
-		/obj/item/card
+		/obj/item/card,
+		/obj/item/mail
 	)
 
 /obj/machinery/fax/Initialize(mapload)

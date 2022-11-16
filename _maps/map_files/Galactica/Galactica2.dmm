@@ -313,6 +313,14 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/security/prison)
+"ahT" = (
+/obj/machinery/fax{
+	fax_name = "Medical";
+	name = "Medical Fax Machine"
+	},
+/obj/structure/table/glass,
+/turf/open/floor/monotile/dark,
+/area/medical/medbay)
 "ahZ" = (
 /obj/effect/turf_decal/tile/ship/half/neutral{
 	dir = 1
@@ -2587,6 +2595,7 @@
 /obj/machinery/atmospherics/pipe/simple/orange/hidden/layer2{
 	dir = 4
 	},
+/obj/item/stack/cable_coil/random,
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering)
 "blK" = (
@@ -11653,8 +11662,6 @@
 /area/bridge/showroom/corporate)
 "ghH" = (
 /obj/structure/table/reinforced,
-/obj/item/stack/sheet/mineral/copper,
-/obj/item/reagent_containers/food/drinks/beer,
 /obj/effect/turf_decal/stripes/white/corner{
 	dir = 8
 	},
@@ -11663,6 +11670,10 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
+/obj/machinery/fax{
+	name = "Service Fax Machine";
+	fax_name = "Service"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/service)
 "ghJ" = (
@@ -12237,6 +12248,8 @@
 /obj/structure/closet/crate/trashcart,
 /obj/effect/turf_decal/stripes/white/line,
 /obj/machinery/light_switch/west,
+/obj/item/reagent_containers/food/drinks/beer,
+/obj/item/stack/sheet/mineral/copper,
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/service)
 "gxD" = (
@@ -18235,9 +18248,13 @@
 /area/science/lab)
 "jKf" = (
 /obj/structure/table/reinforced,
-/obj/item/flashlight/lamp/bananalamp,
 /obj/structure/sign/poster/contraband/clown{
 	pixel_x = 32
+	},
+/obj/machinery/fax{
+	name = "The Remote Honk Machine";
+	fax_name = "Clown Office";
+	desc = "WE LIVE IN A SOCIETY WHERE MADMEN GET ACCESS TO FAX MACHINES!!"
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/theatre)
@@ -22874,6 +22891,8 @@
 	dir = 1
 	},
 /obj/item/radio/intercom/directional/south,
+/obj/machinery/fax,
+/obj/structure/table,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "mjH" = (
@@ -24936,6 +24955,7 @@
 /obj/item/soap/nanotrasen,
 /obj/item/paint/anycolor,
 /obj/machinery/firealarm/directional/east,
+/obj/item/flashlight/lamp/bananalamp,
 /turf/open/floor/wood,
 /area/crew_quarters/theatre)
 "nnx" = (
@@ -27898,6 +27918,10 @@
 /area/maintenance/nsv/bunker)
 "oUa" = (
 /obj/structure/table,
+/obj/machinery/fax{
+	name = "Public Usage Fax Machine";
+	fax_name = "Public Fax"
+	},
 /turf/open/floor/durasteel/techfloor_grid,
 /area/crew_quarters/bar{
 	name = "Night Club"
@@ -36852,6 +36876,14 @@
 "tMb" = (
 /turf/template_noop,
 /area/maintenance/nsv/deck2/frame3/central)
+"tMd" = (
+/obj/machinery/fax{
+	name = "Captains Fax Machine";
+	fax_name = "Captains Office"
+	},
+/obj/structure/table/reinforced,
+/turf/open/floor/monotile/steel,
+/area/crew_quarters/heads/captain)
 "tMe" = (
 /obj/structure/cable/cyan{
 	icon_state = "4-8"
@@ -37750,6 +37782,16 @@
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/monotile/steel,
 /area/hydroponics)
+"uiQ" = (
+/obj/machinery/fax{
+	name = "Executive Officers Fax Machine";
+	fax_name = "XO"
+	},
+/obj/structure/table/reinforced,
+/turf/open/floor/monotile/steel,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's Office"
+	})
 "uiU" = (
 /obj/structure/cable{
 	icon_state = "0-4"
@@ -37806,6 +37848,14 @@
 "ukF" = (
 /turf/template_noop,
 /area/maintenance/nsv/deck2/frame3/starboard)
+"uld" = (
+/obj/machinery/fax{
+	name = "Cargo Fax Machine";
+	fax_name = "Cargo"
+	},
+/obj/structure/table/reinforced,
+/turf/open/floor/monotile/dark,
+/area/quartermaster/lobby)
 "ulm" = (
 /obj/machinery/door/airlock/turbolift/ship{
 	dir = 4;
@@ -38168,6 +38218,10 @@
 /obj/structure/table/glass,
 /obj/structure/cable{
 	icon_state = "2-8"
+	},
+/obj/machinery/fax{
+	name = "Science Fax Machine";
+	fax_name = "Science"
 	},
 /turf/open/floor/fakespace,
 /area/science/nsv/astronomy)
@@ -41838,9 +41892,12 @@
 	icon_state = "4-8"
 	},
 /obj/structure/table/reinforced,
-/obj/item/stack/cable_coil/random,
 /obj/machinery/atmospherics/pipe/simple/orange/hidden/layer2{
 	dir = 4
+	},
+/obj/machinery/fax{
+	name = "Engineerings Fax Machine";
+	fax_name = "Engineering"
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering)
@@ -78923,7 +78980,7 @@ gCG
 vlP
 aCB
 jEc
-jEc
+ahT
 enf
 mxV
 fcQ
@@ -82285,7 +82342,7 @@ dJW
 vgA
 deD
 cRj
-cRj
+uld
 daT
 ofC
 jij
@@ -89717,7 +89774,7 @@ vJZ
 teO
 hcp
 eFA
-qyq
+tMd
 tAm
 tAm
 wfy
@@ -91789,7 +91846,7 @@ epp
 mCU
 jSx
 yag
-sJj
+uiQ
 sJj
 paT
 jBK

@@ -3989,9 +3989,10 @@
 /obj/machinery/keycard_auth{
 	pixel_x = -26
 	},
-/obj/item/paper_bin{
-	pixel_x = -2;
-	pixel_y = 8
+/obj/machinery/fax{
+	name = "Chief Medical Officer Offices Fax Machine";
+	fax_name = "Chief Medical Officer Office";
+	desc = "Seems to be made by officers, for officers of officers used by officers and serviced BY OFFICERS"
 	},
 /turf/open/floor/monotile/light,
 /area/crew_quarters/heads/cmo)
@@ -4615,6 +4616,10 @@
 /area/medical/medbay/lobby)
 "als" = (
 /obj/structure/table/glass,
+/obj/item/paper_bin{
+	pixel_x = -2;
+	pixel_y = 8
+	},
 /obj/item/folder/blue,
 /obj/item/stamp/cmo,
 /turf/open/floor/carpet/blue,
@@ -7092,6 +7097,10 @@
 /area/crew_quarters/dorms)
 "ash" = (
 /obj/structure/table/glass,
+/obj/machinery/fax{
+	fax_name = "Law Office";
+	name = "Law Office Fax Machine"
+	},
 /turf/open/floor/carpet/blue,
 /area/lawoffice)
 "asm" = (
@@ -8072,7 +8081,10 @@
 /area/hallway/nsv/deck2/frame1/central)
 "avk" = (
 /obj/structure/table,
-/obj/item/storage/pill_bottle/dice,
+/obj/machinery/fax{
+	name = "Public Usage Fax Machine";
+	fax_name = "Public Fax"
+	},
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/dorms)
 "avl" = (
@@ -12073,10 +12085,9 @@
 "aHx" = (
 /obj/structure/table/reinforced,
 /obj/machinery/light_switch/north,
-/obj/item/modular_computer/tablet/preset/advanced,
-/obj/item/geiger_counter{
-	desc = "It's capped at 3.6 Roentgen. Not great, not terrible.";
-	name = "\improper Dossimiter"
+/obj/machinery/fax{
+	name = "Engineerings Fax Machine";
+	fax_name = "Engineering"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
@@ -18278,6 +18289,7 @@
 /obj/structure/closet/crate/trashcart,
 /obj/item/stack/sheet/mineral/copper,
 /obj/item/stack/sheet/mineral/copper,
+/obj/item/storage/box/lights/mixed,
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/service)
 "aVH" = (
@@ -18499,10 +18511,10 @@
 /obj/item/soap/deluxe,
 /obj/machinery/camera/autoname,
 /obj/structure/table/wood,
+/obj/item/bikehorn,
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/theatre)
 "aWg" = (
-/obj/item/bikehorn,
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
@@ -18510,6 +18522,11 @@
 /obj/structure/table/wood,
 /obj/structure/sign/nanotrasen{
 	pixel_y = 26
+	},
+/obj/machinery/fax{
+	name = "The Remote Honk Machine";
+	fax_name = "Clown Office";
+	desc = "WE LIVE IN A SOCIETY WHERE MADMEN GET ACCESS TO FAX MACHINES!!"
 	},
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/theatre)
@@ -19200,6 +19217,10 @@
 /area/security/brig)
 "aXE" = (
 /obj/structure/table/reinforced,
+/obj/machinery/fax{
+	name = "Security Fax Machine";
+	fax_name = "Security"
+	},
 /turf/open/floor/monotile/dark,
 /area/security/brig)
 "aXF" = (
@@ -22732,6 +22753,11 @@
 	pixel_x = 6;
 	pixel_y = 2
 	},
+/obj/item/reagent_containers/syringe/epinephrine{
+	pixel_x = 3;
+	pixel_y = -2
+	},
+/obj/item/reagent_containers/dropper,
 /turf/open/floor/engine,
 /area/medical/medbay/lobby)
 "beI" = (
@@ -23845,11 +23871,10 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/item/reagent_containers/syringe/epinephrine{
-	pixel_x = 3;
-	pixel_y = -2
+/obj/machinery/fax{
+	fax_name = "Medical";
+	name = "Medical Cryo Fax Machine"
 	},
-/obj/item/reagent_containers/dropper,
 /turf/open/floor/engine,
 /area/medical/medbay/lobby)
 "bha" = (
@@ -25323,6 +25348,7 @@
 	},
 /obj/item/pen,
 /obj/effect/landmark/nuclear_waste_spawner,
+/obj/item/storage/pill_bottle/dice,
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/dorms)
 "bkc" = (
@@ -26076,6 +26102,10 @@
 "blF" = (
 /obj/structure/table/reinforced,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/fax{
+	fax_name = "Wardens Office";
+	name = "Wardens Office Fax Machine"
+	},
 /turf/open/floor/carpet/red,
 /area/security/warden)
 "blG" = (
@@ -28953,6 +28983,11 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/fax{
+	name = "Research Director Office Fax Machine";
+	fax_name = "Research Director Office"
+	},
+/obj/structure/table/reinforced,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/hor)
 "brt" = (
@@ -42678,6 +42713,25 @@
 	id = "spentfuel2"
 	},
 /area/engine/engineering/reactor_core)
+"gyR" = (
+/obj/structure/table/reinforced,
+/obj/item/modular_computer/tablet/preset/advanced,
+/obj/item/geiger_counter{
+	desc = "It's capped at 3.6 Roentgen. Not great, not terrible.";
+	name = "\improper Dossimiter"
+	},
+/obj/structure/window/reinforced{
+	dir = 1;
+	layer = 2.9
+	},
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/item/paper/crumpled{
+	info = "<center><b>No, you do not deserve it</center></b><br><br><center></center>"
+	},
+/turf/open/floor/durasteel/lino,
+/area/engine/engineering/reactor_control)
 "gzY" = (
 /obj/effect/spawner/lootdrop/maintenance/eight,
 /obj/structure/closet/cardboard,
@@ -42898,6 +42952,23 @@
 	},
 /turf/open/floor/engine/vacuum,
 /area/science/mixing/chamber)
+"gKu" = (
+/obj/structure/table/reinforced,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/machinery/fax{
+	name = "Cargo Fax Machine";
+	fax_name = "Cargo"
+	},
+/turf/open/floor/carpet/ship,
+/area/quartermaster/storage)
 "gKB" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -43840,7 +43911,10 @@
 /obj/structure/extinguisher_cabinet{
 	pixel_x = 27
 	},
-/obj/item/storage/box/lights/mixed,
+/obj/machinery/fax{
+	name = "Service Fax Machine";
+	fax_name = "Service"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/service)
 "ihA" = (
@@ -44770,6 +44844,16 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/engine/atmos)
+"jGx" = (
+/obj/structure/table/reinforced,
+/obj/machinery/fax{
+	name = "CIC Fax Machine";
+	fax_name = "CIC"
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge{
+	name = "CIC"
+	})
 "jHw" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 6
@@ -85883,7 +85967,7 @@ buW
 cak
 bzO
 abG
-bYf
+jGx
 caG
 abG
 abG
@@ -88986,7 +89070,7 @@ ajl
 aes
 aes
 bcr
-bqf
+gKu
 aOo
 bcv
 aci
@@ -103073,7 +103157,7 @@ nOu
 apt
 and
 amv
-rpx
+gyR
 ayJ
 gfj
 mWF

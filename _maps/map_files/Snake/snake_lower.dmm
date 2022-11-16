@@ -794,7 +794,10 @@
 /area/engine/engineering/reactor_core)
 "cW" = (
 /obj/structure/table/reinforced,
-/obj/item/binoculars,
+/obj/machinery/fax{
+	name = "Engineerings Fax Machine";
+	fax_name = "Engineering"
+	},
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering/reactor_control)
 "cY" = (
@@ -4001,10 +4004,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
-"oD" = (
-/obj/structure/table/wood,
-/turf/open/floor/wood,
-/area/lawoffice)
 "oF" = (
 /obj/machinery/light{
 	dir = 8
@@ -6140,6 +6139,11 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/fax{
+	name = "Public Usage Fax Machine";
+	fax_name = "Public Fax"
+	},
+/obj/structure/table/wood,
 /turf/open/floor/wood,
 /area/library)
 "wI" = (
@@ -6566,15 +6570,6 @@
 /area/security/execution/transfer)
 "yn" = (
 /obj/structure/table,
-/obj/item/stock_parts/scanning_module,
-/obj/item/stock_parts/scanning_module,
-/obj/item/stock_parts/capacitor,
-/obj/item/stock_parts/micro_laser,
-/obj/item/stock_parts/micro_laser,
-/obj/item/stock_parts/cell/high{
-	charge = 100;
-	maxcharge = 15000
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
 	},
@@ -6582,9 +6577,10 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
-/obj/item/discovery_scanner,
-/obj/item/discovery_scanner,
-/obj/item/discovery_scanner,
+/obj/machinery/fax{
+	name = "Science Fax Machine";
+	fax_name = "Science"
+	},
 /turf/open/floor/plasteel,
 /area/science/lab)
 "yo" = (
@@ -6795,7 +6791,6 @@
 /turf/open/floor/carpet/orange,
 /area/nsv/crew_quarters/heads/maa)
 "zj" = (
-/obj/structure/closet/secure_closet/brig,
 /obj/effect/turf_decal/tile/ship/red{
 	dir = 1
 	},
@@ -6803,6 +6798,11 @@
 	dir = 4
 	},
 /obj/machinery/firealarm/directional/north,
+/obj/machinery/fax{
+	fax_name = "Wardens Office";
+	name = "Wardens Office Fax Machine"
+	},
+/obj/structure/table,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -9021,6 +9021,13 @@
 	charge = 100;
 	maxcharge = 15000
 	},
+/obj/item/discovery_scanner,
+/obj/item/discovery_scanner,
+/obj/item/discovery_scanner,
+/obj/item/stock_parts/cell/high{
+	charge = 100;
+	maxcharge = 15000
+	},
 /turf/open/floor/plasteel,
 /area/science/lab)
 "Gx" = (
@@ -9461,6 +9468,7 @@
 	desc = "It's capped at 3.6 Roentgen. Not great, not terrible.";
 	name = "\improper Dossimiter"
 	},
+/obj/item/binoculars,
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering/reactor_control)
 "HX" = (
@@ -10027,6 +10035,14 @@
 	dir = 1
 	},
 /area/hallway/primary/central)
+"JI" = (
+/obj/structure/table/wood,
+/obj/machinery/fax{
+	fax_name = "Law Office";
+	name = "Law Office Fax Machine"
+	},
+/turf/open/floor/wood,
+/area/lawoffice)
 "JK" = (
 /obj/structure/chair{
 	dir = 8
@@ -10228,6 +10244,11 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
 	},
+/obj/machinery/fax{
+	fax_name = "Medical";
+	name = "Medical Fax Machine"
+	},
+/obj/structure/table,
 /turf/open/floor/plasteel/white,
 /area/medical/sleeper)
 "KC" = (
@@ -12188,15 +12209,17 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "QH" = (
-/obj/structure/frame/computer{
-	dir = 1
-	},
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/fax{
+	name = "CIC Fax Machine";
+	fax_name = "CIC"
+	},
+/obj/structure/table/reinforced,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -12766,6 +12789,11 @@
 	dir = 6
 	},
 /obj/structure/extinguisher_cabinet/west,
+/obj/item/stock_parts/micro_laser,
+/obj/item/stock_parts/micro_laser,
+/obj/item/stock_parts/capacitor,
+/obj/item/stock_parts/scanning_module,
+/obj/item/stock_parts/scanning_module,
 /turf/open/floor/plasteel,
 /area/science/lab)
 "SP" = (
@@ -12998,6 +13026,10 @@
 /obj/structure/table/wood,
 /obj/machinery/computer/ship/viewscreen{
 	pixel_y = -30
+	},
+/obj/machinery/fax{
+	name = "Officers Lounge Fax Machine";
+	fax_name = "Officers Lounge"
 	},
 /turf/open/floor/wood,
 /area/bridge/meeting_room)
@@ -14639,6 +14671,14 @@
 /obj/item/clothing/glasses/welding,
 /turf/open/floor/plasteel,
 /area/science/robotics)
+"Zv" = (
+/obj/machinery/fax{
+	name = "Holy Fax Machine";
+	fax_name = "Chapel";
+	desc = "A machine gifted by the great Machine Gods for the glorious paperwork department"
+	},
+/turf/open/floor/plasteel/dark,
+/area/chapel/main)
 "Zx" = (
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 8
@@ -42929,7 +42969,7 @@ aJ
 aJ
 oe
 mq
-IR
+Zv
 Re
 Wl
 IR
@@ -52198,9 +52238,9 @@ lK
 Ip
 Xc
 Gr
-ht
+JI
 if
-oD
+ht
 OB
 BT
 aJ
