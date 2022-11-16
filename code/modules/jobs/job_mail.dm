@@ -10,9 +10,11 @@
 		/obj/item/clothing/gloves/color/fyellow = 7,
 		/obj/item/choice_beacon/music = 5,
 		/obj/item/toy/crayon/spraycan = 3,
-		//Greytide Worldwide, baby //NSV13
-		/obj/structure/sign/poster/contraband/grey_tide = 3, //NSV13
 		/obj/item/crowbar/large = 2,
+
+		//NSV13
+		//Greytide Worldwide, baby
+		/obj/structure/sign/poster/contraband/grey_tide = 3,
 	)
 
 //ATMOSPHERIC TECHNICIAN
@@ -21,10 +23,12 @@
 		/obj/item/book/manual/wiki/atmospherics = 12,
 		/obj/item/tank/internals/emergency_oxygen/engi = 10,
 		/obj/item/clothing/mask/gas = 10,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/screwdrivercocktail = 8, //NSV13
 		/obj/effect/spawner/mail/maintloot = 7,
 		/obj/item/tank/internals/plasma/empty = 5,
 		/obj/item/crowbar/large = 3,
+
+		//NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/screwdrivercocktail = 8,
 	)
 
 //BART ENDER
@@ -57,11 +61,13 @@
 		/obj/item/reagent_containers/hypospray/medipen = 15,
 		/obj/item/reagent_containers/medspray/silver_sulf = 10,
 		/obj/item/reagent_containers/medspray/styptic = 10,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
 		/obj/item/reagent_containers/hypospray/medipen/survival = 5,
 		//The ultimate validhunter tool
 		/obj/item/clothing/glasses/hud/medsec = 2,
 		/obj/item/healthanalyzer/advanced = 2,
+
+		//NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
 	)
 
 //CAPTAIN
@@ -72,9 +78,11 @@
 		/obj/item/coin/plasma = 7,
 		/obj/item/storage/fancy/cigarettes/cigars/havana = 5,
 		/obj/item/reagent_containers/food/drinks/bottle/champagne = 5,
-		/obj/item/megaphone/command/rudiger = 4, //NSV13
 		/obj/item/ammo_box/n762 = 2,
 		/obj/item/gun/ballistic/revolver/nagant = 1,
+
+		//NSV13
+		/obj/item/megaphone/command/rudiger = 4,
 	)
 
 //CARGO TECH
@@ -116,17 +124,19 @@
 		/obj/item/reagent_containers/food/snacks/cracker = 15,
 		/obj/item/reagent_containers/food/drinks/soda_cans/thirteenloko = 15,
 		/obj/item/rcd_ammo = 10,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/screwdrivercocktail = 8, //NSV13
-		/obj/item/control_rod/superior = 7, //NSV13
-		//All hail lord Singuloth!!! //NSV13
-		/obj/item/banner/engineering = 5, //NSV13
-		/obj/item/megaphone/command/rudiger = 4, //NSV13
 		/obj/item/wrench/caravan = 3,
 		/obj/item/wirecutters/caravan = 3,
 		/obj/item/screwdriver/caravan = 3,
 		/obj/item/crowbar/red/caravan = 3,
 		//if you got this, you hit the lottery
 		/obj/item/construction/rcd/arcd = 1,
+
+		//NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/screwdrivercocktail = 8,
+		/obj/item/control_rod/superior = 7,
+		//All hail lord Singuloth!!!
+		/obj/item/banner/engineering = 5,
+		/obj/item/megaphone/command/rudiger = 4,
 	)
 
 //CHIEF MEDICAL OFFICER
@@ -135,17 +145,18 @@
 		//it's just a memo, just sayin'...
 		/obj/item/paper/fluff/jobs/medical/hippocratic = 15,
 		/obj/effect/spawner/mail/organminor = 12,
-		//1 out of 10 CMO recommended! //NSV13
-		/obj/item/storage/fancy/cigarettes/cigpack_uplift = 10, //NSV13
 		/obj/effect/spawner/mail/organmajor = 8,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
-		//No wounds cannot be healed!!! //NSV13
-		/obj/item/banner/medical = 5, //NSV13
 		/obj/item/sensor_device = 5,
 		/obj/effect/spawner/mail/advmedtool = 4,
-		/obj/item/megaphone/command/rudiger = 4, //NSV13
 		/obj/effect/spawner/mail/ayymedtool = 1,
-	)
+
+		//NSV13
+		//1 out of 10 CMO recommended!
+		/obj/item/storage/fancy/cigarettes/cigpack_uplift = 10,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
+		//No wounds cannot be healed!!!
+		/obj/item/banner/medical = 5,
+		/obj/item/megaphone/command/rudiger = 4,
 
 //CLOWN
 /datum/job/clown
@@ -210,31 +221,36 @@
 		/obj/item/storage/fancy/cigarettes = 15,
 		/obj/item/ammo_box/c38 = 10,
 		/obj/item/reagent_containers/food/drinks/bottle/rum = 10,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8, //NSV13
 		/obj/item/ammo_box/c38/dumdum = 5,
 		/obj/item/ammo_box/c38/hotshot = 5,
 		/obj/item/ammo_box/c38/iceblox = 5,
 		/obj/item/ammo_box/c38/match = 5,
 		/obj/item/ammo_box/c38/trac = 5,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4, //NSV13
 		//you'll get this inevitably when you don't need it.
 		/obj/item/clothing/accessory/holster/detective = 1,
+
+		//NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4,
+
 	)
 
 //PARAMEDIC
 /datum/job/paramedic
 	mail_goodies = list(
 		/obj/item/reagent_containers/hypospray/medipen = 20,
-		//I'm lookin' at you, Tori ಠ_ಠ //NSV13
-		/obj/item/paper/fluff/jobs/medical/hippocratic = 15, //NSV13
 		/obj/item/reagent_containers/medspray/silver_sulf = 10,
 		/obj/item/reagent_containers/medspray/styptic = 10,
 		/obj/item/reagent_containers/hypospray/medipen/dexalin = 10,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
 		/obj/item/sensor_device = 7,
 		/obj/item/pinpointer/crew = 7,
 		/obj/item/reagent_containers/hypospray/medipen/survival = 5,
 		/obj/item/reagent_containers/hypospray/medipen/pumpup = 1,
+
+		//NSV13
+		//I'm lookin' at you, Tori ಠ_ಠ
+		/obj/item/paper/fluff/jobs/medical/hippocratic = 15,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
 	)
 
 //EXPLORATION CREW
@@ -267,9 +283,11 @@
 		/obj/item/assembly/flash/handheld = 5,
 		/obj/item/mining_voucher = 5,
 		/obj/item/stack/sheet/bone = 5,
-		/obj/item/megaphone/command/rudiger = 4, //NSV13
 		//a slim chance for reviving ian... how exicting
 		/obj/item/lazarus_injector = 1,
+
+		//NSV13
+		/obj/item/megaphone/command/rudiger = 4,
 	)
 
 //HEAD OF SECURITY
@@ -278,16 +296,18 @@
 		/obj/effect/spawner/mail/donut = 20,
 		/obj/effect/spawner/mail/rdonut = 15,
 		/obj/item/firing_pin = 10,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8, //NSV13
 		/obj/item/implantcase/mindshield = 7,
 		//Vile, vile person...
 		/obj/item/clothing/head/kitty = 5,
-		//VERYONE DOWN ON THE GROUND!! //NSV13
-		/obj/item/banner/security = 5, //NSV13
-		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4, //NSV13
-		/obj/item/megaphone/command/rudiger = 4, //NSV13
 		//hey, always come in handy!
 		/obj/item/storage/lockbox/loyalty = 2,
+
+		//NSV13
+		//EVERYONE DOWN ON THE GROUND!!
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8,
+		/obj/item/banner/security = 5,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4,
+		/obj/item/megaphone/command/rudiger = 4,
 	)
 
 //JANITOR
@@ -312,12 +332,14 @@
 		/obj/item/gavelhammer = 10,
 		//What else are you gonna do as a lawyer? Fancy a game of solitaire?
 		/obj/item/toy/cards/deck = 10,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8, //NSV13
 		/obj/item/clothing/glasses/sunglasses/advanced/big = 5,
 		/obj/item/book/manual/wiki/security_space_law = 5,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4, //NSV13
 		//Harrassing security has never been this fun
 		/obj/item/megaphone = 3,
+
+		//NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4,
 	)
 
 //MAGICIAN GIMMICK
@@ -351,7 +373,9 @@
 		/obj/item/book/mimery = 2,
 		//when you thought it could get worse...
 		/obj/item/book/granter/spell/mimery_blockade = 1,
-		/obj/structure/mecha_wreckage/reticence = 1, //NSV13
+
+		//NSV13
+		/obj/structure/mecha_wreckage/reticence = 1,
 	)
 
 //PSYCHOLOGIST / PSYCHIATRIST GIMMICK
@@ -373,7 +397,9 @@
 		/obj/item/ammo_box/a762 = 3,
 		//URAAAAHH
 		/obj/item/gun/ballistic/rifle/boltaction = 1,
-		/obj/structure/mecha_wreckage/ripley = 1, //NSV13
+
+		//NSV13
+		/obj/structure/mecha_wreckage/ripley = 1,
 	)
 
 //RESEARCH DIRECTOR
@@ -382,13 +408,15 @@
 		/obj/item/storage/box/monkeycubes = 15,
 		// it's hard to not look cool
 		/obj/item/clothing/glasses/science/sciencesun = 10,
-		//For Cuban Pete! //NSV13
-		/obj/item/banner/science = 5, //NSV13
 		/obj/item/taperecorder = 7,
 		/obj/item/disk/tech_disk/research/random  = 4,
-		/obj/item/megaphone/command/rudiger = 4, //NSV13
 		/obj/item/borg/upgrade/ai = 2,
-		/obj/structure/mecha_wreckage/seraph = 1, //NSV13
+
+		//NSV13
+		//For Cuban Pete!
+		/obj/item/banner/science = 5,
+		/obj/item/megaphone/command/rudiger = 4,
+		/obj/structure/mecha_wreckage/seraph = 1,
 	)
 
 //ROBOTICIST
@@ -402,7 +430,9 @@
 		/obj/item/borg/upgrade/rename = 5,
 		//do anyone ever use this???
 		/obj/item/modular_computer/tablet/preset/advanced = 5,
-		/obj/structure/mecha_wreckage/phazon = 1, //NSV13
+
+		//NSV13
+		/obj/structure/mecha_wreckage/phazon = 1,
 	)
 
 //SCIENTIST
@@ -419,32 +449,36 @@
 	mail_goodies = list(
 		/obj/item/reagent_containers/food/snacks/donut/plain = 15,
 		/obj/effect/spawner/mail/donut = 10,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8, //NSV13
 		//just in case...
 		/obj/item/assembly/flash/handheld = 7,
 		/obj/effect/spawner/mail/rdonut = 5,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4, //NSV13
 		//we don't have boomerangs here, ask ausstation
 		/obj/item/melee/classic_baton/police/telescopic = 1,
+
+		//NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4,
 	)
 
 //SHAFT MINER
 /datum/job/shaft_miner
 	mail_goodies = list(
-		//Authentic to the Lavaland Experience! //NSV13
-		/obj/item/crusher_trophy/legion_skull = 22, //NSV13
 		/obj/item/reagent_containers/hypospray/medipen/survival = 10,
-		/obj/item/skeleton_key = 8, //NSV13
 		/obj/item/tank/internals/emergency_oxygen/double = 7,
-		/obj/item/crusher_trophy/goliath_tentacle = 6, //NSV13
-		/obj/item/crusher_trophy/watcher_wing = 6, //NSV13
-		/obj/item/crusher_trophy/blaster_tubes/magma_wing = 6, //NSV13
-		/obj/item/crusher_trophy/watcher_wing/ice_wing = 6, //NSV13
 		/obj/item/storage/pill_bottle/mining = 5,
 		/obj/item/storage/belt/mining/alt = 5,
-		/obj/item/kinetic_crusher = 5, //NSV13
 		//THE DRIP!!!
 		/obj/item/clothing/glasses/material/mining/gar = 1,
+
+		//NSV13
+		//Authentic to the Lavaland Experience!
+		/obj/item/crusher_trophy/legion_skull = 22,
+		/obj/item/skeleton_key = 8,
+		/obj/item/crusher_trophy/goliath_tentacle = 6,
+		/obj/item/crusher_trophy/watcher_wing = 6,
+		/obj/item/crusher_trophy/blaster_tubes/magma_wing = 6,
+		/obj/item/crusher_trophy/watcher_wing/ice_wing = 6,
+		/obj/item/kinetic_crusher = 5,
 	)
 
 //ENGINEER
@@ -454,9 +488,11 @@
 		/obj/item/reagent_containers/food/drinks/soda_cans/thirteenloko = 15,
 		/obj/item/lightreplacer = 10,
 		/obj/item/holosign_creator/engineering = 8,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/screwdrivercocktail = 8, //NSV13
 		//An assistant can only dream of those...
 		/obj/item/clothing/gloves/color/yellow = 4,
+
+		//NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/screwdrivercocktail = 8,
 	)
 
 //VIROLOGIST
@@ -468,11 +504,13 @@
 		/obj/item/reagent_containers/food/snacks/monkeycube = 10,
 		/obj/item/reagent_containers/glass/bottle/formaldehyde = 10,
 		/obj/item/reagent_containers/glass/bottle/random_virus/minor = 10,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
 		/obj/item/reagent_containers/glass/bottle/random_virus = 5,
 		/obj/item/stock_parts/scanning_module/phasic = 5,
 		//hampter.
 		/obj/item/choice_beacon/pet/hamster = 5,
+
+		//NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
 	)
 
 //VIP / VIP GIMMICK
@@ -499,9 +537,11 @@
 		/obj/effect/spawner/mail/rdonut= 10,
 		/obj/item/storage/box/teargas = 10,
 		/obj/item/storage/box/rubbershot = 10,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8, //NSV13
 		/obj/item/storage/box/lethalshot = 5,
 		/obj/item/storage/box/handcuffs = 5,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4, //NSV13
 		/obj/item/melee/classic_baton/police/telescopic = 1,
+
+		//NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4,
 		)
