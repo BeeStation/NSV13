@@ -56,7 +56,7 @@
 	. = ..()
 
 	if(M && M.client && M.client.prefs)
-		var/role = M.client.prefs.preferred_pilot_role
+		var/role = M.client.prefs.active_character.preferred_pilot_role
 		switch(role)
 			if(PILOT_COMBAT)
 				H.equip_to_slot_or_del(new /obj/item/clothing/head/beret/ship/pilot(H), ITEM_SLOT_HEAD)

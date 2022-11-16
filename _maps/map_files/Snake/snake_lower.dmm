@@ -312,11 +312,11 @@
 /area/hallway/primary/central)
 "bo" = (
 /obj/machinery/atmospherics/pipe/manifold4w/yellow/visible/layer2,
-/obj/machinery/atmospherics/components/trinary/mixer/layer4{
-	dir = 1;
-	name = "Plasma Fuel Mixer";
-	node1_concentration = 0.33;
-	node2_concentration = 0.66
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer4{
+	dir = 5
+	},
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
@@ -771,11 +771,11 @@
 "cT" = (
 /obj/structure/table/wood,
 /obj/item/paper_bin,
-/obj/item/stamp/head_of_personnel{
+/obj/item/assembly/signaler,
+/obj/item/stamp/xo{
 	pixel_x = -4;
 	pixel_y = 4
 	},
-/obj/item/assembly/signaler,
 /turf/open/floor/wood,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -798,15 +798,13 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering/reactor_control)
 "cY" = (
+/obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "1-10"
+	},
 /obj/machinery/door/airlock/ship/command{
 	name = "Telecommunications";
 	security_level = 6
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/structure/cable{
-	icon_state = "0-2"
 	},
 /turf/open/floor/plasteel/dark,
 /area/tcommsat/computer)
@@ -1067,8 +1065,8 @@
 	codes_txt = "delivery;dir=8";
 	dir = 4;
 	freq = 1400;
-	name = "Delivery Security";
-	location = "Security"
+	location = "Security";
+	name = "Delivery Security"
 	},
 /turf/open/floor/plasteel,
 /area/hallway/primary/central)
@@ -2790,6 +2788,10 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/power/smes/engineering,
+/obj/structure/cable{
+	icon_state = "0-5"
+	},
 /turf/open/floor/plasteel/dark,
 /area/tcommsat/computer)
 "kc" = (
@@ -2959,10 +2961,10 @@
 /turf/open/floor/plasteel,
 /area/crew_quarters/kitchen)
 "kQ" = (
-/obj/structure/chair/fancy/bench/pew/right{
+/obj/effect/landmark/start/clown,
+/obj/structure/chair/fancy/bench/pew/left{
 	dir = 1
 	},
-/obj/effect/landmark/start/clown,
 /turf/open/floor/plasteel/chapel,
 /area/chapel/main)
 "kT" = (
@@ -4271,10 +4273,10 @@
 /turf/open/floor/plasteel,
 /area/security/brig)
 "pK" = (
-/obj/structure/chair/fancy/bench/pew/left{
+/obj/effect/landmark/start/chaplain,
+/obj/structure/chair/fancy/bench/pew/right{
 	dir = 1
 	},
-/obj/effect/landmark/start/chaplain,
 /turf/open/floor/plasteel/chapel{
 	dir = 1
 	},
@@ -5030,11 +5032,11 @@
 /turf/open/floor/circuit/green,
 /area/tcommsat/server)
 "sW" = (
-/obj/structure/chair/fancy/bench/pew/left{
-	dir = 1
-	},
 /obj/machinery/light{
 	dir = 8
+	},
+/obj/structure/chair/fancy/bench/pew/right{
+	dir = 1
 	},
 /turf/open/floor/plasteel/chapel{
 	dir = 8
@@ -6586,6 +6588,9 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
+/obj/item/discovery_scanner,
+/obj/item/discovery_scanner,
+/obj/item/discovery_scanner,
 /turf/open/floor/plasteel,
 /area/science/lab)
 "yo" = (
@@ -7290,8 +7295,8 @@
 	dir = 4
 	},
 /obj/machinery/navbeacon{
-	location = "centralUp";
-	codes_txt = "patrol;next_patrol=UpperEntry"
+	codes_txt = "patrol;next_patrol=UpperEntry";
+	location = "centralUp"
 	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/central)
@@ -7340,10 +7345,10 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/gravity_generator)
 "AL" = (
-/obj/structure/chair/fancy/bench/pew/left{
+/obj/effect/landmark/start/clown,
+/obj/structure/chair/fancy/bench/pew/right{
 	dir = 1
 	},
-/obj/effect/landmark/start/clown,
 /turf/open/floor/plasteel/chapel{
 	dir = 8
 	},
@@ -7419,7 +7424,7 @@
 	dir = 1;
 	name = "Plasma to Mix"
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer4,
+/obj/machinery/atmospherics/pipe/simple/violet/visible,
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "AW" = (
@@ -7604,8 +7609,8 @@
 	codes_txt = "delivery;dir=1";
 	dir = 1;
 	freq = 1400;
-	name = "Delivery Kitchen";
-	location = "KItchen"
+	location = "KItchen";
+	name = "Delivery Kitchen"
 	},
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/central)
@@ -8253,11 +8258,11 @@
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "DY" = (
-/obj/structure/chair/fancy/bench/pew/right{
-	dir = 1
-	},
 /obj/machinery/light{
 	dir = 4
+	},
+/obj/structure/chair/fancy/bench/pew/left{
+	dir = 1
 	},
 /turf/open/floor/plasteel/chapel,
 /area/chapel/main)
@@ -8431,13 +8436,13 @@
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
 "Ev" = (
-/obj/machinery/atmospherics/pipe/manifold/purple/visible{
-	dir = 1
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/dark/visible/layer4,
+/obj/machinery/atmospherics/pipe/manifold/violet/visible{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "Ew" = (
@@ -9329,7 +9334,6 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/ecto_sniffer,
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/aft)
 "HA" = (
@@ -9772,6 +9776,7 @@
 	req_one_access_txt = "7;29"
 	},
 /obj/machinery/door/firedoor/window,
+/obj/item/discovery_scanner,
 /turf/open/floor/plasteel,
 /area/science/lab)
 "IQ" = (
@@ -10128,10 +10133,10 @@
 /turf/open/floor/plasteel,
 /area/security/brig)
 "Kg" = (
-/obj/structure/chair/fancy/bench/pew/left{
+/obj/machinery/airalarm/directional/west,
+/obj/structure/chair/fancy/bench/pew/right{
 	dir = 1
 	},
-/obj/machinery/airalarm/directional/west,
 /turf/open/floor/plasteel/chapel{
 	dir = 1
 	},
@@ -10753,8 +10758,8 @@
 	codes_txt = "delivery;dir=";
 	dir = 4;
 	freq = 1400;
-	name = "Delivery Medbay";
-	location = "Medbay"
+	location = "Medbay";
+	name = "Delivery Medbay"
 	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
@@ -10785,13 +10790,16 @@
 /area/hallway/primary/central)
 "Mm" = (
 /obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/structure/cable{
 	icon_state = "2-8"
 	},
 /obj/structure/cable{
 	icon_state = "2-4"
+	},
+/obj/machinery/power/terminal{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "0-2"
 	},
 /turf/open/floor/plasteel/dark,
 /area/tcommsat/computer)
@@ -11777,13 +11785,13 @@
 /turf/open/floor/plasteel,
 /area/security/brig)
 "Pq" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 5
-	},
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/dark/visible/layer4,
+/obj/machinery/atmospherics/pipe/simple/violet/visible{
+	dir = 5
+	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "Ps" = (
@@ -12026,6 +12034,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/atmospherics/pipe/simple/violet/visible,
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "Qe" = (
@@ -12199,13 +12208,13 @@
 	},
 /area/bridge/cic)
 "QI" = (
-/obj/machinery/atmospherics/components/trinary/filter/layer4{
-	dir = 1;
-	name = "Filter to Constrictor"
-	},
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer2{
 	dir = 10
 	},
+/obj/machinery/atmospherics/pipe/simple/violet/visible{
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer4,
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "QJ" = (
@@ -12397,7 +12406,7 @@
 /turf/open/floor/carpet/orange,
 /area/nsv/crew_quarters/heads/maa)
 "Rq" = (
-/obj/structure/chair/fancy/bench/pew/left{
+/obj/structure/chair/fancy/bench/pew/right{
 	dir = 1
 	},
 /turf/open/floor/plasteel/chapel{
@@ -12475,7 +12484,7 @@
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "RE" = (
-/obj/structure/chair/fancy/bench/pew/right{
+/obj/structure/chair/fancy/bench/pew/left{
 	dir = 1
 	},
 /turf/open/floor/plasteel/chapel{
@@ -12762,9 +12771,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
 	},
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
+/obj/structure/extinguisher_cabinet/west,
 /turf/open/floor/plasteel,
 /area/science/lab)
 "SP" = (
@@ -13128,10 +13135,10 @@
 	},
 /area/hallway/primary/fore)
 "Uk" = (
-/obj/structure/chair/fancy/bench/pew/right{
+/obj/effect/landmark/start/mime,
+/obj/structure/chair/fancy/bench/pew/left{
 	dir = 1
 	},
-/obj/effect/landmark/start/mime,
 /turf/open/floor/plasteel/chapel{
 	dir = 4
 	},
@@ -13269,8 +13276,8 @@
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=1";
 	freq = 1400;
-	name = "Delivery Munitions";
-	location = "Munitions"
+	location = "Munitions";
+	name = "Delivery Munitions"
 	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
@@ -13344,6 +13351,7 @@
 	pixel_x = -32;
 	pixel_y = 1
 	},
+/obj/item/stack/sheet/mineral/copper/twenty,
 /turf/open/floor/plasteel,
 /area/science/lab)
 "US" = (
@@ -13375,7 +13383,6 @@
 "UX" = (
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/ecto_sniffer,
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/aft)
 "UY" = (
@@ -13807,8 +13814,8 @@
 	dir = 10
 	},
 /obj/machinery/navbeacon{
-	location = "fore";
-	codes_txt = "patrol;next_patrol=centralUp"
+	codes_txt = "patrol;next_patrol=centralUp";
+	location = "fore"
 	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/fore)
@@ -13844,10 +13851,10 @@
 /turf/open/floor/plasteel/dark,
 /area/chapel/main)
 "Wm" = (
-/obj/structure/chair/fancy/bench/pew/right{
+/obj/effect/landmark/start/chaplain,
+/obj/structure/chair/fancy/bench/pew/left{
 	dir = 1
 	},
-/obj/effect/landmark/start/chaplain,
 /turf/open/floor/plasteel/chapel{
 	dir = 4
 	},
@@ -13946,7 +13953,6 @@
 /obj/structure/disposalpipe/junction/flip{
 	dir = 4
 	},
-/obj/machinery/ecto_sniffer,
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/aft)
 "WJ" = (
@@ -14109,7 +14115,7 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "Xu" = (
-/obj/machinery/atmospherics/pipe/layer_manifold/visible{
+/obj/machinery/atmospherics/pipe/simple/violet/visible{
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
@@ -14538,8 +14544,8 @@
 	codes_txt = "delivery;dir=8";
 	dir = 4;
 	freq = 1400;
-	name = "Delivery Bar";
-	location = "Bar"
+	location = "Bar";
+	name = "Delivery Bar"
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/bar)

@@ -23,3 +23,16 @@
 /datum/emote/living/growl/get_sound(mob/living/user)
 	if(islizard(user))
 		return 'nsv13/sound/voice/lizard/liz_growl.ogg'
+
+/datum/emote/living/cheers
+	key = "cheers"
+	key_third_person = "cheers"
+	message = "raises their glass"
+
+/datum/emote/living/cheers/can_run_emote(mob/user, status_check = TRUE , intentional)
+	. = ..()
+	if(istype(user.get_active_held_item(), /obj/item/reagent_containers/food/drinks/drinkingglass))
+		return TRUE
+	else
+		to_chat(user, "<span class='warning'>You don't have a glass in your hand!</span>")
+		return FALSE

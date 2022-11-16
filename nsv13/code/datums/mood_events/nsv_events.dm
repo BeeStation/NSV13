@@ -42,3 +42,8 @@
 	description = "<span class='nicegreen'><b>THAT SHIT TASTED FUCKING DELICIOUS LET'S GO FUCK SOME SYNDICATE SHIPS UP, NAVY FOR LIFE WOOOOOO!!</b></span>\n"
 	mood_change = 10
 	timeout = 10 MINUTES
+
+/datum/mood_event/cheers
+	description = "<span class='nicegreen'>Cheers! ¡Salud! Kanpai! Prost! Skål! Santé! Sláinte! Saúde!</span>\n"
+	mood_change = 3
+	timeout = 30 SECONDS
