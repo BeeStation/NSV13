@@ -19,26 +19,39 @@
 	. = ..()
 	logged_in = "Cargo Department"
 
+/obj/machinery/computer/stockexchange/Destroy()
+	return ..()
+
+/obj/machinery/computer/stockexchange/attackby(obj/item/W, mob/user, params)
+	..()
+	SStgui.update_uis(src)
+	return
+
+/obj/machinery/computer/stockexchange/attack_ai(mob/user)
+	src.attack_hand(user)
+
 /obj/machinery/computer/stockexchange/attack_hand(mob/user)
 	if(..(user))
 		return
 
-	//if(!ai_control && issilicon(user))
-	//	to_chat(user, SPAN_WARNING("Access Denied."))
-	//	return TRUE
+	if(machine_stat & (NOPOWER|BROKEN))
+		return
 
 	ui_interact(user)
 
 /obj/machinery/computer/stockexchange/proc/balance()
 	if(!logged_in)
 		return FALSE
-	return SSshuttle.points
+	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+	return D.account_balance
 
 //! ## MAIN TGUI SCREEN ## !//
 
 /obj/machinery/computer/stockexchange/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return TRUE
+
+	add_fingerprint(usr)
 
 	switch(action)
 		if("logout")
@@ -65,6 +78,7 @@
 			//	var/list/LR = GLOB.stockExchange.last_read[S]
 			//	LR[logged_in] = world.time
 				screen = "archive"
+
 		if("stocks_history")
 			var/datum/stock/S = locate(params["share"]) in GLOB.stockExchange.stocks
 			if(S)
@@ -147,11 +161,16 @@
 					if (S.last_unification)
 						unification = DisplayTimeText(world.time - S.last_unification)
 
+					var/value = 0
+					if (!S.bankrupt)
+						value = S.current_value
+
 					data["stocks"] += list(list(
 						"REF" = REF(S),
 						"bankrupt" = S.bankrupt,
 						"ID" = S.short_name,
 						"Name" = S.name,
+						"Value" = value,
 						"Owned" = mystocks,
 						"Avail" = S.available_shares,
 						"Unification" = unification,
@@ -258,7 +277,8 @@
 	if(!li)
 		to_chat(user, "<span class='danger'>No active account on the console!</span>")
 		return
-	var/b = SSshuttle.points
+	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
+	var/b = D.account_balance
 	var/avail = S.shareholders[logged_in]
 	if(!avail)
 		to_chat(user, "<span class='danger'>This account does not own any shares of [S.name]!</span>")
@@ -273,7 +293,7 @@
 		return
 	if(li != logged_in)
 		return
-	b = SSshuttle.points
+	b = D.account_balance
 	if(!isnum(b))
 		to_chat(user, "<span class='danger'>No active account on the console!</span>")
 		return

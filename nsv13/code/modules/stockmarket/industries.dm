@@ -231,7 +231,7 @@
 
 /datum/industry/mining/generateProductName(company)
 	var/list/equipment = list("drill", "pickaxe", "shovel", "jackhammer", "mini-pickaxe", "power hammer", "power gloves", "power armor", "hardsuit", "kinetic accelerator", "resonator", "oxygen tank", "emergency bike horn")
-	var/list/material = list("mauxite", "pharosium", "molitz", "adamantium", "mithril", "cobryl", "bohrum", "claretine", "viscerite", "syreline", "cerenkite", "plasmastone", "gold", "koshmarite", "phoron", "carbon dioxide", "powered")
+	var/list/material = list("iron", "glass", "copper", "silver", "gold", "diamond", "plasma", "uranium", "titanium", "bluespace crystal", "plastic", "reinforced glass", "plasteel", "plastitanium", "plasma glass", "plasma reinforced glass", "titanium glass", "plastitanium glass", "nanocarbon glass", "durasteel", "duranium", "carbon dioxide", "oxygen", "nitrous oxide", "nitrogen", "BZ", "water vapor", "powered")
 	return "The [pick(material)] [pick(equipment)]. "
 
 /datum/industry/defense
