@@ -37,3 +37,8 @@
 	description = "<span class='nicegreen'>I really needed that..</span>\n"
 	mood_change = 1
 	timeout = 2 MINUTES
+
+/datum/mood_event/cheers
+	description = "<span class='nicegreen'>Cheers! ¡Salud! Kanpai! Prost! Skål! Santé! Sláinte! Saúde!</span>\n"
+	mood_change = 3
+	timeout = 30 SECONDS
