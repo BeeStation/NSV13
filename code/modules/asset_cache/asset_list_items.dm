@@ -105,6 +105,7 @@
 		"stamp-qm" = 'icons/stamp_icons/large_stamp-qm.png',
 		"stamp-law" = 'icons/stamp_icons/large_stamp-law.png', //NSV13 (only the comma)
 		"stamp-maa" = 'nsv13/icons/stamp_icons/large_stamp-maa.png', //NSV13
+		"stamp-xo" = 'nsv13/icons/stamp_icons/large_stamp-xo.png', // NSV13 (again)
 	)
 
 
