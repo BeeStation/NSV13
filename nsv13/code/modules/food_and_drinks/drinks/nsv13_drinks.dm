@@ -29,3 +29,9 @@
 	desc = "Law, Order, Alcohol, and Police Brutality distilled into one single elixir of JUSTICE."
 	list_reagents = list(/datum/reagent/consumable/ethanol/quintuple_sec = 50)
 	foodtype = ALCOHOL
+
+/obj/item/reagent_containers/food/drinks/drinkingglass/kamikaze
+	name = "Kamikaze"
+	desc = "Divinely windy."
+	list_reagents = list(/datum/reagent/consumable/ethanol/kamikaze = 50)
+	foodtype = ALCOHOL

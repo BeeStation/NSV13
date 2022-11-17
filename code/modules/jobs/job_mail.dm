@@ -82,6 +82,7 @@
 		/obj/item/gun/ballistic/revolver/nagant = 1,
 
 		//NSV13
+		/obj/item/toy/plush/renault = 5,
 		/obj/item/megaphone/command/rudiger = 4,
 	)
 
@@ -154,10 +155,11 @@
 		//1 out of 10 CMO recommended!
 		/obj/item/storage/fancy/cigarettes/cigpack_uplift = 10,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
+		/obj/item/toy/plush/runtime = 5,
 		//No wounds cannot be healed!!!
 		/obj/item/banner/medical = 5,
 		/obj/item/megaphone/command/rudiger = 4,
-
+	)
 //CLOWN
 /datum/job/clown
 	mail_goodies = list(
@@ -272,8 +274,10 @@
 		/obj/item/reagent_containers/pill/mutadone = 15,
 		/obj/item/storage/pill_bottle/mannitol = 10,
 		/obj/item/reagent_containers/food/snacks/monkeycube = 10,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
 		/obj/effect/spawner/mail/genes = 5,
+
+		//NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
 	)
 
 //HEAD OF PERSONNEL

@@ -32,7 +32,10 @@
 		/obj/item/stack/spacecash/c100 										= 25,
 		/obj/item/stack/spacecash/c200 										= 15,
 		/obj/item/stack/spacecash/c500 										= 5,
-		/obj/item/stack/spacecash/c1000 									= 1
+		/obj/item/stack/spacecash/c1000 									= 1,
+
+		//NSV13
+		/obj/item/toy/plush/moth/random										= 5,
 	)
 
 	//if the goodie is dangerous for the station, in this list it goes
@@ -52,8 +55,10 @@
 			/obj/item/reagent_containers/glass/bottle/random_virus/minor,
 			/obj/item/reagent_containers/glass/bottle/random_virus,
 			/obj/item/gun/ballistic/revolver/nagant,
-			/obj/item/vibro_weapon, //NSV13
-			/obj/item/storage/pill_bottle/floorpill, //NSV13
+
+			//NSV13
+			/obj/item/vibro_weapon,
+			/obj/item/storage/pill_bottle/floorpill,
 		)
 
 	/// Overlays (pure fluff), Does the letter have the postmark overlay?

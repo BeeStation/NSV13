@@ -39,4 +39,6 @@
 	mail_goodies = list(
 		/obj/item/clothing/glasses/sunglasses = 10,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
+		/obj/item/reagent_containers/food/drinks/drinkingglass/kamikaze = 8,
+		/obj/item/fighter_component/engine/flooded = 5,
 	)
