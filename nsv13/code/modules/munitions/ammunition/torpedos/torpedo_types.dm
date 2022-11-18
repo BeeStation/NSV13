@@ -36,6 +36,9 @@
 	. = ..()
 	. += "<span class='warning'>It's far too cumbersome to carry, and dragging it around might set it off!</span>"
 
+/obj/item/ship_weapon/ammunition/torpedo/attack_hand(mob/user)
+	return FALSE
+
 //High damage torp. Use this when youve exhausted their flak.
 /obj/item/ship_weapon/ammunition/torpedo/hull_shredder
 	name = "\improper NTP-4 'BNKR' 430mm Armour Pentetrating Torpedo"

@@ -33,6 +33,9 @@
 	. = ..()
 	. += "<span class='warning'>It's far too cumbersome to carry, and dragging it around might set it off!</span>"
 
+/obj/item/ship_weapon/ammunition/missile/attack_hand(mob/user)
+	return FALSE
+
 //What you get from an incomplete missile.
 /obj/item/projectile/guided_munition/missile/dud
 	icon_state = "torpedo_dud"
