@@ -119,7 +119,7 @@ export const FaxManager = (props, context) => {
             });
           }}
           onFollow={(selectedFaxId) => {
-            act('follow_fax', {
+            act('flw_fax', {
               fax_id: selectedFaxId,
             });
           }}

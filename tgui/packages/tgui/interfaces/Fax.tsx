@@ -86,7 +86,7 @@ export const Fax = (props, context) => {
               onClick={() => act('access_additional_faxes_toggle')}
               disabled={!data.сan_switch_access}
               tooltip="Manage access to the expanded fax list.">
-              {data.access_additional_faxes ? 'Unlogin' : 'Login'}
+              {data.access_additional_faxes ? 'Logout' : 'Login'}
             </Button>
           }>
           {faxes.length !== 0 ? (
