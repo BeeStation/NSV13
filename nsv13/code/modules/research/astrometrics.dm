@@ -17,7 +17,7 @@ you build.
 	var/scan_progress = 0
 	var/scan_goal
 	var/scan_goal_system = 15 SECONDS
-	var/scan_goal_anomaly = 1 MINUTES
+	var/scan_goal_anomaly = 2 MINUTES
 	var/datum/star_system/scan_target = null
 	var/list/scanned = list()
 	var/datum/techweb/linked_techweb = null
