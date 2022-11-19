@@ -63,6 +63,10 @@
 	id = "destroyer_cic";
 	next_id = "destroyer_bridge"
 	},
+/obj/structure/overmap/small_craft/combat/light{
+	name = "Captured Su-818 Rapier";
+	req_one_access = list()
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "dz" = (
@@ -177,6 +181,14 @@
 /obj/effect/spawner/structure/window/reinforced/ship,
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
+"jq" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/light{
+	brightness = 5;
+	dir = 4
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "jL" = (
 /obj/structure/table/reinforced,
 /obj/item/radio/intercom{
@@ -289,6 +301,9 @@
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "nR" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
 /obj/effect/landmark/patrol_node{
 	id = "destroyer_bridge";
 	next_id = "destroyer_aft"
@@ -361,13 +376,11 @@
 	},
 /area/ruin/powered/nsv13/boarding_interior)
 "rN" = (
-/obj/structure/overmap/small_craft/combat/light{
-	name = "Captured Su-818 Rapier"
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/light{
+	dir = 8
 	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/turf/open/floor/engine,
+/turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "rQ" = (
 /obj/machinery/vending/boozeomat/syndicate_access,
@@ -572,6 +585,10 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "Bm" = (
 /obj/machinery/suit_storage_unit,
+/obj/item/clothing/suit/space/eva,
+/obj/item/clothing/head/helmet/space/eva,
+/obj/item/tank/internals/oxygen,
+/obj/item/clothing/mask/breath,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "By" = (
@@ -729,6 +746,10 @@
 /obj/structure/hull_plate,
 /obj/machinery/ship_weapon/torpedo_launcher/west,
 /turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
+"Jk" = (
+/obj/machinery/light/floor,
+/turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "JM" = (
 /obj/machinery/computer/ship/viewscreen,
@@ -32855,7 +32876,7 @@ nc
 nc
 nc
 de
-nc
+Jk
 nc
 nc
 Xu
@@ -33109,7 +33130,7 @@ hC
 UT
 ox
 uP
-rN
+Ak
 nc
 nc
 ox
@@ -37455,7 +37476,7 @@ VL
 sE
 hC
 Cb
-hS
+rN
 Cb
 fG
 fG
@@ -38223,7 +38244,7 @@ sE
 tz
 fG
 Cb
-hS
+jq
 Cb
 fG
 fG
@@ -38992,7 +39013,7 @@ fG
 lZ
 Qz
 Uf
-Qz
+nR
 Cb
 fG
 fG
@@ -39504,7 +39525,7 @@ kQ
 WQ
 nc
 Cj
-nR
+nc
 IW
 fG
 fG

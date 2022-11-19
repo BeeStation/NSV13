@@ -692,7 +692,7 @@
 /mob/living/simple_animal/hostile/syndicate/civilian{
 	name = "Syndicate Crewman (829)"
 	},
-/turf/open/floor/mineral/plastitanium/red,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "pb" = (
 /obj/machinery/light{
@@ -1303,13 +1303,6 @@
 /obj/structure/table/reinforced,
 /obj/item/folder/syndicate,
 /turf/open/floor/mineral/plastitanium,
-/area/ruin/powered/nsv13/boarding_interior)
-"Bp" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/shotgun{
-	access_card = 150;
-	name = "Syndicate Crewman (732)"
-	},
-/turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "BC" = (
 /turf/open/floor/mineral/plastitanium/red/airless,
@@ -2054,6 +2047,10 @@
 /obj/structure/peacekeeper_barricade/metal{
 	dir = 8
 	},
+/mob/living/simple_animal/hostile/syndicate/ranged/shotgun{
+	access_card = 150;
+	name = "Syndicate Crewman (732)"
+	},
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "UC" = (
@@ -2182,7 +2179,8 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "Xh" = (
 /obj/effect/mob_spawn/human/syndicate/boarding{
-	assignedrole = "Syndicate Officer"
+	assignedrole = "Syndicate Officer";
+	short_desc = "You are a Syndicate Officer."
 	},
 /turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
@@ -34636,7 +34634,7 @@ zR
 cl
 Pk
 bd
-oZ
+ma
 bd
 Pk
 cl
@@ -34890,7 +34888,7 @@ ma
 bd
 Gs
 bd
-bd
+oZ
 bd
 ma
 bd
@@ -37196,7 +37194,7 @@ zR
 mr
 Pk
 bd
-Bp
+ma
 bd
 Pk
 mr

@@ -1,5 +1,8 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "al" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
 /obj/effect/landmark/patrol_node{
 	id = "destroyer_bridge";
 	next_id = "destroyer_aft"
@@ -312,6 +315,10 @@
 /obj/machinery/vending/cola/sodie,
 /turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
+"pm" = (
+/obj/machinery/light/floor,
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "po" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/engine,
@@ -458,6 +465,10 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "xt" = (
 /obj/machinery/suit_storage_unit,
+/obj/item/clothing/suit/space/eva,
+/obj/item/clothing/head/helmet/space/eva,
+/obj/item/tank/internals/oxygen,
+/obj/item/clothing/mask/breath,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "xu" = (
@@ -494,7 +505,8 @@
 "zj" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/structure/overmap/small_craft/combat/light{
-	name = "Captured Su-818 Rapier"
+	name = "Captured Su-818 Rapier";
+	req_one_access = list()
 	},
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
@@ -32834,7 +32846,7 @@ nc
 nc
 nc
 AX
-nc
+pm
 nc
 nc
 Xu
@@ -38971,7 +38983,7 @@ fG
 lZ
 Qz
 Uf
-Qz
+al
 Cb
 fG
 fG
@@ -39483,7 +39495,7 @@ kQ
 CW
 nc
 DL
-al
+nc
 FB
 fG
 fG
