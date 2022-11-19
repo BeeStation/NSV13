@@ -734,12 +734,6 @@
 	icon_state = "security"
 	ambience_index = AMBIENCE_DANGER
 
-
-
-/area/Exited(atom/movable/M)
-	SEND_SIGNAL(src, COMSIG_AREA_EXITED, M)
-	SEND_SIGNAL(M, COMSIG_EXIT_AREA, src) //The atom that exits the area
-
 /area/engine/engineering/reactor_core
 	name = "Nuclear Reactor Core"
 	icon_state = "engine_core"

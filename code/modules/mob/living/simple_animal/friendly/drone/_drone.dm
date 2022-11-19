@@ -80,7 +80,7 @@
 	"<span class='warning'><u>If you do not have the regular drone laws, follow your laws to the best of your ability.</u></span>"
 	chat_color = "#8AB48C"
 
-/mob/living/simple_animal/drone/Initialize()
+/mob/living/simple_animal/drone/Initialize(mapload)
 	. = ..()
 	GLOB.drones_list += src
 	access_card = new /obj/item/card/id(src)
@@ -137,7 +137,7 @@
 /mob/living/simple_animal/drone/auto_deadmin_on_login()
 	if(!client?.holder)
 		return TRUE
-	if(CONFIG_GET(flag/auto_deadmin_silicons) || (client.prefs?.toggles & DEADMIN_POSITION_SILICON))
+	if(CONFIG_GET(flag/auto_deadmin_silicons) || (client.prefs?.toggles & PREFTOGGLE_DEADMIN_POSITION_SILICON))
 		return client.holder.auto_deadmin()
 	return ..()
 

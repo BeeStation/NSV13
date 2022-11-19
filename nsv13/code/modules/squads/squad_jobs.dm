@@ -7,8 +7,8 @@
 		return //No
 
 	var/datum/squad/squad = null
-	if(H.client?.prefs?.preferred_squad)
-		squad = GLOB.squad_manager.get_squad(H.client.prefs.preferred_squad)
+	if(H.client?.prefs?.active_character.preferred_squad)
+		squad = GLOB.squad_manager.get_squad(H.client.prefs.active_character.preferred_squad)
 	if(!squad || (length(squad.members) > squad.max_members) || (LAZYFIND(squad.disallowed_jobs, type) && !LAZYFIND(squad.allowed_jobs, type)))
 		squad = GLOB.squad_manager.get_joinable_squad(src)
 	if(!squad)

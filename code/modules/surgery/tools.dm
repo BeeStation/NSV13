@@ -55,7 +55,7 @@
 /obj/item/cautery
 	name = "cautery"
 	desc = "This stops bleeding."
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "cautery"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
@@ -71,7 +71,7 @@
 /obj/item/cautery/augment
 	name = "cautery"
 	desc = "A heated element that cauterizes wounds."
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "cautery"
 	materials = list(/datum/material/iron=2500, /datum/material/glass=750)
 	flags_1 = CONDUCT_1
@@ -83,11 +83,11 @@
 /obj/item/blood_filter
 	name = "blood filter"
 	desc = "For filtering the blood."
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "bloodfilter"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
-	custom_materials = list(/datum/material/iron=2000, /datum/material/glass=1500, /datum/material/silver=500)
+	materials = list(/datum/material/iron=2000, /datum/material/glass=1500, /datum/material/silver=500)
 	flags_1 = CONDUCT_1
 	w_class = WEIGHT_CLASS_NORMAL
 	attack_verb = list("pumps", "siphons")
@@ -98,7 +98,7 @@
 /obj/item/surgicaldrill
 	name = "surgical drill"
 	desc = "You can drill using this item. You dig?"
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "drill"
 	lefthand_file = 'icons/mob/inhands/equipment/tools_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
@@ -121,7 +121,7 @@
 /obj/item/surgicaldrill/augment
 	name = "surgical drill"
 	desc = "Effectively a small power drill contained within your arm, edges dulled to prevent tissue damage. May or may not pierce the heavens."
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "drill"
 	hitsound = 'sound/weapons/circsawhit.ogg'
 	materials = list(/datum/material/iron=10000, /datum/material/glass=6000)
@@ -135,7 +135,7 @@
 /obj/item/scalpel
 	name = "scalpel"
 	desc = "Cut, cut, and once more cut."
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'icons/obj/surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "scalpel"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
@@ -153,14 +153,14 @@
 	tool_behaviour = TOOL_SCALPEL
 	toolspeed = 1
 
-/obj/item/scalpel/Initialize()
+/obj/item/scalpel/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/butchering, 80 * toolspeed, 100, 0)
 
 /obj/item/scalpel/augment
 	name = "scalpel"
 	desc = "Ultra-sharp blade attached directly to your bone for extra-accuracy."
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "scalpel"
 	flags_1 = CONDUCT_1
 	force = 10
@@ -182,7 +182,7 @@
 /obj/item/circular_saw
 	name = "circular saw"
 	desc = "For heavy duty cutting."
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "saw"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
@@ -200,14 +200,14 @@
 	tool_behaviour = TOOL_SAW
 	toolspeed = 1
 
-/obj/item/circular_saw/Initialize()
+/obj/item/circular_saw/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/butchering, 40 * toolspeed, 100, 5, 'sound/weapons/circsawhit.ogg') //saws are very accurate and fast at butchering
 
 /obj/item/circular_saw/augment
 	name = "circular saw"
 	desc = "A small but very fast spinning saw. Edges dulled to prevent accidental cutting inside of the surgeon."
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "saw"
 	hitsound = 'sound/weapons/circsawhit.ogg'
 	throwhitsound =  'sound/weapons/pierce.ogg'
@@ -312,7 +312,7 @@
 /obj/item/scalpel/advanced
 	name = "laser scalpel"
 	desc = "An advanced scalpel which uses laser technology to cut."
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "scalpel_a"
 	hitsound = 'sound/weapons/blade1.ogg'
 	force = 16
@@ -321,6 +321,7 @@
 	light_range = 1
 	light_color = LIGHT_COLOR_GREEN
 	sharpness = IS_SHARP_ACCURATE
+
 
 /obj/item/scalpel/advanced/attack_self(mob/user)
 	playsound(get_turf(user), 'sound/machines/click.ogg', 50, TRUE)
@@ -344,7 +345,7 @@
 /obj/item/retractor/advanced
 	name = "mechanical pinches"
 	desc = "An agglomerate of rods and gears."
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "retractor_a"
 	toolspeed = 0.7
 
@@ -366,7 +367,7 @@
 /obj/item/surgicaldrill/advanced
 	name = "searing tool"
 	desc = "It projects a high power laser used for medical application."
-	icon = 'icons/obj/surgery.dmi'
+	icon = 'nsv13/icons/obj/legacy_surgery.dmi' //NSV13 - recolored sprites
 	icon_state = "surgicaldrill_a"
 	hitsound = 'sound/items/welder.ogg'
 	toolspeed = 0.7
@@ -374,7 +375,6 @@
 	w_class = WEIGHT_CLASS_SMALL
 	light_system = MOVABLE_LIGHT
 	light_range = 1
-
 
 /obj/item/surgicaldrill/advanced/attack_self(mob/user)
 	playsound(get_turf(user), 'sound/weapons/tap.ogg', 50, TRUE)

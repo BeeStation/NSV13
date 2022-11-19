@@ -1,8 +1,8 @@
 /datum/job/master_at_arms
-	title = "Master At Arms"
+	title = JOB_NAME_MASTERATARMS
 	flag = MASTER_AT_ARMS
-	auto_deadmin_role_flags = DEADMIN_POSITION_HEAD
-	department_head = list("Captain")
+	auto_deadmin_role_flags = PREFTOGGLE_DEADMIN_POSITION_HEAD
+	department_head = list(JOB_NAME_CAPTAIN)
 	department_flag = ENGSEC
 	head_announce = list("Munitions")
 	faction = "Station"
@@ -12,8 +12,8 @@
 	selection_color = "#ffbc79"
 	chat_color = "#ff7f00"
 	minimal_player_age = 7
-	exp_requirements = 180
-	exp_type = EXP_TYPE_CREW
+	exp_requirements = 1200
+	exp_type = EXP_TYPE_MUNITIONS
 	exp_type_department = EXP_TYPE_MUNITIONS
 
 	outfit = /datum/outfit/job/master_at_arms
@@ -25,15 +25,20 @@
 	mind_traits = list(TRAIT_MUNITIONS_METABOLISM)
 	display_order = JOB_DISPLAY_ORDER_MASTER_AT_ARMS
 	display_rank = "WO" //nsv13 - Displays the player's actual rank alongside their name, such as GSGT Sergei Koralev
-	departments = DEPARTMENT_COMMAND | DEPARTMENT_MUNITIONS
+	departments = DEPARTMENT_BITFLAG_COMMAND | DEPARTMENT_BITFLAG_MUNITIONS
+	rpg_title = "Combustion Sage"
 
-/datum/job/masteratarms/get_access()
+	species_outfits = list(
+		SPECIES_PLASMAMAN = /datum/outfit/plasmaman
+	)
+
+/datum/job/master_at_arms/get_access()
 	var/list/L = list()
 	L = ..() | check_config_for_sec_maint()
 	return L
 
 /datum/outfit/job/master_at_arms
-	name = "Master At Arms"
+	name = JOB_NAME_MASTERATARMS
 	jobtype = /datum/job/master_at_arms
 
 	belt = /obj/item/storage/belt/utility/full/engi
@@ -44,6 +49,7 @@
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/ship/maa_hat
 	glasses = /obj/item/clothing/glasses/sunglasses/advanced
+	id = /obj/item/card/id/job/master_at_arms
 	l_pocket = /obj/item/pda
 	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1)
 
@@ -55,5 +61,5 @@
 	pda_slot = ITEM_SLOT_LPOCKET
 
 /obj/effect/landmark/start/master_at_arms
-	name = "Master At Arms"
+	name = JOB_NAME_MASTERATARMS
 	icon_state = "Master At Arms"

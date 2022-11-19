@@ -57,8 +57,14 @@
 #define ORGAN_ORGANIC   1
 #define ORGAN_ROBOTIC   2
 
-#define BODYPART_ORGANIC   1
-#define BODYPART_ROBOTIC   2
+
+//Bodytype defines for how things can be worn.
+#define BODYTYPE_ORGANIC		(1<<0)
+#define BODYTYPE_ROBOTIC		(1<<1)
+#define BODYTYPE_HUMANOID		(1<<2) //Everything that isnt Grod
+#define BODYTYPE_BOXHEAD		(1<<3) //TV Head
+#define BODYTYPE_DIGITIGRADE	(1<<4) //Cancer
+#define NUMBER_OF_BODYTYPES	5 //KEEP THIS UPDATED OR SHIT WILL BREAK
 
 #define BODYPART_NOT_DISABLED 0
 #define BODYPART_DISABLED_DAMAGE 1
@@ -73,10 +79,13 @@
 #define LARVA_BODYPART "larva"
 #define DEVIL_BODYPART "devil"
 
-//Species gib types
+//Bodypart change blocking flags
+#define BP_BLOCK_CHANGE_SPECIES	(1<<0)
 
+//Species gib types
 #define GIB_TYPE_HUMAN "human"
 #define GIB_TYPE_ROBOTIC "robotic"
+
 //Species ID defines
 #define SPECIES_HUMAN			"human"
 #define SPECIES_IPC 			"ipc"
@@ -85,10 +94,17 @@
 #define SPECIES_APID 			"apid"
 #define SPECIES_MOTH			"moth"
 #define SPECIES_LIZARD			"lizard"
+ #define SPECIES_ASHWALKER		"ashlizard"
 #define SPECIES_FELINID			"felinid"
 #define SPECIES_OOZELING		"oozeling"
 #define SPECIES_FLY 			"fly"
-#define SPECIES_SQUID			"squid" //I forgot squids existed lmao
+#define SPECIES_MONKEY			"monkey"
+#define SPECIES_JELLYPERSON		"jelly"
+ #define SPECIES_SLIMEPERSON	"slime"
+ #define SPECIES_LUMINESCENT	"lum"
+ #define SPECIES_STARGAZER		"stargazer"
+#define SPECIES_ABDUCTOR		"abductor"
+#define SPECIES_SHADOWPERSON	"shadow"
 
 //Species bitflags, used for species_restricted. If this somehow ever gets above 23 Bee has larger problems.
 #define FLAG_HUMAN			(1<<0)
@@ -101,8 +117,12 @@
 #define FLAG_FELINID		(1<<7)
 #define FLAG_OOZELING		(1<<8)
 #define FLAG_FLY			(1<<9)
-#define FLAG_SQUID			(1<<10)
-#define FLAG_DEBUG_SPECIES	(1<<11)
+#define FLAG_DEBUG_SPECIES	(1<<10)
+#define FLAG_MONKEY (1<<11)
+
+#define DIGITIGRADE_NEVER 0
+#define DIGITIGRADE_OPTIONAL 1
+#define DIGITIGRADE_FORCED 2
 
 //Reagent Metabolization flags, defines the type of reagents that affect this mob
 #define PROCESS_ORGANIC 1		//Only processes reagents with "ORGANIC" or "ORGANIC | SYNTHETIC"
@@ -149,7 +169,7 @@
 #define BRAIN_TRAUMA_MAGIC /datum/brain_trauma/magic
 
 #define TRAUMA_RESILIENCE_BASIC 1      //! Curable with chems
-#define TRAUMA_RESILIENCE_SURGERY 2    //! Curable with brain surgery
+#define TRAUMA_RESILIENCE_SURGERY 2    //! Curable with brain recalibration
 #define TRAUMA_RESILIENCE_LOBOTOMY 3   //! Curable with lobotomy
 #define TRAUMA_RESILIENCE_MAGIC 4      //! Curable only with magic
 #define TRAUMA_RESILIENCE_ABSOLUTE 5   //! This is here to stay
@@ -201,7 +221,7 @@
 #define SANITY_CRAZY 25
 #define SANITY_INSANE 0
 
-//Hygiene levels for humans
+//NSV13 - Hygiene levels for humans
 #define HYGIENE_LEVEL_CLEAN 250
 #define HYGIENE_LEVEL_NORMAL 200
 #define HYGIENE_LEVEL_DIRTY 75
@@ -328,8 +348,7 @@
 //ED209's ignore monkeys
 #define JUDGE_IGNOREMONKEYS	(1<<4)
 
-#define SHADOW_SPECIES_LIGHT_THRESHOLD 0.2
-
+#define SHADOW_SPECIES_LIGHT_THRESHOLD 0.25
 // Offsets defines
 
 #define OFFSET_UNIFORM "uniform"
@@ -355,12 +374,12 @@
 #define WIZARD_AGE_MIN		30	//! youngest a wizard can be
 #define APPRENTICE_AGE_MIN	29	//! youngest an apprentice can be
 #define SHOES_SLOWDOWN		0	//! How much shoes slow you down by default. Negative values speed you up
-#define POCKET_STRIP_DELAY			40	//! time taken (in deciseconds) to search somebody's pockets
+#define POCKET_STRIP_DELAY	(4 SECONDS)	//! time taken to search somebody's pockets
 #define DOOR_CRUSH_DAMAGE	15	//! the amount of damage that airlocks deal when they crush you
 
 #define	HUNGER_FACTOR		0.1	//! factor at which mob nutrition decreases
+#define	HYGIENE_FACTOR  	0.1	//! NSV13 - factor at which mob hygiene decreases
 #define ETHEREAL_CHARGE_FACTOR	2.0 //! NSV13 - factor at which ethereal's charge decreases
-#define	HYGIENE_FACTOR  0.1	//! factor at which mob hygiene decreases
 #define	REAGENTS_METABOLISM 0.4	//! How many units of reagent are consumed per tick, by default.
 #define REAGENTS_EFFECT_MULTIPLIER (REAGENTS_METABOLISM / 0.4)	//! By defining the effect multiplier this way, it'll exactly adjust all effects according to how they originally were with the 0.4 metabolism
 
@@ -425,3 +444,13 @@
 
 ///Define for spawning megafauna instead of a mob for cave gen
 #define SPAWN_MEGAFAUNA "bluh bluh huge boss"
+
+//Body sizes
+#define BODY_SIZE_NORMAL 1
+#define BODY_SIZE_SHORT 0.93
+#define BODY_SIZE_TALL 1.03
+
+/// Throw modes, defines whether or not to turn off throw mode after
+#define THROW_MODE_DISABLED 0
+#define THROW_MODE_TOGGLE 1
+#define THROW_MODE_HOLD 2

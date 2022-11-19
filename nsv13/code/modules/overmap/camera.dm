@@ -119,7 +119,7 @@
 	name = "Inactive Camera Eye"
 	var/datum/action/innate/camera_off/overmap/off_action
 	animate_movement = 0 //Stops glitching with overmap movement
-	use_static = USE_STATIC_NONE
+	use_static = FALSE
 	var/obj/structure/overmap/last_target = null //Lets gunners lock on to their targets for accurate shooting.
 
 /datum/action/innate/camera_off/overmap
