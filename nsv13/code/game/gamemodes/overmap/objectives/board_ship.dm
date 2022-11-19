@@ -20,7 +20,7 @@
 	// give it a home
 	var/list/candidates = list()
 	for(var/datum/star_system/S in SSstar_system.neutral_zone_systems)
-		if(!S.hidden && !length(S.fleets) && (!S.get_info()?["Black hole"]) && (S != SSstar_system.system_by_id(SSovermap_mode.mode.starting_system)))
+		if(!S.hidden && !length(S.fleets) && (!S.get_info()?["Black hole"]) && (S != SSstar_system.system_by_id(SSovermap_mode.mode.starting_system)) && (S.faction == target_ship.faction || "unaligned" || "uncharted")
 			candidates += S
 	target_system = pick(candidates)
 	brief = "Capture the syndicate vessel [target_ship] in [target_system] by boarding it, defeating the enemies therein, and modifying its IFF codes."
