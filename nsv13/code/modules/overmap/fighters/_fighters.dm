@@ -52,7 +52,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/mutable_appearance/canopy
 	var/random_name = TRUE
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/change_name, .verb/countermeasure)
-	var/repair_speed = 25 // How much integrity you can repair per second
 	var/busy = FALSE
 
 /obj/structure/overmap/small_craft/Destroy()
@@ -748,9 +747,15 @@ Been a mess since 2018, we'll fix it someday (probably)
 		return TRUE
 	busy = TRUE
 	to_chat(user, "<span class='notice'>You start welding some dents out of [src]'s hull...</span>")
-	if(I.use_tool(src, user, ((max_integrity-obj_integrity) / repair_speed) SECONDS, volume=100))
-		to_chat(user, "<span class='notice'>You weld some dents out of [src]'s hull.</span>")
-		obj_integrity = max_integrity
+	while(obj_integrity < max_integrity)
+		if(!I.use_tool(src, user, 1 SECONDS, volume=100))
+			busy = FALSE
+			return TRUE
+		obj_integrity += 25
+		if(obj_integrity >= max_integrity)
+			obj_integrity = max_integrity
+			break
+	to_chat(user, "<span class='notice'>You finish welding[obj_integrity == max_integrity ? "" : " some of"] the dents out of [src]'s hull.</span>")
 	busy = FALSE
 	return TRUE
 
@@ -974,11 +979,15 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 		return TRUE
 	busy = TRUE
 	to_chat(user, "<span class='notice'>You start welding some dents out of [src]...</span>")
-	if(I.use_tool(src, user, ((max_integrity-obj_integrity) / repair_speed) SECONDS, volume=100))
-		to_chat(user, "<span class='notice'>You repair [src].</span>")
-		obj_integrity = max_integrity
-		busy = FALSE
-		return TRUE
+	while(obj_integrity < max_integrity)
+		if(!I.use_tool(src, user, 1 SECONDS, volume=100))
+			busy = FALSE
+			return TRUE
+		obj_integrity += 25
+		if(obj_integrity >= max_integrity)
+			obj_integrity = max_integrity
+			break
+	to_chat(user, "<span class='notice'>You finish welding[obj_integrity == max_integrity ? "" : " some of"] the dents out of [src].</span>")
 	busy = FALSE
 
 /obj/item/fighter_component/armour_plating/tier2
