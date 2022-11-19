@@ -6015,6 +6015,7 @@
 "CO" = (
 /obj/machinery/modular_computer/console/preset/command,
 /obj/machinery/computer/ship/viewscreen,
+/obj/item/book/manual/wiki/sop/command,
 /turf/open/floor/plasteel/ridged/steel,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -7912,7 +7913,10 @@
 /area/tcommsat/computer)
 "Lc" = (
 /obj/structure/table/reinforced,
-/obj/item/book/manual/wiki/sop/command,
+/obj/item/kirbyplants{
+	icon_state = "plant-32";
+	pixel_y = 11
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -9240,9 +9244,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
-/obj/item/kirbyplants{
-	icon_state = "plant-32"
-	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -9911,10 +9912,6 @@
 /obj/structure/table,
 /obj/machinery/camera/autoname{
 	dir = 8
-	},
-/obj/machinery/fax{
-	name = "Security Fax Machine";
-	fax_name = "Security"
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/locker_room)
