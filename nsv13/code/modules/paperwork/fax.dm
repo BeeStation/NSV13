@@ -156,14 +156,15 @@
 		return TRUE
 
 	var/obj/item/card/id/used_card = user.get_idcard(TRUE)
-	// We check if it makes sense to check access at all.
-	if(!access_additional_faxes_required || !used_card.access)
-		return FALSE
+	if(used_card)
+		// We check if it makes sense to check access at all.
+		if(!access_additional_faxes_required || !used_card.access)
+			return FALSE
 
-	for(var/requested_access in access_additional_faxes_required)
-		if(requested_access in used_card.access)
-			return TRUE
-	return FALSE
+		for(var/requested_access in access_additional_faxes_required)
+			if(requested_access in used_card.access)
+				return TRUE
+		return FALSE
 
 // Switches access to the "legal" administrator's fax list. Access to the "illegal" is switched by hacking.
 /obj/machinery/fax/proc/access_additional_faxes_toggle()

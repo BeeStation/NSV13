@@ -49,7 +49,6 @@ GLOBAL_DATUM_INIT(fax_manager, /datum/fax_manager, new)
 		request["sender_fax_id"] = REQUEST["sender_fax_id"]
 		request["sender_fax_name"] = REQUEST["sender_fax_name"]
 		request["receiver_fax_name"] = REQUEST["receiver_fax_name"]
-		//request["photo"] = photo_ID
 		data["requests"] += list(request)
 	return data
 
@@ -117,19 +116,17 @@ GLOBAL_DATUM_INIT(fax_manager, /datum/fax_manager, new)
 		if(REQUEST["id_message"] == id_message)
 			return REQUEST
 
-/datum/fax_manager/proc/receive_request(mob/sender, obj/machinery/fax/sender_fax, receiver_fax_name, obj/item/recieve, receiver_color)
+/datum/fax_manager/proc/receive_request(mob/sender, obj/machinery/fax/sender_fax, receiver_fax_name, obj/item/paper/paper, receiver_color)
 	var/list/request = list()
+	var/obj/item/paper/request/message = new()
 	request["id_message"] = requests.len
 	request["time"] = gameTimestamp()
 	request["sender"] = sender
 	request["sender_fax_id"] = sender_fax.fax_id
 	request["sender_fax_name"] = sender_fax.fax_name
 	request["receiver_fax_name"] = receiver_fax_name
-	if(istype(recieve, /obj/item/paper))
-		var/obj/item/paper/paper = recieve
-		var/obj/item/paper/request/message = new()
-		message.copy_properties(paper)
-		request["paper"] = message
+	message.copy_properties(paper)
+	request["paper"] = message
 	requests += list(request)
 	var/msg = "<span class='adminnotice'><b><font color=[receiver_color]>[sanitize(receiver_fax_name)] fax</font> received a message from [sanitize(sender_fax.fax_name)][ADMIN_JMP(sender_fax)]/[ADMIN_FULLMONTY(sender)]</b></span>"
 	to_chat(GLOB.admins, msg)
@@ -145,8 +142,9 @@ GLOBAL_DATUM_INIT(fax_manager, /datum/fax_manager, new)
 /obj/item/paper/request/proc/copy_properties(obj/item/paper/paper)
 	info = paper.info
 	color = paper.color
-	stamps = paper.stamps
-	if(stamped)
+	if(paper.stamps)
+		stamps = paper.stamps
 		stamped = paper.stamped.Copy()
-	form_fields = paper.form_fields.Copy()
-	field_counter = paper.field_counter
+	if(paper.form_fields)
+		form_fields = paper.form_fields.Copy()
+		field_counter = paper.field_counter
