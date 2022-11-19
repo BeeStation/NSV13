@@ -15,7 +15,7 @@
 		announcement += "<h1 class='alert'>Priority Announcement</h1>"
 		if (title && length(title) > 0)
 			announcement += "<br><h2 class='alert'>[html_encode(title)]</h2>"
-	else if(type == "Captain")
+	else if(type == JOB_NAME_CAPTAIN)
 		announcement += "<h1 class='alert'>Captain Announces</h1>"
 		GLOB.news_network.SubmitArticle(html_encode(text), "Captain's Announcement", "Station Announcements", null)
 
@@ -46,7 +46,7 @@
 	for(var/mob/M in GLOB.player_list)
 		if(!isnewplayer(M) && M.can_hear())
 			to_chat(M, announcement)
-			if(M.client.prefs.toggles & SOUND_ANNOUNCEMENTS)
+			if(M.client.prefs.toggles & PREFTOGGLE_SOUND_ANNOUNCEMENTS)
 				SEND_SOUND(M, s)
 
 /proc/exploration_announce(text, z_value)
@@ -89,7 +89,7 @@
 			if(from)
 				complete_msg += "<span class='alert'>-[from]</span>"
 			to_chat(M, complete_msg)
-			if(M.client.prefs.toggles & SOUND_ANNOUNCEMENTS)
+			if(M.client.prefs.toggles & PREFTOGGLE_SOUND_ANNOUNCEMENTS)
 				if(alert)
 					SEND_SOUND(M, sound('sound/misc/notice1.ogg'))
 				else

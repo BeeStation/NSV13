@@ -59,7 +59,7 @@
 /obj/machinery/plantgenes/update_icon()
 	..()
 	cut_overlays()
-	if((stat & (BROKEN|NOPOWER)))
+	if((machine_stat & (BROKEN|NOPOWER)))
 		icon_state = "dnamod-off"
 	else
 		icon_state = "dnamod"
@@ -443,7 +443,7 @@
 	var/read_only = 0 //Well, it's still a floppy disk
 	obj_flags = UNIQUE_RENAME
 
-/obj/item/disk/plantgene/Initialize()
+/obj/item/disk/plantgene/Initialize(mapload)
 	. = ..()
 	add_overlay("datadisk_gene")
 	src.pixel_x = rand(-5, 5)

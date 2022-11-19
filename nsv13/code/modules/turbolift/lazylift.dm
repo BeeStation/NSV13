@@ -58,7 +58,7 @@ That's it, ok bye!
 	var/lift_id = null // A unique ID that can be used to link a specific lift to a specific button
 	var/obj/machinery/lazylift/lift = null //Pointer to the lift controller in our area on this deck, we then ask its master to path the lift to us, assuming it isn't busy or anything.
 
-/obj/machinery/lazylift_button/Initialize()
+/obj/machinery/lazylift_button/Initialize(mapload)
 	. = ..()
 	if(lift_id)
 		for(var/obj/machinery/lazylift/LL in GLOB.machines)
@@ -78,7 +78,7 @@ That's it, ok bye!
 	return attack_hand(user)
 
 /obj/machinery/lazylift_button/attack_hand(mob/user)
-	if((stat & NOPOWER) || !lift)
+	if((machine_stat & NOPOWER) || !lift)
 		to_chat(user, "<span class='warning'>Nothing happens...</span>")
 		return
 	if(isliving(user) && user.mouse_opacity) //Don't display things like AIs or admin ghosts clicking the button.
@@ -131,7 +131,7 @@ That's it, ok bye!
 	var/list/addresses = list() //Voice activation! Lets you speak into the elevator to tell it where you wanna go. This stores all the departments on this floor. If youre lazy and re-use floors then uh...sucks to be you I guess!
 	var/next_voice_activation = 0
 
-/obj/machinery/lazylift/Initialize()
+/obj/machinery/lazylift/Initialize(mapload)
 	. = ..()
 	become_hearing_sensitive()
 
@@ -229,7 +229,7 @@ That's it, ok bye!
 	turbolift_end_sound = 'nsv13/sound/effects/lift/lift_end.ogg'
 	play_voice_lines = FALSE //Fancy, silent lift.
 
-/obj/machinery/lazylift/Initialize()
+/obj/machinery/lazylift/Initialize(mapload)
 	. = ..()
 	for(var/turf/open/T in get_area(src))
 		if(T.z != z)
@@ -245,7 +245,7 @@ That's it, ok bye!
 			continue
 		addresses += AR
 
-/obj/machinery/lazylift/master/Initialize()
+/obj/machinery/lazylift/master/Initialize(mapload)
 	. = ..()
 	master = src
 	var/turf/T = get_turf(src)

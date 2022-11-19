@@ -104,9 +104,9 @@ GENE SCANNER
 
 /obj/item/healthanalyzer/attack(mob/living/M, mob/living/carbon/human/user)
 	flick("[icon_state]-scan", src)	//makes it so that it plays the scan animation upon scanning, including clumsy scanning
+	playsound(src, 'sound/effects/fastbeep.ogg', 10)
 
 	// Clumsiness/brain damage check
-
 	if((HAS_TRAIT(user, TRAIT_CLUMSY) || HAS_TRAIT(user, TRAIT_DUMB)) && prob(50))
 		user.visible_message("<span class='warning'>[user] analyzes the floor's vitals!</span>", \
 							"<span class='notice'>You stupidly try to analyze the floor's vitals!</span>")
@@ -268,7 +268,7 @@ GENE SCANNER
 
 			for(var/o in damaged)
 				var/obj/item/bodypart/org = o //head, left arm, right arm, etc.
-				dmgreport += "<tr><td><font color='#0000CC'>[capitalize(org.name)]:</font></td>\
+				dmgreport += "<tr><td><font color='#0000CC'>[capitalize(parse_zone(org.body_zone))]:</font></td>\
 								<td><font color='red'>[(org.brute_dam > 0) ? "[round(org.brute_dam,1)]" : "0"]</font></td>\
 								<td><font color='orange'>[(org.burn_dam > 0) ? "[round(org.burn_dam,1)]" : "0"]</font></td></tr>"
 			dmgreport += "</font></table>"
@@ -701,6 +701,9 @@ GENE SCANNER
 	if(T.cores > 1)
 		to_chat(user, "Multiple cores detected")
 	to_chat(user, "Growth progress: [T.amount_grown]/[SLIME_EVOLUTION_THRESHOLD]")
+	if(T.has_status_effect(STATUS_EFFECT_SLIMEGRUB))
+		to_chat(user, "<b>Redgrub infestation detected. Quarantine immediately.</b>")
+		to_chat(user, "Redgrubs can be purged from a slime using capsaicin oil or extreme heat")
 	if(T.effectmod)
 		to_chat(user, "<span class='notice'>Core mutation in progress: [T.effectmod]</span>")
 		to_chat(user, "<span class = 'notice'>Progress in core mutation: [T.applied] / [SLIME_EXTRACT_CROSSING_REQUIRED]</span>")
@@ -802,12 +805,13 @@ GENE SCANNER
 	var/ready = TRUE
 	var/cooldown = 200
 
-/obj/item/sequence_scanner/attack(mob/living/M, mob/living/carbon/human/user)
+/obj/item/sequence_scanner/attack(mob/living/M, mob/living/user)
 	add_fingerprint(user)
 	if(!HAS_TRAIT(M, TRAIT_RADIMMUNE) && !HAS_TRAIT(M, TRAIT_BADDNA)) //no scanning if its a husk or DNA-less Species
 		user.visible_message("<span class='notice'>[user] analyzes [M]'s genetic sequence.</span>", \
 							"<span class='notice'>You analyze [M]'s genetic sequence.</span>")
 		gene_scan(M, user)
+		playsound(src, 'sound/effects/fastbeep.ogg', 20)
 
 	else
 		user.visible_message("<span class='notice'>[user] failed to analyse [M]'s genetic sequence.</span>", "<span class='warning'>[M] has no readable genetic sequence!</span>")
@@ -874,10 +878,10 @@ GENE SCANNER
 	ready = TRUE
 
 /obj/item/sequence_scanner/proc/get_display_name(mutation)
-	var/datum/mutation/human/HM = GET_INITIALIZED_MUTATION(mutation)
+	var/datum/mutation/HM = GET_INITIALIZED_MUTATION(mutation)
 	if(!HM)
 		return "ERROR"
-	if(mutation in discovered)
+	if(discovered[mutation])
 		return  "[HM.name] ([HM.alias])"
 	else
 		return HM.alias
@@ -890,11 +894,12 @@ GENE SCANNER
 	item_flags = NOBLUDGEON
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_NORMAL
+	var/using = FALSE
 	var/scan = TRUE
-	var/cooldown = -1000 //so it's charged roundstart
+	var/cooldown
 	var/obj/item/stock_parts/scanning_module/scanner //used for upgrading!
 
-/obj/item/extrapolator/Initialize()
+/obj/item/extrapolator/Initialize(mapload)
 	. = ..()
 	scanner = new(src)
 
@@ -922,11 +927,11 @@ GENE SCANNER
 	if(scan)
 		icon_state = "extrapolator_sample"
 		scan = FALSE
-		to_chat(user, "<span class='notice'>You remove the probe from the device and set it to EXTRACT</span>")
+		to_chat(user, "<span class='notice'>You remove the probe from the device and set it to EXTRACT.</span>")
 	else
 		icon_state = "extrapolator_scan"
 		scan = TRUE
-		to_chat(user, "<span class='notice'>You put the probe back in the device and set it to SCAN</span>")
+		to_chat(user, "<span class='notice'>You put the probe back in the device and set it to SCAN.</span>")
 
 /obj/item/extrapolator/examine(mob/user)
 	. = ..()
@@ -935,10 +940,6 @@ GENE SCANNER
 			. += "<span class='notice'>The scanner is missing.</span>"
 		else
 			. += "<span class='notice'>A class <b>[scanner.rating]</b> scanning module is installed. It is <i>screwed</i> in place.</span>"
-		if(cooldown > world.time - (1200 / scanner.rating))
-			. += "<span class='warning'>The extrapolator is still recharging!</span>"
-		else
-			. += "<span class='info'>The extrapolator is ready to use!</span>"
 
 
 /obj/item/extrapolator/attack(atom/AM, mob/living/user)
@@ -946,18 +947,18 @@ GENE SCANNER
 
 /obj/item/extrapolator/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	if(!proximity_flag)
+	if(!proximity_flag && !scan)
 		return
 	if(scanner)
 		if(!target.extrapolator_act(user, src, scan))
 			if(locate(/datum/component/infective) in target.datum_components)
 				return //so the failure message does not show when we can actually extrapolate from a component
 			if(scan)
-				to_chat(user, "<span class='notice'>the extrapolator fails to return any data</span>")
+				to_chat(user, "<span class='notice'>The extrapolator fails to return any data.</span>")
 			else
-				to_chat(user, "<span class='notice'>the extrapolator's probe detects no diseases</span>")
+				to_chat(user, "<span class='notice'>The extrapolator's probe detects no diseases.</span>")
 	else
-		to_chat(user, "<span class='warning'>the extrapolator has no scanner installed</span>")
+		to_chat(user, "<span class='warning'>The extrapolator has no scanner installed!</span>")
 
 /obj/item/extrapolator/proc/scan(atom/AM, var/list/diseases = list(), mob/user)
 	to_chat(user, "<span class='notice'><b>[src] detects the following diseases:</b></span>")
@@ -966,52 +967,69 @@ GENE SCANNER
 			var/datum/disease/advance/A = D
 			if(A.stealth >= (2 + scanner.rating)) //the extrapolator can detect diseases of higher stealth than a normal scanner
 				continue
-			to_chat(user, "<span class='info'><font color='green'><b>[A.name]</b>, stage [A.stage]/5</font></span>")
-			to_chat(user, "<span class='info'><b>[A] has the following symptoms:</b></span>")
-			for(var/datum/symptom/S in A.symptoms)
-				to_chat(user, "<span class='info'>[S.name]</span>")
+			if(A.dormant)
+				to_chat(user, "<span class='info'><font color='A19D9C'><b>[A.name]</b>, dormant virus</font></span>")
+				to_chat(user, "<span class='info'><font color='BAB9B9'><b>[A] has the following symptoms:</b></font></span>")
+				for(var/datum/symptom/S in A.symptoms)
+					to_chat(user, "<span class='info'><font color='BAB9B9'>[S.name]</font></span>")
+			else
+				to_chat(user, "<span class='info'><font color='green'><b>[A.name]</b>, stage [A.stage]/5</font></span>")
+				to_chat(user, "<span class='info'><b>[A] has the following symptoms:</b></span>")
+				for(var/datum/symptom/S in A.symptoms)
+					to_chat(user, "<span class='info'>[S.name]</span>")
 		else
 			to_chat(user, "<span class='info'><font color='green'><b>[D.name]</b>, stage [D.stage]/[D.max_stages].</font></span>")
 
 /obj/item/extrapolator/proc/extrapolate(atom/AM, var/list/diseases = list(), mob/user, isolate = FALSE, timer = 200)
 	var/list/advancediseases = list()
 	var/list/symptoms = list()
-	if(cooldown > world.time - (1000 / scanner.rating))
-		to_chat(user, "<span class='warning'>The extrapolator is still recharging!</span>")
+	if(using)
+		to_chat(user, "<span class='warning'>The extrapolator is already in use.</span>")
 		return
 	for(var/datum/disease/advance/cantidate in diseases)
 		advancediseases += cantidate
 	if(!LAZYLEN(advancediseases))
 		to_chat(user, "<span class='warning'>There are no valid diseases to make a culture from.</span>")
 		return
-	var/datum/disease/advance/A = input(user,"What disease do you wish to extract") in null|advancediseases
+	if(cooldown > world.time - (10))
+		to_chat(user, "<span class='warning'>The extrapolator is still recharging!</span>")
+		return
+	var/datum/disease/advance/A = input(user,"Which disease do you wish to extract?") in null|advancediseases
 	if(isolate)
+		using = TRUE
 		for(var/datum/symptom/S in A.symptoms)
 			if(S.level <= 6 + scanner.rating)
 				symptoms += S
 			continue
-		var/datum/symptom/chosen = input(user,"What symptom do you wish to isolate") in null|symptoms
+		var/datum/symptom/chosen = input(user,"Which symptom do you wish to isolate?") in null|symptoms
 		var/datum/disease/advance/symptomholder = new
 		if(!symptoms.len || !chosen)
+			using = FALSE
 			to_chat(user, "<span class='warning'>There are no valid diseases to isolate a symptom from.</span>")
 			return
 		symptomholder.name = chosen.name
 		symptomholder.symptoms += chosen
 		symptomholder.Finalize()
 		symptomholder.Refresh()
-		to_chat(user, "<span class='warning'>you begin isolating [chosen].</span>")
-		if(do_mob(user, AM, (600 / scanner.rating)))
-			create_culture(symptomholder, user)
-	else if(do_mob(user, AM, (timer / scanner.rating)))
-		create_culture(A, user)
+		to_chat(user, "<span class='warning'>You begin isolating [chosen].</span>")
+		if(do_after(user, (600 / (scanner.rating + 1)), target = AM))
+			create_culture(symptomholder, user, AM)
+	else
+		using = TRUE
+		if(do_after(user, (timer / (scanner.rating + 1)), target = AM))
+			create_culture(A, user, AM)
+	using = FALSE
 
 /obj/item/extrapolator/proc/create_culture(var/datum/disease/advance/A, mob/user)
-	if(cooldown > world.time - (1200 / scanner.rating))
+	if(cooldown > world.time - (10))
 		to_chat(user, "<span class='warning'>The extrapolator is still recharging!</span>")
-		return FALSE
+		return
 	var/list/data = list("viruses" = list(A))
 	var/obj/item/reagent_containers/glass/bottle/B = new(user.loc)
 	cooldown = world.time
+	if(!(user.get_item_for_held_index(user.active_hand_index) == src))
+		to_chat(user, "<span class='warning'>The extrapolator must be held in your active hand to work!</span>")
+		return FALSE
 	B.name = "[A.name] culture bottle"
 	B.desc = "A small bottle. Contains [A.agent] culture in synthblood medium."
 	B.reagents.add_reagent(/datum/reagent/blood, 20, data)

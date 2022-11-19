@@ -40,7 +40,7 @@ RLD
 	var/datum/component/remote_materials/silo_mats //remote connection to the silo
 	var/silo_link = FALSE //switch to use internal or remote storage
 
-/obj/item/construction/Initialize()
+/obj/item/construction/Initialize(mapload)
 	. = ..()
 	spark_system = new /datum/effect_system/spark_spread
 	spark_system.set_up(5, 0, src)
@@ -240,9 +240,11 @@ RLD
 /obj/item/construction/rcd/proc/get_airlock_image(airlock_type)
 	var/obj/machinery/door/airlock/proto = airlock_type
 	var/ic = initial(proto.icon)
+	var/co = initial(proto.color) //NSV13 allows airlocks with color vars (mining airlocks) to be colored
 	var/mutable_appearance/MA = mutable_appearance(ic, "closed")
 	if(!initial(proto.glass))
 		MA.overlays += "fill_closed"
+	MA.color = co //NSV13 colors airlocks
 	//Not scaling these down to button size because they look horrible then, instead just bumping up radius.
 	return MA
 
@@ -267,7 +269,7 @@ RLD
 			computer_dir = 2
 		if("WEST")
 			computer_dir = 8
-
+/* NSV13 We don't use these airlocks. See nsv13/code/game/object/items/RCD.dm for NSV airlocks
 /obj/item/construction/rcd/proc/change_airlock_setting(mob/user)
 	if(!user)
 		return
@@ -404,7 +406,7 @@ RLD
 		else
 			airlock_type = /obj/machinery/door/airlock
 			airlock_glass = FALSE
-
+*/
 /obj/item/construction/rcd/proc/rcd_create(atom/A, mob/user)
 	var/list/rcd_results = A.rcd_vals(user, src)
 	if(!rcd_results)
@@ -422,7 +424,7 @@ RLD
 					return TRUE
 	qdel(rcd_effect)
 
-/obj/item/construction/rcd/Initialize()
+/obj/item/construction/rcd/Initialize(mapload)
 	. = ..()
 	airlock_electronics = new(src)
 	airlock_electronics.name = "Access Control"
@@ -528,7 +530,7 @@ RLD
 		cut_overlays()	//To prevent infinite stacking of overlays
 		add_overlay("[icon_state]_charge[ratio]")
 
-/obj/item/construction/rcd/Initialize()
+/obj/item/construction/rcd/Initialize(mapload)
 	. = ..()
 	update_icon()
 

@@ -102,7 +102,7 @@
 	else
 		return ..()
 
-/obj/machinery/turnstile/Initialize()
+/obj/machinery/turnstile/Initialize(mapload)
 	. = ..()
 	icon_state = "turnstile"
 
@@ -161,7 +161,7 @@
 	name = "Prisoner Management Interface (circuit)"
 	build_path = /obj/machinery/genpop_interface
 
-/obj/machinery/genpop_interface/Initialize()
+/obj/machinery/genpop_interface/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -170,11 +170,11 @@
 	Radio.set_frequency(FREQ_SECURITY)
 
 /obj/machinery/genpop_interface/update_icon()
-	if(stat & (NOPOWER))
+	if(machine_stat & (NOPOWER))
 		icon_state = "frame"
 		return
 
-	if(stat & (BROKEN))
+	if(machine_stat & (BROKEN))
 		set_picture("ai_bsod")
 		return
 	set_picture("genpop")
@@ -220,8 +220,8 @@
 	if(world.time < next_print)
 		to_chat(user, "<span class='warning'>[src]'s ID printer is on cooldown.</span>")
 		return FALSE
-	investigate_log("[key_name(user)] created a prisoner ID with sentence: [desired_sentence] for [desired_sentence] min", INVESTIGATE_RECORDS)
-	user.log_message("[key_name(user)] created a prisoner ID with sentence: [desired_sentence] for [desired_sentence] min", LOG_ATTACK)
+	investigate_log("[key_name(user)] created a prisoner ID with sentence: [desired_sentence / 60] for [desired_sentence / 60] min", INVESTIGATE_RECORDS)
+	user.log_message("[key_name(user)] created a prisoner ID with sentence: [desired_sentence / 60] for [desired_sentence / 60] min", LOG_ATTACK)
 
 	if(desired_crime)
 		var/datum/data/record/R = find_record("name", desired_name, GLOB.data_core.general)
@@ -234,7 +234,7 @@
 			playsound(loc, 'sound/machines/ping.ogg', 50, 1)
 
 	var/obj/item/card/id/id = new /obj/item/card/id/prisoner(get_turf(src), desired_sentence, desired_crime, desired_name)
-	Radio.talk_into(src, "Prisoner [id.registered_name] has been incarcerated for [desired_sentence] minutes.", FREQ_SECURITY)
+	Radio.talk_into(src, "Prisoner [id.registered_name] has been incarcerated for [desired_sentence / 60 ] minutes.", FREQ_SECURITY)
 	var/obj/item/paper/paperwork = new /obj/item/paper(get_turf(src))
 	paperwork.info = "<h1 id='record-of-incarceration'>Record Of Incarceration:</h1> <hr> <h2 id='name'>Name: </h2> <p>[desired_name]</p> <h2 id='crime'>Crime: </h2> <p>[desired_crime]</p> <h2 id='sentence-min'>Sentence (Min)</h2> <p>[desired_sentence/60]</p> <p>WhiteRapids Military Council, disciplinary authority</p>"
 	desired_sentence = 60
