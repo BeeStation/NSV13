@@ -40,8 +40,8 @@
 
 /obj/machinery/broadside_shell_packer/examine(mob/user)
 	. = ..()
-	. += "It has [casing_amount] shells, [load_amount] loads, and [bag_amount] bags."
-	. += "The Packer requires 5 Shells, 5 Loads and 1 Powder Bag to pack 5 Broadside Shells."
+	. += "It has [casing_amount] casings, [load_amount] loads, and [bag_amount] bags."
+	. += "The Packer requires 5 Casings, 5 Loads and 1 Powder Bag to pack 5 Broadside Shells."
 
 /obj/machinery/broadside_shell_packer/attackby(obj/item/I, mob/living/user, params)
 	. = ..()
@@ -49,7 +49,7 @@
 		if(istype(I, /obj/item/ship_weapon/parts/broadside_casing))
 			if(casing_amount < amount_to_pack)
 				casing_amount++
-				to_chat(user, "<span class='notice'>You add a shell to the table.</span>")
+				to_chat(user, "<span class='notice'>You add a casing to the table.</span>")
 				I.forceMove(src)
 				qdel(I)
 				playsound(user, 'sound/items/screwdriver2.ogg', 30)
@@ -102,7 +102,7 @@
 		reset()
 	else
 		if(casing_amount < amount_to_pack)
-			to_chat(user, "<span class='warning'>The table is missing [amount_to_pack - casing_amount] shells!</span>")
+			to_chat(user, "<span class='warning'>The table is missing [amount_to_pack - casing_amount] casings!</span>")
 		if(load_amount < amount_to_pack)
 			to_chat(user, "<span class='warning'>The table is missing [amount_to_pack - load_amount] loads!</span>")
 		if(bag_amount < 1)
