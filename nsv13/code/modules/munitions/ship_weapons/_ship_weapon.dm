@@ -440,13 +440,10 @@
  */
 /obj/machinery/ship_weapon/proc/can_fire(atom/target, shots = weapon_type.burst_size)
 	if(broadside && target)
-		if(dir == angle2dir_ship(overmap_angle(linked, target)))
-			message_admins("Starting range check with angle: [overmap_angle(linked, target)]")
-			if(dir == NORTH && (ISINRANGE(overmap_angle(linked, target), 270 - broadside_angle, 270 + broadside_angle)))
-				message_admins("In range check A [ISINRANGE(overmap_angle(linked, target), 270 - broadside_angle, 270 + broadside_angle)]")
+		if(dir == angle2dir_ship(overmap_angle(linked, target) - linked.angle))
+			if(dir == NORTH && (ISINRANGE(overmap_angle(linked, target) - linked.angle, 270 - broadside_angle, 270 + broadside_angle) || ISINRANGE(overmap_angle(linked, target), -90 -broadside_angle, -90 + broadside_angle)))
 				return TRUE
-			else if(ISINRANGE(overmap_angle(linked, target), 90 - broadside_angle, 90 + broadside_angle))
-				message_admins("In range check B [ISINRANGE(overmap_angle(linked, target), 90 - broadside_angle, 90 + broadside_angle)]")
+			else if(ISINRANGE(overmap_angle(linked, target) - linked.angle, 90 - broadside_angle, 90 + broadside_angle))
 				return TRUE
 			else
 				return FALSE

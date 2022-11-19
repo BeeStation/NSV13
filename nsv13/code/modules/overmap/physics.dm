@@ -580,7 +580,6 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 /obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE, ai_aim = FALSE, miss_chance=5, max_miss_distance=5) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
 	if(!z || QDELETED(src))
 		return FALSE
-	message_admins("Begin firing")
 	var/turf/T = get_center()
 	var/obj/item/projectile/proj = new proj_type(T)
 	if(ai_aim && !homing && !proj.hitscan)
