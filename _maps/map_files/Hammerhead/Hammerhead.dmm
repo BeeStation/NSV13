@@ -24716,6 +24716,7 @@
 /obj/machinery/newscaster{
 	pixel_y = -30
 	},
+/obj/item/reagent_containers/food/drinks/beer,
 /turf/open/floor/plasteel,
 /area/hallway/secondary/service)
 "eit" = (
@@ -26665,10 +26666,6 @@
 /obj/item/trash/semki,
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
-"fwh" = (
-/obj/structure/lattice/catwalk,
-/turf/open/space,
-/area/space/nearstation)
 "fwj" = (
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/plasteel/cafeteria,
@@ -28526,10 +28523,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
-"gMU" = (
-/obj/structure/lattice,
-/turf/open/space,
-/area/space/nearstation)
 "gNf" = (
 /obj/structure/table/reinforced,
 /obj/item/paper_bin,
@@ -33837,11 +33830,14 @@
 /area/maintenance/starboard/central)
 "kfy" = (
 /obj/structure/table,
-/obj/item/reagent_containers/food/drinks/beer,
 /obj/item/radio/intercom{
 	pixel_y = -32
 	},
 /obj/machinery/firealarm/directional/west,
+/obj/machinery/fax{
+	name = "Service Fax Machine";
+	fax_name = "Service"
+	},
 /turf/open/floor/plasteel,
 /area/hallway/secondary/service)
 "kgJ" = (
@@ -35306,9 +35302,6 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
-"ldh" = (
-/turf/closed/wall/r_wall/ship,
-/area/maintenance/department/electrical)
 "ldt" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4{
 	dir = 8
@@ -37734,6 +37727,14 @@
 /obj/machinery/seed_extractor,
 /turf/open/floor/plasteel,
 /area/hydroponics)
+"myj" = (
+/obj/structure/table/reinforced,
+/obj/machinery/fax{
+	name = "Cargo Fax Machine";
+	fax_name = "Cargo"
+	},
+/turf/open/floor/durasteel/eris_techfloor_alt,
+/area/quartermaster/storage)
 "myB" = (
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 8
@@ -39475,6 +39476,10 @@
 /obj/structure/window/reinforced/spawner/north,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/fax{
+	fax_name = "Medical";
+	name = "Medical Lobby Fax Machine"
+	},
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/lobby)
 "nDk" = (
@@ -39924,6 +39929,11 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
+/obj/machinery/fax{
+	name = "CIC Fax Machine";
+	fax_name = "CIC"
+	},
+/obj/structure/table/glass,
 /turf/open/floor/durasteel/padded,
 /area/bridge/cic)
 "nQp" = (
@@ -44189,10 +44199,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/secondary/service)
-"qBs" = (
-/obj/structure/grille,
-/turf/closed/wall/r_wall/ship,
-/area/engine/atmos)
 "qBI" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -47716,6 +47722,14 @@
 /obj/machinery/portable_atmospherics/scrubber,
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/atmos)
+"sIH" = (
+/obj/structure/table/wood,
+/obj/machinery/fax{
+	name = "Engineerings Fax Machine";
+	fax_name = "Engineering"
+	},
+/turf/open/floor/carpet/orange,
+/area/engine/break_room)
 "sIW" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
@@ -51288,6 +51302,11 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
 	},
+/obj/machinery/fax{
+	name = "Science Fax Machine";
+	fax_name = "Science"
+	},
+/obj/structure/table/glass,
 /turf/open/floor/durasteel,
 /area/science/research)
 "uPL" = (
@@ -55005,6 +55024,11 @@
 /obj/machinery/newscaster/security_unit{
 	pixel_y = -30
 	},
+/obj/machinery/fax{
+	fax_name = "Wardens Office";
+	name = "Wardens Office Fax Machine"
+	},
+/obj/structure/table/reinforced,
 /turf/open/floor/durasteel,
 /area/security/warden)
 "xkR" = (
@@ -56536,10 +56560,6 @@
 	},
 /turf/open/floor/durasteel,
 /area/hallway/primary/central)
-"yfL" = (
-/obj/structure/lattice,
-/turf/open/space/basic,
-/area/space/nearstation)
 "ygn" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/spawner/lootdrop/maintenance/four,
@@ -63584,7 +63604,7 @@ anB
 kIr
 aFa
 axb
-qBs
+anB
 aRV
 aRV
 aRV
@@ -68972,7 +68992,7 @@ bcp
 aMj
 bcv
 vlA
-mzw
+sIH
 gWx
 nBK
 hlo
@@ -73031,7 +73051,7 @@ aaa
 aar
 aar
 aar
-gMU
+aar
 aux
 jxt
 bih
@@ -73288,7 +73308,7 @@ aaa
 aar
 aux
 aux
-fwh
+aux
 aux
 jxt
 bhX
@@ -81825,7 +81845,7 @@ oyq
 aaf
 aho
 bNP
-ldh
+imv
 imv
 ajz
 aaa
@@ -108318,7 +108338,7 @@ aIJ
 vFN
 aIJ
 ajz
-yfL
+ajz
 ajz
 ajz
 ajz
@@ -111337,7 +111357,7 @@ avF
 avF
 avF
 aJK
-rMz
+myj
 fYU
 aji
 aWv
@@ -114497,7 +114517,7 @@ eQK
 eQK
 sKV
 eQK
-yfL
+ajz
 eQK
 nsK
 eQK
