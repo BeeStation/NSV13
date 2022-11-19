@@ -36,6 +36,7 @@
 
 		//NSV13
 		/obj/item/toy/plush/moth/random										= 5,
+		/mob/living/carbon/human/species/moth = 999999,
 	)
 
 	//if the goodie is dangerous for the station, in this list it goes
