@@ -223,6 +223,7 @@
 	if(!ui)
 		ui = new(user, src, "Fax")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/fax/ui_static_data(mob/user)
 	var/list/data = list()

@@ -20,6 +20,7 @@ GLOBAL_DATUM_INIT(fax_manager, /datum/fax_manager, new)
 	if(!ui)
 		ui = new(user, src, "FaxManager")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /datum/fax_manager/ui_state(mob/user)
 	return GLOB.admin_state
