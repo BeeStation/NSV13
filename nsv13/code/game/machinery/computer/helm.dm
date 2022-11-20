@@ -3,7 +3,7 @@
 	name = "Seegson model HLM flight control console"
 	desc = "A computerized ship piloting package which allows a user to set a ship's speed, attitude, bearing and more!"
 	icon_screen = "helm"
-	position = "pilot"
+	position = OVERMAP_USER_ROLE_PILOT
 	circuit = /obj/item/circuitboard/computer/ship/helm
 
 /obj/machinery/computer/ship/helm/syndicate

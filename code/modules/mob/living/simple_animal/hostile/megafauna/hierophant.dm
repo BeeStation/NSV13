@@ -58,8 +58,9 @@ Difficulty: Hard
 	crusher_loot = list(/obj/structure/closet/crate/necropolis/hierophant, /obj/item/crusher_trophy/vortex_talisman)
 	wander = FALSE
 	gps_name = "Zealous Signal"
-	medal_type = BOSS_MEDAL_HIEROPHANT
-	score_type = HIEROPHANT_SCORE
+	achievement_type = /datum/award/achievement/boss/hierophant_kill
+	crusher_achievement_type = /datum/award/achievement/boss/hierophant_crusher
+	score_achievement_type = /datum/award/score/hierophant_score
 	del_on_death = TRUE
 	deathsound = 'sound/magic/repulse.ogg'
 	attack_action_types = list(/datum/action/innate/megafauna_attack/blink,
@@ -82,7 +83,7 @@ Difficulty: Hard
 
 	mobchatspan = "hierosay"
 
-/mob/living/simple_animal/hostile/megafauna/hierophant/Initialize()
+/mob/living/simple_animal/hostile/megafauna/hierophant/Initialize(mapload)
 	. = ..()
 	spawned_beacon = new(loc)
 
@@ -525,19 +526,6 @@ Difficulty: Hard
 /obj/effect/temp_visual/hierophant/wall/Destroy()
 	queue_smooth_neighbors(src)
 	return ..()
-
-/obj/effect/temp_visual/hierophant/wall/CanAllowThrough(atom/movable/mover, turf/target)
-	. = ..()
-	if(QDELETED(caster))
-		return FALSE
-	if(mover == caster.pulledby)
-		return TRUE
-	if(istype(mover, /obj/item/projectile))
-		var/obj/item/projectile/P = mover
-		if(P.firer == caster)
-			return TRUE
-	if(mover == caster)
-		return TRUE
 
 /obj/effect/temp_visual/hierophant/chaser //a hierophant's chaser. follows target around, moving and producing a blast every speed deciseconds.
 	duration = 98

@@ -13,16 +13,19 @@
 	wreckage = /obj/structure/mecha_wreckage/durand
 	var/obj/durand_shield/shield
 
-/obj/mecha/combat/durand/Initialize()
+
+/obj/mecha/combat/durand/Initialize(mapload)
 	. = ..()
 	shield = new /obj/durand_shield(loc, src, layer, dir)
 	RegisterSignal(src, COMSIG_MECHA_ACTION_ACTIVATE, .proc/relay)
 	RegisterSignal(src, COMSIG_PROJECTILE_PREHIT, .proc/prehit)
 
+
 /obj/mecha/combat/durand/Destroy()
 	if(shield)
 		QDEL_NULL(shield)
 	return ..()
+
 
 /obj/mecha/combat/durand/GrantActions(mob/living/user, human_occupant = 0)
 	..()
@@ -147,6 +150,7 @@ own integrity back to max. Shield is automatically dropped if we run out of powe
 	var/obj/mecha/combat/durand/chassis ///Our link back to the durand
 	var/switching = FALSE ///To keep track of things during the animation
 
+
 /obj/durand_shield/Initialize(mapload, _chassis, _layer, _dir)
 	. = ..()
 	chassis = _chassis
@@ -173,19 +177,19 @@ the shield is disabled by means other than the action button (like running out o
 	if(switching && !signal_args[1])
 		return
 	if(!chassis.defense_mode && (!chassis.cell || chassis.cell.charge < 100)) //If it's off, and we have less than 100 units of power
-		chassis.balloon_alert(chassis.occupant, "Insufficient power")
+		chassis.balloon_alert(chassis.occupant, "Insufficient power.")
 		return
 	switching = TRUE
 	chassis.defense_mode = !chassis.defense_mode
 	chassis.defense_action.button_icon_state = "mech_defense_mode_[chassis.defense_mode ? "on" : "off"]" //This is backwards because we haven't changed the var yet
 	if(!signal_args[1])
-		chassis.balloon_alert(chassis.occupant, "Shield [chassis.defense_mode?"enabled":"disabled"]")
-		chassis.log_message("User has toggled defense mode -- now [chassis.defense_mode?"enabled":"disabled"].", LOG_MECHA)
+		chassis.balloon_alert(chassis.occupant, "Shield [chassis.defense_mode ? "enabled" : "disabled"].")
+		chassis.log_message("User has toggled defense mode -- now [chassis.defense_mode ? "enabled" : "disabled"].", LOG_MECHA)
 	else
-		chassis.log_message("defense mode state changed -- now [chassis.defense_mode?"enabled":"disabled"].", LOG_MECHA)
+		chassis.log_message("defense mode state changed -- now [chassis.defense_mode ? "enabled" : "disabled"].", LOG_MECHA)
 	chassis.defense_action.UpdateButtonIcon()
-	set_light_on(chassis.defense_mode)
 
+	set_light_on(chassis.defense_mode)
 
 	if(chassis.defense_mode)
 		invisibility = 0
@@ -199,7 +203,7 @@ the shield is disabled by means other than the action button (like running out o
 		invisibility = INVISIBILITY_MAXIMUM //no showing on right-click
 	switching = FALSE
 
-/obj/durand_shield/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
+/obj/durand_shield/take_damage()
 	if(!chassis)
 		qdel(src)
 		return

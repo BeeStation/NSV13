@@ -58,7 +58,6 @@
 	linked.begin_jump(target_system, force)
 	linked.relay('nsv13/sound/effects/ship/freespace2/computer/escape.wav')
 	progress = 0
-	addtimer(CALLBACK(src, .proc/depower), ftl_startup_time)
 
 /obj/item/fighter_component/ftl/proc/cancel_ftl()
 	depower()
