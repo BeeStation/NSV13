@@ -63,7 +63,7 @@ GLOBAL_DATUM_INIT(fax_manager, /datum/fax_manager, new)
 			for(var/obj/machinery/fax/FAX in GLOB.machines)
 				if(FAX.fax_id == params["fax_id"])
 					var/obj/item/paper/paper = new()
-					paper.setText(parsemarkdown(params["message"]))
+					paper.setText(parsemarkdown(params["message"])) ///Basic Markdown
 					FAX.receive(paper, params["fax_name"])
 					return TRUE
 		if("flw_fax")
