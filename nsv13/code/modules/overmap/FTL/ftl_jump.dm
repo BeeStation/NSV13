@@ -142,6 +142,8 @@
 		//Ships that have a Z reserved are on the active FTL plane.
 		if(OM.reserved_z)
 			continue
+		if(isasteroid(OM))
+			continue
 		if((!length(OM.operators) && !length(OM.mobs_in_ship)) || OM.ai_controlled)	//AI ships / ships without a pilot just get put in stasis.
 			continue
 		if(same_faction_only && jumping.faction != OM.faction)	//We don't pull all small craft in the system unless we were the last ship here.
@@ -242,6 +244,7 @@
 	SSstar_system.ships[src]["from_time"] = world.time
 	SSstar_system.ships[src]["current_system"] = null
 	addtimer(CALLBACK(src, .proc/jump_end, target_system), speed MINUTES)
+	ftl_drive.depower(ftl_drive.auto_spool_enabled)
 	jump_handle_shake()
 	force_parallax_update(TRUE)
 

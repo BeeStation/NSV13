@@ -39,7 +39,7 @@
 	var/obj/structure/cable/cable
 	var/obj/machinery/computer/ship/ftl_core/ftl_drive
 
-/obj/machinery/atmospherics/components/binary/drive_pylon/Initialize()
+/obj/machinery/atmospherics/components/binary/drive_pylon/Initialize(mapload)
 	. = ..()
 	initialize_shield()
 	update_visuals(FALSE)

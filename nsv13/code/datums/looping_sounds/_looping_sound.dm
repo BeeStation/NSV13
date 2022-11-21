@@ -11,7 +11,7 @@
 	var/list/listeners = list()
 	var/sound/current_sound
 
-/datum/looping_sound/advanced/New(list/_output_atoms=list(), start_immediately=FALSE, _direct=FALSE, _channel, _process=FALSE)
+/datum/looping_sound/advanced/New(_parent, start_immediately=FALSE, _direct=FALSE, _channel, _process=FALSE)
 	channel = _channel
 	can_process = _process
 	..()
@@ -23,7 +23,7 @@
 
 /datum/looping_sound/advanced/on_stop()
 	..()
-	if(!length(output_atoms))
+	if(!parent)
 		STOP_PROCESSING(SSprocessing, src)
 
 /datum/looping_sound/advanced/play(soundfile)
@@ -32,19 +32,17 @@
 	if(direct)
 		S.channel = channel || SSsounds.random_available_channel()
 		S.volume = volume
-		for(var/atom/A as() in output_atoms)
-			listeners[A][A] = list(A.x, A.y) // Direct makes the atom a listener and output atom, looks a bit strange but it works
-			SEND_SOUND(A, S)
+		listeners[parent][parent] = list(parent.x, parent.y) // Direct makes the atom a listener and output atom, looks a bit strange but it works
+		SEND_SOUND(parent, S)
 	else
 		if(channel)
 			S.channel = channel
-		for(var/atom/A as() in output_atoms)
-			listeners[A] = list()
-			// get all of the hearers for this atom
-			var/list/newhearers = playsound_range(A, S, volume, extra_range)
-			// create a dictionary of all of our hearers and their current position
-			for(var/atom/L as() in newhearers)
-				listeners[A][L] = list(L.x, L.y)
+		listeners[parent] = list()
+		// get all of the hearers for this atom
+		var/list/newhearers = playsound_range(parent, S, volume, extra_range)
+		// create a dictionary of all of our hearers and their current position
+		for(var/atom/L as() in newhearers)
+			listeners[parent][L] = list(L.x, L.y)
 	current_sound = S
 
 /datum/looping_sound/advanced/process()
@@ -70,16 +68,15 @@
 /datum/looping_sound/advanced/proc/recalculate_volume(deviation_tolerance = 0, force = FALSE)
 	if(!current_sound)
 		return
-	for(var/atom/output as() in output_atoms)
-		var/list/locallist = listeners[output]
-		for(var/mob/M in locallist)
-			if(!force) // Don't update if they haven't moved
-				if(M == locallist) // don't need to recalculate for direct output
-					return
-				var/coords = locallist[M]
-				if(abs((coords[2] + M.y) - (coords[1] + M.x)) <= deviation_tolerance)
-					return // listener hasn't moved enough to warrent recalculation
-			if(M.recalculate_sound_volume(output, current_sound, volume))
-				locallist[M] = list(M.x, M.y)
-			else
-				locallist[output] -= M
+	var/list/locallist = listeners[parent]
+	for(var/mob/M in locallist)
+		if(!force) // Don't update if they haven't moved
+			if(M == locallist) // don't need to recalculate for direct output
+				return
+			var/coords = locallist[M]
+			if(abs((coords[2] + M.y) - (coords[1] + M.x)) <= deviation_tolerance)
+				return // listener hasn't moved enough to warrent recalculation
+		if(M.recalculate_sound_volume(parent, current_sound, volume))
+			locallist[M] = list(M.x, M.y)
+		else
+			locallist[parent] -= M
