@@ -4,6 +4,7 @@
 	desc = "An old design, but it still does the job of being a sofa."
 	icon_state = "sofa_middle"
 	colorable = TRUE
+	item_chair = null
 
 /obj/structure/chair/fancy/sofa/mono/left
 	icon_state = "sofa_end_left"
