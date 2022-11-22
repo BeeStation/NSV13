@@ -139,10 +139,6 @@
 	id = /obj/item/card/id
 	var/rank_title = "Admiral"
 
-/datum/outfit/centcom_admiral/pre_equip(mob/living/carbon/human/H, visualsOnly)
-	. = ..()
-	H.squad_rank = rank_title
-
 /datum/outfit/centcom_admiral/fleet
 	name = "Admiral (Fleet)"
 	uniform = /obj/item/clothing/under/ship/officer/admiral/fleet
@@ -222,7 +218,7 @@ For when the marines are being irritating.
 	name = "blue phalanx general uniform"
 	desc = "A durable uniform worn by generals in the blue phalanx PMC corp serving under WhiteRapids."
 	icon_state = "general"
-	item_color = "general"
+	worn_icon_state = "general"
 	item_state = "bl_suit"
 	armor = list("melee" = 20, "bullet" = 20, "laser" = 10,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
 

@@ -77,7 +77,7 @@
 		RemoveComponent() //Uh...OK?
 		CRASH("Overmap gunning component created with no attached overmap.")
 	OM.gauss_gunners.Add(holder)
-	OM.start_piloting(holder, "secondary_gunner")
+	OM.start_piloting(holder, OVERMAP_USER_ROLE_SECONDARY_GUNNER)
 	if(automatic)
 		START_PROCESSING(SSfastprocess, src)
 
@@ -130,7 +130,7 @@
 	. = ..()
 	. += "<span class ='notice'>Its ammo counter reads [turret.get_ammo()]/[turret.get_max_ammo()]. </span>"
 
-/obj/machinery/computer/anti_air/Initialize()
+/obj/machinery/computer/anti_air/Initialize(mapload)
 	. = ..()
 	turret = locate(/obj/machinery/ship_weapon/anti_air) in SSmapping.get_turf_above(src)
 

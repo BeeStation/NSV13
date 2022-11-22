@@ -13,8 +13,6 @@ GLOBAL_LIST_INIT(first_names_female, world.file2list("strings/names/first_female
 GLOBAL_LIST_INIT(last_names, world.file2list("strings/names/last.txt"))
 GLOBAL_LIST_INIT(lizard_names_male, world.file2list("strings/names/lizard_male.txt"))
 GLOBAL_LIST_INIT(lizard_names_female, world.file2list("strings/names/lizard_female.txt"))
-GLOBAL_LIST_INIT(squid_names_male, world.file2list("strings/names/squid_male.txt"))
-GLOBAL_LIST_INIT(squid_names_female, world.file2list("strings/names/squid_female.txt"))
 GLOBAL_LIST_INIT(clown_names, world.file2list("strings/names/clown.txt"))
 GLOBAL_LIST_INIT(mime_names, world.file2list("strings/names/mime.txt"))
 GLOBAL_LIST_INIT(carp_names, world.file2list("strings/names/carp.txt"))
@@ -28,7 +26,7 @@ GLOBAL_LIST_INIT(nightmare_names, world.file2list("strings/names/nightmare.txt")
 GLOBAL_LIST_INIT(megacarp_first_names, world.file2list("strings/names/megacarp1.txt"))
 GLOBAL_LIST_INIT(megacarp_last_names, world.file2list("strings/names/megacarp2.txt"))
 GLOBAL_LIST_INIT(oozeling_first_names, world.file2list("strings/names/ooze_first.txt"))
-GLOBAL_LIST_INIT(oozeling_last_names, world.file2list("strings/names/ooze_last.txt"))
+GLOBAL_LIST_INIT(oozeling_last_names, world.file2list("strings/names/nsv_ooze_last.txt")) //NSV13 - Oozeling Lore accurate last names
 
 GLOBAL_LIST_INIT(verbs, world.file2list("strings/names/verbs.txt"))
 GLOBAL_LIST_INIT(ing_verbs, world.file2list("strings/names/ing_verbs.txt"))

@@ -14,30 +14,37 @@ PROCESSING_SUBSYSTEM_DEF(quirks)
 	var/list/quirk_blacklist = list() //A list of quirks that can not be used with each other. Format: list(quirk1,quirk2),list(quirk3,quirk4)
 
 /datum/controller/subsystem/processing/quirks/Initialize(timeofday)
-	if(!quirks.len)
+	if(!length(quirks))
 		SetupQuirks()
 
-	quirk_blacklist = list(list("Blind","Nearsighted"),list("Jolly","Depression","Apathetic","Hypersensitive"),list("Ageusia","Vegetarian","Deviant Tastes"),list("Ananas Affinity","Ananas Aversion"),list("Alcohol Tolerance","Light Drinker"),list(list("Neat","NEET")))
+	quirk_blacklist = list(
+		list("Blind","Nearsighted"),
+		list("Jolly","Depression","Apathetic","Hypersensitive"),
+		list("Ageusia","Vegetarian","Deviant Tastes"),
+		list("Ananas Affinity","Ananas Aversion"),
+		list("Alcohol Tolerance","Light Drinker"),
+		list("Social Anxiety","Mute"),
+		list("NEET", "Neat"), //NSV13 - retained hygiene
+	)
 	return ..()
 
 /datum/controller/subsystem/processing/quirks/proc/SetupQuirks()
 	// Sort by Positive, Negative, Neutral; and then by name
 	var/list/quirk_list = sortList(subtypesof(/datum/quirk), /proc/cmp_quirk_asc)
 
-	for(var/V in quirk_list)
-		var/datum/quirk/T = V
+	for(var/datum/quirk/T as() in quirk_list)
 		quirks[initial(T.name)] = T
 		quirk_points[initial(T.name)] = initial(T.value)
 
 /datum/controller/subsystem/processing/quirks/proc/AssignQuirks(mob/living/user, client/cli, spawn_effects)
 	var/badquirk = FALSE
-	for(var/V in cli.prefs.all_quirks)
+	for(var/V in cli.prefs.active_character.all_quirks)
 		var/datum/quirk/Q = quirks[V]
 		if(Q)
 			user.add_quirk(Q, spawn_effects)
 		else
 			stack_trace("Invalid quirk \"[V]\" in client [cli.ckey] preferences")
-			cli.prefs.all_quirks -= V
+			cli.prefs.active_character.all_quirks -= V
 			badquirk = TRUE
 	if(badquirk)
-		cli.prefs.save_character()
+		cli.prefs.active_character.save(cli)

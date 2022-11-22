@@ -45,9 +45,9 @@
 		var/mob/living/carbon/D = M
 		C.dna.transfer_identity(D)
 		D.updateappearance(mutcolor_update=1, mutations_overlay_update=1)
-	else if(ishuman(M))
+	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		client.prefs.copy_to(H)
+		client.prefs.active_character.copy_to(H)
 		H.dna.update_dna_identity()
 
 	if(mind && isliving(M))

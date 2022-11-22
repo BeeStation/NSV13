@@ -13,12 +13,13 @@
 	report_type = "revolution"
 	antag_flag = ROLE_REV
 	false_report_weight = 10
-	restricted_jobs = list("Military Police", "Warden", "Detective", "AI", "Cyborg","Captain", "Head of Security", "Chief Engineer", "Research Director", "Chief Medical Officer", "Executive Officer", "Master At Arms") //NSV13 - renamed HoP to XO, added MAA. Next line too  //Nsv13 - Crayon eaters & MPs
-	required_jobs = list(list("Captain"=1),list("Executive Officer"=1),list("Head of Security"=1),list("Chief Engineer"=1),list("Research Director"=1),list("Chief Medical Officer"=1),list("Master At Arms"=1)) //Any head present
+	restricted_jobs = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_AI, JOB_NAME_CYBORG,JOB_NAME_CAPTAIN, JOB_NAME_HEADOFPERSONNEL, JOB_NAME_HEADOFSECURITY, JOB_NAME_CHIEFENGINEER, JOB_NAME_RESEARCHDIRECTOR, JOB_NAME_CHIEFMEDICALOFFICER, JOB_NAME_MASTERATARMS) //NSV13 - added MAA
+	required_jobs = list(list(JOB_NAME_CAPTAIN=1),list(JOB_NAME_HEADOFPERSONNEL=1),list(JOB_NAME_HEADOFSECURITY=1),list(JOB_NAME_CHIEFENGINEER=1),list(JOB_NAME_RESEARCHDIRECTOR=1),list(JOB_NAME_CHIEFMEDICALOFFICER=1),list(JOB_NAME_MASTERATARMS=1)) //Any head present //NSV13 - added MAA
 	required_players = 30
 	required_enemies = 2
 	recommended_enemies = 3
 	enemy_minimum_age = 14
+	title_icon = "revolution"
 
 	announce_span = "danger"
 	announce_text = "Some crewmembers are attempting a coup!\n\
@@ -49,7 +50,7 @@
 		restricted_jobs += protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		restricted_jobs += JOB_NAME_ASSISTANT
 
 	for (var/i=1 to max_headrevs)
 		if (antag_candidates.len==0)

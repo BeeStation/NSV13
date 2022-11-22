@@ -58,7 +58,11 @@
 
 //AI Versions
 
-/obj/structure/overmap/syndicate/ai/Initialize()
+/obj/structure/overmap/syndicate/ai/Initialize(mapload)
+	. = ..()
+	name = "[name] ([rand(0,999)])"
+	
+/obj/structure/overmap/hostile/ai/fighter/Initialize()
 	. = ..()
 	name = "[name] ([rand(0,999)])"
 
@@ -412,7 +416,7 @@
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/disruptor
 	possible_interior_maps = list()
 
-/obj/structure/overmap/syndicate/ai/submarine/Initialize()
+/obj/structure/overmap/syndicate/ai/submarine/Initialize(mapload)
 	. = ..()
 	handle_cloak(TRUE)
 
@@ -446,7 +450,7 @@
 	torpedoes = 0
 	combat_dice_type = /datum/combat_dice/cruiser
 
-/obj/structure/overmap/syndicate/ai/kadesh/Initialize()
+/obj/structure/overmap/syndicate/ai/kadesh/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/interdiction)
 
@@ -501,16 +505,16 @@
 	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
 	
 /obj/structure/overmap/hostile/ai/alicorn
-	name = "The Alicorn"
+	name = "SGV Alicorn"
 	desc = "One Billion Lives!"
 	icon = 'nsv13/icons/overmap/alicorn.dmi'
 	icon_state = "alicorn"
 	faction = "hostile"
 	mass = MASS_LARGE
-	sprite_size = 96
+	sprite_size = 128
 	damage_states = FALSE
-	bound_width = 112
-	bound_height = 112
+	bound_width = 128
+	bound_height = 128
 	obj_integrity = 4750
 	max_integrity = 4750
 	integrity_failure = 4750
@@ -520,14 +524,14 @@
 	ai_controlled = TRUE
 	armor = list("overmap_light" = 99, "overmap_medium" = 70, "overmap_heavy" = 65)
 	can_resupply = TRUE
-	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
+	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/carrier
 	ai_can_launch_fighters = TRUE
 	ai_fighter_type = list(/obj/structure/overmap/hostile/ai/fighter)
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
-	flak_battery_amount = 2
+	flak_battery_amount = 3
 
-/obj/structure/overmap/hostile/ai/alicorn/Initialize()
+/obj/structure/overmap/hostile/ai/alicorn/Initialize(mapload)
 	. = ..()
 	handle_cloak(TRUE)
 
@@ -539,7 +543,7 @@
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
 
 /obj/structure/overmap/hostile/ai/fighter
-	name = "Rattlesnake class fighter-bomber"
+	name = "Rattlesnake Strike fighter"
 	icon = 'nsv13/icons/overmap/alicorn.dmi'
 	icon_state = "alifighter"
 	damage_states = FALSE

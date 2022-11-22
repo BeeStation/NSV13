@@ -182,7 +182,9 @@
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
-/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //NOT IN CYCLE
+/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
+	icon = 'nsv13/icons/overmap/new/nanotrasen/heavy_cruiser.dmi'
+	icon_state = "heavy_cruiser"
 	role = MAIN_OVERMAP
 	obj_integrity = 1400
 	max_integrity = 1400
@@ -190,6 +192,14 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+
+/obj/structure/overmap/nanotrasen/heavy_cruiser/starter/apply_weapons()
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
+	weapon_types[FIRE_MODE_HYBRID_RAIL] = new /datum/ship_weapon/hybrid_railgun(src)
+
 /obj/structure/overmap/nanotrasen/carrier/starter //NOT CURRENTLY ASSIGNED
 	role = MAIN_OVERMAP
 	obj_integrity = 2000

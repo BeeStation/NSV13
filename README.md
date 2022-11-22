@@ -28,14 +28,19 @@ You can **no** longer compile the codebase simply through **DreamMaker**.
 
 You will find `BUILD.bat` in the root folder of NSV13, double-clicking it will initiate the build. It consists of multiple steps and might take around 1-5 minutes to compile. Unix users can directly call ./tools/build/build.
 
+**You can no longer compile the codebase simply through Dream Maker**.
 **Building NSV13 in DreamMaker directly is now deprecated and might produce errors**, such as `'tgui.bundle.js': cannot find file`.
 
+### Building with VSCode (Preferred)
+
 **[How to compile in VSCode and other build options](tools/build/README.md).**
+
+### Building without VSCode
+You will find `BUILD.bat` in the root folder of BeeStation, double-clicking it will initiate the build. It consists of multiple steps and might take around 1-5 minutes to compile (particularly the first time). Unix users can directly call ./tools/build/build.
 
 If you see any errors or warnings, something has gone wrong - possibly a corrupt
 download or the files extracted wrong. If problems persist, ask for assistance
 in https://discord.gg/Vh8TJp9 or https://nsv.beestation13.com/discord
-
 
 Once that's done, open up the config folder. You'll want to edit config.txt to
 set the probabilities for different gamemodes in Secret and to set your server
@@ -71,6 +76,10 @@ you set up the SQL backend (see below).
 
 ## UPDATING
 
+Just use git, or see the following subsection.
+
+### Manual Update
+
 To update an existing installation, first back up your /config and /data folders
 as these store your server configuration, player preferences and banlist.
 
@@ -93,7 +102,6 @@ https://github.com/tgstation/tgstation-server
 NSV13 currently comes equipped with these maps.
 
 * See the _maps folder. We change this too much.
-
 
 All maps have their own code file that is in the base of the _maps directory. Maps are loaded dynamically when the game starts. Follow this guideline when adding your own map, to your fork, for easy compatibility.
 
