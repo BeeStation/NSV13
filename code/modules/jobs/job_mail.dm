@@ -114,8 +114,10 @@
 		/obj/item/reagent_containers/dropper = 10,
 		/obj/item/reagent_containers/glass/beaker/large = 10,
 		/obj/item/reagent_containers/glass/beaker/plastic = 10,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
 		/obj/item/reagent_containers/glass/bottle/ketamine = 5,
+
+		//NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
 	)
 
 //CHIEF ENGINEER
@@ -361,11 +363,13 @@
 	mail_goodies = list(
 		/obj/item/healthanalyzer/advanced = 10,
 		/obj/item/storage/pill_bottle/epinephrine = 8,
-		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8, //NSV13
 		/obj/item/reagent_containers/glass/bottle/formaldehyde = 6,
 		/obj/effect/spawner/mail/advmedtool = 4,
 		/obj/effect/spawner/mail/organminor = 5,
 		/obj/effect/spawner/mail/organmajor = 1,
+
+		//NSV13
+		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
 	)
 
 //MIME
