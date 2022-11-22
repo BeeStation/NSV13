@@ -286,6 +286,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			return
 		if("target_lock")
 			relay('nsv13/sound/effects/fighters/switch.ogg')
+			dump_locks()
 			return
 		if("mag_release")
 			if(!mag_lock)

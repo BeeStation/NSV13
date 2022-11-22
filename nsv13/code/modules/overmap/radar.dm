@@ -35,6 +35,8 @@
 	var/obj/item/supplypod_beacon/beacon
 	var/sensor_mode = SENSOR_MODE_PASSIVE
 	var/radar_delay = MIN_RADAR_DELAY
+	// Whether we use DRADIS-assisted targeting.
+	var/dradis_targeting = FALSE
 
 /obj/machinery/computer/ship/dradis/proc/can_radar_pulse()
 	var/obj/structure/overmap/OM = get_overmap()
@@ -267,6 +269,8 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			var/obj/structure/overmap/target = locate(params["target"])
 			if(!target) //Anomalies don't count.
 				return
+			if(dradis_targeting && (linked.gunner == usr || linked.pilot == usr) && target.faction != linked.faction)
+				linked.start_lockon(target)
 			if(world.time < next_hail)
 				return
 			if(target == linked)
@@ -288,6 +292,9 @@ Called by add_sensor_profile_penalty if remove_in is used.
 				return
 			newDelay = CLAMP(newDelay SECONDS, MIN_RADAR_DELAY, MAX_RADAR_DELAY)
 			radar_delay = newDelay
+		if("dradis_targeting")
+			if(!(linked.gunner == usr || linked.pilot == usr))
+			dradis_targeting = !dradis_targeting
 
 /obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
 	. = ..()
@@ -406,6 +413,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	data["width_mod"] = sensor_range / SENSOR_RANGE_DEFAULT
 	data["sensor_mode"] = (sensor_mode == SENSOR_MODE_PASSIVE) ? "Passive Radar" : "Active Radar"
 	data["pulse_delay"] = "[radar_delay / 10]"
+	data["dradis_targeting"] = dradis_targeting
 	if(can_radar_pulse())
 		data["can_radar_pulse"] = TRUE
 		if(sensor_mode == SENSOR_MODE_RADAR && !isobserver(user))

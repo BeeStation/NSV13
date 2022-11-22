@@ -60,6 +60,7 @@ export const DradisContent = (props, context) => {
   let zoom_factor_min = data.zoom_factor_min;
   let zoom_factor_max = data.zoom_factor_max;
   let scale_factor = zoom_factor*5;
+  let dradis_targeting = data.dradis_targeting;
   let dradis = DradisMap(data.ships, zoom_factor, data.width_mod, focus_x, focus_y);
 
   return (
@@ -90,6 +91,11 @@ export const DradisContent = (props, context) => {
             content="Re-focus"
             icon="camera"
             onClick={() => location.reload()} />
+          <Button
+            content="DRADIS targeting"
+            icon={data.dradis_targeting ? "power-off" : "square-o"}
+            color={data.dradis_targeting ? "good" : "bad"}
+            onClick={() => act('dradis_targeting')} />
         </>
       )}>
       Allies:

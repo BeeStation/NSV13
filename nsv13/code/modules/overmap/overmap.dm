@@ -140,10 +140,11 @@
 	var/missiles = 0 //If this starts at above 0, then the ship can use missiles when AI controlled
 
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
-	var/atom/target_lock = null
+	var/atom/target_lock = null // Our "locked" target. This is what manually fired guided weapons will track towards.
 	var/can_lock = TRUE //Can we lock on to people or not
 	var/lockon_time = 2 SECONDS
-	var/list/target_painted = list()
+	var/list/target_painted = list() // How many targets we've "painted" for AMS/relay targeting
+	var/max_paints = 3 // The maximum amount of paints we can sustain at any one time.
 	var/list/ams_modes = list()
 	var/next_ams_shot = 0
 	var/ams_targeting_cooldown = 1.5 SECONDS
@@ -421,6 +422,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			post_load_interior()
 
 	apply_weapons()
+	RegisterSignal(src, list(COMSIG_FTL_STATE_CHANGE, COMSIG_SHIP_KILLED), .proc/dump_locks) // Setup lockon handling
 	//We have a lot of types but not that many weapons per ship, so let's just worry about the ones we do have
 	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
 		var/datum/ship_weapon/SW = weapon_types[firemode]
@@ -490,6 +492,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		SSticker.force_ending = 1
 	SEND_SIGNAL(src,COMSIG_SHIP_KILLED)
 	QDEL_LIST(current_tracers)
+	QDEL_LIST(target_painted)
 	if(cabin_air)
 		QDEL_NULL(cabin_air)
 	//Free up memory refs here.
@@ -564,8 +567,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		var/datum/ship_weapon/SW = weapon_types[fire_mode]
 		if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
 			return FALSE
-	if((length(target_painted) > 0) && mass <= MASS_TINY)
-		fire(target_painted[1]) //Fighters get an aimbot to help them out.
+	if((length(target_painted) > 0) && locate(fire_mode) in list(FIRE_MODE_TORPEDO, FIRE_MODE_MISSILE, FIRE_MODE_AMS))
+		if(!target_lock) // no selected target, fire at the first one in our list
+			fire(target_painted[1])
+		else if(target_painted.Find(target_lock)) // Fire at a manually selected target
+			fire(target_lock)
+		else // something fucked up, dump the lock
+			target_lock = null
 		return TRUE
 	fire(target)
 	return TRUE
@@ -581,7 +589,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if((OM.faction == faction) && !can_friendly_fire())
 		return FALSE
 	if(LAZYFIND(target_painted, target))
-		target_painted.Remove(target)
+		dump_lock(target)
 		if(gunner)
 			to_chat(gunner, "<span class='notice'>Target painting cancelled on [target].</span>")
 		return FALSE
@@ -589,18 +597,41 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	addtimer(CALLBACK(src, .proc/finish_lockon, target), lockon_time)
 
 /obj/structure/overmap/proc/finish_lockon(atom/target)
-	if(!gunner)
+	if(!gunner || !target)
 		return
+	if(target_painted >= max_paints)
+		to_chat(gunner, "<span class='notice'>Target painting at maximum capacity. Cancelling painting of [target_painted[1]] to support new target.</span>")
+		dump_lock(target_painted[1])
 	target_painted.Add(target)
-	if(last_overmap && ((last_overmap.faction == faction) || can_friendly_fire()))
-		last_overmap.target_painted.Add(target)
+	if(last_overmap && ((last_overmap.faction == faction) || can_friendly_fire()) && last_overmap.targets_painted < last_overmap.max_paints)
+		last_overmap.finish_lockon(target)
 		if(last_overmap.gunner)
-			to_chat(last_overmap.gunner, "<span class='notice'>[src] has painted [target] for AMS targeting.</span>")
-
+			to_chat(last_overmap.gunner, "<span class='notice'>Targeting data for [target] recieved from [src] via datalink.</span>")
 	to_chat(gunner, "<span class='notice'>Target painted</span>")
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+	RegisterSignal(target, COMSIG_PARENT_QDELETING, .proc/dump_lock)
+
+/obj/structure/overmap/proc/select_target(obj/structure/overmap/target)
+	if(QDELETED(target) || !istype(target) || !locate(target) in target_painted)
+		return
+	target_lock = target
+	update_gunner_cam(target)
+
+/obj/structure/overmap/proc/dump_lock(atom/target) // Our locked target got destroyed/moved, dump the lock
+	target_painted.Remove(target)
+	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+	if(target_lock == target)
+		update_gunner_cam(src)
+		target_lock = null
+
+/obj/structure/overmap/proc/dump_locks() // clears all target locks.
+	update_gunner_cam(src)
+	for(/obj/structure/overmap/OM in target_painted)
+		dump_lock(OM)
 
 /obj/structure/overmap/proc/update_gunner_cam(atom/target)
+	if(!gunner)
+		return
 	var/mob/camera/ai_eye/remote/overmap_observer/cam = gunner.remote_control
 	cam.track_target(target)
 
