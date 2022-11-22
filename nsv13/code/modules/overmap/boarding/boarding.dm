@@ -88,6 +88,10 @@
 			knpc_types = list(/mob/living/carbon/human/ai_boarder/assistant)
 		if("nanotrasen")
 			knpc_types = list(/mob/living/carbon/human/ai_boarder/ert, /mob/living/carbon/human/ai_boarder/ert/commander, /mob/living/carbon/human/ai_boarder/ert/medic, /mob/living/carbon/human/ai_boarder/ert/engineer)
+		if("zombies")
+			knpc_types = list(/mob/living/carbon/human/ai_boarder/zombie,)
+		if("droid")
+			knpc_types = list(/mob/living/carbon/human/ai_boarder/boarding_droid,)
 
 	var/list/possible_spawns = list()
 	for(var/obj/effect/landmark/patrol_node/node in GLOB.landmarks_list)
