@@ -13,6 +13,7 @@
 		/obj/item/crowbar/large = 2,
 
 		//NSV13
+		/obj/item/dance_trance = 15,
 		//Greytide Worldwide, baby
 		/obj/structure/sign/poster/contraband/grey_tide = 3,
 	)
@@ -41,6 +42,9 @@
 		/obj/item/reagent_containers/food/drinks/bottle/fernet = 3,
 		/obj/item/reagent_containers/food/drinks/bottle/champagne = 3,
 		/obj/item/reagent_containers/food/drinks/bottle/trappist = 3,
+
+		//NSV13
+		/obj/item/dance_trance = 15,
 	)
 
 //BOTANIST
@@ -154,6 +158,8 @@
 		/obj/effect/spawner/mail/ayymedtool = 1,
 
 		//NSV13
+		//For Runtime, of course. Not at all for Felinid CMOs
+		/obj/item/toy/cattoy = 15,
 		//1 out of 10 CMO recommended!
 		/obj/item/storage/fancy/cigarettes/cigpack_uplift = 10,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
@@ -174,6 +180,9 @@
 		/obj/item/reagent_containers/spray/waterflower/superlube = 2,
 		//An entire fucking clown, an aggressive one, why? The station is a circus anyway...
 		/mob/living/simple_animal/hostile/retaliate/clown = 1,
+
+		//NSV13
+		/obj/item/dance_trance = 15,
 	)
 
 //COOK
@@ -293,6 +302,8 @@
 		/obj/item/lazarus_injector = 1,
 
 		//NSV13
+		//I literally just fixed this and y'all want this BACK
+		/obj/item/stamp/head_of_personnel = 5,
 		/obj/item/megaphone/command/rudiger = 4,
 	)
 
@@ -535,6 +546,9 @@
 		/obj/item/coin/silver = 5,
 		//Tiny chance to harass the entire crew
 		/obj/item/encryptionkey/heads/captain = 1,
+
+		//NSV13
+		/obj/item/dance_trance = 20,
 	)
 
 //WARDEN

@@ -37,6 +37,7 @@
 //Pilot
 /datum/job/pilot
 	mail_goodies = list(
+		/obj/item/toy/crayon/spraycan = 15,
 		/obj/item/clothing/glasses/sunglasses = 10,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/kamikaze = 8,

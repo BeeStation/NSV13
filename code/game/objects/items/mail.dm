@@ -35,8 +35,11 @@
 		/obj/item/stack/spacecash/c1000 									= 1,
 
 		//NSV13
+		/obj/item/toy/snowball												= 15,
+		/obj/item/choice_beacon/music										= 10,
+		/obj/structure/musician/piano/unanchored							= 5,
+		/mob/living/simple_animal/cow										= 5,
 		/obj/item/toy/plush/moth/random										= 5,
-		/mob/living/carbon/human/species/moth = 999999,
 	)
 
 	//if the goodie is dangerous for the station, in this list it goes
