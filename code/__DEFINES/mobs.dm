@@ -434,7 +434,7 @@
 #define SENTIENCE_ERASE 3
 
 ///How much a mob's sprite should be moved when they're lying down
-#define PIXEL_Y_OFFSET_LYING -6
+#define PIXEL_Y_OFFSET_LYING -6 //NSV13
 
 //Flavor Text When Entering A Playable Mob
 #define FLAVOR_TEXT_EVIL "evil"	//mob antag

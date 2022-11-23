@@ -364,7 +364,7 @@
 	if(.)
 		return
 	user.movement_locked = FALSE
-
+//NSV13 Begin
 /datum/keybinding/mob/pixel_shift
 	key = "C"
 	name = "pixel_shift"
@@ -387,3 +387,4 @@
 	var/mob/M = user.mob
 	M.shifting = FALSE
 	return TRUE
+//NSV13 End

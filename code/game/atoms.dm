@@ -115,10 +115,10 @@
 	///LazyList of all balloon alerts currently on this atom
 	var/list/balloon_alerts
 
-	///Default X pixel offset
+	///Default X pixel offset NSV13
 	var/base_pixel_x
 
-	///Default Y pixel offset
+	///Default Y pixel offset NSV13
 	var/base_pixel_y
 /**
   * Called when an atom is created in byond (built in engine proc)
@@ -1491,7 +1491,7 @@
 	if(ai_controller)
 		ai_controller = new ai_controller(src)
 
-///Setter for the "base_pixel_x" var to append behavior related to it's changing
+///Setter for the "base_pixel_x" var to append behavior related to it's changing NSV13
 /atom/proc/set_base_pixel_x(var/new_value)
 	if(base_pixel_x == new_value)
 		return
@@ -1500,7 +1500,7 @@
 
 	pixel_x = pixel_x + base_pixel_x - .
 
-///Setter for the "base_pixel_y" var to append behavior related to it's changing
+///Setter for the "base_pixel_y" var to append behavior related to it's changing NSV13
 /atom/proc/set_base_pixel_y(new_value)
 	if(base_pixel_y == new_value)
 		return

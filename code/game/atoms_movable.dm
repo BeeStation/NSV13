@@ -1040,8 +1040,8 @@
 	I.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
 	var/turf/T = get_turf(src)
 	var/direction
-	var/to_x = target.base_pixel_x
-	var/to_y = target.base_pixel_y
+	var/to_x = target.base_pixel_x //NSV13
+	var/to_y = target.base_pixel_y //NSV13
 
 	if(!QDELETED(T) && !QDELETED(target))
 		direction = get_dir(T, target)
