@@ -37,9 +37,7 @@
 		message_admins("Failed to spawn boarders for [name], does it have an interior?")
 		return FALSE //Cut off here to avoid polling people for a spawn that will never work.
 	if(!(faction_selection in PLAYER_COMPATIBLE_FACTIONS)) //Don't poll players if we only know how to spawn knpcs.
-		var/success = spawn_knpcs(amount, faction_selection)
-		if(success == FALSE)
-
+		return spawn_knpcs(amount, faction_selection)
 
 	//20 or more players? You're allowed "real" boarders.
 	var/list/candidates = list()
