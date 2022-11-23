@@ -75,7 +75,7 @@ export const FaxManager = (props, context) => {
                     setSelectedFaxName(fax.fax_name);
                     setMessagingAssociates(true);
                   }}>
-                  {fax.fax_name}/{fax.fax_id}
+                  {fax.fax_name}
                 </Button>
               ))}
             </Box>
@@ -164,7 +164,9 @@ const FaxMessageModal = (props, context) => {
           <LabeledList.Item label="Selecting the sender: ">
             <Dropdown
               options={additional_faxes}
-              selected={additional_faxes[0]}
+              selected={selectedSenderName.length !== 0
+                ? selectedSenderName
+                : additional_faxes[0]}
               onSelected={(value) => setSelectedSenderName(value)}
             />
           </LabeledList.Item>
@@ -206,7 +208,7 @@ const FaxMessageModal = (props, context) => {
             }
             onClick={() => {
               if (messageInput && messageInput.length !== 0) {
-                if (selectedSenderName !== 'Custom Name') {
+                if (selectedSenderName !== 'Custom Name' && selectedSenderName.length !== 0) {
                   props.onSubmit(
                     props.selectedFaxId,
                     selectedSenderName,
@@ -221,9 +223,14 @@ const FaxMessageModal = (props, context) => {
                   setCustomSenderName('');
                   setSelectedSenderName(additional_faxes[0]);
                   setMessageInput('');
+                } else if (selectedSenderName.length === 0) {
+                  props.onSubmit(
+                    props.selectedFaxId,
+                    additional_faxes[0],
+                    messageInput
+                  );
                 }
-              }
-            }}
+              } }}
           />
           <Button
             icon="times"
