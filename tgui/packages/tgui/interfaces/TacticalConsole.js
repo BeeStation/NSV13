@@ -89,8 +89,8 @@ export const TacticalConsole = (props, context) => {
             </LabeledList>
           </Section>
           <Section title="Tracking:">
-            {Object.keys(data.ships).map((key, newCurrent) => {
-              let value = data.ships[key];
+            {Object.keys(data.painted_targets).map((key, newCurrent) => {
+              let value = data.painted_targets[key];
               const [current, setCurrent] = useLocalState(context, 'fs_current', true);
               const [hidden, setHidden] = useLocalState(context, 'fs_hidden', true);
 
@@ -172,7 +172,13 @@ export const TacticalConsole = (props, context) => {
                         content={`Target ${value.name}`}
                         icon="bullseye"
                         onClick={() =>
-                          act('target_ship', { target: value.name })} />
+                          act('lock_ship', { target: value.name })} />
+                      <Button
+                        fluid
+                        content={`Stop Tracking ${value.name}`}
+                        icon="bullseye"
+                        onClick={() =>
+                          act('dump_lock', { target: value.name })} />
                     </Section>
                   )}
                 </Fragment>);

@@ -25,6 +25,7 @@
 	var/showAnomalies = 100
 	var/sensor_range = 0 //Automatically set to equal base sensor range on init.
 	var/base_sensor_range = SENSOR_RANGE_DEFAULT //In tiles. How far your sensors can pick up precise info about ships.
+	var/visual_range = VISUAL_RANGE_DEFAULT
 	var/zoom_factor = 0.5 //Lets you zoom in / out on the DRADIS for more precision, or for better info.
 	var/zoom_factor_min = 0.25
 	var/zoom_factor_max = 2
@@ -271,6 +272,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 				return
 			if(dradis_targeting && (linked.gunner == usr || linked.pilot == usr) && target.faction != linked.faction)
 				linked.start_lockon(target)
+				return
 			if(world.time < next_hail)
 				return
 			if(target == linked)
@@ -294,6 +296,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			radar_delay = newDelay
 		if("dradis_targeting")
 			if(!(linked.gunner == usr || linked.pilot == usr))
+				return
 			dradis_targeting = !dradis_targeting
 
 /obj/machinery/computer/ship/dradis/attackby(obj/item/I, mob/user) //Allows you to upgrade dradis consoles to show asteroids, as well as revealing more valuable ones.
@@ -414,6 +417,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	data["sensor_mode"] = (sensor_mode == SENSOR_MODE_PASSIVE) ? "Passive Radar" : "Active Radar"
 	data["pulse_delay"] = "[radar_delay / 10]"
 	data["dradis_targeting"] = dradis_targeting
+	data["can_target"] = (linked?.gunner == user || linked?.pilot == user)
 	if(can_radar_pulse())
 		data["can_radar_pulse"] = TRUE
 		if(sensor_mode == SENSOR_MODE_RADAR && !isobserver(user))

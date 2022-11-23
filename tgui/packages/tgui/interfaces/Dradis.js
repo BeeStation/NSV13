@@ -92,9 +92,10 @@ export const DradisContent = (props, context) => {
             icon="camera"
             onClick={() => location.reload()} />
           <Button
-            content="DRADIS targeting"
-            icon={data.dradis_targeting ? "power-off" : "square-o"}
-            color={data.dradis_targeting ? "good" : "bad"}
+            content={(data.dradis_targeting) ? "Targeting" : "Hailing"}
+            icon={data.dradis_targeting ? "bullseye" : "square-o"}
+            disabled={!data.can_target}
+            color={(data.dradis_targeting && data.can_radar_pulse) ? "bad" : "good"}
             onClick={() => act('dradis_targeting')} />
         </>
       )}>

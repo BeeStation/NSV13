@@ -36,6 +36,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	pixel_collision_size_y = 32 //Avoid center tile viewport jank
 	req_one_access = list(ACCESS_COMBAT_PILOT)
 	var/start_emagged = FALSE
+	max_paints = 1 // Only one target per fighter
 	var/max_passengers = 0 //Change this per fighter.
 	//Component to handle the fighter's loadout, weapons, parts, the works.
 	var/loadout_type = LOADOUT_DEFAULT_FIGHTER

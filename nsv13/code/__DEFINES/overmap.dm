@@ -70,6 +70,8 @@
 #define SENSOR_RANGE_DEFAULT 40
 #define SENSOR_RANGE_FIGHTER 30 //Fighters have crappier sensors. Coordinate with the ATC!
 
+#define VISUAL_RANGE_DEFAULT 80 // How far away you can visually acquire a target.
+
 #define CLOAK_TEMPORARY_LOSS 2 //Cloak handling. When you fire a weapon, you temporarily lose your cloak, and AIs can target you.
 
 GLOBAL_LIST_INIT(overmap_objects, list())

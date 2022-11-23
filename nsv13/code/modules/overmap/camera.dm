@@ -110,7 +110,6 @@
 	eyeobj.off_action.ship = src
 	eyeobj.off_action.Grant(user)
 	eyeobj.setLoc(eyeobj.loc)
-	eyeobj.add_relay()
 	user.reset_perspective(eyeobj)
 	user.remote_control = eyeobj
 
@@ -120,7 +119,15 @@
 	var/datum/action/innate/camera_off/overmap/off_action
 	animate_movement = 0 //Stops glitching with overmap movement
 	use_static = FALSE
-	var/obj/structure/overmap/last_target = null //Lets gunners lock on to their targets for accurate shooting.
+	var/obj/structure/overmap/ship_target = null //Lets gunners lock on to their targets for accurate shooting.
+
+/mob/camera/ai_eye/remote/overmap_observer/Initialize(mapload)
+	. = ..()
+	RegisterSignal(origin, COMSIG_MOVABLE_MOVED, .proc/update)
+
+/mob/camera/ai_eye/remote/overmap_observer/Destroy()
+	UnregisterSignal(origin, COMSIG_MOVABLE_MOVED)
+	return ..()
 
 /datum/action/innate/camera_off/overmap
 	name = "Stop observing"
@@ -140,14 +147,9 @@
 		qdel(remote_eye)
 		qdel(src)
 
-/obj/structure/overmap/proc/remove_eye_control(mob/living/user)
-
 /mob/camera/ai_eye/remote/overmap_observer/relaymove(mob/user,direct)
 	origin?.relaymove(user,direct) //Move the ship. Means our pilots don't fucking suffocate because space is C O L D
 	return
-
-/mob/camera/ai_eye/remote/overmap_observer/proc/add_relay() //Add a signal to move us
-	RegisterSignal(origin, COMSIG_MOVABLE_MOVED, .proc/update, origin)
 
 /mob/camera/ai_eye/remote/overmap_observer/proc/set_override(state, obj/structure/overmap/override)
 	if(state)
@@ -159,18 +161,34 @@
 		QDEL_NULL(off_action)
 		QDEL_NULL(src)
 
-/mob/camera/ai_eye/remote/overmap_observer/proc/update(obj/structure/overmap/target)
-	if(!target)
-		target = origin
-	last_target = target
-	forceMove(target.get_center()) //This only happens for gunner cams
-	if(eye_user.client)
-		eye_user.client.pixel_x = origin.pixel_x
-		eye_user.client.pixel_y = origin.pixel_y
+/mob/camera/ai_eye/remote/overmap_observer/proc/update()
+	if(!eye_user.client)
+		return
+	var/obj/structure/overmap/ship = origin
+	var/scan_range = (ship.dradis) ? ship.dradis.visual_range : VISUAL_RANGE_DEFAULT
+	if(QDELETED(ship_target) || get_dist(ship, ship_target) > scan_range) // No target or our target's out of range, go to origin
+		ship_target = ship
+	if(eye_user == ship.gunner)
+		eye_user.client.pixel_x = ship_target.pixel_x
+		eye_user.client.pixel_y = ship_target.pixel_y
+		setLoc(ship_target.get_center()) //This only happens for gunner cams
+		return TRUE
+	eye_user.client.pixel_x = ship.pixel_x
+	eye_user.client.pixel_y = ship.pixel_y
+	setLoc(ship.get_center()) //This only happens for gunner cams
 	return TRUE
 
+// Switches the camera to track a specific target. If no target is passed, we track our origin
 /mob/camera/ai_eye/remote/overmap_observer/proc/track_target(obj/structure/overmap/target)
-	UnregisterSignal(last_target, COMSIG_MOVABLE_MOVED)
-	RegisterSignal(target, COMSIG_MOVABLE_MOVED, .proc/update, target)
+	UnregisterSignal(ship_target, COMSIG_MOVABLE_MOVED)
+	UnregisterSignal(ship_target, COMSIG_PARENT_QDELETING)
+	ship_target = target
+	if(ship_target)
+		RegisterSignal(ship_target, COMSIG_MOVABLE_MOVED, .proc/update, ship_target)
+		RegisterSignal(ship_target, COMSIG_PARENT_QDELETING, .proc/handle_target_qdel)
 	update()
 	return TRUE
+
+/mob/camera/ai_eye/remote/overmap_observer/proc/handle_target_qdel()
+	UnregisterSignal(ship_target, list(COMSIG_MOVABLE_MOVED, COMSIG_PARENT_QDELETING))
+	ship_target = null

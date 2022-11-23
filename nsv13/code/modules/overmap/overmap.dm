@@ -582,11 +582,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/proc/can_friendly_fire()
 	return FALSE
 
-/obj/structure/overmap/proc/start_lockon(atom/target)
-	if(!istype(target, /obj/structure/overmap))
+/obj/structure/overmap/proc/start_lockon(obj/structure/overmap/target)
+	if(!istype(target))
 		return FALSE
-	var/obj/structure/overmap/OM = target
-	if((OM.faction == faction) && !can_friendly_fire())
+	if((target.faction == faction) && !can_friendly_fire())
 		return FALSE
 	if(LAZYFIND(target_painted, target))
 		dump_lock(target)
@@ -596,37 +595,44 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	relay('nsv13/sound/effects/fighters/being_locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	addtimer(CALLBACK(src, .proc/finish_lockon, target), lockon_time)
 
-/obj/structure/overmap/proc/finish_lockon(atom/target)
-	if(!gunner || !target)
+/obj/structure/overmap/proc/finish_lockon(obj/structure/overmap/target, data_link = FALSE)
+	if(!target || !istype(target) || target == src || target.current_system != current_system) // No target/invalid target
 		return
-	if(target_painted >= max_paints)
+	if(!data_link && target.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE)
+		return
+	if(length(target_painted) >= max_paints)
 		to_chat(gunner, "<span class='notice'>Target painting at maximum capacity. Cancelling painting of [target_painted[1]] to support new target.</span>")
 		dump_lock(target_painted[1])
 	target_painted.Add(target)
-	if(last_overmap && ((last_overmap.faction == faction) || can_friendly_fire()) && last_overmap.targets_painted < last_overmap.max_paints)
-		last_overmap.finish_lockon(target)
+	if(last_overmap && ((last_overmap.faction == faction) || can_friendly_fire()) && length(last_overmap.target_painted) < last_overmap.max_paints)
+		last_overmap.finish_lockon(target, TRUE)
 		if(last_overmap.gunner)
 			to_chat(last_overmap.gunner, "<span class='notice'>Targeting data for [target] recieved from [src] via datalink.</span>")
-	to_chat(gunner, "<span class='notice'>Target painted</span>")
+	to_chat(gunner, "<span class='notice'>Target painted.</span>")
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
-	RegisterSignal(target, COMSIG_PARENT_QDELETING, .proc/dump_lock)
+	RegisterSignal(target, list(COMSIG_PARENT_QDELETING, COMSIG_FTL_STATE_CHANGE), .proc/dump_lock)
 
 /obj/structure/overmap/proc/select_target(obj/structure/overmap/target)
 	if(QDELETED(target) || !istype(target) || !locate(target) in target_painted)
+		dump_lock(target)
 		return
 	target_lock = target
+	var/scan_range = (dradis) ? dradis.visual_range : VISUAL_RANGE_DEFAULT
+	if(overmap_dist(src, target) > scan_range)
+		to_chat(gunner, "<span class='warning'>Target out of visual acquisition range.</span>")
+		return
 	update_gunner_cam(target)
 
-/obj/structure/overmap/proc/dump_lock(atom/target) // Our locked target got destroyed/moved, dump the lock
+/obj/structure/overmap/proc/dump_lock(obj/structure/overmap/target) // Our locked target got destroyed/moved, dump the lock
 	target_painted.Remove(target)
 	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
 	if(target_lock == target)
-		update_gunner_cam(src)
+		update_gunner_cam()
 		target_lock = null
 
 /obj/structure/overmap/proc/dump_locks() // clears all target locks.
 	update_gunner_cam(src)
-	for(/obj/structure/overmap/OM in target_painted)
+	for(var/obj/structure/overmap/OM in target_painted)
 		dump_lock(OM)
 
 /obj/structure/overmap/proc/update_gunner_cam(atom/target)
