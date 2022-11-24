@@ -6,7 +6,7 @@
 			much to overload the reactor with these..."
 	item = /obj/item/fuel_rod/material/telecrystal
 	cost = 7
-/datum/uplink_item/dangerous/pdc_rifle
+/datum/uplink_item/role_restricted/pdc_rifle
 	name = "Point Defence Rifle"
 	desc = "A rifle specifically designed to shoot the 30.12x82mm bullets found on ships."
 	item = /obj/item/gun/ballistic/rifle/boltaction/pdc
