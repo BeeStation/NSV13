@@ -62,8 +62,8 @@
 	caliber = "mm30.12"
 
 /obj/item/ammo_casing/pdc/fire_casing(atom/target, mob/living/user, params, distro, quiet, zone_override, spread, spread_mult, atom/fired_from)
-	if(istype(fired_from, /obj/item/gun/ballistic/rifle/boltaction/pdc))
-		BB.damage = 30
+	if(istype(fired_from, /obj/item/gun/ballistic/rifle/boltaction/pdc)) // Overrides the damage for pdcrifle because overmap pdc only deals 15 dmg
+		BB.damage = 45
 	. = ..()
 
 /obj/item/ammo_box/magazine/nsv/flak

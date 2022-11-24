@@ -8,7 +8,7 @@
 	cost = 7
 /datum/uplink_item/dangerous/pdc_rifle
 	name = "Point Defence Rifle"
-	desc = "A rifle specifically designed to shoot the 30.12x82mm bullets found on warships."
+	desc = "A rifle specifically designed to shoot the 30.12x82mm bullets found on ships."
 	item = /obj/item/gun/ballistic/rifle/boltaction/pdc
-	cost = 14
-	restricted_roles = list(JOB_NAME_MUNITIONSTECHNICIAN)
+	cost = 12
+	restricted_roles = list(JOB_NAME_MUNITIONSTECHNICIAN,JOB_NAME_MASTERATARMS)

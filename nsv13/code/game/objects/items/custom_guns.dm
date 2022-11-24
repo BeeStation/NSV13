@@ -143,8 +143,9 @@
 /obj/item/gun/ballistic/rifle/boltaction/pdc
 	name = "\improper Point Defence Rifle"
 	desc = "A massive rifle made to fire PDC rounds."
-	icon_state = "moistnugget"
-	item_state = "moistnugget"
+	icon = 'nsv13/icons/obj/guns/projectile.dmi'
+	icon_state = "pdcrifle"
+	item_state = "pdcrifle"
 	slot_flags = ITEM_SLOT_BACK
 	mag_type = /obj/item/ammo_box/magazine/nsv/pdc
 	can_bayonet = TRUE
