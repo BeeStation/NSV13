@@ -142,16 +142,18 @@
 
 /obj/item/gun/ballistic/rifle/boltaction/pdc
 	name = "\improper Point Defence Rifle"
-	desc = "A massive rifle made to fire PDC rounds."
+	desc = "A rifle made to fire PDC rounds."
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "pdcrifle"
 	item_state = "pdcrifle"
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/guns_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/guns_righthand.dmi'
 	slot_flags = ITEM_SLOT_BACK
-	mag_type = /obj/item/ammo_box/magazine/nsv/pdc
+	mag_type = /obj/item/ammo_box/magazine/nsv/pdc/rifle
 	can_bayonet = TRUE
 	knife_x_offset = 27
 	knife_y_offset = 13
 	w_class = 3 // It's a syndicate weapon so weight is reduced to allow it to be hidden in backpacks
-	weapon_weight = WEAPON_HEAVY
+	weapon_weight = WEAPON_MEDIUM
+
+
