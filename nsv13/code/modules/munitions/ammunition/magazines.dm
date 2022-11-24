@@ -31,14 +31,14 @@
 		return FALSE
 
 	var/new_frame = round(overlay_frames * (count/max_ammo) + 1)
-	if (new_frame == last_frame) 
+	if (new_frame == last_frame)
 		return FALSE
 	last_frame = new_frame
 	cut_overlays()
 
 	if (count >= max_ammo)
 		return FALSE
-	
+
 	add_overlay(icon("[icon]","[overlay_name]",frame = new_frame))
 	return TRUE
 
@@ -60,6 +60,11 @@
 	desc = "A 30.12x82mm bullet casing."
 	projectile_type = /obj/item/projectile/bullet/pdc_round
 	caliber = "mm30.12"
+
+/obj/item/ammo_casing/pdc/fire_casing(atom/target, mob/living/user, params, distro, quiet, zone_override, spread, spread_mult, atom/fired_from)
+	if(istype(fired_from, /obj/item/gun/ballistic/rifle/boltaction/pdc_rifle))
+		BB.damage = 45
+	. = ..()
 
 /obj/item/ammo_box/magazine/nsv/flak
 	name = "40mm flak rounds"

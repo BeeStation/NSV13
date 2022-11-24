@@ -139,3 +139,16 @@
 	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
 	max_ammo = 6
 	multiple_sprites = 1
+
+/obj/item/gun/ballistic/rifle/boltaction/pdc
+	name = "\improper Point Defence Rifle"
+	desc = "A massive rifle made to fire PDC rounds."
+	icon_state = "moistnugget"
+	item_state = "moistnugget"
+	slot_flags = ITEM_SLOT_BACK
+	mag_type = /obj/item/ammo_box/magazine/nsv/pdc
+	can_bayonet = TRUE
+	knife_x_offset = 27
+	knife_y_offset = 13
+	w_class = WEIGHT_CLASS_BULKY
+	weapon_weight = WEAPON_HEAVY
