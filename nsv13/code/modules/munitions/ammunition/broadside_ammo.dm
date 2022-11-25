@@ -18,6 +18,9 @@
 	w_class = WEIGHT_CLASS_BULKY
 	projectile_type = /obj/item/projectile/bullet/broadside/plasma
 
+/obj/item/ship_weapon/ammunition/broadside_shell/can_be_pulled()
+	return TRUE
+
 /obj/machinery/broadside_shell_packer
 	name = "\improper Broadside Shell Packer Bench"
 	desc = "An automated table that packs broadside shell casings, just add components!"

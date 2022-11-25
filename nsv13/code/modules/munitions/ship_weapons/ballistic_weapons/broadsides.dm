@@ -78,7 +78,7 @@
 /obj/machinery/ship_weapon/broadside/examine()
 	. = ..()
 	if(panel_open)
-		. += "The maintenance panel is <b>unscrewed</b> and the machinery could be <i>pried out</i>. You could flip the cannon by rotating the <u>bolts<u>."
+		. += "The maintenance panel is <b>unscrewed</b> and the machinery could be <i>pried out</i>. You could flip the cannon by rotating the <u>bolts<u>. You can disengage the shell locks <b>electronically</b>."
 	else
 		. += "The maintenance panel is <b>closed</b> and could be <i>screwed open</i>."
 
@@ -95,6 +95,12 @@
 			if(SOUTH)
 				setDir(NORTH)
 				to_chat(user, "<span class='notice'>You rotate the bolts, swiveling the cannon to Starboard</span>")
+		return TRUE
+
+/obj/machinery/ship_weapon/broadside/multitool_act(mob/user, obj/item/tool)
+	if(panel_open)
+		unload()
+		playsound(feeding_sound, src, 50)
 		return TRUE
 
 /obj/machinery/ship_weapon/broadside/crowbar_act(mob/user, obj/item/tool)
