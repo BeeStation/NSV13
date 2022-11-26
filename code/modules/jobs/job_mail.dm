@@ -394,6 +394,7 @@
 		/obj/item/book/granter/spell/mimery_blockade = 1,
 
 		//NSV13
+		/obj/item/toy/dummy = 5,
 		/obj/structure/mecha_wreckage/reticence = 1,
 	)
 
