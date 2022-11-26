@@ -1,14 +1,22 @@
 //ATC
 /datum/job/air_traffic_controller
 	mail_goodies = list(
+		/obj/item/pizzabox/infinite = 20,
+		/obj/item/toy/cards/deck = 15,
 		/obj/item/clothing/glasses/sunglasses/advanced/gar = 10,
+		/obj/item/laser_pointer/random = 8,
+		//Since everyone wants the ATC to kys, they can have a fake one while they consider therapy (or maybe just a job change)
+		/obj/item/toy/katana = 8,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
 	)
 
 //Bridge Officer
 /datum/job/bridge
 	mail_goodies = list(
+		/obj/item/pizzabox/infinite = 20,
 		/obj/item/clothing/glasses/sunglasses/advanced/garb = 10,
+		//SPOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL
+		/obj/item/reagent_containers/food/drinks/ftliver = 8,
 		/obj/item/megaphone = 7,
 		/obj/item/paicard = 5,
 	)
@@ -16,8 +24,14 @@
 //Master At Arms
 /datum/job/master_at_arms
 	mail_goodies = list(
+		/obj/item/ship_weapon/ammunition/naval_artillery/cannonball = 15,
+		/obj/machinery/nuclearbomb/beer = 10,
+		/obj/item/ship_weapon/ammunition/naval_artillery/armed = 10,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
+		//EARS RINGING, GUNS SINGING!!!
 		/obj/item/banner/munitions = 5,
+		//ITS CODED, WE SHOULD USE IT
+		/obj/item/ship_weapon/ammunition/naval_artillery/homing = 1,
 	)
 
 //Munitions Technician
