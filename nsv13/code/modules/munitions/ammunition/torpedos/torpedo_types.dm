@@ -32,13 +32,12 @@
 
 /obj/item/card/id/prisoner
 
-/obj/item/ship_weapon/ammunition/torpedo/can_be_pulled(mob/user)
-	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
-	return FALSE
-
 /obj/item/ship_weapon/ammunition/torpedo/examine(mob/user)
 	. = ..()
 	. += "<span class='warning'>It's far too cumbersome to carry, and dragging it around might set it off!</span>"
+
+/obj/item/ship_weapon/ammunition/torpedo/attack_hand(mob/user)
+	return FALSE
 
 //High damage torp. Use this when youve exhausted their flak.
 /obj/item/ship_weapon/ammunition/torpedo/hull_shredder
