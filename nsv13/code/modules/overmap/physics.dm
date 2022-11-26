@@ -577,12 +577,12 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		log_combat(pilot, M, "impacted", src, "with velocity of [bump_velocity]")
 	return ..()
 
-/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, homing = FALSE, speed=null, user_override=null, lateral=FALSE, ai_aim = FALSE, miss_chance=5, max_miss_distance=5, broadside=FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
+/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, speed=null, user_override=null, lateral=FALSE, ai_aim = FALSE, miss_chance=5, max_miss_distance=5, broadside=FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
 	if(!z || QDELETED(src))
 		return FALSE
 	var/turf/T = get_center()
 	var/obj/item/projectile/proj = new proj_type(T)
-	if(ai_aim && !homing && !proj.hitscan)
+	if(ai_aim && !proj.can_home && !proj.hitscan)
 		target = calculate_intercept(target, proj, miss_chance=miss_chance, max_miss_distance=max_miss_distance)
 	proj.starting = T
 	proj.firer = (!user_override && gunner) ? gunner : user_override
@@ -594,8 +594,16 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	proj.faction = faction
 	if(physics2d && physics2d.collider2d)
 		proj.setup_collider()
-	if(homing && !isturf(target))	//Lets not have projectiles home in on some random tile someone clicked on to launch
-		proj.set_homing_target(target)
+	if(proj.can_home)	//Lets not have projectiles home in on some random tile someone clicked on to launch
+		if((length(target_painted) > 0))
+			if(!target_lock) // no selected target, fire at the first one in our list
+				proj.set_homing_target(target_painted[1])
+			else if(target_painted.Find(target_lock)) // Fire at a manually selected target
+				proj.set_homing_target(target_lock)
+			else // something fucked up, dump the lock
+				target_lock = null
+		else if(!isturf(target))
+			proj.set_homing_target(target)
 	if(gunner)
 		proj.firer = gunner
 	else

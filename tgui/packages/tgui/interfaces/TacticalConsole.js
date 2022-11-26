@@ -169,7 +169,7 @@ export const TacticalConsole = (props, context) => {
                       </Section>
                       <Button
                         fluid
-                        content={`Target ${value.name}`}
+                        content={data.target_name === value.name ? `Stop Targeting ${value.name}` : `Target ${value.name}`}
                         icon="bullseye"
                         onClick={() =>
                           act('lock_ship', { target: value.name })} />

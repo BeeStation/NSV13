@@ -175,7 +175,7 @@
 		return TRUE
 	eye_user.client.pixel_x = ship.pixel_x
 	eye_user.client.pixel_y = ship.pixel_y
-	setLoc(ship.get_center()) //This only happens for gunner cams
+	setLoc(ship.get_center())
 	return TRUE
 
 // Switches the camera to track a specific target. If no target is passed, we track our origin
@@ -184,7 +184,7 @@
 	UnregisterSignal(ship_target, COMSIG_PARENT_QDELETING)
 	ship_target = target
 	if(ship_target)
-		RegisterSignal(ship_target, COMSIG_MOVABLE_MOVED, .proc/update, ship_target)
+		RegisterSignal(ship_target, COMSIG_MOVABLE_MOVED, .proc/update)
 		RegisterSignal(ship_target, COMSIG_PARENT_QDELETING, .proc/handle_target_qdel)
 	update()
 	return TRUE

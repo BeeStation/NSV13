@@ -1689,9 +1689,9 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		F.relay_to_nearby(chosen)
 		if(proj_type == /obj/item/projectile/guided_munition/missile/dud) //Refactor this to something less trash sometime I guess
-			F.fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, lateral = FALSE)
+			F.fire_projectile(proj_type, target, speed=proj_speed, lateral = FALSE)
 		else
-			F.fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, lateral = FALSE)
+			F.fire_projectile(proj_type, target, speed=proj_speed, lateral = FALSE)
 	return TRUE
 
 //Utility modules.

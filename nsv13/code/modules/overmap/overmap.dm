@@ -567,14 +567,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		var/datum/ship_weapon/SW = weapon_types[fire_mode]
 		if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
 			return FALSE
-	if((length(target_painted) > 0) && locate(fire_mode) in list(FIRE_MODE_TORPEDO, FIRE_MODE_MISSILE, FIRE_MODE_AMS))
-		if(!target_lock) // no selected target, fire at the first one in our list
-			fire(target_painted[1])
-		else if(target_painted.Find(target_lock)) // Fire at a manually selected target
-			fire(target_lock)
-		else // something fucked up, dump the lock
-			target_lock = null
-		return TRUE
 	fire(target)
 	return TRUE
 
@@ -615,6 +607,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/proc/select_target(obj/structure/overmap/target)
 	if(QDELETED(target) || !istype(target) || !locate(target) in target_painted)
 		dump_lock(target)
+		return
+	if(target_lock == target)
+		target_lock = null
+		update_gunner_cam(src)
 		return
 	target_lock = target
 	var/scan_range = (dradis) ? dradis.visual_range : VISUAL_RANGE_DEFAULT

@@ -88,7 +88,7 @@
 	// We have different sprites and behaviors for each torpedo
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered
 	if(T)
-		var/obj/item/projectile/P = linked.fire_projectile(T.projectile_type, target, homing = TRUE, lateral = weapon_type.lateral)
+		var/obj/item/projectile/P = linked.fire_projectile(T.projectile_type, target, lateral = weapon_type.lateral)
 		if(T.contents.len)
 			for(var/atom/movable/AM in T.contents)
 				to_chat(AM, "<span class='warning'>You feel slightly nauseous as you're shot out into space...</span>")

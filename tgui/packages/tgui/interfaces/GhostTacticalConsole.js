@@ -188,10 +188,16 @@ export const GhostTacticalConsole = (props, context) => {
                       </Section>
                       <Button
                         fluid
-                        content={`Target ${value.name}`}
+                        content={data.target_name === value.name ? `Stop Targeting ${value.name}` : `Target ${value.name}`}
                         icon="bullseye"
                         onClick={() =>
-                          act('target_ship', { target: value.name })} />
+                          act('lock_ship', { target: value.name })} />
+                      <Button
+                        fluid
+                        content={`Stop Tracking ${value.name}`}
+                        icon="bullseye"
+                        onClick={() =>
+                          act('dump_lock', { target: value.name })} />
                     </Section>
                   )}
                 </Fragment>);
