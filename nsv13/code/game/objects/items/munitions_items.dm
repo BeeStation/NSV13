@@ -88,7 +88,6 @@
 	name = "munitions technician bowmans headset"
 	desc = "Use :w to access the department frequency. Use :u to access the supply frequency"
 	icon_state = "mun_headset_alt"
-	bang_protect = 1
 
 /obj/item/radio/headset/munitions/munitions_security_alt
 	name = "munitions-security bowman headset"
