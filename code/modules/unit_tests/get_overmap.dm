@@ -51,7 +51,7 @@
 	if(!sabre)
 		var/turf/center = SSmapping.get_station_center()
 		ASSERT(center)
-		sabre = new /obj/structure/overmap/small_craft/sabre(center)
+		sabre = new /obj/structure/overmap/small_craft/transport/sabre(center)
 
 	ASSERT(sabre)
 
