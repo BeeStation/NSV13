@@ -1,3 +1,4 @@
+/*
 /obj/item/laser_pointer/random
 	name = "\improper laser pointer"
 	icon_state = "debug"
@@ -7,3 +8,4 @@
 	var laser_type = pick(subtypesof(/obj/item/laser_pointer/) - /obj/item/laser_pointer/random/)
 	new laser_type(loc)
 	return INITIALIZE_HINT_QDEL
+*/
