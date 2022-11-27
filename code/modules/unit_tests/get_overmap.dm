@@ -3,6 +3,7 @@
 	var/mob/living/carbon/human/dummy
 
 /datum/unit_test/basic_mob_overmap/New()
+	. = ..()
 	var/turf/center = SSmapping.get_station_center()
 	dummy = new(center)
 
@@ -20,6 +21,7 @@
 	var/mob/living/carbon/human/dummy
 
 /datum/unit_test/fighter_pilot_overmap/New()
+	. = ..()
 	for(var/obj/structure/overmap/small_craft/combat/light/OM as() in SSstar_system.find_main_overmap().overmaps_in_ship)
 		fighter = OM
 		break
