@@ -2,12 +2,10 @@
 /datum/unit_test/basic_mob_overmap
 	var/mob/living/carbon/human/dummy
 
-/datum/unit_test/basic_mob_overmap/New()
-	. = ..()
-	var/turf/center = SSmapping.get_station_center()
-	dummy = new(center)
-
 /datum/unit_test/basic_mob_overmap/Run()
+	var/turf/center = SSmapping.get_station_center()
+	ASSERT(center, "SSmapping could not find the center")
+	dummy = new(center)
 	dummy.update_overmap()
 	TEST_ASSERT_EQUAL(dummy.get_overmap(), SSstar_system.find_main_overmap(), "The mob's overmap was not the main ship")
 
@@ -20,20 +18,18 @@
 	var/obj/structure/overmap/small_craft/combat/light/fighter = null
 	var/mob/living/carbon/human/dummy
 
-/datum/unit_test/fighter_pilot_overmap/New()
-	. = ..()
+/datum/unit_test/fighter_pilot_overmap/Run()
 	for(var/obj/structure/overmap/small_craft/combat/light/OM as() in SSstar_system.find_main_overmap().overmaps_in_ship)
 		fighter = OM
 		break
 
 	if(!fighter)
 		var/turf/center = SSmapping.get_station_center()
+		ASSERT(center, "SSmapping could not find the center")
 		fighter = new (center)
 
 	dummy = new()
 	fighter.start_piloting(dummy, OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER)
-
-/datum/unit_test/fighter_pilot_overmap/Run()
 	dummy.update_overmap()
 	TEST_ASSERT_EQUAL(dummy.get_overmap(), fighter, "The mob's overmap was not the light fighter")
 
