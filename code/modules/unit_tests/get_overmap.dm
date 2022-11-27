@@ -48,7 +48,12 @@
 		sabre = OM
 		break
 
-	ASSERT(sabre) // Can't just make a new one, that doesn't work right
+	if(!sabre)
+		var/turf/center = SSmapping.get_station_center()
+		ASSERT(center)
+		sabre = new /obj/structure/overmap/small_craft/sabre(center)
+
+	ASSERT(sabre)
 
 	dummy = new()
 	sabre.enter(dummy)
