@@ -27,6 +27,7 @@
 		/obj/item/ship_weapon/ammunition/naval_artillery/cannonball = 15,
 		/obj/machinery/nuclearbomb/beer = 10,
 		/obj/item/ship_weapon/ammunition/naval_artillery/armed = 10,
+		/obj/item/ship_weapon/parts/missile/warhead/plushtide = 10,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
 		//EARS RINGING, GUNS SINGING!!!
 		/obj/item/banner/munitions = 5,
