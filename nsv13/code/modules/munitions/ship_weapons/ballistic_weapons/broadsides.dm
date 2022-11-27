@@ -77,6 +77,13 @@
 
 /obj/machinery/ship_weapon/broadside/examine()
 	. = ..()
+	switch(maint_state)
+		if(MSTATE_CLOSED)
+			pop(.)
+		if(MSTATE_UNSCREWED)
+			pop(.)
+		if(MSTATE_UNBOLTED)
+			pop(.)
 	if(panel_open)
 		. += "The maintenance panel is <b>unscrewed</b> and the machinery could be <i>pried out</i>. You could flip the cannon by rotating the <u>bolts</u>. You can disengage the shell locks <b>electronically</b>."
 	else
