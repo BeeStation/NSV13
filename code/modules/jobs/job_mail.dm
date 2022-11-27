@@ -14,6 +14,7 @@
 
 		//NSV13
 		/obj/item/dance_trance = 15,
+		/obj/item/toy/figure/assistant = 5,
 		//Greytide Worldwide, baby
 		/obj/structure/sign/poster/contraband/grey_tide = 3,
 	)
@@ -30,6 +31,7 @@
 
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/screwdrivercocktail = 8,
+		/obj/item/toy/figure/atmos = 5,
 	)
 
 //BART ENDER
@@ -45,6 +47,7 @@
 
 		//NSV13
 		/obj/item/dance_trance = 15,
+		/obj/item/toy/figure/bartender = 5,
 	)
 
 //BOTANIST
@@ -57,6 +60,9 @@
 		/obj/item/gun/energy/floragun = 5,
 		// These are strong, rare seeds, so use sparingly.
 		/obj/item/seeds/random = 2,
+
+		//NSV13
+		/obj/item/toy/figure/botanist = 5,
 	)
 
 //BRIG PHYSICIAN
@@ -87,6 +93,7 @@
 
 		//NSV13
 		/obj/item/toy/plush/renault = 5,
+		/obj/item/toy/figure/captain = 5,
 		/obj/item/megaphone/command/rudiger = 4,
 	)
 
@@ -98,6 +105,9 @@
 		/obj/item/ammo_box/a762 = 3,
 		//URAAAAHH
 		/obj/item/gun/ballistic/rifle/boltaction = 1,
+
+		//NSV13
+		/obj/item/toy/figure/cargotech = 5,
 	)
 
 //CHAPLAIN
@@ -109,6 +119,9 @@
 		/obj/item/toy/plush/awakenedplushie = 3,
 		/obj/item/toy/plush/narplush = 2,
 		/obj/item/toy/plush/plushvar = 2,
+
+		//NSV13
+		/obj/item/toy/figure/chaplain = 5,
 	)
 
 //CHEMIST
@@ -122,6 +135,7 @@
 
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
+		/obj/item/toy/figure/chemist = 5,
 	)
 
 //CHIEF ENGINEER
@@ -143,6 +157,7 @@
 		/obj/item/control_rod/superior = 7,
 		//All hail lord Singuloth!!!
 		/obj/item/banner/engineering = 5,
+		/obj/item/toy/figure/ce = 5,
 		/obj/item/megaphone/command/rudiger = 4,
 	)
 
@@ -163,6 +178,7 @@
 		//1 out of 10 CMO recommended!
 		/obj/item/storage/fancy/cigarettes/cigpack_uplift = 10,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
+		/obj/item/toy/figure/cmo = 5,
 		/obj/item/toy/plush/runtime = 5,
 		//No wounds cannot be healed!!!
 		/obj/item/banner/medical = 5,
@@ -183,6 +199,7 @@
 
 		//NSV13
 		/obj/item/dance_trance = 15,
+		/obj/item/toy/figure/clown = 5,
 	)
 
 //COOK
@@ -202,6 +219,9 @@
 		/obj/item/kitchen/knife = 4,
 		/obj/item/storage/box/ingredients/exotic = 3,
 		/obj/item/kitchen/knife/butcher = 2,
+
+		//NSV13
+		/obj/item/toy/figure/chef = 5,
 	)
 
 //CURATOR
@@ -218,6 +238,9 @@
 		/obj/item/toy/plush/flushed = 5,
 		//rare, but not that much...
 		/obj/item/paicard = 2,
+
+		//NSV13
+		/obj/item/toy/figure/curator = 5,
 	)
 
 //DEPUTY...IS THIS JOB EVEN ACTIVE? I DON'T THINK IT IS
@@ -244,6 +267,7 @@
 
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8,
+		/obj/item/toy/figure/detective = 5,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4,
 
 	)
@@ -289,6 +313,7 @@
 
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
+		/obj/item/toy/figure/geneticist = 5,
 	)
 
 //HEAD OF PERSONNEL
@@ -304,6 +329,7 @@
 		//NSV13
 		//I literally just fixed this and y'all want this BACK
 		/obj/item/stamp/head_of_personnel = 5,
+		/obj/item/toy/figure/ian = 5,
 		/obj/item/megaphone/command/rudiger = 4,
 	)
 
@@ -323,6 +349,7 @@
 		//EVERYONE DOWN ON THE GROUND!!
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8,
 		/obj/item/banner/security = 5,
+		/obj/item/toy/figure/hos = 5,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4,
 		/obj/item/megaphone/command/rudiger = 4,
 	)
@@ -336,6 +363,9 @@
 		//ha!
 		/obj/item/clothing/under/rank/civilian/janitor/maid = 5,
 		/obj/item/grenade/clusterbuster/cleaner = 2,
+
+		//NSV13
+		/obj/item/toy/figure/janitor = 5,
 	)
 
 //LAWYER
@@ -356,6 +386,7 @@
 
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8,
+		/obj/item/toy/figure/lawyer = 5,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4,
 	)
 
@@ -381,6 +412,7 @@
 
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
+		/obj/item/toy/figure/md = 5,
 	)
 
 //MIME
@@ -395,6 +427,7 @@
 
 		//NSV13
 		/obj/item/toy/dummy = 5,
+		/obj/item/toy/figure/mime = 5,
 		/obj/structure/mecha_wreckage/reticence = 1,
 	)
 
@@ -419,6 +452,7 @@
 		/obj/item/gun/ballistic/rifle/boltaction = 1,
 
 		//NSV13
+		/obj/item/toy/figure/qm = 5,
 		/obj/structure/mecha_wreckage/ripley = 1,
 	)
 
@@ -435,6 +469,7 @@
 		//NSV13
 		//For Cuban Pete!
 		/obj/item/banner/science = 5,
+		/obj/item/toy/figure/rd = 5,
 		/obj/item/megaphone/command/rudiger = 4,
 		/obj/structure/mecha_wreckage/seraph = 1,
 	)
@@ -452,6 +487,8 @@
 		/obj/item/modular_computer/tablet/preset/advanced = 5,
 
 		//NSV13
+		/obj/item/toy/figure/borg = 5,
+		/obj/item/toy/figure/roboticist = 5,
 		/obj/structure/mecha_wreckage/phazon = 1,
 	)
 
@@ -462,6 +499,9 @@
 		/obj/item/disk/tech_disk = 7,
 		//STUFF
 		/obj/effect/spawner/mail/science = 4,
+
+		//NSV13
+		/obj/item/toy/figure/scientist = 5,
 	)
 
 //SECURITY OFFICER
@@ -477,6 +517,7 @@
 
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8,
+		/obj/item/toy/figure/secofficer = 5,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4,
 	)
 
@@ -498,6 +539,7 @@
 		/obj/item/crusher_trophy/watcher_wing = 6,
 		/obj/item/crusher_trophy/blaster_tubes/magma_wing = 6,
 		/obj/item/crusher_trophy/watcher_wing/ice_wing = 6,
+		/obj/item/toy/figure/miner = 5,
 		/obj/item/kinetic_crusher = 5,
 	)
 
@@ -513,6 +555,7 @@
 
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/screwdrivercocktail = 8,
+		/obj/item/toy/figure/engineer = 5,
 	)
 
 //VIROLOGIST
@@ -531,6 +574,7 @@
 
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
+		/obj/item/toy/figure/virologist = 5,
 	)
 
 //VIP / VIP GIMMICK
@@ -566,5 +610,6 @@
 
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8,
+		/obj/item/toy/figure/warden = 5,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4,
 		)
