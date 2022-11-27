@@ -12,6 +12,7 @@
 
 /datum/unit_test/basic_mob_overmap/Destroy()
 	QDEL_NULL(dummy)
+	. = ..()
 
 /// A mob inside a basic fighter should have its get_overmap return the fighter
 /datum/unit_test/fighter_pilot_overmap
@@ -19,7 +20,7 @@
 	var/mob/living/carbon/human/dummy
 
 /datum/unit_test/fighter_pilot_overmap/New()
-	for(var/obj/structure/overmap/small_craft/combat/light/OM as() in main.overmaps_in_ship)
+	for(var/obj/structure/overmap/small_craft/combat/light/OM as() in SSstar_system.find_main_overmap().overmaps_in_ship)
 		fighter = OM
 		break
 
@@ -38,3 +39,4 @@
 	fighter.stop_piloting(dummy)
 	QDEL_NULL(dummy)
 	QDEL_NULL(fighter)
+	. = ..()
