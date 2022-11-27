@@ -15,7 +15,6 @@
 		//NSV13
 		/obj/item/dance_trance = 15,
 		/obj/item/toy/figure/assistant = 5,
-		//Greytide Worldwide, baby
 		/obj/structure/sign/poster/contraband/grey_tide = 3,
 	)
 
@@ -155,7 +154,6 @@
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/screwdrivercocktail = 8,
 		/obj/item/control_rod/superior = 7,
-		//All hail lord Singuloth!!!
 		/obj/item/banner/engineering = 5,
 		/obj/item/toy/figure/ce = 5,
 		/obj/item/megaphone/command/rudiger = 4,
@@ -173,14 +171,12 @@
 		/obj/effect/spawner/mail/ayymedtool = 1,
 
 		//NSV13
-		//For Runtime, of course. Not at all for Felinid CMOs
 		/obj/item/toy/cattoy = 15,
 		//1 out of 10 CMO recommended!
 		/obj/item/storage/fancy/cigarettes/cigpack_uplift = 10,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
 		/obj/item/toy/figure/cmo = 5,
 		/obj/item/toy/plush/runtime = 5,
-		//No wounds cannot be healed!!!
 		/obj/item/banner/medical = 5,
 		/obj/item/megaphone/command/rudiger = 4,
 	)
@@ -285,7 +281,6 @@
 		/obj/item/reagent_containers/hypospray/medipen/pumpup = 1,
 
 		//NSV13
-		//I'm lookin' at you, Tori ಠ_ಠ
 		/obj/item/paper/fluff/jobs/medical/hippocratic = 15,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
 	)
@@ -327,7 +322,6 @@
 		/obj/item/lazarus_injector = 1,
 
 		//NSV13
-		//I literally just fixed this and y'all want this BACK
 		/obj/item/stamp/head_of_personnel = 5,
 		/obj/item/toy/figure/ian = 5,
 		/obj/item/megaphone/command/rudiger = 4,
@@ -346,7 +340,6 @@
 		/obj/item/storage/lockbox/loyalty = 2,
 
 		//NSV13
-		//EVERYONE DOWN ON THE GROUND!!
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8,
 		/obj/item/banner/security = 5,
 		/obj/item/toy/figure/hos = 5,
@@ -467,7 +460,6 @@
 		/obj/item/borg/upgrade/ai = 2,
 
 		//NSV13
-		//For Cuban Pete!
 		/obj/item/banner/science = 5,
 		/obj/item/toy/figure/rd = 5,
 		/obj/item/megaphone/command/rudiger = 4,
