@@ -29,6 +29,7 @@
 		fighter = new (center)
 
 	dummy = new()
+	fighter.enter(dummy)
 	fighter.start_piloting(dummy, OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER)
 	TEST_ASSERT_EQUAL(dummy.get_overmap(), fighter, "The mob's overmap was not the light fighter")
 	fighter.stop_piloting(dummy)
