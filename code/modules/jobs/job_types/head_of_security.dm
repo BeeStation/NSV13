@@ -1,7 +1,7 @@
 /datum/job/head_of_security
 	title = JOB_NAME_HEADOFSECURITY
 	flag = HOS
-	auto_deadmin_role_flags = DEADMIN_POSITION_HEAD|DEADMIN_POSITION_SECURITY
+	auto_deadmin_role_flags = PREFTOGGLE_DEADMIN_POSITION_HEAD|PREFTOGGLE_DEADMIN_POSITION_SECURITY
 	department_head = list(JOB_NAME_CAPTAIN)
 	department_flag = ENGSEC
 	head_announce = list(RADIO_CHANNEL_SECURITY)
@@ -12,7 +12,7 @@
 	selection_color = "#ffdddd"
 	req_admin_notify = 1
 	minimal_player_age = 14
-	exp_requirements = 1200
+	exp_requirements = 1800 //NSV13 changed to 30 hours
 	exp_type = EXP_TYPE_SECURITY
 	exp_type_department = EXP_TYPE_SECURITY
 

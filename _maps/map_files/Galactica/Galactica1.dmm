@@ -3567,7 +3567,6 @@
 /area/security/warden)
 "jU" = (
 /obj/machinery/turretid{
-	control_area = "/area/ai_monitored/turret_protected/aisat_interior";
 	name = "Antechamber Turret Control";
 	pixel_x = 30;
 	req_access_txt = "65"
@@ -9279,9 +9278,8 @@
 /area/engine/storage)
 "zA" = (
 /obj/machinery/power/apc/highcap/five_k{
-	areastring = "/area/tcommsat/computer";
+	auto_name = 1;
 	dir = 4;
-	name = "Telecomms Control Room APC";
 	pixel_x = 24
 	},
 /obj/structure/cable/yellow{
@@ -11890,8 +11888,7 @@
 /obj/item/stack/sheet/iron/fifty,
 /obj/item/stack/sheet/glass/fifty,
 /obj/machinery/power/apc{
-	areastring = "/area/ai_monitored/storage/satellite";
-	name = "MiniSat Maint APC";
+	auto_name = 1;
 	pixel_y = -24
 	},
 /obj/structure/cable/yellow,
@@ -17091,8 +17088,7 @@
 	network = list("minisat")
 	},
 /obj/machinery/power/apc{
-	areastring = "/area/aisat";
-	name = "MiniSat Exterior APC";
+	auto_name = 1;
 	pixel_y = -24
 	},
 /obj/structure/cable/yellow{

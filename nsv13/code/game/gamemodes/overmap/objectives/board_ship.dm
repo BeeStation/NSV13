@@ -19,9 +19,17 @@
 	target_ship.name = ship_name
 	// give it a home
 	var/list/candidates = list()
-	for(var/datum/star_system/random/S in SSstar_system.systems)
-		if(!S.hidden)
-			candidates += S
+	for(var/datum/star_system/S in SSstar_system.systems)
+		// Is this even in a reasonable location?
+		if(S.hidden || (S.sector != 2) || S.get_info()?["Black hole"])
+			continue
+		// Don't put it where it will immediately get shot
+		if((S.alignment != target_ship.faction) && (S.alignment != "unaligned") && (S.alignment != "uncharted"))
+			continue
+		// This shouldn't be needed with the faction check, but don't put it in the spawn location
+		if(S == SSstar_system.system_by_id(SSovermap_mode.mode.starting_system))
+			continue
+		candidates += S
 	target_system = pick(candidates)
 	brief = "Capture the syndicate vessel [target_ship] in [target_system] by boarding it, defeating the enemies therein, and modifying its IFF codes."
 	target_system.add_ship(target_ship)

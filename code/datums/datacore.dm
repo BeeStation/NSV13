@@ -150,8 +150,8 @@
 		"Science" = GLOB.science_positions_hud,
 		"Supply" = GLOB.supply_positions_hud,
 		"Civilian" = GLOB.civilian_positions_hud,
-		"Silicon" = GLOB.nonhuman_positions, // this is something that doesn't work. need to fix.
-		"Munitions" = GLOB.munitions_positions //NSV ADDED DEPARTMENTS
+		"Munitions" = GLOB.munitions_positions_hud, //NSV ADDED DEPARTMENTS
+		"Silicon" = GLOB.nonhuman_positions // this is something that doesn't work. need to fix.
 	)
 	for(var/datum/data/record/t in GLOB.data_core.general)
 		var/name = t.fields["name"]
@@ -305,9 +305,9 @@
 
 /datum/datacore/proc/get_id_photo(mob/living/carbon/human/H, client/C, show_directions = list(SOUTH))
 	var/datum/job/J = SSjob.GetJob(H.mind.assigned_role)
-	var/datum/preferences/P
+	var/datum/character_save/CS
 	if(!C)
 		C = H.client
 	if(C)
-		P = C.prefs
-	return get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_MANIFEST, show_directions)
+		CS = C.prefs.active_character
+	return get_flat_human_icon(null, J, CS, DUMMY_HUMAN_SLOT_MANIFEST, show_directions)

@@ -76,12 +76,14 @@ GLOBAL_LIST_INIT(munitions_positions, list(
 
 // they are for hud_icon-based crew manifest
 // we don't use 'gimmick' here. use common sense here.
+// NSV13 added Master at Arms
 GLOBAL_LIST_INIT(command_positions_hud, list(
 	JOB_HUD_CAPTAIN,
 	JOB_HUD_ACTINGCAPTAIN ,
 	JOB_HUD_HEADOFPERSONNEL,
 	JOB_HUD_HEADOFSECURITY,
 	JOB_HUD_CHIEFENGINEER,
+	JOB_HUD_MASTERATARMS,
 	JOB_HUD_RESEARCHDIRECTOR,
 	JOB_HUD_CHEIFMEDICALOFFICIER,
 	JOB_HUD_RAWCOMMAND))

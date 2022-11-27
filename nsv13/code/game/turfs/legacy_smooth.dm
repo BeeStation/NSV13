@@ -224,5 +224,77 @@
 	return
 
 
+/obj/structure/grille
+	var/list/connections = list("0", "0", "0", "0")
+	var/list/other_connections = list("0", "0", "0", "0")
+
+/obj/structure/grille/legacy_smooth()
+	. = ..()
+	if(!can_visually_connect())
+		icon_state = initial(icon_state)
+		return
+	icon_state = ""
+	update_connections()
+	var/basestate = initial(icon_state)
+	overlays.Cut()
+
+	var/image/I = null
+	for(var/i = 1 to 4)
+		if(other_connections[i] != "0")
+			I = image(icon, "[basestate]_other[connections[i]]", dir = 1<<(i-1))
+		else
+			I = image(icon, "[basestate][connections[i]]", dir = 1<<(i-1))
+		overlays += I
+
+/obj/structure/grille/proc/can_visually_connect_to(obj/structure/S)
+	return istype(S, src)
+
+/obj/structure/grille/proc/can_visually_connect()
+	return anchored
+
+/obj/structure/grille/proc/update_connections()
+	var/list/dirs = list()
+	var/list/other_dirs = list()
+
+	for(var/obj/structure/grille/S in orange(src, 1))
+		if(can_visually_connect_to(S))
+			if(S.can_visually_connect())
+				dirs += get_dir(src, S)
+
+	if(!can_visually_connect())
+		connections = list("0", "0", "0", "0")
+		other_connections = list("0", "0", "0", "0")
+		return FALSE
+
+	for(var/direction in GLOB.cardinals)
+		var/turf/T = get_step(src, direction)
+		var/success = 0
+		for(var/b_type in canSmoothWith)
+			if(istype(T, b_type))
+				success = 1
+				if(success)
+					break
+			if(success)
+				break
+		if(!success)
+			for(var/obj/O in T)
+				for(var/b_type in canSmoothWith)
+					if(istype(O, b_type))
+						success = 1
+						for(var/obj/structure/S in T)
+							if(istype(S, src))
+								success = 0
+					if(success)
+						break
+				if(success)
+					break
+
+		if(success)
+			dirs += get_dir(src, T)
+			other_dirs += get_dir(src, T)
+
+	connections = dirs_to_corner_states(dirs)
+	other_connections = dirs_to_corner_states(other_dirs)
+	return TRUE
 #undef CAN_SMOOTH_FULL
 #undef CAN_SMOOTH_HALF
