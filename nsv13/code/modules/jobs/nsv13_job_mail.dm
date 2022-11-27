@@ -4,7 +4,6 @@
 		/obj/item/pizzabox/infinite = 20,
 		/obj/item/toy/cards/deck = 15,
 		/obj/item/clothing/glasses/sunglasses/advanced/gar = 10,
-		//obj/item/laser_pointer/random = 8,
 		//Since everyone wants the ATC to kys, they can have a fake one while they consider therapy (or maybe just a job change)
 		/obj/item/toy/katana = 8,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
