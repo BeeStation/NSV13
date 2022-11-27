@@ -56,4 +56,6 @@
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/kamikaze = 8,
 		/obj/item/fighter_component/engine/flooded = 5,
+		/obj/item/key/fighter_tug = 3,
+		/obj/item/clothing/head/ship/rising_sun = 2
 	)
