@@ -23,7 +23,7 @@
 	fed_sound = null
 	chamber_sound = null
 	broadside = TRUE
-	broadside_angle = 10
+	broadside_angle = 90
 
 	load_delay = 20
 	unload_delay = 20

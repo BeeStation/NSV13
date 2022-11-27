@@ -605,6 +605,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		proj.fire()
 		if(!lateral)
 			proj.setAngle(src.angle)
+		if(broadside)
+			if(0 < (overmap_angle(src, target) - angle) && (overmap_angle(src, target) - angle) < 180)
+				proj.setAngle(90 + rand(-20, 20))
+			else
+				proj.setAngle(270 + rand(-20, 20))
 		//Sometimes we want to override speed.
 		if(speed)
 			proj.set_pixel_speed(speed)
