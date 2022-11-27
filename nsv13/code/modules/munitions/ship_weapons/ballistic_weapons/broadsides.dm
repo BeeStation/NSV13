@@ -39,6 +39,11 @@
 /obj/machinery/ship_weapon/broadside/north
 	dir = NORTH
 
+/obj/machinery/ship_weapon/broadside/animate_projectile(atom/target, lateral=TRUE)
+	var/obj/item/ship_weapon/ammunition/broadside_shell/T = chambered
+	if(T)
+		linked.fire_projectile(T.projectile_type, target, FALSE, null, null, TRUE)
+
 /obj/item/circuitboard/machine/broadside
 	name = "circuit board (broadside)"
 	desc = "Man the cannons!"
