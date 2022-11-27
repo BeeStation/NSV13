@@ -220,5 +220,5 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 			if(is_blocked_turf(T))
 				continue
 			empty_turfs += T
-	if(empty_turfs)
-    	new /obj/structure/closet/crate/mail/economy(pick(empty_turfs))
+		if (empty_turfs)
+			new /obj/structure/closet/crate/mail/economy(pick(empty_turfs))
