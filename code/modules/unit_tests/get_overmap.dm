@@ -94,6 +94,9 @@
 	. = ..()
 
 /// A fighter that leaves and re-enters a larger ship should have its get_overmap return null while in space, and the ship when back on the ship
+/datum/unit_test/fighter_docking
+	var/obj/structure/overmap/small_craft/combat/light/fighter = null
+
 /datum/unit_test/fighter_docking/Run()
 	for(var/obj/structure/overmap/small_craft/combat/light/OM as() in SSstar_system.find_main_overmap().overmaps_in_ship)
 		fighter = OM
@@ -108,5 +111,9 @@
 	TEST_ASSERT_EQUAL(fighter.get_overmap(), null, "The fighter's overmap was not null after entering the overmap")
 	fighter.transfer_from_overmap(SSstar_system.find_main_overmap())
 	TEST_ASSERT_EQUAL(fighter.get_overmap(), SSstar_system.find_main_overmap(), "The fighter's overmap was not the ship after docking")
+
+/datum/unit_test/fighter_docking/Destroy()
+	QDEL_NULL(fighter)
+	. = ..()
 
 /// A sabre that docks with an asteroid should have its get_overmap return the asteroid while inside, and then null after leaving
