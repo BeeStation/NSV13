@@ -1,3 +1,7 @@
+#define NAC_MIN_POWDER_LOAD 0.5 // Min powder, equivelant to 25%
+#define NAC_NORMAL_POWDER_LOAD 2 // "100%" powder
+#define NAC_MAX_POWDER_LOAD 10 // Max powder, or 500%
+
 /obj/machinery/ship_weapon/deck_turret
 	name = "\improper M4-15 'Hood' deck turret"
 	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
@@ -80,7 +84,7 @@
 	. = ..()
 	//Ensure that the lazyloaded shells come pre-packed
 	for(var/obj/item/ship_weapon/ammunition/naval_artillery/shell in ammo)
-		shell.speed = 2
+		shell.speed = NAC_NORMAL_POWDER_LOAD
 
 /obj/machinery/ship_weapon/deck_turret/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -603,10 +607,7 @@
 // Handles shell powder load damage modifiers
 /obj/item/ship_weapon/ammunition/naval_artillery/proc/handle_shell_modifiers(obj/item/projectile/proj)
 	proj.damage = proj.damage * log(speed * 5) // at 2 speed (or 100% powder load), damage mod is 1, logarithmically scaling up/down based on powder load
-	if(proj.armour_penetration)
-		proj.armour_penetration = proj.damage * sqrt(speed * 0.5) // Same as above, scaling with the square root of speed relative to 2
-	else if(speed > 2)
-		proj.armour_penetration += (speed - 2) * 5 // Gives non-AP shells some punch if you really make them go fast
+	proj.armour_penetration += (speed - NAC_NORMAL_POWDER_LOAD) * 5 // We don't have anything to scale off of, so go linearly by a little bit
 
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "cannon ball"
@@ -737,7 +738,7 @@
 		return FALSE
 	shell.speed += source.bag.power
 	shell.name = "Packed [initial(shell.name)]"
-	shell.speed = CLAMP(shell.speed, 0, 10)
+	shell.speed = CLAMP(shell.speed, NAC_MIN_POWDER_LOAD, NAC_MAX_POWDER_LOAD)
 	source.pack()
 	return TRUE
 
