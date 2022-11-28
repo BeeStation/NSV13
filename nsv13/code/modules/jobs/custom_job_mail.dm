@@ -8,7 +8,7 @@
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
 	)
 
-//Bridge Officer
+//Bridge Staff
 /datum/job/bridge
 	mail_goodies = list(
 		/obj/item/pizzabox/infinite = 20,
@@ -27,8 +27,6 @@
 		/obj/item/ship_weapon/parts/missile/warhead/plushtide = 10,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/torp_juice = 8,
 		/obj/item/banner/munitions = 5,
-		//ITS CODED, WE SHOULD USE IT
-		/obj/item/ship_weapon/ammunition/naval_artillery/homing = 1,
 	)
 
 //Munitions Technician

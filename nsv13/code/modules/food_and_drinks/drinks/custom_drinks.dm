@@ -1,5 +1,3 @@
-//Literally I made these so they can come up in your mail, but honestly do what you want, boo boo
-
 /obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight
 	name = "Doctor's Delight"
 	desc = "A gulp a day keeps the Medibot away!"
