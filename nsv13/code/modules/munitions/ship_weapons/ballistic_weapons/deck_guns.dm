@@ -101,7 +101,8 @@
 /obj/machinery/ship_weapon/deck_turret/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/naval_artillery/T = chambered
 	if(T)
-		linked.fire_projectile(T.projectile_type, target,speed=T.speed, lateral=weapon_type.lateral)
+		var/obj/item/projectile/proj = linked.fire_projectile(T.projectile_type, target,speed=T.speed, lateral=weapon_type.lateral)
+		T.handle_shell_modifiers(proj)
 
 /obj/machinery/ship_weapon/deck_turret/proc/rack_load(atom/movable/A)
 	if(length(ammo) < max_ammo && istype(A, ammo_type))
@@ -589,6 +590,23 @@
 
 /obj/item/ship_weapon/ammunition/naval_artillery/armed //This is literally just for mail.
 	armed = TRUE
+
+/obj/item/ship_weapon/ammunition/naval_artillery/attack_hand(mob/user)
+	return FALSE
+
+/obj/item/ship_weapon/ammunition/torpedo/attack_hand(mob/user)
+	return FALSE
+
+/obj/item/ship_weapon/ammunition/missile/attack_hand(mob/user)
+	return FALSE
+
+// Handles shell powder load damage modifiers
+/obj/item/ship_weapon/ammunition/naval_artillery/proc/handle_shell_modifiers(obj/item/projectile/proj)
+	proj.damage = proj.damage * log(speed * 5) // at 2 speed (or 100% powder load), damage mod is 1, logarithmically scaling up/down based on powder load
+	if(proj.armour_penetration)
+		proj.armour_penetration = proj.damage * sqrt(speed * 0.5) // Same as above, scaling with the square root of speed relative to 2
+	else if(speed > 2)
+		proj.armour_penetration += (speed - 2) * 5 // Gives non-AP shells some punch if you really make them go fast
 
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "cannon ball"
