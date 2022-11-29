@@ -115,6 +115,11 @@
 	///LazyList of all balloon alerts currently on this atom
 	var/list/balloon_alerts
 
+	///Default X pixel offset NSV13
+	var/base_pixel_x
+
+	///Default Y pixel offset NSV13
+	var/base_pixel_y
 /**
   * Called when an atom is created in byond (built in engine proc)
   *
@@ -1093,10 +1098,10 @@
 							valid_id = TRUE
 						if(!valid_id)
 							to_chat(usr, "<span class='warning'>A reagent with that ID doesn't exist!</span>")
-				
+
 				if("Choose from a list")
 					chosen_id = input(usr, "Choose a reagent to add.", "Choose a reagent.") as null|anything in subtypesof(/datum/reagent)
-				
+
 				if("I'm feeling lucky")
 					chosen_id = pick(subtypesof(/datum/reagent))
 
@@ -1485,3 +1490,21 @@
 /atom/proc/InitializeAIController()
 	if(ai_controller)
 		ai_controller = new ai_controller(src)
+
+///Setter for the "base_pixel_x" var to append behavior related to it's changing NSV13
+/atom/proc/set_base_pixel_x(var/new_value)
+	if(base_pixel_x == new_value)
+		return
+	. = base_pixel_x
+	base_pixel_x = new_value
+
+	pixel_x = pixel_x + base_pixel_x - .
+
+///Setter for the "base_pixel_y" var to append behavior related to it's changing NSV13
+/atom/proc/set_base_pixel_y(new_value)
+	if(base_pixel_y == new_value)
+		return
+	. = base_pixel_y
+	base_pixel_y = new_value
+
+	pixel_y = pixel_y + base_pixel_y - .
