@@ -39,13 +39,14 @@
 	QDEL_NULL(fighter)
 	. = ..()
 
+
+/*
+ * Reactivate when map loading system improves
 /// A mob inside a sabre should have its get_overmap return the sabre
 /datum/unit_test/sabre_occupant_overmap
 	var/obj/structure/overmap/small_craft/transport/sabre/sabre = null
 	var/mob/living/carbon/human/dummy = null
 
-/*
- * Reactivate when map loading system improves
 /datum/unit_test/sabre_occupant_overmap/Run()
 	for(var/obj/structure/overmap/small_craft/transport/sabre/OM as() in SSstar_system.find_main_overmap().overmaps_in_ship)
 		sabre = OM
@@ -116,4 +117,38 @@
 	QDEL_NULL(fighter)
 	. = ..()
 
-/// A sabre that docks with an asteroid should have its get_overmap return the asteroid while inside, and then null after leaving
+/* This doesn't work because the interior doesn't load in a reasonable amount of time
+/// A small craft that docks with an asteroid should have its get_overmap return the asteroid while inside, and then null after leaving
+/datum/unit_test/asteroid_docking
+	var/obj/structure/overmap/small_craft/combat/light/fighter = null
+
+/datum/unit_test/asteroid_docking/Run()
+	var/start = world.time
+	var/time_limit = 1 MINUTES
+	for(var/obj/structure/overmap/small_craft/combat/light/OM as() in SSstar_system.find_main_overmap().overmaps_in_ship)
+		fighter = OM
+		break
+
+	if(!fighter)
+		var/turf/center = SSmapping.get_station_center()
+		ASSERT(center)
+		fighter = new (center)
+
+	fighter.ftl_drive = TRUE //This won't work in real life but it will for the test
+	var/obj/item/fighter_component/docking_computer/DC = fighter.loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+	DC.docking_mode = TRUE
+	fighter.check_overmap_elegibility(ignore_position = TRUE, ignore_cooldown = TRUE)
+	TEST_ASSERT_EQUAL(fighter.get_overmap(), null, "The fighter's overmap was not null after entering the overmap from the ship")
+
+	var/obj/structure/overmap/asteroid/asteroid = new(get_turf(fighter))
+	fighter.docking_act(asteroid)
+	while((world.time - start) < time_limit)
+		sleep(10)
+	TEST_ASSERT_EQUAL(fighter.get_overmap(), asteroid, "The fighter's overmap was not the asteroid after docking")
+	fighter.check_overmap_elegibility(ignore_position = TRUE, ignore_cooldown = TRUE)
+	TEST_ASSERT_EQUAL(fighter.get_overmap(), null, "The fighter's overmap was not null after entering the overmap from the asteroid")
+
+/datum/unit_test/asteroid_docking/Destroy()
+	QDEL_NULL(fighter)
+	. = ..()
+*/
