@@ -14,7 +14,6 @@ If you create T5+ please take a pass at gene_modder.dm [L40]. Max_values MUST fi
 	var/pshoom_or_beepboopblorpzingshadashwoosh = 'sound/items/rped.ogg'
 	var/alt_sound = null
 
-//NSV13 - RPED QoL - Start
 /obj/item/storage/part_replacer/pre_attack(obj/attacked_object, mob/living/user, params)
 	if(!istype(attacked_object, /obj/machinery) && !istype(attacked_object, /obj/structure/frame/machine))
 		return ..()
@@ -69,8 +68,6 @@ If you create T5+ please take a pass at gene_modder.dm [L40]. Max_values MUST fi
 	if(works_from_distance)
 		user.Beam(attacked_frame, icon_state = "rped_upgrade", time = 5)
 	attacked_frame.attackby(src, user)
-
-//NSV13 - RPED QoL - End
 
 /obj/item/storage/part_replacer/proc/play_rped_sound()
 	//Plays the sound for RPED exhanging or installing parts.
