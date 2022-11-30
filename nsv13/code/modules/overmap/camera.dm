@@ -110,6 +110,7 @@
 	eyeobj.off_action.ship = src
 	eyeobj.off_action.Grant(user)
 	eyeobj.setLoc(eyeobj.loc)
+	eyeobj.RegisterSignal(src, COMSIG_MOVABLE_MOVED, /mob/camera/ai_eye/remote/overmap_observer.proc/update)
 	user.reset_perspective(eyeobj)
 	user.remote_control = eyeobj
 
@@ -120,10 +121,6 @@
 	animate_movement = 0 //Stops glitching with overmap movement
 	use_static = FALSE
 	var/obj/structure/overmap/ship_target = null //Lets gunners lock on to their targets for accurate shooting.
-
-/mob/camera/ai_eye/remote/overmap_observer/Initialize(mapload)
-	. = ..()
-	RegisterSignal(origin, COMSIG_MOVABLE_MOVED, .proc/update)
 
 /mob/camera/ai_eye/remote/overmap_observer/Destroy()
 	UnregisterSignal(origin, COMSIG_MOVABLE_MOVED)
@@ -166,13 +163,8 @@
 		return
 	var/obj/structure/overmap/ship = origin
 	var/scan_range = (ship.dradis) ? ship.dradis.visual_range : VISUAL_RANGE_DEFAULT
-	if(QDELETED(ship_target) || get_dist(ship, ship_target) > scan_range) // No target or our target's out of range, go to origin
-		ship_target = ship
-	if(eye_user == ship.gunner)
-		eye_user.client.pixel_x = ship_target.pixel_x
-		eye_user.client.pixel_y = ship_target.pixel_y
-		setLoc(ship_target.get_center()) //This only happens for gunner cams
-		return TRUE
+	if(eye_user == ship.gunner && !(QDELETED(ship_target) || get_dist(ship, ship_target) > scan_range)) // No target or our target's out of range, go to origin
+		ship = ship_target
 	eye_user.client.pixel_x = ship.pixel_x
 	eye_user.client.pixel_y = ship.pixel_y
 	setLoc(ship.get_center())
