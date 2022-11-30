@@ -1,3 +1,34 @@
+/obj/machinery/shower
+	var/deconstruct_drops = list(/obj/item/stack/sheet/plastic = 2)
+
+/obj/machinery/shower/crowbar_act(mob/living/user, obj/item/I)
+	balloon_alert(user, "You start deconstructing the shower...")
+	if(do_after(user, 4 SECONDS, target = src))
+		for(var/comp_path in deconstruct_drops)
+			var/comp_amt = deconstruct_drops[comp_path]
+			if(!comp_amt)
+				continue
+
+			if(ispath(comp_path, /obj/item/stack))
+				new comp_path(loc, comp_amt)
+			else
+				for(var/i in 1 to comp_amt)
+					new comp_path(loc)
+
+		var/obj/structure/showerframe/new_frame = new /obj/structure/showerframe(loc)
+		new_frame.setDir(dir)
+		qdel(src)
+		return
+	return ..()
+
+/obj/structure/showerframe/screwdriver_act(mob/living/user, obj/item/I)
+	balloon_alert(user, "You start disassembling the shower frame...")
+	if(do_after(user, 2 SECONDS, target = src))
+		new /obj/item/stack/sheet/iron(loc, 2)
+		qdel(src)
+		return
+	return ..()
+
 /obj/machinery/shower/blast_shower
 	name = "blast shower"
 	desc = "The RS-455. High pressure shower system guaranteed to remove radiation at unprecedented rates."
@@ -6,6 +37,7 @@
 	density = FALSE
 	use_power = TRUE
 	active_power_usage = 50
+	deconstruct_drops = list(/obj/item/stack/sheet/mineral/titanium = 1)
 
 /obj/machinery/shower/blast_shower/wash_mob(mob/living/L)
 	SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_WEAK)
