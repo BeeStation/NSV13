@@ -1,7 +1,7 @@
 /datum/job/head_of_personnel
 	title = JOB_NAME_HEADOFPERSONNEL
 	flag = HOP
-	auto_deadmin_role_flags = DEADMIN_POSITION_HEAD
+	auto_deadmin_role_flags = PREFTOGGLE_DEADMIN_POSITION_HEAD
 	department_head = list(JOB_NAME_CAPTAIN)
 	department_flag = CIVILIAN
 	head_announce = list(RADIO_CHANNEL_SUPPLY, RADIO_CHANNEL_SERVICE)
@@ -12,9 +12,9 @@
 	selection_color = "#ddddff"
 	req_admin_notify = 1
 	minimal_player_age = 10
-	exp_requirements = 1200 //NSV START - Due to how critical this job is on NSV, this is an unfortunate but necessary change.
-	exp_type = EXP_TYPE_CREW
-	exp_type_department = EXP_TYPE_CREW //NSV END
+	exp_requirements = 1200 //NSV START -- Locked behind command
+	exp_type = EXP_TYPE_COMMAND
+	exp_type_department = EXP_TYPE_COMMAND //NSV END
 
 	outfit = /datum/outfit/job/head_of_personnel
 
@@ -53,7 +53,7 @@
 	ears = /obj/item/radio/headset/heads/xo //NSV13 - update to XO
 	uniform = /obj/item/clothing/under/ship/officer
 	suit = /obj/item/clothing/suit/ship/officer
-	shoes = /obj/item/clothing/shoes/sneakers/brown
+	shoes = /obj/item/clothing/shoes/jackboots //NSV13 - Officers get boots
 	head = /obj/item/clothing/head/beret/ship/xo //NSV13 - update to XO
 	backpack_contents = list(/obj/item/storage/box/ids=1,
 		/obj/item/melee/classic_baton/police/telescopic=1,

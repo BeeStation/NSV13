@@ -481,8 +481,8 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 /mob/dead/observer/stop_orbit(datum/component/orbiter/orbits)
 	. = ..()
 	//restart our floating animation after orbit is done.
-	pixel_y = 0
-	animate(src, pixel_y = 2, time = 10, loop = -1)
+	pixel_y = base_pixel_y
+	animate(src, pixel_y = base_pixel_y + 2, time = 1 SECONDS, loop = -1)
 
 /mob/dead/observer/verb/jumptomob() //Moves the ghost instead of just changing the ghosts's eye -Nodrak
 	set category = "Ghost"
@@ -791,26 +791,26 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	set_ghost_appearance()
 	if(client?.prefs)
-		deadchat_name = client.prefs.real_name
+		deadchat_name = client.prefs.active_character.real_name
 		if(mind)
-			mind.ghostname = client.prefs.real_name
-		name = client.prefs.real_name
+			mind.ghostname = client.prefs.active_character.real_name
+		name = client.prefs.active_character.real_name
 
 /mob/dead/observer/proc/set_ghost_appearance()
 	if((!client) || (!client.prefs))
 		return
 
-	if(client.prefs.be_random_name)
-		client.prefs.real_name = random_unique_name(gender)
-	if(client.prefs.be_random_body)
-		client.prefs.random_character(gender)
+	if(client.prefs.active_character.be_random_name)
+		client.prefs.active_character.real_name = random_unique_name(gender)
+	if(client.prefs.active_character.be_random_body)
+		client.prefs.active_character.randomise(gender)
 
-	if(HAIR in client.prefs.pref_species.species_traits)
-		hair_style = client.prefs.hair_style
-		hair_color = brighten_color(client.prefs.hair_color)
-	if(FACEHAIR in client.prefs.pref_species.species_traits)
-		facial_hair_style = client.prefs.facial_hair_style
-		facial_hair_color = brighten_color(client.prefs.facial_hair_color)
+	if(HAIR in client.prefs.active_character.pref_species.species_traits)
+		hair_style = client.prefs.active_character.hair_style
+		hair_color = brighten_color(client.prefs.active_character.hair_color)
+	if(FACEHAIR in client.prefs.active_character.pref_species.species_traits)
+		facial_hair_style = client.prefs.active_character.facial_hair_style
+		facial_hair_color = brighten_color(client.prefs.active_character.facial_hair_color)
 
 	update_icon()
 

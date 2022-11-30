@@ -240,9 +240,11 @@ RLD
 /obj/item/construction/rcd/proc/get_airlock_image(airlock_type)
 	var/obj/machinery/door/airlock/proto = airlock_type
 	var/ic = initial(proto.icon)
+	var/co = initial(proto.color) //NSV13 allows airlocks with color vars (mining airlocks) to be colored
 	var/mutable_appearance/MA = mutable_appearance(ic, "closed")
 	if(!initial(proto.glass))
 		MA.overlays += "fill_closed"
+	MA.color = co //NSV13 colors airlocks
 	//Not scaling these down to button size because they look horrible then, instead just bumping up radius.
 	return MA
 
@@ -267,7 +269,7 @@ RLD
 			computer_dir = 2
 		if("WEST")
 			computer_dir = 8
-
+/* NSV13 We don't use these airlocks. See nsv13/code/game/object/items/RCD.dm for NSV airlocks
 /obj/item/construction/rcd/proc/change_airlock_setting(mob/user)
 	if(!user)
 		return
@@ -404,7 +406,7 @@ RLD
 		else
 			airlock_type = /obj/machinery/door/airlock
 			airlock_glass = FALSE
-
+*/
 /obj/item/construction/rcd/proc/rcd_create(atom/A, mob/user)
 	var/list/rcd_results = A.rcd_vals(user, src)
 	if(!rcd_results)

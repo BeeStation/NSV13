@@ -38,8 +38,8 @@
 
 /obj/item/seeds/Initialize(mapload, nogenes = 0)
 	. = ..()
-	pixel_x = rand(-8, 8)
-	pixel_y = rand(-8, 8)
+	pixel_x = base_pixel_y + rand(-8, 8)
+	pixel_y = base_pixel_x + rand(-8, 8)
 
 	if(!icon_grow)
 		icon_grow = "[species]-grow"
@@ -361,13 +361,13 @@
 			renamedByPlayer = TRUE
 
 		if(penchoice == "Plant Description")
-			var/input = stripped_input(user,"What do you want to change the description of \the plant to?", default=plantdesc, max_length=MAX_NAME_LEN)
+			var/input = stripped_input(user,"What do you want to change the description of the plant to?", default=plantdesc, max_length=MAX_NAME_LEN)
 			if(QDELETED(src) || !user.canUseTopic(src, BE_CLOSE))
 				return
 			plantdesc = input
 
 		if(penchoice == "Seed Description")
-			var/input = stripped_input(user,"What do you want to change the description of \the seeds to?", default=desc, max_length=MAX_NAME_LEN)
+			var/input = stripped_input(user,"What do you want to change the description of the seeds to?", default=desc, max_length=MAX_NAME_LEN)
 			if(QDELETED(src) || !user.canUseTopic(src, BE_CLOSE))
 				return
 			desc = input

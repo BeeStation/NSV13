@@ -637,7 +637,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 		var/goal = linked_overmap.max_integrity
 		progress = CLAMP(progress, 0, goal)
 		progress = round(((progress / goal) * 100), 50)//If the ship goes below 50% health, we start creaking like mad.
-		if((progress <= 50) && (mymob.client?.prefs.toggles & SOUND_AMBIENCE) && mymob.can_hear_ambience())
+		if((progress <= 50) && (mymob.client?.prefs.toggles & PREFTOGGLE_SOUND_AMBIENCE) && mymob.can_hear_ambience())
 			var/list/creaks = list('nsv13/sound/ambience/ship_damage/creak1.ogg','nsv13/sound/ambience/ship_damage/creak2.ogg','nsv13/sound/ambience/ship_damage/creak3.ogg','nsv13/sound/ambience/ship_damage/creak4.ogg','nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg','nsv13/sound/ambience/ship_damage/creak7.ogg')
 			var/creak = pick(creaks)
 			SEND_SOUND(mymob, sound(creak, repeat = 0, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))
