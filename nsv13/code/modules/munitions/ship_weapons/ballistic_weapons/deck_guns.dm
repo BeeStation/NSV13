@@ -606,8 +606,11 @@
 
 // Handles shell powder load damage modifiers
 /obj/item/ship_weapon/ammunition/naval_artillery/proc/handle_shell_modifiers(obj/item/projectile/proj)
-	proj.damage = proj.damage * CLAMP(log(10, speed * 5), 0.5, 2) // at 2 speed (or 100% powder load), damage mod is 1, logarithmically scaling up/down based on powder load
-	proj.armour_penetration += (speed - NAC_NORMAL_POWDER_LOAD) * 2.5 // We don't have anything to scale off of, so go linearly by a little bit
+	if(speed > NAC_NORMAL_POWDER_LOAD)
+		proj.damage = proj.damage * CLAMP(log(10, speed * 5), 1, 1.75) // at 2 speed (or 100% powder load), damage mod is 1, logarithmically scaling up/down based on powder load
+	else
+		proj.damage = proj.damage * CLAMP(sqrt(speed), 0.6, 1)
+	proj.armour_penetration += max((speed - NAC_NORMAL_POWDER_LOAD) * 2.5, 0) // We don't have anything to scale off of, so go linearly by a little bit
 
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "cannon ball"
