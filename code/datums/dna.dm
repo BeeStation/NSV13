@@ -4,7 +4,7 @@
 	var/unique_enzymes
 	var/uni_identity
 	var/blood_type
-	var/datum/species/original_species
+	var/datum/species/original_species = /datum/species/human
 	var/datum/species/species = new /datum/species/human //The type of mutant race the player is if applicable (i.e. potato-man)
 	var/list/features = list("FFF") //first value is mutant color
 	var/real_name //Stores the real name of the person who originally got this dna datum. Used primarely for changelings,
@@ -22,7 +22,7 @@
 /datum/dna/New(mob/living/new_holder)
 	if(istype(new_holder))
 		holder = new_holder
-		original_species = species
+		original_species = species.type
 
 /datum/dna/Destroy()
 	if(iscarbon(holder))

@@ -15,7 +15,9 @@ you build.
 	circuit = /obj/item/circuitboard/computer/astrometrics
 	var/max_range = 40 //In light years, the range at which we can scan systems for data. This is quite short.
 	var/scan_progress = 0
-	var/scan_goal = 2 MINUTES
+	var/scan_goal
+	var/scan_goal_system = 15 SECONDS
+	var/scan_goal_anomaly = 2 MINUTES
 	var/datum/star_system/scan_target = null
 	var/list/scanned = list()
 	var/datum/techweb/linked_techweb = null
@@ -94,7 +96,7 @@ Clean override of the navigation computer to provide scan functionality.
 			if(!is_in_range(current_system, selected_system))
 				return
 			scan_progress = 0 //Jus' in case.
-			scan_goal = initial(scan_goal)
+			scan_goal = scan_goal_system
 			scan_target = selected_system
 			say("Initiating scan of: [scan_target]")
 			playsound(src, 'nsv13/sound/voice/scan_start.wav', 100, FALSE)
@@ -104,7 +106,7 @@ Clean override of the navigation computer to provide scan functionality.
 			if(!istype(target))
 				return
 			scan_progress = 0 //Jus' in case.
-			scan_goal = initial(scan_goal) / 2
+			scan_goal = scan_goal_anomaly
 			scan_target = target
 			say("Initiating scan of: [scan_target]")
 			radio.talk_into(src, "Initiating scan of: [scan_target]", channel)
@@ -122,9 +124,9 @@ Clean override of the navigation computer to provide scan functionality.
 				return
 			to_chat(usr, "<span class='notice'>[icon2html(target)]: [target.desc]</span>")
 
-/obj/machinery/computer/ship/navigation/astrometrics/process()
+/obj/machinery/computer/ship/navigation/astrometrics/process(delta_time)
 	if(scan_target)
-		scan_progress += 1 SECONDS
+		scan_progress += delta_time SECONDS
 		if(scan_progress >= scan_goal)
 			say("Scan of [scan_target] complete!")
 			playsound(src, 'nsv13/sound/voice/scanning_complete.wav', 100, FALSE)
@@ -133,7 +135,7 @@ Clean override of the navigation computer to provide scan functionality.
 			if(istype(scan_target, /obj/effect/overmap_anomaly))
 				var/obj/effect/overmap_anomaly/OA = scan_target
 				if(OA.research_points > 0 && !OA.scanned) //In case someone else did a scan on it already.
-					var/reward = OA.research_points/2
+					var/reward = OA.research_points * 0.5
 					OA.research_points -= reward
 					linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DISCOVERY, reward)
 				OA.scanned = TRUE
