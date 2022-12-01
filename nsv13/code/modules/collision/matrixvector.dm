@@ -75,6 +75,7 @@ Written by Bokkiewokkie
 	src *= -2
 
 /matrix/vector/proc/perp()
+	RETURN_TYPE(/matrix/vector)
 	return Turn(90)
 
 /matrix/vector/proc/copy(var/matrix/vector/V)
