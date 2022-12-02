@@ -179,14 +179,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[active_character.age]</a><BR>"
 
 			//NSV13 FLAVOR TEXT RELATED START
-			dat += "<a href='?_src_=prefs;preference=flavour_text;task=input'><b>Set Flavor Text</b></a>"
-			if(length(active_character.features["flavour_text"]) <= 40)
-				if(!length(active_character.features["flavour_text"]))
+			dat += "<a href='?_src_=prefs;flavor_text;task=input'><b>Set Flavor Text</b></a>"
+			if(length(active_character.flavor_text) <= 40)
+				if(!length(active_character.flavor_text))
 					dat += "\[...\]"
 				else
-					dat += "[active_character.features["flavour_text"]]"
+					dat += "[active_character.flavor_text]"
 			else
-				dat += "[copytext_char(active_character.features["flavour_text"], 1, 37)]...<br>"
+				dat += "[copytext_char(active_character.flavor_text, 1, 37)]...<br>"
 
 			dat += "<br><b>Special Names:</b><BR>"
 			//NSV13 FLAVOR TEXT RELATED END
@@ -1391,13 +1391,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(new_age)
 						active_character.age = max(min( round(text2num(new_age)), AGE_MAX),AGE_MIN)
 
-				//NSV13 START
-				if("flavour_text")
-					var/msg = sanitize(stripped_multiline_input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character", "Flavor Text", active_character.features["flavour_text"], 4096, TRUE))
-					if(msg)
-						active_character.features["flavour_text"] = html_decode(msg)
-				//NSV13 END
-
 				if("hair_color")
 					var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference","#" + active_character.hair_color) as color|null
 					if(new_hair)
@@ -1693,21 +1686,26 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/department = input(user, "Choose your preferred security department:", "Security Departments") as null|anything in GLOB.security_depts_prefs
 					if(department)
 						active_character.preferred_security_department = department
-
-				if("pilot_role") //NSV13
+				//NSV13 start
+				if("pilot_role")
 					var/p_role = input(user, "Choose your preferred pilot role:", "Pilot Roles") as null|anything in GLOB.pilot_role_prefs
 					if(p_role)
 						active_character.preferred_pilot_role = p_role
 
-				//Nsv13 squads - we CM now
 				if("squad")
 					var/datum/squad/new_spec = input(user, "Choose your preferred squad:", "Squad Setup") as null|anything in GLOB.squad_manager.squads
 					if(new_spec)
 						active_character.preferred_squad = new_spec.name
+
 				if("syndiecrew")
 					var/client/C = (istype(user, /client)) ? user : user.client
 					C.select_syndie_role()
-				//Nsv13 end
+
+				if("flavor_text")
+					var/msg = sanitize(stripped_multiline_input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character.\nNothing that breaks the game.", "Flavor Text", active_character.flavor_text))
+					if(msg)
+						active_character.flavor_text = html_decode(msg)
+				//NSV13 end
 				if ("preferred_map")
 					var/maplist = list()
 					var/default = "Default"
