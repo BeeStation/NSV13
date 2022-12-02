@@ -67,3 +67,24 @@
 			else
 				to_chat(user, "<span class='warning'>You fail to climb onto [src].</span>")
 	climber = null
+
+/obj/item/ship_weapon/ammunition/can_be_pulled(mob/user)
+	if(has_gravity())
+		to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
+		return FALSE
+	else
+		return TRUE
+
+/obj/item/ship_weapon/ammunition/Bumped()
+	if(has_gravity())
+		move_resist = MOVE_FORCE_EXTREMELY_STRONG
+	else
+		move_resist = MOVE_FORCE_WEAK
+	..()
+
+/obj/item/ship_weapon/ammunition/Move()
+	if(has_gravity())
+		move_resist = MOVE_FORCE_EXTREMELY_STRONG
+	else
+		move_resist = MOVE_FORCE_WEAK
+	..()
