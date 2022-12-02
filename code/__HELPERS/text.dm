@@ -130,83 +130,68 @@
 #define LETTERS_DETECTED 4
 
 //Filters out undesirable characters from names
-/proc/reject_bad_name(t_in, allow_numbers = FALSE, max_length = MAX_NAME_LEN, ascii_only = TRUE)
-	if(!t_in)
-		return //Rejects the input if it is null
-
-	var/number_of_alphanumeric = 0
-	var/last_char_group = NO_CHARS_DETECTED
-	var/t_out = ""
-	var/t_len = length(t_in)
-	var/charcount = 0
+/proc/reject_bad_text(text, max_length = 512, ascii_only = TRUE, alphanumeric_only = FALSE, underscore_allowed = TRUE)
+	var/char_count = 0
+	var/non_whitespace = FALSE
+	var/lenbytes = length(text)
 	var/char = ""
-
-
-	for(var/i = 1, i <= t_len, i += length(char))
-		char = t_in[i]
-
+	for(var/i = 1, i <= lenbytes, i += length(char))
+		char = text[i]
+		char_count++
+		if(char_count > max_length)
+			return
 		switch(text2ascii(char))
-			// A  .. Z
-			if(65 to 90)			//Uppercase Letters
-				number_of_alphanumeric++
-				last_char_group = LETTERS_DETECTED
-
-			// a  .. z
-			if(97 to 122)			//Lowercase Letters
-				if(last_char_group == NO_CHARS_DETECTED || last_char_group == SPACES_DETECTED || last_char_group == SYMBOLS_DETECTED) //start of a word
-					char = uppertext(char)
-				number_of_alphanumeric++
-				last_char_group = LETTERS_DETECTED
-
-			// 0  .. 9
-			if(48 to 57)			//Numbers
-				if(last_char_group == NO_CHARS_DETECTED || !allow_numbers) //suppress at start of string
+			if(62, 60, 92, 47) // <, >, \, /
+				return
+			if(0 to 31)
+				return
+			if(32 to 47)
+				if(alphanumeric_only)
+					return
+				else
+					non_whitespace = TRUE
 					continue
-				number_of_alphanumeric++
-				last_char_group = NUMBERS_DETECTED
-
-			// '  -  .
-			if(39,45,46)			//Common name punctuation
-				if(last_char_group == NO_CHARS_DETECTED)
+			if(58 to 64)
+				if(alphanumeric_only)
+					return
+				else
+					non_whitespace = TRUE
 					continue
-				last_char_group = SYMBOLS_DETECTED
-
-			// ~   |   @  :  #  $  %  &  *  +
-			if(126,124,64,58,35,36,37,38,42,43)			//Other symbols that we'll allow (mainly for AI)
-				if(last_char_group == NO_CHARS_DETECTED || !allow_numbers) //suppress at start of string
+			if(91 to 94)
+				if(alphanumeric_only)
+					return
+				else
+					non_whitespace = TRUE
 					continue
-				last_char_group = SYMBOLS_DETECTED
-
-			//Space
-			if(32)
-				if(last_char_group == NO_CHARS_DETECTED || last_char_group == SPACES_DETECTED) //suppress double-spaces and spaces at start of string
+			if(95)
+				if(underscore_allowed)
+					non_whitespace = TRUE
 					continue
-				last_char_group = SPACES_DETECTED
-
+				else if(alphanumeric_only)
+					return
+				else
+					non_whitespace = TRUE
+					continue
+			if(96)
+				if(alphanumeric_only)
+					return
+				else
+					non_whitespace = TRUE
+					continue
+			if(123 to 126)
+				if(alphanumeric_only)
+					return
+				else
+					non_whitespace = TRUE
+					continue
 			if(127 to INFINITY)
 				if(ascii_only)
-					continue
-				last_char_group = SYMBOLS_DETECTED //for now, we'll treat all non-ascii characters like symbols even though most are letters
-
+					return
 			else
-				continue
+				non_whitespace = TRUE
 
-		t_out += char
-		charcount++
-		if(charcount >= max_length)
-			break
-
-	if(number_of_alphanumeric < 2)
-		return		//protects against tiny names like "A" and also names like "' ' ' ' ' ' ' '"
-
-	if(last_char_group == SPACES_DETECTED)
-		t_out = copytext_char(t_out, 1, -1) //removes the last character (in this case a space)
-
-	for(var/bad_name in list("space","floor","wall","r-wall","monkey","unknown","inactive ai"))	//prevents these common metagamey names
-		if(cmptext(t_out,bad_name))
-			return	//(not case sensitive)
-
-	return t_out
+	if(non_whitespace)
+		return text		//only accepts the text if it has some non-spaces
 
 #undef NO_CHARS_DETECTED
 #undef SPACES_DETECTED
