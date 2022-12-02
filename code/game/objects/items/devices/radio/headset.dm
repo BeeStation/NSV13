@@ -16,8 +16,9 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	RADIO_CHANNEL_MUNITIONS = RADIO_TOKEN_MUNITIONS,
 	RADIO_CHANNEL_PIRATE = RADIO_CHANNEL_PIRATE,
 	MODE_BINARY = MODE_TOKEN_BINARY,
-	RADIO_CHANNEL_AI_PRIVATE = RADIO_TOKEN_AI_PRIVATE
-)) //Nsv13 - Atc chat & munitions & space pirates. Removed exploration
+	RADIO_CHANNEL_AI_PRIVATE = RADIO_TOKEN_AI_PRIVATE,
+	RADIO_CHANNEL_TV = RADIO_TOKEN_TV
+)) //Nsv13 - Atc chat & munitions & space pirates & TV. Removed exploration
 
 /obj/item/radio/headset
 	name = "radio headset"

@@ -70,9 +70,15 @@
 #define RADIO_KEY_UPLINK "d"
 #define RADIO_TOKEN_UPLINK ":d"
 
+//NSV13 - Television
+#define RADIO_CHANNEL_TV "Nanotrasen TV"
+#define RADIO_KEY_TV "r"
+#define RADIO_TOKEN_TV ":r"
+
 #define MIN_FREE_FREQ 1201 // -------------------------------------------------
 // Frequencies are always odd numbers and range from 1201 to 1599.
 
+#define FREQ_TV 1209 //NSV13 - Television
 #define FREQ_SYNDICATE 1213  //!  Nuke op comms frequency, dark brown
 #define FREQ_PIRATE 1211 //! NSV13 - Space Pirates, PURPLE
 #define FREQ_UPLINK 1214   //!  Dummy channel for headset uplink

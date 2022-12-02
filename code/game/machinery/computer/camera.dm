@@ -299,16 +299,18 @@
 	. = ..()
 	interact(usr)
 
+//NSV13 - Replaced with TV
 /obj/machinery/computer/security/telescreen/entertainment/proc/notify(on)
-	if(on && icon_state == icon_state_off)
-		say(pick(
-			"Feats of bravery live now at the thunderdome!",
-			"Two enter, one leaves! Tune in now!",
-			"Violence like you've never seen it before!",
-			"Spears! Camera! Action! LIVE NOW!"))
-		icon_state = icon_state_on
-	else
-		icon_state = icon_state_off
+	//if(on && icon_state == icon_state_off)
+	//	say(pick(
+	//		"Feats of bravery live now at the thunderdome!",
+	//		"Two enter, one leaves! Tune in now!",
+	//		"Violence like you've never seen it before!",
+	//		"Spears! Camera! Action! LIVE NOW!"))
+	//	icon_state = icon_state_on
+	//else
+	//	icon_state = icon_state_off
+
 
 /obj/machinery/computer/security/telescreen/rd
 	name = "\improper Research Director's telescreen"

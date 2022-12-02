@@ -109,9 +109,10 @@ GLOBAL_LIST_INIT(radiochannels, list(
 //	RADIO_CHANNEL_EXPLORATION = FREQ_EXPLORATION, //NSV13 - stole channel
 	RADIO_CHANNEL_AI_PRIVATE = FREQ_AI_PRIVATE,
 	RADIO_CHANNEL_CTF_RED = FREQ_CTF_RED,
-	RADIO_CHANNEL_CTF_BLUE = FREQ_CTF_BLUE
+	RADIO_CHANNEL_CTF_BLUE = FREQ_CTF_BLUE,
+	RADIO_CHANNEL_TV = FREQ_TV
 ))
-//Nsv13 - Added ATC radio channel, Muni and Space Pirate. Removed exploration
+//Nsv13 - Added ATC radio channel, Muni, Space Pirate and Television. Removed exploration
 
 GLOBAL_LIST_INIT(reverseradiochannels, list(
 	"[FREQ_COMMON]" = RADIO_CHANNEL_COMMON,
@@ -131,7 +132,8 @@ GLOBAL_LIST_INIT(reverseradiochannels, list(
 	"[FREQ_SERVICE]" = RADIO_CHANNEL_SERVICE,
 	"[FREQ_AI_PRIVATE]" = RADIO_CHANNEL_AI_PRIVATE,
 	"[FREQ_CTF_RED]" = RADIO_CHANNEL_CTF_RED,
-	"[FREQ_CTF_BLUE]" = RADIO_CHANNEL_CTF_BLUE
+	"[FREQ_CTF_BLUE]" = RADIO_CHANNEL_CTF_BLUE,
+	"[FREQ_TV]" = RADIO_CHANNEL_TV
 ))
 
 /datum/radio_frequency
