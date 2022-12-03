@@ -254,7 +254,7 @@ Any-Mode: (hotkey doesn't need to be on)
 	return
 
 /client/verb/map()
-	set name = "View Webmap"
+	set name = "map" //NSV13 - changed name back to map
 	set desc = "View the current map in the webviewer"
 	set category = "OOC"
 	if(SSmapping.config.map_link == "None")
