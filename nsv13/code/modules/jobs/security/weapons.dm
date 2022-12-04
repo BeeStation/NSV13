@@ -25,6 +25,8 @@
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "crewglock"
 	item_state = "glock"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/guns_righthand.dmi'
 	fire_sound = 'nsv13/sound/weapons/glock.ogg'
 	w_class = WEIGHT_CLASS_NORMAL
 	mag_type = /obj/item/ammo_box/magazine/glock

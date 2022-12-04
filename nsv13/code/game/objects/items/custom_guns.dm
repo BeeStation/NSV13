@@ -7,6 +7,8 @@
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "peacekeeper"
 	item_state = "peacekeeper"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/guns_righthand.dmi'
 	mag_type = /obj/item/ammo_box/magazine/peacekeeper
 	can_suppress = FALSE
 	w_class = 4 //Too big for a backpack. Can fit on your belt or back.
@@ -79,6 +81,8 @@
 	icon = 'nsv13/icons/obj/guns/guns_big.dmi'
 	icon_state = "mp16"
 	item_state = "mp16"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/guns_righthand.dmi'
 	mag_type = /obj/item/ammo_box/magazine/smgm9mm
 	can_suppress = TRUE
 	w_class = WEIGHT_CLASS_BULKY //Too big for a backpack. Can fit on your belt or back.
@@ -102,6 +106,8 @@
 	icon = 'nsv13/icons/obj/guns/guns_big.dmi'
 	icon_state = "m4a4"
 	item_state = "m4a4"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/guns_righthand.dmi'
 	mag_type = /obj/item/ammo_box/magazine/m556
 	can_suppress = TRUE
 	w_class = WEIGHT_CLASS_HUGE //Too big for a backpack. Can fit on your belt or back.
