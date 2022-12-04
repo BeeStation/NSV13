@@ -154,3 +154,12 @@
 	prereq_ids = list("fightergun2", "adv_weaponry")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
+
+/datum/techweb_node/television
+	id = "television"
+	display_name = "Entertainment and Broadcasting Technology"
+	description = "A research into that magical box randomly showing people fighting and sometimes showing eggs being thrown around."
+	prereq_ids = list("engineering", "datatheory")
+	design_ids = list("tvbox", "pocket_tvcamera", "pocket_tv")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)
+	export_price = 1000

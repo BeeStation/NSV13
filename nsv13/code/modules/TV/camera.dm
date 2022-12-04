@@ -25,8 +25,8 @@
 	desc = "A Ward-Takahashi EyeBuddy media streaming hovercam. Weapon of choice for war correspondents and reality show cameramen."
 	icon = 'nsv13/icons/obj/television.dmi'
 	worn_icon = 'nsv13/icons/obj/television_worn.dmi'
-	lefthand_file = 'nsv13/icons/obj/television_left.dmi'
-	righthand_file = 'nsv13/icons/obj/television_right.dmi'
+	lefthand_file = 'nsv13/icons/mob/inhands/equipment/television_left.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/equipment/television_right.dmi'
 	item_state = "camcorder"
 	icon_state = "camcorder"
 	w_class = WEIGHT_CLASS_BULKY
@@ -39,7 +39,7 @@
 	var/on = FALSE
 	var/sensitivity = 3
 	var/annonceReload = FALSE
-	var/access_required = list(ACCESS_LIBRARY)
+	var/access_required = list()
 
 /obj/item/device/pocket_tvcamera/Initialize(mapload)
 	. = ..()

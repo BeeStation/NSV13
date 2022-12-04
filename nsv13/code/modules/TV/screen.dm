@@ -67,7 +67,7 @@
 
 /obj/item/pocket_tv
 	name = "Pocket TV monitor"
-	desc = "A version of TV that you can put in your pocket. Wait, Nanotrazen made TVs out of our old PDAs!?"
+	desc = "A version of TV that you can put in your pocket. Wait, Nanotrasen made TVs out of our old PDAs!?"
 	icon = 'nsv13/icons/obj/television.dmi'
 	icon_state = "pda"
 	w_class = WEIGHT_CLASS_SMALL
