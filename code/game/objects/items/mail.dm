@@ -36,10 +36,10 @@
 
 		//NSV13
 		/obj/item/toy/snowball												= 15,
-		/obj/item/choice_beacon/music										= 10,
-		/obj/structure/musician/piano/unanchored							= 5,
-		/mob/living/simple_animal/cow										= 5,
+		/obj/item/choice_beacon/music										= 5,
 		/obj/item/toy/plush/moth/random										= 5,
+		/obj/structure/musician/piano/unanchored							= 2,
+		/mob/living/simple_animal/cow										= 1,
 	)
 
 	//if the goodie is dangerous for the station, in this list it goes
@@ -243,10 +243,12 @@
 	color = "#[pick(random_short_color())]"
 	switch(rand(1,10))
 
-		if(1,2)
+		if(1,2,3,4) //NSV13 added 3 and 4
 			name = special_name ? junk_names[junk] : "[initial(name)] for [pick(GLOB.alive_mob_list)]" //LETTER FOR IAN / BUBBLEGUM / MONKEY(420)
+		/*
 		if(3,4)
 			name = special_name ? junk_names[junk] : "[initial(name)] for [pick(GLOB.player_list)]" //Letter for ANYONE, even that wizard rampaging through the station.
+		*/ //NSV13 Having a lot of trouble with mail being generated for entities the crew aren't supposed to know about
 		if(5)
 			name = special_name ? junk_names[junk] : "DO NOT OPEN"
 		else
