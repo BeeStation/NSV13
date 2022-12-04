@@ -607,9 +607,9 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			proj.setAngle(src.angle)
 		if(broadside)
 			if(0 < (overmap_angle(src, target) - angle) && (overmap_angle(src, target) - angle) < 180)
-				proj.setAngle(90 + rand(-20, 20))
+				proj.setAngle(90 + rand(-20, 20) + angle)
 			else
-				proj.setAngle(270 + rand(-20, 20))
+				proj.setAngle(270 + rand(-20, 20) + angle)
 		//Sometimes we want to override speed.
 		if(speed)
 			proj.set_pixel_speed(speed)
