@@ -25,7 +25,7 @@
 		playlist = weather_playlist
 
 	RegisterSignal(target, COMSIG_MOVABLE_Z_CHANGED, .proc/handle_z_level_change)
-	RegisterSignal(target, COMSIG_MOB_LOGOUT, .proc/handle_logout)
+	RegisterSignal(target, COMSIG_MOB_LOGOUT, .proc/handle_logout, override = TRUE) //NSV13 - the runtime log said to put override = TRUE so I did
 
 /datum/element/weather_listener/Detach(datum/source)
 	. = ..()

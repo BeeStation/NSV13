@@ -165,7 +165,7 @@ Returns a faction datum by its name (case insensitive!)
 <param></param>
 */
 
-/datum/controller/subsystem/star_system/proc/save(_destination_path = CONFIG_DIRECTORY + "/" + STARMAP_FILE) 
+/datum/controller/subsystem/star_system/proc/save(_destination_path = CONFIG_DIRECTORY + "/" + STARMAP_FILE)
 	// No :)
 	_destination_path = SANITIZE_FILENAME(_destination_path)
 	var/list/directory = splittext(_destination_path, "/")
@@ -434,6 +434,8 @@ Returns a faction datum by its name (case insensitive!)
 		if("STARTUP_PROC_TYPE_BRASIL")
 			addtimer(CALLBACK(src, .proc/generate_badlands), 5 SECONDS)
 			return
+		if("STARTUP_PROC_TYPE_BRASIL_LITE")
+			addtimer(CALLBACK(src, .proc/generate_litelands), 5 SECONDS)
 	message_admins("WARNING: Invalid startup_proc declared for [name]! Review your defines (~L438, starsystem.dm), please.")
 	return 1
 
@@ -521,7 +523,7 @@ Returns a faction datum by its name (case insensitive!)
 			S.wormhole_connections += name
 			oneway = "Two-way"
 			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, S, center=TRUE) //Wormholes are cool. Like Fezzes. Fezzes are cool.
-		message_admins("[oneway] wormhole created between [S] and [src]")
+		log_game("[oneway] wormhole created between [S] and [src]")
 
 //Anomalies
 
@@ -732,6 +734,15 @@ Returns a faction datum by its name (case insensitive!)
 			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
 	if(alignment == "syndicate")
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some Syndie ships.
+	if(alignment == "unaligned")
+		if(prob(25))
+			spawn_enemies()
+		else if (prob(33))
+			var/pickedF = pick(list(/datum/fleet/nanotrasen/light, /datum/fleet/nanotrasen)) //This should probably be a seperate proc to spawn friendlies
+			var/datum/fleet/F = new pickedF
+			F.current_system = src
+			fleets += F
+			F.assemble(src)
 	if(!anomaly_type)
 		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
 	SSstar_system.spawn_anomaly(anomaly_type, src)
@@ -1112,13 +1123,12 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 			),
 		)
 		randy.apply_system_effects()
-		var/list/sys_randy = randy.system_type
-		randy.name = (sys_randy.tag != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
+		randy.name = (randy.system_type[tag] != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
 		var/randy_valid = FALSE
 
 		while(!randy_valid)
-			randy.x = (rand(1, 10)/10)+rand(1, 80)+20 // Buffer space for readability
-			randy.y = (rand(1, 10)/10)+rand(1, 50)+30 // Offset vertically for viewing 'pleasure'
+			randy.x = ((rand(1, 10)/10)+rand(1, 80)+20) // Buffer space for readability
+			randy.y = ((rand(1, 10)/10)+rand(1, 50)+30) // Offset vertically for viewing 'pleasure'
 			var/syscheck_pass = TRUE
 			for(var/datum/star_system/S in (generated + rubicon + src))
 				if(!syscheck_pass)
@@ -1262,6 +1272,199 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 	var/time = (REALTIMEOFDAY - start_timeofday) / 10
 	//There we go.
 	message_admins("Badlands has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorithm and [random_jumpline_count] random connections have been created!")
+	log_game("Badlands has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorithm and [random_jumpline_count] random connections have been created!")
+
+/datum/star_system/proc/generate_litelands()
+	var/list/generated = list()
+	var/amount = rand(8, 15)
+	var/toocloseconflict = 0
+	message_admins("Generating Badlands Lite with [amount] systems.")
+	var/start_timeofday = REALTIMEOFDAY
+	var/datum/star_system/rubicon = SSstar_system.system_by_id(pick(list("Zalosi","Guriibuu")))
+	if(!rubicon)
+		message_admins("Error setting up Badlands Lite - No connector found!") //This should never happen unless admins do bad things.
+		return
+
+	for(var/I=0;I<amount,I++){
+		var/datum/star_system/random/randy = new /datum/star_system/random()
+		randy.system_type = pick(
+			list(
+				tag = "radioactive",
+				label = "Radioactive",
+			), 0.5;
+			list(
+				tag = "blackhole",
+				label = "Blackhole",
+			),
+			list(
+				tag = "quasar",
+				label = "Quasar",
+			), 0.75;
+			list(
+				tag = "accretiondisk",
+				label = "Accretion disk",
+			),
+			list(
+				tag = "nebula",
+				label = "Nebula",
+			),
+			list(
+				tag = "supernova",
+				label = "Supernova",
+			),
+			list(
+				tag = "debris",
+				label = "Asteroid field",
+			),
+		)
+		randy.apply_system_effects()
+		randy.name = (randy.system_type[tag] != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
+		var/randy_valid = FALSE
+
+		while(!randy_valid)
+			randy.x = ((rand(1, 10)/10)+rand(-30, 15)+56)
+			randy.y = ((rand(1, 10)/10)+rand(1, 30)+125)
+			var/syscheck_pass = TRUE
+			for(var/datum/star_system/S in (generated + rubicon + src))
+				if(!syscheck_pass)
+					break
+				if(S.dist(randy) < 5)// Maybe this is enough?
+					syscheck_pass = FALSE
+					continue
+			if(syscheck_pass)
+				randy_valid = TRUE
+			else
+				toocloseconflict++
+
+		randy.sector = sector //Yeah do I even need to explain this?
+		randy.hidden = FALSE
+		generated += randy
+		if(prob(10))
+			//10 percent of systems have a trader for resupply.
+			var/x = pick(typesof(/datum/trader)-/datum/trader-/datum/trader/randy)
+			var/datum/trader/randytrader = new x
+			var/obj/structure/overmap/trader/randystation = SSstar_system.spawn_anomaly(randytrader.station_type, randy)
+			randystation.starting_system = randy.name
+			randystation.current_system = randy
+			randystation.set_trader(randytrader)
+			randy.trader = randytrader
+			// randytrader.generate_missions()
+
+		else if(prob(10))
+			var/x = pick(/datum/fleet/wolfpack, /datum/fleet/neutral, /datum/fleet/pirate/raiding, /datum/fleet/boarding, /datum/fleet/nanotrasen/light)
+			var/datum/fleet/randyfleet = new x
+			randyfleet.current_system = randy
+			randyfleet.hide_movements = TRUE //Prevent the shot of spam this caused to R1497.
+			randy.fleets += randyfleet
+			randy.alignment = randyfleet.alignment
+			randy.owner = randyfleet.alignment
+			randyfleet.assemble(randy)
+
+		SSstar_system.systems += randy
+	}
+	var/lowest_dist = 1000
+	//Finally, let's play this drunken game of connect the dots.
+
+	//First, we use the system closest to rubicon as a connector to it
+	var/datum/star_system/rubiconnector = null
+	for(var/datum/star_system/S in generated)
+		if(S.dist(rubicon) < lowest_dist)
+			lowest_dist = S.dist(rubicon)
+			rubiconnector = S
+	rubiconnector.adjacency_list += rubicon.name
+	rubicon.adjacency_list += rubiconnector.name
+
+	//We did it, we connected Rubicon. Now for the fun part: Connecting all of the systems, in a not-as-bad way. We'll use a tree for this, and then add some random connections to make it not as linear.
+	generated += src //We want to get to rubicon from here!
+	var/relax = 0	//Just a nice stat var
+	var/random_jumpline_count = 0 //Another nice stat var
+	var/systems[generated.len]
+	var/distances[generated.len]
+	var/parents[generated.len]	//This is what we will use later
+	for(var/i = 1; i <= generated.len; i++)
+		systems[i] = generated[i]
+		parents[i] = rubiconnector
+		if(generated[i] != rubiconnector)
+			distances[i] = INFINITY
+		else
+			distances[i] = 0
+
+	//Setup: Done. Dijkstra time.
+	while(length(generated) > 0) //we have to go through this n times
+		var/closest = null
+		var/mindist = INFINITY
+		for(var/datum/star_system/S in generated)	//Find the system with the smallest value in distances[].
+			var/thisdist = distances[systems.Find(S)]
+			if(!closest || mindist > thisdist)
+				closest = systems.Find(S)
+				mindist = thisdist //This is always the source node (rubiconnector) in the first run
+		generated -= systems[closest]	//Remove it from the list.
+
+		for(var/datum/star_system/S in generated)	//Try relaxing all other systems still in the list via it.
+			var/datum/star_system/close = systems[closest]
+			var/alternative = distances[closest] + close.dist(S)
+			var/adj = systems.Find(S)
+			if(alternative < distances[adj] * NONRELAXATION_PENALTY)	//Apply penalty to make the map more interconnected instead of all jump lines just going directly to the rubiconnector
+				distances[adj] = alternative
+				parents[adj] = systems[closest]
+				relax++
+
+	//Dijkstra: Done. We got parents for everyone, time to actually stitch them together.
+	for(var/i = 1; i <= length(systems); i++)
+		var/datum/star_system/S = systems[i]
+		if(S == rubiconnector)
+			continue	//Rubiconnector is the home node and would fuck with us if we did stuff with it here.
+		var/datum/star_system/Connected = parents[i]
+		S.adjacency_list += Connected.name
+		Connected.adjacency_list += S.name
+
+	//We got a nice tree! But this is looking far too clean, time to Brazilify this.
+	for(var/datum/star_system/S as() in systems)
+		var/bonus = 0
+		var/list/valids = list()
+		for(var/datum/star_system/candidate in systems)
+			if(S == candidate)
+				continue
+			if(candidate.adjacency_list.Find(S.name) || S.adjacency_list.Find(candidate.name))
+				continue
+			if(S.dist(candidate) > MAX_RANDOM_CONNECTION_LENGTH || candidate.dist(S) < MIN_RANDOM_CONNECTION_LENGTH)
+				continue
+			if(candidate.adjacency_list.len >= RNGSYSTEM_MAX_CONNECTIONS)
+				continue
+			valids += candidate
+		while(!prob(100 - RANDOM_CONNECTION_BASE_CHANCE + (bonus * RANDOM_CONNECTION_REPEAT_PENALTY))) //Lets not flood the map with random jumplanes, buuut create a good chunk of them
+			if(!length(valids))
+				break
+			if(length(S.adjacency_list) >= RNGSYSTEM_MAX_CONNECTIONS)
+				break
+			var/datum/star_system/newconnection = pick(valids)
+			newconnection.adjacency_list += S.name
+			S.adjacency_list += newconnection.name
+			valids -= newconnection
+			random_jumpline_count++
+
+	//Pick a random entrypoint system
+	var/datum/star_system/inroute
+	var/ir_rub = 0
+	var/ir_othershit = 0
+	while (!inroute)
+		var/datum/star_system/picked = pick(systems)
+		if(rubiconnector.name in picked.adjacency_list)
+			ir_rub++
+			continue // Skip
+		if(picked.trader || picked.fleets.len)
+			ir_othershit++
+			continue
+		var/datum/star_system/sol/solsys = SSstar_system.system_by_id("Sol")
+		solsys.adjacency_list += picked.name
+		picked.adjacency_list += solsys.name
+		inroute = picked
+		inroute.is_hypergate = TRUE
+
+	var/time = (REALTIMEOFDAY - start_timeofday) / 10
+	//There we go.
+	message_admins("Badlands Lite has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorithm and [random_jumpline_count] random connections have been created!")
+	log_game("Badlands has been generated. T:[time]s CFS:[toocloseconflict]|[ir_rub]|[ir_othershit] Rubiconnector: [rubiconnector], Inroute system is [inroute]. Fun fact, jump lanes have been relaxed [relax] times by the algorithm and [random_jumpline_count] random connections have been created!")
 
 #undef NONRELAXATION_PENALTY
 #undef MAX_RANDOM_CONNECTION_LENGTH
