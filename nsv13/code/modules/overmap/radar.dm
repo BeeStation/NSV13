@@ -270,8 +270,11 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			var/obj/structure/overmap/target = locate(params["target"])
 			if(!target) //Anomalies don't count.
 				return
-			if(dradis_targeting && (linked.gunner == usr || linked.pilot == usr) && target.faction != linked.faction)
-				linked.start_lockon(target)
+			if(dradis_targeting && (linked.gunner == usr || linked.pilot == usr))
+				if(target.faction != linked.faction)
+					linked.start_lockon(target)
+					return
+				linked.datalink_transmit(target)
 				return
 			if(world.time < next_hail)
 				return
@@ -359,8 +362,8 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			blips.Add(list(list("x" = OA.x, "y" = OA.y, "colour" = "#eb9534", "name" = "[(OA.scanned) ? OA.name : "anomaly"]", opacity=showAnomalies*0.01, alignment = "uncharted")))
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Iterate through overmaps in the world! - Needs to go through global overmaps since it may be on a ship's z level or in hyperspace.
 		var/sensor_visible = (OM != linked && OM.faction != linked.faction) ? ((overmap_dist(linked, OM) > max(sensor_range * 2, OM.sensor_profile)) ? 0 : OM.is_sensor_visible(linked)) : SENSOR_VISIBILITY_FULL //You can always see your own ship, or allied, cloaked ships.
-		if(OM.z == linked.z && sensor_visible >= SENSOR_VISIBILITY_FAINT)
-			var/inRange = (overmap_dist(linked, OM) <= max(sensor_range,OM.sensor_profile)) || OM.faction == linked.faction	//Allies broadcast encrypted IFF so we can see them anywhere.
+		if(OM.z == linked.z && (sensor_visible >= SENSOR_VISIBILITY_FAINT || linked.target_painted[OM] != FALSE))
+			var/inRange = (overmap_dist(linked, OM) <= max(sensor_range,OM.sensor_profile)) || OM.faction == linked.faction	//Allies broadcast encrypted IFF so we can see them anywhere, and we can always see enemies recieved over datalink
 			var/thecolour = "#FFFFFF"
 			var/filterType = showEnemies
 			if(istype(OM, /obj/structure/overmap/asteroid))

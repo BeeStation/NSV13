@@ -416,6 +416,16 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			return
 		fire(autofire_target)
 
+	// Lock handling
+	for(var/obj/structure/overmap/OM in target_painted)
+		if(target_painted[OM] != FALSE) // Datalink target, something else is handling tracking for us
+			continue
+		if(overmap_dist(src, OM) < max(dradis ? dradis.sensor_range : SENSOR_RANGE_DEFAULT, OM.sensor_profile) || OM.is_sensor_visible(src))
+			target_last_tracked[OM] = world.time // We can see the target, update tracking time
+			continue
+		if(target_last_tracked[OM] + target_loss_time < world.time)
+			dump_lock(OM) // We lost the track
+
 /obj/structure/overmap/small_craft/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
 	addtimer(VARSET_CALLBACK(src, layer, ABOVE_MOB_LAYER), 0.5 SECONDS)
 	layer = LOW_OBJ_LAYER // Stop us from just bumping right into them after we bounce

@@ -159,6 +159,7 @@
 		QDEL_NULL(src)
 
 /mob/camera/ai_eye/remote/overmap_observer/proc/update()
+	SIGNAL_HANDLER
 	if(!eye_user.client)
 		return
 	var/obj/structure/overmap/ship = origin
@@ -172,8 +173,7 @@
 
 // Switches the camera to track a specific target. If no target is passed, we track our origin
 /mob/camera/ai_eye/remote/overmap_observer/proc/track_target(obj/structure/overmap/target)
-	UnregisterSignal(ship_target, COMSIG_MOVABLE_MOVED)
-	UnregisterSignal(ship_target, COMSIG_PARENT_QDELETING)
+	UnregisterSignal(ship_target, list(COMSIG_MOVABLE_MOVED, COMSIG_PARENT_QDELETING))
 	ship_target = target
 	if(ship_target)
 		RegisterSignal(ship_target, COMSIG_MOVABLE_MOVED, .proc/update)
@@ -182,5 +182,6 @@
 	return TRUE
 
 /mob/camera/ai_eye/remote/overmap_observer/proc/handle_target_qdel()
+	SIGNAL_HANDLER
 	UnregisterSignal(ship_target, list(COMSIG_MOVABLE_MOVED, COMSIG_PARENT_QDELETING))
 	ship_target = null

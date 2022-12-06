@@ -47,6 +47,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
 	var/maintenance_mode = FALSE //Munitions level IDs can change this.
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
+	autotarget = TRUE
 	var/obj/machinery/computer/ship/navigation/starmap = null
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/escape_pod_type = /obj/structure/overmap/small_craft/escapepod
@@ -113,7 +114,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["weapon_safety"] = weapon_safety
 	data["master_caution"] = master_caution
 	data["rwr"] = (enemies.len) ? TRUE : FALSE
-	data["target_lock"] = (target_painted.len) ? TRUE : FALSE
+	data["target_lock"] = (length(target_painted)) ? TRUE : FALSE
 	data["fuel_warning"] = get_fuel() <= get_max_fuel()*0.4
 	data["fuel"] = get_fuel()
 	data["max_fuel"] = get_max_fuel()
@@ -486,7 +487,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/small_craft/attackby(obj/item/W, mob/user, params)
 	if(operators && LAZYFIND(operators, user))
-		to_chat(user, "<span class='warning'>You can't reach [src]'s exterior from in here..</span>")
+		to_chat(user, "<span class='warning'>You can't reach [src]'s exterior from in here.</span>")
 		return FALSE
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/FC = loadout.get_slot(slot)
@@ -525,6 +526,12 @@ Been a mess since 2018, we'll fix it someday (probably)
 				enter(user)
 		else
 			to_chat(user, "<span class='warning'>Access denied.</span>")
+
+/obj/structure/overmap/small_craft/finish_lockon(obj/structure/overmap/target, data_link)
+	if(disruption)
+		to_chat(pilot, "<span class='warning'>ERROR: TGP NOT READY.</span>")
+		return FALSE
+	. = ..()
 
 /obj/structure/overmap/small_craft/proc/enter(mob/user)
 	var/obj/structure/overmap/OM = user.get_overmap()

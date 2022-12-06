@@ -143,8 +143,11 @@
 	var/atom/target_lock = null // Our "locked" target. This is what manually fired guided weapons will track towards.
 	var/can_lock = TRUE //Can we lock on to people or not
 	var/lockon_time = 2 SECONDS
-	var/list/target_painted = list() // How many targets we've "painted" for AMS/relay targeting
+	var/list/target_painted = list() // How many targets we've "painted" for AMS/relay targeting, associated with the ship supplying the datalink (if any)
+	var/list/target_last_tracked = list() // When we last tracked a target
 	var/max_paints = 3 // The maximum amount of paints we can sustain at any one time.
+	var/target_loss_time = 3 SECONDS
+	var/autotarget = FALSE // Whether we autolock onto painted targets or not.
 	var/list/ams_modes = list()
 	var/next_ams_shot = 0
 	var/ams_targeting_cooldown = 1.5 SECONDS
@@ -587,22 +590,26 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	relay('nsv13/sound/effects/fighters/being_locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	addtimer(CALLBACK(src, .proc/finish_lockon, target), lockon_time)
 
-/obj/structure/overmap/proc/finish_lockon(obj/structure/overmap/target, data_link = FALSE)
+/obj/structure/overmap/proc/finish_lockon(obj/structure/overmap/target, obj/structure/overmap/data_link_origin)
 	if(!target || !istype(target) || target == src || target.current_system != current_system) // No target/invalid target
 		return
-	if(!data_link && target.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE)
+	if(LAZYFIND(target_painted, target)) // already locked
+		return
+	if(!data_link_origin && target.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE)
 		return
 	if(length(target_painted) >= max_paints)
 		to_chat(gunner, "<span class='notice'>Target painting at maximum capacity. Cancelling painting of [target_painted[1]] to support new target.</span>")
 		dump_lock(target_painted[1])
-	target_painted.Add(target)
-	if(last_overmap && ((last_overmap.faction == faction) || can_friendly_fire()) && length(last_overmap.target_painted) < last_overmap.max_paints)
-		last_overmap.finish_lockon(target, TRUE)
-		if(last_overmap.gunner)
-			to_chat(last_overmap.gunner, "<span class='notice'>Targeting data for [target] recieved from [src] via datalink.</span>")
+	if(data_link_origin)
+		target_painted[target] = data_link_origin
+		RegisterSignal(data_link_origin, COMSIG_LOCK_LOST, .proc/check_datalink)
+	else
+		target_painted[target] = FALSE
 	to_chat(gunner, "<span class='notice'>Target painted.</span>")
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	RegisterSignal(target, list(COMSIG_PARENT_QDELETING, COMSIG_FTL_STATE_CHANGE), .proc/dump_lock)
+	if(autotarget)
+		select_target(target) //autopaint our target
 
 /obj/structure/overmap/proc/select_target(obj/structure/overmap/target)
 	if(QDELETED(target) || !istype(target) || !locate(target) in target_painted)
@@ -614,22 +621,54 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return
 	target_lock = target
 	var/scan_range = (dradis) ? dradis.visual_range : VISUAL_RANGE_DEFAULT
-	if(overmap_dist(src, target) > scan_range)
+	if(overmap_dist(src, target) > scan_range || (pilot && pilot == gunner))
 		to_chat(gunner, "<span class='warning'>Target out of visual acquisition range.</span>")
 		return
 	update_gunner_cam(target)
 
 /obj/structure/overmap/proc/dump_lock(obj/structure/overmap/target) // Our locked target got destroyed/moved, dump the lock
-	target_painted.Remove(target)
+	SIGNAL_HANDLER
+	SEND_SIGNAL(src, COMSIG_LOCK_LOST, target)
+	target_painted -= target
+	target_last_tracked -= target
 	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
 	if(target_lock == target)
 		update_gunner_cam()
 		target_lock = null
 
 /obj/structure/overmap/proc/dump_locks() // clears all target locks.
-	update_gunner_cam(src)
+	SIGNAL_HANDLER
+	update_gunner_cam()
 	for(var/obj/structure/overmap/OM in target_painted)
 		dump_lock(OM)
+
+// Can we pass targets to friendlies?
+/obj/structure/overmap/proc/can_use_datalink()
+	return TRUE
+
+// Handles the passing of said targets.
+/obj/structure/overmap/proc/datalink_transmit(obj/structure/overmap/target)
+	if(!can_use_datalink() || target.faction != faction || !target_lock)
+		return FALSE
+	if(target.ai_controlled || !target.gunner)
+		return FALSE
+	if(length(target.target_painted) < target.max_paints)
+		target.finish_lockon(target_lock, src)
+		to_chat(target.gunner, "<span class='notice'>Targeting data for [target] recieved from [src] via datalink.</span>")
+		to_chat(pilot, "<span class='notice'>Targeting paramaters relayed.</span>")
+
+// if we lose our datalink signal, dump the lock
+/obj/structure/overmap/proc/check_datalink(obj/structure/overmap/data_link_origin, obj/structure/overmap/target)
+	SIGNAL_HANDLER
+	if(target_painted[target] == data_link_origin)
+		if(overmap_dist(src, target) > max(dradis?.sensor_range * 2, target.sensor_profile))
+			dump_lock(target)
+			return
+		target_painted[target] = FALSE
+	for(var/obj/structure/overmap/OM in target_painted)
+		if(target_painted[target] != FALSE)
+			return
+	UnregisterSignal(data_link_origin, COMSIG_LOCK_LOST)
 
 /obj/structure/overmap/proc/update_gunner_cam(atom/target)
 	if(!gunner)
