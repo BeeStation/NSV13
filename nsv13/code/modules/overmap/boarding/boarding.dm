@@ -7,19 +7,19 @@
  * * min_players: Number of active players below which boarders won't spawn.
  * * min_players_for_ghosts: Number of active players below which gosts won't be offered to become boarders.
  * Returns:
- * * TRUE when boarders were successfully spawned, otherwise FALSE.
+ * * TRUE when boarders were spawned, FALSE if aborted regularly, otherwise throws an exception
 */
 /obj/structure/overmap/proc/spawn_boarders(amount, faction_selection="syndicate", min_players = 5, min_players_for_ghosts = 20)
 	if(SSovermap_mode.override_ghost_boarders)
 		message_admins("Failed to spawn boarders for [name] due to admin boarding override.")
 		return FALSE //Allows the admins to disable boarders for event rounds
-	if(!length(occupying_levels))
-		message_admins("Failed to spawn boarders for [name], it doesn't seem to have any occupying z-levels. (Interior)")
-		return FALSE
 	var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 	if(player_check < min_players)
 		message_admins("KNPC boarder spawning aborted due to insufficient playercounts.")
 		return FALSE //No... just no. I'm not that mean
+	if(!length(occupying_levels))
+		message_admins("Failed to spawn boarders for [name], it doesn't seem to have any occupying z-levels. (Interior)")
+		throw EXCEPTION("Failed to spawn boarders for [name], it doesn't seem to have any occupying z-levels. (Interior)")
 
 	if(!amount)
 		amount = CEILING(1 + (SSovermap_mode.mode.difficulty / 2), 1)
@@ -73,7 +73,6 @@
  * Arguments:
  * * amount: Number of boarders to spawn. Will be automatically choosen, based on SSovermap mode difficulty if !amount.
  * * faction_selection: String for the faction the boarders belong to. See [/obj/structure/overmap/proc/spawn_boarders] for valid values.
- * Returns TRUE is successful, FALSE otherwise.
  */
 /obj/structure/overmap/proc/spawn_knpcs(amount, faction_selection="syndicate")
 	if(!amount)
@@ -92,6 +91,9 @@
 			knpc_types = list(/mob/living/carbon/human/ai_boarder/zombie,)
 		if("droid")
 			knpc_types = list(/mob/living/carbon/human/ai_boarder/boarding_droid,)
+		else
+			message_admins("KNPC spawn failed. No knpcs configured for faction name \"[faction_selection]\".")
+			throw EXCEPTION("No knpcs configured for faction name \"[faction_selection]\"")
 
 	var/list/possible_spawns = list()
 	for(var/obj/effect/landmark/patrol_node/node in GLOB.landmarks_list)
@@ -100,8 +102,8 @@
 	//Can we establish a drop zone?
 	var/turf/LZ = (length(possible_spawns)) ? get_turf(pick(possible_spawns)) : null
 	if(!LZ)
-		message_admins("KNPC boarder spawn aborted. This ship does not support KNPCs (add some patrol nodes!))")
-		return FALSE
+		message_admins("KNPC boarder spawn aborted. This ship does not support KNPCs (add some patrol nodes!)")
+		throw EXCEPTION("KNPC boarder spawn aborted. This ship does not support KNPCs (add some patrol nodes!)")
 
 	var/obj/structure/closet/supplypod/centcompod/toLaunch = new /obj/structure/closet/supplypod/syndicate_odst
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
@@ -111,7 +113,6 @@
 		new soldier_type(toLaunch)
 
 	new /obj/effect/pod_landingzone(LZ, toLaunch)
-	return TRUE
 
 
 /** Attempts to spawn player boarders for this ship.
@@ -120,7 +121,6 @@
  * * target: turf where the boarding pod will be spawned.
  * * amount: Number of boarders to spawn. Will be automatically choosen, based on SSovermap mode difficulty if !amount.
  * * faction_selection: String for the faction the boarders belong to. See [/obj/structure/overmap/proc/spawn_boarders] for valid values.
- * Returns TRUE is successful, FALSE otherwise.
  */
 /obj/structure/overmap/proc/spawn_player_boarders(candidates, target, amount, faction_selection="syndicate")
 	if(!amount)
@@ -182,7 +182,6 @@
 			message_admins("[ADMIN_LOOKUPFLW(H)] became a space pirate boarder.")
 			operatives += H
 		//Crew intentionally isn't informed of boarding pirates.
-	return TRUE
 
 
 
