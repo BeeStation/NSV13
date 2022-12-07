@@ -1,19 +1,13 @@
 #define DROP_TROOPER_TEAMS list("Noble", "Helljumper","Red", "Black", "Crimson", "Osiris", "Apex", "Apollo", "Thrace", "Galactica", "Valkyrie", "Recon", "Gamma", "Alpha", "Bravo", "Charlie", "Delta", "Indigo", "Sol's fist", "Abassi", "Cartesia", "Switchback", "Majestic", "Mountain", "Shadow", "Shrike", "Sterling", "FTL", "Belter", "Moya", "Crichton")
-#define PLAYER_COMPATIBLE_FACTIONS list("syndicate", "pirate",)
 
-/**
- * Attempts to spawn boarders for this ship. Checks whether conditions for
- * player boarders are met and attempts to spawns those if yes.
- * Otherwise attempts to spawn knpcs.
- *
+/** Attempts to spawn knpc or player boarders for this ship.
  * Arguments:
  * * amount: Number of boarders to spawn. Will be automatically choosen, based on SSovermap mode difficulty if argument not passed in.
  * * faction_selection: Faction the boarders belong to. Valid values are currently "syndicate", "pirate", "greytide", "nanotrasen"
  * * min_players: Number of active players below which boarders won't spawn.
  * * min_players_for_ghosts: Number of active players below which gosts won't be offered to become boarders.
- *
  * Returns:
- * * Return value of either proc/spawn_knpcs or proc/spawn_player_boarders
+ * * TRUE when boarders were successfully spawned, otherwise FALSE.
 */
 /obj/structure/overmap/proc/spawn_boarders(amount, faction_selection="syndicate", min_players = 5, min_players_for_ghosts = 20)
 	if(SSovermap_mode.override_ghost_boarders)
@@ -36,11 +30,9 @@
 	if(!target)
 		message_admins("Failed to spawn boarders for [name], does it have an interior?")
 		return FALSE //Cut off here to avoid polling people for a spawn that will never work.
-	if(!(faction_selection in PLAYER_COMPATIBLE_FACTIONS)) //Don't poll players if we only know how to spawn knpcs.
-		return spawn_knpcs(amount, faction_selection)
+	var/list/candidates = list()
 
 	//20 or more players? You're allowed "real" boarders.
-	var/list/candidates = list()
 	if(player_check >= min_players_for_ghosts) // Remove the low pop boarder camping
 		candidates = pollCandidatesForMob("Do you want to play as a boarding team member?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
 	//No candidates? Well! Guess you get to deal with some KNPCs :))))))
@@ -81,10 +73,7 @@
  * Arguments:
  * * amount: Number of boarders to spawn. Will be automatically choosen, based on SSovermap mode difficulty if !amount.
  * * faction_selection: String for the faction the boarders belong to. See [/obj/structure/overmap/proc/spawn_boarders] for valid values.
- * Returns:
- * * KNPC_SPAWN_SUCCESS if successful
- * * KNPC_SPAWN_INVALID_FACTION if faction_selection isn't supported
- * * KNPC_SPAWN_MISSING_PATROL_NODES if the parent doesn't have patrol nodes for knpcs
+ * Returns TRUE is successful, FALSE otherwise.
  */
 /obj/structure/overmap/proc/spawn_knpcs(amount, faction_selection="syndicate")
 	if(!amount)
@@ -99,12 +88,10 @@
 			knpc_types = list(/mob/living/carbon/human/ai_boarder/assistant)
 		if("nanotrasen")
 			knpc_types = list(/mob/living/carbon/human/ai_boarder/ert, /mob/living/carbon/human/ai_boarder/ert/commander, /mob/living/carbon/human/ai_boarder/ert/medic, /mob/living/carbon/human/ai_boarder/ert/engineer)
-		if("zombie")
+		if("zombies")
 			knpc_types = list(/mob/living/carbon/human/ai_boarder/zombie,)
-		if("silicon")
+		if("droid")
 			knpc_types = list(/mob/living/carbon/human/ai_boarder/boarding_droid,)
-		else
-			return KNPC_SPAWN_INVALID_FACTION
 
 	var/list/possible_spawns = list()
 	for(var/obj/effect/landmark/patrol_node/node in GLOB.landmarks_list)
@@ -114,7 +101,7 @@
 	var/turf/LZ = (length(possible_spawns)) ? get_turf(pick(possible_spawns)) : null
 	if(!LZ)
 		message_admins("KNPC boarder spawn aborted. This ship does not support KNPCs (add some patrol nodes!))")
-		return KNPC_SPAWN_MISSING_PATROL_NODES
+		return FALSE
 
 	var/obj/structure/closet/supplypod/centcompod/toLaunch = new /obj/structure/closet/supplypod/syndicate_odst
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
@@ -124,7 +111,7 @@
 		new soldier_type(toLaunch)
 
 	new /obj/effect/pod_landingzone(LZ, toLaunch)
-	return KNPC_SPAWN_SUCCESS
+	return TRUE
 
 
 /** Attempts to spawn player boarders for this ship.
@@ -133,75 +120,70 @@
  * * target: turf where the boarding pod will be spawned.
  * * amount: Number of boarders to spawn. Will be automatically choosen, based on SSovermap mode difficulty if !amount.
  * * faction_selection: String for the faction the boarders belong to. See [/obj/structure/overmap/proc/spawn_boarders] for valid values.
- * Returns:
- * * PLAYERBOARDER_SPAWN_SUCCESS if successful
- * * PLAYERBOARDER_SPAWN_INVALID_FACTION if the value faction_selection isn't supported
+ * Returns TRUE is successful, FALSE otherwise.
  */
 /obj/structure/overmap/proc/spawn_player_boarders(candidates, target, amount, faction_selection="syndicate")
 	if(!amount)
 		amount = CEILING(1 + (SSovermap_mode.mode.difficulty / 2), 1)
 	var/list/operatives = list()
-	switch(faction_selection)
-		if("syndicate")
-			var/team_name = pick_n_take(DROP_TROOPER_TEAMS)
-			var/datum/map_template/syndicate_boarding_pod/currentPod = new /datum/map_template/syndicate_boarding_pod()
-			currentPod.load(target, TRUE)
-			for(var/I = 0, I < amount, I++)
-				if(!LAZYLEN(candidates))
-					break
-				var/mob/dead/observer/C = pick_n_take(candidates)
-				var/mob/living/carbon/human/H = new(target)
-				H.key = C.key
-				if(team_name) //If there is an available "team name", give them a callsign instead of a placeholder name
-					var/callsign = I
-					if(callsign <= 0)
-						callsign = "Lead"
-						H.equipOutfit(/datum/outfit/syndicate/odst/smg)
-					else
-						callsign = num2text(callsign)
-						var/list/syndi_kits = list(/datum/outfit/syndicate/odst/smg, /datum/outfit/syndicate/odst/shotgun, /datum/outfit/syndicate/odst/medic)
-						var/kit = pick(syndi_kits)
-						H.equipOutfit(kit)
-					H.fully_replace_character_name(H.real_name, "[team_name]-[callsign]")
-					H.mind.add_antag_datum(/datum/antagonist/traitor/boarder)
-					H.mind.assigned_role = "Syndicate Boarder"
-				log_game("[key_name(H)] became a syndicate drop trooper.")
-				message_admins("[ADMIN_LOOKUPFLW(H)] became a syndicate drop trooper.")
-				to_chat(H, "<span class='danger'>You are a syndicate drop trooper! Cripple [station_name()] to the best of your ability, by any means you see fit. You have been given some objectives to guide you in the pursuit of this goal.")
-				operatives += H
-			relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
-			return PLAYERBOARDER_SPAWN_SUCCESS
-
-		if("pirate")
-			var/datum/map_template/spacepirate_boarding_pod/currentPod = new /datum/map_template/spacepirate_boarding_pod()
-			currentPod.load(target, TRUE)
-			for(var/I = 0, I < amount, I++)
-				if(!LAZYLEN(candidates))
-					break
-				var/mob/dead/observer/C = pick_n_take(candidates)
-				var/mob/living/carbon/human/H = new(target)
-				H.key = C.key
+	if(faction_selection == "syndicate")
+		var/team_name = pick_n_take(DROP_TROOPER_TEAMS)
+		var/datum/map_template/syndicate_boarding_pod/currentPod = new /datum/map_template/syndicate_boarding_pod()
+		currentPod.load(target, TRUE)
+		for(var/I = 0, I < amount, I++)
+			if(!LAZYLEN(candidates))
+				break
+			var/mob/dead/observer/C = pick_n_take(candidates)
+			var/mob/living/carbon/human/H = new(target)
+			H.key = C.key
+			if(team_name) //If there is an available "team name", give them a callsign instead of a placeholder name
 				var/callsign = I
 				if(callsign <= 0)
-					callsign = "First Mate"
-					H.equipOutfit(/datum/outfit/pirate/space/boarding/lead)
+					callsign = "Lead"
+					H.equipOutfit(/datum/outfit/syndicate/odst/smg)
 				else
-					callsign = "Crew"
-					var/list/pirate_kits = list(/datum/outfit/pirate/space/boarding/sapper, /datum/outfit/pirate/space/boarding/gunner) //review these
-					var/kit = pick(pirate_kits)
+					callsign = num2text(callsign)
+					var/list/syndi_kits = list(/datum/outfit/syndicate/odst/smg, /datum/outfit/syndicate/odst/shotgun, /datum/outfit/syndicate/odst/medic)
+					var/kit = pick(syndi_kits)
 					H.equipOutfit(kit)
-				var/beginnings = strings(PIRATE_NAMES_FILE, "beginnings")
-				var/endings = strings(PIRATE_NAMES_FILE, "endings")
-				H.fully_replace_character_name(H.real_name, "[callsign] [pick(beginnings)][pick(endings)]")
-				H.mind.add_antag_datum(/datum/antagonist/pirate/boarder)
-				H.mind.assigned_role = "Pirate Boarder"
-				log_game("[key_name(H)] became a space pirate boarder.")
-				message_admins("[ADMIN_LOOKUPFLW(H)] became a space pirate boarder.")
-				operatives += H
-			//Crew intentionally isn't informed of boarding pirates.
-			return PLAYERBOARDER_SPAWN_SUCCESS
-		else
-			return PLAYERBOARDER_SPAWN_INVALID_FACTION
+				H.fully_replace_character_name(H.real_name, "[team_name]-[callsign]")
+				H.mind.add_antag_datum(/datum/antagonist/traitor/boarder)
+				H.mind.assigned_role = "Syndicate Boarder"
+			log_game("[key_name(H)] became a syndicate drop trooper.")
+			message_admins("[ADMIN_LOOKUPFLW(H)] became a syndicate drop trooper.")
+			to_chat(H, "<span class='danger'>You are a syndicate drop trooper! Cripple [station_name()] to the best of your ability, by any means you see fit. You have been given some objectives to guide you in the pursuit of this goal.")
+			operatives += H
+		relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
+
+	else if(faction_selection == "pirate")
+		var/datum/map_template/spacepirate_boarding_pod/currentPod = new /datum/map_template/spacepirate_boarding_pod()
+		currentPod.load(target, TRUE)
+		for(var/I = 0, I < amount, I++)
+			if(!LAZYLEN(candidates))
+				break
+			var/mob/dead/observer/C = pick_n_take(candidates)
+			var/mob/living/carbon/human/H = new(target)
+			H.key = C.key
+			var/callsign = I
+			if(callsign <= 0)
+				callsign = "First Mate"
+				H.equipOutfit(/datum/outfit/pirate/space/boarding/lead)
+			else
+				callsign = "Crew"
+				var/list/pirate_kits = list(/datum/outfit/pirate/space/boarding/sapper, /datum/outfit/pirate/space/boarding/gunner) //review these
+				var/kit = pick(pirate_kits)
+				H.equipOutfit(kit)
+			var/beginnings = strings(PIRATE_NAMES_FILE, "beginnings")
+			var/endings = strings(PIRATE_NAMES_FILE, "endings")
+			H.fully_replace_character_name(H.real_name, "[callsign] [pick(beginnings)][pick(endings)]")
+			H.mind.add_antag_datum(/datum/antagonist/pirate/boarder)
+			H.mind.assigned_role = "Pirate Boarder"
+			log_game("[key_name(H)] became a space pirate boarder.")
+			message_admins("[ADMIN_LOOKUPFLW(H)] became a space pirate boarder.")
+			operatives += H
+		//Crew intentionally isn't informed of boarding pirates.
+	return TRUE
+
 
 
 #undef DROP_TROOPER_TEAMS
