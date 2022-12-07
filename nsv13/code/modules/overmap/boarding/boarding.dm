@@ -105,7 +105,7 @@
 		message_admins("KNPC boarder spawn aborted. This ship does not support KNPCs (add some patrol nodes!)")
 		throw EXCEPTION("KNPC boarder spawn aborted. This ship does not support KNPCs (add some patrol nodes!)")
 
-	var/obj/structure/closet/supplypod/centcompod/toLaunch = new /obj/structure/closet/supplypod/syndicate_odst
+	var/obj/structure/closet/supplypod/syndicate_odst/toLaunch = new()
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
 	for(var/I = 0; I < amount; I++)
