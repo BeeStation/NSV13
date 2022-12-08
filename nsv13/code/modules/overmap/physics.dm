@@ -420,10 +420,12 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	for(var/obj/structure/overmap/OM in target_painted)
 		if(target_painted[OM] != FALSE) // Datalink target, something else is handling tracking for us
 			continue
-		if(overmap_dist(src, OM) < max(dradis ? dradis.sensor_range : SENSOR_RANGE_DEFAULT, OM.sensor_profile) && OM.is_sensor_visible(src))
+		if(overmap_dist(src, OM) < max(dradis ? dradis.sensor_range * 2 : SENSOR_RANGE_DEFAULT, OM.sensor_profile) && OM.is_sensor_visible(src))
 			target_last_tracked[OM] = world.time // We can see the target, update tracking time
 			continue
 		if(target_last_tracked[OM] + target_loss_time < world.time)
+			if(gunner)
+				to_chat(gunner, "<span class='warning'>Target [OM] lost.</span>")
 			dump_lock(OM) // We lost the track
 
 /obj/structure/overmap/small_craft/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
@@ -605,15 +607,15 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	if(physics2d && physics2d.collider2d)
 		proj.setup_collider()
 	if(proj.can_home)	//Lets not have projectiles home in on some random tile someone clicked on to launch
-		if((length(target_painted) > 0))
+		if(!isturf(target))
+			proj.set_homing_target(target)
+		else if((length(target_painted) > 0))
 			if(!target_lock) // no selected target, fire at the first one in our list
 				proj.set_homing_target(target_painted[1])
 			else if(target_painted.Find(target_lock)) // Fire at a manually selected target
 				proj.set_homing_target(target_lock)
 			else // something fucked up, dump the lock
 				target_lock = null
-		else if(!isturf(target))
-			proj.set_homing_target(target)
 	if(gunner)
 		proj.firer = gunner
 	else

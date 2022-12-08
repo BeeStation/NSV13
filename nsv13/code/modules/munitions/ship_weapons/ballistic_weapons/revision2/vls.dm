@@ -321,7 +321,7 @@
 		if ( ship.essential )
 			continue
 		var/target_range = get_dist(ship,src)
-		if(target_range > 30 || target_range <= 0) //Random pulled from the aether
+		if((target_range > 30 || target_range <= 0) && !(ship in enemies)) // Don't cover ships halfway across the map unless they're targeting us
 			continue
 		if(!QDELETED(ship) && isovermap(ship) && ship.is_sensor_visible(src) >= SENSOR_VISIBILITY_TARGETABLE)
 			last_target = ship

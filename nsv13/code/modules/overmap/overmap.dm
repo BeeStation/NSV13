@@ -148,6 +148,7 @@
 	var/max_paints = 3 // The maximum amount of paints we can sustain at any one time.
 	var/target_loss_time = 3 SECONDS
 	var/autotarget = FALSE // Whether we autolock onto painted targets or not.
+	var/no_gun_cam = FALSE // Var for disabling the gunner's camera
 	var/list/ams_modes = list()
 	var/next_ams_shot = 0
 	var/ams_targeting_cooldown = 1.5 SECONDS
@@ -605,6 +606,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		RegisterSignal(data_link_origin, COMSIG_LOCK_LOST, .proc/check_datalink)
 	else
 		target_painted[target] = FALSE
+		target_last_tracked[target] = world.time
 	to_chat(gunner, "<span class='notice'>Target painted.</span>")
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	RegisterSignal(target, list(COMSIG_PARENT_QDELETING, COMSIG_FTL_STATE_CHANGE), .proc/dump_lock)
@@ -613,6 +615,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/proc/select_target(obj/structure/overmap/target)
 	if(QDELETED(target) || !istype(target) || !locate(target) in target_painted)
+		target_lock = null
+		update_gunner_cam(src)
 		dump_lock(target)
 		return
 	if(target_lock == target)
@@ -620,8 +624,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		update_gunner_cam(src)
 		return
 	target_lock = target
-	var/scan_range = (dradis) ? dradis.visual_range : VISUAL_RANGE_DEFAULT
-	if(overmap_dist(src, target) > scan_range || (pilot && pilot == gunner))
+	if(no_gun_cam)
+		return
+	var/scan_range = dradis ? dradis.visual_range : SENSOR_RANGE_DEFAULT
+	if(overmap_dist(src, target) > scan_range)
 		to_chat(gunner, "<span class='warning'>Target out of visual acquisition range.</span>")
 		return
 	update_gunner_cam(target)

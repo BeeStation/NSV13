@@ -25,7 +25,7 @@
 	var/showAnomalies = 100
 	var/sensor_range = 0 //Automatically set to equal base sensor range on init.
 	var/base_sensor_range = SENSOR_RANGE_DEFAULT //In tiles. How far your sensors can pick up precise info about ships.
-	var/visual_range = VISUAL_RANGE_DEFAULT
+	var/visual_range = SENSOR_RANGE_DEFAULT // The default range of a ship's guncam
 	var/zoom_factor = 0.5 //Lets you zoom in / out on the DRADIS for more precision, or for better info.
 	var/zoom_factor_min = 0.25
 	var/zoom_factor_max = 2
@@ -326,6 +326,11 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	//If we fired off a radar, we're visible to _every ship_
 	if(last_radar_pulse+RADAR_VISIBILITY_PENALTY > world.time)
 		return SENSOR_VISIBILITY_FULL
+
+	// We're lighting them up with our tracking radar, so they know we're here until we drop the lock
+	if(observer in target_painted)
+		return SENSOR_VISIBILITY_FULL
+
 	//Convert alpha to an opacity reading.
 	switch(alpha)
 		if(0 to 50) //Nigh on invisible. You cannot detect ships that are this cloaked by any means.

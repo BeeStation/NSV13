@@ -31,6 +31,8 @@ Credit to TGMC for the interior sprites for all these!
 	speed_limit = 4
 	resize_factor = 2
 //	ftl_goal = 45 SECONDS //sabres can, by default, initiate relative FTL jumps to other ships.
+	autotarget = FALSE // Transports have dedicated TAC consoles, so let them handle targeting
+	no_gun_cam = FALSE
 	loadout_type = /datum/component/ship_loadout/utility
 	dradis_type = null //Sabres can send sonar pulses
 	components = list(/obj/item/fighter_component/fuel_tank/tier2,
@@ -183,4 +185,3 @@ Credit to TGMC for the interior sprites for all these!
 /datum/map_template/dropship/sabre/syndicate
     name = "SU-437 Sabre Interior (Syndicate)"
     mappath = "_maps/templates/boarding/sabre_interior_syndicate.dmm"
- 
