@@ -242,13 +242,12 @@
 	//better spam mail names instead of being "IMPORTANT MAIL", courtesy of Monkestation
 	color = "#[pick(random_short_color())]"
 	switch(rand(1,10))
-
-		if(1,2,3,4) //NSV13 added 3 and 4
+/*
+		if(1,2)
 			name = special_name ? junk_names[junk] : "[initial(name)] for [pick(GLOB.alive_mob_list)]" //LETTER FOR IAN / BUBBLEGUM / MONKEY(420)
-		/*
-		if(3,4)
+*/ 		//NSV13 Having a lot of trouble with mail being generated for entities the crew aren't supposed to know about
+		if(1,2,3,4)//NSV13 added 1 and 2
 			name = special_name ? junk_names[junk] : "[initial(name)] for [pick(GLOB.player_list)]" //Letter for ANYONE, even that wizard rampaging through the station.
-		*/ //NSV13 Having a lot of trouble with mail being generated for entities the crew aren't supposed to know about
 		if(5)
 			name = special_name ? junk_names[junk] : "DO NOT OPEN"
 		else
