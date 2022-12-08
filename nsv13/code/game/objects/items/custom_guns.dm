@@ -6,9 +6,9 @@
 	desc = "A large personal defense weapon commonly employed by Nanotrasen security forces. This advanced weapon uses a magnetic acceleration system in favour of traditional gunpowder, allowing specialized 6mm rounds to be loaded."
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "peacekeeper"
-	item_state = "peacekeeper"
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/guns_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/guns_righthand.dmi'
+	item_state = "peacekeeper"
 	mag_type = /obj/item/ammo_box/magazine/peacekeeper
 	can_suppress = FALSE
 	w_class = 4 //Too big for a backpack. Can fit on your belt or back.
@@ -80,9 +80,9 @@
 	desc = "A bullpup style 9mm SMG used by peacekeeping forces. While bulky, it's an imposing weapon designed to instill order into the masses."
 	icon = 'nsv13/icons/obj/guns/guns_big.dmi'
 	icon_state = "mp16"
-	item_state = "mp16"
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/guns_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/guns_righthand.dmi'
+	item_state = "mp16"
 	mag_type = /obj/item/ammo_box/magazine/smgm9mm
 	can_suppress = TRUE
 	w_class = WEIGHT_CLASS_BULKY //Too big for a backpack. Can fit on your belt or back.
@@ -105,9 +105,9 @@
 	desc = "A 5.56mm caliber assault rifle used by Blue Phalanx marines in boarding operations. While it's a relatively old-fashioned design, it's proven cheap to mass produce and exceptionally reliable."
 	icon = 'nsv13/icons/obj/guns/guns_big.dmi'
 	icon_state = "m4a4"
-	item_state = "m4a4"
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/guns_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/guns_righthand.dmi'
+	item_state = "m4a4"
 	mag_type = /obj/item/ammo_box/magazine/m556
 	can_suppress = TRUE
 	w_class = WEIGHT_CLASS_HUGE //Too big for a backpack. Can fit on your belt or back.
@@ -126,10 +126,16 @@
 	full_auto = TRUE
 	pixel_x = -4
 	pin = /obj/item/firing_pin/boarding
+
 /obj/item/gun/ballistic/shotgun/automatic/pistol
 	name = "\improper Solir 4 revolver hybrid"
 	desc = "A retro high-powered shotgun revolver typically used by high ranking officials. Uses shells."
 	icon_state = "shotgunpistol"
+	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
+	item_state = "gun"
+	inhand_x_dimension = 32
+	inhand_y_dimension = 32
 	weapon_weight = WEIGHT_CLASS_NORMAL
 	rack_sound = 'sound/weapons/revolverdry.ogg'
 	bolt_type = BOLT_TYPE_NO_BOLT
