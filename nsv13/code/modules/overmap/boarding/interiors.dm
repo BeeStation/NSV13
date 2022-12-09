@@ -197,7 +197,6 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 	else if(!(target_area.area_flags & UNIQUE_AREA))
 		target_area.name = src.name
 	linked_areas += target_area
-	target_area.overmap_fallback = src // We might be able to remove this since I learned how room reservations work
 	interior_status = INTERIOR_READY
 	return TRUE
 

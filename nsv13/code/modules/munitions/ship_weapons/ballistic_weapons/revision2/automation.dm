@@ -338,53 +338,68 @@
 	var/list/loaded = list() //What's loaded in?
 	var/max_capacity = 12	//Max cap for holding.
 	var/loading = FALSE
-	var/durability = 100 //max durability: 100.
+	var/durability = 100
+	var/max_durability = 100
+	var/repair_multiplier = 10 // How many points of durability we repair per unit of oil
 	var/jammed = FALSE //if at 0 durability, jam it, handled in weardown().
 	var/jamchance = 0 //probability to jam every weardown
+	var/busy = FALSE
 
 /obj/machinery/ammo_sorter/attackby(obj/item/I, mob/user, params)
 	if(default_unfasten_wrench(user, I))
 		return
 	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))
+		busy = FALSE // Just in case it gets stuck somehow, you can reset it
 		update_icon()
 		return
 	if(default_deconstruction_crowbar(I))
 		return
+	if(busy)
+		to_chat(user, "<span class='warning'>Someone's already working on [src]!</span>")
+		return TRUE
 	if(panel_open && istype(I, /obj/item/reagent_containers))
 		if(!jammed)
 			if(durability < 100)
-				if(I.reagents.has_reagent(/datum/reagent/oil, 1))
+				if(I.reagents.has_reagent(/datum/reagent/oil))
+					// get how much oil we have
+					var/oil_amount = min(I.reagents.get_reagent_amount(/datum/reagent/oil), max_durability/repair_multiplier)
+					var/oil_needed = CLAMP(round((max_durability-durability)/repair_multiplier), 1, oil_amount)
+					oil_amount = min(oil_amount, oil_needed)
 					to_chat(user, "<span class='notice'>You start lubricating the inner workings of [src]...</span>")
-					if(!do_after(user, 1 SECONDS, target=src))
+					busy = TRUE
+					if(!do_after(user, 5 SECONDS, target=src))
+						busy = FALSE
 						return
-					if(!I.reagents.has_reagent(/datum/reagent/oil, 1)) //things can change, check again.
+					if(!I.reagents.has_reagent(/datum/reagent/oil, oil_amount)) //things can change, check again.
 						to_chat(user, "<span class='notice'>You don't have enough oil left to lubricate [src]!</span>")
-						return
+						busy = FALSE
+						return TRUE
 					to_chat(user, "<span class='notice'>You lubricate the inner workings of [src].</span>")
-					durability += 10
-					if(durability > 100) //if we did an oopsie, set it back to 100.
-						durability = 100
-					I.reagents.remove_reagent(/datum/reagent/oil, 1)
+					durability = min(durability + (oil_amount * repair_multiplier), max_durability)
+					I.reagents.remove_reagent(/datum/reagent/oil, oil_amount)
+					busy = FALSE
 					return TRUE
-				else if(I.reagents.has_reagent(/datum/reagent/oil))
-					to_chat(user, "<span class='notice'>You need at least 1 unit of oil to lubricate [src]!</span>")
-					return
 				else
 					to_chat(user, "<span class='notice'>You need oil to lubricate this!</span>")
-					return
+					return TRUE
 			else
 				to_chat(user, "<span class='notice'>[src] doesn't need any oil right now!</span>")
+				return TRUE
 		else
 			to_chat(user, "<span class='notice'>You can't lubricate a jammed machine!</span>")
-	if(jammed && istype(I, /obj/item/crowbar))
+			return TRUE
+	if(jammed && I.tool_behaviour == TOOL_CROWBAR)
 		if(!panel_open)
+			busy = TRUE
 			to_chat(user, "<span class='notice'>You begin clearing the jam...</span>")
 			if(!do_after(user, 10 SECONDS, target=src))
+				busy = FALSE
 				return
 			to_chat(user, "<span class='notice'>You clear the jam with the crowbar.</span>")
 			playsound(src, 'nsv13/sound/effects/ship/mac_load_unjam.ogg', 100, 1)
 			jammed = FALSE
 			durability += rand(0,5) //give the poor fools a few more uses if they're lucky
+			busy = FALSE
 		else
 			to_chat(user, "<span class='notice'>You need to close the panel to get at the jammed machinery.</span>")
 		return TRUE

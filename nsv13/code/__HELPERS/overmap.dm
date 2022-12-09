@@ -17,9 +17,6 @@
 		var/datum/turf_reservation/reserved = SSmapping.used_turfs[get_turf(src)]
 		if(reserved && reserved.overmap_fallback)
 			return reserved.overmap_fallback
-	// We might be able to remove this last bit
-	var/area/AR = get_area(src)
-	return AR.overmap_fallback
 
 /**
 Helper method to get what ship an observer belongs to for stuff like parallax.
