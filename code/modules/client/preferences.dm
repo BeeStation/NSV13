@@ -179,7 +179,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[active_character.age]</a><BR>"
 
 			//NSV13 FLAVOR TEXT RELATED START
-			dat += "<a href='?_src_=prefs;flavor_text;task=input'><b>Set Flavor Text</b></a>"
+			dat += "<a href='?_src_=prefs;preference=flavor_text;task=input'><b>Set Flavor Text</b></a>"
 			if(length(active_character.flavor_text) <= 40)
 				if(!length(active_character.flavor_text))
 					dat += "\[...\]"
