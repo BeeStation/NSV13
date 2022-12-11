@@ -9,6 +9,7 @@
 	extended_desc = "This program records outbound and inbound hails. Can also keep a track of missions undertaken by the crew."
 	requires_ntnet = FALSE
 	usage_flags = PROGRAM_ALL
+	category = PROGRAM_CATEGORY_SUPL
 	size = 4
 	tgui_id = "NtosHailLogs"
 	var/obj/var/obj/structure/overmap/ship //Our ship
@@ -35,4 +36,4 @@
 
 /datum/computer_file/program/ship_hail_logger/ui_act(action, params)
 	if(..())
-		return TRUES
+		return TRUE
