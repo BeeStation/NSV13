@@ -289,7 +289,7 @@
 		targets += P
 	return targets
 
-
+// Proc for handling flak
 /obj/structure/overmap/proc/handle_flak()
 	if(fire_mode == FIRE_MODE_FLAK) //If theyre aiming the flak manually.
 		return
@@ -312,20 +312,7 @@
 			if(flak_left <= 0)
 				return
 
-	// Targets incoming missiles for flak
-	for(var/obj/item/projectile/guided_munition/incoming_missile in torpedoes_to_target)
-		if(QDELETED(incoming_missile))
-			continue
-		var/target_range = overmap_dist(incoming_missile, src)
-		// Don't engage until it's close, otherwise the flak will disappear
-		if((target_range > 30 || target_range <= 0))
-			continue
-		fire_weapon(incoming_missile, mode=FIRE_MODE_FLAK, lateral=TRUE)
-		flak_left--
-		if(flak_left <= 0)
-			return // So we don't do ship checks without any flak
-
-	// Targets hostile ships for flak
+	// Targets hostile ships for flak. Prioritized over missiles since PDC handles that.
 	for(var/obj/structure/overmap/ship in current_system.system_contents)
 		if(!ship || !istype(ship))
 			continue
@@ -336,7 +323,7 @@
 		if ( ship.essential )
 			continue
 		var/target_range = get_dist(ship,src)
-		if(target_range > 30 || target_range <= 0) // Don't cover ships far away, missile targeting handles that
+		if((target_range > 30 || target_range <= 0) && !(ship in enemies))
 			continue
 		if(!QDELETED(ship) && isovermap(ship) && ship.is_sensor_visible(src) >= SENSOR_VISIBILITY_TARGETABLE)
 			last_target = ship
@@ -345,12 +332,37 @@
 			if(flak_left <= 0)
 				return
 
+// Proc for handling missile intercept with PDC
+/obj/structure/overmap/proc/handle_pdc_intercept()
+	if(!weapon_types[FIRE_MODE_PDC])
+		return FALSE
+	if(light_shots_left <= 0) // Reloading
+		spawn(150)
+			light_shots_left = initial(light_shots_left)
+		return FALSE
+	if(!current_system)
+		return
+
+	// Target our incoming missiles
+	for(var/obj/item/projectile/guided_munition/incoming_missile in torpedoes_to_target)
+		if(QDELETED(incoming_missile))
+			continue
+		var/target_range = overmap_dist(incoming_missile, src)
+		// Don't engage until it's close
+		if((target_range > 30 || target_range <= 0))
+			continue
+		fire_weapon(incoming_missile, mode=FIRE_MODE_PDC, lateral=TRUE, ai_aim = TRUE)
+		if(!light_shots_left)
+			return
+
 /**
  * Handles the AMS system
  */
 /obj/structure/overmap/proc/handle_autonomous_targeting()
-	if(flak_battery_amount >= 1)
+	if(flak_battery_amount >= 1) // Anti-missile flak
 		handle_flak()
+	if(ai_controlled) // Anti-missile PDC
+		handle_pdc_intercept()
 
 	// Get all weapons designated as autonomous and prepare to fire
 	var/list/automated_weapons = list()
