@@ -18,6 +18,7 @@
 	var/show_asteroids = FALSE //Used so that mining can track what they're supposed to be drilling.
 	var/mining_sensor_tier = 1
 	var/last_ship_count = 0 //Plays a tone when ship count changes
+	var/last_missile_warning = 0 // Anti-spam for missile warning messages
 	//Alpha sliders to let you filter out info you don't want to see.
 	var/showFriendlies = 100
 	var/showEnemies= 100

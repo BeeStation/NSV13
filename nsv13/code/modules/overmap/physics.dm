@@ -606,7 +606,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	proj.faction = faction
 	if(physics2d && physics2d.collider2d)
 		proj.setup_collider()
-	if(proj.can_home)	//Lets not have projectiles home in on some random tile someone clicked on to launch
+	if(proj.can_home)	// Handles projectile homing and alerting the target
 		if(!isturf(target))
 			proj.set_homing_target(target)
 		else if((length(target_painted) > 0))
@@ -616,6 +616,9 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 				proj.set_homing_target(target_lock)
 			else // something fucked up, dump the lock
 				target_lock = null
+		if(isovermap(proj.homing_target))
+			var/obj/structure/overmap/overmap_target = proj.homing_target
+			overmap_target.on_missile_lock(src, proj)
 	if(gunner)
 		proj.firer = gunner
 	else

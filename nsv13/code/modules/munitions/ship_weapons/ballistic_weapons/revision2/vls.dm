@@ -270,7 +270,7 @@
 		ui.set_autoupdate(TRUE) // Ammo updates, loading delay
 
 /datum/ams_mode/countermeasures/acquire_targets(obj/structure/overmap/OM)
-	var/list/targets = list()
+	var/list/targets = OM.torpedoes_to_target.Copy(1, max_targets)
 	for(var/obj/item/projectile/guided_munition/P in SSprojectiles.processing)
 		if(!P || !istype(P))
 			continue
@@ -311,6 +311,21 @@
 			flak_left --
 			if(flak_left <= 0)
 				return
+
+	// Targets incoming missiles for flak
+	for(var/obj/item/projectile/guided_munition/incoming_missile in torpedoes_to_target)
+		if(QDELETED(incoming_missile))
+			continue
+		var/target_range = overmap_dist(incoming_missile, src)
+		// Don't engage until it's close, otherwise the flak will disappear
+		if((target_range > 30 || target_range <= 0))
+			continue
+		fire_weapon(incoming_missile, mode=FIRE_MODE_FLAK, lateral=TRUE)
+		flak_left--
+		if(flak_left <= 0)
+			return // So we don't do ship checks without any flak
+
+	// Targets hostile ships for flak
 	for(var/obj/structure/overmap/ship in current_system.system_contents)
 		if(!ship || !istype(ship))
 			continue
@@ -321,14 +336,14 @@
 		if ( ship.essential )
 			continue
 		var/target_range = get_dist(ship,src)
-		if((target_range > 30 || target_range <= 0) && !(ship in enemies)) // Don't cover ships halfway across the map unless they're targeting us
+		if(target_range > 30 || target_range <= 0) // Don't cover ships far away, missile targeting handles that
 			continue
 		if(!QDELETED(ship) && isovermap(ship) && ship.is_sensor_visible(src) >= SENSOR_VISIBILITY_TARGETABLE)
 			last_target = ship
 			fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
 			flak_left --
 			if(flak_left <= 0)
-				break
+				return
 
 /**
  * Handles the AMS system
@@ -390,3 +405,21 @@
 				flak_left --
 				if(flak_left <= 0)
 					break
+
+// Handles passing incoming missile launches to torpedo targeting and alerting the crew to a launch.
+// Paramaters: The launching ship, and the incoming projectile
+/obj/structure/overmap/proc/on_missile_lock(obj/structure/overmap/firer, obj/item/projectile/proj)
+	add_enemy(firer)
+	torpedoes_to_target += proj
+	RegisterSignal(proj, COMSIG_PARENT_QDELETING, .proc/remove_torpedo_target)
+	if(dradis)
+		dradis.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		if(COOLDOWN_FINISHED(dradis, last_missile_warning))
+			var/incoming_angle = round(overmap_angle(src, proj))
+			dradis.visible_message("<span class='warning'>STS tracking radar detected. Bearing: [incoming_angle].</span>")
+			COOLDOWN_START(dradis, last_missile_warning, 10 SECONDS)
+
+/obj/structure/overmap/proc/remove_torpedo_target(obj/item/projectile/proj)
+	SIGNAL_HANDLER
+	torpedoes_to_target -= proj
+	UnregisterSignal(proj, COMSIG_PARENT_QDELETING)
