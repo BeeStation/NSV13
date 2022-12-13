@@ -270,7 +270,7 @@
 		ui.set_autoupdate(TRUE) // Ammo updates, loading delay
 
 /datum/ams_mode/countermeasures/acquire_targets(obj/structure/overmap/OM)
-	var/list/targets = OM.torpedoes_to_target.Copy(1, max_targets)
+	var/list/targets = OM.torpedoes_to_target.Copy(1, min(length(OM.torpedoes_to_target), max_targets))
 	for(var/obj/item/projectile/guided_munition/P in SSprojectiles.processing)
 		if(!P || !istype(P))
 			continue
