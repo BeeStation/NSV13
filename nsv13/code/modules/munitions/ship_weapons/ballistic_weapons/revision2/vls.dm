@@ -428,7 +428,7 @@
 		dradis.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
 		if(COOLDOWN_FINISHED(dradis, last_missile_warning))
 			var/incoming_angle = round(overmap_angle(src, proj))
-			dradis.visible_message("<span class='warning'>STS tracking radar detected. Bearing: [incoming_angle].</span>")
+			dradis.visible_message("<span class='warning'>[icon2html(src, viewers(src))] WARNING: STS radar lock detected. Bearing: [incoming_angle].</span>")
 			COOLDOWN_START(dradis, last_missile_warning, 10 SECONDS)
 
 /obj/structure/overmap/proc/remove_torpedo_target(obj/item/projectile/proj)
