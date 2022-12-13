@@ -670,10 +670,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		if(overmap_dist(src, target) > max(dradis?.sensor_range * 2, target.sensor_profile))
 			dump_lock(target)
 			return
-		target_painted[target] = FALSE
-	for(var/obj/structure/overmap/OM in target_painted)
-		if(target_painted[target] != FALSE)
-			return
 	UnregisterSignal(data_link_origin, COMSIG_LOCK_LOST)
 
 /obj/structure/overmap/proc/update_gunner_cam(atom/target)

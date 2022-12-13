@@ -418,7 +418,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 
 	// Lock handling
 	for(var/obj/structure/overmap/OM in target_painted)
-		if(target_painted[OM] != FALSE) // Datalink target, something else is handling tracking for us
+		if(target_painted[OM]) // Datalink target, something else is handling tracking for us
 			continue
 		if(overmap_dist(src, OM) < max(dradis ? dradis.sensor_range * 2 : SENSOR_RANGE_DEFAULT, OM.sensor_profile) && OM.is_sensor_visible(src))
 			target_last_tracked[OM] = world.time // We can see the target, update tracking time
