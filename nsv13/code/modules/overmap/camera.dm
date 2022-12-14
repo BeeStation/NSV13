@@ -114,6 +114,9 @@
 	user.reset_perspective(eyeobj)
 	user.remote_control = eyeobj
 
+/obj/structure/overmap/proc/remove_eye_control()
+	return TRUE
+
 //Now it's time to handle people observing the ship.
 /mob/camera/ai_eye/remote/overmap_observer
 	name = "Inactive Camera Eye"
