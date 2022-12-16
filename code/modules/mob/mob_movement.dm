@@ -100,6 +100,12 @@
 	if(isAI(mob))
 		return AIMove(n,direct,mob)
 
+	if(mob.shifting)
+		mob.pixel_shift(direct)
+		return FALSE
+	else if(mob.is_shifted) //Cancels pixel offset on movement
+		mob.unpixel_shift()
+
 	if(Process_Grab()) //are we restrained by someone's grip?
 		return
 

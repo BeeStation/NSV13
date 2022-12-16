@@ -24,11 +24,11 @@ GLOBAL_VAR(exmap_initialized) // Exmap is windows only until I figure out how th
 }
 
 /datum/shape
-	var/datum/vector2d/position = null //Vector to represent our position in the game world. This is updated by whatever's moving us with pixelmovement.
+	var/matrix/vector/position = null //Vector to represent our position in the game world. This is updated by whatever's moving us with pixelmovement.
 	var/_angle = 0 //Orientation in radians. You are not meant to use this directly.
-	var/list/datum/vector2d/base_points = list()
-	var/list/datum/vector2d/rel_points = list() //The vertices that this collider holds. Relative to the position. If the shape's at 200,200, and we have a vertex at 10,5, the vertex is actually at 210,205 in world. These are pixel coordinates. Counterclockwise order.
-	var/list/datum/vector2d/normals = list()
+	var/list/matrix/vector/base_points = list()
+	var/list/matrix/vector/rel_points = list() //The vertices that this collider holds. Relative to the position. If the shape's at 200,200, and we have a vertex at 10,5, the vertex is actually at 210,205 in world. These are pixel coordinates. Counterclockwise order.
+	var/list/matrix/vector/normals = list()
 	var/list/aabb = list() //Cached points from AABB collision
 	var/width = 0
 	var/height = 0
@@ -36,7 +36,7 @@ GLOBAL_VAR(exmap_initialized) // Exmap is windows only until I figure out how th
 //All stuff that happens in C++ land must be declared here and wrapped later.
 // UPDATE: These functions have been deprecated since auxtools. Reimplementation should ideally be done via auxtool hooks (Rust) or DM if the function is not too expensive
 /datum/shape/proc/__foo()
-/datum/shape/proc/__get_seg_intersection(datum/vector2d/p0, datum/vector2d/p1, datum/vector2d/p2, datum/vector2d/p3)
+/datum/shape/proc/__get_seg_intersection(matrix/vector/p0, matrix/vector/p1, matrix/vector/p2, matrix/vector/p3)
 /datum/shape/proc/get_seg_intersection()
 /datum/shape/proc/__is_separating_axis(a_pos_x, a_pos_y, b_pos_x, b_pos_y, range_a_x, range_a_y, range_b_x, range_b_y, axis_x, axis_y)
 /datum/shape/proc/is_separating_axis()
@@ -46,10 +46,10 @@ GLOBAL_VAR(exmap_initialized) // Exmap is windows only until I figure out how th
 
 //Constructor for shape objects, taking in parameters they may initially need
 
-/datum/shape/New(datum/vector2d/position, list/points, _angle=0)
+/datum/shape/New(matrix/vector/position, list/points, _angle=0)
 	. = ..()
 	if(!position)
-		position = new /datum/vector2d()
+		position = new /matrix/vector()
 	src.position = position
 	src._angle = _angle
 	set_points(points)
@@ -60,8 +60,8 @@ Method to set our position to a new one.
 */
 
 /datum/shape/proc/_set(_x, _y)
-	position.x = _x
-	position.y = _y
+	position.a = _x
+	position.e = _y
 
 /*
 Method to set our points to a new list of points
@@ -73,8 +73,8 @@ Method to set our points to a new list of points
 		rel_points.len = 0
 		normals.len = 0
 		for (var/i in 1 to length(points))
-			rel_points.Add(new /datum/vector2d(0,0))
-			normals.Add(new /datum/vector2d(0,0))
+			rel_points.Add(new /matrix/vector(0,0))
+			normals.Add(new /matrix/vector(0,0))
 
 	base_points = points
 	_recalc()
@@ -96,7 +96,7 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 
 /datum/shape/proc/_recalc()
 	for(var/i in 1 to src.base_points.len)
-		var/datum/vector2d/rel_point = src.base_points[i].clone()
+		var/matrix/vector/rel_point = src.base_points[i].clone()
 		rel_point.rotate(src._angle)
 		src.rel_points[i].copy(rel_point)
 
@@ -108,15 +108,15 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 	var/max_y = -INFINITY
 	//Recalculate the points
 	for(var/i in 1 to length(rel_points))
-		var/datum/vector2d/p1 = src.rel_points[i]
-		var/datum/vector2d/p2 = i < src.base_points.len ? src.rel_points[i+1] : src.rel_points[1]
+		var/matrix/vector/p1 = src.rel_points[i]
+		var/matrix/vector/p2 = i < src.base_points.len ? src.rel_points[i+1] : src.rel_points[1]
 
-		if(p1.x < min_x) min_x = p1.x
-		if(p1.y < min_y) min_y = p1.y
-		if(p1.x > max_x) max_x = p1.x
-		if(p1.y > max_y) max_y = p1.y
+		if(p1.a < min_x) min_x = p1.a
+		if(p1.e < min_y) min_y = p1.e
+		if(p1.a > max_x) max_x = p1.a
+		if(p1.e > max_y) max_y = p1.e
 
-		var/datum/vector2d/edge = p2 - p1
+		var/matrix/vector/edge = p2 - p1
 
 		src.normals[i].copy(edge.perp().normalize())
 	width = max_x - min_x
@@ -127,11 +127,11 @@ Method to recalculate our bounding box, adjusting the relative positions accordi
 Simple method to calculate whether we collide with another shape object, lightweight but not hugely precise for non-rectangle colliders.
 */
 /datum/shape/proc/test_aabb(datum/shape/O)
-	return position.x < O.position.x + O.width && position.x + width > O.position.x && position.y < O.position.y + O.height && position.y + height > O.position.y
+	return position.a < O.position.a + O.width && position.a + width > O.position.a && position.e < O.position.e + O.height && position.e + height > O.position.e
 
 /datum/shape/proc/get_global_points()
-	var/list/datum/vector2d/global_points = list()
-	for (var/datum/vector2d/point as() in rel_points)
+	var/list/matrix/vector/global_points = list()
+	for (var/matrix/vector/point as() in rel_points)
 		global_points.Add(point + position)
 
 	return global_points
@@ -146,11 +146,11 @@ to say that we don't need the added cost (and extra precision) of SAT.
 	if(!test_aabb(other))
 		return FALSE
 
-	for (var/datum/vector2d/norm as() in src.normals)
+	for (var/matrix/vector/norm as() in src.normals)
 		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm, c_response))
 			return FALSE
 
-	for (var/datum/vector2d/norm as() in other.normals)
+	for (var/matrix/vector/norm as() in other.normals)
 		if(is_separating_axis(src.position, other.position, src.rel_points, other.rel_points, norm, c_response))
 			return FALSE
 	if (c_response)
@@ -166,16 +166,16 @@ Find the average collision point between two shapes. Usually ends up being prett
 @returns vector2d of closest point
 */
 /datum/shape/proc/get_collision_point(var/datum/shape/other)
-	var/datum/vector2d/closest_point = new /datum/vector2d()
+	var/matrix/vector/closest_point = new /matrix/vector()
 
-	var/list/datum/vector2d/src_points = src.get_global_points()
-	var/list/datum/vector2d/other_points = other.get_global_points()
+	var/list/matrix/vector/src_points = src.get_global_points()
+	var/list/matrix/vector/other_points = other.get_global_points()
 
-	var/list/datum/vector2d/collision_points = list()
+	var/list/matrix/vector/collision_points = list()
 
 	for (var/src_i = 1, src_i < length(src_points), src_i++)
 		for (var/other_i = 1, other_i < length(other_points), other_i++)
-			var/datum/vector2d/intersection = get_seg_intersection(src_points[src_i], src_points[src_i+1], other_points[other_i], other_points[other_i+1])
+			var/matrix/vector/intersection = get_seg_intersection(src_points[src_i], src_points[src_i+1], other_points[other_i], other_points[other_i+1])
 			if(intersection)
 				collision_points.Add(intersection)
 
@@ -183,33 +183,33 @@ Find the average collision point between two shapes. Usually ends up being prett
 	var/CPL = length(collision_points)
 	if(!CPL)
 		return
-	for (var/datum/vector2d/collision_point as() in collision_points)
+	for (var/matrix/vector/collision_point as() in collision_points)
 		closest_point += collision_point
 
-	closest_point.x /= CPL
-	closest_point.y /= CPL
+	closest_point.a /= CPL
+	closest_point.e /= CPL
 
 	return closest_point
 
-/datum/shape/get_seg_intersection(datum/vector2d/p0, datum/vector2d/p1, datum/vector2d/p2, datum/vector2d/p3)
-	var/list/out = __get_seg_intersection(p0.x, p0.y, p1.x, p1.y, p2.x, p2.y, p3.x,p3.y)
-	return out ? new /datum/vector2d(out[1], out[2]) : FALSE
+/datum/shape/get_seg_intersection(matrix/vector/p0, matrix/vector/p1, matrix/vector/p2, matrix/vector/p3)
+	var/list/out = __get_seg_intersection(p0.a, p0.e, p1.a, p1.e, p2.a, p2.e, p3.a,p3.e)
+	return out ? new /matrix/vector(out[1], out[2]) : FALSE
 
-/datum/shape/flatten_points_on(list/points, datum/vector2d/normal)
-	RETURN_TYPE(/datum/vector2d)
+/datum/shape/flatten_points_on(list/points, matrix/vector/normal)
+	RETURN_TYPE(/matrix/vector)
 	var/list/_points = list()
-	for(var/datum/vector2d/point as() in points)
-		_points += point.x
-		_points += point.y
-	var/out = __flatten_points_on(_points, normal.x, normal.y, points.len*2)
+	for(var/matrix/vector/point as() in points)
+		_points += point.a
+		_points += point.e
+	var/out = __flatten_points_on(_points, normal.a, normal.e, points.len*2)
 	//message_admins("Contents of [out]:")
 	//message_admins("Flattened points: [out[1]], [out[2]]")
-	return new /datum/vector2d(out[1], out[2])
+	return new /matrix/vector(out[1], out[2])
 
-/datum/shape/is_separating_axis(datum/vector2d/a_pos, datum/vector2d/b_pos, list/datum/vector2d/a_points, list/datum/vector2d/b_points, datum/vector2d/axis, datum/collision_response/c_response)
-	var/datum/vector2d/range_a = flatten_points_on(a_points, axis)
-	var/datum/vector2d/range_b = flatten_points_on(b_points, axis)
-	var/out = __is_separating_axis(a_pos.x, a_pos.y, b_pos.x, b_pos.y, range_a.x, range_a.y,range_b.x, range_b.y , axis.x, axis.y)
+/datum/shape/is_separating_axis(matrix/vector/a_pos, matrix/vector/b_pos, list/matrix/vector/a_points, list/matrix/vector/b_points, matrix/vector/axis, datum/collision_response/c_response)
+	var/matrix/vector/range_a = flatten_points_on(a_points, axis)
+	var/matrix/vector/range_b = flatten_points_on(b_points, axis)
+	var/out = __is_separating_axis(a_pos.a, a_pos.e, b_pos.a, b_pos.e, range_a.a, range_a.e,range_b.a, range_b.e , axis.a, axis.e)
 	if(islist(out) && c_response)
 		c_response.a_in_b = out[1]
 		c_response.b_in_a = out[2]
