@@ -39,15 +39,16 @@
 	var/radar_delay = MIN_RADAR_DELAY
 	// Whether we use DRADIS-assisted targeting.
 	var/dradis_targeting = FALSE
+	// Whether we can use the radar
+	var/can_use_radar = TRUE
 
 /obj/machinery/computer/ship/dradis/proc/can_radar_pulse()
+	if(!can_use_radar)
+		return FALSE
 	var/obj/structure/overmap/OM = get_overmap()
 	var/next_pulse = OM.last_radar_pulse + radar_delay
 	if(world.time >= next_pulse)
 		return TRUE
-
-/obj/machinery/computer/ship/dradis/internal/can_radar_pulse()
-	return FALSE
 
 /obj/machinery/computer/ship/dradis/internal/awacs/can_radar_pulse()
 	var/obj/structure/overmap/OM = loc
@@ -56,9 +57,6 @@
 	var/next_pulse = OM.last_radar_pulse + radar_delay
 	if(world.time >= next_pulse)
 		return TRUE
-
-/obj/machinery/computer/ship/dradis/minor/can_radar_pulse()
-	return FALSE
 
 
 /*
@@ -127,6 +125,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/minor //Secondary dradis consoles usable by people who arent on the bridge. All secondary dradis consoles should be a subtype of this
 	name = "air traffic control console"
+	can_use_radar = FALSE
 
 /obj/machinery/computer/ship/dradis/minor/cargo //Another dradis like air traffic control, links to cargo torpedo tubes and delivers freight
 	name = "\improper Cargo freight delivery console"
@@ -184,6 +183,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	start_with_sound = FALSE
 	base_sensor_range = SENSOR_RANGE_FIGHTER
 	hail_range = 30
+	can_use_radar = FALSE
 
 /obj/machinery/computer/ship/dradis/internal/has_overmap()
 	return linked
@@ -433,6 +433,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			send_radar_pulse()
 	else
 		data["can_radar_pulse"] = FALSE
+	data["can_use_radar"] = can_use_radar
 	return data
 
 /datum/asset/simple/overmap_flight
