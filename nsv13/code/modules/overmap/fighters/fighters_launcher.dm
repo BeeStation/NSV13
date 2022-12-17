@@ -271,7 +271,7 @@
 	check_overmap_elegibility()
 
 /obj/structure/overmap/small_craft/proc/check_overmap_elegibility(ignore_position = FALSE, ignore_cooldown = FALSE) //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
-	if(!ignore_position && !is_near_boundary())
+	if(!ignore_position && !is_near_boundary() && !pilot)
 		return FALSE
 	if(!ignore_cooldown && is_docking_on_cooldown())
 		return FALSE
