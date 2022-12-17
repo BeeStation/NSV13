@@ -365,7 +365,7 @@
 	icon_state ="cooked_book"
 	author = "the Kanamitan Empire"
 	title = "To Serve Man"
-	page_link = "Guide_to_food" //NSV13 - Splitted the Guide to Food and Drinks into Two Seperate Pages
+	page_link = "Guide_to_food" //NSV13 - Split the Guide to Food and Drinks into two separate pages
 
 /obj/item/book/manual/wiki/tcomms
 	name = "Subspace Telecommunications And You"
