@@ -329,7 +329,7 @@
 	icon_state = "barbook"
 	author = "Sir John Rose"
 	title = "Barman Recipes: Mixing Drinks and Changing Lives"
-	page_link = "Guide_to_drinks" //NSV13 - Splitted the Guide to Food and Drinks into Two Seperate Pages
+	page_link = "Guide_to_drinks" //NSV13 - Split the Guide to Food and Drinks into two separate pages
 
 /obj/item/book/manual/wiki/robotics_cyborgs
 	name = "Robotics for Dummies"
