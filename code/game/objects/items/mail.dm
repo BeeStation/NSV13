@@ -252,7 +252,7 @@
 	//better spam mail names instead of being "IMPORTANT MAIL", courtesy of Monkestation
 	color = "#[pick(random_short_color())]"
 	if(recipient)
-		name = special_name ? junk_names[junk] : "[initial(name)] for [recipient.name] ([recipient.assigned_role])"
+		name = "[initial(name)] for [recipient.name] ([recipient.assigned_role])"
 		recipient_ref = WEAKREF(recipient)
 	else
 		switch(rand(1,10))
