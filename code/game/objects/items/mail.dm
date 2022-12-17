@@ -243,10 +243,10 @@
 						))
 	//NSV13 - Changes Start - Changes to Junk Mail Spawning
 	var/list/junk_names = list(
-		/obj/item/paper/pamphlet/gateway = "[initial(name)] for [recipient.name] ([recipient.assigned_role])",
-		/obj/item/paper/pamphlet/violent_video_games = "[initial(name)] for [recipient.name] ([recipient.assigned_role])",
-		/obj/item/paper/fluff/junkmail_redpill = "[initial(name)] critcal to [recipient.name] ([recipient.assigned_role])",
-		/obj/item/paper/fluff/nice_argument = "[initial(name)] critical to [recipient.name] ([recipient.assigned_role])",
+		/obj/item/paper/pamphlet/gateway = "[initial(name)] for [pick(GLOB.adjectives)] adventurers",
+		/obj/item/paper/pamphlet/violent_video_games = "[initial(name)] for the truth about the arcade centcom doesn't want to hear",
+		/obj/item/paper/fluff/junkmail_redpill = "[initial(name)] for those feeling [pick(GLOB.adjectives)] working at Nanotrasen",
+		/obj/item/paper/fluff/nice_argument = "[initial(name)] with INCREDIBLY IMPORTANT ARTIFACT- DELIVER TO SCIENCE DIVISION. HANDLE WITH CARE.",
 	)
 
 	//better spam mail names instead of being "IMPORTANT MAIL", courtesy of Monkestation
