@@ -1849,7 +1849,6 @@ Control Rods
 	extended_desc = "This program connects to specially calibrated sensors to provide information on the status of the storm drive."
 	requires_ntnet = TRUE
 	transfer_access = ACCESS_CONSTRUCTION
-	category = PROGRAM_CATEGORY_ENGI
 	network_destination = "storm drive monitoring system"
 	size = 2
 	tgui_id = "NtosStormdriveMonitor"

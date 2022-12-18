@@ -18,7 +18,6 @@
 	inherent_factions = list("slime")
 	species_language_holder = /datum/language_holder/jelly
 	swimming_component = /datum/component/swimming/dissolve
-	ass_image = 'icons/ass/assslime.png' //NSV13
 
 
 	species_chest = /obj/item/bodypart/chest/jelly
