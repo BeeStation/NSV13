@@ -19,6 +19,9 @@
 	var/datum/reagent/reagent_id = null
 	///reagent overlay. its the colored pipe thingies. we track this because overlays.Cut() is bad
 	var/image/r_overlay
+
+//NSV 13 Removed the two vars here for matter cartridge requirements. Need speedy heals
+
 	///straight up copied from chem dispenser. Being a subtype would be extremely tedious and making it global would restrict potential subtypes using different dispensable_reagents
 	var/list/dispensable_reagents = list(
 		/datum/reagent/aluminium,
@@ -91,6 +94,8 @@
 
 	data["current_reagent"] = ckey(initial(reagent_id.name))
 	return data
+
+//NSV13 Removed need for matter cartridges, need speedy heals pls
 
 /obj/machinery/plumbing/synthesizer/ui_act(action, params)
 	if(..())
