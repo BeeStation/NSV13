@@ -52,6 +52,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/mutable_appearance/canopy
 	var/random_name = TRUE
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/change_name, .verb/countermeasure)
+	var/busy = FALSE
 
 /obj/structure/overmap/small_craft/Destroy()
 	var/mob/last_pilot = pilot // Old pilot gets first shot
@@ -529,7 +530,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 		OM.mobs_in_ship -= user
 	user.forceMove(src)
 	mobs_in_ship |= user
-	if((user.client?.prefs.toggles & SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
+	user.last_overmap = src //Allows update_overmap to function properly when the pilot leaves their fighter
+	if((user.client?.prefs.toggles & PREFTOGGLE_SOUND_AMBIENCE) && user.can_hear_ambience() && engines_active()) //Disable ambient sounds to shut up the noises.
 		SEND_SOUND(user, sound('nsv13/sound/effects/fighters/cockpit.ogg', repeat = TRUE, wait = 0, volume = 50, channel=CHANNEL_SHIP_ALERT))
 
 /obj/structure/overmap/small_craft/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
@@ -740,15 +742,27 @@ Been a mess since 2018, we'll fix it someday (probably)
 	relay('nsv13/sound/effects/ship/reactor/gasmask.ogg', "<span class='warning'>The air around you rushes out of the breached canopy!</span>", loop = FALSE, channel = CHANNEL_SHIP_ALERT)
 
 /obj/structure/overmap/small_craft/welder_act(mob/living/user, obj/item/I)
-	. = ..()
+	if(user.a_intent == INTENT_HARM)
+		return FALSE
 	if(obj_integrity >= max_integrity)
 		to_chat(user, "<span class='notice'>[src] isn't in need of repairs.</span>")
-		return FALSE
-	to_chat(user, "<span class='notice'>You start welding some dents out of [src]'s hull...</span>")
-	if(I.use_tool(src, user, 4 SECONDS, volume=100))
-		to_chat(user, "<span class='notice'>You weld some dents out of [src]'s hull.</span>")
-		obj_integrity += min(10, max_integrity-obj_integrity)
 		return TRUE
+	if(busy)
+		to_chat(user, "<span class='warning'>Someone's already repairing [src]!</span>")
+		return TRUE
+	busy = TRUE
+	to_chat(user, "<span class='notice'>You start welding some dents out of [src]'s hull...</span>")
+	while(obj_integrity < max_integrity)
+		if(!I.use_tool(src, user, 1 SECONDS, volume=100))
+			busy = FALSE
+			return TRUE
+		obj_integrity += 25
+		if(obj_integrity >= max_integrity)
+			obj_integrity = max_integrity
+			break
+	to_chat(user, "<span class='notice'>You finish welding[obj_integrity == max_integrity ? "" : " some of"] the dents out of [src]'s hull.</span>")
+	busy = FALSE
+	return TRUE
 
 /obj/structure/overmap/small_craft/InterceptClickOn(mob/user, params, atom/target)
 	if(user.incapacitated() || !isliving(user))
@@ -955,18 +969,31 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	obj_integrity = 250
 	max_integrity = 250
 	armor = list("melee" = 50, "bullet" = 40, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 80) //Armour's pretty tough.
+	var/repair_speed = 25 // How much integrity you can repair per second
+	var/busy = FALSE
 
 //Sometimes you need to repair your physical armour plates.
 /obj/item/fighter_component/armour_plating/welder_act(mob/living/user, obj/item/I)
-	. = ..()
+	if(user.a_intent == INTENT_HARM)
+		return FALSE
 	if(obj_integrity >= max_integrity)
 		to_chat(user, "<span class='notice'>[src] isn't in need of repairs.</span>")
-		return FALSE
-	to_chat(user, "<span class='notice'>You start welding some dents out of [src]...</span>")
-	if(I.use_tool(src, user, 4 SECONDS, volume=100))
-		to_chat(user, "<span class='notice'>You weld some dents out of [src].</span>")
-		obj_integrity += min(10, max_integrity-obj_integrity)
 		return TRUE
+	if(busy)
+		to_chat(user, "<span class='warning'>Someone's already repairing [src]!</span>")
+		return TRUE
+	busy = TRUE
+	to_chat(user, "<span class='notice'>You start welding some dents out of [src]...</span>")
+	while(obj_integrity < max_integrity)
+		if(!I.use_tool(src, user, 1 SECONDS, volume=100))
+			busy = FALSE
+			return TRUE
+		obj_integrity += 25
+		if(obj_integrity >= max_integrity)
+			obj_integrity = max_integrity
+			break
+	to_chat(user, "<span class='notice'>You finish welding[obj_integrity == max_integrity ? "" : " some of"] the dents out of [src].</span>")
+	busy = FALSE
 
 /obj/item/fighter_component/armour_plating/tier2
 	name = "ultra heavy fighter armour"

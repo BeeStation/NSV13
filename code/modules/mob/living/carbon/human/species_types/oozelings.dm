@@ -19,6 +19,7 @@
 	species_language_holder = /datum/language_holder/oozeling
 	swimming_component = /datum/component/swimming/dissolve
 	inert_mutation = ACIDOOZE
+	ass_image = 'icons/ass/assslime.png' //NSV13
 
 	species_chest = /obj/item/bodypart/chest/oozeling
 	species_head = /obj/item/bodypart/head/oozeling
