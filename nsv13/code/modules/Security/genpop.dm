@@ -141,7 +141,7 @@
 	if(machine_stat & BROKEN)
 		return FALSE
 	var/allowed = allowed(mover)
-	//Sec can drag you out unceremoniously.
+	////Everyone with access (including released prisoners) can drag you out.
 	if(!allowed && mover.pulledby)
 		allowed = allowed(mover.pulledby)
 	if(get_dir(loc, target) == dir || allowed) //Make sure looking at appropriate border
