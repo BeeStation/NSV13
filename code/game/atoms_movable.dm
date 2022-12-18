@@ -347,7 +347,7 @@
 	. = TRUE
 
 	if(old_locs) // This condition will only be true if it is a multi-tile object.
-		for(var/atom/exited_loc as anything in (old_locs - new_locs))
+		for(var/atom/exited_loc as anything in (old_locs - (new_locs - oldloc)))
 			exited_loc.Exited(src, direction)
 	else // Else there's just one loc to be exited.
 		oldloc.Exited(src, direction)
@@ -355,7 +355,7 @@
 		oldarea.Exited(src, direction)
 
 	if(new_locs) // Same here, only if multi-tile.
-		for(var/atom/entered_loc as anything in (new_locs - old_locs))
+		for(var/atom/entered_loc as anything in (new_locs - (old_locs - newloc)))
 			entered_loc.Entered(src, oldloc, old_locs)
 	else
 		newloc.Entered(src, oldloc, old_locs)
