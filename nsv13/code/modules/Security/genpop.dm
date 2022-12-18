@@ -105,26 +105,65 @@
 	else
 		return ..()
 
+
 /obj/machinery/turnstile/Initialize(mapload)
 	. = ..()
 	icon_state = "turnstile"
+	//Attach a signal handler to the turf below for when someone passes through.
+	//Signal automatically gets unattached and reattached when we're moved.
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = .proc/on_entered,
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
-//Shock mobs attempting to pass through if we're broken
-/obj/machinery/turnstile/Bumped(atom/movable/AM)
-	. = ..()
-	if(!(machine_stat & BROKEN))
-		return
-	if(!istype(AM, /mob))
-		return
-	shock(AM)
+/obj/machinery/turnstile/proc/on_entered(datum/source, atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+	SIGNAL_HANDLER
+	if(istype(arrived, /mob))
+		flick("operate", src)
+		playsound(src,'sound/items/ratchet.ogg',50,0,3)
 
-//Shock attacker if we're broken
-/obj/machinery/turnstile/attackby(obj/item/W, mob/user, params)
+///Handle movables (especially mobs) bumping into us.
+/obj/machinery/turnstile/Bumped(atom/movable/movable)
 	. = ..()
+	if(!istype(movable, /mob)) //just let non-mobs bump
+		return
+	if(machine_stat & BROKEN) //try to shock mobs if we're broken
+		try_shock(movable)
+		return
+	//pretend to be an airlock if a mob bumps us
+	//(which means they tried to move through but didn't have access)
+	flick("deny", src)
+	playsound(src,'sound/machines/deniedbeep.ogg',50,0,3)
+
+///Shock attacker if we're broken, get repaired if weldered
+/obj/machinery/turnstile/attackby(obj/item/item, mob/user, params)
+	if(item.tool_behaviour == TOOL_WELDER)
+		try_to_repair(item, user)
+		return 1
 	if(machine_stat & BROKEN)
-		shock(user)
+		try_shock(user)
+	. = ..()
 
-//Mark as broken when below 30% health.
+///Handle someone trying to repair us. Produces appropriate chat messages.
+/obj/machinery/turnstile/proc/try_to_repair(obj/item/weldingtool/W, mob/user)
+	//Shamelessly copied airlock code
+	if(obj_integrity >= max_integrity)
+		to_chat(user, "<span class='notice'>The turnstile doesn't need repairing.</span>")
+		return
+	if(!W.tool_start_check(user, amount=0))
+		return
+	user.visible_message("[user] is welding the turnstile.", \
+				"<span class='notice'>You begin repairing the turnstile...</span>", \
+				"<span class='italics'>You hear welding.</span>")
+	if(W.use_tool(src, user, 40, volume=50))
+		obj_integrity = max_integrity
+		set_machine_stat(machine_stat & ~BROKEN)
+		user.visible_message("[user.name] has repaired [src].", \
+							"<span class='notice'>You finish repairing the turnstile.</span>")
+		update_icon()
+		return
+
+///Mark as broken when below 30% health.
 /obj/machinery/turnstile/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
 	. = ..()
 	var/healthpercent = (obj_integrity/max_integrity) * 100
@@ -137,18 +176,15 @@
 		return TRUE //Allow certain things declared with pass_flags_self through wihout side effects
 	if(machine_stat & BROKEN)
 		return FALSE
+	if(get_dir(loc, target) == dir) //Always let people through in one direction
+		return TRUE
 	var/allowed = allowed(mover)
-	////Everyone with access (including released prisoners) can drag you out.
+	//Everyone with access (including released prisoners) can drag you out.
 	if(!allowed && mover.pulledby)
 		allowed = allowed(mover.pulledby)
-	if(get_dir(loc, target) == dir || allowed) //Make sure looking at appropriate border
-		flick("operate", src)
-		playsound(src,'sound/items/ratchet.ogg',50,0,3)
+	if(allowed)
 		return TRUE
-	else
-		flick("deny", src)
-		playsound(src,'sound/machines/deniedbeep.ogg',50,0,3)
-		return FALSE
+	return FALSE
 
 /obj/machinery/turnstile/proc/has_power()
 	if(machine_stat & NOPOWER)
@@ -156,7 +192,7 @@
 	return TRUE
 
 ///Shock user if we can
-/obj/machinery/turnstile/proc/shock(mob/user)
+/obj/machinery/turnstile/proc/try_shock(mob/user)
 	if(!has_power())		// unpowered, no shock
 		return FALSE
 	if(!COOLDOWN_FINISHED(src, shock_cooldown)) //Don't shock in very short succession to avoid stuff getting out of hand.
