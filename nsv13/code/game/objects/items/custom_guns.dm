@@ -151,3 +151,20 @@
 	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
 	max_ammo = 6
 	multiple_sprites = 1
+
+/obj/item/gun/ballistic/rifle/boltaction/pdc
+	name = "\improper Point Defence Rifle"
+	desc = "A rifle made to fire PDC rounds."
+	icon = 'nsv13/icons/obj/guns/projectile.dmi'
+	icon_state = "pdcrifle"
+	item_state = "pdcrifle"
+	worn_icon_state = "moistnugget"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/guns_righthand.dmi'
+	slot_flags = ITEM_SLOT_BACK
+	mag_type = /obj/item/ammo_box/magazine/internal/boltaction/pdc
+	can_bayonet = TRUE
+	knife_x_offset = 27
+	knife_y_offset = 13
+	w_class = WEIGHT_CLASS_NORMAL // It's a syndicate weapon so weight is reduced to allow it to be hidden in backpacks
+	weapon_weight = WEAPON_MEDIUM
