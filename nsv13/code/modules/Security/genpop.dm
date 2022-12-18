@@ -12,6 +12,7 @@
 	icon_state = "turnstile_map"
 	power_channel = AREA_USAGE_ENVIRON
 	density = TRUE
+	pass_flags_self = PASSGLASS | LETPASSTHROW | PASSGRILLE | PASSSTRUCTURE
 	obj_integrity = 250
 	max_integrity = 250
 	//Robust! It'll be tough to break...
@@ -23,6 +24,8 @@
 	layer = OPEN_DOOR_LAYER
 	//Seccies and brig phys may always pass, either way.
 	req_one_access = list(ACCESS_BRIG, ACCESS_BRIGPHYS, ACCESS_PRISONER)
+	//Cooldown so we don't shock a million times a second
+	COOLDOWN_DECLARE(shock_cooldown)
 
 //Executive officer's line variant. For rule of cool.
 /obj/machinery/turnstile/xo
@@ -109,12 +112,34 @@
 /obj/machinery/turnstile/CanAtmosPass(turf/T)
 	return TRUE
 
+//Shock mobs attempting to pass through if we're broken
+/obj/machinery/turnstile/Bumped(atom/movable/AM)
+	. = ..()
+	if(!(machine_stat & BROKEN))
+		return
+	if(!istype(AM, /mob))
+		return
+	shock(AM)
+
+//Shock attacker if we're broken
+/obj/machinery/turnstile/attackby(obj/item/W, mob/user, params)
+	. = ..()
+	if(machine_stat & BROKEN)
+		shock(user)
+
+//Mark as broken when below 30% health.
+/obj/machinery/turnstile/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
+	. = ..()
+	var/healthpercent = (obj_integrity/max_integrity) * 100
+	if(healthpercent < 30)
+		machine_stat |= BROKEN
+
 /obj/machinery/turnstile/CanAllowThrough(atom/movable/mover, turf/target)
 	. = ..()
-	if(istype(mover) && (mover.pass_flags & PASSGLASS))
-		return TRUE
-	if(!isliving(mover))
-		return TRUE
+	if(. == TRUE)
+		return TRUE //Allow certain things declared with pass_flags_self through wihout side effects
+	if(machine_stat & BROKEN)
+		return FALSE
 	var/allowed = allowed(mover)
 	//Sec can drag you out unceremoniously.
 	if(!allowed && mover.pulledby)
@@ -127,6 +152,25 @@
 		flick("deny", src)
 		playsound(src,'sound/machines/deniedbeep.ogg',50,0,3)
 		return FALSE
+
+/obj/machinery/turnstile/proc/has_power()
+	if(machine_stat & NOPOWER)
+		return FALSE
+	return TRUE
+
+///Shock user if we can
+/obj/machinery/turnstile/proc/shock(mob/user)
+	if(!has_power())		// unpowered, no shock
+		return FALSE
+	if(!COOLDOWN_FINISHED(src, shock_cooldown)) //Don't shock in very short succession to avoid stuff getting out of hand.
+		return FALSE
+	COOLDOWN_START(src, shock_cooldown, 0.5 SECONDS)
+	do_sparks(5, TRUE, src)
+	if(electrocute_mob(user, power_source = get_area(src), source = src, dist_check = TRUE))
+		return TRUE
+	else
+		return FALSE
+
 
 //Officer interface.
 /obj/machinery/genpop_interface
