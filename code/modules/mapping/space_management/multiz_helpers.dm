@@ -56,7 +56,7 @@
 	//Iterate upwards.
 	var/i = 0
 	while(isturf(temp))
-		. += temp.z	//NSV13 - stop reverting my multiz fixes.
+		. += temp
 		i ++
 		if(i >= max_z_range)
 			break
@@ -65,7 +65,7 @@
 	temp = center_turf.below()
 	i = 0
 	while(isturf(temp))
-		. += temp.z	//NSV13 - stop reverting my multiz fixes.
+		. += temp
 		i ++
 		if(i >= max_z_range)
 			break
