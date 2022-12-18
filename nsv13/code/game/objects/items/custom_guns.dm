@@ -145,6 +145,8 @@
 	desc = "A rifle made to fire PDC rounds."
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "pdcrifle"
+	item_state = "pdcrifle"
+	worn_icon_state = "moistnugget"
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/guns_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/guns_righthand.dmi'
 	slot_flags = ITEM_SLOT_BACK
