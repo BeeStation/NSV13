@@ -57,6 +57,7 @@
 
 /obj/item/ammo_box/magazine/internal/boltaction/pdc
 	max_ammo = 3
+
 /obj/item/ammo_casing/pdc
 	name = "30.12x82mm bullet casing"
 	desc = "A 30.12x82mm bullet casing."
