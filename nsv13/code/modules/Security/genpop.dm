@@ -109,9 +109,6 @@
 	. = ..()
 	icon_state = "turnstile"
 
-/obj/machinery/turnstile/CanAtmosPass(turf/T)
-	return TRUE
-
 //Shock mobs attempting to pass through if we're broken
 /obj/machinery/turnstile/Bumped(atom/movable/AM)
 	. = ..()
