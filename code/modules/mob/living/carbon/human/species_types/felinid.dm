@@ -8,6 +8,7 @@
 	mutant_bodyparts = list("ears", "tail_human")
 	default_features = list("mcolor" = "FFF", "wings" = "None", "body_size" = "Normal")
 	forced_features = list("tail_human" = "Cat", "ears" = "Cat")
+	ass_image = 'icons/ass/asscat.png' //NSV13
 
 	mutantears = /obj/item/organ/ears/cat
 	mutanttail = /obj/item/organ/tail/cat

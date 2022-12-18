@@ -81,7 +81,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/atom/movable/holder = null
 	var/datum/shape/collider2d = null //Our box collider. See the collision module for explanation
 	var/datum/quadtree/last_node = null // The last quadtree node we were at.
-	var/datum/vector2d/position = null //Positional vector, used exclusively for collisions with overmaps
+	var/matrix/vector/position = null //Positional vector, used exclusively for collisions with overmaps
 	var/last_registered_z = 0
 
 	// rounded to multiple of 128 (changes every 4 tiles)
@@ -119,11 +119,11 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	return ..()
 
 /datum/component/physics2d/proc/setup(list/hitbox, angle)
-	position = new /datum/vector2d(holder.x*32,holder.y*32)
+	position = new /matrix/vector(holder.x*32,holder.y*32)
 	collider2d = new /datum/shape(position, hitbox, angle) // -TORADIANS(src.angle-90)
 	last_registered_z = holder.z
-	last_x_clamped = round(position.x, 128)
-	last_y_clamped = round(position.y, 128)
+	last_x_clamped = round(position.a, 128)
+	last_y_clamped = round(position.e, 128)
 	last_node = SSphysics_processing.AddToLevel(src, last_registered_z)
 
 /// Uses pixel coordinates
@@ -166,7 +166,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	var/weight = 0 // how many objects are stored within this tree/leaf recursively.
 	var/depth = 0
 	var/list/subnodes // dynamically initialized because length() is slower than a reference check
-	var/datum/vector2d/pos // pixel coordinates
+	var/matrix/vector/pos // pixel coordinates
 	// pixel rectangle bounds relative to world (AABB).
 	var/XMin
 	var/XMax
@@ -220,10 +220,10 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 		subnodes = CS
 	else
 		subnodes = list()
-		subnodes[TOPLEFT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x + childWidth, pos.y, childWidth, childHeight)
-		subnodes[TOPRIGHT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x, pos.y, childWidth, childHeight)
-		subnodes[BOTTOMLEFT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x, pos.y + childHeight, childWidth, childHeight)
-		subnodes[BOTTOMRIGHT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.x + childWidth, pos.y + childHeight, childWidth, childHeight)
+		subnodes[TOPLEFT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.a + childWidth, pos.e, childWidth, childHeight)
+		subnodes[TOPRIGHT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.a, pos.e, childWidth, childHeight)
+		subnodes[BOTTOMLEFT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.a, pos.e + childHeight, childWidth, childHeight)
+		subnodes[BOTTOMRIGHT_QUADRANT] = new /datum/quadtree(src, childLevel, pos.a + childWidth, pos.e + childHeight, childWidth, childHeight)
 
 #define UPPER_QUADRANT 1
 #define LOWER_QUADRANT 2
@@ -231,13 +231,13 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 /datum/quadtree/proc/get_node_index(datum/shape/O)
 	. = 0
 	var/vertQuad = 0 // whether we're in the topleft/topright or bottomleft/bottomright quadrant.
-	if(O.position.y > pos.y)
+	if(O.position.e > pos.e)
 		vertQuad = UPPER_QUADRANT
-	else if(O.position.y < pos.y && O.position.y + O.height < pos.y)
+	else if(O.position.e < pos.e && O.position.e + O.height < pos.e)
 		vertQuad = LOWER_QUADRANT
 
 	// are we in the right quadrant?
-	if(O.position.x > pos.x)
+	if(O.position.a > pos.a)
 		switch(vertQuad)
 			if(UPPER_QUADRANT)
 				. = TOPRIGHT_QUADRANT
@@ -245,7 +245,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 				. = BOTTOMRIGHT_QUADRANT
 
 	// or are we in the left quadrant?
-	else if(O.position.x != pos.x && O.position.x + O.width < pos.x)
+	else if(O.position.a != pos.a && O.position.a + O.width < pos.a)
 		switch(vertQuad)
 			if(UPPER_QUADRANT)
 				. = TOPLEFT_QUADRANT

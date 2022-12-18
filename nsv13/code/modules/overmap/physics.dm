@@ -59,11 +59,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	var/obj/vector_overlay/vector_overlay
 	var/pixel_collision_size_x = 0
 	var/pixel_collision_size_y = 0
-	var/datum/vector2d/offset
-	var/datum/vector2d/last_offset
-	var/datum/vector2d/position
-	var/datum/vector2d/velocity
-	var/datum/vector2d/overlap // Will be subtracted from the ships offset as soon as possible, then set to 0
+	var/matrix/vector/offset
+	var/matrix/vector/last_offset
+	var/matrix/vector/position
+	var/matrix/vector/velocity
+	var/matrix/vector/overlap // Will be subtracted from the ships offset as soon as possible, then set to 0
 	var/list/collision_positions = list() //See the collisions doc for how these work. Theyre a pain in the ass.
 	var/datum/component/physics2d/physics2d = null
 
@@ -107,8 +107,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	if(!collision_positions.len)
 		return
 
-	for(var/datum/vector2d/point in collision_positions)
-		var/obj/effect/overmap_hitbox_marker/H = new(src, point.x, point.y, abs(pixel_z), abs(pixel_w))
+	for(var/matrix/vector/point in collision_positions)
+		var/obj/effect/overmap_hitbox_marker/H = new(src, point.a, point.e, abs(pixel_z), abs(pixel_w))
 		vis_contents += H
 
 /obj/structure/overmap/proc/can_move()
@@ -225,8 +225,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			drag = max(drag, (velocity_mag - 20) / time)
 		if(drag)
 			var/drag_factor = 1 - CLAMP(drag * time / velocity_mag, 0, 1)
-			velocity.x *= drag_factor
-			velocity.y *= drag_factor
+			velocity.a *= drag_factor
+			velocity.e *= drag_factor
 			if(angular_velocity != 0)
 				var/drag_factor_spin = 1 - CLAMP(drag * 30 * time / abs(angular_velocity), 0, 1)
 				angular_velocity *= drag_factor_spin
@@ -242,8 +242,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	last_thrust_right = 0
 	if(brakes) //If our brakes are engaged, attempt to slow them down
 		// basically calculates how much we can brake using the thrust
-		var/forward_thrust = -((fx * velocity.x) + (fy * velocity.y)) / time
-		var/right_thrust = -((sx * velocity.x) + (sy * velocity.y)) / time
+		var/forward_thrust = -((fx * velocity.a) + (fy * velocity.e)) / time
+		var/right_thrust = -((sx * velocity.a) + (sy * velocity.e)) / time
 		forward_thrust = CLAMP(forward_thrust, -backward_maxthrust, forward_maxthrust)
 		right_thrust = CLAMP(right_thrust, -side_maxthrust, side_maxthrust)
 		thrust_x += forward_thrust * fx + right_thrust * sx;
@@ -270,102 +270,102 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 				last_thrust_right = -side_maxthrust
 
 	//Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
-	velocity.x = clamp(velocity.x, -speed_limit, speed_limit)
-	velocity.y = clamp(velocity.y, -speed_limit, speed_limit)
+	velocity.a = clamp(velocity.a, -speed_limit, speed_limit)
+	velocity.e = clamp(velocity.e, -speed_limit, speed_limit)
 
-	velocity.x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
-	velocity.y += thrust_y * time
+	velocity.a += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
+	velocity.e += thrust_y * time
 	if(inertial_dampeners) //An optional toggle to make capital ships more "fly by wire" and help you steer in only the direction you want to go.
-		var/side_movement = (sx*velocity.x) + (sy*velocity.y)
+		var/side_movement = (sx*velocity.a) + (sy*velocity.e)
 		var/friction_impulse = ((mass / 10) + side_maxthrust) * time //Weighty ships generate more space friction
 		var/clamped_side_movement = CLAMP(side_movement, -friction_impulse, friction_impulse)
-		velocity.x -= clamped_side_movement * sx
-		velocity.y -= clamped_side_movement * sy
+		velocity.a -= clamped_side_movement * sx
+		velocity.e -= clamped_side_movement * sy
 
-	offset._set(offset.x + velocity.x * time, offset.y +  velocity.y * time, TRUE)
+	offset._set(offset.a + velocity.a * time, offset.e +  velocity.e * time, TRUE)
 
-	position._set(x * 32 + offset.x * 32, y * 32 + offset.y * 32)
+	position._set(x * 32 + offset.a * 32, y * 32 + offset.e * 32)
 
 	if(physics2d)
-		physics2d.update(position.x, position.y, angle)
+		physics2d.update(position.a, position.e, angle)
 
 	// alright so now we reconcile the offsets with the in-world position.
-	while((offset.x != 0 && velocity.x != 0) || (offset.y != 0 && velocity.y != 0))
+	while((offset.a != 0 && velocity.a != 0) || (offset.e != 0 && velocity.e != 0))
 		var/failed_x = FALSE
 		var/failed_y = FALSE
-		if(offset.x > 0 && velocity.x > 0)
+		if(offset.a > 0 && velocity.a > 0)
 			dir = EAST
 			if(!Move(get_step(src, EAST)))
-				offset.x = 0
+				offset.a = 0
 				failed_x = TRUE
-				velocity.x *= -bounce_factor
-				velocity.y *= lateral_bounce_factor
+				velocity.a *= -bounce_factor
+				velocity.e *= lateral_bounce_factor
 			else
-				offset.x--
-				last_offset.x--
-		else if(offset.x < 0 && velocity.x < 0)
+				offset.a--
+				last_offset.a--
+		else if(offset.a < 0 && velocity.a < 0)
 			dir = WEST
 			if(!Move(get_step(src, WEST)))
-				offset.x = 0
+				offset.a = 0
 				failed_x = TRUE
-				velocity.x *= -bounce_factor
-				velocity.y *= lateral_bounce_factor
+				velocity.a *= -bounce_factor
+				velocity.e *= lateral_bounce_factor
 			else
-				offset.x++
-				last_offset.x++
+				offset.a++
+				last_offset.a++
 		else
 			failed_x = TRUE
-		if(offset.y > 0 && velocity.y > 0)
+		if(offset.e > 0 && velocity.e > 0)
 			dir = NORTH
 			if(!Move(get_step(src, NORTH)))
-				offset.y = 0
+				offset.e = 0
 				failed_y = TRUE
-				velocity.y *= -bounce_factor
-				velocity.x *= lateral_bounce_factor
+				velocity.e *= -bounce_factor
+				velocity.a *= lateral_bounce_factor
 			else
-				offset.y--
-				last_offset.y--
-		else if(offset.y < 0 && velocity.y < 0)
+				offset.e--
+				last_offset.e--
+		else if(offset.e < 0 && velocity.e < 0)
 			dir = SOUTH
 			if(!Move(get_step(src, SOUTH)))
-				offset.y = 0
+				offset.e = 0
 				failed_y = TRUE
-				velocity.y *= -bounce_factor
-				velocity.x *= lateral_bounce_factor
+				velocity.e *= -bounce_factor
+				velocity.a *= lateral_bounce_factor
 			else
-				offset.y++
-				last_offset.y++
+				offset.e++
+				last_offset.e++
 		else
 			failed_y = TRUE
 		if(failed_x && failed_y)
 			break
 	// prevents situations where you go "wtf I'm clearly right next to it" as you enter a stationary spacepod
-	if(velocity.x == 0)
-		if(offset.x > 0.5)
+	if(velocity.a == 0)
+		if(offset.a > 0.5)
 			if(Move(get_step(src, EAST)))
-				offset.x--
-				last_offset.x--
+				offset.a--
+				last_offset.a--
 			else
-				offset.x = 0
-		if(offset.x < -0.5)
+				offset.a = 0
+		if(offset.a < -0.5)
 			if(Move(get_step(src, WEST)))
-				offset.x++
-				last_offset.x++
+				offset.a++
+				last_offset.a++
 			else
-				offset.x = 0
-	if(velocity.y == 0)
-		if(offset.y > 0.5)
+				offset.a = 0
+	if(velocity.e == 0)
+		if(offset.e > 0.5)
 			if(Move(get_step(src, NORTH)))
-				offset.y--
-				last_offset.y--
+				offset.e--
+				last_offset.e--
 			else
-				offset.y = 0
-		if(offset.y < -0.5)
+				offset.e = 0
+		if(offset.e < -0.5)
 			if(Move(get_step(src, SOUTH)))
-				offset.y++
-				last_offset.y++
+				offset.e++
+				last_offset.e++
 			else
-				offset.y = 0
+				offset.e = 0
 	dir = NORTH //So that the matrix is always consistent
 	var/matrix/mat_from = new()
 	mat_from.Turn(last_angle)
@@ -386,10 +386,10 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		targetAngle = null
 	transform = mat_from
 
-	pixel_x = last_offset.x*32
-	pixel_y = last_offset.y*32
+	pixel_x = last_offset.a*32
+	pixel_y = last_offset.e*32
 
-	animate(src, transform=mat_to, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
+	animate(src, transform=mat_to, pixel_x = offset.a*32, pixel_y = offset.e*32, time = time*10, flags=ANIMATION_END_NOW)
 	/*
 	if(last_target)
 		var/target_angle = Get_Angle(src,last_target)
@@ -405,9 +405,9 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		var/client/C = M.client
 		if(!C)
 			continue
-		C.pixel_x = last_offset.x*32
-		C.pixel_y = last_offset.y*32
-		animate(C, pixel_x = offset.x*32, pixel_y = offset.y*32, time = time*10, flags=ANIMATION_END_NOW)
+		C.pixel_x = last_offset.a*32
+		C.pixel_y = last_offset.e*32
+		animate(C, pixel_x = offset.a*32, pixel_y = offset.e*32, time = time*10, flags=ANIMATION_END_NOW)
 	user_thrust_dir = 0
 	update_icon()
 	if(autofire_target && !aiming)
@@ -431,7 +431,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		var/src_vel_mag = src.velocity.ln()
 		var/other_vel_mag = other.velocity.ln()
 		//I mean, the angle between the two objects is very likely to be the angle of incidence innit
-		var/col_angle = ATAN2((other.position.x + other.pixel_collision_size_x / 2) - (src.position.x + src.pixel_collision_size_x / 2), (other.position.y + other.pixel_collision_size_y / 2) - (src.position.y + pixel_collision_size_y / 2))
+		var/col_angle = ATAN2((other.position.a + other.pixel_collision_size_x / 2) - (src.position.a + src.pixel_collision_size_x / 2), (other.position.e + other.pixel_collision_size_y / 2) - (src.position.e + pixel_collision_size_y / 2))
 
 		//Debounce
 		if(((cos(src.velocity.angle() - col_angle) * src_vel_mag) - (cos(other.velocity.angle() - col_angle) * other_vel_mag)) < 0)
@@ -476,10 +476,10 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 
 	//Update the colliders before we do any kind of calc.
 	if(physics2d)
-		physics2d.update(position.x, position.y, angle)
+		physics2d.update(position.a, position.e, angle)
 	if(other.physics2d)
-		other.physics2d.update(other.position.x, other.position.y, angle)
-	var/datum/vector2d/point_of_collision = physics2d?.collider2d.get_collision_point(other.physics2d?.collider2d)
+		other.physics2d.update(other.position.a, other.position.e, angle)
+	var/matrix/vector/point_of_collision = physics2d?.collider2d.get_collision_point(other.physics2d?.collider2d)
 	check_quadrant(point_of_collision)
 
 	//So what this does is it'll calculate a vector (overlap_vector) that makes the two objects no longer colliding, then applies extra velocity to make the collision smooth to avoid teleporting. If you want to tone down collisions even more
@@ -512,7 +512,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 
 		src.velocity._set(new_src_vel_x*bounce_factor, new_src_vel_y*bounce_factor)
 		other.velocity._set(new_other_vel_x*other.bounce_factor, new_other_vel_y*other.bounce_factor)
-	var/datum/vector2d/output = c_response.overlap_vector * (0.25 / 32)
+	var/matrix/vector/output = c_response.overlap_vector * (0.25 / 32)
 	src.offset -= output
 	other.offset += output
 
@@ -521,21 +521,21 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		return FALSE
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	if(A.dir & NORTH)
-		velocity.y += bump_impulse
+		velocity.e += bump_impulse
 	if(A.dir & SOUTH)
-		velocity.y -= bump_impulse
+		velocity.e -= bump_impulse
 	if(A.dir & EAST)
-		velocity.x += bump_impulse
+		velocity.a += bump_impulse
 	if(A.dir & WEST)
-		velocity.x -= bump_impulse
+		velocity.a -= bump_impulse
 	return ..()
 
 /obj/structure/overmap/Bump(atom/movable/A, datum/collision_response/c_response)
 	var/bump_velocity = 0
 	if(dir & (NORTH|SOUTH))
-		bump_velocity = abs(velocity.y) + (abs(velocity.x) / 10)
+		bump_velocity = abs(velocity.e) + (abs(velocity.a) / 10)
 	else
-		bump_velocity = abs(velocity.x) + (abs(velocity.y) / 10)
+		bump_velocity = abs(velocity.a) + (abs(velocity.e) / 10)
 	if(istype(A, /obj/machinery/door/airlock) && should_open_doors) // try to open doors
 		var/obj/machinery/door/D = A
 		if(!D.operating)
