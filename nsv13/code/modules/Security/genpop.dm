@@ -140,9 +140,9 @@
 	if(item.tool_behaviour == TOOL_WELDER)
 		try_to_repair(item, user)
 		return 1
+	. = ..()
 	if(machine_stat & BROKEN)
 		try_shock(user)
-	. = ..()
 
 ///Handle someone trying to repair us. Produces appropriate chat messages.
 /obj/machinery/turnstile/proc/try_to_repair(obj/item/weldingtool/W, mob/user)
