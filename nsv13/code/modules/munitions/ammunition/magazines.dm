@@ -55,9 +55,8 @@
 	caliber = "mm30.12"
 	max_ammo = 300
 
-/obj/item/ammo_box/magazine/nsv/pdc/rifle
-	max_ammo = 1
-
+/obj/item/ammo_box/magazine/internal/boltaction/pdc
+	max_ammo = 3
 /obj/item/ammo_casing/pdc
 	name = "30.12x82mm bullet casing"
 	desc = "A 30.12x82mm bullet casing."
