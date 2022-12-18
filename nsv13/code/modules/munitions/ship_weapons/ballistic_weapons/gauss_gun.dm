@@ -226,6 +226,9 @@
 /obj/machinery/ship_weapon/gauss_gun/west
 	dir = WEST
 
+/obj/machinery/ship_weapon/gauss_gun/north/oneZ //TODO: make gauss guns not fucked up and evil by default
+	bound_y = 0
+
 /obj/machinery/ship_weapon/gauss_gun/proc/onClick(atom/target)
 	if(pdc_mode && world.time >= last_pdc_fire + 2 SECONDS)
 		linked.fire_weapon(target=target, mode=FIRE_MODE_PDC)
@@ -541,6 +544,7 @@ Chair + rack handling
 	desc = "A chair which can be lowered down from the ceiling to feed into a gauss gun, allowing for easy access to the gun's cockpit."
 	icon = 'nsv13/icons/obj/chairs.dmi'
 	icon_state = "shuttle_chair"
+	item_chair = null
 	var/locked = FALSE
 	var/obj/machinery/ship_weapon/gauss_gun/gun
 	var/mob/living/occupant

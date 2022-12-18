@@ -55,7 +55,7 @@
 
 /obj/structure/chair/shuttlecraft_chair/examine(mob/user)
 	. = ..()
-	. += "<span class='notice'>Alt-click to fold the chair up or down.].</span>"
+	. += "<span class='notice'>Alt-click to fold the chair up or down.</span>"
 
 /obj/structure/chair/shuttlecraft_chair/attack_paw(mob/user)
 	return attack_hand(user)

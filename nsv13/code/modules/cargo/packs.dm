@@ -80,6 +80,7 @@
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/parts/missile/warhead,
 					/obj/item/ship_weapon/parts/missile/warhead,
+					/obj/item/ship_weapon/parts/missile/warhead,
 					/obj/item/ship_weapon/parts/missile/guidance_system,
 					/obj/item/ship_weapon/parts/missile/guidance_system,
 					/obj/item/ship_weapon/parts/missile/guidance_system,
@@ -93,35 +94,78 @@
 
 /datum/supply_pack/munitions/torpedo_casings
 	name = "Torpedo casings"
-	desc = "A set of 5 torpedo casings, prebuilt but not pre-assembled. Ideal when used with our line of torpedo components."
+	desc = "A set of 10 torpedo casings, prebuilt but not pre-assembled. Ideal when used with our line of torpedo components."
 	cost = 750
 	contains = list(/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing)
 	crate_name = "Blank torpedo casings"
 
-/datum/supply_pack/munitions/torpedo_construction
-	name = "Torpedo components"
-	desc = "A set of torpedo guidance modules, propulsion units and IFF cards. Warheads sold separately!"
+/datum/supply_pack/munitions/torpedo_construction_guidance
+	name = "Payload Guidance Modules"
+	desc = "A bulk order of 10 torpedo guidance modules. Warheads sold separately!"
 	cost = 1500
 	contains = list(/obj/item/ship_weapon/parts/missile/guidance_system,
 					/obj/item/ship_weapon/parts/missile/guidance_system,
 					/obj/item/ship_weapon/parts/missile/guidance_system,
+					/obj/item/ship_weapon/parts/missile/guidance_system,
+					/obj/item/ship_weapon/parts/missile/guidance_system,
+					/obj/item/ship_weapon/parts/missile/guidance_system,
+					/obj/item/ship_weapon/parts/missile/guidance_system,
+					/obj/item/ship_weapon/parts/missile/guidance_system,
+					/obj/item/ship_weapon/parts/missile/guidance_system,
+					/obj/item/ship_weapon/parts/missile/guidance_system)
+	crate_name = "Munition Guidance Systems"
+
+/datum/supply_pack/munitions/payload_construction_propulsion
+	name = "Payload Propulsion Systems"
+	desc = "A bulk order of 10 payload propulsion units. Warheads sold separately!"
+	cost = 1500
+	contains = list(/obj/item/ship_weapon/parts/missile/propulsion_system,
 					/obj/item/ship_weapon/parts/missile/propulsion_system,
 					/obj/item/ship_weapon/parts/missile/propulsion_system,
 					/obj/item/ship_weapon/parts/missile/propulsion_system,
+					/obj/item/ship_weapon/parts/missile/propulsion_system,
+					/obj/item/ship_weapon/parts/missile/propulsion_system,
+					/obj/item/ship_weapon/parts/missile/propulsion_system,
+					/obj/item/ship_weapon/parts/missile/propulsion_system,
+					/obj/item/ship_weapon/parts/missile/propulsion_system,
+					/obj/item/ship_weapon/parts/missile/propulsion_system)
+	crate_name = "Munition Propulsion Systems"
+
+/datum/supply_pack/munitions/payload_construction_iff
+	name = "Payload IFF Cards"
+	desc = "A bulk order of 10 payload IFF cards. Warheads sold separately!"
+	cost = 1500
+	contains = list(/obj/item/ship_weapon/parts/missile/iff_card,
+					/obj/item/ship_weapon/parts/missile/iff_card,
+					/obj/item/ship_weapon/parts/missile/iff_card,
+					/obj/item/ship_weapon/parts/missile/iff_card,
+					/obj/item/ship_weapon/parts/missile/iff_card,
+					/obj/item/ship_weapon/parts/missile/iff_card,
+					/obj/item/ship_weapon/parts/missile/iff_card,
 					/obj/item/ship_weapon/parts/missile/iff_card,
 					/obj/item/ship_weapon/parts/missile/iff_card,
 					/obj/item/ship_weapon/parts/missile/iff_card)
-	crate_name = "Torpedo components"
+	crate_name = "Identify Friend of Foe Cards"
 
 /datum/supply_pack/munitions/standard_warheads
 	name = "Torpedo warheads (standard)"
-	desc = "A pack of 5 standard torpedo warheads with a 40 isotonne yield, ideal for general usage."
-	cost = 850
+	desc = "A pack of 10 standard torpedo warheads with a 40 isotonne yield, ideal for general usage."
+	cost = 1500
 	contains = list(/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
 					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
 					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
 					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
@@ -130,9 +174,14 @@
 
 /datum/supply_pack/munitions/bb_warheads
 	name = "Torpedo warheads (armour piercing)"
-	desc = "A pack of 5 armour piercing torpedo warheads with a 80 isotonne combined yield, these warheads excel at dealing massive damage to a target."
-	cost = 1250
+	desc = "A pack of 10 armour piercing torpedo warheads with a 80 isotonne combined yield, these warheads excel at dealing massive damage to a target."
+	cost = 2500
 	contains = list(/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
+					/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
+					/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
+					/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
+					/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
+					/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
 					/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
 					/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,
 					/obj/item/ship_weapon/parts/missile/warhead/bunker_buster,

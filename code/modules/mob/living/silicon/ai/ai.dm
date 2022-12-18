@@ -98,6 +98,8 @@
 	var/list/cam_hotkeys = new/list(9)
 	var/cam_prev
 
+	var/datum/robot_control/robot_control //NSV13
+
 /mob/living/silicon/ai/Initialize(mapload, datum/ai_laws/L, mob/target_ai)
 	default_access_list = get_all_accesses()
 	. = ..()
@@ -496,6 +498,7 @@
 		else
 			to_chat(src, "Target is not on or near any active cameras on the station.")
 		return
+	/* NSV13 CHANGES START - Robot Remote Control TGUI Update
 	if(href_list["callbot"]) //Command a bot to move to a selected location.
 		if(call_bot_cooldown > world.time)
 			to_chat(src, "<span class='danger'>Error: Your last call bot command is still processing, please wait for the bot to finish calculating a route.</span>")
@@ -514,6 +517,7 @@
 	if(href_list["botrefresh"]) //Refreshes the bot control panel.
 		botcall()
 		return
+	NSV13 CHANGES END FOR NOW */
 
 	if (href_list["ai_take_control"]) //Mech domination
 		var/obj/mecha/M = locate(href_list["ai_take_control"]) in GLOB.mechas_list
@@ -560,6 +564,7 @@
 	set category = "AI Commands"
 	set name = "Access Robot Control"
 	set desc = "Wirelessly control various automatic robots."
+	/* NSV13 CHANGES START -- Robot Remote Control TGUI Update
 	if(incapacitated())
 		return
 
@@ -588,6 +593,12 @@
 	var/datum/browser/popup = new(src, "botcall", "Remote Robot Control", 700, 400)
 	popup.set_content(d)
 	popup.open()
+
+	NSV13 CHANGES STOP */
+	if(!robot_control) //NSV13
+		robot_control = new(src) //NSV13
+
+	robot_control.ui_interact(src) //NSV13
 
 /mob/living/silicon/ai/proc/set_waypoint(atom/A)
 	var/turf/turf_check = get_turf(A)

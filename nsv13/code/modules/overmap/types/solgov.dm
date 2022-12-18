@@ -141,7 +141,7 @@
 /obj/structure/overmap/nanotrasen/solgov/apply_weapons()
 	// Solgov do not need Nanotrasen weapons registered on roundstart. This bloats the ship's weapon_types and makes cycling via spacebar take much longer
 	// . = ..()
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 
 /obj/structure/overmap/nanotrasen/solgov/carrier/ai/apply_weapons() // Kmc why didn't you use /solgov/ai for your ship childtypes
 	apply_medium_ai_weapons()
