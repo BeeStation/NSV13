@@ -8,7 +8,7 @@
 	tgui_id = "NtosDatabank"
 	program_icon = "book"
 
-/datum/computer_file/program/databank/ui_data(mob/user)
+/datum/computer_file/program/databank_uplink/ui_data(mob/user)
 	var/list/data = get_header_data()
 	var/wikiurl = CONFIG_GET(string/wikiurl)
 
