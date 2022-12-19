@@ -1,4 +1,4 @@
-/datum/computer_file/program/databank
+/datum/computer_file/program/databank_uplink
 	filename = "databank"
 	filedesc = "Vessel Databank Uplink"
 	extended_desc = "An application used to connect to the Vessels Databanks in order to access all the guides you could ever need!"
