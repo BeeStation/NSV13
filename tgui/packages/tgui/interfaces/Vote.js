@@ -175,28 +175,33 @@ const DisplayChoices = (props, context) => {
   const { selectedChoice } = data;
 
   return props.choices?.map((choice, i) => (
-    <Flex justify="space-between" direction="row" key={i} mb={props.margin}>
-      <Flex>
-        <Button
-          onClick={() => {
-            act("vote", {
-              index: i + props.startIndex + 1,
-            });
-          }}
-          disabled={
-            choice === props.choices[selectedChoice - props.startIndex - 1]
-          } >
-          {choice.name?.replace(/^\w/, c => c.toUpperCase())}
-        </Button>
-        <Box mt={0.4} ml={1}>
-          {choice === props.choices[selectedChoice - props.startIndex - 1] && (
-            <Icon color="green" name="vote-yea" />
-          )}
+    <Flex justify="space-between" direction="column" key={i} mb={props.margin}>
+      <Flex justify="space-between" direction="row" key={i} mb={props.margin}>
+        <Flex.Item>
+          <Button
+            onClick={() => {
+              act("vote", {
+                index: i + props.startIndex + 1,
+              });
+            }}
+            disabled={
+              choice === props.choices[selectedChoice - props.startIndex - 1]
+            } >
+            {choice.name?.replace(/^\w/, c => c.toUpperCase())}
+          </Button>
+          <Box mt={0.4} ml={1}>
+            {choice === props.choices[selectedChoice - props.startIndex - 1] && (
+              <Icon color="green" name="vote-yea" />
+            )}
+          </Box>
+        </Flex.Item>
+        <Box ml={1}>
+          {props.tally} {choice.votes}
         </Box>
       </Flex>
-      <Box ml={1}>
-        {props.tally} {choice.votes}
-      </Box>
+      <Flex.Item>
+        {choice.description}
+      </Flex.Item>
     </Flex>
   ));
 };
