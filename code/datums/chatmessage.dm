@@ -209,7 +209,7 @@
 	text = "[prefixes?.Join("&nbsp;")][text]"
 
 	// Approximate text height
-	var/complete_text = "<span class='center [extra_classes.Join(" ")]' style='color: [tgt_color]'>[text]</span>"
+	var/complete_text = "<span class='center [extra_classes.Join(" ")]' style='color: [tgt_color]'>[target.say_emphasis(text)]</span>" //NSV13 - Emphasis
 	var/mheight = WXH_TO_HEIGHT(first_hearer.MeasureText(complete_text, null, CHAT_MESSAGE_WIDTH))
 	approx_lines = max(1, mheight / CHAT_MESSAGE_APPROX_LHEIGHT)
 
@@ -288,9 +288,9 @@
 /mob/proc/should_show_chat_message(atom/movable/speaker, datum/language/message_language, is_emote = FALSE, is_heard = FALSE)
 	if(!client)
 		return CHATMESSAGE_CANNOT_HEAR
-	if(!client.prefs.chat_on_map || (!client.prefs.see_chat_non_mob && !ismob(speaker)))
+	if(!(client.prefs.toggles & PREFTOGGLE_RUNECHAT_GLOBAL) || (!(client.prefs.toggles & PREFTOGGLE_RUNECHAT_NONMOBS) && !ismob(speaker)))
 		return CHATMESSAGE_CANNOT_HEAR
-	if(!client.prefs.see_rc_emotes && is_emote)
+	if(!(client.prefs.toggles & PREFTOGGLE_RUNECHAT_EMOTES) && is_emote)
 		return CHATMESSAGE_CANNOT_HEAR
 	if(is_heard && !can_hear())
 		return CHATMESSAGE_CANNOT_HEAR
