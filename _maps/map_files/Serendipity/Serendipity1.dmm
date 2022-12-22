@@ -581,8 +581,8 @@
 /area/crew_quarters/cryopods)
 "bY" = (
 /obj/machinery/food_cart{
-	can_be_unanchored = 1;
-	anchored = 1
+	anchored = 1;
+	can_be_unanchored = 1
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/kitchen)
@@ -614,11 +614,11 @@
 /obj/item/stamp/captain,
 /obj/item/pen/fountain,
 /obj/machinery/button/door{
+	id = "cap_and_xo";
+	name = "Privacy Shutters";
 	pixel_x = -9;
 	pixel_y = -24;
-	id = "cap_and_xo";
-	req_one_access_txt = "19;20";
-	name = "Privacy Shutters"
+	req_one_access_txt = "19;20"
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
@@ -683,7 +683,7 @@
 /obj/structure/falsewall/durasteel{
 	layer = 3
 	},
-/turf/closed/wall/ship,
+/turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
 "cv" = (
 /obj/structure/closet/emcloset{
@@ -1252,8 +1252,8 @@
 /area/science/robotics)
 "ey" = (
 /obj/machinery/door/window/westright{
-	req_one_access_txt = "19";
-	name = "Council Podium"
+	name = "Council Podium";
+	req_one_access_txt = "19"
 	},
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -1695,8 +1695,8 @@
 	department = "Robotics";
 	departmentType = 2;
 	name = "Robotics RC";
-	receive_ore_updates = 1;
-	pixel_y = 27
+	pixel_y = 27;
+	receive_ore_updates = 1
 	},
 /obj/item/bodypart/chest/robot,
 /obj/item/bodypart/head/robot{
@@ -1711,12 +1711,12 @@
 	pixel_y = 2
 	},
 /obj/item/bodypart/r_leg/robot{
-	pixel_y = -5;
-	pixel_x = 6
+	pixel_x = 6;
+	pixel_y = -5
 	},
 /obj/item/bodypart/l_leg/robot{
-	pixel_y = -5;
-	pixel_x = -5
+	pixel_x = -5;
+	pixel_y = -5
 	},
 /obj/effect/turf_decal/stripes/red/box,
 /obj/item/robot_suit{
@@ -1736,8 +1736,8 @@
 /area/medical/nsv/trauma)
 "gd" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	req_one_access_txt = "19";
-	name = "Executive Officer's Maintenance Access"
+	name = "Executive Officer's Maintenance Access";
+	req_one_access_txt = "19"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -1898,8 +1898,8 @@
 	dir = 1
 	},
 /obj/machinery/door/airlock/ship/medical/glass{
-	req_one_access_txt = "5";
-	name = "Trauma Center"
+	name = "Trauma Center";
+	req_one_access_txt = "5"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -2136,8 +2136,8 @@
 	pixel_x = -6
 	},
 /obj/item/gun/syringe/dna{
-	name = "experimental syringe gun";
-	desc = "An experimental syringe gun made to fit DNA injectors instead of normal syringes."
+	desc = "An experimental syringe gun made to fit DNA injectors instead of normal syringes.";
+	name = "experimental syringe gun"
 	},
 /obj/item/restraints/handcuffs/cable/zipties,
 /obj/item/restraints/handcuffs/cable/zipties,
@@ -2371,16 +2371,16 @@
 	},
 /obj/machinery/light/floor,
 /obj/machinery/turretid{
-	pixel_y = 26;
+	ai_controller = /area/ai_monitored/nuke_storage;
 	icon_state = "control_stun";
 	name = "Vault turret control panel";
-	ai_controller = /area/ai_monitored/nuke_storage
+	pixel_y = 26
 	},
 /obj/machinery/turretid{
-	pixel_y = -26;
+	ai_controller = /area/ai_monitored/nuke_storage;
 	icon_state = "control_stun";
 	name = "Vault turret control panel";
-	ai_controller = /area/ai_monitored/nuke_storage
+	pixel_y = -26
 	},
 /obj/machinery/camera/autoname{
 	dir = 6
@@ -2812,8 +2812,8 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/ship/station/research/glass{
 	dir = 1;
-	req_one_access_txt = "47";
-	name = "Research Lobby"
+	name = "Research Lobby";
+	req_one_access_txt = "47"
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plasteel/tiled/light,
@@ -2894,8 +2894,8 @@
 "jH" = (
 /obj/machinery/clonepod/prefilled,
 /obj/machinery/requests_console{
-	pixel_y = -30;
-	name = "Chemistry RC"
+	name = "Chemistry RC";
+	pixel_y = -30
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/genetics/cloning)
@@ -3682,8 +3682,8 @@
 "mv" = (
 /obj/machinery/door/airlock/ship/station/research/glass{
 	dir = 4;
-	req_one_access_txt = "29";
-	name = "Robotics"
+	name = "Robotics";
+	req_one_access_txt = "29"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -4554,8 +4554,8 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/station/research/glass{
-	req_one_access_txt = "29;30";
-	name = "Server Access"
+	name = "Server Access";
+	req_one_access_txt = "29;30"
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/purple_carpet,
@@ -4735,8 +4735,8 @@
 "qp" = (
 /obj/structure/sign/directions/evac{
 	dir = 1;
-	pixel_y = -8;
-	pixel_x = -32
+	pixel_x = -32;
+	pixel_y = -8
 	},
 /turf/open/floor/grass,
 /area/crew_quarters/dorms/nsv/nature_deck)
@@ -4959,8 +4959,8 @@
 /area/science)
 "ri" = (
 /obj/machinery/door/airlock/ship/medical/glass{
-	req_one_access_txt = "5;33;59";
-	name = "Chemistry"
+	name = "Chemistry";
+	req_one_access_txt = "5;33;59"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -5631,10 +5631,10 @@
 /area/security/brig)
 "tt" = (
 /obj/machinery/turretid{
-	pixel_y = 26;
+	ai_controller = /area/ai_monitored/nuke_storage;
 	icon_state = "control_stun";
 	name = "Vault turret control panel";
-	ai_controller = /area/ai_monitored/nuke_storage
+	pixel_y = 26
 	},
 /mob/living/simple_animal/pet/fox/Renault,
 /obj/structure/bed/dogbed/renault,
@@ -5678,8 +5678,8 @@
 /area/maintenance/department/medical)
 "tF" = (
 /obj/machinery/door/window/southright{
-	req_one_access_txt = "25;28";
-	name = "Kitchen"
+	name = "Kitchen";
+	req_one_access_txt = "25;28"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -6264,8 +6264,8 @@
 	department = "Science";
 	departmentType = 2;
 	name = "Science Requests Console";
-	receive_ore_updates = 1;
-	pixel_x = -31
+	pixel_x = -31;
+	receive_ore_updates = 1
 	},
 /obj/structure/disposalpipe/segment,
 /obj/structure/table/glass/plasma,
@@ -6634,9 +6634,9 @@
 	pixel_y = 36
 	},
 /obj/machinery/turretid{
+	control_area = /area/ai_monitored/turret_protected/aisat_interior;
 	icon_state = "control_stun";
 	name = "AI Chamber turret control";
-	control_area = /area/ai_monitored/turret_protected/aisat_interior;
 	pixel_y = -22
 	},
 /turf/open/floor/circuit/red,
@@ -6746,8 +6746,8 @@
 "xq" = (
 /obj/machinery/door/window/northleft{
 	dir = 4;
-	req_one_access_txt = "9";
-	name = "Monkey Holding"
+	name = "Monkey Holding";
+	req_one_access_txt = "9"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -7069,17 +7069,17 @@
 /obj/item/paper_bin,
 /obj/item/pen/fountain,
 /obj/machinery/button/door{
+	id = "cap_and_xo";
+	name = "Privacy Shutters";
 	pixel_x = -9;
 	pixel_y = -24;
-	id = "cap_and_xo";
-	req_one_access_txt = "19;20";
-	name = "Privacy Shutters"
+	req_one_access_txt = "19;20"
 	},
 /obj/machinery/button/door{
-	pixel_x = 5;
-	pixel_y = -24;
 	id = "xo";
-	name = "Executive Officer's Shutters"
+	name = "Executive Officer's Shutters";
+	pixel_x = 5;
+	pixel_y = -24
 	},
 /obj/item/stamp/head_of_personnel,
 /turf/open/floor/carpet,
@@ -7445,8 +7445,8 @@
 	dir = 1
 	},
 /obj/machinery/requests_console{
-	pixel_y = 26;
-	name = "Security RC"
+	name = "Security RC";
+	pixel_y = 26
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
@@ -7902,8 +7902,8 @@
 	},
 /obj/machinery/door/window/northleft{
 	dir = 4;
-	req_one_access_txt = "5";
-	name = "Medical Storage"
+	name = "Medical Storage";
+	req_one_access_txt = "5"
 	},
 /obj/machinery/light/floor,
 /turf/open/floor/plasteel/tiled/light,
@@ -8128,15 +8128,6 @@
 "BV" = (
 /turf/closed/wall/r_wall/ship,
 /area/crew_quarters/heads/cmo)
-"BW" = (
-/obj/structure/falsewall/durasteel{
-	layer = 3
-	},
-/obj/structure/falsewall/durasteel{
-	layer = 3
-	},
-/turf/closed/wall/r_wall/ship,
-/area/hallway/secondary/exit/departure_lounge)
 "BX" = (
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/south,
@@ -8298,8 +8289,8 @@
 	dir = 4
 	},
 /obj/machinery/door/window/eastleft{
-	req_one_access_txt = "5;33;59";
-	name = "Cloning Desk"
+	name = "Cloning Desk";
+	req_one_access_txt = "5;33;59"
 	},
 /obj/structure/table/glass/plasma,
 /obj/item/reagent_containers/spray/cleaner,
@@ -8682,8 +8673,8 @@
 	dir = 4
 	},
 /obj/machinery/requests_console{
-	pixel_x = -31;
-	name = "Detective RC"
+	name = "Detective RC";
+	pixel_x = -31
 	},
 /turf/open/floor/carpet/red,
 /area/security/warden)
@@ -9531,8 +9522,8 @@
 /obj/machinery/requests_console{
 	department = "Virology";
 	name = "Virology Requests Console";
-	receive_ore_updates = 1;
-	pixel_x = -32
+	pixel_x = -32;
+	receive_ore_updates = 1
 	},
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 4
@@ -9593,8 +9584,8 @@
 "Hi" = (
 /obj/machinery/chem_master,
 /obj/machinery/requests_console{
-	pixel_y = -30;
-	name = "Cargo RC"
+	name = "Cargo RC";
+	pixel_y = -30
 	},
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 1
@@ -10406,10 +10397,10 @@
 	dir = 1
 	},
 /obj/machinery/button/door{
-	pixel_x = -23;
-	pixel_y = -5;
 	id = "rd_office";
 	name = "RD Office Shutters";
+	pixel_x = -23;
+	pixel_y = -5;
 	req_one_access_txt = "30"
 	},
 /turf/open/floor/carpet/purple,
@@ -10430,8 +10421,8 @@
 /area/hydroponics)
 "JV" = (
 /obj/machinery/door/airlock/ship/command/glass{
-	req_one_access_txt = "19";
-	name = "Executive Officer's Office"
+	name = "Executive Officer's Office";
+	req_one_access_txt = "19"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -10567,8 +10558,8 @@
 /area/crew_quarters/heads/hor)
 "Kn" = (
 /obj/machinery/requests_console{
-	pixel_y = 26;
-	name = "Apothecary RC"
+	name = "Apothecary RC";
+	pixel_y = 26
 	},
 /obj/machinery/smoke_machine,
 /obj/effect/turf_decal/tile/ship/blue{
@@ -10627,8 +10618,8 @@
 	},
 /obj/machinery/newscaster/directional/south,
 /obj/machinery/requests_console{
-	pixel_x = -31;
-	name = "Warden RC"
+	name = "Warden RC";
+	pixel_x = -31
 	},
 /obj/structure/closet/secure_closet/detective{
 	anchored = 1
@@ -10780,8 +10771,8 @@
 /area/hallway/secondary/exit)
 "KT" = (
 /obj/machinery/door/window/southright{
-	req_one_access_txt = "25;28";
-	name = "Kitchen"
+	name = "Kitchen";
+	req_one_access_txt = "25;28"
 	},
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/effect/landmark/zebra_interlock_point,
@@ -10810,8 +10801,8 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/ship/station/research/glass{
 	dir = 1;
-	req_one_access_txt = "47";
-	name = "Research Lobby"
+	name = "Research Lobby";
+	req_one_access_txt = "47"
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/purple_carpet,
@@ -11304,8 +11295,8 @@
 "Mp" = (
 /obj/structure/table/glass/plasma,
 /obj/machinery/door/window/eastleft{
-	req_one_access_txt = "58";
-	name = "Head of Security's Desk"
+	name = "Head of Security's Desk";
+	req_one_access_txt = "58"
 	},
 /obj/item/paper_bin,
 /obj/item/stamp/hos,
@@ -11318,8 +11309,8 @@
 "Mu" = (
 /obj/machinery/door/airlock/ship/station/research/glass{
 	dir = 1;
-	req_one_access_txt = "47";
-	name = "Research Lobby"
+	name = "Research Lobby";
+	req_one_access_txt = "47"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -11612,12 +11603,6 @@
 	},
 /turf/open/floor/grass,
 /area/crew_quarters/dorms/nsv/nature_deck)
-"Ny" = (
-/obj/structure/falsewall/durasteel{
-	layer = 3
-	},
-/turf/closed/wall/r_wall/ship,
-/area/hallway/secondary/exit/departure_lounge)
 "NA" = (
 /obj/machinery/computer/operating,
 /obj/structure/disposalpipe/segment{
@@ -11660,10 +11645,10 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/turretid{
+	control_area = /area/ai_monitored/turret_protected/aisat_interior;
 	icon_state = "control_stun";
 	name = "AI Chamber turret control";
-	pixel_x = 58;
-	control_area = /area/ai_monitored/turret_protected/aisat_interior
+	pixel_x = 58
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/ai_monitored/turret_protected/ai_upload)
@@ -11792,9 +11777,9 @@
 "NY" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/machinery/door/poddoor/shutters/preopen{
-	req_one_access_txt = "40";
 	id = "cmo_office";
-	name = "CMO Office Shutters"
+	name = "CMO Office Shutters";
+	req_one_access_txt = "40"
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/crew_quarters/heads/cmo)
@@ -11964,8 +11949,8 @@
 "OD" = (
 /obj/machinery/nuclearbomb/selfdestruct,
 /obj/machinery/camera/motion{
-	dir = 4;
-	c_tag = "Vault South"
+	c_tag = "Vault South";
+	dir = 4
 	},
 /turf/open/floor/engine/light,
 /area/ai_monitored/nuke_storage)
@@ -12153,8 +12138,8 @@
 "Pp" = (
 /obj/machinery/door/airlock/ship/station/research/glass{
 	dir = 4;
-	req_one_access_txt = "29;30";
-	name = "Server Access"
+	name = "Server Access";
+	req_one_access_txt = "29;30"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -12216,10 +12201,10 @@
 	name = "starmap console"
 	},
 /obj/machinery/button/door{
-	pixel_y = 24;
-	req_one_access_txt = "40";
+	id = "cmo_office";
 	name = "CMO Office Shutters";
-	id = "cmo_office"
+	pixel_y = 24;
+	req_one_access_txt = "40"
 	},
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/cmo)
@@ -12377,9 +12362,9 @@
 /area/maintenance/department/science)
 "Qh" = (
 /obj/machinery/door/airlock/ship/medical/glass{
-	req_one_access_txt = "39";
+	id_tag = "virology_exterior";
 	name = "Virology Exterior";
-	id_tag = "virology_exterior"
+	req_one_access_txt = "39"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -12703,8 +12688,8 @@
 /area/ai_monitored/turret_protected/aisat_interior)
 "Rs" = (
 /obj/machinery/door/airlock/ship/command/glass{
-	req_one_access_txt = "20";
-	name = "Captain's Office"
+	name = "Captain's Office";
+	req_one_access_txt = "20"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -13028,8 +13013,8 @@
 /area/hallway/secondary/exit)
 "SK" = (
 /obj/machinery/door/window/westleft{
-	req_one_access_txt = "19";
-	name = "Council Podium"
+	name = "Council Podium";
+	req_one_access_txt = "19"
 	},
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -13223,9 +13208,9 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/airlock/ship/medical/glass{
-	req_one_access_txt = "39";
+	id_tag = "virology_interior";
 	name = "Virology Interior";
-	id_tag = "virology_interior"
+	req_one_access_txt = "39"
 	},
 /obj/effect/mapping_helpers/airlock/locked,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -13604,8 +13589,8 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/airlock/ship/station/research/glass{
 	dir = 1;
-	req_one_access_txt = "47";
-	name = "Research Lobby"
+	name = "Research Lobby";
+	req_one_access_txt = "47"
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plasteel/tiled/light,
@@ -13893,9 +13878,9 @@
 "VB" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/machinery/door/poddoor/shutters/preopen{
-	req_one_access_txt = "30";
 	id = "rd_office";
-	name = "RD Office Shutters"
+	name = "RD Office Shutters";
+	req_one_access_txt = "30"
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/crew_quarters/heads/hor)
@@ -14370,8 +14355,8 @@
 /area/security/brig)
 "Xf" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	req_one_access_txt = "29";
-	name = "Robotics Maintenance Access"
+	name = "Robotics Maintenance Access";
+	req_one_access_txt = "29"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -36914,7 +36899,7 @@ Kl
 Kl
 Bq
 Vk
-Ny
+Kl
 WD
 Jn
 WD
@@ -37428,7 +37413,7 @@ WR
 Kl
 rS
 EQ
-Ny
+Kl
 WD
 Cv
 WD
@@ -37942,7 +37927,7 @@ az
 Hr
 zt
 Pe
-BW
+Kl
 Ph
 LX
 nk
