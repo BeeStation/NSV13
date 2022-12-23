@@ -1966,6 +1966,10 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/noslip/white,
 /area/ruin/powered/nsv13/boarding_interior)
+"hO" = (
+/obj/machinery/ship_weapon/pdc_mount/south,
+/turf/open/floor/engine/airless/light,
+/area/ruin/powered/nsv13/boarding_interior)
 "hR" = (
 /obj/machinery/computer/cargo/request{
 	dir = 8
@@ -2070,8 +2074,8 @@
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "ii" = (
-/obj/machinery/rnd/production/techfab/department/service,
-/turf/open/floor/plating,
+/obj/structure/hull_plate,
+/turf/closed/indestructible,
 /area/ruin/powered/nsv13/boarding_interior)
 "il" = (
 /obj/structure/table/wood,
@@ -2856,18 +2860,6 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/ruin/powered/nsv13/boarding_interior)
-"lo" = (
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/turf/open/floor/plating,
-/area/ruin/powered/nsv13/boarding_interior)
 "lq" = (
 /obj/structure/flora/junglebush/b,
 /turf/open/floor/grass{
@@ -3094,12 +3086,7 @@
 /turf/open/floor/engine/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "ml" = (
-/obj/machinery/power/smes/magical,
-/obj/structure/cable{
-	icon_state = "0-8"
-	},
-/obj/machinery/ship_weapon/pdc_mount/east,
-/turf/open/floor/plating,
+/turf/closed/indestructible,
 /area/ruin/powered/nsv13/boarding_interior)
 "mp" = (
 /obj/structure/closet/l3closet/virology{
@@ -3977,6 +3964,13 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
+/area/ruin/powered/nsv13/boarding_interior)
+"pT" = (
+/obj/machinery/ship_weapon/pdc_mount/south,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/engine/airless/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "pU" = (
 /obj/machinery/turretid{
@@ -5520,10 +5514,11 @@
 /turf/open/floor/engine/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "vU" = (
-/obj/structure/hull_plate,
-/obj/structure/ladder,
-/turf/open/floor/engine/airless/light,
-/area/space)
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/closed/wall/r_wall/ship,
+/area/ruin/powered/nsv13/boarding_interior)
 "vX" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -5772,13 +5767,10 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "xi" = (
-/obj/structure/table,
-/obj/item/watertank/janitor,
-/obj/item/reagent_containers/spray/cleaner,
-/obj/item/radio/intercom/directional/east,
-/obj/item/lightreplacer,
-/obj/item/flashlight/lamp,
-/turf/open/floor/plating,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/closed/wall/r_wall/ship,
 /area/ruin/powered/nsv13/boarding_interior)
 "xl" = (
 /obj/machinery/light/small,
@@ -8134,13 +8126,16 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "Gr" = (
-/obj/structure/cable{
-	icon_state = "1-4"
+/obj/machinery/power/terminal{
+	dir = 4
 	},
-/obj/machinery/ship_weapon/pdc_mount/south,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/obj/item/ammo_box/magazine/nsv/pdc,
-/turf/open/floor/plating,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/engine/airless/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "Gu" = (
 /obj/structure/cable{
@@ -8255,6 +8250,12 @@
 /obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/plasteel/tiled/light,
 /area/ruin/powered/nsv13/boarding_interior)
+"GN" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/engine/airless/light,
+/area/ruin/powered/nsv13/boarding_interior)
 "GR" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -8287,8 +8288,7 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "GW" = (
-/obj/structure/fluff/vls_hatch,
-/turf/open/openspace/airless,
+/turf/closed/wall/r_wall/ship,
 /area/space)
 "GY" = (
 /obj/machinery/suit_storage_unit/standard_unit,
@@ -8410,9 +8410,16 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "Hs" = (
-/obj/machinery/computer/ship/ftl_computer/preset/warp,
-/obj/machinery/ship_weapon/pdc_mount/west,
-/turf/open/floor/plating,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/engine/airless/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "Hv" = (
 /obj/structure/disposalpipe/segment,
@@ -8436,18 +8443,15 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "Hy" = (
-/obj/structure/table,
-/obj/item/storage/box/mousetraps{
-	pixel_x = -3;
-	pixel_y = 8
+/obj/structure/cable{
+	icon_state = "0-4"
 	},
-/obj/item/soap/deluxe,
-/obj/item/mop,
-/obj/item/reagent_containers/glass/bucket{
-	pixel_x = 5;
-	pixel_y = 5
+/obj/machinery/power/smes/magical{
+	input_level_max = 1.5e+7;
+	name = "microuniverse power storage unit";
+	output_level_max = 1.5e+7
 	},
-/turf/open/floor/plating,
+/turf/open/floor/engine/airless/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "HA" = (
 /obj/structure/cable,
@@ -10309,6 +10313,9 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/engine/airless/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "PU" = (
@@ -11482,8 +11489,10 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "UU" = (
-/obj/machinery/ship_weapon/pdc_mount/west,
-/turf/open/floor/plating,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/closed/indestructible,
 /area/ruin/powered/nsv13/boarding_interior)
 "UV" = (
 /obj/structure/cable{
@@ -11832,10 +11841,17 @@
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "Wk" = (
-/obj/structure/hull_plate,
-/obj/structure/fluff/vls_hatch,
-/turf/open/openspace/airless,
-/area/space)
+/obj/machinery/power/terminal{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/engine/airless/light,
+/area/ruin/powered/nsv13/boarding_interior)
 "Wl" = (
 /obj/machinery/hydroponics/soil,
 /obj/structure/cable{
@@ -11980,8 +11996,15 @@
 /turf/open/floor/grass/fakebasalt,
 /area/ruin/powered/nsv13/boarding_interior)
 "WN" = (
-/obj/item/pet_carrier,
-/turf/open/floor/plating,
+/obj/structure/cable{
+	icon_state = "0-8"
+	},
+/obj/machinery/power/smes/magical{
+	input_level_max = 1.5e+7;
+	name = "microuniverse power storage unit";
+	output_level_max = 1.5e+7
+	},
+/turf/open/floor/engine/airless/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "WP" = (
 /obj/machinery/computer/communications,
@@ -12353,6 +12376,13 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/ruin/powered/nsv13/boarding_interior)
+"Yp" = (
+/obj/machinery/ship_weapon/pdc_mount/south,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/engine/airless/light,
+/area/ruin/powered/nsv13/boarding_interior)
 "Yr" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -12686,9 +12716,8 @@
 /turf/open/floor/grass,
 /area/ruin/powered/nsv13/boarding_interior)
 "Zw" = (
-/obj/structure/closet/l3closet/janitor,
-/obj/item/key/janitor,
-/turf/open/floor/plating,
+/obj/machinery/computer/ship/ftl_computer/preset/warp,
+/turf/open/floor/engine/airless/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "Zx" = (
 /obj/machinery/requests_console{
@@ -12847,10 +12876,11 @@
 /turf/closed/wall/r_wall/ship,
 /area/ruin/powered/nsv13/boarding_interior)
 "ZZ" = (
-/obj/structure/hull_plate,
-/obj/structure/sign/directions/plaque/munitions,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/engine/airless/light,
-/area/space)
+/area/ruin/powered/nsv13/boarding_interior)
 
 (1,1,1) = {"
 Zp
@@ -49730,7 +49760,7 @@ cL
 ed
 zV
 cL
-WN
+Ge
 ZY
 eN
 Vn
@@ -50246,8 +50276,8 @@ VG
 TI
 UO
 ZY
-aV
 GW
+aV
 ZY
 ZY
 ZY
@@ -50505,7 +50535,7 @@ tS
 ZY
 GW
 aV
-GW
+aV
 ZY
 ZY
 WP
@@ -50754,16 +50784,16 @@ Ng
 ji
 Pb
 ZY
-Ge
-Zw
-xi
-Hy
-ii
 ZY
-aV
+ZY
+ZY
+ZY
+ZY
+ZY
 GW
 aV
-Wk
+aV
+aV
 ZY
 ZY
 Cq
@@ -51011,15 +51041,15 @@ BR
 HE
 tM
 ZY
-ZY
-ZY
-ZY
-ZY
-ZY
-ZY
+ml
+ml
+ml
+ml
+ml
+ml
+GW
 aV
 aV
-Wk
 aV
 ZY
 ZY
@@ -51268,17 +51298,17 @@ aT
 rc
 Rc
 ZY
+ml
 Jy
 Jy
+Zw
 Jy
-Jy
-ZY
-ZY
+ml
+GW
 aV
 aV
 aV
-ZZ
-vU
+aV
 aV
 ZY
 ZY
@@ -51525,13 +51555,13 @@ RE
 RG
 HR
 ZY
+ml
 Jy
 Jy
 Jy
 Jy
-ZY
-ZY
-aV
+ml
+GW
 aV
 aV
 aV
@@ -51782,13 +51812,13 @@ Fr
 Ed
 ui
 ZY
+ml
 Jy
 Jy
 Jy
 Jy
-ZY
-ZY
-aV
+ml
+GW
 aV
 aV
 aV
@@ -52039,13 +52069,13 @@ pD
 Ox
 Jx
 AW
-uW
+UU
 uW
 uW
 PS
-ZY
-ZY
-aV
+ZZ
+ml
+GW
 Xw
 aV
 aV
@@ -52296,13 +52326,13 @@ Bv
 vN
 Xq
 ZY
-Jy
+ml
 Jy
 Jy
 eX
-ZY
-ZY
-aV
+GN
+ml
+GW
 aV
 aV
 aV
@@ -52553,13 +52583,13 @@ ds
 HN
 hi
 ZY
+ml
 Jy
 Jy
 Jy
-Jy
-ZY
-ZY
-aV
+GN
+ml
+GW
 aV
 aV
 aV
@@ -52810,13 +52840,13 @@ FY
 ms
 pd
 ZY
+ml
 Jy
 Jy
 Jy
-Jy
-ZY
-ZY
-aV
+GN
+ml
+GW
 aV
 aV
 aV
@@ -53067,13 +53097,13 @@ AB
 ZY
 fz
 ZY
-GG
-GG
-GG
-GG
-ZY
-ZY
-aV
+ii
+ml
+Hy
+Hy
+pT
+ml
+GW
 Uj
 aV
 aV
@@ -53325,12 +53355,12 @@ ZY
 pd
 ZY
 GG
-ZY
-ZY
-ZY
-ZY
-ZY
-aV
+ml
+Wk
+Wk
+pT
+ml
+GW
 aV
 aV
 aV
@@ -53581,13 +53611,13 @@ GM
 Xn
 gx
 Fc
-ZY
-UU
+vU
 UU
 Hs
-ZY
-ZY
-aV
+Hs
+Yp
+ml
+GW
 aV
 aV
 TX
@@ -53838,13 +53868,13 @@ lu
 iD
 uh
 XU
-AW
-lo
-lo
+xi
+ml
 Gr
-ZY
-ZY
-aV
+Gr
+hO
+ml
+GW
 aV
 aV
 aV
@@ -54097,11 +54127,11 @@ Gk
 ZY
 ZY
 ml
+WN
+WN
 ml
 ml
-ZY
-ZY
-aV
+GW
 qS
 aV
 aV
@@ -54353,12 +54383,12 @@ CO
 yc
 ZY
 ZY
-ZY
-ZY
-ZY
-ZY
-uH
-aV
+ml
+ml
+ml
+ml
+GW
+GW
 uH
 aV
 aV
@@ -54613,8 +54643,8 @@ ZY
 ZY
 ZY
 ZY
-uH
-uH
+GW
+GW
 og
 og
 og

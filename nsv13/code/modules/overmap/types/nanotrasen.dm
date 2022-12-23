@@ -169,7 +169,6 @@
 
 /obj/structure/overmap/nanotrasen/serendipity/event/apply_weapons()
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	AddComponent(/datum/component/overmap_shields, 6000000, 6000000, 600000)
 
 //Player Versions
 // deletion_behavior = DAMAGE_STARTS_COUNTDOWN
