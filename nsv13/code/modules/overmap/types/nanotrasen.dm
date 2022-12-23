@@ -161,6 +161,16 @@
 	armor = list("overmap_light" = 50, "overmap_medium" = 40, "overmap_heavy" = 50)
 	use_armour_quadrants = TRUE
 
+/obj/structure/overmap/nanotrasen/serendipity/event
+	obj_integrity = 10000000
+	max_integrity = 10000000
+	integrity_failure = 10000000
+	use_armour_quadrants = FALSE
+
+/obj/structure/overmap/nanotrasen/serendipity/event/apply_weapons()
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	AddComponent(/datum/component/overmap_shields, 6000000, 6000000, 600000)
+
 //Player Versions
 // deletion_behavior = DAMAGE_STARTS_COUNTDOWN
 // starting_system = "Staging"
@@ -369,15 +379,6 @@
 /obj/structure/overmap/nanotrasen/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
-/obj/structure/overmap/nanotrasen/serendipity/ai_event
-	ai_controlled = TRUE
-	ai_flags = AI_FLAG_SUPPLY
-	combat_dice_type = /datum/combat_dice/civilian
-	shots_left = 10000
-	torpedoes = 10
 
-//Specifically for the introduction of the Serendipity. Numbers are busted on purpose. THIS SHIPS IS NOT FOR REGULAR USE, DO NOT SPAWN
-/obj/structure/overmap/nanotrasen/serendipity/ai_event/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
-	AddComponent(/datum/component/overmap_shields, 1000000000, 1000000000, 1000000000)
+
+
