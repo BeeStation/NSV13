@@ -439,7 +439,7 @@
  */
 /obj/machinery/ship_weapon/proc/can_fire(atom/target, shots = weapon_type.burst_size)
 	if(broadside && target)
-		return dir == angle2dir_ship(overmap_angle(linked, target)) ? TRUE : FALSE
+		return dir == angle2dir_ship(overmap_angle(linked, target) - linked.angle) ? TRUE : FALSE
 	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
 	if (maint_state > MSTATE_UNSCREWED) //Are we in maintenance?
