@@ -606,7 +606,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		if(!lateral)
 			proj.setAngle(src.angle)
 		if(broadside)
-			if(angle2dir_ship(overmap_angle(src, target)) == SOUTH)
+			if(angle2dir_ship(overmap_angle(src, target) - angle) == SOUTH)
 				proj.setAngle(src.angle + rand(70, 110))
 			else
 				proj.setAngle(src.angle + rand(250, 290))
