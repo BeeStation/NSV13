@@ -424,7 +424,7 @@ All foods are distributed among various categories. Use common sense.
 				F.forkload = R
 				if(reagents.total_volume <= 0)
 					qdel(src)
-			return ..()
+			return
 		else
 			to_chat(user, "<span class='warning'>You can't eat this with a spoon!</span>")
 			return
