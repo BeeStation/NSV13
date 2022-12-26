@@ -427,7 +427,8 @@ All foods are distributed among various categories. Use common sense.
 			return ..()
 		else
 			to_chat(user, "<span class='warning'>You can't eat this with a spoon!</span>")
-
+			return
+	..()
 
 /obj/item/kitchen/fork/attack(mob/living/carbon/M, mob/living/carbon/user)
 	if(!istype(M))
