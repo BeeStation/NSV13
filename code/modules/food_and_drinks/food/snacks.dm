@@ -424,10 +424,11 @@ All foods are distributed among various categories. Use common sense.
 				F.forkload = R
 				if(reagents.total_volume <= 0)
 					qdel(src)
-			return ..()
+			return
 		else
 			to_chat(user, "<span class='warning'>You can't eat this with a spoon!</span>")
-
+			return
+	..()
 
 /obj/item/kitchen/fork/attack(mob/living/carbon/M, mob/living/carbon/user)
 	if(!istype(M))
@@ -448,8 +449,7 @@ All foods are distributed among various categories. Use common sense.
 			M = user
 		return eyestab(M,user)
 	else
-		return ..()
-
+		return
 
 /obj/item/kitchen/spoon/attack(mob/living/carbon/M, mob/living/carbon/user)
 	if(!istype(M))
