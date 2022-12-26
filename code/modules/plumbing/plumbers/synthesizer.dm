@@ -20,7 +20,7 @@
 	///reagent overlay. its the colored pipe thingies. we track this because overlays.Cut() is bad
 	var/image/r_overlay
 
-//NSV 13 Removed the two vars here for matter cartridge requirements. Need speedy heals
+//NSV 13 Removed the two vars here for matter cartridge requirements.
 
 	///straight up copied from chem dispenser. Being a subtype would be extremely tedious and making it global would restrict potential subtypes using different dispensable_reagents
 	var/list/dispensable_reagents = list(
