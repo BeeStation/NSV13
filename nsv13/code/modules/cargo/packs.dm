@@ -692,3 +692,11 @@
 					/obj/item/reagent_containers/glass/bottle/sacid,
 					/obj/item/reagent_containers/glass/bottle/sacid)
 	crate_name = "Chemical Supply Crate - Chalcogens"
+
+/datum/supply_pack/medical/synthesizer_cartridge
+	name = "Chemical Synthesizer Cartridge Supply Crate"
+	desc = "This crate contains cartridges for a chemical synthesizer"
+	cost = 1000
+	contains = list(/obj/item/synthesizer_cartridge,
+					/obj/item/synthesizer_cartridge,
+					/obj/item/synthesizer_cartridge)

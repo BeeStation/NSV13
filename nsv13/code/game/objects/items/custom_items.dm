@@ -112,3 +112,14 @@
 /obj/item/kirbyplants/random/plush/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE, force_unwielded=0, force_wielded=0, wieldsound='sound/items/bikehorn.ogg')
+
+/obj/item/synthesizer_cartridge
+	name = "chemical component cartridge"
+	desc = "A cartridge for a chemical synthesizer."
+	icon = 'icons/obj/ammo.dmi'
+	icon_state = "rcd"
+	item_state = "rcdammo"
+	w_class = WEIGHT_CLASS_TINY
+	lefthand_file = 'icons/mob/inhands/equipment/tools_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
+	var/chems = 40

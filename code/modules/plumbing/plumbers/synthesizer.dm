@@ -71,24 +71,24 @@
 	volume_left = max(volume_left - amount*delta_time*0.5, 0)
 
 /obj/machinery/plumbing/synthesizer/attackby(obj/item/O, mob/user, params)
-	if(!istype(O, /obj/item/rcd_ammo))
+	if(!istype(O, /obj/item/synthesizer_cartridge))
 		return ..()
-	var/obj/item/rcd_ammo/R = O
-	if(!R.ammoamt)
+	var/obj/item/synthesizer_cartridge/R = O
+	if(!R.chems)
 		to_chat(user, "<span class='warning'>The [R.name] doesn't have any reagent left!</span>")
 		return ..()
 	var/added_volume = -volume_left //For the difference calculation
-	volume_left = min(volume_left+R.ammoamt*10, src.max_volume) //400 per cartridge
+	volume_left = min(volume_left+R.chems*10, src.max_volume) //400 per cartridge
 	added_volume = added_volume+volume_left
-	R.ammoamt -= added_volume/10
-	if(R.ammoamt <= 0) //Emptied
+	R.chems -= added_volume/10
+	if(R.chems <= 0) //Emptied
 		to_chat(user, "<span class='notice'>You refill the chemical synthesizer with the [R.name], emptying it completely!</span>")
 		qdel(R)
 		return
 	if(added_volume == 0) //No change
 		to_chat(user, "<span class='notice'>The chemical synthesizer is full!</span>")
 		return
-	to_chat(user, "<span class='notice'>You refill the chemical synthesizer with the [R.name], leaving [R.ammoamt*10] units in it.</span>")
+	to_chat(user, "<span class='notice'>You refill the chemical synthesizer with the [R.name], leaving [R.chems*10] units in it.</span>")
 
 /obj/machinery/plumbing/synthesizer/examine(mob/user)
 	. = ..()
