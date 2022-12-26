@@ -606,8 +606,7 @@
 
 // Handles shell powder load damage modifiers
 /obj/item/ship_weapon/ammunition/naval_artillery/proc/handle_shell_modifiers(obj/item/projectile/proj)
-	if(speed > NAC_NORMAL_POWDER_LOAD)
-		proj.armour_penetration += max((speed - NAC_NORMAL_POWDER_LOAD) * 2.5, 0) // We don't have anything to scale off of, so go linearly by a little bit
+	return
 
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "cannon ball"
@@ -644,8 +643,7 @@
 /obj/item/ship_weapon/ammunition/naval_artillery/ap/handle_shell_modifiers(obj/item/projectile/proj)
 	if(speed >= NAC_NORMAL_POWDER_LOAD)
 		proj.damage = proj.damage * CLAMP(log(10, speed * 5), 1, 2) // at 2 speed (or 100% powder load), damage mod is 1, logarithmically scaling up/down based on powder load
-	else
-		proj.damage = proj.damage * CLAMP(sqrt(speed), 0.6, 1)
+	proj.armour_penetration = proj.armour_penetration * CLAMP(sqrt(speed * 0.5), 0.5, 3)
 
 /obj/item/ship_weapon/ammunition/naval_artillery/homing
 	name = "FTL-1301 Magneton Naval Artillery Round"
