@@ -448,8 +448,7 @@ All foods are distributed among various categories. Use common sense.
 			M = user
 		return eyestab(M,user)
 	else
-		return ..()
-
+		return
 
 /obj/item/kitchen/spoon/attack(mob/living/carbon/M, mob/living/carbon/user)
 	if(!istype(M))
