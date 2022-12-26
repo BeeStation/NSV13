@@ -70,7 +70,7 @@
 	reagents.add_reagent(reagent_id, amount*delta_time*0.5)
 	volume_left = max(volume_left - amount*delta_time*0.5, 0)
 
-/obj/machinery/plumbing/synthesizer/attackby(obj/item/O, mob/user, params)
+/obj/machinery/plumbing/synthesizer/attackby(obj/item/O, mob/user, params) //NSV13 - Changed cartidge object
 	if(!istype(O, /obj/item/synthesizer_cartridge))
 		return ..()
 	var/obj/item/synthesizer_cartridge/R = O
