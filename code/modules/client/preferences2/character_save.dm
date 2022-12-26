@@ -240,7 +240,7 @@
 	all_quirks = SANITIZE_LIST(all_quirks)
 
 
-	flavor_text = trim(sanitize(sanitize_text(flavor_text))) //NSV13 added flavor text
+	flavor_text = strip_html(flavor_text) //NSV13 added flavor text
 
 	return TRUE
 

@@ -1702,9 +1702,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					C.select_syndie_role()
 
 				if("flavor_text")
-					var/msg = sanitize(stripped_multiline_input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character.\nNothing that breaks the game.", "Flavor Text", active_character.flavor_text))
+					var/msg = stripped_multiline_input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character.\nNothing that breaks the game.", "Flavor Text", active_character.flavor_text)
 					if(msg)
-						active_character.flavor_text = html_decode(msg)
+						active_character.flavor_text = msg
 				//NSV13 end
 				if ("preferred_map")
 					var/maplist = list()
