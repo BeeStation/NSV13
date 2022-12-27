@@ -90,37 +90,6 @@ Credit to TGMC for the interior sprites for all these!
     name = "Syndicate Dropship"
     mappath = "_maps/templates/boarding/dropship_syndicate.dmm"
 
-/obj/structure/overmap/small_craft/transport/gunship
-	name = "SC-130 'Halberd' gunship"
-	desc = "A horrible, cramped death trap armed to the teeth with more guns than most small nations, all of which are under investigation for their carcinogenic properties."
-	possible_interior_maps = list(/datum/map_template/dropship/gunship)
-	components = list(/obj/item/fighter_component/fuel_tank/tier2,
-						/obj/item/fighter_component/avionics,
-						/obj/item/fighter_component/apu,
-						/obj/item/fighter_component/armour_plating,
-						/obj/item/fighter_component/targeting_sensor,
-						/obj/item/fighter_component/engine,
-						/obj/item/fighter_component/docking_computer,
-						/obj/item/fighter_component/battery,
-						/obj/item/fighter_component/ftl,
-						/obj/item/fighter_component/countermeasure_dispenser)
-
-/datum/map_template/dropship/gunship
-    name = "SC-130 Halberd Gunship"
-    mappath = "_maps/templates/boarding/gunship.dmm"
-
-/obj/structure/overmap/small_craft/transport/gunship/apply_weapons()
-	if(!weapon_types[FIRE_MODE_ANTI_AIR])
-		weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/fighter_primary(src)
-	if(!weapon_types[FIRE_MODE_TORPEDO])
-		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	if(!weapon_types[FIRE_MODE_AMS])
-		weapon_types[FIRE_MODE_AMS] = new/datum/ship_weapon/vls(src)
-	if(!weapon_types[FIRE_MODE_GAUSS])
-		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	if(!weapon_types[FIRE_MODE_PDC])
-		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-
 /obj/structure/overmap/small_craft/transport/sabre
 	name = "Su-437 Sabre"
 	desc = "A Su-437 Sabre utility vessel. Designed for robustness in deep space and as a highly modular platform, able to be fitted out for any situation. While its interior may be cramped, it's definitely functional. Drag and drop crates / ore boxes to load them into its cargo hold."
@@ -183,4 +152,4 @@ Credit to TGMC for the interior sprites for all these!
 /datum/map_template/dropship/sabre/syndicate
     name = "SU-437 Sabre Interior (Syndicate)"
     mappath = "_maps/templates/boarding/sabre_interior_syndicate.dmm"
- 
+

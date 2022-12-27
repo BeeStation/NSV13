@@ -779,3 +779,175 @@ Chair + rack handling
 	data["pdc_mode"] = pdc_mode
 	data["canReload"] = ammo_rack && (ammo_rack.contents?.len >= 2)
 	return data
+
+
+//SUPER GAUSS HERE - Effectively not how gauss normally functions
+/obj/machinery/ship_weapon/super_gauss_rack
+	name = "\improper Gauss loading rack"
+	icon = 'nsv13/icons/obj/munitions_large.dmi'
+	icon_state = "loading_rack"
+	desc = "A large rack used as an ammunition feed for gauss guns. The rack will automatically feed the gauss gun above it with ammunition. You can load a crate with ammo and click+drag it onto the rack to speedload, or manually load it with rounds by hand."
+	anchored = TRUE
+	density = TRUE
+	safety = FALSE
+	layer = 3
+
+	state = STATE_NOTLOADED
+	fire_mode = FIRE_MODE_GAUSS
+	ammo_type = /obj/item/ship_weapon/ammunition/gauss
+
+	auto_load = FALSE
+	semi_auto = TRUE
+	maintainable = FALSE
+	max_ammo = 12
+
+	load_delay = 5
+	unload_delay = 5
+	bang = FALSE
+
+	///Amount of gauss rounds starting from the bottom of the rack that are fully opaque
+	var/full_alpha_count = 3
+	///Amount of alpha reduced with each subsequent gauss round added to the rack
+	var/alpha_interval = 40
+	///Minimum alpha for vis_contents
+	var/min_alpha = 70
+	///Maximum alpha for vis_contents
+	var/max_alpha = 255
+	///pixel_y offset for each gauss round in the rack
+	var/ammo_offset_y = 4
+
+/obj/machinery/ship_weapon/super_gauss_rack/do_animation()
+	return //We have no animation
+
+/obj/machinery/ship_weapon/super_gauss_rack/screwdriver_act(mob/user, obj/item/tool)
+	return //No interaction required
+
+/obj/machinery/ship_weapon/super_gauss_rack/crowbar_act(mob/user, obj/item/tool)
+	return //No interaction required
+
+/obj/machinery/ship_weapon/super_gauss_rack/Destroy()
+	for(var/atom/movable/A in contents)
+		A.forceMove(loc)
+	. = ..()
+
+/obj/machinery/ship_weapon/super_gauss_rack/load(obj/A, mob/user)
+	..()
+	vis_contents += A
+	A.layer = ABOVE_MOB_LAYER
+	A.mouse_opacity = FALSE
+	update_icon()
+
+/obj/machinery/ship_weapon/super_gauss_rack/unload() //We may as well override the functionality here
+	set waitfor = FALSE
+	if(unload_sound)
+		playsound(src, unload_sound, 100, 1)
+	sleep(unload_delay)
+
+	if(length(ammo))
+		for(var/obj/item/ship_weapon/ammunition/gauss/G in ammo)
+			ammo -= G
+			G.forceMove(get_turf(src))
+			vis_contents -= G
+			G.pixel_y = initial(G.pixel_y)
+			G.alpha = initial(G.alpha)
+			G.layer = initial(G.layer)
+			G.mouse_opacity = TRUE
+
+/obj/machinery/ship_weapon/super_gauss_rack/proc/raise_rack()
+	if(!length(ammo))
+		return FALSE
+
+	playsound(src, 'nsv13/sound/effects/ship/freespace2/crane_2.wav', 100, FALSE)
+	pixel_y = 0
+	loading = TRUE
+	animate(src, pixel_y = 60, time = 4 SECONDS)
+	sleep(4 SECONDS)
+
+	for(var/obj/item/ship_weapon/ammunition/gauss/G in ammo)
+		G.alpha = 0 //invisibility cloak engage
+
+	icon_state = "super_gauss_loaded"
+	pixel_y = 0
+	state = STATE_LOADED
+	loading = FALSE
+	feed()
+	chamber()
+
+/obj/machinery/ship_weapon/super_gauss_rack/proc/lower_rack()
+	set waitfor = FALSE
+	playsound(src, 'nsv13/sound/effects/ship/freespace2/crane_2.wav', 100, FALSE)
+	//Required weapon procs
+	unchamber()
+	unfeed()
+
+ 	//Disengage the cloak
+	update_icon()
+
+	//Animate the rack
+	pixel_y = 60
+	icon_state = initial(icon_state)
+	animate(src, pixel_y = 0, time = 4 SECONDS)
+	sleep(4 SECONDS)
+	visible_message("<span class='notice'>[src] clunks into place!</span>")
+	state = STATE_NOTLOADED
+
+/obj/machinery/ship_weapon/super_gauss_rack/after_fire()
+	..()
+	if(!length(ammo))
+		lower_rack() //Auto lower the rack if we've expended all the slugs
+
+/obj/machinery/ship_weapon/super_gauss_rack/attack_hand(mob/user)
+	ui_interact(user)
+
+/obj/machinery/ship_weapon/super_gauss_rack/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "SuperGaussRack")
+		ui.open()
+		ui.set_autoupdate(TRUE)
+
+/obj/machinery/ship_weapon/super_gauss_rack/ui_act(action, params, datum/tgui/ui)
+	if(..())
+		return
+	playsound(src.loc,'nsv13/sound/effects/fighters/switch.ogg', 50, FALSE)
+	switch(action)
+
+		if("unload_all")
+			if(state <= STATE_LOADED)
+				unload()
+				update_icon()
+			return
+
+		if("raise_rack")
+			if(state <= STATE_LOADED)
+				raise_rack()
+			return
+		if("lower_rack")
+			if(state == STATE_CHAMBERED)
+				lower_rack()
+			return
+
+/obj/machinery/ship_weapon/super_gauss_rack/ui_data(mob/user)
+	var/list/data = list()
+	data["capacity"] = length(ammo)
+	data["max_capacity"] = max_ammo
+	var/list/bullets_info = list()
+	for(var/atom/movable/AM in contents)
+		var/list/bullet_info = list()
+		bullet_info["name"] = AM.name
+		bullet_info["id"] = "\ref[AM]"
+		bullets_info[++bullets_info.len] = bullet_info
+	data["bullets_info"] = bullets_info
+	data["loading"] = loading
+	return data
+
+/obj/machinery/ship_weapon/super_gauss_rack/update_icon() //See original ammo racks for implementation
+	..()
+	if(!ammo)
+		return
+	var/i = 1
+	var/startalpha = 255 + (full_alpha_count * alpha_interval)
+	for(var/obj/item/ship_weapon/ammunition/gauss/G in ammo) //Minor change here
+		G.pixel_y = (i*ammo_offset_y)
+		G.alpha = clamp(startalpha - (i*alpha_interval), min_alpha, max_alpha)
+		i++

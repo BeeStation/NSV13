@@ -256,7 +256,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			if(!engine)
 				to_chat(usr, "<span class='warning'>[src] does not have an engine installed!</span>")
 				return
-			engine.try_start()
+			engine.igniter = !engine.igniter
 		if("canopy_lock")
 			var/obj/item/fighter_component/canopy/canopy = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
 			if(!canopy)
@@ -351,104 +351,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 // Bypass the z level checks done by parent
 /obj/structure/overmap/small_craft/forceMove(atom/destination)
 	return doMove(destination)
-
-/obj/structure/overmap/small_craft/combat/light
-	name = "Su-818 Rapier"
-	desc = "An Su-818 Rapier space superiorty fighter craft. Designed for high maneuvreability and maximum combat effectivness against other similar weight classes."
-	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
-	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 10, "overmap_medium" = 5, "overmap_heavy" = 90)
-	sprite_size = 32
-	damage_states = FALSE //temp
-	max_integrity = 200 //Really really squishy!
-	max_angular_acceleration = 200
-	speed_limit = 10
-	pixel_w = -16
-	pixel_z = -20
-	components = list(/obj/item/fighter_component/fuel_tank,
-						/obj/item/fighter_component/avionics,
-						/obj/item/fighter_component/apu,
-						/obj/item/fighter_component/armour_plating,
-						/obj/item/fighter_component/targeting_sensor,
-						/obj/item/fighter_component/engine,
-						/obj/item/fighter_component/countermeasure_dispenser,
-						/obj/item/fighter_component/secondary/ordnance_launcher,
-						/obj/item/fighter_component/oxygenator,
-						/obj/item/fighter_component/canopy,
-						/obj/item/fighter_component/docking_computer,
-						/obj/item/fighter_component/battery,
-						/obj/item/fighter_component/primary/cannon)
-
-/obj/structure/overmap/small_craft/escapepod
-	name = "Escape Pod"
-	desc = "An escape pod launched from a space faring vessel. It only has very limited thrusters and is thus very slow."
-	icon = 'nsv13/icons/overmap/nanotrasen/escape_pod.dmi'
-	icon_state = "escape_pod"
-	damage_states = FALSE
-	bound_width = 32 //Change this on a per ship basis
-	bound_height = 32
-	pixel_z = 0
-	pixel_w = 0
-	max_integrity = 500 //Able to withstand more punishment so that people inside it don't get yeeted as hard
-	canopy_open = FALSE
-	essential = TRUE
-	escape_pod_type = null // This would just be silly
-	speed_limit = 2 //This, for reference, will feel suuuuper slow, but this is intentional
-	loadout_type = LOADOUT_UTILITY_ONLY
-	components = list(/obj/item/fighter_component/fuel_tank,
-						/obj/item/fighter_component/avionics,
-						/obj/item/fighter_component/apu,
-						/obj/item/fighter_component/armour_plating,
-						/obj/item/fighter_component/targeting_sensor,
-						/obj/item/fighter_component/engine,
-						/obj/item/fighter_component/oxygenator,
-						/obj/item/fighter_component/canopy,
-						/obj/item/fighter_component/docking_computer,
-						/obj/item/fighter_component/battery,
-						/obj/item/fighter_component/countermeasure_dispenser)
-
-/obj/structure/overmap/small_craft/escapepod/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
-	if(!force && !SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
-		return FALSE
-	return ..()
-
-/obj/structure/overmap/small_craft/combat/heavy
-	name = "Su-410 Scimitar"
-	desc = "An Su-410 Scimitar heavy attack craft. It's a lot beefier than its Rapier cousin and is designed to take out capital ships, due to the weight of its modules however, it is extremely slow."
-	icon = 'nsv13/icons/overmap/nanotrasen/heavy_fighter.dmi'
-	icon_state = "heavy_fighter"
-	armor = list("melee" = 80, "bullet" = 80, "laser" = 80, "energy" = 50, "bomb" = 50, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 25, "overmap_medium" = 20, "overmap_heavy" = 90)
-	sprite_size = 32
-	damage_states = FALSE //TEMP
-	max_integrity = 300 //Not so squishy!
-	pixel_w = -16
-	pixel_z = -20
-	speed_limit = 8
-	forward_maxthrust = 8
-	backward_maxthrust = 8
-	side_maxthrust = 7.75
-	max_angular_acceleration = 80
-	components = list(/obj/item/fighter_component/fuel_tank,
-						/obj/item/fighter_component/avionics,
-						/obj/item/fighter_component/apu,
-						/obj/item/fighter_component/armour_plating,
-						/obj/item/fighter_component/targeting_sensor,
-						/obj/item/fighter_component/engine,
-						/obj/item/fighter_component/countermeasure_dispenser,
-						/obj/item/fighter_component/oxygenator,
-						/obj/item/fighter_component/canopy,
-						/obj/item/fighter_component/docking_computer,
-						/obj/item/fighter_component/secondary/ordnance_launcher/torpedo,
-						/obj/item/fighter_component/battery,
-						/obj/item/fighter_component/primary/cannon/heavy)
-
-//Syndie counterparts.
-/obj/structure/overmap/small_craft/combat/light/syndicate //PVP MODE
-	name = "Syndicate Light Fighter"
-	desc = "The Syndicate's answer to Nanotrasen's light fighter craft, this fighter is designed to maintain aerial supremacy."
-	icon = 'nsv13/icons/overmap/syndicate/syn_viper.dmi'
-	req_one_access = ACCESS_SYNDICATE
-	faction = "syndicate"
-	start_emagged = TRUE
 
 /obj/structure/overmap/small_craft/Initialize(mapload, list/build_components=components)
 	. = ..()
@@ -635,6 +537,48 @@ Been a mess since 2018, we'll fix it someday (probably)
 						Press <b>C<b> to cycle mouse free movement.</span>")
 			return TRUE
 
+/obj/structure/overmap/small_craft/combat/dual/attack_hand(mob/user)
+	if(user.loc == src)
+		return FALSE //Get out of the seat first if you want to swapsies
+
+	if(allowed(user))
+		if(alert(user, "Enter which seat?","[src]", "Pilot", "Gunner") == "Pilot")
+			if(pilot)
+				to_chat(user, "<span class='notice'>[src] already has a pilot.</span>")
+				return FALSE
+
+			if(do_after(user, 2 SECONDS, target=src))
+				enter(user)
+				start_piloting(user, OVERMAP_USER_ROLE_PILOT)
+				to_chat(user, "<span class='notice'>You climb into [src]'s pilot cockpit")
+				ui_interact(user) //This will likely need to change
+				to_chat(user, "<span class='notice'>Small craft use directional keys (WASD in hotkey mode) to accelerate/decelerate in a given direction and the mouse to change the direction of craft.\
+							Mouse 1 will fire the selected weapon (if applicable).</span>")
+				to_chat(user, "<span class='warning'>=Hotkeys=</span>")
+				to_chat(user, "<span class='notice'>Use <b>tab</b> to activate hotkey mode, then:</span>")
+				to_chat(user, "<span class='notice'>Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
+							Press <b>X</b> to cycle inertial dampners. \
+							Press <b>Alt<b> to cycle the handbrake. \
+							Press <b>C<b> to cycle mouse free movement.</span>")
+				return TRUE
+		else
+			if(gunner)
+				to_chat(user, "<span class='notice'>[src] already has a gunner.</span>")
+				return FALSE
+
+			if(do_after(user, 2 SECONDS, target=src))
+				enter(user)
+				start_piloting(user, OVERMAP_USER_ROLE_GUNNER)
+				to_chat(user, "<span class='notice'>You climb into [src]'s RIO cockpit")
+				ui_interact(user) //This will likely need to change
+				to_chat(user, "<span class='notice'>This position has NO DIRECT CONTROL over the small craft controls.\
+							Mouse 1 will fire the selected weapon (if applicable).</span>")
+				to_chat(user, "<span class='warning'>=Hotkeys=</span>")
+				to_chat(user, "<span class='notice'>Use <b>tab</b> to activate hotkey mode, then:</span>")
+				to_chat(user, "<span class='notice'>Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
+							Press <b>Space</b> to cycle fire modes.</span>")
+				return TRUE
+
 /obj/structure/overmap/small_craft/proc/force_eject(force = FALSE)
 	. = list()
 	brakes = TRUE
@@ -785,6 +729,12 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /datum/component/ship_loadout/utility
 	equippable_slots = HARDPOINT_SLOTS_UTILITY
+
+/datum/component/ship_loadout/dual
+	equippable_slots = HARDPOINT_SLOTS_DUAL
+
+/datum/component/ship_loadout/gunship
+	equippable_slots = HARDPOINT_SLOTS_GUNSHIP
 
 /datum/component/ship_loadout/Initialize(source)
 	. = ..()
@@ -1179,6 +1129,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	slot = HARDPOINT_SLOT_ENGINE
 	active = FALSE
 	var/rpm = 0
+	var/igniter = FALSE
 	var/flooded = FALSE
 
 /obj/item/fighter_component/engine/screwdriver_act(mob/living/user, obj/item/I)
@@ -1207,10 +1158,34 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 			F.stop_relay(CHANNEL_SHIP_ALERT)
 			active = FALSE
 			return FALSE
+
+	if(APU?.fuel_line && igniter) //Use this to generate the base load, but care not to overspeed
+		apu_spin(500*tier)
+
 	if(rpm > 3000)
 		var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 		B.give(500  *tier)
+
+	if(rpm > ENGINE_RPM_SPUN)
+		playsound(loc, 'nsv13/sound/effects/computer/beep3.ogg', 100, TRUE)
+		if(prob(50))
+			loc.visible_message("<span class='warning'>[src]'s engine overspeed warning beeps")
+		if(prob(5))
+			playsound(loc, 'nsv13/sound/effects/ship/rcs.ogg', 100, TRUE)
+			loc.visible_message("<span class='userdanger'>[src] violently fizzles out!.</span>")
+			F.set_master_caution(TRUE)
+			rpm = 0
+			flooded = TRUE
+			active = FALSE
+
 	if(!active())
+		if(APU?.fuel_line)
+			if(rpm > ENGINE_RPM_SELF_SUSTAIN) //No longer need the igniter
+				apu_spin(500*tier)
+
+			if(rpm >= ENGINE_RPM_SPUN)
+				try_start()
+
 		return FALSE
 
 /obj/item/fighter_component/engine/proc/apu_spin(amount)
@@ -1224,22 +1199,12 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F))
 		return FALSE
-	if(rpm >= ENGINE_RPM_SPUN-200) //You get a small bit of leeway.
-		active = TRUE
-		rpm = ENGINE_RPM_SPUN
-		playsound(loc, 'nsv13/sound/effects/fighters/startup.ogg', 100, FALSE)
-		F.relay('nsv13/sound/effects/fighters/cockpit.ogg', "<span class='warning'>You hear a loud noise as [F]'s engine kicks in.</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
-		return
-	else
-		playsound(loc, 'sound/machines/clockcult/steam_whoosh.ogg', 100, TRUE)
-		loc.visible_message("<span class='warning'>[src] sputters slightly.</span>")
-		if(prob(20)) //Don't try and start a not spun engine, flyboys.
-			playsound(loc, 'nsv13/sound/effects/ship/rcs.ogg', 100, TRUE)
-			loc.visible_message("<span class='userdanger'>[src] violently fizzles out!.</span>")
-			F.set_master_caution(TRUE)
-			rpm = 0
-			flooded = TRUE
-			active = FALSE
+
+	active = TRUE
+	rpm = ENGINE_RPM_SPUN
+	playsound(loc, 'nsv13/sound/effects/fighters/startup.ogg', 100, FALSE)
+	F.relay('nsv13/sound/effects/fighters/cockpit.ogg', "<span class='warning'>You hear a loud noise as [F]'s engine kicks in.</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
+	return
 
 /obj/item/fighter_component/engine/tier2
 	name = "souped up fighter engine"
@@ -1402,33 +1367,6 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 As a rule of thumb, primaries are small guns that take ammo boxes, secondaries are big guns that require big bulky objects to be loaded into them.
 Utility modules can be either one of these types, just ensure you set its slot to HARDPOINT_SLOT_UTILITY
 */
-/obj/item/fighter_component/primary
-	name = "\improper Fuck you"
-	slot = HARDPOINT_SLOT_PRIMARY
-	fire_mode = FIRE_MODE_ANTI_AIR
-	var/overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
-	var/overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
-	var/accepted_ammo = /obj/item/ammo_box/magazine
-	var/obj/item/ammo_box/magazine/magazine = null
-	var/list/ammo = list()
-	var/burst_size = 1
-	var/fire_delay = 0
-	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
-	var/bypass_safety = FALSE
-
-/obj/item/fighter_component/primary/dump_contents()
-	. = ..()
-	for(var/atom/movable/AM as() in .)
-		if(AM == magazine)
-			magazine = null
-			ammo = list()
-			playsound(loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-
-/obj/item/fighter_component/primary/get_ammo()
-	return length(ammo)
-
-/obj/item/fighter_component/primary/get_max_ammo()
-	return magazine ? magazine.max_ammo : 500 //Default.
 
 //Ensure we get the genericised equipment mounts.
 /obj/structure/overmap/small_craft/apply_weapons()
@@ -1437,9 +1375,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	if(!weapon_types[FIRE_MODE_TORPEDO])
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/fighter_secondary(src)
 
-//Burst arg currently unused for this proc.
-/obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target, ai_aim = FALSE, burst = 1)
-	hardpoint_fire(target, FIRE_MODE_ANTI_AIR)
+/obj/structure/overmap/small_craft/proc/calibrate_weapons() //New method updating and applying weapons on small craft
+	var/list/CW[MAX_POSSIBLE_FIREMODE]
+	weapon_types = CW //Reset our list
+	for(var/obj/item/fighter_component/primary/P in contents)
+		weapon_types[P.fire_mode] = new P.weapon_datum(src)
+	for(var/obj/item/fighter_component/secondary/S in contents)
+		weapon_types[S.fire_mode] = new S.weapon_datum(src)
 
 /obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, fireMode)
 	if(istype(src, /obj/structure/overmap/small_craft))
@@ -1458,8 +1400,42 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	return FALSE
 
 //Burst arg currently unused for this proc.
+/obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target, ai_aim = FALSE, burst = 1)
+	hardpoint_fire(target, FIRE_MODE_ANTI_AIR)
+
+//Burst arg currently unused for this proc.
 /obj/structure/overmap/proc/secondary_fire(obj/structure/overmap/target, ai_aim = FALSE, burst = 1)
 	hardpoint_fire(target, FIRE_MODE_TORPEDO)
+
+/obj/item/fighter_component/primary
+	name = "PARENT Primary Weapon"
+	desc = "If this spawns, please contact the coding team"
+	slot = HARDPOINT_SLOT_PRIMARY
+	fire_mode = FIRE_MODE_ANTI_AIR
+	var/overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
+	var/overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
+	var/accepted_ammo = /obj/item/ammo_box/magazine
+	var/obj/item/ammo_box/magazine/magazine = null
+	var/list/ammo = list()
+	var/burst_size = 1
+	var/fire_delay = 0
+	var/allowed_roles = OVERMAP_USER_ROLE_PILOT
+	var/bypass_safety = FALSE
+	var/datum/ship_weapon/weapon_datum = /datum/ship_weapon/fighter_primary
+
+/obj/item/fighter_component/primary/dump_contents()
+	. = ..()
+	for(var/atom/movable/AM as() in .)
+		if(AM == magazine)
+			magazine = null
+			ammo = list()
+			playsound(loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+
+/obj/item/fighter_component/primary/get_ammo()
+	return length(ammo)
+
+/obj/item/fighter_component/primary/get_max_ammo()
+	return magazine ? magazine.max_ammo : 500 //Default.
 
 /obj/item/fighter_component/primary/load(obj/structure/overmap/target, atom/movable/AM)
 	if(!istype(AM, accepted_ammo))
@@ -1508,25 +1484,9 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	magazine = null
 	ammo = list()
 
-/obj/item/fighter_component/primary/cannon
-	name = "20mm Vulcan Cannon"
-	icon_state = "lightcannon"
-	accepted_ammo = /obj/item/ammo_box/magazine/nsv/light_cannon
-	burst_size = 2
-	fire_delay = 0.25 SECONDS
-
-/obj/item/fighter_component/primary/cannon/heavy
-	name = "30mm BRRRRTT Cannon"
-	icon_state = "heavycannon"
-	accepted_ammo = /obj/item/ammo_box/magazine/nsv/heavy_cannon
-	weight = 2 //Sloooow down there.
-	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
-	overmap_firing_sounds = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg')
-	burst_size = 3
-	fire_delay = 0.5 SECONDS
-
 /obj/item/fighter_component/secondary
-	name = "Fuck you"
+	name = "PARENT Secondary Weapon"
+	desc = "If this spawns, please contact the coding team"
 	slot = HARDPOINT_SLOT_SECONDARY
 	fire_mode = FIRE_MODE_TORPEDO
 	var/overmap_firing_sounds = list(
@@ -1543,6 +1503,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/fire_delay = 0.25 SECONDS
 	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	var/bypass_safety = FALSE
+	var/datum/ship_weapon/weapon_datum = /datum/ship_weapon/fighter_secondary
 
 /obj/item/fighter_component/secondary/dump_contents()
 	. = ..()
@@ -1571,63 +1532,6 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/secondary/remove_from(obj/structure/overmap/target)
 	. = ..()
 	ammo = list()
-
-//Todo: make fighters use these.
-/obj/item/fighter_component/secondary/ordnance_launcher
-	name = "fighter missile rack"
-	desc = "A huge fighter missile rack capable of deploying missile based weaponry."
-	icon_state = "missilerack_tier1"
-
-/obj/item/fighter_component/secondary/ordnance_launcher/tier2
-	name = "upgraded fighter missile rack"
-	icon_state = "missilerack_tier2"
-	tier = 2
-	max_ammo = 5
-
-/obj/item/fighter_component/secondary/ordnance_launcher/tier3
-	name = "\improper A-11 'Spacehog' Cluster-Freedom Launcher"
-	icon_state = "missilerack_tier3"
-	tier = 3
-	max_ammo = 15
-	weight = 1
-	burst_size = 2
-	fire_delay = 0.10 SECONDS
-
-//Specialist item for the superiority fighter.
-/obj/item/fighter_component/secondary/ordnance_launcher/railgun
-	name = "fighter railgun"
-	desc = "A scaled down railgun designed for use in fighters."
-	icon_state = "railgun"
-	weight = 1
-	accepted_ammo = /obj/item/ship_weapon/ammunition/railgun_ammo
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/railgun_fire.ogg')
-	burst_size = 1
-	fire_delay = 0.2 SECONDS
-	max_ammo = 10
-	tier = 1
-
-/obj/item/fighter_component/secondary/ordnance_launcher/torpedo
-	name = "fighter torpedo launcher"
-	desc = "A heavy torpedo rack which allows fighters to fire torpedoes at targets"
-	icon_state = "torpedorack"
-	accepted_ammo = /obj/item/ship_weapon/ammunition/torpedo
-	max_ammo = 2
-	weight = 1
-
-/obj/item/fighter_component/secondary/ordnance_launcher/torpedo/tier2
-	name = "enhanced torpedo launcher"
-	icon_state = "torpedorack_tier2"
-	tier = 2
-	max_ammo = 4
-
-/obj/item/fighter_component/secondary/ordnance_launcher/torpedo/tier3
-	name = "\improper FR33-8IRD torpedo launcher"
-	icon_state = "torpedorack_tier3"
-	desc = "A massive torpedo launcher capable of deploying enough ordnance to level several small, oil-rich nations."
-	tier = 3
-	max_ammo = 10
-	weight = 2
-	burst_size = 2
 
 /obj/item/fighter_component/secondary/ordnance_launcher/load(obj/structure/overmap/target, atom/movable/AM)
 	if(!istype(AM, accepted_ammo))

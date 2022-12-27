@@ -191,3 +191,41 @@
 				"quadrant_fp_armour_max" = OM.armour_quadrants["forward_port"]["max_armour"]))
 
 	return data
+
+//READ ONLY version - ie see things, no press things
+/obj/machinery/computer/ship/tactical/read_only
+	name = "Seegson model TAC tactical systems control console"
+	desc = "In ship-to-ship combat, most ship systems are digitalized. This console is networked with every weapon system that its ship has to offer, allowing for easy viewing."
+	icon_screen = "tactical"
+	position = OVERMAP_USER_ROLE_GUNNER
+	circuit = /obj/item/circuitboard/computer/ship/tactical_computer
+
+/obj/machinery/computer/ship/tactical/read_only/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>This display appears to be for only viewing tactical information, there are no control inputs."
+
+/obj/machinery/computer/ship/tactical/read_only/Destroy()
+	return ..()
+
+/obj/machinery/computer/ship/tactical/read_only/ui_interact(mob/user, datum/tgui/ui)
+	if(!has_overmap())
+		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+		playsound(src, sound, 100, 1)
+		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate armament parameters, no registered ship stored in microprocessor.</span>")
+		return
+
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "TacticalConsole")
+		ui.open()
+		ui.set_autoupdate(TRUE)
+
+/obj/machinery/computer/ship/tactical/read_only/ui_act(action, params, datum/tgui/ui)
+	. = ..()
+	if(.)
+		return
+	if(!linked)
+		return
+
+/obj/machinery/computer/ship/tactical/read_only/set_position(obj/structure/overmap/OM)
+	return

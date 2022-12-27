@@ -51,9 +51,17 @@
 #define RADIO_KEY_CENTCOM "y"
 #define RADIO_TOKEN_CENTCOM ":y"
 
-#define RADIO_CHANNEL_ATC "Air Traffic Control" //Nsv13 - Air traffic control chat
-#define RADIO_KEY_ATC "q"
-#define RADIO_TOKEN_ATC ":q"
+#define RADIO_CHANNEL_NANOTRASEN_ATC "Nanotrasen Air Traffic Control" //NSV13
+#define RADIO_KEY_NANOTRASEN_ATC "q"
+#define RADIO_TOKEN_NANOTRASEN_ATC ":q"
+
+#define RADIO_CHANNEL_SYNDICATE_ATC "Syndicate Air Traffic Control" //NSV13
+#define RADIO_KEY_SYNDICATE_ATC "q"
+#define RADIO_TOKEN_SYNDICATE_ATC ":q"
+
+#define RADIO_CHANNEL_PIRATE_ATC "Pirate Air Traffic Control" //NSV13
+#define RADIO_KEY_PIRATE_ATC "q"
+#define RADIO_TOKEN_PIRATE_ATC ":q"
 
 #define RADIO_CHANNEL_MUNITIONS "Munitions" //NSV13 - Munitions department
 #define RADIO_KEY_MUNITIONS "w"
@@ -78,7 +86,9 @@
 #define FREQ_UPLINK 1214   //!  Dummy channel for headset uplink
 #define FREQ_CTF_RED 1215  //!  CTF red team comms frequency, red
 #define FREQ_CTF_BLUE 1217  //!  CTF blue team comms frequency, blue
-#define FREQ_ATC 1237  //! NSV13 - Air traffic control comms frequency, grey
+#define FREQ_NANOTRASEN_ATC 1237  //! NSV13 - Nanotrasen Overmap comms frequency, grey blue
+#define FREQ_SYNDICATE_ATC 1238 //! NSV13 - Syndicate Overmap comms frequency, grey red
+#define FREQ_PIRATE_ATC 1239 //! NSV13 - Pirate Overmap comms frequency, grey purple
 #define FREQ_CENTCOM 1337  //!  CentCom comms frequency, gray
 #define FREQ_MUNITIONS 1345 //! NSV13 - Munitions comm frequency, ORANGE
 #define FREQ_SUPPLY 1347  //!  Supply comms frequency, light brown

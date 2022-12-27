@@ -78,6 +78,15 @@
 	pixel_y = -12
 	output_path = /obj/structure/overmap/small_craft/transport/sabre
 
+/obj/structure/fighter_frame/dual
+	name = "\improper Medium Fighter Frame"
+	desc = "An Incomplete Su-714 Katana Medium Fighter"
+	icon = 'nsv13/icons/overmap/nanotrasen/mediumfighter_construction.dmi'
+	icon_state = "medium_fighter"
+	pixel_x = -32
+	pixel_y = -12
+	output_path = /obj/structure/overmap/small_craft/combat/dual
+
 /obj/structure/fighter_frame/update_icon()
 	icon_state = "[initial(icon_state)][build_state]"
 

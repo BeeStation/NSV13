@@ -120,3 +120,10 @@
 	data["goal"] = goal
 	data["ready"] = ready
 	return data
+
+
+/obj/machinery/gauss_dispenser/super
+	goal = 12 SECONDS
+
+/obj/machinery/gauss_dispenser/super/screwdriver_act(mob/user, obj/item/tool)
+	return //No interaction required

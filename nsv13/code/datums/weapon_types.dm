@@ -216,6 +216,25 @@
 		return FALSE
 	return TRUE
 
+/datum/ship_weapon/wire_guided_torpedo_launcher
+	name = "Wire Guided Torpedos"
+	default_projectile_type = /obj/item/projectile/guided_munition/torpedo
+	burst_size = 1
+	fire_delay = 5 SECONDS
+	range_modifier = 30
+	select_alert = "<span class='notice'>Torpedo target acquisition systems: online.</span>"
+	failure_alert = "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>"
+	overmap_firing_sounds = list(
+		'nsv13/sound/effects/ship/torpedo.ogg',
+		'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
+		'nsv13/sound/effects/ship/freespace2/m_stiletto.wav',
+		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
+		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
+	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
+	lateral = FALSE
+	ai_fire_delay = 2 SECONDS
+	allowed_roles = OVERMAP_USER_ROLE_GUNNER
+
 /datum/ship_weapon/light_cannon
 	name = "light autocannon"
 	default_projectile_type = /obj/item/projectile/bullet/light_cannon_round
@@ -227,6 +246,7 @@
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online.</span>"
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
 	lateral = FALSE
+	allowed_roles = OVERMAP_USER_ROLE_PILOT
 
 /datum/ship_weapon/light_cannon/integrated	//Weapon for ships big enough that autocannon ammo concerns shouldn't matter this much anymore. Changes their class from HEAVY to LIGHT
 	name = "integrated light autocannon"
@@ -243,6 +263,7 @@
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online..</span>"
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
 	lateral = FALSE
+	allowed_roles = OVERMAP_USER_ROLE_PILOT
 
 /datum/ship_weapon/fighter_primary
 	name = "Primary Equipment Mount"
@@ -285,13 +306,19 @@
 	fire_delay = 3 SECONDS
 	range_modifier = 10
 	select_alert = "<span class='notice'>Activating gauss weapon systems...</span>"
-	failure_alert = "<span class='warning'>DANGER: Gauss gun systems not loaded.</span>"
+	failure_alert = "<span class='warning'>DANGER: Gauss weapon systems not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/gauss.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	weapon_class = WEAPON_CLASS_LIGHT //AIs can fire light weaponry like this for free.
 	miss_chance = 20
 	ai_fire_delay = 2 SECONDS
 	allowed_roles = OVERMAP_USER_ROLE_SECONDARY_GUNNER
+
+/datum/ship_weapon/gauss/super
+	name = "Gauss Cannon"
+	burst_size = 4
+	fire_delay = 2 SECONDS
+	allowed_roles = OVERMAP_USER_ROLE_GUNNER //Since we actually use the tac console here?
 
 /datum/ship_weapon/pdc_mount // .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets
 	name = "PDC"

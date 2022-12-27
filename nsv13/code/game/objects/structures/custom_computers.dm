@@ -7,6 +7,10 @@
 	icon = 'nsv13/goonstation/icons/obj/computer.dmi'
 	icon_keyboard = null
 
+/obj/machinery/computer/ship/tactical/read_only/console
+	icon = 'nsv13/goonstation/icons/obj/computer.dmi'
+	icon_keyboard = null
+
 /obj/machinery/computer/ship/salvage/console
 	icon = 'nsv13/goonstation/icons/obj/computer.dmi'
 	icon_keyboard = null
@@ -68,3 +72,5 @@
 /obj/machinery/computer/cargo/request/console
 	icon = 'nsv13/goonstation/icons/obj/computer.dmi'
 	icon_state = "computer_end"
+
+

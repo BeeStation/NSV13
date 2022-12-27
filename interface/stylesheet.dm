@@ -61,6 +61,9 @@ em						{font-style: normal;	font-weight: bold;}
 .charlieradio			{color: #ffc32d;}
 .duffradio				{color: #c864c8;}
 .pirateradio			{color: #8f3aff;}
+.nanoatcradio			{color: #848ea0;}
+.syndatcradio			{color: #a08484;}
+.piraatcradio			{color: #9084a0;}
 
 .yell					{					font-weight: bold;}
 
