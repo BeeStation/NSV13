@@ -15,6 +15,7 @@
 	pass_flags_self = PASSGLASS | LETPASSTHROW | PASSGRILLE | PASSSTRUCTURE
 	obj_integrity = 250
 	max_integrity = 250
+	integrity_failure = 74
 	//Robust! It'll be tough to break...
 	armor = list("melee" = 50, "bullet" = 20, "laser" = 0, "energy" = 80, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 90, "acid" = 50, "stamina" = 0)
 	anchored = TRUE
@@ -163,12 +164,6 @@
 		update_icon()
 		return
 
-///Mark as broken when below 30% health.
-/obj/machinery/turnstile/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
-	. = ..()
-	var/healthpercent = (obj_integrity/max_integrity) * 100
-	if(healthpercent < 30)
-		machine_stat |= BROKEN
 
 /obj/machinery/turnstile/CanAllowThrough(atom/movable/mover, turf/target)
 	. = ..()
