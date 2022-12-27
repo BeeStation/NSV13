@@ -39,6 +39,9 @@
 		return
 	var/turf/Q = get_turf(SL)
 	var/turf/A = get_turf(user)
+	if(!Q || !A) //DOOR THE EXPLORER STOP EDITION
+		return //We didn't get either Q or A, so we can't do anything here but hopefully this prevents a runtime error.
+
 	var/finder_icon = "arrow" //Overlay showed when adjacent to or on top of the Squad lead!
 	if(Q.get_virtual_z_level() != A.get_virtual_z_level()) //Different Z-level.
 		if(Q.get_virtual_z_level() > A.get_virtual_z_level())
