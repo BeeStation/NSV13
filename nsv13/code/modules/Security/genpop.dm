@@ -177,14 +177,9 @@
 		return TRUE
 	return FALSE
 
-/obj/machinery/turnstile/proc/has_power()
-	if(machine_stat & NOPOWER)
-		return FALSE
-	return TRUE
-
 ///Shock user if we can
 /obj/machinery/turnstile/proc/try_shock(mob/user)
-	if(!has_power())		// unpowered, no shock
+	if(machine_stat & NOPOWER)		// unpowered, no shock
 		return FALSE
 	if(!COOLDOWN_FINISHED(src, shock_cooldown)) //Don't shock in very short succession to avoid stuff getting out of hand.
 		return FALSE
