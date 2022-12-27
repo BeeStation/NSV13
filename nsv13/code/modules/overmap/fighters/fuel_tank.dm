@@ -155,11 +155,17 @@
 
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/process()
 	if(!fuel_target)
-		soundloop.stop()
+		soundloop?.stop()
+		return PROCESS_KILL
+	if(get_dist(nozzle, fuel_target) > max_range) // make sure we're actually next to the target
+		soundloop?.stop()
+		visible_message("<span class='warning'>[icon2html(src)] [fuel_target] is out of range!</span>")
+		playsound(src, 'sound/machines/buzz-two.ogg', 100)
+		fuel_target = null
 		return PROCESS_KILL
 	var/obj/item/fighter_component/fuel_tank/sft = fuel_target.loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	if(!sft)
-		soundloop.stop()
+		soundloop?.stop()
 		visible_message("<span class='warning'>[icon2html(src)] [fuel_target] does not have a fuel tank installed!</span>")
 		return PROCESS_KILL
 	var/transfer_amount = min(50, fuel_target.get_max_fuel()-fuel_target.get_fuel()) //Transfer as much as we can
