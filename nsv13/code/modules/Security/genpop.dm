@@ -136,34 +136,30 @@
 	flick("deny", src)
 	playsound(src,'sound/machines/deniedbeep.ogg',50,0,3)
 
-///Shock attacker if we're broken, get repaired if weldered
+///Shock attacker if we're broken
 /obj/machinery/turnstile/attackby(obj/item/item, mob/user, params)
-	if(item.tool_behaviour == TOOL_WELDER)
-		try_to_repair(item, user)
-		return 1
 	. = ..()
 	if(machine_stat & BROKEN)
 		try_shock(user)
 
-///Handle someone trying to repair us. Produces appropriate chat messages.
-/obj/machinery/turnstile/proc/try_to_repair(obj/item/weldingtool/W, mob/user)
+/obj/machinery/turnstile/welder_act(mob/living/user, obj/item/I)
 	//Shamelessly copied airlock code
+	. = TRUE //Never attack it with a welding tool
+	if(!I.tool_start_check(user, amount=0))
+		return
 	if(obj_integrity >= max_integrity)
 		to_chat(user, "<span class='notice'>The turnstile doesn't need repairing.</span>")
-		return
-	if(!W.tool_start_check(user, amount=0))
 		return
 	user.visible_message("[user] is welding the turnstile.", \
 				"<span class='notice'>You begin repairing the turnstile...</span>", \
 				"<span class='italics'>You hear welding.</span>")
-	if(W.use_tool(src, user, 40, volume=50))
+	if(I.use_tool(src, user, 40, volume=50))
 		obj_integrity = max_integrity
 		set_machine_stat(machine_stat & ~BROKEN)
 		user.visible_message("[user.name] has repaired [src].", \
 							"<span class='notice'>You finish repairing the turnstile.</span>")
 		update_icon()
 		return
-
 
 /obj/machinery/turnstile/CanAllowThrough(atom/movable/mover, turf/target)
 	. = ..()
@@ -198,7 +194,6 @@
 		return TRUE
 	else
 		return FALSE
-
 
 //Officer interface.
 /obj/machinery/genpop_interface
