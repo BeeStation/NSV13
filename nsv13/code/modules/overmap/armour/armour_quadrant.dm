@@ -2,12 +2,12 @@
 	new /obj/structure/overmap/syndicate/ai(get_turf(pick(orange(10, src))))
 
 //Thank you once again to qwerty for writing the directional calc for this.
-/obj/structure/overmap/proc/check_quadrant(datum/vector2d/point_of_collision)
+/obj/structure/overmap/proc/check_quadrant(matrix/vector/point_of_collision)
 	if(!point_of_collision)
 		return
-	var/datum/vector2d/diff = point_of_collision - position
-	diff.x /= 32 //Scale it down so that the math isn't off.
-	diff.y /= 32
+	var/matrix/vector/diff = point_of_collision - position
+	diff.a /= 32 //Scale it down so that the math isn't off.
+	diff.e /= 32
 	var/shield_angle_hit = SIMPLIFY_DEGREES(diff.angle() - angle)
 	switch(shield_angle_hit)
 		if(0 to 89) //0 - 90 deg is the first right quarter of the circle, it's like dividing up a pizza!
@@ -46,7 +46,7 @@
 	if(!armour_quadrants[quadrant])
 		return //Nonexistent quadrant. Work on your quads bro.
 	if ( nodamage )
-		return FALSE  // Mission critical targets like stations with cargo missions need to stay alive to not break things 
+		return FALSE  // Mission critical targets like stations with cargo missions need to stay alive to not break things
 	var/list/quad = armour_quadrants[quadrant] //Should be a string define in format. Get the quadrant that we seek.
 	//Time for some witchcraft that I stole from obj_defense.dm
 	var/delta = damage-quad["current_armour"]

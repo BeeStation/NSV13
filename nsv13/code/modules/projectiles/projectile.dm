@@ -1,8 +1,8 @@
 //The collider for projectiles is universal. We can keep this as a singleton and scrape off an load of memory usage ~K
-GLOBAL_LIST_INIT(projectile_hitbox, list(new /datum/vector2d(-2,16),\
-										new /datum/vector2d(2,16),\
-										new /datum/vector2d(2,-15),\
-										new /datum/vector2d(-2,-15)))
+GLOBAL_LIST_INIT(projectile_hitbox, list(new /matrix/vector(-2,16),\
+										new /matrix/vector(2,16),\
+										new /matrix/vector(2,-15),\
+										new /matrix/vector(-2,-15)))
 
 /obj/item/projectile
 	var/datum/component/physics2d/physics2d = null
