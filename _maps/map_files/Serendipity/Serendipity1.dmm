@@ -82,8 +82,11 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/nsv/trauma)
 "ak" = (
-/turf/closed/wall/ship,
-/area/security/warden)
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/carpet/ship/red_carpet,
+/area/security/prison)
 "al" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -456,6 +459,14 @@
 /obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/cic)
+"bD" = (
+/obj/structure/lattice/catwalk,
+/obj/machinery/camera/motion{
+	c_tag = "Vault South";
+	dir = 4
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "bE" = (
 /obj/effect/landmark/patrol_node{
 	id = "briefing_room";
@@ -532,6 +543,9 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/structure/fireaxecabinet{
+	pixel_y = -28
 	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
@@ -753,6 +767,9 @@
 /obj/item/bedsheet,
 /obj/machinery/camera/autoname{
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
@@ -1030,6 +1047,7 @@
 	},
 /obj/item/radio/intercom/directional/east,
 /obj/structure/disposalpipe/segment,
+/obj/effect/landmark/start/security_officer,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/main)
 "dB" = (
@@ -1066,6 +1084,9 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
@@ -1357,7 +1378,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "Arrivals Shuttle Dock"
+	name = "CentComm Arrivals Dock"
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/hallway/secondary/exit/departure_lounge)
@@ -1935,7 +1956,7 @@
 	dir = 4;
 	id = "bridgewindows"
 	},
-/turf/open/space/basic,
+/turf/open/floor/plating,
 /area/bridge/cic)
 "gL" = (
 /obj/structure/railing/corner,
@@ -1979,8 +2000,12 @@
 /turf/open/floor/engine,
 /area/science/robotics)
 "gT" = (
-/turf/closed/wall/ship,
-/area/security/detectives_office)
+/obj/structure/cable{
+	icon_state = "2-8";
+	tag = ""
+	},
+/turf/open/floor/carpet/ship/red_carpet,
+/area/security/brig)
 "gV" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
 /turf/open/floor/carpet/ship/beige_carpet,
@@ -2338,6 +2363,9 @@
 /obj/effect/turf_decal/tile/ship/blue,
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/genetics/cloning)
+"hT" = (
+/turf/closed/wall/r_wall/ship,
+/area/crew_quarters/heads/hos)
 "hU" = (
 /turf/closed/wall/ship,
 /area/maintenance/department/bridge)
@@ -2930,6 +2958,10 @@
 	dir = 4
 	},
 /obj/machinery/holopad,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/effect/landmark/start/security_officer,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "jM" = (
@@ -2948,6 +2980,10 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/ship/half/purple,
+/obj/machinery/camera/motion{
+	c_tag = "Vault South";
+	dir = 8
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/ai_monitored/turret_protected/ai_upload)
 "jW" = (
@@ -3442,6 +3478,9 @@
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/prison)
 "lC" = (
@@ -3637,6 +3676,7 @@
 	icon_state = "0-2"
 	},
 /obj/machinery/power/apc/auto_name/north,
+/obj/structure/filingcabinet/employment,
 /turf/open/floor/engine/light,
 /area/ai_monitored/nuke_storage)
 "mi" = (
@@ -3786,6 +3826,9 @@
 /area/science/lab)
 "mK" = (
 /obj/effect/landmark/event_spawn,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/prison)
 "mM" = (
@@ -4271,8 +4314,18 @@
 	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
+"oA" = (
+/obj/machinery/camera/motion{
+	dir = 1
+	},
+/turf/template_noop,
+/area/maintenance/department/medical)
 "oB" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/structure/grille,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/security/prison)
 "oC" = (
@@ -4372,6 +4425,7 @@
 	dir = 8
 	},
 /obj/structure/disposalpipe/segment,
+/obj/effect/landmark/start/security_officer,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/main)
 "pc" = (
@@ -5627,6 +5681,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "tt" = (
@@ -5785,7 +5842,6 @@
 /area/crew_quarters/heads/cmo)
 "ua" = (
 /obj/structure/table/glass/plasma,
-/obj/item/disk/nuclear,
 /turf/open/floor/engine/light,
 /area/ai_monitored/nuke_storage)
 "ub" = (
@@ -6040,6 +6096,9 @@
 /obj/structure/bed,
 /obj/item/bedsheet,
 /obj/structure/extinguisher_cabinet/west,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/prison)
 "vh" = (
@@ -6439,6 +6498,9 @@
 /obj/item/radio/intercom/directional/east,
 /obj/structure/disposalpipe/segment{
 	dir = 10
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
@@ -7035,6 +7097,9 @@
 	dir = 4
 	},
 /obj/effect/landmark/event_spawn,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "yb" = (
@@ -7147,6 +7212,9 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "yu" = (
@@ -7232,6 +7300,9 @@
 	id = "isolation";
 	name = "Isolation";
 	req_one_access_txt = "3;4;38;63"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
@@ -7501,6 +7572,10 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/hallway/secondary/exit)
+"zT" = (
+/obj/structure/bedsheetbin,
+/turf/open/floor/wood,
+/area/crew_quarters/cryopods)
 "zU" = (
 /turf/closed/wall/r_wall/ship,
 /area/medical/nsv/trauma)
@@ -7543,6 +7618,7 @@
 "Af" = (
 /obj/item/pinpointer/nuke,
 /obj/structure/table/glass/plasma,
+/obj/item/disk/nuclear,
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "Ag" = (
@@ -7592,6 +7668,7 @@
 	name = "emergency shower"
 	},
 /obj/machinery/airalarm/directional/south,
+/obj/structure/curtain,
 /turf/open/floor/noslip/white,
 /area/crew_quarters/toilet)
 "Ao" = (
@@ -8258,6 +8335,9 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "Ct" = (
@@ -8279,7 +8359,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/tiled/light,
 /area/hallway/secondary/exit)
 "Cw" = (
 /obj/effect/turf_decal/tile/ship/blue{
@@ -8310,7 +8390,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/door/airlock/ship/external/glass{
-	name = "Arrivals Shuttle Dock"
+	name = "CentComm Arrivals Dock"
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/hallway/secondary/exit/departure_lounge)
@@ -8342,8 +8422,14 @@
 /area/crew_quarters/dorms/nsv/nature_deck)
 "CI" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/security/prison)
+"CL" = (
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/department/security)
 "CO" = (
 /obj/machinery/vending/wardrobe/curator_wardrobe{
 	pixel_y = -32
@@ -9327,6 +9413,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
+"Gb" = (
+/obj/structure/chair{
+	dir = 8
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/cryopods)
 "Gd" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -9406,6 +9498,9 @@
 /obj/item/bedsheet,
 /obj/item/bedsheet,
 /obj/machinery/firealarm/directional/west,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/prison)
 "Gw" = (
@@ -9435,6 +9530,9 @@
 /area/maintenance/department/crew_quarters/dorms)
 "GB" = (
 /obj/machinery/light/floor,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/prison)
 "GC" = (
@@ -9927,6 +10025,7 @@
 /area/ai_monitored/turret_protected/ai_upload)
 "Ip" = (
 /obj/machinery/light/floor,
+/obj/effect/landmark/start/security_officer,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "Iq" = (
@@ -10595,6 +10694,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "Kt" = (
@@ -10970,6 +11072,7 @@
 	dir = 1;
 	name = "emergency shower"
 	},
+/obj/structure/curtain,
 /turf/open/floor/noslip/white,
 /area/crew_quarters/toilet)
 "Ls" = (
@@ -11586,6 +11689,9 @@
 /area/medical/chemistry)
 "Nr" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/security/brig)
 "Nv" = (
@@ -11814,7 +11920,7 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/science)
 "Oi" = (
-/obj/machinery/cryopod,
+/obj/machinery/washing_machine,
 /turf/open/floor/wood,
 /area/crew_quarters/cryopods)
 "Oj" = (
@@ -11892,6 +11998,9 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
@@ -12898,6 +13007,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/light/floor,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/prison)
 "Sr" = (
@@ -13640,6 +13752,10 @@
 /obj/item/stack/sheet/mineral/gold{
 	amount = 5
 	},
+/obj/item/fakeartefact,
+/obj/item/documents/nanotrasen{
+	name = "dominion secret documents"
+	},
 /turf/open/floor/engine/light,
 /area/ai_monitored/nuke_storage)
 "UE" = (
@@ -13741,6 +13857,10 @@
 	icon_state = "1-2"
 	},
 /obj/item/radio/intercom/directional/west,
+/obj/machinery/camera/motion{
+	c_tag = "Vault South";
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/lockup)
 "US" = (
@@ -13827,6 +13947,9 @@
 "Vk" = (
 /obj/structure/table/glass/plasma,
 /obj/item/lighter,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/secondary/exit/departure_lounge)
 "Vl" = (
@@ -14417,6 +14540,9 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 1
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "Xn" = (
@@ -14737,7 +14863,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/tiled/light,
 /area/hallway/secondary/exit)
 "Yw" = (
 /obj/machinery/computer/card,
@@ -14994,6 +15120,7 @@
 	dir = 4
 	},
 /obj/machinery/light/floor,
+/obj/effect/landmark/start/security_officer,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "Zx" = (
@@ -15131,6 +15258,10 @@
 /area/science/robotics)
 "ZQ" = (
 /obj/effect/spawner/structure/window/reinforced,
+/obj/structure/grille,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/security/warden)
 "ZT" = (
@@ -42034,7 +42165,7 @@ He
 Sy
 XU
 WI
-tA
+oA
 DD
 gx
 Fl
@@ -46158,9 +46289,9 @@ xJ
 Jh
 mm
 Oi
-Oi
-Oi
-Oi
+zT
+Gb
+Gb
 Gs
 Wp
 KZ
@@ -50501,19 +50632,19 @@ az
 Te
 Te
 aJ
-gT
-gT
-gT
-gT
-gT
-gT
-ak
-ak
-ak
-ak
-ak
-ak
-jI
+aJ
+aJ
+aJ
+aJ
+aJ
+aJ
+VE
+VE
+VE
+VE
+VE
+VE
+CL
 Ho
 yO
 yO
@@ -50764,7 +50895,7 @@ Ds
 PM
 vj
 Kv
-ak
+VE
 HL
 PD
 DZ
@@ -51021,13 +51152,13 @@ Dc
 Pd
 kq
 Qb
-ak
+VE
 JB
 ju
 VS
 BR
 HB
-jI
+CL
 yM
 zr
 zr
@@ -51277,19 +51408,19 @@ aJ
 aJ
 aJ
 OP
-gT
-ak
+aJ
+VE
 Px
 Ar
 jj
 Xy
 yD
-Lq
+hT
 nT
-Lq
-Lq
-Lq
-Lq
+hT
+hT
+hT
+hT
 jI
 YF
 Ow
@@ -51535,18 +51666,18 @@ Cs
 yL
 Kr
 gC
-ak
-ak
+VE
+VE
 VE
 ZQ
 kH
 ZQ
-Lq
+hT
 hF
 ZE
 YZ
 wz
-Lq
+hT
 SR
 bz
 vM
@@ -51795,7 +51926,7 @@ Zw
 Qo
 Jo
 XT
-sl
+gT
 dE
 yr
 pa
@@ -51803,7 +51934,7 @@ yX
 Ko
 oN
 BD
-Lq
+hT
 lk
 OK
 sS
@@ -52059,8 +52190,8 @@ Lq
 Lq
 Mp
 Kw
-Lq
-Lq
+hT
+hT
 LQ
 VX
 Lz
@@ -52574,7 +52705,7 @@ ng
 KU
 Bz
 jr
-IC
+eo
 RL
 VX
 Tp
@@ -53334,7 +53465,7 @@ az
 yu
 Tf
 QS
-rc
+ak
 qL
 yu
 hh
@@ -55396,7 +55527,7 @@ az
 az
 az
 az
-az
+bD
 az
 az
 az
