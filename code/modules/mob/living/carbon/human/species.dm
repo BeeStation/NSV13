@@ -89,6 +89,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	//in __DEFINES/mobs.dm, defaults to NONE, so people actually have to think about it
 	var/changesource_flags = NONE
 
+	//For custom overrides for species ass images
+	var/icon/ass_image //NSV13
+
 	//The component to add when swimming
 	var/swimming_component = /datum/component/swimming
 
