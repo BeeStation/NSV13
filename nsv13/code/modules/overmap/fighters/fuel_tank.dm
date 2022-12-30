@@ -18,6 +18,7 @@
 	var/max_range = 2
 	var/datum/beam/current_beam
 	var/allow_refuel = FALSE
+	var/units_per_second = 50
 
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/ui_act(action, params, datum/tgui/ui)
 	if(..())
@@ -153,7 +154,7 @@
 		return FALSE
 	return TRUE
 
-/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/process()
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/process(delta_time)
 	if(!fuel_target)
 		soundloop?.stop()
 		return PROCESS_KILL
@@ -168,14 +169,14 @@
 		soundloop?.stop()
 		visible_message("<span class='warning'>[icon2html(src)] [fuel_target] does not have a fuel tank installed!</span>")
 		return PROCESS_KILL
-	var/transfer_amount = min(50, fuel_target.get_max_fuel()-fuel_target.get_fuel()) //Transfer as much as we can
-	if(transfer_amount <= 0)
+	var/transfer_amount = min(min(units_per_second * delta_time, reagents.total_volume), fuel_target.get_max_fuel()-fuel_target.get_fuel()) //Transfer as much as we can
+	if(fuel_target.get_max_fuel() <= fuel_target.get_fuel())
 		soundloop?.stop()
 		visible_message("<span class='warning'>[icon2html(src)] refuelling complete.</span>")
 		playsound(src, 'sound/machines/ping.ogg', 100)
 		fuel_target = null
 		return PROCESS_KILL
-	if(reagents.total_volume < transfer_amount)
+	else if (transfer_amount <= 0)
 		soundloop?.stop()
 		visible_message("<span class='warning'>[icon2html(src)] insufficient fuel.</span>")
 		playsound(src, 'sound/machines/buzz-two.ogg', 100)
