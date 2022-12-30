@@ -34,13 +34,14 @@ GLOBAL_LIST_EMPTY(gear_datums)
 		if(!initial(G.unlocktype))
 			WARNING("Loadout - No unlock type defined: [G]")
 			continue
-		if(initial(G.unlocktype) == GEAR_METACOIN && !initial(G.cost))
+		if(!initial(G.cost) && initial(G.unlocktype) == GEAR_METACOIN)
 			WARNING("Loadout - Metacoin item, Missing cost: [G]")
-			continue
-		else if(initial(G.unlocktype) == GEAR_DONATOR && !initial(G.cost) && !initial(G.ckey))
-			WARNING("Loadout - Donator item, Missing cost and no assigned ckey: [G]")
-			continue
 		// end NSV13
+		else if(!initial(G.cost))
+			WARNING("Loadout - Missing cost: [G]")
+			continue
+		if(!initial(G.ckey) && initial(G.unlocktype) == GEAR_DONATOR)
+			WARNING("Loadout - Donator Item, No assigned control key: [G]")
 		if(!initial(G.path) && use_category != "OOC") //OOC category does not contain actual items
 			WARNING("Loadout - Missing path definition: [G]")
 			continue
