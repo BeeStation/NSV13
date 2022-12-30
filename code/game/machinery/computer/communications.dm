@@ -294,7 +294,7 @@
 			if (!authenticated(usr))
 				return
 			var/picture = params["picture"]
-			if (!(picture in approved_status_pictures))
+			if (!(picture in GLOB.approved_status_pictures))
 				return
 			post_status("alert", picture)
 			playsound(src, "terminal_type", 50, FALSE)

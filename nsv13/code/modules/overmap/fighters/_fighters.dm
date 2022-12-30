@@ -674,7 +674,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/small_craft/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
 	add_fingerprint(user)
-	if(istype(W, /obj/item/card/id) || istype(W, /obj/item/pda) && length(operators))
+	if(istype(W, /obj/item/card/id) || istype(W, /obj/item/modular_computer/tablet/pda) && length(operators))
 		if(!allowed(user))
 			var/ersound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 			playsound(src, ersound, 100, 1)

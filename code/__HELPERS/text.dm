@@ -64,72 +64,6 @@
 
 
 //Returns null if there is any bad text in the string
-/proc/reject_bad_text(text, max_length = 512, ascii_only = TRUE)
-	var/char_count = 0
-	var/non_whitespace = FALSE
-	var/lenbytes = length(text)
-	var/char = ""
-	for(var/i = 1, i <= lenbytes, i += length(char))
-		char = text[i]
-		char_count++
-		if(char_count > max_length)
-			return
-		switch(text2ascii(char))
-			if(62, 60, 92, 47) // <, >, \, /
-				return
-			if(0 to 31)
-				return
-			if(32)
-				continue
-			if(127 to INFINITY)
-				if(ascii_only)
-					return
-			else
-				non_whitespace = TRUE
-	if(non_whitespace)
-		return text		//only accepts the text if it has some non-spaces
-
-
-/// Used to get a properly maximum length capped input.
-/proc/capped_input(mob/user, message = "", title = "", default = "", max_length=MAX_MESSAGE_LEN, no_trim=FALSE)
-	var/name = input(user, message, title, default) as text|null
-	if(no_trim)
-		return copytext(name, 1, max_length)
-	else
-		return trim(name, max_length)
-
-/// Used to get a properly maximum length capped input, but this time multiline.
-/proc/capped_multiline_input(mob/user, message = "", title = "", default = "", max_length=MAX_MESSAGE_LEN, no_trim=FALSE)
-	var/name = input(user, message, title, default) as message|null
-	if(no_trim)
-		return copytext(name, 1, max_length)
-	else
-		return trim(name, max_length)
-
-/// Used to get a properly sanitized (html encoded) input, of max_length. no_trim is self explanatory but it prevents the input from being trimed if you intend to parse newlines or whitespace.
-/proc/stripped_input(mob/user, message = "", title = "", default = "", max_length=MAX_MESSAGE_LEN, no_trim=FALSE)
-	var/name = input(user, message, title, default) as text|null
-
-	if(no_trim)
-		return copytext(html_encode(name), 1, max_length)
-	else
-		return trim(html_encode(name), max_length) //trim is "outside" because html_encode can expand single symbols into multiple symbols (such as turning < into &lt;)
-
-/// Used to get a properly sanitized (html encoded) multiline input, of max_length
-/proc/stripped_multiline_input(mob/user, message = "", title = "", default = "", max_length=MAX_MESSAGE_LEN, no_trim=FALSE)
-	var/name = input(user, message, title, default) as message|null
-	if(no_trim)
-		return copytext(html_encode(name), 1, max_length)
-	else
-		return trim(html_encode(name), max_length)
-
-#define NO_CHARS_DETECTED 0
-#define SPACES_DETECTED 1
-#define SYMBOLS_DETECTED 2
-#define NUMBERS_DETECTED 3
-#define LETTERS_DETECTED 4
-
-//Filters out undesirable characters from names
 /proc/reject_bad_text(text, max_length = 512, ascii_only = TRUE, alphanumeric_only = FALSE, underscore_allowed = TRUE)
 	var/char_count = 0
 	var/non_whitespace = FALSE
@@ -192,6 +126,125 @@
 
 	if(non_whitespace)
 		return text		//only accepts the text if it has some non-spaces
+
+
+/// Used to get a properly maximum length capped input.
+/proc/capped_input(mob/user, message = "", title = "", default = "", max_length=MAX_MESSAGE_LEN, no_trim=FALSE)
+	var/name = input(user, message, title, default) as text|null
+	if(no_trim)
+		return copytext(name, 1, max_length)
+	else
+		return trim(name, max_length)
+
+/// Used to get a properly maximum length capped input, but this time multiline.
+/proc/capped_multiline_input(mob/user, message = "", title = "", default = "", max_length=MAX_MESSAGE_LEN, no_trim=FALSE)
+	var/name = input(user, message, title, default) as message|null
+	if(no_trim)
+		return copytext(name, 1, max_length)
+	else
+		return trim(name, max_length)
+
+/// Used to get a properly sanitized (html encoded) input, of max_length. no_trim is self explanatory but it prevents the input from being trimed if you intend to parse newlines or whitespace.
+/proc/stripped_input(mob/user, message = "", title = "", default = "", max_length=MAX_MESSAGE_LEN, no_trim=FALSE)
+	var/name = input(user, message, title, default) as text|null
+
+	if(no_trim)
+		return copytext(html_encode(name), 1, max_length)
+	else
+		return trim(html_encode(name), max_length) //trim is "outside" because html_encode can expand single symbols into multiple symbols (such as turning < into &lt;)
+
+/// Used to get a properly sanitized (html encoded) multiline input, of max_length
+/proc/stripped_multiline_input(mob/user, message = "", title = "", default = "", max_length=MAX_MESSAGE_LEN, no_trim=FALSE)
+	var/name = input(user, message, title, default) as message|null
+	if(no_trim)
+		return copytext(html_encode(name), 1, max_length)
+	else
+		return trim(html_encode(name), max_length)
+
+#define NO_CHARS_DETECTED 0
+#define SPACES_DETECTED 1
+#define SYMBOLS_DETECTED 2
+#define NUMBERS_DETECTED 3
+#define LETTERS_DETECTED 4
+
+//Filters out undesirable characters from names
+/proc/reject_bad_name(t_in, allow_numbers = FALSE, max_length = MAX_NAME_LEN, ascii_only = TRUE)
+	if(!t_in)
+		return //Rejects the input if it is null
+
+	var/number_of_alphanumeric = 0
+	var/last_char_group = NO_CHARS_DETECTED
+	var/t_out = ""
+	var/t_len = length(t_in)
+	var/charcount = 0
+	var/char = ""
+
+
+	for(var/i = 1, i <= t_len, i += length(char))
+		char = t_in[i]
+
+		switch(text2ascii(char))
+			// A  .. Z
+			if(65 to 90)			//Uppercase Letters
+				number_of_alphanumeric++
+				last_char_group = LETTERS_DETECTED
+
+			// a  .. z
+			if(97 to 122)			//Lowercase Letters
+				if(last_char_group == NO_CHARS_DETECTED || last_char_group == SPACES_DETECTED || last_char_group == SYMBOLS_DETECTED) //start of a word
+					char = uppertext(char)
+				number_of_alphanumeric++
+				last_char_group = LETTERS_DETECTED
+
+			// 0  .. 9
+			if(48 to 57)			//Numbers
+				if(last_char_group == NO_CHARS_DETECTED || !allow_numbers) //suppress at start of string
+					continue
+				number_of_alphanumeric++
+				last_char_group = NUMBERS_DETECTED
+
+			// '  -  .
+			if(39,45,46)			//Common name punctuation
+				if(last_char_group == NO_CHARS_DETECTED)
+					continue
+				last_char_group = SYMBOLS_DETECTED
+
+			// ~   |   @  :  #  $  %  &  *  +
+			if(126,124,64,58,35,36,37,38,42,43)			//Other symbols that we'll allow (mainly for AI)
+				if(last_char_group == NO_CHARS_DETECTED || !allow_numbers) //suppress at start of string
+					continue
+				last_char_group = SYMBOLS_DETECTED
+
+			//Space
+			if(32)
+				if(last_char_group == NO_CHARS_DETECTED || last_char_group == SPACES_DETECTED) //suppress double-spaces and spaces at start of string
+					continue
+				last_char_group = SPACES_DETECTED
+
+			if(127 to INFINITY)
+				if(ascii_only)
+					continue
+				last_char_group = SYMBOLS_DETECTED //for now, we'll treat all non-ascii characters like symbols even though most are letters
+
+			else
+				continue
+
+		t_out += char
+		charcount++
+		if(charcount >= max_length)
+			break
+
+	if(number_of_alphanumeric < 2)
+		return		//protects against tiny names like "A" and also names like "' ' ' ' ' ' ' '"
+
+	if(last_char_group == SPACES_DETECTED)
+		t_out = copytext_char(t_out, 1, -1) //removes the last character (in this case a space)
+
+	for(var/bad_name in list("space","floor","wall","r-wall","monkey","unknown","inactive ai"))	//prevents these common metagamey names
+		if(cmptext(t_out,bad_name))
+			return	//(not case sensitive)
+
+	return t_out
 
 #undef NO_CHARS_DETECTED
 #undef SPACES_DETECTED

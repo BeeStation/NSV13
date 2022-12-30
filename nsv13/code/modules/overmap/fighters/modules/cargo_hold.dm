@@ -19,7 +19,7 @@
 	max_freight = 20
 
 /obj/item/fighter_component/secondary/utility/hold/load(obj/structure/overmap/target, atom/movable/AM)
-	if(length(contents) >= max_freight || isliving(AM) || istype(AM, /obj/item/fighter_component) || istype(AM, /obj/item/card/id) || istype(AM, /obj/item/pda) || istype(AM, /obj/structure/overmap)) //This just causess issues, trust me on this)
+	if(length(contents) >= max_freight || isliving(AM) || istype(AM, /obj/item/fighter_component) || istype(AM, /obj/item/card/id) || istype(AM, /obj/item/modular_computer/tablet/pda) || istype(AM, /obj/structure/overmap)) //This just causess issues, trust me on this)
 		return FALSE
 	if((AM.move_resist > MOVE_FORCE_DEFAULT) || !AM.doMove(src))
 		return //Can't put ultra heavy stuff in
