@@ -636,13 +636,13 @@ Returns a faction datum by its name (case insensitive!)
 		var/pull_strength = (dist > event_horizon_range) ? 0.005 : base_pull_strength
 		var/succ_impulse = !OM.brakes ? pull_strength/dist*dist : (OM.forward_maxthrust / 10) + (pull_strength/dist*dist) //STOP RESISTING THE SUCC
 		if(incidence & NORTH)
-			OM.velocity.y += succ_impulse
+			OM.velocity.e += succ_impulse
 		if(incidence & SOUTH)
-			OM.velocity.y -= succ_impulse
+			OM.velocity.e -= succ_impulse
 		if(incidence & EAST)
-			OM.velocity.x += succ_impulse
+			OM.velocity.a += succ_impulse
 		if(incidence & WEST)
-			OM.velocity.x -= succ_impulse
+			OM.velocity.a -= succ_impulse
 
 /obj/effect/overmap_anomaly/singularity/proc/stop_affecting(obj/structure/overmap/OM = null)
 	if(OM)
