@@ -150,7 +150,7 @@
 	desc = "a serendipity class exploration and research vessel"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/serendipity.dmi'
 	icon_state = "serendipity"
-	mass = MASS_TINY
+	mass = MASS_SMALL
 	sprite_size = 48
 	damage_states = FALSE
 	bound_height = 32
@@ -159,7 +159,6 @@
 	max_integrity = 1250
 	integrity_failure = 1250
 	armor = list("overmap_light" = 50, "overmap_medium" = 40, "overmap_heavy" = 50)
-	use_armour_quadrants = TRUE
 
 /obj/structure/overmap/nanotrasen/serendipity/event
 	obj_integrity = 10000000

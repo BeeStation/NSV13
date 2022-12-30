@@ -44,8 +44,8 @@
 /turf/open/floor/monotile/steel,
 /area/engine/armour_pump)
 "aj" = (
-/obj/machinery/door/window/westright,
 /obj/machinery/conveyor/auto,
+/obj/machinery/door/window/westright,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "ak" = (
@@ -115,7 +115,7 @@
 /area/hallway/nsv/deck1/hallway)
 "ay" = (
 /obj/machinery/armour_plating_nanorepair_pump/forward_port{
-	apnw_id = "thegame";
+	apnw_id = "dipity";
 	armour_allocation = 25
 	},
 /obj/structure/cable/yellow{
@@ -2699,7 +2699,7 @@
 /area/hallway/nsv/deck1/hallway)
 "mF" = (
 /obj/machinery/armour_plating_nanorepair_pump/aft_port{
-	apnw_id = "thegame";
+	apnw_id = "dipity";
 	armour_allocation = 25
 	},
 /obj/structure/cable/yellow{
@@ -3028,6 +3028,9 @@
 	},
 /obj/structure/disposalpipe/segment,
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/computer/ams{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "oD" = (
@@ -3879,9 +3882,6 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
 "sy" = (
-/obj/machinery/door/window/eastleft{
-	req_one_access_txt = "57"
-	},
 /obj/machinery/conveyor/auto{
 	dir = 1
 	},
@@ -3890,6 +3890,7 @@
 	dir = 8;
 	sortType = "17,19,20,21,22"
 	},
+/obj/machinery/door/window/eastleft,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "sz" = (
@@ -6308,7 +6309,7 @@
 	icon_state = "0-2"
 	},
 /obj/machinery/armour_plating_nanorepair_well{
-	apnw_id = "thegame"
+	apnw_id = "dipity"
 	},
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
@@ -6931,17 +6932,15 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/central)
 "He" = (
-/obj/machinery/button/crematorium{
-	id = "crematoriumChapel";
-	pixel_x = -26;
-	req_access_txt = "27"
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
 	},
 /obj/item/radio/intercom/directional/south,
 /obj/structure/disposalpipe/segment{
 	dir = 5
+	},
+/obj/machinery/button/crematorium{
+	pixel_x = -23
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
@@ -7274,7 +7273,8 @@
 	anchored = 1
 	},
 /obj/machinery/gauss_dispenser{
-	pixel_x = -32
+	pixel_x = -32;
+	pixel_y = 0
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/gauss/battery/deck2)
@@ -7673,7 +7673,7 @@
 /area/engine/engine_room)
 "KR" = (
 /obj/machinery/armour_plating_nanorepair_pump/aft_starboard{
-	apnw_id = "thegame";
+	apnw_id = "dipity";
 	armour_allocation = 25
 	},
 /obj/structure/cable/yellow{
@@ -9793,13 +9793,14 @@
 /turf/open/floor/circuit/red/telecomms,
 /area/comms)
 "TF" = (
-/obj/machinery/gauss_dispenser{
-	pixel_x = 32
-	},
 /obj/structure/closet/crate{
 	anchored = 1
 	},
 /obj/item/wrench,
+/obj/machinery/gauss_dispenser{
+	pixel_x = 32;
+	pixel_y = 0
+	},
 /obj/machinery/ship_weapon/pdc_mount/north,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/gauss/battery/deck2)
@@ -10117,7 +10118,7 @@
 /area/nsv/hanger)
 "Vh" = (
 /obj/machinery/armour_plating_nanorepair_pump/forward_starboard{
-	apnw_id = "thegame";
+	apnw_id = "dipity";
 	armour_allocation = 25
 	},
 /obj/structure/cable/yellow{
