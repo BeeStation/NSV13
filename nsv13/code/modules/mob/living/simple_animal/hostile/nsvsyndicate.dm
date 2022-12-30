@@ -137,3 +137,4 @@
 	health = 180
 	rapid_fire_delay = 6
 	minimum_distance = 3
+	
