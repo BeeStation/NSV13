@@ -14,6 +14,9 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
+"aI" = (
+/turf/open/space/basic,
+/area/ruin/powered/nsv13/boarding_interior)
 "aS" = (
 /obj/structure/table/reinforced,
 /obj/item/reagent_containers/food/snacks/burger/soylent,
@@ -28,6 +31,7 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "aV" = (
 /obj/structure/displaycase,
+/obj/item/documents/syndicate,
 /turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "bm" = (
@@ -43,8 +47,7 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "bw" = (
 /turf/open/floor/plasteel/stairs/medium{
-	dir = 4;
-	icon_state = "stairs-m"
+	dir = 4
 	},
 /area/ruin/powered/nsv13/boarding_interior)
 "bW" = (
@@ -57,6 +60,10 @@
 /obj/effect/landmark/patrol_node{
 	id = "destroyer_cic";
 	next_id = "destroyer_bridge"
+	},
+/obj/structure/overmap/small_craft/combat/light{
+	name = "Captured Su-818 Rapier";
+	req_one_access = list()
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
@@ -107,15 +114,12 @@
 /obj/structure/fans/tiny,
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
-"gh" = (
-/turf/open/floor/engine/airless/light,
-/area/space)
 "gi" = (
 /obj/structure/shuttle/engine/huge{
 	dir = 8
 	},
 /turf/open/space/basic,
-/area/space)
+/area/ruin/powered/nsv13/boarding_interior)
 "gw" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -201,11 +205,11 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "kE" = (
 /obj/structure/rack,
-/obj/item/storage/firstaid,
 /obj/machinery/light{
 	brightness = 5;
 	dir = 4
 	},
+/obj/item/storage/firstaid/ancient,
 /turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "kQ" = (
@@ -223,9 +227,13 @@
 /obj/structure/overmap/small_craft/combat/light/syndicate,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
+"lh" = (
+/obj/machinery/light/floor,
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "ly" = (
-/obj/machinery/ship_weapon/gauss_gun/north,
 /obj/structure/hull_plate,
+/obj/machinery/ship_weapon/gauss_gun/north/oneZ,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "lR" = (
@@ -329,16 +337,8 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "qZ" = (
 /obj/structure/rack,
-/obj/item/storage/firstaid,
+/obj/item/storage/firstaid/ancient,
 /turf/open/floor/carpet/red,
-/area/ruin/powered/nsv13/boarding_interior)
-"rc" = (
-/obj/machinery/computer/ship/viewscreen,
-/obj/effect/landmark/patrol_node{
-	id = "destroyer_bridge";
-	next_id = "destroyer_aft"
-	},
-/turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
 "rq" = (
 /obj/machinery/turnstile{
@@ -349,14 +349,9 @@
 	icon_state = "platingdmg3"
 	},
 /area/ruin/powered/nsv13/boarding_interior)
-"rN" = (
-/obj/structure/overmap/small_craft/combat/light{
-	name = "Captured Su-818 Rapier"
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 10
-	},
-/turf/open/floor/engine,
+"rK" = (
+/obj/machinery/porta_turret/syndicate/pod,
+/turf/closed/wall/r_wall,
 /area/ruin/powered/nsv13/boarding_interior)
 "rQ" = (
 /obj/machinery/vending/boozeomat/syndicate_access,
@@ -470,6 +465,14 @@
 	},
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
+"vR" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/light{
+	brightness = 5;
+	dir = 4
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "wf" = (
 /obj/machinery/door/airlock/ship{
 	name = "Hangar Bay";
@@ -487,6 +490,11 @@
 /obj/structure/cable{
 	icon_state = "1-10"
 	},
+/turf/open/floor/plating,
+/area/ruin/powered/nsv13/boarding_interior)
+"wz" = (
+/obj/effect/spawner/lootdrop/ruinloot/medical,
+/obj/structure/closet/crate,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "xv" = (
@@ -553,7 +561,7 @@
 "BN" = (
 /obj/machinery/boarding_harpoon,
 /turf/open/floor/engine/airless/light,
-/area/space)
+/area/ruin/powered/nsv13/boarding_interior)
 "Ca" = (
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
@@ -562,13 +570,15 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "Cj" = (
 /obj/machinery/holopad,
+/mob/living/simple_animal/hostile/syndicate/melee/sword/space{
+	name = "Syndicate Frigate HOS"
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Cn" = (
-/obj/structure/chair/fancy/shuttle{
+/obj/structure/chair{
 	color = "#696969";
 	dir = 4;
-	icon_state = "shuttle_chair";
 	name = "bridge chair"
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
@@ -586,6 +596,7 @@
 /obj/structure/rack,
 /obj/item/stack/barbed_wire/five,
 /obj/item/shard,
+/obj/item/storage/firstaid/tactical,
 /turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "CX" = (
@@ -609,6 +620,13 @@
 	dir = 4
 	},
 /turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
+"Ft" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Fx" = (
 /obj/machinery/computer/ship/tactical{
@@ -637,6 +655,17 @@
 "Gv" = (
 /obj/structure/sign/poster/contraband/syndiemoth,
 /turf/closed/wall/r_wall,
+/area/ruin/powered/nsv13/boarding_interior)
+"GH" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/mineral/plastitanium,
+/area/ruin/powered/nsv13/boarding_interior)
+"GO" = (
+/obj/structure/closet/crate,
+/obj/effect/spawner/lootdrop/maintenance/six,
+/turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "Hb" = (
 /obj/machinery/computer/iff_console/boarding,
@@ -696,6 +725,13 @@
 /obj/machinery/power/smes,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
+"Kx" = (
+/obj/machinery/light/small{
+	brightness = 3;
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/ruin/powered/nsv13/boarding_interior)
 "LW" = (
 /obj/structure/sign/poster/contraband/c20r{
 	pixel_y = -6
@@ -704,6 +740,16 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "Mf" = (
 /turf/open/floor/mineral/plastitanium,
+/area/ruin/powered/nsv13/boarding_interior)
+"Mn" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/landmark/patrol_node{
+	id = "destroyer_bridge";
+	next_id = "destroyer_aft"
+	},
+/turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Mo" = (
 /obj/structure/table/reinforced,
@@ -758,6 +804,12 @@
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
+"Ra" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/mineral/plastitanium,
+/area/ruin/powered/nsv13/boarding_interior)
 "Ro" = (
 /obj/structure/sign/ship/shock{
 	dir = 4
@@ -804,6 +856,20 @@
 /mob/living/simple_animal/hostile/syndicate/ranged/infiltrator,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
+"Tk" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/tech/grid,
+/area/ruin/powered/nsv13/boarding_interior)
+"Tt" = (
+/obj/machinery/suit_storage_unit,
+/obj/item/clothing/suit/space/eva,
+/obj/item/clothing/head/helmet/space/eva,
+/obj/item/tank/internals/oxygen,
+/obj/item/clothing/mask/breath,
+/turf/open/floor/plating,
+/area/ruin/powered/nsv13/boarding_interior)
 "TZ" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/belt/utility/full,
@@ -811,11 +877,16 @@
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "Uf" = (
-/obj/structure/chair/fancy/shuttle{
+/obj/structure/chair{
 	color = "#696969";
 	dir = 4;
-	icon_state = "shuttle_chair";
 	name = "captain's chair"
+	},
+/mob/living/simple_animal/hostile/syndicate/civilian{
+	name = "Syndicate Frigate Captain"
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
@@ -893,7 +964,6 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "Ye" = (
 /obj/structure/chair/office,
-/mob/living/simple_animal/hostile/syndicate/civilian,
 /turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Ym" = (
@@ -28178,19 +28248,19 @@ fC
 fC
 fC
 fC
-fC
-fC
+aI
+aI
 gi
 fC
 fC
 fC
 fC
 fC
-fC
-fC
+aI
+aI
 gi
-fC
-fC
+aI
+aI
 gi
 fC
 fC
@@ -28434,23 +28504,23 @@ fC
 fC
 fC
 fC
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
 fC
 fC
 fC
@@ -28687,26 +28757,26 @@ fC
 fC
 fC
 fC
-fC
-fC
+aI
+aI
 gi
-gh
-gh
-gh
+oT
+oT
+oT
 fG
 fG
 fG
 fG
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
 fC
 fC
 fC
@@ -28943,9 +29013,9 @@ fC
 fC
 fC
 fC
-fC
-fC
-fC
+aI
+aI
+aI
 PG
 PG
 PG
@@ -28961,8 +29031,8 @@ PG
 PG
 PG
 fG
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -29199,12 +29269,12 @@ fC
 fC
 fC
 fC
-fC
-fC
-fC
+aI
+aI
+aI
 fG
-Ca
-Ca
+wz
+wz
 fG
 FO
 HN
@@ -29217,8 +29287,8 @@ Ca
 Ca
 Ca
 fG
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -29473,8 +29543,8 @@ Ca
 Ca
 Ca
 fG
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -29729,8 +29799,8 @@ fG
 Ca
 Ca
 fG
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -29985,8 +30055,8 @@ fG
 Ca
 Ca
 fG
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -30225,7 +30295,7 @@ fC
 fG
 Ca
 Ca
-Ca
+wz
 fG
 fG
 fG
@@ -30241,8 +30311,8 @@ fG
 Ca
 Ca
 fG
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -30497,8 +30567,8 @@ fG
 Ca
 Ca
 fG
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -30753,7 +30823,7 @@ fG
 Ca
 Ca
 fG
-gh
+oT
 BN
 fC
 fC
@@ -31009,13 +31079,13 @@ fG
 fG
 fG
 fG
-gh
-gh
-gh
-gh
-gh
-gh
-gh
+oT
+oT
+oT
+oT
+oT
+oT
+oT
 fC
 fC
 fC
@@ -31265,13 +31335,13 @@ fG
 xL
 xL
 fG
-gh
+oT
 BN
-gh
-gh
-gh
-gh
-gh
+oT
+oT
+oT
+oT
+oT
 fC
 fC
 fC
@@ -31526,8 +31596,8 @@ fG
 fG
 iV
 oT
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -31782,8 +31852,8 @@ Mf
 Mf
 ux
 oT
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -32038,8 +32108,8 @@ dI
 Mf
 ux
 Gi
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -32294,8 +32364,8 @@ qJ
 Mf
 ux
 Gi
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -32550,8 +32620,8 @@ nc
 Mf
 ux
 oT
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -32799,15 +32869,15 @@ nc
 nc
 nc
 de
-nc
+lh
 nc
 nc
 Xu
 Mf
 ux
 oT
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -33053,7 +33123,7 @@ hC
 UT
 ox
 uP
-rN
+Ak
 nc
 nc
 ox
@@ -33062,8 +33132,8 @@ ld
 Mf
 ux
 Gi
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -33318,8 +33388,8 @@ qJ
 Mf
 ux
 Gi
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -33574,8 +33644,8 @@ nc
 Mf
 ux
 oT
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -33830,8 +33900,8 @@ nc
 Mf
 ux
 oT
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -34086,8 +34156,8 @@ Ak
 Mf
 ux
 Gi
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -34342,8 +34412,8 @@ gY
 Mf
 ux
 Gi
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -34598,8 +34668,8 @@ gY
 Mf
 ux
 Gi
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -34833,7 +34903,7 @@ fC
 dz
 fG
 Ca
-Ca
+Tt
 fG
 fG
 nv
@@ -34854,8 +34924,8 @@ gY
 Mf
 ux
 Gi
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -35110,8 +35180,8 @@ qJ
 Mf
 ux
 Gi
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -35366,8 +35436,8 @@ Mf
 Mf
 ux
 oT
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -35622,8 +35692,8 @@ fG
 fG
 iV
 oT
-gh
-gh
+oT
+oT
 fC
 fC
 fC
@@ -35863,23 +35933,23 @@ Mf
 Mf
 Mf
 Mf
-Mf
+GH
 Mf
 Mf
 Mf
 hC
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
 fC
 fC
 fC
@@ -36124,18 +36194,18 @@ Wd
 sE
 Mf
 hC
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
-gh
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
+oT
 fC
 fC
 fC
@@ -36380,9 +36450,9 @@ Wd
 sE
 Mf
 hC
-gh
-gh
-gh
+oT
+oT
+oT
 fC
 fC
 fC
@@ -36636,9 +36706,9 @@ Wd
 sE
 Mf
 hC
-gh
-gh
-gh
+oT
+oT
+oT
 fC
 fC
 fC
@@ -36887,14 +36957,14 @@ Mf
 Mf
 Mf
 Mf
-Mf
+Ra
 Mf
 Mf
 Mf
 hC
-gh
-gh
-gh
+oT
+oT
+oT
 fC
 fC
 fC
@@ -37135,7 +37205,7 @@ fC
 fC
 fC
 fG
-Ca
+Kx
 Ca
 fG
 fG
@@ -37148,9 +37218,9 @@ AR
 fG
 fG
 fG
-gh
-gh
-gh
+oT
+oT
+oT
 fC
 fC
 fC
@@ -37399,13 +37469,13 @@ VL
 sE
 hC
 Cb
-hS
+Ft
 Cb
 fG
 fG
-gh
-gh
-gh
+oT
+oT
+oT
 fC
 fC
 fC
@@ -37659,9 +37729,9 @@ hS
 Cb
 fG
 fG
-gh
-gh
-gh
+oT
+oT
+oT
 fC
 fC
 fC
@@ -37915,9 +37985,9 @@ hS
 Cb
 fG
 fG
-gh
-gh
-gh
+oT
+oT
+oT
 fC
 fC
 fC
@@ -38159,7 +38229,7 @@ fC
 fC
 fC
 fG
-Ca
+Kx
 fG
 kQ
 sE
@@ -38167,13 +38237,13 @@ sE
 tz
 fG
 Cb
-hS
+vR
 Cb
 fG
 fG
-gh
-gh
-gh
+oT
+oT
+oT
 fC
 fC
 fC
@@ -38416,7 +38486,7 @@ fC
 fC
 fG
 Ca
-Ca
+GO
 kQ
 Wn
 aV
@@ -38427,10 +38497,10 @@ fG
 tj
 fG
 fG
-gh
-gh
-gh
-gh
+oT
+oT
+oT
+oT
 fC
 fC
 fC
@@ -38672,7 +38742,7 @@ fC
 fC
 fG
 Ca
-Ca
+GO
 fG
 fG
 fG
@@ -38684,9 +38754,9 @@ bw
 fG
 fG
 fG
-gh
-gh
-gh
+oT
+oT
+oT
 fC
 fC
 fC
@@ -38927,22 +38997,22 @@ fC
 fC
 fC
 fG
+Kx
 Ca
 Ca
-Ca
-Ca
+GO
 fG
 fG
 lZ
 Qz
 Uf
-Qz
+Mn
 Cb
 fG
 fG
-gh
-gh
-gh
+oT
+oT
+oT
 fC
 fC
 fC
@@ -39186,19 +39256,19 @@ fG
 Ca
 Ca
 Ca
-Ca
+GO
 fG
 fG
-rc
+JM
 SH
 sv
 jL
 Cb
 fG
 fG
-gh
-gh
-gh
+oT
+oT
+oT
 fC
 fC
 fC
@@ -39445,16 +39515,16 @@ fG
 fG
 fG
 kQ
-Cb
+Tk
 nc
 Cj
 nc
-Cb
+IW
 fG
 fG
-gh
-gh
-gh
+oT
+oT
+oT
 fC
 fC
 fC
@@ -39706,10 +39776,10 @@ Cn
 Ja
 Cn
 Pm
-jk
-gh
-gh
-gh
+fG
+oT
+oT
+oT
 fC
 fC
 fC
@@ -39956,15 +40026,15 @@ fC
 fC
 fC
 fC
-fG
+rK
 fG
 Du
 eM
 Fx
-jk
-jk
-gh
-gh
+fG
+rK
+oT
+oT
 fC
 fC
 fC

@@ -127,8 +127,8 @@
 		mag_locked = AM
 		visible_message("<span class='warning'>CLUNK.</span>")
 		OM.brakes = TRUE
-		OM.velocity.x = 0
-		OM.velocity.y = 0 //Full stop.
+		OM.velocity.a = 0
+		OM.velocity.e = 0 //Full stop.
 		OM.mag_lock = src
 		var/turf/center = get_turf(src)
 		switch(dir) //Do some fuckery to make sure the fighter lines up on the pad in a halfway sensible manner.
@@ -198,13 +198,13 @@
 		shake_people(mag_locked)
 	switch(dir) //Just handling north / south..FOR NOW!
 		if(NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
-			mag_locked.velocity.y = 20
+			mag_locked.velocity.e = 20
 		if(SOUTH)
-			mag_locked.velocity.y = -20
+			mag_locked.velocity.e = -20
 		if(EAST)
-			mag_locked.velocity.x = 20
+			mag_locked.velocity.a = 20
 		if(WEST)
-			mag_locked.velocity.x = -20
+			mag_locked.velocity.a = -20
 	mag_locked = null
 	addtimer(CALLBACK(src, .proc/recharge), 10 SECONDS) //Stops us from catching the fighter right after we launch it.
 
