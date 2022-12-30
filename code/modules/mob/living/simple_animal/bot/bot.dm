@@ -103,6 +103,10 @@
 
 	hud_possible = list(DIAG_STAT_HUD, DIAG_BOT_HUD, DIAG_HUD, DIAG_PATH_HUD = HUD_LIST_LIST) //Diagnostic HUD views
 
+	//NSV13 For Now - Attempt at making bots not get stuck for equally as long.
+	var/turf/old_loc = null
+	var/stuck_timer = 0
+
 /mob/living/simple_animal/bot/proc/get_mode()
 	if(client) //Player bots do not have modes, thus the override. Also an easy way for PDA users/AI to know when a bot is a player.
 		if(paicard)
@@ -473,6 +477,21 @@ Pass the desired type path itself, declaring a temporary var beforehand is not r
 				if(final_result)
 					return final_result
 
+	//NSV13 For Now - Patch for bots sometimes randomly getting stuck entirely
+	if(bot_type != MULE_BOT)
+		if(mode == BOT_MOVING && old_loc != loc)
+			old_loc = loc
+			return
+		else if(mode == BOT_MOVING && old_loc == loc)
+			stuck_timer++
+			if(stuck_timer >= 25) //I don't know how long this is in seconds, but it's so far the only way I can see that would force the bot to restart it's pathfinding
+				find_patrol_target() //Find the nearest beacon, we've gotten stuck, as such the loop needs to be broken.
+				calc_path() //Calculate the path to the beacon
+				stuck_timer = 0
+				old_loc = null
+				return
+			return
+
 /mob/living/simple_animal/bot/proc/checkscan(scan, old_target)
 	if( (REF(scan) in ignore_list) || (scan == old_target) ) //Filter for blacklisted elements, usually unreachable or previously processed oness
 		return FALSE
@@ -612,11 +631,20 @@ Pass a positive integer as an argument to override a bot's default speed.
 	access_card.access = prev_access
 	tries = 0
 	mode = BOT_IDLE
+	hard_reset() //NSV13 - Hard reset the bot's pathing
 	diag_hud_set_botstat()
 	diag_hud_set_botmode()
 
 
 
+//NSV13 For Now - Hard Reset - Literally tries to make it forget everything about it's last path in the hopes that resetting it will make it start fresh
+/mob/living/simple_animal/bot/proc/hard_reset()
+	patrol_target = null
+	last_waypoint = null
+	ai_waypoint = null
+	original_patrol = null
+	nearest_beacon = null
+	nearest_beacon_loc = null
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //Patrol and summon code!
@@ -1164,6 +1192,10 @@ Pass a positive integer as an argument to override a bot's default speed.
 				E.travel(TRUE, src, FALSE, E.up, FALSE)
 				ai_waypoint = last_waypoint
 				call_bot(calling_ai, ai_waypoint)
+		//NSV13 For Now
+		if(!E) //We're stuck in a loop, terminate our attempt because we're not where we're supposed to be.
+			bot_z_mode = null
+			find_patrol_target() //Find the nearest beacon, we've gotten stuck, as such the loop needs to be broken.
 
 	if(bot_z_mode == BOT_Z_MODE_PATROLLING)
 		if(E)
@@ -1175,6 +1207,11 @@ Pass a positive integer as an argument to override a bot's default speed.
 				E.travel(TRUE, src, FALSE, E.up, FALSE)
 				patrol_target = original_patrol
 				calc_path()
+		//NSV13 For Now
+		if(!E) //We're stuck in a loop, terminate our attempt because we're not where we're supposed to be.
+			bot_z_mode = null
+			find_patrol_target() //Find the nearest beacon, we've gotten stuck, as such the loop needs to be broken.
+
 	if(bot_z_mode == BOT_Z_MODE_SUMMONED)
 		if(E)
 			if(z > last_summon.z)
@@ -1185,6 +1222,10 @@ Pass a positive integer as an argument to override a bot's default speed.
 				E.travel(TRUE, src, FALSE, E.up, FALSE)
 				summon_target = last_summon
 				calc_summon_path()
+		//NSV13 For Now
+		if(!E) //We're stuck in a loop, terminate our attempt because we're not where we're supposed to be.
+			bot_z_mode = null
+			find_patrol_target() //Find the nearest beacon, we've gotten stuck, as such the loop needs to be broken.
 
 //BOT MULTI-Z MOVEMENT
 /mob/living/simple_animal/bot/proc/call_bot_z_move(caller, turf/ori_dest, message=TRUE)
