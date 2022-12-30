@@ -6,42 +6,42 @@ Special thanks to qwertyquerty for explaining and dictating all this! (I've most
 
 */
 /*
-/proc/is_separating_axis(datum/vector2d/a_pos, datum/vector2d/b_pos, list/datum/vector2d/a_points, list/datum/vector2d/b_points, datum/vector2d/axis, datum/collision_response/c_response)
-	var/datum/vector2d/offset_v = b_pos - a_pos
+/proc/is_separating_axis(matrix/vector/a_pos, matrix/vector/b_pos, list/matrix/vector/a_points, list/matrix/vector/b_points, matrix/vector/axis, datum/collision_response/c_response)
+	var/matrix/vector/offset_v = b_pos - a_pos
 
 	var/projected_offset = offset_v.dot(axis)
 
-	var/datum/vector2d/range_a = flatten_points_on(a_points, axis)
-	var/datum/vector2d/range_b = flatten_points_on(b_points, axis)
+	var/matrix/vector/range_a = flatten_points_on(a_points, axis)
+	var/matrix/vector/range_b = flatten_points_on(b_points, axis)
 
-	range_b.x += projected_offset
-	range_b.y += projected_offset
+	range_b.a += projected_offset
+	range_b.e += projected_offset
 
-	if(range_a.x > range_b.y || range_b.x > range_a.y)
+	if(range_a.a > range_b.e || range_b.a > range_a.e)
 		return TRUE
 
 	if (c_response)
 		var/overlap = 0
 
-		if(range_a.x < range_b.x)
+		if(range_a.a < range_b.a)
 			c_response.a_in_b = FALSE
 
-			if(range_a.y < range_b.y)
-				overlap = range_a.y - range_b.x
+			if(range_a.e < range_b.e)
+				overlap = range_a.e - range_b.a
 				c_response.b_in_a = FALSE
 			else
-				var/option_1 = range_a.y - range_b.x
-				var/option_2 = range_b.y - range_a.x
+				var/option_1 = range_a.e - range_b.a
+				var/option_2 = range_b.e - range_a.a
 				overlap = option_1 < option_2 ? option_1 : -option_2
 		else
 			c_response.b_in_a = FALSE
 
-			if (range_a.y > range_b.y)
-				overlap = range_a.x - range_b.y
+			if (range_a.e > range_b.e)
+				overlap = range_a.a - range_b.e
 				c_response.a_in_b = FALSE
 			else
-				var/option_1 = range_a.y - range_b.x
-				var/option_2 = range_b.y - range_a.x
+				var/option_1 = range_a.e - range_b.a
+				var/option_2 = range_b.e - range_a.a
 				overlap = option_1 < option_2 ? option_1 : -option_2
 
 		if (abs(overlap) < c_response.overlap)
@@ -52,11 +52,11 @@ Special thanks to qwertyquerty for explaining and dictating all this! (I've most
 
 	return FALSE
 
-/proc/flatten_points_on(list/points, datum/vector2d/normal)
+/proc/flatten_points_on(list/points, matrix/vector/normal)
 	var/minpoint = INFINITY
 	var/maxpoint = -INFINITY
 
-	for (var/datum/vector2d/point in points)
+	for (var/matrix/vector/point in points)
 		var/dot = point.dot(normal)
 		if (dot < minpoint)
 			minpoint = dot
@@ -64,12 +64,12 @@ Special thanks to qwertyquerty for explaining and dictating all this! (I've most
 		if (dot > maxpoint)
 			maxpoint = dot
 
-	return new /datum/vector2d(minpoint, maxpoint)
+	return new /matrix/vector(minpoint, maxpoint)
 */
 /*
-/datum/shape/get_seg_intersection(datum/vector2d/p0, datum/vector2d/p1, datum/vector2d/p2, datum/vector2d/p3)
-	var/datum/vector2d/s10 = p1 - p0
-	var/datum/vector2d/s32 = p3 - p2
+/datum/shape/get_seg_intersection(matrix/vector/p0, matrix/vector/p1, matrix/vector/p2, matrix/vector/p3)
+	var/matrix/vector/s10 = p1 - p0
+	var/matrix/vector/s32 = p3 - p2
 
 	var/denom = s10.cross(s32)
 
@@ -78,7 +78,7 @@ Special thanks to qwertyquerty for explaining and dictating all this! (I've most
 
 	var/denom_is_positive = denom > 0
 
-	var/datum/vector2d/s02 = p0 - p2
+	var/matrix/vector/s02 = p0 - p2
 
 	var/s_numer = s10.cross(s02)
 
@@ -95,5 +95,5 @@ Special thanks to qwertyquerty for explaining and dictating all this! (I've most
 
 	var/t = t_numer / denom
 
-	return new /datum/vector2d(p0.x + (t * s10.x), p0.y + (t * s10.y))
+	return new /matrix/vector(p0.a + (t * s10.a), p0.e + (t * s10.e))
 */
