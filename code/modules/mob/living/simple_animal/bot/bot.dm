@@ -477,7 +477,7 @@ Pass the desired type path itself, declaring a temporary var beforehand is not r
 				if(final_result)
 					return final_result
 
-	//NSV13 For Now - Patch for bots sometimes randomly getting stuck entirely
+	/*NSV13 For Now - Patch for bots sometimes randomly getting stuck entirely
 	if(bot_type != MULE_BOT)
 		if(mode == BOT_MOVING && old_loc != loc)
 			old_loc = loc
@@ -491,7 +491,7 @@ Pass the desired type path itself, declaring a temporary var beforehand is not r
 				old_loc = null
 				return
 			return
-
+*/
 /mob/living/simple_animal/bot/proc/checkscan(scan, old_target)
 	if( (REF(scan) in ignore_list) || (scan == old_target) ) //Filter for blacklisted elements, usually unreachable or previously processed oness
 		return FALSE
@@ -561,7 +561,8 @@ Pass a positive integer as an argument to override a bot's default speed.
 	else if(path.len == 1)
 		step_to(src, dest)
 		if(last_waypoint != null)
-			if(z != last_waypoint.z)
+			var/obj/structure/bot_elevator/E = locate(/obj/structure/bot_elevator) in get_turf(src) //NSV13 - Attempt at fixing the code that is causing bots to randomly get stuck
+			if(z != last_waypoint.z && E)
 				bot_z_movement()
 		set_path(null)
 	return TRUE
@@ -692,7 +693,8 @@ Pass a positive integer as an argument to override a bot's default speed.
 
 	if(loc == patrol_target)		// reached target
 		if(original_patrol != null)
-			if(z != original_patrol.z)
+			var/obj/structure/bot_elevator/E = locate(/obj/structure/bot_elevator) in get_turf(src) //NSV13 - Attempt at fixing the code that is causing bots to randomly get stuck
+			if(z != original_patrol.z && E)
 				bot_z_movement()
 				return
 		//Find the next beacon matching the target.
@@ -851,7 +853,8 @@ Pass a positive integer as an argument to override a bot's default speed.
 
 	if(loc == summon_target)		// Arrived to summon location.
 		if(last_summon != null)
-			if(z != last_summon.z)
+			var/obj/structure/bot_elevator/E = locate(/obj/structure/bot_elevator) in get_turf(src) //NSV13 - Attempt at fixing the code that is causing bots to randomly get stuck
+			if(z != last_summon.z && E)
 				bot_z_movement()
 				return
 		bot_reset()
@@ -1195,7 +1198,8 @@ Pass a positive integer as an argument to override a bot's default speed.
 		//NSV13 For Now
 		if(!E) //We're stuck in a loop, terminate our attempt because we're not where we're supposed to be.
 			bot_z_mode = null
-			find_patrol_target() //Find the nearest beacon, we've gotten stuck, as such the loop needs to be broken.
+			last_waypoint = null
+			summon_step() //We've gotten stuck, as such the loop needs to be broken, so re-run the summon_step().
 
 	if(bot_z_mode == BOT_Z_MODE_PATROLLING)
 		if(E)
@@ -1210,7 +1214,8 @@ Pass a positive integer as an argument to override a bot's default speed.
 		//NSV13 For Now
 		if(!E) //We're stuck in a loop, terminate our attempt because we're not where we're supposed to be.
 			bot_z_mode = null
-			find_patrol_target() //Find the nearest beacon, we've gotten stuck, as such the loop needs to be broken.
+			original_patrol = null
+			patrol_step() //We've gotten stuck, as such the loop needs to be broken, so re-run the patrol_step().
 
 	if(bot_z_mode == BOT_Z_MODE_SUMMONED)
 		if(E)
@@ -1225,7 +1230,8 @@ Pass a positive integer as an argument to override a bot's default speed.
 		//NSV13 For Now
 		if(!E) //We're stuck in a loop, terminate our attempt because we're not where we're supposed to be.
 			bot_z_mode = null
-			find_patrol_target() //Find the nearest beacon, we've gotten stuck, as such the loop needs to be broken.
+			last_summon = null
+			summon_step() //We've gotten stuck, as such the loop needs to be broken. so re-run the summon_step().
 
 //BOT MULTI-Z MOVEMENT
 /mob/living/simple_animal/bot/proc/call_bot_z_move(caller, turf/ori_dest, message=TRUE)
