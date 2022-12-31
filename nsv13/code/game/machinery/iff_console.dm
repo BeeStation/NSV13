@@ -8,7 +8,7 @@ If someone hacks it, you can always rebuild it.
 */
 /obj/machinery/computer/iff_console
 	name = "\improper IFF Console"
-	desc = "A console which holds information about a ship's IFF (Identify Friend/Foe) signature. <i>It can be bypassed to change the allegiance of a ship...</i>"
+	desc = "A console which holds information about a ship's IFF (Identify Friend/Foe) signature. <i>It can be bypassed using a <b>multitool</b> to change the allegiance of a ship...</i>"
 	icon_screen = "iff"
 	icon_keyboard = "teleport_key"
 	circuit = /obj/item/circuitboard/computer/iff
