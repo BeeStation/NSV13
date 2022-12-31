@@ -329,7 +329,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 20
 	spread = 90
 	flag = "overmap_medium"
-	
+
 /obj/item/projectile/bullet/prototype_bsa
 	icon_state = "proto_bsa"
 	name = "Prototype BSA Round"
@@ -517,7 +517,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(target.ai_controlled || istype(target, /obj/structure/overmap/small_craft))
 		target.hullburn += 60	//hullburn DoT for AIs. Player Fighters get it too, did you expect to just eat one of these?
 		target.hullburn_power = max(target.hullburn_power, 6)
-	
+
 
 /obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
 	. = ..()

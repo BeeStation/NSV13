@@ -135,7 +135,8 @@
 	program_icon_state = "ntnrc_idle"
 	extended_desc = "A program to allow you to manage the ship's squads while on the go!"
 	requires_ntnet = TRUE
-	transfer_access = list(ACCESS_CAPTAIN, ACCESS_HOP)
+	transfer_access = ACCESS_HOP
+	category = PROGRAM_CATEGORY_CREW
 	network_destination = "squad management"
 	size = 2
 	tgui_id = "NtosSquadManager"
