@@ -371,6 +371,7 @@
 /area/quartermaster/miningoffice)
 "ch" = (
 /obj/machinery/holopad,
+/obj/item/banner/munitions,
 /turf/open/floor/carpet/orange,
 /area/nsv/crew_quarters/heads/maa)
 "cj" = (
@@ -3028,9 +3029,6 @@
 	},
 /obj/structure/disposalpipe/segment,
 /obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/computer/ams{
-	dir = 4
-	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "oD" = (
@@ -4108,10 +4106,6 @@
 /obj/effect/landmark/start/cyborg,
 /turf/open/floor/plasteel/tiled/light,
 /area/hallway/nsv/deck1/hallway)
-"tF" = (
-/obj/machinery/computer/ship/fighter_controller,
-/turf/open/floor/engine/vacuum,
-/area/nsv/hanger)
 "tG" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
@@ -4305,7 +4299,9 @@
 /area/engine/atmos)
 "uA" = (
 /obj/structure/extinguisher_cabinet/south,
-/obj/structure/table/reinforced,
+/obj/machinery/computer/ship/fighter_controller{
+	dir = 1
+	},
 /turf/open/floor/carpet/orange,
 /area/nsv/crew_quarters/heads/maa)
 "uE" = (
@@ -6558,6 +6554,9 @@
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 1
 	},
+/obj/machinery/computer/ams{
+	dir = 1
+	},
 /turf/open/floor/engine,
 /area/nsv/weapons)
 "FO" = (
@@ -7313,6 +7312,7 @@
 	icon_state = "1-2"
 	},
 /obj/item/radio/intercom/directional/west,
+/obj/item/fighter_component/fuel_tank,
 /turf/open/floor/engine/vacuum,
 /area/nsv/hanger)
 "Jb" = (
@@ -11031,13 +11031,15 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
-/obj/item/banner/munitions,
 /obj/machinery/requests_console{
 	announcementConsole = 1;
 	department = "Master At Arms' Desk";
 	departmentType = 5;
 	name = "Master at Arms RC";
 	pixel_y = -30
+	},
+/obj/machinery/computer/ship/ordnance{
+	dir = 1
 	},
 /turf/open/floor/carpet/orange,
 /area/nsv/crew_quarters/heads/maa)
@@ -44875,7 +44877,7 @@ Nq
 qA
 Nq
 MI
-tF
+gl
 gl
 PE
 Gx

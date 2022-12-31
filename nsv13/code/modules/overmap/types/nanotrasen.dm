@@ -150,7 +150,7 @@
 	desc = "a serendipity class exploration and research vessel"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/serendipity.dmi'
 	icon_state = "serendipity"
-	mass = MASS_SMALL
+	mass = MASS_TINY
 	sprite_size = 48
 	damage_states = FALSE
 	bound_height = 32
@@ -259,12 +259,16 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 50, "overmap_medium" = 40, "overmap_heavy" = 50)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+	use_armour_quadrants = TRUE
+	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 450, "current_armour" = 450),\
+						"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 450, "current_armour" = 450),\
+						"aft_port" = list("name" = "Aft Port", "max_armour" = 450, "current_armour" = 450),\
+						"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 450, "current_armour" = 450))
 
 /obj/structure/overmap/nanotrasen/serendipity/starter/apply_weapons()
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
-
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 
 //AI Versions
 

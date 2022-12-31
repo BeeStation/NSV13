@@ -1891,6 +1891,20 @@
 	dir = 4
 	},
 /obj/structure/extinguisher_cabinet/west,
+/obj/machinery/button/flasher{
+	id = "flashleft";
+	name = "Left Cell Flasher";
+	pixel_x = -9;
+	pixel_y = -23
+	},
+/obj/machinery/button/flasher{
+	name = "Right Cell Flasher";
+	pixel_x = 3;
+	pixel_y = -23
+	},
+/obj/structure/closet/secure_closet/brig{
+	id = "pw_1"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "gD" = (
@@ -2009,6 +2023,7 @@
 	icon_state = "2-8";
 	tag = ""
 	},
+/obj/structure/closet/secure_closet/evidence,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "gV" = (
@@ -5689,6 +5704,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/structure/closet/secure_closet/genpop,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "tt" = (
@@ -6500,12 +6516,17 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 10
 	},
-/obj/item/radio/intercom/directional/east,
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/door_timer{
+	id = "isolation2";
+	name = "Isolation 2";
+	pixel_x = 31;
+	pixel_y = 2
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
@@ -7308,6 +7329,10 @@
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/flasher{
+	id = "flashleft";
+	pixel_x = -22
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
@@ -10341,6 +10366,7 @@
 /obj/machinery/newscaster/directional/south,
 /obj/machinery/recharge_station,
 /obj/effect/landmark/start/cyborg,
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "Jq" = (
@@ -12510,7 +12536,9 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
 	},
-/obj/machinery/firealarm/directional/west,
+/obj/item/radio/intercom/directional/west{
+	pixel_y = -9
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "Qs" = (
@@ -12651,6 +12679,21 @@
 /obj/machinery/camera/autoname,
 /turf/open/floor/engine/light,
 /area/science/xenobiology)
+"QQ" = (
+/obj/machinery/door/window/brigdoor/security/cell/southright{
+	id = "isolation2";
+	name = "Isolation 2";
+	req_one_access_txt = "3;4;38;63"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/flasher{
+	id = "flashright";
+	pixel_x = 22
+	},
+/turf/open/floor/carpet/ship/red_carpet,
+/area/security/brig)
 "QS" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
@@ -14538,6 +14581,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/structure/closet/secure_closet/genpop,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
 "Xn" = (
@@ -52172,7 +52216,7 @@ az
 Te
 Nr
 cE
-yL
+QQ
 wo
 Tt
 LF
