@@ -103,10 +103,6 @@
 
 	hud_possible = list(DIAG_STAT_HUD, DIAG_BOT_HUD, DIAG_HUD, DIAG_PATH_HUD = HUD_LIST_LIST) //Diagnostic HUD views
 
-	//NSV13 For Now - Attempt at making bots not get stuck for equally as long.
-	var/turf/old_loc = null
-	var/stuck_timer = 0
-
 /mob/living/simple_animal/bot/proc/get_mode()
 	if(client) //Player bots do not have modes, thus the override. Also an easy way for PDA users/AI to know when a bot is a player.
 		if(paicard)
@@ -477,21 +473,6 @@ Pass the desired type path itself, declaring a temporary var beforehand is not r
 				if(final_result)
 					return final_result
 
-	/*NSV13 For Now - Patch for bots sometimes randomly getting stuck entirely
-	if(bot_type != MULE_BOT)
-		if(mode == BOT_MOVING && old_loc != loc)
-			old_loc = loc
-			return
-		else if(mode == BOT_MOVING && old_loc == loc)
-			stuck_timer++
-			if(stuck_timer >= 25) //I don't know how long this is in seconds, but it's so far the only way I can see that would force the bot to restart it's pathfinding
-				find_patrol_target() //Find the nearest beacon, we've gotten stuck, as such the loop needs to be broken.
-				calc_path() //Calculate the path to the beacon
-				stuck_timer = 0
-				old_loc = null
-				return
-			return
-*/
 /mob/living/simple_animal/bot/proc/checkscan(scan, old_target)
 	if( (REF(scan) in ignore_list) || (scan == old_target) ) //Filter for blacklisted elements, usually unreachable or previously processed oness
 		return FALSE
