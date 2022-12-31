@@ -77,8 +77,10 @@ If someone hacks it, you can always rebuild it.
 		to_chat(user, "<span class='warning'>Someone is already hacking [src]!</span>")
 		return TRUE
 	hacking = TRUE
+	var/hack_start_time = world.time
 	if(!do_after(user, hack_goal, target = src))
 		hacking = FALSE
+		hack_goal = max(hack_goal -= (world.time - hack_start_time), 1 SECONDS)
 		return TRUE
 	hack()
 	var/obj/structure/overmap/OM = get_overmap()
@@ -94,16 +96,6 @@ If someone hacks it, you can always rebuild it.
 	playsound(loc, 'nsv13/sound/effects/computer/alarm_3.ogg', 80)
 	say("ERR@$#@$. Rebooting...")
 	say("System reboot complete. iff_bustr.exe uploaded successfully.")
-
-/obj/machinery/computer/iff_console/proc/get_multitool(mob/user)
-	var/obj/item/multitool/P = null
-	// Let's double check
-	if(!issilicon(user) && istype(user.get_active_held_item(), /obj/item/multitool))
-		P = user.get_active_held_item()
-	else if(iscyborg(user) && in_range(user, src))
-		if(istype(user.get_active_held_item(), /obj/item/multitool))
-			P = user.get_active_held_item()
-	return P
 
 /obj/machinery/computer/iff_console/ui_state(mob/user)
 	return GLOB.default_state
@@ -124,6 +116,7 @@ If someone hacks it, you can always rebuild it.
 
 //Uh oh...
 /obj/machinery/computer/iff_console/proc/hack()
+	hack_goal = initial(hack_goal)
 	var/obj/structure/overmap/OM = get_overmap()
 	if(!OM)
 		return FALSE
