@@ -167,7 +167,7 @@ Returns a faction datum by its name (case insensitive!)
 
 /datum/controller/subsystem/star_system/proc/save(_destination_path = CONFIG_DIRECTORY + "/" + STARMAP_FILE)
 	// No :)
-	_destination_path = SANITIZE_FILENAME(_destination_path)
+	_destination_path = sanitize_filepath(_destination_path)
 	var/list/directory = splittext(_destination_path, "/")
 	if((directory[1] != "config") || (directory[2] != "starmap"))
 		CRASH("ERR: Starmaps can only be saved to the config directory!")
