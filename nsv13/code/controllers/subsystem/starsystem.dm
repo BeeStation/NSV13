@@ -165,7 +165,7 @@ Returns a faction datum by its name (case insensitive!)
 <param></param>
 */
 
-/datum/controller/subsystem/star_system/proc/save(_destination_path = CONFIG_DIRECTORY + "/" + STARMAP_FILE)
+/datum/controller/subsystem/star_system/proc/save(_destination_path = SSmapping.config.starmap_path)
 	// No :)
 	_destination_path = sanitize_filepath(_destination_path)
 	var/list/directory = splittext(_destination_path, "/")
