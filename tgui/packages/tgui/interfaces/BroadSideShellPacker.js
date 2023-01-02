@@ -22,6 +22,9 @@ export const BroadSideShellPacker = (props, context) => {
                 average: [0.15, 0.5],
                 bad: [-Infinity, 0.15],
               }} />
+            <Box bold textAlign={"center"}>
+              {data.casing_amount} / {data.amount_to_pack}
+            </Box>
           </Section>
           <Section title="Projectile Loads:">
             <ProgressBar
@@ -31,6 +34,9 @@ export const BroadSideShellPacker = (props, context) => {
                 average: [0.15, 0.5],
                 bad: [-Infinity, 0.15],
               }} />
+            <Box bold textAlign={"center"}>
+              {data.load_amount} / {data.amount_to_pack}
+            </Box>
           </Section>
           <Section title="Powder Type:">
             <Table.Row>
