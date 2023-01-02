@@ -160,6 +160,7 @@
 	id = "vehicle_start"
 	display_name = "Mechanical Research"
 	description = "Researching the possibility of expanding the usage behind those useless Tugs"
+	design_ids = list("vehicle_engine_pathetic")
 	prereq_ids = list("engineering")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1500)
 	export_price = 1000
@@ -168,7 +169,7 @@
 	id = "vehicle_utility"
 	display_name = "Vehicle Utilities"
 	description = "Researching the value behind Bobbleheads and Tug Air Fresheners."
-	design_ids = list("vehicle_crate_loader", "vehicle_cryo_stasis", "vehicle_engine_pathetic")
+	design_ids = list("vehicle_crate_loader", "vehicle_cryo_stasis")
 	prereq_ids = list("vehicle_start")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
 	export_price = 2000
@@ -178,7 +179,7 @@
 	display_name = "Standard Vehicle Parts"
 	description = "Researching the strange spinning thingies found attached to the side of the Tug and what the loud rumbling box inside the Tug does."
 	design_ids = list("vehicle_engine", "vehicle_tyres")
-	prereq_ids = list("vehicle_utility")
+	prereq_ids = list("vehicle_start")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 2500
 
