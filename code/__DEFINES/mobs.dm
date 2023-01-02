@@ -433,6 +433,9 @@
 #define SENTIENCE_FORCE 2		//the mob will be made playable by force when a player is forcefully ejected from a mob (by admin, for example)
 #define SENTIENCE_ERASE 3
 
+///How much a mob's sprite should be moved when they're lying down
+#define PIXEL_Y_OFFSET_LYING -6 //NSV13
+
 //Flavor Text When Entering A Playable Mob
 #define FLAVOR_TEXT_EVIL "evil"	//mob antag
 #define FLAVOR_TEXT_GOOD "good"	//ie do not cause evil

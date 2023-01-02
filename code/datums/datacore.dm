@@ -150,8 +150,8 @@
 		"Science" = GLOB.science_positions_hud,
 		"Supply" = GLOB.supply_positions_hud,
 		"Civilian" = GLOB.civilian_positions_hud,
-		"Silicon" = GLOB.nonhuman_positions, // this is something that doesn't work. need to fix.
-		"Munitions" = GLOB.munitions_positions //NSV ADDED DEPARTMENTS
+		"Munitions" = GLOB.munitions_positions_hud, //NSV ADDED DEPARTMENTS
+		"Silicon" = GLOB.nonhuman_positions // this is something that doesn't work. need to fix.
 	)
 	for(var/datum/data/record/t in GLOB.data_core.general)
 		var/name = t.fields["name"]
