@@ -18,6 +18,16 @@
 	w_class = WEIGHT_CLASS_BULKY
 	projectile_type = /obj/item/projectile/bullet/broadside/plasma
 
+/obj/item/circuitboard/machine/broadside_shell_packer
+	name = "circuit board (Broadside Shell Packer)"
+	desc = "Pack the shells and get that ice cream ration pack from the kitchen!"
+	icon_state = "generic"
+	build_path = /obj/machinery/broadside_shell_packer
+	req_components = list(
+		/obj/item/stock_parts/manipulator = 2,
+		/obj/item/stock_parts/matter_bin = 2,
+	)
+
 /obj/machinery/broadside_shell_packer
 	name = "\improper Broadside Shell Packer Bench"
 	desc = "An automated table that packs broadside shell casings, just add components!"
@@ -87,27 +97,64 @@
 
 /obj/machinery/broadside_shell_packer/attack_hand(mob/living/user)
 	. = ..()
+	ui_interact(user)
+
+/obj/machinery/broadside_shell_packer/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "BroadSideShellPacker", name)
+		ui.open()
+		ui.set_autoupdate(TRUE) // packa pan pan packa!
+
+/obj/machinery/broadside_shell_packer/ui_data(mob/user)
+	var/list/data = list()
+
+	data["casing_amount"] = casing_amount
+	data["load_amount"] = load_amount
+	data["bag_amount"] = bag_amount
+	data["amount_to_pack"] = amount_to_pack
+	data["plasma"] = plasma
+	data["gunpowder"] = gunpowder
+
 	if(casing_amount == amount_to_pack && load_amount == amount_to_pack && bag_amount == 1)
-		icon_state = "packing_bench_loading"
-		cut_overlays()
-		to_chat(user, "<span class='notice'>The table starts to stuff the shell casings!</span>")
-		play_click_sound("switch")
-		playsound(user, 'nsv13/sound/effects/ship/mac_load.ogg', 20)
-		sleep(0.5 SECONDS)
-		for(var/i in 1 to amount_to_pack)
-			if(plasma)
-				new /obj/item/ship_weapon/ammunition/broadside_shell/plasma(get_turf(src))
-			else if(gunpowder)
-				new /obj/item/ship_weapon/ammunition/broadside_shell(get_turf(src))
-		reset()
+		data["full"] = TRUE
 	else
-		if(casing_amount < amount_to_pack)
-			to_chat(user, "<span class='warning'>The table is missing [amount_to_pack - casing_amount] casings!</span>")
-		if(load_amount < amount_to_pack)
-			to_chat(user, "<span class='warning'>The table is missing [amount_to_pack - load_amount] loads!</span>")
-		if(bag_amount < 1)
-			to_chat(user, "<span class='warning'>The table is missing a bag!</span>")
-	return
+		data["full"] = FALSE
+
+	return data
+
+/obj/machinery/broadside_shell_packer/ui_act(action, params)
+	if(..())
+		return
+
+	switch(action)
+		if("pack")
+			icon_state = "packing_bench_loading"
+			cut_overlays()
+			to_chat(usr, "<span class='notice'>The table starts to stuff the shell casings!</span>")
+			play_click_sound("switch")
+			playsound(usr, 'nsv13/sound/effects/ship/mac_load.ogg', 20)
+			sleep(0.5 SECONDS)
+			for(var/i in 1 to amount_to_pack)
+				if(plasma)
+					new /obj/item/ship_weapon/ammunition/broadside_shell/plasma(get_turf(src))
+				else if(gunpowder)
+					new /obj/item/ship_weapon/ammunition/broadside_shell(get_turf(src))
+			reset()
+
+		if("eject_plasma")
+			if(plasma)
+				new /obj/item/powder_bag/plasma(get_turf(src))
+				plasma = FALSE
+				bag_amount--
+				cut_overlay("powder-1")
+
+		if("eject_gunpowder")
+			if(gunpowder)
+				new /obj/item/powder_bag(get_turf(src))
+				gunpowder = FALSE
+				bag_amount--
+				cut_overlay("powder-1")
 
 /obj/machinery/broadside_shell_packer/proc/reset()
 	casing_amount = 0
@@ -118,12 +165,3 @@
 	icon_state = "packing_bench"
 	update_icon()
 	return
-
-/obj/item/circuitboard/machine/broadside_shell_packer
-	name = "circuit board (Broadside Shell Packer)"
-	desc = "Pack the shells and get that ice cream ration pack from the kitchen!"
-	req_components = list(
-		/obj/item/stack/sheet/iron = 20,
-	)
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
-	build_path = /obj/machinery/broadside_shell_packer
