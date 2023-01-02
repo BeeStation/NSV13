@@ -45,7 +45,14 @@
 			M.visible_message("<span class='notice'>[user] eats the food off their fork!</span>")
 			M.reagents.add_reagent(forkload.type, 1)
 		else
+			M.visible_message("<span class='danger'>[user] attempts to feed [M] from the fork.</span>", \
+				"<span class='userdanger'>[user] attempts to feed you with the fork.</span>")
+			if(!do_mob(user, M))
+				return
+			if(!forkload)
+				return // Might be empty after the delay, such as by spam-feeding
 			M.visible_message("<span class='notice'>[user] feeds [M] a forkful of food!</span>")
+			log_combat(user, M, "fed", forkload)
 			M.reagents.add_reagent(forkload.type, 1)
 		icon_state = "fork"
 		forkload = null
@@ -88,7 +95,14 @@
 			M.visible_message("<span class='notice'>[user] eats the food off their spoon!</span>")
 			M.reagents.add_reagent(forkload.type, 1)
 		else
+			M.visible_message("<span class='danger'>[user] attempts to feed [M] from the spoon.</span>", \
+				"<span class='userdanger'>[user] attempts to feed you with the spoon.</span>")
+			if(!do_mob(user, M))
+				return
+			if(!forkload)
+				return // Might be empty after the delay, such as by spam-feeding
 			M.visible_message("<span class='notice'>[user] feeds [M] a spoonful of food!</span>")
+			log_combat(user, M, "fed", forkload)
 			M.reagents.add_reagent(forkload.type, 1)
 		icon_state = "spoon"
 		forkload = null
