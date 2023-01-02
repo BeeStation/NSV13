@@ -66,9 +66,9 @@
 	. = ..()
 	switch(blocks_emissive)
 		if(EMISSIVE_BLOCK_GENERIC)
-			var/mutable_appearance/gen_emissive_blocker = mutable_appearance(icon, icon_state, EMISSIVE_BLOCKER_LAYER, EMISSIVE_BLOCKER_PLANE)
+			var/mutable_appearance/gen_emissive_blocker = mutable_appearance(icon, icon_state, plane = EMISSIVE_PLANE, alpha = src.alpha)
+			gen_emissive_blocker.color = GLOB.em_block_color
 			gen_emissive_blocker.dir = dir
-			gen_emissive_blocker.alpha = alpha
 			gen_emissive_blocker.appearance_flags |= appearance_flags
 			add_overlay(list(gen_emissive_blocker))
 		if(EMISSIVE_BLOCK_UNIQUE)
@@ -87,9 +87,9 @@
 	if(!blocks_emissive)
 		return
 	else if (blocks_emissive == EMISSIVE_BLOCK_GENERIC)
-		var/mutable_appearance/gen_emissive_blocker = mutable_appearance(icon, icon_state, EMISSIVE_BLOCKER_LAYER, EMISSIVE_BLOCKER_PLANE)
+		var/mutable_appearance/gen_emissive_blocker = mutable_appearance(icon, icon_state, plane = EMISSIVE_PLANE, alpha = src.alpha)
+		gen_emissive_blocker.color = GLOB.em_block_color
 		gen_emissive_blocker.dir = dir
-		gen_emissive_blocker.alpha = alpha
 		gen_emissive_blocker.appearance_flags |= appearance_flags
 		return gen_emissive_blocker
 	else if(blocks_emissive == EMISSIVE_BLOCK_UNIQUE)
@@ -347,7 +347,7 @@
 	. = TRUE
 
 	if(old_locs) // This condition will only be true if it is a multi-tile object.
-		for(var/atom/exited_loc as anything in (old_locs - new_locs))
+		for(var/atom/exited_loc as anything in (old_locs - (new_locs - oldloc)))//NSV13 always use base loc
 			exited_loc.Exited(src, direction)
 	else // Else there's just one loc to be exited.
 		oldloc.Exited(src, direction)
@@ -355,7 +355,7 @@
 		oldarea.Exited(src, direction)
 
 	if(new_locs) // Same here, only if multi-tile.
-		for(var/atom/entered_loc as anything in (new_locs - old_locs))
+		for(var/atom/entered_loc as anything in (new_locs - (old_locs - newloc)))//NSV13 ditto
 			entered_loc.Entered(src, oldloc, old_locs)
 	else
 		newloc.Entered(src, oldloc, old_locs)

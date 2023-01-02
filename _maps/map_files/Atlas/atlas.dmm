@@ -2802,27 +2802,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/dark,
 /area/security/brig)
-"jn" = (
-/obj/machinery/requests_console{
-	department = "Cargo Bay";
-	departmentType = 2;
-	pixel_x = 32
-	},
-/obj/machinery/navbeacon{
-	codes_txt = "delivery;dir=8";
-	dir = 8;
-	freq = 1400;
-	location = "QM #2"
-	},
-/mob/living/simple_animal/bot/mulebot{
-	home_destination = "QM #2";
-	suffix = "#3";
-	name = "Chonker";
-	desc = "Oh lawd he is coming!!";
-	gender = "male"
-	},
-/turf/open/floor/monotile/steel,
-/area/quartermaster/storage)
 "jo" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -6484,6 +6463,18 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/engine_room)
+"uA" = (
+/obj/structure/railing,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 24
+	},
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 12
+	},
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/turf/open/floor/engine,
+/area/quartermaster/storage)
 "uC" = (
 /obj/machinery/light/small{
 	brightness = 3;
@@ -8108,15 +8099,6 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/hallway/nsv/deck2/primary)
-"Aj" = (
-/obj/structure/railing,
-/obj/effect/turf_decal/ship/delivery/yellow,
-/obj/item/ship_weapon/ammunition/torpedo/freight,
-/obj/item/ship_weapon/ammunition/torpedo/freight{
-	pixel_y = 12
-	},
-/turf/open/floor/engine,
-/area/quartermaster/storage)
 "Ak" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/disposalpipe/segment,
@@ -9155,39 +9137,6 @@
 "EE" = (
 /turf/template_noop,
 /area/maintenance/nsv/deck2/port/fore)
-"EG" = (
-/obj/structure/table/reinforced,
-/obj/item/computer_hardware/hard_drive/role/quartermaster{
-	pixel_x = 6;
-	pixel_y = 5
-	},
-/obj/item/computer_hardware/hard_drive/role/quartermaster{
-	pixel_x = -4;
-	pixel_y = 7
-	},
-/obj/item/computer_hardware/hard_drive/role/quartermaster,
-/obj/item/paper_bin,
-/obj/item/stamp/quartermaster,
-/obj/item/clothing/mask/cigarette/cigar,
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
-/obj/machinery/power/apc/auto_name/north,
-/obj/item/clothing/neck/cloak/qm,
-/obj/item/clothing/head/soft{
-	pixel_x = 7;
-	pixel_y = 8
-	},
-/obj/item/megaphone/cargo,
-/obj/item/clothing/ears/earmuffs,
-/obj/machinery/requests_console{
-	department = "Quartermaster's Office";
-	departmentType = 2;
-	name = "Quartermaster's Office RC";
-	pixel_x = 32
-	},
-/turf/open/floor/carpet/ship/beige_carpet,
-/area/quartermaster/qm)
 "EL" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable{
@@ -11663,6 +11612,39 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Abandoned Bar"
 	})
+"Ny" = (
+/obj/structure/table/reinforced,
+/obj/item/computer_hardware/hard_drive/role/quartermaster{
+	pixel_x = 6;
+	pixel_y = 5
+	},
+/obj/item/computer_hardware/hard_drive/role/quartermaster{
+	pixel_x = -4;
+	pixel_y = 7
+	},
+/obj/item/computer_hardware/hard_drive/role/quartermaster,
+/obj/item/paper_bin,
+/obj/item/stamp/quartermaster,
+/obj/item/clothing/mask/cigarette/cigar,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/apc/auto_name/north,
+/obj/item/clothing/neck/cloak/qm,
+/obj/item/clothing/head/soft{
+	pixel_x = 7;
+	pixel_y = 8
+	},
+/obj/item/megaphone/cargo,
+/obj/item/clothing/ears/earmuffs,
+/obj/machinery/requests_console{
+	department = "Quartermaster's Office";
+	departmentType = 2;
+	name = "Quartermaster's Office RC";
+	pixel_x = 32
+	},
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/quartermaster/qm)
 "NC" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-9"
@@ -12634,6 +12616,27 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Abandoned Bar"
 	})
+"QF" = (
+/obj/machinery/requests_console{
+	department = "Cargo Bay";
+	departmentType = 2;
+	pixel_x = 32
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 8;
+	freq = 1400;
+	location = "QM #2"
+	},
+/mob/living/simple_animal/bot/mulebot{
+	desc = "Oh lawd he is coming!!";
+	gender = "male";
+	home_destination = "QM #2";
+	name = "Chonker";
+	suffix = "#3"
+	},
+/turf/open/floor/monotile/steel,
+/area/quartermaster/storage)
 "QG" = (
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 1
@@ -50989,7 +50992,7 @@ jd
 jd
 kE
 CT
-Aj
+uA
 qm
 qm
 tP
@@ -52262,7 +52265,7 @@ PX
 qB
 gk
 Dy
-EG
+Ny
 nK
 KM
 jU
@@ -52272,7 +52275,7 @@ Qa
 Ox
 Hr
 fE
-jn
+QF
 Rw
 Yl
 mC
