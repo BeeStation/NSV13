@@ -390,6 +390,7 @@ All foods are distributed among various categories. Use common sense.
 	else
 		return ..()
 
+//NSV13 - added fork and spoon use
 /obj/item/reagent_containers/food/snacks/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/kitchen/fork))
 		if(istype(src, /obj/item/reagent_containers/food/snacks/soup))
@@ -429,45 +430,3 @@ All foods are distributed among various categories. Use common sense.
 			to_chat(user, "<span class='warning'>You can't eat this with a spoon!</span>")
 			return
 	..()
-
-/obj/item/kitchen/fork/attack(mob/living/carbon/M, mob/living/carbon/user)
-	if(!istype(M))
-		return ..()
-
-	if(forkload)
-		if(M == user)
-			M.visible_message("<span class='notice'>[user] eats the food off their fork!</span>")
-			M.reagents.add_reagent(forkload.type, 1)
-		else
-			M.visible_message("<span class='notice'>[user] feeds [M] a forkful of food!</span>")
-			M.reagents.add_reagent(forkload.type, 1)
-		icon_state = "fork"
-		forkload = null
-
-	else if(user.zone_selected == BODY_ZONE_PRECISE_EYES)
-		if(HAS_TRAIT(user, TRAIT_CLUMSY) && prob(50))
-			M = user
-		return eyestab(M,user)
-	else
-		return
-
-/obj/item/kitchen/spoon/attack(mob/living/carbon/M, mob/living/carbon/user)
-	if(!istype(M))
-		return ..()
-
-	if(forkload)
-		if(M == user)
-			M.visible_message("<span class='notice'>[user] eats the food off their spoon!</span>")
-			M.reagents.add_reagent(forkload.type, 1)
-		else
-			M.visible_message("<span class='notice'>[user] feeds [M] a spoonful of food!</span>")
-			M.reagents.add_reagent(forkload.type, 1)
-		icon_state = "spoon"
-		forkload = null
-
-	else if(user.zone_selected == BODY_ZONE_PRECISE_EYES)
-		if(HAS_TRAIT(user, TRAIT_CLUMSY) && prob(50))
-			M = user
-		return eyestab(M,user)
-	else
-		return ..()

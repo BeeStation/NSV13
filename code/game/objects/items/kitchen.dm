@@ -28,28 +28,36 @@
 	attack_verb = list("attacked", "stabbed", "poked")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 30, "stamina" = 0)
-	var/datum/reagent/forkload //used to eat any food (who coded this to just work for omlettes?)
+	var/datum/reagent/forkload //NSV13 - used to eat any food (who coded this to just work for omlettes?)
 
 /obj/item/kitchen/fork/suicide_act(mob/living/carbon/user)
 	user.visible_message("<span class='suicide'>[user] stabs \the [src] into [user.p_their()] chest! It looks like [user.p_theyre()] trying to take a bite out of [user.p_them()]self!</span>")
 	playsound(src, 'sound/items/eatfood.ogg', 50, 1)
 	return BRUTELOSS
 
+//NSV13 - modified descriptions to work for all foods
+/obj/item/kitchen/fork/attack(mob/living/carbon/M, mob/living/carbon/user)
+	if(!istype(M))
+		return ..()
 
+	if(forkload)
+		if(M == user)
+			M.visible_message("<span class='notice'>[user] eats the food off their fork!</span>")
+			M.reagents.add_reagent(forkload.type, 1)
+		else
+			M.visible_message("<span class='notice'>[user] feeds [M] a forkful of food!</span>")
+			M.reagents.add_reagent(forkload.type, 1)
+		icon_state = "fork"
+		forkload = null
 
-/obj/item/kitchen/knife/poison/attack(mob/living/M, mob/user)
-	if (!istype(M))
-		return
-	. = ..()
-	if (!reagents.total_volume || !M.reagents)
-		return
-	var/amount_inject = amount_per_transfer_from_this
-	if(!M.can_inject(user, 1))
-		amount_inject = 1
-	var/amount = min(amount_inject/reagents.total_volume,1)
-	reagents.reaction(M,INJECT,amount)
-	reagents.trans_to(M,amount_inject)
+	else if(user.zone_selected == BODY_ZONE_PRECISE_EYES)
+		if(HAS_TRAIT(user, TRAIT_CLUMSY) && prob(50))
+			M = user
+		return eyestab(M,user)
+	else
+		return ..()
 
+//NSV13 - added spoon
 /obj/item/kitchen/spoon
 	name = "spoon"
 	desc = "Not pointy."
@@ -66,12 +74,32 @@
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 30, "stamina" = 0)
 	var/datum/reagent/forkload //used to eat omelette
 
-/obj/item/kitchen/fork/suicide_act(mob/living/carbon/user)
+/obj/item/kitchen/spoon/suicide_act(mob/living/carbon/user)
 	user.visible_message("<span class='suicide'>[user] stabs \the [src] into [user.p_their()] chest! It looks like [user.p_theyre()] trying to take a bite out of [user.p_them()]self!</span>")
 	playsound(src, 'sound/items/eatfood.ogg', 50, 1)
 	return BRUTELOSS
 
+/obj/item/kitchen/spoon/attack(mob/living/carbon/M, mob/living/carbon/user)
+	if(!istype(M))
+		return ..()
 
+	if(forkload)
+		if(M == user)
+			M.visible_message("<span class='notice'>[user] eats the food off their spoon!</span>")
+			M.reagents.add_reagent(forkload.type, 1)
+		else
+			M.visible_message("<span class='notice'>[user] feeds [M] a spoonful of food!</span>")
+			M.reagents.add_reagent(forkload.type, 1)
+		icon_state = "spoon"
+		forkload = null
+
+	else if(user.zone_selected == BODY_ZONE_PRECISE_EYES)
+		if(HAS_TRAIT(user, TRAIT_CLUMSY) && prob(50))
+			M = user
+		return eyestab(M,user)
+	else
+		return ..()
+//NSV13 end
 
 /obj/item/kitchen/knife/poison/attack(mob/living/M, mob/user)
 	if (!istype(M))
