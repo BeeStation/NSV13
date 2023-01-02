@@ -164,6 +164,19 @@ const ChoicesPanel = (props, context) => {
   );
 };
 
+const TextWithNewlines = (props) => {
+  let content;
+  const text = props.text;
+  if (text.includes('<br />')) {
+    content = text.split('<br />').map((item, i) => <p key={i}>{item}</p>);
+  }
+  else {
+    content = props.text;
+  }
+  
+  return content;
+};
+
 const DisplayChoices = (props, context) => {
   const { act, data } = useBackend(context);
   const { selectedChoice } = data;
@@ -195,9 +208,11 @@ const DisplayChoices = (props, context) => {
           </Box>
         </Flex>
       </Flex.Item>
-      <Flex.Item>
-        {choice.description}
-      </Flex.Item>
+      {!!choice.description && (
+        <Flex.Item>
+          <TextWithNewlines text={choice.description} />
+        </Flex.Item>
+      )}
     </Flex>
   ));
 };
