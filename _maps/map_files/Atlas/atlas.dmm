@@ -2815,11 +2815,11 @@
 	location = "QM #2"
 	},
 /mob/living/simple_animal/bot/mulebot{
-	home_destination = "QM #2";
-	suffix = "#3";
-	name = "Chonker";
 	desc = "Oh lawd he is coming!!";
-	gender = "male"
+	gender = "male";
+	home_destination = "QM #2";
+	name = "Chonker";
+	suffix = "#3"
 	},
 /turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
@@ -8111,10 +8111,13 @@
 "Aj" = (
 /obj/structure/railing,
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/item/ship_weapon/ammunition/torpedo/freight,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 24
+	},
 /obj/item/ship_weapon/ammunition/torpedo/freight{
 	pixel_y = 12
 	},
+/obj/item/ship_weapon/ammunition/torpedo/freight,
 /turf/open/floor/engine,
 /area/quartermaster/storage)
 "Ak" = (
