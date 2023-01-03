@@ -16,6 +16,8 @@ export const IFF = (props, context) => {
       <Window.Content scrollable>
         {!data.is_hackerman && (
           <Section title="ACCESS DENIED.">
+            <img src="https://nsv.beestation13.com/mediawiki2/images/8/8f/SolGov.png" />
+            <br />
             {"FILE ACCESS ENCRYPTED."}
             <br />
             {"Reprogramming IFF chips is in violation of SolGov conflict regulation #A230385-C. Lethal force is authorised for ships found to have tampered with their IFF."}
