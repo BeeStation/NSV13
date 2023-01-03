@@ -120,7 +120,7 @@
 			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
 			return FALSE
 		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
-		if(do_after(user, 4 SECONDS , target = src))
+		if(do_after(user, 10 SECONDS , target = src))
 			for(var/obj/item/ship_weapon/parts/broadside_casing/BC in A)
 				if(load(BC, user))
 					continue
