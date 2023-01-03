@@ -56,48 +56,96 @@
 /obj/machinery/broadside_shell_packer/attackby(obj/item/I, mob/living/user, params)
 	. = ..()
 	if(thingy[I.type])
-		if(istype(I, /obj/item/ship_weapon/parts/broadside_casing))
-			if(casing_amount < amount_to_pack)
-				casing_amount++
-				to_chat(user, "<span class='notice'>You add a casing to the table.</span>")
-				I.forceMove(src)
-				qdel(I)
-				playsound(user, 'sound/items/screwdriver2.ogg', 30)
-			if(casing_amount > 0)
-				add_overlay("casing-[casing_amount]")
-			else
-				to_chat(user, "<span class='warning'>The table is already full of casings!</span>")
-		if(istype(I, /obj/item/ship_weapon/parts/broadside_load))
-			if(load_amount < amount_to_pack)
-				load_amount++
-				to_chat(user, "<span class='notice'>You add a load to the table.</span>")
-				I.forceMove(src)
-				qdel(I)
-				playsound(user, 'sound/items/screwdriver2.ogg', 30)
-			if(load_amount > 0)
-				add_overlay("load-[load_amount]")
-			else
-				to_chat(user, "<span class='warning'>The table is already full of loads!</span>")
-		if(istype(I, /obj/item/powder_bag))
-			if(bag_amount < 1)
-				if(istype(I, /obj/item/powder_bag/plasma))
-					plasma = TRUE
-					to_chat(user, "<span class='notice'>You add a plasma bag to the table.</span>")
-				else if(istype(I, /obj/item/powder_bag))
-					gunpowder = TRUE
-					to_chat(user, "<span class='notice'>You add a gunpowder bag to the table.</span>")
-				I.forceMove(src)
-				bag_amount++
-				playsound(user, 'nsv13/sound/effects/ship/mac_load.ogg', 20)
-				qdel(I)
-			if(bag_amount == 1)
-				add_overlay("powder-1")
-			else
-				to_chat(user, "<span class='warning'>The table is already packed with a bag!</span>")
+		load(I, user)
+		return
 
 /obj/machinery/broadside_shell_packer/attack_hand(mob/living/user)
 	. = ..()
 	ui_interact(user)
+
+/obj/machinery/broadside_shell_packer/proc/load(atom/movable/A, mob/user)
+	if(istype(A, /obj/item/ship_weapon/parts/broadside_casing))
+		if(casing_amount < amount_to_pack)
+			casing_amount++
+			to_chat(user, "<span class='notice'>You add a casing to the table.</span>")
+			A.forceMove(src)
+			qdel(A)
+			playsound(user, 'sound/items/screwdriver2.ogg', 30)
+			add_overlay("casing-[casing_amount]")
+			return TRUE
+
+		if(casing_amount == amount_to_pack)
+			to_chat(user, "<span class='warning'>The table is already full of casings!</span>")
+			return FALSE
+
+	if(istype(A, /obj/item/ship_weapon/parts/broadside_load))
+		if(load_amount < amount_to_pack)
+			load_amount++
+			to_chat(user, "<span class='notice'>You add a load to the table.</span>")
+			A.forceMove(src)
+			qdel(A)
+			playsound(user, 'sound/items/screwdriver2.ogg', 30)
+			add_overlay("load-[load_amount]")
+			return TRUE
+
+		if(load_amount == amount_to_pack)
+			to_chat(user, "<span class='warning'>The table is already full of loads!</span>")
+			return FALSE
+
+	if(istype(A, /obj/item/powder_bag))
+		if(bag_amount < 1)
+			if(istype(A, /obj/item/powder_bag/plasma))
+				plasma = TRUE
+				to_chat(user, "<span class='notice'>You add a plasma bag to the table.</span>")
+			else if(istype(A, /obj/item/powder_bag))
+				gunpowder = TRUE
+				to_chat(user, "<span class='notice'>You add a gunpowder bag to the table.</span>")
+			A.forceMove(src)
+			bag_amount++
+			playsound(user, 'nsv13/sound/effects/ship/mac_load.ogg', 20)
+			qdel(A)
+			add_overlay("powder-1")
+			return TRUE
+
+		if(bag_amount == 1)
+			to_chat(user, "<span class='warning'>The table is already packed with a bag!</span>")
+			return FALSE
+
+/obj/machinery/broadside_shell_packer/MouseDrop_T(obj/structure/A, mob/user)
+	. = ..()
+	if(!isliving(user))
+		return
+	if(istype(A, /obj/structure/closet))
+		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/parts/broadside_casing) || !LAZYFIND(A.contents, /obj/item/ship_weapon/parts/broadside_load) || !LAZYFIND(A.contents, /obj/item/powder_bag))
+			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
+			return FALSE
+		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
+		if(do_after(user, 4 SECONDS , target = src))
+			for(var/obj/item/ship_weapon/parts/broadside_casing/BC in A)
+				if(load(BC, user))
+					continue
+				else
+					break
+			for(var/obj/item/ship_weapon/parts/broadside_load/BL in A)
+				if(load(BL, user))
+					continue
+				else
+					break
+			for(var/obj/item/powder_bag/PB in A)
+				if(load(PB, user))
+					continue
+				else
+					break
+
+/obj/machinery/broadside_shell_packer/proc/reset()
+	casing_amount = 0
+	load_amount = 0
+	bag_amount = 0
+	plasma = FALSE
+	gunpowder = FALSE
+	icon_state = "packing_bench"
+	update_icon()
+	return
 
 /obj/machinery/broadside_shell_packer/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -155,13 +203,3 @@
 				gunpowder = FALSE
 				bag_amount--
 				cut_overlay("powder-1")
-
-/obj/machinery/broadside_shell_packer/proc/reset()
-	casing_amount = 0
-	load_amount = 0
-	bag_amount = 0
-	plasma = FALSE
-	gunpowder = FALSE
-	icon_state = "packing_bench"
-	update_icon()
-	return

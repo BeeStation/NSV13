@@ -14,30 +14,38 @@ export const BroadSideShellPacker = (props, context) => {
       height={600}>
       <Window.Content scrollable>
         <Section>
-          <Section title="Casings:">
-            <ProgressBar
-              value={(data.casing_amount/data.amount_to_pack * 100)* 0.01}
-              ranges={{
-                good: [0.5, Infinity],
-                average: [0.15, 0.5],
-                bad: [-Infinity, 0.15],
-              }} />
-            <Box bold textAlign={"center"}>
-              {data.casing_amount} / {data.amount_to_pack}
-            </Box>
-          </Section>
-          <Section title="Projectile Loads:">
-            <ProgressBar
-              value={(data.load_amount/data.amount_to_pack * 100)* 0.01}
-              ranges={{
-                good: [0.5, Infinity],
-                average: [0.15, 0.5],
-                bad: [-Infinity, 0.15],
-              }} />
-            <Box bold textAlign={"center"}>
-              {data.load_amount} / {data.amount_to_pack}
-            </Box>
-          </Section>
+          <Table.Row>
+            <Table.Cell collapsing>
+              <Section title="Casings:">
+                <ProgressBar
+                  value={(data.casing_amount/data.amount_to_pack * 100)* 0.01}
+                  ranges={{
+                    good: [0.5, Infinity],
+                    average: [0.15, 0.5],
+                    bad: [-Infinity, 0.15],
+                  }} />
+                <br />
+                <Box bold textAlign={"center"}>
+                  {data.casing_amount}/{data.amount_to_pack}
+                </Box>
+              </Section>
+            </Table.Cell>
+            <Table.Cell collapsing>
+              <Section title="Projectile Loads:">
+                <ProgressBar
+                  value={(data.load_amount/data.amount_to_pack * 100)* 0.01}
+                  ranges={{
+                    good: [0.5, Infinity],
+                    average: [0.15, 0.5],
+                    bad: [-Infinity, 0.15],
+                  }} />
+                <br />
+                <Box bold textAlign={"center"}>
+                  {data.load_amount}/{data.amount_to_pack}
+                </Box>
+              </Section>
+            </Table.Cell>
+          </Table.Row>
           <Section title="Powder Type:">
             <Table.Row>
               <Table.Cell collapsing>
