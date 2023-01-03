@@ -382,23 +382,6 @@
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
-"akI" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/effect/turf_decal/delivery,
-/obj/structure/window/reinforced{
-	dir = 4
-	},
-/obj/structure/window/reinforced{
-	dir = 8
-	},
-/obj/machinery/door/window/brigdoor/northleft{
-	req_one_access_txt = "5";
-	name = "Medbay Delivery"
-	},
-/turf/open/floor/monotile/light,
-/area/medical/medbay)
 "akU" = (
 /obj/structure/girder,
 /turf/open/floor/plating,
@@ -4700,6 +4683,16 @@
 	},
 /turf/open/floor/durasteel,
 /area/maintenance/nsv/deck2/frame5/starboard)
+"cyI" = (
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 1
+	},
+/obj/machinery/door/window/brigdoor/eastleft{
+	name = "Science Delivery";
+	req_one_access_txt = "47"
+	},
+/turf/open/floor/monotile/steel,
+/area/science/nsv/astronomy)
 "cyL" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
@@ -5761,6 +5754,17 @@
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
+"dbi" = (
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 10
+	},
+/obj/effect/spawner/lootdrop/maintenance,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 5
+	},
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/turf/open/floor/plasteel/techmaint,
+/area/quartermaster/warehouse)
 "dbj" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -5937,14 +5941,6 @@
 /obj/effect/spawner/room/tenxten,
 /turf/template_noop,
 /area/maintenance/nsv/deck2/frame5/port)
-"deV" = (
-/obj/item/ship_weapon/ammunition/torpedo/freight,
-/obj/effect/spawner/lootdrop/maintenance,
-/obj/item/ship_weapon/ammunition/torpedo/freight{
-	pixel_y = 5
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/quartermaster/warehouse)
 "dfa" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -11289,6 +11285,19 @@
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/atmos)
+"gax" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/table,
+/obj/item/reagent_containers/food/drinks/bottle/beer,
+/obj/item/reagent_containers/food/drinks/drinkingglass/shotglass{
+	pixel_x = -7
+	},
+/turf/open/floor/durasteel/techfloor_grid,
+/area/crew_quarters/bar{
+	name = "Night Club"
+	})
 "gay" = (
 /obj/machinery/camera/autoname{
 	dir = 4
@@ -11617,16 +11626,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
-"ghe" = (
-/obj/structure/table/reinforced,
-/obj/item/stamp/xo{
-	pixel_y = 4;
-	pixel_x = -6
-	},
-/turf/open/floor/carpet/blue,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's Office"
-	})
 "ghg" = (
 /obj/structure/table/wood,
 /obj/item/soulstone/anybody/chaplain,
@@ -16776,6 +16775,16 @@
 	},
 /turf/template_noop,
 /area/maintenance/nsv/deck2/frame5/port)
+"iYo" = (
+/mob/living/simple_animal/hostile/carp/cayenne{
+	desc = "A holographic image of a fish, how tasteful!";
+	icon_living = "holocarp";
+	icon_state = "holocarp";
+	name = "Space Koi";
+	random_color = 0
+	},
+/turf/open/water/air,
+/area/hallway/secondary/entry/arrivals)
 "iYs" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 8
@@ -24801,16 +24810,6 @@
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
-"njV" = (
-/mob/living/simple_animal/hostile/carp/cayenne{
-	desc = "A holographic image of a fish, how tasteful!";
-	random_color = 0;
-	icon_living = "holocarp";
-	icon_state = "holocarp";
-	name = "Space Koi"
-	},
-/turf/open/water/air,
-/area/hallway/secondary/entry/arrivals)
 "nkn" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -25555,17 +25554,6 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/wood,
 /area/crew_quarters/theatre)
-"nIZ" = (
-/obj/effect/turf_decal/ship/letter{
-	color = "#D4D4D4";
-	icon_state = "T"
-	},
-/obj/machinery/coffeemaker,
-/obj/structure/table/wood/fancy/purple,
-/turf/open/floor/carpet/blue,
-/area/crew_quarters/bar{
-	name = "Night Club"
-	})
 "nJg" = (
 /obj/machinery/power/apc/auto_name/south,
 /obj/structure/cable{
@@ -26690,6 +26678,13 @@
 /obj/machinery/firealarm/directional/south,
 /turf/open/floor/durasteel/techfloor_grid,
 /area/engine/atmos)
+"ope" = (
+/obj/structure/table/wood/fancy/purple,
+/obj/item/storage/fancy/coffee_condi_display,
+/turf/open/floor/carpet/blue,
+/area/crew_quarters/bar{
+	name = "Night Club"
+	})
 "opi" = (
 /obj/machinery/power/apc/auto_name/south,
 /obj/structure/cable{
@@ -27572,13 +27567,6 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/monotile/steel,
 /area/ai_monitored/security/armory/lockup)
-"oJr" = (
-/obj/structure/table/wood/fancy/purple,
-/obj/item/storage/fancy/coffee_condi_display,
-/turf/open/floor/carpet/blue,
-/area/crew_quarters/bar{
-	name = "Night Club"
-	})
 "oJw" = (
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
@@ -29729,6 +29717,16 @@
 	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/maintenance/nsv/deck2/frame5/starboard)
+"pSB" = (
+/obj/structure/table/reinforced,
+/obj/item/stamp/xo{
+	pixel_x = -6;
+	pixel_y = 4
+	},
+/turf/open/floor/carpet/blue,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's Office"
+	})
 "pSE" = (
 /obj/structure/fluff/bus/passable,
 /obj/effect/spawner/lootdrop/crate_spawner,
@@ -31167,6 +31165,23 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/durasteel/techfloor_grid,
 /area/engine/atmos)
+"qFc" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/delivery,
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/machinery/door/window/brigdoor/northleft{
+	name = "Medbay Delivery";
+	req_one_access_txt = "5"
+	},
+/turf/open/floor/monotile/light,
+/area/medical/medbay)
 "qFn" = (
 /obj/effect/turf_decal/tile/ship/half/orange{
 	dir = 1
@@ -31886,28 +31901,6 @@
 /obj/structure/frame/machine,
 /turf/open/floor/durasteel/padded,
 /area/maintenance/nsv/deck2/frame1/port)
-"rch" = (
-/obj/structure/table/wood/fancy/purple,
-/obj/item/storage/fancy/coffee_cart_rack,
-/obj/item/reagent_containers/food/drinks/coffee/empty{
-	pixel_x = 10
-	},
-/obj/item/reagent_containers/food/drinks/coffee/empty{
-	pixel_x = 10;
-	pixel_y = 2
-	},
-/obj/item/reagent_containers/food/drinks/coffee/empty{
-	pixel_x = 10;
-	pixel_y = 4
-	},
-/obj/item/reagent_containers/food/drinks/coffee/empty{
-	pixel_x = 10;
-	pixel_y = 6
-	},
-/turf/open/floor/carpet/blue,
-/area/crew_quarters/bar{
-	name = "Night Club"
-	})
 "rck" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -36938,6 +36931,28 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame3/port)
+"tNf" = (
+/obj/structure/table/wood/fancy/purple,
+/obj/item/storage/fancy/coffee_cart_rack,
+/obj/item/reagent_containers/food/drinks/coffee/empty{
+	pixel_x = 10
+	},
+/obj/item/reagent_containers/food/drinks/coffee/empty{
+	pixel_x = 10;
+	pixel_y = 2
+	},
+/obj/item/reagent_containers/food/drinks/coffee/empty{
+	pixel_x = 10;
+	pixel_y = 4
+	},
+/obj/item/reagent_containers/food/drinks/coffee/empty{
+	pixel_x = 10;
+	pixel_y = 6
+	},
+/turf/open/floor/carpet/blue,
+/area/crew_quarters/bar{
+	name = "Night Club"
+	})
 "tNh" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -40634,16 +40649,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/warehouse)
-"vIL" = (
-/obj/effect/turf_decal/tile/ship/blue{
-	dir = 1
-	},
-/obj/machinery/door/window/brigdoor/eastleft{
-	req_one_access_txt = "47";
-	name = "Science Delivery"
-	},
-/turf/open/floor/monotile/steel,
-/area/science/nsv/astronomy)
 "vJk" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/structure/cable{
@@ -40981,19 +40986,6 @@
 /obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/sorting)
-"vUh" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/structure/table,
-/obj/item/reagent_containers/food/drinks/bottle/beer,
-/obj/item/reagent_containers/food/drinks/drinkingglass/shotglass{
-	pixel_x = -7
-	},
-/turf/open/floor/durasteel/techfloor_grid,
-/area/crew_quarters/bar{
-	name = "Night Club"
-	})
 "vUu" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 4
@@ -43671,6 +43663,17 @@
 "xuS" = (
 /turf/closed/wall/steel,
 /area/security/processing)
+"xuV" = (
+/obj/effect/turf_decal/ship/letter{
+	color = "#D4D4D4";
+	icon_state = "T"
+	},
+/obj/machinery/coffeemaker,
+/obj/structure/table/wood/fancy/purple,
+/turf/open/floor/carpet/blue,
+/area/crew_quarters/bar{
+	name = "Night Club"
+	})
 "xuY" = (
 /obj/machinery/deck_turret,
 /turf/open/floor/plating,
@@ -78709,7 +78712,7 @@ oOA
 oNG
 gwX
 hxj
-deV
+dbi
 sKg
 kWJ
 gAc
@@ -81525,7 +81528,7 @@ jZM
 ckj
 vzE
 jEc
-akI
+qFc
 ryx
 pfr
 pxk
@@ -87959,7 +87962,7 @@ mcu
 sgH
 gLo
 uFb
-vIL
+cyI
 nlm
 jNa
 ipS
@@ -88750,7 +88753,7 @@ kiH
 kiH
 gXm
 gXm
-rch
+tNf
 kiH
 kiH
 srD
@@ -89007,7 +89010,7 @@ kiH
 kiH
 gXm
 fgp
-nIZ
+xuV
 kiH
 dTe
 srD
@@ -89264,7 +89267,7 @@ kiH
 kiH
 gXm
 gXm
-oJr
+ope
 kiH
 kiH
 srD
@@ -90031,7 +90034,7 @@ rQZ
 ebc
 ayP
 xDL
-vUh
+gax
 oUa
 kiH
 kiH
@@ -91302,7 +91305,7 @@ aqu
 kmb
 xMx
 pWz
-ghe
+pSB
 qwf
 pWz
 sJj
@@ -95380,7 +95383,7 @@ sSo
 cNk
 sIq
 sZm
-njV
+iYo
 orh
 orh
 eqj
@@ -95896,7 +95899,7 @@ sIq
 sZm
 orh
 orh
-njV
+iYo
 eqj
 aGF
 jUY
