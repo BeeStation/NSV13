@@ -106,6 +106,7 @@
 	update_icon()
 
 /obj/item/paper/update_icon_state()
+	. = ..()
 	if(info && show_written_words)
 		icon_state = "[initial(icon_state)]_words"
 
@@ -387,6 +388,7 @@
 	show_written_words = FALSE
 
 /obj/item/paper/crumpled/update_icon_state()
+	SHOULD_CALL_PARENT(FALSE)
 	return
 
 /obj/item/paper/crumpled/bloody

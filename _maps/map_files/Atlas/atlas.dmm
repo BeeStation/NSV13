@@ -550,6 +550,18 @@
 	dir = 8
 	},
 /area/chapel/main)
+"bL" = (
+/obj/structure/railing,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 24
+	},
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 12
+	},
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/turf/open/floor/engine,
+/area/quartermaster/storage)
 "bN" = (
 /obj/machinery/disposal/deliveryChute{
 	name = "Missile Factory Output"
@@ -844,18 +856,6 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
-"cZ" = (
-/obj/structure/table/reinforced,
-/obj/item/clothing/gloves/color/yellow,
-/obj/item/clothing/gloves/color/yellow,
-/obj/item/storage/belt/utility/full,
-/obj/item/storage/belt/utility/full,
-/obj/machinery/firealarm/directional/north,
-/obj/item/stack/cable_coil/red,
-/obj/item/storage/box/lights/mixed,
-/obj/item/rcl/pre_loaded,
-/turf/open/floor/carpet/orange,
-/area/engine/engine_room)
 "dd" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 1
@@ -1328,19 +1328,6 @@
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
-"eB" = (
-/obj/machinery/airalarm/directional/north,
-/obj/machinery/light/small{
-	brightness = 3;
-	dir = 1
-	},
-/obj/structure/table/reinforced,
-/obj/machinery/fax{
-	name = "Engineerings Fax Machine";
-	fax_name = "Engineering"
-	},
-/turf/open/floor/carpet/orange,
-/area/engine/engine_room)
 "eD" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -2806,27 +2793,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/dark,
 /area/security/brig)
-"jn" = (
-/obj/machinery/requests_console{
-	department = "Cargo Bay";
-	departmentType = 2;
-	pixel_x = 32
-	},
-/obj/machinery/navbeacon{
-	codes_txt = "delivery;dir=8";
-	dir = 8;
-	freq = 1400;
-	location = "QM #2"
-	},
-/mob/living/simple_animal/bot/mulebot{
-	home_destination = "QM #2";
-	suffix = "#3";
-	name = "Chonker";
-	desc = "Oh lawd he is coming!!";
-	gender = "male"
-	},
-/turf/open/floor/monotile/steel,
-/area/quartermaster/storage)
 "jo" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -3835,6 +3801,14 @@
 /obj/item/radio/intercom/directional/north,
 /turf/open/floor/monotile/dark,
 /area/science)
+"mc" = (
+/obj/machinery/fax{
+	fax_name = "Wardens Office";
+	name = "Wardens Office Fax Machine"
+	},
+/obj/structure/table/reinforced,
+/turf/open/floor/monotile/steel,
+/area/security/brig)
 "mf" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -6189,6 +6163,19 @@
 	},
 /turf/open/floor/engine,
 /area/engine/engine_room)
+"tE" = (
+/obj/machinery/airalarm/directional/north,
+/obj/machinery/light/small{
+	brightness = 3;
+	dir = 1
+	},
+/obj/structure/table/reinforced,
+/obj/machinery/fax{
+	name = "Engineerings Fax Machine";
+	fax_name = "Engineering"
+	},
+/turf/open/floor/carpet/orange,
+/area/engine/engine_room)
 "tG" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -8112,15 +8099,6 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/hallway/nsv/deck2/primary)
-"Aj" = (
-/obj/structure/railing,
-/obj/effect/turf_decal/ship/delivery/yellow,
-/obj/item/ship_weapon/ammunition/torpedo/freight,
-/obj/item/ship_weapon/ammunition/torpedo/freight{
-	pixel_y = 12
-	},
-/turf/open/floor/engine,
-/area/quartermaster/storage)
 "Ak" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/disposalpipe/segment,
@@ -9230,6 +9208,27 @@
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/hanger/notkmcstupidhanger)
+"Fc" = (
+/obj/machinery/requests_console{
+	department = "Cargo Bay";
+	departmentType = 2;
+	pixel_x = 32
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 8;
+	freq = 1400;
+	location = "QM #2"
+	},
+/mob/living/simple_animal/bot/mulebot{
+	desc = "Oh lawd he is coming!!";
+	gender = "male";
+	home_destination = "QM #2";
+	name = "Chonker";
+	suffix = "#3"
+	},
+/turf/open/floor/monotile/steel,
+/area/quartermaster/storage)
 "Ff" = (
 /obj/machinery/button/door{
 	id = "sermon_shutters";
@@ -10553,6 +10552,18 @@
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/nsv/weapons)
+"JI" = (
+/obj/structure/table/reinforced,
+/obj/item/clothing/gloves/color/yellow,
+/obj/item/clothing/gloves/color/yellow,
+/obj/item/storage/belt/utility/full,
+/obj/item/storage/belt/utility/full,
+/obj/machinery/firealarm/directional/north,
+/obj/item/stack/cable_coil/red,
+/obj/item/storage/box/lights/mixed,
+/obj/item/rcl/pre_loaded,
+/turf/open/floor/carpet/orange,
+/area/engine/engine_room)
 "JK" = (
 /obj/structure/sign/warning/enginesafety{
 	pixel_y = 26
@@ -13333,14 +13344,6 @@
 	},
 /turf/open/floor/circuit/telecomms,
 /area/science)
-"SW" = (
-/obj/machinery/fax{
-	fax_name = "Wardens Office";
-	name = "Wardens Office Fax Machine"
-	},
-/obj/structure/table/reinforced,
-/turf/open/floor/monotile/steel,
-/area/security/brig)
 "SX" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -40946,7 +40949,7 @@ gS
 gS
 kD
 MO
-cZ
+JI
 mX
 Gk
 Ib
@@ -41203,7 +41206,7 @@ gS
 gS
 kD
 MO
-eB
+tE
 eN
 tu
 KZ
@@ -50192,7 +50195,7 @@ dI
 WN
 du
 KE
-SW
+mc
 iy
 ui
 Ep
@@ -50998,7 +51001,7 @@ jd
 jd
 kE
 CT
-Aj
+bL
 qm
 qm
 tP
@@ -52281,7 +52284,7 @@ Qa
 Ox
 Hr
 fE
-jn
+Fc
 Rw
 Yl
 mC
