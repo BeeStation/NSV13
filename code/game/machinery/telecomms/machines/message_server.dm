@@ -55,6 +55,7 @@
 		icon_state = "blackbox"
 	else
 		icon_state = "blackbox_b"
+	return ..()
 
 /obj/item/blackbox
 	name = "the blackbox"

@@ -96,6 +96,7 @@
 		"stamp-clown" = 'icons/stamp_icons/large_stamp-clown.png',
 		"stamp-deny" = 'icons/stamp_icons/large_stamp-deny.png',
 		"stamp-ok" = 'icons/stamp_icons/large_stamp-ok.png',
+		"stamp-void" = 'icons/stamp_icons/large_stamp-void.png', //NSV13
 		"stamp-hop" = 'icons/stamp_icons/large_stamp-hop.png',
 		"stamp-cmo" = 'icons/stamp_icons/large_stamp-cmo.png',
 		"stamp-ce" = 'icons/stamp_icons/large_stamp-ce.png',
@@ -105,6 +106,7 @@
 		"stamp-qm" = 'icons/stamp_icons/large_stamp-qm.png',
 		"stamp-law" = 'icons/stamp_icons/large_stamp-law.png', //NSV13 (only the comma)
 		"stamp-maa" = 'nsv13/icons/stamp_icons/large_stamp-maa.png', //NSV13
+		"stamp-xo" = 'nsv13/icons/stamp_icons/large_stamp-xo.png', // NSV13 (again)
 	)
 
 

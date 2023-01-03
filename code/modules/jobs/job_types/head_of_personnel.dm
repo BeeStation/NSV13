@@ -1,7 +1,7 @@
 /datum/job/head_of_personnel
 	title = JOB_NAME_HEADOFPERSONNEL
 	flag = HOP
-	auto_deadmin_role_flags = DEADMIN_POSITION_HEAD
+	auto_deadmin_role_flags = PREFTOGGLE_DEADMIN_POSITION_HEAD
 	department_head = list(JOB_NAME_CAPTAIN)
 	department_flag = CIVILIAN
 	head_announce = list(RADIO_CHANNEL_SUPPLY, RADIO_CHANNEL_SERVICE)
@@ -53,7 +53,7 @@
 	ears = /obj/item/radio/headset/heads/xo //NSV13 - update to XO
 	uniform = /obj/item/clothing/under/ship/officer
 	suit = /obj/item/clothing/suit/ship/officer
-	shoes = /obj/item/clothing/shoes/sneakers/brown
+	shoes = /obj/item/clothing/shoes/jackboots //NSV13 - Officers get boots
 	head = /obj/item/clothing/head/beret/ship/xo //NSV13 - update to XO
 	backpack_contents = list(/obj/item/storage/box/ids=1,
 		/obj/item/melee/classic_baton/police/telescopic=1,

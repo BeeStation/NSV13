@@ -98,8 +98,8 @@
 	layer = 4
 	var/faction_type = FACTION_ID_SYNDICATE
 	var/alignment = "syndicate"
-	var/points_per_capture = 50 //How many points does capturing one system net you? Since it's 1000 points to win, this will take a loooot of captures to outright win as syndies.
-	var/time_left = 300 //5 min
+	var/points_per_capture = 100 //How many points does capturing one system net you? Since it's 1000 points to win, this will take a bunch of captures to outright win.
+	var/time_left = 150 //2.5 min
 	var/active = FALSE
 	var/next_activation = 0
 	var/activation_delay = 7 MINUTES //How long until we can activate it again?
@@ -196,8 +196,8 @@
 	req_one_access = list(ACCESS_CAPTAIN)
 	faction_type = FACTION_ID_NT
 	alignment = "nanotrasen"
-	activation_delay = 13 MINUTES
-	time_left = 120
+	activation_delay = 3 MINUTES
+	time_left = 60 //NT can capture faster because they don't get a fleet to support
 
 /obj/machinery/conquest_beacon/nanotrasen/capture_system()
 	set_active(FALSE, TRUE)

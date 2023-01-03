@@ -394,8 +394,8 @@
 	dir = 8
 	},
 /obj/machinery/door/window/brigdoor/northleft{
-	req_one_access_txt = "5";
-	name = "Medbay Delivery"
+	name = "Medbay Delivery";
+	req_one_access_txt = "5"
 	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
@@ -5938,11 +5938,14 @@
 /turf/template_noop,
 /area/maintenance/nsv/deck2/frame5/port)
 "deV" = (
-/obj/item/ship_weapon/ammunition/torpedo/freight,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 10
+	},
 /obj/effect/spawner/lootdrop/maintenance,
 /obj/item/ship_weapon/ammunition/torpedo/freight{
 	pixel_y = 5
 	},
+/obj/item/ship_weapon/ammunition/torpedo/freight,
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "dfa" = (
@@ -11619,8 +11622,8 @@
 /area/hallway/nsv/deck2/primary)
 "ghe" = (
 /obj/structure/table/reinforced,
-/obj/item/stamp/head_of_personnel{
-	pixel_x = -4;
+/obj/item/stamp/xo{
+	pixel_x = -6;
 	pixel_y = 4
 	},
 /turf/open/floor/carpet/blue,
@@ -24806,7 +24809,8 @@
 	desc = "A holographic image of a fish, how tasteful!";
 	icon_living = "holocarp";
 	icon_state = "holocarp";
-	name = "Space Koi"
+	name = "Space Koi";
+	random_color = 0
 	},
 /turf/open/water/air,
 /area/hallway/secondary/entry/arrivals)
@@ -40614,8 +40618,8 @@
 	dir = 1
 	},
 /obj/machinery/door/window/brigdoor/eastleft{
-	req_one_access_txt = "47";
-	name = "Science Delivery"
+	name = "Science Delivery";
+	req_one_access_txt = "47"
 	},
 /turf/open/floor/monotile/steel,
 /area/science/nsv/astronomy)

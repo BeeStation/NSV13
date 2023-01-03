@@ -74,6 +74,7 @@
 #include "unit_test.dm"
 #include "random_ruin_mapsize.dm"
 #include "ftl.dm" // NSV13 FTL unit tests
+#include "get_overmap.dm" // NSV13 get_overmap unit tests
 
 #ifdef REFERENCE_TRACKING_DEBUG //Don't try and parse this file if ref tracking isn't turned on. IE: don't parse ref tracking please mr linter
 #include "find_reference_sanity.dm"
