@@ -1,6 +1,7 @@
 //Side Objectives still need to be generated
 /datum/overmap_gamemode/armada
 	name = "Armada"
+	config_tag = "armada"
 	desc = "Complete objectives to gain reinforcements, defend allocated system when the Syndicate Armada arrives."
 	brief = "White Rapids Fleet Intelligence indicates that the Syndicate are preparing an invasion fleet to capture selected_system, rally defences to repel the Armada by freeing up fleet assets and prepare to defend the system."
 	starting_system = "Argo"
