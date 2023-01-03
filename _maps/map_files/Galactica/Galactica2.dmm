@@ -328,6 +328,16 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
+"ail" = (
+/mob/living/simple_animal/hostile/carp/cayenne{
+	desc = "A holographic image of a fish, how tasteful!";
+	icon_living = "holocarp";
+	icon_state = "holocarp";
+	name = "Space Koi";
+	random_color = 0
+	},
+/turf/open/water/air,
+/area/hallway/secondary/entry/arrivals)
 "aiw" = (
 /obj/machinery/conveyor{
 	dir = 4;
@@ -382,23 +392,6 @@
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
-"akI" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/effect/turf_decal/delivery,
-/obj/structure/window/reinforced{
-	dir = 4
-	},
-/obj/structure/window/reinforced{
-	dir = 8
-	},
-/obj/machinery/door/window/brigdoor/northleft{
-	req_one_access_txt = "5";
-	name = "Medbay Delivery"
-	},
-/turf/open/floor/monotile/light,
-/area/medical/medbay)
 "akU" = (
 /obj/structure/girder,
 /turf/open/floor/plating,
@@ -854,6 +847,11 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/magazine/port)
+"axh" = (
+/obj/effect/turf_decal/tile/ship/half/brown,
+/obj/machinery/computer/stockexchange,
+/turf/open/floor/monotile/steel,
+/area/quartermaster/lobby)
 "ayh" = (
 /obj/machinery/conveyor/inverted{
 	dir = 9;
@@ -5937,14 +5935,6 @@
 /obj/effect/spawner/room/tenxten,
 /turf/template_noop,
 /area/maintenance/nsv/deck2/frame5/port)
-"deV" = (
-/obj/item/ship_weapon/ammunition/torpedo/freight,
-/obj/effect/spawner/lootdrop/maintenance,
-/obj/item/ship_weapon/ammunition/torpedo/freight{
-	pixel_y = 5
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/quartermaster/warehouse)
 "dfa" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -11617,16 +11607,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
-"ghe" = (
-/obj/structure/table/reinforced,
-/obj/item/stamp/xo{
-	pixel_y = 4;
-	pixel_x = -6
-	},
-/turf/open/floor/carpet/blue,
-/area/crew_quarters/heads/hop{
-	name = "Executive officer's Office"
-	})
 "ghg" = (
 /obj/structure/table/wood,
 /obj/item/soulstone/anybody/chaplain,
@@ -19322,6 +19302,23 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/science/nsv/astronomy)
+"kmv" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/delivery,
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/machinery/door/window/brigdoor/northleft{
+	name = "Medbay Delivery";
+	req_one_access_txt = "5"
+	},
+/turf/open/floor/monotile/light,
+/area/medical/medbay)
 "kmw" = (
 /obj/effect/landmark/nuclear_waste_spawner,
 /obj/machinery/atmospherics/pipe/simple/cyan/visible/layer2,
@@ -24801,16 +24798,6 @@
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
-"njV" = (
-/mob/living/simple_animal/hostile/carp/cayenne{
-	desc = "A holographic image of a fish, how tasteful!";
-	random_color = 0;
-	icon_living = "holocarp";
-	icon_state = "holocarp";
-	name = "Space Koi"
-	},
-/turf/open/water/air,
-/area/hallway/secondary/entry/arrivals)
 "nkn" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -38637,6 +38624,16 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame3/port)
+"uHS" = (
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 1
+	},
+/obj/machinery/door/window/brigdoor/eastleft{
+	name = "Science Delivery";
+	req_one_access_txt = "47"
+	},
+/turf/open/floor/monotile/steel,
+/area/science/nsv/astronomy)
 "uIk" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -39905,6 +39902,17 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/nsv/hanger/notkmcstupidhanger)
+"voY" = (
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 10
+	},
+/obj/effect/spawner/lootdrop/maintenance,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 5
+	},
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/turf/open/floor/plasteel/techmaint,
+/area/quartermaster/warehouse)
 "vpI" = (
 /obj/machinery/light{
 	dir = 4
@@ -40610,16 +40618,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/warehouse)
-"vIL" = (
-/obj/effect/turf_decal/tile/ship/blue{
-	dir = 1
-	},
-/obj/machinery/door/window/brigdoor/eastleft{
-	req_one_access_txt = "47";
-	name = "Science Delivery"
-	},
-/turf/open/floor/monotile/steel,
-/area/science/nsv/astronomy)
 "vJk" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/structure/cable{
@@ -41131,11 +41129,6 @@
 	req_access_txt = "50"
 	},
 /obj/machinery/airalarm/directional/north,
-/turf/open/floor/monotile/steel,
-/area/quartermaster/lobby)
-"vZj" = (
-/obj/effect/turf_decal/tile/ship/half/brown,
-/obj/machinery/computer/stockexchange,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/lobby)
 "wab" = (
@@ -45136,6 +45129,16 @@
 "ylW" = (
 /turf/closed/wall/steel,
 /area/engine/atmos)
+"ymd" = (
+/obj/structure/table/reinforced,
+/obj/item/stamp/xo{
+	pixel_x = -6;
+	pixel_y = 4
+	},
+/turf/open/floor/carpet/blue,
+/area/crew_quarters/heads/hop{
+	name = "Executive officer's Office"
+	})
 "yme" = (
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 1
@@ -78687,7 +78690,7 @@ oOA
 oNG
 gwX
 hxj
-deV
+voY
 sKg
 kWJ
 gAc
@@ -81503,7 +81506,7 @@ jZM
 ckj
 vzE
 jEc
-akI
+kmv
 ryx
 pfr
 pxk
@@ -81775,7 +81778,7 @@ sJD
 vva
 bKj
 toG
-vZj
+axh
 tpk
 xNE
 daT
@@ -87937,7 +87940,7 @@ mcu
 sgH
 gLo
 uFb
-vIL
+uHS
 nlm
 jNa
 ipS
@@ -91280,7 +91283,7 @@ aqu
 kmb
 xMx
 pWz
-ghe
+ymd
 qwf
 pWz
 sJj
@@ -95358,7 +95361,7 @@ sSo
 cNk
 sIq
 sZm
-njV
+ail
 orh
 orh
 eqj
@@ -95874,7 +95877,7 @@ sIq
 sZm
 orh
 orh
-njV
+ail
 eqj
 aGF
 jUY

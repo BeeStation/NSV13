@@ -41,7 +41,12 @@
 #define MODE_VOCALCORDS "cords"
 #define MODE_KEY_VOCALCORDS "x"
 
-#define MODE_SING "%"
+//#define MODE_SING "%" //NSV13 - DISABLED - RADIO EMOTES AND STUFF
+//NSV13 ALSO START
+#define MODE_SING "sing"
+#define MODE_CUSTOM_SAY_EMOTE "custom_say"
+#define MODE_CUSTOM_SAY_ERASE_INPUT "erase_input"
+//NSV13 END
 
 //Spans. Robot speech, italics, etc. Applied in compose_message().
 #define SPAN_ROBOT "robot"

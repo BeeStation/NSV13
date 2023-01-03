@@ -24,6 +24,8 @@
 	desc = "A small 9mm handgun used by Nanotrasen crewmen. It has a polymer handle and a full durasteel body construction, giving it a nice weight."
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "crewglock"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/guns_righthand.dmi'
 	item_state = "glock"
 	fire_sound = 'nsv13/sound/weapons/glock.ogg'
 	w_class = WEIGHT_CLASS_NORMAL

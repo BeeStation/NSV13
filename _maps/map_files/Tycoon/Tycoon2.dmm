@@ -27077,26 +27077,6 @@
 	},
 /turf/closed/wall/ship,
 /area/quartermaster/storage)
-"bnN" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/structure/disposalpipe/sorting/wrap/flip{
-	dir = 4
-	},
-/obj/machinery/navbeacon{
-	codes_txt = "delivery;dir=8";
-	dir = 8;
-	freq = 1400;
-	location = "QM #2"
-	},
-/mob/living/simple_animal/bot/mulebot{
-	home_destination = "QM #2";
-	name = "Mobility Cube";
-	desc = "Some kind of weird cube. Sometimes it changes colors or shapes. We are not not sure what to think of it doing this, but it seems pretty harmless."
-	},
-/turf/open/floor/plasteel/grid/steel,
-/area/quartermaster/storage)
 "bnO" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -42002,6 +41982,26 @@
 /area/nsv/hanger/storage{
 	name = "Munitions Control Room"
 	})
+"fmw" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/disposalpipe/sorting/wrap/flip{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 8;
+	freq = 1400;
+	location = "QM #2"
+	},
+/mob/living/simple_animal/bot/mulebot{
+	desc = "For some reason this strange looking metal penguin seems to have a sticker attached to it with the word Mittens written on it!";
+	home_destination = "QM #2";
+	name = "Mittens"
+	},
+/turf/open/floor/plasteel/grid/steel,
+/area/quartermaster/storage)
 "fnN" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -43118,6 +43118,19 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/engine/atmos)
+"hbH" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/machinery/computer/stockexchange,
+/turf/open/floor/carpet/ship,
+/area/quartermaster/storage)
 "hcC" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible,
 /obj/machinery/atmospherics/components/binary/pump/on{
@@ -43729,6 +43742,19 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/monotile/steel,
 /area/hallway/secondary/exit)
+"hTw" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_x = 27
+	},
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 12
+	},
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 24
+	},
+/turf/open/floor/plasteel/techmaint,
+/area/quartermaster/warehouse)
 "hUb" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
@@ -47792,16 +47818,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/monotile/steel,
 /area/hallway/secondary/exit)
-"ohw" = (
-/obj/structure/extinguisher_cabinet{
-	pixel_x = 27
-	},
-/obj/item/ship_weapon/ammunition/torpedo/freight,
-/obj/item/ship_weapon/ammunition/torpedo/freight{
-	pixel_y = 12
-	},
-/turf/open/floor/plasteel/techmaint,
-/area/quartermaster/warehouse)
 "ohH" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -53013,19 +53029,6 @@
 	},
 /turf/open/floor/wood,
 /area/library)
-"xnj" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
-/obj/machinery/computer/stockexchange,
-/turf/open/floor/carpet/ship,
-/area/quartermaster/storage)
 "xnB" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /turf/open/floor/monotile/steel,
@@ -87961,7 +87964,7 @@ bFI
 bmU
 aci
 adD
-bnN
+fmw
 ads
 aOz
 aOz
@@ -90027,7 +90030,7 @@ aes
 ajl
 aes
 bcr
-xnj
+hbH
 bxE
 bqS
 aci
@@ -93358,7 +93361,7 @@ aMw
 aVV
 aaY
 adp
-ohw
+hTw
 tLt
 uKa
 iFi

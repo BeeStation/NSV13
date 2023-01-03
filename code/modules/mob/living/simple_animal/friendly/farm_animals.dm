@@ -223,8 +223,8 @@
 
 /mob/living/simple_animal/chick/Initialize(mapload)
 	. = ..()
-	pixel_x = rand(-6, 6)
-	pixel_y = rand(0, 10)
+	pixel_x = base_pixel_x + rand(-6, 6)
+	pixel_y = base_pixel_y + rand(0, 10)
 	GLOB.total_chickens++
 
 /mob/living/simple_animal/chick/Life()
@@ -302,8 +302,8 @@
 	icon_dead = "[icon_prefix]_[body_color]_dead"
 	held_state = "[icon_prefix]_[body_color]"
 	head_icon = 'icons/mob/pets_held_large.dmi'
-	pixel_x = rand(-6, 6)
-	pixel_y = rand(0, 10)
+	pixel_x = base_pixel_x + rand(-6, 6)
+	pixel_y = base_pixel_y + rand(0, 10)
 	GLOB.total_chickens++
 
 /mob/living/simple_animal/chicken/death(gibbed)
@@ -335,8 +335,8 @@
 		visible_message("[src] [pick(layMessage)]")
 		eggsleft--
 		var/obj/item/E = new egg_type(get_turf(src))
-		E.pixel_x = rand(-6,6)
-		E.pixel_y = rand(-6,6)
+		E.pixel_x = E.base_pixel_x + rand(-6,6)
+		E.pixel_y = E.base_pixel_y + rand(-6,6)
 		if(eggsFertile)
 			if(prob(25))
 				START_PROCESSING(SSobj, E)

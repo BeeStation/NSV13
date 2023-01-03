@@ -458,23 +458,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
-"by" = (
-/obj/effect/turf_decal/ship/delivery/yellow,
-/obj/machinery/navbeacon{
-	codes_txt = "delivery;dir=8";
-	dir = 8;
-	freq = 1400;
-	location = "QM #2"
-	},
-/mob/living/simple_animal/bot/mulebot{
-	home_destination = "QM #2";
-	suffix = "#3";
-	name = "Chonker";
-	desc = "Oh lawd he is coming!!";
-	gender = "male"
-	},
-/turf/open/floor/engine,
-/area/quartermaster/storage)
 "bz" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -2819,17 +2802,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/dark,
 /area/security/brig)
-"jn" = (
-/obj/machinery/requests_console{
-	department = "Cargo Bay";
-	departmentType = 2;
-	pixel_x = 32
-	},
-/obj/machinery/computer/stockexchange{
-	dir = 8
-	},
-/turf/open/floor/monotile/steel,
-/area/quartermaster/storage)
 "jo" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -8115,15 +8087,6 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/hallway/nsv/deck2/primary)
-"Aj" = (
-/obj/structure/railing,
-/obj/effect/turf_decal/ship/delivery/yellow,
-/obj/item/ship_weapon/ammunition/torpedo/freight,
-/obj/item/ship_weapon/ammunition/torpedo/freight{
-	pixel_y = 12
-	},
-/turf/open/floor/engine,
-/area/quartermaster/storage)
 "Ak" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/disposalpipe/segment,
@@ -10104,6 +10067,23 @@
 /obj/machinery/deck_turret/powder_gate,
 /turf/open/floor/plating,
 /area/nsv/weapons)
+"HV" = (
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 8;
+	freq = 1400;
+	location = "QM #2"
+	},
+/mob/living/simple_animal/bot/mulebot{
+	home_destination = "QM #2";
+	suffix = "#3";
+	name = "Chonker";
+	desc = "Oh lawd he is coming!!";
+	gender = "male"
+	},
+/turf/open/floor/engine,
+/area/quartermaster/storage)
 "HW" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -13827,6 +13807,38 @@
 /obj/effect/decal/cleanable/generic,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
+"Uw" = (
+/obj/machinery/requests_console{
+	department = "Cargo Bay";
+	departmentType = 2;
+	pixel_x = 32
+	},
+/obj/machinery/computer/stockexchange{
+	dir = 8
+	},
+/obj{
+	name = "---Merge conflict marker---"
+	},
+/obj/machinery/requests_console{
+	department = "Cargo Bay";
+	departmentType = 2;
+	pixel_x = 32
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 8;
+	freq = 1400;
+	location = "QM #2"
+	},
+/mob/living/simple_animal/bot/mulebot{
+	desc = "Oh lawd he is coming!!";
+	gender = "male";
+	home_destination = "QM #2";
+	name = "Chonker";
+	suffix = "#3"
+	},
+/turf/open/floor/monotile/steel,
+/area/quartermaster/storage)
 "Uy" = (
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/monotile/steel{
@@ -14490,6 +14502,18 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
+"WI" = (
+/obj/structure/railing,
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 24
+	},
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 12
+	},
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/turf/open/floor/engine,
+/area/quartermaster/storage)
 "WJ" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/components/unary/outlet_injector/on{
@@ -50996,7 +51020,7 @@ jd
 jd
 kE
 CT
-Aj
+WI
 qm
 qm
 tP
@@ -51509,7 +51533,7 @@ bf
 Zj
 ox
 YW
-by
+HV
 if
 qm
 qm
@@ -52279,7 +52303,7 @@ Qa
 Ox
 Hr
 fE
-jn
+Uw
 Rw
 Yl
 mC

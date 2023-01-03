@@ -1776,6 +1776,21 @@
 /obj/item/banner/munitions,
 /turf/open/floor/engine,
 /area/nsv/weapons/port)
+"biW" = (
+/obj/effect/turf_decal/bot,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=8";
+	dir = 8;
+	freq = 1400;
+	location = "QM #2"
+	},
+/mob/living/simple_animal/bot/mulebot{
+	home_destination = "QM #2";
+	name = "Sisyphus";
+	suffix = "#3"
+	},
+/turf/open/floor/engine,
+/area/quartermaster/storage)
 "bjm" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /obj/structure/disposalpipe/segment,
@@ -2212,13 +2227,6 @@
 	name = "nanoweave carpet (puce)"
 	},
 /area/nsv/weapons/starboard)
-"buJ" = (
-/obj/machinery/navbeacon{
-	location = "loc16";
-	codes_txt = "patrol;next_patrol=loc17"
-	},
-/turf/open/floor/holofloor/wood,
-/area/science/computer_lab)
 "bvn" = (
 /obj/structure/shuttle/engine/large{
 	dir = 4
@@ -3024,6 +3032,23 @@
 /obj/machinery/air_sensor/atmos/toxins_mixing_tank,
 /turf/open/floor/engine,
 /area/science/mixing/chamber)
+"bYt" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=loc12";
+	location = "loc13"
+	},
+/turf/open/floor/carpet/ship/blue{
+	color = "#9999DD";
+	name = "nanoweave carpet (bluer)"
+	},
+/area/bridge/meeting_room/council)
 "bYG" = (
 /obj/machinery/atmospherics/pipe/multiz{
 	dir = 8
@@ -6061,13 +6086,6 @@
 /obj/item/wrench,
 /turf/open/floor/plating/airless,
 /area/nsv/weapons/starboard)
-"emO" = (
-/obj/machinery/navbeacon{
-	location = "loc17";
-	codes_txt = "patrol;next_patrol=loc18"
-	},
-/turf/open/floor/carpet/ship,
-/area/hallway/nsv/deck2/primary)
 "emS" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -10147,6 +10165,13 @@
 /obj/structure/grille,
 /turf/open/floor/plating/airless,
 /area/nsv/atc)
+"gXS" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/machinery/computer/stockexchange,
+/turf/open/floor/engine,
+/area/quartermaster/storage)
 "gYd" = (
 /obj/structure/reagent_dispensers/water_cooler{
 	anchored = 0
@@ -14370,6 +14395,13 @@
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/heads/chief)
+"jWG" = (
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=loc18";
+	location = "loc17"
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck2/primary)
 "jWS" = (
 /obj/machinery/computer/ship/viewscreen,
 /obj/machinery/computer/ship/dradis/minor,
@@ -14538,14 +14570,6 @@
 /obj/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/crew_quarters/pool_party)
-"kfA" = (
-/obj/machinery/airalarm/directional/east,
-/obj/item/ship_weapon/ammunition/torpedo/freight,
-/obj/item/ship_weapon/ammunition/torpedo/freight{
-	pixel_y = 12
-	},
-/turf/open/floor/engine,
-/area/quartermaster/storage)
 "kfK" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -16529,6 +16553,20 @@
 "lJn" = (
 /turf/closed/wall/r_wall/ship,
 /area/nsv/crew_quarters/heads/maa)
+"lJL" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/simple/purple/hidden,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=loc16";
+	location = "loc15"
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck2/primary)
 "lKE" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -16590,25 +16628,6 @@
 	},
 /turf/open/floor/plating,
 /area/quartermaster/warehouse)
-"lMg" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 5
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 5
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 5
-	},
-/obj/machinery/navbeacon{
-	location = "loc18";
-	codes_txt = "patrol;next_patrol=loc19"
-	},
-/turf/open/floor/carpet/ship,
-/area/hallway/nsv/deck2/primary)
 "lNc" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -18682,13 +18701,6 @@
 	},
 /turf/open/floor/plating,
 /area/medical/genetics)
-"niu" = (
-/obj/machinery/navbeacon{
-	location = "loc19";
-	codes_txt = "patrol;next_patrol=loc13"
-	},
-/turf/open/floor/carpet/ship,
-/area/quartermaster/lobby)
 "niv" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 8
@@ -22399,25 +22411,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/plating,
 /area/maintenance/department/science/central)
-"pDj" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/navbeacon{
-	location = "loc14";
-	codes_txt = "patrol;next_patrol=loc15"
-	},
-/turf/open/floor/carpet/ship/blue{
-	color = "#9999DD";
-	name = "nanoweave carpet (bluer)"
-	},
-/area/bridge/meeting_room/council)
 "pEl" = (
 /obj/machinery/vending/cola/random{
 	obj_integrity = 295
@@ -22639,23 +22632,6 @@
 /obj/structure/closet/athletic_mixed,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/pool_party)
-"pMo" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/navbeacon{
-	location = "loc13";
-	codes_txt = "patrol;next_patrol=loc12"
-	},
-/turf/open/floor/carpet/ship/blue{
-	color = "#9999DD";
-	name = "nanoweave carpet (bluer)"
-	},
-/area/bridge/meeting_room/council)
 "pMR" = (
 /obj/machinery/atmospherics/components/unary/portables_connector/visible{
 	dir = 8
@@ -25127,6 +25103,25 @@
 	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
+"rrA" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=loc15";
+	location = "loc14"
+	},
+/turf/open/floor/carpet/ship/blue{
+	color = "#9999DD";
+	name = "nanoweave carpet (bluer)"
+	},
+/area/bridge/meeting_room/council)
 "rrL" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
@@ -27852,21 +27847,6 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/nsv/atc)
-"tdC" = (
-/obj/effect/turf_decal/bot,
-/obj/machinery/navbeacon{
-	codes_txt = "delivery;dir=8";
-	dir = 8;
-	freq = 1400;
-	location = "QM #2"
-	},
-/mob/living/simple_animal/bot/mulebot{
-	home_destination = "QM #2";
-	suffix = "#3";
-	name = "Sisyphus"
-	},
-/turf/open/floor/engine,
-/area/quartermaster/storage)
 "tek" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -29103,6 +29083,17 @@
 	},
 /turf/open/openspace,
 /area/engine/engineering/reactor_control)
+"uhp" = (
+/obj/machinery/airalarm/directional/east,
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 24
+	},
+/obj/item/ship_weapon/ammunition/torpedo/freight{
+	pixel_y = 12
+	},
+/obj/item/ship_weapon/ammunition/torpedo/freight,
+/turf/open/floor/engine,
+/area/quartermaster/storage)
 "uhs" = (
 /obj/structure/dresser{
 	anchored = 0
@@ -29430,6 +29421,13 @@
 	},
 /turf/open/floor/plating,
 /area/science/server)
+"uuO" = (
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=loc13";
+	location = "loc19"
+	},
+/turf/open/floor/carpet/ship,
+/area/quartermaster/lobby)
 "uvn" = (
 /turf/open/floor/engine{
 	name = "Holodeck Projector Floor"
@@ -30580,6 +30578,13 @@
 	name = "nanoweave carpet (bluer)"
 	},
 /area/teleporter)
+"vuc" = (
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=loc17";
+	location = "loc16"
+	},
+/turf/open/floor/holofloor/wood,
+/area/science/computer_lab)
 "vuK" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -31175,6 +31180,25 @@
 /obj/machinery/light,
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
+"vPV" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 5
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=loc19";
+	location = "loc18"
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck2/primary)
 "vQt" = (
 /mob/living/simple_animal/slime/random,
 /turf/open/floor/engine,
@@ -32558,13 +32582,6 @@
 /obj/effect/landmark/blobstart,
 /turf/open/floor/plating,
 /area/bridge)
-"wSB" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
-	},
-/obj/machinery/computer/stockexchange,
-/turf/open/floor/engine,
-/area/quartermaster/storage)
 "wSL" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/computer/station_alert,
@@ -34012,20 +34029,6 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
-"xQF" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/purple/hidden,
-/obj/structure/disposalpipe/segment,
-/obj/machinery/navbeacon{
-	location = "loc15";
-	codes_txt = "patrol;next_patrol=loc16"
-	},
-/turf/open/floor/carpet/ship,
-/area/hallway/nsv/deck2/primary)
 "xRj" = (
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable{
@@ -61507,7 +61510,7 @@ gvQ
 bcs
 wJD
 sYj
-tdC
+biW
 klP
 qbl
 iKg
@@ -63301,7 +63304,7 @@ agZ
 agZ
 agZ
 hEz
-wSB
+gXS
 duf
 ehz
 eFv
@@ -63825,7 +63828,7 @@ bgw
 ihx
 esm
 uHL
-kfA
+uhp
 wcV
 lIk
 mtg
@@ -64598,7 +64601,7 @@ ijl
 juZ
 ijl
 ijl
-lMg
+vPV
 muZ
 vMA
 nNm
@@ -65103,7 +65106,7 @@ bBZ
 hOJ
 cYK
 emY
-niu
+uuO
 aqU
 gyZ
 rWL
@@ -66172,7 +66175,7 @@ rhB
 tFP
 rSG
 tFP
-buJ
+vuc
 rFU
 tFP
 rTR
@@ -66916,7 +66919,7 @@ vMA
 nNT
 vMA
 vMA
-emO
+jWG
 oJu
 aPk
 aPk
@@ -66934,7 +66937,7 @@ wXh
 pkV
 kgx
 sPK
-xQF
+lJL
 qZt
 vfM
 vfM
@@ -68466,7 +68469,7 @@ hXK
 hXK
 lTw
 kCL
-pDj
+rrA
 kCL
 stl
 xTZ
@@ -71293,7 +71296,7 @@ kCL
 oqE
 vYG
 vYG
-pMo
+bYt
 vYG
 vYG
 vYG
