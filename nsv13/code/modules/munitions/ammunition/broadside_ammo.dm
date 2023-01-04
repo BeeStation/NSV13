@@ -54,10 +54,15 @@
 	. += "The Packer requires 5 Casings, 5 Loads and 1 Powder Bag to pack 5 Broadside Shells."
 
 /obj/machinery/broadside_shell_packer/attackby(obj/item/I, mob/living/user, params)
+	if(default_deconstruction_screwdriver(user, "[initial(icon_state)]", initial(icon_state), I))
+		return TRUE
+	if(default_deconstruction_crowbar(I))
+		return TRUE
 	if(thingy[I.type])
 		load(I, user)
-		return
-	. = ..()
+		return TRUE
+	else
+		return ..()
 
 /obj/machinery/broadside_shell_packer/attack_hand(mob/living/user)
 	. = ..()
@@ -112,11 +117,10 @@
 			return FALSE
 
 /obj/machinery/broadside_shell_packer/MouseDrop_T(obj/structure/A, mob/user)
-	. = ..()
 	if(!isliving(user))
 		return
 	if(istype(A, /obj/structure/closet))
-		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/parts/broadside_casing) || !LAZYFIND(A.contents, /obj/item/ship_weapon/parts/broadside_load) || !LAZYFIND(A.contents, /obj/item/powder_bag))
+		if(!LAZYFIND(A.contents, /obj/item/ship_weapon/parts/broadside_casing) && !LAZYFIND(A.contents, /obj/item/ship_weapon/parts/broadside_load) && !LAZYFIND(A.contents, /obj/item/powder_bag))
 			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
 			return FALSE
 		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
