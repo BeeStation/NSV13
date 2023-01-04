@@ -54,10 +54,10 @@
 	. += "The Packer requires 5 Casings, 5 Loads and 1 Powder Bag to pack 5 Broadside Shells."
 
 /obj/machinery/broadside_shell_packer/attackby(obj/item/I, mob/living/user, params)
-	. = ..()
 	if(thingy[I.type])
 		load(I, user)
 		return
+	. = ..()
 
 /obj/machinery/broadside_shell_packer/attack_hand(mob/living/user)
 	. = ..()
