@@ -247,12 +247,24 @@
 //Used as an upper limit for species that continuously gain nutriment
 #define NUTRITION_LEVEL_ALMOST_FULL 535
 
-//NSV13 - TG style ethereal charge levels
+//NSV13 - TG style ethereal charge levels - Crystalized Ethereal
 #define ETHEREAL_CHARGE_NONE 0
 #define ETHEREAL_CHARGE_LOWPOWER 500
 #define ETHEREAL_CHARGE_NORMAL 1250
 #define ETHEREAL_CHARGE_ALMOSTFULL 1875
 #define ETHEREAL_CHARGE_FULL 2500
+
+#define CRYSTALIZE_COOLDOWN_LENGTH 120 SECONDS
+#define CRYSTALIZE_PRE_WAIT_TIME 40 SECONDS
+#define CRYSTALIZE_DISARM_WAIT_TIME 120 SECONDS
+#define CRYSTALIZE_HEAL_TIME 60 SECONDS
+
+#define BRUTE_DAMAGE_REQUIRED_TO_STOP_CRYSTALIZATION 30
+
+#define CRYSTALIZE_STAGE_ENGULFING 100 //Cant use second defines
+#define CRYSTALIZE_STAGE_ENCROACHING 300 //In switches
+#define CRYSTALIZE_STAGE_SMALL 600 //Because they're not static
+//NSV13 - Changes END - For now probably
 
 //Base nutrition value used for newly initialized slimes
 #define SLIME_DEFAULT_NUTRITION 700
