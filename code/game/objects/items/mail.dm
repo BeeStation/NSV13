@@ -256,13 +256,14 @@
 		recipient_ref = WEAKREF(recipient)
 	else
 		switch(rand(1,10))
-			/*
-			if(1,2)
-				name = special_name ? junk_names[junk] : "[initial(name)] for [pick(GLOB.alive_mob_list)]" //LETTER FOR IAN / BUBBLEGUM / MONKEY(420)
-			*/ //NSV13 Having a lot of trouble with mail being generated for entities the crew aren't supposed to know about
-			if(1,2,3,4)//NSV13 added 1 and 2
-				name = special_name ? junk_names[junk] : "[initial(name)] for [pick(GLOB.player_list)]" //Letter for ANYONE, even that wizard rampaging through the station.
-			if(5)
+			if(1,2,3)
+				var/list/candidates = list()
+				for(var/mob/living/simple_animal/M in GLOB.alive_mob_list)
+					var/turf/T = get_turf(M)
+					if(is_station_level(T.z)) // Ignore anything not on the main ship
+						candidates += M
+				name = special_name ? junk_names[junk] : "[initial(name)] for [pick(candidates)]"
+			if(4,5)
 				name = special_name ? junk_names[junk] : "DO NOT OPEN"
 			else
 				name = special_name ? junk_names[junk] : "[pick("important","critical","crucial","serious","vital")] [initial(name)]"
@@ -317,7 +318,11 @@
 		else
 			new_mail = new /obj/item/mail/envelope(src)
 		if(recipient)
-			pick(0,1) ? new_mail.initialize_for_recipient(recipient) : new_mail.junk_mail(recipient) //NSV13 - Changes to Junk Mail Spawning
+			switch(rand(1,10)) //NSV13 - increasing odds of getting actual mail over spam. Apparently 50/50 feels like a ton of spam
+				if(1,2,3)
+					new_mail.junk_mail(recipient) //NSV13 - Changes to Junk Mail Spawning
+				else
+					new_mail.initialize_for_recipient(recipient)
 		else
 			new_mail.junk_mail()
 
