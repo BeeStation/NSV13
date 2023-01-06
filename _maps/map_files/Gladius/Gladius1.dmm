@@ -10123,6 +10123,9 @@
 	name = "Gunnery Platform";
 	req_access_txt = "69"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "eNd" = (
@@ -10485,13 +10488,6 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/monotile/steel,
 /area/nsv/squad)
-"eWR" = (
-/obj/machinery/conveyor_switch{
-	id = "torp";
-	name = "Primary Assembly Line"
-	},
-/turf/open/floor/monotile/steel,
-/area/nsv/weapons/starboard)
 "eXb" = (
 /obj/structure/table/glass,
 /obj/item/stack/sheet/mineral/plasma{
@@ -10798,13 +10794,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/aft)
-"fdC" = (
-/obj/machinery/firealarm/directional/south,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/monotile/steel,
-/area/nsv/weapons/starboard)
 "fdH" = (
 /obj/machinery/holopad,
 /turf/open/floor/wood,
@@ -13407,8 +13396,22 @@
 /turf/open/floor/monotile/dark,
 /area/security/checkpoint/science/research)
 "gpZ" = (
-/turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
+/obj/machinery/door/airlock/ship/medical{
+	name = "Infirmary Storage";
+	req_one_access_txt = "5;6;39;68"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/effect/landmark/zebra_interlock_point,
+/obj/structure/disposalpipe/segment{
+	dir = 8
+	},
+/turf/open/floor/monotile/light,
+/area/medical/storage)
 "gqd" = (
 /obj/structure/table,
 /obj/machinery/recharger{
@@ -18636,7 +18639,7 @@
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/structure/ladder,
 /turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
+/area/space/nearstation)
 "iKu" = (
 /turf/open/floor/monotile/dark,
 /area/science/research)
@@ -22180,7 +22183,7 @@
 	},
 /obj/machinery/ship_weapon/deck_turret/_3,
 /turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
+/area/space/nearstation)
 "kuF" = (
 /turf/closed/wall/ship,
 /area/maintenance/nsv/deck1/central)
@@ -23778,7 +23781,7 @@
 "liv" = (
 /obj/structure/fluff/vls_hatch,
 /turf/open/openspace,
-/area/nsv/weapons/starboard)
+/area/space/nearstation)
 "liJ" = (
 /obj/structure/table,
 /obj/machinery/recharger,
@@ -24827,22 +24830,23 @@
 /turf/closed/wall/ship,
 /area/security/prison)
 "lIj" = (
-/obj/machinery/door/airlock/ship/medical{
-	name = "Infirmary Storage";
-	req_one_access_txt = "5;6;39;68"
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/door/firedoor/border_only{
-	dir = 4
+	dir = 1
 	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
+/obj/machinery/door/firedoor/border_only,
 /obj/effect/landmark/zebra_interlock_point,
-/obj/structure/disposalpipe/segment{
-	dir = 8
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Pilot Hangar";
+	req_one_access_txt = "79"
 	},
-/turf/open/floor/monotile/light,
-/area/medical/storage)
+/turf/open/floor/plating{
+	icon_state = "platingdmg3"
+	},
+/area/maintenance/nsv/hangar)
 "lIo" = (
 /obj/machinery/computer/secure_data{
 	dir = 8
@@ -26195,7 +26199,7 @@
 	pixel_y = -92
 	},
 /turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
+/area/space/nearstation)
 "mpY" = (
 /obj/structure/table,
 /obj/item/folder/white{
@@ -27221,9 +27225,8 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/aft)
 "mJO" = (
-/obj/structure/grille,
-/turf/open/space/basic,
-/area/nsv/weapons/starboard)
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/nsv/weapons)
 "mJW" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
@@ -29846,7 +29849,7 @@
 "oaa" = (
 /obj/structure/hull_plate/end,
 /turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
+/area/space/nearstation)
 "oap" = (
 /obj/item/stack/ore/slag,
 /turf/open/floor/plating,
@@ -30258,7 +30261,7 @@
 	dir = 9
 	},
 /turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
+/area/space/nearstation)
 "ojc" = (
 /obj/machinery/door/airlock/ship{
 	name = "Patient Room A"
@@ -31078,18 +31081,6 @@
 /obj/machinery/vending/cigarette,
 /turf/open/floor/wood,
 /area/maintenance/nsv/deck1/port/aft)
-"oEk" = (
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = 12
-	},
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = 3
-	},
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = -6
-	},
-/turf/open/floor/monotile/steel,
-/area/nsv/weapons/starboard)
 "oEl" = (
 /obj/machinery/computer/crew,
 /turf/open/floor/carpet/blue,
@@ -33635,7 +33626,7 @@
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
+/area/space/nearstation)
 "pHS" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -33912,6 +33903,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plasteel/ridged/steel,
 /area/nsv/weapons/starboard)
 "pNU" = (
@@ -35328,23 +35320,17 @@
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame1/central)
 "qAl" = (
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = 12
 	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
-/obj/machinery/door/firedoor/border_only{
-	dir = 1
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = 2
 	},
-/obj/machinery/door/firedoor/border_only,
-/obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Pilot Hangar";
-	req_one_access_txt = "79"
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = -6
 	},
-/turf/open/floor/plating{
-	icon_state = "platingdmg3"
-	},
-/area/maintenance/nsv/hangar)
+/turf/open/floor/monotile/steel,
+/area/nsv/weapons/starboard)
 "qAq" = (
 /obj/machinery/computer/crew{
 	dir = 8
@@ -38107,6 +38093,13 @@
 	},
 /turf/open/floor/monotile/light,
 /area/medical/chemistry)
+"rXr" = (
+/obj/machinery/conveyor_switch{
+	id = "torp";
+	name = "Primary Assembly Line"
+	},
+/turf/open/floor/monotile/steel,
+/area/nsv/weapons/starboard)
 "rXD" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -38636,7 +38629,7 @@
 	pixel_y = -92
 	},
 /turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
+/area/space/nearstation)
 "slJ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -44140,7 +44133,7 @@
 "uOO" = (
 /obj/structure/hull_plate,
 /turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
+/area/space/nearstation)
 "uPd" = (
 /turf/open/openspace,
 /area/maintenance/department/security/brig)
@@ -47087,8 +47080,16 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/ordnance)
 "wia" = (
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = 12
+	},
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = 3
+	},
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = -6
+	},
+/turf/open/floor/monotile/steel,
 /area/nsv/weapons/starboard)
 "wib" = (
 /obj/structure/hull_plate,
@@ -49439,7 +49440,7 @@
 "xpc" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/monotile/dark/airless,
-/area/nsv/weapons/starboard)
+/area/space/nearstation)
 "xph" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -49788,14 +49789,9 @@
 /turf/template_noop,
 /area/maintenance/nsv/deck1/starboard)
 "xxd" = (
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = 12
-	},
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = 2
-	},
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = -6
+/obj/machinery/firealarm/directional/south,
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/starboard)
@@ -69639,7 +69635,7 @@ nAC
 nAC
 pxt
 nAC
-lIj
+gpZ
 nAC
 nAC
 nAC
@@ -76867,7 +76863,7 @@ teS
 ggU
 ijF
 xEU
-qAl
+lIj
 sLh
 jKh
 vAD
@@ -83822,11 +83818,11 @@ nlj
 vev
 nmT
 wEE
+qAl
+raH
+wia
+raH
 xxd
-raH
-oEk
-raH
-fdC
 nmT
 bjG
 kLp
@@ -85625,7 +85621,7 @@ eax
 ybF
 ybF
 ybF
-eWR
+rXr
 kWe
 nmT
 xRD
@@ -87686,8 +87682,8 @@ nmT
 dGa
 uOO
 oaa
-wia
-mJO
+slQ
+msr
 bQO
 msr
 msr
@@ -87943,8 +87939,8 @@ uOO
 uOO
 uOO
 oaa
-wia
-mJO
+slQ
+msr
 bQO
 bQO
 bQO
@@ -88200,8 +88196,8 @@ uOO
 uOO
 uOO
 oaa
-wia
-mJO
+slQ
+msr
 bQO
 wcI
 aaa
@@ -88457,8 +88453,8 @@ uOO
 uOO
 uOO
 oaa
-wia
-mJO
+slQ
+msr
 bQO
 bQO
 aaa
@@ -88714,8 +88710,8 @@ uOO
 uOO
 uOO
 oaa
-wia
-mJO
+slQ
+msr
 bQO
 wcI
 aaa
@@ -88966,13 +88962,13 @@ uOO
 uOO
 uOO
 uOO
-gpZ
+wcI
 uOO
 uOO
 uOO
 oaa
-wia
-mJO
+slQ
+msr
 bQO
 bQO
 aaa
@@ -89228,8 +89224,8 @@ uOO
 pHP
 uOO
 oaa
-wia
-mJO
+slQ
+msr
 bQO
 wcI
 aaa
@@ -89485,8 +89481,8 @@ uOO
 uOO
 uOO
 oaa
-wia
-mJO
+slQ
+msr
 bQO
 bQO
 aaa
@@ -89729,7 +89725,7 @@ vYc
 nUM
 rBF
 ifo
-nmT
+mJO
 nmT
 eMR
 nmT
@@ -89742,8 +89738,8 @@ uOO
 uOO
 uOO
 oaa
-wia
-mJO
+slQ
+msr
 bQO
 wcI
 aaa
@@ -89986,7 +89982,7 @@ ieO
 ieO
 gmk
 rxf
-nmT
+mJO
 uOO
 uOO
 uOO
@@ -89999,8 +89995,8 @@ uOO
 uOO
 uOO
 oaa
-wia
-mJO
+slQ
+msr
 bQO
 bQO
 aaa
@@ -90243,7 +90239,7 @@ ulC
 ieO
 rml
 sfv
-nmT
+mJO
 uOO
 uOO
 xpc
@@ -90256,8 +90252,8 @@ uOO
 mpX
 uOO
 oaa
-wia
-mJO
+slQ
+msr
 bQO
 wcI
 aaa
@@ -90500,7 +90496,7 @@ jpq
 ieO
 oVA
 gBk
-nmT
+mJO
 uOO
 uOO
 uOO
@@ -90757,7 +90753,7 @@ sCE
 ieO
 wAO
 aZj
-nmT
+mJO
 uOO
 uOO
 uOO
@@ -91014,7 +91010,7 @@ llX
 ieO
 ihB
 bPv
-nmT
+mJO
 uOO
 uOO
 uOO
@@ -91271,7 +91267,7 @@ ieO
 ieO
 mbL
 xyz
-nmT
+mJO
 uOO
 uOO
 uOO
@@ -91528,12 +91524,12 @@ vKL
 mtQ
 vIO
 lzm
-nmT
+npq
 uOO
 uOO
 uOO
 uOO
-gpZ
+wcI
 iKq
 uOO
 xpc
@@ -91785,7 +91781,7 @@ rqj
 ehW
 sYr
 vJA
-nmT
+npq
 uOO
 uOO
 uOO
@@ -92042,18 +92038,18 @@ aUv
 gjT
 dNp
 vIo
-nmT
-nmT
-nmT
-nmT
-nmT
-nmT
-nmT
-nmT
-nmT
-nmT
-nmT
-nmT
+npq
+xPs
+xPs
+jVZ
+jVZ
+jVZ
+jVZ
+jVZ
+jVZ
+jVZ
+jVZ
+jVZ
 xpc
 uOO
 xpc
