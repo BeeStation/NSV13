@@ -329,7 +329,7 @@
 	icon_state = "barbook"
 	author = "Sir John Rose"
 	title = "Barman Recipes: Mixing Drinks and Changing Lives"
-	page_link = "Guide_to_food_and_drinks"
+	page_link = "Guide_to_drinks" //NSV13 - Split the Guide to Food and Drinks into two separate pages
 
 /obj/item/book/manual/wiki/robotics_cyborgs
 	name = "Robotics for Dummies"
@@ -365,7 +365,7 @@
 	icon_state ="cooked_book"
 	author = "the Kanamitan Empire"
 	title = "To Serve Man"
-	page_link = "Guide_to_food_and_drinks"
+	page_link = "Guide_to_food" //NSV13 - Split the Guide to Food and Drinks into two separate pages
 
 /obj/item/book/manual/wiki/tcomms
 	name = "Subspace Telecommunications And You"

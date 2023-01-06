@@ -260,6 +260,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 				dat += "<ul>"
 				dat += "<li><a href='byond://?src=[REF(src)];choice=1'>[PDAIMG(notes)]Notekeeper</a></li>"
 				dat += "<li><a href='byond://?src=[REF(src)];choice=2'>[PDAIMG(mail)]Messenger</a></li>"
+				dat += "<li><a href='byond://?src=[REF(src)];choice=Database'>[PDAIMG(notes)]Access Database</a></li>" //NSV13
 
 				if (cartridge)
 					if (cartridge.access & CART_CLOWN)
@@ -364,6 +365,12 @@ GLOBAL_LIST_EMPTY(PDAs)
 				else if(cartridge && cartridge.spam_delay)
 					dat += "<a href='byond://?src=[REF(src)];choice=MessageAll'>Send To All</a>"
 
+			//NSV13 - DATABASE AKA WIKI ACCESS - START
+			if("Database")
+				var/wikiurl = CONFIG_GET(string/wikiurl)
+				dat += "<div style='position:relative;overflow:hidden;width:100%;padding-top:56.25%'><iframe src='[wikiurl]' style='position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%;'></iframe></div>"
+			//NSV13 - DATABASE AKA WIKI ACCESS - END
+
 			if(21)
 				dat += "<h4>[PDAIMG(mail)] SpaceMessenger V3.9.6</h4>"
 				dat += "<a href='byond://?src=[REF(src)];choice=Clear'>[PDAIMG(blank)]Clear Messages</a>"
@@ -448,7 +455,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 				if(!silent)
 					playsound(src, 'sound/machines/terminal_select.ogg', 15, TRUE)
 			if("Return")//Return
-				if(mode<=9)
+				if(mode=="Database" || mode<=9) //NSV13
 					mode = 0
 				else
 					mode = round(mode/10)
@@ -486,6 +493,10 @@ GLOBAL_LIST_EMPTY(PDAs)
 				mode = 2
 				if(!silent)
 					playsound(src, 'sound/machines/terminal_select.ogg', 15, TRUE)
+			if("Database")//Database //NSV13
+				mode = "Database" //NSV13
+				if(!silent) //NSV13
+					playsound(src, 'sound/machines/terminal_select.ogg', 15, TRUE) //NSV13
 			if("21")//Read messeges
 				mode = 21
 				if(!silent)
