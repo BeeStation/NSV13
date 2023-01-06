@@ -1775,6 +1775,9 @@
 /obj/machinery/atmospherics/components/binary/valve/digital{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "box" = (
@@ -2853,6 +2856,10 @@
 	},
 /turf/open/floor/wood,
 /area/library)
+"cag" = (
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/durasteel,
+/area/crew_quarters/locker)
 "cal" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -8099,7 +8106,7 @@
 /obj/machinery/atmospherics/pipe/simple/orange/visible/layer4,
 /obj/machinery/atmospherics/components/unary/thermomachine/heater{
 	dir = 4;
-	piping_layer = 1
+	piping_layer = 2
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
@@ -8613,7 +8620,7 @@
 /area/maintenance/nsv/deck2/starboard/fore)
 "fnl" = (
 /obj/structure/cable{
-	icon_state = "0-2"
+	icon_state = "2-16"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
@@ -10400,9 +10407,12 @@
 /turf/open/floor/monotile/dark,
 /area/quartermaster/miningoffice)
 "gil" = (
-/obj/machinery/airalarm/directional/north,
-/turf/open/floor/durasteel,
-/area/crew_quarters/locker)
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/yellow/visible,
+/turf/open/floor/plasteel/grid/steel,
+/area/engine/atmos)
 "giq" = (
 /obj/machinery/light{
 	dir = 8
@@ -10734,6 +10744,12 @@
 	},
 /obj/machinery/power/apc/auto_name/south{
 	cell_type = /obj/item/stock_parts/cell/high
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
 	},
 /turf/open/floor/monotile/dark,
 /area/engine/atmos)
@@ -11201,7 +11217,7 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/starboard)
 "gGo" = (
-/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/multiz/layer2,
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
 "gGL" = (
@@ -18738,6 +18754,10 @@
 /obj/machinery/atmospherics/pipe/manifold/yellow/visible{
 	dir = 1
 	},
+/obj/structure/cable{
+	icon_state = "2-8";
+	tag = ""
+	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
 "leY" = (
@@ -24073,7 +24093,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/turf/open/space/basic,
+/turf/open/floor/monotile/dark,
 /area/quartermaster/miningdock)
 "nZx" = (
 /obj/machinery/firealarm/directional/west,
@@ -24163,7 +24183,7 @@
 "oaN" = (
 /obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 4;
-	piping_layer = 1
+	piping_layer = 2
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
@@ -25622,6 +25642,15 @@
 /obj/machinery/power/tracker,
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
+"oXZ" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/structure/sign/poster/contraband/pwr_game{
+	pixel_y = 32
+	},
+/turf/open/floor/durasteel,
+/area/crew_quarters/locker)
 "oYo" = (
 /obj/structure/cable{
 	icon_state = "0-2"
@@ -26480,6 +26509,12 @@
 /obj/machinery/atmospherics/components/unary/thermomachine/heater{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/components/unary/portables_connector/visible{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "pus" = (
@@ -26548,6 +26583,9 @@
 "pwQ" = (
 /obj/machinery/atmospherics/pipe/simple/yellow/visible{
 	dir = 9
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
@@ -28363,6 +28401,9 @@
 	dir = 4
 	},
 /obj/machinery/portable_atmospherics/canister/proto,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "qvW" = (
@@ -32705,14 +32746,9 @@
 /turf/open/floor/plasteel/techmaint,
 /area/nsv/engine/corridor)
 "sMI" = (
-/obj/structure/sign/poster/contraband/pwr_game{
-	pixel_y = 32
-	},
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/floor/durasteel,
-/area/crew_quarters/locker)
+/obj/machinery/atmospherics/pipe/multiz/layer4,
+/turf/open/floor/plating,
+/area/maintenance/department/crew_quarters/dorms)
 "sMT" = (
 /obj/machinery/computer/ship/ftl_computer{
 	dir = 4
@@ -34418,6 +34454,9 @@
 	},
 /obj/effect/turf_decal{
 	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -38252,14 +38291,15 @@
 /turf/open/floor/durasteel,
 /area/hydroponics/garden)
 "wcM" = (
-/obj/machinery/light{
-	dir = 4
-	},
+/obj/structure/lattice/catwalk/over/ship/dark,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/durasteel,
 /area/crew_quarters/locker)
 "wdr" = (
@@ -40859,6 +40899,9 @@
 "xGR" = (
 /obj/machinery/atmospherics/pipe/simple/yellow/visible{
 	dir = 6
+	},
+/obj/structure/cable{
+	icon_state = "4-16"
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/engine/atmos)
@@ -64827,7 +64870,7 @@ mSN
 fbN
 fYw
 leQ
-nNo
+gil
 pwQ
 tLk
 pue
@@ -82329,7 +82372,7 @@ dbW
 dbW
 xKr
 ktM
-gGo
+sMI
 iBW
 qAe
 rdh
@@ -83100,9 +83143,9 @@ fMb
 uup
 gON
 kqq
-kqq
-wOB
 wcM
+wOB
+vxg
 vxg
 vxg
 bQt
@@ -83359,8 +83402,8 @@ azW
 azW
 azW
 azW
+cag
 sSe
-gil
 sSe
 ocl
 ibQ
@@ -84130,8 +84173,8 @@ orx
 oyM
 oIX
 azW
+oXZ
 sSe
-sMI
 aaD
 qup
 aaD
