@@ -325,6 +325,7 @@
 		/obj/item/stamp/head_of_personnel = 5,
 		/obj/item/toy/figure/ian = 5,
 		/obj/item/megaphone/command/rudiger = 4,
+		/obj/item/clothing/shoes/jackboots/fast = 1, //if you're doing your job, you'll need it
 	)
 
 //HEAD OF SECURITY
