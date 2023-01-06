@@ -4750,13 +4750,6 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
-"cqB" = (
-/obj/machinery/conveyor_switch{
-	id = "torp";
-	name = "Primary Assembly Line"
-	},
-/turf/open/floor/monotile/steel,
-/area/nsv/weapons/starboard)
 "cqF" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -5475,16 +5468,9 @@
 /turf/open/floor/monotile/light,
 /area/medical/medbay/central)
 "cFj" = (
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = 12
-	},
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = 3
-	},
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = -6
-	},
-/turf/open/floor/monotile/steel,
+/obj/machinery/computer/ship/munitions_computer/east,
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/noslip/dark,
 /area/nsv/weapons/starboard)
 "cFB" = (
 /obj/effect/turf_decal/tile/blue{
@@ -10499,6 +10485,13 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/monotile/steel,
 /area/nsv/squad)
+"eWR" = (
+/obj/machinery/conveyor_switch{
+	id = "torp";
+	name = "Primary Assembly Line"
+	},
+/turf/open/floor/monotile/steel,
+/area/nsv/weapons/starboard)
 "eXb" = (
 /obj/structure/table/glass,
 /obj/item/stack/sheet/mineral/plasma{
@@ -10805,6 +10798,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/aft)
+"fdC" = (
+/obj/machinery/firealarm/directional/south,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/monotile/steel,
+/area/nsv/weapons/starboard)
 "fdH" = (
 /obj/machinery/holopad,
 /turf/open/floor/wood,
@@ -15350,16 +15350,10 @@
 /turf/open/floor/plating,
 /area/science/mixing)
 "hle" = (
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = 12
-	},
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = 2
-	},
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = -6
-	},
-/turf/open/floor/monotile/steel,
+/obj/machinery/computer/ship/munitions_computer/east,
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/computer/ship/viewscreen,
+/turf/open/floor/noslip/dark,
 /area/nsv/weapons/starboard)
 "hlp" = (
 /obj/structure/lattice/catwalk/over/ship/dark,
@@ -19063,11 +19057,25 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/ai)
 "iTT" = (
-/obj/effect/turf_decal/stripes/line{
+/obj/machinery/door/window/westleft{
+	base_state = "right";
+	dir = 4;
+	icon_state = "right";
+	name = "Crate Disposal Chute"
+	},
+/obj/structure/window/reinforced,
+/obj/structure/window/reinforced{
+	dir = 1;
+	layer = 2.9
+	},
+/obj/effect/turf_decal/box,
+/obj/structure/disposalpipe/trunk{
+	dir = 8
+	},
+/obj/structure/disposaloutlet{
 	dir = 4
 	},
-/obj/machinery/airalarm/directional/south,
-/turf/open/floor/monotile/steel,
+/turf/open/floor/monotile/dark,
 /area/nsv/weapons/starboard)
 "iUc" = (
 /obj/effect/turf_decal/stripes/line{
@@ -24819,10 +24827,22 @@
 /turf/closed/wall/ship,
 /area/security/prison)
 "lIj" = (
-/obj/machinery/computer/ship/munitions_computer/east,
-/obj/structure/lattice/catwalk/over/ship,
-/turf/open/floor/noslip/dark,
-/area/nsv/weapons/starboard)
+/obj/machinery/door/airlock/ship/medical{
+	name = "Infirmary Storage";
+	req_one_access_txt = "5;6;39;68"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/effect/landmark/zebra_interlock_point,
+/obj/structure/disposalpipe/segment{
+	dir = 8
+	},
+/turf/open/floor/monotile/light,
+/area/medical/storage)
 "lIo" = (
 /obj/machinery/computer/secure_data{
 	dir = 8
@@ -31058,6 +31078,18 @@
 /obj/machinery/vending/cigarette,
 /turf/open/floor/wood,
 /area/maintenance/nsv/deck1/port/aft)
+"oEk" = (
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = 12
+	},
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = 3
+	},
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = -6
+	},
+/turf/open/floor/monotile/steel,
+/area/nsv/weapons/starboard)
 "oEl" = (
 /obj/machinery/computer/crew,
 /turf/open/floor/carpet/blue,
@@ -31299,25 +31331,12 @@
 /turf/open/floor/plating/airless,
 /area/nsv/hanger)
 "oLe" = (
-/obj/machinery/door/window/westleft{
-	base_state = "right";
-	dir = 4;
-	icon_state = "right";
-	name = "Crate Disposal Chute"
-	},
-/obj/structure/window/reinforced,
-/obj/structure/window/reinforced{
-	dir = 1;
-	layer = 2.9
-	},
-/obj/effect/turf_decal/box,
-/obj/structure/disposalpipe/trunk{
-	dir = 8
-	},
-/obj/structure/disposaloutlet{
+/obj/machinery/computer/ship/munitions_computer/east,
+/obj/structure/lattice/catwalk/over/ship,
+/obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/turf/open/floor/monotile/dark,
+/turf/open/floor/noslip/dark,
 /area/nsv/weapons/starboard)
 "oLl" = (
 /obj/machinery/door/airlock/ship/medical{
@@ -35309,22 +35328,23 @@
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame1/central)
 "qAl" = (
-/obj/machinery/door/airlock/ship/medical{
-	name = "Infirmary Storage";
-	req_one_access_txt = "5;6;39;68"
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/door/firedoor/border_only{
-	dir = 4
+	dir = 1
 	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
+/obj/machinery/door/firedoor/border_only,
 /obj/effect/landmark/zebra_interlock_point,
-/obj/structure/disposalpipe/segment{
-	dir = 8
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Pilot Hangar";
+	req_one_access_txt = "79"
 	},
-/turf/open/floor/monotile/light,
-/area/medical/storage)
+/turf/open/floor/plating{
+	icon_state = "platingdmg3"
+	},
+/area/maintenance/nsv/hangar)
 "qAq" = (
 /obj/machinery/computer/crew{
 	dir = 8
@@ -36611,7 +36631,6 @@
 /turf/open/floor/monotile/light,
 /area/crew_quarters/heads/cmo)
 "rfc" = (
-/obj/machinery/computer/ship/munitions_computer/east,
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/noslip/dark,
@@ -37635,15 +37654,15 @@
 /turf/open/floor/monotile/light,
 /area/medical/chemistry)
 "rIf" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Fore Starboard";
-	req_one_access_txt = "13"
-	},
 /obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Pilot Hangar";
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
@@ -45525,10 +45544,6 @@
 /turf/open/floor/plasteel/techmaint,
 /area/science/lab)
 "vvz" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "External Access Deck 2 Fore Starboard";
-	req_one_access_txt = "13"
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
@@ -45537,6 +45552,10 @@
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Pilot Hangar";
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
@@ -49769,23 +49788,17 @@
 /turf/template_noop,
 /area/maintenance/nsv/deck1/starboard)
 "xxd" = (
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = 12
 	},
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
-/obj/machinery/door/firedoor/border_only{
-	dir = 1
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = 2
 	},
-/obj/machinery/door/firedoor/border_only,
-/obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Pilot Hangar";
-	req_one_access_txt = "79"
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = -6
 	},
-/turf/open/floor/plating{
-	icon_state = "platingdmg3"
-	},
-/area/maintenance/nsv/hangar)
+/turf/open/floor/monotile/steel,
+/area/nsv/weapons/starboard)
 "xxf" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
@@ -69626,7 +69639,7 @@ nAC
 nAC
 pxt
 nAC
-qAl
+lIj
 nAC
 nAC
 nAC
@@ -76854,7 +76867,7 @@ teS
 ggU
 ijF
 xEU
-xxd
+qAl
 sLh
 jKh
 vAD
@@ -83556,7 +83569,7 @@ kqz
 raH
 kqz
 raH
-kqz
+puU
 nmT
 dHz
 kLp
@@ -83809,11 +83822,11 @@ nlj
 vev
 nmT
 wEE
-ybF
+xxd
 raH
-ybF
+oEk
 raH
-cKv
+fdC
 nmT
 bjG
 kLp
@@ -84067,9 +84080,9 @@ nmT
 nmT
 rfc
 dOB
-lIj
+raH
 dOB
-lIj
+raH
 iTT
 nmT
 kiW
@@ -85612,7 +85625,7 @@ eax
 ybF
 ybF
 ybF
-cqB
+eWR
 kWe
 nmT
 xRD
