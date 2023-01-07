@@ -455,9 +455,6 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "alj" = (
-/obj/machinery/light{
-	dir = 4
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 8
 	},
@@ -3837,6 +3834,11 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/kitchen)
+"cjc" = (
+/obj/structure/closet/crate,
+/obj/item/xenoartifact/maint,
+/turf/open/floor/plating,
+/area/maintenance/department/engine/atmos)
 "ckS" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
 	dir = 4
@@ -5924,12 +5926,16 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/storage)
 "dHo" = (
-/obj/machinery/light{
-	dir = 8
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "aether_atmos_lockdown"
 	},
-/obj/structure/cable/white{
-	icon_state = "1-2"
+/obj/machinery/door/airlock/ship/engineering{
+	name = "Shield Generator";
+	req_one_access_txt = "10"
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/engine,
 /area/engine/shield_generator)
 "dHs" = (
@@ -10567,6 +10573,13 @@
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/wood,
 /area/maintenance/department/medical)
+"gTF" = (
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/atmos)
 "gTJ" = (
 /obj/structure/reagent_dispensers/watertank/high,
 /obj/machinery/light,
@@ -12967,6 +12980,16 @@
 /obj/item/reagent_containers/food/drinks/bottle/synthflesh,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/genetics/cloning)
+"iwC" = (
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/airlock/ship/engineering{
+	name = "Shield Generator";
+	req_one_access_txt = "10"
+	},
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/atmos)
 "ixl" = (
 /obj/structure/sign/poster/random{
 	pixel_y = 32
@@ -13498,6 +13521,12 @@
 /obj/item/xenoartifact/maint,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"iOe" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/science/storage)
 "iOU" = (
 /obj/structure/table/wood,
 /obj/machinery/computer/secure_data/laptop,
@@ -17946,6 +17975,18 @@
 	},
 /turf/closed/wall/ship,
 /area/hydroponics)
+"lQG" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/atmos)
 "lQL" = (
 /obj/structure/table,
 /obj/item/clothing/suit/apron/surgical,
@@ -19715,6 +19756,9 @@
 /obj/structure/cable/white{
 	icon_state = "1-4"
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/engine/shield_generator)
 "mUK" = (
@@ -20021,6 +20065,7 @@
 /obj/machinery/door/airlock/ship/engineering{
 	req_one_access_txt = "10"
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/engine/armour_pump)
 "ncp" = (
@@ -22354,9 +22399,8 @@
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "oFt" = (
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 1
+/obj/structure/disposalpipe/segment{
+	dir = 9
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
@@ -23386,6 +23430,16 @@
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/processing)
+"pjM" = (
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/airlock/ship/engineering/glass{
+	name = "Supermatter Engine";
+	req_one_access_txt = "24"
+	},
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/engine_room)
 "pkb" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 1
@@ -23865,10 +23919,6 @@
 	},
 /turf/open/floor/carpet/ship/blue,
 /area/medical/medbay/lobby)
-"pBB" = (
-/obj/effect/landmark/zebra_interlock_point,
-/turf/closed/wall/r_wall/ship,
-/area/maintenance/department/medical/central)
 "pBR" = (
 /obj/machinery/atmospherics/pipe/simple/orange/visible/layer2,
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer4,
@@ -25494,18 +25544,6 @@
 /mob/living/carbon/monkey/punpun,
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
-"qzb" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos)
 "qzM" = (
 /obj/structure/table,
 /obj/item/paper_bin,
@@ -26744,6 +26782,10 @@
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/reactor_control)
+"rvQ" = (
+/obj/effect/landmark/zebra_interlock_point,
+/turf/closed/wall/r_wall/ship,
+/area/maintenance/department/medical/central)
 "rwr" = (
 /obj/structure/closet/crate/engineering,
 /obj/item/stack/sheet/mineral/titanium{
@@ -29206,16 +29248,6 @@
 	},
 /turf/open/floor/engine,
 /area/engine/engineering/reactor_core)
-"teZ" = (
-/obj/machinery/door/firedoor/border_only/directional/north,
-/obj/machinery/door/firedoor/border_only/directional/south,
-/obj/machinery/door/airlock/ship/engineering{
-	name = "Shield Generator";
-	req_one_access_txt = "10"
-	},
-/obj/effect/landmark/zebra_interlock_point,
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos)
 "tfi" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -33297,11 +33329,6 @@
 /obj/effect/spawner/lootdrop/costume,
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
-"waE" = (
-/obj/structure/closet/crate,
-/obj/item/xenoartifact/maint,
-/turf/open/floor/plating,
-/area/maintenance/department/engine/atmos)
 "waQ" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 6
@@ -54134,8 +54161,8 @@ pYa
 pYa
 pYa
 pYa
-pYa
-dgI
+gTF
+kcL
 ybJ
 ybJ
 rLM
@@ -54392,7 +54419,7 @@ fGD
 fGD
 fGD
 oFt
-dgI
+pjM
 ybJ
 ybJ
 jZl
@@ -54627,7 +54654,7 @@ gwi
 kuT
 bDK
 alj
-gwi
+iOe
 oWb
 mCi
 tKi
@@ -54883,7 +54910,7 @@ myC
 myC
 myC
 myC
-myC
+dHo
 myC
 ume
 ume
@@ -55140,7 +55167,7 @@ ank
 ylF
 tEQ
 jft
-dHo
+kXA
 mUD
 iSw
 ume
@@ -56428,7 +56455,7 @@ vEe
 vEe
 nbm
 iSw
-teZ
+iwC
 gIw
 pYa
 tfS
@@ -56943,7 +56970,7 @@ ico
 nbG
 ico
 ume
-qzb
+lQG
 pYa
 tfS
 nRF
@@ -57456,7 +57483,7 @@ kLY
 lhm
 nnK
 yeG
-teZ
+iwC
 gIw
 pYa
 tfS
@@ -59804,7 +59831,7 @@ eoF
 uNZ
 gLH
 tdz
-waE
+cjc
 xWq
 xWq
 xWq
@@ -72118,7 +72145,7 @@ vSI
 eyl
 lPZ
 enF
-pBB
+rvQ
 rxN
 enF
 jqV
