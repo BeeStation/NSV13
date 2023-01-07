@@ -1533,7 +1533,11 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 10
 	},
-/turf/open/floor/plating,
+/obj/machinery/door/firedoor,
+/obj/structure/cable{
+	icon_state = "8-32"
+	},
+/turf/open/openspace,
 /area/hallway/nsv/deck1/frame4/central)
 "dW" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
@@ -3651,6 +3655,9 @@
 	dir = 5
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame4/central)
 "jF" = (
@@ -6165,11 +6172,10 @@
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "oI" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 6
+/obj/machinery/atmospherics/pipe/manifold/cyan/visible{
+	dir = 8
 	},
-/obj/structure/lattice/catwalk,
-/turf/open/openspace,
+/turf/open/floor/plating,
 /area/engine/atmos)
 "oJ" = (
 /obj/effect/turf_decal/stripes/line,
@@ -6479,8 +6485,7 @@
 	dir = 1;
 	name = "N2 to Fuel Mix"
 	},
-/obj/structure/lattice/catwalk,
-/turf/open/openspace,
+/turf/open/floor/plating,
 /area/engine/atmos)
 "pw" = (
 /obj/machinery/camera/autoname{
@@ -6772,10 +6777,11 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "pY" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible,
-/obj/structure/lattice/catwalk,
-/turf/open/openspace,
-/area/engine/atmos)
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck1/frame4/central)
 "pZ" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
@@ -6835,8 +6841,7 @@
 /obj/machinery/atmospherics/pipe/simple/orange/visible{
 	dir = 4
 	},
-/obj/structure/lattice/catwalk,
-/turf/open/openspace,
+/turf/open/floor/plating,
 /area/engine/atmos)
 "qh" = (
 /obj/machinery/atmospherics/pipe/manifold/orange/visible{
@@ -7214,7 +7219,11 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 9
 	},
-/turf/open/floor/plating,
+/obj/machinery/door/firedoor,
+/obj/structure/cable{
+	icon_state = "8-32"
+	},
+/turf/open/openspace,
 /area/hallway/nsv/deck1/frame4/central)
 "qP" = (
 /obj/machinery/suit_storage_unit/hos,
@@ -10532,6 +10541,9 @@
 	req_one_access_txt = "13"
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame2/central)
 "AH" = (
@@ -11495,6 +11507,19 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/nsv/hanger/notkmcstupidhanger/launchtube/left)
+"Im" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/light/broken{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck1/frame4/central)
 "Iu" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/green/visible,
@@ -12591,6 +12616,12 @@
 "QQ" = (
 /turf/closed/wall/steel,
 /area/quartermaster/qm)
+"QR" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck1/frame4/central)
 "QX" = (
 /obj/effect/decal/nuclear_waste/epicenter,
 /turf/open/floor/plating/airless{
@@ -12689,6 +12720,16 @@
 	},
 /turf/open/floor/plating,
 /area/security/brig)
+"RE" = (
+/obj/machinery/firealarm{
+	dir = 4;
+	pixel_x = -24
+	},
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck1/frame4/central)
 "RF" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -12844,6 +12885,12 @@
 	icon_state = "panelscorched"
 	},
 /area/hallway/nsv/deck1/frame1/central)
+"SJ" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck1/frame4/central)
 "SK" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -13014,7 +13061,9 @@
 	},
 /area/maintenance/nsv/deck1/airlock/aft/starboard)
 "Um" = (
-/obj/machinery/atmospherics/pipe/multiz/layer2,
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
 "Uo" = (
@@ -13168,6 +13217,9 @@
 	req_one_access_txt = "13"
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame2/port)
 "UZ" = (
@@ -13255,10 +13307,12 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "VB" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 4
 	},
 /turf/open/floor/plating{
 	icon_state = "platingdmg3"
@@ -13613,6 +13667,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame4/central)
 "XK" = (
@@ -23054,11 +23111,11 @@ Ou
 Ou
 Ou
 lA
-lD
-lD
-lD
-lD
-QJ
+fr
+fr
+fr
+fr
+fn
 rl
 Sb
 uV
@@ -23311,10 +23368,10 @@ TV
 Ou
 fr
 lA
-oI
+iq
 pv
-zS
-pY
+oI
+rg
 qg
 rm
 JI
@@ -23568,11 +23625,11 @@ RI
 Uw
 To
 iW
-QJ
-lD
-py
-lD
-qh
+fn
+fr
+lF
+fr
+qM
 rn
 JI
 Bz
@@ -28457,9 +28514,9 @@ IU
 hc
 hc
 hc
-hc
+pY
 GV
-gk
+RE
 fw
 hc
 eJ
@@ -28714,9 +28771,9 @@ Du
 hc
 hc
 hc
+SJ
 hc
-hc
-hc
+QR
 NJ
 Lx
 jC
@@ -28971,7 +29028,7 @@ kz
 Lm
 Lm
 Lm
-ie
+Im
 Lm
 VB
 Lm

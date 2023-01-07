@@ -265,7 +265,7 @@
 /obj/effect/turf_decal/tile/green{
 	dir = 8
 	},
-/obj/machinery/hydroponics/constructable,
+/obj/machinery/chem_dispenser/mutagensaltpetersmall,
 /turf/open/floor/plating,
 /area/hydroponics)
 "aW" = (
@@ -1807,6 +1807,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/airlock/aft/port)
 "eV" = (
@@ -1814,6 +1817,9 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/structure/cable{
+	icon_state = "8-16"
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame4/central)
 "eW" = (
@@ -7168,10 +7174,10 @@
 	},
 /area/engine/break_room)
 "rg" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
-/obj/structure/disposalpipe/segment,
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
@@ -8534,6 +8540,9 @@
 /obj/machinery/light,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 9
+	},
+/obj/structure/cable{
+	icon_state = "8-16"
 	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
@@ -10621,6 +10630,9 @@
 /turf/open/floor/plating/airless,
 /area/engine/engine_room/external)
 "Cf" = (
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 4
+	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
@@ -10824,6 +10836,12 @@
 /obj/item/ship_weapon/parts/missile/warhead,
 /turf/open/floor/plating,
 /area/nsv/weapons)
+"DX" = (
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck2/frame4/central)
 "Eb" = (
 /obj/structure/disposalpipe/trunk{
 	dir = 8
@@ -12471,6 +12489,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 6
 	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
@@ -12884,6 +12905,16 @@
 /obj/structure/sign/nanotrasen,
 /turf/closed/wall/steel,
 /area/maintenance/nsv/deck2/airlock/forward/port)
+"Sa" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck2/frame4/central)
 "Sd" = (
 /obj/machinery/light/broken{
 	dir = 1
@@ -13559,6 +13590,13 @@
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/dorms)
+"WK" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck2/frame4/central)
 "WL" = (
 /obj/machinery/light/small{
 	dir = 1
@@ -13649,6 +13687,13 @@
 	icon_state = "platingdmg2"
 	},
 /area/maintenance/nsv/deck2/starboard)
+"Xl" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck2/frame4/central)
 "Xr" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
@@ -31066,7 +31111,7 @@ uO
 Mq
 Mq
 Mq
-Mq
+DX
 iA
 Cf
 Bf
@@ -31368,8 +31413,8 @@ mt
 ng
 ng
 ng
-ng
-ng
+WK
+Xl
 rg
 FR
 JF
@@ -31670,8 +31715,8 @@ kU
 lL
 Xa
 Xa
-Xa
-Xa
+fG
+Sa
 gC
 LI
 IL
