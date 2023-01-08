@@ -18,6 +18,9 @@
 	w_class = WEIGHT_CLASS_BULKY
 	projectile_type = /obj/item/projectile/bullet/broadside/plasma
 
+/obj/item/ship_weapon/ammunition/broadside_shell/can_be_pulled(mob/user)
+	return TRUE
+
 /obj/item/circuitboard/machine/broadside_shell_packer
 	name = "circuit board (Broadside Shell Packer)"
 	desc = "Pack the shells and get that ice cream ration pack from the kitchen!"
