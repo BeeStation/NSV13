@@ -467,3 +467,36 @@
 
 	if(!active_donators.len)
 		active_donators = null
+
+// DEBUG MAP DETAIL VIEWER
+/datum/controller/configuration/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "MapDetails")
+		ui.open()
+
+/datum/controller/configuration/ui_state(mob/user)
+	return GLOB.always_state
+
+/datum/controller/configuration/ui_data(mob/user)
+	var/static/list/base64_cache = list()
+	var/list/data = list("choices" = list())
+
+	for(var/key in maplist)
+		var/datum/map_config/map_data = maplist[key]
+		data["choices"][key] = list()
+		data["choices"][key]["votes"] = 0
+		data["choices"][key]["description"] = map_data.map_description
+		data["choices"][key]["shipType"] = map_data.ship_type
+
+		var/base64
+		if(!base64)
+			if(base64_cache[map_data.ship_type])
+				base64 = base64_cache[map_data.ship_type]
+			else
+				var/obj/typedef = map_data.ship_type
+				base64 = icon2base64(icon(initial(typedef.icon), initial(typedef.icon_state), frame=1))
+				base64_cache[map_data.ship_type] = base64
+		data["choices"][key]["img"] = base64
+
+	return data
