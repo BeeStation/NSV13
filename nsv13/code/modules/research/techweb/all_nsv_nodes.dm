@@ -60,7 +60,7 @@
 	display_name = "Advanced Ballistics"
 	description = "More guns means better guns... Right?"
 	prereq_ids = list("ballistic_weapons")
-	design_ids = list("naval_shell", "powder_bag", "gauss_rack_upgrade")
+	design_ids = list("naval_shell", "powder_bag", "gauss_rack_upgrade", "broadside_casing", "broadside_load", "broadside_packer")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
 

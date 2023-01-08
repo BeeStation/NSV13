@@ -77,14 +77,20 @@
 
 /obj/item/ship_weapon/ammunition/Bumped()
 	if(has_gravity())
-		move_resist = MOVE_FORCE_EXTREMELY_STRONG
+		if(w_class <= WEIGHT_CLASS_BULKY)
+			move_resist = MOVE_FORCE_WEAK
+		else
+			move_resist = MOVE_FORCE_EXTREMELY_STRONG
 	else
 		move_resist = MOVE_FORCE_WEAK
 	..()
 
 /obj/item/ship_weapon/ammunition/Move()
 	if(has_gravity())
-		move_resist = MOVE_FORCE_EXTREMELY_STRONG
+		if(w_class <= WEIGHT_CLASS_BULKY)
+			move_resist = MOVE_FORCE_WEAK
+		else
+			move_resist = MOVE_FORCE_EXTREMELY_STRONG
 	else
 		move_resist = MOVE_FORCE_WEAK
 	..()

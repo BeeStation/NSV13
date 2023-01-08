@@ -577,3 +577,21 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/beam/laser/phaser
 	damage = 30
 	flag = "overmap_medium"
+
+/obj/item/projectile/bullet/broadside
+	name = "broadside shell"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "broadside"
+	damage = 75
+	obj_integrity = 500
+	flag = "overmap_heavy"
+	spread = 25
+	speed = 1
+
+/obj/item/projectile/bullet/broadside/plasma
+	name = "plasma-packed broadside shell"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "broadside_plasma"
+	damage = 125
+	armour_penetration = 10
+	speed = 0.4

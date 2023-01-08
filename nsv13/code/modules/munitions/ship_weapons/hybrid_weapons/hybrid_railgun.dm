@@ -96,7 +96,7 @@
 
 /obj/machinery/ship_weapon/hybrid_rail/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
 	set waitfor = FALSE //As to not hold up any feedback messages.
-	if(can_fire(shots))
+	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
 		for(var/i = 0, i < shots, i++)
