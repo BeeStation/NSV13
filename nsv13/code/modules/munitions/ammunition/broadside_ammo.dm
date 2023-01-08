@@ -154,6 +154,32 @@
 	update_icon()
 	return
 
+/obj/machinery/broadside_shell_packer/AltClick(mob/user)
+	if(..())
+		return
+
+	if(casing_amount == amount_to_pack && load_amount == amount_to_pack && bag_amount == 1)
+		icon_state = "packing_bench_loading"
+		cut_overlays()
+		to_chat(user, "<span class='notice'>The table starts to stuff the shell casings!</span>")
+		play_click_sound("switch")
+		playsound(user, 'nsv13/sound/effects/ship/mac_load.ogg', 20)
+		sleep(0.5 SECONDS)
+		for(var/i in 1 to amount_to_pack)
+			if(plasma)
+				new /obj/item/ship_weapon/ammunition/broadside_shell/plasma(get_turf(src))
+			else if(gunpowder)
+				new /obj/item/ship_weapon/ammunition/broadside_shell(get_turf(src))
+		reset()
+	else
+		if(casing_amount < amount_to_pack)
+			to_chat(user, "<span class='warning'>The table is missing [amount_to_pack - casing_amount] casings!</span>")
+		if(load_amount < amount_to_pack)
+			to_chat(user, "<span class='warning'>The table is missing [amount_to_pack - load_amount] loads!</span>")
+		if(bag_amount < 1)
+			to_chat(user, "<span class='warning'>The table is missing a bag!</span>")
+	return
+
 /obj/machinery/broadside_shell_packer/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
