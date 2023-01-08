@@ -479,24 +479,44 @@
 	return GLOB.always_state
 
 /datum/controller/configuration/ui_data(mob/user)
-	var/static/list/base64_cache = list()
 	var/list/data = list("choices" = list())
 
 	for(var/key in maplist)
-		var/datum/map_config/map_data = maplist[key]
-		data["choices"][key] = list()
-		data["choices"][key]["votes"] = 0
-		data["choices"][key]["description"] = map_data.map_description
-		data["choices"][key]["shipType"] = map_data.ship_type
+		data["choices"][key] = 0
 
+	return data
+
+/datum/controller/configuration/ui_static_data(mob/user)
+	var/static/list/base64_cache = list()
+
+	var/list/all_map_info = list()
+
+	for(var/key in maplist)
+		var/datum/map_config/map_data = maplist[key]
+
+		var/obj/structure/overmap/typedef = map_data.ship_type
+		
 		var/base64
 		if(!base64)
 			if(base64_cache[map_data.ship_type])
 				base64 = base64_cache[map_data.ship_type]
 			else
-				var/obj/typedef = map_data.ship_type
 				base64 = icon2base64(icon(initial(typedef.icon), initial(typedef.icon_state), frame=1))
 				base64_cache[map_data.ship_type] = base64
-		data["choices"][key]["img"] = base64
 
+		var/list/map_info = list(
+			"img" = base64,
+			"shipClass" = initial(typedef.name),
+			"manufacturer" = map_data.manufacturer,
+			"patternDate" = map_data.pattern_date,
+			"strengths" = map_data.strengths,
+			"weaknesses" = map_data.weaknesses,
+			"weapons" = map_data.weapons,
+			"durability" = initial(typedef.max_integrity),
+			"engine" = map_data.engine_type
+		)
+
+		all_map_info[key] = map_info
+
+	var/list/data = list("mapInfo" = all_map_info)
 	return data

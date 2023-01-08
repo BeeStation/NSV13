@@ -15,7 +15,6 @@
 
 	//NSV edits all over
 	var/map_name = "NSV Atlas - DEFAULTED"
-	var/map_description = null
 	var/map_link = null //This is intentionally wrong, this will make it not link to webmap.
 	var/map_path = "map_files/Atlas"
 	var/map_file = list("atlas.dmm", "atlas2.dmm")
@@ -28,6 +27,14 @@
 	var/list/omode_whitelist = list() //NSV13 - Whitelisted overmap modes - ie add modes
 	var/starmap_path = CONFIG_DIRECTORY + "/" + STARMAP_FILE //NSV13 - What starmap should this map load?
 	var/mine_traits = null
+
+	//NSV13 - special mapvote things
+	var/manufacturer
+	var/pattern_date
+	var/list/strengths
+	var/list/weaknesses
+	var/list/weapons
+	var/engine_type
 
 	var/traits = list(
 		list(
@@ -95,8 +102,6 @@
 
 	CHECK_EXISTS("map_name")
 	map_name = json["map_name"]
-	if("map_description" in json)
-		map_description = json["map_description"]
 	CHECK_EXISTS("map_path")
 	map_path = json["map_path"]
 
@@ -184,6 +189,18 @@
 		omode_whitelist = json["omode_whitelist"]
 	if("starmap_path" in json)
 		starmap_path = json["starmap_path"]
+	if("manufacturer" in json)
+		manufacturer = json["manufacturer"]
+	if("pattern_date" in json)
+		pattern_date = json["pattern_date"]
+	if("strengths" in json)
+		strengths = json["strengths"]
+	if("weaknesses" in json)
+		weaknesses = json["weaknesses"]
+	if("weapons" in json)
+		weapons = json["weapons"]
+	if("engine_type" in json)
+		engine_type = json["engine_type"]
 
 	CHECK_EXISTS("ship_type")
 	if("ship_type" in json)
