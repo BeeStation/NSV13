@@ -29,6 +29,7 @@
 	var/mine_traits = null
 
 	//NSV13 - special mapvote things
+	var/map_description
 	var/manufacturer
 	var/pattern_date
 	var/list/strengths
@@ -189,6 +190,8 @@
 		omode_whitelist = json["omode_whitelist"]
 	if("starmap_path" in json)
 		starmap_path = json["starmap_path"]
+	if("map_description" in json)
+		map_description = json["map_description"]
 	if("manufacturer" in json)
 		manufacturer = json["manufacturer"]
 	if("pattern_date" in json)

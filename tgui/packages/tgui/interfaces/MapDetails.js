@@ -19,7 +19,7 @@ export const MapDetails = (props, context) => {
       <Window.Content>
         <Flex>
           {/* Left side - list of maps to select from and the vote button */}
-          <Flex.Item m={1} mr={1}>
+          <Flex.Item m={1}>
             <Section fill fitted>
               <Tabs vertical>
                 {Object.keys(choices).map(choice => (
@@ -31,93 +31,99 @@ export const MapDetails = (props, context) => {
                   </Tabs.Tab>
                 ))}
               </Tabs>
-              <Button content="Vote" />
+              <Button content="Vote" fluid />
             </Section>
           </Flex.Item>
           {/* Map data pane */}
           <Flex.Item
             position="relative"
             m={1}
-            grow={1}>
+            grow={1}
+            basis={0}>
             <Section title={selectedChoice}>
               {!!selectedChoice && (
-                <Table>
-                  <Table.Row>
+                <>
+                  <Section>
                     {/* Top left - Icon or image */}
-                    <Table.Cell>
-                      {selectedChoiceData.img ? (
-                        <img
-                          src={`data:image/jpeg;base64,${selectedChoiceData.img}`}
-                          style={{
-                            'vertical-align': 'middle',
-                            'horizontal-align': 'middle',
-                          }} />
-                      ) : (
-                        <span
-                          className={classes([
-                            'ship32x32',
-                            selectedChoiceData.path,
-                          ])}
-                          style={{
-                            'vertical-align': 'middle',
-                            'horizontal-align': 'middle',
-                          }} />
-                      )}
-                    </Table.Cell>
-                    {/* Top right - class, manufacturer, design date, description */}
-                    <Table.Cell>
-                      <LabeledList>
-                        <LabeledList.Item label="Ship Class">
-                          {selectedChoiceData.shipClass}
-                        </LabeledList.Item>
-                        <LabeledList.Item label="Manufacturer">
-                          {selectedChoiceData.manufacturer}
-                        </LabeledList.Item>
-                        <LabeledList.Item label="Pattern Commission Date">
-                          {selectedChoiceData.patternDate}
-                        </LabeledList.Item>
-                      </LabeledList>
-                    </Table.Cell>
-                  </Table.Row>
-                  {/* Middle - pros and cons */}
-                  <Table.Row>
-                    <Table.Cell>
-                      <Section title="Strengths">
-                        {!!selectedChoiceData.strengths && (
-                          <ul>
-                            {selectedChoiceData.strengths.map(strength => (
-                              <li key={strength}>
-                                {strength}
-                              </li>
-                            ))}
-                          </ul>
+                    <Flex direction="row">
+                      <Flex.Item m={1}>
+                        {selectedChoiceData.img ? (
+                          <img
+                            src={`data:image/jpeg;base64,${selectedChoiceData.img}`}
+                            style={{
+                              'vertical-align': 'middle',
+                              'horizontal-align': 'middle',
+                            }} />
+                        ) : (
+                          <span
+                            className={classes([
+                              'ship32x32',
+                              selectedChoiceData.path,
+                            ])}
+                            style={{
+                              'vertical-align': 'middle',
+                              'horizontal-align': 'middle',
+                            }} />
                         )}
-                      </Section>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Section title="Weaknesses">
-                        {!!selectedChoiceData.weaknesses && (
-                          <ul>
-                            {selectedChoiceData.weaknesses.map(weakness => (
-                              <li key={weakness}>
-                                {weakness}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </Section>
-                    </Table.Cell>
-                  </Table.Row>
-                  {/* Loadout and stats */}
-                  <Table.Row>
-                    <Table.Cell>
-                      What&apos;s on the map
-                    </Table.Cell>
-                    <Table.Cell>
-                      Dynamic stats
-                    </Table.Cell>
-                  </Table.Row>
-                </Table>
+                      </Flex.Item>
+                      {/* Top right - class, manufacturer, design date, description */}
+                      <Flex.Item m={1} mb={5} grow={1}>
+                        <LabeledList collapsing>
+                          <LabeledList.Item label="Ship Class">
+                            {selectedChoiceData.shipClass}
+                          </LabeledList.Item>
+                          <LabeledList.Item label="Manufacturer">
+                            {selectedChoiceData.manufacturer}
+                          </LabeledList.Item>
+                          <LabeledList.Item label="Pattern Commission Date">
+                            {selectedChoiceData.patternDate}
+                          </LabeledList.Item>
+                        </LabeledList>
+                      </Flex.Item>
+                    </Flex>
+                    {selectedChoiceData.description}
+                  </Section>
+                  <Table>
+                    {/* Middle - pros and cons */}
+                    <Table.Row>
+                      <Table.Cell>
+                        <Section title="Strengths">
+                          {!!selectedChoiceData.strengths && (
+                            <ul>
+                              {selectedChoiceData.strengths.map(strength => (
+                                <li key={strength}>
+                                  {strength}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </Section>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Section title="Weaknesses">
+                          {!!selectedChoiceData.weaknesses && (
+                            <ul>
+                              {selectedChoiceData.weaknesses.map(weakness => (
+                                <li key={weakness}>
+                                  {weakness}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </Section>
+                      </Table.Cell>
+                    </Table.Row>
+                    {/* Loadout and stats */}
+                    <Table.Row>
+                      <Table.Cell>
+                        What&apos;s on the map
+                      </Table.Cell>
+                      <Table.Cell>
+                        Dynamic stats
+                      </Table.Cell>
+                    </Table.Row>
+                  </Table>
+                </>
               )}
             </Section>
           </Flex.Item>

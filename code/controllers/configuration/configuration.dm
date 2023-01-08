@@ -507,6 +507,7 @@
 		var/list/map_info = list(
 			"img" = base64,
 			"shipClass" = initial(typedef.name),
+			"description" = map_data.map_description,
 			"manufacturer" = map_data.manufacturer,
 			"patternDate" = map_data.pattern_date,
 			"strengths" = map_data.strengths,
