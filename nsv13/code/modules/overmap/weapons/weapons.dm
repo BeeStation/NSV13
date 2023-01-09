@@ -58,7 +58,6 @@
 			if(world.time < SW.next_firetime) //Silence, SPAM.
 				return FALSE
 			to_chat(user_override, SW.failure_alert)
-	return FALSE
 
 /obj/structure/overmap/proc/get_max_firemode()
 	if(mass < MASS_MEDIUM) //Small craft dont get a railgun
