@@ -17,6 +17,7 @@
 	store_file(new/datum/computer_file/program/computerconfig(src)) 	// Computer configuration utility, allows hardware control and displays more info than status bar
 	store_file(new/datum/computer_file/program/ntnetdownload(src))		// NTNet Downloader Utility, allows users to download more software from NTNet repository
 	store_file(new/datum/computer_file/program/filemanager(src))		// File manager, allows text editor functions and basic file manipulation.
+	store_file(new/datum/computer_file/program/databank_uplink(src))	// NSV13 - Wiki Uplink in Modular Computer form, allows the computer to access the NSV13 Wiki!
 
 /obj/item/computer_hardware/hard_drive/examine(user)
 	. = ..()
