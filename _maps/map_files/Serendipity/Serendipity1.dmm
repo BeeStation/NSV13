@@ -645,7 +645,6 @@
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/captain/private)
 "cj" = (
-/obj/machinery/stasis,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -653,6 +652,9 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/ship/blue,
+/obj/machinery/computer/crew{
+	dir = 4
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/nsv/trauma)
 "cl" = (
@@ -2571,6 +2573,9 @@
 	req_one_access_txt = "19"
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/cic)
 "is" = (
@@ -3031,6 +3036,32 @@
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/lockup)
+"ka" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "Bridge";
+	req_access_txt = "19";
+	req_one_access_txt = "19"
+	},
+/obj/effect/landmark/zebra_interlock_point,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
+/turf/open/floor/plasteel/tiled/light,
+/area/bridge/cic)
 "kb" = (
 /obj/item/wrench/medical,
 /obj/structure/table/glass/plasma,
@@ -4493,6 +4524,15 @@
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 1
 	},
+/obj/structure/table/glass/plasma,
+/obj/item/storage/firstaid/regular{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/storage/firstaid/regular{
+	pixel_x = 6;
+	pixel_y = 6
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/medbay/lobby)
 "pk" = (
@@ -5416,12 +5456,11 @@
 /area/medical/virology)
 "sB" = (
 /obj/machinery/firealarm/directional/west,
-/obj/structure/table/glass/plasma,
-/obj/item/megaphone/command,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/yellow,
+/obj/machinery/conquest_beacon/nanotrasen,
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/cic)
 "sC" = (
@@ -6027,6 +6066,7 @@
 /obj/effect/turf_decal/tile/yellow,
 /obj/item/paper_bin,
 /obj/item/pen/blue,
+/obj/item/megaphone/command,
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/cic)
 "uI" = (
@@ -7552,6 +7592,19 @@
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/brig)
+"zM" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/ship/blue{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/ship/blue,
+/obj/machinery/computer/med_data{
+	dir = 8
+	},
+/turf/open/floor/plasteel/tiled/light,
+/area/medical/nsv/trauma)
 "zN" = (
 /obj/structure/rack,
 /obj/item/ammo_box/magazine/sniper_rounds{
@@ -7975,6 +8028,26 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/genetics/cloning)
+"Bf" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "Bridge";
+	req_access_txt = "19";
+	req_one_access_txt = "19"
+	},
+/obj/effect/landmark/zebra_interlock_point,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
+/turf/open/floor/plasteel/tiled/light,
+/area/bridge/cic)
 "Bg" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 1
@@ -10043,12 +10116,9 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/nsv/trauma)
 "Ig" = (
-/obj/item/storage/bag/tray,
-/obj/item/storage/backpack/duffelbag/med/surgery,
 /obj/machinery/defibrillator_mount/loaded{
 	pixel_y = 24
 	},
-/obj/structure/table/glass/plasma,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -10056,6 +10126,9 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/ship/blue,
+/obj/structure/chair/office/light{
+	dir = 8
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/nsv/trauma)
 "Ij" = (
@@ -10953,12 +11026,12 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/structure/disposalpipe/segment,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/effect/mapping_helpers/airlock/unres,
 /obj/machinery/door/airlock/ship/station/research/glass{
 	dir = 1;
-	name = "Research Lobby";
-	req_one_access_txt = "47"
+	name = "Research Lobby"
 	},
-/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science)
 "KX" = (
@@ -11464,8 +11537,7 @@
 "Mu" = (
 /obj/machinery/door/airlock/ship/station/research/glass{
 	dir = 1;
-	name = "Research Lobby";
-	req_one_access_txt = "47"
+	name = "Research Lobby"
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -11474,6 +11546,7 @@
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/effect/mapping_helpers/airlock/unres,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science)
 "Mw" = (
@@ -11762,7 +11835,6 @@
 /turf/open/floor/grass,
 /area/crew_quarters/dorms/nsv/nature_deck)
 "NA" = (
-/obj/machinery/computer/operating,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -12637,6 +12709,15 @@
 	},
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 1
+	},
+/obj/structure/table/glass/plasma,
+/obj/item/storage/firstaid/regular{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/storage/firstaid/regular{
+	pixel_x = 6;
+	pixel_y = 6
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/medbay/lobby)
@@ -13668,6 +13749,9 @@
 	req_one_access_txt = "19"
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/cic)
 "Ug" = (
@@ -46566,7 +46650,7 @@ jt
 JT
 yb
 aU
-cj
+zM
 gW
 oa
 pA
@@ -54295,14 +54379,14 @@ Qn
 Qn
 Qn
 fx
-Uf
+Bf
 fx
 fx
 fx
 fx
 fx
 fx
-ir
+ka
 fx
 tK
 rL
