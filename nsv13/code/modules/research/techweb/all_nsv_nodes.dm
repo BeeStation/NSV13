@@ -154,3 +154,49 @@
 	prereq_ids = list("fightergun2", "adv_weaponry")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
+
+//Vehicle Hardpoint tech
+/datum/techweb_node/vehicle_start
+	id = "vehicle_start"
+	display_name = "Mechanical Research"
+	description = "Researching the possibility of expanding the usage behind those useless Tugs"
+	design_ids = list("vehicle_engine_pathetic")
+	prereq_ids = list("engineering")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1500)
+	export_price = 1000
+
+/datum/techweb_node/vehicle_utility
+	id = "vehicle_utility"
+	display_name = "Vehicle Utilities"
+	description = "Researching the value behind Bobbleheads and Tug Air Fresheners."
+	design_ids = list("vehicle_crate_loader", "vehicle_cryo_stasis")
+	prereq_ids = list("vehicle_start")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
+	export_price = 2000
+
+/datum/techweb_node/vehicle_tier1
+	id = "vehicle_tier1"
+	display_name = "Standard Vehicle Parts"
+	description = "Researching the strange spinning thingies found attached to the side of the Tug and what the loud rumbling box inside the Tug does."
+	design_ids = list("vehicle_engine", "vehicle_tyres")
+	prereq_ids = list("vehicle_start")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+	export_price = 2500
+
+/datum/techweb_node/vehicle_tier2
+	id = "vehicle_tier2"
+	display_name = "Advanced Vehicle Parts"
+	description = "Researching the strange connection between drifting and a string of Murders caused by Janitors."
+	design_ids = list("vehicle_engine_upgraded", "vehicle_tyres_upgraded")
+	prereq_ids = list("vehicle_tier1")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3500)
+	export_price = 3500
+
+/datum/techweb_node/vehicle_tier3
+	id = "vehicle_tier3"
+	display_name = "Glorious Trukk Parts"
+	description = "DA RED WUNS GO FASTA!!!"
+	design_ids = list("vehicle_engine_maxupgrade", "vehicle_tyres_maxupgrade")
+	prereq_ids = list("vehicle_tier2")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 5000
