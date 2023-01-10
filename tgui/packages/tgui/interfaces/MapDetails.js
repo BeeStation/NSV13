@@ -66,7 +66,7 @@ export const MapDetails = (props, context) => {
                             }} />
                         )}
                       </Flex.Item>
-                      {/* Top right - class, manufacturer, design date, description */}
+                      {/* Top right - class, manufacturer, design date */}
                       <Flex.Item m={1} mb={5} grow={1}>
                         <LabeledList collapsing>
                           <LabeledList.Item label="Ship Class">
@@ -81,6 +81,7 @@ export const MapDetails = (props, context) => {
                         </LabeledList>
                       </Flex.Item>
                     </Flex>
+                    {/* Description */}
                     {selectedChoiceData.description}
                   </Section>
                   <Table>
