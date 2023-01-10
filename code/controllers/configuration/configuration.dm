@@ -62,6 +62,8 @@
 	LoadProtectedIDs()
 	LoadChatFilter()
 
+	populate_interaction_instances() //NSV13 - Interactions Menu
+
 	if (Master)
 		Master.OnConfigLoad()
 
