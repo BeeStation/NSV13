@@ -274,6 +274,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	else if(power > POWER_PENALTY_THRESHOLD)
 		investigate_log("has spawned additional energy balls.", INVESTIGATE_ENGINES)
 
+	SSblackbox.record_feedback("nested tally", "engine_failures", 1, list(SSmapping.config.map_name, "supermatter")) //NSV13 - engine failure tracking
 	qdel(src)
 
 //this is here to eat arguments
