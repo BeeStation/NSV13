@@ -25,10 +25,10 @@
 		interactions.Add(interaction)
 
 /datum/component/interactable/RegisterWithParent()
-	RegisterSignal(parent, COMSIG_CLICK_CTRL_SHIFT, .proc/open_interaction_menu)
+	RegisterSignal(parent, COMSIG_CLICK_ALT, .proc/open_interaction_menu)
 
 /datum/component/interactable/UnregisterFromParent()
-	UnregisterSignal(parent, COMSIG_CLICK_CTRL_SHIFT)
+	UnregisterSignal(parent, COMSIG_CLICK_ALT)
 
 /datum/component/interactable/Destroy(force, silent)
 	self = null
