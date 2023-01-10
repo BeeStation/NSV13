@@ -1,7 +1,5 @@
 #define INTERACTION_JSON_FOLDER "config/interactions/"
 
-GLOBAL_LIST_EMPTY_TYPED(interaction_instances, /datum/interaction)
-
 // Special values
 #define INTERACTION_MAX_CHAR 255
 #define INTERACTION_COOLDOWN 1 SECONDS

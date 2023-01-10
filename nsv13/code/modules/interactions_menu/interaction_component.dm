@@ -7,7 +7,7 @@
 	var/interact_next = 0
 
 /datum/component/interactable/Initialize(...)
-	.if(QDELETED(parent))
+	if(QDELETED(parent))
 		qdel(src)
 		return
 
@@ -78,4 +78,32 @@
 			categories[interaction.category] += interaction.name
 		descriptions[interaction.name] = interaction.description
 		colors[interaction.name] = interaction.color
+	data["categories"] = list()
+	data["descriptions"] = descriptions
+	data["colors"] = colors
+	for(var/category in categories)
+		data["categories"] += category
+	data["ref_user"] = REF(user)
+	data["ref_self"] = REF(self)
+	data["self"] = self.name
+	data["block_interact"] = interact_next >= world.time
+	data["interactions"] = categories
+	return data
 
+/datum/component/interactable/ui_act(action, list/params)
+	. = ..()
+	if(.)
+		return
+	if(params["interaction"])
+		var/interaction_id = params["interaction"]
+		if(GLOB.interaction_instances[interaction_id])
+			var/mob/living/carbon/human/user = locate(params["userref"])
+			if(!can_interact(GLOB.interaction_instances[interaction_id], user))
+				return FALSE
+			GLOB.interaction_instances[interaction_id].act(user, locate(params["selfref"]))
+			var/datum/component/interactable/interaction_component = user.GetComponent(/datum/component/interactable)
+			interaction_component.interact_last = world.time
+			interact_next = interaction_component.interact_last + INTERACTION_COOLDOWN
+			interaction_component.interact_next = interact_next
+			return TRUE
+	message_admins("Unhandled interaction '[params["interaction"]]'. Inform coders.")

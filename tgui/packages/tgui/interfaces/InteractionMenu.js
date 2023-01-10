@@ -5,7 +5,7 @@ import { Window } from '../layouts';
 
 export const InteractionMenu = (props, context) => {
   const { act, data } = useBackend(context);
-  const { categories, ints, descs } = data; // Interaction categories
+  const { categories, interactions, descriptions, colors } = data;
   const { self, ref_self, ref_user } = data;
   const { block_interact } = data;
 
@@ -20,17 +20,17 @@ export const InteractionMenu = (props, context) => {
         <Section key="interactions">
           {categories.map((category) => (
             <Section key={category} title={category}>
-              {ints[category].map((interaction) => (
+              {interactions[category].map((interaction) => (
                 <Section key={interaction}>
                   <left>
                     <Button margin={0} padding={0}
                       disabled={block_interact}
-                      color={block_interact ? "grey" : "blue"}
+                      color={block_interact ? "grey" : colors[interaction]}
                       content={interaction}
                       icon="exclamation-circle"
                       onClick={() => act('interact', { interaction: interaction, selfref: ref_self, userref: ref_user })}
                     /><br />
-                    {descs[interaction]}
+                    {descriptions[interaction]}
                   </left>
                 </Section>
               ))}

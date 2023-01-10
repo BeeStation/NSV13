@@ -194,6 +194,7 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/client/proc/cmd_display_init_log,
 	/client/proc/cmd_display_overlay_log,
 	/client/proc/reload_configuration,
+	/client/proc/reload_interactions, //NSV13 - Interactions Menu
 	/client/proc/give_all_spells,
 	/datum/admins/proc/create_or_modify_area,
 	/datum/admins/proc/fixcorruption,
