@@ -311,10 +311,13 @@
 	if(replacementmode && round_converted == 2)
 		return replacementmode.check_finished()
 	if(GLOB.crew_transfer_risa)
+		SSblackbox.record_feedback("nested_tally", "mission_status", 1, list(SSmapping.config.map_name, "victory")) //NSV13 - round end tracking
 		return TRUE
 	if(SSshuttle.emergency && (SSshuttle.emergency.mode == SHUTTLE_ENDGAME))
+		SSblackbox.record_feedback("nested_tally", "mission_status", 1, list(SSmapping.config.map_name, "emergency_shuttle")) //NSV13 - round end tracking
 		return TRUE
 	if(station_was_nuked)
+		SSblackbox.record_feedback("nested_tally", "mission_status", 1, list(SSmapping.config.map_name, "nuked")) //NSV13 - round end tracking
 		return TRUE
 	var/list/continuous = CONFIG_GET(keyed_list/continuous)
 	var/list/midround_antag = CONFIG_GET(keyed_list/midround_antag)
