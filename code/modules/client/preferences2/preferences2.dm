@@ -214,7 +214,8 @@
 			all_quirks,
 			equipped_gear,
 			preferred_squad,
-			preferred_pilot_role
+			preferred_pilot_role,
+			alt_job_titles
 		FROM [format_table_name("characters")] WHERE
 			ckey=:ckey
 	"}, list("ckey" = parent.ckey))

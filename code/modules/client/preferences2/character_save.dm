@@ -156,6 +156,11 @@
 	//NSV13 pilot role
 	SAFE_READ_QUERY(33, preferred_pilot_role)
 
+	//NSV13 - Alternative Job Titles
+	var/alt_title_tmp
+	SAFE_READ_QUERY(34, alt_title_tmp)
+	alt_job_titles = json_decode(alt_title_tmp)
+
 	//Sanitize. Please dont put query reads below this point. Please.
 
 	real_name = reject_bad_name(real_name, pref_species.allow_numbers_in_name)
@@ -336,7 +341,8 @@
 			all_quirks,
 			equipped_gear,
 			preferred_squad,
-			preferred_pilot_role
+			preferred_pilot_role,
+			alt_job_titles
 		) VALUES (
 			:slot,
 			:ckey,
@@ -371,7 +377,8 @@
 			:all_quirks,
 			:equipped_gear,
 			:preferred_squad,
-			:preferred_pilot_role
+			:preferred_pilot_role,
+			:alt_job_titles
 		)
 	"}, list(
 		// Now for the above but in a fucking monsterous list
@@ -408,7 +415,8 @@
 		"all_quirks" = json_encode(all_quirks),
 		"equipped_gear" = json_encode(equipped_gear),
 		"preferred_squad" = preferred_squad,
-		"preferred_pilot_role" = preferred_pilot_role
+		"preferred_pilot_role" = preferred_pilot_role,
+		"alt_job_titles" = json_encode(alt_job_titles)
 	))
 
 	if(!insert_query.warn_execute())
