@@ -33,7 +33,8 @@
 	alt_titles = list(
 		"Bartender",
 		"Mixologist",
-		"Barkeeper"
+		"Barkeeper",
+		"Barista"
 		)
 
 /datum/job/botanist
@@ -42,7 +43,16 @@
 		"Hydroponicist",
 		"Gardener",
 		"Botanical Researcher",
-		"Herbalist"
+		"Herbalist",
+		"Florist"
+		)
+
+/datum/job/brig_physician
+	alt_titles = list(
+		"Brig Physician",
+		"Field Medic",
+		"Corpsman",
+		"Combat Medic"
 		)
 
 /datum/job/captain
@@ -71,7 +81,8 @@
 	alt_titles = list(
 		"Chemist",
 		"Pharmacist",
-		"Pharmacologist"
+		"Pharmacologist",
+		"Trainee Pharmacist"
 		)
 
 /datum/job/chief_engineer
@@ -85,7 +96,9 @@
 	alt_titles = list(
 		"Chief Medical Officer",
 		"Medical Director",
-		"Head of Medical"
+		"Head of Medical",
+		"Chief Physician",
+		"Head Physician"
 		)
 
 /datum/job/clown
@@ -93,7 +106,8 @@
 		"Clown",
 		"Jester",
 		"Ship Mascot",
-		"Loud Menace"
+		"Loud Menace",
+		"Comedian"
 		)
 
 /datum/job/cook
@@ -176,8 +190,10 @@
 	alt_titles = list(
 		"Janitor",
 		"Custodian",
-		"Custodial Technicial",
-		"Sanitation Technician"
+		"Custodial Technician",
+		"Sanitation Technician",
+		"Maintenance Technician",
+		"Concierge"
 		)
 
 /datum/job/lawyer
@@ -188,7 +204,8 @@
 		"Defence Attorney",
 		"Public Defender",
 		"Barrister",
-		"Prosecutor"
+		"Prosecutor",
+		"Legal Clerk"
 		)
 
 /datum/job/mime
@@ -220,8 +237,9 @@
 	alt_titles = list(
 		"Quartermaster",
 		"Deck Chief",
-		"Cargo Foreman",
-		"Requisition Officer"
+		"Supply Foreman",
+		"Requisition Officer",
+		"Logistics Officer"
 		)
 
 /datum/job/research_director
@@ -238,7 +256,8 @@
 	alt_titles = list(
 		"Roboticist",
 		"Biomechanical Engineer",
-		"Mechatronic Engineer"
+		"Mechatronic Engineer",
+		"Apprentice Roboticist"
 		)
 
 /datum/job/scientist
@@ -250,20 +269,16 @@
 		"Lab Technician",
 		"Theoretical Physicist",
 		"Xenobiologist",
-		"Xenoarchaeologist"
-		)
-
-/datum/job/brig_physician
-	alt_titles = list(
-		"Brig Physician",
-		"Field Medic",
-		"Corpsman"
+		"Xenoarchaeologist",
+		"Research Assistant",
+		"Graduate Student"
 		)
 
 /datum/job/security_officer
 	alt_titles = list(
 		"Military Police",
-		"Peacekeeper"
+		"Peacekeeper",
+		"Military Police Cadet"
 		)
 
 /datum/job/shaft_miner
@@ -282,13 +297,16 @@
 		"Electrician",
 		"Engine Technician",
 		"EVA Technician",
-		"Mechanic"
+		"Mechanic",
+		"Apprentice Engineer",
+		"Engineering Trainee"
 		)
 
 /datum/job/virologist
 	alt_titles = list(
 		"Virologist",
-		"Pathologist"
+		"Pathologist",
+		"Junior Pathologist"
 		)
 
 /datum/job/warden
