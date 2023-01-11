@@ -332,11 +332,13 @@
 		humanc = character	//Let's retypecast the var to be human,
 
 	if(humanc)	//These procs all expect humans
-		GLOB.data_core.manifest_inject(humanc)
+		//NSV13 - Edit Changes START - Alternative Job Titles
+		var/chosen_rank = humanc.client?.prefs.active_character.alt_job_titles[rank] || rank
+		GLOB.data_core.manifest_inject(humanc, humanc.client)
 		if(SSshuttle.arrivals)
-			SSshuttle.arrivals.QueueAnnounce(humanc, rank)
+			SSshuttle.arrivals.QueueAnnounce(humanc, chosen_rank)
 		else
-			AnnounceArrival(humanc, rank)
+			AnnounceArrival(humanc, chosen_rank)
 		AddEmploymentContract(humanc)
 		if(GLOB.highlander)
 			to_chat(humanc, "<span class='userdanger'><i>THERE CAN BE ONLY ONE!!!</i></span>")
@@ -349,8 +351,8 @@
 		if(GLOB.curse_of_madness_triggered)
 			give_madness(humanc, GLOB.curse_of_madness_triggered)
 
-		SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CREWMEMBER_JOINED, humanc, rank)
-
+		SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CREWMEMBER_JOINED, humanc, chosen_rank)
+		//NSV13 - Edit Changes END - Alternative Job Titles
 	GLOB.joined_player_list += character.ckey
 
 	if(CONFIG_GET(flag/allow_latejoin_antagonists) && humanc)	//Borgs aren't allowed to be antags. Will need to be tweaked if we get true latejoin ais.
@@ -422,10 +424,16 @@
 				var/command_bold = ""
 				if(job in GLOB.command_positions)
 					command_bold = " command"
+				//NSV13 - Alternative Job Titles - Start
+				var/jobline = "[job_datum.title] ([job_datum.current_positions])"
 				if(job_datum in SSjob.prioritized_jobs)
-					dept_dat += "<a class='job[command_bold]' href='byond://?src=[REF(src)];SelectedJob=[job_datum.title]'><span class='priority'>[job_datum.title] ([job_datum.current_positions])</span></a>"
-				else
-					dept_dat += "<a class='job[command_bold]' href='byond://?src=[REF(src)];SelectedJob=[job_datum.title]'>[job_datum.title] ([job_datum.current_positions])</a>"
+					jobline = "<span class='priority'>[jobline]</span>"
+				if(client && client.prefs && client.prefs.active_character.alt_job_titles[job_datum.title])
+					jobline = "[jobline]<br><span style='color:#BBBBBB; font-style: italic;'>(as [client.prefs.active_character.alt_job_titles[job_datum.title]])</span>"
+
+				jobline = "<a class='job[command_bold]' style='display:block;width:170px' href='byond://?src=[REF(src)];SelectedJob=[job_datum.title]'>[jobline]</a>"
+				dept_dat += jobline
+
 		if(!dept_dat.len)
 			dept_dat += "<span class='nopositions'>No positions open.</span>"
 		dat += jointext(dept_dat, "")

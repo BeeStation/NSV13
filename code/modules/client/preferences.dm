@@ -874,6 +874,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			HTML += "<tr bgcolor='[job.selection_color]'><td width='60%' align='right'>"
 			var/rank = job.title
+
+			//NSV13 - Alternate Job Titles
+			var/displayed_rank = rank
+			if(job.alt_titles.len && (rank in active_character.alt_job_titles))
+				displayed_rank = active_character.alt_job_titles[rank]
+
 			lastJob = job
 			if(is_banned_from(user.ckey, rank))
 				HTML += "<font color=red>[rank]</font></td><td><a href='?_src_=prefs;bancheck=[rank]'> BANNED</a></td></tr>"
@@ -889,10 +895,18 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if((active_character.job_preferences[overflow] == JP_LOW) && (rank != SSjob.overflow_role) && !is_banned_from(user.ckey, SSjob.overflow_role))
 				HTML += "<font color=orange>[rank]</font></td><td></td></tr>"
 				continue
+			//NSV13 - Alternative Job Titles - Start
+			var/rank_title_line = "[displayed_rank]"
 			if((rank in GLOB.command_positions) || (rank == JOB_NAME_AI))//Bold head jobs
-				HTML += "<b><span class='dark'>[rank]</span></b>"
+				rank_title_line = "<b>[rank_title_line]</b>"
+
+			if(job.alt_titles.len)
+				rank_title_line = "<a href='?_src_=prefs;preference=job;task=alt_title;job_title=[job.title]'>[rank_title_line]</a>"
 			else
-				HTML += "<span class='dark'>[rank]</span>"
+				rank_title_line = "<span class='dark'>[rank_title_line]</span>" //Make it dark if we're not adding a button for alt titles
+
+			HTML += rank_title_line
+			//NSV13 - Alternative Job Titles - End
 
 			HTML += "</td><td width='40%'>"
 
@@ -1192,6 +1206,24 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				SetChoices(user)
 			if("setJobLevel")
 				UpdateJobPreference(user, href_list["text"], text2num(href_list["level"]))
+
+			//NSV13 - Alternative Job Titles - Start
+			if("alt_title")
+				var/job_title = href_list["job_title"]
+				var/titles_list = list(job_title)
+				var/datum/job/J = SSjob.GetJob(job_title)
+				for(var/i in J.alt_titles)
+					titles_list += i
+				var/chosen_title
+				chosen_title = input(user, "Choose your job's title:", "Job Preference") as null|anything in titles_list
+				if(chosen_title)
+					if(chosen_title == job_title)
+						if(active_character.alt_job_titles[job_title])
+							active_character.alt_job_titles.Remove(job_title)
+					else
+						active_character.alt_job_titles[job_title] =  chosen_title
+				SetChoices(user)
+				//NSV13 - Alternative Job Titles - End
 			else
 				SetChoices(user)
 		return 1

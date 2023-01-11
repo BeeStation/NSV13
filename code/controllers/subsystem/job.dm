@@ -478,6 +478,8 @@ SUBSYSTEM_DEF(job)
 
 	var/datum/job/job = GetJob(rank)
 
+	var/chosen_title = M.client?.prefs.active_character.alt_job_titles[job.title] || job.title //NSV13 - Alt Job Titles
+
 	living_mob.job = rank
 
 	//If we joined at roundstart we should be positioned at our workstation
@@ -514,9 +516,9 @@ SUBSYSTEM_DEF(job)
 
 	if(living_mob.mind)
 		living_mob.mind.assigned_role = rank
-	to_chat(M, "<b>You are the [rank].</b>")
+	to_chat(M, "<b>You are the [chosen_title].</b>") //NSV13 - Alt Job Titles
 	if(job)
-		var/new_mob = job.equip(living_mob, null, null, joined_late , null, M.client)
+		var/new_mob = job.equip(living_mob, null, null, joined_late , null, M.client, chosen_title) //NSV13 - Alternative Job Titles
 		if(ismob(new_mob))
 			living_mob = new_mob
 			if(!joined_late)
@@ -531,7 +533,7 @@ SUBSYSTEM_DEF(job)
 				M.client.holder.auto_deadmin()
 			else
 				handle_auto_deadmin_roles(M.client, rank)
-		to_chat(M, "<b>As the [rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>")
+		to_chat(M, "<b>As the [chosen_title == job.title ? chosen_title : "[chosen_title] ([job.title])"] you answer directly to [job.supervisors]. Special circumstances may change this.</b>") //NSV13 - Alternative Job Titles
 		job.radio_help_message(M)
 		if(job.req_admin_notify)
 			to_chat(M, "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>")
@@ -541,6 +543,9 @@ SUBSYSTEM_DEF(job)
 	if(ishuman(living_mob))
 		var/mob/living/carbon/human/wageslave = living_mob
 		living_mob.add_memory("Your account ID is [wageslave.account_id].")
+
+		setup_alt_job_items(living_mob, job, M.client) //NSV13 - Alternative Job Titles
+
 	if(job && living_mob)
 		job.after_spawn(living_mob, M, joined_late) // note: this happens before the mob has a key! M will always have a client, living_mob might not.
 

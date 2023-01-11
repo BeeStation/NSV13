@@ -193,9 +193,9 @@
 			to_chat(M, "<span class='danger'>Failed to locate a storage object on your mob, either you spawned with no hands free and no backpack or this is a bug.</span>")
 			qdel(item)
 
-/datum/job/proc/announce(mob/living/carbon/human/H)
+/datum/job/proc/announce(mob/living/carbon/human/H, job_title) //NSV13 - Alternative Job Titles
 	if(head_announce)
-		announce_head(H, head_announce)
+		announce_head(H, head_announce, job_title) //NSV13 - Alternative Job Titles
 
 /datum/job/proc/override_latejoin_spawn(mob/living/carbon/human/H)		//Return TRUE to force latejoining to not automatically place the person in latejoin shuttle/whatever.
 	return FALSE
@@ -215,7 +215,7 @@
 		return antag_rep
 
 //Don't override this unless the job transforms into a non-human (Silicons do this for example)
-/datum/job/proc/equip(mob/living/carbon/human/H, visualsOnly = FALSE, announce = TRUE, latejoin = FALSE, datum/outfit/outfit_override = null, client/preference_source)
+/datum/job/proc/equip(mob/living/carbon/human/H, visualsOnly = FALSE, announce = TRUE, latejoin = FALSE, datum/outfit/outfit_override = null, client/preference_source, job_title) //NSV13 - Alternative Job Titles
 	if(!H)
 		return FALSE
 	if(CONFIG_GET(flag/enforce_human_authority) && (title in GLOB.command_positions))
@@ -241,7 +241,7 @@
 	H.dna.species.after_equip_job(src, H, visualsOnly, preference_source)
 
 	if(!visualsOnly && announce)
-		announce(H)
+		announce(H, job_title) //NSV13 - Alternative Job Titles
 	dormant_disease_check(H)
 
 /datum/job/proc/get_access()
@@ -258,10 +258,10 @@
 	if(CONFIG_GET(flag/everyone_has_maint_access)) //Config has global maint access set
 		. |= list(ACCESS_MAINT_TUNNELS)
 
-/datum/job/proc/announce_head(var/mob/living/carbon/human/H, var/channels) //tells the given channel that the given mob is the new department head. See communications.dm for valid channels.
+/datum/job/proc/announce_head(var/mob/living/carbon/human/H, var/channels, job_title) //tells the given channel that the given mob is the new department head. See communications.dm for valid channels. //NSV13 - Alternative Job Titles
 	if(H && GLOB.announcement_systems.len)
 		//timer because these should come after the captain announcement
-		SSticker.OnRoundstart(CALLBACK(GLOBAL_PROC, .proc/_addtimer, CALLBACK(pick(GLOB.announcement_systems), /obj/machinery/announcement_system/proc/announce, "NEWHEAD", H.real_name, H.job, channels), 1))
+		SSticker.OnRoundstart(CALLBACK(GLOBAL_PROC, .proc/_addtimer, CALLBACK(pick(GLOB.announcement_systems), /obj/machinery/announcement_system/proc/announce, "NEWHEAD", H.real_name, job_title, channels), 1)) //NSV13 - Alternative Job Titles
 
 //If the configuration option is set to require players to be logged as old enough to play certain jobs, then this proc checks that they are, otherwise it just returns 1
 /datum/job/proc/player_old_enough(client/C)
@@ -387,7 +387,7 @@
 //NSV13
 /datum/job/proc/get_rank()
 	return display_rank
-	
+
 //why is this as part of a job? because it's something every human recieves at roundstart after all other initializations and factors job in. it fits best with the equipment proc
 //this gives a dormant disease for the virologist to check for. if this disease actually does something to the mob... call me, or your local coder
 /datum/job/proc/dormant_disease_check(mob/living/carbon/human/H)

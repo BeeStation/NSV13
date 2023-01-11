@@ -226,6 +226,8 @@
 		else
 			assignment = "Unassigned"
 
+		var/chosen_assignment = C?.prefs.active_character.alt_job_titles[assignment] || assignment //NSV13 - Alternative Job Titles
+
 		var/static/record_id_num = 1001
 		var/id = num2hex(record_id_num++,6)
 		if(!C)
@@ -247,7 +249,7 @@
 		var/datum/data/record/G = new()
 		G.fields["id"]			= id
 		G.fields["name"]		= H.real_name
-		G.fields["rank"]		= assignment
+		G.fields["rank"]		= chosen_assignment //NSV13 - Alternative Job Titles
 		G.fields["hud"]			= get_hud_by_jobname(assignment)
 		G.fields["age"]			= H.age
 		G.fields["species"]	= H.dna.species.name
@@ -290,7 +292,7 @@
 		var/datum/data/record/L = new()
 		L.fields["id"]			= rustg_hash_string(RUSTG_HASH_MD5, "[H.real_name][H.mind.assigned_role]")	//surely this should just be id, like the others?
 		L.fields["name"]		= H.real_name
-		L.fields["rank"] 		= H.mind.assigned_role
+		L.fields["rank"] 		= chosen_assignment //NSV13 - Alternative Job Titles
 		L.fields["age"]			= H.age
 		L.fields["sex"]			= H.gender
 		L.fields["blood_type"]	= H.dna.blood_type

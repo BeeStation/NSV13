@@ -69,6 +69,8 @@
 	var/preferred_squad = "Able"
 	//NSV13 - Pilots
 	var/preferred_pilot_role = PILOT_COMBAT
+	//NSV13 - Alternate Job Titles
+	var/list/alt_job_titles = list()
 
 
 /datum/character_save/New()
