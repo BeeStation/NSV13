@@ -14,7 +14,12 @@
 /mob/living/carbon/human/proc/get_assignment(if_no_id = "No id", if_no_job = "No job", hand_first = TRUE)
 	var/obj/item/card/id/id = get_idcard(hand_first)
 	if(id)
-		. = id.assignment
+		//NSV13 - Alternative Titles - EDIT START
+		if(id.registered_account)
+			. = id.registered_account.account_job
+		else
+			. = id.assignment
+		//NSV13 - Alternative Titles - EDIT STOP
 	else
 		var/obj/item/pda/pda = wear_id
 		if(istype(pda))

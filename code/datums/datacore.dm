@@ -250,6 +250,7 @@
 		G.fields["id"]			= id
 		G.fields["name"]		= H.real_name
 		G.fields["rank"]		= chosen_assignment //NSV13 - Alternative Job Titles
+		G.fields["true_rank"]	= assignment //NSV13 - Alternative Job Titles
 		G.fields["hud"]			= get_hud_by_jobname(assignment)
 		G.fields["age"]			= H.age
 		G.fields["species"]	= H.dna.species.name
