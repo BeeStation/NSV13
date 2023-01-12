@@ -134,7 +134,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/shop_name = "[CONFIG_GET(string/metacurrency_name)] Shop"
 	dat += "<a href='?_src_=prefs;preference=tab;tab=2' [current_tab == 2 ? "class='linkOn'" : ""]>[shop_name]</a>"
 	dat += "<a href='?_src_=prefs;preference=tab;tab=3' [current_tab == 3 ? "class='linkOn'" : ""]>OOC Preferences</a>"
-	dat += "<a href='?_src_=prefs;preference=tab;tab=4' [current_tab == 4 ? "class='linkOn'" : ""]>Character Roleplay</a>" //NSV13 - Roleplay Tab
+	dat += "<a href='?_src_=prefs;preference=tab;tab=4' [current_tab == 4 ? "class='linkOn'" : ""]>Roleplay Settings</a>" //NSV13 - Roleplay Tab
 
 	dat += "</center>"
 
@@ -812,6 +812,23 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "</tr></table>"
 
 		if(4) //NSV13 - Roleplay Tab - Start
+			dat += "<center>"
+			var/name
+			var/unspaced_slots = 0
+			for(var/datum/character_save/CS as anything in character_saves)
+				unspaced_slots++
+				if(unspaced_slots > 4)
+					dat += "<br>"
+					unspaced_slots = 0
+				name = CS.real_name
+				if(!name)
+					name = "Character [CS.slot_number]"
+				if(CS.slot_locked)
+					dat += "<a style='white-space:nowrap;' class='linkOff'>[name] (Locked)</a> "
+				else
+					dat += "<a style='white-space:nowrap;' href='?_src_=prefs;preference=changeslot;num=[CS.slot_number];' [CS.slot_number == default_slot ? "class='linkOn'" : ""]>[name]</a> "
+			dat += "</center>"
+
 			dat += "<h2>Flavor Text</h2>"
 			dat += "<table width='100%'><tr><td width='75%' valign='top'>"
 
@@ -870,19 +887,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<br>"
 			dat += "</td>"
-
-			dat += "<td width='33%'>"
-			dat += "<h2>Background Information</h2>"
-			dat += "<a href='?_src_=prefs;preference=background_info;task=input'><b>Set Background Information</b></a><br>"
-
-			if(length(active_character.background_info) <= 40)
-				if(!length(active_character.background_info))
-					dat += "\[...\]"
-				else
-					dat += "[html_encode(active_character.background_info)]"
-			else
-				dat += "[copytext_char(active_character.background_info, 1, 40)]..."
-
 			dat += "</tr></table>"
 		//NSV13 - Roleplay Tab - End
 	dat += "<hr><center>"
@@ -1784,11 +1788,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/msg = input(usr, "Set your security record. ", "Medical Record", active_character.security_record) as message|null
 					if(!isnull(msg))
 						active_character.security_record = html_decode(strip_html_simple(msg))
-
-				if("background_info")
-					var/msg = input(usr, "Set your background information. (Where you come from, which culture were you raised in and why you are working here etc.)", "Background Info", active_character.background_info) as message|null
-					if(!isnull(msg))
-						active_character.background_info = html_decode(strip_html_simple(msg))
 
 				//NSV13 - END
 				if ("preferred_map")

@@ -75,7 +75,6 @@
 	var/general_record = ""
 	var/security_record = ""
 	var/medical_record = ""
-	var/background_info = ""
 
 /datum/character_save/New()
 	real_name = get_default_name()
@@ -166,8 +165,6 @@
 	SAFE_READ_QUERY(36, security_record)
 
 	SAFE_READ_QUERY(37, medical_record)
-
-	SAFE_READ_QUERY(38, background_info)
 	//NSV13 - Stop
 
 	//Sanitize. Please dont put query reads below this point. Please.
@@ -255,7 +252,6 @@
 	general_record = sanitize_text(general_record)
 	security_record = sanitize_text(security_record)
 	medical_record = sanitize_text(medical_record)
-	background_info = sanitize_text(background_info)
 
 	return TRUE
 
@@ -361,8 +357,7 @@
 			silicon_flavor_text,
 			general_record,
 			security_record,
-			medical_record,
-			background_info
+			medical_record
 		) VALUES (
 			:slot,
 			:ckey,
@@ -401,8 +396,7 @@
 			:silicon_flavor_text,
 			:general_record,
 			:security_record,
-			:medical_record,
-			:background_info
+			:medical_record
 		)
 	"}, list(
 		// Now for the above but in a fucking monsterous list
@@ -443,8 +437,7 @@
 		"silicon_flavor_text" = silicon_flavor_text,
 		"general_record" = general_record,
 		"security_record" = security_record,
-		"medical_record" = medical_record,
-		"background_info" = background_info
+		"medical_record" = medical_record
 	))
 
 	if(!insert_query.warn_execute())

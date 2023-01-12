@@ -393,8 +393,6 @@
 			line += "<a href='?src=[REF(src)];security_records=1'>\[SEC\]</a>"
 		if(!(client.prefs.active_character.medical_record == ""))
 			line += "<a href='?src=[REF(src)];medical_records=1'>\[MED\]</a>"
-		if(!(client.prefs.active_character.background_info  == ""))
-			line += "<a href='?src=[REF(src)];flavor_background=1'>\[BG\]</a>"
 
 		if(!(line == ""))
 			. += "*---------*"
