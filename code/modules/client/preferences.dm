@@ -134,6 +134,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/shop_name = "[CONFIG_GET(string/metacurrency_name)] Shop"
 	dat += "<a href='?_src_=prefs;preference=tab;tab=2' [current_tab == 2 ? "class='linkOn'" : ""]>[shop_name]</a>"
 	dat += "<a href='?_src_=prefs;preference=tab;tab=3' [current_tab == 3 ? "class='linkOn'" : ""]>OOC Preferences</a>"
+	dat += "<a href='?_src_=prefs;preference=tab;tab=4' [current_tab == 4 ? "class='linkOn'" : ""]>Character Roleplay</a>" //NSV13 - Roleplay Tab
 
 	dat += "</center>"
 
@@ -810,6 +811,80 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "</td>"
 			dat += "</tr></table>"
 
+		if(4) //NSV13 - Roleplay Tab - Start
+			dat += "<h2>Flavor Text</h2>"
+			dat += "<table width='100%'><tr><td width='75%' valign='top'>"
+
+			dat += "<a href='?_src_=prefs;preference=silicon_flavor_text;task=input'><b>Set Silicon Examine Text</b></a>"
+			if(length(active_character.silicon_flavor_text) <= 40)
+				if(!length(active_character.silicon_flavor_text))
+					dat += "\[...\]"
+				else
+					dat += "[active_character.silicon_flavor_text]"
+			else
+				dat += "[copytext_char(active_character.silicon_flavor_text, 1, 40)]...<br>"
+
+			dat += "</tr></table>"
+
+			dat += "<table width='100%'><tr>"
+			dat += "<td width='33%'>"
+
+			dat += "<h2>General Record</h2>"
+			dat += "<a href='?_src_=prefs;preference=general_record;task=input'><b>Set General Record</b></a><br>"
+
+			if(length(active_character.general_record) <= 40)
+				if(!length(active_character.general_record))
+					dat += "\[...\]"
+				else
+					dat += "[html_encode(active_character.general_record)]"
+			else
+				dat += "[copytext_char(active_character.general_record, 1, 40)]..."
+
+			dat += "<br>"
+
+
+			dat += "<h2>Medical Record</h2>"
+			dat += "<a href='?_src_=prefs;preference=medical_record;task=input'><b>Set Medical Record</b></a><br>"
+
+			if(length(active_character.medical_record) <= 40)
+				if(!length(active_character.medical_record))
+					dat += "\[...\]"
+				else
+					dat += "[html_encode(active_character.medical_record)]"
+			else
+				dat += "[copytext_char(active_character.medical_record, 1, 40)]..."
+
+			dat += "<br>"
+
+
+			dat += "<h2>Security Record</h2>"
+			dat += "<a href='?_src_=prefs;preference=security_record;task=input'><b>Set Security Record</b></a><br>"
+
+			if(length(active_character.security_record) <= 40)
+				if(!length(active_character.security_record))
+					dat += "\[...\]"
+				else
+					dat += "[html_encode(active_character.security_record)]"
+			else
+				dat += "[copytext_char(active_character.security_record, 1, 40)]..."
+
+			dat += "<br>"
+			dat += "</td>"
+
+			dat += "<td width='33%'>"
+			dat += "<h2>Background Information</h2>"
+			dat += "<a href='?_src_=prefs;preference=background_info;task=input'><b>Set Background Information</b></a><br>"
+
+			if(length(active_character.background_info) <= 40)
+				if(!length(active_character.background_info))
+					dat += "\[...\]"
+				else
+					dat += "[html_encode(active_character.background_info)]"
+			else
+				dat += "[copytext_char(active_character.background_info, 1, 40)]..."
+
+			dat += "</tr></table>"
+		//NSV13 - Roleplay Tab - End
 	dat += "<hr><center>"
 
 	if(!IS_GUEST_KEY(user.key))
@@ -1689,7 +1764,33 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("syndiecrew")
 					var/client/C = (istype(user, /client)) ? user : user.client
 					C.select_syndie_role()
-				//Nsv13 end
+				//Nsv13 - Roleplay Stuff
+				if("silicon_flavor_text")
+					var/msg = input(usr, "Set the flavor text in your 'examine' verb. This is for describing what people can tell by looking at your character.", "Silicon Flavor Text", active_character.silicon_flavor_text) as message|null
+					if(!isnull(msg))
+						active_character.silicon_flavor_text = html_decode(strip_html(msg))
+
+				if("general_record")
+					var/msg = input(usr, "Set your general record. This is more or less public information, available from security, medical and command consoles", "General Record", active_character.general_record) as message|null
+					if(!isnull(msg))
+						active_character.general_record = html_decode(strip_html(msg))
+
+				if("medical_record")
+					var/msg = input(usr, "Set your medical record. ", "Medical Record", active_character.medical_record) as message|null
+					if(!isnull(msg))
+						active_character.medical_record = html_decode(strip_html(msg))
+
+				if("security_record")
+					var/msg = input(usr, "Set your security record. ", "Medical Record", active_character.security_record) as message|null
+					if(!isnull(msg))
+						active_character.security_record = html_decode(strip_html(msg))
+
+				if("background_info")
+					var/msg = input(usr, "Set your background information. (Where you come from, which culture were you raised in and why you are working here etc.)", "Background Info", active_character.background_info) as message|null
+					if(!isnull(msg))
+						active_character.background_info = html_decode(strip_html(msg))
+
+				//NSV13 - END
 				if ("preferred_map")
 					var/maplist = list()
 					var/default = "Default"

@@ -231,6 +231,14 @@
 	if (href_list["printlawtext"]) // this is kinda backwards
 		to_chat(usr, href_list["printlawtext"])
 
+	//NSV13 - Silicon Flavor Text - Start
+	if(href_list["lookup_info"])
+		if(client && length(client.prefs.active_character.silicon_flavor_text))
+			var/datum/browser/popup = new(usr, "[name]'s flavor text", "[name]'s Flavor Text", 500, 200)
+			popup.set_content(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", "[name]'s flavor text", replacetext(client.prefs.active_character.silicon_flavor_text, "\n", "<BR>")))
+			popup.open()
+			return
+	//NSV13 - Silicon Flavor Text - End
 	return
 
 
