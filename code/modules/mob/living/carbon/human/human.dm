@@ -162,6 +162,13 @@
 			to_chat(usr, "<span class='warning'>You can't reach that! Something is covering it.</span>")
 			return
 
+	//NSV13 - Roleplaying Stuff
+	if(href_list["lookup_info"])
+		switch(href_list["lookup_info"])
+			if("open_examine_panel")
+				tgui.holder = src
+				tgui.ui_interact(usr) //datum has a tgui component, here we open the window
+
 ///////HUDs///////
 	if(href_list["hud"])
 		if(!ishuman(usr))

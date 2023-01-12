@@ -55,6 +55,9 @@
 
 	mobchatspan = "centcom"
 
+	//NSV13 - Roleplay Stuff
+	var/datum/examine_panel/tgui = new() //create the datum
+
 /mob/living/silicon/Initialize(mapload)
 	. = ..()
 	GLOB.silicon_mobs += src
@@ -233,11 +236,8 @@
 
 	//NSV13 - Silicon Flavor Text - Start
 	if(href_list["lookup_info"])
-		if(client && length(client.prefs.active_character.silicon_flavor_text))
-			var/datum/browser/popup = new(usr, "[name]'s flavor text", "[name]'s Flavor Text", 500, 200)
-			popup.set_content(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", "[name]'s flavor text", replacetext(client.prefs.active_character.silicon_flavor_text, "\n", "<BR>")))
-			popup.open()
-			return
+		tgui.holder = src
+		tgui.ui_interact(usr) //datum has a tgui component, here we open the window
 	//NSV13 - Silicon Flavor Text - End
 	return
 

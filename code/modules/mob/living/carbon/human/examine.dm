@@ -385,6 +385,12 @@
 		. += "<span class='info'><b>Traits:</b> [traitstring]</span>"
 
 	//NSV13 - Roleplaying Records - Start
+	if(!skipface)
+		var/line = "<span class='notice'><a href='?src=[REF(src)];lookup_info=open_examine_panel'>Examine closely...</a></span>"
+
+		if(line)
+			. += line
+
 	if(client && user.client.holder && isobserver(user))
 		var/line = ""
 		if(!(client.prefs.active_character.general_record == ""))
