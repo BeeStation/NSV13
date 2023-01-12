@@ -1768,27 +1768,27 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("silicon_flavor_text")
 					var/msg = input(usr, "Set the flavor text in your 'examine' verb. This is for describing what people can tell by looking at your character.", "Silicon Flavor Text", active_character.silicon_flavor_text) as message|null
 					if(!isnull(msg))
-						active_character.silicon_flavor_text = html_decode(strip_html(msg))
+						active_character.silicon_flavor_text = html_decode(strip_html_simple(msg))
 
 				if("general_record")
 					var/msg = input(usr, "Set your general record. This is more or less public information, available from security, medical and command consoles", "General Record", active_character.general_record) as message|null
 					if(!isnull(msg))
-						active_character.general_record = html_decode(strip_html(msg))
+						active_character.general_record = html_decode(strip_html_simple(msg))
 
 				if("medical_record")
 					var/msg = input(usr, "Set your medical record. ", "Medical Record", active_character.medical_record) as message|null
 					if(!isnull(msg))
-						active_character.medical_record = html_decode(strip_html(msg))
+						active_character.medical_record = html_decode(strip_html_simple(msg))
 
 				if("security_record")
 					var/msg = input(usr, "Set your security record. ", "Medical Record", active_character.security_record) as message|null
 					if(!isnull(msg))
-						active_character.security_record = html_decode(strip_html(msg))
+						active_character.security_record = html_decode(strip_html_simple(msg))
 
 				if("background_info")
 					var/msg = input(usr, "Set your background information. (Where you come from, which culture were you raised in and why you are working here etc.)", "Background Info", active_character.background_info) as message|null
 					if(!isnull(msg))
-						active_character.background_info = html_decode(strip_html(msg))
+						active_character.background_info = html_decode(strip_html_simple(msg))
 
 				//NSV13 - END
 				if ("preferred_map")
