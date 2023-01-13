@@ -13,6 +13,13 @@ MAP_REMOVE_JOB(brig_phys)
 //There is an ATC console in the bridge but the position is relegated to the executive officer
 MAP_REMOVE_JOB(air_traffic_controller)
 
+//Not enough room for more pilots
+/datum/job/pilot/New()
+	..()
+	MAP_JOB_CHECK
+	total_positions = 1
+	spawn_positions = 1
+
 /datum/uplink_item/explosives/syndicate_bomb/New()
     . = ..()
 
