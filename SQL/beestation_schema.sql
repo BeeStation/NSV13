@@ -121,7 +121,6 @@ CREATE TABLE IF NOT EXISTS `SS13_characters` (
 	`general_record` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
 	`security_record` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
 	`medical_record` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
-	`background_info` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
 	PRIMARY KEY (`slot`, `ckey`) USING BTREE
 ) COLLATE='utf8mb4_general_ci' ENGINE=InnoDB;
 
