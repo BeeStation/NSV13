@@ -384,18 +384,6 @@
 	else if(isobserver(user) && traitstring)
 		. += "<span class='info'><b>Traits:</b> [traitstring]</span>"
 
-	//NSV13 START
-	//No flavor text unless the face can be seen. Prevents certain metagaming with impersonation.
-	var/invisible_man = skipface || get_visible_name() == "Unknown"
-	if(invisible_man)
-		. += "...?"
-	else
-		var/flavor = print_flavor_text()
-		if(flavor)
-			. += flavor
-	//NSV13 STOP
-
-
 	//NSV13 - Roleplaying Records - Start
 	if(!skipface)
 		var/line = "<span class='notice'><a href='?src=[REF(src)];lookup_info=open_examine_panel'>Examine closely...</a></span>"

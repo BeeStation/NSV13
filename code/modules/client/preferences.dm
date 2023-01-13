@@ -832,7 +832,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<h2>Flavor Text</h2>"
 			dat += "<table width='100%'><tr><td width='75%' valign='top'>"
 
-			dat += "<a href='?_src_=prefs;preference=flavor_text;task=input'><b>Set Flavor Text</b></a>"
+			dat += "<a href='?_src_=prefs;preference=flavor_text;task=input'><b>Set Flavor Text</b></a><br>"
 			if(length(active_character.flavor_text) <= 40)
 				if(!length(active_character.flavor_text))
 					dat += "\[...\]"
@@ -841,7 +841,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			else
 				dat += "[copytext_char(active_character.flavor_text, 1, 40)]...<br>"
 
-			dat += "<a href='?_src_=prefs;preference=silicon_flavor_text;task=input'><b>Set Silicon Examine Text</b></a>"
+			dat += "<br>"
+
+			dat += "<a href='?_src_=prefs;preference=silicon_flavor_text;task=input'><b>Set Silicon Examine Text</b></a><br>"
 			if(length(active_character.silicon_flavor_text) <= 40)
 				if(!length(active_character.silicon_flavor_text))
 					dat += "\[...\]"
@@ -1779,9 +1781,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					C.select_syndie_role()
 				//NSV13 - Roleplay Stuff
 				if("flavor_text")
-					var/msg = capped_multiline_input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character.\nNothing that breaks the game.", "Flavor Text", active_character.flavor_text)
+					var/msg = input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character.\nNothing that breaks the game.", "Flavor Text", active_character.flavor_text)
 					if(msg)
-						active_character.flavor_text = html_decode(strip_html(msg))
+						active_character.flavor_text = html_decode(strip_html_simple(msg))
 
 				if("silicon_flavor_text")
 					var/msg = input(usr, "Set the flavor text in your 'examine' verb. This is for describing what people can tell by looking at your character.", "Silicon Flavor Text", active_character.silicon_flavor_text) as message|null
