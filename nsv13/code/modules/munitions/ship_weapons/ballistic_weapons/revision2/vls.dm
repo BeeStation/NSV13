@@ -334,6 +334,8 @@
 
 // Proc for handling missile intercept with PDC
 /obj/structure/overmap/proc/handle_pdc_intercept()
+	if(disruption)
+		return FALSE
 	if(!weapon_types[FIRE_MODE_PDC])
 		return FALSE
 	if(light_shots_left <= 0) // Reloading
