@@ -69,12 +69,13 @@
 	var/preferred_squad = "Able"
 	//NSV13 - Pilots
 	var/preferred_pilot_role = PILOT_COMBAT
-	//NSV13 - Silicon Flavor Text
+	//NSV13 - Roleplaying Stuff - Start
+	var/flavor_text = ""
 	var/silicon_flavor_text = ""
-	//NSV13 - Background Information
 	var/general_record = ""
 	var/security_record = ""
 	var/medical_record = ""
+	//NSV13 - Roleplaying Stuff - End
 
 /datum/character_save/New()
 	real_name = get_default_name()
@@ -158,14 +159,17 @@
 
 	SAFE_READ_QUERY(33, preferred_pilot_role)
 
-	SAFE_READ_QUERY(34, silicon_flavor_text)
+	SAFE_READ_QUERY(34, flavor_text)
 
-	SAFE_READ_QUERY(35, general_record)
+	SAFE_READ_QUERY(35, silicon_flavor_text)
 
-	SAFE_READ_QUERY(36, security_record)
+	SAFE_READ_QUERY(36, general_record)
 
-	SAFE_READ_QUERY(37, medical_record)
+	SAFE_READ_QUERY(37, security_record)
+
+	SAFE_READ_QUERY(38, medical_record)
 	//NSV13 - Stop
+
 
 	//Sanitize. Please dont put query reads below this point. Please.
 
@@ -248,10 +252,12 @@
 	all_quirks = SANITIZE_LIST(all_quirks)
 
 	//NSV13 - Roleplay Stuff - Start
+	flavor_text = html_decode(strip_html(flavor_text))
 	silicon_flavor_text = html_decode(strip_html(silicon_flavor_text))
 	general_record = sanitize_text(general_record)
 	security_record = sanitize_text(security_record)
 	medical_record = sanitize_text(medical_record)
+	//NSV13 - Roleplay Stuff - Stop
 
 	return TRUE
 
@@ -354,10 +360,11 @@
 			equipped_gear,
 			preferred_squad,
 			preferred_pilot_role,
-			silicon_flavor_text,
+			flavor_text,
+			silicon_flavor_text
 			general_record,
 			security_record,
-			medical_record
+			medical_record,
 		) VALUES (
 			:slot,
 			:ckey,
@@ -393,6 +400,7 @@
 			:equipped_gear,
 			:preferred_squad,
 			:preferred_pilot_role,
+			:flavor_text,
 			:silicon_flavor_text,
 			:general_record,
 			:security_record,
@@ -434,6 +442,7 @@
 		"equipped_gear" = json_encode(equipped_gear),
 		"preferred_squad" = preferred_squad,
 		"preferred_pilot_role" = preferred_pilot_role,
+		"flavor_text" = flavor_text,
 		"silicon_flavor_text" = silicon_flavor_text,
 		"general_record" = general_record,
 		"security_record" = security_record,
@@ -510,7 +519,9 @@
 
 	character.hair_style = hair_style
 	character.facial_hair_style = facial_hair_style
-
+	//NSV13 START
+	character.flavour_text = flavor_text //Let's update their flavor_text at least initially
+	//NSV13 STOP
 	if("tail_lizard" in pref_species.default_features)
 		character.dna.species.mutant_bodyparts |= "tail_lizard"
 

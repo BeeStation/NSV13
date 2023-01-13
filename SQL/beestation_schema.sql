@@ -116,6 +116,7 @@ CREATE TABLE IF NOT EXISTS `SS13_characters` (
 	`equipped_gear` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
 	`preferred_squad` VARCHAR(32) NOT NULL COLLATE 'utf8mb4_general_ci',
 	`preferred_pilot_role` VARCHAR(32) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`flavor_text` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
 	`silicon_flavor_text` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
 	`general_record` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
 	`security_record` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
@@ -461,7 +462,7 @@ CREATE TABLE IF NOT EXISTS `SS13_schema_revision` (
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`major`,`minor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-INSERT INTO `SS13_schema_revision` (`major`, `minor`) VALUES (6, 1);
+INSERT INTO `SS13_schema_revision` (`major`, `minor`) VALUES (6, 2);
 
 
 

@@ -832,6 +832,15 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<h2>Flavor Text</h2>"
 			dat += "<table width='100%'><tr><td width='75%' valign='top'>"
 
+			dat += "<a href='?_src_=prefs;preference=flavor_text;task=input'><b>Set Flavor Text</b></a>"
+			if(length(active_character.flavor_text) <= 40)
+				if(!length(active_character.flavor_text))
+					dat += "\[...\]"
+				else
+					dat += "[active_character.flavor_text]"
+			else
+				dat += "[copytext_char(active_character.flavor_text, 1, 40)]...<br>"
+
 			dat += "<a href='?_src_=prefs;preference=silicon_flavor_text;task=input'><b>Set Silicon Examine Text</b></a>"
 			if(length(active_character.silicon_flavor_text) <= 40)
 				if(!length(active_character.silicon_flavor_text))
@@ -1754,21 +1763,26 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/department = input(user, "Choose your preferred security department:", "Security Departments") as null|anything in GLOB.security_depts_prefs
 					if(department)
 						active_character.preferred_security_department = department
-
-				if("pilot_role") //NSV13
+				//NSV13 start
+				if("pilot_role")
 					var/p_role = input(user, "Choose your preferred pilot role:", "Pilot Roles") as null|anything in GLOB.pilot_role_prefs
 					if(p_role)
 						active_character.preferred_pilot_role = p_role
 
-				//Nsv13 squads - we CM now
 				if("squad")
 					var/datum/squad/new_spec = input(user, "Choose your preferred squad:", "Squad Setup") as null|anything in GLOB.squad_manager.squads
 					if(new_spec)
 						active_character.preferred_squad = new_spec.name
+
 				if("syndiecrew")
 					var/client/C = (istype(user, /client)) ? user : user.client
 					C.select_syndie_role()
-				//Nsv13 - Roleplay Stuff
+				//NSV13 - Roleplay Stuff
+				if("flavor_text")
+					var/msg = capped_multiline_input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character.\nNothing that breaks the game.", "Flavor Text", active_character.flavor_text)
+					if(msg)
+						active_character.flavor_text = html_decode(strip_html(msg))
+
 				if("silicon_flavor_text")
 					var/msg = input(usr, "Set the flavor text in your 'examine' verb. This is for describing what people can tell by looking at your character.", "Silicon Flavor Text", active_character.silicon_flavor_text) as message|null
 					if(!isnull(msg))
