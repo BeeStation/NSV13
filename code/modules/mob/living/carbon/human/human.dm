@@ -328,7 +328,7 @@
 					to_chat(usr, "Added by [c.author] at [c.time]")
 					to_chat(usr, "----------")
 				to_chat(usr, "<b>Notes:</b> [sec_record.fields["notes"]]")
-				to_chat(usr, "<br>Security Record:</b>[sec_record.fields["past_records"]]")
+				to_chat(usr, "<br>Security Record:</b> [sec_record.fields["past_records"]]")
 				return
 
 			if(href_list["genrecords"])

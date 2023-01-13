@@ -1781,7 +1781,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					C.select_syndie_role()
 				//NSV13 - Roleplay Stuff
 				if("flavor_text")
-					var/msg = input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character.\nNothing that breaks the game.", "Flavor Text", active_character.flavor_text)
+					var/msg = input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character.\nNothing that breaks the game.", "Flavor Text", active_character.flavor_text) as message|null
 					if(msg)
 						active_character.flavor_text = html_decode(strip_html_simple(msg))
 

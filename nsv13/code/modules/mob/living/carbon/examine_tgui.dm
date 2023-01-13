@@ -54,7 +54,10 @@
 		obscured = (holder_human.wear_mask && (holder_human.wear_mask.flags_inv & HIDEFACE)) || (holder_human.head && (holder_human.head.flags_inv & HIDEFACE))
 		flavor_text = obscured ? "Obscured" :  holder_human.flavour_text
 
-	data["character_name"] = holder.name
+	var/name = obscured ? "Unknown" : holder.name
+
+	data["obscured"] = obscured ? TRUE : FALSE
+	data["character_name"] = name
 	data["assigned_map"] = examine_panel_screen.assigned_map
 	data["flavor_text"] = flavor_text
 	return data
