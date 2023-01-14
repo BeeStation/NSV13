@@ -245,7 +245,8 @@
 	. = ..()
 
 /obj/machinery/computer/ams/ui_act(action, params)
-	. = ..()
+	if(..())
+		return
 	if(action == "data_source")
 		var/obj/structure/overmap/linked = get_overmap()
 		if(!linked)
