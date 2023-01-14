@@ -1785,6 +1785,20 @@
 /obj/item/kirbyplants/random,
 /turf/open/floor/monotile/light,
 /area/medical/virology)
+"aWn" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck1/frame1/starboard)
 "aWv" = (
 /obj/machinery/space_heater,
 /turf/open/floor/plating{
@@ -1891,7 +1905,8 @@
 /obj/effect/turf_decal/tile/neutral,
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=cic";
-	location = "science"
+	location = "science";
+	name = "UpstairsScienceToCic"
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/central)
@@ -4061,6 +4076,10 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4;
+	icon_state = "pipe"
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
@@ -7130,7 +7149,7 @@
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment{
-	dir = 4
+	dir = 6
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
@@ -10443,6 +10462,15 @@
 "eUG" = (
 /turf/closed/wall/ship,
 /area/medical/medbay/central)
+"eUS" = (
+/obj/structure/lattice/catwalk/over/ship/dark,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/starboard)
 "eUU" = (
 /turf/open/floor/plasteel/ridged/steel,
 /area/ai_monitored/storage/eva)
@@ -12444,6 +12472,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
 "fTF" = (
@@ -12854,6 +12883,9 @@
 	dir = 10
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 10
+	},
+/obj/structure/disposalpipe/segment{
 	dir = 10
 	},
 /turf/open/floor/plating,
@@ -13936,23 +13968,19 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "gFL" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/neutral{
+/obj/structure/lattice/catwalk/over/ship/dark,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
 /obj/structure/disposalpipe/segment{
-	dir = 6
+	dir = 4;
+	icon_state = "pipe"
 	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/frame1/starboard)
+/turf/open/floor/plating,
+/area/nsv/weapons/starboard)
 "gFM" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -18140,6 +18168,19 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/security/prison)
+"ixS" = (
+/obj/structure/lattice/catwalk/over/ship/dark,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/nsv/weapons/starboard)
 "iyw" = (
 /obj/structure/lattice/catwalk/over/ship/dark,
 /obj/structure/cable{
@@ -18553,6 +18594,11 @@
 	},
 /obj/structure/cable{
 	icon_state = "2-4"
+	},
+/obj/machinery/navbeacon{
+	name = "UpstairsRecToMuni";
+	location = "UpRec";
+	codes_txt = "patrol;next_patrol=munitions"
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/central)
@@ -22521,7 +22567,8 @@
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 8;
 	sortType = 7;
-	sortTypes = list(7,8,29,30)
+	sortTypes = list(7,8,29,30);
+	name = "security"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
@@ -23222,6 +23269,9 @@
 	dir = 8
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
 "kVD" = (
@@ -26404,9 +26454,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/structure/disposalpipe/junction{
-	dir = 1
-	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
 "muH" = (
@@ -27082,7 +27130,8 @@
 	},
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 4;
-	sortType = 15
+	sortType = 15;
+	name = "xo"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/fore)
@@ -28951,6 +29000,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame1/starboard)
 "nAf" = (
@@ -29788,7 +29840,8 @@
 	},
 /obj/structure/disposalpipe/sorting/mail{
 	sortType = 12;
-	sortTypes = list(12,13,14,26,28)
+	sortTypes = list(12,24,28);
+	name = "science"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/fore)
@@ -29803,7 +29856,8 @@
 /obj/effect/turf_decal/tile/neutral,
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=security";
-	location = "cic"
+	location = "cic";
+	name = "UpstairsCicToSecurity"
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/central)
@@ -30550,6 +30604,10 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
 /obj/structure/lattice/catwalk/over/ship/dark,
+/obj/structure/disposalpipe/segment{
+	dir = 4;
+	icon_state = "pipe"
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
 "opk" = (
@@ -30664,6 +30722,9 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 1
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
@@ -30868,8 +30929,10 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
-/obj/structure/disposalpipe/junction/flip{
-	dir = 4
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 4;
+	sortType = 13;
+	name = "rd"
 	},
 /turf/open/floor/monotile/steel,
 /area/science/research)
@@ -30984,7 +31047,8 @@
 	},
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=medical";
-	location = "munitions"
+	location = "munitions";
+	name = "UpstairsMunitionsToMedical"
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
@@ -32072,7 +32136,8 @@
 /obj/effect/turf_decal/tile/neutral,
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 1;
-	sortType = 31
+	sortType = 31;
+	name = "hangar"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -32482,7 +32547,8 @@
 	},
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=science";
-	location = "medical"
+	location = "medical";
+	name = "UpstairsMedicalToScience"
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/aft)
@@ -32651,6 +32717,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
 "pkk" = (
@@ -33141,6 +33208,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
 "ptB" = (
@@ -33833,9 +33901,6 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 4
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame1/starboard)
 "pLD" = (
@@ -34394,6 +34459,9 @@
 	dir = 1
 	},
 /obj/structure/lattice/catwalk/over/ship/dark,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
 "qdx" = (
@@ -35074,6 +35142,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
 "qud" = (
@@ -35722,6 +35791,7 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
 "qIx" = (
@@ -37943,6 +38013,11 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/machinery/navbeacon{
+	name = "UpToDown";
+	location = "upstairsdown";
+	codes_txt = "patrol;next_patrol=DownRec"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/central)
 "rSM" = (
@@ -38837,8 +38912,10 @@
 /turf/open/floor/plating,
 /area/security/brig)
 "spZ" = (
-/obj/structure/disposalpipe/junction/flip{
-	dir = 8
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 8;
+	name = "munitions";
+	sortType = 33
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/starboard)
@@ -40012,7 +40089,8 @@
 /obj/structure/disposalpipe/sorting/mail{
 	dir = 4;
 	sortType = 9;
-	sortTypes = list(9,10,11,23)
+	sortTypes = list(9,10,11,23);
+	name = "medical"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/aft)
@@ -44037,8 +44115,8 @@
 /turf/open/floor/monotile/steel,
 /area/science/xenobiology)
 "uLx" = (
-/obj/effect/spawner/lootdrop/grille_or_trash,
 /obj/effect/decal/cleanable/cobweb/cobweb2,
+/obj/structure/bot_elevator,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/central)
 "uLA" = (
@@ -45901,6 +45979,9 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 8
 	},
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
 "vDZ" = (
@@ -46094,8 +46175,9 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=munitions";
-	location = "security"
+	codes_txt = "patrol;next_patrol=upstairsdown";
+	location = "security";
+	name = "UpstairsSecurityToDown"
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
@@ -49873,6 +49955,7 @@
 	dir = 4
 	},
 /obj/structure/lattice/catwalk/over/ship/dark,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/central)
 "xyZ" = (
@@ -49889,9 +49972,7 @@
 /obj/structure/lattice/catwalk/over/ship/dark,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
-/obj/structure/disposalpipe/segment{
-	dir = 2
-	},
+/obj/structure/disposalpipe/junction,
 /turf/open/floor/plating,
 /area/nsv/weapons/starboard)
 "xzT" = (
@@ -50407,6 +50488,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/airalarm/directional/east,
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/starboard)
 "xMc" = (
@@ -50595,8 +50677,10 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 1
 	},
-/obj/structure/disposalpipe/junction{
-	dir = 4
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 4;
+	sortType = 14;
+	name = "roboticist"
 	},
 /turf/open/floor/monotile/steel,
 /area/science/research)
@@ -82266,9 +82350,9 @@ fTB
 xLQ
 pty
 qtU
-efE
+aWn
 nzQ
-gFL
+dxl
 fkk
 oCm
 pDI
@@ -82781,7 +82865,7 @@ skU
 niG
 nmT
 dsW
-mpV
+ixS
 puU
 nmT
 xis
@@ -83038,7 +83122,7 @@ lXF
 lXF
 ioV
 ybF
-mpV
+ixS
 puU
 nmT
 hUQ
@@ -83552,7 +83636,7 @@ gde
 bBk
 uQY
 sDs
-nnR
+eUS
 hSC
 nmT
 xAq
@@ -83809,7 +83893,7 @@ qwt
 qwt
 qwt
 wnA
-mpV
+ixS
 puU
 nmT
 nlj
@@ -84323,7 +84407,7 @@ iRO
 iRO
 tRK
 sDs
-nnR
+eUS
 xFq
 pXS
 rAQ
@@ -85095,7 +85179,7 @@ cab
 lhF
 jgm
 tNq
-mpV
+gFL
 gVx
 nmT
 nmT

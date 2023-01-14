@@ -2462,7 +2462,8 @@
 	},
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=cargo";
-	location = "engineering"
+	location = "engineering";
+	name = "EngineeringToCargo"
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/aft)
@@ -4687,7 +4688,8 @@
 	},
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=evac";
-	location = "service"
+	location = "service";
+	name = "ServiceToEvac"
 	},
 /turf/open/floor/durasteel,
 /area/crew_quarters/locker)
@@ -5400,7 +5402,8 @@
 "dCW" = (
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 8;
-	sortTypes = list(0,1)
+	sortTypes = list(0,1);
+	name = "waste"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -6654,8 +6657,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/structure/disposalpipe/junction/flip{
-	dir = 2
+/obj/structure/disposalpipe/sorting/mail/flip{
+	name = "hydroponics";
+	sortType = 21
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/aft)
@@ -9360,7 +9364,6 @@
 /turf/open/floor/plating,
 /area/chapel/main)
 "fGe" = (
-/obj/structure/disposalpipe/segment,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -12670,8 +12673,8 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/break_room)
 "hwH" = (
-/obj/structure/disposalpipe/junction{
-	dir = 1
+/obj/structure/disposalpipe/segment{
+	dir = 5
 	},
 /turf/open/floor/monotile/dark,
 /area/quartermaster/miningoffice)
@@ -13866,8 +13869,9 @@
 "igJ" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=service";
-	location = "cargo"
+	codes_txt = "patrol;next_patrol=DownToUp";
+	location = "cargo";
+	name = "CargoToUpstairs"
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/starboard)
@@ -14540,7 +14544,8 @@
 /obj/effect/spawner/lootdrop/grille_or_trash,
 /obj/structure/disposalpipe/sorting/mail{
 	dir = 1;
-	sortType = 17
+	sortType = 17;
+	name = "chapel"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
@@ -15026,7 +15031,8 @@
 /obj/structure/disposalpipe/sorting/mail{
 	dir = 8;
 	sortType = 2;
-	sortTypes = list(2,3)
+	sortTypes = list(2,3);
+	name = "cargobay"
 	},
 /turf/closed/wall/ship,
 /area/quartermaster/sorting)
@@ -15253,7 +15259,8 @@
 /obj/structure/disposalpipe/sorting/mail{
 	dir = 1;
 	sortType = 16;
-	sortTypes = list(16,18,21,22)
+	sortTypes = list(16,18);
+	name = "common_service"
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/central)
@@ -17421,6 +17428,15 @@
 "khJ" = (
 /turf/closed/wall/ship,
 /area/shuttle/turbolift/tertiary)
+"khV" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/structure/disposalpipe/segment,
+/obj/structure/bot_elevator,
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/frame1/starboard)
 "kif" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
 	dir = 9
@@ -20547,7 +20563,8 @@
 	},
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=bar";
-	location = "evac"
+	location = "evac";
+	name = "EvacToBar"
 	},
 /turf/open/floor/durasteel,
 /area/hallway/secondary/exit/departure_lounge)
@@ -20735,6 +20752,19 @@
 "mey" = (
 /turf/closed/wall/r_wall/ship,
 /area/engine/gravity_generator)
+"meS" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/navbeacon{
+	name = "DownRecieveToService";
+	location = "DownRec";
+	codes_txt = "patrol;next_patrol=service"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/frame1/starboard)
 "mfz" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/machinery/door/firedoor/border_only/directional/east,
@@ -26379,7 +26409,8 @@
 	},
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 4;
-	sortType = 20
+	sortType = 20;
+	name = "kitchen"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/aft)
@@ -27835,7 +27866,6 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
-/obj/structure/disposalpipe/segment,
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/entry)
@@ -28682,7 +28712,8 @@
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 1;
 	sortType = 4;
-	sortTypes = list(4,5)
+	sortTypes = list(4,5);
+	name = "engineering"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard/aft)
@@ -31109,7 +31140,8 @@
 	icon_state = "2-4"
 	},
 /obj/structure/disposalpipe/sorting/mail/flip{
-	sortType = 26
+	sortType = 26;
+	name = "dormitories"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard/fore)
@@ -32730,7 +32762,8 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 1;
-	sortType = 6
+	sortType = 6;
+	name = "atmospherics"
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/aft)
@@ -33999,6 +34032,20 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/dorms)
+"tvF" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=UpRec";
+	location = "DownToUp";
+	name = "DownToUp"
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/frame1/starboard)
 "tvJ" = (
 /obj/structure/table/wood,
 /obj/item/taperecorder,
@@ -35310,7 +35357,8 @@
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 4;
 	sortType = 17;
-	sortTypes = list(17,19)
+	sortTypes = list(17,19);
+	name = "chapbar"
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/central)
@@ -37121,7 +37169,8 @@
 	},
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 8;
-	sortTypes = list(0,1)
+	sortTypes = list(0,1);
+	name = "disposal"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/starboard)
@@ -37906,6 +37955,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/effect/spawner/lootdrop/grille_or_trash,
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "vRf" = (
@@ -38293,8 +38343,10 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 1
 	},
-/obj/structure/disposalpipe/junction{
-	dir = 4
+/obj/structure/disposalpipe/sorting/mail{
+	dir = 4;
+	name = "janitor";
+	sortType = 22
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/central)
@@ -39361,7 +39413,8 @@
 /obj/effect/turf_decal/tile/neutral,
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=engineering";
-	location = "bar"
+	location = "bar";
+	name = "BarToEngineering"
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/central)
@@ -75218,8 +75271,8 @@ xoF
 vqq
 cPI
 hmc
-hmc
-hmc
+meS
+khV
 bEQ
 hmc
 eHg
@@ -75733,7 +75786,7 @@ ebk
 vrj
 vMf
 gFK
-nnK
+tvF
 nnK
 nnK
 cgC
