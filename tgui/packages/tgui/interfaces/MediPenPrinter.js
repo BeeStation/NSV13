@@ -197,9 +197,9 @@ const PackagingControls = (props, context) => {
     <LabeledList>
       {!condi && (
         <PackagingControlsItem
-          label="medipen"
+          label="medipens"
           amount={medipenAmount}
-          amountUnit="medipen"
+          amountUnit="medipens"
           sideNote="max 10u"
           onChangeAmount={(e, value) => setmedipenAmount(value)}
           onCreate={() => act('create', {
