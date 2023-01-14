@@ -7,7 +7,7 @@
 /// See [limbgrower_Designs.dm] for everything we can make.
 /obj/machinery/limbgrower
 	name = "organ grower"
-	desc = "It grows new limbs using Synthflesh."
+	desc = "It grows new body parts and organs using Synthflesh and other reagents."
 	icon = 'nsv13/icons/obj/machinery/limbgrowernew.dmi'
 	icon_state = "limbgrower_idleoff"
 	density = TRUE
