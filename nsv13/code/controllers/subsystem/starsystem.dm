@@ -186,17 +186,18 @@ Returns a faction datum by its name (case insensitive!)
 	for(var/datum/star_system/S in systems)
 		if(S == null || istype(S, /datum/star_system/random))
 			continue
-		var/list/adjusted_adjacency_list = S.adjacency_list.Copy()
+		var/list/initial_adjacency_list = initial(S.adjacency_list) //Don't copy adjacency changes from wormholes or badmins (this is just a lazy fix right now)
+		var/list/adjusted_adjacency_list = initial_adjacency_list.Copy()
 		//Don't cache randomized systems in adjacency matrices.
 		for(var/system_name in adjusted_adjacency_list)
 			var/datum/star_system/SS = system_by_id(system_name)
 			if(istype(SS, /datum/star_system/random))
 				adjusted_adjacency_list.Remove(system_name)
-		var/list/adjusted_wormhole_connections = S.wormhole_connections.Copy()
+		/*var/list/adjusted_wormhole_connections = S.wormhole_connections.Copy() Not saving this right now, since wormholes spawn randomly
 		for(var/system_name in adjusted_wormhole_connections)
 			var/datum/star_system/SS = system_by_id(system_name)
 			if(istype(SS, /datum/star_system/random))
-				adjusted_wormhole_connections.Remove(system_name)
+				adjusted_wormhole_connections.Remove(system_name) */
 		var/list/entry = list(
 			//Fluff.
 			"name"=S.name,
@@ -210,7 +211,7 @@ Returns a faction datum by its name (case insensitive!)
 			"system_traits"=isnum(S.system_traits) ? S.system_traits : NONE,
 			"is_capital"=S.is_capital,
 			"adjacency_list"=json_encode(adjusted_adjacency_list),
-			"wormhole_connections"=json_encode(adjusted_wormhole_connections),
+			//"wormhole_connections"=json_encode(adjusted_wormhole_connections)
 			"fleet_type" = S.fleet_type,
 			//Coords, props.
 			"x" = S.x,
