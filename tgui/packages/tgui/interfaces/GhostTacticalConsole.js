@@ -108,61 +108,84 @@ export const GhostTacticalConsole = (props, context) => {
             </LabeledList>
           </Section>
           <Section title="Tracking:">
-            {Object.keys(data.ships).map((key, newCurrent) => {
-              let value = data.ships[key];
+            {Object.keys(data.painted_targets).map((key, newCurrent) => {
+              let value = data.painted_targets[key];
               const [current, setCurrent] = useLocalState(context, 'fs_current', true);
               const [hidden, setHidden] = useLocalState(context, 'fs_hidden', true);
 
               return (
-                <Fragment key={key}>
-                  {!!value.name && (
-                    <Section>
-                      <Button
-                        width="100%"
-                        fluid
-                        onClick={() => {
-                          setCurrent(value.name);
-                          setHidden(!hidden);
-                        }}>
-                        {`${value.name}`}
-                      </Button>
-                      {!!(current === value.name) && !hidden && (
-                        <Section title="Armour">
+                <>
+                  {!data.no_gun_cam && (
+                    <Button
+                      width="100%"
+                      fluid
+                      content={"Toggle Gun Camera"}
+                      icon="bullseye"
+                      onClick={() => act('toggle_gun_camera')} />)}
+                  <Fragment key={key}>
+                    {!!value.name && (
+                      <Section>
+                        <Button
+                          width="100%"
+                          fluid
+                          onClick={() => {
+                            setCurrent(value.name);
+                            setHidden(!hidden);
+                          }}>
+                          {`${value.name}`}
+                        </Button>
+                        {!!(current === value.name) && !hidden && (
+                          <Section title="Armour">
+                            <LabeledList>
+                              <LabeledList.Item label="Forward Starboard">
+                                <ProgressBar
+                                  value={(
+                                    value.quadrant_fp_armour_current/value.quadrant_fp_armour_max * 100)* 0.01}
+                                  ranges={{
+                                    good: [0.95, Infinity],
+                                    average: [0.15, 0.9],
+                                    bad: [-Infinity, 0.15],
+                                  }} />
+                              </LabeledList.Item>
+                              <LabeledList.Item label="Forward Port">
+                                <ProgressBar
+                                  value={(
+                                    value.quadrant_fs_armour_current/value.quadrant_fs_armour_max * 100)* 0.01}
+                                  ranges={{
+                                    good: [0.95, Infinity],
+                                    average: [0.15, 0.9],
+                                    bad: [-Infinity, 0.15],
+                                  }} />
+                              </LabeledList.Item>
+                              <LabeledList.Item label="Aft Starboard">
+                                <ProgressBar
+                                  value={(
+                                    value.quadrant_as_armour_current/value.quadrant_as_armour_max * 100)* 0.01}
+                                  ranges={{
+                                    good: [0.95, Infinity],
+                                    average: [0.15, 0.9],
+                                    bad: [-Infinity, 0.15],
+                                  }} />
+                              </LabeledList.Item>
+                              <LabeledList.Item label="Aft Port">
+                                <ProgressBar
+                                  value={(
+                                    value.quadrant_ap_armour_current/value.quadrant_ap_armour_max * 100)* 0.01}
+                                  ranges={{
+                                    good: [0.95, Infinity],
+                                    average: [0.15, 0.9],
+                                    bad: [-Infinity, 0.15],
+                                  }} />
+                              </LabeledList.Item>
+                            </LabeledList>
+                          </Section>
+                        )}
+                        <Section>
                           <LabeledList>
-                            <LabeledList.Item label="Forward Starboard">
+                            <LabeledList.Item label="Integrity">
                               <ProgressBar
                                 value={(
-                                  value.quadrant_fp_armour_current / value.quadrant_fp_armour_max * 100) * 0.01}
-                                ranges={{
-                                  good: [0.95, Infinity],
-                                  average: [0.15, 0.9],
-                                  bad: [-Infinity, 0.15],
-                                }} />
-                            </LabeledList.Item>
-                            <LabeledList.Item label="Forward Port">
-                              <ProgressBar
-                                value={(
-                                  value.quadrant_fs_armour_current / value.quadrant_fs_armour_max * 100) * 0.01}
-                                ranges={{
-                                  good: [0.95, Infinity],
-                                  average: [0.15, 0.9],
-                                  bad: [-Infinity, 0.15],
-                                }} />
-                            </LabeledList.Item>
-                            <LabeledList.Item label="Aft Starboard">
-                              <ProgressBar
-                                value={(
-                                  value.quadrant_as_armour_current / value.quadrant_as_armour_max * 100) * 0.01}
-                                ranges={{
-                                  good: [0.95, Infinity],
-                                  average: [0.15, 0.9],
-                                  bad: [-Infinity, 0.15],
-                                }} />
-                            </LabeledList.Item>
-                            <LabeledList.Item label="Aft Port">
-                              <ProgressBar
-                                value={(
-                                  value.quadrant_ap_armour_current / value.quadrant_ap_armour_max * 100) * 0.01}
+                                  value.integrity/value.max_integrity * 100)* 0.01}
                                 ranges={{
                                   good: [0.95, Infinity],
                                   average: [0.15, 0.9],
@@ -171,36 +194,22 @@ export const GhostTacticalConsole = (props, context) => {
                             </LabeledList.Item>
                           </LabeledList>
                         </Section>
-                      )}
-                      <Section>
-                        <LabeledList>
-                          <LabeledList.Item label="Integrity">
-                            <ProgressBar
-                              value={(
-                                value.integrity / value.max_integrity * 100) * 0.01}
-                              ranges={{
-                                good: [0.95, Infinity],
-                                average: [0.15, 0.9],
-                                bad: [-Infinity, 0.15],
-                              }} />
-                          </LabeledList.Item>
-                        </LabeledList>
+                        <Button
+                          fluid
+                          content={data.target_name === value.name ? `Stop Targeting ${value.name}` : `Target ${value.name}`}
+                          icon="bullseye"
+                          onClick={() =>
+                            act('lock_ship', { target: value.name })} />
+                        <Button
+                          fluid
+                          content={`Stop Tracking ${value.name}`}
+                          icon="bullseye"
+                          onClick={() =>
+                            act('dump_lock', { target: value.name })} />
                       </Section>
-                      <Button
-                        fluid
-                        content={data.target_name === value.name ? `Stop Targeting ${value.name}` : `Target ${value.name}`}
-                        icon="bullseye"
-                        onClick={() =>
-                          act('lock_ship', { target: value.name })} />
-                      <Button
-                        fluid
-                        content={`Stop Tracking ${value.name}`}
-                        icon="bullseye"
-                        onClick={() =>
-                          act('dump_lock', { target: value.name })} />
-                    </Section>
-                  )}
-                </Fragment>);
+                    )}
+                  </Fragment>
+                </>);
             })}
           </Section>
         </Section>

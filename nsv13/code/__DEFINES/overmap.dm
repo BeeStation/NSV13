@@ -30,10 +30,13 @@
 
 #define MAX_POSSIBLE_FIREMODE 16 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
 
-
 //Weapon classes for AIs
 #define WEAPON_CLASS_LIGHT 1
 #define WEAPON_CLASS_HEAVY 2
+
+// AMS targeting modes for STS
+#define AMS_LOCKED_TARGETS "Locked Targets"
+#define AMS_PAINTED_TARGETS "Painted Targets"
 
 //Northeast, Northwest, Southeast, Southwest
 #define ARMOUR_FORWARD_PORT "forward_port"

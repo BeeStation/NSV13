@@ -89,6 +89,13 @@ export const TacticalConsole = (props, context) => {
             </LabeledList>
           </Section>
           <Section title="Tracking:">
+            {!data.no_gun_cam && (
+              <Button
+                width="100%"
+                fluid
+                content={"Toggle Gun Camera"}
+                icon="bullseye"
+                onClick={() => act('toggle_gun_camera')} />)}
             {Object.keys(data.painted_targets).map((key, newCurrent) => {
               let value = data.painted_targets[key];
               const [current, setCurrent] = useLocalState(context, 'fs_current', true);

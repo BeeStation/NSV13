@@ -47,6 +47,17 @@
 	if(!linked)
 		return
 	switch(action)
+		if("toggle_gun_camera")
+			if(linked.no_gun_cam)
+				return
+			if(linked.target_lock)
+				var/scan_range = linked.dradis ? linked.dradis.visual_range : SENSOR_RANGE_DEFAULT
+				if(overmap_dist(linked, linked.target_lock) > scan_range)
+					to_chat(linked.gunner, "<span class='warning'>Target out of visual acquisition range.</span>")
+					return
+				linked.update_gunner_cam(linked.target_lock)
+				return
+			linked.update_gunner_cam()
 		if("lock_ship")
 			var/target_name = params["target"]
 			for(var/obj/structure/overmap/OM in linked.target_painted) // Locking

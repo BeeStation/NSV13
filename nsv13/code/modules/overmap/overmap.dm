@@ -150,6 +150,7 @@
 	var/autotarget = FALSE // Whether we autolock onto painted targets or not.
 	var/no_gun_cam = FALSE // Var for disabling the gunner's camera
 	var/list/ams_modes = list()
+	var/list/ams_data_source = AMS_LOCKED_TARGETS
 	var/next_ams_shot = 0
 	var/ams_targeting_cooldown = 1.5 SECONDS
 
@@ -616,21 +617,14 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/proc/select_target(obj/structure/overmap/target)
 	if(QDELETED(target) || !istype(target) || !locate(target) in target_painted)
 		target_lock = null
-		update_gunner_cam(src)
+		update_gunner_cam()
 		dump_lock(target)
 		return
 	if(target_lock == target)
 		target_lock = null
-		update_gunner_cam(src)
+		update_gunner_cam()
 		return
 	target_lock = target
-	if(no_gun_cam)
-		return
-	var/scan_range = dradis ? dradis.visual_range : SENSOR_RANGE_DEFAULT
-	if(overmap_dist(src, target) > scan_range)
-		to_chat(gunner, "<span class='warning'>Target out of visual acquisition range.</span>")
-		return
-	update_gunner_cam(target)
 
 /obj/structure/overmap/proc/dump_lock(obj/structure/overmap/target) // Our locked target got destroyed/moved, dump the lock
 	SIGNAL_HANDLER
@@ -676,6 +670,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(!gunner)
 		return
 	var/mob/camera/ai_eye/remote/overmap_observer/cam = gunner.remote_control
+	if(target == cam.ship_target) // Allows us to use this as a toggle
+		target = null
 	cam.track_target(target)
 
 // This is so ridicously expensive, who made this.

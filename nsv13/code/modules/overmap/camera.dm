@@ -167,7 +167,7 @@
 		return
 	var/obj/structure/overmap/ship = origin
 	var/scan_range = (ship.dradis) ? ship.dradis.visual_range : SENSOR_RANGE_DEFAULT
-	if(eye_user == ship.gunner && !(QDELETED(ship_target) || get_dist(ship, ship_target) > scan_range)) // No target or our target's out of range, go to origin
+	if(eye_user == ship.gunner && !(!ship_target || get_dist(ship, ship_target) > scan_range)) // No target or our target's out of range, go to origin
 		ship = ship_target
 	eye_user.client.pixel_x = ship.pixel_x
 	eye_user.client.pixel_y = ship.pixel_y
@@ -176,7 +176,8 @@
 
 // Switches the camera to track a specific target. If no target is passed, we track our origin
 /mob/camera/ai_eye/remote/overmap_observer/proc/track_target(obj/structure/overmap/target)
-	UnregisterSignal(ship_target, list(COMSIG_MOVABLE_MOVED, COMSIG_PARENT_QDELETING))
+	if(ship_target)
+		UnregisterSignal(ship_target, list(COMSIG_MOVABLE_MOVED, COMSIG_PARENT_QDELETING))
 	ship_target = target
 	if(ship_target)
 		RegisterSignal(ship_target, COMSIG_MOVABLE_MOVED, .proc/update)

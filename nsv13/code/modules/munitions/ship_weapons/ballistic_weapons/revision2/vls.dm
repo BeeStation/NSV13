@@ -221,6 +221,13 @@
 	max_range = 85
 	enabled = TRUE //By default, so that AIs can use it.
 
+/datum/ams_mode/sts/acquire_targets(obj/structure/overmap/OM)
+	if(OM.ams_data_source == AMS_LOCKED_TARGETS)
+		if(OM.target_lock)
+			return list(OM.target_lock)
+		return list()
+	. = ..()
+
 /datum/ams_mode/countermeasures
 	name = "Anti-missile countermeasures"
 	desc = "This mode will target oncoming missiles and attempt to counter them with the ship's own missile complement. Recommended for usage exclusively with ECM missiles."
@@ -239,6 +246,15 @@
 
 /obj/machinery/computer/ams/ui_act(action, params)
 	. = ..()
+	if(action == "data_source")
+		var/obj/structure/overmap/linked = get_overmap()
+		if(!linked)
+			return
+		if(linked.ams_data_source == AMS_LOCKED_TARGETS)
+			linked.ams_data_source = AMS_PAINTED_TARGETS
+			return
+		linked.ams_data_source = AMS_LOCKED_TARGETS
+		return
 	var/datum/ams_mode/target = locate(params["target"])
 	if(!target)
 		return FALSE
@@ -260,6 +276,7 @@
 		category["id"] = "\ref[AMS]"
 		categories[++categories.len] = category
 	data["categories"] = categories
+	data["data_source"] = OM.ams_data_source
 	return data
 
 /obj/machinery/computer/ams/ui_interact(mob/user, datum/tgui/ui)
@@ -351,7 +368,7 @@
 			continue
 		var/target_range = overmap_dist(incoming_missile, src)
 		// Don't engage until it's close
-		if((target_range > 30 || target_range <= 0))
+		if((target_range > 15 || target_range <= 0))
 			continue
 		fire_weapon(incoming_missile, mode=FIRE_MODE_PDC, lateral=TRUE, ai_aim = TRUE)
 		if(!light_shots_left)
