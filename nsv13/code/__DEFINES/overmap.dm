@@ -55,6 +55,7 @@
 
 #define isovermap(A) (istype(A, /obj/structure/overmap))
 #define isasteroid(A) (istype(A, /obj/structure/overmap/asteroid))
+#define isanomaly(A) (istype(A, /obj/effect/overmap_anomaly))
 
 //Assigning player ships goes here
 
