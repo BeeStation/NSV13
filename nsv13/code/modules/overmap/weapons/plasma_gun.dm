@@ -1,5 +1,5 @@
-/obj/machinery/ship_weapon/plasma_gun
-	name = "\improper Magnetic Plasma Accelerator Cannon"
+/obj/machinery/ship_weapon/plasma_caster
+	name = "\improper Magnetic Phoron 'Vintergatan' Acceleration Caster"
 	icon = 'nsv13/icons/obj/railgun.dmi' //Temp Sprite
 	icon_state = "OBC" //Temp Sprite
 	desc = "Retrieve the lamp, Torch, for the Dominion, and the Light!"
@@ -32,8 +32,8 @@
 	chamber_delay = 0
 	bang = FALSE
 
-/obj/item/circuitboard/machine/plasma_gun
-	name = "circuit board (plasma gun)"
+/obj/item/circuitboard/machine/plasma_caster
+	name = "circuit board (plasma caster)"
 	desc = "My faithful...stand firm!"
 	req_components = list(
 		/obj/item/stack/sheet/mineral/titanium = 50,
@@ -48,7 +48,7 @@
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	build_path = /obj/machinery/ship_weapon/broadside
 
-/datum/ship_weapon/plasma_gun
+/datum/ship_weapon/plasma_caster
 	name = "MPAC"
 	burst_size = 1
 	fire_delay = 180 SECONDS
@@ -62,8 +62,8 @@
 	ai_fire_delay = 180 SECONDS
 	allowed_roles = OVERMAP_USER_ROLE_GUNNER
 
-/obj/item/projectile/bullet/plasma_gun
-	name = "broadside shell"
+/obj/item/projectile/bullet/plasma_caster
+	name = "plasma ball"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "plasma_ball" //Really bad test sprite, animate and globular later
 	damage = 150
