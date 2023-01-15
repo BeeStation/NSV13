@@ -670,6 +670,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(!gunner)
 		return
 	var/mob/camera/ai_eye/remote/overmap_observer/cam = gunner.remote_control
+	if(!cam)
+		return
 	if(target == cam.ship_target) // Allows us to use this as a toggle
 		target = null
 	cam.track_target(target)
