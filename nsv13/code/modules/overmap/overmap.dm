@@ -173,6 +173,7 @@
 	var/next_maneuvre = 0 //When can we pull off a fancy trick like boost or kinetic turn?
 	var/flak_battery_amount = 0
 	var/broadside = FALSE //Whether the ship is allowed to have broadside cannons or not
+	var/plasma_gun = FALSE //Wehther the ship is allowed to have plasma gun or not
 	var/role = NORMAL_OVERMAP
 
 	var/list/missions = list()
