@@ -167,7 +167,7 @@
 		return
 	var/obj/structure/overmap/ship = origin
 	var/scan_range = (ship.dradis) ? ship.dradis.visual_range : SENSOR_RANGE_DEFAULT
-	if(eye_user == ship.gunner && !(!ship_target || get_dist(ship, ship_target) > scan_range)) // No target or our target's out of range, go to origin
+	if(eye_user == ship.gunner && !(!ship_target || overmap_dist(ship, ship_target) > scan_range)) // No target or our target's out of range, go to origin
 		ship = ship_target
 	eye_user.client.pixel_x = ship.pixel_x
 	eye_user.client.pixel_y = ship.pixel_y
