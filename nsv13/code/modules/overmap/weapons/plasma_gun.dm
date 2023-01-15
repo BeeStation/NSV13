@@ -10,15 +10,15 @@
 
 	bound_width = 128
 	bound_height = 32
-	ammo_type = /obj/item/stack/sheet/mineral/plasma
-	circuit = /obj/item/circuitboard/machine/plasma_gun
+	ammo_type = /obj/item/stack/sheet/mineral/plasma/twenty
+	circuit = /obj/item/circuitboard/machine/plasma_caster
 
 	fire_mode = FIRE_MODE_PHORON
 
 	auto_load = TRUE
 	semi_auto = TRUE
 	maintainable = TRUE
-	max_ammo = 30
+	max_ammo = 1
 	feeding_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav' //TEMP, CHANGE
 	fed_sound = null //TEMP, CHANGE
 	chamber_sound = null //TEMP, CHANGE
@@ -46,14 +46,14 @@
 		/obj/item/ship_weapon/parts/firing_electronics = 1
 	)
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
-	build_path = /obj/machinery/ship_weapon/broadside
+	build_path = /obj/machinery/ship_weapon/plasma_caster
 
 /datum/ship_weapon/plasma_caster
 	name = "MPAC"
 	burst_size = 1
 	fire_delay = 180 SECONDS
 	range_modifier = 10 //Check what this changes
-	default_projectile_type = /obj/item/projectile/bullet/broadside
+	default_projectile_type = /obj/item/projectile/bullet/plasma_caster
 	select_alert = "<span class='notice'>Charging magnetic accelerator...</span>"
 	failure_alert = "<span class='warning'>Magnetic Accelerator not ready!</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/broadside.ogg') //Make custom sound, thgwop
@@ -71,3 +71,4 @@
 	flag = "overmap_heavy"
 	speed = 0.25
 	projectile_piercing = ALL
+
