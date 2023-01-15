@@ -631,7 +631,6 @@
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
 "da" = (
-/obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
@@ -644,6 +643,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "db" = (
@@ -3746,6 +3746,13 @@
 	},
 /turf/open/floor/plasteel/dark/airless,
 /area/nsv/hanger/mining)
+"rI" = (
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/structure/munitions_trolley,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/obj/item/ammo_box/magazine/nsv/light_cannon,
+/turf/open/floor/engine/vacuum,
+/area/nsv/hanger)
 "rJ" = (
 /obj/machinery/space_heater{
 	anchored = 1
@@ -4924,6 +4931,17 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 8;
+	req_one_access_txt = "69"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4;
+	icon_state = "airlock_cyclelink_helper"
+	},
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
+	},
 /turf/open/floor/engine/vacuum,
 /area/nsv/hanger)
 "xg" = (
@@ -5162,7 +5180,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/turf/open/floor/engine/vacuum,
+/turf/closed/wall/r_wall/ship,
 /area/nsv/hanger)
 "yD" = (
 /obj/structure/fluff/bleepypanel{
@@ -6382,6 +6400,7 @@
 /obj/machinery/air_sensor/atmos/nitrogen_tank{
 	id_tag = "n2_sensor_alt"
 	},
+/obj/machinery/atmospherics/miner/nitrogen,
 /turf/open/floor/engine/n2,
 /area/engine/atmos)
 "EL" = (
@@ -7764,14 +7783,9 @@
 /turf/open/floor/plating,
 /area/engine/engine_room)
 "Lj" = (
-/obj/structure/munitions_trolley,
 /obj/structure/sign/warning/nosmoking/circle{
 	pixel_y = 28
 	},
-/obj/item/ammo_box/magazine/nsv/heavy_cannon{
-	pixel_x = -7
-	},
-/obj/item/ammo_box/magazine/nsv/heavy_cannon,
 /turf/open/floor/engine/vacuum,
 /area/nsv/hanger)
 "Ll" = (
@@ -8167,6 +8181,7 @@
 /obj/machinery/air_sensor/atmos/oxygen_tank{
 	id_tag = "o2_sensor_alt"
 	},
+/obj/machinery/atmospherics/miner/oxygen,
 /turf/open/floor/engine/o2,
 /area/engine/atmos)
 "MX" = (
@@ -8378,15 +8393,14 @@
 	dir = 4;
 	icon_state = "airlock_cyclelink_helper"
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/ship/external/glass{
-	dir = 8;
-	req_one_access_txt = "69"
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer2{
+	dir = 8
 	},
 /turf/open/floor/engine,
 /area/nsv/weapons)
@@ -8649,9 +8663,6 @@
 /turf/open/floor/plating,
 /area/maintenance/department/electrical)
 "OY" = (
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer2{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
@@ -8659,6 +8670,9 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/advanced_airlock_controller/directional/north,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
 /turf/open/floor/engine,
 /area/nsv/weapons)
 "OZ" = (
@@ -44903,7 +44917,7 @@ Nq
 qA
 Nq
 MI
-gl
+rI
 gl
 PE
 Gx
