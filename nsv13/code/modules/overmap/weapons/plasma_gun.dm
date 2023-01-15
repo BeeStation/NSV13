@@ -17,7 +17,7 @@
 
 	auto_load = TRUE
 	semi_auto = TRUE
-	maintainable = FALSE //Make Maintainable Eventually
+	maintainable = TRUE
 	max_ammo = 1
 	feeding_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav' //TEMP, CHANGE
 	fed_sound = null //TEMP, CHANGE
@@ -33,19 +33,46 @@
 	bang = FALSE
 
 	var/obj/machinery/atmospherics/components/unary/plasma_loader/loader
-	var/plasma_fire_moles = 1000 //TEMPORARY PROBABLY
+	var/plasma_fire_moles = 250 //TEMPORARY PROBABLY
 	var/plasma_mole_amount = 0 //How much plasma gas is in the gun
+	var/alignment = 100 //Stealing this from hybrid railguns
 
 /obj/machinery/ship_weapon/plasma_caster/Initialize(mapload)
 	. = ..()
 	loader = locate(/obj/machinery/atmospherics/components/unary/plasma_loader) in orange(1, src)
 	loader.linked_gun = src
 
+/obj/machinery/ship_weapon/plasma_caster/can_fire(shots = weapon_type.burst_size)
+	if((state < STATE_CHAMBERED) || !chambered)
+		return FALSE
+	if(state >= STATE_FIRING)
+		return FALSE
+	if(maintainable && malfunction) //Do we need maintenance?
+		return FALSE
+	if(plasma_mole_amount < plasma_fire_moles) //Is there enough Plasma Gas to fire?
+		return FALSE
+	if(alignment < 90)
+		if(prob(25))
+			misfire()
+			return FALSE
+	else
+		return TRUE
+
+/obj/machinery/ship_weapon/plasma_caster/proc/misfire()
+	if(prob(25))
+		do_sparks(4, FALSE, src)
+	atmos_spawn_air("plasma=[plasma_mole_amount]")
+
+/obj/machinery/ship_weapon/plasma_caster/after_fire()
+	alignment -= rand(5,60)
+	..()
+
 /obj/machinery/atmospherics/components/unary/plasma_loader
 	name = "phoron gas regulator"
 	desc = "The gas regulator that pumps gaseous phoron into the Plasma Caster"
 	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi' //Temp Sprite
 	icon_state = "constrictor" //Temp Sprite
+	pixel_y = 5 //So it lines up with layer 3 piping
 	layer = OBJ_LAYER
 	density = FALSE //Change to True when done testing
 	dir = WEST
@@ -53,6 +80,7 @@
 	pipe_flags = PIPING_ONE_PER_TURF
 	active_power_usage = 200
 	var/obj/machinery/ship_weapon/plasma_caster/linked_gun
+
 
 /obj/machinery/atmospherics/components/unary/plasma_loader/attack_hand(mob/user)
 	. = ..()
