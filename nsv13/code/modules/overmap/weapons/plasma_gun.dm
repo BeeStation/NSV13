@@ -19,9 +19,9 @@
 	semi_auto = TRUE
 	maintainable = TRUE
 	max_ammo = 1
-	feeding_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav' //TEMP, CHANGE
-	fed_sound = null //TEMP, CHANGE
-	chamber_sound = null //TEMP, CHANGE
+	feeding_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav' //TEMP, CHANGE LATER
+	fed_sound = null //TEMP, CHANGE LATER
+	chamber_sound = null //TEMP, CHANGE LATER
 
 	load_delay = 20
 	unload_delay = 20
@@ -46,6 +46,8 @@
 	if((state < STATE_CHAMBERED) || !chambered)
 		return FALSE
 	if(state >= STATE_FIRING)
+		return FALSE
+	if(ammo?.len < shots) //Do we have ammo?
 		return FALSE
 	if(maintainable && malfunction) //Do we need maintenance?
 		return FALSE
