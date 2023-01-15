@@ -655,7 +655,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(length(target.target_painted) < target.max_paints)
 		target.finish_lockon(target_lock, src)
 		to_chat(target.gunner, "<span class='notice'>Targeting data for [target] recieved from [src] via datalink.</span>")
-		to_chat(pilot, "<span class='notice'>Targeting paramaters relayed.</span>")
+		to_chat(gunner, "<span class='notice'>Targeting paramaters relayed.</span>")
 
 // if we lose our datalink signal, dump the lock
 /obj/structure/overmap/proc/check_datalink(obj/structure/overmap/data_link_origin, obj/structure/overmap/target)
