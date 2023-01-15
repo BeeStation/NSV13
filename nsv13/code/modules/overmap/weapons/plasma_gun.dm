@@ -1,5 +1,5 @@
 /obj/machinery/ship_weapon/plasma_gun
-	name = "\improper Magnetic Plasma Accelerator Cannon"
+	name = "\improper Magnetic Phoron 'Vintergatan' Accelerator Cannon"
 	icon = 'nsv13/icons/obj/railgun.dmi' //Temp Sprite
 	icon_state = "OBC" //Temp Sprite
 	desc = "Retrieve the lamp, Torch, for the Dominion, and the Light!"
