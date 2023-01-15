@@ -38,7 +38,7 @@
 
 /obj/machinery/ship_weapon/plasma_caster/Initialize(mapload)
 	. = ..()
-	loader = locate(/obj/machinery/atmospherics/components/unary/plasma_loader)
+	loader = locate(/obj/machinery/atmospherics/components/unary/plasma_loader) in orange(1, src)
 	loader.linked_gun = src
 
 /obj/machinery/atmospherics/components/unary/plasma_loader
