@@ -10,7 +10,7 @@
 
 	bound_width = 128
 	bound_height = 32
-	ammo_type = /obj/item/stack/sheet/mineral/plasma
+	ammo_type = /obj/item/stack/sheet/mineral/plasma/twenty
 	circuit = /obj/item/circuitboard/machine/plasma_caster
 
 	fire_mode = FIRE_MODE_PHORON
@@ -18,7 +18,7 @@
 	auto_load = TRUE
 	semi_auto = TRUE
 	maintainable = TRUE
-	max_ammo = 30
+	max_ammo = 1
 	feeding_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav' //TEMP, CHANGE
 	fed_sound = null //TEMP, CHANGE
 	chamber_sound = null //TEMP, CHANGE
@@ -116,3 +116,4 @@
 	flag = "overmap_heavy"
 	speed = 0.25
 	projectile_piercing = ALL
+
