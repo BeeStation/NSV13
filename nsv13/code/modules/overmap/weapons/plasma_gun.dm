@@ -11,7 +11,7 @@
 	bound_width = 128
 	bound_height = 32
 	ammo_type = /obj/item/stack/sheet/mineral/plasma
-	circuit = /obj/item/circuitboard/machine/plasma_gun
+	circuit = /obj/item/circuitboard/machine/plasma_caster
 
 	fire_mode = FIRE_MODE_PHORON
 
@@ -32,6 +32,51 @@
 	chamber_delay = 0
 	bang = FALSE
 
+	var/obj/machinery/atmospherics/components/unary/plasma_loader/loader
+	var/plasma_fire_moles = 1000 //TEMPORARY PROBABLY
+	var/plasma_mole_amount = 0 //How much plasma gas is in the gun
+
+/obj/machinery/ship_weapon/plasma_caster/Initialize(mapload)
+	. = ..()
+	loader = locate(/obj/machinery/atmospherics/components/unary/plasma_loader)
+	loader.linked_gun = src
+
+/obj/machinery/atmospherics/components/unary/plasma_loader
+	name = "OwO-class plasma loader"
+	desc = "OwO"
+	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
+	icon_state = "gun_control"
+	layer = OBJ_LAYER
+	pipe_flags = PIPING_ONE_PER_TURF
+	active_power_usage = 200
+	var/obj/machinery/ship_weapon/plasma_caster/linked_gun
+
+/obj/machinery/atmospherics/components/unary/plasma_loader/attack_hand(mob/user)
+	. = ..()
+	if(panel_open)
+		to_chat(user, "<span class='notice'>You must turn close the panel on [src] before turning it on.</span>")
+		return
+	to_chat(user, "<span class='notice'>You press [src]'s power button.</span>")
+	on = !on
+
+/obj/machinery/atmospherics/components/unary/plasma_loader/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS )
+
+/obj/machinery/atmospherics/components/unary/plasma_loader/process_atmos()
+	. = ..()
+	if(!on)
+		return
+	if(!linked_gun)
+		return
+
+	var/datum/gas_mixture/air1 = airs[1]
+	if(air1.get_moles(GAS_PLASMA) > 5 && linked_gun.plasma_mole_amount < linked_gun.plasma_fire_moles)
+		air1.adjust_moles(GAS_PLASMA, -5)
+		linked_gun.plasma_mole_amount += 5
+
+	update_parents()
+
 /obj/item/circuitboard/machine/plasma_caster
 	name = "circuit board (plasma caster)"
 	desc = "My faithful...stand firm!"
@@ -46,14 +91,14 @@
 		/obj/item/ship_weapon/parts/firing_electronics = 1
 	)
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
-	build_path = /obj/machinery/ship_weapon/broadside
+	build_path = /obj/machinery/ship_weapon/plasma_caster
 
 /datum/ship_weapon/plasma_caster
 	name = "MPAC"
 	burst_size = 1
 	fire_delay = 180 SECONDS
 	range_modifier = 10 //Check what this changes
-	default_projectile_type = /obj/item/projectile/bullet/broadside
+	default_projectile_type = /obj/item/projectile/bullet/plasma_caster
 	select_alert = "<span class='notice'>Charging magnetic accelerator...</span>"
 	failure_alert = "<span class='warning'>Magnetic Accelerator not ready!</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/broadside.ogg') //Make custom sound, thgwop
