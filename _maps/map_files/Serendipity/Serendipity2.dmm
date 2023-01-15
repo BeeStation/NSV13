@@ -3888,6 +3888,10 @@
 "sn" = (
 /turf/closed/wall/ship,
 /area/maintenance/starboard)
+"so" = (
+/obj/structure/bot_elevator,
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/hallway/nsv/deck1/hallway)
 "sr" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /obj/effect/landmark/event_spawn,
@@ -4751,7 +4755,7 @@
 	dir = 4
 	},
 /obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=deck2west";
+	codes_txt = "patrol;next_patrol=deck2up";
 	location = "deck2north";
 	name = "deck2north"
 	},
@@ -8950,6 +8954,11 @@
 "Qb" = (
 /obj/machinery/camera/autoname{
 	dir = 1
+	},
+/obj/machinery/navbeacon{
+	name = "deck2up";
+	location = "deck2up";
+	codes_txt = "patrol;next_patrol=deck1arrivals"
 	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
@@ -43345,7 +43354,7 @@ yL
 wn
 wn
 zl
-mp
+so
 Gr
 Gr
 Gr
