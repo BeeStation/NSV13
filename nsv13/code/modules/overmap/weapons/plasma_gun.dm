@@ -6,7 +6,7 @@
 	anchored = TRUE
 
 	density = TRUE
-	safety = TRUE
+	safety = FALSE //Set to true when we have a working UI for the weapon
 
 	bound_width = 128
 	bound_height = 32
@@ -17,7 +17,7 @@
 
 	auto_load = TRUE
 	semi_auto = TRUE
-	maintainable = TRUE
+	maintainable = FALSE //Make Maintainable Eventually
 	max_ammo = 1
 	feeding_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav' //TEMP, CHANGE
 	fed_sound = null //TEMP, CHANGE
@@ -42,11 +42,14 @@
 	loader.linked_gun = src
 
 /obj/machinery/atmospherics/components/unary/plasma_loader
-	name = "OwO-class plasma loader"
-	desc = "OwO"
-	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
-	icon_state = "gun_control"
+	name = "phoron gas regulator"
+	desc = "The gas regulator that pumps gaseous phoron into the Plasma Caster"
+	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi' //Temp Sprite
+	icon_state = "constrictor" //Temp Sprite
 	layer = OBJ_LAYER
+	density = FALSE //Change to True when done testing
+	dir = WEST
+	initialize_directions = WEST
 	pipe_flags = PIPING_ONE_PER_TURF
 	active_power_usage = 200
 	var/obj/machinery/ship_weapon/plasma_caster/linked_gun
@@ -96,7 +99,7 @@
 /datum/ship_weapon/plasma_caster
 	name = "MPAC"
 	burst_size = 1
-	fire_delay = 180 SECONDS
+	fire_delay = 1 SECONDS //Change to 180 SECONDS when done testing
 	range_modifier = 10 //Check what this changes
 	default_projectile_type = /obj/item/projectile/bullet/plasma_caster
 	select_alert = "<span class='notice'>Charging magnetic accelerator...</span>"
@@ -110,10 +113,13 @@
 /obj/item/projectile/bullet/plasma_caster
 	name = "plasma ball"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	icon_state = "plasma_ball" //Really bad test sprite, animate and globular later
+	icon_state = "plasma_ball" //Really bad test sprite, animate and globulate later
+	homing = TRUE
+	homing_turn_speed = 60
 	damage = 150
 	obj_integrity = 500
 	flag = "overmap_heavy"
-	speed = 0.25
+	speed = 40
 	projectile_piercing = ALL
 
+//For FIRE proc, make animation play FIRST, prob with sleep proc
