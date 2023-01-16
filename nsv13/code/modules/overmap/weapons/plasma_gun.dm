@@ -69,6 +69,53 @@
 	alignment -= rand(5,60)
 	..()
 
+/obj/machinery/ship_weapon/plasma_caster/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "PlasmaGun")
+		ui.open()
+		ui.set_autoupdate(TRUE)
+
+/obj/machinery/ship_weapon/plasma_caster/ui_data(mob/user)
+	. = ..()
+	var/list/data = list()
+	data["alignment"] = alignment
+	data["plasma_moles"] = plasma_mole_amount
+	data["plasma_moles_max"] = plasma_fire_moles
+	data["safety"] = safety
+	data["loaded"] = (state > STATE_LOADED) ? TRUE : FALSE
+	return data
+
+/obj/machinery/ship_weapon/plasma_caster/ui_act(action, params)
+    if(..())
+        return
+    var/adjust = text2num(params["adjust"])
+    switch(action)
+        if("capacitor_current_charge_rate")
+            //capacitor_current_charge_rate = adjust
+            active_power_usage = adjust
+        if("toggle_load")
+            if(state == STATE_LOADED)
+                feed()
+            else
+                unload()
+        if("chamber")
+            chamber()
+        if("toggle_safety")
+            toggle_safety()
+        if("switch_type")
+            //if(switching)
+            //    to_chat(usr, "<span class='notice'>Error: Unable to comply, action already in process.</span>")
+            //    return
+            if(ammo.len == 0)
+                to_chat(usr, "<span class='notice'>Action queued: Cycling ordnance chamber configuration.</span>")
+            //    switching = TRUE
+                playsound(src, 'nsv13/sound/effects/ship/mac_hold.ogg', 100)
+            //    addtimer(CALLBACK(src, .proc/switch_munition), 10 SECONDS)
+            else
+                to_chat(usr, "<span class='notice'>Error: Unable to alter selected ordnance type, eject loaded munitions.</span>")
+    return
+
 /obj/machinery/atmospherics/components/unary/plasma_loader
 	name = "phoron gas regulator"
 	desc = "The gas regulator that pumps gaseous phoron into the Plasma Caster"
