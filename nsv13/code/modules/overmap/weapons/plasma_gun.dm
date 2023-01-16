@@ -83,6 +83,11 @@
 	active_power_usage = 200
 	var/obj/machinery/ship_weapon/plasma_caster/linked_gun
 
+/obj/machinery/atmospherics/components/unary/plasma_loader/on_construction()
+	var/obj/item/circuitboard/machine/thermomachine/board = circuit
+	if(board)
+		piping_layer = board.pipe_layer
+	..(dir, piping_layer)
 
 /obj/machinery/atmospherics/components/unary/plasma_loader/attack_hand(mob/user)
 	. = ..()
@@ -109,6 +114,15 @@
 		linked_gun.plasma_mole_amount += 5
 
 	update_parents()
+
+/obj/item/circuitboard/machine/plasma_loader
+	name = "Phoron Gas Regulator (Machine Board)"
+	build_path = /obj/machinery/atmospherics/components/unary/plasma_loader
+	var/pipe_layer = PIPING_LAYER_DEFAULT
+	req_components = list(
+		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/stock_parts/manipulator = 1)
+
 
 /obj/item/circuitboard/machine/plasma_caster
 	name = "circuit board (plasma caster)"
