@@ -4,9 +4,10 @@
 	icon_state = "OBC" //Temp Sprite
 	desc = "Retrieve the lamp, Torch, for the Dominion, and the Light!"
 	anchored = TRUE
+	max_integrity = 1200 //Try to give it a chance to survive a plasmaflood
 
 	density = TRUE
-	safety = FALSE //Set to true when we have a working UI for the weapon
+	safety = TRUE
 
 	bound_width = 128
 	bound_height = 32
@@ -62,13 +63,18 @@
 			misfire()
 	if(alignment < 25)
 		misfire()
-			return FALSE
+		return FALSE
 	else
 		return TRUE
+
+/obj/machinery/ship_weapon/plasma_caster/animate_projectile(atom/target)
+	return linked.fire_projectile(weapon_type.default_projectile_type, target, homing = TRUE, speed = 0.5, lateral=weapon_type.lateral)
 
 /obj/machinery/ship_weapon/plasma_caster/proc/misfire()
 	if(prob(25))
 		do_sparks(4, FALSE, src)
+	if(prob(10))
+		makedarkpurpleslime()
 	atmos_spawn_air("plasma=[plasma_mole_amount]")
 
 /obj/machinery/ship_weapon/plasma_caster/after_fire()
@@ -115,11 +121,7 @@
 /obj/machinery/ship_weapon/plasma_caster/ui_act(action, params)
     if(..())
         return
-    var/adjust = text2num(params["adjust"])
     switch(action)
-        if("capacitor_current_charge_rate")
-            //capacitor_current_charge_rate = adjust
-            active_power_usage = adjust
         if("toggle_load")
             if(state == STATE_LOADED)
                 feed()
@@ -129,17 +131,6 @@
             chamber()
         if("toggle_safety")
             toggle_safety()
-        if("switch_type")
-            //if(switching)
-            //    to_chat(usr, "<span class='notice'>Error: Unable to comply, action already in process.</span>")
-            //    return
-            if(ammo.len == 0)
-                to_chat(usr, "<span class='notice'>Action queued: Cycling ordnance chamber configuration.</span>")
-            //    switching = TRUE
-                playsound(src, 'nsv13/sound/effects/ship/mac_hold.ogg', 100)
-            //    addtimer(CALLBACK(src, .proc/switch_munition), 10 SECONDS)
-            else
-                to_chat(usr, "<span class='notice'>Error: Unable to alter selected ordnance type, eject loaded munitions.</span>")
     return
 
 /obj/machinery/atmospherics/components/unary/plasma_loader
@@ -228,7 +219,7 @@
 	name = "MPAC"
 	burst_size = 1
 	fire_delay = 1 SECONDS //Change to 180 SECONDS when done testing
-	range_modifier = 10 //Check what this changes
+	range = 25000 //Make this last for an obscene amount of time
 	default_projectile_type = /obj/item/projectile/bullet/plasma_caster
 	select_alert = "<span class='notice'>Charging magnetic accelerator...</span>"
 	failure_alert = "<span class='warning'>Magnetic Accelerator not ready!</span>"
@@ -237,12 +228,14 @@
 	weapon_class = WEAPON_CLASS_HEAVY
 	ai_fire_delay = 180 SECONDS
 	allowed_roles = OVERMAP_USER_ROLE_GUNNER
+	lateral = FALSE
 
 /obj/item/projectile/bullet/plasma_caster
 	name = "plasma ball"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "plasma_ball" //Really bad test sprite, animate and globulate later
 	homing = TRUE
+	range = 25000 //Maybe this will make it go far
 	homing_turn_speed = 60
 	damage = 150
 	obj_integrity = 500
@@ -251,3 +244,12 @@
 	projectile_piercing = ALL
 
 //For FIRE proc, make animation play FIRST, prob with sleep proc
+
+/obj/machinery/ship_weapon/plasma_caster/proc/makedarkpurpleslime()
+	var/turf/open/T = get_turf(src)
+	var/mob/living/simple_animal/slime/S = new(T, "dark purple")
+	S.rabid = TRUE
+	S.amount_grown = SLIME_EVOLUTION_THRESHOLD
+	S.Evolve()
+	S.flavor_text = FLAVOR_TEXT_EVIL
+	S.set_playable()

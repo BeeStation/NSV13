@@ -32,6 +32,13 @@ export const PlasmaGun = (props, context) => {
               selected={data.loaded}
               content="I1 - Payload loaded"
               onClick={() => act('toggle_load')} />
+            <Button
+              fluid
+              icon={data.safety ? "check-circle" : "square-o"}
+              width="100"
+              selected={data.safety}
+              content="I2 - Safety"
+              onClick={() => act('toggle_safety')} />
           </Section>
         </Section>
       </Window.Content>
