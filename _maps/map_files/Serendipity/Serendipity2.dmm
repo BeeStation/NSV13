@@ -3523,6 +3523,11 @@
 	},
 /turf/open/floor/monotile/light,
 /area/quartermaster)
+"qI" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/light/floor,
+/turf/open/floor/engine,
+/area/nsv/engine/engine_room/core)
 "qK" = (
 /obj/machinery/rnd/production/techfab/department/engineering,
 /turf/open/floor/monotile/steel,
@@ -4999,6 +5004,7 @@
 /turf/open/floor/plasteel/white,
 /area/quartermaster/meeting_room)
 "xz" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/light/floor,
 /turf/open/floor/engine,
 /area/nsv/engine/engine_room/core)
@@ -7369,6 +7375,13 @@
 	},
 /turf/open/floor/carpet/orange,
 /area/nsv/crew_quarters/heads/maa)
+"Jh" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/light/floor,
+/turf/open/floor/engine,
+/area/nsv/engine/engine_room/core)
 "Jl" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "31;48"
@@ -8888,6 +8901,7 @@
 /area/nsv/hanger)
 "PF" = (
 /obj/machinery/camera/autoname,
+/obj/machinery/light/floor,
 /turf/open/floor/engine,
 /area/nsv/engine/engine_room/core)
 "PI" = (
@@ -8970,9 +8984,9 @@
 	dir = 1
 	},
 /obj/machinery/navbeacon{
-	name = "deck2up";
+	codes_txt = "patrol;next_patrol=deck1arrivals";
 	location = "deck2up";
-	codes_txt = "patrol;next_patrol=deck1arrivals"
+	name = "deck2up"
 	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
@@ -39233,7 +39247,7 @@ Ti
 Md
 Md
 Md
-Md
+xz
 Md
 Md
 Md
@@ -39747,7 +39761,7 @@ JH
 Ij
 nY
 VE
-xz
+VE
 VE
 nY
 Ij
@@ -40265,7 +40279,7 @@ HH
 VE
 VE
 Ij
-YN
+Jh
 gS
 wI
 vP
@@ -40775,7 +40789,7 @@ Am
 Ij
 nY
 VE
-xz
+VE
 VE
 nY
 Ij
@@ -41289,7 +41303,7 @@ aL
 Lf
 Lf
 Lf
-Lf
+qI
 Lf
 Lf
 Lf
