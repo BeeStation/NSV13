@@ -52,8 +52,16 @@
 	if(plasma_mole_amount < plasma_fire_moles) //Is there enough Plasma Gas to fire?
 		return FALSE
 	if(alignment < 90)
+		if(prob(10))
+			misfire()
+	if(alignment < 75)
 		if(prob(25))
 			misfire()
+	if(alignment < 50)
+		if(prob(50))
+			misfire()
+	if(alignment < 25)
+		misfire()
 			return FALSE
 	else
 		return TRUE
