@@ -47,8 +47,6 @@
 		return FALSE
 	if(state >= STATE_FIRING)
 		return FALSE
-	if(ammo?.len < shots) //Do we have ammo?
-		return FALSE
 	if(maintainable && malfunction) //Do we need maintenance?
 		return FALSE
 	if(plasma_mole_amount < plasma_fire_moles) //Is there enough Plasma Gas to fire?
@@ -67,7 +65,27 @@
 
 /obj/machinery/ship_weapon/plasma_caster/after_fire()
 	alignment -= rand(5,60)
+	plasma_mole_amount -= 250
 	..()
+
+/obj/machinery/ship_weapon/plasma_caster/crowbar_act(mob/user, obj/item/tool)
+	return //prevent deconstructing
+
+/obj/machinery/ship_weapon/plasma_caster/multitool_act(mob/living/user, obj/item/I)
+	. = TRUE
+	if(maint_state == 0)
+		to_chat(user, "<span class='notice'>You must first open the maintenance panel before unwrenching the protective casing!</span>")
+	if(maint_state == 1)
+		to_chat(user, "<span class='notice'>You must unbolt the protective casing before tuning the magnetic frequency!</span>")
+	else
+		to_chat(user, "<span class='notice'>You being tuning the magnetic frequency.</span>")
+		while(alignment < 100)
+			if(!do_after(user, 5, target = src))
+				return
+			alignment += rand(1,2)
+			if(alignment >= 100)
+				alignment = 100
+				break
 
 /obj/machinery/ship_weapon/plasma_caster/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
