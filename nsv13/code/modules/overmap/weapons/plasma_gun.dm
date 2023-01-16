@@ -96,13 +96,24 @@
 		return
 	to_chat(user, "<span class='notice'>You press [src]'s power button.</span>")
 	on = !on
+	update_icon()
+
+//TEMPORARY
+/obj/machinery/atmospherics/components/unary/plasma_loader/update_icon()
+	cut_overlays()
+	if(panel_open)
+		icon_state = "constrictor_screw"
+	else if(on)
+		icon_state = "constrictor_active"
+	else
+		icon_state = "constrictor"
 
 /obj/machinery/atmospherics/components/unary/plasma_loader/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS )
 
 /obj/machinery/atmospherics/components/unary/plasma_loader/process_atmos()
-	. = ..()
+	..()
 	if(!on)
 		return
 	if(!linked_gun)
