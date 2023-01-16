@@ -68,7 +68,7 @@
 		return TRUE
 
 /obj/machinery/ship_weapon/plasma_caster/animate_projectile(atom/target)
-	return linked.fire_projectile(weapon_type.default_projectile_type, target, homing = TRUE, speed = 0.5, lateral=weapon_type.lateral)
+	return linked.fire_projectile(weapon_type.default_projectile_type, target, homing = TRUE, speed = 2, lateral=weapon_type.lateral)
 
 /obj/machinery/ship_weapon/plasma_caster/proc/misfire()
 	if(prob(25))
@@ -236,12 +236,46 @@
 	icon_state = "plasma_ball" //Really bad test sprite, animate and globulate later
 	homing = TRUE
 	range = 25000 //Maybe this will make it go far
-	homing_turn_speed = 60
+	homing_turn_speed = 180
 	damage = 150
 	obj_integrity = 500
 	flag = "overmap_heavy"
-	speed = 40
+	speed = 8
 	projectile_piercing = ALL
+
+/obj/item/projectile/bullet/plasma_caster/process_hit(turf/T, atom/target, atom/bumped, hit_something)
+	. = ..()
+	impacted[target] = FALSE
+
+/obj/item/projectile/bullet/plasma_caster/fire()
+	. = ..()
+	if(!homing_target)
+		find_target()
+		return
+	RegisterSignal(homing_target, COMSIG_PARENT_QDELETING, .proc/find_target)
+
+/obj/item/projectile/bullet/plasma_caster/proc/find_target()
+	SIGNAL_HANDLER
+	if(homing_target)
+		UnregisterSignal(homing_target, COMSIG_PARENT_QDELETING)
+	var/obj/structure/overmap/target_lock
+	var/target_distance
+	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+		if(ship.faction == faction)
+			continue
+		if(ship.essential)
+			continue
+		if(ship.z != z)
+			continue
+		var/new_target_distance = overmap_dist(src)
+		if(target_distance && new_target_distance > target_distance)
+			continue
+		target_lock = ship
+		target_distance = new_target_distance
+	if(!target_lock)
+		return
+	set_homing_target(target_lock)
+	RegisterSignal(homing_target, COMSIG_PARENT_QDELETING, .proc/find_target)
 
 //For FIRE proc, make animation play FIRST, prob with sleep proc
 
