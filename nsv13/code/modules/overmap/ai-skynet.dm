@@ -1642,7 +1642,7 @@ Seek a ship thich we'll station ourselves around
 	var/obj/structure/overmap/squad_lead = null
 	var/obj/structure/overmap/last_overmap = null
 	var/switchsound_cooldown = 0
-	var/moth = FALSE //Variable for allowing docking on the Serendipity
+	var/boardable = FALSE //Variable for allowing docking on the Serendipity
 
 /obj/structure/overmap/proc/ai_fire(atom/target)
 	if(istype(target, /obj/structure/overmap))

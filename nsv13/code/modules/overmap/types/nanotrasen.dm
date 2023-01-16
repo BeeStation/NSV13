@@ -160,7 +160,7 @@
 	max_integrity = 1250
 	integrity_failure = 1250
 	armor = list("overmap_light" = 50, "overmap_medium" = 40, "overmap_heavy" = 50)
-	moth = TRUE
+	boardable = TRUE
 
 /obj/structure/overmap/nanotrasen/serendipity/event
 	obj_integrity = 10000000
