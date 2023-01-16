@@ -206,12 +206,12 @@ Returns a faction datum by its name (case insensitive!)
 			//General system props
 			"alignment" = S.alignment,
 			"owner" = S.owner,
-			"hidden"=S.hidden,
+			"hidden"=initial(S.hidden),
 			"system_type" = json_encode(S.system_type),
 			"system_traits"=isnum(S.system_traits) ? S.system_traits : NONE,
 			"is_capital"=S.is_capital,
 			"adjacency_list"=json_encode(adjusted_adjacency_list),
-			//"wormhole_connections"=json_encode(adjusted_wormhole_connections)
+			"wormhole_connections"=S.wormhole_connections,
 			"fleet_type" = S.fleet_type,
 			//Coords, props.
 			"x" = S.x,
