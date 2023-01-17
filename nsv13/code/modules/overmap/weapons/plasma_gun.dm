@@ -258,16 +258,22 @@
 	SIGNAL_HANDLER
 	if(homing_target)
 		UnregisterSignal(homing_target, COMSIG_PARENT_QDELETING)
+	if(!overmap_firer)
+		return
 	var/obj/structure/overmap/target_lock
 	var/target_distance
-	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
+	var/datum/star_system/target_system = SSstar_system.find_system(overmap_firer)
+	var/list/targets = target_system.system_contents
+	for(var/obj/structure/overmap/ship in targets)
+		if(overmap_firer.warcrime_blacklist[ship.type])
+			continue
 		if(ship.faction == faction)
 			continue
 		if(ship.essential)
 			continue
 		if(ship.z != z)
 			continue
-		var/new_target_distance = overmap_dist(src)
+		var/new_target_distance = overmap_dist(src, ship)
 		if(target_distance && new_target_distance > target_distance)
 			continue
 		target_lock = ship
