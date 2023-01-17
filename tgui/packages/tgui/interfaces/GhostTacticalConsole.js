@@ -11,7 +11,7 @@ export const GhostTacticalConsole = (props, context) => {
   return (
     <Window
       resizable
-      theme="nanotrasen"
+      theme="hackerman"
       width={560}
       height={600}>
       <Window.Content scrollable>
