@@ -7,12 +7,12 @@
  @use 'sass:meta';
 
  @use '../colors.scss' with (
-   $primary: rgb(255, 215, 0),
+   $primary: #CEB232,
    $fg-map-keys: (),
    $bg-map-keys: (),
  );
  @use '../base.scss' with (
-   $color-bg: #F4F4F4,
+   $color-bg: #c6c6c6,
    $color-bg-grad-spread: 6%,
    $border-radius: 2px,
  );
@@ -23,24 +23,29 @@
 
    // Components
    @include meta.load-css('../components/Button.scss', $with: (
-     'color-default': colors.$primary,
+     'color-default': #495591,
      'color-disabled': #363636,
-     'color-selected': #465899,
+     'color-selected': #ffda02,
      'color-caution': #be6209,
      'color-danger': #9a9d00,
    ));
+
    @include meta.load-css('../components/Input.scss', $with: (
      'border-color': #404b6e,
    ));
+
    @include meta.load-css('../components/NoticeBox.scss', $with: (
      'background-color': #a82d55,
    ));
+
    @include meta.load-css('../components/NumberInput.scss', $with: (
      'border-color': #404b6e,
    ));
+
    @include meta.load-css('../components/ProgressBar.scss', $with: (
      'background-color': rgba(0, 0, 0, 0.5),
    ));
+
    @include meta.load-css('../components/Section.scss');
    @include meta.load-css('../components/Tooltip.scss', $with: (
      'background-color': #a82d55,
@@ -50,14 +55,19 @@
    @include meta.load-css('../layouts/Layout.scss');
    @include meta.load-css('../layouts/Window.scss');
    @include meta.load-css('../layouts/TitleBar.scss', $with: (
-     'background-color': #FFD700,
+     'background-color': #CEB232,
    ));
 
    .Layout__content {
-     background-image: url('../../assets/bg-nanotrasen.svg');
+     background-image: url('../../assets/bg-dominionoflight.svg');
+     background-size: 150%;
+     background-position: center;
+     background-repeat: no-repeat;
    }
 
    .ProgressBar__fill {
-      background-image: linear-gradient(-90deg,rgb(77, 113, 202) 50%, goldenrod 50%);
+      background-color: #CEB232;
    }
  }
+
+ // Shut the hell up, sass

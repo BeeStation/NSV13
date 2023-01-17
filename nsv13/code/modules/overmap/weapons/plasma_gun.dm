@@ -83,10 +83,14 @@
 	plasma_mole_amount -= 250
 	..()
 
-/obj/machinery/ship_weapon/plasma_caster/crowbar_act(mob/user, obj/item/tool)
-	to_chat(user, "<span class='warning'>Burning Plasma starts to vent from the gun which chars your body!</span>")
-	user.dust()
-	return //prevent deconstructing
+/obj/machinery/ship_weapon/plasma_caster/default_deconstruction_crowbar(obj/item/I, ignore_panel)
+	if(plasma_mole_amount > 0)
+		misfire()
+
+	var/mob/living/Jim = usr
+	to_chat(usr, "<span class='danger'>Burning Plasma starts to vent from the gun which chars your body!</span>")
+	Jim.adjustFireLoss(rand(300, 1000)) // OwO
+	return
 
 /obj/machinery/ship_weapon/plasma_caster/multitool_act(mob/living/user, obj/item/I)
 	. = TRUE
@@ -103,6 +107,13 @@
 			if(alignment >= 100)
 				alignment = 100
 				break
+
+/**
+ * Unload magazine or just-loaded rounds.
+ */
+/obj/machinery/ship_weapon/plasma_caster/attack_hand(mob/user)
+	ui_interact(user)
+	return
 
 /obj/machinery/ship_weapon/plasma_caster/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -125,19 +136,19 @@
 	return data
 
 /obj/machinery/ship_weapon/plasma_caster/ui_act(action, params)
-    if(..())
-        return
-    switch(action)
-        if("toggle_load")
-            if(state == STATE_LOADED)
-                feed()
-            else
-                unload()
-        if("chamber")
-            chamber()
-        if("toggle_safety")
-            toggle_safety()
-    return
+	if(..())
+		return
+	switch(action)
+		if("toggle_load")
+			if(state == STATE_LOADED)
+				feed()
+			else
+				unload()
+		if("chamber")
+			chamber()
+		if("toggle_safety")
+			toggle_safety()
+	return
 
 /obj/machinery/atmospherics/components/unary/plasma_loader
 	name = "phoron gas regulator"
