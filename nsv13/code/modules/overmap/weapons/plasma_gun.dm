@@ -89,7 +89,7 @@
 
 	var/mob/living/Jim = usr
 	to_chat(usr, "<span class='danger'>Burning Plasma starts to vent from the gun which chars your body!</span>")
-	Jim.adjustFireLoss(rand(300, 1000)) // OwO
+	Jim.adjustFireLoss(rand(300, 1000)) // OwO no Deconning ever
 	return
 
 /obj/machinery/ship_weapon/plasma_caster/multitool_act(mob/living/user, obj/item/I)
