@@ -11,13 +11,13 @@
 
 	bound_width = 128
 	bound_height = 32
-	ammo_type = /obj/item/stack/sheet/mineral/plasma/twenty
+	ammo_type = /obj/item/ship_weapon/ammunition/plasma_core
 	circuit = /obj/item/circuitboard/machine/plasma_caster
 
 	fire_mode = FIRE_MODE_PHORON
 
 	auto_load = FALSE
-	semi_auto = TRUE
+	semi_auto = FALSE
 	maintainable = TRUE
 	max_ammo = 1
 	feeding_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav' //TEMP, CHANGE LATER
@@ -301,6 +301,23 @@
 	ai_fire_delay = 180 SECONDS
 	allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	lateral = FALSE
+
+/obj/item/ship_weapon/ammunition/plasma_core
+	name = "\improper Condensed Phoron Core"
+	desc = "A heavy, condensed ball of plasma coated in a thick shell to prevent accidents."
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "plasma_core"
+	projectile_type = /obj/item/projectile/bullet/plasma_caster
+
+/datum/design/plasma_core
+	name = "Condensed Phoron Core"
+	desc = "Allows you to synthesize condensed phoron cores for the MPAC"
+	id = "plasma_core"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/plasma=40000, /datum/material/iron=10000)
+	build_path = /obj/item/ship_weapon/ammunition/plasma_core
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /obj/item/projectile/bullet/plasma_caster
 	name = "plasma ball"
