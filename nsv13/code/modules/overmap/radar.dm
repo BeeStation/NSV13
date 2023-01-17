@@ -185,6 +185,10 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	hail_range = 30
 	can_use_radar = FALSE
 
+/obj/machinery/computer/ship/dradis/internal/large_ship
+	base_sensor_range = SENSOR_RANGE_DEFAULT
+	can_use_radar = TRUE
+
 /obj/machinery/computer/ship/dradis/internal/has_overmap()
 	return linked
 

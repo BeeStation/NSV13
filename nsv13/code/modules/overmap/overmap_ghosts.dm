@@ -54,7 +54,10 @@
 
 	//Insert the extra machines
 	if(!dradis)
-		dradis = new /obj/machinery/computer/ship/dradis/internal(src)
+		if(mass >= MASS_SMALL)
+			dradis = new /obj/machinery/computer/ship/dradis/internal/large_ship(src)
+		else
+			dradis = new /obj/machinery/computer/ship/dradis/internal(src)
 		dradis.linked = src
 
 	if(!tactical)
@@ -78,7 +81,7 @@
 
 	//Make sure the ship doesn't enter countdown
 	overmap_deletion_traits = DAMAGE_ALWAYS_DELETES
-	
+
 	//Add some verbs
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/show_dradis, .verb/show_tactical, .verb/toggle_move_mode, .verb/cycle_firemode)
 
