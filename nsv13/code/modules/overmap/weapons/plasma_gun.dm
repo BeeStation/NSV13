@@ -16,7 +16,7 @@
 
 	fire_mode = FIRE_MODE_PHORON
 
-	auto_load = TRUE
+	auto_load = FALSE
 	semi_auto = TRUE
 	maintainable = TRUE
 	max_ammo = 1
@@ -116,6 +116,9 @@
 	data["plasma_moles_max"] = plasma_fire_moles
 	data["safety"] = safety
 	data["loaded"] = (state > STATE_LOADED) ? TRUE : FALSE
+	data["chambered"] = (state > STATE_FED) ? TRUE : FALSE
+	data["ammo"] = ammo?.len || 0
+	data["max_ammo"] = max_ammo
 	return data
 
 /obj/machinery/ship_weapon/plasma_caster/ui_act(action, params)
