@@ -83,6 +83,8 @@
 	..()
 
 /obj/machinery/ship_weapon/plasma_caster/crowbar_act(mob/user, obj/item/tool)
+	to_chat(user, "<span class='warning'>Burning Plasma starts to vent from the gun which chars your body!</span>")
+	user.dust()
 	return //prevent deconstructing
 
 /obj/machinery/ship_weapon/plasma_caster/multitool_act(mob/living/user, obj/item/I)

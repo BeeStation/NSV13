@@ -4,11 +4,23 @@ import { Button, Section, ProgressBar, Table } from '../components';
 import { Window } from '../layouts';
 import { toFixed } from 'common/math';
 
+// OWO WHATS THIS? A PLASMA GUN? //
+// OWO NOTICES YOUR PLASMA GUN //
+// OWO POUNCES ON YOUR PLASMA GUN //
+// OWO SNIFFS YOUR PLASMA GUN //
+// OWO LICKS YOUR PLASMA GUN //
+
+// UwU WHATS THIS? A PLASMA GUN? //
+// UwU NOTICES YOUR PLASMA GUN //
+// UwU POUNCES ON YOU //
+// UwU YIFFS YOU //
+// UwU LICKS YOU //
+
 export const PlasmaGun = (props, context) => {
   const { act, data } = useBackend(context);
   return (
     <Window resizable
-      theme="ntos"
+      theme="dominion"
       width={560}
       height={600}>
       <Window.Content scrollable>
@@ -29,41 +41,26 @@ export const PlasmaGun = (props, context) => {
             <Table.Cell collapsing>
               <Section title="Plasma Load:">
                 <ProgressBar
-                  value={(data.plasma_moles/data.plasma_moles_max * 100)* 0.01}
-                  ranges={{
-                    good: [0.5, Infinity],
-                    average: [0.15, 0.5],
-                    bad: [-Infinity, 0.15],
-                  }}
-                />
-              </Section>
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell collapsing>
-              <Section title="Field Integrity:">
-                <ProgressBar
-                  value={data.alignment * 0.01}
-                  ranges={{
-                    good: [0.5, Infinity],
-                    average: [0.15, 0.5],
-                    bad: [-Infinity, 0.15],
-                  }}
-                />
-              </Section>
-            </Table.Cell>
-            <Table.Cell collapsing>
-              <Section title="Loaded Ammunition:">
-                <ProgressBar
                   value={(data.ammo / data.max_ammo * 100) * 0.01}
                   ranges={{
-                    good: [0.4, Infinity],
-                    average: [0.15, 0.4],
-                    bad: [-Infinity, 0.4],
-                  }} />
+                    good: [0.5, Infinity],
+                    average: [0.15, 0.5],
+                    bad: [-Infinity, 0.15],
+                  }}
+                />
               </Section>
             </Table.Cell>
           </Table.Row>
+          <Section title="Field Integrity:">
+            <ProgressBar
+              value={data.alignment * 0.01}
+              ranges={{
+                good: [0.5, Infinity],
+                average: [0.15, 0.5],
+                bad: [-Infinity, 0.15],
+              }}
+            />
+          </Section>
         </Section>
         <Section title="Weapon system controls:">
           <Button
