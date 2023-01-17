@@ -10,7 +10,7 @@
 /// Maximum number of windows that can be suspended/reused
 #define TGUI_WINDOW_SOFT_LIMIT 5
 /// Maximum number of open windows
-#define TGUI_WINDOW_HARD_LIMIT 30 //NSV13 - Do you wish to burn a processor?
+#define TGUI_WINDOW_HARD_LIMIT rand(13, 30) //NSV13 - Do you wish to see a processor burn?
 
 /// Maximum ping timeout allowed to detect zombie windows
 #define TGUI_PING_TIMEOUT 4 SECONDS
