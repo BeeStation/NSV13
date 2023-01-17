@@ -37,6 +37,7 @@
 	var/plasma_fire_moles = 250 //TEMPORARY PROBABLY
 	var/plasma_mole_amount = 0 //How much plasma gas is in the gun
 	var/alignment = 100 //Stealing this from hybrid railguns
+	var/field_integrity = 100 //Degrades over time when safety's off, don't let it reach zero
 
 /obj/machinery/ship_weapon/plasma_caster/Initialize(mapload)
 	. = ..()
