@@ -38,6 +38,57 @@
 	var/plasma_mole_amount = 0 //How much plasma gas is in the gun
 	var/alignment = 100 //Stealing this from hybrid railguns
 	var/field_integrity = 100 //Degrades over time when safety's off, don't let it reach zero
+	var/next_warning = 0 //Helps keep warning spam away
+	processing_flags = START_PROCESSING_ON_INIT
+
+/obj/machinery/ship_weapon/plasma_caster/toggle_safety()
+	. = ..()
+	if(!safety)
+		begin_processing()
+	else if(field_integrity == 100)
+		end_processing()
+
+/obj/machinery/ship_weapon/plasma_caster/process(delta_time)
+	if(!safety)
+		field_integrity = max(field_integrity - delta_time, 0)
+	else
+		field_integrity = min(field_integrity + delta_time, 100)
+	switch(field_integrity)
+		if(100)
+			if(next_warning == 1)
+				next_warning --
+				say("Local phoron containment field fully stabilized.")
+		if(76 to 99)
+			if(next_warning == 0)
+				next_warning ++
+				say("Localized phoron containment field disengaged, preparing to fire.")
+			else if(next_warning == 2)
+				next_warning --
+				say("Phoron containment field stabilized to ideal levels.")
+		if(51 to 75)
+			if(next_warning == 1)
+				next_warning ++
+				say("Phoron containment field at 75%, stability decreasing.")
+			else if(next_warning == 3)
+				say("Integrity at 50%, continuing stabilization process...")
+				next_warning --
+		if(26 to 50)
+			if(next_warning == 2)
+				next_warning ++
+				say("WARNING! Containment field 50% and falling.")
+			else if(next_warning == 4)
+				next_warning --
+				say("Restored field integrity above critical levels.")
+		if(1 to 25)
+			if(next_warning == 3)
+				next_warning ++
+				say("WARNING! 25% Integrity! Containment Failure Imminent!")
+		if(0)
+			misfire()
+			safety = TRUE
+			field_integrity = 100
+			next_warning = 0
+			return PROCESS_KILL
 
 /obj/machinery/ship_weapon/plasma_caster/Initialize(mapload)
 	. = ..()
@@ -72,15 +123,18 @@
 	return linked.fire_projectile(weapon_type.default_projectile_type, target, homing = TRUE, speed = 2, lateral=weapon_type.lateral)
 
 /obj/machinery/ship_weapon/plasma_caster/proc/misfire()
+	say("WARNING! Phoron containment field failure, ejecting gas!")
 	if(prob(25))
 		do_sparks(4, FALSE, src)
 	if(prob(10))
 		makedarkpurpleslime()
-	atmos_spawn_air("plasma=[plasma_mole_amount]")
+	atmos_spawn_air("plasma=[plasma_mole_amount];TEMP=293")
+	plasma_mole_amount = 0
 
 /obj/machinery/ship_weapon/plasma_caster/after_fire()
 	alignment -= rand(5,60)
 	plasma_mole_amount -= 250
+	field_integrity = 100
 	..()
 
 /obj/machinery/ship_weapon/plasma_caster/default_deconstruction_crowbar(obj/item/I, ignore_panel)
@@ -125,6 +179,7 @@
 /obj/machinery/ship_weapon/plasma_caster/ui_data(mob/user)
 	. = ..()
 	var/list/data = list()
+	data["field_integrity"] = field_integrity
 	data["alignment"] = alignment
 	data["plasma_moles"] = plasma_mole_amount
 	data["plasma_moles_max"] = plasma_fire_moles
@@ -303,10 +358,11 @@
 //For FIRE proc, make animation play FIRST, prob with sleep proc
 
 /obj/machinery/ship_weapon/plasma_caster/proc/makedarkpurpleslime()
-	var/turf/open/T = get_turf(src)
-	var/mob/living/simple_animal/slime/S = new(T, "dark purple")
-	S.rabid = TRUE
-	S.amount_grown = SLIME_EVOLUTION_THRESHOLD
-	S.Evolve()
-	S.flavor_text = FLAVOR_TEXT_EVIL
-	S.set_playable()
+	if(plasma_mole_amount > 0)
+		var/turf/open/T = get_turf(src)
+		var/mob/living/simple_animal/slime/S = new(T, "dark purple")
+		S.rabid = TRUE
+		S.amount_grown = SLIME_EVOLUTION_THRESHOLD
+		S.Evolve()
+		S.flavor_text = FLAVOR_TEXT_EVIL
+		S.set_playable()

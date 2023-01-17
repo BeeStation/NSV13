@@ -65,8 +65,18 @@ export const PlasmaGun = (props, context) => {
               }}
             />
           </Section>
+          <Section title="Field Integrity:">
+            <ProgressBar
+              value={data.field_integrity * 0.01}
+              ranges={{
+                good: [0.5, Infinity],
+                average: [0.15, 0.5],
+                bad: [-Infinity, 0.15],
+              }}
+            />
+          </Section>
         </Section>
-        <Section title="Weapon system controls:">
+        <Section title="Deterrant System Controls:">
           <Button
             fluid
             icon={data.loaded ? "check-circle" : "square-o"}
