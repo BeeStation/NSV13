@@ -41,7 +41,7 @@ export const PlasmaGun = (props, context) => {
           </Table.Row>
           <Table.Row>
             <Table.Cell collapsing>
-              <Section title="Field Integrity:">
+              <Section title="Field Alignment:">
                 <ProgressBar
                   value={data.alignment * 0.01}
                   ranges={{
