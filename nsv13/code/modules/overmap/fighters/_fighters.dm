@@ -794,6 +794,18 @@ Been a mess since 2018, we'll fix it someday (probably)
 		return (S && istype(S) && S.bypass_safety)
 	return FALSE
 
+/obj/structure/overmap/small_craft/can_change_safeties()
+	// Grab every possible hardpoint slot
+	var/obj/item/fighter_component/primary/primary_mount = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+	var/obj/item/fighter_component/secondary/secondary_mount = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+	var/obj/item/fighter_component/primary/primary_utility = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
+	var/obj/item/fighter_component/secondary/secondary_utility = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
+	// If all mounts are ship-safe or don't exist, let them toggle safeties. Otherwise, rely on parent proc.
+	if((!primary_mount || primary_mount.is_safe) && (!secondary_mount || secondary_mount.is_safe) \
+		&& (!primary_utility || primary_utility.is_safe)&& (!secondary_utility || secondary_utility.is_safe))
+		return TRUE
+	return ..()
+
 /obj/structure/overmap/small_craft/try_repair(amount)
 	if(obj_integrity < max_integrity)
 		..()
@@ -1456,6 +1468,8 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/fire_delay = 0
 	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	var/bypass_safety = FALSE
+	var/is_safe = FALSE // Used by primary and secondary hardpoints to determine if they're safe to be used on ship Z-levels
+	var/lateral = FALSE // Whether we have a gimbaled primary weapon
 
 /obj/item/fighter_component/primary/dump_contents()
 	. = ..()
@@ -1528,7 +1542,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/obj/item/ammo_casing/chambered = ammo[ammo.len]
 	var/datum/ship_weapon/SW = F.weapon_types[fire_mode]
 	SW.default_projectile_type = chambered.projectile_type
-	SW.fire_fx_only(target)
+	SW.fire_fx_only(target, lateral)
 	ammo -= chambered
 	qdel(chambered)
 	return TRUE
@@ -1543,6 +1557,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	SW.burst_size = burst_size
 	SW.fire_delay = fire_delay
 	SW.allowed_roles = allowed_roles
+	target.weapon_safety = TRUE
 
 /obj/item/fighter_component/primary/remove_from(obj/structure/overmap/target)
 	. = ..()
@@ -1584,6 +1599,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/fire_delay = 0.25 SECONDS
 	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	var/bypass_safety = FALSE
+	var/is_safe = FALSE // Used by primary and secondary hardpoints to determine if they're safe to be used on ship Z-levels
 
 /obj/item/fighter_component/secondary/dump_contents()
 	. = ..()
@@ -1608,6 +1624,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	SW.burst_size = burst_size
 	SW.fire_delay = fire_delay
 	SW.allowed_roles = allowed_roles
+	target.weapon_safety = TRUE
 
 /obj/item/fighter_component/secondary/remove_from(obj/structure/overmap/target)
 	. = ..()
@@ -1705,6 +1722,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	name = "No :)"
 	slot = HARDPOINT_SLOT_UTILITY_PRIMARY
 	allowed_roles = OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER
+	is_safe = TRUE
 
 /obj/item/fighter_component/primary/utility/fire(obj/structure/overmap/target)
 	return FALSE
@@ -1714,6 +1732,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	slot = HARDPOINT_SLOT_UTILITY_SECONDARY
 	power_usage = 200
 	allowed_roles = OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER
+	is_safe = TRUE
 
 /obj/structure/overmap/small_craft/proc/update_visuals()
 	if(canopy)
