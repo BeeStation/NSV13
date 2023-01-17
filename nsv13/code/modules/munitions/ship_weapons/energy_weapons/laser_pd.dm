@@ -70,6 +70,7 @@
 	max_charge = 4000000 // Stores 1 burst base
 	power_modifier_cap = 1 // PL cap of 2
 	static_charge = TRUE
+	firing_sound = null
 
 	circuit = /obj/item/circuitboard/machine/laser_pd
 	var/gunning_component_type = /datum/component/overmap_gunning/laser_pd
