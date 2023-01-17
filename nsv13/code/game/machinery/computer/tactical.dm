@@ -88,6 +88,7 @@
 	data["quadrant_fp_armour_max"] = linked.armour_quadrants["forward_port"]["max_armour"]
 	data["weapons"] = list()
 	data["target_name"] = (linked.target_lock) ? linked.target_lock.name : "none"
+	data["no_gun_cam"] = linked.no_gun_cam
 	for(var/datum/ship_weapon/SW_type in linked.weapon_types)
 		var/ammo = 0
 		var/max_ammo = 0
@@ -189,7 +190,8 @@
 		data["torpedo_ammo_max"] = 1
 
 	data["target_name"] = (linked.target_lock) ? linked.target_lock.name : "none"
-	data["ships"] = list()
+	data["painted_targets"] = list()
+	data["no_gun_cam"] = linked.no_gun_cam
 	if(!linked?.current_system)
 		return data
 	for(var/obj/structure/overmap/OM in linked.target_painted)
@@ -204,5 +206,4 @@
 			"quadrant_ap_armour_max" = OM.armour_quadrants["aft_port"]["max_armour"], \
 			"quadrant_fp_armour_current" = OM.armour_quadrants["forward_port"]["current_armour"], \
 			"quadrant_fp_armour_max" = OM.armour_quadrants["forward_port"]["max_armour"]))
-
 	return data
