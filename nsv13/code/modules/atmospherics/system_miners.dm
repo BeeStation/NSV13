@@ -24,8 +24,6 @@
     . = ..()
     attached_overmap = get_overmap()
 
-//MINER-WIP: Modify access to resources to access the ship's targetted gas cloud instead! (Or pause if noneddddd)
-
 /obj/machinery/atmospherics/miner/system/check_operation()
     if(!attached_overmap)
         broken_message = "<span class='boldwarning'>DEVICE INSTALLED IN INVALID OPERATING ENVIRONMENT</span>"
@@ -33,7 +31,7 @@
         return FALSE
     var/obj/effect/overmap_anomaly/gas_cloud/gas_cloud = attached_overmap.locked_gas_cloud
     if(!gas_cloud)
-        broken_message = "<span class='boldnotice'>Location has currently no access to any resourcing options.</span>"
+        broken_message = "<span class='boldnotice'>No harvestable gas sources are currently targeted.</span>"
         set_broken(TRUE)
         return FALSE
     if(!gas_cloud.gas_resources[spawn_id] || gas_cloud.gas_resources[spawn_id] <= 0)

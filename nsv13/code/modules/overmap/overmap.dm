@@ -503,7 +503,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(npc_combat_dice)
 		QDEL_NULL(npc_combat_dice)
 
-	//MINER-WIP: Rework this to create new gas clouds!!
 	if(current_system && gas_salvage_rating > 0) //Killing enemy ships allows you to resupply some gas! Alternatively you coould... ah, well, thats for you to find out, eager codediver!
 		var/list/new_gasses = list()
 		new_gasses["/datum/gas/plasma"] += round((rand(5, 15) / 10) * 100 * gas_salvage_rating)
