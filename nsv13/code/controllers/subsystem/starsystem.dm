@@ -316,16 +316,18 @@ Returns a faction datum by its name (case insensitive!)
 //Specific case for anomalies. They need to be spawned in for research to scan them.
 
 /datum/controller/subsystem/star_system/proc/spawn_anomaly(anomaly_type, datum/star_system/target_sys, center=FALSE, override_x, override_y)
-	if(target_sys.occupying_z)
-		spawn_ship(anomaly_type, target_sys, center, override_x, override_y)
-		return
 	var/turf/destination = null
+	var/relevant_z = target_sys.occupying_z ? target_sys.occupying_z : 1
 	if(override_x && override_y)
-		destination = get_turf(locate(override_x, override_y, 1))
+		destination = get_turf(locate(override_x, override_y, relevant_z))
 	else if(center)
-		destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), 1))
+		destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), relevant_z))
 	else
-		destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), 1))
+		destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), relevant_z))
+	if(target_sys.occupying_z)
+		var/obj/effect/overmap_anomaly/anomaly = new anomaly_type(destination)
+		target_sys.add_ship(anomaly, destination)
+		return anomaly
 	var/obj/effect/overmap_anomaly/anomaly = new anomaly_type(destination)
 	target_sys.contents_positions[anomaly] = list("x" = anomaly.x, "y" = anomaly.y) //Cache the ship's position so we can regenerate it later.
 	target_sys.system_contents += anomaly
