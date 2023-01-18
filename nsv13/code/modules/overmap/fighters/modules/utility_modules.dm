@@ -1,7 +1,7 @@
-// Raptor Plasma Cutter
+// Aircraft Plasma Cutter
 /obj/item/fighter_component/primary/plasmacutter
 	name = "217-A Heavy Plasma Cutter"
-	desc = "A modified plasma cutter for mounting on Raptor-class utility vessels."
+	desc = "A modified plasma cutter for mounting on Sabre-class utility vessels."
 	icon_state = "mecha_plasmacutter"
 	item_state = "plasmacutter"
 	accepted_ammo = null
@@ -14,7 +14,7 @@
 	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
 	slot = HARDPOINT_SLOT_UTILITY_PRIMARY
-	var/projectile = /obj/item/projectile/plasma/adv/mech
+	var/projectile = /obj/item/projectile/plasma/adv/sabre
 	var/charge_to_fire = 2500
 
 /obj/item/fighter_component/primary/plasmacutter/get_ammo()
@@ -51,6 +51,6 @@
 	B.charge -= charge_to_fire
 	return TRUE
 
-/obj/item/projectile/plasma/adv/raptor
+/obj/item/projectile/plasma/adv/sabre
 	range = 6
 	mine_range = 7 // 13 total range, 6 without rocks so people don't try to do the funny with it
