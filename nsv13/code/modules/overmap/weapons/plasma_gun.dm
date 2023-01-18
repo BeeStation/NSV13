@@ -134,7 +134,7 @@
 /obj/machinery/ship_weapon/plasma_caster/after_fire()
 	alignment -= rand(5,60)
 	plasma_mole_amount -= 250
-	field_integrity = 100
+	field_integrity -= 20
 	..()
 
 /obj/machinery/ship_weapon/plasma_caster/default_deconstruction_crowbar(obj/item/I, ignore_panel)
