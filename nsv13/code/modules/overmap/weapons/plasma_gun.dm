@@ -104,15 +104,21 @@
 		return FALSE
 	if(plasma_mole_amount < plasma_fire_moles) //Is there enough Plasma Gas to fire?
 		return FALSE
+	if(loader.on)
+		say("DANGER! Phoron Gas Regulator back pressure surge avoided! Ensure the regulator is off before operating!")
+		return FALSE
 	if(alignment < 90)
 		if(prob(10))
 			misfire()
+		return FALSE
 	if(alignment < 75)
 		if(prob(25))
 			misfire()
+		return FALSE
 	if(alignment < 50)
 		if(prob(50))
 			misfire()
+		return FALSE
 	if(alignment < 25)
 		misfire()
 		return FALSE
@@ -129,6 +135,8 @@
 	if(prob(10))
 		makedarkpurpleslime()
 	atmos_spawn_air("plasma=[plasma_mole_amount];TEMP=293")
+	alignment -= rand(1,30)
+	field_integrity -= (20,50)
 	plasma_mole_amount = 0
 
 /obj/machinery/ship_weapon/plasma_caster/after_fire()
